@@ -1,185 +1,110 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F3D13DDA7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Oct 2024 09:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E6D19F422
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Oct 2024 15:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727947673; cv=none; b=iunNQQZHrcENBLJlXmAcBxflnyCAkd7M8knVFDXXDT3tcF7M0ITGICcxkpZ7hdjkke53M0/F/TI4G9x+GY4ooeUANjclmjxtY8va+1xCRzCzCq9E1403qwdHWMAVCPOXRO35GRjfuSJkWOkLsCHVnRQ0ippqwlU4PB6Cuq0AZOk=
+	t=1727969156; cv=none; b=LFMWqNplJq278NUuL8kgVlyEGPbFJbq80KdhfCjIbYb7DzJfMgcNFRFUc5K/SUM2jXEdalI4FMFoRbzh6UiYwxuS2d4KE9mhhi8UHFsfVWHjnXJosq5skAY6ILEP05th8ZQcnteCXHUfT1azd/jk4TGqx9qi/PSENg8i3eusEMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727947673; c=relaxed/simple;
-	bh=uXkA1kXEXhP7MvBmfvAhSdLcx27NcgjN9m+rUt+dGzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XYGm1W7KrSgYNUioz8d3eAq8xEsMzEhMBrYKgZKlNmxhnGab7+jX71xrbXZWkpg+0kJ49l1oDqw9lMqiAh5Hqpn+rxIA+kKCvVkKJoZNaFrSXy82PdZZlONnLDgytGbj74s4dJqSP2kqwnVVJerl1ddR8qDOwxVT+g79IPzNG5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Hoy1yVvT; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1727969156; c=relaxed/simple;
+	bh=wHYrYTAq9GfTjuuBxpXFL41DZQGBb6fSUaexCEp3fxc=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=gJROfNq/vgvjLdh0TsLsThfVM5iW2b79XS/TDrwyJJNLQ+oRzzkT/yHblXxgSNZ39TzjS5ynzPNa5+HqwNJAJWcEC5j3VaGktvMkwKoezIxyvjTIOzNPIGnMdhjdfOWe4LfqCjh+TTnv1xap4q3KQAL2m2wcjsgfGfvotzDs+fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=gDK3/ADM; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Hoy1yVvT"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="gDK3/ADM"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 20B0140147
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Oct 2024 09:27:52 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 0F8A18407C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Oct 2024 15:25:55 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -1.9
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 2_XRHeGrowjL for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Oct 2024 09:27:50 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::42f; helo=mail-wr1-x42f.google.com; envelope-from=ukleinek@baylibre.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 83D374013C
-Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 83D374013C
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=Hoy1yVvT
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 83D374013C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Oct 2024 09:27:48 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-37ccf0c0376so507667f8f.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 03 Oct 2024 02:27:48 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id dUlMY0Nb6Cg1 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  3 Oct 2024 15:25:54 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::829; helo=mail-qt1-x829.google.com; envelope-from=npitre@baylibre.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 5107882032
+Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5107882032
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=gDK3/ADM
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 5107882032
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Oct 2024 15:25:52 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-4581f44b9b4so7428781cf.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 03 Oct 2024 08:25:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727947667; x=1728552467; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8evBbk/IwxxgJLl6adf7U2FK+xKf3XGZPnSLuIWsvAs=;
-        b=Hoy1yVvTXe3quPSyusD62O8d9vUEQu3wjbMy4cs4sz/MIaG6OPpb2lWOR3VKTHfps6
-         1R/FaUXvFfCUAJlp2DV8YC1pmP2Pz+HXncA8VgmL8QNSIcBfolQvBb//Se5uw2GyH1Vi
-         VaTx44YkfE5tQHUdoGNmis0AYnVR8WX9hUNWU0yZ4TSvx6clvUw44P3KNngVbcwdNsAv
-         oeiNYsqXk7E9cAjcAePe5Y85P9xRFkvyZYM1g1dLOstqd6b1+E1pXnHRji0dxpiU8rNa
-         8cg8Xp6HzVUpQz00H0I2FtZXuPt0Viz0tgSh+HASbhLrBk5oAER5OcaoU9PNGtaBbHt6
-         /4Lg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727969152; x=1728573952; darn=lists.linuxfoundation.org;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eypivh0vKwOLJWDcID4hWN8SmQeA3OueK+WmduSXz90=;
+        b=gDK3/ADMF/5H94afHBd1i/4G6zdp1HzuetgF+YkSXjTwg1F9oCRl4cBWUAUmDd5UFY
+         1vRfsvedXDRRr06PmJKmpvNI+xz2acLdm8eT0wtpfLYv0UDr37Er/Oy7wotU1l4Bg3Gr
+         S2CnBUf+t0nrf+xlCDtsWhafZGVzsGFfcQC9X0lzsiefEhnqXdVrwnWPUH2vT6fMfLag
+         iRDqiGlg7nrpR91nz1fo48I3QOHiVG/fP/lWF5k0x1tTPjY71Dn/8iyWctrWFW2EOli2
+         7Ligw3to45UE+KTmrYN1UNtdpOYLMtOOv9afwg8AvuxE70c69nq9mwj9nxyxs2o9bNb/
+         QKWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727947667; x=1728552467;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8evBbk/IwxxgJLl6adf7U2FK+xKf3XGZPnSLuIWsvAs=;
-        b=neRmKMezvXQWqh1PLDfjHm2R6yBFqc01n38uFppmrI+Zr3AocquWUHM98oAzWmvs+3
-         8qRDs+vqAR6gDk6DYV4ZKjsPIXydphRqAlxHU3bNOuLDJDIr1hmHHiwf9L/pQBttXkWc
-         kcr/y0x+PaXrReaiMpiXDUDlRf71vYDmkrAfKNMV7gMdJuq7hunP9xgHUOMWHnNsE9Tu
-         ktnv1DzeIaguRNw8fAy56W4dMX0yS2btm0cTTjwhEpqqfpbYWwN7XzcaA0UuLwlSmEYB
-         V5DjMj5vBH1GrreCYPCL5g5pe19XWHanBJfIGuenqlNGgjkr2e7ihD9YF/BIMP83hZGR
-         eCeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWNp97GQ4NjiQV7TKr3eFRF04y5rY9ndWe8ck+pAOJM9ebSMUOtt9hIgexdHkhTnEieEy+rRQC674eYPnj5fwTpjqLTtQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yzt/2c/UYqe1loHfgaRB7idzwWsi2JC5Hn8ell9VpX1239Nt8t3
-	5pjZZKFFmF9CaKXhnIV1TmJW4TFpiq03HRgOlEMxZxQRI6NsH5K+W7ZEJL55il4=
-X-Google-Smtp-Source: AGHT+IHekoCrEouitVYfb8Yy3HlP99xd5ZykhItjucwYVLFSB9uXwVt08HFWHlBeglYtqaJQ2Pm8Mg==
-X-Received: by 2002:a5d:4a90:0:b0:37c:d344:8b42 with SMTP id ffacd0b85a97d-37cfb8b2ec0mr3807558f8f.15.1727947666441;
-        Thu, 03 Oct 2024 02:27:46 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d08242d79sm847425f8f.51.2024.10.03.02.27.45
+        d=1e100.net; s=20230601; t=1727969152; x=1728573952;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eypivh0vKwOLJWDcID4hWN8SmQeA3OueK+WmduSXz90=;
+        b=COLAoM3dbeCeXGuKvk8fN9Gjp5xS723idmo3gR5FkklOBCnfEZYKMNv5wRC4lLWqvg
+         BzRMz9Z3PzI9gX+GFdNF/GuANtHDtjXHTzpguhM1AZSt+iDp+yjvxB50KHndWUdPem96
+         lg41uo+CB1XIO2Ww7+jomFgwE7qoWSLmT6krANbeK7cHSBir0EvUS7W2sKSNUOIc320q
+         56yb+FKKpkfKb3HfTtgnp0HzaouUy/0jVviHDquocdv1X603WQp10ycI0P+MJPUXzP+9
+         kWUsqtidwYyNaMhXiP0I5tzVWEyUcfVsUIbJY9L/NBUHJCYombwajJHTuu3Gulooc7c0
+         LjRg==
+X-Forwarded-Encrypted: i=1; AJvYcCWhAXTd/NuWQ91wvF6RQYCGmmw7GWgZBhXC2mOX9aTzT00TdDsogDx7aPLmbNv8G0CAa/8+eZN7dNeuhms3vBkmGBmbyg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yz2KYdApIc+PxOQMHlF6oZLbVS3TVhRm8ySFozmd8RUXJOP/SeJ
+	ymEZYv+/UWtyaJCuA/F0cVg7ermaQ1t0yZVOzpEIsuNqjesbIdzZubvYfuc36/I=
+X-Google-Smtp-Source: AGHT+IFVWvpC9eUfR4kkytxJGpxpdM3zPPRNsFGV61OJ6jnfJQWTleZHnFIaa58lvkjP5q6dXeyAEw==
+X-Received: by 2002:a05:622a:38d:b0:446:46c4:2410 with SMTP id d75a77b69052e-45d80495580mr121615361cf.6.1727969151728;
+        Thu, 03 Oct 2024 08:25:51 -0700 (PDT)
+Received: from xanadu (modemcable179.17-162-184.mc.videotron.ca. [184.162.17.179])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45d92e0a454sm6441431cf.30.2024.10.03.08.25.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2024 02:27:45 -0700 (PDT)
-Date: Thu, 3 Oct 2024 11:27:43 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Alex Lanzano <lanzano.alex@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Mehdi Djait <mehdi.djait@bootlin.com>, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v8 0/2] Add driver for Sharp Memory LCD
-Message-ID: <q53inyaxyvfib7okxzazepxzarqmq4rubbasumvvx2woioyp42@fbtn4poujsyh>
-References: <20241002033807.682177-1-lanzano.alex@gmail.com>
- <t4lefcykpoe5i36wb4x5u23sseh6drnphtivuqc3mjviat2vvc@7hg4jyhxvpye>
- <ees3m2qmazah2547ys62zvbrvo4dsgki2z2jwulwz4dfjtm4hk@kpmlapv6occv>
+        Thu, 03 Oct 2024 08:25:51 -0700 (PDT)
+Date: Thu, 3 Oct 2024 11:25:50 -0400 (EDT)
+From: Nicolas Pitre <npitre@baylibre.com>
+To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+cc: brendan.higgins@linux.dev, davidgow@google.com, rmoar@google.com, 
+    quic_jjohnson@quicinc.com, macro@orcam.me.uk, tpiepho@gmail.com, 
+    linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+    skhan@linuxfoundation.org, ricardo@marliere.net, 
+    linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v2] lib: math: Move kunit tests into tests/ subdir
+In-Reply-To: <20240924032200.167622-1-luis.hernandez093@gmail.com>
+Message-ID: <rr71n5p4-366r-p027-n4p4-on6or7n99p34@onlyvoer.pbz>
+References: <20240924032200.167622-1-luis.hernandez093@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="s5o77kb33dofvcnw"
-Content-Disposition: inline
-In-Reply-To: <ees3m2qmazah2547ys62zvbrvo4dsgki2z2jwulwz4dfjtm4hk@kpmlapv6occv>
+Content-Type: text/plain; charset=US-ASCII
+
+On Mon, 23 Sep 2024, Luis Felipe Hernandez wrote:
+
+> This patch is a follow-up task from a discussion stemming from point 3
+> in a recent patch introducing the int_pow kunit test [1] and
+> documentation regarding kunit test style and nomenclature [2].
+> 
+> Colocate all kunit test suites in lib/math/tests/ and
+> follow recommended naming convention for files <suite>_kunit.c
+> and kconfig entries CONFIG_<name>_KUNIT_TEST.
+> 
+> Link: https://lore.kernel.org/all/CABVgOS=-vh5TqHFCq_jo=ffq8v_nGgr6JsPnOZag3e6+19ysxQ@mail.gmail.com/ [1]
+> Link: https://docs.kernel.org/dev-tools/kunit/style.html [2]
+> 
+> Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+
+About mul_u64_u64_div_u64_kunit.c: please adjust the path to the file 
+mentioned in a comment which still refer to the original location/name.
 
 
---s5o77kb33dofvcnw
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello Alex,
-
-On Wed, Oct 02, 2024 at 10:33:13PM -0400, Alex Lanzano wrote:
-> On Wed, Oct 02, 2024 at 09:56:38AM GMT, Uwe Kleine-K=F6nig wrote:
-> > On Tue, Oct 01, 2024 at 11:37:35PM -0400, Alex Lanzano wrote:
-> > > Changes in v8:
-> > > - Addressed review comments from Uwe
-> > >     - Replace pwm_get_state with pwm_init_state
-> > >     - Use pwm_set_relative_duty_cycle instead of manually setting per=
-iod and duty cycle
-> >=20
-> > You didn't explicitly mention that it's fine if the PWM doesn't emit the
-> > inactive state when you call pwm_disable(). You're code should continue
-> > to work if you drop all calls to pwm_disable().
-> >=20
-> > Ideally you mention that in a code comment to make others reading your
-> > code understand that.
->=20
-> Sorry about that! The intent of the code is to stop the pwm from outputing
-> when the display is disabled since the signal is no longer needed. If
-> it's best to emit the inactive state rather than calling pwm_disable()
-> I'm fine with making that change.
-
-Calling pwm_disable() is best iff you don't care about the output any
-more. If however you rely on it to emit the inactive level,
-pwm_disable() is wrong. I don't know enough about your display to judge
-=66rom here.
-
-The code to disable the display looks (simplified) as follows:
-
-	if (smd->enable_gpio)
-		gpiod_set_value(smd->enable_gpio, 0);
-
-	pwm_disable(smd->pwm_vcom_signal);
-
-so maybe the logic you need is:
-
-	if (smd->enable_gpio) {
-		gpiod_set_value(smd->enable_gpio, 0);
-
-		/*
-		 * In the presence of a GPIO to disable the display the
-		 * behaviour of the PWM doesn't matter and we can
-		 * just disable it.
-		 */
-		pwm_disable(smd->pwm_vcom_signal);
-	} else {
-		struct pwm_state state;
-
-		/*
-		 * However without a GPIO driving the display's output
-		 * enable pin the PWM must emit the inactive level,
-		 * which isn't guaranteed when calling pwm_disable(), so
-		 * configure it for duty_cycle =3D 0.
-		 */
-		 pwm_init_state(smd->pwm_vcom_signal, &state);
-		 state.duty_cycle =3D 0;
-		 state.enabled =3D true;
-		 pwm_apply_might_sleep(smd->pwm_vcom_signal, &state);
-	}
-
-?
-
-Best regards
-Uwe
-
---s5o77kb33dofvcnw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmb+Y40ACgkQj4D7WH0S
-/k6Jjwf/VkhVbrj5zZduvEjBR6Ryq5075XnahyFTpoqckqRcE+V8H/OzEfaT7fsA
-VAT9CFZPEfJ02N0jj2m4V82vzDlwk8m9Tiw0b8m5eFB3NeJLpKUh4Fi4Np3Lp5AK
-jIiCwhOEUY6Iw1bWsW2qj66Cism13MQ0tUlq43y7lxHNI/RzrysnZxYFX0FGCfkg
-PDQp7WW3JWJF3uH4yr1Mycw1gSzd0ECUG0/VG4rwiqc+jr7H2FYU3tcnVZgNPsD4
-Na680Wj75PWN6l5SYDEj04196IvNGz2psPJqxpaWwrtHquBLYQ/MvNXJ3XX21PnV
-k4ppnw4FCPFAuN7nTlta4MWjKi66gA==
-=YxME
------END PGP SIGNATURE-----
-
---s5o77kb33dofvcnw--
+Nicolas
