@@ -1,129 +1,227 @@
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CDBB1BDAB9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Oct 2024 21:39:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBD01E7C1B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Oct 2024 18:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727991556; cv=none; b=KhyJxbRAXKj9q3XSUcF9WS9qlgz747ptf9s60bE49A4bBBxOcYkpOyBWBbhm8OEzjylRmyXqc1oND2kzbNcftYCBuFsZHdC/wA8lTq05Avh7hFtkbLppQY4cW7Yx55DCPPpwrcFMQKGclHmd+Y+oQZHgEyikQilbRAY0DYvuu0k=
+	t=1728067646; cv=none; b=pymp9HXKq/HtqYHUfLjQTlah3ycsB9+aYzirTwhg6tTlimq05KaU4wyq0K7wyYo7TWDmwXq/xIkf/RQNs+Vkq2hRlMxhxgnMNrQj9PBO4sS41T+kHqXBwZLljtK3Zn8h4GeZlfAkvloP2dPOxXbWPh9/zPShq76sbXrF0xpjEMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727991556; c=relaxed/simple;
-	bh=nfuNzII8nKcy5KInW0Hf5GAkpxAI6OmWmsIZ6ZyN7c4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ovXiLEIBqoHb8rfn1qGXvT/fPUj02jEoI5sCePRaGXL8quEe5hsUIBw74JAYBKgcjL0yrGr8gtLu5hOhzxVgA0TzNQg0Iq4BlaB9TbcWaOcRAM4lkyNl97MQAGbNiQQhgu0SB7jfnjA/7G/X/sFstRZGFOHLnCD0qj+tEtt9wzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TFq/TYHM; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1728067646; c=relaxed/simple;
+	bh=V03GFNzD11CECPmUTDDQ0S68l5jzC/7sxNfkJ3eRzXs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fPSMTtk3S/HeR0G58YtHjpsJ/IcsmQT22MFKa+biuDpURIZd+Dg61YIqNNn6n+gtqpRQL1wU6uL9qzL1No530VhX0WbxCcgxyZAms5YpssAZL2xbkNO7wfmqVrwBPjg5xwA5vty1Fc+pBiG/NkaEXHQnz3QfPwywUAw9v/drAq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UCcM1UIs; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TFq/TYHM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UCcM1UIs"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 17F3F40598
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Oct 2024 21:39:15 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id F1D2240146
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Oct 2024 18:47:24 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.101
+X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id vKmGB81nnoRr for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Oct 2024 21:39:14 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::d30; helo=mail-io1-xd30.google.com; envelope-from=skhan@linuxfoundation.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org D32BB40338
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D32BB40338
+ id SZO_aCanMVfE for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  4 Oct 2024 18:47:24 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62d; helo=mail-pl1-x62d.google.com; envelope-from=brunofrancadevsec@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org D26634011A
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D26634011A
 Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=TFq/TYHM
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id D32BB40338
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Oct 2024 21:39:12 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id ca18e2360f4ac-82cd872755dso68382739f.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 03 Oct 2024 14:39:12 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=UCcM1UIs
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D26634011A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Oct 2024 18:47:23 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-20b86298710so21392295ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 04 Oct 2024 11:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1727991552; x=1728596352; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZXdW6G5LWJ1GWGh1KXvZndbFeqVS8z0ZBtVcxH6wWkk=;
-        b=TFq/TYHMHSguUecULLPTWAXEC4pAw8/1xGqAHBrSHICN0zsMNGl7v8dh/vmA8CO4eA
-         N5pM/i5JuChNP1kf8o8P5h8klZV6tp4no24bhm4xNdWksPXJ+XAAomIhXOXajsJiU76O
-         dGThaAkGESnhgDWZlFhbsECy5LxzfDVbP0e9U=
+        d=gmail.com; s=20230601; t=1728067643; x=1728672443; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qFdjl4nnT3iOUyZk1xlx2SlCDfY3Jc7r1BLQPkD7dFI=;
+        b=UCcM1UIs2nWH7l+20FMOAMFcMa0x8IClAS9fRsMETG4s2iud1vPgYQd8H45uFntkXU
+         vFYWizeiRdjV6e5BAAIVTXBYrge/uRwbtPMdb8bLgC1CG7LOoPShwhRYEAiJqbn9FrDP
+         3KHeFZFBH5Vf3vjNkHGXLC0sTvLVYeM5O6i0sIPRJn0ANr9rfyDw/GvZZuanlvWdJald
+         8BfYdI3qaEEXwFBzUe4Lu6cNoqcpjk0iVTekNp6xhIA6YYz+KwpexGtQNQTjZowucRir
+         tBApvfOGBaBSGNEs834K6h3ad4BHcOg70Lv5PC9xjp7cJE9hS29enTbEFaRvVG0X2Q2s
+         FwHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727991552; x=1728596352;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZXdW6G5LWJ1GWGh1KXvZndbFeqVS8z0ZBtVcxH6wWkk=;
-        b=mF7QIQdLfBfs77JR4p17y+gp2RS6IrhgW2o9CvMBNviJDBPhen6uxQw5xqa4QJn282
-         kZauOIwj9wYjxewh0mpeAO+er6QqIwjBc0rGAigb5eqQuk9DxbfQSO/YUFZOr+pRxaaP
-         Fu+WUWefgZmPp0Mij60fsp0npNsAP0X78ZaiPX6m+EBIOoBub2eFk84IFVu7wFj6CbYg
-         Pv45AnBfTNzIGL6DaCtlkwF24zvvgCtDP8VMVtJxYdHDuDdQQemmvp4RHPT5jpskYYjp
-         zieGfkE8FpmEzCHGQPf+qkA+9jgsRFkAkLdlKgoW7ywHBZRkhMDOlVgQ5kWil18A6WQS
-         FCOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWkg1+V1k02Uln/aOx58c2Rr6lFsjPblA+3Nn1+EBLaZZ/elEYoDvbNEFl1xZYXZY8I/q7t0K/3P5w8ZVnlcy59wBsChQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxSniNIxEHKKeJN7e8Mb3ITsSWHvfOoLAu2+5ZTDFL97RUM1VIv
-	YzmVh9USmBlZpjIW0hi5yAyyem6Wv4H6Z/aq5bDMvKxc1hj+O0M5R3fRxp+45Z5yvQ==
-X-Google-Smtp-Source: AGHT+IHUWy3TlQJyb99RJOkAvNUXmRC2WWXVl7330ECrHnSB2ztnXujwddFTXhVmct/HAXJqf38nyA==
-X-Received: by 2002:a05:6602:3429:b0:82d:16fa:52dd with SMTP id ca18e2360f4ac-834f7cb0934mr73870639f.7.1727991551952;
-        Thu, 03 Oct 2024 14:39:11 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4db55aa5833sm444925173.152.2024.10.03.14.39.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Oct 2024 14:39:11 -0700 (PDT)
-Message-ID: <bb534e04-618d-48b9-ae19-00301e7c73b4@linuxfoundation.org>
-Date: Thu, 3 Oct 2024 15:39:10 -0600
+        d=1e100.net; s=20230601; t=1728067643; x=1728672443;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qFdjl4nnT3iOUyZk1xlx2SlCDfY3Jc7r1BLQPkD7dFI=;
+        b=glq/wGxGJ7dOiFrQjtfGejXWY7VP91VsQ0BzS5VgkGtB2BWZWZ3N0rEP8U32VIASDX
+         WU828CMB4LI1Ela8LbDXKnHsRGXBZxRY70C7WvgNXGLIHSIwK79ODlm+T0Y07dzj9TQk
+         6FJb3SYn0uiDbUdOx98F2RzO2BWDIdqlARYAas0RijR6ZUC2zmrwQcd5ISO6QVj32UzG
+         kDh9nLnBXmXmHJvBYezwmk6Or/97YwxtZeA7KGeZMY5CHyICnRmSDS8N/BmtJ+4KjUoJ
+         J367P8X7ADUfFVT2DgRvOqkfzhRFDygEt5EStmRndGF1fdQIhMpYBDqzOvjhafV3JjNF
+         g0Qg==
+X-Forwarded-Encrypted: i=1; AJvYcCVltglN6LDPBR1O+VKQmmK3XnjQ2sWH65tj/RbzBOlzWxzBmEEpwJcbjQGVot7etP/gZD9ruTxhKU/YuThyoI1vS3fDgQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yzg7IaGe9+ZO6U8DVo6ZJqX2GJbbJvKrhOaV6rdL0mSL5XH49nQ
+	YEfDDWB++TLYm8iyIqec/FpP/+ZOjfnin6LOiRtmfAj4nusXXCzV
+X-Google-Smtp-Source: AGHT+IE0R45d5ZL7xzZwuhvtXQOf1xTSCs3ElYiEDg7HQMY+coEv+ZPf5ecm+PFaWRxFNyOKSd8k8g==
+X-Received: by 2002:a17:902:fb0b:b0:20b:9224:11c9 with SMTP id d9443c01a7336-20bff047bbfmr44710025ad.39.1728067643119;
+        Fri, 04 Oct 2024 11:47:23 -0700 (PDT)
+Received: from hilb.unicamp.br ([143.106.58.82])
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-7e9f678202asm314295a12.0.2024.10.04.11.47.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Oct 2024 11:47:22 -0700 (PDT)
+From: =?UTF-8?q?Bruno=20Sobreira=20Fran=C3=A7a?= <brunofrancadevsec@gmail.com>
+To: akpm@linux-foundation.org,
+	davidgow@google.com,
+	linux-kernel@vger.kernel.org,
+	rmoar@google.com
+Cc: kunit-dev@googlegroups.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	=?UTF-8?q?Bruno=20Sobreira=20Fran=C3=A7a?= <brunofrancadevsec@gmail.com>
+Subject: [PATCH v4] lib/math: Add int_log test suite
+Date: Fri,  4 Oct 2024 18:47:13 +0000
+Message-ID: <20241004184713.25262-1-brunofrancadevsec@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] lib/math: Add int_log test suite
-To: David Gow <davidgow@google.com>,
- =?UTF-8?Q?Bruno_Sobreira_Fran=C3=A7a?= <brunofrancadevsec@gmail.com>
-Cc: akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
- rmoar@google.com, kunit-dev@googlegroups.com,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20240925025606.1714-1-brunofrancadevsec@gmail.com>
- <CABVgOSmEHtSHHsreVq38AzD+PnacgY6h-+Cv1u4n4U-1yjqwUw@mail.gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <CABVgOSmEHtSHHsreVq38AzD+PnacgY6h-+Cv1u4n4U-1yjqwUw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 10/3/24 01:00, David Gow wrote:
-> On Wed, 25 Sept 2024 at 10:56, Bruno Sobreira França
-> <brunofrancadevsec@gmail.com> wrote:
->>
->> This commit introduces KUnit tests for the intlog2 and intlog10
->> functions, which compute logarithms in base 2 and base 10, respectively.
->> The tests cover a range of inputs to ensure the correctness of these
->> functions across common and edge cases.
->>
->> Signed-off-by: Bruno Sobreira França <brunofrancadevsec@gmail.com>
->> ---
-> 
-> Thanks, this looks good to me.
-> 
-> Reviewed-by: David Gow <davidgow@google.com>
-> 
-> Cheers,
-> -- David
-> 
->> Changes in v3:
->>    - Fix checkpatch issues reintroduced in v2
->> Changes in v2:
->>    - Fix the overflow warning reported by the kernel test robot
->> ---
+This commit introduces KUnit tests for the intlog2 and intlog10
+functions, which compute logarithms in base 2 and base 10, respectively.
+The tests cover a range of inputs to ensure the correctness of these
+functions across common and edge cases.
 
-Bruno,
+Signed-off-by: Bruno Sobreira França <brunofrancadevsec@gmail.com>
+---
+Changes in v4:
+  - Rebase on top of linux-kselftest kunit branch
+  - Fix spelling mistake in a literal string
+Changes in v3:
+  - Fix checkpatch issues reintroduced in v2
+Changes in v2:
+  - Fix the overflow warning reported by the kernel test robot
+---
+ lib/Kconfig.debug              | 11 +++++
+ lib/math/tests/Makefile        |  1 +
+ lib/math/tests/int_log_kunit.c | 75 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 87 insertions(+)
+ create mode 100644 lib/math/tests/int_log_kunit.c
 
-This doesn't apply - please rebase on top of linux-kselftest kunit branch
-and send me v4.
-
-I tried to apply, but a few too many merge conflicts. Rebase is a safer
-option.
-
-thanks,
--- Shuah
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 0d6c979f0..1d7dc494c 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -3104,3 +3104,14 @@ config INT_POW_KUNIT_TEST
+ 	  function.
+ 
+ 	  If unsure, say N
++
++config INT_LOG_KUNIT_TEST
++        tristate "Integer log (int_log) test" if !KUNIT_ALL_TESTS
++        depends on KUNIT
++        default KUNIT_ALL_TESTS
++        help
++          This option enables the KUnit test suite for the int_log library, which
++          provides two functions to compute the integer logarithm in base 2 and
++          base 10, called respectively as intlog2 and intlog10.
++
++          If unsure, say N
+diff --git a/lib/math/tests/Makefile b/lib/math/tests/Makefile
+index f9a0a0e6b..89a266241 100644
+--- a/lib/math/tests/Makefile
++++ b/lib/math/tests/Makefile
+@@ -2,5 +2,6 @@
+ 
+ obj-$(CONFIG_DIV64_KUNIT_TEST)    += div64_kunit.o
+ obj-$(CONFIG_INT_POW_KUNIT_TEST)  += int_pow_kunit.o
++obj-$(CONFIG_INT_LOG_KUNIT_TEST)  += int_log_kunit.o
+ obj-$(CONFIG_MULDIV64_KUNIT_TEST) += mul_u64_u64_div_u64_kunit.o
+ obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational_kunit.o
+diff --git a/lib/math/tests/int_log_kunit.c b/lib/math/tests/int_log_kunit.c
+new file mode 100644
+index 000000000..40b5a6813
+--- /dev/null
++++ b/lib/math/tests/int_log_kunit.c
+@@ -0,0 +1,75 @@
++// SPDX-License-Identifier: GPL-2.0-only
++#include <kunit/test.h>
++#include <linux/int_log.h>
++
++struct test_case_params {
++	u32 value;
++	unsigned int expected_result;
++	const char *name;
++};
++
++
++/* The expected result takes into account the log error */
++static const struct test_case_params intlog2_params[] = {
++	{0, 0, "Log base 2 of 0"},
++	{1, 0, "Log base 2 of 1"},
++	{2, 16777216, "Log base 2 of 2"},
++	{3, 26591232, "Log base 2 of 3"},
++	{4, 33554432, "Log base 2 of 4"},
++	{8, 50331648, "Log base 2 of 8"},
++	{16, 67108864, "Log base 2 of 16"},
++	{32, 83886080, "Log base 2 of 32"},
++	{U32_MAX, 536870911, "Log base 2 of MAX"},
++};
++
++static const struct test_case_params intlog10_params[] = {
++	{0, 0, "Log base 10 of 0"},
++	{1, 0, "Log base 10 of 1"},
++	{6, 13055203, "Log base 10 of 6"},
++	{10, 16777225, "Log base 10 of 10"},
++	{100, 33554450, "Log base 10 of 100"},
++	{1000, 50331675, "Log base 10 of 1000"},
++	{10000, 67108862, "Log base 10 of 10000"},
++	{U32_MAX, 161614247, "Log base 10 of MAX"}
++};
++
++static void get_desc(const struct test_case_params *tc, char *desc)
++{
++	strscpy(desc, tc->name, KUNIT_PARAM_DESC_SIZE);
++}
++
++
++KUNIT_ARRAY_PARAM(intlog2, intlog2_params, get_desc);
++
++static void intlog2_test(struct kunit *test)
++{
++	const struct test_case_params *tc = (const struct test_case_params *)test->param_value;
++
++	KUNIT_EXPECT_EQ(test, tc->expected_result, intlog2(tc->value));
++}
++
++KUNIT_ARRAY_PARAM(intlog10, intlog10_params, get_desc);
++
++static void intlog10_test(struct kunit *test)
++{
++	const struct test_case_params *tc = (const struct test_case_params *)test->param_value;
++
++	KUNIT_EXPECT_EQ(test, tc->expected_result, intlog10(tc->value));
++}
++
++static struct kunit_case math_int_log_test_cases[] = {
++	KUNIT_CASE_PARAM(intlog2_test, intlog2_gen_params),
++	KUNIT_CASE_PARAM(intlog10_test, intlog10_gen_params),
++	{}
++};
++
++static struct kunit_suite int_log_test_suite = {
++	.name = "math-int_log",
++	.test_cases =  math_int_log_test_cases,
++};
++
++kunit_test_suites(&int_log_test_suite);
++
++MODULE_DESCRIPTION("math.int_log KUnit test suite");
++MODULE_LICENSE("GPL");
++
+-- 
+2.43.0
 
