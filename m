@@ -1,125 +1,133 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C619C2141B7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 11:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDBD0216A18
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 11:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728644586; cv=none; b=YESVwjXwrk2NL+qab19uEBOt3YgHWQSxGi6ZwRdbCmpR83pRkX6Sb3IOxp/Z6qwlSE3G2PBn16pTi9iqbXhEf6n4gNu3tb/FVfMArFamKwgwESSYnUYWMn8FcnHLRvW9r4gtWq9O+dUpM0vXoNiVDbZxVIu6csyCMzxAKAe4DmM=
+	t=1728647686; cv=none; b=sZ81SrvJuNr26bYUChNWl/bVo/g5GV/qD0gm5RN06haz2+t2Hw2FQwPK52eQduskZ+fWCJSM88pxr35qAihvkGfwdt7oAKwBC6oJ732nvvqFalZhgz6GTLapzz5w9T2Zrn4O2GIrosPohHaxeOnlGnwYsNxJrPS0k+ChbjvDfMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728644586; c=relaxed/simple;
-	bh=PNsJvaR2hjTB0m5F7S8kPrYH81jNbMy+cnbFnpqGHtw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OorqiXUFohZwBHK2bLd1nApU5SOelFhCg5W8ASXzr4ig0PuUn4gZLAsO9zqWoCoLWTwN7UkE+tUp/P9bqPKq4+pP66snHodP9GdSTF8c9pdco15aQ6SM7uAccBnTikEfIav0V5SZBiOH6vtiYghTH/j3G152R++dG9FZ0ialqZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tzi9V5KX; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1728647686; c=relaxed/simple;
+	bh=BH4DbbmMQUbDmGpkllQVRVVJhPfwORuNLGg9TXD6Tiw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nh3CPeaMQtzNvQhXHN82hQmiMsVncxU5Hbljo4kGpEjmKyTU7sTeCUqdJ/Y/BBLqUwSUvdFYl+Eh3TiHFY2wFZx5MShitvA2NOo5AMOdv4c33IR2xhR5L/iGc9G5r2qwgXagqX9umYRCKkRoXKghUXPLCeCoUqm07HElRVwG7lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jeje1RGy; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tzi9V5KX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jeje1RGy"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6291F42441
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 11:03:05 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9F0AF84051
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 11:54:44 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id TBae6J4UZdTk for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 11 Oct 2024 11:03:04 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::62b; helo=mail-ej1-x62b.google.com; envelope-from=javier.carrasco.cruz@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 4165042440
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4165042440
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Tzi9V5KX
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 4165042440
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 11:03:03 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-a99422c796eso313052966b.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 04:03:03 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 5jhR87jiJc7A for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 11 Oct 2024 11:54:43 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::631; helo=mail-pl1-x631.google.com; envelope-from=0xff07@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org AF77D8210A
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AF77D8210A
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Jeje1RGy
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id AF77D8210A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 11:54:43 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-20ca1b6a80aso4874975ad.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 04:54:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728644582; x=1729249382; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jDgqCY+XT65kiTHSQJtsyJ8AXYUcreWmz9KtIDjKv1k=;
-        b=Tzi9V5KXfL5vqTjEtHGKTtKVOhNcsHo10kYWLm+WyZBK+BWSuxoetUE8PNcv2qyPB+
-         1KC9Cnd1YZ62xtNTZc61iMbDa1cgdE3yCdz8ULMcEWgF7548Rf2yjZqZMlRwSFHk+SuG
-         2cfGLDFjF5mrzOwAEgR1MKO3bmLoZsZWMaqFZVdRkdNjElCeiEQZx3kuIBP0pD0mAxAf
-         Wqh33lVxMWdBFqCoX5fFbOk+mL1Hl1ptgBW99/SRN2aVyUOC7INkJ8CFlAzJDXDRcVus
-         K7v6CkKxNP4ys5vBmBS13XsFReVFLEMBSsdAOTTX+kG+PzSWBqPLkZV41hbcq0BoV8Be
-         17Mg==
+        d=gmail.com; s=20230601; t=1728647682; x=1729252482; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n0M9rAFbcV+izFFMOP8m5z+SO85I3Ch0rIJacPyB8ek=;
+        b=Jeje1RGyd1gxh0Srp6DxO2H8cnNg/iaF9GvARx3wB8evA/2iV0pTHmFLg3e8s6y5BR
+         +tNIMKJCx1+hOJ0TdpD/jv0gcr1ti1da4MXs/C60vgNpJ4CRD2g6i/Xx+0KwxGoqZPVG
+         5oOqSkFWQxQ1DNhh24/Srsv5OPVlsawOhS+vs4gRCvpkQUesanLICjMP/DFdMQV+aJw+
+         4X7QuPS7kUeJ3xU2ACJ+BmngEGGLSQOGPaqdwmKnXCP/aT3r3SrbhBjR/tFt1oFBJMqu
+         5xdXWXtwyQCdYM/h4WK1qM5GxjVoF7MVlw37BVtm1O+p5vt7NBsIZHo/QuAeTaQiQ2La
+         yASg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728644582; x=1729249382;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jDgqCY+XT65kiTHSQJtsyJ8AXYUcreWmz9KtIDjKv1k=;
-        b=V5GFc5p/8NyTWtJBhwrvBIzZPlWWYYEZuVeI/xZ/HvHiaILPhlpDukkKW3EMHONU0h
-         36knHErQ5rGZjC++iR40KMTaxoVlyMnog2xOuMzXB1wTcUsOtg8Npc7bWuRl1hih7UJE
-         zXWDTAww9kEYEIn5l7oa8sS2H39y76b0cp2slpXUol07wnSDHQ+IidREq/6B9sqItOLh
-         nz27c9wFRwlJahN68iweGfRMRuDouDce2mQqxhxZFmzoc9h2rU4o3/API6q8knLxvzGi
-         QDK6WvYIbcL658HHmXEKbERoFfzor6nFByQH8XSFILMnO7I1sWvPXyoc9DeDJmrKnMx8
-         nDMg==
-X-Gm-Message-State: AOJu0YyrzPczRDFMFusd+Xh4YSCSAm22WL3ZYfpIZoGqaYn3MOoRoSab
-	kqOpWMouZNr4WpNs+YzrNGtSL7vNegwIykn5lZZnDxVl63STbQNc
-X-Google-Smtp-Source: AGHT+IEy14Gx0H4bckIlt3krJcapszDFEJlJFkVFRbRzPFWdbCtdvus5IaXo71tLkpD9oWj2tSQarg==
-X-Received: by 2002:a17:907:944c:b0:a99:4698:cc5a with SMTP id a640c23a62f3a-a99b95bc0d1mr163059766b.47.1728644581797;
-        Fri, 11 Oct 2024 04:03:01 -0700 (PDT)
-Received: from [10.10.12.27] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99a7ec573csm200566466b.6.2024.10.11.04.02.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Oct 2024 04:03:01 -0700 (PDT)
-Message-ID: <e9f0310b-c7e7-4da4-92b5-0d2b1948c4a6@gmail.com>
-Date: Fri, 11 Oct 2024 13:02:52 +0200
+        d=1e100.net; s=20230601; t=1728647682; x=1729252482;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n0M9rAFbcV+izFFMOP8m5z+SO85I3Ch0rIJacPyB8ek=;
+        b=aOy7uJNFJXiE8AdOMArMhGfQnMChFzbSa276yF0fiAfqZw+ovd8gEqeHRbgYRWoJDT
+         ig65dSyMIElWVkN1qGdBXe1aa7o3sIzXHZ+f6GlKlPb4I2qOnwHWtjpErHILLfKDUP8H
+         j3RB2YLYhyYLOy8Cjn7gr3YPEA9s5sm8+w5R/9XAwNZtiOEHEJwQqusQxEuGG8IEuiBa
+         TXe7mPcKYu7au9sh9RDpp5E9qvPCSbIqkxOSahEf2Qp88omfB8S1vqkaPdw5Z5vsbXWB
+         FTV1yHArpVzOD57uKI8430DcXM8FLaW1SiKTwhRk+RpZnwdnGkA6aD3S/w39xPwaUKuU
+         UpsA==
+X-Gm-Message-State: AOJu0YzFnNG2zpc5hkxTY7Eu8g8cJoGPW+jktKae62Dij9SbNPP/kHhf
+	BJICu3iLVJzBAogVLDldHLsYSxoNZiZHi7NPFAtAr7oPGuf6+O3Ygesr9GHi
+X-Google-Smtp-Source: AGHT+IFWWVOZXb6Mget6b+bWzMDShsv+T0KKOi2cgOJQlaJd94yNCHHf+KVc/uLTiV9ebyDumvxcIQ==
+X-Received: by 2002:a17:903:191:b0:20b:9c8c:e9f3 with SMTP id d9443c01a7336-20ca1458e3amr31858825ad.14.1728647681927;
+        Fri, 11 Oct 2024 04:54:41 -0700 (PDT)
+Received: from ernestox.. (2001-b400-e2af-f494-1c09-712f-68dc-c3fd.emome-ip6.hinet.net. [2001:b400:e2af:f494:1c09:712f:68dc:c3fd])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20c8bad32a0sm22298575ad.11.2024.10.11.04.54.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Oct 2024 04:54:41 -0700 (PDT)
+From: "Yo-Jung (Leo) Lin" <0xff07@gmail.com>
+To: 
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	ricardo@marliere.net,
+	skhan@linuxfoundation.org,
+	0xff07@gmail.com,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Vasileios Amoiridis <vassilisamir@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Angel Iglesias <ang.iglesiasg@gmail.com>,
+	Adam Rizkalla <ajarizzo@gmail.com>,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v2] iio: Fix uninitialized variable
+Date: Fri, 11 Oct 2024 19:52:24 +0800
+Message-ID: <20241011115334.367736-1-0xff07@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241011093752.30685-1-0xff07@gmail.com>
+References: <20241011093752.30685-1-0xff07@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iio: Fix uninitialized variable
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "Yo-Jung (Leo) Lin" <0xff07@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, ricardo@marliere.net,
- skhan@linuxfoundation.org, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Vasileios Amoiridis <vassilisamir@gmail.com>,
- Angel Iglesias <ang.iglesiasg@gmail.com>, Adam Rizkalla
- <ajarizzo@gmail.com>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-References: <20241011093752.30685-1-0xff07@gmail.com>
- <ZwkD8hXNWcL0z4Cr@smile.fi.intel.com>
-Content-Language: en-US, de-AT
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <ZwkD8hXNWcL0z4Cr@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/10/2024 12:54, Andy Shevchenko wrote:
-> On Fri, Oct 11, 2024 at 05:37:45PM +0800, Yo-Jung (Leo) Lin wrote:
->> clang found that the "offset" in bmp580_trigger_handler doesn't get
->> initialized before access. Add proper initialization to this variable.
-> 
-> ...
-> 
->>  	struct bmp280_data *data = iio_priv(indio_dev);
->> -	int ret, offset;
->> +	int ret, offset = 0;
-> 
-> Can it be done closer to the actual user of it?
-> 
-> 
+clang found that the "offset" in bmp580_trigger_handler doesn't get
+initialized before access. Add proper initialization to this variable.
 
-Actually, offset could be initialized to sizeof(32), and only used for
-the temperature calculations.
+Signed-off-by: Yo-Jung (Leo) Lin <0xff07@gmail.com>
+---
+Change in v2:
+- Make value initialization immediate before its first use.
+- Link to v1: https://lore.kernel.org/all/20241011093752.30685-1-0xff07@gmail.com/
 
-+	int ret, offset = sizeof(s32);
+---
+ drivers/iio/pressure/bmp280-core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-The first memcpy would use 0 as index, as it did before.
+diff --git a/drivers/iio/pressure/bmp280-core.c b/drivers/iio/pressure/bmp280-core.c
+index f4df222ed0c3..682329f81886 100644
+--- a/drivers/iio/pressure/bmp280-core.c
++++ b/drivers/iio/pressure/bmp280-core.c
+@@ -2222,6 +2222,8 @@ static irqreturn_t bmp580_trigger_handler(int irq, void *p)
+ 		goto out;
+ 	}
+ 
++	offset = 0;
++
+ 	/* Pressure calculations */
+ 	memcpy(&data->sensor_data[offset], &data->buf[3], 3);
+ 
+-- 
+2.43.0
 
-
-Best regards,
-Javier Carrasco
