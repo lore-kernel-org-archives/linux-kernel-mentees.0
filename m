@@ -1,172 +1,145 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21DE41C9EAF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 18:32:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48701D0157
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 19:32:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728671533; cv=none; b=PgZG2nM6qBXGIihWovSkNbGLuudifu4wQsL98GQpjZo9SFP7GPPH1MvO2PJ9nTRQFwmKfM/wV+fzPTx6L9g20C5rLUWmH2+w58gkRB1gBgXi4lO5AQ7q3xlLNzCTir288eYCPfyc0+tSRMze2YwtpegxcmVKXh0qk8nFwdncGBY=
+	t=1728675167; cv=none; b=Yb5XaCcJKVx6HXF0L7zWq0jxscUSb1ekXBegvtWJc6BT9l9F7jLm0FgW+612TTIqCZzdgdkbUQeP1AHP48aEC1iY4qkqo+N/MQSJKamAaBLPctB73UJtjYHQ3sAbbOXfs3CboqlIqjTYvNYMHWVqmMXySvcS74rCngWTSDDbn3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728671533; c=relaxed/simple;
-	bh=6ABpjJ5c9laXV1Mofwkc8XFAV1AdWBcZM3Tp255Plkw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gPQmZlngLjxIfP+xD1K0ij79uc/f3uLYuHt/iLtpuUmpjNiV9WWEBoZGy7sMtDEfsgyw1i7eDhoJr1fgKaiTXZ0hwFRYn5PryW6UCoModDP7zXrTpWf+X9HeAoT5qTIuiW1F9T55iNciKNW9uV4VNW2648+5dR+eevQ76rERjvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J7ZBLCqK; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1728675167; c=relaxed/simple;
+	bh=jTufO1eqHWvYONgG76j5xyUnwjzmD+Ejxhm+AhPj+AM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qjt3wUUq6CTEw1T+PVn/rIqB5uvI9IZwe7CrP/nOoHG1sTdExvv5Zx5S6eXzCI90C9RJMLrcutU0jFJJ+C+PEkfU3+/jfXbZpDbZi6lxMCd882H5sshbQYS41ZOngrXQgP1pTbf6PEzt5xePMjl2zY51Y2oTIE/gEMX4qenkX/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fbWZHDlD; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J7ZBLCqK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fbWZHDlD"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id B135B8439E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 18:32:11 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 9247840BAB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 19:32:45 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id GLQ-eji3yrw4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 11 Oct 2024 18:32:10 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::42d; helo=mail-wr1-x42d.google.com; envelope-from=vassilisamir@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org D87E58437F
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D87E58437F
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=J7ZBLCqK
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id D87E58437F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 18:32:09 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-37d447de11dso1521982f8f.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 11:32:09 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ysAjYUFQX4eq for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 11 Oct 2024 19:32:44 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::336; helo=mail-wm1-x336.google.com; envelope-from=javier.carrasco.cruz@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 6239A409F8
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6239A409F8
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=fbWZHDlD
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 6239A409F8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 19:32:44 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-430ee5c9570so25774245e9.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 11 Oct 2024 12:32:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728671528; x=1729276328; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hzGJQXEa8Jg8mFbIKKFv9fTv+IGcsaWIojSt7WKuh+A=;
-        b=J7ZBLCqK8R1Q2YHUA0VNalCRxIkli00g52V3FlbkKDaBsuW1GrrjB+r0L3SOswyVQU
-         r7pN9ggWtj+Ai0XoB7yUsBnMkExb9X4qbt/aeKWmxTY9BvuoagtKvUl/ZlzjslrVtY0i
-         qXGqRWauRXyYah8Z8GidDjCRmSuf9iCJ85sgDiHGFM1VwaRwJRAPwOxfVAjXWE1sXDsC
-         BLHYVq9PcCSb1KDLdQv50pUgPqhEloU11n3hkX19IeSNflqKAbq3jxgipzRID4NfBVFe
-         jBx0GwQihAzPmzZ4+o9cnY4cwqbxI/6Mhmu6JZEW0SFA+UOwb9r1zBYemlIroONoj62J
-         ZqZA==
+        d=gmail.com; s=20230601; t=1728675162; x=1729279962; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+HS0NAdsOUYeGI7mRERtfLDO2iH3xgiX9etHXZcQn9A=;
+        b=fbWZHDlDwLmXPwjiANdKPD6qR+327j8iVWEmmWF1DFKSYfvoan/l+6CNoopPWXiOYV
+         N+P0oXLbYJqAcUo9XQwiwhg/1ka2UvUdZdtt4N70RxTltcy6Td1d45OWs6CCzyoOwMsi
+         6+4y0drB4oSlqoECLWW5VlCTTo1hlEqeMjB1XI0HWiOTj3Q7ZidmNJo9q8LBwhwR9A+v
+         TaEaZREOz80IkbnFr2jNxh2SWCsXTbKNuMtwtMXTbrrTK7oljoDTeaG9fLAISeXKhLcs
+         aCijaDLwhhsrJJ9Hm4CcX8NYV6L2P5cIn3wJTdfGCURfyZjn2V2JmF6iNH1rtFx8DayO
+         320g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728671528; x=1729276328;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hzGJQXEa8Jg8mFbIKKFv9fTv+IGcsaWIojSt7WKuh+A=;
-        b=tD7FZlGeUspOQYoWeo0jOGL3A1Lcaauzb+V4/h6A1CoA8ocbQkUK/q+bkUpLLcSSmE
-         XD771puK2ZMjbr0CnMSxLFxHDDi9itSRJcy7iMaNfrqOImwypIE+29nOUwAyC/reJHu/
-         Vxh1x2jiZmQUKrgR1H6E5XsG1PAKZHWJY1/xp/lLfGUvzVu3x01WKgvmXVC3XSWPoZ2U
-         w/4ajhz49kgMpQe0ukWthE5iBujPIv43Hsln4JHpvoZiQEstsYec35mRgSR2fR9mJ7dx
-         fPLjslC+ynmSMkOFCol+YdhhVz31e5Bq6pbqV0D9VV9XSfT2TNG9msIR76gArnt014D2
-         KceA==
-X-Forwarded-Encrypted: i=1; AJvYcCWUz799SOnVW3puY6dKH51wMGPvQ+fOTVcsPo+vV8l4Qi7P817gRTQYdpxloeAFSHTcO0EH5QS/9huRBMVi7y0ZYMIrJg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yz1ToX/O6tZaE6wQp+pW1hDb7HzQtPVE4hALknNoflJEnTZV9Vf
-	cRVa3r6WP9GXPxF9zzpYuV2I1Yf28NysLqJtFnxWs0Yb3ap0uMfR
-X-Google-Smtp-Source: AGHT+IHZfchisX4gDQW0KTvSURH8Cyp5fZ6XTR97BtsqZNdAAQv/sME0MaU1UtwkGoz/6W+YdQerPg==
-X-Received: by 2002:a5d:574e:0:b0:37d:518f:995d with SMTP id ffacd0b85a97d-37d552d92c7mr2193936f8f.56.1728671527597;
-        Fri, 11 Oct 2024 11:32:07 -0700 (PDT)
-Received: from vamoirid-laptop ([2a04:ee41:82:7577:73c8:39ee:29b7:ae8c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b79faa8sm4504907f8f.66.2024.10.11.11.32.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 11:32:07 -0700 (PDT)
-Date: Fri, 11 Oct 2024 20:32:04 +0200
-From: Vasileios Aoiridis <vassilisamir@gmail.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: "Yo-Jung (Leo) Lin" <0xff07@gmail.com>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	ricardo@marliere.net, skhan@linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Angel Iglesias <ang.iglesiasg@gmail.com>,
-	Adam Rizkalla <ajarizzo@gmail.com>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v2] iio: Fix uninitialized variable
-Message-ID: <ZwlvJCxdiRqRWu6Z@vamoirid-laptop>
-References: <20241011093752.30685-1-0xff07@gmail.com>
- <20241011115334.367736-1-0xff07@gmail.com>
- <26f2e35e-0a07-4b24-91a2-a48d4bc5dadc@gmail.com>
+        d=1e100.net; s=20230601; t=1728675162; x=1729279962;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+HS0NAdsOUYeGI7mRERtfLDO2iH3xgiX9etHXZcQn9A=;
+        b=gxTohTLmMsS/7I940VFq4FR3SYD6YRvjZadp/8Mh+rWcw2qfL7FrlW6Fh3HFHTET45
+         K31v7XQWk6S3m+wdt7sssm4KEIhgJQExi1OA6/qcp0z54kiwJHBFvbEgwET8SviIuK4+
+         4p2cSCUPVZktwCqPzNIdzQE83+HUoJWs86KYzDCn4Ukhv+FYPNFRrt0/yFwAQmuSpYoE
+         Q5oeE1sXViWFdd/W2K61jMONuOooVjzQJq6avN3K173onClcN4rzeyAZsTF5Td3umE+m
+         Y7UmcFrmdOUjJwhO/2NuG20vkExBqkG9w45FW1jK1V4eO6GfS3MrN1DW5Ivl07SYGj+a
+         RNBw==
+X-Forwarded-Encrypted: i=1; AJvYcCUdPO+lGMObM1gw1WVf6o+esYVjkbSvLfu9X5/eY10G3LB0neSKkVXqxTwBKfkiVDizv58jWBlrIQeyrpzNQjpCOSBkXA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzhvO2b5qdDMnfJY3zkLOxwu6i4vBnVKsKJ+2uFjxCgfvVvsYVZ
+	uaIZqLvyDBKEapIWiozzPkFmXSEB83Q49AFbg2PxadP9G3iOQu7u
+X-Google-Smtp-Source: AGHT+IF9+FsG+E30CjlRvWbpTNN1lU2HNefQEhmynyvChYP7LCMUBll81Ko+v5AnAFFcNs3NnrwZbQ==
+X-Received: by 2002:a5d:62d2:0:b0:37c:d1c6:7e45 with SMTP id ffacd0b85a97d-37d600d2f59mr572270f8f.40.1728675161754;
+        Fri, 11 Oct 2024 12:32:41 -0700 (PDT)
+Received: from ?IPV6:2a02:8389:41cf:e200:55c0:165d:e76c:a019? (2a02-8389-41cf-e200-55c0-165d-e76c-a019.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:55c0:165d:e76c:a019])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6b8d13sm4601028f8f.25.2024.10.11.12.32.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Oct 2024 12:32:41 -0700 (PDT)
+Message-ID: <0ec5fd64-a172-4054-a2ef-1c12db41beb5@gmail.com>
+Date: Fri, 11 Oct 2024 21:32:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <26f2e35e-0a07-4b24-91a2-a48d4bc5dadc@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] iio: Fix uninitialized variable
+To: Vasileios Aoiridis <vassilisamir@gmail.com>
+Cc: "Yo-Jung (Leo) Lin" <0xff07@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, ricardo@marliere.net,
+ skhan@linuxfoundation.org, Jonathan Cameron <jic23@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Angel Iglesias <ang.iglesiasg@gmail.com>, Adam Rizkalla
+ <ajarizzo@gmail.com>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20241011093752.30685-1-0xff07@gmail.com>
+ <20241011115334.367736-1-0xff07@gmail.com>
+ <26f2e35e-0a07-4b24-91a2-a48d4bc5dadc@gmail.com>
+ <ZwlvJCxdiRqRWu6Z@vamoirid-laptop>
+Content-Language: en-US, de-AT
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <ZwlvJCxdiRqRWu6Z@vamoirid-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 11, 2024 at 02:31:00PM +0200, Javier Carrasco wrote:
-> On 11/10/2024 13:52, Yo-Jung (Leo) Lin wrote:
-> > clang found that the "offset" in bmp580_trigger_handler doesn't get
-> > initialized before access. Add proper initialization to this variable.
-> > 
-> > Signed-off-by: Yo-Jung (Leo) Lin <0xff07@gmail.com>
-> > ---
-> > Change in v2:
-> > - Make value initialization immediate before its first use.
-> > - Link to v1: https://lore.kernel.org/all/20241011093752.30685-1-0xff07@gmail.com/
-> > 
-> > ---
-> >  drivers/iio/pressure/bmp280-core.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/iio/pressure/bmp280-core.c b/drivers/iio/pressure/bmp280-core.c
-> > index f4df222ed0c3..682329f81886 100644
-> > --- a/drivers/iio/pressure/bmp280-core.c
-> > +++ b/drivers/iio/pressure/bmp280-core.c
-> > @@ -2222,6 +2222,8 @@ static irqreturn_t bmp580_trigger_handler(int irq, void *p)
-> >  		goto out;
-> >  	}
-> >  
-> > +	offset = 0;
-> > +
-> >  	/* Pressure calculations */
-> >  	memcpy(&data->sensor_data[offset], &data->buf[3], 3);
-> >  
+...
+
 > 
-> That was a quick reply. I would recommend you to wait a little bit while
-> the first version is under discussion.
+> Hi everyone!
 > 
-> I still see the offset thing a bit weird. data->sensor_data uses an
-> offset to avoid hard-coded numbers, but for data->buf we do exactly
-> that, in the very same lines.
+> So if you check also the conversations that we had here [1] and in the
+> previous versions, indeed the idea behind the offset is to use it as an
+> self-explanatory index to a char buffer that holds in fact s32 variables.
 > 
-> Setting offset to 0 to access the first element i.e. no offset required,
-> and then adding the actual offset sizeof(s32), which could even be a
-> const if the first access was to sensor_data[0], looks to verbose.
+> The data->buf here holds the values that have just been read from the
+> sensor. If you check on the channel specification of this sensor,
+> you will see ".realbits = 24" in both values that the sensor returns so
+> hence the value 3.
 > 
-> These things are of course not critical, and the proposed fix is
-> definitely ok, but I am missing some consistency here.
 
-Hi everyone!
+So you are using 3 = 24 bits, but s32 not as 4 bytes? the whole thing
+would have turned into sensor_data[0], sensor_data[4], and no variables
+implied, correct? But I am discussing too much for something that in the
+end is more or less the same, I am fine with this proposal.
 
-So if you check also the conversations that we had here [1] and in the
-previous versions, indeed the idea behind the offset is to use it as an
-self-explanatory index to a char buffer that holds in fact s32 variables.
+> I am not sure if it makes sense to use a macro here for each one of the
+> 3's that are going to be used only one time each and in order to be more
+> "consistent". But I might have a wrong view on this one so feel free to
+> correct me!
+> 
+> For the initialization of the offset indeed, it was already mentioned
+> here [2] this morning, but on a different patch!!! I couldn't get this
+> error though with gcc...
+> 
+> Cheers,
+> Vasilis
+> 
 
-The data->buf here holds the values that have just been read from the
-sensor. If you check on the channel specification of this sensor,
-you will see ".realbits = 24" in both values that the sensor returns so
-hence the value 3.
+At least for the things I do in the kernel, clang catches more issues
+than gcc. Sometimes even gcc will not complain, and clang will fail to
+compile (e.g. a goto before a cleanup attribute).
 
-I am not sure if it makes sense to use a macro here for each one of the
-3's that are going to be used only one time each and in order to be more
-"consistent". But I might have a wrong view on this one so feel free to
-correct me!
+And if you run smatch before sending the series, you might discover a
+couple of extra "surprises".
 
-For the initialization of the offset indeed, it was already mentioned
-here [2] this morning, but on a different patch!!! I couldn't get this
-error though with gcc...
-
-Cheers,
-Vasilis
-
-[1]: https://lore.kernel.org/all/20240930202353.38203-3-vassilisamir@gmail.com/
-[2]: https://lore.kernel.org/linux-iio/202410111221.YIeXHxOv-lkp@intel.com/
-
-
+Best regards,
+Javier Carrasco
