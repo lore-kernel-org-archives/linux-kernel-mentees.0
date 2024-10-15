@@ -1,176 +1,182 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CC71D3562
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 14 Oct 2024 22:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D545F21E3C3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Oct 2024 23:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728943640; cv=none; b=OYyuWATxPi8nwrmS+QIsEn/5N6aO0JmRdpZVXeW75+Lvh26cngQO/UxCBvzRgpDQowaEqoZnNcxOYEgz7reHWgqihGsrwLowKbAXFcDpe8PymKRPJ8aGhNu7r5/F4oG6HlDttdbvJXsbxItlEx4NrnQBuisL+bjTOD/v1LfqJv0=
+	t=1729033601; cv=none; b=KiCrznChjbXOnlHEONcRZtguxKcH76l8tONbGgKay30b9Zth7mXEdVY5vwAYRD5BB62QLFeD/uYRvt/Ewz42nJ5bZF6t0k2xVLlhDTI+H+JoOkOeG8zhRJpCwTfjz52xACJdZ0eLr8xDVcvL5qUh9LyGWRwlYwHcqRrHSs3slc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728943640; c=relaxed/simple;
-	bh=BXoqDheXy+2BwaKLV2FiDxisztcZ2Mr3gf7y1y0b2KY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OhcRYKdj64pPgS0SEZz7LEhLUlynGA0JE2gCYb0RgT/HAy+DDZTv8k6esfHwAl1O1iyU09n6M3d+zGkcfugdKiHjq+wH7g3UluqVpRcU+VU6YO2QRa3zvNQa0RnAZkd6QinugNE4s9v/uQKwOtQ0lvWbN+0WHik03ldwzq+SnMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lyooTZxz; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1729033601; c=relaxed/simple;
+	bh=c1cFwrRSKEj8jKOSk9WgJ/l04JHjabgqH6wMKYWXjGg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=shPRxsB37IEhUvlRnFD05dzdf/Fpkb+UM5r0/Q9Zhe/ii0oiv3eWgQH7BFiON3iqX+d4sWq5XV/IfvF+YK8CZwsUG/xdAg0PkruahVCUlf4c9joRZ24HvD7oY4pz7N/WxNWzbTUUNJ7c06TnTBlooZFhWjsuqMMPeeI8F2J/aDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f2V2Epou; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lyooTZxz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f2V2Epou"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D9D3680D9A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 14 Oct 2024 22:07:18 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 69B0B40399
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Oct 2024 23:06:39 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id JHoeFPijaz2R for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Oct 2024 22:07:18 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1035; helo=mail-pj1-x1035.google.com; envelope-from=0x7f454c46@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 24C4380DB5
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 24C4380DB5
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=lyooTZxz
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 24C4380DB5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 14 Oct 2024 22:07:17 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-2e2b549799eso3347436a91.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 14 Oct 2024 15:07:17 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id QM32YApklb5c for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 15 Oct 2024 23:06:33 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::829; helo=mail-qt1-x829.google.com; envelope-from=lanzano.alex@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 5E25140144
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5E25140144
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=f2V2Epou
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 5E25140144
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Oct 2024 23:06:33 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-460634ac984so25759411cf.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Oct 2024 16:06:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728943637; x=1729548437; darn=lists.linuxfoundation.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=i8w6ffEpFO7SbSBhrFi9OhNa1QYyGwUObySt3ab3Ei0=;
-        b=lyooTZxzW5qtCu4mamzRYJBmwsRCCjlFnc+GR14uU56z+SObVzGhrhdwqCWCekpw+v
-         OVJG+XKgz5j5OmuXcDq4t2L7GntwfaWomlyFwCLPY3CWZrK81h1F/BqFnKZFKu5si8u6
-         5j5sb2D3mZDGsRf34C9MZETolUf3NeR3h3pK4N+vWziWNhQwtyjgk7ZC8z252/oi8GJL
-         AfvMzH/I1OgU2t5XGY+BlwST2tEV0P40eChlrQj8bPQimX8M+a1XD3w4M+ro3FIugESo
-         L+9HOEkvB96/tCmyhqfnTxfbsOitt94dWVmrDbu1xKyb5EwhSE4T5uLSH8+JyZ5R4KrG
-         oELg==
+        d=gmail.com; s=20230601; t=1729033592; x=1729638392; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BfFZUPp0XV4kx5ltz6qNvKwXCzwJIgOrmeDZF/8jtLo=;
+        b=f2V2Epou53XrgKkDk7cKB2JwgjIVT3Jk92sUoC0LE64V4Bt8sa47VjZcB31wyVwV22
+         5JvGab8uo4PJPsM9OJ09cPWUKZrQpLVH098twJYk2hGhrat8rhdgH4pp0YKV+LjMYnsQ
+         uUhJJssk/PwKkyjd+/DeG0nh/5aCIzCUeN9446zWat6fGyWwHGzye5uULt5YVtNgrvTE
+         aAWrLar0ZzV+fVMeAw+X5+A7hf6julxTbcm9fnY2Ah65qG+h2QtreWqkkIOEq/w9y1V2
+         6FcpJVgZlPiLsL0c+YhA69IRIftq50pAIZISHxZszOxfB7L+A9VKJIbaxMxhCULxbGi3
+         u7XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728943637; x=1729548437;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1729033592; x=1729638392;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=i8w6ffEpFO7SbSBhrFi9OhNa1QYyGwUObySt3ab3Ei0=;
-        b=ZRd+Y7Nsl+gJ1TR2e5QnOUBO8EhePdyiZGHUvpUNTNzMoXT4612VRjt0bxx2lZxMjD
-         Qc9xwLDKD3CQsN2dx15lH3q+Vh0UOw7MQS5K8QWM/Y8WacjOWw/W4q1cZX7ErUoVU5ab
-         E2tlqpeEHhazqqKMR0G7D1uwl6wLhpLUCZ9lqeoLVzOmq16HrKv3mgns7AkiDoJDmBHj
-         iIby2mmPawccDatKfUcEkPRDsm2H8q37V4AN+xDg2eVzxDOtq00om+OGwugQYONdXxuW
-         hi9PhK0nCy/tfK9qQgn4EfLr3wJscTr/chYbKJcn5Y//8SrJPnkrXUVLHAlfohyX7gNB
-         uNEw==
-X-Forwarded-Encrypted: i=1; AJvYcCUOlxtIRU0zaji+FVuy8vvyTC4qG7YZpFgDimghJf1uvwgCNPyggj0p9kDTZ+CIbdYtRHdK7AyvE/K3d5H2t1czY5VQng==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyheumO6ggd2wmT/eswU2PgByPoWI66PeF/SZFFvuvE3I4gJjyP
-	Y8wtsWg+f9F6LUVdJyTFqPiajc+oUPzhpF2AN3HD4wkUdbxGTPeRWt3Lw9s6p2y5W/QYRcRov1U
-	OFwm5RJ+IW9SlL6UHc6ULqvzIFhY=
-X-Google-Smtp-Source: AGHT+IHkyDEUmmGGnyUt7sO+5LG4pdrQyOuHncFHLBQRb0Zc7Ja7f7NQho3LtKeKQZKMj2cJZacYqB1cIXzt/cm2gMw=
-X-Received: by 2002:a17:90a:a00f:b0:2e2:92fe:35d5 with SMTP id
- 98e67ed59e1d1-2e315356673mr12536398a91.31.1728943636516; Mon, 14 Oct 2024
- 15:07:16 -0700 (PDT)
+        bh=BfFZUPp0XV4kx5ltz6qNvKwXCzwJIgOrmeDZF/8jtLo=;
+        b=RIrvSnJPEU87jTeZPF20HAXuoSE/PnBgyatXLFArWc4rp7ZJZZQ3ssCSR6MXq3qVPr
+         +GqiwepTkntYiFQpsVZBTxYUdqKiUrM46FSNK4hs6ibTxe8fk3PFgLtqoeO3xFVqL0E2
+         tLjcUcX1T5hNGmddj2iQvcoXcUFpA5V72j/RX8nHxOZ8JrpD8EjP5OD5M1Kf3ZbOD7xf
+         1X36FPtRTNHut6HRwA4Eb5faVOp8xYQlq0Kjrc5scov3G/aJoZc+8qrvKAAZ2zP9fujX
+         5MqxU6mEuCTPtNlrtlOkr1g0qSPZpUY1099gVeUaQhobwE2s2e3dXvKYi/wVeiPeDEVu
+         yYYQ==
+X-Gm-Message-State: AOJu0YxudRHWR8Kx/asknmhgzkSOWzCqVVcKM3pHS6/YFTmfI2vJxPFL
+	56JpyHP4GV7l5DK8F5rbnD3tN0WXmyq9k0NB/Wb9nM6ijqU50xOT
+X-Google-Smtp-Source: AGHT+IHQmnfERjVbgde4xoS7Xg3Nee7eeqn8iqFraPmTdAJTJEW9Gmg9baMjNSv4pjmJ+IhQhYfR1A==
+X-Received: by 2002:a05:622a:1aa6:b0:458:34df:1e6a with SMTP id d75a77b69052e-4608a515378mr29032821cf.48.1729033591775;
+        Tue, 15 Oct 2024 16:06:31 -0700 (PDT)
+Received: from localhost.localdomain (ool-1826d901.dyn.optonline.net. [24.38.217.1])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4607b0e407esm11224641cf.27.2024.10.15.16.06.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2024 16:06:30 -0700 (PDT)
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: u.kleine-koenig@baylibre.com,
+	Alex Lanzano <lanzano.alex@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	=?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	David Lechner <david@lechnology.com>,
+	Mehdi Djait <mehdi.djait@bootlin.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org
+Subject: [PATCH v11 0/2] Add driver for Sharp Memory LCD
+Date: Tue, 15 Oct 2024 19:05:42 -0400
+Message-ID: <20241015230617.3020230-1-lanzano.alex@gmail.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241014213313.15100-1-leocstone@gmail.com>
-In-Reply-To: <20241014213313.15100-1-leocstone@gmail.com>
-From: Dmitry Safonov <0x7f454c46@gmail.com>
-Date: Mon, 14 Oct 2024 23:07:04 +0100
-Message-ID: <CAJwJo6anjg4rBDLhgHL+vVtQ0FTWvK089p3D_xNNmcDTrXRL+w@mail.gmail.com>
-Subject: Re: [RFC PATCH] selftest/tcp-ao: Add filter tests
-To: Leo Stone <leocstone@gmail.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	pabeni@redhat.com, shuah@kernel.org, rdunlap@infradead.org, 
-	mnassiri@ciena.com, jiapeng.chong@linux.alibaba.com, colin.i.king@gmail.com, 
-	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, anupnewsmail@gmail.com, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Leo,
+This patch series add support for the monochrome Sharp Memory LCD
+panels. This series is based off of the work done by Mehdi Djait.
 
-On Mon, 14 Oct 2024 at 22:37, Leo Stone <leocstone@gmail.com> wrote:
->
-> Add tests that check if getsockopt(TCP_AO_GET_KEYS) returns the right
-> keys when using different filters.
->
-> Sample output:
->
-> > # ok 114 filter keys: by sndid, rcvid, address
-> > # ok 115 filter keys: by sndid, rcvid
-> > # ok 116 filter keys: by is_current
-> > # ok 117 filter keys: by is_rnext
->
-> Signed-off-by: Leo Stone <leocstone@gmail.com>
-> ---
-> This patch is meant to address the TODO in setsockopt-closed.c:
-> > /*
-> >  * TODO: check getsockopt(TCP_AO_GET_KEYS) with different filters
-> >  * returning proper nr & keys;
-> >  */
->
-> Is this a reasonable way to do these tests? If so, what cases should I
-> add?
+References:
+https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b99.1701267411.git.mehdi.djait@bootlin.com/
+https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_for_Memory_LCD_programming_V1.3.pdf
 
-Your change does look reasonable to me.
-I think you could add one more test here for passing
-(FILTER_TEST_NKEYS/2) to getsockopt() as tcp_ao_getsockopt::nkeys with
-get_all = 1, and check that the value in tcp_ao_getsockopt::nkeys
-after getsockopt() reflects the number of matched keys
-(FILTER_TEST_NKEYS).
+Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
+---
+Changes in v11:
+- Replace drm_fbdev_dma_setup with new drm_client_setup interface
 
-See also minor nits inline.
+Changes in v10:
+- Address comments from from Uwe
+    - Replaced -EINVAL with PTR_ERR
+    - Error check pwm_apply_might_sleep function
+    - Remove redundant error message
 
-[..]
-> +static void filter_keys_checked(int sk, struct tcp_ao_getsockopt *filter,
-> +                               struct tcp_ao_getsockopt *expected,
-> +                               unsigned int nexpected, const char *tst)
-> +{
-> +       struct tcp_ao_getsockopt all_keys[FILTER_TEST_NKEYS] = {};
-> +       struct tcp_ao_getsockopt filtered_keys[FILTER_TEST_NKEYS] = {};
-> +       socklen_t len = sizeof(struct tcp_ao_getsockopt);
-> +
-> +       fetch_all_keys(sk, all_keys);
-> +       memcpy(&filtered_keys[0], filter, sizeof(struct tcp_ao_getsockopt));
-> +       filtered_keys[0].nkeys = FILTER_TEST_NKEYS;
-> +       if (getsockopt(sk, IPPROTO_TCP, TCP_AO_GET_KEYS, filtered_keys, &len))
-> +               test_error("getsockopt");
+Changes in v9:
+- Move pwm and software VCOM generation to probe/remove functions instead of crtc enable/disable functions.
+  pwd_disable will suffice on driver removal.
+- Change comment format to match Linux Kernel style.
 
-I think the following two checks would be better s/test_error/test_fail/.
-The difference between _error() and _fail() is that for the later
-exit() is not called, which allows the person running the test to
-gather all "not okay" cases.
-So, in tcp_ao selftests I used _error() only for failures where
-nothing meaningful could be done afterwards, i.e. memory allocation or
-socket() creation.
+Changes in v8:
+- Addressed review comments from Uwe
+    - Replace pwm_get_state with pwm_init_state
+    - Use pwm_set_relative_duty_cycle instead of manually setting period and duty cycle
 
-> +       if (filtered_keys[0].nkeys != nexpected)
-> +               test_error("wrong nr of keys, expected %u got %u", nexpected,
-> +                          filtered_keys[0].nkeys);
-> +       if (compare_mkts(expected, nexpected, filtered_keys, filtered_keys[0].nkeys))
-> +               test_error("got wrong keys back");
+Changes in v7:
+- Add Reviewed-by tag back to dt-binding patch
 
-^ in those two it seems to be better to do
-: test_fail("...")
-: goto out_close;
+Changes in v6:
+- Rebase off latest drm-misc-next
+- Replace pwm_apply_state with pwm_apply_might_sleep
 
-which would allow to go through other "filter" and "duplicate"
-selftests even if one of the "filter" tests has failed.
+Changes in v5:
+- Address minor style issues in sharp-memory.c
 
-[..]
->  static void *client_fn(void *arg)
->  {
->         if (inet_pton(TEST_FAMILY, __TEST_CLIENT_IP(2), &tcp_md5_client) != 1)
->                 test_error("Can't convert ip address");
->         extend_tests();
->         einval_tests();
-> +       filter_tests();
->         duplicate_tests();
->         /*
->          * TODO: check getsockopt(TCP_AO_GET_KEYS) with different filters
+Changes in v4:
+- Remove redundant dev_err
 
-^ please, remove the related TODO comment, I think you just fixed it :-)
+Changes in v3:
+- Fix file path in MAINTAINERS file
+- Address review comments
+- Simplify mode selection based on match data instead of model
 
-Thank you for the patch,
-             Dmitry
+Changes in v2:
+- Credited Mehdi Djait in commit messages
+- Renamed sharp,sharp-memory.yaml to sharp,ls010b7dh04.yaml
+- Using strings instead of int for vcom-mode in dt-binding
+- Fixed indentation of binding example
+- Removed binding header
+- Removed extra whitespace in sharp-memory.c
+- Fixed error handling in sharp-memory.c
+- Added match data to of_device_id table to be in-sync with spi_device_id table
+- Replaced redundant function with spi_get_device_match_data
+- Sorted header files in sharp-memory.c
+---
+
+Alex Lanzano (2):
+  dt-bindings: display: Add Sharp Memory LCD bindings
+  drm/tiny: Add driver for Sharp Memory LCD
+
+ .../bindings/display/sharp,ls010b7dh04.yaml   |  92 +++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/tiny/Kconfig                  |  21 +
+ drivers/gpu/drm/tiny/Makefile                 |   1 +
+ drivers/gpu/drm/tiny/sharp-memory.c           | 671 ++++++++++++++++++
+ 5 files changed, 791 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+ create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
+
+-- 
+2.47.0
+
