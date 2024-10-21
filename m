@@ -1,104 +1,127 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE1E1CBE99
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Oct 2024 15:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB5C1E2829
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Oct 2024 21:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729526105; cv=none; b=cZnZ4MBT4hFq1jAQPUKCLMpQ2l9oho6+HCwrNoPOsevJ+5u0m72b6DAWW5Mx0wGms6BJqf30FV3zKD1KQ0dXWfH7FAhKVoSEKW0dCExgKKLQ/HxOUjqPcSuXjMLrGk34wwnUcHyBL7tdMJaARQ65sGXhgEFGbm1u38QKicTxi+c=
+	t=1729545450; cv=none; b=pB2t14SAll7qbuw59lFEG00Ghe8RFZM4ve8ugT8ZUcLifQX4aqAGanru207nru2R/OhW/r24GWPC8hLyV1o/XfpUcFRFhh/BtZrs9FGUO4pl5JkEW+a/aS81saQsyUzTVk421xrjZBoKrHGeQXO8ImPtcD2K2ttgti5AeVB/jUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729526105; c=relaxed/simple;
-	bh=xAumv43BNFsGKsMqasYPmqwir94NH0Fv2u1Mzznbwxs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RmnoXyuKiNAmU/xbtmHsGq6hiXRViicBhZJY/UhBZGzUNSuqeSh/+4UsI+I9/eRDOjiSnvY9rhAc4pECPLoHZijxoHJsqoDapZAEHqTCTHStaohDOZxEc1pjADh/sI7w4m2lkrFUMPf1ULteWVWKAPZJg/86c8v4K3DbS4cR5dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G3oZKohJ; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729545450; c=relaxed/simple;
+	bh=pv3jKh6fN2c1jXFgbQJcvaSmIksdraQtfExZKZJ0xQg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IioJyCybiZGdRpOlZLsVZc51fs5v78/V/MflDv/LAD50rnTvrAqJq3rlNNCMXiE89GefYA3PR906qNDPLFAhUXqSKtf+PliwQWflGR8nwwkhppNAX2bnpt1WClTOxoIi/dJPMdLhfB+tMbRWYIFzNOfJwDcs+NvETkaNEXVmdTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b=DqQPc+5i; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G3oZKohJ"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20cbcd71012so41615285ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Oct 2024 08:55:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729526103; x=1730130903; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sh1aJBxWv0VwDDcKCoEkZD4rXl4897TVpmKVT9zgLRQ=;
-        b=G3oZKohJxY4a/mWMbLTFAIpYvK+WiJo3JuGXsm6txXr7DBPyLNou7MjHIVPS+kxeci
-         53R8D7oQeyKq0N3EIyeBIHRoqUx6zvlfO5KsTP7ZsffMPMpVvSZNGlsQ+aFarCxCEK5/
-         c45m90aPdfz7CtMFoClfvDXyoxd7vTzJnNhTkP1QYwe2afiejzLhr+zKPplP6kFy+Qci
-         GpE5njiTvhMQEjjJ/3ANnuPqgXxeSK731337TuZBpZMFTABKCpSS7CHlEahupwk7nJSF
-         JxjNy2yktzDHnHUAgmulBj9C5XDthGML1mO70w+b6pBBopXs+7VYDAYPayq6Kkwx03nG
-         iUjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729526103; x=1730130903;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Sh1aJBxWv0VwDDcKCoEkZD4rXl4897TVpmKVT9zgLRQ=;
-        b=rWEIvxYTI1aASjN1b5pLC4P7/aGEeNdmfF64BufWmJPHVZaAbe0OwCymmtP6P71JKE
-         cF4ZlCkQaK11N8Vmtj1bdGkU3TGCiJH80akiapjBJIZe0CcmLJW4dQ8oGxERvS57C32P
-         Urg6dj6VHqXz6n1cvEOmMg2bO9rNrG9vWZ6/8vGgPjN/uxH9up0/7eSHtMpmYHi9bvGk
-         gRp/JHJ/0xilURdvRDGFPVCHB1P0dgr00+Sxmv6THyo+s2RLvDbM9s4PEiyo6Ju12QfQ
-         7M7p5Qb99ldVAi/I2dBOgbb+AItHfvFiW8zh6UPUsmCkktkOokHfDDHoGfJu8XAtf0+L
-         38ew==
-X-Forwarded-Encrypted: i=1; AJvYcCVXaoH6p3aFvFOfKR/2i3wFZtYRcQapzwxrjnuTqo8/yGEI8qppyaMAZCYKJCWKZpybqF7Dt7X3RUZoYIRezLQcyavEqg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxHUJGk5eMb631ABtZ0NJmq/Be+QE/H08AyxQHYn4XrcWSM33sQ
-	VxIqOd5totiGQmQ3PNkpIcdyK4kXfqhnhaEBW4pqvgVGrlBRJ7E4
-X-Google-Smtp-Source: AGHT+IHJDq6KQ/Z+VA/Ppwmy86CaogWcH97pdQYjvExuTNdZBgq2iRpRli2bAOSYM4yVUpe2a2DI9Q==
-X-Received: by 2002:a17:903:40ce:b0:20b:b238:9d02 with SMTP id d9443c01a7336-20e5a8d1560mr147067215ad.33.1729526102969;
-        Mon, 21 Oct 2024 08:55:02 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40c1:23:59fe:c0e:3382:bbfd:44ff])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7ef0ad34sm27688725ad.68.2024.10.21.08.54.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 08:55:02 -0700 (PDT)
-From: Amit Vadhavana <av2082000@gmail.com>
-To: rostedt@goodmis.org,
-	mathieu.desnoyers@efficios.com,
-	mark.rutland@arm.com,
-	mhiramat@kernel.org,
-	ricardo@marliere.net,
-	skhan@linuxfoundation.org
-Cc: av2082000@gmail.com,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b="DqQPc+5i"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6C3C040533
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Oct 2024 21:17:26 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.793
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id avV7mYexvlA9 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 21 Oct 2024 21:17:25 +0000 (UTC)
+X-Greylist: delayed 302 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 21 Oct 2024 21:17:25 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 3888840472
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=lichtman.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3888840472
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=lichtman.org header.i=@lichtman.org header.a=rsa-sha256 header.s=mail header.b=DqQPc+5i
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=149.28.33.109; helo=lichtman.org; envelope-from=nir@lichtman.org; receiver=<UNKNOWN> 
+Received: from lichtman.org (lichtman.org [149.28.33.109])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 3888840472
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Oct 2024 21:17:25 +0000 (UTC)
+Received: by lichtman.org (Postfix, from userid 1000)
+	id 0A5D417710F; Mon, 21 Oct 2024 21:17:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lichtman.org; s=mail;
+	t=1729545444; bh=pv3jKh6fN2c1jXFgbQJcvaSmIksdraQtfExZKZJ0xQg=;
+	h=Date:From:To:Cc:Subject:From;
+	b=DqQPc+5iwL76k7nifgNBW/2C7LN3NSs/j6dz8GLd/XOA7Il8N4L4PAIXl0BgC8FRt
+	 E6ThUou2WHr2qg1dPEMmJc64DCdwDKemhuVZdO1u1IYChppbArGhqf38OqMyTfKa4S
+	 BtRl5hVXjd7brJr6qWDnS0xVZyrpQq2dpSDAn2yqIIZ48wZk3TPVZhE2G/lhBz/YU+
+	 19gYj34z8OMzG8Rb7AABQXgIczFGVtHFAgG7WL12w4Ss28s+YtPLOdGH4uRcfByJ4u
+	 JMOprs0koHPZOmrc+yULjEuBc0SBXeBKoJ5l+GtyLwf0x5x4PUhVDq9wTpTa6jsC0x
+	 al8BV/sTyPfSw==
+Date: Mon, 21 Oct 2024 21:17:24 +0000
+From: Nir Lichtman <nir@lichtman.org>
+To: kgdb-bugreport@lists.sourceforge.net,
 	linux-trace-kernel@vger.kernel.org
-Subject: [PATCH] fgraph: Remove unused value
-Date: Mon, 21 Oct 2024 21:24:37 +0530
-Message-Id: <20241021155437.5633-1-av2082000@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Cc: yuran.pereira@hotmail.com, jason.wessel@windriver.com,
+	daniel.thompson@linaro.org, dianders@chromium.org,
+	rostedt@goodmis.org, mhiramat@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v2 2/2] trace: kdb: Replace simple_strtoul with kstrtoul in
+ kdb_ftdump
+Message-ID: <20241021211724.GC835676@lichtman.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The variable `ret` is assigned a value which is unused.
-Fix this by removing the redundant `ret = 0;` assignment.
+The function simple_strtoul performs no error checking in scenarios
+where the input value overflows the intended output variable.
+This results in this function successfully returning, even when the
+output does not match the input string (aka the function returns
+successfully even when the result is wrong).
 
-This issue was reported by Coverity Scan.
-Report:
-CID 1600916: (#1 of 1): Unused value (UNUSED_VALUE)
-assigned_value: Assigning value 0 to ret here,
-but that stored value is overwritten before it can be used.
+Or as it was mentioned [1], "...simple_strtol(), simple_strtoll(),
+simple_strtoul(), and simple_strtoull() functions explicitly ignore
+overflows, which may lead to unexpected results in callers."
+Hence, the use of those functions is discouraged.
 
-Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
+This patch replaces all uses of the simple_strtoul with the safer
+alternatives kstrtoint and kstrtol.
+
+[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
+
+Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+Signed-off-by: Nir Lichtman <nir@lichtman.org>
 ---
- kernel/trace/fgraph.c | 1 -
- 1 file changed, 1 deletion(-)
+ kernel/trace/trace_kdb.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/kernel/trace/fgraph.c b/kernel/trace/fgraph.c
-index 06d254edaed7..306f1cb7bba3 100644
---- a/kernel/trace/fgraph.c
-+++ b/kernel/trace/fgraph.c
-@@ -1302,7 +1302,6 @@ int register_ftrace_graph(struct fgraph_ops *gops)
- 			return ret;
- 		}
- 		fgraph_initialized = true;
--		ret = 0;
- 	}
+diff --git a/kernel/trace/trace_kdb.c b/kernel/trace/trace_kdb.c
+index 59857a1ee44c..eadda6e05526 100644
+--- a/kernel/trace/trace_kdb.c
++++ b/kernel/trace/trace_kdb.c
+@@ -96,23 +96,20 @@ static int kdb_ftdump(int argc, const char **argv)
+ {
+ 	int skip_entries = 0;
+ 	long cpu_file;
+-	char *cp;
++	int err;
+ 	int cnt;
+ 	int cpu;
  
- 	if (!fgraph_array[0]) {
+ 	if (argc > 2)
+ 		return KDB_ARGCOUNT;
+ 
+-	if (argc) {
+-		skip_entries = simple_strtol(argv[1], &cp, 0);
+-		if (*cp)
+-			skip_entries = 0;
+-	}
++	if (argc && kstrtoint(argv[1], 0, &skip_entries))
++		return KDB_BADINT;
+ 
+ 	if (argc == 2) {
+-		cpu_file = simple_strtol(argv[2], &cp, 0);
+-		if (*cp || cpu_file >= NR_CPUS || cpu_file < 0 ||
+-		    !cpu_online(cpu_file))
++		err = kstrtol(argv[2], 0, &cpu_file);
++		if (err || cpu_file >= NR_CPUS || cpu_file < 0 ||
++			!cpu_online(cpu_file))
+ 			return KDB_BADINT;
+ 	} else {
+ 		cpu_file = RING_BUFFER_ALL_CPUS;
 -- 
-2.25.1
-
+2.39.2
