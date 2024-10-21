@@ -1,97 +1,104 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD54F80035
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 19 Oct 2024 14:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE1E1CBE99
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Oct 2024 15:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729347249; cv=none; b=UqPm7QKHsDwt7cao4pGGGdFoKsB5AO+Z+4rYVFMwu+Vb7+WFF2pfuzUf3rNDbfnmRhqiyWWt220sPT/V0IMrF9X0Y7AltAZTO3nx+n8yR5exzy7XUaZvFzb+9j5VksH0IoggJT3Jy/f6gmdi49g/YAzHSCxO7IiJno5xSSc1+Hw=
+	t=1729526105; cv=none; b=cZnZ4MBT4hFq1jAQPUKCLMpQ2l9oho6+HCwrNoPOsevJ+5u0m72b6DAWW5Mx0wGms6BJqf30FV3zKD1KQ0dXWfH7FAhKVoSEKW0dCExgKKLQ/HxOUjqPcSuXjMLrGk34wwnUcHyBL7tdMJaARQ65sGXhgEFGbm1u38QKicTxi+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729347249; c=relaxed/simple;
-	bh=/YJl37u3gb3ecEanff2bjSph5gRr1jPvWS/wj+kZ9q4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HIdlzMjStEpweEVLVYNhnL2fkztGqfTrb/16bfiiQiiTLEUEBsGqfgQQzcLlh8xjp8bJ3wtQDdf3vtnDhHEHLBtPr3HdEp4+XHWooWVQ41cUep0f4/+cRXlZ+JpSDzekrBEiiWkDIqP4tT3dmORbtU1lkEj8A82F4FsmdiooNRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PJOK5MCu; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1729526105; c=relaxed/simple;
+	bh=xAumv43BNFsGKsMqasYPmqwir94NH0Fv2u1Mzznbwxs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RmnoXyuKiNAmU/xbtmHsGq6hiXRViicBhZJY/UhBZGzUNSuqeSh/+4UsI+I9/eRDOjiSnvY9rhAc4pECPLoHZijxoHJsqoDapZAEHqTCTHStaohDOZxEc1pjADh/sI7w4m2lkrFUMPf1ULteWVWKAPZJg/86c8v4K3DbS4cR5dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G3oZKohJ; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PJOK5MCu"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 4A3C44013C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 19 Oct 2024 14:14:07 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id MmGLaxW0maHL for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 19 Oct 2024 14:14:06 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=jic23@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 6D039400FB
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6D039400FB
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PJOK5MCu
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6D039400FB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 19 Oct 2024 14:14:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 39C8BA4061E;
-	Sat, 19 Oct 2024 14:13:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BA69C4CEC5;
-	Sat, 19 Oct 2024 14:13:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729347243;
-	bh=/YJl37u3gb3ecEanff2bjSph5gRr1jPvWS/wj+kZ9q4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PJOK5MCuq81Fzh3S2E4zUpwptLihRWgb5qRhugJY1xYzlDxrciLg3c3RAZS56kkac
-	 rJxVks/RuKKG4+KMozWI/8IwbfCR8KxXmJTrYhr4uTxN9j3IH0isJPPHuyNbeiXyUL
-	 08ST0+8HGmUJd2C0PyT5ituXxYNPESjG+obW7tTqxZJHfN8akl6BJp6vCA5y8CYwjp
-	 g3r9MwIUzqx0hWkkHsHvOoPp8/Oxfp9XarspMSJjTxoSDzsVkjgMFu0JHvp+IZX8z4
-	 0BGS7R+n5X7X7qTojd+jtkt/y9Gahe14GekUPTFuKVY/UbcmzVaqXiF8ex14GMNtIU
-	 ysFUCM814Q3mQ==
-Date: Sat, 19 Oct 2024 15:13:39 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: "Yo-Jung (Leo) Lin" <0xff07@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, ricardo@marliere.net,
- skhan@linuxfoundation.org, Lars-Peter Clausen <lars@metafoo.de>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iio: gyro: list adis16137 in Kconfig description
-Message-ID: <20241019151339.553ee396@jic23-huawei>
-In-Reply-To: <20241019034213.429464-1-0xff07@gmail.com>
-References: <20241019034213.429464-1-0xff07@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G3oZKohJ"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20cbcd71012so41615285ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Oct 2024 08:55:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729526103; x=1730130903; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sh1aJBxWv0VwDDcKCoEkZD4rXl4897TVpmKVT9zgLRQ=;
+        b=G3oZKohJxY4a/mWMbLTFAIpYvK+WiJo3JuGXsm6txXr7DBPyLNou7MjHIVPS+kxeci
+         53R8D7oQeyKq0N3EIyeBIHRoqUx6zvlfO5KsTP7ZsffMPMpVvSZNGlsQ+aFarCxCEK5/
+         c45m90aPdfz7CtMFoClfvDXyoxd7vTzJnNhTkP1QYwe2afiejzLhr+zKPplP6kFy+Qci
+         GpE5njiTvhMQEjjJ/3ANnuPqgXxeSK731337TuZBpZMFTABKCpSS7CHlEahupwk7nJSF
+         JxjNy2yktzDHnHUAgmulBj9C5XDthGML1mO70w+b6pBBopXs+7VYDAYPayq6Kkwx03nG
+         iUjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729526103; x=1730130903;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Sh1aJBxWv0VwDDcKCoEkZD4rXl4897TVpmKVT9zgLRQ=;
+        b=rWEIvxYTI1aASjN1b5pLC4P7/aGEeNdmfF64BufWmJPHVZaAbe0OwCymmtP6P71JKE
+         cF4ZlCkQaK11N8Vmtj1bdGkU3TGCiJH80akiapjBJIZe0CcmLJW4dQ8oGxERvS57C32P
+         Urg6dj6VHqXz6n1cvEOmMg2bO9rNrG9vWZ6/8vGgPjN/uxH9up0/7eSHtMpmYHi9bvGk
+         gRp/JHJ/0xilURdvRDGFPVCHB1P0dgr00+Sxmv6THyo+s2RLvDbM9s4PEiyo6Ju12QfQ
+         7M7p5Qb99ldVAi/I2dBOgbb+AItHfvFiW8zh6UPUsmCkktkOokHfDDHoGfJu8XAtf0+L
+         38ew==
+X-Forwarded-Encrypted: i=1; AJvYcCVXaoH6p3aFvFOfKR/2i3wFZtYRcQapzwxrjnuTqo8/yGEI8qppyaMAZCYKJCWKZpybqF7Dt7X3RUZoYIRezLQcyavEqg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxHUJGk5eMb631ABtZ0NJmq/Be+QE/H08AyxQHYn4XrcWSM33sQ
+	VxIqOd5totiGQmQ3PNkpIcdyK4kXfqhnhaEBW4pqvgVGrlBRJ7E4
+X-Google-Smtp-Source: AGHT+IHJDq6KQ/Z+VA/Ppwmy86CaogWcH97pdQYjvExuTNdZBgq2iRpRli2bAOSYM4yVUpe2a2DI9Q==
+X-Received: by 2002:a17:903:40ce:b0:20b:b238:9d02 with SMTP id d9443c01a7336-20e5a8d1560mr147067215ad.33.1729526102969;
+        Mon, 21 Oct 2024 08:55:02 -0700 (PDT)
+Received: from localhost.localdomain ([2409:40c1:23:59fe:c0e:3382:bbfd:44ff])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7ef0ad34sm27688725ad.68.2024.10.21.08.54.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 08:55:02 -0700 (PDT)
+From: Amit Vadhavana <av2082000@gmail.com>
+To: rostedt@goodmis.org,
+	mathieu.desnoyers@efficios.com,
+	mark.rutland@arm.com,
+	mhiramat@kernel.org,
+	ricardo@marliere.net,
+	skhan@linuxfoundation.org
+Cc: av2082000@gmail.com,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: [PATCH] fgraph: Remove unused value
+Date: Mon, 21 Oct 2024 21:24:37 +0530
+Message-Id: <20241021155437.5633-1-av2082000@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 19 Oct 2024 11:42:05 +0800
-"Yo-Jung (Leo) Lin" <0xff07@gmail.com> wrote:
+The variable `ret` is assigned a value which is unused.
+Fix this by removing the redundant `ret = 0;` assignment.
 
-> The adis16136 driver also supports the adis16137 model, but it is not
-> mentioned in the Kconfig help. Add it to the description in Kconfig.
-> 
-> Signed-off-by: Yo-Jung (Leo) Lin <0xff07@gmail.com>
-Applied.
-> ---
->  drivers/iio/gyro/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iio/gyro/Kconfig b/drivers/iio/gyro/Kconfig
-> index 97b86c4a53a6..3e193ee0fb61 100644
-> --- a/drivers/iio/gyro/Kconfig
-> +++ b/drivers/iio/gyro/Kconfig
-> @@ -27,7 +27,7 @@ config ADIS16136
->  	select IIO_ADIS_LIB_BUFFER if IIO_BUFFER
->  	help
->  	  Say yes here to build support for the Analog Devices ADIS16133, ADIS16135,
-> -	  ADIS16136 gyroscope devices.
-> +	  ADIS16136, ADIS16137 gyroscope devices.
->  
->  config ADIS16260
->  	tristate "Analog Devices ADIS16260 Digital Gyroscope Sensor SPI driver"
+This issue was reported by Coverity Scan.
+Report:
+CID 1600916: (#1 of 1): Unused value (UNUSED_VALUE)
+assigned_value: Assigning value 0 to ret here,
+but that stored value is overwritten before it can be used.
+
+Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
+---
+ kernel/trace/fgraph.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/kernel/trace/fgraph.c b/kernel/trace/fgraph.c
+index 06d254edaed7..306f1cb7bba3 100644
+--- a/kernel/trace/fgraph.c
++++ b/kernel/trace/fgraph.c
+@@ -1302,7 +1302,6 @@ int register_ftrace_graph(struct fgraph_ops *gops)
+ 			return ret;
+ 		}
+ 		fgraph_initialized = true;
+-		ret = 0;
+ 	}
+ 
+ 	if (!fgraph_array[0]) {
+-- 
+2.25.1
 
