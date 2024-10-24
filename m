@@ -1,242 +1,135 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC926155308
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Oct 2024 04:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5981AA7A2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Oct 2024 11:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729745074; cv=none; b=GfNGO9cIJ4xBtrsNrr2q31w9YZaruzvHCLJK0JwLXbXvSngpqK/sJgTIzetw6FzMg5fsvIqFMKaX7ZmWPPRDrBhkINKLubAhHsOG2FqoNkVvBz4HvgaGVwVst/axJ4dJ5q8lYAyZcVaB6JEFITCl21bfeQLSKCwq0rqhTNf8B8I=
+	t=1729770189; cv=none; b=mhpH060uBtrhPmQTqIgf86d0t08vduZJg0s0bqx/hfkPHRKHPrtVSFCEvhTXn3NDlSQN7tWwEcTKyU2RUpuT7LkqdbOzPz6CuwajbFF+isvkSyrasxDSSF/f5aRgTNNJAzN5L2nJWMfEfflMfuK0XHUPlBY2WYlBOROezdTRKKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729745074; c=relaxed/simple;
-	bh=eNxua7fVhlrHsDzXd5XLS5wzVaIJOtp3EmVortX/huk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zt22faoPQ5Bdcfvy7lw+E1yzLzOd45fdSQPAQUuxCLoCodR0tzUPWX2Y56WyNGmZlyueWixw6XA+Kg5esvQFJZpLH4IoeRP4WF1R1oL9cFt016wmvRmjNi3lHS21YySOeB8EEVP7NK3xduRKKTl8nffRsh2kSrSVkttc/gebeAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1729770189; c=relaxed/simple;
+	bh=uxxha5CoSlXs0lL1JktSCRQ2sdEvIF88JesL7nMzplg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=csLjD2S7o3dIsjG5a2pP27ToUcOyPNbeFDyRasA1POrfKrrKFwZv2jrZn2IDSclfCnYFBr4sz4YzxORCsnyr9qmcnnPuXTi0vPBOPNnZuow6yNjjSF62XOpTf5WLVSKLLiA74nenozyzTLCL6qP6fMd/81iB2ac5Rfr2xwYlZek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TJrbcQ8D; arc=none smtp.client-ip=140.211.166.136
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TJrbcQ8D"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 293938122D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Oct 2024 04:44:32 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id B9E356070D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Oct 2024 11:43:06 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.651
+X-Spam-Score: -6.493
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 51tcuOzUew5v for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Oct 2024 04:44:31 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=srs0=etyt=ru=goodmis.org=rostedt@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 912F28122C
-Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 912F28122C
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 912F28122C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Oct 2024 04:44:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id CADCDA44FE1;
-	Thu, 24 Oct 2024 04:44:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D30BC4CEC7;
-	Thu, 24 Oct 2024 04:44:25 +0000 (UTC)
-Date: Thu, 24 Oct 2024 00:44:22 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Ahmed Ehab <bottaawesome633@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>, Peter
- Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
- <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman
- <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, kernel test robot
- <lkp@intel.com>
-Subject: Re: [PATCH v2] Refactor switch_mm_cid() to avoid unnecessary checks
-Message-ID: <20241024004422.57b3a5d1@rorschach.local.home>
-In-Reply-To: <20240904221817.56664-1-bottaawesome633@gmail.com>
-References: <20240904221817.56664-1-bottaawesome633@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id KTa_g0Fc8cZa for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 24 Oct 2024 11:43:05 +0000 (UTC)
+X-Greylist: delayed 586 seconds by postgrey-1.37 at util1.osuosl.org; Thu, 24 Oct 2024 11:43:04 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6010F606E6
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6010F606E6
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=TJrbcQ8D
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=95.215.58.171; helo=out-171.mta1.migadu.com; envelope-from=kent.overstreet@linux.dev; receiver=<UNKNOWN> 
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 6010F606E6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Oct 2024 11:43:04 +0000 (UTC)
+Date: Thu, 24 Oct 2024 07:33:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1729769594;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NK3w/fF9wXIUILOnifbE5ISwxwg6DoLKLjlWnmFwHWc=;
+	b=TJrbcQ8D505ClFdqAJ0276+gNflp29OWI7q7czuNH9xEQlw4KWr9I22FUj7Ex5Y1bA1Jo4
+	18xAgql8BEJcZ5uR3zBl54UG9mLSQnjdk5U9LGpIDFDwpom7O81WV9JSsY5ujgLAgL/n8r
+	Z9JUocg1enX00pcUv0Zg1OG6PJkx8iw=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: manas18244@iiitd.ac.in
+Cc: Hongbo Li <lihongbo22@huawei.com>, linux-bcachefs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Anup Sharma <anupnewsmail@gmail.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-kernel-mentees@lists.linuxfoundation.org, 
+	syzbot+e8eff054face85d7ea41@syzkaller.appspotmail.com
+Subject: Re: [PATCH] bcachefs: Add missing btree_bitmap_shift check in
+ bch2_dev_btree_bitmap_marked_sectors
+Message-ID: <k5znyayne747jcqd4ljxakpwky35az65ahareqhlppj73dvg2t@qypyy6ibaxdg>
+References: <20241022-fix-missing-cond-bcachefs-v1-1-064a40e55610@iiitd.ac.in>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241022-fix-missing-cond-bcachefs-v1-1-064a40e55610@iiitd.ac.in>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu,  5 Sep 2024 01:18:17 +0300
-Ahmed Ehab <bottaawesome633@gmail.com> wrote:
-
-> The issue is that we check if we are switching from {kernel,user} to
-> {kernel, user} multiple times unnecessarily.
+On Tue, Oct 22, 2024 at 08:55:32PM +0530, Manas via B4 Relay wrote:
+> From: Manas <manas18244@iiitd.ac.in>
 > 
-> To fix this, refactor switch_mm_cid() and break it into multiple methods
-> to handle the cases of switching from {kernel,user} to {kernel, user}.
-> Hence, we avoid any redundant checks.
-
-Does this make any difference in performance? Is there some benchmark
-numbers that show that it does if it did?
-
+> The syzkaller bug triggers BUG_ON assertions in
+> __bch2_dev_btree_bitmap_mark. btree_bitmap_shift is checked in
+> bch2_dev_btree_bitmap_marked_sectors prior to this. But only one out of
+> two assertions is checked. This patch adds the other as conditional.
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202408270455.R85TrPfw-lkp@intel.com/
-
-You don't add "Reported-by" and "Closes" tags that address the v1
-version in the v2 patch. These tags are only for things that are
-currently in the kernel.
-
-> Signed-off-by: Ahmed Ehab <bottaawesome633@gmail.com>
+> Reported-by: syzbot+e8eff054face85d7ea41@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=e8eff054face85d7ea41
+> Signed-off-by: Manas <manas18244@iiitd.ac.in>
 > ---
->  kernel/sched/core.c  | 15 +++++---
->  kernel/sched/sched.h | 84 +++++++++++++++++++++++++++-----------------
->  2 files changed, 62 insertions(+), 37 deletions(-)
+> The syzkaller bug[1] triggers BUG_ON assertions in
+> __bch2_dev_btree_bitmap_mark.
+
+The validation in validate_member() just needs to be fixed (and why 57?
+that should be a constant, not a magic number).
+
 > 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index f3951e4a55e5..900c5a763e0a 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -5155,9 +5155,15 @@ context_switch(struct rq *rq, struct task_struct *prev,
->  		enter_lazy_tlb(prev->active_mm, next);
+> btree_bitmap_shift is checked in bch2_dev_btree_bitmap_marked_sectors
+> prior to this. But only one out of two assertions is checked. This patch
+> adds the other as conditional.
+> 
+> A previous discussion about adding conditional in
+> bch2_dev_btree_bitmap_marked_sectors is here[2].
+> 
+> [1] https://syzkaller.appspot.com/bug?extid=e8eff054face85d7ea41
+> [2] https://lore.kernel.org/all/9ec25394-3d89-41b3-b62e-2d522cdc7319@huawei.com/
+> ---
+>  fs/bcachefs/sb-members.h | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/bcachefs/sb-members.h b/fs/bcachefs/sb-members.h
+> index 762083b564ee5909071eb4235c3d5cd6e72ee519..3141791491928930a707a6a16579c6d2e11e3700 100644
+> --- a/fs/bcachefs/sb-members.h
+> +++ b/fs/bcachefs/sb-members.h
+> @@ -347,12 +347,16 @@ void bch2_dev_errors_reset(struct bch_dev *);
+>  static inline bool bch2_dev_btree_bitmap_marked_sectors(struct bch_dev *ca, u64 start, unsigned sectors)
+>  {
+>  	u64 end = start + sectors;
+> +	u8 bitmap_shift = ca->mi.btree_bitmap_shift;
 >  
->  		next->active_mm = prev->active_mm;
-> -		if (prev->mm)                           // from user
-> +		if (prev->mm) {                           // from user
->  			mmgrab_lazy_tlb(prev->active_mm);
-> +			switch_mm_cid_from_user_to_kernel(rq, prev, next);
-> +		}
->  		else
-> +			/*
-> +			 * kernel -> kernel transition does not change rq->curr->mm
-> +			 * state. It stays NULL.
-> +			 */
->  			prev->active_mm = NULL;
-
-The above breaks the kernel coding style.
-
-See https://www.kernel.org/doc/html/v6.11/process/coding-style.html
-
->  	} else {                                        // to user
->  		membarrier_switch_mm(rq, prev->active_mm, next->mm);
-> @@ -5176,12 +5182,11 @@ context_switch(struct rq *rq, struct task_struct *prev,
->  			/* will mmdrop_lazy_tlb() in finish_task_switch(). */
->  			rq->prev_mm = prev->active_mm;
->  			prev->active_mm = NULL;
-> -		}
-> +			switch_mm_cid_from_kernel_to_user(rq, prev, next);
-> +		} else
-> +			switch_mm_cid_from_user_to_user(rq, prev, next);
->  	}
+> -	if (end > 64ULL << ca->mi.btree_bitmap_shift)
+> +	if (bitmap_shift > 57)
+> +		return true;
+> +
+> +	if (end > 64ULL << bitmap_shift)
+>  		return false;
 >  
-> -	/* switch_mm_cid() requires the memory barriers above. */
-> -	switch_mm_cid(rq, prev, next);
-> -
->  	prepare_lock_switch(rq, next, rf);
->  
->  	/* Here we just switch the register state and the stack. */
-> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-> index 4c36cc680361..c01ca8962518 100644
-> --- a/kernel/sched/sched.h
-> +++ b/kernel/sched/sched.h
-> @@ -3524,38 +3524,6 @@ static inline void switch_mm_cid(struct rq *rq,
->  	 *
->  	 * Should be adapted if context_switch() is modified.
->  	 */
-> -	if (!next->mm) {                                // to kernel
-> -		/*
-> -		 * user -> kernel transition does not guarantee a barrier, but
-> -		 * we can use the fact that it performs an atomic operation in
-> -		 * mmgrab().
-> -		 */
-> -		if (prev->mm)                           // from user
-> -			smp_mb__after_mmgrab();
-> -		/*
-> -		 * kernel -> kernel transition does not change rq->curr->mm
-> -		 * state. It stays NULL.
-> -		 */
-> -	} else {                                        // to user
-> -		/*
-> -		 * kernel -> user transition does not provide a barrier
-> -		 * between rq->curr store and load of {prev,next}->mm->pcpu_cid[cpu].
-> -		 * Provide it here.
-> -		 */
-> -		if (!prev->mm) {                        // from kernel
-> -			smp_mb();
-> -		} else {				// from user
-> -			/*
-> -			 * user->user transition relies on an implicit
-> -			 * memory barrier in switch_mm() when
-> -			 * current->mm changes. If the architecture
-> -			 * switch_mm() does not have an implicit memory
-> -			 * barrier, it is emitted here.  If current->mm
-> -			 * is unchanged, no barrier is needed.
-> -			 */
-> -			smp_mb__after_switch_mm();
-> -		}
-> -	}
->  	if (prev->mm_cid_active) {
->  		mm_cid_snapshot_time(rq, prev->mm);
->  		mm_cid_put_lazy(prev);
-> @@ -3565,8 +3533,60 @@ static inline void switch_mm_cid(struct rq *rq,
->  		next->last_mm_cid = next->mm_cid = mm_cid_get(rq, next->mm);
->  }
->  
-> +static inline void switch_mm_cid_from_user_to_kernel(struct rq *rq,
-> +						     struct task_struct *prev,
-> +						     struct task_struct *next)
-> +
-> +{
-> +	/**
-> +	 * user -> kernel transition does not guarantee a barrier, but
-> +	 * we can use the fact that it performs an atomic operation in
-> +	 * mmgrab().
-> +	 */
-> +	smp_mb__after_mmgrab();
-> +	switch_mm_cid(rq, prev, next);
-> +
-> +}
-> +
-> +static inline void switch_mm_cid_from_kernel_to_user(struct rq *rq,
-> +						     struct task_struct *prev,
-> +						     struct task_struct *next)
-> +
-> +{
-> +	/*
-> +	 * kernel -> user transition does not provide a barrier
-> +	 * between rq->curr store and load of {prev,next}->mm->pcpu_cid[cpu].
-> +	 * Provide it here.
-> +	 */
-> +	smp_mb();
-> +	switch_mm_cid(rq, prev, next);
-> +
-> +}
-> +
-> +
-> +static inline void switch_mm_cid_from_user_to_user(struct rq *rq,
-> +						   struct task_struct *prev,
-> +						   struct task_struct *next)
-> +
-> +{
-> +	/*
-> +	 * user->user transition relies on an implicit
-> +	 * memory barrier in switch_mm() when
-> +	 * current->mm changes. If the architecture
-> +	 * switch_mm() does not have an implicit memory
-> +	 * barrier, it is emitted here.  If current->mm
-> +	 * is unchanged, no barrier is needed.
-> +	 */
-> +	smp_mb__after_switch_mm();
-> +	switch_mm_cid(rq, prev, next);
-> +
-> +}
-> +
->  #else /* !CONFIG_SCHED_MM_CID: */
->  static inline void switch_mm_cid(struct rq *rq, struct task_struct *prev, struct task_struct *next) { }
-> +static inline void switch_mm_cid_from_user_to_user(struct rq *rq, struct task_struct *prev, struct task_struct *next) { }
-> +static inline void switch_mm_cid_from_user_to_kernel(struct rq *rq, struct task_struct *prev, struct task_struct *next) { }
-> +static inline void switch_mm_cid_from_kernel_to_user(struct rq *rq, struct task_struct *prev, struct task_struct *next) { }
->  static inline void sched_mm_cid_migrate_from(struct task_struct *t) { }
->  static inline void sched_mm_cid_migrate_to(struct rq *dst_rq, struct task_struct *t) { }
->  static inline void task_tick_mm_cid(struct rq *rq, struct task_struct *curr) { }
-
-This moves the burden of how the mm is changing to multiple places in
-the logic when it was originally in a single place. Is that really better?
-
-My opinion is that it is not, unless you can show an improvement in
-benchmarks (which I believe will be highly unlikely).
-
--- Steve
+> -	for (unsigned bit = start >> ca->mi.btree_bitmap_shift;
+> -	     (u64) bit << ca->mi.btree_bitmap_shift < end;
+> +	for (unsigned bit = start >> bitmap_shift;
+> +	     (u64) bit << bitmap_shift < end;
+>  	     bit++)
+>  		if (!(ca->mi.btree_allocated_bitmap & BIT_ULL(bit)))
+>  			return false;
+> 
+> ---
+> base-commit: 42f7652d3eb527d03665b09edac47f85fb600924
+> change-id: 20241022-fix-missing-cond-bcachefs-a889f51e8aa2
+> 
+> Best regards,
+> -- 
+> Manas <manas18244@iiitd.ac.in>
+> 
+> 
