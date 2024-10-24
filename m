@@ -1,162 +1,242 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04B61BE236
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Oct 2024 15:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC926155308
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Oct 2024 04:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729696610; cv=none; b=YxbwbF+yzoIwgjOEbv/eNsWpomEK12RwV2jSAXcqY2OWYWpF5UhWhJRHEgaOm/88uqzuBHeqwMXd2M4H//pLe5/k/Y82qhE2rQpOwNpnSDwO/h2qRv/Zc0X+OghCbZC/8cCVsbhrQNmuifwDCJfVnZ0lTYKlnofloUZ/JxJf8MM=
+	t=1729745074; cv=none; b=GfNGO9cIJ4xBtrsNrr2q31w9YZaruzvHCLJK0JwLXbXvSngpqK/sJgTIzetw6FzMg5fsvIqFMKaX7ZmWPPRDrBhkINKLubAhHsOG2FqoNkVvBz4HvgaGVwVst/axJ4dJ5q8lYAyZcVaB6JEFITCl21bfeQLSKCwq0rqhTNf8B8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729696610; c=relaxed/simple;
-	bh=FZaeFxwTakHihLrqx989jDhtPM0HQAzJj+unQOQ1nZY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kSLeghGGcM2y8g65Ty7fH9r4oCALEbBbEGQjM/1lurY+fwZDjwtg7OkXz9nf5DciWF8ntbjDHILxDJoGNVthkMJpXDMq5CvGgCdil5Yjwi+udSVV1UKX3wJD78tIaHnUuWp8c0qIM40FFxJjusytWOSYgEK5M7Isb0OjyIWZpr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U07Kl4+s; arc=none smtp.client-ip=140.211.166.133
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U07Kl4+s"
+	s=arc-20240116; t=1729745074; c=relaxed/simple;
+	bh=eNxua7fVhlrHsDzXd5XLS5wzVaIJOtp3EmVortX/huk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Zt22faoPQ5Bdcfvy7lw+E1yzLzOd45fdSQPAQUuxCLoCodR0tzUPWX2Y56WyNGmZlyueWixw6XA+Kg5esvQFJZpLH4IoeRP4WF1R1oL9cFt016wmvRmjNi3lHS21YySOeB8EEVP7NK3xduRKKTl8nffRsh2kSrSVkttc/gebeAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 6B6D640236
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Oct 2024 15:16:48 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 293938122D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Oct 2024 04:44:32 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -1.651
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Rzc9C1RePKXJ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Oct 2024 15:16:47 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::52c; helo=mail-ed1-x52c.google.com; envelope-from=0xff07@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 3487B40104
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3487B40104
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=U07Kl4+s
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 3487B40104
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Oct 2024 15:16:47 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-5c9c28c1ecbso8974426a12.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Oct 2024 08:16:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729696605; x=1730301405; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=phceHAwg+WXY0lkOFYuZkDTZVc3u9dtw1vIObZgqv+A=;
-        b=U07Kl4+sT3dNmVZDijaIxzkZD085gXW0sXXX1i4VJKQOY/6H3FWv+6m44mY19W331a
-         j4b65Xc6OC+1aXvQvPlF3gVMah8WTu0pQYXJ4qx2HW9v6L+UF6VnL4UQYqckNYu++cT4
-         F0KhgI/UFECfHmuj3QIwDgWZxrm3h5PuMJQWaptdt348yV7OUiyf4uYJwAdLUUz0jaIq
-         c01Bu/LP/eTzerL/LTQaRMwD83wosq4d/OYkgWQP1maqT7yyhdYUL5Qbhm8c1GrjPbcP
-         C2UAO6A+7vkJZfei7lu1uWKy8ezt34tjKma2OcrPEkckdatdcqEhavdODiIlUszbMHut
-         x5VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729696605; x=1730301405;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=phceHAwg+WXY0lkOFYuZkDTZVc3u9dtw1vIObZgqv+A=;
-        b=j5D3VFoxwTqVRHzv0FBSwXt/dU7848E0tSU/d/q+1A25MeYdXInl/EuvqX94uaYNck
-         KcEA+6FS9PG9C0AmJGt/bRzXdAcR2QMz1PNMLNjP3GC08UhFRKSG9FldS1l4XRRocfr/
-         VAavq7kn46Gl8G6UTUuaCnoEkSzG2/XDHDwPk7Po9ZQRXFVd97dtnKlz4vDPkxyw04Fu
-         JSvLLRARnyt8LijoiNsid3xeXUPe3JZ95PrcNOXrhvSnFTKN0IvbfGbJ+ZAsobQkx/Pb
-         ckrek/zIBJOozEE1HS1jcgcCpsvtZn1ilHkQhQgDNt7xjj4yc5d9ICI5K9KuxJTrhJb8
-         +APQ==
-X-Gm-Message-State: AOJu0Yy5aTzKnBugXqjpbEkDqNtskcj4gGCXC/nkqVxccRqXPtcV06H9
-	z5RVgUxF7sOrVlfvS6TQsiz0CtLidXYSkksAfzOVSlTAs3wyh8Boa7rOO07epxlPRNjFtZkQknR
-	ZdQIa7alwQjhUaL7sMmkHkKjnumY=
-X-Google-Smtp-Source: AGHT+IGoe9wcQG7zaMf2n0bH4O9DhUNomfztRdDZyWgHh9DssAx3EIjRggFtWPZ2Zdqal/AXcNMgxtzRrpvIThvqlJc=
-X-Received: by 2002:a05:6402:42ca:b0:5c9:6f8f:d7c6 with SMTP id
- 4fb4d7f45d1cf-5cb8ace953fmr2572362a12.13.1729696604707; Wed, 23 Oct 2024
- 08:16:44 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 51tcuOzUew5v for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 24 Oct 2024 04:44:31 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=srs0=etyt=ru=goodmis.org=rostedt@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 912F28122C
+Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 912F28122C
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 912F28122C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Oct 2024 04:44:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id CADCDA44FE1;
+	Thu, 24 Oct 2024 04:44:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D30BC4CEC7;
+	Thu, 24 Oct 2024 04:44:25 +0000 (UTC)
+Date: Thu, 24 Oct 2024 00:44:22 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Ahmed Ehab <bottaawesome633@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>, Peter
+ Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
+ <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman
+ <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, kernel test robot
+ <lkp@intel.com>
+Subject: Re: [PATCH v2] Refactor switch_mm_cid() to avoid unnecessary checks
+Message-ID: <20241024004422.57b3a5d1@rorschach.local.home>
+In-Reply-To: <20240904221817.56664-1-bottaawesome633@gmail.com>
+References: <20240904221817.56664-1-bottaawesome633@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240922132636.34413-1-0xff07@gmail.com> <20240926005952.5ba2fda4@rorschach.local.home>
-In-Reply-To: <20240926005952.5ba2fda4@rorschach.local.home>
-From: Yo-Jung Lin <0xff07@gmail.com>
-Date: Wed, 23 Oct 2024 23:16:32 +0800
-Message-ID: <CAHhBtNomV6bCcau7sVU9G=pPWtX3XTvr4_pEkjqLGzs=-OZLUA@mail.gmail.com>
-Subject: Re: [PATCH] trace doc: document the device_pm_callback events
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, ricardo@marliere.net, 
-	skhan@linuxfoundation.org, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Rafael and the PM maintainers,
+On Thu,  5 Sep 2024 01:18:17 +0300
+Ahmed Ehab <bottaawesome633@gmail.com> wrote:
 
-On Thu, Sep 26, 2024 at 12:59=E2=80=AFPM Steven Rostedt <rostedt@goodmis.or=
-g> wrote:
->
->
-> This needs an ack from one of the power management maintainers.
->
-> -- Steve
->
->
-> On Sun, 22 Sep 2024 21:26:28 +0800
-> "Yo-Jung (Leo) Lin" <0xff07@gmail.com> wrote:
->
-> > Add documentation for the device_pm_callback_{start, end} events
-> > under the "Subsystem Trace Points: power" section.
-> >
-> > Signed-off-by: Yo-Jung (Leo) Lin <0xff07@gmail.com>
-> > ---
-> >  Documentation/trace/events-power.rst | 27 +++++++++++++++++++++++++++
-> >  1 file changed, 27 insertions(+)
-> >
-> > diff --git a/Documentation/trace/events-power.rst b/Documentation/trace=
-/events-power.rst
-> > index f45bf11fa88d..7031954f7ed3 100644
-> > --- a/Documentation/trace/events-power.rst
-> > +++ b/Documentation/trace/events-power.rst
-> > @@ -102,3 +102,30 @@ And, there are events used for CPU latency QoS add=
-/update/remove request.
-> >    pm_qos_remove_request     "value=3D%d"
-> >
-> >  The parameter is the value to be added/updated/removed.
-> > +
-> > +5. Device PM callback events
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> > +The device PM callback events are placed right before and after an inv=
-ocation of
-> > +a device PM callback during a system-wide suspend/resume attempt.
-> > +::
-> > +
-> > +  device_pm_callback_start     "%s %s, parent: %s, %s[%s]"
-> > +  device_pm_callback_end       "%s %s, err=3D%d"
-> > +
-> > +The first two parameters in both events are the same. They are:
-> > +
-> > +  - The name of the driver.
-> > +  - The device whose PM callbacks get called.
-> > +
-> > +For device_pm_callback_start, the rest of the parameters are:
-> > +
-> > +  - The parent device of the device (if any).
-> > +  - Level in the power management hierarchy the callback belongs to (e=
-.g. power
-> > +    domain, type, class, bus, driver). Some stages (e.g. early, late, =
-noirq)
-> > +    will also be explicitly mentioned in this string.
-> > +  - The ongoing PM event. You may find definitions of those events in =
-the
-> > +    PM_EVENT_* macros in include/linux/pm.h
-> > +
-> > +For device_pm_callback_end, the only remaining parameter is:
-> > +
-> > +  - The return value of the PM callback.
->
+> The issue is that we check if we are switching from {kernel,user} to
+> {kernel, user} multiple times unnecessarily.
+> 
+> To fix this, refactor switch_mm_cid() and break it into multiple methods
+> to handle the cases of switching from {kernel,user} to {kernel, user}.
+> Hence, we avoid any redundant checks.
 
-I think it'll be helpful to have your feedback on this documentation
-proposal. Would you kindly help take a look? I believe that any
-feedback would be really helpful. Thank you!
+Does this make any difference in performance? Is there some benchmark
+numbers that show that it does if it did?
 
-Best,
-Leo
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202408270455.R85TrPfw-lkp@intel.com/
+
+You don't add "Reported-by" and "Closes" tags that address the v1
+version in the v2 patch. These tags are only for things that are
+currently in the kernel.
+
+> Signed-off-by: Ahmed Ehab <bottaawesome633@gmail.com>
+> ---
+>  kernel/sched/core.c  | 15 +++++---
+>  kernel/sched/sched.h | 84 +++++++++++++++++++++++++++-----------------
+>  2 files changed, 62 insertions(+), 37 deletions(-)
+> 
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index f3951e4a55e5..900c5a763e0a 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -5155,9 +5155,15 @@ context_switch(struct rq *rq, struct task_struct *prev,
+>  		enter_lazy_tlb(prev->active_mm, next);
+>  
+>  		next->active_mm = prev->active_mm;
+> -		if (prev->mm)                           // from user
+> +		if (prev->mm) {                           // from user
+>  			mmgrab_lazy_tlb(prev->active_mm);
+> +			switch_mm_cid_from_user_to_kernel(rq, prev, next);
+> +		}
+>  		else
+> +			/*
+> +			 * kernel -> kernel transition does not change rq->curr->mm
+> +			 * state. It stays NULL.
+> +			 */
+>  			prev->active_mm = NULL;
+
+The above breaks the kernel coding style.
+
+See https://www.kernel.org/doc/html/v6.11/process/coding-style.html
+
+>  	} else {                                        // to user
+>  		membarrier_switch_mm(rq, prev->active_mm, next->mm);
+> @@ -5176,12 +5182,11 @@ context_switch(struct rq *rq, struct task_struct *prev,
+>  			/* will mmdrop_lazy_tlb() in finish_task_switch(). */
+>  			rq->prev_mm = prev->active_mm;
+>  			prev->active_mm = NULL;
+> -		}
+> +			switch_mm_cid_from_kernel_to_user(rq, prev, next);
+> +		} else
+> +			switch_mm_cid_from_user_to_user(rq, prev, next);
+>  	}
+>  
+> -	/* switch_mm_cid() requires the memory barriers above. */
+> -	switch_mm_cid(rq, prev, next);
+> -
+>  	prepare_lock_switch(rq, next, rf);
+>  
+>  	/* Here we just switch the register state and the stack. */
+> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+> index 4c36cc680361..c01ca8962518 100644
+> --- a/kernel/sched/sched.h
+> +++ b/kernel/sched/sched.h
+> @@ -3524,38 +3524,6 @@ static inline void switch_mm_cid(struct rq *rq,
+>  	 *
+>  	 * Should be adapted if context_switch() is modified.
+>  	 */
+> -	if (!next->mm) {                                // to kernel
+> -		/*
+> -		 * user -> kernel transition does not guarantee a barrier, but
+> -		 * we can use the fact that it performs an atomic operation in
+> -		 * mmgrab().
+> -		 */
+> -		if (prev->mm)                           // from user
+> -			smp_mb__after_mmgrab();
+> -		/*
+> -		 * kernel -> kernel transition does not change rq->curr->mm
+> -		 * state. It stays NULL.
+> -		 */
+> -	} else {                                        // to user
+> -		/*
+> -		 * kernel -> user transition does not provide a barrier
+> -		 * between rq->curr store and load of {prev,next}->mm->pcpu_cid[cpu].
+> -		 * Provide it here.
+> -		 */
+> -		if (!prev->mm) {                        // from kernel
+> -			smp_mb();
+> -		} else {				// from user
+> -			/*
+> -			 * user->user transition relies on an implicit
+> -			 * memory barrier in switch_mm() when
+> -			 * current->mm changes. If the architecture
+> -			 * switch_mm() does not have an implicit memory
+> -			 * barrier, it is emitted here.  If current->mm
+> -			 * is unchanged, no barrier is needed.
+> -			 */
+> -			smp_mb__after_switch_mm();
+> -		}
+> -	}
+>  	if (prev->mm_cid_active) {
+>  		mm_cid_snapshot_time(rq, prev->mm);
+>  		mm_cid_put_lazy(prev);
+> @@ -3565,8 +3533,60 @@ static inline void switch_mm_cid(struct rq *rq,
+>  		next->last_mm_cid = next->mm_cid = mm_cid_get(rq, next->mm);
+>  }
+>  
+> +static inline void switch_mm_cid_from_user_to_kernel(struct rq *rq,
+> +						     struct task_struct *prev,
+> +						     struct task_struct *next)
+> +
+> +{
+> +	/**
+> +	 * user -> kernel transition does not guarantee a barrier, but
+> +	 * we can use the fact that it performs an atomic operation in
+> +	 * mmgrab().
+> +	 */
+> +	smp_mb__after_mmgrab();
+> +	switch_mm_cid(rq, prev, next);
+> +
+> +}
+> +
+> +static inline void switch_mm_cid_from_kernel_to_user(struct rq *rq,
+> +						     struct task_struct *prev,
+> +						     struct task_struct *next)
+> +
+> +{
+> +	/*
+> +	 * kernel -> user transition does not provide a barrier
+> +	 * between rq->curr store and load of {prev,next}->mm->pcpu_cid[cpu].
+> +	 * Provide it here.
+> +	 */
+> +	smp_mb();
+> +	switch_mm_cid(rq, prev, next);
+> +
+> +}
+> +
+> +
+> +static inline void switch_mm_cid_from_user_to_user(struct rq *rq,
+> +						   struct task_struct *prev,
+> +						   struct task_struct *next)
+> +
+> +{
+> +	/*
+> +	 * user->user transition relies on an implicit
+> +	 * memory barrier in switch_mm() when
+> +	 * current->mm changes. If the architecture
+> +	 * switch_mm() does not have an implicit memory
+> +	 * barrier, it is emitted here.  If current->mm
+> +	 * is unchanged, no barrier is needed.
+> +	 */
+> +	smp_mb__after_switch_mm();
+> +	switch_mm_cid(rq, prev, next);
+> +
+> +}
+> +
+>  #else /* !CONFIG_SCHED_MM_CID: */
+>  static inline void switch_mm_cid(struct rq *rq, struct task_struct *prev, struct task_struct *next) { }
+> +static inline void switch_mm_cid_from_user_to_user(struct rq *rq, struct task_struct *prev, struct task_struct *next) { }
+> +static inline void switch_mm_cid_from_user_to_kernel(struct rq *rq, struct task_struct *prev, struct task_struct *next) { }
+> +static inline void switch_mm_cid_from_kernel_to_user(struct rq *rq, struct task_struct *prev, struct task_struct *next) { }
+>  static inline void sched_mm_cid_migrate_from(struct task_struct *t) { }
+>  static inline void sched_mm_cid_migrate_to(struct rq *dst_rq, struct task_struct *t) { }
+>  static inline void task_tick_mm_cid(struct rq *rq, struct task_struct *curr) { }
+
+This moves the burden of how the mm is changing to multiple places in
+the logic when it was originally in a single place. Is that really better?
+
+My opinion is that it is not, unless you can show an improvement in
+benchmarks (which I believe will be highly unlikely).
+
+-- Steve
