@@ -1,83 +1,62 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC7584A35
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Oct 2024 01:56:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09691F951
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Oct 2024 14:47:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729907808; cv=none; b=pXHg4Guf+J4Cp3cPmgHK80rrci6gDPbtVgSQ3EJihNwhoOS0aC0izZojaqKLG4DdDWZ+9VGd3DhMB2YnMSmEMUhFjD55zUilGRj/X/vy8wA6cRK/NJATsSW3XqnX1TUvijomcSfb6HZfWS/fxvhVkmC04eUuGcU524EC8KRjLmI=
+	t=1729954050; cv=none; b=cRNkWy7YW1kZ2SG2SIHEA97pQmHvzpbsuDITOOPFkjjJwt7Nq2d88PqpwIQopBcz5Le3v2DLny/C0DjAf/GJSLwqCCa7FeyYukGt8EnbKRCAAEUwPE7+1aC3AP6/RrvjX+UMRML/hl2/qbVTGejdNKaeei54OzZgTkCajrBgSHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729907808; c=relaxed/simple;
-	bh=T2eCO1HyiiBrCKcuzU+FRZBXXT1rlsa7/FPHbVTSybw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rGQJwIBiO5qYfiL4wilh+pQAUtxQ3drIkzKu4ASU5MwCk5xdkTds9ZsTcDD6JrJeMW7n3D64P661Lt9jxNrK8BwQJpvrkwKcYx6Cu54UjUMWm69yZkqZ6bVcmL9AtAyKgP1fUCFYUNH+i8BLTifbbDr/wypWCoctE0MMY8hieaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nyv/n+Cn; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1729954050; c=relaxed/simple;
+	bh=j+zxkjt/Kb9ZF1jAWfGzqPmaDqTM2RiQ22KLaeHRslQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dkt5Ry9mIfPyp1d0O8pVSNBFgoVQKXNUgyhn7poK6gxtCiAiFivFly3iaAfbpct+gnNFwuTlK3+FFIG3pLMj3hB2SYJV0K7Vl82AcRm6LpJl5oue6vVw+pJm+LCS2i15znM2aUiORQdbgejObARCMqdNLV/mb6eqC22k8G94g1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b=mbxLIxyo; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nyv/n+Cn"
+	dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b="mbxLIxyo"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 4FD694033D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Oct 2024 01:56:46 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 4F3DD40361
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Oct 2024 14:47:27 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -8.092
+X-Spam-Score: -5.793
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id guqYXr1zs3cu for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Oct 2024 01:56:45 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=198.175.65.19; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org C9E1440301
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C9E1440301
+ id joi7vaWgciTI for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 26 Oct 2024 14:47:26 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=149.28.33.109; helo=lichtman.org; envelope-from=nir@lichtman.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 17C314035B
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=lichtman.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 17C314035B
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nyv/n+Cn
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id C9E1440301
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Oct 2024 01:56:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729907805; x=1761443805;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=T2eCO1HyiiBrCKcuzU+FRZBXXT1rlsa7/FPHbVTSybw=;
-  b=nyv/n+Cnq4QU5i0NN79XNeh8rymOP8qSVljGlHOJYhl5blVKiXAcepe4
-   Gv8uKDzhCUfJibXh/7+0FIWrhGj9KuoRvjYUvFUMm3NiaH5LfIVvvu8YC
-   p8DrE1njphhvf57NQmP/CBqVLBZAaZD/DCnOC0FvlOs49wIqykahaYN64
-   w8Hmqm1tl29+J31Lm7n38LiFgQEZYLy5NPSoMovaaMEwwUFKf2fKGTSeg
-   RgHofrifxODckIDDD/mkmGH3M6Cuan3a33nnzBNgBj00zNzTg4QaEErzF
-   xvYak+7nwfmnrHAztfDA6gDDW1ai8otHYo+MlcGZJLiWjiuN4KX6QI8Cf
-   w==;
-X-CSE-ConnectionGUID: zAM6jQ/8T1Cq60Rdn6aQRA==
-X-CSE-MsgGUID: diCEsf8jTDKenSoUb4d7wQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29452104"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29452104"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 18:56:44 -0700
-X-CSE-ConnectionGUID: O7JNTABUS6+n1AjC1yeA7w==
-X-CSE-MsgGUID: AbO1uwGLREeOS/MF4O2GRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; 
-   d="scan'208";a="85050156"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Oct 2024 18:56:41 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t4W2h-000Z9M-1e;
-	Sat, 26 Oct 2024 01:56:39 +0000
-Date: Sat, 26 Oct 2024 09:55:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
-	brendan.higgins@linux.dev, davidgow@google.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	skhan@linuxfoundation.org, ricardo@marliere.net,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	andriy.shevchenko@linux.intel.com
-Subject: Re: [PATCH v2] lib/math: Add int_sqrt test suite
-Message-ID: <202410260915.z3q6ZOGS-lkp@intel.com>
-References: <20241024195511.72674-1-luis.hernandez093@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=lichtman.org header.i=@lichtman.org header.a=rsa-sha256 header.s=mail header.b=mbxLIxyo
+Received: from lichtman.org (lichtman.org [149.28.33.109])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 17C314035B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Oct 2024 14:47:25 +0000 (UTC)
+Received: by lichtman.org (Postfix, from userid 1000)
+	id 90D25177103; Sat, 26 Oct 2024 14:47:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lichtman.org; s=mail;
+	t=1729954044; bh=j+zxkjt/Kb9ZF1jAWfGzqPmaDqTM2RiQ22KLaeHRslQ=;
+	h=Date:From:To:Cc:Subject:From;
+	b=mbxLIxyoPJjSgjZSh+W916g6DJSQdBE1FmCERgWyFWCx4d0ljEmnc8QCzzGMWXWua
+	 px4OPssGIc98PD7NatN5drTQm5+VaHmO7FY9pCuS3svpNNWFKhU1FCvruP6krBokcS
+	 P6dmzVLYtAt0GTOIKZ3HopigNTsJ+beXZ/pABzRRgoZmjyzE/iPbtK35OiC+lkwjOO
+	 KE7C4Ui1NUaa2lYB+27Wk+GCSABZnGd9q/unCQAYM26Nmmvt/1BnYnfhixy8UhpfJQ
+	 dqhb6JbOnA+bqP99/gFAs6AggFdxF+3HfSQ+8w8vLUGMxDBd8yAteF8QWDnph0tApQ
+	 j/r66CBCb1fXg==
+Date: Sat, 26 Oct 2024 14:47:24 +0000
+From: Nir Lichtman <nir@lichtman.org>
+To: kgdb-bugreport@lists.sourceforge.net,
+	linux-trace-kernel@vger.kernel.org
+Cc: yuran.pereira@hotmail.com, jason.wessel@windriver.com,
+	daniel.thompson@linaro.org, dianders@chromium.org,
+	rostedt@goodmis.org, mhiramat@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v3 0/2] Replace the use of simple_strtol/ul functions with
+ kstrto
+Message-ID: <20241026144724.GA892311@lichtman.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -86,56 +65,47 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241024195511.72674-1-luis.hernandez093@gmail.com>
 
-Hi Luis,
+The simple_str* family of functions perform no error checking in
+scenarios where the input value overflows the intended output variable.
+This results in these function successfully returning even when the
+output does not match the input string.
 
-kernel test robot noticed the following build errors:
+Or as it was mentioned [1], "...simple_strtol(), simple_strtoll(),
+simple_strtoul(), and simple_strtoull() functions explicitly ignore
+overflows, which may lead to unexpected results in callers."
+Hence, the use of those functions is discouraged.
 
-[auto build test ERROR on v6.12-rc4]
-[also build test ERROR on linus/master]
-[cannot apply to akpm-mm/mm-nonmm-unstable next-20241025]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This patch series replaces uses of the simple_strto* series of function
+with the safer  kstrto* alternatives.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Felipe-Hernandez/lib-math-Add-int_sqrt-test-suite/20241025-035643
-base:   v6.12-rc4
-patch link:    https://lore.kernel.org/r/20241024195511.72674-1-luis.hernandez093%40gmail.com
-patch subject: [PATCH v2] lib/math: Add int_sqrt test suite
-config: m68k-sun3_defconfig (https://download.01.org/0day-ci/archive/20241026/202410260915.z3q6ZOGS-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260915.z3q6ZOGS-lkp@intel.com/reproduce)
+  
+[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410260915.z3q6ZOGS-lkp@intel.com/
+Yuran Pereira (2):
+  kdb: Replace the use of simple_strto with safer kstrto in kdb_main
+  trace: kdb: Replace simple_strtoul with kstrtoul in kdb_ftdump
+Nir Lichtman (1):
+  kdb: Remove fallback interpretation of arbitrary numbers as hex
 
-All errors (new ones prefixed by >>):
+This patch is originally based upon
+https://lore.kernel.org/all/GV1PR10MB65635561FB160078C3744B5FE8B4A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM/
 
->> lib/math/tests/int_sqrt_kunit.c:7:10: fatal error: limits.h: No such file or directory
-       7 | #include <limits.h>
-         |          ^~~~~~~~~~
-   compilation terminated.
+Since the original thread was left with a review and the comments have not been addressed,
+decided to continue the minor work left to move this patch forward.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+v2:
+- Styling fixes
+- Fix an invalid conversion to unsigned int instead of signed as it was supposed to be
+- Fix one of the conversions to return an error in case of failure, instead of silently falling back to a default value
+- Add Douglas's suggestion for removing the hex interpretation fallback
+v3: 
+- Split to 3 parts instead of 2 (in which the 3rd part now contains the hex interpretation fix)
+- Fix the patch series to properly reference the cover
+- Fix credit tags
 
-
-vim +7 lib/math/tests/int_sqrt_kunit.c
-
-     2	
-     3	#include <kunit/test.h>
-     4	#include <linux/math.h>
-     5	#include <linux/module.h>
-     6	#include <linux/string.h>
-   > 7	#include <limits.h>
-     8	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ kernel/debug/kdb/kdb_main.c | 69 +++++++++--------------------------
+ kernel/trace/trace_kdb.c    | 15 +++-----
+ 2 files changed, 23 insertions(+), 61 deletions(-)
+--
+2.39.2
