@@ -1,115 +1,103 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787641863E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Oct 2024 15:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ADC79C2
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Oct 2024 19:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729954844; cv=none; b=oByxBBV6YKGN5RR76qAAKkX6VomZcYlH8tiWC+ARsFhBuE6nkUmCACPb+PfDDFD88IJ+hHTyyHd5YY6SEGVf0mxck7qLg+YEQtMWDlp4DkBeR4G4A41s4RnkBpF40J6MMH0oeO/Phmj9Hb0V7kEk8q6fI6kOyyx9hsH1O7HyCRI=
+	t=1730057755; cv=none; b=rwNkPtn90I7gBWKev1BaWHw7U/KYrGAHhywGhIrKTJ5Mub2v7CsqtzPo+dKtPEWoUh4zOADyiBWG1oj/1kTfBlbs1YTidqfAJ0tfRMuf24v6rQF5fIPzw/XrFrk3+BdGDDlNeyxmoZ47zRx2kCspGpnbkgDkXiicqClf1jXsHrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729954844; c=relaxed/simple;
-	bh=1LOBijO8+8t8Q8WP98HjEGTmpGQ9fmPyBouPtW6mbBs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X/PH4Dk1qSEA8CM/YI/59O/5ELUJS3tR1d5IVKtoRpvpjQ92RPb4FhIVqFy+EZuCjRmRkXFQ/mncuk/1vOGupxAtt5AimEdO0fRYqwcvR71HyHSQi9iGkPgTDTEIts/mGlvvKsyTYB/K+zYMBSlJ/n8W1SWFlLIPunqg7TkpAXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b=FqorxNqV; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1730057755; c=relaxed/simple;
+	bh=EmSWh3xSmAM5RDES6zjzSSlBGnygje4dYfMLKmhvKv8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=koR8XU2j4kYSiMpzBKpaR3JACJ1oaXerg4mp19IQ0Oho4FrGCiROVSOQ07VbNPBH6rbYSog7s54qhbFjHNII+4H3vaxBTAdeTrKjoJT0HgOsbNEx7CS/XXKj9xtMDCI0CDCPotFm+3phydXOuzyVArZCl0ncUHy2I5D/SIHxBzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eYLFnY1g; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b="FqorxNqV"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0527A82038
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Oct 2024 15:00:42 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.793
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Yi_Ub7aZzHUI for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Oct 2024 15:00:41 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=149.28.33.109; helo=lichtman.org; envelope-from=nir@lichtman.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 4F7EE82035
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=lichtman.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4F7EE82035
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lichtman.org header.i=@lichtman.org header.a=rsa-sha256 header.s=mail header.b=FqorxNqV
-Received: from lichtman.org (lichtman.org [149.28.33.109])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4F7EE82035
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Oct 2024 15:00:41 +0000 (UTC)
-Received: by lichtman.org (Postfix, from userid 1000)
-	id 1946F177103; Sat, 26 Oct 2024 15:00:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lichtman.org; s=mail;
-	t=1729954840; bh=1LOBijO8+8t8Q8WP98HjEGTmpGQ9fmPyBouPtW6mbBs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FqorxNqVryyCnmkG7CnSzi+K4LAaFz3iVHymQ8XnzFQRDV0KKe+Ri2Pdxelw3JyJu
-	 OfcVCmxi7fx/zmjOIlNp8Z8GKWbj7ejhBU8kAM3BZ7nHJq/Yes9hUi2BEeRAh/VVIw
-	 DkoMMi4l2baedUUvtuZ11O3tbcc+XxdQz2b07J+Bev4ojAuXkGaxTv0sDcrG1MLSyE
-	 kf/3vHla1Gk9Hg1dfaANa4Tm1Hk26iv8wpTemjeKuBWd60xYK2SlEbMfs4MNjx66kI
-	 kbmE78YmihAhLLsRTTCub7vUMfmP10mXigt+pyGJV4IHsyVP+evmLEbC2888xl/N46
-	 J8lCxn2CIGlKg==
-Date: Sat, 26 Oct 2024 15:00:40 +0000
-From: Nir Lichtman <nir@lichtman.org>
-To: kgdb-bugreport@lists.sourceforge.net,
-	linux-trace-kernel@vger.kernel.org
-Cc: yuran.pereira@hotmail.com, jason.wessel@windriver.com,
-	daniel.thompson@linaro.org, dianders@chromium.org,
-	rostedt@goodmis.org, mhiramat@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v3 3/3] kdb: Remove fallback interpretation of arbitrary
- numbers as hex
-Message-ID: <20241026150040.GC892629@lichtman.org>
-References: <20241026144724.GA892311@lichtman.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eYLFnY1g"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2e2b71fd16fso558456a91.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Oct 2024 12:35:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730057753; x=1730662553; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HwqSxNHwODb6IvlEFxHFvLCBRbv93BzZ32A8QUXgGBQ=;
+        b=eYLFnY1gehyCwYXoI63Xp6uiSAoGBJrTXMhMiDOv93Ls5cmNBWCwkeZj+luKD9Hyx5
+         X5DzkMR9zXY1A9NrgLCdvvloACYvl7d/E3Gx+M/qdH+ezRiH8SNMwyNIzWUhj7vWXNUA
+         UoZgRTqEcAcjqOMym4sOEN79pMfFMvZpI95mgl2Dh05t9oqnKSEM5HnF9ObkYNpgTLEs
+         dlymPZ6nGkeDEJS9Z3EGp6bnfE8nFQMVGefGfWGMyvklvvJifWGuMYacL2BQVaFtnkBO
+         5302XA0tNPTLYmxkf4E0st0ERdSGBqBnyA+40QGT9/JJ7EnzgJcSIsKWX2X4TxkO2+q3
+         8NiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730057753; x=1730662553;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HwqSxNHwODb6IvlEFxHFvLCBRbv93BzZ32A8QUXgGBQ=;
+        b=qTep7xyu7OJ+VDnxrjUb/42g8jNU8osV1VsAxJaFtbNnixzQYFqOWYWAFMae4GhBg2
+         CiTh0+A55meiY+CfNg9Os9DUbpq4TbQu2ka1rZtVhPjGkawSWG63R3IPzjwTQkvLoIiU
+         9fLl9Z7hmeSi+YP8C1PeEyVfZuKswdjOiPT3AzOmJpjt+bdcXiJ4c+PIjThXOkzqqspm
+         daNkyM9tfh/5Ets7kkDzbADcnAB7OkB2jcL2LtjWcjnhKS7iikW6SjSklIxsJqnlKTg/
+         dt8P9MrJ3ziqs77oojG292atsJMCvC8F0NU6WXXd64uDlsm7S65/jeFic4g9FH60ELVo
+         hD8g==
+X-Gm-Message-State: AOJu0Ywx+flhBRYlYrompdeh5KrlQ6W3EFTm+7neP6kIpIEVTbZG4ERT
+	BDySDbkN+cmr8kw7zyKA9V0U2FZNCCSblvyiF1vAB0rr5+r3w6oa
+X-Google-Smtp-Source: AGHT+IFnpox8/7BeIDqsmu1QYNjIHDlNfclJIiHXqMfENK7pNaSGbRDvq+/+Hfvz/omYQRE/LqyaUQ==
+X-Received: by 2002:a17:90b:1c8e:b0:2e2:c1e5:2df3 with SMTP id 98e67ed59e1d1-2e8f12e5b6cmr2789942a91.8.1730057753028;
+        Sun, 27 Oct 2024 12:35:53 -0700 (PDT)
+Received: from motti-test.. ([2409:40f4:300a:9618:92ca:3f55:718b:1cab])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e77e48ed34sm8371290a91.9.2024.10.27.12.35.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Oct 2024 12:35:52 -0700 (PDT)
+From: MottiKumar Babu <mottikumarbabu@gmail.com>
+To: cem@kernel.org,
+	djwong@kernel.org,
+	chandanbabu@kernel.org,
+	dchinner@redhat.com,
+	zhangjiachen.jaycee@bytedance.com,
+	linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linux.dev,
+	anupnewsmail@gmail.com,
+	skhan@linuxfoundation.org
+Subject: [PATCH] Fix out-of-bounds access in xfs_bmapi_allocate by validating whichfork
+Date: Mon, 28 Oct 2024 01:05:27 +0530
+Message-ID: <20241027193541.14212-1-mottikumarbabu@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241026144724.GA892311@lichtman.org>
+Content-Transfer-Encoding: 8bit
 
-Remove logic that enables a fallback of interpreting numbers supplied in KDB CLI
-to be interpreted as hex without explicit "0x" prefix as this can be confusing
-for the end users.
+This issue was reported by Coverity Scan.
 
-Suggested-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Nir Lichtman <nir@lichtman.org>
+Report:
+CID 1633175 Out-of-bounds access - Access of memory not owned by this buffer may cause crashes or incorrect computations.
+In xfs_bmapi_allocate: Out-of-bounds access to a buffer (CWE-119)
 
+Signed-off-by: MottiKumar Babu <mottikumarbabu@gmail.com>
 ---
- kernel/debug/kdb/kdb_main.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ fs/xfs/libxfs/xfs_bmap.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/kernel/debug/kdb/kdb_main.c b/kernel/debug/kdb/kdb_main.c
-index 930de4fdc708..d929a4335078 100644
---- a/kernel/debug/kdb/kdb_main.c
-+++ b/kernel/debug/kdb/kdb_main.c
-@@ -402,23 +402,15 @@ static void kdb_printenv(void)
-  */
- int kdbgetularg(const char *arg, unsigned long *value)
- {
--	/*
--	 * If the first fails, also try base 16, for us
--	 * folks too lazy to type the leading 0x...
--	 */
--	if (kstrtoul(arg, 0, value)) {
--		if (kstrtoul(arg, 16, value))
--			return KDB_BADINT;
--	}
-+	if (kstrtoul(arg, 0, value))
-+		return KDB_BADINT;
- 	return 0;
- }
- 
- int kdbgetu64arg(const char *arg, u64 *value)
- {
--	if (kstrtou64(arg, 0, value)) {
--		if (kstrtou64(arg, 16, value))
--			return KDB_BADINT;
--	}
-+	if (kstrtou64(arg, 0, value))
-+		return KDB_BADINT;
- 	return 0;
- }
- 
+diff --git a/fs/xfs/libxfs/xfs_bmap.c b/fs/xfs/libxfs/xfs_bmap.c
+index 36dd08d13293..6ff378d2d3d9 100644
+--- a/fs/xfs/libxfs/xfs_bmap.c
++++ b/fs/xfs/libxfs/xfs_bmap.c
+@@ -4169,6 +4169,10 @@ xfs_bmapi_allocate(
+ 		 * is not on the busy list.
+ 		 */
+ 		bma->datatype = XFS_ALLOC_NOBUSY;
++		// Ensure whichfork is valid (0 or 1) before further checks
++		if (whichfork < 0 || whichfork > 1) {
++			return -EINVAL; // Invalid fork
++		}
+ 		if (whichfork == XFS_DATA_FORK || whichfork == XFS_COW_FORK) {
+ 			bma->datatype |= XFS_ALLOC_USERDATA;
+ 			if (bma->offset == 0)
 -- 
-2.39.2
+2.43.0
+
