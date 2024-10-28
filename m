@@ -1,125 +1,116 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BE5155A52
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 28 Oct 2024 18:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F61C18F2C3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 28 Oct 2024 19:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730139137; cv=none; b=gXQaptNhw+PQr7bZiE97p8vn/CF1sZqCoaqjwfeedZR0NE9mEVacXjmJUZxeH5hbRAGcSbZltNxNLQAZx8zmuEXH1j8Uy+YhaTmnGn40e6rLonsPM5u2SLauuiyFEIDwf+2XqGn71wFTybPlsN10Ft6BX1TelaW9WK+pQd5XhPE=
+	t=1730143026; cv=none; b=QEUYuRFzZ18mfJCEbS7sa3ktHnmfucXBgmwg5Ra05al4Hp7JBITiyR5RlI6MbddtjIkSOaWPAinutrZ7BtBBsefX0ub7PwFiBfSceh0OMyAFSleE3tsNrFLhokCL9AswRzL/KYvXz5BjH5A79nZ8HFEBYG/qLABHraHOr7eWnDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730139137; c=relaxed/simple;
-	bh=mDrRQj1Mrib9/EgojunqyD42XEGRcvIiFq/4nXqWp9w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HSeUkXdsEINOYUoLL7VX2aCU6ZXZDmIbmg7Q7eE7cE39VjwxX355Rr4o3zJersxCArqT0JbRQwDMg51LAis3s7T1OmpEm1tvY8biTpySB7vvYjAM5qbJ8nPudCEX9Da3Ip4SzFehj+jH8YGT3H/dffh1/dUBaR3XwS5YmG/HV+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hud9Jhq2; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1730143026; c=relaxed/simple;
+	bh=y+6RmVA7Vuc+6PEZN2k36qLk2mZfoNZZoCo3OE7qqWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qQuQD4nqcmw7eXCFfRoB9Pd0sRm4pNE+jyWr9moo1cBhjp5NiBNKVNlZFyrAR/yzGP78MbP+0k74yuiGAvz/KHA61pfjYwqUR9uB5hmlh8v+Uo1BCn/ZZcLPTOHLZK7dKRZi6wk+4rtfFB7MDPeANfug2gn4zUJ9+LAOOyqlxN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b=iY1EWanW; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hud9Jhq2"
+	dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b="iY1EWanW"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B2D5F60647
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 28 Oct 2024 18:12:15 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 00CCC810BD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 28 Oct 2024 19:17:03 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.101
+X-Spam-Score: -5.793
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id mP9s-Q2Mi7Y6 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Oct 2024 18:12:15 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::235; helo=mail-lj1-x235.google.com; envelope-from=dianders@chromium.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org DED66605E7
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DED66605E7
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=hud9Jhq2
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id DED66605E7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 28 Oct 2024 18:12:14 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2fb3da341c9so44433031fa.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 28 Oct 2024 11:12:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730139131; x=1730743931; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R5Mp+oG6fw51RJspX3eEPAbfvpSkKVhKdPlkTR9F3Y8=;
-        b=hud9Jhq2q6063lRM9O5Agk08rUSTEPYu5QtVm6wVP8Ay/KTlY1rQcXzHwROfOSEVfY
-         iCzGboTCz7rszNpMunFDCeR91KjweIPHQe6TRfoYsPA/b1SQQ5AUXwD3nWmM1sxXB5lz
-         ElF8B7wBl2sPrc0j+wzhOE2I7tSukCN7gEwEA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730139131; x=1730743931;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R5Mp+oG6fw51RJspX3eEPAbfvpSkKVhKdPlkTR9F3Y8=;
-        b=UZ6agWRfjUqs0qssiqkQ0ct3AKhMMW8ae3ntEA/9SRLiWKF7Ni+yZcKgtCZdWOvrV6
-         8V7Xrt8vhLZXJm2bv2k+WGpvPlBBy6WyFhW3UZRDAEgraPGd6ypEsLWcK2pnXjUnlW/H
-         D4LXFhEKh0Rn0b1d7ehoclYkUeyvCHaKL2wgwUnY1cwLnOM1OT8ZGRuHBCEcCVR+z8X8
-         70HAoipc2FaV1wbFGUzuPxRys9M8Oo+N7CHBdy4zkmrfkJ10UYk2UCdBqCDMCetGJKst
-         wmrrT9lSCxuYTHJ5PGHzHI/5cTLW5NoPEteKLkG8wv96pRQrFyR8onkjnxRPLelFd4Dm
-         Bgmw==
-X-Forwarded-Encrypted: i=1; AJvYcCXPMELlMOvW3BSFsqS8iagsgTBbsAdmZQlZ0BgIPI+jgHq4eqzsDz9l/p2ulMvApuYP6gYYwGdgvATBydMWPVr5CnbzsA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yz91hOnbRD2G75fwYEHfcPLA7FD3pw4w9mE1+cwgGs3DPzERYUa
-	im5L0HUCdCrkcVsxyUmcpW/3kMIvOGFuFj955V7fg7KSvHjB2tkV7k9qymtPO3MUGg5iKt6tlEX
-	vNg==
-X-Google-Smtp-Source: AGHT+IGcNkBQ+0aS/ChRoGpo0Cu4t/vMQhbDrgzRhMGhYK7nEyxOqxnRnUouV0w1WGFTv3OTV6xphw==
-X-Received: by 2002:a2e:f0a:0:b0:2fb:cc0:2a05 with SMTP id 38308e7fff4ca-2fcd08bc0ccmr15048601fa.37.1730139130591;
-        Mon, 28 Oct 2024 11:12:10 -0700 (PDT)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fcb451a2adsm12168861fa.49.2024.10.28.11.12.09
-        for <linux-kernel-mentees@lists.linuxfoundation.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Oct 2024 11:12:10 -0700 (PDT)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2fb5014e2daso43655331fa.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 28 Oct 2024 11:12:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWW33kBFRLG6iR3q5X2umt147t/CgAGTgXZ17hNhEnT4g2zPbyc5bV/kE1e6rF25htJU5Kx0/uBIL0Mfy0udNzeL7+KTA==@lists.linuxfoundation.org
-X-Received: by 2002:a2e:4619:0:b0:2fb:5504:794d with SMTP id
- 38308e7fff4ca-2fcbe0bddb9mr33372431fa.44.1730139128714; Mon, 28 Oct 2024
- 11:12:08 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 0CUazFqapg6w for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 28 Oct 2024 19:17:02 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=149.28.33.109; helo=lichtman.org; envelope-from=nir@lichtman.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org EF166810B7
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=lichtman.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EF166810B7
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=lichtman.org header.i=@lichtman.org header.a=rsa-sha256 header.s=mail header.b=iY1EWanW
+Received: from lichtman.org (lichtman.org [149.28.33.109])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id EF166810B7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 28 Oct 2024 19:17:01 +0000 (UTC)
+Received: by lichtman.org (Postfix, from userid 1000)
+	id 9728D177105; Mon, 28 Oct 2024 19:17:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lichtman.org; s=mail;
+	t=1730143020; bh=y+6RmVA7Vuc+6PEZN2k36qLk2mZfoNZZoCo3OE7qqWg=;
+	h=Date:From:To:Cc:Subject:From;
+	b=iY1EWanW1N71ET9sPPg78zaRQD0Fwm4YdA7vWsLDwsivNhXtaz1MhUiPOMUiGeglJ
+	 JuDqy6lVAyzzlWu6EZWQWuEP1SYEAzxlDD2qvv1I4Nw4i87gKr91HOKNP5Qm7t5dFF
+	 KVee8b7bBomGF0j67UhriHI+kUfNmWzTSh4C14cT0z2fV/VZHSVpB3O2PDrgQTGBe3
+	 2AzdTXeip/wy7/Pk6cZgwEmIf+Zudw5DmQ0racWGcvGYNCgFzEMXXD+xYih6Se2YG8
+	 +rsFtBkql9y5SGxMlP0X+anBrPOIdADK5Jwu25rWlj43+AjExvHNzLb0BjChyNyktm
+	 lzrg4kebzRqDA==
+Date: Mon, 28 Oct 2024 19:17:00 +0000
+From: Nir Lichtman <nir@lichtman.org>
+To: kgdb-bugreport@lists.sourceforge.net,
+	linux-trace-kernel@vger.kernel.org
+Cc: yuran.pereira@hotmail.com, jason.wessel@windriver.com,
+	daniel.thompson@linaro.org, dianders@chromium.org,
+	rostedt@goodmis.org, mhiramat@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v4 0/3] Replace the use of simple_strtol/ul functions with
+ kstrto
+Message-ID: <20241028191700.GA918263@lichtman.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241026144724.GA892311@lichtman.org> <20241026145417.GA892629@lichtman.org>
-In-Reply-To: <20241026145417.GA892629@lichtman.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 28 Oct 2024 11:11:52 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X+YLXs8GugQUhqK9aQM_eRzoJwLc0Yb_OwW9baqHkPKw@mail.gmail.com>
-Message-ID: <CAD=FV=X+YLXs8GugQUhqK9aQM_eRzoJwLc0Yb_OwW9baqHkPKw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] kdb: Replace the use of simple_strto with safer
- kstrto in kdb_main
-To: Nir Lichtman <nir@lichtman.org>
-Cc: kgdb-bugreport@lists.sourceforge.net, linux-trace-kernel@vger.kernel.org, 
-	yuran.pereira@hotmail.com, jason.wessel@windriver.com, 
-	daniel.thompson@linaro.org, rostedt@goodmis.org, mhiramat@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+The simple_str* family of functions perform no error checking in
+scenarios where the input value overflows the intended output variable.
+This results in these function successfully returning even when the
+output does not match the input string.
 
-On Sat, Oct 26, 2024 at 7:54=E2=80=AFAM Nir Lichtman <nir@lichtman.org> wro=
-te:
->
-> @@ -2083,15 +2064,10 @@ static int kdb_dmesg(int argc, const char **argv)
->         if (argc > 2)
->                 return KDB_ARGCOUNT;
->         if (argc) {
-> -               char *cp;
-> -               lines =3D simple_strtol(argv[1], &cp, 0);
-> -               if (*cp)
-> +               if (kstrtoint(argv[1], 0, &lines))
->                         lines =3D 0;
-> -               if (argc > 1) {
-> -                       adjust =3D simple_strtoul(argv[2], &cp, 0);
-> -                       if (*cp || adjust < 0)
-> -                               adjust =3D 0;
-> -               }
-> +               if (argc > 1 && (kstrtouint(argv[2], 0, &adjust) || adjus=
-t < 0))
+Or as it was mentioned [1], "...simple_strtol(), simple_strtoll(),
+simple_strtoul(), and simple_strtoull() functions explicitly ignore
+overflows, which may lead to unexpected results in callers."
+Hence, the use of those functions is discouraged.
 
-Between v2 and v3 you regressed. The kstrtouint() was supposed to be
-changed to kstrtoint() here.
+This patch series replaces uses of the simple_strto* series of function
+with the safer  kstrto* alternatives.
 
--Doug
+  
+[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
+
+Yuran Pereira (2):
+  kdb: Replace the use of simple_strto with safer kstrto in kdb_main
+  trace: kdb: Replace simple_strtoul with kstrtoul in kdb_ftdump
+Nir Lichtman (1):
+  kdb: Remove fallback interpretation of arbitrary numbers as hex
+
+This patch is originally based upon
+https://lore.kernel.org/all/GV1PR10MB65635561FB160078C3744B5FE8B4A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM/
+
+Since the original thread was left with a review and the comments have not been addressed,
+decided to continue the minor work left to move this patch forward.
+
+v2:
+- Styling fixes
+- Fix an invalid conversion to unsigned int instead of signed as it was supposed to be
+- Fix one of the conversions to return an error in case of failure, instead of silently falling back to a default value
+- Add Douglas's suggestion for removing the hex interpretation fallback
+v3: 
+- Split to 3 parts instead of 2 (in which the 3rd part now contains the hex interpretation fix)
+- Fix the patch series to properly reference the cover
+- Fix credit tags
+v4:
+- Fix regression between v2 to v3 in which I accidentaly
+reverted an improper unsigned/signed conversion
+- Fix nit of spacing in if condition parens split into multiple lines
+
+
+ kernel/debug/kdb/kdb_main.c | 69 +++++++++--------------------------
+ kernel/trace/trace_kdb.c    | 15 +++-----
+ 2 files changed, 23 insertions(+), 61 deletions(-)
+--
+2.39.2
