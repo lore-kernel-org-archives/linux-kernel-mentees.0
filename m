@@ -1,146 +1,112 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C9618454E
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Oct 2024 22:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36B4155A2F
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 28 Oct 2024 03:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730069621; cv=none; b=av6b7CznH4Wt4vsQwzsvCHd1WlcgQENs7MV9Hn+8XkW1caMiyOKsFIhdpIAEYs0d6o4mW6cysuqnklAFiFan8ixbjO1fPoZ2E69tSYg6k5VodnV3woTOp0ez8h9hKE01f5ywFkxXI6s317blSgueQBiRjYWKlfD8RkGHlKvmoCo=
+	t=1730085903; cv=none; b=RQtpfeCdFcVJ/e4FI82Qif0/5jZpxT7S0u9/BQqTJYiWIC7vRrOrf5bXxhKtjTzRXQRExWvAxAvhpJvqIwT6Zj4ZhtEwU9kNEgTXlnH95cN7vlKeR5azausPmOVewnP2BgliQdpb5nX4grrArckRk6tNkNR9jIavz0VifrWF5SE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730069621; c=relaxed/simple;
-	bh=u9/0ARz33371gpbvia/4zMBxB73y5XPWJIiEiIAFKo0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ORs+fVjAKixmj9DIFo21IC5o0Pwd5YIiFN7OccQTD2NNs7pXgjWUQxwWkCPPtHvvQXMGSx83jtXdsBjzgeCBOS8mt/0Fuh7sWDek7xHosjDR20P0GbhRz2P+nCBtj6uWmGuy0fBwOGbQyTSS5wvEYlQmQCjRdIBPgvkfLOhuOpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=fXMa7SaN; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
+	s=arc-20240116; t=1730085903; c=relaxed/simple;
+	bh=BgAxH7BuovLSb/VyMg+CeBt7AY44ASR1oxeFqo3yo44=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VDdkc/ewQVZ3ePZJbEKzMT79rRlTKOpQgUZtVOHt0PYFsheF4cYpklxn387q1e1TSMA3EpBkj/6MxFe4b46BxmQqccBGtSZC7ZcWnflVJzZTUbLhVdd2JV6mN3SALC/a/jE8d7Ztb9W4r7ommqoJZu5f0d6veXFgwlnXuN0mLs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iURAN29Y; arc=none smtp.client-ip=209.85.160.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="fXMa7SaN"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2e2bd0e2c4fso2920858a91.3
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Oct 2024 15:53:39 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iURAN29Y"
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-288d70788d6so1824456fac.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Oct 2024 20:25:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1730069619; x=1730674419; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nro3XxCXpJF+bC6xNwB831aGBU1HecPqJX4rsBIEnQw=;
-        b=fXMa7SaNHI24A28EMPX0foIjuf+0/sFTomXXT5gXwq0RlScMA6gjW7WZvpiCg8gKwb
-         8IKDl38+f+xnavEh5ghuATebzbpFtwfQu7EbGyc6MMZ61gUS3SEQg3ZGaB9nSvLc+8tc
-         UHx5BRct5fHApMB8KJSh1GxuDvHnEs5LRMq199C978x3PN1C2aUwS1xiL8yQmc+6eKPY
-         bqlmbDVwm2Mcln5iN/ZGHJP+ocfD5TU938WGMHYk57Qeb+6DJO26u/zZ80eyRqfhk6Hd
-         DjFAq2vbPU1Ijgs5w5RDmLJk6f0Uy2zww1RvAivzW3DoAxFPxkIUDuKWWIbpDLfYmJoF
-         ThIQ==
+        d=linuxfoundation.org; s=google; t=1730085900; x=1730690700; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZQps+ZocWxrGBOwCyIh53YeKrI3fc0l3GGoMpgWYcYE=;
+        b=iURAN29YGSEyH+Y24P27Fc7sWXpXSJAYfQK98eKrSAdnB/ahVaGtNzG3lW7abKFz7Z
+         iLS6kBenT0Be7qlpDLSzWomSAJwOKC0/ZclnphW5hCdkutUj2mwYNITapckgQlH6jZGE
+         RmxL7x4DLdAaxnE0bVPjdhZl9txa7wOWevqg8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730069619; x=1730674419;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nro3XxCXpJF+bC6xNwB831aGBU1HecPqJX4rsBIEnQw=;
-        b=HXLFFPJu0QIhVcRYkOdDlMJ+9lObw4EFUrX3HO1e3BqbdAWC/uSDx+RmRZfNg2mu1y
-         7pT+jAFywQNlc93oa03mgi8UfdGpppGzWITDwbMQP79nFyY9a5O2u1p77TUx3WiN/9by
-         eVgXiTsWh8iU1AAUJSJPBnr9N9x/Nq5zL9FfuIMwr4yXPk1CHIUC/TjDWC1sX8u/9KuS
-         lVzqRsFxeRTgffoUly+nWBCBrBp+PvPxhYkUrYV0sqQiJC8XpjA4LAfTnX4ZirADY43x
-         4UrsPF9YNqeswO37EeJ9ahrrQf7VCLACEAM9zvVgjjzUYeQjaYsr1rtvxXbyPvaFgWkm
-         uCOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW9JGf+kXDNW1FupkHYipW8ZVvedNc6lFDzZ3cQPrXsA1LbhNyMBePDAPDQ0uuBABJLgJI97ix6gDJf3pZs7Rr3jVSygA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yym1MTqeavxunzhxdmf/yWkmehw+HaFVmv+BqpHh5NWHBYwIjLt
-	wg1DmPOjnHlz2T5Ooeo45LQeB01rr2bDPpw5qf6F9MVvSP6aM75yGf1l2svKds4=
-X-Google-Smtp-Source: AGHT+IHJqXWaT3OZaNBdV7tF8LBOsA9mbk2i8yEcHUuwgfPiBXIf3iPvulK6GrS91qfDhUAAEqwctQ==
-X-Received: by 2002:a17:90b:4b42:b0:2e2:8995:dd1b with SMTP id 98e67ed59e1d1-2e8f0f533f7mr7653538a91.3.1730069618666;
-        Sun, 27 Oct 2024 15:53:38 -0700 (PDT)
-Received: from dread.disaster.area (pa49-186-86-168.pa.vic.optusnet.com.au. [49.186.86.168])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e8e3555c1dsm5595585a91.4.2024.10.27.15.53.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Oct 2024 15:53:38 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-	(envelope-from <david@fromorbit.com>)
-	id 1t5C8c-006f5z-22;
-	Mon, 28 Oct 2024 09:53:34 +1100
-Date: Mon, 28 Oct 2024 09:53:34 +1100
-From: Dave Chinner <david@fromorbit.com>
-To: MottiKumar Babu <mottikumarbabu@gmail.com>
-Cc: cem@kernel.org, djwong@kernel.org, chandanbabu@kernel.org,
-	dchinner@redhat.com, zhangjiachen.jaycee@bytedance.com,
-	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, anupnewsmail@gmail.com,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH] Fix out-of-bounds access in xfs_bmapi_allocate by
- validating whichfork
-Message-ID: <Zx7EbudZfwLQDuVS@dread.disaster.area>
-References: <20241027193541.14212-1-mottikumarbabu@gmail.com>
+        d=1e100.net; s=20230601; t=1730085900; x=1730690700;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZQps+ZocWxrGBOwCyIh53YeKrI3fc0l3GGoMpgWYcYE=;
+        b=cDEz2kMtSkEwfL9K8RQB58ybALi+3HlUxZqsFq+0KJ2OWc7quMBqGMLWNjZ9W7zR4v
+         lJfihMDIWNf97fQBRh+Bo9XenB1aXEtvA//S3JJi0tnp5Tr6SrK0ie76LPdv6jFg5Zfi
+         s18bwYEokxURmO01xFaU7mT1VIVJuMkv1MJ8w915V9YpUcy9REaHDQQA4AwqzpB9bvtl
+         gfELWPdZrNKNqeJR2YA6/jX7gOzbYMQl339F8rZ+y6PzFVqoya3FVBZLIGbuhMF3/Z3o
+         XK5jaHs4XB62JOY3zNZ0PbtOFXfeBfdJMB+DxG+AuuBJqeCIz8kWnH/NlDOxw+yygUmr
+         A9Zg==
+X-Forwarded-Encrypted: i=1; AJvYcCUdqu7aOl9lq9pdgzv8015Vi/TrnqvZMOaQ+MKEYVrO/++2iQbSXnyccN0zxV5c5i5ZP6tQlyEtXILQijMf8s+lyDeXkw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxxe4/PBn0bHCTbAxRceQXlWLEg1SpgVO4VZ2X0Ry5CgHY1RouO
+	ERAEOHly6OdwIBu6THpFFizNG7kf60qOiq5etQsxvYNBjoY29XZohTAhfBoLIcs=
+X-Google-Smtp-Source: AGHT+IGE75zSHhwyyDDQtRp4FgDHkbHA5Xo/zZuHaCPkdqAGRqL3DWjJapnemFbOWTvX+FJ/kTXKiA==
+X-Received: by 2002:a05:6870:32d2:b0:286:f2cc:7a71 with SMTP id 586e51a60fabf-29051d705b0mr4868242fac.32.1730085899683;
+        Sun, 27 Oct 2024 20:24:59 -0700 (PDT)
+Received: from [10.200.3.216] (fs96f9c361.tkyc007.ap.nuro.jp. [150.249.195.97])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7edc8661061sm4781718a12.17.2024.10.27.20.24.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Oct 2024 20:24:59 -0700 (PDT)
+Message-ID: <5d87c8ba-8464-4d9c-9152-611097b5ae3e@linuxfoundation.org>
+Date: Sun, 27 Oct 2024 21:24:55 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241027193541.14212-1-mottikumarbabu@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Removed unnecessary initialization of "ret"
+To: MottiKumar Babu <mottikumarbabu@gmail.com>
+Cc: rostedt@goodmis.org, mhiramat@kernel.org, mark.rutland@arm.com,
+ mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ anupnewsmail@gmail.com, Shuah Khan <skhan@linuxfoundation.org>
+References: <20241027211913.26718-2-mottikumarbabu@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20241027211913.26718-2-mottikumarbabu@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 28, 2024 at 01:05:27AM +0530, MottiKumar Babu wrote:
-> This issue was reported by Coverity Scan.
+On 10/27/24 15:18, MottiKumar Babu wrote:
+> The initialization of ret to 0 was redundant since ret is set to meaningful values later in the function. This change simplifies the code and avoids confusion about its initial state.
+> 
+> The issue was reported by Coverity Scan.
 > 
 > Report:
-> CID 1633175 Out-of-bounds access - Access of memory not owned by this buffer may cause crashes or incorrect computations.
-> In xfs_bmapi_allocate: Out-of-bounds access to a buffer (CWE-119)
+> CID 1633338 Unused value - An assigned value that is never used may represent unnecessary computation, an incorrect algorithm, or possibly the need for cleanup or refactoring.
+> In register_ftrace_graph: A value assigned to a variable is never used. (CWE-563)
+> 
+> 
 
-We really need more details than thisi about the issue. I have no
-idea what issue this describes, nor the code which it refers to.
-Where is the out of bounds memory access occurring, how does it
-trigger and where does the code end up crashing as a result?
-
-A link to the coverity report woudl certainly help....
+Check submitting patches document for how to write short log and change logs.
 
 > Signed-off-by: MottiKumar Babu <mottikumarbabu@gmail.com>
 > ---
->  fs/xfs/libxfs/xfs_bmap.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>   kernel/trace/fgraph.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/fs/xfs/libxfs/xfs_bmap.c b/fs/xfs/libxfs/xfs_bmap.c
-> index 36dd08d13293..6ff378d2d3d9 100644
-> --- a/fs/xfs/libxfs/xfs_bmap.c
-> +++ b/fs/xfs/libxfs/xfs_bmap.c
-> @@ -4169,6 +4169,10 @@ xfs_bmapi_allocate(
->  		 * is not on the busy list.
->  		 */
->  		bma->datatype = XFS_ALLOC_NOBUSY;
-> +		// Ensure whichfork is valid (0 or 1) before further checks
-> +		if (whichfork < 0 || whichfork > 1) {
-> +			return -EINVAL; // Invalid fork
-> +		}
->  		if (whichfork == XFS_DATA_FORK || whichfork == XFS_COW_FORK) {
->  			bma->datatype |= XFS_ALLOC_USERDATA;
->  			if (bma->offset == 0)
+> diff --git a/kernel/trace/fgraph.c b/kernel/trace/fgraph.c
+> index 69e226a48daa..b13ab2ad0e88 100644
+> --- a/kernel/trace/fgraph.c
+> +++ b/kernel/trace/fgraph.c
+> @@ -1249,7 +1249,7 @@ int register_ftrace_graph(struct fgraph_ops *gops)
+>   {
+>   	static bool fgraph_initialized;
+>   	int command = 0;
+> -	int ret = 0;
+> +	int ret;
+>   	int i = -1;
+>   
+>   	guard(mutex)(&ftrace_lock);
 
-That's not going to work. If you look at how whichfork is
-initialised early on in the xfs_bmapi_allocate() function, you'll
-see it calls this function:
+It makes sense to initialize ret - i think you might see a warning about
+ret being not initialized before use. I don't see much value in saving
+unnecessary computation.
 
-static inline int xfs_bmapi_whichfork(uint32_t bmapi_flags)
-{
-        if (bmapi_flags & XFS_BMAPI_COWFORK)
-                return XFS_COW_FORK;
-        else if (bmapi_flags & XFS_BMAPI_ATTRFORK)
-                return XFS_ATTR_FORK;
-        return XFS_DATA_FORK;
-}
+thanks,
+-- Shuah
 
-A value of 2 (XFS_COW_FORK) is definitely a valid value for
-whichfork to have. Indeed, the line of code after the fix checks if
-whichfork == XFS_COW_FORK, indicating that such a value is expected
-and should be handled correctly.
-
-However, this patch will result in rejecting any request to allocate
-blocks in the XFS_COW_FORK. This will fail any COW operation we try
-to perform with -EINVAL. i.e. overwrites after a reflink copy will
-fail.
-
-This sort of regression would be picked up very quickly by fstests.
-Hence it is important that any change - even simple changes - are
-regression tested before they are proposed for review and merge....
-
--Dave.
-
--- 
-Dave Chinner
-david@fromorbit.com
