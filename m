@@ -1,93 +1,104 @@
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7C71F4FA8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 11:07:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1466C215020
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 15:40:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730977675; cv=none; b=h30vgILzkEnWUtI4RofnU8o0djiRWpRQZfL0SqfUmcvx4hBxKwTJoIJyIViuWg++4AVkiXPkzIaZ6qBrd1+KypcdV9yulIgI+dmg7b4lgtHHsOiBS8l6pacF85iZRxFSFXuHR8mLfVkJdXmOnBlFzyQKgUq4iIBtncCxKDNvH9E=
+	t=1730994025; cv=none; b=BCkPVi85N3Xoe66+5rXaIvPSlzg9cZrhKAJrPt5/dtk5fgrD3ZNNsFyYv/DHA6FTHnWcl3PxkcJce73fjqnxMTjGQW7ZPz0f+xLqVP5lyI28zOLQPuLc/76J8u7B4iDEuJoebNqkKx7BFv5myrQf1GQ9v6Qwc+B7mPIYOHwCaC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730977675; c=relaxed/simple;
-	bh=3RDsctzj+jKcHyPmCDmgDEvkYRZVjj3F2h2JnfN6XYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gl9iUCha+HCVzL0L8zCzdXDosu+oFtyl5f4HGbpW6qYUAcpPxKODbXeOIaoPgk35lPUuZQA5RgwgH+pKa5uaY+wMCJQYN8LtYsmbO4o0B6O3M/TYGcQSDxc9Psdn0ASmg1qVHU7yz6TzkE0507OZju4ZfKeuD8AUcJDxYO2fpLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CEkUUHT2; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1730994025; c=relaxed/simple;
+	bh=99mRawCrYiyprXONM9QgUaVEZFk1e6ntZv9bAFDjUBA=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=r003JEtehrjyCyZfayTomwBoJLibXwnR+ZW6GAP4g5s2MjXkpNAcbL6NLzHWufORlyvM3DWYiLLcccfTB4d/VwlDSd35E9jBz5pWZfiPlrWB2RWclx5aYdlqFsBINfrortYqcgzf83Vn5mkY5bx22NJmEJkZUdLVQqytinV4L0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WXqnWT70; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CEkUUHT2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WXqnWT70"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 177C66109A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 11:07:54 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A022561114
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 15:40:23 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.401
+X-Spam-Score: -10.792
 X-Spam-Level:
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 1t4a8b0w9Ehz for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  7 Nov 2024 11:07:53 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6857E61081
+ id 3nu4nySnJmFR for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  7 Nov 2024 15:40:22 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=patchwork-bot+netdevbpf@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 9E60C60BB0
 Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6857E61081
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9E60C60BB0
 Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=CEkUUHT2
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6857E61081
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 11:07:53 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=WXqnWT70
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 9E60C60BB0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 15:40:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 951715C0496;
-	Thu,  7 Nov 2024 11:07:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 504A7C4CECC;
-	Thu,  7 Nov 2024 11:07:51 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 71FD35C54F5;
+	Thu,  7 Nov 2024 15:39:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6A2FC4CECC;
+	Thu,  7 Nov 2024 15:40:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730977672;
-	bh=3RDsctzj+jKcHyPmCDmgDEvkYRZVjj3F2h2JnfN6XYg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CEkUUHT2AyhLlnl5b5Kr1aHQP+HLUSQogHUG19q1+lqDySaWJ0NwDuaoCr01ID9vp
-	 ErMXgC7nML7+V9kF1Mp0H2Dz1RPL/xYpcwwUr1eyHZWAw+R8FB8t7L2730xLblaMnp
-	 W4H5RJYM2bn2TSm1bIAOHaonkfGI/TxTIj6+fxZZ69fnVmt5EFUWD0jBE1DVkzottY
-	 LW91NKPMxk3T3e2WcVXGU0x7L64WnT80R2SpOoNMeAgUln7KQEKgcDTpKOOBRkHtxa
-	 xaOyhJt+VrQA7oR8749NarQRcwH42e7ilCnd6UWg8cdc2/eWVMHqtvQvuMsaqadkam
-	 dECzA0PDtrbSg==
-Date: Thu, 7 Nov 2024 12:07:46 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Abhinav Saxena <xandfury@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-arm-kernel@lists.infradead.org, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: Re: [PATCH 2/2] Documentation: dt-bindings: Remove trailing
- whitespace
-Message-ID: <gjxevyovxhymwm2ps37hfq3vmpmmr4pqmohq67llxrb2plb5zz@pvsmkqmhemx7>
-References: <20241107061124.105930-1-xandfury@gmail.com>
- <20241107061124.105930-3-xandfury@gmail.com>
+	s=k20201202; t=1730994020;
+	bh=99mRawCrYiyprXONM9QgUaVEZFk1e6ntZv9bAFDjUBA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=WXqnWT70L0uCsEMEDK0W4BHqJtQFvcQOJlDNjWU4nZ2yiaoHXoGT6jULrpZoLXDpZ
+	 xQDxiRHnIv265cNFOrWyYVbUfRHoA7ubXSwOGT1dwby2BJZUnkpM8rowKrOfl6ywdj
+	 PKJWjcRdcLN/XCOcss+aZvp6dO5GAhgUvuFzat3S0NHeViZsFGIht2fDaDpEi8IeGG
+	 oUdTtS/jQ4vQSo1sbDsJbdSd41HCboKC3HGbyDM/mn37r2G6G9H7o9nN3wugYQc2F3
+	 +VsupFAUlMbOBIFNIHS1bKRWGVuPxjFI8d90RNmB6HznQQNauTrwY9BcvsVGtmPc74
+	 g8oL3FtWgeMMA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 34BA63809A80;
+	Thu,  7 Nov 2024 15:40:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241107061124.105930-3-xandfury@gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/1] BPF verifier documentation cleanup
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <173099403000.2004583.8555324576230265420.git-patchwork-notify@kernel.org>
+Date: Thu, 07 Nov 2024 15:40:30 +0000
+References: <20241107063708.106340-1-xandfury@gmail.com>
+In-Reply-To: <20241107063708.106340-1-xandfury@gmail.com>
+To: Abhinav Saxena <xandfury@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, bpf@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, ast@kernel.org,
+ daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
+ eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
+ john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
+ haoluo@google.com, jolsa@kernel.org, corbet@lwn.net
 
-On Wed, Nov 06, 2024 at 11:11:24PM -0700, Abhinav Saxena wrote:
-> Remove trailing whitespace from devicetree binding documentation files:
-> - regulator/regulator-max77620.txt
-> - interrupt-controller/nvidia,tegra20-ictlr.txt
-> - interrupt-controller/msi.txt
+Hello:
+
+This patch was applied to bpf/bpf-next.git (master)
+by Alexei Starovoitov <ast@kernel.org>:
+
+On Wed,  6 Nov 2024 23:37:07 -0700 you wrote:
+> Hi everyone,
 > 
-> No functional changes. Issues detected using checkpatch.pl script.
+> I am interested in contributing to the BPF subsystem, starting with
+> documentation cleanup. The patch removes trailing whitespace from the
+> verifier documentation to maintain consistent formatting.
+> 
+> I have tested this patch with scripts/checkpatch.pl and it reports no
+> issues.
+> 
+> [...]
 
-Instead I would prefer these files to be converted to DT schema which
-would result in their full removal.
+Here is the summary with links:
+  - [1/1] docs: bpf: verifier: remove trailing whitespace
+    https://git.kernel.org/bpf/bpf-next/c/342f751e15c3
 
-Best regards,
-Krzysztof
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
