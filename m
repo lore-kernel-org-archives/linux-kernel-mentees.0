@@ -1,89 +1,95 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC522194C94
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17C11CF7BB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730961050; cv=none; b=bZkkEE5IxS56tfl8FJ5zw8iam76tDDdTna7PkW9k5jyijmgVPhdHmJm183z7O6as2FscXeGX2bYPQJpVQhNL2xnXwnZ2an0ShZWd9uQ6eZP3ytKvXIUu/vNJC+BmaqZD+JdCiIS94KRsj51DFMd69GUxyTlsV97zCG6ZMzhtBLE=
+	t=1730961436; cv=none; b=hqLqjCUu6P0gmEWwPF/c/9YKrKW6xPuG1Pf1kqrxziLmKAuTqiGBex8YIck3c4qUonUMvxmQHzT/BqQkbhM1yPnmoXEPigzh2zcW4vlSO+YCX1k1USy7b4VlK0LUMFiNfkBF1B4AjpL2aZUDzeOr/o2I0lgJfUHAp/jxdRTaNZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730961050; c=relaxed/simple;
-	bh=GgDJgOiNgVI8N8G/EOt8OU1m3SnBYIsSsjBtbkTqLBw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZOzjiTMSIbVlDwTsgFZir/1nCfBdBEsN8ko7fEwAejwXDb8wBEqyslyXX3p5qTPiZedtUbMdsZLQ2fbPn8nlRVsRYHABGWb4H2+WQXWa1+yzB1mZEo07Z9aqhk/1psg+OKrj3z1axMuI5HlwVfrQvzomF6fPrkvGN2vMlyDhGbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F3jh9lBl; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1730961436; c=relaxed/simple;
+	bh=AefW8bsaSt3rDRVGJf+8Zsu15+j4HqVp75JUKe9nL44=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BPKNUUj7D5cNNj1sU/YIOPfe3VWj7MAI5sRATwywYeSts+QXBzDwjhcsQB0VgNXKfQh7fe2FZK26VQBn7LksX6kb//PsY5aRSuR4LSWLFC1WOh/NHLjjpFKwi5c1GJ8e0nc3/5eFHMS2+oX4XNEGNamIpwCazukmQ/K4/d/1sLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fQt1O1ak; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F3jh9lBl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fQt1O1ak"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 885F5407CE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:30:48 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 979D3405D2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:37:14 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id yhEv04flhf1C for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  7 Nov 2024 06:30:47 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1030; helo=mail-pj1-x1030.google.com; envelope-from=xandfury@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org B4403407CC
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B4403407CC
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=F3jh9lBl
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B4403407CC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:30:47 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-2e56df894d4so472349a91.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 06 Nov 2024 22:30:47 -0800 (PST)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id p9jXQI5qIflI for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  7 Nov 2024 06:37:13 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::233; helo=mail-oi1-x233.google.com; envelope-from=xandfury@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 98872405C7
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 98872405C7
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=fQt1O1ak
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 98872405C7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:37:13 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id 5614622812f47-3e6010a3bbfso420950b6e.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 06 Nov 2024 22:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730961046; x=1731565846; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=owbnmuQZ9HZHq+2PC9PglRkgSxwQfmb/ODC1/woQOnw=;
-        b=F3jh9lBltqkF7TAzWgG/UoDdjPgzgw6q0q7/GwWwR8ymGzCu4ARTSShesyEPZrVsLG
-         KSKsX+VDd8A6nR8IAp6My0xEQESaB+Sxe04M+9m5apebH/d6o+095nOfB+9BIepcPMbH
-         wdd6VtUp/lD0XFVrXo9SsMuX0+LUKJp/sfxpg6+iBLzdGfgC+jc3VQF1yYIDPZ+eZObC
-         q3LidKuaHKSBfZgREY6LhJgOsfQOQkV5qjY84hLFgmoy8q7oEGbAK3lKDPj5h49IsH4O
-         XUUJ7zUPFlXs637SnMQ9bSUHDJd9byQvbaclqUY05MtiM0zHha4LyobMNOZmL83WTmMe
-         0IjQ==
+        d=gmail.com; s=20230601; t=1730961432; x=1731566232; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VbO6aB5fSbhKrtKv66n/69pu6+mqeAhZ9XD1hcKe/DY=;
+        b=fQt1O1akz9DgRkSaAJ/r4k03Pgyec8LuGgT00vDTPKm7A3nxpe0y5ioE76rLW30kSA
+         RP7Zc/O0K915LSVXNsR01cgbYAh1QKoI3Ez/vjTqmZSu9b0w9wj765Ql0nSPKRfgCKcD
+         bXHf1rnBm3qQzK0TQaPpOn1dIpL3wDlzpTgzpGjpoGReh/IoxUVRATp95NUhtPU3d5FJ
+         LfbptKGW6+ldxnMSbXaEtSLJra+78ZTCBN19y6xnX8hLCoGP79dOKhlwajxoSV2n8irP
+         4aIhNs+RDuBrQUDu+C7/iF9U6fAiZHA2Y5afgFlHM6SOrYxmfbDiHAgK4CVcnaaNS4g1
+         wfqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730961046; x=1731565846;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=owbnmuQZ9HZHq+2PC9PglRkgSxwQfmb/ODC1/woQOnw=;
-        b=idlUo4EaXzGDF5B4Jbzy4S9NSa8pf4sqoIuASoU4O++BodNLMgf0mhEaqyU/pQlLHb
-         y61jx/XtMBdFFI31E3233427N/bRHe03YXSvnG5ikiDGhVrjRcLfPZ1kHAG+iBWswhjH
-         BTQ8Rlw3fTepGWOqgvG48QFU5KXU3rlU+lX6uhEcTvMIJbDVoCRPAfg+lr7oT+YaXrZi
-         BqjeZrwsifZxi4ZwN0xxGxXBQ/+rP5pMYohxL9f8TbMFBplIiDmMHqGzzKyYHTCI1DHf
-         90HqRiUj8cIgYt0vrtNp8WqfIPfGUYXUi13CTfF3FiXfW4C2MaDP94A8XTgRtwFXoOnP
-         ZkYQ==
-X-Gm-Message-State: AOJu0YzJiWPIQ+2iYnepb3Wy5rZwq4nkDM7XU/S9ZeG8WnJ7fB5b6oi9
-	iUKGDCTaMW27sCDqzi75aFY6c7MYD0FftaRMaIHI+YXoeyP2G4M/Itk3RmCA
-X-Google-Smtp-Source: AGHT+IH5NUn/Vle+lUfKJAyWvt6cNdPb2EL1M58IFWaao2+0AiOU34caE+ttcYy32beMitPvhN5i/A==
-X-Received: by 2002:a17:90b:2dd1:b0:2da:7536:2b8c with SMTP id 98e67ed59e1d1-2e9ab0a37bdmr8694a91.36.1730961046515;
-        Wed, 06 Nov 2024 22:30:46 -0800 (PST)
+        d=1e100.net; s=20230601; t=1730961432; x=1731566232;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VbO6aB5fSbhKrtKv66n/69pu6+mqeAhZ9XD1hcKe/DY=;
+        b=qz2RoaHftyj/OJKWTJj4fcm/WsNIubRdm27iQwH6v9/NzCyXcsW5tvhKMKdeMmHh2R
+         FxmMshsOFBZ566rSlBjdzhwBD3DtIJCwrl6O2Q3uPKT1ecqkbhQRkpOhMVkGGVMiGPx+
+         RywdnP0ncnB0jVtM/en4MJhfjdwb866tWPESPd7UQHze2XxVO6N8M+UDIa5oRlQK0+Ov
+         +nDroBg+Qsds+SzodlCJHhdwSnSWiEAUOutd9ztwZ0gHty5eSGwvcO1FkwhhX3ZIY4W5
+         P7YvD4h4zXJwcl+cUEEeHwB7afjbxNkzxBc8FFG3Y7SArtEkRVGk/66K69oX4zCmTBlH
+         IaVQ==
+X-Gm-Message-State: AOJu0Yw2pnWQPjdWDvryptOf87lhkHPbmzfm07My04K6EP2/KPbhwVd2
+	evszTr72+DIrDoOvvCGS5T8uywu39jk1JVhf1k4q1f9kQWAKhb3xHcAzFNwG
+X-Google-Smtp-Source: AGHT+IGF4lMbiPUR9KrbGhCZDmM8tQUV8/34OZwedmF370vmbPjqFl5VyJ2LhEm1KCCLi5+DOH4kQA==
+X-Received: by 2002:a05:6808:1482:b0:3e5:ff0b:e9ec with SMTP id 5614622812f47-3e78d33d090mr1058502b6e.9.1730961431676;
+        Wed, 06 Nov 2024 22:37:11 -0800 (PST)
 Received: from 1337.tail8aa098.ts.net (ms-studentunix-nat0.cs.ucalgary.ca. [136.159.16.20])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e9a5f8f4e2sm725206a91.26.2024.11.06.22.30.45
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f48abbdsm616310a12.10.2024.11.06.22.37.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 22:30:46 -0800 (PST)
+        Wed, 06 Nov 2024 22:37:11 -0800 (PST)
 From: Abhinav Saxena <xandfury@gmail.com>
 To: linux-kernel-mentees@lists.linuxfoundation.org,
+	bpf@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Matthew Wilcox <willy@infradead.org>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	Richard Weinberger <richard@nod.at>,
+Cc: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Abhinav Saxena <xandfury@gmail.com>
-Subject: [PATCH 2/2] Documentation/mm: Fix trailing whitespace in page_cache.rst
-Date: Wed,  6 Nov 2024 23:30:42 -0700
-Message-Id: <20241107063042.106228-2-xandfury@gmail.com>
+Subject: [PATCH 0/1] BPF verifier documentation cleanup
+Date: Wed,  6 Nov 2024 23:37:07 -0700
+Message-Id: <20241107063708.106340-1-xandfury@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241107063042.106228-1-xandfury@gmail.com>
-References: <20241107063042.106228-1-xandfury@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -92,24 +98,25 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove trailing whitespace from page_cache.rst. Fix detected by
-checkpatch.pl.
+Hi everyone,
 
-Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
----
- Documentation/mm/page_cache.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I am interested in contributing to the BPF subsystem, starting with
+documentation cleanup. The patch removes trailing whitespace from the
+verifier documentation to maintain consistent formatting.
 
-diff --git a/Documentation/mm/page_cache.rst b/Documentation/mm/page_cache.rst
-index 138d61f869df..13425fd5c8fb 100644
---- a/Documentation/mm/page_cache.rst
-+++ b/Documentation/mm/page_cache.rst
-@@ -12,4 +12,4 @@ Folios
- ======
- 
- The folio is the unit of memory management within the page cache.
--Operations 
-+Operations
+I have tested this patch with scripts/checkpatch.pl and it reports no
+issues.
+
+Best,
+Abhinav
+
+
+Abhinav Saxena (1):
+  docs: bpf: verifier: remove trailing whitespace
+
+ Documentation/bpf/verifier.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
 -- 
 2.34.1
 
