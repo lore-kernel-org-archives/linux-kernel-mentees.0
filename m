@@ -1,82 +1,84 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0441940B3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFBD4194A67
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730960360; cv=none; b=spd4r9LQGmnpn+IKCG6b64KbX2BbA44tQTpXJFj7t6yHl9MYt/9DkpNVhtWH//qcmYtJA4jRPL1v7A2Lsdc8IC7B+03/xNvA+nDEcpqV/1nfK2cZ/M77iHBWw/xvTxwJukh8W3/EYZhL7DlWrIT5QXqp96FAvurjMHoLgj3Orpk=
+	t=1730961049; cv=none; b=qLrVLVyhQ49fc06NBSwQZryuKCcNdK7LbdaQJXLU2shJWyLn5dAQLJXvhbr6EGOEUQR3nSeplXki++WZUiR/Gsh19cfmqo8TLtXukg+o2B7jNppMD5vEJZbgNYwbYZ89hEqtVdmbwEIwc7UJYdB7rCs/+G6kMVUmMiZWH7gvgiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730960360; c=relaxed/simple;
-	bh=ANxD13YAGSTYC6cNRZS2MistrSwi7MUahJbAyk88Auw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=p6lRoBv35CfQ34OUTePPMoDr47qaOLpWsJM6PY7gSmhhRd+LQxXG3Q9+6HKUgJq1WEY97mhJirOfmuzgs6v8vIlw0P/HUWLaSkURdzRmyfdTYwZaY/y35YH7I8cww6R8JklGOUiuKXckukSC2nmzEfgF2xgzoKJ2vh1LVn2Bu64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LlhsLiTI; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1730961049; c=relaxed/simple;
+	bh=c0xw6QFHGeT5H5b7lLLmPn/NEJNuTUlU1VlFcjgsflU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=US3NLnTRqwh76BG0lTfa2Pl7p3gOxSdehdBpC/PBr5Kg9hanvl4V98s/Yup0hoet44mHs9xL/3+x9WJKpEx6dUrcLU+FzTWra9mi+yU7AIqbS9uYC3mBzk4P4m6ucU7zWBkZjY4gltcanacxG/kFatsL29Ia02dOGtBLg7Hwvzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bzu3tteu; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LlhsLiTI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bzu3tteu"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D14B7403C0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:19:18 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 70AB460B9D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:30:47 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ZVsgo03XaOrQ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  7 Nov 2024 06:19:17 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42c; helo=mail-pf1-x42c.google.com; envelope-from=xandfury@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org B3E5C402F7
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B3E5C402F7
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LlhsLiTI
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id B3E5C402F7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:19:17 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-71e8235f0b6so429377b3a.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 06 Nov 2024 22:19:17 -0800 (PST)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id tac-H99X6tMC for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  7 Nov 2024 06:30:47 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::536; helo=mail-pg1-x536.google.com; envelope-from=xandfury@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org B479B60B9E
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B479B60B9E
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Bzu3tteu
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B479B60B9E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:30:46 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-7ed9f1bcb6bso480695a12.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 06 Nov 2024 22:30:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730960356; x=1731565156; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1730961045; x=1731565845; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2+AhCXqAG1kLEFq3qc9uec/6rupnmZiZFxA7GdB80Lg=;
-        b=LlhsLiTIcW2xadmYDFrZmIey7iwQeCUPbrzrk++Z/2+YdBXB8WuXrNbl29+Ip5XlZk
-         VhDI7YeBs+3+Arj3Uo3uE1gGbxLBEvEnbiCrnKdjrTJ8X9ejLuGJdtYiOFPuMj8cOxNG
-         W7EcEP+bkPpRFDE88bqP4Q2y1GY6UqcD5q7Jof4bTsCQdsIqdUAUxVhGyWZJcrnxMZj0
-         bs9hbwvD4CRySlFsJoKu1c8mwoF2u764KMzqJxDu2CAUyq2qrmdpoAruTWudKcnDTli4
-         Q/UdmbFUKwHuubAwIiEQkhrMyGNmlQda1a/JXq4uDVBkuLzbvU2BFBIJ6y43PJiUS07q
-         5Egw==
+        bh=NhAeNBnk5UCCI+1vhep/xtCYN3LRsWKDceL6il0Fnk4=;
+        b=Bzu3tteufnK49hXyyF95yf0CEz8oMqYekEZ55wZPa8iv4cEmJaqLAwYpc12GBNkUvV
+         iLofniStM7mv7vRK1ceLesI2Ledo7UZ10PZwpmzkyCj5BnmPIVE/IJEffO1zGTK6Prmn
+         +fl+MAilW9rmMXQeZTP2Fyqa9Fk6mwD7032KCxzOV0EYHvJj/KImhXw9C+2pwkBoC2u7
+         U98Pocti7+nuTk5JruPwkxRamnGUxoKWhMtazt0JZ+VayE15mxsNOcNR+dXMzqNS8deH
+         1yKjg4YBIXvEozcuxa6zV18g+SojyFj6dylN4vSLw6iN44ynFp7DRLTJaSmz+PEOQ98z
+         2b3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730960356; x=1731565156;
+        d=1e100.net; s=20230601; t=1730961045; x=1731565845;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2+AhCXqAG1kLEFq3qc9uec/6rupnmZiZFxA7GdB80Lg=;
-        b=gGzRX6YJ8GAmyx/sE5CUI2FiO0wfbK/jM7nHJg4gxHXVeVZPLxywmz2gh4M8lGZb3s
-         2MU6Wia0pC8TqIcUYoinxUwE9Cyt1NwjClyO4o8aLC7CeYgtB0fmZYH0PIS4oh9e84ld
-         fs4i6Ls68X4QhKVxZpmoXFhxmMBgC+TbiOARFZMsyYMOqR+XiQ966+hlcgL4M093qK9m
-         DhZxiuKF0D0dX5ah0Xdl8WpFWVhmkID4c/xQeQFGrpBU48B9YznemK71dyS7y1f/VvIf
-         qiuUxFtuct5qbBJXo+om/GFfsqRRVq40EHQAzoqqG93bMmxalJ3fEWNASx6pvCnUzPf8
-         TK+A==
-X-Gm-Message-State: AOJu0Ywr36ZxwXsOCPJP8gJ9zFUre0gb8wqCAf465Nkr3yW7HBwccKQ+
-	CsBUTAIXc3ru8GKhW1YQgwpMn/046tfga4hCM7AlaDcS6vyA25gkTN/AEfiF
-X-Google-Smtp-Source: AGHT+IGNBcdEGIHkv+fNvnfYUh3MUw696z8lIVcstfD0ZkGTSBmAMs23W89m3QsQO5uwBr67WzaqIg==
-X-Received: by 2002:a05:6a00:803:b0:71e:4930:162c with SMTP id d2e1a72fcca58-724080b01afmr1146788b3a.6.1730960355859;
-        Wed, 06 Nov 2024 22:19:15 -0800 (PST)
+        bh=NhAeNBnk5UCCI+1vhep/xtCYN3LRsWKDceL6il0Fnk4=;
+        b=kbJ6yzwiw7oI1yVyG02Ofz41Q9tWX9Uikfl5dHq1u2Xf/gtWZnppv8X/loJrfNEi6w
+         y4alS5SfbCxLWv4X9/4UNm3vil5g5T3q7a9VViylmiSWplP75/qj3DO/Ogx8PzO36x7H
+         GGYQEYkdu69WQNhrVZULgNidTw+ec0t+H+QSdLjWJd6wWFW/yXB5/kf9FNE/fxhSDBIC
+         K84EYi3w8yHyED4PkrtWh2Iu9wQIkHIYOMtYy/Wso1nlhi/GlD/uyOVOmlFL6RJZxIlV
+         Q0e0pQczccFjCDcrdNwfb1u/rD+e3cEIZk3qPwogXQAVF5BkCVOhbgl8Geou1QXworSY
+         7NvA==
+X-Gm-Message-State: AOJu0YyqAVuR0ltXQ/iq3u7Ws2Bgd5LqgllAcyxZBVuMFiUwcnBknvbk
+	iHJ81+ASWP/0yS7KZWw+xkdcnU/xY0lXjjQckdX+v8RIDeL0RglxS2YuBvpj
+X-Google-Smtp-Source: AGHT+IG1VbB/6+p3Irp7fXFoIsnaAVKL1mLw0MG7955Bw8iIVmEoZqxiGeSAeKqdLDVzoK39Ar+Xwg==
+X-Received: by 2002:a05:6a21:170f:b0:1cf:3677:1c4a with SMTP id adf61e73a8af0-1d9a83d0a71mr59470398637.16.1730961045398;
+        Wed, 06 Nov 2024 22:30:45 -0800 (PST)
 Received: from 1337.tail8aa098.ts.net (ms-studentunix-nat0.cs.ucalgary.ca. [136.159.16.20])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7240785ffc2sm676523b3a.25.2024.11.06.22.19.14
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e9a5f8f4e2sm725206a91.26.2024.11.06.22.30.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 22:19:15 -0800 (PST)
+        Wed, 06 Nov 2024 22:30:45 -0800 (PST)
 From: Abhinav Saxena <xandfury@gmail.com>
 To: linux-kernel-mentees@lists.linuxfoundation.org,
-	workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>,
+	Matthew Wilcox <willy@infradead.org>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	Richard Weinberger <richard@nod.at>,
 	Abhinav Saxena <xandfury@gmail.com>
-Subject: [PATCH] docs: fix typos and whitespace in Documentation/process/backporting.rst
-Date: Wed,  6 Nov 2024 23:19:11 -0700
-Message-Id: <20241107061911.106040-1-xandfury@gmail.com>
+Subject: [PATCH 1/2] Documentation/mm: Fix spelling in hwpoison.rst
+Date: Wed,  6 Nov 2024 23:30:41 -0700
+Message-Id: <20241107063042.106228-1-xandfury@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -86,41 +88,28 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- Fix repeated word "when" in backporting documentation
-- Remove trailing whitespace after '$' character
+Fix spelling of "focusses" to "focuses" to follow standard English usage.
 
-These issues were reported by checkpatch.pl. No functional changes.
+Checkpatch.pl reported this issue.
 
 Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
 ---
- Documentation/process/backporting.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/mm/hwpoison.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
-index a71480fcf3b4..5e15adc34799 100644
---- a/Documentation/process/backporting.rst
-+++ b/Documentation/process/backporting.rst
-@@ -553,7 +553,7 @@ Submitting backports to stable
- ==============================
+diff --git a/Documentation/mm/hwpoison.rst b/Documentation/mm/hwpoison.rst
+index 483b72aa7c11..dd02fae484dc 100644
+--- a/Documentation/mm/hwpoison.rst
++++ b/Documentation/mm/hwpoison.rst
+@@ -17,7 +17,7 @@ To quote the overview comment::
+ 	hardware as being corrupted usually due to a 2bit ECC memory or cache
+ 	failure.
  
- As the stable maintainers try to cherry-pick mainline fixes onto their
--stable kernels, they may send out emails asking for backports when when
-+stable kernels, they may send out emails asking for backports when
- encountering conflicts, see e.g.
- <https://lore.kernel.org/stable/2023101528-jawed-shelving-071a@gregkh/>.
- These emails typically include the exact steps you need to cherry-pick
-@@ -563,9 +563,9 @@ One thing to make sure is that your changelog conforms to the expected
- format::
- 
-   <original patch title>
--  
-+
-   [ Upstream commit <mainline rev> ]
--  
-+
-   <rest of the original changelog>
-   [ <summary of the conflicts and their resolutions> ]
-   Signed-off-by: <your name and email>
+-	This focusses on pages detected as corrupted in the background.
++	This focuses on pages detected as corrupted in the background.
+ 	When the current CPU tries to consume corruption the currently
+ 	running process can just be killed directly instead. This implies
+ 	that if the error cannot be handled for some reason it's safe to
 -- 
 2.34.1
 
