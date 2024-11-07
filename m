@@ -1,74 +1,74 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18161192D9E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:11:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5455D193425
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:11:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730959902; cv=none; b=BT0Gf/uvQ9zvo9L4k8tvhV1TbNgaIpz86RHUtOaCpFId6QfgZ52RTGMJ/p1rRURgZzpKwrqe54/XmJGmagy7Waw8jfLt1u/DQwqSJGAVgBwppwXyMtciwiXc58m6GSjCcDPUssueyox93KdHNUTHsNXy6v4CExJ/Vz2GvYcsOdU=
+	t=1730959905; cv=none; b=TYMDDJut/W3KHGQMdiZ0hGXn0ZlwrH2KWHXKQlzsMAwWPW0JqR56o4S4D5+FneiZeC1DFv90Y/bsGEz4SsAzyVFWUGkTPwi/e3yVY6gKH4VhHNPA5j+3PoxyiOAsFIXf0EIr+64d9zyo3Hh4g4ebvOa896So9vBfpCzxq29z8Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730959902; c=relaxed/simple;
-	bh=43RcNsIvUGi4595SU91AS/BTSl3E6gi5tuIlWyaKPmM=;
+	s=arc-20240116; t=1730959905; c=relaxed/simple;
+	bh=ns+qICv4ryQ7JfsDRazMozL0fDUROfR+O8kTeP4q2ck=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dK/YbB8LsqIZC7brIvdh9adXG6AQ/LORwxLi5s1PfUL/poJbJ5SIZqxcejaJRFaCW7Mz/bs4DWEgIskorqrgY0OQc6P9TiEg1vObt0oAF7vNczyHhB4Aw3geeU9RqVZxon2oGGH0a0uOWbGIpEFzCuWZ7sHiD2okVMMkR1Tse9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GG8GJ2Xu; arc=none smtp.client-ip=140.211.166.138
+	 MIME-Version; b=RNLz3ISR/MaL308UGN9lier3HvfwAcJBlhtPJSx2qVBccpDqNWvFfmjUrNPSlyZbLA4C5jyUwux7KnyV3QHsRCpSYGkbtOFvYtCphRdNs/44ClrlJ8c7P3D9P08JF54pc1Dy3Lg+5oGkCbi12LJKjEKAZMWwxgtqLCAQSZ1TN+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j6+m2Zb/; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GG8GJ2Xu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j6+m2Zb/"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AC9A381E77
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:11:40 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id CD37881E7C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:11:43 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id YycgfkpDxbOA for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ id 9IMEBDthufrc for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Thu,  7 Nov 2024 06:11:36 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62c; helo=mail-pl1-x62c.google.com; envelope-from=xandfury@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 1B37981E7F
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62a; helo=mail-pl1-x62a.google.com; envelope-from=xandfury@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 93E2981E80
 Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1B37981E7F
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 93E2981E80
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=GG8GJ2Xu
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1B37981E7F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:11:34 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-20c7ee8fe6bso6261285ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 06 Nov 2024 22:11:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=j6+m2Zb/
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 93E2981E80
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 06:11:35 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-20cdb889222so6367795ad.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 06 Nov 2024 22:11:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730959892; x=1731564692; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1730959893; x=1731564693; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ALXydKzISbFOwh8LfCoyMfvmblNdzLozEw5VVs994Xc=;
-        b=GG8GJ2XuIY6UNhciwW4v8sMrYFnEvfJVb+FSmWzkdWgGgKkmBZs5vhH4AKlzsbc1vs
-         +972ql+XG3A8RoSHoXvhSdOvupwnPyUJzts3KOfn+b0PQ01yW2fX5GtTbs3sdMq9sTpY
-         czbFOe92TUC5Qj2Z0JzE7MYnEQ83DaUElwflHk56zyrzM1z7LHFyPLR935EjcgBizNqa
-         9JkLChY1YZmKW31v6Co6p+f57VHfnE7R3KWoB0IsPsdqtG00EK5wpo4xBfjNiXgAQ5NB
-         Ou+7SoRGgBAqdnoEFDqq4w7kAN3E56YzV1voDubE6oxceswHMxAE8w1sfPaFWIDgS4ff
-         teeg==
+        bh=cXBEpFmFzi8INkB2Bb0DSvGG6kE3LNqjdEC99i0wI3w=;
+        b=j6+m2Zb/0hQqo1GBT98P9hHPpY1S2Bh83CT6XiCL4hFI2WN7TWxGeXyIKWB2isZ2jN
+         7+OZGd4Fo/38HuTPWazoP5SWp5LpoB9Ys13p+fTrQ3ufUHvYyIH9hxa9LlQPOtYGa5BY
+         /jiGtj4i7cxnDKxW/6ILMVoPyMkh4xv8z3EH7QV1WYgcnLZiSBcj3jkMDTxbD+i9iy8m
+         SjtBOdaKlXXfOp1cf5q38DPHJBbwp4e/B0fDehiDXEjl+MSE7h7IDCgUenNsFU4kJeEu
+         9oBIx+P42FWHDFq/WvqhFzWSAQ66CkY2jfFgD++nZESljfor3Xm6WLeIEt3nNJezyneD
+         0HZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730959892; x=1731564692;
+        d=1e100.net; s=20230601; t=1730959893; x=1731564693;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ALXydKzISbFOwh8LfCoyMfvmblNdzLozEw5VVs994Xc=;
-        b=GdClqZL8je3l/1XzhjJCpMs3VyPphp4QphMHibZeVtzP7Y7sjV5ge20hr2L4iaksnO
-         NDgvGdXJmwHJqitB3uQK+N44nKfJsBGH0TCFSUtTU86dLuw1r0hkzxFDFQSkFm4qWn0B
-         AY/Hw/zolNhreqWU5aNIzCx3+gdtAygmyar0Jjy+k5etF1ZtEcJdpHe38cIOH2eLeaBV
-         pH3pqw2rYfVbyCT1qh0Wzw4g3JIgclE4c2zY/XJDja8d4/jGYvStebdbuIzTlc0iJRzV
-         nbtLau0tqQ8abEk15dg431syS70N0Xdu1AxjF7FHbFr644illSKQSCI5evQEvniXg5qb
-         hadA==
-X-Gm-Message-State: AOJu0Yy4N++386KbGWYw2dRH2oAMLMZIjlQuDjFzKT15ypq01/BHi73S
-	m6cnjE4iRZKB9CUp6kkMbmPkTT0PKq0LcERfoGZ907j8gzJaqpLuGNTNDR2X
-X-Google-Smtp-Source: AGHT+IH+74hwtw/dolRKBe95lMKx0IkBL+BrHnQnQvcxznJIGMkm653MQz7fgmgSPs8j9V5HslOTGw==
-X-Received: by 2002:a17:902:cecd:b0:20c:a97d:cc7f with SMTP id d9443c01a7336-210c6c3ec78mr584066825ad.41.1730959891752;
-        Wed, 06 Nov 2024 22:11:31 -0800 (PST)
+        bh=cXBEpFmFzi8INkB2Bb0DSvGG6kE3LNqjdEC99i0wI3w=;
+        b=CG8WAbSp184NUNqaYDqr+MOUmM6/aNUb1daKR4ZawuobVM4IaUqbYo9rryeOuWYd3n
+         YJzHHrUN4NNMN+zLJN98Ih/R12Jpt3khEjiU6caJ8VMpPn9zWmH4U7CI8xnEx2Iwc1a7
+         /fTR4NxIPcrR4PHwE4xp8UfbIPoUms1IJRKMTh+icMTOoaWhxwagbF2Y/jFMZ5nMxt9m
+         xkKkxEc32ByXkMMdn5C7+vrZZRBXtMVXw4PUdpEKRF/1MtiSv5dpn+ZjiTeCBe3Yybv6
+         x81tI6tcf6BY9s+1DwcEdKOqhJY91VT8cWJk41DmrFWWlGWJF9hYZ3fcHBWoYBcbj4+/
+         gIDw==
+X-Gm-Message-State: AOJu0YySytDL6JA6/ITdd2SOMB4nFNes7ElEv2lc/yuk8dEryunaw0X2
+	1ZghiXqJcDB3j3X0Q0L/vGrA7iCV+h5r6vcpR+32Au9Zj+nSDf7nVPAkAF3k
+X-Google-Smtp-Source: AGHT+IEhLX1Ix3kvbnhGTk3oM5FNMOle9lT4S2S6mmMGQXogZWZm53W55lSd+4P4hV9Wykx6SDq4ig==
+X-Received: by 2002:a17:902:ec88:b0:20b:8ef3:67a with SMTP id d9443c01a7336-211785b1234mr10045595ad.7.1730959893349;
+        Wed, 06 Nov 2024 22:11:33 -0800 (PST)
 Received: from 1337.tail8aa098.ts.net (ms-studentunix-nat0.cs.ucalgary.ca. [136.159.16.20])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177dc7cf8sm4652465ad.34.2024.11.06.22.11.30
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177dc7cf8sm4652465ad.34.2024.11.06.22.11.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 22:11:31 -0800 (PST)
+        Wed, 06 Nov 2024 22:11:32 -0800 (PST)
 From: Abhinav Saxena <xandfury@gmail.com>
 To: linux-kernel-mentees@lists.linuxfoundation.org,
 	linux-gpio@vger.kernel.org,
@@ -91,9 +91,9 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
 	Mark Brown <broonie@kernel.org>,
 	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	Abhinav Saxena <xandfury@gmail.com>
-Subject: [PATCH 1/2] Documentation: dt-bindings: Fix repeated words
-Date: Wed,  6 Nov 2024 23:11:23 -0700
-Message-Id: <20241107061124.105930-2-xandfury@gmail.com>
+Subject: [PATCH 2/2] Documentation: dt-bindings: Remove trailing whitespace
+Date: Wed,  6 Nov 2024 23:11:24 -0700
+Message-Id: <20241107061124.105930-3-xandfury@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241107061124.105930-1-xandfury@gmail.com>
 References: <20241107061124.105930-1-xandfury@gmail.com>
@@ -105,89 +105,97 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix unintentional word repetitions in devicetree binding documentation:
-- usb.txt: Fix repeated "two"
-- mvebu-devbus.txt: Fix repeated "from"
-- gpio.txt: Fix repeated "Both"
-- pinctrl-bindings.txt: Fix repeated "device"
-- cavium/bootbus.txt: Fix repeated "one"
+Remove trailing whitespace from devicetree binding documentation files:
+- regulator/regulator-max77620.txt
+- interrupt-controller/nvidia,tegra20-ictlr.txt
+- interrupt-controller/msi.txt
 
-These issues were identified using the checkpatch.pl script.
+No functional changes. Issues detected using checkpatch.pl script.
 
 Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
 ---
- Documentation/devicetree/bindings/gpio/gpio.txt                 | 2 +-
- .../devicetree/bindings/memory-controllers/mvebu-devbus.txt     | 2 +-
- Documentation/devicetree/bindings/mips/cavium/bootbus.txt       | 2 +-
- Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt  | 2 +-
- Documentation/devicetree/bindings/soc/fsl/cpm_qe/qe/usb.txt     | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ .../devicetree/bindings/interrupt-controller/msi.txt   | 10 +++++-----
+ .../interrupt-controller/nvidia,tegra20-ictlr.txt      |  2 +-
+ .../bindings/regulator/regulator-max77620.txt          |  4 ++--
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/gpio/gpio.txt b/Documentation/devicetree/bindings/gpio/gpio.txt
-index d82c32217fff..530420475a4f 100644
---- a/Documentation/devicetree/bindings/gpio/gpio.txt
-+++ b/Documentation/devicetree/bindings/gpio/gpio.txt
-@@ -304,7 +304,7 @@ pins 50..69.
- It is also possible to use pin groups for gpio ranges when pin groups are the
- easiest and most convenient mapping.
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/msi.txt b/Documentation/devicetree/bindings/interrupt-controller/msi.txt
+index c20b51df7138..2109a3454cf6 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/msi.txt
++++ b/Documentation/devicetree/bindings/interrupt-controller/msi.txt
+@@ -12,17 +12,17 @@ potentially including additional information.
+ MSIs are distinguished by some combination of:
  
--Both both <pinctrl-base> and <count> must set to 0 when using named pin groups
-+Both <pinctrl-base> and <count> must set to 0 when using named pin groups
- names.
+ - The doorbell (the MMIO address written to).
+-  
++
+   Devices may be configured by software to write to arbitrary doorbells which
+   they can address. An MSI controller may feature a number of doorbells.
  
- The property gpio-ranges-group-names must contain exactly one string for each
-diff --git a/Documentation/devicetree/bindings/memory-controllers/mvebu-devbus.txt b/Documentation/devicetree/bindings/memory-controllers/mvebu-devbus.txt
-index 8b9388cc1ccc..1983d7eabd2b 100644
---- a/Documentation/devicetree/bindings/memory-controllers/mvebu-devbus.txt
-+++ b/Documentation/devicetree/bindings/memory-controllers/mvebu-devbus.txt
-@@ -43,7 +43,7 @@ Read parameters:
-  - devbus,bus-width:    Defines the bus width, in bits (e.g. <16>).
-                         Mandatory, except if devbus,keep-config is used.
+ - The payload (the value written to the doorbell).
+-  
++
+   Devices may be configured to write an arbitrary payload chosen by software.
+   MSI controllers may have restrictions on permitted payloads.
  
-- - devbus,badr-skew-ps: Defines the time delay from from A[2:0] toggle,
-+ - devbus,badr-skew-ps: Defines the time delay from A[2:0] toggle,
-                         to read data sample. This parameter is useful for
-                         synchronous pipelined devices, where the address
-                         precedes the read data by one or two cycles.
-diff --git a/Documentation/devicetree/bindings/mips/cavium/bootbus.txt b/Documentation/devicetree/bindings/mips/cavium/bootbus.txt
-index 6581478225a2..1bc655d285ce 100644
---- a/Documentation/devicetree/bindings/mips/cavium/bootbus.txt
-+++ b/Documentation/devicetree/bindings/mips/cavium/bootbus.txt
-@@ -15,7 +15,7 @@ Properties:
+ - Sideband information accompanying the write.
+-  
++
+   Typically this is neither configurable nor probeable, and depends on the path
+   taken through the memory system (i.e. it is a property of the combination of
+   MSI controller and device rather than a property of either in isolation).
+@@ -48,7 +48,7 @@ Optional properties:
+   not encode doorbells or payloads as these can be configured dynamically.
  
- - #size-cells: Must be <1>.
+   The meaning of the msi-specifier is defined by the device tree binding of
+-  the specific MSI controller. 
++  the specific MSI controller.
  
--- ranges: There must be one one triplet of (child-bus-address,
-+- ranges: There must be one triplet of (child-bus-address,
-   parent-bus-address, length) for each active chip select.  If the
-   length element for any triplet is zero, the chip select is disabled,
-   making it inactive.
-diff --git a/Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt b/Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
-index 6904072d3944..500b76ba2ab3 100644
---- a/Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
-+++ b/Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
-@@ -18,7 +18,7 @@ states. The number and names of those states is defined by the client device's
- own binding.
  
- The common pinctrl bindings defined in this file provide an infrastructure
--for client device device tree nodes to map those state names to the pin
-+for client device tree nodes to map those state names to the pin
- configuration used by those states.
+ MSI clients
+@@ -117,7 +117,7 @@ Example
+ 		reg = <0x1 0xf00>;
+ 		compatible = "vendor-c,some-device";
  
- Note that pin controllers themselves may also be client devices of themselves.
-diff --git a/Documentation/devicetree/bindings/soc/fsl/cpm_qe/qe/usb.txt b/Documentation/devicetree/bindings/soc/fsl/cpm_qe/qe/usb.txt
-index da13999337a4..682db2b561bb 100644
---- a/Documentation/devicetree/bindings/soc/fsl/cpm_qe/qe/usb.txt
-+++ b/Documentation/devicetree/bindings/soc/fsl/cpm_qe/qe/usb.txt
-@@ -3,7 +3,7 @@ Freescale QUICC Engine USB Controller
- Required properties:
- - compatible : should be "fsl,<chip>-qe-usb", "fsl,mpc8323-qe-usb".
- - reg : the first two cells should contain usb registers location and
--  length, the next two two cells should contain PRAM location and
-+  length, the next two cells should contain PRAM location and
-   length.
- - interrupts : should contain USB interrupt.
- - fsl,fullspeed-clock : specifies the full speed USB clock source:
+-		/* 
++		/*
+ 		 * Can generate MSIs to either A or B.
+ 		 */
+ 		msi-parent = <&msi_a>, <&msi_b 0x17>;
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/nvidia,tegra20-ictlr.txt b/Documentation/devicetree/bindings/interrupt-controller/nvidia,tegra20-ictlr.txt
+index 2ff356640100..0c37e569e6f3 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/nvidia,tegra20-ictlr.txt
++++ b/Documentation/devicetree/bindings/interrupt-controller/nvidia,tegra20-ictlr.txt
+@@ -12,7 +12,7 @@ Required properties:
+ - compatible : should be: "nvidia,tegra<chip>-ictlr". The LIC on
+   subsequent SoCs remained backwards-compatible with Tegra30, so on
+   Tegra generations later than Tegra30 the compatible value should
+-  include "nvidia,tegra30-ictlr".	
++  include "nvidia,tegra30-ictlr".
+ - reg : Specifies base physical address and size of the registers.
+   Each controller must be described separately (Tegra20 has 4 of them,
+   whereas Tegra30 and later have 5).
+diff --git a/Documentation/devicetree/bindings/regulator/regulator-max77620.txt b/Documentation/devicetree/bindings/regulator/regulator-max77620.txt
+index bcf788897e44..7484c0728e27 100644
+--- a/Documentation/devicetree/bindings/regulator/regulator-max77620.txt
++++ b/Documentation/devicetree/bindings/regulator/regulator-max77620.txt
+@@ -65,14 +65,14 @@ Following are additional properties:
+ 					Valid values are 0 to 7.
+ 					This is applicable if FPS source is
+ 					selected as FPS0, FPS1 or FPS2.
+-			
++
+ - maxim,active-fps-power-down-slot:	Sequencing event slot number on which
+ 					the regulator get disabled when master
+ 					FPS input event set to LOW.
+ 					Valid values are 0 to 7.
+ 					This is applicable if FPS source is
+ 					selected as FPS0, FPS1 or FPS2.
+-			
++
+ - maxim,suspend-fps-source:		This is same as property
+ 					"maxim,active-fps-source" but value
+ 					get configured when system enters in
 -- 
 2.34.1
 
