@@ -1,124 +1,113 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000F7217324
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 16:12:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8037464
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Nov 2024 00:52:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730995924; cv=none; b=r3lXvFiFQFFO+1yrmUCHUIh6I/qz1687fwt9LbNhjRuzNRD12CPYPCJD0JZNQqq/nM0s6wUx2wUyFQrT/C839rbwFdF0CiA885uS04Fhnk6Cf9k0cRLAcBmz5JMccHjPm3cHPDf4tdCQoSdU9aQmWUqRWEmnCDV8/LCk5wq5NiE=
+	t=1731027139; cv=none; b=liUsdLEKeQmvLF03rrKQkoCnJ4t6Q8krkMq1dv7yzJ/ot8zWOKpmSD2Uji8eV28xTuwgdITxvCijwaowwjFbLlgWdHZjmBabP+UlXO7f+Yij6sd0Bax/cQZ710Pfnjg5OTZ8OE2/tIXwXiFb4dUV3DFZ8r7rWFdUz0VOdv38tbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730995924; c=relaxed/simple;
-	bh=NfXPc0KoeadFdO2NlcX/HenhhfnnZL96KLA3VoTh+40=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=efJYXXAMCK3vCYr0/g0L7Q/reT1d70BPOflOYC8oDRw0XAl5veIx+ER3Dunou6RUc1Mu0wthAjxxGHqOljvWoQk3ZzbB6O1j/bU1evCk3xV84cmw5icfhwhTvU6KE+umRoDiSguY0Zn4csHa3qe0Wv3RMEHsSxuUqWCK+pt2ws8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=P03Vbxhr; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1731027139; c=relaxed/simple;
+	bh=RvxY4a3WCb96CrFLRYIXYbqrR9Gkr0oINd/naqKrMBY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TAEH+u1NU2/zb5dAGQexOm7n5O3Uhk+JtBk+Uad1ofOswX0FhoCCEklcT8jqCIWUDtMuRGy1f8FPoSWNEdPDnEYuCw1H9FiftqiOjCZY6DKGwQRECkgtCMlJsqbNFr3Cf7Xj4GvFEqH7tLxtzkXVdBJznKkaE7lZbe3lsnhjwlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dmg1juo0; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="P03Vbxhr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dmg1juo0"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7E41D42A6D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 16:12:02 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 04504402DB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Nov 2024 00:52:18 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.398
+X-Spam-Score: -1.25
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id V_r1bR-6b1xg for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  7 Nov 2024 16:12:01 +0000 (UTC)
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2001:8b0:10b:1236::1; helo=casper.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org A373342977
-Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=infradead.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A373342977
+ id k4ecAHzACVUa for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  8 Nov 2024 00:52:17 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::52d; helo=mail-pg1-x52d.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 0B180402D9
+Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0B180402D9
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=P03Vbxhr
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A373342977
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Nov 2024 16:12:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=d3xSlIqNLv2BbfbJf9pBWeu+m2edFwZPJAVYYpuoIZ0=; b=P03VbxhrcsEfH1OfWf112PNvuo
-	ba2WxcL4nnoJBm1F0memqsCnsLXkjsJErdoMV4bN6KQC8HvdsOSdiMIBuTOcSLFilnl8kFZ9LgJ1A
-	2fYoaP2KwtXcPw2Ai145PEkvWxxHW3N8HBTJykwCWy2dZQLIgnh+mV0+cjMDthA+eoreDC3lJg1cl
-	TTVQiACxzUpJYS69KeovrSNW0FzKlkl5i6jfUSM2p0wwf/l9V0af+QcvBSXmiapWcj1sE9b/MQNeG
-	vu+wSFqjFwHxRMwwtwyfQBDtyhgUhMS1Fzr2anEVaxH6ES6jASPfyY2wCvASVhB6oYNfFrqTDwX48
-	ZITi72pQ==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t956t-00000006wwX-3nJo;
-	Thu, 07 Nov 2024 16:11:52 +0000
-Message-ID: <464b1628-957a-485b-87d9-47636491de22@infradead.org>
-Date: Thu, 7 Nov 2024 08:11:45 -0800
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Dmg1juo0
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 0B180402D9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Nov 2024 00:52:16 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-7ee11ff7210so1179585a12.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 07 Nov 2024 16:52:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731027136; x=1731631936; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/vmX3lXsTDc4GilAspkSHux0yJlii6bjqc6VWWGKkGY=;
+        b=Dmg1juo0R610sP15DyodS3+P1PCVneuclSIhEr6qRfhW7BKIH4ORhcqkgJza3XbnoA
+         EYS9+wEKtb2gEN6FMAhBmOwN6mTXHNxlgogq+Htg95t5VGFqvmEpZ1nw2p9/8BpX8Mwt
+         LG5LrQeoVuNAQgtw5dxDyq0euboB3YBZiYvED50SN3Ur3qTzgRF7UCn5mO8yf5zWCPbx
+         T+jstwZIciBIyLpSyXsObYOGyNOW1o19BzmhWVrxHGBg9zjk4CqSGhUvXMVmA5z7uKRt
+         ZPrM3KUURbnfKyz1ZrBYZVFh7jAWgRoRSlfcLpSxPCrjutRkdsaoZMrEusv2HEzSKVtt
+         fq1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731027136; x=1731631936;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/vmX3lXsTDc4GilAspkSHux0yJlii6bjqc6VWWGKkGY=;
+        b=SleLEc7SdEDEmUqUy51j8GQyTw0ArnRk/IykVTCuKqfG+ArSXSQAeeLxASZzR4F8x9
+         l+huS+lHEDzf4LXqTXe/7fW9/f9ovrUTzRUWDazoiDVMo43yaI17debxv0GuaJOMJKhS
+         hkka+yaYQRQnzm6D4ID+dcsbwkx52wO3RFarHSiZHi1lrPMWUu6NtGCjqvSD1jot8GYz
+         pTUhLgHyN499v2m0H2drS/AqO/uZtj0uC3a6NOqLGzjs8LkLueiKwG3YCDqvi4MO94iL
+         1wDMNuH7Vo+xzcjW8UZLqkrN9TEopVTddR9m8CLTbUA/WLHPqh1h4tbJjdMP7DogkDA1
+         51YA==
+X-Gm-Message-State: AOJu0Yzbg+rXVv5u3Jq6V648wQvvoMH8m/FD/PLmhhDGLJUehR0wB7gD
+	XAai7/Py3FKc4mg+q3P5MNowp6Njr38xAFYkZyMi0/hH/xpBAiU0
+X-Google-Smtp-Source: AGHT+IHZukLAtGIpoxOU6vQP3kwwzNCueeorSKv/5xKNmHlTvDCD0P3IMlLzdm6raX4gDbGTWLEinw==
+X-Received: by 2002:a05:6a20:7fa8:b0:1db:ec07:3436 with SMTP id adf61e73a8af0-1dc228930fcmr1458163637.9.1731027136133;
+        Thu, 07 Nov 2024 16:52:16 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724079a403fsm2447659b3a.105.2024.11.07.16.52.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Nov 2024 16:52:15 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 7 Nov 2024 16:52:14 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Abhinav Saxena <xandfury@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] hwmon: Documentation: Fix grammar in fan speed trip
+ points explanation
+Message-ID: <07b90400-7f6b-478d-80af-c7e71ac205de@roeck-us.net>
+References: <20241107013849.47833-1-xandfury@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] Documentation/mm: Fix spelling in hwpoison.rst
-To: Abhinav Saxena <xandfury@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
- Zhihao Cheng <chengzhihao1@huawei.com>, Richard Weinberger <richard@nod.at>
-References: <20241107063042.106228-1-xandfury@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241107063042.106228-1-xandfury@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241107013849.47833-1-xandfury@gmail.com>
 
-
-
-On 11/6/24 10:30 PM, Abhinav Saxena wrote:
-> Fix spelling of "focusses" to "focuses" to follow standard English usage.
+On Wed, Nov 06, 2024 at 06:38:49PM -0700, Abhinav Saxena wrote:
+> Fix several grammatical issues in the fan speed trip points documentation:
+> - Replace awkward "which % the fan should run at at" construction with
+>  clearer "that specify the percentage at which"
+> - Fix incorrect "is chip depended" to "are chip dependent" for correct
+>  verb agreement and adjective form
+> - Improve readability by reorganizing first sentence and separating the
+>  complex explanation into simpler parts
+> - Add hyphen before "see" to improve readability
+> - Remove redundant "at" in temperature description
 > 
-
-We accept British spellings.
-
-internet says:
-"Both spellings are acceptable in American and British English."
-
-"Focused" is the past tense of the verb "focus" and can also be used as an adjective to mean clear. For example, "She had a focused approach in training". 
-The plural of the noun "focus" can be either "foci" or "focuses". 
-
-    FOCUS definition and meaning | Collins English Dictionary
-    ), plural, 3rd person singular present tense focuses , focusing , past tense, past participle focused language note: The spellings...
-    Collins Dictionary
-
-Focussed vs Focused | Spelling, Explanation & Examples - QuillBot
-Sep 10, 2024 — Published on September 10, 2024 by Trevor Marshall, MSc. Revised on October 29, 2024. Both focussed and focused are ac...
-QuillBot
-Spelling Tips: Focused or Focussed? | Australia's Best Writing Tips
-May 7, 2020 — Summary: Focused or Focussed? 'Focused' and 'focussed' are two spellings of the same word: Focused (one 's') is the sta...
-getproofed.com.au
-
-    Show all
-
-"
-> Checkpatch.pl reported this issue.
+> No functional changes, documentation only.
 > 
 > Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
-> ---
->  Documentation/mm/hwpoison.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/mm/hwpoison.rst b/Documentation/mm/hwpoison.rst
-> index 483b72aa7c11..dd02fae484dc 100644
-> --- a/Documentation/mm/hwpoison.rst
-> +++ b/Documentation/mm/hwpoison.rst
-> @@ -17,7 +17,7 @@ To quote the overview comment::
->  	hardware as being corrupted usually due to a 2bit ECC memory or cache
->  	failure.
->  
-> -	This focusses on pages detected as corrupted in the background.
-> +	This focuses on pages detected as corrupted in the background.
->  	When the current CPU tries to consume corruption the currently
->  	running process can just be killed directly instead. This implies
->  	that if the error cannot be handled for some reason it's safe to
 
--- 
-~Randy
+Applied, after fixing the subject (which needs to include the affected
+driver).
 
+Thanks,
+Guenter
