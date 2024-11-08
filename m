@@ -1,161 +1,123 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3518E1CB333
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Nov 2024 05:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2DD1E203F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Nov 2024 08:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731045121; cv=none; b=I6phaUW/NbQPuHiDMgx2X8uBVr8rRKWPTfI+zLfuKDpHTB9z/e55yboaOLrSKHEOrbumItToGBUB8Hz3IzuZ29hp3I0GM0iM8GMTjZNp1sCAQjbCqE7ExfJlFO6gnnyQ12CItMxjNkceNA34nv+P+9TjS7UkLWjeYJNEzhkHHpE=
+	t=1731055123; cv=none; b=f6kHzy66w8sNrQ7uPgMyVJS34HvlflIhsn9Vnqb8ZoYUQRjRbfyznA6hkDr+qMYGWwf+DVWdSZAaepWLf11oFJkv4Ule71MUuVpq6ni4Cu76xwMG7aU21k2xyLtk9bwgTthNXvWvLWFK1EM1wL40NxhGHTh1hvMviFVg1fIJYrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731045121; c=relaxed/simple;
-	bh=FldH5ezVCKzA4ilhWwESkXoEsqQSxz+NQnJCrsnSmDo=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=DIVkF7wYeConyove8z08nnEHDwz8Ay/JW1O/6QNvXvEMkdJlIfwhf6u6cdaTNycFGWklgzyvGGvy8fzohvKncpU3+p5myK6WwPEiUdwp2OstofEA4A1qbWElfxmQz11YFV3OjpqHzaExEqHur96AzbXo7RFm+qLm6ZzRNVgKR6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nW3NpdFq; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1731055123; c=relaxed/simple;
+	bh=3snwBfOluaLLaBqMW2z9kpc27Gve1ktkYY+R204mCq4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=dtA1/ZrW8QoGGvuIoPh6MLp0fWoSZ5NsnsPdx3QqcpzyzqjtKJodxi45zw0pW98UftzShJlq2YGw+RH22rU0F5RIYGhYsDLKxPC5accOW2iLM6pOHSL819C4xZQNawCe4KpDZ93ah0vl55UbM+VgPAvFJ1nQvL5n7Wu7oSflVu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kMa2WYgt; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nW3NpdFq"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kMa2WYgt"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id B1D28844A4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Nov 2024 05:51:59 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2AC2B6119E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Nov 2024 08:38:41 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 5bACF46xG324 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  8 Nov 2024 05:51:58 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2001:4860:4864:20::36; helo=mail-oa1-x36.google.com; envelope-from=xandfury@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org A6A92844A0
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A6A92844A0
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=nW3NpdFq
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id A6A92844A0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Nov 2024 05:51:58 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-290d8d53893so813297fac.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 07 Nov 2024 21:51:58 -0800 (PST)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id XzmeFQ1MyLq9 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  8 Nov 2024 08:38:40 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::434; helo=mail-wr1-x434.google.com; envelope-from=daniel.thompson@linaro.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 730C961198
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 730C961198
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=kMa2WYgt
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 730C961198
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Nov 2024 08:38:39 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-37d3ecad390so1709811f8f.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 08 Nov 2024 00:38:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731045117; x=1731649917; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1731055116; x=1731659916; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OqQKVoQIIB/alco7tDnCa7tsUMIzxx7+4InKayAOpSw=;
-        b=nW3NpdFqqO0vF1bqG8rKycU7KgYR21X4umZLfSS/sXcMF1p7Lg6s1x/FckY1lB+kBS
-         0AgxdAQxfNiVRI6G/lunm5U/UZdNG8ASbnX0Rr9rBFEvCGXEHSiRFfnbhsZDq/5MATbe
-         9KUft8cqX1o3D5Uh7wUBkxvnf3A6T0+3HCPIlXLVbWsbMzvQYO/gLP8assNOL0sCOtPA
-         lRJMTrzuP2K0xBLfHu1kfEX++jPRBc62P5rJvt1K1VE33m5pf2EXrXle3g9SskzA/U3/
-         eT27nJLENkfL443PsDjWT+GVJ3za3LT3XfCoivsUSp8Akovugc0CjGru/8GCMrNWEp/K
-         Altg==
+        bh=xTOcfwig0PKFL8PVkUy0lEQsorDf8mUsKxkvyFmWiY4=;
+        b=kMa2WYgtUdjlmjegOgA/DTewwvfizwV3EHffr1V6fw5rtexrjUnJ0wkEbAJvXn5OrN
+         rZhgunVNrJeV8ACZXK4B5qM6cAaGp15eXwofGTgD45MtNZ4ceAOxI/pMLZeLSX4HO6JA
+         OhTHuXoCb8wBARpM13udgHlDjeAWow/JXwTndU/qV+scb0bcyGgQfwde0cWNe5pDZPnm
+         svzkq3CQcSw+2c5YUJ/i6Wk2LXFonM/h2BXLSqxWZEAceL3pUCKqcvOMtmBz+75lyI2Q
+         zwQ3xPzbOX7AVCQ4FaLmMSDMtJ1FAfAdF9d/vopE6Z2Z7tzL7vkI1HE9J3IQQxt9TVO5
+         wdWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731045117; x=1731649917;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OqQKVoQIIB/alco7tDnCa7tsUMIzxx7+4InKayAOpSw=;
-        b=D36O8GoWAGmBC/aJx/O5oi9j7UiAzF92KUMWnZYCAdzOhjJ/fSxZCI59/34Pf2Y8hA
-         hjgnOyoOY1N5jvU+M7poVhvEXkSQjCs4pSe4n6F8xvWJHf74aClBvkiqUs3GbIIbO5MG
-         4gpPsFy5EGlU/dXN8QyDVsbPnwL+vJGecQvQLxwfcvhZ1oVkUrQMOPSI8IHx2SNgEoCg
-         /uBzh5dASjPCVghL2CuLu+uc7x+ANQiegCp3GSonuGAYV/uu7H73zbgbZprgz8HaRAqe
-         9Vt88wz1RwrLOtOlVPWlEMv6IYzVvkfriYwxOjhD9Rk9CQvRZZ102dGCk6X0LXWWAVHZ
-         pocQ==
-X-Gm-Message-State: AOJu0YxURtAQEzDi8ybyMN2NAjTF8dmsajZF0ZhKDFOj+v943KRB4trj
-	5/77OL0LO6QRhX9q4biG6dcPxgUqtb4VOH7/S+4biQJQzZozRPKe
-X-Google-Smtp-Source: AGHT+IFkZaTZJxaNXXPpZuSOVEsTRJR2nEjo5hkiRAfTbYsTwu37oqi4krQ0l4Ej1anGCJLRJlEz4A==
-X-Received: by 2002:a05:6870:5e53:b0:27b:55af:ca2b with SMTP id 586e51a60fabf-295600c5b27mr1930081fac.11.1731045117421;
-        Thu, 07 Nov 2024 21:51:57 -0800 (PST)
-Received: from 1337 (ms-studentunix-nat0.cs.ucalgary.ca. [136.159.16.20])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078a7ec7sm2752918b3a.55.2024.11.07.21.51.56
+        d=1e100.net; s=20230601; t=1731055116; x=1731659916;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xTOcfwig0PKFL8PVkUy0lEQsorDf8mUsKxkvyFmWiY4=;
+        b=Bum00ty8ZRUnoT1VvSIWujgwQeF9PWx1aMazFb5JdLntfhvtu6zOnCSxViNj+TKsF6
+         XQ8q/s54cxqZwtuPPMAQ+vnpICGCGdbuQNiZRH7HqIcusRtbbDaOKFxp3+hPjgAX9pEi
+         SZxxY5sybZnwGTK6LjjFV+DoXZamOfZZ1zvSHfx1+/X1Kibpc8PfcbAfH4+D64P2xPW6
+         Db28mizXnwjsoOoYEA7EfjCwJ8ePj8tf9d6Oh4iHknzZO6kLNWU/bns/y2VzFRy1nw6y
+         Wxc2wJrQbTNEjQCw/vgq8sTA5X/CQq/ovUpR+o+cbednSzeeQKYe5TWqwHfPJHycPK3z
+         1Udw==
+X-Forwarded-Encrypted: i=1; AJvYcCU4z7bqncTBefWfipFFOT1JmFGRLFl1kt+PfaWhYyAhuO3rHGuHebWm+KUjWE1jqOJKr3OGK73xRgmuep4TmEjB9E3KcA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxQ1NlZgB/3GU6GoESOXF+Hs+Y5p7e6/mvI6ftK6aTN4qTZQX5x
+	7BwIcmNLwcEgRO5Mj1mthOIa8wJiDIhchVoSzen5c2/tSOpBFeKAHhHY9Rq02cHZmbdZK8bkWrt
+	bffCSTQ==
+X-Google-Smtp-Source: AGHT+IGjJsYkKtS++GK0c6xcy/PKYqPkLYH/DrLydQt+yXOAMvFiy8YV5KZWq/ekW1oi9PjQAEWzfg==
+X-Received: by 2002:a5d:6f1b:0:b0:381:eba9:71fc with SMTP id ffacd0b85a97d-381f1c83b8cmr1500678f8f.19.1731055116277;
+        Fri, 08 Nov 2024 00:38:36 -0800 (PST)
+Received: from aspen.lan ([89.101.241.141])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381eda05f89sm3889986f8f.98.2024.11.08.00.38.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2024 21:51:56 -0800 (PST)
-References: <20241107063042.106228-1-xandfury@gmail.com>
- <464b1628-957a-485b-87d9-47636491de22@infradead.org>
-User-agent: mu4e 1.6.10; emacs 28.1
-From: Abhinav Saxena <xandfury@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Jonathan Corbet
- <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>, Zhihao Cheng
- <chengzhihao1@huawei.com>, Richard Weinberger <richard@nod.at>
-Subject: Re: [PATCH 1/2] Documentation/mm: Fix spelling in hwpoison.rst
-Date: Thu, 07 Nov 2024 22:50:46 -0700
-In-reply-to: <464b1628-957a-485b-87d9-47636491de22@infradead.org>
-Message-ID: <87ed3me0j3.fsf@gmail.com>
+        Fri, 08 Nov 2024 00:38:35 -0800 (PST)
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: kgdb-bugreport@lists.sourceforge.net, 
+ linux-trace-kernel@vger.kernel.org, Nir Lichtman <nir@lichtman.org>
+Cc: yuran.pereira@hotmail.com, jason.wessel@windriver.com, 
+ dianders@chromium.org, rostedt@goodmis.org, mhiramat@kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org
+In-Reply-To: <20241028191700.GA918263@lichtman.org>
+References: <20241028191700.GA918263@lichtman.org>
+Subject: Re: [PATCH v4 0/3] Replace the use of simple_strtol/ul functions
+ with kstrto
+Message-Id: <173105511502.10030.8958584403113767756.b4-ty@linaro.org>
+Date: Fri, 08 Nov 2024 08:38:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+On Mon, 28 Oct 2024 19:17:00 +0000, Nir Lichtman wrote:
+> The simple_str* family of functions perform no error checking in
+> scenarios where the input value overflows the intended output variable.
+> This results in these function successfully returning even when the
+> output does not match the input string.
+> 
+> Or as it was mentioned [1], "...simple_strtol(), simple_strtoll(),
+> simple_strtoul(), and simple_strtoull() functions explicitly ignore
+> overflows, which may lead to unexpected results in callers."
+> Hence, the use of those functions is discouraged.
+> 
+> [...]
 
-> On 11/6/24 10:30 PM, Abhinav Saxena wrote:
->> Fix spelling of "focusses" to "focuses" to follow standard English usage.
->>=20
->
-> We accept British spellings.
->
-> internet says:
-> "Both spellings are acceptable in American and British English."
+Applied, thanks!
 
-Ah. I should've checked contributing.rst[1] first. checkpatch.pl flagged it
-for me. I did not look more into it.
+[1/3] kdb: Replace the use of simple_strto with safer kstrto in kdb_main
+      commit: fe0c87871fc0b97f6d374b670c81f7c4087eebc5
+[2/3] trace: kdb: Replace simple_strtoul with kstrtoul in kdb_ftdump
+      commit: c56642c737fc0bd9bcc3a22a2bf8ed6f5900a660
+[3/3] kdb: Remove fallback interpretation of arbitrary numbers as hex
+      commit: 5f4ca702e36893a276fccb0aa55ab36e19dfbb50
 
-Thanks for the detailed reply!
+Best regards,
+-- 
+Daniel Thompson <daniel.thompson@linaro.org>
 
-[1] - Documentation/doc-guide/contributing.rst
-
->
-> "Focused" is the past tense of the verb "focus" and can also be used as a=
-n adjective to mean clear. For example, "She had a focused approach in trai=
-ning".=20
-> The plural of the noun "focus" can be either "foci" or "focuses".=20
->
->     FOCUS definition and meaning | Collins English Dictionary
->     ), plural, 3rd person singular present tense focuses , focusing , pas=
-t tense, past participle focused language note: The spellings...
->     Collins Dictionary
->
-> Focussed vs Focused | Spelling, Explanation & Examples - QuillBot
-> Sep 10, 2024 =E2=80=94 Published on September 10, 2024 by Trevor Marshall=
-, MSc. Revised on October 29, 2024. Both focussed and focused are ac...
-> QuillBot
-> Spelling Tips: Focused or Focussed? | Australia's Best Writing Tips
-> May 7, 2020 =E2=80=94 Summary: Focused or Focussed? 'Focused' and 'focuss=
-ed' are two spellings of the same word: Focused (one 's') is the sta...
-> getproofed.com.au
->
->     Show all
->
-> "
->> Checkpatch.pl reported this issue.
->>=20
->> Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
->> ---
->>  Documentation/mm/hwpoison.rst | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/Documentation/mm/hwpoison.rst b/Documentation/mm/hwpoison.r=
-st
->> index 483b72aa7c11..dd02fae484dc 100644
->> --- a/Documentation/mm/hwpoison.rst
->> +++ b/Documentation/mm/hwpoison.rst
->> @@ -17,7 +17,7 @@ To quote the overview comment::
->>  	hardware as being corrupted usually due to a 2bit ECC memory or cache
->>  	failure.
->>=20=20
->> -	This focusses on pages detected as corrupted in the background.
->> +	This focuses on pages detected as corrupted in the background.
->>  	When the current CPU tries to consume corruption the currently
->>  	running process can just be killed directly instead. This implies
->>  	that if the error cannot be handled for some reason it's safe to
-
-
---=20
---=20
-Abhinav Saxena
