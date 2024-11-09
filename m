@@ -1,105 +1,100 @@
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C5919DF75
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  9 Nov 2024 16:20:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5516C1A0AF7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  9 Nov 2024 17:50:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731169205; cv=none; b=l3VtJvY7O/MgwsbKcn2Ufuayei4jRrSKNA6ZpWzqU4Wo7l4cOA748z5LuHC7aru++IikQEXZvOop8YTGZlAuG0aWgZqAtmlHWNp3jQwD9o6vks8/SyOOGEOe7jstirP9U69G5QRsC9sYeYYuWHXlhzncl8+G/E7y8rIRlJ+7ui8=
+	t=1731174629; cv=none; b=um91MS5NGVk1EOdCJSmdyqZv5mjr9T2WYVoSOy4AQ8aHH5M8e7G1zTvZnt12MOr2UO9h8UfMMh+xlvOqPTURz2rS2fIpKBElhbzo/OB4skMNf83A5wwuwNQpCthykk7g06bS4gBi15SvuORL1GCiDKokAfaq9hHK1m/bbLqATco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731169205; c=relaxed/simple;
-	bh=bYM/NzIvyRrfBsP8RmBIZKV4NZLOrYsf/moxsAkmvic=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g1Cf5CP5RmidFQyJXo5DhfnHmGbwWqQ7lYZgOs+ZuBdfdIp63tJmfyk+woONPhwqCK3n1X/Qi6XimFlOAURYQvVHDZgj2U9owD0MvtK58vZ+ViQgiKPVrLNox8F2y22BHQfk4b7kU93KxzsYqvIeTVsHN7HFYIlJmU3uP+jXV3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aa3JUiz7; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1731174629; c=relaxed/simple;
+	bh=pYtKEpzSG42YcWjJM2DOhi/N3tNUOuOOPYpXtUBWNRs=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=kxtoMhh3EaGDK/wuul5ImfQRYES3CE+K0NLrXFPLpRjeYcvUNRB/5t9ydwAPmDmFIHwhzaGxo/gbhxpkDJL7xtZ/oU3BeLYnvoOKQO98BbqRFe1IrDhzdkXa4i9y+UR7Q+ZM4VtSDxzxZxA+nG7xTDWDcw7gNGzEMLXdQeJ/qDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gr/e6UYr; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aa3JUiz7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gr/e6UYr"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2EF65606B0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  9 Nov 2024 16:20:04 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 10236605CB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  9 Nov 2024 17:50:28 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.25
+X-Spam-Score: -4.401
 X-Spam-Level:
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id O1aU2N1qrZg4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  9 Nov 2024 16:20:03 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org B5941600B6
-Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B5941600B6
+ id z4gy2sAeKBQC for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  9 Nov 2024 17:50:27 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=patchwork-bot+netdevbpf@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 36601605AC
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 36601605AC
 Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Aa3JUiz7
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B5941600B6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  9 Nov 2024 16:20:02 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-20c9978a221so35791275ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 09 Nov 2024 08:20:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731169202; x=1731774002; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uIdDqkNi3q3KSA3T4NLnanAmEvoPnAc5/iNz3QjbMxk=;
-        b=Aa3JUiz7mDVEAUQMZnp6zb/8ulyHZ4dZJYUbKClOlylanHGrKYqgQ09ZIePuYZWYB8
-         Q6SQFAQPX6KdGJS4tRZCfhPTZxVg9u/Fn1fkusstIYnDp9Z5LJMG+r5NeDGB6RKHbZ2P
-         naRT8gFRbjiuoO7wSc1y8An+DJcH6D00aYrjyuMNmJ9f+A+jKBUqYl95kqHSa8rqTJdO
-         BywHrFxL7ZxPYWMVSvnh08YBLAoxwfZTDMFnA7GQCh8PgsJWORprQQtyRz63lqMKZS09
-         ZhPWCmTowCEQi8qQeBxXPSK5Or/F2VNEj+amqp+ZfZY/1SKSuApzuurLNeSh5wnjDBU8
-         IJ6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731169202; x=1731774002;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uIdDqkNi3q3KSA3T4NLnanAmEvoPnAc5/iNz3QjbMxk=;
-        b=iShY/ZSmlKqvWd0BmiZ7TubFBsp/iZogD7TlUAKtzXivo4wfY1GlX/Fc5LuTaYYF5Q
-         DhwMunMX8HOrxCJ/JTxsEEXSDuEFvqna0ws3B9xfOnRDPvYOliaRy+ISj5U3DP7JxmP6
-         5dqD/Ll0mNbJZm7xXQerk6klFUUE6eOIPuIKZI59/5l2W3WNK/gpuwlHtOeyJjDIdseE
-         hPDNQ5fSJ72l2/1xVFSurFQQ/2n5/PRQipPQvKDJqhinZFs4OLCdD7pXtPxcYGlV8mrM
-         QLYrmurVNAB4ASy+yFtnAKr9URMAntTsrjBA/9i7U4nX9hg8/lXiOKbYV18kdB6WwZYb
-         WJIA==
-X-Gm-Message-State: AOJu0YzcybqQZOQiodc6sDxxNerMOd78Iw8ESEpiqfvBVpADexGq1ix1
-	7t6+mGtMOi/kFup3oFC2AQr3gW20jXAZLWOfERSHewhGg0P2xslT
-X-Google-Smtp-Source: AGHT+IHchpijQZ/t4MIM3Z5ZvdChlTY7hqQFZY7Q8ZocwKd7CTk25AFO5k8cr+DqsbXwQBkkfgRHfA==
-X-Received: by 2002:a17:902:e5d0:b0:20c:e4c3:27a1 with SMTP id d9443c01a7336-21183c41aa4mr86898525ad.3.1731169201856;
-        Sat, 09 Nov 2024 08:20:01 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e45839sm48009165ad.143.2024.11.09.08.20.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Nov 2024 08:20:01 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sat, 9 Nov 2024 08:19:59 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Abhinav Saxena <xandfury@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] docs: hwmon: Fix typos in sch5627 and max31827
-Message-ID: <a8ec5b3a-7adc-42d9-8c67-04f21f000eaf@roeck-us.net>
-References: <20241108212201.144482-1-xandfury@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Gr/e6UYr
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 36601605AC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  9 Nov 2024 17:50:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 6573F5C563B;
+	Sat,  9 Nov 2024 17:49:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99FDDC4CED3;
+	Sat,  9 Nov 2024 17:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731174625;
+	bh=pYtKEpzSG42YcWjJM2DOhi/N3tNUOuOOPYpXtUBWNRs=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Gr/e6UYrdFuiygnQlCBM3Co3bX1ofKCfB7TQ9D0xO/EalevEh/7Usnfeav2UYeB7H
+	 x5KFlWu8/7r50cokloD6/Cy56ZPpunrA1bR+aMLqna92jOphl2dz720Ydzcy2A6ebR
+	 +IOCBj/jbuanmiGDDuAJ4o4QN43XFB9wN913gZ6pP1+MJ35wQNe9nNcZVTj6PlxC3j
+	 wBtM9B6k34C11tO2sRGyh04RBIA76LuG8bj4KY34Gr6eh3VDhN3mI/rg/7a27dp6t2
+	 xQdVirwpM0u2n8rtG5h9yjsFI0fTloINIg087xdnZL/0CiW9DcEcVPlpDpPu2VClyH
+	 GzZR0BfG7P6Sw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 710343809A80;
+	Sat,  9 Nov 2024 17:50:36 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241108212201.144482-1-xandfury@gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] tc: fix typo probabilty in tc.yaml doc
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <173117463524.2982634.11425896086661081930.git-patchwork-notify@kernel.org>
+Date: Sat, 09 Nov 2024 17:50:35 +0000
+References: <20241108195642.139315-1-xandfury@gmail.com>
+In-Reply-To: <20241108195642.139315-1-xandfury@gmail.com>
+To: Abhinav Saxena <xandfury@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, donald.hunter@gmail.com, kuba@kernel.org,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ horms@kernel.org, ast@fiberby.net, liuhangbin@gmail.com,
+ alessandromarcolini99@gmail.com
 
-On Fri, Nov 08, 2024 at 02:22:01PM -0700, Abhinav Saxena wrote:
-> Fix some typos in hwmon/sch5627 and hwmon/max31827 reported by
-> checkpatch.pl. These changes are purely documentation cleanup with no
-> functional modifications.
+Hello:
+
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Fri,  8 Nov 2024 12:56:42 -0700 you wrote:
+> Fix spelling of "probability" in tc.yaml documentation. This corrects
+> the max-P field description in struct tc_sfq_qopt_v1.
 > 
 > Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/netlink/specs/tc.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied.
+Here is the summary with links:
+  - tc: fix typo probabilty in tc.yaml doc
+    https://git.kernel.org/netdev/net-next/c/cf6d9fe09185
 
-Thanks,
-Guenter
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
