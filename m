@@ -1,104 +1,107 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41671A2C32
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Nov 2024 16:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626A1207A1B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Nov 2024 03:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731344009; cv=none; b=fOuZ0lz8aq3GjNwnu0gu5gJgkwjrXKelB5dy5SMiTC9fngwVGMKG6PlYU/TD0mmVfONnFHQWRmaSZfFDSaoOqLK6iA03AWgthOGPS8/o0B6sWLOI+M7RzBu1lId3DsRafexvhaTKF9qKOgH1MGJoIGnA/p4TESCoMTgfhLElzGo=
+	t=1731380642; cv=none; b=CWhBlT7UuflhPliUfGa4L/qVi8LH3rI1eM7eE3iozXguuopYooJp9BYcv7sS6BmN10wgh4QXDdvup7h3z8rb4sCWB3hyV57V98tq9P+bf5OyixuEAO/Dar7hx/tN57Xe/e+TbpMwagailLwoz8g5w69Xtr7dglmMaEzJj0PSiU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731344009; c=relaxed/simple;
-	bh=7jB/VlRFjzf4Ba1mF3gK2PSxXXZWjrnSx7YLjrpKSQ4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bvvOQ7sm4Reair6MzFAShzPh/mKaHTji8ucby7ePt5uZduU66+oz8Lz6tvXvPL0wgDG3hEuGMKsJ8fRnK+3ZebQq5u/uPZAO1MyyBiqgg+iS7WT56BFSuvEWZ6ZUgWK6SrpxmbQQK/Ajq2fApPUj5B8L7T2CB2ohez5PTWjQUW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B9VdBymr; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731380642; c=relaxed/simple;
+	bh=zEuVEOYuXvXUfujcZ5GqwkoABFSLMXkGDWxAsMEEFyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dIVIfovUUw6aGo4xTxYSSXFgNTyqueUW8gO038FO4QVOYTSaPhASwMQ7VwPdTozatb9X6t4BijnwCLt/mRifb63O9hkrh9O/UyQg9e1L+Oy+GViWAkMQ/9SMupQ/J9fL+epyfl0M8EtiDNw81gO/AGrWXufUI/6zDoU3SmSuWM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mv8wTLYb; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9VdBymr"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20c8b557f91so50656175ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Nov 2024 08:53:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731344007; x=1731948807; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zp+nbh/dZKfux7FpHpW59JPT00IgC82bEOR9JMylv+k=;
-        b=B9VdBymrad5OphLTYuTS/lxrV4kefevVD1pG9GsdZJYVQuGEflL8Ohus9EQhnNfhan
-         moywAN3eBoG5bmKf3lMu5P9BSGBz+4J1vECY4csS94tXr41NYHzhq0XgtMDoW8QTVQGR
-         PzC5kJaLcU54l0F+0HnDBj5WdBZMsA7PCK8vfHXyO4AyyZt+nh1+jQFiOSBaq/4PrRve
-         eVCXxo0NesDgC9DI0THbco4GOlJPGx0mt6Zg/KQdwAIF55tENl6BukCVsYaiv/82rwxJ
-         BR2da0nQRJOnuP02ySoju1sY7KXhC6roUSFA2pALdpxePy8jn9eEgyDgevga9al01k/1
-         m1uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731344007; x=1731948807;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Zp+nbh/dZKfux7FpHpW59JPT00IgC82bEOR9JMylv+k=;
-        b=EbbF3od9qmzsev68S1LvqU7J2+3gRPgorgYI6WaBqKOIBYMl+TtNA8stfm1993agmT
-         ei14dUtemVIW/mSaALvnzaxTiVhB/tq1Bc3Q5ySwI8MTMWOMxlJd2OE1IdA61XZAKHhQ
-         yp07rycB+AVVAimK+mntmBcrsK+LasBBFdyUk15h+umcqngj7v1jyMelqkzRMPs1ljL8
-         9F7uR/rM49W2rke5HKvE8xp7uttqfkCEJonvLv4kv9XecgobExLDvEMygrXYbW3XmDiU
-         8rgZDAIXgdAWCsy3iZ1Y2zkwrnZ+CuHqpB3liFXNP+NgHKuzpXePvWbCqggJ+LHeJKm0
-         HofQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX09QNSVAq0L51U0DJNVLRZrNqPeRH2r8g9VRCTg65fY3Mfab3Q2WzggQ07UFzR6yTDDQzRxF5DaAikxlzS15Sw9WJhKQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwA/s//PW8bw1wpwzo7ssCQByX6vvGmsLLkF+IOkmiEia0jJMFa
-	ab7/P2oduF8s9zmOuHs3x4cDy0PAUlOsYbFJNUtAeMHekY86MoDY
-X-Google-Smtp-Source: AGHT+IHXISfj9AJxeg33E7YdEoBMj42RHz9afc6u3daioNxNqg+xQD+UBy59Q/iDkkJ+0C2kRQrlew==
-X-Received: by 2002:a17:902:eccf:b0:20c:8abc:733a with SMTP id d9443c01a7336-21183daceb8mr208915355ad.53.1731344006976;
-        Mon, 11 Nov 2024 08:53:26 -0800 (PST)
-Received: from localhost.localdomain ([2409:40c1:5f:8acf:5c94:d8c3:91ab:c98b])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e9a5fd154asm8809116a91.40.2024.11.11.08.53.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 08:53:26 -0800 (PST)
-From: Amit Vadhavana <av2082000@gmail.com>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	sfr@canb.auug.org.au,
-	saravanak@google.com,
-	ricardo@marliere.net
-Cc: skhan@linuxfoundation.org,
-	av2082000@gmail.com,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drivers: core: fw_devlink: Fix excess parameter description in docstring
-Date: Mon, 11 Nov 2024 22:22:53 +0530
-Message-Id: <20241111165253.16672-1-av2082000@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mv8wTLYb"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 03C05401A2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Nov 2024 03:04:01 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -10.792
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id DBtRujKZNXaq for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 12 Nov 2024 03:04:00 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=kuba@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 1BD0440002
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1BD0440002
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Mv8wTLYb
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 1BD0440002
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Nov 2024 03:03:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 7BC165C462D;
+	Tue, 12 Nov 2024 03:03:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E022C4CECF;
+	Tue, 12 Nov 2024 03:03:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731380638;
+	bh=zEuVEOYuXvXUfujcZ5GqwkoABFSLMXkGDWxAsMEEFyE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Mv8wTLYbB0/mepIUwLysLWZSQHKkWGgpvMXFU6/G85HdVDVTKuOTFLGFdZ8lHm1PN
+	 gjzljxT8jQfbK2oQi4AwJfeNeMe6gcl8LWLwDttcFpDTEysNKxnpOAGAWVp89XLm8R
+	 eVuH4Tpzdj1asuMS0pcb8r/DNNY59gjMasG1ZAHzYiJpjDjWdhHOpORXc+gqQEu2Vw
+	 3BMkcFunnkZfW232l3DHw+y90hFNBw8+tOiaRSbMHJhrFUcLnijjpLF7Ab+Ul3HN7U
+	 AnYMdTA1ZyLFxpPSlf5Ht5f686gvLoH1V0TnzUGdNtZ4cWa4Pp+jOkiMpo1mBq1cMn
+	 PDgDB910rl6Bg==
+Date: Mon, 11 Nov 2024 19:03:56 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Abhinav Saxena <xandfury@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, rds-devel@oss.oracle.com, Tony Nguyen
+ <anthony.l.nguyen@intel.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
+ <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Tariq Toukan
+ <tariqt@nvidia.com>, Allison Henderson <allison.henderson@oracle.com>,
+ Russell King <linux@armlinux.org.uk>, Dragos Tatulea <dtatulea@nvidia.com>,
+ Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Subject: Re: [PATCH 1/2] docs: net: Fix text in eth/intel, mlx5 and
+ switchdev docs
+Message-ID: <20241111190356.0aefe1b9@kernel.org>
+In-Reply-To: <20241108202548.140511-1-xandfury@gmail.com>
+References: <20241108202548.140511-1-xandfury@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Replace the parameter name 'con' with 'con_handle' in the docstring of
-__fw_devlink_relax_cycles() to resolve the kernel-doc warning about an
-excess parameter description.
+On Fri,  8 Nov 2024 13:25:47 -0700 Abhinav Saxena wrote:
+> diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
+> index f355f0166f1b..df4b4c4a15d5 100644
+> --- a/Documentation/networking/switchdev.rst
+> +++ b/Documentation/networking/switchdev.rst
+> @@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
+>  monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
+>  bond will see its upper master change.  If that bond is moved into a bridge,
+>  the bond's upper master will change.  And so on.  The driver will track such
+> -movements to know what position a port is in in the overall topology by
+> +movements to know what position a port is in the overall topology by
 
-Address the following warning:
-./drivers/base/core.c:1994: warning: Excess function parameter 'con' description in '__fw_devlink_relax_cycles'
+Are you sure? The first 'in' is for position, the second for topology.
+Equivalent to:
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/all/20241107223528.3781323e@canb.auug.org.au/
-Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
----
- drivers/base/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ movements to know in what position a port is in the overall topology by
+                   ^^                         ^^
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 78b2c0eacb26..94865c9d8adc 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -1971,7 +1971,7 @@ static struct device *fwnode_get_next_parent_dev(const struct fwnode_handle *fwn
- 
- /**
-  * __fw_devlink_relax_cycles - Relax and mark dependency cycles.
-- * @con: Potential consumer device.
-+ * @con_handle: Potential consumer device fwnode.
-  * @sup_handle: Potential supplier's fwnode.
-  *
-  * Needs to be called with fwnode_lock and device link lock held.
+We can rephrase to avoid the double in:
+
+  The driver will track such movements to know the position of a port
+  within the overall topology by registering for netdevice events and
+  acting on NETDEV_CHANGEUPPER.
+
+>  registering for netdevice events and acting on NETDEV_CHANGEUPPER.
 -- 
-2.25.1
-
+pw-bot: cr
