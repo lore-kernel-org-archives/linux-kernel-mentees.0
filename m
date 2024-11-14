@@ -1,87 +1,138 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750781FC7F8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Nov 2024 20:39:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8D417FAC2
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 14 Nov 2024 16:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731443947; cv=none; b=DNVLZhC/8IQEDM4PhWzEPNf0whCMcPqFFo+vzmnDQf50GEG5uH2KLTLBKRwfelpKBvp/lTrnsq1hKeZimi2dF0BXZqSwfWhUiogwjWEp0z9EAsxF3rYayMIXikG8ugBQQag/gNjvCd2mcsitUi2hSy7Hxr+KEsJJ9uTbALmDNJ8=
+	t=1731601513; cv=none; b=RrWXER1YGiP23zOc9ko6g1mJkHVvDAZM8sPrFBt7S9sgfw5KRVZd8DP0FT4xop5K3/kIeaI1G7Bsg+xBVLQ7xAYxad46jAMz6viB7LUr6zyrSVs1OjRquCTxrRYl5hStmhJtUCUgH0jzbMApXnu/uSoMIPX/x882ZMZiIwWN8Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731443947; c=relaxed/simple;
-	bh=j94YPPKHW+HGIR9yGse9SApV73HQ5pPkVnWZ6EPbohE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=t20B2/MR6/fLDoNhr6wx/p6f/6rdjQKulT+d3rNOLquhhImbQBjOmGcNU+m+x7W2wztf7/1/TBWv7EZ4OiYY7ckprPNfewPRVl5yMIbNl8nMTiBtvRlZWathg6T735Jr7IXvkxZiVpccJfWRoONGGhxq5nuQan5EwC1fOHZeNrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=i7pXQKor; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1731601513; c=relaxed/simple;
+	bh=6Ha7uxNaK+n9PEyKhZrLgUrNGlLriEL3O6jXb4Jz4qo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hkK/ruwFXObW3RdQbVpSp89BuWNJQmJmYoBIwkxUAQJmikpwCb4uSHyuHfRdc8rp/MPesZ5AlvJYKOB+Jes7RN9NLhUPjBr93apcW6JlKZPtwa1QJMGq2zHBxL+a8pDdoRlM81J2jfEgJGEejsrPdL/9nMWSmtipQnpFRO75QK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BlJ2hNXP; arc=none smtp.client-ip=209.85.166.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="i7pXQKor"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0E36460810
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Nov 2024 20:39:06 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id lxu89cLGP6lz for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Nov 2024 20:39:05 +0000 (UTC)
-X-Greylist: delayed 600 seconds by postgrey-1.37 at util1.osuosl.org; Tue, 12 Nov 2024 20:39:04 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org EEB34605B1
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EEB34605B1
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=i7pXQKor
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c01:e000:3a1::42; helo=ms.lwn.net; envelope-from=corbet@lwn.net; receiver=<UNKNOWN> 
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EEB34605B1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Nov 2024 20:39:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 22C5E403E4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1731442960; bh=2rETktBd99QqoCTmMdd2okuoKC8zuYCdjVSFBuTiRx8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=i7pXQKorhE+a7z0fOmtLA3DIJZ2yunwHFi5AaXefErA5kpspQj/NocH2omEjQJoWc
-	 XSpVhG+oVlq1HX6TRm30SHiZGfdLBgyEmg9i0q2XudThYutlZsWRbBceMAjXUdmVlM
-	 /tvWDIVkc6NrR0s8aBjHVwT/WOCE2ftrgglGBxgO8UklutlxsaYl8SoVX9LWIHiVrN
-	 LAXGVBDTVAVbvHEYJ84/sYWjccNLBPQQuG9Q4d6gUAnlrSxZ1iigI7a0/uOvSLvKap
-	 FstOwfmgoSvfH9tBba/Avi/rOR+cdyBinVV+ps6W7BClz40p5Ls1jjjmI+Z/8Or6H5
-	 U7Gzg4mZUyzSg==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 22C5E403E4;
-	Tue, 12 Nov 2024 20:22:40 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Abhinav Saxena <xandfury@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Abhinav Saxena <xandfury@gmail.com>
-Subject: Re: [PATCH] docs: fix typos and whitespace in
- Documentation/process/backporting.rst
-In-Reply-To: <20241107061911.106040-1-xandfury@gmail.com>
-References: <20241107061911.106040-1-xandfury@gmail.com>
-Date: Tue, 12 Nov 2024 13:22:39 -0700
-Message-ID: <871pzgqk1c.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BlJ2hNXP"
+Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-83e5dd0e5faso29130039f.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 14 Nov 2024 08:25:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1731601511; x=1732206311; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=buo6iWrbAJctceKC3COg5WA7QA2TRFr7kULc06jQepM=;
+        b=BlJ2hNXPMckMFLlC2jaIYMZKr/SdN6BuftYmhyL6urPcy6qVUsloA4Jy8b4eeYvjdw
+         Lb8C+GHa+IoFFf3WEejthn/tTox+RRDdC+Aqf7I3+PzKjv1TyQqjUxitxAdBLYjZnhOc
+         DR2HjPIp7SMeC9HtTfbqBMyijqj80isF7zPH4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731601511; x=1732206311;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=buo6iWrbAJctceKC3COg5WA7QA2TRFr7kULc06jQepM=;
+        b=RDD2sscH3wfN5hdYHaUkoTIm7ViHGxkI/ZuynUxE5xzo1BwizVDkoOF1atA4FtRD1f
+         YNX7NSDhhsNQYbgdC2MCyBvvVbjBOTWMKDbR+uodZBJlcaWDMqgxsv63D7I7Sdfhx8z+
+         yg1OwUgGpKzFWC+3/p/mnWDquoGgM3bsH432F3sBLKMD027UL64mT6ktzj8qYywg/n4P
+         ROdz4bTHD3mRi/GWXk3aRMXhjOEjGu1XC8l5BsjoSQcodOZJIfplnqeyxQiikEF+teLD
+         dPpE51Jc2aqRMXgbr4p2jZo7PXZ8d7+3/842BBno2oqhL66htno55qBVQS/9GhhX1Xin
+         Apkw==
+X-Forwarded-Encrypted: i=1; AJvYcCWBk42OgB5Cq7XHetdc+0IMGw9YKwXNUtpNlV/ReHKovCQk7EXhea0qPbgykI/5uSkzerEvKipA+KtlWkK4qCd16mjZbA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywl4ywBuFu1lpB+6erFHcOOC1YswkTRUE3av+1M52xi9JGPTHQx
+	HGFMpjpsTh/WrWA2cXBpJNj6puwth0//gfkB6qnlXtj1SLwMKOUDWMSi7/cqVBE=
+X-Google-Smtp-Source: AGHT+IGrmfnV9irE2RmqR2nu682ZNoHCBmmsGPW80Shl2133F6qXCefXE/lr40u4emN9zp5hCGdmsA==
+X-Received: by 2002:a05:6602:2cd2:b0:83b:5306:d24d with SMTP id ca18e2360f4ac-83e5cd3f503mr373740939f.6.1731601510897;
+        Thu, 14 Nov 2024 08:25:10 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-83e6064446esm33821439f.48.2024.11.14.08.25.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Nov 2024 08:25:10 -0800 (PST)
+Message-ID: <52cc8e51-9e85-465b-8ee3-63a7a0a42951@linuxfoundation.org>
+Date: Thu, 14 Nov 2024 09:25:09 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] selftests: lsm: Refactor
+ `flags_overset_lsm_set_self_attr` test
+To: Amit Vadhavana <av2082000@gmail.com>, paul@paul-moore.com,
+ jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com, shuah@kernel.org
+Cc: ricardo@marliere.net, linux-kernel-mentees@lists.linux.dev,
+ linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20241112182810.24761-1-av2082000@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20241112182810.24761-1-av2082000@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Abhinav Saxena <xandfury@gmail.com> writes:
+On 11/12/24 11:28, Amit Vadhavana wrote:
+> - Remove unnecessary `tctx` variable, use `ctx` directly.
+> - Simplified code with no functional changes.
+> 
 
-> - Fix repeated word "when" in backporting documentation
-> - Remove trailing whitespace after '$' character
->
-> These issues were reported by checkpatch.pl. No functional changes.
->
-> Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
+I would rephrase the short to simply say Remove unused variable,
+as refactor implies more extensive changes than what this patch
+is actually doing.
+
+Please write complete sentences instead of bullet points in the
+change log.
+
+How did you find this problem? Do include the details on how
+in the change log.
+
+> Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
 > ---
->  Documentation/process/backporting.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>   tools/testing/selftests/lsm/lsm_set_self_attr_test.c | 7 +++----
+>   1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/lsm/lsm_set_self_attr_test.c b/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
+> index 66dec47e3ca3..732e89fe99c0 100644
+> --- a/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
+> +++ b/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
+> @@ -56,16 +56,15 @@ TEST(flags_zero_lsm_set_self_attr)
+>   TEST(flags_overset_lsm_set_self_attr)
+>   {
+>   	const long page_size = sysconf(_SC_PAGESIZE);
+> -	char *ctx = calloc(page_size, 1);
+> +	struct lsm_ctx *ctx = calloc(page_size, 1);
 
-Applied, thanks.
+Why not name this tctx and avoid changes to the ASSERT_EQs
+below?
 
-jon
+>   	__u32 size = page_size;
+> -	struct lsm_ctx *tctx = (struct lsm_ctx *)ctx;
+>   
+>   	ASSERT_NE(NULL, ctx);
+>   	if (attr_lsm_count()) {
+> -		ASSERT_LE(1, lsm_get_self_attr(LSM_ATTR_CURRENT, tctx, &size,
+> +		ASSERT_LE(1, lsm_get_self_attr(LSM_ATTR_CURRENT, ctx, &size,
+>   					       0));
+>   	}
+> -	ASSERT_EQ(-1, lsm_set_self_attr(LSM_ATTR_CURRENT | LSM_ATTR_PREV, tctx,
+> +	ASSERT_EQ(-1, lsm_set_self_attr(LSM_ATTR_CURRENT | LSM_ATTR_PREV, ctx,
+>   					size, 0));
+>   
+>   	free(ctx);
+
+You have to change this tctx for sure.
+
+With these changes:
+
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+
+Paul, James,
+
+Please do let me know if you would me to take this through
+kselftest tree.
+
+thanks,
+-- Shuah
+
+
