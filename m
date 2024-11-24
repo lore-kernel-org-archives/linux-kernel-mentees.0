@@ -1,99 +1,95 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D74942AAE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Nov 2024 19:50:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7134A523A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Nov 2024 01:05:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732391405; cv=none; b=jFzJPY8CwmesQwOcZddWyFFYgLovjRb1UK79ja21v8VR3Z4IpvwZEBpZNa6QWJfzfvgB/dB9RiyWmhFDfn2ZXDOW5pRqY3pKuiRYj+QjmmNq/PRdX5UmRSKXl/R/dkqlE8WCKKulD3nbq9dxvYXXbm5FazPh4vHX6wLVvXmfGng=
+	t=1732410321; cv=none; b=i7oAqLUI5R2KtRXRNapHUpb71PhUyx9OHJPAUa2J8dI/QyCv4l+gVKgZPJe2+s4nfarSiBhyKgUcike3koV+Rk9V7+vLPfsBMmHn0Nlq3DGnhGTcv6F5R6eqHyoApsJwfIBaYqvJqPj1XemCwf+uvAeGKfh+nACiJ6V36sHNMlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732391405; c=relaxed/simple;
-	bh=0lJjK/Wj3Hu8vBZP4NKVokNyrxkIqZj5FLU4Os+ancI=;
+	s=arc-20240116; t=1732410321; c=relaxed/simple;
+	bh=Gh7q6HjTKO876keVSIn2YiK+4YAPjUAegfnAlT9dGFs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dsveO+MyNh+vNelMT2+fosEXnx7+aiTdGnKPPU+NATOqZqWqZ/pep5kH+KUbbSI8FYVM2+jpA5jWlbD5icwNFEmJwkfrl//Uqj7WKtGz8dlcKxKKWrgnPCKTR5nn7/x/30q6DnT2ODCtJiKVAEAyxgpvQTcUiHeboy+PJCeZrm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ICnFzy3m; arc=none smtp.client-ip=140.211.166.138
+	 MIME-Version; b=kmhWctMkrF3l2w9c72bIHJU7tGfQFR51JUKJoRTwsNRnIvk+FeXXG1SoFq8EkNa9ygHPBasYRKtbekJ8De2b7ajoabOI8/cMGNbw97VNB3iVlf000589uXsSatV2XSr0POtvUDw8BqmRLCE1MirP38L2c0D6oEdS0RkMqyREHbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gPRPQNrg; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ICnFzy3m"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gPRPQNrg"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id BE7308111C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Nov 2024 19:50:03 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 0E97A847EC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Nov 2024 01:05:20 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id XHP9gA-SiysF for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 23 Nov 2024 19:50:03 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::435; helo=mail-pf1-x435.google.com; envelope-from=leocstone@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org E65B4810A5
+ id E0ZQ1Xoi7jnl for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 24 Nov 2024 01:05:19 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1031; helo=mail-pj1-x1031.google.com; envelope-from=leocstone@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 1006E84657
 Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E65B4810A5
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1006E84657
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ICnFzy3m
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E65B4810A5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Nov 2024 19:50:02 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-72467c35ddeso3150484b3a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Nov 2024 11:50:02 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gPRPQNrg
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 1006E84657
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Nov 2024 01:05:18 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-2ea711a76a5so2940489a91.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Nov 2024 17:05:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732391402; x=1732996202; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1732410318; x=1733015118; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wtpJ5UMR5MaspyfBoKBZMhSAyxFrrP/3aDqY9HRg/tw=;
-        b=ICnFzy3mpv4KANo1Qlwn9Ht80Hd0qx0ix5IjYZTDWOgM1DsTsLZbZEk4wlaG3k9O8o
-         K2Q6+fqcPAE9OJJOT2ztXlQhSVaHisMm8A39xsX1+NMeBsSAyG2QB8EoUU9O3I7LJ9Dw
-         XzOVXz7CjJinhTO+oGYOoynqsvALmxV2bJ5QL7Gl21Yw7NDtLknTq+Eph3nhnwEJ+6W0
-         0f80zkADENPucUN3Wf9y6kfsBJ/Q8wSuAItV1V3y34H/S/LK//CuMlTLyq2tk0Q0QaDf
-         JgeOs/XguZZqwjgQToFwtX3OrFjMYGzWjW5RhwxalsSQBcqirc0EBsj7mnqWc/xW2C4g
-         qeLA==
+        bh=CAwEK8ckYP2jo6LfWW1LjFBbSTo2ZwCKFOg8+ckdSD0=;
+        b=gPRPQNrgkC3wv6FxcFwWvWh1vaO+VoP/qDQwPaIkl6NTzoHmhlnIsBLULL84iS3e+e
+         cUQN6/9r0QXwkaFNIYGCG+olgvN6aJJoKVmDk1BMfbyytRUJ+In10uU4pqKzJMk/E8Kv
+         0eeL6VHo8TCY1Ddffk9ABwa+E16lU9m4lxZxt5qZk1Jf3Mip+Q5/hE7CCv9zFpwka6bw
+         M6+NsFJO7I1lTGj76SbIcuPq2OLrnroxl0dpl59aZBNiwV9zC3I/YsBWGFpiFTbi+FRJ
+         fWulBbrTI1arCxMF0HCNgNXLXvy++M3lBqBO7wexCfCYGWOza620ADFg9E61a8FbB6La
+         WeRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732391402; x=1732996202;
+        d=1e100.net; s=20230601; t=1732410318; x=1733015118;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wtpJ5UMR5MaspyfBoKBZMhSAyxFrrP/3aDqY9HRg/tw=;
-        b=BS7pCP7mLb3tSVB6/T8gQiv9RRF9oK/sxq6TUihltLVHaDxkKD7IAj6M2XgpMXAfH8
-         vJ7nDLqMIAbNPQOF6jWKajb0tmJct2GgcbhaurxTwoNRJ0dXRWHCuob8BQv6JBBEWMZD
-         8ouTL+P9PMUdYQ9cyK7Qh7u+iRD4nRM5jKCtbbDJukQ/emjaY+7zj339UuxgZHHJKKY+
-         252rpXstvS5rkxmkpF8XNCt1VufKcYhLR2J7Y/oc20LNfzbDcAUzOCnW5B3YDGTDJ3dh
-         wcl4+rtGQH3DKNXEg1MRklTxPAf/iwR2kWcf5xofOkQkBmc83Pyf+nECaLUUgxnT/6iq
-         Wr/w==
-X-Forwarded-Encrypted: i=1; AJvYcCWyzYJuCqNWhKXvTDlm+iCSy6YBRIKNHBvGWn7TtFKatR2WtV0bsScEOXsfqQXbtDnJ9crhW97xlwZThi0YK9EH4yYDwg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yzf7Gk2oklhSgy9GvgtUQYLjZGR4cwThvoRXctF7Z1lXUPKsvtX
-	fN5Otf5WHW2SJE0MA3fvDwis6u8duGt0HnH8ZVWfc+HQcxjPRKfq
-X-Gm-Gg: ASbGncujrbdM5Alif9aLEWrpW0nXAncxqm6d05fKeqo6Bj3dZgkoHCtySyyQ6un2Glq
-	HQLpXuf+qGTLY+ce3nO1e9J6P6oS8NVajWqftfSJMJG+dTBYuHBw00q1U14Jb41j3CoMxAE2LBW
-	ARuBRFwOHqkVo5biiK848yU1mii1nOX9gNfKcLLrRBRV4mJBQvIe0ik/qaVCyGSJCkPE5wgouIt
-	+jeuoPMjNQ3S9LnUNupd9NeqZhqaGSMciVG9mEkcDS3yDezWrl+6PJSlrF1kZm90w==
-X-Google-Smtp-Source: AGHT+IEonW02YsXMiQhDOe5tluD1XYyX9QKCECbVHY7UXTIZwuR2Rb7BIbNCftr/q27vK/JUE+i3IQ==
-X-Received: by 2002:a05:6a00:23cc:b0:71e:44f6:690f with SMTP id d2e1a72fcca58-724de95a306mr13402766b3a.8.1732391401983;
-        Sat, 23 Nov 2024 11:50:01 -0800 (PST)
+        bh=CAwEK8ckYP2jo6LfWW1LjFBbSTo2ZwCKFOg8+ckdSD0=;
+        b=St14w+n38ALN8HSFByBRYKn4K+biVwf/ZAVLEiimqzCTuBqG1pLW2sRI9oQ+0KDh2R
+         9xAESZoSlGqzszK6oOz/A5Td/SQEQNMUm0dbo0gretmWLFIpjmBj1xIS38pHeRISrL/b
+         v0rlmL3w7UxA2WxwBcOFwPSroVO2CZ4mwwFxb7Wr6MfSmWqOA9kenowzEt+7CobCKw69
+         5D1pLmmB662EmFz/oUQbW82x0Vm5VZN6PdlgIi5GcNqXmxPnHqBVQyzr+PbNjtRbhxXt
+         n7VIpJLL6E7DJDcX7zeJRgL7abguw7WfZxu/7hlg6tI7TOrdpNJ/50pSp/FurRCvLVx7
+         VNpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXi3ysMFcjHXZDGfjGixtHnmrnvZavGIx/KEtW2oALuOG1w6UlOcwFMv+NvKOK1FzCKkANVDn08Qb+H4y6s/OBTkPcpvA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yww2g1qogE4TiQo6d1w+TJgwViZQ9MlYOEp93N2ikG5oCL/4v/A
+	tYh8jQcCh6PTdOcdQb2rIdjouzmTJg6sttx+DNGMRIS+RyMZDEPx
+X-Gm-Gg: ASbGncuqsNJoSutL0T/bKPRCvKlmmX9ltKXNJqHrWCXcQRo5oO3PJuvGI44APSDypbs
+	SE5tbmLe25U80RWkda6YYZFpfD23HM1fA9OJTmI51mDDhYzJHXoOHSdnjWa7leMcV7FuZT7Lg/B
+	kxHOav8tChL8FmE57y4cUGXIqeqXdZ68pyAO38OYMNWjNz7Zvbk+hc6Hq3ZfAidU5yWGFHfev/d
+	neWPAJ4Mb8tIJOm/oyXRXqXa/wJ2SI3ggaDsR4+6pMZGrhqcIuMLYIPkI3b1yNzBQ==
+X-Google-Smtp-Source: AGHT+IF89OxBOuRBB9ZUdI9OCWFJ9uXfDxkS8V8O6OpzKlAmvgQ8cJW7GVdnY9cTbMAsgtRvxroHgw==
+X-Received: by 2002:a17:90b:4a92:b0:2ea:4150:3f80 with SMTP id 98e67ed59e1d1-2eb0e330d8bmr10102168a91.18.1732410318077;
+        Sat, 23 Nov 2024 17:05:18 -0800 (PST)
 Received: from tc.hsd1.or.comcast.net ([2601:1c2:c104:170:86c6:5b62:b5b7:ec1a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de48f108sm3627957b3a.87.2024.11.23.11.50.00
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de479102sm3855532b3a.45.2024.11.23.17.05.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Nov 2024 11:50:01 -0800 (PST)
+        Sat, 23 Nov 2024 17:05:17 -0800 (PST)
 From: Leo Stone <leocstone@gmail.com>
-To: syzbot+2db3c7526ba68f4ea776@syzkaller.appspotmail.com,
-	brauner@kernel.org,
-	quic_jjohnson@quicinc.com,
-	jack@suse.cz,
-	viro@zeniv.linux.org.uk,
-	sandeen@redhat.com
+To: syzbot+b01a36acd7007e273a83@syzkaller.appspotmail.com,
+	jaegeuk@kernel.org,
+	chao@kernel.org
 Cc: Leo Stone <leocstone@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
 	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
 	shuah@kernel.org,
 	anupnewsmail@gmail.com,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] hfs: Sanity check the root record
-Date: Sat, 23 Nov 2024 11:49:47 -0800
-Message-ID: <20241123194949.9243-1-leocstone@gmail.com>
+Subject: [PATCH] f2fs: Add check for deleted inode
+Date: Sat, 23 Nov 2024 17:04:56 -0800
+Message-ID: <20241124010459.23283-1-leocstone@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <67400d16.050a0220.363a1b.0132.GAE@google.com>
-References: <67400d16.050a0220.363a1b.0132.GAE@google.com>
+In-Reply-To: 6740a00c.050a0220.363a1b.0143.GAE@google.com
+References: 6740a00c.050a0220.363a1b.0143.GAE@google.com
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -102,38 +98,39 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the syzbot reproducer, the hfs_cat_rec for the root dir has type
-HFS_CDR_FIL after being read with hfs_bnode_read() in hfs_super_fill().
-This indicates it should be used as an hfs_cat_file, which is 102 bytes.
-Only the first 70 bytes of that struct are initialized, however,
-because the entrylength passed into hfs_bnode_read() is still the length of
-a directory record. This causes uninitialized values to be used later on,
-when the hfs_cat_rec union is treated as the larger hfs_cat_file struct.
+The syzbot reproducer mounts a f2fs image, then tries to unlink an
+existing file. However, the unlinked file already has a link count of 0
+when it is read for the first time in do_read_inode().
 
-Add a check to make sure the retrieved record has the correct type
-for the root directory (HFS_CDR_DIR).
+Add a check to sanity_check_inode() for i_nlink == 0.
 
-Reported-by: syzbot+2db3c7526ba68f4ea776@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=2db3c7526ba68f4ea776
-Tested-by: syzbot+2db3c7526ba68f4ea776@syzkaller.appspotmail.com
+#syz test
+
+Reported-by: syzbot+b01a36acd7007e273a83@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=b01a36acd7007e273a83
+Fixes: 4c8ff7095bef ("f2fs: support data compression")
 Signed-off-by: Leo Stone <leocstone@gmail.com>
 ---
- fs/hfs/super.c | 2 ++
- 1 file changed, 2 insertions(+)
+ fs/f2fs/inode.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-index 3bee9b5dba5e..02d78992eefd 100644
---- a/fs/hfs/super.c
-+++ b/fs/hfs/super.c
-@@ -354,6 +354,8 @@ static int hfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 			goto bail_hfs_find;
- 		}
- 		hfs_bnode_read(fd.bnode, &rec, fd.entryoffset, fd.entrylength);
-+		if (rec.type != HFS_CDR_DIR)
-+			res = -EIO;
+diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
+index 1ed86df343a5..65f1dc32f173 100644
+--- a/fs/f2fs/inode.c
++++ b/fs/f2fs/inode.c
+@@ -372,6 +372,12 @@ static bool sanity_check_inode(struct inode *inode, struct page *node_page)
+ 		return false;
  	}
- 	if (res)
- 		goto bail_hfs_find;
+ 
++	if (inode->i_nlink == 0) {
++		f2fs_warn(sbi, "%s: inode (ino=%lx) has a link count of 0",
++			  __func__, inode->i_ino);
++		return false;
++	}
++
+ 	return true;
+ }
+ 
 -- 
 2.43.0
 
