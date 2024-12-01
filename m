@@ -1,133 +1,114 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3688F1A08D7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 29 Nov 2024 18:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8907F41C72
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  1 Dec 2024 04:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732906615; cv=none; b=kUAcS+QJX1GDfa2GoJG/TVTiXyr63tFlLy01L2SCtAeVipC5zS+oc3i3atSL8z5pFJlHcoQKG/Juif7QBjajtjxlxxdC/UL1Lkf5fU+ZFLwbgY4cOr+/iJw4vpY+ZaPTzwr61j52IMqQV3NRFqFhpPi5nF68Perh9FZVfX6mK8c=
+	t=1733027240; cv=none; b=GFOCtc8R90rzx80T0ZCZ1TMD/Oa0XHMsEd+mVnHbcMx0ATXHHLHcSFIVKlVXmn9LrEf+JCajddKgvyP+XUndsLbfSVQcCZwEPNM1PujT+jKOuntGwvB0i7XUDuOX0ksJotcOZucwmmRNy2qf5lCLG+ifya55kyrUO5W9VC1fXp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732906615; c=relaxed/simple;
-	bh=l7WvbTtMYsH+NsX4psnONR+tA3CJuYPZU/C/SZ2q9e0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=toGybSmktAwW9o0fpgERm1RpL4Zkv6SrhI+7nXT1h72a9z/4AhDp3VAuuKUjySaB29JiZaLQwR173+NY3xvWL32F9cmOM+GPohlhXJUDvtInLVpuy8+yJuFcKedQZVODNzigrG+Urn8WED/pp72RyIZ6r2fARul37v6Xsei+6fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A2M07S15; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1733027240; c=relaxed/simple;
+	bh=2ZogH2EPnIE680Utg5LOR3b/CcSI+aOc+JmKRGVsqow=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RzptFl7R6y3qREHLcYptn6r7NBud95wMgg1J6PjuhRXgKF2pl3E/zsJkUDVfPNEZ6W6stpdBmY15tzNKPXMke5sqMJaVSOSaEG4Tq7L+40tdSC7q+cArylq5EVZ1dt4/oxRRWQePK1QUb1AxDlC4sSyPwP+Nr/98NVYlLPeXy1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HUG8HzDL; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A2M07S15"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUG8HzDL"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id AF0E640179
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 29 Nov 2024 18:56:53 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0C86161516
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  1 Dec 2024 04:27:18 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id H4Rok7-RxJ89 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Nov 2024 18:56:52 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1032; helo=mail-pj1-x1032.google.com; envelope-from=leocstone@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org A87094015E
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A87094015E
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=A2M07S15
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A87094015E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 29 Nov 2024 18:56:52 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-2ea39638194so1779320a91.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 29 Nov 2024 10:56:52 -0800 (PST)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id sJUAuDqb3C-R for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  1 Dec 2024 04:27:17 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::533; helo=mail-pg1-x533.google.com; envelope-from=leocstone@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6F56661513
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6F56661513
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HUG8HzDL
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 6F56661513
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  1 Dec 2024 04:27:17 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-7fbc29b3145so2942051a12.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 30 Nov 2024 20:27:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732906612; x=1733511412; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qzPuQk3ZQ6E9JagPssZlS/uY8SuiQz+WhShMT3H3dhg=;
-        b=A2M07S15u6XPV3XCL0zMylh159XkZcP3vwvVGHIzbi9kN2ywUxCqpnH/VjVzytG5Pr
-         JBrrSsf6nqpbWwArTDnra5lmnm59PzByMhCtzoXqBrhxtwzE56uOypUF8jTFzujTlVme
-         bV/q08feofGXK5roK42EmoOk7YeRlDfxT6EAqm8krtg6qy+DGpHxvx+J7AkLAIGK5O+0
-         vO0VWcjtwobUrwoDKpTs9sDEGJsQmbOUt5AkaIOgUkngQob+AEAXqDRQElrmR8LOZEyL
-         3pvLvjLC1RpD0Rfldf2rOpp+xZetbCCOLaUt0uqddBNtBSzyvW2Pd80BVK9pFdmJPoZ2
-         IUvQ==
+        d=gmail.com; s=20230601; t=1733027237; x=1733632037; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2ZogH2EPnIE680Utg5LOR3b/CcSI+aOc+JmKRGVsqow=;
+        b=HUG8HzDLopZDf1nugTVtRH0RMJGI+AJ7qIRpDDZCbAd80ECEMwBGMvyK6NOe4HJND6
+         3c1wvmOJIU3tkP7jChHtYYYgUif1RbRW7v4Nr4AFL9yCF4EOKKqmOAFwJ1i+cSesR2p6
+         vdFeUFt0+nK52FJS+cBO9hXIwHsM0TKtkqq0XzReb6UnbClGv1M7g42GdNfi1q215QRJ
+         zByGgrtYilidlBZZMNf9FZO1CzCjwUKrj9fmavgXH5BWm4mMI8dZTBbU9mC45PMJuv6w
+         FA3FpzV4PMCWPRrOU+pOuxo9t+hnS9jji3sU7eMGOIefwnNUmxGoLXi0T6ebASFCa4L5
+         vekg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732906612; x=1733511412;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qzPuQk3ZQ6E9JagPssZlS/uY8SuiQz+WhShMT3H3dhg=;
-        b=NEahdKS5kRstY2D7fbyfgDjkaZMTXmLkLFBvCIONv9gZcsNV5qDkNa9SWuivsEOROC
-         pSCqz2LeNtOXSQf+FrprfuacAJZeUl0hzTQITSM+8ZqytfEjq5NdMLc1tZfkSNyoVosc
-         HR6jQu4bg31sYKMxB4g/CeHBShtoZmGqHdOZvR08sCYfgQHyMdFSuMIhOwviucMNGsux
-         5pbuBDiCyUzUcUyC2BUUAF6wis0tJWlO0XfJirQRqiDBgm8baRMmUOAlMhzFcTZO3WAX
-         gWwQZvjj01Kl37AeZQt2qElFce6y+imilw7hBxeH7gYVuHBD05nsh8w+YqvE4XQtWF+S
-         oVag==
-X-Forwarded-Encrypted: i=1; AJvYcCVxZ3HqyezuawZc3/FCTsJ3cmO3VCZv85fVGmfF4ZexJJvJDk6MzqmvQTY4VoNMVY8NeRwlpHSugxM4aDjPQelS5cWrjg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzKXXcxOrt2CN6c1rRMtlTIK1BkQRGDd5eaPBhELaVC3NPl3KRV
-	XcXPymXEuCwifOZ+Y8FX6KJCBHcgGHpGi77h1793Khv7IvPbBi23
-X-Gm-Gg: ASbGnctl72pss6NSDCbHqh5hCQbJ3M7eU1LwvU7zlQ7pvkHb35tyFOz9LHpjLYmApb6
-	rK51nK1yu/GQaIcrJYivRXHh6oDTYdK4OdIuiy1LwMgT83JiIV0o7BEqG/VT5/7Iv2mHxiR8Qoc
-	xSbMrVseKIBxFZ75xxwawRd4ZapDALW6iUIa6hAuBOLaLuAmwGpUhg+ul+cJdPRhnHfHfmQp3gz
-	OzQpuT7OgTsGW2IP1HbdPT1O6oTHttScziOI2T9LPGGTDgMdhYkfZUmSAHCg5wA0Q==
-X-Google-Smtp-Source: AGHT+IEQ5B46R7s78o1UFrbgGbgPRQC2H4C26jFLulnenm8fn3q9cgoa3G+RaMIFtl7McLRHfZGKcA==
-X-Received: by 2002:a17:90b:3845:b0:2ea:97b6:c461 with SMTP id 98e67ed59e1d1-2ee08eb30d4mr17333769a91.16.1732906611724;
-        Fri, 29 Nov 2024 10:56:51 -0800 (PST)
-Received: from tc.hsd1.or.comcast.net ([2601:1c2:c104:170:21cb:a5d2:92cc:4587])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725417612f3sm3960330b3a.22.2024.11.29.10.56.50
+        d=1e100.net; s=20230601; t=1733027237; x=1733632037;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2ZogH2EPnIE680Utg5LOR3b/CcSI+aOc+JmKRGVsqow=;
+        b=AtU67h8HpBPWQBNFaAKwpSMU1glwW9Oe+nTBJDslxH2kgxUoBS/yxe8PqXhGNQllvb
+         PfljvFsJcYWt6YS0hNmMz0JSG5SDlSFrm9Gw6z5nmMdUc7cCNaJFeZpyEYE0/7AoaRpw
+         iAV8h7EOHh6HPesdPKvL0WOdjM9UaxBzZdl/2WX8EEGx3YqHx9KblxuS9SHdM+DoqUog
+         NV0rncVE0ZvRz0LiMpOeq0XLzaQwkfa9ThXPT1rfT939+1WI/aNWbw7Y4vdPpx8qr35L
+         TB9BdNV3D0Si1h23523OAz8mPGF1qYJwrAtzexu7b6sY8CCj/h70BiIK8ky/K+68PWTI
+         poCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX7xuy5SJaVl1Swmh1lJVN1Jh2qZtm+i/2P85ilTmDHyprTo2FAbNouQ7mC1j0SnGwq+2dvNGU3u7TYvawd9fc96g+zaQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YysvQEc7ZZOR7O2ChbKQEtGh0lsncroIdM32I9+YWjHXMMkWAu+
+	bV13dRs846Q+xfwuIEDDIXNb8AFs973NfiKgiKFNuFIncVeOSmhv
+X-Gm-Gg: ASbGncskR5lG9wH6bv0e+bW6wmPVAA6Tgk08bi/+Gxi2O0JebrRMzPpDfufKApjktru
+	TOFzHCLoxhTSULEcAwYog7SMPruE+aMvXtKuyDt5gN7Jwin6b7nYqMxNwLHV8nF3EZoLHSMIk79
+	cghbkfuOQa6K3O/DrVoT+OZ3yPuV+K6hLkbx8J6yL9u+CcY0yTx+Dh5nB9LdcNJkMVe/TSQKvOM
+	AbgTrIQJkDvVeJhCWZT/5TMkyki7GgbtZBK1yc=
+X-Google-Smtp-Source: AGHT+IHV/TP3rSiKf1c6g2kaD+Zzi04s7Zfm2Zdwkx7p7gOobHmXiUjK5qu2qs4CMes4/RuVL+LEXg==
+X-Received: by 2002:a05:6a20:a105:b0:1d8:c646:f51 with SMTP id adf61e73a8af0-1e0ecaeca21mr21027394637.20.1733027236672;
+        Sat, 30 Nov 2024 20:27:16 -0800 (PST)
+Received: from tc ([2601:1c2:c104:170:a600:8588:f159:8ed9])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d3e7esm5516767a12.5.2024.11.30.20.27.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Nov 2024 10:56:51 -0800 (PST)
+        Sat, 30 Nov 2024 20:27:16 -0800 (PST)
+Date: Sat, 30 Nov 2024 20:27:13 -0800
 From: Leo Stone <leocstone@gmail.com>
-To: jaegeuk@kernel.org,
-	chao@kernel.org
-Cc: Leo Stone <leocstone@gmail.com>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org,
-	shuah@kernel.org,
-	anupnewsmail@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	syzbot+b01a36acd7007e273a83@syzkaller.appspotmail.com
-Subject: [PATCH v2] f2fs: Add check for deleted inode
-Date: Fri, 29 Nov 2024 10:56:41 -0800
-Message-ID: <20241129185642.6483-1-leocstone@gmail.com>
-X-Mailer: git-send-email 2.43.0
+To: Jan Kara <jack@suse.cz>
+Cc: syzbot+2db3c7526ba68f4ea776@syzkaller.appspotmail.com, 
+	brauner@kernel.org, quic_jjohnson@quicinc.com, viro@zeniv.linux.org.uk, 
+	sandeen@redhat.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, shuah@kernel.org, anupnewsmail@gmail.com, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] hfs: Sanity check the root record
+Message-ID: <rdkuuboofty3nqjhmde667jwowcxnuo3q3mxcjrn3ip2xh2fhg@eo7aqzad775b>
+References: <67400d16.050a0220.363a1b.0132.GAE@google.com>
+ <20241123194949.9243-1-leocstone@gmail.com>
+ <20241126093313.2t7nu67e6cjvbe7b@quack3>
+ <wzxs6mjqlpf2eszoaw2ozvocqg3lpaqx7mzog4tygxexugrbsu@3pxs2vthfagb>
+ <20241126215254.aw7l7k3tgx2tawzu@quack3>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241126215254.aw7l7k3tgx2tawzu@quack3>
 
-The syzbot reproducer mounts a f2fs image, then tries to unlink an
-existing file. However, the unlinked file already has a link count of 0
-when it is read for the first time in do_read_inode().
+On Tue, Nov 26, 2024 at 10:52:54PM +0100, Jan Kara wrote:
+> Yes, this strict check would make sense to me. I just don't know HFS good
+> enough whether this is a safe assumption to make so it would be good to
+> test with some HFS filesystem.
 
-Add a check to sanity_check_inode() for i_nlink == 0.
+I tested with the System 7.5.3 install disks, as well as 2 disks I
+formatted inside System 7 in an emulator. The root directory always had
+entrylength of 70, and it looks like every directory has an entrylength
+of 70.
 
-Reported-by: syzbot+b01a36acd7007e273a83@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=b01a36acd7007e273a83
-Fixes: 5d64600d4f33 ("f2fs: avoid bug_on on corrupted inode")
-Signed-off-by: Leo Stone <leocstone@gmail.com>
----
-v2: Correct "Fixes" line
-v1: https://lore.kernel.org/all/20241124010459.23283-1-leocstone@gmail.com/T/
----
- fs/f2fs/inode.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+I'll resend as a PATCH v2.
 
-diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
-index 1ed86df343a5..65f1dc32f173 100644
---- a/fs/f2fs/inode.c
-+++ b/fs/f2fs/inode.c
-@@ -372,6 +372,12 @@ static bool sanity_check_inode(struct inode *inode, struct page *node_page)
- 		return false;
- 	}
- 
-+	if (inode->i_nlink == 0) {
-+		f2fs_warn(sbi, "%s: inode (ino=%lx) has a link count of 0",
-+			  __func__, inode->i_ino);
-+		return false;
-+	}
-+
- 	return true;
- }
- 
--- 
-2.43.0
-
+Thanks,
+Leo
