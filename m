@@ -1,56 +1,60 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823481FF7DD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  2 Dec 2024 13:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F2B1B4140
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  4 Dec 2024 00:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733145537; cv=none; b=SGJGLQLWG0AFCyMcgNrZCpSyNo2urWrCuvWhAsE4kKxgDqYVHvMGqhFpk6j5ABgMDcDvOZ5C5tyqcmqOYAzPYAwxpC0VCafBYrRG7GP/ZU4XK2217cSyLU+1kVB0A5xXsrDH37XzL132JI034dgZmIQajncIy6xESMeePNoVbYo=
+	t=1733270415; cv=none; b=cehXCyZIzjrLrvmu3frA09JI8yFXii0z6s/No2PAKggj4xB//CMGmmAVk4RP+mwVH5kJfFOL2bry3+D+yVSOjt87HvSBfinzB6Z+cxBHdp08qtrZNp6J/dVBlKbz7uhkQnR3VUxwE1J+eqOHBJZ1qXrID3hztoFniNGobr+AfTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733145537; c=relaxed/simple;
-	bh=6yQGHkRsvK/WA7VpGDijIwaS68k78J3KEAp0crQkHdc=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=bdD7sd9l+/lXZeol2pWS3J5fKtd+M7zUSDUvmIVX+BUuDAOLVMNSiGBNJAjXFUhqJIKq+RtXg+Kb9RU7/zClq90Nq2vpcWE5lDGuYSXF7g+CBmMIrU/01aJLslbFvsnylim8UDjArL/C8usOm8absS2KVUbejdQiy9STsDPJTkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lMN3JGJR; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1733270415; c=relaxed/simple;
+	bh=4C3zy/3Xtoq5FHcNAlmFgia243qYTIlXnb/820E1Fi4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IkfjyopYPimngvsJTEHTL2SOivI8gWeIa7VelEeuo6tJgT8Tcy8kPOOskGWzhNu53Dw4rTqO0xszwS6SvC4XSFZRjvLNglYHabE+D1C19++A3PBWkGUjiXEsbJlyXeJAHh40ib3pHeTQA4M9BEOf4FM7zYUeVp2J+Nd/lsfdaJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gqCsoTJ/; arc=none smtp.client-ip=209.85.166.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lMN3JGJR"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1410E404EF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  2 Dec 2024 13:18:56 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -10.792
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id oPpGLmfLJq6F for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Dec 2024 13:18:55 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=chao@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org DBEAE404E3
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DBEAE404E3
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=lMN3JGJR
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id DBEAE404E3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  2 Dec 2024 13:18:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 8943F5C6844;
-	Mon,  2 Dec 2024 13:18:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1566FC4CED1;
-	Mon,  2 Dec 2024 13:18:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733145533;
-	bh=6yQGHkRsvK/WA7VpGDijIwaS68k78J3KEAp0crQkHdc=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=lMN3JGJRpKylMai6p8/Bhe1tZQ5DP/oyQNcp8wmW7pE5gkcpNKIpaaSsmeu4ExTd/
-	 xEf1USm5bF48YEjQR1/Bt7X/weXNbpiiUOBZagbosakpNY9sLZAguR9lcqtgXOoD/E
-	 VFXi+Fi5n5YlFu6MuCrZWVVXvTYCfmC0B7NuwIFQR+UuELs4nvADYZ+s5Zb1SquByb
-	 NmfXyp8k2K8NQbtvD4mq/SwLfvx2Ey6vu4FOUPG2WXw2/tXPjlFqedCad455A6w0HZ
-	 ODzJk/Ko9j52yJ8nhxN8ExFNjb+YFGNVu1F0GWGrIDvMZczpEYWCP25LAKPR4nFR95
-	 q6cGumGmjINnw==
-Message-ID: <c0998223-6141-40e1-be08-d79bfc28eb0a@kernel.org>
-Date: Mon, 2 Dec 2024 21:18:44 +0800
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gqCsoTJ/"
+Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3a7ff5c85cfso1097415ab.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 03 Dec 2024 16:00:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1733270412; x=1733875212; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Mc1ZGS9lQ0b/EeRQlcxev0IXuC4T041+iJYm/1vazoI=;
+        b=gqCsoTJ/K7Tt9D3OWGefD+v10bFfcqAhMVdW7GIvgFmlvwZ7uTPslLGnaaBznz7a76
+         vJ+dYsDtxy7bVkJnIRGiGjr2i+PoSGjKzXiPnuo24UFjqTNfTc2JjoT99ijHn+YJEIig
+         nA1MUeeGmcBLQjjXZ/wfBelNXTSCitQ1xXA18=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733270412; x=1733875212;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mc1ZGS9lQ0b/EeRQlcxev0IXuC4T041+iJYm/1vazoI=;
+        b=G7K15uXE9Nge0Spo1b69F/HIgG6k/Q8w+/nRwFBNvvHORYCSQZZGg2H1pMVA4O3vWP
+         HweqqiCPzt9l2hjG8VwFVZ/mW8heSCXs0P5dWkGeWdGG6nfpxWl0D6kSHVnAXbyZwlAN
+         8I5TLYIh5cGMj/sfJ8ygQpq0Uf5guID1UYYV3NvbhKvvR/UdnfU7WcmPsPiQCP6xwnMV
+         ha/uXsHutqyq2MAHXnRZs4GbusjkDowyX+cpV9NMSF+y7vJVXKQ7vrtYIUk8fx5vpGav
+         CnBLed/EJLKnOdX/rbU22tjNwEqtARugRCeN3F5fnKIj7uxvDvvo9xh5rFhWHxiUhxZW
+         S23A==
+X-Forwarded-Encrypted: i=1; AJvYcCVEHGormvepYcReqJq3tyRjuIoRBiyhsQQDzxXLfgZ63Whz3BSI5y1lFq+iUHSSLTAQ/kcPq4xCVuMpKEGt9p+/a4HN9Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx87Rm2sLOwEjA6oR1dL4aT1lFolVtkk1m9bWZJF9d/OpA4X2BS
+	UoEewsdjMGGa5qd8qdTKnBIQrGMYWnC6NjpKtmazV6q9kthcVp8Jz6eX+F6TMBE=
+X-Gm-Gg: ASbGncsVx0wS0q5NCaN+va/0wmInpbjk3VMxR9akoqsTYXLXMWL/8FtwQ5LQz32AXgg
+	bk7peMWCYTYOooBeXcI5BWaEoke1cINKq2ElhieyIM48l2w/BB8ZFQ177oAfVnoFNA3UDGUXPHF
+	t82y4WqQDeDVNor+XPw0Nwfh9lxLybTpU3uIBL671lG9KB8b2qp6fOXGQOdF6ipQvTdY/vSljFy
+	ycNIStFz5ukSudebBvChxos0kttKS+qy+Wf1qHXO+SL9V7bQ1JpOgRvONq0rA==
+X-Google-Smtp-Source: AGHT+IEgl8XCJT5Pb5WmR2bg9AoPfQLC2H0rmjg7RtKpc6R4ckuWbh6gosnC/HaecwtdaxRcwGAf2A==
+X-Received: by 2002:a05:6e02:1c24:b0:3a7:ccb2:e438 with SMTP id e9e14a558f8ab-3a7f9d82b53mr35356965ab.11.1733270411617;
+        Tue, 03 Dec 2024 16:00:11 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a7dd1c55d8sm23394655ab.64.2024.12.03.16.00.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Dec 2024 16:00:11 -0800 (PST)
+Message-ID: <e8e6824c-61d4-48f9-8547-628bbbd3063a@linuxfoundation.org>
+Date: Tue, 3 Dec 2024 17:00:10 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -58,103 +62,100 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: Chao Yu <chao@kernel.org>, linux-f2fs-devel@lists.sourceforge.net,
- linux-kernel@vger.kernel.org, shuah@kernel.org, anupnewsmail@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+b01a36acd7007e273a83@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2] f2fs: Add check for deleted inode
-To: Leo Stone <leocstone@gmail.com>, jaegeuk@kernel.org
-References: <20241129185642.6483-1-leocstone@gmail.com>
+Subject: Re: [PATCH] selftests: lsm: Refactor
+ `flags_overset_lsm_set_self_attr` test
+To: Paul Moore <paul@paul-moore.com>
+Cc: Amit Vadhavana <av2082000@gmail.com>, jmorris@namei.org,
+ serge@hallyn.com, casey@schaufler-ca.com, shuah@kernel.org,
+ ricardo@marliere.net, linux-kernel-mentees@lists.linux.dev,
+ linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20241112182810.24761-1-av2082000@gmail.com>
+ <52cc8e51-9e85-465b-8ee3-63a7a0a42951@linuxfoundation.org>
+ <CAHC9VhTJERn54qNDDOwNrJ09VWrmq5Qn+sPQV__LyeEUgSi5pw@mail.gmail.com>
 Content-Language: en-US
-From: Chao Yu <chao@kernel.org>
-Autocrypt: addr=chao@kernel.org; keydata=
- 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
-In-Reply-To: <20241129185642.6483-1-leocstone@gmail.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <CAHC9VhTJERn54qNDDOwNrJ09VWrmq5Qn+sPQV__LyeEUgSi5pw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2024/11/30 2:56, Leo Stone wrote:
-> The syzbot reproducer mounts a f2fs image, then tries to unlink an
-> existing file. However, the unlinked file already has a link count of 0
-> when it is read for the first time in do_read_inode().
+On 11/26/24 20:38, Paul Moore wrote:
+> On Thu, Nov 14, 2024 at 11:25 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
+>> On 11/12/24 11:28, Amit Vadhavana wrote:
+>>> - Remove unnecessary `tctx` variable, use `ctx` directly.
+>>> - Simplified code with no functional changes.
+>>>
+>>
+>> I would rephrase the short to simply say Remove unused variable,
+>> as refactor implies more extensive changes than what this patch
+>> is actually doing.
+>>
+>> Please write complete sentences instead of bullet points in the
+>> change log.
+>>
+>> How did you find this problem? Do include the details on how
+>> in the change log.
+>>
+>>> Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
+>>> ---
+>>>    tools/testing/selftests/lsm/lsm_set_self_attr_test.c | 7 +++----
+>>>    1 file changed, 3 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/tools/testing/selftests/lsm/lsm_set_self_attr_test.c b/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
+>>> index 66dec47e3ca3..732e89fe99c0 100644
+>>> --- a/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
+>>> +++ b/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
+>>> @@ -56,16 +56,15 @@ TEST(flags_zero_lsm_set_self_attr)
+>>>    TEST(flags_overset_lsm_set_self_attr)
+>>>    {
+>>>        const long page_size = sysconf(_SC_PAGESIZE);
+>>> -     char *ctx = calloc(page_size, 1);
+>>> +     struct lsm_ctx *ctx = calloc(page_size, 1);
+>>
+>> Why not name this tctx and avoid changes to the ASSERT_EQs
+>> below?
+>>
+>>>        __u32 size = page_size;
+>>> -     struct lsm_ctx *tctx = (struct lsm_ctx *)ctx;
+>>>
+>>>        ASSERT_NE(NULL, ctx);
+>>>        if (attr_lsm_count()) {
+>>> -             ASSERT_LE(1, lsm_get_self_attr(LSM_ATTR_CURRENT, tctx, &size,
+>>> +             ASSERT_LE(1, lsm_get_self_attr(LSM_ATTR_CURRENT, ctx, &size,
+>>>                                               0));
+>>>        }
+>>> -     ASSERT_EQ(-1, lsm_set_self_attr(LSM_ATTR_CURRENT | LSM_ATTR_PREV, tctx,
+>>> +     ASSERT_EQ(-1, lsm_set_self_attr(LSM_ATTR_CURRENT | LSM_ATTR_PREV, ctx,
+>>>                                        size, 0));
+>>>
+>>>        free(ctx);
+>>
+>> You have to change this tctx for sure.
+>>
+>> With these changes:
+>>
+>> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+>>
+>> Paul, James,
+>>
+>> Please do let me know if you would me to take this through
+>> kselftest tree.
 > 
-> Add a check to sanity_check_inode() for i_nlink == 0.
+> Amit has already posted a v2 with the requested changes, but I wanted
+> to get back to you on this even if this patch is outdated ... Shuah,
+> what is your preference for things like this?  My general policy is
+> that patches only affecting one subsystem tree should be taken by the
+> associated subsystem to minimize merge headaches and other ugliness,
+> however, the kselftest is an interesting subsystem in that it relies
+> so heavily on others that I'm not sure my policy makes as much sense
+> here :)
 > 
-> Reported-by: syzbot+b01a36acd7007e273a83@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=b01a36acd7007e273a83
-> Fixes: 5d64600d4f33 ("f2fs: avoid bug_on on corrupted inode")
 
-39a53e0ce0df ("f2fs: add superblock and major in-memory structure")?
-Due to it missed to do sanity check on i_nlink in initialization version
-of f2fs.
+kselftest patches usually go through subsystem trees because of the
+merge problems you mentioned. I take them through kselftest tree
+if subsystem maintainers want me to. Some do and I pick them up.
 
-Thanks,
+I pick up patches if I don't see response from subsystem maintainers.
 
-Thanks,
-
-> Signed-off-by: Leo Stone <leocstone@gmail.com>
-> ---
-> v2: Correct "Fixes" line
-> v1: https://lore.kernel.org/all/20241124010459.23283-1-leocstone@gmail.com/T/
-> ---
->   fs/f2fs/inode.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
-> index 1ed86df343a5..65f1dc32f173 100644
-> --- a/fs/f2fs/inode.c
-> +++ b/fs/f2fs/inode.c
-> @@ -372,6 +372,12 @@ static bool sanity_check_inode(struct inode *inode, struct page *node_page)
->   		return false;
->   	}
->   
-> +	if (inode->i_nlink == 0) {
-> +		f2fs_warn(sbi, "%s: inode (ino=%lx) has a link count of 0",
-> +			  __func__, inode->i_ino);
-> +		return false;
-> +	}
-> +
->   	return true;
->   }
->   
-
+thanks,
+-- Shuah
