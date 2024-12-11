@@ -1,142 +1,161 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D041BD9C1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Dec 2024 04:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6E717D358
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Dec 2024 15:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733892478; cv=none; b=F55G7px/E44Rx31LWkbL3pPmB68l5M2nIJMFp2L1ClBIao5ebB6k8MzjqbjN/9VzihIMza/HbMDy7rdZi7DBxgEX/8ohb0ZJ1qU1l2jnKuR0Ue11iDzTbBJ91ORT2OmWStzKPbv/LWyXNW0JCGW9kTrBsIVMA6mkrxvuMH5NwTs=
+	t=1733929615; cv=none; b=TrPiMhTU79UHrcQ78AOjqXzDKUsg8MqGGCa1OGfqL5Qy4pd+18LkVv5XLKPQ+7a01B9V+sed3UcrC/v+yWWEdLNE67zINRwyO9bABXqrKJqwxj0r4oJhhufJ8CdTsmT4lOH0gxrqMxJOADuJaex1YLm2rnhZug2I2uWPkqpEfoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733892478; c=relaxed/simple;
-	bh=uHE8siFyh14HkR7zEWr+RzX6wEmDLIqqQjY4sJZKZ5s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qnKAVnVgBdNijJja024CXq71SXnqwCplVrZPk7gAHdB2tWEDVZBFozkQudAn4IrRsH7JOIUVhvV+h4AKbu8ROi/8ak6CMqytt34qjrefVCjGifVoMR5UVA13JivPd89+11LYI/HIFiSI/P92CuhvMj4OEJbIc5FnXP96/FNcYAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fu0D5zy7; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1733929615; c=relaxed/simple;
+	bh=IcIWC9dJAg5OtXVaewOoZ6FY1MuR+82QIb3xwe8rpWc=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=tNyy1o/lyhjF8508BCTTGA94HUbcd9OiK13pUVHISGvPOYhCFYSulyt0DzoExveqFzfo5FEtWgjysmyrgfG8O9xdmHrDluQa1+Jrkn/2N+jyD89cRIEz+5Vq/NIwDkkvS2fSLmJJ6zjuE3MO0YPJY0SCpOcKhhgYf1V4uabA9mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=fluxnic.net header.i=@fluxnic.net header.b=eerERM2m; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=tXpBswLW; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fu0D5zy7"
+	dkim=pass (2048-bit key) header.d=fluxnic.net header.i=@fluxnic.net header.b="eerERM2m";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="tXpBswLW"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id EC88E400F2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Dec 2024 04:47:56 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9BC64606BE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Dec 2024 15:06:53 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -6.493
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ekHZb9Pv2l8q for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Dec 2024 04:47:56 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::112a; helo=mail-yw1-x112a.google.com; envelope-from=luis.hernandez093@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org D906640ECE
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D906640ECE
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Fu0D5zy7
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id D906640ECE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Dec 2024 04:47:55 +0000 (UTC)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-6efa1e49ef0so64277247b3.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Dec 2024 20:47:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733892474; x=1734497274; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Otzfy2Fb7dTAUP4VzNQlaGCzwGYbYIGIagEoJ0T4F2I=;
-        b=Fu0D5zy7/e3QOitifVWFJUKFKuyI8JSkakEafdvMphInfQaY3sWQxKLaaLiCAiOp2i
-         mlSDAT8ucl7kh3NHffAplpb1jy5UFTfQxBrwL2ZAcH/co0b40YBRqG52l3P5OPBhbJsv
-         Vl8EpY3cvxELnJEfmbt3+pbNkOs7lX9wxXJtt49LvmOQq5wATkz4E58tZtY9ex2QeTYo
-         FI3BHrr2G6PChw0Sip2BF3AdPoDwN+5UvOHx666ZtqBB9kvmlEiXgDclksq7qBQZ1JlU
-         KceeWELYIE7OPw/LW82+6x11o6hJ8U8no+/Il8DntiibqpwjASvHIhed7E0RDwU+dpUj
-         h/gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733892474; x=1734497274;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Otzfy2Fb7dTAUP4VzNQlaGCzwGYbYIGIagEoJ0T4F2I=;
-        b=Qt0GOnMmHxRgnkcW/3f2sk6dU9cMGpWRY3FCVFuuT/m4Ia9nGIjiYeYwIbk6mwtZOk
-         GoxFajcZ6CooVS/zWkf01SYnMqV5bydlpHo5+uWEuNDg5J8XIwb5GoXsWGFGI56Cj8tv
-         Wg6LW4GGRGBPfEWueHcT+UdkaZp6cqKn9rok8WiSz9t28p5lIJpEffxCv4l6E2Mz7u0a
-         +jrDOMyJAjKxE75RYeqO/bTsUCk5U+nws6zM3LD6Iqwv7q2H+99pXwB3DpnlHf4iZ6Md
-         B/EkTCXtZPLCUGdCDvy4QHKxt+MVN03uUrwivfvhhe7cDkQ/RyJfT6XapTULvoDHpFPW
-         byQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVsRk4Ly9rgCfMyPH9YtqLOoSI4FHIeNASVIuim1GAEv0AWauUj/y8LpzBgRmuvwM3DERFscAF4Nprw6ky55CaLQPZ0NA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yzo/HSZBZnXCzjNaAE4Dbz1qqVbbvOJsI9TzvPQ5vt4bR1UUowy
-	snvs7dI29eriVfA98ezuQi4PqsuFuP9WCpzbT4bqMUKO3ri9B790
-X-Gm-Gg: ASbGnctB+Rh00QyZrQ6NvfI6QJyF/NyeJQdtpla7NO29mUzBU3s+nZ745dxhu5RHNt+
-	yoL7k+03crjyy6Qmrj9H/HfBFcyWa0sOpu1NhLT3hqDGMRyrW2q4pBp2wzDAQ3dSymiyQcMAM1g
-	liKzWJjjqt7wwiOYJUoI9beVsiUQkK+baVwGyqdg3YKtGC6DOKvOFozRuTg6apz2zgLpbzJQw3r
-	EYurmM3LkU1C3+0tcrvjRRi32Qdxi9onL3FXfGyZuy/bI2NxTMRZvfDXpDMU9oUR6JwlRUOI/V3
-	twIllDIgYGkZN1YpoxW7KV13lorODxMCSLn6O0s=
-X-Google-Smtp-Source: AGHT+IFO5egOIMeN8mVFlXAGU43fYYzh+evpktzZVHTnhqWN5Wtu+fY6TuYiZYEvzfI5jqap6VJksQ==
-X-Received: by 2002:a05:690c:7446:b0:6ef:e390:1d4a with SMTP id 00721157ae682-6f147fe14d9mr16515447b3.11.1733892474455;
-        Tue, 10 Dec 2024 20:47:54 -0800 (PST)
-Received: from granite.localdomain (syn-142-197-128-048.res.spectrum.com. [142.197.128.48])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6f14cea6fefsm682047b3.111.2024.12.10.20.47.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 20:47:53 -0800 (PST)
-Date: Tue, 10 Dec 2024 23:47:51 -0500
-From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-To: Nicolas Pitre <nico@fluxnic.net>
-Cc: davidgow@google.com, Andrew Morton <akpm@linux-foundation.org>,
-	andriy.shevchenko@linux.intel.com, u.kleine-koenig@baylibre.com,
-	skhan@linuxfoundation.org, rbm@suse.com,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	kunit-dev@googlegroups.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id yB55oeuFGJJe for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 11 Dec 2024 15:06:52 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=202.12.124.155; helo=fhigh-b4-smtp.messagingengine.com; envelope-from=nico@fluxnic.net; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org D458460649
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=fluxnic.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D458460649
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=fluxnic.net header.i=@fluxnic.net header.a=rsa-sha256 header.s=fm1 header.b=eerERM2m;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=tXpBswLW
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D458460649
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Dec 2024 15:06:51 +0000 (UTC)
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 4A1AA2540075;
+	Wed, 11 Dec 2024 10:06:50 -0500 (EST)
+Received: from phl-frontend-01 ([10.202.2.160])
+  by phl-compute-12.internal (MEProxy); Wed, 11 Dec 2024 10:06:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fluxnic.net; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1733929610; x=1734016010; bh=oZv29Li8FX
+	xwUwDwfrjJqvihl4xMyv2UJxCN1F0EdlY=; b=eerERM2mSO6Wr9a8UWzdrKIQ0R
+	16TTse5lWV4BbvDTzqcb5L7+N7IgNe/pyGhKip+wjHkDwz1o5WspYBIG78v1VOP3
+	e5mZOepJSmbmoj/fH0xRvJwdQ0vTYeo9Twx60sC7aiV8QWEOydrOKfjCwb7s/h8+
+	H49wGsmvRaYjXcNrtV0Zqqm8kdBmq25TR5WB+QSXWunt/86Hxj+uzUVaBww8SRad
+	wAb1barAcfssYPwrunOwiEPIk8tdnE0HdjwoL5GWRR1lNr0L2SaObMeJ0GuD2+FC
+	lqwGOw6abLdF08L/0eqrtHtaBg8xfkQQAx7OO3nI2io0HARUO+BTca73F/SA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1733929610; x=1734016010; bh=oZv29Li8FXxwUwDwfrjJqvihl4xMyv2UJxC
+	N1F0EdlY=; b=tXpBswLWqIxoF9cOcpdnQx4RWBeLXsOBamGjGcDK0vAxoSlaEVi
+	1qyKVREbPsUM7oX73CseJXMrqWjTgOAEt7RM8JCgCQb5J3o7/pBCY3spChrvjFga
+	xg0gQ6raefP4wl6gaD6zRPb6NNOZZSxyXIGBcufWtMafKmapWkMC6Usv2SBYDdhf
+	1gvOW0P2P94QsKhxDmokIGyO+CoqZ6SgilpqdfrMW5luCz5lXM1embnh6JgZoPbz
+	eSxCD8lf5GAJHn6K9dBfaakvb9Ht8MI2l23sYrTgNp5sEMOFRy6y4fWux7w9IIvs
+	lNCXao3h52Hrv9sc+Foliq+xKSZWIRc7ZIA==
+X-ME-Sender: <xms:iKpZZ3e7IPU-gvObzJxtvXeuk26P66lkjJe6Jec0pAOhULDDtuFXPA>
+    <xme:iKpZZ9PXBhObR9W2m8_ZHRXit4VzEYTlTIr2vkkJ6gIrNP1NQEAMS-5nT473eC0xO
+    NKw3jS5JnppdSbZEvE>
+X-ME-Received: <xmr:iKpZZwjPtSfrMkuP4v3bgSXOfP-55Cvtz-4DFk8IjizB5oDYEsCkMNbaOicxh8pPYTywwEekw84nL6U5ccsggsyXfT-7FakLmuSBZ9l1fMPTTs3JXQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrkedtgdejvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpeffhffvvefujgfkfhggtgesthdtredttddtvdenucfh
+    rhhomheppfhitgholhgrshcurfhithhrvgcuoehnihgtohesfhhluhignhhitgdrnhgvth
+    eqnecuggftrfgrthhtvghrnhepgfevvdfhfeeujeeggffgfefhleffieeiuddvheffudeh
+    udffkeekhfegfffhfeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepnhhitghosehflhhugihnihgtrdhnvghtpdhnsggprhgtphhtthhopedu
+    tddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepuhdrkhhlvghinhgvqdhkohgvnh
+    highessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtoheplhhuihhsrdhhvghrnhgrnhgu
+    vgiitdelfeesghhmrghilhdrtghomhdprhgtphhtthhopegurghvihgughhofiesghhooh
+    hglhgvrdgtohhmpdhrtghpthhtohepkhhunhhithdquggvvhesghhoohhglhgvghhrohhu
+    phhsrdgtohhmpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonh
+    drohhrghdprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlihhnuhig
+    rdhinhhtvghlrdgtohhmpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurg
+    htihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggv
+    sheslhhishhtshdrlhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhope
+    hrsghmsehsuhhsvgdrtghomh
+X-ME-Proxy: <xmx:iKpZZ4_CrVAmSkaEFDoFKvmeOI6em3-8a4jGk9YDuIPL2g-jHLldjg>
+    <xmx:iKpZZzsV4BCa8ywgxbkQMOJIf445-Z3srFbM4YWQE_o6uoELKJNmAQ>
+    <xmx:iKpZZ3Goxr_x3P3BhNvhn2SgSb0kj92vSM9hz2hJiUi5cl1Cv3mWZA>
+    <xmx:iKpZZ6PPtNuP9sF6HP6ecAivBkcw53XuKSbDxuNXi8NGylF9tSyolQ>
+    <xmx:iqpZZ0lsMlh0Ljl8MaHqgl74ETHzqX3Z71XkU7bTsQH3RMHMsO2e5GoW>
+Feedback-ID: i58514971:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 11 Dec 2024 10:06:48 -0500 (EST)
+Received: from xanadu (unknown [IPv6:fd17:d3d3:663b:0:9696:df8a:e3:af35])
+	by yoda.fluxnic.net (Postfix) with ESMTPSA id 72541F3863D;
+	Wed, 11 Dec 2024 10:06:47 -0500 (EST)
+Date: Wed, 11 Dec 2024 10:06:47 -0500 (EST)
+From: Nicolas Pitre <nico@fluxnic.net>
+To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+cc: davidgow@google.com, Andrew Morton <akpm@linux-foundation.org>, 
+    andriy.shevchenko@linux.intel.com, u.kleine-koenig@baylibre.com, 
+    skhan@linuxfoundation.org, rbm@suse.com, linux-kselftest@vger.kernel.org, 
+    linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
 Subject: Re: [PATCH v4] lib/math: Add int_sqrt test suite
-Message-ID: <Z1kZdw3VybM9zN3+@granite.localdomain>
-References: <20241210172822.97683-1-luis.hernandez093@gmail.com>
- <9op57qr3-p152-6ns7-52n6-35599801rq22@syhkavp.arg>
- <Z1kKlhUceHxZrMeS@x13>
- <n9o7rp0q-3894-544p-7s36-693qo49p9no2@syhkavp.arg>
+In-Reply-To: <Z1kZdw3VybM9zN3+@granite.localdomain>
+Message-ID: <3s6r2q3q-4s50-s11o-80qr-7p04185posoo@syhkavp.arg>
+References: <20241210172822.97683-1-luis.hernandez093@gmail.com> <9op57qr3-p152-6ns7-52n6-35599801rq22@syhkavp.arg> <Z1kKlhUceHxZrMeS@x13> <n9o7rp0q-3894-544p-7s36-693qo49p9no2@syhkavp.arg> <Z1kZdw3VybM9zN3+@granite.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <n9o7rp0q-3894-544p-7s36-693qo49p9no2@syhkavp.arg>
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue, Dec 10, 2024 at 10:58:02PM -0500, Nicolas Pitre wrote:
+On Tue, 10 Dec 2024, Luis Felipe Hernandez wrote:
 
-> And for such kind of test, more values to test is not a bad thing. So 
-> I'd suggest keeping { 4294967295, 65535 ] as well in the set as this 
-> represents a nice 
-> edge case.
+> On Tue, Dec 10, 2024 at 10:58:02PM -0500, Nicolas Pitre wrote:
 > 
-> It wouldn't hurt adding the entire set from 0 to 9 as well. Many 
-> different edge cases in that range.
+> > And for such kind of test, more values to test is not a bad thing. So 
+> > I'd suggest keeping { 4294967295, 65535 ] as well in the set as this 
+> > represents a nice 
+> > edge case.
+> > 
+> > It wouldn't hurt adding the entire set from 0 to 9 as well. Many 
+> > different edge cases in that range.
+> 
+> I see, agreed, thank you for your suggestions. I'll go ahead and carry
+> out the following changes:
+> 1. Replace the ULONG_MAX test case with the aforementioned { 2147483648,
+> 46340, "large input"} case
+> 2. Add the { 4294967295, 65535 } edge case
+> 3. Add missing cases between 0 - 9
+> 4. Add a couple more cases 
+> 
+> The updated test cases would be as follows:
+> { 0, 0, "edge case: square root of 0" },
+> { 1, 1, "perfect square: square root of 1" },
+> { 2, 1, "non-perfect square: square root of 2" },
+> { 3, 1, "non-perfect square: sqaure root of 3" },
+> { 4, 2, "perfect square: square root of 4" },
+> { 5, 2, "non-perfect square: square  root of 5" },
+> { 6, 2, "non-perfect square: square root of 6" },
+> { 7, 2, "non-perfect square: square root of 7" },
+> { 8, 2, "non-perfect square: square root of 8" },
+> { 9, 3, "perfect square: square root of 9" },
+> { 16, 4, "perfect square: square root of 16" },
+> { 81, 9, "perfect square: square root of 81" },
+> { 256, 16, "perfect square: square root of 256" },
+> { 2147483648, 46340, "large input: square root of 2147483648" },
+> { 4294967295, 65535, "edge case: ULONG_MAX for 32-bit" },
+> 
+> I'll incorporate these changes and submit a new revision of this patch.
+> Please let me know if there's anything else you'd like me to address.
 
-I see, agreed, thank you for your suggestions. I'll go ahead and carry
-out the following changes:
-1. Replace the ULONG_MAX test case with the aforementioned { 2147483648,
-46340, "large input"} case
-2. Add the { 4294967295, 65535 } edge case
-3. Add missing cases between 0 - 9
-4. Add a couple more cases 
+Looks fine to me.
 
-The updated test cases would be as follows:
-{ 0, 0, "edge case: square root of 0" },
-{ 1, 1, "perfect square: square root of 1" },
-{ 2, 1, "non-perfect square: square root of 2" },
-{ 3, 1, "non-perfect square: sqaure root of 3" },
-{ 4, 2, "perfect square: square root of 4" },
-{ 5, 2, "non-perfect square: square  root of 5" },
-{ 6, 2, "non-perfect square: square root of 6" },
-{ 7, 2, "non-perfect square: square root of 7" },
-{ 8, 2, "non-perfect square: square root of 8" },
-{ 9, 3, "perfect square: square root of 9" },
-{ 16, 4, "perfect square: square root of 16" },
-{ 81, 9, "perfect square: square root of 81" },
-{ 256, 16, "perfect square: square root of 256" },
-{ 2147483648, 46340, "large input: square root of 2147483648" },
-{ 4294967295, 65535, "edge case: ULONG_MAX for 32-bit" },
 
-I'll incorporate these changes and submit a new revision of this patch.
-Please let me know if there's anything else you'd like me to address.
-
-Thanks again for your guidance,
-
-Felipe
+Nicolas
