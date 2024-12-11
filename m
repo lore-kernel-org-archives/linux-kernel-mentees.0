@@ -1,113 +1,143 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D57E22C34F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Dec 2024 03:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7C32451C0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Dec 2024 04:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733888669; cv=none; b=IQwG8NSV27Y5PSuL7kFqZHFO2kBT43mz97bOLOH/6Xu4iqENog4A/jeigLMO36TCd9VpKmaNyiyzdCvqo0QIDa10BCWdklQkQ44SAx9klrE5vsPDsSv5oibWdilqLZ9OLH2+3l8qq4IQp72RjbtUmAkHyU9mXCTKOOq6Crq+Kzk=
+	t=1733889979; cv=none; b=Ihg9o9sny2Cd4dETyPuxALttDsWJboXiz6qzCmxrHt88k8R7sJJVhdeWk8QnICGSIAr1eEBlWFqNdbnSGsyMhCFh6o88yiDFbpFZQfO7XaYkyGcGDagO9iABpXlHNSgYh9wwczh2ng6N4TtU5JBIykgVLHB6xGeatxutVPiC4I8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733888669; c=relaxed/simple;
-	bh=h+iQpxuUF2z9uLrEvofKfRG+v5z2Zb87jckGIs2e9/w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WCq3uV1qx8StBmu6rVljqYrLuwTvRHPzMS4i240HIdzZ2cmsTTgHLz00FiKQFHR6O0avIdg7UHzA1DAwoxoMqjeswd72+qIkCJeGKM6h0r/eQKXuJA0zdS6JBauFU32jQouYCXuk3P8CwqGzXDS78drs0TEO902yk1+ThIA6IMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eit45IbM; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1733889979; c=relaxed/simple;
+	bh=d+kJbO6K+9tWyE2tMurMS33oJ9/oMasaidPllJSQs2o=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Zh9lyB9GOyU7Sx8aB4GXuYp3eSxesKLl0KCO+rLZhJFVIw8vGkyfTC0YHeR+cgIz3MAQhW4ZqHS1hOM2BoCu3az1qQCCa5l1r5V8rhhpQ3MkeU6VyXcDUN5qiXfBhH31Y4+C4UXjCfZ9d59Kho5TV0mAbca6EgzVTJqPteiHfSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=fluxnic.net header.i=@fluxnic.net header.b=PAn1iSl1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cRoQNtoR; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eit45IbM"
+	dkim=pass (2048-bit key) header.d=fluxnic.net header.i=@fluxnic.net header.b="PAn1iSl1";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cRoQNtoR"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BDF8760A70
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Dec 2024 03:44:27 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 3878F40874
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Dec 2024 04:06:17 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -6.493
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Wan9EuWw6el4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Dec 2024 03:44:27 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::112f; helo=mail-yw1-x112f.google.com; envelope-from=luis.hernandez093@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org F41E6606AF
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org F41E6606AF
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=eit45IbM
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id F41E6606AF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Dec 2024 03:44:26 +0000 (UTC)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-6ef7f8d4f30so52154237b3.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Dec 2024 19:44:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733888666; x=1734493466; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UNapOyEQ91ZoVlFNBY2PuFB63oHmXcixJJFgp+wWmMs=;
-        b=eit45IbM0LIa2qssBzJSm+AUqnvjq7wvhCR1o5OfLphxbHlselS9TEDMalXpGIyjyS
-         1nr8hQiw3SY4uwl4OhwMIs/g2d2AoBAWp+VOzcY7EpbeqQbIHm1J8yUfBiap3XxvmKLn
-         +TPCkDt6bKm8dX130OZZsb4zueLCBGk1URth6avFwvgGw+CFTJ6OzyZ9zW3jM+4hkOMO
-         mGZ50nSih0D+2XhF8n8yOQDSGEZJ8wgZ0EM4gODyyzPyDVZvXBSyG0s+6kcjd7FWh/C+
-         owuGolv+zEXjBBRBx3VoRwMwyqoyPYZEszKowCnzLHjHWxW8EmqSJQo2fF5nLckYJNnv
-         bfnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733888666; x=1734493466;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UNapOyEQ91ZoVlFNBY2PuFB63oHmXcixJJFgp+wWmMs=;
-        b=luICzIWXGPeo7Vv8F+xQfkMcBKQQEHuvJX7V6TRpgxxReb7y/8fYg09HhHTna2ct0I
-         eor8dINRz8caKQWeGA9RONdQ8gp3g51vc6Y36KXKMJTesrkS/XsAgqcxuroxGmaC5QW9
-         HB7Y3IdD/La5Wv+LaxXCMoh0BbBYhmZI9VKNsDFDaK/YSXGRfZbnxp0sj8IMafczSaPx
-         4cE6qvANWhQEbq5tHF7tXqM4yEUzFr6NwbQcA8Fnp/SflxrPrZTrEqP+pUrUskFjvswa
-         AusPxP466X83nlyaYqFxZz1kyP9MmY9AsNGNzfl4JkAjsWVDhm9+q1ArGpZ/12xuY8Dw
-         MfNg==
-X-Forwarded-Encrypted: i=1; AJvYcCU6eI1Una4I3Aljk5Blw4fzLLMVCZHQ/tfeSBUd3WHiRDLhDsz+MsVQV557JTrgWng7UvRGYOv27Y/KFnQD14ZRn4TzpA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxWcIgl/foH++AK5j/8J8W23zl7rgAWJfK2zlmBrS6sNlI2UYpv
-	yTRvOmVqeeODY6m/5eu6kAMnYubvRm0Mj1/lf/wSK16rDn6hykuH
-X-Gm-Gg: ASbGncu6ojk9qh0/82hA8jfc02UBxXcRBWvSEp3Sdme76EZSrFNeEU0o8eEJEvnVMa2
-	Al2r3wLnU/DTyKRtigv3JkzZTCd+YdWMe7STySq7NDzxjP2ZycHcrV9HvmDRd2xfvh/ivODcB0L
-	wFvDDuutlJPCKSeMNv/c1/RH3rJwSrRcvH899IkTrht9uCrCcSDV9X5YrmC1tXWlL+c4vNBMPpH
-	nZIlQioyCHBr4e0kuEB2HsAv0kJcVOeJzF0DmR1t+I4jEp0z7HxtLoJtvJvvR31KzzXLXcW6CzH
-	2zuhhkdYLlVYFf2lzQ==
-X-Google-Smtp-Source: AGHT+IG95h9z/msfDeQOwzBtB9buNs0kGCtNIwCEwXSqjPZZJyjcqhT5K+EMuMxat1vH8HdrDpA5yw==
-X-Received: by 2002:a05:690c:350a:b0:6ef:6d37:1844 with SMTP id 00721157ae682-6f147fad943mr18703677b3.7.1733888665679;
-        Tue, 10 Dec 2024 19:44:25 -0800 (PST)
-Received: from x13 (syn-142-197-128-048.res.spectrum.com. [142.197.128.48])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6f14cea48basm496557b3.121.2024.12.10.19.44.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 19:44:24 -0800 (PST)
-Date: Tue, 10 Dec 2024 22:44:22 -0500
-From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-To: Nicolas Pitre <nico@fluxnic.net>
-Cc: davidgow@google.com, Andrew Morton <akpm@linux-foundation.org>,
-	andriy.shevchenko@linux.intel.com, u.kleine-koenig@baylibre.com,
-	skhan@linuxfoundation.org, rbm@suse.com,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	kunit-dev@googlegroups.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 9QcVkFKaaeaI for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 11 Dec 2024 04:06:15 +0000 (UTC)
+X-Greylist: delayed 489 seconds by postgrey-1.37 at util1.osuosl.org; Wed, 11 Dec 2024 04:06:15 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 693534082A
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=fluxnic.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 693534082A
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=fluxnic.net header.i=@fluxnic.net header.a=rsa-sha256 header.s=fm1 header.b=PAn1iSl1;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=cRoQNtoR
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=103.168.172.154; helo=fhigh-a3-smtp.messagingengine.com; envelope-from=nico@fluxnic.net; receiver=<UNKNOWN> 
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 693534082A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Dec 2024 04:06:15 +0000 (UTC)
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 4D4A911401D0;
+	Tue, 10 Dec 2024 22:58:05 -0500 (EST)
+Received: from phl-frontend-02 ([10.202.2.161])
+  by phl-compute-12.internal (MEProxy); Tue, 10 Dec 2024 22:58:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fluxnic.net; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1733889485; x=1733975885; bh=FbbrrLOw6A
+	AHqANbuGm0G1U8QiPY8DgA54A4YSaCDIs=; b=PAn1iSl1P5kk0mIkW84x1tbKFn
+	uYS+7OtCAwIHydnsh9NRMb40F3Tro31ELDu0bxL5H17rK9aLHx3mEMF0vNPFYlcC
+	RUrtkKvP+Im/PXoZVjuk/4snX3k/S+2FnkTgfJbiBuN54SI2asC4772BKJaBFmpI
+	IhaNhQssdpxsqIXHJiudQ1k7iSxZ2g0MCnFR4MPacjfarAkEwUzGF2dF8X8gOSud
+	DmpkWhpMRnc9bPS7UBP5GzSBQ8vGTA1dU38IUqUE84dabAC7aNj+fQlobqVuBb2C
+	/ch4RKdAC4CoyOMS3ka5ir9GwkFc1pEoM00waUNTUsWzlUkdwXzQ0sLJlHBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1733889485; x=1733975885; bh=FbbrrLOw6AAHqANbuGm0G1U8QiPY8DgA54A
+	4YSaCDIs=; b=cRoQNtoR2kzzcC4ogBcTlGh9BZ3yyx36t4W/9G7Hoi+7EJm9k6b
+	BZ77VvwlbehcgVvccEWfP7RH4WcWPZARUydT7AqYAOILalnpIV2PWGAZiLr4tPpN
+	PxCXkN23QSwNrYCKqU9U2EKJ1MyIGkwfCmPv+biCnT/BIQ5LwlttGpOsrlvBd0tK
+	zMZh8h1SN/0bto0BlFrzO/7US7yBoUJneLqvMwWtOyuEfMNoGEs3CLw2+BdBr/ez
+	qCNdJijyoX25nFS8PUHRpW9Qmn2EciKu2znbgssjlSIzNSNh/jLuuoogSP1QPtri
+	yXYqABKG6JuWQbxLlYA4tQZrI+8wws3EbuQ==
+X-ME-Sender: <xms:zA1ZZwWhvwDNWdqkjqs-ztAhdl0WnzQ8nyLJJVnad-d1wNyexgmrjA>
+    <xme:zA1ZZ0kp1IrxCKsmKOKXdVLk8SJ8jnZanhTdcOjAn1V-rJ7TTKgTSyhDj6phk1S_R
+    z0OlaJCk-vcXkeiKTQ>
+X-ME-Received: <xmr:zA1ZZ0aCGQ4xoVKkVQmPkogG9t7s2CPtznAsgkA87fimcCjkqcc1n9-29ScN7RSUi8UAxzi8nwr8lt9DiuOEE9FuNCJY5BzXj2knhuiUdNezGHx-8A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrjeelgdeifecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpeffhffvvefujgfkfhggtgesthdtredttddtvdenucfh
+    rhhomheppfhitgholhgrshcurfhithhrvgcuoehnihgtohesfhhluhignhhitgdrnhgvth
+    eqnecuggftrfgrthhtvghrnhepgfevvdfhfeeujeeggffgfefhleffieeiuddvheffudeh
+    udffkeekhfegfffhfeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepnhhitghosehflhhugihnihgtrdhnvghtpdhnsggprhgtphhtthhopedu
+    tddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepuhdrkhhlvghinhgvqdhkohgvnh
+    highessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtoheplhhuihhsrdhhvghrnhgrnhgu
+    vgiitdelfeesghhmrghilhdrtghomhdprhgtphhtthhopegurghvihgughhofiesghhooh
+    hglhgvrdgtohhmpdhrtghpthhtohepkhhunhhithdquggvvhesghhoohhglhgvghhrohhu
+    phhsrdgtohhmpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonh
+    drohhrghdprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlihhnuhig
+    rdhinhhtvghlrdgtohhmpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurg
+    htihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggv
+    sheslhhishhtshdrlhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhope
+    hrsghmsehsuhhsvgdrtghomh
+X-ME-Proxy: <xmx:zA1ZZ_XHUv3FbtwTwZUxMXlLielg20YKDU_y-T3-AwbtxLetVEU_bA>
+    <xmx:zA1ZZ6kFBUSQTAna5rmJT5JSo1eSJZAR_ehjj3MPU65-lxYqa_kxXQ>
+    <xmx:zA1ZZ0fb67_ettCh5cVCP5zfmvzqJ_LfKKIsKs2ils15lQ8-F-LCQw>
+    <xmx:zA1ZZ8G4f8i-5MXUFs5oB6S_2MGwwJTgIIPU08-63FeEA6lk41jJew>
+    <xmx:zQ1ZZzdUTNBsUVCikkHQ2sM9MDKIjisUGWrME3htDOw7PuXWtC9Gizqg>
+Feedback-ID: i58514971:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 10 Dec 2024 22:58:03 -0500 (EST)
+Received: from xanadu (unknown [IPv6:fd17:d3d3:663b:0:9696:df8a:e3:af35])
+	by yoda.fluxnic.net (Postfix) with ESMTPSA id C4B8DF36FE4;
+	Tue, 10 Dec 2024 22:58:02 -0500 (EST)
+Date: Tue, 10 Dec 2024 22:58:02 -0500 (EST)
+From: Nicolas Pitre <nico@fluxnic.net>
+To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+cc: davidgow@google.com, Andrew Morton <akpm@linux-foundation.org>, 
+    andriy.shevchenko@linux.intel.com, u.kleine-koenig@baylibre.com, 
+    skhan@linuxfoundation.org, rbm@suse.com, linux-kselftest@vger.kernel.org, 
+    linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
 Subject: Re: [PATCH v4] lib/math: Add int_sqrt test suite
-Message-ID: <Z1kKlhUceHxZrMeS@x13>
-References: <20241210172822.97683-1-luis.hernandez093@gmail.com>
- <9op57qr3-p152-6ns7-52n6-35599801rq22@syhkavp.arg>
+In-Reply-To: <Z1kKlhUceHxZrMeS@x13>
+Message-ID: <n9o7rp0q-3894-544p-7s36-693qo49p9no2@syhkavp.arg>
+References: <20241210172822.97683-1-luis.hernandez093@gmail.com> <9op57qr3-p152-6ns7-52n6-35599801rq22@syhkavp.arg> <Z1kKlhUceHxZrMeS@x13>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9op57qr3-p152-6ns7-52n6-35599801rq22@syhkavp.arg>
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue, Dec 10, 2024 at 02:59:12PM -0500, Nicolas Pitre wrote:
-> This will fail on a 32-bit system where sizeof(long) == 32 and 
-> ULONG_MAX == 4294967295. (meaning the result would be 65535).
+On Tue, 10 Dec 2024, Luis Felipe Hernandez wrote:
 
-Thank you for taking the time to review my patch and for pointing out the issue with the ULONG_MAX test case. I failed to think about how a 32-bit system would treat ULONG_MAX == 4294967295.
+> On Tue, Dec 10, 2024 at 02:59:12PM -0500, Nicolas Pitre wrote:
+> > This will fail on a 32-bit system where sizeof(long) == 32 and 
+> > ULONG_MAX == 4294967295. (meaning the result would be 65535).
+> 
+> Thank you for taking the time to review my patch and for pointing out the issue with the ULONG_MAX test case. I failed to think about how a 32-bit system would treat ULONG_MAX == 4294967295.
+> 
+> To address this, I was thinking of updating the test case to use a large enough value that remains within the bounds of unsigned long for both 32-bit and 64-bit architectures instead. Specifically, 2147483648 (2^31), which has an integer square root of 46340. I believe this would ensure the test remains valid and portable across all supported architectures.
+> 
+> The updated test case would be as follows:
+> { 2147483648, 46340, "large input"}
 
-To address this, I was thinking of updating the test case to use a large enough value that remains within the bounds of unsigned long for both 32-bit and 64-bit architectures instead. Specifically, 2147483648 (2^31), which has an integer square root of 46340. I believe this would ensure the test remains valid and portable across all supported architectures.
+Sure.
 
-The updated test case would be as follows:
-{ 2147483648, 46340, "large input"}
+And for such kind of test, more values to test is not a bad thing. So 
+I'd suggest keeping { 4294967295, 65535 ] as well in the set as this 
+represents a nice 
+edge case.
 
-I'd appreciate any feedback on this proposed change and thanks again for your time Nicolas.
+It wouldn't hurt adding the entire set from 0 to 9 as well. Many 
+different edge cases in that range.
 
-- Felipe
+
+Nicolas
