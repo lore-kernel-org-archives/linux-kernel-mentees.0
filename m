@@ -1,95 +1,101 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC741DED4C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Jan 2025 07:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF95A1DFD8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Jan 2025 22:11:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736236092; cv=none; b=rO3tdJ403ltNYkFoff0Ehaie9zGeWILf+H5WFMqaF3Q7op9NqMuiTveqsPaFRDwJSzc/u9Ip7o19WYNgZxdd54+Zae2+2C/z1MPEf1CEdjd9od7U+8q47/isMzzTDzZxDnNUKFboXfcVWgiO6PM18XwfD8QW/4qVzR7tmNBVrUI=
+	t=1737238274; cv=none; b=ZZqj2X9HCGSRj8v6iw+67WWVIA1KqEDktlYrovugk05J24tVTFVA7L2wOG9yKxY+0LMazFx2s49p3kdQ31QYeH9IudFBqDqPZO+Ym0h6hSsldtfJyTHgyVOFgCntWpbKOapGHdFsSoHqFM9n19LMEUCZV9M1pRLSaIpbbhI02ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736236092; c=relaxed/simple;
-	bh=uaVVdzHvimeT06a3yMQxd4H4JJ3bnfuSNFVWvQxNyo0=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=KrmHJnpE9udzZe2Aq5OsxAwk0WJueOMJV8/tlnrH+GcF7wapkuD+ykdXy/Vqkm6i04LdmgaIvUxFjBDnXU/UkhbN7iXN/tnb/JGGsdqjhUz8+vPLJKruEfNAs4Z8P/2FVIEAO6hYPtG4OAIu3Oq43MPb9gzL/19UTr/gqN86MiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1737238274; c=relaxed/simple;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	h=MIME-Version:Date:From:To:Message-Id:Subject:Content-Type; b=WiYd4rcmz3k0ZCcRQ2i/qlJeHbsIulgijF/oli/CylA1q5sCNRmdY5Zr6cB7Wi9m2ghTcLueYv2FtbrJKAEO2hSCfluRLFsod0/bdkBBS/b82Nb8Bs3XH5ycUfbJMQHncbKLfKE0G6LL2Aq3TtdwmWe7dkalixSJfunRA8wmbb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=S3OUGEbm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=waWi3ivz; arc=none smtp.client-ip=140.211.166.138
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="S3OUGEbm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="waWi3ivz"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 458214101A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Jan 2025 07:48:09 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 5972A83BA3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Jan 2025 22:11:12 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.838
+X-Spam-Score: -3.791
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 7Z8lNy0xDAG4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jan 2025 07:48:05 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.166.200; helo=mail-il1-f200.google.com; envelope-from=3m9x8zwkbaciqwxi8jjcp8nngb.emmejcsqcpamlrclr.amk@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 3179341016
-Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=syzkaller.appspotmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3179341016
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 3179341016
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Jan 2025 07:48:04 +0000 (UTC)
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-3ae31bb8ee3so318496255ab.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 06 Jan 2025 23:48:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736236083; x=1736840883;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+0LRMsuN1s1WV9iFBr4RyKU3rvRdJKMKEAM5GaIKjUo=;
-        b=b0E4K95JBCed6KIC8mpvv2WxVGA3F442+QBe+Ie8eisJGMCI7ufvOwhQ9J8TrScTez
-         /Vae5tsa8HJkXet+IXgv9r+DJksekN5+h5R7vbf2bUiIO11NzD+3X3lLgZ427d7YfmDP
-         0x04OuVBe5fOzpNuw5H7Hx7cXHU9K2Go1FO8VVfe+DmXUVlMcR2uhXCcwjOYhOTw0Kg3
-         a4wLQEh/oDVg6xybqMev+flulhEmDydY/P7ht6+XcOJ+zMfO8IzWEnd6ehVwA6lHvGPi
-         rg6bTInpCorFVsuVU+F4fWeaTPClpm8fZHvUZC43Lm0dFjRK/PSQuxWM3zMwKUI5j1hF
-         +fAA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVsX4w7m+OF/B3U1fSB6dv3TJZHxfSzeJE6pHKYvfhL9HdBUCbVe0a8SgDtCnCQs5C2qKLf2do72DyIK8G1MkUxpAyOQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyfOT0rArmHRNWtqrjJbPEVqNmcwPmGIX3OLNhZSAs4EvXbKvxv
-	KVNqpd//4ephJs6Hk54XhX+ivbl+6dYlijgP2OEqmP51Wj/RyAPYSjexNgVQo+2/Rtiz6nLmXIV
-	G0Trx8SDZqywAVI6I150icIJASTyRwFzbEvgNNBiPf0+XPj5zLj48hEg=
-X-Google-Smtp-Source: AGHT+IHDptQRW0FdBNOP4RuSazmJVDi5pAb0YIRMujgxtO70akVi8BHtliImaXYT/qZJouOKonbPJH5Yoc43GUbFsaYWGkaL9Iai
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ymUUP0ZClpst for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 18 Jan 2025 22:11:11 +0000 (UTC)
+X-Greylist: delayed 352 seconds by postgrey-1.37 at util1.osuosl.org; Sat, 18 Jan 2025 22:11:10 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org D798983BB7
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D798983BB7
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=fastmail.com header.i=@fastmail.com header.a=rsa-sha256 header.s=fm2 header.b=S3OUGEbm;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=waWi3ivz
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=103.168.172.153; helo=fhigh-a2-smtp.messagingengine.com; envelope-from=flowejam@fastmail.com; receiver=<UNKNOWN> 
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D798983BB7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Jan 2025 22:11:10 +0000 (UTC)
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 491DF11400EE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Jan 2025 17:05:17 -0500 (EST)
+Received: from phl-imap-08 ([10.202.2.84])
+  by phl-compute-01.internal (MEProxy); Sat, 18 Jan 2025 17:05:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm2; t=1737237917; x=1737324317; bh=47DEQpj8HB
+	Sa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=; b=S3OUGEbmlFcjsCJ7l/pqKBGmTp
+	9ujPWE+X3jtEzQnVxY3F6aZqDwIdZcVyGd+1MHWQuaIphHyzbqh9onF9clNt2ZZZ
+	FR7e4yj+95SwF+FlFPUG1LNeAXVO27Xc4gjIhuatRFdvf/0ZPTRTV9xA6Tdo4rjH
+	f9Re/gknOlyLB3E9+5bvJVtb64vZIUb5nr0YQANbhpTZWky2A3nFlcg0X5OK7UWj
+	6o6pk0bM6pIrmzpZUheHxVcQjtMlFdS8Mc62rRFwHgJhzJGGmZEspv7YfG1skfwl
+	e0ykWzjmMMZJwW44GPB3FduZMFgXmZacM6p8El1sosNOpn/xAyuIro9Y0Bqg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1737237917; x=1737324317; bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJW
+	ZG3hSuFU=; b=waWi3ivzkW2lPeba6SwEiIF8FQvJdxYZfcv8LLS76Jd47RFU+62
+	Hny2jD5JpTsy94uKOQ9H+TH3OgIt9YnqPNaLnQKZuFX9DtNPOuO/KI8RmMqrut4Q
+	TrsGNqNNsgqNg+K2x6Mt58ZDZq7yQEH6G+hGlZIRsJLHLcrrG/uGIkW++CbvAqut
+	vBN4yX/HNj/wk0cqqE1afMeJqO49B6pIHeNda01i5Lgd0JVHJuE3HjLXL8g8wnap
+	t6IW0Mt4E15HIyoB+vRNagsgsXL5aP6+3RejnsKJL3HooYIDSL334gm3vlhLQmqS
+	3+4O4/gYxKT5SyD/RN/PgWs3A73F0U23j+A==
+X-ME-Sender: <xms:nCWMZwEYJGGMEn2q8LXfjahxlxBAafHCBJOW8OSixNPr6_AGiG1pGQ>
+    <xme:nCWMZ5U60RBiwpA1DB9ccwCBHYn5xLVCwD4qKqAjUM67ZItZjkSASBV7DaxUN1i-0
+    AP7441nskEn4H-Qvdw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudeihedgudehiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecugfhmphhthicusghoug
+    ihucdlhedtmdenucfjughrpefoggffhffvkffutgfgsehtjeertdertddtnecuhfhrohhm
+    peflrghmvghsuceofhhlohifvghjrghmsehfrghsthhmrghilhdrtghomheqnecuggftrf
+    grthhtvghrnhepheffteeuleefheehhfeuheelvdelfefhvdevheevjeelueevffdttefh
+    gffggfejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epfhhlohifvghjrghmsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthhtohepuddp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvg
+    hnthgvvghssehlihhsthhsrdhlihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
+X-ME-Proxy: <xmx:nSWMZ6IndFJxTPbkcdyizce_wkgMWUGeirj90msvWS0Y7Embepf69Q>
+    <xmx:nSWMZyHYS8Gipen_eobknkaWbuwDlos6O8-qDTdU_KTBWmYZAa4jZw>
+    <xmx:nSWMZ2VwKIpH4Nr_vEG0tUC5CRZwTJjE1fok5KqXsoLpWIWTw2OCqw>
+    <xmx:nSWMZ1M1NdyGH029zadp9T7KkQVlKpJ8PF6DX2_JWeLIZvOkhRenqQ>
+    <xmx:nSWMZ_fWTUaa4KLu_p8Tg8zqoPWf9QBgCdCgGxyVuVvYwP85mDQPjFt3>
+Feedback-ID: i539946f5:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id DD33F18A006B; Sat, 18 Jan 2025 17:05:16 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:198d:b0:3a7:1bfc:97c6 with SMTP id
- e9e14a558f8ab-3c2d514f9bdmr460357485ab.16.1736236083179; Mon, 06 Jan 2025
- 23:48:03 -0800 (PST)
-Date: Mon, 06 Jan 2025 23:48:03 -0800
-In-Reply-To: <000000000000d1149605fd5b0c0d@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <677cdc33.050a0220.a40f5.0019.GAE@google.com>
-Subject: Re: [syzbot] [ext4?] WARNING: locking bug in ext4_ioctl
-From: syzbot <syzbot+a3c8e9ac9f9d77240afd@syzkaller.appspotmail.com>
-To: adilger.kernel@dilger.ca, boqun.feng@gmail.com, bottaawesome633@gmail.com, 
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	longman@redhat.com, mingo@redhat.com, peterz@infradead.org, rbrasga@uci.edu, 
-	skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com, tytso@mit.edu, 
-	will@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Sat, 18 Jan 2025 14:04:52 -0800
+From: James <flowejam@fastmail.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org
+Message-Id: <3634249f-7911-46f1-9c7a-4c6d59ef8121@app.fastmail.com>
+Subject: Subscribe
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-syzbot suspects this issue was fixed by commit:
-
-commit d7fe143cb115076fed0126ad8cf5ba6c3e575e43
-Author: Ahmed Ehab <bottaawesome633@gmail.com>
-Date:   Sat Aug 24 22:10:30 2024 +0000
-
-    locking/lockdep: Avoid creating new name string literals in lockdep_set_subclass()
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=16c9ffd8580000
-start commit:   e42b1a9a2557 Merge tag 'spi-fix-v6.12-rc5' of git://git.ke..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4aec7739e14231a7
-dashboard link: https://syzkaller.appspot.com/bug?extid=a3c8e9ac9f9d77240afd
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=123fef57980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1598eebb980000
-
-If the result looks correct, please mark the issue as fixed by replying with:
-
-#syz fix: locking/lockdep: Avoid creating new name string literals in lockdep_set_subclass()
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
