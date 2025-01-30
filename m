@@ -1,101 +1,95 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF95A1DFD8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Jan 2025 22:11:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABB77482
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Jan 2025 14:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737238274; cv=none; b=ZZqj2X9HCGSRj8v6iw+67WWVIA1KqEDktlYrovugk05J24tVTFVA7L2wOG9yKxY+0LMazFx2s49p3kdQ31QYeH9IudFBqDqPZO+Ym0h6hSsldtfJyTHgyVOFgCntWpbKOapGHdFsSoHqFM9n19LMEUCZV9M1pRLSaIpbbhI02ks=
+	t=1738247539; cv=none; b=HCbnw32VMFxIeqGll8dS8U3qHWMmt9rfbX5rEFNoepMMJZVClzrY0Sq4pKr8nBqh1r4aSIK89UsRWQfd2G2+cKz50Ku7QMD+9Q79W9Rl18wSVZZU41f+upTTi5lnbQh8kNQXMMy0lvMgeu8isRVz/uXXeUI1msjZStsykSQGbNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737238274; c=relaxed/simple;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	h=MIME-Version:Date:From:To:Message-Id:Subject:Content-Type; b=WiYd4rcmz3k0ZCcRQ2i/qlJeHbsIulgijF/oli/CylA1q5sCNRmdY5Zr6cB7Wi9m2ghTcLueYv2FtbrJKAEO2hSCfluRLFsod0/bdkBBS/b82Nb8Bs3XH5ycUfbJMQHncbKLfKE0G6LL2Aq3TtdwmWe7dkalixSJfunRA8wmbb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=S3OUGEbm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=waWi3ivz; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1738247539; c=relaxed/simple;
+	bh=sA7asZK9ucRprwdIDQlSVHXLkerrhcndTmOGBsM3rV0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AKmcculfk+pIZ3vBC01OmbqnwsD1+FKgKU6iY/1pkxxhiAp8kWiOwxUHpqHXNClH5Ak6tXuqA6ymPGJAEzCF61+3+G6h83tjAN9KJ1kw10+gzW/Wj+tkG3u1iAX7U5xBBNu+wMU8Nr5614Z1GSXHw0bnGfpPRyI64KSQz+SX12E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JpoboUiR; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="S3OUGEbm";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="waWi3ivz"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5972A83BA3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Jan 2025 22:11:12 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -3.791
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ymUUP0ZClpst for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 18 Jan 2025 22:11:11 +0000 (UTC)
-X-Greylist: delayed 352 seconds by postgrey-1.37 at util1.osuosl.org; Sat, 18 Jan 2025 22:11:10 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org D798983BB7
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D798983BB7
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=fastmail.com header.i=@fastmail.com header.a=rsa-sha256 header.s=fm2 header.b=S3OUGEbm;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=waWi3ivz
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=103.168.172.153; helo=fhigh-a2-smtp.messagingengine.com; envelope-from=flowejam@fastmail.com; receiver=<UNKNOWN> 
-Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id D798983BB7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Jan 2025 22:11:10 +0000 (UTC)
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 491DF11400EE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Jan 2025 17:05:17 -0500 (EST)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-01.internal (MEProxy); Sat, 18 Jan 2025 17:05:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm2; t=1737237917; x=1737324317; bh=47DEQpj8HB
-	Sa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=; b=S3OUGEbmlFcjsCJ7l/pqKBGmTp
-	9ujPWE+X3jtEzQnVxY3F6aZqDwIdZcVyGd+1MHWQuaIphHyzbqh9onF9clNt2ZZZ
-	FR7e4yj+95SwF+FlFPUG1LNeAXVO27Xc4gjIhuatRFdvf/0ZPTRTV9xA6Tdo4rjH
-	f9Re/gknOlyLB3E9+5bvJVtb64vZIUb5nr0YQANbhpTZWky2A3nFlcg0X5OK7UWj
-	6o6pk0bM6pIrmzpZUheHxVcQjtMlFdS8Mc62rRFwHgJhzJGGmZEspv7YfG1skfwl
-	e0ykWzjmMMZJwW44GPB3FduZMFgXmZacM6p8El1sosNOpn/xAyuIro9Y0Bqg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1737237917; x=1737324317; bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJW
-	ZG3hSuFU=; b=waWi3ivzkW2lPeba6SwEiIF8FQvJdxYZfcv8LLS76Jd47RFU+62
-	Hny2jD5JpTsy94uKOQ9H+TH3OgIt9YnqPNaLnQKZuFX9DtNPOuO/KI8RmMqrut4Q
-	TrsGNqNNsgqNg+K2x6Mt58ZDZq7yQEH6G+hGlZIRsJLHLcrrG/uGIkW++CbvAqut
-	vBN4yX/HNj/wk0cqqE1afMeJqO49B6pIHeNda01i5Lgd0JVHJuE3HjLXL8g8wnap
-	t6IW0Mt4E15HIyoB+vRNagsgsXL5aP6+3RejnsKJL3HooYIDSL334gm3vlhLQmqS
-	3+4O4/gYxKT5SyD/RN/PgWs3A73F0U23j+A==
-X-ME-Sender: <xms:nCWMZwEYJGGMEn2q8LXfjahxlxBAafHCBJOW8OSixNPr6_AGiG1pGQ>
-    <xme:nCWMZ5U60RBiwpA1DB9ccwCBHYn5xLVCwD4qKqAjUM67ZItZjkSASBV7DaxUN1i-0
-    AP7441nskEn4H-Qvdw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudeihedgudehiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecugfhmphhthicusghoug
-    ihucdlhedtmdenucfjughrpefoggffhffvkffutgfgsehtjeertdertddtnecuhfhrohhm
-    peflrghmvghsuceofhhlohifvghjrghmsehfrghsthhmrghilhdrtghomheqnecuggftrf
-    grthhtvghrnhepheffteeuleefheehhfeuheelvdelfefhvdevheevjeelueevffdttefh
-    gffggfejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epfhhlohifvghjrghmsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthhtohepuddp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvg
-    hnthgvvghssehlihhsthhsrdhlihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
-X-ME-Proxy: <xmx:nSWMZ6IndFJxTPbkcdyizce_wkgMWUGeirj90msvWS0Y7Embepf69Q>
-    <xmx:nSWMZyHYS8Gipen_eobknkaWbuwDlos6O8-qDTdU_KTBWmYZAa4jZw>
-    <xmx:nSWMZ2VwKIpH4Nr_vEG0tUC5CRZwTJjE1fok5KqXsoLpWIWTw2OCqw>
-    <xmx:nSWMZ1M1NdyGH029zadp9T7KkQVlKpJ8PF6DX2_JWeLIZvOkhRenqQ>
-    <xmx:nSWMZ_fWTUaa4KLu_p8Tg8zqoPWf9QBgCdCgGxyVuVvYwP85mDQPjFt3>
-Feedback-ID: i539946f5:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id DD33F18A006B; Sat, 18 Jan 2025 17:05:16 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JpoboUiR"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21649a7bcdcso15671255ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Jan 2025 06:32:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738247537; x=1738852337; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4qvx3FpdL5oMIU/2IZipgSLR8aHKwTjhISv/FQnfDRk=;
+        b=JpoboUiRQCh5GwqAMAMSrt/+2qlBJIMyj90kpkGfHQT2tECo17em0xYAVfnZIVQ3qJ
+         4QLW46Vr5MnuBEsUCvwT8wkvHvhlTcxznX0C5p4GWezUtxKGQJuL3XT1fhdyJkNJ/gCG
+         CmaCWRZK50sWh9J74n3j9B4l+O76gXwnaViWSc9cjvKS3N9tx//1ZpMOis5x80kYNkGn
+         uWv0UAbTdU7JCPjPPR/0QB63hNMXyQo7rbhGOZ1rZ1pHrw1AK3H3yFGRUVtXTohLpFE6
+         INktxvLy0SB094UnDxvKEfW3unHEYTgpnGofrDQK9/qZQzdMqRiZlYCRyKFDpBShW3kJ
+         RXbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738247537; x=1738852337;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4qvx3FpdL5oMIU/2IZipgSLR8aHKwTjhISv/FQnfDRk=;
+        b=gNahB+ZJgyLCd5X3tB8Zk70GoVJBm8vqv05YLCUMvK4Hm9CcLE1NhblAZMPcxaR40y
+         m7vQaXzV3M5cekjwgm749tbJl0XaFn3+zyeZVVEZaXk+II3db92A4drc8zPLptSqNBBV
+         D/fFmX8PA92BhvtUUiq28ItTLQVheAk0yne65IVZo2GIM/PrFX0tAvozkkAOYdZaolyN
+         5ZolHEf8yDDLzgt2IMA9gEMBOYBt78wR9fdpJwlPItnfMeY4jpP9y/qW6fxZWX9Dklvc
+         56Lc+2JGaz+iJBZAjLbWLopq09qWAmc6Rc8t8gpabPVrjkom4nexODpMJDick/HKYFuQ
+         MfRg==
+X-Forwarded-Encrypted: i=1; AJvYcCViyyJkl1GJgmcfwc75AabHI1EC8/qHiuZZiFcplt/B2B7dOTG1yWwmke5AIJrZLdSxL8f+KDd99fAJpMLNG3Gv3kYmcw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZYzXLzoRiEJUA4Mh9+IqNjkDmhM5Xy4O2xag3NXxRHv1Uh9YV
+	U5eb6eEl0aOyLN0FvQzfddc5D1dhUJ2ahKMVLBazgWZP/Wc3dYhjndA0cdbE
+X-Gm-Gg: ASbGnctszhywLz6IKe/zat881O42MhAAqnS5aQsv/jG5HEXSW9l0oPunBvKic+/FEZu
+	RA8j8zV8ilBGw2k9PVdMQnYx+7Fa4ooAdCrGwt36QazBqFeAW4JTJ0KeldZ7oPAjf+MJrtebGsm
+	8TUPfVZoQcpieiXO81ZqI7KsYviUoy8qtZyVbyIx22rMW8aAUWedt57Pqq72ZhmMG8x5+5BgHXt
+	cXx0ZasErw6SWjDaqCqFq+I6o/kxQlj08DvqRki/vg+FpzBBY5QYe+0soFYrDoYYPimVpJ94fHq
+	3GVi+RREPMdTyE05aLBNjp4eloNd2xWuaftCfQ==
+X-Google-Smtp-Source: AGHT+IE8c/vt2QdbZ2f5T200wHLHXYN4IpnyykL+38gCR+TZE2Z882J7JRKJG8r+myXOCnI0SUTICg==
+X-Received: by 2002:a17:903:2343:b0:216:1ad4:d8fd with SMTP id d9443c01a7336-21dd7c4994amr88436165ad.8.1738247536332;
+        Thu, 30 Jan 2025 06:32:16 -0800 (PST)
+Received: from localhost.localdomain ([2401:4900:170a:61d3:1c2c:a5df:6611:5aca])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de33200e7sm14690825ad.240.2025.01.30.06.32.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jan 2025 06:32:15 -0800 (PST)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org
+Cc: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH] grammatical correction as part of lfx mentee selection tasks
+Date: Thu, 30 Jan 2025 20:02:05 +0530
+Message-ID: <20250130143205.13564-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sat, 18 Jan 2025 14:04:52 -0800
-From: James <flowejam@fastmail.com>
-To: linux-kernel-mentees@lists.linuxfoundation.org
-Message-Id: <3634249f-7911-46f1-9c7a-4c6d59ef8121@app.fastmail.com>
-Subject: Subscribe
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+---
+ tools/testing/selftests/net/reuseaddr_ports_exhausted.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/testing/selftests/net/reuseaddr_ports_exhausted.c b/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
+index 066efd30e294..7b9bf8a7bbe1 100644
+--- a/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
++++ b/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
+@@ -112,7 +112,7 @@ TEST(reuseaddr_ports_exhausted_reusable_same_euid)
+ 		ASSERT_NE(-1, fd[0]) TH_LOG("failed to bind.");
+ 
+ 		if (opts->reuseport[0] && opts->reuseport[1]) {
+-			EXPECT_EQ(-1, fd[1]) TH_LOG("should fail to bind because both sockets succeed to be listened.");
++			EXPECT_EQ(-1, fd[1]) TH_LOG("should fail to bind because both sockets successfully listened.");
+ 		} else {
+ 			EXPECT_NE(-1, fd[1]) TH_LOG("should succeed to bind to connect to different destinations.");
+ 		}
+-- 
+2.47.1
 
