@@ -1,68 +1,68 @@
 Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABB77482
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Jan 2025 14:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE6818E25
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 31 Jan 2025 17:47:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738247539; cv=none; b=HCbnw32VMFxIeqGll8dS8U3qHWMmt9rfbX5rEFNoepMMJZVClzrY0Sq4pKr8nBqh1r4aSIK89UsRWQfd2G2+cKz50Ku7QMD+9Q79W9Rl18wSVZZU41f+upTTi5lnbQh8kNQXMMy0lvMgeu8isRVz/uXXeUI1msjZStsykSQGbNY=
+	t=1738345637; cv=none; b=q4tetqCdI240tB+kquaw3VKuFgcrTir6KHr5oZzLapNe7JQsaM7GUeeh3UQoLiwmkICTXlQ+pSuacj+TQgOoOUAh6F5Ey2u+MlRYq4OyfiVpOXExIDOeJkj6hjBBdJJvRZTkHSith/YUQ9EOydN9FGYywmCvj1GPdm1ZEkuBedQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738247539; c=relaxed/simple;
-	bh=sA7asZK9ucRprwdIDQlSVHXLkerrhcndTmOGBsM3rV0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AKmcculfk+pIZ3vBC01OmbqnwsD1+FKgKU6iY/1pkxxhiAp8kWiOwxUHpqHXNClH5Ak6tXuqA6ymPGJAEzCF61+3+G6h83tjAN9KJ1kw10+gzW/Wj+tkG3u1iAX7U5xBBNu+wMU8Nr5614Z1GSXHw0bnGfpPRyI64KSQz+SX12E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JpoboUiR; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1738345637; c=relaxed/simple;
+	bh=aoyjvtNcT8MbEevAje0oGmQYgM7ADSBPecevEok87Fc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NEiTnUaGUh047tJLTXl84qPDe4PQsVQbC1ZNzfhM+UngeM8EXzu86xJm/oJ4V2ogYF1vUNqTbaA7+aHqI42/bYQG7BnlNDXUw1IL7RDoZqPWz2qQsCN33t3EqbvHY0FFUcIgWCojtqOMCbjjdy85Dy18HyZXxfEAW0/V/Gb5Xqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RRAXZJDp; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JpoboUiR"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21649a7bcdcso15671255ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Jan 2025 06:32:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RRAXZJDp"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21c2f1b610dso52355385ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 31 Jan 2025 09:47:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738247537; x=1738852337; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1738345633; x=1738950433; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4qvx3FpdL5oMIU/2IZipgSLR8aHKwTjhISv/FQnfDRk=;
-        b=JpoboUiRQCh5GwqAMAMSrt/+2qlBJIMyj90kpkGfHQT2tECo17em0xYAVfnZIVQ3qJ
-         4QLW46Vr5MnuBEsUCvwT8wkvHvhlTcxznX0C5p4GWezUtxKGQJuL3XT1fhdyJkNJ/gCG
-         CmaCWRZK50sWh9J74n3j9B4l+O76gXwnaViWSc9cjvKS3N9tx//1ZpMOis5x80kYNkGn
-         uWv0UAbTdU7JCPjPPR/0QB63hNMXyQo7rbhGOZ1rZ1pHrw1AK3H3yFGRUVtXTohLpFE6
-         INktxvLy0SB094UnDxvKEfW3unHEYTgpnGofrDQK9/qZQzdMqRiZlYCRyKFDpBShW3kJ
-         RXbA==
+        bh=W7YlXdN8EH6kD+0yxUGaKa6fqOZSgCi9IOU8Ql/cpYw=;
+        b=RRAXZJDpMr/pT2jUlSPf8o5/LWsBho2GL91BltZd1e1Ch9b/6WatZdBzTLCddNnaHK
+         rudfciG4DhyV2jx66g/ViO7GNtY+k161kNQjFIFHyKbmL68HMX3xztk94hTVIv1rSx0j
+         01rWUJntBKhDkEPUDGEY27ZORFW3X2rdcvaU2lR7Rubjqna6bpGiDIuRFN4036+gYszc
+         3Wc2o/MFE2w1kDIszKLl9U7yrHgEJP6El/YDSZYQH3DOOfL6lPaYokmC8ZzlFAqvPdr4
+         9WUUFKb5IHwyGIX71VltfuDJ+jyChjtUm9Up3EBA77OPv8DB0ycRDgmgrAkJK40/GXVI
+         42wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738247537; x=1738852337;
+        d=1e100.net; s=20230601; t=1738345633; x=1738950433;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4qvx3FpdL5oMIU/2IZipgSLR8aHKwTjhISv/FQnfDRk=;
-        b=gNahB+ZJgyLCd5X3tB8Zk70GoVJBm8vqv05YLCUMvK4Hm9CcLE1NhblAZMPcxaR40y
-         m7vQaXzV3M5cekjwgm749tbJl0XaFn3+zyeZVVEZaXk+II3db92A4drc8zPLptSqNBBV
-         D/fFmX8PA92BhvtUUiq28ItTLQVheAk0yne65IVZo2GIM/PrFX0tAvozkkAOYdZaolyN
-         5ZolHEf8yDDLzgt2IMA9gEMBOYBt78wR9fdpJwlPItnfMeY4jpP9y/qW6fxZWX9Dklvc
-         56Lc+2JGaz+iJBZAjLbWLopq09qWAmc6Rc8t8gpabPVrjkom4nexODpMJDick/HKYFuQ
-         MfRg==
-X-Forwarded-Encrypted: i=1; AJvYcCViyyJkl1GJgmcfwc75AabHI1EC8/qHiuZZiFcplt/B2B7dOTG1yWwmke5AIJrZLdSxL8f+KDd99fAJpMLNG3Gv3kYmcw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZYzXLzoRiEJUA4Mh9+IqNjkDmhM5Xy4O2xag3NXxRHv1Uh9YV
-	U5eb6eEl0aOyLN0FvQzfddc5D1dhUJ2ahKMVLBazgWZP/Wc3dYhjndA0cdbE
-X-Gm-Gg: ASbGnctszhywLz6IKe/zat881O42MhAAqnS5aQsv/jG5HEXSW9l0oPunBvKic+/FEZu
-	RA8j8zV8ilBGw2k9PVdMQnYx+7Fa4ooAdCrGwt36QazBqFeAW4JTJ0KeldZ7oPAjf+MJrtebGsm
-	8TUPfVZoQcpieiXO81ZqI7KsYviUoy8qtZyVbyIx22rMW8aAUWedt57Pqq72ZhmMG8x5+5BgHXt
-	cXx0ZasErw6SWjDaqCqFq+I6o/kxQlj08DvqRki/vg+FpzBBY5QYe+0soFYrDoYYPimVpJ94fHq
-	3GVi+RREPMdTyE05aLBNjp4eloNd2xWuaftCfQ==
-X-Google-Smtp-Source: AGHT+IE8c/vt2QdbZ2f5T200wHLHXYN4IpnyykL+38gCR+TZE2Z882J7JRKJG8r+myXOCnI0SUTICg==
-X-Received: by 2002:a17:903:2343:b0:216:1ad4:d8fd with SMTP id d9443c01a7336-21dd7c4994amr88436165ad.8.1738247536332;
-        Thu, 30 Jan 2025 06:32:16 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:170a:61d3:1c2c:a5df:6611:5aca])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de33200e7sm14690825ad.240.2025.01.30.06.32.13
+        bh=W7YlXdN8EH6kD+0yxUGaKa6fqOZSgCi9IOU8Ql/cpYw=;
+        b=sPASlJi8fpBBq2tuZdpLQQIyc0purAueEuBNlayG6Y+/TkFpEolIwMpdIb1UAHiRNB
+         Xnttsz+O9RYDNA7hCqwZIaUsP0PS0+/B0ZpcfOnJ2LgnDhD2t+kvSPcxiVTLBoxoM2vg
+         2WrQYs7NKYXho59HH9m0OjBaemw6M5r/pa4Y37EjNc6ikPdFMEgrROk2z6e+zEgY9kZU
+         UwjBfy5fNe7d3R5k2lSRHkvI8L+cOhTXaKxH0n8k821wM28SUYFg2Glc5HdAC79pWGQa
+         RGCIRB/RQ5LU1eA3+FgFcA5oM8zhwy0zjt0qIq6HQVFF7bQMV5pYgJmpbROssxzIACJQ
+         ryRw==
+X-Forwarded-Encrypted: i=1; AJvYcCXpU/vS/omNK1dAauj1WS4Gp9IiowCZyXKVNfeOZRnLt7SB40oRj1Rio1fiOaASNvlTf7mOUld8aYjE+jtvIzc93naxww==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwOfxOltXuP7hYfPIe/mSe4gWSWni5PKaEWxRcTWEbN//DIyJ/6
+	riCRAqjAOovx5AOhzqt8xz4nfJFp/YuSeBLUUeP4ni5LhyspChbq
+X-Gm-Gg: ASbGnctcagZ9f8+G6xdwqO/NOCpIaAUtAssyXn3n5q2j09VshsHXuJJxwzK7kNwhkUV
+	nUqJRPTRlKb4k7tuprZN4ABw5uY1/kdJ2jP/18zZPgCws/22d8bPPQjuAiSqGAt+4fp8ysVrdLD
+	OzxbgVJTG8n6GIQIdoFZQNGUx5nwuBIkZgG+h/7y76SnACieLS+QAAfz8Xm4AqaqwqXJD55EmvW
+	n42FF7rFQ6k6ILBC5wRpRhL5tbzcQEfxhmz5Myt9kqe9AHA0uTXXK9oLvRyRpwhozNeZNWdK/Ek
+	gAaOXbz7x39eJUX16iyet5GfiumbzKYe1PYOcw==
+X-Google-Smtp-Source: AGHT+IEm5jy1kLtVHI3l7PHXPWmuU4lPhbHbDIuUMyizg7hcBnB4M12yIiy6xO+22RLDVTeT3CltkA==
+X-Received: by 2002:a05:6a00:244b:b0:72a:8461:d172 with SMTP id d2e1a72fcca58-72fd0bcf0a3mr18874603b3a.3.1738345633163;
+        Fri, 31 Jan 2025 09:47:13 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:5c08:585d:bc01:38de:cff8:1fb8])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72fe69bbb7esm3704010b3a.106.2025.01.31.09.47.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2025 06:32:15 -0800 (PST)
+        Fri, 31 Jan 2025 09:47:12 -0800 (PST)
 From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: linux-kernel@vger.kernel.org,
+To: linux-doc@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
 	skhan@linuxfoundation.org
 Cc: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH] grammatical correction as part of lfx mentee selection tasks
-Date: Thu, 30 Jan 2025 20:02:05 +0530
-Message-ID: <20250130143205.13564-1-pranav.tyagi03@gmail.com>
+Subject: [PATCH] documentation grammer correction 
+Date: Fri, 31 Jan 2025 23:17:04 +0530
+Message-ID: <20250131174704.12501-1-pranav.tyagi03@gmail.com>
 X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -74,22 +74,34 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
 ---
- tools/testing/selftests/net/reuseaddr_ports_exhausted.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/gpu/vgaarbiter.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tools/testing/selftests/net/reuseaddr_ports_exhausted.c b/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
-index 066efd30e294..7b9bf8a7bbe1 100644
---- a/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
-+++ b/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
-@@ -112,7 +112,7 @@ TEST(reuseaddr_ports_exhausted_reusable_same_euid)
- 		ASSERT_NE(-1, fd[0]) TH_LOG("failed to bind.");
+diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
+index bde3c0afb059..d1e953712cc2 100644
+--- a/Documentation/gpu/vgaarbiter.rst
++++ b/Documentation/gpu/vgaarbiter.rst
+@@ -11,9 +11,9 @@ Section 7, Legacy Devices.
  
- 		if (opts->reuseport[0] && opts->reuseport[1]) {
--			EXPECT_EQ(-1, fd[1]) TH_LOG("should fail to bind because both sockets succeed to be listened.");
-+			EXPECT_EQ(-1, fd[1]) TH_LOG("should fail to bind because both sockets successfully listened.");
- 		} else {
- 			EXPECT_NE(-1, fd[1]) TH_LOG("should succeed to bind to connect to different destinations.");
- 		}
+ The Resource Access Control (RAC) module inside the X server [0] existed for
+ the legacy VGA arbitration task (besides other bus management tasks) when more
+-than one legacy device co-exists on the same machine. But the problem happens
++than one legacy device co-exist on the same machine. But the problem happens
+ when these devices are trying to be accessed by different userspace clients
+-(e.g. two server in parallel). Their address assignments conflict. Moreover,
++(e.g. two servers in parallel). Their address assignments conflict. Moreover,
+ ideally, being a userspace application, it is not the role of the X server to
+ control bus resources. Therefore an arbitration scheme outside of the X server
+ is needed to control the sharing of these resources. This document introduces
+@@ -106,7 +106,7 @@ In-kernel interface
+ libpciaccess
+ ------------
+ 
+-To use the vga arbiter char device it was implemented an API inside the
++To use the vga arbiter char device, an API was implemented inside the
+ libpciaccess library. One field was added to struct pci_device (each device
+ on the system)::
+ 
 -- 
 2.47.1
 
