@@ -1,162 +1,98 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD7120B207
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  3 Feb 2025 16:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584CB182B4
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  3 Feb 2025 22:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738601292; cv=none; b=XrCwpcAmV5qHCuxDaffVO+ysCAVTUjo4oodtzOx4my+kfJ8/cNyb0gSskZrrU6wtaeRdTmVjmB0qPD5+OzLANLxeAhRae+0WcY9uSYEzF9VGYpZEvP0Q4SGSz31e5bR3AJh+tw0TgwQRoPiaqAvso0Z8U6AsY1K+mKb7Bspi9HQ=
+	t=1738620215; cv=none; b=pm/mHDk8oWy7pX3ivocjWit3IeHW4KEuB+c5JNecWcbWjW8TYbUzfXfaf/nTyKr2GNoqe3+ZGNdHe+WeCJmOwCbJ/SmN47T8EzqlclaA1riVzbRXhxE49dGXoDh9zxBrHJS/BDG2o/8UbPh00+inaJ6t0y/kaX7hlRJuGptYXRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738601292; c=relaxed/simple;
-	bh=RXgtS6w+Qz75NuNjTPyunzgf4Vxw5Lr+hbsncE4PdpQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IzgFuF9Ybr2iexmj8Y5TADFSPsvdA4HtIkmNuXdrtqvM4HL3pcxy/Dp/w/Q+0o9dtOp/skyeJmGFmAzY0MiRGQCo8VgNTQm3gVkXs+EvK3qNh4DLIxQ9vGLoHpT3tshfQ4B20VPChfqr0Ydi5VWcuiPSSQsc1muUpu8fAwsh7MI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mgxMDu8+; arc=none smtp.client-ip=209.85.167.49
+	s=arc-20240116; t=1738620215; c=relaxed/simple;
+	bh=eQkf/AWZN3jzhqGCXubTSBoFaaW6MkWDOMXPv8rUKBw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iy+1EnVJqKj/dIv/KgqjAxC0/6ZAtkiMZ1ZHNRHLANbBmIZeJVw7gMR7i9n91vBsuyMu/41sEVTbNXJjYG/4EstygHG08YH2IQ879foQyNBNj60Y3f4fjSw/NL1Atk5iUNM1/1CQSWQDyhWAN41rrFt89SQAj8E6gs82njaRkhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NGEAqgLF; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mgxMDu8+"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53e3778bffdso4625052e87.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 03 Feb 2025 08:48:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NGEAqgLF"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2156e078563so71888745ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 03 Feb 2025 14:03:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738601289; x=1739206089; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2hCnNu8tHQ+M6XFMVTD6NE4t308Yd2ZLDZ5yl3jZSkc=;
-        b=mgxMDu8+bNItI9k+7c3uBf9fo+LEDnVA2opafzp4Dig+ZsyiDyyN9oNSdWVV4Pdm13
-         6Eq0PU+OHPnx6KwFiGppBVY6kfWiEa/+X7rHtRNRMQLCMFl7z80D8ebiIWlVeqKUytha
-         cWBV5o2lzjl548vOEEwdZbFGgUkl7+x8IPBd4LPD1mmD7isJk0RtVm87f+XcBGgVv1/o
-         NMH9JZJAFA/GncNOSAoPHhnHt84u62pf2Gi9W03aAdl3OC5UEz7psZR7+iXIR4FiKd3P
-         PnzEOjhRU/u6Z9Px7BkxBa5cJ82AZAeUMH7Ah8v2b3tUfPSh7AmfUP2tpx0krB3f3Trg
-         iMgA==
+        d=gmail.com; s=20230601; t=1738620213; x=1739225013; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JE3w8CBwpnkwJfGW6YGEzRWKwSkPHA+eGHDpFXNygB0=;
+        b=NGEAqgLFYfOp5vHYIQiq1Tn+u3UBgiLfR5fqej0UaxvxCx52oRP4fNX/hANsMrVJ4M
+         /gw5lPWTeKSuw4hpM4nUkGfQ1pijEFNqbTzvlAU+3hDrqSDPaz9uS1oUFzCHjomLOOyk
+         jtWAB0ZLZAvDjTkhX/E0ZpB5vVdeWotBR07Gykce6YQga/ePn5/UZUPTceNE8HurzU4O
+         llDOpRSMafmmal0XrHxaQLIn2tsgL4gAc+P1yvpc7e/3QeUjbDLMArS/71W06h98PGhg
+         v8yexbfcDVYD7AlIDEl2Oe9s1WXkS1SKLjABH5pWwH8FIwVUVPMEGOpirzRpb97sTrNx
+         ZvcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738601289; x=1739206089;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2hCnNu8tHQ+M6XFMVTD6NE4t308Yd2ZLDZ5yl3jZSkc=;
-        b=sPd/z8AVqjNfNHj00mx0hSDkPW5OnK0kjo0/7xmwkRC28SeT5udIbItCmjiAi96dtE
-         Rx+/eVnb9Mnb/pLi/qzjbV1CwT7RuYk3RXnTocZ6/mWhjJL8hksC0/Jz6wxPCQP5RSmy
-         3N5RdyQPPN+InsWjmnklWWC8y3e23eHu7fq5BtYxT2/1k/0OKCVwocv0m2HnABCdkWRT
-         Rw4LntI8mh+LSLA3Xa/35zTcVfXiNRFRl4p49hdWcihvxrQu1S3aX601ryeCmh30z5Fm
-         S2We7f+beCU77wxiQm/X423+6ev3PluGBz/eVNDba4gxvx7whKbF54P6hFrUjsUJEetg
-         WRIA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/WSY9+iPGPKzVFIS4KbD7hKj3ROnHQeVBpWmAsyty9hzAxTf++9IiXbpPwyFiE8zBqvCTregwaKFU6OrTPhMGq2KkcA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3Viqj74LEIxTSLfXSzhDR4/SQfo1PcTvTysdEfw51XyYVukpJ
-	zG5nKm2o6Zxrm3qYnodF/yno0y+/kpSVh258uOJsKtRZJs3b4sKUOmV4rIWBqNmqDwZj0/x4J/y
-	wK/5Tq21Xc/svTf3Hj+mPz1zrWks=
-X-Gm-Gg: ASbGncsedEHJ8rOgv7C62vjZVFV+sAmjYojo2MiHMemDD9MHRn2Gn7Bjyxt03lY8BCY
-	vjydzS7ukervnJqqaXv8bwHCS05CfeVWc78AxF9l7KP0UKi741pxoXYoEkj8X5e2Gh0sCwpvEWp
-	s=
-X-Google-Smtp-Source: AGHT+IFkeE09Kp6GM0DqxhVy/w8o5bONXUclTckt0s9gvR1rsgbS+XkGLDaqdqzb0c6WVJ3nJtS6+e4VAec8Uu0gZi4=
-X-Received: by 2002:a05:6512:114d:b0:542:6f70:b484 with SMTP id
- 2adb3069b0e04-543e4be9947mr6392689e87.12.1738601288578; Mon, 03 Feb 2025
- 08:48:08 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738620213; x=1739225013;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JE3w8CBwpnkwJfGW6YGEzRWKwSkPHA+eGHDpFXNygB0=;
+        b=BA91lbD6KdUD6bheqrzuEhQx24vArQpJ4cxGF7wxxQpM4q27IWlNElZJSK/K1fRYdf
+         ZFLVxA/lcvMgzSWz/P/AnP1qDioBs+exEOn/ZhlDtKa7KC133uM4eX2GQnJClPJqFAZb
+         /QDUtTvvuOw/3snqGeWt07xoP0BdardvGjy2ZAbpGp8SbZrd8+zdcxpohhFnfMgSgQu5
+         t+7XPdVO4LDdrMLrB3j1WFS75xG4gMg80IPiy3Ws0aP0deU1JzG1IOGev+A4yTzhMLec
+         U6Zjlw/DApZogmDQP1lpwh/UU95ejMvge+MCtUqoMUjJFJERQCxRMGn+PvPon/FFnfY+
+         YCtg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpG5nsm+rCplWcI5tuzglOQbv8vGWAR2haTlN6R1tpaqmuKHDHY3t2u1Q0fQ9DQlwLQ7P2/sVPY64xhx/LUGWK38uR2Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw8PwST5Y8QPUaaPu/oJ/B2nJ/yyMktHCASST5PdyYOPB08gTu1
+	b8VyNAgUIg9rUOuuJYPgFH0VUoecKWOefZWgDtu3ekugnm16KctY
+X-Gm-Gg: ASbGncs8ew1eDe19mlR2UkrG48UUMB5pOWgf/ueBfiS5p5XkO0JM1ry38Hm8WX+r7hu
+	5uWduKz/H9TCJgZAQ5Sg9SXX/OVQ16zL6EsydumvW9ZgmyzveIJEFzAmPfExFYdVsCWj9sSzL2W
+	4VcVDnWak7OEBmqoGESrch/gHuoJrW4zPrPl6jCrfd+zFooyqsvfK2G/OtLizbtOJGM4hc6TQN1
+	W+ujurs/FCJRYockydNCjwqOfNX1uf5gqVezV2chjvsMnK+7Znl/RH1Ov8YOkC5yiswzE0Yjmkc
+	bntq6jefSvUOP9kss/Ue22kPTKyi8VywuDZM
+X-Google-Smtp-Source: AGHT+IHe6FsR3L8EPqDxhFZj159t6h+b0jL85Yxblu8f7CFj23++P7uPXtt9a6hYivFEpLpcpCMBRw==
+X-Received: by 2002:a17:902:cec2:b0:216:4cc2:b1e0 with SMTP id d9443c01a7336-21dd7c63b82mr352514925ad.20.1738620213476;
+        Mon, 03 Feb 2025 14:03:33 -0800 (PST)
+Received: from localhost.localdomain ([14.139.69.34])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de32ec091sm81837245ad.112.2025.02.03.14.03.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2025 14:03:32 -0800 (PST)
+From: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Cc: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Subject: [PATCH] drivers/base/bus.c: fix spelling of "subsystem"
+Date: Tue,  4 Feb 2025 03:33:09 +0530
+Message-ID: <20250203220312.1052986-1-bharadwaj.raju777@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250203161920.14028-1-pranav.tyagi03@gmail.com>
-In-Reply-To: <20250203161920.14028-1-pranav.tyagi03@gmail.com>
-From: Khalid Masum <khalid.masum.92@gmail.com>
-Date: Mon, 3 Feb 2025 22:47:56 +0600
-X-Gm-Features: AWEUYZkmnSNI4XBSXdHacSsYEYF2vLXj2PPctbECGWY50HzxMqmtGwdhZHFicKw
-Message-ID: <CAABMjtF1fWz5wiRbxUkUcuw1cOVH47NT7B-7KKR5kDN7WHt1YQ@mail.gmail.com>
-Subject: Re: [PATCH] documentation grammer correction
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 3, 2025 at 10:19=E2=80=AFPM Pranav Tyagi <pranav.tyagi03@gmail.=
-com> wrote:
-Hi Pranav,
+Fix spelling, "subystem" -> "subsystem"
 
-Good catch on those grammatical errors!
->
-> I am submitting this patch as a part of lfx mentorship application tasks.
-> This patch contains grammatical and spelling corrections in the linux
-> documentation. Please let me know if any further clarification is
-> required.
->
-> Regards
+Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+---
+ drivers/base/bus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This part will end up in the commit log. Basically whatever "email body" yo=
-u
-put with your patch will end up in the commit log after acceptance. And you
-want the commit log to explain what your change does.
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index 6b9e65a42cd2..5ea3b03af9ba 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -1291,7 +1291,7 @@ EXPORT_SYMBOL_GPL(subsys_system_register);
+  * @groups: default attributes for the root device
+  *
+  * All 'virtual' subsystems have a /sys/devices/system/<name> root device
+- * with the name of the subystem.  The root device can carry subsystem-wide
++ * with the name of the subsystem.  The root device can carry subsystem-wide
+  * attributes.  All registered devices are below this single root device.
+  * There's no restriction on device naming.  This is for kernel software
+  * constructs which need sysfs interface.
+-- 
+2.47.1
 
-To  be more clear:
-The subject line of the email becomes the commit title
-The email body upto --- will turn into the commit log
-Rest is the actual code change.
-
-Now, in case of your subject line you want it to be something like this:
-subsystem: your subject text
-
-So, in your case, you want it to be something like:
-vgaarbiter: documentation grammar correction
-
-Afterwards, you can proceed with explaining what you did. For example:
-
-"Fix grammar issues in ...."
-
->
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Good job here!
-
-For more information,  you can look into this:
-https://www.kernel.org/doc/html/v6.10/process/submitting-patches.html#the-c=
-anonical-patch-format
-
-Best Regards,
-  -- Khalid Masum
-> ---
->  Documentation/gpu/vgaarbiter.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbi=
-ter.rst
-> index bde3c0afb059..d1e953712cc2 100644
-> --- a/Documentation/gpu/vgaarbiter.rst
-> +++ b/Documentation/gpu/vgaarbiter.rst
-> @@ -11,9 +11,9 @@ Section 7, Legacy Devices.
->
->  The Resource Access Control (RAC) module inside the X server [0] existed=
- for
->  the legacy VGA arbitration task (besides other bus management tasks) whe=
-n more
-> -than one legacy device co-exists on the same machine. But the problem ha=
-ppens
-> +than one legacy device co-exist on the same machine. But the problem hap=
-pens
->  when these devices are trying to be accessed by different userspace clie=
-nts
-> -(e.g. two server in parallel). Their address assignments conflict. Moreo=
-ver,
-> +(e.g. two servers in parallel). Their address assignments conflict. More=
-over,
->  ideally, being a userspace application, it is not the role of the X serv=
-er to
->  control bus resources. Therefore an arbitration scheme outside of the X =
-server
->  is needed to control the sharing of these resources. This document intro=
-duces
-> @@ -106,7 +106,7 @@ In-kernel interface
->  libpciaccess
->  ------------
->
-> -To use the vga arbiter char device it was implemented an API inside the
-> +To use the vga arbiter char device, an API was implemented inside the
->  libpciaccess library. One field was added to struct pci_device (each dev=
-ice
->  on the system)::
->
-> --
-> 2.47.1
->
->
