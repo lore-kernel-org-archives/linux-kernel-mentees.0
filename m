@@ -1,70 +1,71 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584CB182B4
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  3 Feb 2025 22:03:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05EB1C3BEE
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  3 Feb 2025 23:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738620215; cv=none; b=pm/mHDk8oWy7pX3ivocjWit3IeHW4KEuB+c5JNecWcbWjW8TYbUzfXfaf/nTyKr2GNoqe3+ZGNdHe+WeCJmOwCbJ/SmN47T8EzqlclaA1riVzbRXhxE49dGXoDh9zxBrHJS/BDG2o/8UbPh00+inaJ6t0y/kaX7hlRJuGptYXRk=
+	t=1738626043; cv=none; b=CeKvQbnVoNgfd1Yfm2XTN3iagz9CtmQnZlWpAGwavt3APiBYiOjLxAzjICyP9fhi8otEjB+faV/Qxhvd7kEKr6/l0qUgXtJdk+BtYcd3JAa2VzFE4b9q4TtBmWPE5BLrCxOTzqSl0FThNrZ1MTeP1zP3DlOaGB4Nax5+OPbqDd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738620215; c=relaxed/simple;
-	bh=eQkf/AWZN3jzhqGCXubTSBoFaaW6MkWDOMXPv8rUKBw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iy+1EnVJqKj/dIv/KgqjAxC0/6ZAtkiMZ1ZHNRHLANbBmIZeJVw7gMR7i9n91vBsuyMu/41sEVTbNXJjYG/4EstygHG08YH2IQ879foQyNBNj60Y3f4fjSw/NL1Atk5iUNM1/1CQSWQDyhWAN41rrFt89SQAj8E6gs82njaRkhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NGEAqgLF; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1738626043; c=relaxed/simple;
+	bh=f3BsEEtPPUV+ajFRLRTMbIpW7jqTWCoT2L5deZD8hy4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M1ViGigfJ5LjG4/i6cnDELEQjhHYXzeEGEZJDnbkFBiL6+2RopqsnBaIqB0UN8Sx9TeeRdVuhrRtVn33TsK88uJvlUepHrDOgBWgMn7otOvyb+CRJe5sv1mFprbAzAaS61W88aC6kK3ICY/MTi6sih1A+mEdyZIwE7773jZ33Z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IzntkKxr; arc=none smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NGEAqgLF"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2156e078563so71888745ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 03 Feb 2025 14:03:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IzntkKxr"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-46fa764aac2so42763831cf.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 03 Feb 2025 15:40:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738620213; x=1739225013; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1738626041; x=1739230841; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JE3w8CBwpnkwJfGW6YGEzRWKwSkPHA+eGHDpFXNygB0=;
-        b=NGEAqgLFYfOp5vHYIQiq1Tn+u3UBgiLfR5fqej0UaxvxCx52oRP4fNX/hANsMrVJ4M
-         /gw5lPWTeKSuw4hpM4nUkGfQ1pijEFNqbTzvlAU+3hDrqSDPaz9uS1oUFzCHjomLOOyk
-         jtWAB0ZLZAvDjTkhX/E0ZpB5vVdeWotBR07Gykce6YQga/ePn5/UZUPTceNE8HurzU4O
-         llDOpRSMafmmal0XrHxaQLIn2tsgL4gAc+P1yvpc7e/3QeUjbDLMArS/71W06h98PGhg
-         v8yexbfcDVYD7AlIDEl2Oe9s1WXkS1SKLjABH5pWwH8FIwVUVPMEGOpirzRpb97sTrNx
-         ZvcA==
+        bh=xkxWJ8w08nwsB8NMEk+hWG04tNJwNZf28ywWg6CGAzQ=;
+        b=IzntkKxreHhHJuQ5dtSDVqPa8wSqghV4+OUAxyy5X3l3OaoXnHHlvqLSNHZn2k1l1n
+         PAXcj2TifpUHLbrtKYmXSgaiHxvHgdMqobK6rNf8D4DZzqHm0cpsaNlpLD5wukZpxoE+
+         QDC4SxPu71UjxT/C/JdjaDJ4Wygv9ycIcw9Ed2lmf1WO1y7ZYlGd3WP0KjoNBiCjFsOt
+         2uIOU/qqdZoQXEUUVOQLjEXF01UzZnn/frfjzg92/RwjShUdQvCOkwf2I9Fi4LLWSF/i
+         ADUhR1QXq7o9xDX4bb86d96MbdJEgLz6PoozyWMAs74UhgaAUe47EfX/5v9dundxnt5u
+         Scxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738620213; x=1739225013;
+        d=1e100.net; s=20230601; t=1738626041; x=1739230841;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JE3w8CBwpnkwJfGW6YGEzRWKwSkPHA+eGHDpFXNygB0=;
-        b=BA91lbD6KdUD6bheqrzuEhQx24vArQpJ4cxGF7wxxQpM4q27IWlNElZJSK/K1fRYdf
-         ZFLVxA/lcvMgzSWz/P/AnP1qDioBs+exEOn/ZhlDtKa7KC133uM4eX2GQnJClPJqFAZb
-         /QDUtTvvuOw/3snqGeWt07xoP0BdardvGjy2ZAbpGp8SbZrd8+zdcxpohhFnfMgSgQu5
-         t+7XPdVO4LDdrMLrB3j1WFS75xG4gMg80IPiy3Ws0aP0deU1JzG1IOGev+A4yTzhMLec
-         U6Zjlw/DApZogmDQP1lpwh/UU95ejMvge+MCtUqoMUjJFJERQCxRMGn+PvPon/FFnfY+
-         YCtg==
-X-Forwarded-Encrypted: i=1; AJvYcCXpG5nsm+rCplWcI5tuzglOQbv8vGWAR2haTlN6R1tpaqmuKHDHY3t2u1Q0fQ9DQlwLQ7P2/sVPY64xhx/LUGWK38uR2Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw8PwST5Y8QPUaaPu/oJ/B2nJ/yyMktHCASST5PdyYOPB08gTu1
-	b8VyNAgUIg9rUOuuJYPgFH0VUoecKWOefZWgDtu3ekugnm16KctY
-X-Gm-Gg: ASbGncs8ew1eDe19mlR2UkrG48UUMB5pOWgf/ueBfiS5p5XkO0JM1ry38Hm8WX+r7hu
-	5uWduKz/H9TCJgZAQ5Sg9SXX/OVQ16zL6EsydumvW9ZgmyzveIJEFzAmPfExFYdVsCWj9sSzL2W
-	4VcVDnWak7OEBmqoGESrch/gHuoJrW4zPrPl6jCrfd+zFooyqsvfK2G/OtLizbtOJGM4hc6TQN1
-	W+ujurs/FCJRYockydNCjwqOfNX1uf5gqVezV2chjvsMnK+7Znl/RH1Ov8YOkC5yiswzE0Yjmkc
-	bntq6jefSvUOP9kss/Ue22kPTKyi8VywuDZM
-X-Google-Smtp-Source: AGHT+IHe6FsR3L8EPqDxhFZj159t6h+b0jL85Yxblu8f7CFj23++P7uPXtt9a6hYivFEpLpcpCMBRw==
-X-Received: by 2002:a17:902:cec2:b0:216:4cc2:b1e0 with SMTP id d9443c01a7336-21dd7c63b82mr352514925ad.20.1738620213476;
-        Mon, 03 Feb 2025 14:03:33 -0800 (PST)
-Received: from localhost.localdomain ([14.139.69.34])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de32ec091sm81837245ad.112.2025.02.03.14.03.30
+        bh=xkxWJ8w08nwsB8NMEk+hWG04tNJwNZf28ywWg6CGAzQ=;
+        b=cm58svIVmsDtt26IkO4/5J6xb6D6wwzD8oLXaZZvcz46nSd1GASNc+fqSNj+8mDIpS
+         BhuosLGoHJ5bzFNT5DtnODn8VaIexvKgxchEHrv90JtUJ5AZuZmz9A+dERlwaU8DvIIl
+         OMJhRzV3sL47aj/XaPoHARwzWCDeNnSBKNirJhq9KCp7/pqYVZ4RLsDeC+NsI0dnq3vG
+         drRL2eyBP2YGqy4AIGsIj4VXRLoQIpcGhBXFGGi8hsysEFfVsv2V8kr6JPVbC1gpRhBu
+         DoxXDEdhXFo/whuDDTNswctoImowzUVYC0gobcrY2VcFUp2dlQ82mW5n5Qa8gqGqesw7
+         3koQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUbGhzMKygB16R09pwUUXunUIymcp+UzFbeburBhhf+vFLFLdxdHP3SFp8wfjuTK4saflhjsiF547xGva2342WGHJ6U2w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yydq/O96QmTt9s3qMISitUwuJey6bJcw1golXNVgUD8PTV6oka+
+	uDqsn23/MLh30cH/VbGZC0pxoG/IzKqiBhSJSy8U6ay3qMjecziD
+X-Gm-Gg: ASbGncuvx27PUW5kYpLKF8GlbC7giGz+N6IAqyb4+1bszNQ4oszuNJOnQ0I+RRJm13u
+	PTV37uw+RZxw1ktYCMqh4XWwUSinrgeqQSNl4Cj4UZbCOQn5Oj3XEZnH6KSh66Om8DZFW+mwLFs
+	Jrl9qDgERJdJ/aDercysPRnZBhtodO4WQnUUkD1HXYZOYokRNGUdAYtDCVWzVhJM6pS435TuZdM
+	4Os0kAA64IHBdBLsH5jlG4+espO7qYgVonZTl69HfXu93zHMAlY8uTpatp9g2oARFK8upoBlou0
+	B61leC6zQD/83m00vaAsEXqWXBL+CfWjNZ4nC8qeoUVd+pvWqDlUqRdW2cJ43LI=
+X-Google-Smtp-Source: AGHT+IETJWugQz7QeyhXOvh9JlbRz1lvTUvihDHYshGyEt5A6lRN2z6punlbA1cqEUr6X+bzpD5+KA==
+X-Received: by 2002:a05:622a:143:b0:466:85eb:6123 with SMTP id d75a77b69052e-46fd0ac0867mr253104261cf.22.1738626040692;
+        Mon, 03 Feb 2025 15:40:40 -0800 (PST)
+Received: from localhost.localdomain (pat-199-212-65-31.resnet.yorku.ca. [199.212.65.31])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46fdf17409csm53556071cf.53.2025.02.03.15.40.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 14:03:32 -0800 (PST)
-From: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-To: gregkh@linuxfoundation.org,
+        Mon, 03 Feb 2025 15:40:40 -0800 (PST)
+From: Seyediman Seyedarab <imandevel@gmail.com>
+X-Google-Original-From: Seyediman Seyedarab <ImanDevel@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Cc: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-Subject: [PATCH] drivers/base/bus.c: fix spelling of "subsystem"
-Date: Tue,  4 Feb 2025 03:33:09 +0530
-Message-ID: <20250203220312.1052986-1-bharadwaj.raju777@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	corbet@lwn.net,
+	Seyediman Seyedarab <ImanDevel@gmail.com>
+Subject: [PATCH] drm/doc: fix minor grammatical issues
+Date: Mon,  3 Feb 2025 18:40:46 -0500
+Message-ID: <20250203234046.5114-1-ImanDevel@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -73,26 +74,37 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix spelling, "subystem" -> "subsystem"
+The following grammatical issues have been fixed:
+- Corrected subject-verb agreement
+- Replaced incorrect noun "setup" with the correct verb form "set up."
 
-Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
 ---
- drivers/base/bus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/gpu/drm-kms.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index 6b9e65a42cd2..5ea3b03af9ba 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -1291,7 +1291,7 @@ EXPORT_SYMBOL_GPL(subsys_system_register);
-  * @groups: default attributes for the root device
-  *
-  * All 'virtual' subsystems have a /sys/devices/system/<name> root device
-- * with the name of the subystem.  The root device can carry subsystem-wide
-+ * with the name of the subsystem.  The root device can carry subsystem-wide
-  * attributes.  All registered devices are below this single root device.
-  * There's no restriction on device naming.  This is for kernel software
-  * constructs which need sysfs interface.
+diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+index abfe220764e1..6a3ae069c829 100644
+--- a/Documentation/gpu/drm-kms.rst
++++ b/Documentation/gpu/drm-kms.rst
+@@ -6,7 +6,7 @@ Drivers must initialize the mode setting core by calling
+ drmm_mode_config_init() on the DRM device. The function
+ initializes the :c:type:`struct drm_device <drm_device>`
+ mode_config field and never fails. Once done, mode configuration must
+-be setup by initializing the following fields.
++be set up by initializing the following fields.
+ 
+ -  int min_width, min_height; int max_width, max_height;
+    Minimum and maximum width and height of the frame buffers in pixel
+@@ -253,7 +253,7 @@ rollback:
+   should not interfere, and not get stalled due to output routing changing on
+   different CRTCs.
+ 
+-Taken all together there's two consequences for the atomic design:
++Taken all together there are two consequences for the atomic design:
+ 
+ - The overall state is split up into per-object state structures:
+   :c:type:`struct drm_plane_state <drm_plane_state>` for planes, :c:type:`struct
 -- 
-2.47.1
+2.48.1
 
