@@ -1,71 +1,68 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05EB1C3BEE
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  3 Feb 2025 23:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DFDE20D4FB
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  4 Feb 2025 14:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738626043; cv=none; b=CeKvQbnVoNgfd1Yfm2XTN3iagz9CtmQnZlWpAGwavt3APiBYiOjLxAzjICyP9fhi8otEjB+faV/Qxhvd7kEKr6/l0qUgXtJdk+BtYcd3JAa2VzFE4b9q4TtBmWPE5BLrCxOTzqSl0FThNrZ1MTeP1zP3DlOaGB4Nax5+OPbqDd0=
+	t=1738678120; cv=none; b=XgQfZE9SUvcka0FTzU+EHHltX+chCFGTnmSPb+g7sGlQ5V5Orsujo/jkivoFnWc9sZdAlZjaSf+oA8xXFvJG74mGjXmRr/cJlkPXfsmqkWu4tNT9JQnzhT/QjA7X0MxYcD3OMkBD6VxpoQpTaZge/fCp2Xv/mdrrbvYqdV5dRnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738626043; c=relaxed/simple;
-	bh=f3BsEEtPPUV+ajFRLRTMbIpW7jqTWCoT2L5deZD8hy4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M1ViGigfJ5LjG4/i6cnDELEQjhHYXzeEGEZJDnbkFBiL6+2RopqsnBaIqB0UN8Sx9TeeRdVuhrRtVn33TsK88uJvlUepHrDOgBWgMn7otOvyb+CRJe5sv1mFprbAzAaS61W88aC6kK3ICY/MTi6sih1A+mEdyZIwE7773jZ33Z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IzntkKxr; arc=none smtp.client-ip=209.85.160.170
+	s=arc-20240116; t=1738678120; c=relaxed/simple;
+	bh=lzZC7nwSzDbj4fR9zSQyo/j1VaKH5TZnWQewenU65gI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mEmhSx8M7Tshoi92lCAaPD5dbnM+2Yu4kPCj2kzageUaJvrROBjyv6L9dwSrPb92JJOG6qDhUoXRCKhGR+1EhVpSoRavdZEkPElRKulKWLDzWOVi/mzH1mWSoDeN5C9tfTAiGNZZk1Z01W61HoF7dELU/t/acz7F3WlbzSx/HNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VjJ+DIxL; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IzntkKxr"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-46fa764aac2so42763831cf.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 03 Feb 2025 15:40:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VjJ+DIxL"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21669fd5c7cso101402945ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 04 Feb 2025 06:08:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738626041; x=1739230841; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1738678119; x=1739282919; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xkxWJ8w08nwsB8NMEk+hWG04tNJwNZf28ywWg6CGAzQ=;
-        b=IzntkKxreHhHJuQ5dtSDVqPa8wSqghV4+OUAxyy5X3l3OaoXnHHlvqLSNHZn2k1l1n
-         PAXcj2TifpUHLbrtKYmXSgaiHxvHgdMqobK6rNf8D4DZzqHm0cpsaNlpLD5wukZpxoE+
-         QDC4SxPu71UjxT/C/JdjaDJ4Wygv9ycIcw9Ed2lmf1WO1y7ZYlGd3WP0KjoNBiCjFsOt
-         2uIOU/qqdZoQXEUUVOQLjEXF01UzZnn/frfjzg92/RwjShUdQvCOkwf2I9Fi4LLWSF/i
-         ADUhR1QXq7o9xDX4bb86d96MbdJEgLz6PoozyWMAs74UhgaAUe47EfX/5v9dundxnt5u
-         Scxw==
+        bh=DxFFXjBXPh0mZXgN1D7X6dwazx3m6suk992pVSePYAI=;
+        b=VjJ+DIxLbtve9dFB2Tp8I6j/3TLUliMyf8ctqm49f9Pt5HOxleylVQUluBi1pN5IB3
+         DEBbrWy3IkLh4LGwH+jnNg9QEBn0AZcVXmhBPW/uTrkWUfPBmEMzykUhpz42yWkdvkZh
+         n8FFT/l1tL7y8/e5XzE6Sw1eFKExoYDdE1g/K6ymnVEvfBXesdt8frxhLEzvjkzX3jzF
+         /5Gaq2bVTCIvz6Sq6zCDgVI3IA/QPC5BIOJegCaknryLor9oD4gYRFlWsiOiKJ9U+2eU
+         lKFU9/fa5DcrImHAgGtIT1+mdkAY+cLzVbMW8UXjO7/aTqnxjtZQn60JH8ZJIJ3Ci8MM
+         Hg6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738626041; x=1739230841;
+        d=1e100.net; s=20230601; t=1738678119; x=1739282919;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xkxWJ8w08nwsB8NMEk+hWG04tNJwNZf28ywWg6CGAzQ=;
-        b=cm58svIVmsDtt26IkO4/5J6xb6D6wwzD8oLXaZZvcz46nSd1GASNc+fqSNj+8mDIpS
-         BhuosLGoHJ5bzFNT5DtnODn8VaIexvKgxchEHrv90JtUJ5AZuZmz9A+dERlwaU8DvIIl
-         OMJhRzV3sL47aj/XaPoHARwzWCDeNnSBKNirJhq9KCp7/pqYVZ4RLsDeC+NsI0dnq3vG
-         drRL2eyBP2YGqy4AIGsIj4VXRLoQIpcGhBXFGGi8hsysEFfVsv2V8kr6JPVbC1gpRhBu
-         DoxXDEdhXFo/whuDDTNswctoImowzUVYC0gobcrY2VcFUp2dlQ82mW5n5Qa8gqGqesw7
-         3koQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUbGhzMKygB16R09pwUUXunUIymcp+UzFbeburBhhf+vFLFLdxdHP3SFp8wfjuTK4saflhjsiF547xGva2342WGHJ6U2w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yydq/O96QmTt9s3qMISitUwuJey6bJcw1golXNVgUD8PTV6oka+
-	uDqsn23/MLh30cH/VbGZC0pxoG/IzKqiBhSJSy8U6ay3qMjecziD
-X-Gm-Gg: ASbGncuvx27PUW5kYpLKF8GlbC7giGz+N6IAqyb4+1bszNQ4oszuNJOnQ0I+RRJm13u
-	PTV37uw+RZxw1ktYCMqh4XWwUSinrgeqQSNl4Cj4UZbCOQn5Oj3XEZnH6KSh66Om8DZFW+mwLFs
-	Jrl9qDgERJdJ/aDercysPRnZBhtodO4WQnUUkD1HXYZOYokRNGUdAYtDCVWzVhJM6pS435TuZdM
-	4Os0kAA64IHBdBLsH5jlG4+espO7qYgVonZTl69HfXu93zHMAlY8uTpatp9g2oARFK8upoBlou0
-	B61leC6zQD/83m00vaAsEXqWXBL+CfWjNZ4nC8qeoUVd+pvWqDlUqRdW2cJ43LI=
-X-Google-Smtp-Source: AGHT+IETJWugQz7QeyhXOvh9JlbRz1lvTUvihDHYshGyEt5A6lRN2z6punlbA1cqEUr6X+bzpD5+KA==
-X-Received: by 2002:a05:622a:143:b0:466:85eb:6123 with SMTP id d75a77b69052e-46fd0ac0867mr253104261cf.22.1738626040692;
-        Mon, 03 Feb 2025 15:40:40 -0800 (PST)
-Received: from localhost.localdomain (pat-199-212-65-31.resnet.yorku.ca. [199.212.65.31])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46fdf17409csm53556071cf.53.2025.02.03.15.40.39
+        bh=DxFFXjBXPh0mZXgN1D7X6dwazx3m6suk992pVSePYAI=;
+        b=Zrv0y0GfKRVdtwsU2pXLL68lQhKvrMQ934sQ8bPBhy1t2grcP7mMNfLgBkC9t8N1p5
+         /IstzKePVBJKDIgtki57qdV3XkIEonPM+MN0yZ+U80k1sL+YHZM4WfbLZSyy2yS92E6x
+         AIkFoAR2LUfI9CxST7F/7VMNm5M75kH0eYBQ+cxygp6mqsyFilf13M3GyHLfBS4E+Jkc
+         GO2A0FqyH3LtR+iYFgrPSqkxz1XPgKhJCMGhM65mq1ZAHwjGnu3J4PdOE2TJCK/iT/HT
+         vSBs9Webz8rWc1t50qksg+0cR0oLZjr7on0iFlj7F5IXXcMtAF9kw359ilYpX8G3z2AU
+         4hBA==
+X-Gm-Message-State: AOJu0YzhKCkUHi6Ngd2k8+BOMW3I/zJrSOE6aitQSWEXKVocr9XWVrSz
+	WlvrWCVUaIbEadJRNUo3HUmM9eGJqlJNSxNg+HUU93W6Vr7yG/gdOMLKVLpN
+X-Gm-Gg: ASbGnct2WpnsmcKaqBZ+bMsiqA1hBs0MCsyDs55ab1hpmCrVgGT8r6GX2HCAwNW9dVB
+	2Ddi0a1P1JeuHdNMEeTDCJedoBByqIzLG5SWTp/LNSiq7RpUOnZfv48gBwN063NrQbfd2vGL6CB
+	xocvgke5fYUa8PpKcb2bPEWRp4iyl3Ez1RVqSeCrkngBJ0vaGGna/XEaNsT1hyO1Fflkm8iyAvx
+	WquHnp2xrxqTkxo50W6BzgvoU8gtfIV4hzVnwQck7tCe7rOr2Ii82PNDq0IX2nbLh2gl6AFMYJn
+	p2O1h81QRJDxaH4R5BY/DczAA0CeUOu71ibfaQ==
+X-Google-Smtp-Source: AGHT+IGmJOJKIJz8LAecFRFuK1DLTcWKV9FPgCagpZN4eNuZ/47DsGbKgNgNCBUMJ0+ep2xl2FiMWw==
+X-Received: by 2002:a05:6a21:8dc8:b0:1ea:ddd1:2fa7 with SMTP id adf61e73a8af0-1ed7a6b8105mr42979558637.28.1738678118422;
+        Tue, 04 Feb 2025 06:08:38 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:5c08:585d:6eb6:f5fb:b572:c7c7])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-acec096c62bsm10039452a12.67.2025.02.04.06.08.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 15:40:40 -0800 (PST)
-From: Seyediman Seyedarab <imandevel@gmail.com>
-X-Google-Original-From: Seyediman Seyedarab <ImanDevel@gmail.com>
+        Tue, 04 Feb 2025 06:08:37 -0800 (PST)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
 To: linux-doc@vger.kernel.org
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	corbet@lwn.net,
-	Seyediman Seyedarab <ImanDevel@gmail.com>
-Subject: [PATCH] drm/doc: fix minor grammatical issues
-Date: Mon,  3 Feb 2025 18:40:46 -0500
-Message-ID: <20250203234046.5114-1-ImanDevel@gmail.com>
-X-Mailer: git-send-email 2.48.1
+Cc: linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH] vgaarbiter: documentation grammar correction 
+Date: Tue,  4 Feb 2025 19:38:29 +0530
+Message-ID: <20250204140829.7649-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -74,37 +71,41 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The following grammatical issues have been fixed:
-- Corrected subject-verb agreement
-- Replaced incorrect noun "setup" with the correct verb form "set up."
+Corrects the following grammatical issues in the VGA Arbiter documentation:
+- Fixes subject-verb agreement by changing "co-exists" to "co-exist"
+- Corrects pluralization by changing "server" to "servers"
+- Improves sentence structure for clarity
 
-Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
 ---
- Documentation/gpu/drm-kms.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/gpu/vgaarbiter.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-index abfe220764e1..6a3ae069c829 100644
---- a/Documentation/gpu/drm-kms.rst
-+++ b/Documentation/gpu/drm-kms.rst
-@@ -6,7 +6,7 @@ Drivers must initialize the mode setting core by calling
- drmm_mode_config_init() on the DRM device. The function
- initializes the :c:type:`struct drm_device <drm_device>`
- mode_config field and never fails. Once done, mode configuration must
--be setup by initializing the following fields.
-+be set up by initializing the following fields.
+diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
+index bde3c0afb059..d1e953712cc2 100644
+--- a/Documentation/gpu/vgaarbiter.rst
++++ b/Documentation/gpu/vgaarbiter.rst
+@@ -11,9 +11,9 @@ Section 7, Legacy Devices.
  
- -  int min_width, min_height; int max_width, max_height;
-    Minimum and maximum width and height of the frame buffers in pixel
-@@ -253,7 +253,7 @@ rollback:
-   should not interfere, and not get stalled due to output routing changing on
-   different CRTCs.
+ The Resource Access Control (RAC) module inside the X server [0] existed for
+ the legacy VGA arbitration task (besides other bus management tasks) when more
+-than one legacy device co-exists on the same machine. But the problem happens
++than one legacy device co-exist on the same machine. But the problem happens
+ when these devices are trying to be accessed by different userspace clients
+-(e.g. two server in parallel). Their address assignments conflict. Moreover,
++(e.g. two servers in parallel). Their address assignments conflict. Moreover,
+ ideally, being a userspace application, it is not the role of the X server to
+ control bus resources. Therefore an arbitration scheme outside of the X server
+ is needed to control the sharing of these resources. This document introduces
+@@ -106,7 +106,7 @@ In-kernel interface
+ libpciaccess
+ ------------
  
--Taken all together there's two consequences for the atomic design:
-+Taken all together there are two consequences for the atomic design:
+-To use the vga arbiter char device it was implemented an API inside the
++To use the vga arbiter char device, an API was implemented inside the
+ libpciaccess library. One field was added to struct pci_device (each device
+ on the system)::
  
- - The overall state is split up into per-object state structures:
-   :c:type:`struct drm_plane_state <drm_plane_state>` for planes, :c:type:`struct
 -- 
-2.48.1
+2.47.1
 
