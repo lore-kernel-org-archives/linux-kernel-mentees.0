@@ -1,69 +1,75 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13C421519D
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  4 Feb 2025 16:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4AC204680
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  4 Feb 2025 19:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738686266; cv=none; b=l48b/A3DIGT2Zuou+BmFC5VUER+hwUwL7YHImeDpVgLKamhDr1GSc7S/1fcsL4wzH9yq+8weDMEMC0V1G6K4vOQLp83dPzlA6KuHcQ4Q1PuzTJPUZQk+IddE3pVHl+6UJqJQ8GS/eh6OtBwT9TqtVxhJAQ397Ohi7sihMwo1Vow=
+	t=1738697448; cv=none; b=LsWULrU10D7eV1U/w4DBmFt6w/ZYi24DlqcYS3fJyWzqBgl5dNmPcxs36IwLLHx911u8R3A9o/U5/sHvKWTMGrc26iMuwKSGcG6jJRNGcuwDRfFQ4zSu80xzbJ/7mO3UrUTFOsMQP1mdTF9chjzJntFTcG5q92KhbfR52ycQ7VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738686266; c=relaxed/simple;
-	bh=KUxFX+4f0Aizw7Mg85WPdNi8c0DEahMb6LLBmtuIvak=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r/deK8PmCT9ymmPHHsWbN94bHYs+eRk8mzPi9Badn3rHw27QVyaDUhokymhSl47I84KPvQ9ewU9Qi3VO3XQG0s8XeB370xHFqssnDSFutPpJ6erUDNth/8iQgAeIvb0Tut5ZaGgaxxBg7XYf3X3iit6ZHOl5fwnIfMF5gEOpbRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HANEb0kY; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1738697448; c=relaxed/simple;
+	bh=QRi/T5xfMEOZk3oIGOMAugQt4TWXy+5skoF80xv/d+g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r1pOHSfjREJe+W65TKXCh6aOgpNH3sCTU4oQgkpH+VzTp8swti4YOzfiRYelZuUgEI11X9WuvcdijVFn5NQ36zgC4GYtJUHD/vKmKq//m+NwK2iTaJx7qvTqfVpYtqXzXTIESUYJhtm+C8IKeMgDCJ8JklWt2gTBhgkrXX7VukY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FQgoII6a; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HANEb0kY"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2f9d74037a7so647304a91.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 04 Feb 2025 08:24:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FQgoII6a"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2165cb60719so109758635ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 04 Feb 2025 11:30:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738686264; x=1739291064; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1738697446; x=1739302246; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K89iMvYVIaxnJ+fqwfSq5htV0qyp5rhqJml9Bv4LRmc=;
-        b=HANEb0kYOydUiZvRUH1xGYFsoHoo4/SHsAvIbLfRmnxKjtHAnvrbB5xamk4ShzwQcx
-         07xqtGzWJmm1cRpQF56Xh1gt/mJQ5V3dHR8U3DkO1PZ3hxDbVOgnQSKqo+DaABDtyej1
-         UspaT+SSCQ9SPTyTkxrIfrF6PDRo0TIiFLuIPewyYzpDW+D+gHm+vG5/HstAuTYQVBhU
-         ScmZl+tr+GWz2aXoSZVZPHk+yE/X63/b0lf2GoIURZTtjme3tskVRD2mTBRjIfgVxFtO
-         ma/vrweVwZfncVuOt5DRikGXg0HscAl8BT6WoDLY2oyCLJw+OpElfvvQcloYZyUQTNHA
-         /0gw==
+        bh=9p7f/7S8Mq/vOCUyI7c0pQCu7LoiHChjA9JxK06JEGU=;
+        b=FQgoII6amejCWATNeLzGtkGoa3G3wihEMwFAip+hdlgleItw6QZSC33lLsfCGLX+s2
+         a1C/m71HcgTfoicoP7j2OtWDlOBfwO9PISxIj9+GwTwoOZgp/L8N8Wa1d8WPVLJ00Q5U
+         jfSAgjnInqzo0avvb1AMbgqfj3G69FtNTznvi+K4c0ja9ERnIjqiNO36Ne1WL++4CRqn
+         CrQiTtCYxu1eF3wYrXB9R/QYytdHlPly+vjjhZKy7X8193w4FuHWV0EQW0apq5BjmJ+c
+         VbHT6ZeGzAWKlx6ivafbcjR2UXVHvl6clo6csKNbulasFY4Jey3iI4QBvBwNhNpxP/Pj
+         dGhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738686264; x=1739291064;
+        d=1e100.net; s=20230601; t=1738697446; x=1739302246;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=K89iMvYVIaxnJ+fqwfSq5htV0qyp5rhqJml9Bv4LRmc=;
-        b=bReReKIFkAR31FAYvK33/pNCm1xQy0tqiGMX/6nGsFkX8+4RA4xSgHOA7l5lNoH/iE
-         oscHTOnYQGFpwyqpMQ8etSBgg43rrrz85YYvHVL3Ire4szFOGvvXuwgwzNVyT/45RKz5
-         pqF8dUQoEAdab3tdyCvc/AvLErt9dcQWai1ew9TZDOHDN1kJrCSCUwurerLN2kt0+MDn
-         BOliQSjGmA6vjeAP0jZMDzOVKJPQcsQGCEwyFrKhjYN4dFHdkNJW8br1HJRjJ9s4MCyf
-         Dl1P9IcbpfHhW4nSFTIe/YUbAeA478Gdwn9Mj3DT1tOBzarobA2PXk+6z+ffpsNiNI5i
-         7rvw==
-X-Gm-Message-State: AOJu0Yz68/jVjO86B7jBpves1H1ZRijZLm7tlaQYMnRdQUYQpV8FQfJ1
-	xhXA+h6CMOPf/s6gJlYFV6nE3AUmmG+KuxiFDdF7QvVS+tLj+Gqa
-X-Gm-Gg: ASbGncuS9zArlYTgcDOZKDZfWjc7sA482qy/BcNrqYgSUIK8s1jxirq6Tql6irUVipw
-	4n5lew3USLhy0oWBgSDfRq/SjyGXtOLlEUhCL5DaU/yCVgrtjRZ/V9DjrYaDspfqUzjWzL1bOo/
-	PZJLxqGF2N548Mv9yEo9vajsRjHFLa0fJoh+Lx1oMprDh1kfWaR+rRhd/02UNJrwWjD6TW49jYi
-	hnTKUWbI54wwl0lDf08dNGpGH46C/mJ36jndcd3DHSi172xG9CZPhr8NODsEGKNgS5A0wdTiulm
-	d+HIjeHkasdiIvHpUkmHcqdzJUhobeUfBVwZCw==
-X-Google-Smtp-Source: AGHT+IE+t9Q0e0NTv5Lqu9aYMx1Bpc7GcxHoh0GazGwA8Lf1cfTs4FCqTeCL17FslcTvdiqqyyq8iw==
-X-Received: by 2002:a17:90b:2c8c:b0:2ea:712d:9a82 with SMTP id 98e67ed59e1d1-2f83ac81fbamr38733712a91.29.1738686263628;
-        Tue, 04 Feb 2025 08:24:23 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:5c08:585d:6eb6:f5fb:b572:c7c7])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f83bc97d3dsm13797897a91.7.2025.02.04.08.24.20
+        bh=9p7f/7S8Mq/vOCUyI7c0pQCu7LoiHChjA9JxK06JEGU=;
+        b=LpgoxA07h7vB5ufti0fQMgZY5CFSdeE2of+k4hbeszWYp1L0a3vm/iRojdxW4rv/jR
+         Shz8OyW/zvYg7BStkn3hFuHes5vidyFc2OSZrV9yUlbHLzjEEY6PG0X/LEWcNhhIX3yr
+         lUUQkRgkcqWrLm60KumzozXK7pi+xIb9qiksYxFolThGtdZBsJJ6i3pTAVA+4II1vSAP
+         yA29bap/jMEP7WuS42WnudooOUJ/5OKeiwhSRBm9Rkt9Vxnnfc0j0YGu8Zf9Z/Enz6F5
+         FRiCSy09YstBJ4RdeDB0ZmrgTe2VoyPZNoZX4O04jD3Yjc1aJOD1PL8sJpgKmtXykgYW
+         MwyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXYgaerOgDneUnwq0ydF5LJWGVeDBHI+WXv8L0DSz7cZ1T0Y4HDAtGjL50WKVcT3APHHpv/CNCaP/vAvw+HkIImd0aUYA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzIWBxo3XUQyHIHppiaLHWQSCfyRwz9/6Ave0dfcyi7YMKB016v
+	07fwrEN+U+8ZlKgBEsycdQzeJasGq9L2VS+VZ2dc655XbjGfpgZMPUj74LKq/mo=
+X-Gm-Gg: ASbGncuwCyqsFrfcxX2u1y06a+RprUHMa583g8FnqyLaEaOJxYk4TlA8rBtmeW9T1+b
+	z3sLfxNDiVq3kXSk/sRJo9d4V5v78m8GZoe3XswdRhUbWUuts/yGumI+WvPrA5cWUvWsKPJ2Vx9
+	gZIhxtBH/Uvj4UgS7mPbzjc+5107Wonke55ucFq2Fx8iwergwGZ/b/gKpeZsVxh5nVBRmseuloj
+	Zwiaeb6MriUISlWjT3wPljDTSp7kpJajkXxofnRj0efCZZomdzRJ0ZYexuZscN1iUVH45dn6dFl
+	6DD23QkxLzzvdDbKosSF3vM=
+X-Google-Smtp-Source: AGHT+IFss3YQDvyBHuUGLZCmsbSK26AFc7G2J2uzLww7fhdhbsF/F7HDhh5qLRL5YNkla4HR2XlTTQ==
+X-Received: by 2002:a17:902:f78b:b0:215:a97a:c6bb with SMTP id d9443c01a7336-21f17e27225mr737675ad.12.1738697446330;
+        Tue, 04 Feb 2025 11:30:46 -0800 (PST)
+Received: from linuxmint.. ([14.139.69.34])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de31f5c72sm100994395ad.66.2025.02.04.11.30.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 08:24:23 -0800 (PST)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linux.dev,
+        Tue, 04 Feb 2025 11:30:45 -0800 (PST)
+From: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+To: tj@kernel.org
+Cc: Bharadwaj Raju <bharadwaj.raju777@gmail.com>,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	shuah@kernel.org,
 	skhan@linuxfoundation.org,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH] selftests: net: fix grammar in reuseaddr_ports_exhausted.c log message
-Date: Tue,  4 Feb 2025 21:54:00 +0530
-Message-ID: <20250204162400.2295-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] selftests/cgroup: use bash in test_cpuset_v1_hp.sh
+Date: Wed,  5 Feb 2025 00:59:53 +0530
+Message-ID: <20250204192956.50589-1-bharadwaj.raju777@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -72,28 +78,26 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch fixes a grammatical error in a test log message in
-reuseaddr_ports_exhausted.c for better clarity as a part of lfx
-application tasks
+The script uses non-POSIX features like `[[` for conditionals and hence
+does not work when run with a POSIX /bin/sh.
 
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Change the shebang to /bin/bash instead, like the other tests in cgroup.
+
+Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
 ---
- tools/testing/selftests/net/reuseaddr_ports_exhausted.c | 2 +-
+ tools/testing/selftests/cgroup/test_cpuset_v1_hp.sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/net/reuseaddr_ports_exhausted.c b/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
-index 066efd30e294..7b9bf8a7bbe1 100644
---- a/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
-+++ b/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
-@@ -112,7 +112,7 @@ TEST(reuseaddr_ports_exhausted_reusable_same_euid)
- 		ASSERT_NE(-1, fd[0]) TH_LOG("failed to bind.");
- 
- 		if (opts->reuseport[0] && opts->reuseport[1]) {
--			EXPECT_EQ(-1, fd[1]) TH_LOG("should fail to bind because both sockets succeed to be listened.");
-+			EXPECT_EQ(-1, fd[1]) TH_LOG("should fail to bind because both sockets successfully listened.");
- 		} else {
- 			EXPECT_NE(-1, fd[1]) TH_LOG("should succeed to bind to connect to different destinations.");
- 		}
+diff --git a/tools/testing/selftests/cgroup/test_cpuset_v1_hp.sh b/tools/testing/selftests/cgroup/test_cpuset_v1_hp.sh
+index 3f45512fb512..7406c24be1ac 100755
+--- a/tools/testing/selftests/cgroup/test_cpuset_v1_hp.sh
++++ b/tools/testing/selftests/cgroup/test_cpuset_v1_hp.sh
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ # SPDX-License-Identifier: GPL-2.0
+ #
+ # Test the special cpuset v1 hotplug case where a cpuset become empty of
 -- 
-2.47.1
+2.43.0
 
