@@ -1,112 +1,99 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036522F2E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 10 Feb 2025 05:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5FD24BCF7
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Feb 2025 16:01:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739166570; cv=none; b=Yfnwfthi8Ie3C0c8BdtgavL5QuEIWAfIOZfRBIeLD6pidjIMdiDyX5vQRPw7JfHg+dG/NSgDI8NDnr85MFbXFXbjIsmeNH6hITYTtb2pvI3G7mn+HLgvg0eHVgGY1womE24z0zGq31q5jqWKpdnA7TyiIYFPJLQkIS78I05xPf0=
+	t=1739203314; cv=none; b=HE6ZP0r2hEjmbomjscCKw9e25KYJXJcnGK6ioyr1vmbO5suRfhWc/uxIGfliByA/lUVU9KOVIB9yPlDhUh5VBkmgkUdZNGDbk8vgrhqMA73r1M/nBPTbL837dqEupZCkXwkqd4k6LgPwEPXgc8pskaO1HCPVy2zPAnu6/qgQOaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739166570; c=relaxed/simple;
-	bh=okp4iGCbBaVIw09q0bTKVUF37D2rZF5xu5HsDQnnPSI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OuaWsBGdla32nr/oR6lNZr+okpwXO8+jidPr3vD+xk/zrYQyOOKSoDF5rfN4EJSTKbk2wDNIAUCYgUGDjfLeU/8FhyE+YIkkhSjvtvjuMaS6RuI4gpbe2H7edDwLlRh9rt32GboZUF96rjJleeun4QlHZ6zU24/3XEsqnzEta2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=snSZHDct; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1739203314; c=relaxed/simple;
+	bh=d04mA6lPd0CGIRyghuiCWsFhyE+RnY8D1tZKu88Lkr4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qU1qjJo/ggcwyfPCJtOBfpm1K7Q478GD932ujU2ZMEDgNKdQ01vKlV97kIpUbO2b4zUv3aJ2xWXDMEkoBjKotT7yNBQHz5SMvX9U9cDh7volomG4IChP09RjgiVrqkOPVzTGOsK0n3U5k7XhZZRPWx5+OSExj6/ndhc6I1diIyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P9UMYye1; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="snSZHDct"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 81D3B410AF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 10 Feb 2025 05:49:28 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -4.398
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id KSAlicGPkbnT for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Feb 2025 05:49:27 +0000 (UTC)
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2001:8b0:10b:1236::1; helo=casper.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org E7819410B2
-Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=infradead.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E7819410B2
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=snSZHDct
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id E7819410B2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 10 Feb 2025 05:49:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=LKNWyhqjvF4B9c8YkHcwLtXN2IA4PlgurEoAGQi8oh4=; b=snSZHDcthjD7MOyCeUkM+cqV5M
-	Ahe9cd/kfvxqM1HVbAeM8K0V6jHQb91Fno4sLNwql4NxoAKPQNlZCYHQop6BtLpCLIxE7NXb6TzRR
-	2Ly7jlkNctNtdark/ef3ebv6VFBJOKCFFlh3lWjz1WmHqMi99CagYYcKr4/vRMwGTnAIIBbNt8Kpv
-	HC/7scfLq3CPKyeDWj/mMpi4kSXGMAtl8TbXlJ7qM096ElzQiiyxVNcoZIWZ047BMUdQ13gmvUXCL
-	Ao2XRvIElociyB7d0IvShWMMzTms52BhefMVtQkoGv+UnG0sRj47/4Ijts5Le90NFhq4lRpNCfiQg
-	60yQa4eA==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1thMfa-0000000EkuA-02Ht;
-	Mon, 10 Feb 2025 05:49:22 +0000
-Message-ID: <d85760e3-433e-429d-a6e0-458bee382d84@infradead.org>
-Date: Sun, 9 Feb 2025 21:49:14 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P9UMYye1"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-21f50895565so46935275ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Feb 2025 08:01:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739203312; x=1739808112; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mAb94V99Y9qFdn7g0fbo+3BKlPjASY28rXSeC7/ya+k=;
+        b=P9UMYye1itE5G5rIipJAHRtqftZIdmKV4T+qXg5QaiqT56tfU80d0lsS+B7E/P8FrB
+         gkfe3lMqgTM5vFMZ585J2atu1Wre2HsZaAoP839F/4glqsEpZ+Utc/+uYj5qrv32TfaL
+         Fkx/EenHfgzeZrrLG3dNNwkbWIum/Exz5hB4mNKvG3WKLnbFCdFKYSBeZURoql+l8BgB
+         LLJKKP6r1Au3RIx2US/Mv+BqAgYvFu0/JzZRelHWiBbdTTLiodRcVR/BcowQsBbdq41B
+         +xKktVHeRnSONpOMJAi26REWeONK+fzLxouh8+H7XEhGr+Ys602UZ+k6Jq0fS+TLj3Y2
+         gacw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739203312; x=1739808112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mAb94V99Y9qFdn7g0fbo+3BKlPjASY28rXSeC7/ya+k=;
+        b=GXQ6eS4efTYl+jnW2nVoJCA/dd4i4MNFQ9V0VvFqhEGk5+gcIinwv37I0BpcCVN79W
+         GFhReXJ3U5wy8IbA5EddqV7FjfHgY3XyfHPz+QKYFXQdGIBQ+XiiNAqpLHV59OoSAxvy
+         Sa7Qei0+jGWHoufJnK2Sc9/2JGYDwGSMe7l1AriIHlba9vEAyUIMS7af57kqszHB9uHE
+         A23n1VbVvEaKlJSkauBKYVNUUPPAAYpVtqHVosvA6W67gjZd4MeA9FIgNoX3Qv9p7gyo
+         ON7cpFuJWB/UX3wQ/HwcIcMNgFrQqrn5k0Vwp7Pqc+VSYmWuBvfaI7gGvTqpOU00LD6m
+         TKEA==
+X-Forwarded-Encrypted: i=1; AJvYcCWoIeTH+0v3x1RL89K0X6bbK0csZ08bCayRTKajXWli4Sl74HvO/R6ucx/hrgOq2X3OWJaMudp4tL6AxeHMvf6nl5B6+Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YynLNvK5V4D0J22sC1FBgazNfhJw06ZYhfrzJHFTVeIbovRtxob
+	6Mq9UHe/m21mts2bklLz5dy1Oibsu3tZVnB9TzvFAueSRdgCKUCp
+X-Gm-Gg: ASbGncsR8K30T78C3mJhRG87EhhSZhe3m79/KODqUAaHs/6yCAK1J/2AevylQaDIH6M
+	AI0wr2Fmczyx3nXXvNeeRlKMtrkrA4B2jAPFLs0O33l0y2Mzy7y81zZhZy9F1Xo2KehGzCmnFyO
+	XdZOivVGM0gYGxK59M0nlRM4V7JMRjHsQUs/8VW/1R7IT5pb9FntBS2vLuhyr5cMor2lg/Y9XQY
+	1O1GLIvMWutR/NVRbqS20xDCKsVbE93BzI09p0wWj8rfoMGguKvCXhcYM4iZBjY81VWwgrPwxbk
+	ycX81EXHEBMd/rYl61kh0EY=
+X-Google-Smtp-Source: AGHT+IHNkp+rEp9mHSOGY+8yQobNqm11WwyMA64Pwjfj9ER+mP9o2/g6xc0Ppw8iqqadRsvrdcMKnQ==
+X-Received: by 2002:a05:6a00:f8f:b0:730:7d3f:8c70 with SMTP id d2e1a72fcca58-73217f951e2mr204190b3a.21.1739203311941;
+        Mon, 10 Feb 2025 08:01:51 -0800 (PST)
+Received: from linuxmint.. ([14.139.69.34])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-730962210f3sm1464566b3a.179.2025.02.10.08.01.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2025 08:01:51 -0800 (PST)
+From: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+To: rostedt@goodmis.org
+Cc: Bharadwaj Raju <bharadwaj.raju777@gmail.com>,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	shuah@kernel.org,
+	skhan@linuxfoundation.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] selftests/ftrace: add 'poll' binary to gitignore
+Date: Mon, 10 Feb 2025 21:31:34 +0530
+Message-ID: <20250210160138.4745-1-bharadwaj.raju777@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] documentation/filesystems: fix spelling mistakes
-To: ritvikfoss@gmail.com, corbet@lwn.net
-Cc: linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20250210043937.30952-1-ritvikfoss@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250210043937.30952-1-ritvikfoss@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+When building this test, a binary file 'poll' is
+generated and should be gitignore'd.
 
+Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+---
+ tools/testing/selftests/ftrace/.gitignore | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 2/9/25 8:39 PM, ritvikfoss@gmail.com wrote:
-> From: Ritvik Gupta <ritvikfoss@gmail.com>
-> 
-> Corrected the following spelling mistakes,
-> based on the suggestions by codespell:
-> 
-> 1. Optionaly   -> Optionally
-> 2. prefereable -> preferable
-> 3. peformance  -> performance
-> 4. ontext      -> context
-> 5. failuer     -> failure
-> 6. poiners     -> pointers
-> 7. realtively  -> relatively
-> 8. uptream     -> upstream
-> 
-> Thanks for your time!
-> Regards Ritvik
-
-The 2 lines above should not be part of the commit description.
-You can put them below the "---" line just below your Signed-off-by:
-if you want to include them.
-
-> 
-> Signed-off-by: Ritvik Gupta <ritvikfoss@gmail.com>
-> ---
->  Documentation/filesystems/9p.rst                              | 2 +-
->  Documentation/filesystems/bcachefs/SubmittingPatches.rst      | 4 ++--
->  Documentation/filesystems/coda.rst                            | 2 +-
->  Documentation/filesystems/debugfs.rst                         | 2 +-
->  Documentation/filesystems/netfs_library.rst                   | 2 +-
->  Documentation/filesystems/xfs/xfs-delayed-logging-design.rst  | 2 +-
->  .../filesystems/xfs/xfs-maintainer-entry-profile.rst          | 2 +-
->  7 files changed, 8 insertions(+), 8 deletions(-)
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
+diff --git a/tools/testing/selftests/ftrace/.gitignore b/tools/testing/selftests/ftrace/.gitignore
+index 2659417cb2c7..4d7fcb828850 100644
+--- a/tools/testing/selftests/ftrace/.gitignore
++++ b/tools/testing/selftests/ftrace/.gitignore
+@@ -1,2 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ logs
++poll
 -- 
-~Randy
+2.43.0
+
