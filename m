@@ -1,99 +1,118 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A770E244195
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Feb 2025 16:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30AE525B68F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 10 Feb 2025 17:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739203889; cv=none; b=guu4UYpUhYIfKVFvTJhALbLlIQ+akB3tsaeDRD162jri+OaLutHCorIXAPAuxktEDyp3MtDMgzQIy2x3oIeNq3dzqJDY1//Lf6R8SaDUj2GZLPwAGtB2yzns782XbB9dNXfHzCMHZZBnOU6exQcoZ4VMtojYONJT72Y5ooozZGM=
+	t=1739209983; cv=none; b=Vq/URMizw2LTMX2xMgjPLD/GqlBKIQ7gwV8FIbDoNs1ubneesL0RbtajCfjrLby4pcXhiD1iVE8gHuojulsUmx1n4V/G5iw2K+BoVbXeNcBc4hzr+U7LERcuEWerJy5bXtuT+5zo8ebBXzzdjq/H+RjsA4b2iwelFODct5pXQEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739203889; c=relaxed/simple;
-	bh=Ju+jLIC+hdALWDNfTRKoeZW9qn5r+NTUgbFhV/yjG5k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ujZJacQEyiaEsccjCEu2dyB95fYTIIyrxRDAraGPopI5fSPuQaqwqO1GpiYaLPTL0wOdoAoDpgj0MT9gVRZaj4/AzyfDQAziPykUl3GPdjpQHrW4LucDBFLEfju049WmhiLUV52QT5TPMJ4ByXSZlfnysBOn4ZxHARYTr9q13vU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TIK/0Iau; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739209983; c=relaxed/simple;
+	bh=3XYMsF/JltYobm5fpigCYAMzJ/N6sXTC9v0QKmfknNs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=f1hKoxRS8xASACcYUOrMDQboclaGX5Nzvx648olHpHHnHGguzAC8k4f7IoBdiHSVyfkl7fgD3D05pIK87mKukVQdGd5Er5BXNsEe4L8jH6xYR7Op1c5ghlmyLZAlLVKkgdnN7IuhWkYpQil2jt1YX2/3n1e8AE/SVNaExXkQYM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=r1zK9/oR; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TIK/0Iau"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-21f6d264221so25414355ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Feb 2025 08:11:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739203887; x=1739808687; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lt/TBqL493WxqFjgvfkZ2tS4krtyuV+0wcigwiXRZIM=;
-        b=TIK/0IauN36p2S7J1iC73GTL0oK4BGMYJxyN1y00jrQgQYhC21egfopFaRzoQWVcHf
-         /1QipJM1FANvGRxzyrYBm0SORwEDWkE12FHmnHMux8AeTRC0PDTVPKyqKVVK72r96p4z
-         Nyh+0K53yimNXNngnu1uo1K6+UflD3NzDd1IOMq4P4+ZzUA+q9KkBfhurlKknnfpovFf
-         1GU2ulGmvo9eC5UYUssnHfbnNzlKXtCb6xJVgeS48IJ9vpHro5ddzgl7GxaDENWyf83Q
-         wY14DGksOPhkBjxi1Tqcnu2ODQ/pJjNwPcbAYlx+/Qv3I0OIN/cAuAqRC2YugLIrSWxs
-         ZRdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739203887; x=1739808687;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lt/TBqL493WxqFjgvfkZ2tS4krtyuV+0wcigwiXRZIM=;
-        b=RG0TRpKhu3ENib5a1jN5jOp4Hb3a1wlJXUYsznyzSpezy2VfLjpEOq3NAkL9B4L8YP
-         g7QOQ+rS0IvL+uzCR2xPfe8Gb7ZBUhzEyRBwUX8RMruMH2/tXcvETmkESz+eZnwtLzCr
-         TVps3dsRLBM/yU0IxYJDy4TNyL3UcGIWGfD93zZ+C89tR+OIfp816JBSquXvf/3NUqrZ
-         h6TWSuMej9VpMpdNfc2R4y/9y96BIA4e53nLZMXHm2gsbDSK7Iwqw4hHHt4K4Lqn0WI0
-         /ZLmaGIZnkMbEtZft4lVFfrjyQFhghE+OcA30T15POyPtTlM6gRu5z7/DQm//W+gfH+y
-         9S7A==
-X-Forwarded-Encrypted: i=1; AJvYcCVadqEk9sytk5YSeigBmzuzjwfHPKGP3yOvXbEAJRph9x1Erqs08/AXidakEHASf0GR4kw+D5GlKK0raK0XnmqQ9Ea0bQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwxpH9S4JULQ6AniiSmNYWqVkTXXcLk6li+Wba4gDtdK45Ebqdo
-	+4HbSWRJt1gnVYHBzHh93sjQzqJIfQuRBxYmwmt77GdOKHfd9ZBV
-X-Gm-Gg: ASbGncuhhDKuT1vXnMY6dkgEvIxBMdxBabytRLeiTrKP14C/gQxt+dsQWGILJ4XsMrz
-	immbz+GsOdvsGLzbJ8G6XzWlLjnwaYwKS4W6QaOD7rqyU0tjoqwSahf0jIFje/1Yi06eooLQjOU
-	Z24J1noEUnxvgjtvrbqaJ2huMq+sI7zcD5Efrrut//3kOaNJpyyhlafHbPJoH8bPXfBjRE/Wy8R
-	FEQls4/4TK60Z87++Wwp0vj+fd5215LEJj+0P1YOX9AVwUY0loqdbKic3tz7Ql7D5kdXMycnV0l
-	2MT/18Fu/aIqm1/1oxaEFOY=
-X-Google-Smtp-Source: AGHT+IGBP1tsRARuyphuA4dc3+m2aWSwlcSZROST1syG8GihtPtpjMQ+VBiiwMW4vsoTibNHhabUyg==
-X-Received: by 2002:a05:6a00:148d:b0:730:97a6:f06 with SMTP id d2e1a72fcca58-73097a61364mr3937341b3a.8.1739203885416;
-        Mon, 10 Feb 2025 08:11:25 -0800 (PST)
-Received: from linuxmint.. ([14.139.69.34])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73083c1f029sm3022516b3a.125.2025.02.10.08.11.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 08:11:24 -0800 (PST)
-From: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-To: mic@digikod.net
-Cc: Bharadwaj Raju <bharadwaj.raju777@gmail.com>,
-	gnoack@google.com,
-	shuah@kernel.org,
-	skhan@linuxfoundation.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] selftests/landlock: add binaries to gitignore
-Date: Mon, 10 Feb 2025 21:40:57 +0530
-Message-ID: <20250210161101.6024-1-bharadwaj.raju777@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="r1zK9/oR"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id AD57880E4A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 10 Feb 2025 17:53:01 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.791
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id XelWgz0kYd53 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 10 Feb 2025 17:53:01 +0000 (UTC)
+X-Greylist: delayed 341 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 10 Feb 2025 17:53:00 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org EEC3080C28
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EEC3080C28
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=r1zK9/oR
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=45.79.88.28; helo=ms.lwn.net; envelope-from=corbet@lwn.net; receiver=<UNKNOWN> 
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id EEC3080C28
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 10 Feb 2025 17:52:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 246A7411A1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1739209632; bh=usCSxGFJFpJfYhpfqyEEgAs8nuXlxyQs97pnBTa6Pmg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=r1zK9/oRJPorE3jiKrSIuTe6/+g4nPKkjFDco4pbk2pYf21qOObqJaV87YXQRW8Ov
+	 ToEMWtHcPXOVyAhdRjApStSk3OjGXOQ77XRzUbXUO+jlURaykhcmqYCYtEg9z30mrl
+	 Vb6g84UPdL4ZPX428ABdNkTGIkaQb4mzHbBMVjMf51Uo6dYj7TMo4wMLVX6sHkeyXn
+	 N2VvER/RqelNs+BKYaSXbuHd5QnnmRds2kx/D4JsJ9bhifMzI6rMcAvtL+1jd3Lzo2
+	 hbpZpq+RTC87wzKgnK1l/xifpLWPIIj3wmlCiWOYSwSNvuaCB97xkB9E2ZDUWfg3uR
+	 J0hYWZzNEUCRA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 246A7411A1;
+	Mon, 10 Feb 2025 17:47:12 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: ritvikfoss@gmail.com
+Cc: linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] documentation/filesystems: fix spelling mistakes
+In-Reply-To: <20250210043937.30952-1-ritvikfoss@gmail.com>
+References: <20250210043937.30952-1-ritvikfoss@gmail.com>
+Date: Mon, 10 Feb 2025 10:47:11 -0700
+Message-ID: <87frkl1ylc.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Building the test creates binaries 'wait-pipe' and
-'sandbox-and-launch' which need to be gitignore'd.
+ritvikfoss@gmail.com writes:
 
-Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
----
- tools/testing/selftests/landlock/.gitignore | 2 ++
- 1 file changed, 2 insertions(+)
+> From: Ritvik Gupta <ritvikfoss@gmail.com>
+>
+> Corrected the following spelling mistakes,
+> based on the suggestions by codespell:
+>
+> 1. Optionaly   -> Optionally
+> 2. prefereable -> preferable
+> 3. peformance  -> performance
+> 4. ontext      -> context
+> 5. failuer     -> failure
+> 6. poiners     -> pointers
+> 7. realtively  -> relatively
+> 8. uptream     -> upstream
+>
+> Thanks for your time!
+> Regards Ritvik
+>
+> Signed-off-by: Ritvik Gupta <ritvikfoss@gmail.com>
+> ---
+>  Documentation/filesystems/9p.rst                              | 2 +-
+>  Documentation/filesystems/bcachefs/SubmittingPatches.rst      | 4 ++--
+>  Documentation/filesystems/coda.rst                            | 2 +-
+>  Documentation/filesystems/debugfs.rst                         | 2 +-
+>  Documentation/filesystems/netfs_library.rst                   | 2 +-
+>  Documentation/filesystems/xfs/xfs-delayed-logging-design.rst  | 2 +-
+>  .../filesystems/xfs/xfs-maintainer-entry-profile.rst          | 2 +-
+>  7 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/tools/testing/selftests/landlock/.gitignore b/tools/testing/selftests/landlock/.gitignore
-index 470203a7cd73..0566c50dfcad 100644
---- a/tools/testing/selftests/landlock/.gitignore
-+++ b/tools/testing/selftests/landlock/.gitignore
-@@ -1,2 +1,4 @@
- /*_test
- /true
-+/wait-pipe
-+/sandbox-and-launch
--- 
-2.43.0
+I've applied this, but ... for future reference ...
 
+- As Randy noted, the "thanks" message doesn't belong in the changelog;
+  I took it out.
+
+- It's not really necessary to list every word you've fixed; "fix some
+  misspellings" is sufficient.  I left those in though :)
+
+- This patch did not apply to docs-next - the bcachefs file you change
+  only showed up in the mainline yesterday.  I pulled docs-next forward
+  to -rc2 to avoid making you redo it, but it's better not to make
+  maintainers do that in general.  The proper approach, which would have
+  been needed for a more involved change, would have been to send that
+  fix to the bcachefs maintainer instead to go through his tree.
+
+Thanks,
+
+jon
