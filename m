@@ -1,116 +1,107 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E101194141
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Feb 2025 02:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47ED7433C0
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Feb 2025 03:01:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739242262; cv=none; b=MgM4ANimEFRSWPWvaOhNGpUA/WNb4TdIDnZxoXEeOjRIcmNCJg/zZ0+Iy6unnfs3IK90u7a2EfXMXMUUT2Z4Tqd/eAcHIZoy9AIBOfytK6D6ETvewz1cqU3CMNOJNtL9LsAsTXf2FZUZPihyftytB1vuFCKWZDVma++Qtvmy5y8=
+	t=1739242866; cv=none; b=A8+fAehj71WO+W72KFxxY1nIYohK0RAGbt4Om4Wqmxnc67ciPUUwQ6IzpSCpoAtjD5gTXxtGHJtgvyo3oTApYZbreUaWRlV6CmJWXyA7/EwS+Hpn52GupnkZbYY1wnJuHyrmOqmv+IzKT7OT2e9ljEyTJxEfU62BqSqLPp50NmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739242262; c=relaxed/simple;
-	bh=363o9y6nIpiTcHxka7eoHXT++KoCdpZHBIaS99QobQ8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Nkcfn3MCSmgugGZM9LT+kUIlQEZjqeAXh6NZuuh5W75vnwrQZYnr6uiiRwyS6nxRLbAlG14kBHRnpw5TiRfN6+pRg2UOIiqj4aBBMDGKcBs4D7u/oUSAHwzE1LWI8IKmKl/s9R9tSgOD+zuckhs7ll4fmMhB0itNU6fS9uGYc6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J6o/rk4v; arc=none smtp.client-ip=209.85.160.170
+	s=arc-20240116; t=1739242866; c=relaxed/simple;
+	bh=cZRSGsPr5NDIpPaoHCeAoLx/Cg6l0wSrIJIyEW42Puc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CtX0arD31vPGLhnsQAei2z4nvIZ5mNR1Ii3I87OeKdDq44Eta29zQTnHjima+LTuQ+pM6oUZ0xoU5n7X+ICAlnIj3oRdEkbu2YVqoj/oO3c85C9fxgklwodeA+OfQqTcvxZ8xb/Q4mxVYgkTYn3fCuptaXCT22qNYR7uOt62UDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VhZWkTKg; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J6o/rk4v"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-46c7855df10so95860401cf.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Feb 2025 18:51:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VhZWkTKg"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43937cf2131so15423485e9.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Feb 2025 19:01:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739242259; x=1739847059; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=y7W7UIaefMaBKc66QNK3ykd+EZmLgH4o0pIICgtsY1U=;
-        b=J6o/rk4vwjuJS45tQS57OdBS1++mKfwmNdJ/jT//qy18HdXNideQ8SHgaVxujaorg1
-         DFca0MJOhCXOOwpHdB09U8rlwDPa+hvP3I5klDOG/fbqUt4Vja+i9vUIMmHWOUUwrqsb
-         cdBF2lKqPDf4hlNsBTC2UnsnhUK3U5EtAHFLhwZFrHmojm2pGnUbc71ntEsWjqJeLgTm
-         oEmEiYu4P9lK1WsZ5RVNeehKt8mDjxO8diChtNficl8ukp4hiEoxoDqVVKB06sD0meKb
-         IYmDrx7HLCFI8g1DvLSYb5z/eZNrlZ7C3JA8kw+dTLVxzEUSsdnzDmR7RQeP5G4y9R9J
-         hNRw==
+        d=gmail.com; s=20230601; t=1739242862; x=1739847662; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I0+Ftmctz1tHLKGjM2SvsvtPNyMgN+i6G6rr2ncjwYw=;
+        b=VhZWkTKgLYDv2fnPV3Nyj2/739X2XVnO84pW/f6AmLo31MhFay7WqpLl1P2uEwgoLL
+         8aDLGP2JS5MuVnTmfnD5L87hXoWXQN4I9Z0i0l7PM97T8eFeEifTs5lfhBWgv6cQjDCH
+         GXJ0XIDXtWLz1BQUGO0mhHg59eeQkW+102GCuXCG/fgGfo1/hv0rO/NicbPXShP7I+hB
+         uk/vya4viflkkdnl79gfOylJQ0dzH7T+d7Z0JqNRK1S5BR9M+aVYwDx7+B8ppuFzFHe6
+         Z6pRJ8WrmnI/jtHBIv1mMaMLAR/+HApGrSxgLffKru0Xw5tqmH0stcx2HTbQOmyps0Ti
+         +fQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739242259; x=1739847059;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y7W7UIaefMaBKc66QNK3ykd+EZmLgH4o0pIICgtsY1U=;
-        b=AmNl2yr1plmTCziELT4jShvBYvNQZvnz60wEoeDkqt+5/tp89Y9EYtf0hZQrKrPwzP
-         U/s08FySg7hcB0tlUjg/qGhNBHMqkIqcjrj23WPt/htqo24jZ5+eqraiS0D41mCSJ01X
-         jsTpKz+bw9iHP+llp0KlhbdmE3hRFdHpLy+y4V2Ik62AzatxbabAblpRcfV9e4Bzs0mv
-         4h8AfB5mO9AgG2Yqu8AO9OSLO8bBSY12Z8yWRILy3zNbzGP+5ZXBDm32kVH9Q117WQPI
-         RPGWxG2BdxCckM5LeeNqmi2cho/VoXW+EYb33jnFXGXCztkatz7T1usbTNVETZQGP+sK
-         HQUg==
-X-Forwarded-Encrypted: i=1; AJvYcCW6YzV8lfLIjtbyR9T4xy+/UD1qzse16o6Z/mQrpEh+xsa2pof929K4TTQWihKQRrmPEqKUTq1NZJcpOw81QxIxTdAyBw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQJ2yCeadYEZ76luEEJtoE4YRXG6W89LPrcZpQDBMshtwZQl67
-	pgxl60NxxXAm7l9gNtB9GFOQXu4BNvP2LMtM3b7zaBnKKVX7uiPf
-X-Gm-Gg: ASbGnctrNwLJuvzzpu/EenA0/HOJH9SZSWfgH+ew1EZE4jaKkFzruQpmm2WIpamPID4
-	i90qFv5jVRO7ltdvhrw0AOUO/0Aj9uIsS4bA5lQMmApdPAAUO/zR8kEVlksKdCv5Tumonlnq6kk
-	zWaoD92uwu0KMHJiTLIbWq34em6twlN5FXaTeBiPRTpD62W57b/0GXGtXYIDgrKcRl6rlJuSbui
-	4AAID3GlN9wmtjL5/nh6V2+kKisieljLwmO3xxFywggSkosCBY7RrsmhY1sJetIa5l+iAZx/Jni
-	3Ko3wzKz/1S31lWNmfeABk2dkjvs26xBNyrWEgoETL07UGpWEVmghom778S/v2sX89+cHAZPAZm
-	xVwVfSTjdTfJmxwDk90FbhcIbkoqfj9TU1J8=
-X-Google-Smtp-Source: AGHT+IGuUfMIhb5DuQUpTinkcfu/mJq0eKFdgYhp/7lwkzu/vFBxjpk51/uOsYm7BksfGGQUP0bayA==
-X-Received: by 2002:a05:622a:8e02:b0:471:8c1b:7e33 with SMTP id d75a77b69052e-4718c1b81cbmr65116951cf.33.1739242259377;
-        Mon, 10 Feb 2025 18:50:59 -0800 (PST)
-Received: from SystemsProgramming.mynetworksettings.com (pool-100-1-71-214.nwrknj.fios.verizon.net. [100.1.71.214])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4719b182ac7sm11794231cf.5.2025.02.10.18.50.58
+        d=1e100.net; s=20230601; t=1739242862; x=1739847662;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I0+Ftmctz1tHLKGjM2SvsvtPNyMgN+i6G6rr2ncjwYw=;
+        b=VA/1KnupjPBq6TAXG0kwaY3+iZaTsMw8RNkk6+/dznah+q9w8fU8eM9CRPfpOD98Jl
+         e/fyXkDgfylstH64R5BgKKmCURfslFLsOK5mSSjpuiY9D7KU/4Y83tZ2n7qAXu9riV8Z
+         EpPiwkekq97aECm8eXDzxRDlI0nhW8IMDzWRRuMRaPCZJan5IkFbGrtWuq4l9Pms7Dzq
+         mZoHS/Y9k80dB1gt8HTRbytt9KNn4Gx5usyzGOTTg59FWbJqu4ce7id9t/tYqj+2yoyt
+         4LN9EJLsi//el7yqPq+hCShrUR48JjKz8SVEPBcJOzXtCyXwuPUlXI0hHaFDizNYLnMH
+         3oHg==
+X-Forwarded-Encrypted: i=1; AJvYcCViUcne0PQAkSSr1xMjp4TMxCK18ffD9tCc8AXc1B2qJwT4er8QH1ECvntzwRLw9P/SMfwNA/XsdayhGAcREs5FCTFHIw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyz3qJQHUQARHnslkvtZjCS4hdT0XcCshLklTCyAEyTLMTikK6Q
+	pwVX5GpNZLihi4j7WTi65QAIiTzvJuUpdgSTbenCXy6vgIuJ7e6YgDB72p2OQyIHCLz1
+X-Gm-Gg: ASbGncuVvM8tIkiZz8Qn+Z3D7liwvTYXh0gX3N7mdSyWUpANxv6cy1J02AJ94mwap9t
+	grYNT/AJeEduttL4n8H6vRGX7AkciscXjNYT+47l50kuI0KnVjuEV+KPjguFr9dpLyD9+VpWSzH
+	IJxq6DZN7Wlm1OVi7upDvJ5TntLr3iScAY10gEGAZ/Ec3AdU3p5utjRAKPeLMhZoqzRByIIiciF
+	TRjtwL+ZX2NPAM6Gzpk9Xd81I0KseVu1LKWwziwzdBm/PlVUayGI0BBfS9Hr6hINV/ktYdErUqT
+	o6TGQI92UmL7dwQhLqGcSxHS3BT3Ub7Eq9EJNMk=
+X-Google-Smtp-Source: AGHT+IFQ5ct/eLOgfDv7Qw2gj1n3vazuwUHtEoARoYyP42j6t/7paFBG0Ke21LcKUs+x9M67T3tGLQ==
+X-Received: by 2002:a5d:6d0b:0:b0:38d:bd41:2f8b with SMTP id ffacd0b85a97d-38de41bdfe9mr1852527f8f.44.1739242862468;
+        Mon, 10 Feb 2025 19:01:02 -0800 (PST)
+Received: from localhost (tor-exit-9.zbau.f3netze.de. [185.220.100.248])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38dd4342502sm8153548f8f.26.2025.02.10.19.00.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 18:50:59 -0800 (PST)
-From: Brian Ochoa <brianeochoa@gmail.com>
-To: tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	corbet@lwn.net,
-	x86@kernel.org
-Cc: Brian Ochoa <brianeochoa@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] docs: arch/x86/sva: Fix two grammar errors under Background and FAQ
-Date: Mon, 10 Feb 2025 21:50:54 -0500
-Message-Id: <20250211025054.4062-1-brianeochoa@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 10 Feb 2025 19:01:01 -0800 (PST)
+Date: Tue, 11 Feb 2025 05:00:22 +0200
+From: Ahmed Salem <x0rw3ll@gmail.com>
+To: peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, shuah@kernel.org, 
+	skhan@linuxfoundation.org
+Cc: linux-integrity@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v3] selftests: tpm2: test_smoke: use POSIX-conformant
+ expression operator
+Message-ID: <nyskb7mbqk2dvlwhez4sua7ryz5gyi73yker6y3qhd4chyyeaw@x6nhqgtxcyvl>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-- Insert missing "to" to a sentence under Background
-- Insert missing "an" to a sentence under FAQ
+Use POSIX-conformant operator symbol '='.
 
-Signed-off-by: Brian Ochoa <brianeochoa@gmail.com>
+Signed-off-by: Ahmed Salem <x0rw3ll@gmail.com>
 ---
- Documentation/arch/x86/sva.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/arch/x86/sva.rst b/Documentation/arch/x86/sva.rst
-index 33cb05005982..6a759984d471 100644
---- a/Documentation/arch/x86/sva.rst
-+++ b/Documentation/arch/x86/sva.rst
-@@ -25,7 +25,7 @@ to cache translations for virtual addresses. The IOMMU driver uses the
- mmu_notifier() support to keep the device TLB cache and the CPU cache in
- sync. When an ATS lookup fails for a virtual address, the device should
- use the PRI in order to request the virtual address to be paged into the
--CPU page tables. The device must use ATS again in order the fetch the
-+CPU page tables. The device must use ATS again in order to fetch the
- translation before use.
+Apologies for my previous mistakes.
+
+Changes in v3:
+ - Reword mistaken commit message
+
+Changes in v2:
+ - Remove snippets pinpointing the issue 
+   from commit message
+
+ tools/testing/selftests/tpm2/test_smoke.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/testing/selftests/tpm2/test_smoke.sh b/tools/testing/selftests/tpm2/test_smoke.sh
+index 168f4b166234..3a60e6c6f5c9 100755
+--- a/tools/testing/selftests/tpm2/test_smoke.sh
++++ b/tools/testing/selftests/tpm2/test_smoke.sh
+@@ -6,6 +6,6 @@ ksft_skip=4
  
- Shared Hardware Workqueues
-@@ -216,7 +216,7 @@ submitting work and processing completions.
+ [ -e /dev/tpm0 ] || exit $ksft_skip
+ read tpm_version < /sys/class/tpm/tpm0/tpm_version_major
+-[ "$tpm_version" == 2 ] || exit $ksft_skip
++[ "$tpm_version" = 2 ] || exit $ksft_skip
  
- Single Root I/O Virtualization (SR-IOV) focuses on providing independent
- hardware interfaces for virtualizing hardware. Hence, it's required to be
--almost fully functional interface to software supporting the traditional
-+an almost fully functional interface to software supporting the traditional
- BARs, space for interrupts via MSI-X, its own register layout.
- Virtual Functions (VFs) are assisted by the Physical Function (PF)
- driver.
+ python3 -m unittest -v tpm2_tests.SmokeTest 2>&1
 -- 
-2.34.1
+2.47.2
 
