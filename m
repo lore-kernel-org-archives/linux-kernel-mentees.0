@@ -1,78 +1,78 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DD41F4295
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 10:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8AC1F190F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 10:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739269395; cv=none; b=qRoDXLO1vnIQOVCXnrSPvaYYgqBEnDCHYs9bxha8PCrzxmJH7hu5x4aob/roLtzpUTmwCyX8+sEeLrgoScxcQNvQPZuyUFU7u3pzF+uG9AbVkgjN7lZJ9RmZtoEqF3FaHewd41igYxbbajIbKHq2gBbobrp+HwTb9gYjG+1nALQ=
+	t=1739269816; cv=none; b=EUVWhybxl7DWZn1gZEA6JB9qUC/UMqx+I42M6h6yIBM9xE8bnFHMl+0MfKKe1hAh4ARZ8IP6++3UvwUHlrn+QZaQIbub7kYntcJtPzbphmUcwIXQFhFDZT3F8GQlivFrRV2VFayDvt30iR1nSepWC+c5yqmsbjTHmTGmGHmp8F0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739269395; c=relaxed/simple;
-	bh=7gkiFUdcb0gYKQOEYScuWQUf2plqI1v9qKLm0MkxY1c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UKbs2T0JJCDwk2OtSnfcQpGGaiiZpPdZhGdy1Xqu7pFjJr3NKo8XR3znkksOz13715ssJYfJzeo8RkN/0UgjOGX891Yuuz8xsYMlkQgbEjX+ZN1BrCAdCOhmBBcbQ1EyIRrk1t8MuRq0rSXV4pnxKwwnw+IsNVw6rw9bk3V9qQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SjBxyGdU; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1739269816; c=relaxed/simple;
+	bh=fNsV/w5qlTC0UnjLXwyi9kyQZ7wIrrmDxbP6Hk8uLLY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=O8FYV6liof88miB0YUdGN8vSW9qT2t9gzeZlmU1X8VmwaFuILNWjcUGELhcej+8XfiLOExiv49VqG/sXdINiscPfdwXJ1KZcM35/ykGNh5txKe8YdwfZYLfDnCw/892yT+an7XiemnrnuVPlSeVsuVf9kydw6ZJbKpJFUP569so=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k6J3wGka; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SjBxyGdU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k6J3wGka"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D929F825BF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 10:23:13 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 1CC7640798
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 10:30:15 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Zdun6eQfsqza for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Feb 2025 10:23:13 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1032; helo=mail-pj1-x1032.google.com; envelope-from=duttaditya18@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 1A5DF824DD
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1A5DF824DD
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SjBxyGdU
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1A5DF824DD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 10:23:12 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-2fa0f222530so9806114a91.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 02:23:12 -0800 (PST)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 9we6wAn0IGLf for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 11 Feb 2025 10:30:14 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62c; helo=mail-pl1-x62c.google.com; envelope-from=duttaditya18@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org EC11C40790
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EC11C40790
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=k6J3wGka
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id EC11C40790
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 10:30:13 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-21f7f1e1194so62850585ad.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 02:30:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739269392; x=1739874192; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1739269813; x=1739874613; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yNUSfX7eO+cmTPTl6G2d4kERHxGcLvqZO8iyv33AFPY=;
-        b=SjBxyGdU1XmO/UDt412cu+bTWPB0j3oWNSvi3f7C4C350JsGD4/c5xKPNENwSWF4Pc
-         VuOrBzz0xuKMG3vWO4/pQgFMRbolW4EW2Y+mXyQ4uEx6DYKhSzq76MZe6yYimzySlafn
-         LRd9CIoD+6FsEj0yKTYrKWE2xg3edkvrrp/IDdgqOaBdQvaEA5zEsB/AtDgUAa6p9+sK
-         CyLtlriiwEgmnzbypgQftbXJHK88ykrJFzPJ4QguaOkV8ceKw+qQ8PdHyWGukOMX0UWC
-         qAOQB024yKTVF73rne518gxIdWiwaCzUqkwT1kM965gCofo87t4BclDVqrVxdIP9QP2r
-         JPRg==
+        bh=sHfbaJWue40oGVU9gl6xqWDxiyf5UiEbsGPKoxtQUu8=;
+        b=k6J3wGkaSd/Ly+On2wJFu+AnflnHc76CVCGR6/vM9YZEByLyZS3eiJyuoteqD3BVKS
+         /kSL2W5hoeX7/AUxLUNnFu0cFa6cGfm1o9i2/IHuI+rvr5byO1J8qLece4HyAXN8SMXe
+         9aLVYFdaTtaUJVv+wd/aFCzMI1yml5ZG5tlwVCe7fkgoADzqblyk6RGe0LQR1i/eqM8X
+         8m4fnASBrMwqSbn43O2srzI64yuhmVnLbWHreR3FEeLhsNdDzPDlYymdrq4IRYibVHUC
+         AkHsNAmKIE11OkKhyOM+rVuQt0NapBfEGEKcuNsWfOPoP3E2MvVYcUXS2jsB0PQyjb9o
+         PNBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739269392; x=1739874192;
+        d=1e100.net; s=20230601; t=1739269813; x=1739874613;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yNUSfX7eO+cmTPTl6G2d4kERHxGcLvqZO8iyv33AFPY=;
-        b=MsAk0PDGSajMDSDFFbfDB0FCgcb+g2hARc7XY8CdiLOQO66aSuwez6BeJuEzJiWYAF
-         227xuSeuNPBCwAwtOylZtjhOrOzcUgwklqWo+zkiwWP5zxBQ2CkFq3tMWJEzdYcPYqko
-         ymKf+NGH+5I0yjBo7mTJzvj+9QTwAw3s8Mt+yqk9uWBun3RYJbkJpz0HrKQka0pR7MM+
-         mfYH7eMlCW6wZP/9mcKSBov/aCGNVfrT4aemXdK3mBz+hLlXzSzwnlxQHuOXOLmj/VoB
-         oW+nAhtIE3a1Ydi+7O6CeL4sDU8prbn2LMVo0drYpRPGiV9VqRcEKu/08FJLqR4SJNC3
-         StVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXHdHKV123IqsHxV6CMXMBjPeDTiJKCaoIZnYvYxF5/Kxvp+ZzXpx+KYWUFAmuZGjloXJqzP7RWuv8OL8smE6fAvVGbQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yx7fAcK8kxKxSdVefeThpXb6qoWxJcLKOVPaO+rcS3XCsTB4ZG5
-	zIazbjXXqbESoTFRfxc1DkTgybupXMGdQwZSTqGEUQWp4pnNwcZw
-X-Gm-Gg: ASbGnctG48LxIK3JOJcg/2dSTaVkSErt6Bmg3xM75mbKTSRWGUyWA7A0DN3VMxXYHNc
-	RKM3h7M0ol4Z1aQgACbWMCUqZZLbnTNfK8lrO1jc4HGWj19cNINOiGl2YCTq7FGxYJKPfU2wlv5
-	1CGMgYB8WSL0ol94qLFnG6dtb7FmPHu3wcAucdAIlICAR+bvL+cMkDRytf0F3wzv5LYry8z5JQa
-	jk1sIcJgJpKX6tdrO4ASX33YldpwasK2nBthO5iPeK+pexltyKOQNyDYS6r0VexwKgtcElaSeJ3
-	ZpBqvaV6irLMGsHuvCY=
-X-Google-Smtp-Source: AGHT+IGTWse2dOartYTkk3C2PWo6EDO3+yLZq21aVlgmvJwCW1e/Vx5WpWj7JQ1Tn8qEgiNu/YLRng==
-X-Received: by 2002:a17:90b:3dc3:b0:2ee:edae:75e with SMTP id 98e67ed59e1d1-2fa24067d7amr25467131a91.13.1739269392236;
-        Tue, 11 Feb 2025 02:23:12 -0800 (PST)
+        bh=sHfbaJWue40oGVU9gl6xqWDxiyf5UiEbsGPKoxtQUu8=;
+        b=b5r/uDG3/gislk/oi79hMTGgyCdQZiPPj1NaHYl/03TDRT8QULqinS8sBKMGpyPDjR
+         /x6oMA7c+9TppFvTIYEsr81EhI+BNXNxiXkWLZnhSHiW4gLCqQ42vhWSA+pju0c6dHw7
+         s+MRpGBZ+AGRZWupKkofkqYWibMjJ1dwQSqRgsNDKx/PK3MpwHER+V1JZZwmI4aAxq4f
+         5wsGHlA/b2EGA+FtoXxoh9lZvrVWb6W9l5N62pJXOVabOZOMyg8BcukoYTp9Yqk5twju
+         4lA2aVc07BhuoBv720nDK3BC6nZvnX+ZqFrEAUKVsmfZKE6kEMF3naoNq+hlKuwwR8rS
+         GNcw==
+X-Forwarded-Encrypted: i=1; AJvYcCU6lGkaYtW6rXvvv4Cj9sVELw8QX2zIW5XPl/jXBcQKofk2Q3c+qWfkO6T1/x5vZr4YHjfKkyOLf9XIjUtnY5g9IMZKRQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwYTEnewio936B3GKTIuRi5zvT9xepodMNy45ubqYx6j2Cb2Jdy
+	NbpqYF5wdRfyyLVoXOv/GqRs2cfcqVIxsEyJfI7djYHkv0Xbelhc
+X-Gm-Gg: ASbGnctYdFmUhWHQX3T1nDSyZVPV1G6ShLf06t+s/HCSeeROgzgvWS+RRUerIen0Z+P
+	QLU+QaHAgCFzARH31m1YJ6pJLudKgQN5ol5pRc5u/Wnirwc1jx4Hst1SqULwuWeYcw+1IAv0R8o
+	vKHMbNZ/+6foeYSRJVi65iO+wfif61SBIrZfRe4nU1UKhuFVz41uXeplm5INNKsOYoJeVilH0F0
+	nB1Q3QGrdt9s4lykxlxVonNtrKV3dathRcgdVZOsxYEv39Sac3zw6KOtJzzXRNffNV8WOrSsOLe
+	yjgDpKlJDeFX8PKf83w=
+X-Google-Smtp-Source: AGHT+IEnKuqhVUNUIpoiBX2xq3wVpCFtMSrJbwfG0VM2EBLTBd73Q6SWH+mSESRCyRpa+aZI0oVCjg==
+X-Received: by 2002:a17:902:f787:b0:216:644f:bc0e with SMTP id d9443c01a7336-21f4e6c899dmr327386445ad.24.1739269813123;
+        Tue, 11 Feb 2025 02:30:13 -0800 (PST)
 Received: from pop-os.. ([2401:4900:4e6e:cd6d:2732:b5a2:e46f:2ac5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fa44aa6657sm7300372a91.38.2025.02.11.02.23.09
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c8f7sm94054635ad.178.2025.02.11.02.30.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 02:23:11 -0800 (PST)
+        Tue, 11 Feb 2025 02:30:12 -0800 (PST)
 From: Aditya Dutt <duttaditya18@gmail.com>
 To: corbet@lwn.net
 Cc: linux-doc@vger.kernel.org,
@@ -80,8 +80,8 @@ Cc: linux-doc@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	Aditya Dutt <duttaditya18@gmail.com>
 Subject: [PATCH] Documentation/driver-api: fixed spelling mistakes
-Date: Tue, 11 Feb 2025 15:53:03 +0530
-Message-Id: <20250211102303.197763-1-duttaditya18@gmail.com>
+Date: Tue, 11 Feb 2025 16:00:02 +0530
+Message-Id: <20250211103002.199004-1-duttaditya18@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -98,10 +98,6 @@ This typo would have caused a compilation error if copied as-is.
 
 Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
 ---
-
-This is my first patch. I was sure to make patch against the docs-next
-tree.
-
  Documentation/driver-api/media/drivers/zoran.rst            | 2 +-
  Documentation/driver-api/media/maintainer-entry-profile.rst | 2 +-
  Documentation/driver-api/nvdimm/nvdimm.rst                  | 6 +++---
