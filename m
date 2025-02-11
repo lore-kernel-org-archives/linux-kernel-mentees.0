@@ -1,135 +1,172 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80431E9B19
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Feb 2025 06:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DD41F4295
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 10:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739257128; cv=none; b=XXXGymL9IKQTjFsDrU37HjYBRgilHL9DZOUygHIVmu5ik8Y/jmqrGaxdSgTVGMWHKq3uHbDo1xzpMMzJVTvb77UHv4lpM9hSHIm8ttCbfPDNHejicFsQLbvVxDRExw9z/q8zBP633zpFeE4yWRKUI2XJnMkawySCRK4eNnxbrV8=
+	t=1739269395; cv=none; b=qRoDXLO1vnIQOVCXnrSPvaYYgqBEnDCHYs9bxha8PCrzxmJH7hu5x4aob/roLtzpUTmwCyX8+sEeLrgoScxcQNvQPZuyUFU7u3pzF+uG9AbVkgjN7lZJ9RmZtoEqF3FaHewd41igYxbbajIbKHq2gBbobrp+HwTb9gYjG+1nALQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739257128; c=relaxed/simple;
-	bh=y95fGU1MM4LPX/GdpJQ+n4qKaswP/rgFqTDMBehwQwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MvIT4nqi7TNE997siv27ZBioGkfss1wc5PMrD0II9zk8f7/nt7Ud2AZSl/x6PfIRSvVNFmtaLzk1iXhBj077jn90MJYJLmHTW51h+xI7jIceHC5nM0AqiYLpCsXDUS6Pn5JIPsNP0XAw01BAqeJ7T8Mcz7iJS7o0yjx2RK3bCik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0oNdXdk; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739269395; c=relaxed/simple;
+	bh=7gkiFUdcb0gYKQOEYScuWQUf2plqI1v9qKLm0MkxY1c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UKbs2T0JJCDwk2OtSnfcQpGGaiiZpPdZhGdy1Xqu7pFjJr3NKo8XR3znkksOz13715ssJYfJzeo8RkN/0UgjOGX891Yuuz8xsYMlkQgbEjX+ZN1BrCAdCOhmBBcbQ1EyIRrk1t8MuRq0rSXV4pnxKwwnw+IsNVw6rw9bk3V9qQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SjBxyGdU; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0oNdXdk"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-21f4af4f9ddso59103095ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Feb 2025 22:58:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SjBxyGdU"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id D929F825BF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 10:23:13 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Zdun6eQfsqza for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 11 Feb 2025 10:23:13 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1032; helo=mail-pj1-x1032.google.com; envelope-from=duttaditya18@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 1A5DF824DD
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1A5DF824DD
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SjBxyGdU
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 1A5DF824DD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 10:23:12 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-2fa0f222530so9806114a91.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 02:23:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739257125; x=1739861925; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JbbHUiRCm1HRMSRoMw9y9z9V16wOdtH431mNWX2Wxkk=;
-        b=h0oNdXdkg8WZmxQiLUrTegzy5Q4qu9txyz803muE+zBOytu42CglpaY8+qFvXFsiwx
-         oHddvm6AficUgAQIgxKtJeimP5AhuTtVK3m139eSYtwuYVIy1PwnNgpLPYDZJ1pOF1N6
-         rzxFACyK0wvfezF/Bw1u9RKwfume9OpiLdO3NwfSCtsmbtyyYtHNqS0bYzP4FQvBP88P
-         6rapwvuYlZizdhrJYasYaaoCYdblYMaX6t0VqXlyq4pi8v1BvDbdq+HToMNb+IlNuGaM
-         kQW9MnMIeycfU0UolLnpQsAp8dZVTABjCohOcORFPB8wMeQBkBF6QcB7dLoPlTjEY6DF
-         eIDA==
+        d=gmail.com; s=20230601; t=1739269392; x=1739874192; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yNUSfX7eO+cmTPTl6G2d4kERHxGcLvqZO8iyv33AFPY=;
+        b=SjBxyGdU1XmO/UDt412cu+bTWPB0j3oWNSvi3f7C4C350JsGD4/c5xKPNENwSWF4Pc
+         VuOrBzz0xuKMG3vWO4/pQgFMRbolW4EW2Y+mXyQ4uEx6DYKhSzq76MZe6yYimzySlafn
+         LRd9CIoD+6FsEj0yKTYrKWE2xg3edkvrrp/IDdgqOaBdQvaEA5zEsB/AtDgUAa6p9+sK
+         CyLtlriiwEgmnzbypgQftbXJHK88ykrJFzPJ4QguaOkV8ceKw+qQ8PdHyWGukOMX0UWC
+         qAOQB024yKTVF73rne518gxIdWiwaCzUqkwT1kM965gCofo87t4BclDVqrVxdIP9QP2r
+         JPRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739257125; x=1739861925;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JbbHUiRCm1HRMSRoMw9y9z9V16wOdtH431mNWX2Wxkk=;
-        b=dYwqs1jswdq+tmxmvW2lSztvWjOTl301oj9kLGIDkMYk4LbXeph0/lGQ7fIKMrg8zs
-         nON8ByaHrdxRBgK0Ebr8JHR0HgjY+mEZcSq6P0PplyjbDhq0TPn7je8ToR5I+indhhsH
-         O1/W3l1/2JjFewN3f2M5s0LeQOHzN8CdtPa5UMVXLfuMFrtjzXDIDSpArpO4OT3+EP0Y
-         SXb5W1mnFs3YAV3Pixam4x65Vih7tw8Dnok9GhCKxzzKA2W1tJV6Ei+tiP6RPLj0YNP9
-         8bOxEI+VE3QxqCNMngDXKtZUDmbLqtFmrxXpUxP+A8rz0sdoWf2b+/CW0EVKMZvzKDoe
-         0GpA==
-X-Forwarded-Encrypted: i=1; AJvYcCVuEgGn5Io3bBsIK5qpbn3bU/v0VuLHMwLa+/XSHVwf1Q7OD7sSsCNpiVNU/cUEyOkmDKXj9MLkBrw5QYiTb1+soQ+GKA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxwbcDf3iFQOusMN19Srcc58p4HlStA6O3GXfi+eTpzVwuwzwKK
-	bUmuFY7Yd5+ONN1NNuGBe3klumRMAl2aUCHn/KFlkaATABijkFkd
-X-Gm-Gg: ASbGncsnkpTtktVcAb+/RzSDBYZ+CHPPthEMcFDf/llt7/m60FKRWPpDhD6jsXi+xsh
-	aEHVYc9141P5NzAVCseg6jajH57bdoyyoXD8hUKh19s4JdrUN6t4UytafprBTCUy9EERJWXi73H
-	8Mw2rqlGWlYtxUblAhn8ZH52qWAr0x7rFuHrihWI9FEFs5+XEyFBw+V2cUVibjC0RcDrLyRI2cx
-	DGIVC5jzDs6eGiOnLm6rhyPgNpzG868RSNASOMnX9uiNHuMzaXX2OACxDANsyzh3NA77+h4E/RA
-	GghOeseq2Gdf2QKS33XBWmDuJ5nli92A
-X-Google-Smtp-Source: AGHT+IGGYypNjNwNWDfoiOb8NXySt3jh2IW0/2tkps6gTHppURLbDKRPahotbtiFs00rCt6CJbO61w==
-X-Received: by 2002:a17:903:2f91:b0:21f:90ae:bf83 with SMTP id d9443c01a7336-21f90aec1bcmr150010335ad.44.1739257124773;
-        Mon, 10 Feb 2025 22:58:44 -0800 (PST)
-Received: from vaxr-BM6660-BM6360 ([2001:288:7001:2703:fb40:c00e:5259:b412])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fa09b5d0b6sm10215220a91.46.2025.02.10.22.58.41
+        d=1e100.net; s=20230601; t=1739269392; x=1739874192;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yNUSfX7eO+cmTPTl6G2d4kERHxGcLvqZO8iyv33AFPY=;
+        b=MsAk0PDGSajMDSDFFbfDB0FCgcb+g2hARc7XY8CdiLOQO66aSuwez6BeJuEzJiWYAF
+         227xuSeuNPBCwAwtOylZtjhOrOzcUgwklqWo+zkiwWP5zxBQ2CkFq3tMWJEzdYcPYqko
+         ymKf+NGH+5I0yjBo7mTJzvj+9QTwAw3s8Mt+yqk9uWBun3RYJbkJpz0HrKQka0pR7MM+
+         mfYH7eMlCW6wZP/9mcKSBov/aCGNVfrT4aemXdK3mBz+hLlXzSzwnlxQHuOXOLmj/VoB
+         oW+nAhtIE3a1Ydi+7O6CeL4sDU8prbn2LMVo0drYpRPGiV9VqRcEKu/08FJLqR4SJNC3
+         StVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWXHdHKV123IqsHxV6CMXMBjPeDTiJKCaoIZnYvYxF5/Kxvp+ZzXpx+KYWUFAmuZGjloXJqzP7RWuv8OL8smE6fAvVGbQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yx7fAcK8kxKxSdVefeThpXb6qoWxJcLKOVPaO+rcS3XCsTB4ZG5
+	zIazbjXXqbESoTFRfxc1DkTgybupXMGdQwZSTqGEUQWp4pnNwcZw
+X-Gm-Gg: ASbGnctG48LxIK3JOJcg/2dSTaVkSErt6Bmg3xM75mbKTSRWGUyWA7A0DN3VMxXYHNc
+	RKM3h7M0ol4Z1aQgACbWMCUqZZLbnTNfK8lrO1jc4HGWj19cNINOiGl2YCTq7FGxYJKPfU2wlv5
+	1CGMgYB8WSL0ol94qLFnG6dtb7FmPHu3wcAucdAIlICAR+bvL+cMkDRytf0F3wzv5LYry8z5JQa
+	jk1sIcJgJpKX6tdrO4ASX33YldpwasK2nBthO5iPeK+pexltyKOQNyDYS6r0VexwKgtcElaSeJ3
+	ZpBqvaV6irLMGsHuvCY=
+X-Google-Smtp-Source: AGHT+IGTWse2dOartYTkk3C2PWo6EDO3+yLZq21aVlgmvJwCW1e/Vx5WpWj7JQ1Tn8qEgiNu/YLRng==
+X-Received: by 2002:a17:90b:3dc3:b0:2ee:edae:75e with SMTP id 98e67ed59e1d1-2fa24067d7amr25467131a91.13.1739269392236;
+        Tue, 11 Feb 2025 02:23:12 -0800 (PST)
+Received: from pop-os.. ([2401:4900:4e6e:cd6d:2732:b5a2:e46f:2ac5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fa44aa6657sm7300372a91.38.2025.02.11.02.23.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 22:58:44 -0800 (PST)
-Date: Tue, 11 Feb 2025 14:58:39 +0800
-From: I Hsin Cheng <richard120310@gmail.com>
-To: Brian Ochoa <brianeochoa@gmail.com>
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, corbet@lwn.net,
-	x86@kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] docs: arch/x86/sva: Fix two grammar errors under
- Background and FAQ
-Message-ID: <Z6r1H5V-m_xuEu0q@vaxr-BM6660-BM6360>
-References: <20250211025054.4062-1-brianeochoa@gmail.com>
+        Tue, 11 Feb 2025 02:23:11 -0800 (PST)
+From: Aditya Dutt <duttaditya18@gmail.com>
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Aditya Dutt <duttaditya18@gmail.com>
+Subject: [PATCH] Documentation/driver-api: fixed spelling mistakes
+Date: Tue, 11 Feb 2025 15:53:03 +0530
+Message-Id: <20250211102303.197763-1-duttaditya18@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250211025054.4062-1-brianeochoa@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 10, 2025 at 09:50:54PM -0500, Brian Ochoa wrote:
-> - Insert missing "to" to a sentence under Background
-> - Insert missing "an" to a sentence under FAQ
-> 
-> Signed-off-by: Brian Ochoa <brianeochoa@gmail.com>
-> ---
->  Documentation/arch/x86/sva.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/arch/x86/sva.rst b/Documentation/arch/x86/sva.rst
-> index 33cb05005982..6a759984d471 100644
-> --- a/Documentation/arch/x86/sva.rst
-> +++ b/Documentation/arch/x86/sva.rst
-> @@ -25,7 +25,7 @@ to cache translations for virtual addresses. The IOMMU driver uses the
->  mmu_notifier() support to keep the device TLB cache and the CPU cache in
->  sync. When an ATS lookup fails for a virtual address, the device should
->  use the PRI in order to request the virtual address to be paged into the
-> -CPU page tables. The device must use ATS again in order the fetch the
-> +CPU page tables. The device must use ATS again in order to fetch the
->  translation before use.
->  
->  Shared Hardware Workqueues
-> @@ -216,7 +216,7 @@ submitting work and processing completions.
->  
->  Single Root I/O Virtualization (SR-IOV) focuses on providing independent
->  hardware interfaces for virtualizing hardware. Hence, it's required to be
-> -almost fully functional interface to software supporting the traditional
-> +an almost fully functional interface to software supporting the traditional
->  BARs, space for interrupts via MSI-X, its own register layout.
->  Virtual Functions (VFs) are assisted by the Physical Function (PF)
->  driver.
-> -- 
-> 2.34.1
-> 
->
+Fixed some spelling mistakes identified by misspell tool.
+The example code in Documentation/driver-api/nvdimm/nvdimm.rst contained a
+misspelled identifier (paramaters instead of parameters).
+This typo would have caused a compilation error if copied as-is.
 
-Hello Brian,
+Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
+---
 
-It looks good to me, though the commit message is kinda redundant and
-confusing.
+This is my first patch. I was sure to make patch against the docs-next
+tree.
 
-> - Insert missing "to" to a sentence under Background
-> - Insert missing "an" to a sentence under FAQ
+ Documentation/driver-api/media/drivers/zoran.rst            | 2 +-
+ Documentation/driver-api/media/maintainer-entry-profile.rst | 2 +-
+ Documentation/driver-api/nvdimm/nvdimm.rst                  | 6 +++---
+ Documentation/driver-api/pm/devices.rst                     | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-"a sentence" doesn't really help us understand which sentence you are
-refering to, use "insert" here is kind of weird to me, too. Maybe
-something like the following will be more direct
+diff --git a/Documentation/driver-api/media/drivers/zoran.rst b/Documentation/driver-api/media/drivers/zoran.rst
+index b205e10c3154..3e05b7f0442a 100644
+--- a/Documentation/driver-api/media/drivers/zoran.rst
++++ b/Documentation/driver-api/media/drivers/zoran.rst
+@@ -222,7 +222,7 @@ The CCIR - I uses the PAL colorsystem, and is used in Great Britain, Hong Kong,
+ Ireland, Nigeria, South Africa.
+ 
+ The CCIR - N uses the PAL colorsystem and PAL frame size but the NTSC framerate,
+-and is used in Argentinia, Uruguay, an a few others
++and is used in Argentina, Uruguay, an a few others
+ 
+ We do not talk about how the audio is broadcast !
+ 
+diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+index ffc712a5f632..ad96a89ee916 100644
+--- a/Documentation/driver-api/media/maintainer-entry-profile.rst
++++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+@@ -116,7 +116,7 @@ CEC drivers		``cec-compliance``
+ .. [3] The ``v4l2-compliance`` also covers the media controller usage inside
+        V4L2 drivers.
+ 
+-Other compilance tools are under development to check other parts of the
++Other compliance tools are under development to check other parts of the
+ subsystem.
+ 
+ Those tests need to pass before the patches go upstream.
+diff --git a/Documentation/driver-api/nvdimm/nvdimm.rst b/Documentation/driver-api/nvdimm/nvdimm.rst
+index ca16b5acbf30..c205efa4d45b 100644
+--- a/Documentation/driver-api/nvdimm/nvdimm.rst
++++ b/Documentation/driver-api/nvdimm/nvdimm.rst
+@@ -535,12 +535,12 @@ internally with a static identifier::
+           char devname[50];
+ 
+           snprintf(devname, sizeof(devname), "namespace%d.%d",
+-                          ndctl_region_get_id(region), paramaters->id);
++                          ndctl_region_get_id(region), parameters->id);
+ 
+           ndctl_namespace_set_alt_name(ndns, devname);
+           /* 'uuid' must be set prior to setting size! */
+-          ndctl_namespace_set_uuid(ndns, paramaters->uuid);
+-          ndctl_namespace_set_size(ndns, paramaters->size);
++          ndctl_namespace_set_uuid(ndns, parameters->uuid);
++          ndctl_namespace_set_size(ndns, parameters->size);
+           /* unlike pmem namespaces, blk namespaces have a sector size */
+           if (parameters->lbasize)
+                   ndctl_namespace_set_sector_size(ndns, parameters->lbasize);
+diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
+index d448cb57df86..8d86d5da4023 100644
+--- a/Documentation/driver-api/pm/devices.rst
++++ b/Documentation/driver-api/pm/devices.rst
+@@ -358,7 +358,7 @@ the phases are: ``prepare``, ``suspend``, ``suspend_late``, ``suspend_noirq``.
+ 	is probed against the device in question by passing them to the
+ 	:c:func:`dev_pm_set_driver_flags` helper function.]  If the first of
+ 	these flags is set, the PM core will not apply the direct-complete
+-	procedure described above to the given device and, consequenty, to any
++	procedure described above to the given device and, consequently, to any
+ 	of its ancestors.  The second flag, when set, informs the middle layer
+ 	code (bus types, device types, PM domains, classes) that it should take
+ 	the return value of the ``->prepare`` callback provided by the driver
+-- 
+2.34.1
 
-- Correct "in order" to "in order to"
-- Append missing quantifier
-
-What do you think?
-
-Best regards,
-I Hsin Cheng
