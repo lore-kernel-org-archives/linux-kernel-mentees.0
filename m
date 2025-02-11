@@ -1,44 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E28272908;
-	Tue, 11 Feb 2025 23:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0643226A0B4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 23:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739316326; cv=none; b=RU4lUQ8Vj2Ie/0UCJEU9tBbEC0wD33gTQzRfre/QYfDhjknXXhm80nLa1kkLxCdDcj9C9ix64ta2f10XyZhfhfDkGLs6FHbTuDL1lVzEd7d8G4wVErfEB57hc9cBInoQImGTUVF/+brTSBt3ueYSyYx8qWPtQ4SyS1Li7AFLsCE=
+	t=1739316389; cv=none; b=ooNrRk8d5kAz9B3uqjEMWgGikuh8lCUlMw/dTxf2uYI39fRlS+SSSRdUJQW32EJIwVQqDL2twaKsoEQhUsEwTY6IfcXWZG72mQpGIT0djWbusIqpSuqRaVNNdENsLNIi4eybz48hbfdh1whj0FUR9wkYqUpt+AodbOsBfg9aLFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739316326; c=relaxed/simple;
-	bh=togaeu5eaYhtKO5F7a7MEwakO3LtPg29+ybcKw1HZAc=;
+	s=arc-20240116; t=1739316389; c=relaxed/simple;
+	bh=5LnETxUqNhj/Ty+sFpEWOJ+kEEqGTxC2idodkEnM47w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VBe6N2Cl7/vTYxpSEbz4kfqgorsex1sU5GpiaPkxn9y9iAcz8in56bb+dk39RdmnmrO8F2DE3x47xxPq2lbdr8eurEL+MFF9T9nfCDzC9Gbq4EcoiBsf4YxeNMPWtB2c7AUg07hUUOHd2JVwQo+Tw1cl7k9wi8nst9A33q8zL8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ujNtVwwr; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=E8G8BcsTFGnFmvEBvgpWC1FT7xaXxSE+F3uKGsW+dhhtyEpG5PgL9fL1IcL+alrOsh9JqWkDC33qo5VSGEzHCBPzOxm91A4wP5HEkst7r9w8DUXSxKYppP8r+Dn0TgDF6Bm5E5bVwag3YrShiM0bVkJAXapwDB+tW1J5TTS+Jto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=enp6uTax; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ujNtVwwr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB830C4CEDD;
-	Tue, 11 Feb 2025 23:25:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="enp6uTax"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id ABA4260F17
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 23:26:27 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -4.401
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id GjawGC2OKcdo for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 11 Feb 2025 23:26:27 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=jarkko@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 0BB2E60EF6
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0BB2E60EF6
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=enp6uTax
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 0BB2E60EF6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 23:26:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 12D6EA40E1F;
+	Tue, 11 Feb 2025 23:24:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1C38C4CEDD;
+	Tue, 11 Feb 2025 23:26:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739316325;
-	bh=togaeu5eaYhtKO5F7a7MEwakO3LtPg29+ybcKw1HZAc=;
+	s=k20201202; t=1739316385;
+	bh=5LnETxUqNhj/Ty+sFpEWOJ+kEEqGTxC2idodkEnM47w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ujNtVwwrOvLd2zUbxO8T+ZpGhw+6qjcq0sqXTkBtXgoekNuwHuUl/Q90UOyWS/LNb
-	 DethNKoB3gFCDaazLBtXZUVl1wj/jYcEUSgUXz/CZ1p8yzmGNYo0GFNr2u39PI+FlW
-	 bmMWRhfmYbnDxD3ts3vkemwM8AI5wXeKk9joXckVkPvYa16mUlMXMXicu8t15WMkPg
-	 On7tsqfCUvCTA7yjSbtWTH5L0zt0mO0RZiFWamII5MiXVSLEniHWH+zdbYBWKKgjdJ
-	 F0KiXEPo7phRkKiDgM+BdhZJXg7GBKlfkmJRUv9ufsh505Pex7yt9JtunUvYbN897Y
-	 K76uWspxLc12w==
-Date: Wed, 12 Feb 2025 01:25:20 +0200
+	b=enp6uTaxSv49Cj3Ajh9uzcim2GHVylLLrNUuO9i6zse1OqhMK/wzoBQ23ha4iYafo
+	 9d9G0CdKZHANlLQlVvrhMlqsaypE9n17ep5j7yO08zsmIG7TJP3dlsN6dDeAntKhic
+	 kp9uGc1u7JIPld5Znf0R7TZyFgGsc0Yn/4n7ODJSZbC3fkEnCc2cGpd7zqY9XzZYgE
+	 pyR5SAwg+2CA4AMV8CQVStcTBL0d9qN8utwBnD3Jdl3wcLRCSqBFUmBy2vkgWTHyGr
+	 WzZSBuW0R5sck3bRM5zJV5HQr0+YZ5CaLKbzYus5IUO3R6c8JSL7mpdfZsOpdj+58Q
+	 Jrip2FV8qMeDA==
+Date: Wed, 12 Feb 2025 01:26:21 +0200
 From: Jarkko Sakkinen <jarkko@kernel.org>
 To: Ahmed Salem <x0rw3ll@gmail.com>
 Cc: peterhuewe@gmx.de, jgg@ziepe.ca, shuah@kernel.org,
 	skhan@linuxfoundation.org, linux-integrity@vger.kernel.org,
 	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v3] selftests: tpm2: test_smoke: use POSIX-conformant
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v4] selftests: tpm2: test_smoke: use POSIX-conformant
  expression operator
-Message-ID: <Z6vcYJjC7vEpf5Um@kernel.org>
-References: <nyskb7mbqk2dvlwhez4sua7ryz5gyi73yker6y3qhd4chyyeaw@x6nhqgtxcyvl>
- <D7PTH0ZUAH5L.VVEECLR4VEWH@kernel.org>
- <x4dtkjgxwy7vyjg7rryvqqu3lwhiqm6jmhr4ph2fexa7m2m2mv@dbefieqhx6x6>
+Message-ID: <Z6vcnSv-fjzRQ1hy@kernel.org>
+References: <37ztyakgrrtgvec344mg7mspchwjpxxtsprtjidso3pwkmm4f4@awsa5mzgqmtb>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -47,41 +68,39 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <x4dtkjgxwy7vyjg7rryvqqu3lwhiqm6jmhr4ph2fexa7m2m2mv@dbefieqhx6x6>
+In-Reply-To: <37ztyakgrrtgvec344mg7mspchwjpxxtsprtjidso3pwkmm4f4@awsa5mzgqmtb>
 
-On Wed, Feb 12, 2025 at 01:05:02AM +0200, Ahmed Salem wrote:
-> On 25/02/11 08:10PM, Jarkko Sakkinen wrote:
-> > On Tue Feb 11, 2025 at 5:00 AM EET, Ahmed Salem wrote:
-> > > Use POSIX-conformant operator symbol '='.
-> > >
-> > > Signed-off-by: Ahmed Salem <x0rw3ll@gmail.com>
-> > > ---
-> > >
-> > > Apologies for my previous mistakes.
-> > >
-> > > Changes in v3:
-> > >  - Reword mistaken commit message
-> > >
-> > > Changes in v2:
-> > >  - Remove snippets pinpointing the issue 
-> > >    from commit message
-> > 
-> > OK I read what I wrote and I guess it could have been misinterpreted.
-> > 
-> > What I meant was to take the relevant part of the transcript that shows
-> > the issue (and possibly also how it works when fixed).
-> > 
-> > Sorry about that.
-> > 
-> > [1] https://lore.kernel.org/linux-integrity/D7OY3ZVGJOV5.R3SL9SBFT2DF@kernel.org/
-> > 
-> > BR, Jarkko
+On Wed, Feb 12, 2025 at 01:16:17AM +0200, Ahmed Salem wrote:
+> Use POSIX-conformant expression operator symbol '='.
 > 
-> Understood. Thank you so much for your review and continued guidance!
+> The use of the non POSIX-conformant symbol '==' would work 
+> in bash, but not in sh where the unexpected operator error 
+> would result in test_smoke.sh being skipped.
 > 
-> I will be sending the revised patch shortly with the proposed changes.
+> Instead of changing the shebang to use bash, which may not be 
+> available on all systems, use the POSIX-conformant expression 
+> symbol '=' to test for equality.
+> 
+> Without this patch:
+> ===================
+>  # make -j8 TARGETS=tpm2 kselftest
+>  # selftests: tpm2: test_smoke.sh
+>  # ./test_smoke.sh: 9: [: 2: unexpected operator
+>  ok 1 selftests: tpm2: test_smoke.sh # SKIP
+> 
+> With this patch:
+> ================
+>  # make -j8 TARGETS=tpm2 kselftest
+>  # selftests: tpm2: test_smoke.sh
+>  # Ran 9 tests in 9.236s
+>  ok 1 selftests: tpm2: test_smoke.sh
+> 
+> Signed-off-by: Ahmed Salem <x0rw3ll@gmail.com>
 
-Yeah, like narrow down the transcript that's all, and yep what I said
-was somewhat misguiding...
+Perfect, thanks a lot.
+
+Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+
+Shuah, do you want to pick this or?
 
 BR, Jarkko
