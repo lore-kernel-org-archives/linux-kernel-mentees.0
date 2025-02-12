@@ -1,119 +1,132 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D716A15383A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Feb 2025 02:13:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B626F288B1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Feb 2025 02:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739326402; cv=none; b=EuWNENY8KV6CCyb0S+Y/IGQy2G6kEx7VKiSoWKJs6+eTePHf8bCcFbNSSNPYHUG4Ljt8uDhP841tW3GxNHs8yK9Uyf4bFTD5kcWQXmtcXm/gM8Rk3qNUZL4Wt1SeR5xtoUPvP/we/mlZc6hr3GdJnScdkO3pk0D6CpnYV8tr4sA=
+	t=1739327870; cv=none; b=L9SL1qA9aE/PFOWQdebeAKaPlXXwPJ2dqUkHoQ/KlJaDupKGEj33J2HgrTv2PCk0R09dY1rcKrmGiJ0ubc6rzFGfXAWreBa2ED5EMCuDGBJV1gM1mwmVePvm7cvf2JJ2Cm3PFIUvu8VpGBTZJCMDiEHBo1hUEcN1veo2nMYxZWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739326402; c=relaxed/simple;
-	bh=+/B593SmQT5mbUFkEjMNutNlFiqH4deP9fAgQLDXXvM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NFwHM6NMYIpMlaT+yPGThfjrgcXHDslCwppSXnGNnc2UoWjmqJac/7yb9Fin6NvBmRw/mrD1RPXw03+zY6mMxcZOU/K1p4FhwfBE1gjpYTXhnK1UL4DPGCbU2jgkaVAO3yFQRCb6R4D8L92jG0/2zozPhgCImfvQNDwrMuGUfng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EuOwRicc; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1739327870; c=relaxed/simple;
+	bh=VjKgj7SfISGH2FETU55PE+elzrR4LL7qIQhzF26DCsk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Cksdfd86W5PbPTn3xCJfxwmQEWTV4uYaU6cfq9QycOTyq+sJ3C1oEqFNxl0/WO368O7jC4m4MeUfbkxEKPy+NYXKy+qHf+8WHMh592O0SvLIHFW3dZitYE9tsvA2UyqDazuHIaVYcx4e3jxO/eNDQ3EIfSaNLuFy5qK6v72bvj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ayTmz9bc; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EuOwRicc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ayTmz9bc"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6AE9B41621
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Feb 2025 02:13:20 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 3B6C160A4F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Feb 2025 02:37:49 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id tNqhPTpOW44m for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Feb 2025 02:13:19 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::635; helo=mail-pl1-x635.google.com; envelope-from=ritvikfoss@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 948504169B
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 948504169B
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=EuOwRicc
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 948504169B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Feb 2025 02:13:19 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-21fa56e1583so43621735ad.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 18:13:19 -0800 (PST)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Jx-PoTa4llZh for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 12 Feb 2025 02:37:48 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102d; helo=mail-pj1-x102d.google.com; envelope-from=sumyahoque2012@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 8FEFF6079D
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8FEFF6079D
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ayTmz9bc
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 8FEFF6079D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Feb 2025 02:37:48 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-2fa1c093d6eso7571984a91.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 11 Feb 2025 18:37:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739326399; x=1739931199; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0Pnx2/jJtG4JTadkzEhw1I4yWW/cg32nWfvMiGMEaiU=;
-        b=EuOwRicclAPIBMnofwBWtOUycPheb2JiRqXd63gngUCWPNUrJJKNtiGN0AvP7WYI+3
-         bPweqbRwtDNqIgXP3B/KFR7nawq43d4BIDSzB062y1TbRqU0xsj0Ib9zW3yVY/EGH5rS
-         kGRDO6U/Vzcch8NZPD0/ZKcwN4PhylN4Xeaj2ARkHLJGwg5qgAzJbyxvg+AmxDcUI3yO
-         roS8+FBOQM6938ofwJAEkaskFfqq78C76vniaNu80xgbcxvTC/tiwY65VMm8OLP2CUzp
-         V08OD0scVhjeqSNMiQdrfXp1Rj+233vtd5fDGaZYNFs3aXr3cfwH5l9SfHsAF8dlO1N1
-         mZAQ==
+        d=gmail.com; s=20230601; t=1739327868; x=1739932668; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:signed-off-by:mime-version:message-id
+         :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XhNn/A+L6PrmGeUpd9A2P5colcaOH+Kok8o5u8YoNew=;
+        b=ayTmz9bcA1nw9t/m35q/6pmVqEzgj3r3+1FMBPr9ebv4mmXkuXYy+HBPczFAcBxqr4
+         +KPoJi9nHXFw9ZjSh3L7lk5Cvf1VBvk4CJLlH7MfrpYb4x8LXn1kdfI1GD+OKhqxAul/
+         sGiUDK2XM7aFeOh06apaHfs+V9CCAQV87ytA2KGckmUvcIeYDmj1jlpJiG9nIzyziyAC
+         GJCQXD20h4MtvedQ5pOgsvmHEdnlRyKAHRLCkrUHKkXuLAyYqzhum8JcxMwEIgdtYwP/
+         T3TQxDS+ANVJpuUExCEstcnpAKj0Nxz/G0pqmcQ/pZ8ilzsEsUan9FjS5j5Bqipg6n/w
+         fzAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739326399; x=1739931199;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0Pnx2/jJtG4JTadkzEhw1I4yWW/cg32nWfvMiGMEaiU=;
-        b=BnLkjNHyjhNqGBJBRz5l911ZcY6o9HKCJMQ368KICgnKDR2yXMWsJc9UWjhbgqCUlZ
-         HZvzHCdBOZpkXAY3ET6y4Fxna9fgj+PgB94JTY/UTITJelTwTMoythTrH+NkDHSMxtPp
-         hNOlUP5sutbnUHs/f9LPYkyoZQ+KDUwgKX/MZJ3nGz9t4DC5xqZvjdm1/FLh6tDHkoSq
-         YKmFsOdgCgf/m7xmpoFBRm/6jXv8N09sDWLZKIQAQhzG5+do9ipQVZLODZ1dTocxHjS4
-         wmxvfUptsrRz3NyVGtJKJr2PWoJPj4WvBy491sDVfDfofpFbwMuB78ydQca0Ynswb6Q2
-         +7VA==
-X-Forwarded-Encrypted: i=1; AJvYcCWXc/pf0rVZ6GqPNWvwR9ZOSBN5DMaf02wyt7ZtBfokh+AflXl4lm5Ycmjn2BuWZZYG9XWuXyPxe+uIVU7sQRxFtJNbsg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzxFWGVulEi3J/8aHq/q2VeH4Y7V1A2X+OONa/Edq2MyXDtWVq0
-	0DlLvSH3BzP8Rk7LOGCXATOxtMUOV6AxCAiGdQSBQ5FRlch/vh1Q
-X-Gm-Gg: ASbGncvLh++ic7o7ZI5tYTcoxlXOW/ZGuyZrZCTOEzzvsjwv6H9yRT6UJNV9hpznpfv
-	M7GaMKhU5xuxMUYVTbsTtAqIjNHAp3oGw19SYSJp2m9iETXM5hlZCzQeYgr3QY5CxhcNcasgYU8
-	xxAN5yJHcVLk+q1Y+eYW4olVV8wr6qLL2TBpDnLhrLfqC9KrD/0auI00iBU+y0pPTxDzS0Cwe6g
-	xdbPACW3Gex5XbKRlUrd/HVvEcad4tvjfe1D3H5ZbAoVzxh7OZdF0PQpD1JPqcF9lzokeVRVy1T
-	h9ygY73mb/SFqEUvSM/BUrk1EVR7I7Y8eXdFsrmy3JD9a2VRHg==
-X-Google-Smtp-Source: AGHT+IGnQ3T53gmddcoGh5RFkXJnnQaNroa/ymWquGHeUzKjL+S9tt0g4lDVa+ieEBv8vYkOix4TYQ==
-X-Received: by 2002:a17:902:f601:b0:21f:4144:a06f with SMTP id d9443c01a7336-220bbad659cmr21829265ad.13.1739326398628;
-        Tue, 11 Feb 2025 18:13:18 -0800 (PST)
-Received: from ritvikos.localdomain ([49.36.192.131])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f368b4bd6sm102457325ad.229.2025.02.11.18.13.17
+        d=1e100.net; s=20230601; t=1739327868; x=1739932668;
+        h=content-transfer-encoding:signed-off-by:mime-version:message-id
+         :date:subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XhNn/A+L6PrmGeUpd9A2P5colcaOH+Kok8o5u8YoNew=;
+        b=K30KH9O9D3MKMPFxvZ7ZVPGWqmgEsgn931CR9t3nJlfwE1RcMFyJ2+VLjnhIErbBJf
+         RjNjUfnBByNLRrTWlQxWEkkktQkVeZ9hkc/EZH2PN1kdl+iJUTLcqRhHKWfUO6IJhvoe
+         DS/HtfDUufTijHuqZG/0Ig96YDYucf+qLvQAjRqSS09NyOjgp3ouoFRIHHIqG1AmADub
+         MPgqpfIE15ac67DeaC+giF+uMziKi5Wn6ELXM4+QNh2JZaiAWcSx7KTYNHiL6Rrx5n2q
+         9hJzrecTNCLqZ6nVtlGnGm8SOf6Sw1QPy1R1bsrHeFapTBvqwoOEIvIh5Vqq5sPBMxLR
+         xdeQ==
+X-Gm-Message-State: AOJu0YxvbSFspwNVaR6ck9D6OLvSZ5aJpDQl3PqnDp7BlQGvpkMpFbb6
+	LiKnTmM6Q30yRZejc9rCQFxNzsuFv74eme/GrnBJZWC15Ms+Lxxw
+X-Gm-Gg: ASbGncv5wUXABxJFLvNtsXCAP8fH78DgNERcBpswsl+nSeK9lyM96Bsgf2v69W+Y5VV
+	SCnztwMid9eBgpZ9NXkfcV9dwXtm48TcunvVi1e4M7S72atrS3WgJ7VV2M3+L3IoQb8XJT7O8v7
+	KQX/7iP6JbgJCrlyKm49qaFdGmnFm+NZGr+TtC8eGq4oKoYGCNLMNHm8I5ELFzi4AHSI/2QINEc
+	fiESR1EDfmSstTKG5NQ059Q0VrLx3cMgr4nOokmt3uqQ5y1js57kjA7IlxlQzbrpNkNGvc0kDGi
+	788828kv+x1OHIJQRPAItYY+Cjfp+tQ2jjVo6WGzFWKuSTW4VAR3ed5B6+wIj60F4Ku1Ptyjf2R
+	G+A==
+X-Google-Smtp-Source: AGHT+IGU5n2pQx9TR/545sL75vRUhcUlXgIUvCsUIlDwh4l87tLN8yoQc1E8SWOYF8bmXjCDwAsHEA==
+X-Received: by 2002:a17:90b:4f8b:b0:2ee:d7d3:3008 with SMTP id 98e67ed59e1d1-2fbf5bf76d7mr2905255a91.12.1739327867416;
+        Tue, 11 Feb 2025 18:37:47 -0800 (PST)
+Received: from node0.suho-241396.threadtune-pg0.clemson.cloudlab.us ([130.127.133.108])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220bf2010b1sm2183875ad.6.2025.02.11.18.37.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 18:13:17 -0800 (PST)
-Received: by ritvikos.localdomain (Postfix, from userid 1000)
-	id B184A1403AA; Wed, 12 Feb 2025 02:13:11 +0000 (UTC)
-From: ritvikfoss@gmail.com
-To: ioana.ciornei@nxp.com
-Cc: netdev@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH net-next] Documentation: dpaa2 ethernet switch driver: Fix spelling
-Date: Wed, 12 Feb 2025 02:13:11 +0000
-Message-ID: <20250212021311.13257-1-ritvikfoss@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Tue, 11 Feb 2025 18:37:46 -0800 (PST)
+From: Sumya Hoque <sumyahoque2012@gmail.com>
+To: skhan@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	Sumya Hoque <sumyahoque2012@gmail.com>
+Subject: [PATCH] hello module is created
+Date: Wed, 12 Feb 2025 02:37:31 +0000
+Message-Id: <20250212023731.7777-1-sumyahoque2012@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Signed-off-by: Sumya Hoque <sumyahoque2012@gmail.com>
 Content-Transfer-Encoding: 8bit
 
-From: Ritvik Gupta <ritvikfoss@gmail.com>
-
-Corrected spelling mistake
-
-Signed-off-by: Ritvik Gupta <ritvikfoss@gmail.com>
----
- .../device_drivers/ethernet/freescale/dpaa2/switch-driver.rst   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/switch-driver.rst b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/switch-driver.rst
-index 8bf411b857d4..5f3885e56f58 100644
---- a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/switch-driver.rst
-+++ b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/switch-driver.rst
-@@ -70,7 +70,7 @@ the DPSW object that it will probe:
- Besides the configuration of the actual DPSW object, the dpaa2-switch driver
- will need the following DPAA2 objects:
- 
-- * 1 DPMCP - A Management Command Portal object is needed for any interraction
-+ * 1 DPMCP - A Management Command Portal object is needed for any interaction
-    with the MC firmware.
- 
-  * 1 DPBP - A Buffer Pool is used for seeding buffers intended for the Rx path
+diff --git a/linux_custom_modules/Makefile b/linux_custom_modules/Makefile
+new file mode 100644
+index 000000000000..adc226c210d6
+--- /dev/null
++++ b/linux_custom_modules/Makefile
+@@ -0,0 +1,5 @@
++obj-m += hello.o
++all:
++	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
++clean:
++	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+diff --git a/linux_custom_modules/hello.c b/linux_custom_modules/hello.c
+new file mode 100644
+index 000000000000..a05727d605e3
+--- /dev/null
++++ b/linux_custom_modules/hello.c
+@@ -0,0 +1,20 @@
++#include <linux/module.h>
++#include <linux/printk.h>
++int hello(void)
++{
++        printk(KERN_INFO "Loading module... Hello World!\n");
++
++        return 0;
++}
++
++void goodbye(void)
++{
++        printk(KERN_INFO "Removing module... Goodbye World!\n");
++}
++
++module_init(hello);
++module_exit(goodbye);
++MODULE_DESCRIPTION("A basic Hello World module");
++MODULE_AUTHOR("sumya");
++MODULE_LICENSE("GPL");
++
 -- 
-2.43.0
+2.34.1
 
