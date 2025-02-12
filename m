@@ -1,70 +1,88 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7900B25D558
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Feb 2025 18:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53217201035
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Feb 2025 21:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739386467; cv=none; b=JZ5TfQSU1BYk/0xPCV7VPL0s+1zacNcXrdwmrDlrLftJxpJKqSIT+kmrRoOlngPuk+BP+dFF5fc6SniLqSb1hQos+4oyzlp/K5Lr3Hj+OK89zJ6bR+No5Qmlr3eWLrOnznD+N69S79PgNRA/RPxXjqY0Qnf4qNnOAsU649Xo0jo=
+	t=1739396107; cv=none; b=NIq1y9vXH/bBOmE1Nq0dfr1EE/Jsz+fsD1iXe90QYqY3GW5SyDPfsGBNjzBdUQv7NN5f9j1nrAqrQG/xLV+5sqZxbPOqQdVLvcwGmh9N3lIQ04cJbddk6xxzXd7mPugqpw2xL+J89fObZrsPoNXll4d/xuE7hEJ/CexQrwWUzOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739386467; c=relaxed/simple;
-	bh=KUxFX+4f0Aizw7Mg85WPdNi8c0DEahMb6LLBmtuIvak=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=peiiWJHw47c5exislAg4k6QMgH4mGlKU47P5EVGUlF8EF3/gUR5VPG7vARF3Uer878BU6jcnJIsLSOmUi3IjJV3CHTxpw8SBUYttYWQ5q3EfrfS46QOauNURkW59a3m7FAcAW2irxx0IrVV/BnWUfTl1eEtWTPQc0c1ogSsImCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ACyNoiP0; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739396107; c=relaxed/simple;
+	bh=PBnZSh6PCZ350j/taof5IXtvvd/aFcfq4xH8+XQUKlA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Rp0LndRcbtIFnq8HDPY1u18abbcF19pBCG13Oa3VgAA3IuA3E376By3SMrRwhVesELk3bvXhdjJcRbxgnIR9DViE2Wh3tpqlT1gU41bwruHl90unrRjqL318YaxrNNhn/migP/fHzvm+bWAPYqpJdyNhXZgoEGcaeZl6wj7fXB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BDoypB1M; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ACyNoiP0"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-220c2a87378so14906375ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Feb 2025 10:54:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BDoypB1M"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id D029B804AD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Feb 2025 21:35:05 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id qQ842srJwq_C for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 12 Feb 2025 21:35:05 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::f35; helo=mail-qv1-xf35.google.com; envelope-from=sumyahoque2012@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 1382E80E31
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1382E80E31
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=BDoypB1M
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 1382E80E31
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Feb 2025 21:35:04 +0000 (UTC)
+Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-6e1b11859a7so1768116d6.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Feb 2025 13:35:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739386465; x=1739991265; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739396103; x=1740000903; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K89iMvYVIaxnJ+fqwfSq5htV0qyp5rhqJml9Bv4LRmc=;
-        b=ACyNoiP07+GxSox/x7SVFjxnY21DpF0mHGVS/ZpK0ElNYe++JEYsMiMpRpo+/1ehLH
-         a5JheIDlgrS4u/JYCc1parnmqZfU+g23qiBDo03LYcvVsjYbwhkE0bvamfXxr6cSBPgb
-         UsI9Rr2Zs/6zs9Ur4n6lH/eq2iLhXUzKAYMmlg9MJ/dMyrhE27fTYc1qnXM5Xkip065w
-         LYpceEiskrKha9+YS1m/u7n1MwxA8nQegRKP8pHNfZrTfyRLF9yDKq549g19KweZ5etw
-         HFsM7yNxrG1oATLoHilWHxjRU24k72jqPvX3XrrQQ+zhx1oQmsHehE0Yr6+QEL/ypf2g
-         J1zA==
+        bh=D+eRJBDBJgxMK33j+t8sy/OlD2b7/6fbgIKbknlyZ5o=;
+        b=BDoypB1M4UGSb210LjAMt2oa/unPJm0HRPOhWZtNoQTCEl6kVwDyHZMe38EQdUF9x5
+         HxBOga/Iq8eJyefq/JwzWZ/uyFKZ0EYVkS2DMv/+NrIUdHaN4YDZw5X6MS8Wc0iTSyh1
+         PBLDSWvt6M3hUDPGamNpRgqyIbW0en+aJx74m6XZnXAi66Mri9ygqhp8b8duQxHU66oU
+         X7eECyfl9D9CVfmZ5LkWwd5nQGx0j+6Isfa3ZPNpQJDNwVLxFCQ8bnvYGfbBHpzIdg2X
+         6OdtT19rhqi0FjLpNkC12jY2P1cQ9ValM59B/ZtmgiUSYXURfxRjPP3m6fmt6ev2p0ru
+         bavw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739386465; x=1739991265;
+        d=1e100.net; s=20230601; t=1739396103; x=1740000903;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=K89iMvYVIaxnJ+fqwfSq5htV0qyp5rhqJml9Bv4LRmc=;
-        b=C5ncjMzfQUqpfUTXwhUIZXvq2bNx2dm8rECm8+amSGiaB5Au6wxtNsV4kUpAgYYEHV
-         15w9tKwrSVVp+xJ/c3rnmvtQIfdzEEzAE29aiIgkcfuoasO1SPRtUNUPpIK3T1z82rNW
-         zYammDk9+IoPc80C/Xn9P/8hoDVoYV2ktY2fyRfV5hv8iY5SQFBV24awqCluTiV/UMy7
-         m6Q4TQExpnF3GVCtuIJGy59kUhdvXecftm5ElOY4YDKc85lPpWE0Hzt59ZOOGT8lLb4M
-         EUe3LwHXLLWeM5pmz/Kwy2sFme8Yojzpo9Cp0NDMJxfhMF9rlG0+T+jCZtJU/4wy/yvd
-         oNVw==
-X-Forwarded-Encrypted: i=1; AJvYcCXNxMZECtz8NAjUfxhkLqkjc1eD+g/vi4WonHs701ziXc4MD00yaxzfiBLWHushBIbuCQ4oUEe/TTbTw/dh1DVZwWQgWg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YySkHiub37McJInfXaPoYz0Ch4QWIU4NG2kmYgFebTEvzHl85Vv
-	kT9nDU+5Aya9fiPsd3e73DEkd+wSCd5iI4RRQjK91+7etgInUxHR
-X-Gm-Gg: ASbGncvTfNB4ZsM7zhzBMxlSD3U/ddaMwt89f1cdE1wIANeXVSzibrfa9arLAZt8SCE
-	AZMsVhVj8NeiagZjCvHaZiclO3jZafev/K/OlO90JWVARMnDcrosaWyZh53lE/KpeLqOGJGXnvq
-	X3t8aNmeE2S4fCXEYNbr2JIUCGy1tDqqAT2sKqKGRm+DGhtb6w3qCM5kTO9V8HLj+78eusoSlCL
-	jIzVQBG3Ti2q3ZkMmg/icdI1rXJ2vdrME7mnLE9h70NTtyYgFP0yWU0BO2gsCq2NDfsCdMe9nZX
-	q8YHz4gSqnlzpfXcUAoar/L8kZbCScpGZfOQoQ==
-X-Google-Smtp-Source: AGHT+IGXe/W9685rj5LjzlOaNi5KhdOrLQ3CCIQLai+P+93e2wTzifN3QOHnzLzv/sce7do1q75GNw==
-X-Received: by 2002:a05:6a00:10c9:b0:732:23ed:9470 with SMTP id d2e1a72fcca58-7322c418131mr6041484b3a.23.1739386464461;
-        Wed, 12 Feb 2025 10:54:24 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:5c08:585d:6eb6:f5fb:b572:c7c7])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73086e6636csm6757499b3a.135.2025.02.12.10.54.21
+        bh=D+eRJBDBJgxMK33j+t8sy/OlD2b7/6fbgIKbknlyZ5o=;
+        b=ipKODRcRDIEuROS3Zc64gqzGrV7/wZIrMheqmtCJsy4mkYpk+xzy39nVh5vdtFHAAh
+         nHrbz1YlAOwinr4zvPAgBEPcBQwW6iL+vOHqb65txLycpn/8Kkm3tOSf6xJfrOrHQYa+
+         AZ4ACRclOfjT4MjDlKByKk1AxizTlQAp5BwkO2b4Ujv9YT5o7JehpPkVBAgmzta/0SHh
+         IRZqduZ0ciU1Bc+qcZvXcfvq4DB1rOl/ENrn0g1iRO4zD/VfWcjxcyEEf4ICIij5JKFw
+         Qq6QNcHymOyp8tUX0JWoYkuCSk8BVFyeYT2GvpzRVVS6aq4g/ptG/WSXjbjooSTf2+Rj
+         +sTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWhNVSjfGguKc2kCcpe7cVbnh5ll5ey3rDHMT8YM62EwM0CLRWJ+33TwJ0z5p0ny3Uq4v36zOlNVnAPuw9UN/j25NLXmw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyUuIE5St1/JWFWt8g/KBqHvXhk/2ruLe2q9V/qRiFrq4FJ0Qt7
+	ldZ+G/vfNRxQAMN25Tk5Kv6Z8Sq6GTNDiJcyshNyE24l3IZOgGAO
+X-Gm-Gg: ASbGncspVgiTP52jwWIKrgcYO2eWr9c1swj6ZwaAN5UBhL03m8rIzlMfs8DEbZCRPNg
+	ofLNngfKuxCI9Kjfxg1dJsj0oXDLeF8Gr3S0GnB/yvqcMCdHBTvBgT3XIeNbImu/KJSQ+7c00Aq
+	zzZWPC2GHZNUBGtY5xAn+UOkxhWrOOLRvhydWqNwWevBNzetkTMpdJSV9Ex3MRWt/WUhF5cRxDG
+	3s17DzYJ5revoWfZNT+QspL4Y2KThexkKzdYE8chhcD4BJ0d9gtnw04ki+k/X/SX2zBkQvEGdUm
+	eJV9leDjAMf3ZDl+lAkMNk63D4eWKiOPmEgg0YmRk801Rv7QjBgkbbd/WO/xi0PlTlYfLz9Iemw
+	3Eg==
+X-Google-Smtp-Source: AGHT+IHxeQ2ATxhbo01qm6t4agUVaVKGbsfvvCZSkJjoiFcbkpfgkBZdH0I0nLo51kyPk50CPNyTIg==
+X-Received: by 2002:a05:6214:212c:b0:6d8:99cf:d2eb with SMTP id 6a1803df08f44-6e46ed8a41cmr83004966d6.21.1739396103432;
+        Wed, 12 Feb 2025 13:35:03 -0800 (PST)
+Received: from node0.suho-241396.threadtune-pg0.clemson.cloudlab.us ([130.127.133.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e43ba387afsm82937496d6.47.2025.02.12.13.35.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 10:54:24 -0800 (PST)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: netdev@vger.kernel.org
-Cc: horms@kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH net-next] selftests: net: fix grammar in reuseaddr_ports_exhausted.c log message
-Date: Thu, 13 Feb 2025 00:24:12 +0530
-Message-ID: <20250212185412.3922-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.47.1
+        Wed, 12 Feb 2025 13:35:03 -0800 (PST)
+From: Sumya Hoque <sumyahoque2012@gmail.com>
+To: skhan@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linuxfoundation,
+	Sumya Hoque <sumyahoque2012@gmail.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] Added Panic to Hello Module
+Date: Wed, 12 Feb 2025 21:34:46 +0000
+Message-Id: <20250212213446.5039-1-sumyahoque2012@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -73,28 +91,31 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch fixes a grammatical error in a test log message in
-reuseaddr_ports_exhausted.c for better clarity as a part of lfx
-application tasks
+[  333.971507] ---[ end Kernel panic - not syncing: 6Nooooooo!!!!! the module is Panincking ]--- 
 
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Signed-off-by: Sumya Hoque <sumyahoque2012@gmail.com>
 ---
- tools/testing/selftests/net/reuseaddr_ports_exhausted.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux_custom_modules/hello.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tools/testing/selftests/net/reuseaddr_ports_exhausted.c b/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
-index 066efd30e294..7b9bf8a7bbe1 100644
---- a/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
-+++ b/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
-@@ -112,7 +112,7 @@ TEST(reuseaddr_ports_exhausted_reusable_same_euid)
- 		ASSERT_NE(-1, fd[0]) TH_LOG("failed to bind.");
+diff --git a/linux_custom_modules/hello.c b/linux_custom_modules/hello.c
+index b60c7b5f6ee9..5a5b7a3dbd54 100644
+--- a/linux_custom_modules/hello.c
++++ b/linux_custom_modules/hello.c
+@@ -1,11 +1,13 @@
+ #include <linux/module.h>
+ #include <linux/printk.h>
+ #include <linux/kernel.h>
++#include <linux/panic.h>
+ char *my_name = "World";
+ module_param(my_name, charp, 0000);
+ int hello(void)
+ {
+ 	printk(KERN_INFO "Loading module... Hello %s\n", my_name);
++	panic(KERN_INFO "Nooooooo!!!!! the module is Panincking\n");
+ 	return 0;
+ }
  
- 		if (opts->reuseport[0] && opts->reuseport[1]) {
--			EXPECT_EQ(-1, fd[1]) TH_LOG("should fail to bind because both sockets succeed to be listened.");
-+			EXPECT_EQ(-1, fd[1]) TH_LOG("should fail to bind because both sockets successfully listened.");
- 		} else {
- 			EXPECT_NE(-1, fd[1]) TH_LOG("should succeed to bind to connect to different destinations.");
- 		}
 -- 
-2.47.1
+2.34.1
 
