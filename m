@@ -1,58 +1,70 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A280146588
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Feb 2025 15:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398E226B0B4
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Feb 2025 15:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739460010; cv=none; b=qLA3m/pwl8BqlXFA58vcz7/pamLYvxChzhT2OWTMMPWrYjIkauVO309sDv+QAzzwb5Tnz+vn1mIg3EglFq2tpFsb6nhIlXYXRSGAQXOEB5f383Nfj4E9PINNYPbTg7IUq4MJNzvIvALnQ21+WG5/VqzaGai0ptx2X5Q7dVorevw=
+	t=1739460388; cv=none; b=OLbgcweQxv8jOxwUpEhojQgDKakQZvPuKJnkyTtyY7hAIibcC8OT6CSHwAyw05HBPk4RazuXR/eprWOAyV1igOJ97SXqD2j0jjO115qGX/mI6RSxvW9fADkyMKcYUFjFB4OSNhF1oxnmFGuqdb39MnS5R+qUBIwjF6GzizLVgZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739460010; c=relaxed/simple;
-	bh=3g1MOaAvKve880aLvbMyDxo2vIWYuSsRN9efKJg2+SI=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=F3dooz/7GSEUeSRazR5F6mzgh/OoFjvTkpzJI+f/2MalEROrosLDEiUeJHY1RsCkpjXSCTk/np/2RKNlKO/Wpi398SN2SxZoRKF3/eghzsbKm7C/Evt17FcsEzv29lj2dzeVYXiWAUWlaMVzSmHbSO17SANgu+kJY3Hum4tiKKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bq/uwLjT; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1739460388; c=relaxed/simple;
+	bh=KUxFX+4f0Aizw7Mg85WPdNi8c0DEahMb6LLBmtuIvak=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dDI7rIcHew36TgsZ87eygyUZ2cYc4DIM8/H6yE0+LKGpaYiS+FgOb8tSZPJgKK10Z/YoDpIBHvHcjt6KQTbK9kqVdsyy6QkvZ4YBgfrMLuAYqMLEaGGQQzOdw2eIJS3SugApKU7tgOhi2Zh3IogIkroP22P15nUPymVEDR3nhRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Co7Ioolb; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bq/uwLjT"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9076861B31
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Feb 2025 15:20:08 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -4.401
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id xiR7RUxBUcCE for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Feb 2025 15:20:07 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=patchwork-bot+netdevbpf@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 3D94F61B2C
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3D94F61B2C
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Bq/uwLjT
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3D94F61B2C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Feb 2025 15:20:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 8C52E5C5038;
-	Thu, 13 Feb 2025 15:19:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF157C4CED1;
-	Thu, 13 Feb 2025 15:20:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739460005;
-	bh=3g1MOaAvKve880aLvbMyDxo2vIWYuSsRN9efKJg2+SI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Bq/uwLjTi+gRgwcdR8q/LzfpKCZZgNTNa9lCufa0LdbNvjtCJMk/DHkZfxpz7d62G
-	 xbM2ubTbuH3YzqxJHGUqGPq7c8X1PeAHIKlryceO8hs9l4oQTJIq+EZzxcyyRkDwcY
-	 nDQ02rh73v7hqd+QSZpl+gkBv9UVxD9QV7X/b6f2mGTEgfo3R1TZSOF7eKMHc8zGEO
-	 QZFvC3woY5KyezWWOzKHmcios2nJvwcAfSgASyDoLg337kYxH6PqPCX/QiPHxPa281
-	 dKif8ZrKiT/bKuMFpgzjtGPYZsQvqtbM2M1LyLoQrfaMszEEVPdgo7yynm/og9X9bV
-	 E6B9K8v/AlILA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 34719380CEEF;
-	Thu, 13 Feb 2025 15:20:36 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Co7Ioolb"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2fc0bd358ccso2151427a91.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Feb 2025 07:26:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739460386; x=1740065186; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K89iMvYVIaxnJ+fqwfSq5htV0qyp5rhqJml9Bv4LRmc=;
+        b=Co7IoolbxQhEZs5TchrNwk5/1FXNCiCmiHK4sW9Suw5IPZvnMjOYZMFZe/XAR6n9ZX
+         3RPmSmrVmCBctsA6ZZNDx/1UoP5J1JwZhvflLlso8HVbgbesAsrDGyOkv0g8rJt7Q+h8
+         oCZMa2JcEc/SVjJuSdzjtFFPHutJyUiAy+Nlvx6WkylUsR/rB5WNS/6RgeMsetE1lokK
+         mW/PMxTZ+WIYYlYjFUBDBfdD/mrWCn0R84x1WzviKMb2vnWfxZH1oYxMDEz7vdPoXQF+
+         2oVycvlD5gbGp7P7ZzhCRqr9QR6iBbFH9ryqhxOe8A3Owzs4PWEUny8lM1u0fygCf0gf
+         jiNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739460386; x=1740065186;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K89iMvYVIaxnJ+fqwfSq5htV0qyp5rhqJml9Bv4LRmc=;
+        b=GsWOFkGrFpzz90bVtZnqBaQVtDDh9nn3D3rJOTEDvJIVhtYi7rsRBkjvdnroXg/ygP
+         Q6bQrfTKTSdLBMpXKKNWdrluZgZ9JOMRRVkU0nb7y45dYE/Vq40TyZ2rv0CbrDiItpK5
+         POhKcIHLePk9xk1m71TtqTtSGYclJygxjFIYQxUle458gBK8RzGUfbF9hI+wD3QAyhF+
+         2lIQlqJitK3hoeFhqqDKdbdG11Fq7e3rxpSIlJgX4HsZd2k6kh71MtSX6IryBSQWBgJq
+         LHt7QOqPGbj24Ia7iW/mT2T3B99DYc2gsVITtVFJA0gNEFgyakPX9cf2oYKlEkoxCEE1
+         UTuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWNCVjWI0+o4uKyvzOvtYxLQkjh/tdfAnS/FpFkp7IazR9hCeLv7jek3Bwe/8XtDS+a/sacXO6UdGV3gJ1bk112eFfweQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzN0mXjqdVspgNZB7a4BQoOD/5C8O5TAc4OdjVlb390GuA15lZU
+	h3dOqEsCDC5mpNOJMP+GhoTiW8+2NYFrLh2innFxbOkhtCZQkVw9
+X-Gm-Gg: ASbGncskFusUFhviFUphLO+4jt3acteQ7IYnHaH5RLlLumjEubMg0/2pbomkkrnHVlB
+	G+caVs8BBi54jtHncmDBKC5QmvAxOyRReKjd2bG2rneKVpHinISxG2t4rCtI8z7nQpFde+xWT+N
+	j6kDDBq4GXNP9zSnJLq4mjehjq2m2EHrvfp3x4Cc3RgrXbER3eHYfjuxez2QeYbdEQTtVyfSdNA
+	c1F3jrU/aTuSx1P5xUeooSXXr7HkHZBebNksee8sMmY1SlEuGqq4//jeo2E+HREc0P6Vd3zCLOE
+	EIIozwlxPz+p9EUx3XJASO4cd7GXVlWrPGldJg==
+X-Google-Smtp-Source: AGHT+IFipaKcWyFZaSEDZiGw02DfcykMmnnerthm7WE8jzcwMvin1u67jpRAWSD47lXTNrhIZQXsRQ==
+X-Received: by 2002:a05:6a00:399c:b0:724:59e0:5d22 with SMTP id d2e1a72fcca58-7323c1f5ab4mr4699239b3a.20.1739460386123;
+        Thu, 13 Feb 2025 07:26:26 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:5c08:585d:6eb6:f5fb:b572:c7c7])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-732425806f3sm1403499b3a.82.2025.02.13.07.26.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 07:26:25 -0800 (PST)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: netdev@vger.kernel.org
+Cc: horms@kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH net-next] selftests: net: fix grammar in reuseaddr_ports_exhausted.c log message
+Date: Thu, 13 Feb 2025 20:56:11 +0530
+Message-ID: <20250213152612.4434-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -60,40 +72,29 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] Documentation: dpaa2 ethernet switch driver: Fix
- spelling
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <173946003499.1263852.7850021844003173151.git-patchwork-notify@kernel.org>
-Date: Thu, 13 Feb 2025 15:20:34 +0000
-References: <20250212021311.13257-1-ritvikfoss@gmail.com>
-In-Reply-To: <20250212021311.13257-1-ritvikfoss@gmail.com>
-To: None <ritvikfoss@gmail.com>
-Cc: ioana.ciornei@nxp.com, netdev@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org
 
-Hello:
+This patch fixes a grammatical error in a test log message in
+reuseaddr_ports_exhausted.c for better clarity as a part of lfx
+application tasks
 
-This patch was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+---
+ tools/testing/selftests/net/reuseaddr_ports_exhausted.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Wed, 12 Feb 2025 02:13:11 +0000 you wrote:
-> From: Ritvik Gupta <ritvikfoss@gmail.com>
-> 
-> Corrected spelling mistake
-> 
-> Signed-off-by: Ritvik Gupta <ritvikfoss@gmail.com>
-> ---
->  .../device_drivers/ethernet/freescale/dpaa2/switch-driver.rst   | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Here is the summary with links:
-  - [net-next] Documentation: dpaa2 ethernet switch driver: Fix spelling
-    https://git.kernel.org/netdev/net-next/c/c3a97ccaed80
-
-You are awesome, thank you!
+diff --git a/tools/testing/selftests/net/reuseaddr_ports_exhausted.c b/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
+index 066efd30e294..7b9bf8a7bbe1 100644
+--- a/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
++++ b/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
+@@ -112,7 +112,7 @@ TEST(reuseaddr_ports_exhausted_reusable_same_euid)
+ 		ASSERT_NE(-1, fd[0]) TH_LOG("failed to bind.");
+ 
+ 		if (opts->reuseport[0] && opts->reuseport[1]) {
+-			EXPECT_EQ(-1, fd[1]) TH_LOG("should fail to bind because both sockets succeed to be listened.");
++			EXPECT_EQ(-1, fd[1]) TH_LOG("should fail to bind because both sockets successfully listened.");
+ 		} else {
+ 			EXPECT_NE(-1, fd[1]) TH_LOG("should succeed to bind to connect to different destinations.");
+ 		}
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.47.1
 
