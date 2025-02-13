@@ -1,165 +1,107 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359842040B7
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Feb 2025 17:35:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC8D2661B1
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Feb 2025 21:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739468157; cv=none; b=AYjmwYzgj7TgD3h8thwGeJso0mh139iJxpzLCbrRtNhKLD2Tt43HIUMfjIeXuvkmH8LybHt30CUeabDo8vdnh0EHyZTkoRQfxHGF4Q3rERG1xfbCvRIZUZ9HCJbtiAde5jQZpxpAXZW+hN3K4zcKmW43qoabNiKwtZ6hhoThZIM=
+	t=1739482145; cv=none; b=WGcYcrB9UFsKXNjpKA5ucB9wiXu6rlmiY4ip0GaaZVEOBTTwOUnav7ha7EjKQ6/4Fp3gM3vCvdQQTBripL3VOPNUdoL9ZXPteqzN7X3eqzpN2EIbaIrH2O6bVcKLCkY4/FnFAV//z6evtpKC1JhVd9unSlSK3R33CLqQnjfEl0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739468157; c=relaxed/simple;
-	bh=YQq0NVsq8jz1OjuxiXdAWFkTr+laei83KpjusFxQA8g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j+8SsulrtxSNoO5GFrD5Caf0r9JrJRCjjqrvaYLwyPHctbUQo+G2QK21he/f5r0qZoJh1dcpLJvBw47vmMNEo7P2pARN9AmQEeDPld/tnIL+kZQei8hdgdksXmp+SVDuZhZmTPn+k7c8f/dMHHF42Sd2tO+gBfM08PtgNiv2CZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P4pg9UIj; arc=none smtp.client-ip=209.85.208.176
+	s=arc-20240116; t=1739482145; c=relaxed/simple;
+	bh=7mAvqdA3BitZDxxMOm9fCP2kqIhpALIVRe54ECHYnqw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=S8uyFCIrTZM5ZqI646FTTMAhPNynHu7lb/OM0z5u0T1SUw7huqjTJ390TtkRxdpfCZ9Pzx7WuPgcxfqM6YBIDNbiBlOP9TpmBGJSuceP2P5HkK9/BfOFU2EKlVEmm4bHPZ/W//tkVr2VWJkmZl4ZdslDjLLkFovwaN5Wg9Vhct4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aFbES7cB; arc=none smtp.client-ip=209.85.210.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P4pg9UIj"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30613802a6bso12663411fa.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Feb 2025 09:35:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aFbES7cB"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-726e9659704so393535a34.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Feb 2025 13:29:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739468152; x=1740072952; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7qAMpVDOhtGjLWY8rXJglFjJtR265JZ5195CB8+cKFo=;
-        b=P4pg9UIjVB4l1mp6ELyVmBWKGW0tVPrlGG+XeUJ2wJIQoI+5ZyR33MmAlvW25U4A/3
-         2W1KwLsg+QWJ/BeRPI8ImZPA/sDKuhGrYM9ihq0hTDsWKw/pTRXHczQvV6aIEXY34FK2
-         3HfA858sBI4+Zlqi8GySODSRi1pU9ALABYckqSGm92sTR/jnXIdbpXz1Po5bfM4unpK/
-         mpOVXFBuCjS6wm81qTNjl3QgihuaRQEO1XLJBtaO8AxOJLoZNC9uxtb/t6ax+xgC6C8f
-         ItQ0Qz7m2+JsIOcPq9lxuTr2QlGcXxcwKGXV3KMthw6s0TTexyEGqpT39CzA6HTkgA2p
-         D6aQ==
+        d=gmail.com; s=20230601; t=1739482143; x=1740086943; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y1FBXAb5srspDKrWilGOZGvuqz4tU4bdToVFq+ezNEY=;
+        b=aFbES7cBDQqLz8SX9seHZTzL1H2dWPAq/yYvtQYj4NLG225zGvkGhIog3HN1d4w5Dm
+         lHzAZdtuRJbrOJxIGp/DYp1h76fet6uaDy9DJnHGbHp78oZE81++GkTLbe+Y5GCnTFtB
+         FOkgXNUuw84HT99O4JPHKCAjy7XTy4gusWFP2g1iQOnO22EkZKyfJ1D0F++PhCNOw+EG
+         VysSVOHqR65wgh7sZDUQk2hi7ubH/xDErhTs0UVW29XzeDrw3xb5azfsha1za8ZG0Bpq
+         gLcotqnm+CYjOnoK2e0HObw8Sj2ZQIn+gy111bWpy24nPyfiNEcHIALdbPziPO3Ki9zQ
+         ra3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739468152; x=1740072952;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7qAMpVDOhtGjLWY8rXJglFjJtR265JZ5195CB8+cKFo=;
-        b=qIqX76kbM7ydsQcFWnuLfb50sAhPBRUFfibckTjBGsg7BDjPtFQ9VSVic6BngesZUz
-         TozltWsEN7Jfm/72uQeSGxtC6roqvOIGmJ70knnLgnRIVT2v/2iLbM4J3bOpxYmDt+Gy
-         Fq951+V5QWA6V2453HaBxJ/Sc7rAG74IvRbI5as0O+FQ14S7tYp/0rLLIzh/oz9ofMPa
-         sZPqlDI50mzf2ThxpDEgOr5XUulmUAahxmdgjtdjJlrv2ywJcfCkzGfa4exDyWxrxh9K
-         SBpX3fMLlhVyQHQ2Ak08zoJggQdewK48Da8Vw7xWdT258iP2fYYmUc91/21MbWU8LP4G
-         u4DA==
-X-Forwarded-Encrypted: i=1; AJvYcCWyfNcVKzPN6JaRpBsrkJY6vGSCXSlV/ddzUrWlfmyxwPuQ7uQ8Nwv6x0xe7CASDKYBR+IRPNt8PupzowYi96qrZ9apZg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyDJqLVtFCuM3Shc0APXIUboAiV+ZuI1byc92eYsgBKAC/fJrcG
-	COMHRe00hjnC/yxtEQAqv1Hnyf7J1X/NVvO0xZBwh/yupILjkPR9zkWr3h+SB7ItCTicAcxFnFp
-	Bg4jVCKmGc7p0gO+xK6UTGMQ9uGI=
-X-Gm-Gg: ASbGncvgM0Ea0+1Lxo9gW1HoR8KW/PjKxtfAIEFPVlpr+5dPmShh4qaZI1uYZqtA0Kc
-	+JMtN72dEfRe0VtiYSPdJl/IBni5o6m3PcG6yH/9QwV2DN/Iq5GpsjSqAKpvC6cxUGINqUnAw8G
-	5fdP9mQ8fdf5EtBej9g1SOv5pE4OP7Og==
-X-Google-Smtp-Source: AGHT+IGY0srE7wji4W9bLp26kLxH0QGCdWUi5EwnHnmRRB8roSRmEHIwTufI5RAZRQ0k86nA9jKtQdN81/gcY/A+yK8=
-X-Received: by 2002:a2e:a913:0:b0:308:f6cf:3611 with SMTP id
- 38308e7fff4ca-3090dd06b8cmr17279501fa.10.1739468151884; Thu, 13 Feb 2025
- 09:35:51 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739482143; x=1740086943;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y1FBXAb5srspDKrWilGOZGvuqz4tU4bdToVFq+ezNEY=;
+        b=Ufxi+6IAxiBkcy12G/C1YJvdk7bhkW3LVziyaZeCFE5ykBaurcm7mlkJ+1qS9ldftG
+         bRYERWxdXrMGT+9befB3541+g9s99OyNGAPCw1ewpzNMsLiLpwLI3cpKP0eBH/BLOGMz
+         SfFPjrkzR2272OXKXtRn7NZYfgjG7mC5EpHzX8xfPyLDMINAdEyq3bE7WLQ5HSGgr8RH
+         uaXafcZBoE0XWh0wAxFcUl36HotyYmMPoDgatXErkYEWq+IY+P3X20/PLiv4+5KA8zg1
+         t8ozQAtnFNjHN11iZ107YcuX7HEZpepEZEJkSXPSHWAwzgMoscCLo/I2YyJLiLgbD1Z/
+         Ae3A==
+X-Forwarded-Encrypted: i=1; AJvYcCUfhOysc3h6V+PPv8qixyeahfxnsd8vuQw38LZA+EvaxCXZ05ipttGLGEF9cfjkT/e/Wae5R4jQ73WIZICvadWrTjXX1w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwrOh44SNtHBLAUz7MEpX00FA9eszSLm2s7Pvmv9EuIAqEJzbmQ
+	dWvCf71xxax3tK3iqQoFcy6g4wtaII7EVq7gmYKm392TMimiUJVD
+X-Gm-Gg: ASbGncsF5Bb3AjFE7RWgQzxKL7EX5u5xi09u/RAOWLPSLsSiJwC/70eSukwNOH0gR27
+	F0pgN3/eyybHIhTfdswYlu/yFp8oS9MTx0FJ91mm/YFiLid612le6SocqlJW/efeor5LFeunG6f
+	BcULjvFxraqfJP2+U3tx5/1Azg3qzXrBuEk8ZPNFvSq3khYw/mQw+L4qGYU3fpYiOijWB9HMsLy
+	DO5PXwM8VGMcUsnLrMkYXv5jN67UMAePEGNZqOrNK1LT3a2fbPZdQwbKHOUN47EkHopNeVFcM2p
+	zk2n
+X-Google-Smtp-Source: AGHT+IGrE8kcnVtua7JCnT4TiZTDmJ+xb2mlVQaaqH8If8+LmJMG/pKRwOoEGLtU3JTxX2itlp4fKA==
+X-Received: by 2002:a05:6830:6003:b0:71f:c1df:187e with SMTP id 46e09a7af769-726fe80fc89mr3012041a34.27.1739482142993;
+        Thu, 13 Feb 2025 13:29:02 -0800 (PST)
+Received: from fedora.. ([2804:14c:64:af90::1001])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-727001dc738sm950718a34.15.2025.02.13.13.29.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 13:29:02 -0800 (PST)
+From: Marcelo Moreira <marcelomoreira1905@gmail.com>
+To: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	martineau@kernel.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: [PATCH] Adds colors to kselftest output
+Date: Thu, 13 Feb 2025 18:28:16 -0300
+Message-ID: <20250213212858.710884-1-marcelomoreira1905@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
- <Z6bKR9K16-oYMLFl@archie.me> <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
-In-Reply-To: <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Thu, 13 Feb 2025 23:05:39 +0530
-X-Gm-Features: AWEUYZn6qEdgw-FWu9wGm9trUEcco7CIRDetR6lShyMK3GR9NJoIyLrnadYOLAI
-Message-ID: <CAH4c4j+kOYMfzO5QOBg+hGe2zt4kN4f7v+mrri-2GMLzYtCPrw@mail.gmail.com>
-Subject: Re: [PATCH] vgaarbiter: documentation grammar correction
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>, 
-	Linux DRI Development <dri-devel@lists.freedesktop.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-kernel-mentees@lists.linux.dev, 
-	skhan@linuxfoundation.org, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This commit improves the readability of kselftest results by adding
+ANSI color codes to the [ OK ] and FAIL messages.
 
-Just a gentle follow-up on this patch. It has been reviewed but hasn't
-been applied yet.
+Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
+---
+ tools/testing/selftests/net/mptcp/mptcp_lib.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Regards
-Pranav Tyagi
+diff --git a/tools/testing/selftests/net/mptcp/mptcp_lib.sh b/tools/testing/selftests/net/mptcp/mptcp_lib.sh
+index 051e289d7967..7b55855ff788 100644
+--- a/tools/testing/selftests/net/mptcp/mptcp_lib.sh
++++ b/tools/testing/selftests/net/mptcp/mptcp_lib.sh
+@@ -83,7 +83,7 @@ mptcp_lib_print_err() {
+ 
+ # shellcheck disable=SC2120 # parameters are optional
+ mptcp_lib_pr_ok() {
+-	mptcp_lib_print_ok "[ OK ]${1:+ ${*}}"
++	mptcp_lib_print_ok "\033[32m[ OK ]\033[0m${1:+ ${*}}"
+ }
+ 
+ mptcp_lib_pr_skip() {
+@@ -97,7 +97,7 @@ mptcp_lib_pr_fail() {
+ 		title="IGNO"
+ 		cmt=" (flaky)"
+ 	else
+-		title="FAIL"
++		title="\033[31mFAIL\033[0m"
+ 	fi
+ 
+ 	mptcp_lib_print_err "[${title}]${cmt}${1:+ ${*}}"
+-- 
+2.48.1
 
-
-On Thu, Feb 13, 2025 at 10:54=E2=80=AFPM Pranav Tyagi <pranav.tyagi03@gmail=
-.com> wrote:
->
-> Hi,
->
-> Just a gentle follow-up on this patch. It has been reviewed by Bagas Sanj=
-aya but hasn't been applied yet.
->
-> Regards,
->
-> Pranav Tyagi
->
->
-> On Sat, Feb 8, 2025 at 8:36=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.co=
-m> wrote:
->>
->> On Fri, Feb 07, 2025 at 10:23:25PM +0530, Pranav Tyagi wrote:
->> > Corrects the following grammatical issues in the VGA Arbiter documenta=
-tion:
->> > - Fixes subject-verb agreement by changing "co-exists" to "co-exist"
->> > - Corrects pluralization by changing "server" to "servers"
->> > - Improves sentence structure for clarity
->> >
->>
->> +Cc: DRM folks.
->>
->> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
->> > ---
->> >  Documentation/gpu/vgaarbiter.rst | 6 +++---
->> >  1 file changed, 3 insertions(+), 3 deletions(-)
->> >
->> > diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaa=
-rbiter.rst
->> > index bde3c0afb059..d1e953712cc2 100644
->> > --- a/Documentation/gpu/vgaarbiter.rst
->> > +++ b/Documentation/gpu/vgaarbiter.rst
->> > @@ -11,9 +11,9 @@ Section 7, Legacy Devices.
->> >
->> >  The Resource Access Control (RAC) module inside the X server [0] exis=
-ted for
->> >  the legacy VGA arbitration task (besides other bus management tasks) =
-when more
->> > -than one legacy device co-exists on the same machine. But the problem=
- happens
->> > +than one legacy device co-exist on the same machine. But the problem =
-happens
->> >  when these devices are trying to be accessed by different userspace c=
-lients
->> > -(e.g. two server in parallel). Their address assignments conflict. Mo=
-reover,
->> > +(e.g. two servers in parallel). Their address assignments conflict. M=
-oreover,
->> >  ideally, being a userspace application, it is not the role of the X s=
-erver to
->> >  control bus resources. Therefore an arbitration scheme outside of the=
- X server
->> >  is needed to control the sharing of these resources. This document in=
-troduces
->> > @@ -106,7 +106,7 @@ In-kernel interface
->> >  libpciaccess
->> >  ------------
->> >
->> > -To use the vga arbiter char device it was implemented an API inside t=
-he
->> > +To use the vga arbiter char device, an API was implemented inside the
->> >  libpciaccess library. One field was added to struct pci_device (each =
-device
->> >  on the system)::
->> >
->>
->> The diff looks OK.
->>
->> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
->>
->> --
->> An old man doll... just what I always wanted! - Clara
