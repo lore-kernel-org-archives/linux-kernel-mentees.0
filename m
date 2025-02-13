@@ -1,100 +1,88 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398E226B0B4
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Feb 2025 15:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FD824500F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Feb 2025 16:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739460388; cv=none; b=OLbgcweQxv8jOxwUpEhojQgDKakQZvPuKJnkyTtyY7hAIibcC8OT6CSHwAyw05HBPk4RazuXR/eprWOAyV1igOJ97SXqD2j0jjO115qGX/mI6RSxvW9fADkyMKcYUFjFB4OSNhF1oxnmFGuqdb39MnS5R+qUBIwjF6GzizLVgZA=
+	t=1739464698; cv=none; b=p2Bw7PVUgTdTxxOSjcyMoMP1kJQRlY8Wpf+656f4DqCSEe2fMBBWpDrDn4vzLwUJiTHmMsysf+4QSLwKcVuRF1X+fm390or2nAQrvwtliNdPWmoNMbQBuApB67CnwVES4qSD341lkxWQzKJNOJn1Xfxc1Lla/85cWoiOqbRB3zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739460388; c=relaxed/simple;
-	bh=KUxFX+4f0Aizw7Mg85WPdNi8c0DEahMb6LLBmtuIvak=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dDI7rIcHew36TgsZ87eygyUZ2cYc4DIM8/H6yE0+LKGpaYiS+FgOb8tSZPJgKK10Z/YoDpIBHvHcjt6KQTbK9kqVdsyy6QkvZ4YBgfrMLuAYqMLEaGGQQzOdw2eIJS3SugApKU7tgOhi2Zh3IogIkroP22P15nUPymVEDR3nhRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Co7Ioolb; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739464698; c=relaxed/simple;
+	bh=H3LbMmPfwgPxBNF5S7rf/SwEzGMzP3xhrjjQVJ2esug=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QT0rATlrl0539jwNK6vlCCnnx4V4HXTThV9eeAEDQ4U0pE5EUYwhS3pfhq1ey1s5JQTqtL3eUYiigyzoRJcOpoRkJztcOyanBoWq+sH08CxdjyOJtVEmqrifUoCh6bie0Q/5Q2Jcgcj1LCBFXJ17KNLUS29DrsGpXsCWuBfJHVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WDa+7yWO; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Co7Ioolb"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2fc0bd358ccso2151427a91.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Feb 2025 07:26:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739460386; x=1740065186; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K89iMvYVIaxnJ+fqwfSq5htV0qyp5rhqJml9Bv4LRmc=;
-        b=Co7IoolbxQhEZs5TchrNwk5/1FXNCiCmiHK4sW9Suw5IPZvnMjOYZMFZe/XAR6n9ZX
-         3RPmSmrVmCBctsA6ZZNDx/1UoP5J1JwZhvflLlso8HVbgbesAsrDGyOkv0g8rJt7Q+h8
-         oCZMa2JcEc/SVjJuSdzjtFFPHutJyUiAy+Nlvx6WkylUsR/rB5WNS/6RgeMsetE1lokK
-         mW/PMxTZ+WIYYlYjFUBDBfdD/mrWCn0R84x1WzviKMb2vnWfxZH1oYxMDEz7vdPoXQF+
-         2oVycvlD5gbGp7P7ZzhCRqr9QR6iBbFH9ryqhxOe8A3Owzs4PWEUny8lM1u0fygCf0gf
-         jiNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739460386; x=1740065186;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K89iMvYVIaxnJ+fqwfSq5htV0qyp5rhqJml9Bv4LRmc=;
-        b=GsWOFkGrFpzz90bVtZnqBaQVtDDh9nn3D3rJOTEDvJIVhtYi7rsRBkjvdnroXg/ygP
-         Q6bQrfTKTSdLBMpXKKNWdrluZgZ9JOMRRVkU0nb7y45dYE/Vq40TyZ2rv0CbrDiItpK5
-         POhKcIHLePk9xk1m71TtqTtSGYclJygxjFIYQxUle458gBK8RzGUfbF9hI+wD3QAyhF+
-         2lIQlqJitK3hoeFhqqDKdbdG11Fq7e3rxpSIlJgX4HsZd2k6kh71MtSX6IryBSQWBgJq
-         LHt7QOqPGbj24Ia7iW/mT2T3B99DYc2gsVITtVFJA0gNEFgyakPX9cf2oYKlEkoxCEE1
-         UTuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWNCVjWI0+o4uKyvzOvtYxLQkjh/tdfAnS/FpFkp7IazR9hCeLv7jek3Bwe/8XtDS+a/sacXO6UdGV3gJ1bk112eFfweQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzN0mXjqdVspgNZB7a4BQoOD/5C8O5TAc4OdjVlb390GuA15lZU
-	h3dOqEsCDC5mpNOJMP+GhoTiW8+2NYFrLh2innFxbOkhtCZQkVw9
-X-Gm-Gg: ASbGncskFusUFhviFUphLO+4jt3acteQ7IYnHaH5RLlLumjEubMg0/2pbomkkrnHVlB
-	G+caVs8BBi54jtHncmDBKC5QmvAxOyRReKjd2bG2rneKVpHinISxG2t4rCtI8z7nQpFde+xWT+N
-	j6kDDBq4GXNP9zSnJLq4mjehjq2m2EHrvfp3x4Cc3RgrXbER3eHYfjuxez2QeYbdEQTtVyfSdNA
-	c1F3jrU/aTuSx1P5xUeooSXXr7HkHZBebNksee8sMmY1SlEuGqq4//jeo2E+HREc0P6Vd3zCLOE
-	EIIozwlxPz+p9EUx3XJASO4cd7GXVlWrPGldJg==
-X-Google-Smtp-Source: AGHT+IFipaKcWyFZaSEDZiGw02DfcykMmnnerthm7WE8jzcwMvin1u67jpRAWSD47lXTNrhIZQXsRQ==
-X-Received: by 2002:a05:6a00:399c:b0:724:59e0:5d22 with SMTP id d2e1a72fcca58-7323c1f5ab4mr4699239b3a.20.1739460386123;
-        Thu, 13 Feb 2025 07:26:26 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:5c08:585d:6eb6:f5fb:b572:c7c7])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-732425806f3sm1403499b3a.82.2025.02.13.07.26.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2025 07:26:25 -0800 (PST)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: netdev@vger.kernel.org
-Cc: horms@kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH net-next] selftests: net: fix grammar in reuseaddr_ports_exhausted.c log message
-Date: Thu, 13 Feb 2025 20:56:11 +0530
-Message-ID: <20250213152612.4434-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WDa+7yWO"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 3DD1760746
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Feb 2025 16:38:17 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.791
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id CNLxVm18FE5A for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 13 Feb 2025 16:38:16 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=45.79.88.28; helo=ms.lwn.net; envelope-from=corbet@lwn.net; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 895E2606A6
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 895E2606A6
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=WDa+7yWO
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 895E2606A6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Feb 2025 16:38:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6BEF044097
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1739464685; bh=AugokloXn+LJgOYi+jZW4KgQueuJv5Ke/6PGjnYIpJw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=WDa+7yWOGvzYrZ2e0Ui8z60dvJm7d2L/yEQv6KepmJxu+9SD5Yjz4lhdH6eyoTOd9
+	 REGE9VVyI009z7mHNu9B9T2Yxej6kPFNi1S6zWAM4skrMLX7pAwDJA+D1pY/RG3pDJ
+	 UTrP66/CtYnYELw8sYCBN60jiZ5N1wvHc8GuK82cMMKTrRqUueeQ3/KUQIerkPRwgH
+	 l1cC2gdqmnz0aTMI+SoIRoLYzWAdlz5/kxOzvpXDM7gI+6P2wmasgcOYZpEv3doy3T
+	 Gql+P6A82br6/NWSv9gjD2cIidbFiVz2AQs/U6tK7MmEFj3LUW04BjhvtMoTX7Dstn
+	 6w6aC1aIasaQg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6BEF044097;
+	Thu, 13 Feb 2025 16:38:05 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Aditya Dutt <duttaditya18@gmail.com>
+Cc: linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, Aditya Dutt
+ <duttaditya18@gmail.com>
+Subject: Re: [PATCH] Documentation/driver-api: fixed spelling mistakes
+In-Reply-To: <20250211103002.199004-1-duttaditya18@gmail.com>
+References: <20250211103002.199004-1-duttaditya18@gmail.com>
+Date: Thu, 13 Feb 2025 09:38:04 -0700
+Message-ID: <87seoh6brn.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This patch fixes a grammatical error in a test log message in
-reuseaddr_ports_exhausted.c for better clarity as a part of lfx
-application tasks
+Aditya Dutt <duttaditya18@gmail.com> writes:
 
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
----
- tools/testing/selftests/net/reuseaddr_ports_exhausted.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Fixed some spelling mistakes identified by misspell tool.
+> The example code in Documentation/driver-api/nvdimm/nvdimm.rst contained a
+> misspelled identifier (paramaters instead of parameters).
+> This typo would have caused a compilation error if copied as-is.
+>
+> Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
+> ---
+>  Documentation/driver-api/media/drivers/zoran.rst            | 2 +-
+>  Documentation/driver-api/media/maintainer-entry-profile.rst | 2 +-
+>  Documentation/driver-api/nvdimm/nvdimm.rst                  | 6 +++---
+>  Documentation/driver-api/pm/devices.rst                     | 2 +-
+>  4 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/tools/testing/selftests/net/reuseaddr_ports_exhausted.c b/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
-index 066efd30e294..7b9bf8a7bbe1 100644
---- a/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
-+++ b/tools/testing/selftests/net/reuseaddr_ports_exhausted.c
-@@ -112,7 +112,7 @@ TEST(reuseaddr_ports_exhausted_reusable_same_euid)
- 		ASSERT_NE(-1, fd[0]) TH_LOG("failed to bind.");
- 
- 		if (opts->reuseport[0] && opts->reuseport[1]) {
--			EXPECT_EQ(-1, fd[1]) TH_LOG("should fail to bind because both sockets succeed to be listened.");
-+			EXPECT_EQ(-1, fd[1]) TH_LOG("should fail to bind because both sockets successfully listened.");
- 		} else {
- 			EXPECT_NE(-1, fd[1]) TH_LOG("should succeed to bind to connect to different destinations.");
- 		}
--- 
-2.47.1
+Applied, thanks.
 
+jon
