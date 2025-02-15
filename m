@@ -1,47 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951021EDA0F
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 15 Feb 2025 17:24:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A3718BC26
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 15 Feb 2025 17:48:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739640289; cv=none; b=Z9jC77WDB5iw8GtKi7rzAHjxyrK595X1KwJ77J7ddsdpox10VRMNZyI+PD1DLqIiD58OOSaPCAik5nxdMiV2QCMxyBf5oCvox/uqefW8kZgE0mZ7BmCx+OK2MIHS9g/AF0J81cSu7DkmPY30b4nuaSGtOhuW89l3Y8m55qgRsg0=
+	t=1739641693; cv=none; b=i53wBy36zNmuEZZMwbxeXLI9FhHXjLJ6Ah8GdN51/O9HKMVPZajJEmEq4W7lKtyLTx2enhsoaGxTzwQ9RF13Trf4YIKQ//fD8kBF2yq2/AaJe60UlUqlDqdKT62J8UK7fbRDDPl8FJsMO2gudqXAX1MMWkyj5FyX2bCzJdbGHl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739640289; c=relaxed/simple;
-	bh=zQ4Hu9V3Q1RlwIFXw2CbMDOEByVx4aMYdTSjK1ps8Dg=;
+	s=arc-20240116; t=1739641693; c=relaxed/simple;
+	bh=Bk0ww7KLjqAzjQcTV2y/Q475Pu+wJvf6577A84eAVd0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=AUy2jF0kKTTC0cRUQhbsbA+qjdDiSfAJI2mTgayEtB6Di+aT/2JzW1uhRzsJYLdpIBV0OIF1phMiBN3/i2mJAX9OX6GDqGA/KmVrlMN8GHHAz5U3y96aRQN8p+fjGdeSX3OyWkzq4SBtaj5hYu9/ACRyNtvZcTCpScVMeE9ib1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=aDjnA9s0; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=fsTBJarQnWcCCJ6DKpQOzvs3ah89Tp+ZGHMNpT/LY3+VnjcJ3ikqYPxFJ8XKIAMfI+tyP4ARJ6k5quZWVvstELQ+tEBxA39kjvjsb3OGH8JTkzyozuRzJGLB9Jk6t2nv1gt3KQzex+zUQ6MYjctcYjGj30dAz8HphHwD5x7XVHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=HROX0Txe; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="aDjnA9s0"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EC8AB4119F
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="HROX0Txe"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E78AF40424
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1739640281; bh=0eC5bOMZ4dF5H7XdlMIGeLpjcaa673cbKA7YmBjcdb4=;
+	t=1739641691; bh=4Y52jyR3ucaHhw63Dp593fQs7wz+3M1mpqIkYiIYS6M=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=aDjnA9s0iapDX+QoDeSSUqXalOHNGljCRta8kXQx6lKlkt83APELt6ZIjywlt+Ssw
-	 a2DEm17/D3Cg0AlwajlYMjzGhAPJIuZ4lh+S5WXvlVB26MbNIScHrURPNxz7sDuk1B
-	 FF5aUmspJ3Zn7nyvYKDVr+EeUOZy5oAfjCjwwTUCjrBJLTeLPFDRrCSHd6w/d1ysY6
-	 Kzl6UciMAbRGM4bnEfs0PFwhWWn7hp7preUblDHacCt+YRQT/xKQ+yxQBKbT9Lug6T
-	 AIw7BKvC25STNp/dZYmoPVITEGyGfRlmGTdPUDVkqis0+kTACpPPcDMiZOWrUmunsV
-	 /64NmH/NqFBDA==
+	b=HROX0TxeA+L9kIchDCp7QuosgfgBTUwCRrJnwD1r75WTa0rmTW5nPuQeUBTiXSZvK
+	 8nciZRdxRlq2nvYctlTAEdzUheaEKS18qdJfsbEkHKMAKpri4kfZQsfuNcXTRS39Ba
+	 edoYLUmj7NEHIOhYkzLMlb6ESXKVlrw9Ir35q9/2yQDsu1j0Lclbx/SYj5KdbFtcsC
+	 abkUJSGTAUCOxYt9MdBhM3r/RGYieWEjqudTP+cL3G9jSLHxdhvq+YncyCsROPFuu0
+	 Fn952ffKNOXl+4maGkARlvqt7evZjQkInjTfowTFyNjSzgD0kgAO/BjOEjtCiqZqpZ
+	 Dmv0qroMcw0Qg==
 Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EC8AB4119F;
-	Sat, 15 Feb 2025 17:24:40 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id E78AF40424;
+	Sat, 15 Feb 2025 17:48:10 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Suchit K <suchitkarunakaran@gmail.com>, akpm@linux-foundation.org,
- skhan@linuxfoundation.org
-Cc: linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+To: Suchit K <suchitkarunakaran@gmail.com>
+Cc: akpm@linux-foundation.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-mm@kvack.org
 Subject: Re: [PATCH] Documentation/mm: Fix spelling mistake
-In-Reply-To: <CAO9wTFiZ8wyangitV6RZLYiL5yF5CV1eRXYYzJKhXyP2UvGDJQ@mail.gmail.com>
+In-Reply-To: <CAO9wTFiUW42yKGaZDQD=CR5f2pmjLNQfJcd81+gargstGVrF8g@mail.gmail.com>
 References: <CAO9wTFiZ8wyangitV6RZLYiL5yF5CV1eRXYYzJKhXyP2UvGDJQ@mail.gmail.com>
-Date: Sat, 15 Feb 2025 10:24:40 -0700
-Message-ID: <87tt8vunmv.fsf@trenco.lwn.net>
+ <87tt8vunmv.fsf@trenco.lwn.net>
+ <CAO9wTFiUW42yKGaZDQD=CR5f2pmjLNQfJcd81+gargstGVrF8g@mail.gmail.com>
+Date: Sat, 15 Feb 2025 10:48:10 -0700
+Message-ID: <87ldu7umjp.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -52,37 +54,11 @@ Content-Type: text/plain
 
 Suchit K <suchitkarunakaran@gmail.com> writes:
 
-> The word watermark was misspelled as "watemark" in the balance.rst file. This commit corrects
-> the spelling error.
->
-> Signed-off-by: Suchit <suchitkarunakaran@gmail.com>
-> ---
->  Documentation/mm/balance.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/mm/balance.rst b/Documentation/mm/balance.rst
-> index abaa78561..c4962c89a 100644
-> --- a/Documentation/mm/balance.rst
-> +++ b/Documentation/mm/balance.rst
-> @@ -81,7 +81,7 @@ Page stealing from process memory and shm is done if stealing the page
-> would
->  alleviate memory pressure on any zone in the page's node that has fallen below
->  its watermark.
->  
-> -watemark[WMARK_MIN/WMARK_LOW/WMARK_HIGH]/low_on_memory/zone_wake_kswapd:
-> These
-> +watermark[WMARK_MIN/WMARK_LOW/WMARK_HIGH]/low_on_memory/zone_wake_kswapd:
-> These
->  are per-zone fields, used to determine when a zone needs to be balanced. When
+> Hi Jon. Thanks for the suggestions. I initially sent HTML content so
+> it was rejected and had to send it in plain text again.
 
-So why are you resending this patch - has it changed somehow?
-
-As long as you send in HTML, your email will not make it to the mailing
-lists.  Please configure your email client to not do that.  There are
-some suggestions in Documentation/process/email-clients.rst if you need
-them.
-
-Also, please include your full name in the signed-off-by line.
+When you resend, please always say why.  Meanwhile, though, you have not
+yet succeeded in sending plain-text-only email.
 
 Thanks,
 
