@@ -1,136 +1,119 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD361FCFDA
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 14 Feb 2025 23:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58EB1125DF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Feb 2025 00:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739577554; cv=none; b=IVS0Mpl9FN3v7gakUPPHXSrT3Z6mKoVr96RR4uC16C1xTlbt6RxS81iHW1HENuvz0C+lwQY8D8ZlxIF04Idwrk6lqdzZowyb5HaOSByKYFIr9QoMFEMgITJXH7R8Pho81bc21uy10JjGLnSOSjHG5nn2nsAJAUSBzlxfhQPShnk=
+	t=1739579063; cv=none; b=cLRo6Fgl/SzM7969+rYA4bX1EUsuZ3/FoG7s4EEEu800hkjWLwGyeyzwqINjhWWSiw2WjRyFo3AbeyAEM5ryi2Gz6buwg4LO+IwFW4COHpdWIerRJV4dIcK5eFJ4VlENz6HjkAGEanLuFfexI6Gl3WbtdgSMnjP+TVdQOUlzaHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739577554; c=relaxed/simple;
-	bh=IKcfaSOrlMa6rik07ZTuSV19i8nzB/MkDugkDm7vSQY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WED5liTSvpTHglzlCRWJObRmEswULsXjnB9esXg9p0GMF/lHDfVTbTvvZxSsLL5jhRx9vs2zWuYwKu3OHoDDoEAuhDoCJvyKCnnU2LfuP6UoqvY0/+9xweF5JYofarJjhuKNeU5DdwCZ9Z5AUURzB2+WBQLN5KTKNj5lKOZn4wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GmZZXIoa; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739579063; c=relaxed/simple;
+	bh=AjyglJCWXCq6goJBQvJcmRlUYSdjpyO+9rjPr34OO0M=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=hSuDdsbZM5NdI2j8cjJd/8vdz0b8uyptjxQ1/9IZG+93GK6/e5BVVIybcdRMc9TeZ+o/pOtfYaLNFPhBpyykP39hl9+0ObrEgCQSy8pC9iPv6L8V1lhr70D9H0tekGjQXuv13sExZkTKxMpxP409gycMMVMV3qIW3AyTK48YS2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nJ7xqkNt; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GmZZXIoa"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5fcad6dbce0so1320351eaf.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 14 Feb 2025 15:59:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nJ7xqkNt"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id E92536FCB4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Feb 2025 00:24:21 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id TTVwtm5UTfjJ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 15 Feb 2025 00:24:21 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::c2d; helo=mail-oo1-xc2d.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 4177C6FCBC
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4177C6FCBC
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=nJ7xqkNt
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 4177C6FCBC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Feb 2025 00:24:20 +0000 (UTC)
+Received: by mail-oo1-xc2d.google.com with SMTP id 006d021491bc7-5fcad6dbc73so1321054eaf.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 14 Feb 2025 16:24:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739577551; x=1740182351; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VsZMzchGA3QydeH+K1fYzv4GOzw024lMC2SpfQz9ljU=;
-        b=GmZZXIoabffp0jEeyLy32AA2FnGOpWoRwHmK17tmWnRuc/4PS2fIJGZvOP5kmvd7kJ
-         N3ZETkEgVAH4rLQzR0EPzZQyP1coxqgT8f0zYY+I6ApqCdz2U5XxpFkqO9APO41udDuc
-         wRmaoBkz5HQ3nfUk2UazU0ZdpZ0TQK+aLOHIKXX4yVbU8A0JJbskhoMX73zCNnlxMf5W
-         czSLnD1y1EUJMnIIlCpkA77z9L0auIZeL2OFimzEM2rWnvJG4T3T1hHGsK9BsRYISW3A
-         uGPjZz7sybgb2eLP60hd6vR6FauWa98ZZy0Ln90jXxc+Jk+CkZcDY9q3DXNyXHZ+VH1B
-         wtdA==
+        d=gmail.com; s=20230601; t=1739579060; x=1740183860; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cFHjecYD0TumMHxPOXYPdCr2G4EtJJFdINrgiBMiOA8=;
+        b=nJ7xqkNtAJlE2HCnJ7so21niPdX33/kPwh3wrU1wbeien38S4RLCKjGBFclT2XDQFd
+         hSkLHX4Fq95TWSGAEfHW3JLhhwTZWZJYvfNG8Hbar1aRPDUyHf6p4tC9QTvfzh4/R5KS
+         N6N7ffa4XaOlLJQBbcbyPXVo3RuCcdvqDqHCvyyOuYRu106HllKMuKtcLH30n8c2oJe8
+         cbk9frnXfcyk4O8Hyh2NxDffdfWEwYuum5ZFyRO3Hjc8hAwpNFn9s+UYxfLvP+TPsH+8
+         LdsvSoNP6fu5HdYdrpvNoyUdIVDOy1gpLR5kNJgq9s3vF+FG3Enk8xX5+LGnD6JG65ut
+         n3MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739577551; x=1740182351;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VsZMzchGA3QydeH+K1fYzv4GOzw024lMC2SpfQz9ljU=;
-        b=crJysaIuhnKSY++YG+CjYfeoKCcaSoeVun5koDyC71ol2SZLEfz7fC8E1S3Xh66037
-         IcpL0+/2cz6emnM93gnPd9zMH709S5ihH32eF62u2p7t4aAV3noDbiF4rsgbBiBzuuor
-         b3YjmepEkeN/g2T+IPfr1120yspC3puSRV92oKuyFTh8Sf4YyAUKpl4Npi/fFcxJ7fz9
-         Ly0y36GLaJKA6C8bqXbpVRYE7vcP91ryg6ceurPWahJCElbXwOALfH7j9t8dBoPskxGn
-         Bn95hOMwFdtzpZfjLgszJjdIFwzYAdZH3lqbAa2XoJVynhxC1QT5+vhuO3uIRkArGtLs
-         OpHg==
-X-Forwarded-Encrypted: i=1; AJvYcCU9gJaQQfN0Yb3/FuGuclz/8l6m5XHGXnb2qKpOZGzTjZ5vqBpAgPBlc98oIJgXEV49ZcUiX+16uwWo2pdwJ9inSgBvEw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw0nc5qakIiMNNFtjnQbcWTtURE90OpHC94UPUXRMu59EVSO931
-	qX5WRInKgBpULbgaDCpaYw2eZPYyPPAUF1QvxJq4Xo56EqKR0htd7RVOsz+3KhwW4iVBGAWSXv3
-	V+/+lMd/v/QHmKC0p9BEJBOU9T2o=
-X-Gm-Gg: ASbGncume4w9v7dvu6wxOQL48VwsYTWB+gMgFxMNQ/D/63FGHOQdA9VOLRKXyGpodqS
-	e0mzwfOdMa6jibP4iS4vTu9qhrp+wLBlvxfW897WtkPN1qbxpAY4IMDP9el8SkyHvPXH+dobxXu
-	IxKn1+nMO1
-X-Google-Smtp-Source: AGHT+IFDXsqXU7nxemKQ8UIjtO9+R4SjmrFn6EBErejTxGhpg2uKqfKRuG7esuN5AHZPiwJLPxeD8KGNq9/4re5xzHM=
-X-Received: by 2002:a05:6871:8792:b0:2b8:69:6016 with SMTP id
- 586e51a60fabf-2bc99d3fd2bmr612329fac.28.1739577551458; Fri, 14 Feb 2025
- 15:59:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739579060; x=1740183860;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cFHjecYD0TumMHxPOXYPdCr2G4EtJJFdINrgiBMiOA8=;
+        b=f2LrGQkg54AxbZOYVUN+k5u5Dx3F2U11/KJZZIGaqLI5f6tj0puM135sijiltUeD0D
+         hcNGrB4nPJklFroaFuwDA/WtRfzecIUkzK8733C6RmAAahB+ieHJMd9SIkyHz4IPTThq
+         PKkh742K5R25JwndWxrhluiKETeoDjsCOLkhVTtwwf9qZMf7pIdjiMxWM1pQQxfjREaq
+         QlQ0QCvLMNtJLSPYi/cW/XmKgWQteK1riFIEqhVW/20svfPrGYndXY7hvoTJaE8Ati6f
+         utyYM/Tjb1nd7Z6ZWpuC1yLjvme5yDR04otgTLy0BvzGBQuqxWCMEgJdZCVsCnBNLIGB
+         fYKA==
+X-Forwarded-Encrypted: i=1; AJvYcCVLy8TJ59VmnaMga0H9oapsz9BWsyh7gfA1GbLsfaZlqNxWoA6Rix/LOyJxHKZysisU2CEi/G49ONaWIcf+ytw+UT4nYA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yx0EV6rqMLxmgTN+L2D4/0roXEUN5pWxZ6g7U6XjqP0AOnqVXfN
+	PNb+wujnG7SbjNqtlgwEvLQVBf3bujh59nxSew3L6Bfkfn+pJ2fb
+X-Gm-Gg: ASbGncsLVhSpZBGXBIy5Lan1jvIIIhwW4nJT98KdbT7Msii5KAoqmefGsq2LmY2SP5a
+	M1fVwzwV4pBx3/pNBYE2zp8LQOy1qj2AHBZr8SAb+axd7kRH0z2mSIKC3Le5YGr1RDfjyupPK1E
+	96vc0GeT0+IQWZScBO5/fug1KVMWG9f8Fjl69ke9HDeQy04b2aNMwb0zL2uhjLuatfgIAxobmdy
+	G4YnlnNJUqjPJBADn24hM9J9WJ6WVa+gq/M8UEgThXFkJbZARFXYy3OulKW5fvwHIqK6ah3DvJz
+	4rhw
+X-Google-Smtp-Source: AGHT+IH89pZHBlD3ryiV+QjKjWQhmf7QDm1o2329s9oeb0v5UWJQlau6GOPaW3E5sQMrsiAwntAaSg==
+X-Received: by 2002:a05:6870:9b0c:b0:2bc:7797:aa95 with SMTP id 586e51a60fabf-2bc99b46631mr624011fac.20.1739579060048;
+        Fri, 14 Feb 2025 16:24:20 -0800 (PST)
+Received: from fedora.. ([2804:14c:64:af90::1001])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2b95a7b5495sm2140018fac.36.2025.02.14.16.24.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2025 16:24:19 -0800 (PST)
+From: Marcelo Moreira <marcelomoreira1905@gmail.com>
+To: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kselftest@vger.kernel.org,
+	martineau@kernel.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: [PATCH] selftests: mptcp: connect: Use more formal wording in error message
+Date: Fri, 14 Feb 2025 21:23:30 -0300
+Message-ID: <20250215002415.1465504-1-marcelomoreira1905@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250213212858.710884-1-marcelomoreira1905@gmail.com> <MW5PR13MB56323A7DE07549AC6F7664AAFDFF2@MW5PR13MB5632.namprd13.prod.outlook.com>
-In-Reply-To: <MW5PR13MB56323A7DE07549AC6F7664AAFDFF2@MW5PR13MB5632.namprd13.prod.outlook.com>
-From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-Date: Fri, 14 Feb 2025 20:59:00 -0300
-X-Gm-Features: AWEUYZkx1Vcgg2RvapSKHjauHh61L03etyMd--xgqDolH7S2Fg0OS24Srv-QYhM
-Message-ID: <CAPZ3m_japqSAMG8svC4JWd8UAHRVnJ7ujCsSxZe0i+4b69c8mA@mail.gmail.com>
-Subject: Re: [PATCH] Adds colors to kselftest output
-To: "Bird, Tim" <Tim.Bird@sony.com>
-Cc: "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, 
-	"linux-kernel-mentees@lists.linux.dev" <linux-kernel-mentees@lists.linux.dev>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, 
-	"martineau@kernel.org" <martineau@kernel.org>, 
-	"~lkcamp/patches@lists.sr.ht" <~lkcamp/patches@lists.sr.ht>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Guys, sorry about that. For some reason when I run sudo make kselftest
-the colors don't show up, but if I run the test alone, the colors do
-show up, like this: sudo
-tools/testing/selftests/net/mptcp/mptcp_join.sh
+Update error message in mptcp_connect.sh to use a more formal and
+consistent wording. The phrase "not able to" was replaced with "Unable to"
+for better clarity.
 
-I've tried sudo TERM=3Dxterm-256color make kselftest ; sudo make kselftest =
-| cat ;
+Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
+---
+ tools/testing/selftests/net/mptcp/mptcp_connect.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-but it didn't work.
+diff --git a/tools/testing/selftests/net/mptcp/mptcp_connect.sh b/tools/testing/selftests/net/mptcp/mptcp_connect.sh
+index 5e3c56253274..bdc9c22af6be 100755
+--- a/tools/testing/selftests/net/mptcp/mptcp_connect.sh
++++ b/tools/testing/selftests/net/mptcp/mptcp_connect.sh
+@@ -261,8 +261,8 @@ check_mptcp_disabled()
+ 
+ 	# mainly to cover more code
+ 	if ! ip netns exec ${disabled_ns} sysctl net.mptcp >/dev/null; then
+-		mptcp_lib_pr_fail "not able to list net.mptcp sysctl knobs"
+-		mptcp_lib_result_fail "not able to list net.mptcp sysctl knobs"
++		mptcp_lib_pr_fail "Unable to list net.mptcp sysctl knobs"
++		mptcp_lib_result_fail "Unable to list net.mptcp sysctl knobs"
+ 		ret=${KSFT_FAIL}
+ 		return 1
+ 	fi
+-- 
+2.48.1
 
-Anyway, thanks a lot for the feedback, time and patience :D
-
-
-Em qui., 13 de fev. de 2025 =C3=A0s 20:31, Bird, Tim <Tim.Bird@sony.com> es=
-creveu:
->
-> > -----Original Message-----
-> > From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-> > This commit improves the readability of kselftest results by adding
-> > ANSI color codes to the [ OK ] and FAIL messages.
-> >
-> > Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
-> > ---
-> >  tools/testing/selftests/net/mptcp/mptcp_lib.sh | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/tools/testing/selftests/net/mptcp/mptcp_lib.sh b/tools/tes=
-ting/selftests/net/mptcp/mptcp_lib.sh
-> > index 051e289d7967..7b55855ff788 100644
-> > --- a/tools/testing/selftests/net/mptcp/mptcp_lib.sh
-> > +++ b/tools/testing/selftests/net/mptcp/mptcp_lib.sh
-> > @@ -83,7 +83,7 @@ mptcp_lib_print_err() {
-> >
-> >  # shellcheck disable=3DSC2120 # parameters are optional
-> >  mptcp_lib_pr_ok() {
-> > -     mptcp_lib_print_ok "[ OK ]${1:+ ${*}}"
-> > +     mptcp_lib_print_ok "\033[32m[ OK ]\033[0m${1:+ ${*}}"
-> >  }
->
-> This should not be done unconditionally, but based on the controlling
-> and COLOR variables for this library.  You should also re-used the existi=
-ng
-> color print helper function.
->
-> IOW, why is this not using MPTCP_LIB_COLOR_GREEN?
-> or the helper function mptcp_lib_print_color()?
->
-> >  mptcp_lib_pr_skip() {
-> > @@ -97,7 +97,7 @@ mptcp_lib_pr_fail() {
-> >               title=3D"IGNO"
-> >               cmt=3D" (flaky)"
-> >       else
-> > -             title=3D"FAIL"
-> > +             title=3D"\033[31mFAIL\033[0m"
->
-> Why not use the helper function and the MPTCP_LIB_COLOR_RED here?
->
->  -- Tim
->
