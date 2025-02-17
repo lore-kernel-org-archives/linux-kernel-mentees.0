@@ -1,73 +1,93 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF9F1F16B
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Feb 2025 02:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB31A2AE7F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 17 Feb 2025 03:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739758998; cv=none; b=pOSCp44D8a2laqGmi8q3KANDTBTTM9y2109omvUViedLfUbAIbTig9pB8wTDzuzoMQET5alEUoaKBfTnh+Ps1JIfX4vwDIamKiU1b6/ox7wnhCkf6zgbJX4w4l0B0A1aZ+gxLJsHn8NbN+cBTKUh92ui44rGEkxw7Zv0Sgr121I=
+	t=1739761251; cv=none; b=P3Cxsf3gz6/2LNCS9/iJlMj68pAaF5HvLt8GwnMLZ2GnNqDpKA3aGxbHBW5L79Jbs2yF7s+t9MfmAIO3SLM2vvhky0iuQdRLF7NrVGjLjrtm0aSd6wuVJ2NHRoCeLHOQZOWMjYhG6sXoj2615CAltXkI8V0ek+k8hJ0xQJAPc2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739758998; c=relaxed/simple;
-	bh=yxz8zrIHDtO7kQkfjxlZZSzlZ1TclU9ag6W2VmYuy9c=;
+	s=arc-20240116; t=1739761251; c=relaxed/simple;
+	bh=098GAOcKJg2uwNyJFgX23kEQUSWjMe3wSSU467lSHII=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F9Ti58djq/AlBVH5mJYyZIg3Y9WTrtYZwL//SnNYDVftniXFarj9N399DPfAtN+A+Gl0bkuGTeki9qEQ7JxYDYFJLcjPbhAzm9s38Sxzqqk0beDmirUOoXuPJKtfGOGkwixYQsi2vIaHLf0OwyW2Y+opUALQcLpQs/Xa6YKuXRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EDxt6uXR; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gp3e2hPHJ05jMIGDniyAOCGs8+nFLNDszDQ1sMW0UpknAvLeBAEd92KI7LkXhF856Can1bt9E0TyUj+RS5/WVmohvH4QJ+SgrdGOXJOd2GjYz7pYzz/+Ctjq2x4N9Oa1XceKEX/jApuw9uIC9shBvcY8WYjKDE9dWVmQ/OvV1OI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l5zbuOWD; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EDxt6uXR"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-220d28c215eso53584325ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 16 Feb 2025 18:23:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l5zbuOWD"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 4F72C60D6E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 17 Feb 2025 03:00:50 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id uvz5OfF2cr54 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 17 Feb 2025 03:00:49 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102e; helo=mail-pj1-x102e.google.com; envelope-from=liuhangbin@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 98EDB60855
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 98EDB60855
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=l5zbuOWD
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 98EDB60855
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 17 Feb 2025 03:00:49 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-2f42992f608so5876480a91.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 16 Feb 2025 19:00:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739758996; x=1740363796; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739761249; x=1740366049; darn=lists.linuxfoundation.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eATGpv/yzwW7RwTTlAQI0b6AWmzMq+BHQwUQKB0Quro=;
-        b=EDxt6uXRS9fe/at3uMWwi4i4ohB8UO67ErHBS+3x3arHGV//L9iiaBLCTN0OQ1OWQh
-         U47mgYLFIllCzgFc+/nYLe7h638KtU2k+xZ/yRlFcLacdPUtEmtqVJaPAbLR+luQ8NR/
-         zOpn0ttRRCQJOgT/SaZ91EXPwKb5mhVldFQSspFBoG2Ts5VL8lZMCDUf8igRCejJfRCz
-         RqXVNWSDxfYv3la892zmsqZEM9kEyskb6rUQnsLNB4zw0DVr8XuKB71oUBGQZituIK8/
-         RxxGCD/JULuFWp6Xd8MTiaPArYiV+Qnmf96/MdpaWTHv+98OJKHky3j/mmpGSzjT4Gaw
-         sdpg==
+        bh=RM9oXdBZNW/iQqyTSg1FXsRacwBHB2wVEo55z428eLA=;
+        b=l5zbuOWDlcM/hDcSz7pg/1D+aXHqfZSTgBShRBNp3+9a6TWjcf/Sqn9eOJR8TbOCIS
+         Jaiy7Ghy+rhPM4eMiQi6x13EWXs8dVp+LVcOVt9BkskRfiZhU/xN4vWrvkpUIP+kSWSP
+         DxRB7oBEbfEgO6W9njSQFOnuyf6446chtrevj82lE/Xcqz6R1MrXTNdkiGYJr+x44I0m
+         F3Rx8CrDjZg6RiZ3hv6yMjMHGH1yRyKfHMjiyF9ZQWRstmJPYr0iEst7riEO8JQ0cSkd
+         ZrzJTH4rI7/P3imWYsfXiYGQN/APCgDES4Zwxj2HwViW66ZelsqTNrTgNGS6FK6bOl6E
+         U23w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739758996; x=1740363796;
+        d=1e100.net; s=20230601; t=1739761249; x=1740366049;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eATGpv/yzwW7RwTTlAQI0b6AWmzMq+BHQwUQKB0Quro=;
-        b=KC/1VfWFEk1yyUgVWpvS/QKCiIqktFtXpEym684Olrjm4BYJXQyLzEto7na4ApnDhf
-         r9w2OukwEjUaIPCf70sh2N4x1JdfEY2XCZpGiR5J2yW5lHG7eh4bLv2e5nkWsM9iqdQN
-         gY3KfgEvrta7rM+SPSN8JbDNkaoEwqpdKCXGZZvzANlX71pRXKO73PIE0yznezZntIsH
-         4umGbl6dueZllCUqXMeyp+NP8anIpNHtDCkiFZ+QvnLS2IzFJiA9J61oJpaM16puz+Bn
-         UIcKcEB9Rc4dN4zh31UFxalBeYCmeLITUbByTEgmnyMPVGNVmKSBFSt5vGtpwBQMWrpg
-         EcPA==
-X-Forwarded-Encrypted: i=1; AJvYcCVRF6Jkys8sLDcJp4FSwe+w/acdaMEwGkNLy/Owcb+xNOHuE3api4Y88KFC8mF6KoNQLllFCAH8a1XrUxNsJ7jpA+VL1w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+DcB+iYfnh/fCYK4Xijw17sJgj0ljgNAjpqxlvAWgDScSoK3R
-	7gRvDH8lgp0yzmizoW73UrRznGN85eOgAiHC9tuQ9Q8ncuyW6O4r
-X-Gm-Gg: ASbGncsxp6PsU8mp2F7pXVDQjAs03XaU29yP+Xi/l6KS0eR1UbwbuA2Mq1fQTdvY8id
-	OTok/9gttcTPL5yXzwns1JaC95njk+Aac/vbh8v8zNgLV/pvxZ7gLJM34CQTaheU9R2b7jWnX0N
-	rsK3vix87Z+Y37pJB93gxaa+8zW3Mhr5+gGHi+TDfd4Pc62k6I99HPZxU3/4TuimxqCZCshXYTh
-	IoXf5WUyDFROyPXIXpYwDz4F1Qfc6hiGtz/QXSvmGvVcjjSArLLE9tUO2NBT1E+IUodmJAmLEig
-	bXm3zlmKeDuhYNuLI39k
-X-Google-Smtp-Source: AGHT+IFViZjLBVkpW3BxuNj7fXUHmg1Djc/5+NyaIqfXwEcnE1lFoV6Cujl/dUine4R6CXlTH10+QA==
-X-Received: by 2002:a17:902:ef49:b0:220:fe51:1aab with SMTP id d9443c01a7336-221040b1359mr150473335ad.38.1739758996248;
-        Sun, 16 Feb 2025 18:23:16 -0800 (PST)
+        bh=RM9oXdBZNW/iQqyTSg1FXsRacwBHB2wVEo55z428eLA=;
+        b=n0HUy8GKDQ0+Ed8i34PQuFuPxros18j0yUWBytTEnt87o6H7cvBFekubd6eoO4RNnT
+         722MJG889BjLkeu7BxKM9+qcSD3o0YEZhHu0+PUz1/j3OIK1DotixWwh+achTMMjg8nd
+         BiOpAigBSlaBM5aFLa8mbPfwP7kQGsgzh48qx9UYr8G/adudf0YEfdOvfAv9wH9/h4SZ
+         JNFCLa8Wsb4tYGxUtt7zgAmoaH8fzTUZIvU50yi8MRlqho6wS/BW45w6IV2J2H4k3r1b
+         p97qA1zO8dvRoc9btind7lCSNAz2T9v2BhD65OA7kF8/Bo76k2MFOi0iTsSJb+lRCgUs
+         EoSw==
+X-Forwarded-Encrypted: i=1; AJvYcCUiDTsbqxjXefOGspxIm/7RNyXgMSHy3BmlKqhKkNbj5y7QUuD+2KFxROqoYJFsuJbKQogOrF5JtUQkAIGG/TvfPZ7OLA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyJj68zlmiM8R3YpJb8tegGMh9V4eccvR6AFYoRiCJvQqZf8mRX
+	Pfa/nGv/XHBEB9WHMUMRQTIj61RIsCLCPlOoa5D39iIF1Ez59Nxa
+X-Gm-Gg: ASbGncvvuLGYdymims/63deMALJc/UjE/8ajUWtV7eLB+b4t7aehBfrwzfvqZFY/BE9
+	gkBm9RDEKZJ2Ft5BoH5qJyExV1hsD87Oxa/KH9tmCIGMNoRaJaMGl3Zw6UFxJ3LqrZsI3Imsg91
+	Nq0+z6j/xWRqrO9GVpXSEOMNqnnroD5gI3hQXF5ibtbBOjsPufZW5QJm0d2tLEe/3c03JkEpuAO
+	V86n3UIuOSZ17F+FqZYZTcJEjp1DCpnhK5xhcXvERS6YKx2NgbwppytNod0oj8wHgTpdno+TVRq
+	wMIC6AWNU45PPfSxjX93
+X-Google-Smtp-Source: AGHT+IFlbZXzjTjaiCfw7RWv2kRvgfxitjDjmHfqC8UYJCSB2hhBiRs+ip/IcfoDod4m+VWndDNKwQ==
+X-Received: by 2002:a05:6a00:244e:b0:71e:21:d2d8 with SMTP id d2e1a72fcca58-7326179d668mr14480366b3a.7.1739761248651;
+        Sun, 16 Feb 2025 19:00:48 -0800 (PST)
 Received: from fedora ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-adb57c5e0b9sm6356740a12.6.2025.02.16.18.23.11
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73265678abasm3272624b3a.27.2025.02.16.19.00.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Feb 2025 18:23:15 -0800 (PST)
-Date: Mon, 17 Feb 2025 02:23:09 +0000
+        Sun, 16 Feb 2025 19:00:47 -0800 (PST)
+Date: Mon, 17 Feb 2025 03:00:40 +0000
 From: Hangbin Liu <liuhangbin@gmail.com>
-To: Andres Urian Florez <andres.emb.sys@gmail.com>
-Cc: pablo@netfilter.org, kadlec@netfilter.org, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, skhan@linuxfoundation.org,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH net-next] selftest:net: fixed spelling mistakes
-Message-ID: <Z7KdjZ80R5H4RlIo@fedora>
-References: <20250217001452.29578-1-andres.emb.sys@gmail.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: Aditya Dutt <duttaditya18@gmail.com>, Shuah Khan <shuah@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	cgroups@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH] selftests: make shell scripts POSIX-compliant
+Message-ID: <Z7KmWNNIsXCnhiax@fedora>
+References: <20250216120225.324468-1-duttaditya18@gmail.com>
+ <Z7IOR2UNzjy7cQA7@slm.duckdns.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -76,42 +96,24 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250217001452.29578-1-andres.emb.sys@gmail.com>
+In-Reply-To: <Z7IOR2UNzjy7cQA7@slm.duckdns.org>
 
-On Sun, Feb 16, 2025 at 07:14:50PM -0500, Andres Urian Florez wrote:
-> Fixed spelling errors in test_redirect6() error message and
-> test_port_shadowing() comments
+On Sun, Feb 16, 2025 at 06:11:51AM -1000, Tejun Heo wrote:
+> On Sun, Feb 16, 2025 at 05:32:25PM +0530, Aditya Dutt wrote:
+> > Changes include:
+> > - Replaced [[ ... ]] with [ ... ]
+> > - Replaced == with =
+> > - Replaced printf -v with cur=$(printf ...).
+> > - Replaced echo -e with printf "%b\n" ...
+> > 
+> > The above mentioned are Bash/GNU extensions and are not part of POSIX.
+> > Using shells like dash or non-GNU coreutils may produce errors.
+> > They have been replaced with POSIX-compatible alternatives.
 > 
-> Signed-off-by: Andres Urian Florez <andres.emb.sys@gmail.com>
+> Maybe just update them to use /bin/bash instead? There haven't been a lot of
+> reports of actual breakges and a lot of existing tests are using /bin/bash
+> already.
 
-Reviewed-by: Hangbin Liu <liuhangbin@gmail.com>
++1
 
-> ---
->  tools/testing/selftests/net/netfilter/nft_nat.sh | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/net/netfilter/nft_nat.sh b/tools/testing/selftests/net/netfilter/nft_nat.sh
-> index 9e39de26455f..8143b877ae7d 100755
-> --- a/tools/testing/selftests/net/netfilter/nft_nat.sh
-> +++ b/tools/testing/selftests/net/netfilter/nft_nat.sh
-> @@ -569,7 +569,7 @@ test_redirect6()
->  	ip netns exec "$ns0" sysctl net.ipv6.conf.all.forwarding=1 > /dev/null
->  
->  	if ! ip netns exec "$ns2" ping -q -c 1 dead:1::99 > /dev/null;then
-> -		echo "ERROR: cannnot ping $ns1 from $ns2 via ipv6"
-> +		echo "ERROR: cannot ping $ns1 from $ns2 via ipv6"
->  		lret=1
->  	fi
->  
-> @@ -859,7 +859,7 @@ EOF
->  	# from router:service bypass connection tracking.
->  	test_port_shadow_notrack "$family"
->  
-> -	# test nat based mitigation: fowarded packets coming from service port
-> +	# test nat based mitigation: forwarded packets coming from service port
->  	# are masqueraded with random highport.
->  	test_port_shadow_pat "$family"
->  
-> -- 
-> 2.43.0
-> 
+Hangbin
