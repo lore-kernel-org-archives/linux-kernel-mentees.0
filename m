@@ -1,119 +1,115 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB31A2AE7F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 17 Feb 2025 03:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDBC11A0BF3;
+	Mon, 17 Feb 2025 10:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739761251; cv=none; b=P3Cxsf3gz6/2LNCS9/iJlMj68pAaF5HvLt8GwnMLZ2GnNqDpKA3aGxbHBW5L79Jbs2yF7s+t9MfmAIO3SLM2vvhky0iuQdRLF7NrVGjLjrtm0aSd6wuVJ2NHRoCeLHOQZOWMjYhG6sXoj2615CAltXkI8V0ek+k8hJ0xQJAPc2Y=
+	t=1739786923; cv=none; b=XV4V8KOL5SOP/XjB2sCFQzdOy4GFw0mvBzQy1Hi3YvsMMUWwQSp0HjHI9q2BK5UiY5iZrfXEvO5qvu6W8zA/Mq316gqO2oVycoB0mP7cVTVf5So3cZWAVVMmGDt4mvAO1/TK6l6duY08JT8i30UckqtBiVAZqsp1fhGW6ZEfTHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739761251; c=relaxed/simple;
-	bh=098GAOcKJg2uwNyJFgX23kEQUSWjMe3wSSU467lSHII=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gp3e2hPHJ05jMIGDniyAOCGs8+nFLNDszDQ1sMW0UpknAvLeBAEd92KI7LkXhF856Can1bt9E0TyUj+RS5/WVmohvH4QJ+SgrdGOXJOd2GjYz7pYzz/+Ctjq2x4N9Oa1XceKEX/jApuw9uIC9shBvcY8WYjKDE9dWVmQ/OvV1OI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l5zbuOWD; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1739786923; c=relaxed/simple;
+	bh=ZNRWXcvrUYv+UzJei+iE1P2u6U01QrUazRt28GOma5k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DhWUrEXZ+q1oDUolLrR+l/d4XwP9yT1gfwdFiTz5Ucv4ZwI8TFZbxopcGbNpDUW3Zs+INc1vpLKumjx04W6iGDW1+Luj3OBVme+zP0EadKQp6qsaEVcvnVUQK3YLwuLXYTtURbCAmRM9g2+QyBu0L3kXiPgcuw9U5vhKUasqPaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IwOn/th6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l5zbuOWD"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 4F72C60D6E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 17 Feb 2025 03:00:50 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id uvz5OfF2cr54 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Feb 2025 03:00:49 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102e; helo=mail-pj1-x102e.google.com; envelope-from=liuhangbin@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 98EDB60855
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 98EDB60855
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=l5zbuOWD
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 98EDB60855
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 17 Feb 2025 03:00:49 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-2f42992f608so5876480a91.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 16 Feb 2025 19:00:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739761249; x=1740366049; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RM9oXdBZNW/iQqyTSg1FXsRacwBHB2wVEo55z428eLA=;
-        b=l5zbuOWDlcM/hDcSz7pg/1D+aXHqfZSTgBShRBNp3+9a6TWjcf/Sqn9eOJR8TbOCIS
-         Jaiy7Ghy+rhPM4eMiQi6x13EWXs8dVp+LVcOVt9BkskRfiZhU/xN4vWrvkpUIP+kSWSP
-         DxRB7oBEbfEgO6W9njSQFOnuyf6446chtrevj82lE/Xcqz6R1MrXTNdkiGYJr+x44I0m
-         F3Rx8CrDjZg6RiZ3hv6yMjMHGH1yRyKfHMjiyF9ZQWRstmJPYr0iEst7riEO8JQ0cSkd
-         ZrzJTH4rI7/P3imWYsfXiYGQN/APCgDES4Zwxj2HwViW66ZelsqTNrTgNGS6FK6bOl6E
-         U23w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739761249; x=1740366049;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RM9oXdBZNW/iQqyTSg1FXsRacwBHB2wVEo55z428eLA=;
-        b=n0HUy8GKDQ0+Ed8i34PQuFuPxros18j0yUWBytTEnt87o6H7cvBFekubd6eoO4RNnT
-         722MJG889BjLkeu7BxKM9+qcSD3o0YEZhHu0+PUz1/j3OIK1DotixWwh+achTMMjg8nd
-         BiOpAigBSlaBM5aFLa8mbPfwP7kQGsgzh48qx9UYr8G/adudf0YEfdOvfAv9wH9/h4SZ
-         JNFCLa8Wsb4tYGxUtt7zgAmoaH8fzTUZIvU50yi8MRlqho6wS/BW45w6IV2J2H4k3r1b
-         p97qA1zO8dvRoc9btind7lCSNAz2T9v2BhD65OA7kF8/Bo76k2MFOi0iTsSJb+lRCgUs
-         EoSw==
-X-Forwarded-Encrypted: i=1; AJvYcCUiDTsbqxjXefOGspxIm/7RNyXgMSHy3BmlKqhKkNbj5y7QUuD+2KFxROqoYJFsuJbKQogOrF5JtUQkAIGG/TvfPZ7OLA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyJj68zlmiM8R3YpJb8tegGMh9V4eccvR6AFYoRiCJvQqZf8mRX
-	Pfa/nGv/XHBEB9WHMUMRQTIj61RIsCLCPlOoa5D39iIF1Ez59Nxa
-X-Gm-Gg: ASbGncvvuLGYdymims/63deMALJc/UjE/8ajUWtV7eLB+b4t7aehBfrwzfvqZFY/BE9
-	gkBm9RDEKZJ2Ft5BoH5qJyExV1hsD87Oxa/KH9tmCIGMNoRaJaMGl3Zw6UFxJ3LqrZsI3Imsg91
-	Nq0+z6j/xWRqrO9GVpXSEOMNqnnroD5gI3hQXF5ibtbBOjsPufZW5QJm0d2tLEe/3c03JkEpuAO
-	V86n3UIuOSZ17F+FqZYZTcJEjp1DCpnhK5xhcXvERS6YKx2NgbwppytNod0oj8wHgTpdno+TVRq
-	wMIC6AWNU45PPfSxjX93
-X-Google-Smtp-Source: AGHT+IFlbZXzjTjaiCfw7RWv2kRvgfxitjDjmHfqC8UYJCSB2hhBiRs+ip/IcfoDod4m+VWndDNKwQ==
-X-Received: by 2002:a05:6a00:244e:b0:71e:21:d2d8 with SMTP id d2e1a72fcca58-7326179d668mr14480366b3a.7.1739761248651;
-        Sun, 16 Feb 2025 19:00:48 -0800 (PST)
-Received: from fedora ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73265678abasm3272624b3a.27.2025.02.16.19.00.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Feb 2025 19:00:47 -0800 (PST)
-Date: Mon, 17 Feb 2025 03:00:40 +0000
-From: Hangbin Liu <liuhangbin@gmail.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: Aditya Dutt <duttaditya18@gmail.com>, Shuah Khan <shuah@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	cgroups@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH] selftests: make shell scripts POSIX-compliant
-Message-ID: <Z7KmWNNIsXCnhiax@fedora>
-References: <20250216120225.324468-1-duttaditya18@gmail.com>
- <Z7IOR2UNzjy7cQA7@slm.duckdns.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IwOn/th6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43A2EC4CED1;
+	Mon, 17 Feb 2025 10:08:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739786922;
+	bh=ZNRWXcvrUYv+UzJei+iE1P2u6U01QrUazRt28GOma5k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IwOn/th6sn4+q8+HkTEeqwBejwq74qZpVOK4Q8PMonDQr2/0cyPyoloYTdznY39Ja
+	 EgQnqMR8rPXyRvZ6bmyBjzz/GLx/4A0CRjZXjEGv3LXGBaG4La6/IJNROuGPRhd8dx
+	 kP9ap7wQ2xVw41xMfnI2ceUgSIxQK8fxqgtfW0ZZC/UVd0yXjOjWFzSFZajehnKQUP
+	 FAyyKH/rV/k4xTCkNSGTQm2UITLh2KNvWVntUA1dk7rdswHcMcNmDXUiGH1Pyobsdv
+	 Fhmt1I3KTfWd20Iqi7gXx8psoFsA1GwPc7yL5iWKdh+EyTiMuI7BqWUVJHk4lSIqnF
+	 3V1Uo4Kwuh2JQ==
+Message-ID: <0c5f1dcf-1bd4-4ddd-b6c0-e3ee2b3671ea@kernel.org>
+Date: Mon, 17 Feb 2025 11:08:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z7IOR2UNzjy7cQA7@slm.duckdns.org>
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH] selftests: net: Fix minor typos in MPTCP and
+ psock_tpacket tests
+Content-Language: en-GB
+To: Suchit K <suchitkarunakaran@gmail.com>, netdev@vger.kernel.org
+Cc: horms@kernel.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+References: <CAO9wTFgN=hVJN8jUrFif0SO5hAvayrKweLDQSsmJWrE55wnTwQ@mail.gmail.com>
+From: Matthieu Baerts <matttbe@kernel.org>
+Autocrypt: addr=matttbe@kernel.org; keydata=
+ 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
+ lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
+Organization: NGI0 Core
+In-Reply-To: <CAO9wTFgN=hVJN8jUrFif0SO5hAvayrKweLDQSsmJWrE55wnTwQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Feb 16, 2025 at 06:11:51AM -1000, Tejun Heo wrote:
-> On Sun, Feb 16, 2025 at 05:32:25PM +0530, Aditya Dutt wrote:
-> > Changes include:
-> > - Replaced [[ ... ]] with [ ... ]
-> > - Replaced == with =
-> > - Replaced printf -v with cur=$(printf ...).
-> > - Replaced echo -e with printf "%b\n" ...
-> > 
-> > The above mentioned are Bash/GNU extensions and are not part of POSIX.
-> > Using shells like dash or non-GNU coreutils may produce errors.
-> > They have been replaced with POSIX-compatible alternatives.
-> 
-> Maybe just update them to use /bin/bash instead? There haven't been a lot of
-> reports of actual breakges and a lot of existing tests are using /bin/bash
-> already.
+Hello,
 
-+1
+On 16/02/2025 13:25, Suchit K wrote:
+> Fixes minor spelling errors:
+> - `simult_flows.sh`: "al testcases" → "all testcases"
+> - `psock_tpacket.c`: "accross" → "across"
 
-Hangbin
+The modifications in MPTCP (and psock_tpacket) look good to me:
+
+Reviewed-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+
+This patch can be applied directly in the netdev tree, but I'm not sure
+the Netdev maintainers will accept that kind of small clean-up patch
+alone, see:
+
+ https://docs.kernel.org/process/maintainer-netdev.html#clean-up-patches
+
+Cheers,
+Matt
+-- 
+Sponsored by the NGI0 Core fund.
+
