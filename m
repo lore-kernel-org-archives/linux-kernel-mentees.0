@@ -1,145 +1,110 @@
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60771FCF57
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 07:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626D622F3AB
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 09:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739865215; cv=none; b=M4JVeI4b15Nzx7Jd2rM9nT51AlFDqLYxFGDywfVcJIAz/0qf9cC48xJh3JkRXbYFiVBWJ7DipkHpGeMD0BRjZrTTEd+5gzEhTAA2EZ3l/C+Ekw/dPCAJMYg4N0nGsNL/+VPmPXrPKk1hBoCN/zh10lez/qlwck7TzmuG8XafsR8=
+	t=1739870904; cv=none; b=tt4P9ASWLSfjEYzJqgjtDKsCMS6OGSr+bK/deRwH2RB0aoQt8tnz40IAjFfJJkevS1w46eoy8fuymEVLgyxrOboDX/xB7bBPP4Uz7594vP5VSqZBt8krPARt9/m+9vDRFQcpX9hm+XX5PAlvdwIlAVrmo1qIZJVrGNP4/dTqKao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739865215; c=relaxed/simple;
-	bh=YWS+T8ECFcznKEcPjb6zYtSnqdNqHP5NPNsFHLrDhIA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WaHvi3YFOQMCp5Tlz7GsLEr3IUvnktYiMaZvaFMP827PZHVLfoZxMTdykqp1wH3tKzKA/FcTKsSLAZ3mbyxlUjk7KTd1/IGk/A/QqyuSfhfVNRoFgvq6iz9y1LhYr6R3Vyr/4lFNhR7fCMPF96sVPmgTpbsZ6P+/aB3FnVf6HZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=DClj3Qzv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ESK5rYJY; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1739870904; c=relaxed/simple;
+	bh=KUCO7GOcoDrDHadjAC27o2CRSYfaHDgMDjMGMYIWFcw=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=JNeZBYHX25aWWOmhEK2KAcrPfHs+X5GRrzqp6iHoSMHC7uQgwR3p1TcMc5E7AV8f2PrPs8aQnRAkR7JDgH/xwxY4+yCDVyTZ5thXYpGDkA3L3zJbD6RPsYDEi6chpJsp8XoFbNWwimEPj8pexq9R3mXnYmG6e0ObaHo1BC3xSo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bZhhUC2u; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="DClj3Qzv";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ESK5rYJY"
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id A990E1380181;
-	Tue, 18 Feb 2025 02:53:31 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Tue, 18 Feb 2025 02:53:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1739865211; x=1739951611; bh=syfLQdsWda
-	/2sJIl/eiwwpyFBvNey7scP0IwaqQVXUo=; b=DClj3QzvwCZV+kFkAMiHnpxUlK
-	Jqtxe02/UzBgmX7Mvjcn3p8iyMdlstNFgrCGMD2Jxlw1HOQMxt6J6HDDPyinPJ69
-	PyLlTyTIUjkBsTKMqCnTCxcgwwfDo+h11GvVDNN6ozMubgcuUvvMc/FXDulkJRug
-	CCHxy/TxxVKCVho3pSx8MkqHAkwqnjke8NfuM6I/5bIP7PSFF5MLpp5CSMo9q9mq
-	XnmY9ND/o3pFxTv0fcNsRdoL4Z2X9IcbRAKkyH3M1Z2kmlbvoJv6/DDvtl0zmp9G
-	XIFs6GwUWZbamYdZxod3ZeZ6eit30XBCQslqnzCCmgQllkWfKWJcbFucjl3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1739865211; x=1739951611; bh=syfLQdsWda/2sJIl/eiwwpyFBvNey7scP0I
-	waqQVXUo=; b=ESK5rYJYVvppN31KAukf5beDyYQwwen9JgUDui/PgyAp8NkU3P4
-	9T1puoV7NMf50fzAttREjSI9QchIW8Lug9hsqcL4idkES5ZwoK3GOteGoox/LZ0w
-	rICDn2m0zODEfVefyCkVnrNBsjbxetUeOOE/QDGDLQjL/UJTjOFr/jFtP5gqhEA4
-	RFrrohDnqUNaNgVf1/hXvtPjK/tmnbfdvHhua0j0k4XEJb0B11h+hduMRgWypqEG
-	EBNE60Q7xkMTSreFyX5Zx2vtGGRTG5Wy3+cXMWqUB6ZT5OWeXFsiBHHXM+9wKlYN
-	p9V4fvmuspi7dp8Yl/XEGHH2wFS7RQAuSjg==
-X-ME-Sender: <xms:ezy0Z3Dm3jQf12S16X0bVrFtYNHAPERmeNZH5yTuJtZmyH0W08tyCg>
-    <xme:ezy0Z9jZJp1AhzyQl2-bB08ANkDKUA6iDoCFUim8TmO22cN4P3Mzh_jNjILkNShE3
-    Bn7nRSR--PExQ>
-X-ME-Received: <xmr:ezy0Zykpw-vqa3Mbw5vBzGZ4DSGu8lz-JhSNPI5LkXdwPAu1WDCZU-Az2NuEABm-WSG3sdWRhrILLDHbc8etGmYL6bQaesa22Crp-Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeitdejgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
-    necuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtf
-    frrghtthgvrhhnpeehgedvvedvleejuefgtdduudfhkeeltdeihfevjeekjeeuhfdtueef
-    hffgheekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehgrhgvgheskhhrohgrhhdrtghomhdpnhgspghrtghpthhtohepiedpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtohepshhumhihrghhohhquhgvvddtuddvsehgmhgrihhlrd
-    gtohhmpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrohhr
-    ghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtsh
-    drlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:ezy0Z5zIwn29FfkaSnf5Yn8z3MlBPoTNte8sMGcJhE0x1u7qiYf3HQ>
-    <xmx:ezy0Z8RWPwDwTwLB_DQtqNP9vys2-tWxYZ9Y0jZdHkx1H1Pz2hSHZQ>
-    <xmx:ezy0Z8algngopgFqCgJSNo2CvLadSEj5qYafjBDMpWd_iMtO91-ZLA>
-    <xmx:ezy0Z9QKtqmrSjcFGPK3pf4CsJnWUQexPuOoKftw7DfnW6wpjcTx5Q>
-    <xmx:ezy0Z7HHkkD1zudVoiblecebmxXp9920l6iS0yR6NanS2Xw-tgS0iuGr>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 18 Feb 2025 02:53:30 -0500 (EST)
-Date: Tue, 18 Feb 2025 08:53:25 +0100
-From: Greg KH <greg@kroah.com>
-To: Sumya Hoque <sumyahoque2012@gmail.com>
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] Fixed Spelling error
-Message-ID: <2025021851-unpinned-neurosis-1ffa@gregkh>
-References: <20250218032834.151392-1-sumyahoque2012@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bZhhUC2u"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-727090df861so1126155a34.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 01:28:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739870902; x=1740475702; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=8kJMtWw9wVrl3aRZwWKVOYpt3qrRhCd81TsGEYFpLTg=;
+        b=bZhhUC2uSm2KVJpu27FJ7LOUVsm8e+AjZqpHSc8m+bgQx062I+3RYJz/lIF7jxDQzO
+         2pqGB+/3KIvCRqtHVeg29Dc+jJR2hlgJpMxJPir2pyb1xNwwN88KDXnIz9WkwP7mSMVP
+         8Z0I3uoNyTtDY68XEweAgE4Wbul85ppKXaIXDxnxl99hHCVL8ToC1kcyvip4JEDsS4Mc
+         vI0vUxi/tlG609rp+WfjXCLRExb/OmLNz08GiQSo7k7ggevdJ90A8iKHtIMyjwQ2rMv9
+         TiYYTv33X181ldLWdYWCnwNqdnvHudYHduBQLVFN9dAM9mcVciAygi++scG+h9/sujTX
+         OkDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739870902; x=1740475702;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8kJMtWw9wVrl3aRZwWKVOYpt3qrRhCd81TsGEYFpLTg=;
+        b=fOpYufBsHaoZtgTfI/K4eCazsJTKUrGIo2HN600uuE3/0tClteMQ/aP5WgEzO4isRS
+         33A5qlGnTikhkbhAbaHcXe2P+AldeVwsiXi8g3JLVgs2MP5ryltVbmxF6occZHeYkWUN
+         t5Ism0haDumh3lqD5B+AkI3XETJEJvGCngdj3MNXZTMSG989VJGIfhDEx4LoaEJEaEoE
+         NkKP/+bEZtyWYyTVoA6jw9NG3bT5t3sCIuIYnBfbzJhugWFPg67elr/B04Wzz4xFPmeZ
+         wU5if1YkJ2YYnwoafuwijEJfcWJ6cH2jeRAo2aUJDjRFpzJxn2tcu+e7eLf44rR1c5/3
+         bgTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUbiJxzhhyoWBp96m7quGxtSsU7HE2YGpfHMD8YOVnjlBo23gXIau06FxjqjK3TbXCMpZ/DCU+pU3BY8NuoZ6zcrvbshg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyiytQMGV9poGzfNgMQgyx57idT0ETNiv3O6D29hNp1L1xPSMzb
+	HQ3jYLFJMBwXb5np1OnOOyYZaxQaTJqK2ps5GAWBRZQlZH1qK/cYUlGJf0btU+AsyaABVoJCEml
+	i29Fi37PvR3y33thQpB3mqHpdHMY=
+X-Gm-Gg: ASbGncthRRa+mJ+ZGfREonrqZODoPPhZTFSSq4mFCiBrywmQoz5KCP/A/T1KkfMhN7H
+	7lBh+mNQ0sJqaEXve9h/gtA21X2kwiOm2ynN2xeFVkFBBRQKcMOZvrefADUQhz8whaI5L0O4=
+X-Google-Smtp-Source: AGHT+IGbMnXi83Muhh7hozQR7z1/wxvHIyNCpzQKVTEOGDO+J9syLNm5krScvYcmKeztpkeSfzp0rQUdKL4bvpaU70c=
+X-Received: by 2002:a05:6808:2025:b0:3f4:28:1cd6 with SMTP id
+ 5614622812f47-3f400281de6mr3182376b6e.39.1739870902398; Tue, 18 Feb 2025
+ 01:28:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250218032834.151392-1-sumyahoque2012@gmail.com>
+From: Suchit K <suchitkarunakaran@gmail.com>
+Date: Tue, 18 Feb 2025 14:58:11 +0530
+X-Gm-Features: AWEUYZn9N8YQjSA8rz4TzhThrcXz6tH7kdaOCaUbGFtWZGGJO-UH_9KpRuvxN4s
+Message-ID: <CAO9wTFggVh9LvJa_aH=dDBLrwBo8Ho4ZfYET3myExiqf0yfDCA@mail.gmail.com>
+Subject: [PATCH REPOST] selftests: net: Fix minor typos in MPTCP and
+ psock_tpacket tests
+To: netdev@vger.kernel.org
+Cc: kuba@kernel.org, horms@kernel.org, matttbe@kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Suchit K <suchitkarunakaran@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Feb 18, 2025 at 03:28:34AM +0000, Sumya Hoque wrote:
-> diff --git a/Documentation/video4linux/hauppauge-wintv-cx88-ir.txt b/Documentation/video4linux/hauppauge-wintv-cx88-ir.txt
-> index 93fec32a1188..faccee68f603 100644
-> --- a/Documentation/video4linux/hauppauge-wintv-cx88-ir.txt
-> +++ b/Documentation/video4linux/hauppauge-wintv-cx88-ir.txt
-> @@ -30,7 +30,7 @@ provide for a handler)
->  GP_SAMPLE register is at 0x35C058
->  
->  Bits are then right shifted into the GP_SAMPLE register at the specified
-> -rate; you get an interrupt when a full DWORD is recieved.
-> +rate; you get an interrupt when a full DWORD is received.
->  You need to recover the actual RC5 bits out of the (oversampled) IR sensor
->  bits. (Hint: look for the 0/1and 1/0 crossings of the RC5 bi-phase data)  An
->  actual raw RC5 code will span 2-3 DWORDS, depending on the actual alignment.
-> -- 
-> 2.34.1
-> 
-> 
+Fixes minor spelling errors:
+- `simult_flows.sh`: "al testcases" -> "all testcases"
+- `psock_tpacket.c`: "accross" -> "across"
 
-Hi,
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+---
+ tools/testing/selftests/net/mptcp/simult_flows.sh | 2 +-
+ tools/testing/selftests/net/psock_tpacket.c       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/tools/testing/selftests/net/mptcp/simult_flows.sh
+b/tools/testing/selftests/net/mptcp/simult_flows.sh
+index 9c2a41597..2329c2f85 100755
+--- a/tools/testing/selftests/net/mptcp/simult_flows.sh
++++ b/tools/testing/selftests/net/mptcp/simult_flows.sh
+@@ -28,7 +28,7 @@ size=0
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch does not have a Signed-off-by: line.  Please read the
-  kernel file, Documentation/process/submitting-patches.rst and resend
-  it after adding that line.  Note, the line needs to be in the body of
-  the email, before the patch, not at the bottom of the patch or in the
-  email signature.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what a proper
-  Subject: line should look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+ usage() {
+  echo "Usage: $0 [ -b ] [ -c ] [ -d ] [ -i]"
+- echo -e "\t-b: bail out after first error, otherwise runs al testcases"
++ echo -e "\t-b: bail out after first error, otherwise runs all testcases"
+  echo -e "\t-c: capture packets for each test using tcpdump (default:
+no capture)"
+  echo -e "\t-d: debug this script"
+  echo -e "\t-i: use 'ip mptcp' instead of 'pm_nl_ctl'"
+diff --git a/tools/testing/selftests/net/psock_tpacket.c
+b/tools/testing/selftests/net/psock_tpacket.c
+index 404a2ce75..221270cee 100644
+--- a/tools/testing/selftests/net/psock_tpacket.c
++++ b/tools/testing/selftests/net/psock_tpacket.c
+@@ -12,7 +12,7 @@
+  *
+  * Datapath:
+  *   Open a pair of packet sockets and send resp. receive an a priori known
+- *   packet pattern accross the sockets and check if it was received resp.
++ *   packet pattern across the sockets and check if it was received resp.
+  *   sent correctly. Fanout in combination with RX_RING is currently not
+  *   tested here.
+  *
+-- 
+2.48.1
