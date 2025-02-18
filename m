@@ -1,120 +1,118 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F020C26D5C9
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 16:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BE91EB5D6;
+	Tue, 18 Feb 2025 18:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739897975; cv=none; b=OSXKmldlrR3dc2mx+j3fvzdBOjZQOVDTJB/prG/q9PQQEt8HuSXFNZGv8Lw001yKu2AFCzDmJxSMwizZTTR2rc31RJgmWPUfygMU/wnB1X7zrO5oCkO4FTnTVTJpcn5BVPJAZsgMiL8IwZWuPW2cbUyvgWnt41EyvfUtwxZKDa8=
+	t=1739904162; cv=none; b=m65tkYgaahRq4BiPYy/+gY/GVS1CQk3HQHiQgzZT42c0GKn930dIZQG8Gjg12dvn+j8Iw3e/q8j6UoGx94LbxoYF8LBNWDrwp7tVMaoo/yc7z+XJq5vXKiRVjAYy9vWXdaIqU8OFmQPsvweNW6YYaNiJGf9ROTjhGjRLqntLa3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739897975; c=relaxed/simple;
-	bh=3RFWOtHbuVv6Nc1ZE3k6eCKE8OuVH5G1a5Nyu4685aE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ITsJKBU4K97J8cVUgQuDVF5kLv5/S2pK/R8oK1tM1mfhCU6ZXeYWkwKHOdMmynSn/h+mkRIkyzTAyW3+uGutZ0Xh8J0GLZUItgaQKFbAOUAW51pAnhkWO3wM5K2j0eocHLApLSy4qw1lXZvA4kSfCs6mn+VJOJpFa9UShM8aAGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hBox2QtU; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739904162; c=relaxed/simple;
+	bh=i/UtyEFPHlCOBSsfiq4a0thj4mCfuRPUFyigwEr5PVk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p0kOceyu9RcP221QrRktu4fB711rcwxZL0FMCjrySxN+MCo56IM2BjZ5ocRKRIi3wCZTaAdKdSQgwSqJ8lCjjcEuP56L/MzYfLYYvjmbJVVu40QdAd2qWQb385kVoDr593FcrorLDA4c7iykXJB820SnhKhlwUxbVyHyOQlztiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZWsdcUgn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hBox2QtU"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2210d92292eso85139815ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 08:59:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739897973; x=1740502773; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NQ0iczs/f01PaFvxLk0T+RHP0Y74cglMUGc/eTOXWT8=;
-        b=hBox2QtU1/D8AM9+/4GDHWbBac9hOrKRQzAGzWRc6h0q9Z0NCjizasuRbEYLe/3w7t
-         X8ha0Ys4M+5gEI9C1H5HwKdW/St2fgI7W/bce4W5mowBDioCflRBJAZ1Dt33/QgERUMx
-         ZWnG0k4Sl6OL7U1JzT5kI7H8rCNOHc4OXvTNNMRP7Ozxwptf9lcahtO4eOPbU3AnZmiN
-         mkk22OeNvICqRpPSrlCcymnYp8EOH2rtgh5cMfUwId8NbfWpYbRE8BETX3A1Q/2d/pUv
-         sFjJBwLRdEdlRhRnXz6D5I53x3a4JTsvltVe9bu6IAHJNJbWmRAAO86XgxX2B4OT7XxG
-         l1rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739897973; x=1740502773;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NQ0iczs/f01PaFvxLk0T+RHP0Y74cglMUGc/eTOXWT8=;
-        b=nSDZmTU6CUhZ2vJK7Uh/yyldgjy1aVtqOQ0KSjnglidRP4pTctb9Nck79rap/lNi2x
-         vQgMm+Aavasnb9kcW8tXCzht4Y0qJxdUt7SEXGnmEFLDuBWietq2USZmRXOiCfgyk1wC
-         J5sHCKSa8WLlabAMnekSe1O5iRysAhkLNbrQD7Tw/M7mAJUdEA1XZ9rkS6tNGJz3MHVL
-         ++pFxRtYDRZNSTE/Rj2F/dGx00Xmbm0Tr09RKo5lvaqtpdCOME901i747h3vaWBWbSjY
-         azKZEQERrfBEEdYnQGUm3V/FRQjAiJeD3JssgGLhWlZtfj2aZ3MOvMJBDHl2sflCI7Kr
-         w3Bw==
-X-Forwarded-Encrypted: i=1; AJvYcCWKN4NWnjFOe/J3Ue6RZkb+N1ng4daPhgk3ipWnwW2yuNqzogNU0a4hewniJEFRwmIjhD9xgxubQX5vi5LWYQZQTMkfkw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVC513+2bVWoSYTjIsEt1pPdh0VzcjF+OGeoPW0Kwb6eCOj5Te
-	qzCNY1mcjXFUdBG7+pKU6Fc4e6C2WKuMXqSp90UbA6GQtEeVLz9gVE8KplQJohU=
-X-Gm-Gg: ASbGncuTYLz2rZqVGwOFWb97quZ+ZB9uEgCicVu32bwiovd1DA7dBQoB5e5h6fI64rN
-	4j9gtpMu/mfIFK9YXjAmG7ekloJfdoNykSyLDxR0W/Yq3ryG1zaq8vnJEhgJw0Lg8nInWwHiiO4
-	2HchxHr4eL5d/+GZdSyznCPnmvv3xitwDEr1/9mSqIrZf4/KY3cZ84LonUU8RiCTqKXlstvh8O9
-	kHuT/ir3RJQnmynIOmWGKtp8OdXpfDXRw5u5TjzQgdrMkXnb+bj5lBEXpf0nAMJpqhf6r5l0fgI
-	3q4CowP4JPQg9r+4elJNsRL/5LfKg/pX2ILS5wc7xQ==
-X-Google-Smtp-Source: AGHT+IF1JuWYJdCOgkh3XC0mHjU0ZlfP/j0jnRLaHEDrwR/uBAScx7ddu3oZrBXPR0lPCThpWj6pWg==
-X-Received: by 2002:a05:6a21:6b05:b0:1e1:e2d9:7f0a with SMTP id adf61e73a8af0-1ee8cbbba0dmr29332802637.34.1739897973071;
-        Tue, 18 Feb 2025 08:59:33 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:16eb:c16:eb93:d961:71b9:73fe])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73258dece33sm7916298b3a.37.2025.02.18.08.59.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 08:59:32 -0800 (PST)
-From: Suchit K <suchitkarunakaran@gmail.com>
-To: netdev@vger.kernel.org
-Cc: kuba@kernel.org,
-	horms@kernel.org,
-	matttbe@kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Suchit <suchitkarunakaran@gmail.com>
-Subject: [PATCH REPOST] selftests: net: Fix minor typos in MPTCP and psock tests
-Date: Tue, 18 Feb 2025 22:29:23 +0530
-Message-ID: <20250218165923.20740-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZWsdcUgn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1308AC4CEE8;
+	Tue, 18 Feb 2025 18:42:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739904161;
+	bh=i/UtyEFPHlCOBSsfiq4a0thj4mCfuRPUFyigwEr5PVk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZWsdcUgnBh3/yB9+vbmoQFZkUiDC3tHKvTrxXJRZKDOX1ZmxSLI6uUIXdRhkQPyIv
+	 MHb9Jm2Ppo6aMfZC7VZkP7CJe3wNVBUDjOYmdaLGOXwpQoevjzpp2n6gM2CLl4VrwC
+	 t+2h6mlhys2tHG558bob0DylTBGmXG/i9dZPdmxqL6jXBq76Wh0RFA9izFBz8zKRY6
+	 GzvHRsAqI8GbsU+UIL7bcXZmAhL6rGdj7ErkhtCNjgumkEUPm5/IyuWd6n+DgopYf2
+	 ZgBkGBheXvLkH9btvcz3RUkJjmfclFFLk6Rp8wjQcUePBgHF+IYcQbErM0t2QeWgzR
+	 w37EqsdqIk3XA==
+Message-ID: <d194435e-88bf-49f6-bb6f-b52f77248965@kernel.org>
+Date: Tue, 18 Feb 2025 19:42:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH REPOST] selftests: net: Fix minor typos in MPTCP and psock
+ tests
+Content-Language: en-GB
+To: Suchit K <suchitkarunakaran@gmail.com>, netdev@vger.kernel.org
+Cc: kuba@kernel.org, horms@kernel.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20250218165923.20740-1-suchitkarunakaran@gmail.com>
+From: Matthieu Baerts <matttbe@kernel.org>
+Autocrypt: addr=matttbe@kernel.org; keydata=
+ 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
+ lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
+Organization: NGI0 Core
+In-Reply-To: <20250218165923.20740-1-suchitkarunakaran@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-From: Suchit <suchitkarunakaran@gmail.com>
+Hi Suchit,
 
-Fixes minor spelling errors:
-- `simult_flows.sh`: "al testcases" -> "all testcases"
-- `psock_tpacket.c`: "accross" -> "across"
+On 18/02/2025 17:59, Suchit K wrote:
+> From: Suchit <suchitkarunakaran@gmail.com>
+> 
+> Fixes minor spelling errors:
+> - `simult_flows.sh`: "al testcases" -> "all testcases"
+> - `psock_tpacket.c`: "accross" -> "across"
 
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
----
- tools/testing/selftests/net/mptcp/simult_flows.sh | 2 +-
- tools/testing/selftests/net/psock_tpacket.c       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Thank you, the patch is no longer corrupted.
 
-diff --git a/tools/testing/selftests/net/mptcp/simult_flows.sh b/tools/testing/selftests/net/mptcp/simult_flows.sh
-index 9c2a41597..2329c2f85 100755
---- a/tools/testing/selftests/net/mptcp/simult_flows.sh
-+++ b/tools/testing/selftests/net/mptcp/simult_flows.sh
-@@ -28,7 +28,7 @@ size=0
- 
- usage() {
- 	echo "Usage: $0 [ -b ] [ -c ] [ -d ] [ -i]"
--	echo -e "\t-b: bail out after first error, otherwise runs al testcases"
-+	echo -e "\t-b: bail out after first error, otherwise runs all testcases"
- 	echo -e "\t-c: capture packets for each test using tcpdump (default: no capture)"
- 	echo -e "\t-d: debug this script"
- 	echo -e "\t-i: use 'ip mptcp' instead of 'pm_nl_ctl'"
-diff --git a/tools/testing/selftests/net/psock_tpacket.c b/tools/testing/selftests/net/psock_tpacket.c
-index 404a2ce75..221270cee 100644
---- a/tools/testing/selftests/net/psock_tpacket.c
-+++ b/tools/testing/selftests/net/psock_tpacket.c
-@@ -12,7 +12,7 @@
-  *
-  * Datapath:
-  *   Open a pair of packet sockets and send resp. receive an a priori known
-- *   packet pattern accross the sockets and check if it was received resp.
-+ *   packet pattern across the sockets and check if it was received resp.
-  *   sent correctly. Fanout in combination with RX_RING is currently not
-  *   tested here.
-  *
+Reviewed-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+
+This patch can be directly applied in net-next.
+
+Note: please next time don't repost your patches within one 24h period,
+and use the [PATCH net-next] prefix, see:
+
+  https://docs.kernel.org/process/maintainer-netdev.html
+
+Cheers,
+Matt
 -- 
-2.48.1
+Sponsored by the NGI0 Core fund.
 
