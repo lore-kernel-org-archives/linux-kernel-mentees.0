@@ -1,67 +1,67 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59DDF7E1
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 07:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB567E1
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 07:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739863213; cv=none; b=Adlr5lJ9L1zj58kcC7zrAoD5RiZsKClktucEsnwaBEYnK0ZTIbFe7M5H7EcoZNLuWDDramnXlB82d/jXp8cyyKRNRmMQJI2nkTVT4dOml5YqCEdzKq2GyxmV2UhN2y+O+iqXoOnVfk3TC9v8a6GExBUDjc7yrpRNgvQNWC342lg=
+	t=1739863742; cv=none; b=uwiV35j4VuYAX0My754lwApFfVXC0MCHXHAn7Gtk8Jc+jcEJYXCbAgHGb/Quglw+pPqvi0hnhkAdLPiYgMP74EDKRnGFofa0kiPA+agEzzJV3Tp15AQuUT4HS5rWH6v9hfVSOw573dqwYE00viMIjzs01oJwBLbMk1/Cxn1NKe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739863213; c=relaxed/simple;
+	s=arc-20240116; t=1739863742; c=relaxed/simple;
 	bh=QJ42PfnIyZtd/E4FCdA7rGKy2tClUkTb5RVyCcC+XPI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dzsk6ZD4j1lUbkyUIMwbEejhSsYcw8mxWQVBAYyUJ3sbSAdRtxGmsgkvGEZlsOmoEF+tbo3V/smMIfhHvjAqkCAsvdK7I+4kzD2Gg8D2M35xADWYUS43FG/ni7D2Ox7s2Kx5aEcc36YRisoSlJ6q+3fyYA7D9cF0hYddPws7Pus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZG27HQgE; arc=none smtp.client-ip=209.85.216.44
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Jbjkyr8DfCfWMcHevkneUpEHnrvnKxTdWp/qIg8bAYhKleGv91gGvqlg9i2a4+kyGUCE4k6u1pVbhBwt4Lf8m0DhOPZJhJora3kLvlirmWjmyX3TXokBEZNXgumVWyM+jboAD1J95NW2qi4eeCxeznYA6mKsZUlBvtGLxWAbCO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=POW2U2lc; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZG27HQgE"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2fc0ab102e2so1183651a91.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Feb 2025 23:20:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="POW2U2lc"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2fc29ac55b5so949998a91.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Feb 2025 23:29:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739863212; x=1740468012; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739863740; x=1740468540; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=VF217HMsP0EaV73/D5yPINv1JqTHlL6uJbUiEmkq1c8=;
-        b=ZG27HQgE+85+1o65LkcZGwqTsY6OMq3rRK9hgDpjUk0LDpAoE13UaH7pnP/49IM07N
-         5vWzzLqzWBB33DKZd8R4flKX9owjrfRsthrzJfL2sX2zBvlG7a96TbieW+oLt/4kWlqZ
-         6qLcJ5fGSAeiFw37L+JG/YbF1v482/TBbCtPNGG+itbL9XU/lu+QUxmXo8iyEq85LJO1
-         xsvutb3XOKxRKp6rUHVqn2/XuAIbkmMlriKVwos7ZFGM15b/HrOO1BqE7+xcSbZdIwy1
-         erkvwEfZxGC7LDwoD1Y7GQzDyqWxSiiMPXj6gEb7MufbHReYQ1bxnkm6SEHQO8jOotxO
-         R1Jw==
+        b=POW2U2lcvivB4u1erOV5KKZ4d3SdD29Us385Qg8//ktdzGQ/bDL4qr3cGfvaZkhrYd
+         cc1ELQBbduZRmU92ZhS15rY/frYgOIpi3sY9zITnV3uJmZLnY5pNMHH8WLU8Kdpqzlhr
+         8tmo+cOGlmEkSPUMifizjWwodMMkCoSz3VXLPgwcO10JTtQf41iioT9kPfpTJiiA44dR
+         MXv6CUhrGHTrFqJcusxi5i9IwgQfdfTEoUf0TdBuncjfAkwk/QCAT/akmG7GmIneufVy
+         LuZHD1ccW4CA8gVZ9fzit0fDIxmJ0HQ8vXuCZqt1h2e8lFAOnSheFNoqlBpj/+zLa+5A
+         jQSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739863212; x=1740468012;
+        d=1e100.net; s=20230601; t=1739863740; x=1740468540;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=VF217HMsP0EaV73/D5yPINv1JqTHlL6uJbUiEmkq1c8=;
-        b=LvVog7z5VIqwoNDBN+uaOOssuq0SyquFkABk9oCiHMfO+aDzynTXnPcwtcfzPJa6Gn
-         6+D19+Bwt8Kbqjxy2mo2tXwjk72yjzJOq9HKNHWPbiaKvjEERiJLoXNKeP8UxyYgzEIG
-         WNBf9NR2OBnZQyzRbqlCQ4jAL4O4Nm74z4ex4lzI9D15swK2gYDgTQ1/erMCTElPXLUo
-         thwch3XiUeMB2C0RjVtttbhLAKtYlQp1X+MRmKD63DNGnrB1+R0wzBqgYZ3y9Q8yL9qg
-         Hji9LkCLx1rzDhEmmFbJFZQLNvC1B0YVxro+CQzvz0gxZQfl9PlVwiH1ELO6ZrMtQS/x
-         YpOg==
-X-Gm-Message-State: AOJu0Yx5hoBm9mlkDNvgaGHIbTJ+cVnw3MusfNwtgoE6KK8y3ViKyPCa
-	2DtNGLb+79eXAnIYHQV1Rq3WptnDR1aLRaob6VV5B2WLZieAX8sb
-X-Gm-Gg: ASbGnct5vbyOsHMpLCZPukoNIzyjpjt+Gfn+897l7kdqNlg3WQi7/R6eJGnLNxujBeX
-	o6aHtFgHoPSCGEeDhfo9mDWedyBRXJffRVh2U8pRmzgWBdlHZn3YR61FD6E/y0QCcMeI36BKMdQ
-	k9YCj3/BgPPXsVfnfdsYvs68JuISX+0tnkFBPBAnNJ9BNTbuiO+p1gwJrd0WsPeKDLuO4WRciQ5
-	9mSsB0SgyLVRQLuUOIlQUefI3V8BS4y35zpHwsRTKqtfNtovgdKe3UGXfXVivycz3It+Pj0AFPA
-	fElbfl7Ywtt8ZMScS3tzooJ7lOXKcqnJ4JtspwiXx3x3b1GgVaID7/LDQtA2FveOgxIKW59/ZSH
-	oWtqFiQY0nPtQapBoZCu8
-X-Google-Smtp-Source: AGHT+IGIiGS0uPHRmcKfDtMPTDXzwZJxSu6wzrZmrjQKOVMYvWp3DtQ95Hv4y3t/IbEDFnpf4EQl7w==
-X-Received: by 2002:a05:6a00:1a8f:b0:732:17d8:d1b6 with SMTP id d2e1a72fcca58-732618c0ca9mr6948471b3a.4.1739863211549;
-        Mon, 17 Feb 2025 23:20:11 -0800 (PST)
+        b=ElsysntJmDYpk3LmkatH5t9XFrCrgR077zQwavGt0IH8TgqsM+9/1kXbiI9G42SrSA
+         hEi9dhsEqJ1iJPS4iFNt3xxpE7qA68f7ikOuCsnhsFAN98QHxTcyVeCo4zXAWk2Hsr5U
+         n4WVzueU0cqKOFybMVmwxym1ksIISizBjvFmMBCadmDAkhEfS5ipRZlUW8tWUhByaFZj
+         drP30d+6JrT+K6IzoxHMUHGPeYOLS90ecGxxBJ/9s9E0nDmsUfsFblFAHPEQeSY+NWuj
+         Oi1ZjJTci9Kypt7+H0K8OV0o8DbySgpBPov8s6FybmnB/bTj0QtwHX3xYJaXiDIzPiyG
+         pHxg==
+X-Gm-Message-State: AOJu0YwG5NcKhjMbjPmaxAUYKIjId6Dc2H6uP49I//R/u1TOiHogGV2z
+	7eeYWi+LOEHdyhek1v/YIsT+KMcHpU9zG7iForlXm7T5X3KbIqef
+X-Gm-Gg: ASbGncuJgDArm+8j2+3JprnPXASqRIwMhfJ6RrTRTNjBsvXMItK9mWAiHsLDvcClQ44
+	/3ytK/nxV0XqeyuwlNOS0EKjdyGXhUaLSnft7RHdtrhHs+Q6tXL9szy9l6StbTvV3EZKfppQ81V
+	UIXjx+ve2uR46KJ2jrjyLLhSiTlm/cy3NumXAx8qmJ9FKxfxv1XKkeoZhCix47G1rftH7Yfm/Zj
+	mlOBF9xhMbqW/toCsfIS3owcTVjFrVTowNRKrL9PNSmO7fSlj8jeWRQHaDkvy37KDQsjFrIp1Ba
+	M5k+kazdopu+upiHyk0PK0zdVOLX9bPySfjE7+hzHJ79RE+5tUNSgaHOtAClznuZ/dlUOGR8eFo
+	WTijRTo7HxjJM+xh/bs3Z
+X-Google-Smtp-Source: AGHT+IFDPTSiuSRBwX/10B3wCvyL4ya12C79bWE/+p33UPDhSYDzD15/MXkfjbptZZQSfrx6GyfveA==
+X-Received: by 2002:a17:90b:4c07:b0:2ee:948b:72d3 with SMTP id 98e67ed59e1d1-2fc40d124bbmr7731156a91.1.1739863739919;
+        Mon, 17 Feb 2025 23:28:59 -0800 (PST)
 Received: from codespaces-977d69.2t4prynt4dlezbzls5ze3dxsqg.rx.internal.cloudapp.net ([13.71.3.101])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-adda5be52f1sm4556957a12.34.2025.02.17.23.20.09
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fc13ad2d00sm9323486a91.21.2025.02.17.23.28.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 23:20:11 -0800 (PST)
+        Mon, 17 Feb 2025 23:28:58 -0800 (PST)
 From: Marvin Murithi <murithimarvin09@gmail.com>
 To: skhan@linuxfoundation.org
 Cc: linux-kernel-mentees@lists.linux.dev,
 	Marvin Murithi <50557936+rimubytes@users.noreply.github.com>
 Subject: [PATCH] selftests: Fix spelling mistake in documentation
-Date: Tue, 18 Feb 2025 07:20:05 +0000
-Message-ID: <20250218072005.19194-1-murithimarvin09@gmail.com>
+Date: Tue, 18 Feb 2025 07:28:49 +0000
+Message-ID: <20250218072849.23752-1-murithimarvin09@gmail.com>
 X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
