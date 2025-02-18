@@ -1,147 +1,120 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3248124336D
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 16:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F020C26D5C9
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 16:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739897073; cv=none; b=Gfuzfw19Chygyul+kM5b2o0oMdButNWViuzkQ31784iGfPGoPyTMqm/VLfQiMqv4lYXHxC9b2ogDJUb/9b+TG2Y5WHrNgYwLrydljTOq25APi+rOAgaPT9afxMFjgSEVSxinUe5lX+ILqz1iYQB5U2q3uyZxeblskYOHKpQUefY=
+	t=1739897975; cv=none; b=OSXKmldlrR3dc2mx+j3fvzdBOjZQOVDTJB/prG/q9PQQEt8HuSXFNZGv8Lw001yKu2AFCzDmJxSMwizZTTR2rc31RJgmWPUfygMU/wnB1X7zrO5oCkO4FTnTVTJpcn5BVPJAZsgMiL8IwZWuPW2cbUyvgWnt41EyvfUtwxZKDa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739897073; c=relaxed/simple;
-	bh=acKv8l7utndNRoSH3+d9y7WD0hvnj6Oah/BQgu+2ZE0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gbMxNAlgF/2jXrBXngXjnqj21CFd0yq9ps0j5zylUpucmwejIMtyCoskvJEgFtVPCxqs7vdTryYD9AocYn+88Nxf+1AzO2v8snPu03Ed2YwNdJ6zhqHULu8KzXyCPK14DqhlxIcDaPyriacdBF+jxjOjMhXHzTahpGxpbeg2OfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KKqrODMU; arc=none smtp.client-ip=209.85.167.181
+	s=arc-20240116; t=1739897975; c=relaxed/simple;
+	bh=3RFWOtHbuVv6Nc1ZE3k6eCKE8OuVH5G1a5Nyu4685aE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ITsJKBU4K97J8cVUgQuDVF5kLv5/S2pK/R8oK1tM1mfhCU6ZXeYWkwKHOdMmynSn/h+mkRIkyzTAyW3+uGutZ0Xh8J0GLZUItgaQKFbAOUAW51pAnhkWO3wM5K2j0eocHLApLSy4qw1lXZvA4kSfCs6mn+VJOJpFa9UShM8aAGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hBox2QtU; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KKqrODMU"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3f3d297af33so2965157b6e.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 08:44:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hBox2QtU"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2210d92292eso85139815ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 08:59:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739897071; x=1740501871; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aj3BO06Rec3K2MH9jNK8RjWlEKsE3RpWRiFSAdS0VJk=;
-        b=KKqrODMUmAAPQh5JH88t2e599zKQ9RCPnciWB+9zZY439yPVKjrH5L4bEBl707ITMw
-         cx/Yd+Rb0CWH1qRfeH7my/MVxGXMBYsAAWKpmVpHHLYWgXFKrX+rKWnBr41Y3QI+rdWb
-         IM14UZX4mvtHqKXHYqrgt3QjnXO2LV9mjtaNu8gNxAaTdw7kJVU/xYy9ox1eFDUJB+Fb
-         CmDNoDZvJjaKmBQ1oOdP2sUHd2jbgBY6KNB7N+IzyQynO/DAJjhk3X4v5YL55U/D0491
-         axInA5APFIHKEfRFD3NpPw2WoAL7oSzKrZRFW81s/xwVEy2DL15SH8wPF3WrRQe68OEy
-         4qgQ==
+        d=gmail.com; s=20230601; t=1739897973; x=1740502773; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NQ0iczs/f01PaFvxLk0T+RHP0Y74cglMUGc/eTOXWT8=;
+        b=hBox2QtU1/D8AM9+/4GDHWbBac9hOrKRQzAGzWRc6h0q9Z0NCjizasuRbEYLe/3w7t
+         X8ha0Ys4M+5gEI9C1H5HwKdW/St2fgI7W/bce4W5mowBDioCflRBJAZ1Dt33/QgERUMx
+         ZWnG0k4Sl6OL7U1JzT5kI7H8rCNOHc4OXvTNNMRP7Ozxwptf9lcahtO4eOPbU3AnZmiN
+         mkk22OeNvICqRpPSrlCcymnYp8EOH2rtgh5cMfUwId8NbfWpYbRE8BETX3A1Q/2d/pUv
+         sFjJBwLRdEdlRhRnXz6D5I53x3a4JTsvltVe9bu6IAHJNJbWmRAAO86XgxX2B4OT7XxG
+         l1rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739897071; x=1740501871;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1739897973; x=1740502773;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aj3BO06Rec3K2MH9jNK8RjWlEKsE3RpWRiFSAdS0VJk=;
-        b=js0WRFBBCmf0hZwgDTwsVPdNSrhPVCdIxw2MSPs+jf9G6eJcs03/KYauYsmT2+uCzi
-         PFCK12TtD0kGh0Dc4u8Ci1jI2Z8cvcAMgsykzPwSXPhdqcgnos7kr6GBXfBz8mIBPRNm
-         X6vqHSJOLkB4LUAAoxe1ztQytAATST31XQopFDhzBFnO1El2SY78HRek618nPGMi2Hnr
-         vavim4hH+FVLvIVusxnA6o8JgV0Ku9Mmpq7mul05Ia0mDu2xsoRlXYl9CkT8rB/5qKLN
-         ZeVtyKyHn/jX7gZ+B6BZnVdnjNsNAhMKaXrPdb+5UgXMWmC32WE57uu2jmwAaPhe6AZy
-         TCFw==
-X-Forwarded-Encrypted: i=1; AJvYcCWYe4TkwtrREQ5A36PJGOAWQrtKGziW486wmg7Sf9KzV3EvG+YA4tlX5i1DAlhebqzWn0cG+EVKlPKHOMJBhyFUIXrS6g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxXqzkbY17UEKrrCLIpnlQivgxp9Sf5y1imUSxKu1gaB5KVwCXU
-	5m1OLCd6SDhpFNoN8DyIV+rXjKrB8ZJov3PRgYDismW3OMu/xZ7VOUaCruzqy/8sGRVcuyOvtOy
-	bWKJKxijDP4KYdLkmVps2LwnO8rw=
-X-Gm-Gg: ASbGncvAWGOEOjf3M6CeSaG1RXNZmuZV81KFVZHCTz2jxNM4TMMrAAmzww9RmBYdC39
-	DCq0UDnBs+1UH0QgvroDhLJHCOKue/EFjxAe6biJMa8cWOHYEdBVIDjraVkxFrITIv5gCVwk=
-X-Google-Smtp-Source: AGHT+IHGoyHEDM5CkZjt1a5evAAB5ebfx99us5PkEu2TpIfLACImFGBXuYj4qZi425trEd/vyEY4iDE2KGIbCOzcj40=
-X-Received: by 2002:a05:6808:1791:b0:3f3:d88f:7d1e with SMTP id
- 5614622812f47-3f3eb0f50c0mr11037721b6e.20.1739897071098; Tue, 18 Feb 2025
- 08:44:31 -0800 (PST)
+        bh=NQ0iczs/f01PaFvxLk0T+RHP0Y74cglMUGc/eTOXWT8=;
+        b=nSDZmTU6CUhZ2vJK7Uh/yyldgjy1aVtqOQ0KSjnglidRP4pTctb9Nck79rap/lNi2x
+         vQgMm+Aavasnb9kcW8tXCzht4Y0qJxdUt7SEXGnmEFLDuBWietq2USZmRXOiCfgyk1wC
+         J5sHCKSa8WLlabAMnekSe1O5iRysAhkLNbrQD7Tw/M7mAJUdEA1XZ9rkS6tNGJz3MHVL
+         ++pFxRtYDRZNSTE/Rj2F/dGx00Xmbm0Tr09RKo5lvaqtpdCOME901i747h3vaWBWbSjY
+         azKZEQERrfBEEdYnQGUm3V/FRQjAiJeD3JssgGLhWlZtfj2aZ3MOvMJBDHl2sflCI7Kr
+         w3Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCWKN4NWnjFOe/J3Ue6RZkb+N1ng4daPhgk3ipWnwW2yuNqzogNU0a4hewniJEFRwmIjhD9xgxubQX5vi5LWYQZQTMkfkw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVC513+2bVWoSYTjIsEt1pPdh0VzcjF+OGeoPW0Kwb6eCOj5Te
+	qzCNY1mcjXFUdBG7+pKU6Fc4e6C2WKuMXqSp90UbA6GQtEeVLz9gVE8KplQJohU=
+X-Gm-Gg: ASbGncuTYLz2rZqVGwOFWb97quZ+ZB9uEgCicVu32bwiovd1DA7dBQoB5e5h6fI64rN
+	4j9gtpMu/mfIFK9YXjAmG7ekloJfdoNykSyLDxR0W/Yq3ryG1zaq8vnJEhgJw0Lg8nInWwHiiO4
+	2HchxHr4eL5d/+GZdSyznCPnmvv3xitwDEr1/9mSqIrZf4/KY3cZ84LonUU8RiCTqKXlstvh8O9
+	kHuT/ir3RJQnmynIOmWGKtp8OdXpfDXRw5u5TjzQgdrMkXnb+bj5lBEXpf0nAMJpqhf6r5l0fgI
+	3q4CowP4JPQg9r+4elJNsRL/5LfKg/pX2ILS5wc7xQ==
+X-Google-Smtp-Source: AGHT+IF1JuWYJdCOgkh3XC0mHjU0ZlfP/j0jnRLaHEDrwR/uBAScx7ddu3oZrBXPR0lPCThpWj6pWg==
+X-Received: by 2002:a05:6a21:6b05:b0:1e1:e2d9:7f0a with SMTP id adf61e73a8af0-1ee8cbbba0dmr29332802637.34.1739897973071;
+        Tue, 18 Feb 2025 08:59:33 -0800 (PST)
+Received: from localhost.localdomain ([2401:4900:16eb:c16:eb93:d961:71b9:73fe])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73258dece33sm7916298b3a.37.2025.02.18.08.59.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Feb 2025 08:59:32 -0800 (PST)
+From: Suchit K <suchitkarunakaran@gmail.com>
+To: netdev@vger.kernel.org
+Cc: kuba@kernel.org,
+	horms@kernel.org,
+	matttbe@kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Suchit <suchitkarunakaran@gmail.com>
+Subject: [PATCH REPOST] selftests: net: Fix minor typos in MPTCP and psock tests
+Date: Tue, 18 Feb 2025 22:29:23 +0530
+Message-ID: <20250218165923.20740-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAO9wTFggVh9LvJa_aH=dDBLrwBo8Ho4ZfYET3myExiqf0yfDCA@mail.gmail.com>
- <f5e6302e-f91a-4fc8-b12e-faebb7c26e05@kernel.org>
-In-Reply-To: <f5e6302e-f91a-4fc8-b12e-faebb7c26e05@kernel.org>
-From: Suchit K <suchitkarunakaran@gmail.com>
-Date: Tue, 18 Feb 2025 22:14:19 +0530
-X-Gm-Features: AWEUYZk0QBmdE5Kt03-t_deOrFiMdD3SAkcCR7YEut5kB6bOKJu_7EOvyxhmC8w
-Message-ID: <CAO9wTFg17vQFj+dP8Qt5wqz4g+T+97B21nr1+z4bfvp5VKbQDQ@mail.gmail.com>
-Subject: Re: [PATCH REPOST] selftests: net: Fix minor typos in MPTCP and
- psock_tpacket tests
-To: Matthieu Baerts <matttbe@kernel.org>
-Cc: netdev@vger.kernel.org, kuba@kernel.org, horms@kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Matthieu. I'm sorry I was using Gmail and I realized from the
-documentation that it shouldn't be used. I've configured git
-send-email and will send the patch using that. Apologies for any
-inconvenience and thanks for the feedback.
+From: Suchit <suchitkarunakaran@gmail.com>
 
-On Tue, 18 Feb 2025 at 15:48, Matthieu Baerts <matttbe@kernel.org> wrote:
->
-> Hi Suchit,
->
-> On 18/02/2025 10:28, Suchit K wrote:
-> > Fixes minor spelling errors:
-> > - `simult_flows.sh`: "al testcases" -> "all testcases"
-> > - `psock_tpacket.c`: "accross" -> "across"
-> >
-> > Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-> > ---
-> >  tools/testing/selftests/net/mptcp/simult_flows.sh | 2 +-
-> >  tools/testing/selftests/net/psock_tpacket.c       | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/tools/testing/selftests/net/mptcp/simult_flows.sh
-> > b/tools/testing/selftests/net/mptcp/simult_flows.sh
->
-> The patch is exactly the same as v1, containing the same issues: long
-> lines are wrapped, corrupting the patch, like here above.
->
-> > index 9c2a41597..2329c2f85 100755
-> > --- a/tools/testing/selftests/net/mptcp/simult_flows.sh
-> > +++ b/tools/testing/selftests/net/mptcp/simult_flows.sh
-> > @@ -28,7 +28,7 @@ size=0
-> >
-> >  usage() {
-> >   echo "Usage: $0 [ -b ] [ -c ] [ -d ] [ -i]"
-> > - echo -e "\t-b: bail out after first error, otherwise runs al testcases"
-> > + echo -e "\t-b: bail out after first error, otherwise runs all testcases"
-> >   echo -e "\t-c: capture packets for each test using tcpdump (default:
-> > no capture)"
->
-> Same here
->
-> >   echo -e "\t-d: debug this script"
-> >   echo -e "\t-i: use 'ip mptcp' instead of 'pm_nl_ctl'"
-> > diff --git a/tools/testing/selftests/net/psock_tpacket.c
-> > b/tools/testing/selftests/net/psock_tpacket.c
->
-> Same here
->
-> > index 404a2ce75..221270cee 100644
-> > --- a/tools/testing/selftests/net/psock_tpacket.c
-> > +++ b/tools/testing/selftests/net/psock_tpacket.c
-> > @@ -12,7 +12,7 @@
-> >   *
-> >   * Datapath:
-> >   *   Open a pair of packet sockets and send resp. receive an a priori known
-> > - *   packet pattern accross the sockets and check if it was received resp.
-> > + *   packet pattern across the sockets and check if it was received resp.
-> >   *   sent correctly. Fanout in combination with RX_RING is currently not
-> >   *   tested here.
-> >   *
->
-> How are you sending this patch? Using 'git send-email' following
-> instructions like the ones from [1]?
->
-> I do recommend using b4 to prepare and send patches, see [2].
->
-> [1] https://git-send-email.io
-> [2] https://b4.docs.kernel.org/en/latest/contributor/overview.html
->
-> Cheers,
-> Matt
-> --
-> Sponsored by the NGI0 Core fund.
->
+Fixes minor spelling errors:
+- `simult_flows.sh`: "al testcases" -> "all testcases"
+- `psock_tpacket.c`: "accross" -> "across"
+
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+---
+ tools/testing/selftests/net/mptcp/simult_flows.sh | 2 +-
+ tools/testing/selftests/net/psock_tpacket.c       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tools/testing/selftests/net/mptcp/simult_flows.sh b/tools/testing/selftests/net/mptcp/simult_flows.sh
+index 9c2a41597..2329c2f85 100755
+--- a/tools/testing/selftests/net/mptcp/simult_flows.sh
++++ b/tools/testing/selftests/net/mptcp/simult_flows.sh
+@@ -28,7 +28,7 @@ size=0
+ 
+ usage() {
+ 	echo "Usage: $0 [ -b ] [ -c ] [ -d ] [ -i]"
+-	echo -e "\t-b: bail out after first error, otherwise runs al testcases"
++	echo -e "\t-b: bail out after first error, otherwise runs all testcases"
+ 	echo -e "\t-c: capture packets for each test using tcpdump (default: no capture)"
+ 	echo -e "\t-d: debug this script"
+ 	echo -e "\t-i: use 'ip mptcp' instead of 'pm_nl_ctl'"
+diff --git a/tools/testing/selftests/net/psock_tpacket.c b/tools/testing/selftests/net/psock_tpacket.c
+index 404a2ce75..221270cee 100644
+--- a/tools/testing/selftests/net/psock_tpacket.c
++++ b/tools/testing/selftests/net/psock_tpacket.c
+@@ -12,7 +12,7 @@
+  *
+  * Datapath:
+  *   Open a pair of packet sockets and send resp. receive an a priori known
+- *   packet pattern accross the sockets and check if it was received resp.
++ *   packet pattern across the sockets and check if it was received resp.
+  *   sent correctly. Fanout in combination with RX_RING is currently not
+  *   tested here.
+  *
+-- 
+2.48.1
+
