@@ -1,118 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BE91EB5D6;
-	Tue, 18 Feb 2025 18:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD021E8320
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 19:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739904162; cv=none; b=m65tkYgaahRq4BiPYy/+gY/GVS1CQk3HQHiQgzZT42c0GKn930dIZQG8Gjg12dvn+j8Iw3e/q8j6UoGx94LbxoYF8LBNWDrwp7tVMaoo/yc7z+XJq5vXKiRVjAYy9vWXdaIqU8OFmQPsvweNW6YYaNiJGf9ROTjhGjRLqntLa3g=
+	t=1739905973; cv=none; b=r7IiO17tnZOClb4Q1A6g+CfDgyE0fBt8SmVKjfMFQvBxYFmJFBfE2xuN6pVtgy8LPdjHYCZ4SoLvTnCYHR5qC8RwJCwlYwu7AyD75iCFnAveejNtIyObVkQnPvFjp8T/nc9FyUc7vPpR0sDljsyIIungU6RXzid5j8R5Pbwg8hM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739904162; c=relaxed/simple;
-	bh=i/UtyEFPHlCOBSsfiq4a0thj4mCfuRPUFyigwEr5PVk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p0kOceyu9RcP221QrRktu4fB711rcwxZL0FMCjrySxN+MCo56IM2BjZ5ocRKRIi3wCZTaAdKdSQgwSqJ8lCjjcEuP56L/MzYfLYYvjmbJVVu40QdAd2qWQb385kVoDr593FcrorLDA4c7iykXJB820SnhKhlwUxbVyHyOQlztiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZWsdcUgn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739905973; c=relaxed/simple;
+	bh=WoUKh5c/vDRm4FlNeCNrkzPuHxYE4Y4scX3UMvAd5O4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AWL1F3Rg383RMkyV6Rwo7afve8iOjHkmzkKAT0nTR20wNYYvj8tqAGQZFpDBjgKpu2Q+/rk/h3E1+wPYRxLIfYJdM+BnisMisTkG9zbBxWB0pG9VE4XHNE0VmkALK13jG2SxB4mfA/C9/v5Pr9Qa0DOdY+dP0q++IMo9E2aOAwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hTp60o17; arc=none smtp.client-ip=209.85.167.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZWsdcUgn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1308AC4CEE8;
-	Tue, 18 Feb 2025 18:42:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739904161;
-	bh=i/UtyEFPHlCOBSsfiq4a0thj4mCfuRPUFyigwEr5PVk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZWsdcUgnBh3/yB9+vbmoQFZkUiDC3tHKvTrxXJRZKDOX1ZmxSLI6uUIXdRhkQPyIv
-	 MHb9Jm2Ppo6aMfZC7VZkP7CJe3wNVBUDjOYmdaLGOXwpQoevjzpp2n6gM2CLl4VrwC
-	 t+2h6mlhys2tHG558bob0DylTBGmXG/i9dZPdmxqL6jXBq76Wh0RFA9izFBz8zKRY6
-	 GzvHRsAqI8GbsU+UIL7bcXZmAhL6rGdj7ErkhtCNjgumkEUPm5/IyuWd6n+DgopYf2
-	 ZgBkGBheXvLkH9btvcz3RUkJjmfclFFLk6Rp8wjQcUePBgHF+IYcQbErM0t2QeWgzR
-	 w37EqsdqIk3XA==
-Message-ID: <d194435e-88bf-49f6-bb6f-b52f77248965@kernel.org>
-Date: Tue, 18 Feb 2025 19:42:37 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hTp60o17"
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3f3f8906c45so1155913b6e.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 11:12:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739905970; x=1740510770; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oF3IZ5dNlMyYD63Wzfa4O0wknfeiB+PfksPMCxVRCig=;
+        b=hTp60o17MnpC9/scVy5SdX++Ag/6sAzAA90hxWDfFWD9MVYoQpCjm0ELE/xGDXtpiK
+         Y8Mxzl7EbC4BSB7jc67VFCj9POFlIoMroco2Id3LEMAe0fcridl7IaxZE8igQXa/wcsZ
+         v5j2IDtBa+zR9LYndbQFK2wIrasJ7sqGLuFWEtu0F4tkPnoIfZGHrJKF2zdkwJOA9n3N
+         JH7b0knfk4deJ5x+1tVyPnmGR26/gKM8OlJunVtbZg9VV+peHMmTtB+FOY7PliMMf7sc
+         uGdAOkRqC3GkSvLSpzLIj/VAZ2zq1A0nGQ3N87EWjjbAzGah8alZ1zxH/rWYWSH4MCQM
+         VKjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739905970; x=1740510770;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oF3IZ5dNlMyYD63Wzfa4O0wknfeiB+PfksPMCxVRCig=;
+        b=Af8q1GFn3vLMvFfuaobSfOpZe3NoK6Iox5R+n4gxeHIFa5P1pen0Q8Y/h6Dz9jBZ6O
+         DicDxrzzEzmca2yfSE3s27qQMWgcgCK2D+p1xfr1DMZD57FYjBA5hd9TE60UL2YESuTp
+         0mlyzAfc9TifqzKpLKZ3WPJHve96ZpYjbPGWsixAZANjtJ/ub1jWDcKnysQ9XfDQHJYx
+         2/4gu/LQE5c2603TjHlBqKx97z+MvEwdjkml6rqRE/XOFBr7RIxyvfnTANJ0fqRx7U1u
+         q8Xd44h4KSVQTE8JzUsCfB90LvmZL4nRF9Rq8CJLZwpVBMGM6Qju0WG0dbA8CtphdnoQ
+         hi8A==
+X-Forwarded-Encrypted: i=1; AJvYcCUMpPry2JpL92Bgtxs2+Ma2WluZM579sg3ANVFpSSmQjgBoLpCptfA5wahzf2I1wDFRsH8o1UDFNvT+pUgu+YrcY1nsDA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyywKvaRlvb7IRTaE69TS+1caldBdzvMbz/KmiTj9uV55XCcPek
+	hdyaasL5C4+KxzsaSkxURY4TvrTPes5xw4k6uqbrxSuKV31Y0kNXa7mmqCboxnHz4tx4O+Q/b8k
+	Pb8J9uLvK4s+A5yCsPxw++h/uQfk=
+X-Gm-Gg: ASbGncuvftWFiPG41KOsFZBg2tDgMacNRETXjTv5IY32jVTqfg13v6M9quBKLi11uhj
+	CF4CADz9pUf6WSv/LzzC02jTicuJiVJ9SjmZ9mKdq7M6g098aqM+4q1k3IGsZNSjWnOGvuEGOxt
+	Yse9fPD8oDnZ67TQ==
+X-Google-Smtp-Source: AGHT+IFb4knJMi3AOcDr6zaVeojXvLaFJxcBcDyvpUv4oVbjmkI7Mm6ZZOndeOhxjCi1+zyZXOxXG+rYjRuy9gA1yt0=
+X-Received: by 2002:a05:6808:181e:b0:3f3:d742:c2bd with SMTP id
+ 5614622812f47-3f40f1e5799mr776743b6e.13.1739905969652; Tue, 18 Feb 2025
+ 11:12:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH REPOST] selftests: net: Fix minor typos in MPTCP and psock
- tests
-Content-Language: en-GB
-To: Suchit K <suchitkarunakaran@gmail.com>, netdev@vger.kernel.org
-Cc: kuba@kernel.org, horms@kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20250218165923.20740-1-suchitkarunakaran@gmail.com>
-From: Matthieu Baerts <matttbe@kernel.org>
-Autocrypt: addr=matttbe@kernel.org; keydata=
- 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
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <20250218165923.20740-1-suchitkarunakaran@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250218165923.20740-1-suchitkarunakaran@gmail.com> <d194435e-88bf-49f6-bb6f-b52f77248965@kernel.org>
+In-Reply-To: <d194435e-88bf-49f6-bb6f-b52f77248965@kernel.org>
+From: Suchit K <suchitkarunakaran@gmail.com>
+Date: Wed, 19 Feb 2025 00:42:38 +0530
+X-Gm-Features: AWEUYZkoRmcxpgXd1SyCu20aEGPfydJydoqEvXvTkpjbLGDJXP09KIF_zfs0pMk
+Message-ID: <CAO9wTFhVx9nCPyMzHKCTnuBfrTmvA2QADg8La0z6KcYWpsxnEg@mail.gmail.com>
+Subject: Re: [PATCH REPOST] selftests: net: Fix minor typos in MPTCP and psock tests
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: netdev@vger.kernel.org, kuba@kernel.org, horms@kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Suchit,
+Thanks for the feedback!
 
-On 18/02/2025 17:59, Suchit K wrote:
-> From: Suchit <suchitkarunakaran@gmail.com>
-> 
-> Fixes minor spelling errors:
-> - `simult_flows.sh`: "al testcases" -> "all testcases"
-> - `psock_tpacket.c`: "accross" -> "across"
-
-Thank you, the patch is no longer corrupted.
-
-Reviewed-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
-
-This patch can be directly applied in net-next.
-
-Note: please next time don't repost your patches within one 24h period,
-and use the [PATCH net-next] prefix, see:
-
-  https://docs.kernel.org/process/maintainer-netdev.html
-
-Cheers,
-Matt
--- 
-Sponsored by the NGI0 Core fund.
-
+On Wed, 19 Feb 2025 at 00:12, Matthieu Baerts <matttbe@kernel.org> wrote:
+>
+> Hi Suchit,
+>
+> On 18/02/2025 17:59, Suchit K wrote:
+> > From: Suchit <suchitkarunakaran@gmail.com>
+> >
+> > Fixes minor spelling errors:
+> > - `simult_flows.sh`: "al testcases" -> "all testcases"
+> > - `psock_tpacket.c`: "accross" -> "across"
+>
+> Thank you, the patch is no longer corrupted.
+>
+> Reviewed-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+>
+> This patch can be directly applied in net-next.
+>
+> Note: please next time don't repost your patches within one 24h period,
+> and use the [PATCH net-next] prefix, see:
+>
+>   https://docs.kernel.org/process/maintainer-netdev.html
+>
+> Cheers,
+> Matt
+> --
+> Sponsored by the NGI0 Core fund.
+>
