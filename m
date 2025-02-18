@@ -1,86 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3B315666D;
-	Mon, 17 Feb 2025 23:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144155A79B;
+	Tue, 18 Feb 2025 00:40:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739835431; cv=none; b=i6sI9mE9H4ZZu/Gy/TtMcitNTojHuMAevzNGbdx5QD2TwXHO7Qaliu7/uevwtU/LOO4zPWxUDWiu1wsMSAabDgRNlxBV6cU1JXfRgWBqd3SFq9Lh6epJyIH6x93qzufSgTtjH7vxLIL6SJVr65uEZ/qSkQNddQTyuQKcI8ZMRlE=
+	t=1739839209; cv=none; b=YMdNg9/dQn+cSqQn+JgHJ0CoIn/4oeT6T6K3PXlcR9283keExIrHDf9KO4HsBxKwftMhQcQYhHGx8tscsLNqjTO2XKF4mIFIrpH7OrjwZcmR6jV+F3pKoW+67Lq5sISIW2XV6RNApjZD5v8bJCtNZqp7LHLnJ786MNhWlznntrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739835431; c=relaxed/simple;
-	bh=lYbE0SAfYIia+ES5GmheRgynkRFOmIJkICc8YdbeYRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=egk1zQQyvQ4Pk+61Sk/dqcEcTWgAlkxIB7ewooo+pFFAskVH61tXJFuOMB154yhyzfQZX7YM1KJmQSyjgASQP4JWifsdJ5R+P90bhGhOjXe8vRFOO5BnpNf2ejpemwbIttMkswcmWQWY3da76PyIzRpTvvFPxcnB4BFp5AQiUcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=er0ZcjQb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739839209; c=relaxed/simple;
+	bh=fe2QDBrRS4AE8XkO7LxWl4E9t5ur/igenByD+nEO77Y=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=EPNMnOjI4vIUKJIHhOZZTI57KjND1ovUCFsiDULNb7+QzVzRR8HS5RuGbcz67Shw2j+6Det81zgQnqeme4DGohOTIEekBm7kvM+qPoBGAJ4jV7k5VIPan/JAifhhYQT9iXTIP8DGsacsmOljhcBxp4Jx9l63Rq0tBNYr138S9n8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gm93hDUF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="er0ZcjQb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7823C4CED1;
-	Mon, 17 Feb 2025 23:37:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gm93hDUF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85E41C4CED1;
+	Tue, 18 Feb 2025 00:40:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739835430;
-	bh=lYbE0SAfYIia+ES5GmheRgynkRFOmIJkICc8YdbeYRQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=er0ZcjQbSaxvBEiRqXzMiWOBKwtedYkfxwI3roN2O29jl5BOIz3cNgcM02lkE6lbK
-	 HYBA4IEHONbxm2/0OekqR7qhtG4/WWjdl8QsUPgWnNNtanB14yVo6g0Ms+24uMz886
-	 4e0SEv5Aj33CRwYn+gMlXs1qoqDCFqVti9O8AHYWmraf5Z3bMGU9s077fYP/7ejxD/
-	 kj0iYEzpEciSGg6556xS2ixaQiNJLt4Zsan3Zm6AYJTFsVxdlQSEyvA0PrvwgaYE54
-	 Yzh7P2B4dkQf3gorsvdPqanWEym++4DzYgiTuh3xXi4LDxQG1b4WUxEtqc63zw1FtP
-	 qeqIFIJ3AEE/g==
-Date: Mon, 17 Feb 2025 15:37:08 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Matthieu Baerts <matttbe@kernel.org>
-Cc: Suchit K <suchitkarunakaran@gmail.com>, netdev@vger.kernel.org,
- horms@kernel.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-Subject: Re: [PATCH] selftests: net: Fix minor typos in MPTCP and
- psock_tpacket tests
-Message-ID: <20250217153708.65269745@kernel.org>
-In-Reply-To: <0c5f1dcf-1bd4-4ddd-b6c0-e3ee2b3671ea@kernel.org>
-References: <CAO9wTFgN=hVJN8jUrFif0SO5hAvayrKweLDQSsmJWrE55wnTwQ@mail.gmail.com>
-	<0c5f1dcf-1bd4-4ddd-b6c0-e3ee2b3671ea@kernel.org>
+	s=k20201202; t=1739839208;
+	bh=fe2QDBrRS4AE8XkO7LxWl4E9t5ur/igenByD+nEO77Y=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Gm93hDUFPSU0zFwLtZ9+Uz9aNanNbWnwJwJzvQVdIbjYIWHkL60PkbQMg7Kq70geO
+	 p4HXZBebI1pmrajOn2q9jUTD39F5vUr8pzLWNaNVTUhNx8THzvHrKkfhv57L+hfxHN
+	 KOYFpygyJFlImO3D8XKJKatGrzWfTdAj+zVSr2qKSKECzsuc7AtPlxnqq+5d9WyJAx
+	 UoSEPc3TDlgN5sRj471V4rePlruhXxzPGnl1wzWfb26bqkR9RWCNQ2jhgzx/2DaXDg
+	 BnHhYLWUAhhk4Qthn/90ZQQoQDgQjHfXsLJn0845JDfoTl1bon+zpRn7JorRhv9ivF
+	 lH7mfhXkQjGvA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EAF79380CEE2;
+	Tue, 18 Feb 2025 00:40:39 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] selftests: net: fix grammar in
+ reuseaddr_ports_exhausted.c log message
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <173983923876.3583210.5233626210014898247.git-patchwork-notify@kernel.org>
+Date: Tue, 18 Feb 2025 00:40:38 +0000
+References: <20250213152612.4434-1-pranav.tyagi03@gmail.com>
+In-Reply-To: <20250213152612.4434-1-pranav.tyagi03@gmail.com>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Cc: netdev@vger.kernel.org, horms@kernel.org,
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
 
-On Mon, 17 Feb 2025 11:08:36 +0100 Matthieu Baerts wrote:
-> On 16/02/2025 13:25, Suchit K wrote:
-> > Fixes minor spelling errors:
-> > - `simult_flows.sh`: "al testcases" =E2=86=92 "all testcases"
-> > - `psock_tpacket.c`: "accross" =E2=86=92 "across" =20
->=20
-> The modifications in MPTCP (and psock_tpacket) look good to me:
->=20
-> Reviewed-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+Hello:
 
-Thanks! This patch is corrupted:
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Applying: selftests: net: Fix minor typos in MPTCP and psock_tpacket tests
-error: git diff header lacks filename information when removing 1 leading p=
-athname component (line 7)
-Patch failed at 0001 selftests: net: Fix minor typos in MPTCP and psock_tpa=
-cket tests
-hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
-hint: When you have resolved this problem, run "git am --continue".
-hint: If you prefer to skip this patch, run "git am --skip" instead.
-hint: To restore the original branch and stop patching, run "git am --abort=
-".
-hint: Disable this message with "git config set advice.mergeConflict false"
-Waiting for rebase to finish Mon Feb 17 03:34:36 PM PST 2025^C
+On Thu, 13 Feb 2025 20:56:11 +0530 you wrote:
+> This patch fixes a grammatical error in a test log message in
+> reuseaddr_ports_exhausted.c for better clarity as a part of lfx
+> application tasks
+> 
+> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> ---
+>  tools/testing/selftests/net/reuseaddr_ports_exhausted.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-So repost will be needed (unless Matt wants to take it into his tree
-manually).
+Here is the summary with links:
+  - [net-next] selftests: net: fix grammar in reuseaddr_ports_exhausted.c log message
+    https://git.kernel.org/netdev/net-next/c/dbcbec81c9b8
 
-> This patch can be applied directly in the netdev tree, but I'm not sure
-> the Netdev maintainers will accept that kind of small clean-up patch
-> alone, see:
->=20
->  https://docs.kernel.org/process/maintainer-netdev.html#clean-up-patches
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-FWIW spelling problems are explicitly called out as okay there.
---=20
-pw-bot: cr
+
