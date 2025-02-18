@@ -1,110 +1,120 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626D622F3AB
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 09:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6795C22DF95
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 09:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739870904; cv=none; b=tt4P9ASWLSfjEYzJqgjtDKsCMS6OGSr+bK/deRwH2RB0aoQt8tnz40IAjFfJJkevS1w46eoy8fuymEVLgyxrOboDX/xB7bBPP4Uz7594vP5VSqZBt8krPARt9/m+9vDRFQcpX9hm+XX5PAlvdwIlAVrmo1qIZJVrGNP4/dTqKao=
+	t=1739870932; cv=none; b=Oe48bR1j6c93PSWg3tkca9FsqFkLw+vNEX7nuL0KpuEqTOdUjiND7F3kBdKLVCqEJvjpTsGhoNNCNuf2jMMC0cOpH+2Di8k7zHWgik3MLi6iTSgc2NvOFL30DusZ3nGf8womGP7F9Jv1NdkwX9ewkU0JFHoeoZXoe9kjI126M4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739870904; c=relaxed/simple;
-	bh=KUCO7GOcoDrDHadjAC27o2CRSYfaHDgMDjMGMYIWFcw=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=JNeZBYHX25aWWOmhEK2KAcrPfHs+X5GRrzqp6iHoSMHC7uQgwR3p1TcMc5E7AV8f2PrPs8aQnRAkR7JDgH/xwxY4+yCDVyTZ5thXYpGDkA3L3zJbD6RPsYDEi6chpJsp8XoFbNWwimEPj8pexq9R3mXnYmG6e0ObaHo1BC3xSo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bZhhUC2u; arc=none smtp.client-ip=209.85.210.46
+	s=arc-20240116; t=1739870932; c=relaxed/simple;
+	bh=rF+DqFOfI59087a/Ev+sbb4fxL1DoZUspANuVUxya9k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VRJhiXX4E4MzkAx+pUjFXrTXJbJG2Jzcy9TawEW2TEmYENNu0baXVAmZ4zkSssluiegRPh7gR2N3kCOrv5++K6bz4tvIVAuB7NDi0jO76hdVrEeOV6nn5hHK766/sF4zFB9pakYVx6CI2FMGrugacg8rMiVYlQiZ7HBfjzRDKl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BEVW9zHZ; arc=none smtp.client-ip=209.85.167.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bZhhUC2u"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-727090df861so1126155a34.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 01:28:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BEVW9zHZ"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3f37207259bso1249377b6e.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Feb 2025 01:28:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739870902; x=1740475702; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=8kJMtWw9wVrl3aRZwWKVOYpt3qrRhCd81TsGEYFpLTg=;
-        b=bZhhUC2uSm2KVJpu27FJ7LOUVsm8e+AjZqpHSc8m+bgQx062I+3RYJz/lIF7jxDQzO
-         2pqGB+/3KIvCRqtHVeg29Dc+jJR2hlgJpMxJPir2pyb1xNwwN88KDXnIz9WkwP7mSMVP
-         8Z0I3uoNyTtDY68XEweAgE4Wbul85ppKXaIXDxnxl99hHCVL8ToC1kcyvip4JEDsS4Mc
-         vI0vUxi/tlG609rp+WfjXCLRExb/OmLNz08GiQSo7k7ggevdJ90A8iKHtIMyjwQ2rMv9
-         TiYYTv33X181ldLWdYWCnwNqdnvHudYHduBQLVFN9dAM9mcVciAygi++scG+h9/sujTX
-         OkDQ==
+        d=gmail.com; s=20230601; t=1739870930; x=1740475730; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sezXMcausz+IaGoxGziV5wzbaNf+UQBQEy/lkhU+JEU=;
+        b=BEVW9zHZf3Ig8gMZ6KqL2xEhsJBZZL01cLVFmSqLxjKp94HCDPenkoNghaIB1M+XxF
+         9HAMKFVwzhL2V+8aOdpJ5xtq0iJxO0FClxQ5UzEJgPOHl69UkyqPALkVZ+n/KcTrU0F/
+         kOQV7G93uvZQNmz4D7WUGrku8Urf1bFBHtj0krJ1blgZDgcSYGDqv+cbJfMdQ0EN3yAR
+         Gq2t+729g+LVYXCZr5EuAXuzFACyP+CDNDz4xbOuLp4UUSaNlBJODbzv8nD7ut/Pwmus
+         O/J+RztvGfmwwdv0/+Uy+U6pRq7hTqCjz5qrMO+sp74TX+iyvr+2LzKxUnugF41Be5ov
+         jhEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739870902; x=1740475702;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8kJMtWw9wVrl3aRZwWKVOYpt3qrRhCd81TsGEYFpLTg=;
-        b=fOpYufBsHaoZtgTfI/K4eCazsJTKUrGIo2HN600uuE3/0tClteMQ/aP5WgEzO4isRS
-         33A5qlGnTikhkbhAbaHcXe2P+AldeVwsiXi8g3JLVgs2MP5ryltVbmxF6occZHeYkWUN
-         t5Ism0haDumh3lqD5B+AkI3XETJEJvGCngdj3MNXZTMSG989VJGIfhDEx4LoaEJEaEoE
-         NkKP/+bEZtyWYyTVoA6jw9NG3bT5t3sCIuIYnBfbzJhugWFPg67elr/B04Wzz4xFPmeZ
-         wU5if1YkJ2YYnwoafuwijEJfcWJ6cH2jeRAo2aUJDjRFpzJxn2tcu+e7eLf44rR1c5/3
-         bgTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUbiJxzhhyoWBp96m7quGxtSsU7HE2YGpfHMD8YOVnjlBo23gXIau06FxjqjK3TbXCMpZ/DCU+pU3BY8NuoZ6zcrvbshg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyiytQMGV9poGzfNgMQgyx57idT0ETNiv3O6D29hNp1L1xPSMzb
-	HQ3jYLFJMBwXb5np1OnOOyYZaxQaTJqK2ps5GAWBRZQlZH1qK/cYUlGJf0btU+AsyaABVoJCEml
-	i29Fi37PvR3y33thQpB3mqHpdHMY=
-X-Gm-Gg: ASbGncthRRa+mJ+ZGfREonrqZODoPPhZTFSSq4mFCiBrywmQoz5KCP/A/T1KkfMhN7H
-	7lBh+mNQ0sJqaEXve9h/gtA21X2kwiOm2ynN2xeFVkFBBRQKcMOZvrefADUQhz8whaI5L0O4=
-X-Google-Smtp-Source: AGHT+IGbMnXi83Muhh7hozQR7z1/wxvHIyNCpzQKVTEOGDO+J9syLNm5krScvYcmKeztpkeSfzp0rQUdKL4bvpaU70c=
-X-Received: by 2002:a05:6808:2025:b0:3f4:28:1cd6 with SMTP id
- 5614622812f47-3f400281de6mr3182376b6e.39.1739870902398; Tue, 18 Feb 2025
- 01:28:22 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739870930; x=1740475730;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sezXMcausz+IaGoxGziV5wzbaNf+UQBQEy/lkhU+JEU=;
+        b=DqFkAno6oW1+ZvaDhvmsy3jNcxGvWqvsQ9hvS9KA4FvrnYkOi5m+k8j7HWFsE07OYa
+         xk3uPyIPUGRc2l4zahHLlDHbbwKBckPJeVyLaoF0ZzlKzJXnUyVLWnY7FxYVsALQVNzJ
+         ZKU0dP8JKnPOQ1ad8wYrnlCCraKFZE64FAC5Qoh7AERaPV9DDUkH5IcL7wr1aeWmzuyD
+         FqE9uqfIq/e8GGST2/W6zHOEW2h1FVkE5oFKF7OKTnP7KYzvvrekLxgnl/6AhMlG5MR6
+         4QOvudW/dtCE1kHJmwkx2rZtT0Zq5pLKAakwNEO7kEmmF9ldgT2ZLmAAs1KsWZ46fOOU
+         cASg==
+X-Forwarded-Encrypted: i=1; AJvYcCWlz1HcOv2dED12Q3/uBwwXB1fAeK1Mz7/0VxYSV15GP3XU3/yDdHsYGVJCsTveVRDfCUlwcwURGbXL9nbholCqep18Mw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxSfBXoB1bDfExOlywHI8Pxsc4ONHZjsNH2ukuJpXCzgMYni9Ko
+	h1ZQVGy5QHukmXkKjZAyxBiQ2PdRbIz4JQga2y3ClCpQzx+MeHPBhksCkIMcf+s7IDFD5VmUnw8
+	CNCjhNdl6psyBvXpFp/ubsV+kJqY=
+X-Gm-Gg: ASbGncvp/aqlNlShwPzETL1BUNrfFbx7OXaMO1JO+2d6DwotKKwpiYw9//5nJDWU4n+
+	xWngfetxNvvk4mHhf0WwfFzSx3cK/qrL8C9MgiY3LlWdy+VW7xPuiu2d1yXAqSFRy5w5d4GA=
+X-Google-Smtp-Source: AGHT+IGME/AC8qe5AUB1a8euFWY1Fz/Kaovk/J9faa/18hil/HqjrzuUjLy4va4QJwZOd0rfOqeVA912FK10yH1bVmk=
+X-Received: by 2002:a05:6808:1a25:b0:3f4:756:52cf with SMTP id
+ 5614622812f47-3f4075653f4mr2211945b6e.10.1739870930338; Tue, 18 Feb 2025
+ 01:28:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <CAO9wTFgN=hVJN8jUrFif0SO5hAvayrKweLDQSsmJWrE55wnTwQ@mail.gmail.com>
+ <0c5f1dcf-1bd4-4ddd-b6c0-e3ee2b3671ea@kernel.org> <20250217153708.65269745@kernel.org>
+In-Reply-To: <20250217153708.65269745@kernel.org>
 From: Suchit K <suchitkarunakaran@gmail.com>
-Date: Tue, 18 Feb 2025 14:58:11 +0530
-X-Gm-Features: AWEUYZn9N8YQjSA8rz4TzhThrcXz6tH7kdaOCaUbGFtWZGGJO-UH_9KpRuvxN4s
-Message-ID: <CAO9wTFggVh9LvJa_aH=dDBLrwBo8Ho4ZfYET3myExiqf0yfDCA@mail.gmail.com>
-Subject: [PATCH REPOST] selftests: net: Fix minor typos in MPTCP and
+Date: Tue, 18 Feb 2025 14:58:39 +0530
+X-Gm-Features: AWEUYZmqW1VEzyPQIcuB1lxWtLUFNSdx1n2rsSB5LI_l9n1oKwFOzJ96mNvsxiU
+Message-ID: <CAO9wTFgjZ+in3ypHCKGOtY=K7DBBfJy82d6gXw=4mqJG4vtOjw@mail.gmail.com>
+Subject: Re: [PATCH] selftests: net: Fix minor typos in MPTCP and
  psock_tpacket tests
-To: netdev@vger.kernel.org
-Cc: kuba@kernel.org, horms@kernel.org, matttbe@kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Suchit K <suchitkarunakaran@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Matthieu Baerts <matttbe@kernel.org>, netdev@vger.kernel.org, horms@kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixes minor spelling errors:
-- `simult_flows.sh`: "al testcases" -> "all testcases"
-- `psock_tpacket.c`: "accross" -> "across"
+Hi Jakub. I've reposted the patch. Thanks.
 
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
----
- tools/testing/selftests/net/mptcp/simult_flows.sh | 2 +-
- tools/testing/selftests/net/psock_tpacket.c       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/tools/testing/selftests/net/mptcp/simult_flows.sh
-b/tools/testing/selftests/net/mptcp/simult_flows.sh
-index 9c2a41597..2329c2f85 100755
---- a/tools/testing/selftests/net/mptcp/simult_flows.sh
-+++ b/tools/testing/selftests/net/mptcp/simult_flows.sh
-@@ -28,7 +28,7 @@ size=0
-
- usage() {
-  echo "Usage: $0 [ -b ] [ -c ] [ -d ] [ -i]"
-- echo -e "\t-b: bail out after first error, otherwise runs al testcases"
-+ echo -e "\t-b: bail out after first error, otherwise runs all testcases"
-  echo -e "\t-c: capture packets for each test using tcpdump (default:
-no capture)"
-  echo -e "\t-d: debug this script"
-  echo -e "\t-i: use 'ip mptcp' instead of 'pm_nl_ctl'"
-diff --git a/tools/testing/selftests/net/psock_tpacket.c
-b/tools/testing/selftests/net/psock_tpacket.c
-index 404a2ce75..221270cee 100644
---- a/tools/testing/selftests/net/psock_tpacket.c
-+++ b/tools/testing/selftests/net/psock_tpacket.c
-@@ -12,7 +12,7 @@
-  *
-  * Datapath:
-  *   Open a pair of packet sockets and send resp. receive an a priori known
-- *   packet pattern accross the sockets and check if it was received resp.
-+ *   packet pattern across the sockets and check if it was received resp.
-  *   sent correctly. Fanout in combination with RX_RING is currently not
-  *   tested here.
-  *
--- 
-2.48.1
+On Tue, 18 Feb 2025 at 05:07, Jakub Kicinski <kuba@kernel.org> wrote:
+>
+> On Mon, 17 Feb 2025 11:08:36 +0100 Matthieu Baerts wrote:
+> > On 16/02/2025 13:25, Suchit K wrote:
+> > > Fixes minor spelling errors:
+> > > - `simult_flows.sh`: "al testcases" =E2=86=92 "all testcases"
+> > > - `psock_tpacket.c`: "accross" =E2=86=92 "across"
+> >
+> > The modifications in MPTCP (and psock_tpacket) look good to me:
+> >
+> > Reviewed-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+>
+> Thanks! This patch is corrupted:
+>
+> Applying: selftests: net: Fix minor typos in MPTCP and psock_tpacket test=
+s
+> error: git diff header lacks filename information when removing 1 leading=
+ pathname component (line 7)
+> Patch failed at 0001 selftests: net: Fix minor typos in MPTCP and psock_t=
+packet tests
+> hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
+> hint: When you have resolved this problem, run "git am --continue".
+> hint: If you prefer to skip this patch, run "git am --skip" instead.
+> hint: To restore the original branch and stop patching, run "git am --abo=
+rt".
+> hint: Disable this message with "git config set advice.mergeConflict fals=
+e"
+> Waiting for rebase to finish Mon Feb 17 03:34:36 PM PST 2025^C
+>
+> So repost will be needed (unless Matt wants to take it into his tree
+> manually).
+>
+> > This patch can be applied directly in the netdev tree, but I'm not sure
+> > the Netdev maintainers will accept that kind of small clean-up patch
+> > alone, see:
+> >
+> >  https://docs.kernel.org/process/maintainer-netdev.html#clean-up-patche=
+s
+>
+> FWIW spelling problems are explicitly called out as okay there.
+> --
+> pw-bot: cr
