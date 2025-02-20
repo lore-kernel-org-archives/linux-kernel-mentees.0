@@ -1,77 +1,71 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230B1213244
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Feb 2025 16:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DDD20C00D
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Feb 2025 17:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740070215; cv=none; b=JhZC9mWgP8WrvhuKU3qjKv1FCFphwKd5x1BuT3czanMM32ijdzlPfEI+hdKQkQj3Rn5XWGpgkwf6QD0ZPuPEf4Brc/lJJj0JDvv0iYMh1xzf+B9/ihauA7+nEBQn+97htW9kuOAppggspgryT/N+euSgu3vrjUw3SE3otqbs9Xk=
+	t=1740071951; cv=none; b=SVnad77z7IaYP51a8NvafUTAbpQmh0/vp4oGYCDmQtW2lc0/fLSDetEPsK55hU8gakFiyJ5w6qP/YoONndHOFQy4OpSblA85X5JVhHD5V1nKkFnbtHBIT977v32CUtgCIdOQq5a+r9C1/H6PPq9AxPCQk769Udwfwswd8lRH7fQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740070215; c=relaxed/simple;
-	bh=efaP8RPJNTtPf2+MD0d2dGXodyx0d/UHarGAgn6cO44=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PAnPBn6hhTwPYGKHdl6KxZHB/uZVuh6mzUYS7eJRAsoF5BDqRCZ2iskWZ/zO18N2di1QNoegI9p6akja+n2d9Pby43Vyh7HXMyHNC1CRgCHFCKoqyJZ9I75XVUHWJXm1Qulf7QJAfK+cCbASeBHRfeDPYUP7qNl71KKwBGt/uA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tt+4oDJv; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1740071951; c=relaxed/simple;
+	bh=lbxp0U7nS6050w/dyFPx4V8itxpoYCb27lxROY6sU+E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OG1cOq7aLnU2Lc2ekFlfFk2CaJc2ngzU5zN5rdZdIwDpQmfIQmPqy3zxc6SyGT8EPkAedO0nYyfjTDPq0U+cNLJKoWXCwhMwkcuVl9rhFz285xilVRXR8oLvHJXIDQ3fi4JSaUygpgfNbKDTCYAaQRFwGeNvN716eM8RbIQIoRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P7ZY7MPQ; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tt+4oDJv"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-220bfdfb3f4so25616855ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Feb 2025 08:50:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P7ZY7MPQ"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-220c665ef4cso19937215ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Feb 2025 09:19:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740070213; x=1740675013; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740071949; x=1740676749; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3DmhWr2QmVyeGuDS1oXG9gsaDbVa/o2rG7jKNkrjMRs=;
-        b=Tt+4oDJvm9zSDiAdijqcmfVvG+BbomyzCQw/l6CdKsWmzk0EGB4T0h6Y2kvK34L06K
-         NMW2ai/3/4lJjk3184RSykyMwDLBtRZSMcnlZUDbcZDmUWDP1uAtUrU5d7p5INX67kA2
-         Yv0fcdKJn2QnosCoFkYFZqt4iUIZGDkPq6o50MPd18LTW3216HE2G8nLPyRnNf9+k1OO
-         xZlfPdTpjmO3dcDlSj3NqsdT+sJykSCApaBa6mXDdCztJVTwdkUB8+M9CVu9U9kPAtC+
-         nVPVelRpJ+TfqSjuAilYqHXHFPp2TQRxzpsFekZjzGuGeJRGzCuzaG3vOMtTz2KUWvhX
-         ArmA==
+        bh=nomDZP7UgjJM6LiqPmJ9pxSMIsyz19CUu75QblVwQ2E=;
+        b=P7ZY7MPQX2k7g68PGjsZc+Sc+CnZELFNbyFx/eDUdM32uoExjgRU0HMLBsnUj4CGKA
+         z4p/+J+8dtrR0Kus8L6X4HuFAasVTXU/1toI59dYrMA3iKoL+46MhTa89r6LW9yrPWAK
+         G+LjBhTGAOR6MnNLYBPbP5jCMgRgd3omtPV9hVwjvYmgX+dtEfGHnIhdKD5Q64Xitt+Y
+         pwOho5KU+QXr5La25/BgGX8TyC7YzQZpobKa+qg2w5KbKReYw86qvx7SF5XmjwSD394b
+         nvqtuN0N6LZ0NSAE2p+zUfsaFIkvYg9HQNjL6JwujjasJmKZ4CBvlSUyrPrRgjwRUqXj
+         09Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740070213; x=1740675013;
+        d=1e100.net; s=20230601; t=1740071949; x=1740676749;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3DmhWr2QmVyeGuDS1oXG9gsaDbVa/o2rG7jKNkrjMRs=;
-        b=TpaWVNJYz7A0jJzek0eWDgIyPNooUM036mK53f5+YD0UfwwwHdpkem8hZXeov15Jak
-         nvfGagVlzOIDBGx8xA3wPQy7vmAEAZjvY1Uv056Rf2h6K+7ce28J1+naJTI3fSRJNYOD
-         F6Pe7NbTuwq9aYRWf0oEfxiFrgAZ7WqZEGk+z1rV4GTsuuuWyHgEfmeCGVq2PjZFTIMj
-         +7ymRFx3KWU/3ali32nnElLiOqSCLerzfqDWuDqAS1Uz5qWCISJ6BP+OFosULifQvFtc
-         lN6zIqrFPwr89E7hpTWim/YgZ2KPtyM3fP4/zC85s5IfiktiSrTkdieqVIliIGXSbr6D
-         rtzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSwoKj9xeBoTMqmvXHOMTH4kpzO9PWah/pbjTAuyUzaqxEwwYuDluvisSU7+nCuq6QnjTOMgdiHgcY5yKPCjd7sUysRQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwxCroW4TtmxoJI3xODeg9YOk0t6YuVhrf4pCEiktcIl+lecKJ+
-	pCA4zKWWG/9Wt+f7qvJkWTViCfD7dBv9k06MxETA2nQYVQKSo3mJ
-X-Gm-Gg: ASbGncsxUKJZJBmg+nP56HlGEm8KKzkpa5ac/as7I4BWwvzFtuKUPpSk9opycpYhWjW
-	Eefa0NeTkCB5NhUEltqnMEC0cy2aV14QqFtwQKjDn0kHuufGSffDYYDr5ZGVCxxsXMNLX/2owGG
-	GX8YAiR8gYTNSZPNeiKZWcsO/mEtfMOsPyWuUG+aZld04fQhF4i3qrg5xkMtih3oupaWYCESYJD
-	msRhQjDvgV1lHdNE1GmSkmSp9TNkJ90+CMAf74ypGYjDAjMLgKNYw788v5gbC13ulUV+rrlgzSk
-	3tEpggVzHTWHA3U4jZjtJIy2PG1FGbdNmOwK
-X-Google-Smtp-Source: AGHT+IEZEJ5Vx0cDfop6Q20EF8DsuK+QyG7/1ZeIrNw7H+oUSeWhjSyHlDH+GyEOp57VhYxnE3uFtg==
-X-Received: by 2002:a17:902:d2c2:b0:215:5625:885b with SMTP id d9443c01a7336-221711c2866mr129989005ad.52.1740070213205;
-        Thu, 20 Feb 2025 08:50:13 -0800 (PST)
-Received: from localhost.localdomain ([106.207.145.213])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73266fd6438sm10619451b3a.142.2025.02.20.08.50.07
+        bh=nomDZP7UgjJM6LiqPmJ9pxSMIsyz19CUu75QblVwQ2E=;
+        b=VofWjX+ID8IlR4jRABm0t0yANuFX6Nzlld2h1twKUWw+rgv31qhrADfwOyVPJYXqAC
+         f1mRmm6PmF21WDZzPqjQ2vjfyMFYT8XWFE2n0qtUpzbNoHUW9TiLMjGOi98fM+MWe27Y
+         /a0a/kWXDp+fo9UZDBU3iP9UKjxz9VlbDgr2u2nm/5XuzrPib/QMEawTGyS2QlN5mIqO
+         xhsjSmyVNExIMKnxpZgiuJGdyUJywqkuFBA7N0LRR6jySmivQmdkpqWlr4HWxcmPhrj1
+         k3l3EAXpzkuBIsRg4Lwbn33UNpKUVrbStNSsYWQIgoOYBykEyuKa+DOfphBa+4rJ9+8j
+         6XLA==
+X-Forwarded-Encrypted: i=1; AJvYcCXOSlIxKSpqBGLhSusVA4h/qTbvavp52wuHNHmoBYVCIGmAj9rEKaVB1NWGIICXkaGDsyKMV//i8M1m0JgSILXkj2xNqQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyiEubpw3pRHQ0yVkU+B403NV4CMDAqEYOpMqew22UJSN7C/mV+
+	lEAky5oxWkn1Z9VLVknZuVprUN3XrPLKHU7GujmY7ISqBnf9CfSH
+X-Gm-Gg: ASbGncvLTJq/f7i2SI+mV3RNYul/Mr4XgKrWVoHOF4iIk46Eo7/5688GEPrqNQcL6+G
+	Re3m8u3h5OvU9/9laF0hGFEsgNo4UaEx/vVnbnmAk2eWzYGF2xxLvG2Wuu2TV7Km2pfAAm+G+n4
+	dbS0V+N9I35lNZIe9GC3gVlynz0bqQpAgm9G1HFO7SR1SVcT6v1gouHqQYn0U/QnBODAtqTLh+z
+	RtlkXyZs1PfULDIpXRPfaKfhAdRo43yMpDPOhF3RAm4sVu7+P/KS6oSXUuzSxQHAixqF7TRJAcY
+	0WcTBjmKSUyp1E2yPdicGIJu
+X-Google-Smtp-Source: AGHT+IGeGn7sAE0oh/LEmZ0Q9vohZZx4LORYi7li2Q40VP3JZ4WbLcXqVZcaR3HNoxG0ukBcPdb44w==
+X-Received: by 2002:a05:6a00:2e16:b0:730:927c:d451 with SMTP id d2e1a72fcca58-73417382ba1mr4907029b3a.20.1740071949258;
+        Thu, 20 Feb 2025 09:19:09 -0800 (PST)
+Received: from archlinux.nitk.ac.in ([2400:4f20:11:c00::101:920a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7324273e324sm14101963b3a.88.2025.02.20.09.19.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 08:50:12 -0800 (PST)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	corbet@lwn.net
-Cc: dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	bagasdotme@gmail.com,
+        Thu, 20 Feb 2025 09:19:08 -0800 (PST)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH] vgaarbiter: documentation grammar correction 
-Date: Thu, 20 Feb 2025 22:19:46 +0530
-Message-ID: <20250220164946.18007-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	linux-kernel-mentees@lists.linux.dev,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH] docs: debugfs: fix spelling of "failure"
+Date: Thu, 20 Feb 2025 22:49:03 +0530
+Message-ID: <20250220171903.11321-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -80,42 +74,27 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Corrects the following grammatical issues in the VGA Arbiter documentation:
-- Fixes subject-verb agreement by changing "co-exists" to "co-exist"
-- Corrects pluralization by changing "server" to "servers"
-- Improves sentence structure for clarity
+Fix a typo in debugfs documentation where "failure" was misspelled 
+as "failuer".
 
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
 ---
- Documentation/gpu/vgaarbiter.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/filesystems/debugfs.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
-index bde3c0afb059..d1e953712cc2 100644
---- a/Documentation/gpu/vgaarbiter.rst
-+++ b/Documentation/gpu/vgaarbiter.rst
-@@ -11,9 +11,9 @@ Section 7, Legacy Devices.
+diff --git a/Documentation/filesystems/debugfs.rst b/Documentation/filesystems/debugfs.rst
+index f7f977ffbf8d..610f718ef8b5 100644
+--- a/Documentation/filesystems/debugfs.rst
++++ b/Documentation/filesystems/debugfs.rst
+@@ -220,7 +220,7 @@ There are a couple of other directory-oriented helper functions::
  
- The Resource Access Control (RAC) module inside the X server [0] existed for
- the legacy VGA arbitration task (besides other bus management tasks) when more
--than one legacy device co-exists on the same machine. But the problem happens
-+than one legacy device co-exist on the same machine. But the problem happens
- when these devices are trying to be accessed by different userspace clients
--(e.g. two server in parallel). Their address assignments conflict. Moreover,
-+(e.g. two servers in parallel). Their address assignments conflict. Moreover,
- ideally, being a userspace application, it is not the role of the X server to
- control bus resources. Therefore an arbitration scheme outside of the X server
- is needed to control the sharing of these resources. This document introduces
-@@ -106,7 +106,7 @@ In-kernel interface
- libpciaccess
- ------------
+ A call to debugfs_change_name() will give a new name to an existing debugfs
+ file, always in the same directory.  The new_name must not exist prior
+-to the call; the return value is 0 on success and -E... on failuer.
++to the call; the return value is 0 on success and -E... on failure.
+ Symbolic links can be created with debugfs_create_symlink().
  
--To use the vga arbiter char device it was implemented an API inside the
-+To use the vga arbiter char device, an API was implemented inside the
- libpciaccess library. One field was added to struct pci_device (each device
- on the system)::
- 
+ There is one important thing that all debugfs users must take into account:
 -- 
-2.47.1
+2.48.1
 
