@@ -1,93 +1,77 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52091D63F6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Feb 2025 15:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230B1213244
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Feb 2025 16:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740064461; cv=none; b=av0puAD8gV99/K/MKgLcDqs6J2XDnyDRRn/ICkf2YYCynjfzcmWdtxMJTP05UggXX9vwQ4O+Xu2e9frAUBFG6MyqZXZXpNlcvZSZkdTG4T1kiTFBjHjtkgRPCxZeP9opJPVx5uT4TS8z3hAsJBEmBKsnpJ8Phe22urQxQYcr3RE=
+	t=1740070215; cv=none; b=JhZC9mWgP8WrvhuKU3qjKv1FCFphwKd5x1BuT3czanMM32ijdzlPfEI+hdKQkQj3Rn5XWGpgkwf6QD0ZPuPEf4Brc/lJJj0JDvv0iYMh1xzf+B9/ihauA7+nEBQn+97htW9kuOAppggspgryT/N+euSgu3vrjUw3SE3otqbs9Xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740064461; c=relaxed/simple;
-	bh=9eaCaq5y9D1r80+Z5+qGqUat+koJb6OIj9wcd+uQEiw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lj+Flnu8znBnDfoRNWeajjlR/Tj9ETAlvRQ7sqEHBuz+mvI+bby5PTGuJy5HqRQ3g7hEu4kFJmpBaPW/du31E2CDuiyLkUEB8A6uDAyTDEtCNEhHN44uh52LyqL5GHzhobyUhbhdMg/yw/KFcTegGjJ4k+PSAdAM0haCv1sH+F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jTkGnpqP; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1740070215; c=relaxed/simple;
+	bh=efaP8RPJNTtPf2+MD0d2dGXodyx0d/UHarGAgn6cO44=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PAnPBn6hhTwPYGKHdl6KxZHB/uZVuh6mzUYS7eJRAsoF5BDqRCZ2iskWZ/zO18N2di1QNoegI9p6akja+n2d9Pby43Vyh7HXMyHNC1CRgCHFCKoqyJZ9I75XVUHWJXm1Qulf7QJAfK+cCbASeBHRfeDPYUP7qNl71KKwBGt/uA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tt+4oDJv; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jTkGnpqP"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5B45660AD5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Feb 2025 15:14:20 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ST21G5hkE5Z0 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 20 Feb 2025 15:14:19 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=ritvikfoss@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org B81A860815
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B81A860815
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jTkGnpqP
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B81A860815
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Feb 2025 15:14:19 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-220c8f38febso22019375ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Feb 2025 07:14:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tt+4oDJv"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-220bfdfb3f4so25616855ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Feb 2025 08:50:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740064459; x=1740669259; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sqQpBY4aFk+b5TA2ZFF7XiX758vlnpBYffrh3Zwz7wU=;
-        b=jTkGnpqP605AKbenlPtg1YXIDf5LOVgB7y0Piu3slBYqZHi1xPU3pJV6H4jkaCvSEd
-         tY44+LfPWLyDf0OC3NZ000gQJmUsheaeiWsTbbPIlhbHj4d6a564S44ItiOM5KkOXNyo
-         w2EUoNc13p4JVPwDoveRcVR1Of2o51w4UuRti9xbTFMO2k8KxsmBkpvYV+Zx/I/b6k6R
-         8/XMogVKwpi5oViCOJPs5WztT1PIKWgEMZnlRA2rPYnD/t8m3XH+xWLkJmnno8auixeQ
-         wVgJy444aNg41SqRQNvyqsyySLmO3jYLvdanwJBSrIyrtXgvERUojAWruzVYxSwjdt2l
-         dhQw==
+        d=gmail.com; s=20230601; t=1740070213; x=1740675013; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3DmhWr2QmVyeGuDS1oXG9gsaDbVa/o2rG7jKNkrjMRs=;
+        b=Tt+4oDJvm9zSDiAdijqcmfVvG+BbomyzCQw/l6CdKsWmzk0EGB4T0h6Y2kvK34L06K
+         NMW2ai/3/4lJjk3184RSykyMwDLBtRZSMcnlZUDbcZDmUWDP1uAtUrU5d7p5INX67kA2
+         Yv0fcdKJn2QnosCoFkYFZqt4iUIZGDkPq6o50MPd18LTW3216HE2G8nLPyRnNf9+k1OO
+         xZlfPdTpjmO3dcDlSj3NqsdT+sJykSCApaBa6mXDdCztJVTwdkUB8+M9CVu9U9kPAtC+
+         nVPVelRpJ+TfqSjuAilYqHXHFPp2TQRxzpsFekZjzGuGeJRGzCuzaG3vOMtTz2KUWvhX
+         ArmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740064459; x=1740669259;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sqQpBY4aFk+b5TA2ZFF7XiX758vlnpBYffrh3Zwz7wU=;
-        b=oeqHPwnyOnN7GEazQSJb2D6jgM/RUb457+0RT5ynT4g4QsqomZigZzqpK+NwsSmY6O
-         EcGvaTkco977raWMta0uh4tp1NtKB7EDX/RbiU3xiDMMhEgPa2RR8phtZ/d0H/P/m4+W
-         Cd20H1omQxsm6xVp7jkdiBEqnK4fI00KrDbExwbIqRdULEGZXpnlxPGZoYW8me2Sgkmr
-         gMX2WQjQQ5BzGpJzFyXFbIg6t4DSoZ5p7zqHT9HTsOoFFyWjljPZtKOfNoiB6bQc81S9
-         F4qAZ5XGvYJtw0/qN1gX852H1QNyNVVuL+wkySz2r1RMEoPejkWMKMRW0O6wuzMktLjx
-         GPFg==
-X-Forwarded-Encrypted: i=1; AJvYcCU3EbMQ0MGHxgjlchS6wxMhhGf2xa1RJxVQpWTSW/Hwwu6mYIQcdMxtk9+JH9eYz+UXVZiNXSY8Bx4/0uKL5vJjZ/mDww==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyXpR3ZlFajwm2VXyUStGOg+djLyS8l7cLHtgsxBT47DyaLhh6J
-	SL8iq+vW0p0vtKcCMNrwbm4mTAQgl1BaIujHs7KUQi0VsIuQedpf
-X-Gm-Gg: ASbGncvEm+g3n+2/7mYE+JU2VUGsjr+/U9QAAELMTlccQ4j6xm/Hi6Kd7e2Mip/oCC3
-	XBId07IesvJEpvqDZtmp5edrkcHYUvBdjfIVSbCtpS17xOaNIwrcTtMfmcg2DxioXZl1k3dPkUo
-	eY+R516edbXUm78BKIbe+DjEMygHAony1qZt3DA1ykVGZdZAVSk0SsuJEqwhBAx1kA5dtHYydBs
-	19s2+S8N4DPO9MlYcFjHdyTQkfMBF45IblIeB0RC2eLBtIQN25SWYU9P8pP1Ob7vnZ5c5S4x4Gv
-	d+109jNwqulvkB4a+R7BuiyWp4wczGW1cANuMjQ=
-X-Google-Smtp-Source: AGHT+IEBhHNkErGPHvUIGRDjQRfvuODqABxRCX5C2SR4N1tK6tuSLh2jC3rHExY/Aml3jqmJl8PUuw==
-X-Received: by 2002:a17:903:2f8e:b0:221:2f4:5446 with SMTP id d9443c01a7336-22190639e7cmr44995675ad.25.1740064458775;
-        Thu, 20 Feb 2025 07:14:18 -0800 (PST)
-Received: from ritvikos.localdomain ([49.36.192.37])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d5349389sm123310255ad.42.2025.02.20.07.14.17
+        d=1e100.net; s=20230601; t=1740070213; x=1740675013;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3DmhWr2QmVyeGuDS1oXG9gsaDbVa/o2rG7jKNkrjMRs=;
+        b=TpaWVNJYz7A0jJzek0eWDgIyPNooUM036mK53f5+YD0UfwwwHdpkem8hZXeov15Jak
+         nvfGagVlzOIDBGx8xA3wPQy7vmAEAZjvY1Uv056Rf2h6K+7ce28J1+naJTI3fSRJNYOD
+         F6Pe7NbTuwq9aYRWf0oEfxiFrgAZ7WqZEGk+z1rV4GTsuuuWyHgEfmeCGVq2PjZFTIMj
+         +7ymRFx3KWU/3ali32nnElLiOqSCLerzfqDWuDqAS1Uz5qWCISJ6BP+OFosULifQvFtc
+         lN6zIqrFPwr89E7hpTWim/YgZ2KPtyM3fP4/zC85s5IfiktiSrTkdieqVIliIGXSbr6D
+         rtzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVSwoKj9xeBoTMqmvXHOMTH4kpzO9PWah/pbjTAuyUzaqxEwwYuDluvisSU7+nCuq6QnjTOMgdiHgcY5yKPCjd7sUysRQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwxCroW4TtmxoJI3xODeg9YOk0t6YuVhrf4pCEiktcIl+lecKJ+
+	pCA4zKWWG/9Wt+f7qvJkWTViCfD7dBv9k06MxETA2nQYVQKSo3mJ
+X-Gm-Gg: ASbGncsxUKJZJBmg+nP56HlGEm8KKzkpa5ac/as7I4BWwvzFtuKUPpSk9opycpYhWjW
+	Eefa0NeTkCB5NhUEltqnMEC0cy2aV14QqFtwQKjDn0kHuufGSffDYYDr5ZGVCxxsXMNLX/2owGG
+	GX8YAiR8gYTNSZPNeiKZWcsO/mEtfMOsPyWuUG+aZld04fQhF4i3qrg5xkMtih3oupaWYCESYJD
+	msRhQjDvgV1lHdNE1GmSkmSp9TNkJ90+CMAf74ypGYjDAjMLgKNYw788v5gbC13ulUV+rrlgzSk
+	3tEpggVzHTWHA3U4jZjtJIy2PG1FGbdNmOwK
+X-Google-Smtp-Source: AGHT+IEZEJ5Vx0cDfop6Q20EF8DsuK+QyG7/1ZeIrNw7H+oUSeWhjSyHlDH+GyEOp57VhYxnE3uFtg==
+X-Received: by 2002:a17:902:d2c2:b0:215:5625:885b with SMTP id d9443c01a7336-221711c2866mr129989005ad.52.1740070213205;
+        Thu, 20 Feb 2025 08:50:13 -0800 (PST)
+Received: from localhost.localdomain ([106.207.145.213])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73266fd6438sm10619451b3a.142.2025.02.20.08.50.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 07:14:18 -0800 (PST)
-Received: by ritvikos.localdomain (Postfix, from userid 1000)
-	id 1D910E7C4B5; Thu, 20 Feb 2025 20:44:15 +0530 (IST)
-From: ritvikfoss@gmail.com
-To: linux-kernel@vger.kernel.org,
-	ricardo@marliere.net
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v2] scripts/checksyscalls.sh: Add usage message, fix -Wno-error
-Date: Thu, 20 Feb 2025 20:44:14 +0530
-Message-ID: <20250220151414.8003-1-ritvikfoss@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250220105940.5241-1-ritvikfoss@gmail.com>
-References: <20250220105940.5241-1-ritvikfoss@gmail.com>
+        Thu, 20 Feb 2025 08:50:12 -0800 (PST)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	corbet@lwn.net
+Cc: dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	bagasdotme@gmail.com,
+	skhan@linuxfoundation.org,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH] vgaarbiter: documentation grammar correction 
+Date: Thu, 20 Feb 2025 22:19:46 +0530
+Message-ID: <20250220164946.18007-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -96,56 +80,42 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ritvik Gupta <ritvikfoss@gmail.com>
+Corrects the following grammatical issues in the VGA Arbiter documentation:
+- Fixes subject-verb agreement by changing "co-exists" to "co-exist"
+- Corrects pluralization by changing "server" to "servers"
+- Improves sentence structure for clarity
 
-Currently 'scripts/checksyscalls.sh' does not
-provide guidance when executed without specifying
-a compiler, instead it attempts to execute
-'-Wno-error' parameter as a command,
-resulting in 'Wno-error: Command not found' error.
-
-This patch adds a usage message that is displayed
-when no compiler is provided as parameter to
-improve clarity.
-
-Signed-off-by: Ritvik Gupta <ritvikfoss@gmail.com>
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
-Changes in v2:
-    - Make the script posix compliant
-    - Fixed formatting
+ Documentation/gpu/vgaarbiter.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Thanks for reviewing!
-
- scripts/checksyscalls.sh | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/scripts/checksyscalls.sh b/scripts/checksyscalls.sh
-index 1e5d2eeb726d..96cba9f79249 100755
---- a/scripts/checksyscalls.sh
-+++ b/scripts/checksyscalls.sh
-@@ -10,6 +10,22 @@
- # checksyscalls.sh gcc gcc-options
- #
+diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
+index bde3c0afb059..d1e953712cc2 100644
+--- a/Documentation/gpu/vgaarbiter.rst
++++ b/Documentation/gpu/vgaarbiter.rst
+@@ -11,9 +11,9 @@ Section 7, Legacy Devices.
  
-+usage() {
-+cat << EOF
-+Usage: $0 <compiler> [compiler-options]
-+
-+Example:
-+  $0 gcc
-+EOF
-+
-+exit 1
-+}
-+
-+if [ $# -eq 0 ]; then
-+	echo "Error: No compiler provided."
-+	usage
-+fi
-+
- ignore_list() {
- cat << EOF
- #include <asm/types.h>
+ The Resource Access Control (RAC) module inside the X server [0] existed for
+ the legacy VGA arbitration task (besides other bus management tasks) when more
+-than one legacy device co-exists on the same machine. But the problem happens
++than one legacy device co-exist on the same machine. But the problem happens
+ when these devices are trying to be accessed by different userspace clients
+-(e.g. two server in parallel). Their address assignments conflict. Moreover,
++(e.g. two servers in parallel). Their address assignments conflict. Moreover,
+ ideally, being a userspace application, it is not the role of the X server to
+ control bus resources. Therefore an arbitration scheme outside of the X server
+ is needed to control the sharing of these resources. This document introduces
+@@ -106,7 +106,7 @@ In-kernel interface
+ libpciaccess
+ ------------
+ 
+-To use the vga arbiter char device it was implemented an API inside the
++To use the vga arbiter char device, an API was implemented inside the
+ libpciaccess library. One field was added to struct pci_device (each device
+ on the system)::
+ 
 -- 
-2.48.1
+2.47.1
 
