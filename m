@@ -1,146 +1,151 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904AF1DDC3A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Feb 2025 11:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52091D63F6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Feb 2025 15:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740052343; cv=none; b=fMDjJZyRzlUUbi6sL2RMzHOufDxhX1nTYpl/YEis0uq0U9qBBLhAGCfGCzMTVdAio6AQxHjLN1SON9tPDhaYETyQK1NyKwxNNKC9s0172yUUrJkRJjV5obdTzgix50n/7T7rYRJs/4CPDPIBQIZtOxD8kyB57iutmiCKOpQJrN0=
+	t=1740064461; cv=none; b=av0puAD8gV99/K/MKgLcDqs6J2XDnyDRRn/ICkf2YYCynjfzcmWdtxMJTP05UggXX9vwQ4O+Xu2e9frAUBFG6MyqZXZXpNlcvZSZkdTG4T1kiTFBjHjtkgRPCxZeP9opJPVx5uT4TS8z3hAsJBEmBKsnpJ8Phe22urQxQYcr3RE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740052343; c=relaxed/simple;
-	bh=OO/lRbml8EOx+1I2P8+mJ+GB6x9c3YMzz/THQiiQX0I=;
-	h=From:Mime-Version:Content-Type:Date:Message-Id:To:Subject:Cc:
-	 References:In-Reply-To; b=lWXYRy/wWewFg4ah5GtR4QFYfM3rMk7SqlT4daiPu6MxDqhlY5hmihzc3FknwdVd4Y+uRE7Aw4LvEFq/e4VOE47wRrJ9fEL2dVN1OFoxkbJdaCXbJaYJ97Wxj0ai85fVxfgHprogw8ncR/mFyV4qgsbNWdXUqmU2KR6D0hHvIPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=Vfb9XVD5; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1740064461; c=relaxed/simple;
+	bh=9eaCaq5y9D1r80+Z5+qGqUat+koJb6OIj9wcd+uQEiw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lj+Flnu8znBnDfoRNWeajjlR/Tj9ETAlvRQ7sqEHBuz+mvI+bby5PTGuJy5HqRQ3g7hEu4kFJmpBaPW/du31E2CDuiyLkUEB8A6uDAyTDEtCNEhHN44uh52LyqL5GHzhobyUhbhdMg/yw/KFcTegGjJ4k+PSAdAM0haCv1sH+F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jTkGnpqP; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="Vfb9XVD5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jTkGnpqP"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 153C840CCE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Feb 2025 11:52:22 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5B45660AD5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Feb 2025 15:14:20 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.5
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id sLkOKp6d17b3 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 20 Feb 2025 11:52:21 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62f; helo=mail-pl1-x62f.google.com; envelope-from=rbmarliere@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 33E5E40D28
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=marliere.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 33E5E40D28
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=marliere.net header.i=@marliere.net header.a=rsa-sha256 header.s=2025 header.b=Vfb9XVD5
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 33E5E40D28
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Feb 2025 11:52:20 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-221057b6ac4so13382215ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Feb 2025 03:52:20 -0800 (PST)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ST21G5hkE5Z0 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 20 Feb 2025 15:14:19 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=ritvikfoss@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org B81A860815
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B81A860815
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jTkGnpqP
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B81A860815
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Feb 2025 15:14:19 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-220c8f38febso22019375ad.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Feb 2025 07:14:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740064459; x=1740669259; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sqQpBY4aFk+b5TA2ZFF7XiX758vlnpBYffrh3Zwz7wU=;
+        b=jTkGnpqP605AKbenlPtg1YXIDf5LOVgB7y0Piu3slBYqZHi1xPU3pJV6H4jkaCvSEd
+         tY44+LfPWLyDf0OC3NZ000gQJmUsheaeiWsTbbPIlhbHj4d6a564S44ItiOM5KkOXNyo
+         w2EUoNc13p4JVPwDoveRcVR1Of2o51w4UuRti9xbTFMO2k8KxsmBkpvYV+Zx/I/b6k6R
+         8/XMogVKwpi5oViCOJPs5WztT1PIKWgEMZnlRA2rPYnD/t8m3XH+xWLkJmnno8auixeQ
+         wVgJy444aNg41SqRQNvyqsyySLmO3jYLvdanwJBSrIyrtXgvERUojAWruzVYxSwjdt2l
+         dhQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740052340; x=1740657140;
-        h=in-reply-to:references:cc:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:dkim-signature:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OyJ48cEBf3ybJXcCwpkQTA9L9UCk0AqM1gKaY3xOrqs=;
-        b=YWIX/SaJtNAmDeWuAJZPwqIpwSnlsfkrUCJVUjNd8m5ecQ01WhJUFMejL+63yjarj9
-         OhkwjpkMOkuBVuRE8WKRwM7/hoPnA384u3dff6dO/RBQCPnHiI8Tb2cOs8amW6QsdKWJ
-         YA0PEmwXrc2CAfs8A5geWNuiuKVD7F08lYgPnV7U4h0oVDsP2y+ZRl+6QIcOLFhFKwJA
-         GxBvkGMiErSLySlVy3PcQphovgctvstImajrQ3XKfHnK94QuK//7QqTyR88W9yHN7Wej
-         MTzB1thLnRxjOvXHOlORQ7PYVE9HgtV7LlS+AeQiqDw+XnSBCFR38YwPNtFjF8Wmy5jK
-         youQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXt7C2jsHKswyzErxFdJlkPCe2R2t1ziZtUmquT5Ub8VUxUWdMVU4m2Ve9hFYXFo7yp3f7yoiQ8KdPtuOLEZ/aZfq7vaQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yy2erUg5+jQxBM/52eT0QF0ekRXCmg0uRjxJBMoh570FRxK7+8n
-	BntiyQpzM15dZbGnhw9DXod5V7YzmJPPfBT3BbAzy344SvwfgQ2q
-X-Gm-Gg: ASbGnct93cZYUhxLDPYuAoIJ02TOt3GxRx+L/vpg7SrizLxnAHpL2gIxhQ/Zr3m7eDQ
-	e08VM0/Wl+Lr/NH6+OrbzbFvS1RxiCzgnt+Mctw0k/ifvYxv1E3fGzMEgXBOIOPXIvjYBMKYvA3
-	RRh5cK1cfdG7F4H4BjBhwi8uoU818QToZbybKcz0cbqEweFPs8XAlFgNJDrKYvErqNY23cLJN0w
-	VBEoWZAOXQZLdeqFHlUZ3kIDDQ1fJiYGwoRtoyLnIcHgNz256r2XzQOPct2rHAyl8twx4Zs9iG5
-	p0vJLaikAxXleKN27Ipx+ot1iBmCgaSw
-X-Google-Smtp-Source: AGHT+IFlZ37sTtrXAFFHnJ1iBCOi+zyZ/E1NwHgnBT+x6hyKHVv35rYFShprGW7uHdq+ccHBl7Zgdw==
-X-Received: by 2002:a05:6a21:3989:b0:1ee:dded:e5e with SMTP id adf61e73a8af0-1eedded1658mr10186421637.35.1740052340128;
-        Thu, 20 Feb 2025 03:52:20 -0800 (PST)
-Received: from mail.marliere.net (marliere.net. [24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-adec4756d0csm6917539a12.55.2025.02.20.03.52.19
+        d=1e100.net; s=20230601; t=1740064459; x=1740669259;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sqQpBY4aFk+b5TA2ZFF7XiX758vlnpBYffrh3Zwz7wU=;
+        b=oeqHPwnyOnN7GEazQSJb2D6jgM/RUb457+0RT5ynT4g4QsqomZigZzqpK+NwsSmY6O
+         EcGvaTkco977raWMta0uh4tp1NtKB7EDX/RbiU3xiDMMhEgPa2RR8phtZ/d0H/P/m4+W
+         Cd20H1omQxsm6xVp7jkdiBEqnK4fI00KrDbExwbIqRdULEGZXpnlxPGZoYW8me2Sgkmr
+         gMX2WQjQQ5BzGpJzFyXFbIg6t4DSoZ5p7zqHT9HTsOoFFyWjljPZtKOfNoiB6bQc81S9
+         F4qAZ5XGvYJtw0/qN1gX852H1QNyNVVuL+wkySz2r1RMEoPejkWMKMRW0O6wuzMktLjx
+         GPFg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3EbMQ0MGHxgjlchS6wxMhhGf2xa1RJxVQpWTSW/Hwwu6mYIQcdMxtk9+JH9eYz+UXVZiNXSY8Bx4/0uKL5vJjZ/mDww==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyXpR3ZlFajwm2VXyUStGOg+djLyS8l7cLHtgsxBT47DyaLhh6J
+	SL8iq+vW0p0vtKcCMNrwbm4mTAQgl1BaIujHs7KUQi0VsIuQedpf
+X-Gm-Gg: ASbGncvEm+g3n+2/7mYE+JU2VUGsjr+/U9QAAELMTlccQ4j6xm/Hi6Kd7e2Mip/oCC3
+	XBId07IesvJEpvqDZtmp5edrkcHYUvBdjfIVSbCtpS17xOaNIwrcTtMfmcg2DxioXZl1k3dPkUo
+	eY+R516edbXUm78BKIbe+DjEMygHAony1qZt3DA1ykVGZdZAVSk0SsuJEqwhBAx1kA5dtHYydBs
+	19s2+S8N4DPO9MlYcFjHdyTQkfMBF45IblIeB0RC2eLBtIQN25SWYU9P8pP1Ob7vnZ5c5S4x4Gv
+	d+109jNwqulvkB4a+R7BuiyWp4wczGW1cANuMjQ=
+X-Google-Smtp-Source: AGHT+IEBhHNkErGPHvUIGRDjQRfvuODqABxRCX5C2SR4N1tK6tuSLh2jC3rHExY/Aml3jqmJl8PUuw==
+X-Received: by 2002:a17:903:2f8e:b0:221:2f4:5446 with SMTP id d9443c01a7336-22190639e7cmr44995675ad.25.1740064458775;
+        Thu, 20 Feb 2025 07:14:18 -0800 (PST)
+Received: from ritvikos.localdomain ([49.36.192.37])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d5349389sm123310255ad.42.2025.02.20.07.14.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 03:52:19 -0800 (PST)
-From: =?utf-8?B?UmljYXJkbyBCLiBNYXJsacOocmU=?= <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2025; t=1740052337;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OyJ48cEBf3ybJXcCwpkQTA9L9UCk0AqM1gKaY3xOrqs=;
-	b=Vfb9XVD5Ky9trJ43YnNZ/rfYoDdKJ75IOVoMoNihtbXIkLDjxnGlOzA97+PLgzzZHKDlE9
-	t7zNxFL8/sDmiNRC6U6s5Atz+wV4hMKBZOOgWu03FWeaL01+ZKStHPbWVNdb+ztO61/6Bh
-	0J8JBY1miVRBPAW5zrXy9k7Fn2+eFsgNNDzLoD2p8mf3URWrZqj2KFEt/iAtNf2FGiblN7
-	JMJTRyUazCUop+pyCM1+g5qHjQQ7ZEuf2N+EJKTJAOyUBV7qCUUefyuUr60wDjAzjhZvJf
-	Ttdf0O9MPmQeCKkoEb3rVVj5bD6qyX1wZJcB6dYmr25EBMWbNgmeXJSHpO/2yg==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+        Thu, 20 Feb 2025 07:14:18 -0800 (PST)
+Received: by ritvikos.localdomain (Postfix, from userid 1000)
+	id 1D910E7C4B5; Thu, 20 Feb 2025 20:44:15 +0530 (IST)
+From: ritvikfoss@gmail.com
+To: linux-kernel@vger.kernel.org,
+	ricardo@marliere.net
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v2] scripts/checksyscalls.sh: Add usage message, fix -Wno-error
+Date: Thu, 20 Feb 2025 20:44:14 +0530
+Message-ID: <20250220151414.8003-1-ritvikfoss@gmail.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250220105940.5241-1-ritvikfoss@gmail.com>
+References: <20250220105940.5241-1-ritvikfoss@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 20 Feb 2025 08:52:14 -0300
-Message-Id: <D7X92MYPURFI.1BHED9UW00I82@marliere.net>
-To: <ritvikfoss@gmail.com>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] scripts/checksyscalls.sh: Add usage message, fix
- -Wno-error
-Cc: <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>
-References: <20250220105940.5241-1-ritvikfoss@gmail.com>
-In-Reply-To: <20250220105940.5241-1-ritvikfoss@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu Feb 20, 2025 at 7:59 AM -03, ritvikfoss wrote:
-> From: Ritvik Gupta <ritvikfoss@gmail.com>
->
-> Currently 'scripts/checksyscalls.sh' does not
-> provide guidance when executed without specifying
-> a compiler, instead it attempts to execute
-> '-Wno-error' parameter as a command,
-> resulting in 'Wno-error: Command not found' error.
->
-> This patch adds a usage message that is displayed
-> when no compiler is provided as parameter to
-> improve clarity.
->
-> Signed-off-by: Ritvik Gupta <ritvikfoss@gmail.com>
-> ---
->  scripts/checksyscalls.sh | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->
-> diff --git a/scripts/checksyscalls.sh b/scripts/checksyscalls.sh
-> index 1e5d2eeb726d..14c04227c96e 100755
-> --- a/scripts/checksyscalls.sh
-> +++ b/scripts/checksyscalls.sh
-> @@ -10,6 +10,21 @@
->  # checksyscalls.sh gcc gcc-options
->  #
-> =20
-> +usage() {
-> +cat <<EOF
-> +Usage: $0 <compiler> [compiler-options]
-> +
-> +Example:
-> +  $0 gcc
-> +EOF
-> +exit 1
-> +}
-> +
-> +if [[ $# -eq 0 ]]; then
+From: Ritvik Gupta <ritvikfoss@gmail.com>
 
-[[ is bash, while this script is POSIX #!/bin/sh
+Currently 'scripts/checksyscalls.sh' does not
+provide guidance when executed without specifying
+a compiler, instead it attempts to execute
+'-Wno-error' parameter as a command,
+resulting in 'Wno-error: Command not found' error.
 
-> +	echo "Error: No compiler provided."
-> +	usage
-> +fi
-> +
->  ignore_list() {
->  cat << EOF
->  #include <asm/types.h>
+This patch adds a usage message that is displayed
+when no compiler is provided as parameter to
+improve clarity.
+
+Signed-off-by: Ritvik Gupta <ritvikfoss@gmail.com>
+---
+Changes in v2:
+    - Make the script posix compliant
+    - Fixed formatting
+
+Thanks for reviewing!
+
+ scripts/checksyscalls.sh | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/scripts/checksyscalls.sh b/scripts/checksyscalls.sh
+index 1e5d2eeb726d..96cba9f79249 100755
+--- a/scripts/checksyscalls.sh
++++ b/scripts/checksyscalls.sh
+@@ -10,6 +10,22 @@
+ # checksyscalls.sh gcc gcc-options
+ #
+ 
++usage() {
++cat << EOF
++Usage: $0 <compiler> [compiler-options]
++
++Example:
++  $0 gcc
++EOF
++
++exit 1
++}
++
++if [ $# -eq 0 ]; then
++	echo "Error: No compiler provided."
++	usage
++fi
++
+ ignore_list() {
+ cat << EOF
+ #include <asm/types.h>
+-- 
+2.48.1
 
