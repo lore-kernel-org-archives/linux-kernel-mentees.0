@@ -1,100 +1,106 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DDD20C00D
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Feb 2025 17:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6462AE89;
+	Fri, 21 Feb 2025 08:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740071951; cv=none; b=SVnad77z7IaYP51a8NvafUTAbpQmh0/vp4oGYCDmQtW2lc0/fLSDetEPsK55hU8gakFiyJ5w6qP/YoONndHOFQy4OpSblA85X5JVhHD5V1nKkFnbtHBIT977v32CUtgCIdOQq5a+r9C1/H6PPq9AxPCQk769Udwfwswd8lRH7fQ=
+	t=1740127693; cv=none; b=ghrkbbLxiyzAOUEkY38xIu/1DPqkKTKK3+HLgkmbNfjNbUOXHVj0gdv0tcwn0zwZPIDfQRYUslrkM5ZZGgrEAS3t9pwVx3mM4x8iF4uA7wEvTcjzyHq7Scf3Gtl0hZeZ1PhSz4nG81cQx4tWEDL7wvF+30KjNcgRnoM/D7u5cQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740071951; c=relaxed/simple;
-	bh=lbxp0U7nS6050w/dyFPx4V8itxpoYCb27lxROY6sU+E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OG1cOq7aLnU2Lc2ekFlfFk2CaJc2ngzU5zN5rdZdIwDpQmfIQmPqy3zxc6SyGT8EPkAedO0nYyfjTDPq0U+cNLJKoWXCwhMwkcuVl9rhFz285xilVRXR8oLvHJXIDQ3fi4JSaUygpgfNbKDTCYAaQRFwGeNvN716eM8RbIQIoRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P7ZY7MPQ; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740127693; c=relaxed/simple;
+	bh=C99AYwNTpzaXnAlVKR4VAvbAR0R5QJS4EGZLJiCOB6M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lRLs397ZIHXiu91bpjXbGW3zOuQJVqsqaQQStXZWJcvUh9orJ3KrxMRx9ruxQNWZfk9IKPOLEfUHMbe7CjHTxVjg9WZwkiXphIYTTdAxQofmYr4xErZQ2TYym3LX3G1PvQMBOA4sobO5TFU3DXp2XcKuCB8R3rR8qhsHzCeOh6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e5L59o6p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P7ZY7MPQ"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-220c665ef4cso19937215ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Feb 2025 09:19:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740071949; x=1740676749; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nomDZP7UgjJM6LiqPmJ9pxSMIsyz19CUu75QblVwQ2E=;
-        b=P7ZY7MPQX2k7g68PGjsZc+Sc+CnZELFNbyFx/eDUdM32uoExjgRU0HMLBsnUj4CGKA
-         z4p/+J+8dtrR0Kus8L6X4HuFAasVTXU/1toI59dYrMA3iKoL+46MhTa89r6LW9yrPWAK
-         G+LjBhTGAOR6MnNLYBPbP5jCMgRgd3omtPV9hVwjvYmgX+dtEfGHnIhdKD5Q64Xitt+Y
-         pwOho5KU+QXr5La25/BgGX8TyC7YzQZpobKa+qg2w5KbKReYw86qvx7SF5XmjwSD394b
-         nvqtuN0N6LZ0NSAE2p+zUfsaFIkvYg9HQNjL6JwujjasJmKZ4CBvlSUyrPrRgjwRUqXj
-         09Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740071949; x=1740676749;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nomDZP7UgjJM6LiqPmJ9pxSMIsyz19CUu75QblVwQ2E=;
-        b=VofWjX+ID8IlR4jRABm0t0yANuFX6Nzlld2h1twKUWw+rgv31qhrADfwOyVPJYXqAC
-         f1mRmm6PmF21WDZzPqjQ2vjfyMFYT8XWFE2n0qtUpzbNoHUW9TiLMjGOi98fM+MWe27Y
-         /a0a/kWXDp+fo9UZDBU3iP9UKjxz9VlbDgr2u2nm/5XuzrPib/QMEawTGyS2QlN5mIqO
-         xhsjSmyVNExIMKnxpZgiuJGdyUJywqkuFBA7N0LRR6jySmivQmdkpqWlr4HWxcmPhrj1
-         k3l3EAXpzkuBIsRg4Lwbn33UNpKUVrbStNSsYWQIgoOYBykEyuKa+DOfphBa+4rJ9+8j
-         6XLA==
-X-Forwarded-Encrypted: i=1; AJvYcCXOSlIxKSpqBGLhSusVA4h/qTbvavp52wuHNHmoBYVCIGmAj9rEKaVB1NWGIICXkaGDsyKMV//i8M1m0JgSILXkj2xNqQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyiEubpw3pRHQ0yVkU+B403NV4CMDAqEYOpMqew22UJSN7C/mV+
-	lEAky5oxWkn1Z9VLVknZuVprUN3XrPLKHU7GujmY7ISqBnf9CfSH
-X-Gm-Gg: ASbGncvLTJq/f7i2SI+mV3RNYul/Mr4XgKrWVoHOF4iIk46Eo7/5688GEPrqNQcL6+G
-	Re3m8u3h5OvU9/9laF0hGFEsgNo4UaEx/vVnbnmAk2eWzYGF2xxLvG2Wuu2TV7Km2pfAAm+G+n4
-	dbS0V+N9I35lNZIe9GC3gVlynz0bqQpAgm9G1HFO7SR1SVcT6v1gouHqQYn0U/QnBODAtqTLh+z
-	RtlkXyZs1PfULDIpXRPfaKfhAdRo43yMpDPOhF3RAm4sVu7+P/KS6oSXUuzSxQHAixqF7TRJAcY
-	0WcTBjmKSUyp1E2yPdicGIJu
-X-Google-Smtp-Source: AGHT+IGeGn7sAE0oh/LEmZ0Q9vohZZx4LORYi7li2Q40VP3JZ4WbLcXqVZcaR3HNoxG0ukBcPdb44w==
-X-Received: by 2002:a05:6a00:2e16:b0:730:927c:d451 with SMTP id d2e1a72fcca58-73417382ba1mr4907029b3a.20.1740071949258;
-        Thu, 20 Feb 2025 09:19:09 -0800 (PST)
-Received: from archlinux.nitk.ac.in ([2400:4f20:11:c00::101:920a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7324273e324sm14101963b3a.88.2025.02.20.09.19.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 09:19:08 -0800 (PST)
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: corbet@lwn.net,
-	linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: [PATCH] docs: debugfs: fix spelling of "failure"
-Date: Thu, 20 Feb 2025 22:49:03 +0530
-Message-ID: <20250220171903.11321-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e5L59o6p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1374C4CED6;
+	Fri, 21 Feb 2025 08:48:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740127693;
+	bh=C99AYwNTpzaXnAlVKR4VAvbAR0R5QJS4EGZLJiCOB6M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=e5L59o6pec+qeXV/DtiEOJFRO9M1Ixv/AB+KSKHF7w59CLZJIIBiv0fh3lygJe1r8
+	 u48hsxVsShgj2cl5WTNO9EtjBdtsXFsBjW0yp0gHpf1qB9HNzR3/oG/An+i7vN8nCT
+	 WpNymiY2kdCq9FtDvQF+dm6IkFEbYnI/VfiqZSuDE1ekMPk013MA9/0IvPbc6hb2BX
+	 mMc+gDoXvYwzH/n6QbuCJk7dqTTO1r7WaFdT7aL9pE9UsakikdXK7tvZWoIlz+fy5J
+	 T8pd8aovPXa0cI3e8BrmwmdCChRR6BikHJWQyqKDyQHcSK2f3hHEe9F42ySdREnw2c
+	 P/2MKxmEyyEvQ==
+Date: Fri, 21 Feb 2025 09:48:08 +0100
+From: Joel Granados <joel.granados@kernel.org>
+To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Cc: kees@kernel.org, shuah@kernel.org, skhan@linuxfoundation.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] selftests/sysctl: fix wording of help messages
+Message-ID: <jwbsuecaakpeuekxy2p6i4ycklso7rbvh6opv6ezpjcm7sfald@3y7v3e6avw6g>
+References: <20250216060151.6155-1-bharadwaj.raju777@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250216060151.6155-1-bharadwaj.raju777@gmail.com>
 
-Fix a typo in debugfs documentation where "failure" was misspelled 
-as "failuer".
+On Sun, Feb 16, 2025 at 11:31:50AM +0530, Bharadwaj Raju wrote:
+> Fix paramter -> parameter, and recomended ->
+> recommended in sysctl.sh's help messages.
+> 
+> Also correct grammar: "number amount of times
+> is recommended" etc -> "the recommended number of
+> times".
+> 
+> Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+> ---
+>  tools/testing/selftests/sysctl/sysctl.sh | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
+> index 84472b436c07..a8e5736e89a8 100755
+> --- a/tools/testing/selftests/sysctl/sysctl.sh
+> +++ b/tools/testing/selftests/sysctl/sysctl.sh
+> @@ -764,7 +764,7 @@ sysctl_test_0007()
+>  	fi
+>  
+>  	if [ ! -f /proc/cmdline ]; then
+> -		echo -e "SKIPPING\nThere is no /proc/cmdline to check for paramter"
+> +		echo -e "SKIPPING\nThere is no /proc/cmdline to check for parameter"
+>  		return $ksft_skip
+>  	fi
+I have already taken this
 
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
----
- Documentation/filesystems/debugfs.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>  
+> @@ -884,7 +884,7 @@ usage()
+>  	echo "Valid tests: 0001-$MAX_TEST"
+>  	echo ""
+>  	echo "    all     Runs all tests (default)"
+> -	echo "    -t      Run test ID the number amount of times is recommended"
+> +	echo "    -t      Run test ID the recommended number of times"
+>  	echo "    -w      Watch test ID run until it runs into an error"
+>  	echo "    -c      Run test ID once"
+>  	echo "    -s      Run test ID x test-count number of times"
+> @@ -898,7 +898,7 @@ usage()
+>  	echo Example uses:
+>  	echo
+>  	echo "$TEST_NAME.sh            -- executes all tests"
+> -	echo "$TEST_NAME.sh -t 0002    -- Executes test ID 0002 number of times is recomended"
+> +	echo "$TEST_NAME.sh -t 0002    -- Executes test ID 0002 the recommended number of times"
+>  	echo "$TEST_NAME.sh -w 0002    -- Watch test ID 0002 run until an error occurs"
+>  	echo "$TEST_NAME.sh -s 0002    -- Run test ID 0002 once"
+>  	echo "$TEST_NAME.sh -c 0002 3  -- Run test ID 0002 three times"
+> -- 
+> 2.48.1
+> 
 
-diff --git a/Documentation/filesystems/debugfs.rst b/Documentation/filesystems/debugfs.rst
-index f7f977ffbf8d..610f718ef8b5 100644
---- a/Documentation/filesystems/debugfs.rst
-+++ b/Documentation/filesystems/debugfs.rst
-@@ -220,7 +220,7 @@ There are a couple of other directory-oriented helper functions::
- 
- A call to debugfs_change_name() will give a new name to an existing debugfs
- file, always in the same directory.  The new_name must not exist prior
--to the call; the return value is 0 on success and -E... on failuer.
-+to the call; the return value is 0 on success and -E... on failure.
- Symbolic links can be created with debugfs_create_symlink().
- 
- There is one important thing that all debugfs users must take into account:
+Can you please resend based on sysclt-next
+
+https://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git/log/?h=sysctl-next
+
+Best
+
 -- 
-2.48.1
 
+Joel Granados
