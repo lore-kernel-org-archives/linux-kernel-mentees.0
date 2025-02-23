@@ -1,90 +1,92 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977D721018A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 22 Feb 2025 19:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DBB17BA1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 23 Feb 2025 04:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740250833; cv=none; b=tij93Hi4FJMWcn22BZ6ciZo+tIJcBhVhvIDHLalItxWBelMSmiJnueIhVkdD/NFKH+nFOwpoFHRgHTgS+ZTJfXXyiRvNXIPYXnh75i5ateT4cT9jdTR1rXTXI5vCrZhBz5Fjp2Rz63s7GPV0+vv0sCF5ftw4XQH3j/oTo10XK4M=
+	t=1740284670; cv=none; b=rXeXUTRfWmPjhXI+ZO/3DsycD4oQF72Bp4zWmKvQ4zTKO5923CgAxsxP2xcP5urAK9oF6hv0wYyrkaXWP0mm6HC28SPLMqi6ZOLzxgSL2m/LHYLRoK9kRU2NVosUr1JND00T8NMkRwfmSx8c5Ovz1/HeWRBrz0ZKjSZ1PRvBNvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740250833; c=relaxed/simple;
-	bh=zWRtAtqNqzxiBe46ewrMrlO3cYmG11wRcuinLSkGivQ=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uctFzGAZc92Ok8XHWq194T+V2hMz8oJaZkbJ9wBN5yqhKOfnSW4vKuH7jY9Ulvkg3wYH5VI2Ub5e7fANBKRKWAO3RgBz2U0C6ot+FkRzhswKQ3J7dRIdH+IiFRIW9b3RhQ87ZkxNeIkXqrIDc1XSXcCql3xuCQPG+qzP12IEH5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kqZyxdxR; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1740284670; c=relaxed/simple;
+	bh=4utJuDlOsvUYHCnvQ6QA0Gjx0TL5LAtKGca9nQJw+lQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RthynprcJDIBYzEGsa7k8e1szo7TCvHYSbl8KSZdOwAgvCtACk/wlgXa/vpW8Jcbb6xqfAJwLlCUqDtNtQsgm6tBAq7ZcmjKB85Ctd8iFlmwm490ZVpan+vP/DQRVarWqRSn2y2k3gWEPkS6oy42jYp/WRu8y48xrvEAkK0pPEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G5Ppokmx; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kqZyxdxR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G5Ppokmx"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 3E3E5813E9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 22 Feb 2025 19:00:31 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E0CAB4081B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 23 Feb 2025 04:24:28 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id TK59L0ymyOqu for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2025 19:00:30 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::82e; helo=mail-qt1-x82e.google.com; envelope-from=imandevel@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 7455E81255
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7455E81255
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kqZyxdxR
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7455E81255
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 22 Feb 2025 19:00:29 +0000 (UTC)
-Received: by mail-qt1-x82e.google.com with SMTP id d75a77b69052e-472180fec01so29837391cf.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 22 Feb 2025 11:00:28 -0800 (PST)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id hwdDJQMB1Hhk for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 23 Feb 2025 04:24:28 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::635; helo=mail-pl1-x635.google.com; envelope-from=ritvikfoss@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 3C11A407F2
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3C11A407F2
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=G5Ppokmx
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 3C11A407F2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 23 Feb 2025 04:24:28 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-220d28c215eso51432275ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 22 Feb 2025 20:24:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740250828; x=1740855628; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1740284667; x=1740889467; darn=lists.linuxfoundation.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5mf3WLnT/uqvc4jU09LwEl+Y0jld6Kz+6VRNuRCDxgs=;
-        b=kqZyxdxRRovcsnJ8QbPjlD1LefLs/BtJKaLfcnFV4xB9iYfx+oBtqBtpLgh+VzHv3a
-         cbEMJeyglMaz8gIxMDiXYIL6IvvPHFEROYsF767DOGHem4eRXxTHaLASjztqp34VKuGn
-         CTIoqtDZbO378SPSFFNaJ8D9zgWGBxaSBKFQRevC97F2samO1DO76s4wIGBC/8KXke4T
-         4Q7QUlm/obN2GYFAkfZej0l4mOKZFuKcE31SCUyKbxukQSNyRSTf7DeqVN2napjgtMxF
-         +DBiWKN8jp0zjxb1cNszCWj8KLbRrkDlw18NTViKSz4pyhoFRGGEEqjfbXuMIRBNY5JP
-         9t7w==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4utJuDlOsvUYHCnvQ6QA0Gjx0TL5LAtKGca9nQJw+lQ=;
+        b=G5Ppokmx8TBRVpxpZEorTOsXqKhePE1aPKtxl5JghZ6V4v4fDTW8/7slt+qalft29Y
+         +4SxuGm0pzxorCkE5WQoWj68JrVGbeZVswna/CkddviyNqluXwkHMW4IoWx1uEbV+IAj
+         yQOMz6K/+aO6nLDkU8/LpqxfulGf0ca4eBtWhWBvumg9RpbAPBH9fG2mJzSfGgP2AoKh
+         0dyTZFSPo/SbGzL33ih6WhOZbvhog/vbNSgPwAwdeBziSHNVLvEZkzXfwyr6ez0ambDY
+         /VNWoXMry1143gas8FFcabsNwR9j+MmguWUbqGiB4q1VtYSU6JcFxTTnnqznR6TNQyZT
+         yWLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740250828; x=1740855628;
+        d=1e100.net; s=20230601; t=1740284667; x=1740889467;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5mf3WLnT/uqvc4jU09LwEl+Y0jld6Kz+6VRNuRCDxgs=;
-        b=Z5aZP6kpW3S3jaMH9K8cwobyeL5uYpVky5bAfXNWmQeqMUNw4tLyUfq4estHMRxCdU
-         T5PyyZ0pLgM5SlVD9GuDe1PdVkaN1u6P4ZGYfL8PoGes446IeBTv7kquW2YdiWHIGjHQ
-         44GHe1LBz1DPhO0LkFXxRDR84eG1qCayHbwb07swo2L05SJLX2Y4S48Qz3x1PWVkw8g1
-         jeqBQVa8TB7oQCf8twqshThVVy2yh5zNGRNuuPrBuEFfUnlo0x7jyXZfOiFflF3H867i
-         rltuKhnRxV7+QPYaKZrZowgioPOgqg8xvG0MYo5TYsfFy21lAHU40PzC8uWsI82CUnv9
-         KiLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXTDCmmB9Me4uvcD8hKUTvVvD1Wy5d2fysOtVC0NmFaEjndT5H5SVpCEpCevhVDba80wK7FIFYCSBZVLO+bcKeuX6a/Aw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwzpvV8EzxFLIPYeVcfOHpdnPFS5U9LI5PWff0jMb0JdponczsG
-	WXL9n9/0BpyvtBW92aEHoIPWl2lIJjcyfS/9Fcstt7rih98XX73r
-X-Gm-Gg: ASbGnct+LL4gs0udfo89Uebyox2FDn4O/algB1tnRJtF5WdBxQOpY7cDv4S9qe5PeOg
-	YcsesmUATVu30Gzx3/e0j41JzPVi1MCzQQqrnE4FnjkjuvjqsnCrCi8q6v27Ny+XLlX2OHnea2V
-	kZTVHphOviCTwkD1kTANm4Cz7eP2amJUyx9GQs93NA+h5AJTo3O/c0bqr3/hwZt7K88RTP6EXZc
-	K4Z403HHIJaQBOz6DeTxzoI/dJ+9dio7dHrg/0As5WHAYMRf9wrRYQePkOV7QsXAFI8pSAqp5rf
-	MQv1pKTJ3B4itRdhAa1Xvb4=
-X-Google-Smtp-Source: AGHT+IH3EYjDKPoQ/e0zJiaGtwJhz0k1Ov8NHAPdHjRC/le5ACQyzWR3UwrkNbfa/a8/mVoIaYX0Wg==
-X-Received: by 2002:ac8:7d4b:0:b0:472:636:f60e with SMTP id d75a77b69052e-47222945029mr114554481cf.34.1740250827709;
-        Sat, 22 Feb 2025 11:00:27 -0800 (PST)
-Received: from localhost ([142.198.73.227])
-        by smtp.gmail.com with UTF8SMTPSA id d75a77b69052e-471fdf8ac21sm60434901cf.19.2025.02.22.11.00.26
+        bh=4utJuDlOsvUYHCnvQ6QA0Gjx0TL5LAtKGca9nQJw+lQ=;
+        b=C6I6hdHiXd7JAEIdt8nt/26diQLuH9qf1G4lcdWU9TMx8T9RkihYsAWX3B13Od2eAG
+         y6ChC8BZpQZH+hQ26ClLtLBvld43qSPGdJ+wG9EY+FMrPLX8ANso+Ul3GcWzNU98QJtV
+         1pwcjDMIct9eI6gYUB4F9RVsmUhSzd0XME56REe7UttDc7D8ePibQf9vizt7c/o00ya3
+         ogfSBds2fcCozz3neXBP10++ySabIGlLWpXpFObgrIvse92KLPF4nY1ynZ1qmnHuSBjb
+         6EvL0zIVLADT8oOiygz+DRHAwyFyvjzpL3C3JwIkUCI9U/I7OuNIQgIQRDxzCweB8mSU
+         IAFg==
+X-Forwarded-Encrypted: i=1; AJvYcCVMwcmzQaNlhb20E0hQDhRVCV+GVDszrVhKBv0ymckt6cqxbtGUNy5hK4W6z9NAUrKpR3lfvDvA5/iPys7rurlcb1zjHA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YweMrHkaD/78j64mFMgZ6uYYmyC2i04IjY4A6IRJ4dSyOMxC7Xl
+	RKEpL7f6a+m+9OoYu52sa64w082ZHwiDavtFJnj8VEOQJpHo17Eh
+X-Gm-Gg: ASbGnctYWpg2JKWz3I3vHakRKprvUkf/pF75cLaT/HVQFWy3rsRaG8kvuphKYNSX8Yn
+	qnFURsLwtB5i92quW62bmKMr/7cGvaODvVwuzbefGlE1gfwMbAdl4lJqfM7ytEn9fdvbjfOGg+m
+	eRbUbKM1lqxj2cfSOwfYkMFiqTJlDWthWHuBGORGjDEXL3gHk38pZeoFsVx0kqy2YARiAXJTkOM
+	Cxc8sBaU9RPz+yk9hp5L108AnEDmuH+aZrBlqVkmmULpAble4WakzjG5H76MSSplnFZfP7bYwEs
+	8PLkLKKarSXjhPNMMhnOydGe5J+29Q4F6HT3J1nf8rUEhoRw
+X-Google-Smtp-Source: AGHT+IETNzBByeQOq7EpOZLfBRs/ixt5hXArruM21mHPF3nbXPJTnmlS5y+q4HGQ3M6zAW3jcsqWZA==
+X-Received: by 2002:a17:902:fc48:b0:21f:61a5:67a5 with SMTP id d9443c01a7336-2219ffdde5fmr151052365ad.42.1740284667039;
+        Sat, 22 Feb 2025 20:24:27 -0800 (PST)
+Received: from ritvikos.localdomain ([2405:201:5501:4115:b161:5a88:9ecd:1b07])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d7c6f419sm155327335ad.200.2025.02.22.20.24.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Feb 2025 11:00:27 -0800 (PST)
-From: Seyediman Seyedarab <imandevel@gmail.com>
-X-Google-Original-From: Seyediman Seyedarab <ImanDevel@gmail.com>
-Date: Sat, 22 Feb 2025 14:01:13 -0500
-To: ritvikfoss@gmail.com
-Cc: shuah@kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+        Sat, 22 Feb 2025 20:24:26 -0800 (PST)
+Received: by ritvikos.localdomain (Postfix, from userid 1000)
+	id 99211ED9140; Sun, 23 Feb 2025 09:51:12 +0530 (IST)
+Date: Sun, 23 Feb 2025 09:51:12 +0530
+From: Ritvik Gupta <ritvikfoss@gmail.com>
+To: Seyediman Seyedarab <imandevel@gmail.com>
+Cc: shuah@kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [PATCH v2] selftests/mount: Close 'fd' when write fails
-Message-ID: <zshes4xtyir7zrrybeqj2amrxyctwqnuvx2tqyktv4vsfstxqi@pvdq2rb5m47j>
+Message-ID: <Z7qiOE3EXo8BtdY8@ritvikos>
 References: <20250222114709.50011-1-ritvikfoss@gmail.com>
  <20250222121249.50588-1-ritvikfoss@gmail.com>
+ <zshes4xtyir7zrrybeqj2amrxyctwqnuvx2tqyktv4vsfstxqi@pvdq2rb5m47j>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -93,70 +95,15 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250222121249.50588-1-ritvikfoss@gmail.com>
+In-Reply-To: <zshes4xtyir7zrrybeqj2amrxyctwqnuvx2tqyktv4vsfstxqi@pvdq2rb5m47j>
 
-On 25/02/22 05:42PM, ritvikfoss@gmail.com wrote:
-> From: Ritvik Gupta <ritvikfoss@gmail.com>
-> 
-> 1. Close the file descriptor when write fails.
-> 2. Introduce 'close_or_die' helper function to
-> reduce repetition.
-> 
-> Signed-off-by: Ritvik Gupta <ritvikfoss@gmail.com>
-> ---
-> Changes in v2:
->     - Fixed formatting
-> 
->  .../selftests/mount/unprivileged-remount-test.c    | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/mount/unprivileged-remount-test.c b/tools/testing/selftests/mount/unprivileged-remount-test.c
-> index d2917054fe3a..41d7547c781d 100644
-> --- a/tools/testing/selftests/mount/unprivileged-remount-test.c
-> +++ b/tools/testing/selftests/mount/unprivileged-remount-test.c
-> @@ -54,6 +54,14 @@ static void die(char *fmt, ...)
->  	exit(EXIT_FAILURE);
->  }
->  
-> +static void close_or_die(char *filename, int fd)
-> +{
-> +	if (close(fd) != 0) {
-> +		die("close of %s failed: %s\n",
-> +		filename, strerror(errno));
-> +	}
-> +}
-> +
->  static void vmaybe_write_file(bool enoent_ok, char *filename, char *fmt, va_list ap)
->  {
->  	char buf[4096];
-> @@ -79,6 +87,7 @@ static void vmaybe_write_file(bool enoent_ok, char *filename, char *fmt, va_list
->  	}
->  	written = write(fd, buf, buf_len);
->  	if (written != buf_len) {
-> +		close_or_die(filename, fd);
->  		if (written >= 0) {
->  			die("short write to %s\n", filename);
->  		} else {
-> @@ -86,10 +95,7 @@ static void vmaybe_write_file(bool enoent_ok, char *filename, char *fmt, va_list
->  				filename, strerror(errno));
->  		}
->  	}
-> -	if (close(fd) != 0) {
-> -		die("close of %s failed: %s\n",
-> -			filename, strerror(errno));
-> -	}
-> +	close_or_die(filename, fd);
->  }
->  
->  static void maybe_write_file(char *filename, char *fmt, ...)
-> -- 
-> 2.48.1
-> 
-> 
+Yes, the kernel will handle the 'fd' cleanup automatically, but
+the existing implementation already closes it before exiting.
+However, in case where write fails, its unhandled.
+This patch addresses that gap :)
 
-Closing a file right before a process exits is redundant,
-since the kernel will clean it up automatically anyway.
-That said, whether doing this as a best practice is arguable.
+Nevertheless it's subjective indeed.
+Thanks for reviewing!
 
-Cheers,
-Seyediman
+Regards
+Ritvik
