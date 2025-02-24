@@ -1,112 +1,138 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E62205AA1
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 23 Feb 2025 11:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CF94430
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 24 Feb 2025 02:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740311103; cv=none; b=telSFZ++/BjMXza5RDKXebXm4UBLE0Q68f6UHpijKwYkmEwh/qPzVBKRxVFOSK91EWEb6Lhp7axN44cLtOSZB7pK6t5O2mo5B6RMKe0+TpxOZp5rLGo+jkHAFyPVVWmV4b/C3x2MPiNbZHTOaZEmv/wW1NjwWZIkOxtHiSgQFac=
+	t=1740365435; cv=none; b=Nx0nqbCIOydHtOoycKAESt8h893om6TCitPd4kdIWsSwvgdNZoKI405x6gNfTRkNvAWhFsIAcDaiYgV4wp6rNF9U9x3w+ZseWqa6c5A5DJKczuBZVNxPyljFlMgvcySRMN3zbV6NKrkGSiK8Qu5qGnvPq80xCowrujVuaqzfrGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740311103; c=relaxed/simple;
-	bh=WtQLiUtxlY7jOBkqMlKxzFRYp9wU0OtHvKBwlhSt9RE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=pVrqD6uJyBz4/XFh+j0BGKQxehGfcXsHJc6tJ1bUoMUl08Nvf3/3sZ7S7lJ6gPKxfDvqE8zGbyC5T6I9xq279el5ie1RGEF5AF0Z77jOtpU3TJY1JiHtFzW10hh2MzSw3zn3tQOArMtoNLBgsjJBZtanvOYzSi+QA+WsK4qmoOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RZMsYute; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740365435; c=relaxed/simple;
+	bh=z1DWA1Epp5W40h27XnYDxMfEShlTw/6m1B8Q5cJzGrM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M10pv0obqHKNlhkFghbsjSuyP4+81eIkr7rm82YV7aB7ebpJ1/uCJZct3o5JofQWdnKDRN+cCGMsz/bJDmfKiyUyl1/BqvHfe90iAKe/ThfqyOmUonWlg5ZdJoLvFtVszsCd/i0P3aXmxsgMpqnMwzIm9pGZts3ApQt8mMYR834=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=co10dCu9; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RZMsYute"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54838cd334cso2501055e87.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 23 Feb 2025 03:45:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="co10dCu9"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 11C23404AD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 24 Feb 2025 02:50:34 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id nJ1q8teDDUqX for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 24 Feb 2025 02:50:33 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1036; helo=mail-pj1-x1036.google.com; envelope-from=ritvikfoss@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 4B4E4404A9
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4B4E4404A9
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=co10dCu9
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 4B4E4404A9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 24 Feb 2025 02:50:33 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-2fc1c80cdc8so6016637a91.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 23 Feb 2025 18:50:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740311100; x=1740915900; darn=lists.linux.dev;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WtQLiUtxlY7jOBkqMlKxzFRYp9wU0OtHvKBwlhSt9RE=;
-        b=RZMsYute5J1yDuyV3O/uEIB6ULslumrZOC6VrbLybCWqxvYM0rcsdNIrX1oQW4Dpq1
-         Z1A/CMaaPdBOH+7qo/iewg7/ZPZximUqvzhSq+4APQw3EYA/r5nuG4gG4OSgYxCV8S1e
-         +W+7TSRmt251AOBPm+I+flUi2anAaJJAIMJr8Db0GyLsNLW6P6T1VDMD2eyoL+18ui2Y
-         xX8mwOX4vXYZ1sS7uMPP26oZBh+HwTt8WAi8YlR6b9Ekae2pOEnrs6773QS3QTfB/Cc8
-         AS0sXdEZtXtgbVtwcnoNph+4FCDaO6vQWRc5NYihQR557tZMmvjxAizdjCf5WdBofkW/
-         8gTw==
+        d=gmail.com; s=20230601; t=1740365432; x=1740970232; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=otH5nZvB5TrQ708wLQhRsttQBeJzQP2CzcoNi99bQis=;
+        b=co10dCu9YEGbCllx1fLP8XTv7NloNWq3ApdfKq8h0lNY7G1WpHsOrabI+HQvmmsS84
+         ODaZCxf/Jyd7z/t4EkVUEmvJPNv+d7TsgREz+FpxiqhvPE6mwHSdpHWXAimvWI+02vb3
+         Sm5Zh4cVoZAxkOQ9yq6XK0NSqZcltBJ4TJGIwI4HW67MD4M3888i+4yxV8yqIR/LBBC+
+         hvT4u2iGQS109rQpy2lZgS7iCszmHK+hoNIf4Ku6OhvLLKhVjwVXjuoK+/eHe04AsBZO
+         YcPahD22svmD844WiHpGziFc+YyBBC36dCqLkk86NOFjkhwEmlGXuGzmNOoiB0u8vHzL
+         N+zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740311100; x=1740915900;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WtQLiUtxlY7jOBkqMlKxzFRYp9wU0OtHvKBwlhSt9RE=;
-        b=Yg/Z4t5+9QfK3raMJjOjmtjWeIDLKTW8SUPcPvdw8I+J4HkEvoBBElqoN2jtUIRVK0
-         DLELcpBGmlCD3rliWWa/N8sk7UUJcw3HIqawnVpO2k/LRg+eFUryXpOyBgd61fFRn31O
-         g7UjsDZLbVjNyMLM2e4XdSRFhPOFRv64hbyV1N5qr4IlOPt+quJZ2bpVuostCTVWDsKI
-         YLcH42cmQDsp8Nuwui7EZSvMHmrsKyWJL0Vt1B0Hgzu5BPhwghqI9NvK9Bo+8uw8xBqg
-         zovR8I3G0vaQDyZ2KmLYA01R6qFF8+HZ4io3F35TmBopLRmtDyfporwC4um1qqfBAb5v
-         bB1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUql8oO4w+Ugvvyu3omkkR3TXdC47vDbywqi8p1Z/XTjrS+OsxoHIe95rxDmpOAY/p6ot6/gf9/BewcmqTOKIgvl8Yklg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3ZdWBHvEQ2Xt1Vh3qGTUJklMot2TuxfbKR03nVklTary/MUZF
-	UvwvrMM1fUBIH9hxZx+Fwcc89wBcfif889KBDJnaJpvxu4JJhjItm1pjTa0uv5o6Qhl4Y/vOm67
-	7BwvTUVE2ezMXepQzRVn31FrPGms=
-X-Gm-Gg: ASbGnctGqkkwRlmne+MHbbh94hZL1GcLBYGpqbDwLfTB0ynk6VH/GroYqv8bbYh7VRV
-	tRlI6j049JSuI8N2unB/4Qa256r/ymE/6P4/fNeuKKQkKTjW1BmW0agCyyy6MQoyp2IJctQG3Ca
-	dwCauhihniQRsBmukrhkhqqpcjepJOZ418cyUgK81e
-X-Google-Smtp-Source: AGHT+IFXdyTaLGb71sdwhuFPbKFfl6zs87BcvN+nBv/3PAoR+eNgHv2zos0UpogzeCxvv45FfKaCGezUok3jmbH90U8=
-X-Received: by 2002:a05:6512:3f05:b0:542:2e09:639a with SMTP id
- 2adb3069b0e04-54838edddd1mr3320418e87.10.1740311099559; Sun, 23 Feb 2025
- 03:44:59 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740365432; x=1740970232;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=otH5nZvB5TrQ708wLQhRsttQBeJzQP2CzcoNi99bQis=;
+        b=p/hxh0NohEd3MHTlPFsedjfn1uY/Nie0a9OOVzoZl2WxixFMTwEGG+T4/O7HKz5HNr
+         wmSlKQ1XnMhabOsbJ1zUntUv3ZWiq7QOp3EzIwWfSzgBFO7SjzheoB9L5VfNtYts3yHZ
+         qg9ha1TeM7x8aZ+3NVC7UD2+uI0jW5eLffYxcjeWtKwtNk5vL/FLQyCspW7340MhLuTM
+         fsiKm686C6fM9U1joPl61UId4sHx2Cg4hak/uKYKwIFzfSyLfI1tHBtDIg62ziiMUqZI
+         Abfr39eEZV61RbOFQ0dUyQbR6vdHcTdss0RmU6qQmSE1wltmpfu5IrgA03Kqnc/MATZn
+         SvDg==
+X-Forwarded-Encrypted: i=1; AJvYcCWOPSQS7VEHtYYRr9bWUWiMMell4pxyU4sqY+uyQFzSybhRJvm9BsiA6odDEazZ9wa2g1rPsV67OgqdiuT6Q0W5hqJ5Rw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yx3t/psugLndz/BRGZQB0os2jpmz7nzG0aZmGkhbyovDq8EzSOw
+	96TVN4wJpnMv6R+wtCTwIF0S9TucTg0mDiWyMsyMzFibJRlExjtW
+X-Gm-Gg: ASbGncslJyLD8QL3OmDV0ozO6Ej608sfO+kxhIda1wA3hU8JIBLAdP6eTAkJo+h74QH
+	p5IadMDhj2fOTP5zJCERaoE6O1Qp4mSp6Uj6ZSIdEfTY1JsLbFU0k3nOIqKpcZRoW8LnTIozZgB
+	vJeXAYFKCAR8mrUhd6g/iAbw+sP+NDeRLKyx2jGriJ/KvmgWt+cWknG1hrzxT3JanuruZQx6lCO
+	z3pSEMnzobj6sTEB969yrAFpw1CuONO1PzuBgSa2s7lLjuJhruS/YimV1DJRdVuKlv6OTh52Hvw
+	LJChtXwx3GqqAztzT1NRYw21UxE7q8Pbmtqvzt72Er9glQvVq0Y=
+X-Google-Smtp-Source: AGHT+IH+0iHxG0Zp6sK72W9vgyWjLMgjQmHDx5OZ9tSidYY0Gl8jy8JhzfPYC1CZ7W/g1/OOgJwKKg==
+X-Received: by 2002:a17:90b:2d4e:b0:2f2:a664:df19 with SMTP id 98e67ed59e1d1-2fce769a9ccmr21415382a91.7.1740365432446;
+        Sun, 23 Feb 2025 18:50:32 -0800 (PST)
+Received: from ritvikos.localdomain ([2405:201:5501:4115:f92a:daab:d63c:8241])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d55916c7sm170467625ad.243.2025.02.23.18.50.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Feb 2025 18:50:31 -0800 (PST)
+Received: by ritvikos.localdomain (Postfix, from userid 1000)
+	id D073BEE99E9; Mon, 24 Feb 2025 08:20:28 +0530 (IST)
+From: Ritvik Gupta <ritvikfoss@gmail.com>
+To: shuah@kernel.org
+Cc: linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org
+Subject: [PATCH] selftests/mount: Use 'const' for filename parameters
+Date: Mon, 24 Feb 2025 08:20:28 +0530
+Message-ID: <20250224025028.3407-1-ritvikfoss@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
- <Z6bKR9K16-oYMLFl@archie.me> <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
- <CAH4c4j+kOYMfzO5QOBg+hGe2zt4kN4f7v+mrri-2GMLzYtCPrw@mail.gmail.com>
- <Z7WOym9fl8GNPJiO@archie.me> <Z7XdkAKqlK2KJuq2@phenom.ffwll.local>
-In-Reply-To: <Z7XdkAKqlK2KJuq2@phenom.ffwll.local>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Sun, 23 Feb 2025 17:14:48 +0530
-X-Gm-Features: AWEUYZlGbGI477Musg_0U1Z8C_cUlMEZdld-9_O8sc0I-75qlnom3khRJkDC8B8
-Message-ID: <CAH4c4jKhXn=EhoLJLYhD1jro_KM0TemNnVjokSFRR55oUVuPjA@mail.gmail.com>
-Subject: Re: [PATCH] vgaarbiter: documentation grammar correction
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Pranav Tyagi <pranav.tyagi03@gmail.com>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, 
-	Linux DRI Development <dri-devel@lists.freedesktop.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-kernel-mentees@lists.linux.dev, 
-	skhan@linuxfoundation.org, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 19, 2025 at 7:03=E2=80=AFPM Simona Vetter <simona.vetter@ffwll.=
-ch> wrote:
->
-> On Wed, Feb 19, 2025 at 02:56:58PM +0700, Bagas Sanjaya wrote:
-> > On Thu, Feb 13, 2025 at 11:05:39PM +0530, Pranav Tyagi wrote:
-> > > Hi,
-> > >
-> > > Just a gentle follow-up on this patch. It has been reviewed but hasn'=
-t
-> > > been applied yet.
-> >
-> > You may need to resend the patch, but with scripts/get_maintainer.pl
-> > output Cc'ed so that DRM maintainers can be notified on the patch.
->
-> I don't have the patch since it wasn't cc'ed to dri-devel. Can you please
-> resend with r-b tag included?
->
-> Thanks, Sima
-> --
-> Simona Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+The filename parameter in write_file(), maybe_write_file(),
+and vmaybe_write_file() is unmodified / read-only.
+So, used 'const' to improve type safety.
 
-Hi,
+Signed-off-by: Ritvik Gupta <ritvikfoss@gmail.com>
+---
+ tools/testing/selftests/mount/unprivileged-remount-test.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I have sent the patch again to you with the r-b tag included and cc'ed
-it to dri-devel aswell.
+diff --git a/tools/testing/selftests/mount/unprivileged-remount-test.c b/tools/testing/selftests/mount/unprivileged-remount-test.c
+index d2917054fe3a..e80ac76261e7 100644
+--- a/tools/testing/selftests/mount/unprivileged-remount-test.c
++++ b/tools/testing/selftests/mount/unprivileged-remount-test.c
+@@ -54,7 +54,7 @@ static void die(char *fmt, ...)
+ 	exit(EXIT_FAILURE);
+ }
+ 
+-static void vmaybe_write_file(bool enoent_ok, char *filename, char *fmt, va_list ap)
++static void vmaybe_write_file(bool enoent_ok, const char *filename, char *fmt, va_list ap)
+ {
+ 	char buf[4096];
+ 	int fd;
+@@ -92,7 +92,7 @@ static void vmaybe_write_file(bool enoent_ok, char *filename, char *fmt, va_list
+ 	}
+ }
+ 
+-static void maybe_write_file(char *filename, char *fmt, ...)
++static void maybe_write_file(const char *filename, char *fmt, ...)
+ {
+ 	va_list ap;
+ 
+@@ -102,7 +102,7 @@ static void maybe_write_file(char *filename, char *fmt, ...)
+ 
+ }
+ 
+-static void write_file(char *filename, char *fmt, ...)
++static void write_file(const char *filename, char *fmt, ...)
+ {
+ 	va_list ap;
+ 
+-- 
+2.48.1
 
-Regards
-Pranav Tyagi
