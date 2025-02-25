@@ -1,125 +1,187 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5296F20CCD3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 24 Feb 2025 23:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491262686AF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 25 Feb 2025 12:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740441019; cv=none; b=NtOG3vCEJR/cu1mozTjnEd8SNiOp2n5IRujwIPitB6aG4FbCW7KJ5MW3Ru6Po/rStQsHXr11kBARlN7ZOX8N32BWJ8+iVSW7P5FV7hIZZ1voJvoTIlM58jmZ3ZaMq9zaE6hzBvgtrHGLgOsbwKdNUqe/CSI/5Xq1rd4RNH+b4OI=
+	t=1740485215; cv=none; b=UTwtN/bJNgQvSACPn/6Wmg0/CgaNbE9S/WnL7WURq2rsqXOfWUt8SuXkSKcKoeBHJpyhsj6SLnwhnh/KdsFkyDE2wpA9RP3QPMwKpJlse7x6zSPAL6IGqx55XjB1xBXadjo/Mrjdvk6ODD4c8Pos5GHfqRw+iISbX74KmvCXzys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740441019; c=relaxed/simple;
-	bh=B8KYFDFY6aAz9K22ud6BAB+fiNsY/XqDHGMOB2c15xI=;
-	h=Message-ID:Date:Content-Type:MIME-Version:From:To:Cc:Subject; b=M9cKGTd7IDoMHwfehYXG9SCyWfcfLBslvuNHWIkQUNC9EJ/QOAntG/+Q2CMlVPpBTqGe5x2pmSJr/+oP2ZtqfxM3L/cAY+CYVv9MxhI3pX7pcF9hAclRr8S+2Sdl8vcia4J6ch8nhfkOJrkQPjgIQ+zZzE0/Hk3rcxWROLcQURQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P3/MmD82; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1740485215; c=relaxed/simple;
+	bh=M9uKEUq8wn1OiK4A1Sr0SpwlETpU2D5rT6iicUMUS1Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sN/uTe2yxeeZU4XdbJuRklx5EJHdsmMEcWh6tOYLt8ulYXggiHnQMkoTd7YtexXC9j4vK1ET19PDAEXSMUr7MR1zi+gJ/DrhKVQKPII5fhl/01ikERsnfec8ftb1f3p77uhONRGUzr31lGPLbNpJx1v6Vprxo7mP+jmhcj+XDPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fLPNIKyQ; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P3/MmD82"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fLPNIKyQ"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id DA2188100F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 24 Feb 2025 23:50:15 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id D2FF560A54
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 25 Feb 2025 12:06:53 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -10.792
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id zLwbIruT8jt2 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Feb 2025 23:50:15 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::82f; helo=mail-qt1-x82f.google.com; envelope-from=gshahrouzi@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 241EE8133C
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 241EE8133C
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=P3/MmD82
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 241EE8133C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 24 Feb 2025 23:50:15 +0000 (UTC)
-Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-471f257f763so50437881cf.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 24 Feb 2025 15:50:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740441014; x=1741045814; darn=lists.linuxfoundation.org;
-        h=subject:cc:to:from:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=LNfkARXli3uVvFnrZ1vZRAcjsGQLR8DVcO+Dhioc7z8=;
-        b=P3/MmD82dombPPC2igGEmB6+KHFOwLQB54L5VxxJh3j3eM2cQw6rw+1hUF6zlMTc4c
-         sRoq+baUhUl5f8keE64K8/nIjOwunWjMTZ4YDV30Fka8xsVCJF7RRUhRB8eRYIrd7xmV
-         SpD+PNpM463QxbuT1lHGa4VhxqrDXKzHwg9blkh/KLWxO6mrQb0du2ZQQ5HNp2MgJh/v
-         /+i+8D4L4e+LboXx5p7czBb8eGaamtcwblqmN3B9E4AAO8RGuPxg3zsCSyqDCFS/4WFy
-         QhN/rLpfufZRzwPL+B2lTx9ETX/UwpgFWbS8/mX5nAKmMDRlrN/zWB8DocejyR0LaSN0
-         jV4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740441014; x=1741045814;
-        h=subject:cc:to:from:mime-version:date:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LNfkARXli3uVvFnrZ1vZRAcjsGQLR8DVcO+Dhioc7z8=;
-        b=ra4mWwt80d6og1qlRl6w1nO4mjT8DkfZPt5P0HzJN4Z4a2zo6xN8sJs69eaHGVFDP/
-         YFg4mdslwFEBA+iQQc1B9fTzGKYHgq8qQwl4lytWAcNPgV/e9TmwK6mLy/UmSYYLI9JD
-         PI38YAlH6JcePsuOEZZoEE4ZITXRl6OVrHYe/LXCbhkCy+68vKhr+qrt/CjR3EfC8CRs
-         payMe83IKlkpN3fKIrbQGXSh6+yvhm7B0llILZwjGtROkX+XAqxz66ueYJGS80UQtziI
-         iLYzvuqvj+eZt8PtipTozfS6Btvr2J9Y0sUwCVpOqUB/g2u3P2eK0I8EyiYJ7a5yu4h8
-         KGwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVwUwwDp9I/IYBmbhpEshOc+nzS6sBZYahTEpwbjRVAmNPLVis7FBdfcOENjeNbi6Gw4JtvLOGB+cwrG23c0exaqJxYqg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwTOx/XwkRB2C6cwE03z7FoapwA9QljmyDKY+mMIQMsjs4eKQ+6
-	KY9lZxZwqr4Z73JMNpS1XbGcOw21Xdxl162Avs1SFV6pv/Dyx+WE
-X-Gm-Gg: ASbGncvBGnxffOH5L0aaumD4k3BeLn6w03SemO5EoSCXpSlYsOrSF1q+DI9yihWPXLQ
-	+umGuvKUyT5fDfoCAfrFqPd2C9Cycb9qr92nyZGgESAoLKhP04xC/JuQgSzLxNvHG2De7C3BEg/
-	s8zW+HUJYIaJyEXkq+ySYaiQvWK3vo/A+ofaxfeRYA2B3ajCyTfVbPuwBET2lAxqzU4Swvn8xyw
-	puZCoE3gYVxpdAjbYo5zScuevOh3BKrXPOt+T2UMgdt4eAmPMUstHSkB1NreMBQNQCUwACjlMFx
-	1ocDrCRFR74bRqmEsLYSPUgcs7WPtyRKV2HySbHax0ylYYV32gouoFgXUNnxCssFIjM=
-X-Google-Smtp-Source: AGHT+IFEpnzcYWehzDJLiUmDa43uEZj2rwjWrAvQaC9BmR0P6FPz7VDzsr6K09MY8ZmNZeqrdpFfPw==
-X-Received: by 2002:ac8:5b91:0:b0:472:133f:93ae with SMTP id d75a77b69052e-47222965e5emr198262081cf.48.1740441013701;
-        Mon, 24 Feb 2025 15:50:13 -0800 (PST)
-Received: from [127.0.1.1] (c-73-123-232-110.hsd1.ma.comcast.net. [73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47378084493sm2539351cf.70.2025.02.24.15.50.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 15:50:13 -0800 (PST)
-Message-ID: <67bd05b5.c80a0220.205997.19df@mx.google.com>
-Date: Mon, 24 Feb 2025 15:50:13 -0800 (PST)
-Content-Type: multipart/mixed; boundary="===============2672866445194770799=="
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id jvU7V4sgCFWY for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 25 Feb 2025 12:06:53 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 059FF6082C
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 059FF6082C
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=fLPNIKyQ
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 059FF6082C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 25 Feb 2025 12:06:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id BBF2D5C7168;
+	Tue, 25 Feb 2025 12:06:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE59DC4CEDD;
+	Tue, 25 Feb 2025 12:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740485211;
+	bh=M9uKEUq8wn1OiK4A1Sr0SpwlETpU2D5rT6iicUMUS1Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fLPNIKyQnCzj28tki4yV9v+CUMXKJW+LhrPH/IGrA85Bn5ky46l80LYAIM6m1d/rM
+	 a8uYmQQSd5gLKQYy0dp9r6cuOr01gxQrF9R3a2bh6yEgoli8ajXK4c29euyGaLVCey
+	 Lw1NX7ADGj35VLWeLs2kY10+9vO+w0StzGefOnQP7D3Y7JhAGfxVe/CvpTXPmpyvfa
+	 +FmAozCrOXoLeUApjCkOGjX8dBLBLFRWA4gIyCp9mj4EBxz4fLnDaYljDasJNu5JMl
+	 GCVe9ZrTyj+cmPbxEfcmFfWYGeTjRmGrAIx4akqRIImn3Gtgpy2RyJAX8Sp2jpqK1G
+	 lhswYgpdvf4Kg==
+Date: Tue, 25 Feb 2025 13:06:48 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Leonardo Felipe Takao Hirata <leo.fthirata@gmail.com>
+Cc: tglx@linutronix.de, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, vz@mleia.com, 
+	Leonardo Felipe Takao Hirata <leofthirata@gmail.com>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] dt-bindings: interrupt-controller: Convert
+ nxp,lpc3220-mic.txt to yaml format
+Message-ID: <20250225-lean-bronze-millipede-03edd9@krzk-bin>
+References: <20250224210432.94851-1-leofthirata@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: gshahrouzi@gmail.com
-To: linux-kernel@vger.kernel.org
-Cc: trivial@kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-doc@vger.kernel.org,
- corbet@lwn.net
-Subject: [PATCH] Docs/arch/arm64: Fix spelling in amu.rst
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250224210432.94851-1-leofthirata@gmail.com>
 
---===============2672866445194770799==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Mon, Feb 24, 2025 at 06:04:30PM -0300, Leonardo Felipe Takao Hirata wrote:
+> Convert NXP LPC3220-MIC to DT schema.
+> 
+> Signed-off-by: Leonardo Felipe Takao Hirata <leofthirata@gmail.com>
 
->From 748db76c8e9f6e5906be0033dcdec9bb5749b303 Mon Sep 17 00:00:00 2001
-From: Gabriel <gshahrouzi@gmail.com>
-Date: Mon, 24 Feb 2025 18:09:26 -0500
-Subject: [PATCH] Docs/arch/arm64: Fix spelling in amu.rst
+SoB mismatch.
 
-Change though to through.
+Run checkpatch.
 
-Signed-off-by: Gabriel <gshahrouzi@gmail.com>
----
- Documentation/arch/arm64/amu.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> ---
+>  .../interrupt-controller/nxp,lpc3220-mic.txt  | 58 -------------
+>  .../interrupt-controller/nxp,lpc3220-mic.yaml | 86 +++++++++++++++++++
+>  2 files changed, 86 insertions(+), 58 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/interrupt-controller/nxp,lpc3220-mic.txt
+>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/nxp,lpc3220-mic.yaml
 
-diff --git a/Documentation/arch/arm64/amu.rst b/Documentation/arch/arm64/amu.rst
-index 01f2de2b0450..ac1b3f0e211d 100644
---- a/Documentation/arch/arm64/amu.rst
-+++ b/Documentation/arch/arm64/amu.rst
-@@ -80,7 +80,7 @@ bypass the setting of AMUSERENR_EL0 to trap accesses from EL0 (userspace) to
- EL1 (kernel). Therefore, firmware should still ensure accesses to AMU registers
- are not trapped in EL2/EL3.
- 
--The fixed counters of AMUv1 are accessible though the following system
-+The fixed counters of AMUv1 are accessible through the following system
- register definitions:
- 
-  - SYS_AMEVCNTR0_CORE_EL0
--- 
-2.45.2
+...
 
+> +title: NXP LPC32xx MIC, SIC1 and SIC2 Interrupt Controllers
+> +
+> +maintainers:
+> +  - Vladimir Zapolskiy <vz@mleia.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nxp,lpc3220-mic
+> +      - nxp,lpc3220-sic
+> +
+> +  reg:
+> +    description:
+> +      Should contain IC registers location and length.
 
---===============2672866445194770799==--
+Drop description
+
+> +    maxItems: 1
+> +
+> +  interrupt-controller: true
+> +
+> +  '#interrupt-cells':
+> +    const: 2
+> +    description:
+> +      The number of cells to define an interrupt, should be 2.
+
+Don't repeat constraints in free form text. Drop.
+
+> +      The first cell is the IRQ number, the second cell is used to specify
+> +      one of the supported IRQ types.
+> +          IRQ_TYPE_EDGE_RISING = low-to-high edge triggered,
+> +          IRQ_TYPE_EDGE_FALLING = high-to-low edge triggered,
+> +          IRQ_TYPE_LEVEL_HIGH = active high level-sensitive,
+> +          IRQ_TYPE_LEVEL_LOW = active low level-sensitive.
+> +      Reset value is IRQ_TYPE_LEVEL_LOW.
+> +
+> +  interrupts:
+
+Need to list and describe the items.
+
+> +    description:
+> +      Empty for MIC interrupt controller, cascaded MIC hardware interrupts for
+> +      SIC1 and SIC2
+
+And then allOf:if:then restricting it per variant (interrupts: false).
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupt-controller
+> +  - '#interrupt-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    mic: interrupt-controller@40008000 {
+> +      compatible = "nxp,lpc3220-mic";
+> +      reg = <0x40008000 0x4000>;
+> +      interrupt-controller;
+> +      #interrupt-cells = <2>;
+> +    };
+> +
+> +    sic1: interrupt-controller@4000c000 {
+> +      compatible = "nxp,lpc3220-sic";
+> +      reg = <0x4000c000 0x4000>;
+> +      interrupt-controller;
+> +      #interrupt-cells = <2>;
+> +      interrupt-parent = <&mic>;
+> +      interrupts = <0 IRQ_TYPE_LEVEL_LOW>,
+> +                  <30 IRQ_TYPE_LEVEL_LOW>;
+> +    };
+> +
+> +    sic2: interrupt-controller@40010000 {
+
+Drop, two examples are enough.
+
+> +      compatible = "nxp,lpc3220-sic";
+> +      reg = <0x40010000 0x4000>;
+> +      interrupt-controller;
+> +      #interrupt-cells = <2>;
+> +      interrupt-parent = <&mic>;
+> +      interrupts = <1 IRQ_TYPE_LEVEL_LOW>,
+> +                  <31 IRQ_TYPE_LEVEL_LOW>;
+> +    };
+> +
+> +    adc@40048000 {
+> +      compatible = "nxp,lpc3220-adc";
+
+Drop, not relevant.
+
+Best regards,
+Krzysztof
+
