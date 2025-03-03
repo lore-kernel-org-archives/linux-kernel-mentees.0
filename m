@@ -1,147 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F071E9B1D
-	for <linux-kernel-mentees@lists.linux.dev>; Sun,  2 Mar 2025 16:40:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5F413C9D4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  3 Mar 2025 04:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740933604; cv=none; b=YYkc78dRQIvp1klP4jKbRhUzOhhl/B8MwJ0wb0fqDp0wKv/bdEpMVpSullO9AIfc89Ve5Dt/ziitDfR7mwNvpa//8oTrnAZsz+PHeEg+0BmGvaYkTscJafWlRDpHZ2Rr4o10//sSM63tCSUHRLtPvrl5LPvbHfengMeH9mWRB5w=
+	t=1740976071; cv=none; b=Bl4Wup4HT4VdHiZAxNi5pVHNI8dUs13qbmP1prg3LTPerfF4zSRI8nyfvt00C+AHXDmLX/8BFWMKjT9u1sW6zJQ0iJAOMn8e+jIBYctc9rt74tSCSbnaWFC6VfbodmBW2fPnDA0w6c4Tm+0y+ziGoVxToATJ2pYASrTzc6975Q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740933604; c=relaxed/simple;
-	bh=NEeg3Rzg4iVhgFfkKQDTPV/BcBGgtllUpSTfPO0yAfY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ODlcgbnXn64cTL3BBNw/5Wr9U3loK0kjMdcRA/qUN6gOmRdwyoiin5gAmA9ai/3FUsBqqrTFfuZduXf2+YNTBLuJZ9IM+g9R9ZKZHSVOooCmWQJXvBsXfzfpJoNfxJpxz0kWF0vmSXCuf4ukEN8Ba1KLAGET8/0Ui7O5dtButT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hufJx0N4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740976071; c=relaxed/simple;
+	bh=HNnaj8o2a9E4BdcLiTNMcgTKpVot/6Pzc4Y5SZw5i+4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SmUlqk2xUvv8oKPl/y/cKPOoGYn1++LYATjWghr3uZ3Xs4xHt5iYEsSscRgRfZOMwaXDnPz2JRGYgYCrlT0XFMW9JGHE4Lu4K5dd6FJkyJxROtvCKTDakvZAHJ6r9uCZ25/SIM+aVqyvNFQagTTSiJw5P8EAcZgxKvMsqCYFusQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=f58rg0mU; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=f58rg0mU; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hufJx0N4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4540C4CEE6
-	for <linux-kernel-mentees@lists.linux.dev>; Sun,  2 Mar 2025 16:40:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740933603;
-	bh=NEeg3Rzg4iVhgFfkKQDTPV/BcBGgtllUpSTfPO0yAfY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=hufJx0N4c0G84oJQEpXi/WveiqfZbijHQtkmbyWub7mvpTzjKFNWgyGwXqK/WWRWd
-	 xgFh4fHprEyIq1JQp/RhIpfFLjoos9b3ejAKXILIlkBivg1KOtWul7Q4nmZlSDLN1n
-	 FaVGpXx4/DhInLxFQWQ/ms7kYHyd+pcieIU3yeC6bRg/z9+oYKfTKN2q7L1IOWHoxe
-	 xy0If8qlopPvlBicKlIXdrNEhrSg569EDzHSKIXyicJZ+HXPbGis9Z6lAYWhaMBkSm
-	 vBP6zBvXlLOcx+NOv2IGjV9M+dmwx36CePkNy/Xuk84T6Xsbj5z8lmc3g/ae6W8cUJ
-	 x9aLR3ribmy5g==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30ba5cccc19so12930701fa.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 02 Mar 2025 08:40:03 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUm8XTBmSr0LBNWRzQvb83mzIa6zKk3K/O02rc12skqn5NgPk8ksIZkfI+pvKadkTPh8oVTNi1i5EkLW6A8yYf6dfK4tQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWLPUSXBueNgq4Q4t8oHUovHJ5GU37WAhDWF1bXzeYh55q5MLC
-	trqD7MJ90aqn19OlnF6qm8eac1hAkNQ3A4ZLdQW6WRwQEA+c8rHPj+tEN4T7yqNVhbHJ+1H1f9y
-	vlNeCh5uwKuMtyPktzO132f93f8A=
-X-Google-Smtp-Source: AGHT+IF15yal6+bEvY5jhnNcanqgWka40b7JrgueD5ZuzAyJAl6y+S6WZMIJKOhOBJUHpF3vniRofuLSOVjy525/zc4=
-X-Received: by 2002:a05:651c:505:b0:30b:a187:516e with SMTP id
- 38308e7fff4ca-30ba187518dmr25563241fa.13.1740933602612; Sun, 02 Mar 2025
- 08:40:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="f58rg0mU";
+	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="f58rg0mU"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9984740146
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  3 Mar 2025 04:27:49 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.789
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 1_lfRBRY9I5w for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  3 Mar 2025 04:27:48 +0000 (UTC)
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=178.79.152.223; helo=mail.mleia.com; envelope-from=vz@mleia.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 1B49040136
+Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=mleia.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1B49040136
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=mleia.com header.i=@mleia.com header.a=rsa-sha256 header.s=mail header.b=f58rg0mU;
+	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.a=rsa-sha256 header.s=mail header.b=f58rg0mU
+Received: from mail.mleia.com (mleia.com [178.79.152.223])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 1B49040136
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  3 Mar 2025 04:27:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
+	t=1740976064; bh=HNnaj8o2a9E4BdcLiTNMcgTKpVot/6Pzc4Y5SZw5i+4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=f58rg0mUSJFkiF2jKMIj4qql/VpoAyyk2nXAiakanyYdo8VsxK/clVewI7yYdgPGL
+	 6FFFrqkVc68kX3g2TLDLG6iZUOLguuhahEKtCKcMOij2k+tbdhRw2XABSc2epNDFHr
+	 wggn5ZLW4bElEdFmBib62x5CgD72TiIAw/ZEBY6yK+x+0l8WDj6KAxqN+3L1911FGB
+	 5VfQEOeZOiuzFJmXSPTPaJgjKVTiHYuCcr+UwuGvaEDoZLjsYay4pG573+HOw/RQja
+	 F7sdqWyXokSgxeRnybAdxnebEu3gjfqth76/n53hWFhJR9S26reJhZTtxZ2S5+l0dp
+	 iGsdFJq2lNlSw==
+Received: from mail.mleia.com (localhost [127.0.0.1])
+	by mail.mleia.com (Postfix) with ESMTP id C6A653A627F;
+	Mon,  3 Mar 2025 04:27:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
+	t=1740976064; bh=HNnaj8o2a9E4BdcLiTNMcgTKpVot/6Pzc4Y5SZw5i+4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=f58rg0mUSJFkiF2jKMIj4qql/VpoAyyk2nXAiakanyYdo8VsxK/clVewI7yYdgPGL
+	 6FFFrqkVc68kX3g2TLDLG6iZUOLguuhahEKtCKcMOij2k+tbdhRw2XABSc2epNDFHr
+	 wggn5ZLW4bElEdFmBib62x5CgD72TiIAw/ZEBY6yK+x+0l8WDj6KAxqN+3L1911FGB
+	 5VfQEOeZOiuzFJmXSPTPaJgjKVTiHYuCcr+UwuGvaEDoZLjsYay4pG573+HOw/RQja
+	 F7sdqWyXokSgxeRnybAdxnebEu3gjfqth76/n53hWFhJR9S26reJhZTtxZ2S5+l0dp
+	 iGsdFJq2lNlSw==
+Message-ID: <09acba97-70e1-448e-8453-c4e1f67a035c@mleia.com>
+Date: Mon, 3 Mar 2025 06:27:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250301222137.18617-1-ImanDevel@gmail.com>
-In-Reply-To: <20250301222137.18617-1-ImanDevel@gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 3 Mar 2025 01:39:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASjGwDOmmv9eowHaNXj3YcFSCThVYLGZ-F=v+4gZF1+3Q@mail.gmail.com>
-X-Gm-Features: AQ5f1Jo6rb6YIRu-v40v3RfLPZUE09xpzXF5y5MriW7Tpi_eN_Qpp-_2L-QvxsQ
-Message-ID: <CAK7LNASjGwDOmmv9eowHaNXj3YcFSCThVYLGZ-F=v+4gZF1+3Q@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: fix argument parsing in scripts/config
-To: Seyediman Seyedarab <imandevel@gmail.com>
-Cc: nathan@kernel.org, nicolas@fjasle.eu, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] dt-bindings: interrupt-controller: Convert
+ nxp,lpc3220-mic.txt to yaml format
+Content-Language: ru-RU
+To: Leonardo Felipe Takao Hirata <leo.fthirata@gmail.com>,
+ tglx@linutronix.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20250228034021.607135-1-leo.fthirata@gmail.com>
+From: Vladimir Zapolskiy <vz@mleia.com>
+In-Reply-To: <20250228034021.607135-1-leo.fthirata@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
+X-CRM114-CacheID: sfid-20250303_042744_836100_F3D90AA7 
+X-CRM114-Status: GOOD (  11.71  )
 
-On Sun, Mar 2, 2025 at 7:20=E2=80=AFAM Seyediman Seyedarab <imandevel@gmail=
-.com> wrote:
->
-> The script previously assumed --file was always the first argument,
-> which caused issues when it appeared later. This patch updates the
-> parsing logic to scan all arguments to find --file, sets the config
-> file correctly, and resets the argument list with the remaining
-> commands.
->
-> It also fixes --refresh to respect --file by passing KCONFIG_CONFIG=3D$FN
-> to make oldconfig.
->
-> Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
+Hello Leonardo.
+
+On 2/28/25 05:39, Leonardo Felipe Takao Hirata wrote:
+> Convert NXP LPC3220-MIC to DT schema.
+> 
+> Signed-off-by: Leonardo Felipe Takao Hirata <leo.fthirata@gmail.com>
+> ---
+> Changes in v3:
+>   - Add interrupts property description
+>   - Fix interrupts items descriptions
+>   - Remove else condition
 > ---
 
-Applied to linux-kbuild.
-Thanks.
+<snip>
 
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/nxp,lpc3220-mic.yaml b/Documentation/devicetree/bindings/interrupt-controller/nxp,lpc3220-mic.yaml
+> new file mode 100644
+> index 000000000000..59e8814a15b7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/nxp,lpc3220-mic.yaml
+> @@ -0,0 +1,69 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/interrupt-controller/nxp,lpc3220-mic.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP LPC32xx MIC, SIC1 and SIC2 Interrupt Controllers
+> +
+> +maintainers:
+> +  - Vladimir Zapolskiy <vz@mleia.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nxp,lpc3220-mic
+> +      - nxp,lpc3220-sic
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupt-controller: true
+> +
+> +  '#interrupt-cells':
+> +    const: 2
+> +
+> +  interrupts:
 
+Please put here
 
-> Changes in v2:
-> Specified the script name in the commit message.
->
->  scripts/config | 26 ++++++++++++++++----------
->  1 file changed, 16 insertions(+), 10 deletions(-)
->
-> diff --git a/scripts/config b/scripts/config
-> index ff88e2faefd3..ea475c07de28 100755
-> --- a/scripts/config
-> +++ b/scripts/config
-> @@ -32,6 +32,7 @@ commands:
->                               Disable option directly after other option
->         --module-after|-M beforeopt option
->                               Turn option into module directly after othe=
-r option
-> +       --refresh            Refresh the config using old settings
->
->         commands can be repeated multiple times
->
-> @@ -124,16 +125,22 @@ undef_var() {
->         txt_delete "^# $name is not set" "$FN"
->  }
->
-> -if [ "$1" =3D "--file" ]; then
-> -       FN=3D"$2"
-> -       if [ "$FN" =3D "" ] ; then
-> -               usage
-> +FN=3D.config
-> +CMDS=3D()
-> +while [[ $# -gt 0 ]]; do
-> +       if [ "$1" =3D "--file" ]; then
-> +               if [ "$2" =3D "" ]; then
-> +                       usage
-> +               fi
-> +               FN=3D"$2"
-> +               shift 2
-> +       else
-> +               CMDS+=3D("$1")
-> +               shift
->         fi
-> -       shift 2
-> -else
-> -       FN=3D.config
-> -fi
-> +done
->
-> +set -- "${CMDS[@]}"
->  if [ "$1" =3D "" ] ; then
->         usage
->  fi
-> @@ -217,9 +224,8 @@ while [ "$1" !=3D "" ] ; do
->                 set_var "${CONFIG_}$B" "${CONFIG_}$B=3Dm" "${CONFIG_}$A"
->                 ;;
->
-> -       # undocumented because it ignores --file (fixme)
->         --refresh)
-> -               yes "" | make oldconfig
-> +               yes "" | make oldconfig KCONFIG_CONFIG=3D$FN
->                 ;;
->
->         *)
-> --
-> 2.48.1
->
+   minItems: 2
+   maxItems: 2
 
+> +    items:
+> +      - description: Regular interrupt request
+> +      - description: Fast interrupt request
+> +    description: IRQ and FIQ outputs of SIC1/SIC2 to the MIC.
+
+Having both two descriptions under 'items:' and another description is
+excessive, please leave only one of two.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupt-controller
+> +  - '#interrupt-cells'
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: nxp,lpc3220-sic
+> +    then:
+> +      required:
+> +        - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    mic: interrupt-controller@40008000 {
+> +        compatible = "nxp,lpc3220-mic";
+> +        reg = <0x40008000 0x4000>;
+> +        interrupt-controller;
+> +        #interrupt-cells = <2>;
+> +    };
+> +
+> +    sic1: interrupt-controller@4000c000 {
+
+Here sic1 label is not used, please remove.
+
+> +        compatible = "nxp,lpc3220-sic";
+> +        reg = <0x4000c000 0x4000>;
+> +        interrupt-controller;
+> +        #interrupt-cells = <2>;
+> +        interrupt-parent = <&mic>;
+> +        interrupts = <0 IRQ_TYPE_LEVEL_LOW>,
+> +                    <30 IRQ_TYPE_LEVEL_LOW>;
+> +    };
+
+After the fixes please feel free to add the tag:
+
+Reviewed-by: Vladimir Zapolskiy <vz@mleia.com>
 
 --
-Best Regards
-Masahiro Yamada
+Best wishes,
+Vladimir
