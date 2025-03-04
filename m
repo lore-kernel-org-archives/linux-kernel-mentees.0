@@ -1,98 +1,110 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A60E24C064
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Mar 2025 16:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B4A1F4276
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  4 Mar 2025 17:49:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741106841; cv=none; b=nryEfE839GrQVTc3KGjRWXO5/qSvR+4A2F+KL1tdUs4oa1uwfpkM5eqPoT0sNgswcHcTXoyAz1PDhy9wXbKb8GGkZxM/r6QUpgf3v9TgynXPjIYbSD/pOItfIIWy8hB9RyYY3LDPYnMK+xJ5N/1Re33dho72AXTHUVaDn1jzyJc=
+	t=1741110558; cv=none; b=X0R8UdcWQEmEU9QVbevFP3l6BNzf9qUJiKRhd+a1tFOj9/kKhS7HbYUL0OdbhNqTLbwoul2mWJ5J4vHiTzJNfNTxMqqw6C++eHy5T/FC1cahtc2k10k8cV1JBi+THWJBaxn7xOK/GwYOwaVjJkr5rL8gPAjiLCKqIldjDEMV5Kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741106841; c=relaxed/simple;
-	bh=0NFhIHUSIXLQ1IERnVrz79OxkFLXeS/HqU9Qitji2q0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=j2wYwnoIkOE9iT6ko4S/4STPvqZ7sNEREgo5o8k5fXth63AjeuxYKH3WuRNopc1E2h3oJ6NqOGSjrsxCGNby5P1wn8ZpTfHkpreiQs+l94sQgyrgZko7Lr3jK/se3vYcs0dtzpiKVCBSzBrBAA6wn78TNi5lZNMUM+ALKxMsBsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CqpFpRab; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1741110558; c=relaxed/simple;
+	bh=a/NsExaXFh0brcXTlOrd7Y9Oa2VoHQLFMML8Cnz3x8M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CixMQakYP5lTkO6YOLERkO5xxL45fo6DOfnTU0AYptFszJ5sD3etNgoGKlhcCJ8aW7/zoq9m2rEEK5fWUNAPv+E5ceswBb+meQ2aXIlGRcFFx7feybT1CCiJ3zxoEdz5e/Z9UXYMPtenSfwbRllXFlWzXuHovSjbKPfxkqlz8t8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=JRUBab6V; arc=none smtp.client-ip=209.85.166.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CqpFpRab"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id ACDEB4032E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Mar 2025 16:47:19 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.791
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id hRcF7HaNdf1y for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Mar 2025 16:47:19 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=45.79.88.28; helo=ms.lwn.net; envelope-from=corbet@lwn.net; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org E6DFF40026
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E6DFF40026
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=CqpFpRab
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E6DFF40026
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Mar 2025 16:47:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DF3484105F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1741106305; bh=GNXSsU+nJrWFy0zOEQmbq0fVDqKBxRTGtxEH/aS4AaA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CqpFpRabFcZkVlHkdXF5u0TnXe5vmPQDD5+hgy/Ut8ryHvW2EFjp8PbrVuGfAAg8f
-	 JFhAOCqoHadLBKNSfX7xKNQAHQC0Il2Hqw96j2IBTwG/KAwYtI3hIBbsZsZSxk65S8
-	 actAD2/JcXNLiulR8WtVK+Qu9gKQ15cR3TXAy4rWJ2rVst8/v96ZFsGzpz0JO+SKQN
-	 B/LuliWECXn0y8Q/bKt50TGrUztHAvnC2T89LRRhYPRq0pXo+mgjnBOw+jKKF+13ON
-	 NhHI/LMZsiyxFFxuEOY+Y2KWdyh5pKhlGSFFl0MfCHbtb6Rc6gtNAw0U1v5kddpuJZ
-	 SS7Ul0z4311Mw==
-Received: from localhost (unknown [73.243.92.182])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id DF3484105F;
-	Tue,  4 Mar 2025 16:38:24 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: gshahrouzi@gmail.com, linux-kernel@vger.kernel.org
-Cc: trivial@kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Docs/arch/arm64: Fix spelling in amu.rst
-In-Reply-To: <67bd05b5.c80a0220.205997.19df@mx.google.com>
-References: <67bd05b5.c80a0220.205997.19df@mx.google.com>
-Date: Tue, 04 Mar 2025 09:38:23 -0700
-Message-ID: <87cyeweoow.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JRUBab6V"
+Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-852050432a8so741739f.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 04 Mar 2025 09:49:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1741110555; x=1741715355; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FIQyE8Y/Wo/k2rg3+kTPzMkjWvoAdVITwTvTECg9USE=;
+        b=JRUBab6VCAxim5apbmz3iGRTHTO2MM5SsQwbtqKa8G/Tj5xpMYDG/9GS37wjc/SOTl
+         uajSLb43qYZyX+2rNG7uUoJQyW2sJDMbWc7vfpI9pOXmX9PzHfSgsrF9RZYfdBRMtP0a
+         gxt+/7kG9myMvLL43ZUsxqJnyGy54V/gLHVAs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741110555; x=1741715355;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FIQyE8Y/Wo/k2rg3+kTPzMkjWvoAdVITwTvTECg9USE=;
+        b=CIUckjCELQE3mgq5TiZ1d71AZ0455UqANr0rECw4xDUO6Oa4zFCGe1qRDeNQDFSPfS
+         4qTVr6bxBwt/IH7HaeFVOWKcssZmx4HUJUa3c6m9xr4KpBYZ5eQfEJvH3Tgd2HQOPRUH
+         lbfvgLrJzi3PKht6TTCtVHlySSfPeQAnejmoDxyhs2wXYOWHa3h5ZkIRvphG/Tx1Nc90
+         n43QV/0U7g6Jxp0AYk143YV+HCj7oL2P1N5o+xtUkEVdJMUuxOxBlXuvcI6HiglldnGG
+         ivMLGNHnQ/P4C1aZbwPPkF1w6pbipSnRfAZof5q+zJuNvLWnvinzm9yYphGHdIPWZFOG
+         c11g==
+X-Forwarded-Encrypted: i=1; AJvYcCVMN+8V4jWKRIeL6d0cy0RJ1EmLJZRy+DrD3SLIr31PV2yM2nMilIv5mEFYBIGV6+GA9qYJg9ZQ3b3s8zxtyfq5eKYORQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzc10/ALT5bPX4T/mYXLuYmqgKqPLteEk8pNMTsLTophH+Q9O37
+	3abDnr27Yy+kKC+UDn9WDooNaJLSmqEY+Q5UbUnGL4FIIXK6DPu2wIQDoeLeT28=
+X-Gm-Gg: ASbGnctuL0ZdU/77tND3FKol1Ccl3uTMzLlW2Jn8owBp1y1IcIkRZJltamVcEsswc7V
+	R0DXEUYYV97lLiQ5p1JVj30WjaYFX+Z/7Drv581wZ8RCgPOicgEKWPrHU5dhbRNkZnTQTIxAAdQ
+	vvT9Htl44KyYr2H+8uqLv4+bbCXF2cW7aF5P2ppT248NfIXESDVBqNFZg8VTg5981ScNK+CXGQU
+	GShF0zLhmVDflsdUYHbSBq/X8pn8CL7u1ntYMewKw3MQo3CFe8NLkTnWWooieDagvJrSHMNDnkZ
+	BHmpOoL4UObzGBiS0fONHHC2gr1pBfb0BoGfoZeLgz527V382fFs4f0=
+X-Google-Smtp-Source: AGHT+IFe/EZGXyCyM4u01MW+pkyp+aV9q8tehK9bM2e7HADyRWDjWbe46QsDS+SMYJ3Ljp5Ifn3NgA==
+X-Received: by 2002:a05:6602:370f:b0:82a:a4e7:5539 with SMTP id ca18e2360f4ac-85aff6300a8mr5572839f.2.1741110555067;
+        Tue, 04 Mar 2025 09:49:15 -0800 (PST)
+Received: from [192.168.1.14] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-85875133ebbsm295183839f.28.2025.03.04.09.49.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Mar 2025 09:49:14 -0800 (PST)
+Message-ID: <a9628a00-2bf3-4d86-8e41-c596079cd8f0@linuxfoundation.org>
+Date: Tue, 4 Mar 2025 10:49:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] selftests/ftrace: add 'poll' binary to gitignore
+To: Steven Rostedt <rostedt@goodmis.org>,
+ Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com, shuah@kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20250210160138.4745-1-bharadwaj.raju777@gmail.com>
+ <20250303183625.5acc59ec@gandalf.local.home>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20250303183625.5acc59ec@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-gshahrouzi@gmail.com writes:
+On 3/3/25 16:36, Steven Rostedt wrote:
+> On Mon, 10 Feb 2025 21:31:34 +0530
+> Bharadwaj Raju <bharadwaj.raju777@gmail.com> wrote:
+> 
+>> When building this test, a binary file 'poll' is
+>> generated and should be gitignore'd.
+>>
+>> Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+> 
+> Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> 
+> Shuah,
+> 
+> Can you take this for your tree?
+> 
+> Possibly with:
+> 
+> Fixes: 80c3e28528ff9 ("selftests/tracing: Add hist poll() support test")
+> 
+> So it should go into this rc release.
+> 
 
->>From 748db76c8e9f6e5906be0033dcdec9bb5749b303 Mon Sep 17 00:00:00 2001
-> From: Gabriel <gshahrouzi@gmail.com>
-> Date: Mon, 24 Feb 2025 18:09:26 -0500
-> Subject: [PATCH] Docs/arch/arm64: Fix spelling in amu.rst
->
-> Change though to through.
->
-> Signed-off-by: Gabriel <gshahrouzi@gmail.com>
-> ---
->  Documentation/arch/arm64/amu.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/arch/arm64/amu.rst b/Documentation/arch/arm64/amu.rst
-> index 01f2de2b0450..ac1b3f0e211d 100644
-> --- a/Documentation/arch/arm64/amu.rst
-> +++ b/Documentation/arch/arm64/amu.rst
-> @@ -80,7 +80,7 @@ bypass the setting of AMUSERENR_EL0 to trap accesses from EL0 (userspace) to
->  EL1 (kernel). Therefore, firmware should still ensure accesses to AMU registers
->  are not trapped in EL2/EL3.
->  
-> -The fixed counters of AMUv1 are accessible though the following system
-> +The fixed counters of AMUv1 are accessible through the following system
->  register definitions:
+Ooos - I applied it for next for Linux 6.15-rc1 since it is just
+a gitignore change and not critical.
 
-Applied, thanks.
+If you think it should go into this rc, I can apply to fixes and
+send it for this rc.
 
-jon
+thanks,
+-- Shuah
