@@ -1,240 +1,144 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34C5273FD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Mar 2025 01:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0760C1F91FE
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  4 Mar 2025 07:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741051646; cv=none; b=WRWNhpV/vAuXbKSjjbOWk2a9xyFKO5xoqLo+s7rMWn0mFpwPA8RS8nloeK7Ryt4XW7z4WNJysqwPihzNBhs5s7GD/25+ixH84TQO/yom88EeMLt1QyF2u6Vmun+/izz3m5vqNNZ4/VPe6Z3RkICYOyDg3WxVog0D2sOLiuuuYzc=
+	t=1741075188; cv=none; b=fXyaDfJc9V90DjT80PXvzeHkEZkNAW9FICUHKsYLYCPTlTUIJXbVunmwJYagd2Rye28AkDZruk3ZotPHCgy3HoIwzGtoQWW3tjvK86aoHoA/6InRRaTbKidvENRyNGGIQkRTtgh1il8b4s/B9B+OM9E4k73ZFSjVWemJf+yNSSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741051646; c=relaxed/simple;
-	bh=YQeiOsS8sA5NXZ3BRFyUMePzRT1TRZE82gnAlYurqyA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qGQOsXwCsm3nXt8UlHdGciFgqUA+FsJCquo5YOzGxbzoqOo8FsT5f/B1OpiZoJNmoO6QHD3pnmJDd6jDR0wB2QqSo3H2kQtayMVw69lfQLCgxgtDh/1AyYLBKM7C/3TB53YJZI6L5+CpX3ughUUCRL9huX7I9KaONJpNSmLKK2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ln9/3Sbz; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1741075188; c=relaxed/simple;
+	bh=Cu4z4tJcKQnioK5oBCWV59p1bBfRBmR9sh8lkmQoAZs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DUXD0bUgAHKLqrFuL3bNAQRhDim0BisXWinHgAcAZdg9ok2ZtvfJUXIlT8hgL9W53ZJYDlCKeMBqmjORrkPn9q0ltfQ2THvSkzotuJQzPP8XAupaxqhyUqobnkTWSW5zY8JO/ol/UnKoJiWNC2w+WgrlcWOzCwEyYgJVBjEqM4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V54g8xYb; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ln9/3Sbz"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 56647812DC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Mar 2025 01:27:24 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id D_7QFOQHo0cx for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Mar 2025 01:27:23 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=leo.fthirata@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 3FC1D81123
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3FC1D81123
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ln9/3Sbz
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 3FC1D81123
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Mar 2025 01:27:23 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-2232aead377so98858815ad.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 03 Mar 2025 17:27:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V54g8xYb"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c08f9d0ef3so289078285a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 03 Mar 2025 23:59:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741051642; x=1741656442; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sBEXUn0LmSyIKU3EkgV+cVlF4cvjhGTO881KNfj3fOo=;
-        b=Ln9/3SbziA40lXsJj0EtX4EFnCNQjfUvSnqUznInQy1lfEua6Ig5/7LHqndzqual4E
-         wgEcb2Qge7yKA8QCXjrFRddkA41UoG6DrP5BiNis4w/pyGxBkggA3L/YSIOD+e1M+lKn
-         k7M+sY7kByL+j1euVBIUIzsu7EzysAigyNne0U/PatVoNPKJriFWq0ane6GBzX75V++o
-         dolL88juY/RtZ9WuDfWN4mZIqa631Hshhpp0lRpXOhCNM6TTpbISQXT0S/UEkQTAHkl6
-         19fpJ67heKH+sAvANCgcNneMuvXKzysrYSMaHPP7tGwjmqtfw8txgkhQgox+dL4kaSbD
-         d+jQ==
+        d=gmail.com; s=20230601; t=1741075186; x=1741679986; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1aV334ikN5dUEF1FAOBcx+MylSK4OZXxof9bYGpg/Ok=;
+        b=V54g8xYbewXnBgf9B5W24Tdo7TSA1Pmlp4uwTwLVl2/vLf5AiO4VDedgAIjpnz3RyK
+         l7KYOLI/cJJXttu0WRdoSyMNvlca/jEbSKvIh09ZcT8KK75tzVWH9OPpdEo+OGlZvDDf
+         9bbk8oMq7Y92JerWhhRk5fMWV+9p/Rg6sZEVdRh5iB6BCj5nkQ52nsuMIy/r0yDvFlcp
+         4vbH9sc9NRmxapkEc3e0LDFz8bPWS/JfZdMgYpf4MANrHEKbOtvJeOhv097eoyFazTAr
+         XAmLbxoJN5SRWwBJmgIjTH7IXogUia7Zt+Lmoghg8xKrAfxUeZZieMwPoP/UJEFGAV15
+         vebw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741051642; x=1741656442;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sBEXUn0LmSyIKU3EkgV+cVlF4cvjhGTO881KNfj3fOo=;
-        b=YyGPyLV4fEc4tt2vEdXYkvogqN8t1Oa9SNLTX9MR3aiCEVazoXTVIFQKvOhWmfCVpi
-         qXzkpkPlNuyFqx5y5Vsz0crYK7u5q2yKZwzQgyof+BoIlm7mCnE21KQMxf4UyJs62nhJ
-         RrwEo8/jOmf1O8gV6YnOVqxYI3SUPxuZaUy67VqQwkscaXqXlawoQRjj9S+idAIRSN9N
-         f2KrvDY2UjOZVo8h5r4uZCAktU534fXijzCsuoKuxLZOg4LmdBViKTNV7WyH2wlZIr0V
-         EpFgoTaGmiQr9XVuywvBIc4FRlNyQ4e+mS3TjyQNjHcppTgn1TAz9HvCIwWJHh7bdYja
-         1/8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXdwmH6P5kzaT2e+SOu5clvDdYo802v+iC4Z5tdqfJ1tY+IT0C1La+98rN1E3PVDBs7EVkz8OEomzrwh/UK16kmZ4FIXQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxIDimeksosK0MYgkB+s9UHuoJhd/PXglhvdpess8qMzmVOYS/9
-	8cGfTcb2uEsTJyrh40OLf5clllo5NUiTskWgpssiB1IqlznUciWE
-X-Gm-Gg: ASbGnctmJqR+5VnXlKl3XnlOGelz6K1Fwgdx+uJtsgCK1B57DQjXbvDHsz2svoNCD1g
-	LccrdeH5KRBkq47UlbEAA2KjWezsxHXzHbFcxxtdPquOVrDQiDA0hNIJD5LJcI5HltWbu6PK5dR
-	5AlewMe4fG0DrFcKgWJ4GsLT3VGEG4XbDTghl+n0F4NX/UsQyNwL7DH9NglnZmmQ6Q50R7kQpif
-	mRmyiGDyuTBpv3D1FrVhF0z1CVFjvVKQP7dVdMVwxpMcLgRa5AOP4/Gyf/26YZyA5IJwSwq/Ifs
-	8knkM7ZWr7d27JrdLVjuLzWbuexhlrKQ5aTdP/uYE4sVsgHtROqZ4Uk67o7d3w8pLmzps3FkshP
-	lVObyyeMpigyZZnKcUg==
-X-Google-Smtp-Source: AGHT+IEr30nFCYMOZeqRuWFTTayl8S2lFSGhI6eVrpSdWMcqpU3UpkD71EK2TZWiBnLaRqXGpuCfIw==
-X-Received: by 2002:a05:6a21:4c85:b0:1f3:2c55:8d8a with SMTP id adf61e73a8af0-1f32c559139mr7168245637.12.1741051642433;
-        Mon, 03 Mar 2025 17:27:22 -0800 (PST)
-Received: from ?IPV6:2804:14d:887:95a9:849b:933a:ba2a:b462? ([2804:14d:887:95a9:849b:933a:ba2a:b462])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-aee7ddf20b8sm8989367a12.7.2025.03.03.17.27.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Mar 2025 17:27:22 -0800 (PST)
-Message-ID: <7ea9fb0f-f7bc-49bf-965f-631514abf9fe@gmail.com>
-Date: Mon, 3 Mar 2025 22:27:17 -0300
+        d=1e100.net; s=20230601; t=1741075186; x=1741679986;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1aV334ikN5dUEF1FAOBcx+MylSK4OZXxof9bYGpg/Ok=;
+        b=GDhTc+TSXNQI1rEcWmRKYChhDZMEL/PPqS8b4u0YMocyMFnc0lmi0V7AtkUc2p6wN9
+         0nwa80oeDDmH0zWi+J9UHc0A5CThT+wc5hF2QYBPVW8V6mjQ+Oi7YucNWACRyrkmfZZR
+         B2fpqW+gojNgmlUz7VouH0q/b3pNTsU+etvm8kRb2nSnY4a4zlhE/nBC6bvTQSXwlvjU
+         leB3u1IIPSU6VJLGwzv2zRrsyK7WrbkBfvqqcafpQI5nXmJYdg1mOzwIsPuUR8rD1Hup
+         Xp1T34KPDGNQrBT9+uu/4jc7YmsKqrtwDw3aDP2AGl56lsO6TmyVIQyV+kMIw1lckFfq
+         SOPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXsJEMG/vPra8HM6q/NmGc+L+kQNF5qiJXIu6jargEg1BTgJYhzeg3j2cf4JM+B1dbKFn6LgA58S/oWyGPeiXGlcgOceg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxoxodlgDA5jmuIjf6GqRHku3ryX05VRYzh20MRRotzFKTHL/jp
+	Wub+spb1+QU3C2/VT2jI1ktULq6XLAIiyJcU5qyyvz4SEJf502Yy
+X-Gm-Gg: ASbGncvaI5pQeti6mu6RbJwMqQ87226kfiYvAnxWbgZd1cG7dC6XOdmisTujUbr7Bym
+	tGGaCDbIGgAerLV4bHTo6lCm/98lbdsGa2jFAY2R3tiLOBa9pijP0S7cbXLtyNxFwfBQTTQJMb2
+	7o2e6Mg3kFVL4/0yuiBmkbwWumApzkO6BJ8Je6gNThepjwWMxhCMxTmV0uYXAzjKSATPgDgTfBo
+	XDteRTx0HKrHot/PzxlNX9KI1Jd3MMtWe2gLmWekGWiGlMOUOLNpSzHNoXG1yRtizs0boSyGQht
+	v9Cmo9cSkcSGPfjj3fBig08nRSXrmS8F666onxUm6MpRJg==
+X-Google-Smtp-Source: AGHT+IHIYoa+cieyOOJgxd5EL3wyq699sPw+C+GlH+7h85SoD+RTkabVF3VG6HjUXFBPykg/6gEcuA==
+X-Received: by 2002:a05:622a:20a:b0:471:8d66:cd68 with SMTP id d75a77b69052e-474bc0554ddmr212901451cf.3.1741075185773;
+        Mon, 03 Mar 2025 23:59:45 -0800 (PST)
+Received: from iman-pc.home ([184.148.73.125])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-474691a1f02sm70183901cf.11.2025.03.03.23.59.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Mar 2025 23:59:45 -0800 (PST)
+From: Seyediman Seyedarab <imandevel@gmail.com>
+X-Google-Original-From: Seyediman Seyedarab <ImanDevel@gmail.com>
+To: jack@suse.cz,
+	amir73il@gmail.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Seyediman Seyedarab <ImanDevel@gmail.com>
+Subject: [PATCH] inotify: disallow watches on unsupported filesystems
+Date: Tue,  4 Mar 2025 03:00:44 -0500
+Message-ID: <20250304080044.7623-1-ImanDevel@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] dt-bindings: interrupt-controller: Convert
- nxp,lpc3220-mic.txt to yaml format
-To: Vladimir Zapolskiy <vz@mleia.com>, tglx@linutronix.de, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20250228034021.607135-1-leo.fthirata@gmail.com>
- <09acba97-70e1-448e-8453-c4e1f67a035c@mleia.com>
-Content-Language: en-US
-From: Leonardo Felipe Takao Hirata <leo.fthirata@gmail.com>
-In-Reply-To: <09acba97-70e1-448e-8453-c4e1f67a035c@mleia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Vladimir.
+currently, inotify_add_watch() allows adding watches on filesystems
+where inotify does not work correctly, without returning an explicit
+error. This behavior is misleading and can cause confusion for users
+expecting inotify to work on a certain filesystem.
 
-On 03/03/2025 1:27 AM, Vladimir Zapolskiy wrote:
-> Hello Leonardo.
-> 
-> On 2/28/25 05:39, Leonardo Felipe Takao Hirata wrote:
->> Convert NXP LPC3220-MIC to DT schema.
->>
->> Signed-off-by: Leonardo Felipe Takao Hirata <leo.fthirata@gmail.com>
->> ---
->> Changes in v3:
->>   - Add interrupts property description
->>   - Fix interrupts items descriptions
->>   - Remove else condition
->> ---
-> 
-> <snip>
-> 
->> diff --git a/Documentation/devicetree/bindings/interrupt-controller/ 
->> nxp,lpc3220-mic.yaml b/Documentation/devicetree/bindings/interrupt-controller/ 
->> nxp,lpc3220-mic.yaml
->> new file mode 100644
->> index 000000000000..59e8814a15b7
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/interrupt-controller/nxp,lpc3220-mic.yaml
->> @@ -0,0 +1,69 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/interrupt-controller/nxp,lpc3220-mic.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: NXP LPC32xx MIC, SIC1 and SIC2 Interrupt Controllers
->> +
->> +maintainers:
->> +  - Vladimir Zapolskiy <vz@mleia.com>
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - nxp,lpc3220-mic
->> +      - nxp,lpc3220-sic
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupt-controller: true
->> +
->> +  '#interrupt-cells':
->> +    const: 2
->> +
->> +  interrupts:
-> 
-> Please put here
-> 
->    minItems: 2
->    maxItems: 2
-> 
+This patch explicitly rejects inotify usage on filesystems where it
+is known to be unreliable, such as sysfs, procfs, overlayfs, 9p, fuse,
+and others.
 
-I didn't add them in this patch because example-schema.yaml states that minItems 
-and maxItems are already implied. The following code is taken from the 
-example-schema.yaml.
+By returning -EOPNOTSUPP, the limitation is made explicit, preventing
+users from making incorrect assumptions about inotify behavior.
 
-items:
-   - description: core registers
-   - description: aux registers
-   # minItems/maxItems equal to 2 is implied
+Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
+---
+ fs/notify/inotify/inotify_user.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-Besides, adding minItems and maxItems triggers the respective warnings:
+diff --git a/fs/notify/inotify/inotify_user.c b/fs/notify/inotify/inotify_user.c
+index b372fb2c56bd..9b96438f4d46 100644
+--- a/fs/notify/inotify/inotify_user.c
++++ b/fs/notify/inotify/inotify_user.c
+@@ -87,6 +87,13 @@ static const struct ctl_table inotify_table[] = {
+ 	},
+ };
+ 
++static const unsigned long unwatchable_fs[] = {
++	PROC_SUPER_MAGIC,      SYSFS_MAGIC,	  TRACEFS_MAGIC,
++	DEBUGFS_MAGIC,	      CGROUP_SUPER_MAGIC, SECURITYFS_MAGIC,
++	RAMFS_MAGIC,	      DEVPTS_SUPER_MAGIC, BPF_FS_MAGIC,
++	OVERLAYFS_SUPER_MAGIC, FUSE_SUPER_MAGIC,   NFS_SUPER_MAGIC
++};
++
+ static void __init inotify_sysctls_init(void)
+ {
+ 	register_sysctl("fs/inotify", inotify_table);
+@@ -690,6 +697,14 @@ static struct fsnotify_group *inotify_new_group(unsigned int max_events)
+ }
+ 
+ 
++static inline bool is_unwatchable_fs(struct inode *inode)
++{
++	for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
++		if (inode->i_sb->s_magic == unwatchable_fs[i])
++			return true;
++	return false;
++}
++
+ /* inotify syscalls */
+ static int do_inotify_init(int flags)
+ {
+@@ -777,6 +792,13 @@ SYSCALL_DEFINE3(inotify_add_watch, int, fd, const char __user *, pathname,
+ 	inode = path.dentry->d_inode;
+ 	group = fd_file(f)->private_data;
+ 
++	/* ensure that inotify is only used on supported filesystems */
++	if (is_unwatchable_fs(inode)) {
++		pr_debug("%s: inotify is not supported on filesystem with s_magic=0x%lx\n",
++				__func__, inode->i_sb->s_magic);
++		return -EOPNOTSUPP;
++	}
++
+ 	/* create/update an inode mark */
+ 	ret = inotify_update_watch(group, inode, mask);
+ 	path_put(&path);
+-- 
+2.48.1
 
-- "minItems" is only needed if less than the "items" list length
-- "maxItems" is not needed with an "items" list
-
->> +    items:
->> +      - description: Regular interrupt request
->> +      - description: Fast interrupt request
->> +    description: IRQ and FIQ outputs of SIC1/SIC2 to the MIC.
-> 
-> Having both two descriptions under 'items:' and another description is
-> excessive, please leave only one of two.
-> 
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupt-controller
->> +  - '#interrupt-cells'
->> +
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: nxp,lpc3220-sic
->> +    then:
->> +      required:
->> +        - interrupts
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +
->> +    mic: interrupt-controller@40008000 {
->> +        compatible = "nxp,lpc3220-mic";
->> +        reg = <0x40008000 0x4000>;
->> +        interrupt-controller;
->> +        #interrupt-cells = <2>;
->> +    };
->> +
->> +    sic1: interrupt-controller@4000c000 {
-> 
-> Here sic1 label is not used, please remove.
-> 
->> +        compatible = "nxp,lpc3220-sic";
->> +        reg = <0x4000c000 0x4000>;
->> +        interrupt-controller;
->> +        #interrupt-cells = <2>;
->> +        interrupt-parent = <&mic>;
->> +        interrupts = <0 IRQ_TYPE_LEVEL_LOW>,
->> +                    <30 IRQ_TYPE_LEVEL_LOW>;
->> +    };
-> 
-> After the fixes please feel free to add the tag:
-> 
-> Reviewed-by: Vladimir Zapolskiy <vz@mleia.com>
-> 
-> -- 
-> Best wishes,
-> Vladimir
-
-Rob,
-
-Do you want these changes on top of what was applied or a complete patch?
-
-Best regards,
-
-Leonardo Hirata
