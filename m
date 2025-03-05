@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7CE2063C6;
-	Wed,  5 Mar 2025 10:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99AA24DFE7;
+	Wed,  5 Mar 2025 15:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741170533; cv=none; b=oQ0v3UXB0DOEtplaCdKgyROC0B0TOcAYdyZjUpWf16FjcyniKiQoGFzsrPx9OP/XCFkMCVKoU4ozAKXa6zkESanVrxT3isjQSEN5Wxzxj6AEcNeIe4XjNEnuto9FxNe9pQ+P+QS8iMoOl11Qx32OwCHcer7OkNr8oWFD4nn2+0s=
+	t=1741187335; cv=none; b=KbH++NGijC9uo16jDdrUHUjfBXavcskwyWm031J9Plw8r7R3wopJVOFUpbu819ZU6JWq/0HcMZsBB3RygLOkqSQ9P2iX+B9x/GnRgUDkEw4HRXXpJGJ/3lCSloXAlfs1gMBeLhOOPxZb2wtmPQ3qNaw7muhOkCD1qFRpbhcQl+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741170533; c=relaxed/simple;
-	bh=OpKK5OcF3YIghJMe6FXcLvbApwXLZUKwa8gH3NGHGko=;
+	s=arc-20240116; t=1741187335; c=relaxed/simple;
+	bh=e3oBTYdyUXsbOwDIkrX87IO9OyOkNlF6VSWAGvwLoCU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mHFbSWSVYZgfXgRt5sB7UluTth/nTZYvYwuE17sI6/UBc7PoxXdIWKLP920wLEo5GikpJPxrUGSDFwV3L4/imxien7KppqNdLXsHIKa87m9NCIm6f1LF5DjbJkykmp/TMmOE/v7Pk+A0iVRFA2HQcekbk6tsqji8QqRDi0w9E70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RCjjGoH2; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=rJhU55Vfy6+j3al1kURF+zS7I/lF1bCGXRCrQbfak2BwCLI6Ekb2zDPgG8lzF3hTzFuDlJdbrjcAlnH39wnoZ/tV79fGAyPEmZlXyki5rSC150j3hQcfX5Ds2mbQAWPsDjYnGaC8oPy65aLrzVxoLBdE4Zn3r/NiYN9YaGYEFRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzU8d31u; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RCjjGoH2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzU8d31u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741170532; x=1772706532;
+  t=1741187334; x=1772723334;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OpKK5OcF3YIghJMe6FXcLvbApwXLZUKwa8gH3NGHGko=;
-  b=RCjjGoH27dnQnEyvHMQgCd5Z2eg0wl3t+z368n/uKQABOPKMrioq1HNt
-   wR5mW/rgT1sImHuWOyNBPygK6uYN6G5wvR17BniWkBPoseGdPnB1IRo+g
-   XWjYyjaeHJEph66sp2j0Ksvzqe7cxI1WoI1jRr6529hNdib8iH854YM/u
-   i/5MeGeW3XEGM7R5zlMrhowQImRjYpdw7vwxK6tB3482j7Qq1ghgSdo5P
-   1cMPq4EQ0MhL09duZowh2NF8cQ6V3OJVoZ27Ql5bHOZlQGDIbD5HpXRS1
-   D7LX54M8Oy4hK6YJS5pzGcGIP0vyDSNph4P4hL9zcIcb+zJ62fto+bBs/
-   g==;
-X-CSE-ConnectionGUID: DPgsjIg6RnGJDkBEpCSoRg==
-X-CSE-MsgGUID: EoQOURJfQPWukBC+woak2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="59540312"
-X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; 
-   d="scan'208";a="59540312"
+  bh=e3oBTYdyUXsbOwDIkrX87IO9OyOkNlF6VSWAGvwLoCU=;
+  b=gzU8d31uRG1P1I1EkKxY0atxBlyneFkG6BH56nlJs2PRggLKWLoPbT36
+   PTpch0OuxfLmyKtsLQlXAGoTbptU6RwBj8fn9fmarwrCc2UMJmZBVJCHa
+   MzfiGaQCOiQ44IrX34XSFifwXlXCfs6BZ/ggoJMHacIldLrBydGlmLg7S
+   IO1KjK2Z8rf7jB/uXJy4Ab1qXgtgQZXlCdEGFaccf/zfb+y9a0Y8ytoQk
+   DFRPA9i5FVSPZPZXFHMEfaesjqhF18Ecqqc0InvtALelLoNzf3gTceeF2
+   rc4q4zWb+fTQsfNLm4CiG8lvMZgRh75QU2PfSYJrAc2JLyJU9Hrp9B6G9
+   Q==;
+X-CSE-ConnectionGUID: Jlpif+fHSd2fxXJzpLY+AA==
+X-CSE-MsgGUID: syWqOWLESLKEmQGXwRbu3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42293620"
+X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
+   d="scan'208";a="42293620"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 02:28:51 -0800
-X-CSE-ConnectionGUID: 8p1v9zbjRtuJLZoKCZbe3w==
-X-CSE-MsgGUID: YDSajSqQRjKMSs1A9JRr9Q==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 07:08:53 -0800
+X-CSE-ConnectionGUID: Bhr/kYI6SFu0ljZczH300g==
+X-CSE-MsgGUID: yT8QzywsSYGjsQgMiXKFBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="149606738"
+   d="scan'208";a="149658320"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Mar 2025 02:28:48 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 05 Mar 2025 07:08:50 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tplza-000KpW-0o;
-	Wed, 05 Mar 2025 10:28:46 +0000
-Date: Wed, 5 Mar 2025 18:28:39 +0800
+	id 1tpqMa-000L7m-1d;
+	Wed, 05 Mar 2025 15:08:48 +0000
+Date: Wed, 5 Mar 2025 23:08:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Seyediman Seyedarab <imandevel@gmail.com>, jack@suse.cz,
 	amir73il@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
 	Seyediman Seyedarab <ImanDevel@gmail.com>
 Subject: Re: [PATCH] inotify: disallow watches on unsupported filesystems
-Message-ID: <202503051755.5uktuxba-lkp@intel.com>
+Message-ID: <202503052203.vK0McbRm-lkp@intel.com>
 References: <20250304080044.7623-1-ImanDevel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -72,7 +73,7 @@ Hi Seyediman,
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on jack-fs/fsnotify]
-[also build test ERROR on linus/master v6.14-rc5 next-20250304]
+[also build test ERROR on linus/master v6.14-rc5 next-20250305]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -81,53 +82,107 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Seyediman-Seyedarab/inoti
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify
 patch link:    https://lore.kernel.org/r/20250304080044.7623-1-ImanDevel%40gmail.com
 patch subject: [PATCH] inotify: disallow watches on unsupported filesystems
-config: s390-randconfig-002-20250305 (https://download.01.org/0day-ci/archive/20250305/202503051755.5uktuxba-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503051755.5uktuxba-lkp@intel.com/reproduce)
+config: powerpc-randconfig-001-20250305 (https://download.01.org/0day-ci/archive/20250305/202503052203.vK0McbRm-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503052203.vK0McbRm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503051755.5uktuxba-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503052203.vK0McbRm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:16,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from fs/notify/inotify/inotify_user.c:17:
-   fs/notify/inotify/inotify_user.c: In function 'is_unwatchable_fs':
->> fs/notify/inotify/inotify_user.c:702:40: error: 'unwatchable_fs' undeclared (first use in this function); did you mean 'is_unwatchable_fs'?
+>> fs/notify/inotify/inotify_user.c:702:33: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
      702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
          |                                        ^~~~~~~~~~~~~~
-   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
+         |                                        is_unwatchable_fs
+   include/linux/array_size.h:11:33: note: expanded from macro 'ARRAY_SIZE'
       11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                 ^~~
-   fs/notify/inotify/inotify_user.c:702:40: note: each undeclared identifier is reported only once for each function it appears in
+         |                                 ^
+   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
+     700 | static inline bool is_unwatchable_fs(struct inode *inode)
+         |                    ^
+>> fs/notify/inotify/inotify_user.c:702:33: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
      702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
          |                                        ^~~~~~~~~~~~~~
-   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
+         |                                        is_unwatchable_fs
+   include/linux/array_size.h:11:48: note: expanded from macro 'ARRAY_SIZE'
       11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                 ^~~
-   In file included from include/linux/file.h:9,
-                    from fs/notify/inotify/inotify_user.c:16:
-   include/linux/compiler.h:245:77: error: expression in static assertion is not an integer
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                             ^
-   include/linux/compiler.h:249:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+         |                                                ^
+   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
+     700 | static inline bool is_unwatchable_fs(struct inode *inode)
+         |                    ^
+>> fs/notify/inotify/inotify_user.c:702:22: error: subscript of pointer to function type 'bool (struct inode *)' (aka '_Bool (struct inode *)')
+     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:47: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                               ^~~~~
+>> fs/notify/inotify/inotify_user.c:702:33: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
+     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+         |                                        ^~~~~~~~~~~~~~
+         |                                        is_unwatchable_fs
+   include/linux/array_size.h:11:75: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                                           ^
+   include/linux/compiler.h:249:65: note: expanded from macro '__must_be_array'
      249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   fs/notify/inotify/inotify_user.c:702:29: note: in expansion of macro 'ARRAY_SIZE'
+         |                                                                      ^
+   include/linux/compiler_types.h:483:63: note: expanded from macro '__same_type'
+     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/compiler.h:245:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
+     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
+     700 | static inline bool is_unwatchable_fs(struct inode *inode)
+         |                    ^
+>> fs/notify/inotify/inotify_user.c:702:33: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
      702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
-         |                             ^~~~~~~~~~
+         |                                        ^~~~~~~~~~~~~~
+         |                                        is_unwatchable_fs
+   include/linux/array_size.h:11:75: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                                           ^
+   include/linux/compiler.h:249:71: note: expanded from macro '__must_be_array'
+     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
+         |                                                                            ^
+   include/linux/compiler_types.h:483:74: note: expanded from macro '__same_type'
+     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                                          ^
+   include/linux/compiler.h:245:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
+     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
+     700 | static inline bool is_unwatchable_fs(struct inode *inode)
+         |                    ^
+>> fs/notify/inotify/inotify_user.c:702:22: error: subscript of pointer to function type 'bool (struct inode *)' (aka '_Bool (struct inode *)')
+     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:249:70: note: expanded from macro '__must_be_array'
+     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:483:74: note: expanded from macro '__same_type'
+     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                                          ^
+   include/linux/compiler.h:245:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
+     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   fs/notify/inotify/inotify_user.c:703:31: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
+     703 |                 if (inode->i_sb->s_magic == unwatchable_fs[i])
+         |                                             ^~~~~~~~~~~~~~
+         |                                             is_unwatchable_fs
+   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
+     700 | static inline bool is_unwatchable_fs(struct inode *inode)
+         |                    ^
+   fs/notify/inotify/inotify_user.c:703:31: error: subscript of pointer to function type 'bool (struct inode *)' (aka '_Bool (struct inode *)')
+     703 |                 if (inode->i_sb->s_magic == unwatchable_fs[i])
+         |                                             ^~~~~~~~~~~~~~
+   8 errors generated.
 
 
 vim +702 fs/notify/inotify/inotify_user.c
