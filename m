@@ -1,203 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99AA24DFE7;
-	Wed,  5 Mar 2025 15:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E688A2512F3
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  5 Mar 2025 16:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741187335; cv=none; b=KbH++NGijC9uo16jDdrUHUjfBXavcskwyWm031J9Plw8r7R3wopJVOFUpbu819ZU6JWq/0HcMZsBB3RygLOkqSQ9P2iX+B9x/GnRgUDkEw4HRXXpJGJ/3lCSloXAlfs1gMBeLhOOPxZb2wtmPQ3qNaw7muhOkCD1qFRpbhcQl+A=
+	t=1741192819; cv=none; b=WuyNHkw2OyjzTOtJt6KlOpNrlMmPTOK0lEhhxSFun8rl44AeXJacpW0a5YnEiVMI1EdEVI+lPsoWztwPfK/DRbfy18XuSA261YCOoBdg/c9+UKFxxUu15LnqB5rJN3x+LW54HsQA+ANIm77Tlwhvl1IJUkS7xuDbGGJbujCTe0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741187335; c=relaxed/simple;
-	bh=e3oBTYdyUXsbOwDIkrX87IO9OyOkNlF6VSWAGvwLoCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rJhU55Vfy6+j3al1kURF+zS7I/lF1bCGXRCrQbfak2BwCLI6Ekb2zDPgG8lzF3hTzFuDlJdbrjcAlnH39wnoZ/tV79fGAyPEmZlXyki5rSC150j3hQcfX5Ds2mbQAWPsDjYnGaC8oPy65aLrzVxoLBdE4Zn3r/NiYN9YaGYEFRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzU8d31u; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741192819; c=relaxed/simple;
+	bh=IQV0Yy/1k1IBFJFocoUYByRRAozlm7jKeZVmuUQRG8s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sK4SNwDLsD5rh+4xC446Z0lXmX99ptBYkeJf56iMcfajNBo2Uh9n5qERw3+n3vLE0AAoD8O1KjLSq302cLYLmSLFylNAkyOiYxqZA7vvndHcAtT5CdE4rF7cA2UBDebmll34JWQmZmIO3yoBnLJpTQb99YlOo3Wf5w5a8tHuaCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=veW3wVRx; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzU8d31u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741187334; x=1772723334;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e3oBTYdyUXsbOwDIkrX87IO9OyOkNlF6VSWAGvwLoCU=;
-  b=gzU8d31uRG1P1I1EkKxY0atxBlyneFkG6BH56nlJs2PRggLKWLoPbT36
-   PTpch0OuxfLmyKtsLQlXAGoTbptU6RwBj8fn9fmarwrCc2UMJmZBVJCHa
-   MzfiGaQCOiQ44IrX34XSFifwXlXCfs6BZ/ggoJMHacIldLrBydGlmLg7S
-   IO1KjK2Z8rf7jB/uXJy4Ab1qXgtgQZXlCdEGFaccf/zfb+y9a0Y8ytoQk
-   DFRPA9i5FVSPZPZXFHMEfaesjqhF18Ecqqc0InvtALelLoNzf3gTceeF2
-   rc4q4zWb+fTQsfNLm4CiG8lvMZgRh75QU2PfSYJrAc2JLyJU9Hrp9B6G9
-   Q==;
-X-CSE-ConnectionGUID: Jlpif+fHSd2fxXJzpLY+AA==
-X-CSE-MsgGUID: syWqOWLESLKEmQGXwRbu3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42293620"
-X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
-   d="scan'208";a="42293620"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 07:08:53 -0800
-X-CSE-ConnectionGUID: Bhr/kYI6SFu0ljZczH300g==
-X-CSE-MsgGUID: yT8QzywsSYGjsQgMiXKFBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="149658320"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Mar 2025 07:08:50 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tpqMa-000L7m-1d;
-	Wed, 05 Mar 2025 15:08:48 +0000
-Date: Wed, 5 Mar 2025 23:08:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Seyediman Seyedarab <imandevel@gmail.com>, jack@suse.cz,
-	amir73il@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Seyediman Seyedarab <ImanDevel@gmail.com>
-Subject: Re: [PATCH] inotify: disallow watches on unsupported filesystems
-Message-ID: <202503052203.vK0McbRm-lkp@intel.com>
-References: <20250304080044.7623-1-ImanDevel@gmail.com>
+	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="veW3wVRx"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
+	s=key1; t=1741192812;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jdlcaeLgpRGJb4WYxQLcnWtC/c9dZ1uqwhfx8n90Igk=;
+	b=veW3wVRx/5NFTXbzOGBD5dHeuKAc9xZrmmidqKHhtwZ8eqxAQZizfNIZflx2AxELm4Sy55
+	tPvi19YwvxMctpqHZUZ+vbo95LC1Owaj0S/nyM0bY5QNucCJAL+V1KgUjssvd0UejzXTrA
+	gCvbJEf+CtzD/4lxRc5Kw6PPtYO4m0itXLcmCVMs1zKY61hKQJwScPCtBdgdK+CnD3DPLm
+	8GKFQ7v+V9/E8UNMT4wXtZKbnIjpai0+b5MQJdW2SJwqyqKTUjRYP4Rb+KRTphNMQYh7lT
+	Ko/AK9ZQXPe3ugMsSRT5sKB2/EwnPeoz7vbPh3Z1HAInmM2osu2rAOl+lkSm/A==
+From: Ignacio Encinas <ignacio@iencinas.com>
+Date: Wed, 05 Mar 2025 17:39:28 +0100
+Subject: [PATCH] selftests: riscv: fix v_exec_initval_nolibc.c
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250304080044.7623-1-ImanDevel@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250305-fix-v_exec_initval_nolibc-v1-1-b87b60e43002@iencinas.com>
+X-B4-Tracking: v=1; b=H4sIAD9+yGcC/x2MWwqAIBAArxL7nWDa+yoRYrrVQlhoSBDePelzY
+ GZeCOgJA4zFCx4jBTpdhqoswOzabcjIZgbBRcMlr9hKD4sKHzSKHN1RH8qdBy2G1UNvh641shM
+ Wcn95zPL/nuaUPqBdQ0lrAAAA
+X-Change-ID: 20250301-fix-v_exec_initval_nolibc-498d976c372d
+To: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Charlie Jenkins <charlie@rivosinc.com>
+Cc: linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Ignacio Encinas <ignacio@iencinas.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Seyediman,
+Vector registers are zero initialized by the kernel. Stop accepting
+"all ones" as a clean value.
 
-kernel test robot noticed the following build errors:
+Note that this was not working as expected given that
+	value == 0xff
+can be assumed to be always false by the compiler as value's range is
+[-128, 127]. Both GCC (-Wtype-limits) and clang
+(-Wtautological-constant-out-of-range-compare) warn about this.
 
-[auto build test ERROR on jack-fs/fsnotify]
-[also build test ERROR on linus/master v6.14-rc5 next-20250305]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+---
+I tried looking why "all ones" was previously deemed a "clean" value but
+couldn't find any information. It looks like the kernel always 
+zero-initializes the vector registers.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Seyediman-Seyedarab/inotify-disallow-watches-on-unsupported-filesystems/20250304-160213
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify
-patch link:    https://lore.kernel.org/r/20250304080044.7623-1-ImanDevel%40gmail.com
-patch subject: [PATCH] inotify: disallow watches on unsupported filesystems
-config: powerpc-randconfig-001-20250305 (https://download.01.org/0day-ci/archive/20250305/202503052203.vK0McbRm-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503052203.vK0McbRm-lkp@intel.com/reproduce)
+If "all ones" is still acceptable for any reason, my intention is to 
+spin a v2 changing the types of `value` and `prev_value` to unsigned 
+char.
+---
+ tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503052203.vK0McbRm-lkp@intel.com/
+diff --git a/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c b/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
+index 35c0812e32de0c82a54f84bd52c4272507121e35..b712c4d258a6cb045aa96de4a75299714866f5e6 100644
+--- a/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
++++ b/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
+@@ -6,7 +6,7 @@
+  * the values. To further ensure consistency, this file is compiled without
+  * libc and without auto-vectorization.
+  *
+- * To be "clean" all values must be either all ones or all zeroes.
++ * To be "clean" all values must be all zeroes.
+  */
+ 
+ #define __stringify_1(x...)	#x
+@@ -46,7 +46,7 @@ int main(int argc, char **argv)
+ 			: "=r" (value));					\
+ 		if (first) {							\
+ 			first = 0;						\
+-		} else if (value != prev_value || !(value == 0x00 || value == 0xff)) { \
++		} else if (value != prev_value || value != 0x00) {              \
+ 			printf("Register " __stringify(register)		\
+ 				" values not clean! value: %u\n", value);	\
+ 			exit(-1);						\
 
-All errors (new ones prefixed by >>):
+---
+base-commit: 03d38806a902b36bf364cae8de6f1183c0a35a67
+change-id: 20250301-fix-v_exec_initval_nolibc-498d976c372d
 
->> fs/notify/inotify/inotify_user.c:702:33: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
-     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
-         |                                        ^~~~~~~~~~~~~~
-         |                                        is_unwatchable_fs
-   include/linux/array_size.h:11:33: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                 ^
-   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
-     700 | static inline bool is_unwatchable_fs(struct inode *inode)
-         |                    ^
->> fs/notify/inotify/inotify_user.c:702:33: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
-     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
-         |                                        ^~~~~~~~~~~~~~
-         |                                        is_unwatchable_fs
-   include/linux/array_size.h:11:48: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                ^
-   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
-     700 | static inline bool is_unwatchable_fs(struct inode *inode)
-         |                    ^
->> fs/notify/inotify/inotify_user.c:702:22: error: subscript of pointer to function type 'bool (struct inode *)' (aka '_Bool (struct inode *)')
-     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:47: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                               ^~~~~
->> fs/notify/inotify/inotify_user.c:702:33: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
-     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
-         |                                        ^~~~~~~~~~~~~~
-         |                                        is_unwatchable_fs
-   include/linux/array_size.h:11:75: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                                           ^
-   include/linux/compiler.h:249:65: note: expanded from macro '__must_be_array'
-     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                                                      ^
-   include/linux/compiler_types.h:483:63: note: expanded from macro '__same_type'
-     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                               ^
-   include/linux/compiler.h:245:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                               ^
-   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
-     700 | static inline bool is_unwatchable_fs(struct inode *inode)
-         |                    ^
->> fs/notify/inotify/inotify_user.c:702:33: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
-     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
-         |                                        ^~~~~~~~~~~~~~
-         |                                        is_unwatchable_fs
-   include/linux/array_size.h:11:75: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                                           ^
-   include/linux/compiler.h:249:71: note: expanded from macro '__must_be_array'
-     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                                                            ^
-   include/linux/compiler_types.h:483:74: note: expanded from macro '__same_type'
-     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler.h:245:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                               ^
-   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
-     700 | static inline bool is_unwatchable_fs(struct inode *inode)
-         |                    ^
->> fs/notify/inotify/inotify_user.c:702:22: error: subscript of pointer to function type 'bool (struct inode *)' (aka '_Bool (struct inode *)')
-     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:249:70: note: expanded from macro '__must_be_array'
-     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:483:74: note: expanded from macro '__same_type'
-     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler.h:245:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                               ^
-   fs/notify/inotify/inotify_user.c:703:31: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
-     703 |                 if (inode->i_sb->s_magic == unwatchable_fs[i])
-         |                                             ^~~~~~~~~~~~~~
-         |                                             is_unwatchable_fs
-   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
-     700 | static inline bool is_unwatchable_fs(struct inode *inode)
-         |                    ^
-   fs/notify/inotify/inotify_user.c:703:31: error: subscript of pointer to function type 'bool (struct inode *)' (aka '_Bool (struct inode *)')
-     703 |                 if (inode->i_sb->s_magic == unwatchable_fs[i])
-         |                                             ^~~~~~~~~~~~~~
-   8 errors generated.
-
-
-vim +702 fs/notify/inotify/inotify_user.c
-
-   698	
-   699	
-   700	static inline bool is_unwatchable_fs(struct inode *inode)
-   701	{
- > 702		for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
-   703			if (inode->i_sb->s_magic == unwatchable_fs[i])
-   704				return true;
-   705		return false;
-   706	}
-   707	
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ignacio Encinas <ignacio@iencinas.com>
+
