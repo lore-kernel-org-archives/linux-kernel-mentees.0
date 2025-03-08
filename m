@@ -1,86 +1,141 @@
-Received: from out-187.mta0.migadu.com (out-187.mta0.migadu.com [91.218.175.187])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA551DFF0
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  8 Mar 2025 12:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8879DAD4B
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  8 Mar 2025 17:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741438735; cv=none; b=lX/2XqcFhapSGnNcHGzPEYRDgvjpCrEMfbXbqcI3nHIbt2n7BnF9zqnY+aVPZ0Wh61cSkuQkL8+JMVs7wPQTVPo3AnQwRGBrNpSp7UsLl9XIDPdZ1OvYQxHDAK0fxA4h2BD1gydekhZaTTnI0+GffRHtP3eJedcw4zD/ByAcDM4=
+	t=1741456087; cv=none; b=RmCLrc6Zzgv60MLqxyZ4y1OYBsb6Xl6NrOBs/W2KNqyVbo/WvSuV/QdEjMwiHuQgBDtdPmy2kZanlmHEZ7zW196mTpu+XgI2Nx/So3FdZd1yMCs8mqga2BF5BCxSPGJbmzrHZfIhTrFxBa+M2yvohYNxN64LLvzRqJCymQ6u2Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741438735; c=relaxed/simple;
-	bh=pqRHaD0K95zvt04LXgJ9IAk+vY9xdxmc2+pPvcoJar8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bom+W5LQezkS4oYTU+psy/AtxSwpcnGNRaLzAgU1vj2hnl5ma9CArkWtkZHgDTkSblootTsFwy5QAOnhGsD5/+LA3NJnsMXH57LHOFtcgd6WSWAx5zXrHR9/ZPlG6EjdWQzqxcqDzxR8JupiRr2699tv/cQg1nyWCfCnB/fJ4Vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=sdcOiWRh; arc=none smtp.client-ip=91.218.175.187
+	s=arc-20240116; t=1741456087; c=relaxed/simple;
+	bh=p6InFRndnQU8EQckgN3pPyd05sWUsTAd05gohqs9UvY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lHy7GK16awP/yV9drbZJkedNYTqnnd0flOFmMfUIp3xEcT+uTaBVz4zYv5gvJKKZZOHho+usLQX2Uc2tqdF2sIG/PjbLHcyOm8xAyTif0Ip1vXF+FgXO3ihall1o6uokPxpusoWxDB3BAbe5NcTldBQZWcpPc2+rSApFQthN8jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=O9hBrwsU; arc=none smtp.client-ip=91.218.175.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="sdcOiWRh"
-Message-ID: <a081958f-0ae8-4b8b-b49f-81378f3c05a7@iencinas.com>
+	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="O9hBrwsU"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1741438729;
+	s=key1; t=1741456072;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Z1OfvKUB3yGmFTBmYKmHlndX8vBgO9snLZ4Ez7RHj2M=;
-	b=sdcOiWRhA8YKwSSvH28gavOM/pAKtcK1NOjqOECLSCghy10BLInRpbL7DdBAQvhes+zDTB
-	saEHyx00EVBMnaN1zM82rhYvwNepdPJAhCe8pDwXhxbo3Qi82DaOZjyxiokcmmExpvysmF
-	jUKxwg0e0sxzHXKlMQIPLAYOUaGfIWoE0HzIPta4hTxnANepHy7tAMlbQD3yirdtmqA3Xu
-	yMzgi8XuEOJRDu0xSiO6DJn28e5hTXTvm9eKkvFaRmVLrSG83ofr7HyDObpg998Yg2Q2ZM
-	94zobioUlhlo+r5X/RZrzLfSJeMq5wYog+PDW44ecKRaMh2yWd6dptWtSb9oRQ==
-Date: Sat, 8 Mar 2025 13:58:44 +0100
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iH+nG+xkzMrLIyIs8nUbB7bGFwyHx+ZLku2SBIZQKbo=;
+	b=O9hBrwsUnzHE6nP8M7rR4LwDxH1racbMlTbDUxI6kt28RSBISHSGjPuqHN37y1AL9R5XmB
+	KOkUSNNUTpalDqEGN3U7KJmovY0GMKzAJjOfnV4Whz/s+gAfEtlgykMaJCMyFw5k1VBPyh
+	z6Ip+bhfw1m3qzFP7qw50PQrsCmyQ+5u4R80qdViQNzdfrLFE5vW/OEquCyzBb62MPNveJ
+	FqHqNBIBwdZVBfEVuXMDr3oUKg9KCbggJ+rKvxsh1aA543ai7EY4R3hgKnqvKjAJT45/8l
+	f7+rPrObKiw+ri8IP8BWRSu56arZgDZ8D9Xrwuf4uGM63B0dQKAr3rHPhn08Kg==
+From: Ignacio Encinas <ignacio@iencinas.com>
+Date: Sat, 08 Mar 2025 18:47:38 +0100
+Subject: [PATCH] 9p/trans_fd: mark concurrent read and writes to
+ p9_conn->err
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/4] RISC-V CRC optimizations
-To: Eric Biggers <ebiggers@kernel.org>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>
-Cc: linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-riscv@lists.infradead.org,
- Zhihang Shao <zhihang.shao.iscas@gmail.com>, Ard Biesheuvel
- <ardb@kernel.org>, Xiao Wang <xiao.w.wang@intel.com>,
- Charlie Jenkins <charlie@rivosinc.com>,
- Alexandre Ghiti <alexghiti@rivosinc.com>, skhan@linuxfoundation.org
-References: <20250216225530.306980-1-ebiggers@kernel.org>
- <20250224180614.GA11336@google.com>
- <87ikorl0r5.fsf@all.your.base.are.belong.to.us>
- <20250302220426.GC2079@quark.localdomain>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ignacio Encinas Rubio <ignacio@iencinas.com>
-In-Reply-To: <20250302220426.GC2079@quark.localdomain>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250308-p9_conn_err_benign_data_race-v1-1-729e57d5832b@iencinas.com>
+X-B4-Tracking: v=1; b=H4sIALmCzGcC/x3MTQrCMBAG0KuUWRuIkWLqVUSG/HxtZzMtExGh9
+ O4Gl2/zDmowQaPHcJDhI0027bheBipr0gVOajcFH0Z/89HtE5dNlWHGGSqLck3vxJYKXLiPcUb
+ MGdVTL3bDLN9//3yd5w/NHJ9gbgAAAA==
+X-Change-ID: 20250308-p9_conn_err_benign_data_race-2758fe8bbed0
+To: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+ Eric Van Hensbergen <ericvh@kernel.org>, 
+ Latchesar Ionkov <lucho@ionkov.net>, 
+ Dominique Martinet <asmadeus@codewreck.org>, 
+ Christian Schoenebeck <linux_oss@crudebyte.com>
+Cc: Sishuai Gong <sishuai.system@gmail.com>, Marco Elver <elver@google.com>, 
+ v9fs@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ syzbot+d69a7cc8c683c2cb7506@syzkaller.appspotmail.com, 
+ syzbot+483d6c9b9231ea7e1851@syzkaller.appspotmail.com, 
+ Ignacio Encinas <ignacio@iencinas.com>
 X-Migadu-Flow: FLOW_OUT
 
-Hello!
+Writes for the error value of a connection are spinlock-protected inside
+p9_conn_cancel, but lockless reads are present elsewhere to avoid
+performing unnecessary work after an error has been met.
 
-On 2/3/25 23:04, Eric Biggers wrote:
-> So, quite positive results.  Though, the fact the msb-first CRCs are (still) so
-> much slower than lsb-first ones indicates that be64_to_cpu() is super slow on
-> RISC-V.  That seems to be caused by the rev8 instruction from Zbb not being
-> used.  I wonder if there are any plans to make the endianness swap macros use
-> rev8, or if I'm going to have to roll my own endianness swap in the CRC code.
-> (I assume it would be fine for the CRC code to depend on both Zbb and Zbc.)
+Mark the write and lockless reads to make KCSAN happy. Mark the write as
+exclusive following the recommendation in "Lock-Protected Writes with
+Lockless Reads" in tools/memory-model/Documentation/access-marking.txt
+while we are at it.
 
-I saw this message the other day and started working on a patch, but I
-would like to double-check I'm on the right track:
+Reported-by: syzbot+d69a7cc8c683c2cb7506@syzkaller.appspotmail.com
+Reported-by: syzbot+483d6c9b9231ea7e1851@syzkaller.appspotmail.com
+Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+---
+Hello! I noticed these syzbot reports that seem to repeat periodically
+and figured I should send a patch. 
 
-- be64_to_cpu ends up being __swab64 (include/uapi/linux/swab.h) 
+The read-paths look very similar to the one changed here [1]. Perhaps it
+would make sense to make them the same?
 
-If Zbb was part of the base ISA, turning CONFIG_ARCH_USE_BUILTIN_BSWAP 
-would take care of the problem, but it is not the case. 
+[1] https://lore.kernel.org/all/ZTZtHdqifXlWG8nN@codewreck.org/
+---
+ net/9p/trans_fd.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Therefore, we have to define __arch_swab<X> like some "arches"(?) do in 
-arch/<ARCH>/include/uapi/asm/swab.h
+diff --git a/net/9p/trans_fd.c b/net/9p/trans_fd.c
+index 196060dc6138af10e99ad04a76ee36a11f770c65..5458e6530084cabeb01d13e9b9a4b1b8f338e494 100644
+--- a/net/9p/trans_fd.c
++++ b/net/9p/trans_fd.c
+@@ -196,7 +196,8 @@ static void p9_conn_cancel(struct p9_conn *m, int err)
+ 		return;
+ 	}
+ 
+-	m->err = err;
++	WRITE_ONCE(m->err, err);
++	ASSERT_EXCLUSIVE_WRITER(m->err);
+ 
+ 	list_for_each_entry_safe(req, rtmp, &m->req_list, req_list) {
+ 		list_move(&req->req_list, &cancel_list);
+@@ -283,7 +284,7 @@ static void p9_read_work(struct work_struct *work)
+ 
+ 	m = container_of(work, struct p9_conn, rq);
+ 
+-	if (m->err < 0)
++	if (READ_ONCE(m->err) < 0)
+ 		return;
+ 
+ 	p9_debug(P9_DEBUG_TRANS, "start mux %p pos %zd\n", m, m->rc.offset);
+@@ -450,7 +451,7 @@ static void p9_write_work(struct work_struct *work)
+ 
+ 	m = container_of(work, struct p9_conn, wq);
+ 
+-	if (m->err < 0) {
++	if (READ_ONCE(m->err) < 0) {
+ 		clear_bit(Wworksched, &m->wsched);
+ 		return;
+ 	}
+@@ -622,7 +623,7 @@ static void p9_poll_mux(struct p9_conn *m)
+ 	__poll_t n;
+ 	int err = -ECONNRESET;
+ 
+-	if (m->err < 0)
++	if (READ_ONCE(m->err) < 0)
+ 		return;
+ 
+ 	n = p9_fd_poll(m->client, NULL, &err);
+@@ -673,7 +674,7 @@ static int p9_fd_request(struct p9_client *client, struct p9_req_t *req)
+ 
+ 	spin_lock(&m->req_lock);
+ 
+-	if (m->err < 0) {
++	if (READ_ONCE(m->err) < 0) {
+ 		spin_unlock(&m->req_lock);
+ 		return m->err;
+ 	}
 
-For those functions to be correct in generic kernels, we would need to 
-use ALTERNATIVE() macros like in arch/riscv/include/asm/bitops.h.
-Would this be ok? I'm not sure if the ALTERNATIVEs overhead can be a
-problem here.
+---
+base-commit: 2a520073e74fbb956b5564818fc5529dcc7e9f0e
+change-id: 20250308-p9_conn_err_benign_data_race-2758fe8bbed0
 
-Thanks in advance :)
+Best regards,
+-- 
+Ignacio Encinas <ignacio@iencinas.com>
+
