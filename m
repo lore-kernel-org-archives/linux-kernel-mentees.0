@@ -1,148 +1,92 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584F5221DAC
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Mar 2025 07:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D32D226CF4
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Mar 2025 09:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741592341; cv=none; b=cMAXP3YAtk872LPT6fODHiyjEv2UQLezjNxo7D0wwSWDYMD7U43/0uwH1/ie58Ovy117+4bFsXf8QvE8a8uEuvg0Aa6Cm05uCF1R/DvbNNd7qP+hVSmdmRYo4fDY5juMZ4gXZQ0DNseRNHNoFmfR7ciWkjBMkYe77eqA5Y/n6zo=
+	t=1741599886; cv=none; b=c/k7snQraXjK1Tu2WwCaeYdUkT+5o438m8fiHaHL9UBE+tOAgga8XOyClDmR0w5M9La5iJmh4yxWhkvvfIWr91DxTAg0gRgpo+vqtpyDU3zQFhUmLL638mmWqhDc2h1mNMVAhnijzoWiOEyEEuuE+rTYflFJ88KSxtwwa4n7Ejg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741592341; c=relaxed/simple;
-	bh=fCU1Sx5+YSnEqYbZchw3WrT1XD+n4gHGxDYXlcM+BsE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Be705bqzjmFE9z+mroYTWnk+jaLR71kdnYtm6gDH9ONrYMkX7CzASSC2qFzo4ip+5K9UPTkmj3HDpCIfIvIZwOBdilL4zcuQA3Hh5k5eOErPoKS/rCYsBKlKx8WXAK9z7s/agGh0aK8LwwP5bebvRubj1QJNsiJniaWuncXD6aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WJpg5IU9; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741599886; c=relaxed/simple;
+	bh=gBsxJraH2VccxGdfoYatDUg8xaTF55kYrM6BAJWMFNw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=VNfKzfZ5PsDFTqnpysATiyXZn1eGIrZp6HgzVqLD8u8ZjBfYwTwnC5NSv8ClCOYZxsS25cRh8K1rmfzcAfXW0nwubmDYtncX5u/XPSmF+jk7msBln+QiRRIy1Y8on5WlPv1JaQFbhrd6Ht2OmpkZHml+NjtllsMKzKvhNoqHjlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=erNrGsgQ; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WJpg5IU9"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-22185cddbffso85746745ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Mar 2025 00:39:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="erNrGsgQ"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-391459c0395so360077f8f.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Mar 2025 02:44:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741592339; x=1742197139; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZHaWEsIHkAJUrYIbd6YYFQ+RiGXu+yZ2V3PNN6+Sztw=;
-        b=WJpg5IU90H6OpzZUBOe9rxVJ7MHeAHYyUeeadWbE6qRtPnKYom2uviuz7JlueOl3LM
-         SEhWjk8F+1WoVo791CUJoIytuu+1ON3hiDh8uGHjCLumgy6RtA3F+iCyqoBenbv+eHiy
-         xJFG94MQdFepYtIYkuLp1KhRVmah5icdTa1EQSL5AqYQQvUPelOvZmUlxJygsDD/gbHg
-         4zwPVitrNtEMsZuCUGA3nV+/GEODho8xqR3ZnH7Tj3n0/ALVelmY19FPxwMrPnXGm3I2
-         9sACg9QnXW3r4CS1UyVMPgQBUNQhG669fN4lKuTpmCKnTsB4qI14zjY484mI1UM0NMCd
-         8WyQ==
+        d=google.com; s=20230601; t=1741599883; x=1742204683; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=K4uT7Aj9nf7d2IT7mRwWlJl8JB3gxTUY+mQiV67L5Z8=;
+        b=erNrGsgQsimhp7juyHTFJlAt30HiGGusOXsLC7HdrGEDpa9Bd+05fMdahW4i4Wii2v
+         LYmWTxF3/aKysGMmxFkQKxNHGdfBgETTfRWHLzGHoFkryVRRUSp3qTHaX9ZYEMyWn0sb
+         rCpdJbiOQrkbH1ut//TqgCiRgXI2skSXPW5JiJxnQ9pF3qIlH7a4h59Sh+XCiigMU4xJ
+         5XAqq+kRzo2ZG2733k+TY60p5EVX58PBAHpzqvsgecIk72l64Uom3+SU4xNyDR1/prOU
+         mfuRZFy3eeKHuaNLXdb7+y6D5soMY1/VvZQZ1Im0/8wyiG/8NZw5ZtA2nxFyjv5TeTy+
+         +lwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741592339; x=1742197139;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZHaWEsIHkAJUrYIbd6YYFQ+RiGXu+yZ2V3PNN6+Sztw=;
-        b=xH6VL1jdM2gg+5oMvjGKWPD9k1dRlN5p+HZ+QZmNGbZ3sNNumb3GAUBHgYT/dLCMyD
-         yNykkjfa0VN3+wgr/8C/4XLoZd/wPoX+Vz/P99CUrES2sVL/dGKdQ78J/40KEg9wAX7o
-         mHeg3mbt7PhPhNWWnuSO6yBg4YiyvoNbY3G5awSFnYxBCDI0UUQ2gr0+pWXpC5Xaedy4
-         FV67l2hqtkvrmkNTdqoNkfe4hsZuEkklHR54FWF06BX0vzkOO503ti56yzGyTFpSdHcf
-         PdJXqDXG1eZ2ihdOf+lOVqVeecADNTvQSSm9lxmI00g/i/ESXJdOUpWpTltWROC/sgT7
-         PHhw==
-X-Forwarded-Encrypted: i=1; AJvYcCVF1ZqdilcE4IHqQz2dS9TJFKZE/6mky5LmWPL73oROlxMon3HUG3SCzULR5tY8PiC/irmSBQQaxQKb4d3CfgX6XXjoqA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YworPLa1yTq3nzW9h6DzL2vodHPRzngLz8Ybk9w7RC7zwQIdj9/
-	1L9xJ1O1CtUqjWQGMTiFxFId6lho2CS7xmhAcx4SO3umPzrEqwQ9
-X-Gm-Gg: ASbGncuOLyTvItNAJ8HnTOhCEfbR6psqh3tekTTi662pkd1JTdgBtedEv/a8K0tjhDd
-	RE+j/FbS1YcBONcDYcRZfjZfiEwEOdlW8Xhh1uxOBnhEskZ7XlaPXdl1tLFrlHguSt8sZKGVHsF
-	1qspk5CJgTymf4bkZBvzvRnIIJaV/Pxg14aqCn/RlG+zzOjFkXmpBySVxhF6hGyg4tpq+g4Ptpv
-	ERm3WcwzUGwccJtSvPLgDpIxKS274uglf9lCMbYyZBGVffsJ1yLYwAl7k071pvEizHebalTCWwi
-	IWvwnv89i4OTCDYXnw8uuLh/L7oQslhE0xpTNClCkLwehSD8c19HfWHhNfc7q+BjbYqo6OaehQ=
-	=
-X-Google-Smtp-Source: AGHT+IFVo8LtjGiQbWI+3c2Cx6tD5XyGHqdiZkLi/zzbU3mW+ugZdMZ9j3iYsC8oE3r0nOHQUXUBdQ==
-X-Received: by 2002:a05:6a00:c87:b0:736:491b:5370 with SMTP id d2e1a72fcca58-736bc0d040cmr13850411b3a.10.1741592339525;
-        Mon, 10 Mar 2025 00:38:59 -0700 (PDT)
-Received: from vaxr-ASUSPRO-D840MB-M840MB.. ([2001:288:7001:2703:7ad0:37c7:5275:4b0])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73698450244sm7620234b3a.80.2025.03.10.00.38.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Mar 2025 00:38:58 -0700 (PDT)
-From: I Hsin Cheng <richard120310@gmail.com>
-To: ojeda@kernel.org
-Cc: alex.gaynor@gmail.com,
-	boqun.feng@gmail.com,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	benno.lossin@proton.me,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	jserv@ccns.ncku.edu.tw,
-	I Hsin Cheng <richard120310@gmail.com>
-Subject: [PATCH] rust: list: Use "List::is_empty()" to perform checking when possible
-Date: Mon, 10 Mar 2025 15:38:52 +0800
-Message-ID: <20250310073853.427954-1-richard120310@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1741599883; x=1742204683;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K4uT7Aj9nf7d2IT7mRwWlJl8JB3gxTUY+mQiV67L5Z8=;
+        b=Ws1UhGXi/1S+BGLfIGuZpw6v8pXDF7vwEqsi4w48mgqffwg86h9LQurIHN4L2fsiEQ
+         q2vcjgeUzlasouLTOZM2UX6GqbrDGv7nl9uN5XcV4CKL7UN3UdR8m50kSothlmhh2EX6
+         JjgbYNDslGMhv44O5IVd9sOIn55hsxPHBcCUjZaSAaDyZEZiirrJCwtvsDBfIZAd8Rxv
+         o7yXBE/+b2AFWflMHoZUuz4h1PgfZ1xdkHLTGGITq42N5E47Wvx+oMa9opIJPkrJ687y
+         IS/6DkUr/vv5dVZypr5DGIL6+UffAyQdV5JZxEcMy2dw7+Rh2J4qccV4jZWQMgPramTm
+         xt0A==
+X-Forwarded-Encrypted: i=1; AJvYcCUq+HuV0YH6csCbdOGngf1prU3qarGWT2KwQN/2QJVFNP8vuwyP9TUUodGl4ufwSxY4rM6SmyrHBBt5yoh+omwQPXCXXA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyNluDTNyuN1jjZpn1cHdDkRptsmM7gE3g3rt/SOIKYjiRIIpXF
+	rU5HQwEgNfCyaO+Cz5ZgbV2agkFHUGzeeGstOaFGYdLdLWyimXAm6Op6tA2yU/wD9fEiIMwDdQR
+	vjsL3/HK3CpISBw==
+X-Google-Smtp-Source: AGHT+IGVyxro7AL58g4XR8fKVbaaI1TWX7wPwMNwsGLr+PpgDItcCn2Z27WVF1wmJWCgCt0fQ+bi8w9hZQvKDuI=
+X-Received: from wmbay19.prod.google.com ([2002:a05:600c:1e13:b0:43c:f27f:e9f2])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a5d:598c:0:b0:391:3bdb:af5d with SMTP id ffacd0b85a97d-3913bdbb534mr4193539f8f.28.1741599882976;
+ Mon, 10 Mar 2025 02:44:42 -0700 (PDT)
+Date: Mon, 10 Mar 2025 09:44:41 +0000
+In-Reply-To: <20250310073040.423383-2-richard120310@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20250310073040.423383-1-richard120310@gmail.com> <20250310073040.423383-2-richard120310@gmail.com>
+Message-ID: <Z860iWGtaEFMD2hj@google.com>
+Subject: Re: [RFC PATCH 1/2] rust: list: Implement normal initializer for ListLinks
+From: Alice Ryhl <aliceryhl@google.com>
+To: I Hsin Cheng <richard120310@gmail.com>
+Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com, 
+	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me, 
+	a.hindborg@kernel.org, tmgross@umich.edu, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, jserv@ccns.ncku.edu.tw
+Content-Type: text/plain; charset="utf-8"
 
-"List::is_empty()" provides a straight forward convention to check
-whether a given "List" is empty or not. There're numerous places in the
-current implementation still use "self.first.is_null()" to perform the
-equivalent check, replace them with "List::is_empty()".
+On Mon, Mar 10, 2025 at 03:30:39PM +0800, I Hsin Cheng wrote:
+> Currently ListLinks only supports to create an initializer through
+> "new()", which will need further initialization because the return type
+> of "new()" is "impl Pininit<Self>". Not even "ListLinksSlefPtr" use the
+> method to create a new instance of "ListLinks".
+> 
+> Implement a normal method to create a new instance of type "ListLinks".
+> This may be redundant as long as there exist a convenient and proper way
+> to deal with "ListLinks::new()".
+> 
+> For now it's introduce for the simplicity of examples in the following
+> patches.
+> 
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
 
-Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
----
- rust/kernel/list.rs | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+This change is not good. The ListLinks type has an invariant about when
+the pointers are null. The existing constructor argues that the
+invariant is satisfied because pin-init initializers can't be used in an
+existing Arc. Why is that satisfied here?
 
-diff --git a/rust/kernel/list.rs b/rust/kernel/list.rs
-index fb93330f4af4..8f3919bd3f99 100644
---- a/rust/kernel/list.rs
-+++ b/rust/kernel/list.rs
-@@ -259,7 +259,7 @@ pub fn push_back(&mut self, item: ListArc<T, ID>) {
-         // SAFETY: We have not yet called `post_remove`, so `list_links` is still valid.
-         let item = unsafe { ListLinks::fields(list_links) };
- 
--        if self.first.is_null() {
-+        if self.is_empty() {
-             self.first = item;
-             // SAFETY: The caller just gave us ownership of these fields.
-             // INVARIANT: A linked list with one item should be cyclic.
-@@ -299,7 +299,7 @@ pub fn push_front(&mut self, item: ListArc<T, ID>) {
-         // SAFETY: We have not yet called `post_remove`, so `list_links` is still valid.
-         let item = unsafe { ListLinks::fields(list_links) };
- 
--        if self.first.is_null() {
-+        if self.is_empty() {
-             // SAFETY: The caller just gave us ownership of these fields.
-             // INVARIANT: A linked list with one item should be cyclic.
-             unsafe {
-@@ -325,7 +325,7 @@ pub fn push_front(&mut self, item: ListArc<T, ID>) {
- 
-     /// Removes the last item from this list.
-     pub fn pop_back(&mut self) -> Option<ListArc<T, ID>> {
--        if self.first.is_null() {
-+        if self.is_empty() {
-             return None;
-         }
- 
-@@ -337,7 +337,7 @@ pub fn pop_back(&mut self) -> Option<ListArc<T, ID>> {
- 
-     /// Removes the first item from this list.
-     pub fn pop_front(&mut self) -> Option<ListArc<T, ID>> {
--        if self.first.is_null() {
-+        if self.is_empty() {
-             return None;
-         }
- 
-@@ -493,7 +493,7 @@ pub fn push_all_back(&mut self, other: &mut List<T, ID>) {
-     ///
-     /// If the list is empty, this returns `None`.
-     pub fn cursor_front(&mut self) -> Option<Cursor<'_, T, ID>> {
--        if self.first.is_null() {
-+        if self.is_empty() {
-             None
-         } else {
-             Some(Cursor {
--- 
-2.43.0
-
+Alice
