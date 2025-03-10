@@ -1,96 +1,177 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CE22206AB
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Mar 2025 12:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D441DE2CE
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Mar 2025 22:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741610063; cv=none; b=Lp0DHhKRQ+HM+0+MMckw3pQYlQr3nFVJlVHWtTEAayrYRd6pNIOTJ0kzhkgFvNLDvfJTG19+LElbaMwY4VufLx8vayiWQ4rgYn89CeNS4xAOr+l2VqYpefHbuk3cIMGp1Atgf5rYzx/QXYdLlOqNLIo/Vh2TMWMkGs0sqKtolB0=
+	t=1741644259; cv=none; b=VC8OrgW+uOXex+BlNEy/t1l6LXaTYBL53n0b7TsA26xmaDeRspv2ZeD9LhPQD+Fl4mH4GPR0x27+3tz0HEEU9lG+2hK+0MNp+Sk+7Gp4+JfcV6/c9nV/yBPEbbPXX0OjA1pFOovVAKKOMiNHcfTCkd4iKOfm6uJwrsaKxNAJHkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741610063; c=relaxed/simple;
-	bh=6QimkLxyHh5zBhK7nMbvk/S0VweCjJC2WpgD3iNSSvU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AZ6M+kqvTl0lLf4ruFDe+6W5JNRy48bZvyX+IHu6+3O+KFBHY9E7RkstQw+f/Zog+nCd9shWAtWb19MicJswrM7w/RR90E0wO9tldNosinDzXxpjIQ5S+vugaQQqBqSxZRKnc0i4FWCY69Lkmpel7qzTKbx+QEo1ZzdCAWF2uzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8EF2D4432D;
-	Mon, 10 Mar 2025 12:34:10 +0000 (UTC)
-Message-ID: <ce034f2b-2f6e-403a-81f1-680af4c72929@ghiti.fr>
-Date: Mon, 10 Mar 2025 13:34:09 +0100
+	s=arc-20240116; t=1741644259; c=relaxed/simple;
+	bh=FrKlVPINhgHm/qZYxoAI2bxJmn4MPARDw9Qn5DJ1fRc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WI2+9WpKW6HO0mRaRkYnwyvT2KCqZftoTWtwwAAAhrBk6TownapFLxbc0ZbztULYsepaYR4CKu5pT8CNWuRLoPtcQLgk2A4vPg6Rdm6gneJBJUo15hmfDugr/glTxPA6rrlhj8ZU42lsFBYGiejafiCE/+PDl7UHRplwnPIF8aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=N28ATju+; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="N28ATju+"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
+	s=key1; t=1741644253;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vMEhOW9fgJPCr4InVKo09seDTKCph02bUyGs2pruQNI=;
+	b=N28ATju+SsOf5mOLkX4xSXH0ni5rpddkGVzQ0AFC5fZJcs6P9VO9pz7SF8qelSzN+l2NqC
+	8kfjOzO5vJk/0dupShTH1+xEiBt1YfuUS0lNDnS+CaDl5gjrC+TAduQkxHPxR2JbuBY8dT
+	j2wlpSllboIUsJ5sIPqcjTn/9mOURqWUOYZ6c/TGMSauNtDAR5erQ72gz/Td0PRtI7fBEn
+	BD3YkUwNcoep0OKwNa9/4u5ftcPliRRNb65AdzzivcwQbINktEq+ujn/vjK1IGQJi8uvsS
+	UnVv0QwKNYfl9M/wc/mFp+6ZjOaSkFGFYRITqUfIkQrcf5YsCIKSgtLPRhqhWQ==
+From: Ignacio Encinas <ignacio@iencinas.com>
+Date: Mon, 10 Mar 2025 23:03:55 +0100
+Subject: [PATCH RFC] riscv: introduce asm/swab.h
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] RISC-V CRC optimizations
-Content-Language: en-US
-To: Ignacio Encinas Rubio <ignacio@iencinas.com>,
- Eric Biggers <ebiggers@kernel.org>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>
-Cc: linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-riscv@lists.infradead.org,
- Zhihang Shao <zhihang.shao.iscas@gmail.com>, Ard Biesheuvel
- <ardb@kernel.org>, Xiao Wang <xiao.w.wang@intel.com>,
- Charlie Jenkins <charlie@rivosinc.com>,
- Alexandre Ghiti <alexghiti@rivosinc.com>, skhan@linuxfoundation.org
-References: <20250216225530.306980-1-ebiggers@kernel.org>
- <20250224180614.GA11336@google.com>
- <87ikorl0r5.fsf@all.your.base.are.belong.to.us>
- <20250302220426.GC2079@quark.localdomain>
- <a081958f-0ae8-4b8b-b49f-81378f3c05a7@iencinas.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <a081958f-0ae8-4b8b-b49f-81378f3c05a7@iencinas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduudelfeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpeetieeitefghfeuvddvjeeiudehheeiffffgeeviedtleehgeffgfdtveekteehudenucffohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucfkphepvddttddumeekiedumeeffeekvdemvghfledtmegsfhgsgeemsggsfhhfmedvgeeisgemfegtheefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeeffeekvdemvghfledtmegsfhgsgeemsggsfhhfmedvgeeisgemfegtheefpdhhvghloheplgfkrfggieemvddttddumeekiedumeeffeekvdemvghfledtmegsfhgsgeemsggsfhhfmedvgeeisgemfegtheefngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopedugedprhgtphhtthhopehighhnrggtihhosehivghntghinhgrshdrtghomhdprhgtphhtthhopegvsghighhgvghrsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheps
- ghjohhrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqtghrhihpthhosehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhhishgtvheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
-X-GND-Sasl: alex@ghiti.fr
+Message-Id: <20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com>
+X-B4-Tracking: v=1; b=H4sIAMphz2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDYwNz3aLM4uQy3eLyxCTdJAvDJEuTRMvEZMMkJaCGgqLUtMwKsGHRSkF
+ uzkqxtbUAh1/042EAAAA=
+X-Change-ID: 20250307-riscv-swab-b81b94a9ac1b
+To: Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+ skhan@linuxfoundation.org, Zhihang Shao <zhihang.shao.iscas@gmail.com>, 
+ =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>, 
+ Ignacio Encinas <ignacio@iencinas.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Ignacio,
+Implement endianness swap macros for RISC-V.
 
-On 08/03/2025 13:58, Ignacio Encinas Rubio wrote:
-> Hello!
->
-> On 2/3/25 23:04, Eric Biggers wrote:
->> So, quite positive results.  Though, the fact the msb-first CRCs are (still) so
->> much slower than lsb-first ones indicates that be64_to_cpu() is super slow on
->> RISC-V.  That seems to be caused by the rev8 instruction from Zbb not being
->> used.  I wonder if there are any plans to make the endianness swap macros use
->> rev8, or if I'm going to have to roll my own endianness swap in the CRC code.
->> (I assume it would be fine for the CRC code to depend on both Zbb and Zbc.)
-> I saw this message the other day and started working on a patch, but I
-> would like to double-check I'm on the right track:
->
-> - be64_to_cpu ends up being __swab64 (include/uapi/linux/swab.h)
->
-> If Zbb was part of the base ISA, turning CONFIG_ARCH_USE_BUILTIN_BSWAP
-> would take care of the problem, but it is not the case.
->
-> Therefore, we have to define __arch_swab<X> like some "arches"(?) do in
-> arch/<ARCH>/include/uapi/asm/swab.h
->
-> For those functions to be correct in generic kernels, we would need to
-> use ALTERNATIVE() macros like in arch/riscv/include/asm/bitops.h.
-> Would this be ok? I'm not sure if the ALTERNATIVEs overhead can be a
-> problem here.
+Use the rev8 instruction when Zbb is available. Otherwise, rely on the
+default mask-and-shift implementation.
 
+Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+---
+Motivated by [1]. A couple of things to note:
 
-Yes, using alternatives here is the right way to go. And the only 
-overhead when Zbb is available would be a nop (take a look at lib/csum.c).
+We need a default implementation to fall back on, but there isn't any in
+`asm-generic/swab.h`. Should I introduce a first patch moving 
+___constant_swab<XX> into include/uapi/asm-generic/swab.h?
 
-Thanks for working on this, looking forward to your patch,
+I don't particularly like the ARCH_SWAB macro but I can't think of
+anything better that doesn't result in code duplication.
 
-Alex
+Tested with crc_kunit as pointed out here [2]. I can't provide
+performance numbers as I don't have RISC-V hardware yet.
 
+Ccing everyone involved with [1].
 
-> Thanks in advance :)
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+[1] https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
+[2] https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/
+---
+ arch/riscv/include/asm/swab.h | 81 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 81 insertions(+)
+
+diff --git a/arch/riscv/include/asm/swab.h b/arch/riscv/include/asm/swab.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..8f8a13b343f6ffbefbb3c7747ab4e14243852014
+--- /dev/null
++++ b/arch/riscv/include/asm/swab.h
+@@ -0,0 +1,81 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#ifndef _ASM_RISCV_SWAB_H
++#define _ASM_RISCV_SWAB_H
++
++#include <linux/types.h>
++#include <linux/compiler.h>
++#include <asm/alternative-macros.h>
++#include <asm/hwcap.h>
++
++#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
++
++/*
++ * FIXME, RFC PATCH: This is copypasted from include/uapi/linux/swab.h
++ * should I move these `#defines` to include/uapi/asm-generic/swab.h
++ * and include that file here and in include/uapi/linux/swab.h ?
++ */
++#define ___constant_swab16(x) ((__u16)(				\
++	(((__u16)(x) & (__u16)0x00ffU) << 8) |			\
++	(((__u16)(x) & (__u16)0xff00U) >> 8)))
++
++#define ___constant_swab32(x) ((__u32)(				\
++	(((__u32)(x) & (__u32)0x000000ffUL) << 24) |		\
++	(((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |		\
++	(((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |		\
++	(((__u32)(x) & (__u32)0xff000000UL) >> 24)))
++
++#define ___constant_swab64(x) ((__u64)(				\
++	(((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |	\
++	(((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |	\
++	(((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |	\
++	(((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |	\
++	(((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |	\
++	(((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |	\
++	(((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |	\
++	(((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
++
++#define ___constant_swahw32(x) ((__u32)(			\
++	(((__u32)(x) & (__u32)0x0000ffffUL) << 16) |		\
++	(((__u32)(x) & (__u32)0xffff0000UL) >> 16)))
++
++#define ___constant_swahb32(x) ((__u32)(			\
++	(((__u32)(x) & (__u32)0x00ff00ffUL) << 8) |		\
++	(((__u32)(x) & (__u32)0xff00ff00UL) >> 8)))
++
++
++#define ARCH_SWAB(size) \
++static __always_inline unsigned long __arch_swab##size(__u##size value) \
++{									\
++	unsigned long x = value;					\
++									\
++	asm goto(ALTERNATIVE("j %l[legacy]", "nop", 0,			\
++			     RISCV_ISA_EXT_ZBB, 1)			\
++			     :::: legacy);				\
++									\
++	asm volatile (".option push\n"					\
++		      ".option arch,+zbb\n"				\
++		      "rev8 %0, %1\n"					\
++		      ".option pop\n"					\
++		      : "=r" (x) : "r" (x));				\
++									\
++	return x >> (BITS_PER_LONG - size);				\
++									\
++legacy:									\
++	return  ___constant_swab##size(value);				\
++}
++
++#ifdef CONFIG_64BIT
++ARCH_SWAB(64)
++#define __arch_swab64 __arch_swab64
++#endif
++
++ARCH_SWAB(32)
++#define __arch_swab32 __arch_swab32
++
++ARCH_SWAB(16)
++#define __arch_swab16 __arch_swab16
++
++#undef ARCH_SWAB
++
++#endif /* defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
++#endif /* _ASM_RISCV_SWAB_H */
+
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20250307-riscv-swab-b81b94a9ac1b
+
+Best regards,
+-- 
+Ignacio Encinas <ignacio@iencinas.com>
+
