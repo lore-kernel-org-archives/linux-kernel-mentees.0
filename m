@@ -1,115 +1,91 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F49A2620ED
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Mar 2025 17:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166521F0E45
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Mar 2025 22:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741713655; cv=none; b=mZmZd+lop3LPLGzMKvKlf4iLdC62gQKnJEYUzcIczKPr8qgZwUw/YJQ8eX9tq7OCy5dMnBqIIpQ8V3WLtoodeEA+zv0yWb9LLScTp6W0ieX1OLb7ePK6xRU6uHJJsHnyc1FoL8EaD+hCXmWV+LLNmr2Vu2Wl2AZ2Rp5IL0batIY=
+	t=1741818982; cv=none; b=m71wcSuDB6o06XGUx6v7xnY0ldo5tf+EfafrD7lMeVWj4ZwcOTUzqklY3uqI26awqmrCOKgMFpVVvKOMPKgq1+SI1xupdhJhx1CZqm5o5s96eq7mFoO7Aaab08+DxuQPgtkkuO8bItZCdTD6jHwuQO7RkbYldfiN5BQRGY72Ij0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741713655; c=relaxed/simple;
-	bh=rNUcHSP2FpvVCaR6xsgIP4uOrg8T5+YYy+BHIJDjss4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=owfmaqy+Q5NKS5HEJJAos7zU5WFs2Zx2+OCtR/CJvJFC3d1gll2fHN4zkc9rQdpJb4ZIcsGU+6Urz41LvMKCMLmDyFjXRxd0cK6zX+uFGNN8vM0inm6ohVnPU+WHW6ZPr4cFQ20tJR+xXLAqAKN1Na6JmfvKk6Oy8L1VDn0dF+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=uPkyfvWZ; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+	s=arc-20240116; t=1741818982; c=relaxed/simple;
+	bh=BaVWbSQENie34pWfic/pbRF/wriQKKMjAg34hMpBRvY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=J8TpyL8zRuYrPN1U9PJYwz8jjFYTboXrjC8SRNGIJgfE0jSWZkrepdMk0MhfcUY9HFw4czVD7RL8mVdXYq30sqoJjvoXlQ88+fCV+KqJ7LWFuFCNo+DXo+VN41gCKzrAfdtcYpZhbNJPuniMaXdzcoJMzq/DtXs54PvAkNPctF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=mCGKV3ac; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="uPkyfvWZ"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1741713650;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=tgSt81uvJI3vKLVetlm9klAJwDGyPHMhXRAlaqD2p8k=;
-	b=uPkyfvWZsSw6Vg3qkYIUrQn5g3wIyD7dEs+84MZY4jm5hSVFHR15Oc3tiUXoEgORGQhKSE
-	vdaWIl0Qh3YVuJzatKNWGqqsy8DxFAOsbWJ7bV8kxZ0vKsOk8WLCOAoiHcVwht1g95Wn+F
-	fNbfxz7Ed3ANi/JkQpjPwbgqGO6KW6UV/Oh+sGJulPsy7oyHaktFhscPH9WfDQA+31eCb0
-	8JbozNKnFsikmqyetGLZbfoPuRRWp6a2KJaR0tJyvVnld63l0pKgxeMaDPFar5zcDH8UVS
-	0pRIBJBc69VVbhMEAqW5xGwsYrBe53Amy85OzWG3VTpKsgOS3OkXQn1m5rfTsQ==
-From: Ignacio Encinas <ignacio@iencinas.com>
-Date: Tue, 11 Mar 2025 18:20:22 +0100
-Subject: [PATCH] riscv: fix test_and_{set,clear}_bit ordering documentation
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="mCGKV3ac"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0FB7E41063
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1741818980; bh=GTMfbvfPe3rGQpfvz+NRGN74Tvu8HffllNDpfQa9owA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=mCGKV3acK+jLSNTwFG4FSzwiDSq690fcbkqEMydifNSaBFsaxZPO6dPWlKhLMmIib
+	 yFOIUY7n9Z2bwDy9Jn5D+4eB+A13pMdkkTB19Ii9WgmL/Rl++ppWhTuS+vMCrDJXtb
+	 FTXCQEb34bWO73R7fO+Vzos7qbgGRrrKENjNBoJN06yJtO1TpcP/wAuCXgBq8FyWxm
+	 sQQPgsR6oA3oeHZ9dvJ1gUJFtZUQmjjCEhk12rqGeR6QtRfKlrDEOWVLuNquvmMKst
+	 /+P8M4UAUQ+QTtmjf5tBNXiFSiy4NemJeMaOiSC49TNSuxHDfMQNbCGotIIbAHvYZy
+	 KP8ino3r31b+g==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0FB7E41063;
+	Wed, 12 Mar 2025 22:36:20 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Ignacio Encinas <ignacio@iencinas.com>,
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, Marco
+ Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>
+Cc: kasan-dev@googlegroups.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Ignacio Encinas
+ <ignacio@iencinas.com>
+Subject: Re: [PATCH] Documentation: kcsan: fix "Plain Accesses and Data
+ Races" URL in kcsan.rst
+In-Reply-To: <20250306-fix-plain-access-url-v1-1-9c653800f9e0@iencinas.com>
+References: <20250306-fix-plain-access-url-v1-1-9c653800f9e0@iencinas.com>
+Date: Wed, 12 Mar 2025 16:36:19 -0600
+Message-ID: <87o6y5lvvg.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250311-riscv-fix-test-and-set-bit-comment-v1-1-8d2598e1e43b@iencinas.com>
-X-B4-Tracking: v=1; b=H4sIANVw0GcC/x2NQQqDMBBFryKzdiCTYlu9irhIk2k7C6Nkggji3
- R1cvs/jvwOUi7DC0BxQeBOVJRtQ20D8h/xjlGQM3vnOPYiwiMYNv7JjZa0YckLlih+pGJd55mx
- b6N2bgn+lJ4EdrYXNvyPjdJ4XARLKYnQAAAA=
-X-Change-ID: 20250311-riscv-fix-test-and-set-bit-comment-aa9081a27d61
-To: Yury Norov <yury.norov@gmail.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>
-Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Ignacio Encinas <ignacio@iencinas.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
 
-test_and_{set,clear}_bit are fully ordered as specified in
-Documentation/atomic_bitops.txt. Fix incorrect comment stating otherwise.
+Ignacio Encinas <ignacio@iencinas.com> writes:
 
-Note that the implementation is correct since commit
-9347ce54cd69 ("RISC-V: __test_and_op_bit_ord should be strongly ordered")
-was introduced.
+> Make the URL point to the "Plain Accesses and Data Races" section again
+> and prevent it from becoming stale by adding a commit id to it.
+>
+> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+> ---
+> I noticed this while reviewing the documentation.
+>
+> The "fix" isn't perfect as the link might become stale because it points
+> to a fixed commit. Alternatively, we could lose the line number
+> altogether.
+> ---
+>  Documentation/dev-tools/kcsan.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
+> index d81c42d1063eab5db0cba1786de287406ca3ebe7..8575178aa87f1402d777af516f5c0e2fc8a3379d 100644
+> --- a/Documentation/dev-tools/kcsan.rst
+> +++ b/Documentation/dev-tools/kcsan.rst
+> @@ -203,7 +203,7 @@ they happen concurrently in different threads, and at least one of them is a
+>  least one is a write. For a more thorough discussion and definition, see `"Plain
+>  Accesses and Data Races" in the LKMM`_.
+>  
+> -.. _"Plain Accesses and Data Races" in the LKMM: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/explanation.txt#n1922
+> +.. _"Plain Accesses and Data Races" in the LKMM: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/explanation.txt?id=8f6629c004b193d23612641c3607e785819e97ab#n2164
+>  
 
-Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
----
-This seems to be a leftover comment from the initial implementation
-which assumed these operations were relaxed.
+This seems like an improvement over what we have, so I've applied it.
 
-Documentation/atomic_bitops.txt states:
+It would be best, of course, to get the memory-model documentation
+properly into our built docs...someday...
 
-  [...]
-  RMW atomic operations with return value:
-  
-    test_and_{set,clear,change}_bit()
-    test_and_set_bit_lock()
-  [...]
+Thanks,
 
-   - RMW operations that have a return value are fully ordered.
-
-Similar comments can be found in
-include/asm-generic/bitops/instrumented-atomic.h,
-include/linux/atomic/atomic-long.h, etc...
----
- arch/riscv/include/asm/bitops.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/arch/riscv/include/asm/bitops.h b/arch/riscv/include/asm/bitops.h
-index c6bd3d8354a96b4e7bbef0e98a201da412301b57..49a0f48d93df5be4d38fe25b437378467e4ca433 100644
---- a/arch/riscv/include/asm/bitops.h
-+++ b/arch/riscv/include/asm/bitops.h
-@@ -226,7 +226,7 @@ static __always_inline int variable_fls(unsigned int x)
-  * @nr: Bit to set
-  * @addr: Address to count from
-  *
-- * This operation may be reordered on other architectures than x86.
-+ * This is an atomic fully-ordered operation (implied full memory barrier).
-  */
- static __always_inline int arch_test_and_set_bit(int nr, volatile unsigned long *addr)
- {
-@@ -238,7 +238,7 @@ static __always_inline int arch_test_and_set_bit(int nr, volatile unsigned long
-  * @nr: Bit to clear
-  * @addr: Address to count from
-  *
-- * This operation can be reordered on other architectures other than x86.
-+ * This is an atomic fully-ordered operation (implied full memory barrier).
-  */
- static __always_inline int arch_test_and_clear_bit(int nr, volatile unsigned long *addr)
- {
-
----
-base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-change-id: 20250311-riscv-fix-test-and-set-bit-comment-aa9081a27d61
-
-Best regards,
--- 
-Ignacio Encinas <ignacio@iencinas.com>
-
+jon
