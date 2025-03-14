@@ -1,141 +1,71 @@
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2F51EBFE2
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Mar 2025 18:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C80202973
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 14 Mar 2025 16:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741889334; cv=none; b=CMIag6hgnRSfA+9MhGC1w3Ul15l58QdMMLNrY/Qw3yGnizx7/EOnz2y0MtvGC2EbFmxew4v0eLT4oDcNfBsRK+0Pm66JcuCUNPcs6KYaXwU3E38HwPJTRpm32tmCQsXOLJ+rSV1B0gTLYxWttkoCwjGpElS2yndW3D0aLo5JRQI=
+	t=1741969821; cv=none; b=KaUKK8o8+/Z+8SgQHPJOTEvwJdLB+hsaBfZ+0BSyQ8uoDsMlJ+381Nzx+qP32Gj1K5eb8v00C7ZCA6XHR5Q2S14q4svP+kbFMTg1zznfQ6FEnkjb5RgHnmuZtyiQSHMK6YhS8uJbpM3qpFsWo+GPbUsrkJ7sUCR6+MYapBXUOkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741889334; c=relaxed/simple;
-	bh=MXtePF6repqds/x6JPCzOwKs4bPaXnVnBSNXtX5OfIc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AW4aJbZuuYHXbNkxUoU1S1306aLnAfIYC1qRUFb25Mv64LYXrEHeub64DgfkXBRMMar2Ywdc2Lmw7bF5LqvqLLYY7cl+suiQ8li5U1bttiZ7FDLCMI4ytpZzLxuCBKirhWqhRTYjMJ0oNmZxkxyRjJLnBOsgzRWEbgloLE65PqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=Ao39xEo/; arc=none smtp.client-ip=95.215.58.179
+	s=arc-20240116; t=1741969821; c=relaxed/simple;
+	bh=Rf3Y2t5DfgJzg/9Slo+edGTDwDk+9738sTXLJVoqKHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G9tJOga5zzlBtmbRJK9NbbJtKBxmL0V3kD50SOrlopmDAGTuMIK7TmWkNehhGGB3CPRj3H1vKCkffssA9r2GSlmsiTWyFEhrIxEMLwsXfL6GPluPwrbz6zyTKb45LNc9hKYVjX1m9MXnO3vaYz4rpkkD46ZPgHdW/ZPveVV3b6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=pm4irdM4; arc=none smtp.client-ip=95.215.58.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="Ao39xEo/"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="pm4irdM4"
+Message-ID: <1d66a62e-faee-4604-9136-f90eddcfa7c0@iencinas.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1741889320;
+	s=key1; t=1741969806;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oWH7hszwO9I5RYZpht/nXn68Y2cBdPRRedslDcO5mD8=;
-	b=Ao39xEo/pSp/j5tAL4U5bRkiqX/8hAJD2h5Q3TQYeoM2KfRkAZOXysg68TccSm87i+b8UV
-	kiREpjW7qU6Qz5NKsUVUQSnyPRUNScPmTvRmGLrA0zOQMJD51uK13Ub6Bq8SXcopsvd1VE
-	7p3Zn+BdFU4Rjarkxrw6vR2AaFmrOwPBr8UlVsv32H+n6YPJ04zzwb7xuKMCLJB9l4PWdZ
-	yBjQeWsgIXA8Fjn6KqCNIcpPA+5z0Y4LVRZ40AMGel90Z5xTXaDVtGl8rqS+TEXPS+AHHF
-	K4lghj57TDh/oo+B50iD8d9RL/q4sqoc1cB84Av2UH7VZRWeFsP3gjRg8Pw/UA==
-From: Ignacio Encinas <ignacio@iencinas.com>
-Date: Thu, 13 Mar 2025 19:08:19 +0100
-Subject: [PATCH v2] 9p/trans_fd: mark concurrent read and writes to
- p9_conn->err
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Rf3Y2t5DfgJzg/9Slo+edGTDwDk+9738sTXLJVoqKHY=;
+	b=pm4irdM4HR3MZn2jvYaJbIkFZV/erWWwNaBU55MuhJswE4dYlcLX7vjUBeCb6YNGArVQQ+
+	Sc0suUTZpLwSxR7uSJK4BeB9+2z3uBqFw7BhRekSs9PgHssYegQn+OZm4j/bGGbVCx9aqC
+	HDWUqk5vy7FuSWHbd7L+vK4cD7jmPyIiCcqxPMm+a9UKUt1n+/fEWnGSP+6zrVSdfD2K7d
+	Yg8nStKg0/rQzVup9zMup/aGQC3gWl6hj3sYB+UIkJALyp3vuGb+O8kajmf3wnpzwcJOMw
+	OWtnT+E39b28KqmGzP0UdkjlLEJe/caA3GOmUD0rCOh8J26MyW9A6j8fFFcEVw==
+Date: Fri, 14 Mar 2025 17:30:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH] Documentation: kcsan: fix "Plain Accesses and Data Races"
+ URL in kcsan.rst
+To: Jonathan Corbet <corbet@lwn.net>, linux-kernel-mentees@lists.linux.dev,
+ skhan@linuxfoundation.org, Marco Elver <elver@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>
+Cc: kasan-dev@googlegroups.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250306-fix-plain-access-url-v1-1-9c653800f9e0@iencinas.com>
+ <87o6y5lvvg.fsf@trenco.lwn.net>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ignacio Encinas Rubio <ignacio@iencinas.com>
+Autocrypt: addr=ignacio@iencinas.com; keydata=
+ xjMEZgaZEBYJKwYBBAHaRw8BAQdAYZxeXU5yoeLYkQpvN+eE3wmAF4V0JUzIlpm/DqiSeBnN
+ LElnbmFjaW8gRW5jaW5hcyBSdWJpbyA8aWduYWNpb0BpZW5jaW5hcy5jb20+wo8EExYIADcW
+ IQSXV5vKYfM26lUMmYnH3J3Ka8TsNgUCZgaZEAUJBaOagAIbAwQLCQgHBRUICQoLBRYCAwEA
+ AAoJEMfcncprxOw21F4BAJe+mYh3sIdSvydyDdDXLFqtVkzrFB8PVNSU9eZpvM0mAP9996LA
+ N0gyY7Obnc3y59r9jOElOn/5fz5mOEU3nE5lCc44BGYGmRESCisGAQQBl1UBBQEBB0CVC5o6
+ qnsTzmmtKY1UWa/GJE53dV/3UPJpZu42p/F0OAMBCAfCfgQYFggAJhYhBJdXm8ph8zbqVQyZ
+ icfcncprxOw2BQJmBpkRBQkFo5qAAhsMAAoJEMfcncprxOw2N8ABAPcrkHouJPn2N8HcsL4S
+ SVgqxNLVOpsMX9kAYgIMqM0WAQCA40v0iYH1q7QHa2IfgkrBzX2ZLdXdwoxfUr8EY5vtAg==
+In-Reply-To: <87o6y5lvvg.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250313-p9_conn_err_benign_data_race-v2-1-0bb9f45f6bb2@iencinas.com>
-X-B4-Tracking: v=1; b=H4sIABIf02cC/43NTQqDMBCG4atI1k2JkWDsqvcoEvIz6iw6KRORF
- vHuTT1Bl8+3eL9dFGCEIm7NLhg2LJipQl8aERdPM0hM1UIrbVSnrHwNLmYiB8wuAOFMLvnVO/Y
- RpO6NncCGAEmJmngxTPg+84+xesGyZv6cb1v7W/8Mb61sZa8HMH0yttPhjkARyZdrzE8xHsfxB
- eL3bFzLAAAA
-X-Change-ID: 20250308-p9_conn_err_benign_data_race-2758fe8bbed0
-To: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
- Eric Van Hensbergen <ericvh@kernel.org>, 
- Latchesar Ionkov <lucho@ionkov.net>, 
- Dominique Martinet <asmadeus@codewreck.org>, 
- Christian Schoenebeck <linux_oss@crudebyte.com>
-Cc: Sishuai Gong <sishuai.system@gmail.com>, Marco Elver <elver@google.com>, 
- v9fs@lists.linux.dev, linux-kernel@vger.kernel.org, 
- syzbot+d69a7cc8c683c2cb7506@syzkaller.appspotmail.com, 
- syzbot+483d6c9b9231ea7e1851@syzkaller.appspotmail.com, 
- Ignacio Encinas <ignacio@iencinas.com>
 X-Migadu-Flow: FLOW_OUT
 
-Writes for the error value of a connection are spinlock-protected inside
-p9_conn_cancel, but lockless reads are present elsewhere to avoid
-performing unnecessary work after an error has been met.
+On 12/3/25 23:36, Jonathan Corbet wrote:
+> It would be best, of course, to get the memory-model documentation
+> properly into our built docs...someday...
 
-Mark the write and lockless reads to make KCSAN happy. Mark the write as
-exclusive following the recommendation in "Lock-Protected Writes with
-Lockless Reads" in tools/memory-model/Documentation/access-marking.txt
-while we are at it.
-
-Reported-by: syzbot+d69a7cc8c683c2cb7506@syzkaller.appspotmail.com
-Reported-by: syzbot+483d6c9b9231ea7e1851@syzkaller.appspotmail.com
-Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
----
-Changes in v2:
-
-Drop unnecessary READ_ONCE in p9_fd_request (that I added in v1)
-
--@@ net/9p/trans_fd.c: static int p9_fd_request(struct p9_client *client, struct p9_req_t *req)
-- 
--   spin_lock(&m->req_lock);
-- 
---  if (m->err < 0) {
--+  if (READ_ONCE(m->err) < 0) {
--           spin_unlock(&m->req_lock);
--           return m->err;
--   }
-
-- Link to v1: https://lore.kernel.org/r/20250308-p9_conn_err_benign_data_race-v1-1-729e57d5832b@iencinas.com
----
- net/9p/trans_fd.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/net/9p/trans_fd.c b/net/9p/trans_fd.c
-index 196060dc6138af10e99ad04a76ee36a11f770c65..758eaeddf32b480e0a88914da66f923f7021e608 100644
---- a/net/9p/trans_fd.c
-+++ b/net/9p/trans_fd.c
-@@ -196,7 +196,8 @@ static void p9_conn_cancel(struct p9_conn *m, int err)
- 		return;
- 	}
- 
--	m->err = err;
-+	WRITE_ONCE(m->err, err);
-+	ASSERT_EXCLUSIVE_WRITER(m->err);
- 
- 	list_for_each_entry_safe(req, rtmp, &m->req_list, req_list) {
- 		list_move(&req->req_list, &cancel_list);
-@@ -283,7 +284,7 @@ static void p9_read_work(struct work_struct *work)
- 
- 	m = container_of(work, struct p9_conn, rq);
- 
--	if (m->err < 0)
-+	if (READ_ONCE(m->err) < 0)
- 		return;
- 
- 	p9_debug(P9_DEBUG_TRANS, "start mux %p pos %zd\n", m, m->rc.offset);
-@@ -450,7 +451,7 @@ static void p9_write_work(struct work_struct *work)
- 
- 	m = container_of(work, struct p9_conn, wq);
- 
--	if (m->err < 0) {
-+	if (READ_ONCE(m->err) < 0) {
- 		clear_bit(Wworksched, &m->wsched);
- 		return;
- 	}
-@@ -622,7 +623,7 @@ static void p9_poll_mux(struct p9_conn *m)
- 	__poll_t n;
- 	int err = -ECONNRESET;
- 
--	if (m->err < 0)
-+	if (READ_ONCE(m->err) < 0)
- 		return;
- 
- 	n = p9_fd_poll(m->client, NULL, &err);
-
----
-base-commit: 2a520073e74fbb956b5564818fc5529dcc7e9f0e
-change-id: 20250308-p9_conn_err_benign_data_race-2758fe8bbed0
-
-Best regards,
--- 
-Ignacio Encinas <ignacio@iencinas.com>
-
+I hadn't thought about this. If this sentiment is shared by the LKMM
+people I would be happy to work on this. Has this ever been
+proposed/discussed before?
