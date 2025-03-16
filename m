@@ -1,98 +1,127 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAAC1DF969
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 15 Mar 2025 12:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DBFC18C332;
+	Sun, 16 Mar 2025 21:24:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742041313; cv=none; b=WpsncSnFjCZMWKBRdg2o4IHIxjzNTgabm2S1rcxYF2ZOv9d6RPOW/x9FO9vWfmHcb3Ci2o78jyi/AxAZo63GESpkf46N9n1XwRKCblpFFhrXDTPCnYeb7Io1YEA3AnTij2weDKrn/2EKztqbHtSwa74DZM8pYY9v0WuOqYXXnc0=
+	t=1742160283; cv=none; b=LuwrqT2uOO25uwh0dWrWezQm6gYaGzRCAqVDckaSVCyEiDBnqy05yO8zjt1GZOKlhEZgl7PyGc4GyjuhCkZfTo19j15gSTjOILW8AD1idav77RuyF/ubCZfc5VhCP8Myjw0R5n6hSO+nO7pjDxuh/oktchOaZobIZV96BOFpdMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742041313; c=relaxed/simple;
-	bh=wy6c20spWXmcS2DWIuXkVaGyvR3S8hTMEupyMxN48h0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cjA8kjkGbXWlj3FGnTCokbF2k4TcTZq8huWTZ5Hg8Pmg4OqWT49KI8JIt3P+MxNoVVsEG9buDCR3FGyTZWepXMXspyp1qsEA63XzfDiVq59zfn353EgaGcpSkeaIze+JPObhb/57eDWTfoWmxH1OuMtTq2+7IBLXZJC3z0kXPqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=lcEMBs7h; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+	s=arc-20240116; t=1742160283; c=relaxed/simple;
+	bh=ELgUU3NlKYeZRSc73AiMF+kP/N4Hb6nF2/wYDGzXXMk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XEE0qe5lIofiNf3QNr6iwi1ayBL/djCeFLzv0BJzilxjZoOp11R1+gSJSok0CbrFOMD0l7SrhiZ38gGepA1AgIoLttWSI53V6Xb6vIu3cAgyLd8MHBgoZ/bNtS26PE9+/r8ESHGnIYqT6rz8Paa1ZHuuVvugcs5LkzsEOVzueL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=QqrG2dxG; arc=none smtp.client-ip=62.210.214.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="lcEMBs7h"
-Message-ID: <9c6298a2-4efa-4f77-81c0-b2132f48c1b0@iencinas.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1742041308;
+	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="QqrG2dxG"
+Received: from gaia.codewreck.org (localhost [127.0.0.1])
+	by submarine.notk.org (Postfix) with ESMTPS id ABE1A14C2D3;
+	Sun, 16 Mar 2025 22:24:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
+	s=2; t=1742160273;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4pHhzfXW24TF1t1FOgMUb4yg/TvgoSuq5by1lc39Sis=;
-	b=lcEMBs7hDHnSc0+QfxLmeZDIERK/dJY68x+llhQSLKp9G00S01R84WKw83XJyuvTMYeLMB
-	8DF9YfNP5+MXAwlcgypmjk+GSuo93jaqX21XnnJ5xxx00ldRX8dqrFfwQK9NM0DJM2m0Mj
-	DeygCKkWiBcK7/TouZY26iJWUm139hA1mbL9gi4YCxjIw4W0pz7kaE09y+KhAMebA1qPli
-	2IWYBaEHlNcZBkuFC53V0susnEgNklY23VZgOffvT+FXiLUGSZfp+WIJhesX2iBbGCEPcH
-	OlutoqHPbk9V0BZZtlNBrNLpKkywoHqByp09B6sMGS2jY7PU2iVNl63jS1ZLtg==
-Date: Sat, 15 Mar 2025 13:21:43 +0100
+	bh=hLUDOqXtw4gqTBMsEkmL5NysZ/9QGbLvuf1DQUOyuH0=;
+	b=QqrG2dxGNY78946uMzb7yj7QiDYUDkWsomzMbTBXsLmX+ab2qhxJL4K8ZjQVvwL9QEt0O4
+	TZdF3FlvW0rB8XqsxgPz/F5a609GH8hU2meMDSCxQRlQYxz4z7x9Aqmmv0qTdtdn2MAapS
+	IPrlJRtRvE2EiTWC2HKYXKJv0PepMyOKTw4SRkTne/j95FElSQGTvmjmkf2Ux7Jzro3LNt
+	8Wv6sNV7wgIjfLWBj5uleddOvoxE6fND6dU3ib5M1hSWMmz6zJtoMSulmoM9uHeN32xX2j
+	nzlYc139vIxX8Wnw5nR9bRIIBkMzFgWyCPZy/419ecfKICbMFGQOItM2uoxbfg==
+Received: from localhost (gaia.codewreck.org [local])
+	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id ab19b731;
+	Sun, 16 Mar 2025 21:24:27 +0000 (UTC)
+Date: Mon, 17 Mar 2025 06:24:12 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: Ignacio Encinas <ignacio@iencinas.com>
+Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Sishuai Gong <sishuai.system@gmail.com>,
+	Marco Elver <elver@google.com>, v9fs@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	syzbot+d69a7cc8c683c2cb7506@syzkaller.appspotmail.com,
+	syzbot+483d6c9b9231ea7e1851@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] 9p/trans_fd: mark concurrent read and writes to
+ p9_conn->err
+Message-ID: <Z9dBfEf0naCsNrNv@codewreck.org>
+References: <20250313-p9_conn_err_benign_data_race-v2-1-0bb9f45f6bb2@iencinas.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH] Documentation: kcsan: fix "Plain Accesses and Data Races"
- URL in kcsan.rst
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: corbet@lwn.net, dvyukov@google.com, elver@google.com,
- kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, workflows@vger.kernel.org
-References: <1d66a62e-faee-4604-9136-f90eddcfa7c0@iencinas.com>
- <c6a697af-281a-4a91-8885-a4478dfe2cef@gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ignacio Encinas Rubio <ignacio@iencinas.com>
-In-Reply-To: <c6a697af-281a-4a91-8885-a4478dfe2cef@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250313-p9_conn_err_benign_data_race-v2-1-0bb9f45f6bb2@iencinas.com>
 
-On 15/3/25 3:41, Akira Yokosawa wrote:
-> This might be something Jon would like to keep secret, but ...
+Ignacio Encinas wrote on Thu, Mar 13, 2025 at 07:08:19PM +0100:
+> Writes for the error value of a connection are spinlock-protected inside
+> p9_conn_cancel, but lockless reads are present elsewhere to avoid
+> performing unnecessary work after an error has been met.
 > 
-> See the message and the thread it belongs at:
+> Mark the write and lockless reads to make KCSAN happy. Mark the write as
+> exclusive following the recommendation in "Lock-Protected Writes with
+> Lockless Reads" in tools/memory-model/Documentation/access-marking.txt
+> while we are at it.
 > 
->     https://lore.kernel.org/lkml/Pine.LNX.4.44L0.1907310947340.1497-100000@iolanthe.rowland.org/
+> Reported-by: syzbot+d69a7cc8c683c2cb7506@syzkaller.appspotmail.com
+> Reported-by: syzbot+483d6c9b9231ea7e1851@syzkaller.appspotmail.com
+> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+> ---
+> Changes in v2:
 > 
-> It happened in 2019 responding to Mauro's attempt to conversion of
-> LKMM docs.
-> 
-> I haven't see any change in sentiment among LKMM maintainers since.
+> Drop unnecessary READ_ONCE in p9_fd_request (that I added in v1)
 
-Thanks for the information!
+Ah, sorry; I think you misread my comment for v1 (or perhaps you
+disagreed in the response and I misread that!)
 
-> Your way forward would be to keep those .txt files *pure plain text"
-> and to convert them on-the-fly into reST.  Of course only if such an
-> effort sounds worthwhile to you.
+I was thinking that style-wise it's better to access the err field
+through READ/WRITE_ONCE everywhere, even if it's locked; so suggested
+this diff from v1:
+----
+diff --git a/net/9p/trans_fd.c b/net/9p/trans_fd.c
+index f163f6fc7354..65270c028f52 100644
+--- a/net/9p/trans_fd.c
++++ b/net/9p/trans_fd.c
+@@ -192,7 +192,7 @@ static void p9_conn_cancel(struct p9_conn *m, int err)
+ 
+        spin_lock(&m->req_lock);
+ 
+-       if (m->err) {
++       if (READ_ONCE(m->err)) {
+                spin_unlock(&m->req_lock);
+                return;
+        }
+----
 
-With this you mean producing a .rst from the original .txt file using an 
-script before building the documentation, right? I'm not sure how hard 
-this is, but I can look into it.
+OTOH, looking at this again:
+> --  if (m->err < 0) {
+> -+  if (READ_ONCE(m->err) < 0) {
+> -           spin_unlock(&m->req_lock);
+> -           return m->err;
 
-> Another approach might be to include those docs literally.
-> Similar approach has applied to
-> 
->     Documentation/
-> 	atomic_t.txt
-> 	atomic_bitops.txt
->         memory-barriers.txt
+There's this access out of the lock so perhaps this should look like
+this instead (with or without the READ_ONCE)
 
-Right, I got to [1]. 
++       err = READ_ONCE(m->err);
++       if (err < 0) {
+                spin_unlock(&m->req_lock);
+-               return m->err;
++               return err;
 
-It looks like there are several options here:
 
-  A) Include the text files like in [1]
-  B) Explore the "on-the-fly" translation
-  C) Do A) and then B)
+Anyway, m->err is only written exactly once so it doesn't matter the
+least in practice, and it looks like gcc generates exactly the same
+thing (... even if I make that `return READ_ONCE(m->err)` which
+surprises me a bit..), so this is just yak shaving.
 
-Does any of the above sound good, Jon?
+I don't care all that much so I'll just pick this v2 as it's more
+consistent, but feel free to send a v3 if you have an opinion, or if
+someone else chips in.
 
-Thank you both for your time
-
-[1] https://lore.kernel.org/all/20220927160559.97154-7-corbet@lwn.net/
+Thanks!
+-- 
+Dominique
