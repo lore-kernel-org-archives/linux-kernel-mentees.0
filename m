@@ -1,127 +1,111 @@
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DBFC18C332;
-	Sun, 16 Mar 2025 21:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
+Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A28DF71
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Mar 2025 01:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742160283; cv=none; b=LuwrqT2uOO25uwh0dWrWezQm6gYaGzRCAqVDckaSVCyEiDBnqy05yO8zjt1GZOKlhEZgl7PyGc4GyjuhCkZfTo19j15gSTjOILW8AD1idav77RuyF/ubCZfc5VhCP8Myjw0R5n6hSO+nO7pjDxuh/oktchOaZobIZV96BOFpdMY=
+	t=1742175281; cv=none; b=aX+wDmtcchaaFl8uwqkm8Rpy0VlJBDgh6YmenDRkQd47T8T7iha3dweCMRcv0mD8B4spP2M1hop1BHO60F7oPMlL7Ib2tWaOAK+icDWPgCDfvz4vqlKjcc3ZsWvQQI1hbA7ElMhY+xnFxYEvAc87nK3/LjHLXjLTiNniLB2bwIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742160283; c=relaxed/simple;
-	bh=ELgUU3NlKYeZRSc73AiMF+kP/N4Hb6nF2/wYDGzXXMk=;
+	s=arc-20240116; t=1742175281; c=relaxed/simple;
+	bh=eT6MFakubGkmnBAAqo9NAtgD4qcjFA/LrKjlIPZyI2I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XEE0qe5lIofiNf3QNr6iwi1ayBL/djCeFLzv0BJzilxjZoOp11R1+gSJSok0CbrFOMD0l7SrhiZ38gGepA1AgIoLttWSI53V6Xb6vIu3cAgyLd8MHBgoZ/bNtS26PE9+/r8ESHGnIYqT6rz8Paa1ZHuuVvugcs5LkzsEOVzueL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=QqrG2dxG; arc=none smtp.client-ip=62.210.214.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=g8oEShVH2CVqTFricYOhac6DBGW6iismz+s7LvWfsXjJSQiUk8P/XJiAIyG84uQBGWWMtvaPL2W8SRTzug36wMEKCDzvMKQAEMPtcLclc3XqFQQQZvAb8OhKayCw8o84rQJtARLdqNtChEkOxP4ckHPXYOmtxzzACy0xz3HDguQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=PelLB2Ze; arc=none smtp.client-ip=115.124.30.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="QqrG2dxG"
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id ABE1A14C2D3;
-	Sun, 16 Mar 2025 22:24:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1742160273;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hLUDOqXtw4gqTBMsEkmL5NysZ/9QGbLvuf1DQUOyuH0=;
-	b=QqrG2dxGNY78946uMzb7yj7QiDYUDkWsomzMbTBXsLmX+ab2qhxJL4K8ZjQVvwL9QEt0O4
-	TZdF3FlvW0rB8XqsxgPz/F5a609GH8hU2meMDSCxQRlQYxz4z7x9Aqmmv0qTdtdn2MAapS
-	IPrlJRtRvE2EiTWC2HKYXKJv0PepMyOKTw4SRkTne/j95FElSQGTvmjmkf2Ux7Jzro3LNt
-	8Wv6sNV7wgIjfLWBj5uleddOvoxE6fND6dU3ib5M1hSWMmz6zJtoMSulmoM9uHeN32xX2j
-	nzlYc139vIxX8Wnw5nR9bRIIBkMzFgWyCPZy/419ecfKICbMFGQOItM2uoxbfg==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id ab19b731;
-	Sun, 16 Mar 2025 21:24:27 +0000 (UTC)
-Date: Mon, 17 Mar 2025 06:24:12 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Ignacio Encinas <ignacio@iencinas.com>
-Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Sishuai Gong <sishuai.system@gmail.com>,
-	Marco Elver <elver@google.com>, v9fs@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	syzbot+d69a7cc8c683c2cb7506@syzkaller.appspotmail.com,
-	syzbot+483d6c9b9231ea7e1851@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2] 9p/trans_fd: mark concurrent read and writes to
- p9_conn->err
-Message-ID: <Z9dBfEf0naCsNrNv@codewreck.org>
-References: <20250313-p9_conn_err_benign_data_race-v2-1-0bb9f45f6bb2@iencinas.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="PelLB2Ze"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1742175270; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=OWGQO/XmAgafV+pvwHl30RyH+rk+S5XjfM5aTrOYSKc=;
+	b=PelLB2ZeJ6WEY6r7r8Trc97SqsY5vc8yQ60yK+8otNgJ/zn+Y/nJUWXt+6n3A3qqCHoLLk4bLDY2+l3q7h4/7KhnKlsNh/E7bp3ZC0+WObwak0zaB7Vhjf9WMKYroKlztBgwxaooQs0wpFnOdZy5R3nDzhRcIJcqKAR7uCC70QA=
+Received: from localhost(mailfrom:dust.li@linux.alibaba.com fp:SMTPD_---0WRXPGg2_1742175268 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 17 Mar 2025 09:34:29 +0800
+Date: Mon, 17 Mar 2025 09:34:28 +0800
+From: Dust Li <dust.li@linux.alibaba.com>
+To: I Hsin Cheng <richard120310@gmail.com>, alibuda@linux.alibaba.com
+Cc: wenjia@linux.ibm.com, jaka@linux.ibm.com, tonylu@linux.alibaba.com,
+	guwen@linux.alibaba.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, jserv@ccns.ncku.edu.tw,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] net/smc: Reduce size of smc_wr_tx_tasklet_fn
+Message-ID: <20250317013428.GC56800@linux.alibaba.com>
+Reply-To: dust.li@linux.alibaba.com
+References: <20250315062516.788528-1-richard120310@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250313-p9_conn_err_benign_data_race-v2-1-0bb9f45f6bb2@iencinas.com>
+In-Reply-To: <20250315062516.788528-1-richard120310@gmail.com>
 
-Ignacio Encinas wrote on Thu, Mar 13, 2025 at 07:08:19PM +0100:
-> Writes for the error value of a connection are spinlock-protected inside
-> p9_conn_cancel, but lockless reads are present elsewhere to avoid
-> performing unnecessary work after an error has been met.
+On 2025-03-15 14:25:16, I Hsin Cheng wrote:
+>The variable "polled" in smc_wr_tx_tasklet_fn is a counter to determine
+>whether the loop has been executed for the first time. Refactor the type
+>of "polled" from "int" to "bool" can reduce the size of generated code
+>size by 12 bytes shown with the test below
+>
+>$ ./scripts/bloat-o-meter vmlinux_old vmlinux_new
+>add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-12 (-12)
+>Function                                     old     new   delta
+>smc_wr_tx_tasklet_fn                        1076    1064     -12
+>Total: Before=24795091, After=24795079, chg -0.00%
+>
+>In some configuration, the compiler will complain this function for
+>exceeding 1024 bytes for function stack, this change can at least reduce
+>the size by 12 bytes within manner.
+>
+>Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+
+Reviewed-by: Dust Li <dust.li@linux.alibaba.com>
+
+Best regards,
+Dust
+
+>---
+> net/smc/smc_wr.c | 8 ++++----
+> 1 file changed, 4 insertions(+), 4 deletions(-)
+>
+>diff --git a/net/smc/smc_wr.c b/net/smc/smc_wr.c
+>index b04a21b8c511..3cc435ed7fde 100644
+>--- a/net/smc/smc_wr.c
+>+++ b/net/smc/smc_wr.c
+>@@ -138,14 +138,14 @@ static void smc_wr_tx_tasklet_fn(struct tasklet_struct *t)
+> 	struct smc_ib_device *dev = from_tasklet(dev, t, send_tasklet);
+> 	struct ib_wc wc[SMC_WR_MAX_POLL_CQE];
+> 	int i = 0, rc;
+>-	int polled = 0;
+>+	bool polled = false;
 > 
-> Mark the write and lockless reads to make KCSAN happy. Mark the write as
-> exclusive following the recommendation in "Lock-Protected Writes with
-> Lockless Reads" in tools/memory-model/Documentation/access-marking.txt
-> while we are at it.
+> again:
+>-	polled++;
+>+	polled = !polled;
+> 	do {
+> 		memset(&wc, 0, sizeof(wc));
+> 		rc = ib_poll_cq(dev->roce_cq_send, SMC_WR_MAX_POLL_CQE, wc);
+>-		if (polled == 1) {
+>+		if (polled) {
+> 			ib_req_notify_cq(dev->roce_cq_send,
+> 					 IB_CQ_NEXT_COMP |
+> 					 IB_CQ_REPORT_MISSED_EVENTS);
+>@@ -155,7 +155,7 @@ static void smc_wr_tx_tasklet_fn(struct tasklet_struct *t)
+> 		for (i = 0; i < rc; i++)
+> 			smc_wr_tx_process_cqe(&wc[i]);
+> 	} while (rc > 0);
+>-	if (polled == 1)
+>+	if (polled)
+> 		goto again;
+> }
 > 
-> Reported-by: syzbot+d69a7cc8c683c2cb7506@syzkaller.appspotmail.com
-> Reported-by: syzbot+483d6c9b9231ea7e1851@syzkaller.appspotmail.com
-> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
-> ---
-> Changes in v2:
-> 
-> Drop unnecessary READ_ONCE in p9_fd_request (that I added in v1)
-
-Ah, sorry; I think you misread my comment for v1 (or perhaps you
-disagreed in the response and I misread that!)
-
-I was thinking that style-wise it's better to access the err field
-through READ/WRITE_ONCE everywhere, even if it's locked; so suggested
-this diff from v1:
-----
-diff --git a/net/9p/trans_fd.c b/net/9p/trans_fd.c
-index f163f6fc7354..65270c028f52 100644
---- a/net/9p/trans_fd.c
-+++ b/net/9p/trans_fd.c
-@@ -192,7 +192,7 @@ static void p9_conn_cancel(struct p9_conn *m, int err)
- 
-        spin_lock(&m->req_lock);
- 
--       if (m->err) {
-+       if (READ_ONCE(m->err)) {
-                spin_unlock(&m->req_lock);
-                return;
-        }
-----
-
-OTOH, looking at this again:
-> --  if (m->err < 0) {
-> -+  if (READ_ONCE(m->err) < 0) {
-> -           spin_unlock(&m->req_lock);
-> -           return m->err;
-
-There's this access out of the lock so perhaps this should look like
-this instead (with or without the READ_ONCE)
-
-+       err = READ_ONCE(m->err);
-+       if (err < 0) {
-                spin_unlock(&m->req_lock);
--               return m->err;
-+               return err;
-
-
-Anyway, m->err is only written exactly once so it doesn't matter the
-least in practice, and it looks like gcc generates exactly the same
-thing (... even if I make that `return READ_ONCE(m->err)` which
-surprises me a bit..), so this is just yak shaving.
-
-I don't care all that much so I'll just pick this v2 as it's more
-consistent, but feel free to send a v3 if you have an opinion, or if
-someone else chips in.
-
-Thanks!
--- 
-Dominique
+>-- 
+>2.43.0
+>
