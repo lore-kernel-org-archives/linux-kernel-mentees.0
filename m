@@ -1,23 +1,61 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A361A00D1
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Mar 2025 16:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AAD1C5489
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Mar 2025 17:01:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742229379; cv=none; b=ixyc2jRTUzmWKJ8KQEtrJT8OkGVLpGP9GB8BJjpV2okRsPcUz64qfvTMYnocg4r2FpMYO98l0Ro23ArxJUWPwgVer5fI/THcDlZf7Ol5NqXLpQ7rGmP1UzxfUySzKFBYMGvwzlyTxuNeUWEQ/v9TnUma5FwIRbKXFDUVRPQQThA=
+	t=1742230873; cv=none; b=qITc2V+dBACLhDdkQxqe9Rvxe0NfF55Zwh1OisJIooSdYB6nnWHAoufX6QkHzSMLoajYYqn4S3iWiFSh5RZc0SfR/jXxCzFWINLbQBVGrTWoogK++AQ1n/5Ku6PaaQMfycdl0RaF1IjXDAcTxx+sH0XaNdzaLarPq9aTwcEGTPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742229379; c=relaxed/simple;
-	bh=XOz73fs4njuWISS4miyh4nhy0sHdCuLjt7rMNIvKoc8=;
+	s=arc-20240116; t=1742230873; c=relaxed/simple;
+	bh=sHArdzCJ7OJGYmSrli5/QOc0LfBoQ1QCQ+1FM37WWf8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ubBEVMzEIG5BFYnRzf5BZpUkiMBpBsmbegVPeXv41+HFiZ4bykbcXOtLfH2t1QCez59AN9BIyxISJTxIfqsYvRqlT1twY+S97jImVA7PyeQEF1+wCv07KJgSbSD0ImJCW9vadWBYIidU9bVEg+I8QXVd2FlLKvAtw4Ztg6oqXgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B0361442B7;
-	Mon, 17 Mar 2025 16:36:12 +0000 (UTC)
-Message-ID: <d964bf15-7172-448b-9aa1-72d5bf3e1695@ghiti.fr>
-Date: Mon, 17 Mar 2025 17:36:11 +0100
+	 In-Reply-To:Content-Type; b=fQBTpqRPYkQxrHejz4W8tpH/VyJXCo2XzU7xsGAMvV2r+YT7N88wZkCsIwVAspba1DFwm8E4zEgyEDk1iz19Gyjq+c3D3FpS+0bOGos4mFgEyflr1/hviddRWnuGGJupW7WJkwpzjipOrkKJXn7GsnyE4hgHODlP2gijm2cDK2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=semidynamics.com; spf=pass smtp.mailfrom=semidynamics.com; dkim=pass (1024-bit key) header.d=semidynamics.com header.i=@semidynamics.com header.b=GPaltrkI; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=semidynamics.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=semidynamics.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=semidynamics.com header.i=@semidynamics.com header.b="GPaltrkI"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-391295490c8so467272f8f.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Mar 2025 10:01:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=semidynamics.com; s=google; t=1742230869; x=1742835669; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=03Tvy48TmAOS+7xyYgaARhLkJjCoqndvpt94zVo46wA=;
+        b=GPaltrkIbaztSMkSN7T4cgJRkD/8EeC+xjTQdIzMAnbTD4NMyxDII+uCOMIRj3x4dO
+         wmLx2UVaRRq5dOwczODFR9WlV+DIUYOr2gmX8Q7hAkeKqhIm8sqAb4DJExKy95ZMZQot
+         Jc+l6aEUu//zZEksymvfYIF90/p8AG+IGIFKA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742230869; x=1742835669;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=03Tvy48TmAOS+7xyYgaARhLkJjCoqndvpt94zVo46wA=;
+        b=MtHz24XqlPseaxCBnfpFsYCLHhUb+W280QPgKR7XJeoDiU8WMnNwsauJs5icAGivHM
+         gQ/6Js92waFl6NsNcYUMnYY0COj2UbE0S0JgImVyqsQktoqLqUdJUnM/iWfOOOqw8dKg
+         YxB9Xl0VPjHFJG7REYz5X9QKC0WwIII2dye5Ir0G0d0kn9+kMNHCChbC4jxi7OFXXVWJ
+         YK0RHLjkcNlLR9vg7+EWcmaM7QSWhDbeqhA47IQAgdJxRnW+33w6zhRvjv6jsS8Ay5cX
+         E/qkHYxaSaE2Lkxd6/hCFbCr+Vosh4NmQEbf9SgoeqDYnEzBmuOBtJZHlrMLWa27PMNA
+         cb3Q==
+X-Gm-Message-State: AOJu0YzkbP7kPgCbv9duus32kDet5F1JzHYwtB700UvKBZMOHUy/Hqu5
+	LvmQZgvLgLkQ8IhJkiPZDOuNBPWErJNGueot8KCAgJ++KcGjVNDl7lhfhj0AV1c=
+X-Gm-Gg: ASbGncuyT4OO4y7Ma7ZlO7QK/CwivzMW0Apyekoqw4ExzMsXEwAjvTbg4Sg48lUNsEd
+	gOl70+Nx/5OR9+d8pruH1hNypUJPxZvavQibgWx/SHOejUkXjZxy+/+fatvnS3cqtI1WETuJq53
+	eFhGBVHfCwgYudVELDasucHYnlwVliAQ8YThyK4mfnSv3NL5wT3MMreEARMyWGIdLOxO9lOXbRJ
+	2e4WmZ8eN70bfTvFGKIhPZMehriIOijOw8TyrOxDfiLvTA0lyLuZVaz5CjJaqRICH8d2zxV2rwj
+	wbXgANE0Nr/O1CkjvIezIcZ5Z+MY04fotvSoV1erdGFi9imTinMGP2KKAQjII2pZ5+qLn1A3eIj
+	ZHCgmmMlBQGCuOVxVByvr3S1RpVPcC38ROg==
+X-Google-Smtp-Source: AGHT+IEsx4LguvEPk377tGVp1MsuI/r0EPZ4Ta/6mmlTKMUYfLpwjbwVZT7dwz9Y0SbEIi90HwutDg==
+X-Received: by 2002:a05:6000:1568:b0:391:cd7:82f2 with SMTP id ffacd0b85a97d-3971e2ad5bfmr5169031f8f.6.1742230868767;
+        Mon, 17 Mar 2025 10:01:08 -0700 (PDT)
+Received: from [192.168.1.46] (216.red-79-152-37.dynamicip.rima-tde.net. [79.152.37.216])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c7df339asm15330446f8f.3.2025.03.17.10.01.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Mar 2025 10:01:08 -0700 (PDT)
+Message-ID: <0807e0cc-457b-49bd-bce5-a961ad7f0ffb@semidynamics.com>
+Date: Mon, 17 Mar 2025 18:01:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -25,171 +63,95 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] riscv: introduce asm/swab.h
+Subject: Re: [PATCH v2] 9p/trans_fd: mark concurrent read and writes to
+ p9_conn->err
+To: Dominique Martinet <asmadeus@codewreck.org>,
+ Ignacio Encinas <ignacio@iencinas.com>
+Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+ Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov
+ <lucho@ionkov.net>, Christian Schoenebeck <linux_oss@crudebyte.com>,
+ Sishuai Gong <sishuai.system@gmail.com>, Marco Elver <elver@google.com>,
+ v9fs@lists.linux.dev, linux-kernel@vger.kernel.org,
+ syzbot+d69a7cc8c683c2cb7506@syzkaller.appspotmail.com,
+ syzbot+483d6c9b9231ea7e1851@syzkaller.appspotmail.com
+References: <20250313-p9_conn_err_benign_data_race-v2-1-0bb9f45f6bb2@iencinas.com>
+ <Z9dBfEf0naCsNrNv@codewreck.org>
 Content-Language: en-US
-To: Ignacio Encinas <ignacio@iencinas.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, Zhihang Shao <zhihang.shao.iscas@gmail.com>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-References: <20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Ignacio Encinas Rubio <ignacio.encinas@semidynamics.com>
+In-Reply-To: <Z9dBfEf0naCsNrNv@codewreck.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedttdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpefhhfdutdevgeelgeegfeeltdduhfduledvteduhfegffffiefggfektefhjedujeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeefuddrfedvrdekuddrudekjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeefuddrfedvrdekuddrudekjedphhgvlhhopegludelvddrudeikedrvddurddvhegnpdhmrghilhhfrhhomheprghlvgigsehghhhithhirdhfrhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepihhgnhgrtghiohesihgvnhgtihhnrghsrdgtohhmpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtohepvggsihhgghgvrhhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggur
- dhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrohhrgh
-X-GND-Sasl: alex@ghiti.fr
 
-Hi Ignacio,
+On 16/3/25 22:24, Dominique Martinet wrote:
+> Ignacio Encinas wrote on Thu, Mar 13, 2025 at 07:08:19PM +0100:
+>> Changes in v2:
+>>
+>> Drop unnecessary READ_ONCE in p9_fd_request (that I added in v1)
+> 
+> Ah, sorry; I think you misread my comment for v1 (or perhaps you
+> disagreed in the response and I misread that!)
 
-On 10/03/2025 23:03, Ignacio Encinas wrote:
-> Implement endianness swap macros for RISC-V.
->
-> Use the rev8 instruction when Zbb is available. Otherwise, rely on the
-> default mask-and-shift implementation.
->
-> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
-> ---
-> Motivated by [1]. A couple of things to note:
->
-> We need a default implementation to fall back on, but there isn't any in
-> `asm-generic/swab.h`. Should I introduce a first patch moving
-> ___constant_swab<XX> into include/uapi/asm-generic/swab.h?
+Yeah, I disagreed. Sorry about the misunderstanding. As these are not
+strictly necessary I thought it would be best to not add them.
 
+> I was thinking that style-wise it's better to access the err field
+> through READ/WRITE_ONCE everywhere, even if it's locked; so suggested
+> this diff from v1:
+> ----
+> diff --git a/net/9p/trans_fd.c b/net/9p/trans_fd.c
+> index f163f6fc7354..65270c028f52 100644
+> --- a/net/9p/trans_fd.c
+> +++ b/net/9p/trans_fd.c
+> @@ -192,7 +192,7 @@ static void p9_conn_cancel(struct p9_conn *m, int err)
+>  
+>         spin_lock(&m->req_lock);
+>  
+> -       if (m->err) {
+> +       if (READ_ONCE(m->err)) {
+>                 spin_unlock(&m->req_lock);
+>                 return;
+>         }
+> ----
 
-Yes, that or something else to avoid the code duplication.
+Got it. I'll follow your recommendation for the v3. I'll reflect it in
+the commit message just in case someone does a git blame and wonders
+about these couple of READ_ONCEs.
 
+> 
+> OTOH, looking at this again:
+>> --  if (m->err < 0) {
+>> -+  if (READ_ONCE(m->err) < 0) {
+>> -           spin_unlock(&m->req_lock);
+>> -           return m->err;
+> 
+> There's this access out of the lock so perhaps this should look like
+> this instead (with or without the READ_ONCE)
+> 
+> +       err = READ_ONCE(m->err);
+> +       if (err < 0) {
+>                 spin_unlock(&m->req_lock);
+> -               return m->err;
+> +               return err;
 
->
-> I don't particularly like the ARCH_SWAB macro but I can't think of
-> anything better that doesn't result in code duplication.
->
-> Tested with crc_kunit as pointed out here [2]. I can't provide
-> performance numbers as I don't have RISC-V hardware yet.
->
-> Ccing everyone involved with [1].
->
-> [1] https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
-> [2] https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/
-> ---
->   arch/riscv/include/asm/swab.h | 81 +++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 81 insertions(+)
->
-> diff --git a/arch/riscv/include/asm/swab.h b/arch/riscv/include/asm/swab.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..8f8a13b343f6ffbefbb3c7747ab4e14243852014
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/swab.h
-> @@ -0,0 +1,81 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +#ifndef _ASM_RISCV_SWAB_H
-> +#define _ASM_RISCV_SWAB_H
-> +
-> +#include <linux/types.h>
-> +#include <linux/compiler.h>
-> +#include <asm/alternative-macros.h>
-> +#include <asm/hwcap.h>
-> +
-> +#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
+Oops, this is embarrassing... Thanks for catching it.
 
+> Anyway, m->err is only written exactly once so it doesn't matter the
+> least in practice, 
 
-NO_ALTERNATIVE does not exist to my knowledge, and you don't need to 
-check for ALTERNATIVE as alternative-macros.h will do the right thing in 
-that case.
+I think this one deserves a fix, I disagree :)
 
+> and it looks like gcc generates exactly the same
+> thing (... even if I make that `return READ_ONCE(m->err)` which
+> surprises me a bit..), so this is just yak shaving.
 
-> +
-> +/*
-> + * FIXME, RFC PATCH: This is copypasted from include/uapi/linux/swab.h
-> + * should I move these `#defines` to include/uapi/asm-generic/swab.h
-> + * and include that file here and in include/uapi/linux/swab.h ?
-> + */
-> +#define ___constant_swab16(x) ((__u16)(				\
-> +	(((__u16)(x) & (__u16)0x00ffU) << 8) |			\
-> +	(((__u16)(x) & (__u16)0xff00U) >> 8)))
-> +
-> +#define ___constant_swab32(x) ((__u32)(				\
-> +	(((__u32)(x) & (__u32)0x000000ffUL) << 24) |		\
-> +	(((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |		\
-> +	(((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |		\
-> +	(((__u32)(x) & (__u32)0xff000000UL) >> 24)))
-> +
-> +#define ___constant_swab64(x) ((__u64)(				\
-> +	(((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |	\
-> +	(((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |	\
-> +	(((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |	\
-> +	(((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |	\
-> +	(((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |	\
-> +	(((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |	\
-> +	(((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |	\
-> +	(((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
-> +
-> +#define ___constant_swahw32(x) ((__u32)(			\
-> +	(((__u32)(x) & (__u32)0x0000ffffUL) << 16) |		\
-> +	(((__u32)(x) & (__u32)0xffff0000UL) >> 16)))
-> +
-> +#define ___constant_swahb32(x) ((__u32)(			\
-> +	(((__u32)(x) & (__u32)0x00ff00ffUL) << 8) |		\
-> +	(((__u32)(x) & (__u32)0xff00ff00UL) >> 8)))
-> +
-> +
-> +#define ARCH_SWAB(size) \
-> +static __always_inline unsigned long __arch_swab##size(__u##size value) \
+This is weird... I'll double check because it shouldn't generate the
+same code as far as I know.
 
+> I don't care all that much so I'll just pick this v2 as it's more
+> consistent, but feel free to send a v3 if you have an opinion, or if
+> someone else chips in.
 
-I don't like the ARCH_SWAB macro neither but I don't have another 
-solution too, maybe someone will come up with some macro magic.
+To summarize, my plan is sending a v3 with the couple of READ_ONCE you
+suggested and fixing the unlocked plain access.
 
-
-> +{									\
-> +	unsigned long x = value;					\
-> +									\
-> +	asm goto(ALTERNATIVE("j %l[legacy]", "nop", 0,			\
-> +			     RISCV_ISA_EXT_ZBB, 1)			\
-> +			     :::: legacy);				\
-> +									\
-> +	asm volatile (".option push\n"					\
-> +		      ".option arch,+zbb\n"				\
-> +		      "rev8 %0, %1\n"					\
-> +		      ".option pop\n"					\
-> +		      : "=r" (x) : "r" (x));				\
-> +									\
-> +	return x >> (BITS_PER_LONG - size);				\
-> +									\
-> +legacy:									\
-> +	return  ___constant_swab##size(value);				\
-> +}
-> +
-> +#ifdef CONFIG_64BIT
-> +ARCH_SWAB(64)
-> +#define __arch_swab64 __arch_swab64
-> +#endif
-> +
-> +ARCH_SWAB(32)
-> +#define __arch_swab32 __arch_swab32
-> +
-> +ARCH_SWAB(16)
-> +#define __arch_swab16 __arch_swab16
-> +
-> +#undef ARCH_SWAB
-> +
-> +#endif /* defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
-> +#endif /* _ASM_RISCV_SWAB_H */
->
-> ---
-> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-> change-id: 20250307-riscv-swab-b81b94a9ac1b
->
-> Best regards,
-
-
-It would be nice to have some perf numbers too, maybe Bjorn will chime in :)
-
-Thanks for your patch, looking forward the v2,
-
-Alex
-
+Thanks!
