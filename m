@@ -1,86 +1,131 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BBA1E1E00
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Mar 2025 20:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F181AA1E0
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Mar 2025 21:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742243379; cv=none; b=ka7eVsbTtURH1o4Si0U77lVjf6pFhZaf8IDhrgnJmlXqQaQ10KxOE9ftnbiwvG+GTK4ehVUWCkSImG/9Mu0eq8ZQ1QUBzZ6PMHRnj60epZslgj8bafgtKWX93YZwkvDrtdZy1EpwK1TkZT40LOp9tKSHtKSWIX4jdQRSJxPjdMk=
+	t=1742248275; cv=none; b=NvLjyPrbU6TpctDJk5sLFuV/n5OyOxeJMYhjyrRsmAr7T4R0wcSmDCBGB0W+qrLyOv7Jj5NXyiFQZ2uPYSUqr7iRk3GTTcBkx/iSn1CZ6n9UVIlNHodY8kVLzKU/MlVG52Wr+4ifv4i2ldY5BgMS/JuLk0JDpACmWlyBGN263WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742243379; c=relaxed/simple;
-	bh=8qPFDh43gwyc/vU6yBECnDYdonjw+7a7Fw9A7q7I1YY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G4Pvw4JVoSDODgh1XgwExVjGQ+m2h2GTeH7vqdkdaQXS5LvQtwnnxY/m4pRRDNmJ0lycJ2atKAL7DugJqpR2JyLV/+AAQQtIDu8udjAuoyhZROY4mydXvIitRM/wFoePVx5toR5erfXf9keAeuiMRS0bUTS2s5LYgi8d7h+OsNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=w2FTOwgj; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+	s=arc-20240116; t=1742248275; c=relaxed/simple;
+	bh=KKGVKFt6r7juB9UTQruDn+ukuqMxz2mWYBbQuMHA8Tw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jc1yy72n4rUR12jr/90X7d1YsrQrIbgsDPdBgFgOu9f0Z69KwPACrlt3ypdoIG92HNWvv9EHsUzfGszBQqB/+z8GmzPDTz+7/H/9r6uBqUbm49dbisuBIQrx8YS5HKiL1SHkOxrw7+1JTEEdIFE2XZVIQ2lRXugGOuDEROe0DQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LlMJViCp; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="w2FTOwgj"
-Message-ID: <8729ccb4-cdd2-48f7-a8d4-f55a24964bc4@iencinas.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1742243365;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LlMJViCp"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 96973442CF;
+	Mon, 17 Mar 2025 21:51:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742248271;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=z2gPp8ZZpEDOPhCSsNGFmD3VmlQ7JFSNt9SswdFFzlU=;
-	b=w2FTOwgjsx7saoQwKyeyBl1fhl0fcyDSJgA2K/1oGFLpnKWZ5PG9HBkeFzaw/4Nlj2e0Hm
-	xhsQRP06Q7vUiB36Y7CRl82oxq+MPGTZuDeFqjBCCH06LBE7qGgW8vSAI/FGdYm7V5Xj+A
-	ww3ri5CC3UIlnHpe+jadeoV5FyUBtMoF860oFlg1/+QZTzbsjZBsu8XThWagzgP9qvCpyW
-	kRzS27lH075qI+yf+CU5VuCp5Ziu+Tw1iWEmaAkL6YPQFxwJUIBhW4VchiL2IW4OjfKrc1
-	lMtS9M3FIYRSltcyxWxu/It/unHJw44S8H3ZJN64e6jWXb7Ok89MIwJDdSGLXA==
-Date: Mon, 17 Mar 2025 21:29:20 +0100
+	bh=n7bD6OTU3nvuqmcSiOM4u/sELVWPucEw+NEaP96pCMk=;
+	b=LlMJViCpZ2nrGzDTaeKmJSkMde8IXAh2MfH4ckzHrE0drdkW0gGTKxunSNsNS0fPB/Km6t
+	7VrR/VEQz+FkDNRMhzSGoHISHf+Jwc0c0/L3+SQ79/Jq0ZHQ4QDr1GUJVaIPT19VNS4W2S
+	sjl/E35C6szf+b9VbuWvL5s2qmY/tstQNY0wbrErC2Z5oCWSVJ2byUUapL/ZFkOSxk1bSX
+	fjJpcrtwk0o2T10Lx2mvApEcQcQr2LpdZZdMiK6hYoEdNdTdA1y7OutsvfPhGxpUoY91q7
+	tguhGTSAIUv6EFmJP8zcg7ZSlMmjQZ0R5UEDDQp9NDkAmwjGFbh1idpDh/PQtQ==
+Date: Mon, 17 Mar 2025 22:51:10 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Cc: linux-rtc@vger.kernel.org, shuah@kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] rtc: fix use of uninit struct in rtc_read_alarm_internal
+Message-ID: <2025031721511050987ca2@mail.local>
+References: <20250317183349.346399-1-bharadwaj.raju777@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH RFC] riscv: introduce asm/swab.h
-To: Alexandre Ghiti <alex@ghiti.fr>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, Zhihang Shao <zhihang.shao.iscas@gmail.com>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-References: <20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com>
- <d964bf15-7172-448b-9aa1-72d5bf3e1695@ghiti.fr>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ignacio Encinas Rubio <ignacio@iencinas.com>
-In-Reply-To: <d964bf15-7172-448b-9aa1-72d5bf3e1695@ghiti.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250317183349.346399-1-bharadwaj.raju777@gmail.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedtieeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeevudevhfdvheelgfeileefteduuefghefguefgkeeljeeufeeutedtffeuteeivdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegvtdgrmedvugemieefjedtmeejkegvtdemtgdtvgekmedvkedtieemkegrtgeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvtdgrmedvugemieefjedtmeejkegvtdemtgdtvgekmedvkedtieemkegrtgeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtohepsghhrghrrggufigrjhdrrhgrjhhujeejjeesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhrthgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpt
+ hhtohepshhhuhgrhheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghv
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-On 17/3/25 17:36, Alexandre Ghiti wrote:
->> We need a default implementation to fall back on, but there isn't any in
->> `asm-generic/swab.h`. Should I introduce a first patch moving
->> ___constant_swab<XX> into include/uapi/asm-generic/swab.h?
+On 18/03/2025 00:03:43+0530, Bharadwaj Raju wrote:
+> The trace call invokes rtc_tm_to_time64 on a
+> potentially uninitialized alarm->time. Move the
+> trace call to the path where we do successfully
+> initialize and read that struct.
 > 
-> Yes, that or something else to avoid the code duplication.
-
-Thanks for double checking. I figured as much but I ended up getting a
-bit confused with the include directories.
-
->> +#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
+> This fixes a KMSAN warning.
 > 
-> NO_ALTERNATIVE does not exist to my knowledge, and you don't need to check for ALTERNATIVE as alternative-macros.h will do the right thing in that case.
-
-It's a define hardcoded into drivers/firmware/efi/libstub/Makefile. It
-was introduced in [1]. It helps avoid these types of warnings [2]:
-
-  riscv64-unknown-linux-gnu-ld: warning: orphan section 
-  `.init.alternative' from `./drivers/firmware/efi/libstub/riscv.stub.o' 
-  being placed in section `.init.alternative'
-
-Let me know if you think I should drop it.
-
-[1] https://lore.kernel.org/all/20231031064553.2319688-3-xiao.w.wang@intel.com/
-[2] https://lore.kernel.org/all/DM8PR11MB5751DA69DEEAAC9B06623E0BB80FA@DM8PR11MB5751.namprd11.prod.outlook.com/
-
-> It would be nice to have some perf numbers too, maybe Bjorn will chime in :)
+> Fixes: 29a1f599c0cc ("rtc: Add tracepoints for RTC system")
 > 
-> Thanks for your patch, looking forward the v2,
+> Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+> ---
+>  drivers/rtc/interface.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/rtc/interface.c b/drivers/rtc/interface.c
+> index aaf76406cd7d..82ba33bf478b 100644
+> --- a/drivers/rtc/interface.c
+> +++ b/drivers/rtc/interface.c
+> @@ -201,11 +201,12 @@ static int rtc_read_alarm_internal(struct rtc_device *rtc,
+>  		alarm->time.tm_yday = -1;
+>  		alarm->time.tm_isdst = -1;
+>  		err = rtc->ops->read_alarm(rtc->dev.parent, alarm);
+> +		if (!err)
+> +			trace_rtc_read_alarm(rtc_tm_to_time64(&alarm->time), err);
+>  	}
+>  
+>  	mutex_unlock(&rtc->ops_lock);
+>  
+> -	trace_rtc_read_alarm(rtc_tm_to_time64(&alarm->time), err);
 
-Thank you! 
+This removes the tracepoint when there is an error, rendering it les
+useful.
+
+Also, as discussed about a year ago, alarm-time being uninitialized is
+not actually an issue as mktime64 can handle whatever is the input so
+this will never cause any problem so this isn't really a fix.
+
+I suggest the following:
+
+---
+
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [PATCH] rtc: interface: silence KMSAN warning
+
+KMSAN complains that alarm->time can be used uninitialized. Pass 0 to
+trace_rtc_read_alarm in case it has not been set.
+
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+---
+ drivers/rtc/interface.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/rtc/interface.c b/drivers/rtc/interface.c
+index aaf76406cd7d..dc741ba29fa3 100644
+--- a/drivers/rtc/interface.c
++++ b/drivers/rtc/interface.c
+@@ -205,7 +205,7 @@ static int rtc_read_alarm_internal(struct rtc_device *rtc,
+ 
+ 	mutex_unlock(&rtc->ops_lock);
+ 
+-	trace_rtc_read_alarm(rtc_tm_to_time64(&alarm->time), err);
++	trace_rtc_read_alarm(err?0:rtc_tm_to_time64(&alarm->time), err);
+ 	return err;
+ }
+ 
+-- 
+2.48.1
+²
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
