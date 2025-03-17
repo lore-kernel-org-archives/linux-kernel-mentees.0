@@ -1,131 +1,195 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3C723FC68
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Mar 2025 13:57:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A361A00D1
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Mar 2025 16:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742219833; cv=none; b=RGGGJEEG833/ubffefzTu12r14R0zrMwpDF4INTCgGeniYVXcmXi9dvI5UeHb3YPn3dtJlZJRW/nhVI61qY5P98WXi3985oOuW9al6EWfg5yRPKDujPEoGetVBjKxm+9JdF+dWtKJLkPz4OjWwOkT8LV5WXSJLXkyBEp6REM8Mg=
+	t=1742229379; cv=none; b=ixyc2jRTUzmWKJ8KQEtrJT8OkGVLpGP9GB8BJjpV2okRsPcUz64qfvTMYnocg4r2FpMYO98l0Ro23ArxJUWPwgVer5fI/THcDlZf7Ol5NqXLpQ7rGmP1UzxfUySzKFBYMGvwzlyTxuNeUWEQ/v9TnUma5FwIRbKXFDUVRPQQThA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742219833; c=relaxed/simple;
-	bh=sSjPqbu9OFPuvQnENGQoGhHTGaKcRFEGnMtAb/gleBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D4JIYMOLUFMnJFN/AHnyj1uuoEddISscwkw6FnEcsLRhjD3aQbGIfBCagH4vrEtP/5enTf5idzYWWm4Lsug7skFK5sQBjm9NCOoE/oTImENLc1dxACUJDl4Jft3he6kOfz9q2UdVCOrfnLzEEoFED6TErkzXVR8ghZI0nsxQjtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=N9Ic8yF1; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="N9Ic8yF1"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52HDa3Zn018184;
-	Mon, 17 Mar 2025 13:57:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=GUH8cm
-	mKancpQH41aPR1l9wcULwXArnAHaNi/ZU5n4c=; b=N9Ic8yF13L5elng7ZY/pKj
-	Nuw0eIJsxnhhHCew2nnnm9/iYnfYoOxLaAA7eTSbUoRmjsRmRYyCiQv97CPlt4D3
-	b/AwoqOUIBO/hZ3mRbfDvz8YqE+cRlqFdqu8Q2qkIPXIgJWmYdbMOyjX5KTBxxQZ
-	5Bo4VFC2966+tYGVgnIHoYfjYdJ864lDLFWOmFFRSobFOAOxdsyCpTt5RV3CxZgC
-	NDxF+Q87J3lw7xm91xzgFq5EDnlCU8E6PxIjoZQ1CkaChJjtk4nyGPG8JEezQnJ4
-	GLsWGPnRn6BRzSdQMaJpA2ICrC2azsCmJWR7jL2KJd03gbic3Mnl1nU4vq1s7D7A
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45e5v03rfw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Mar 2025 13:57:05 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 52HDa4dE018418;
-	Mon, 17 Mar 2025 13:57:04 GMT
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45e5v03rec-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Mar 2025 13:57:04 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 52HDqkRI005742;
-	Mon, 17 Mar 2025 13:56:37 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 45dpk264tc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Mar 2025 13:56:37 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 52HDuYWO52101546
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 17 Mar 2025 13:56:34 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2222820049;
-	Mon, 17 Mar 2025 13:56:34 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 289F72004B;
-	Mon, 17 Mar 2025 13:56:33 +0000 (GMT)
-Received: from osiris (unknown [9.179.24.138])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon, 17 Mar 2025 13:56:33 +0000 (GMT)
-Date: Mon, 17 Mar 2025 14:56:31 +0100
-From: Heiko Carstens <hca@linux.ibm.com>
-To: Wenjia Zhang <wenjia@linux.ibm.com>
-Cc: I Hsin Cheng <richard120310@gmail.com>, alibuda@linux.alibaba.com,
-        jaka@linux.ibm.com, mjambigi@linux.ibm.com, sidraya@linux.ibm.com,
-        tonylu@linux.alibaba.com, guwen@linux.alibaba.com, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        horms@kernel.org, linux-rdma@vger.kernel.org,
-        linux-s390@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-        jserv@ccns.ncku.edu.tw, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] net/smc: Reduce size of smc_wr_tx_tasklet_fn
-Message-ID: <20250317135631.21754E85-hca@linux.ibm.com>
-References: <20250315062516.788528-1-richard120310@gmail.com>
- <66ce34a0-b79d-4ef0-bdd5-982e139571f1@linux.ibm.com>
+	s=arc-20240116; t=1742229379; c=relaxed/simple;
+	bh=XOz73fs4njuWISS4miyh4nhy0sHdCuLjt7rMNIvKoc8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ubBEVMzEIG5BFYnRzf5BZpUkiMBpBsmbegVPeXv41+HFiZ4bykbcXOtLfH2t1QCez59AN9BIyxISJTxIfqsYvRqlT1twY+S97jImVA7PyeQEF1+wCv07KJgSbSD0ImJCW9vadWBYIidU9bVEg+I8QXVd2FlLKvAtw4Ztg6oqXgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B0361442B7;
+	Mon, 17 Mar 2025 16:36:12 +0000 (UTC)
+Message-ID: <d964bf15-7172-448b-9aa1-72d5bf3e1695@ghiti.fr>
+Date: Mon, 17 Mar 2025 17:36:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <66ce34a0-b79d-4ef0-bdd5-982e139571f1@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: NSqFDVsAl9mx0PzomBeGQR0XnQ_batOr
-X-Proofpoint-GUID: NSIGZDVbzXe3CNF4ynR9y7mDwn94_QbP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-17_05,2025-03-17_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
- impostorscore=0 adultscore=0 mlxscore=0 spamscore=0 phishscore=0
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 mlxlogscore=979
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2503170101
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] riscv: introduce asm/swab.h
+Content-Language: en-US
+To: Ignacio Encinas <ignacio@iencinas.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ skhan@linuxfoundation.org, Zhihang Shao <zhihang.shao.iscas@gmail.com>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+References: <20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedttdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpefhhfdutdevgeelgeegfeeltdduhfduledvteduhfegffffiefggfektefhjedujeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeefuddrfedvrdekuddrudekjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeefuddrfedvrdekuddrudekjedphhgvlhhopegludelvddrudeikedrvddurddvhegnpdhmrghilhhfrhhomheprghlvgigsehghhhithhirdhfrhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepihhgnhgrtghiohesihgvnhgtihhnrghsrdgtohhmpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtohepvggsihhgghgvrhhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggur
+ dhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrohhrgh
+X-GND-Sasl: alex@ghiti.fr
 
-On Mon, Mar 17, 2025 at 12:22:46PM +0100, Wenjia Zhang wrote:
-> 
-> 
-> On 15.03.25 07:25, I Hsin Cheng wrote:
-> > The variable "polled" in smc_wr_tx_tasklet_fn is a counter to determine
-> > whether the loop has been executed for the first time. Refactor the type
-> > of "polled" from "int" to "bool" can reduce the size of generated code
-> > size by 12 bytes shown with the test below
-> > 
-> > $ ./scripts/bloat-o-meter vmlinux_old vmlinux_new
-> > add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-12 (-12)
-> > Function                                     old     new   delta
-> > smc_wr_tx_tasklet_fn                        1076    1064     -12
-> > Total: Before=24795091, After=24795079, chg -0.00%
-> > 
-> > In some configuration, the compiler will complain this function for
-> > exceeding 1024 bytes for function stack, this change can at least reduce
-> > the size by 12 bytes within manner.
-> > 
-> The code itself looks good. However, I’m curious about the specific
-> situation where the compiler complained. Also, compared to exceeding the
-> function stack limit by 1024 bytes, I don’t see how saving 12 bytes would
-> bring any significant benefit.
+Hi Ignacio,
 
-The patch description doesn't make sense: bloat-a-meter prints the _text
-size_ difference of two kernels, which really has nothing to do with
-potential stack size savings.
+On 10/03/2025 23:03, Ignacio Encinas wrote:
+> Implement endianness swap macros for RISC-V.
+>
+> Use the rev8 instruction when Zbb is available. Otherwise, rely on the
+> default mask-and-shift implementation.
+>
+> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+> ---
+> Motivated by [1]. A couple of things to note:
+>
+> We need a default implementation to fall back on, but there isn't any in
+> `asm-generic/swab.h`. Should I introduce a first patch moving
+> ___constant_swab<XX> into include/uapi/asm-generic/swab.h?
 
-If there are any changes in stack size with this patch is unknown; at least
-if you rely only on the patch description.
 
-You may want to have a look at scripts/stackusage and scripts/stackdelta.
+Yes, that or something else to avoid the code duplication.
+
+
+>
+> I don't particularly like the ARCH_SWAB macro but I can't think of
+> anything better that doesn't result in code duplication.
+>
+> Tested with crc_kunit as pointed out here [2]. I can't provide
+> performance numbers as I don't have RISC-V hardware yet.
+>
+> Ccing everyone involved with [1].
+>
+> [1] https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
+> [2] https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/
+> ---
+>   arch/riscv/include/asm/swab.h | 81 +++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 81 insertions(+)
+>
+> diff --git a/arch/riscv/include/asm/swab.h b/arch/riscv/include/asm/swab.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..8f8a13b343f6ffbefbb3c7747ab4e14243852014
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/swab.h
+> @@ -0,0 +1,81 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +#ifndef _ASM_RISCV_SWAB_H
+> +#define _ASM_RISCV_SWAB_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/compiler.h>
+> +#include <asm/alternative-macros.h>
+> +#include <asm/hwcap.h>
+> +
+> +#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
+
+
+NO_ALTERNATIVE does not exist to my knowledge, and you don't need to 
+check for ALTERNATIVE as alternative-macros.h will do the right thing in 
+that case.
+
+
+> +
+> +/*
+> + * FIXME, RFC PATCH: This is copypasted from include/uapi/linux/swab.h
+> + * should I move these `#defines` to include/uapi/asm-generic/swab.h
+> + * and include that file here and in include/uapi/linux/swab.h ?
+> + */
+> +#define ___constant_swab16(x) ((__u16)(				\
+> +	(((__u16)(x) & (__u16)0x00ffU) << 8) |			\
+> +	(((__u16)(x) & (__u16)0xff00U) >> 8)))
+> +
+> +#define ___constant_swab32(x) ((__u32)(				\
+> +	(((__u32)(x) & (__u32)0x000000ffUL) << 24) |		\
+> +	(((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |		\
+> +	(((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |		\
+> +	(((__u32)(x) & (__u32)0xff000000UL) >> 24)))
+> +
+> +#define ___constant_swab64(x) ((__u64)(				\
+> +	(((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |	\
+> +	(((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |	\
+> +	(((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |	\
+> +	(((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |	\
+> +	(((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |	\
+> +	(((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |	\
+> +	(((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |	\
+> +	(((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
+> +
+> +#define ___constant_swahw32(x) ((__u32)(			\
+> +	(((__u32)(x) & (__u32)0x0000ffffUL) << 16) |		\
+> +	(((__u32)(x) & (__u32)0xffff0000UL) >> 16)))
+> +
+> +#define ___constant_swahb32(x) ((__u32)(			\
+> +	(((__u32)(x) & (__u32)0x00ff00ffUL) << 8) |		\
+> +	(((__u32)(x) & (__u32)0xff00ff00UL) >> 8)))
+> +
+> +
+> +#define ARCH_SWAB(size) \
+> +static __always_inline unsigned long __arch_swab##size(__u##size value) \
+
+
+I don't like the ARCH_SWAB macro neither but I don't have another 
+solution too, maybe someone will come up with some macro magic.
+
+
+> +{									\
+> +	unsigned long x = value;					\
+> +									\
+> +	asm goto(ALTERNATIVE("j %l[legacy]", "nop", 0,			\
+> +			     RISCV_ISA_EXT_ZBB, 1)			\
+> +			     :::: legacy);				\
+> +									\
+> +	asm volatile (".option push\n"					\
+> +		      ".option arch,+zbb\n"				\
+> +		      "rev8 %0, %1\n"					\
+> +		      ".option pop\n"					\
+> +		      : "=r" (x) : "r" (x));				\
+> +									\
+> +	return x >> (BITS_PER_LONG - size);				\
+> +									\
+> +legacy:									\
+> +	return  ___constant_swab##size(value);				\
+> +}
+> +
+> +#ifdef CONFIG_64BIT
+> +ARCH_SWAB(64)
+> +#define __arch_swab64 __arch_swab64
+> +#endif
+> +
+> +ARCH_SWAB(32)
+> +#define __arch_swab32 __arch_swab32
+> +
+> +ARCH_SWAB(16)
+> +#define __arch_swab16 __arch_swab16
+> +
+> +#undef ARCH_SWAB
+> +
+> +#endif /* defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
+> +#endif /* _ASM_RISCV_SWAB_H */
+>
+> ---
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> change-id: 20250307-riscv-swab-b81b94a9ac1b
+>
+> Best regards,
+
+
+It would be nice to have some perf numbers too, maybe Bjorn will chime in :)
+
+Thanks for your patch, looking forward the v2,
+
+Alex
+
