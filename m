@@ -1,137 +1,135 @@
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF121EB1AE
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Mar 2025 10:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEC51E3DED
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Mar 2025 18:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742552621; cv=none; b=e0p8wTkz0aJXA0iI3s5FJy0pVK2afKGrxO1vU7mVZYk0shXjPaQs9HksPRxxrT8F5QbKKU3EgOGjpMEq/RtLOnozLGWdCWhBmQrg6LyzK+3i3TEHWzXAR5noUOjO93m/C+2P4ZyXablwx+mDuX7ifgQk5DNpk/h44rBdRTiHOik=
+	t=1742582346; cv=none; b=RgKTC5zp0QaiAaAqFTHLc+3v+VCCvkPB/YkKRUA2VIw802MR2RZfZgkmP2X4YfcXc8f3F0elFMIetfNzF8GlBmbvILCI+5S2TT7VC1OJLnvWQyyxPd3JPypZrJOcSE+0ulqow+u1b6lTF4qdt4raYoepsOsKc8n168TBxCi8gJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742552621; c=relaxed/simple;
-	bh=RMs/PSp53L6WgsMIE2/Hg0EtwHglh5WtXQO5Wsvdm8s=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=f4ILBwi3GMskM2sj2OarNOWzHUW0jqmCzKayEVZvDzkTYH15la1mWMtBOriPfBoKmYoxyEhMJUvo+p6YeUJd0oC6PkDj8yxEyVeYuWy3UynOXVxrvxeYloh7uLeswsMkF6bUMlNKu6oEkyCZtlKYsj9HnQUdkKVunjE9+eIt2K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Aj8WzG1I; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=zly6AD+I; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1742582346; c=relaxed/simple;
+	bh=n+K0u+Wd6us+fG8T0NJ0mq5za5Sn6Pp6ZvidZGcV8+4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=aRubJ6Pu7Gwoliu7xYd+K/9NA7T/1h3st8LV6h6QDZk50eYwahhfDqMJQvTL5pQPX8Lz4G+KcaQSMkq1HSQcNK5B74jYBe1D7ZlwrZpr6RR4UucPg8jB0O7pq95PUOJxPUaWBtBclZYhEk2bDW2fhNp4lM3h95kVxC5l2Yfcu1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=LQr8od9E; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Aj8WzG1I";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="zly6AD+I"
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id CE17011400EE;
-	Fri, 21 Mar 2025 06:23:38 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-07.internal (MEProxy); Fri, 21 Mar 2025 06:23:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1742552618;
-	 x=1742639018; bh=4UJevjEnua/hzuv6hukkiRL584yrJsU8XeWiL1LLMD8=; b=
-	Aj8WzG1IUqT3lWmRHOZ7RrH+yaiNF6O+b1ll6F8XwGji2k6T7Gq+RCxrn5gCNfZN
-	WC+mK6nvClR8BgcNVb8kyg/Gcju+HXbBPySim8hTNGG3rKYDQ1MJS+UKlNghWfbg
-	k0Y87P4xbfAUjqfMPiE2LXI0NI0h1YEUaZonDEUhdh8V69/ZJz5S2/xxceHUufsa
-	wf5WjhD3HJY/ZLbOPhOzozlk3XNA/EYAM8c8yluWzAij1FsHHFmXt5pqFHwbWS4A
-	RWS5G+nrNUmMhu7aczpNVc9VV9axKXtR+6iojehnhmfWzIfseVF3B2WU/mxKihwz
-	8m5c9cFOL79eZy64GPN0IA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742552618; x=
-	1742639018; bh=4UJevjEnua/hzuv6hukkiRL584yrJsU8XeWiL1LLMD8=; b=z
-	ly6AD+Ihs5gg7Xi6hEB+ltIrUd4lsTKMbCGVQ/Q6NwWP9muAIj3pTWDBT62AgYnK
-	RPwqvQ2tdI3D7WdEfWWiMCorOeYPtmJidLWSQqEJKaGVJiv1Du/khrli/hn32Lgo
-	RJsyufpWPdBFeOvlwN0+a02DMm/jJsT5b2XzajNffBnmfDMUMpBezXWXGYnChIbg
-	TRc2BJJ3Kz3N49oMp03R0aiVcSwlq+ylWqYx+5ITeKqQEPpi1vBMDjY5Cbkpu0uC
-	xU9TpPD4yvBoRPGHDZ3xMfnahGpiXp9Wre/LdRe8naQxSVgPskw2mQNtMaXASNLe
-	u3gkuh4YgzV7djzCCHNWg==
-X-ME-Sender: <xms:Kj7dZykJk9SsWjjvP9qQsveFNQdd4dHB9tl78p3Xz08gyY9DGmePzw>
-    <xme:Kj7dZ53Yl-Su9tLE2JAS8RYLxGdcIbp5Wq8PAz9xfaTPBDR21PK-JjLwR_g2VTOcv
-    hlBW3HMGRjGVHjaIcI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduhedtkeehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
-    gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
-    fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
-    uddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehprghlmhgvrhesuggrsggsvg
-    hlthdrtghomhdprhgtphhtthhopegrlhgvgiesghhhihhtihdrfhhrpdhrtghpthhtohep
-    iihhihhhrghnghdrshhhrghordhishgtrghssehgmhgrihhlrdgtohhmpdhrtghpthhtoh
-    epihhgnhgrtghiohesihgvnhgtihhnrghsrdgtohhmpdhrtghpthhtohepsghjohhrnhes
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepvggsihhgghgvrhhssehkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqrhhishgtvheslhhishhtshdrihhnfhhrrgguvggrug
-    drohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhi
-    shhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:Kj7dZwqhYI8KVO9p2qwoKMwwDOBjgHGLyOa41iE_lI5pbFguaAmVWQ>
-    <xmx:Kj7dZ2n57kKHcok9q14JayhgRSuMMjUK0w-d3Be7gE0cpoFX4Oyb1Q>
-    <xmx:Kj7dZw1M5GoiRkOoXkgelQZpJdwWb9OnyMKpVsYf06QcTh6Jcus0Sg>
-    <xmx:Kj7dZ9uraoJ3pE9R4GYSmHJpFKQhkeBLbud9ZEDotc4ffIoECPq6sw>
-    <xmx:Kj7dZ1trPzB9iuKKEJApJowMAXKCYdRD4F601K1ruzXd1y-RkwcNDPzg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 5311C2220072; Fri, 21 Mar 2025 06:23:38 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="LQr8od9E"
+Message-ID: <b3b59747-0484-4042-bdc4-c067688e3bfe@iencinas.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
+	s=key1; t=1742582339;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/l61PMZ8ZONjm1VBcYbvcyTIE/eIAlBdEyNM703h8Wg=;
+	b=LQr8od9Eoo1BpEq7o+7c/an+WLbBfCL0f8tZSGR68BOyccf1eIvgALCsoOWT+7qHzhfGwd
+	yn0NDKfsiZoX26dbpZT1+rz9C9U1DMXK/0pTwtqI34yXRlZFbkzgqXuEjoyrlPlcJ0LJuK
+	Bj0fXQFBZAtzXpgmscYRilgQjjdj5++IwrQhlHkMVw+0ZodToECeslq47XrqyuM+WzjI7s
+	e352THyHY4+OVl7l9mLaOERKk71lq/DVWr2JrB3jTN03qYKQzUoP97bRvAVZ3lwq2pJX4v
+	6FZOSzOf/sskaOtvO/1ffD9W8jxenGDR/LxEDH+kkX3WyNCQKT/fE8xP6AJd/Q==
+Date: Fri, 21 Mar 2025 19:38:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: T04d17f90b906d792
-Date: Fri, 21 Mar 2025 11:23:18 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Ignacio Encinas" <ignacio@iencinas.com>,
- "Paul Walmsley" <paul.walmsley@sifive.com>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, "Alexandre Ghiti" <alex@ghiti.fr>
-Cc: "Eric Biggers" <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ignacio Encinas Rubio <ignacio@iencinas.com>
+Subject: Re: [PATCH v2 1/2] include/uapi/linux/swab.h: move default
+ implementation for swab macros into asm-generic
+To: Arnd Bergmann <arnd@arndb.de>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- "Shuah Khan" <skhan@linuxfoundation.org>,
- "Zhihang Shao" <zhihang.shao.iscas@gmail.com>,
- =?UTF-8?Q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>,
- Linux-Arch <linux-arch@vger.kernel.org>
-Message-Id: <583340a9-411d-406f-aee9-d3e2eb80ca43@app.fastmail.com>
-In-Reply-To: <ac0b1f3e-6abe-4de2-bf5a-a4b3207a22c3@iencinas.com>
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Zhihang Shao <zhihang.shao.iscas@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+ <bjorn@kernel.org>, Linux-Arch <linux-arch@vger.kernel.org>
 References: <20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com>
  <20250319-riscv-swab-v2-1-d53b6d6ab915@iencinas.com>
  <2afab9dc-e39c-4399-ac5a-87ade4da5ab0@app.fastmail.com>
  <4d45df0c-d44e-4bb6-8daa-0dba1b834bc4@iencinas.com>
  <07b8051b-9d5e-440e-b74d-1ca97402fe2a@app.fastmail.com>
  <ac0b1f3e-6abe-4de2-bf5a-a4b3207a22c3@iencinas.com>
-Subject: Re: [PATCH v2 1/2] include/uapi/linux/swab.h: move default implementation for
- swab macros into asm-generic
-Content-Type: text/plain
+ <583340a9-411d-406f-aee9-d3e2eb80ca43@app.fastmail.com>
+Content-Language: en-US
+In-Reply-To: <583340a9-411d-406f-aee9-d3e2eb80ca43@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Mar 20, 2025, at 23:36, Ignacio Encinas Rubio wrote:
-> On 19/3/25 22:49, Arnd Bergmann wrote:
->> On Wed, Mar 19, 2025, at 22:37, Ignacio Encinas Rubio wrote:
->>> On 19/3/25 22:12, Arnd Bergmann wrote:
->> Right, I do remember when we had a discussion about this maybe
->> 15 years ago when gcc didn't have the builtins on all architectures
->> yet, but those versions are long gone, and we never cleaned it up.
->
-> I just had a chance to look at this and it looks a bit more complex than
-> I initially thought. ___constant_swab macros are used in more places
-> than I expected, and {little,big}_endian.h define their own macros that
-> are used elsewhere, ...
->
-> It is not clear to me how to proceed here. I could:
->
->   1) Just remove ___constant_swab macros and replace them with
->   __builtin_swap everywhere
->
->   2) Go a step further and evaluate removing __constant_htonl and
->   relatives
->
-> Let me know what you think is the best option :)
 
-I think we can start enabling CONFIG_ARCH_USE_BUILTIN_BSWAP
-on all architectures and removing the custom versions
-from arch/*/include/uapi/asm/swab.h, which all seem to
-predate the compiler builtins and likely produce worse code.
 
-    Arnd
+On 21/3/25 11:23, Arnd Bergmann wrote:
+> On Thu, Mar 20, 2025, at 23:36, Ignacio Encinas Rubio wrote:
+>> On 19/3/25 22:49, Arnd Bergmann wrote:
+>>> On Wed, Mar 19, 2025, at 22:37, Ignacio Encinas Rubio wrote:
+>>>> On 19/3/25 22:12, Arnd Bergmann wrote:
+>>> Right, I do remember when we had a discussion about this maybe
+>>> 15 years ago when gcc didn't have the builtins on all architectures
+>>> yet, but those versions are long gone, and we never cleaned it up.
+>>
+>> I just had a chance to look at this and it looks a bit more complex than
+>> I initially thought. ___constant_swab macros are used in more places
+>> than I expected, and {little,big}_endian.h define their own macros that
+>> are used elsewhere, ...
+>>
+>> It is not clear to me how to proceed here. I could:
+>>
+>>   1) Just remove ___constant_swab macros and replace them with
+>>   __builtin_swap everywhere
+>>
+>>   2) Go a step further and evaluate removing __constant_htonl and
+>>   relatives
+>>
+>> Let me know what you think is the best option :)
+> 
+> I think we can start enabling CONFIG_ARCH_USE_BUILTIN_BSWAP
+> on all architectures and removing the custom versions
+> from arch/*/include/uapi/asm/swab.h, which all seem to
+> predate the compiler builtins and likely produce worse code.
+
+This seems fine for some architectures but I don't think we can use
+this approach for RISC-V. RISC-V code assumes that the bitmanip 
+extension might not be available (see arch/riscv/include/asm/bitops.h).
+
+The current approach [1] is to detect this at boot and patch the kernel 
+to adapt it to the actual hardware running it (using specific 
+instructions or not).
+
+On the other hand, I tried using __builtin_swap for the RISC-V version 
+as an alternative to the "optimized" one (instead of relying on
+___constant_swab, see [2]) and I immediately got compilation errors. 
+
+Some architectures seem to require definitions for __bswapsi2 and 
+__bswapdi2 [3]. I'm guessing this happens for the architectures that
+don't require bit manipulation instructions but have them as extensions.
+
+arm,csky,mips and xtensa seem to fit this description as they 
+feature their own __bswapsi2 implementations. Note that they simply
+call ___constant_swab or are ___constant_swab written in assembly
+language [4] [5].
+
+Unless I'm missing something, it seems to me that using compiler 
+builtins (at least for RISC-V, and potentially others) is even more 
+problematic than keeping ___constant_swab around. What do you think, 
+should we keep patch 1 after all?
+
+We could remove __arch_swab for architectures that always assume bit 
+manipulation instructions availability, but then the kernel would fall
+back into ___constant_swab when CONFIG_ARCH_USE_BUILTIN_BSWAP=n. Turning
+their custom implementations into 
+
+	#define __arch_swabXY __builtin_bswapXY
+
+would solve this issue, but I'm not sure it is an acceptable approach.
+
+Thanks!
+
+[1] https://lore.kernel.org/all/ce034f2b-2f6e-403a-81f1-680af4c72929@ghiti.fr/
+[2] https://lore.kernel.org/all/20250319-riscv-swab-v2-2-d53b6d6ab915@iencinas.com/
+[3] https://gcc.gnu.org/onlinedocs/gcc-13.3.0/gccint.pdf
+[4] https://lore.kernel.org/all/20230512164815.2150839-1-jcmvbkbc@gmail.com/
+[5] https://lore.kernel.org/all/1664437198-31260-3-git-send-email-yangtiezhu@loongson.cn/
