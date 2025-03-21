@@ -1,135 +1,265 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2064.outbound.protection.outlook.com [40.107.236.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEC51E3DED
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Mar 2025 18:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742582346; cv=none; b=RgKTC5zp0QaiAaAqFTHLc+3v+VCCvkPB/YkKRUA2VIw802MR2RZfZgkmP2X4YfcXc8f3F0elFMIetfNzF8GlBmbvILCI+5S2TT7VC1OJLnvWQyyxPd3JPypZrJOcSE+0ulqow+u1b6lTF4qdt4raYoepsOsKc8n168TBxCi8gJU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742582346; c=relaxed/simple;
-	bh=n+K0u+Wd6us+fG8T0NJ0mq5za5Sn6Pp6ZvidZGcV8+4=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=aRubJ6Pu7Gwoliu7xYd+K/9NA7T/1h3st8LV6h6QDZk50eYwahhfDqMJQvTL5pQPX8Lz4G+KcaQSMkq1HSQcNK5B74jYBe1D7ZlwrZpr6RR4UucPg8jB0O7pq95PUOJxPUaWBtBclZYhEk2bDW2fhNp4lM3h95kVxC5l2Yfcu1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=LQr8od9E; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C096D13C695
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Mar 2025 20:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742589664; cv=fail; b=vFIQUioXQS0sNiKreHFu1XqaAtbnG10PVlTfSFnlQc8ct/hPffSYmiNpRucS8tJxD/A3er8lhwkoXowyky2Twm4N66d7NmCAPtY4y3AbredcujQ79lnPUWr8mRmO4r4w2dU9S2d0oPKoA4paRg+n6kOIoJkgDYkJK0CNQLaSqUU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742589664; c=relaxed/simple;
+	bh=OTuFn4ui7owcMk3jh+3O/6M+A6RTGDsWqVTuzuBeBpE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=omEK8msmqPlNB3pAIIw7U6EtoMZ+fOLjqshvwT1b2lNap/Sfuk358kTL586SFkMRn2Vv7jqVftqGkJm1Gb6eshAMA1xJak3nE56AQ5BmRxr3CPbktPxZ7mgkcVdhNjjLo/9pfoZXqCW34RxMadHamAMEnFZBV1JM/Fh53sxdLMY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Ac4//di8; arc=fail smtp.client-ip=40.107.236.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="LQr8od9E"
-Message-ID: <b3b59747-0484-4042-bdc4-c067688e3bfe@iencinas.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1742582339;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/l61PMZ8ZONjm1VBcYbvcyTIE/eIAlBdEyNM703h8Wg=;
-	b=LQr8od9Eoo1BpEq7o+7c/an+WLbBfCL0f8tZSGR68BOyccf1eIvgALCsoOWT+7qHzhfGwd
-	yn0NDKfsiZoX26dbpZT1+rz9C9U1DMXK/0pTwtqI34yXRlZFbkzgqXuEjoyrlPlcJ0LJuK
-	Bj0fXQFBZAtzXpgmscYRilgQjjdj5++IwrQhlHkMVw+0ZodToECeslq47XrqyuM+WzjI7s
-	e352THyHY4+OVl7l9mLaOERKk71lq/DVWr2JrB3jTN03qYKQzUoP97bRvAVZ3lwq2pJX4v
-	6FZOSzOf/sskaOtvO/1ffD9W8jxenGDR/LxEDH+kkX3WyNCQKT/fE8xP6AJd/Q==
-Date: Fri, 21 Mar 2025 19:38:54 +0100
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Ac4//di8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=izN/DDS1UIfEDmfDle0knxnjmTWtJYEvj106hlC0sO8BxTZR4y54r/9NoukIyEq2Qc6XZnL+5IPYaWjQwdAaCRVcCrUbFxiOuArhy/CnxEIR1Uw3S7pjH5OY14NIuhVJvCMvmJJs3MUDzhQuEkzcIUHJfsoeXnyj/N5SnS2CXOvyZCvzrxYsfvonBUNRLEpetizn71LG1NLFEwFALL9hEHQ453ZQPcb8tljefwrFLINPlWPO46P0KXPPyc2VX0Q3PDRHzO/htiL3W9KlhKSzpFFK0ivax5Q+GD4GpO8InBrwjDk0Gw79dbCwAtiytNGxz5oHWr6Y5EWffyifBJS71Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n+JfdrWOuR5ddOq/xammMFp9M5K+hLGssvd0jISsI50=;
+ b=ZEQCvp2U3A7wu8/c/wL7zcyVjpT6J9A+e97idnoMFwWAfSJlqi6BjsZQdV/7cHLxwZhqxbEwwdUMXxxZeesSXqkpYWpMs/SEdVtA8lEIxDI5790pCfvvcJAAI3ENrtqWEsYD0eZ6fNimEQ61ZZRA9vnsNrxuqCU2rEx3l6yb4V9wJXXeVT3kv8qy1y5sjeGFe+UXyqNMzNR5G8UmX0D5TnKroWzjoWwrfer8xc/as3kFR1s/iPN8Aik3UyOcuvFy8VP1dvIPx60XHu3r13xE2LO9VeYQHENcxwwMkseWYS+5eWgkz/hs9WWgIobtL3cDAt8IQa4gKnD/krgHF+Z7BQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n+JfdrWOuR5ddOq/xammMFp9M5K+hLGssvd0jISsI50=;
+ b=Ac4//di8G3HlykyYUhbpLokPk1Z13jv7Njqde8RotmNm8PfaZqlR2j08qXyPkHML1mYCBZpzFIW5DVjt3+/K7z3cdcwvX0sZ6YtMAAnXi+53fiomLzfvAmoTelrlD/9WVo9PaWUp4U0j5FEADEF9wEDY2V8KpRdfJ4yyWwT7ZkDMatNqs+YzxSj+z5LKPQcJOKz17MOfehm3Jbmp6lfO1OGFmMc/DE5ZdLatuoOaEg9nUjVyF5aG9Amhz+HXWxouNbegxu5AA9mbQjVyE/gLavxNS0CKUysud5YoFl6ooc80VIhUUugKzKR8zv4oyGXay7PvhLfP3AYkM3YhxXYY9A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by DS0PR12MB6536.namprd12.prod.outlook.com (2603:10b6:8:d3::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.36; Fri, 21 Mar
+ 2025 20:40:58 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%4]) with mapi id 15.20.8534.031; Fri, 21 Mar 2025
+ 20:40:58 +0000
+Date: Fri, 21 Mar 2025 16:40:56 -0400
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: I Hsin Cheng <richard120310@gmail.com>
+Cc: rostedt@goodmis.org, paulmck@kernel.org, frederic@kernel.org,
+	neeraj.upadhyay@kernel.org, joel@joelfernandes.org,
+	josh@joshtriplett.org, boqun.feng@gmail.com, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang1211@gmail.com, ojeda@kernel.org, alex.gaynor@gmail.com,
+	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+	dakr@kernel.org, rcu@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+	jserv@ccns.ncku.edu.tw
+Subject: Re: [PATCH v2] rust: sync: rcu: Mark Guard methods as inline
+Message-ID: <20250321204056.GA121221@joelnvbox>
+References: <20250319022640.970207-1-richard120310@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250319022640.970207-1-richard120310@gmail.com>
+X-ClientProxiedBy: BL1P222CA0025.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c7::30) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ignacio Encinas Rubio <ignacio@iencinas.com>
-Subject: Re: [PATCH v2 1/2] include/uapi/linux/swab.h: move default
- implementation for swab macros into asm-generic
-To: Arnd Bergmann <arnd@arndb.de>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Alexandre Ghiti <alex@ghiti.fr>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- Shuah Khan <skhan@linuxfoundation.org>,
- Zhihang Shao <zhihang.shao.iscas@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@kernel.org>, Linux-Arch <linux-arch@vger.kernel.org>
-References: <20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com>
- <20250319-riscv-swab-v2-1-d53b6d6ab915@iencinas.com>
- <2afab9dc-e39c-4399-ac5a-87ade4da5ab0@app.fastmail.com>
- <4d45df0c-d44e-4bb6-8daa-0dba1b834bc4@iencinas.com>
- <07b8051b-9d5e-440e-b74d-1ca97402fe2a@app.fastmail.com>
- <ac0b1f3e-6abe-4de2-bf5a-a4b3207a22c3@iencinas.com>
- <583340a9-411d-406f-aee9-d3e2eb80ca43@app.fastmail.com>
-Content-Language: en-US
-In-Reply-To: <583340a9-411d-406f-aee9-d3e2eb80ca43@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS0PR12MB6536:EE_
+X-MS-Office365-Filtering-Correlation-Id: 548e9f00-0d30-4322-f7c2-08dd68b8af4e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ZQL8RAmPkE4u6SjB+kaq10Q6fnE0t1NPbKPUE5IAR9OPACnVUAU/eNJ8wv6s?=
+ =?us-ascii?Q?6pnVt9MaBRrUm1+sG78Xqi1zqJ8E0eeaZM4wtjRn7mqHElA1f7rXVEJhX9bR?=
+ =?us-ascii?Q?0hQvn8SjUlWjrIGJmbtfpd3/7kDh7CMZd7WpVD7h4oeYO8gyIEhkvgLZ6nfl?=
+ =?us-ascii?Q?9oJhxfLWMFJqiftcyDimzSnqjuXLpKEOVJUSP7pKVb922mXt5qTJfrl4U4+t?=
+ =?us-ascii?Q?D04VEW6zGGG2eFC/fAvk3AGSjhOwMcYeBCse5SPioDAZCa3iKbseAa4IXEyg?=
+ =?us-ascii?Q?kDfKNrDiHIr2KLbb6C4NIm2leyKgzLh/vqUC7M2SrAbit2Fu+XImR74BI6y1?=
+ =?us-ascii?Q?urX8FzG57xGtB/EgABJLo2FYcgS9dhqcC0O5pWkYv7kfmEJz9dOprHvqLI8R?=
+ =?us-ascii?Q?XrrmQ4B6hXvQbLOVGLFRTwKxDHYWQg/WUXRvP1D4/p1pSlvpRU6hYCzPycSf?=
+ =?us-ascii?Q?eBhsw8LIpNo0w3GANR6zrlL+RdTIJlrgl2EJzb5ei5hrQjxx5YSrfr1UBWUX?=
+ =?us-ascii?Q?qgc6QkBPnMF+73C0Q0Pmd2luGNULMzBN+auAIw1V4EWlE4qXL9oVc+FIe4IX?=
+ =?us-ascii?Q?GnKWZHL/GTuOImq7ISzN41XbBHNcU6TrJ4TH2hKO/qHtW3ivVIfjMwRoy4VQ?=
+ =?us-ascii?Q?UDh5sy0Er/3frjiKUzz/HxM/ydNQqh/epVpE02qIG5JEqFxfBhW91Dm1jUIK?=
+ =?us-ascii?Q?9ngV4qyr8FulaAAI1t+I+IDJDyP1239UBc9ixQoHeMtGSNpTtzoggnC0w1ux?=
+ =?us-ascii?Q?+kBhYXUfz5j/9evNFZXQ3cozOfJTVIJ1VnIx0dJ322CM4pfd84cQgbI7hOtX?=
+ =?us-ascii?Q?WKpQ7wViIEyJlc6lBwIuYMT6paW5V0DSD5R785GAH6FTCoycfesRS2omN9lY?=
+ =?us-ascii?Q?qVO8Q8qVNILCN69LuE7rTb3hsi4Yxg3ZzegZCSLyOCqYVoSirnsKUVgHDcEQ?=
+ =?us-ascii?Q?i+b84KVtBa0w614OCp+8HhnK3IDLgGb5TmFqIxInK0NyRjNJ7IItcQ4hWS+P?=
+ =?us-ascii?Q?+hUIC7futy7ugjIE8atODGP5X5sDXD5JGg0KdqJXRVz9sYDY60B/XX/Ibee2?=
+ =?us-ascii?Q?7rxOg6h95R+I6Bqq6I+UHT3NLugZcDV3vVIuhLudeNyukK8xGcxwYEc5uf5U?=
+ =?us-ascii?Q?7YofWgnWXmDcnB4Ga7BUIiC1x8WVyIBDFaBtZjxUfQiwyd3IG4gg0THKZ36B?=
+ =?us-ascii?Q?wLzJv5W8PoQiWWNdAPqnbaaBuuazHjx7QujlZ/RSHFVuJZV0GMIE6OwbUPmt?=
+ =?us-ascii?Q?GeNAIIGQYCtsd9bmRIPqNjY1GnI7QD7QhABOa96Vj6pEWZIk1aanKRo97XZy?=
+ =?us-ascii?Q?qDBY0VFVNL2dFeytEjxAo6jmbYebujsTYHh3595s8ieThlwOwdwCQDF61ZaY?=
+ =?us-ascii?Q?AUc05DjEXnWRDdkQqXs09u+pCZDQ?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8059.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?oKouiTFv92aNJphPTPL2N5JGYAugjgozr8MndQkgRa+5JyA1vP9FjOgHsJMn?=
+ =?us-ascii?Q?ea2FU7PbwhPAv2kgxQD9Rw00EE27X55gorDmugnSPLvfsuAmjXnNTJnL+FR8?=
+ =?us-ascii?Q?sWE6zxgtmgN4rTEiaP83IzPNSIqjw1Xu9hbwQmHtDttFF6a3I51jpypnXQaH?=
+ =?us-ascii?Q?0YqyFXkaLZvUR+0/M8fLyOxklgjwy6Q0ccvsMxxYnzpLqCO3NbkPOglPAYnV?=
+ =?us-ascii?Q?/a/tlXPOjbEtB0ngUvNi0XOICsIyymGjp/JHZ4YaZfdpQRXtKHLxNU/Oj1u2?=
+ =?us-ascii?Q?ipF8R5PLSwsSQtpuo6do6PBlf9M1Gf9epTppeghM3+P7sdNiblG+sx+VFaY2?=
+ =?us-ascii?Q?VdwUmusRSBOwVAPn0yYpiXPSGM9GchfU6P03Z4oxdSH8FQRQq2DyBPDNCLAY?=
+ =?us-ascii?Q?EZYyxEn6Sc+LS16+zZZvXS2N0l+MLqruAY8iQ8/AoFAh+2/eH022EQHM0Ud+?=
+ =?us-ascii?Q?mUsBXE09j3i1CXaD0rlK54EiBUZ7l8DzqYzw6+E+4gQL+NzmfHEvn12fjnVv?=
+ =?us-ascii?Q?aUlLul0m+DcacB9Un+dpPq+TYumItcaSaz2wVtvrj9a/QyM/2D6UaQhrfDxr?=
+ =?us-ascii?Q?m5UHielK74kVQvqsAJWfQ8566pZEPolmO/dcJXDaYuv6z0FRDeEiWxW2PsOU?=
+ =?us-ascii?Q?0hWnbN9RS+LRuRUDfyvXFifATjF9po7x2DExm0fxxWF+GN+Ebkt78e/k/iWa?=
+ =?us-ascii?Q?21QTQcRKqQTuPxZTyX+v7hkLPwUEeIsDLuQVRyyOR8onl4SlizrmJ/PPVhxx?=
+ =?us-ascii?Q?qBFgywIp4j7QrWvZf8c/EtwiQipfeB/z5kD0fA9slF+B2fkx8x5DUPWUsT3I?=
+ =?us-ascii?Q?sJDUYaE3KjsC3maGiN5Q9cGu4D2mdKG6iQQD+GRdyIhldRYoAZiEVI1ScaKx?=
+ =?us-ascii?Q?K3DBa0ERlp6BVTWewU107jp3SPW2kqwq3Friq53AuI4ZJvs8nDXCThkztSrb?=
+ =?us-ascii?Q?VUtmS6h+Mt78AwYKjh8tnHGTP1lyrypbflW4zLvH+wZMqqaYWAXYXn+VCVUZ?=
+ =?us-ascii?Q?L0yUSRiRk9u6SzvsSXwVKSgd1uXUnoEKDxkl6OrmROL5ee/dVmJ++AETZcLr?=
+ =?us-ascii?Q?lY0HuZR1umdLl7PqM1oRUM3AorskrZRHxQRL7C7+x2m90+z9C6CYhrRCm1uH?=
+ =?us-ascii?Q?SHeBxVdtFK6F7L2SOxpqWBX/JNeOZ8vM8wbIU5W5mHvKtraNKxgdWrNZgNDV?=
+ =?us-ascii?Q?1MK6qdl0SsDry176Bzp3UmcuW7seCSMJqqZDZ+9yg6BfCy9cWCkLpnYC15bh?=
+ =?us-ascii?Q?cPiOTAoty44cWKo0JwnWujKz5pVWw4wwywKnn8+bfe3xP0UOf/zM6JRDGirG?=
+ =?us-ascii?Q?mp7Oe3FjKJREHjWZlMImHI++u9k1mkqltSRxZTJmm/AWFIFpf/1kZ567kr1F?=
+ =?us-ascii?Q?4NpWWESWqaTqnv3lV2eWWA6Lzp1MoWWkpC+FRra8ImIYP4YOJVZN/2bcgMcA?=
+ =?us-ascii?Q?1WiMRp1Ycbcfow5mTuqNbTFtMVfY8R3jg8pFkvpe7XCTMwstxJnH1V2gdOlQ?=
+ =?us-ascii?Q?RYP42moqZAKGJoyEBqTbvkvVCvFrNPqVmMazG8sqFFy8WzHqhW0WKjfzxC1c?=
+ =?us-ascii?Q?CAf0+EHxLtS/kxcGhJ7cgqP4Qciu0SpyxMwxjWIY?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 548e9f00-0d30-4322-f7c2-08dd68b8af4e
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2025 20:40:58.2647
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: B1U1CVauWLHrCwyeqDP9QqCZ0yApusaGJBilwI6xXj94Qe6yUol2Wjp0BKGW2QZ5R03RTbsd93VQKdsZxnhxNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6536
 
-
-
-On 21/3/25 11:23, Arnd Bergmann wrote:
-> On Thu, Mar 20, 2025, at 23:36, Ignacio Encinas Rubio wrote:
->> On 19/3/25 22:49, Arnd Bergmann wrote:
->>> On Wed, Mar 19, 2025, at 22:37, Ignacio Encinas Rubio wrote:
->>>> On 19/3/25 22:12, Arnd Bergmann wrote:
->>> Right, I do remember when we had a discussion about this maybe
->>> 15 years ago when gcc didn't have the builtins on all architectures
->>> yet, but those versions are long gone, and we never cleaned it up.
->>
->> I just had a chance to look at this and it looks a bit more complex than
->> I initially thought. ___constant_swab macros are used in more places
->> than I expected, and {little,big}_endian.h define their own macros that
->> are used elsewhere, ...
->>
->> It is not clear to me how to proceed here. I could:
->>
->>   1) Just remove ___constant_swab macros and replace them with
->>   __builtin_swap everywhere
->>
->>   2) Go a step further and evaluate removing __constant_htonl and
->>   relatives
->>
->> Let me know what you think is the best option :)
+On Wed, Mar 19, 2025 at 10:26:40AM +0800, I Hsin Cheng wrote:
+> Currently the implementation of "Guard" methods are basically wrappers
+> around rcu's function within kernel. Building the kernel with llvm
+> 18.1.8 on x86_64 machine will generate the following symbols:
 > 
-> I think we can start enabling CONFIG_ARCH_USE_BUILTIN_BSWAP
-> on all architectures and removing the custom versions
-> from arch/*/include/uapi/asm/swab.h, which all seem to
-> predate the compiler builtins and likely produce worse code.
+> $ nm vmlinux | grep ' _R'.*Guard | rustfilt
+> ffffffff817b6c90 T <kernel::sync::rcu::Guard>::new
+> ffffffff817b6cb0 T <kernel::sync::rcu::Guard>::unlock
+> ffffffff817b6cd0 T <kernel::sync::rcu::Guard as core::ops::drop::Drop>::drop
+> ffffffff817b6c90 T <kernel::sync::rcu::Guard as core::default::Default>::default
+> 
+> These Rust symbols are basically wrappers around functions
+> "rcu_read_lock" and "rcu_read_unlock". Marking them as inline can
+> reduce the generation of these symbols, and saves the size of code
+> generation for 132 bytes.
+> 
+> $ ./scripts/bloat-o-meter vmlinux_old vmlinux_new
 
-This seems fine for some architectures but I don't think we can use
-this approach for RISC-V. RISC-V code assumes that the bitmanip 
-extension might not be available (see arch/riscv/include/asm/bitops.h).
+[..]
+I am queuing this version for 6.16, please in the future add all reviewed-by
+and acked-by tags on resubmissions. This time I added it.
 
-The current approach [1] is to detect this at boot and patch the kernel 
-to adapt it to the actual hardware running it (using specific 
-instructions or not).
+Also I fixed up the demanging to make the change log look less ugly, let me
+know if it doesn't look Ok.
 
-On the other hand, I tried using __builtin_swap for the RISC-V version 
-as an alternative to the "optimized" one (instead of relying on
-___constant_swab, see [2]) and I immediately got compilation errors. 
+------------8<-------------
 
-Some architectures seem to require definitions for __bswapsi2 and 
-__bswapdi2 [3]. I'm guessing this happens for the architectures that
-don't require bit manipulation instructions but have them as extensions.
+From: I Hsin Cheng <richard120310@gmail.com>
+Subject: [PATCH v2] rust: sync: rcu: Mark Guard methods as inline
 
-arm,csky,mips and xtensa seem to fit this description as they 
-feature their own __bswapsi2 implementations. Note that they simply
-call ___constant_swab or are ___constant_swab written in assembly
-language [4] [5].
+Currently the implementation of "Guard" methods are basically wrappers
+around rcu's function within kernel. Building the kernel with llvm
+18.1.8 on x86_64 machine will generate the following symbols:
 
-Unless I'm missing something, it seems to me that using compiler 
-builtins (at least for RISC-V, and potentially others) is even more 
-problematic than keeping ___constant_swab around. What do you think, 
-should we keep patch 1 after all?
+$ nm vmlinux | grep ' _R'.*Guard | rustfilt
+ffffffff817b6c90 T <kernel::sync::rcu::Guard>::new
+ffffffff817b6cb0 T <kernel::sync::rcu::Guard>::unlock
+ffffffff817b6cd0 T <kernel::sync::rcu::Guard as core::ops::drop::Drop>::drop
+ffffffff817b6c90 T <kernel::sync::rcu::Guard as core::default::Default>::default
 
-We could remove __arch_swab for architectures that always assume bit 
-manipulation instructions availability, but then the kernel would fall
-back into ___constant_swab when CONFIG_ARCH_USE_BUILTIN_BSWAP=n. Turning
-their custom implementations into 
+These Rust symbols are basically wrappers around functions
+"rcu_read_lock" and "rcu_read_unlock". Marking them as inline can
+reduce the generation of these symbols, and saves the size of code
+generation for 132 bytes.
 
-	#define __arch_swabXY __builtin_bswapXY
+$ ./scripts/bloat-o-meter vmlinux_old vmlinux_new
+(Output is demangled for readability)
 
-would solve this issue, but I'm not sure it is an acceptable approach.
+add/remove: 0/10 grow/shrink: 0/1 up/down: 0/-132 (-132)
+Function                                     old     new   delta
+rust_driver_pci::SampleDriver::probe        1041    1034      -7
+kernel::sync::rcu::Guard::default             9       -      -9
+kernel::sync::rcu::Guard::drop                9       -      -9
+kernel::sync::rcu::read_lock                  9       -      -9
+kernel::sync::rcu::Guard::unlock              9       -      -9
+kernel::sync::rcu::Guard::new                 9       -      -9
+__pfx__kernel::sync::rcu::Guard::default     16       -     -16
+__pfx__kernel::sync::rcu::Guard::drop        16       -     -16
+__pfx__kernel::sync::rcu::read_lock          16       -     -16
+__pfx__kernel::sync::rcu::Guard::unlock      16       -     -16
+__pfx__kernel::sync::rcu::Guard::new         16       -     -16
+Total: Before=23365955, After=23365823, chg -0.00%
 
-Thanks!
+Link: https://github.com/Rust-for-Linux/linux/issues/1145
+Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+Reviewed-by: Joel Fernandes <joelagnelf@nvidia.com>
+Reviewed-by: Benno Lossin <benno.lossin@proton.me>
+Reviewed-by: Charalampos Mitrodimas <charmitro@posteo.net>
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+---
+ rust/kernel/sync/rcu.rs | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-[1] https://lore.kernel.org/all/ce034f2b-2f6e-403a-81f1-680af4c72929@ghiti.fr/
-[2] https://lore.kernel.org/all/20250319-riscv-swab-v2-2-d53b6d6ab915@iencinas.com/
-[3] https://gcc.gnu.org/onlinedocs/gcc-13.3.0/gccint.pdf
-[4] https://lore.kernel.org/all/20230512164815.2150839-1-jcmvbkbc@gmail.com/
-[5] https://lore.kernel.org/all/1664437198-31260-3-git-send-email-yangtiezhu@loongson.cn/
+diff --git a/rust/kernel/sync/rcu.rs b/rust/kernel/sync/rcu.rs
+index b51d9150ffe2..a32bef6e490b 100644
+--- a/rust/kernel/sync/rcu.rs
++++ b/rust/kernel/sync/rcu.rs
+@@ -17,6 +17,7 @@
+ 
+ impl Guard {
+     /// Acquires the RCU read side lock and returns a guard.
++    #[inline]
+     pub fn new() -> Self {
+         // SAFETY: An FFI call with no additional requirements.
+         unsafe { bindings::rcu_read_lock() };
+@@ -25,16 +26,19 @@ pub fn new() -> Self {
+     }
+ 
+     /// Explicitly releases the RCU read side lock.
++    #[inline]
+     pub fn unlock(self) {}
+ }
+ 
+ impl Default for Guard {
++    #[inline]
+     fn default() -> Self {
+         Self::new()
+     }
+ }
+ 
+ impl Drop for Guard {
++    #[inline]
+     fn drop(&mut self) {
+         // SAFETY: By the type invariants, the RCU read side is locked, so it is ok to unlock it.
+         unsafe { bindings::rcu_read_unlock() };
+@@ -42,6 +46,7 @@ fn drop(&mut self) {
+ }
+ 
+ /// Acquires the RCU read side lock.
++#[inline]
+ pub fn read_lock() -> Guard {
+     Guard::new()
+ }
+-- 
+2.43.0
+
