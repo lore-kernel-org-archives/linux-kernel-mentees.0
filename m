@@ -1,119 +1,66 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DDD13D893
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 23 Mar 2025 03:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70B7DF60;
+	Sun, 23 Mar 2025 14:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742701652; cv=none; b=a6HTMNKbDvba9xIZatP8ISnHjzsyLmhxiftqMs5I6D/YCP+qooOykLwvSMFbuhZSp52m/1BN8rCabXnQcCaupjXiMkFfUGECahX4rNIhDsgSd8zmfRWq28WkDN6LlTFjgw1s37fKzt54v1SLyB3RiXSVzXBiy3eepxei6gJDq/4=
+	t=1742739860; cv=none; b=ilLJGp9jcQBKVLXGqgiwuO8lO7/3SaH+ciiPMrOyOfvXf74p8IAR+pOYpcMfu+Fq+PJ58V4hB4gBkQqZFKXCO+QMgWLU1elz8ApXBpbEE9yB5PDmx6gYec22HrUQ059PoIP6ddKeqbJOx/E9P3XvawYYqrknF+S1PEaylJ4kvs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742701652; c=relaxed/simple;
-	bh=WEU78p+4ISCb1u0XqjPlV+IporpqnM/H0CSjyncfgQc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j0ggCx4GvECzZAjeMw5dMwTm7AwVwQXy2R8SrDpWG84tkX7Q6O1owMYxhkkRTUkJP12J7pVN9bxxBUf1eEZlsXrDBdSUtvwzhrfdH6Z/m3XdHlwVAfu/py8F1E7DAy4IWhVfMEqbaU6Tv6gJy1pJkvJxBf8N5IcFWm257I35eXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VBx4dVxD; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742739860; c=relaxed/simple;
+	bh=SBYzxFD1hwFvuIV4C5YJU/aVEIiuuFHGYfxfHfLvkQI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qr6lWH2GawxnXKWG3QxGhHIhF6voz3nUf6M51QrFzRloqQ6tIWmfMIyvMqPNeCKDrHU1pDKdmyATVWtQrfXsvOc8t18l9PWTB5HXpAxF52Ylte8omW4Pwy4WrVJU7NJiS17AnKHmEv+obmhj28hxsD6KgVz9Dvfai05hiiiN0UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RzuMR0Ls; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VBx4dVxD"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-226185948ffso63320135ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 22 Mar 2025 20:47:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742701650; x=1743306450; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b6XOCol3u2a6nPObOOGbkI8Fg5Rq3rgeqOQ9YANUzBs=;
-        b=VBx4dVxD5Hlo8VgzljkJkK8UR0d+6T/FnDK6HghoRncpmjcYXMBKtLHT7ZLf6n06xZ
-         pcFUHcZLvvgqKMmIRZjOuJc5QfeYikRQldZRk9F9epGGtmV6cjYC1/j7feeKBMFo4F/9
-         zdWAxMW/CKTe4zz60M8eBgXCJ7vYmrswttYUvgjR5Vlfykh/CbiD6mtyKK15GC06PUEu
-         GZM/EPnLFHbI/lfb3VKsMLQtESpVB/sSnGNU8AqloOpGtlxBjXavdnPbm65uotimNeG1
-         WrA/+jWHTD19lQG+ub0JY1siZbiSPCxefC1vkfhZ8L3P63pP1Dal73E8om/OCHSmBbxj
-         J1Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742701650; x=1743306450;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=b6XOCol3u2a6nPObOOGbkI8Fg5Rq3rgeqOQ9YANUzBs=;
-        b=Vwp1idCkjFzMiQcy1MKb9IsQ4Toq6GjC8aPrSo2SR+8TBHAH72rfzR+9jZi8lnmoQU
-         68khholPegzsnwJiOLjBWB7ROi7/7pYVxQe9yxOCEY7mFt1dR55gbWtna7NzcZTJt6Kw
-         Wjgr0pMod9EoE5ZmkpBs5Bmaqi0IJ9KqeNC2O0t0k3D4zmbf/v55ZOixPZcCLFpq1k8H
-         SVRnpQRCF42Do3tuFg40A5jAjSLCrinP75t7qe8mfZjjMUE6DhRTkW1+mRBS8Ku1jedZ
-         WmLWN/7qRby6ZwCMMPAxLoYnJDZV4wamsqUpM/3OBH9dHNQ3u1+8yGMz4HJjwjnfQjou
-         O30Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXlW+qCSV/LbnMkoDRrdC7grfajdUosB+SARuOzmkhELUogEuw6Py9MMsdJemul1D1KhQNKqX6qvs0NjVjSozGFli1uwg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxlh1EToYxJzhk9QZ9P2v9iLH79xQD4mHvrrbAEwxH3/7wcjt1w
-	fWWetBw2FpBpTSxVkQGggPSuCLZW8sGRPP9dIWx9FOyANfbA/5wo
-X-Gm-Gg: ASbGnctjpq5kqa0AHHS4AChGyuCBOHLswhLb4DFgDoyM+y/DABuRUebmL/l0PnBJPxf
-	ep4E7jlCOOz4PqXg42DbiAKHduAQFiqjjkcDZaAPM1ZLRRl/nNCv1QeRlHWuywZgVDSMFUQrOKm
-	sGio+w2yRRtuvkE2nuXEaT6rjqA65zEE44Ea5VJLvQaiWKqHz8rwMKS/uSA5flmCdycVftawyHP
-	mVhHWzR17N36R1wOtsPLAhkssbLlaawvk2p5XG2SV/d6DMX6dgq8kNLaBzLEcoAVNsIGXydKrcF
-	RAQRc2GiwZE3rJZQfTp6/vRSCixcZimBBLvVnfUB6f4QA2LWJ4X/1Y8u1TriA/SrtdkGsleFM/o
-	=
-X-Google-Smtp-Source: AGHT+IGUsaWLVZsiSf2Nx/UAovAOD7/IzjSlUccrMhNTRIciOQVi+kOE55M63M4IOxnqDRElDxhI9g==
-X-Received: by 2002:a17:902:f54e:b0:223:fb3a:8647 with SMTP id d9443c01a7336-22780e0a4b3mr137083985ad.41.1742701650031;
-        Sat, 22 Mar 2025 20:47:30 -0700 (PDT)
-Received: from vaxr-ASUSPRO-D840MB-M840MB.. ([2001:288:7001:2703:ea7b:3f3b:ca04:6bed])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22780f3962esm43771985ad.4.2025.03.22.20.47.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Mar 2025 20:47:29 -0700 (PDT)
-From: I Hsin Cheng <richard120310@gmail.com>
-To: corbet@lwn.net
-Cc: willy@infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	I Hsin Cheng <richard120310@gmail.com>
-Subject: [PATCH] docs: vfs: Update struct file_system_type
-Date: Sun, 23 Mar 2025 11:47:25 +0800
-Message-ID: <20250323034725.32329-1-richard120310@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RzuMR0Ls"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=quM6B9G2VUOD40sCNsVXuMGBCuUlsByGgiKxIF63r7o=; b=RzuMR0LsCk0+xzbYpEFUG149Lw
+	xXA5lIIX+nXb6B8yT0wLBeIJBYcx5SSeI8q+bx9SPJTV5U0/46QwRHw06eDpgk5Naqr0RkA6VQBbg
+	H2snYOKQ6raJydR3xwh4TE84QOjIZ7y9nogjOuF5K57Lnpiz+mJjtjI9/aEayeGoVvBblP06t4/Ln
+	9HEZwqbbeG/JH3Xr7hnh6u7ZtvU4o8vQY8kdDFHQPpCnr5SD5k9B+1KLGNn+U9mErXXAoGYRKOz50
+	URN0kAVfTn6m5gd9+twXzB9oILtiSnCsctrhPE/rv1IpYz97fHVHmaLU6iopIftDOyMS0PldP7P7K
+	1lAw3zqg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1twMFG-00000006fyU-0Kjr;
+	Sun, 23 Mar 2025 14:24:10 +0000
+Date: Sun, 23 Mar 2025 14:24:09 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: I Hsin Cheng <richard120310@gmail.com>
+Cc: corbet@lwn.net, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] docs: vfs: Update struct file_system_type
+Message-ID: <Z-AZiYwkE9PsST90@casper.infradead.org>
+References: <20250323034725.32329-1-richard120310@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250323034725.32329-1-richard120310@gmail.com>
 
-The structure definition now in the kernel adds macros defining the
-value of "fs_flags", and the value "FS_NO_DCACHE" no longer exists,
-update it to an existing flag value.
+On Sun, Mar 23, 2025 at 11:47:25AM +0800, I Hsin Cheng wrote:
+> The structure definition now in the kernel adds macros defining the
+> value of "fs_flags", and the value "FS_NO_DCACHE" no longer exists,
+> update it to an existing flag value.
 
-Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
----
- Documentation/filesystems/vfs.rst | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+What value does it add to duplicate these flag definitions in the
+documentation?  I would not do this.
 
-diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-index 31eea688609a..4e7fa09ffb6d 100644
---- a/Documentation/filesystems/vfs.rst
-+++ b/Documentation/filesystems/vfs.rst
-@@ -115,6 +115,14 @@ members are defined:
- 	struct file_system_type {
- 		const char *name;
- 		int fs_flags;
-+	#define FS_REQUIRES_DEV		1
-+	#define FS_BINARY_MOUNTDATA	2
-+	#define FS_HAS_SUBTYPE		4
-+	#define FS_USERNS_MOUNT		8	/* Can be mounted by userns root */
-+	#define FS_DISALLOW_NOTIFY_PERM	16	/* Disable fanotify permission events */
-+	#define FS_ALLOW_IDMAP         32      /* FS has been updated to handle vfs idmappings. */
-+	#define FS_MGTIME		64	/* FS uses multigrain timestamps */
-+	#define FS_RENAME_DOES_D_MOVE	32768	/* FS will handle d_move() during rename() internally. */
- 		int (*init_fs_context)(struct fs_context *);
- 		const struct fs_parameter_spec *parameters;
- 		struct dentry *(*mount) (struct file_system_type *, int,
-@@ -140,7 +148,7 @@ members are defined:
- 	"msdos" and so on
- 
- ``fs_flags``
--	various flags (i.e. FS_REQUIRES_DEV, FS_NO_DCACHE, etc.)
-+	various flags (i.e. FS_REQUIRES_DEV, FS_BINARY_MOUNTDATA, etc.)
- 
- ``init_fs_context``
- 	Initializes 'struct fs_context' ->ops and ->fs_private fields with
--- 
-2.43.0
+> @@ -140,7 +148,7 @@ members are defined:
+>  	"msdos" and so on
+>  
+>  ``fs_flags``
+> -	various flags (i.e. FS_REQUIRES_DEV, FS_NO_DCACHE, etc.)
+> +	various flags (i.e. FS_REQUIRES_DEV, FS_BINARY_MOUNTDATA, etc.)
 
+This should be "eg.", not "i.e."
