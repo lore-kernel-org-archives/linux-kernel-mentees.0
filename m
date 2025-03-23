@@ -1,98 +1,119 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A5322CBF8
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Mar 2025 21:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DDD13D893
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 23 Mar 2025 03:47:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742591270; cv=none; b=uDlQ6IAURkoBrQp8CwKqkciU634k3khZ/S1AOHpjwMQtbfyokWcooO8diwRxq8GYqK61AjCaaKyOD2n1sxjQKve/m1dzxqRUQecNkW8d/pBejcc0dyyYIDLNqnN1HhEbK4pcLfBWiJaNr/Oh5gnequNe8i+7hh7tTeO4RbcPdrc=
+	t=1742701652; cv=none; b=a6HTMNKbDvba9xIZatP8ISnHjzsyLmhxiftqMs5I6D/YCP+qooOykLwvSMFbuhZSp52m/1BN8rCabXnQcCaupjXiMkFfUGECahX4rNIhDsgSd8zmfRWq28WkDN6LlTFjgw1s37fKzt54v1SLyB3RiXSVzXBiy3eepxei6gJDq/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742591270; c=relaxed/simple;
-	bh=pRTN18mZjehBMY6cltsFf8sEbzCBSl3WgAjrrN95J08=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xtt3CQl6ery41ad+GH5avbbRFtrqb8+mM3vtkMA+MsRFOKluxAjMkuGT/gNytG68ImaxQbMqQ2+1lfhVr8u2eg7Ah+N/Jfn+HVtBNDtyvZmQXNQudgzrrfslUmYYEc0miJ/HhDASnbbJsudv6qEE160+5EQOLnR0vSJXgraKdGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=mxIWHDCe; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+	s=arc-20240116; t=1742701652; c=relaxed/simple;
+	bh=WEU78p+4ISCb1u0XqjPlV+IporpqnM/H0CSjyncfgQc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j0ggCx4GvECzZAjeMw5dMwTm7AwVwQXy2R8SrDpWG84tkX7Q6O1owMYxhkkRTUkJP12J7pVN9bxxBUf1eEZlsXrDBdSUtvwzhrfdH6Z/m3XdHlwVAfu/py8F1E7DAy4IWhVfMEqbaU6Tv6gJy1pJkvJxBf8N5IcFWm257I35eXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VBx4dVxD; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="mxIWHDCe"
-Message-ID: <fd8e4380-eba3-4602-b925-d81c0afed6d8@iencinas.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1742591266;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tlC6VNAA0VKAuMw2O3RagiC9hLYLd/5P5o/W8WtfpYs=;
-	b=mxIWHDCeeOon6AofoQVDS+HDSKfYnVbPF754rvwIAwLC/90cv4eaY2l7cOOmH71p4z4pYd
-	3eb/sNdx0t06NJ6Uv2tnHtnP7ig3INMcIuHTY+GjKlFICWFi4gdK0pxJXanvDLMc7kxmIu
-	WYCfKmw/2vvmgzkPVEOWRWMv3zdx5T9+nqqyL/0hgimAd77zQKiQMlMz7e2EzLfEnaxF8E
-	CJhtGjidv1dnu83bXQXOaPz2SvRScNjw0/nZgHIa58dpHyTWxmCXc3zDdeOck9kezpPwPU
-	Z8SR5t09thvptD8qA8BdOh+isZLwUBLvO9jsPbc83RG3UEXWlKwnC0wnBoX/zQ==
-Date: Fri, 21 Mar 2025 22:07:41 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VBx4dVxD"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-226185948ffso63320135ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 22 Mar 2025 20:47:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742701650; x=1743306450; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b6XOCol3u2a6nPObOOGbkI8Fg5Rq3rgeqOQ9YANUzBs=;
+        b=VBx4dVxD5Hlo8VgzljkJkK8UR0d+6T/FnDK6HghoRncpmjcYXMBKtLHT7ZLf6n06xZ
+         pcFUHcZLvvgqKMmIRZjOuJc5QfeYikRQldZRk9F9epGGtmV6cjYC1/j7feeKBMFo4F/9
+         zdWAxMW/CKTe4zz60M8eBgXCJ7vYmrswttYUvgjR5Vlfykh/CbiD6mtyKK15GC06PUEu
+         GZM/EPnLFHbI/lfb3VKsMLQtESpVB/sSnGNU8AqloOpGtlxBjXavdnPbm65uotimNeG1
+         WrA/+jWHTD19lQG+ub0JY1siZbiSPCxefC1vkfhZ8L3P63pP1Dal73E8om/OCHSmBbxj
+         J1Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742701650; x=1743306450;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b6XOCol3u2a6nPObOOGbkI8Fg5Rq3rgeqOQ9YANUzBs=;
+        b=Vwp1idCkjFzMiQcy1MKb9IsQ4Toq6GjC8aPrSo2SR+8TBHAH72rfzR+9jZi8lnmoQU
+         68khholPegzsnwJiOLjBWB7ROi7/7pYVxQe9yxOCEY7mFt1dR55gbWtna7NzcZTJt6Kw
+         Wjgr0pMod9EoE5ZmkpBs5Bmaqi0IJ9KqeNC2O0t0k3D4zmbf/v55ZOixPZcCLFpq1k8H
+         SVRnpQRCF42Do3tuFg40A5jAjSLCrinP75t7qe8mfZjjMUE6DhRTkW1+mRBS8Ku1jedZ
+         WmLWN/7qRby6ZwCMMPAxLoYnJDZV4wamsqUpM/3OBH9dHNQ3u1+8yGMz4HJjwjnfQjou
+         O30Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXlW+qCSV/LbnMkoDRrdC7grfajdUosB+SARuOzmkhELUogEuw6Py9MMsdJemul1D1KhQNKqX6qvs0NjVjSozGFli1uwg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxlh1EToYxJzhk9QZ9P2v9iLH79xQD4mHvrrbAEwxH3/7wcjt1w
+	fWWetBw2FpBpTSxVkQGggPSuCLZW8sGRPP9dIWx9FOyANfbA/5wo
+X-Gm-Gg: ASbGnctjpq5kqa0AHHS4AChGyuCBOHLswhLb4DFgDoyM+y/DABuRUebmL/l0PnBJPxf
+	ep4E7jlCOOz4PqXg42DbiAKHduAQFiqjjkcDZaAPM1ZLRRl/nNCv1QeRlHWuywZgVDSMFUQrOKm
+	sGio+w2yRRtuvkE2nuXEaT6rjqA65zEE44Ea5VJLvQaiWKqHz8rwMKS/uSA5flmCdycVftawyHP
+	mVhHWzR17N36R1wOtsPLAhkssbLlaawvk2p5XG2SV/d6DMX6dgq8kNLaBzLEcoAVNsIGXydKrcF
+	RAQRc2GiwZE3rJZQfTp6/vRSCixcZimBBLvVnfUB6f4QA2LWJ4X/1Y8u1TriA/SrtdkGsleFM/o
+	=
+X-Google-Smtp-Source: AGHT+IGUsaWLVZsiSf2Nx/UAovAOD7/IzjSlUccrMhNTRIciOQVi+kOE55M63M4IOxnqDRElDxhI9g==
+X-Received: by 2002:a17:902:f54e:b0:223:fb3a:8647 with SMTP id d9443c01a7336-22780e0a4b3mr137083985ad.41.1742701650031;
+        Sat, 22 Mar 2025 20:47:30 -0700 (PDT)
+Received: from vaxr-ASUSPRO-D840MB-M840MB.. ([2001:288:7001:2703:ea7b:3f3b:ca04:6bed])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22780f3962esm43771985ad.4.2025.03.22.20.47.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Mar 2025 20:47:29 -0700 (PDT)
+From: I Hsin Cheng <richard120310@gmail.com>
+To: corbet@lwn.net
+Cc: willy@infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	I Hsin Cheng <richard120310@gmail.com>
+Subject: [PATCH] docs: vfs: Update struct file_system_type
+Date: Sun, 23 Mar 2025 11:47:25 +0800
+Message-ID: <20250323034725.32329-1-richard120310@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/2] riscv: introduce asm/swab.h
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Alexandre Ghiti <alex@ghiti.fr>,
- Arnd Bergmann <arnd@arndb.de>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, Zhihang Shao <zhihang.shao.iscas@gmail.com>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- linux-arch@vger.kernel.org
-References: <20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com>
- <20250319-riscv-swab-v2-2-d53b6d6ab915@iencinas.com>
- <20250321033718.GA98513@sol.localdomain>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ignacio Encinas Rubio <ignacio@iencinas.com>
-In-Reply-To: <20250321033718.GA98513@sol.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
+The structure definition now in the kernel adds macros defining the
+value of "fs_flags", and the value "FS_NO_DCACHE" no longer exists,
+update it to an existing flag value.
 
+Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+---
+ Documentation/filesystems/vfs.rst | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-On 21/3/25 4:37, Eric Biggers wrote:
-> On Wed, Mar 19, 2025 at 10:09:46PM +0100, Ignacio Encinas wrote:
->> +#define ARCH_SWAB(size) \
->> +static __always_inline unsigned long __arch_swab##size(__u##size value) \
->> +{									\
->> +	unsigned long x = value;					\
->> +									\
->> +	asm goto(ALTERNATIVE("j %l[legacy]", "nop", 0,			\
->> +			     RISCV_ISA_EXT_ZBB, 1)			\
->> +			     :::: legacy);				\
-> 
-> Is there a reason to use this instead of
-> riscv_has_extension_likely(RISCV_ISA_EXT_ZBB) which seems to do the same thing,
-> including using a static branch?
+diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+index 31eea688609a..4e7fa09ffb6d 100644
+--- a/Documentation/filesystems/vfs.rst
++++ b/Documentation/filesystems/vfs.rst
+@@ -115,6 +115,14 @@ members are defined:
+ 	struct file_system_type {
+ 		const char *name;
+ 		int fs_flags;
++	#define FS_REQUIRES_DEV		1
++	#define FS_BINARY_MOUNTDATA	2
++	#define FS_HAS_SUBTYPE		4
++	#define FS_USERNS_MOUNT		8	/* Can be mounted by userns root */
++	#define FS_DISALLOW_NOTIFY_PERM	16	/* Disable fanotify permission events */
++	#define FS_ALLOW_IDMAP         32      /* FS has been updated to handle vfs idmappings. */
++	#define FS_MGTIME		64	/* FS uses multigrain timestamps */
++	#define FS_RENAME_DOES_D_MOVE	32768	/* FS will handle d_move() during rename() internally. */
+ 		int (*init_fs_context)(struct fs_context *);
+ 		const struct fs_parameter_spec *parameters;
+ 		struct dentry *(*mount) (struct file_system_type *, int,
+@@ -140,7 +148,7 @@ members are defined:
+ 	"msdos" and so on
+ 
+ ``fs_flags``
+-	various flags (i.e. FS_REQUIRES_DEV, FS_NO_DCACHE, etc.)
++	various flags (i.e. FS_REQUIRES_DEV, FS_BINARY_MOUNTDATA, etc.)
+ 
+ ``init_fs_context``
+ 	Initializes 'struct fs_context' ->ops and ->fs_private fields with
+-- 
+2.43.0
 
-I just followed what's already in arch/riscv/include/asm/bitops.h
-
-However, I changed it to
-
-	if(riscv_has_extension_likely(RISCV_ISA_EXT_ZBB)) {
-		asm volatile (".option push\n"
-			      ".option arch,+zbb\n"
-			      "rev8 %0, %1\n"
-			      ".option pop\n"
-			      : "=r" (x) : "r" (x));
-		return x >> (BITS_PER_LONG - size);
-	}
-
-	return  ___constant_swab##size(value);
-
-and it seems gcc generates the exact same code. I tested it with 
-arch/riscv/lib/csum.c (which uses swab32) and both versions generate the
-exact same object file.
-
-This certainly looks easier to read. If there are no complaints I'll
-send a v3 using a plain if with riscv_has_extension_likely.
-
-Thanks for pointing it out!
