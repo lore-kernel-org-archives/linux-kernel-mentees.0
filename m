@@ -1,97 +1,87 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE20D1C8638
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Mar 2025 14:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2A51F4196
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Mar 2025 15:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743000489; cv=none; b=UtcQ+0UVVhCwBf4azgtvMGMSCE72J1wGX33YPSdJUJP1nAtj1OX3gzt78pS+ilX6ZyQIUcyekEY9kP0C+3EIzwPXb1dCDvXsVEc74pfcXn5GhECH1e2dV4aV+z7CnkIqF7mlHsCnAK3dsF1t7OscEtSqif4HHL2BPb9y36BXNr8=
+	t=1743004175; cv=none; b=SLx+LZ4rgmggcZGBczS8aHzD3qw1eqLFUK0QtN/yF3wpCD61048tjmcKXrsY/V9M4nkdMgJNqXnh5q8xpKfWwrl3hCodNYQHogJerobN0ISNFjCA/tl1LyrhWFNjiOSjPBmopKmEVt0sJtxQYSdi8xYw7Z1ZlVcwqADwK92rxLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743000489; c=relaxed/simple;
-	bh=P/YGDyAuI5cdqgreFYOTvG0r4vimRMchc6eat/dWEEA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F92DPECeuvvA4IKo9hXjX5bKeiMJzMVh4Mu/qj4lPmBPltFEJfZhbPznwj1W+3c3DGombaD903/Bd/HeeRTqBl0P87llFb1JYWYFRGac6FYu0BbXtHcwTH5/4sjUeF4QFsbSmFT/HtAaYRJLa8f3zXe8TePFkKdzyBy06EfV2Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AsUx8/vw; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1743004175; c=relaxed/simple;
+	bh=xfSoNr3eqnJ5RCwTzb37h1PBTjnHv67iKD5bQpessBA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fTDHX83Ymk5quSnOSX+GYJrf77r5bN+5txi2Wdp6cLyPZuHPx7fyZng2AdgZY2/FtEB2tpkyvHm4+tJvwIIUxY3sdLohWWHbEoqEfciCgTkSOxyGNWLs8dVW6nwv1MdnsrnReGp236FNodNBQqPrnQHmmg50w/IMHplstF5VYsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jMPv219k; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AsUx8/vw"
-Date: Wed, 26 Mar 2025 10:47:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1743000484;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xeUr8pi1jeRPBjVWF8zaOS4IrJNw7MAtgeOuC7rRdTo=;
-	b=AsUx8/vwPjbbb4SPcOLAD1Oyq5bVqDikcrp620Zrw4gKD3QGFetMyFo6CRasIMl3bXHQz6
-	TrN5ndV4i5L7PFkQ3iDhcySCDh+O5JQNe7wrH8hdIyO3oSlNRL4aUaYEM7iBxyQDHk78/3
-	eLaBuqebdZPxWlf1gTkU9Ze1r5ohBNc=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
-Cc: Alan Huang <mmpgouride@gmail.com>, linux-bcachefs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] bcachefs: replace deprecated strncpy() with strscpy()
-Message-ID: <wdagx2vwyv7s2t2tcndwmambwdhmoitvhmnzcopdl3xkfq6ct2@evmzpxnuhi4e>
-References: <20250326094449.16473-1-nicolescu.roxana@protonmail.com>
- <5F3AB2BC-43DA-47A6-A07A-72540B327D11@gmail.com>
- <bmjvipermsvb454mdh5zmlmw4gv4oub5fgh4eowedlit75gqei@3or3va3e52ce>
- <MnHJR6KH9EcCqnLtdxKf3XYBSQQbvXWJafG28O2C2itnS_eETVFoDMfVvFva3dkLMZ-LPRWUhG2g_5HBY_lPZkWOYW2aOg_T4YWTrzXmVZ0=@protonmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jMPv219k"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-303a66af07eso178702a91.2
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Mar 2025 08:49:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743004173; x=1743608973; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xfSoNr3eqnJ5RCwTzb37h1PBTjnHv67iKD5bQpessBA=;
+        b=jMPv219kmWybCb+TyQTemjRrIFXqplq1i4XnkI7WrCCamXUJ8CVhYTVcEBJxauCKgG
+         jEhDpTa4UQMVi17cQZaEj0KsdVNi5Ts+2NmKaapEQUEEQcLkNSeDOHknvgsYIjfrq1tk
+         Iv9eNSJ1PCNbBbEt40GNA8l8y0ekT6ng+U7uL9AsirQ8TZXldHYVqlRUDhZzL1yUySTl
+         lhVna3l0iF+uFYWcsYSJ9OlFc59noqHC5Cz7nnWlZLqkXe6DsGY9hAfHFLDLGp7wdSox
+         C3CA5Hls+oo+xph6kzESyhH6z00JDOCGeWs1CC2mn3VKSdK74NVkmV4MeXxzy198Wn40
+         4nkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743004173; x=1743608973;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xfSoNr3eqnJ5RCwTzb37h1PBTjnHv67iKD5bQpessBA=;
+        b=r/JHT5lVV+DfugJPZd+yHtVfHBp0Mk2uI8x3spMjBguWITSYg/Vd3JebtfhlcSB1yw
+         HGHQ/t8fFVamjfzzNo3d3tviqo2WGVtUwa8wiyBQ1sMkk+2bdc1LphOpXAMKfLIh5+oY
+         2jDf5ZtM0FzzeAW+j/awOoz3CAYoWQU3Rb80ODL98jgq2pe5cHwim4+jrAA7vxqYOHBe
+         wt2mhPhJi7p6uh9YOEiF3V+cBUeyjKiN6WNGrE9V7ehRAJhfaNco0cI2koIDVWTHmjce
+         FJCcxNeX4LVJnUvbmcGBC+g3kuAAmlRD1N4gvLLZk6CpSMcTyQnIARSuLOoveXLg+gAQ
+         gafw==
+X-Forwarded-Encrypted: i=1; AJvYcCVLkkkcbxj+dWAK5N6MWZFAlAYUKUhs98nsoDviwiRjrC9348Dzk55Sa17M46sMm91yqkrWIyAVisa87ax3OuMnjJSC+w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4P3ki5U1L+8XAMejZEFPoDyhQKEQ4cP2xjMQw1NN9lz0c08mI
+	C8skgyRfLrWYeaHq1Xa7O+ce/SiPZ4rG+ivOJ88OLnT9AoAtOLf2xQOpDTwxY+0fHihnQCgZ/lm
+	UV9AYEvbLEdXaDqoPkMKL7v+4DrnUOgPA
+X-Gm-Gg: ASbGncswDan6VFTd0k3dFf5LPTOuUZUBJQL5bzeGTohPKjcyiKosVVrijIYRGUcBssM
+	uHkNs3SloUeOdo10hG1+acymfIwBdHSEFgFnxpXeE4siBdbdPybiBKobxHBGd9/0pHyBqXdzmal
+	zn9sYMR8LLiRVZOGamJN/WLN0b
+X-Google-Smtp-Source: AGHT+IEHeDe2/t1HeJOiCWOApTTyYC+oMi5AxQ80vsD09PwyUp2vhgb4tzUOmzkLr6YV8c2tHV1fPyQSpWz4c/i1Z3o=
+X-Received: by 2002:a17:90a:fc48:b0:2ee:8430:b831 with SMTP id
+ 98e67ed59e1d1-303a7c549c7mr287126a91.2.1743004172648; Wed, 26 Mar 2025
+ 08:49:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <MnHJR6KH9EcCqnLtdxKf3XYBSQQbvXWJafG28O2C2itnS_eETVFoDMfVvFva3dkLMZ-LPRWUhG2g_5HBY_lPZkWOYW2aOg_T4YWTrzXmVZ0=@protonmail.com>
-X-Migadu-Flow: FLOW_OUT
+References: <20250326094449.16473-1-nicolescu.roxana@protonmail.com>
+ <5F3AB2BC-43DA-47A6-A07A-72540B327D11@gmail.com> <bmjvipermsvb454mdh5zmlmw4gv4oub5fgh4eowedlit75gqei@3or3va3e52ce>
+ <MnHJR6KH9EcCqnLtdxKf3XYBSQQbvXWJafG28O2C2itnS_eETVFoDMfVvFva3dkLMZ-LPRWUhG2g_5HBY_lPZkWOYW2aOg_T4YWTrzXmVZ0=@protonmail.com>
+ <wdagx2vwyv7s2t2tcndwmambwdhmoitvhmnzcopdl3xkfq6ct2@evmzpxnuhi4e>
+In-Reply-To: <wdagx2vwyv7s2t2tcndwmambwdhmoitvhmnzcopdl3xkfq6ct2@evmzpxnuhi4e>
+From: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Date: Wed, 26 Mar 2025 21:19:06 +0530
+X-Gm-Features: AQ5f1Jr8G5tcVn1-xgCNxwIlPj-jIruCZ0MdYwdAXH_uPIFPKUaVk9tvv8O1vPs
+Message-ID: <CAPZ5DTF+Q_-10xF915wF3b3aUm5jqZepqoyivF+G4S6ONf_PcQ@mail.gmail.com>
+Subject: Re: [PATCH] bcachefs: replace deprecated strncpy() with strscpy()
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Roxana Nicolescu <nicolescu.roxana@protonmail.com>, Alan Huang <mmpgouride@gmail.com>, 
+	linux-bcachefs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 26, 2025 at 02:40:22PM +0000, Roxana Nicolescu wrote:
-> On Wednesday, March 26th, 2025 at 1:19 PM, Kent Overstreet <kent.overstreet@linux.dev> wrote:
-> 
-> > On Wed, Mar 26, 2025 at 06:02:31PM +0800, Alan Huang wrote:
-> > 
-> > > On Mar 26, 2025, at 17:44, Roxana Nicolescu nicolescu.roxana@protonmail.com wrote:
-> > > 
-> > > > strncpy() is deprecated for NUL-terminated destination buffers. Use
-> > > > strscpy() instead.
-> > > > 
-> > > > Link: https://github.com/KSPP/linux/issues/90
-> > > > Signed-off-by: Roxana Nicolescu nicolescu.roxana@protonmail.com
-> > > > ---
-> > > > fs/bcachefs/btree_trans_commit.c | 2 +-
-> > > > 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/fs/bcachefs/btree_trans_commit.c b/fs/bcachefs/btree_trans_commit.c
-> > > > index c4f524b2ca9a..7ab25b425d11 100644
-> > > > --- a/fs/bcachefs/btree_trans_commit.c
-> > > > +++ b/fs/bcachefs/btree_trans_commit.c
-> > > > @@ -364,7 +364,7 @@ static noinline void journal_transaction_name(struct btree_trans *trans)
-> > > > struct jset_entry_log *l =
-> > > > container_of(entry, struct jset_entry_log, entry);
-> > > > 
-> > > > - strncpy(l->d, trans->fn, JSET_ENTRY_LOG_U64s * sizeof(u64));
-> > > > + strscpy(l->d, trans->fn, JSET_ENTRY_LOG_U64s * sizeof(u64));
-> > > 
-> > > The last time I asked Kent about this line, he didn’t want this.
-> > 
-> > 
-> > Yes, the destination buffer isn't required to be nul terminated.
-> > 
-> > But it seems we should add a comment explaining that :)
-> 
-> I should have checked the mailing list before, but I will keep this in mind for my next contributions.
-> I wonder if we should use memcpy in this case. This is also recommended by the security team here https://github.com/KSPP/linux/issues/90
-> This will also prevent other people from trying to send a similar patch in the future.
+On Wed, Mar 26, 2025 at 8:22=E2=80=AFPM Kent Overstreet
+<kent.overstreet@linux.dev> wrote:
+> Or better, a new helper: when we're copying to a fixed size buffer we
+> really want to zero out the rest of the buffer - we don't just want a
+> single terminating nul.
 
-Or better, a new helper: when we're copying to a fixed size buffer we
-really want to zero out the rest of the buffer - we don't just want a
-single terminating nul.
+I believe strscpy_pad does this?
 
-This has come up in other places in bcachefs, see __bch2_fs_log_msg() in
-btree_update.c, and I would imagine the code for updating superblock
-labels as well.
+https://docs.kernel.org/core-api/kernel-api.html#c.strscpy_pad
