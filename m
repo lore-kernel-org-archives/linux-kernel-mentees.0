@@ -1,74 +1,96 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350A81EBA1C
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Mar 2025 11:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CC61624C9
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Mar 2025 07:01:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742903091; cv=none; b=aZgANb7R+M4bLqV2f85tUOxhIZ7nDvQZ5EkzYnwlZueiRPWiulMDEY8K0THCvRSVq5JmVPl1PfccZCf4Q4WQBFJzpsnd/4LH+kpLPEINQDES2Pi4NEamme0XXvSRGxyOLZ5/q33faB5tetwfZn4XdHtpegmG+b6uTvXvUYMwdB0=
+	t=1742972521; cv=none; b=bMR9yZz/tP5Erv0vpY2AgKbszsT7tgiWGJRMDB8cmfu7zWGED0wUt/ohFOg3siqcswq7Tv1Pof26p80TFGMpR+uZH+wr3ymh0BQZqxBXgP5nP2ElQ1BPASEYKd7TywC5/lNVO7uqQStq/dySryPjnfNSMPNed30em+xCOTpZzzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742903091; c=relaxed/simple;
-	bh=5/nslLODj2vZJkViJjsPxLNg0iwKhOfjrM1t4Q4wrac=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jenCxJiglCKAmvhg6V9JX/5koMi1FfM2yHq1WUeWRwX6zDKjMdOlVSF/jfeam4oyoz6OspFUfvEZRivp8O9J7tO4mkZwZSe1Xglb8t0WbJVDZWbYDOKebngKhEBq3H/K3IN/VUrZpWcneSog0tjTSgWtOAhgz4kFiLk98TcltP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VIMcVbtK; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742972521; c=relaxed/simple;
+	bh=kbfn5AxD6Ehm0QJCn9Njt6hlzD6AjlNkNsiSSAUueQc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uZpyRFlIGKwIpeIOrySGeMp3BkSHceBj8GNKQYr9jVThy3hwTNwTw5O0pUth4SwM5Oov1Hita5w+m1GaQ7zDGRj4Dhu3RGzQa3fTPykxTyFab78e/hEAM/Kjh/4ZgXBFRlrIKzIzh7Ih7vFJMhaVL8WyuIAGUhSguk6WzArnM4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=J2IKZvBp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HikZFqdC; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VIMcVbtK"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-22622ddcc35so37346415ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Mar 2025 04:44:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742903089; x=1743507889; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZN9EoU3NOIXLHMOmv53dJjYHmNGZXjtjYsDTIPQ6mb8=;
-        b=VIMcVbtK2QgEkif5kwUxJLFqsL7AJMSsT1WbYrRDr8ddzZsJVFR2uOLVuIlJWM0j22
-         saljqxk02sG7ZhnZD51dvWW6RX2/URNVifJX6tDt1DRrQzyDHfJugq92Lw8NgkW+g8O+
-         JfFa+Azi/uJvAUsYVYT6VAGxbZ3jnmSdx/3vVd4Zr7yeM4MBI8BSTKW/xpjDBaaPDHw0
-         8caK7MFfs3IJIvLE8clZU6URVGygAx8lC6NUnCreKMTPm9Pa4IfyrSyOfKOG4/kSYAnh
-         MmAZKflKLXk1Tvm9Y7Rw3AtgutE3g2sQdECbkJD1YQBXbnF5IUjZTSKkIiR7u/CPDo98
-         0PkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742903089; x=1743507889;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZN9EoU3NOIXLHMOmv53dJjYHmNGZXjtjYsDTIPQ6mb8=;
-        b=TGBhPHod7+n/2ClfrjNNFQdpARsx2476D+MxbubZX8NgHu7+kq2z5rJOcEaPMBrF93
-         4Sp8GwoegV/XeypCOO4NWxPdrMcLtDBgpB5iEuRSjVzrJY7X8eLW4TFsqQOau/XgUdfM
-         eVYB2FDNxZhU9hBZYN5MUwyuN19sR5SePSpuxiw8WlYDHT5u45IdhtXpR6qYrPu9Q08W
-         JkKUy/JUgduyGcY/U5w5WDGoaXuByr5vP+zfr1E5wyFzvtc27H5BKr3yliK661KflPBm
-         6bNiaQffFLukbKJirTL+xee8J1E/jsiuII+ZejvvrfHijiDAsESZzIGdBfuCFbr/kuE2
-         8HBw==
-X-Forwarded-Encrypted: i=1; AJvYcCXlF6oJYhq8717zHQFkp8rE9z0LIzzkEZZUM3Etv709F0HePPQ63BZxE0/70zGZaD+5EG026u/CUHeSQCoQsmELIaLQEg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxbC2/OF6sMztmH3bg4zca1wvARRzn0gdhV4rCe6/geRpfQY3zX
-	pU/kGAmQ6qUkBbDKBD05RBWG85wFknzW4WKi5ro/VV48x/W0ZJHD
-X-Gm-Gg: ASbGnctw6BMA2lChtCCyhXZjUEO1Zv96mdVzi/XQ6JgabggLJKsw1XB/Iwr5/3aiyUD
-	HmlFZAVYf0BM5DfVKfr4qoBntwTMslX/ObaHcWMvtPfA1A9P4t+ZCK/Wp59oW5QgubqcJUMCJu6
-	/P+aD5GYZKLgRafVhfQZCXUavvuly7urlAwH7SYxYEEDxfWHuyE3OGuD2KNXl6laHjFo+uJo+3R
-	MPd08QYtmEVAgsLyG+C2mMoClGRpHJmUQ+syC/sMN/TD83J9Vp4G/w3fXUq7cIWCoqM5BXGwa6S
-	3WRAmVTerhAlS4k1fvyPKA8cv6ZCwgutN5rNAebtdDs6
-X-Google-Smtp-Source: AGHT+IEd5TqM3Ur2SeElmap55MkC4ZerI/76IhMaZUOxyVFkeLtvIZ9DW1PcVzamcoXnxNeG2XeM8Q==
-X-Received: by 2002:a05:6a21:999a:b0:1f5:67c2:e3eb with SMTP id adf61e73a8af0-1fe43439eb8mr27780478637.41.1742903089202;
-        Tue, 25 Mar 2025 04:44:49 -0700 (PDT)
-Received: from pop-os.. ([49.207.209.237])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73905fd54fasm9824703b3a.49.2025.03.25.04.44.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Mar 2025 04:44:48 -0700 (PDT)
-From: Aditya Dutt <duttaditya18@gmail.com>
-To: Dave Kleikamp <shaggy@kernel.org>
-Cc: Aditya Dutt <duttaditya18@gmail.com>,
-	Ghanshyam Agrawal <ghanshyam1898@gmail.com>,
-	Roman Smirnov <r.smirnov@omp.ru>,
-	Edward Adam Davis <eadavis@qq.com>,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="J2IKZvBp";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HikZFqdC"
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfout.stl.internal (Postfix) with ESMTP id 93D351140137;
+	Wed, 26 Mar 2025 03:01:57 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Wed, 26 Mar 2025 03:01:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1742972517; x=1743058917; bh=S6n1PFsC1w5DEottY+AwJ
+	eJag53HyiRO+q5bkxFofLY=; b=J2IKZvBp6WoCuSf+Enj1G4HWsyNAexnVcN/G+
+	0lp1e79REc9ggHYcHtkm7Yt2cdFIXn3OPOglRgmwX1QgeDcHx46G8KJW7VgYb6cf
+	FTj8KnNd0fWCPSOVxYNMwPlsvsFNIZG+nIMPxwgdpTpCsZRmBK9yBXwgFjccRWZ5
+	LjKxP7JdgnuKcDEkIP3qPstle6g75sXt24SE1PUlbeqDmVJ0x0ibBeG6oqn1Avkk
+	RxpsUg0V8NbeXx3xHB9TdmyABLrHwS8YD0+zD9745NT4mAboZhk199DkewBXc93j
+	g80qMYztjn9b3stN2iacVq0K7MQPyLF58RQv63rlWiS9JcQHw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1742972517; x=1743058917; bh=S6n1PFsC1w5DEottY+AwJeJag53HyiRO+q5
+	bkxFofLY=; b=HikZFqdCQkVrfylr12dgbQ2WTcsjuKjaJa5FyEmXT0wdVXfxKRA
+	lPp4txpNprnnrr4s0yk7AZe+YAOF5s9wbgpmDywyIiVNHi/n/Q8IOlReXlJN13lP
+	0sl/3y6lc7AMKy/eLIAiG9OAJu7vnTB/QyPjXabuek9DXE8XdZ5wVCM4CINXramI
+	oKzxiQKUneB7S5xfIQFK7KQB/fZhJJ939lpzfVrCKN/QQaX6nxShAd8JwagBCAiS
+	OQMIjuD4aD1aeh3i4YYOY9h11p7OANsR34lEzEd9gr7kRqTbOcit5Z7o8IHX0aJV
+	0QZI6mxuWoyZ6HM59faSAn6xDDbpLmTDmrQ==
+X-ME-Sender: <xms:ZKbjZxY0fe4sN8gYyrP8q8p6raVgKgxsHgI4Cydmmfk5yxj8shVbGA>
+    <xme:ZKbjZ4YNWWgb_BorMIat-fJEOfUPopoIcIGop_sN9Eft07gOq95DhnteXl9EB0u-2
+    Pe3FEbcRxrByaINzeY>
+X-ME-Received: <xmr:ZKbjZz9--RII037CM1GABfIXmXb0DDjcAAwRpHR9SYHQGwz07smOqd2DUJBDVQIgJnlE3WZzoImTZlNYUvf3rTlPM9wfF9yjUcK9299GJC8bvO3m>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduieegkeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
+    evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflrghmvghsucfhlhhofigvrhhs
+    uceosgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrg
+    htthgvrhhnpefhvefgkeeiuddtudfhgefgiedvuefhhedtffejtddtfeekieefieejveet
+    hfegheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsohhlugdriihonhgvvdefjeefsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthht
+    ohepudehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehhrghrrhihrdifvghnth
+    hlrghnugesrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdr
+    tghomhdprhgtphhtthhopehsihhquhgvihhrrgesihhgrghlihgrrdgtohhmpdhrtghpth
+    htoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthho
+    pegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegrih
+    hrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhl
+    rdgthhdprhgtphhtthhopegruhhrrggsihhnughordhpihhllhgrihesrghmugdrtghomh
+    dprhgtphhtthhopegrlhgvgidrhhhunhhgsegrmhgurdgtohhm
+X-ME-Proxy: <xmx:ZKbjZ_rGnoREY8PfpwEgVG0VmuD6B4WRPWPRNm7UquJhy6FkvH09gw>
+    <xmx:ZKbjZ8oYG5WQNPFFAommQaMW7ZrXJciXBBLre_fUM0UpMb8Ow7Tj2Q>
+    <xmx:ZKbjZ1Sm7VvTxzgF6xPX4xSt5QQtmqq0-6xVHwx0TSfcMew5Kx0Q8g>
+    <xmx:ZKbjZ0rbrEfZvo_9sYl0PyyHI2jvklYp1YZMnpgNK2WMrImCnXt0qQ>
+    <xmx:ZabjZ4a3pZHLl8x8CSh0Mzcv5ww2ntLzwGpSnBrU9ZkUXlCAU8R1Itiy>
+Feedback-ID: ibd7e4881:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 26 Mar 2025 03:01:54 -0400 (EDT)
+From: James Flowers <bold.zone2373@fastmail.com>
+To: harry.wentland@amd.com,
+	sunpeng.li@amd.com,
+	siqueira@igalia.com,
+	alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	aurabindo.pillai@amd.com,
+	alex.hung@amd.com,
+	skhan@linuxfoundation.org
+Cc: James Flowers <bold.zone2373@fastmail.com>,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
 	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	syzbot+b974bd41515f770c608b@syzkaller.appspotmail.com
-Subject: [PATCH] jfs: fix array-index-out-of-bounds read in add_missing_indices
-Date: Tue, 25 Mar 2025 17:13:39 +0530
-Message-Id: <20250325114339.412100-1-duttaditya18@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd/display: replace use of msleep(<20) with usleep_range for better accuracy
+Date: Wed, 26 Mar 2025 00:00:10 -0700
+Message-ID: <20250326070054.68355-1-bold.zone2373@fastmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -77,81 +99,26 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-stbl is s8 but it must contain offsets into slot which can go from 0 to
-127.
+msleep < 20ms will often sleep for ~20ms (according to Documentation/timers/timers-howto.rst).
 
-Added a bound check for that error and return -EIO if the check fails.
-Also make jfs_readdir return with error if add_missing_indices returns
-with an error.
-
-Reported-by: syzbot+b974bd41515f770c608b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com./bug?extid=b974bd41515f770c608b
-Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
+Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
 ---
- fs/jfs/jfs_dtree.c | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/jfs/jfs_dtree.c b/fs/jfs/jfs_dtree.c
-index 93db6eec4465..de33026d18d2 100644
---- a/fs/jfs/jfs_dtree.c
-+++ b/fs/jfs/jfs_dtree.c
-@@ -2613,7 +2613,7 @@ void dtInitRoot(tid_t tid, struct inode *ip, u32 idotdot)
-  *	     fsck.jfs should really fix this, but it currently does not.
-  *	     Called from jfs_readdir when bad index is detected.
-  */
--static void add_missing_indices(struct inode *inode, s64 bn)
-+static int add_missing_indices(struct inode *inode, s64 bn)
- {
- 	struct ldtentry *d;
- 	struct dt_lock *dtlck;
-@@ -2622,7 +2622,7 @@ static void add_missing_indices(struct inode *inode, s64 bn)
- 	struct lv *lv;
- 	struct metapage *mp;
- 	dtpage_t *p;
--	int rc;
-+	int rc = 0;
- 	s8 *stbl;
- 	tid_t tid;
- 	struct tlock *tlck;
-@@ -2647,6 +2647,16 @@ static void add_missing_indices(struct inode *inode, s64 bn)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index 2cd35392e2da..2d225735602b 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -682,7 +682,7 @@ static bool execute_synaptics_rc_command(struct drm_dp_aux *aux,
+ 		if (rc_cmd == cmd)
+ 			// active is 0
+ 			break;
+-		msleep(10);
++		usleep_range(10000, 10200);
+ 	}
  
- 	stbl = DT_GETSTBL(p);
- 	for (i = 0; i < p->header.nextindex; i++) {
-+		if (stbl[i] < 0) {
-+			jfs_err("jfs: add_missing_indices: Invalid stbl[%d] = %d for inode %ld, block = %lld",
-+				i, stbl[i], (long)inode->i_ino, (long long)bn);
-+			rc = -EIO;
-+
-+			DT_PUTPAGE(mp);
-+			txAbort(tid, 0);
-+			goto end;
-+		}
-+
- 		d = (struct ldtentry *) &p->slot[stbl[i]];
- 		index = le32_to_cpu(d->index);
- 		if ((index < 2) || (index >= JFS_IP(inode)->next_index)) {
-@@ -2664,6 +2674,7 @@ static void add_missing_indices(struct inode *inode, s64 bn)
- 	(void) txCommit(tid, 1, &inode, 0);
- end:
- 	txEnd(tid);
-+	return rc;
- }
- 
- /*
-@@ -3017,7 +3028,10 @@ int jfs_readdir(struct file *file, struct dir_context *ctx)
- 		}
- 
- 		if (fix_page) {
--			add_missing_indices(ip, bn);
-+			if ((rc = add_missing_indices(ip, bn))) {
-+				jfs_err("jfs_readdir: add_missing_indices returned %d", rc);
-+				goto out;
-+			}
- 			page_fixed = 1;
- 		}
- 
-
-base-commit: a8dfb2168906944ea61acfc87846b816eeab882d
+ 	// read rc result
 -- 
-2.34.1
+2.49.0
 
