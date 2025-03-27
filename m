@@ -1,118 +1,72 @@
-Received: from mail-24416.protonmail.ch (mail-24416.protonmail.ch [109.224.244.16])
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BAF72185AB
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 27 Mar 2025 14:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC48D1494DF
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 27 Mar 2025 15:18:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743087015; cv=none; b=d4dFw5JZEJik+5WmuCZAjdUmfESWGKrKcEOHlOsvZW4N6tU7rFGJ2hBkKqaOaNxXI5zO6ZvA4JSuSkoRUguABgsjhbHUmtKhgyAGModBiPPq84i5Irowr2F2nL4Ae75/aoJSK0VsWml+ymLkiREctV+mbjIY1vGgqgfpwUJGYkw=
+	t=1743088699; cv=none; b=KQpfGlwUlox1xsFeqz6XgaB1nAtyS1qgTq1r/IcNjFlqJnYEOOdFenHlcJkSyLIcfCoOq2/xQDCqy6Eu6DTIT5oDbkd9t5CVMVl6LdQYXmQfI2MVX0OXuksqYAOPv/UAm0rxejH8lwEPuPRdHVSZbtbXx9y1Ft59KDHl2r4uZ60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743087015; c=relaxed/simple;
-	bh=ixowdw3/tBH1MKs5lErEbKIY7YjR630dlJ2HH1jf3qA=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cqeUYVSQdSJRERlI2nWHxy1cWykiPQCgNSkRxU8XbR8bLsaYkdDJtbB81PLkcuiQ77UE9fAVkLQ2LA17ngBV++whAXQg0CQFVuoBVJYtr+8QGXk9VEiP5kuRXVsxmIREWnd4JId7HI0RlEEHzw3+QnT3M7KPu1T4sf6/SaVlZio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=F7orR4wr; arc=none smtp.client-ip=109.224.244.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1743088699; c=relaxed/simple;
+	bh=cuXhFi0Q684q6VshDzUdKpFdR+RV+8fRiFoEpDex4D0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GXrpuB/gZMI4gAmN+7jRVz742BmnRNg0QU0hJKS74lAnGWHYHsYthhVWpLNe7Hj0zNFHdUbMyFGCDd8Vimj6704VDB/ND3oUpT/DWc4xboe4Zr2FvaxbKkDyzvAtNFxzwLMI60M1Fmc4Ei6ZMQAroibyzLwjiPY8PehMiWXlowY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PmuwjzXX; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="F7orR4wr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1743087012; x=1743346212;
-	bh=ixowdw3/tBH1MKs5lErEbKIY7YjR630dlJ2HH1jf3qA=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=F7orR4wrE72aQbPzGmqnOiPkwLePLaUAq4hPaWMjLJbCKtYm5dh8xp6Lmoitsj4LV
-	 6JCrlez0LOVkt6Z9jEyXpK0aVInXdigdYSs5sKhDmwJ5kJN9ifeZQMqRWTquwNET+b
-	 Lt6ykNIK5x7xQe1jGRjLbOdEK4Ryj9VQarDojJkTGlb51btIh1mBa6UiZv03akXgHx
-	 DqdSpKEcp2NIRbsxjsWq7q5X/4duIwh1HX0nGbkAblXOOVGhR9XfFZRGiroX+AFqtG
-	 XulK3+1GK1NP0RqWlZU9yBq3iyovituBGDJ0Cs10lJRr/IiIOGnVXfLSdyq0ndZdpH
-	 GWPOOp9O1xs/A==
-Date: Thu, 27 Mar 2025 14:50:09 +0000
-To: kent.overstreet@linux.dev, linux-bcachefs@vger.kernel.org, linux-kernel@vger.kernel.org
-From: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
-Cc: mmpgouride@gmail.com, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v2 2/2] bcachefs: replace memcpy with memcpy_and_pad for jset_entry_log->d buff
-Message-ID: <20250327144956.1974622-3-nicolescu.roxana@protonmail.com>
-In-Reply-To: <20250327144956.1974622-1-nicolescu.roxana@protonmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PmuwjzXX"
+Date: Thu, 27 Mar 2025 11:18:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1743088694;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H4r0xKcuNd6rmrfcOvXl1NVqKbWkKKqNx07ftAXypj8=;
+	b=PmuwjzXXeowyZ4w6q1ob01dqRx4cc6mms8NBU1RkOHa5u+e//eyGxVeR78Y/y1Zew0iHiw
+	mVi4Sgxz8Bi/Pet8lvfD3fQSOrk+E+18iox0CD/bA4KRb2TyoVw19QQ7qD6Sz4tG2XXhND
+	VH9CJi4vxi97c9UWjNSzzAOPrRD8jJU=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
+Cc: linux-bcachefs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	mmpgouride@gmail.com, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2 0/2] Use memcpy_and_pad for jset_entry_log->d init
+Message-ID: <vcyvvmuykkf2jylq7rlqzprmtoz3i5rc4cdro7zohg5n42toz4@3mmabyzvfkge>
 References: <20250327144956.1974622-1-nicolescu.roxana@protonmail.com>
-Feedback-ID: 136600343:user:proton
-X-Pm-Message-ID: 47f30f9e3d6a452ed1ff7232a536c31303ac39d8
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250327144956.1974622-1-nicolescu.roxana@protonmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-This was achieved before by zero-ing out the source buffer and then
-copying the bytes into the destination buffer. This can also be done with
-memcpy_and_pad which will zero out only the destination buffer if its
-size is bigger than the size of the source buffer. This is already used in
-the same way in journal_transaction_name().
+On Thu, Mar 27, 2025 at 02:49:58PM +0000, Roxana Nicolescu wrote:
+> This replaces the depracated usage of strncpy with memcpy_and_pad when
+> used for initializing the d buffer of the struct jset_entry_log.
+> 
+> The other 2 usage of memcpy were also replaced by memcpy_and_pad.
+> 
+> Changes since v1:
+> - since the dest buffer is not required to be NULL-terminated,
+>   memcpy_and_pad is used instead of strscpy. This adds zeros at the end
+>   of the buffer if there's extra room.
+> - the same mechanism was done before in both __bch2_fs_log_msg() and
+> bch2_trans_log_msg by zero-ing out the src buffer. The second patch
+> replaces that logic with memcpy_and_pad to provide uniformity.
+> 
+> Roxana Nicolescu (2):
+>   bcachefs: replace strncpy() with memcpy_and_pad in
+>     journal_transaction_name
+>   bcachefs: replace memcpy with memcpy_and_pad for jset_entry_log->d
+>     buff
+> 
+>  fs/bcachefs/btree_trans_commit.c | 3 ++-
+>  fs/bcachefs/btree_update.c       | 8 +++-----
+>  2 files changed, 5 insertions(+), 6 deletions(-)
 
-Moreover, zero-ing the source buffer was done twice, first in
-__bch2_fs_log_msg() and then in bch2_trans_log_msg(). And this method
-may also require allocating some extra memory for the source buffer.
-
-In conclusion, using memcpy_and_pad is better even tough the result is
-the same because it brings uniformity with what's already used in
-journal_transaction_name, it avoids code duplication and reallocating
-extra memory.
-
-Signed-off-by: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
----
- fs/bcachefs/btree_update.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/fs/bcachefs/btree_update.c b/fs/bcachefs/btree_update.c
-index 13d794f201a5..97495b79ca93 100644
---- a/fs/bcachefs/btree_update.c
-+++ b/fs/bcachefs/btree_update.c
-@@ -826,7 +826,6 @@ int bch2_btree_bit_mod_buffered(struct btree_trans *tra=
-ns, enum btree_id btree,
- int bch2_trans_log_msg(struct btree_trans *trans, struct printbuf *buf)
- {
- =09unsigned u64s =3D DIV_ROUND_UP(buf->pos, sizeof(u64));
--=09prt_chars(buf, '\0', u64s * sizeof(u64) - buf->pos);
-=20
- =09int ret =3D buf->allocation_failure ? -BCH_ERR_ENOMEM_trans_log_msg : 0=
-;
- =09if (ret)
-@@ -839,7 +838,7 @@ int bch2_trans_log_msg(struct btree_trans *trans, struc=
-t printbuf *buf)
-=20
- =09struct jset_entry_log *l =3D container_of(e, struct jset_entry_log, ent=
-ry);
- =09journal_entry_init(e, BCH_JSET_ENTRY_log, 0, 1, u64s);
--=09memcpy(l->d, buf->buf, buf->pos);
-+=09memcpy_and_pad(l->d, u64s * sizeof(u64), buf->buf, buf->pos, 0);
- =09return 0;
- }
-=20
-@@ -852,7 +851,6 @@ __bch2_fs_log_msg(struct bch_fs *c, unsigned commit_fla=
-gs, const char *fmt,
- =09prt_vprintf(&buf, fmt, args);
-=20
- =09unsigned u64s =3D DIV_ROUND_UP(buf.pos, sizeof(u64));
--=09prt_chars(&buf, '\0', u64s * sizeof(u64) - buf.pos);
-=20
- =09int ret =3D buf.allocation_failure ? -BCH_ERR_ENOMEM_trans_log_msg : 0;
- =09if (ret)
-@@ -865,7 +863,7 @@ __bch2_fs_log_msg(struct bch_fs *c, unsigned commit_fla=
-gs, const char *fmt,
-=20
- =09=09struct jset_entry_log *l =3D (void *) &darray_top(c->journal.early_j=
-ournal_entries);
- =09=09journal_entry_init(&l->entry, BCH_JSET_ENTRY_log, 0, 1, u64s);
--=09=09memcpy(l->d, buf.buf, buf.pos);
-+=09=09memcpy_and_pad(l->d, u64s * sizeof(u64), buf.buf, buf.pos, 0);
- =09=09c->journal.early_journal_entries.nr +=3D jset_u64s(u64s);
- =09} else {
- =09=09ret =3D bch2_trans_commit_do(c, NULL, NULL, commit_flags,
---=20
-2.34.1
-
-
+Thanks, series is applied.
