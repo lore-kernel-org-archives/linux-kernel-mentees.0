@@ -1,43 +1,40 @@
-Received: from mail-24416.protonmail.ch (mail-24416.protonmail.ch [109.224.244.16])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BEB1F4174
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Mar 2025 17:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8370B189B91
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 27 Mar 2025 12:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743008731; cv=none; b=DwBl4vi2cle7GEMHIGaOFSuPWe0EQxUdP/Bx1CNrAkITcGKgig+9nZACmdE8km5MQwyhvELvSTN4xlox4q7KrMR2cv5rnf0qqfuj1bOqr2k2SEV4wnRksDddJ6Aa6U7szvYK1T0HtmuSsuGDiDd+7gTsM7V/D7bOkM1nGYP/3jU=
+	t=1743079971; cv=none; b=jDH7+Z+7mCXWUawgPwChB5hpphGZju6AE7qJRHh7cPeDxBGlvEdsTwFf/r9tnQxZ++N9BfBK4WiATfl2sy5LFoJvIJHFWhwDqSf56yxEZ/Vv/OInQMRHt0rI3dmd1jwqQNEM6i5W/PG2tfVZuyLIlAh/MLyZR9LE8JjfNYBGLo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743008731; c=relaxed/simple;
-	bh=EppiJDvO33gydWBIyW0r22bPtgqyv/3Q/ZpsaPqZP4o=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VkrMfOEHpkaWSbkCA/EQ7BheyzW1XInTY1F0ZnpabYqQkdmdhA2JHvYfjXrIM4Xmg2FswiQgzVXmVEOyzNS0DScPzXxTIXSwHCbqEgpmgzSUfDBxDYXs/fC89tjuf2sUHulEj5xep9dFoz4ewtuNuGFwJqbGoIinb78kf4/zqRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=mu0+NCgn; arc=none smtp.client-ip=109.224.244.16
+	s=arc-20240116; t=1743079971; c=relaxed/simple;
+	bh=kDcacIj/Y+T90hr0jJr5CvdFZhxFRaS5gTmVva6Yw54=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=DLa6xc8+FzqriebwTAv9lL9WmEzobfbFmSpXJIBIpf530IDpgjCMYx2H1V3wvu5WenmTvRv+Q+YVlj8MlC+f0xCru8pyxydhTI8B61LwzfjzaV/0GdhMG9sMv/IRJKZW/7rIkH+m8/SpoJICGYKjSXciS7s9Ztv7o0usII4BHb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=FvRe3Dfq; arc=none smtp.client-ip=185.70.43.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="mu0+NCgn"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="FvRe3Dfq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1743008721; x=1743267921;
-	bh=R14kZJ+myWn+UELCwLDdhoNgVFBwZU+x8ANJXxnhGJA=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=mu0+NCgn6SWsbz1ZrbBsfa7bFk7a9Vc6N7GH+DLVPy8htWimpxFtVKeWtboZuF7PF
-	 mM+u6rUyQHar/z4+UB3L558ROPXcROk0Um860UT09LHRFM9YL8jy6KC4i+DuE7tltC
-	 HUV+NJbj8KojIe4vG1x+lkCWBt8x4eN9z7tLUUQ3D6s5wNe3zf8HaZGQFBOlLLeNZ2
-	 Uy6o8YTb3lRx7xJpd65O49zBVW3GgG8hsiDbegXxgz6wXYIgAs36btsZosiHHUUvg9
-	 juJf+cSD3H4blRYM0PfLclG95cCGoEUMe39XVgchoK1lrJ5oHchJ67yUOpxlgNlpZn
-	 KcShDfCWz7Nwg==
-Date: Wed, 26 Mar 2025 17:05:17 +0000
-To: Kent Overstreet <kent.overstreet@linux.dev>
+	s=protonmail3; t=1743079961; x=1743339161;
+	bh=ir5gSoPP21iQdu81b4VD9fyuxfe2vR2H6ZZZR/cmXcc=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
+	 List-Unsubscribe:List-Unsubscribe-Post;
+	b=FvRe3Dfq4xmW6lgFo7RLUV9gKwCYWgQag3BBfpW9p4+244PnUSXs+mMDDxehZP8vP
+	 nSOtorpFl6Pwa5SwtpPOh1JuC8ideAgnJ3xoQHQd0AEWFjjRHXycMDfn3FJ3G3CqC0
+	 stCYYNW7BorSZSyS/5i7ETp0ckKw1ChVIqNnGmN2EdsRdKeBui6hQD4pBzYRUBQMUA
+	 Vfx/VktD6mLqmdOQAfP7a+owS4FYKCfrm0+wNj+Mt0qq3/2zo/vmUpNx8zA2uMLN9o
+	 12FnxZ0/7ix2PjRzkWRaZy39NafCoeX9sMIXX6dIkY9UKgZtm36+hYhAUf2BCZrK5o
+	 QB5JmWCJxA0jw==
+Date: Thu, 27 Mar 2025 12:52:37 +0000
+To: kent.overstreet@linux.dev, linux-bcachefs@vger.kernel.org, linux-kernel@vger.kernel.org
 From: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
-Cc: Alan Huang <mmpgouride@gmail.com>, Bharadwaj Raju <bharadwaj.raju777@gmail.com>, linux-bcachefs@vger.kernel.org, linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] bcachefs: replace deprecated strncpy() with strscpy()
-Message-ID: <ULxTq7SIKI8zZzvCtpIc1c4o41NFzejFbPTVQpNwBNjXjxVeJ-YOEShGUxw_uTLIYTiC0PEvER_FLWMDmD2SXc5NCpZ8wD-WxIA_RkpUzKs=@protonmail.com>
-In-Reply-To: <rl77wgelda45zddkutitervzkxd4iip4mxoheglxinqizf4owm@zmub5beyi6x3>
-References: <20250326094449.16473-1-nicolescu.roxana@protonmail.com> <5F3AB2BC-43DA-47A6-A07A-72540B327D11@gmail.com> <bmjvipermsvb454mdh5zmlmw4gv4oub5fgh4eowedlit75gqei@3or3va3e52ce> <MnHJR6KH9EcCqnLtdxKf3XYBSQQbvXWJafG28O2C2itnS_eETVFoDMfVvFva3dkLMZ-LPRWUhG2g_5HBY_lPZkWOYW2aOg_T4YWTrzXmVZ0=@protonmail.com> <wdagx2vwyv7s2t2tcndwmambwdhmoitvhmnzcopdl3xkfq6ct2@evmzpxnuhi4e> <CAPZ5DTF+Q_-10xF915wF3b3aUm5jqZepqoyivF+G4S6ONf_PcQ@mail.gmail.com> <vfszytfd66lqj54nmkymhnrdjodylb7l3alxblzixnlzv7kxom@4dji3xuvmknj> <A4568396-D1E1-4D93-851B-FA9CF9804E10@gmail.com> <rl77wgelda45zddkutitervzkxd4iip4mxoheglxinqizf4owm@zmub5beyi6x3>
+Cc: mmpgouride@gmail.com, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: [[PATCH v2] 0/2] Use memcpy_and_pad for jset_entry_log->d init
+Message-ID: <20250327125235.1958273-1-nicolescu.roxana@protonmail.com>
 Feedback-ID: 136600343:user:proton
-X-Pm-Message-ID: 87eb72cbcdb410d097c9c6183d426c4ec761f885
+X-Pm-Message-ID: a3b376fb33c6156e4595533450a3afd9df72aa11
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -47,43 +44,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wednesday, March 26th, 2025 at 5:41 PM, Kent Overstreet <kent.overstreet=
-@linux.dev> wrote:
+This replaces the depracated usage of strncpy with memcpy_and_pad when
+used for initializing the d buffer of the struct jset_entry_log.
 
-> On Thu, Mar 27, 2025 at 12:36:25AM +0800, Alan Huang wrote:
->=20
-> > On Mar 27, 2025, at 00:17, Kent Overstreet kent.overstreet@linux.dev wr=
-ote:
-> >=20
-> > > On Wed, Mar 26, 2025 at 09:19:06PM +0530, Bharadwaj Raju wrote:
-> > >=20
-> > > > On Wed, Mar 26, 2025 at 8:22=E2=80=AFPM Kent Overstreet
-> > > > kent.overstreet@linux.dev wrote:
-> > > >=20
-> > > > > Or better, a new helper: when we're copying to a fixed size buffe=
-r we
-> > > > > really want to zero out the rest of the buffer - we don't just wa=
-nt a
-> > > > > single terminating nul.
-> > > >=20
-> > > > I believe strscpy_pad does this?
-> > > >=20
-> > > > https://docs.kernel.org/core-api/kernel-api.html#c.strscpy_pad
-> > >=20
-> > > almost, we don't want the 'required nul termination'; that's a
-> > > requirement at least for disk labels where we need to preserve existi=
-ng
-> > > behaviour
-> >=20
-> > memcpy_and_pad :)
->=20
->=20
-> I'll take that patch :)
+The other 2 usage of memcpy were also replaced by memcpy_and_pad.
 
-I'll send a follow-up patch with memcpy_and_pad with the pad_char=3D0. Even=
- though strscpy_pad does not require it, it does make the assumption that t=
-he destination buffer should be NUL-terminated, and it does some extra chec=
-ks we don't need, so memcpy_and_pad is the way to go.
-=20
-I'll also replace the memcpy calls in bch2_trans_log_msg() and __bch2_fs_lo=
-g_ms().  
+Changes since v1:
+- since the dest buffer is not required to be NULL-terminated,
+  memcpy_and_pad is used instead of strscpy. This adds zeros at the end
+  of the buffer if there's extra room.
+- the same mechanism was done before in both __bch2_fs_log_msg() and
+bch2_trans_log_msg by zero-ing out the src buffer. The second patch
+replaces that logic with memcpy_and_pad to provide uniformity.
+
+Roxana Nicolescu (2):
+  bcachefs: replace strncpy() with memcpy_and_pad in
+    journal_transaction_name
+  bcachefs: replace memcpy with memcpy_and_pad for jset_entry_log->d
+    buff
+
+ fs/bcachefs/btree_trans_commit.c | 3 ++-
+ fs/bcachefs/btree_update.c       | 8 +++-----
+ 2 files changed, 5 insertions(+), 6 deletions(-)
+
+--=20
+2.34.1
+
+
