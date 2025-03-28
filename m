@@ -1,69 +1,196 @@
-Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9702AF1C;
-	Thu, 27 Mar 2025 16:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2054321128F
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 28 Mar 2025 03:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743092616; cv=none; b=OMC3vl8MhOt6Ch6uuL6J+feRN0ydVEmhXUpbBiGe03MJTvhm2jULcy8Z2t1XoH9e2c3AZzris11KW7Lr81OFiZ4ftQtS4KU5dwpVUArTeWC6w6VWqgdkHkDW7uB3rgP+R8J9qWuiWVfGNvMsDvCmemjySlHWnYHTIpHVNjGqyo0=
+	t=1743132598; cv=none; b=CsoNR6UPnFvbyZIIQWrH4QiqD6/udr3E1skCtqzvYaPVOqmpAkO6dX3bpgjAZXgpSTSXBIuUi1yXkxdf6uEpAO+SS+Zjdop/lrxFCjZFjzlZ7Y0f+wtXHFdHI5sq6S1WNlG8KZ9LWEMsZLAijmVTr5ExZSr+6YvzP1wDFqYB8j0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743092616; c=relaxed/simple;
-	bh=1hdOmtZ+/j9nYxf8OsNXDo4/n40Gaky7jMOkBxXrKr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fT29Up6Q2/wcTQYe85bayqWQRe7XOjoaUx5bWoZO/F2S4j9Es+ZhyLYBUDEqfP1NwU197Q1oE356mP8aStNgWA+dGKH5ToWlAkk4GzxZoRWCWBgI8+zNGQCwsYRvZTyB0CvRy9V8WC9w+uCRs2+4yXzRnmEbzUXgMUOfwFiu70M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
-Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
-	(envelope-from <fw@strlen.de>)
-	id 1txq0r-00085B-93; Thu, 27 Mar 2025 17:23:25 +0100
-Date: Thu, 27 Mar 2025 17:23:25 +0100
-From: Florian Westphal <fw@strlen.de>
-To: I Hsin Cheng <richard120310@gmail.com>
-Cc: jhs@mojatatu.com, xiyou.wangcong@gmail.com, jiri@resnulli.us,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	s=arc-20240116; t=1743132598; c=relaxed/simple;
+	bh=8/WxSS8N6A7ADDU4kWFIT2nK+URzk2alNowBMmCMsz4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LI/aps/9rMWXwTnmFiuvIFScZ6v1BhWwygmgwwPLqnAJcu64AcdGOBo9vJHWrXGC4KtNVm5g/VhozSilCQlRPd6c9fVB+xhj0LwMokDikUsPTJyiGbkfJt6gveqfebk6zbszSxyI9RKRsosssWUZQfoVEqHYjy2Nk8BUB104EAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=sqeRiTMn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uife+W1O; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="sqeRiTMn";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uife+W1O"
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfout.stl.internal (Postfix) with ESMTP id DBCA711401C0;
+	Thu, 27 Mar 2025 23:29:54 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-08.internal (MEProxy); Thu, 27 Mar 2025 23:29:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1743132594; x=1743218994; bh=Cp9lnvxnIv186+PcpNlli
+	pcDG9HTXGIBE5DKPJ+XZwc=; b=sqeRiTMnXfM6jqq8DA3k13Z2gwVf98zn/H135
+	GS8gXTnNMEJ3MKU/LYrcWreGIEKUUwFwcMiZni9IDYqCYZhiAj3ueNWOxAcNMmb7
+	Ukl2I7cZ67Elzju84csRh4YA6sX1eVOYDKtbpT2NAk+B5YRJGx6n6VqqeHdN40dS
+	HidgHMy3sQCRd63X0nK5MTmtriUq0yiors1t/3rUof5zEQSiRLm3nwKoZiacKt2d
+	iLw0oQOErnrrA4rVzc6A+DPcbFxK8JxJdtMiMSuQgFf64ZkKuZXICOlQc4WhNVOy
+	qriyZ4dCHLdSJIquBkhmbJl1hq9Ik+ipiZVHIOBpiAYeHu/ug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1743132594; x=1743218994; bh=Cp9lnvxnIv186+PcpNllipcDG9HTXGIBE5D
+	KPJ+XZwc=; b=uife+W1ONSbhjyAYkKtKCHueaVurosYX+/re1nHbnO2HBb/vuIn
+	1FTXGpknr2ycz3RCRjGVfAQWPMZ/srvTeCJsUgCArpalhAHbAfiAS8IOnGu0zTRo
+	V9gFqgrt0+2hW6r3W5uKuARubbHjKmpNFYqERgNUPjeL63CdeJ/U4du9DpIDCdx4
+	IJC7r8BATbq81tr7NYLrOXokyqPrsUEXXPPZHRczZ122mwkiSCfKwAL+ML7cZ+iq
+	SsKvfSue5mzE/woQJG4C9wrSE4EbtJXY6fK28PhDperyE/etyN/bGMbTLKc8bkSz
+	1nDslQ+40Fyg1KFtLK3nBY9qfpT2o15rDUA==
+X-ME-Sender: <xms:shfmZ0ueZmte-UCiLj_sx71Sr2OicFTeql5p0qIqBCVMLU_0_1YoDA>
+    <xme:shfmZxfkAizWkzupd75SCwrdIhPYL9H_qFEoR_wguSR-ayfvcaK9ny6xrVmJA5xj8
+    eid39WO4WUuDqlsddw>
+X-ME-Received: <xmr:shfmZ_wfvIQvzMU-OzolW59hbrShzUKUYBO8Ixc8e6e_u3BA4Z16pxECoNALr0yqvIRWyEhuy1AK-MiRObQ9K1zAemtGImyIirLvbXcrBxnJUnrX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujedtvdduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
+    evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflrghmvghsucfhlhhofigvrhhs
+    uceosgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrg
+    htthgvrhhnpefhvefgkeeiuddtudfhgefgiedvuefhhedtffejtddtfeekieefieejveet
+    hfegheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsohhlugdriihonhgvvdefjeefsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthht
+    ohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehhrghrrhihrdifvghnth
+    hlrghnugesrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdr
+    tghomhdprhgtphhtthhopehsihhquhgvihhrrgesihhgrghlihgrrdgtohhmpdhrtghpth
+    htoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthho
+    pegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegrih
+    hrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhl
+    rdgthhdprhgtphhtthhopehskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorh
+    hgpdhrtghpthhtohepsgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:shfmZ3NyCdJM4kDItLzQq4l4PaerQQJfU1PHSdIwvxJs2VqU3G9oIA>
+    <xmx:shfmZ0_RIGPuBdhT93TbFw2L5RHMWtEYYUmC9fJ9flovfKCs4EVGXA>
+    <xmx:shfmZ_W0wKi7BigvzbvCrGgrVa63VstqKsNXKWcPg6NMpLMzuXKMFA>
+    <xmx:shfmZ9e7Grd1sw7Jvos6p3fhNA_7W76JBum0yIg3NekAXL_9jnYMTQ>
+    <xmx:shfmZ-d0gZN4Dit82iKkYe5JQ1c7xde-YhBNjDy9ijbxehNfrdVZRCiw>
+Feedback-ID: ibd7e4881:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 27 Mar 2025 23:29:52 -0400 (EDT)
+From: James Flowers <bold.zone2373@fastmail.com>
+To: harry.wentland@amd.com,
+	sunpeng.li@amd.com,
+	siqueira@igalia.com,
+	alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	skhan@linuxfoundation.org
+Cc: James Flowers <bold.zone2373@fastmail.com>,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [RFC PATCH] net: sched: em_text: Replace strncpy() with
- strscpy_pad()
-Message-ID: <20250327162325.GA30844@breakpoint.cc>
-References: <20250327143733.187438-1-richard120310@gmail.com>
+Subject: [PATCH] drm/amd/display: removed unused function
+Date: Thu, 27 Mar 2025 20:29:02 -0700
+Message-ID: <20250328032942.16264-1-bold.zone2373@fastmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250327143733.187438-1-richard120310@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-I Hsin Cheng <richard120310@gmail.com> wrote:
-> The content within "conf.algo" should be a valid NULL-terminated string,
-> however "strncpy()" doesn't guarantee that. Use strscpy_pad() to replace
-> it to make sure "conf.algo" is NULL-terminated. ( trailing NULL-padding
-> if source buffer is shorter. )
->
-> Link: https://github.com/KSPP/linux/issues/90
-> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
-> ---
->  net/sched/em_text.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/net/sched/em_text.c b/net/sched/em_text.c
-> index 420c66203b17..c78b82931dc4 100644
-> --- a/net/sched/em_text.c
-> +++ b/net/sched/em_text.c
-> @@ -108,7 +108,7 @@ static int em_text_dump(struct sk_buff *skb, struct tcf_ematch *m)
->  	struct text_match *tm = EM_TEXT_PRIV(m);
->  	struct tcf_em_text conf;
->  
-> -	strncpy(conf.algo, tm->config->ops->name, sizeof(conf.algo) - 1);
-> +	strscpy_pad(conf.algo, tm->config->ops->name, sizeof(conf.algo) - 1);
+Removed unused function mpc401_get_3dlut_fast_load_status.
 
-Please drop the 3rd argument and then resend with a fixes tag:
-Fixes: d675c989ed2d ("[PKT_SCHED]: Packet classification based on textsearch (ematch)")
+Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+---
+ drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h     | 17 -----------------
+ .../drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c  | 11 -----------
+ .../drm/amd/display/dc/mpc/dcn401/dcn401_mpc.h  | 14 --------------
+ 3 files changed, 42 deletions(-)
 
-As is, the last byte remains uninitialised.
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+index 3a89cc0cffc1..eaef3899da7b 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+@@ -967,23 +967,6 @@ struct mpc_funcs {
+ 	*/
+ 
+ 	void (*update_3dlut_fast_load_select)(struct mpc *mpc, int mpcc_id, int hubp_idx);
+-	/**
+-	* @get_3dlut_fast_load_status:
+-	*
+-	* Get 3D LUT fast load status and reference them with done, soft_underflow and hard_underflow pointers.
+-	*
+-	* Parameters:
+-	* - [in/out] mpc - MPC context.
+-	* - [in] mpcc_id
+-	* - [in/out] done
+-	* - [in/out] soft_underflow
+-	* - [in/out] hard_underflow
+-	*
+-	* Return:
+-	*
+-	* void
+-	*/
+-	void (*get_3dlut_fast_load_status)(struct mpc *mpc, int mpcc_id, uint32_t *done, uint32_t *soft_underflow, uint32_t *hard_underflow);
+ 
+ 	/**
+ 	* @populate_lut:
+diff --git a/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c b/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c
+index ad67197557ca..98cf0cbd59ba 100644
+--- a/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c
++++ b/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c
+@@ -47,16 +47,6 @@ void mpc401_update_3dlut_fast_load_select(struct mpc *mpc, int mpcc_id, int hubp
+ 	REG_SET(MPCC_MCM_3DLUT_FAST_LOAD_SELECT[mpcc_id], 0, MPCC_MCM_3DLUT_FL_SEL, hubp_idx);
+ }
+ 
+-void mpc401_get_3dlut_fast_load_status(struct mpc *mpc, int mpcc_id, uint32_t *done, uint32_t *soft_underflow, uint32_t *hard_underflow)
+-{
+-	struct dcn401_mpc *mpc401 = TO_DCN401_MPC(mpc);
+-
+-	REG_GET_3(MPCC_MCM_3DLUT_FAST_LOAD_STATUS[mpcc_id],
+-			MPCC_MCM_3DLUT_FL_DONE, done,
+-			MPCC_MCM_3DLUT_FL_SOFT_UNDERFLOW, soft_underflow,
+-			MPCC_MCM_3DLUT_FL_HARD_UNDERFLOW, hard_underflow);
+-}
+-
+ void mpc401_set_movable_cm_location(struct mpc *mpc, enum mpcc_movable_cm_location location, int mpcc_id)
+ {
+ 	struct dcn401_mpc *mpc401 = TO_DCN401_MPC(mpc);
+@@ -618,7 +608,6 @@ static const struct mpc_funcs dcn401_mpc_funcs = {
+ 	.set_bg_color = mpc1_set_bg_color,
+ 	.set_movable_cm_location = mpc401_set_movable_cm_location,
+ 	.update_3dlut_fast_load_select = mpc401_update_3dlut_fast_load_select,
+-	.get_3dlut_fast_load_status = mpc401_get_3dlut_fast_load_status,
+ 	.populate_lut = mpc401_populate_lut,
+ 	.program_lut_read_write_control = mpc401_program_lut_read_write_control,
+ 	.program_lut_mode = mpc401_program_lut_mode,
+diff --git a/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.h b/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.h
+index ce6fbcf14d7a..8e35ebc603a9 100644
+--- a/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.h
++++ b/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.h
+@@ -241,23 +241,9 @@ void mpc401_update_3dlut_fast_load_select(
+ 	int mpcc_id,
+ 	int hubp_idx);
+ 
+-void mpc401_get_3dlut_fast_load_status(
+-	struct mpc *mpc,
+-	int mpcc_id,
+-	uint32_t *done,
+-	uint32_t *soft_underflow,
+-	uint32_t *hard_underflow);
+-
+ void mpc401_update_3dlut_fast_load_select(
+ 	struct mpc *mpc,
+ 	int mpcc_id,
+ 	int hubp_idx);
+ 
+-void mpc401_get_3dlut_fast_load_status(
+-	struct mpc *mpc,
+-	int mpcc_id,
+-	uint32_t *done,
+-	uint32_t *soft_underflow,
+-	uint32_t *hard_underflow);
+-
+ #endif
+-- 
+2.49.0
+
