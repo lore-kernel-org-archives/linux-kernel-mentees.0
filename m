@@ -1,114 +1,241 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC211E5B8A
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 31 Mar 2025 12:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2DF215F76
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 31 Mar 2025 17:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743424471; cv=none; b=Ny2KeSAvlhXDMuCBd4FMfiiCKnOSwARInkUALKojoqqT10DQh62VtXGKQ+riCO7EsM9OKuMjTXk8UeANtuExmDTxT1Ugu4kJpanHtCswfzvxhlzifAs2YLM9AYiIF0at1SWgzoq02RygfYDOS+LZQvrwyjiIsootMZVwzNJiFuY=
+	t=1743443718; cv=none; b=mEW0GdPNh7OMGzPgnTqFxXHOZb+1gA9P/ZNchCQfHZbBYb5C0EvxxYY5arSE65E7BSouELxwo+PjxN5vktudTVArhBD5G4HrEaEKEAN4HV5l8l7H+Kl/i1qsEPcqmmsxkLPDmjn1A02Bpf6HW7W1EyPQGfiDztHQa5Vzbl/9WF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743424471; c=relaxed/simple;
-	bh=hgubZ8v5IYMlWlWz7IWc4ZP/Fpz45adatWKCfG7bouM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aKJaauVwht/7AcMGhJjz1cCqq2WpwCm7KYCO/7OZ/XE1Du52Sk9pb2P7yi+/DWGt3QM5dlmnf3wtfh23VK+79B5B3QX08F/zYa0HETmWXVZU7zAvg+FaWrnhbvGh0IoEYIqNsz28vA8WS7sconNFN3M3H77MHP/Dtw/UFop5cu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P1y2SuqH; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743443718; c=relaxed/simple;
+	bh=ttvXahU6JXAuXxoEGpK31TnHIITuNAysaxcF/tKm/NA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i8RuMhfqM6oTTa0wSFTc7DMwLYIKkteCS+uhuQDu6fIMjiX7Sr4sZykwHwCStKm9UdF7QD463t3WY0SEklMuYGkDuJX/yPqlyWLy4AOq12s0p52dCB5pHy4bqvQSqka0ulHsT0MuYWSLEHxoOvnzgAD5oiFPu5ubN5x9HedpOMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IwZaGN++; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P1y2SuqH"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-39bf44be22fso2191138f8f.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 31 Mar 2025 05:34:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IwZaGN++"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7982C608E8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 31 Mar 2025 17:55:15 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: 1.236
+X-Spam-Level: *
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id lLIMgmcFMtr9 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 31 Mar 2025 17:55:14 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::536; helo=mail-ed1-x536.google.com; envelope-from=x0rw3ll@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 46277608CD
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 46277608CD
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=IwZaGN++
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 46277608CD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 31 Mar 2025 17:55:14 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-5ed43460d6bso7847861a12.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 31 Mar 2025 10:55:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743424467; x=1744029267; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8C1B/iAjfxZB5rM4ON16gPgb8RTIZjhmtB4Xg7w4JZc=;
-        b=P1y2SuqHxOmMiXJvdoYUcukWReR2/PzOhtvuDcbIGcKgGMCGoHDvb8ts1NJXteMH2A
-         N8ovm/i6LfP/MV7IqGIjOMuVIMJCSulyaO2L7Thg+wFgjHltaV3hpEyN071IUfNTvyWw
-         RXm2X1CnvTOv3AqoDinPVnMqIk5kIUpvK2ctMBDXXqtilB3RG29PDqvuRZOvh97y25dP
-         HNS8MFQxmXmRclcb0BAZfiPMS12lpJNm/3lC+6C0wsknGIO68xOJHCt6Isc0iCj5clKG
-         ZSHu2KSYqi9+KCdOeh2qQ6p1SOHHQ8xVncrU3lCq0XnPhZhwWeLnpWoJrLOuYMA1ozbN
-         3MZg==
+        d=gmail.com; s=20230601; t=1743443712; x=1744048512; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KXTV0VWzIghH7eWjopMb8VSJWH0nbYt3yb1dFJgZQTg=;
+        b=IwZaGN++GUH9tzdBKLnrEWIQ5CuyUrAKvOqLnEnrBoKegjzQ3+0lxvuhjkmtSx+JWk
+         dGKJD90U1TS0rE/1sEwgerzXxBxdNhdWs2RnfrPq7UG+uTV9jeWApyYajUQb8OOaxD9p
+         6+bUn17zEM95JhDJLuuNN86gUgm1rmDRYKa9lbcmMH96KQsvdff9DHxQcOmf9OxfaJNr
+         U4MmhI0pJdL+dVn8Xs+/HsKmOkSyW6J58F7e9ghL65s8MicSTL63LCveM23dX/4SGdG9
+         Xdoj70kjthpxQfxSSp0F6CMnOGcuFv28Jrir2wPJH5GMjreX77lYIy/Wp8WR7UN6KO+J
+         POfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743424467; x=1744029267;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1743443712; x=1744048512;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8C1B/iAjfxZB5rM4ON16gPgb8RTIZjhmtB4Xg7w4JZc=;
-        b=afIjtkVxNB7H++hrNFF+ULQUttRiaNWX12KOMc+ftU8yOKpD1PkjHENcBW5pcpawyi
-         1JCdSltYIsK0Mn2PcVwy9ToEsAMNZNQrlRR20ocp8DuYcamd+nOa9pVwA5yLclmo4NNV
-         igLXdJrdGPYQYlrc0jADZDWuiih8F30zj2snDtLZepHZSO6oFjkau+a44totp99zUuLK
-         alH+8PthuHABY1mO/7Cyy8Tn1YXfLkkMoa5ecM2Y4WXzO0+Qn2Nk5MHzOOrorMI5Jftz
-         UOyZB7uV1RkyRjdZQ+Id4TGEez60veiqY1HDTv91IqHGZsKpNBfnbMLrDxX+j7lHMpLl
-         +3kw==
-X-Forwarded-Encrypted: i=1; AJvYcCXQzLT/c1n1neWGL/YPi7UULrlBY5S83/YN7CEuTzeYqdP0+dxVkkNR/prJ+9bIk0gevhFM93S+um70G588pxX+pmNJAA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2VAxU88ypg7sYrwn2a8e+aJJ9UTOLfsZJwmuHSUQdOcgJwzji
-	lzBncncFlAqbhVSc1Fm1B/dHMRtX52BUnHi/s9B9o1YelTRou0Gc
-X-Gm-Gg: ASbGncvQuoeK8iutUfP/2IiAewYR2OFDdCk41DdY571me7GVLETiZgwkkJuu1yGAvnv
-	a8/bkNxMcUAERGE3RRuibO0G969zhwhnB5cfTmfHayLoFtyK14dplahgOKQWVFlzofpVEmSo8ql
-	656ffWSbuoGqljRokkCyo6HKkk2H0ELuxvxRtgXaLjCKybZUuuIFKNNxqqCMZLSJ8/Ph2jDW6sU
-	sXW/Qq9gveUSLNIqUYY1CW/cBRrcoiF9Ak8haDSYY3Syqh8ZY9C4i4eLwHNBT2nXhpezze7KNwD
-	ye/M6Bhu3MLySyyNVjhp+e12uRAigHH8Am3ExVmW4lAWFTBigXdUg0/G73xncJz0hb8GCjmoOCC
-	aq/NGUaDw
-X-Google-Smtp-Source: AGHT+IEfunH6HBm1Y7PMm/0AssIfHy3J3Wc1+rqe+wHnYUK4e/iGLilXY3nFa6l/MWKO2U0EbJxUpw==
-X-Received: by 2002:a5d:59ae:0:b0:391:1139:2653 with SMTP id ffacd0b85a97d-39c1211d013mr7275853f8f.52.1743424467274;
-        Mon, 31 Mar 2025 05:34:27 -0700 (PDT)
-Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b79e393sm11326406f8f.72.2025.03.31.05.34.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Mar 2025 05:34:26 -0700 (PDT)
-Message-ID: <2a2e9a4c-b888-45e1-a191-847dd8e7cb9d@gmail.com>
-Date: Mon, 31 Mar 2025 14:34:22 +0200
+        bh=KXTV0VWzIghH7eWjopMb8VSJWH0nbYt3yb1dFJgZQTg=;
+        b=YY7lVxtCYFLPwMquWIerwSa51zW9+TwaOI+F9U5V+JuryAmXGYrgxCuQoKjS2ivf9n
+         dPnKHvzghmnd/FxDbCwwdRs2l0sZ0Xoy4tzK3Nnr3yYvBYaNgp3VchGaIC/LYw4J9+cG
+         HiC1E/bHHR1u4TM2TeYZ64QbJ1p33i5BS7zMwny/qALlwaXkKs2gpgQMmgd+mi9Q213p
+         O6OgusRwi8Ou/lKNO7piwxrEr8j4Pp29HOfqjZShFr60qEG3AkESGnpSjoOnkOhTqXiQ
+         aMMBygKep41Ks8F14QY7fWg1kxqRbkAH/0KIGei00XqswtIco91lwel/tQ2MUIy1OtY9
+         Ufjg==
+X-Forwarded-Encrypted: i=1; AJvYcCUYGKq/iGXNrH8ugHS9T9EGeEHDqB0xsgdYQV04r0PLeTAE2I+zOoQg1/O3KYvC87fmSJP+3es2SvO6SaGFOH/VfbFgRg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yxw3idLhX6RQKFHZp7o6gmgSKtpv8k/E114GPOoEFPXi2XFiBiA
+	TvXYkERJHdxRj9WSHykWixBkobemn94ArobR0SIxaYc+RErZIHnd
+X-Gm-Gg: ASbGncvkehQJFCLmHzeTI+hryTOCAZrz1wtHd590FA/o2Cjy2xQq3Tb/Ox8BBoapIo+
+	DN8mx4VZhnC4Q88GtK5ND6/EcxrnZ04XPZkefrym5fJcbOiVYXuK9QgqJsWq6Gg7Gm9unNsYAIE
+	rVz4QT5Rj4Q8JO+N0pr43kycV45CvU3WL/pds7ajXbxDVUHUUo4C+9OZvvYvEKj6MBGLkr71dhj
+	onuxrY/L3a6HYHzs5LX2hyOT1yZHYa/UcXLvVximMOcgU90LXXsNYYctWJaSuI/oGLn9i0+tV8x
+	zt/DaPzacYe3MNLOaMF6Ry78BSdvS1c/durdUbLuDa8A5NCvO1BMIk8z
+X-Google-Smtp-Source: AGHT+IH/xXI93ke9faWSKBf2mG4FMyJbbgdoQak0Z/9++IGsl4A3a1LlK5tyg/njP7SZPjHykpDxjA==
+X-Received: by 2002:a05:6402:42d2:b0:5e6:616f:42e4 with SMTP id 4fb4d7f45d1cf-5edfdd22a1amr10055198a12.27.1743443711992;
+        Mon, 31 Mar 2025 10:55:11 -0700 (PDT)
+Received: from localhost (13.tor-exit.nothingtohide.nl. [192.42.116.210])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5edc17dff0bsm5895018a12.70.2025.03.31.10.55.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Mar 2025 10:55:11 -0700 (PDT)
+Date: Mon, 31 Mar 2025 19:55:04 +0200
+From: Ahmed Salem <x0rw3ll@gmail.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: robert.moore@intel.com, rafael.j.wysocki@intel.com, lenb@kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 1/2] ACPI: mark ACPI_COPY_NAMESEG destinations with
+ __nonstring attribute
+Message-ID: <xxibvztriq62tdzjhubb6ll3tbwghmiynmwxz4jp7clk6x2f7q@ato7owvq5jv6>
+References: <cover.1743313252.git.x0rw3ll@gmail.com>
+ <a9bd2a1b490b4305c18f8473aab21c97e8902fb8.1743313252.git.x0rw3ll@gmail.com>
+ <CAJZ5v0jUO-7t4F09TjpX_Ea-U8i61N=9DWwB3urJ6KQGzFX_-g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: replace use of msleep(<20) with
- usleep_range for better accuracy
-To: James Flowers <bold.zone2373@fastmail.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- aurabindo.pillai@amd.com, alex.hung@amd.com, skhan@linuxfoundation.org
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20250326070054.68355-1-bold.zone2373@fastmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20250326070054.68355-1-bold.zone2373@fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0jUO-7t4F09TjpX_Ea-U8i61N=9DWwB3urJ6KQGzFX_-g@mail.gmail.com>
 
-Am 26.03.25 um 08:00 schrieb James Flowers:
-> msleep < 20ms will often sleep for ~20ms (according to Documentation/timers/timers-howto.rst).
+On 25/03/31 01:49PM, Rafael J. Wysocki wrote:
+> On Sun, Mar 30, 2025 at 7:54 AM Ahmed Salem <x0rw3ll@gmail.com> wrote:
+> >
+> > strncpy(), which ACPI_COPY_NAMESEG currently uses, is deprecated[1].
+> >
+> > This patch is the first of two, ultimately replacing strncpy() with
+> > strtomem(), avoiding future compiler warnings about truncation.
+> >
+> > [1] https://github.com/KSPP/linux/issues/90
+> >
+> > Signed-off-by: Ahmed Salem <x0rw3ll@gmail.com>
+> 
+> ACPICA material is primarily handled by the upstream ACPICA project on
+> GitHub, so please avoid mixing ACPICA code changes with changes to the
+> other code in one patch.
+> 
+> Also, ACPICA changes should first be submitted to upstream ACPICA, as
+> indicated on this list for many times, see for instance:
+> 
+> https://lore.kernel.org/linux-acpi/CAJZ5v0gUDxrAn4W+Rf3ifjrg8Z9ZzTTOZjPFSSN5488mPqzXeA@mail.gmail.com/
+> 
 
-Our display team has to decide but I don't think that this patch is justified.
+Thank you so much for the note! In full transparency, I did see that
+comment prior to submitting this patch. However, I wasn't entirely sure
+whether I should have done that given the nature of this patch.
 
-The time given to msleep is just the minimum time necessary for some HW action to take place. Waiting longer than that is usually not harmful except when you want to optimize total operation time.
+This marks my second time contributing patches as part of the LKMP, and
+I've just got started learning C fairly recently, so I thought I'd
+consolidate the changes into this series so if there's anything wrong
+with my approach, it would cut the time discussing it over on upstream
+as well as mailing lists. Hindsight being what it is, however, I should
+have seen the MR from Kees Cook introducing ACPI_NONSTRING before
+proposing changes, so that's definitely lessons learned for current and
+future reference.
 
-Regards,
-Christian.
+Point taken nonetheless, and I will be submitting the ACPICA-related PR
+upstream, and resend the ACPI-specific one here instead without the RFC
+tag. My apologies, and thank you so much once again for your time and
+effort!
 
->
-> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> index 2cd35392e2da..2d225735602b 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> @@ -682,7 +682,7 @@ static bool execute_synaptics_rc_command(struct drm_dp_aux *aux,
->  		if (rc_cmd == cmd)
->  			// active is 0
->  			break;
-> -		msleep(10);
-> +		usleep_range(10000, 10200);
->  	}
->  
->  	// read rc result
-
+> > ---
+> >  drivers/acpi/acpica/acdebug.h                            | 2 +-
+> >  drivers/acpi/prmt.c                                      | 2 +-
+> >  drivers/acpi/sysfs.c                                     | 4 ++--
+> >  include/acpi/actbl.h                                     | 6 +++---
+> >  tools/power/acpi/os_specific/service_layers/oslinuxtbl.c | 2 +-
+> >  tools/power/acpi/tools/acpidump/apfiles.c                | 2 +-
+> >  6 files changed, 9 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/acpi/acpica/acdebug.h b/drivers/acpi/acpica/acdebug.h
+> > index 911875c5a5f1..2b56a8178f43 100644
+> > --- a/drivers/acpi/acpica/acdebug.h
+> > +++ b/drivers/acpi/acpica/acdebug.h
+> > @@ -37,7 +37,7 @@ struct acpi_db_argument_info {
+> >  struct acpi_db_execute_walk {
+> >         u32 count;
+> >         u32 max_count;
+> > -       char name_seg[ACPI_NAMESEG_SIZE + 1];
+> > +       char name_seg[ACPI_NAMESEG_SIZE + 1] __nonstring;
+> >  };
+> >
+> >  #define PARAM_LIST(pl)                  pl
+> > diff --git a/drivers/acpi/prmt.c b/drivers/acpi/prmt.c
+> > index e549914a636c..ca70f01c940c 100644
+> > --- a/drivers/acpi/prmt.c
+> > +++ b/drivers/acpi/prmt.c
+> > @@ -40,7 +40,7 @@ struct prm_buffer {
+> >  };
+> >
+> >  struct prm_context_buffer {
+> > -       char signature[ACPI_NAMESEG_SIZE];
+> > +       char signature[ACPI_NAMESEG_SIZE] __nonstring;
+> >         u16 revision;
+> >         u16 reserved;
+> >         guid_t identifier;
+> > diff --git a/drivers/acpi/sysfs.c b/drivers/acpi/sysfs.c
+> > index a48ebbf768f9..a05d4032d4f1 100644
+> > --- a/drivers/acpi/sysfs.c
+> > +++ b/drivers/acpi/sysfs.c
+> > @@ -307,9 +307,9 @@ static struct kobject *hotplug_kobj;
+> >
+> >  struct acpi_table_attr {
+> >         struct bin_attribute attr;
+> > -       char name[ACPI_NAMESEG_SIZE];
+> > +       char name[ACPI_NAMESEG_SIZE] __nonstring;
+> >         int instance;
+> > -       char filename[ACPI_NAMESEG_SIZE+ACPI_INST_SIZE];
+> > +       char filename[ACPI_NAMESEG_SIZE+ACPI_INST_SIZE] __nonstring;
+> >         struct list_head node;
+> >  };
+> >
+> > diff --git a/include/acpi/actbl.h b/include/acpi/actbl.h
+> > index 451f6276da49..8aa60281e7db 100644
+> > --- a/include/acpi/actbl.h
+> > +++ b/include/acpi/actbl.h
+> > @@ -66,12 +66,12 @@
+> >   ******************************************************************************/
+> >
+> >  struct acpi_table_header {
+> > -       char signature[ACPI_NAMESEG_SIZE];      /* ASCII table signature */
+> > +       char signature[ACPI_NAMESEG_SIZE] __nonstring;  /* ASCII table signature */
+> >         u32 length;             /* Length of table in bytes, including this header */
+> >         u8 revision;            /* ACPI Specification minor version number */
+> >         u8 checksum;            /* To make sum of entire table == 0 */
+> > -       char oem_id[ACPI_OEM_ID_SIZE];  /* ASCII OEM identification */
+> > -       char oem_table_id[ACPI_OEM_TABLE_ID_SIZE];      /* ASCII OEM table identification */
+> > +       char oem_id[ACPI_OEM_ID_SIZE] __nonstring;      /* ASCII OEM identification */
+> > +       char oem_table_id[ACPI_OEM_TABLE_ID_SIZE] __nonstring;  /* ASCII OEM table identification */
+> >         u32 oem_revision;       /* OEM revision number */
+> >         char asl_compiler_id[ACPI_NAMESEG_SIZE];        /* ASCII ASL compiler vendor ID */
+> >         u32 asl_compiler_revision;      /* ASL compiler version */
+> > diff --git a/tools/power/acpi/os_specific/service_layers/oslinuxtbl.c b/tools/power/acpi/os_specific/service_layers/oslinuxtbl.c
+> > index 9d70d8c945af..52026b9e389e 100644
+> > --- a/tools/power/acpi/os_specific/service_layers/oslinuxtbl.c
+> > +++ b/tools/power/acpi/os_specific/service_layers/oslinuxtbl.c
+> > @@ -19,7 +19,7 @@ ACPI_MODULE_NAME("oslinuxtbl")
+> >  typedef struct osl_table_info {
+> >         struct osl_table_info *next;
+> >         u32 instance;
+> > -       char signature[ACPI_NAMESEG_SIZE];
+> > +       char signature[ACPI_NAMESEG_SIZE] __nonstring;
+> >
+> >  } osl_table_info;
+> >
+> > diff --git a/tools/power/acpi/tools/acpidump/apfiles.c b/tools/power/acpi/tools/acpidump/apfiles.c
+> > index 13817f9112c0..5a39b7d9351d 100644
+> > --- a/tools/power/acpi/tools/acpidump/apfiles.c
+> > +++ b/tools/power/acpi/tools/acpidump/apfiles.c
+> > @@ -103,7 +103,7 @@ int ap_open_output_file(char *pathname)
+> >
+> >  int ap_write_to_binary_file(struct acpi_table_header *table, u32 instance)
+> >  {
+> > -       char filename[ACPI_NAMESEG_SIZE + 16];
+> > +       char filename[ACPI_NAMESEG_SIZE + 16] __nonstring;
+> >         char instance_str[16];
+> >         ACPI_FILE file;
+> >         acpi_size actual;
+> > --
+> > 2.47.2
+> >
+> >
