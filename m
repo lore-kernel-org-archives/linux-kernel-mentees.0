@@ -1,121 +1,116 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB6C2E3360
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  1 Apr 2025 00:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77CB8F54
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  1 Apr 2025 04:23:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743468476; cv=none; b=db8OngqOA5+ChnczT/8zEnw7brGdtRo0kSaqmo1HAfTRVlb5u6UAPkT98JGjhx49dRvqJl1a8LBr9HQXo+yuVPR6FWLu7ffScEbUKL7TbvhSIF9GkaSIBdQB/dUnIwPzwQFcwnNVPMC7jCuiIf2pZqGpZZDJx7EA9M/yWUVLhSY=
+	t=1743481426; cv=none; b=Fp/ySf7etfAW/ThxMw8Fq29RiTx7HzW925L2JS5bUEPql9PYyuSgDSD8tEzBOfYlByHo1ble9OHZZjmtF774Rh3j4ojF4BU7msB4fHA/RFHTOQs1/8xFxBVXtr/zZdLHi9RV/ufiP3CSILCNP7E/PWN3wteXZHA4khLCygs+kIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743468476; c=relaxed/simple;
-	bh=N+uagIN7EEAgHqcoRNAIUMi1f1toRZ7xxzYJ51D1KD4=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=qdY1E8lw1Bpqiwddg34jTJBl4iBDTXe3xBW52/tiKwFxgAFJbZnkwKesfJmtITXLbSEB8pJRswiHMAQCk0sXbdFErha4MzvG2uDdaGvvaqUROhaC2OeMJluyDm4ZzxzC/Q8MOCqmKh2SyX52GEzXIHkhxiDI0e3aDccms0josMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eUWuF3Cb; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1743481426; c=relaxed/simple;
+	bh=YizgmpoIN10GZ8vle2iQ2k8Vz0iemk9UbC2nuwW/u9I=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ZSvDzhfrisANZFJvhswJcAhdWVyIHvAab9qw+wy4Eq3OFBrp+dqaBkSyPsD1jJ4lrV70QgR3Iz20UAnDd4GIOoXghAczVjdHnON0grs5PFRgd8LpIpg6vH1v+ez19YxptJzXyXxmj0rGgP58tyuFdsmzJxceHn51rlfbv+BhPY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=WfNavPDq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nnOUilZy; arc=none smtp.client-ip=202.12.124.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eUWuF3Cb"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E400A401B1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  1 Apr 2025 00:47:54 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id abvzS8X8ZvW8 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Apr 2025 00:47:54 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 1AAC940116
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1AAC940116
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=eUWuF3Cb
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1AAC940116
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  1 Apr 2025 00:47:53 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-2241053582dso75518285ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 31 Mar 2025 17:47:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743468473; x=1744073273; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5ndbVkIth02lM2moYzGnZClHCA37EO7xQlyVsyVkRQU=;
-        b=eUWuF3CbXjt/I72/LfvAnMT/uWP03r1L04/McysSi0+AJoQ51CAZd5lTr+dOQWmVkm
-         +P11Q+yvpEbwFHkp7o/5wpUFYjFV4WMoeuZJ+ZiwvZQhnU3N+c51Meb+Rxz7dSI4hLjZ
-         YxnzHCOPF2E8DCUaCmSyfqUk/o/ymhLVMfM5f/0Gy/C1gV7tckk939UDuIO/Pz6jeokf
-         hrbRk7iP2o7POug+BHeBtpyHx53bBrWVLs5m01AxBjLVxB7TbPUrDJNzNP6tY21nVlPL
-         rQooC/pO9eOKL5hRReo5RcpjijPT3xTvRVu665ITR+PJ2Hm65gs4RdmhFElCDVjpKwrx
-         +ikA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743468473; x=1744073273;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5ndbVkIth02lM2moYzGnZClHCA37EO7xQlyVsyVkRQU=;
-        b=ikNFHke8uPvIB1J5aVToNHe0WyO9v0NZWthlP5TQOcr3IDhGaFzUKgkZQuZvsPJiV5
-         rD2IgRTFQV21s9YOek+ytZPxyDPDu+AiqDCkgx4rk+n2PYNCnFsyVJ2ZPHNG+VAGdZQx
-         l0o1TZo0mWa/mCMQYVQxBgHVfavOaF+KfME7X/A6vpCLCe1rYasylm6MyD2Z961zDn/+
-         lskLyIzR3c6iRyhZyidx63PpMhuFoApyfa2aUc/MK1bMMvI08BFj6nz5EuDgWmV48LLb
-         yp6nTJLjF5EopOdB0pPyzyiDCMJNCmnYGjJv6JpU2sL8NQSGIRJdN+xy2eow+9kfK/ax
-         8l1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXWYrN68jpPP9xFrKPM1CFvvVUApKwQ6Cy3ObXyaMVFIkDw1awiPPTp+cLkzMX/BYawdq4L21/BqzU1tXmqq4vCCqwa1g==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yz7b56ujioqpHfCdEDnXnCnjnD9YRgBLSKC5lTDz1e/ruDMwEgc
-	VfOH5T0d1OFXO/5jFuE/3d50aD0RFJACIkKZ4mtEZ9TeODtf6SJ7
-X-Gm-Gg: ASbGncuDbk/ojfYvxNorgkgF87mfuTjh0G7UWeQfveTVMmvomETcEDfQbgDzFCQHYu2
-	vcY1YmXfv0Hj3+q48HOCkNlgCmhAtOOMcJXXzSmmrYQAX4zg/9dfHl6pxVt3UBRV1oJyVzewadI
-	7O/szPSVA9zS0YsjYI2Ef9bKowztKfSlmQ6Xz/ALZjB8LgsyvvajfvYsv8ivdRIDU9OIxsV6hdJ
-	uPaOAaVRPydIfuOhxKrkO0oHcLJcL7hzNz/cbC6ct78aAZJ0Ic8y3IydXCLxeHJRUHFnVuGg2+I
-	Fn34Qhx+0BoErVHTxZcOzHsilAYzPryz2ma6UWoRCw++
-X-Google-Smtp-Source: AGHT+IHl0OKCl+ieQEesHXPE0XcY9RNckdx+U4FTJvC9MtJqicAkeQEEKpxjGLMAuFH/wqC/yejKzA==
-X-Received: by 2002:a17:903:22d2:b0:223:5379:5e4e with SMTP id d9443c01a7336-2292f9423b7mr201070135ad.10.1743468473284;
-        Mon, 31 Mar 2025 17:47:53 -0700 (PDT)
-Received: from fedora.. ([2804:14c:64:af90::1001])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291f1ce283sm76093395ad.126.2025.03.31.17.47.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Mar 2025 17:47:52 -0700 (PDT)
-From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-To: linux-nvme@lists.infradead.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH] nvmet: replace strncpy with strscpy
-Date: Mon, 31 Mar 2025 21:47:28 -0300
-Message-ID: <20250401004748.29172-1-marcelomoreira1905@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="WfNavPDq";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nnOUilZy"
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 992D3254015C;
+	Tue,  1 Apr 2025 00:23:43 -0400 (EDT)
+Received: from phl-imap-08 ([10.202.2.84])
+  by phl-compute-11.internal (MEProxy); Tue, 01 Apr 2025 00:23:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1743481423;
+	 x=1743567823; bh=YizgmpoIN10GZ8vle2iQ2k8Vz0iemk9UbC2nuwW/u9I=; b=
+	WfNavPDqn0bJviEE622pGaOQI6dNTBpmBtIQxhjmMW0Df/6RCNJ4nCj/7PL+uAaO
+	KTUQTWfB7dmx35pLgbgJUm1yOyvAck+b3plK2+0puCWCwsRUJ/BnmmwCuUCno7nY
+	hpVFuHZLLmdNmwXnyvmCWxk/abBEdR5wa1WIMdgXDHjGTouNyu43fFpSAyCajJFP
+	y993S/pOxxIHSE3h0kH6O90UX8uLf9ebGrxiPWanHURknFziOeKAFj4xmtB7Y2hb
+	ejQHrikn7eRwM34GfMg0T+TlkkGrU3wtAhZlwu8h2x0FlHwhi0HDoSB0s1JeLo70
+	NgpHRai8yGEl7FOW0R/T8g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1743481423; x=
+	1743567823; bh=YizgmpoIN10GZ8vle2iQ2k8Vz0iemk9UbC2nuwW/u9I=; b=n
+	nOUilZyk4pYfB32uDTOgGNhUSBHBANt1WBYchdwcTDCMOEEayxd2OxvApbOkzUhi
+	gfWkOMN3+LaEg7cevsHZ9A9VTOXYjEqubZD8pFPtsU7HA29oqXe+iJIdfk2YGER2
+	bk+8rQCqYiNGQseikITLKdc2UWycqMKmfhAvpXt9549VfhrW7XscJrmjxdX0NHSf
+	XjkbMVcLba77NybwzZGrWqzjItvXlPjr/HxgnpCvrxwpUrHF3rvrGtQyZ1ZogQIX
+	nrsnDMMsrxvCZZYnTq6zcfUi8MQLF8EPsNYxUJ6B/nlVf629BKXfKBjMbgFvF6fJ
+	AQUYw5QC3BBc15H8bne5A==
+X-ME-Sender: <xms:T2rrZ3odGdvphbdCogPz4gF2Z0stg2DUrqA3SjmcKdgWY9LYudW0Gg>
+    <xme:T2rrZxpFmxrxDY2yvT3-6VPmqZA2jYnhExvVIYS6D2TiltaoYhO5qm-NOv8DYzUXL
+    pce0-_JB6fG3jXZirA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukedukeefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpeflrghmvghsuceosgholhgurdiiohhnvgdvfeejfeesfhgrshhtmh
+    grihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeeuhfdtheejiefghefhjedvheduuddv
+    gefhveeiheduleevveehkeetiefgieeukeenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpegsohhlugdriihonhgvvdefjeefsehfrghsthhmrghi
+    lhdrtghomhdpnhgspghrtghpthhtohepudehpdhmohguvgepshhmthhpohhuthdprhgtph
+    htthhopegrlhgvgidrhhhunhhgsegrmhgurdgtohhmpdhrtghpthhtoheprghlvgigrghn
+    uggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthhopegruhhrrggsihhnug
+    hordhpihhllhgrihesrghmugdrtghomhdprhgtphhtthhopegthhhrihhsthhirghnrdhk
+    ohgvnhhighesrghmugdrtghomhdprhgtphhtthhopehhrghrrhihrdifvghnthhlrghnug
+    esrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdrtghomhdp
+    rhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhlih
+    gvugesghhmrghilhdrtghomhdprhgtphhtthhopegtkhhovghnihhgrdhlvghitghhthii
+    uhhmvghrkhgvnhesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:T2rrZ0MgigtmoRzx2VIl7hUdugqJVHX9raZBE6rQmdKZ5rMyWQQiiA>
+    <xmx:T2rrZ65acx-al1PuqrgsVaGyLtH-dbIEGR69uGhkhZCbbfHUGeuxvA>
+    <xmx:T2rrZ260QcAanaj3VVe8v1eIMZNJbcUM8C251jR4MF2FuRBm246Prg>
+    <xmx:T2rrZyhDYx67lQFwdwtjAZsC_rDjOa1T_qG0Sj4uIHUJ9dWgFmc8vQ>
+    <xmx:T2rrZ1QJVb2daiMf2EBMTsI7gvugKznLqJ1JslmbFTcRlg9RqerJI1xR>
+Feedback-ID: ibd7e4881:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id ED39F18A006B; Tue,  1 Apr 2025 00:23:42 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: Td646725364a3d5c9
+Date: Mon, 31 Mar 2025 21:23:18 -0700
+From: James <bold.zone2373@fastmail.com>
+To: "Harry Wentland" <harry.wentland@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ sunpeng.li@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ aurabindo.pillai@amd.com, alex.hung@amd.com,
+ "Shuah Khan" <skhan@linuxfoundation.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org
+Message-Id: <a5b036d6-f5c7-4f99-8eee-948eb7bdb145@app.fastmail.com>
+In-Reply-To: <81cac86c-dece-4f0d-abd7-efd888a08db0@amd.com>
+References: <20250326070054.68355-1-bold.zone2373@fastmail.com>
+ <2a2e9a4c-b888-45e1-a191-847dd8e7cb9d@gmail.com>
+ <81cac86c-dece-4f0d-abd7-efd888a08db0@amd.com>
+Subject: Re: [PATCH] drm/amd/display: replace use of msleep(<20) with usleep_range for
+ better accuracy
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-strncpy() is deprecated due to its lack of NULL-termination
-guarantees and unnecessary zero-padding of the destination buffer.
-Use strscpy() instead.
 
-Link: https://github.com/KSPP/linux/issues/90
+On Mon, Mar 31, 2025, at 11:20 AM, Harry Wentland wrote:
+> Agreed. Little timing changes often have unintended effects.
+> I have no desire to change working code unless it's required
+> to fix a real-life issue.
+>
+> Harry
 
-Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
----
- drivers/nvme/target/discovery.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for your explanation, and for taking the time to review.
 
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index df7207640506..c06f3e04296c 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -119,7 +119,7 @@ static void nvmet_format_discovery_entry(struct nvmf_disc_rsp_page_hdr *hdr,
- 	memcpy(e->trsvcid, port->disc_addr.trsvcid, NVMF_TRSVCID_SIZE);
- 	memcpy(e->traddr, traddr, NVMF_TRADDR_SIZE);
- 	memcpy(e->tsas.common, port->disc_addr.tsas.common, NVMF_TSAS_SIZE);
--	strncpy(e->subnqn, subsys_nqn, NVMF_NQN_SIZE);
-+	strscpy(e->subnqn, subsys_nqn, NVMF_NQN_SIZE);
- }
- 
- /*
--- 
-2.49.0
-
+Best regards,
+James Flowers
