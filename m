@@ -1,146 +1,104 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A54C136E37
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  2 Apr 2025 16:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8772E3366
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  2 Apr 2025 16:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743610641; cv=none; b=fyUNXHbcZMXAeK/oxSDxCcwCIQyS8B8M9+tXrEn/fE9Kh873pL0/+gDHKrLi/RCI6xEXYA7JJmhoeOBXWKgTtHftGECpoEQN47ZtpgFqAHDo5rT4valclTtQZI/m5OaXnctNAXaOg0ej0TyFKS48/DyOJ0rLk7mZ+uRiGV2RCYU=
+	t=1743611618; cv=none; b=SA3T3xDuwlDv6PouWfcCGwo6YNAryEqIWAJOkrtY9zCS2YimgE41sbfYjsEhbE9hkChRHyTjp7zP3srkNoU2ZiueK/ZxXZoOw4BrYwC9jfrTF1tzORmfy6Bkglll7pLCbdcRWJlQj4ELrhejwYA9KL5ps+hGD1Ai8pSI+iFzeRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743610641; c=relaxed/simple;
-	bh=a8Oq66aDcTG4GmSrER9QzMzRgsnHux+vgkTcA6pIycY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ovx4rpZUfgN28EMSmVUAyOWDadIRIPtcGact7LkjPoehBUazbCLxofk4uXBq1d6P1VcbBCQsUKKCOrmLiVPVfkLeW0ZzGFetMijkV8sXPXfE7xVJ/o/Hd6evhg58+4rmg6hqcS1Xr1TxYSJgbkQhDgSymyfcaiwCiE8hMMF1VS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=i47BHoka; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1743611618; c=relaxed/simple;
+	bh=a2xPLKRXNFM1k6b4pzJo6ujsadqfL0g/PuJfjy8Q/Ns=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VYcpkeTKGLyjKfvfnMpgQlnlOtVAqY/9chTVn4UpQ05uGriqqpY13DBtbKDmnn9r66VfT0K+9W4qJezW8ph0Q2jLYuUVv5uLLrXKqI5Cf+a04bRQ6LOdZUh6CWJ2gdbO1Sr7D28GCEHU3IdwI+ZtcjRjiZ2QIrZ0mrEZnhu2MKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RbQbM35f; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="i47BHoka"
-Date: Wed, 2 Apr 2025 12:17:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1743610636;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yIyrX5tl66Za1UHas7Gl65oo4tXGrW/O3Iw+s4K3sQg=;
-	b=i47BHokag9yrcA1TwLEbo5v4H0CkS0XKomDU5WAsRJdJqg4XFii26vZgw+1bEV0GPBwQRA
-	COeHbJYhuRjp/rfDeOEBaYxcQEs2lK3wjLxs1pDcWJ5eq99NkpZW/2n4lCsMb6eyIla1W+
-	IWMxBg1A/LXTrmMcUGPc30rre18UGqw=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-Cc: linux-bcachefs@vger.kernel.org, shuah@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	syzbot+c82cd2906e2f192410bb@syzkaller.appspotmail.com
-Subject: Re: [PATCH] bcachefs: don't call sleeping funcs when handling
- inconsistency errors
-Message-ID: <zjqewsg6ijvol3x3rdjfyjeji3wy24nw45yb6mkqj7vwsk7mrn@yxnvgpj4i24k>
-References: <20250402161043.161795-1-bharadwaj.raju777@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RbQbM35f"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3015001f862so8976329a91.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 02 Apr 2025 09:33:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743611616; x=1744216416; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a2xPLKRXNFM1k6b4pzJo6ujsadqfL0g/PuJfjy8Q/Ns=;
+        b=RbQbM35feKVSVnHYoqD/BwsF1ZyPzY3vNOZjbdkQeltGe4ENtLvqio108vaROJ3utQ
+         WhTg8tWIejgN5ACXc+3qtxqj25pN+zJnDWqR8jfjAyPUsdunfMceBNgyOYGGKTQuwL0h
+         u58AL60xROVFZbkuBHhzQzrsE96ivfIYP1VdE0//KHqYGQGx907AWU5BoGza997s0q/O
+         7RJi71eGN2Wreeg9SWa901zg8/yRVwAdxHO6QB7QuCchphtGSNit5lYD/u21SKoo8HJn
+         +OQqriaU5ufqDxdd88aL6UcW9dDnb3wgsFCJtJ3Z2HhuuwYMmVpi/t98kNZva+Ti7svP
+         fiww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743611616; x=1744216416;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a2xPLKRXNFM1k6b4pzJo6ujsadqfL0g/PuJfjy8Q/Ns=;
+        b=JHYXr6/rrbjhk3OTHKznyUeetroQ8tz1Hybt41un/5AaIed+HsKNjn+HIXN+qew3Jm
+         L8YO2XNN2NeCOS7rRVnB4sa/W55vcBwA/qlwnPq5exjFU8xDAJz3NjSIMt4stmrL3wfe
+         uH80fy5BdP/5G0iL0XOJ97IaiDPx3BR1nVJF0A68sgmjTdWqcLvB/yKjECL5snyFuHwL
+         em8zgE2GeQ2lg0vzwCJFo+ZQcIKLd4N2zdhaYRkXVy0IGC6l1EsgL/DCypFENMigl+/m
+         oqm7GYzfQ/n33bVhCO8nYHBNO9XsjNwNKLdoI6IeadLp3t2Mq2QrcrHIaVLqL0CFcoMh
+         aPrA==
+X-Forwarded-Encrypted: i=1; AJvYcCVHvfUUMmFmpYXQQ26fNsKArsK2fYwLmzp/H9emvuHpyZhKCiI9S57xa+BUzp2gtyEEEk+KH/X8whry5ZLf6jhz1Gf+ng==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxHNlu/7XOMJkmb7ledGjkXS026RdvXYDFKWwPdkYuAigRqSX7O
+	MIUnGYWvRObs0qLubrcMNC+pZjxcYBrLQV3c+PESngUkFHm+vi4aE/m34h6XbsatTTUyveYlhLJ
+	8AizCJgYJcHtG/czLSKFgrlmK/oo=
+X-Gm-Gg: ASbGnctdQ4ajXDAwUmUscZhlk2PymCzO+ZoaPgEDouTV9n5d67IWKeBMTjLpWBBYHcx
+	yClQiW/wO0eCjSeCaLTv1WHqeyMsSL0IiwSDYFzAEUKrN6HX8xVI0KJt3CeQ3EEZS2oQEOsx6DE
+	RMFYrWoswsoMGmDjp/4c/bd6Hl
+X-Google-Smtp-Source: AGHT+IFePRuJ3j2s9IyQ0pR+vmX6gbN8OK9GvtH9S9o+IgM6Uwle22DNhWyjI1Qrq10lQblFq+VLC4SGdcaEN45RSJ4=
+X-Received: by 2002:a17:90b:5750:b0:2ff:6bd0:ff26 with SMTP id
+ 98e67ed59e1d1-3056ef3aademr3578364a91.34.1743611616286; Wed, 02 Apr 2025
+ 09:33:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250402161043.161795-1-bharadwaj.raju777@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+References: <20250402161043.161795-1-bharadwaj.raju777@gmail.com> <zjqewsg6ijvol3x3rdjfyjeji3wy24nw45yb6mkqj7vwsk7mrn@yxnvgpj4i24k>
+In-Reply-To: <zjqewsg6ijvol3x3rdjfyjeji3wy24nw45yb6mkqj7vwsk7mrn@yxnvgpj4i24k>
+From: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Date: Wed, 2 Apr 2025 22:03:10 +0530
+X-Gm-Features: AQ5f1JrBfyiPX15BceMt-IhDu2Xzz3EAQvGQEH515dfZf7zboOs61nV58pIlShw
+Message-ID: <CAPZ5DTEGi8RXBMui823bwnt96PcqZSavH8AQ+LPhRs=sJ-Br1Q@mail.gmail.com>
+Subject: Re: [PATCH] bcachefs: don't call sleeping funcs when handling
+ inconsistency errors
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: linux-bcachefs@vger.kernel.org, shuah@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	syzbot+c82cd2906e2f192410bb@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 02, 2025 at 09:40:40PM +0530, Bharadwaj Raju wrote:
-> In bch2_bkey_pick_read_device, we're in an RCU lock. So, we can't call
-> any potentially-sleeping functions. However, we call bch2_dev_rcu,
-> which calls bch2_fs_inconsistent in its error case. That then calls
-> bch2_prt_print on a non-atomic printbuf, as well as uses the blocking
-> variant of bch2_print_string_as_lines, both of which lead to calls to
-> potentially-sleeping functions, namely krealloc with GFP_KERNEL
-> and console_lock respectively.
-> 
-> Give a nonzero atomic to the printbuf, and use the nonblocking variant
-> of bch2_print_string_as_lines.
+On Wed, Apr 2, 2025 at 9:47=E2=80=AFPM Kent Overstreet
+<kent.overstreet@linux.dev> wrote:
+>
+> On Wed, Apr 02, 2025 at 09:40:40PM +0530, Bharadwaj Raju wrote:
+> > In bch2_bkey_pick_read_device, we're in an RCU lock. So, we can't call
+> > any potentially-sleeping functions. However, we call bch2_dev_rcu,
+> > which calls bch2_fs_inconsistent in its error case. That then calls
+> > bch2_prt_print on a non-atomic printbuf, as well as uses the blocking
+> > variant of bch2_print_string_as_lines, both of which lead to calls to
+> > potentially-sleeping functions, namely krealloc with GFP_KERNEL
+> > and console_lock respectively.
+> >
+> > Give a nonzero atomic to the printbuf, and use the nonblocking variant
+> > of bch2_print_string_as_lines.
+>
+> Sorry, beat you to it :)
+>
+> You also missed the one the syzbot report actually hit -
+> bch2_inconsistent_error().
 
-Sorry, beat you to it :)
+Oops, thank you.
 
-You also missed the one the syzbot report actually hit -
-bch2_inconsistent_error().
+If I'm not wrong, though, the bch2_print_string_as_lines
+still needs to be changed to bch2_print_string_as_lines_nonblocking?
 
-commit fef0ac7dbdd3c2166462720a2c0c9b16ad0680a5
-Author: Kent Overstreet <kent.overstreet@linux.dev>
-Date:   Wed Apr 2 11:02:12 2025 -0400
+In my testing that also produces the same BUG warning.
 
-    bcachefs: Fix scheduling while atomic
-    
-    bch2_inconsistent(), bch2_fs_inconsistent() be called from interrupt
-    context, or with rcu_read_lock() held.
-    
-    The one syzbot found is in
-      bch2_bkey_pick_read_device
-      bch2_dev_rcu
-      bch2_fs_inconsistent
-    
-    We're starting to switch to lift the printbufs up to higher levels so we
-    can emit better log messages and print them all in one go (avoid
-    garbling), so that conversion will help with spotting these in the
-    future; when we declare a printbuf it must be flagged if we're in an
-    atomic context.
-    
-    Reported-by: syzbot+c82cd2906e2f192410bb@syzkaller.appspotmail.com
-    Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-
-diff --git a/fs/bcachefs/error.c b/fs/bcachefs/error.c
-index d4dfd13a8076..b885bd92834c 100644
---- a/fs/bcachefs/error.c
-+++ b/fs/bcachefs/error.c
-@@ -45,6 +45,8 @@ bool __bch2_inconsistent_error(struct bch_fs *c, struct printbuf *out)
- bool bch2_inconsistent_error(struct bch_fs *c)
- {
- 	struct printbuf buf = PRINTBUF;
-+	buf.atomic++;
-+
- 	printbuf_indent_add_nextline(&buf, 2);
- 
- 	bool ret = __bch2_inconsistent_error(c, &buf);
-@@ -59,6 +61,7 @@ static bool bch2_fs_trans_inconsistent(struct bch_fs *c, struct btree_trans *tra
- 				       const char *fmt, va_list args)
- {
- 	struct printbuf buf = PRINTBUF;
-+	buf.atomic++;
- 
- 	bch2_log_msg_start(c, &buf);
- 
-
-> 
-> Reported-by: syzbot+c82cd2906e2f192410bb@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=c82cd2906e2f192410bb
-> Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-> ---
->  fs/bcachefs/error.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/bcachefs/error.c b/fs/bcachefs/error.c
-> index d4dfd13a8076..6f0f2f12c004 100644
-> --- a/fs/bcachefs/error.c
-> +++ b/fs/bcachefs/error.c
-> @@ -60,6 +60,8 @@ static bool bch2_fs_trans_inconsistent(struct bch_fs *c, struct btree_trans *tra
->  {
->  	struct printbuf buf = PRINTBUF;
->  
-> +	buf.atomic++;
-> +
->  	bch2_log_msg_start(c, &buf);
->  
->  	prt_vprintf(&buf, fmt, args);
-> @@ -68,7 +70,9 @@ static bool bch2_fs_trans_inconsistent(struct bch_fs *c, struct btree_trans *tra
->  	if (trans)
->  		bch2_trans_updates_to_text(&buf, trans);
->  	bool ret = __bch2_inconsistent_error(c, &buf);
-> -	bch2_print_string_as_lines(KERN_ERR, buf.buf);
-> +	bch2_print_string_as_lines_nonblocking(KERN_ERR, buf.buf);
-> +
-> +	buf.atomic--;
->  
->  	printbuf_exit(&buf);
->  	return ret;
-> -- 
-> 2.49.0
-> 
+Should I make a patch for that?
