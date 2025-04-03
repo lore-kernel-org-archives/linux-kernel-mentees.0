@@ -1,88 +1,106 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6412C253F26
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Apr 2025 19:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A071F3BBD
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  3 Apr 2025 20:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743708951; cv=none; b=muL0HB9I1BJAqkdvLWC0SBxhGcWQW/Xyrw1BkxZUEG7dlKywl9lbnJi8FprfltsGhYW3O0zXAHSkeDBHhP4SkLNZP5Nh54z5R+RtRJtw+nfF/fHrJFgLS4qIV9x+9IbZiLSag3jNOpI2odlQiTO4axdh2EHkGW++t7j4KkvY2js=
+	t=1743712485; cv=none; b=PzB/eictz+OJBaWfwn+wH9Bi58XtFb0gy+VBxBdnbSbmXWLkP7fx8kNIedP9mLBLxQkQHOS8pyyeH2Vo9Rpg3TffNyWC43p0dCp4M+cjLwJu/7uwXfKB6NWC/D/Zbvp9AfH4G13JzWSkgXUa7hKnH4oPmeCj7WluWwKL4iCB4+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743708951; c=relaxed/simple;
-	bh=SfudcGVvgUwCu02nkG9Exu6y8ntGP9LdeWrTt3lMa5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VWPRHkm9ywa+tRQQKDe9h9Rujy5yuRDJnhX5cq8XHN0ZFYgGk9nvkk877xxbNXpqd+P+8VMAmDIQWEFF6QL5gQnogG7o7a7iwaJ4Kj+TK08MPrpPOTtIbkGUsankTIPX1tu5uATFXjXn5k4mo0s1266p67J02pOL9GR/q2DbxZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 093FB8145F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Apr 2025 19:35:49 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.651
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id S0PE5o8nG0Dy for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Apr 2025 19:35:48 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=srs0=70go=wv=goodmis.org=rostedt@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 0995E813F5
-Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0995E813F5
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 0995E813F5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Apr 2025 19:35:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id C7F825C6BA5;
-	Thu,  3 Apr 2025 19:33:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9956C4CEE3;
-	Thu,  3 Apr 2025 19:35:45 +0000 (UTC)
-Date: Thu, 3 Apr 2025 15:36:51 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Devaansh Kumar <devaanshk840@gmail.com>
-Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] tracing: Replace deprecated strncpy() with memcpy() for
- stack_trace_filter_buf
-Message-ID: <20250403153651.1188135b@gandalf.local.home>
-In-Reply-To: <20250403191342.1244863-1-devaanshk840@gmail.com>
-References: <20250403191342.1244863-1-devaanshk840@gmail.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1743712485; c=relaxed/simple;
+	bh=xB2C04uovpv4skICAYGaB52QAvjvmMm90YpbPc+QSWE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KPPu9IrttpjFOpiDQCr5Y4E4yeH01NS5pdp0jo1cm5Ab5J1LXXY88U9jAK2UUZcsArmUIqK5Rq3TzGuHyIX3Cnx5GiXd08Ag0xHuEcEtWhQBc1TA6hMJ4bQr56zJa/69w4MVo4Av8t83XWKjLEzSCJt7vvrjil5b9zKQtfJx8vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=fipwsY+d; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="fipwsY+d"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
+	s=key1; t=1743712480;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=UDfYL4ErdunlNmstrEsdYuv+0FhmfCu6RIMjgekzhfE=;
+	b=fipwsY+d+b6rrvO4vtfMK74We5DLTRxmJZCjFxcOm517hPj64VLEIduGp6NAUPREU89bjd
+	xZyKMR6nFCAMifx9XV1LmHzDsR58ZHEpgkfL4NkP+YcXqsECMzDYu5cQOnOEs/sUaH9WCw
+	ukcacLOEs519U2x8Xudi91EKa/cOBqF6WZ3YK8xvOjpS0qw7m1lnGoaB9bFBtJj7rfyaiJ
+	jdKLSDWnzKX12KL7x71yizY4dCcT3195iwvxltXgU7Q31Xyvw/0YkVQLNEmuAXzopXQl9u
+	hkfS8CjuyPo/Xascx/5iTJ2qdB8qF+NiTZrWIn+LWV/Zk2l8svIVyF5ej0JqTA==
+From: Ignacio Encinas <ignacio@iencinas.com>
+Subject: [PATCH v3 0/2] Implement endianess swap macros for RISC-V
+Date: Thu, 03 Apr 2025 22:34:16 +0200
+Message-Id: <20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMjw7mcC/13MQQ7CIBCF4asY1mIYKCiuvIdxAXRqZyE1YFDT9
+ O7SxkV1+V7yfyPLmAgzO25GlrBQpiHWobYbFnoXr8iprZtJIbVQYs8T5VB4fjrP/QG8bZx1ATy
+ rwT1hR68FO1/q7ik/hvRe7ALz+2VArJkCHLhqjJbYAaI1J8IYKLq8C8ONzVKR69r+1JIL3mrlT
+ Wuct6D/6mmaPuSS1UflAAAA
+X-Change-ID: 20250307-riscv-swab-b81b94a9ac1b
+To: Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Arnd Bergmann <arnd@arndb.de>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+ skhan@linuxfoundation.org, Zhihang Shao <zhihang.shao.iscas@gmail.com>, 
+ =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>, 
+ linux-arch@vger.kernel.org, Ignacio Encinas <ignacio@iencinas.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri,  4 Apr 2025 00:43:40 +0530
-Devaansh Kumar <devaanshk840@gmail.com> wrote:
+Motivated by [1]. A couple of things to note:
 
-> @@ -537,14 +538,16 @@ stack_trace_sysctl(struct ctl_table *table, int write, void *buffer,
->  	return ret;
->  }
->  
-> -static char stack_trace_filter_buf[COMMAND_LINE_SIZE+1] __initdata;
-> +static char stack_trace_filter_buf[COMMAND_LINE_SIZE+1] __initdata __nonstring;
->  
->  static __init int enable_stacktrace(char *str)
->  {
->  	int len;
->  
-> -	if ((len = str_has_prefix(str, "_filter=")))
-> -		strncpy(stack_trace_filter_buf, str + len, COMMAND_LINE_SIZE);
-> +	len = str_has_prefix(str, "_filter=");
-> +
-> +	if (len)
-> +		memcpy(stack_trace_filter_buf, str + len, sizeof(stack_trace_filter_buf));
+RISC-V needs a default implementation to fall back on. There is one
+available in include/uapi/linux/swab.h but that header can't be included
+from arch/riscv/include/asm/swab.h. Therefore, the first patch in this
+series moves the default implementation into asm-generic.
 
-Hmm, this location looks like it can just use strscpy().
+Tested with crc_kunit as pointed out here [2]. I can't provide
+performance numbers as I don't have RISC-V hardware yet.
 
--- Steve
+[1] https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
+[2] https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/
 
+Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+---
+Changes in v3:
 
->  
->  	stack_tracer_enabled = 1;
->  	return 1;
-> -- 
+PATCH 2:
+  Use if(riscv_has_extension_likely) instead of asm goto (Eric). It 
+  looks like both versions generate the same assembly. Perhaps we should 
+  do the same change in other places such as arch/riscv/include/asm/bitops.h
+
+- Link to v2: https://lore.kernel.org/r/20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com
+
+Arnd, I tried your suggestion but couldn't make it work. Let me know if
+I missed something in my response.
+
+Changes in v2:
+- Introduce first patch factoring out the default implementation into
+  asm-generic
+- Remove blank line to make checkpatch happy
+- Link to v1: https://lore.kernel.org/r/20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com
+
+---
+Ignacio Encinas (2):
+      include/uapi/linux/swab.h: move default implementation for swab macros into asm-generic
+      riscv: introduce asm/swab.h
+
+ arch/riscv/include/asm/swab.h   | 43 +++++++++++++++++++++++++++++++++++++++++
+ include/uapi/asm-generic/swab.h | 32 ++++++++++++++++++++++++++++++
+ include/uapi/linux/swab.h       | 33 +------------------------------
+ 3 files changed, 76 insertions(+), 32 deletions(-)
+---
+base-commit: a7f2e10ecd8f18b83951b0bab47ddaf48f93bf47
+change-id: 20250307-riscv-swab-b81b94a9ac1b
+
+Best regards,
+-- 
+Ignacio Encinas <ignacio@iencinas.com>
+
