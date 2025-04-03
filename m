@@ -1,118 +1,143 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6840B1FDA6A
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  3 Apr 2025 20:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43B3188A3A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Apr 2025 23:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743712486; cv=none; b=bQvEFr+FgDL3/QhKlV5iaU7/OOrEAKk3uhAz35VRC/erPJ9PlFS+WC98UWHd48N259Y/xN0BTLdQp1kjzB99QKkTFqEtNKqtWHwo0x3V+Bd4XFDwsTM5eOzA8TvQ1+fkXbtps2DJUvGhat1v5Wyr+m0UEJImYymy+3I6mujCvto=
+	t=1743722682; cv=none; b=PY71+GIcSjeW3yAGQJnvT7avB1aQXhyRkBZXGPxSAe7YuzqyyVnZWsLXR8D+PirXBzJEVEU9qpc26r5skfXgnD+pLEfjag5QJJw+L79MKK+QaWuMzA9QNgRNYqDpKpJREmj/23MN6WKVIiWCy5nvhwJtpc3sLimTGAHQMcvA1AA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743712486; c=relaxed/simple;
-	bh=acATyRUbnpdnRgGAcaAXJ3uINgKjESC2cn6Yqi7GuBg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RKBUurLm3sU1CeD7Aa4vJGx1t9s//v1xU5ZGfYaWp3oywhMoQ0TmG47X8WZppKYYBULjo/wpZgXqrDaj19xwc8SKWDJN6TXuAAnsaIWErnecJHW6/FczgYC/C0rPNaeOm1G6vgN+S0i1wOJj93G7jN8vH5nrTA9geDNGxJzagpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=MIwNf3ea; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+	s=arc-20240116; t=1743722682; c=relaxed/simple;
+	bh=yNnj3R3VFGMoAxrzwrTaH5KsZnzVRrzxoEyTH2RyhyI=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=dTOEVBRdXEiitg9QL1mmCjz+bTJC9iNEiKSxyhYlOy+jk+TBLurZFpPXGZnPN/U1y3pB0MUI3wmP6oQXJmr7TncbN7nTklDN36xxcFbkFYfDjBYTu5Okz71EkUXOXDZFlHFr0TzpJ5Z4WLWgO8l/65MStg4jLqRS790NcU9y2oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DIT3VwDU; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="MIwNf3ea"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1743712482;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uD5iR3j3WFLeggCmYAp0dLJAKr7cyaVudV3J9Ga4myY=;
-	b=MIwNf3eaBPBrPG9omxufAUV6tnp5q3ry1N627DcdtUnMzfiH67FN+ZUm12lE2dQVJVcjiB
-	bVZjU2tDudJbqxqc0ig1fsk1ti9GkNNbfEUmnqClXrVzOaOJz4JImFPCTJJ5WkBl968Bf1
-	8QZScsUZwv/RnH+AELw1It1J4QmMxg5SBRqAEnw2YJATgdsSie8QNRXnB2SAxGKGeCdgZU
-	MamUC6LihnbhVDyj1xCzw3rbsqExVOW1/u4kyMKzLyvQx08MVZhaTOnqONnt/kiQbAyrYq
-	povq+FHVJouPcG32144mW5tOJKBiWbMzBL7Ex204tZIR77KFOlAYzLRjRTC46w==
-From: Ignacio Encinas <ignacio@iencinas.com>
-Date: Thu, 03 Apr 2025 22:34:18 +0200
-Subject: [PATCH v3 2/2] riscv: introduce asm/swab.h
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DIT3VwDU"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6C07084056
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Apr 2025 23:24:39 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id LMbSiIyDoF-y for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  3 Apr 2025 23:24:38 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::636; helo=mail-pl1-x636.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 9194084046
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9194084046
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DIT3VwDU
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 9194084046
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Apr 2025 23:24:38 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-227c7e57da2so13616415ad.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 03 Apr 2025 16:24:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743722678; x=1744327478; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Q1HJbhWKpyuQLE/tjeRz5EHmjAiJdcKFzsKrfzXyKE=;
+        b=DIT3VwDUh3+oRKR1S0m/E63hOPyPUv6rRUQ3kenbl3ha/WJAnUrFfmedEAcHtw/EXD
+         avctdx4oqNx3D8OWNgv4e2tLjgqmpoMre9kxwYdqxMGQry9jhzwCMHtTvp6tu+a5Khhf
+         osduJ4YbDwX1zAW0Knxl7/rYpktPYHyXWHNsiUTgROnCiUhTGPsd0x5IcROWyHScDN2s
+         aOziR54b/VHi/NFwFa4/pNKCPHsFu35pdRHZatWnsAeT6+lnbAlUiy8Rhq2t8X9Sinyj
+         hsevQSP8mx1Rx8vfI8775Xi2Ox+MqxiLUg+tB44IXUF82DeYac7aGDrIw78H38uPh2dM
+         FS7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743722678; x=1744327478;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Q1HJbhWKpyuQLE/tjeRz5EHmjAiJdcKFzsKrfzXyKE=;
+        b=rmWUek3XECTdYYMtEKjkCudw7RpNWtCw0q3DCSKIl6zbRfptV1vGZ6pZfNmA4NPXjy
+         FvJ6TRFPCl5Qz42ysLdtmmTO+sX0QAaGbp2J0x/XZNRP7UpdIMj464bIsidAgzza4lHE
+         XIrXPPTZ+So7ns/X/ZGHtl0PjrvTkNyN1xAtd2lwPB9aQ78/W7a6rKmpy9iSN7FIhB0i
+         qKfvo6vxFd3Q2JpTo4wvc1VLzpW4fAKHxU9zY+RZsk+2fIoIMTt/7R4wrfVTNro4bpWs
+         Wu+/0E8jc/Vs8CI4d0Joy8+5O6Wthp7dP+q1u4R/9rAhkkEIVnT/fPPiYLX/IVG4zB5z
+         AtvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXB5IANBcTi7M26XNUruco3TYLMxcBpVo5wQc2hzFhIMApLXvqDSZ39NRqcfdQfrSv9LZ3ONlKZmoDn/Qqne6/gBJ8itQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwxHHc1egHTqwIwiPmmwoXb14S2He4UijEjmwspBSxLb7vsixIb
+	tLyFYABaYY1/52bjqOlwFelW5JshSIIdv6ogbtNquk6cpeA3as4X
+X-Gm-Gg: ASbGnctUBaCfAfbLTBuQzaCa+biuldKJd56T8pIRhLRgfHT6mS3ZnKprNC79GZpQkdq
+	RDzVyLhSP4J6c5gFmXaCdWqlXQaiOPiomIb7keetbnQ0H6P3PqB1d1qgxmjZWjSFyRueJ0XbwUI
+	wCZO+RQe09BM3dnaWJmD+RFTrf/YunnkKhMpsnjqi6I7XcmFVPw4C1fFvshLpSu/6szlubWo3/j
+	r3qsoSeo2TCVIeFippL4pv5aD0YXKBiB0FI0YPwvAhglH+lnDL7k1qyrQ3yEcenw7BehZ7ICsU9
+	Je7k7FZFuF1KZ6kke+ijoAT8QF3EJc6opi1wx/Q4aOzZ
+X-Google-Smtp-Source: AGHT+IE9AV4Ouxje8y8MO1JFpgcDJYYxSVrmCuAmlacRE3v5vT/XRLmaf4o6IKCXeWbbNGcPd+jszA==
+X-Received: by 2002:a17:902:c40e:b0:21f:4b01:b978 with SMTP id d9443c01a7336-22a8a0a3630mr15347415ad.36.1743722677760;
+        Thu, 03 Apr 2025 16:24:37 -0700 (PDT)
+Received: from fedora.. ([2804:14c:64:af90::1001])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297877273bsm20108635ad.220.2025.04.03.16.24.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Apr 2025 16:24:37 -0700 (PDT)
+From: Marcelo Moreira <marcelomoreira1905@gmail.com>
+To: linux-nvme@lists.infradead.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: [PATCH v2] nvmet: replace strncpy with strscpy
+Date: Thu,  3 Apr 2025 20:23:56 -0300
+Message-ID: <20250403232432.25255-1-marcelomoreira1905@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250403-riscv-swab-v3-2-3bf705d80e33@iencinas.com>
-References: <20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com>
-In-Reply-To: <20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com>
-To: Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Alexandre Ghiti <alex@ghiti.fr>, 
- Arnd Bergmann <arnd@arndb.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
- skhan@linuxfoundation.org, Zhihang Shao <zhihang.shao.iscas@gmail.com>, 
- =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>, 
- linux-arch@vger.kernel.org, Ignacio Encinas <ignacio@iencinas.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-Implement endianness swap macros for RISC-V.
+The strncpy() function is deprecated for NUL-terminated strings as explained in
+the "strncpy() on NUL-terminated strings" section of
+Documentation/process/deprecated.rst. The key issues are:
+- strncpy() fails to guarantee NULL-termination when source > destination.
+- It unnecessarily zero-pads short strings, causing performance overhead.
 
-Use the rev8 instruction when Zbb is available. Otherwise, rely on the
-default mask-and-shift implementation.
+strscpy() is the proper replacement because:
+- Guarantees NULL-termination.
+- Avoids redundant zero-padding.
+- Aligns with current kernel string-copying best practice.
 
-Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+memcpy() was rejected because:
+- NQN buffers (subsysnqn/hostnqn) are treated as NULL-terminated strings:
+  - strcmp() usage in nvmet_host_allowed() (discovery.c)
+  - strscpy() to copy subsysnqn in nvmet_execute_disc_identify()
+
+seq_buf wasn't used because:
+- This is a simple fixed-size buffer copy.
+- No need for progressive string construction features.
+
+Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
 ---
- arch/riscv/include/asm/swab.h | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+Changes in v2:
 
-diff --git a/arch/riscv/include/asm/swab.h b/arch/riscv/include/asm/swab.h
-new file mode 100644
-index 000000000000..7352e8405a99
---- /dev/null
-+++ b/arch/riscv/include/asm/swab.h
-@@ -0,0 +1,43 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef _ASM_RISCV_SWAB_H
-+#define _ASM_RISCV_SWAB_H
-+
-+#include <linux/types.h>
-+#include <linux/compiler.h>
-+#include <asm/cpufeature-macros.h>
-+#include <asm/hwcap.h>
-+#include <asm-generic/swab.h>
-+
-+#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
-+
-+#define ARCH_SWAB(size) \
-+static __always_inline unsigned long __arch_swab##size(__u##size value) \
-+{									\
-+	unsigned long x = value;					\
-+									\
-+	if (riscv_has_extension_likely(RISCV_ISA_EXT_ZBB)) {            \
-+		asm volatile (".option push\n"				\
-+			      ".option arch,+zbb\n"			\
-+			      "rev8 %0, %1\n"				\
-+			      ".option pop\n"				\
-+			      : "=r" (x) : "r" (x));			\
-+		return x >> (BITS_PER_LONG - size);			\
-+	}                                                               \
-+	return  ___constant_swab##size(value);				\
-+}
-+
-+#ifdef CONFIG_64BIT
-+ARCH_SWAB(64)
-+#define __arch_swab64 __arch_swab64
-+#endif
-+
-+ARCH_SWAB(32)
-+#define __arch_swab32 __arch_swab32
-+
-+ARCH_SWAB(16)
-+#define __arch_swab16 __arch_swab16
-+
-+#undef ARCH_SWAB
-+
-+#endif /* defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
-+#endif /* _ASM_RISCV_SWAB_H */
+- Added references to where to find deprecated strncpy.
+- Commit message with detailed rationale for choosing strscpy.
+- Added explicit rejection reasons for memcpy and seq_buf alternatives.
+- No code changes from v1.
+- Link to v1: https://lore.kernel.org/linux-nvme/20250403042737.GE22360@lst.de/T/#t
+---
+ drivers/nvme/target/discovery.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index df7207640506..c06f3e04296c 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -119,7 +119,7 @@ static void nvmet_format_discovery_entry(struct nvmf_disc_rsp_page_hdr *hdr,
+ 	memcpy(e->trsvcid, port->disc_addr.trsvcid, NVMF_TRSVCID_SIZE);
+ 	memcpy(e->traddr, traddr, NVMF_TRADDR_SIZE);
+ 	memcpy(e->tsas.common, port->disc_addr.tsas.common, NVMF_TSAS_SIZE);
+-	strncpy(e->subnqn, subsys_nqn, NVMF_NQN_SIZE);
++	strscpy(e->subnqn, subsys_nqn, NVMF_NQN_SIZE);
+ }
+ 
+ /*
 -- 
 2.49.0
 
