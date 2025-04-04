@@ -1,126 +1,101 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6ED1F3BA8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Apr 2025 13:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1D9DF5C;
+	Fri,  4 Apr 2025 15:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743775141; cv=none; b=LofmIqr+mCoROBKq80sS+Pn5+Zndf34m0SBMM+sXdZBb6BDh8TWt5aUmnM6lkasoVC/SBNXrkolKeQrEpP24MPQ1x6Np9WeQqElm+W6lcRgzvpRcDer7yUK1q1efaEGl3uh50uJbyNiQnfAN7xF3AN/5Rj+cIgs6X6vr2uZk/yo=
+	t=1743780760; cv=none; b=lRjEdPl8SYwXnkOIcBBUJpPTKkJrSO/4PZ4NGI0nw2O2a42PrEmeSpqDqTgR8eosf3wBnFSHWGXqYckCqnX2eNuD5ZppzEbgM5BWbAJrYRUVQjm3np5lNL8XNANnj9vhwTiahFUVk+DpLhcbA+b7Yuy89xMHDh7ZP1pG9yFxBic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743775141; c=relaxed/simple;
-	bh=wY7QFYszUZqAqrffU5tFA/55H4+x7FwsNaqOaEv5AQ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aVDY3JRCigJ9ofNfNrAJ3s8/vvA9BH+ntT2CyALdouwCQWk4dwxS9rP0+7FoyBoQzMy4+yxyuDNeFiBP2NrBWJOlu4CwY022ZmCqYumTm1MOzn32aG0N5m/O8cpkS2wzzEkfOuWS5ABU2qGwdE69+pLs2HudTmsd6EaEqn5yr4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hSVxJp6h; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1743780760; c=relaxed/simple;
+	bh=l4NfQuaRg7vF8YLzLFVfCX0eGTmkIJQDbug+xp/8Ur0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qVWS6llo9TjGCREeCFimCp4HRw88w2+ubn/MFhhl9doIWCF9PVzQD5QgjUVXIqwUKk+oW4HhSnKuhGjp1Bgp/aroDm4iV74MOgYEpSkyxoTEfk0nlPwg5wZt6AOIHLwQJxN+p1bTuvlgv5YWiigbPv5LVYclPnz/VHOVdahspWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MDw2ypPf; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hSVxJp6h"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 299C660B33
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Apr 2025 13:58:59 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id cTgOY9OMXIht for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Apr 2025 13:58:58 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62b; helo=mail-pl1-x62b.google.com; envelope-from=devaanshk840@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6325A60616
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6325A60616
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=hSVxJp6h
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6325A60616
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Apr 2025 13:58:58 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-2295d78b433so20605775ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 04 Apr 2025 06:58:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743775137; x=1744379937; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i+22pb/5kX4VZbzUzM3FZvO9kkRimVVfJb44Id6IWBA=;
-        b=hSVxJp6hiwpfEYEcs6R9ZWc+cpEWqR48qCjGBqxovkT5R1ZwipQln3ytq3bgk86X/h
-         4113G4SEL2/nDqSNWi/+Gj898IxYv8hn48QA2d6yiUG7QxOU5wp3763/XxEuRWERNj6T
-         Dlxc10LTr0QHlAZ4XXihw1SbH0E62sAqDHRrSCOv518qtEANc2KHMczjgd2nA3to7sYL
-         niSMZPDZY77k2mZ2dO7o/RZiROZiqqrBs8J3YooZWVesiPFpkL3uqEjwu4JAvLcjJ3FI
-         ypsMZx2YNxxlbWJEkZp4x/HqIWXww/dk8/lzskI5ZvQN6CP0FyHKmyxQMKUPidOmrNm4
-         G5jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743775137; x=1744379937;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i+22pb/5kX4VZbzUzM3FZvO9kkRimVVfJb44Id6IWBA=;
-        b=S57cirFKX8f81eKx9rccztP5U6Yo83YpAkejYCQrrxAGu5h9Czt4cnqP4Ie3SCvAkq
-         12aRjS9wwtNVNte7Y2JUsrp4721vmvPLgOdrN8HZybbIFR90CiS+z1Ugvqiaj2OkwmVV
-         okBRvybqd+5xTNdauGhi0leVCQctMnh9Okz/sSixXKQvu17oV/qPSXOjz/EoWAnbQmFy
-         GIADehVKhu45hJgTRVvUgRPIitdlfdGs1an7eHZwg8UisGtxZpOhIJCPxni9PiDW6D+J
-         cmeDBvpw1swNGBXZF2J7+CDeV68zR0OTRfJfFbtD2ozO89WzNOFCU5S+yGXnf0SZBDk2
-         GzvA==
-X-Forwarded-Encrypted: i=1; AJvYcCX5YYzEFum6ffwCszAVZ4ys2SvtUt2NePBQp/NlC4dT0CHNoKGCd/wmF7z3siLidJ+LXOURSqxqWrk2ciLDY6PNsQJp2Q==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwmJmZGfch8fJixr11Ry3UQWz5BMdOcZW+iXuMwcxuF9AacvzVT
-	nB4kPulUhuqLNNArXBvpZ7QHR52hIVCuBdf3QQVWtFGVxyBY8nD2
-X-Gm-Gg: ASbGncuX3J96RofhfZhTM08ZtPoxXbLrgCuzfRW/i1QQbrjHC2PqAQ+x/ADX1IusQoI
-	I7LmT9lVdfTdQlVgyLMZk2vSTL9RqlO0EEl/U6Pi42mGNymQgzyvqnNh80m8luPQVzG483pyM0O
-	Mmm3tgixKzTe1a0iAZrbVOPLAagyAYMpZnXzCkeJbhLhHEjdfGuLigZXDa4OPmRCKUILodTFMKE
-	ni05mWgkPSzSvNTsJ55Bcdl+XyC0pFFxEqlYQM2+BPLSsSNbiL8uJ+S6Mo2fNpWYd4lvlr+UL8X
-	l1lG5sc4f2DFNkMtz5IjI/rsRPdviw33Htm5kDKw0Wxu
-X-Google-Smtp-Source: AGHT+IE+VkMoP417Cvfg7Y9+D6iW+RnfAkURu6MIGusQ25BUD9Tb8oyyLz5nyG2gKp66aokvYXVQZQ==
-X-Received: by 2002:a17:903:230f:b0:224:d72:920d with SMTP id d9443c01a7336-22a8a0a3622mr45507425ad.37.1743775136825;
-        Fri, 04 Apr 2025 06:58:56 -0700 (PDT)
-Received: from fedora.nitk.ac.in ([2a09:bac5:3d57:1a46::29e:13])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785c01cdsm32386895ad.99.2025.04.04.06.58.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 06:58:56 -0700 (PDT)
-From: Devaansh Kumar <devaanshk840@gmail.com>
-To: rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com
-Cc: Devaansh Kumar <devaanshk840@gmail.com>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v3] tracing: Replace deprecated strncpy() with strscpy() for stack_trace_filter_buf
-Date: Fri,  4 Apr 2025 19:28:48 +0530
-Message-ID: <20250404135850.2695211-1-devaanshk840@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MDw2ypPf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743780758; x=1775316758;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l4NfQuaRg7vF8YLzLFVfCX0eGTmkIJQDbug+xp/8Ur0=;
+  b=MDw2ypPf38I3kIjEqPbEoaHVYkChGf5DpeCftS4YQ0BRauyuNb3qNH3B
+   7GeBzROBs4ZVFiFL7pODN6TtivYk0YvtXv2dlfFSaeQkjlZxro9bWSj2B
+   Flq+/RL8OFkmkHYCj/WEtp9aSv0fyfRjVKaO8/k1ow8jeC/EZcZlxudo2
+   wdfzzrD4K8WUqBb/kVWAP2iayiGzBgETnXnUJrgI9dK3d6ckodRlPqV8a
+   MAxVvAPp9HrJ4Ip2jGsJytHtb5veO57oVAig5Z16AYpTEItGMynBbjnxS
+   OFf3Y02W1JktgdyT38PLMY6q2QkdfFlQCqTyLDYk7Jn2a7B810sZmBGod
+   w==;
+X-CSE-ConnectionGUID: ctW7zBi/TDSL/H11jTu8PQ==
+X-CSE-MsgGUID: +HIxMrMVSTWyTS5FaQ/TUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="32827374"
+X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
+   d="scan'208";a="32827374"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 08:32:37 -0700
+X-CSE-ConnectionGUID: w6x4comGQQOj+pL4mRXMsQ==
+X-CSE-MsgGUID: uqelw8/ZSUC6OlaT1ChzUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
+   d="scan'208";a="132460543"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 04 Apr 2025 08:32:34 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u0j20-0001Kz-1i;
+	Fri, 04 Apr 2025 15:32:32 +0000
+Date: Fri, 4 Apr 2025 23:31:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ignacio Encinas <ignacio@iencinas.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, Eric Biggers <ebiggers@kernel.org>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+	Zhihang Shao <zhihang.shao.iscas@gmail.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
+	linux-arch@vger.kernel.org, Ignacio Encinas <ignacio@iencinas.com>
+Subject: Re: [PATCH v3 1/2] include/uapi/linux/swab.h: move default
+ implementation for swab macros into asm-generic
+Message-ID: <202504042300.it9RcOSt-lkp@intel.com>
+References: <20250403-riscv-swab-v3-1-3bf705d80e33@iencinas.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250403-riscv-swab-v3-1-3bf705d80e33@iencinas.com>
 
-strncpy() is deprecated for NUL-terminated destination buffers and must
-be replaced by strscpy().
+Hi Ignacio,
 
-See issue: https://github.com/KSPP/linux/issues/90
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Devaansh Kumar <devaanshk840@gmail.com>
----
- kernel/trace/trace_stack.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+[auto build test WARNING on a7f2e10ecd8f18b83951b0bab47ddaf48f93bf47]
 
-diff --git a/kernel/trace/trace_stack.c b/kernel/trace/trace_stack.c
-index 5a48dba912ea..91ed2b76fa4c 100644
---- a/kernel/trace/trace_stack.c
-+++ b/kernel/trace/trace_stack.c
-@@ -543,8 +543,10 @@ static __init int enable_stacktrace(char *str)
- {
- 	int len;
- 
--	if ((len = str_has_prefix(str, "_filter=")))
--		strncpy(stack_trace_filter_buf, str + len, COMMAND_LINE_SIZE);
-+	len = str_has_prefix(str, "_filter=");
-+
-+	if (len)
-+		strscpy(stack_trace_filter_buf, str + len, sizeof(stack_trace_filter_buf));
- 
- 	stack_tracer_enabled = 1;
- 	return 1;
+url:    https://github.com/intel-lab-lkp/linux/commits/Ignacio-Encinas/include-uapi-linux-swab-h-move-default-implementation-for-swab-macros-into-asm-generic/20250404-051744
+base:   a7f2e10ecd8f18b83951b0bab47ddaf48f93bf47
+patch link:    https://lore.kernel.org/r/20250403-riscv-swab-v3-1-3bf705d80e33%40iencinas.com
+patch subject: [PATCH v3 1/2] include/uapi/linux/swab.h: move default implementation for swab macros into asm-generic
+config: i386-buildonly-randconfig-004-20250404 (https://download.01.org/0day-ci/archive/20250404/202504042300.it9RcOSt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504042300.it9RcOSt-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504042300.it9RcOSt-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> usr/include/asm-generic/swab.h:21: found __[us]{8,16,32,64} type without #include <linux/types.h>
+
 -- 
-2.47.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
