@@ -1,101 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1D9DF5C;
-	Fri,  4 Apr 2025 15:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BC61EF0AD
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  4 Apr 2025 15:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743780760; cv=none; b=lRjEdPl8SYwXnkOIcBBUJpPTKkJrSO/4PZ4NGI0nw2O2a42PrEmeSpqDqTgR8eosf3wBnFSHWGXqYckCqnX2eNuD5ZppzEbgM5BWbAJrYRUVQjm3np5lNL8XNANnj9vhwTiahFUVk+DpLhcbA+b7Yuy89xMHDh7ZP1pG9yFxBic=
+	t=1743781000; cv=none; b=myVWbYPcq8KdPgMtWjPfPLnavXf//Xi4oCe9w7fqn8NiglWfuGcGth8zY6XBOHbBrbLfZGgoPE0dASzaJH5HAVrFRpnt5stQQXtLA+uJPK5hChozm6zE5+ZuK4omHNRFX0vwcPussghrkrUsoNFcipYrgrYIe57LPa7qtM9j4QM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743780760; c=relaxed/simple;
-	bh=l4NfQuaRg7vF8YLzLFVfCX0eGTmkIJQDbug+xp/8Ur0=;
+	s=arc-20240116; t=1743781000; c=relaxed/simple;
+	bh=Wm0hlOk2KjnydJuWr4Tp+yAP5KMUtZGePGoHip7UhjQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qVWS6llo9TjGCREeCFimCp4HRw88w2+ubn/MFhhl9doIWCF9PVzQD5QgjUVXIqwUKk+oW4HhSnKuhGjp1Bgp/aroDm4iV74MOgYEpSkyxoTEfk0nlPwg5wZt6AOIHLwQJxN+p1bTuvlgv5YWiigbPv5LVYclPnz/VHOVdahspWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MDw2ypPf; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yn7IK9zr+5kzVbq56Y2f2LsQ5KHdlAJr4R+gzffvCNDkWgjt4t/tHPjYcohJxe0GiYAgo4dq5fym9pVW6AC/pDh0yvD58V7PIid5PaK0MIIYF182RRsSvkMcf3DC0cvbelLzDCJ8+kbySIIb96m6UEqXpHpvXTwWSc4yUOIcy/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Kozys/Ds; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MDw2ypPf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743780758; x=1775316758;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=l4NfQuaRg7vF8YLzLFVfCX0eGTmkIJQDbug+xp/8Ur0=;
-  b=MDw2ypPf38I3kIjEqPbEoaHVYkChGf5DpeCftS4YQ0BRauyuNb3qNH3B
-   7GeBzROBs4ZVFiFL7pODN6TtivYk0YvtXv2dlfFSaeQkjlZxro9bWSj2B
-   Flq+/RL8OFkmkHYCj/WEtp9aSv0fyfRjVKaO8/k1ow8jeC/EZcZlxudo2
-   wdfzzrD4K8WUqBb/kVWAP2iayiGzBgETnXnUJrgI9dK3d6ckodRlPqV8a
-   MAxVvAPp9HrJ4Ip2jGsJytHtb5veO57oVAig5Z16AYpTEItGMynBbjnxS
-   OFf3Y02W1JktgdyT38PLMY6q2QkdfFlQCqTyLDYk7Jn2a7B810sZmBGod
-   w==;
-X-CSE-ConnectionGUID: ctW7zBi/TDSL/H11jTu8PQ==
-X-CSE-MsgGUID: +HIxMrMVSTWyTS5FaQ/TUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="32827374"
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="32827374"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 08:32:37 -0700
-X-CSE-ConnectionGUID: w6x4comGQQOj+pL4mRXMsQ==
-X-CSE-MsgGUID: uqelw8/ZSUC6OlaT1ChzUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="132460543"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 04 Apr 2025 08:32:34 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u0j20-0001Kz-1i;
-	Fri, 04 Apr 2025 15:32:32 +0000
-Date: Fri, 4 Apr 2025 23:31:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ignacio Encinas <ignacio@iencinas.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, Eric Biggers <ebiggers@kernel.org>,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
-	Zhihang Shao <zhihang.shao.iscas@gmail.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-	linux-arch@vger.kernel.org, Ignacio Encinas <ignacio@iencinas.com>
-Subject: Re: [PATCH v3 1/2] include/uapi/linux/swab.h: move default
- implementation for swab macros into asm-generic
-Message-ID: <202504042300.it9RcOSt-lkp@intel.com>
-References: <20250403-riscv-swab-v3-1-3bf705d80e33@iencinas.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Kozys/Ds"
+Date: Fri, 4 Apr 2025 11:36:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1743780996;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s4sptiDS64TqakxXpUmcHXO8tnkrK0BIqcsdKGFEneU=;
+	b=Kozys/Ds7/cg6lJiuP9pxF9pevq4wb5QSquXowWNSK/3r/thjFBnegULAihzhspi5PSuJH
+	ryd9tEkOfDKiFseeiNb/uCMcURT7IlHxZIS/3NwP6TzCs2JLRjIIRypw87bfMuyOVGZSMw
+	bhWzTBj9OqnQLGrPoZTwTZHHJYTvWNA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Cc: linux-bcachefs@vger.kernel.org, shuah@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	syzbot+c82cd2906e2f192410bb@syzkaller.appspotmail.com
+Subject: Re: [PATCH] bcachefs: don't call sleeping funcs when handling
+ inconsistency errors
+Message-ID: <6jgqlz555qrn3l34e45nc6ubg53ydtzh6l7ghra7od2xjctugp@ztmjdn3cwt6h>
+References: <20250402161043.161795-1-bharadwaj.raju777@gmail.com>
+ <zjqewsg6ijvol3x3rdjfyjeji3wy24nw45yb6mkqj7vwsk7mrn@yxnvgpj4i24k>
+ <CAPZ5DTEGi8RXBMui823bwnt96PcqZSavH8AQ+LPhRs=sJ-Br1Q@mail.gmail.com>
+ <ciw5ocj6io5q5p2tsv3sqpga2ff73eqwhlrrug4el63ggolcho@iviprrqsaemj>
+ <CAPZ5DTGWC2Xemgby9E8EL61Vio0NYQrKBd5FNpvERwwBoEP8tg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250403-riscv-swab-v3-1-3bf705d80e33@iencinas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPZ5DTGWC2Xemgby9E8EL61Vio0NYQrKBd5FNpvERwwBoEP8tg@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Ignacio,
+On Fri, Apr 04, 2025 at 12:22:45PM +0530, Bharadwaj Raju wrote:
+> On Wed, Apr 2, 2025 at 10:08 PM Kent Overstreet
+> <kent.overstreet@linux.dev> wrote:
+> >
+> > On Wed, Apr 02, 2025 at 10:03:10PM +0530, Bharadwaj Raju wrote:
+> > > On Wed, Apr 2, 2025 at 9:47 PM Kent Overstreet
+> > > <kent.overstreet@linux.dev> wrote:
+> >
+> > If you're feeling particularly adventurous - print_string_as_lines() is
+> > a hack, I think we should be able to do something more robust by
+> > skipping printk (that's where the 1k limit comes from) and calling
+> > something lower level - that will require digging into the printk
+> > codepath and finding lower level we can call.
+> 
+> I tried looking into the printk codepath, namely vprintk_emit -> vprintk_store.
+> It doesn't seem like there's a convenient single lower-level
+> entrypoint we could
+> call which just avoids the 1k limit, rather there's a lot of internal
+> code mixed with
+> the truncation that we'd have to just copy if we want printk behavior.
+> I don't think that's a reasonable option for us.
 
-kernel test robot noticed the following build warnings:
+Yeah that does look a bit messy - and it doesn't exactly explain where
+the 1k limit comes in.
 
-[auto build test WARNING on a7f2e10ecd8f18b83951b0bab47ddaf48f93bf47]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ignacio-Encinas/include-uapi-linux-swab-h-move-default-implementation-for-swab-macros-into-asm-generic/20250404-051744
-base:   a7f2e10ecd8f18b83951b0bab47ddaf48f93bf47
-patch link:    https://lore.kernel.org/r/20250403-riscv-swab-v3-1-3bf705d80e33%40iencinas.com
-patch subject: [PATCH v3 1/2] include/uapi/linux/swab.h: move default implementation for swab macros into asm-generic
-config: i386-buildonly-randconfig-004-20250404 (https://download.01.org/0day-ci/archive/20250404/202504042300.it9RcOSt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504042300.it9RcOSt-lkp@intel.com/reproduce)
+> > I also just noticed that print_string_as_lines() needs to check for
+> > being passed a NULL pointer - in case the printbuf memory allocation
+> > fails. Want to get that one too?
+> 
+> From what I'm seeing __bch2_print_string_as_lines already checks
+> for the lines pointer being NULL. The only unchecked pointer is prefix,
+> which I don't think needs to be checked since it will be something constant
+> from kern_levels.h, not something which could be NULL.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504042300.it9RcOSt-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> usr/include/asm-generic/swab.h:21: found __[us]{8,16,32,64} type without #include <linux/types.h>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yep, I should've checked the code before I said that :)
