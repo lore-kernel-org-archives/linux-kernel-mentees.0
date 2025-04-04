@@ -1,119 +1,96 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8064518BC3D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Apr 2025 08:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04F5611E;
+	Fri,  4 Apr 2025 09:05:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743755133; cv=none; b=N73cLnx4okM74UHOu4y1Q6clCmTNxC8K3OlQ8RIucSFqLCjJdHsnQrMCuZZ2HVJTjPQXA3sjhCPNE8Zt5x4AXnT3G3PBElpqoKLpQCIjFiJ70m9XKQ5B5vKqJGUMo6ePU7KhvHSXcHG1cUMMBMly19Wr6qGEByOb1EDTzqvFYfE=
+	t=1743757554; cv=none; b=ESJCybXM9GRohH2VL4+yVmXmZigQ9LCro/hjnl70q+ug5J4lFSh8/CpgQaTsig2V/7vvYTRXh3zMH2WLiaGf8NBoagGO/O9Vih8RcoxRLdd1eofE4my2XlriJL4IiaV+c+lyA6Jz4MLJqk6riZT2oxEJow7r3f5aFdN6uET+bak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743755133; c=relaxed/simple;
-	bh=Pd54fnZYvN0IF3kAJsE/tgFL69YD0dJcke+lyp9URmU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IzhDxPWrKS72LqqOr47v+RkY/0Br6cOkxoYIraFztvs7hugmvylSFhxtJtUBkPkhoqaE4wQsPYerMuYjbggPs1q4U8S44y4FIc+jhFHfScgGtlhYddVMu/up4kxkcP/aedcXOjo4LuJVGiN9Lnx4LEqBP725DnVDJTn85GOylCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=THfNgftu; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1743757554; c=relaxed/simple;
+	bh=uhKMFNAVbmR4Kr/0n24Wq5pDZu2LhHwS5o/4unQpAXU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EF6i6z8zGfDZR0QD3Cdw/f3Rr025ExOQpm13SK1/Pe0o26NBQMRWzHIaWtp+aNToK2VveVuCR9wvzllvjz5IDz1WYzg980svpb1DjQQhMEy4xoYE0IQAgEIWpIBPTQUCEHmknmbouONXAEMEed/mxYkffrL7W+jYHlnU0oHPilI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zo2ehvDb; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="THfNgftu"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 052EB80F29
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Apr 2025 08:25:32 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id S4zuzKEiXelC for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Apr 2025 08:25:31 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::534; helo=mail-ed1-x534.google.com; envelope-from=x0rw3ll@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 4963180E80
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4963180E80
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=THfNgftu
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4963180E80
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Apr 2025 08:25:31 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-5eb92df4fcbso3382366a12.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 04 Apr 2025 01:25:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zo2ehvDb"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c5aecec8f3so261996585a.1;
+        Fri, 04 Apr 2025 02:05:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743755129; x=1744359929; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1uH1IX2xHGor+jIVcJKBUYPSchHEkklHprBp/7Y2BGQ=;
-        b=THfNgftuS+NVjcVtI+QBhKcB9npW39yBjWW75GyXLl7d9KYAXkrTIxoMsQPCUVvX7O
-         oUi47GguHI1udtwoF+CLu6urdUelDSYvATgazqxRwHGKxDCl7bJ0p0A/d4mYX7oIG18l
-         T6hFAJMn5yDQJIJAYPLwz7pqcTO2s0FTgghpqpaH+DmGEzVnW4NJ4wpmxkuSRtyLjLUl
-         kYdDfAXyOPSwa6pYwDBaxoE0jhRZRzjOF4NC+43C8GUj/3yblIe+X2Sgnwjx7h4wffjU
-         ZNal+Yyz03VJBY3H2zYppQyy+vBh0UdePljYyeSkgKaQTVu2uxrRpKqOa7GTQPFD/eit
-         AhSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743755129; x=1744359929;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1743757552; x=1744362352; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1uH1IX2xHGor+jIVcJKBUYPSchHEkklHprBp/7Y2BGQ=;
-        b=ob7Q/PooiqEyV+6tCSBQMEyQ1IfRSBbMb+qRGypGRInUJFeKHSM/J8nF6vLd2Zzq1j
-         i95pNWH6vSDc2STMhrsYnEDx4n9OWC/8dOu2JcBdHg7TadgxfvH4Q07Ylz/J4QB3I1yZ
-         CVLEbW9XcQsgQgsQbnRBgyZ0LddrEP7qmbHhwwL+sPnCQ2NLGX/ohDxeKDd7VW01blbg
-         g+hb7awTVGH+BPkqYxWsigjnTDi+rMVHSmbcZ1os+8vPsN/6yNTwioG7UGFX3hjcQOVF
-         1yJoQyeNkEhGI0M5oYoONUZu2Uz80VW5+MJt4qUxDLu+W/ddIRDPp9BT4CjuXT+PrETx
-         j+HA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFZZUHSMFTB+iAroSNqWEifCGTx/pJAJnPTD2ueGpJEUCuREc9VORE6rMiEOM/Qa4xnTBuQ1xvaW3ZmXs/rshkS9X7UQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyLlI2Ny4D39EKMthFg67gwPgOy3D18A9OVTKHNGGGlNYgvldAK
-	tey0hN0RXvmGgaPiqStfor5EgZx4qeAROHTR0aRdZd7qrQH8mXkL
-X-Gm-Gg: ASbGncvgDm4EndnOA9TYSHo+sbnCmGXPd/EMHD1HaFLVife47SewsBHU459zMPiersm
-	zbpbi0UhScwJOCO1oM+BGzd5vazd+aQkF2wIedy3rHqvj0PvEFQqQdJFwSPyL274vCjuKbRANSB
-	CJjkPMCvFQOsdaodJ/nlapl7NNrHDj9PZiQ2WC0ZHyjjH3ty2WjAYeDxbs9MM2aWBwIQo4Prq8u
-	ycJGqoY8VwTERVWz7NRRdwlrnhUPjzg/tf9Sxspykrtv0IgW3SwUg1PbVeKwareFSYHMgGv6eLN
-	hVbB4wz3YO7FSWW2vdWFimIxtr84prbZTg==
-X-Google-Smtp-Source: AGHT+IFVdlyUKzMf5Pb5awlp9iNJ1Cr8z/mFGTAH8E9fTJUEvs97KMGKq+hbLu5ymPdFCE1kusouSQ==
-X-Received: by 2002:a05:6402:51ca:b0:5e6:23c:a242 with SMTP id 4fb4d7f45d1cf-5f0b3bd0a10mr1826431a12.18.1743755128931;
-        Fri, 04 Apr 2025 01:25:28 -0700 (PDT)
-Received: from localhost ([95.85.21.12])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5f087714df0sm1954318a12.14.2025.04.04.01.25.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 01:25:28 -0700 (PDT)
-Date: Fri, 4 Apr 2025 10:25:26 +0200
-From: Ahmed Salem <x0rw3ll@gmail.com>
-To: robert.moore@intel.com, rafael.j.wysocki@intel.com, lenb@kernel.org
-Cc: skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ACPI: sysfs: apply ACPI_NONSTRING annotation
-Message-ID: <dcc3a018fb28899b277df2e154740d59d4e404af.1743754416.git.x0rw3ll@gmail.com>
-References: <cover.1743754416.git.x0rw3ll@gmail.com>
+        bh=uhKMFNAVbmR4Kr/0n24Wq5pDZu2LhHwS5o/4unQpAXU=;
+        b=Zo2ehvDbceNParQ1XolxZKAu+bsCP7NwrUM6vULyCj+y5keF5yOd9Gfx0OaLlMrp8d
+         RkQTUgtL7g/GeXRBsFMVxCpKOc9j49UtsHBaOynGBZeNZMoG48LkZUnJF4cLQR44AqT3
+         UxnN/jX1EHLHwDULS/dUyNygX9BqwmOB40WGf58kqX/K82cH/I3EinPduzdZsovk8qtk
+         2nwFS1RAw2S1Blj5GZywD7Ba4n9lqz51sF0U24jD8Wx442qx0Gi1BW2kiIaBT+zx0ilc
+         aphQAOfK5K2mcFh+R/+7rV4+qpvuXrcsfq+vNxx3fMm6ot1Cdn8tuNAdJgcC94LW4oc9
+         K2xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743757552; x=1744362352;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uhKMFNAVbmR4Kr/0n24Wq5pDZu2LhHwS5o/4unQpAXU=;
+        b=ZrtIwZM5V1Fveij3C5EmedwxUSQh83l4bMwLCu8+ZncX0BUxTu2inVc1LeTgDXIst1
+         CuvSlByC22Nym6TS7BXUPKncUVcJk2nio9eUH7M/Ywd1b8+KPXQ4BODYIlaJq7kUGL4a
+         JmWhwJyBztB4sphu+8kdo2EndM8WOGtdA2GjdcxeR5XAvUBVy1uE5/TEIxkDvZjR8d0Z
+         CJ7BvbAvbmOxvRckwN++NI3y43HzqXtX/+jrlJmsGuUyiGGnGk6RgUx67eFTK5i1I4Ze
+         kk0EaO4JaUNnBGryoXIlrUeKQa3cpi1fK/iTEdoeiG6T6WlvlxbwLLbWf5XcGVjyL7sr
+         hnLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVuIxW3pon/xCc4qrgtI3/db8ZxA7FeUbtGMc9RmYkuUUEgImhWGqyEb0YlWeWUzdqS2NWMxh49WazdMJ9vuF+qmxeiiA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxkPGYrMxSJFTLJQulvM+ogbREPzyt2XzQVrKJQwzFLlp1sfK1e
+	CLAyZEynNSkhaRQ2NlKe8/U7i+3pW8jA504/5/gKCB2NI0Euium50orGw2nF0241ccAqgYlHwu9
+	KKYA5xSow5KTAWXBONbED8QfHWtk=
+X-Gm-Gg: ASbGnctKY7YOyM63IBLIG/agoZkE3VKG6pdsZ61phH/TQN8+JetzWZ9F9F3F0Gj6iUr
+	F+kNJwy0Mr3loaY8RTKsN3uj6m0GATLZldyojM3luyuHwOMBD5MkscsnuxKJR4ju4V+MZ8DlVij
+	XPb4smZ8QgBF6GUEslvvfyeV6LpCCFrl36L2+CHljvmE4o7gQ8AJRhlhLS
+X-Google-Smtp-Source: AGHT+IGeB5gy3Bxye7z2MQOfNjxPTBd6g4r626j11K+xJvAUfHLE5a3OVvVAhRJh35DKi5LecvLM+IdQonxpnOsRMcA=
+X-Received: by 2002:a05:620a:1a10:b0:7c5:57cd:f1cb with SMTP id
+ af79cd13be357-7c774dd6ed6mr310719385a.37.1743757551749; Fri, 04 Apr 2025
+ 02:05:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1743754416.git.x0rw3ll@gmail.com>
+References: <20250403160807.100057-1-gshahrouzi@gmail.com> <2025040429-avenge-camera-8d88@gregkh>
+In-Reply-To: <2025040429-avenge-camera-8d88@gregkh>
+From: Gabriel <gshahrouzi@gmail.com>
+Date: Fri, 4 Apr 2025 05:05:00 -0400
+X-Gm-Features: AQ5f1Jo01_JEw9ySJEDjCel8vQNe5KvQVh0WsMLpEgdBI48FpmeYR0ubmuhUQR0
+Message-ID: <CAKUZ0zJzNinEqQLVH8o-QKYoZ99VWum-Qtfr+rGNytK44Zzdyw@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: rtl8723bs: Remove trailing whitespace
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, philipp.g.hortmann@gmail.com, 
+	eamanu@riseup.net, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Mark ACPI_COPY_NAMESEG() destination char arrays with the ACPI_NONSTRING
-annotation.
+On Fri, Apr 4, 2025 at 2:28=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org>=
+ wrote:
+>
+> On Thu, Apr 03, 2025 at 12:08:07PM -0400, Gabriel Shahrouzi wrote:
+> > Remove trailing whitespace to comply with kernel coding style.
+> >
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>
+> As far as I can recall, I did not suggest this patch :(
+Whoops. I misunderstood. I initially thought "it" meant the suggestion
+for the new patch revision. But thinking more about it, that would be
+redundant, since that information already exists in the previous
+version's thread and could be spammy with many reviewers.
 
-Signed-off-by: Ahmed Salem <x0rw3ll@gmail.com>
+However, providing information on how that idea first came up is
+useful, since that origin story doesn't already exist on the thread
+(countering the base assumption that you alone came up with it).
 
-diff --git a/drivers/acpi/sysfs.c b/drivers/acpi/sysfs.c
-index a48ebbf768f9..8a5af261129a 100644
---- a/drivers/acpi/sysfs.c
-+++ b/drivers/acpi/sysfs.c
-@@ -307,9 +307,9 @@ static struct kobject *hotplug_kobj;
- 
- struct acpi_table_attr {
- 	struct bin_attribute attr;
--	char name[ACPI_NAMESEG_SIZE];
-+	char name[ACPI_NAMESEG_SIZE] ACPI_NONSTRING;
- 	int instance;
--	char filename[ACPI_NAMESEG_SIZE+ACPI_INST_SIZE];
-+	char filename[ACPI_NAMESEG_SIZE+ACPI_INST_SIZE] ACPI_NONSTRING;
- 	struct list_head node;
- };
- 
--- 
-2.47.2
-
+Separately, I need to make sure to use the official documentation for
+tags instead of relying on Google searches and third-party
+documentation.
