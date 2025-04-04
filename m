@@ -1,63 +1,63 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03909C8FE
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  4 Apr 2025 01:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7641A84D34
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  4 Apr 2025 01:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743730114; cv=none; b=hiGeDCWZLnBIZwFbmIU2GLliEf9ynZ9nFZ0fXbgLusQwnrpGTcMEiJ5F2BaOHFEc+9BlBUHykx+dcwkEjcMFuREHXgyWKARfJ6xsVqqL9PT+7zHqhTFj73tSP4w9u09hQ3GxwHrS77euYrWMFGGqdC2FLDZfbmSRW130kxkSyqg=
+	t=1743730114; cv=none; b=pk9ItHJBBW8su6DlBhj0SV5nNXs3pqHdiD5CKvidFNIrObUrj3elRBJce0f1PIYnJAkXfEwsRt8DKqI0A98RLwa1f8svjc6lENTLDAjxFbo8+9dHIxmMADVT99svKiw4Ld/DXEhkh9Yiluo+DwHh8yw6tU2VNgA0WMLwOEjddAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1743730114; c=relaxed/simple;
-	bh=rIpbipKaSZwzxcSazWpJgiVIkWHhxh9wS2F9QUtHSq0=;
+	bh=ThCCTnlJqn1Oa31nv7NfH66Rmv9MGvCR0mQnVerABCo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B6PNlcdTB92J2BcB1E1gnKveK3PPwUqAwCMZG7BLYIjXXpGCLvOVbmq+iyiuDImXvjm3buwASpWpeTc+56UCYk9ICgadsnZ60ByaiiYZGQWg8oiDGOCU+2Uya6uRMut5gposz+pUqKLRmKXKpRyi/29BMtCiN7USCzhzgMn2nOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZsHRva+j; arc=none smtp.client-ip=209.85.222.176
+	 MIME-Version; b=Go6OpgduFc0njySmueHeCVNf+g9EyGq50OsTdr+BC1cevts6G1XNluxRtWFqXSlOO5LqOaGCVAt1eYC+luwz2m7VlEL61tqeK6vDeV3inMw1cPxFrduepSbowfnbDTbL2TrPTuuR/tdrfyc/1KZkYt8uzRrc+VCIf9LViwG7ZG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CkfAzNUU; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZsHRva+j"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c6a59a515aso98069085a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 03 Apr 2025 18:28:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CkfAzNUU"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7c5e39d1db2so89386985a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 03 Apr 2025 18:28:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743730111; x=1744334911; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1743730112; x=1744334912; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZKJu88jh4mbtsr5rz+BBFFaZRXP7TxJVqLawVpGfJpg=;
-        b=ZsHRva+jKmd/iUpxuTMc4ZRCRA0l5MXnE3dicryw6KSSefrSgKd8LRQI/YWHG210Ni
-         QQ8BvGx+RSTGP5rLFccTG7zU0hmfqTXd/kxCzLfwEljr66silYj03cikqKJXiopgBhAc
-         p/y3tmsuWUBajx/wEjpByLa/EnaEVmIgMXzd/4q3rFazpIA6akKJNVo4v9qLpKc+MfHr
-         4sTiKr/xd85rjq5+1LrQkoGn9OirSM/hCpMMy3PvvuMdY9nO9SBa4aCyVXaFqVrS3ZOx
-         +NSEiqasMePIvwhQj/Q7/RXh1E1fD0tm391ZCk6/7Tnv7/DHJwdy9C7XP/VjuHz5yIEc
-         vuxA==
+        bh=vR5kIA+uWi4HUBvVSoOD2MczBGVAng4z2Yfd3q51pFs=;
+        b=CkfAzNUUzDg6drf89vaISiJ9hr7EtXqGvsloqYqYYE2m35IFAzor8G+mtdTuHrVCQg
+         lF51k4HGNWU6xWglJA8zaYxdC+SzB6NtY81m92YQwjQy/Yevq+Ri1xFR+9ke8/MHKQHi
+         wsHzX5ih6aV86RIQF5cj2MRafZp4z0Kcv9yjgWvqiDCjYZn+Sf9iDOx+mS/xX32+zU7M
+         +L+mJuF3xkGnBeSgXOnlf4etNtaHrc+W9KXrtHE4bo4Vx4YGr00heMntpOmWfreOVXP6
+         L37i0VRhQt/JZxEam8vz9aPGChxqR4YJGgvf66C19pQ7uvqmqgOHeBn6Z/7d+v3UwFWd
+         VG2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743730111; x=1744334911;
+        d=1e100.net; s=20230601; t=1743730112; x=1744334912;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZKJu88jh4mbtsr5rz+BBFFaZRXP7TxJVqLawVpGfJpg=;
-        b=o8afHybOhFZRoOPEJih8KNkbpvoy+b8LwhLOfPJ/rpE0x8GpYVz5c3ffJailB/Ak3p
-         Al3K66iiORfZadKrCgZi+UgNNF9bFuLdxoROAtGmM8uzc51G4YLx70GPARag5QcMDHSl
-         d9fJFY9dB2zZrufzoaMPbm6jlY75JbcLVVlvMrp/1umPmM7hWW5QPRsGswf6o+pudO9j
-         sbUFE6GgF7Ag6kHiQdnFxmH2b9n5dVcPzWTWRZ9OUjwO5StXCn4r4nxWuz3wNLA1YeR+
-         W0+BFE1qXZTandfvDyw5Uj4FyC2KSWjkOe3sEuz2JXKocAnoAs5RCJdm19PsR2shRTZk
-         NEEA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9Or3aBGksJZT/zuvjaG4ytiG9K4OkV4jlj2BZdsS0BvVs0B9s9eHUzDMt8+WFQjgGnnB2cXCI45UacMzCIVYhJjKW2g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwX7+jyOkP+o+AiMDgdATXHUmh1jILCkwQQq13yl3iQzVIrOjnH
-	7RyoQQMrr99XP59L/Pn8ApeZXGdw6dE6Swhwdc5u6fv6FzI2jTC5ucYwJerwX2Y=
-X-Gm-Gg: ASbGncs2Hiyk/TXkwckFN3zdc+XsxAXhqhLEo/bMYYQhKjqsl/ab2839VFRtxmSE6cn
-	Q9OTGqmRu9PwWLeBPaccT1IiutYH0xUYzfdIPSPoAD4iRJ/GqORSrxONFvkiRYWF0C6MBcOhiok
-	W1ecKypGYprmiqnSoqk3qggRxjPy+RMYfWNgQYrRiX12jf29d2kwgHkz58cvkFc/wNXXorMuXL0
-	TzQ7Oy1ZeiNmnDE4PyBKpKmbfsC7n3vUxBinjLjU/CCZrG7++fUPLI82V8kXkQYoKyIToAU2BwS
-	0+U8PmHyX6b2Px6q8/TKlwKcG+pOY/9HLecsPVHkhr6EsWQiJZpc6W5Pe7HSRv9Fb9nF7Cc80Uq
-	T6wkA+9fF0qexelECZK9THm4=
-X-Google-Smtp-Source: AGHT+IE2g3ZuJL9kYDpe6cJGOiCLNdbrBbng+BtoV0uybDV4dNGAypsGfwfrcNl5Sr2kL54wHyMiDA==
-X-Received: by 2002:a05:620a:1916:b0:7c5:e370:5b1 with SMTP id af79cd13be357-7c7759eab09mr143479685a.7.1743730110894;
-        Thu, 03 Apr 2025 18:28:30 -0700 (PDT)
+        bh=vR5kIA+uWi4HUBvVSoOD2MczBGVAng4z2Yfd3q51pFs=;
+        b=rBaJrxmoETPhshG2xEudU+k6OqGdUkO6KzWH7dPETo87diN+G9YxqymfxWjvmbqfOb
+         kUww5Lp7sqoBVZleOQ+wtC1Kk9Rw6YoRCYM/ISCyt5UHmQpVXg4csTXd8PTY/9vpfSIQ
+         TNc5LF0mlyQSGRa/jF0r2P2/uBFgBDqd71u2edCOHPj12SrKIyR+QnAgwj4D4hMY/+r/
+         S50SsKRxSYrC77kKz0VDE7QykRhKi4USvlZ4Pfr72nZUbPdcToNojrc90CpAdtnoxRP+
+         9zWTqeRzRZmogY2aAMVZEeqIG3u1xhl/M820Lo+arDpE6lqT52mhFgwWY3DTtNZbgbzq
+         E+gA==
+X-Forwarded-Encrypted: i=1; AJvYcCUaWHoSCRBPLJ88ybABnyujWRA5CMo3wOT6wr3lomyIQ2W6CWYcOtJTFiYH1uyHyRSOKuN27DW2NJSpsPsCYGMvoCHm1A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMJo5jJgyEf+iKR1nJqHytHHBfzqhV6sU2fPChY9Gp66Z2T5rg
+	KUOAtyYfyX0eWbJiza26Jnyi2LdMxlYEXKRDrLbaLBbw8dkrhsre9iGKQ/fD8Ig=
+X-Gm-Gg: ASbGncuxQFGbSnqGJMYabsfWnbybxzUwTjz79dQfZRBr+N2IiddeWMvNg0SJE25J3sL
+	enRXzhY8WlScrk627iU2GhbF+N9gTUtzLdwQvZ2eaXiSaczZhcHclxndQtBxNhYAvVWhcPSbZAG
+	Q0VvZHMwXm+7dLraJzuSRA9IU9spc/razBKS/5jLqa+5pyro6QsdP38P9JWpWdMz6dugVlRk3yX
+	Nb4v7g9uGz6CoKjzf+Kfi+pr/WmzFvbV++diTJFVuCYrqCdnUbZNLG4dyJNMULEjJE+m4J08jru
+	G2W+C11tAyHWDSq3DPISAQIc5kmHdxKxiaLLXgA3dteQiHdBo4KuFaUdSU9sWWCVdiOFbdML04i
+	o4WyQMqYA4SolndByaWgnlxs=
+X-Google-Smtp-Source: AGHT+IHOiCDsx8ydbyTXKh335o3fqUmJOSL2TVK2ugwhL+DPClZKp/ZqRN3CkYK7OcZu0VtvNzqt5w==
+X-Received: by 2002:a05:620a:4727:b0:7c5:3e22:616e with SMTP id af79cd13be357-7c775af1552mr137092485a.56.1743730112437;
+        Thu, 03 Apr 2025 18:28:32 -0700 (PDT)
 Received: from theriatric.mshome.net (c-73-123-232-110.hsd1.ma.comcast.net. [73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c76ea58f95sm147401185a.80.2025.04.03.18.28.30
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c76ea58f95sm147401185a.80.2025.04.03.18.28.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 18:28:30 -0700 (PDT)
+        Thu, 03 Apr 2025 18:28:32 -0700 (PDT)
 From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 To: kent.overstreet@linux.dev
 Cc: gshahrouzi@gmail.com,
@@ -65,9 +65,9 @@ Cc: gshahrouzi@gmail.com,
 	shuah@kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH 2/3] bcachefs: Fix type for parameter in journal_advance_devs_to_next_bucket
-Date: Thu,  3 Apr 2025 21:28:21 -0400
-Message-ID: <20250404012822.188485-3-gshahrouzi@gmail.com>
+Subject: [PATCH 3/3] bcachefs: Use cpu_to_le16 for dirent lengths
+Date: Thu,  3 Apr 2025 21:28:22 -0400
+Message-ID: <20250404012822.188485-4-gshahrouzi@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250404012822.188485-1-gshahrouzi@gmail.com>
 References: <20250404012822.188485-1-gshahrouzi@gmail.com>
@@ -79,26 +79,28 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace u64 with __le64 to match the expected parameter type. Ensure consistency both in function calls and within the function itself.
+Prevent incorrect byte ordering for big-endian systems.
 
 Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 ---
- fs/bcachefs/journal_io.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/bcachefs/dirent.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/bcachefs/journal_io.c b/fs/bcachefs/journal_io.c
-index 2debc213e47c..ff2fd20aa8b0 100644
---- a/fs/bcachefs/journal_io.c
-+++ b/fs/bcachefs/journal_io.c
-@@ -1460,7 +1460,7 @@ int bch2_journal_read(struct bch_fs *c,
+diff --git a/fs/bcachefs/dirent.c b/fs/bcachefs/dirent.c
+index d7f9f79318a2..82ea6c437143 100644
+--- a/fs/bcachefs/dirent.c
++++ b/fs/bcachefs/dirent.c
+@@ -287,8 +287,8 @@ static void dirent_init_casefolded_name(struct bkey_i_dirent *dirent,
+ 	EBUG_ON(!dirent->v.d_casefold);
+ 	EBUG_ON(!cf_name->len);
  
- static void journal_advance_devs_to_next_bucket(struct journal *j,
- 						struct dev_alloc_list *devs,
--						unsigned sectors, u64 seq)
-+						unsigned sectors, __le64 seq)
- {
- 	struct bch_fs *c = container_of(j, struct bch_fs, journal);
- 
+-	dirent->v.d_cf_name_block.d_name_len = name->len;
+-	dirent->v.d_cf_name_block.d_cf_name_len = cf_name->len;
++	dirent->v.d_cf_name_block.d_name_len = cpu_to_le16(name->len);
++	dirent->v.d_cf_name_block.d_cf_name_len = cpu_to_le16(cf_name->len);
+ 	memcpy(&dirent->v.d_cf_name_block.d_names[0], name->name, name->len);
+ 	memcpy(&dirent->v.d_cf_name_block.d_names[name->len], cf_name->name, cf_name->len);
+ 	memset(&dirent->v.d_cf_name_block.d_names[name->len + cf_name->len], 0,
 -- 
 2.43.0
 
