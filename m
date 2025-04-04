@@ -1,225 +1,104 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A971E7C01
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Apr 2025 12:54:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=140.211.166.137
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743771283; cv=fail; b=kWgCgdjVc+NrRyvoL5ngQdUi1Ng0uQYbgWgceT8x6en5KaxJGqaOtmSDX/LsKvaXDApFffqU8mVnkg8pTZgejpjz6PRyLYak+0qmaTrUxaOsJLiZ+VnAYXvjfjCpKOO5t2hRZh3mln/MlhBTSo4llVLWeBt9Dz85kcqBg2XeyoY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743771283; c=relaxed/simple;
-	bh=X8mt0n1DAzfKufRlJRaRjJ+QEohL/qQ33j5mJfhU3lI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=eYRJDHnk70wUgQYnQsy+a8Ovj33F1GmnlP4ZKNk3FOzRzdHEsQpLCtf9lAoV5PbS1OR83XztXuksoMWex+P77bNkF9L5ql7h94z4Y6J8R6+J81srBsMRjga07p/YYc/gw7z+05NJZALc2dFw48nLx83sFrD1AZyYo30K/uedH18=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=s9+87+Rx; arc=fail smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB6C1E1DE5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Apr 2025 13:30:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743773459; cv=none; b=EbvziiS5Jeze/wfH+RTLBwD1LYmpbLnaODEuK258vEUZJ7wplfQoaHJ4oq4P5pwDttN+5kI+Erc+8zt441bs5vjshu4EySkYrxWiDpUY6hnO5vSHIT+ExsmyNfhIS2CZaQGbdS8Nw/gpVmJeTcBqNOfWap5X7d3Q6HqOYNc8v6A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743773459; c=relaxed/simple;
+	bh=KEheuGKDa3xDyxK8dtla1ri7UmskiUWGGO05j4SMl1w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tnMhyIOjEguJKyM5N78isHD2FY8P3yLHLSmE+4invsMpk8aMbMufowrC6bqRvCX9IkPUaCA0qLof7TUqpsyDwBcbTRl/YnkiMWQzB6FlBbKbTePW2345fDc28dhFM375tBxyVfnXhzhchwdSjOyLXZht6WaA34YJ9hItnig8rKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JGrorFeO; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="s9+87+Rx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JGrorFeO"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 93E8E40D3F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Apr 2025 12:54:41 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id B1E7E40DAF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Apr 2025 13:30:57 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.102
+X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id MACrvUiqYCOG for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Apr 2025 12:54:40 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a01:111:f403:c103::3; helo=yt6pr01cu002.outbound.protection.outlook.com; envelope-from=mathieu.desnoyers@efficios.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 3A63040657
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3A63040657
+ id tDH3TnZ7-DOv for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  4 Apr 2025 13:30:57 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::72b; helo=mail-qk1-x72b.google.com; envelope-from=devaanshk840@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 0AFF440848
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0AFF440848
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=selector1 header.b=s9+87+Rx
-Received: from YT6PR01CU002.outbound.protection.outlook.com (mail-canadacentralazlp170120003.outbound.protection.outlook.com [IPv6:2a01:111:f403:c103::3])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 3A63040657
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Apr 2025 12:54:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hjd85yGU28K42IEutKImTBiyX3sNCkGNuuuKhiJwPPci1sHI9oCOxLGXgokr6LtZW2f2HV08PWKh2WJ2Q3haixqIfb+GREEeNqq33NcjMf8wawkeZ+CkVKVovYN9uSoE3UJk6FPiy7gdpJGuv77ekvRBLGYTeQZCPOrcNXpwYPPxNCquc163REyWj5MLqe41iYsD98FdB57N7Pk36J9kJKiq8z5APe4FckJ0SzYtOZEUCAPEka1/4/gVdItyIksp7T2UKNCRSFGyiCUcBj5BK6mfIoz249itO15TPsrdI2UOOKaCQlZOi3zBp7WtdBkZzhU+WYaC0WlN0TNKSFADtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VAm9sZwULfCxD1u03B7cmnKJ4aruAgF7YQa51gH5nWA=;
- b=bQINZ7hkvLEFXGjHBhs6O41LTWFr0oSQIvKou4xuQh7s8DZI9m4Hc1/PP11yWl8Ex1TJMeafxXEQbkCgIwfgvvBNXl8OdWRORUOvvAwQrsyscWdRX9Q6CqX8LbBEZlqrYrsauhxZ+YoI53p52vSPYOPbVuOEqv5Mxbcw/olQ9NEDYQZtdNxu6B+I8DBgoVXRNedsyuiC4bQ6de/ar/Uks1lTTvX3mz/UL1W2ygHdzF3wVRXjM6+1tihw2D/mwsRi+Cy2P3fTtXEJVLKiE6TeVUyapgJlSrln9PzWuOX21xwuRJb/IsLYknDZ0kvLjzjaIXScHzVxS18iTLOQ8BcW3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
- dkim=pass header.d=efficios.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VAm9sZwULfCxD1u03B7cmnKJ4aruAgF7YQa51gH5nWA=;
- b=s9+87+Rx1jVj9jSz9bLBbuD5sEqALK11Mom8eMWBonm+nriyWfu8jkfS3NZiAhXS6PpX9KnqpNP6NrBf5vfQZ9cdG1xdh3c/QZ6V4KGyqCHkSEVH8dtpvLg7Ms7UBO2SjliEZ0Kng9URwwghpS94l7ZUtQa7fyqAWJiUx0zz+kgrEGaSd4JzHvG0R30Qo67ZD19BUJOxhJMSsca31VSJ066FYkPKLfl/ucwX9g8klhqXadQwzezLKCY0l2avpcPebc8u5yVmXN4W1gQmxYY3/yA3lihFv2WmY9BITCsia2BQDrIneCxEowJfRGwylcUBRCCzLfakgA1FLiWYr4dgOg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=efficios.com;
-Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:be::5)
- by YT2PPFDFD2A9EB5.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b08::495) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.27; Fri, 4 Apr
- 2025 12:54:35 +0000
-Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::50f1:2e3f:a5dd:5b4]) by YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::50f1:2e3f:a5dd:5b4%4]) with mapi id 15.20.8534.044; Fri, 4 Apr 2025
- 12:54:35 +0000
-Message-ID: <2e5aae65-316a-48c1-b293-041bfbd1ed80@efficios.com>
-Date: Fri, 4 Apr 2025 08:54:33 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] tracing: Replace deprecated strncpy() with memcpy() for
- stack_trace_filter_buf
-To: Devaansh Kumar <devaanshk840@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>
-Cc: mhiramat@kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20250403191342.1244863-1-devaanshk840@gmail.com>
- <20250403153651.1188135b@gandalf.local.home>
- <CA+RTe_gHo3U-tWM9MA4CMgxM13=biqkqnAbuS5Yuidrono1bvw@mail.gmail.com>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Content-Language: en-US
-In-Reply-To: <CA+RTe_gHo3U-tWM9MA4CMgxM13=biqkqnAbuS5Yuidrono1bvw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQZPR01CA0152.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:8c::25) To YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:be::5)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JGrorFeO
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 0AFF440848
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  4 Apr 2025 13:30:56 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-7c5b2472969so200369685a.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 04 Apr 2025 06:30:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743773455; x=1744378255; darn=lists.linuxfoundation.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KEheuGKDa3xDyxK8dtla1ri7UmskiUWGGO05j4SMl1w=;
+        b=JGrorFeOFoVhrQLpIphO25P2Og9bSlC/KoMWVQFCS91MdWYS3f9xFuW1/oc0OEOEF4
+         +JOWFb+XnV/fZF/iQY94jK5Pa02A4OyHVuN9D3NayLjqBwvTXaQght4owQ8k9RXCCxGd
+         OIu9IYwx9QZHLi9GMjPIhrlWdeqc2TKHxBjYaCFXM2+Au7Cs1abFfNrnr6M+gtSjwU8J
+         hG7EzRRQv/+5SivIuU9wQoRwU4sw42fiIZdjnLDFAEz8XQRkKdWblEF7L35caawTH4s9
+         q2WkpiM99vpt+ydvhkFY32TVcZfY8BdxguJzFp+H5rZJSUZITb+K9FG9uxjSvwjaRA7d
+         hOUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743773455; x=1744378255;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KEheuGKDa3xDyxK8dtla1ri7UmskiUWGGO05j4SMl1w=;
+        b=Ny2xN2FAe8G3VIzA131Y2Ya+bWrwF0t+OsLLfWSlZfRisv4VAg0qSGp79v0L1nt12b
+         Tx1Fnm4bv9GTShKfGfdlTM2vFRX5sxPhecvVO8iHnxAzQO8M3Uhg/+xVv+8c7N/zi7UL
+         0RGAvGMSb5rCjkOvQeKyb93R2bf/zLEANew88IMAmGcOvbAN0d/wjHlOyZEV4BJ7QhCM
+         81IYxuEblPBn4gd9EhPLx4NmoggfVQMcgvSs/+zOfVcsQRWdhFUI/M5kvS6EdeLgFRud
+         dHo5VZaAEilQ9CtVJpjEK0uvnUtv8uAAR0QhovftG86UTHByuHKxGdvdwnm0ehg+Uk6H
+         1ySg==
+X-Forwarded-Encrypted: i=1; AJvYcCWUPnI++XKy+i020eWMtQMIKQiid7teYRYjD/H9RcnWu1Ojbh7a7O7JU8chBZdRUJyr+5iZiv7d+JCLYA1BNTBa7OLuDA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yx41fzxu/QvAenIdDnx+O5k55sMqdostFBhOZx+7lPyC8PbsAlk
+	chjNuUWN5r70f8hzijLVVY6Q0NMgfO6Atwp1hHDaAl2PVLnhKQf/1lqxs8TYJUQpdJOU2srd5LD
+	Xypu3yVU6HrE9O/jIy1LxvHt5SFk=
+X-Gm-Gg: ASbGnct6P2FT6V5IYAB2xstRpAun6hV6nkg56QxZ34h8fR6vaTqhlLCFZ+fVt/KwiGJ
+	hkZeyod6/LCPHlCiOiyo/gQ/kzJ3T7hxxQ24aFGc3xYRT9qD+e8w4JhoDLRPzKz7g5cpXx7WUVU
+	XknhFgTrDynVylnqe0oepz97klLwWPIvTLUK5tfPc4gptV2dKk/2Rt4F4=
+X-Google-Smtp-Source: AGHT+IG74nCo6Nd7B0/H04vVPUhu27C+aSVBiz8MSHiHl9a70VyfzXJteEMrg4awfqIW8agEuRHW1vhfqJGHTki99cs=
+X-Received: by 2002:a05:620a:c4a:b0:7c5:4949:23ea with SMTP id
+ af79cd13be357-7c774df5ea8mr378073285a.47.1743773455589; Fri, 04 Apr 2025
+ 06:30:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT2PR01MB9175:EE_|YT2PPFDFD2A9EB5:EE_
-X-MS-Office365-Filtering-Correlation-Id: 76e18347-4c9e-4dd6-9ae2-08dd7377d9c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RllScDNyL3VrTFk3Q3RZV29OQzJ4ZU9ndnJtc0RhRHJkVURROFRIK0dHRWxa?=
- =?utf-8?B?MmJLZWxjNVU4OHYvWWlqeWxGVmxJclVLYkNNT2pVSDlnWEc3MUdYTjR4OFFm?=
- =?utf-8?B?Tzl6dFpDM2NrZllMNEs4amdncWlGTWMwOG9GQ3FjcmVDTnJuY2pwSXhPQUVi?=
- =?utf-8?B?djcvb2FpZGxmalY4eXJxckp6ZW9JeEJiZXV2SnJwNExEMUhMTnRBMmR6QUV3?=
- =?utf-8?B?ZytQQkNMYXpPZ0pwRGgxLzk1RCtBbFAyeXZXbkFVdkFDSlkzSnBXQ0NYWldQ?=
- =?utf-8?B?dnRJUVNoTTE2VjBkYnZjL3ZtSUdPaEIzRFEyYXErcVZYbGdZNGZyUFhTdmtI?=
- =?utf-8?B?TDlUa0h4SkV2aVBQVDVpeVJtREhnY0YvSTZuc2UzTTFzUjR5cVBjemloWkQ5?=
- =?utf-8?B?cGV6Ky9MVmwyZ2dPbDlzVjcvS25MRnFoTUFQTlFka0ZGd1lTYjJBY2loM3h0?=
- =?utf-8?B?cFlEUEtOSEdJZDc5TEcxbUVwbVRkR0pvd0sxTkh4bmU4d0dRTWhPZlhPZmx1?=
- =?utf-8?B?QlduOC9FdDU5bTIySlhiTGNkemhHV29ZakcxZFBLdDRoaElWYzJXSkVTdVdy?=
- =?utf-8?B?aU9aRmN6ZWlzcFg2VHdNZjNLTVNBR2pXZG5vV2xpMDh6bDd5TmN0UTVNcjA1?=
- =?utf-8?B?WWUrZXFoS3lJRngrSnROcll3ZXJVRzlxUlhZV1VNMHRXK3E3MzVZeE9Jd1JK?=
- =?utf-8?B?WERzMUZtM3hTSWtzbDl0SVhQajBnNFRTU0FYbGJvNjBmejZWci8vMmJpTDVN?=
- =?utf-8?B?VFVweHV1MXQrMk9wNnRMMEMrcW8wUlVZd0dqblhkYXA1LzJFUVM0ZklrR3Zp?=
- =?utf-8?B?d1JMcXlEbTNxTzFibVRTc0pKZVNpNVZCeC9QK1BlZGI0TmI2YlFBNkxHdWNR?=
- =?utf-8?B?ZHBvRmtRWUNUeUdKMnlpeDh4SDh1eGErRjNUWDBETi9uQm52RVF4ek52VkJZ?=
- =?utf-8?B?M2s1U3lIdHRwV0F1dnhLektCeUZIZDA2VWpJSVJRUVd2cGdYMklyQmo5aXdD?=
- =?utf-8?B?bURKUW5lYXlQNDhtdityb25VSzdaaWxsQ3E4Yjg4WVdRSE5DODVOUHNpTnp3?=
- =?utf-8?B?TVBjSStCRHZJcUdML0c4RGYweVJBZGFzTGdJTjZNc3l4WjJhZ0YvNWdpcmdF?=
- =?utf-8?B?ZE1RVlo2L2tnQjRCVWczalRqQnRUQVhJT3pzdlI2WHZTM0hKbUpRbGJpNDZu?=
- =?utf-8?B?MTUwamhQNHFWVjVtU2Z1Mk11ZEZCd1Z4dzk4SHd5ZzBrZGlCd2c4QjNDZmRF?=
- =?utf-8?B?QndnU0J2cUptN2xEaFBwUkZXWXJ6ZFMxTS91bFA0Wkk2ZXBuVDNwbE41ZUMv?=
- =?utf-8?B?ejdpdzRJVktKQVZtS1VOWGFDdy9nRFRkSlVadnIzWDdaNGRHQTB4QUtwWTNX?=
- =?utf-8?B?RXMvcy9BQ1R0N3JZNmtrNmxLRzFtS3U1OEZ6TUs3aEhNZVI1b1J2dFArcVV1?=
- =?utf-8?B?Ukd1V2Z1aDFxR0lwc2RXTllhRFpVMDhaQjR2aXB0ZldaTDdlaU5FS044UzUx?=
- =?utf-8?B?YWxpclBBellXRURCVmZhSUFXQ1VJWi83eUdFRER1ckdxa1Z5eW4rSEZBamJ1?=
- =?utf-8?B?eFpyWmZJUWpVWHlyK0ZVRVVsZlgzMzdKWmR0cDVtSllJWGpyaTFzWDFoSy80?=
- =?utf-8?B?WmhqU0xpZXZJNFE2VmMrQ1VucXZ2RVh0K1U2Y2ltekF1MU9KRFc4WUJDV1hy?=
- =?utf-8?B?K3pzMUxJS1o1RGNzWVZyZmZNNzZRSCsrR21aYUloaFJYbitDK0JKNVN0QzM0?=
- =?utf-8?Q?OcKNX7Z526tczzGoRzzLD7V8qg8fNTLyAUQanYA?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?b21yeElsaWpvQmJ5M0JvUDdHdGJsMGg3MjJ6VnJMWmZ1OHhuNDl5clBWakc1?=
- =?utf-8?B?Tk9mdTViaTZoYjhwWUkxTHhlVE52ZUUwSFVoWk1HQVNaSlEzZWZsUFRKRmps?=
- =?utf-8?B?UjBkcEVmMXhlcnJ1U1RvdjNEVWVMbHpWdmpzWnJrK1FGRkpmTmlzSmY3eVR5?=
- =?utf-8?B?RjhaUmFQRzFUdzN4UVBqcW5NWjFtR0hVbkEyNDVVSUhsYmtPeTBuK2U5VXRM?=
- =?utf-8?B?SDMwWGlZQWlxeHVvMHNobHBXb2tWdUU1Ri9zeHpURWNPLytsVHpOMC9MYVZ4?=
- =?utf-8?B?QXE4RmJ4WmQyUWNncEZNTjZnaTNoeXBVWTdtcEYrSU1kY3lVUFRtYWZiTStn?=
- =?utf-8?B?RGIzSzgrZzI5c1JNNWNpSWNxWXJjUm9Sb1JnaWNNczFOSGhyU0Job2FzOXBl?=
- =?utf-8?B?RlRjS2hpWnFvbWNwemxOSVFkbFNFMnZNZmUvQktjZUc0L1NrVXd6bk8yZFZm?=
- =?utf-8?B?RWp0ejFvMWRHeWVyMTFndVhjaU0rMUxmVnRTQlM0cWZPT3R4WTNYSHU1Zmtt?=
- =?utf-8?B?dnNTbkdUUmVHdlhLT01ya0VqbUVndWlXVmh0cmdhMXR1UXlOTHNublJoSEtz?=
- =?utf-8?B?S05rdjE0eGJ3VEw4NzExYXdxWFZpTDVVTU1takNZV2RzVDRpUWh5VjVUc3dQ?=
- =?utf-8?B?My9ZMFJ4VDErMWQ5MjNST2d4bzZnZW85SVQ4Q2NoelJnbXhieW9tRWRRZTFO?=
- =?utf-8?B?YjdJZnhZd2NEQlZEaStVWVVsaVdvZEdyUDJOajYyUGhxS2VoejNGaEdpenF0?=
- =?utf-8?B?SUZkTG5lZkplRHBFZlNsWWF1ZXowcVdqQi9ISkFZT004R3lOTWErd0JlUXFV?=
- =?utf-8?B?cE82SU01dVdueDh5MjVYajhGdEVQd0oweWpWU1ZuYmczOGdldXdiRlZHUDIx?=
- =?utf-8?B?bmc3aFlRQkxrU3VQS2RKR0pyV0tmNnZGTEJJNnBvTTgvMURpZW50b2FpcUN0?=
- =?utf-8?B?dGYzVVpWeFhjVUsxNTBrM21IclpiR3JLbm9qSmtjZ0hGTDFlNXdVR2pnRHF3?=
- =?utf-8?B?L3FZOUUvc2d0em5PYXd6eTNpNjlPK1YvMHdQME8yUndta2xtbzAwTG9kOEJW?=
- =?utf-8?B?cFNtMWxLV0EreHFRc2dUaFpsczh0WWVzaHBqMU5VblJFZnUxQjdtRVB5MDA0?=
- =?utf-8?B?K3IrYWhGdGFReEI4TEVlbmwvTEM5TmNGaUd3VWYveUNrZ0JNUTB0dHJQblpR?=
- =?utf-8?B?YnJFVmpVWXkvR0kzcjBtNU1DYXExaFVTaGRuN0o0Y2NPcGR4ZDBsakJ6VkZx?=
- =?utf-8?B?V3dkOHVKdkFyQkxCVFhsc3lISmgxYWFMd0NXemNDZ2JvejgyZS90VUQwWHE1?=
- =?utf-8?B?ekpMTkswTE1RTkUyRWdVTVRMUktBdml5YmhNOGVSZ2JUVnI1MU1NRElDa0w3?=
- =?utf-8?B?WWJFOWw2TE5KZHVPdDJ3LzJjalNCNzBmRytCRFFJNzJSdUtkMWpqYmRKS1VD?=
- =?utf-8?B?amVFVEZDSmZ1Lzc3dnBrWnRNRk1YVFpxNjVlRXh1R3JCMVo2U1BSOElUbzB4?=
- =?utf-8?B?bWJYaTVUZ3FZOUdrbFd2SUhla21TcVlxRWxTMHpvOTYvc3hwWEFwQXM1QXgx?=
- =?utf-8?B?Y2JnS2pLbnVZaVB0dStFUGRHdGR4UkpEZEQyRGRvR1VhcjR0T0tzR0xhemFv?=
- =?utf-8?B?SW4vU3Rtbi9mZmNVNUtDTGlKcVRTWThGcUpMSkRFSVc4MHMxUVBMR1N6MTYy?=
- =?utf-8?B?bzQ3NDlsTjN3OUozMUEzbDZBSUs2QS8zb1daMnlkTFY3ZnFTNXVJZHBMU2tk?=
- =?utf-8?B?VUNVcGxYQU1Td1RJOEVBQ2lhN0p1NHAvbHVRbGQ3OUc2NXBOdFc1bTNkS1ps?=
- =?utf-8?B?Vk9UUElMV1Z1d1l3a1V0bndHWm8wZGxLOEhEc2Ixd1RxclZOSTZZbzNZVWRs?=
- =?utf-8?B?THh4Z2R1YXNYb3ZsVkU5UzhTUHE2bmZBQXBCNkEwV1BFeGdrTWd5L1ROc2Rs?=
- =?utf-8?B?cDE1clJwSENoMXJSU0ZKUzRpZzBNTGEwNFJBRTc0Vmd2Tk5IclB5NHpNbmMx?=
- =?utf-8?B?cWdEUXp1blJnQXgxTnVjdWpKaHhMLzVvSXo3SFY3M2t3K3Qwa0ZYb09zNmsv?=
- =?utf-8?B?NDJUelhTY2R4Vm4yVFprREVyMHlScDVwOTZCaGpXbndaZFlqWGlaMG9HVmdC?=
- =?utf-8?B?YmtHRFQ1SlorUlRRQU4wdjdMSkNOakVYMm9Zd1MySEQwTFlXY0Z0OXJYQUM0?=
- =?utf-8?Q?qGxAQZPgtQdjC7bKNNF/5hc=3D?=
-X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76e18347-4c9e-4dd6-9ae2-08dd7377d9c0
-X-MS-Exchange-CrossTenant-AuthSource: YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2025 12:54:34.9820
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AUANg4lBFyrBJEbO/uJ0Qe0ktvNvpMkH47ueX4zNBAoNbqo0kcpO6RxjRA+mtBBeSS23r4aHVZn+DY7lrB4t0dZ89jp03uDlxb2uYeled/Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT2PPFDFD2A9EB5
+References: <20250403191342.1244863-1-devaanshk840@gmail.com>
+ <20250403153651.1188135b@gandalf.local.home> <CA+RTe_gHo3U-tWM9MA4CMgxM13=biqkqnAbuS5Yuidrono1bvw@mail.gmail.com>
+ <2e5aae65-316a-48c1-b293-041bfbd1ed80@efficios.com>
+In-Reply-To: <2e5aae65-316a-48c1-b293-041bfbd1ed80@efficios.com>
+From: Devaansh Kumar <devaanshk840@gmail.com>
+Date: Fri, 4 Apr 2025 19:00:44 +0530
+X-Gm-Features: ATxdqUEIAeQDGiq2YwZYgVB7Lp4MkBRHfwXEjEocb6xeBIEiJbPMpiIU8boV8DE
+Message-ID: <CA+RTe_j71dE2us0mjPfyEfThKDJ_xUQ-SwFr2Ykx2AoT8yFJBg@mail.gmail.com>
+Subject: Re: [PATCH] tracing: Replace deprecated strncpy() with memcpy() for stack_trace_filter_buf
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, mhiramat@kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 2025-04-04 08:28, Devaansh Kumar wrote:
-> On Fri, 4 Apr 2025 at 01:05, Steven Rostedt <rostedt@goodmis.org> wrote:
->>
->> On Fri,  4 Apr 2025 00:43:40 +0530
->> Devaansh Kumar <devaanshk840@gmail.com> wrote:
->>
->>> @@ -537,14 +538,16 @@ stack_trace_sysctl(struct ctl_table *table, int write, void *buffer,
->>>        return ret;
->>>   }
->>>
->>> -static char stack_trace_filter_buf[COMMAND_LINE_SIZE+1] __initdata;
->>> +static char stack_trace_filter_buf[COMMAND_LINE_SIZE+1] __initdata __nonstring;
->>>
->>>   static __init int enable_stacktrace(char *str)
->>>   {
->>>        int len;
->>>
->>> -     if ((len = str_has_prefix(str, "_filter=")))
->>> -             strncpy(stack_trace_filter_buf, str + len, COMMAND_LINE_SIZE);
->>> +     len = str_has_prefix(str, "_filter=");
->>> +
->>> +     if (len)
->>> +             memcpy(stack_trace_filter_buf, str + len, sizeof(stack_trace_filter_buf));
->>
->> Hmm, this location looks like it can just use strscpy().
-> 
-> Yes strscpy() also works. But since stack_trace_filter_buf is length
-> bounded, shouldn't memcpy be the right choice?
+On Fri, 4 Apr 2025 at 18:24, Mathieu Desnoyers
+<mathieu.desnoyers@efficios.com> wrote:
+> It's not only about the destination, but also about the source length.
+>
+> AFAIU, turning a strncpy into a memcpy here will overflow reading the
+> input @str if the input string is smaller than
+> sizeof(stack_trace_filter_buf) + len.
+>
+> This can trigger page faults or make KASAN unhappy.
 
-It's not only about the destination, but also about the source length.
-
-AFAIU, turning a strncpy into a memcpy here will overflow reading the
-input @str if the input string is smaller than
-sizeof(stack_trace_filter_buf) + len.
-
-This can trigger page faults or make KASAN unhappy.
-
-Thanks,
-
-Mathieu
-
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+I see. I will create a new patch to fix this then
