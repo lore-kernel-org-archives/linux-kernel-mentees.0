@@ -1,79 +1,130 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAA879F5
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  4 Apr 2025 01:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4612C29405
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  4 Apr 2025 05:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743730474; cv=none; b=CIs68T4xnT3bPFv6Nx3+TAs8yr3a3ytJONEpF4pVZsHELtEE5A7GLJ8gKxoyhoy39UukpbOIKjwa35OyQKA/tgN8kqzHaHGkRdBuENA2xT5H0Cwl4fflV1DBFjwG9SvHArBgrpZDQmNmG9EFm5RP392rxoOAhzvFakSzEOIOyGU=
+	t=1743746349; cv=none; b=OgsGYetC5Z6afjxe2HT8aOJ/lySKvkbzkabPomQwvDzuP9wBftSLeZdUsjIedf+sLQUmbUgJfuH2oLoAi1SOMW99clrpLPiXSJmLROSFxh8qlbyv1qr06nKhWvWAokG5XQFw3AyPtx45as/jIGtG/NvSC+SFwypJJwUSeNrrnso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743730474; c=relaxed/simple;
-	bh=WiAyzZ5WyRvsxdRTlCI9PbnPOpAWDexPfHUxCwCPsRY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V73wnGr3M+7lS3kc1SsAsUimpdGJB+qVb53kYnTs0FqDLGnGxzOajmFZQsnGaC2hebKPOkxRLbzEIx/8hGNTZiXUE9m2yacRjRRfKLctkHlvG3W9F7DOuP/Ggk0mZdr7djfmbdgNWuOtxsCsoyynyGS5Vz/zHAm9/rCGsf5R/C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=j827AbAk; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1743746349; c=relaxed/simple;
+	bh=4fByqCcS2OpCFx6aaXLTI8NGU7zrTmm182MAT0SBLTA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=AOvdwR9i+NWj5SBj9DFOvoCHbyhZJ3BC6/FaQPLc7GQwEu9TbHsuMekuMX9fcxLN8NFIuLVn30CG5dlFip16NkKTGqmXKYnXTfcpCeknpA6nvJPcNE2AeTgKCldWWtkiH5wvOCjmmpikOqnF7lHP6QfqCrUnA2BNtHiCFPPUtJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=kyfj2nX9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UlXaRuZ7; arc=none smtp.client-ip=202.12.124.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="j827AbAk"
-Date: Thu, 3 Apr 2025 21:34:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1743730466;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4PHvMjLr8KaJRptWmvWh7wch6EgDRZ+GW28ZL9pV5NE=;
-	b=j827AbAkCRxcmmfupJW1BaT6dEnAbOUYhBC/YCW+uzAKddO4pDJ2+SX/Gz9G8R1/Tpjeef
-	cHiMvLza9GDB1j59LiESoMwfYSaAPg/ML23IiMR+qAIJ8llJpAkGJsKxT+0oPPFfi5epo4
-	2p5Hn8Hn50VFjTFoeWIGt8czewtF/8M=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Cc: linux-bcachefs@vger.kernel.org, shuah@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 0/3] This series addresses several minor issues found
- using sparse.
-Message-ID: <zzxxg3gfmd5vdywegv2x7wsw3xzpdryrtlkka47o4zurqmzgpc@z3vv7jzta5dj>
-References: <20250404012822.188485-1-gshahrouzi@gmail.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="kyfj2nX9";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UlXaRuZ7"
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 26A43254021A;
+	Fri,  4 Apr 2025 01:59:07 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-12.internal (MEProxy); Fri, 04 Apr 2025 01:59:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1743746347;
+	 x=1743832747; bh=WtWETSKQn6E8bswj3SLwct6dL1bxKxqY0tLnxPdz92w=; b=
+	kyfj2nX9ywt+kVVqKE1zT4yIyvL/zGCsiqO6jTMQsjvGPl/kiPADp7TbnoMZCX/+
+	QFXcz/uvl9vN8VceDDBP2648jebgklkeEOSTSLzreuLOQ66tbyj1ik2g3RGuwpoL
+	UHMfUYvkNRTbRQxAaPry9K9zDXpBx2fzk0BIL/qaFlJEhNIwbWArvn19EjQozfsj
+	K1dZKi3x+x/YhUHYDfzSzl3m8Dg1rBI8dhuVS8wFXlPhveAwoPjZxdkSSNpyuQXz
+	s1ZsNxjjB+Vt/q1eB5UnBi3CKuftqnsjcYivr0PDrUXPg+bHEks+t0O+KerRhSsa
+	IQ+mazqhzkkCr+tYTirCOA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1743746347; x=
+	1743832747; bh=WtWETSKQn6E8bswj3SLwct6dL1bxKxqY0tLnxPdz92w=; b=U
+	lXaRuZ7WZImyYo29349y1E1+PLVJ0jXDAetbG1N9eyw+lYEC+kMR3wqtrzLbAxAK
+	5giOOqAaZNhi8FRpn3MTMc4IxAxD7pb700AWeI6+xYK5GYSlObTX1hXqSM93KQhZ
+	28Fz7hGF6R5qFu5uDqMTN7KG58OOgscxreZyiSP71gFnGHKRqWLsKceOZ7OatKwJ
+	IyAz/gPUNOcSKeUlmCjGuN1h9nQqGTO4gQsW0iTArh61X1WDe+EWrhSuhg6V6Juq
+	E8EI4of3KJRnKdyNPlZHhSsq2l5n3WHqeHEElu4x0f3dSihhIqHbcxPssBC45/4U
+	JUyXvAN7mnhOv1RT4rsXg==
+X-ME-Sender: <xms:KnXvZycppOk42usNnGIZ-1ad9UmDjWojB-S12dWSvr4zNG24vbrrTw>
+    <xme:KnXvZ8OryAGUYA6VsbLaJDzt9EEOnbekFpg2e6fmAyAQRpgA9DUwHG17U0-pcVoKq
+    6gr1ob-e6TRw7IabRE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduledtieeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
+    gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
+    fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
+    uddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehprghlmhgvrhesuggrsggsvg
+    hlthdrtghomhdprhgtphhtthhopegrlhgvgiesghhhihhtihdrfhhrpdhrtghpthhtohep
+    iihhihhhrghnghdrshhhrghordhishgtrghssehgmhgrihhlrdgtohhmpdhrtghpthhtoh
+    epihhgnhgrtghiohesihgvnhgtihhnrghsrdgtohhmpdhrtghpthhtohepsghjohhrnhes
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepvggsihhgghgvrhhssehkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
+    pdhrtghpthhtoheplhhinhhugidqrhhishgtvheslhhishhtshdrihhnfhhrrgguvggrug
+    drohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhi
+    shhtshdrlhhinhhugidruggvvh
+X-ME-Proxy: <xmx:KnXvZzis5nVlP2N_1orhQVV-sh5Gv_mpr8KN165f-qtU3w6qAptW8A>
+    <xmx:KnXvZ_8PdQo94lXe-_5Ne7XFtI_xMvdMKpEw3gptZnk2RKEaz9wLQg>
+    <xmx:KnXvZ-utjr21MYl3URUU1tX-WmnkR98v79aXEKuzmq75_3iqtUZ3IA>
+    <xmx:KnXvZ2HLi4WUyOTg1wGHDxc5bhdzD9G4VaRB-WrK6BS-zirO9J2vNw>
+    <xmx:KnXvZxswNfWyawCUSZPdgwJw-w89RVRs8F9GgKVBNOcQZV_fTIc4pKdC>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 362E42220073; Fri,  4 Apr 2025 01:59:06 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250404012822.188485-1-gshahrouzi@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+X-ThreadId: Tdae3ef9051e7a30c
+Date: Fri, 04 Apr 2025 07:58:43 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Ignacio Encinas" <ignacio@iencinas.com>,
+ "Paul Walmsley" <paul.walmsley@sifive.com>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Alexandre Ghiti" <alex@ghiti.fr>
+Cc: "Eric Biggers" <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Zhihang Shao" <zhihang.shao.iscas@gmail.com>,
+ =?UTF-8?Q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>,
+ Linux-Arch <linux-arch@vger.kernel.org>
+Message-Id: <c6efcdca-5739-42b6-8cb4-f4d8cc85b6af@app.fastmail.com>
+In-Reply-To: <20250403-riscv-swab-v3-2-3bf705d80e33@iencinas.com>
+References: <20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com>
+ <20250403-riscv-swab-v3-2-3bf705d80e33@iencinas.com>
+Subject: Re: [PATCH v3 2/2] riscv: introduce asm/swab.h
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 03, 2025 at 09:28:19PM -0400, Gabriel Shahrouzi wrote:
-> The first patch fixes a typo ('\%u') in a format specifier within a print
-> statement. The incorrect sequence was replaced as it didn't appear
-> to be the author's intent.
-> 
-> The second patch corrects the type for a function argument to __le64,
-> which fixes two related sparse warnings. Although the argument data
-> is already little-endian, using the specific __le64 type improves
-> consistency and makes the expected data format explicit.
-> 
-> The third patch ensures cpu_to_le16() is used when preparing certain
-> on-disk data (directory entry lengths). This maintains correct byte
-> ordering for big-endian systems.
+On Thu, Apr 3, 2025, at 22:34, Ignacio Encinas wrote:
+> +#define ARCH_SWAB(size) \
+> +static __always_inline unsigned long __arch_swab##size(__u##size value) \
+> +{									\
+> +	unsigned long x = value;					\
+> +									\
+> +	if (riscv_has_extension_likely(RISCV_ISA_EXT_ZBB)) {            \
+> +		asm volatile (".option push\n"				\
+> +			      ".option arch,+zbb\n"			\
+> +			      "rev8 %0, %1\n"				\
+> +			      ".option pop\n"				\
+> +			      : "=r" (x) : "r" (x));			\
+> +		return x >> (BITS_PER_LONG - size);			\
+> +	}                                                               \
+> +	return  ___constant_swab##size(value);				\
+> +}
 
-Thanks, series is applied.
+I think the fallback should really just use the __builtin_bswap
+helpers instead of the ___constant_swab variants. The output
+would be the same, but you can skip patch 1/2.
 
-> 
-> Gabriel Shahrouzi (3):
->   bcachefs: Fix escape sequence in prt_printf
->   bcachefs: Fix type for parameter in
->     journal_advance_devs_to_next_bucket
->   bcachefs: Use cpu_to_le16 for dirent lengths
-> 
->  fs/bcachefs/data_update.c | 2 +-
->  fs/bcachefs/dirent.c      | 4 ++--
->  fs/bcachefs/journal_io.c  | 2 +-
->  3 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> -- 
-> 2.43.0
-> 
+I would also suggest dumbing down the macro a bit so you can
+still find the definition with 'git grep __arch_swab64'. Ideally
+just put the function body into a macro but leave the three
+separate inline function definitions.
+
+     Arnd
