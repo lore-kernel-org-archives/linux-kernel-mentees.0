@@ -1,91 +1,97 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from imap5.colo.codethink.co.uk (imap5.colo.codethink.co.uk [78.40.148.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BC61EF0AD
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  4 Apr 2025 15:36:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D7D282EB;
+	Fri,  4 Apr 2025 15:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.40.148.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743781000; cv=none; b=myVWbYPcq8KdPgMtWjPfPLnavXf//Xi4oCe9w7fqn8NiglWfuGcGth8zY6XBOHbBrbLfZGgoPE0dASzaJH5HAVrFRpnt5stQQXtLA+uJPK5hChozm6zE5+ZuK4omHNRFX0vwcPussghrkrUsoNFcipYrgrYIe57LPa7qtM9j4QM=
+	t=1743782081; cv=none; b=FYeb4GB4/uMvZpLfyZQgEVs6B10nyTE3lBOr/xpvd81088WFSZxZhOkLxwxCPyajUS0nvstEQw7nvQdyN6TloHj2DTUgnjv8kXnectln7bkgSuM11bm8KGQRoLA5ubXcm8MDNEjUnuuDgxDWiQwyyf6U8O54J+3yN66b749TiaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743781000; c=relaxed/simple;
-	bh=Wm0hlOk2KjnydJuWr4Tp+yAP5KMUtZGePGoHip7UhjQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yn7IK9zr+5kzVbq56Y2f2LsQ5KHdlAJr4R+gzffvCNDkWgjt4t/tHPjYcohJxe0GiYAgo4dq5fym9pVW6AC/pDh0yvD58V7PIid5PaK0MIIYF182RRsSvkMcf3DC0cvbelLzDCJ8+kbySIIb96m6UEqXpHpvXTwWSc4yUOIcy/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Kozys/Ds; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1743782081; c=relaxed/simple;
+	bh=8M0uTvGg35cr8T7CGwhcScWOijAyvKAp0NWeGZa5908=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DNB/jqmX5dAPwiFEOnR8mjvRiZ7xHDXFfFuW/4I/bte6BDbhsdelDwlnR3O9As8k3IdO1CTs6guVG4rD3M66TKJxnkM1oSZ50HaPeIRCaKhwTewGgj/CJjkQqjMIIuioxY92CHLWrTK5MT+xKMJhTyPpACjOqMEh/PCVV1IfPF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.co.uk; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=ixT9bgve; arc=none smtp.client-ip=78.40.148.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Kozys/Ds"
-Date: Fri, 4 Apr 2025 11:36:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1743780996;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s4sptiDS64TqakxXpUmcHXO8tnkrK0BIqcsdKGFEneU=;
-	b=Kozys/Ds7/cg6lJiuP9pxF9pevq4wb5QSquXowWNSK/3r/thjFBnegULAihzhspi5PSuJH
-	ryd9tEkOfDKiFseeiNb/uCMcURT7IlHxZIS/3NwP6TzCs2JLRjIIRypw87bfMuyOVGZSMw
-	bhWzTBj9OqnQLGrPoZTwTZHHJYTvWNA=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-Cc: linux-bcachefs@vger.kernel.org, shuah@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	syzbot+c82cd2906e2f192410bb@syzkaller.appspotmail.com
-Subject: Re: [PATCH] bcachefs: don't call sleeping funcs when handling
- inconsistency errors
-Message-ID: <6jgqlz555qrn3l34e45nc6ubg53ydtzh6l7ghra7od2xjctugp@ztmjdn3cwt6h>
-References: <20250402161043.161795-1-bharadwaj.raju777@gmail.com>
- <zjqewsg6ijvol3x3rdjfyjeji3wy24nw45yb6mkqj7vwsk7mrn@yxnvgpj4i24k>
- <CAPZ5DTEGi8RXBMui823bwnt96PcqZSavH8AQ+LPhRs=sJ-Br1Q@mail.gmail.com>
- <ciw5ocj6io5q5p2tsv3sqpga2ff73eqwhlrrug4el63ggolcho@iviprrqsaemj>
- <CAPZ5DTGWC2Xemgby9E8EL61Vio0NYQrKBd5FNpvERwwBoEP8tg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="ixT9bgve"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codethink.co.uk; s=imap5-20230908; h=Sender:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=AbrG0A80aOGQCqeyijoooJcA958xcCPcGbolO2HX8Q8=; b=ixT9bgve0or2vCBIcFZmTJrpQZ
+	eulyVEx2oyHCAwsp9RWPHJ5D5qWMUl1mbrq7NNmTM5dFeSU/rd2YIvc65Iy1u200Z7e9uPKaAmDkZ
+	dRjEDo+jVfnKL3LGmOjh1TtqqX5fY2ZzELtGhBSVr0WJxRPs8b6KrL530K4iujfsZGAEfyfwvwun/
+	jk3hV5FOI+ZP0am+3FT60oAYkcUYmOjR/1tbE/Vn1TgQDxTuRtpClsvYYznXmfZnQluFSq8F46Tdq
+	07UBwfb7SPBZAqVOTChTQtw0vjphYr2UQ8XtsQj8KHubuLbOT8qa7bOeL05fgdO9dNIn2BkXiH1qi
+	ZSx5AW/A==;
+Received: from [167.98.27.226] (helo=[10.35.6.194])
+	by imap5.colo.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+	id 1u0jN8-00BgIH-8s; Fri, 04 Apr 2025 16:54:23 +0100
+Message-ID: <a7cdade3-8707-4464-8505-356dd5c0c49f@codethink.co.uk>
+Date: Fri, 4 Apr 2025 16:54:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPZ5DTGWC2Xemgby9E8EL61Vio0NYQrKBd5FNpvERwwBoEP8tg@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] riscv: introduce asm/swab.h
+To: Arnd Bergmann <arnd@arndb.de>, Ignacio Encinas <ignacio@iencinas.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Zhihang Shao <zhihang.shao.iscas@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+ <bjorn@kernel.org>, Linux-Arch <linux-arch@vger.kernel.org>
+References: <20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com>
+ <20250403-riscv-swab-v3-2-3bf705d80e33@iencinas.com>
+ <c6efcdca-5739-42b6-8cb4-f4d8cc85b6af@app.fastmail.com>
+Content-Language: en-GB
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+In-Reply-To: <c6efcdca-5739-42b6-8cb4-f4d8cc85b6af@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Sender: ben.dooks@codethink.co.uk
 
-On Fri, Apr 04, 2025 at 12:22:45PM +0530, Bharadwaj Raju wrote:
-> On Wed, Apr 2, 2025 at 10:08 PM Kent Overstreet
-> <kent.overstreet@linux.dev> wrote:
-> >
-> > On Wed, Apr 02, 2025 at 10:03:10PM +0530, Bharadwaj Raju wrote:
-> > > On Wed, Apr 2, 2025 at 9:47 PM Kent Overstreet
-> > > <kent.overstreet@linux.dev> wrote:
-> >
-> > If you're feeling particularly adventurous - print_string_as_lines() is
-> > a hack, I think we should be able to do something more robust by
-> > skipping printk (that's where the 1k limit comes from) and calling
-> > something lower level - that will require digging into the printk
-> > codepath and finding lower level we can call.
+On 04/04/2025 06:58, Arnd Bergmann wrote:
+> On Thu, Apr 3, 2025, at 22:34, Ignacio Encinas wrote:
+>> +#define ARCH_SWAB(size) \
+>> +static __always_inline unsigned long __arch_swab##size(__u##size value) \
+>> +{									\
+>> +	unsigned long x = value;					\
+>> +									\
+>> +	if (riscv_has_extension_likely(RISCV_ISA_EXT_ZBB)) {            \
+>> +		asm volatile (".option push\n"				\
+>> +			      ".option arch,+zbb\n"			\
+>> +			      "rev8 %0, %1\n"				\
+>> +			      ".option pop\n"				\
+>> +			      : "=r" (x) : "r" (x));			\
+>> +		return x >> (BITS_PER_LONG - size);			\
+>> +	}                                                               \
+>> +	return  ___constant_swab##size(value);				\
+>> +}
 > 
-> I tried looking into the printk codepath, namely vprintk_emit -> vprintk_store.
-> It doesn't seem like there's a convenient single lower-level
-> entrypoint we could
-> call which just avoids the 1k limit, rather there's a lot of internal
-> code mixed with
-> the truncation that we'd have to just copy if we want printk behavior.
-> I don't think that's a reasonable option for us.
-
-Yeah that does look a bit messy - and it doesn't exactly explain where
-the 1k limit comes in.
-
-
-> > I also just noticed that print_string_as_lines() needs to check for
-> > being passed a NULL pointer - in case the printbuf memory allocation
-> > fails. Want to get that one too?
+> I think the fallback should really just use the __builtin_bswap
+> helpers instead of the ___constant_swab variants. The output
+> would be the same, but you can skip patch 1/2.
 > 
-> From what I'm seeing __bch2_print_string_as_lines already checks
-> for the lines pointer being NULL. The only unchecked pointer is prefix,
-> which I don't think needs to be checked since it will be something constant
-> from kern_levels.h, not something which could be NULL.
+> I would also suggest dumbing down the macro a bit so you can
+> still find the definition with 'git grep __arch_swab64'. Ideally
+> just put the function body into a macro but leave the three
+> separate inline function definitions.
 
-Yep, I should've checked the code before I said that :)
+I thought we explicitly disabled the builtin from gc... I tried doing
+this and just ended up with undefined calls from these sites.,
+
+-- 
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
+
+https://www.codethink.co.uk/privacy.html
