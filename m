@@ -1,136 +1,116 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3396D1C68F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Apr 2025 07:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38C02E62C8
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  5 Apr 2025 08:03:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743836773; cv=none; b=JaiNtGuUHjssFz8qk4i46qvPobHA71DAlLJSMRFkmgO0i6UUnhybe/pW/qOJz1rdX6zjLsb7WchBh+IXD4zYFoxuQ9zsb2guH+nwSvyxzhGc26gOrZap+BzB+6HZOiZxkBbTqNCpLsdVhOWPeABYwmB70rPiCi0WAqCmQ+koJe8=
+	t=1743840226; cv=none; b=A1ODjJ2eX/aIQhYJKu2icGriaeL6T4v7e7XbSrw6Oi9CdQGTTzy25P+CWF5PHjfFr5Q2+cdTCWwrR97NF/gLTvFDvFF1naVlNS6Owi6Xb1MIwDY+wRe5t5D5SHx9jcA1KpIT1ztthVO81W7V/IRJoJF1bcetxn9lyUZq9XVVG68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743836773; c=relaxed/simple;
-	bh=c6pVeoNRFL0+YVb4Jo8fBY1tS3Gnyl5Tlg2+CQkLYkI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e6gwe3efLOXYSyV7Xf53DwqJmh9LAF40K3D+K40llk4THxb3lAIQyTvhCVeBRwY8BNT87LLTVas/xsVA1X/dwSfE3FJN3x6I0GTidMs7lGdZjVVAHOPPy1IlS5KuUeorntKRy2RpRwf28u1WXIbC7vZHG0QYwYIhpEP3nxJSYU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wzj9YxVo; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1743840226; c=relaxed/simple;
+	bh=9fRuxTFU5oLgs8XD26/uTt5ovEGzMUiT1mZ4PMzsLFM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CxMIXyYDx2Ehtq1+dnTeymWEyBleIUdJIxckHgyiTaLslEYDx9HV6Kcq9f7LaCq9IyBxQ74YRRsBykZue+ALFwsoFzWHU0H6aSbKCTCgb2bN4RSoTcUiQTnkMxYgyRwVanExynei5A5nFH4cXI4pe6fnhx6YlB6sR1U0lBltCvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E0BTvSOn; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wzj9YxVo"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B43FE405A5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Apr 2025 07:06:10 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -8.092
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id UrPJQ6Tv2bS4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  5 Apr 2025 07:06:10 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=198.175.65.14; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org A63E4403DC
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A63E4403DC
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Wzj9YxVo
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A63E4403DC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Apr 2025 07:06:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743836770; x=1775372770;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=c6pVeoNRFL0+YVb4Jo8fBY1tS3Gnyl5Tlg2+CQkLYkI=;
-  b=Wzj9YxVo6Fw/NEZSHopfPuHNZ4M9VJtBi2SROsv9bvmpW/sJb4qW8o0b
-   eLTzf8PDTgOj01DMPY080Q08mtOtAJmbOoJZ1Re4dMXBpfxH/Vb28n5bQ
-   KkqZd9aWgwsEonRk4naW/4x5vJZKMQFRE/oPT5jxeyt2ky0Wq9HBOs5fD
-   nc7HnAIJZvkGMQ91hmF2cbK8MB1oO02NIInEfT17MQpWuknjOLKFdu7XF
-   NoM5sPcRwDQYxNtdwYyfWvWwaPUhlvEUb7f7K7n9gVVzaKwucvYNycmiD
-   5fNLghrVvpVaFlYENtZUFnLl8eOF8v6epipULt8RGcnA/Tzwm4HUwxzOG
-   w==;
-X-CSE-ConnectionGUID: MhU74n40Q5S1hgez4ft5rw==
-X-CSE-MsgGUID: piVZr35rR4GO/Z22THAkeA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="49072312"
-X-IronPort-AV: E=Sophos;i="6.15,190,1739865600"; 
-   d="scan'208";a="49072312"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 00:06:09 -0700
-X-CSE-ConnectionGUID: gAUA3IfzRCe9ESoQV2bv5Q==
-X-CSE-MsgGUID: +NpNIIZ+TPOZvAzfnJgRgQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,190,1739865600"; 
-   d="scan'208";a="132472871"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Apr 2025 00:06:02 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u0xbC-0001sB-2q;
-	Sat, 05 Apr 2025 07:05:50 +0000
-Date: Sat, 5 Apr 2025 15:04:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ahmed Salem <x0rw3ll@gmail.com>, robert.moore@intel.com,
-	rafael.j.wysocki@intel.com, lenb@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E0BTvSOn"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-22423adf751so27913355ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 05 Apr 2025 01:03:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743840223; x=1744445023; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tw71iD/nbizJYv4HCNdLTNaax1TiS5PV/IuJM3UEBzM=;
+        b=E0BTvSOnhKRhr9jWWWu9lls3Fj9zQhClzIlvJHC7yMSXzRVokIejw07CSCeuvvaTrM
+         VWCRJfOFDR3mjK//eYZ4ajLcM0dN6ijSHp4sXlevDp79gTrRUmiMYB0LqyaAetIycwCA
+         Iw+jn+s3IyZYjp9KAINY8JW2D3hmivAFhVpS46M92abzLeqYmopD8iXgA2X+BN3wkpDi
+         QDYyurZcuxof7O9l5EaMKVKroX5s8Kmh7o2xdTdsBOL+N8SSh/PiPpIcnt4SIQ/4ho8N
+         PfwXnnjmCL9tS5LhCBNECUHb0j/8t9Nyf7qt1jn1/UDodnxRolxcr3fyZP8uDjp4eY6D
+         HLGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743840223; x=1744445023;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tw71iD/nbizJYv4HCNdLTNaax1TiS5PV/IuJM3UEBzM=;
+        b=XObXUohFg89EE4t3UKLpeKIdH9QYxhov0oCO1N72FKo9DQkj8pnrKUWZ7ET47UQFNR
+         Scwp6gIH1ZbP8Qcu1a+gxmWHk126o6xSPxHTitGGFDbjKBxWug+04jPhDURH6PiZQUNM
+         KFYRSh0VZBRw1MvNJGJMGq0M5HMYrxzCxYjksiBRraO16fSYXd3WMYBl5wWx/yFj3wl9
+         H7KbHED345OQNETzMtYwgBHesuCUeFnteKxnmGBdDP93bDn1/GjMFrFuLSG5FceDE18n
+         PhxqvmhWUXW0Ckh2ckrIVlXC5UOf5IVRx3qYiCmhYqP5W1Rc+WSjDxGGRzJk6k8k8S45
+         6V2A==
+X-Forwarded-Encrypted: i=1; AJvYcCXYPluJ0qP5bvyu28iT7pJb/A6sAfq7PIqLXGHxnbAmEWxeOpNXp2ZZ+Zx5aVLzl1M5gHfq+BJLN92aS0qe6vs+5M21Bg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwIkMQmVfoLLqRSeWUT1NdZIv87qWKCjcHwxJ/VAadpinN+fTta
+	p5QafnaRD1cN3ITpoUviO+/d2G94s9QZcQPlYpWDcG2CfOrLBL0h
+X-Gm-Gg: ASbGncvFdhcp/OBIrhgzmYHrR17SjGecfkmT6DzX3UPEJoc55SYnyLFE/8WrJwqoLuE
+	lKf2udq9zMXZjm7uijl4FCE/tXXjMEwjB9Zep3U5pPncDcOeYwoIqpbAGuYspF3QxD/eqDS1N63
+	LHjRtF5mzy3Vva8hkQRu511n43vvjyNw2wr0wbLgIsfuhEjxrwq90M3BcIv2ighjhGtqfwYM/cu
+	PB9SlHhXAkRRxf5k5oSzhZDUhKyOGD3NTeWHjymEmiDT6WvodPEOKUKcpaXdzh1IKt3rdD8VEHz
+	7YG1bFO/VaXVVQ9Tm+tf+jisR3jvvbQFcqVCgGWFiQH5+GRFyGE8k8uMt0WexlJYY3GsuknwYXQ
+	=
+X-Google-Smtp-Source: AGHT+IHELtDjmVhehTzN0PLBsfVJPyr5+G1aWDxom++Jf+XDHklxb4Ty85aWMi1iLQ26hVJDrIe6XQ==
+X-Received: by 2002:a17:902:cf07:b0:224:1935:fb91 with SMTP id d9443c01a7336-22a8a06cdd8mr77063855ad.27.1743840222873;
+        Sat, 05 Apr 2025 01:03:42 -0700 (PDT)
+Received: from vaxr-ASUSPRO-D840MB-M840MB.. ([2001:288:7001:2703:309d:74e8:7ab1:1579])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739d98059d4sm4675544b3a.76.2025.04.05.01.03.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Apr 2025 01:03:42 -0700 (PDT)
+From: I Hsin Cheng <richard120310@gmail.com>
+To: syzbot+d5e61dcfda08821a226d@syzkaller.appspotmail.com
+Cc: --cc=anna-maria@linutronix.de,
+	frederic@kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	tglx@linutronix.de,
+	linux-kernel-mentees@lists.linux.dev,
 	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ACPI: sysfs: apply ACPI_NONSTRING annotation
-Message-ID: <202504051453.3rcptolF-lkp@intel.com>
-References: <dcc3a018fb28899b277df2e154740d59d4e404af.1743754416.git.x0rw3ll@gmail.com>
+	I Hsin Cheng <richard120310@gmail.com>
+Subject: [RFC PATCH] timerqueue: Complete rb_node initialization within timerqueue_init
+Date: Sat,  5 Apr 2025 16:03:37 +0800
+Message-ID: <20250405080337.519110-1-richard120310@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <67e52451.050a0220.2f068f.0027.GAE@google.com>
+References: <67e52451.050a0220.2f068f.0027.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dcc3a018fb28899b277df2e154740d59d4e404af.1743754416.git.x0rw3ll@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Ahmed,
+The children of "node" within "struct timerqueue_node" may be uninit
+status after the initialization. Initialize them as NULL under
+timerqueue_init to prevent the problem.
 
-kernel test robot noticed the following build errors:
+However, syzbot doesn't have any corresponding reproducer yet, please
+let me know if it makes sense or not, or any test can help to further
+validate it, thanks!
 
-[auto build test ERROR on b3c623b9a94f7f798715c87e7a75ceeecf15292f]
+Fixes: '1f5a24794a545 ("timers: Rename timerlist infrastructure to
+timerqueue")'
+Reported-by: syzbot+d5e61dcfda08821a226d@syzkaller.appspotmail.com
+Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+---
+ include/linux/timerqueue.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Salem/ACPI-PRM-apply-ACPI_NONSTRING-annotation/20250404-162651
-base:   b3c623b9a94f7f798715c87e7a75ceeecf15292f
-patch link:    https://lore.kernel.org/r/dcc3a018fb28899b277df2e154740d59d4e404af.1743754416.git.x0rw3ll%40gmail.com
-patch subject: [PATCH 2/2] ACPI: sysfs: apply ACPI_NONSTRING annotation
-config: i386-buildonly-randconfig-004-20250405 (https://download.01.org/0day-ci/archive/20250405/202504051453.3rcptolF-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504051453.3rcptolF-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504051453.3rcptolF-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/acpi/sysfs.c:310:30: error: expected ';' at end of declaration list
-     310 |         char name[ACPI_NAMESEG_SIZE] ACPI_NONSTRING;
-         |                                     ^
-         |                                     ;
-   drivers/acpi/sysfs.c:312:49: error: expected ';' at end of declaration list
-     312 |         char filename[ACPI_NAMESEG_SIZE+ACPI_INST_SIZE] ACPI_NONSTRING;
-         |                                                        ^
-         |                                                        ;
-   2 errors generated.
-
-
-vim +310 drivers/acpi/sysfs.c
-
-   307	
-   308	struct acpi_table_attr {
-   309		struct bin_attribute attr;
- > 310		char name[ACPI_NAMESEG_SIZE] ACPI_NONSTRING;
-   311		int instance;
-   312		char filename[ACPI_NAMESEG_SIZE+ACPI_INST_SIZE] ACPI_NONSTRING;
-   313		struct list_head node;
-   314	};
-   315	
-
+diff --git a/include/linux/timerqueue.h b/include/linux/timerqueue.h
+index d306d9dd2207..a42fdc83f694 100644
+--- a/include/linux/timerqueue.h
++++ b/include/linux/timerqueue.h
+@@ -30,6 +30,8 @@ struct timerqueue_node *timerqueue_getnext(struct timerqueue_head *head)
+ static inline void timerqueue_init(struct timerqueue_node *node)
+ {
+ 	RB_CLEAR_NODE(&node->node);
++	node->node.rb_right = NULL;
++	node->node.rb_left = NULL;
+ }
+ 
+ static inline bool timerqueue_node_queued(struct timerqueue_node *node)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
