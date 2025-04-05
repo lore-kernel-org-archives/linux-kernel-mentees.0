@@ -1,81 +1,73 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E49224D6
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  5 Apr 2025 20:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103AB14830A;
+	Sat,  5 Apr 2025 22:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743885045; cv=none; b=O8TZjpafA4CCyMFcLGfLiOe8A+9SmDgfQBslPTlWrvq8VZXR1mZUBWOrbi02Mq7dNQVvQgUriAAWzJd/d5EtP034tnL5M8/FN9/w2sTEuMl+SX5mkeAhKQ2/MfuPtmF0S9Jgo3bYfpePsDi+y/dGlSEUw/GsztFahx912hQAX0s=
+	t=1743891731; cv=none; b=S7NKBhVPisaRm/5QLHmBPK9D0+RZGBh8/mYi0z/sK4tZu69hRJtiXa1U7/+oXaVX14bVQQnnwVcqMHPAgrqqve4g0dZh9X7vMhuVOTMNO1ykcIvR4/Y0UeA0gtukLFhnai8w1KmBVrIG+3GB2Aj5LkjjZAYoMuj0n3sCDqc+EvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743885045; c=relaxed/simple;
-	bh=592/DYeE4rV/PvvRdjDT+n9BuKH+8hLaJtJPesSSxkw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CUDmtDqLREzaDudngYYvokJ52el7H98Ur05V8843ZimMr2pyrhc39wZBDA6nTfj84+0M4hZwud+gu2jSKguVWRGl6YrNOMR7pRvM1Rc1eNaZa4l5Z+AmRqrspnzsRe0aHpeYxcTciOHuRRKClxT06LtP1uq/REZUDI3rSb534oE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D9WUP190; arc=none smtp.client-ip=209.85.222.169
+	s=arc-20240116; t=1743891731; c=relaxed/simple;
+	bh=1J79/UzQQQqgglAwHQAJTS9DXGRi63VF4VRPFCp7sHk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cpANXkbZAlemghHMd9Qch1utYk55mBWxGzhsMqm3+L1NqGKKxqH0UMvybf7OJFk554e2keYCuVVnPawkatfakapdnFICuURIFxYo7zbydt8CfgSFHqByUlGrEn4sgirHi7yS5uer8+Gk7CHsobxnRnlpp/0Fl1LjCqIW978msWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rz3C2RZu; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D9WUP190"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c55500cf80so260906085a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 05 Apr 2025 13:30:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rz3C2RZu"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c07cd527e4so299562285a.3;
+        Sat, 05 Apr 2025 15:22:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743885042; x=1744489842; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1743891728; x=1744496528; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QFZ87RkgEvE5OWvML1O0pzoNbsXsPPEFnlwAAyAkpNU=;
-        b=D9WUP190VaUrRHJ6+z8LwEqlCL36Is7i4GRwhy9XY65RD8QOdmnBKkMbGLt0NcLuXu
-         I6gvK/EFYNk853AT/QCbdY33iZ3TSdC+cUDCoFx23U2ar0tS73nqY5SIIIPqFG6Qp8Qx
-         EWPz4zS/wUC/i0uTrbM9KQy3BrPeEypwRcg1aakw6cs0Vjvh//rHcYx4P+RTCM9iG6BC
-         /Y5twk/VK5OSBKXKrhLSTNDJ7ahE6Og2DSc4syRRFg5xKblW00/CC9Z5uVBD3YfaTUBD
-         sanCqGsOmeS/3FwhXqQP24SYxPHtRal0nh7e/3pGErhLPbEIMjiheW3wYPcXOIOSy4rz
-         oxOA==
+        bh=DJhX/oN89+OT5FiiKG9iuTErcMM31EEtHlt0ti5ugWE=;
+        b=Rz3C2RZu0WInE/hHUHCf3wCL12wAUc04uv6DhF+R4Dl/tr6jP12624UDmtwTZBwpHg
+         e9YG/dj6HucZ848gsBs4UvrY+DqzRjx6ZdK1jPmUVs8cTuv29fXpquwAR2Gudmw/pv73
+         6plY7SdBaPiuxEQFfycpK8a/DSG+QjzrLWgF80J5Ydo59FJG2BW6BafhwpNA6LLSxq8W
+         polfyJiEyVO5XO+FXrmClqmANZc1K7q00xLURp3Cf1fDvZst8O3O9aE+O6p8Ya903Jc8
+         jl7e3f0OfAJ58HxOqGT9tp1c4uaM9exy6PPtVZTTuHV1hgaFUhuXVpLCo0x2gXSlooFI
+         QB5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743885042; x=1744489842;
+        d=1e100.net; s=20230601; t=1743891728; x=1744496528;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QFZ87RkgEvE5OWvML1O0pzoNbsXsPPEFnlwAAyAkpNU=;
-        b=egfHsV98TJw4UB/cE103PCfqsQ55U7GwTFSKJdpXtOcPpkNg9abu/7GEaecAHEbTTD
-         +bqEGBmgmjGxcFptm76zUx63ORoZ4JIWowyoHWcE5z1by3r4GuOPT+G+rxlve+2tCtM/
-         Mis6vKUNXaTi9VRvV1X1LB68rRWymrU9cYBc66KMGYpOoWKKAV696LrBOXWYswbIwPbv
-         813axXzpsxsovo3CwDE7BqwLrsuzS1GxiTOUbhY7KnOBZsKj4Srv7kjpBAolsySEZOx+
-         oeEijRQuZajW21WiO8fk81sUrmQbyiydoFIRO70CPR5IsaFUl9vDYsCWjIFXLHvnsTyV
-         7pzg==
-X-Forwarded-Encrypted: i=1; AJvYcCXDOM3CGoPTyLPDL0MsTsbuQWikawRjWXIJAwetueVaKTHqjtRn6bITM1ltj8XptS5ms0alkOtbB9y7bwCwUy5bjyHQcQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyNrtnH8cRJzAgvW66P5l4OY3o6deEfZdZmiGL53W/uzFpFYxDa
-	L1N0GhwlojgVhXDVKfkP0G8yC65QnQNcYyhYagHe5AVXaBunypkf
-X-Gm-Gg: ASbGncuwFGlf6TaOCA9Ea9otCz+2XNFpT4hBiP8eopSK9mfsuECN/6AJC3Jw/U87ia0
-	T3I1iYvxa+Ts6iEfSlejLStr0WkreG6ONKhzKTGib0JptkLxD7IRKUGkcf/yJ1Nvi2Z4nI0g+O8
-	DI0u79ck6R4dyqdZvjbn2SpJ5cAqrQ416+wV1SH1uKo+/NDTG7KZlH6pD7N6iOVIBR5oK965vLE
-	1VZW53K60I6IvWEc1GrO1Gp5x7rwbRjWdXjFHUyxZqiVB+k+p7ojodrQYm4oD7V88eJ+Ou22aHg
-	rgyRQVpuKicKuynM2iBz91jzWAo968hoPjSDWPYO03FuZKw5ALW7zu5IQPY=
-X-Google-Smtp-Source: AGHT+IGqvxIn7+jtL/y34/XygapLxgoGndRyHSw1XKBdPKp4mDWf3UFd4ITwDeNHFgIJ0JPUcEXFyg==
-X-Received: by 2002:a05:620a:3723:b0:7c5:cdb5:271b with SMTP id af79cd13be357-7c775a0f60dmr965736585a.15.1743885042551;
-        Sat, 05 Apr 2025 13:30:42 -0700 (PDT)
-Received: from theriatric.mshome.net ([73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c76e96e566sm384878985a.63.2025.04.05.13.30.41
+        bh=DJhX/oN89+OT5FiiKG9iuTErcMM31EEtHlt0ti5ugWE=;
+        b=JApzCJsYbb1DwFNQ0cOEK7T/HZZX16jTe6nhxmLo0Vv3ODFdbqg6InlwuSJu0u4ybY
+         R+SAzGZjXi5we0sTsenc98Lp+R3zq0+2kUOoW3kmaroqEokiqvgPq3la+vIcXrSgq+wN
+         h/DCGaf3ILj7+6C8oBl7Qppy/J5KqDo77dABt2p9cps6YLcNrNdIGGDm6KXxXHik7TxC
+         Wmf8hh2s9wItcYwWDHmcaUElyPqNDDhMBGrnyR4Jx2+3uiraxHFfxZWt/W6PtMCKa+NI
+         W8N1gjhhfx1ZbW89KRzJzujnszGuZ3Oj1RYIKyvEBJFuDurLBDs7airea2R38mgVePMW
+         uZcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVeFHx51W6qkW3LS/ACaHNF62UpoPlUO0Cw0QL8e47B1a9GARxeLsApw+dhAjvYYUzlqaL87KIYEyc9Zu9ZcUxjZhSY5Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw2fk+2gKmEHw+J09UOyiBiRFoLQbVzV+IqhEzJ0y7QcTIngxnI
+	Rn+amRtyX45fHrWJcIqe4zHB5OJfaOu80D6Ikv9+4IXNTKJEhIXGcTA3og8V3ak=
+X-Gm-Gg: ASbGncs0PwFCXYigawE1OiYC7i/Ilp0Y7w7aph4MxmTW/5EWD8M3hGpMzAwkPL17VfM
+	VjWRMnSyroWa6HWK4aLWZPu4wW9EN4urvujpa2k4gIiie4WDNsEZ1Lr+2w+MgwRR+k/xVDbTqQD
+	zajKaaMxkV0Mq8VWicaWErcbRxUrcx4aBbfFuVki0Lh4ktqZO9lE0IQPnKmd9Bs8ZfKtu1cNo6j
+	0FnWEucGFqgNZnhTOtyC6Mz67F1z7q5UMyekg1IkwE6OscFcLDfh1CIbOMyRZ/AK6tna5wAlKHH
+	BBBunX3WQ4kf5yomuRIINiR6QDu6oFPdzGbyRyWPKW8usla9ZnlBIas93JL6h/M+opLTnanCXBl
+	3RB7oLZ7843sIRZxpW6EvEF4=
+X-Google-Smtp-Source: AGHT+IEAkm2CGrA07UUYNs+3Oj8DORY9RfX77/eDcgtvcFKRCKL7rHAHXMHx1ciFwFeqAJQjKxleng==
+X-Received: by 2002:ac8:5993:0:b0:477:6ec9:169a with SMTP id d75a77b69052e-4792490f798mr107257191cf.1.1743891728613;
+        Sat, 05 Apr 2025 15:22:08 -0700 (PDT)
+Received: from theriatric.mshome.net (c-73-123-232-110.hsd1.ma.comcast.net. [73.123.232.110])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4791b0713f6sm40603311cf.21.2025.04.05.15.22.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Apr 2025 13:30:42 -0700 (PDT)
+        Sat, 05 Apr 2025 15:22:08 -0700 (PDT)
 From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	linux-perf-users@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Kan Liang <kan.liang@linux.intel.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
+To: linux-staging@lists.linux.dev
+Cc: philipp.g.hortmann@gmail.com,
+	eamanu@riseup.net,
+	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
-	Gustavo Shahrouzi <gshahrouzi@gmail.com>,
-	syzkaller-bugs@googlegroups.com,
-	syzbot+ff3aa851d46ab82953a3@syzkaller.appspotmail.com
-Subject: [PATCH] perf/core: Prevent WARN_ON(!ctx) in __free_event for partial init
-Date: Sat,  5 Apr 2025 16:30:36 -0400
-Message-ID: <20250405203036.582721-1-gshahrouzi@gmail.com>
+	skhan@linuxfoundation.org,
+	gregkh@linuxfoundation.org,
+	Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Subject: [PATCH v4] staging: rtl8723bs: Remove trailing whitespace
+Date: Sat,  5 Apr 2025 17:02:40 -0400
+Message-ID: <20250405210240.584821-1-gshahrouzi@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -85,50 +77,33 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the get_ctx(child_ctx) call and the child_event->ctx assignment to
-occur immediately after the child event is allocated. Ensure that
-child_event->ctx is non-NULL before any subsequent error path within
-inherit_event calls free_event(), satisfying the assumptions of the
-cleanup code.
+Remove trailing whitespace to comply with kernel coding style.
 
-Reported-by: syzbot+ff3aa851d46ab82953a3@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=ff3aa851d46ab82953a3
 Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 ---
- kernel/events/core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes in v2:
+	- Resend using git send-email to fix formatting issues in email body.
+Changes in v3:
+	- Fix indent level of diff.
+Changes in v4:
+	- Remove suggested tag because it was incorrectly used.
+---
+ drivers/staging/rtl8723bs/include/hal_pwr_seq.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index 0bb21659e252..153ba622cfa0 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -14016,6 +14016,9 @@ inherit_event(struct perf_event *parent_event,
- 	if (IS_ERR(child_event))
- 		return child_event;
+diff --git a/drivers/staging/rtl8723bs/include/hal_pwr_seq.h b/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
+index b93d74a5b9a5..48bf7f66a06e 100644
+--- a/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
++++ b/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
+@@ -209,7 +209,7 @@
+ #define RTL8723B_TRANS_END															\
+ 	/* format */																\
+ 	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/								\
+-	{0xFFFF, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, 0, PWR_CMD_END, 0, 0}, 
++	{0xFFFF, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, 0, PWR_CMD_END, 0, 0},
  
-+	get_ctx(child_ctx);
-+	child_event->ctx = child_ctx;
-+
- 	pmu_ctx = find_get_pmu_context(child_event->pmu, child_ctx, child_event);
- 	if (IS_ERR(pmu_ctx)) {
- 		free_event(child_event);
-@@ -14037,8 +14040,6 @@ inherit_event(struct perf_event *parent_event,
- 		return NULL;
- 	}
  
--	get_ctx(child_ctx);
--
- 	/*
- 	 * Make the child state follow the state of the parent event,
- 	 * not its attr.disabled bit.  We hold the parent's mutex,
-@@ -14059,7 +14060,6 @@ inherit_event(struct perf_event *parent_event,
- 		local64_set(&hwc->period_left, sample_period);
- 	}
- 
--	child_event->ctx = child_ctx;
- 	child_event->overflow_handler = parent_event->overflow_handler;
- 	child_event->overflow_handler_context
- 		= parent_event->overflow_handler_context;
+ extern struct wlan_pwr_cfg rtl8723B_power_on_flow[RTL8723B_TRANS_CARDEMU_TO_ACT_STEPS+RTL8723B_TRANS_END_STEPS];
 -- 
 2.43.0
 
