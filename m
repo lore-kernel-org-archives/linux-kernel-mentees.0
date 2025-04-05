@@ -1,98 +1,103 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE41634
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  5 Apr 2025 09:19:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B271C3C04
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  5 Apr 2025 09:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743844760; cv=none; b=VCngH1gscEg1rjhEmIBqkabeVSY7C+rhvRz4reKQvhxbIG5bgNOinwwhdYP8tGzVKdFW9E0qEpcF1LjAD9ddBLNXatRpiaNbWoHS0dL3yqY1O77sUsha5449yRg1mjBbwTXUnwmnZPphwKulpFV37dKHUD22wWQ9ou9Rdjtscfs=
+	t=1743845099; cv=none; b=dlziWdwFZtSadRexRiDfZpmxwk8MjRCsAZIVK7rOA/EmaF1QIxKI++h/ZMWIGRnjsuarD+Wv2sGkxYbLIiszG8HhDFPddwX9RrO3roguer/xLosF2TCji6UK8/T3Nb4LTZgRx1iqaW8cks6kwUoJdOBav5CxsLiLfcqtvK9z1jM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743844760; c=relaxed/simple;
-	bh=H9WDufCkKvv1yyD00jKAJKAOHScBQ80qVwCNVNT5D84=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V4yNRMfSwoKTTFqmv7ngvU0WnYz8VMBu9lQbsIqbzY7iaOZO80FepAM/UPkY8WUR0MZ7XmyqsLlYPu94i5unhFeB66k95XVPoShFE6WykRBysYuARBYCCZmE+YnWIXGwvfEjeWz+kSoR5lbTQ3LH5JVLEISY9AQLeUiBtlHjjJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X1GfNA8V; arc=none smtp.client-ip=209.85.215.181
+	s=arc-20240116; t=1743845099; c=relaxed/simple;
+	bh=CYC+j8DE1LKhEPIIAtWsmhv3JgdGMKg+YUwLj9onV54=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G9Mn2XeqzU7iwFz3dATtqVw1GjDCkj+/bHX/ZxvXywWuAz6kgTQLpfWUu+Jsl+fp1sUvVzDJIJ88YNz2buhRB/Qf/MDZkShy5LUvL43P91h07D2vec46wIkJ6sDKUAEmuU3dgDvtJQcVRMAXbRyc9htxof1UN+z6HTp+9NP5H6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IUM6dimd; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X1GfNA8V"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-af6b02d9e5eso1927369a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 05 Apr 2025 02:19:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IUM6dimd"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7398d65476eso2156683b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 05 Apr 2025 02:24:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743844758; x=1744449558; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mzjWMcByQzCFfTzUirTtuGeFU5cuYUdBA9J+kXb3PX0=;
-        b=X1GfNA8VVwIHd6vIPRK8MC6cF81ubuiqWtRcBjZEp8KuIIuZaXXW31/VXpIdh4e2hS
-         vBefskJ3vo/zRWzHcbRp21ipMCquwzzabvQ8XjaBv90nabrvXFpe/jHD48fELK5D8ONh
-         tWJ/4k9SS0XQ6/TY4uOVWmx1YmXBReTrOIF5QTQujr6RZ1ohwZXIhuWJ5chNDaEZLlvl
-         FOeK+tYHTGrE3PuviR+M9JLyHbmvQ1BsE5YVCPr5vNGKPazbJWjeIJlgceoQnQOGr+Sv
-         gyWSrZ7ZYPY/q0IpN5wJkbQDwAyZhkbNbkTlmbXjvgh1caDsm7mJSvLCwicLQaYBNT3w
-         2PhA==
+        d=gmail.com; s=20230601; t=1743845097; x=1744449897; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dEK0W0QpAa1ZezYhp/Ge5p3VJ+97NZtwm+z2v9PIHNw=;
+        b=IUM6dimdkDctcvny4mem/zvYHQEWIFubbiSi5m9waen2lgclv9n7BMLkzM/XrsTCjS
+         jTSUCVpeKtixXuFEbxASqq6KbMpPu+2QzNm44hQ6abd2+S8Zjxe9ne/1kasQJayoqZ3Z
+         ArwBtQ4Of6dMKSOYCnxDw5gu2faYS0SEurePtwQ1WztxocnJCojslFOG/H4eTf7FHeS8
+         V0yOWkdvZ8EzAt141Mz1RppgtDmACop/pNch5u5Br+jnDCGQUxAgpwYN3u9ywEcyfb21
+         PhG5MU1E5L8tU1xo3oR16/vm15l9BV4ZCsFyMZ7O7nrXIype6Q7//bYd7vk07cCJuy+/
+         Ju9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743844758; x=1744449558;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mzjWMcByQzCFfTzUirTtuGeFU5cuYUdBA9J+kXb3PX0=;
-        b=M8OwavC1KeIqcqFkgD+wjWYZAcy1yjslleamm2J3lt8dVkpZuCT5g4J2DVt/1T14Iy
-         4T+ZUdZTvHZ5mVWWpC26p7tJ5UJjLwIx2AEHXQ8Wpu19hONgfMyPp/sz9jMjnHmh6+4v
-         xIaKaK8UqSCq7IJrwGniOmSJPTARX4z1PbLe6BlRbYOYPXB4NJ1Qqpk3lZubRW6zfic1
-         bPWuYiN77wzh9Z5ti6G3wlJ7ipVwmAv593SpscGw9QAi6EICXoweh29XYlWEvOdCXFdg
-         0lKt2qkY13yikmlTyUQ1xyxsxt7rQyqbwx6aHnvIyDqPR4g203Qs64YwZHcmLWQN8EqO
-         0iBw==
-X-Forwarded-Encrypted: i=1; AJvYcCVOK9IltF00Au/0/OJ5l4L1q8FJVK+N8kmv2BgB1qmSmluLoEdjCwweoTcAhtzcQXcvara8K+3HQf/cGjaWmE5/REs/1w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwEIK8QBA1hEndCb1NoHPPheUBaqpZ9te/cBeR1cjBa0c78q4IX
-	bl/KIV8Tsb3uET+B6ESzc+9rVm79Pl4rrXt5L1aMb21rX6Qh/hGg
-X-Gm-Gg: ASbGnctIp5wbjwy+a62xasq/mw6YrpbvrJLP0HfufU6FuwPXXefU32gkV9Y+JtakmCd
-	Dw08arSY7e+Esu/LcliV4vsT1xSigz0bcDm4FEB+I0XxdgiBa/IkMda+gtkT1nSwo3o213C3f4B
-	p5zb2D+8ajYROeAULLRH28/Ru90F1E21VP17rypAGDdrTYyYlKKe6OTMHPD1rK0WkByQQkuTGh8
-	1MXVXFEemHTzJv7nHPDZ03BjGazlNeRfQg13E5T4jCFGnExDoeIKf+VoHUCU5ZMprAv844nyzJI
-	OYhI8XHFIj0n80QbIYdWdCycAIxGOtXBj0gIlb5ClE4EkuAV9RPFk9/9/kFzaYLylbr8YbxkxCw
-	=
-X-Google-Smtp-Source: AGHT+IH17D2a2ZK/K/Wp3XUSIp0F/QFxG9KvTsV0bCesZDJ28V7J0x++vHHbGclvEnu/zom73oy1Qw==
-X-Received: by 2002:a17:903:1b6d:b0:21f:68ae:56e3 with SMTP id d9443c01a7336-22a8a1b8c79mr79312175ad.39.1743844758295;
-        Sat, 05 Apr 2025 02:19:18 -0700 (PDT)
-Received: from vaxr-ASUSPRO-D840MB-M840MB.. ([2001:288:7001:2703:309d:74e8:7ab1:1579])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297866e1ccsm45815275ad.174.2025.04.05.02.19.16
+        d=1e100.net; s=20230601; t=1743845097; x=1744449897;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dEK0W0QpAa1ZezYhp/Ge5p3VJ+97NZtwm+z2v9PIHNw=;
+        b=gAmNhYbarFnihYYxyGgtQdvqZiic4PBQHQI7uYRdnv29lDaxrnks+2PJg8nOvzs8AK
+         WdWACq/bL6RaOYN/C9jIT4OK7lmTazUundNXeQ58ty5mh4PUqvvt8FXD9W8ZyrkCxShJ
+         TuX5o6xQ1VQVdH1EEth0YSYoDkR/qgHJBzOzVgH+zeYtfAP7B5+EkaMiMw6ekvZcKDbV
+         1sH9nYU6Hs+IWOcFyforwH3iPWO/6H43fzNkg4ifnP8z71dGUBb+5ioQGkQdWI75WjN3
+         02oKCgWcEdYti8avgH+sQK/kca7q1nHvckqhb/hQ/WONW2hPHQWeahSkJq6ouKudyus+
+         j8sQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV8Uw+2dVvPeWyFVlkJYfU4uSxQ9i7McYleacrKQKGWwcLOmzA21P8Ttqi/eJ0o0VdI8euBPuNxbxCz/Jis/YXMugz76A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0R+b0KxxNQ4iA1+5GiGLWKlCeUd9/peAxvhh1foClb+HJzdPY
+	C8ZAmVOcBZQ1DDHOOLBSJjOahe6l7GITSZxPrGmmaMidwC/9KMeY
+X-Gm-Gg: ASbGncuGrjT34LNRTT9nnEQtR/5WMtCRxIVprZk+W3gjsROVY7mWirQL0tSshJgQtdE
+	ULwZx6/GPa4zDzlVgTdCLLKJ7rbDJFUI3WB775Gm0cnBZLYz18Hkn0M579bV1yuJWx9XkV2Q+zE
+	agRZYLoHwdiNeClK2mYsuFxO0WzVIh/VArYdjA/f4QQ72lQV5WWdxaMc83b1kXgexZoLBHXtxgU
+	awfqg+LDL8hVxfbcd7yewr2sAV84a2KgQfHLz6Rmwoi5YZsJwchNVWH5DT++LBSD1WZpCXzmEvK
+	C6smcYxF8/FiVWKCo7CqClPCc/c31BLS3gL+LxQaXmVB+DKTM1JwflcilxDc6Q==
+X-Google-Smtp-Source: AGHT+IHSH7e84O9pcdFgnOtCs0i95OtpNIn1swFj4yYiGDsyPfoRCp6D/9QBy7kZxrLD01zIqjbo+A==
+X-Received: by 2002:a05:6a00:c92:b0:736:4d05:2e35 with SMTP id d2e1a72fcca58-739e590a313mr8719587b3a.3.1743845096937;
+        Sat, 05 Apr 2025 02:24:56 -0700 (PDT)
+Received: from vaxr-BM6660-BM6360 ([2001:288:7001:2703:fb4b:850a:b504:c8c8])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739d97effb7sm5017104b3a.60.2025.04.05.02.24.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Apr 2025 02:19:17 -0700 (PDT)
+        Sat, 05 Apr 2025 02:24:56 -0700 (PDT)
+Date: Sat, 5 Apr 2025 17:24:52 +0800
 From: I Hsin Cheng <richard120310@gmail.com>
 To: akpm@linux-foundation.org
-Cc: shuah@kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	I Hsin Cheng <richard120310@gmail.com>
-Subject: [PATCH] selftests/mm: Add missing gitignore file
-Date: Sat,  5 Apr 2025 17:19:13 +0800
-Message-ID: <20250405091913.520889-1-richard120310@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: shuah@kernel.org, linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH] selftests/mm: Add missing gitignore file
+Message-ID: <Z_D25JBTUcZia2GW@vaxr-BM6660-BM6360>
+References: <20250405091913.520889-1-richard120310@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250405091913.520889-1-richard120310@gmail.com>
 
-Add "guard-pages" binary file into .gitignore.
+On Sat, Apr 05, 2025 at 05:19:13PM +0800, I Hsin Cheng wrote:
+> Add "guard-pages" binary file into .gitignore.
+> 
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+> ---
+>  tools/testing/selftests/mm/.gitignore | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/selftests/mm/.gitignore
+> index c5241b193db8..c9fd69ece95c 100644
+> --- a/tools/testing/selftests/mm/.gitignore
+> +++ b/tools/testing/selftests/mm/.gitignore
+> @@ -58,3 +58,4 @@ hugetlb_dio
+>  pkey_sighandler_tests_32
+>  pkey_sighandler_tests_64
+>  guard-regions
+> +guard-pages
+> -- 
+> 2.43.0
+>
 
-Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
----
- tools/testing/selftests/mm/.gitignore | 1 +
- 1 file changed, 1 insertion(+)
+Sorry, please ignore this. I overlook it's being renamed to
+"guard-regions".
 
-diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/selftests/mm/.gitignore
-index c5241b193db8..c9fd69ece95c 100644
---- a/tools/testing/selftests/mm/.gitignore
-+++ b/tools/testing/selftests/mm/.gitignore
-@@ -58,3 +58,4 @@ hugetlb_dio
- pkey_sighandler_tests_32
- pkey_sighandler_tests_64
- guard-regions
-+guard-pages
--- 
-2.43.0
-
+Best regards,
+I Hsin Cheng
