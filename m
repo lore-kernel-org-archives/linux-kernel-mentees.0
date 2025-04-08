@@ -1,113 +1,107 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3446C18A6B0
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  8 Apr 2025 14:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8721022D7AF
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  8 Apr 2025 18:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744123492; cv=none; b=G0GHA5+YJPbbqhitC7u1ayDSYl05Wjx3oTfyBuGgtCJUBc/gpTjyUgU/0gjCLL14s79F08S5fyBkT+au66zLgxOIsC52qAbvpLLt7CZeqAZeBH5yp3kTpR7GCeYt8xYr9mQhLiswvLIsxmj6MMjyHvffsXDeUTReKrWAk3fTav8=
+	t=1744138699; cv=none; b=mU332lmr/afVYUvIvV8/Rclar+wyeiogSfXqP8ythkL8fDw4KfRoNTEbEskEpooF1SgGGSesKn3khjClnLZKqWix4eMUo2h7nByrUKXWWD8N9EUHNc1IbslBpif01KwRcmW4kYi5aG7WJrIfeyrIZ4TnFDsUW0bTc4uXM6mcvbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744123492; c=relaxed/simple;
-	bh=uE7S/ykKBA+F4uBfxgSOxwKaFbesP06UyxIwdr8A5fQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k/EwDY9AeUeSZloAdCLnZSa9olj7ouMrnCB4RU0twJRmN8cy894PIQQ4DvrnlVB72kmmlnjKPR9lYjLqdXhagNR6DO/Qk3zsFIn7FoSdbsnP89bq2n9JeHpACqSUCquxt56FgYR6NxZrf4QtYcGyCNskQDZB2XB/wTF25r7thik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jfQl1bWj; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1744138699; c=relaxed/simple;
+	bh=qi68FPqjWeIImJbScaOCfWAjXU8ANBLoLMNxd/yYrOs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f7KBOoLLiZ7uVcmeKyIQ5oTBE/HXs5u6VpGXZmmT7HEE4y2AmNb3ZKPZdsUuVj7u/PoQSvM56o0qix1IRj7NWc4fI/x5yfKlbcn+8m83F7mAd9sCyw68p4ZVQ1LufUrq04Rlrlm8svsXRzvOPXG+EnxLZCvBFELagEUn4vWxXQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gdC3tHiO; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jfQl1bWj"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 78A6844346;
-	Tue,  8 Apr 2025 14:44:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1744123488;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5nmvsBSW6ruA3VHmjOYi5BlHpcx0V3rnt1Hh0gBhaoY=;
-	b=jfQl1bWjU3Gm3/ktsT+5L3jBi0rAZgoz2/Ir10OsHBfr4PCEAQ1zOah9y23oo1As98/PN5
-	PD7ykcVKYZ+1ZwrpKVckfRLH2ar4VSKk4ldgFPbjp0WDP0jrVbGEdMiDrFhe4LqJTO2aYL
-	Y1BMpIi61UM9b9Js8kngkQw5ntyjOBVZQ4q3MfAJ0BoEK5rMS8yqKwe3biXTrjKHCUGVrd
-	mta0bGDaQ+VddqgV+2IClT02l+LEaXUQ6vYRfPahis1blqQ3p/YN0ulqvsWRjIwii3CXt6
-	gGRZTZQbJVrb3x6ExcLU0Zi7o1OLLZpE33RFo+SJCF42KRob4OS6hKkxTkReVw==
-Date: Tue, 8 Apr 2025 16:44:48 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-Cc: linux-rtc@vger.kernel.org, shuah@kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] rtc: fix use of uninit struct in rtc_read_alarm_internal
-Message-ID: <2025040814444859857143@mail.local>
-References: <20250317183349.346399-1-bharadwaj.raju777@gmail.com>
- <2025031721511050987ca2@mail.local>
- <CAPZ5DTHKSzg6UV0bT5U9Xet7jL1c__n+GgfYz-38GybGzerYNQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gdC3tHiO"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7369ce5d323so4775153b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 08 Apr 2025 11:58:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744138698; x=1744743498; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wzHI83MKSiqIfFaxsOKY1zS5wH4MOVgY9NicZrnKBJw=;
+        b=gdC3tHiOEZOFufCgi0WEtTbPcUkKX5J5rPTxAoB+jPSK73dRqT14XGOwPDmDzZes6m
+         eqDWV0Cqra/Lvvx/CoUwcTjpsotTKpQZb2usq4a302YrvYbG4Vw6+q2dvR4hhsw0+LXY
+         bi1sxhGEsglmNFmjy4RycxfQaDcGxcgFrNzT8B6MRBICeMehj3ewY3sZbabOUNg4RAnc
+         sISZ26cSpNiaogwmhyaNL9cewkKw9jgA+mrpKnOnxbewo8PXpz8JixkTO4usXQakGyTR
+         xltpH/xDzyHARUvClbnmKn9SSzTq86H84nY4ofS7xpdFWe+hXn0P7C36zUGRSuLxb89k
+         qrLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744138698; x=1744743498;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wzHI83MKSiqIfFaxsOKY1zS5wH4MOVgY9NicZrnKBJw=;
+        b=AZEjKTj6I0zNbDpy3+Nw/LCzSja3WxWbhnUMsKNIoAc9w9bBUSM5asVjBBa0LiyeI9
+         E/d0SYS8jBGXoAFkVOUevsMgUFybhnd0UR895IbuxtBGtu/2SnhEYWl63a0Dfmx59TWZ
+         EXDvK+VxhBiAwo9Dam0DNBBQrzlQji/s/6hi5YjNgSxADTn0ijQSB7Xw+oBqsaJckVSC
+         408hL/744hT+OmYjiXfRkG88hLgmieSeg7VklGayB7PrK044aipIHiqsAsiwgRFMRvTJ
+         ssfeWYSmECFExeZv13B+vny64RBXCBjXhMvUjsGTZEUoJKY32fNB4ag6nOJXvSeyqwfZ
+         mepg==
+X-Forwarded-Encrypted: i=1; AJvYcCV8lnKB+vKgNlUlaWbSQC7UTQOUKnT7O/c1CAd7MmYzriWkbw+UrU5uQpj9xulAFCVjNcnJkPJ6Q8FQWTqyKJDFgYC/VA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwOcXLggOiBLontGuy+o1EKJR73yyUKenQGgJWTF8F8i+m5mDNa
+	b53h2WHnkhIiJK9hzKlTIC5zH4rH8EPeMsOscIYV7afhbhLsBTbN1dtcz2KV
+X-Gm-Gg: ASbGncuyFOlvyP1uQ/ijWBZy9fMn26P8NPqmp3tf39c+p75zdd/AlFO9a5tkIAFnalf
+	YAj/lsouftE5Z31fSL4LQqahIJAiYre6L7WYkgHDgWjN/j6GNaOqGEB30oN+VF+WucDMNrUJw1F
+	30vvi0yI2VRZ+W9yc/J9Ey3Qh1sE49/U++C0Etl5kDUlib54US0H/hxWn6GF3YE3VRwXCmxNxLl
+	DRJQWLhVdy0wGxsNel5rnp0DG24wt2nswdYB0Rblxl/aC91VVU2WW5uBQ266o9Xcsdj0gjGxmsw
+	32j+RU7dneBamxqr+mHHJVQLsnv4xw4ya1Zdx95d100wh8br+0gLANTcalGaRUGRBH9kJNbDNrj
+	KfA==
+X-Google-Smtp-Source: AGHT+IEyktfEPtKDikhNj7ckXZr1w1jnHWGuCEGLWVYLsgrcs35m+q+VlCXtvBz1nUhwKzx3fbO2zA==
+X-Received: by 2002:a05:6a00:3d13:b0:736:4e0a:7e82 with SMTP id d2e1a72fcca58-73bae4b9085mr216548b3a.10.1744138697594;
+        Tue, 08 Apr 2025 11:58:17 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:5c08:585d:6eb6:f5fb:b572:c7c7])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739da0dedd4sm10900752b3a.166.2025.04.08.11.58.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Apr 2025 11:58:17 -0700 (PDT)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: davem@davemloft.net,
+	dsahern@kernel.org,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	skhan@linuxfoundation.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Cc: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH] net: ipconfig: replace strncpy with strscpy_pad
+Date: Wed,  9 Apr 2025 00:27:59 +0530
+Message-ID: <20250408185759.5088-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPZ5DTHKSzg6UV0bT5U9Xet7jL1c__n+GgfYz-38GybGzerYNQ@mail.gmail.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdeffeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgheeuieeikefhgfdvhfehiedvhffgjeetfffgtefhudfgtefffeevledtleejteenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmegrugdtfeemgehflegtmeeffeejfhemfheffegunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmegrugdtfeemgehflegtmeeffeejfhemfheffegupdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtohepsghhrghrrggufigrjhdrrhgrjhhujeejjeesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhrthgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgp
- dhrtghpthhtohepshhhuhgrhheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghv
-X-GND-Sasl: alexandre.belloni@bootlin.com
 
-Hello,
+Replace the deprecated strncpy() function with strscpy_pad() as the
+destination buffer is NUL-terminated and requires
+trailing NUL-padding
 
-On 29/03/2025 19:59:46+0530, Bharadwaj Raju wrote:
-> On Tue, Mar 18, 2025 at 3:21 AM Alexandre Belloni
-> <alexandre.belloni@bootlin.com> wrote:
-> >
-> > On 18/03/2025 00:03:43+0530, Bharadwaj Raju wrote:
-> > > The trace call invokes rtc_tm_to_time64 on a
-> > > potentially uninitialized alarm->time. Move the
-> > > trace call to the path where we do successfully
-> > > initialize and read that struct.
-> > >
-> > > This fixes a KMSAN warning.
-> > >
-> > > Fixes: 29a1f599c0cc ("rtc: Add tracepoints for RTC system")
-> > >
-> > > Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-> > > ---
-> > >  drivers/rtc/interface.c | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/rtc/interface.c b/drivers/rtc/interface.c
-> > > index aaf76406cd7d..82ba33bf478b 100644
-> > > --- a/drivers/rtc/interface.c
-> > > +++ b/drivers/rtc/interface.c
-> > > @@ -201,11 +201,12 @@ static int rtc_read_alarm_internal(struct rtc_device *rtc,
-> > >               alarm->time.tm_yday = -1;
-> > >               alarm->time.tm_isdst = -1;
-> > >               err = rtc->ops->read_alarm(rtc->dev.parent, alarm);
-> > > +             if (!err)
-> > > +                     trace_rtc_read_alarm(rtc_tm_to_time64(&alarm->time), err);
-> > >       }
-> > >
-> > >       mutex_unlock(&rtc->ops_lock);
-> > >
-> > > -     trace_rtc_read_alarm(rtc_tm_to_time64(&alarm->time), err);
-> >
-> > This removes the tracepoint when there is an error, rendering it les
-> > useful.
-> >
-> > Also, as discussed about a year ago, alarm-time being uninitialized is
-> > not actually an issue as mktime64 can handle whatever is the input so
-> > this will never cause any problem so this isn't really a fix.
-> >
-> > I suggest the following:
-> 
-> Thanks for reviewing. Would you like me to make a second version of
-> the patch with this suggestion?
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+---
+ net/ipv4/ipconfig.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I've sent my patch now.
-
+diff --git a/net/ipv4/ipconfig.c b/net/ipv4/ipconfig.c
+index c56b6fe6f0d7..7c238d19328f 100644
+--- a/net/ipv4/ipconfig.c
++++ b/net/ipv4/ipconfig.c
+@@ -1690,7 +1690,7 @@ static int __init ic_proto_name(char *name)
+ 			*v = 0;
+ 			if (kstrtou8(client_id, 0, dhcp_client_identifier))
+ 				pr_debug("DHCP: Invalid client identifier type\n");
+-			strncpy(dhcp_client_identifier + 1, v + 1, 251);
++			strscpy_pad(dhcp_client_identifier + 1, v + 1, 251);
+ 			*v = ',';
+ 		}
+ 		return 1;
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.49.0
+
