@@ -1,52 +1,113 @@
-Received: from bsdbackstore.eu (128-116-240-228.dyn.eolo.it [128.116.240.228])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BBA2620DE
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  8 Apr 2025 07:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.116.240.228
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3446C18A6B0
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  8 Apr 2025 14:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744096703; cv=none; b=MQZI4OaKIsvM1E2OeJjzYipI6LkAiFHA+499ynVCcNcXO2L2W692T957tV9CGDtoxA2/bDSC/zuYD9rrTiG45dluQOxmYOrFnPDIODdBYlUfN9c0lXgWBGbqIfbFboIReNjDGSh8LjgrKv8eQgNtCNdp71tWdztVuJRFyQXswnQ=
+	t=1744123492; cv=none; b=G0GHA5+YJPbbqhitC7u1ayDSYl05Wjx3oTfyBuGgtCJUBc/gpTjyUgU/0gjCLL14s79F08S5fyBkT+au66zLgxOIsC52qAbvpLLt7CZeqAZeBH5yp3kTpR7GCeYt8xYr9mQhLiswvLIsxmj6MMjyHvffsXDeUTReKrWAk3fTav8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744096703; c=relaxed/simple;
-	bh=0HQJ0uhZipCImvUnh7JNZ32jeyceM6KExmIUVlHZQsQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=O35qVpuKwPFftEBHnww6VDHHsw/WkLAMaTEFs0dylr4DVPdxcKLbk9fjdXs9CFhq2sxblANb+viKl33X6xMp/4K77gE3E3Afev/AqNowj9LWoXGS/gw2YyweDHVhvGeEfgFnM8Q88vgncpM+v8eCOCRmrD6e/e7cVDPavo5pSI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bsdbackstore.eu; spf=pass smtp.mailfrom=bsdbackstore.eu; arc=none smtp.client-ip=128.116.240.228
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bsdbackstore.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsdbackstore.eu
-Received: from localhost (<unknown> [193.207.154.230])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id 3acd0c3a (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Tue, 8 Apr 2025 09:18:10 +0200 (CEST)
+	s=arc-20240116; t=1744123492; c=relaxed/simple;
+	bh=uE7S/ykKBA+F4uBfxgSOxwKaFbesP06UyxIwdr8A5fQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k/EwDY9AeUeSZloAdCLnZSa9olj7ouMrnCB4RU0twJRmN8cy894PIQQ4DvrnlVB72kmmlnjKPR9lYjLqdXhagNR6DO/Qk3zsFIn7FoSdbsnP89bq2n9JeHpACqSUCquxt56FgYR6NxZrf4QtYcGyCNskQDZB2XB/wTF25r7thik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jfQl1bWj; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jfQl1bWj"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 78A6844346;
+	Tue,  8 Apr 2025 14:44:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1744123488;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5nmvsBSW6ruA3VHmjOYi5BlHpcx0V3rnt1Hh0gBhaoY=;
+	b=jfQl1bWjU3Gm3/ktsT+5L3jBi0rAZgoz2/Ir10OsHBfr4PCEAQ1zOah9y23oo1As98/PN5
+	PD7ykcVKYZ+1ZwrpKVckfRLH2ar4VSKk4ldgFPbjp0WDP0jrVbGEdMiDrFhe4LqJTO2aYL
+	Y1BMpIi61UM9b9Js8kngkQw5ntyjOBVZQ4q3MfAJ0BoEK5rMS8yqKwe3biXTrjKHCUGVrd
+	mta0bGDaQ+VddqgV+2IClT02l+LEaXUQ6vYRfPahis1blqQ3p/YN0ulqvsWRjIwii3CXt6
+	gGRZTZQbJVrb3x6ExcLU0Zi7o1OLLZpE33RFo+SJCF42KRob4OS6hKkxTkReVw==
+Date: Tue, 8 Apr 2025 16:44:48 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Cc: linux-rtc@vger.kernel.org, shuah@kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] rtc: fix use of uninit struct in rtc_read_alarm_internal
+Message-ID: <2025040814444859857143@mail.local>
+References: <20250317183349.346399-1-bharadwaj.raju777@gmail.com>
+ <2025031721511050987ca2@mail.local>
+ <CAPZ5DTHKSzg6UV0bT5U9Xet7jL1c__n+GgfYz-38GybGzerYNQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 08 Apr 2025 09:18:07 +0200
-Message-Id: <D912OCZ7ENI8.1WB0CJRYL7LRN@bsdbackstore.eu>
-To: "Baris Can Goral" <goralbaris@gmail.com>, <martin.petersen@oracle.com>
-Cc: <linux-scsi@vger.kernel.org>, <target-devel@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linux.dev>
-Subject: Re: [PATCH v4] scsi: target: transform strncpy into strscpy
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-X-Mailer: aerc 0.20.1
-References: <D908SSFL0E9D.24WXC0I3O6AQB@bsdbackstore.eu>
- <20250407174854.10132-1-goralbaris@gmail.com>
-In-Reply-To: <20250407174854.10132-1-goralbaris@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPZ5DTHKSzg6UV0bT5U9Xet7jL1c__n+GgfYz-38GybGzerYNQ@mail.gmail.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdeffeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgheeuieeikefhgfdvhfehiedvhffgjeetfffgtefhudfgtefffeevledtleejteenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmegrugdtfeemgehflegtmeeffeejfhemfheffegunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmegrugdtfeemgehflegtmeeffeejfhemfheffegupdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtohepsghhrghrrggufigrjhdrrhgrjhhujeejjeesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhrthgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgp
+ dhrtghpthhtohepshhhuhgrhheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghv
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-On Mon Apr 7, 2025 at 7:48 PM CEST, Baris Can Goral wrote:
-> Hi Maurizio,
->
-> Unfourtunately, in version 6.14-rc2 (and also v6.14) strncpy is still the=
-re.
+Hello,
 
-Sorry, my mistake.
+On 29/03/2025 19:59:46+0530, Bharadwaj Raju wrote:
+> On Tue, Mar 18, 2025 at 3:21 AM Alexandre Belloni
+> <alexandre.belloni@bootlin.com> wrote:
+> >
+> > On 18/03/2025 00:03:43+0530, Bharadwaj Raju wrote:
+> > > The trace call invokes rtc_tm_to_time64 on a
+> > > potentially uninitialized alarm->time. Move the
+> > > trace call to the path where we do successfully
+> > > initialize and read that struct.
+> > >
+> > > This fixes a KMSAN warning.
+> > >
+> > > Fixes: 29a1f599c0cc ("rtc: Add tracepoints for RTC system")
+> > >
+> > > Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+> > > ---
+> > >  drivers/rtc/interface.c | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/rtc/interface.c b/drivers/rtc/interface.c
+> > > index aaf76406cd7d..82ba33bf478b 100644
+> > > --- a/drivers/rtc/interface.c
+> > > +++ b/drivers/rtc/interface.c
+> > > @@ -201,11 +201,12 @@ static int rtc_read_alarm_internal(struct rtc_device *rtc,
+> > >               alarm->time.tm_yday = -1;
+> > >               alarm->time.tm_isdst = -1;
+> > >               err = rtc->ops->read_alarm(rtc->dev.parent, alarm);
+> > > +             if (!err)
+> > > +                     trace_rtc_read_alarm(rtc_tm_to_time64(&alarm->time), err);
+> > >       }
+> > >
+> > >       mutex_unlock(&rtc->ops_lock);
+> > >
+> > > -     trace_rtc_read_alarm(rtc_tm_to_time64(&alarm->time), err);
+> >
+> > This removes the tracepoint when there is an error, rendering it les
+> > useful.
+> >
+> > Also, as discussed about a year ago, alarm-time being uninitialized is
+> > not actually an issue as mktime64 can handle whatever is the input so
+> > this will never cause any problem so this isn't really a fix.
+> >
+> > I suggest the following:
+> 
+> Thanks for reviewing. Would you like me to make a second version of
+> the patch with this suggestion?
 
-commit dfb7df1ddb29c89662e84b2c82c1ff7943358ae0 that replaces
-strncpy() with strscpy() has been merged in kernel version 6.15-rc1
+I've sent my patch now.
 
-Maurizio
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
