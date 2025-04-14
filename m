@@ -1,66 +1,23 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E588417578
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 13 Apr 2025 22:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E904D247292
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 14 Apr 2025 14:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744582289; cv=none; b=aYjOR18mK9ZwKu/XVPaoukFcygaFM5AQuFw1uqHlyo/y1sdC8x8LF/XsRzHt57lc+FGjNe8O8z+IjQTuJgYz4j751GndrCgDKfCksRRlnlzG/fmp0oWLyWaD3MBhtGMtBPCu+z26gfF53l1ieeKXA/CIHKlzGg+wFw7gZHa39Lk=
+	t=1744639392; cv=none; b=SGim55RylDP+Mp5cFDa8A/pUpyB2eIB9UMqIVebSnBvYiVBKx7FwrPrXBMMB3BYApD2bgBY4QwTPACwGN0LJ44hcy8kfNEAjF4a6rdwGIWlJ+pSFITPSUaLy3SVqbu6PGVGQn2ko7Gaf2xoIKtk31VeXnY0lFGfRQDHTczjArcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744582289; c=relaxed/simple;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=SeV+eTbJYlxEwqTzgnGl93EEm+09r7fSTyQqewoCPGKzcg5scn8GQqi14rXrQ9895L5LRnSzaPt/0b0pYETHmuVNNgWTmqPp7QSU8AGyDAhcKc1soLJpOoJckPXhN4QgNcYwxlFG2F5DRGRmDWhTHJr5UTcqlCq/nBuk9SS35Cg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 6C69141202
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 13 Apr 2025 22:11:28 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.092
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id MZ-S6YjKnNoV for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Apr 2025 22:11:28 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.221.41; helo=mail-wr1-f41.google.com; envelope-from=sagigrim@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 7895540FA0
-Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=grimberg.me
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7895540FA0
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7895540FA0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 13 Apr 2025 22:11:27 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-39c1efc4577so1887891f8f.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 13 Apr 2025 15:11:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744582285; x=1745187085;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=K0tMywCRtbX0yCL8nHKtOUbtG/uAraljMdIKf2pdF45ECGKpG1jBybYv0+8zZnCc46
-         laDvXxvM0um+7WWbvuhdvI5i5KHEOnW66WLjRvFmaDVwimTt7TQEYMa3Xm0i9WTSMUZk
-         +I43bOsbyzCyu45p3LGApURheX+/UOY9kwV8eCFw2AGgij9EKHI4ruk4X+3htQySz18D
-         w8o4OwvYZDzvsO8F4fp7QR3jfrPui7mKjyz8oorz5A9QZMBh+sLjEK8qdyx073a+YSD0
-         v/4/qDLim5CyAwi21eROHwnvXGNC9HeIxesw0XYJsAH7b8JEUkR3o+Mej4RICAahQOYL
-         YYPw==
-X-Forwarded-Encrypted: i=1; AJvYcCVrDw/DOdkLtGaN6oDt809Ny8QdbH7g9ltlKHf+LXDlKyaFXjWiDR2FL+25yXFy6fYVp8xg10j9YTcuUWTqBynBiU6DEg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyTKApfFwPk03HForiGrTc9z/VaAnp8gF5HCPDNKKDcgId0QFlv
-	ALA5ASLa3xzo69lelY2U5YQkudTfo/wK+CcY8jjiMn5Lc0LwdnSg
-X-Gm-Gg: ASbGncuz5ORuHTguFngPb+aAxBBJfyBCUeQUoQ19IQ/Ig/Q6RyY7/g8jOXJRme5D+RJ
-	e+59S6hxcVtGgUyTKPDxPO5Ug/5Pfq2MWYbVzNYqwTOJt2QL/dPvcHdH/ETQ0RLTdBBGJEf/nRB
-	jIBBZvp6nJiSfTHCXJwBPldQ1LwLgQw5DdD+LQAfBQLXV57WWnbhvxxvIrJgUmI8pmYNO1xI7MS
-	8xpXfK9gqWfImNlppvxUh9VwU9duZRjc3R7QYSZjc/V3efjLr7Nihl9VS4bZitVIgW3MAKvE/dR
-	tnGhTmYUvXg1zVkVFRw0beQNBgegg5H/T+sU2zNBFCwQd1ot2stkMLyU1xkf4Yo++nSRbk9X
-X-Google-Smtp-Source: AGHT+IECY5XYow+opudYnlXLiLIz9SnQYa9O5VZpi/wrmLJlyiliRrur42MGbUbekQ80eLIKm3KZYQ==
-X-Received: by 2002:a5d:5f92:0:b0:39c:2688:72a0 with SMTP id ffacd0b85a97d-39ea51eee24mr7544676f8f.6.1744582285112;
-        Sun, 13 Apr 2025 15:11:25 -0700 (PDT)
-Received: from [10.10.9.121] (u-1j-178-175-199.4bone.mynet.it. [178.175.199.47])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f2075fca5sm164696995e9.32.2025.04.13.15.11.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 13 Apr 2025 15:11:24 -0700 (PDT)
-Message-ID: <a19f8b45-fabc-4596-b20b-cc219ddafc2e@grimberg.me>
-Date: Mon, 14 Apr 2025 01:11:23 +0300
+	s=arc-20240116; t=1744639392; c=relaxed/simple;
+	bh=Z1otz9cSp4ena0kJ+MGGzF+jGF5EYazLvaOGTBa/c10=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tPVUcTOzisLk8rZxcJo1N5aQsnSc61sW40wiH/gRh6UZHESs7Sml0dNCRZNEejwYIf+aiCporEAwjLjV12JapmJwVs1/t1uH27LF8nyvjlLkdwmmzlVj7HCQEwxslHHE+ASWfzkhZ4rUPPJs94U+nz9C1AHUa2IoueR8WdaJT3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8EB0B43B11;
+	Mon, 14 Apr 2025 14:03:04 +0000 (UTC)
+Message-ID: <109bdc38-b510-48bd-8c18-2a858bd9d168@ghiti.fr>
+Date: Mon, 14 Apr 2025 16:03:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -68,16 +25,211 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvmet: replace strncpy with strscpy
-To: Marcelo Moreira <marcelomoreira1905@gmail.com>,
- linux-nvme@lists.infradead.org, hch@lst.de, kch@nvidia.com,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- ~lkcamp/patches@lists.sr.ht
-References: <20250403232432.25255-1-marcelomoreira1905@gmail.com>
+Subject: Re: [PATCH RFC] riscv: mm: fix boot hang when the kernel is loaded
+ into a non-canonical address
 Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20250403232432.25255-1-marcelomoreira1905@gmail.com>
+To: Ignacio Encinas <ignacio@iencinas.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+ Palmer Dabbelt <palmer@rivosinc.com>, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Nick Kossifidis <mick@ics.forth.gr>
+References: <20250411-riscv-dont-hang-on-noncanonical-paddr-v1-1-dc665a46246d@iencinas.com>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20250411-riscv-dont-hang-on-noncanonical-paddr-v1-1-dc665a46246d@iencinas.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvddtjeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpeejieeuudejieekveeutdeguefhkeduledugeevhefffeejudeggedufffgleeugfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedvtddtudemkeeiudemfeefkedvmegvfheltdemhegvfhgsmeeiieeikeemkeefiegsmegufhgrleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemfeefkedvmegvfheltdemhegvfhgsmeeiieeikeemkeefiegsmegufhgrledphhgvlhhopeglkffrggeimedvtddtudemkeeiudemfeefkedvmegvfheltdemhegvfhgsmeeiieeikeemkeefiegsmegufhgrlegnpdhmrghilhhfrhhomheprghlvgigsehghhhithhirdhfrhdpnhgspghrtghpthhtohepledprhgtphhtthhopehighhnrggtihhosehivghntghinhgrshdrtghomhdprhgtphhtthhopehprghulhdrfigrlhhmshhlvgihsehsihhfihhvvgdrtghomhdprhgtphhtthhop
+ ehprghlmhgvrhesuggrsggsvghlthdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepphgrlhhmvghrsehrihhvohhsihhntgdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
+X-GND-Sasl: alex@ghiti.fr
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Hi Ignacio,
+
+On 11/04/2025 22:15, Ignacio Encinas wrote:
+> Virtual memory systems usually impose restrictions on the virtual
+> addresses that can be translated. For RISC-V, this is specified in
+> the Subsection "Addressing and Memory protection" of "The RISC-V
+> Instruction Set Manual: Volume II: Privileged Architecture" associated
+> with each SV{39,48,59} mode.
+>
+> Addresses that can be translated are also known as "canonical
+> addresses". Using SV39 as an example and quoting the ISA Manual:
+>
+> 	Instruction fetch addresses and load and store effective
+> 	addresses, which are 64 bits, must have bits 63–39 all equal to
+> 	bit 38, or else a page-fault exception will occur.
+>
+> Given that RISC-V systems don't advertise which SV modes are supported,
+> this has to be detected at boot time (this is currently done by
+> set_satp_mode). In order to do so, a temporary 1:1 mapping is set. If
+> the set_satp_mode function is loaded into a "non-canonical" physical
+> address, this 1:1 mapping will make the boot hang.
+>
+> Fix the issue by avoiding SV modes that would trigger the aforementioned
+> bug.
+>
+> Fixes: e8a62cc26ddf ("riscv: Implement sv48 support")
+> Reported-by: Nick Kossifidis <mick@ics.forth.gr>
+> Closes: https://lore.kernel.org/all/ff85cdc4-b1e3-06a3-19fc-a7e1acf99d40@ics.forth.gr/
+> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+> ---
+> This isn't bulletproof because we might skip the *only* level supported
+> by a CPU (AFAIK implementations are only required to support 1 SV mode).
+
+
+Implementations have to support all the lower sv modes (sv57 implies 
+sv48 which implies sv39).
+
+
+>
+> SV48 might be the only supported mode and the kernel might be loaded
+> into a "non-canonical" address for SV48. The kernel will assume SV39
+> is supported and try to boot it. However, this is a strict improvement
+> over what is already there.
+>
+> This issue would go away if we could do the SATP probing in Machine
+> mode, as that wouldn't turn virtual memory on. Perhaps this "SV mode
+> supported" discovery should be offered by SBI?
+>
+> This was pointed out in the original patch review [1]. This issue seems
+> to be of no practical relevance (nobody has complained)
+>
+> [1] https://lore.kernel.org/all/ff85cdc4-b1e3-06a3-19fc-a7e1acf99d40@ics.forth.gr/
+>
+> In order to reproduce the issue it suffices to tweak qemu
+>
+> --- START DIFF ---
+>   diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+>   index 45a8c4f8190d..16c5a63176c5 100644
+>   --- a/hw/riscv/virt.c
+>   +++ b/hw/riscv/virt.c
+>   @@ -88,7 +88,7 @@ static const MemMapEntry virt_memmap[] = {
+>        [VIRT_IMSIC_S] =      { 0x28000000, VIRT_IMSIC_MAX_SIZE },
+>        [VIRT_PCIE_ECAM] =    { 0x30000000,    0x10000000 },
+>        [VIRT_PCIE_MMIO] =    { 0x40000000,    0x40000000 },
+>   -    [VIRT_DRAM] =         { 0x80000000,           0x0 },
+>   +    [VIRT_DRAM] =         { 0x800000000000,           0x0 },
+>    };
+>
+>    /* PCIe high mmio is fixed for RV32 */
+> --- END DIFF ---
+>
+> qemu-system-riscv64 -nographic -machine virt -kernel Image -initrd initramfs -append "no5lvl"
+>
+> should work but
+>
+> patched-qemu-system-riscv64 -nographic -machine virt -kernel Image -initrd initramfs -append "no5lvl"
+>
+> will not boot.
+>
+> (*) I use SV48 to trigger the issue (no5lvl) because doing this with
+> SV57 triggers a warning regarding PMP and I don't know if that might
+> affect something else. The SV mode doesn't really matter here.
+>
+> A couple of things I'm not sure about:
+> 	1. canonical_vaddr won't be called outside CONFIG_64BIT. I
+> 	   figured the #ifdef doesn't hurt all that much despite being
+> 	   useless
+> 	2. Is panicking ok? I don't quite like it but I can't think of
+> 	   anything else
+> ---
+>   arch/riscv/mm/init.c | 43 +++++++++++++++++++++++++++++++++++++++----
+>   1 file changed, 39 insertions(+), 4 deletions(-)
+>
+> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> index ab475ec6ca42..6cd5abc0e26a 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -7,6 +7,7 @@
+>    */
+>   
+>   #include <linux/init.h>
+> +#include <linux/bits.h>
+>   #include <linux/mm.h>
+>   #include <linux/memblock.h>
+>   #include <linux/initrd.h>
+> @@ -844,6 +845,37 @@ static void __init set_mmap_rnd_bits_max(void)
+>   	mmap_rnd_bits_max = MMAP_VA_BITS - PAGE_SHIFT - 3;
+>   }
+>   
+> +static int __init canonical_vaddr(unsigned long vaddr)
+> +{
+> +#ifdef CONFIG_64BIT
+> +	unsigned long sv_mode_mask;
+> +	unsigned long masked_vaddr;
+> +	unsigned long mask_begin;
+> +
+> +	switch (satp_mode) {
+> +	case SATP_MODE_57:
+> +		mask_begin = 56;
+> +		break;
+> +	case SATP_MODE_48:
+> +		mask_begin = 47;
+> +		break;
+> +	case SATP_MODE_39:
+> +		mask_begin = 38;
+> +		break;
+> +	default:
+> +		panic("Unknown Virtual Memory mode!");
+> +	}
+> +
+> +	sv_mode_mask = GENMASK(63, mask_begin);
+> +	masked_vaddr = vaddr & sv_mode_mask;
+> +
+> +	// For SV<X> bits [63, X-1] must be all ones or zeros
+> +	return masked_vaddr == 0 || masked_vaddr == sv_mode_mask;
+> +#else
+> +	return true;
+> +#endif
+> +}
+> +
+>   /*
+>    * There is a simple way to determine if 4-level is supported by the
+>    * underlying hardware: establish 1:1 mapping in 4-level page table mode
+> @@ -887,12 +919,15 @@ static __init void set_satp_mode(uintptr_t dtb_pa)
+>   				(uintptr_t)early_p4d : (uintptr_t)early_pud,
+>   			   PGDIR_SIZE, PAGE_TABLE);
+>   
+> +	hw_satp = 0ULL;
+>   	identity_satp = PFN_DOWN((uintptr_t)&early_pg_dir) | satp_mode;
+>   
+> -	local_flush_tlb_all();
+> -	csr_write(CSR_SATP, identity_satp);
+> -	hw_satp = csr_swap(CSR_SATP, 0ULL);
+> -	local_flush_tlb_all();
+> +	if (canonical_vaddr((uint64_t)set_satp_mode_pmd)) {
+
+
+set_satp_mode() starts by checking sv57, then falls back to sv48 and 
+finally boots using sv39.
+
+The thing is if the address where the kernel is loaded is not canonical 
+for sv57, it won't be for lower modes so no need to continue, the only 
+valid fallback would then be sv39.
+
+So we indeed prevent booting in a higher mode just because we use this 
+1:1 mapping...
+
+Maybe the right solution is to use the mode defined in the device tree 
+if there's one?
+
+Thanks,
+
+Alex
+
+
+> +		local_flush_tlb_all();
+> +		csr_write(CSR_SATP, identity_satp);
+> +		hw_satp = csr_swap(CSR_SATP, 0ULL);
+> +		local_flush_tlb_all();
+> +	}
+>   
+>   	if (hw_satp != identity_satp) {
+>   		if (pgtable_l5_enabled) {
+>
+> ---
+> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+> change-id: 20250407-riscv-dont-hang-on-noncanonical-paddr-9d288f10df8a
+>
+> Best regards,
