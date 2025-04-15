@@ -1,254 +1,160 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B87D1F0E47
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 15 Apr 2025 07:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A1A296D3A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Apr 2025 13:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744701361; cv=none; b=T2s/wQ3jNP+kg0+g0lr8PwEtydSxiVca4HKhtjUjh/4pM5F/NDXS3GzMZg41qR2aOz2JYzdJ020E61aXkBX4W1XEYu0WjcQAG1yYdv04CbIcJ+w4y7PPnB11fDCdX1kHnU8DKSFO/pYPuUOcqxfv+qW/K41edoBuCbCZgebzBd0=
+	t=1744722599; cv=none; b=TdkH5dF7jAeJp/NN25NTkt5wXTU8zcLRyZ9LrF3doF9XxXHKmvfIFvngslxgYGdTgGf3w3dYxCEiva9VHWMMaf/LoZLe4jLHsco2a6waxiccOYhMjbiz58fQXWIcGqFZXEFR+ba9EdgpcJfKS/kdst+lL5WFzoxeR/vCRic3Krs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744701361; c=relaxed/simple;
-	bh=n8/TrNWy+pcEgfSn9bOB9sHA2Wn0PIQKm9/fQ9ZIqQk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mKhK49K9cVn5lshM5Mwm1PdmD8G3tp77gHpIRTaFKesXJJbU+XWIkxlLC/Fxaj53OZ6Ylj8bsBJVtttN99APPoYwBn6wi+gjM5KoQfTDGDc2I0bRuA/Z0NO8uAWRlpdBl+MvmpxDLlWJujieCV2sDH1wMIhRL6fFd1w69SF8Iz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=WBDrLHtH; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+	s=arc-20240116; t=1744722599; c=relaxed/simple;
+	bh=1MnuAkRdhCY1WfObz2NT8vubDqZjZ18y0GbOgq9+SWQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WTunjmnx7tZ83t7O01/QRzr6s2F7BBsU4VVSDpYGIa/FQNIEnEQn6JLYTfG8EY5JoUFC8/9UMks/LX+r495KgcdZUnbOYMojyJTtM++nr5MHPR722TfAkgzvNJizTGcwZ1oJ4Ho3z4WWZ9J/wwHTTalXblP/R7AqVJ5WX0d9dDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UOgfJ5V6; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="WBDrLHtH"
-Message-ID: <4e75e319-e1d5-4760-8b89-663a2a4e8f88@iencinas.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1744701351;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=vZZmeE6StXIzGucgjeueLMsL8EpY9Ab4mCu2HTVFe6E=;
-	b=WBDrLHtH78wx0mGMYhl63LxI9Cdal4tWOq90/T1sYIx0ESQY+z4KW4BaW8/9e7vgWfoAPw
-	MThhFpkcTH6FUv5vjuOxz8bqkCBOb00IAf1NYqrlGE+aOpz2BOaWFHWglSkPOT0r9lI6gR
-	VY1nWnlVB4FCevWPRLN/kkAEdV5kSFbJRzrLeGH0x33TwWpc9uSXC1cNAOgG6yRM+0kyks
-	uvMAd96op3wQwL1CeC7CWeluFRYaEYhfx1OceYeZcmwhnwAyUOlZeOKgeHewosDQvYym5W
-	Kxgd8zI9oOjtzPFvSA7Dcs9Ka/nKkAaBFc0jii45gFC7zUQXYt2+w7LmTHexJw==
-Date: Tue, 15 Apr 2025 09:15:48 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UOgfJ5V6"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 2709D41A92
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Apr 2025 13:09:58 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 6BC6NkrWicD4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 15 Apr 2025 13:09:57 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1035; helo=mail-pj1-x1035.google.com; envelope-from=devaanshk840@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 6D1CE41A8E
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6D1CE41A8E
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=UOgfJ5V6
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 6D1CE41A8E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Apr 2025 13:09:57 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-2ff6e91cff5so5566922a91.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Apr 2025 06:09:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744722597; x=1745327397; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ROffXuJEF8DX7Dlw1Sl0/VWDxHt96RQSrGxvBnC8v/I=;
+        b=UOgfJ5V6TIL0tefMnwVTft9wf9sYrO7DBulZz/XnX0yXF7DZtEEcjKrsPwTevpXLGI
+         frw2cKH9QVCZIM6dDs2haw2bDGAERdF7C4MHxJNeW4SczgHlYUcCFFhhlt68Ug2AqpHM
+         DKW4eFCR58PdEutXJALTfYSSn9Af5Mezo85NHIems75Py4H+cq7PVl9AZx0QeQcL2Ylu
+         /i8ZdFXhgzWxjilOAp0d6YMQEiD93ZBUH22zIFd4Mvbrty6lj8kxbR3eUTmXrWQHFVTM
+         pl02oBreTmVN+XT9+LfVBw4gCPXxK4na+XalTThtkSSfq/4x+eovpCqMYw92umvdwbw4
+         chMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744722597; x=1745327397;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ROffXuJEF8DX7Dlw1Sl0/VWDxHt96RQSrGxvBnC8v/I=;
+        b=LEzRbKOydna/y3/Zym6aaKa4QH7pSJa2HMYc652smCGGJS/sknJDHbvk3JXn0R/UeQ
+         tnceaO0Dv7C++YUwUyECcX9K+7heiTHEdVJckhI81OmmUnvZrWHTtXZQgGqNPeKLrFHh
+         WlGaO6PlgCJyDEPcR2ER7NfkKT1RO27N3YFywyZvQ+UQVNLK7XkXqiQmozhhL4NkIYyP
+         HnRkxgOO5cqbGVxeoxf3z6z0ix+y46DqHQ+LgPvMIlgbTg2Z5R4MeHyLH5LiEqXKcAJa
+         ndD5fraXLrqogmBrtQ4e4dYMsHSTV0ISf+UCWndwO4aSlnG5eYgMt+vnaoYZqEDnfQCi
+         vNhA==
+X-Forwarded-Encrypted: i=1; AJvYcCUEhCAl/abXHxm84I2NxVbACVrywBMj3GbyllkZrEmH7tlTvtO/M3W2k2YWWofAnMKnTHxVEmgrsRfFw4PvwYPwhqfYvw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyzaV9ThHq7Z6dGIS32XUyNpoyhkt44Y8OqEHZmXYqz+tDCiWtT
+	yzZKNQE2BRPp1xbGBkOLChVs3Ya30n5isJLk9k3j9tMdOFHK6oKF
+X-Gm-Gg: ASbGncvABevLtZ8doc9MWJDu8Xwom9ziyZt1yrdqPeFAJI9nlCFQTT2Vx1wIpGUqqcd
+	lbMtvTXf+vBMak+yMtWTxmy2W705C2vuovHhiduVIpOVdtKtyrVOW0yqgJFM63uJyv/f1bz4cA2
+	eG3ilxkiuLuZYp9vaoBo5Q0PloB9MBAdR+Dfqi44Tjg8wEjX426hXEtYd2MqkZYzTW6bRUT3/CN
+	GBetuQWyRamL6QpeoKSrdfW6s7ILaL5FpGHGZHEdnyR5DFIxedHxDiqODzKDq0CxisXE1UwMnFp
+	tnTCwR7tBs8FUuCvAWmy2328Wi8C88H4EOx1yHXI
+X-Google-Smtp-Source: AGHT+IGrbakp3gdJT5engsJp7bS+mmyQ7Q/b+yLZmtwIiI2SeohFbA98WC/ZpRR+orkfQ0nPSrONVQ==
+X-Received: by 2002:a17:90b:5190:b0:2ff:4bac:6fba with SMTP id 98e67ed59e1d1-3082367ccebmr25337882a91.24.1744722596523;
+        Tue, 15 Apr 2025 06:09:56 -0700 (PDT)
+Received: from fedora.nitk.ac.in ([2a09:bac5:3d50:16b4::243:2a])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-306dd10dc4bsm13165254a91.1.2025.04.15.06.09.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Apr 2025 06:09:55 -0700 (PDT)
+From: Devaansh Kumar <devaanshk840@gmail.com>
+To: gregkh@linuxfoundation.org,
+	sashal@kernel.org,
+	stable@vger.kernel.org,
+	ast@kernel.org,
+	daniel@iogearbox.net
+Cc: Devaansh Kumar <devaanshk840@gmail.com>,
+	bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>
+Subject: [PATCH] bpf: Remove tracing program restriction on map types
+Date: Tue, 15 Apr 2025 18:39:07 +0530
+Message-ID: <20250415130910.2326537-1-devaanshk840@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH RFC] riscv: mm: fix boot hang when the kernel is loaded
- into a non-canonical address
-To: Alexandre Ghiti <alex@ghiti.fr>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
-Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
- Palmer Dabbelt <palmer@rivosinc.com>, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, Nick Kossifidis <mick@ics.forth.gr>
-References: <20250411-riscv-dont-hang-on-noncanonical-paddr-v1-1-dc665a46246d@iencinas.com>
- <109bdc38-b510-48bd-8c18-2a858bd9d168@ghiti.fr>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ignacio Encinas Rubio <ignacio@iencinas.com>
-Autocrypt: addr=ignacio@iencinas.com; keydata=
- xjMEZgaZEBYJKwYBBAHaRw8BAQdAYZxeXU5yoeLYkQpvN+eE3wmAF4V0JUzIlpm/DqiSeBnN
- LElnbmFjaW8gRW5jaW5hcyBSdWJpbyA8aWduYWNpb0BpZW5jaW5hcy5jb20+wo8EExYIADcW
- IQSXV5vKYfM26lUMmYnH3J3Ka8TsNgUCZgaZEAUJBaOagAIbAwQLCQgHBRUICQoLBRYCAwEA
- AAoJEMfcncprxOw21F4BAJe+mYh3sIdSvydyDdDXLFqtVkzrFB8PVNSU9eZpvM0mAP9996LA
- N0gyY7Obnc3y59r9jOElOn/5fz5mOEU3nE5lCc44BGYGmRESCisGAQQBl1UBBQEBB0CVC5o6
- qnsTzmmtKY1UWa/GJE53dV/3UPJpZu42p/F0OAMBCAfCfgQYFggAJhYhBJdXm8ph8zbqVQyZ
- icfcncprxOw2BQJmBpkRBQkFo5qAAhsMAAoJEMfcncprxOw2N8ABAPcrkHouJPn2N8HcsL4S
- SVgqxNLVOpsMX9kAYgIMqM0WAQCA40v0iYH1q7QHa2IfgkrBzX2ZLdXdwoxfUr8EY5vtAg==
-In-Reply-To: <109bdc38-b510-48bd-8c18-2a858bd9d168@ghiti.fr>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
+[ Upstream commit 96da3f7d489d11b43e7c1af90d876b9a2492cca8 ]
 
+The hash map is now fully converted to bpf_mem_alloc. Its implementation is not
+allocating synchronously and not calling call_rcu() directly. It's now safe to
+use non-preallocated hash maps in all types of tracing programs including
+BPF_PROG_TYPE_PERF_EVENT that runs out of NMI context.
 
-On 14/4/25 16:03, Alexandre Ghiti wrote:
-> Hi Ignacio,
-> 
-> On 11/04/2025 22:15, Ignacio Encinas wrote:
->> Virtual memory systems usually impose restrictions on the virtual
->> addresses that can be translated. For RISC-V, this is specified in
->> the Subsection "Addressing and Memory protection" of "The RISC-V
->> Instruction Set Manual: Volume II: Privileged Architecture" associated
->> with each SV{39,48,59} mode.
->>
->> Addresses that can be translated are also known as "canonical
->> addresses". Using SV39 as an example and quoting the ISA Manual:
->>
->>     Instruction fetch addresses and load and store effective
->>     addresses, which are 64 bits, must have bits 63–39 all equal to
->>     bit 38, or else a page-fault exception will occur.
->>
->> Given that RISC-V systems don't advertise which SV modes are supported,
->> this has to be detected at boot time (this is currently done by
->> set_satp_mode). In order to do so, a temporary 1:1 mapping is set. If
->> the set_satp_mode function is loaded into a "non-canonical" physical
->> address, this 1:1 mapping will make the boot hang.
->>
->> Fix the issue by avoiding SV modes that would trigger the aforementioned
->> bug.
->>
->> Fixes: e8a62cc26ddf ("riscv: Implement sv48 support")
->> Reported-by: Nick Kossifidis <mick@ics.forth.gr>
->> Closes: https://lore.kernel.org/all/ff85cdc4-b1e3-06a3-19fc-a7e1acf99d40@ics.forth.gr/
->> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
->> ---
->> This isn't bulletproof because we might skip the *only* level supported
->> by a CPU (AFAIK implementations are only required to support 1 SV mode).
-> 
-> 
-> Implementations have to support all the lower sv modes (sv57 implies sv48 which implies sv39).
+Signed-off-by: Alexei Starovoitov <ast@kernel.org>
+Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
+Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Acked-by: Andrii Nakryiko <andrii@kernel.org>
+Link: https://lore.kernel.org/bpf/20220902211058.60789-13-alexei.starovoitov@gmail.com
+Signed-off-by: Devaansh Kumar <devaanshk840@gmail.com>
+---
+ kernel/bpf/verifier.c | 29 -----------------------------
+ 1 file changed, 29 deletions(-)
 
-You're right. The manual says
+diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+index 7049a85a78ab..77a75ccaae5e 100644
+--- a/kernel/bpf/verifier.c
++++ b/kernel/bpf/verifier.c
+@@ -11700,35 +11700,6 @@ static int check_map_prog_compatibility(struct bpf_verifier_env *env,
+ 
+ {
+ 	enum bpf_prog_type prog_type = resolve_prog_type(prog);
+-	/*
+-	 * Validate that trace type programs use preallocated hash maps.
+-	 *
+-	 * For programs attached to PERF events this is mandatory as the
+-	 * perf NMI can hit any arbitrary code sequence.
+-	 *
+-	 * All other trace types using preallocated hash maps are unsafe as
+-	 * well because tracepoint or kprobes can be inside locked regions
+-	 * of the memory allocator or at a place where a recursion into the
+-	 * memory allocator would see inconsistent state.
+-	 *
+-	 * On RT enabled kernels run-time allocation of all trace type
+-	 * programs is strictly prohibited due to lock type constraints. On
+-	 * !RT kernels it is allowed for backwards compatibility reasons for
+-	 * now, but warnings are emitted so developers are made aware of
+-	 * the unsafety and can fix their programs before this is enforced.
+-	 */
+-	if (is_tracing_prog_type(prog_type) && !is_preallocated_map(map)) {
+-		if (prog_type == BPF_PROG_TYPE_PERF_EVENT) {
+-			verbose(env, "perf_event programs can only use preallocated hash map\n");
+-			return -EINVAL;
+-		}
+-		if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
+-			verbose(env, "trace type programs can only use preallocated hash map\n");
+-			return -EINVAL;
+-		}
+-		WARN_ONCE(1, "trace type BPF program uses run-time allocation\n");
+-		verbose(env, "trace type programs with run-time allocated hash maps are unsafe. Switch to preallocated hash maps.\n");
+-	}
+ 
+ 	if (map_value_has_spin_lock(map)) {
+ 		if (prog_type == BPF_PROG_TYPE_SOCKET_FILTER) {
+-- 
+2.49.0
 
-  "Implementations that support Sv48 must also support Sv39."
-
-  ...
-
-  "Implementations that support Sv57 must also support Sv48."
-
-I was quite sure this was no the case, my memory failed me. Thanks for
-pointing it out :)
-
->>
->> SV48 might be the only supported mode and the kernel might be loaded
->> into a "non-canonical" address for SV48. The kernel will assume SV39
->> is supported and try to boot it. However, this is a strict improvement
->> over what is already there.
->>
->> This issue would go away if we could do the SATP probing in Machine
->> mode, as that wouldn't turn virtual memory on. Perhaps this "SV mode
->> supported" discovery should be offered by SBI?
->>
->> This was pointed out in the original patch review [1]. This issue seems
->> to be of no practical relevance (nobody has complained)
->>
->> [1] https://lore.kernel.org/all/ff85cdc4-b1e3-06a3-19fc-a7e1acf99d40@ics.forth.gr/
->>
->> In order to reproduce the issue it suffices to tweak qemu
->>
->> --- START DIFF ---
->>   diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
->>   index 45a8c4f8190d..16c5a63176c5 100644
->>   --- a/hw/riscv/virt.c
->>   +++ b/hw/riscv/virt.c
->>   @@ -88,7 +88,7 @@ static const MemMapEntry virt_memmap[] = {
->>        [VIRT_IMSIC_S] =      { 0x28000000, VIRT_IMSIC_MAX_SIZE },
->>        [VIRT_PCIE_ECAM] =    { 0x30000000,    0x10000000 },
->>        [VIRT_PCIE_MMIO] =    { 0x40000000,    0x40000000 },
->>   -    [VIRT_DRAM] =         { 0x80000000,           0x0 },
->>   +    [VIRT_DRAM] =         { 0x800000000000,           0x0 },
->>    };
->>
->>    /* PCIe high mmio is fixed for RV32 */
->> --- END DIFF ---
->>
->> qemu-system-riscv64 -nographic -machine virt -kernel Image -initrd initramfs -append "no5lvl"
->>
->> should work but
->>
->> patched-qemu-system-riscv64 -nographic -machine virt -kernel Image -initrd initramfs -append "no5lvl"
->>
->> will not boot.
->>
->> (*) I use SV48 to trigger the issue (no5lvl) because doing this with
->> SV57 triggers a warning regarding PMP and I don't know if that might
->> affect something else. The SV mode doesn't really matter here.
->>
->> A couple of things I'm not sure about:
->>     1. canonical_vaddr won't be called outside CONFIG_64BIT. I
->>        figured the #ifdef doesn't hurt all that much despite being
->>        useless
->>     2. Is panicking ok? I don't quite like it but I can't think of
->>        anything else
->> ---
->>   arch/riscv/mm/init.c | 43 +++++++++++++++++++++++++++++++++++++++----
->>   1 file changed, 39 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
->> index ab475ec6ca42..6cd5abc0e26a 100644
->> --- a/arch/riscv/mm/init.c
->> +++ b/arch/riscv/mm/init.c
->> @@ -7,6 +7,7 @@
->>    */
->>     #include <linux/init.h>
->> +#include <linux/bits.h>
->>   #include <linux/mm.h>
->>   #include <linux/memblock.h>
->>   #include <linux/initrd.h>
->> @@ -844,6 +845,37 @@ static void __init set_mmap_rnd_bits_max(void)
->>       mmap_rnd_bits_max = MMAP_VA_BITS - PAGE_SHIFT - 3;
->>   }
->>   +static int __init canonical_vaddr(unsigned long vaddr)
->> +{
->> +#ifdef CONFIG_64BIT
->> +    unsigned long sv_mode_mask;
->> +    unsigned long masked_vaddr;
->> +    unsigned long mask_begin;
->> +
->> +    switch (satp_mode) {
->> +    case SATP_MODE_57:
->> +        mask_begin = 56;
->> +        break;
->> +    case SATP_MODE_48:
->> +        mask_begin = 47;
->> +        break;
->> +    case SATP_MODE_39:
->> +        mask_begin = 38;
->> +        break;
->> +    default:
->> +        panic("Unknown Virtual Memory mode!");
->> +    }
->> +
->> +    sv_mode_mask = GENMASK(63, mask_begin);
->> +    masked_vaddr = vaddr & sv_mode_mask;
->> +
->> +    // For SV<X> bits [63, X-1] must be all ones or zeros
->> +    return masked_vaddr == 0 || masked_vaddr == sv_mode_mask;
->> +#else
->> +    return true;
->> +#endif
->> +}
->> +
->>   /*
->>    * There is a simple way to determine if 4-level is supported by the
->>    * underlying hardware: establish 1:1 mapping in 4-level page table mode
->> @@ -887,12 +919,15 @@ static __init void set_satp_mode(uintptr_t dtb_pa)
->>                   (uintptr_t)early_p4d : (uintptr_t)early_pud,
->>                  PGDIR_SIZE, PAGE_TABLE);
->>   +    hw_satp = 0ULL;
->>       identity_satp = PFN_DOWN((uintptr_t)&early_pg_dir) | satp_mode;
->>   -    local_flush_tlb_all();
->> -    csr_write(CSR_SATP, identity_satp);
->> -    hw_satp = csr_swap(CSR_SATP, 0ULL);
->> -    local_flush_tlb_all();
->> +    if (canonical_vaddr((uint64_t)set_satp_mode_pmd)) {
-> 
-> 
-> set_satp_mode() starts by checking sv57, then falls back to sv48 and finally boots using sv39.
-> 
-> The thing is if the address where the kernel is loaded is not canonical for sv57, it won't be for lower modes so no need to continue, the only valid fallback would then be sv39.
-
-Right, we could directly go into SV39 (perhaps that would be easier 
-to read). However, the exact same thing will happen as it is, we'll 
-just waste some extra cycles.
-
-> 
-> So we indeed prevent booting in a higher mode just because we use this 1:1 mapping...
-> 
-> Maybe the right solution is to use the mode defined in the device tree if there's one?
-
-Makes sense. Using the mmu-type from the device tree + "no5lvl" "no4lvl"
-boot arguments the user can boot into their desired mode.
-
-Should we leave the current code as a fallback if the device tree 
-doesn't contain such information? I'm not sure if it is mandatory
-or if assuming it is might break some platform.
-
-I will try changing the flow and exiting early into SV39 once a non 
-canonical address is encountered in case we need to keep the 
-probing part.
-
-Thanks!
