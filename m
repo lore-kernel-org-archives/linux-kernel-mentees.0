@@ -1,97 +1,110 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80ED29A3CF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Apr 2025 13:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC46F2DFA36
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Apr 2025 15:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744723544; cv=none; b=g+aHKJlQT349ny4Bny5+w/T+rn6dFdxzr/GzDsrRq+9qxqYHNIFUFWtsFDB8a4trchgiRvANqB+TIMudFZnALy4h8sUnUJi26Gr+WS45CqwDY2Kv3D0P/yJMk2ec8/wqEbypvK1ja57q9SrPAMaDjjIGttQAN8Lt0sy9+WuAufw=
+	t=1744729325; cv=none; b=ZDLh8u3mK8ZxAfdf2QO419bqWTKxQiTQvlpt+VRmDtZMnqH5GPyGck84rgyZ+djqYHaMEdGpDcwEGA2qKF8JJHqMV/AKcTzWjx+9ut5FCV7kZQt4GNI6hs+foJqUexk3/6DdnjfVy0pwz1wZGXxg9bf3g0/6oKaEvDZwDJPOkTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744723544; c=relaxed/simple;
-	bh=UYUxPCQcFjA73UAxP9WXueMfGm86K1IfqKd8pR+K0JM=;
+	s=arc-20240116; t=1744729325; c=relaxed/simple;
+	bh=GsenEpf9zvk5P2NHlMMGuoKKYYE9yPtrUU9/iOPSsZw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FGmG3ZSxWTDK7n38yFnyOllCW8y+A4AxZChBDFZFBBMLDja7IbaJObYWa1IwRtlYiJoHh1EirxS0hBXu2aOWIPbbqVTKT41g99c7tjsqz7vxZMSTyZGD76TBd3IyAMobQqXL83sLtqquxcZP3s32a0fT36lbLpC+49iIXL10eMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FixDfJUz; arc=none smtp.client-ip=140.211.166.136
+	 To:Cc:Content-Type; b=FtYokKqgWfOIzwftRKtBqAA+jHJBgPZVHx79Sn1O4JA11Pzg21HpgJvSXeZIw0S6sI/ryczIcDfJ+I7S91ijhKNcrSYz3BAamGIThokNqsM8+ukA+GZ7WcSlE9DphwfIQFsGnV1gwoFEmgX6Neo2o0oMsh/cKC0NZJ0oyz0tcGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ncbf+bEM; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FixDfJUz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ncbf+bEM"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 79D9D60E83
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Apr 2025 13:25:42 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5D3F74128A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Apr 2025 15:02:04 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id RYCA3UpQAcbb for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Apr 2025 13:25:42 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::734; helo=mail-qk1-x734.google.com; envelope-from=devaanshk840@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org E240660689
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E240660689
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FixDfJUz
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id E240660689
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Apr 2025 13:25:41 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id af79cd13be357-7c5568355ffso453524685a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Apr 2025 06:25:41 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id nf8IqVu10W96 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 15 Apr 2025 15:02:04 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=alexei.starovoitov@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org B405A4129F
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B405A4129F
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ncbf+bEM
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B405A4129F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Apr 2025 15:02:03 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-43cfe574976so39305395e9.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 15 Apr 2025 08:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744723540; x=1745328340; darn=lists.linuxfoundation.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UYUxPCQcFjA73UAxP9WXueMfGm86K1IfqKd8pR+K0JM=;
-        b=FixDfJUzI6lkBfPT611dtmttRGI+hiJLixMbieASstUhm36iBMp/5k90r93gm6LEgS
-         v5IqICX2+OYxIiVxc0nrHb7hcqahMrvpmrKzhZs0qdCAmdWSkYATOo046kptBDYiknU7
-         yNfGuA9Q1ozs2yQo1+7bJxz98QwPIgY8Iu7Fo8U99te6BjwnZz5y49evsVYSVVb2eBxk
-         x5jqTsjEkPjWXjc1780aTN1/aFN4pB0FfL6RmMXERJru98XJf6aS3xFy4NKxwIkU0G7C
-         JQnr3YtVFI2jU6lg7g5mN+PfW+M+3i0Goc93UnQs2dd4hYNZAAx3xHJTicEZWLWmPisQ
-         CrCw==
+        d=gmail.com; s=20230601; t=1744729322; x=1745334122; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GsenEpf9zvk5P2NHlMMGuoKKYYE9yPtrUU9/iOPSsZw=;
+        b=Ncbf+bEMWvVRB2dRT8TnncKYf+oqRw3LK0bhoqI5KayQTb2In3ZLbHg7G1oG0Lh7k3
+         eCWu1TT4jXqDDRI/m8CnuUDb9fChihR7FJW3AUyDfUSmzmWy6ZsBJoMJSm4nlEIWmGFv
+         f1ZTIYYL8H+kY0VdNLhqGic20t5zAeiBztO2DX5MsX/duzakJHexDFuJ5ljJQ0+QST3O
+         uxtRSxFJcijFOBMTkPRm6LiXYPVAKRo2IC54NWWwuU/FAHE3JOJ1mRo0FDQxa50MRmW8
+         46m2UlQEagQ2n+UVWIy3+PoPyM9TBjvMMSaChWHwU3ZT7Yj0lPs+AsgVYLiaQGsfSYd0
+         VZtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744723540; x=1745328340;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UYUxPCQcFjA73UAxP9WXueMfGm86K1IfqKd8pR+K0JM=;
-        b=qSYt2gDN1/Z4A7zT8dKEPdNgPFrtpxGsuK2EA1DP/ecmHS7b2wu1kYWMXMFGxkir/P
-         I1oR1vDwLRT1a3B7lMLIRv0H6Lhp0gJehWEDyMlx3wA8yEgHboAL2srIWMS5Y3eI2Y6k
-         QtkcSofQTmN57WYr/5S9dT/1XKhe43eWOmTGGfB4yiF68AYECKDCA5kwiFuPiEYoYbUq
-         43ZneswewpLfEYOE8dmFaMHNeAQvvKUxC/xsmLpIVs4nFkuagfFYwELL4eyt+gcO9QXM
-         xUtpR3g627/FWE0FJTbjrOFGWNzI30kr5KhvLKa0g6bgt07MKOeC6H4AW2dAlYHIy6lD
-         Q0sQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWvtMjYhqUjoJaPFJxlKUWTMZjb+z0sRFKC8rz/RmNtZmPuPrk7YIc+/zIwZAczXcvVOdRTzsqKzXPHFQ5xHzi0qsSfKQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxXNbY4sPAVBmk3V3frh5nHnkDHX9hcC22JfIPmQp5N6xiT0itP
-	fiz6xdt52ne/6ISIEZHLnanbM55oK+4h4hEM2JsCwxtXQiLkh3xonGrqMjevZHuPpnFaHhscYa/
-	5aMYlH6GwhP/pt1eR1vXoa3QJDas=
-X-Gm-Gg: ASbGncvSow0hARfFPIuxtD2bzZ4+tsDChPxp4q8VQdDcT900HEFOmV9z/rpUpHxtwTA
-	H0DDDvuaeGWaMRaSZIsnDV/tJ4VLajb3XqULYS673DDzwL37Wt6kH2gZwbYm/cV8c6//I0Ztnmd
-	uVhIpkVvtjEcfOzELucIijYXl5vURmUU8mer6I/HKo
-X-Google-Smtp-Source: AGHT+IENUN3q9zUEpgp0yO+rQb1K6OiXAS8mHfuVjSa2hIIBeaF+kQ/tbXuTPbB9DLJpwa+uw5WeJlKVWmA3cg4aR3k=
-X-Received: by 2002:a05:6214:23cd:b0:6e8:fb8c:e6dd with SMTP id
- 6a1803df08f44-6f230d55533mr226917916d6.5.1744723540626; Tue, 15 Apr 2025
- 06:25:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744729322; x=1745334122;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GsenEpf9zvk5P2NHlMMGuoKKYYE9yPtrUU9/iOPSsZw=;
+        b=XHteKGs8k+o6fSA4HPGgLFCdWQ9jzooz+pvbyxa2KDJVzRLCjwWUWrtnhB5tUFFyV8
+         KQCBqa3A+8vj73a072cgKS/7KOtyZtEm+CE9LFLysFPfceFrhmtgACAG1dJOcEKJC637
+         Oe/pjs0Ul8ZROZvzgDf6f3d3SSLafhB3iMuk8q9dolvpFOCq+pAIMql+lDadwlLPZD/w
+         eCsqE8Day24WJYzp/plriiIMnlfvlgINHIpKLt3x+3IdhK45arMN5//lxQIaVJtxfZlm
+         yEws4ZDvbP3iExZRUDnFINH9Rv8Nw7MAYGJxFL77/3EFXK0ETof3FTJO+PFpFVRdX7yy
+         mzDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXPWFGZ1BeTL5ZDhl7iX6Kk4A/yznT6Tf7tz/ZniI109OKPQSOCWaue7eziQqRzjO7SnpCXwIKWv31nYFjn1nBViPedDQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yy9HjRNbSDHbR4T1NvLR4z/OP2J1RRofpQ+iY5RQop9nudTfqQy
+	+6bFv1zQ4sWpq9DhmT91Z0UhpZRCsAoDcnCKtKrRZHJ44Hlfv0THNt0onnac1MyIhhFwCqaFUaU
+	Bv9GPhOreJsYnjOHJk3Hz/Lalz98=
+X-Gm-Gg: ASbGncvHNigM7hCmS7f+qKxOn5zVOXSS8M1qpyMO6aWQ2hl8kWyj4w1CPqojILXuhOj
+	rsaCX6NUKxjaJ3Ei8GphA6zrKlxBlM95MdSyRxUDxqNFkH3u9olaO0edxy/qHq5baIjgHzC2y5b
+	+O/g4+4IIFS4KKae7Isk81dkYKOjDGKiKXw4BV
+X-Google-Smtp-Source: AGHT+IEEhlDJ89C3taeDQubyKWfbYArOMdjq8xhOrlVTpBQsoWre14ibe31rWsDsbwAwV9z2K2Ku82lM0PdbZnwrGCM=
+X-Received: by 2002:a05:600c:502a:b0:43c:e6d1:efe7 with SMTP id
+ 5b1f17b1804b1-43f3a9a70famr126994785e9.26.1744729321032; Tue, 15 Apr 2025
+ 08:02:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250415130910.2326537-1-devaanshk840@gmail.com> <2025041517-semicolon-aloft-9910@gregkh>
-In-Reply-To: <2025041517-semicolon-aloft-9910@gregkh>
-From: Devaansh Kumar <devaanshk840@gmail.com>
-Date: Tue, 15 Apr 2025 18:55:28 +0530
-X-Gm-Features: ATxdqUE4dS_DLldbw8HBu898mJglnFnspTU3D7RHe1XAP46zEEX3kVq6zmxadGs
-Message-ID: <CA+RTe_hfdgPTwVX_pizHVnsDDFJoEOQD=dH3KuBXuDbycU0yXQ@mail.gmail.com>
+References: <20250415130910.2326537-1-devaanshk840@gmail.com>
+ <2025041517-semicolon-aloft-9910@gregkh> <CA+RTe_hfdgPTwVX_pizHVnsDDFJoEOQD=dH3KuBXuDbycU0yXQ@mail.gmail.com>
+In-Reply-To: <CA+RTe_hfdgPTwVX_pizHVnsDDFJoEOQD=dH3KuBXuDbycU0yXQ@mail.gmail.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Tue, 15 Apr 2025 08:01:49 -0700
+X-Gm-Features: ATxdqUGwfpjQ3TEoIluDDdRzEK7VnkQJBv8D-i6PQJaXxr2L8ySLffMkEFa_6W4
+Message-ID: <CAADnVQK=z2eWgcH2duiwkkVC-4RctPVZ+fqdC9KYiV7HUy0i8g@mail.gmail.com>
 Subject: Re: [PATCH] bpf: Remove tracing program restriction on map types
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: sashal@kernel.org, stable@vger.kernel.org, ast@kernel.org, 
-	daniel@iogearbox.net, bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+To: Devaansh Kumar <devaanshk840@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>, 
+	stable <stable@vger.kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, bpf <bpf@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-kernel-mentees@lists.linuxfoundation.org, 
 	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Andrii Nakryiko <andrii@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 15 Apr 2025 at 18:49, Greg KH <gregkh@linuxfoundation.org> wrote:
-> what kernel tree(s) is this for?
+On Tue, Apr 15, 2025 at 6:25=E2=80=AFAM Devaansh Kumar <devaanshk840@gmail.=
+com> wrote:
+>
+> On Tue, 15 Apr 2025 at 18:49, Greg KH <gregkh@linuxfoundation.org> wrote:
+> > what kernel tree(s) is this for?
+>
+> This backport is for v5.15.y stable version. My bad, I should have
+> mentioned it in the subject.
 
-This backport is for v5.15.y stable version. My bad, I should have
-mentioned it in the subject.
+Nack.
+
+5.15 doesn't have bpf_mem_alloc.
+This backport makes no sense.
