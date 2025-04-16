@@ -1,65 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EEB4185920;
-	Wed, 16 Apr 2025 00:19:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A151E5B7D;
+	Wed, 16 Apr 2025 11:17:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744762769; cv=none; b=JCUglzjXZyDCeFo6l2dx8v4YN9+xbR5KkYJ/Q51hREWF6Lq6QUzGbts7mU206P3q0loVor6OjR2+5RauJTJnIeax5EYtuFv3MOM/W5Qn0UGwTcRgNlGX82ns3N4nCesDYOR1AjhNjjrE+Kqvv5QcSLlvH4cOd2dyXUpbNVRuV2g=
+	t=1744802252; cv=none; b=OULiVM860aj4n5tq9AcGHq4MjFVxodwgJ3tXJy/8AxYSWsEm6VwrFSAky6X6EMW8+g00rkCICgEoc3fRnuAgO3Idup9sd+nUuwL4kcMcRogQtmQoVhaSce6as9ulAnh/DfxXrw3M4DFAXkYdwnswl7l1kiq3Jf6tV1VhcpIM9zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744762769; c=relaxed/simple;
-	bh=3SFSkOv1V4kUc0PGBbEZf0lUcEdotYE/XwhRIWozbQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qUECbw73+35+LXCTf0yIFt+53HgXwvOCTEdmNEWQJ5UxV2U2IGM8AczOq7A4CB02zkHUlaZHH/WfSqW2fEYUiYPHp1c70VC91tP8GIJT/y9yu8kggajXOsP3cKGzJYd5V38epn1yg06RH+DpXMwelsAqa3e9x7wST2TsWqR9lLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RUdkxXkh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744802252; c=relaxed/simple;
+	bh=Tns0B+Lx33i0bZLUWL8ldbxIJCfVLDFfE5hioMKfZq8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nvAcqSfuOu0jVjyt65F1QKV6crFy9OvZ6HlQJEAr1LFAOu+Facm4vx+dS1qo6efIDRe1dIdfUYg8WIKgWJtCH209nMEfZQ/CwMUiDAbrzEwGzBo8Fkt7e9+asB9SiDsNMQ03pw5nci/dJT0xTejh6svlCCG5AV82NT/vSuq/+L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JTll02ek; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RUdkxXkh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AFBDC4CEE7;
-	Wed, 16 Apr 2025 00:19:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JTll02ek"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B943C4CEE2;
+	Wed, 16 Apr 2025 11:17:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744762768;
-	bh=3SFSkOv1V4kUc0PGBbEZf0lUcEdotYE/XwhRIWozbQo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RUdkxXkhX7znYRhN2yDnYDmrgkhmQNYgil9t1tSHAioqAXf7enFW/t3p74Q5Hqr1G
-	 6NzTlLmmYBGomj+CyjigSQ1pl0q+h84qAupiOBpkemR6/MncKaIsMTlukXQhLggpC2
-	 VpoSDuMXHnmSqlOgxNVwUKDIZMuJbP9wcSJpR1WOd3ad+YZmVgCjBCCD3wWdsHoto9
-	 nEbpbOptby8+9SytLz7pO7pOWqKgOEEYLjsqOllZ4vi/02TRhETbqkIN0MDudKksQV
-	 IH5OFTCUrryORovwYfv8SX6sp811XtxorfRJaYS4RFLBeyUX8qFjhZDu+/f3xAUjEO
-	 yrXSGUbJzJPGw==
-Date: Tue, 15 Apr 2025 17:19:27 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Simon Horman <horms@kernel.org>
+	s=k20201202; t=1744802251;
+	bh=Tns0B+Lx33i0bZLUWL8ldbxIJCfVLDFfE5hioMKfZq8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JTll02ekcKe1jlqCoPVhTCAkEgiW8DE+pguYTZ39jsWALpERR+gWzFGVWuGkZmmpv
+	 azgt/TjtXkPg7GJX3DH+OvoGEITdVCDMhuJkFGz6f0luN6t9Any2c9tEjM9l+hyJ+k
+	 EsKY7u2a7P+vu6NJYnnggF3MtumZj3PwUS0/KPspA4mgsNragjgiNd6cWrvpG+yuMi
+	 xnc4OlIWol3OjyfhPqOotMylbLZkOcUoRJHpBq6F0gr+WuWP+L9gB2x2xXMcCCBtzC
+	 XmWHDoFGFRlgt6l67IclouDdU8yI59V1avgnDcHme9bB9hrlemdIQdNNIjGLUKf+go
+	 nMgsqHmTch1dQ==
+Date: Wed, 16 Apr 2025 12:17:27 +0100
+From: Simon Horman <horms@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
 Cc: Pranav Tyagi <pranav.tyagi03@gmail.com>, davem@davemloft.net,
- dsahern@kernel.org, edumazet@google.com, pabeni@redhat.com,
- skhan@linuxfoundation.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+	dsahern@kernel.org, edumazet@google.com, pabeni@redhat.com,
+	skhan@linuxfoundation.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
 Subject: Re: [PATCH net-next] net: ipconfig: replace strncpy with strscpy
-Message-ID: <20250415171927.5108d252@kernel.org>
-In-Reply-To: <20250415163536.GA395307@horms.kernel.org>
+Message-ID: <20250416111727.GO395307@horms.kernel.org>
 References: <20250412160623.9625-1-pranav.tyagi03@gmail.com>
-	<20250415163536.GA395307@horms.kernel.org>
+ <20250415163536.GA395307@horms.kernel.org>
+ <20250415171927.5108d252@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250415171927.5108d252@kernel.org>
 
-On Tue, 15 Apr 2025 17:35:36 +0100 Simon Horman wrote:
-> > @@ -1690,7 +1690,7 @@ static int __init ic_proto_name(char *name)
-> >  			*v = 0;
-> >  			if (kstrtou8(client_id, 0, dhcp_client_identifier))
-> >  				pr_debug("DHCP: Invalid client identifier type\n");
-> > -			strncpy(dhcp_client_identifier + 1, v + 1, 251);
-> > +			strscpy(dhcp_client_identifier + 1, v + 1, 251);  
+On Tue, Apr 15, 2025 at 05:19:27PM -0700, Jakub Kicinski wrote:
+> On Tue, 15 Apr 2025 17:35:36 +0100 Simon Horman wrote:
+> > > @@ -1690,7 +1690,7 @@ static int __init ic_proto_name(char *name)
+> > >  			*v = 0;
+> > >  			if (kstrtou8(client_id, 0, dhcp_client_identifier))
+> > >  				pr_debug("DHCP: Invalid client identifier type\n");
+> > > -			strncpy(dhcp_client_identifier + 1, v + 1, 251);
+> > > +			strscpy(dhcp_client_identifier + 1, v + 1, 251);  
+> > 
+> > As an aside, I'm curious to know why the length is 251
+> > rather than 252 (sizeof(dhcp_client_identifier) -1).
+> > But that isn't strictly related to this patch.
 > 
-> As an aside, I'm curious to know why the length is 251
-> rather than 252 (sizeof(dhcp_client_identifier) -1).
-> But that isn't strictly related to this patch.
+> Isn't this because strncpy() doesn't nul-terminate, and since this is a
+> static variable if we use len - 1 we guarantee that there will be a null
+> byte at the end? If we switch to strscpy we'll make the max string len
+> 1 char shorter.
 
-Isn't this because strncpy() doesn't nul-terminate, and since this is a
-static variable if we use len - 1 we guarantee that there will be a null
-byte at the end? If we switch to strscpy we'll make the max string len
-1 char shorter.
+Yes, that makes sense to me.
+And so I think the patch should also increase 251 to 252.
