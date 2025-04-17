@@ -1,99 +1,113 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780B622371B
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Apr 2025 16:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E450254AF6;
+	Thu, 17 Apr 2025 16:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744906663; cv=none; b=TTdLq566hJX5qvSb2th5wvJyu34lOGfmnKPD7txsqmquYeUxpeBZbAg/avxaIHyhEmp5IByb2VzwiyGqKX7xLX4F879G0bakRGBs2oG5NHSZVQANoJR2ggW2AF32GFtF6EAqzl9Uqj201UInaxh+E3bvjghsPqwcqir2/2mVgHI=
+	t=1744908471; cv=none; b=u/fuAHdNRIpYzZmK2t3go7Cdu3JXhl1YDoBtXUx8iNiq+ODERPLZlBhKHollx9/bGInJLnvR3nr0OJ3LT4KNEXrjukCCXsZjvx0n6pVhBG1HR/moh8/uCQdqrhZ+j5yxFDPRaiYRiGgiHkxSj9D4Fbdbfx8eYmPV8naVUNYRFq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744906663; c=relaxed/simple;
-	bh=YdyGYQvJPxptB7Ud1K9823h/vEclrujKLrEKCBQa44w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PHX9i6kUrK+zdMwAQAYoIZy85gO6K08NrM4BHMGuCPIcFkKjfzBFJ7HW82uahHqWkD4tSIVua4IJN63tAdk52dDT+FWy8sNPdZdhNiM6hT06/boflkio42dhiDa7tyouD1ol5L55+t2MY2iirS6bzJb3rf5UbikiNpxcGUAcb3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Gq89bzuS; arc=none smtp.client-ip=209.85.161.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Gq89bzuS"
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-603f54a6cb5so472079eaf.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Apr 2025 09:17:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1744906659; x=1745511459; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uJ86ga6RjrBQ4jtVg7iGsvEs2Pk/5xuTneiTlVnUO0k=;
-        b=Gq89bzuSUdDW3k/DfAxpFiGuGN+EzjFWl8LsNxVOOW8Lp/e+s+e8rEJmQBKZOfkB0G
-         w5XosN2JPNdVTbuOfb/E3CeMjUW/JpSEiaUR1hpixg8phsQgqCpgczjaT9wJ79E5Z4LX
-         9drp0Rtm3lQYrLdNLDaowh47dj382f75jYtEgyrvlC5ZfmGKuVHMirpBLC6Kf7TWyNGz
-         R2kc8EfQEdb1dRAbgKsQWtvRml5rM12OgImbyA0Tkq2wER5rw7IdauaPxGAkLGz6iZJq
-         ECbiNCTaTgNphmo9KEPQNeGmBRFEr/E2zSjJGJwGb6CPFeab4QRpoisFd03GS5FCveYu
-         8bIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744906659; x=1745511459;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uJ86ga6RjrBQ4jtVg7iGsvEs2Pk/5xuTneiTlVnUO0k=;
-        b=p1Uxt5AVGtPL5xDNelVda4dVu/VDf11HbayVdgjX4Ox8MwHxUdMMdNsR1wJBwwEk7N
-         unm/Kv8KB7CFt53GB8cNCEIBZA4A47OQllAnwltTZPAqkawyT1YHj4+DkeD+Ufu32xg2
-         P97q2ItmnUxD1+X2V9jLIPDwxqMuSq8tueBb9CcSn6ki3u6q24bRwB8s9onA1LqGRtyI
-         9ph97OO3BT0EYRiyNwYGYXetai9EScuHRjgJdFl1qlu8V7xL1W6QCD+CDiGDspMolbqP
-         N5LdZePWPlZVtGoOcYkGRAxeGPLKHrV5wXUH7XtSYdl3J5uZ+z+6bLSQFA9foOstp+sU
-         hI7g==
-X-Forwarded-Encrypted: i=1; AJvYcCUZSWMQQUMq/5ZzeXs9ueWukFaMNuP0O44R9jEHTBYtMGkiqaM/KL1lQjkO128/Mx3DQ5kfoQzqGN4W4+SOVInmUU6wmA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxuZIyqfwQyE5Po/+3rF/4nhMm+7Ia4NzVB1UXLuQd1fFrXSWfu
-	KessXhVIvofJOnaVo4B87Cb5deTntDd3gdmv83czzXashXljBBc9bUCNmz3NtnY=
-X-Gm-Gg: ASbGnctHebkPmVwUCV4Jiz8USuW+Nx5Sx5sP68S9r+fNqPKy/nhhyJ7BqkVAFPP3xAX
-	rMLjlw+LxlDa0gMCeGs2XFPus9TMHAw04y16rEk7zsKNiiV34AzLoYwAmIS7GNbFSFj8k8DJW8c
-	sm0pL7te5ozxqEBER5yw0Q3Dj6/J5W7sF57hD1wFhgDRh4kEuLaevvvqbEPP3awS3Ra4lp1FGWm
-	wZVU/3s0pk9tG4C2Z81Z4mXqxp1r5/rxJbL8S2o5dOYBkk/2C0dllgaDL/lVAtwUAxKziR9EE+z
-	dqd6DVyxeqbFoOr/33cBkUlz/SIJ59g+n8KTyjHguAmUzwIAbx2KUA6SLVwDHN985BTV3y6XTo0
-	lTeLn0rp8+Rpi4vf0AA==
-X-Google-Smtp-Source: AGHT+IGBBgE75fsVkLXxYoZqV19j+mS6o4e4vTLZSbr9DKTQoVtLZ0+RYC5g8QIKrdP0fbpy7FLYJQ==
-X-Received: by 2002:a05:6820:1e13:b0:604:6b0:c259 with SMTP id 006d021491bc7-604a931e696mr3952610eaf.4.1744906659563;
-        Thu, 17 Apr 2025 09:17:39 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:1d00:c91b:eea3:7afd:2dee? ([2600:8803:e7e4:1d00:c91b:eea3:7afd:2dee])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-605ff6aacf5sm12896eaf.39.2025.04.17.09.17.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Apr 2025 09:17:39 -0700 (PDT)
-Message-ID: <cd50b4eb-ef6c-4842-88cd-932042ca2629@baylibre.com>
-Date: Thu, 17 Apr 2025 11:17:37 -0500
+	s=arc-20240116; t=1744908471; c=relaxed/simple;
+	bh=nWrQDIlA8rQPuxUJkMr95BwMdVJ0m+hXPuyEJovSlKg=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZGlGsMbRBSfsr8IRwbznEUCccIl5hbbC59dpbm3AjIch/CXbcyqR03XXywfVU/yJVIMrL+ixxcYycgRA1LBnZQ6AmSpKwLPWP3/jwV5GiYBiynRMSXgIV/q41YArCqa3Aj26mtWRjf+QL2XzjGfWUCoEeYTys0mWurCeMBZxSVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4ZdkH468gxz6K9Nk;
+	Fri, 18 Apr 2025 00:43:28 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 58361140146;
+	Fri, 18 Apr 2025 00:47:46 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 17 Apr
+ 2025 18:47:45 +0200
+Date: Thu, 17 Apr 2025 17:47:44 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Charalampos Mitrodimas <charmitro@posteo.net>
+CC: Gabriel Shahrouzi <gshahrouzi@gmail.com>, <skhan@linuxfoundation.org>,
+	<linux-kernel-mentees@lists.linux.dev>, <gregkh@linuxfoundation.org>,
+	<jic23@kernel.org>, <lars@metafoo.de>, <linux-iio@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<Michael.Hennerich@analog.com>
+Subject: Re: [PATCH] iio: frequency:: Remove unused parameter from data
+ documentation
+Message-ID: <20250417174744.00007ea6@huawei.com>
+In-Reply-To: <2cc70f19c1b001ea7f2cf0632618d060f69faef0.camel@posteo.net>
+References: <20250417143220.572261-1-gshahrouzi@gmail.com>
+	<56edfb88d3f31939fb343149bfad436f24671f9d.camel@posteo.net>
+	<2cc70f19c1b001ea7f2cf0632618d060f69faef0.camel@posteo.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iio: frequency:: Remove unused parameter from data
- documentation
-To: Gabriel Shahrouzi <gshahrouzi@gmail.com>, gregkh@linuxfoundation.org,
- jic23@kernel.org, lars@metafoo.de, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- Michael.Hennerich@analog.com
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-References: <20250417143220.572261-1-gshahrouzi@gmail.com>
-From: David Lechner <dlechner@baylibre.com>
-Content-Language: en-US
-In-Reply-To: <20250417143220.572261-1-gshahrouzi@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On 4/17/25 9:32 AM, Gabriel Shahrouzi wrote:
-> The AD9832 driver uses the Common Clock Framework (CCF) to obtain the
-> master clock (MCLK) frequency rather than relying on a frequency value
-> passed from platform data.
-> 
-> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> ---
->  drivers/staging/iio/frequency/ad9832.h | 1 -
->  1 file changed, 1 deletion(-)
-> 
-Please include the driver name in your patch subjects. Otherwise readers will
-assume that this is something that affects all IIO frequency drivers. I noticed
-you are doing this on all of the patches you are sending, not just this one.
+On Thu, 17 Apr 2025 15:57:48 +0000
+Charalampos Mitrodimas <charmitro@posteo.net> wrote:
 
+> On Thu, 2025-04-17 at 15:53 +0000, Charalampos Mitrodimas wrote:
+> > On Thu, 2025-04-17 at 10:32 -0400, Gabriel Shahrouzi wrote: =20
+> > > The AD9832 driver uses the Common Clock Framework (CCF) to obtain
+> > > the
+> > > master clock (MCLK) frequency rather than relying on a frequency
+> > > value
+> > > passed from platform data.
+> > >=20
+> > > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+> > > ---
+> > > =A0drivers/staging/iio/frequency/ad9832.h | 1 -
+> > > =A01 file changed, 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/staging/iio/frequency/ad9832.h
+> > > b/drivers/staging/iio/frequency/ad9832.h
+> > > index 98dfbd9289ab8..d0d840edb8d27 100644
+> > > --- a/drivers/staging/iio/frequency/ad9832.h
+> > > +++ b/drivers/staging/iio/frequency/ad9832.h
+> > > @@ -13,7 +13,6 @@
+> > > =A0
+> > > =A0/**
+> > > =A0 * struct ad9832_platform_data - platform specific information
+> > > - * @mclk:=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0master clock in H=
+z =20
+> >=20
+> > Hi Gabriel,
+> >=20
+> > This seems to be a leftover from
+> > 566564e80b0ed23ffa4c40f7ad4224bf3327053a ("staging: iio: ad9832: use
+> > clock framework for clock reference") =20
+>=20
+> That said, a Fixes: tag might be helpful?
 
-[PATCH] iio: frequency: ad9832: Remove unused parameter from data documentation
+Not for a documentation fix in a staging driver.  A reference
+in the commit message is fine though.
+
+Fixes tags tend to make people look at is as a possible thing to backport
+and this is not something where that makes sense.
+
+Jonathan
+
+>=20
+> >=20
+> >=20
+> >  =20
+> > > =A0 * @freq0:=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0power up freq0 tu=
+ning word in Hz
+> > > =A0 * @freq1:=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0power up freq1 tu=
+ning word in Hz
+> > > =A0 * @phase0:=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0power up phase0 val=
+ue [0..4095] correlates
+> > > with 0..2PI =20
+> >=20
+> >  =20
+>=20
+>=20
+
