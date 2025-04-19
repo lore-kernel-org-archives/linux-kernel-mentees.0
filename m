@@ -1,110 +1,87 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D2ADF60
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 19 Apr 2025 14:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630481DFE0A
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 19 Apr 2025 17:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745073927; cv=none; b=urCUAkALRcuv65k2UP8HNIIkjgkacokj7zTvVvvJlsLFoNHdS+OIe8DtOMFCuOCccbWtbAgzMj9kWkrrWuTdwcfRClYVbGT/BzbxClBv6dfQxvoTJ8SwJc7MCEbun9mLNbjfW7pBU0qE6fz8Wl9cwPBidHqc0VblL8jdfQ+leFw=
+	t=1745083808; cv=none; b=U2KGhRmKMn1zGpR1UtxrATJ5PiOV0XKT7uZyv+hTKZIsXTToEHx7mEsTXMV1Xc7YIwoGrxoD857HXTV+3OBX1GIgedhkSFApQV27Lqp25uzr+cXiULb2pnSXXXmR6h4f8hoCwCtwk81jJ93tlT8BUETfaoMSHMcfpx8OIyI/wHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745073927; c=relaxed/simple;
-	bh=/iRpNdeJshI3L30q214V68a98a6RN866jsxqHPWRnZw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DofhnMq59AuLJg/DFP3HcUGLnTBPavxwa4Z76fp7PEidy+JwCn6Q+FsCqCXjvEtgfR6gTvKSD42maSVzhsL6x0XZXytPTQ8jdSbItR7DzQ+vQl8m4htb3nJr8NGQd1ggRDPJjOEXZfqdfA1wuxETD8v1Dc6iXeKUBaLu7AmMAeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l3Yxb2ZP; arc=none smtp.client-ip=209.85.160.179
+	s=arc-20240116; t=1745083808; c=relaxed/simple;
+	bh=U6a1wXpun/HJSo+wW8DR+dOHz6jdl4cyLokR8MMuadk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L7rO4eTfiKCiqx4Rme3NSO7RdARmJqd9HOpeUHo5QKdeqqkaz0vcOrpyo+HcWjkuTrHMwUpx9STyrGwl/7w8eE0EF7o/QEDePzjdgOztBB9JBNeeFiO02JsWvFUhwoBEXCVJZh3AzUwlpwQVGqtdKZUV1o4qRLebWmMV+HJ5s0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EcXAlx2L; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l3Yxb2ZP"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-47688ae873fso27780581cf.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 19 Apr 2025 07:45:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EcXAlx2L"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b0db0b6a677so1843369a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 19 Apr 2025 10:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745073924; x=1745678724; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TZwskAex2BRKK/3gla3QPoANYGHWeVyAoradRHdAXwM=;
-        b=l3Yxb2ZPl/gM3i2d123Pfv6TTg9djTr2Zv7s8xSO5+oPmWtCgLUd9MGGmoNI6Oj1So
-         rYOt8Mywu/VH7utp105MQkv6Blm+sW2m5Y29UajAjKFoqj7uj8j3Dk324jKIuMGYeyXL
-         IQM/9P14CGCD2/Cjlb2MBRiQmSTa1/3tsyQ/zQDNw8NPRfJL++kzOrE4Lk3g/GM8baTB
-         hAfN9klZIMedYiE8pogS/drBQrnucr33HNl5HtUamHsiZs5C125hZtxs5MSbpskD8lze
-         9Ts5ekbW5qGZBvO5tEfkr3VagNZHi0NdP3Z+bG5w+lQNcg/eQyMHl5h3YZyLTG4PpEZE
-         sJQA==
+        d=gmail.com; s=20230601; t=1745083806; x=1745688606; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nUYxhkgZxR+3mLbUfk63itZQJ8nDNbnX+29tHtzt5qo=;
+        b=EcXAlx2LCIzGCHkCoHE6JMIF0X4RK1QKzl5Vr9RU05Yt3nLOJE6+HiZpicegawT3U3
+         AwOkHntoV3SJckvwCLPlCqjbtSE7VTiCn8MZDLP3DYtKgREPINe6rCYkrt71cpBgKL2I
+         Ntr8jpQbboaC5+RfbtDiZj6JbqDpMvb8fPolb37678bXfX24Ur100N2SiH3ix8CjqgS4
+         5Jll48Gp5ozMenIv2avXi73WHVnaSdf6vuPbfC8wbgUbRdUoUPWH97dSZhTHlnOQzBC8
+         rNX1UoX0tkhyHxc9ytQuOuUXrjC7ka33OZiwU9f5xzLLV3ueLAvs9B6NYpEWBi7zeenQ
+         cNwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745073924; x=1745678724;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TZwskAex2BRKK/3gla3QPoANYGHWeVyAoradRHdAXwM=;
-        b=jpx0d0aseEM12qHFRy2zS2HDllnZZa/DfLfguFUATblp6Q276H7SVsuG3mA8+t2feR
-         4CAf0rd5kfA0p9B0w9XTpICSWlw5ZmLg1Hbyu0wADbmeyMEAcEZyNPB0ruw35zkbJUuY
-         6cGpbv/NNGxo7reL/vB5l3xpkq0aNks3UzR73VMqoMJs0w6cwxNGPZ5Q18ZLM9RB/ExW
-         KODbGRAbUzAHAxwKsQG6kbFhb941wdJcVUrSMcQdvBlGVGB8i0QuzRGpmLzXbbCyZC7e
-         1ThYa1QoawgN93xkcDcgUAwbzmAy7YTQ9CZYjDE1Lj9qTPgmkrIC1EJgaTv8hYOAdVHQ
-         8gcw==
-X-Forwarded-Encrypted: i=1; AJvYcCWNUsduLS6p9AOa2FmpWH2i7cLuSJ9zQsUDpgqHtHyJJJbGRq65NpKCQGqCOExuadtQEJU8ax7APh/kNLfveD7QK1t1SQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwnmHGT7/JtYfjCX1SjXmC20xIVZ4EFbZAh33d7uscWiDT5dX9P
-	MZ4u60y+N1vLCsWcZk7Vg7d8wOf1r/ELPGEZrBwbym4YvKaCQ/WB
-X-Gm-Gg: ASbGnct+LK4Qo6MGr+YchMqwhTdlqXNtrIkpUodNAWkYvcVfIv/ne+ogoFnHgroHpyv
-	EEmvpA3nH9+1m9BfWwzDmqVTxsJoUHny4V9Jl8kLPxiG8S6dBCVAIgyWi5lcp+XeglaPezqfhyn
-	LDFy1g8jH84+QBa5N205SwcKrh1LwltpTbyCRGkKM3a3NRvkecRF4fW4BAIGU9cXHf02vyhH56c
-	IuYtw0yaMLdP1xxAg+HbsE0+KLFO/Z3Oko7MezpdDfyRZx0lkp2b4OyuGBgZbQM6JPeIROX9uVa
-	8iDUCG2TdXfgzvqwttqV46L6ovaMHNJwXIXtqNl2NNSHz6Qr+AQ3DnI=
-X-Google-Smtp-Source: AGHT+IFknOo8FgIOBC/pX7zqREnS6alYIVbQbHq3b3MI+c5P0yy/6AQL2yR1JeK4EVgs7lffsPJP6A==
-X-Received: by 2002:a05:622a:1349:b0:476:8917:5efe with SMTP id d75a77b69052e-47aec4a117emr101307731cf.42.1745073924534;
-        Sat, 19 Apr 2025 07:45:24 -0700 (PDT)
-Received: from theriatric.mshome.net ([73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47ae9cf9f29sm21856141cf.71.2025.04.19.07.45.23
+        d=1e100.net; s=20230601; t=1745083806; x=1745688606;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nUYxhkgZxR+3mLbUfk63itZQJ8nDNbnX+29tHtzt5qo=;
+        b=Z2C/806knTC552lE1hXzunBcLFW8JUw3HqU5ysMMJyQX2CA9K9zZ5s65aaidJcfblX
+         M1/ZHV9iycHyzqGruatjB3NmUYd7chHH9GTgFLGQl1exkpeqC060nQ76BioBTAZRH+OU
+         HZmABF/ANbaeXUjHKajp017E9P6/aAikKpXJCcq8MXLdU87kCnmliaU1u1ytrwGBy5dp
+         OkqkDcxlUdOqDpPFidHWxvUwJdhPCEAP6bMmNsi6NdHtbI3FcozJ3zGL+vUTx8+op6n/
+         Xvrlk8j5/HdSHj0zT/3JDJ6VbiB4l07zoMrG7guvmkIbfeFHF7eKKWInsWG+nRQsX0Ih
+         oUfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVnIESe0q/1xUiVGSbVg4sDjHaJLyEQi9wdGK1eauXCqgBmU6E7HZjMc/7Ni3bGkJ7UrGLPdmfCp/dxpW3FmITAyk3s9A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw0pmBDQjmUcC47aDgpBExZsHe0DGabzQDFcsvdCTTdwcw7pYZ8
+	sl6yndbemR3HiHsNzycVQscoE77C88txjlE8N/81sMEyOxNOj5EW
+X-Gm-Gg: ASbGncvgZRxhDdk6EwUvkXycZE4aCmSy50o9g3LeNeFO+50TdNC3uOLStucGsk4d3Ra
+	dceSmiZehF3o/mZPOe68OlH9WojWZXT9Duzruon1V+8zQijnJl2JbyTjqIGhu/Dsl1cgpfVIDwE
+	bxNYnptLAme5RSLD0DpXQGRdlugFBaXM9EIvQzV+AROapmvUn6zixC01c3C1/3Qva7LnXJ+S++Q
+	wdHD8ozcrQlFjYnsDxfz/2k1J/D7C7tiumTtQYiFbUnlvxGqfTSMGk5x+f421zegUb+yWyOkVnT
+	0mRBznq5q7BGcqdA23nlmOwSXj2zDpdBDqtrWPQ+4Ot8ly0=
+X-Google-Smtp-Source: AGHT+IEYs0SsZrKjQ3EyxwmjfmzQx6Yk2n8zsra3Z/o5jNp9N6ENiepCtoZecYh2GvEgRlL1Y20k+Q==
+X-Received: by 2002:a05:6a21:900e:b0:1f5:a577:dd10 with SMTP id adf61e73a8af0-203cbd24088mr10858917637.36.1745083806348;
+        Sat, 19 Apr 2025 10:30:06 -0700 (PDT)
+Received: from localhost ([2804:30c:90e:1e00:5265:5254:2e32:7e5])
+        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-b0db107f513sm2447197a12.0.2025.04.19.10.30.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Apr 2025 07:45:24 -0700 (PDT)
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-To: jic23@kernel.org,
-	lars@metafoo.de,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Michael.Hennerich@analog.com
-Cc: gshahrouzi@gmail.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] iio: adis16201: Correct inclinometer channel resolution
-Date: Sat, 19 Apr 2025 10:45:20 -0400
-Message-ID: <20250419144520.815198-1-gshahrouzi@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sat, 19 Apr 2025 10:30:05 -0700 (PDT)
+Date: Sat, 19 Apr 2025 14:31:17 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Cc: jic23@kernel.org, lars@metafoo.de, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Michael.Hennerich@analog.com,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] iio: adis16201: Correct inclinometer channel resolution
+Message-ID: <aAPd5XxfNEzaWdr2@debian-BULLSEYE-live-builder-AMD64>
+References: <20250419144520.815198-1-gshahrouzi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250419144520.815198-1-gshahrouzi@gmail.com>
 
-The inclinometer channels were previously defined with 14 realbits.
-However, the ADIS16201 datasheet states the resolution for these output
-channels is 12 bits (Page 14, text description; Page 15, table 7).
+On 04/19, Gabriel Shahrouzi wrote:
+> The inclinometer channels were previously defined with 14 realbits.
+> However, the ADIS16201 datasheet states the resolution for these output
+> channels is 12 bits (Page 14, text description; Page 15, table 7).
+> 
+> Correct the realbits value to 12 to accurately reflect the hardware.
+> 
+> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 
-Correct the realbits value to 12 to accurately reflect the hardware.
-
-Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
----
-Omit fixes tag because it targets driver before it moved out of staging.
----
- drivers/iio/accel/adis16201.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/iio/accel/adis16201.c b/drivers/iio/accel/adis16201.c
-index 982b33f6eccac..dcc8d9f2ee0f1 100644
---- a/drivers/iio/accel/adis16201.c
-+++ b/drivers/iio/accel/adis16201.c
-@@ -211,9 +211,9 @@ static const struct iio_chan_spec adis16201_channels[] = {
- 			BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 14),
- 	ADIS_AUX_ADC_CHAN(ADIS16201_AUX_ADC_REG, ADIS16201_SCAN_AUX_ADC, 0, 12),
- 	ADIS_INCLI_CHAN(X, ADIS16201_XINCL_OUT_REG, ADIS16201_SCAN_INCLI_X,
--			BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 14),
-+			BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 12),
- 	ADIS_INCLI_CHAN(Y, ADIS16201_YINCL_OUT_REG, ADIS16201_SCAN_INCLI_Y,
--			BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 14),
-+			BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 12),
- 	IIO_CHAN_SOFT_TIMESTAMP(7)
- };
- 
--- 
-2.43.0
-
+Reviewed-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
