@@ -1,120 +1,105 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA12213C3F2
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 19 Apr 2025 18:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB1F18A6CF;
+	Sat, 19 Apr 2025 21:45:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745086396; cv=none; b=cLx5COkXCcCfOEZJCDDAwR6KGscXcWbiCdJqwoBVR0ha7vsBG7L7sOJiLvoL3eL5lsJr6JtPp0tJ6bHrkE6ri30hae/oSOry83KoSX8j8PjpwhhnsZPM6PP9N+/PvNRENMXXZQrBApfBkQlmC7bfT9i5/Fxpx6cSYYesIum086I=
+	t=1745099114; cv=none; b=aV184ACQZCjwZzr67zIx5uxLEDSOQg4Ysfm8yMO6/9GdcIYRDfxOBngbt19Ckw9VtZgTn/zkYDy1Bh1RHOv7BL9pQj+S/gPS7DWbim4vzPV+syxYiSmCmts5aBig3H2rs1LPPQnoZXd6lPAOiVb10uYZyHreJlkEPtLORNR4Jls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745086396; c=relaxed/simple;
-	bh=GdnvWDBNR2gOB+LenT8RHWopVk2MCmbNJTEOMWfKmjI=;
+	s=arc-20240116; t=1745099114; c=relaxed/simple;
+	bh=INlnN5WJZfb9/Dkj+fX69QLzu8VLQMwo3bg9bkWj6ho=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IkzdAk7qFcmCKkZPKcC5tDCL4exr8qneOC+ZcDe5OcgeUXcAwxbA8st5i8/S5/cHj6XUWNy8C2O3ndRoYXz6xqd3Ozc5a+YTbadgifhRJjBHT1b5PtJ6qE6bQh0IEviUJtuxMWbjrCa65k8SquUf/H4GFiqAkHE+cTRPNnn9wts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jOzySH+B; arc=none smtp.client-ip=209.85.214.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ou3IQp6uyoe03W+uVM96tGgnQNuSTnwkHZebVf29moNq1ze9CUik4n2Hn6BfAQ+eNY5/bE9Z3YdU9IKXVDUar5qTTiJXYR5UcKG+w2wPiyfBNmUpKAuibjyytX+RcVNP5yJCUi5J2wkXMoFbiRdtbY6lwgiypZDxJjaAQqHFxnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pt2Zwunc; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jOzySH+B"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2254e0b4b79so41326085ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 19 Apr 2025 11:13:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pt2Zwunc"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2264aefc45dso48109125ad.0;
+        Sat, 19 Apr 2025 14:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745086394; x=1745691194; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TNRnOiyXacyKehrBjfG/SIyIph4B3poZy/96JlS18Fw=;
-        b=jOzySH+B7g4FGn53H8yyHVyt7RItlTxDu3IImx3OxW+UKp7Ciiy1IOWpZ0Dh29jOrY
-         WvrumhD/wroJ9Wr1asSte4qdq733rkRK8jhBSYl8694UhCvy8fJ13qnzWzyRvqn71+8y
-         uhEw45vaIvHlYfrx7LGcy6ygAvGzloI64qfkVfbXpug37mQNoTW+gFIGCLO/ZlJkDHxp
-         cxsqHRTMv+vgiJw2ZS/6aeueP897QyVATeoZ1ilQd97rU/2otDyMTAHrIfEhXDoq61Yu
-         fbaJAEPmCKcGHNMbtgGkJphuuuVNo2UUuqIVnQ18fkrsclsrkGJ2kIskv72EPKqNEXfX
-         AZXg==
+        d=gmail.com; s=20230601; t=1745099112; x=1745703912; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O6dedMB2aZL7JuxKdXCBVhen/b9c/wwkdTjJKn9OdME=;
+        b=Pt2ZwuncO3/U8TxqcLoWBmt8SJR07L8h/Ueq4vTeov0aBpCWEuDuG16zMFH3yjbo0p
+         mxupSosz8tjJNDq5lRRPZGe6UdwEeYPfLtboCpp5VZmtMIDjZEn0hPzxHHqNlYVMvkPG
+         FOu/X8Xfr05uv+dBjCOrN0lPeh8E+iwdAheh0n5eRq/yCZFgu4wmhqQGe7nQHwTzBSa5
+         DfBXCVl2cKxC0llMu81rtIczYXOgNoVCndv+9/MnurSdUHcrBxT2OUMVpyHZexVvSn6c
+         zFXtAoG1XO/AdRwnTzSvnzW4uBOrl6ADZ3yvCnqPfRoXzQLhtHzj1pc4mQWuVU8hNSKJ
+         +eCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745086394; x=1745691194;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TNRnOiyXacyKehrBjfG/SIyIph4B3poZy/96JlS18Fw=;
-        b=pUd+x/NQuAIpW3WV1EyUs5zMOwR1uzOsWJccv0TBLO7yyaecbBizVpjnXKuHxoyr1R
-         itmJxJmYWqJ6ELoZb6DfguYLyukSW+XvbHItwft++f5Gx9wLiMrRkY4TOj5+61GHNMcJ
-         f3qNq6T9wWv5c9Unpi2xuOQ3E2kkPq3f/XCMPgGHx+XNHI2e9tBOgk6cCXYn9BggZowP
-         mi5uU4R2GNQ4ZTJjfwqqtqk740pescQs4abayOOVZj4HtbKBq0DLfZE6elBu+SFb+47C
-         bbigyN1RbP4g8IksE9g+6RN4SINlnkcQPdFwpf+8tmzDMLt3yY1sZ8zGIMM0K+Fj8aCV
-         02Jg==
-X-Forwarded-Encrypted: i=1; AJvYcCWwyp+IS6SyTkAzYlca6VBPvwGrRyk+/DtT2X0lQ/xl8q4HQgN9eoRIgPVEGO2DvLOv3weYqq9t/MoSKWHy7WYNUQHu3Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy30dE6V7rqHRJ3BHsprI+TtIBPKouhm3VlvDQVD86pHkbfFMMp
-	DKLQq4TF2Kle+KBV0q1KMsxfa/hQ8sZH1YtV7/0zt9fX2RrBo/iH
-X-Gm-Gg: ASbGnctVNtv2xx5fq52l9T6bjSR7mViea6O2PuP4GvWIiolsLCzFV8V2kVYwxr6lA94
-	X/u+RMiRtMkL2DLlgRWzanoZU0Qb+raU+iECbsOKNyQtar4UZhDQG6uQF6K5HfMkkAtUbFeeU3k
-	OtOnXidQUTHI4Sp57ioFIXq2DjsTvauH0bcUR5U/kiI50FcMnIIWMDlOD0fDqID3TJ5mVhN1ZAO
-	a1mrkjFmNJu7HUzTulRb+PZvThEAm44/uR7nwh+3Ack1gYXJLvb+bsmXmqUmL3ny0C5Cp8yRtul
-	1ZXYlPaHHCRytsSiKgN3Gub0QXEuDLcdbv/XU1IhJV954/Q=
-X-Google-Smtp-Source: AGHT+IF0skBMQ1kT+xLk+++XTW5TiYx+jOnZJc1EJcM6tPtPprZSLzpSuU4H8FPoV2YJAsHrhEPaxA==
-X-Received: by 2002:a17:902:d58c:b0:220:c813:dfcc with SMTP id d9443c01a7336-22c536075cdmr122327445ad.40.1745086393993;
-        Sat, 19 Apr 2025 11:13:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745099112; x=1745703912;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O6dedMB2aZL7JuxKdXCBVhen/b9c/wwkdTjJKn9OdME=;
+        b=gN1VWi0zBvDKxAF9Lk1P59ol0tjrdccoOyFZusp8ROPMqlAobh6uyyQKERcBhBOlT5
+         fb9LRXeR0NHbwu/wwdn2DVlswOkbIT3g9xovDu8WUJojG1mnzZ+HcE3Sab3kMQDv0VIN
+         Xa9VUgi7drt7TgHjZT6q+nQhpd58Hj1War0MrR+BBgzQeQ7kTJEkTnFtayiVJ9RRRDdN
+         22WbRpYszsFDBgt/gSxjV/5d2s+y+ObAmbS49EDBfClb+W00RHskyjbj4wwKfL/XvIfR
+         56/DDFJY19vE/gbdq+TOFv9W9PVl2qOs9zNB8/f93GqGV+5tS7pvD13Lg8e1FGep//V7
+         B9dg==
+X-Forwarded-Encrypted: i=1; AJvYcCVbFYj9Io6x1Dumw8FpDx//7Dpr8yWMMaO46dPTLubNNUDRQTz/dT1pXwbjyJo3e4n41muYcq3OwDuZQWFnNQ==@lists.linux.dev, AJvYcCXWrNJL2DyheNqTptRpzutj8YZT4b12GoentOfRtBeyOFdpk7s0uR93j6TnV2lgCLxQYvDEzxRxzjBMwFk2vkZF5lC10Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9KAoepu8pRHo+YGuDg8BuOepEP2BtuAXDuKJLWWt9X5J0QZbj
+	ZfEPwdGHod/LYW8KiWqZSZpdnLEo/6znOZL1OH5v60rar39URhbN
+X-Gm-Gg: ASbGncs9p/FMVUVAHgmqHZVsXGO/xGQbDAoN8tKOrRd/XRJ9GVLyL2aoCtPm4Zp4y6r
+	oFaroKfA/Fn4D4fARMTzBmCCp+aD/8zmDf6YiF1cHR5yVv1xnV3l8/dswHuN1KC8TUo8rjDS5u5
+	DY7k4oFyOlbRjqAm+GKGWoQjHlMXzsY+4USudl/WwToFbuMcR4270yowWoLwrVl3vF0fXbiOrqT
+	JwbbjdhPCa1dQMNb9C6sYM/DmUYxPOVeCNAA/IRcRPzcss6I0+u6unr8fGCSWCGDcmhSUgEwfKL
+	be3wBx7AEuo5MzIzE3XL8Kn1rtKswd7x2yPDFIzS1qa8SA0=
+X-Google-Smtp-Source: AGHT+IHRl6n/PcvFmVqTKcKkKTKXFlF0vBC9rAGLMcXBhHukm2ZXzJDlZ8iPMEeKDYk4scJUsge3Ew==
+X-Received: by 2002:a17:902:f78f:b0:227:ac2a:2472 with SMTP id d9443c01a7336-22c535acabcmr115757225ad.28.1745099112451;
+        Sat, 19 Apr 2025 14:45:12 -0700 (PDT)
 Received: from localhost ([2804:30c:90e:1e00:5265:5254:2e32:7e5])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-22c50ed0ee3sm36362525ad.206.2025.04.19.11.13.12
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-22c50fe0679sm38044845ad.249.2025.04.19.14.45.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Apr 2025 11:13:13 -0700 (PDT)
-Date: Sat, 19 Apr 2025 15:14:24 -0300
+        Sat, 19 Apr 2025 14:45:11 -0700 (PDT)
+Date: Sat, 19 Apr 2025 18:46:22 -0300
 From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
 To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Cc: himanshujha199640@gmail.com, jic23@kernel.org, lars@metafoo.de,
+Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
 	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Michael.Hennerich@analog.com, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH] iio: adis16201: Correct accelerometer scale factor
-Message-ID: <aAPoAESnjjyNsHI2@debian-BULLSEYE-live-builder-AMD64>
-References: <20250419125413.679290-1-gshahrouzi@gmail.com>
+	linux-staging@lists.linux.dev, Michael.Hennerich@analog.com,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] iio: frequency: Use SLEEP bit instead of RESET to
+ disable output
+Message-ID: <aAQZrhBLQCa0TjOJ@debian-BULLSEYE-live-builder-AMD64>
+References: <20250417135434.568007-1-gshahrouzi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250419125413.679290-1-gshahrouzi@gmail.com>
+In-Reply-To: <20250417135434.568007-1-gshahrouzi@gmail.com>
 
-LGTM. Minor comments inline.
-
-On 04/19, Gabriel Shahrouzi wrote:
-> The IIO_CHAN_INFO_SCALE previously reported for accelerometer channels
-> used 0.4624 mg/LSB. This value matches the datasheet specification for
-> the offset calibration registers (X/YACCL_OFFS_REG, pg 18).
+On 04/17, Gabriel Shahrouzi wrote:
+> According to the AD9832 datasheet (Table 10, D12 description), setting
+> the RESET bit forces the phase accumulator to zero, which corresponds to
+> a full-scale DC output, rather than disabling the output signal.
 > 
-> However, the scale should reflect the sensor output data registers
-> (X/YACCL_OUT, pg 15, Tables 7 & 8), which use 0.4625 mg/LSB. This is
-> also consistent with the typical sensitivity in Table 1 (1 / 2.162 ≈
-> 0.4625).
+> The correct way to disable the output and enter a low-power state is to
+> set the AD9832_SLEEP bit (Table 10, D13 description), which powers down
+> the internal DAC current sources and disables internal clocks.
 > 
-> Fixes: 57f9386405a2 ("Staging: iio: accel: adis16201: Add comments about units in read_raw()")
+> Fixes: ea707584bac1 ("Staging: IIO: DDS: AD9832 / AD9835 driver")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 > ---
+Looks okay.
 
->  drivers/iio/accel/adis16201.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iio/accel/adis16201.c b/drivers/iio/accel/adis16201.c
-> index 8601b9a8b8e75..982b33f6eccac 100644
-> --- a/drivers/iio/accel/adis16201.c
-> +++ b/drivers/iio/accel/adis16201.c
-> @@ -133,7 +133,7 @@ static int adis16201_read_raw(struct iio_dev *indio_dev,
->  			 * 1 LSB represents 0.244 mg.
-Maybe also update the comment?
+Reviewed-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
 
->  			 */
->  			*val = 0;
-> -			*val2 = IIO_G_TO_M_S_2(462400);
-> +			*val2 = IIO_G_TO_M_S_2(462500);
-If we do the math with more decimal digitis we have 1 / 2.162 == 0.46253469010176
-Would it make sense to do 
-			*val2 = IIO_G_TO_M_S_2(462535);
-?
+Unrelated to this patch but, if anybody be looking to work on getting this out
+of staging, I think maybe this driver could use out_altvoltage_powerdown ABI
+instead of this custom out_altvoltageX_out_enable.
+Crazy thing this driver doesn't declare a single IIO channel.
+Seems to be somewhat ancient IIO driver.
 
->  			return IIO_VAL_INT_PLUS_NANO;
->  		case IIO_INCLI:
->  			*val = 0;
+Regards,
+Marcelo
