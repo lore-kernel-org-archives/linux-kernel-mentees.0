@@ -1,129 +1,127 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB34A263F3A;
-	Mon, 21 Apr 2025 12:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E56A1DED47
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Apr 2025 13:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745239345; cv=none; b=akN9etaHBPSp82BsGrW7qKFkKtfO1uKd4rCw0ARIe6ihj7JxDJ7vPxLvc0Q7makfveQHOZZW19bDs09O0dn1R0ZAfeupNrFynGIwz80FqFmT/BUW31lNuPQA/hRPWipeujgGQRwxtdJ/mWmfAi0SC2GmGq0nLYprpIKU9t8LPfw=
+	t=1745240738; cv=none; b=WpJEMrXTP8J/GTPD7ES2WLQ2teOWLpmGxpUDBXFtwlBBOWQ3qoRsEKk2Qp7VipZEaCqcxLfn88Q/wevDHWuiTH5elrSj9WamGXSk7YyO8yXkiCuuNuhwmoasnETQD3biHiaCklfczGBmB1Q4P7FsQ2FkFcZvKbPYKQoWDTMbg6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745239345; c=relaxed/simple;
-	bh=ySaU0zfcByRkaTwII81wn1XRoHdzTb73+Y3DGUNQiWA=;
+	s=arc-20240116; t=1745240738; c=relaxed/simple;
+	bh=f+BKdAC4I6YUGknxlC3Xm4jFCVMEuPMlEQphh5ZvvvI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PG+jI8f6yTS2sQEecB2+nNAK3x5Rpdc6O+9qbhRb6JKhhG0Aj9Mn5lWYn/CWpD1z5n3+dQRXUGKtG92/6jwSGIKpmVlyBcuwTJq49AhhsLwbOLt7/yQEFlKcrqtvbucojI8rrGfc7gYxesrML2n6pKsNlG2VT559i/1XB+Aphdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Adp/3FUi; arc=none smtp.client-ip=209.85.160.182
+	 To:Cc:Content-Type; b=CsSbI2bFPKOwHOoIEqrNHrbqGTpO1hVfwPFtjKeTJjIrba0u3PSrVIkSWKJln9SdZdGv4kxXaEpnHL5RgwrIcH+XUQK8uBkPXlmh8C5mtt6ivOvzgjVZ68IMaQBvK6jXy5Dv5ox16wpkyFiWeJn3mTDtFtsTXma0PSDnAYgoLt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a6EI0yy3; arc=none smtp.client-ip=209.85.160.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Adp/3FUi"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-476af5479feso43257261cf.2;
-        Mon, 21 Apr 2025 05:42:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a6EI0yy3"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-476b89782c3so47110781cf.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Apr 2025 06:05:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745239343; x=1745844143; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1745240735; x=1745845535; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7PTLCflwUHpQ/HL4KjpSfyOHQhDYwwUWvDGsEADJNO8=;
-        b=Adp/3FUiQaGgaJVz5Ou9Lyu7AvfP7bDpUV/4dnEeHQUwm9UmRfwikgYJqH2ib5NYL4
-         pOt0aZYje/drRkqyavqM9+F0J5K1nQ0mMtqCTIo2eMwzhx+X27c6KSLdtYXwYJq3K9UD
-         F/vJFVcEr4aHrQodnurTJMefPYBErMAxu2IMueUb+IhIaK0a3ZYpXWu5c1LCgkvvzCsu
-         d59/of6BZV5dSrfz7E1a2UT87jwB1ngcnzppaUAMV+8+NybzAh9DxdSBOV2uCIllFmRw
-         1fSRXyoyWGi41M1kXeO4+SBqc0ek+oUYqt4nuoCnjBGHb6Xo/6mg9jGbI4E45N+COcix
-         ah7w==
+        bh=mFtNIhESQPUgGQGLUOpZgw8PI1xqIhF3XCImtswCRMw=;
+        b=a6EI0yy37E1REqFja4NVVGJS/o3DaSD+Z/n5IXxwW+X6a/1ONknoKHfNz3pXhjNMK9
+         30pt/SVWP5sEoTwzf7cV28ZXglnircsOFFsgGUXeH92to7+YADxVgDP6lee96K+aP9+s
+         M8cxmaqJjBDMLkv3ZCqWy+0Qk4aiF9BeUlOQUn6OLJTUb4+kj+c6XClOxOhCcglKmPuG
+         W0PIRG6XE7I6YPMt/SFW/CxmKylYFNypR0JCEgFIVFnneAUwchbyWQ24R9/TcU/h34Xj
+         O74JPBW7gUmg5qZJNY2u7SfTa9JZA52KcHDOcH0R/bsheHGgJMIHnS/d/uWoUAR0WdPJ
+         maBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745239343; x=1745844143;
+        d=1e100.net; s=20230601; t=1745240735; x=1745845535;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7PTLCflwUHpQ/HL4KjpSfyOHQhDYwwUWvDGsEADJNO8=;
-        b=OA9RAU1iuOL+3v2KjINSo/WcTJ3E2XDcq9rruGKUJ/Xx2OHs3CvtqLdlM6hFWnVIwZ
-         E/cUptr5UMwjYc8H+fgFreXqUyBCxptTPOuGDSoyPX/46LQT8yd9q9441JGWLRA0fVKh
-         ZKJdCVRNyT/qxHtHgVgXpz/9m92ux98RVGVTzoc5QuTi45c3fBv4I9y3Gyr9p7uQRTLa
-         KvyZeSTsQGrH68xouWj6wVu5hQGtRs2yQL40Txp/RktR80SAq9jBgLC5lJqimHb8QLzI
-         TqdG7COs3ZBSIi8J3jY6hJz8K9O2HejBju7vvyz22ZLX/T23lpiA/mzhP6xfci7EELHg
-         /Cwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVnNA24DbWCiNa74IggCbQqp9n8+SXKngSqHABM6doI8Xfw//f/wF3vwLOf0pyiNq0rUyPkUERoA7613bR8Kg==@lists.linux.dev, AJvYcCXGNgPtqJDe+WifIlxymJ3z7jmDPzikAOoH9+5DG3lXPPog3EG4JRFoW84zj4VcZmFH72fKxFzW7LkcLto/xjZLAUHTQA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzhRbEQqJjYV1EBltsThFYIRmLZx5xGdMFYPyR55HnDizgB7lTd
-	Rrum3vPdsYATiEAjEmGoulHCzQcfsAJfKsW0t8FN9sfzgBWSrT0qvjDiD9gpwtmYryqaLgSJVtO
-	9+rnVrLHezmNFWq9gyV3sWqSH4PA=
-X-Gm-Gg: ASbGncv6eG873K7ATvaJBVwXReoCiW1oaGg8BSY+zDAlr108Ja+5ow0rgF7PCx5xPYN
-	4jLdRc0yWNzIgoqh/xbi3nyiLXYWlQ7QwP9gj73aco4HQkIxatwVC/gS8xxwnPfAHm78rnaYMlC
-	5UWN+bjzSShmDXZ7FcUCUeU5d91M95uZcmTD/GtMP72drs8rg6mAIu+w==
-X-Google-Smtp-Source: AGHT+IFGRI6w4PZTzPqR/wy6WxWpUIfMgCPO/lf/RGWDPHDkzKldCNpcwF092qguuCIgto3Q9ayDtKHGpNvNYtXoYHE=
-X-Received: by 2002:ac8:5796:0:b0:476:875e:516d with SMTP id
- d75a77b69052e-47aec4c44e9mr191962431cf.36.1745239342859; Mon, 21 Apr 2025
- 05:42:22 -0700 (PDT)
+        bh=mFtNIhESQPUgGQGLUOpZgw8PI1xqIhF3XCImtswCRMw=;
+        b=POuU3USgi4vUnfsa9n6mvo9r1A1psGYUwwf28FUTnKZr+qNYhWbVvJQFpMT6ovI1jl
+         Tzal/44Sw57HI6bAzp3H2w3c9qxS/0VJ/l/uH8+XX9icRc1ja91Li0EbQWwTf+AbeMvy
+         m45sBap+ACI9GYmHrwyazpmQ/h45yqoMwOxBX3S/FlS9AbThuzLgH/GOMSd0hddutJ4t
+         pcSooFeHoNMQfWTgIXostGlseexHmicizRlozyKdkp0zDG1tiZeNjRnxshoOsbQOvx1P
+         JA6mhXtp4e21DqkSuN/6JGbpzfa44v9nQ1roI/tMjvXn0NrasTtyNwa5bvcMrClEZRvL
+         Ej3A==
+X-Forwarded-Encrypted: i=1; AJvYcCVbZyqCs4wlfwiz0Nvf5aHnzoCNfUNhbgR9yBFhMgUJlgWlnwM9Z4nF8qtY87cJsjanWjQr9Iwn4RwX6soNxH1O1REqNQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwI2jMYb/E9SMTkLUsFucpaCuB+xcBAwujI2W/rvryIEfQni/OE
+	lddY9P2c/y1GzTidJdv1c81T9CRTUPqtSNglXh1SpHVq+Z0/Vv5yE5DB6i12oX5v0r5KgkKoszN
+	zReazN1RnvrnlP7okxV68XL1RhTg=
+X-Gm-Gg: ASbGncu4hHiyYFauoU6QxOXLiYIsBQkK7cnsON7WmiNEqWXT82RvpiGG5R/Mn+TKUmz
+	8qjPj+/f1js1bhvjrsoAXbVO/gwYD/ddIvILMxGEweN3JfK6KWW9nsSeVAH11Wn8Wg8wX2uIgbE
+	Y7JtDiEaxaqtpjAov0rt3Bs1EcxEc42k6TPYgJN7l99FQZ61Gj0eWZJQ==
+X-Google-Smtp-Source: AGHT+IFzhhB+GWbWRt4VxGeCchwkPhazFoXhUCuwU/HnqxTikuays0RZ9Gjb8LQHrf9hUaObS2S/SGrxuiz6Va7SYmY=
+X-Received: by 2002:ac8:5748:0:b0:477:cb1:ab2a with SMTP id
+ d75a77b69052e-47aec39436bmr229380531cf.13.1745240735267; Mon, 21 Apr 2025
+ 06:05:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250420013009.847851-1-gshahrouzi@gmail.com> <20250421124401.0daa6a2e@jic23-huawei>
-In-Reply-To: <20250421124401.0daa6a2e@jic23-huawei>
+References: <20250419144520.815198-1-gshahrouzi@gmail.com> <20250421124915.32a18d36@jic23-huawei>
+In-Reply-To: <20250421124915.32a18d36@jic23-huawei>
 From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Date: Mon, 21 Apr 2025 08:42:11 -0400
-X-Gm-Features: ATxdqUG2HbCo2jVQA1NMcR6DOLpddrMYAY_8SU4fLCk3lus5iMrFHCUuPeKi4mQ
-Message-ID: <CAKUZ0zLTjXPm7qGLsV==fJZZEFMEiEM78-qgZ__DYhqL7Te5BQ@mail.gmail.com>
-Subject: Re: [PATCH v4] staging: iio: ad5933: Correct settling cycles encoding
- per datasheet
+Date: Mon, 21 Apr 2025 09:05:24 -0400
+X-Gm-Features: ATxdqUGZBqiT-xkUtjMAQApZJcXMrreXjPpwyLrHEPICF2V0q6d2B3Psi9ZDg1k
+Message-ID: <CAKUZ0z+CSMqCNFAT9k6nUkiwYjq0QG=hH3QPLO-w47xWLkVUxg@mail.gmail.com>
+Subject: Re: [PATCH] iio: adis16201: Correct inclinometer channel resolution
 To: Jonathan Cameron <jic23@kernel.org>
-Cc: gregkh@linuxfoundation.org, lars@metafoo.de, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+Cc: lars@metafoo.de, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	Michael.Hennerich@analog.com, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org
+	linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 21, 2025 at 7:44=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
+On Mon, Apr 21, 2025 at 7:49=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
  wrote:
 >
-> On Sat, 19 Apr 2025 21:30:09 -0400
+> On Sat, 19 Apr 2025 10:45:20 -0400
 > Gabriel Shahrouzi <gshahrouzi@gmail.com> wrote:
 >
-> > The AD5933 datasheet (Table 13) lists the maximum cycles to be 0x7FC
-> > (2044).
+> > The inclinometer channels were previously defined with 14 realbits.
+> > However, the ADIS16201 datasheet states the resolution for these output
+> > channels is 12 bits (Page 14, text description; Page 15, table 7).
 > >
-> > Clamp the user input to the maximum effective value of 0x7FC cycles.
+> > Correct the realbits value to 12 to accurately reflect the hardware.
 > >
-> > Fixes: f94aa354d676 ("iio: impedance-analyzer: New driver for AD5933/4 =
-Impedance Converter, Network Analyzer")
-> > Cc: stable@vger.kernel.org
 > > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> I'm taking this the slow path as it has been wrong a very long time
-> and there is a lot of churn on IIO staging drivers right now so we may
-> have other stuff that I don't want to delay building on top of this.
-Got it, thanks.
+> > ---
+> > Omit fixes tag because it targets driver before it moved out of staging=
+.
 >
-> Applied to the togreg branch of iio.git and pushed out as testing.
+> Why does that matter?  Should have a fixes tag.  Whether we chose
+> to backport the fix is a different matter.
+Ah ok, that makes sense.
 >
-> Jonathan
+> Otherwise looks fine to me. Reply to this thread with a fixes tag
+> and I can pick it up without needing a v2.
+Got it, will send shortly.
+>
 >
 > > ---
-> > Changes in v4:
-> >       - Provide clear git body description.
-> > Changes in v3:
-> >       - Only include fix (remove refactoring which will be its own
-> >         separate patch).
-> > Changes in v2:
-> >         - Fix spacing in comment around '+'.
-> >         - Define mask and values for settling cycle multipliers.
-> > ---
-> >  drivers/staging/iio/impedance-analyzer/ad5933.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  drivers/iio/accel/adis16201.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/=
-staging/iio/impedance-analyzer/ad5933.c
-> > index d5544fc2fe989..f8fcc10ea8150 100644
-> > --- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-> > +++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> > @@ -411,7 +411,7 @@ static ssize_t ad5933_store(struct device *dev,
-> >               ret =3D ad5933_cmd(st, 0);
-> >               break;
-> >       case AD5933_OUT_SETTLING_CYCLES:
-> > -             val =3D clamp(val, (u16)0, (u16)0x7FF);
-> > +             val =3D clamp(val, (u16)0, (u16)0x7FC);
-> >               st->settling_cycles =3D val;
+> > diff --git a/drivers/iio/accel/adis16201.c b/drivers/iio/accel/adis1620=
+1.c
+> > index 982b33f6eccac..dcc8d9f2ee0f1 100644
+> > --- a/drivers/iio/accel/adis16201.c
+> > +++ b/drivers/iio/accel/adis16201.c
+> > @@ -211,9 +211,9 @@ static const struct iio_chan_spec adis16201_channel=
+s[] =3D {
+> >                       BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 14),
+> >       ADIS_AUX_ADC_CHAN(ADIS16201_AUX_ADC_REG, ADIS16201_SCAN_AUX_ADC, =
+0, 12),
+> >       ADIS_INCLI_CHAN(X, ADIS16201_XINCL_OUT_REG, ADIS16201_SCAN_INCLI_=
+X,
+> > -                     BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 14),
+> > +                     BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 12),
+> >       ADIS_INCLI_CHAN(Y, ADIS16201_YINCL_OUT_REG, ADIS16201_SCAN_INCLI_=
+Y,
+> > -                     BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 14),
+> > +                     BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 12),
+> >       IIO_CHAN_SOFT_TIMESTAMP(7)
+> >  };
 > >
-> >               /* 2x, 4x handling, see datasheet */
 >
