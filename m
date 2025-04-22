@@ -1,74 +1,47 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AC322B5B8
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Apr 2025 06:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FB11EEA4B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 22 Apr 2025 07:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745304271; cv=none; b=nl6VPDOx2oImVaVexs0FbVyHiq7Vr4Y38+8jJ1ih2W6mJ0v/TIwB88V7Jmk9wfHwLqBQw4s9yJMbcI9+NAi//xeCVPmE/VPLbpPiYva2Kgep75UWVeMsQvQC8oSM63OB0RasndnkhAIhSHBFVrTnfK6tqfXZDtydor+Gmhyd4vI=
+	t=1745308714; cv=none; b=eZjzhMsY4wvLiydhFV1Xdcp7PSR+ZKgiSVk5BHr3j1rFSjpawi9A47s8Up8xgxYjBsYGHXXpiiqedO+13lQdnXSXAzLk9pZtxfnjHoBPzmmdgHwzd/AlyzX0CGEdPsHoeR93w9J1hZEoU0PSYl+DFWDe/NZBFHyTUykGbSjliNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745304271; c=relaxed/simple;
-	bh=pL9CVghxG1ZKZG1MuX1QtZhXgzKhXTo0AK7d0/+p3xY=;
+	s=arc-20240116; t=1745308714; c=relaxed/simple;
+	bh=4APg6yVz6kgCDi8Roxi56DKotyt2hsl1mO8Xu/bEAlI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xbjq5BFlJ61Z3udVTYCRST6tftSsNAj1u+rE5EDS10pmZNKmTu4QpQUy6ZHLpZrbb6Gsa6RpmTRe9hHHHGnXyEwR5P4wRruXVtJ1jMoQEbk2bHgHvOzRq3uDfwXqBPFD/Gk5X4WY13o0Z1pHObSFDyOkp1d6U9bm+IuFwfb8yUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S+hJdr87; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S+hJdr87"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cfe574976so34113255e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Apr 2025 23:44:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745304268; x=1745909068; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kQPImNugkItyfP+G4uJ4TvGScdbcNscFNsfQCd9dZNE=;
-        b=S+hJdr87KAzYsPFGf0rjuZyXLkf9Nh3CrrftWpGIokaproPxCN7mDjYzmT04F9YiAE
-         NLMSVA8H0HE9DjU0jwYqI6tSG+nSWArcCtaOqUXH6bzaDLdfE4eHrFd7it6fEWQle432
-         wyCPwdPKt+SkQZ6A6HdbIRIM2kcr3XX/S0yYMdlxuDD4vBVhc+Ha9StpPK1kQfbwtyNp
-         PjpCLj9V30iZy3CLmsv0pYpZnxL+inGwCDlNEr5yMdLa0XGWanhLFDjAlVhgsKgW+Jw9
-         n8IPNdu5hfo3KpS9Gh9K1XJU9zhvFDkUIQ/T2S6gbBZeMU2anJppB9bwA8b67TJHrJGg
-         yQ1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745304268; x=1745909068;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kQPImNugkItyfP+G4uJ4TvGScdbcNscFNsfQCd9dZNE=;
-        b=RpgFGgMPgnkajJ+cRI+vXO19K7lJVh6NdOoI4ALcsTRiUCO2T1XDMKpikju4e7Ds13
-         II/a+Rd8NkctAjRKzLENEO7v0pgx0DNtmaIrfZhfsefSfecMAyDWEHKKyEVw4NvUVQVH
-         P8Msi8PcBNk1rKeSifxTbBnGDK3k9wRA8q+tOQjKyUzdxvOvh5MXYkVj76XwjNdvW5C8
-         P8W/pN9t4GjKVwFxSmJ6h2mibWn0/XF6t23cKA3u0x3CUtwzFwFUrL8FhdYV7ETjBdGR
-         ArwaL/Ia02Fot1jQ9tI0x74T2NPyXg3bKF5rEZ4pq/s9lkmBfCOxPflUfeDHgujB+PvQ
-         v+9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVSk6y1cOjRHz+lCHrLF7MPDt1cfWqsm028w3q/yJ8fpClGCtnsf79f9oEJ+CeBMqvTyhKFjSI0c67wsMwV7bibm1BiwA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwxWEUQlRP9VLQMlFmxYTjq6qxYIrjKnNJ7F1u3ZoCLRQpo+7Pr
-	hQX925jRg2bJm/qJHJ1oKkPjNnVifY9v+SdDNOA8AmjVEVwUfir0SlJKURlaS3s=
-X-Gm-Gg: ASbGncv14POvOlsS3iIRrANlQl7YJw61YMt0mh28toyXDb/ve1qi6FMF3ihe4I5C/X3
-	sLaKLF0CYvT4/ArPNCsoWooqYRVMFk2ZIGdjplDB1uJck8MEayhiQ2+kMsCNWIQKPBPQNda3P+/
-	4hToN2k4GteVNj43GjR7zvZmYJL+v7OhGK9WyQJMhpOAc0rGIZeSsILKmRc5FKyNqH8NJ4aTw61
-	06jQL8DbOQoAcTO2dq+eCZqUDlCHwHJruqXvakFGbLgX0uW4OF0t5J5CwPiWqN6Ioy04NLJ7wVc
-	dMf7PNNuIH/iZrka8f+t/8VbQGdZ5NkQZTVjyXQdFz/hYg==
-X-Google-Smtp-Source: AGHT+IHUNJ5wQ9P52XuaZE0IU0Ci7qmgXOj8IWWiW+Ga6WWO0mvjKQK2WDhvuSV7fUR8QE54qZimKg==
-X-Received: by 2002:a05:600c:5023:b0:43c:fa0e:4713 with SMTP id 5b1f17b1804b1-4406ab7efadmr141939785e9.2.1745304268110;
-        Mon, 21 Apr 2025 23:44:28 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4406d5cf2easm160870545e9.31.2025.04.21.23.44.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Apr 2025 23:44:27 -0700 (PDT)
-Date: Tue, 22 Apr 2025 09:44:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, Michael.Hennerich@analog.com,
-	sonic.zhang@analog.com, vapier@gentoo.org,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 5/5] staging: iio: adc: ad7816: Simplify channel
- validation using chip_info
-Message-ID: <a8aeef26-929d-4601-9eb5-9011d73aa36d@stanley.mountain>
-References: <20250419135638.810070-1-gshahrouzi@gmail.com>
- <20250419135638.810070-6-gshahrouzi@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Je1tu5+iNiKUzZYfTcuClBESLgXr/pe7CXKy+x7VFIJi61xxQmMYCcWT9H9yEaM9VgYtJVSLop+eRzUz+eQok4qOVvTqF75LW5Zmb83m1Dev0kAuE+ihOmOfoT+oOoVShJPIGLPczNv0q3y1g/kWT8tistYU8yfrF7bVSSvQWzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 1DE4581CD0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 22 Apr 2025 07:58:33 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.591
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id yLhVQUBdeESk for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 22 Apr 2025 07:58:32 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=213.95.11.211; helo=verein.lst.de; envelope-from=hch@lst.de; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 84F1281BD9
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=lst.de
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 84F1281BD9
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 84F1281BD9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 22 Apr 2025 07:58:32 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id C31F868AA6; Tue, 22 Apr 2025 09:58:26 +0200 (CEST)
+Date: Tue, 22 Apr 2025 09:58:26 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Marcelo Moreira <marcelomoreira1905@gmail.com>
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, kch@nvidia.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: Re: [PATCH v2] nvmet: replace strncpy with strscpy
+Message-ID: <20250422075826.GB32494@lst.de>
+References: <20250403232432.25255-1-marcelomoreira1905@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -77,19 +50,10 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250419135638.810070-6-gshahrouzi@gmail.com>
+In-Reply-To: <20250403232432.25255-1-marcelomoreira1905@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Sat, Apr 19, 2025 at 09:56:38AM -0400, Gabriel Shahrouzi wrote:
-> Refactor the channel validation logic within ad7816_store_channel() to
-> leverage the max_channels field previously introduced in the
-> ad7816_chip_info structure.
-> 
-> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Thanks,
 
-Could you add the ->max_channels struct member here?  This patch would be
-easier to review if it had all the ->max_channels information in one place
-so we didn't have to jump back to patch 3 to verify that it's correct.
-
-regards,
-dan carpenter
+applied to nvme-6.16.
 
