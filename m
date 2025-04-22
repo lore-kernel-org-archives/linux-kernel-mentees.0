@@ -1,62 +1,62 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C153B22ACE7
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Apr 2025 06:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AC322B5B8
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Apr 2025 06:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745304091; cv=none; b=gXA7tMH7dPu68TLwzRlwyTEFJRbgUR5pR2Gimo4Xv7jDiet8AVidKvtXcBouaSDHZEFdeWVunldTd+gqY4h2lh3GNrWOnnB1mLAC88NgGN1/HmgO3pvRPc+onKFT0mFBv5YtAcm6s60hqFUQtzbSt3wpj6c8GiZT71gJMfu02r4=
+	t=1745304271; cv=none; b=nl6VPDOx2oImVaVexs0FbVyHiq7Vr4Y38+8jJ1ih2W6mJ0v/TIwB88V7Jmk9wfHwLqBQw4s9yJMbcI9+NAi//xeCVPmE/VPLbpPiYva2Kgep75UWVeMsQvQC8oSM63OB0RasndnkhAIhSHBFVrTnfK6tqfXZDtydor+Gmhyd4vI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745304091; c=relaxed/simple;
-	bh=b+b5f49WuUM/GVoPNhs0qQ519kURG3dfG9PkIjCLyIg=;
+	s=arc-20240116; t=1745304271; c=relaxed/simple;
+	bh=pL9CVghxG1ZKZG1MuX1QtZhXgzKhXTo0AK7d0/+p3xY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CsNPFI/vAKFumiFNfR1d9Drc4AJe2L3Av6lkwJgaW4CsRdhHfX8XIQrBFAQlAK+QZ3iQbcx+nDMOJqacu40FTwSX1WA2eT2SSUkJs/6vD4wpgr5qgfZSvZe0B/mIEC7sN4xabubVWkJxCeWhYK6MR/Gtw0ffZM4jZcKqhgAYreI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fyokxpUY; arc=none smtp.client-ip=209.85.221.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xbjq5BFlJ61Z3udVTYCRST6tftSsNAj1u+rE5EDS10pmZNKmTu4QpQUy6ZHLpZrbb6Gsa6RpmTRe9hHHHGnXyEwR5P4wRruXVtJ1jMoQEbk2bHgHvOzRq3uDfwXqBPFD/Gk5X4WY13o0Z1pHObSFDyOkp1d6U9bm+IuFwfb8yUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S+hJdr87; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fyokxpUY"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-39c1ef4acf2so2845309f8f.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Apr 2025 23:41:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S+hJdr87"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cfe574976so34113255e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Apr 2025 23:44:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745304087; x=1745908887; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1745304268; x=1745909068; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/pURcEhBEHdxpYhnWEBaI44DGcypxp9nMdkY7Iw/QyY=;
-        b=fyokxpUY9Am09zUcwxtpCROj1olu3eTN0Fcz7ZEn3HE3D9EUiFE945BdC/h1UD0gqQ
-         97zdqx4SxTVqmjihXVAKkz0ibxZ4+PXZOG4AKFYONtEkBAQL/tbV7nMR6428msvsmkjM
-         XOXjBB/ewxQobx/795WCAztpcnl2ISfgVn6UJ2p1Fj080E50ZgrOJu/pjhBdTkuU1UG4
-         015ZqbQYpNqP/KI9qIgc8L2taINovr0JUSZlWYDfyUlSMnStG0YMv8sFidzZDkCbce1I
-         H+XUE2NZedFwjPl4y2UHAKIusxyj4sNcB/4za5FPM8+oxm9rY5USfrx60gBPhZd6HvKi
-         nOzA==
+        bh=kQPImNugkItyfP+G4uJ4TvGScdbcNscFNsfQCd9dZNE=;
+        b=S+hJdr87KAzYsPFGf0rjuZyXLkf9Nh3CrrftWpGIokaproPxCN7mDjYzmT04F9YiAE
+         NLMSVA8H0HE9DjU0jwYqI6tSG+nSWArcCtaOqUXH6bzaDLdfE4eHrFd7it6fEWQle432
+         wyCPwdPKt+SkQZ6A6HdbIRIM2kcr3XX/S0yYMdlxuDD4vBVhc+Ha9StpPK1kQfbwtyNp
+         PjpCLj9V30iZy3CLmsv0pYpZnxL+inGwCDlNEr5yMdLa0XGWanhLFDjAlVhgsKgW+Jw9
+         n8IPNdu5hfo3KpS9Gh9K1XJU9zhvFDkUIQ/T2S6gbBZeMU2anJppB9bwA8b67TJHrJGg
+         yQ1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745304087; x=1745908887;
+        d=1e100.net; s=20230601; t=1745304268; x=1745909068;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/pURcEhBEHdxpYhnWEBaI44DGcypxp9nMdkY7Iw/QyY=;
-        b=czhyHRDmR28inlgJAMlW91WRs7s8AC0Bv6eaSgXHxz9b3UwAgw5nWI5mibMTzM0vLG
-         e5Mf8+bWVKz6KLoNqcqwQ51JMNUttAbeqtUTBGJ7+1j6EvxY4AhIBmhAIcJAZlfiA9x6
-         D8O2ba1W6kJdGzDDoBAQAjx0ZUJmtbvmTULa9AM0elTAYnXUWw/YndDV9ZSMg4yLwNcA
-         99UabD8Z8nUfscFnGyZc9ftWV1G5BW8YLNJhODpzg+8K2NEOoOfakTCw6MzyXGM8Q4r3
-         AEf5IpNARAh4Oscz0pXNrPV0SNZJ/gngpEqci1TSWQvscRGUThlSbWXnqQAAOaNWLHxY
-         TEvw==
-X-Forwarded-Encrypted: i=1; AJvYcCXJqcioh5hRqcM7I6ug9i8ykzmQxV3PLXaP3JjXDz/jdrfKD8KYbJEGea60rs2Qc3F/ZklQQY19pwUgvn/xCeETC3T/Jw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxc8KPAGT34zbQk0Mh61+KRf3rAQMXZQjeXgZdqLSlqUYQHcP5f
-	znsPqXf0QmA0Fl7Ew78BTWANoAOjjZUZRnVcEQ8WuyTYwg8z/G/KVYaYH90G9YU=
-X-Gm-Gg: ASbGnct2aN/0U4/nD29DeYgEN/8XdcMj9ZIccJ5z5A+dKjhFoaHnnk7RiruH0Z87Wp3
-	KLw0+FJB/9r43/KL1shDGX5dGAZGOoiRlIoPNqpBXTNi4KzYx42OP5dT9hHjopdBIL7euas9cUp
-	r2ky5DMJeeLbQhSRpC+jGdzrEbWwKKZceOugKRYQ2MA+uddZj1SjABfZPPJJ+pONgxYCtI+Zjop
-	QbQnM/dfPCFFIYOsfypVdUgXOm+a/pmZLKCSwqyY6iFfVKQHpmAWLkJNnSaaEeHp4aghJb2U7xr
-	VYdr57Zwcdnnr9vGYSxQzxsogDjmwa9LhOL70KyHUjQFYQ==
-X-Google-Smtp-Source: AGHT+IGY+z1SYzbAwHQ1bDwluBsR27wnP/M2SunDoCiRoLo03vSfRP0XeHzwdWtlYLn2l6uyLgUtbw==
-X-Received: by 2002:a5d:584e:0:b0:39c:2264:43ea with SMTP id ffacd0b85a97d-39efba2a69bmr11843060f8f.3.1745304086981;
-        Mon, 21 Apr 2025 23:41:26 -0700 (PDT)
+        bh=kQPImNugkItyfP+G4uJ4TvGScdbcNscFNsfQCd9dZNE=;
+        b=RpgFGgMPgnkajJ+cRI+vXO19K7lJVh6NdOoI4ALcsTRiUCO2T1XDMKpikju4e7Ds13
+         II/a+Rd8NkctAjRKzLENEO7v0pgx0DNtmaIrfZhfsefSfecMAyDWEHKKyEVw4NvUVQVH
+         P8Msi8PcBNk1rKeSifxTbBnGDK3k9wRA8q+tOQjKyUzdxvOvh5MXYkVj76XwjNdvW5C8
+         P8W/pN9t4GjKVwFxSmJ6h2mibWn0/XF6t23cKA3u0x3CUtwzFwFUrL8FhdYV7ETjBdGR
+         ArwaL/Ia02Fot1jQ9tI0x74T2NPyXg3bKF5rEZ4pq/s9lkmBfCOxPflUfeDHgujB+PvQ
+         v+9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVSk6y1cOjRHz+lCHrLF7MPDt1cfWqsm028w3q/yJ8fpClGCtnsf79f9oEJ+CeBMqvTyhKFjSI0c67wsMwV7bibm1BiwA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwxWEUQlRP9VLQMlFmxYTjq6qxYIrjKnNJ7F1u3ZoCLRQpo+7Pr
+	hQX925jRg2bJm/qJHJ1oKkPjNnVifY9v+SdDNOA8AmjVEVwUfir0SlJKURlaS3s=
+X-Gm-Gg: ASbGncv14POvOlsS3iIRrANlQl7YJw61YMt0mh28toyXDb/ve1qi6FMF3ihe4I5C/X3
+	sLaKLF0CYvT4/ArPNCsoWooqYRVMFk2ZIGdjplDB1uJck8MEayhiQ2+kMsCNWIQKPBPQNda3P+/
+	4hToN2k4GteVNj43GjR7zvZmYJL+v7OhGK9WyQJMhpOAc0rGIZeSsILKmRc5FKyNqH8NJ4aTw61
+	06jQL8DbOQoAcTO2dq+eCZqUDlCHwHJruqXvakFGbLgX0uW4OF0t5J5CwPiWqN6Ioy04NLJ7wVc
+	dMf7PNNuIH/iZrka8f+t/8VbQGdZ5NkQZTVjyXQdFz/hYg==
+X-Google-Smtp-Source: AGHT+IHUNJ5wQ9P52XuaZE0IU0Ci7qmgXOj8IWWiW+Ga6WWO0mvjKQK2WDhvuSV7fUR8QE54qZimKg==
+X-Received: by 2002:a05:600c:5023:b0:43c:fa0e:4713 with SMTP id 5b1f17b1804b1-4406ab7efadmr141939785e9.2.1745304268110;
+        Mon, 21 Apr 2025 23:44:28 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4406d5bbc13sm159163195e9.17.2025.04.21.23.41.26
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4406d5cf2easm160870545e9.31.2025.04.21.23.44.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Apr 2025 23:41:26 -0700 (PDT)
-Date: Tue, 22 Apr 2025 09:41:23 +0300
+        Mon, 21 Apr 2025 23:44:27 -0700 (PDT)
+Date: Tue, 22 Apr 2025 09:44:24 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
@@ -64,11 +64,11 @@ Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
 	linux-staging@lists.linux.dev, Michael.Hennerich@analog.com,
 	sonic.zhang@analog.com, vapier@gentoo.org,
 	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 4/5] staging: iio: adc: ad7816: Use chip_info for device
- capabilities
-Message-ID: <0145edf4-aef9-45c2-9a74-8c15abb1286c@stanley.mountain>
+Subject: Re: [PATCH 5/5] staging: iio: adc: ad7816: Simplify channel
+ validation using chip_info
+Message-ID: <a8aeef26-929d-4601-9eb5-9011d73aa36d@stanley.mountain>
 References: <20250419135638.810070-1-gshahrouzi@gmail.com>
- <20250419135638.810070-5-gshahrouzi@gmail.com>
+ <20250419135638.810070-6-gshahrouzi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -77,59 +77,18 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250419135638.810070-5-gshahrouzi@gmail.com>
+In-Reply-To: <20250419135638.810070-6-gshahrouzi@gmail.com>
 
-On Sat, Apr 19, 2025 at 09:56:37AM -0400, Gabriel Shahrouzi wrote:
-> Move device-specific capability information, like the presence of a
-> BUSY pin, into the ad7816_chip_info structure.
+On Sat, Apr 19, 2025 at 09:56:38AM -0400, Gabriel Shahrouzi wrote:
+> Refactor the channel validation logic within ad7816_store_channel() to
+> leverage the max_channels field previously introduced in the
+> ad7816_chip_info structure.
 > 
 > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> ---
->  drivers/staging/iio/adc/ad7816.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-> index 39310ade770d0..ab7520a8a3da9 100644
-> --- a/drivers/staging/iio/adc/ad7816.c
-> +++ b/drivers/staging/iio/adc/ad7816.c
-> @@ -44,21 +44,25 @@
->  struct ad7816_chip_info {
->  	const char *name;
->  	u8 max_channels;
-> +	bool has_busy_pin;
->  };
->  
->  static const struct ad7816_chip_info ad7816_info_ad7816 = {
->  	.name = "ad7816",
->  	.max_channels = 0,
-> +	.has_busy_pin = true,
->  };
->  
->  static const struct ad7816_chip_info ad7817_info_ad7817 = {
->  	.name = "ad7817",
->  	.max_channels = 3,
-> +	.has_busy_pin = true,
->  };
->  
->  static const struct ad7816_chip_info ad7818_info_ad7818 = {
->  	.name = "ad7818",
->  	.max_channels = 1,
-> +	.has_busy_pin = false,
->  };
->  
->  struct ad7816_state {
-> @@ -98,7 +102,7 @@ static int ad7816_spi_read(struct ad7816_state *chip, u16 *data)
->  		gpiod_set_value(chip->convert_pin, 1);
->  	}
->  
-> -	if (chip->chip_info == &ad7816_info_ad7816 || chip->chip_info == &ad7817_info_ad7817) {
-> +	if (chip->chip_info->has_busy_pin) {
->  		while (gpiod_get_value(chip->busy_pin))
->  			cpu_relax();
->  	}
 
-Here we could just check if (chip->busy_pin)...  The place you really need
-to change is ad7816_probe().
+Could you add the ->max_channels struct member here?  This patch would be
+easier to review if it had all the ->max_channels information in one place
+so we didn't have to jump back to patch 3 to verify that it's correct.
 
 regards,
 dan carpenter
