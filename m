@@ -1,89 +1,144 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6C127CCDC
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Apr 2025 13:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4BE293B57;
+	Tue, 22 Apr 2025 16:14:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745328643; cv=none; b=lTHjhQmVLavs5qE7M4gm70ivqTIz6BG9l+iFJ7oOCSE9P8mfVSBEIMdgcZ07qequAyZx7QRwIiFtSP3EiPhCLGpecFDxZBkr3JExO+aG+JXFggF3qHXtBOSHmdQF5/oXsL89Ao8iNcGAJNVv1laigsqk2qH50Ayvq1uWdYvuVd4=
+	t=1745338493; cv=none; b=lRQu+LY8l99+iOJkhiF46jIOxWJ0i0po9HZOHwdqZem4YRrSKXduYCEdabI4cbtpQ5x1mFI9340ofkqVXbW+re2X2tmYepwZ/YgBk6CbPRF1EfH6j9y16LIGZC6MODGEdXeMqGdhSe2zKulCRMzfDDoI77eDcJAPKBAqtkGDOV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745328643; c=relaxed/simple;
-	bh=675nI73TK3yzWzYYdekYDaWI36QZ+fU5y2hIwCEJcK4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XmjRLR5efHXbmE/Gsj0+h0H70NekWxY/aq4sFq6fMuYsrqiqETo2Qhg+gLa7Mo7/FLlHe/z8simJTCRXLImljEBTEp4Vihgl7qozf3Rhg3ARPGuJqPUsqAqi+ILhXm3rcmJmcgklYarjJtoTnYZUS9GPtjRqqh34RIw701fVvMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OlZqMMca; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1745338493; c=relaxed/simple;
+	bh=7laejMG3Z8D6gx1OrpZO40uSH8I9rUZIXpN2yMxaO4k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=stK8/RHAr5GRMHvTEnPBzjuo9iOagm9O1CkiCeL8P+XqoK6jKeBCm6gNFGPCzV+AkBGFN7qD9I/odvfd9MDCzYk0F+bHt0Pse3l8SUGZRk6atZJzSBS4OmYFnBNuohlwuq6i5fU2brjIRMFj2Dhf0D9Z2vaBQLebewJSQWVUUOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HdsQmYnk; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OlZqMMca"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4561541058
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1745328640; bh=S8E9dCL2t2/JovDkCNE7YlquaFlBHiJ3Hvfqf4qvr2Y=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OlZqMMcaBZWoHS3co3iNgHkdqedc880EqwruJ7CsAHqO1gPBMlJFb5gotxlXNgoDU
-	 itWmT8essp0GnlOKlYcDTXczvUhwVBVWIhlhMxQF2iutiCh3TfkLjiAnt5FXJZEfLp
-	 l+Cmg1AVY7x3+LWW0xN3TWxdKruVrrh22lt05Hpy/aZuxZ/9SoAa1nNivPwI1pihX1
-	 i2kBTfo6W33vhDO5Vmcuibdi8YWwtv0XCTvZ/6/Nzv8Syn6LFKPdNqgn9BK8hSvSSh
-	 knz23BcW+bddW1ryvL6njppZVsAioit6yPdKKe6G8QRKvYGx1ucaEkwHbcnVB3C4IK
-	 dun6ClhqSX/Og==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4561541058;
-	Tue, 22 Apr 2025 13:30:40 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: I Hsin Cheng <richard120310@gmail.com>, tytso@mit.edu
-Cc: adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, I Hsin
- Cheng <richard120310@gmail.com>
-Subject: Re: [PATCH] docs: ext4: Ammend white space
-In-Reply-To: <20250422055702.451729-1-richard120310@gmail.com>
-References: <20250422055702.451729-1-richard120310@gmail.com>
-Date: Tue, 22 Apr 2025 07:30:39 -0600
-Message-ID: <87zfg8uxvk.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HdsQmYnk"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4769f3e19a9so36437471cf.0;
+        Tue, 22 Apr 2025 09:14:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745338490; x=1745943290; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5v+4lTQ3xb7CRwbB20c/aB6VOxfSp733arfrC9AeWZM=;
+        b=HdsQmYnk5C1JtUmgV1GrQXTPGmwA4wO8ZURVIEsBuF1xQXlZ5l8afbrG1VrUx6S3Eh
+         67jCachIr6MlhDqmRZ7VSERBqQYDwfYOwnpll3hriKRrumDr7O8eT7FjwGjZD9W7cNPE
+         VMHwKcSAX9/4avcfSLo1c2+S926aGOute8A799SB8oR2cuBJZsJNMswoqUtIj5zc8Xr9
+         1aXLRVYTvuCJY3N7Lp4Jk8ScoxJPeZgmEEZ7Xne9sFFfzNsugjzF+DMfCz+LGOV2igHB
+         UQrsGdBFb/2SktSuEk+6OOdcPv+kPDJRxwr1CtPHCIdYNVejz4GzsD2+PlZg0wsBaORl
+         02jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745338490; x=1745943290;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5v+4lTQ3xb7CRwbB20c/aB6VOxfSp733arfrC9AeWZM=;
+        b=Qto9GtweEscrRtquDW4XLTJITSehdEbp2AR7B4j16ehd8l4g/YTJFxQs8oxvjnba1Q
+         TXGnliuxDlNSky4eeoFP9OrOVkGqp3gaWua1f27brVn6LS9GFlUUxe/p1Ddu5zZAPZwj
+         YahPhIZOejNQaHMZuhiwyJFouH/oWqQJdW3a7XwMOumQHTBds1EDCxoHva7qDGyD8Kwr
+         UxKp7OxT7kBgDF1IzPfsCrfaqTMhWepRnO3j5QshtX55wyzmdgFqDuPKLnveZ6yr2zru
+         A9rIz+IW64iQM4LMFEQBrvXTPBFLSlDCn9S+YhjzX8/c1c5gfvaoj3+RBsrKNjnw1NUl
+         A4Ig==
+X-Forwarded-Encrypted: i=1; AJvYcCVsrO0Ut54UX/6GtYbx4Z623znjVmsy5rfOVHgjoHybA1WqQzB23LzhVm6IFF7CCGxJtmbM7ldHbj0LxsSq44rmgjqdXw==@lists.linux.dev, AJvYcCWTI7FRIt3llY5QW7wOrEREKvmxn0JklfvhKO8U0I5mv6MPtNnNCiBDyxZnKF9tKtLnXVx6uVDw8tXoP1jKdQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHTfXX9qJLRWXdxrEBP14n1BvI5o6pdea6pjy2paj2zGwJTgd5
+	VpkeaiUvQPyHnfaSoDy4nH1sU20EnU4WG5BR4dQGrM/wnJiUydBcKrxD+O4ePWT3LS+8QZI6/nX
+	HjofYd2cWQqFFXomWthqTjEObJf8=
+X-Gm-Gg: ASbGncvNWNcmafa0wdrmrhGTr4YEgIfbsr+XYzR79egCCwWqqT2w++QG1B1M+LtEH9O
+	3Yy8ewzinWOxGgL9O8lTAd9WlS+0MgbvOL6o7sYeW9q+9/jeieifYgu3Si09kGRsJ7hGPBRaxM7
+	/hgjWwhLK3zDpoC6Fur8QJWBdMwFfrsxNOfcS9jCYH/l+wavcRgKWulQ==
+X-Google-Smtp-Source: AGHT+IFSXJh2tdSxxK3VzXuealELuBy1Wg2zNkg+nGmd99bFkaPZuTvsadoWKMJ/nwV8ag8f+tXhA8TE7xfY82MkTU0=
+X-Received: by 2002:ac8:5711:0:b0:476:9b40:c2cd with SMTP id
+ d75a77b69052e-47aec4dbc82mr280279011cf.47.1745338490265; Tue, 22 Apr 2025
+ 09:14:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20250420174725.887242-1-gshahrouzi@gmail.com> <20250420174725.887242-4-gshahrouzi@gmail.com>
+ <e712ec88-d925-4a73-8df4-ca3387a903fd@stanley.mountain>
+In-Reply-To: <e712ec88-d925-4a73-8df4-ca3387a903fd@stanley.mountain>
+From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Date: Tue, 22 Apr 2025 12:14:39 -0400
+X-Gm-Features: ATxdqUEXOYk7EcH1kwDC_9Cf9kzdnkH9WSeioP2PttTUhJwEoQfKE1Vatacff8g
+Message-ID: <CAKUZ0zKJftqyiMDS1kPrqQYPMserCH7+UWt=v85UD4Jq7GdNKg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] staging: iio: ad9832: Add minor improvements to ad9832_write_powerdown
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, Michael.Hennerich@analog.com, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I Hsin Cheng <richard120310@gmail.com> writes:
-
-> There should be a white space between the words "block" and "size",
-> instead of writing them together as "blocksize". Ammend a white space
-> between them.
+On Tue, Apr 22, 2025 at 6:08=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
 >
-> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
-> ---
->  Documentation/filesystems/ext4/blockgroup.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Sun, Apr 20, 2025 at 01:47:25PM -0400, Gabriel Shahrouzi wrote:
+> > Minimize size of type that needs to be used by replacing unsigned long
+> > with bool. Avoid redundancy by checking if cached power state is the
+> > same as the one requested.
+> >
+> > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+> > ---
+> >  drivers/staging/iio/frequency/ad9832.c | 18 ++++++++++++------
+> >  1 file changed, 12 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/i=
+io/frequency/ad9832.c
+> > index a8fc20379efed..2ab6026d56b5c 100644
+> > --- a/drivers/staging/iio/frequency/ad9832.c
+> > +++ b/drivers/staging/iio/frequency/ad9832.c
+> > @@ -173,13 +173,19 @@ static ssize_t ad9832_write_powerdown(struct devi=
+ce *dev, struct device_attribut
+> >       struct iio_dev *indio_dev =3D dev_to_iio_dev(dev);
+> >       struct ad9832_state *st =3D iio_priv(indio_dev);
+> >       int ret;
+> > -     unsigned long val;
+> > +     bool val;
+> > +     bool cur;
+> >
+> > -     ret =3D kstrtoul(buf, 10, &val);
+> > +     ret =3D kstrtobool(buf, &val);
+> >       if (ret)
+> > -             goto error_ret;
+> > +             return ret;
 >
-> diff --git a/Documentation/filesystems/ext4/blockgroup.rst b/Documentation/filesystems/ext4/blockgroup.rst
-> index ed5a5cac6d40..32a66a956f31 100644
-> --- a/Documentation/filesystems/ext4/blockgroup.rst
-> +++ b/Documentation/filesystems/ext4/blockgroup.rst
-> @@ -108,7 +108,7 @@ block groups which can be described by a single block group descriptor
->  block. Since the size of the block group descriptor structure is 64
->  bytes, a meta-block group contains 16 block groups for filesystems with
->  a 1KB block size, and 64 block groups for filesystems with a 4KB
-> -blocksize. Filesystems can either be created using this new block group
-> +block size. Filesystems can either be created using this new block group
->  descriptor layout, or existing filesystems can be resized on-line, and
->  the field s_first_meta_bg in the superblock will indicate the first
->  block group using this new layout.
-
-Thank you for working to improve the documentation!
-
-If you dig through our documentation, you will see that "blocksize" is
-fairly common usage.  Changing them all will result in a fair amount of
-churn without much in the way of benefit in either readability or
-accuracy.  May I politely suggest focusing on the many real problems our
-documentation has instead?
-
-Thanks,
-
-jon
+> Fold this whole thing into patch 2.  Don't write something and then fix
+> it in the next patch.
+>
+> >
+> >       mutex_lock(&st->lock);
+> > +
+> > +     cur =3D !!(st->ctrl_src & AD9832_SLEEP);
+> > +     if (val =3D=3D cur)
+> > +             goto unlock;
+> > +
+> >       if (val)
+> >               st->ctrl_src |=3D AD9832_SLEEP;
+> >       else
+> > @@ -189,10 +195,10 @@ static ssize_t ad9832_write_powerdown(struct devi=
+ce *dev, struct device_attribut
+> >       st->data =3D cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_SHIFT) |
+> >                               st->ctrl_src);
+> >       ret =3D spi_sync(st->spi, &st->msg);
+> > -     mutex_unlock(&st->lock);
+> >
+> > -error_ret:
+> > -     return ret ? ret : len;
+> > +unlock:
+> > +     mutex_unlock(&st->lock);
+> > +     return len;
+>
+> This should still be:
+>
+>         return ret ? ret : len;
+Ah right, the return from the spi_sync. Thanks.
+>
+> regards,
+> dan carpenter
+>
