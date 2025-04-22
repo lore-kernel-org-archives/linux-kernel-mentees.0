@@ -1,104 +1,122 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746111E5209
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Apr 2025 05:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53EF12367B8
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Apr 2025 06:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745301429; cv=none; b=ly873Yug1VgGup9T4NPZFuBsNNkItK4HQdiQBsU7I1Zg4LrEBjfS93p/0J+7XdqXsFVbGcJnAYyvmUgoDexR3uzswvyAV5spbc8COGwE3QB78s2GNfFAjXN+Kc8xzJVMaqr2Zhd3GrLnzUfGmSOgP617frMXyZSvXR8v8JLdOSw=
+	t=1745303793; cv=none; b=X3ixcOl15FAtmIrwlHxgzU0DPY081b4ck8MWQcag5BSmAOaKSHyeLSNjHdiwfXjyJU1fl1fv5/JcmomKH5Mak/KotYGYTfVG6D0Y01JlfVWN4ig2g33xERcoPoudoHy3bhY8guEe0G0FGskTPnSx8l5Hnk99KNabCs+9CUFgsLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745301429; c=relaxed/simple;
-	bh=AdLmc+wiCdwXinG9IPvx9ZOAcJ3bRqNTo08Kbb78oAc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r49R3rxVwxAH+Ii9x68kcVBCSRkEJ1VqYZGOCGZjTAfi5QwBrkzXQCKXJGIBOvWOvyKCE5RYLQssHKBnHC2tLG0o1uyJVk+B/6CLBBvVv5wlYggMKvB1zTnrJFRU/e7Brg5gPhN6+lOEgULMFlJP9DSwi3E0oF055lGlMouN9fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2rJjTQo; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745303793; c=relaxed/simple;
+	bh=GiP/jlLbMozxOxUvrEms2VWQOoLHWMI7XjFly4V6b/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KSiJZj22AceCvFk50RvdBPLK47tMFfDX+UJhJ8rqj2BUPq9MfQiE17m0jk5SrNx22e3FI0jfhsxTM0pknHBktyGwXDsmsnQcxiciORKXzgwQIyOhj10XUrMOvIluJKC010ekQ6sP8ELAKQ8925fjp1jtm+Pl8d/Bqh61ljr4+EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Eb4QTehu; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2rJjTQo"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-30572effb26so4269155a91.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Apr 2025 22:57:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Eb4QTehu"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cf0d787eeso56085905e9.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Apr 2025 23:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745301427; x=1745906227; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=efd+S9Jz6y3DhI5mJO14MniAuJQjBl1kfKZRBddD7pA=;
-        b=H2rJjTQoWhKSUBpCLT1DvTPH2EVuaF6gDlhuGK5UyTZod6ShcD9pOwkXW01dqOiord
-         e1CV1Hy9UcSzrdcryIuta6wgYnV9gRX4Sco1Ey4eVWN7geq+2HCrT5+OHnLMZqyi7AAG
-         TC1TejBEGeOWR/wTQOGwxxoQIJENbiFgVuq3+Ypds17aSSYo410ziCngdEDlkrs3CHBi
-         U20u4V4qRwhQe+GTB6rQ/Nn+W3ZR1+1zlD1yzGIqrBMt35gzST/c/Y2CpxYdHLio6M4G
-         QfUYAwmJq7lyoVDNs9mfzSe6gLy70PO9al9Q173o2S7VS6f85erIetKcxQM/SzlWf+W0
-         SFTQ==
+        d=linaro.org; s=google; t=1745303789; x=1745908589; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MuuIFzXKAKOtJ/juljvbLrxvScq2q/lihuCqoG9qgYs=;
+        b=Eb4QTehuwEpzyGv8dojXeTZWJ7USpnqWxHIYFi4KP8sfFjGFItc0BnlcgbHOz7xbjw
+         hesaS1vgOr/NjwJZE3DOGwoCjC+7mVf27pFrgmIyJYr0LrSG+wwSQ8aLKU4pVh8u7EBI
+         RaKs+Q4v3eFvSQQlxDNrB4vbBM/nVQF7xAzaXAqhCUMjkc7zXp6w8nXqhdVG8d0YiA6x
+         C34rPw2OaKRAk7hNGpGGIQ4VWF4/JrGr/QLBZdwi9lSJ0qXrvVlFx8kRLb+kqLupcsPB
+         Wtq3FM7WY6o/hOhTfQhlhqh7XDtSjZoS6SqYmd1r1YHelp4uk4PqTH/fV/1m+g9Gc22W
+         7Jiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745301427; x=1745906227;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=efd+S9Jz6y3DhI5mJO14MniAuJQjBl1kfKZRBddD7pA=;
-        b=okyCTx4qq1PHzuXIgPjOhEjrd8e04Hhluv0NBERTfy2BfR6+acILJqvPPS/p8qzczp
-         y7C8tMzk4f/Ma9D9v3Vc2/sEaF2XWpggLvfUPtBCsyix85YVl/Wpx/Cw58DmmJ78OfZy
-         z2klvlCre3z2YR01XHEwPxMdRcZhQNOdThInJ36ZMzZcjpItYEumd4BkCiuhHTVCAjD0
-         x1got5qZV5elHkKut0fIEWy9zOoigRagVhmP2zXb6c9m4kO0sBF7F9T/Z1kLl+usb1uq
-         g8N9YUSIX04MJoh9ftDLCyzE1550zyDOqrMkHzNZUiuggVMXC2Pmw+Y3KqeIZa34j8H9
-         HHgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWCyCCzUEh5oQwTrHxkaDafaZeA8Cz+BcN5pLyRee/HayuB7uQhl4X293lA1gCJ9S5bfIDiRcNmIe+CyqdyBYFokhnZhg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxXI1M6dCrUFvk6LbRWsTzXX7+L3MaC6kRVi0NT/Lsp/ONnO/Mk
-	cwidEhkvrr4YQSRAWGLbApfuhaEv4k4/95qEyHtA2q4ZdKOOuSsW
-X-Gm-Gg: ASbGnctcvOe0E2UyzO5A0D5TdoW+kbAWxTlc1yUmjgAkwYBV7lGVI8cNSx9L3QDmR/w
-	kT1hL0r7dZYWHJQnWDNseWUhVTKjlrWnv07WEm3FDDf4oDS+kQuP5RJZBv32OAulEc2+X18dHwD
-	ylCzQWnwTuAiN/BY5Xn264oxLmukcDXtGctnOZU11lpfU8ndMHoctzMxOg9A8HIjftpuvh/R14H
-	qkizFyCDQcTjTVhX1Wox3//29pJDTRx2mTuUvUhhhklX5jOoMY5JWzFk7W3kioCyzNQ6oEKEo+N
-	ffXeOrnv0AcQIsY6h8PUCYpePptYI+BbNZfsJpX9reOtcC/4x6seLv/X8tQ7GeLR9NjySvk=
-X-Google-Smtp-Source: AGHT+IH0F3vBa92QDVMDa4RhrEeLNM/G1NMQXluqfI0wOlvs1wBOm7PMh3/msz+ClY/E04uMK8ENcA==
-X-Received: by 2002:a17:90a:fc46:b0:2fe:b907:3b05 with SMTP id 98e67ed59e1d1-3087bbb6abcmr20030866a91.29.1745301427548;
-        Mon, 21 Apr 2025 22:57:07 -0700 (PDT)
-Received: from vaxr-ASUSPRO-D840MB-M840MB.. ([2001:288:7001:2703:12a8:650b:2dd2:b977])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3087df26445sm7688959a91.29.2025.04.21.22.57.05
+        d=1e100.net; s=20230601; t=1745303789; x=1745908589;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MuuIFzXKAKOtJ/juljvbLrxvScq2q/lihuCqoG9qgYs=;
+        b=hj+EhHfLRxrLwo2G6AtI7wFaUy9MrOqIN8WkIRMMJpL3l4GQ6EweuajFMIMGJMkgNX
+         yn6Uwmj+pykG9ix60/X2iwF7kLMSry0q4+aImUb8ok57DMS9OeP7JwiLC/mmnRSt/dnc
+         zgUk1+9sPK3KLZsOdPLWyqXgDtYDbWRH0BIGlWHk0BjhwNHA5NNbTtKXw/MfxN27OlhF
+         CiGLZHfGB6OcAZkeq0lrX5A15/QPaNf3FBmBCgU6mvjq5TefUXsOm66aIBcocHZQSDxn
+         9e9WhL9xxP/SQ5E9WxjIUla6+LsrCAAczP4duKWQ/PCZnPwg0w3KH2oB/tmh71TJ0B6I
+         ywdw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvrshHFnB+pXrETWVwkfWrhF+Y6w/EDWaYOKIY4iRXU7DRyKH80ojZ6Tb8glg3N4wnK7Hz2JC0rJQ+lBrzPlEHvTQLSg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxPLu8YkcJrSqChWJqTp62xQySiDzakwGD5Mk2KVG8lhxFPeXSu
+	BeRvBRHUUcxNbmAmt/1iVKXSB7WwKpOkRo/2clUu5tHYHzCrgwK+wkhVxZdlqEQ=
+X-Gm-Gg: ASbGncsoSjzrLhoLL7LL1MWw8oimjFhqQ66fA2Tf70B5qZxQksAgA6JquuYRap5uGJ0
+	6MsUpofN2eA4NyOFG5k93g5Ld0Zbk7mnKplUSBFFYBxcWbakwsyMBp7Z/oQqx7zQG1ttkAwDd5C
+	TewyoXiHuhNt/j9/8NCa9984+I4KG1+PwKBeN5kr4FTC07GSOg6pqZ/c6QNZUq3+8aBz9ax7LFA
+	hNr8wiNxnMMRa4i50OBAefT2mu39HlVm9gQ+iohmOt/bu+/MuBU7fxlAacqfSH8DOFvCzlT67Hk
+	JdC3KymRA2bbYZfnaC1k/VUVFoY7Qc5lwbKB1qMCo5BEuw==
+X-Google-Smtp-Source: AGHT+IG58ERkjB/D7cQnQR9ULR7mf0eJW0CrGoysFAmK0fVh9EIq2V04mHgq1He3cbNy5XZ0uVNl7A==
+X-Received: by 2002:a05:600c:1c12:b0:43e:ee80:c233 with SMTP id 5b1f17b1804b1-4406ac20146mr111342455e9.32.1745303789459;
+        Mon, 21 Apr 2025 23:36:29 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39efa433133sm13898825f8f.28.2025.04.21.23.36.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Apr 2025 22:57:06 -0700 (PDT)
-From: I Hsin Cheng <richard120310@gmail.com>
-To: tytso@mit.edu
-Cc: adilger.kernel@dilger.ca,
-	corbet@lwn.net,
-	linux-ext4@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	I Hsin Cheng <richard120310@gmail.com>
-Subject: [PATCH] docs: ext4: Ammend white space
-Date: Tue, 22 Apr 2025 13:57:02 +0800
-Message-ID: <20250422055702.451729-1-richard120310@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Mon, 21 Apr 2025 23:36:29 -0700 (PDT)
+Date: Tue, 22 Apr 2025 09:36:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, Michael.Hennerich@analog.com,
+	sonic.zhang@analog.com, vapier@gentoo.org,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH 3/5] staging: iio: adc: ad7816: Introduce chip_info and
+ use pointer matching
+Message-ID: <b17dc4de-9fd2-410e-8c5e-f27e550d3eca@stanley.mountain>
+References: <20250419135638.810070-1-gshahrouzi@gmail.com>
+ <20250419135638.810070-4-gshahrouzi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250419135638.810070-4-gshahrouzi@gmail.com>
 
-There should be a white space between the words "block" and "size",
-instead of writing them together as "blocksize". Ammend a white space
-between them.
+On Sat, Apr 19, 2025 at 09:56:36AM -0400, Gabriel Shahrouzi wrote:
+> @@ -84,7 +98,7 @@ static int ad7816_spi_read(struct ad7816_state *chip, u16 *data)
+>  		gpiod_set_value(chip->convert_pin, 1);
+>  	}
+>  
+> -	if (chip->id == ID_AD7816 || chip->id == ID_AD7817) {
+> +	if (chip->chip_info == &ad7816_info_ad7816 || chip->chip_info == &ad7817_info_ad7817) {
+>  		while (gpiod_get_value(chip->busy_pin))
+>  			cpu_relax();
+>  	}
+> @@ -353,6 +367,7 @@ static int ad7816_probe(struct spi_device *spi_dev)
+>  {
+>  	struct ad7816_state *chip;
+>  	struct iio_dev *indio_dev;
+> +	const struct ad7816_chip_info *info;
+>  	int i, ret;
+>  
+>  	indio_dev = devm_iio_device_alloc(&spi_dev->dev, sizeof(*chip));
+> @@ -362,11 +377,15 @@ static int ad7816_probe(struct spi_device *spi_dev)
+>  	/* this is only used for device removal purposes */
+>  	dev_set_drvdata(&spi_dev->dev, indio_dev);
+>  
+> +	info = device_get_match_data(&spi_dev->dev);
+> +	if (!info)
+> +		return -ENODEV;
+> +	chip->chip_info = info;
+> +
+>  	chip->spi_dev = spi_dev;
+>  	for (i = 0; i <= AD7816_CS_MAX; i++)
+>  		chip->oti_data[i] = 203;
+>  
+> -	chip->id = spi_get_device_id(spi_dev)->driver_data;
 
-Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
----
- Documentation/filesystems/ext4/blockgroup.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Delete the struct ad7816_state ->id member since you are no longer setting
+or using it.
 
-diff --git a/Documentation/filesystems/ext4/blockgroup.rst b/Documentation/filesystems/ext4/blockgroup.rst
-index ed5a5cac6d40..32a66a956f31 100644
---- a/Documentation/filesystems/ext4/blockgroup.rst
-+++ b/Documentation/filesystems/ext4/blockgroup.rst
-@@ -108,7 +108,7 @@ block groups which can be described by a single block group descriptor
- block. Since the size of the block group descriptor structure is 64
- bytes, a meta-block group contains 16 block groups for filesystems with
- a 1KB block size, and 64 block groups for filesystems with a 4KB
--blocksize. Filesystems can either be created using this new block group
-+block size. Filesystems can either be created using this new block group
- descriptor layout, or existing filesystems can be resized on-line, and
- the field s_first_meta_bg in the superblock will indicate the first
- block group using this new layout.
--- 
-2.43.0
+Btw, this patch didn't apply for me on linux-next.
+
+regards,
+dan carpenter
 
