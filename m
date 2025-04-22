@@ -1,73 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2F628C5B4;
-	Tue, 22 Apr 2025 13:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6C127CCDC
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Apr 2025 13:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745328532; cv=none; b=UcN8QwD5NJBEaNwpiuALw5fFvr/d1U9uZLoecqjQ+ms5dJmDaexqLv3tC0/dQwSjzO1sUkjiMxgMEknvuy62akxhfSG04VqYMxQhN0Dfttff4UEBCwUwAbfijjTgB4ouHgsn2yCnFRwaB2PUPkw1lh7FW+QlNw24R0Fb3N5aaK0=
+	t=1745328643; cv=none; b=lTHjhQmVLavs5qE7M4gm70ivqTIz6BG9l+iFJ7oOCSE9P8mfVSBEIMdgcZ07qequAyZx7QRwIiFtSP3EiPhCLGpecFDxZBkr3JExO+aG+JXFggF3qHXtBOSHmdQF5/oXsL89Ao8iNcGAJNVv1laigsqk2qH50Ayvq1uWdYvuVd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745328532; c=relaxed/simple;
-	bh=2me7VBvAa2GZQE5A/roufyixEHNbO9DV7E/3wBj0/4s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DD+FwUAZVDg/4C9IKS2bIYWthh93Ucba+sacI7RS8U6q0y/qpIGzuFB7N4aV3EMNdAYCERyOZcczoJnLhFCvGcQpWoPrBBt/KxKNRdIW1IW4Utg+n+M9msAgMnYPmcezZE27lu31aNmGN0KiJXoLLloj8y3VgVUA3Kl6LD8V34Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iWbMdgHp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745328643; c=relaxed/simple;
+	bh=675nI73TK3yzWzYYdekYDaWI36QZ+fU5y2hIwCEJcK4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XmjRLR5efHXbmE/Gsj0+h0H70NekWxY/aq4sFq6fMuYsrqiqETo2Qhg+gLa7Mo7/FLlHe/z8simJTCRXLImljEBTEp4Vihgl7qozf3Rhg3ARPGuJqPUsqAqi+ILhXm3rcmJmcgklYarjJtoTnYZUS9GPtjRqqh34RIw701fVvMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OlZqMMca; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iWbMdgHp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B816CC4CEE9;
-	Tue, 22 Apr 2025 13:28:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1745328532;
-	bh=2me7VBvAa2GZQE5A/roufyixEHNbO9DV7E/3wBj0/4s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iWbMdgHpfz08LG91tG3OtdAk9ffFq/qpS4FiRI4TKgteuhS5LbZPRyecxt0gzSbWK
-	 3zsSqEL9E2I1vrTXs//+hRrBRzL+kpfG7VKBQD9bZKFwL9pe9Yc2VELwVK58eiGrmb
-	 4rmrE8MiCfUoYI0R/HuZEOHy2whieSwknQzhioiw=
-Date: Tue, 22 Apr 2025 15:28:49 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Aditya Dutt <duttaditya18@gmail.com>
-Cc: stable@vger.kernel.org, Dave Kleikamp <dave.kleikamp@oracle.com>,
-	Dave Kleikamp <shaggy@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	jfs-discussion@lists.sourceforge.net, skhan@linuxfoundation.org,
-	Manas Ghandat <ghandatmanas@gmail.com>
-Subject: Re: [PATCH 5.15.y] jfs: define xtree root and page independently
-Message-ID: <2025042210-stylized-nearest-ea59@gregkh>
-References: <20250415180939.397586-1-duttaditya18@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OlZqMMca"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4561541058
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1745328640; bh=S8E9dCL2t2/JovDkCNE7YlquaFlBHiJ3Hvfqf4qvr2Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OlZqMMcaBZWoHS3co3iNgHkdqedc880EqwruJ7CsAHqO1gPBMlJFb5gotxlXNgoDU
+	 itWmT8essp0GnlOKlYcDTXczvUhwVBVWIhlhMxQF2iutiCh3TfkLjiAnt5FXJZEfLp
+	 l+Cmg1AVY7x3+LWW0xN3TWxdKruVrrh22lt05Hpy/aZuxZ/9SoAa1nNivPwI1pihX1
+	 i2kBTfo6W33vhDO5Vmcuibdi8YWwtv0XCTvZ/6/Nzv8Syn6LFKPdNqgn9BK8hSvSSh
+	 knz23BcW+bddW1ryvL6njppZVsAioit6yPdKKe6G8QRKvYGx1ucaEkwHbcnVB3C4IK
+	 dun6ClhqSX/Og==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4561541058;
+	Tue, 22 Apr 2025 13:30:40 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: I Hsin Cheng <richard120310@gmail.com>, tytso@mit.edu
+Cc: adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, I Hsin
+ Cheng <richard120310@gmail.com>
+Subject: Re: [PATCH] docs: ext4: Ammend white space
+In-Reply-To: <20250422055702.451729-1-richard120310@gmail.com>
+References: <20250422055702.451729-1-richard120310@gmail.com>
+Date: Tue, 22 Apr 2025 07:30:39 -0600
+Message-ID: <87zfg8uxvk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250415180939.397586-1-duttaditya18@gmail.com>
+Content-Type: text/plain
 
-On Tue, Apr 15, 2025 at 11:39:39PM +0530, Aditya Dutt wrote:
-> From: Dave Kleikamp <dave.kleikamp@oracle.com>
-> 
-> [ Upstream commit a779ed754e52d582b8c0e17959df063108bd0656 ]
-> 
-> In order to make array bounds checking sane, provide a separate
-> definition of the in-inode xtree root and the external xtree page.
-> 
-> Signed-off-by: Dave Kleikamp <dave.kleikamp@oracle.com>
-> Tested-by: Manas Ghandat <ghandatmanas@gmail.com>
-> (cherry picked from commit a779ed754e52d582b8c0e17959df063108bd0656)
-> Closes: https://syzkaller.appspot.com/bug?extid=ccb458b6679845ee0bae
-> Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
+I Hsin Cheng <richard120310@gmail.com> writes:
+
+> There should be a white space between the words "block" and "size",
+> instead of writing them together as "blocksize". Ammend a white space
+> between them.
+>
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
 > ---
-> Tested using C reproducer here: https://syzkaller.appspot.com/x/repro.c?x=113bb250e80000
-> (given in the dashboard link above
-> UBSAN is not triggered when this commit is there.
-> It is triggered when it is not.
+>  Documentation/filesystems/ext4/blockgroup.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/filesystems/ext4/blockgroup.rst b/Documentation/filesystems/ext4/blockgroup.rst
+> index ed5a5cac6d40..32a66a956f31 100644
+> --- a/Documentation/filesystems/ext4/blockgroup.rst
+> +++ b/Documentation/filesystems/ext4/blockgroup.rst
+> @@ -108,7 +108,7 @@ block groups which can be described by a single block group descriptor
+>  block. Since the size of the block group descriptor structure is 64
+>  bytes, a meta-block group contains 16 block groups for filesystems with
+>  a 1KB block size, and 64 block groups for filesystems with a 4KB
+> -blocksize. Filesystems can either be created using this new block group
+> +block size. Filesystems can either be created using this new block group
+>  descriptor layout, or existing filesystems can be resized on-line, and
+>  the field s_first_meta_bg in the superblock will indicate the first
+>  block group using this new layout.
 
-Please always submit backports for all relevant stable trees.  We can't
-take this one until the newer trees are fixed.
+Thank you for working to improve the documentation!
 
-Please resubmit all ones needed.
+If you dig through our documentation, you will see that "blocksize" is
+fairly common usage.  Changing them all will result in a fair amount of
+churn without much in the way of benefit in either readability or
+accuracy.  May I politely suggest focusing on the many real problems our
+documentation has instead?
 
-thanks,
+Thanks,
 
-greg k-h
+jon
