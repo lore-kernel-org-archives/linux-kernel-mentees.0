@@ -1,191 +1,180 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BFB3A1B6
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Apr 2025 16:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA00628BAAF
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Apr 2025 17:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745426731; cv=none; b=dtnVqLCY3Tsh8iWioOAz2juMJLMelZ2/Esbx73l8Q2qHppCB7pizRLav2SuMjZ8UUsAOuq/XafiTjV5l0WunsyJBiPQocxz7lb+J5gaiFn4jFuremdQLY+SC9Yzgu6PzxlNZrRM7HDGqNYrcMgNHtOIiHonG18aAJ5LfR52i+88=
+	t=1745515646; cv=none; b=matfQYHKFjOVQuWS0Cf+ksEJ++IkBl7dYfs9HO9LE5zY6kWdrwAyzFx2hJKXo+PDcrKZ+A0mtyKfNlJDU7lKcKsGDmw5M4y/q2lpPz190MGmM97I6yybFQHBizOXL+qHB+9LJ1vzhLnAYxebHrGNLZQoXUXXv8FxmYnSwYx89Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745426731; c=relaxed/simple;
-	bh=xqNKIkniXMZ2Bue/bRImQv3X6cquBQMuJT+ZQkIdRs0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SMyet0faa02GPrPsxN3vcooFCQGVcLo3amhbmFKeFfWN8fe7EIn5O9hPAm6nxujFzlpZnOrks4sYZuZiILuHKw36PEQZK4nTIU4Zd4RGvahwntfxttJjqxf0Lko83xY3NkrHzSRNucW2hTvcPwMNJ4tU2jkhBY1e3T9altVsiz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=CvpUDcyj; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1745515646; c=relaxed/simple;
+	bh=pWlA5i0QwU5KSfSiQESYA+X0ALKKyDdQ6BF4SmpmQeI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ObV6UucEV9M+7ZwelRYNOwAWizO4Xe214SdTYMt66q667LdoUd5yVypD3tfSLCqtZvAUPcDd5P90enbxy9ipF8hPXZKdHOxln/VPJYVJnR9WQhpzKSh7u4WhRuDN6t+CQi7i4SoWvL2L4dcoLynqA0vMRPekupdfKaMcPLMYkHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=kndgtCGk; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="CvpUDcyj"
-Date: Wed, 23 Apr 2025 12:45:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1745426726;
+	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="kndgtCGk"
+Message-ID: <f5464e26-faa0-48f1-8585-9ce52c8c9f5f@iencinas.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
+	s=key1; t=1745515637;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cwssp7L2YuKXDB1wtg97P/TTd8hGa1LcOFzKxxSHNeI=;
-	b=CvpUDcyjUn7Rnm9crssuzquRN6bp2N+iYO1ZrLUqYuShSStd+B4F5EOqHutHpwBChYolBV
-	1M23YssKmkRZJ804rGUTeWN5dudeSmkVY/IMEeqepGZsP4bHW+dZrwmYLKB/uw248XdpvW
-	RcwJnkX7s/RWoXcN7/xDu13i34O2/qU=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: I Hsin Cheng <richard120310@gmail.com>
-Cc: syzbot+549710bad9c798e25b15@syzkaller.appspotmail.com, 
-	bfoster@redhat.com, linux-bcachefs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	davem@davemloft.net, herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] bcachefs: Fix unit-value within btree_bounce_alloc()
-Message-ID: <ur4a24w2wb3euh3ej7ybeqnvmqyhzmqp2wwsjtilh6mfetv45l@qlxs3vggfq5h>
-References: <000000000000736bd406151001d7@google.com>
- <20250423163718.194316-1-richard120310@gmail.com>
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=gE3Ny+oVXXm4XaEkguFbKK9ma/30w0nfPWxX9kbduWE=;
+	b=kndgtCGkFmDA6AIZSKwk7aZ9bcFQjmka74EYzotDUPhQOhGmQdqfvcxhJOxbkPnjNGszk6
+	S5l10hZQKQQUrgUSJ2bwOeAb25zZDIbVkC45SIoK+EhpviV+6vaWtMiPuB483HZF9UPsva
+	a8sxlaHQu/ZqdgzcnnB7ok2bcH/qTI4+tOqX9sJPb//Xt31EH1MMMfGbNOM2sGy1V6K5g7
+	54My6MtEokc1ylIB/s1GXrR+echHNjIM89oWRUpFifmxJmaaL+c5NyGF5veS7BkPNuM/Te
+	fzPZDf+z4izbFJ6/EuquIZ7QeLmuc4LkjiR4dUzWcTj8yuPCt+kBdCkOucLkOg==
+Date: Thu, 24 Apr 2025 19:27:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250423163718.194316-1-richard120310@gmail.com>
+Subject: Re: [PATCH v3 2/2] riscv: introduce asm/swab.h
+To: Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Zhihang Shao <zhihang.shao.iscas@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+ <bjorn@kernel.org>, Linux-Arch <linux-arch@vger.kernel.org>
+References: <20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com>
+ <20250403-riscv-swab-v3-2-3bf705d80e33@iencinas.com>
+ <c6efcdca-5739-42b6-8cb4-f4d8cc85b6af@app.fastmail.com>
+ <b3f8e641-9690-4792-974c-c895d2e4531a@iencinas.com>
+ <66a5aba9-2a32-4ef9-a839-a389b975757d@ghiti.fr>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ignacio Encinas Rubio <ignacio@iencinas.com>
+Autocrypt: addr=ignacio@iencinas.com; keydata=
+ xjMEZgaZEBYJKwYBBAHaRw8BAQdAYZxeXU5yoeLYkQpvN+eE3wmAF4V0JUzIlpm/DqiSeBnN
+ LElnbmFjaW8gRW5jaW5hcyBSdWJpbyA8aWduYWNpb0BpZW5jaW5hcy5jb20+wo8EExYIADcW
+ IQSXV5vKYfM26lUMmYnH3J3Ka8TsNgUCZgaZEAUJBaOagAIbAwQLCQgHBRUICQoLBRYCAwEA
+ AAoJEMfcncprxOw21F4BAJe+mYh3sIdSvydyDdDXLFqtVkzrFB8PVNSU9eZpvM0mAP9996LA
+ N0gyY7Obnc3y59r9jOElOn/5fz5mOEU3nE5lCc44BGYGmRESCisGAQQBl1UBBQEBB0CVC5o6
+ qnsTzmmtKY1UWa/GJE53dV/3UPJpZu42p/F0OAMBCAfCfgQYFggAJhYhBJdXm8ph8zbqVQyZ
+ icfcncprxOw2BQJmBpkRBQkFo5qAAhsMAAoJEMfcncprxOw2N8ABAPcrkHouJPn2N8HcsL4S
+ SVgqxNLVOpsMX9kAYgIMqM0WAQCA40v0iYH1q7QHa2IfgkrBzX2ZLdXdwoxfUr8EY5vtAg==
+In-Reply-To: <66a5aba9-2a32-4ef9-a839-a389b975757d@ghiti.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On Thu, Apr 24, 2025 at 12:37:18AM +0800, I Hsin Cheng wrote:
-> Use "kvzalloc()" instead of "kvmalloc()" in btree_bounce_alloc() to
-> prevent uninit-value issue.
-> 
-> Reported-by: syzbot+549710bad9c798e25b15@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=549710bad9c798e25b15
-> Fixes: cb6fc943b650 ("bcachefs: kill kvpmalloc()")
-> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
-> ---
-> syzbot reported an uninit-value issue. [1]
-> 
-> Though the uninit value was detected in the context of crc32_body(), the
-> memory was actually allocated in "btree_bounce_alloc()". Use
-> "kvzalloc()" to allocate the memory can solve the issue, and I've tested
-> against syzbot. [2]
-> 
-> If there're any further tests needed to be performed, please let me
-> know. I'll be more than happy to assist you with that, thanks !
 
-See Documentation/filesystems/bcachefs/SubmittingPatches.
 
-And this isn't the correct fix - the correct fix is already in Linus's
-tree.
+Hello!
 
+On 23/4/25 13:08, Alexandre Ghiti wrote:
+> Hi Ignacio,
 > 
-> [1]:
-> BUG: KMSAN: uninit-value in crc32_body lib/crc32.c:110 [inline]
-> BUG: KMSAN: uninit-value in crc32_le_generic lib/crc32.c:179 [inline]
-> BUG: KMSAN: uninit-value in __crc32c_le_base+0x43c/0xd80 lib/crc32.c:201
->  crc32_body lib/crc32.c:110 [inline]
->  crc32_le_generic lib/crc32.c:179 [inline]
->  __crc32c_le_base+0x43c/0xd80 lib/crc32.c:201
->  chksum_update+0x5b/0xd0 crypto/crc32c_generic.c:88
->  crypto_shash_update+0x79/0xa0 crypto/shash.c:52
->  crc32c+0xba/0x170 lib/libcrc32c.c:47
->  bch2_checksum_update+0x106/0x1d0 fs/bcachefs/checksum.c:83
->  bch2_checksum+0x3c5/0x7c0 fs/bcachefs/checksum.c:216
->  __bch2_btree_node_write+0x528c/0x67c0 fs/bcachefs/btree_io.c:2151
->  bch2_btree_node_write+0xa5/0x2e0 fs/bcachefs/btree_io.c:2288
->  btree_node_write_if_need fs/bcachefs/btree_io.h:153 [inline]
->  __btree_node_flush+0x4d0/0x640 fs/bcachefs/btree_trans_commit.c:229
->  bch2_btree_node_flush0+0x35/0x60 fs/bcachefs/btree_trans_commit.c:238
->  journal_flush_pins+0xce6/0x1780 fs/bcachefs/journal_reclaim.c:553
->  __bch2_journal_reclaim+0xd88/0x1610 fs/bcachefs/journal_reclaim.c:685
->  bch2_journal_reclaim_thread+0x18e/0x760 fs/bcachefs/journal_reclaim.c:727
->  kthread+0x3e2/0x540 kernel/kthread.c:389
->  ret_from_fork+0x6d/0x90 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+> On 04/04/2025 19:35, Ignacio Encinas wrote:
+>>
+>> On 4/4/25 7:58, Arnd Bergmann wrote:
+>>> On Thu, Apr 3, 2025, at 22:34, Ignacio Encinas wrote:
+>>>> +#define ARCH_SWAB(size) \
+>>>> +static __always_inline unsigned long __arch_swab##size(__u##size value) \
+>>>> +{                                    \
+>>>> +    unsigned long x = value;                    \
+>>>> +                                    \
+>>>> +    if (riscv_has_extension_likely(RISCV_ISA_EXT_ZBB)) {            \
+>>>> +        asm volatile (".option push\n"                \
+>>>> +                  ".option arch,+zbb\n"            \
+>>>> +                  "rev8 %0, %1\n"                \
+>>>> +                  ".option pop\n"                \
+>>>> +                  : "=r" (x) : "r" (x));            \
+>>>> +        return x >> (BITS_PER_LONG - size);            \
+>>>> +    }                                                               \
+>>>> +    return  ___constant_swab##size(value);                \
+>>>> +}
+>> Hello Arnd!
+>>
+>>> I think the fallback should really just use the __builtin_bswap
+>>> helpers instead of the ___constant_swab variants. The output
+>>> would be the same, but you can skip patch 1/2.
+>> I tried, but that change causes build errors:
+>>
+>> ```
+>> undefined reference to `__bswapsi2'
+>>
+>> [...]
+>>
+>> undefined reference to `__bswapdi2
+>> ```
+>>
+>> I tried working around those, but couldn't find a good solution. I'm a
+>> bit out of my depth here, but I "summarized" everything here [1]. Let me
+>> know if I'm missing something.
+>>
+>> [1] https://lore.kernel.org/linux-riscv/b3b59747-0484-4042-bdc4-c067688e3bfe@iencinas.com/
 > 
-> Uninit was stored to memory at:
->  memcpy_u64s_small fs/bcachefs/util.h:511 [inline]
->  bkey_p_copy fs/bcachefs/bkey.h:46 [inline]
->  bch2_sort_keys+0x1b4d/0x2cb0 fs/bcachefs/bkey_sort.c:194
->  __bch2_btree_node_write+0x3acd/0x67c0 fs/bcachefs/btree_io.c:2100
->  bch2_btree_node_write+0xa5/0x2e0 fs/bcachefs/btree_io.c:2288
->  btree_node_write_if_need fs/bcachefs/btree_io.h:153 [inline]
->  __btree_node_flush+0x4d0/0x640 fs/bcachefs/btree_trans_commit.c:229
->  bch2_btree_node_flush0+0x35/0x60 fs/bcachefs/btree_trans_commit.c:238
->  journal_flush_pins+0xce6/0x1780 fs/bcachefs/journal_reclaim.c:553
->  __bch2_journal_reclaim+0xd88/0x1610 fs/bcachefs/journal_reclaim.c:685
->  bch2_journal_reclaim_thread+0x18e/0x760 fs/bcachefs/journal_reclaim.c:727
->  kthread+0x3e2/0x540 kernel/kthread.c:389
->  ret_from_fork+0x6d/0x90 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+> Note that I only encountered those issues in the purgatory.
 > 
-> Uninit was created at:
->  __kmalloc_large_node+0x231/0x370 mm/slub.c:3994
->  __do_kmalloc_node mm/slub.c:4027 [inline]
->  __kmalloc_node+0xb10/0x10c0 mm/slub.c:4046
->  kmalloc_node include/linux/slab.h:648 [inline]
->  kvmalloc_node+0xc0/0x2d0 mm/util.c:634
->  kvmalloc include/linux/slab.h:766 [inline]
->  btree_bounce_alloc fs/bcachefs/btree_io.c:118 [inline]
->  bch2_btree_node_read_done+0x4e68/0x75e0 fs/bcachefs/btree_io.c:1185
->  btree_node_read_work+0x8a5/0x1eb0 fs/bcachefs/btree_io.c:1324
->  bch2_btree_node_read+0x3d42/0x4b50
->  __bch2_btree_root_read fs/bcachefs/btree_io.c:1748 [inline]
->  bch2_btree_root_read+0xa6c/0x13d0 fs/bcachefs/btree_io.c:1772
->  read_btree_roots+0x454/0xee0 fs/bcachefs/recovery.c:457
->  bch2_fs_recovery+0x7b6a/0x93e0 fs/bcachefs/recovery.c:785
->  bch2_fs_start+0x7b2/0xbd0 fs/bcachefs/super.c:1043
->  bch2_fs_open+0x152a/0x15f0 fs/bcachefs/super.c:2105
->  bch2_mount+0x90d/0x1d90 fs/bcachefs/fs.c:1906
->  legacy_get_tree+0x114/0x290 fs/fs_context.c:662
->  vfs_get_tree+0xa7/0x570 fs/super.c:1779
->  do_new_mount+0x71f/0x15e0 fs/namespace.c:3352
->  path_mount+0x742/0x1f20 fs/namespace.c:3679
->  do_mount fs/namespace.c:3692 [inline]
->  __do_sys_mount fs/namespace.c:3898 [inline]
->  __se_sys_mount+0x725/0x810 fs/namespace.c:3875
->  __x64_sys_mount+0xe4/0x150 fs/namespace.c:3875
->  x64_sys_call+0x2bf4/0x3b50 arch/x86/include/generated/asm/syscalls_64.h:166
->  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->  do_syscall_64+0xcf/0x1e0 arch/x86/entry/common.c:83
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> So to me we have 3 solutions:
 > 
-> [2]:
-> https://lore.kernel.org/all/000000000000736bd406151001d7@google.com/T/#m748384a36239a7f66e63cfde949e3db6bf14d5c6
+> - either implementing both __bswapsi2 and __bswapdi2
+
+Which would be fine but seems a bit pointless to me: these __bswapsi2
+and __bswapdi2 implementations will be ___constant_swab with a different
+name: same code or hardcoded (and equivalent) assembly
+
+> - or linking against libgcc
+>
+> - or merging patch 1.
+>
+> Given the explanation in commit d67703a8a69e ("arm64: kill off the libgcc dependency"), I would not use libgcc.
 > 
-> syzbot reply me with:
-> Hello,
+> The less intrusive solution (for us riscv) is merging patch 1.
+
+I also think this seems the best solution. I'll send a v4 taking the
+tips that were pointed during review (and fixing the issue pointed out
+by the kernel test robot) keeping patch 1.
+
+> But please let me know if I missed another solution or if I'm wrong.
 > 
-> syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+> Thanks,
 > 
-> Reported-by: syzbot+549710bad9c798e25b15@syzkaller.appspotmail.com
-> Tested-by: syzbot+549710bad9c798e25b15@syzkaller.appspotmail.com
+> Alex
 > 
-> Tested on:
 > 
-> commit:         614da38e Merge tag 'hid-for-linus-2024051401' of git:/..
-> git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> console output: https://syzkaller.appspot.com/x/log.txt?x=10be763f980000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=49342144b6a907af
-> dashboard link: https://syzkaller.appspot.com/bug?extid=549710bad9c798e25b15
-> compiler:       Debian clang version 15.0.6, Debian LLD 15.0.6
-> patch:          https://syzkaller.appspot.com/x/patch.diff?x=15b99a6f980000
-> 
-> Note: testing is done by a robot and is best-effort only.
-> 
-> Best regards,
-> I Hsin Cheng
-> ---
->  fs/bcachefs/btree_io.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/bcachefs/btree_io.c b/fs/bcachefs/btree_io.c
-> index debb0edc3455..dc00c5273ffe 100644
-> --- a/fs/bcachefs/btree_io.c
-> +++ b/fs/bcachefs/btree_io.c
-> @@ -115,7 +115,7 @@ static void *btree_bounce_alloc(struct bch_fs *c, size_t size,
->  	BUG_ON(size > c->opts.btree_node_size);
->  
->  	*used_mempool = false;
-> -	p = kvmalloc(size, __GFP_NOWARN|GFP_NOWAIT);
-> +	p = kvzalloc(size, __GFP_NOWARN|GFP_NOWAIT);
->  	if (!p) {
->  		*used_mempool = true;
->  		p = mempool_alloc(&c->btree_bounce_pool, GFP_NOFS);
-> -- 
-> 2.43.0
-> 
+>>
+>>> I would also suggest dumbing down the macro a bit so you can
+>>> still find the definition with 'git grep __arch_swab64'. Ideally
+>>> just put the function body into a macro but leave the three
+>>> separate inline function definitions.
+>> Good point, thanks for bringing it up. Just to be sure, is this what you
+>> had in mind? (Give or take formatting + naming of variables)
+>>
+>> #define arch_swab(size, value)                         \
+>> ({                                              \
+>>     unsigned long x = value;                    \
+>>                                     \
+>>     if (riscv_has_extension_likely(RISCV_ISA_EXT_ZBB)) {            \
+>>         asm volatile (".option push\n"                \
+>>                   ".option arch,+zbb\n"            \
+>>                   "rev8 %0, %1\n"                \
+>>                   ".option pop\n"                \
+>>                   : "=r" (x) : "r" (x));            \
+>>         x = x >> (BITS_PER_LONG - size);            \
+>>     } else {                                                        \
+>>         x = ___constant_swab##size(value);                      \
+>>     }                                \
+>>     x;                                \
+>> })
+>>
+>> static __always_inline unsigned long __arch_swab64(__u64 value) {
+>>     return arch_swab(64, value);
+>> }
+>>
+>> Thanks!
+>>
+>> _______________________________________________
+>> linux-riscv mailing list
+>> linux-riscv@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
