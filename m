@@ -1,74 +1,76 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A005817996
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Apr 2025 13:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67BC1C1AB4
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Apr 2025 16:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745587091; cv=none; b=hi43znQoo49aByKDKHcBF88k4SFGTq9l/05wlEIqED+HOWkr/bEUiOPP2m9Ock7XeB+KkwIL22pxWFIhShsEWy6G72xUh/g0qhIx81dPlktm+EwOqTdLfp1TNg54rWSI0nOQsNdZdUSVe1/rUV+Ly7lEaM8n15/VtGHje24hNb8=
+	t=1745599970; cv=none; b=fvg1dEewnBlXZYGAfavBMWgPJ0ci0fFL396NSvpwu2oQYULw+Htdwwxk7xEJPLG/HjST41SFPOkYynxWvcN4idlcXcoS7HTmq9GpXhK8gM9PneRFap1wH6aE5PqRMBan522gW58jo1PxiHBCa6+YLcSjU7v8XHEc9ZidSCKfztA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745587091; c=relaxed/simple;
-	bh=9juRr8sLTz6yET5bKxGWoa/rfH2ALpXj1tjC+No5OIs=;
+	s=arc-20240116; t=1745599970; c=relaxed/simple;
+	bh=b7xROfOzVGEJ+F8+IU2YtVbSzBcJ5YtgexLbCieurdI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KX1y56aTraJ4+YtWMUDKBrZliplRykpxXaaBlot1IdRUkKsjFuJah2M10XbQLCileo7Rpv3iJv7G4Yd61mP91qg0AFybRJBsYxSylRdxnRqeQKkTqw+26EBSJJe6M1c6S1fDRaqWstIDGkDsELS+sSVOqZB1qWnYqB+bTeFg7c8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YbUOTWxu; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=P417MBdth86NNc7rJ3b7YOcnx2aQEeC8VTyyBDjzPWflKLCmZt/y9Ko3B+ptSLJNM8U8xrqp+GCzLack92J4OJbstzt+/7DONiVMMaIfVSDQ5obsLvEqqAZD7knNkF52Fn4CTWeKJdvqTwYP6iuxRk2eGVS92qgnDpHetNos8vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f98bGm26; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YbUOTWxu"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so16655845e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Apr 2025 06:18:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f98bGm26"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b061a775ac3so2443735a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Apr 2025 09:52:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745587088; x=1746191888; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1745599968; x=1746204768; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WiZQEQXbMAh4QSTUazeZTDFr/XgIvOyC1vsWeFbPWQo=;
-        b=YbUOTWxuTLP8eYFHDs8OtTGF6JrAmObhA3pBaajYsK7vzHS5+QS67N1BOwVeqD6yn0
-         6PTTVNCg1vPQOA3V3TKbHrS98sO1Dh+to/p0nzqwoIr1QLB/Od0NujZySc8qAwK9hPbX
-         w/vnH09rzoHqJeihAc5UKCw4yjrmPunYNi+tUKKIC/qi/tkL7zE8UzXB5zWildI+F6Sr
-         iUsok41/WNDLuhntcE5CIAqKMyXgbkF99Rak1iSUMZ+j6N2yjSjtUkYhiCX5iHoWGRc2
-         FH9rGHzeBQl8zstsJJF/wCRcwP7Z2J5yI+zw0PBwPfftYfnGvJ7ETf5Cb3pfWyS2D3fV
-         wDUw==
+        bh=xUo8ldcQnt9oMg4WgBNcdcluURoGZZ9nuZ9OpdGRZpI=;
+        b=f98bGm26pgvYnUrg1pxzqI4H2W78Ban2NiIDH8oZOGU8vAjpfSlJ7UYvZ0MC4JP0CI
+         JV/ILWhNQ4BoPnSbgdv+upHgSVppVMyD949E8SRax3vWsjZ3MU5xGAfzNrzr/6UY8ZTy
+         9n3YhKq51lyLvzV8fSZFw1K7z8V2uHblu9WlZjMlp6Skyr5nH1yavI/7aiGzSgnNFTHV
+         f7MTQxpik6FLdHFOaAJbgiksx5JI8aen3pB7PT1EUDcp+3Nr/0msT1eMB1ToD7bwJ7e0
+         yTbq2MmxF+S1aSKw/XqRY61s9siT5pSF/IJO4aezq/oSiz8TC7ACH1iWkOJQWaaJaftY
+         WHCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745587088; x=1746191888;
+        d=1e100.net; s=20230601; t=1745599968; x=1746204768;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WiZQEQXbMAh4QSTUazeZTDFr/XgIvOyC1vsWeFbPWQo=;
-        b=iWG0A8TjZVKRVjMMgk0++zsSnaSDRNgPo+b+TWFpVA4YPgbAX0Y3u0zM5ZxmsMuBQX
-         Ap9rSEBT5dSyKmCfHIML0dHUyx4X0T6cDpfDf0g/nsEtWj0SGcyT7Fcs+AvgHkyIwKZz
-         NqbV9W0uVZCY0Zg1uwSLHgOhHPYdPWocs4lFvEv2CgAVECm80CTBK2DQrrSAlbTZrK92
-         orwGdNCpxSAgbdDZyN0OOyIU0fCWlFuS+HOY96PSvFXG3TiGEEJSn9DW2F3SMxLxNPl7
-         tPrs6jiBT83ARb49jF3vEdhmnUznRR12MCFACCdgaMmGE4TI9FtQxGsmYoAc11KZ+osS
-         F1Iw==
-X-Forwarded-Encrypted: i=1; AJvYcCUp1q2t45XemVTdxqYngJWWdJx/o1zVGEBEP6rur2sPp79OSYSQ2E/6Sv0GOvW+8REI6aJewiDxoaynkQWDfpIzm+p+SA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQV8HiptpSTyftSuCLVBR9DVoCSN/xL/mCTlgOMJDI1wQ7z/66
-	C22/kEjjwkrTYU2sAdtYxVn/gxR3+YTGWTAm6nX+KgCPYgk6Xh3dSXgyOPHgvB4=
-X-Gm-Gg: ASbGncvK0PRilRfIxB0lY+hVH8OMPORN4m3+THNPgxsGjPvpWHruMyPmIJ0t1NHvm6W
-	WnlGI9RRhMXujx04nYOcGbFURiU+c2nE742Uw1x8M1Pp7l4AWBtcWRJclUCpRGUYY9hW7GxjcOE
-	N2tk1p9Ls2Xgy+6ZVGxTs+y7A1hZhisLndHtCjNnHxq1NaG/CjxyhiKXf8uhrSPtg6yP4dVLh/I
-	EpCiY1Us8owgktBCLZ1m/y82wfbrpi+RJWQnXkgKLOivNj+Gnjgdn/HXq0QyytTA0NqGQWYAIyM
-	XA5idDfj5uHJH2SsZQrfov68DSHslWho71QBk5mmQlz59Q==
-X-Google-Smtp-Source: AGHT+IHbDjS1PQI7NTlpMT+Bu2EFu2dfDgHH1BOBPjpV0q2B/rN6BZiZF+DNqb4h89r5ixKpK9+CrA==
-X-Received: by 2002:a05:600c:3b83:b0:43d:ed:acd5 with SMTP id 5b1f17b1804b1-440a65def49mr25292515e9.10.1745587087859;
-        Fri, 25 Apr 2025 06:18:07 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a073cbe386sm2330109f8f.42.2025.04.25.06.18.07
+        bh=xUo8ldcQnt9oMg4WgBNcdcluURoGZZ9nuZ9OpdGRZpI=;
+        b=miiOV5PzfY4t13jJD1Cd56iDdGd80aLV+NMMEPic3iXTgKEMwkvKH0ClEEJ6IP/JKu
+         GEySHt+ns4lbCUg+a8BwHoC+B7ABYmidTobfkaeZJKzdmIX1Y7sZ7s3wuDVoQn4ZXAAA
+         AmQruIwb7y7oPMtE99bRz2iP8XOSmzWbEXjka3TvH4df3z6ct4CRpPU8KoLEDEHytrwW
+         kIjPg0b19iBPa/IsUz6mjslk49z2U9vv6kkn2PZjWj2t0c4MbTN3EaVVvuty7DSafA2v
+         c+b9Asm6q6tXAr5TI64xjcm+buB43WNB2VnbSCUOl9BXgSuGlZv1UKccYJXvMjx1YIsG
+         f9lg==
+X-Forwarded-Encrypted: i=1; AJvYcCUIhDb3+CpLelaj9BjESwsNqQXPxEYlXgyH56gi7Nyc3WTTrSJffGQiq0aqLXeqLlGC+HF2Hng9pqS1gHsFGYS1O6S70g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwIYhqr+aUUm+PYR2fctv+zMc+cYMqbYUFLTeFhkE6o+QgcmH8L
+	LjJ0tMOc0/Yh1WDtOcZPs6IoqFtNrqnf+gCeVoOv9nO9YqKMoWpd
+X-Gm-Gg: ASbGnct5BmDg7AJSpgBStRj0F/zmOTTX3at7AUhSZpRFkmNTmNN4TkOa5R7FQ/IrIRS
+	9Ageqk/yCnZ9y1x/K3OP7/FCdLVIm2sPy9qpQDa9C/lsvDUAmm1Xy32v184+GFOCOcYHtbBAbWT
+	Z9y0wIiXWXrrAjL2UITSvznQ/xFMECgnlJJiDwLxsgo+jIKqcqrFxlMlOZfxrMVd8i3v2Axjx32
+	tWID0H5OgVSfijtG7KCCPZi1mhM76tI1xhnf8fRQWtPsxXKbOs1zfy1Cbj2MnlZ6qcPmAyn8tcC
+	TTYwR5jEdTt5mC71q1aJiwRWKAZh80RcwbJiXptbI2UqMBUzKq14O7rLxu/R/C1ivRJS
+X-Google-Smtp-Source: AGHT+IFojj7f+se3pSr/WR6LUWCeOvjNpR7dRU6l5UkaIDRsEoeOc1uUIphwPcBM8pHGM0feoLQTuw==
+X-Received: by 2002:a05:6a20:6f0a:b0:1fe:90c5:7cee with SMTP id adf61e73a8af0-2045b98fd7emr4718790637.28.1745599968077;
+        Fri, 25 Apr 2025 09:52:48 -0700 (PDT)
+Received: from vaxr-BM6660-BM6360 ([2001:288:7001:2703:f97d:cfa2:241e:84aa])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25a6a30csm3387276b3a.88.2025.04.25.09.52.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 06:18:07 -0700 (PDT)
-Date: Fri, 25 Apr 2025 16:18:04 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Cc: andy@kernel.org, dlechner@baylibre.com, gregkh@linuxfoundation.org,
-	jic23@kernel.org, lars@metafoo.de, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Michael.Hennerich@analog.com, nuno.sa@analog.com,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v4 2/2] staging: iio: frequency: ad9832: Refactor
- powerdown control
-Message-ID: <0771a9a7-ec49-487e-afaa-46a39f0b8ba2@stanley.mountain>
-References: <20250424223210.91317-1-gshahrouzi@gmail.com>
- <20250424223210.91317-3-gshahrouzi@gmail.com>
+        Fri, 25 Apr 2025 09:52:47 -0700 (PDT)
+Date: Sat, 26 Apr 2025 00:52:42 +0800
+From: I Hsin Cheng <richard120310@gmail.com>
+To: Jan Kara <jack@suse.cz>
+Cc: syzbot+de1498ff3a934ac5e8b4@syzkaller.appspotmail.com,
+	viro@zeniv.linux.org.uk, brauner@kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jfs-discussion@lists.sourceforge.net, shaggy@kernel.org,
+	syzkaller-bugs@googlegroups.com, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [RFC PATCH] fs/buffer: Handle non folio buffer case for
+ drop_buffer()
+Message-ID: <aAu92k-iPbnWBKGz@vaxr-BM6660-BM6360>
+References: <66fcb7f9.050a0220.f28ec.04e8.GAE@google.com>
+ <20250423023703.632613-1-richard120310@gmail.com>
+ <nfnwvcefhvm5sfrvlqqf4zcdq2iyzk4f2n366ux3bjatj7o4vl@5hq5evovwsxp>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -77,150 +79,138 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250424223210.91317-3-gshahrouzi@gmail.com>
+In-Reply-To: <nfnwvcefhvm5sfrvlqqf4zcdq2iyzk4f2n366ux3bjatj7o4vl@5hq5evovwsxp>
 
-On Thu, Apr 24, 2025 at 06:32:09PM -0400, Gabriel Shahrouzi wrote:
-> Replace custom implementation with out_altvoltage_powerdown ABI. The
-> attribute's logic is inverted (1 now enables powerdown) to match the
-> standard.
+On Wed, Apr 23, 2025 at 12:13:29PM +0200, Jan Kara wrote:
+> On Wed 23-04-25 10:37:03, I Hsin Cheng wrote:
+> > When the folio doesn't have any buffers, "folio_buffers(folio)" will
+> > return NULL, causing "buffer_busy(bh)" to dereference a null pointer.
+> > Handle the case and jump to detach the folio if there's no buffer within
+> > it.
+> > 
+> > Reported-by: syzbot+de1498ff3a934ac5e8b4@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=de1498ff3a934ac5e8b4
+> > Fixes: 6439476311a64 ("fs: Convert drop_buffers() to use a folio")
+> > Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+> > ---
+> > syzbot reported a null pointer dereference issue. [1]
+> > 
+> > If the folio be sent into "drop_buffer()" doesn't have any buffers,
+> > assigning "bh = head" will make "bh" to NULL, and the following
+> > operation of cleaning the buffer will encounter null pointer
+> > dereference.
+> > 
+> > I checked other use cases of "folio_buffers()", e.g. the one used in
+> > "buffer_check_dirty_writeback()" [2]. They generally use the same
+> > approach to check whether a folio_buffers() return NULL.
+> > 
+> > I'm not sure whether it's normal for a non-buffer folio to reach inside
+> > "drop_buffers()", if it's not maybe we have to dig more into the problem
+> > and find out where did the buffers of folio get freed or corrupted, let
+> > me know if that's needed and what can I test to help. I'm new to fs
+> > correct me if I'm wrong I'll be happy to learn, and know more about
+> > what's the expected behavior or correct behavior for a folio, thanks !
 > 
-> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> ---
-> V3 -> v4:
-> 	- Use guard(mutex) for simplified locking.
-> 	- Use an extended attribute.
-> v2 -> v3:
-> v1 -> v2:
-> 	Refactor powerdown functionality.
-> ---
->  drivers/staging/iio/frequency/ad9832.c | 69 +++++++++++++++++++-------
->  1 file changed, 51 insertions(+), 18 deletions(-)
+> Thanks for the patch but try_to_free_buffers() is not expected to be called
+> when there are no buffers. Seeing the stacktrace below, it is unexpected it
+> got called because filemap_release_folio() calls folio_needs_release()
+> which should make sure there are indeed buffers attached.
+>
+
+I see, it doesn't make sense to have no buffers inside
+try_to_free_buffers() then, I'll dig into it more and send v2.
+
+> Can you print more about the folio where this happened? In particular it
+> would be interesting what's in folio->flags, folio->mapping->flags and
+> folio->mapping->aops (resolved to a symbol). Because either the mapping has
+> AS_RELEASE_ALWAYS set but then we should have ->releasepage handler, or
+> have PG_Private bit set without buffers attached to a page but then again
+> either ->releasepage should be set or there's some bug in fs/buffer.c which
+> can set PG_Private without attaching buffers (I don't see where that could
+> be).
 > 
-> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-> index 2e555084ff98a..b8b52302abf36 100644
-> --- a/drivers/staging/iio/frequency/ad9832.c
-> +++ b/drivers/staging/iio/frequency/ad9832.c
-> @@ -174,6 +174,32 @@ static int ad9832_write_phase(struct ad9832_state *st,
->  	return spi_sync(st->spi, &st->phase_msg);
->  }
->  
-> +static ssize_t ad9832_write_powerdown(struct iio_dev *indio_dev, uintptr_t private,
-> +				      const struct iio_chan_spec *chan,
-> +				      const char *buf, size_t len)
-> +{
-> +	struct ad9832_state *st = iio_priv(indio_dev);
-> +	int ret;
-> +	bool val;
 
-Declare val before ret.  Use reverse Christmas tree order.
+Hmm so I suppose when there're buffers attached, the PG_Private bit
+should always be set in folio->flags or folio->mapping->flags or
+folio->mapping->aops ?
 
-	long long long_name;
-	medium name;
-	short name;
+Thanks for your patience and detailed reviewed again, I'll refer back to
+you ASAP.
 
-> +
-> +	ret = kstrtobool(buf, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	guard(mutex)(&st->lock);
-> +	if (val)
-> +		st->ctrl_src |= AD9832_SLEEP;
-> +	else
-> +		st->ctrl_src &= ~(AD9832_RESET | AD9832_SLEEP |
-> +				 AD9832_CLR);
-> +
-> +	st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
-> +					  st->ctrl_src);
-> +	ret = spi_sync(st->spi, &st->msg);
-> +
-> +	return ret ? ret : len;
-> +}
-> +
->  static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
->  			    const char *buf, size_t len)
->  {
-> @@ -185,9 +211,9 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
->  
->  	ret = kstrtoul(buf, 10, &val);
->  	if (ret)
-> -		goto error_ret;
-> +		return ret;
+Best regards,
+I Hsin Cheng
 
-This is unrelated.  Do this in a separate patch.
-
->  
-> -	mutex_lock(&st->lock);
-> +	guard(mutex)(&st->lock);
-
-same.
-
->  	switch ((u32)this_attr->address) {
->  	case AD9832_FREQ0HM:
->  	case AD9832_FREQ1HM:
-> @@ -232,22 +258,9 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
->  						  st->ctrl_fp);
->  		ret = spi_sync(st->spi, &st->msg);
->  		break;
-> -	case AD9832_OUTPUT_EN:
-> -		if (val)
-> -			st->ctrl_src &= ~(AD9832_RESET | AD9832_SLEEP | AD9832_CLR);
-> -		else
-> -			st->ctrl_src |= FIELD_PREP(AD9832_SLEEP, 1);
-> -
-> -		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
-> -						  st->ctrl_src);
-> -		ret = spi_sync(st->spi, &st->msg);
-> -		break;
-
-This is related.  Keep this.
-
->  	default:
->  		ret = -ENODEV;
->  	}
-> -	mutex_unlock(&st->lock);
-> -
-> -error_ret:
->  	return ret ? ret : len;
-
-Unrelated.
-
->  }
->  
-> @@ -270,8 +283,6 @@ static IIO_CONST_ATTR_PHASE_SCALE(0, "0.0015339808"); /* 2PI/2^12 rad*/
->  
->  static IIO_DEV_ATTR_PINCONTROL_EN(0, 0200, NULL,
->  				ad9832_write, AD9832_PINCTRL_EN);
-> -static IIO_DEV_ATTR_OUT_ENABLE(0, 0200, NULL,
-> -				ad9832_write, AD9832_OUTPUT_EN);
->  
->  static struct attribute *ad9832_attributes[] = {
->  	&iio_dev_attr_out_altvoltage0_frequency0.dev_attr.attr,
-> @@ -285,7 +296,6 @@ static struct attribute *ad9832_attributes[] = {
->  	&iio_dev_attr_out_altvoltage0_pincontrol_en.dev_attr.attr,
->  	&iio_dev_attr_out_altvoltage0_frequencysymbol.dev_attr.attr,
->  	&iio_dev_attr_out_altvoltage0_phasesymbol.dev_attr.attr,
-> -	&iio_dev_attr_out_altvoltage0_out_enable.dev_attr.attr,
->  	NULL,
->  };
->  
-> @@ -293,6 +303,27 @@ static const struct attribute_group ad9832_attribute_group = {
->  	.attrs = ad9832_attributes,
->  };
->  
-> +static const struct iio_chan_spec_ext_info ad9832_ext_info[] = {
-> +	{
-> +		.name = "powerdown",
-> +		.shared = IIO_SEPARATE,
-> +		.write = ad9832_write_powerdown,
-> +	},
-> +	{ },
-           ^
-No comma after a sentinal.
-
-> +};
-> +
-
-regards,
-dan carpenter
-
+> 								Honza
+> 
+> > 
+> > [1]:
+> > BUG: KASAN: null-ptr-deref in instrument_atomic_read include/linux/instrumented.h:68 [inline]
+> > BUG: KASAN: null-ptr-deref in atomic_read include/linux/atomic/atomic-instrumented.h:32 [inline]
+> > BUG: KASAN: null-ptr-deref in buffer_busy fs/buffer.c:2881 [inline]
+> > BUG: KASAN: null-ptr-deref in drop_buffers+0x6f/0x710 fs/buffer.c:2893
+> > Read of size 4 at addr 0000000000000060 by task kswapd0/74
+> > 
+> > CPU: 0 UID: 0 PID: 74 Comm: kswapd0 Not tainted 6.12.0-rc1-syzkaller-00031-ge32cde8d2bd7 #0
+> > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+> > Call Trace:
+> >  <TASK>
+> >  __dump_stack lib/dump_stack.c:94 [inline]
+> >  dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
+> >  print_report+0xe8/0x550 mm/kasan/report.c:491
+> >  kasan_report+0x143/0x180 mm/kasan/report.c:601
+> >  kasan_check_range+0x282/0x290 mm/kasan/generic.c:189
+> >  instrument_atomic_read include/linux/instrumented.h:68 [inline]
+> >  atomic_read include/linux/atomic/atomic-instrumented.h:32 [inline]
+> >  buffer_busy fs/buffer.c:2881 [inline]
+> >  drop_buffers+0x6f/0x710 fs/buffer.c:2893
+> >  try_to_free_buffers+0x295/0x5f0 fs/buffer.c:2947
+> >  shrink_folio_list+0x240c/0x8cc0 mm/vmscan.c:1432
+> >  evict_folios+0x549b/0x7b50 mm/vmscan.c:4583
+> >  try_to_shrink_lruvec+0x9ab/0xbb0 mm/vmscan.c:4778
+> >  shrink_one+0x3b9/0x850 mm/vmscan.c:4816
+> >  shrink_many mm/vmscan.c:4879 [inline]
+> >  lru_gen_shrink_node mm/vmscan.c:4957 [inline]
+> >  shrink_node+0x3799/0x3de0 mm/vmscan.c:5937
+> >  kswapd_shrink_node mm/vmscan.c:6765 [inline]
+> >  balance_pgdat mm/vmscan.c:6957 [inline]
+> >  kswapd+0x1ca3/0x3700 mm/vmscan.c:7226
+> >  kthread+0x2f0/0x390 kernel/kthread.c:389
+> >  ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+> >  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+> >  </TASK>
+> > 
+> > [2]:https://elixir.bootlin.com/linux/v6.14.3/source/fs/buffer.c#L97
+> > 
+> > Best regards,
+> > I Hsin Cheng
+> > ---
+> >  fs/buffer.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/fs/buffer.c b/fs/buffer.c
+> > index cc8452f60251..29fd17f78265 100644
+> > --- a/fs/buffer.c
+> > +++ b/fs/buffer.c
+> > @@ -2883,6 +2883,8 @@ drop_buffers(struct folio *folio, struct buffer_head **buffers_to_free)
+> >  	struct buffer_head *head = folio_buffers(folio);
+> >  	struct buffer_head *bh;
+> >  
+> > +	if (!head)
+> > +		goto detach_folio;
+> >  	bh = head;
+> >  	do {
+> >  		if (buffer_busy(bh))
+> > @@ -2897,6 +2899,7 @@ drop_buffers(struct folio *folio, struct buffer_head **buffers_to_free)
+> >  			__remove_assoc_queue(bh);
+> >  		bh = next;
+> >  	} while (bh != head);
+> > +detach_folio:
+> >  	*buffers_to_free = head;
+> >  	folio_detach_private(folio);
+> >  	return true;
+> > -- 
+> > 2.43.0
+> > 
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
