@@ -1,76 +1,75 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67BC1C1AB4
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Apr 2025 16:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CEA1AA1FE
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Apr 2025 16:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745599970; cv=none; b=fvg1dEewnBlXZYGAfavBMWgPJ0ci0fFL396NSvpwu2oQYULw+Htdwwxk7xEJPLG/HjST41SFPOkYynxWvcN4idlcXcoS7HTmq9GpXhK8gM9PneRFap1wH6aE5PqRMBan522gW58jo1PxiHBCa6+YLcSjU7v8XHEc9ZidSCKfztA=
+	t=1745600036; cv=none; b=ERLxr2ak8OIxDlL2vfidMeF7bZF6T4/GTggkKRqavrO8FIxFYd2mVn+lWNaw/R1BaG73e0dBbsxoG+srDJS0Q+cpqYGT3/LYTrzlvZnA7cYPGPQz4fzcM8Rzr3m+TtIuEJhBhiJi/hdnagV683FZzqlGhadaPSL4qj1ItATVs+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745599970; c=relaxed/simple;
-	bh=b7xROfOzVGEJ+F8+IU2YtVbSzBcJ5YtgexLbCieurdI=;
+	s=arc-20240116; t=1745600036; c=relaxed/simple;
+	bh=wDDWwNorEgyf1DK+t5UlrDqvwSyCk8iGBsGGEULzKAc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P417MBdth86NNc7rJ3b7YOcnx2aQEeC8VTyyBDjzPWflKLCmZt/y9Ko3B+ptSLJNM8U8xrqp+GCzLack92J4OJbstzt+/7DONiVMMaIfVSDQ5obsLvEqqAZD7knNkF52Fn4CTWeKJdvqTwYP6iuxRk2eGVS92qgnDpHetNos8vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f98bGm26; arc=none smtp.client-ip=209.85.215.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=AxV//1c7fThcQTD8jFLUccblBGtpFmBMsnLy2zHxjoYoqq+Unta8WvgTgJDAJQhxaoy570HlfXFcxQMA+yoIfrd5798GF4wTVlsw95CB+MJJLwouqixTGDwQnPvAVqrpNo++cjM56YEMvxRfsAd31SHy0JQV07uU6of6CSEA0V4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gNl55Zr7; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f98bGm26"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b061a775ac3so2443735a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Apr 2025 09:52:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gNl55Zr7"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-227914acd20so31557095ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Apr 2025 09:53:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745599968; x=1746204768; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1745600034; x=1746204834; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xUo8ldcQnt9oMg4WgBNcdcluURoGZZ9nuZ9OpdGRZpI=;
-        b=f98bGm26pgvYnUrg1pxzqI4H2W78Ban2NiIDH8oZOGU8vAjpfSlJ7UYvZ0MC4JP0CI
-         JV/ILWhNQ4BoPnSbgdv+upHgSVppVMyD949E8SRax3vWsjZ3MU5xGAfzNrzr/6UY8ZTy
-         9n3YhKq51lyLvzV8fSZFw1K7z8V2uHblu9WlZjMlp6Skyr5nH1yavI/7aiGzSgnNFTHV
-         f7MTQxpik6FLdHFOaAJbgiksx5JI8aen3pB7PT1EUDcp+3Nr/0msT1eMB1ToD7bwJ7e0
-         yTbq2MmxF+S1aSKw/XqRY61s9siT5pSF/IJO4aezq/oSiz8TC7ACH1iWkOJQWaaJaftY
-         WHCw==
+        bh=Tviy9TtMmPd+Bq9NvF3M6rtwnmthJ23vPw61LIOxPYQ=;
+        b=gNl55Zr7bjuCBboUodPUfwE6rWl9GeeQPnTN7Q6lBKB2rdEdWOQOgBlN1tsL5Tk2/I
+         vuqXMMjTmjsL21b+OTAefINh4lpheMpUs8RDOovYupDi+qamzSza26QStULup/whJcwJ
+         f8lQZe3/CuBoaungaMjNLbz3nN17DfkkpUd/sciGxDp3ig01ni4a25ATv4d4pgkha77A
+         J+cizI1LnIZN02XscykuMMo3Rxrkfg/5xahvpInYlDVoDIlyusPqixkvnnj1EDFf0zXR
+         EjLEQc1pNky9iG7v7ZK0vJfhDZS2mFsTKQrpBorYwXNGkirc0tx/cTvd7PRqgdMUrXyX
+         NIXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745599968; x=1746204768;
+        d=1e100.net; s=20230601; t=1745600034; x=1746204834;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xUo8ldcQnt9oMg4WgBNcdcluURoGZZ9nuZ9OpdGRZpI=;
-        b=miiOV5PzfY4t13jJD1Cd56iDdGd80aLV+NMMEPic3iXTgKEMwkvKH0ClEEJ6IP/JKu
-         GEySHt+ns4lbCUg+a8BwHoC+B7ABYmidTobfkaeZJKzdmIX1Y7sZ7s3wuDVoQn4ZXAAA
-         AmQruIwb7y7oPMtE99bRz2iP8XOSmzWbEXjka3TvH4df3z6ct4CRpPU8KoLEDEHytrwW
-         kIjPg0b19iBPa/IsUz6mjslk49z2U9vv6kkn2PZjWj2t0c4MbTN3EaVVvuty7DSafA2v
-         c+b9Asm6q6tXAr5TI64xjcm+buB43WNB2VnbSCUOl9BXgSuGlZv1UKccYJXvMjx1YIsG
-         f9lg==
-X-Forwarded-Encrypted: i=1; AJvYcCUIhDb3+CpLelaj9BjESwsNqQXPxEYlXgyH56gi7Nyc3WTTrSJffGQiq0aqLXeqLlGC+HF2Hng9pqS1gHsFGYS1O6S70g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIYhqr+aUUm+PYR2fctv+zMc+cYMqbYUFLTeFhkE6o+QgcmH8L
-	LjJ0tMOc0/Yh1WDtOcZPs6IoqFtNrqnf+gCeVoOv9nO9YqKMoWpd
-X-Gm-Gg: ASbGnct5BmDg7AJSpgBStRj0F/zmOTTX3at7AUhSZpRFkmNTmNN4TkOa5R7FQ/IrIRS
-	9Ageqk/yCnZ9y1x/K3OP7/FCdLVIm2sPy9qpQDa9C/lsvDUAmm1Xy32v184+GFOCOcYHtbBAbWT
-	Z9y0wIiXWXrrAjL2UITSvznQ/xFMECgnlJJiDwLxsgo+jIKqcqrFxlMlOZfxrMVd8i3v2Axjx32
-	tWID0H5OgVSfijtG7KCCPZi1mhM76tI1xhnf8fRQWtPsxXKbOs1zfy1Cbj2MnlZ6qcPmAyn8tcC
-	TTYwR5jEdTt5mC71q1aJiwRWKAZh80RcwbJiXptbI2UqMBUzKq14O7rLxu/R/C1ivRJS
-X-Google-Smtp-Source: AGHT+IFojj7f+se3pSr/WR6LUWCeOvjNpR7dRU6l5UkaIDRsEoeOc1uUIphwPcBM8pHGM0feoLQTuw==
-X-Received: by 2002:a05:6a20:6f0a:b0:1fe:90c5:7cee with SMTP id adf61e73a8af0-2045b98fd7emr4718790637.28.1745599968077;
-        Fri, 25 Apr 2025 09:52:48 -0700 (PDT)
+        bh=Tviy9TtMmPd+Bq9NvF3M6rtwnmthJ23vPw61LIOxPYQ=;
+        b=bOnqqVX5DtcIrm2t1btW3Wmj1q67YDBNPvtVxi2TWutKcubVOBgGTpshCxxHWpFXgt
+         HKrnZFlFY26Cyqt9wXkgVNzBgW12C/8sTkU0xP/ATxn2ylB2rCG7KDUbFoYmiWOol/tL
+         Jj+ZJXmZqHER5cnXx9ABSPtnwktT4TbH3n0oDK9HCTMb5snIict5N++qEalm+pwjXn7V
+         RyrXiCHiMRK5ZfIf5j67dwe5faiJ1/Y+92ECGw42p11bWGzUsXjMck3i2w98EdB85YFD
+         A7Ixe9fTVmErQym05KqvDfNMFyz1rEUkK5gvKxChSrlZzOFkNrp3sLpxbA1eiUKuFAMa
+         ajXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUrrgOr8ShT8sb6vdcgxBofhllhQAZeLHE3ikiVtchUDu+1S0+5aZGlO2HmBaQMSmg1XS1Z1f05zNU5ktVlvqaC3DEWjw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7k6iC9Hgl9KDg7uWTEocUcNg2ahTUTJfQ+MywwMjsA0xnYSoQ
+	vhWf63ZbshwyiOow5jLhNmCrPFvAl252UihtJYhV0dLTUUYICjWX
+X-Gm-Gg: ASbGncub18JOC4603EqnaGs8cRt4JrtvEX+HVVZOEXfLfD/RmuroVLXkdtK/GQi25UH
+	osZhzwOO0b83+LhMcUVQAK2IrZtnDYeTlkprUfn28e65SizQTSlLgNcLsUWqMfamFV0/FT4HKDz
+	WrxQEIF/QXPMdI20ozl/mkGF8vUBhOhg4ugYhB5ZnOaK7hN5Dhgx+V6CE4j7zpjBdLB3tsQ2x1b
+	yPg2Dufv404FvUFs9tHl2oo5TQwjeDNkyrE3LVZWWDIdqSRqYvUtNOIibwRqBifbrsnuYzwdAbC
+	PuzjO9xUhXHrvIEmyf72zInNS4EAh/5LSHOnuOyNDl87jEb1ZlQao/vAZw==
+X-Google-Smtp-Source: AGHT+IFhCZVJG7BmsJj4QwIIMaru3w3J44H83XBqoGP5RuI4Eg0NRoO7u8y9l3uVOpUjRcEk/+KyXg==
+X-Received: by 2002:a17:903:1b70:b0:223:5187:a886 with SMTP id d9443c01a7336-22dbf981445mr50244645ad.22.1745600033939;
+        Fri, 25 Apr 2025 09:53:53 -0700 (PDT)
 Received: from vaxr-BM6660-BM6360 ([2001:288:7001:2703:f97d:cfa2:241e:84aa])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25a6a30csm3387276b3a.88.2025.04.25.09.52.45
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db50ea7casm34586805ad.134.2025.04.25.09.53.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 09:52:47 -0700 (PDT)
-Date: Sat, 26 Apr 2025 00:52:42 +0800
+        Fri, 25 Apr 2025 09:53:53 -0700 (PDT)
+Date: Sat, 26 Apr 2025 00:53:49 +0800
 From: I Hsin Cheng <richard120310@gmail.com>
-To: Jan Kara <jack@suse.cz>
-Cc: syzbot+de1498ff3a934ac5e8b4@syzkaller.appspotmail.com,
-	viro@zeniv.linux.org.uk, brauner@kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jfs-discussion@lists.sourceforge.net, shaggy@kernel.org,
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: syzbot+549710bad9c798e25b15@syzkaller.appspotmail.com,
+	bfoster@redhat.com, linux-bcachefs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, davem@davemloft.net,
+	herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org,
 	syzkaller-bugs@googlegroups.com, skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [RFC PATCH] fs/buffer: Handle non folio buffer case for
- drop_buffer()
-Message-ID: <aAu92k-iPbnWBKGz@vaxr-BM6660-BM6360>
-References: <66fcb7f9.050a0220.f28ec.04e8.GAE@google.com>
- <20250423023703.632613-1-richard120310@gmail.com>
- <nfnwvcefhvm5sfrvlqqf4zcdq2iyzk4f2n366ux3bjatj7o4vl@5hq5evovwsxp>
+Subject: Re: [PATCH] bcachefs: Fix unit-value within btree_bounce_alloc()
+Message-ID: <aAu-Heqb3malYkjI@vaxr-BM6660-BM6360>
+References: <000000000000736bd406151001d7@google.com>
+ <20250423163718.194316-1-richard120310@gmail.com>
+ <ur4a24w2wb3euh3ej7ybeqnvmqyhzmqp2wwsjtilh6mfetv45l@qlxs3vggfq5h>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -79,138 +78,155 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <nfnwvcefhvm5sfrvlqqf4zcdq2iyzk4f2n366ux3bjatj7o4vl@5hq5evovwsxp>
+In-Reply-To: <ur4a24w2wb3euh3ej7ybeqnvmqyhzmqp2wwsjtilh6mfetv45l@qlxs3vggfq5h>
 
-On Wed, Apr 23, 2025 at 12:13:29PM +0200, Jan Kara wrote:
-> On Wed 23-04-25 10:37:03, I Hsin Cheng wrote:
-> > When the folio doesn't have any buffers, "folio_buffers(folio)" will
-> > return NULL, causing "buffer_busy(bh)" to dereference a null pointer.
-> > Handle the case and jump to detach the folio if there's no buffer within
-> > it.
+On Wed, Apr 23, 2025 at 12:45:20PM -0400, Kent Overstreet wrote:
+> On Thu, Apr 24, 2025 at 12:37:18AM +0800, I Hsin Cheng wrote:
+> > Use "kvzalloc()" instead of "kvmalloc()" in btree_bounce_alloc() to
+> > prevent uninit-value issue.
 > > 
-> > Reported-by: syzbot+de1498ff3a934ac5e8b4@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=de1498ff3a934ac5e8b4
-> > Fixes: 6439476311a64 ("fs: Convert drop_buffers() to use a folio")
+> > Reported-by: syzbot+549710bad9c798e25b15@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=549710bad9c798e25b15
+> > Fixes: cb6fc943b650 ("bcachefs: kill kvpmalloc()")
 > > Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
 > > ---
-> > syzbot reported a null pointer dereference issue. [1]
+> > syzbot reported an uninit-value issue. [1]
 > > 
-> > If the folio be sent into "drop_buffer()" doesn't have any buffers,
-> > assigning "bh = head" will make "bh" to NULL, and the following
-> > operation of cleaning the buffer will encounter null pointer
-> > dereference.
+> > Though the uninit value was detected in the context of crc32_body(), the
+> > memory was actually allocated in "btree_bounce_alloc()". Use
+> > "kvzalloc()" to allocate the memory can solve the issue, and I've tested
+> > against syzbot. [2]
 > > 
-> > I checked other use cases of "folio_buffers()", e.g. the one used in
-> > "buffer_check_dirty_writeback()" [2]. They generally use the same
-> > approach to check whether a folio_buffers() return NULL.
-> > 
-> > I'm not sure whether it's normal for a non-buffer folio to reach inside
-> > "drop_buffers()", if it's not maybe we have to dig more into the problem
-> > and find out where did the buffers of folio get freed or corrupted, let
-> > me know if that's needed and what can I test to help. I'm new to fs
-> > correct me if I'm wrong I'll be happy to learn, and know more about
-> > what's the expected behavior or correct behavior for a folio, thanks !
+> > If there're any further tests needed to be performed, please let me
+> > know. I'll be more than happy to assist you with that, thanks !
 > 
-> Thanks for the patch but try_to_free_buffers() is not expected to be called
-> when there are no buffers. Seeing the stacktrace below, it is unexpected it
-> got called because filemap_release_folio() calls folio_needs_release()
-> which should make sure there are indeed buffers attached.
+> See Documentation/filesystems/bcachefs/SubmittingPatches.
 >
 
-I see, it doesn't make sense to have no buffers inside
-try_to_free_buffers() then, I'll dig into it more and send v2.
+Sure ! Thanks for the info.
 
-> Can you print more about the folio where this happened? In particular it
-> would be interesting what's in folio->flags, folio->mapping->flags and
-> folio->mapping->aops (resolved to a symbol). Because either the mapping has
-> AS_RELEASE_ALWAYS set but then we should have ->releasepage handler, or
-> have PG_Private bit set without buffers attached to a page but then again
-> either ->releasepage should be set or there's some bug in fs/buffer.c which
-> can set PG_Private without attaching buffers (I don't see where that could
-> be).
-> 
+> And this isn't the correct fix - the correct fix is already in Linus's
+> tree.
 
-Hmm so I suppose when there're buffers attached, the PG_Private bit
-should always be set in folio->flags or folio->mapping->flags or
-folio->mapping->aops ?
-
-Thanks for your patience and detailed reviewed again, I'll refer back to
-you ASAP.
+Ahh ok, may I ask for the commit hash or title so I can learn from it ?
 
 Best regards,
 I Hsin Cheng
-
-> 								Honza
 > 
 > > 
 > > [1]:
-> > BUG: KASAN: null-ptr-deref in instrument_atomic_read include/linux/instrumented.h:68 [inline]
-> > BUG: KASAN: null-ptr-deref in atomic_read include/linux/atomic/atomic-instrumented.h:32 [inline]
-> > BUG: KASAN: null-ptr-deref in buffer_busy fs/buffer.c:2881 [inline]
-> > BUG: KASAN: null-ptr-deref in drop_buffers+0x6f/0x710 fs/buffer.c:2893
-> > Read of size 4 at addr 0000000000000060 by task kswapd0/74
-> > 
-> > CPU: 0 UID: 0 PID: 74 Comm: kswapd0 Not tainted 6.12.0-rc1-syzkaller-00031-ge32cde8d2bd7 #0
-> > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-> > Call Trace:
-> >  <TASK>
-> >  __dump_stack lib/dump_stack.c:94 [inline]
-> >  dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
-> >  print_report+0xe8/0x550 mm/kasan/report.c:491
-> >  kasan_report+0x143/0x180 mm/kasan/report.c:601
-> >  kasan_check_range+0x282/0x290 mm/kasan/generic.c:189
-> >  instrument_atomic_read include/linux/instrumented.h:68 [inline]
-> >  atomic_read include/linux/atomic/atomic-instrumented.h:32 [inline]
-> >  buffer_busy fs/buffer.c:2881 [inline]
-> >  drop_buffers+0x6f/0x710 fs/buffer.c:2893
-> >  try_to_free_buffers+0x295/0x5f0 fs/buffer.c:2947
-> >  shrink_folio_list+0x240c/0x8cc0 mm/vmscan.c:1432
-> >  evict_folios+0x549b/0x7b50 mm/vmscan.c:4583
-> >  try_to_shrink_lruvec+0x9ab/0xbb0 mm/vmscan.c:4778
-> >  shrink_one+0x3b9/0x850 mm/vmscan.c:4816
-> >  shrink_many mm/vmscan.c:4879 [inline]
-> >  lru_gen_shrink_node mm/vmscan.c:4957 [inline]
-> >  shrink_node+0x3799/0x3de0 mm/vmscan.c:5937
-> >  kswapd_shrink_node mm/vmscan.c:6765 [inline]
-> >  balance_pgdat mm/vmscan.c:6957 [inline]
-> >  kswapd+0x1ca3/0x3700 mm/vmscan.c:7226
-> >  kthread+0x2f0/0x390 kernel/kthread.c:389
-> >  ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+> > BUG: KMSAN: uninit-value in crc32_body lib/crc32.c:110 [inline]
+> > BUG: KMSAN: uninit-value in crc32_le_generic lib/crc32.c:179 [inline]
+> > BUG: KMSAN: uninit-value in __crc32c_le_base+0x43c/0xd80 lib/crc32.c:201
+> >  crc32_body lib/crc32.c:110 [inline]
+> >  crc32_le_generic lib/crc32.c:179 [inline]
+> >  __crc32c_le_base+0x43c/0xd80 lib/crc32.c:201
+> >  chksum_update+0x5b/0xd0 crypto/crc32c_generic.c:88
+> >  crypto_shash_update+0x79/0xa0 crypto/shash.c:52
+> >  crc32c+0xba/0x170 lib/libcrc32c.c:47
+> >  bch2_checksum_update+0x106/0x1d0 fs/bcachefs/checksum.c:83
+> >  bch2_checksum+0x3c5/0x7c0 fs/bcachefs/checksum.c:216
+> >  __bch2_btree_node_write+0x528c/0x67c0 fs/bcachefs/btree_io.c:2151
+> >  bch2_btree_node_write+0xa5/0x2e0 fs/bcachefs/btree_io.c:2288
+> >  btree_node_write_if_need fs/bcachefs/btree_io.h:153 [inline]
+> >  __btree_node_flush+0x4d0/0x640 fs/bcachefs/btree_trans_commit.c:229
+> >  bch2_btree_node_flush0+0x35/0x60 fs/bcachefs/btree_trans_commit.c:238
+> >  journal_flush_pins+0xce6/0x1780 fs/bcachefs/journal_reclaim.c:553
+> >  __bch2_journal_reclaim+0xd88/0x1610 fs/bcachefs/journal_reclaim.c:685
+> >  bch2_journal_reclaim_thread+0x18e/0x760 fs/bcachefs/journal_reclaim.c:727
+> >  kthread+0x3e2/0x540 kernel/kthread.c:389
+> >  ret_from_fork+0x6d/0x90 arch/x86/kernel/process.c:147
 > >  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
-> >  </TASK>
 > > 
-> > [2]:https://elixir.bootlin.com/linux/v6.14.3/source/fs/buffer.c#L97
+> > Uninit was stored to memory at:
+> >  memcpy_u64s_small fs/bcachefs/util.h:511 [inline]
+> >  bkey_p_copy fs/bcachefs/bkey.h:46 [inline]
+> >  bch2_sort_keys+0x1b4d/0x2cb0 fs/bcachefs/bkey_sort.c:194
+> >  __bch2_btree_node_write+0x3acd/0x67c0 fs/bcachefs/btree_io.c:2100
+> >  bch2_btree_node_write+0xa5/0x2e0 fs/bcachefs/btree_io.c:2288
+> >  btree_node_write_if_need fs/bcachefs/btree_io.h:153 [inline]
+> >  __btree_node_flush+0x4d0/0x640 fs/bcachefs/btree_trans_commit.c:229
+> >  bch2_btree_node_flush0+0x35/0x60 fs/bcachefs/btree_trans_commit.c:238
+> >  journal_flush_pins+0xce6/0x1780 fs/bcachefs/journal_reclaim.c:553
+> >  __bch2_journal_reclaim+0xd88/0x1610 fs/bcachefs/journal_reclaim.c:685
+> >  bch2_journal_reclaim_thread+0x18e/0x760 fs/bcachefs/journal_reclaim.c:727
+> >  kthread+0x3e2/0x540 kernel/kthread.c:389
+> >  ret_from_fork+0x6d/0x90 arch/x86/kernel/process.c:147
+> >  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+> > 
+> > Uninit was created at:
+> >  __kmalloc_large_node+0x231/0x370 mm/slub.c:3994
+> >  __do_kmalloc_node mm/slub.c:4027 [inline]
+> >  __kmalloc_node+0xb10/0x10c0 mm/slub.c:4046
+> >  kmalloc_node include/linux/slab.h:648 [inline]
+> >  kvmalloc_node+0xc0/0x2d0 mm/util.c:634
+> >  kvmalloc include/linux/slab.h:766 [inline]
+> >  btree_bounce_alloc fs/bcachefs/btree_io.c:118 [inline]
+> >  bch2_btree_node_read_done+0x4e68/0x75e0 fs/bcachefs/btree_io.c:1185
+> >  btree_node_read_work+0x8a5/0x1eb0 fs/bcachefs/btree_io.c:1324
+> >  bch2_btree_node_read+0x3d42/0x4b50
+> >  __bch2_btree_root_read fs/bcachefs/btree_io.c:1748 [inline]
+> >  bch2_btree_root_read+0xa6c/0x13d0 fs/bcachefs/btree_io.c:1772
+> >  read_btree_roots+0x454/0xee0 fs/bcachefs/recovery.c:457
+> >  bch2_fs_recovery+0x7b6a/0x93e0 fs/bcachefs/recovery.c:785
+> >  bch2_fs_start+0x7b2/0xbd0 fs/bcachefs/super.c:1043
+> >  bch2_fs_open+0x152a/0x15f0 fs/bcachefs/super.c:2105
+> >  bch2_mount+0x90d/0x1d90 fs/bcachefs/fs.c:1906
+> >  legacy_get_tree+0x114/0x290 fs/fs_context.c:662
+> >  vfs_get_tree+0xa7/0x570 fs/super.c:1779
+> >  do_new_mount+0x71f/0x15e0 fs/namespace.c:3352
+> >  path_mount+0x742/0x1f20 fs/namespace.c:3679
+> >  do_mount fs/namespace.c:3692 [inline]
+> >  __do_sys_mount fs/namespace.c:3898 [inline]
+> >  __se_sys_mount+0x725/0x810 fs/namespace.c:3875
+> >  __x64_sys_mount+0xe4/0x150 fs/namespace.c:3875
+> >  x64_sys_call+0x2bf4/0x3b50 arch/x86/include/generated/asm/syscalls_64.h:166
+> >  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+> >  do_syscall_64+0xcf/0x1e0 arch/x86/entry/common.c:83
+> >  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> > 
+> > [2]:
+> > https://lore.kernel.org/all/000000000000736bd406151001d7@google.com/T/#m748384a36239a7f66e63cfde949e3db6bf14d5c6
+> > 
+> > syzbot reply me with:
+> > Hello,
+> > 
+> > syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+> > 
+> > Reported-by: syzbot+549710bad9c798e25b15@syzkaller.appspotmail.com
+> > Tested-by: syzbot+549710bad9c798e25b15@syzkaller.appspotmail.com
+> > 
+> > Tested on:
+> > 
+> > commit:         614da38e Merge tag 'hid-for-linus-2024051401' of git:/..
+> > git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=10be763f980000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=49342144b6a907af
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=549710bad9c798e25b15
+> > compiler:       Debian clang version 15.0.6, Debian LLD 15.0.6
+> > patch:          https://syzkaller.appspot.com/x/patch.diff?x=15b99a6f980000
+> > 
+> > Note: testing is done by a robot and is best-effort only.
 > > 
 > > Best regards,
 > > I Hsin Cheng
 > > ---
-> >  fs/buffer.c | 3 +++
-> >  1 file changed, 3 insertions(+)
+> >  fs/bcachefs/btree_io.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > > 
-> > diff --git a/fs/buffer.c b/fs/buffer.c
-> > index cc8452f60251..29fd17f78265 100644
-> > --- a/fs/buffer.c
-> > +++ b/fs/buffer.c
-> > @@ -2883,6 +2883,8 @@ drop_buffers(struct folio *folio, struct buffer_head **buffers_to_free)
-> >  	struct buffer_head *head = folio_buffers(folio);
-> >  	struct buffer_head *bh;
+> > diff --git a/fs/bcachefs/btree_io.c b/fs/bcachefs/btree_io.c
+> > index debb0edc3455..dc00c5273ffe 100644
+> > --- a/fs/bcachefs/btree_io.c
+> > +++ b/fs/bcachefs/btree_io.c
+> > @@ -115,7 +115,7 @@ static void *btree_bounce_alloc(struct bch_fs *c, size_t size,
+> >  	BUG_ON(size > c->opts.btree_node_size);
 > >  
-> > +	if (!head)
-> > +		goto detach_folio;
-> >  	bh = head;
-> >  	do {
-> >  		if (buffer_busy(bh))
-> > @@ -2897,6 +2899,7 @@ drop_buffers(struct folio *folio, struct buffer_head **buffers_to_free)
-> >  			__remove_assoc_queue(bh);
-> >  		bh = next;
-> >  	} while (bh != head);
-> > +detach_folio:
-> >  	*buffers_to_free = head;
-> >  	folio_detach_private(folio);
-> >  	return true;
+> >  	*used_mempool = false;
+> > -	p = kvmalloc(size, __GFP_NOWARN|GFP_NOWAIT);
+> > +	p = kvzalloc(size, __GFP_NOWARN|GFP_NOWAIT);
+> >  	if (!p) {
+> >  		*used_mempool = true;
+> >  		p = mempool_alloc(&c->btree_bounce_pool, GFP_NOFS);
 > > -- 
 > > 2.43.0
 > > 
-> -- 
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
