@@ -1,137 +1,84 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBB325CC4B
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Apr 2025 14:56:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2968F5A
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Apr 2025 15:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745679403; cv=none; b=dWIIZ6uLud5oYwtdEDnLCeF8z2e1Ip+UieKvMT0PJlZspNfqyFDfTsSyrhR6dyUxrw5UStuqynOlaTHgHILk/VF37+yR/iousSnrh9cptohfiWwGUZ4zjNNzgPv9SOrj6zfYcKImbG5Ok/4LutBCrByvllrRR/As6l+PINaj9JM=
+	t=1745679798; cv=none; b=cKTWTbWd4Mg1bNfMdV8m/5LCaKuruwBcC+QTM9h54lEG+uCbd6hN9A0UsEWoc37C5CUpUDwsbSVuLh3KcYfGyuwEXLtmSSx3fRTt7zGV2hyWxt7nZKIKZ3p+fJrWKHOxA0zux6TKTMk9Si70qt5Jcc8rN2VIhZ/ssnjzj2jwesA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745679403; c=relaxed/simple;
-	bh=khH4WkE0mEFj9busZOZ8flLqC6GG3A9JhSqOV9SegDs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hDXkuzUZs+DFpv0JL/7/H/9w4eqWwt8rHam8hPGnjMflFriihcea0KF9p+bm4/HJ+JAsOBqJNd6223E86OyHBIWdU8bkcO0xbV/lOx3uJCFg7nbwVhCgYz0FF4iSFStjrORcF8jU4zP14tjfnoITY7FlMeOBtn35K17HBRNeM+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=Cynu4gWm; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+	s=arc-20240116; t=1745679798; c=relaxed/simple;
+	bh=Vm8is0fZMA8KIAs1cGn6dnzN77suefz/64PXNNt+6pE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=omRSDlQ1OErMSn/W/mWC9oneZYYB6KQGm+tzHiAGjDyIZDkUuUDuD5YljVa6hZB6GXy/1rvjsQlMTc7FfGUg8HYnmBsATLykOvUanHkoLWjskChzBKXWWBKZU9wbT4yfabOu7rpdjuib4M+59BB54YdoizE8BO+9DpHVtcvtc70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bgBoFfuu; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="Cynu4gWm"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1745679399;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bgBoFfuu"
+Date: Sat, 26 Apr 2025 11:03:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1745679792;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2kGESmUc5K4aE63sF+pKXsYXoXR44233ot7fuIdc7eY=;
-	b=Cynu4gWmcHLMMh351vsuhpvZBlrDwJN2/KOCWh5A3hAyULSfEYOXSXewFSphEDseSyuP9v
-	dV5Ez5gCNMYOGlS9N7LgVeLYvDcFg6l2yidT5oVjD1MP3cAjs6lIaoQFy255/djZqLMx37
-	G83QxgEd0YA1aGKOmeVxETiwZUeGNIwZsUTBcEmLzwJtaBzNYnFm+w0Z1Po1YDt/HTDHjd
-	XxaVGqV5dHAc3WFg/6Via63St3EqkjbAL7xjS6/HpMVwuQ+HztkXazkwfzMulJrFU0d7oE
-	hHMdeeMGEGIrtqbVJoZlO0baceoMVP8T9ygPzWF0yGpS5s4bHSx38JYsZ1rH/w==
-From: Ignacio Encinas <ignacio@iencinas.com>
-Date: Sat, 26 Apr 2025 16:56:19 +0200
-Subject: [PATCH v4 2/2] riscv: introduce asm/swab.h
+	bh=nfBFNtrkXGpwEI1f8qxFcLLJ+djj3QoJA6M531zvfsg=;
+	b=bgBoFfuucV1MYv23Sx+JWqkW37ke3hwsYGwVnAywb7CCGdvWPBhkaOVe6kU9Ji/OrgPuZc
+	uGvUevBF2m4UPwGcFH4UmpGEcBGhSzOevfJ8QF+0V3v4p1nWfsLhK3c3f92fA3PXHCWFkM
+	HbfMBFjpPoVmBYELvhEhkq2coWXPCgY=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: I Hsin Cheng <richard120310@gmail.com>
+Cc: syzbot+549710bad9c798e25b15@syzkaller.appspotmail.com, 
+	bfoster@redhat.com, linux-bcachefs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	davem@davemloft.net, herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] bcachefs: Fix unit-value within btree_bounce_alloc()
+Message-ID: <c32cu4mrdeln3kovzgehwjccfx2qpfh7evsgiug6ckshfux76q@ms6mab54ivy5>
+References: <000000000000736bd406151001d7@google.com>
+ <20250423163718.194316-1-richard120310@gmail.com>
+ <ur4a24w2wb3euh3ej7ybeqnvmqyhzmqp2wwsjtilh6mfetv45l@qlxs3vggfq5h>
+ <aAu-Heqb3malYkjI@vaxr-BM6660-BM6360>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250426-riscv-swab-v4-2-64201404a68c@iencinas.com>
-References: <20250426-riscv-swab-v4-0-64201404a68c@iencinas.com>
-In-Reply-To: <20250426-riscv-swab-v4-0-64201404a68c@iencinas.com>
-To: Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Alexandre Ghiti <alex@ghiti.fr>, 
- Arnd Bergmann <arnd@arndb.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
- skhan@linuxfoundation.org, Zhihang Shao <zhihang.shao.iscas@gmail.com>, 
- =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>, 
- linux-arch@vger.kernel.org, Ignacio Encinas <ignacio@iencinas.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aAu-Heqb3malYkjI@vaxr-BM6660-BM6360>
 X-Migadu-Flow: FLOW_OUT
 
-Implement endianness swap macros for RISC-V.
+On Sat, Apr 26, 2025 at 12:53:49AM +0800, I Hsin Cheng wrote:
+> On Wed, Apr 23, 2025 at 12:45:20PM -0400, Kent Overstreet wrote:
+> > On Thu, Apr 24, 2025 at 12:37:18AM +0800, I Hsin Cheng wrote:
+> > > Use "kvzalloc()" instead of "kvmalloc()" in btree_bounce_alloc() to
+> > > prevent uninit-value issue.
+> > > 
+> > > Reported-by: syzbot+549710bad9c798e25b15@syzkaller.appspotmail.com
+> > > Closes: https://syzkaller.appspot.com/bug?extid=549710bad9c798e25b15
+> > > Fixes: cb6fc943b650 ("bcachefs: kill kvpmalloc()")
+> > > Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+> > > ---
+> > > syzbot reported an uninit-value issue. [1]
+> > > 
+> > > Though the uninit value was detected in the context of crc32_body(), the
+> > > memory was actually allocated in "btree_bounce_alloc()". Use
+> > > "kvzalloc()" to allocate the memory can solve the issue, and I've tested
+> > > against syzbot. [2]
+> > > 
+> > > If there're any further tests needed to be performed, please let me
+> > > know. I'll be more than happy to assist you with that, thanks !
+> > 
+> > See Documentation/filesystems/bcachefs/SubmittingPatches.
+> >
+> 
+> Sure ! Thanks for the info.
+> 
+> > And this isn't the correct fix - the correct fix is already in Linus's
+> > tree.
+> 
+> Ahh ok, may I ask for the commit hash or title so I can learn from it ?
 
-Use the rev8 instruction when Zbb is available. Otherwise, rely on the
-default mask-and-shift implementation.
-
-Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
----
- arch/riscv/include/asm/swab.h | 62 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
-
-diff --git a/arch/riscv/include/asm/swab.h b/arch/riscv/include/asm/swab.h
-new file mode 100644
-index 000000000000..629f6164c1f3
---- /dev/null
-+++ b/arch/riscv/include/asm/swab.h
-@@ -0,0 +1,62 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef _ASM_RISCV_SWAB_H
-+#define _ASM_RISCV_SWAB_H
-+
-+#include <linux/types.h>
-+#include <linux/compiler.h>
-+#include <asm/cpufeature-macros.h>
-+#include <asm/hwcap.h>
-+#include <asm-generic/swab.h>
-+
-+#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
-+
-+#define ARCH_SWAB(size, value)						\
-+({									\
-+	unsigned long x = value;					\
-+									\
-+	if (riscv_has_extension_likely(RISCV_ISA_EXT_ZBB)) {            \
-+		asm volatile (".option push\n"				\
-+			      ".option arch,+zbb\n"			\
-+			      "rev8 %0, %1\n"				\
-+			      ".option pop\n"				\
-+			      : "=r" (x) : "r" (x));			\
-+		x = x >> (BITS_PER_LONG - size);			\
-+	} else {                                                        \
-+		x = ___constant_swab##size(value);                      \
-+	}								\
-+	x;								\
-+})
-+
-+static __always_inline __u16 __arch_swab16(__u16 value)
-+{
-+	return ARCH_SWAB(16, value);
-+}
-+
-+static __always_inline __u32 __arch_swab32(__u32 value)
-+{
-+	return ARCH_SWAB(32, value);
-+}
-+
-+#ifdef CONFIG_64BIT
-+static __always_inline __u64 __arch_swab64(__u64 value)
-+{
-+	return ARCH_SWAB(64, value);
-+}
-+#else
-+static __always_inline __u64 __arch_swab64(__u64 value)
-+{
-+	__u32 h = value >> 32;
-+	__u32 l = value & ((1ULL << 32) - 1);
-+
-+	return ((__u64)(__arch_swab32(l)) << 32) | ((__u64)(__arch_swab32(h)));
-+}
-+#endif
-+
-+#define __arch_swab64 __arch_swab64
-+#define __arch_swab32 __arch_swab32
-+#define __arch_swab16 __arch_swab16
-+
-+#undef ARCH_SWAB
-+
-+#endif /* defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
-+#endif /* _ASM_RISCV_SWAB_H */
-
--- 
-2.49.0
-
+9c3a2c9b471a bcachefs: Disable asm memcpys when kmsan enabled
