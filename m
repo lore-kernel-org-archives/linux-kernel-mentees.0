@@ -1,75 +1,73 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5900C8BEE
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Apr 2025 15:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA166757F3
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 28 Apr 2025 04:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745768753; cv=none; b=rNFAyXJ+jRLBc6Hd1N3egG0u/DAC6I1hHahs0FcJmCmiipTcDku9MHZloJiSQzbbHaf6N5Y6obkXdBDs6y+NPkzyXeLTIKuLhJLxAhJ2xQdy3BWrpShCNK2DvyOMUbaD06ZX2+TRqeNI49VwFsw6Jg8bV/0qJULp56XMdJvGxHE=
+	t=1745814704; cv=none; b=Fh7v8Xv8au0J988435r07VR9hh+VoVSEhk9c0SKdaMXlm/4jSwTCfpjMYkrBx+3/Pku/yfLrAymnAPDqay5SWCZe8k02JsT6kn6zNxGKlFAKPbU6sMaASiOMPADDHaeuy7FVict2r/A+yMsnQ3PPzzeA0Tq6OwPr9+W0zeL4FjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745768753; c=relaxed/simple;
-	bh=LufHX8cplyfE6bc3Dn2Ou09jkpw5XXBf57Zw6V2jIiA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=osmuKoicNj9aFCvd0Ha7QIby9u/tR7FY5mozcEbAjOGu+R2LXPGp9M3DXPHfY4KfMsZcXnt42y8Kkd+E1T2hSnca4bS28pK8PyyxU3TAF7J7/ovxuQi8XrMUqLtT+/WPcuVa6d+qMyPWcOt65Cjv5h/QeVxWky2QATuyh11RUWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NwjSOPlp; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1745814704; c=relaxed/simple;
+	bh=pM9WdbxbCoq91JlbmnwpX9YXcTrYb3eoYNw64DwXYww=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cHjQcbJS8jlFDwGPbkcb1+UFvLiJWvq/1BRt3iY5Tdc1Xgsz+6EpFo1Wr8/UX/SRbNkXqVgZJMiT8EGSTrgdBjsQiTGIDYv6E0AfVGIDaG2/EbbaKVObtXGGpoR46WTaqVgwjCiklaQO1p7qsjysuTkqNb9Ty19nNBQNKU4DnKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MVEJyWfG; arc=none smtp.client-ip=209.85.160.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NwjSOPlp"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3018e2d042bso2623970a91.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Apr 2025 08:45:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MVEJyWfG"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-476a304a8edso55693621cf.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Apr 2025 21:31:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745768751; x=1746373551; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1745814701; x=1746419501; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7H3CGfdKeQmA85O5UdRYRS4BFpY8FBaukpxGzuJa2pw=;
-        b=NwjSOPlpYHrA/hChGGHG0EeCc54CzB/KfcBhQ4DQT/amSpQj6Vm1hGKu9DObdRIxt3
-         OQyRjVZZwyaqAIugTfpC/vcWnB6uu4yuwgIemgVJHZPTpEfx9bdgJHS8zRTX3HHSG0B9
-         AHwFOSIcZ0aQbqFKw3yCHQazscWn4IfPAMoqOAIwZk/LQTe9CS2UCtHiMXQDcaMgq9Ex
-         s2Nk1wAWGPeVb85Uem8Mkv3ZupbV0BfIPpFSqWN6E3/AYImPBU+DOJjyltLUjTxFdrRm
-         WtLLy6ZycSiVgRX6hy2OsMmZguKAilxsLa9mOYNz0iuYD6317ty3xn1BBh2k5j3sCAWF
-         0Z/w==
+        bh=XK0ow2yQiTSwZKmXddEqpTiG/spDXu2r2XpbRTk02SA=;
+        b=MVEJyWfGKH1tUI56mlY/90CeQ6diU8gRtU8axZYYBje9wkf461sinw09msqL17Woxq
+         hbZVgdz8qbF7uicX4XOG8vMfX5g/SEws67kTkVdlLvbW57Yg1wsvTmWIdSbI6nBCAjyr
+         HGge1osAHqb3FlESzM+6jksI1TNHN2eCE8kW+Bguc1BIx1xiLFHeH7huP4a9ZbNR9GXH
+         p01sI82pyNeoMkDVD4SAE9tIUGwn5r38CGUtQb7sIGhZkE9RefUBj2RXTzKfDpv5MkX5
+         GboLqT6Di+OdMoa9AefZjfXeRsa7GtUEGfu9MOC9vo9Y0dV1eHRZNUsiSJDcbtZo/yNS
+         mZsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745768751; x=1746373551;
+        d=1e100.net; s=20230601; t=1745814701; x=1746419501;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7H3CGfdKeQmA85O5UdRYRS4BFpY8FBaukpxGzuJa2pw=;
-        b=LBdYdx6M13tiwTMpK0E9szCQZMTZY7p0tcDjmJtuxMPpqRPof0mLuUcuz3Hrkq3ZYb
-         AkYb50e8PvEAIJhPb3U41TB3XPQW1LuwIjIWZHeyVywXuUOD86iiM8iwWm0tA3RBsWdm
-         XTU4h7lHa5W12zVuKBxoahyrKFJGuMo4/TA3tClrYNwRWDa84yWzp1NbcwYfhHFxsFg/
-         q9c7PKwR4bDu8NC0hVMyAVamHfYxA2lvSswTkzp2npOdUxPvsZlRwa1jjTBmwirCn+r5
-         DPXnk3u/uwbE+duEDjZMkC/Jcik6MGSDPcl7TP92OpzFeTdaWWNo+v0S+CB0xfJzqPYF
-         FuFA==
-X-Forwarded-Encrypted: i=1; AJvYcCWUcbiFsINfl7j5u87uOu91WGrGQffFdEta5xxTHsDM0w1YDJoNCwQjYJ0A/aKlKMOEP2m0IqjwFb8Io6ehVNWjk6Zpkw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcJ3IdnGXrzaDWcosWpLA+FBe/lkFuvmeD3UdanjOEnTp4CcUL
-	sPLwTDS6uXnI48Nmj1eLD8WP48sbw6XsoVCxrptFCLTjL3DY+e48
-X-Gm-Gg: ASbGnctopgRr0f0+VUAIsE1PjQiVPcMoIJar4SGompK9xQehuHzM4LtFDtTUO+EfToL
-	H0b+1bZIRxdO/E63HYVtKdZsWipDC2VgbboGrHE2uLujvF9gydgFZbc9Tf0+BsFTJXIelCZcP4n
-	TXhDrqXDI8qUdkoiMmDHwN67FrdOecUlVJXe5zXmISEmpfBKZ3393YiZwvexuywA/vvDmB6Bmvi
-	9aeVpezvrDXLNC8fZW5V72JPxT0aGOP5v89yNQxmOGZUevsA7Hcrn1d6VZKqbnF3TszoY/y0RKj
-	U3Fo/BI23epMFM07G/ROHpxV5t98akUOsjt7Z+oU
-X-Google-Smtp-Source: AGHT+IHq2GiUl5vh/UvTDKS1xTbiflFzANxoGSTrV8i3Ib/1ucPJH61yRREAPJwoNXjzQr/QYwNVuA==
-X-Received: by 2002:a17:90b:520f:b0:2f9:c139:b61f with SMTP id 98e67ed59e1d1-309f8d9b077mr14393324a91.14.1745768751500;
-        Sun, 27 Apr 2025 08:45:51 -0700 (PDT)
-Received: from pop-os.. ([49.207.200.116])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309ef061acdsm7150108a91.16.2025.04.27.08.45.48
+        bh=XK0ow2yQiTSwZKmXddEqpTiG/spDXu2r2XpbRTk02SA=;
+        b=sQLPL07ZHlwt0o/hHkolcYKi335y8DJreQuNiHVc53CNX7WRMpkZemyKIHJZGHPJgc
+         /X1Sk90YaBE+drVg2lRNCr9994ZbPfs359Fm22OxxXAdABDwoAFrfPyfkL9iTNtbMhLY
+         DEJ8ZoQtK+hgRmIi682argJbwmBzp6Om3/ySWmqIZQSQb3fpWAieVPP51TpK49byQWD/
+         NeUR1nW8qUg2OnOnDUHpPyiRKqqkiDRR0/Bepm6iI60zY+aDS0FqpZBY65j2PwJibH0I
+         Z/ARv5xaHzbszI53UUwafmG3x1NHrFY0Z1QFTmjxcxQz33W1pHJTGGuZu1J7X81Tdgwc
+         q+fg==
+X-Forwarded-Encrypted: i=1; AJvYcCXNBMDmcFmQxaUqFlo+5spuuv7x+raHtfg0QzS2hlrmlslApDP1dPSOybkUZOTn+Bb8GCa/LT30nxUX3nVYPOj7S4/gOw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzebqdSaXSXEEYbeV4lwW8daz6LCPzV+0U4Xf9gMzh5UMDN0k7G
+	5EGgF/EIpunfUAX/BzXdfVkTJ2HfLrH+BEfmLdg++PHbC/6H4D//
+X-Gm-Gg: ASbGncuyZvibTfFBRR/oDNm724Ck5RIgO8oPfdJnciGWt3SL7jLkSk1gFqClaj7YVOi
+	tJ3NbSdWGqJDTNm0Bl+bzhhICDXCgy2TpiW40QPg8qSGPRx2oicT1VAcXSW4mS9p2gkaNcBT/sA
+	6SnMlLCfxmiPZ15usHy4t/xz2dPbuGHFYzWJQFLY93H+bVG3aIMaoFsV3VtMSRbUtbWJkLR6byt
+	cbOArmlSd5lbWRJ0t3yOdxacktIGsQw+1xiu3gpZKjAq4/uzXRf6sfKLLPlna0aOe1CItej62hG
+	sqpeagjrmfs7Zkf+BmZ1gTHEChcKBo4WVfkmRYO5PA==
+X-Google-Smtp-Source: AGHT+IFWJ3tEaTBf+jH+bBPjUDfdcAyCfgL5UKGqFyabzfonE682xDuxsGBs/Igyhpbo6VaA+QjZLw==
+X-Received: by 2002:a05:622a:1b8b:b0:476:8288:9558 with SMTP id d75a77b69052e-4801eadae2dmr165843211cf.46.1745814700658;
+        Sun, 27 Apr 2025 21:31:40 -0700 (PDT)
+Received: from iman-pc.home ([184.148.73.125])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47e9bd6c1cbsm62593661cf.0.2025.04.27.21.31.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Apr 2025 08:45:51 -0700 (PDT)
-From: Aditya Dutt <duttaditya18@gmail.com>
-To: stable@vger.kernel.org
-Cc: Dave Kleikamp <dave.kleikamp@oracle.com>,
-	Dave Kleikamp <shaggy@kernel.org>,
+        Sun, 27 Apr 2025 21:31:40 -0700 (PDT)
+From: Seyediman Seyedarab <imandevel@gmail.com>
+X-Google-Original-From: Seyediman Seyedarab <ImanDevel@gmail.com>
+To: rafael@kernel.org,
+	viresh.kumar@linaro.org
+Cc: linux-pm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	jfs-discussion@lists.sourceforge.net,
 	skhan@linuxfoundation.org,
-	Manas Ghandat <ghandatmanas@gmail.com>,
-	syzbot+ccb458b6679845ee0bae@syzkaller.appspotmail.com,
-	Aditya Dutt <duttaditya18@gmail.com>
-Subject: [PATCH 5.15.y] jfs: define xtree root and page independently
-Date: Sun, 27 Apr 2025 21:15:39 +0530
-Message-Id: <20250427154539.96678-1-duttaditya18@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel-mentees@lists.linux.dev,
+	Seyediman Seyedarab <ImanDevel@gmail.com>
+Subject: [PATCH] cpufreq: fix locking order in store_local_boost to prevent deadlock
+Date: Mon, 28 Apr 2025 00:33:56 -0400
+Message-ID: <20250428043356.3169-1-ImanDevel@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -78,193 +76,105 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Dave Kleikamp <dave.kleikamp@oracle.com>
+Lockdep reports a possible circular locking dependency[1] when
+writing to /sys/devices/system/cpu/cpufreq/policyN/boost,
+triggered by power-profiles-daemon at boot.
 
-[ Upstream commit a779ed754e52d582b8c0e17959df063108bd0656 ]
+store_local_boost() acquires cpu_hotplug_lock *AFTER* policy->rwsem
+has already been taken by the store() handler. However, the expected
+locking hierarchy is to acquire cpu_hotplug_lock before policy->rwsem.
+This inverted lock order creates a *theoretical* deadlock possibility.
 
-In order to make array bounds checking sane, provide a separate
-definition of the in-inode xtree root and the external xtree page.
+Take cpu_hotplug_lock in the store() before down_write(&policy->rwsem),
+and remove the internal cpus_read_lock/unlock pair
+inside store_local_boost().
 
-Signed-off-by: Dave Kleikamp <dave.kleikamp@oracle.com>
-Tested-by: Manas Ghandat <ghandatmanas@gmail.com>
-(cherry picked from commit a779ed754e52d582b8c0e17959df063108bd0656)
-Closes: https://syzkaller.appspot.com/bug?extid=ccb458b6679845ee0bae
-Reported-by: syzbot+ccb458b6679845ee0bae@syzkaller.appspotmail.com
-Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
+ [1]
+ ======================================================
+ WARNING: possible circular locking dependency detected
+ 6.15.0-rc3-debug #28 Not tainted
+ ------------------------------------------------------
+ power-profiles-/596 is trying to acquire lock:
+ ffffffffb147e910 (cpu_hotplug_lock){++++}-{0:0}, at: store_local_boost+0x6a/0xd0
+
+ but task is already holding lock:
+ ffff9eaa48377b80 (&policy->rwsem){++++}-{4:4}, at: store+0x37/0x90
+
+ which lock already depends on the new lock.
+
+ the existing dependency chain (in reverse order) is:
+
+ -> #2 (&policy->rwsem){++++}-{4:4}:
+        down_write+0x29/0xb0
+        cpufreq_online+0x841/0xa00
+        cpufreq_add_dev+0x71/0x80
+        subsys_interface_register+0x14b/0x170
+        cpufreq_register_driver+0x154/0x250
+        amd_pstate_register_driver+0x36/0x70
+        amd_pstate_init+0x1e7/0x270
+        do_one_initcall+0x67/0x2c0
+        kernel_init_freeable+0x230/0x270
+        kernel_init+0x15/0x130
+        ret_from_fork+0x2c/0x50
+        ret_from_fork_asm+0x11/0x20
+
+ -> #1 (subsys mutex#3){+.+.}-{4:4}:
+        __mutex_lock+0xc2/0x930
+        subsys_interface_register+0x83/0x170
+        cpufreq_register_driver+0x154/0x250
+        amd_pstate_register_driver+0x36/0x70
+        amd_pstate_init+0x1e7/0x270
+        do_one_initcall+0x67/0x2c0
+        kernel_init_freeable+0x230/0x270
+        kernel_init+0x15/0x130
+        ret_from_fork+0x2c/0x50
+        ret_from_fork_asm+0x11/0x20
+
+ -> #0 (cpu_hotplug_lock){++++}-{0:0}:
+        __lock_acquire+0x1087/0x17e0
+        lock_acquire.part.0+0x66/0x1b0
+        cpus_read_lock+0x2a/0xc0
+        store_local_boost+0x6a/0xd0
+        store+0x50/0x90
+        kernfs_fop_write_iter+0x135/0x200
+        vfs_write+0x2ab/0x540
+        ksys_write+0x6c/0xe0
+        do_syscall_64+0xbb/0x1d0
+        entry_SYSCALL_64_after_hwframe+0x56/0x5e
+
+Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
 ---
-I am sending this as per the suggestion by Greg to submit backports for
-all the relevant stable trees:
-https://lore.kernel.org/stable/2025042210-stylized-nearest-ea59@gregkh/
-This patch has been applied in >= 6.12
-and has been backported to 6.6: 2ff51719ec615e1b373c1811443efe93594c41a9
-I have already sent a mail for 6.1:
-https://lore.kernel.org/stable/20250427153045.90396-1-duttaditya18@gmail.com/
+ drivers/cpufreq/cpufreq.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-syzbot checked the patch against 5.15.y and confirmed that the
-reproducer did not trigger any issues. check here:
-https://lore.kernel.org/lkml/67fea0bf.050a0220.186b78.0006.GAE@google.com/
-
- fs/jfs/jfs_dinode.h |  2 +-
- fs/jfs/jfs_imap.c   |  6 +++---
- fs/jfs/jfs_incore.h |  2 +-
- fs/jfs/jfs_txnmgr.c |  4 ++--
- fs/jfs/jfs_xtree.c  |  4 ++--
- fs/jfs/jfs_xtree.h  | 37 +++++++++++++++++++++++--------------
- 6 files changed, 32 insertions(+), 23 deletions(-)
-
-diff --git a/fs/jfs/jfs_dinode.h b/fs/jfs/jfs_dinode.h
-index 6b231d0d0071..603aae17a693 100644
---- a/fs/jfs/jfs_dinode.h
-+++ b/fs/jfs/jfs_dinode.h
-@@ -96,7 +96,7 @@ struct dinode {
- #define di_gengen	u._file._u1._imap._gengen
+diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+index acf19b004..6e672dcba 100644
+--- a/drivers/cpufreq/cpufreq.c
++++ b/drivers/cpufreq/cpufreq.c
+@@ -653,10 +653,7 @@ static ssize_t store_local_boost(struct cpufreq_policy *policy,
  
- 			union {
--				xtpage_t _xtroot;
-+				xtroot_t _xtroot;
- 				struct {
- 					u8 unused[16];	/* 16: */
- 					dxd_t _dxd;	/* 16: */
-diff --git a/fs/jfs/jfs_imap.c b/fs/jfs/jfs_imap.c
-index c72e97f06579..0e7d2662f202 100644
---- a/fs/jfs/jfs_imap.c
-+++ b/fs/jfs/jfs_imap.c
-@@ -673,7 +673,7 @@ int diWrite(tid_t tid, struct inode *ip)
- 		 * This is the special xtree inside the directory for storing
- 		 * the directory table
- 		 */
--		xtpage_t *p, *xp;
-+		xtroot_t *p, *xp;
- 		xad_t *xad;
+ 	policy->boost_enabled = enable;
  
- 		jfs_ip->xtlid = 0;
-@@ -687,7 +687,7 @@ int diWrite(tid_t tid, struct inode *ip)
- 		 * copy xtree root from inode to dinode:
- 		 */
- 		p = &jfs_ip->i_xtroot;
--		xp = (xtpage_t *) &dp->di_dirtable;
-+		xp = (xtroot_t *) &dp->di_dirtable;
- 		lv = ilinelock->lv;
- 		for (n = 0; n < ilinelock->index; n++, lv++) {
- 			memcpy(&xp->xad[lv->offset], &p->xad[lv->offset],
-@@ -716,7 +716,7 @@ int diWrite(tid_t tid, struct inode *ip)
- 	 *	regular file: 16 byte (XAD slot) granularity
- 	 */
- 	if (type & tlckXTREE) {
--		xtpage_t *p, *xp;
-+		xtroot_t *p, *xp;
- 		xad_t *xad;
+-	cpus_read_lock();
+ 	ret = cpufreq_driver->set_boost(policy, enable);
+-	cpus_read_unlock();
+-
+ 	if (ret) {
+ 		policy->boost_enabled = !policy->boost_enabled;
+ 		return ret;
+@@ -1045,10 +1042,12 @@ static ssize_t store(struct kobject *kobj, struct attribute *attr,
+ 	if (!fattr->store)
+ 		return -EIO;
  
- 		/*
-diff --git a/fs/jfs/jfs_incore.h b/fs/jfs/jfs_incore.h
-index 721def69e732..dd4264aa9bed 100644
---- a/fs/jfs/jfs_incore.h
-+++ b/fs/jfs/jfs_incore.h
-@@ -66,7 +66,7 @@ struct jfs_inode_info {
- 	lid_t	xtlid;		/* lid of xtree lock on directory */
- 	union {
- 		struct {
--			xtpage_t _xtroot;	/* 288: xtree root */
-+			xtroot_t _xtroot;	/* 288: xtree root */
- 			struct inomap *_imap;	/* 4: inode map header	*/
- 		} file;
- 		struct {
-diff --git a/fs/jfs/jfs_txnmgr.c b/fs/jfs/jfs_txnmgr.c
-index 6c8680d3907a..3a547e0b934f 100644
---- a/fs/jfs/jfs_txnmgr.c
-+++ b/fs/jfs/jfs_txnmgr.c
-@@ -783,7 +783,7 @@ struct tlock *txLock(tid_t tid, struct inode *ip, struct metapage * mp,
- 			if (mp->xflag & COMMIT_PAGE)
- 				p = (xtpage_t *) mp->data;
- 			else
--				p = &jfs_ip->i_xtroot;
-+				p = (xtpage_t *) &jfs_ip->i_xtroot;
- 			xtlck->lwm.offset =
- 			    le16_to_cpu(p->header.nextindex);
- 		}
-@@ -1710,7 +1710,7 @@ static void xtLog(struct jfs_log * log, struct tblock * tblk, struct lrd * lrd,
++	cpus_read_lock();
+ 	down_write(&policy->rwsem);
+ 	if (likely(!policy_is_inactive(policy)))
+ 		ret = fattr->store(policy, buf, count);
+ 	up_write(&policy->rwsem);
++	cpus_read_unlock();
  
- 	if (tlck->type & tlckBTROOT) {
- 		lrd->log.redopage.type |= cpu_to_le16(LOG_BTROOT);
--		p = &JFS_IP(ip)->i_xtroot;
-+		p = (xtpage_t *) &JFS_IP(ip)->i_xtroot;
- 		if (S_ISDIR(ip->i_mode))
- 			lrd->log.redopage.type |=
- 			    cpu_to_le16(LOG_DIR_XTREE);
-diff --git a/fs/jfs/jfs_xtree.c b/fs/jfs/jfs_xtree.c
-index 3148e9b35f3b..34db519933b4 100644
---- a/fs/jfs/jfs_xtree.c
-+++ b/fs/jfs/jfs_xtree.c
-@@ -1224,7 +1224,7 @@ xtSplitRoot(tid_t tid,
- 	struct xtlock *xtlck;
- 	int rc;
- 
--	sp = &JFS_IP(ip)->i_xtroot;
-+	sp = (xtpage_t *) &JFS_IP(ip)->i_xtroot;
- 
- 	INCREMENT(xtStat.split);
- 
-@@ -3059,7 +3059,7 @@ static int xtRelink(tid_t tid, struct inode *ip, xtpage_t * p)
-  */
- void xtInitRoot(tid_t tid, struct inode *ip)
- {
--	xtpage_t *p;
-+	xtroot_t *p;
- 
- 	/*
- 	 * acquire a transaction lock on the root
-diff --git a/fs/jfs/jfs_xtree.h b/fs/jfs/jfs_xtree.h
-index 5f51be8596b3..dc9b5f8d6385 100644
---- a/fs/jfs/jfs_xtree.h
-+++ b/fs/jfs/jfs_xtree.h
-@@ -65,24 +65,33 @@ struct xadlist {
- #define XTPAGEMAXSLOT	256
- #define XTENTRYSTART	2
- 
--/*
-- *	xtree page:
-- */
--typedef union {
--	struct xtheader {
--		__le64 next;	/* 8: */
--		__le64 prev;	/* 8: */
-+struct xtheader {
-+	__le64 next;	/* 8: */
-+	__le64 prev;	/* 8: */
- 
--		u8 flag;	/* 1: */
--		u8 rsrvd1;	/* 1: */
--		__le16 nextindex;	/* 2: next index = number of entries */
--		__le16 maxentry;	/* 2: max number of entries */
--		__le16 rsrvd2;	/* 2: */
-+	u8 flag;	/* 1: */
-+	u8 rsrvd1;	/* 1: */
-+	__le16 nextindex;	/* 2: next index = number of entries */
-+	__le16 maxentry;	/* 2: max number of entries */
-+	__le16 rsrvd2;	/* 2: */
- 
--		pxd_t self;	/* 8: self */
--	} header;		/* (32) */
-+	pxd_t self;	/* 8: self */
-+};
- 
-+/*
-+ *	xtree root (in inode):
-+ */
-+typedef union {
-+	struct xtheader header;
- 	xad_t xad[XTROOTMAXSLOT];	/* 16 * maxentry: xad array */
-+} xtroot_t;
-+
-+/*
-+ *	xtree page:
-+ */
-+typedef union {
-+	struct xtheader header;
-+	xad_t xad[XTPAGEMAXSLOT];	/* 16 * maxentry: xad array */
- } xtpage_t;
- 
- /*
+ 	return ret;
+ }
 -- 
-2.34.1
+2.49.0
 
