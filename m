@@ -1,87 +1,74 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C4B28399
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 30 Apr 2025 06:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667FD7405A
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Apr 2025 16:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745994264; cv=none; b=Pz6THzpccdv4VMFQL8vMB+yt8+p4eABuBtryumWWS/B6GHS5ISj4npgtVHuPKhaa+spF1UoNsUvwNnIgibwgQdUIVGSQlphPnAudE/luZ478vkx1xb8d17JTI3ovegnubh5GROymDYHyCnbbnYyiitiZdoUUdtFCfP+O/FmwCPk=
+	t=1746029243; cv=none; b=BVeczS425gSuttHFN560MU9wM6vVnQKRZqwlNYIXfTKG3cdUWNbcKZSC4BaK51iRNQxzH7t0TzPcixy5LHkaZGY9mXxqseDPZC1zXvM8meMLsJXkXfpGtPvQcjiBXWdVqRNjtKRUm2i26ACPgzHOVO20dzbO0k/waxFq7mIYuDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745994264; c=relaxed/simple;
-	bh=BUlIa8BzzS2z9z6WDQCdewmzjAzUJyL047+xiQ/8HL0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jJWnAcXv5Mn5GEgLi+LncBsaaEeTpk/14T9yOjA2DYsGL+FEFIYrJYZrQeSzZ/CPeRqP7DrE8nmL+i03y+Z4BKiWBGPKLKW2XqNKP4zPU1HneJmWepRPeIxHShN/HSrjnX2p9oqz0AVpzYRKkVxXOoKb4cn12K/dhTGaipj/6r4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A5vNNTV8; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1746029243; c=relaxed/simple;
+	bh=2d0e5iaIZu3pd5474EGx6dQUABlZaX2gxnnAruiiSSU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HJXku4JkvOl3E5PYl75tyV4CnBK0CPCxbvls6OdAbxl9qOu1wWEBx7JuLRudG1MTk5TqHPLOtYkbA9iIEgQbEiQzjWl4Ye3pW4+TRpxbJc2322bhC1KITLKrKw1pAIBqageW9q4VCOT2cLAdxhYCP4vLPCuN6w3nwkAJZB1bQKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YIiqmNg5; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A5vNNTV8"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8AB0B40829
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 30 Apr 2025 06:24:22 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id zXI-fkzSr8R7 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Apr 2025 06:24:22 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62b; helo=mail-pl1-x62b.google.com; envelope-from=ankitchauhan2065@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 027F040528
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 027F040528
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=A5vNNTV8
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 027F040528
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 30 Apr 2025 06:24:21 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-224100e9a5cso84054495ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 29 Apr 2025 23:24:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YIiqmNg5"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4768f90bf36so629531cf.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Apr 2025 09:07:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745994261; x=1746599061; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1746029240; x=1746634040; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t2BkgT+ns1+Mv1Haw5znYsaR1kZcYX+VRlw/c++zNcs=;
-        b=A5vNNTV8ZYKe7KdT++gVMMpEzDPCzlLlot15z+y0wpGAk8gBK6E4p9n1TC9gVbZ5uP
-         N0dVCBgdcS7rbTLiFr3B/3EZlPoQW7ZlqoWLTuID0AlpVCWg52YOyZU/BBk8QnhL157m
-         9nekZT5tDDgXvDJjimlDho4RFSluWjqsx3ZR2U/Bcgo8YdDl+2qjc7L+TxG3SmixXI/9
-         8+IPv6FmrcW4xin3McZxXmV4AA8vGJstvaFFkDhCCf0wRTDg9n7lA3WU+Ej/0B05WA0e
-         sVqfM9Bbl2J23TNPNVStYYSSYx0H7xlyKQYZldEuVD3TGSnIRPCYbTfuUnFGt659zVsf
-         RqkA==
+        bh=wEs4/vMxiR7hq6sbXkpfoC4TKgbs/ANlioALa5x6i50=;
+        b=YIiqmNg5tohbstRwG/BBAqx3bJt/tAnlgWlT/cHY8dyBxNkZGc8gJYgxN/zfg5V4Oz
+         aAA7tQkU434s2h9MZVwvTvJwBYSrCSujiDKYlO+LjyiIao1cCpe8oIrdI3DMZOom7Z0z
+         vS678VyXkAYXnP9tPUzn0jE7d1abdKX/m7Aye2yPyX7nMgz+CHx2Pz1EeFT00Bf/e3Rf
+         rF5r8WpF22pTqPgSFDC15ptHXtpkKFeNm8gawQ6V5yKfvISl8RZ+Bx8Lv0nCj5nhk0jc
+         TnLkQnH04DQAVEJb82hXvnuE691i9Cf/QXG2tTfNBFWHHffw5TImUYgyjcuiRLUd1drk
+         I3lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745994261; x=1746599061;
+        d=1e100.net; s=20230601; t=1746029240; x=1746634040;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=t2BkgT+ns1+Mv1Haw5znYsaR1kZcYX+VRlw/c++zNcs=;
-        b=OyduOMZyHuzr1hyKQdBSJsmN+nbt5B/8mgnXQAfKr0kaoZJrgxUygAsf8J5mP8hIH4
-         DEa++aPLlqobAL/u4eph1Kw5pyfc201XhjEcJNQRw49SRF7W58rMeOr2SfFh9LXjkk58
-         qAfFNtkBNnvvR5WeUqAwykppyTXxeZ2JefJWIdzTHpH3C33gbARqTQcOXoQ43cW6rEik
-         Kj+ImHsx/wCvTGHER9FqL/p8An23R+qGOWvc5CHVHW+R+ykEuDmuy9J4wf1zyfH6qi+O
-         Gs2TXZp9LqWB5egeGOMgAOEohtvTQyd+H3PKbN/lROGY5lg+BgKlF3Fg2rLMrG4gcVuK
-         M/0w==
-X-Forwarded-Encrypted: i=1; AJvYcCXFtn8CoezEl9YkLk2/w/3TnajMPeishvGHf+KMQWAWZi4NhG0mrs2p9XiPrYnbsdI3EYt7kCIjlUr0CkFH/fgB2ZWyPA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwWNvwZec8vi8eF/PUNZoyI2nyO6OelQuKbMjGwpLyf56JZ+S85
-	A2kJUAkr8Dh7zlhJ3DjBA9yS3W0FKy51nH6ADtBXbZ5eCNYhyFkA
-X-Gm-Gg: ASbGnctiEd26zdyGjSQC4h3H/hohdJYAHoEJO4kocnUMvBJAznCoFB1XDcgKKsWfPIO
-	9c1x8LlLfYhwBu6F1eLM/pzMJby+RDaHeRnOYcEHtwOgPi7eNKKIl2wQsTxDQWK6LAsFnpMuys3
-	dLlPPV+N8myewN6olrHvR08Ye3vq42tbDS+LcVG+j/qIvJQFGscs0fugUeMRbv/8QyZGIXW3SgK
-	krdPkbgKHf2IOe46PJNlD8eEyOLCWyd5oXjyrLMDuyXn6MYRJx+s05GtvPFmeHfCW9K9rmIu6Dy
-	5/hjR6U/yw7KYohT03bXqq/xNmm+djzGYa0Lb88cW5Fx/WMx3tyl93UVMeo=
-X-Google-Smtp-Source: AGHT+IHSjHX+RHqL1/RPrri4TfXKibji4sFCTL39MYugqcNiiBkHWbhLt7vmWGwVOUIhPwt0riovvw==
-X-Received: by 2002:a17:902:d491:b0:223:3b76:4e22 with SMTP id d9443c01a7336-22df34a5d21mr26938355ad.6.1745994261145;
-        Tue, 29 Apr 2025 23:24:21 -0700 (PDT)
-Received: from localhost.localdomain ([103.77.0.13])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-22db52163d6sm114169185ad.214.2025.04.29.23.24.18
+        bh=wEs4/vMxiR7hq6sbXkpfoC4TKgbs/ANlioALa5x6i50=;
+        b=e6T6ZEDaMh23mccmZEy4cY4cwQeOZei9cXXVuZ+2PIPmqpl41DLQZhfKJQZEQnWCo7
+         xzVIf3DzCFwm0t0AsgtJnPuuHJ93J/CqwkXLuXLF+36SjRqZALYFlCjp1cxrgF/TAxp9
+         fmsaPBqv6yjWnTdQGpKIQpl6CMiqMqyRyqbB01wlESLE+xjjVqGQe93tu/yAb8rqOqPQ
+         GnWPOeVVJQouWhhCI7Ewjn7kEwhtH1obMe64O317i7g4iGIkwLQeKvF+whhhJC9lEfd6
+         yN7NiZqz8ldn+BH4YAxE1BdxrDbtvpEo5qly9DZTuFZsrvVubgRE/KTCBqcWOC6ig2zI
+         X8cA==
+X-Forwarded-Encrypted: i=1; AJvYcCU9KNz8Kdq9YLAmo4775vs60fHQaoZM1PY8OKU+0/xYHxSgMzbo/Mi9RW+lh+e2kxgdLom+fcWpd0b5X0fhj/ks1HXcaQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxfr5GqYSD0CkREXwdJCFHPyBCk8I3XaI+1zTG/6NjXov/GKldQ
+	9qHfEHmdcGDTgiXeYrc8DwgbUDzXZMJnUJnmkolSRSZ75MIzykn/
+X-Gm-Gg: ASbGnctxZavqhefZbZ6Feu3E+SdxtZISdDfPedYRshWyCiBSFLa5N79Gu6XK4mmq7u3
+	Hnud4Q/8b3EE1jZS/dD50Vt58Q0fc5mlI10Kq6ecngdrBHRLsT1MiNcvNcUpCZW4ylHkeNYy8o+
+	+FYa3vlic6cIBJ3soMdzz4ajwm9+JvRdWh9iMENDM+xal3iT71Ab885AfaQ92flj/kDAXBTOkY+
+	Pzy3NATcF/cdNbZSZfr3ZuSlKZbpC5Q/37SlmQNU9cB4M4BkDLqnK94SRO2NuXouRENzCwlu5Nq
+	nngJhGwBxi1WJPPS6AVRKekOZwsx5KiOqEPYlwLaYMPWSB9PeFBeVCaePx+5NiqVn6UyhOADZ/m
+	rw7qmPgIDcT2UfHk2FPQNCUu3MBkHk4o=
+X-Google-Smtp-Source: AGHT+IGtWqa/7iXk55bAaDAa5NjVIWxZ7j7iN/jx6/jq0IYRfZtaHIIpY9sDStNQ1FvhYdcBEbQmew==
+X-Received: by 2002:ad4:5d61:0:b0:6e4:4274:aaf8 with SMTP id 6a1803df08f44-6f4fe055990mr53152656d6.17.1746029239964;
+        Wed, 30 Apr 2025 09:07:19 -0700 (PDT)
+Received: from iman-pc.home (bras-base-bitnon2805w-grc-06-184-148-73-125.dsl.bell.ca. [184.148.73.125])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f4fe6ad6a8sm9803796d6.4.2025.04.30.09.07.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 23:24:20 -0700 (PDT)
-From: Ankit Chauhan <ankitchauhan2065@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Ankit Chauhan <ankitchauhan2065@gmail.com>
-Subject: [PATCH] docs: fix spelling mistakes in HID documentation
-Date: Wed, 30 Apr 2025 11:54:12 +0530
-Message-Id: <20250430062412.54133-1-ankitchauhan2065@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 30 Apr 2025 09:07:19 -0700 (PDT)
+From: Seyediman Seyedarab <imandevel@gmail.com>
+X-Google-Original-From: Seyediman Seyedarab <ImanDevel@gmail.com>
+To: rafael@kernel.org,
+	viresh.kumar@linaro.org
+Cc: linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Seyediman Seyedarab <ImanDevel@gmail.com>
+Subject: [PATCH v3] cpufreq: fix locking order in store_local_boost to prevent deadlock
+Date: Wed, 30 Apr 2025 12:09:43 -0400
+Message-ID: <20250430160943.2836-1-ImanDevel@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -90,40 +77,141 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This commit fixes spelling mistakes in the HID documentation:
+Lockdep reports a possible circular locking dependency[1] when
+writing to /sys/devices/system/cpu/cpufreq/policyN/boost,
+triggered by power-profiles-daemon at boot.
 
-- 'triggerred' is corrected to 'triggered' in multiple places.
+store_local_boost() used to acquire cpu_hotplug_lock *after*
+the policy lock had already been taken by the store() handler.
+However, the expected locking hierarchy is to acquire
+cpu_hotplug_lock before the policy guard. This inverted lock order
+creates a *theoretical* deadlock possibility.
 
-Signed-off-by: Ankit Chauhan <ankitchauhan2065@gmail.com>
+Acquire cpu_hotplug_lock in the store() handler *only* for the
+local_boost attribute, before entering the policy guard block,
+and remove the cpus_read_lock/unlock() calls from store_local_boost().
+Also switch from guard() to scoped_guard() to allow explicitly wrapping
+the policy guard inside the cpu_hotplug_lock critical section.
+
+ [1]
+ ======================================================
+ WARNING: possible circular locking dependency detected
+ 6.15.0-rc4-debug #28 Not tainted
+ ------------------------------------------------------
+ power-profiles-/596 is trying to acquire lock:
+ ffffffffb147e910 (cpu_hotplug_lock){++++}-{0:0}, at: store_local_boost+0x6a/0xd0
+
+ but task is already holding lock:
+ ffff9eaa48377b80 (&policy->rwsem){++++}-{4:4}, at: store+0x37/0x90
+
+ which lock already depends on the new lock.
+
+ the existing dependency chain (in reverse order) is:
+
+ -> #2 (&policy->rwsem){++++}-{4:4}:
+        down_write+0x29/0xb0
+        cpufreq_online+0x841/0xa00
+        cpufreq_add_dev+0x71/0x80
+        subsys_interface_register+0x14b/0x170
+        cpufreq_register_driver+0x154/0x250
+        amd_pstate_register_driver+0x36/0x70
+        amd_pstate_init+0x1e7/0x270
+        do_one_initcall+0x67/0x2c0
+        kernel_init_freeable+0x230/0x270
+        kernel_init+0x15/0x130
+        ret_from_fork+0x2c/0x50
+        ret_from_fork_asm+0x11/0x20
+
+ -> #1 (subsys mutex#3){+.+.}-{4:4}:
+        __mutex_lock+0xc2/0x930
+        subsys_interface_register+0x83/0x170
+        cpufreq_register_driver+0x154/0x250
+        amd_pstate_register_driver+0x36/0x70
+        amd_pstate_init+0x1e7/0x270
+        do_one_initcall+0x67/0x2c0
+        kernel_init_freeable+0x230/0x270
+        kernel_init+0x15/0x130
+        ret_from_fork+0x2c/0x50
+        ret_from_fork_asm+0x11/0x20
+
+ -> #0 (cpu_hotplug_lock){++++}-{0:0}:
+        __lock_acquire+0x1087/0x17e0
+        lock_acquire.part.0+0x66/0x1b0
+        cpus_read_lock+0x2a/0xc0
+        store_local_boost+0x6a/0xd0
+        store+0x50/0x90
+        kernfs_fop_write_iter+0x135/0x200
+        vfs_write+0x2ab/0x540
+        ksys_write+0x6c/0xe0
+        do_syscall_64+0xbb/0x1d0
+        entry_SYSCALL_64_after_hwframe+0x56/0x5e
+
+Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
 ---
- Documentation/hid/intel-thc-hid.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes in v3:
+ - Rebased over PM tree's linux-next branch
+ - Added a comment to explain why this piece of code is required
+ - Switched from guard() to scoped_guard() to allow explicitly wrapping
+   the policy guard inside the cpu_hotplug_lock critical section.
 
-diff --git a/Documentation/hid/intel-thc-hid.rst b/Documentation/hid/intel-thc-hid.rst
-index 6c417205ac6a..5e0dc51c8d20 100644
---- a/Documentation/hid/intel-thc-hid.rst
-+++ b/Documentation/hid/intel-thc-hid.rst
-@@ -182,7 +182,7 @@ value and use PIO write (by setting SubIP write opcode) to do a write operation.
+Changes in v2:
+ - Restrict cpu_hotplug_lock acquisition to only
+   the local_boost attribute in store() handler.
+
+Regards,
+Seyediman
+
+ drivers/cpufreq/cpufreq.c | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+index 21fa733a2..b349adbeb 100644
+--- a/drivers/cpufreq/cpufreq.c
++++ b/drivers/cpufreq/cpufreq.c
+@@ -622,10 +622,7 @@ static ssize_t store_local_boost(struct cpufreq_policy *policy,
+ 	if (!policy->boost_supported)
+ 		return -EINVAL;
  
- THC also includes two GPIO pins, one for interrupt and the other for device reset control.
+-	cpus_read_lock();
+ 	ret = policy_set_boost(policy, enable);
+-	cpus_read_unlock();
+-
+ 	if (!ret)
+ 		return count;
  
--Interrupt line can be configured to either level triggerred or edge triggerred by setting MMIO
-+Interrupt line can be configured to either level triggered or edge triggered by setting MMIO
- Control register.
+@@ -1006,16 +1003,28 @@ static ssize_t store(struct kobject *kobj, struct attribute *attr,
+ {
+ 	struct cpufreq_policy *policy = to_policy(kobj);
+ 	struct freq_attr *fattr = to_attr(attr);
++	int ret = -EBUSY;
  
- Reset line is controlled by BIOS (or EFI) through ACPI _RST method, driver needs to call this
-@@ -302,9 +302,9 @@ waiting for interrupt ready then read out the data from system memory.
- 3.3.2 Software DMA channel
- ~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 	if (!fattr->store)
+ 		return -EIO;
  
--THC supports a software triggerred RxDMA mode to read the touch data from touch IC. This SW RxDMA
-+THC supports a software triggered RxDMA mode to read the touch data from touch IC. This SW RxDMA
- is the 3rd THC RxDMA engine with the similar functionalities as the existing two RxDMAs, the only
--difference is this SW RxDMA is triggerred by software, and RxDMA2 is triggerred by external Touch IC
-+difference is this SW RxDMA is triggered by software, and RxDMA2 is triggered by external Touch IC
- interrupt. It gives a flexiblity to software driver to use RxDMA read Touch IC data in any time.
+-	guard(cpufreq_policy_write)(policy);
++	/*
++	 * store_local_boost() requires cpu_hotplug_lock to be held, and must be
++	 * called with that lock acquired *before* taking policy->rwsem to avoid
++	 * lock ordering violations.
++	 */
++	if (fattr == &local_boost)
++		cpus_read_lock();
  
- Before software starts a SW RxDMA, it shall stop the 1st and 2nd RxDMA, clear PRD read/write pointer
+-	if (likely(!policy_is_inactive(policy)))
+-		return fattr->store(policy, buf, count);
++	scoped_guard(cpufreq_policy_write, policy) {
++		if (likely(!policy_is_inactive(policy)))
++			ret = fattr->store(policy, buf, count);
++	}
+ 
+-	return -EBUSY;
++	if (fattr == &local_boost)
++		cpus_read_unlock();
++
++	return ret;
+ }
+ 
+ static void cpufreq_sysfs_release(struct kobject *kobj)
 -- 
-2.34.1
+2.49.0
 
