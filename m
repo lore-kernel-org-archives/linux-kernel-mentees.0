@@ -1,88 +1,93 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4565E15D5B6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  1 May 2025 00:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34237225A2C
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  1 May 2025 05:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746061054; cv=none; b=hyJNiwMrlvhm8FCs+h2zExGA/SoHZibVHKw/84zvLcdZA6LOQSm5X5swBw2KthitWoq4UxB4oPQiLH1r2w5A8VeY087X6k7DkmJSRsyNa9biKeEbZ5qOMt7jUHerknLX4G3rr2wbagb9JXvpTwgmjDHNwjeZ8/YPD2G+yzf20uk=
+	t=1746079090; cv=none; b=rjPYF4c0DWigLJLbvHnZvtTNOrlqnNpFOOkKjzGclsnfzRFZNr8OW6j0okEZFSLgS2+txZnPLk90lObSSjMAMeInjkuEv/AjdLEk96NvO0ueWzlgba0FHqcSp63TBfwBBtqUDJB3tWELkDHoHp4vKCgzfCzgkkFonrMqYtpHC8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746061054; c=relaxed/simple;
-	bh=Isa6ZqIMgXzkI1d4s90yw+F6YIICIspQQc80fkj297M=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=fRZ9Z7N4MB20UzvbQVGvGnfFlFPJr/vVBezYDxS+gU5dW9gRUSkS/Jnej+U8yyNV77RhoBVCFsEiudth9pQ85USaCh5IgkOlI0615tZxqazZxSihZNTXkHO+Fl7bQ4U6bU46lCNNjcr+tCIkmfNAneaEVo/OVGwTTzqOL6ylies=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VvNeEdHm; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1746079090; c=relaxed/simple;
+	bh=xPLw1Eyccx30LPPm9w3J49Jr7VvuQSiA7RQxNbPiwC4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JvGcpb882pOnZvPBT6gxQVTNAIK8pjTMfWU40B7L3vfVfHqQskHQUSbmxNwEjx9lJRDLMVNDYREofbsa2RjcSW8EJIQ46u8J18CiKaXn8mUAK2dHveaRUzOyimPsRYwiL+ZD/2C+YkIFC4IU1dND1lk6koLzkunJdTroMxV3oDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=O+4pzBF6; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=G7EhpQ0o; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VvNeEdHm"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A89FB405D2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  1 May 2025 00:57:32 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: 1.486
-X-Spam-Level: *
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id d4sA074L9Q3d for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 May 2025 00:57:32 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org E2DBC4003A
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E2DBC4003A
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=VvNeEdHm
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E2DBC4003A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  1 May 2025 00:57:31 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-2241053582dso6549485ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 30 Apr 2025 17:57:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746061051; x=1746665851; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=seJv2vqR4qDF6T9e0PoV6RNeVYH3HHbim1BZhuGyy2I=;
-        b=VvNeEdHm1uAvVp7yMqZB+v+oHUGpo/pz+pQ++usZb27Ql4m9OafQbo0N0jypzGGNFP
-         /Tdu+IbSUVdj/MKQEby0sAA/0CCE3RkuY1vna3PrPPpsx6O31LqkeW6Pm1t8ymwJ/VJj
-         dERspVcNoFGzlByHzvyH60UlmjnlUrsU68slHlTZEa73ZrVD+XBU7UD3gtaFPXZQysw6
-         q8j4rGQkzNSpZRqV2GW1TnybwbT93r3O1uSqOId8hO0mKlu9VVUeOqO5b4UFLnw1X3FD
-         +I2tJPKYfLklffYMnm9n/r4KMHXl8rHzDNAcxbJ42ksXvj+pLgQhrSGLkEgqisb5AYwY
-         Xvmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746061051; x=1746665851;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=seJv2vqR4qDF6T9e0PoV6RNeVYH3HHbim1BZhuGyy2I=;
-        b=uN1ZvQ/t6Exr7rY+6rnwuMxY5VmjTUjxtpW8Cajp/rfZZgBG913NQTiXCeYvV0u8sP
-         qifCbO+Bs6mVZHKicdOQc32zG1FDdD/OhJC9MrCXqZrjvGeuCf96GmH38Q/UGRU3anHe
-         mYwV5iwnrq6CKNFeWX16jOxsaZZBkbdEISA8EGie1Du/ZSqSzem86+L9jknmJUNP1ZZz
-         q1FKTCdL6YLdw9/lHk8JY0l0lTBtfxIRJk38KjW9qqIza7jiHnD7T8DcaD/qxmUSWb0t
-         Qi0yfEb+YcPFLF1yYxmSFw054w8RJvksFD9Fy1Up5PAhI3Jh91KTOkWIHE/0VWK6SUm9
-         /ZcA==
-X-Forwarded-Encrypted: i=1; AJvYcCW4TXM5vjkGZ754z+bOE9dcppc8mXyJpLbVYT1RewjxXrodQ94/ZRiGGAiZSKe/5iEQkfqTZQkZTJVLedlMWkRWb/lBMA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yy3l/lxZDIZ5Z2VqeFKDPNjg2/QXSlYtqNzAwa3lnDWeuBkYrAW
-	M29pB3N2lkIzXYmiKXuSo2OdH/c9NPlJ7e3PoUE8N6ERi33GdHre
-X-Gm-Gg: ASbGncs7suv0AwYGHDBPFoNw0X3IjvdkiR9fE9OVsp4DlCg+0jGBYZ2aZP2qcFLafYt
-	zXZ0aD/LpFMtYoiW4MNfNw18NZZCFzURhDf5mWSb9XCVCTffBxBNx0Q8GTAzUsMNrkORQVvYm/+
-	8QcgkCb7uqLg3VzW2EI19OtmjnuL6Okt2zt3UJkVA9DPbkY1hWk96sT5IW3lAM+e1uStLhTfGrX
-	Cj0ia/tVwApX09DoNih8vV2pZpHcM1i4cLPninPRLS8SoxxgV9ECF4wifNQcGLNUKwKIlpgqXnE
-	rxRoM4Gebbzi+fZ0XkjnbYHKnM3FEw==
-X-Google-Smtp-Source: AGHT+IFBmdPTIPgN3stiXEWqdjO3F1B0vxFt9RNvgVez2m4ZbDEUBSt3+9nu16CMhB2dXa4cFwwI1A==
-X-Received: by 2002:a17:902:c40f:b0:229:1717:8812 with SMTP id d9443c01a7336-22df56afa5emr69290555ad.0.1746061051130;
-        Wed, 30 Apr 2025 17:57:31 -0700 (PDT)
-Received: from fedora.. ([2804:14c:64:af90::1001])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db5221677sm128447465ad.248.2025.04.30.17.57.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 17:57:30 -0700 (PDT)
-From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-To: benno.lossin@proton.me,
-	ojeda@kernel.org,
-	aliceryhl@google.com,
-	rust-for-linux@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH] rust: revocable: clarify invariants in safety documentation
-Date: Wed, 30 Apr 2025 21:57:05 -0300
-Message-ID: <20250501005726.744027-1-marcelomoreira1905@gmail.com>
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="O+4pzBF6";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="G7EhpQ0o"
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id 3C59B138016C;
+	Thu,  1 May 2025 01:58:05 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Thu, 01 May 2025 01:58:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm3; t=1746079085; x=1746165485; bh=wBa+/RP16JDDqe808w2hJ
+	uVvdiTrgtxeTmMlzvStV40=; b=O+4pzBF6r2WKZ6eDqs4LiUxjDiAFVOdEmok09
+	jA/7ww3vcBznOPaaPG29NjxpdgJeWOfpD+BLwhfKlKCrif/NnDeyr39/MZY2V3F9
+	Id+rA90HTNki3aW4NI2FdJA6V71kejBhHkkpzWRwfsrtfc2oWe2nfXUSX3Z9SNDB
+	BPSKFaEEFlJifczqymEKam4/6yaoJIB6ygKlBprcvZGj8rbi83ffjsdJabDl3SzI
+	psoAiJX1gM1gcno0hNyi5OpE1AFw48emJGfw2XZwLNSC78Th4TnSHSA2S1Xl3R66
+	7NinxDbdZJlX6Disz1xP3IMT2LGXliy7bs2EYiEoIkiqz2LAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1746079085; x=1746165485; bh=wBa+/RP16JDDqe808w2hJuVvdiTrgtxeTmM
+	lzvStV40=; b=G7EhpQ0oiQ1g3Euw64aaUrqs7YLmf4yu1Y10PaBGxdjonTZBCeB
+	jVCkjnXHhVWnMWr06RJAHjD6Q8tMZh5RnXvSY4hE3BNKyG7pk/ZpUNt5IelBbREk
+	LZuEtuZBFJERMyUCTZOgNng2SoM+Kp3Q8Lm+zo2vNeBvQ47Cm3BBHjhMeCQx1CO6
+	EoPbOR9bly2LVT+qXT3GbFeVKnach1pWDwLYyannk6MVTw6ABE/6gnZqPIByp1A8
+	7wjfNIcpXcjVflU6uxi+/ZsDAcqS7GK5FjuIyujAAoj45GpO/i2+d5t+cqiHw7KM
+	MnREZOXi55Sbq9WhAZYIU4MI9nncHAy3LnA==
+X-ME-Sender: <xms:bA0TaFzjQFUxAkSNbdVtIXXAURJuVg7S067NYNGLrqQ5uGpkWFslTA>
+    <xme:bA0TaFSSq0F6TlSfQ9_j50eUzpHgIJA6c0uWt3zmLoUmFujO-mHJcWWic8gUewqOa
+    uctuvJOiyOvvS1WtJo>
+X-ME-Received: <xmr:bA0TaPUdVdDaYFlwgIsj2372EtaI1wAxBqAeVpwmeYX8XZ2sLLmGXP2CVJTs1QvkF0mTmkTQaFXJEH7-C_gsyJ8vbw6ywQbPIh_876oWi3IIRYtE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieekjeelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
+    evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflrghmvghsucfhlhhofigvrhhs
+    uceosgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrg
+    htthgvrhhnpefhvefgkeeiuddtudfhgefgiedvuefhhedtffejtddtfeekieefieejveet
+    hfegheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsohhlugdriihonhgvvdefjeefsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthht
+    ohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehhrghrrhihrdifvghnth
+    hlrghnugesrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdr
+    tghomhdprhgtphhtthhopehsihhquhgvihhrrgesihhgrghlihgrrdgtohhmpdhrtghpth
+    htoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthho
+    pegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegrih
+    hrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhl
+    rdgthhdprhgtphhtthhopehskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorh
+    hgpdhrtghpthhtohepsgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:bA0TaHhL54XvezQvlBAWiJMLYQ4lLem4cvTj-Kqy8k02jJWwxr_gmQ>
+    <xmx:bA0TaHC2LLAW81q9rRvrJidjUSTsavhB4nxQI9BVFMTOeU60J1qvzg>
+    <xmx:bA0TaALqGP8q3C4Yq-Me_ZeYCIJ9Q5dqX6VtlhTSJnAbA8CarJsd6g>
+    <xmx:bA0TaGAAT-haECyx6lviJ9lgFvQ2sRihNoE9j0omVHuJX7_lElxLiQ>
+    <xmx:bQ0TaE3y3NlLynx7EDoKHNooBBNKkY5U1x5iIfJ0jXc7RA-bx9kKeyfg>
+Feedback-ID: ibd7e4881:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 1 May 2025 01:58:02 -0400 (EDT)
+From: James Flowers <bold.zone2373@fastmail.com>
+To: harry.wentland@amd.com,
+	sunpeng.li@amd.com,
+	siqueira@igalia.com,
+	alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	skhan@linuxfoundation.org
+Cc: James Flowers <bold.zone2373@fastmail.com>,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH RESEND] drm/amd/display: adds kernel-doc comment for dc_stream_remove_writeback()
+Date: Wed, 30 Apr 2025 22:56:42 -0700
+Message-ID: <20250501055701.2667-1-bold.zone2373@fastmail.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -92,46 +97,32 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Clarify the safety invariants for `Revocable<T>`, documenting that `data`
-is only valid if `is_available` is `true`, and that access requires
-holding the RCU read-side lock.
+Adds a kernel-doc for externally linked dc_stream_remove_writeback() function.
 
-This helps developers understand when it is safe to access the wrapped
-data and the role of RCU in ensuring memory safety.
-
-This is part of issue #1160 ("correct safety comments and documentation
-in revocable.rs"), reported by Miguel Ojeda and Benno Lossin.
-
-Reported-by: Miguel Ojeda <ojeda@kernel.org>
-Closes: https://github.com/Rust-for-Linux/linux/issues/1160
-Reported-by: Benno Lossin <benno.lossin@proton.me>
-Closes: https://github.com/Rust-for-Linux/linux/issues/1160
-Tested-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
-Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
+Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
 ---
- rust/kernel/revocable.rs | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
-index 1e5a9d25c21b..2da3e9460c07 100644
---- a/rust/kernel/revocable.rs
-+++ b/rust/kernel/revocable.rs
-@@ -61,6 +61,15 @@
- /// v.revoke();
- /// assert_eq!(add_two(&v), None);
- /// ```
-+///
-+/// # Invariants
-+///
-+/// - The wrapped object `data` is valid if and only if `is_available` is `true`.
-+/// - Access to `data` must occur only while holding the RCU read-side lock (e.g., via
-+///   [`Revocable::try_access`] or [`Revocable::try_access_with_guard`]).
-+/// - Once `is_available` is set to `false`, further access to `data` is disallowed,
-+///   and the object is dropped either after an RCU grace period (in [`revoke`]),
-+///   or immediately (in [`revoke_nosync`]).
- #[pin_data(PinnedDrop)]
- pub struct Revocable<T> {
-     is_available: AtomicBool,
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+index 0478dd856d8c..060ee6c3fc2e 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+@@ -552,6 +552,14 @@ bool dc_stream_fc_disable_writeback(struct dc *dc,
+ 	return true;
+ }
+ 
++/**
++ * dc_stream_remove_writeback() - Disables writeback and removes writeback info.
++ * @dc: Display core control structure.
++ * @stream: Display core stream state.
++ * @dwb_pipe_inst: Display writeback pipe.
++ *
++ * Return: returns true on success, false otherwise. 
++ */
+ bool dc_stream_remove_writeback(struct dc *dc,
+ 		struct dc_stream_state *stream,
+ 		uint32_t dwb_pipe_inst)
 -- 
 2.49.0
 
