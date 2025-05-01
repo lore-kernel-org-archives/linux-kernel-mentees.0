@@ -1,128 +1,74 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5600A1D8DE1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  1 May 2025 10:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7EC91DB13A
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  1 May 2025 20:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746094698; cv=none; b=rZysl/iy1WK9am4u9SZDUnBeGr+SEwdVQIM6srJWIv/+DehPCMGeliPoRDOATYBdyqvf/VUSReQh/wrsGuGL+JBr92Q/VJ7X4UcGw4l8ewjyYWsb84GBk2g0x57pli0tEm4B7COrROQ4B0oOJFIj8dC+Nd4pDRjXF5zSx0LWwjQ=
+	t=1746129914; cv=none; b=ragXuO1cjnJ8pzWOai73jIpBrfomR0vvhQcemsVPnVEPNzUIR3q646OYNGkeasCfezqbbLp2qDUK9Q8l05nQxalaj5wZ4Zb883/0iG1TSmEe1D9QDQt86yGKBURv+fKO06w9chF/bLv7fmOMXS3H1sfkv3l/ed46ssrF+dDoA0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746094698; c=relaxed/simple;
-	bh=ZTR7TBqMTX7X33aRZ3YzhN7mSRAkRoo586SaX//XPNg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y3clRf4jmk2/LyN3q95gbD7yiW+nSA91fGCxr58LL8V28D7AmjCCFXDZJSNkKETHfFcoaK+VQshdaBglBggcXRV3p9IX85nytmUjtMKw8gdsfBAAK4XhxUT/6kBT3SX/ohTA2Y7s3uTsofnfYQ8nGFxshYOzvzHXcYnPrYLJWEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PlwrXzRD; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1746129914; c=relaxed/simple;
+	bh=26KLM5dZRQ3NJjBdM1DhkpkwsRdAzHVwQwn315ygHgk=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Wf59yTCL7xdkfz/HKdK5PCWn3kCXbyG3H7aAm8MfHEdVKiQcHRKEf7oXUsbBjvvIjgYVyure4t2OXQ6NqTvgFmwvh2nkZdFqaU+E6/HEceHeHlzIXAXD8o+PNrstXwqb96zrIzdqvSvQp7t2vgts087mgTbG/agT3PKL6UREXEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=D7l+MFer; arc=none smtp.client-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PlwrXzRD"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D7CD06106E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  1 May 2025 10:18:15 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Y9HDm4JZwOpo for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 May 2025 10:18:15 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102b; helo=mail-pj1-x102b.google.com; envelope-from=miguel.ojeda.sandonis@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 095166106B
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 095166106B
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=PlwrXzRD
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 095166106B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  1 May 2025 10:18:14 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-3087a70557bso113396a91.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 01 May 2025 03:18:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746094694; x=1746699494; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZTR7TBqMTX7X33aRZ3YzhN7mSRAkRoo586SaX//XPNg=;
-        b=PlwrXzRDkI7KgkINzNfdk61MSKsZDuz6EWEJDlEUSkRFF+0HGT7uxTBvEcw8AcyBia
-         ZPQqHF1TGlqVGl1q4Fk/swmhyxtHaW4QX+HNG0Pn3T27g5MSBqYBcIDQ/WhgS5kcZzxY
-         n1Zxrxt0VZpm9k0eZKVSmDxy8LYB2VZuxX+gKQ2giLqfsV2hac7fbhpOGS8r7pbz+1Dj
-         mClhrJ09zH845uD7nTOcipNnUvCxz+t/EVUCPsTcxuFfk7xEdKgieK2dDpI3pgMf21oc
-         TWqWRYYdxrAAkTk9CvmRAeBRPt/BuwsP1RH94wg54krVoGDXEPSjDIuU0FviGK+KgR7V
-         jKxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746094694; x=1746699494;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZTR7TBqMTX7X33aRZ3YzhN7mSRAkRoo586SaX//XPNg=;
-        b=R9+tGhsYysCmHqBg9Hr2eQInkX01LwHSId+XiaC2f3DRZwBWnwYpNibg8BTx8TSt1q
-         GqBViAf1Hf8tODULjQeNDgdOsgRWbMAGyGWOpVKF0KOHQu9bIebMKKTOTv0af1LjRxqE
-         tCqDQsuGRv2Wz+8rfE34wdJ9N7sFvMsCuQp/5fe4I/iabteWpH/4Fs6/lS8t7GaF/gm0
-         aWeDcVCL/XGMIau7EpOSnxfmbqs6z5QKFtfauFSL9uhyYHzDnZIVJELvtUjX4/z3MNv9
-         F53FQnN8jfKUWoQsPQgNVGd7jrPgKhGjTD0Ie5rVObRwhJLbgtlfkcYqJeMGO2DZ27lx
-         9HYA==
-X-Forwarded-Encrypted: i=1; AJvYcCVGNbj7zRQtxnW/eT3OvR1FnkPIKXNVDL7P3ONGlu3uYJ3ZjyXK5JfLEuO4+9jSTB7vekxkJKulYAW59ROH6EWvXicSzA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwyS3xZ/L9iaOsXDwSM4aa5b8TlX00QbBgzzI/bFKG/bmw1hC1/
-	Ph8stUcBbB5ELbVSFX6KQQydUZJyi5SJLVgYJRTY31/H0yEyBXj69eZkyKqvwwH7xWbYb1qzQYW
-	AWYpJC9KppJXaxXNJIiGl/yYdWso=
-X-Gm-Gg: ASbGnctU7Nsj3gMobFqYTOe5dtHGXcjc7MK9XXjIi+aEfG0kNTZQvXIqn4Uzjr+4tdI
-	75PJOiz0OmXktaImlZs+VgZW6t5evNguEsElBSxA821w9GR1UJy+fM5iS+nqke+QPtpVhf2hZdK
-	TPFKWcH/Es57I4VrU3KADN0g==
-X-Google-Smtp-Source: AGHT+IGdHKEyiXVXMkjdaheAfVA2kO5dlFuZTgEUICeZq73db6TXDp1Aw38l3nbAxKnPn7InpuDfDrqwmL5yltprn4I=
-X-Received: by 2002:a17:90b:3852:b0:2fe:b879:b68c with SMTP id
- 98e67ed59e1d1-30a34a97f37mr3274976a91.6.1746094694231; Thu, 01 May 2025
- 03:18:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="D7l+MFer"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1746129905; x=1746389105;
+	bh=KW982IgOoBOOp3BAl/UFrj9WOFU9ekJ0484lkiUFlcI=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
+	 List-Unsubscribe:List-Unsubscribe-Post;
+	b=D7l+MFerQ2IyiZvseotrVpK9WKLI4Vx3lNoh/3o3MZBUpoC37Zwy09SscI/g80UUY
+	 kHCJItdTGsoxXny9qWrpua/J9U3TukAVt3uKGQ9+Ew5uxubjxDR3Wbm0IMrf3dKx3H
+	 qWKq92CreXbNmSSWOYY8u/T81sR4yfz+6+WKerr8VTKpvHPzOMZc2I6wEFqvQYLb/R
+	 YgnEsSn0GbAiXbk4TYIGdTR+on62117J3vVfvqJ5P/EIwTDfukwNwfgM4T9SmHIcAm
+	 GIlTCZMPZlI5IgaVZL/bl+fg2ljZ+Ibz9zC+ppwGBt81tU0MD8nydvq70guBjb+gqb
+	 E1O2DWtWldnxg==
+Date: Thu, 01 May 2025 20:05:00 +0000
+To: gregkh@linuxfoundation.org, arnd@arndb.de, linux-kernel@vger.kernel.org
+From: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
+Cc: markgross@kernel.org, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] char: tlclk: Fix correct sysfs directory path for tlclk
+Message-ID: <20250501200457.18506-1-nicolescu.roxana@protonmail.com>
+Feedback-ID: 136600343:user:proton
+X-Pm-Message-ID: 066c63416cf39cec242c32130da7e333f07a70be
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250501005726.744027-1-marcelomoreira1905@gmail.com>
-In-Reply-To: <20250501005726.744027-1-marcelomoreira1905@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 1 May 2025 12:18:02 +0200
-X-Gm-Features: ATxdqUE14tgzbLCtmjP9zN2Vy1kaFEOoat9wynq3EOaGc2VPivCQX72Bvk63x7Y
-Message-ID: <CANiq72ncOnDVHCNScjT7Y5+-kXzGvtcia=LpS0h-MfBqBMuOWA@mail.gmail.com>
-Subject: Re: [PATCH] rust: revocable: clarify invariants in safety documentation
-To: Marcelo Moreira <marcelomoreira1905@gmail.com>
-Cc: benno.lossin@proton.me, ojeda@kernel.org, aliceryhl@google.com, 
-	rust-for-linux@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 1, 2025 at 2:57=E2=80=AFAM Marcelo Moreira
-<marcelomoreira1905@gmail.com> wrote:
->
-> This is part of issue #1160 ("correct safety comments and documentation
-> in revocable.rs"), reported by Miguel Ojeda and Benno Lossin.
->
-> Reported-by: Miguel Ojeda <ojeda@kernel.org>
-> Closes: https://github.com/Rust-for-Linux/linux/issues/1160
+The tlckl driver does not create a platform device anymore. It was
+recently changed to use a faux device instead. Therefore the sysfs path
+has changed from /sys/devices/platform/telco_clock to
+/sys/devices/faux/telco_clock.
 
-I think it was just Benno. :)
+Fixes: 72239a78f9f5 ("tlclk: convert to use faux_device")
+Signed-off-by: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
+---
+ drivers/char/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Tested-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
+diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
+index 8fb33c90482f..ae6196760556 100644
+--- a/drivers/char/Kconfig
++++ b/drivers/char/Kconfig
+@@ -404,7 +404,7 @@ config TELCLOCK
+ =09  configuration of the telecom clock configuration settings.  This
+ =09  device is used for hardware synchronization across the ATCA backplane
+ =09  fabric.  Upon loading, the driver exports a sysfs directory,
+-=09  /sys/devices/platform/telco_clock, with a number of files for
++=09  /sys/devices/faux/telco_clock, with a number of files for
+ =09  controlling the behavior of this hardware.
+=20
+ source "drivers/s390/char/Kconfig"
+--=20
+2.34.1
 
-Normally one is supposed to test a patch before submitting it, i.e. it
-is implicit.
 
-> +/// # Invariants
-
-We also place `// INVARIANT: ...` comments in the places that need to
-ensure the type invariants hold, e.g. in constructors.
-
-Given the issue, I think Benno may have also wanted that you then
-refer to the type invariants to justify some of the comments, e.g. in
-the "Since `self.is_available` is true, ..." ones.
-
-> +/// - Access to `data` must occur only while holding the RCU read-side l=
-ock (e.g., vi
-
-The "must occur" wording seems a bit strange for a type invariant, but
-maybe Benno had something in mind here?
-
-Thanks for the patch!
-
-Cheers,
-Miguel
