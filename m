@@ -1,74 +1,217 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7EC91DB13A
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  1 May 2025 20:05:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E707D1946DA
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  2 May 2025 05:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746129914; cv=none; b=ragXuO1cjnJ8pzWOai73jIpBrfomR0vvhQcemsVPnVEPNzUIR3q646OYNGkeasCfezqbbLp2qDUK9Q8l05nQxalaj5wZ4Zb883/0iG1TSmEe1D9QDQt86yGKBURv+fKO06w9chF/bLv7fmOMXS3H1sfkv3l/ed46ssrF+dDoA0Q=
+	t=1746162404; cv=none; b=dIj8mXtz0J/LK0Vk2E8w76updzXKvedT3C138Q8Bun304w9pRa2CE7rOybiBe+lG66Hc6avLW6Xc1jLN2FHauL/QNkuUS+ZdePgoD99jIA8ti1+fDHEOx/5anP7f9wxnm+X9cgwRu8gestGICSVxVzK4LiHl938EwSVtD4jwZMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746129914; c=relaxed/simple;
-	bh=26KLM5dZRQ3NJjBdM1DhkpkwsRdAzHVwQwn315ygHgk=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Wf59yTCL7xdkfz/HKdK5PCWn3kCXbyG3H7aAm8MfHEdVKiQcHRKEf7oXUsbBjvvIjgYVyure4t2OXQ6NqTvgFmwvh2nkZdFqaU+E6/HEceHeHlzIXAXD8o+PNrstXwqb96zrIzdqvSvQp7t2vgts087mgTbG/agT3PKL6UREXEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=D7l+MFer; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1746162404; c=relaxed/simple;
+	bh=9ZiB3IL38HWldjWT5LqovTTFiCQgbLC+OMOMx6NpS40=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rup5yUx+iOQ5Uea/KpuaY6hYv6e9rHA5dAduU6YKgTXkvHEvXLMFr9wY1sS2n/1i04m9iK0NDG1UDYYvbEqA4/2J3nEzGU2NY1XTSMJxSWvrrNYohTwpmDxre3jU06JAtBLhpW5MeYWGPzpZYMCErU8cCJjml7KaC3IT73TQNIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RIWNZjmM; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="D7l+MFer"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1746129905; x=1746389105;
-	bh=KW982IgOoBOOp3BAl/UFrj9WOFU9ekJ0484lkiUFlcI=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
-	 List-Unsubscribe:List-Unsubscribe-Post;
-	b=D7l+MFerQ2IyiZvseotrVpK9WKLI4Vx3lNoh/3o3MZBUpoC37Zwy09SscI/g80UUY
-	 kHCJItdTGsoxXny9qWrpua/J9U3TukAVt3uKGQ9+Ew5uxubjxDR3Wbm0IMrf3dKx3H
-	 qWKq92CreXbNmSSWOYY8u/T81sR4yfz+6+WKerr8VTKpvHPzOMZc2I6wEFqvQYLb/R
-	 YgnEsSn0GbAiXbk4TYIGdTR+on62117J3vVfvqJ5P/EIwTDfukwNwfgM4T9SmHIcAm
-	 GIlTCZMPZlI5IgaVZL/bl+fg2ljZ+Ibz9zC+ppwGBt81tU0MD8nydvq70guBjb+gqb
-	 E1O2DWtWldnxg==
-Date: Thu, 01 May 2025 20:05:00 +0000
-To: gregkh@linuxfoundation.org, arnd@arndb.de, linux-kernel@vger.kernel.org
-From: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
-Cc: markgross@kernel.org, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] char: tlclk: Fix correct sysfs directory path for tlclk
-Message-ID: <20250501200457.18506-1-nicolescu.roxana@protonmail.com>
-Feedback-ID: 136600343:user:proton
-X-Pm-Message-ID: 066c63416cf39cec242c32130da7e333f07a70be
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RIWNZjmM"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-736c3e7b390so1944232b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 01 May 2025 22:06:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746162402; x=1746767202; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/grUUpAeYIKlzRvakzNU+F1AJvJq3WlXjsn/sgH48DI=;
+        b=RIWNZjmMoIp8nJ5Q+elUClfWZOpx90hu/kLWPQFVy0ZU/vRtDSqMYQm7zc5WVBTzip
+         WTRzBeRuSSrxaCp5p7542nkYiLMdh6/uaY/Y5npztKYqvriant3xP3k0v2Sx0/dHWLz7
+         ozxKMZWIOtPQ3D9ooMgT0mjwiIjxjR6mlCb9sda+fNJyAqKa0dbMjfC/tidTU2im2vQG
+         ARih0B4k5L4zeZH2ReqsgXiswRoFnq2+pm3WKu5Si8jQsnAPZzBTXbOqB7qlBRuD/YeP
+         umIGhkvu0GX9XFxc8wp2CgYF88G6StNjvyD0G/xS1zqGwEZK3Ibu5q7jZLstKKk5T5uo
+         debw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746162402; x=1746767202;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/grUUpAeYIKlzRvakzNU+F1AJvJq3WlXjsn/sgH48DI=;
+        b=cL6dNVIqIFKBr2raHQbjSkpdBCx0EqrB0wmmuBBcnD+zasanx+JCaL2DKd8V7DSbdZ
+         B+155ppZueXe82UQAZi3zS4pvnQRzWF4azbWzXbviRFvwKSKiBIpoXUOZ4PrPLdiZ/q2
+         wrp0GjmqlOHmSRZcQFcOC0iqkw9LQ4uSMVnmCrHGvwdDf4groi1QimaqIM3rABsizRt4
+         RdbUE5TLHi3Q6rfq5mOp7jl+j6w7DyR7d1Goe/3aIiddN0Tc6Lp6dmEabSwZmLo5+LGA
+         ewRb3N53H4pr+iEKbSn1emCNRZSCvJdkgEKw0O++3yYwFaMF7niE7R9LLVIhrQLzI+4H
+         nkxg==
+X-Forwarded-Encrypted: i=1; AJvYcCXdg91a42m6yHp0Vqo2Mv8aG+Ei4lZa6ILQ3N38RGSGgQVIodLaMTR4vlJ+OcTmEd2dkOwvw5SqYEfJ6y9LvzrG9DGKPw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YymL4qHr8ZAUCxPpP0+BeNVXM4YEmZVGcg9IkOQZXcjwCGO3N7E
+	EAQ61PS1rpI92xyddGkqi3bm2zhGwMSkY2G12SkhQqDXs7VQDcVsUq6UK/UFKus=
+X-Gm-Gg: ASbGncuhafqVigEy7X5XdIdxeo3VnKU8Ujm4mb41RKYc59Vk+HT+pLOT5k+Na/IAQLe
+	SNKb5uFnhEQ/H7Ng3u7bGEzUaLlhoECXOHsIgZ1HRniD5DL02zmRMA4gcSSTTBk8SQpLxpJ67/V
+	HqEiTFPyYf3gepimndjpS3WQfJSoUuF9OEZMr6QtOSelH4eoXn4G/G/kNHsBBBJrYPRWSC5fVtU
+	mwMnNwhjnYc76Sy+HwVax46Ty7wUOm08xlsBR+BNzwkdfhxduhwMcFPdCJTeveW/9tXzysbKS8+
+	h07e0M1asWUdcKgMBMO6EpzZHxHwwOEPMAYU1ysZCQ==
+X-Google-Smtp-Source: AGHT+IEOJiAVSKAjJMccaJnGL2AgSp42k41Qardkh/MDnhjWK4eld/C+RTrDT33wzYWavJoELEolJw==
+X-Received: by 2002:a05:6a21:3514:b0:1f5:a577:dd24 with SMTP id adf61e73a8af0-20cdee3f3dcmr2337675637.25.1746162402149;
+        Thu, 01 May 2025 22:06:42 -0700 (PDT)
+Received: from localhost ([122.172.83.32])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b1fa85e4e27sm537304a12.60.2025.05.01.22.06.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 May 2025 22:06:41 -0700 (PDT)
+Date: Fri, 2 May 2025 10:36:39 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Seyediman Seyedarab <imandevel@gmail.com>
+Cc: rafael@kernel.org, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v3] cpufreq: fix locking order in store_local_boost to
+ prevent deadlock
+Message-ID: <20250502050639.2a4mbdav4mdlhbp2@vireshk-i7>
+References: <20250430160943.2836-1-ImanDevel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250430160943.2836-1-ImanDevel@gmail.com>
 
-The tlckl driver does not create a platform device anymore. It was
-recently changed to use a faux device instead. Therefore the sysfs path
-has changed from /sys/devices/platform/telco_clock to
-/sys/devices/faux/telco_clock.
+On 30-04-25, 12:09, Seyediman Seyedarab wrote:
+> Lockdep reports a possible circular locking dependency[1] when
+> writing to /sys/devices/system/cpu/cpufreq/policyN/boost,
+> triggered by power-profiles-daemon at boot.
+> 
+> store_local_boost() used to acquire cpu_hotplug_lock *after*
+> the policy lock had already been taken by the store() handler.
+> However, the expected locking hierarchy is to acquire
+> cpu_hotplug_lock before the policy guard. This inverted lock order
+> creates a *theoretical* deadlock possibility.
+> 
+> Acquire cpu_hotplug_lock in the store() handler *only* for the
+> local_boost attribute, before entering the policy guard block,
+> and remove the cpus_read_lock/unlock() calls from store_local_boost().
+> Also switch from guard() to scoped_guard() to allow explicitly wrapping
+> the policy guard inside the cpu_hotplug_lock critical section.
+> 
+>  [1]
+>  ======================================================
+>  WARNING: possible circular locking dependency detected
+>  6.15.0-rc4-debug #28 Not tainted
+>  ------------------------------------------------------
+>  power-profiles-/596 is trying to acquire lock:
+>  ffffffffb147e910 (cpu_hotplug_lock){++++}-{0:0}, at: store_local_boost+0x6a/0xd0
+> 
+>  but task is already holding lock:
+>  ffff9eaa48377b80 (&policy->rwsem){++++}-{4:4}, at: store+0x37/0x90
+> 
+>  which lock already depends on the new lock.
+> 
+>  the existing dependency chain (in reverse order) is:
+> 
+>  -> #2 (&policy->rwsem){++++}-{4:4}:
+>         down_write+0x29/0xb0
+>         cpufreq_online+0x841/0xa00
+>         cpufreq_add_dev+0x71/0x80
+>         subsys_interface_register+0x14b/0x170
+>         cpufreq_register_driver+0x154/0x250
+>         amd_pstate_register_driver+0x36/0x70
+>         amd_pstate_init+0x1e7/0x270
+>         do_one_initcall+0x67/0x2c0
+>         kernel_init_freeable+0x230/0x270
+>         kernel_init+0x15/0x130
+>         ret_from_fork+0x2c/0x50
+>         ret_from_fork_asm+0x11/0x20
+> 
+>  -> #1 (subsys mutex#3){+.+.}-{4:4}:
+>         __mutex_lock+0xc2/0x930
+>         subsys_interface_register+0x83/0x170
+>         cpufreq_register_driver+0x154/0x250
+>         amd_pstate_register_driver+0x36/0x70
+>         amd_pstate_init+0x1e7/0x270
+>         do_one_initcall+0x67/0x2c0
+>         kernel_init_freeable+0x230/0x270
+>         kernel_init+0x15/0x130
+>         ret_from_fork+0x2c/0x50
+>         ret_from_fork_asm+0x11/0x20
+> 
+>  -> #0 (cpu_hotplug_lock){++++}-{0:0}:
+>         __lock_acquire+0x1087/0x17e0
+>         lock_acquire.part.0+0x66/0x1b0
+>         cpus_read_lock+0x2a/0xc0
+>         store_local_boost+0x6a/0xd0
+>         store+0x50/0x90
+>         kernfs_fop_write_iter+0x135/0x200
+>         vfs_write+0x2ab/0x540
+>         ksys_write+0x6c/0xe0
+>         do_syscall_64+0xbb/0x1d0
+>         entry_SYSCALL_64_after_hwframe+0x56/0x5e
+> 
+> Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
+> ---
+> Changes in v3:
+>  - Rebased over PM tree's linux-next branch
+>  - Added a comment to explain why this piece of code is required
+>  - Switched from guard() to scoped_guard() to allow explicitly wrapping
+>    the policy guard inside the cpu_hotplug_lock critical section.
+> 
+> Changes in v2:
+>  - Restrict cpu_hotplug_lock acquisition to only
+>    the local_boost attribute in store() handler.
+> 
+> Regards,
+> Seyediman
+> 
+>  drivers/cpufreq/cpufreq.c | 23 ++++++++++++++++-------
+>  1 file changed, 16 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index 21fa733a2..b349adbeb 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -622,10 +622,7 @@ static ssize_t store_local_boost(struct cpufreq_policy *policy,
+>  	if (!policy->boost_supported)
+>  		return -EINVAL;
+>  
+> -	cpus_read_lock();
+>  	ret = policy_set_boost(policy, enable);
+> -	cpus_read_unlock();
+> -
+>  	if (!ret)
+>  		return count;
+>  
+> @@ -1006,16 +1003,28 @@ static ssize_t store(struct kobject *kobj, struct attribute *attr,
+>  {
+>  	struct cpufreq_policy *policy = to_policy(kobj);
+>  	struct freq_attr *fattr = to_attr(attr);
+> +	int ret = -EBUSY;
+>  
+>  	if (!fattr->store)
+>  		return -EIO;
+>  
+> -	guard(cpufreq_policy_write)(policy);
+> +	/*
+> +	 * store_local_boost() requires cpu_hotplug_lock to be held, and must be
+> +	 * called with that lock acquired *before* taking policy->rwsem to avoid
+> +	 * lock ordering violations.
+> +	 */
+> +	if (fattr == &local_boost)
+> +		cpus_read_lock();
+>  
+> -	if (likely(!policy_is_inactive(policy)))
+> -		return fattr->store(policy, buf, count);
+> +	scoped_guard(cpufreq_policy_write, policy) {
+> +		if (likely(!policy_is_inactive(policy)))
+> +			ret = fattr->store(policy, buf, count);
+> +	}
+>  
+> -	return -EBUSY;
+> +	if (fattr == &local_boost)
+> +		cpus_read_unlock();
+> +
+> +	return ret;
+>  }
 
-Fixes: 72239a78f9f5 ("tlclk: convert to use faux_device")
-Signed-off-by: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
----
- drivers/char/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
-index 8fb33c90482f..ae6196760556 100644
---- a/drivers/char/Kconfig
-+++ b/drivers/char/Kconfig
-@@ -404,7 +404,7 @@ config TELCLOCK
- =09  configuration of the telecom clock configuration settings.  This
- =09  device is used for hardware synchronization across the ATCA backplane
- =09  fabric.  Upon loading, the driver exports a sysfs directory,
--=09  /sys/devices/platform/telco_clock, with a number of files for
-+=09  /sys/devices/faux/telco_clock, with a number of files for
- =09  controlling the behavior of this hardware.
-=20
- source "drivers/s390/char/Kconfig"
---=20
-2.34.1
-
-
+-- 
+viresh
