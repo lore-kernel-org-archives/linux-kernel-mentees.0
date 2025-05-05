@@ -1,133 +1,195 @@
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2049.outbound.protection.outlook.com [40.107.243.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB061953BB
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  3 May 2025 21:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746307163; cv=none; b=BLYz1pjYC0e1b3AbL8f+NqDJ22w9eJ4uM4gSDa8PW6UpsFti8EWTSiOssyuJJWxxGEPuSvyG7Tg21W//ovJza/7wEfMtZeFpAzXiWWI2/AujHk+INqXCKxsr2vNEQgdRSwQ6WXRdHiC7txO9+fvlitKVE6muF9KmN7pW+TIWhfI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746307163; c=relaxed/simple;
-	bh=bjW2Ozk+ryipDf/oBirPv588cK3svv0YSxm0DRoMwmE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gCpbfGFLHOuwTLT6fqceZIXNsC2DZG65wLR+GyFExIWQBEe9hRXV2ewPMdHM3IVHXAuNlwxt6/N3T9QFyhrVjRKFqy1LVAddnEro53Cj4YLjPoMDQORf70CSXPbISm1DDWCfJayId7RYT7MnIWlvFWan4JiL6+uaH0A8t2cUSjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=UpORUabr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=noE3qTIf; arc=none smtp.client-ip=202.12.124.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457C22586FE
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  5 May 2025 16:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746460985; cv=fail; b=GAwTM2KI+wrQUrZk5prOF3zurZcyFfhfMXoDLpp2yFTm4kFMDS45RLnSjW/j6axKCwHv19bGEKSI8KHI4UcGREzPPNVIYzIb8iS3rQCBepRnynIJKny2/bI0ugw8OZ4xBjO4tSzC/MpCFj3Xys+EWYC6KhrpasUoOYI1cLySGa8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746460985; c=relaxed/simple;
+	bh=RCBR+uLyfFf7TH+DIoTINtm0ybbYOTwgF3KSrwxDRfE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=KApMEiZu2GaJtDj/ObzMwWMXgSbkLZfjQAteGgT+UmycBKwuXLyrvBcfS/YXnBjvdaIkLsrcmt5l2sPyVAisffbPnzWQ8wf5SFgwRCp15H5RpdYNyG7+108P2xthR9YiDqpbGg3l29cWEWABtsjezzTQE1WBf4fxFG6kbGzNueE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=V4Pedi0g; arc=fail smtp.client-ip=40.107.243.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="UpORUabr";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="noE3qTIf"
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 26924254013E;
-	Sat,  3 May 2025 17:19:19 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Sat, 03 May 2025 17:19:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm3; t=1746307159; x=1746393559; bh=Un/bt6UrGtVYI4PFhsLl7
-	CgrGuxCoSHY1s4qLoGbllQ=; b=UpORUabrLd8cN76Jaq6K2gkqwM7By3HBukQma
-	oUYNv0zXHW7u1PBaHzM7HW5affDXjNZ6QxE9keHf3gIm8NH6qgOL9SDjyMWEaLmp
-	DX4ZwEu064lFTe0tzfIvhlf6z6A+oza0qbmWRUlVXRyhgXQYu5cuQf1JBnwoWeAj
-	br+/0Xw5ccuojAyfUM0UAbPJ9lBhHxF2BeFGiAz5neZ/7F+9cMaUc4TW5aw1mOKW
-	UUALRcAuacdYt5NWiNGFgdMiqtDbtGx7Z4NAlsEku7p6/u/FQEARs1Ph7vILrU4M
-	PtH8XOVHSEX176ZtdQLQjrK/nA+WMFZuc8j8ITV3PsugRLsdA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1746307159; x=1746393559; bh=Un/bt6UrGtVYI4PFhsLl7CgrGuxCoSHY1s4
-	qLoGbllQ=; b=noE3qTIfgRvJF1xbUDmZjlGPJqUtmlmmzmNHLBHNmKeseXZUH99
-	MhnejinCiEDwlQGxPa4qlDqYHKrUA0UofCwvHMRMLOw3isU0NbLSHAA2qZJ9mc9C
-	9Oxu+uZB8RTi1ucJJ+2VLtFf5Vu+DPI+TzagPShBeYonJ+tTVmdS59jq92190p4w
-	3IaYsaObLcT9m65qyGCCiAqnBDCXE9osT5V8mCI6sNjb8pFu3H08/hPtWqxPX/4r
-	gyMF4sJJgblnP+yfl1S1FV2pdGHB++60UqGGbohd2AGqufg51HA4RNFAnHHfgIv/
-	h6IZbJYvanDUz0+yY38Xwn/flEc4+ACLqgw==
-X-ME-Sender: <xms:VogWaMuH_f-vO3iJMZCF0uUZlGFNoJi-rDgUdE_2klNulzM8XkZJfw>
-    <xme:VogWaJdPDUhJkqOu_SPXr92ZC2z0BApsMm_PUKDHSYwij04eAfx9lbAOiu5UqMFhi
-    bx-5OJNsu3K3LmCoPI>
-X-ME-Received: <xmr:VogWaHzlwOtLlAxTcG6J8wE3FZOYiyPgHK_CGYXnrQ5qjJnW6jjN0JdDiQLNPRffUiFp9cwTwqt5q4mOA69jlx9Ev2VNDRET9Y-tFFLbhcxsY1pU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjeeifeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
-    evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflrghmvghsucfhlhhofigvrhhs
-    uceosgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrg
-    htthgvrhhnpefhvefgkeeiuddtudfhgefgiedvuefhhedtffejtddtfeekieefieejveet
-    hfegheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsohhlugdriihonhgvvdefjeefsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthht
-    ohepudeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehhrghrrhihrdifvghnth
-    hlrghnugesrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdr
-    tghomhdprhgtphhtthhopehsihhquhgvihhrrgesihhgrghlihgrrdgtohhmpdhrtghpth
-    htoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthho
-    pegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegrih
-    hrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhl
-    rdgthhdprhgtphhtthhopegrlhhvihhnrdhlvggvvdesrghmugdrtghomhdprhgtphhtth
-    hopeiirggvvghmrdhmohhhrghmvggusegrmhgurdgtohhm
-X-ME-Proxy: <xmx:VogWaPOJggpnPRy39gdK-KmQ1lH-vrPZCA_Q0myv6HK8vhG5tK-81A>
-    <xmx:VogWaM_SzOP117tFfJ1ArzIaxdsWp-Qh2InRVKwDbzeCXsFPfu0f3g>
-    <xmx:VogWaHVYVl2__DEJXwZ2AEln8aPqwAFiM1PP73GXA09lopxGJB8xQA>
-    <xmx:VogWaFdZtsW59lP3kU3fTGc8PQpvp4HSy31odCNxts-iQA4ENVwTiQ>
-    <xmx:VogWaKrZt3rFDrJvHAiEGqVBDy7aqY01UZpTRjDteXaGD9Ahhy5hfsnv>
-Feedback-ID: ibd7e4881:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 3 May 2025 17:19:16 -0400 (EDT)
-From: James Flowers <bold.zone2373@fastmail.com>
-To: harry.wentland@amd.com,
-	sunpeng.li@amd.com,
-	siqueira@igalia.com,
-	alexander.deucher@amd.com,
-	christian.koenig@amd.com,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	alvin.lee2@amd.com,
-	zaeem.mohamed@amd.com,
-	alex.hung@amd.com,
-	skhan@linuxfoundation.org
-Cc: James Flowers <bold.zone2373@fastmail.com>,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v2] drm/amd/display: adds kernel-doc comment for dc_stream_remove_writeback()
-Date: Sat,  3 May 2025 14:18:51 -0700
-Message-ID: <20250503211902.70141-1-bold.zone2373@fastmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="V4Pedi0g"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=K7rqlGzx1v/j3zgrH5JsbYik5KAEXx/sWxmXwkyeOZbxkzl3dKrw4YOXtP6Dz3aNlCogchTJ4jgmchgqMRDMzQzaqyPnubwL9/dleIOFFKhDnYhXfkhI9W7NpqhNjdJBX3ne/GvPuAJmlCiG6Pat/L8sxibX7+XBwo2ab3D+vWfi/DKbEFii6VhGecMH5UyEK1VynnmW4z/taP6AP4LMDbSEIP8T1Ou2Yh7dVAmt/oYiBsXGlZe3j0LKdS5By01M8+9xLR3iUpex8NxP5U/VBjUVlligIMUc8HWJhGTyO2YhsH0xXAiNPETIg49Op+XsJOHimX/ZF/zENSQpIvl0Tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7R6YRpteeFPF3hKyvLflRte6xWGFGucvX0g934PaHgU=;
+ b=qVbSxs3fkxr+UiZU+a19QfZ5uj08JQI846ng3FJlUkV8bKvoy4TLk1vLhi7EvKUz6+2H/TApREGvVHjfd+PF9y7nuo2Lm5Wf0WzCuyjxGnK7+AYCWWJ7vCVyLEBDcjunSPfmKdcKEkxY/iIlzx8o68W/m1xqKLOJXZxgAqgAUTIMN4w1FER3yBqRcsbvCCghXQ+USB/X1Uo9WGUist84JpEv62ftF6SI3YnvnRWSB8FvN5ux9rEtuLI4QLujP/YUrep40Fu2gjUExFZzlZ4HTjEKHqf9x+N/4R0Ck8laI3z4GQbvd5lvyHtT/tJz5YWaNlUaQxYjzOFPptx8JelF+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7R6YRpteeFPF3hKyvLflRte6xWGFGucvX0g934PaHgU=;
+ b=V4Pedi0gT7VUWUjOv62ZdxcJvOnPwZltSXVWBxkVk2caxAp8Gj9Ou8iNiFAWMoS7qXtceC4mRsuJrIVO2toRMy8lX9nPCXqb+rS5x+ncLxuDHsSEZ1I1r03QNqIQ+MsAirZjuklaD7gzPPdCB1II1AYZfamHEa6qmqJyxGAS3uo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
+ by SJ1PR12MB6098.namprd12.prod.outlook.com (2603:10b6:a03:45f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Mon, 5 May
+ 2025 16:03:00 +0000
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1%5]) with mapi id 15.20.8699.024; Mon, 5 May 2025
+ 16:03:00 +0000
+Message-ID: <53d0e162-da9d-4fea-aba3-b96a9da844f2@amd.com>
+Date: Mon, 5 May 2025 10:02:56 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amd/display: adds kernel-doc comment for
+ dc_stream_remove_writeback()
+To: James Flowers <bold.zone2373@fastmail.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ alvin.lee2@amd.com, zaeem.mohamed@amd.com, skhan@linuxfoundation.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+References: <20250503211902.70141-1-bold.zone2373@fastmail.com>
+Content-Language: en-US
+From: Alex Hung <alex.hung@amd.com>
+In-Reply-To: <20250503211902.70141-1-bold.zone2373@fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR01CA0167.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:7e::23) To DM4PR12MB8476.namprd12.prod.outlook.com
+ (2603:10b6:8:17e::15)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|SJ1PR12MB6098:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81be442b-3a2a-4a07-7ec8-08dd8bee4ec9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|1800799024|921020|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bWRGckhnRjl1dDQyM2Fqd3o3TEwwOVJDck9BYlVoQzBQRWpQbnc4UjZMVlFB?=
+ =?utf-8?B?aVY3UFdlSXNvTVo1Tm43QkFtQmZPWXBNTytZTFB2N2ZISjdOckdQeThpQ2FH?=
+ =?utf-8?B?SFh3RzhXWWU1TlREK1NVeEFtYmZEZ3VqbTk4S3VRMjdLNFVUcHhMem9qY21r?=
+ =?utf-8?B?NmI5Q0taZ3g2dHM3cnJCK1lqVmVpbER0aUtIcGRsR0c0ZWI3aGJ2bVVKSXNG?=
+ =?utf-8?B?NEcwbmh3MHh1QzV1Qy9pMFFnQ1psekl1SzZBd2pReG1DdDR4UTFmMkk4S3Ar?=
+ =?utf-8?B?L3l1SkM3Ymk1RUJ0SHBjTCsvS2JCRlJxZWJVVlZKZFdVckdMV2paVjUwZjc0?=
+ =?utf-8?B?WTNmSkxtMWhMNld5UUhHcU85UjJQMUgzMnM1UGJScmpKdWlYSU9oYWJpZmR5?=
+ =?utf-8?B?cnlZbHBWK1JqS3hGek1OZU8wWktCUGpyVkZEdFJMMlhFbFZ1T05tV3NlSnJr?=
+ =?utf-8?B?aEl0UmcrMUJIM1ppS0FZWjJQdVFqbzNpL2xxQk1saWFGalhtYnZUbE5WU1p5?=
+ =?utf-8?B?Vjd2TVhkRHhFck0wcE4rV1VnUzVSQ0RKcGs5QUpFK3dacUJwQmhuL3VuTDRG?=
+ =?utf-8?B?MjlUdTg1ZGExQkt0dk5ZTkZ5ekZVU2dyNVB1Vmplc2FqZTdwNXU4MzFZQS9n?=
+ =?utf-8?B?VVZIN3pnYzA1T3QwVGppU2U3ZzVsMVNIZFNFeVVXU1hSNHZnS1FiRWZQcG1k?=
+ =?utf-8?B?dGlzZ2l6eStIQ2FadE0ySi9heG5sQ1h4T2t1dW01K1B5UUd5UkdXaFdLSDV0?=
+ =?utf-8?B?d3JPQTA4WHpkUnh3anlMR3R1YzVUZ0NxL3B2YmowU2VUaTZhTGdqTEF3Vmsr?=
+ =?utf-8?B?Q29PaGhuQ0x5WUxrKzFhdW5henV6a0NyQVFsSnpldUFETElSeWNHSHl5Qmlh?=
+ =?utf-8?B?NXJkamJKVU9pZXNMQ051K1M5emRIQ0FMdHN5NXZ3Z0JpUmRCMHZ0SGtudDU3?=
+ =?utf-8?B?cHUwcVdKTnlENisxZW51QXFLQUxuOTU2SFJWQm1oZlA3OWZYUjRGcHJqRUtJ?=
+ =?utf-8?B?NG5xNGYxcHlzVUtzeloyZHFIZXVWQ3ZoWVRpdTRqWjJQUUN6MGZZNWJDVkNa?=
+ =?utf-8?B?aXlla3orak9mZFJhVkI0aC93b0tLU1FOeFR6ZDJLdTFvUVNtRDVRaUt1cmFD?=
+ =?utf-8?B?bFg0R3VOWkVXL2RYY29GMzhHeW1DZVJFRDFaaXZhZ1NFZis2RTQzY2VGaXdn?=
+ =?utf-8?B?aDFOUUZkUjlMUHpQeTlDVnF3WFJJY0xrMjVYRU5PWnpOZEx5dExxVVFZcE1H?=
+ =?utf-8?B?TkxMa0gyTlphUHl0Mit1TkdwVkhRZnpOZ0FvcmNHdys0OWxkSFhBUUpIRDNF?=
+ =?utf-8?B?WitGLzlXVnVKNm43WWVVeHV2QWY3WDFsZnBIOW0zYUErYWhKOEQ5ZGV4U0ly?=
+ =?utf-8?B?WldyVC8yU0swRDJwR0g3NlBiMFN3eDRjY3kvV1Q4Z0xtblRjSHIreW5yckIy?=
+ =?utf-8?B?Nm9VQ1NZZkxkd2VsazdTOXpWOXJibGczVFVUTVdJMGdyOS9xSXZqZDAwMUcv?=
+ =?utf-8?B?U1VTWXd0eDdQUlkwWDlqTkJ5VmZvOHAyOGlnQ1V3UjdTRFpjbGtORGdIcFVV?=
+ =?utf-8?B?UjdyUUtveHpacFpxV3ZqNmkvTk5iSzRWR2pBQXVnTURoekJiOHhpcS9IYTRP?=
+ =?utf-8?B?bC9NcnJxV0ZMR2lURUR6UFBrRmtvcTJEM1k4ajR2RE9COW56c2I3ZUE2NGFR?=
+ =?utf-8?B?dG5xSnVneTc1SGRYNkVtYXptMEsvbjhkaXRYVE9RKy8xUG8vd2hjdmQ5UVk1?=
+ =?utf-8?B?K3BUQVFCc2RLRWNBa0RYdnFzMTIvaGt3QTZLR0FZeldQTEJlMkdETnJyaHEw?=
+ =?utf-8?B?cE1DclBGSHVCNFlpR2V1WVNweWdFdmFKUUxodERtWFlITWVtZTlXd1loaEJt?=
+ =?utf-8?B?eUdhSmdtTTNzaStOODRDQlBEeGNUQTVwMHkzTTFNelBXWkxva3VEWDdzUytT?=
+ =?utf-8?B?TlVHdGIvWVE4Uk9LTGhmb2FJTTJOeWUwNlFzSVNKMGg0bzFkRXJkdDNCQ1ky?=
+ =?utf-8?B?TGNpT2piN2JBPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB8476.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(921020)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Ym9CeWJRaTYrait4Q1NDT0w2N3JmeWMwU3ZYZFNiVkx6eXMrMitra3VsbUd0?=
+ =?utf-8?B?b2wxN1N6S0EyZW1ZRGN4RDJTRmRKakRBeTFiTHlOVmttVmJVNjFPV0ZSTENE?=
+ =?utf-8?B?d1FkNG0vRHBZR2ZtN3p4bVdLSTV6cVczNmJkd3d4ZnM1NTNaNkpUSzF0N0lu?=
+ =?utf-8?B?cWM0Yml2WlU3RkY2TWZVdmlNaW9ZUHZXLzNXb3U4MENOSXI3WG41R1REaGhG?=
+ =?utf-8?B?STRtNlorZTlyOHNMWnh3MlhrK3B4U0JxOXgrTDU3cEROckhxdFFHd09ObE1B?=
+ =?utf-8?B?a1lRYzhScEMza2VPSFRhVjNTWFgraFRsWVFDUXZVRTZvVWp1SVVjZUhjamFR?=
+ =?utf-8?B?VkV4L1IzNStuOE8rQndpSUdEb3g2dHhNeFE1cE5KS0svak14WFZUWk5VdUQy?=
+ =?utf-8?B?Q2pteEVuTG5JMDZpd0Fxc1lhOGFHR29WNVF4aGN4UmU4UjRXNlo1WUt3aVVz?=
+ =?utf-8?B?dU5GNUV3dkxZaXdOMksvQUVTSitWTEp4K25McWhSdEZhZGJKbHRoZmNzbThO?=
+ =?utf-8?B?UHIwWXFINzUzK3gzQ1pHQlV2OThKSVViNkNVcVYxUzNnMWc5RGlJWmpiTFBm?=
+ =?utf-8?B?Z0pwaUV2SFZJWGRpVVc0cmh1N0g0OGkwem00THg1VkMySjgzOStkbitPb2Z5?=
+ =?utf-8?B?bG1CamNOV3Z0MjVPcnpiQXZ6aTJ6TXF2OXI3eWRuSkJXUk5wbGxqSmlmQTU0?=
+ =?utf-8?B?M1ZVSHhaVTBuQkRkMkFBdi84a0FodU9HeTQ5eTViWHBwS2ZiOWdreHJnQWZv?=
+ =?utf-8?B?TG81Y1J3dE13MnFiYVY4UXJ0Y0FIOE5kWDZWbFZKMUo1cUdPdUE5MVJoNW8w?=
+ =?utf-8?B?cUNSTFh3bE1BVEZmdlNSZHlaV2FjaTBTYXJvSkdySUgxRTU1OU03Z3dVMitz?=
+ =?utf-8?B?cWFOQXFCamNiWm5EWFJHcWdjSkM1V1pJSE13TTV0VW8rSFFQWTZGT29qVTlD?=
+ =?utf-8?B?R25sWTZEZVl1K3FuMG5TcGJTUzYrSUFkN0FXeU0rUkxSQzhUaXFPSmQ5NWRQ?=
+ =?utf-8?B?bTU0L0Rtbm9jQjNsNkhYditmdTE5Z1hJdit1a1BleEZzcVpQdUJCbnBXVGth?=
+ =?utf-8?B?K0N6NW5nNnBzWDVNNldNZ0JuODg3T3doYWF0OWZhd3V5TksxMitxNklwMzR4?=
+ =?utf-8?B?YnhBV25FVXhzQlAyODVBZ21YS1FxVVRHNDNhVTM3dUs3QytrcmlrTnBlekZI?=
+ =?utf-8?B?QzlZUldOV01Dc0Z1azhsaVMyTmFVTUs2b3k2NlBwQXpXN1A2S3FRMmhwajVU?=
+ =?utf-8?B?M3FyMWFFcVVnTW9nKzRCcnQ0SXpKT3RyUk1vSDFkcTI2Uy9LQnNtNkQvVGhT?=
+ =?utf-8?B?NjVVbGIyNSt0S1dWUUZyNGxRVFFmcjliZzVLM2x0S3pEazhDVmtmM3pDc1Nv?=
+ =?utf-8?B?TFdJamt1RHZhWWVNb1NTT2o4Q09Oajcwc2VOMVl4QzFWcHFJNlRhMDFmMzNt?=
+ =?utf-8?B?b0pmdUlaaGRWQnoxUE1DOUQzcXV3THRvclFPdHV5eEFlZTZ5Tm1vSHFZSGhv?=
+ =?utf-8?B?T20wdmsxalF5MTJoQmZqdGx4RVpkdjdkODE5TVJmL2toUGN2YVpTeWx2Nk9E?=
+ =?utf-8?B?aDNsNUg3RTE3MDZFVUpRYjFHQjJuZTZVK3FaaURiRlZzeXRCTG55dU5YUjJ6?=
+ =?utf-8?B?WW1QVHRKNEc4TmM5Y3FWZUM2ZXo1TXVYK3hPQzVzU2l0dEs0YXprZUFLSytG?=
+ =?utf-8?B?dnhkZm9vdXlhOGVoamlBV2sxUmkyVS9ROVJxaEpkWUZsLzdGcUYwd2lZREVk?=
+ =?utf-8?B?YjBPWnNwUVlGR1RZQlU0RVFZbnJwekdyUlhRVEI1VmExWmtZcnJPRHBvelhl?=
+ =?utf-8?B?R1krWjVzOC9MUVN1NzkzRVlXS3MwRy91VW5SNjY1UnluUGJPQnJ6NCt6MmRm?=
+ =?utf-8?B?d0hSUzIreUpxaWZhZjR3MUhIaExuK3YzQlVNZHhIZGowYkM4UlBaZjRHVzFC?=
+ =?utf-8?B?OFdvWlBRQU53SzFnZ3NpU0xBRzZ3TmVGbzI2dnlBTlVLeU5JSWd3UUkyOWFM?=
+ =?utf-8?B?cW93T1kwNmVGMUxMQlhwWUlXQmk1eTcraElHRUZGdjJtTnMreGVyTnY2Rlls?=
+ =?utf-8?B?RGVLeTlEZG5mWGFQeFVtb0drMGl1NDZhL0Q2NmFNei9iZSttQWpDRU1BdHFZ?=
+ =?utf-8?Q?/ZD4VDPph988R5VSmdqoaALVM?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81be442b-3a2a-4a07-7ec8-08dd8bee4ec9
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 16:02:59.9432
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CJb4RcpvAJ05RkYSnxGU9uk/w2jB1ix+Eo0BW+fXkzM6jl0mfVggH/h8xWZwe7oL/JIh43NMiH4RgD6BTwd75A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6098
 
-Adds kernel-doc for externally linked dc_stream_remove_writeback function.
+Reviewed-by: Alex Hung <alex.hung@amd.com>
 
-Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
----
-V1 -> V2: Corrected checkpatch warnings and errors
-
- drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-index e6e41678525f..b883fb24fa12 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-@@ -569,6 +569,14 @@ bool dc_stream_fc_disable_writeback(struct dc *dc,
- 	return true;
- }
- 
-+/**
-+ * dc_stream_remove_writeback() - Disables writeback and removes writeback info.
-+ * @dc: Display core control structure.
-+ * @stream: Display core stream state.
-+ * @dwb_pipe_inst: Display writeback pipe.
-+ *
-+ * Return: returns true on success, false otherwise.
-+ */
- bool dc_stream_remove_writeback(struct dc *dc,
- 		struct dc_stream_state *stream,
- 		uint32_t dwb_pipe_inst)
--- 
-2.49.0
+On 5/3/25 15:18, James Flowers wrote:
+> Adds kernel-doc for externally linked dc_stream_remove_writeback function.
+> 
+> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+> ---
+> V1 -> V2: Corrected checkpatch warnings and errors
+> 
+>   drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> index e6e41678525f..b883fb24fa12 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> @@ -569,6 +569,14 @@ bool dc_stream_fc_disable_writeback(struct dc *dc,
+>   	return true;
+>   }
+>   
+> +/**
+> + * dc_stream_remove_writeback() - Disables writeback and removes writeback info.
+> + * @dc: Display core control structure.
+> + * @stream: Display core stream state.
+> + * @dwb_pipe_inst: Display writeback pipe.
+> + *
+> + * Return: returns true on success, false otherwise.
+> + */
+>   bool dc_stream_remove_writeback(struct dc *dc,
+>   		struct dc_stream_state *stream,
+>   		uint32_t dwb_pipe_inst)
 
