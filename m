@@ -1,172 +1,103 @@
-Received: from mail-24418.protonmail.ch (mail-24418.protonmail.ch [109.224.244.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2C0280000
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 May 2025 12:51:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3C3502BE
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 May 2025 15:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746535915; cv=none; b=shD+I1niwBqHsa6/EvXPxtcO0Ghzv3rMJjjcIwHKgMQKGiqCTbJNDfr/ggdTyfwaaFkQJuVuQ8ydHRXtQK8NtXT42zMoJGDWyqMf0rmkdTZ87ZT8v+Mkxq7vVNbL2y/N8pWQIZFxUh/ZNA8RfRiQg+6rGLFAtgJD1teTK6EC0Ro=
+	t=1746546262; cv=none; b=LcQqNnzJJrkGpHaHbD9uoiqzXSiwJdu+i4WqqolI1jXWsKoFaEvKNHH0Vjp847Up6KoXy4rfgMFB7d7HA99QtPnSNaRsPb5TIiOutiUgtkQrpNNPb9s5HHfoKn68F1DqdHcJ1IgCgpKE2IkiecKXohwfhM2GQAtyFneyr0zRf6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746535915; c=relaxed/simple;
-	bh=zK9w9rIJY/9mYRo0HXp9qe6o+/wCX4Pdi5dv42T1IzQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kTFR7QaMR+vmWHEcOKKziJ+7NenGuSJnflEp3SG0Bs7G56H4Rl8hzLLHqxESZ6Z+mxsXiQ6n0l7Q5mA2RFheKTQAL6KDXcll9nMHeOZGGPXg1vZRtQeKlAeKOY8OgInbZsm/5QgvzPujlIc9ly1aKWZEwzXEdtBkL07nZTGKuqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=Kf3Te0Yh; arc=none smtp.client-ip=109.224.244.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1746546262; c=relaxed/simple;
+	bh=tPzB4Cr5GgKl89ad8RCRlDRGcX8EwjgQuP1Ms+e8B4w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hmb2YoCtk+/ge/r4U1fqyONGEktWPqg/aAW6pKuk5z5PXgWNiSOElTLX9nOSFRKvmLEaLhllLQiSc2Tro+i9bVgyGljamWjyaOq5V4aHnWrStW/SenymRs2BTphHh3OvuxZ/Af2D4AgbRH5hS2YJm9KFY2qe92x2/9VSkrZ4j+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JeJ3ZQQC; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="Kf3Te0Yh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1746535912; x=1746795112;
-	bh=zzBJeXUf0V8P3H7TLaYvoaJ0zwNJmLoh71eDPNoDAJo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=Kf3Te0YhCqJrqtUsS5gb51nXR8axsPP1nqL+iDY8TkMgQdzoCkx6O2c0UQU+0a+Jr
-	 BHDQXEHA5FizNcgY8qlaulNEZ2XnQYRJSf4y6zfCu2/xeV2cjbT6eOg5+t+ww8NQ70
-	 6ARuZu6ks9LXXszW5NUPrrnwa8AtbI4UxNoQDGj/UmWnq9ueKMvr6rHpD6RsgpvmCM
-	 csM0jyxT3JMaWjMCYM6yXRrDR14iijkd8rQ8w+Bwi3gGvX6sBe6Nxpw+58KOxgz6Pz
-	 +f3+32rXAd3cbOI9scolGovSLPCP93xmhxKq6FyjZM10Tx+Y8hPn3GkvRAqzrVKq6q
-	 xLijbJzpPLOFw==
-Date: Tue, 06 May 2025 12:51:48 +0000
-To: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, jason.wessel@windriver.com, danielt@kernel.org, dianders@chromium.org, jirislaby@kernel.org
-From: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
-Cc: kgdb-bugreport@lists.sourceforge.net, linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: [RFC PATCH 2/2] serial: kgdboc: convert to use faux_device
-Message-ID: <20250506125133.108786-3-nicolescu.roxana@protonmail.com>
-In-Reply-To: <20250506125133.108786-1-nicolescu.roxana@protonmail.com>
-References: <20250506125133.108786-1-nicolescu.roxana@protonmail.com>
-Feedback-ID: 136600343:user:proton
-X-Pm-Message-ID: fd5abac4492e3841c902f5b9b7f60d650c2de90c
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JeJ3ZQQC"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7376dd56eccso6520716b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 06 May 2025 08:44:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746546260; x=1747151060; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W92479e3GDwcVekSJ+6iNPM/4aDW6S7waFt19f/PGiQ=;
+        b=JeJ3ZQQCPBf0jQ00jd28zJi2981ywZ2TMm5Uy8cbdWhbNfNYPLiga4YHTFk8AUY6/N
+         btgYz6plvHxE5fH948W5uUSQMsCNrdJFLAJP14r8Egc+PyYVsOrxPfOOPa8+o+gVwBRd
+         fmp7Df2n1ttsOSUvHZHxb+g61qKnnYXAfA9ns6ebxOVRSDNAHFB8osDMssxO0zlwJC0l
+         YrX6byFZxR6Gz+YVtTIbIUcfOh50tRNmSh/+fSVjaeHkr4L51q2/2GgxKsb4p3wttayR
+         rSjvCKA5e92ZxufF9mZP8Dt2a3e5FZhU41yMBApSYqBFk1tz/gNVvN2qmrA+SIw7hBeH
+         6BNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746546260; x=1747151060;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W92479e3GDwcVekSJ+6iNPM/4aDW6S7waFt19f/PGiQ=;
+        b=tkxrtFlwz5xdxjMz75/JYd5gznQHxD6AOalOtDzykY8MODKNDwjBKP2IlxAzfJ1rM8
+         OfxHYp8R2T24kmtM+uS8AO9dni9glQFtClXFhfizJQI/YRgn4BXI58IuOQ+XzjoKTtKi
+         wxXWSTYsJaFFOz0ltMBqdrcH9EbPVHdu2IIuJ7j3cXbNufXG3HQob6c577BWypp4qFnK
+         0yJGTe+iTx56cnOFDOBYU6cRXawncyl2w2LiPupxCssp/ezW+Z6oEBMNAEJG+TXU4YIA
+         LcKEwrEwd2VQZezT3PwodlCxiHkEJenyC7v8GUXkMRYkcjqCwYkGVr98q4oDbbUwSggW
+         wPIA==
+X-Forwarded-Encrypted: i=1; AJvYcCV4DiAcesuLspkZ7EujJAZ72cW88EeuKxG2AwcWqFtbNE6GgF5jXfFjj0T/gks/t6FqmQKRRXpoH4zTrIQxXpUdIi9/og==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxaimuk5M85oLfXTdQ0G3ZpZ/Pz0IGLpxhsjHUOpe467hIT7XIj
+	GejefNCnevsC+ghuUlola7koODt9FVQxBXaLtZjM1SsPTC8Vx/iN
+X-Gm-Gg: ASbGncsOg1dda03X0L2dy7gNNEZmEWBdJ5yqrnNQB97q8P86Dcb727eDMiiKARvdeli
+	2+gmVIcCqtssE+ESgthFxgpVJFdoZYpIc/sV8/gGlSH2KsIhA/CMwoxVWfxtMBcOrz0yU/TSLfN
+	ToquDGsjYa9MTzU7ytdRbUeTn3/RxrtFpDVpv8HqN231SB8w+ARNr4oABojfC54AssV5wKgO4hV
+	by0xX1Z7e49GvBf5pkxcaMXBkXbkQaFgcn/3ebFDJ7KHMZyNfy79Hq7QETbe6RKZho2o58ummyj
+	8DlwHF84PA1P5lXVxVqKx1+s+vh1vO0X6JvSH1SP76Z3Jy98+io0+s8zvKMsOdCc7Q1VBCDFGZ6
+	GEIS5I04jlccB8Kr1ErJ0uaMzuUYlf+YgukY=
+X-Google-Smtp-Source: AGHT+IHVsHgCGhiIOVqITpHBM3uC93n8OV65My3h+37NXsLGcvJQsk08vps7/EQokyGbCmT/2HP9dA==
+X-Received: by 2002:a05:6a21:9102:b0:1f5:931d:ca6d with SMTP id adf61e73a8af0-20e962058fdmr17563250637.1.1746546259972;
+        Tue, 06 May 2025 08:44:19 -0700 (PDT)
+Received: from server-kernel.moonheelee.internal (d173-180-147-14.bchsia.telus.net. [173.180.147.14])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b1fb391fff6sm7715747a12.6.2025.05.06.08.44.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 May 2025 08:44:19 -0700 (PDT)
+From: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+To: brauner@kernel.org,
+	shuah@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Moon Hee Lee <moonhee.lee.ca@gmail.com>
+Subject: [PATCH] selftests: pid_namespace: Fix missing mount headers in pid_max.c
+Date: Tue,  6 May 2025 08:44:16 -0700
+Message-ID: <20250506154416.3102-1-moonhee.lee.ca@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-The kgdboc uses a "fake" platform device to handle tty drivers showing
-up late. In case the tty device is not detected during probe, it will
-return EPROBE_DEFER which means the probe will be called later when the
-tty device might be there. Before this, the kgdboc driver
-would be initialized early in the process (useful for early boot
-debugging) but then the tty device wouldn't be there, and retry wouldn't be
-done later. For a better explanation, see commit
-'68e55f61c138: ("kgdboc: Use a platform device to handle tty drivers
-showing up late")'.
+Fix compilation error in pid_max.c by including <sys/mount.h> to define
+mount(), umount2(), MS_PRIVATE, MS_REC, and MNT_DETACH.
 
-This replaces the platform_device usage with faux_device which was
-introduced recently for scenarios like this, where there is not real
-platform device needed. Moreover, it makes the code cleaner than before.
+The test now builds successfully.
 
-Signed-off-by: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
+Signed-off-by: Moon Hee Lee <moonhee.lee.ca@gmail.com>
 ---
- drivers/tty/serial/kgdboc.c | 50 +++++++++++--------------------------
- 1 file changed, 14 insertions(+), 36 deletions(-)
+ tools/testing/selftests/pid_namespace/pid_max.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/tty/serial/kgdboc.c b/drivers/tty/serial/kgdboc.c
-index 85f6c5a76e0f..d1ffe6186685 100644
---- a/drivers/tty/serial/kgdboc.c
-+++ b/drivers/tty/serial/kgdboc.c
-@@ -21,7 +21,7 @@
- #include <linux/input.h>
- #include <linux/irq_work.h>
- #include <linux/module.h>
--#include <linux/platform_device.h>
-+#include <linux/device/faux.h>
- #include <linux/serial_core.h>
-=20
- #define MAX_CONFIG_LEN=09=0940
-@@ -42,7 +42,7 @@ static int kgdboc_use_kms;  /* 1 if we use kernel mode sw=
-itching */
- static struct tty_driver=09*kgdb_tty_driver;
- static int=09=09=09kgdb_tty_line;
-=20
--static struct platform_device *kgdboc_pdev;
-+static struct faux_device *kgdboc_fdev;
-=20
- #if IS_BUILTIN(CONFIG_KGDB_SERIAL_CONSOLE)
- static struct kgdb_io=09=09kgdboc_earlycon_io_ops;
-@@ -259,7 +259,7 @@ static int configure_kgdboc(void)
- =09return err;
- }
-=20
--static int kgdboc_probe(struct platform_device *pdev)
-+static int kgdboc_probe(struct faux_device *fdev)
- {
- =09int ret =3D 0;
-=20
-@@ -276,47 +276,26 @@ static int kgdboc_probe(struct platform_device *pdev)
- =09return ret;
- }
-=20
--static struct platform_driver kgdboc_platform_driver =3D {
-+struct faux_device_ops kgdboc_driver =3D {
- =09.probe =3D kgdboc_probe,
--=09.driver =3D {
--=09=09.name =3D "kgdboc",
--=09=09.suppress_bind_attrs =3D true,
--=09},
- };
-=20
- static int __init init_kgdboc(void)
- {
--=09int ret;
-=20
- =09/*
--=09 * kgdboc is a little bit of an odd "platform_driver".  It can be
--=09 * up and running long before the platform_driver object is
--=09 * created and thus doesn't actually store anything in it.  There's
--=09 * only one instance of kgdb so anything is stored as global state.
--=09 * The platform_driver is only created so that we can leverage the
-+=09 * There's only one instance of kgdb so anything is stored as global
-+=09 * state.
-+=09 * The faux_device is only created so that we can leverage the
- =09 * kernel's mechanisms (like -EPROBE_DEFER) to call us when our
--=09 * underlying tty is ready.  Here we init our platform driver and
--=09 * then create the single kgdboc instance.
-+=09 * underlying tty is ready. Here we init our faux device kgdboc
-+=09 * instance.
- =09 */
--=09ret =3D platform_driver_register(&kgdboc_platform_driver);
--=09if (ret)
--=09=09return ret;
--
--=09kgdboc_pdev =3D platform_device_alloc("kgdboc", PLATFORM_DEVID_NONE);
--=09if (!kgdboc_pdev) {
--=09=09ret =3D -ENOMEM;
--=09=09goto err_did_register;
--=09}
-+=09kgdboc_fdev =3D faux_device_create("kgdboc", NULL, &kgdboc_driver);
-+=09if (!kgdboc_fdev)
-+=09=09return -ENOMEM;
-=20
--=09ret =3D platform_device_add(kgdboc_pdev);
--=09if (!ret)
--=09=09return 0;
--
--=09platform_device_put(kgdboc_pdev);
--
--err_did_register:
--=09platform_driver_unregister(&kgdboc_platform_driver);
--=09return ret;
-+=09return 0;
- }
-=20
- static void exit_kgdboc(void)
-@@ -325,8 +304,7 @@ static void exit_kgdboc(void)
- =09cleanup_kgdboc();
- =09mutex_unlock(&config_mutex);
-=20
--=09platform_device_unregister(kgdboc_pdev);
--=09platform_driver_unregister(&kgdboc_platform_driver);
-+=09faux_device_destroy(kgdboc_fdev);
- }
-=20
- static int kgdboc_get_char(void)
---=20
-2.34.1
-
+diff --git a/tools/testing/selftests/pid_namespace/pid_max.c b/tools/testing/selftests/pid_namespace/pid_max.c
+index 51c414faabb0..972bedc475f1 100644
+--- a/tools/testing/selftests/pid_namespace/pid_max.c
++++ b/tools/testing/selftests/pid_namespace/pid_max.c
+@@ -11,6 +11,7 @@
+ #include <string.h>
+ #include <syscall.h>
+ #include <sys/wait.h>
++#include <sys/mount.h>
+ 
+ #include "../kselftest_harness.h"
+ #include "../pidfd/pidfd.h"
+-- 
+2.43.0
 
