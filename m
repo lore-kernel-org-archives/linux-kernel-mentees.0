@@ -1,72 +1,74 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3C3502BE
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 May 2025 15:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2452836A1
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 May 2025 16:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746546262; cv=none; b=LcQqNnzJJrkGpHaHbD9uoiqzXSiwJdu+i4WqqolI1jXWsKoFaEvKNHH0Vjp847Up6KoXy4rfgMFB7d7HA99QtPnSNaRsPb5TIiOutiUgtkQrpNNPb9s5HHfoKn68F1DqdHcJ1IgCgpKE2IkiecKXohwfhM2GQAtyFneyr0zRf6s=
+	t=1746547368; cv=none; b=naUK2c5RAhzhbMkeOw07oMGHt5yPb6CThr5SjHm3ArLWZas/HQTq1oDFhxOR5j1sE0jMybZUV1iy8PGTjcf8L/khzvLvSR3inhcjiV2IDCZlUeFN78m1hNe+zdIZfnhvdl00M9quon2bnv7vBnmwsw1dTd6C3zSLztMbyn9yt2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746546262; c=relaxed/simple;
-	bh=tPzB4Cr5GgKl89ad8RCRlDRGcX8EwjgQuP1Ms+e8B4w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hmb2YoCtk+/ge/r4U1fqyONGEktWPqg/aAW6pKuk5z5PXgWNiSOElTLX9nOSFRKvmLEaLhllLQiSc2Tro+i9bVgyGljamWjyaOq5V4aHnWrStW/SenymRs2BTphHh3OvuxZ/Af2D4AgbRH5hS2YJm9KFY2qe92x2/9VSkrZ4j+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JeJ3ZQQC; arc=none smtp.client-ip=209.85.210.169
+	s=arc-20240116; t=1746547368; c=relaxed/simple;
+	bh=qv10xryQ+mAog3l4VvbVHJ0HbMIQA75QU5IkGTZPA3E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sGrMal8CymkD6t60E5A3i9+Cjjd1p9hqsDAXRibo3PKhPrHx5VU6seGswIu/M2bsUayulvzgCCYDZGV00LMsjiTuYP3onux6zXR/Dp0NEzdFcHXxoO/N6ohelMRgii1vd3A/pEUWsy+xvwM+gYZNj8jxp+E2UvHcz1uAoIXt8Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f+GiD+NW; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JeJ3ZQQC"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7376dd56eccso6520716b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 06 May 2025 08:44:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f+GiD+NW"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-30a99cff4feso626854a91.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 06 May 2025 09:02:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746546260; x=1747151060; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1746547365; x=1747152165; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=W92479e3GDwcVekSJ+6iNPM/4aDW6S7waFt19f/PGiQ=;
-        b=JeJ3ZQQCPBf0jQ00jd28zJi2981ywZ2TMm5Uy8cbdWhbNfNYPLiga4YHTFk8AUY6/N
-         btgYz6plvHxE5fH948W5uUSQMsCNrdJFLAJP14r8Egc+PyYVsOrxPfOOPa8+o+gVwBRd
-         fmp7Df2n1ttsOSUvHZHxb+g61qKnnYXAfA9ns6ebxOVRSDNAHFB8osDMssxO0zlwJC0l
-         YrX6byFZxR6Gz+YVtTIbIUcfOh50tRNmSh/+fSVjaeHkr4L51q2/2GgxKsb4p3wttayR
-         rSjvCKA5e92ZxufF9mZP8Dt2a3e5FZhU41yMBApSYqBFk1tz/gNVvN2qmrA+SIw7hBeH
-         6BNg==
+        bh=UxqQI7I56Bh3kt4m+ML+aSANba97iFsyz6IRsFIn500=;
+        b=f+GiD+NWUpoEJHPTxZsbhy12IEqfNe9AewL8aMRqURphNi8QHDAwprwxll656MhCn3
+         8DL0EWZimkxiLy0C6Tc1gvBpvFmg6NiNYm+eI3yRFXGW0e+AAJYXeOB1B4zbJkFljC2+
+         aAXygjdFcyLQKaJSmY8RvD5GKrJC+a/9j0hEwIyMY0EIV27CVgqH8IMWJl3x03XIcJND
+         Q9++sSfa2Qw1Qzr+NBTzppcdSDJqVGD5TNuCwuuqB3LLk7HnsyYKEoXogxBbBwlbvRMp
+         LMCdW6l7Vhnqqqw0VyY3/wotbO3+qEEJin4WCGtgvce7vueHBvvtyfzsB3gxcEjFRvBh
+         Hk7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746546260; x=1747151060;
+        d=1e100.net; s=20230601; t=1746547365; x=1747152165;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=W92479e3GDwcVekSJ+6iNPM/4aDW6S7waFt19f/PGiQ=;
-        b=tkxrtFlwz5xdxjMz75/JYd5gznQHxD6AOalOtDzykY8MODKNDwjBKP2IlxAzfJ1rM8
-         OfxHYp8R2T24kmtM+uS8AO9dni9glQFtClXFhfizJQI/YRgn4BXI58IuOQ+XzjoKTtKi
-         wxXWSTYsJaFFOz0ltMBqdrcH9EbPVHdu2IIuJ7j3cXbNufXG3HQob6c577BWypp4qFnK
-         0yJGTe+iTx56cnOFDOBYU6cRXawncyl2w2LiPupxCssp/ezW+Z6oEBMNAEJG+TXU4YIA
-         LcKEwrEwd2VQZezT3PwodlCxiHkEJenyC7v8GUXkMRYkcjqCwYkGVr98q4oDbbUwSggW
-         wPIA==
-X-Forwarded-Encrypted: i=1; AJvYcCV4DiAcesuLspkZ7EujJAZ72cW88EeuKxG2AwcWqFtbNE6GgF5jXfFjj0T/gks/t6FqmQKRRXpoH4zTrIQxXpUdIi9/og==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxaimuk5M85oLfXTdQ0G3ZpZ/Pz0IGLpxhsjHUOpe467hIT7XIj
-	GejefNCnevsC+ghuUlola7koODt9FVQxBXaLtZjM1SsPTC8Vx/iN
-X-Gm-Gg: ASbGncsOg1dda03X0L2dy7gNNEZmEWBdJ5yqrnNQB97q8P86Dcb727eDMiiKARvdeli
-	2+gmVIcCqtssE+ESgthFxgpVJFdoZYpIc/sV8/gGlSH2KsIhA/CMwoxVWfxtMBcOrz0yU/TSLfN
-	ToquDGsjYa9MTzU7ytdRbUeTn3/RxrtFpDVpv8HqN231SB8w+ARNr4oABojfC54AssV5wKgO4hV
-	by0xX1Z7e49GvBf5pkxcaMXBkXbkQaFgcn/3ebFDJ7KHMZyNfy79Hq7QETbe6RKZho2o58ummyj
-	8DlwHF84PA1P5lXVxVqKx1+s+vh1vO0X6JvSH1SP76Z3Jy98+io0+s8zvKMsOdCc7Q1VBCDFGZ6
-	GEIS5I04jlccB8Kr1ErJ0uaMzuUYlf+YgukY=
-X-Google-Smtp-Source: AGHT+IHVsHgCGhiIOVqITpHBM3uC93n8OV65My3h+37NXsLGcvJQsk08vps7/EQokyGbCmT/2HP9dA==
-X-Received: by 2002:a05:6a21:9102:b0:1f5:931d:ca6d with SMTP id adf61e73a8af0-20e962058fdmr17563250637.1.1746546259972;
-        Tue, 06 May 2025 08:44:19 -0700 (PDT)
+        bh=UxqQI7I56Bh3kt4m+ML+aSANba97iFsyz6IRsFIn500=;
+        b=HKp6fWL0q31atyQWiKgc5awUMxEuj4jFgudpmtMW/3Hca5rY2zvQgJ7G8TliGEb+0T
+         kVRxFgAB94w+bAKE/YLTN0Qives4yIXMTRbpQq0zF2inkC69ANplMo8fyIZ8rJ4aAJHV
+         aG47CDGa90RwYzhqivvUu/wkDbvWlCf6Or2lLok5GbNfkqcm4MimRBWlT391lxq239sm
+         s6ThRfXZH4uTn/hc/eaSOQyz37DE/BLUprBROushcJniQOVZ9Iz9oJ4Ccfl79SbXXCbT
+         IPeMj+jaMmJnZPs4kWqWIhA7CKARDPWSlSMczTNLwkw1pr6juU8w7Oyt/iox7mk51wa+
+         4lsg==
+X-Forwarded-Encrypted: i=1; AJvYcCVPLaCVSujA6ImMXeiLkpU1m66RehU/9gRXoZCVMOE4F7Hf1Ex6RQiUoNPlrLOdS1ZRxGW40mnF06phkHXnXMB1ExsA/g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzX49LcgcVe4FYYG7LA51DU4U1eYy5RiSu4EjsiWJcDr+ly1Q89
+	qOi3KFL6/wum8i+CEPAFNICuv1BZIkTjc2IY85U2hTS5fpXbEWL10nzIAd8X
+X-Gm-Gg: ASbGncv94lEYDWzAvZ9aY9Yl/1+BT0Tx4EJ29+lVjCIRXBjlFFLFIcP3M0/d1t+OWkx
+	0YkEsIVljR9chYXFwwwrfh/Pr4CBUrfaQ7GDbwDu7FgnnKXfwdHSDWgxoJNkiEEgN95BjIxvmm1
+	OjpEZqa6sdGuGVDjfPUigUpfA0p/pCwjU15l4XNv+e7lIJUO36VWAifyLHOX5jZojhEU3TMHTFP
+	CDD3KrazPDcKPerAgs6Eve1oFknEQd5X7gOBvVTMYXfKoomrhXv951jWtqPapdSocs3LSwfwtTt
+	dW391v3lru0P3ZaWi7l3LvHNGWSSuhhWid3Et5ppSCqhMdb9jklofI7WqqDenxmxBqyVwcVOLeu
+	tYlD2Agwhk6+01XzMwlM8B4yWmLmRAPuIx8w=
+X-Google-Smtp-Source: AGHT+IFevtUyWuSHvitYA7wFMvLwVik5JEG9Cmh0lTuhNVyWsmzQmvCZvPNXnXAFKtjlJybF/J+4yg==
+X-Received: by 2002:a17:90b:3c0b:b0:2ff:58e1:2bb1 with SMTP id 98e67ed59e1d1-30a61a6f700mr15118582a91.32.1746547363134;
+        Tue, 06 May 2025 09:02:43 -0700 (PDT)
 Received: from server-kernel.moonheelee.internal (d173-180-147-14.bchsia.telus.net. [173.180.147.14])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b1fb391fff6sm7715747a12.6.2025.05.06.08.44.19
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e3b56576fsm15996285ad.47.2025.05.06.09.02.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 08:44:19 -0700 (PDT)
+        Tue, 06 May 2025 09:02:42 -0700 (PDT)
 From: Moon Hee Lee <moonhee.lee.ca@gmail.com>
-To: brauner@kernel.org,
-	shuah@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
+To: lukasz.luba@arm.com,
+	rafael@kernel.org
+Cc: len.brown@intel.com,
+	pavel@kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev,
 	Moon Hee Lee <moonhee.lee.ca@gmail.com>
-Subject: [PATCH] selftests: pid_namespace: Fix missing mount headers in pid_max.c
-Date: Tue,  6 May 2025 08:44:16 -0700
-Message-ID: <20250506154416.3102-1-moonhee.lee.ca@gmail.com>
+Subject: [PATCH] docs: fix typo in energy-model.rst
+Date: Tue,  6 May 2025 09:02:29 -0700
+Message-ID: <20250506160229.3720-1-moonhee.lee.ca@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -76,28 +78,27 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix compilation error in pid_max.c by including <sys/mount.h> to define
-mount(), umount2(), MS_PRIVATE, MS_REC, and MNT_DETACH.
-
-The test now builds successfully.
+Fixes a grammar issue ("than" -> "then") and changes "re-use" to
+"reuse" for consistency with modern spelling.
 
 Signed-off-by: Moon Hee Lee <moonhee.lee.ca@gmail.com>
 ---
- tools/testing/selftests/pid_namespace/pid_max.c | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/power/energy-model.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/pid_namespace/pid_max.c b/tools/testing/selftests/pid_namespace/pid_max.c
-index 51c414faabb0..972bedc475f1 100644
---- a/tools/testing/selftests/pid_namespace/pid_max.c
-+++ b/tools/testing/selftests/pid_namespace/pid_max.c
-@@ -11,6 +11,7 @@
- #include <string.h>
- #include <syscall.h>
- #include <sys/wait.h>
-+#include <sys/mount.h>
+diff --git a/Documentation/power/energy-model.rst b/Documentation/power/energy-model.rst
+index ada4938c37e5..490ddd483f46 100644
+--- a/Documentation/power/energy-model.rst
++++ b/Documentation/power/energy-model.rst
+@@ -230,7 +230,7 @@ Drivers must provide a pointer to the allocated and initialized new EM
+ and will be visible to other sub-systems in the kernel (thermal, powercap).
+ The main design goal for this API is to be fast and avoid extra calculations
+ or memory allocations at runtime. When pre-computed EMs are available in the
+-device driver, than it should be possible to simply re-use them with low
++device driver, then it should be possible to simply reuse them with low
+ performance overhead.
  
- #include "../kselftest_harness.h"
- #include "../pidfd/pidfd.h"
+ In order to free the EM, provided earlier by the driver (e.g. when the module
 -- 
 2.43.0
 
