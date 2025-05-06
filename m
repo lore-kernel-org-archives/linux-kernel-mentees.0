@@ -1,283 +1,487 @@
-Received: from fallback4.mail.ox.ac.uk (fallback4.mail.ox.ac.uk [129.67.1.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06DB1FFC50;
-	Tue,  6 May 2025 00:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=129.67.1.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746490201; cv=fail; b=ZJ4ywOtTjT62DnbdNKgunqNYeL/LWs6oUm+sGWiC2pIaz3Iw9GJ8RREtPXJGMrshP8mJryZ83jVdhgfisVDB01KRJLo1J0logOl9cxdfep1A2RQmtyG4TMwKP2DGV7sJY5RsEF0pVqckPL+pu0KXzsg+qiXBLD3Mxw6ZU2w08hE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746490201; c=relaxed/simple;
-	bh=g97GCpyXHBIIM3AsnjtgtkGQhFXQj2H1fslNuw+FehE=;
-	h=Message-ID:Date:From:Subject:To:CC:Content-Type:MIME-Version; b=Tl3MwP63PD9dJOrPkayKaEZw/NKp8V7olhlS8NltbMURfJsWtIKCBkvbvWP6VwybPLUkwM5naO5PExBdONj5w4yiBGUnVza1JSsK4HkEHw/PEbT03Z2z7+7V2UTdrOTrw6K9KPmHHiEaAHPTEfrE9KBh2R7DL3JmcvWsPDACOxQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=magd.ox.ac.uk; spf=pass smtp.mailfrom=magd.ox.ac.uk; dkim=pass (2048-bit key) header.d=ox.ac.uk header.i=@ox.ac.uk header.b=IgDJBjWe; dkim=pass (2048-bit key) header.d=UniOxfordNexus.onmicrosoft.com header.i=@UniOxfordNexus.onmicrosoft.com header.b=OwFgESjn; arc=fail smtp.client-ip=129.67.1.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=magd.ox.ac.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=magd.ox.ac.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2309E2D5D0E;
+	Tue,  6 May 2025 02:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746499817; cv=none; b=Et7Q9MEvxySccO3IlRe2+AS538DD/v+BFWftCE8Jou2XDLRrn1N0AL8LxdVncPrpRfuJC3+2buUpLnK9g3/jIR91ea7NDTnCbdb4ynxvXv4evpxzAW1LiKvPyWsAt+4uDBNUWzxFkuAmpDgJOwkeqRqttto2SO2w8qZ4+L4BFJY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746499817; c=relaxed/simple;
+	bh=W20blw7HTgEPQz/VINXV45x9hoVEuS13v6oZc8mYqmI=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:From:Subject:
+	 In-Reply-To:Content-Type; b=NpqETaW2ude9qlF0KC3WM0NbYxQlct8f2B/j1+3Hh2AWdNxbFFw7R6WcXbTOlg1doC4DaT3k9iDiK0f8pf0WMpjpZ4tPPTGMq8JUTfkQV/sfXpQ3564NbsJ53cIstwvn2n8TpKTa6OVONnX/BlbWyxuZmZKZJNLamF62rqqkyf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GwQxSHkd; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ox.ac.uk header.i=@ox.ac.uk header.b="IgDJBjWe";
-	dkim=pass (2048-bit key) header.d=UniOxfordNexus.onmicrosoft.com header.i=@UniOxfordNexus.onmicrosoft.com header.b="OwFgESjn"
-Received: from relay20.mail.ox.ac.uk ([163.1.2.170])
-	by fallback4.mail.ox.ac.uk with esmtp (Exim 4.92)
-	(envelope-from <praveen.balakrishnan@magd.ox.ac.uk>)
-	id 1uC5sg-00066s-IQ; Tue, 06 May 2025 01:09:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ox.ac.uk;
-	 s=flood; h=MIME-Version:Content-Type:CC:To:Subject:From:Date:Message-ID:
-	reply-to; bh=rRUDPu/KlEolW2QzGPmIO5OVmtj6e1H6JMHUXO8pAZ4=; t=1746490194;
-	x=1747354194; b=IgDJBjWeH/QMQ/pPLZJcm8NS/KIU/WXSwQWa8DJFs8zwd6fkf4aqPxcgrqKUL
-	/DLfCnhKopay7Bvsqpb9yVG0DJPok+8mIpLozqz0CvTopiTXvt9bqf5NUlhFR4OBx6Vi+jzIvlyoD
-	6MloMfe+Qt+qNNAuljZUz7v+VywbBUwoTdvJuy/fTiBH2OSKq10VWTC/uVW/GOdnd2bApo2GnFl6t
-	5IQC/ZQyoeY21+YXnQAH92ovdbmNVGizsabqzNW7q6AJHVjHIm8cBCJ7Cvepd0mUmanA3iB/UhPAH
-	dLW27gTkdiTORYx1n/tE4TMN9RtOgBqTvvoCt6zLGdXBWfoInQ==;
-Received: from ex01.nexus.ox.ac.uk ([163.1.154.241] helo=EX01.ad.oak.ox.ac.uk)
-	by relay20.mail.ox.ac.uk with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.92)
-	(envelope-from <praveen.balakrishnan@magd.ox.ac.uk>)
-	id 1uC5sP-0002B6-FS; Tue, 06 May 2025 01:09:37 +0100
-Received: from EX02.ad.oak.ox.ac.uk (163.1.154.242) by EX01.ad.oak.ox.ac.uk
- (163.1.154.241) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 6 May
- 2025 01:09:36 +0100
-Received: from CWXP265CU008.outbound.protection.outlook.com (40.93.68.1) by
- EX02.ad.oak.ox.ac.uk (163.1.154.242) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.37 via Frontend Transport; Tue, 6 May 2025 01:09:36 +0100
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vHE80ne5Is+XxNaQNNcWXCdjlw5Ej6xuZ1ip0G9IVJ7C0ol4ztwbSNRKDuuIzCuL56I/Uzmh9pG8Q9itSLA8/FjRnuQFM2QPp6mYsF8slyGd+Rfkm8yuGTvRXRxqJOxyp4aTa6XZImwCC8T5sQczd+lGHg/jV4DsVp4e2hd4UtaiLZFMUVg7SjiIShCWKss5wq7MkX/UAC7IGvcXC1wNjVKDAv+ZIYxd0WGWf4En/zfTS1ooVpDhQ/c/pRyNfTszywgr5QRVwvgcoZ/bKKZQ/5r7ph4kUMEIcXz1xY5E5PHkduBKJ3PuHtXYwBkZwFn9VDb8Weg16uNgygiJPyvS8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rRUDPu/KlEolW2QzGPmIO5OVmtj6e1H6JMHUXO8pAZ4=;
- b=QTAnZX4uuMTmnnvfqgmSOyRLQ8j3gNhjqwtdVsc7lC/FMlv9zNQOY/ZOpCPbN9eOeGqsBDKfr3nbuqkPVDYeLvluy4YLVFhYJfq7oLukI1e4Jdb5ej9YYzcSEtdhANMYclSk/+TAcsSAsbHqJFSYmkvnAlc4DP1qoj+Ay4jxOSAWBgbIuh8p/lCuAFp4cOoO6BNk6aZ92+nX7BrCfENBTOGz6V2fXHMPIL0CQLZ4zfl60GjTGMePvFyrq3hCBTHTokGhNuoZoBaENaSKC+geoKO5tzvJyUSTAkOWu/LUGuOK67cny5Fyb57Jbs47iY0bjiWvoYGBSVPgevNlK3s8/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=magd.ox.ac.uk; dmarc=pass action=none
- header.from=magd.ox.ac.uk; dkim=pass header.d=magd.ox.ac.uk; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GwQxSHkd"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-22c3407a87aso76339915ad.3;
+        Mon, 05 May 2025 19:50:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=UniOxfordNexus.onmicrosoft.com; s=selector2-UniOxfordNexus-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rRUDPu/KlEolW2QzGPmIO5OVmtj6e1H6JMHUXO8pAZ4=;
- b=OwFgESjny25bKxUeGkxbVczdJ3K8Q2QRzy2Gz/a5wPSs07kkZPvqAXR6twb/IOG1cOFTMnQtpXgFG08m5w7X2ZkIzOLC99Oa/h6vgSupcRAO6xOnE5yER0DxJ74M4ebMVQrAdrzUW6ZliwdNRX5jGAbTOzXcMgri+o1zM4ijcvyVkGASg0+cW64mTE7yyqmTN/pi2LsyMmuidWG4EHusJREm4Ir8bLEVEaO3hRuai5IfUMSe3iXpg34pPviJPZYZ88qJZuY24cZWohENyjB2Z2ZHdV9TYH3d2XlqRYi0MhfS/ei5Co5/FHXsN8/oUXmPP6BYk2GkB9zogOEwO9B3lg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=magd.ox.ac.uk;
-Received: from LO6P265MB6985.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:323::12)
- by LO6P265MB6160.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2b0::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.23; Tue, 6 May
- 2025 00:09:34 +0000
-Received: from LO6P265MB6985.GBRP265.PROD.OUTLOOK.COM
- ([fe80::639f:86e3:3b7c:f6dd]) by LO6P265MB6985.GBRP265.PROD.OUTLOOK.COM
- ([fe80::639f:86e3:3b7c:f6dd%5]) with mapi id 15.20.8699.022; Tue, 6 May 2025
- 00:09:34 +0000
-Message-ID: <9f2b7c8a-b322-4dff-a5ef-7a2625df2685@magd.ox.ac.uk>
-Date: Tue, 6 May 2025 01:09:33 +0100
-User-Agent: Mozilla Thunderbird
-From: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
-Subject: [PATCH v2] media: dvb-usb: az6027: fix return value of
- az6027_i2c_xfer()
-To: <mchehab@kernel.org>, <hverkuil@xs4all.nl>,
-	<christophe.jaillet@wanadoo.fr>
-CC: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>,
-	<syzbot+08b819a87faa6def6dfb@syzkaller.appspotmail.com>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO3P123CA0015.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:ba::20) To LO6P265MB6985.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:323::12)
+        d=gmail.com; s=20230601; t=1746499813; x=1747104613; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:subject:from:content-language
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rrviYYlvzk4BMKpbic83AUnOGOEgxdgxl7O3Y/SynbA=;
+        b=GwQxSHkdFwEQTWDr4W0EGv1pYHlCFOWYN60slNFwHOBJqjvJy+YTFP3ZLEGLImneAP
+         NYVLvw6C2vq3ojRYGOMtATu92kQBo0JT8a/cL3OP97dzsyiCF23qPyGJEytIH6aaESZI
+         1puC1PEpA71I/EsEB7FNXoxaJ2KidVk18JjIOfGECW1/AxHDsaE2kDBYM9f5F02PJCA7
+         /UfSvhzGFlvmHbgND7VFxyaP3xw2+0MoFsvhqQlqD8ZC8mAhFfucv/OlkDqacbgur4Sc
+         eoPsKScpUXC5MfWEVUP98YhWi4O1hvSx1Gfdr8dsOXEdSGPSxaynHXpo685VRS9jf69o
+         u7IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746499813; x=1747104613;
+        h=content-transfer-encoding:in-reply-to:subject:from:content-language
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rrviYYlvzk4BMKpbic83AUnOGOEgxdgxl7O3Y/SynbA=;
+        b=fgZpc9XcEbqyKIJOlrKmsHamNMcN1MivmScmCKNju56AHwIZQReB6SBE7kiht7kFD1
+         xA2OUs8O0LFAi4uUIl67UXWk0JyaEsae1c6oLhr1mweYFyFJGFcjatgfaiLbtl1/4yk0
+         15tf/64vHbaz9GVZChcMT3HQjLsYHQJ3RdxdW4URIsFED5cG1bsrEkA4vd2ViaWjvnIR
+         1I1ZX38vVp56goWm4zOmO1IKWd8f1LdFaZoccE+0Zki8MNC9g4u1m0TYo/Q6sQTsCZqW
+         qolV0KrY0ZZMGWIgcOPVYvx7WmH/uwXk+7DmDQoBy5nEvbzMmBZI8yUkScYdQtHnpwHI
+         qEnw==
+X-Forwarded-Encrypted: i=1; AJvYcCUys0mjzWC+zsDOYyL49O7zR44WwojxOEBEyJ6zoEdlzMSrKJLFOOhOHl3L2A8n6NwjLSSlPQ==@lists.linux.dev, AJvYcCWxBROC71m/ue1SR4qblRhBrrE5JFZZqlccSqZYalTEgfXlpRL+YzBVGNaN1ChYPEEXp+8K4mqp+IsJJASsJShLDM/RRA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzxNYo2RGdX5PQ6fNhS8FyZjQnW8gcVRoBXmqtT3BgYeFy8DC55
+	DBhlST2T44JYoue0yXVJHvhiAH/VZ2EFiNejWdbJ8FNxMxCiywuX
+X-Gm-Gg: ASbGnctzSmkYypcK1+MTBwKik1zjg6kdsrJN5BpVJ8RtevsHpbOPBRVv0jXcVnjrQ22
+	WJ4hgVY5rWhei+WMeqNVlfTPDaQm1wzqSrPMFUxAbnIDJ5LRLLo4qEWze+C6QidBiKX+SgoMMnN
+	BzvTnM2G3MnVS1VehG0oZFmoTlnb8v19p2apGNvc5lITvAz2szQrii+gS3wJn+DGdQwjQP7//Oq
+	07blt3DT0cpQhFoQHteSmkKYoagI2tXD2TAdpcTwBrO35GehCZODV1QYf0jAN9zwCH7760BPWlE
+	x6eFJDvtD3XfX16yqPyVjgQ0Zx3IqUnz7R2QASA13QTetlvbNykSs5VvXRxbSSWYcVPWw0FanzA
+	bmT2SQCxjLm4=
+X-Google-Smtp-Source: AGHT+IG45ySgvPSXOzFWRB0LsIw2L1BJ1YJ9Hz+PzHa9ZAT9451cEMCl/iN8QGeVs4dYuO3L993sJg==
+X-Received: by 2002:a17:902:c402:b0:220:f59b:6e6 with SMTP id d9443c01a7336-22e1e8ea417mr110666565ad.8.1746499813065;
+        Mon, 05 May 2025 19:50:13 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e15228e57sm62941645ad.174.2025.05.05.19.50.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 May 2025 19:50:12 -0700 (PDT)
+Message-ID: <015198be-1f23-4fc9-ba58-be7c48550f36@gmail.com>
+Date: Tue, 6 May 2025 11:50:08 +0900
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LO6P265MB6985:EE_|LO6P265MB6160:EE_
-X-MS-Office365-Filtering-Correlation-Id: 650eb29a-d15a-43c1-a02a-08dd8c324855
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|41320700013|366016|376014|13003099007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Vk9oUkZ1NGd0dnkzNkhUek43WnM4QUovOWJJU3pmQ2taUStwUEJJUTdIWTFB?=
- =?utf-8?B?UERFUTUrSFdLMjdOVE05M0JQWmYxanIvOUFmVUFhUGorMy9yY2NtalBta1Z6?=
- =?utf-8?B?SDhLSTdsSXRFU1NPWHRGTkNXTGx6Z0k3d01zVkUyUngyOWxsTjRrVHNwZFFw?=
- =?utf-8?B?L1lEa05QdTJvVDJqTGdQSjFtckVjZDc3Y3hMdDlyYUIvM2JQVm5Ia0tSK0k4?=
- =?utf-8?B?Q096cVJzUXp6aWdzQ0VpWXFaVWRjZ1gvazloRURhQnNuenNnWjNvTTNWclor?=
- =?utf-8?B?QWd4YWFSSWlLVHBrVzVieDcvVXFlTmZ1UzJNYUZZTmV6VjJ5NjU0TnJ4Vjdu?=
- =?utf-8?B?eXJVdHhiSG9VRDFSU0U3TnRGSkloNmVwejlFcm1obXV5K1BaSFNPbU9LcFp2?=
- =?utf-8?B?MUxPUEV1Z2VPRTBQNm96dTJGQnJsd0xleTZuS0t6cnhmZnMyekZiTGIwRldP?=
- =?utf-8?B?MXY5enRwWUpzbjRHMjc5Rk9iM1ZJZDFsbjlLS0ZaaHYvRVVsYVprNitTNzc2?=
- =?utf-8?B?NUNDU29WTmZnMm5sNGo5b09RRDZwQ0toSkhkekRGbnZvTzI4WFcvbFJST0U3?=
- =?utf-8?B?VHVwOFFMT0tnUTc0LzU3RVZmanN6NDBWRVUycjBZVTNVQU9vdDlBTTVoeUZH?=
- =?utf-8?B?ajJoOEFFM1psUTNQVzErUHNiY2lkaDh0Z2V1MDQ4a0NsdVpXL2cyemNzcEUw?=
- =?utf-8?B?cUg3SG80MXBsTGlURmo1TE51TEp1UmJiTmJUUDZuVHFzZCs1QktjSmszems3?=
- =?utf-8?B?cnpNWUpqelhjcSsrZEpuMmwvdThRV0lkcTRXOGRxcEVYNXpLMlM0R2s1S0sv?=
- =?utf-8?B?c1lKUVBWUS9NbnJYZnlUOFhRUXFpU3I1MWllVk1ybnBtSnVUaXpKcGQxL21o?=
- =?utf-8?B?QzZDRkEzNEx2bm1zdm10WlFnbDVOU0VwSGZnRjNhVFVBeDBsaVRqYXEzeEY1?=
- =?utf-8?B?WlZoM1FMTFMwYTdxSHJxZWgyWlJMOGoydEtEdDAwcG1mVXBMNnpsMHZCYlQr?=
- =?utf-8?B?QS80NEpuTFptSFhJRVNNQlJKMjNZL2JLc3c2ay9hNGdJbUJuYnJucnlsVWlP?=
- =?utf-8?B?MXExK2ZJSmNxeklNSnIrYS9wdzcyS3E4TU5OWW5yTW1VVktZc09zYWFuWm1O?=
- =?utf-8?B?RFVybTVaWGNYV3pGRUphbXVPMGFPeG1rQlJmYi9ra1hEdXpNSmg0WkcxemNW?=
- =?utf-8?B?aUVMN2trTFoyQ040U2hkV0JtUC9WOG84Y3ZTY2R6OGVNd0t5RzZGNDYyNld1?=
- =?utf-8?B?Vk1DeTZGbVl3NzZXc05jd21kdUJIRkd2YStVVmV0MC9VZFBFYSs1Z2VwaXc5?=
- =?utf-8?B?UjJHQVI1dG40dm9kUktaNFNSeklsU1krcTN2eGNJaU9IMDI0dnRTUTV5MTVy?=
- =?utf-8?B?ZGFKTGpuaEpPbm9LTUZnZE4wbi9lTW16ZFNwQ2RoOEtCMkFJZVhFbXlva1FQ?=
- =?utf-8?B?ZDNBcVpybUsrWTVPZjU3TG9RR1JjRE1WS3hHZ2pLSDk1dm81QkdLTkhJWWVT?=
- =?utf-8?B?cjVZcThLd0NBbmxrWkdFVEdPTXdKN1pZOGxuY0Z3aFB5YlZqS2tCTlVQRFpR?=
- =?utf-8?B?eTl5NkVIc0dLTkNoNVBFUWcxZTZnTkN4MDFmMDI3NXFvNkpVc1NvTnU3NDEz?=
- =?utf-8?B?S29kS3RZSnRDZ2ZvTFIzci8rYnczZlRyY0lzeisvelp6VENCOUVnZ25Kb1E5?=
- =?utf-8?B?eDc2T3pUcU0xZWwraXl4bElHM1BkMmJPWnpoMGpOT09zdS9paUdXVFVPekFG?=
- =?utf-8?B?VDQ2cFpvSjBXN2s4S0xHa08wQ0tKU3QyOWlJZkNBZ1ZXNENsMWVaUXE3WHhX?=
- =?utf-8?Q?/U84335KvDCe7T1A/l5XLwYGC9czW8mIM9bEo=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO6P265MB6985.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(41320700013)(366016)(376014)(13003099007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZkhzWlRGZ2hrRVVzQy80bFh1QXl3dVFEOExqMk0zRU9QNCtOVHBZSk1QdkNN?=
- =?utf-8?B?NDh6YW9SNHA3ZkZaYU01UngwOFViSTB4SFlkY3I2ak1ndVlBUkZHY3JTRVhm?=
- =?utf-8?B?TnVwOXJ1Zk5RU1FQdFVkWGM2SDJhbGtsek1PblBoQ3pOZ29wQndFZUdZbjBa?=
- =?utf-8?B?QWNSc3R3K3QzSXRvTysrTmxXNDM3VURlamJINU5TNXFndForY1BDYVpwYXlE?=
- =?utf-8?B?ZXYyT0V2NWlmK2U5Zk1DYXloY2VHWHdKeEdrVGcyZ0hqWklyVjlBRzRPL3FS?=
- =?utf-8?B?RVhCc0JLbWwwaktRSkdDZGk1QnFhVDVLU0JpbktDcVhQWURYaUdVekVLVC9V?=
- =?utf-8?B?VHJEeHZhV0RiNHBTSE1CQXNUWjBSQWlJdi9LUktjYWtCNGZDR05kWldIbmpZ?=
- =?utf-8?B?anVDS1pNckVPL1BDdmJFQlI3V1c1d0NUdERoNVExRmxUbzM1czIyTDNaMHZV?=
- =?utf-8?B?V2xLNG5wSE9VOU1PNlV0VnhjRGw0WWx6bWdyVVJRVldDSkFrZU1yc3FpR3l2?=
- =?utf-8?B?bHRlTVl0VjM2ZGJLN1kzVHJTOTNsT2RTQVpMSWMrSlY5d1VVaFBncGdJN0da?=
- =?utf-8?B?R3RvR1BUVWplNEZqOXNaYXZ3aEQ2cXJvTzlhUGxOMmRMb3lnU1BmZndVQnM5?=
- =?utf-8?B?ZS9wa0d1b2MyUTBhY2c1aEE3L0NMWFJIVHBSMEt4UTJyeFhqVGQzR3lMVFVj?=
- =?utf-8?B?bWlhZjZtSG1Lc0lySCs5VVZ4dnFHRUZ4VWxwdGZ6MFVBc1gvaFVyY2hZWkRt?=
- =?utf-8?B?TW1sQ2krZ01adi82K3FUdWFRU3F5SmNxQUVCTEdQZ0FXZDFub2FoNWNvMStG?=
- =?utf-8?B?ZmQ5ZTRyeGdkdk9ReWRPN0pkVVI0QUpFZHlFdVRCYU1uU1dVbmFQNzg4bEht?=
- =?utf-8?B?elI1bFVaSEpmMEJrV3VTYWFSSnltamFiNmZKcEl4RmlFRkRhZURySm9iUmRP?=
- =?utf-8?B?TTBwSUhzWFZrOU0vcTg0VktpTjFFa0xIc1dCVVcxdmRmVEJxWW83T3dZdWVY?=
- =?utf-8?B?clIwSmtCTDlpdG91YUlMMGxZVkhrWExIWWxyZis0VFVnZXNFeWJ4OGxnOThi?=
- =?utf-8?B?VmtzNEwyNzVWUGQrNThGNUNXQkVYS041MlFYMTNIb0F5NzF0TW91N05yVUtC?=
- =?utf-8?B?WS9IaHVCaVRMWUVXYW1vOVQ5SEg4S0QrL0VTUStCME85eFNvTE9JNVZ1blV6?=
- =?utf-8?B?M3MzRktsSXpjOXpBeGJCZmt3WnpIeURJSSs5L3Y4MjRWVzhRVGFjUjhCM2Vv?=
- =?utf-8?B?VDFCV0hhcVJFcWtJd3g4QmhMU011OEVac0dvdFdUaVZLMmdOL1RvcW53N1lL?=
- =?utf-8?B?ZnF2blg2WERZNlBlcWdTVzFpazgwRW9xZkQxZ1A5OGJmUFRTL1VkcGd2OSt6?=
- =?utf-8?B?dm9xckl4amNRR1ZTWWVnN1ZmVE1Bb0FpQ3BoZDdVaFJ2bVY1c2VLbm9XNmNz?=
- =?utf-8?B?d3FRYUMzNWp0K1U1WVBsOXptNVBsT0R5S1JMUEQzTTFTMDBGOHNYT0EvMzVD?=
- =?utf-8?B?QVRVZG1sdjV0SHNjR0NITk5yQTlqaGk3QlVBbjRFbWJIcFlSN1FwZEVkaDVH?=
- =?utf-8?B?cW5iUWxIanphMUVQdlpJUUtFQjJRWW50U1JHZHM2enhhTTR1Z2dYYy9ua2hh?=
- =?utf-8?B?Nmx6Z2grTlFsMy8zN1NTejN3ekMxeitpQlp1SUN2YnJNQklFYXpmQnFtMk5D?=
- =?utf-8?B?Qm1HL1BQUW8vZGhxbmJNNjIxMVl4Tkllb2tWOGtKWUJhb003TVBPSVdJejRa?=
- =?utf-8?B?Z29SenZtYVgveGd5OTA5UEh2bWVITWM1Q3dkbmtQejBiTjZKQUNXbjNGL2FO?=
- =?utf-8?B?c3JCRzdVWDRoRE9DeWM0aDdhVTBCeHc3RGdKd2tmYy9BSi9XYWtmUXo3d1Rp?=
- =?utf-8?B?L0hNY0F6QmRyL1V4NFIwQUd6Mm9WR3kxeSszdDAxQzVFT1R3bFlZRmdtWG5k?=
- =?utf-8?B?TlVDeFY0STBEa3NlV0FrY1hYNUF1TlpyV2E3RzZXSVBkMk9IZEwzUjlEclU5?=
- =?utf-8?B?WkV0NDdFU2h5QVVCdEp4MW5heElualZBaHhCbWQrVEJyTWwwUWlqS0RZZTQw?=
- =?utf-8?B?ZThWRlZ6cHdaWW9GcEZzSmxTUy8vTVJvK2oyV3YrRHdZaVFYQkZKUzF0c1Jt?=
- =?utf-8?Q?2yv5Mi9f+hMYYQ1ItN/x+1CoU?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 650eb29a-d15a-43c1-a02a-08dd8c324855
-X-MS-Exchange-CrossTenant-AuthSource: LO6P265MB6985.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2025 00:09:34.7433
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: cc95de1b-97f5-4f93-b4ba-fe68b852cf91
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SbGr5ZF07nPLvkwx3jfiwesUC0OmQ0y4/f9ADQr1M5DMxVQIlaugKbONghJIIHO5+HSP/X7HvfkzsMma2CZJbQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6160
-X-OriginatorOrg: magd.ox.ac.uk
-X-NTG-DKIM-verify: pass 
+User-Agent: Mozilla Thunderbird
+To: "Paul E. McKenney" <paulmck@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: mchehab+huawei@kernel.org, joel@joelfernandes.org,
+ linux-kernel-mentees@lists.linux.dev, peterz@infradead.org,
+ stern@rowland.harvard.edu, Shuah Khan <skhan@linuxfoundation.org>,
+ Ignacio Encinas Rubio <ignacio@iencinas.com>, lkmm@lists.linux.dev,
+ Marco Elver <elver@google.com>
+References: <837b4d83-b91f-40d1-995a-aa3c5a925b0b@iencinas.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] lkmm: docs: Put LKMM documentation into dev-tools book
+In-Reply-To: <837b4d83-b91f-40d1-995a-aa3c5a925b0b@iencinas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-syzbot found an infoleak bug triggered by the az6027 driver [1].
+Currently, LKMM docs are not included in any of kernel documentation
+books.
 
-In az6027_i2c_xfer, the return value counts the number of messages
-passed to it, when it should count actually executed messages. As a
-result, i2cdev_ioctl_smbus can copy an unwritten buffer to the user.
+Commit e40573a43d16 ("docs: put atomic*.txt and memory-barriers.txt
+into the core-api book") covered plain-text docs under Documentation/
+by using the "include::" directive along with the ":literal:" option.
 
-Introduce a separate return value counter that only counts executed
-messages.
+As LKMM docs are not under Documentation/, the same approach would not
+work due to the limit of the include:: directive. 
 
-[1] https://syzkaller.appspot.com/bug?extid=08b819a87faa6def6dfb
+As a matter of fact, kernel documentation has an extended directive
+by the name of "kernel-include::", which has no such limitation.
 
-Reported-by: syzbot+08b819a87faa6def6dfb@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=08b819a87faa6def6dfb
-Tested-by: syzbot+08b819a87faa6def6dfb@syzkaller.appspotmail.com
-Fixes: 76f9a820c867 ("V4L/DVB: AZ6027: Initial import of the driver")
-Signed-off-by: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
+Rather than moving LKMM docs around, use the latter with source tree's
+abspath passed through via the "SOURCEDIR" variable which is now defined
+in Documentation/Makefile, and make them included in the dev-tools book
+next to KCSAN.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
 ---
-Changes in v2:
-- Added missing Fixes: tag to the commit message.
-- Apologies for the duplicate email; it was sent unintentionally due to
-  an issue with my email client.
----
- drivers/media/usb/dvb-usb/az6027.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+Hi all, [+CC: Marco, due to the relation of KCSAN and LKMM]
 
-diff --git a/drivers/media/usb/dvb-usb/az6027.c b/drivers/media/usb/dvb-usb/az6027.c
-index 056935d3cbd6..be9cbbd4723d 100644
---- a/drivers/media/usb/dvb-usb/az6027.c
-+++ b/drivers/media/usb/dvb-usb/az6027.c
-@@ -957,6 +957,7 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
- 	int length;
- 	u8 req;
- 	u8 *data;
-+	int ret = 0;
- 
- 	data = kmalloc(256, GFP_KERNEL);
- 	if (!data)
-@@ -976,12 +977,13 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
- 			req = 0xBE;
- 			index = 0;
- 			if (msg[i].len < 1) {
--				i = -EOPNOTSUPP;
-+				ret = -EOPNOTSUPP;
- 				break;
- 			}
- 			value = msg[i].buf[0] & 0x00ff;
- 			length = 1;
- 			az6027_usb_out_op(d, req, value, index, data, length);
-+			ret++;
- 		}
- 
- 		if (msg[i].addr == 0xd0) {
-@@ -1001,12 +1003,13 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
- 					msg[i + 1].buf[j] = data[j + 5];
- 
- 				i++;
-+				ret++;
- 			} else {
- 
- 				/* demod 16bit addr */
- 				req = 0xBD;
- 				if (msg[i].len < 1) {
--					i = -EOPNOTSUPP;
-+					ret = -EOPNOTSUPP;
- 					break;
- 				}
- 				index = (((msg[i].buf[0] << 8) & 0xff00) | (msg[i].buf[1] & 0x00ff));
-@@ -1017,6 +1020,7 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
- 					data[j] = msg[i].buf[j + 2];
- 				az6027_usb_out_op(d, req, value, index, data, length);
- 			}
-+			ret++;
- 		}
- 
- 		if (msg[i].addr == 0xc0) {
-@@ -1035,7 +1039,7 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
- 
- 				req = 0xBD;
- 				if (msg[i].len < 1) {
--					i = -EOPNOTSUPP;
-+					ret = -EOPNOTSUPP;
- 					break;
- 				}
- 				index = msg[i].buf[0] & 0x00FF;
-@@ -1048,12 +1052,13 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
- 
- 				az6027_usb_out_op(d, req, value, index, data, length);
- 			}
-+			ret++;
- 		}
- 	}
- 	mutex_unlock(&d->i2c_mutex);
- 	kfree(data);
- 
--	return i;
-+	return ret;
- }
- 
- 
+Without having seen much interest in "reSTructuring" LKMM docs [1],
+I went forward in the direction of literally including them without
+bothering with reST markups.
+
+[1]: https://lore.kernel.org/lkmm/837b4d83-b91f-40d1-995a-aa3c5a925b0b@iencinas.com/
+
+This is more of a PoC of minimal glue/wrappers on top of Paul's dev
+branch which just works for me.
+[doesn't apply cleanly on top of Jon's docs-next due to a queued
+ change in Documentaion/Makefile]
+
+Note that there is *no* change under tools/memory-model/.
+How does this look to you?
+
+        Thanks, Akira
+--
+ Documentation/Makefile                        |  1 +
+ Documentation/dev-tools/index.rst             |  1 +
+ .../dev-tools/lkmm/docs/access-marking.rst    | 11 ++++++++++
+ .../dev-tools/lkmm/docs/cheatsheet.rst        | 11 ++++++++++
+ .../lkmm/docs/control-dependencies.rst        | 11 ++++++++++
+ .../dev-tools/lkmm/docs/explanation.rst       | 11 ++++++++++
+ .../dev-tools/lkmm/docs/glossary.rst          | 11 ++++++++++
+ .../lkmm/docs/herd-representation.rst         | 11 ++++++++++
+ Documentation/dev-tools/lkmm/docs/index.rst   | 21 +++++++++++++++++++
+ .../dev-tools/lkmm/docs/litmus-tests.rst      | 11 ++++++++++
+ Documentation/dev-tools/lkmm/docs/locking.rst | 11 ++++++++++
+ .../dev-tools/lkmm/docs/ordering.rst          | 11 ++++++++++
+ Documentation/dev-tools/lkmm/docs/readme.rst  | 11 ++++++++++
+ Documentation/dev-tools/lkmm/docs/recipes.rst | 11 ++++++++++
+ .../dev-tools/lkmm/docs/references.rst        | 11 ++++++++++
+ Documentation/dev-tools/lkmm/docs/simple.rst  | 11 ++++++++++
+ Documentation/dev-tools/lkmm/index.rst        | 15 +++++++++++++
+ Documentation/dev-tools/lkmm/readme.rst       | 11 ++++++++++
+ MAINTAINERS                                   |  1 +
+ 19 files changed, 193 insertions(+)
+ create mode 100644 Documentation/dev-tools/lkmm/docs/access-marking.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/cheatsheet.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/control-dependencies.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/explanation.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/glossary.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/herd-representation.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/index.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/litmus-tests.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/locking.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/ordering.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/readme.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/recipes.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/references.rst
+ create mode 100644 Documentation/dev-tools/lkmm/docs/simple.rst
+ create mode 100644 Documentation/dev-tools/lkmm/index.rst
+ create mode 100644 Documentation/dev-tools/lkmm/readme.rst
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 63094646df28..988460db1ce1 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -87,6 +87,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+       cmd_sphinx = $(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/userspace-api/media $2 && \
+ 	PYTHONDONTWRITEBYTECODE=1 \
+ 	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(src)/$5/$(SPHINX_CONF)) \
++	SOURCEDIR=$(abspath $(srctree)) \
+ 	$(PYTHON3) $(srctree)/scripts/jobserver-exec \
+ 	$(CONFIG_SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
+ 	$(SPHINXBUILD) \
+diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+index 65c54b27a60b..4b8425e348ab 100644
+--- a/Documentation/dev-tools/index.rst
++++ b/Documentation/dev-tools/index.rst
+@@ -29,6 +29,7 @@ Documentation/process/debugging/index.rst
+    ubsan
+    kmemleak
+    kcsan
++   lkmm/index
+    kfence
+    kselftest
+    kunit/index
+diff --git a/Documentation/dev-tools/lkmm/docs/access-marking.rst b/Documentation/dev-tools/lkmm/docs/access-marking.rst
+new file mode 100644
+index 000000000000..1c11bb86b8ce
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/access-marking.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Access Marking
++--------------
++
++Literal include of ``tools/memory-model/Documentation/access-marking.txt``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/access-marking.txt
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/docs/cheatsheet.rst b/Documentation/dev-tools/lkmm/docs/cheatsheet.rst
+new file mode 100644
+index 000000000000..c510a578a8d1
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/cheatsheet.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Cheatsheet
++----------
++
++Literal include of ``tools/memory-model/Documentation/cheatsheet.txt``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/cheatsheet.txt
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/docs/control-dependencies.rst b/Documentation/dev-tools/lkmm/docs/control-dependencies.rst
+new file mode 100644
+index 000000000000..db18f18f56f7
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/control-dependencies.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Control Dependencies
++--------------------
++
++Literal include of ``tools/memory-model/Documentation/control-dependencies.txt``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/control-dependencies.txt
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/docs/explanation.rst b/Documentation/dev-tools/lkmm/docs/explanation.rst
+new file mode 100644
+index 000000000000..4b4592fb52da
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/explanation.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Explanation
++-----------
++
++Literal include of ``tools/memory-model/Documentation/explanation.txt``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/explanation.txt
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/docs/glossary.rst b/Documentation/dev-tools/lkmm/docs/glossary.rst
+new file mode 100644
+index 000000000000..00376a226675
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/glossary.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Glossary
++--------
++
++Literal include of ``tools/memory-model/Documentation/glossary.txt``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/glossary.txt
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/docs/herd-representation.rst b/Documentation/dev-tools/lkmm/docs/herd-representation.rst
+new file mode 100644
+index 000000000000..2fc4e6e5422b
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/herd-representation.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++herd-representation
++-------------------
++
++Literal include of ``tools/memory-model/Documentation/herd-representation``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/herd-representation.txt
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/docs/index.rst b/Documentation/dev-tools/lkmm/docs/index.rst
+new file mode 100644
+index 000000000000..abbddcc009de
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/index.rst
+@@ -0,0 +1,21 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Documentation
++=============
++
++.. toctree::
++   :maxdepth: 1
++
++   readme
++   simple
++   ordering
++   litmus-tests
++   locking
++   recipes
++   control-dependencies
++   access-marking
++   cheatsheet
++   explanation
++   herd-representation
++   glossary
++   references
+diff --git a/Documentation/dev-tools/lkmm/docs/litmus-tests.rst b/Documentation/dev-tools/lkmm/docs/litmus-tests.rst
+new file mode 100644
+index 000000000000..f1f27c573189
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/litmus-tests.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Litmus Tests
++------------
++
++Literal include of ``tools/memory-model/Documentation/litmus-tests.txt``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/litmus-tests.txt
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/docs/locking.rst b/Documentation/dev-tools/lkmm/docs/locking.rst
+new file mode 100644
+index 000000000000..c396107d2126
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/locking.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Locking
++-------
++
++Literal include of ``tools/memory-model/Documentation/locking.txt``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/locking.txt
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/docs/ordering.rst b/Documentation/dev-tools/lkmm/docs/ordering.rst
+new file mode 100644
+index 000000000000..aef2f1f8ff89
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/ordering.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Ordering
++--------
++
++Literal include of ``tools/memory-model/Documentation/ordering.txt``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/ordering.txt
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/docs/readme.rst b/Documentation/dev-tools/lkmm/docs/readme.rst
+new file mode 100644
+index 000000000000..3353feef52b4
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/readme.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++README (for LKMM Documentation)
++-------------------------------
++
++Literal include of ``tools/memory-model/Documentation/README``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/README
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/docs/recipes.rst b/Documentation/dev-tools/lkmm/docs/recipes.rst
+new file mode 100644
+index 000000000000..a20d114422aa
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/recipes.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Recipes
++-------
++
++Literal include of ``tools/memory-model/Documentation/recipes.txt``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/recipes.txt
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/docs/references.rst b/Documentation/dev-tools/lkmm/docs/references.rst
+new file mode 100644
+index 000000000000..04d3dfe69e3c
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/references.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++References
++----------
++
++Literal include of ``tools/memory-model/Documentation/references.txt``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/references.txt
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/docs/simple.rst b/Documentation/dev-tools/lkmm/docs/simple.rst
+new file mode 100644
+index 000000000000..0372520a43bd
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/docs/simple.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Simple
++------
++
++Literal include of ``tools/memory-model/Documentation/simple.txt``.
++
++------------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/simple.txt
++   :literal:
+diff --git a/Documentation/dev-tools/lkmm/index.rst b/Documentation/dev-tools/lkmm/index.rst
+new file mode 100644
+index 000000000000..e52782449ca3
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/index.rst
+@@ -0,0 +1,15 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============================================
++Linux Kernel Memory Consistency Model (LKMM)
++============================================
++
++This section literally renders documents under ``tools/memory-model/``
++and ``tools/memory-model/Documentation/``, which are maintained in
++the *pure* plain text form.
++
++.. toctree::
++   :maxdepth: 2
++
++   readme
++   docs/index
+diff --git a/Documentation/dev-tools/lkmm/readme.rst b/Documentation/dev-tools/lkmm/readme.rst
+new file mode 100644
+index 000000000000..21ddad3b8fe2
+--- /dev/null
++++ b/Documentation/dev-tools/lkmm/readme.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++README (for LKMM)
++=================
++
++Literal include of ``tools/memory-model/README``.
++
++------------------------------------------------------------
++
++.. kernel-include:: $SOURCEDIR/tools/memory-model/README
++   :literal:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 96b827049501..c95b93e74287 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13714,6 +13714,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git rcu/dev
+ F:	Documentation/atomic_bitops.txt
+ F:	Documentation/atomic_t.txt
+ F:	Documentation/core-api/refcount-vs-atomic.rst
++F:	Documentation/dev-tools/lkmm/
+ F:	Documentation/litmus-tests/
+ F:	Documentation/memory-barriers.txt
+ F:	tools/memory-model/
+
+base-commit: e245fbc31c2450481e83110583793ea2eb51e7f7
 -- 
-2.39.5
+2.43.0
+
 
