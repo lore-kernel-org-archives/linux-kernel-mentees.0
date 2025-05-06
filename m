@@ -1,43 +1,43 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from mail-24418.protonmail.ch (mail-24418.protonmail.ch [109.224.244.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7A5280002
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 May 2025 12:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2C0280000
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 May 2025 12:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746535911; cv=none; b=h9pTcP74xFV27Aupxk8EL0gxazcLHKh8FbyoU3HILrmOgXeynGTxMDI5k7Y30JElz59eRKRZa1M3tKrj4s+NmSIQahKTbrpj9IJslYsypjb6H4c7hjNfcse8WJ5awEdgtWCk9h8PJu8WX5CShDSG+/4TFj9e7nU6dovNT8BGAHQ=
+	t=1746535915; cv=none; b=shD+I1niwBqHsa6/EvXPxtcO0Ghzv3rMJjjcIwHKgMQKGiqCTbJNDfr/ggdTyfwaaFkQJuVuQ8ydHRXtQK8NtXT42zMoJGDWyqMf0rmkdTZ87ZT8v+Mkxq7vVNbL2y/N8pWQIZFxUh/ZNA8RfRiQg+6rGLFAtgJD1teTK6EC0Ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746535911; c=relaxed/simple;
-	bh=XwcK4xNdJ5bqnZI9n1Ki4hOFLIohBhzddbgDl9oczSs=;
+	s=arc-20240116; t=1746535915; c=relaxed/simple;
+	bh=zK9w9rIJY/9mYRo0HXp9qe6o+/wCX4Pdi5dv42T1IzQ=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gTRyV5NLZS9E/ChRD2kOCs7sc5MD/xbgSCsSl4CA82wEUP5Iuf1el6eKmlZrpKI8t83V+TFK196GcFouIzfKoIfSRSbl/z6Rbe278Xcv6Zt8vT4h07u3IQDOjLs9F60klXQzIb/GcpZ3cBANuHWMtTK5K/rP4B0PDcL4KcEsf3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=xriuQwmg; arc=none smtp.client-ip=185.70.43.16
+	 MIME-Version:Content-Type; b=kTFR7QaMR+vmWHEcOKKziJ+7NenGuSJnflEp3SG0Bs7G56H4Rl8hzLLHqxESZ6Z+mxsXiQ6n0l7Q5mA2RFheKTQAL6KDXcll9nMHeOZGGPXg1vZRtQeKlAeKOY8OgInbZsm/5QgvzPujlIc9ly1aKWZEwzXEdtBkL07nZTGKuqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=Kf3Te0Yh; arc=none smtp.client-ip=109.224.244.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="xriuQwmg"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="Kf3Te0Yh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1746535907; x=1746795107;
-	bh=XwcK4xNdJ5bqnZI9n1Ki4hOFLIohBhzddbgDl9oczSs=;
+	s=protonmail3; t=1746535912; x=1746795112;
+	bh=zzBJeXUf0V8P3H7TLaYvoaJ0zwNJmLoh71eDPNoDAJo=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=xriuQwmgfNo5DJYwsgvwXvgfFBiWmCAPaxQdVdukMugEO9rR5CTpY8eU3pRNj1f9x
-	 naLNfbifRO65P3pmphcdCQfj01iN+4Nl0BzL3XCzMDveTZTTf2KiQ7WQAXfq6oeH0r
-	 VW5A9adatchp3fDbcA59DQeQkLrWtaWzBcO1incMCbLxhDtvmopzRobokwGufC7sn+
-	 W6SvnuXs0Nj4vGf78CECa5asUyKLXZri45ydxvnOeRdcVTvhLb6et67k4SsgqBimgl
-	 aM8a2Wf0WxrrlKy35DnJCNnlzoM8M1qpgPDUhulOq36d6LRBRBUvdWA5gejYMuYv4G
-	 CPwtRcrehi+fQ==
-Date: Tue, 06 May 2025 12:51:42 +0000
+	b=Kf3Te0YhCqJrqtUsS5gb51nXR8axsPP1nqL+iDY8TkMgQdzoCkx6O2c0UQU+0a+Jr
+	 BHDQXEHA5FizNcgY8qlaulNEZ2XnQYRJSf4y6zfCu2/xeV2cjbT6eOg5+t+ww8NQ70
+	 6ARuZu6ks9LXXszW5NUPrrnwa8AtbI4UxNoQDGj/UmWnq9ueKMvr6rHpD6RsgpvmCM
+	 csM0jyxT3JMaWjMCYM6yXRrDR14iijkd8rQ8w+Bwi3gGvX6sBe6Nxpw+58KOxgz6Pz
+	 +f3+32rXAd3cbOI9scolGovSLPCP93xmhxKq6FyjZM10Tx+Y8hPn3GkvRAqzrVKq6q
+	 xLijbJzpPLOFw==
+Date: Tue, 06 May 2025 12:51:48 +0000
 To: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, jason.wessel@windriver.com, danielt@kernel.org, dianders@chromium.org, jirislaby@kernel.org
 From: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
 Cc: kgdb-bugreport@lists.sourceforge.net, linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: [RFC PATCH 1/2] driver core: faux: create the device if probe() is deferred too
-Message-ID: <20250506125133.108786-2-nicolescu.roxana@protonmail.com>
+Subject: [RFC PATCH 2/2] serial: kgdboc: convert to use faux_device
+Message-ID: <20250506125133.108786-3-nicolescu.roxana@protonmail.com>
 In-Reply-To: <20250506125133.108786-1-nicolescu.roxana@protonmail.com>
 References: <20250506125133.108786-1-nicolescu.roxana@protonmail.com>
 Feedback-ID: 136600343:user:proton
-X-Pm-Message-ID: 015bbc2fe70bde887f946c07da822d9b7a6c0ae5
+X-Pm-Message-ID: fd5abac4492e3841c902f5b9b7f60d650c2de90c
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -47,66 +47,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-There are situations when the faux device is probed, it waits for the
-availability for another piece of hardware. In case this dependency is not
-available, it can return -EPROBE_DEFER and probe will be retried later.
-But, with the current implementation, probe won't be retried at all
-because we destroyed the faux device in case probe did not return 0 and
-therefore the device is binded to the driver.
+The kgdboc uses a "fake" platform device to handle tty drivers showing
+up late. In case the tty device is not detected during probe, it will
+return EPROBE_DEFER which means the probe will be called later when the
+tty device might be there. Before this, the kgdboc driver
+would be initialized early in the process (useful for early boot
+debugging) but then the tty device wouldn't be there, and retry wouldn't be
+done later. For a better explanation, see commit
+'68e55f61c138: ("kgdboc: Use a platform device to handle tty drivers
+showing up late")'.
 
-To solve this, the faux device creation fails only when probe failed with
-something other than -EPROBE_DEFER. In order to achieve this, a boolean
-var is used in struct faux_object.
+This replaces the platform_device usage with faux_device which was
+introduced recently for scenarios like this, where there is not real
+platform device needed. Moreover, it makes the code cleaner than before.
 
 Signed-off-by: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
 ---
- drivers/base/faux.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/tty/serial/kgdboc.c | 50 +++++++++++--------------------------
+ 1 file changed, 14 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/base/faux.c b/drivers/base/faux.c
-index 407c1d1aad50..21e385631872 100644
---- a/drivers/base/faux.c
-+++ b/drivers/base/faux.c
-@@ -25,6 +25,7 @@
- struct faux_object {
- =09struct faux_device faux_dev;
- =09const struct faux_device_ops *faux_ops;
-+=09bool probe_successed_or_deferred;
- };
- #define to_faux_object(dev) container_of_const(dev, struct faux_object, fa=
-ux_dev.dev)
+diff --git a/drivers/tty/serial/kgdboc.c b/drivers/tty/serial/kgdboc.c
+index 85f6c5a76e0f..d1ffe6186685 100644
+--- a/drivers/tty/serial/kgdboc.c
++++ b/drivers/tty/serial/kgdboc.c
+@@ -21,7 +21,7 @@
+ #include <linux/input.h>
+ #include <linux/irq_work.h>
+ #include <linux/module.h>
+-#include <linux/platform_device.h>
++#include <linux/device/faux.h>
+ #include <linux/serial_core.h>
 =20
-@@ -48,6 +49,8 @@ static int faux_probe(struct device *dev)
- =09if (faux_ops && faux_ops->probe)
- =09=09ret =3D faux_ops->probe(faux_dev);
+ #define MAX_CONFIG_LEN=09=0940
+@@ -42,7 +42,7 @@ static int kgdboc_use_kms;  /* 1 if we use kernel mode sw=
+itching */
+ static struct tty_driver=09*kgdb_tty_driver;
+ static int=09=09=09kgdb_tty_line;
 =20
-+=09faux_obj->probe_successed_or_deferred =3D !ret || ret =3D=3D -EPROBE_DE=
-FER;
-+
+-static struct platform_device *kgdboc_pdev;
++static struct faux_device *kgdboc_fdev;
+=20
+ #if IS_BUILTIN(CONFIG_KGDB_SERIAL_CONSOLE)
+ static struct kgdb_io=09=09kgdboc_earlycon_io_ops;
+@@ -259,7 +259,7 @@ static int configure_kgdboc(void)
+ =09return err;
+ }
+=20
+-static int kgdboc_probe(struct platform_device *pdev)
++static int kgdboc_probe(struct faux_device *fdev)
+ {
+ =09int ret =3D 0;
+=20
+@@ -276,47 +276,26 @@ static int kgdboc_probe(struct platform_device *pdev)
  =09return ret;
  }
 =20
-@@ -150,12 +153,13 @@ struct faux_device *faux_device_create_with_groups(co=
-nst char *name,
- =09}
+-static struct platform_driver kgdboc_platform_driver =3D {
++struct faux_device_ops kgdboc_driver =3D {
+ =09.probe =3D kgdboc_probe,
+-=09.driver =3D {
+-=09=09.name =3D "kgdboc",
+-=09=09.suppress_bind_attrs =3D true,
+-=09},
+ };
+=20
+ static int __init init_kgdboc(void)
+ {
+-=09int ret;
 =20
  =09/*
--=09 * Verify that we did bind the driver to the device (i.e. probe worked)=
-,
-+=09 * Verify that we either did bind the driver to the device (i.e. probe =
-worked),
-+=09 * or probe is deferred and tried later,
- =09 * if not, let's fail the creation as trying to guess if probe was
- =09 * successful is almost impossible to determine by the caller.
+-=09 * kgdboc is a little bit of an odd "platform_driver".  It can be
+-=09 * up and running long before the platform_driver object is
+-=09 * created and thus doesn't actually store anything in it.  There's
+-=09 * only one instance of kgdb so anything is stored as global state.
+-=09 * The platform_driver is only created so that we can leverage the
++=09 * There's only one instance of kgdb so anything is stored as global
++=09 * state.
++=09 * The faux_device is only created so that we can leverage the
+ =09 * kernel's mechanisms (like -EPROBE_DEFER) to call us when our
+-=09 * underlying tty is ready.  Here we init our platform driver and
+-=09 * then create the single kgdboc instance.
++=09 * underlying tty is ready. Here we init our faux device kgdboc
++=09 * instance.
  =09 */
--=09if (!dev->driver) {
--=09=09dev_err(dev, "probe did not succeed, tearing down the device\n");
-+=09if (!faux_obj->probe_successed_or_deferred) {
-+=09=09dev_err(dev, "probe did not succeed and it's not deferred, tearing d=
-own the device\n");
- =09=09faux_device_destroy(faux_dev);
- =09=09faux_dev =3D NULL;
- =09}
+-=09ret =3D platform_driver_register(&kgdboc_platform_driver);
+-=09if (ret)
+-=09=09return ret;
+-
+-=09kgdboc_pdev =3D platform_device_alloc("kgdboc", PLATFORM_DEVID_NONE);
+-=09if (!kgdboc_pdev) {
+-=09=09ret =3D -ENOMEM;
+-=09=09goto err_did_register;
+-=09}
++=09kgdboc_fdev =3D faux_device_create("kgdboc", NULL, &kgdboc_driver);
++=09if (!kgdboc_fdev)
++=09=09return -ENOMEM;
+=20
+-=09ret =3D platform_device_add(kgdboc_pdev);
+-=09if (!ret)
+-=09=09return 0;
+-
+-=09platform_device_put(kgdboc_pdev);
+-
+-err_did_register:
+-=09platform_driver_unregister(&kgdboc_platform_driver);
+-=09return ret;
++=09return 0;
+ }
+=20
+ static void exit_kgdboc(void)
+@@ -325,8 +304,7 @@ static void exit_kgdboc(void)
+ =09cleanup_kgdboc();
+ =09mutex_unlock(&config_mutex);
+=20
+-=09platform_device_unregister(kgdboc_pdev);
+-=09platform_driver_unregister(&kgdboc_platform_driver);
++=09faux_device_destroy(kgdboc_fdev);
+ }
+=20
+ static int kgdboc_get_char(void)
 --=20
 2.34.1
 
