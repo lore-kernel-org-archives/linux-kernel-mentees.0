@@ -1,40 +1,40 @@
-Received: from mail-24417.protonmail.ch (mail-24417.protonmail.ch [109.224.244.17])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965B1277036
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 May 2025 11:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9FD27FB0C
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 May 2025 12:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746529222; cv=none; b=UgsLabQpzngH/bYY0X54jeN4UpuTyNAhQgJL6zLJW8vVtDoO01ZQ5ETWrs0J2iR2xpS6WzmW3UUDe3sa2UcU3yFhpS8d7Lb9d3VBoo/06u4d4WXYVs1eZ/ByKUBfwF7QkMzFbWRQBOd1Rc8nFrMh5ZTj0GTOrCQqJpEhLY3HIxI=
+	t=1746535907; cv=none; b=mq/DnOhMYN/vRgQkk8IPrABAK4nCjym8UVnE8EPw3S2RtwAjmL4OAKF1Wl3ub9veIb4r+ZfbvGi8FSWgHSEbQ2qSff7cV17wcnPWy3DHI43f7ncrwsA+yA3WNaOHiX3zRVYpy6LCcaqU/ARIw0UXhr8qpA1s2nPCUIAu+SJRJ/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746529222; c=relaxed/simple;
-	bh=2FK34TDVpzFxuDR64LSb5BuRqCCt3kIA//1O9qEW4d8=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hn8l6XVobyMBKNUcePVY750+Zl0dCt/vpILNEgEUg4Ij4BHLN19rFQYuiZ2Dm0yngCoZBCprxz6nkMIiZEP5jxKl+kIYyBeplTHlT1vXIti7vdhAOysyhUQmauca50nGYHzR13lFOWrzxY1Qg5L2raqoFJWS9ZOjR9TDFQMJjqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=Noq5Z0Tj; arc=none smtp.client-ip=109.224.244.17
+	s=arc-20240116; t=1746535907; c=relaxed/simple;
+	bh=UdxC2W3mb0RSsOAh3jcVexeroYMpLSLZI12XCkxa2nY=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Iy9ViSAfkTJcY94diBHsXHrENP+qfItGNXpjT1q4iQQyVgHUYoaP3p9qQBLL45SEBJmPpFioV5k3yM+Lkxxmneowcc+9s7ZuxbMvWpD9aksMcMeXHX/VR/LAnGEQT68unjipFQ4MvQm+J9y7Exsaw481oP8lQyKxXHm8OCd1Aoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=nyIYz6fX; arc=none smtp.client-ip=185.70.43.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="Noq5Z0Tj"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="nyIYz6fX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1746529212; x=1746788412;
-	bh=jpbwGmjDsaT++Arg0RH1dhnTlcrqhXSMrEFZw5Kex8Y=;
+	s=protonmail3; t=1746535901; x=1746795101;
+	bh=6w1E0JQK4vGVijywC0hPfVOEZE2BTKLrnsyaHr2oPWY=;
 	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
 	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
 	 List-Unsubscribe:List-Unsubscribe-Post;
-	b=Noq5Z0TjP3hX/LInB6+ydx5V1REriPGupC4pjn9V7Mtw/8FD+k8vlXhCkQe6is96T
-	 mOW5JEC3M6ilsp9OiZI+TkMpHE648gFlGS55xxRobG9dFK+hlYNAUbNgIL6+YO4wFj
-	 VBoH7ynLu/v+rYFZ4P/gTgwdkicE4ONIODFyXfroEd5DxQAOqCMqSLMBpQ0BPmB3PO
-	 hMow19dPemF+7AlHvuHsjHjKtqbM06PAZPT2NdR9e1GkHoUQKMtkGshyAD5zVgA6g9
-	 zH3jGRxxNX/KBjPi/eBC43n3sbuxf+lBBw/D7QrTXzQZRHIE9+87sB9WHzTtZzolWO
-	 H930am1hdhfJw==
-Date: Tue, 06 May 2025 11:00:07 +0000
-To: eric.piel@tremplin-utc.net, corbet@lwn.net, gregkh@linuxfoundation.org, arnd@arndb.de, linux-kernel@vger.kernel.org
+	b=nyIYz6fXiP16PPYh3rAlC+1UTsdTS+yqCeGAdAJ5t3flNA5Actd3BAoczC9DfLNy9
+	 /l8gm0w8Ad8rU5Y8+Hwdxwlco4Z25QigmvoEzrXLGHNEToQmC4PD4YPXWJkoIWdkY7
+	 p+OGTYVjNgroqtWf9lwFZO6Pw5icEpco5FJx/8VY9WEZ4Qw2V9Gxa/hYPzMuAQG7Ll
+	 hlOPCojED6PmzQDzYUuNCovMzPdJ2YvjC+m6aayiO4iAonwvaLGNWtA3InBgjG9+1m
+	 U1dhmHnjpGh6CgoqtvTGR81fGvlsETWqUH5a3axtD+o269BM7qLZGbaEz3yZzkyskV
+	 reAE9XczqdgzA==
+Date: Tue, 06 May 2025 12:51:36 +0000
+To: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, jason.wessel@windriver.com, danielt@kernel.org, dianders@chromium.org, jirislaby@kernel.org
 From: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] misc: lis3lv02d: Fix correct sysfs directory path for lis3lv02d
-Message-ID: <20250506110002.36477-1-nicolescu.roxana@protonmail.com>
+Cc: kgdb-bugreport@lists.sourceforge.net, linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: [RFC PATCH 0/2] serial: kgdboc: convert to the faux device interface
+Message-ID: <20250506125133.108786-1-nicolescu.roxana@protonmail.com>
 Feedback-ID: 136600343:user:proton
-X-Pm-Message-ID: ae345caf53851cecc608073d0b98aff61ba09938
+X-Pm-Message-ID: 67af8fe5938cbd91a2c9f36bf7adce301daa31d9
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -44,74 +44,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-The lis3lv02d driver does not create a platform device anymore. It was
-recently changed to use a faux device instead. Therefore the sysfs path
-has changed from /sys/devices/platform/lis3lv02d to
-/sys/devices/faux/lis3lv02d.
+The kgdboc uses a "fake" platform device to handle tty drivers showing
+up late. In case the tty device is not detected during probe, it will
+return EPROBE_DEFER which means the probe will be called later when the
+tty device might be there. Before this, the kgdboc driver
+would be initialized early in the process (useful for early boot
+debugging) but then the tty device wouldn't be there, and retry wouldn't be
+done later. For a better explanation, see commit
+'68e55f61c138: ("kgdboc: Use a platform device to handle tty drivers
+showing up late")'.
 
-Fixes: 3b18ccb5472b ("misc: lis3lv02d: convert to use faux_device")
-Signed-off-by: Roxana Nicolescu <nicolescu.roxana@protonmail.com>
----
- Documentation/misc-devices/lis3lv02d.rst | 6 +++---
- drivers/misc/lis3lv02d/Kconfig           | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+This replaces the platform_device usage with faux_device which was
+introduced recently for scenarios like this, where there is not real
+platform device needed. Moreover, it makes the code cleaner than before.
 
-diff --git a/Documentation/misc-devices/lis3lv02d.rst b/Documentation/misc-=
-devices/lis3lv02d.rst
-index 959bd2b822cf..6b3b7405ebdf 100644
---- a/Documentation/misc-devices/lis3lv02d.rst
-+++ b/Documentation/misc-devices/lis3lv02d.rst
-@@ -22,10 +22,10 @@ sporting the feature officially called "HP Mobile Data =
-Protection System 3D" or
- models (full list can be found in drivers/platform/x86/hp_accel.c) will ha=
-ve
- their axis automatically oriented on standard way (eg: you can directly pl=
-ay
- neverball). The accelerometer data is readable via
--/sys/devices/platform/lis3lv02d. Reported values are scaled
-+/sys/devices/faux/lis3lv02d. Reported values are scaled
- to mg values (1/1000th of earth gravity).
-=20
--Sysfs attributes under /sys/devices/platform/lis3lv02d/:
-+Sysfs attributes under /sys/devices/faux/lis3lv02d/:
-=20
- position
-       - 3D position that the accelerometer reports. Format: "(x,y,z)"
-@@ -85,7 +85,7 @@ the accelerometer are converted into a "standard" organis=
-ation of the axes
- If your laptop model is not recognized (cf "dmesg"), you can send an
- email to the maintainer to add it to the database.  When reporting a new
- laptop, please include the output of "dmidecode" plus the value of
--/sys/devices/platform/lis3lv02d/position in these four cases.
-+/sys/devices/faux/lis3lv02d/position in these four cases.
-=20
- Q&A
- ---
-diff --git a/drivers/misc/lis3lv02d/Kconfig b/drivers/misc/lis3lv02d/Kconfi=
-g
-index bb2fec4b5880..56005243a230 100644
---- a/drivers/misc/lis3lv02d/Kconfig
-+++ b/drivers/misc/lis3lv02d/Kconfig
-@@ -10,7 +10,7 @@ config SENSORS_LIS3_SPI
- =09help
- =09  This driver provides support for the LIS3LV02Dx accelerometer connect=
-ed
- =09  via SPI. The accelerometer data is readable via
--=09  /sys/devices/platform/lis3lv02d.
-+=09  /sys/devices/faux/lis3lv02d.
-=20
- =09  This driver also provides an absolute input class device, allowing
- =09  the laptop to act as a pinball machine-esque joystick.
-@@ -26,7 +26,7 @@ config SENSORS_LIS3_I2C
- =09help
- =09  This driver provides support for the LIS3LV02Dx accelerometer connect=
-ed
- =09  via I2C. The accelerometer data is readable via
--=09  /sys/devices/platform/lis3lv02d.
-+=09  /sys/devices/faux/lis3lv02d.
-=20
- =09  This driver also provides an absolute input class device, allowing
- =09  the device to act as a pinball machine-esque joystick.
+To acomodate this, I had to change the faux_device implementation. When
+the device is created, if probe failed and the driver did not bind to the
+device, it will be destroyed, therefore probe won't be retried later in
+case of EPROBE_DEFER. Now, the faux device is destroyed only if probe
+failed with something other than -EPROBE_DEFER.
+
+I am kindly asking for your advice here, because I am not sure this is
+100% the intended usage of faux_device. In the kgdboc driver, the
+platform device is for sure fake, but if we're gonna use it for deferred
+probe, isn't it defeating the purpose of a faux device not being
+attached to real hardware? I also checked the previous discussions when
+the faux device was introduced and some people even argue than having
+probe and remove functions is also a bit contradictory.
+Let me know what you think.
+
+Roxana Nicolescu (2):
+  driver core: faux: create the device if probe() is deferred too
+  serial: kgdboc: convert to use faux_device
+
+ drivers/base/faux.c         | 10 +++++---
+ drivers/tty/serial/kgdboc.c | 50 +++++++++++--------------------------
+ 2 files changed, 21 insertions(+), 39 deletions(-)
+
 --=20
 2.34.1
 
