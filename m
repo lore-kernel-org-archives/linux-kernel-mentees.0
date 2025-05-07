@@ -1,463 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C208C0E;
-	Wed,  7 May 2025 00:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59648288C31
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  7 May 2025 13:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746576454; cv=none; b=Og2H9BlcMhQE2sykPZYIq3y7h0CPl3bHyu0TCiyO4UxXyy2krHnhFKkWKvfmKjHdwuNlcB3XCyT+7Cf+yI6AIg/QpYDmpexpUNeAZCtUKHEBVQjBCvkjJPa8hKyVMUHzVuYc09u/5Kp/uXsbpzq/KwwAJQMA+9Roor5bjAdIw9w=
+	t=1746625135; cv=none; b=iGXW7ygt9Layawp7tXjv4apEdEnNR247a7w7Z2wBbyTq3tVpax1wPQiTR0kpClyp1bgKiM1oKECCDEZ8uxkrUHIgi3ExZeEpZ2tnIiLF9Slnz/W7Ve2cwsrRhtHHmqFqJv/qu9DChrfIAGW7ItmoOoW0c2Kbz4cpbo+feZ8bicI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746576454; c=relaxed/simple;
-	bh=zcwWlEbqolEIZtSBsil+2/5HwIxmkkaYBt6tSIcRpyM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sgEcoSxXUU6Y0vWjC9iaeNEdWYLEQTOlfhte1EFf5ogSjUrU+MuTudQ+yphoCrmkJjOAv1++T5RNSEi2gIufqTq/dS3MW4Nf3KE6328oSe1G7Anu4SXt0wyDudbqfoZ3QDyW2cFezZG3n7+1bPewWKS3ErsiFXCA5rqP62/ob8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lX9iWpar; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746625135; c=relaxed/simple;
+	bh=LfNP7WJnwi+phkB8AdTkI2n6mePHkoApep398h3RGrQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NcgO6qsD4FwBLzBd3y121CO2x0O5clshFIUmm8mBMAV0wtsO6xNp6wJSGvovetymmhBqATT3dx8/7HRs1DLsD+dpJpowIU2mBd4RE3y8W3n6+S2NbhUElS2jiu4INKDYVTikhKkotjGZDR1yyqS1EPZEnXddY3h79GNDHf2gpP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RHPvn6HF; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lX9iWpar"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B18BC4CEE4;
-	Wed,  7 May 2025 00:07:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746576453;
-	bh=zcwWlEbqolEIZtSBsil+2/5HwIxmkkaYBt6tSIcRpyM=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=lX9iWpargfYQwD0clpzLBNyJqxJb9eQoDZf6+uuaaQozfJz6dDgd+JGqdwKObRaA6
-	 QAo4lMzrS2/knwAfyM+ZhmCHOFUK13v5GPERztOLuvkcp2/mAiAmXG7gq/1mMVmW74
-	 45rzjJUsy+NLBPge8yAesD83bLFteXs/lRTKgS8+kPSSkMsBb3a+pBZ6UHomlEFhUX
-	 WlBovJ2NTVE86QiSv1Ksn+XXUuVjjem3CQX4EDH0Yn9kv/Tr2+YyMjGHVCQQBwpe11
-	 sTc+dg6IzajCrKPDYkrf7+K1oMKLr+kB10fVU6JrNVxLowvuibMOJxHvUilbnI6ibg
-	 maX/XCuKnHHaA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 29103CE1FCA; Tue,  6 May 2025 17:07:33 -0700 (PDT)
-Date: Tue, 6 May 2025 17:07:33 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, mchehab+huawei@kernel.org,
-	joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
-	peterz@infradead.org, stern@rowland.harvard.edu,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ignacio Encinas Rubio <ignacio@iencinas.com>, lkmm@lists.linux.dev,
-	Marco Elver <elver@google.com>
-Subject: Re: [PATCH] lkmm: docs: Put LKMM documentation into dev-tools book
-Message-ID: <855f6cd0-dc1d-47df-a9c0-ddf9948fa212@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <837b4d83-b91f-40d1-995a-aa3c5a925b0b@iencinas.com>
- <015198be-1f23-4fc9-ba58-be7c48550f36@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RHPvn6HF"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id E069760869
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  7 May 2025 13:38:53 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id OR12whYV92hq for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  7 May 2025 13:38:53 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::12b; helo=mail-lf1-x12b.google.com; envelope-from=devaanshk840@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org D10EB60EED
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D10EB60EED
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=RHPvn6HF
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D10EB60EED
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  7 May 2025 13:38:52 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-54d65cb6e8aso8818508e87.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 07 May 2025 06:38:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746625130; x=1747229930; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OD/yxQNBXIGY/VHqYV6OisAoQh685n5/Owltr5spKgw=;
+        b=RHPvn6HFcQMa9RcKLd1C/eQTrXJbTJFDeTuN9UQbP2aUAzFA4e2TXkbX8YDTmOjN8q
+         1y3QIiMXR7FGrsp1oaEXmHxCrWChrcbbKCPUNuihZMljVy5JaT0zyRbglqBYAYz0sXkA
+         ygbRj/JGSD0QWsUG3OgWVhlqRTLYIkbrmpKNRBKtpGVSFEDE4LJYt/92DE3nc0+SR4kW
+         ekjYZv8eKbTCgzTzO4YuuaiYFBU6pyTpXyEpzvz3BiGQGC2NgLnJFMLgZTl0gu6eRhrk
+         bZ7+/pEHbKmXfYFdrOdqQKeZ6G5qtmqsYsaP9aa/3YfW9k+8NWo1J4cbKGe5pBH2WVwm
+         tJsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746625130; x=1747229930;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OD/yxQNBXIGY/VHqYV6OisAoQh685n5/Owltr5spKgw=;
+        b=C++GrmMuHKRG4yHmfqTnr3ncZEwLPDti5/GFgLVhtWZoBwKvLedEukYhiX7HSe9Ip9
+         g+78heNrx+7vkSjjwvHhJPImn38Jgge/mJFfm7IEYPwpZ7xUKprSHhH0MRQFPa/ZJmCB
+         Ssv3PA/EOksXs6kmbF8Ccpr4zSYSyGlPADVbyLs9GulkLQ5FaauUbjMxLZqMY5S1nK4D
+         5LUJrjN7wHxK3UCYssb0oh7UTDDcDt9JFMgOgnUm6lz4gFrCNWAGFztORA6HOHSqf/O5
+         I3LZode1aiTCJaVIn/EL0MVKcgHeN/Mvf5bZuSklh2F07AvE+87AgmERInFTXo3+N5nr
+         /mQg==
+X-Forwarded-Encrypted: i=1; AJvYcCXP/M9lpLSA6NguET4ZrhwcaYeSFP6bAKtSUCHtbslIQZ6aY1EPyRa98cg9hChsG+/b8wcBDdJavwFkXNSG45oz4ApycQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yzcjpb0PtsN+A3W5v7xDZcBtb0D5ttBRfRZQ95D6TQ1XGcNLoNL
+	cHYHQuiv+9kITzxSBvxdbU7c7ngJRfSLBYgH0Ls9vYgbpLE+B1g1
+X-Gm-Gg: ASbGnctKD2CaMFLyMsg/f1lH9YhG5bFaBz2F7cr4Y4323mMmOXRMMoUrhyP3Zxb7VqV
+	9VrLAtuaBmcmOdo8FJjsZ2Rp+5KozWjCggFLe4P99NlAX6iBDl66vWv/+c+/F9+P3SuCOz/GG1b
+	59EjAgrkKH8daxn6iC3NpIaxCIxmWIdGjHhclZ4AexlXMU4AAybHeYlmkE/UvwteYDKlobHVQGO
+	Yl2WJOOXHOeYLJEzZoxsv4tsLAXhtxa+TIbND18PpGnugCwFo16ud18V0Io5Vy5yisKYgPidndk
+	KGKhfsNJvLqhW6rXt+3NxkZ6PrzgxQL+NI5HqpU=
+X-Google-Smtp-Source: AGHT+IE7OuUNY21KuuPCZDuP+BcZV7oI8FYP8VyCZ4PN2pl4RI2QdeBd+BN8VNJT1RoUI1Io7w0QGw==
+X-Received: by 2002:ac2:5693:0:b0:54a:cc07:4091 with SMTP id 2adb3069b0e04-54fb928f00emr1141623e87.2.1746625130185;
+        Wed, 07 May 2025 06:38:50 -0700 (PDT)
+Received: from fedora.. ([37.131.106.85])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ea94bf0cesm2348836e87.57.2025.05.07.06.38.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 May 2025 06:38:49 -0700 (PDT)
+From: Devaansh Kumar <devaanshk840@gmail.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com
+Cc: Devaansh Kumar <devaanshk840@gmail.com>,
+	linux-trace-kernel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [RESEND PATCH v5] tracing: Replace deprecated strncpy() with strscpy() for stack_trace_filter_buf
+Date: Wed,  7 May 2025 19:08:36 +0530
+Message-ID: <20250507133837.19640-1-devaanshk840@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <015198be-1f23-4fc9-ba58-be7c48550f36@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 06, 2025 at 11:50:08AM +0900, Akira Yokosawa wrote:
-> Currently, LKMM docs are not included in any of kernel documentation
-> books.
-> 
-> Commit e40573a43d16 ("docs: put atomic*.txt and memory-barriers.txt
-> into the core-api book") covered plain-text docs under Documentation/
-> by using the "include::" directive along with the ":literal:" option.
-> 
-> As LKMM docs are not under Documentation/, the same approach would not
-> work due to the limit of the include:: directive. 
-> 
-> As a matter of fact, kernel documentation has an extended directive
-> by the name of "kernel-include::", which has no such limitation.
-> 
-> Rather than moving LKMM docs around, use the latter with source tree's
-> abspath passed through via the "SOURCEDIR" variable which is now defined
-> in Documentation/Makefile, and make them included in the dev-tools book
-> next to KCSAN.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> ---
-> Hi all, [+CC: Marco, due to the relation of KCSAN and LKMM]
-> 
-> Without having seen much interest in "reSTructuring" LKMM docs [1],
-> I went forward in the direction of literally including them without
-> bothering with reST markups.
-> 
-> [1]: https://lore.kernel.org/lkmm/837b4d83-b91f-40d1-995a-aa3c5a925b0b@iencinas.com/
-> 
-> This is more of a PoC of minimal glue/wrappers on top of Paul's dev
-> branch which just works for me.
-> [doesn't apply cleanly on top of Jon's docs-next due to a queued
->  change in Documentaion/Makefile]
-> 
-> Note that there is *no* change under tools/memory-model/.
-> How does this look to you?
+strncpy() is deprecated for NUL-terminated destination buffers and must
+be replaced by strscpy().
 
-Looks fine to me!
+See issue: https://github.com/KSPP/linux/issues/90
 
-							Thanx, Paul
+Signed-off-by: Devaansh Kumar <devaanshk840@gmail.com>
+---
 
->         Thanks, Akira
-> --
->  Documentation/Makefile                        |  1 +
->  Documentation/dev-tools/index.rst             |  1 +
->  .../dev-tools/lkmm/docs/access-marking.rst    | 11 ++++++++++
->  .../dev-tools/lkmm/docs/cheatsheet.rst        | 11 ++++++++++
->  .../lkmm/docs/control-dependencies.rst        | 11 ++++++++++
->  .../dev-tools/lkmm/docs/explanation.rst       | 11 ++++++++++
->  .../dev-tools/lkmm/docs/glossary.rst          | 11 ++++++++++
->  .../lkmm/docs/herd-representation.rst         | 11 ++++++++++
->  Documentation/dev-tools/lkmm/docs/index.rst   | 21 +++++++++++++++++++
->  .../dev-tools/lkmm/docs/litmus-tests.rst      | 11 ++++++++++
->  Documentation/dev-tools/lkmm/docs/locking.rst | 11 ++++++++++
->  .../dev-tools/lkmm/docs/ordering.rst          | 11 ++++++++++
->  Documentation/dev-tools/lkmm/docs/readme.rst  | 11 ++++++++++
->  Documentation/dev-tools/lkmm/docs/recipes.rst | 11 ++++++++++
->  .../dev-tools/lkmm/docs/references.rst        | 11 ++++++++++
->  Documentation/dev-tools/lkmm/docs/simple.rst  | 11 ++++++++++
->  Documentation/dev-tools/lkmm/index.rst        | 15 +++++++++++++
->  Documentation/dev-tools/lkmm/readme.rst       | 11 ++++++++++
->  MAINTAINERS                                   |  1 +
->  19 files changed, 193 insertions(+)
->  create mode 100644 Documentation/dev-tools/lkmm/docs/access-marking.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/cheatsheet.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/control-dependencies.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/explanation.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/glossary.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/herd-representation.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/index.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/litmus-tests.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/locking.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/ordering.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/readme.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/recipes.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/references.rst
->  create mode 100644 Documentation/dev-tools/lkmm/docs/simple.rst
->  create mode 100644 Documentation/dev-tools/lkmm/index.rst
->  create mode 100644 Documentation/dev-tools/lkmm/readme.rst
-> 
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 63094646df28..988460db1ce1 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -87,6 +87,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
->        cmd_sphinx = $(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/userspace-api/media $2 && \
->  	PYTHONDONTWRITEBYTECODE=1 \
->  	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(src)/$5/$(SPHINX_CONF)) \
-> +	SOURCEDIR=$(abspath $(srctree)) \
->  	$(PYTHON3) $(srctree)/scripts/jobserver-exec \
->  	$(CONFIG_SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
->  	$(SPHINXBUILD) \
-> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-> index 65c54b27a60b..4b8425e348ab 100644
-> --- a/Documentation/dev-tools/index.rst
-> +++ b/Documentation/dev-tools/index.rst
-> @@ -29,6 +29,7 @@ Documentation/process/debugging/index.rst
->     ubsan
->     kmemleak
->     kcsan
-> +   lkmm/index
->     kfence
->     kselftest
->     kunit/index
-> diff --git a/Documentation/dev-tools/lkmm/docs/access-marking.rst b/Documentation/dev-tools/lkmm/docs/access-marking.rst
-> new file mode 100644
-> index 000000000000..1c11bb86b8ce
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/access-marking.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Access Marking
-> +--------------
-> +
-> +Literal include of ``tools/memory-model/Documentation/access-marking.txt``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/access-marking.txt
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/docs/cheatsheet.rst b/Documentation/dev-tools/lkmm/docs/cheatsheet.rst
-> new file mode 100644
-> index 000000000000..c510a578a8d1
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/cheatsheet.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Cheatsheet
-> +----------
-> +
-> +Literal include of ``tools/memory-model/Documentation/cheatsheet.txt``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/cheatsheet.txt
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/docs/control-dependencies.rst b/Documentation/dev-tools/lkmm/docs/control-dependencies.rst
-> new file mode 100644
-> index 000000000000..db18f18f56f7
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/control-dependencies.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Control Dependencies
-> +--------------------
-> +
-> +Literal include of ``tools/memory-model/Documentation/control-dependencies.txt``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/control-dependencies.txt
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/docs/explanation.rst b/Documentation/dev-tools/lkmm/docs/explanation.rst
-> new file mode 100644
-> index 000000000000..4b4592fb52da
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/explanation.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Explanation
-> +-----------
-> +
-> +Literal include of ``tools/memory-model/Documentation/explanation.txt``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/explanation.txt
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/docs/glossary.rst b/Documentation/dev-tools/lkmm/docs/glossary.rst
-> new file mode 100644
-> index 000000000000..00376a226675
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/glossary.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Glossary
-> +--------
-> +
-> +Literal include of ``tools/memory-model/Documentation/glossary.txt``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/glossary.txt
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/docs/herd-representation.rst b/Documentation/dev-tools/lkmm/docs/herd-representation.rst
-> new file mode 100644
-> index 000000000000..2fc4e6e5422b
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/herd-representation.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +herd-representation
-> +-------------------
-> +
-> +Literal include of ``tools/memory-model/Documentation/herd-representation``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/herd-representation.txt
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/docs/index.rst b/Documentation/dev-tools/lkmm/docs/index.rst
-> new file mode 100644
-> index 000000000000..abbddcc009de
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/index.rst
-> @@ -0,0 +1,21 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Documentation
-> +=============
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   readme
-> +   simple
-> +   ordering
-> +   litmus-tests
-> +   locking
-> +   recipes
-> +   control-dependencies
-> +   access-marking
-> +   cheatsheet
-> +   explanation
-> +   herd-representation
-> +   glossary
-> +   references
-> diff --git a/Documentation/dev-tools/lkmm/docs/litmus-tests.rst b/Documentation/dev-tools/lkmm/docs/litmus-tests.rst
-> new file mode 100644
-> index 000000000000..f1f27c573189
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/litmus-tests.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Litmus Tests
-> +------------
-> +
-> +Literal include of ``tools/memory-model/Documentation/litmus-tests.txt``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/litmus-tests.txt
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/docs/locking.rst b/Documentation/dev-tools/lkmm/docs/locking.rst
-> new file mode 100644
-> index 000000000000..c396107d2126
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/locking.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Locking
-> +-------
-> +
-> +Literal include of ``tools/memory-model/Documentation/locking.txt``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/locking.txt
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/docs/ordering.rst b/Documentation/dev-tools/lkmm/docs/ordering.rst
-> new file mode 100644
-> index 000000000000..aef2f1f8ff89
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/ordering.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Ordering
-> +--------
-> +
-> +Literal include of ``tools/memory-model/Documentation/ordering.txt``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/ordering.txt
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/docs/readme.rst b/Documentation/dev-tools/lkmm/docs/readme.rst
-> new file mode 100644
-> index 000000000000..3353feef52b4
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/readme.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +README (for LKMM Documentation)
-> +-------------------------------
-> +
-> +Literal include of ``tools/memory-model/Documentation/README``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/README
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/docs/recipes.rst b/Documentation/dev-tools/lkmm/docs/recipes.rst
-> new file mode 100644
-> index 000000000000..a20d114422aa
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/recipes.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Recipes
-> +-------
-> +
-> +Literal include of ``tools/memory-model/Documentation/recipes.txt``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/recipes.txt
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/docs/references.rst b/Documentation/dev-tools/lkmm/docs/references.rst
-> new file mode 100644
-> index 000000000000..04d3dfe69e3c
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/references.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +References
-> +----------
-> +
-> +Literal include of ``tools/memory-model/Documentation/references.txt``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/references.txt
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/docs/simple.rst b/Documentation/dev-tools/lkmm/docs/simple.rst
-> new file mode 100644
-> index 000000000000..0372520a43bd
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/docs/simple.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Simple
-> +------
-> +
-> +Literal include of ``tools/memory-model/Documentation/simple.txt``.
-> +
-> +------------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/Documentation/simple.txt
-> +   :literal:
-> diff --git a/Documentation/dev-tools/lkmm/index.rst b/Documentation/dev-tools/lkmm/index.rst
-> new file mode 100644
-> index 000000000000..e52782449ca3
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/index.rst
-> @@ -0,0 +1,15 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +============================================
-> +Linux Kernel Memory Consistency Model (LKMM)
-> +============================================
-> +
-> +This section literally renders documents under ``tools/memory-model/``
-> +and ``tools/memory-model/Documentation/``, which are maintained in
-> +the *pure* plain text form.
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   readme
-> +   docs/index
-> diff --git a/Documentation/dev-tools/lkmm/readme.rst b/Documentation/dev-tools/lkmm/readme.rst
-> new file mode 100644
-> index 000000000000..21ddad3b8fe2
-> --- /dev/null
-> +++ b/Documentation/dev-tools/lkmm/readme.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +README (for LKMM)
-> +=================
-> +
-> +Literal include of ``tools/memory-model/README``.
-> +
-> +------------------------------------------------------------
-> +
-> +.. kernel-include:: $SOURCEDIR/tools/memory-model/README
-> +   :literal:
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 96b827049501..c95b93e74287 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13714,6 +13714,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git rcu/dev
->  F:	Documentation/atomic_bitops.txt
->  F:	Documentation/atomic_t.txt
->  F:	Documentation/core-api/refcount-vs-atomic.rst
-> +F:	Documentation/dev-tools/lkmm/
->  F:	Documentation/litmus-tests/
->  F:	Documentation/memory-barriers.txt
->  F:	tools/memory-model/
-> 
-> base-commit: e245fbc31c2450481e83110583793ea2eb51e7f7
-> -- 
-> 2.43.0
-> 
-> 
+Changes since v4:
+- Removed unnecessary sizeof(stack_trace_filter_buf) in strscpy
+
+Changes since v3:
+- Refactored code to compare length with str_has_prefix in a single line
+
+Changes since v2;
+- Removed unnecessary string.h header file inclusion
+
+Changes since v1:
+- Moved from memcpy() to strscpy()
+
+
+ kernel/trace/trace_stack.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/trace/trace_stack.c b/kernel/trace/trace_stack.c
+index 14c6f272c4d8..4c349db381cb 100644
+--- a/kernel/trace/trace_stack.c
++++ b/kernel/trace/trace_stack.c
+@@ -542,7 +542,7 @@ static __init int enable_stacktrace(char *str)
+ 	int len;
+ 
+ 	if ((len = str_has_prefix(str, "_filter=")))
+-		strncpy(stack_trace_filter_buf, str + len, COMMAND_LINE_SIZE);
++		strscpy(stack_trace_filter_buf, str + len);
+ 
+ 	stack_tracer_enabled = 1;
+ 	return 1;
+-- 
+2.49.0
+
