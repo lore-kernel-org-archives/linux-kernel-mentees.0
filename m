@@ -1,98 +1,227 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF6C1E1DE8
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  9 May 2025 16:35:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC5445038
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  9 May 2025 17:04:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746808554; cv=none; b=Uuw1o4BXm2pLKg6wO9/a0LofXIF+ZlUSUsDvHJjKsHCUnJ/Mw/4NK02PbQm1v9oEm6fpE5qE+lbb3Kc+DHcF+Taxv3+92+kp43aFWNO2slPf3LVoP5RTTSSgMOlCR0LsGlg+Vn1iokNH+eqkRUSJpVDLcWFdv/j5+81jDnCClKE=
+	t=1746810241; cv=none; b=i8VoJSZNmQyvMj16AXrxGqRt86f1HY31ALDhb+ZLpU79tDa7JHnYU8nSsI1jQfjy+xUWg2rE3b+DL3ifkTZhl9BwUxSicYCgl+N8rKRffVgCKE18HFYs7n5F6tMRxnEIMU1SaTFE25j+DxUg9Dw/x1FC1yOiFJjJ41iG0H8pveM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746808554; c=relaxed/simple;
-	bh=I6f8x4iGGQ/6ezXUYixBV4CDobLsuQYJkTwCWtE3PLA=;
+	s=arc-20240116; t=1746810241; c=relaxed/simple;
+	bh=cxOuPrTubtaM2OWU2dmQeoVyLD36Fn4cYNvgvQMHmWU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BvviZCOnIiIZc/ZWU18iJuHqVN+K5y8cjm4g+9NrCeGsKfsqT3zZzOO5f9fWGhCHP5tRKKm6bGyGDV1Yi6ud2OR+GwwpegAUTmsHar9KlWpcBxtn0iaAbN4xs41ARlONBmsJfxUmXRr2p2sVtX2JofNUX5A+woM/jwQ46WxPYbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i8kDJ7G9; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=gPgOmJrfc5xLF5g9DgEMvslo4i6lGY/vzeYoRE/kDGX4fIAUpgTqWcVjE5v6DXGAyYPfPl0E7cimv/+YW3iabjd7EnXPH693MpDriXWrettFwjFTOy7+NoQRJcY2a83XOKKUrk+xHKddYZWjXfJtjDpJNzWnI7whTyn8MwFa9Pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cGESCjhp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i8kDJ7G9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45FCDC4CEED
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  9 May 2025 16:35:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cGESCjhp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B57FC4CEEF
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  9 May 2025 17:04:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746808553;
-	bh=I6f8x4iGGQ/6ezXUYixBV4CDobLsuQYJkTwCWtE3PLA=;
+	s=k20201202; t=1746810241;
+	bh=cxOuPrTubtaM2OWU2dmQeoVyLD36Fn4cYNvgvQMHmWU=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=i8kDJ7G9bQ2O+uSanklGt7kI8E5hTqWfW2tLzM/uHVAbzNHUSqE3NwboUrLLzRWAp
-	 Bx34IXFqHPzMfEHDrst4kRk8JZgvl3+f9tiUE4A9sRA9mI33xkQRKvLVxfZsjL7vLO
-	 AQ1Ru16qLPvqvVtoxGotywgktKYMXdI6yQbOiQjYw+CHm0atppES7XgDxo5K6YPLU0
-	 sgDRCrAcekyJ5dqHh29mhPlwQCkZRWiZFZchbSHIxVBP/LHhkvtFr5h4pAw+8rZbvW
-	 bIT82pRJ0xxmaVIWdR2XhIkyVZnTZBy7K6Z60TyhcEWhLMOvc2QGiYJJpQb+mVsoZO
-	 fBPNn15pcE76w==
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-2cc82edcf49so833036fac.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 09 May 2025 09:35:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXcKk14KD50OZleKeT1G6J3XaV6ClxCXmjnEjAsJPgGS6Rdj++PNjOYiWc6L7WgQcIhhiFruYi0Myn1w1I1qXhkk+yHUg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLLjSvDLf41rvn1tno8kQUJKHZl7JlhaxYAnj+IHLozGHFXsVE
-	YAMvSbdP+d7pUG2qth+Mc6IJm3llEs+9IRt6amNTQStHZlhysJ5px1Q19gNJ35hZab8JPfuefKo
-	2tz8HVHfDZmgUl80LgXlxVIDyVGc=
-X-Google-Smtp-Source: AGHT+IEv9CjHiPlnvDy5IOb3rZUcr8bYyMFTGmb7zMjbaUanNOyIS/EVm/gEihDRjAygoxhYpGTYdGAk36zJo7VtPco=
-X-Received: by 2002:a05:6870:5251:b0:29e:766d:e969 with SMTP id
- 586e51a60fabf-2dba42a441emr2471934fac.10.1746808552569; Fri, 09 May 2025
- 09:35:52 -0700 (PDT)
+	b=cGESCjhphBC1HXCg4XvWaInawGSQdzvW3Lxes/DTenTv97ppIGUfrNfxYbEE8tDID
+	 q/D4dg6of2DY9B1m6jNhqgnJvD3vs4ww1filylZzgCpYJSGHUds8NH8d3eX3egu8FT
+	 R8QSYcKGVFgt/z1IeKqIg7WKaPVKDhPC8Oq+xgQekTZI1Oxo8C8C9mq1RDTNdxwSh2
+	 T6BygRm1I6QFVp8zu2k3CkNfTHq2TmyllzFOOUhrggviTctialBRM0wCOjqA9vvuBw
+	 g3Lp5LF22AzoxkzzNm6nNYcSIqpxY942FPNw2+sYEyybqdbedZxPIQYZ02zI5qfYgl
+	 UrMkgjpQTvr5w==
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-604ad6c4cf1so841170eaf.3
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 09 May 2025 10:04:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWltCa401DOucJytHZma2bJM9Aoz4LKHFYgr3BUIcTgQ/zWgcXHATWA5/VtVrFnpn10uaMcyQFqG7Eb+8Xy2KfXvqcbLw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxstKmOxcNgt6KDI/CtjpQtUsCjQ84vbEyTNhl8B88vMQ2pV+vg
+	1kAV0PlHWwQneFDPB39AkvAoBGi6/mkSwfQz2m2BWL1Gm6pOvn5IYXYeRyemw+aS/f7z9oC5eY7
+	+0XMsF1rJm/YrfQ23pp6mwn3NL0g=
+X-Google-Smtp-Source: AGHT+IEuJ3UyJU2Ke571Dvw0ehpoP2qMb7YoHey7MtgBT4f3jUmYaxRmXBS6WsvDgsKz3hRnlqfMZOwu30053cxbSkk=
+X-Received: by 2002:a05:6820:1e16:b0:606:107a:ebd8 with SMTP id
+ 006d021491bc7-6084b64f985mr2203296eaf.5.1746810240473; Fri, 09 May 2025
+ 10:04:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250506220057.5589-1-moonhee.lee.ca@gmail.com>
-In-Reply-To: <20250506220057.5589-1-moonhee.lee.ca@gmail.com>
+References: <20250430160943.2836-1-ImanDevel@gmail.com> <20250502050639.2a4mbdav4mdlhbp2@vireshk-i7>
+ <6nfpd4jvx7dmpl5hqk5nokxprxbcccah66x2mptgwxtyxmb74r@qiosxhaw3tew>
+In-Reply-To: <6nfpd4jvx7dmpl5hqk5nokxprxbcccah66x2mptgwxtyxmb74r@qiosxhaw3tew>
 From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 9 May 2025 18:35:41 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0hRn0EKXNkYgbo8UMqj5Hq39LWn_Fseg38ZuQw2yCVtzw@mail.gmail.com>
-X-Gm-Features: ATxdqUEtrAsngD3bvjmsyDO6bu-yczjM4N5J20DvDwYRYdhreKQ77vuOammTAn0
-Message-ID: <CAJZ5v0hRn0EKXNkYgbo8UMqj5Hq39LWn_Fseg38ZuQw2yCVtzw@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: fix typo in energy-model.rst
-To: Moon Hee Lee <moonhee.lee.ca@gmail.com>
-Cc: lukasz.luba@arm.com, rafael@kernel.org, len.brown@intel.com, 
-	pavel@kernel.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Date: Fri, 9 May 2025 19:03:49 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gf00GoUUraqY75M5G9bxPkJ5WQ30m5tnksVvA=kTnabg@mail.gmail.com>
+X-Gm-Features: ATxdqUF9bTxyJDcbykjFd9xwRiJOtL6Pu5qGcvVG2O320-Jmf9UpGQ-n4HiL_Ys
+Message-ID: <CAJZ5v0gf00GoUUraqY75M5G9bxPkJ5WQ30m5tnksVvA=kTnabg@mail.gmail.com>
+Subject: Re: [PATCH v3] cpufreq: fix locking order in store_local_boost to
+ prevent deadlock
+To: Seyediman Seyedarab <imandevel@gmail.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>, rafael@kernel.org, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 7, 2025 at 12:01=E2=80=AFAM Moon Hee Lee <moonhee.lee.ca@gmail.=
-com> wrote:
+On Fri, May 9, 2025 at 7:29=E2=80=AFAM Seyediman Seyedarab <imandevel@gmail=
+.com> wrote:
 >
-> Fixes a grammar issue ("than" -> "then") and changes "re-use" to
-> "reuse" for consistency with modern spelling.
+> On 25/05/02 10:36AM, Viresh Kumar wrote:
+> > On 30-04-25, 12:09, Seyediman Seyedarab wrote:
+> > > Lockdep reports a possible circular locking dependency[1] when
+> > > writing to /sys/devices/system/cpu/cpufreq/policyN/boost,
+> > > triggered by power-profiles-daemon at boot.
+> > >
+> > > store_local_boost() used to acquire cpu_hotplug_lock *after*
+> > > the policy lock had already been taken by the store() handler.
+> > > However, the expected locking hierarchy is to acquire
+> > > cpu_hotplug_lock before the policy guard. This inverted lock order
+> > > creates a *theoretical* deadlock possibility.
+> > >
+> > > Acquire cpu_hotplug_lock in the store() handler *only* for the
+> > > local_boost attribute, before entering the policy guard block,
+> > > and remove the cpus_read_lock/unlock() calls from store_local_boost()=
+.
+> > > Also switch from guard() to scoped_guard() to allow explicitly wrappi=
+ng
+> > > the policy guard inside the cpu_hotplug_lock critical section.
+> > >
+> > >  [1]
+> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> > >  WARNING: possible circular locking dependency detected
+> > >  6.15.0-rc4-debug #28 Not tainted
+> > >  ------------------------------------------------------
+> > >  power-profiles-/596 is trying to acquire lock:
+> > >  ffffffffb147e910 (cpu_hotplug_lock){++++}-{0:0}, at: store_local_boo=
+st+0x6a/0xd0
+> > >
+> > >  but task is already holding lock:
+> > >  ffff9eaa48377b80 (&policy->rwsem){++++}-{4:4}, at: store+0x37/0x90
+> > >
+> > >  which lock already depends on the new lock.
+> > >
+> > >  the existing dependency chain (in reverse order) is:
+> > >
+> > >  -> #2 (&policy->rwsem){++++}-{4:4}:
+> > >         down_write+0x29/0xb0
+> > >         cpufreq_online+0x841/0xa00
+> > >         cpufreq_add_dev+0x71/0x80
+> > >         subsys_interface_register+0x14b/0x170
+> > >         cpufreq_register_driver+0x154/0x250
+> > >         amd_pstate_register_driver+0x36/0x70
+> > >         amd_pstate_init+0x1e7/0x270
+> > >         do_one_initcall+0x67/0x2c0
+> > >         kernel_init_freeable+0x230/0x270
+> > >         kernel_init+0x15/0x130
+> > >         ret_from_fork+0x2c/0x50
+> > >         ret_from_fork_asm+0x11/0x20
+> > >
+> > >  -> #1 (subsys mutex#3){+.+.}-{4:4}:
+> > >         __mutex_lock+0xc2/0x930
+> > >         subsys_interface_register+0x83/0x170
+> > >         cpufreq_register_driver+0x154/0x250
+> > >         amd_pstate_register_driver+0x36/0x70
+> > >         amd_pstate_init+0x1e7/0x270
+> > >         do_one_initcall+0x67/0x2c0
+> > >         kernel_init_freeable+0x230/0x270
+> > >         kernel_init+0x15/0x130
+> > >         ret_from_fork+0x2c/0x50
+> > >         ret_from_fork_asm+0x11/0x20
+> > >
+> > >  -> #0 (cpu_hotplug_lock){++++}-{0:0}:
+> > >         __lock_acquire+0x1087/0x17e0
+> > >         lock_acquire.part.0+0x66/0x1b0
+> > >         cpus_read_lock+0x2a/0xc0
+> > >         store_local_boost+0x6a/0xd0
+> > >         store+0x50/0x90
+> > >         kernfs_fop_write_iter+0x135/0x200
+> > >         vfs_write+0x2ab/0x540
+> > >         ksys_write+0x6c/0xe0
+> > >         do_syscall_64+0xbb/0x1d0
+> > >         entry_SYSCALL_64_after_hwframe+0x56/0x5e
+> > >
+> > > Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
+> > > ---
+> > > Changes in v3:
+> > >  - Rebased over PM tree's linux-next branch
+> > >  - Added a comment to explain why this piece of code is required
+> > >  - Switched from guard() to scoped_guard() to allow explicitly wrappi=
+ng
+> > >    the policy guard inside the cpu_hotplug_lock critical section.
+> > >
+> > > Changes in v2:
+> > >  - Restrict cpu_hotplug_lock acquisition to only
+> > >    the local_boost attribute in store() handler.
+> > >
+> > > Regards,
+> > > Seyediman
+> > >
+> > >  drivers/cpufreq/cpufreq.c | 23 ++++++++++++++++-------
+> > >  1 file changed, 16 insertions(+), 7 deletions(-)
+> > >
+> > > diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> > > index 21fa733a2..b349adbeb 100644
+> > > --- a/drivers/cpufreq/cpufreq.c
+> > > +++ b/drivers/cpufreq/cpufreq.c
+> > > @@ -622,10 +622,7 @@ static ssize_t store_local_boost(struct cpufreq_=
+policy *policy,
+> > >     if (!policy->boost_supported)
+> > >             return -EINVAL;
+> > >
+> > > -   cpus_read_lock();
+> > >     ret =3D policy_set_boost(policy, enable);
+> > > -   cpus_read_unlock();
+> > > -
+> > >     if (!ret)
+> > >             return count;
+> > >
+> > > @@ -1006,16 +1003,28 @@ static ssize_t store(struct kobject *kobj, st=
+ruct attribute *attr,
+> > >  {
+> > >     struct cpufreq_policy *policy =3D to_policy(kobj);
+> > >     struct freq_attr *fattr =3D to_attr(attr);
+> > > +   int ret =3D -EBUSY;
+> > >
+> > >     if (!fattr->store)
+> > >             return -EIO;
+> > >
+> > > -   guard(cpufreq_policy_write)(policy);
+> > > +   /*
+> > > +    * store_local_boost() requires cpu_hotplug_lock to be held, and =
+must be
+> > > +    * called with that lock acquired *before* taking policy->rwsem t=
+o avoid
+> > > +    * lock ordering violations.
+> > > +    */
+> > > +   if (fattr =3D=3D &local_boost)
+> > > +           cpus_read_lock();
+> > >
+> > > -   if (likely(!policy_is_inactive(policy)))
+> > > -           return fattr->store(policy, buf, count);
+> > > +   scoped_guard(cpufreq_policy_write, policy) {
+> > > +           if (likely(!policy_is_inactive(policy)))
+> > > +                   ret =3D fattr->store(policy, buf, count);
+> > > +   }
+> > >
+> > > -   return -EBUSY;
+> > > +   if (fattr =3D=3D &local_boost)
+> > > +           cpus_read_unlock();
+> > > +
+> > > +   return ret;
+> > >  }
+> >
+> > Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> >
+> > --
+> > viresh
 >
-> Changes since v1:
-> - Limited scope to .rst files excluding translations, using:
->   find Documentation/ \
->     -path Documentation/translations -prune -o \
->     -name '*.rst' -print | xargs codespell
+> Hi there,
 >
-> Signed-off-by: Moon Hee Lee <moonhee.lee.ca@gmail.com>
-> ---
->  Documentation/power/energy-model.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/power/energy-model.rst b/Documentation/power/e=
-nergy-model.rst
-> index ada4938c37e5..490ddd483f46 100644
-> --- a/Documentation/power/energy-model.rst
-> +++ b/Documentation/power/energy-model.rst
-> @@ -230,7 +230,7 @@ Drivers must provide a pointer to the allocated and i=
-nitialized new EM
->  and will be visible to other sub-systems in the kernel (thermal, powerca=
-p).
->  The main design goal for this API is to be fast and avoid extra calculat=
-ions
->  or memory allocations at runtime. When pre-computed EMs are available in=
- the
-> -device driver, than it should be possible to simply re-use them with low
-> +device driver, then it should be possible to simply reuse them with low
->  performance overhead.
->
->  In order to free the EM, provided earlier by the driver (e.g. when the m=
-odule
-> --
+> Just following up to see if there's anything you'd like me to
+> change or address in the patch before it can move forward.
+> Please let me know if any updates are needed.
 
-Applied as 6.16 material, thanks!
+I'm kind of wondering why local_boost needs cpus_read_lock() at all.
+Holding the policy rwsem blocks CPU online/offline already for this
+policy.
+
+Is that because ->set_boost() may need to synchronize with the other polici=
+es?
