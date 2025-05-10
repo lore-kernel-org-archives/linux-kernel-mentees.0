@@ -1,107 +1,232 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E493A234964
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 10 May 2025 10:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052F579FD
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 10 May 2025 11:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746874411; cv=none; b=UBE1chwrPlX6CcPtYp/U21WMSJxTO5Fby3I/qg/b/SAFBMcRezfVE3JBf/oCgGrHVzZPsfSIlPBSJ1Z0jBMkHoPUpHYGLqTbbfeBP8E+yzCPt5I6VBbia4jfz/wVxZWeODP3ZutNOt5NCeAZJXH4BV/J1vj/KCHwjKrXEvbecmI=
+	t=1746877302; cv=none; b=UqZOl3SHP5xf+L/tf41ibjNSsYuh7OwDlEpwjq24vrAXIKSPnldbp9Rn/Hf8m7lALPn9tKcRor7bSBOhcGUDCasox5gnoQ+fzZjCZKluL8bgg13dB+qs0+HrplAfQPpDD4Ae+e6oiACZWvP3i8cojORwNuSS6ZrF51MLF0+665Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746874411; c=relaxed/simple;
-	bh=EbNT2yqiKVIDkM0MzdYmJqcw32xi/+LZ6wB1evgxPIs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PR5EHkWuDh95lZUUKm9BhpTNymUIV85pxhKkOiAYy/LYyLikx4eLf+xXSltyaAd0gYTZy6U2CXnBNLNuMbDO2iy1GDS8fuTVuHtwsjabAiyIalShc5oZdj3L+Tpm7vj+6Pm/6v9izLNGK1U+KYp82vWYnfqkfJhKCjp9Aba/dgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CTd+NE/u; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746877302; c=relaxed/simple;
+	bh=kVK/PSoNGqJPH38XY7o5IfZvHp89So8dh+8ziUJtp4w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Plhc7TIv8o7gH85Jlir0UoviE3ARP+o1pqOKxEuQZt70o41n4weCTYfSfgOjdITHHs3YBneUq7jR+gA+CE8iZCtUlhSAQmLT06yj/RHVsJC2m4HVwak9v+9hwLfk7NAkH+nK52jnx1c3QHwSof8OtczPShIseoMfH6c8JEcV7zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLy9V/lw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CTd+NE/u"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-74237a74f15so2629306b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 10 May 2025 03:53:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746874409; x=1747479209; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EXSOUw10L1n/p9VHd15QKDeGzN947z5NK2VTS4uqVzM=;
-        b=CTd+NE/uBLzZkaUMtgZofNT7J2rg9TDp5Mi5sSioCAnGULC6RPm2dbYD5nuClf/gHZ
-         yckjXfh7nR8UelbwrKxG3dW46DykvbaG+Uj0g0z9ss813o51RVGrGP1rhizfmrUId0Ff
-         HIOpx9D7Wzs61n+Cd/pvIoP03T9f5HPu1VIQVZPfdLIDROFuI4pf9tMjTacZnrAfY1we
-         6BSrBfEZ76om+sQvS9RS2zxfWF8ifr71sDlGZLzSJyvA0o4v4C5HIjZWnE5LwjNqqHr3
-         ssghL+1wJsxNd//0stVXju86OWjuc5/fieStDocuBmTwCieeHfQr7MrayoIHPxICIJXY
-         WREA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746874409; x=1747479209;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EXSOUw10L1n/p9VHd15QKDeGzN947z5NK2VTS4uqVzM=;
-        b=vrJqOpg7g9hEINMOoViE8jfkPPZx4dBe9NEJQG3ccdFfs21rSnTeMwWBe49BzALwYF
-         ie4DYjuI9VQ3m9DYc4IKiI/xgh0j4LV73lLSJvZbwjmfCsiNrJZqOftmd9F0ZyZbVcQ3
-         CiKCKJnVcrHoEn9AtmKjdVi2N/LK9lR9tUIIFR5h9OojGzyWcwfavVILF85BhZlNYV0F
-         qzXXXWdAvkPRQHOD64c9GB95isYWjQgF6f4r2WcXUwqdIBWcynbpT3PdELkqyJddpgXZ
-         Xgn0A/2l+BerSeogoCckcqJILu4bzwjZOZ5ctVj+hYsY9AH4ZixFNBY7djdWGypZ3oky
-         ZdAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUCUg7E/YGpeBaWWQgnsMxFU4HMNiq6XaarJxZZXBhpGB1+VTiYEOu/8Lli+/Egz8JoJhvvSLr04X4RTSpPAYW5yoQSsg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyT84gUly947JzyrLJcbL2x5V2zqKy0FC4DRc0WUlTTpaj0+Qea
-	lRJddCVEnQ7pq6vhq/rEMugS+ipWdFQ7Eu1YeRV/ytmzRicg/Blz
-X-Gm-Gg: ASbGncsjyw88ysGuBZHHN9mj/ux6rzUdaZ5PVvVvaDJbB34rjofj7ZQUkAmf1K97aH1
-	OmXxdaQpWSwQQw24T6lKuniyD6FpQBAM5x0Oq/I988Un7G7qdPfGzviPkwWBWiJ6Z5+XQBcTA1m
-	EIDTJKzr2GDQa4VVkznIINkm6O6flSCCUFV/xNKsVMOliZ2sM/h54MBAgTgxkIxNpUMwymQCqWD
-	vshyVr00G5f3SWpaifxAYe10MQdqd94m5nrZxfi6l6VU/8XOZez259NBSoMXdiGlffeyu5fCKqs
-	M9PWiMgLo9+X75013904VyZ+neKnEWMTXFaFr6A9mH64OYsOtfK8dVoUeRmL2N5IrgCqEUVJxRd
-	BX8Qkow==
-X-Google-Smtp-Source: AGHT+IGTNmaFW/gt/gg+ZkUqkYuLnHW1Rx/ohdhMiZ0++c920zHUX1RPe7+uJ+KS8ft1n9pgvmdT/g==
-X-Received: by 2002:a05:6a00:1142:b0:740:67aa:94ab with SMTP id d2e1a72fcca58-7423b3f2cb6mr9961041b3a.0.1746874409006;
-        Sat, 10 May 2025 03:53:29 -0700 (PDT)
-Received: from vaxr-ASUSPRO-D840MB-M840MB.. ([2001:288:7001:2703:9e12:1c37:6e8f:31af])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a386b4sm3092037b3a.136.2025.05.10.03.53.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 May 2025 03:53:28 -0700 (PDT)
-From: I Hsin Cheng <richard120310@gmail.com>
-To: brauner@kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	jlayton@kernel.org,
-	jack@suse.cz,
-	neilb@suse.de,
-	mjguzik@gmail.com,
-	yukaixiong@huawei.com,
-	osandov@fb.com,
-	akpm@linux-foundation.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	I Hsin Cheng <richard120310@gmail.com>
-Subject: [PATCH] fs: Fix typos in comment
-Date: Sat, 10 May 2025 18:53:21 +0800
-Message-ID: <20250510105321.482158-1-richard120310@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLy9V/lw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F3CAC4CEF0
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 10 May 2025 11:41:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746877301;
+	bh=kVK/PSoNGqJPH38XY7o5IfZvHp89So8dh+8ziUJtp4w=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=kLy9V/lwbvaLKIntaqHz+6sd1iun1vE8LcazKFwCuYRF02pPR6/ugneq0TdwQsfpy
+	 dhNqrbhDivjCdqmnH4E+Xv0ZlSVpAySMUCwoopEUm1RRQGX25mn7I2KPURLu3zrYOx
+	 vxVwqaEW0sFGZvuPpSmeHRYzrTQHIjCufi+uKcz0/9NMYx2HIOlU2teC+st+HYGo2Q
+	 OWstNSrnFOkyXUFkPF8GETOkf2jP2+lZZP51i2qm9WJO65cAZa1mS+kJwLCyk4bIyt
+	 zKxzSVEPahy0nRMXBLSDd98X5wq2sjfFOSypJKaEzMMVMsKVlqOdX2xGUJvYRGmu3W
+	 6xyR25v2S/WsQ==
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-601ad30bc0cso2621712eaf.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 10 May 2025 04:41:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWi3eRWuhXDOy1ny3rsKL6sQa8ry6OYzRvsnYz7NU6TlXexKgcqAZgBJS4ymzhj9metyeUtawziRTV+vLgviYLJkAOR8A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YywJ4d0QB8o9xzduncUW+zBPHRcsDRhrKyoLi1hy+xD3FxL6EWv
+	LkEHddWtWpBgA3eldMIc6H0/x7kqOwFh4+mnqkOvd8Mg5COtKn7Q9Q12yGR5fjS6W7PlSWG2dRE
+	pS8WyQBxGzuWykbj/dvWKXMCQeoA=
+X-Google-Smtp-Source: AGHT+IHzMAM8tBLzYw99n/QURfp1IhtztbbMlnCg6t3RSjHv9i9xIWiGdiXFHCu7VCCOvCt0xPfE51Cqza96waPj4PI=
+X-Received: by 2002:a05:6820:208c:b0:604:99a6:4e90 with SMTP id
+ 006d021491bc7-60868ad8738mr3786406eaf.0.1746877300770; Sat, 10 May 2025
+ 04:41:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250430160943.2836-1-ImanDevel@gmail.com> <20250502050639.2a4mbdav4mdlhbp2@vireshk-i7>
+ <6nfpd4jvx7dmpl5hqk5nokxprxbcccah66x2mptgwxtyxmb74r@qiosxhaw3tew> <CAJZ5v0gf00GoUUraqY75M5G9bxPkJ5WQ30m5tnksVvA=kTnabg@mail.gmail.com>
+In-Reply-To: <CAJZ5v0gf00GoUUraqY75M5G9bxPkJ5WQ30m5tnksVvA=kTnabg@mail.gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Sat, 10 May 2025 13:41:29 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hFBAi7dNhQC1DJG1Fg44LaR-j-vsxO5=G8VbDj15Kr5Q@mail.gmail.com>
+X-Gm-Features: AX0GCFs8SUyfqBc5iPAdSoZAUvBVB7czX0GEH5ZELjSNTFUj4glAGV0m47t_e2Q
+Message-ID: <CAJZ5v0hFBAi7dNhQC1DJG1Fg44LaR-j-vsxO5=G8VbDj15Kr5Q@mail.gmail.com>
+Subject: Re: [PATCH v3] cpufreq: fix locking order in store_local_boost to
+ prevent deadlock
+To: Seyediman Seyedarab <imandevel@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix "FUrther" to "Further".
+On Fri, May 9, 2025 at 7:03=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.org=
+> wrote:
+>
+> On Fri, May 9, 2025 at 7:29=E2=80=AFAM Seyediman Seyedarab <imandevel@gma=
+il.com> wrote:
+> >
+> > On 25/05/02 10:36AM, Viresh Kumar wrote:
+> > > On 30-04-25, 12:09, Seyediman Seyedarab wrote:
+> > > > Lockdep reports a possible circular locking dependency[1] when
+> > > > writing to /sys/devices/system/cpu/cpufreq/policyN/boost,
+> > > > triggered by power-profiles-daemon at boot.
+> > > >
+> > > > store_local_boost() used to acquire cpu_hotplug_lock *after*
+> > > > the policy lock had already been taken by the store() handler.
+> > > > However, the expected locking hierarchy is to acquire
+> > > > cpu_hotplug_lock before the policy guard. This inverted lock order
+> > > > creates a *theoretical* deadlock possibility.
+> > > >
+> > > > Acquire cpu_hotplug_lock in the store() handler *only* for the
+> > > > local_boost attribute, before entering the policy guard block,
+> > > > and remove the cpus_read_lock/unlock() calls from store_local_boost=
+().
+> > > > Also switch from guard() to scoped_guard() to allow explicitly wrap=
+ping
+> > > > the policy guard inside the cpu_hotplug_lock critical section.
+> > > >
+> > > >  [1]
+> > > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> > > >  WARNING: possible circular locking dependency detected
+> > > >  6.15.0-rc4-debug #28 Not tainted
+> > > >  ------------------------------------------------------
+> > > >  power-profiles-/596 is trying to acquire lock:
+> > > >  ffffffffb147e910 (cpu_hotplug_lock){++++}-{0:0}, at: store_local_b=
+oost+0x6a/0xd0
+> > > >
+> > > >  but task is already holding lock:
+> > > >  ffff9eaa48377b80 (&policy->rwsem){++++}-{4:4}, at: store+0x37/0x90
+> > > >
+> > > >  which lock already depends on the new lock.
+> > > >
+> > > >  the existing dependency chain (in reverse order) is:
+> > > >
+> > > >  -> #2 (&policy->rwsem){++++}-{4:4}:
+> > > >         down_write+0x29/0xb0
+> > > >         cpufreq_online+0x841/0xa00
+> > > >         cpufreq_add_dev+0x71/0x80
+> > > >         subsys_interface_register+0x14b/0x170
+> > > >         cpufreq_register_driver+0x154/0x250
+> > > >         amd_pstate_register_driver+0x36/0x70
+> > > >         amd_pstate_init+0x1e7/0x270
+> > > >         do_one_initcall+0x67/0x2c0
+> > > >         kernel_init_freeable+0x230/0x270
+> > > >         kernel_init+0x15/0x130
+> > > >         ret_from_fork+0x2c/0x50
+> > > >         ret_from_fork_asm+0x11/0x20
+> > > >
+> > > >  -> #1 (subsys mutex#3){+.+.}-{4:4}:
+> > > >         __mutex_lock+0xc2/0x930
+> > > >         subsys_interface_register+0x83/0x170
+> > > >         cpufreq_register_driver+0x154/0x250
+> > > >         amd_pstate_register_driver+0x36/0x70
+> > > >         amd_pstate_init+0x1e7/0x270
+> > > >         do_one_initcall+0x67/0x2c0
+> > > >         kernel_init_freeable+0x230/0x270
+> > > >         kernel_init+0x15/0x130
+> > > >         ret_from_fork+0x2c/0x50
+> > > >         ret_from_fork_asm+0x11/0x20
+> > > >
+> > > >  -> #0 (cpu_hotplug_lock){++++}-{0:0}:
+> > > >         __lock_acquire+0x1087/0x17e0
+> > > >         lock_acquire.part.0+0x66/0x1b0
+> > > >         cpus_read_lock+0x2a/0xc0
+> > > >         store_local_boost+0x6a/0xd0
+> > > >         store+0x50/0x90
+> > > >         kernfs_fop_write_iter+0x135/0x200
+> > > >         vfs_write+0x2ab/0x540
+> > > >         ksys_write+0x6c/0xe0
+> > > >         do_syscall_64+0xbb/0x1d0
+> > > >         entry_SYSCALL_64_after_hwframe+0x56/0x5e
+> > > >
+> > > > Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
+> > > > ---
+> > > > Changes in v3:
+> > > >  - Rebased over PM tree's linux-next branch
+> > > >  - Added a comment to explain why this piece of code is required
+> > > >  - Switched from guard() to scoped_guard() to allow explicitly wrap=
+ping
+> > > >    the policy guard inside the cpu_hotplug_lock critical section.
+> > > >
+> > > > Changes in v2:
+> > > >  - Restrict cpu_hotplug_lock acquisition to only
+> > > >    the local_boost attribute in store() handler.
+> > > >
+> > > > Regards,
+> > > > Seyediman
+> > > >
+> > > >  drivers/cpufreq/cpufreq.c | 23 ++++++++++++++++-------
+> > > >  1 file changed, 16 insertions(+), 7 deletions(-)
+> > > >
+> > > > diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> > > > index 21fa733a2..b349adbeb 100644
+> > > > --- a/drivers/cpufreq/cpufreq.c
+> > > > +++ b/drivers/cpufreq/cpufreq.c
+> > > > @@ -622,10 +622,7 @@ static ssize_t store_local_boost(struct cpufre=
+q_policy *policy,
+> > > >     if (!policy->boost_supported)
+> > > >             return -EINVAL;
+> > > >
+> > > > -   cpus_read_lock();
+> > > >     ret =3D policy_set_boost(policy, enable);
+> > > > -   cpus_read_unlock();
+> > > > -
+> > > >     if (!ret)
+> > > >             return count;
+> > > >
+> > > > @@ -1006,16 +1003,28 @@ static ssize_t store(struct kobject *kobj, =
+struct attribute *attr,
+> > > >  {
+> > > >     struct cpufreq_policy *policy =3D to_policy(kobj);
+> > > >     struct freq_attr *fattr =3D to_attr(attr);
+> > > > +   int ret =3D -EBUSY;
+> > > >
+> > > >     if (!fattr->store)
+> > > >             return -EIO;
+> > > >
+> > > > -   guard(cpufreq_policy_write)(policy);
+> > > > +   /*
+> > > > +    * store_local_boost() requires cpu_hotplug_lock to be held, an=
+d must be
+> > > > +    * called with that lock acquired *before* taking policy->rwsem=
+ to avoid
+> > > > +    * lock ordering violations.
+> > > > +    */
+> > > > +   if (fattr =3D=3D &local_boost)
+> > > > +           cpus_read_lock();
+> > > >
+> > > > -   if (likely(!policy_is_inactive(policy)))
+> > > > -           return fattr->store(policy, buf, count);
+> > > > +   scoped_guard(cpufreq_policy_write, policy) {
+> > > > +           if (likely(!policy_is_inactive(policy)))
+> > > > +                   ret =3D fattr->store(policy, buf, count);
+> > > > +   }
+> > > >
+> > > > -   return -EBUSY;
+> > > > +   if (fattr =3D=3D &local_boost)
+> > > > +           cpus_read_unlock();
+> > > > +
+> > > > +   return ret;
+> > > >  }
+> > >
+> > > Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> > >
+> > > --
+> > > viresh
+> >
+> > Hi there,
+> >
+> > Just following up to see if there's anything you'd like me to
+> > change or address in the patch before it can move forward.
+> > Please let me know if any updates are needed.
+>
+> I'm kind of wondering why local_boost needs cpus_read_lock() at all.
+> Holding the policy rwsem blocks CPU online/offline already for this
+> policy.
+>
+> Is that because ->set_boost() may need to synchronize with the other poli=
+cies?
 
-Fixes: 5c437fa29561 ("docs: fs: fix broken links to vfs.txt with was renamed to vfs.rst")
-Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
----
- include/linux/dcache.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index e9f07e37dd6f..3e7eac9496e2 100644
---- a/include/linux/dcache.h
-+++ b/include/linux/dcache.h
-@@ -168,7 +168,7 @@ struct dentry_operations {
-  * Locking rules for dentry_operations callbacks are to be found in
-  * Documentation/filesystems/locking.rst. Keep it updated!
-  *
-- * FUrther descriptions are found in Documentation/filesystems/vfs.rst.
-+ * Further descriptions are found in Documentation/filesystems/vfs.rst.
-  * Keep it updated too!
-  */
- 
--- 
-2.43.0
-
+IOW, what can go wrong if the cpus_read_lock() locking is dropped from
+there altogether?
