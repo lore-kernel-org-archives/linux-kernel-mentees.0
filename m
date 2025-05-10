@@ -1,132 +1,74 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553861DED6D
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 10 May 2025 18:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67CF978C9C;
+	Sat, 10 May 2025 21:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746902868; cv=none; b=R2paHG115sh8K/wBVMSnfEQE1Fad2wdTxDkXEjjFRXTq/EoUgX3xg/gPhwM8jxIa5quvUQhSWRLqKdRqzxEX9Zmwfmp0hAQ9yjVTWTqLIHErD8VKkiFBdXAQHcgKkwZfTnEJIm/FGYSrCGtWq/pNIlkVeGohn+6u5rHAPYqJcEM=
+	t=1746911482; cv=none; b=RdfSyRRLG38Z11uFBNRoJrH7DB0jls4p3BgNYO7cZv+5CYdFM4aAPz+0NKmgnEG29x5rY6h4rBcEbKyniOBYEUJNjlWSsPS/SJex3jNI/7mlYVh22eCtKbZMwLS2dhR9f3kxA/vmRuIH5l6ldZ6fw14PpXrIVkSLIEFP6NBXXgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746902868; c=relaxed/simple;
-	bh=L1j19XD16Pmx2xa/rrGqIBgP7XAqdou4yQFSC/F63nY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RXHm9vi89vXD9vzeGVxG/m/650KrCoya8Dq5rd+TIhc2eiKg7XDxGdJUkSU8RYA/aCVXzQxgmc5n8HbdD18oQggpVomJVlC5Mdq9PpN2KbKbJLTThDzbbNUYWdsmIyVrYYu/HYTGqHl07DLxkHgqfqkUT3EW/p/BW6d8nhLTfAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B68a5zHQ; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746911482; c=relaxed/simple;
+	bh=YaTRPpJu4IXAqgUm93MB+ZnsNUdNBD0yv1Wjlt/WKU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H/ZDg+OKpyTyjeh+5G4BhNtNWri2fezsn1w8Gj+gfl9O4IY2LFedp4jZ45c+MZBPZuuJbAAJHjz7+4aqtY+IMPs3irPcIvuGRYSC4EqIAQOz3aHDcQCp76VysoJyfegjz0vB7XRknxsmn/J/3AyvX1CjAhV+XOXJkoyxoEia7dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=c5kk5HVK; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B68a5zHQ"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b074d908e56so2072861a12.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 10 May 2025 11:47:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746902866; x=1747507666; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q61TaHYW+ivShFmxukNezPRDLRq+ybo9Om6oxCMvOBo=;
-        b=B68a5zHQqZoZuobVCAm1rYCWh5ULEG0vyFSUi05cFdVG36sLhLetENacrynm9tawvC
-         8S19IBB5vYhxF24VjdfPRuVj2Z0J8NpH0mgApxEvO7P5Vm2r2laoFkCJlrF1AvtiBf7e
-         gdvooA3py26lIYCvHjfRSzKhABHw1swVgPJ89N8JKu8PxSKHuGJuKEv86Abk8tHiyKVY
-         dtllMezCZN3EhhC4qBomBROVbAqUXljCrV/51KfQ3n0dp8SV3tMXS+gYF4OuLi7Q1K5I
-         ZohcxwwodvjJGzkXWLtHZkjwAkW0igJ1seD/0dgvPtBciTHz7t5CmOk2uias20gLx0yc
-         gmHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746902866; x=1747507666;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q61TaHYW+ivShFmxukNezPRDLRq+ybo9Om6oxCMvOBo=;
-        b=MGzJNsUq3VQAwy0zTv/g71GnyeLL4EUVnMeXZAZTRooilHZXAApQ6tKHbdYPD1z3bN
-         g/KHn/td0RWEV98KFVToUpDgub1hggJD+lKz7evyznGP/M7L6fjttLNdv6KBpiQymp0R
-         aNnTC+CddE3CxpeNlEiQKNB9fE402JXhf7f5Zii9eDtQNYwYgy4wDWyFu9nGOfLYGCz9
-         Rm2oxpWubOeiDNI49UKfckpoes6YD+IsKvXEenvQBrYBPGl/CRKfapyfOQVOLLqBpwGN
-         TIf58q3caTV8s8fIw7ogmZh1UeSrnV2DFDub0eAL02eXo7DGeZ1eP1OCUDXWWdCeK2hq
-         aveg==
-X-Gm-Message-State: AOJu0Yyy0RUFH7/W7DcNFEKmTGoRIu/WYuUIAyKjGCS16/ar+1mUgNPA
-	r/Bo/f7/SWvk4XAIykBnv86dxQJFsn6MUkCBM2FUPRt2/IFH+md9
-X-Gm-Gg: ASbGnctS0O2WzJJjp/q+vbvvgrd3AjiFUCJPZ5NEbcDuz/wPtCUzmAVR8UXjvDM7S0G
-	skJ9xMpsrnyZuA7PfHP31s53u1wn0zjejAijINISVOyfW6/R7HUt5NNLnqZReFpPTVmXEyA+NGX
-	rmFf+D1hKQBv5nfgvCF4fej+krt3+HZAj5uB3s93s6V3fmG0QHnvOXglIoPQOIB9f/z3xK3AeuI
-	zy2RqB+LygxkFz/xtegzrS7a0BEztaWdZGbO3kIB5MAT+s6Bc7iThf19K3Do3g1NBa6oznnHTta
-	9WmKUwNe1uxX8BOgUjoQ5E6g/mRKN+h6qHoHIYqRxHtoe/MrQjhgumUzf4+Pd6iYTY20uWfCNkp
-	u06k=
-X-Google-Smtp-Source: AGHT+IFDX15DHKvx49SFGOI3uN8yupopOlTlzXxH3QBsDKhq46eIZIKSEuAlW0EQtuv21T6o+iDmEQ==
-X-Received: by 2002:a17:902:e84d:b0:22e:62cf:498f with SMTP id d9443c01a7336-22fc8e961a1mr125418135ad.38.1746902866378;
-        Sat, 10 May 2025 11:47:46 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:7b7f:bab1:cfed:9805:ea32:5760])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc828b450sm35797895ad.178.2025.05.10.11.47.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 May 2025 11:47:46 -0700 (PDT)
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: trenn@suse.com,
-	shuah@kernel.org,
-	jwyatt@redhat.com,
-	jkacur@redhat.com,
-	linux-pm@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: [PATCH] tools/powercap: Implement powercap_set_enabled()
-Date: Sun, 11 May 2025 00:17:09 +0530
-Message-ID: <20250510184709.44935-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="c5kk5HVK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=o6ORA5gX6E7XXNPH3F2az+0vfTFANLlW+LsGqTkQWXc=; b=c5kk5HVKCDDYj2sENDA8ExaPt+
+	Orw20A+GMCdu2UrgLWCc8EeTaXHnGH8sSRWhyvFjheunrbEKZt4e2kLAm5F4Z4NGy2hOlw/6j2348
+	Zv7eJrPI+kAJVDNsgVR7U5vvaSUpu77IsLs5JILrzkxjKcw213DX0chHrKBRPZeRnDKbDEXgAmEbv
+	gE49rfFUCW/kHjG+lQ4C3WuKJCuXyd9uw3dbuSscaZsi4I5caFoAcAp+iGeY8TFQcBS57kdx2pei2
+	Udzm9eU4gsnmSdZb/DFQW6jIzVhRAycSDod+OTmwyVDoSuQpaX8dr7N9ornV2Y0B515lWS8id8PQI
+	vFZEoH6g==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uDrTO-00000008Pgo-13Gs;
+	Sat, 10 May 2025 21:11:06 +0000
+Date: Sat, 10 May 2025 22:11:06 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: I Hsin Cheng <richard120310@gmail.com>, brauner@kernel.org,
+	jack@suse.cz, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] fs: Fix typo in comment of link_path_walk()
+Message-ID: <aB_A6jiLNBwpeNsJ@casper.infradead.org>
+References: <20250510104632.480749-1-richard120310@gmail.com>
+ <20250510120835.GY2023217@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250510120835.GY2023217@ZenIV>
 
-The powercap_set_enabled() function previously returned a dummy value
-and was marked with a TODO comment. This patch implements the function
-by writing the desired mode (0 or 1) to /sys/class/powercap/intel-rapl/enabled
+On Sat, May 10, 2025 at 01:08:35PM +0100, Al Viro wrote:
+> On Sat, May 10, 2025 at 06:46:32PM +0800, I Hsin Cheng wrote:
+> > Fix "NUL" to "NULL".
+> > 
+> > Fixes: 200e9ef7ab51 ("vfs: split up name hashing in link_path_walk() into helper function")
+> 
+> Not a typo.  And think for a second about the meaning of
+> so "fixed" sentence - NUL and '/' are mutually exclusive
+> alternatives; both are characters.  NULL is a pointer and
+> makes no sense whatsoever in that context.
 
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
----
- tools/power/cpupower/lib/powercap.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+fwiw, C refers to strings as being 'null terminated' rather than NUL
+terminated.  eg 5.2.1:
 
-diff --git a/tools/power/cpupower/lib/powercap.c b/tools/power/cpupower/lib/powercap.c
-index 94a0c69e55ef..7947b9809239 100644
---- a/tools/power/cpupower/lib/powercap.c
-+++ b/tools/power/cpupower/lib/powercap.c
-@@ -70,6 +70,22 @@ static int sysfs_get_enabled(char *path, int *mode)
- 	return ret;
- }
- 
-+static int sysfs_set_enabled(const char *path, int mode)
-+{
-+	int fd;
-+	char buf[2] = { mode ? '1' : '0', '\n' };
-+	ssize_t ret;
-+
-+	fd = open(path, O_WRONLY);
-+	if (fd == -1)
-+		return -1;
-+
-+	ret = write(fd, buf, sizeof(buf));
-+	close(fd);
-+
-+	return ret == sizeof(buf) ? 0 : -1;
-+}
-+
- int powercap_get_enabled(int *mode)
- {
- 	char path[SYSFS_PATH_MAX] = PATH_TO_POWERCAP "/intel-rapl/enabled";
-@@ -77,12 +93,10 @@ int powercap_get_enabled(int *mode)
- 	return sysfs_get_enabled(path, mode);
- }
- 
--/*
-- * TODO: implement function. Returns dummy 0 for now.
-- */
- int powercap_set_enabled(int mode)
- {
--	return 0;
-+	char path[SYSFS_PATH_MAX] = PATH_TO_POWERCAP "/intel-rapl/enabled";
-+	return sysfs_set_enabled(path, mode);
- }
- 
- /*
--- 
-2.49.0
+"A byte with all bits set to 0, called the null character, shall exist
+in the basic execution character set; it is used to terminate a character
+string."
 
+so NULL-terminated is incorrect because it uses the wrong case.  All this
+to sau. I Hsin Cheng, please do not submit patches "correcting" comments
+in the other direction (ie changing NULL to NUL).  They aren't
+ambiguous.
