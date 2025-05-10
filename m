@@ -1,123 +1,132 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C5B1C4609;
-	Sat, 10 May 2025 17:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553861DED6D
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 10 May 2025 18:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746899291; cv=none; b=nmVHh3lIQC3E/1A/m87f2W6PnNwou9FVmrIXKpPSsNazbdjrTivHczYQv/jLw15W0zhGYp4DGZngJLnwD399WgNS41t91dHnZNBP2dkhXILKOL+jAbTniJbCZG0Y3OI4KQjgXUYEnUFe9imcHVlDxMNvhAJmT59P/nNZGF8BBk0=
+	t=1746902868; cv=none; b=R2paHG115sh8K/wBVMSnfEQE1Fad2wdTxDkXEjjFRXTq/EoUgX3xg/gPhwM8jxIa5quvUQhSWRLqKdRqzxEX9Zmwfmp0hAQ9yjVTWTqLIHErD8VKkiFBdXAQHcgKkwZfTnEJIm/FGYSrCGtWq/pNIlkVeGohn+6u5rHAPYqJcEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746899291; c=relaxed/simple;
-	bh=kUcCYZpGhDJuM0PTGBl3uRYLyZgIWmlE2IQoydwC+S4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YGrecaw1j4swtmbYJc0Rj1vvMSjHgwTIGiJhBS9dro5Ck/czHUwAKQkq1cd6QRzlLw/tRuuH79qGsuNE4vuIGsqi1FjhYdbTdn64GNBUkby6vr6IJjhH0JaAovlzoEUU4TukzEsmGhQlSLEZwYSWY4zMZiRB293GnWK0vqSI6EA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=G3tlCJfG; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1746902868; c=relaxed/simple;
+	bh=L1j19XD16Pmx2xa/rrGqIBgP7XAqdou4yQFSC/F63nY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RXHm9vi89vXD9vzeGVxG/m/650KrCoya8Dq5rd+TIhc2eiKg7XDxGdJUkSU8RYA/aCVXzQxgmc5n8HbdD18oQggpVomJVlC5Mdq9PpN2KbKbJLTThDzbbNUYWdsmIyVrYYu/HYTGqHl07DLxkHgqfqkUT3EW/p/BW6d8nhLTfAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B68a5zHQ; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="G3tlCJfG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=goUj4uTlrWULdr0JG01jm/v04D1+T1nfYQPlEzafaUQ=; b=G3tlCJfGytToS8LQrZKmPFYuKT
-	kd38RvglH2yCEorb3ldkOhZVSS6uNvxY+7FS8C2toSRhiNVG5R9HSHJ+58KGLSBni2HsOjMmYxb3A
-	k9oN67wLIdbRcODSLXO4aMFlirJuZwbL//U78COHa8N0LyZs9h7co7CT9E6f2Ya+LjfN+58O9tPAl
-	iXKsymbQiUVnlYxT5uSxevGfeAQVmBpTPNFEvfsJ1xxxwIYlYoWvcIWaFxdfJ57X28eo/wAPPs6Xt
-	IKE1zPnByOyGcKWAopYeuXy4QVQInMaOs2VAqEFZz8afl/F1ZGrsFqaAyZzmoEH4LIK1XWwQt5Qyd
-	MhU5ZCnA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDoIu-00000002izj-2OIw;
-	Sat, 10 May 2025 17:48:04 +0000
-Date: Sat, 10 May 2025 18:48:04 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: I Hsin Cheng <richard120310@gmail.com>
-Cc: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] fs: Fix typo in comment of link_path_walk()
-Message-ID: <20250510174804.GZ2023217@ZenIV>
-References: <20250510104632.480749-1-richard120310@gmail.com>
- <20250510120835.GY2023217@ZenIV>
- <aB9KHNNBzWxMJ2_j@vaxr-BM6660-BM6360>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B68a5zHQ"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b074d908e56so2072861a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 10 May 2025 11:47:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746902866; x=1747507666; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q61TaHYW+ivShFmxukNezPRDLRq+ybo9Om6oxCMvOBo=;
+        b=B68a5zHQqZoZuobVCAm1rYCWh5ULEG0vyFSUi05cFdVG36sLhLetENacrynm9tawvC
+         8S19IBB5vYhxF24VjdfPRuVj2Z0J8NpH0mgApxEvO7P5Vm2r2laoFkCJlrF1AvtiBf7e
+         gdvooA3py26lIYCvHjfRSzKhABHw1swVgPJ89N8JKu8PxSKHuGJuKEv86Abk8tHiyKVY
+         dtllMezCZN3EhhC4qBomBROVbAqUXljCrV/51KfQ3n0dp8SV3tMXS+gYF4OuLi7Q1K5I
+         ZohcxwwodvjJGzkXWLtHZkjwAkW0igJ1seD/0dgvPtBciTHz7t5CmOk2uias20gLx0yc
+         gmHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746902866; x=1747507666;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q61TaHYW+ivShFmxukNezPRDLRq+ybo9Om6oxCMvOBo=;
+        b=MGzJNsUq3VQAwy0zTv/g71GnyeLL4EUVnMeXZAZTRooilHZXAApQ6tKHbdYPD1z3bN
+         g/KHn/td0RWEV98KFVToUpDgub1hggJD+lKz7evyznGP/M7L6fjttLNdv6KBpiQymp0R
+         aNnTC+CddE3CxpeNlEiQKNB9fE402JXhf7f5Zii9eDtQNYwYgy4wDWyFu9nGOfLYGCz9
+         Rm2oxpWubOeiDNI49UKfckpoes6YD+IsKvXEenvQBrYBPGl/CRKfapyfOQVOLLqBpwGN
+         TIf58q3caTV8s8fIw7ogmZh1UeSrnV2DFDub0eAL02eXo7DGeZ1eP1OCUDXWWdCeK2hq
+         aveg==
+X-Gm-Message-State: AOJu0Yyy0RUFH7/W7DcNFEKmTGoRIu/WYuUIAyKjGCS16/ar+1mUgNPA
+	r/Bo/f7/SWvk4XAIykBnv86dxQJFsn6MUkCBM2FUPRt2/IFH+md9
+X-Gm-Gg: ASbGnctS0O2WzJJjp/q+vbvvgrd3AjiFUCJPZ5NEbcDuz/wPtCUzmAVR8UXjvDM7S0G
+	skJ9xMpsrnyZuA7PfHP31s53u1wn0zjejAijINISVOyfW6/R7HUt5NNLnqZReFpPTVmXEyA+NGX
+	rmFf+D1hKQBv5nfgvCF4fej+krt3+HZAj5uB3s93s6V3fmG0QHnvOXglIoPQOIB9f/z3xK3AeuI
+	zy2RqB+LygxkFz/xtegzrS7a0BEztaWdZGbO3kIB5MAT+s6Bc7iThf19K3Do3g1NBa6oznnHTta
+	9WmKUwNe1uxX8BOgUjoQ5E6g/mRKN+h6qHoHIYqRxHtoe/MrQjhgumUzf4+Pd6iYTY20uWfCNkp
+	u06k=
+X-Google-Smtp-Source: AGHT+IFDX15DHKvx49SFGOI3uN8yupopOlTlzXxH3QBsDKhq46eIZIKSEuAlW0EQtuv21T6o+iDmEQ==
+X-Received: by 2002:a17:902:e84d:b0:22e:62cf:498f with SMTP id d9443c01a7336-22fc8e961a1mr125418135ad.38.1746902866378;
+        Sat, 10 May 2025 11:47:46 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:7b7f:bab1:cfed:9805:ea32:5760])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc828b450sm35797895ad.178.2025.05.10.11.47.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 May 2025 11:47:46 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: trenn@suse.com,
+	shuah@kernel.org,
+	jwyatt@redhat.com,
+	jkacur@redhat.com,
+	linux-pm@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH] tools/powercap: Implement powercap_set_enabled()
+Date: Sun, 11 May 2025 00:17:09 +0530
+Message-ID: <20250510184709.44935-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aB9KHNNBzWxMJ2_j@vaxr-BM6660-BM6360>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Transfer-Encoding: 8bit
 
-On Sat, May 10, 2025 at 08:44:12PM +0800, I Hsin Cheng wrote:
-> On Sat, May 10, 2025 at 01:08:35PM +0100, Al Viro wrote:
-> > On Sat, May 10, 2025 at 06:46:32PM +0800, I Hsin Cheng wrote:
-> > > Fix "NUL" to "NULL".
-> > > 
-> > > Fixes: 200e9ef7ab51 ("vfs: split up name hashing in link_path_walk() into helper function")
-> > 
-> > Not a typo.  And think for a second about the meaning of
-> > so "fixed" sentence - NUL and '/' are mutually exclusive
-> > alternatives; both are characters.  NULL is a pointer and
-> > makes no sense whatsoever in that context.
-> 
-> Ohh thanks for the head up. I'll keep this in mind, really big thanks!
+The powercap_set_enabled() function previously returned a dummy value
+and was marked with a TODO comment. This patch implements the function
+by writing the desired mode (0 or 1) to /sys/class/powercap/intel-rapl/enabled
 
-FWIW, the logics could be cleaner; what happens there is that having
-consumed a pathname component, we want to find two things:
-	* was it the last one?
-	* if not, where does the next one start?
-If the next character is the end of string (NUL, zero byte), everything's
-obvious - it was the last component.  If not, the next character must
-be '/' (anything else would've been a part of component we've just read
-through), and usually that would mean that there are other components
-coming after it.  However, there might be more than one slash (/usr//bin
-means the same thing as /usr/bin), so we need to skip however many slashes
-there might be in order to find the beginning of the next component.
-What's more, /usr/bin/ is also valid and means the same thing as /usr/bin,
-so it's still possible that component we've read was the last one - we
-won't know until we skip all slashes and see if we've reached the end
-of string.
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+---
+ tools/power/cpupower/lib/powercap.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-A possible way to clarify that might be something like
+diff --git a/tools/power/cpupower/lib/powercap.c b/tools/power/cpupower/lib/powercap.c
+index 94a0c69e55ef..7947b9809239 100644
+--- a/tools/power/cpupower/lib/powercap.c
++++ b/tools/power/cpupower/lib/powercap.c
+@@ -70,6 +70,22 @@ static int sysfs_get_enabled(char *path, int *mode)
+ 	return ret;
+ }
+ 
++static int sysfs_set_enabled(const char *path, int mode)
++{
++	int fd;
++	char buf[2] = { mode ? '1' : '0', '\n' };
++	ssize_t ret;
++
++	fd = open(path, O_WRONLY);
++	if (fd == -1)
++		return -1;
++
++	ret = write(fd, buf, sizeof(buf));
++	close(fd);
++
++	return ret == sizeof(buf) ? 0 : -1;
++}
++
+ int powercap_get_enabled(int *mode)
+ {
+ 	char path[SYSFS_PATH_MAX] = PATH_TO_POWERCAP "/intel-rapl/enabled";
+@@ -77,12 +93,10 @@ int powercap_get_enabled(int *mode)
+ 	return sysfs_get_enabled(path, mode);
+ }
+ 
+-/*
+- * TODO: implement function. Returns dummy 0 for now.
+- */
+ int powercap_set_enabled(int mode)
+ {
+-	return 0;
++	char path[SYSFS_PATH_MAX] = PATH_TO_POWERCAP "/intel-rapl/enabled";
++	return sysfs_set_enabled(path, mode);
+ }
+ 
+ /*
+-- 
+2.49.0
 
-/* given a pointer just past the end of component find the next one */
-static inline const char *next_component(const char *s)
-{
-	if (!*s)		// end of string
-		return NULL;
-	// the only other thing possible here is '/'; skip it, along with
-	// any extra slashes (if any - rare, but legal) right after it.
-	do {
-		s++;
-	} while (unlikely(*s == '/'));
-	if (unlikely(!*s))	// slash(es), then end of string
-		return NULL;
-	return s;		// beginning of the next component
-}
-
-with
-		name = next_component(name);
-		if (!name) {
-			/* we are at the end of... */
-                        if (!depth) {
-				/* ... the pathname or trailing symlink; done */
-                                nd->dir_vfsuid = i_uid_into_vfsuid(idmap, nd->inode);
-                                nd->dir_mode = nd->inode->i_mode;
-                                nd->flags &= ~LOOKUP_PARENT;
-                                return 0;
-                        }
-                        /* ... the last component of nested symlink */
-                        name = nd->stack[--depth].name;
-                        link = walk_component(nd, 0);
-		} else {
-			/* not the last component */
-			link = walk_component(nd, WALK_MORE);
-		}
-
-in the corresponding place in link_path_walk().  Not sure if it's better
-that way, to be honest - taking that chunk into an inline helper would
-force reader to go looking for the definition of that helper and that
-just might be more disruptive than the current variant.  Hell knows...
