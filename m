@@ -1,100 +1,134 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA6619CC3C
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 14:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD942BE114
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 16:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747147716; cv=none; b=EhITleu2QDfeKjY3LNyoFgzoc9LXbxLFCwBk+bdIjXnAzdchWgMRu46iTwiHBpw0cTOdm+zLhGaQPTTse7NjSBxPrv0/3i1tCzQXscorA0jxIHsDynSQIW3AikZQi5Jy711IRaA5tQ+D38eWEmvn5kdAhIRwxVqDQVLuhXohbg0=
+	t=1747152371; cv=none; b=PU3bkZGRpm2VBg3odapZ0uK8tlSMDUV9txQ5h2Nopeb6T3q/36+HuM0sWqcQrj+gEd2EBdrLzrPa2R19BIx96JUraFuu3jP5efJip4VUq1jgajMMESgZReByOSMmejojaHui9ZDs+itqZuWgbB85UWm0rAY5fuxAlhyK1RukX+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747147716; c=relaxed/simple;
-	bh=YT5xNS4r8xP8EivUfdR7P7lQuV3FIsANyZZmY8R7e5o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qm171Gen4ClbSt66r+D6HVF7B5aX3qP8fqb2rKna/yLyR3ODhrWdL+xM4S5g+cSw1iLxZOKBxnoeiwJ2Pz5lDP/6Zs3Op4j807S3w39V7wFoQPBknd1W/Y8r89sEYw/wydccAzoX9Nb3yyjPS4PlmQ4VSP/tWpFThRzIjljYvQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=CpOGLdq2; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
+	s=arc-20240116; t=1747152371; c=relaxed/simple;
+	bh=CGsMtWh+en1jfB7evlKjwAEgqDWRseR4+nQbwpeNFSs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TWpQbBwfrohY8ge2gRSPbv92V85VUpFRzuHr2oFMo5d1Ger3Hi81Qw4hjR4WiTW/MROvWRzxRdQSx/wQsSaKbPvHFSA5KVin21JsVe+KENAnLT0A7YsntxYw9K4/Eyfjbw+cfIUwuTPw7s+yGjprpDWO1sLDmpckaRS2CZzw64I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=djVvf5ba; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="CpOGLdq2"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-441ab63a415so59344395e9.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 07:48:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="djVvf5ba"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-30aa3980af5so6963048a91.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 09:06:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1747147711; x=1747752511; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NbBexokf21nG+m5XXQimUxHbfdz/gKFEIaDFzU/LUE8=;
-        b=CpOGLdq24CgvKqbHo2faIKf1evi2u2cjuIpgDOoUIuqYGXkjni4ZfxvPnCK7a5Fpbi
-         aAuEo7mnr6E6+Qj002o2CVJ5UUImXrxjxK2AuxygdQghgw5LanI93XAwFp+5w7erycEd
-         7lQxxbiS16RMN4QyWG3pctjgqzO4XHc2wmHdHvpn1qOb88nqSIKSRFizWAhEqIATkvFZ
-         poQhTvKfRCCc5yE5yLTpfDTZBQ8bmB9WBE6vZ1qLgSY34FZ4H5awVEV8OAf+RAMU7DFE
-         0Mrug7mqbv+D51I4JtLEmULE9WXo7WYbnUJdIliqG5B/ocbCMyHBtUxp7LXdTsuZHHmF
-         dhNw==
+        d=gmail.com; s=20230601; t=1747152369; x=1747757169; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IHVqDu2jngC4pA6GXRUzaP3yGa+0ktKZ/g/NBJXtwGs=;
+        b=djVvf5baMx1ddlugCN7RZP9El9Ty/pmAGegPPcsIo9QHw0jdGFB/oaUeYZdUKDNuOA
+         Jhb63DbRF6tp+ViCcVCLoUs/QPRsqICMvO+uhhIZ+vKpfbiotE317eNIgsN3AusDGNul
+         hEqkbfzP667otG6rosWxIsLGNSez6u5iOXKPP1BDoWHgBT43acOYGAQyPORqRQjsj9Zn
+         LTJXsVHLz9xfEHDnr9mFP/JutopQ231RH9th99iOraShSmN+e/+x+mv4qkbgmj0dRno/
+         Ed54aFI/5aL47c33Nsa7UdiiUXc/4ipXPLj5dNOoJ4B+fbKmupkeVmI0+oaXGx0R7fx+
+         /9MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747147711; x=1747752511;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NbBexokf21nG+m5XXQimUxHbfdz/gKFEIaDFzU/LUE8=;
-        b=crs71cVw4R2VXa8FJqeIAckze3qQKGdW44x8pepOiuMr+nbv7N/KzHPEI8dijr8rgB
-         dD3Y/A/7M/OdLlPEEGieqqgtf6HBzE669EpHbhHHiPJlVBhLfRTKWrY08mwLU7ewlOLB
-         JjULSEiCPAzXtgJbmSo4US5PKZwvwEcys0Cwz2p+XiBDaevQQtBaVZvx8HamWymQGh26
-         sRNoQ5sXHHr/rExEH0RJ+OF8wjIWy5Uct9Vv8QSG3j+QZYzCQd86wQ948sRrx1tJMrZa
-         aeruRiYb5TNz8iwzMs26h5nIEILvQulu2kRIZhFcf6zhROBb8ZPdaePDcdGnZrE5fGDs
-         nYVQ==
-X-Gm-Message-State: AOJu0Yw4jEVb7Zc524uLIFuw3Ilv9Fgb/yJGxWidOWalKej5quYsfSJQ
-	uETCXVcgtCD/1tyPkI8R3gw6ByDyXzuRoqSxTJJTIu6up5PlPgY3o6sseDwYSmd8+q0pitQ2kiU
-	o5NA=
-X-Gm-Gg: ASbGncuaYAGYC/g7fnAOObtL+oC4gfWNuNGYW/PG9zWp3CA6H8VNBHSCG2X12kFxnSy
-	M/mqQQY+cWFG/rga7Bch2ozvKpeHoTunYDorPECYyKgICq+Pdf8lyg+Ac2GnzeTd+j69WWfCe7Z
-	fklGb/tpEK5Z/LLLPK+Z26mJbkSRffxTl2efPJ96onjPGrO4Xm60GauEo4GeFqD9HKiJGR9mng1
-	3ZETB/A+Za5+T9O78J45S+vfjybPIpMKEFpJJNVYUXZND02f/9MFh2ebNMb2cdbxQDTxuVR0Nam
-	j8/nhlws1IZEhPTTtJh6xuFjq2/E0mH+qbD5iCNSaBYznJz0ewQt39VVIzq9JfFp0/yWjr0IqX4
-	+ix/f2TbggWkIe532dt2BUV/JUBGvBA==
-X-Google-Smtp-Source: AGHT+IFB3vwfvifBjKb4BRvj9BZyF3VmALZPU5U77ivyr56FeegCa9igR2q57C2VuHPX0hdhYeEJpg==
-X-Received: by 2002:a05:600c:6612:b0:442:e147:bea6 with SMTP id 5b1f17b1804b1-442e17571f9mr97496445e9.11.1747147710206;
-        Tue, 13 May 2025 07:48:30 -0700 (PDT)
-Received: from pop-os.. (178-116-3-140.access.telenet.be. [178.116.3.140])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442d67d5c7bsm172837185e9.4.2025.05.13.07.48.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 07:48:29 -0700 (PDT)
-From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-To: skhan@linuxfoundation.org
-Cc: linux-kernel-mentees@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-Subject: [PATCH] selftests: fix "memebers" typo in filesystems/mount-notify
-Date: Tue, 13 May 2025 16:48:16 +0200
-Message-ID: <20250513144816.72566-1-hendrik.hamerlinck@hammernet.be>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1747152369; x=1747757169;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IHVqDu2jngC4pA6GXRUzaP3yGa+0ktKZ/g/NBJXtwGs=;
+        b=PqaJRv8QVwSQBgF+C5/5wSz3VQz8DJouqXaN8FdnkuCbcRnZElMmipmCALVHwIsVZ0
+         kdMGKaIsFpda7jfmF1/epwnXKsnvCWaQ1w4DgwbDv3c2CDkfyx9SHyAKWpLRoTnZCFaq
+         ZocJnWllzpMZNNNyk+YzBLqLJWjskg/sXAKoLNrI8737w/xX7F9dUkYVR7rFFHEb3UGZ
+         e6Q4tUhzNCyZ/HKscX4WIG5Ud22PAGPVnmc1y4ALDzfXPThhWELY1/s+VpP702CCR6d/
+         ga8sfBgT69jcJmVoKPkTPkVCKvZiaq1mmxT2GVuSWmDOyL4deIc2wq/PCsaLjXCe/9rY
+         AA/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVu/sUR91Ol4ncyx0rdYtwaCNxbBBJIZUDfRN6xPPSYbXcHzk9xN59vZ0r0QCJ85DZUA5dQ0D2IKUJy2MmI4ElygqxgYw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxsNfarXXNyOUefe1LW79b1C87POpyU6fnWoZSyialiyAGWLO88
+	/ikjPEu1gU3H9armMG62HdHp3g9mUc3Gm9rHVvE/n2qbg8XBYOaUKsvrklYwqeSSgbrYT8ofEZ9
+	SHEkJSYgwVEFAACxqoFK5VUZPCMM=
+X-Gm-Gg: ASbGnct2lPa24QIi9C7lPcpFldaqq6WNxouJFOdVe1+my5RQAw6hTPWD5gJVH21rAO4
+	V0NeYFbNJvwvcB6t7i/7ewNzgPeWr9F8Ykqk6dRDNHuwoKjm2CUk7VW7mVSJpAL3KuwWGHKdXfd
+	s9MT7yLCxSRyWMuqc9eQOp5Mg3mkJEakKD7bKNy56UTBzO9AYn
+X-Google-Smtp-Source: AGHT+IHHqlQhuep0Pzh0cX4T275zpKOXukg1oLGUyTS8Dh+y/IZUOCee/gIiBM7WtxGBMugjSaaGxOt1eyFn8M5Co9g=
+X-Received: by 2002:a17:90b:38c6:b0:2ee:b2e6:4276 with SMTP id
+ 98e67ed59e1d1-30e2e62a163mr163721a91.27.1747152368750; Tue, 13 May 2025
+ 09:06:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250513015901.475207-1-khaledelnaggarlinux@gmail.com>
+In-Reply-To: <20250513015901.475207-1-khaledelnaggarlinux@gmail.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Tue, 13 May 2025 09:05:56 -0700
+X-Gm-Features: AX0GCFuw_2L0dg2ioYzSm6CFUTAyxrdk5bP1SjHoy6KH5Z5Etsu7Qux8CgONlco
+Message-ID: <CAEf4BzYVoV7_w0-WxPShYDKWSNXiG92ieLxVPwRZ1W3VoKhmgw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next] docs: bpf: fix bullet point formatting warning
+To: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+Cc: bpf@vger.kernel.org, ast@kernel.org, daniel@iogearbox.net, 
+	martin.lau@kernel.org, andrii@kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, shuah@kernel.org, tj@kernel.org, 
+	kernel-team@meta.com, memxor@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Corrects a spelling mistake "memebers" instead of "members" in 
-tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c 
+On Mon, May 12, 2025 at 6:59=E2=80=AFPM Khaled Elnaggar
+<khaledelnaggarlinux@gmail.com> wrote:
+>
+> Fix indentation for a bullet list item in bpf_iterators.rst.
+> According to reStructuredText rules, bullet list item bodies must be
+> consistently indented relative to the bullet. The indentation of the
+> first line after the bullet determines the alignment for the rest of
+> the item body.
+>
+> Reported by smatch:
+>   /linux/Documentation/bpf/bpf_iterators.rst:55: WARNING: Bullet list end=
+s without a blank line; unexpected unindent. [docutils]
+>
+> Fixes: 7220eabff8cb ("bpf, docs: document open-coded BPF iterators")
+> Signed-off-by: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+> ---
+> Hello, please let me know if you have any comments, thanks!
 
-Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
----
- .../selftests/filesystems/mount-notify/mount-notify_test.c      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for the fix, it makes sense. Applied to bpf-next.
 
-diff --git a/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c b/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c
-index 59a71f22fb11..af2b61224a61 100644
---- a/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c
-+++ b/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c
-@@ -230,7 +230,7 @@ static void verify_mount_ids(struct __test_metadata *const _metadata,
- 			}
- 		}
- 	}
--	// Check that all list1 memebers can be found in list2. Together with
-+	// Check that all list1 members can be found in list2. Together with
- 	// the above it means that the list1 and list2 represent the same sets.
- 	for (i = 0; i < num; i++) {
- 		for (j = 0; j < num; j++) {
--- 
-2.43.0
-
+>
+> ---
+>  Documentation/bpf/bpf_iterators.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/bpf/bpf_iterators.rst b/Documentation/bpf/bpf_=
+iterators.rst
+> index 8f0a4a91b77a..189e3ec1c6c8 100644
+> --- a/Documentation/bpf/bpf_iterators.rst
+> +++ b/Documentation/bpf/bpf_iterators.rst
+> @@ -52,14 +52,14 @@ a pointer to this `struct bpf_iter_<type>` as the ver=
+y first argument.
+>
+>  Additionally:
+>    - Constructor, i.e., `bpf_iter_<type>_new()`, can have arbitrary extra
+> -  number of arguments. Return type is not enforced either.
+> +    number of arguments. Return type is not enforced either.
+>    - Next method, i.e., `bpf_iter_<type>_next()`, has to return a pointer
+> -  type and should have exactly one argument: `struct bpf_iter_<type> *`
+> -  (const/volatile/restrict and typedefs are ignored).
+> +    type and should have exactly one argument: `struct bpf_iter_<type> *=
+`
+> +    (const/volatile/restrict and typedefs are ignored).
+>    - Destructor, i.e., `bpf_iter_<type>_destroy()`, should return void an=
+d
+> -  should have exactly one argument, similar to the next method.
+> +    should have exactly one argument, similar to the next method.
+>    - `struct bpf_iter_<type>` size is enforced to be positive and
+> -  a multiple of 8 bytes (to fit stack slots correctly).
+> +    a multiple of 8 bytes (to fit stack slots correctly).
+>
+>  Such strictness and consistency allows to build generic helpers abstract=
+ing
+>  important, but boilerplate, details to be able to use open-coded iterato=
+rs
+> --
+> 2.47.2
+>
