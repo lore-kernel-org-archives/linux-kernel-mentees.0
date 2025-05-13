@@ -1,73 +1,44 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CCF11EBA19
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 22:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410F914F9EB
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 23:32:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747175570; cv=none; b=A8e1dRSVq1kOjjdVV1a6noSSAoPoLQDBOKQqFtekbmcuMGnHG3bcZDUX3oaxR516oIbbS9TKBL4ifkJmOM7qzOSVHEhuy7PwONLRPZMum9+8SBrTTN6u2AX6lMJHQTP/3HQ0ulyz4/nHCq/Oz1uXkwFkUEpUHCU6BXiXrBWBYXI=
+	t=1747179175; cv=none; b=FXt5ChDLk/ywu65jt5Ndsq2K5hnFnRdHXGHzPHEdEgK2NQ1bfveGKHDzbRk8ucYCzUX1CJf5EUOV/JhqcVo+yLGZI8oVtuhhqwDNSC7B2iDQ/XMULUH+uLo+jmtfrV71Q8sRbIPpI84EL4CmSck9RYM+wNdfZnWFXn0IDmbYCMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747175570; c=relaxed/simple;
-	bh=+3XGKK5tSVsAG22kTR01LPisOgKQ8LKsZXwmHszxcxg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eLobgYen1R1Dq5P5gvURBuPHGs5U/OBq8hzoYz+PlhyDM2l9+Pv95h866d86p2Gw0GLrlm1zkksH+tpXGoMbpfOJqo9r9BeCQC3DkdrLD/4REkiXw/Mi0x1As7vJtHo84TM9SK+D+Xxvi7lqqztvSiBQS8S+QnDUULr5NtwzyQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z4A52Nrd; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747179175; c=relaxed/simple;
+	bh=Hqf9aIfw0eC9nw/y8Rwa4SKcz/q+0hB2F3kBZ6f3lmQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LSU9YOtU/bcHZ/yf6x8W2nHy9NZ/DL7yxuwBDJOt/w7wwHKonjgtKCYt7F6NpCeIPg2VKKZdNItZ5DBRVnAHXK/zzVlSNgchvrrjqYCT8xsYP1PDwF+p6q1rT9t7GUmw19UbuQURRWgA/yYAPd77IDsa4W8QWBWqvY/4KZnMg/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=mLR97Mkw; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z4A52Nrd"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a0b3f62d1aso758507f8f.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 15:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747175567; x=1747780367; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GOO3+D38PGP2XKKbxPd24Ou4JSZM80XieSsvghMwa6E=;
-        b=Z4A52NrdYeUATp6Eok+w6q4zb/tkaORdo1Qzjf1s+LNzZil78GKwjrLcGsFIkInH0Z
-         dY9CAFyLDC+azVWviiNIrfJ75DKbD58NFv1xdInkevjxlrGJwuo/xrjmmJxtaFzMj8xH
-         QkOjVtg8q5WPAMxDRE7qmf064RyF6f2NsOjfoi4Atv1VWmUdbemENhAMmJVpggM3DibY
-         jlD9RNlJtEyoAXTQGVZdoCxUixdMqtu+p2ZiQb1HYqK2/J+uihslru67tQkTmjq8WrDd
-         owVFf2JMKFj9QqLhftq3hQJgHgyl+hSeXEC7ysjco3yDZ6aj3RukJ4LuQIBFaW5/ciVY
-         Gf3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747175567; x=1747780367;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GOO3+D38PGP2XKKbxPd24Ou4JSZM80XieSsvghMwa6E=;
-        b=vB+1RBhMmchNGwrnhZBXzM9PXGvqn2TXzRAhJc+zR+3OYEIeqeJg3e5XP685WUtuc3
-         q0wnxvNpe6mnxRKbYw6M0Sqc0bwfkiF8EnzMj4Dzhk1pNH70r7usbB4A4Kba6CrwMGx4
-         yRtnRy4t/uPdRzbzjvqVIqdfVoMhH48VcnRM5cU+RtBgeBJgrmtYOjoHOizcCXff43vY
-         A4+WCsBAcJAYl4YLtn3nExm+V8yAC013dLoO6noAFyIP2GVbK+0he4isSeaSJFEmi+ZI
-         FugKRFM804xA6rMBZwgovcr2hGNct3pH1mWiJGpQ4Rm9u4Yicv/eovd5oC+QGPk/vUcc
-         LoHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWfKxOjD6leks2SPYYdIjbSlgiWwg4ZYfLLPYnUJFJqdwnXQgZ+tmOTwJtuwul7ekpie1Rq+7gp1SThAlgx6zXHAYPxRw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxyq3fnxfLrciG+6QsocQWw4XPJPiChJ94G0tLh5qR8OP+aFtWe
-	B5giuqa2VMGr6/4RkO++RMwz3nlKVdN+Y5h9wrdpWHEaAbxWQBzJ
-X-Gm-Gg: ASbGncuxNvlnf5SJ41Jmmo8eWkV5zrhQG/hSu2QXmUvBAjQ331MetvQNLhLIf6LllNS
-	t55Pe7SySnAkWR5At18HRgYB/FCaLs9Obr2ALeGwySWBjBzbQuti5ga35lEHPB5UT4MniEC/V5U
-	HuYY0SLAKVIHeKng1b8Y7wrDY6RWV2C7yZJFp8ZWjV2/kjSWS3OJSxE15I9LiTY90N41L0o0TSo
-	9+AU6bKUHidC+ZqorByju+9h9Lo/6c2lxCb5UArLZdb/uLxLRXbaJO7CnDBAxzPqBHt4PL3AyLX
-	IWT5hoj0plA9W94ymrqOtTAYKfZGK7T8GjbeVpIDFexQlSe4q99Sx7aOZgL5EDwiWzHOfQs3C08
-	ZQ5fJQF7EKMMV
-X-Google-Smtp-Source: AGHT+IFXJLpwx5PB9w07pxqndJCIjz+5sTL3g4V+/2gtwJv10YxYnXtbMmFVW1vbDCGtifs54FlzCA==
-X-Received: by 2002:a05:600c:350e:b0:439:a3df:66f3 with SMTP id 5b1f17b1804b1-442f2190f43mr2271575e9.6.1747175566477;
-        Tue, 13 May 2025 15:32:46 -0700 (PDT)
-Received: from localhost.localdomain ([102.44.114.188])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f3368d1csm3849195e9.8.2025.05.13.15.32.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 15:32:46 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-X-Google-Original-From: Abdelrahman Fekry <Abdelrahmanfekry375@gmail.com>
-To: shuah@Kernel.org,
+	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="mLR97Mkw"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
+	t=1747179170;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iYcQQzN6vnaXT766TJ+cVQWw0N0NG5qRoAhx0ZwZjFY=;
+	b=mLR97Mkwj5zSlLnN/mlvCwd7qeWtalgeS4/J/A3+Sxl+eLFdZrt+OTWS3CmKuJjDYISsCn
+	2CL4jzCj1ldnYYSHqC+CHKCNvTsxb1S6W7+LTxxKwS5he0SzrwnhUBKD18BmcvdHFqwhyj
+	51A6kJmYvqs+h0K6o03t7qf6hxmc1nCewHEkJbFBhN6qDIhmo7mVZmwQUSzpG7sQoIWbU2
+	pLJQQqVEvRCAoBTji9ZwD/lOc0M7I+ziOPOxUvcvFGuBBc/ST6JucGO7owcaL5cppkvln+
+	GRjhf0rvCs/mlcWCBU5hBpZWsDwIfJm7ca2CVrxM3Rb4lFwF8Bcfx6y1GTa8BA==
+From: George Anthony Vernon <contact@gvernon.com>
+To: airlied@gmail.com,
+	simona@ffwll.ch,
 	skhan@linuxfoundation.org
-Cc: linux-kselftest@vger.kernel.org,
+Cc: George Anthony Vernon <contact@gvernon.com>,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Abdelrahman Fekry <Abdelrahmanfekry375@gmail.com>
-Subject: [PATCH] selftests: ir_decoder: Convert header comment to proper multi-line block
-Date: Wed, 14 May 2025 01:32:42 +0300
-Message-Id: <20250513223242.304716-1-Abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] drm/amdgpu: Fix docs build warning
+Date: Wed, 14 May 2025 00:31:55 +0100
+Message-ID: <20250513233212.21186-1-contact@gvernon.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -75,53 +46,29 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-The test file for the IR decoder used single-line  comments at the top
-to document its purpose and licensing, which is inconsistent with the style
-used throughout the Linux kernel.
+The kerneldoc comment for HGCP locality check debug mask was missing a
+semicolon resulting in a documentation build warning. Correct it.
 
-in this patch i converted the file header to a proper multi-line comment block
-(/*) that aligns with standard kernel practices. This improves
-readability, consistency across selftests, and ensures the license and
-documentation are clearly visible in a familiar format.
-
-No functional changes have been made.
-
-Signed-off-by: Abdelrahman Fekry <Abdelrahmanfekry375@gmail.com>
+Signed-off-by: George Anthony Vernon <contact@gvernon.com>
 ---
- tools/testing/selftests/ir/ir_loopback.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/amd/include/amd_shared.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/ir/ir_loopback.c b/tools/testing/selftests/ir/ir_loopback.c
-index f4a15cbdd5ea..2de4a6296f35 100644
---- a/tools/testing/selftests/ir/ir_loopback.c
-+++ b/tools/testing/selftests/ir/ir_loopback.c
-@@ -1,14 +1,15 @@
- // SPDX-License-Identifier: GPL-2.0
--// test ir decoder
--//
--// Copyright (C) 2018 Sean Young <sean@mess.org>
--
--// When sending LIRC_MODE_SCANCODE, the IR will be encoded. rc-loopback
--// will send this IR to the receiver side, where we try to read the decoded
--// IR. Decoding happens in a separate kernel thread, so we will need to
--// wait until that is scheduled, hence we use poll to check for read
--// readiness.
--
-+/* Copyright (C) 2018 Sean Young <sean@mess.org>
-+ * 
-+ * Selftest for IR decoder 
-+ *
-+ *
-+ * When sending LIRC_MODE_SCANCODE, the IR will be encoded. rc-loopback
-+ * will send this IR to the receiver side, where we try to read the decoded
-+ * IR. Decoding happens in a separate kernel thread, so we will need to
-+ * wait until that is scheduled, hence we use poll to check for read
-+ * readiness.
-+*/
- #include <linux/lirc.h>
- #include <errno.h>
- #include <stdio.h>
+diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
+index 4c95b885d1d0..c8eccee9b023 100644
+--- a/drivers/gpu/drm/amd/include/amd_shared.h
++++ b/drivers/gpu/drm/amd/include/amd_shared.h
+@@ -366,7 +366,7 @@ enum DC_DEBUG_MASK {
+ 	DC_HDCP_LC_FORCE_FW_ENABLE = 0x80000,
+ 
+ 	/**
+-	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
++	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK: If set, upon HDCP Locality Check FW
+ 	 * path failure, retry using legacy SW path.
+ 	 */
+ 	DC_HDCP_LC_ENABLE_SW_FALLBACK = 0x100000,
 -- 
-2.25.1
+2.49.0
 
