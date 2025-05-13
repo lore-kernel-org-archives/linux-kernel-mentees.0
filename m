@@ -1,218 +1,166 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF284315E
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 May 2025 11:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A315D18E1A
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 01:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746962619; cv=none; b=U6hcCbQU19/8oWMszRjILwo27unEssWvq1MAwxBXZ7IMI9q3Te9OrYJfDH+RK1udBrdJ9bG2Q3HGiY+a5+iF/yI+1q+cAGn8FaGyDHTXTrpA8gmHEi6QIsr/VaG9jG7+vc92GwlvNESJ2U9QRQGV6/6QLhkZ7QHVXMoGHDteJQ4=
+	t=1747101302; cv=none; b=LERs4Eqe0ei00JdhCcbRFPC0hBv/3/Fl9qy7CswIDw2dM+qsFwz//UMEQuGuHm3TslfST6yL5Pvhl0/02oLEV6yVFD/jY9uzraVi76cTdADhsqZdZeTOBzNEq7v5Az7BPqp75i5tyXVcQdRWPd1V+Yed5uY6/3bcXSGqdaKDj3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746962619; c=relaxed/simple;
-	bh=/Gbhq9OEP7Q5EqNR6lXTOPYylSQbyvdVHSXkwAmjPTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MfFhskivnxKpFHO0SItKmRCo227Clke6EvONkXtsMG+R4SOAWQKtGJsr5f2LZSE/uOONQweE/bNa76HDQPBG9012N+rf9AeZ9laSTV3xByw73lVgbihTu2N+0lA8sDef8HOSX9bvz5zCQR+Muizp5+RF4QktuStyidQgqYWG/iU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lE/+uRpy; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1747101302; c=relaxed/simple;
+	bh=Lzse6LpsfmjPCxHAw25TMkpoFLEQK6aNnxdLc61WhvE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g4lSKUs5sg4Ei87DpXGYe6/hYQRUP0iCt5E0lBq1Kz8ZWed2wwQUt9iGIeJMZyYXoa3USMs0rZ59UOsFkAaQWKw6gpLupLtIMNfDVmfeZmVfjSaRbX9X7Qr6H3w7leFfgv0B05mxywQb4j6tRlCBQkYYFnQwxJsvUL7zcMhR1QE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aZYE2aTh; arc=none smtp.client-ip=209.85.160.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lE/+uRpy"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a1d8c0966fso1938951f8f.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 May 2025 04:23:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aZYE2aTh"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-476ae781d21so61062721cf.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 12 May 2025 18:55:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746962616; x=1747567416; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Rr62AM3KoGEBAH10wBbEzrU82okG3T/6xZVPR3kGFKE=;
-        b=lE/+uRpy9UwyroamVdq0HN1T/J+9cN1zow1TYHlRnsIZVFntytqer11EAlqkegXeu+
-         NMYzC7l1+SHPp9CVM90KAUKtNj8ijKn9FpKS4y2lW0Z2P8l3B0d7jmCyPwWDEkUfDaFl
-         kDuql+7VIuRAQpR0UIMTc0smaZZ+QFqy+CymrORDQRDWojco2z0VoMGPavwAjv+nZ0pt
-         j1gNgN2CwN/veqGCi9TRjLDMPNsKT/kXU1QHuFVdPSWkvAvWIXEX9B9W8WaVg2Xy1ZaO
-         vGRzTi703h9JIxyVw6kjRtfrvlLAF0b8KcWHPRADn/KSYNDBseMdHs6VZIpCdHc1Qhjk
-         eRmg==
+        d=gmail.com; s=20230601; t=1747101299; x=1747706099; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lrmp34maV+5CJrub1fqE5o5oKE0u33rB5QJqF+9oIzo=;
+        b=aZYE2aThmG5AnQWifTfaUyomvuKD+n/wNiYIsaMrvQY/m3CN4Sex3FbVO1y/nZAC/F
+         z7Ruva+punlZTu7FYjBhd6Zk3Rf/ZrxSzfylu1XZ/9YDjWokpDS1nAXHtBUCGejah7+R
+         qqL54rn03BzaU7ue4r6Lds+tcdqT+HF75yD8eRjvZ8cYPRSnbxJhI7ORLkK4jEbhr+ig
+         I5i5vPOQ4ULXm4wosdgZ+pJx1jHIephwFsmdW69Xz866IBbTm8M54PpWOHN3iK7SNYy8
+         JhKTBRHPIkN3FZSnZnTiBNU3sPu3AtbtqeWimQpwBBaHG5NqcZDxnp06CHW0S7UNoTpy
+         TZ1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746962616; x=1747567416;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Rr62AM3KoGEBAH10wBbEzrU82okG3T/6xZVPR3kGFKE=;
-        b=BYSoJL1MDn7YI14+jsIS+aENSeeFU1Q15Zoo6toPhMtmgW44lFB+T9h8eTACqZ+opr
-         DsH2kCYGvKtKMAf8+HYjbHPTQv0lvKyYU3AqlGtspNkxJZ0wzBgQQpD8W0rHA5E9rwXl
-         GCF/uf0rh7CE7ovjHhFrVvJJtouqP48+j0gT25q6YR07rWLkyM2VqiVytrgQlIfKDH2S
-         vq7XeEMqpnDmUJc84jbbLmJNWS3xVbxCDSCNyznotcf2UPFychHEe7MJGQoFBqsfCisg
-         0hT7c2LACzu7Mwn4SlbiLFuGY+Y2i15kS6mBXbz2JnZnoLHSuQo6m8fP3xmvsJGqFjI+
-         OiYg==
-X-Forwarded-Encrypted: i=1; AJvYcCWd3ACdjd2URKE5LkrJ2iQVQI6wVmsdqNaY34RKP9Vw2HQYFqnJp9RM9jJ5y1zO9Y6waetVmJGjkEDO8PM/OtDKGbVOrQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxapJKnZDPL1H6bSKgUC2iUmAIHP6G/Xqjrj8wayC5aOPYrF8li
-	63hz5r87cjqzCJdLQwAQDXH6ZUdZGDP6Th1s17btPUfE+LKl3ASX
-X-Gm-Gg: ASbGnctTI7WH8xtKTrqPoIUWy/jpAw2jXItKlpChai3ewBU1UmKiH5MrwkCsZFIXpnU
-	nccvGQgbUuF6HyjlDcrcqERhqjYXH4qy1oLDwHHn0ees6XgqsOn5/bl4EKbLxSqchF1AebuDr8F
-	eeuJiuUq4TuZMgkRU57AY92uI1p2ZNw9OWixbjVSJ6xtEK8GKVsr55V+83IAoYAufYsJmlDopKO
-	E68x3qLyz8n/A13Vj5fmpTMS3SfJ6Fh/nLkS4z26TkbvO1wGT+c2o0nDCa5x4RH7gvLDYMLjTuM
-	yR0gH4dCxN5A/vUFYnbcAwB6sXpAYuz6a35SyNmngYeWHIia84QviRqbvUluaOBTpmX9rt35I9x
-	muXYVzroPJnmN7hTpzH0yulIO
-X-Google-Smtp-Source: AGHT+IGqYzj25cJHQkUXe9+tpC/pNhXG07X1IG93ZPDwcMrzYGRzVt+SJJU2Lolx8RxeBWOFjdnGRQ==
-X-Received: by 2002:a05:6000:2dc7:b0:3a0:b84f:46de with SMTP id ffacd0b85a97d-3a0b9941bd0mr11326589f8f.21.1746962616029;
-        Sun, 11 May 2025 04:23:36 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a2cf38sm8956991f8f.77.2025.05.11.04.23.35
+        d=1e100.net; s=20230601; t=1747101299; x=1747706099;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lrmp34maV+5CJrub1fqE5o5oKE0u33rB5QJqF+9oIzo=;
+        b=YFj8UsmYfJG/a6izBKZqwFwZgsvAcaZ1J195m8vdOZel5ARc95tpF04+aCHVnsB1pL
+         aBH+5iGxgVRU+SsJxRkzMVcPTPzilSfgl24/0jYroKMPgefAKb1eUYgrmzIfwTscIior
+         tyxMua0KDAm54hODnk3tBBuP4DuQAUS9mfGIj6ScCjuUmoZ8tjDy2KcaTE+OT0NGKLi3
+         orKHopT7OQw6srILpUipII3fm3ToDdriWnH8iONSlJhi2bGEgLIZBGlyZrD+8Ss9fzSK
+         6tYMvqLBbyXM4Mq6mvMFBCGB8Fgdn2Yqh2JGhbFRmw0v/mlPChxJmAkIVnGlK2MFdnTq
+         8EDA==
+X-Forwarded-Encrypted: i=1; AJvYcCUmq7K0rkdnsrS3fuvRWABWKPgy4qq7ULZ0ts20/Wi4keTqgvIn4iTPSH5JrpNlo3rT5g/ohiFw7caiX5BRyu0EMtDT9w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwqcGXUqMAx97ZP4pl6Wg1i7yxZAE8K/Zf7WxtAO2P7Kf00IyiT
+	/TknQ3MKAjfazXpimV0MmhBCAp+5r6r/hV4BhdKS0ocoANcHeSJT
+X-Gm-Gg: ASbGncvuE8Sc4GqGGLnXTQ1JP6zTBzBuuudfX31VpkqIYxxy9CVKIe5ZEIHyUPiBpKr
+	mVzOvJlCwAp4saqmqRbuLnSlj9dm1B/ZgiVutourkmcOItD7SN9M+cDKchWzeQ3BGUNzuj5XIB2
+	SooAZ9BwjK8g4XQ1s8ejy4h1nWco67qKf9/tmvu4Tegy3efVjWA/Itfv05d7DFuUhjH1sR5Ncfn
+	KlSQzNdIsd6s6t6yOPB2eX//AQeARUK7lTP3hgEZu6OamAlVsFftcLWlReWEPLmdDYx9eakd3Ht
+	UHIpaFOiuVaxNuzyVCRP0aM9KKtL4IRE7n1Yq5P5qogLsGgToGk=
+X-Google-Smtp-Source: AGHT+IHXujBhknGKYXu+3zqtXoBJw59paSUC9d1k4V/EEAXbsu/8/DE0TCswHmauBk+p0M1JMwzehg==
+X-Received: by 2002:a05:6214:268e:b0:6e4:4194:df35 with SMTP id 6a1803df08f44-6f6e479573fmr268630366d6.9.1747101299450;
+        Mon, 12 May 2025 18:54:59 -0700 (PDT)
+Received: from iman-pc.home ([142.186.8.171])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f6e3a47311sm60064036d6.73.2025.05.12.18.54.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 May 2025 04:23:35 -0700 (PDT)
-Date: Sun, 11 May 2025 12:23:28 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Ignacio Encinas <ignacio@iencinas.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann
- <arnd@arndb.de>, Eric Biggers <ebiggers@kernel.org>,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, Zhihang
- Shao <zhihang.shao.iscas@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@kernel.org>, linux-arch@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] include/uapi/linux/swab.h: move default
- implementation for swab macros into asm-generic
-Message-ID: <20250511122328.79e9a2d4@pumpkin>
-In-Reply-To: <20250426-riscv-swab-v4-1-64201404a68c@iencinas.com>
-References: <20250426-riscv-swab-v4-0-64201404a68c@iencinas.com>
-	<20250426-riscv-swab-v4-1-64201404a68c@iencinas.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Mon, 12 May 2025 18:54:58 -0700 (PDT)
+From: Seyediman Seyedarab <imandevel@gmail.com>
+X-Google-Original-From: Seyediman Seyedarab <ImanDevel@gmail.com>
+To: rafael@kernel.org,
+	viresh.kumar@linaro.org
+Cc: linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Seyediman Seyedarab <ImanDevel@gmail.com>
+Subject: [PATCH] cpufreq: drop redundant cpus_read_lock() from store_local_boost()
+Date: Mon, 12 May 2025 21:57:26 -0400
+Message-ID: <20250513015726.1497-1-ImanDevel@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 26 Apr 2025 16:56:18 +0200
-Ignacio Encinas <ignacio@iencinas.com> wrote:
+Lockdep reports a possible circular locking dependency[1] when
+cpu_hotplug_lock is acquired inside store_local_boost(), after
+policy->rwsem has already been taken by store().
 
-> Move the default byteswap implementation into asm-generic so that it can
-> be included from arch code.
-> 
-> This is required by RISC-V in order to have a fallback implementation
-> without duplicating it.
-> 
-> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
-> ---
->  include/uapi/asm-generic/swab.h | 33 +++++++++++++++++++++++++++++++++
->  include/uapi/linux/swab.h       | 33 +--------------------------------
->  2 files changed, 34 insertions(+), 32 deletions(-)
-> 
-> diff --git a/include/uapi/asm-generic/swab.h b/include/uapi/asm-generic/swab.h
-> index f2da4e4fd4d1..232e81661dc5 100644
-> --- a/include/uapi/asm-generic/swab.h
-> +++ b/include/uapi/asm-generic/swab.h
-> @@ -3,6 +3,7 @@
->  #define _ASM_GENERIC_SWAB_H
->  
->  #include <asm/bitsperlong.h>
-> +#include <linux/types.h>
->  
->  /*
->   * 32 bit architectures typically (but not always) want to
-> @@ -16,4 +17,36 @@
->  #endif
->  #endif
->  
-> +/*
-> + * casts are necessary for constants, because we never know how for sure
-> + * how U/UL/ULL map to __u16, __u32, __u64. At least not in a portable way.
+However, the boost update is strictly per-policy and does not
+access shared state or iterate over all policies. Since policy->rwsem
+is already held, this is enough to serialize against concurrent
+topology changes for the current policy.
 
-I know you are just moving the code, but that comment just isn't right.
-Linux pretty much assumes that ULL is 64bit and U 32bit (UL varies).
+Remove the cpus_read_lock() to resolve the lockdep warning and
+avoid unnecessary locking.
 
-So the UL constants should just be U ones (int isn't going to be 16 bits).
+ [1]
+ ======================================================
+ WARNING: possible circular locking dependency detected
+ 6.15.0-rc6-debug-gb01fc4eca73c #1 Not tainted
+ ------------------------------------------------------
+ power-profiles-/588 is trying to acquire lock:
+ ffffffffb3a7d910 (cpu_hotplug_lock){++++}-{0:0}, at: store_local_boost+0x56/0xd0
 
-Not only that, but the code requires that the (__unn) casts don't
-truncate the values. Performing the maths on a larger type isn't
-going to change the value of the result.
+ but task is already holding lock:
+ ffff8b6e5a12c380 (&policy->rwsem){++++}-{4:4}, at: store+0x37/0x90
 
-Then we get to the integer promotion that does an implicit conversion
-of the return of all the (__u16) casts back to signed integer.
-So it may be better to leave/make the result of swap16() unsigned int
-rather than casting it to __u16 and getting it promoted to int.
+ which lock already depends on the new lock.
 
-The only plausibly necessary cast is a (__u32) one in the result
-of (except swap64()) to stop the compiler doing 64bit maths with the
-result when the constant has a 64bit type (and all the other casts are
-removed).
+ the existing dependency chain (in reverse order) is:
 
-	David
+ -> #2 (&policy->rwsem){++++}-{4:4}:
+        down_write+0x29/0xb0
+        cpufreq_online+0x7e8/0xa40
+        cpufreq_add_dev+0x82/0xa0
+        subsys_interface_register+0x148/0x160
+        cpufreq_register_driver+0x15d/0x260
+        amd_pstate_register_driver+0x36/0x90
+        amd_pstate_init+0x1e7/0x270
+        do_one_initcall+0x68/0x2b0
+        kernel_init_freeable+0x231/0x270
+        kernel_init+0x15/0x130
+        ret_from_fork+0x2c/0x50
+        ret_from_fork_asm+0x11/0x20
 
-> + */
-> +#define ___constant_swab16(x) ((__u16)(				\
-> +	(((__u16)(x) & (__u16)0x00ffU) << 8) |			\
-> +	(((__u16)(x) & (__u16)0xff00U) >> 8)))
-> +
-> +#define ___constant_swab32(x) ((__u32)(				\
-> +	(((__u32)(x) & (__u32)0x000000ffUL) << 24) |		\
-> +	(((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |		\
-> +	(((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |		\
-> +	(((__u32)(x) & (__u32)0xff000000UL) >> 24)))
-> +
-> +#define ___constant_swab64(x) ((__u64)(				\
-> +	(((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |	\
-> +	(((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |	\
-> +	(((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |	\
-> +	(((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |	\
-> +	(((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |	\
-> +	(((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |	\
-> +	(((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |	\
-> +	(((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
-> +
-> +#define ___constant_swahw32(x) ((__u32)(			\
-> +	(((__u32)(x) & (__u32)0x0000ffffUL) << 16) |		\
-> +	(((__u32)(x) & (__u32)0xffff0000UL) >> 16)))
-> +
-> +#define ___constant_swahb32(x) ((__u32)(			\
-> +	(((__u32)(x) & (__u32)0x00ff00ffUL) << 8) |		\
-> +	(((__u32)(x) & (__u32)0xff00ff00UL) >> 8)))
-> +
->  #endif /* _ASM_GENERIC_SWAB_H */
-> diff --git a/include/uapi/linux/swab.h b/include/uapi/linux/swab.h
-> index 01717181339e..ca808c492996 100644
-> --- a/include/uapi/linux/swab.h
-> +++ b/include/uapi/linux/swab.h
-> @@ -6,38 +6,7 @@
->  #include <linux/stddef.h>
->  #include <asm/bitsperlong.h>
->  #include <asm/swab.h>
-> -
-> -/*
-> - * casts are necessary for constants, because we never know how for sure
-> - * how U/UL/ULL map to __u16, __u32, __u64. At least not in a portable way.
-> - */
-> -#define ___constant_swab16(x) ((__u16)(				\
-> -	(((__u16)(x) & (__u16)0x00ffU) << 8) |			\
-> -	(((__u16)(x) & (__u16)0xff00U) >> 8)))
-> -
-> -#define ___constant_swab32(x) ((__u32)(				\
-> -	(((__u32)(x) & (__u32)0x000000ffUL) << 24) |		\
-> -	(((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |		\
-> -	(((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |		\
-> -	(((__u32)(x) & (__u32)0xff000000UL) >> 24)))
-> -
-> -#define ___constant_swab64(x) ((__u64)(				\
-> -	(((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |	\
-> -	(((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |	\
-> -	(((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |	\
-> -	(((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |	\
-> -	(((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |	\
-> -	(((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |	\
-> -	(((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |	\
-> -	(((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
-> -
-> -#define ___constant_swahw32(x) ((__u32)(			\
-> -	(((__u32)(x) & (__u32)0x0000ffffUL) << 16) |		\
-> -	(((__u32)(x) & (__u32)0xffff0000UL) >> 16)))
-> -
-> -#define ___constant_swahb32(x) ((__u32)(			\
-> -	(((__u32)(x) & (__u32)0x00ff00ffUL) << 8) |		\
-> -	(((__u32)(x) & (__u32)0xff00ff00UL) >> 8)))
-> +#include <asm-generic/swab.h>
->  
->  /*
->   * Implement the following as inlines, but define the interface using
-> 
+ -> #1 (subsys mutex#3){+.+.}-{4:4}:
+        __mutex_lock+0xc2/0x930
+        subsys_interface_register+0x7f/0x160
+        cpufreq_register_driver+0x15d/0x260
+        amd_pstate_register_driver+0x36/0x90
+        amd_pstate_init+0x1e7/0x270
+        do_one_initcall+0x68/0x2b0
+        kernel_init_freeable+0x231/0x270
+        kernel_init+0x15/0x130
+        ret_from_fork+0x2c/0x50
+        ret_from_fork_asm+0x11/0x20
+
+ -> #0 (cpu_hotplug_lock){++++}-{0:0}:
+        __lock_acquire+0x10ed/0x1850
+        lock_acquire.part.0+0x69/0x1b0
+        cpus_read_lock+0x2a/0xc0
+        store_local_boost+0x56/0xd0
+        store+0x50/0x90
+        kernfs_fop_write_iter+0x132/0x200
+        vfs_write+0x2b3/0x590
+        ksys_write+0x74/0xf0
+        do_syscall_64+0xbb/0x1d0
+        entry_SYSCALL_64_after_hwframe+0x56/0x5e
+
+Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
+---
+ drivers/cpufreq/cpufreq.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+index 731ecfc17..759dd178a 100644
+--- a/drivers/cpufreq/cpufreq.c
++++ b/drivers/cpufreq/cpufreq.c
+@@ -622,10 +622,7 @@ static ssize_t store_local_boost(struct cpufreq_policy *policy,
+ 	if (!policy->boost_supported)
+ 		return -EINVAL;
+ 
+-	cpus_read_lock();
+ 	ret = policy_set_boost(policy, enable);
+-	cpus_read_unlock();
+-
+ 	if (!ret)
+ 		return count;
+ 
+-- 
+2.49.0
 
