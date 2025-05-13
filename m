@@ -1,77 +1,71 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00618191484
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 01:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA6619CC3C
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 14:48:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747101576; cv=none; b=pKc8n5ztupZtpf2wJ1T5QIbIehbYfhODRKnVbn9H6ZNZ4Dj/hH9jTkYR4Sk3slwIO260T1EJGCvbV27eOttnPn+NyXoNCA2G7H3GFVg4vMJIDh34O7/svtRwoyeTR/IFB6RIo4saMLu/u6zjSMhHqKzoRn3/55GKtAdcz3CdxeI=
+	t=1747147716; cv=none; b=EhITleu2QDfeKjY3LNyoFgzoc9LXbxLFCwBk+bdIjXnAzdchWgMRu46iTwiHBpw0cTOdm+zLhGaQPTTse7NjSBxPrv0/3i1tCzQXscorA0jxIHsDynSQIW3AikZQi5Jy711IRaA5tQ+D38eWEmvn5kdAhIRwxVqDQVLuhXohbg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747101576; c=relaxed/simple;
-	bh=iNyCL/w53y7T44RfQQIdiVZ+BUUBfHa4qhvE+/XBP64=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QdiH+CeW08+Lw5dTW/YBKZ6HHOFPdvhBXhmkwCo3puDQWRL/fYc+fSI6vnttJXodP8LVLENJzknSOR3CYumbQjtXkLsyq4V2fdedFJ+fc0nkJsxUGzPs4vk+lhE1A22hka2wRXliczcNhc7yV9FFgdOXCFUJaevwLxAG6NEnCuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DShyiMK9; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747147716; c=relaxed/simple;
+	bh=YT5xNS4r8xP8EivUfdR7P7lQuV3FIsANyZZmY8R7e5o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qm171Gen4ClbSt66r+D6HVF7B5aX3qP8fqb2rKna/yLyR3ODhrWdL+xM4S5g+cSw1iLxZOKBxnoeiwJ2Pz5lDP/6Zs3Op4j807S3w39V7wFoQPBknd1W/Y8r89sEYw/wydccAzoX9Nb3yyjPS4PlmQ4VSP/tWpFThRzIjljYvQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=CpOGLdq2; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DShyiMK9"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a0b135d18eso2921252f8f.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 12 May 2025 18:59:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="CpOGLdq2"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-441ab63a415so59344395e9.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 07:48:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747101573; x=1747706373; darn=lists.linux.dev;
+        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1747147711; x=1747752511; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rW+qOLgETMD/qqdVxMuUpvTl8/uOvRufUvaI5H9m0mc=;
-        b=DShyiMK9/Jo0Ob/AzX88tJ1ihH19Bq/wj0dSmyG5YVg+EeEtU9JIfJucIYVwUbbA1W
-         +Nj2Iw0+PwJrJ6oPqEJqwv3UlGqJuqCf+rIWSTjirlLVLnYtGZkIuYH0HlK8ufiFsVUf
-         a6j+9Pb5b88WlADSOkGBqHDQj3BCnoEQlCSw1OB3S745BzOYvTazBOFd3oZizDAajnbq
-         E6BdDs69WB8uL8sarZr9JZD/SfgKi+WRT2Co6qDoqFcFA00tKbl8zpYRoEyM7EN5Vpe4
-         1PTQoDS5O24PqgiiNqAO0UiyQNUvWs8peEqoWezIXFwT7LTzMzIGV3K4G8AupIcptrsd
-         qxVA==
+        bh=NbBexokf21nG+m5XXQimUxHbfdz/gKFEIaDFzU/LUE8=;
+        b=CpOGLdq24CgvKqbHo2faIKf1evi2u2cjuIpgDOoUIuqYGXkjni4ZfxvPnCK7a5Fpbi
+         aAuEo7mnr6E6+Qj002o2CVJ5UUImXrxjxK2AuxygdQghgw5LanI93XAwFp+5w7erycEd
+         7lQxxbiS16RMN4QyWG3pctjgqzO4XHc2wmHdHvpn1qOb88nqSIKSRFizWAhEqIATkvFZ
+         poQhTvKfRCCc5yE5yLTpfDTZBQ8bmB9WBE6vZ1qLgSY34FZ4H5awVEV8OAf+RAMU7DFE
+         0Mrug7mqbv+D51I4JtLEmULE9WXo7WYbnUJdIliqG5B/ocbCMyHBtUxp7LXdTsuZHHmF
+         dhNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747101573; x=1747706373;
+        d=1e100.net; s=20230601; t=1747147711; x=1747752511;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rW+qOLgETMD/qqdVxMuUpvTl8/uOvRufUvaI5H9m0mc=;
-        b=w4egZJtPvwwO1Ybq+MrJf9WCW6ysCXJdPn2vYysN68BJsXPObTUjOFyYtMZrGZ1/1y
-         svutMF7KYuljuDloK2hsA2rOgl0TzW1S2aj3tbgVnH/EwBnFWWDUHieSbZrDuXJgSnSF
-         ZaUX+2J4eWUNe5s1ERmStLNdyClp1qLi9qlVY89BckSsxn2GWLvvWQLBLF1jwkYl2oDP
-         guOeS/ddJv7cto1qOhXgLB6SxBaaaDCZyNXMYMrdOFxARxTswa+GQXLQJk12C8qFhT3V
-         kePNncAh+Ah3erpyUJTYrFN9rlh+/+aZnifsvJI3O51pQO1VCDAZrkoF4IBSg4WVNX5V
-         U7MQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSHoynwZCaSoVp7vc65wv0w1W1qj+csufg5EJRZDytry2twxdvASyhJ3QaMwu11SdJu4mbwaGntXJ5VCfj9wLFuPDDBw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJIblTtn/0BoaSDmCVSqXL/ZVYhYt3mM0C0dTcIvOOiNELR7lA
-	4FoS2Z21t9Ssnj3KeAMjSCidhEwfs2UxMQ2cWHQbr0SVye5h0/yq3g3sOw==
-X-Gm-Gg: ASbGncvNXhhyKDkVFAs12TBMIv9gkIfiTiPE82B6PivqTBmmKXTAnsS52byxs8iABD3
-	NjR2D0q/MczD9xJQLn5yB14I9t6+xFyzGji7ZKaQjAPthBw+pYndlr48+uFTe53HhwSBwmwkVYq
-	zuFgiouP1viXzn677G4Ik0XO5E9XrSUnEyLP95mJPBQXeLqEqy8seZlidP7RiRJySkxkOHCsIXs
-	uTMizZ+agTPpq7VFHHhkyAodA63PnYYdxRb3wBj+1WMUaSEGNqIlLhQ59ZchNaZxZxxa6Gd9wmV
-	fDudUu9k4KzK6P40LBmYr/ZPIR6S1/NFX+gPtzAceBQI9LhgV9TjigfZ37KsnyHQFdUkS6Rijt6
-	1Dg==
-X-Google-Smtp-Source: AGHT+IHkiHYVqTo1Lgsh7pVE/CYDSoNqWuLHp5JoJLnUrbnEdRlTn0J3jvV3ew5K+xWQgz9TtB8/aQ==
-X-Received: by 2002:a5d:64cd:0:b0:3a0:b5ec:f076 with SMTP id ffacd0b85a97d-3a1f643106amr13304447f8f.18.1747101573035;
-        Mon, 12 May 2025 18:59:33 -0700 (PDT)
-Received: from localhost.localdomain ([154.183.40.118])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f58eb9dfsm14490551f8f.31.2025.05.12.18.59.30
+        bh=NbBexokf21nG+m5XXQimUxHbfdz/gKFEIaDFzU/LUE8=;
+        b=crs71cVw4R2VXa8FJqeIAckze3qQKGdW44x8pepOiuMr+nbv7N/KzHPEI8dijr8rgB
+         dD3Y/A/7M/OdLlPEEGieqqgtf6HBzE669EpHbhHHiPJlVBhLfRTKWrY08mwLU7ewlOLB
+         JjULSEiCPAzXtgJbmSo4US5PKZwvwEcys0Cwz2p+XiBDaevQQtBaVZvx8HamWymQGh26
+         sRNoQ5sXHHr/rExEH0RJ+OF8wjIWy5Uct9Vv8QSG3j+QZYzCQd86wQ948sRrx1tJMrZa
+         aeruRiYb5TNz8iwzMs26h5nIEILvQulu2kRIZhFcf6zhROBb8ZPdaePDcdGnZrE5fGDs
+         nYVQ==
+X-Gm-Message-State: AOJu0Yw4jEVb7Zc524uLIFuw3Ilv9Fgb/yJGxWidOWalKej5quYsfSJQ
+	uETCXVcgtCD/1tyPkI8R3gw6ByDyXzuRoqSxTJJTIu6up5PlPgY3o6sseDwYSmd8+q0pitQ2kiU
+	o5NA=
+X-Gm-Gg: ASbGncuaYAGYC/g7fnAOObtL+oC4gfWNuNGYW/PG9zWp3CA6H8VNBHSCG2X12kFxnSy
+	M/mqQQY+cWFG/rga7Bch2ozvKpeHoTunYDorPECYyKgICq+Pdf8lyg+Ac2GnzeTd+j69WWfCe7Z
+	fklGb/tpEK5Z/LLLPK+Z26mJbkSRffxTl2efPJ96onjPGrO4Xm60GauEo4GeFqD9HKiJGR9mng1
+	3ZETB/A+Za5+T9O78J45S+vfjybPIpMKEFpJJNVYUXZND02f/9MFh2ebNMb2cdbxQDTxuVR0Nam
+	j8/nhlws1IZEhPTTtJh6xuFjq2/E0mH+qbD5iCNSaBYznJz0ewQt39VVIzq9JfFp0/yWjr0IqX4
+	+ix/f2TbggWkIe532dt2BUV/JUBGvBA==
+X-Google-Smtp-Source: AGHT+IFB3vwfvifBjKb4BRvj9BZyF3VmALZPU5U77ivyr56FeegCa9igR2q57C2VuHPX0hdhYeEJpg==
+X-Received: by 2002:a05:600c:6612:b0:442:e147:bea6 with SMTP id 5b1f17b1804b1-442e17571f9mr97496445e9.11.1747147710206;
+        Tue, 13 May 2025 07:48:30 -0700 (PDT)
+Received: from pop-os.. (178-116-3-140.access.telenet.be. [178.116.3.140])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442d67d5c7bsm172837185e9.4.2025.05.13.07.48.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 May 2025 18:59:31 -0700 (PDT)
-From: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
-To: bpf@vger.kernel.org,
-	ast@kernel.org,
-	daniel@iogearbox.net,
-	martin.lau@kernel.org,
-	andrii@kernel.org
-Cc: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>,
-	linux-kernel-mentees@lists.linux.dev,
-	shuah@kernel.org,
-	tj@kernel.org,
-	kernel-team@meta.com,
-	memxor@gmail.com
-Subject: [PATCH bpf-next] docs: bpf: fix bullet point formatting warning
-Date: Tue, 13 May 2025 04:58:59 +0300
-Message-ID: <20250513015901.475207-1-khaledelnaggarlinux@gmail.com>
-X-Mailer: git-send-email 2.47.2
+        Tue, 13 May 2025 07:48:29 -0700 (PDT)
+From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+To: skhan@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+Subject: [PATCH] selftests: fix "memebers" typo in filesystems/mount-notify
+Date: Tue, 13 May 2025 16:48:16 +0200
+Message-ID: <20250513144816.72566-1-hendrik.hamerlinck@hammernet.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -80,48 +74,27 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix indentation for a bullet list item in bpf_iterators.rst.
-According to reStructuredText rules, bullet list item bodies must be
-consistently indented relative to the bullet. The indentation of the
-first line after the bullet determines the alignment for the rest of
-the item body.
+Corrects a spelling mistake "memebers" instead of "members" in 
+tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c 
 
-Reported by smatch:
-  /linux/Documentation/bpf/bpf_iterators.rst:55: WARNING: Bullet list ends without a blank line; unexpected unindent. [docutils]
-
-Fixes: 7220eabff8cb ("bpf, docs: document open-coded BPF iterators")
-Signed-off-by: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
 ---
-Hello, please let me know if you have any comments, thanks!
+ .../selftests/filesystems/mount-notify/mount-notify_test.c      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
----
- Documentation/bpf/bpf_iterators.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/bpf/bpf_iterators.rst b/Documentation/bpf/bpf_iterators.rst
-index 8f0a4a91b77a..189e3ec1c6c8 100644
---- a/Documentation/bpf/bpf_iterators.rst
-+++ b/Documentation/bpf/bpf_iterators.rst
-@@ -52,14 +52,14 @@ a pointer to this `struct bpf_iter_<type>` as the very first argument.
-
- Additionally:
-   - Constructor, i.e., `bpf_iter_<type>_new()`, can have arbitrary extra
--  number of arguments. Return type is not enforced either.
-+    number of arguments. Return type is not enforced either.
-   - Next method, i.e., `bpf_iter_<type>_next()`, has to return a pointer
--  type and should have exactly one argument: `struct bpf_iter_<type> *`
--  (const/volatile/restrict and typedefs are ignored).
-+    type and should have exactly one argument: `struct bpf_iter_<type> *`
-+    (const/volatile/restrict and typedefs are ignored).
-   - Destructor, i.e., `bpf_iter_<type>_destroy()`, should return void and
--  should have exactly one argument, similar to the next method.
-+    should have exactly one argument, similar to the next method.
-   - `struct bpf_iter_<type>` size is enforced to be positive and
--  a multiple of 8 bytes (to fit stack slots correctly).
-+    a multiple of 8 bytes (to fit stack slots correctly).
-
- Such strictness and consistency allows to build generic helpers abstracting
- important, but boilerplate, details to be able to use open-coded iterators
---
-2.47.2
+diff --git a/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c b/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c
+index 59a71f22fb11..af2b61224a61 100644
+--- a/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c
++++ b/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c
+@@ -230,7 +230,7 @@ static void verify_mount_ids(struct __test_metadata *const _metadata,
+ 			}
+ 		}
+ 	}
+-	// Check that all list1 memebers can be found in list2. Together with
++	// Check that all list1 members can be found in list2. Together with
+ 	// the above it means that the list1 and list2 represent the same sets.
+ 	for (i = 0; i < num; i++) {
+ 		for (j = 0; j < num; j++) {
+-- 
+2.43.0
 
