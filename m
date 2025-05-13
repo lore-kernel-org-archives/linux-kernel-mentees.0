@@ -1,133 +1,122 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B1F74C14
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 22:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB12A128395
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 22:14:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747173839; cv=none; b=sp/LAZDjLMLCN2LFk42/7sK/veSYMZJAV9bnO/v2taBi/0S7RnQQBxxx/Cou3syG7kj9c6/GyLaa3U+ukkRGQ/wvbHfXymt8uASCknNYq7vKIiLk872nVwVCM7VdsE2v6CtilY34Xeu1gj76Bwg0h5odgrOBl+L2ii+sP+ksfFs=
+	t=1747174492; cv=none; b=biaDGoj+bcxtfN0SYcE03fhRWNu+AS1NWRgQg/IsefjGnXg6kv4jZEjhXT2537ZL4kdZAeecSDA9qDx0At38dtpzIw5S/4wq1kwq44atjoz9kQ8RTcJfVgxkEzs2fJWvZl+qqTOOowhtPBz442nuzbzl4EU7FYdBF/el3hQo8ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747173839; c=relaxed/simple;
-	bh=mht4Mu8KwpR6qpvUd9Q38WXeV/fBDsQSW7CDZBj5eSQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hyn+j9fsPeR/5o3KuIzv/0zqE9T2IqoIsjxj3od5WpDNtRikOD6zsjlxMN4Axb05GG/nZBK+v1gvn5EB7ThMTHpeA/KMFgqbki10yGyp2ktlUCUprnnx0VrQqgTzMcAVUYDi/KCl+rEAMp9fMyQemxB5qXNqm7PxhgCwkuqeNxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KgrQseFy; arc=none smtp.client-ip=209.85.166.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1747174492; c=relaxed/simple;
+	bh=maKoMyNUptWEACg33q1vpy/GSFWTvEqnX6P66Eb3NJE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WMkr9/G7ULCweHEfu+RdrXnx01I7zxnw3Fv2U+TvGdcalYQ2uEgDiJvMMWvLs9m0lhgP7HVltj4APuH6tm9uvWQG1CUMPF629t6lNKMCxEgQANo3ArgiAwCBkI+Rgk+/cPD0pJxHocMErNL1UGH0boVoh448Ip7ViRjRlOmUHfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cvxGEYLp; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KgrQseFy"
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-8644aa73dfcso164413439f.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 15:03:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cvxGEYLp"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a0b4907a28so915211f8f.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 15:14:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1747173836; x=1747778636; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MoKmI2raZuqSmtw+LIkwIvxwxu+cELMe9tnrTCWibeE=;
-        b=KgrQseFyIJVU8420kY+v4DeVHzONbHi5UHRDFqEyIuj22OxVjtJqCD1A5EqCLWWzB+
-         KkWP52sZ5nG7mS42+JUiTqB7eVpwkNf1T9RTmBvH7MVS647gr8ER2dQUE7/peOzE3ZW7
-         M7BJkwvJId74UJNKwbgAFn8WAw+gjQ9HTiihI=
+        d=gmail.com; s=20230601; t=1747174489; x=1747779289; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=z6twoJszxPLDnRSsZ54kwRwjtDyPeTyb0lPKYWaATxI=;
+        b=cvxGEYLpNV7kMqCts0ttGVSk+An9EwROkGo9MBu83HaH0J5lOyq6P3jkY3Xbhh9BKC
+         GgDIMAFMU42JZ86ndXWjJ7KnExxZCLaqB4j4jNVin/3+c2cPwWuyJooWkS/ngVEPcuJR
+         Fc/3EBKxu+Muvpo5X8WWhGYUtq+j177F72qby20hfili9zDwXp/69SuPwY1XoopQVzmb
+         um9POWuGGNNj4sCJsuskZwjXtrwQnZRugtGQTkffUFbW9caehQXVPkFKpzmE9yMHidjI
+         CjIKxoErIaThVkcUL2IxMfVw8zaQ2fMT1n2GUWnmiIEi6B7VsEGCGV7wRRbXb3uPCzuf
+         2q+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747173836; x=1747778636;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MoKmI2raZuqSmtw+LIkwIvxwxu+cELMe9tnrTCWibeE=;
-        b=WmTHfYJPAgs1S/xff6xLRMR1CSIsclJhcPyGUhtyXtEDVX3VZ1uCNmBkVMu7h5b4dp
-         lGJcGtmohDmC2RUG+Ud0WNZGkPMewfaXRSes5+AhQnlq5oDi3YTiP7A2/zBeRCLfTrn1
-         6BCahLtlW2qS9T+ObGo5LYM0OCrRe8salFxfa9HdB1dP49CsMOh/7mcBKJ04LhNaxFTh
-         3lHgJt8DmnU9dAag9AV2RpKftO6YanciZkNY2IJyj5M6uzT3RKAao8PkV4jifB2WiZpM
-         TzvNSDk/WHRe7crI7wPi3kl/ksOdO+8O8Z1zvSwAZC/8m6Iwwh5epQXbw5+7e7MK3MK+
-         /77A==
-X-Gm-Message-State: AOJu0YygUudltKfrY1TSoSFDBpN45XdW5pJoF0o0mKGKjVNHQJWS8xD0
-	RbebefWGIdvSYlh77RSI/PPiwZiR99bHVyt8HYc+7jP2CaX9q4GNcFTq859+7Hg=
-X-Gm-Gg: ASbGncvrK5MVpep/ho33fMZ35mMFi+NOFpbNWP/GgXLB2Az97ttu4zuYDhSCkinnkCm
-	OtDW5MT6nDJQ9XHdvoTBfdXdd/vRdsjZmzy07waLfAwsLi8Q9V781Z4oQjsDt+R0oBm4c1LWou2
-	OC7KlVFCC3HykBRQaPOHj6j2CtTr4o8w7JqYVZqu0u3p/yZMXUjDvGZ73C7cwNbixWSOOd8k9I7
-	Mvq1FlE8Te6nHFGcOG6M0R5HZRPjSjW2Z23kALQND8ndOWnRSCmf1v/0Sk4mpwjlPp1z+iy64Af
-	GNNWufvnptKB73+ieAnAYq90znz4xx64rpqWuptqxbFzUsHxNvF0O1MbD04TlmJMyuLK4nFs
-X-Google-Smtp-Source: AGHT+IF6/RkZ9qQPZwCYgDY7fPoXtWFmtHPVQT+c1klITiTH2LENUwc6S+Wq5DRw/bkxC7oGI/dW2g==
-X-Received: by 2002:a05:6602:2744:b0:85b:3f8e:f186 with SMTP id ca18e2360f4ac-86a08dcadfdmr145091039f.6.1747173836361;
-        Tue, 13 May 2025 15:03:56 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fa224d8d13sm2302262173.31.2025.05.13.15.03.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 May 2025 15:03:55 -0700 (PDT)
-Message-ID: <09c7ad5e-4061-4c0b-b097-fa575c12a244@linuxfoundation.org>
-Date: Tue, 13 May 2025 16:03:55 -0600
+        d=1e100.net; s=20230601; t=1747174489; x=1747779289;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z6twoJszxPLDnRSsZ54kwRwjtDyPeTyb0lPKYWaATxI=;
+        b=m5OPqyt9jHMCrI6KeqvxqiIu3xZIgebuyt8AL3OtfFYmJqTR3ypikoY0vZmzGPuEl1
+         wAMuXNzSmwjGlcDUkeXX3hIKD4Mg3qdkeOCG9cfVJJsBlOkUZDJyOa+6Tpf36jny81Ir
+         GyPu+ivGyEirgSFtxwZqbXh7hlLJLv7aAdTtaqQXAE3kDU6f3/5JhRwW39qrYfr4B441
+         U+w9nOBO6FyiXmSVtp9Vt3pdWjxmDRXWcoad7IO5xD+0lU5B2cJQZOV6CZiFdMvwhQmM
+         czD90YkVyupNwAxyNukh+JG3Xxw/TgKBUyMGuLR56wUeW+eeBshwD3J9fxtejRcA2WpJ
+         61eA==
+X-Forwarded-Encrypted: i=1; AJvYcCV5LFnxna6K2BwbWc7dCGFYRBuHZcZbhcDVxesk4lCwFG301+e0YmLSy3mED+srMxlD+3WcdJwSp6OxsGSLceFnF8y2zg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMt+fsVzZZzjOXiD2dIZBhCVW/sK0BtDheR3uz8s9mA00doa+k
+	egRb1rpe5+ez11shBo/CchiwtpnygvRxeZGMADm09HhSISMILMpL
+X-Gm-Gg: ASbGncuusEsPRCU1QnVRl9RYoUMNmtAGuOYdIrJ/7xPu7C4RFTwJmw6da2Nd6DutZ9o
+	SbrgzVd/eHPVDfmHxEmx46iwqxEX51kVBmr2rMOoa/F4uS0At4ZOEhC+dze3yGnnFCfEd9MYycw
+	CNaDVDf0qNRSkBGhEDc1KKOFxSuYR7GXuqKLE15N7tm/FoOYrP1iiVmf7i36nDtCKUjwlSqJV3p
+	mKsog3Nalodpd2RELBc+eeU9Gg1gscSvCOfnXDLQDNdxpK5L2ruSIiipAD3WBt9FYK9DdbZ1jws
+	J7Dut4oZZcO8GT9NaQz0MX2e4TPAJvzSokLRVll8SBckhe302kGeTKyC5bWmroAtGacPjMSryse
+	+Inpc4vdP/FI8
+X-Google-Smtp-Source: AGHT+IHgrMjW9Ba1gwxGTJLcFIR6YYXzawIfwNKz16y8Eau2B+r2Bk5p9TNdYT7x/IbG5+ngKJe5SQ==
+X-Received: by 2002:a05:6000:240a:b0:3a2:133:b1a4 with SMTP id ffacd0b85a97d-3a3499454c3mr257125f8f.13.1747174488910;
+        Tue, 13 May 2025 15:14:48 -0700 (PDT)
+Received: from localhost.localdomain ([102.44.114.188])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f3951a97sm3194375e9.23.2025.05.13.15.14.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 May 2025 15:14:48 -0700 (PDT)
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+X-Google-Original-From: Abdelrahman Fekry <Abdelrahmanfekry375@gmail.com>
+To: shuah@Kernel.org,
+	skhan@linuxfoundation.org
+Cc: linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Abdelrahman Fekry <Abdelrahmanfekry375@gmail.com>
+Subject: [PATCH] selftests: acct: fix grammar and clarify output messages
+Date: Wed, 14 May 2025 01:14:26 +0300
+Message-Id: <20250513221426.303691-1-Abdelrahmanfekry375@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] tools/powercap: Implement powercap_set_enabled()
-To: Suchit Karunakaran <suchitkarunakaran@gmail.com>, trenn@suse.com,
- shuah@kernel.org, jwyatt@redhat.com, jkacur@redhat.com,
- linux-pm@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20250510184709.44935-1-suchitkarunakaran@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20250510184709.44935-1-suchitkarunakaran@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/10/25 12:47, Suchit Karunakaran wrote:
-> The powercap_set_enabled() function previously returned a dummy value
-> and was marked with a TODO comment. This patch implements the function
-> by writing the desired mode (0 or 1) to /sys/class/powercap/intel-rapl/enabled
+This patch improves the clarity and grammar of output messages in the acct()
+selftest. Minor changes were made to user-facing strings and comments to make
+them easier to understand and more consistent with the kselftest style.
 
-The short summary should say cpupower: Implement powercap_set_enabled()
-> 
-> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-> ---
->   tools/power/cpupower/lib/powercap.c | 22 ++++++++++++++++++----
->   1 file changed, 18 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tools/power/cpupower/lib/powercap.c b/tools/power/cpupower/lib/powercap.c
-> index 94a0c69e55ef..7947b9809239 100644
-> --- a/tools/power/cpupower/lib/powercap.c
-> +++ b/tools/power/cpupower/lib/powercap.c
-> @@ -70,6 +70,22 @@ static int sysfs_get_enabled(char *path, int *mode)
->   	return ret;
->   }
->   
-> +static int sysfs_set_enabled(const char *path, int mode)
-> +{
-> +	int fd;
-> +	char buf[2] = { mode ? '1' : '0', '\n' };
-> +	ssize_t ret;
-> +
-> +	fd = open(path, O_WRONLY);
-> +	if (fd == -1)
-> +		return -1;
-> +
-> +	ret = write(fd, buf, sizeof(buf));
-> +	close(fd);
-> +
-> +	return ret == sizeof(buf) ? 0 : -1;
-> +}
-> +
->   int powercap_get_enabled(int *mode)
->   {
->   	char path[SYSFS_PATH_MAX] = PATH_TO_POWERCAP "/intel-rapl/enabled";
-> @@ -77,12 +93,10 @@ int powercap_get_enabled(int *mode)
->   	return sysfs_get_enabled(path, mode);
->   }
->   
-> -/*
-> - * TODO: implement function. Returns dummy 0 for now.
-> - */
->   int powercap_set_enabled(int mode)
->   {
-> -	return 0;
-> +	char path[SYSFS_PATH_MAX] = PATH_TO_POWERCAP "/intel-rapl/enabled";
-> +	return sysfs_set_enabled(path, mode);
+Changes include:
+- Fixing grammar in printed messages and comments.
+- Rewording error and success outputs for clarity and professionalism.
+- Making the "root check" message more direct.
 
-Did you compile this?
+These updates improve readability without affecting test logic or behavior.
 
-thanks,
--- Shuah
+Signed-off-by: Abdelrahman Fekry <Abdelrahmanfekry375@gmail.com>
+---
+ tools/testing/selftests/acct/acct_syscall.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/tools/testing/selftests/acct/acct_syscall.c b/tools/testing/selftests/acct/acct_syscall.c
+index 87c044fb9293..2c120a527574 100644
+--- a/tools/testing/selftests/acct/acct_syscall.c
++++ b/tools/testing/selftests/acct/acct_syscall.c
+@@ -22,9 +22,9 @@ int main(void)
+ 	ksft_print_header();
+ 	ksft_set_plan(1);
+ 
+-	// Check if test is run a root
++	// Check if test is run as root
+ 	if (geteuid()) {
+-		ksft_exit_skip("This test needs root to run!\n");
++		ksft_exit_skip("This test must be run as root!\n");
+ 		return 1;
+ 	}
+ 
+@@ -52,7 +52,7 @@ int main(void)
+ 	child_pid = fork();
+ 
+ 	if (child_pid < 0) {
+-		ksft_test_result_error("Creating a child process to log failed\n");
++		ksft_test_result_error("Failed to create child process for logging\n");
+ 		acct(NULL);
+ 		return 1;
+ 	} else if (child_pid > 0) {
+-- 
+2.25.1
+
