@@ -1,135 +1,154 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942021A28D
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 01:20:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEEA27780D
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 12:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747185620; cv=none; b=k26seK1kTxEkIy+s1ywsHccnizk8PSlVo4MTlCCMasbap2wHroiIinsixIKmFuDZAz9Aa8JptScOQnlzlsXZbtroNQC9PNMNLgpdtIig9rHB7tiA62/FH0oE65JIj1C/18yYn5j7whRaOgyASTPezkAWKn4TpfN+eSHBOcSw3so=
+	t=1747226634; cv=none; b=TbnoSHEPYCEKrqKif1afVCCNwWw4DjoDm+dXvuOWB9Jotb4gvPTDluqb1de1lVA9bJHGpuCOVwIva2Mt1LI7+DPhQc5fwF1aedFvgK780/DmgUUMLNzsbIk9fkMs3Jlw6a3KQJRv9Y2XqrJNn1QKyTGLCjOhSImbQZH9lWpItVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747185620; c=relaxed/simple;
-	bh=6TH+CfOf8nH8p092bYaPHuPFIDKQno5bG+ApPzD2hCE=;
+	s=arc-20240116; t=1747226634; c=relaxed/simple;
+	bh=RkK5HYfym0mSKygNHtg7/x99esDPYM69w7wrfurgeaY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pT96pwT/balaCjJsFgPTUA6ouHpcFgr3mNLJRSs//8yb5iOpyF2JoTk9sdOZTSPNKOrZH06yj5wKjdcqM87DmhZ6qN+8h5RTUjLOxH7u9UzfVg8fRuHI0lHeg43d7xJ9/MT6NvZfegKjeHgwmDQOV1Codnx62Ral3UNFiLZsFso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JeZ9BmWO; arc=none smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=p3oxIVvLOpFxrQwqbgdI4fgvn9iiiIigx2kNghn8f0WxlwtKzBLRq+gsCnYDxqEMHjInhmkkymQSG7gKoi3jr3xVCZyoQ4P+QcSj5jWRcS15zUtUoy8jSM+HEZplODkivHyD/u63N5bxQV/XXpQIOw2dyWa8FDsiw9axCFytQTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oMTcc+ea; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JeZ9BmWO"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-72bd5f25ea6so1716487a34.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 May 2025 18:20:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747185617; x=1747790417; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kjhw+8R2L2eVYt9u5Zf9479vJ3/o77t8mJ9Bz83DtoQ=;
-        b=JeZ9BmWOgdaeiwhG4UIYbtmPWEAfsLcTVkn4Er5n+huB6LtWflfxaBwEXSVf5drY+M
-         EBDEC2QXXEkMRpbv/uFXrJ7uLjvjikt+7q0tYnicwQQM6mFok4uRoqI2AZ3iEN08khFL
-         vYZPp7OLd5iMfG4kWa41VzG3zNCjFHE4Rxzv7zCiqZFpkK+vkw2UhPn2/RA72Y4k6K1G
-         pcYmazJipUU9xrIWTNuWd/B0divTxV3aTI5uvcoVtLc+/OI54mu0iI4xhXCza5u/oCIm
-         qF/gAHvXe20LsOgn4jA64KUEVkdS412Gv2P+2teIDye6OJDcSHQtQSZHD+4RXbg3T6cS
-         tVKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747185617; x=1747790417;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kjhw+8R2L2eVYt9u5Zf9479vJ3/o77t8mJ9Bz83DtoQ=;
-        b=HKh9XQ9fXvzdGXQvmCE8T9SuMwPjfhHiHqLUVROgBR1R86i83VZUWhwUKIF5tINRsw
-         57MQ105PGd59Tduh53bnqI5SqpqBdI/JV5VJ6aMTepm6GBI4d7h2mSIKLEk3o9fkYlBn
-         hiLQiC3YDkGD/FilIOOLAqsPgpy8QocVICEWMKYaTqD0knaw6Y/YSL6hw/B4bapo4dwq
-         UdonGly+pABzmESL3HBuMnpjHpIxgOAsePvx7bl796tzilPOIMkMjeEJ/K7vCMu4fdpb
-         lKmScAqGbmvz2eu2aCpJpDd3tJXv0vmXsGtU3RyyJY5/DT8/nsegtwoVRLkWvo9GVGDm
-         7roQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUSf3rQWajWQPmYYSRLE9NGRnm3bVbbu1XqvFJrFfZmtiJKbxy0AP40NYW8Ak/r4yZ+ghqaJiiG7EribDlZrzKOoJjY2Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzoNZaECAMTAh0oWrrCliBnb+bnmOhYNQH85jqfZil8DvylVvrt
-	CoUBmRZE+u56bLgy8WPN8t+Sc+xOWij6PyMv5M6QxcxNcG0hMpzaDjHd2cvVSLikw3pI5KJtLIr
-	MTb/1j0l5x+y498y2n5tzoYiHrKU=
-X-Gm-Gg: ASbGncsQV9DihGsRBXlS/AVFOWqBQTwpzVSVDPB4448UuuH7TmZO19BzaLkXwdPuu5T
-	FrRzTTIhetW/bYTPxegsktUht1r5Kpsx4yDsXUy0dkWa1niP+aQGNahv5ludKMcW/58ik1MG1Js
-	UkQ68Qn7ZbnPIdVe/8fU8/5OnDQyWsVoz4faTDTOiABpM/2p/dsgs2EeZv3ihi70jQ5g==
-X-Google-Smtp-Source: AGHT+IHkZ/hgevBC9dQiqQ7Y9K8Hy5o5zbMHYNDgVh2fgORnUsRO27N4/XTRi5pSH9FtbfVkATvj1JiZs9S+RGqo4q8=
-X-Received: by 2002:a05:6870:71cb:b0:2d4:d07c:7cb2 with SMTP id
- 586e51a60fabf-2e32b1366a7mr696824fac.11.1747185617429; Tue, 13 May 2025
- 18:20:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oMTcc+ea"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 303F8C4CEF0
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 12:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747226634;
+	bh=RkK5HYfym0mSKygNHtg7/x99esDPYM69w7wrfurgeaY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=oMTcc+eaTWI1qALlf6gg0aDwGjDJbshwil0B+5L/0/BQOkZe1ykiWiQTz+XsPqwbv
+	 aToVfbgy0odLjMzK60nqvZhwsRBUIJZj+mWWrbR0mtaQILxD9RiEbjOySXZmQ+Flav
+	 7qK+csjYV4WqBwIH6KxOnugnek4uXLKuLDcVmW8tJ/8yQeaTiJaPUpeUHlDLVJySbn
+	 omur8hyCk954p4yJztocT19oTbci7VRfyuecJc9HExJxpOBDt8GwwDxO6xNSJetg+X
+	 1Sz26ZQwisoJoSYjCh5vCw9S/tSMQ5eVwPHG3vROuB26qgNqg22XUjh2SIqhXxaTwT
+	 AtBDNW2VT0mbw==
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-601b6146b9cso3365629eaf.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 05:43:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUok6+tRWP2f6KS5Bw+4/r++S/zlNbaDfUgsgPwy/Vv/EXZPm48MnaOhvJl8BO0ImARIJ+GFkGZ08JWNVEBliEAYtaltQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwO+dxlzRzxUHsTmBR8DI1ej29lKgoeW5Q9WXYYLISFASC4/yb+
+	nQgMqjSdanr/+NegXDNcoldE5J3byO27oqezV7+w2GyqHD77lFoxP4OsbKbHHmstnYtYV3qRKoC
+	5FWWv4e0jBPoJS9sF+99dvl7NgFg=
+X-Google-Smtp-Source: AGHT+IFLPiLLdFHgnurhnXU+t42N4mH7EOXOgwJUCUxANYYKeRbm6LctYuTcImfBsxEDZo9qcxyNJ1w7cOf5a/dWweg=
+X-Received: by 2002:a05:6820:1b09:b0:609:de23:cfbb with SMTP id
+ 006d021491bc7-609df2560c5mr1452035eaf.8.1747226633512; Wed, 14 May 2025
+ 05:43:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250510184709.44935-1-suchitkarunakaran@gmail.com> <09c7ad5e-4061-4c0b-b097-fa575c12a244@linuxfoundation.org>
-In-Reply-To: <09c7ad5e-4061-4c0b-b097-fa575c12a244@linuxfoundation.org>
-From: Suchit K <suchitkarunakaran@gmail.com>
-Date: Wed, 14 May 2025 06:50:06 +0530
-X-Gm-Features: AX0GCFtYZvMyu3LNA6tisPv-kVuwpVvfEoES84vyI6pfnQg2CB3GgUX9A07nmkk
-Message-ID: <CAO9wTFjyEngVR10ixYj=G8udRBeKaxAQquPCdi0V638t3WqQfA@mail.gmail.com>
-Subject: Re: [PATCH] tools/powercap: Implement powercap_set_enabled()
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: trenn@suse.com, shuah@kernel.org, jwyatt@redhat.com, jkacur@redhat.com, 
-	linux-pm@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+References: <20250513015726.1497-1-ImanDevel@gmail.com>
+In-Reply-To: <20250513015726.1497-1-ImanDevel@gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 14 May 2025 14:43:42 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gS72-yJ2=EwEb4qz2m47RAhU1Va+UnGNJAjTsT1AJiQQ@mail.gmail.com>
+X-Gm-Features: AX0GCFuiZGmk5nUYxUtq4FjjEGITyDcDkkHk819fqPtLOpfSDIUh6xmwxhv1ANQ
+Message-ID: <CAJZ5v0gS72-yJ2=EwEb4qz2m47RAhU1Va+UnGNJAjTsT1AJiQQ@mail.gmail.com>
+Subject: Re: [PATCH] cpufreq: drop redundant cpus_read_lock() from store_local_boost()
+To: Seyediman Seyedarab <imandevel@gmail.com>
+Cc: rafael@kernel.org, viresh.kumar@linaro.org, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the suggestion, Shuah. And I did compile the kernel after
-making the changes.
+On Tue, May 13, 2025 at 3:55=E2=80=AFAM Seyediman Seyedarab <imandevel@gmai=
+l.com> wrote:
+>
+> Lockdep reports a possible circular locking dependency[1] when
+> cpu_hotplug_lock is acquired inside store_local_boost(), after
+> policy->rwsem has already been taken by store().
+>
+> However, the boost update is strictly per-policy and does not
+> access shared state or iterate over all policies. Since policy->rwsem
+> is already held, this is enough to serialize against concurrent
+> topology changes for the current policy.
+>
+> Remove the cpus_read_lock() to resolve the lockdep warning and
+> avoid unnecessary locking.
+>
+>  [1]
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+>  WARNING: possible circular locking dependency detected
+>  6.15.0-rc6-debug-gb01fc4eca73c #1 Not tainted
+>  ------------------------------------------------------
+>  power-profiles-/588 is trying to acquire lock:
+>  ffffffffb3a7d910 (cpu_hotplug_lock){++++}-{0:0}, at: store_local_boost+0=
+x56/0xd0
+>
+>  but task is already holding lock:
+>  ffff8b6e5a12c380 (&policy->rwsem){++++}-{4:4}, at: store+0x37/0x90
+>
+>  which lock already depends on the new lock.
+>
+>  the existing dependency chain (in reverse order) is:
+>
+>  -> #2 (&policy->rwsem){++++}-{4:4}:
+>         down_write+0x29/0xb0
+>         cpufreq_online+0x7e8/0xa40
+>         cpufreq_add_dev+0x82/0xa0
+>         subsys_interface_register+0x148/0x160
+>         cpufreq_register_driver+0x15d/0x260
+>         amd_pstate_register_driver+0x36/0x90
+>         amd_pstate_init+0x1e7/0x270
+>         do_one_initcall+0x68/0x2b0
+>         kernel_init_freeable+0x231/0x270
+>         kernel_init+0x15/0x130
+>         ret_from_fork+0x2c/0x50
+>         ret_from_fork_asm+0x11/0x20
+>
+>  -> #1 (subsys mutex#3){+.+.}-{4:4}:
+>         __mutex_lock+0xc2/0x930
+>         subsys_interface_register+0x7f/0x160
+>         cpufreq_register_driver+0x15d/0x260
+>         amd_pstate_register_driver+0x36/0x90
+>         amd_pstate_init+0x1e7/0x270
+>         do_one_initcall+0x68/0x2b0
+>         kernel_init_freeable+0x231/0x270
+>         kernel_init+0x15/0x130
+>         ret_from_fork+0x2c/0x50
+>         ret_from_fork_asm+0x11/0x20
+>
+>  -> #0 (cpu_hotplug_lock){++++}-{0:0}:
+>         __lock_acquire+0x10ed/0x1850
+>         lock_acquire.part.0+0x69/0x1b0
+>         cpus_read_lock+0x2a/0xc0
+>         store_local_boost+0x56/0xd0
+>         store+0x50/0x90
+>         kernfs_fop_write_iter+0x132/0x200
+>         vfs_write+0x2b3/0x590
+>         ksys_write+0x74/0xf0
+>         do_syscall_64+0xbb/0x1d0
+>         entry_SYSCALL_64_after_hwframe+0x56/0x5e
+>
+> Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
+> ---
+>  drivers/cpufreq/cpufreq.c | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index 731ecfc17..759dd178a 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -622,10 +622,7 @@ static ssize_t store_local_boost(struct cpufreq_poli=
+cy *policy,
+>         if (!policy->boost_supported)
+>                 return -EINVAL;
+>
+> -       cpus_read_lock();
+>         ret =3D policy_set_boost(policy, enable);
+> -       cpus_read_unlock();
+> -
+>         if (!ret)
+>                 return count;
+>
+> --
 
-
-On Wed, 14 May 2025 at 03:33, Shuah Khan <skhan@linuxfoundation.org> wrote:
->
-> On 5/10/25 12:47, Suchit Karunakaran wrote:
-> > The powercap_set_enabled() function previously returned a dummy value
-> > and was marked with a TODO comment. This patch implements the function
-> > by writing the desired mode (0 or 1) to /sys/class/powercap/intel-rapl/enabled
->
-> The short summary should say cpupower: Implement powercap_set_enabled()
-> >
-> > Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-> > ---
-> >   tools/power/cpupower/lib/powercap.c | 22 ++++++++++++++++++----
-> >   1 file changed, 18 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/tools/power/cpupower/lib/powercap.c b/tools/power/cpupower/lib/powercap.c
-> > index 94a0c69e55ef..7947b9809239 100644
-> > --- a/tools/power/cpupower/lib/powercap.c
-> > +++ b/tools/power/cpupower/lib/powercap.c
-> > @@ -70,6 +70,22 @@ static int sysfs_get_enabled(char *path, int *mode)
-> >       return ret;
-> >   }
-> >
-> > +static int sysfs_set_enabled(const char *path, int mode)
-> > +{
-> > +     int fd;
-> > +     char buf[2] = { mode ? '1' : '0', '\n' };
-> > +     ssize_t ret;
-> > +
-> > +     fd = open(path, O_WRONLY);
-> > +     if (fd == -1)
-> > +             return -1;
-> > +
-> > +     ret = write(fd, buf, sizeof(buf));
-> > +     close(fd);
-> > +
-> > +     return ret == sizeof(buf) ? 0 : -1;
-> > +}
-> > +
-> >   int powercap_get_enabled(int *mode)
-> >   {
-> >       char path[SYSFS_PATH_MAX] = PATH_TO_POWERCAP "/intel-rapl/enabled";
-> > @@ -77,12 +93,10 @@ int powercap_get_enabled(int *mode)
-> >       return sysfs_get_enabled(path, mode);
-> >   }
-> >
-> > -/*
-> > - * TODO: implement function. Returns dummy 0 for now.
-> > - */
-> >   int powercap_set_enabled(int mode)
-> >   {
-> > -     return 0;
-> > +     char path[SYSFS_PATH_MAX] = PATH_TO_POWERCAP "/intel-rapl/enabled";
-> > +     return sysfs_set_enabled(path, mode);
->
-> Did you compile this?
->
-> thanks,
-> -- Shuah
+Applied as 6.16 material, thanks!
