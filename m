@@ -1,111 +1,152 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D3D34545
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 14:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD3D29292A
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 19:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747232191; cv=none; b=SgDR9T6gFojCLx5Ns4+mxNHjzDxjvyBW4opjIcPqERHMtJxhhmjF8NoZYKnXKAJmA8m+xsSH3O2L7ND0v6PyOeyVVG/acORfeYQtzWsSLUNn/hRjjcU9C5euTbUPASfADzsN6pEvuaF03upBVavtWNqaKGHNJr7hMV+sxgGlIb4=
+	t=1747252441; cv=none; b=iu7yao9YZ5NYV5USobCgvdFTZT6eY1lcabKI4tpJMrGkwgMh7JQ3YMGi5KtL5arx1Etg2qmn7eXzXF4pMNZhVKhpvR0lldhpvINdVY8yKi6elOUsYtRxUJ1KyHO8lmngkXPKIwNos10TzVcPHjrbMas3DPciGSgB6zO5hnjOyvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747232191; c=relaxed/simple;
-	bh=dctgj7OI44hL4Z70amYhMFqF1v3D71Minb2zs5mQdHU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bllxZmQJla/cHzZs3yxM3RrS+1lxwP6DY4+IQOKAAJSVxU0K5UgHIURfxsdUWx/U+7hbkXz5PEW7ZgGuQr1WnxJ1TdgDRh3TGw80b7rUPnqWdpQGShDCAab5NcZK6G5pI1TLvtzrmrp5PRt0dVIt9fg1gV2MW136Ih3EhSkSpiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=if0ECYPM; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747252441; c=relaxed/simple;
+	bh=TiuJIqeQPLPdM7MV5DHSFrrCGNzg1U0NfsIusO3DWzw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lxG+RTInJggNCgjmqB52erHUcJ8AKkUFdIwCcVL7K/tMbH0t/WT8Yz5ecRGkodmLn6bpP5JDpasKRGH6PoZkKZqx3DGggn2jW0cmMZxqW1uFOmCoSvwrqWiqze8asvroVme3erqtCJf4lPcSx1VI2+v+f0IKrlT3RrqKPjUXBxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=H1yPocF8; arc=none smtp.client-ip=209.85.166.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="if0ECYPM"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22fb6eda1cbso4545605ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 07:16:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="H1yPocF8"
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-85e15dc8035so4941639f.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 12:53:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747232189; x=1747836989; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3n+16DpFOcpOhaliZB3idim37DYPJw0hjtvBfmuDl1M=;
-        b=if0ECYPMUfe6Ng6axGyigwS5NVv6GJy4XTifSgbWYolkNCUF4Krhrz7l1e59X+sBtm
-         PitkmqLU2T6WV/WRjANoFuSXIVgfiKDjRa1pYPGvc88gg89sumWb9wCFusqv36tn6Xla
-         Gm/n+rXENVYUsvocki0tQgp3gFXhMj6j72IKiFl5oippwEioc4mGzxpF/D/U6cmjCDNl
-         Vk9ACFwMGXlNWA5MhG59PX1rJ06PCHn1zPqIgdMRVnydhCst6+k3s0H8kTajbpuTIiDj
-         Y1Qren27/o8lZo8u/XS1o9dTPnOuUpGgXkI8D6Nf3056fmhpNKzjboeVhqs+BJoNj4ks
-         Xi3A==
+        d=linuxfoundation.org; s=google; t=1747252438; x=1747857238; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rqFC7XclFM6HmznNg5RpQqMdlIL+E3U4uiILOAOVAFs=;
+        b=H1yPocF8VxLmy6nLaBhKQVYGljP7gFZWHG/aqk23L+6odoWFUgv7b6JAHaM06X+TuV
+         oi04kX4WX8O14kVVe1S0Ai5EpRnkyZW9qPT8ocdMjgAzwKx/et569SxSroo9GTA09ast
+         ifKyXMLsem5yq8Rg8T5p4fzEwtwPouUQH2Hzw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747232189; x=1747836989;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3n+16DpFOcpOhaliZB3idim37DYPJw0hjtvBfmuDl1M=;
-        b=BvVAJPnpwNcMuITZnGNla0/Qs7+rX8VDrLE3mQ9C0erchAThRUBFM/ntg39vvpf5YA
-         FLiEQOC53L8JryrhQdW5Nw6Gmm7AwnSW1NkdAvh82qlojdZUzPJL1+fmN7H9Kf/DOedi
-         sxXTqySlJZD3ooxYVvhUqCiwlOkAgoVz9k9rRHNZ7N/9m1QwbzWMU9CdxKt0ZrvfyIAg
-         QmUJIivfB154ah+J+KdjNhcNd5pZXPKkD2PaVP0OTHN5ENygeEb1uHedhI22GDKCWguq
-         +rVHXrxn59clRhK1PU4R8h9igHPAhOSmTNlDQpsjcyeOHOOhyWu5SJ4OOU2nSkY4Ry/E
-         hzVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUIv3ycNYiXExao8JHMtvgBqMNTpKxhMEhEo/QovCaswxyXh1zE/wmRnzyATVU+zNTZXLg0zA+qERUGY7+ZSSovVia9rQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw4HDA10IOYe9Yxqgk4QAktkRn+WIs0S5vv3pJazO2agtp6Fm9m
-	2RnnklNnaYH2V6K++s+yQev+fjpy/VGX0z0GsjZb+TZYm24PshwlCr7WOVAlmKieMfhjCgSX2xK
-	lJ/JVVYZnUaAfZiVXyRPEFnTuVcdSPLIN
-X-Gm-Gg: ASbGncuyuF1xiUOwP4beFQr8oivDj/CE2U94iYAw4tEBUih7NwFJKNgVhpVIMWbYI6N
-	hz5E5XAa6HZUeEeB/qZ6Cmaabq7yomg1TqxkmwlU+O5tfrfw5Np/pqCTpgrXYXoeMDpNfSccvqW
-	8e4ojLycQd0KHmbudqFYmMYizGWRRa+PLS
-X-Google-Smtp-Source: AGHT+IGgOLVHlFTGN9a0SvwGp9aOaUq0v2qKq+BNE0DOArgTcRewkV7J2kadBkn8RZHPlisNdGKLis3afd8TsAPJpdo=
-X-Received: by 2002:a17:903:1a6f:b0:22e:62da:2e58 with SMTP id
- d9443c01a7336-2319812a735mr20961985ad.10.1747232189515; Wed, 14 May 2025
- 07:16:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747252438; x=1747857238;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rqFC7XclFM6HmznNg5RpQqMdlIL+E3U4uiILOAOVAFs=;
+        b=sH1vf6YNDEfBSpJ8jJnG9dU4ThuKhLGt9S8XreXMUP8aENxYTOqadZvVVS2yha0I5D
+         2wbVomu+G4oROdlQk/xZyV/107MVB43y40TopKtxSTQtkOa87SJbCQSM2a+nU5e3UsKa
+         AY7N0O+1vMwYgewoQmIcMWk/j0bD7w+o73vF4zgYIccGJ1MyFr6KQT24Ui5x7p9mEf2n
+         HUBfeN9ao5KbWCYhl1qb6xgLeFSLScnhQ3A+SwpPN+qRCvQQY39GJPIPR41DRZNbbkUT
+         nL9w8/UMUAuKvT0WGlIkhMvY8vs03klOz4qJ4mH0zFGABtyyXi2wXAxMHZ+sop2Rtyl2
+         gJkg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ8rQrjeNr82i0Wrih7EfaYyWVNSevKWGnxQP67Ly9Mbfx0lXEtO+x2JOXC37gswIQfZJaJnAAYaGPoU8eUygDWVbCiQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxW5NSAdeinngb0vIK/j8nXZohh64AoGirdqNpA8o5iLqfztNJI
+	8KgD8i7lxwmxKG30LccS7aPGRpO7VnPlNxWKdQvPjdUR62N3C3+fERjOHRN3+Fk=
+X-Gm-Gg: ASbGncsHL1WFdgTzqJoxC5P8R/8JPFSG5mM8/I8CQRL5M1ZkHcrL2Y4i97zT/eqHZQI
+	XrtppAwk84KdwINRxg9DDvVMW4Fa4X5+q2C23CV1Z6p0fSo4xvwRsbK7TNND2OifvUxnrI1WaRa
+	Zld0psdRKbzrroEMHanl2nZKCrfDRhTUCLRBudgFrtgT2hjpE6Z8qteq2tLWcUt+7XffPNhGpse
+	wg0l5v7Hia6PRLWIuVRtyYSSrhSzpW8EIoz3yrWbUSJxApNX70fpeFSCbhU1kb5jnA5UGUi1ssp
+	3m742ieAmagBHk84rXPaHtHzV4qoDb9s40IWQSHN5e2SEpAuCaDqT124JfgBkw==
+X-Google-Smtp-Source: AGHT+IFuhdhs1GZ17AJuuecrmu3II0fZTAN+vGnkqRWbS3S0XvQHj8BZNypViK3Lagb/zZFIppEymQ==
+X-Received: by 2002:a05:6602:3a8a:b0:867:6631:d5cb with SMTP id ca18e2360f4ac-86a08dd377bmr647811939f.5.1747252437851;
+        Wed, 14 May 2025 12:53:57 -0700 (PDT)
+Received: from [192.168.1.14] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-8676356c768sm291043439f.10.2025.05.14.12.53.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 May 2025 12:53:57 -0700 (PDT)
+Message-ID: <53a4d88a-e84d-4cc6-a041-93476f9df75d@linuxfoundation.org>
+Date: Wed, 14 May 2025 13:53:56 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250513233212.21186-1-contact@gvernon.com>
-In-Reply-To: <20250513233212.21186-1-contact@gvernon.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 14 May 2025 10:16:18 -0400
-X-Gm-Features: AX0GCFukKcW8G7VG06CTXQGuzf_x_lHNu0hKnNMVT_ZvRA146nuD9ytPZqqbJCg
-Message-ID: <CADnq5_Nv1b+C-oaQi1hEq15T2fOZS0FiQ+RgOyQyOizC6hGuaA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Fix docs build warning
-To: George Anthony Vernon <contact@gvernon.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, skhan@linuxfoundation.org, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] tools/powercap: Implement powercap_set_enabled()
+To: Suchit K <suchitkarunakaran@gmail.com>
+Cc: trenn@suse.com, shuah@kernel.org, jwyatt@redhat.com, jkacur@redhat.com,
+ linux-pm@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20250510184709.44935-1-suchitkarunakaran@gmail.com>
+ <09c7ad5e-4061-4c0b-b097-fa575c12a244@linuxfoundation.org>
+ <CAO9wTFjyEngVR10ixYj=G8udRBeKaxAQquPCdi0V638t3WqQfA@mail.gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <CAO9wTFjyEngVR10ixYj=G8udRBeKaxAQquPCdi0V638t3WqQfA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 14, 2025 at 3:24=E2=80=AFAM George Anthony Vernon
-<contact@gvernon.com> wrote:
->
-> The kerneldoc comment for HGCP locality check debug mask was missing a
-> semicolon resulting in a documentation build warning. Correct it.
->
-> Signed-off-by: George Anthony Vernon <contact@gvernon.com>
+On 5/13/25 19:20, Suchit K wrote:
+> Thanks for the suggestion, Shuah. And I did compile the kernel after
+> making the changes.
+> 
+> 
 
-Thanks for the patch, but this was already fixed.
+Please don't top post in kernel patch responses.
 
-Alex
+> On Wed, 14 May 2025 at 03:33, Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>
+>> On 5/10/25 12:47, Suchit Karunakaran wrote:
+>>> The powercap_set_enabled() function previously returned a dummy value
+>>> and was marked with a TODO comment. This patch implements the function
+>>> by writing the desired mode (0 or 1) to /sys/class/powercap/intel-rapl/enabled
+>>
+>> The short summary should say cpupower: Implement powercap_set_enabled()
 
+I am not clear on how this can be used. Can you elaborate on the use-case
+for the set?
 
-> ---
->  drivers/gpu/drm/amd/include/amd_shared.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/a=
-md/include/amd_shared.h
-> index 4c95b885d1d0..c8eccee9b023 100644
-> --- a/drivers/gpu/drm/amd/include/amd_shared.h
-> +++ b/drivers/gpu/drm/amd/include/amd_shared.h
-> @@ -366,7 +366,7 @@ enum DC_DEBUG_MASK {
->         DC_HDCP_LC_FORCE_FW_ENABLE =3D 0x80000,
->
->         /**
-> -        * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Chec=
-k FW
-> +        * @DC_HDCP_LC_ENABLE_SW_FALLBACK: If set, upon HDCP Locality Che=
-ck FW
->          * path failure, retry using legacy SW path.
->          */
->         DC_HDCP_LC_ENABLE_SW_FALLBACK =3D 0x100000,
-> --
-> 2.49.0
->
+Send me v2 fixing the change log.
+
+>>>
+>>> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+>>> ---
+>>>    tools/power/cpupower/lib/powercap.c | 22 ++++++++++++++++++----
+>>>    1 file changed, 18 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/tools/power/cpupower/lib/powercap.c b/tools/power/cpupower/lib/powercap.c
+>>> index 94a0c69e55ef..7947b9809239 100644
+>>> --- a/tools/power/cpupower/lib/powercap.c
+>>> +++ b/tools/power/cpupower/lib/powercap.c
+>>> @@ -70,6 +70,22 @@ static int sysfs_get_enabled(char *path, int *mode)
+>>>        return ret;
+>>>    }
+>>>
+>>> +static int sysfs_set_enabled(const char *path, int mode)
+>>> +{
+>>> +     int fd;
+>>> +     char buf[2] = { mode ? '1' : '0', '\n' };
+>>> +     ssize_t ret;
+>>> +
+>>> +     fd = open(path, O_WRONLY);
+>>> +     if (fd == -1)
+>>> +             return -1;
+>>> +
+>>> +     ret = write(fd, buf, sizeof(buf));
+>>> +     close(fd);
+>>> +
+>>> +     return ret == sizeof(buf) ? 0 : -1;
+>>> +}
+>>> +
+>>>    int powercap_get_enabled(int *mode)
+>>>    {
+>>>        char path[SYSFS_PATH_MAX] = PATH_TO_POWERCAP "/intel-rapl/enabled";
+>>> @@ -77,12 +93,10 @@ int powercap_get_enabled(int *mode)
+>>>        return sysfs_get_enabled(path, mode);
+>>>    }
+>>>
+>>> -/*
+>>> - * TODO: implement function. Returns dummy 0 for now.
+>>> - */
+>>>    int powercap_set_enabled(int mode)
+>>>    {
+>>> -     return 0;
+>>> +     char path[SYSFS_PATH_MAX] = PATH_TO_POWERCAP "/intel-rapl/enabled";
+>>> +     return sysfs_set_enabled(path, mode);
+>>
+>> Did you compile this?
+>>
+>> thanks,
+>> -- Shuah
+
