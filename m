@@ -1,154 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEEA27780D
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 12:43:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E251537A7
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 14:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747226634; cv=none; b=TbnoSHEPYCEKrqKif1afVCCNwWw4DjoDm+dXvuOWB9Jotb4gvPTDluqb1de1lVA9bJHGpuCOVwIva2Mt1LI7+DPhQc5fwF1aedFvgK780/DmgUUMLNzsbIk9fkMs3Jlw6a3KQJRv9Y2XqrJNn1QKyTGLCjOhSImbQZH9lWpItVg=
+	t=1747232179; cv=none; b=jMU5hxvY22YDrXUko1lzAuhGoSgBic4X9E5+WY4Y6M033polt9qAhBmQ8gGexHSYXQPTkVRNoP6hjNDtc5L5UpNvaASg2OgCbCpXpFW9qGleIrvzF14Ce5bxer4yT7/xxGn59QlAJOU3Iy2KoOJC00weyyGx4klUIZlRZSUZPX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747226634; c=relaxed/simple;
-	bh=RkK5HYfym0mSKygNHtg7/x99esDPYM69w7wrfurgeaY=;
+	s=arc-20240116; t=1747232179; c=relaxed/simple;
+	bh=26grGj1agecMz+PCvuHvclLshWUQzEmjBvBmS8cdWSg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p3oxIVvLOpFxrQwqbgdI4fgvn9iiiIigx2kNghn8f0WxlwtKzBLRq+gsCnYDxqEMHjInhmkkymQSG7gKoi3jr3xVCZyoQ4P+QcSj5jWRcS15zUtUoy8jSM+HEZplODkivHyD/u63N5bxQV/XXpQIOw2dyWa8FDsiw9axCFytQTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oMTcc+ea; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=l9z/MG1m21NWxdrtDJ/4LllR5HE4eandorp4yJX9A1Uxtkgb5Jf/ZVJD20Wltvhitf2tzpBCId/ayrV5+Nx3mqDuuoum4FXRp7Z3jl6cBKzK+uYpiE5noRq6pmTvYnL9+YWF3++C+4CFmkMXeMW/Lx1DSkoivSHrKTA90Rp9w9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ib4B+lX2; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oMTcc+ea"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 303F8C4CEF0
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 12:43:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747226634;
-	bh=RkK5HYfym0mSKygNHtg7/x99esDPYM69w7wrfurgeaY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=oMTcc+eaTWI1qALlf6gg0aDwGjDJbshwil0B+5L/0/BQOkZe1ykiWiQTz+XsPqwbv
-	 aToVfbgy0odLjMzK60nqvZhwsRBUIJZj+mWWrbR0mtaQILxD9RiEbjOySXZmQ+Flav
-	 7qK+csjYV4WqBwIH6KxOnugnek4uXLKuLDcVmW8tJ/8yQeaTiJaPUpeUHlDLVJySbn
-	 omur8hyCk954p4yJztocT19oTbci7VRfyuecJc9HExJxpOBDt8GwwDxO6xNSJetg+X
-	 1Sz26ZQwisoJoSYjCh5vCw9S/tSMQ5eVwPHG3vROuB26qgNqg22XUjh2SIqhXxaTwT
-	 AtBDNW2VT0mbw==
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-601b6146b9cso3365629eaf.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 05:43:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUok6+tRWP2f6KS5Bw+4/r++S/zlNbaDfUgsgPwy/Vv/EXZPm48MnaOhvJl8BO0ImARIJ+GFkGZ08JWNVEBliEAYtaltQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwO+dxlzRzxUHsTmBR8DI1ej29lKgoeW5Q9WXYYLISFASC4/yb+
-	nQgMqjSdanr/+NegXDNcoldE5J3byO27oqezV7+w2GyqHD77lFoxP4OsbKbHHmstnYtYV3qRKoC
-	5FWWv4e0jBPoJS9sF+99dvl7NgFg=
-X-Google-Smtp-Source: AGHT+IFLPiLLdFHgnurhnXU+t42N4mH7EOXOgwJUCUxANYYKeRbm6LctYuTcImfBsxEDZo9qcxyNJ1w7cOf5a/dWweg=
-X-Received: by 2002:a05:6820:1b09:b0:609:de23:cfbb with SMTP id
- 006d021491bc7-609df2560c5mr1452035eaf.8.1747226633512; Wed, 14 May 2025
- 05:43:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ib4B+lX2"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b1276984386so673672a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 07:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747232177; x=1747836977; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+9l/yJokrJezdTMly2gEBI61HIpT790BZH9nQ/918eA=;
+        b=Ib4B+lX2F9BoN+jhBGC5cy2NJzv4D5ilOZS4C/fst+6s5pwNyCBkHPtIVjqigEuDJ5
+         22q18wxFaEWZb+Aqfy/Cua3CNdbrOFLFmzj4N4b6zGBL66eg/1vSMWf7HA9jlrQScGVX
+         nYx3nbc054zhsciZqk7wtGHrsnoxQlUaxupSwv/pNL5XJeETaptkLmWDXAeoaJQNatkY
+         SIqmsT6oORSX6KBGwp1WPR3is31rFwXoDvKYJQlnQS/2asko0mUOuqF7vsRP8O4KUwBU
+         W0wm3rV8A4+TuUoDCD0zYyHN9INHhUzkZLSfrPckIJSHJngFF+pATz779S8LGwMmgeFz
+         3nmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747232177; x=1747836977;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+9l/yJokrJezdTMly2gEBI61HIpT790BZH9nQ/918eA=;
+        b=D0og4JR5pAaTehoEQc4zDsitLxpElvb1nf3FV5tmzEJOXcE2UUvx45prplsIEfI+sj
+         I6yQNhlls92UhuMRawqBVPOP9TV4zLlGIrsuj3t30Y696/OpTlnRSMkfq3RUwJ3DdmQo
+         d9oavW2SLRT21jjILKr0ySqunfOtv3RQo4uSfrMtTxXdxvsk1ByMjJP/oaOWEEYCGISB
+         55NdbdSdZ+ecSWs3KUYusj0hX0TehNJGEZub+NBwyt67mGJUc8AqmAWwE9MY3HChx3Sb
+         U5//l+4A5kjhk9TCU6EiVyHJUQdeb6lOKeo3oMKk/1i5+YQYgu1HnHri+WcX3FHCehrv
+         8Bdg==
+X-Forwarded-Encrypted: i=1; AJvYcCXhVeYPiuclsUkXg2UKYAnxggmP+b+xiw2mLsmwgQLEYSgrsnEPl8dNkK/bfOirzaIDEBWeBmHPYbwPPlhluSAZMS9gUw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxcK7nBdmnCiyIKPgLnaB7O7DdE2Quvq/GnT0LxfnZZL7yBY7iQ
+	o1YCGBB+Gr0AnWfSkk0KlVMR9TmGqntCQ8qQNX1vp9GSSLHbc9vW5+XGah6UdFoCNWffgLmVJP4
+	b6ViEerMlbq1+DlOJS2XkAN045SA=
+X-Gm-Gg: ASbGncuX4VYqB/t8kY5QyId03J1/1V+YxOfYGrS8rCucMuysfZWJMK6IMsXwGN5Feu1
+	e1Te49FbU1rXQ+X1T4aJzkMr+gLveKdv7PGAjhZ2ZJOxmAsjGPQ4gSd2fY78ZidT4OsDzo2fRTu
+	4MKLjW12dhhDXgc8/luXa+a4M14/NJw17D
+X-Google-Smtp-Source: AGHT+IHtKxU0GEGaAeLVg/+ec50sLA3k6YKoCWcfCuiQT8vSKq7Gdewqx4zLExHIkduOo2EYU8VEwV70WujGnLmeMn0=
+X-Received: by 2002:a17:903:248:b0:215:435d:b41a with SMTP id
+ d9443c01a7336-231980ce4d3mr20167045ad.1.1747232177142; Wed, 14 May 2025
+ 07:16:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250513015726.1497-1-ImanDevel@gmail.com>
-In-Reply-To: <20250513015726.1497-1-ImanDevel@gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 14 May 2025 14:43:42 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gS72-yJ2=EwEb4qz2m47RAhU1Va+UnGNJAjTsT1AJiQQ@mail.gmail.com>
-X-Gm-Features: AX0GCFuiZGmk5nUYxUtq4FjjEGITyDcDkkHk819fqPtLOpfSDIUh6xmwxhv1ANQ
-Message-ID: <CAJZ5v0gS72-yJ2=EwEb4qz2m47RAhU1Va+UnGNJAjTsT1AJiQQ@mail.gmail.com>
-Subject: Re: [PATCH] cpufreq: drop redundant cpus_read_lock() from store_local_boost()
-To: Seyediman Seyedarab <imandevel@gmail.com>
-Cc: rafael@kernel.org, viresh.kumar@linaro.org, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+References: <20250513234621.322283-1-Abdelrahmanfekry375@gmail.com>
+In-Reply-To: <20250513234621.322283-1-Abdelrahmanfekry375@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 14 May 2025 10:16:05 -0400
+X-Gm-Features: AX0GCFvNZ6---Ox_xhZShkODoC-fkTW8iHJut3_i8L0kz1QSIWvS7bGXMuWlPGI
+Message-ID: <CADnq5_MAYSH0Cj6pfZFdPx8b_goJRFEeB61iW6bD_wON-GWxzg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd: fix kernel-doc parameter tag format
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
+	simona@ffwll.ch, skhan@linuxfoundation.org, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
 	linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 13, 2025 at 3:55=E2=80=AFAM Seyediman Seyedarab <imandevel@gmai=
-l.com> wrote:
+On Wed, May 14, 2025 at 3:31=E2=80=AFAM Abdelrahman Fekry
+<abdelrahmanfekry375@gmail.com> wrote:
 >
-> Lockdep reports a possible circular locking dependency[1] when
-> cpu_hotplug_lock is acquired inside store_local_boost(), after
-> policy->rwsem has already been taken by store().
+> The DC_HDCP_LC_ENABLE_SW_FALLBACK enum comment was missing the required
+> colon after the parameter name in its kernel-doc tag:
 >
-> However, the boost update is strictly per-policy and does not
-> access shared state or iterate over all policies. Since policy->rwsem
-> is already held, this is enough to serialize against concurrent
-> topology changes for the current policy.
+>   * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, ...
 >
-> Remove the cpus_read_lock() to resolve the lockdep warning and
-> avoid unnecessary locking.
+> Kernel-doc insists on the form @name: description. Adding the colon
+> eliminates the warning and ensures consistent extraction into Sphinx
+> documentation. No functional changes are made.
 >
->  [1]
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
->  WARNING: possible circular locking dependency detected
->  6.15.0-rc6-debug-gb01fc4eca73c #1 Not tainted
->  ------------------------------------------------------
->  power-profiles-/588 is trying to acquire lock:
->  ffffffffb3a7d910 (cpu_hotplug_lock){++++}-{0:0}, at: store_local_boost+0=
-x56/0xd0
->
->  but task is already holding lock:
->  ffff8b6e5a12c380 (&policy->rwsem){++++}-{4:4}, at: store+0x37/0x90
->
->  which lock already depends on the new lock.
->
->  the existing dependency chain (in reverse order) is:
->
->  -> #2 (&policy->rwsem){++++}-{4:4}:
->         down_write+0x29/0xb0
->         cpufreq_online+0x7e8/0xa40
->         cpufreq_add_dev+0x82/0xa0
->         subsys_interface_register+0x148/0x160
->         cpufreq_register_driver+0x15d/0x260
->         amd_pstate_register_driver+0x36/0x90
->         amd_pstate_init+0x1e7/0x270
->         do_one_initcall+0x68/0x2b0
->         kernel_init_freeable+0x231/0x270
->         kernel_init+0x15/0x130
->         ret_from_fork+0x2c/0x50
->         ret_from_fork_asm+0x11/0x20
->
->  -> #1 (subsys mutex#3){+.+.}-{4:4}:
->         __mutex_lock+0xc2/0x930
->         subsys_interface_register+0x7f/0x160
->         cpufreq_register_driver+0x15d/0x260
->         amd_pstate_register_driver+0x36/0x90
->         amd_pstate_init+0x1e7/0x270
->         do_one_initcall+0x68/0x2b0
->         kernel_init_freeable+0x231/0x270
->         kernel_init+0x15/0x130
->         ret_from_fork+0x2c/0x50
->         ret_from_fork_asm+0x11/0x20
->
->  -> #0 (cpu_hotplug_lock){++++}-{0:0}:
->         __lock_acquire+0x10ed/0x1850
->         lock_acquire.part.0+0x69/0x1b0
->         cpus_read_lock+0x2a/0xc0
->         store_local_boost+0x56/0xd0
->         store+0x50/0x90
->         kernfs_fop_write_iter+0x132/0x200
->         vfs_write+0x2b3/0x590
->         ksys_write+0x74/0xf0
->         do_syscall_64+0xbb/0x1d0
->         entry_SYSCALL_64_after_hwframe+0x56/0x5e
->
-> Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
-> ---
->  drivers/cpufreq/cpufreq.c | 3 ---
->  1 file changed, 3 deletions(-)
->
-> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-> index 731ecfc17..759dd178a 100644
-> --- a/drivers/cpufreq/cpufreq.c
-> +++ b/drivers/cpufreq/cpufreq.c
-> @@ -622,10 +622,7 @@ static ssize_t store_local_boost(struct cpufreq_poli=
-cy *policy,
->         if (!policy->boost_supported)
->                 return -EINVAL;
->
-> -       cpus_read_lock();
->         ret =3D policy_set_boost(policy, enable);
-> -       cpus_read_unlock();
-> -
->         if (!ret)
->                 return count;
->
-> --
+> Signed-off-by: Abdelrahman Fekry <Abdelrahmanfekry375@gmail.com>
 
-Applied as 6.16 material, thanks!
+Thanks for the patch, but this was already fixed.
+
+Alex
+
+> ---
+>  drivers/gpu/drm/amd/include/amd_shared.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/a=
+md/include/amd_shared.h
+> index 4c95b885d1d0..c8eccee9b023 100644
+> --- a/drivers/gpu/drm/amd/include/amd_shared.h
+> +++ b/drivers/gpu/drm/amd/include/amd_shared.h
+> @@ -366,7 +366,7 @@ enum DC_DEBUG_MASK {
+>         DC_HDCP_LC_FORCE_FW_ENABLE =3D 0x80000,
+>
+>         /**
+> -        * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Chec=
+k FW
+> +        * @DC_HDCP_LC_ENABLE_SW_FALLBACK: If set, upon HDCP Locality Che=
+ck FW
+>          * path failure, retry using legacy SW path.
+>          */
+>         DC_HDCP_LC_ENABLE_SW_FALLBACK =3D 0x100000,
+> --
+> 2.25.1
+>
