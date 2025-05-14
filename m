@@ -1,90 +1,109 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104301487F6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 14 May 2025 20:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3F81F418F
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 21:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747254515; cv=none; b=p7Xlh4xLh2f0Kh2i0vm9cijCM6/lA8dq/oslclnJaK+Dcu8sIepcn9o/d+3ewv2BHvGcSnhke9WYogFWn/O00J7kBUfRcdxhTablkddozTBSGMoBSBR95C0oV2BOrvEDiNgT1R9U5Y6C63m7MNwYN/xhTwBuHtxMNLUUNZH+X90=
+	t=1747258582; cv=none; b=kW56L9sG5ZmepDxeBTwn+oqjgIW3XqgEFSZ8+4+CQl29VzyPYuEwHjlyKvKANoXHLehUzfX7vlCJmHW/PNUvJ7dZH/7ive4hGYwLjGnfqsr1LjO8NDZXJ04imCbwSAMP59uJNEHAIjthRVLT6Ic6qhTNPEh60egAagQvfypZA5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747254515; c=relaxed/simple;
-	bh=p4O3d8Z4/Z4owD/WPv6OUNS8/hMMidt47hnYPaQYdn8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UEJVQfo4fwG80x5iwyOHiCowCKGjT2EGnmw8Lfco3nmKAgdbyfVGNTtU+hddO6DHZTyjCPxjbIFB4P91IfX9GmcSrZrbDw2fJsM0elq7DoPctvQUkcX3nRZQda8dujRcmsezH3YfGCGy3x5zmeXp2vdiFGdB1F6vg6svKx50Ezk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7C95981EC0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 14 May 2025 20:28:33 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.342
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id nkckTRs5q5-v for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 May 2025 20:28:32 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=srs0=h/be=x6=goodmis.org=rostedt@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 339AC81EAE
-Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 339AC81EAE
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 339AC81EAE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 14 May 2025 20:28:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6179F40C17;
-	Wed, 14 May 2025 20:28:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7051AC4CEE3;
-	Wed, 14 May 2025 20:28:30 +0000 (UTC)
-Date: Wed, 14 May 2025 16:28:57 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Devaansh Kumar <devaanshk840@gmail.com>
-Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] tracing: Replace deprecated strncpy() with strscpy()
- for string keys in hist triggers
-Message-ID: <20250514162857.4a3f846a@gandalf.local.home>
-In-Reply-To: <20250514201956.1447439-1-devaanshk840@gmail.com>
-References: <20250514201956.1447439-1-devaanshk840@gmail.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1747258582; c=relaxed/simple;
+	bh=FIQf+pI+HA3ZvOhS2Ssnr8uj7ZeK3pm+nL4eDCGxlqc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XrWagEi28vB6EKo0MqjwZ2fl7Y4dy/yeqFZWWoVY/8PHl7Tibv4RhOzTfuY6kjnTRsSA9NkiX+a6QDvgv/vx3G09a9hfCKnG8fkmcwK2rzCjv1+1yROlyB92S2ix4NCma28sH9Njs+C3EJqQkgT1MmsidGul7vByDpNXL5vIDQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g+KxbTsw; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+KxbTsw"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-30a8cbddca4so355220a91.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 May 2025 14:36:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747258578; x=1747863378; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=v5+DNS9xaFvD08mwIBHjANTPXx95oyivENI1zztffOE=;
+        b=g+KxbTswg49RevtOtey9y/E3GhUjEpvTrV7BOu0kQUtLGtw7w1PPPhDTTmFm7BognO
+         M3irs8KKcl+kQO40OT3mhb23MPAz4kond+qMb6RDJOYrGKF6wpx5iE+4s3ZeZJNJt9hk
+         b0sXNhFfOQjIUJQrFNNw+gFxhqKuRysSd+pJ55w0Wq5CDmttgEd0OoDucbG2FzZHPkXE
+         FWcDhNYF7c6LRtZOawwXwJep8PJJQC5lCexEzmCaKSwkDYjst2fbHQKm7gwjFD+SLQSG
+         i3pPQE68ckol1moYkbbBTUxny7DwhYqnpCTMHGFEOUF7PFghQl6mKkY5nT3QKP711SIg
+         hPQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747258578; x=1747863378;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v5+DNS9xaFvD08mwIBHjANTPXx95oyivENI1zztffOE=;
+        b=V0UKbODGlfu75fcoeukyeBTjrdU6BS3STFnrjrU3/TvRTbWdwu+pkLpWPuG7dH+znI
+         qLl4Y1zeNdMzProGTb1xZ7NOGwA3mWPk9ITnz5Lt02Jqx4ISn1tx7jYjxHDE4GvorZrn
+         9FDs2IxPASSXBHA0RDw3H+H+ZP1ebnEYxoCgEGSAVU4hyzAaCGECqNVQWijKkOvZmP81
+         UrX/zRmsnhD8SmoK9+E2nroUfAUMTU6IdPtMzy9Bots5F37fk9bdsGVdBHO98baDhwUs
+         wQLbnTcbuvBesWeCDzLmIScAdtYugZ0NIuMKZoNyWJ7ybubh/mZX6ReLclbToGhLSKPg
+         1E/w==
+X-Forwarded-Encrypted: i=1; AJvYcCX+aDe4axBDnQiJj3sCmJ/lyJouKiCLRVEYl8UjrZAZH+H2pL0AVhn84TwzMSb7690lfkv/igywL4W2bJIJlZdK1ZEyzQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwvUD69canfwUveLymxb80BVwf3tm2p6krr8aOt9hHrGu0J+K1r
+	MyQD3jAGSaUj+HuqY88ZjtM60YaKpJXmcKKMg/8+Lw3+v8SjvBHd6fwvMyFJyjoyiA==
+X-Gm-Gg: ASbGncsw4RcU9bXUP8zao53FnBJbPpWwQ1j1/fFVu0lfcVEpSQ1MaD1AGOy6KnEmusX
+	KXhE80Y/BnEH67SlQ+OhsKOtAE16mHPTCB/EENmeu92w2tTYLtsO+L1d2R3srer+xQMyKn+ypSh
+	tzESRCEY2zdioWQpKZkiC8VP3WRA8y8btW+zHM3Zz9DZe8e7SuqNKMAz42EJsuxLCinVQYWWpRB
+	oijHWq9FPOdPhoVrE3POl4s1IubYED0+YLFrpge58jLUEWa/Ug9XPZS3LaWDCraklWVrbQkS4RL
+	JllRWAh6Sv1WJfRN1edAzTIhdRckqqpbdNmKdvy4PhBVkfivkXXJjdyH++t2sglmqA==
+X-Google-Smtp-Source: AGHT+IHOlcKTEqpmbbwYa6fymXr66iLa7UzzLeEx4mTbWzk9LmvInpwWaQApBbo8ZP8SyJLL2+etOQ==
+X-Received: by 2002:a17:90b:1c09:b0:30c:540b:99e with SMTP id 98e67ed59e1d1-30e2e5b678cmr7925932a91.13.1747258578130;
+        Wed, 14 May 2025 14:36:18 -0700 (PDT)
+Received: from rahul-mintos.ban-spse ([165.204.156.251])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30e33425194sm2026770a91.14.2025.05.14.14.36.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 May 2025 14:36:17 -0700 (PDT)
+From: Rahul Kumar <rk0006818@gmail.com>
+To: alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	skhan@linuxfoundation.org
+Cc: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	rk0006818@gmail.com
+Subject: [PATCH] docs: fix doc warning for DC_HDCP_LC_ENABLE_SW_FALLBACK in amd_shared.h
+Date: Thu, 15 May 2025 03:05:11 +0530
+Message-ID: <20250514213511.380890-1-rk0006818@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 15 May 2025 01:49:55 +0530
-Devaansh Kumar <devaanshk840@gmail.com> wrote:
+Fixes a kernel-doc warning by correctly documenting the enum value
+`DC_HDCP_LC_ENABLE_SW_FALLBACK` in the DC_DEBUG_MASK enum.
 
-> strncpy() is deprecated for NUL-terminated destination buffers and must
-> be replaced by strscpy().
-> 
-> See issue: https://github.com/KSPP/linux/issues/90
-> 
-> Signed-off-by: Devaansh Kumar <devaanshk840@gmail.com>
-> ---
->  kernel/trace/trace_events_hist.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/kernel/trace/trace_events_hist.c b/kernel/trace/trace_events_hist.c
-> index 1260c23cfa5f..90a4e486fba8 100644
-> --- a/kernel/trace/trace_events_hist.c
-> +++ b/kernel/trace/trace_events_hist.c
-> @@ -5225,7 +5225,7 @@ static inline void add_to_key(char *compound_key, void *key,
->  		if (size > key_field->size - 1)
->  			size = key_field->size - 1;
->  
-> -		strncpy(compound_key + key_field->offset, (char *)key, size);
-> +		strscpy(compound_key + key_field->offset, (char *)key, size);
->  	} else
->  		memcpy(compound_key + key_field->offset, key, size);
->  }
+The previous documentation was incorrectly formatted and incomplete.
+Updated to follow proper kernel-doc syntax with a full description.
 
-Incorrect, and this is already fixed in next (at least it's in my ftrace/for-next branch).
+Verified fix using `make htmldocs`, and the warning is no longer present.
 
-  https://lore.kernel.org/20250403210637.1c477d4a@gandalf.local.home
+Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+---
+ drivers/gpu/drm/amd/include/amd_shared.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- Steve
+diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
+index 4c95b885d1d0..ebe0caf1fda4 100644
+--- a/drivers/gpu/drm/amd/include/amd_shared.h
++++ b/drivers/gpu/drm/amd/include/amd_shared.h
+@@ -366,7 +366,7 @@ enum DC_DEBUG_MASK {
+ 	DC_HDCP_LC_FORCE_FW_ENABLE = 0x80000,
+ 
+ 	/**
+-	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
++	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK: Enables software fallback for HDCP locality check if the firmware fails.
+ 	 * path failure, retry using legacy SW path.
+ 	 */
+ 	DC_HDCP_LC_ENABLE_SW_FALLBACK = 0x100000,
+-- 
+2.43.0
+
