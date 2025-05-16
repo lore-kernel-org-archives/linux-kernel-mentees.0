@@ -1,95 +1,114 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9749C242909
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 12:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0757A74C08
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 14:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747400261; cv=none; b=d/9Vo8SVedarNzc+bKMcM+A8WgH8dGoG6ja5JW0bH7lQkMOSR0RFbVPqs+r+4vYF3tX3iHU58xOwrQk3GXoW2anKfzpRC4vb2qX8Px2pXzPiVn9XkpEcpWis99bQM5cQALSYSgoIKlUD0mW98hgYrf0BP1wFVsOW82FgO7vO7Gw=
+	t=1747406253; cv=none; b=kKMP8w9sT/vUyRAKucvU1To3njFukeMzpcBc3LGJwcLllnj8+Jfwb+sqm0txvuGBpF7Gai7cqL6jROOE9lrs7YQarnZdINsdno93DR44q/ifFiEzwx6e6fHvv2K74VjcRWYStIgPmcaHqpH6V9WADe7nZ5qoFfu22jr96PRQAdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747400261; c=relaxed/simple;
-	bh=+FSC98TIvnpgQW12nqD/3kXRZ0Fs9oV3gTLvM68micU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WEJPmkM8gjn/hdm36KmEBZZIX7rIUIXqoOzu99tBDwBqpNfReCldCxRpZJiCyZCKkDtKJX34TDvjFn9re4gz+vTN0raVBqQ8bw8vrnoxsTllvBKI9sqonBIP5bvPfBcTl3jMTf10yC9ggl6A5VRo6sIpo0tJDfeDrsIAwqxSh5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CS8P/In/; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CS8P/In/"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-441d437cfaaso12292165e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 05:57:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747400258; x=1748005058; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VW89Tj8c9PUVGNCzuX2ZlyTNAUa8vPwg+B5bpWF7mn4=;
-        b=CS8P/In/Y2YjdaWFSci/5t+rIAMcaYy5wAFrnGytWYr4gCEB8Y9lIIMfLOgxRx1G+t
-         sUbhHROTu9RyZrDJh1wvYu7p1upUvPZ1cw13MpB1BXu9uDk2uQj2r8B05iyzJDaw7PSz
-         Mh33qYqhCei5cl57mcShNuDyhSyMLZOH9FIUNwL8V8GXH69Wf9H+6qvyVTGFvqpm0N53
-         Pd8GtySQfkkrjPOfPm4AEK5ufmfkUeV0GHBbRX96c47tB97tENcjd875aj7puZd+5TAJ
-         QzovC9B3jGXKNFjNoN5VnFKwL6y8kA8AgruFMJMT8vfIgLcfBDW7rhIwS8gtfl29dlK4
-         ZZfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747400258; x=1748005058;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VW89Tj8c9PUVGNCzuX2ZlyTNAUa8vPwg+B5bpWF7mn4=;
-        b=WcNF5F5u0KvSwViMiZaDrapE3REyw0jIvWaYNygcyFCx5M0wqKik2qZMTQVRLxLl8a
-         qfk5RbdqVjYpuliHXCECq1ER6QmmVgPtgsarFVA+LDydkzpBgXV8g0ZZTy6RmLe4aXgM
-         hac5Ena9VPmZcyurHZMCz1dA2UxJiNVPAkue7WIkVpzwvWun9MxmRBREfrlw7cnJPkWK
-         I/3F+mw4gIHpxF61cMBRtYnigE2DEpw4Jmn2Q4rOlLSJTOI7EUfh4IJMioVgXHYcUMNH
-         WmRh03x3JVfQ6QHloUn3CIo/fvk5GBQFK9/gPa/pc9K/t+NbgJRLVdvCPP92j34bXJ5E
-         3VZg==
-X-Gm-Message-State: AOJu0YyMvBvQEZ40GKYEmxTb4yIf538z52rs8uBMtzmYlZdZKFJjwze3
-	CKyptmfp4TsczExmUcqhmRm2OMO7F/p8QpiXnfcJ85cxojC/XqJy8cKCKjlt2/payAjf60jT
-X-Gm-Gg: ASbGncsPz2ZOgkLlw/kXpij2yLug3lt4/kBqtdOji6XGtujDVaxA2nxNN+3pC/QCIAO
-	mgeSWCvKwrY106H/3vGH0mDNS5/Mo3o9nQAHlPCbhdHdVHv/DQd9lvWoshVPTGnGlrfPEt0EIA6
-	frumtKeAUK931FvXB6oXOKJMXXDHvf+pIXPKZYLZjnrpuic5PN17GVk0vJC69CIRLw6QW9T02II
-	/Jv59g8DjacMY9GZ6EmGaa99lB/6y3zzKO+CzCwAhwqHS9zc+/IRNouVkauKJ66Hc/efOHwaX28
-	5ip6A+a1AMBWQPDs4muJTP9DL4UdJskTLx2Oc10pIqz+QQmzhtmxVwtzFTvAO3YxDZKnXBzbSpj
-	nSETmJ4vqrGagS9SN6UzbajI6cj82pX4nji1kigbUyg8e
-X-Google-Smtp-Source: AGHT+IG0G1UCWDav1n+DgzbFKo/1bZ6LmsukOQf7dpPE+qHxbbihNA8ofnaXhsPLIKr+h/EAOWcePg==
-X-Received: by 2002:a05:6000:1881:b0:3a1:f635:1136 with SMTP id ffacd0b85a97d-3a35fead113mr2208312f8f.28.1747400257319;
-        Fri, 16 May 2025 05:57:37 -0700 (PDT)
-Received: from localhost.localdomain (host86-152-218-15.range86-152.btcentralplus.com. [86.152.218.15])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca8d119sm2777040f8f.92.2025.05.16.05.57.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 May 2025 05:57:36 -0700 (PDT)
-From: Thomas Thelen <tommythelen@gmail.com>
-To: linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Cc: Thomas Thelen <tommythelen@gmail.com>
-Subject: [PATCH] Fix spelling error for 'Celsius'
-Date: Fri, 16 May 2025 05:56:12 -0700
-Message-ID: <20250516125733.5778-1-tommythelen@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	s=arc-20240116; t=1747406253; c=relaxed/simple;
+	bh=WwD/N93JoWvoK7UwKqwSLDauyBcOUESITur/eQjy79M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kRioyi7926pRp/SUQHFWJnhPN7HWYAtp7dnvgaI6TWCvfwGjtVfetLjxOOwAYHpSq5HzAcK/UNv+iSs4bniKQwbDE+7bE9B1GsPSV3BVuLK+Xd5u1GYxw1NCJQOPHXO8jnH8cSoCO3HwR01GrE1X1mB3v1AcGWTBjlLxqKqs4pQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B98C143865;
+	Fri, 16 May 2025 14:37:20 +0000 (UTC)
+Message-ID: <57352cc0-420b-42e6-a493-2764794a5206@ghiti.fr>
+Date: Fri, 16 May 2025 16:37:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/2] Implement endianess swap macros for RISC-V
+Content-Language: en-US
+To: Ignacio Encinas <ignacio@iencinas.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ skhan@linuxfoundation.org, Zhihang Shao <zhihang.shao.iscas@gmail.com>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ linux-arch@vger.kernel.org
+References: <20250426-riscv-swab-v4-0-64201404a68c@iencinas.com>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20250426-riscv-swab-v4-0-64201404a68c@iencinas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefudeftdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpefhhfdutdevgeelgeegfeeltdduhfduledvteduhfegffffiefggfektefhjedujeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedvtddtudemkeeiudemfeefkedvmegvfheltdemsgeiugehmeegfhduleemiegrledumeejkehftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemfeefkedvmegvfheltdemsgeiugehmeegfhduleemiegrledumeejkehftddphhgvlhhopeglkffrggeimedvtddtudemkeeiudemfeefkedvmegvfheltdemsgeiugehmeegfhduleemiegrledumeejkehftdgnpdhmrghilhhfrhhomheprghlvgigsehghhhithhirdhfrhdpnhgspghrtghpthhtohepuddvpdhrtghpthhtohepihhgnhgrtghiohesihgvnhgtihhnrghsrdgtohhmpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhto
+ hepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhopegvsghighhgvghrsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhhishgtvheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugidruggvvh
+X-GND-Sasl: alex@ghiti.fr
 
-Signed-off-by: Thomas Thelen <tommythelen@gmail.com>
----
- .../devicetree/bindings/thermal/nvidia,tegra124-soctherm.yaml   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Arnd,
 
-diff --git a/Documentation/devicetree/bindings/thermal/nvidia,tegra124-soctherm.yaml b/Documentation/devicetree/bindings/thermal/nvidia,tegra124-soctherm.yaml
-index 19bb1f324183..f28de8cd983a 100644
---- a/Documentation/devicetree/bindings/thermal/nvidia,tegra124-soctherm.yaml
-+++ b/Documentation/devicetree/bindings/thermal/nvidia,tegra124-soctherm.yaml
-@@ -160,7 +160,7 @@ properties:
-       SOCTHERM hardware will assert the thermal trigger signal to the Power
-       Management IC, which can be configured to reset or shutdown the device.
-       It is an array of pairs where each pair represents a tsensor ID followed
--      by a temperature in milli Celcius. In the absence of this property the
-+      by a temperature in milli Celsius. In the absence of this property the
-       critical trip point will be used for thermtrip temperature.
- 
-       Note:
--- 
-2.48.1
+Do you think we can merge that for 6.16? It is nice improvement for us.
 
+Thanks,
+
+Alex
+
+On 26/04/2025 16:56, Ignacio Encinas wrote:
+> Motivated by [1]. A couple of things to note:
+>
+> RISC-V needs a default implementation to fall back on. There is one
+> available in include/uapi/linux/swab.h but that header can't be included
+> from arch/riscv/include/asm/swab.h. Therefore, the first patch in this
+> series moves the default implementation into asm-generic.
+>
+> Tested with crc_kunit as pointed out here [2]. I can't provide
+> performance numbers as I don't have RISC-V hardware yet.
+>
+> [1] https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
+> [2] https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/
+>
+> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+> ---
+> Changes in v4:
+>
+> - Add missing include in the 1st patch, reported by
+>    https://lore.kernel.org/all/202504042300.it9RcOSt-lkp@intel.com/
+> - Rewrite the ARCH_SWAB macro as suggested by Arnd
+> - Define __arch_swab64 for CONFIG_32BIT (Ben)
+> - Link to v3: https://lore.kernel.org/r/20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com
+>
+> Arnd, I know you don't like Patch 1 but I tried your suggestions and
+> couldn't make them work. Please let me know if I missed anything [3] [4]
+>
+> [3] https://lore.kernel.org/linux-riscv/f5464e26-faa0-48f1-8585-9ce52c8c9f5f@iencinas.com/
+> [4] https://lore.kernel.org/linux-riscv/b3b59747-0484-4042-bdc4-c067688e3bfe@iencinas.com/
+>
+> Changes in v3:
+>
+> PATCH 2:
+>    Use if(riscv_has_extension_likely) instead of asm goto (Eric). It
+>    looks like both versions generate the same assembly. Perhaps we should
+>    do the same change in other places such as arch/riscv/include/asm/bitops.h
+> - Link to v2: https://lore.kernel.org/r/20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com
+>
+> Changes in v2:
+> - Introduce first patch factoring out the default implementation into
+>    asm-generic
+> - Remove blank line to make checkpatch happy
+> - Link to v1: https://lore.kernel.org/r/20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com
+>
+> ---
+> Ignacio Encinas (2):
+>        include/uapi/linux/swab.h: move default implementation for swab macros into asm-generic
+>        riscv: introduce asm/swab.h
+>
+>   arch/riscv/include/asm/swab.h   | 62 +++++++++++++++++++++++++++++++++++++++++
+>   include/uapi/asm-generic/swab.h | 33 ++++++++++++++++++++++
+>   include/uapi/linux/swab.h       | 33 +---------------------
+>   3 files changed, 96 insertions(+), 32 deletions(-)
+> ---
+> base-commit: a7f2e10ecd8f18b83951b0bab47ddaf48f93bf47
+> change-id: 20250307-riscv-swab-b81b94a9ac1b
+>
+> Best regards,
