@@ -1,133 +1,100 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0564E224230
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 01:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9A12222D1
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 10:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747359888; cv=none; b=RQx7fNF7dxdvfs+BV/Lcn70rh5lNud+dpaM6XHb0AjrxVDcYoMFlp9vgDAlZHU8btvCwc4TP9bNe29NDRkRMS7dML/HIi1O38L3Sw8sGlGyYWgguNOhvjrYrLq5Kkcr/RmmB7E3EYiE1uc3ci25d1q3Ch4cDSoAFzznO+Eh8SNU=
+	t=1747389921; cv=none; b=m5AuJB/yA6iSvFb9T9eRaljQyWfg1i3A1wOoJYMrtw3favEYkHueeGbLzuwi0lfMLVA/C+lqAPfXA7NrCevQY5Fr+JOa4/PX+v7ORgNehF/lttO5gNSPqjS6MnWId9RbT5RjmZeJfL/7kMDEMt34ehMXtB4c3kjObCWXZjeKxzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747359888; c=relaxed/simple;
-	bh=OLule8vZ6pYFD7KstMmId4kflE7J1eo02CkkvhaIF0M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BIlSVZ55PcEcJIbERi+YQZgSTWZjHFx180P7N8hgrRsKYsTekCDePaIvCkmC9kkAkDcZ2ux0NnGMYmTYIlVDRRptZl2HGQamHKQAQgi+IoJ4cZ/M5J5MEQl97IFWbB6M5YTY21Q1afkkIP9ejGGdcA85aktyGI+NPhn6ojoNgYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A+F/V5Nz; arc=none smtp.client-ip=209.85.128.169
+	s=arc-20240116; t=1747389921; c=relaxed/simple;
+	bh=/1cSL/Lh7tlBOp4/gUuenclvwCFSIFtB1YjDaNqi7c8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=icDYRq7CmXtc0q8XAdXUNmdbEY7RBfx+L5bEMwzCUcAoYtrEci3bTAbHh9BqBaYuP/1H5z3E/TuprHUA+GEv2Nu4rrGYh22U3v9kKvUnyOixEifptrYFpi6AiyNKZ95CtrKO7we+sZdWlBLm8skNDFQsPzwXItpnTl59dDEdCOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IbJXqNVW; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A+F/V5Nz"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-70a56b846d8so17313577b3.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 May 2025 18:44:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IbJXqNVW"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-231e331baceso3118955ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 03:05:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747359886; x=1747964686; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jkvwIib7SJ8VISrZy+6Zl38kwYsQhTVmXH1LNDYr2gI=;
-        b=A+F/V5Nz5yMJmxuTRg7Zi5cyddxcHK3FDDEBSJWaOLX/+3lusCBF7nvz9A4RNJHqrf
-         JIn7Rc/zlgK90HiNhmxnaREW+RajfOMpVuUVbSMO38M3JNTxfJsTZ+jUEisQp2ZIXkMA
-         ad4vnSRZzhoDedT2nhCrDTjVRBKoYRR+BibzY3u2G5aTdc9t1geuIVzvFEn/rG6ym89o
-         bSi5CuO6u8zrgjWb04QgKntIjEobKC8H34XBpl3L+BzrPRFVU+7kKxd3h1Ipr89V5PR1
-         D24ZM1qPV1Is3bswbOadXKEm9m9X3F69vgYYui3ZyL72BNmC5qFSQ0qkg2EGqeJwO57X
-         q5OA==
+        d=gmail.com; s=20230601; t=1747389919; x=1747994719; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RFijRLgGDoaMi5lWPDlmsyQ4o4dXkE7VloEdKbWCl3Q=;
+        b=IbJXqNVWBnvuzZZgokpl3vwkhFUPym6X8aNjXPrh5ZJsIMG/oOiJjxSgonElC4VQxt
+         EhxytuAS4Jk/xzIrsDZPVD6xf+/rfrKLk2xAhrqzDN+Qcty4M4u6NNt0MtxY6pXgjLUd
+         5gg+OLG4lRrd47bdpTwngW25PCUV0zaBA3BaBEyrD3AAh8u6/ptR1eGIbZsdW1huIcHL
+         nRZQr4efJzp0N8oTSrrG3z4LChGuDTLTFGg43fspq8LKdyA7oTgqLVQqAtWusWn+X+pE
+         ojqVEydewHxoaajhYVA/uJRMInETd0y9YO5i63tQNqxsFVbtaLtVyBqP16sVK3ujJhu5
+         6dWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747359886; x=1747964686;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1747389919; x=1747994719;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jkvwIib7SJ8VISrZy+6Zl38kwYsQhTVmXH1LNDYr2gI=;
-        b=Lx5tXLSt8M6mAea64VhubHl04GWAn4Vp+2qZ2pTWrjA+KiKYnhTuuMSM6tPuO3BbZj
-         6att7NA9rRQyEwbW5XV1SkuUbq2xKACuU+IhJacnAfWEaiFU+f1RHkPGHENJDc7IFh2h
-         VLAg1n+g45ZUzytT1iHzs87/1VTe21fZ8Kq2bgeFed1v9lmd3w30R+B1drMUjMKzxE+9
-         DsMxWe+RnH0E48/QTAJ32mMjgA2SLsenYBYIHhqhogoKWvB/TTHn/G+jrbUB4oWYos57
-         w8RdE2/3xSs3+Yc8UIL/ECDyhwDMf1l+FhuhGZD/NvRs2HEGJ/PVoY2YPrzfvzX4d1D8
-         fPxA==
-X-Forwarded-Encrypted: i=1; AJvYcCUfyzD/1JuODc6wrB7V0sBulZIJq65csDBD+PZS/fOzjjRAAUTyWl+6ii0KxMFpTajQUS6WiKIfAttizTTetBYkAmM2Cg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzBxXVGCjtvXZxZgmbI3M16nWx7yvfVJC57hXcig2h1XzvX7LhY
-	/+9JIv3O9+84plKH60Ba+CkurLdujGl8Eq/a5zFIUQxIJmSikF297gRd2AAZLAxNT1hbM6xNzmP
-	RwVQeP+APz3xYgYD+tYSHfigS+jcCvCGS4A==
-X-Gm-Gg: ASbGncuDnchtjMn8ayIlKaKJkqluu7eRrUT1tuIuZAEfT+V2NBi/aXp0RKWUCH6tXcr
-	gmIrRQ+73jvxkplqvryh/WAx6rHDsBQoLRrqgc7kVrQEiclYeCB8xjaXEf3lymOFJ4WLdceS+U9
-	OyjN+HocrcLThKjcdQogL6GtgcgefelCGCmbqyECH0Y7iiKriwSB7r65iZeJCs/j2vVp8=
-X-Google-Smtp-Source: AGHT+IHaUQqw1N80C0OWhVA4FjqviBDRh58TKU0yyt8RSMOTTxsx9frZtSeZj+VRFZjfpaa3ZkwPB+opUbCwU3YjrLA=
-X-Received: by 2002:a05:690c:6089:b0:709:1d50:897 with SMTP id
- 00721157ae682-70cab0dcf41mr12450787b3.33.1747359885769; Thu, 15 May 2025
- 18:44:45 -0700 (PDT)
+        bh=RFijRLgGDoaMi5lWPDlmsyQ4o4dXkE7VloEdKbWCl3Q=;
+        b=Y/6HjsEEjH+s3LzmF/ggH8GgXQh7/Q3xhj8WEu0wqT3gtvWNN/AiblOldY7FuM/zl/
+         eJV6h+d0VxVyslJgirVqkSAuceXTAhSuNFRFJHjuBzgDynzfJ3bJFU8uX7pe8hUIlo+X
+         zk/5ZoGwplkMnmCjOMy9smyXz+djfqoaOJLsXj3SrLLfGhJLcyENOXnYQtxEjAuFgSop
+         OId2HCXb/x5/dt36YHQACaTFf/GkXQTIpr8UfsppZtkjsc6lz+/RGJB+ryTqlvDGXMNm
+         FXIo+oZp29hWBQz3NoDmouqHLwPAv0n2H6V9L2OGu5wScSwSdgs6DkvIsaSKhJb/b3Rv
+         lwZg==
+X-Forwarded-Encrypted: i=1; AJvYcCX+T/BYpNBsQG9sNIQ/V5Yp9Nn9CvnRgABdPXidavb1x0vrk4GEmKERi6ORJVIjsHIO4Lr6W5ppsRtBRzmi1Iz65K+cGw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgJTi8UIGZODJetxtm89uP2xqVVK5kCQIpjsOWkR8r91n3WYQo
+	1sbeoyvqupeUTt1HeYEVErxFl2hnf2uu0NuV3nNxAp+MU3H87gxOMCRU
+X-Gm-Gg: ASbGncu/saKEcTDoS3nP3tyq334/BPmPNRfFxa/lTIUTV1Xoxurxmulg1g5KRlaL0Tt
+	B1M1qo2yBLMCNBUY+TIhOjMzGCPz2Ejhj9VgTEnWU2DV6lEj5nU9IUrFRqr7c/YZgluXCPRgQ+2
+	NaxKoVrLPSRjodAXkN2sf92Z0E8/gdX/IOgda2Eqmy39brqDSiWBrezED67alchNY85pGHy5Ydx
+	hfWy4xCMZ52wS5x2Ikoyh1YHRblBbwpPGpS5N4hKckD9/zPU7Oxfl3laSMnMMkrYi66aImDMIco
+	WROHpAF5OeZpMVD+DffB3hgUiqoa+rgD0SEo/+B7PYOrwu4CNEvH7eDvJjTOWGo=
+X-Google-Smtp-Source: AGHT+IFnBvl/fc5vkXH6aoPRzVyKb0aBPkGRkmKPOR1gB40ebLaewudBvyA06ohiC/L+TZL2gX7XJg==
+X-Received: by 2002:a17:903:24e:b0:22e:4a6c:fef2 with SMTP id d9443c01a7336-231d45ae355mr38262335ad.53.1747389917675;
+        Fri, 16 May 2025 03:05:17 -0700 (PDT)
+Received: from harshPC.. ([2405:201:400a:31fb:f6e6:d112:b6:cd3d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4e9828esm10988575ad.114.2025.05.16.03.05.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 May 2025 03:05:17 -0700 (PDT)
+From: Harshal <embedkari167@gmail.com>
+To: jdelvare@suse.com,
+	wsa+renesas@sang-engineering.com,
+	skhan@linuxfoundation.org
+Cc: Harshal <embedkari167@gmail.com>,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] docs: i2c: fix spelling mistake
+Date: Fri, 16 May 2025 15:34:38 +0530
+Message-ID: <20250516100445.8484-1-embedkari167@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAG+54DbGpNn-Ps=djpsUy+K-6V+eoNcMbTcJoW8W5upz2OKn+g@mail.gmail.com>
-In-Reply-To: <CAG+54DbGpNn-Ps=djpsUy+K-6V+eoNcMbTcJoW8W5upz2OKn+g@mail.gmail.com>
-From: rujra <braker.noob.kernel@gmail.com>
-Date: Fri, 16 May 2025 07:14:34 +0530
-X-Gm-Features: AX0GCFvnDgljjtOzQ3Gs4asEx8d--Lh61FJjSx4zgR_CjQEsgnkL4Zx2u8VeV98
-Message-ID: <CAG+54DZ1wDTdWPQSw01G4YgTdihezQ966LGa6ttmBgT2D2gTyg@mail.gmail.com>
-Subject: Fwd: [PATCH] selftests : timers : valid-adjtimex.c : Fixed style checks
-To: skhan@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-fixed style checks according to Linux Kernel Coding Style standards.
+fix resistors spelling in i2c-parport.rst
 
-
-1 : fixed alignment of parenthesis.
-LOG : CHECK: Alignment should match open parenthesis
-+                       printf("ERROR: out of range value %ld actually set!\n",
-+                                       tx.freq);
-
-2 : fixed alignment of parenthesis.
-LOG : CHECK: Alignment should match open parenthesis
-+                               printf("Error: No failure on invalid
-ADJ_FREQUENCY %ld\n",
-+                                       invalid_freq[i]);
-
-3 : fixed line length of 106 to 100 and less.
-LOG :  CHECK: line length of 106 exceeds 100 columns
-+               printf("Invalid (sec: %ld  usec: %ld) did not fail! ",
-tmx.time.tv_sec, tmx.time.tv_usec);
-
-Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
+Signed-off-by: Harshal <embedkari167@gmail.com>
 ---
- tools/testing/selftests/timers/valid-adjtimex.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ Documentation/i2c/busses/i2c-parport.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/timers/valid-adjtimex.c
-b/tools/testing/selftests/timers/valid-adjtimex.c
-index 6b7801055ad1..5110f9ee285c 100644
---- a/tools/testing/selftests/timers/valid-adjtimex.c
-+++ b/tools/testing/selftests/timers/valid-adjtimex.c
-@@ -157,7 +157,7 @@ int validate_freq(void)
-                if (tx.freq == outofrange_freq[i]) {
-                        printf("[FAIL]\n");
-                        printf("ERROR: out of range value %ld actually set!\n",
--                                       tx.freq);
-+                              tx.freq);
-                        pass = -1;
-                        goto out;
-                }
-@@ -172,7 +172,7 @@ int validate_freq(void)
-                        if (ret >= 0) {
-                                printf("[FAIL]\n");
-                                printf("Error: No failure on invalid
-ADJ_FREQUENCY %ld\n",
--                                       invalid_freq[i]);
-+                                      invalid_freq[i]);
-                                pass = -1;
-                                goto out;
-                        }
-@@ -238,7 +238,8 @@ int set_bad_offset(long sec, long usec, int use_nano)
-        tmx.time.tv_usec = usec;
-        ret = clock_adjtime(CLOCK_REALTIME, &tmx);
-        if (ret >= 0) {
--               printf("Invalid (sec: %ld  usec: %ld) did not fail! ",
-tmx.time.tv_sec, tmx.time.tv_usec);
-+               printf("Invalid (sec: %ld  usec: %ld) did not fail! ",
-+                      tmx.time.tv_sec, tmx.time.tv_usec);
-                printf("[FAIL]\n");
-                return -1;
-        }
---
+diff --git a/Documentation/i2c/busses/i2c-parport.rst b/Documentation/i2c/busses/i2c-parport.rst
+index a9b4e8133700..4cbf45952d52 100644
+--- a/Documentation/i2c/busses/i2c-parport.rst
++++ b/Documentation/i2c/busses/i2c-parport.rst
+@@ -84,7 +84,7 @@ Remarks:
+                    \|
+ 
+    must be 74HC05, they must be open collector output.
+- - All resitors are 10k.
++ - All resistors are 10k.
+  - Pins 18-25 of the parallel port connected to GND.
+  - Pins 4-9 (D2-D7) could be used as VDD is the driver drives them high.
+    The ADM1032 evaluation board uses D4-D7. Beware that the amount of
+-- 
 2.43.0
+
