@@ -1,160 +1,133 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C1B2114;
-	Fri, 16 May 2025 00:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0564E224230
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 01:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747355773; cv=none; b=j9VopZsb/2pcIsedJVFn+9XXabLaungJ9wtXyYZTLmZf/GhSERPLJEkhvc9ZqR5u+t7BzRKYJxqzrv1go3UAMT5tSzCXq0tC/YyWAzzKD2VgJUUP1meCoDcD4xwPM8UVy/rOYlYfFe/NVIDUWo98oRzoZFlESxT4mDEEiCjJDaA=
+	t=1747359888; cv=none; b=RQx7fNF7dxdvfs+BV/Lcn70rh5lNud+dpaM6XHb0AjrxVDcYoMFlp9vgDAlZHU8btvCwc4TP9bNe29NDRkRMS7dML/HIi1O38L3Sw8sGlGyYWgguNOhvjrYrLq5Kkcr/RmmB7E3EYiE1uc3ci25d1q3Ch4cDSoAFzznO+Eh8SNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747355773; c=relaxed/simple;
-	bh=rGRI7pv9FOnDN5ARj/451B9SqwqBg+xlKaVmt3lL+Uk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dUAPceRx2uY8AcdyQStHIJCtF9XKFdw5naIQMCN2fNHdstl/5qU8140+mJHv1WNxziCiWmvFJZ5bS2Hhv57fKgNsC3SgzDRkZXsryiPXHjfLUvT6tD2D7bhFhuJW4Mp2gewTnTxzXCE+/gXD/PUOl8Z+ZIIJG1sWek1/F7ixO54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SVglxsZe; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1747359888; c=relaxed/simple;
+	bh=OLule8vZ6pYFD7KstMmId4kflE7J1eo02CkkvhaIF0M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BIlSVZ55PcEcJIbERi+YQZgSTWZjHFx180P7N8hgrRsKYsTekCDePaIvCkmC9kkAkDcZ2ux0NnGMYmTYIlVDRRptZl2HGQamHKQAQgi+IoJ4cZ/M5J5MEQl97IFWbB6M5YTY21Q1afkkIP9ejGGdcA85aktyGI+NPhn6ojoNgYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A+F/V5Nz; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SVglxsZe"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=p3TP/VPMxxlEonz02VIawXMvSXarvt5nx0vp3mbv6Z4=; b=SVglxsZee/njbichUMAoYWcZUJ
-	WrDx1MfXZ1iX19DCOZPzCu2YsVGZZpMkXyDVdoJ7L6Qgk+38RrS5PNzr2JDwat2ZhyBA4UOP+/LG5
-	t9OfOft7yKTBzPXbHe8ZLJQmTqDsiJkOAebombxkUaFBqlb84FquCOB6evC8mgkIiD9ojt6eBMn8m
-	F0gCPWkdsKnMRwR2Wh+FeX2cRZtS+l/hVgMN2rkAOHy68HGqryiFrkv/kR0/QFs/LpT+bYopZ9KqE
-	YV8mCQmx8hgtth6W+XPgVnVXZ+/2M3EVVns3vwbsYuK4CLL6868A52dsB51AVCWVf1yIIPVnwHaIg
-	M/cui+tg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1uFj3O-000000000s6-3vup;
-	Fri, 16 May 2025 00:36:01 +0000
-Message-ID: <5baa0fc5-bdb4-45bc-a986-171fa440e2e5@infradead.org>
-Date: Thu, 15 May 2025 17:35:55 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A+F/V5Nz"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-70a56b846d8so17313577b3.3
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 May 2025 18:44:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747359886; x=1747964686; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jkvwIib7SJ8VISrZy+6Zl38kwYsQhTVmXH1LNDYr2gI=;
+        b=A+F/V5Nz5yMJmxuTRg7Zi5cyddxcHK3FDDEBSJWaOLX/+3lusCBF7nvz9A4RNJHqrf
+         JIn7Rc/zlgK90HiNhmxnaREW+RajfOMpVuUVbSMO38M3JNTxfJsTZ+jUEisQp2ZIXkMA
+         ad4vnSRZzhoDedT2nhCrDTjVRBKoYRR+BibzY3u2G5aTdc9t1geuIVzvFEn/rG6ym89o
+         bSi5CuO6u8zrgjWb04QgKntIjEobKC8H34XBpl3L+BzrPRFVU+7kKxd3h1Ipr89V5PR1
+         D24ZM1qPV1Is3bswbOadXKEm9m9X3F69vgYYui3ZyL72BNmC5qFSQ0qkg2EGqeJwO57X
+         q5OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747359886; x=1747964686;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jkvwIib7SJ8VISrZy+6Zl38kwYsQhTVmXH1LNDYr2gI=;
+        b=Lx5tXLSt8M6mAea64VhubHl04GWAn4Vp+2qZ2pTWrjA+KiKYnhTuuMSM6tPuO3BbZj
+         6att7NA9rRQyEwbW5XV1SkuUbq2xKACuU+IhJacnAfWEaiFU+f1RHkPGHENJDc7IFh2h
+         VLAg1n+g45ZUzytT1iHzs87/1VTe21fZ8Kq2bgeFed1v9lmd3w30R+B1drMUjMKzxE+9
+         DsMxWe+RnH0E48/QTAJ32mMjgA2SLsenYBYIHhqhogoKWvB/TTHn/G+jrbUB4oWYos57
+         w8RdE2/3xSs3+Yc8UIL/ECDyhwDMf1l+FhuhGZD/NvRs2HEGJ/PVoY2YPrzfvzX4d1D8
+         fPxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUfyzD/1JuODc6wrB7V0sBulZIJq65csDBD+PZS/fOzjjRAAUTyWl+6ii0KxMFpTajQUS6WiKIfAttizTTetBYkAmM2Cg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBxXVGCjtvXZxZgmbI3M16nWx7yvfVJC57hXcig2h1XzvX7LhY
+	/+9JIv3O9+84plKH60Ba+CkurLdujGl8Eq/a5zFIUQxIJmSikF297gRd2AAZLAxNT1hbM6xNzmP
+	RwVQeP+APz3xYgYD+tYSHfigS+jcCvCGS4A==
+X-Gm-Gg: ASbGncuDnchtjMn8ayIlKaKJkqluu7eRrUT1tuIuZAEfT+V2NBi/aXp0RKWUCH6tXcr
+	gmIrRQ+73jvxkplqvryh/WAx6rHDsBQoLRrqgc7kVrQEiclYeCB8xjaXEf3lymOFJ4WLdceS+U9
+	OyjN+HocrcLThKjcdQogL6GtgcgefelCGCmbqyECH0Y7iiKriwSB7r65iZeJCs/j2vVp8=
+X-Google-Smtp-Source: AGHT+IHaUQqw1N80C0OWhVA4FjqviBDRh58TKU0yyt8RSMOTTxsx9frZtSeZj+VRFZjfpaa3ZkwPB+opUbCwU3YjrLA=
+X-Received: by 2002:a05:690c:6089:b0:709:1d50:897 with SMTP id
+ 00721157ae682-70cab0dcf41mr12450787b3.33.1747359885769; Thu, 15 May 2025
+ 18:44:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: ipmi: fix spelling and grammar mistakes
-To: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>,
- corey@minyard.net, corbet@lwn.net
-Cc: openipmi-developer@lists.sourceforge.net, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20250515234757.19710-1-praveen.balakrishnan@magd.ox.ac.uk>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250515234757.19710-1-praveen.balakrishnan@magd.ox.ac.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CAG+54DbGpNn-Ps=djpsUy+K-6V+eoNcMbTcJoW8W5upz2OKn+g@mail.gmail.com>
+In-Reply-To: <CAG+54DbGpNn-Ps=djpsUy+K-6V+eoNcMbTcJoW8W5upz2OKn+g@mail.gmail.com>
+From: rujra <braker.noob.kernel@gmail.com>
+Date: Fri, 16 May 2025 07:14:34 +0530
+X-Gm-Features: AX0GCFvnDgljjtOzQ3Gs4asEx8d--Lh61FJjSx4zgR_CjQEsgnkL4Zx2u8VeV98
+Message-ID: <CAG+54DZ1wDTdWPQSw01G4YgTdihezQ966LGa6ttmBgT2D2gTyg@mail.gmail.com>
+Subject: Fwd: [PATCH] selftests : timers : valid-adjtimex.c : Fixed style checks
+To: skhan@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+
+fixed style checks according to Linux Kernel Coding Style standards.
 
 
+1 : fixed alignment of parenthesis.
+LOG : CHECK: Alignment should match open parenthesis
++                       printf("ERROR: out of range value %ld actually set!\n",
++                                       tx.freq);
 
-On 5/15/25 4:47 PM, Praveen Balakrishnan wrote:
-> Corrected various spelling and grammatical mistakes in
-> Documentation/driver-api/ipmi.rst to improve readability.
-> 
-> No changes to the technical content has been made.
-> 
-> Signed-off-by: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
+2 : fixed alignment of parenthesis.
+LOG : CHECK: Alignment should match open parenthesis
++                               printf("Error: No failure on invalid
+ADJ_FREQUENCY %ld\n",
++                                       invalid_freq[i]);
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+3 : fixed line length of 106 to 100 and less.
+LOG :  CHECK: line length of 106 exceeds 100 columns
++               printf("Invalid (sec: %ld  usec: %ld) did not fail! ",
+tmx.time.tv_sec, tmx.time.tv_usec);
 
-Thanks.
+Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
+---
+ tools/testing/selftests/timers/valid-adjtimex.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-> ---
->  Documentation/driver-api/ipmi.rst | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/ipmi.rst b/Documentation/driver-api/ipmi.rst
-> index dfa021eacd63..d9fb2376e8da 100644
-> --- a/Documentation/driver-api/ipmi.rst
-> +++ b/Documentation/driver-api/ipmi.rst
-> @@ -45,7 +45,7 @@ manual), choose the 'IPMI SI handler' option.  A driver also exists
->  for direct I2C access to the IPMI management controller.  Some boards
->  support this, but it is unknown if it will work on every board.  For
->  this, choose 'IPMI SMBus handler', but be ready to try to do some
-> -figuring to see if it will work on your system if the SMBIOS/APCI
-> +figuring to see if it will work on your system if the SMBIOS/ACPI
->  information is wrong or not present.  It is fairly safe to have both
->  these enabled and let the drivers auto-detect what is present.
->  
-> @@ -63,7 +63,7 @@ situation, you need to read the section below named 'The SI Driver' or
->  IPMI defines a standard watchdog timer.  You can enable this with the
->  'IPMI Watchdog Timer' config option.  If you compile the driver into
->  the kernel, then via a kernel command-line option you can have the
-> -watchdog timer start as soon as it initializes.  It also have a lot
-> +watchdog timer start as soon as it initializes.  It also has a lot
->  of other options, see the 'Watchdog' section below for more details.
->  Note that you can also have the watchdog continue to run if it is
->  closed (by default it is disabled on close).  Go into the 'Watchdog
-> @@ -317,13 +317,13 @@ This gives the receiver a place to actually put the message.
->  
->  If the message cannot fit into the data you provide, you will get an
->  EMSGSIZE error and the driver will leave the data in the receive
-> -queue.  If you want to get it and have it truncate the message, us
-> +queue.  If you want to get it and have it truncate the message, use
->  the IPMICTL_RECEIVE_MSG_TRUNC ioctl.
->  
->  When you send a command (which is defined by the lowest-order bit of
->  the netfn per the IPMI spec) on the IPMB bus, the driver will
->  automatically assign the sequence number to the command and save the
-> -command.  If the response is not receive in the IPMI-specified 5
-> +command.  If the response is not received in the IPMI-specified 5
->  seconds, it will generate a response automatically saying the command
->  timed out.  If an unsolicited response comes in (if it was after 5
->  seconds, for instance), that response will be ignored.
-> @@ -367,7 +367,7 @@ channel bitmasks do not overlap.
->  
->  To respond to a received command, set the response bit in the returned
->  netfn, use the address from the received message, and use the same
-> -msgid that you got in the receive message.
-> +msgid that you got in the received message.
->  
->  From userland, equivalent IOCTLs are provided to do these functions.
->  
-> @@ -440,7 +440,7 @@ register would be 0xca6.  This defaults to 1.
->  
->  The regsizes parameter gives the size of a register, in bytes.  The
->  data used by IPMI is 8-bits wide, but it may be inside a larger
-> -register.  This parameter allows the read and write type to specified.
-> +register.  This parameter allows the read and write type to be specified.
->  It may be 1, 2, 4, or 8.  The default is 1.
->  
->  Since the register size may be larger than 32 bits, the IPMI data may not
-> @@ -481,8 +481,8 @@ If your IPMI interface does not support interrupts and is a KCS or
->  SMIC interface, the IPMI driver will start a kernel thread for the
->  interface to help speed things up.  This is a low-priority kernel
->  thread that constantly polls the IPMI driver while an IPMI operation
-> -is in progress.  The force_kipmid module parameter will all the user to
-> -force this thread on or off.  If you force it off and don't have
-> +is in progress.  The force_kipmid module parameter will allow the user
-> +to force this thread on or off.  If you force it off and don't have
->  interrupts, the driver will run VERY slowly.  Don't blame me,
->  these interfaces suck.
->  
-> @@ -583,7 +583,7 @@ kernel command line as::
->  These are the same options as on the module command line.
->  
->  The I2C driver does not support non-blocking access or polling, so
-> -this driver cannod to IPMI panic events, extend the watchdog at panic
-> +this driver cannot do IPMI panic events, extend the watchdog at panic
->  time, or other panic-related IPMI functions without special kernel
->  patches and driver modifications.  You can get those at the openipmi
->  web page.
-> @@ -610,7 +610,7 @@ Parameters are::
->  	ipmi_ipmb.retry_time_ms=<Time between retries on IPMB>
->  	ipmi_ipmb.max_retries=<Number of times to retry a message>
->  
-> -Loading the module will not result in the driver automatcially
-> +Loading the module will not result in the driver automatically
->  starting unless there is device tree information setting it up.  If
->  you want to instantiate one of these by hand, do::
->  
-
--- 
-~Randy
+diff --git a/tools/testing/selftests/timers/valid-adjtimex.c
+b/tools/testing/selftests/timers/valid-adjtimex.c
+index 6b7801055ad1..5110f9ee285c 100644
+--- a/tools/testing/selftests/timers/valid-adjtimex.c
++++ b/tools/testing/selftests/timers/valid-adjtimex.c
+@@ -157,7 +157,7 @@ int validate_freq(void)
+                if (tx.freq == outofrange_freq[i]) {
+                        printf("[FAIL]\n");
+                        printf("ERROR: out of range value %ld actually set!\n",
+-                                       tx.freq);
++                              tx.freq);
+                        pass = -1;
+                        goto out;
+                }
+@@ -172,7 +172,7 @@ int validate_freq(void)
+                        if (ret >= 0) {
+                                printf("[FAIL]\n");
+                                printf("Error: No failure on invalid
+ADJ_FREQUENCY %ld\n",
+-                                       invalid_freq[i]);
++                                      invalid_freq[i]);
+                                pass = -1;
+                                goto out;
+                        }
+@@ -238,7 +238,8 @@ int set_bad_offset(long sec, long usec, int use_nano)
+        tmx.time.tv_usec = usec;
+        ret = clock_adjtime(CLOCK_REALTIME, &tmx);
+        if (ret >= 0) {
+-               printf("Invalid (sec: %ld  usec: %ld) did not fail! ",
+tmx.time.tv_sec, tmx.time.tv_usec);
++               printf("Invalid (sec: %ld  usec: %ld) did not fail! ",
++                      tmx.time.tv_sec, tmx.time.tv_usec);
+                printf("[FAIL]\n");
+                return -1;
+        }
+--
+2.43.0
