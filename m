@@ -1,72 +1,69 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9A12222D1
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 10:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9749C242909
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 12:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747389921; cv=none; b=m5AuJB/yA6iSvFb9T9eRaljQyWfg1i3A1wOoJYMrtw3favEYkHueeGbLzuwi0lfMLVA/C+lqAPfXA7NrCevQY5Fr+JOa4/PX+v7ORgNehF/lttO5gNSPqjS6MnWId9RbT5RjmZeJfL/7kMDEMt34ehMXtB4c3kjObCWXZjeKxzc=
+	t=1747400261; cv=none; b=d/9Vo8SVedarNzc+bKMcM+A8WgH8dGoG6ja5JW0bH7lQkMOSR0RFbVPqs+r+4vYF3tX3iHU58xOwrQk3GXoW2anKfzpRC4vb2qX8Px2pXzPiVn9XkpEcpWis99bQM5cQALSYSgoIKlUD0mW98hgYrf0BP1wFVsOW82FgO7vO7Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747389921; c=relaxed/simple;
-	bh=/1cSL/Lh7tlBOp4/gUuenclvwCFSIFtB1YjDaNqi7c8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=icDYRq7CmXtc0q8XAdXUNmdbEY7RBfx+L5bEMwzCUcAoYtrEci3bTAbHh9BqBaYuP/1H5z3E/TuprHUA+GEv2Nu4rrGYh22U3v9kKvUnyOixEifptrYFpi6AiyNKZ95CtrKO7we+sZdWlBLm8skNDFQsPzwXItpnTl59dDEdCOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IbJXqNVW; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1747400261; c=relaxed/simple;
+	bh=+FSC98TIvnpgQW12nqD/3kXRZ0Fs9oV3gTLvM68micU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WEJPmkM8gjn/hdm36KmEBZZIX7rIUIXqoOzu99tBDwBqpNfReCldCxRpZJiCyZCKkDtKJX34TDvjFn9re4gz+vTN0raVBqQ8bw8vrnoxsTllvBKI9sqonBIP5bvPfBcTl3jMTf10yC9ggl6A5VRo6sIpo0tJDfeDrsIAwqxSh5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CS8P/In/; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IbJXqNVW"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-231e331baceso3118955ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 03:05:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CS8P/In/"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-441d437cfaaso12292165e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 05:57:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747389919; x=1747994719; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1747400258; x=1748005058; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RFijRLgGDoaMi5lWPDlmsyQ4o4dXkE7VloEdKbWCl3Q=;
-        b=IbJXqNVWBnvuzZZgokpl3vwkhFUPym6X8aNjXPrh5ZJsIMG/oOiJjxSgonElC4VQxt
-         EhxytuAS4Jk/xzIrsDZPVD6xf+/rfrKLk2xAhrqzDN+Qcty4M4u6NNt0MtxY6pXgjLUd
-         5gg+OLG4lRrd47bdpTwngW25PCUV0zaBA3BaBEyrD3AAh8u6/ptR1eGIbZsdW1huIcHL
-         nRZQr4efJzp0N8oTSrrG3z4LChGuDTLTFGg43fspq8LKdyA7oTgqLVQqAtWusWn+X+pE
-         ojqVEydewHxoaajhYVA/uJRMInETd0y9YO5i63tQNqxsFVbtaLtVyBqP16sVK3ujJhu5
-         6dWQ==
+        bh=VW89Tj8c9PUVGNCzuX2ZlyTNAUa8vPwg+B5bpWF7mn4=;
+        b=CS8P/In/Y2YjdaWFSci/5t+rIAMcaYy5wAFrnGytWYr4gCEB8Y9lIIMfLOgxRx1G+t
+         sUbhHROTu9RyZrDJh1wvYu7p1upUvPZ1cw13MpB1BXu9uDk2uQj2r8B05iyzJDaw7PSz
+         Mh33qYqhCei5cl57mcShNuDyhSyMLZOH9FIUNwL8V8GXH69Wf9H+6qvyVTGFvqpm0N53
+         Pd8GtySQfkkrjPOfPm4AEK5ufmfkUeV0GHBbRX96c47tB97tENcjd875aj7puZd+5TAJ
+         QzovC9B3jGXKNFjNoN5VnFKwL6y8kA8AgruFMJMT8vfIgLcfBDW7rhIwS8gtfl29dlK4
+         ZZfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747389919; x=1747994719;
+        d=1e100.net; s=20230601; t=1747400258; x=1748005058;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RFijRLgGDoaMi5lWPDlmsyQ4o4dXkE7VloEdKbWCl3Q=;
-        b=Y/6HjsEEjH+s3LzmF/ggH8GgXQh7/Q3xhj8WEu0wqT3gtvWNN/AiblOldY7FuM/zl/
-         eJV6h+d0VxVyslJgirVqkSAuceXTAhSuNFRFJHjuBzgDynzfJ3bJFU8uX7pe8hUIlo+X
-         zk/5ZoGwplkMnmCjOMy9smyXz+djfqoaOJLsXj3SrLLfGhJLcyENOXnYQtxEjAuFgSop
-         OId2HCXb/x5/dt36YHQACaTFf/GkXQTIpr8UfsppZtkjsc6lz+/RGJB+ryTqlvDGXMNm
-         FXIo+oZp29hWBQz3NoDmouqHLwPAv0n2H6V9L2OGu5wScSwSdgs6DkvIsaSKhJb/b3Rv
-         lwZg==
-X-Forwarded-Encrypted: i=1; AJvYcCX+T/BYpNBsQG9sNIQ/V5Yp9Nn9CvnRgABdPXidavb1x0vrk4GEmKERi6ORJVIjsHIO4Lr6W5ppsRtBRzmi1Iz65K+cGw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwgJTi8UIGZODJetxtm89uP2xqVVK5kCQIpjsOWkR8r91n3WYQo
-	1sbeoyvqupeUTt1HeYEVErxFl2hnf2uu0NuV3nNxAp+MU3H87gxOMCRU
-X-Gm-Gg: ASbGncu/saKEcTDoS3nP3tyq334/BPmPNRfFxa/lTIUTV1Xoxurxmulg1g5KRlaL0Tt
-	B1M1qo2yBLMCNBUY+TIhOjMzGCPz2Ejhj9VgTEnWU2DV6lEj5nU9IUrFRqr7c/YZgluXCPRgQ+2
-	NaxKoVrLPSRjodAXkN2sf92Z0E8/gdX/IOgda2Eqmy39brqDSiWBrezED67alchNY85pGHy5Ydx
-	hfWy4xCMZ52wS5x2Ikoyh1YHRblBbwpPGpS5N4hKckD9/zPU7Oxfl3laSMnMMkrYi66aImDMIco
-	WROHpAF5OeZpMVD+DffB3hgUiqoa+rgD0SEo/+B7PYOrwu4CNEvH7eDvJjTOWGo=
-X-Google-Smtp-Source: AGHT+IFnBvl/fc5vkXH6aoPRzVyKb0aBPkGRkmKPOR1gB40ebLaewudBvyA06ohiC/L+TZL2gX7XJg==
-X-Received: by 2002:a17:903:24e:b0:22e:4a6c:fef2 with SMTP id d9443c01a7336-231d45ae355mr38262335ad.53.1747389917675;
-        Fri, 16 May 2025 03:05:17 -0700 (PDT)
-Received: from harshPC.. ([2405:201:400a:31fb:f6e6:d112:b6:cd3d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4e9828esm10988575ad.114.2025.05.16.03.05.13
+        bh=VW89Tj8c9PUVGNCzuX2ZlyTNAUa8vPwg+B5bpWF7mn4=;
+        b=WcNF5F5u0KvSwViMiZaDrapE3REyw0jIvWaYNygcyFCx5M0wqKik2qZMTQVRLxLl8a
+         qfk5RbdqVjYpuliHXCECq1ER6QmmVgPtgsarFVA+LDydkzpBgXV8g0ZZTy6RmLe4aXgM
+         hac5Ena9VPmZcyurHZMCz1dA2UxJiNVPAkue7WIkVpzwvWun9MxmRBREfrlw7cnJPkWK
+         I/3F+mw4gIHpxF61cMBRtYnigE2DEpw4Jmn2Q4rOlLSJTOI7EUfh4IJMioVgXHYcUMNH
+         WmRh03x3JVfQ6QHloUn3CIo/fvk5GBQFK9/gPa/pc9K/t+NbgJRLVdvCPP92j34bXJ5E
+         3VZg==
+X-Gm-Message-State: AOJu0YyMvBvQEZ40GKYEmxTb4yIf538z52rs8uBMtzmYlZdZKFJjwze3
+	CKyptmfp4TsczExmUcqhmRm2OMO7F/p8QpiXnfcJ85cxojC/XqJy8cKCKjlt2/payAjf60jT
+X-Gm-Gg: ASbGncsPz2ZOgkLlw/kXpij2yLug3lt4/kBqtdOji6XGtujDVaxA2nxNN+3pC/QCIAO
+	mgeSWCvKwrY106H/3vGH0mDNS5/Mo3o9nQAHlPCbhdHdVHv/DQd9lvWoshVPTGnGlrfPEt0EIA6
+	frumtKeAUK931FvXB6oXOKJMXXDHvf+pIXPKZYLZjnrpuic5PN17GVk0vJC69CIRLw6QW9T02II
+	/Jv59g8DjacMY9GZ6EmGaa99lB/6y3zzKO+CzCwAhwqHS9zc+/IRNouVkauKJ66Hc/efOHwaX28
+	5ip6A+a1AMBWQPDs4muJTP9DL4UdJskTLx2Oc10pIqz+QQmzhtmxVwtzFTvAO3YxDZKnXBzbSpj
+	nSETmJ4vqrGagS9SN6UzbajI6cj82pX4nji1kigbUyg8e
+X-Google-Smtp-Source: AGHT+IG0G1UCWDav1n+DgzbFKo/1bZ6LmsukOQf7dpPE+qHxbbihNA8ofnaXhsPLIKr+h/EAOWcePg==
+X-Received: by 2002:a05:6000:1881:b0:3a1:f635:1136 with SMTP id ffacd0b85a97d-3a35fead113mr2208312f8f.28.1747400257319;
+        Fri, 16 May 2025 05:57:37 -0700 (PDT)
+Received: from localhost.localdomain (host86-152-218-15.range86-152.btcentralplus.com. [86.152.218.15])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca8d119sm2777040f8f.92.2025.05.16.05.57.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 May 2025 03:05:17 -0700 (PDT)
-From: Harshal <embedkari167@gmail.com>
-To: jdelvare@suse.com,
-	wsa+renesas@sang-engineering.com,
-	skhan@linuxfoundation.org
-Cc: Harshal <embedkari167@gmail.com>,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] docs: i2c: fix spelling mistake
-Date: Fri, 16 May 2025 15:34:38 +0530
-Message-ID: <20250516100445.8484-1-embedkari167@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 16 May 2025 05:57:36 -0700 (PDT)
+From: Thomas Thelen <tommythelen@gmail.com>
+To: linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Cc: Thomas Thelen <tommythelen@gmail.com>
+Subject: [PATCH] Fix spelling error for 'Celsius'
+Date: Fri, 16 May 2025 05:56:12 -0700
+Message-ID: <20250516125733.5778-1-tommythelen@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -75,26 +72,24 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fix resistors spelling in i2c-parport.rst
-
-Signed-off-by: Harshal <embedkari167@gmail.com>
+Signed-off-by: Thomas Thelen <tommythelen@gmail.com>
 ---
- Documentation/i2c/busses/i2c-parport.rst | 2 +-
+ .../devicetree/bindings/thermal/nvidia,tegra124-soctherm.yaml   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/i2c/busses/i2c-parport.rst b/Documentation/i2c/busses/i2c-parport.rst
-index a9b4e8133700..4cbf45952d52 100644
---- a/Documentation/i2c/busses/i2c-parport.rst
-+++ b/Documentation/i2c/busses/i2c-parport.rst
-@@ -84,7 +84,7 @@ Remarks:
-                    \|
+diff --git a/Documentation/devicetree/bindings/thermal/nvidia,tegra124-soctherm.yaml b/Documentation/devicetree/bindings/thermal/nvidia,tegra124-soctherm.yaml
+index 19bb1f324183..f28de8cd983a 100644
+--- a/Documentation/devicetree/bindings/thermal/nvidia,tegra124-soctherm.yaml
++++ b/Documentation/devicetree/bindings/thermal/nvidia,tegra124-soctherm.yaml
+@@ -160,7 +160,7 @@ properties:
+       SOCTHERM hardware will assert the thermal trigger signal to the Power
+       Management IC, which can be configured to reset or shutdown the device.
+       It is an array of pairs where each pair represents a tsensor ID followed
+-      by a temperature in milli Celcius. In the absence of this property the
++      by a temperature in milli Celsius. In the absence of this property the
+       critical trip point will be used for thermtrip temperature.
  
-    must be 74HC05, they must be open collector output.
-- - All resitors are 10k.
-+ - All resistors are 10k.
-  - Pins 18-25 of the parallel port connected to GND.
-  - Pins 4-9 (D2-D7) could be used as VDD is the driver drives them high.
-    The ADM1032 evaluation board uses D4-D7. Beware that the amount of
+       Note:
 -- 
-2.43.0
+2.48.1
 
