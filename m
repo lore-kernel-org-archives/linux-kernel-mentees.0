@@ -1,117 +1,183 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5B41DFDAB
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 May 2025 14:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80014182
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 00:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747319853; cv=none; b=ayc5lPp292L9cqqHZ9Kc0HOiVwsXN5e8XebKG7zPXMCgRYBIkcLkdWNFifAZ6ll3tSBFTMJizx0fi1ZUnfHPlsc8kZg/OdbWomLVOL9bXf6kb1UjhM4DotfStodNp7KJGUPyKQPp3gS9GPYdqw1AOFU7ge987F7vYreRReOwbsg=
+	t=1747354417; cv=none; b=ZFc2qhL6gs2T/whLhWEHMaQQmFiuS5ltlaOaqH4A3+umWseYYb6VgB7sosGjG2KkvRta7aF+pbLf/mGSilKREUDVsVQCPNwFr0k1rJVoqxtt7eKZ7QdLlKuZUPa4Is9/ZwP4R2FDg8goaua7pPRQY0jyTkNnCPMCDnxSvHBoqdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747319853; c=relaxed/simple;
-	bh=SQgbBL5RYcSAsngaHeGJNNqtuXZsSXNQ+yscYHWqeM8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BKkEvGLfuhZVg5SOL/idnhnAWqfpJJh6hMRwhTr+5LOLkPxoqztSmYf4+Fj+DmnQKaDGdjnlfH/smcCl3cAJ3MyJNEwPFyu4vexmZMRxfCFI8ivhUsnZKjPWXz9Q1A+dfdZ+4HnPjyvZiObP/vrliufyV4HZ4gLbNBjuuIoCpx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gwCbs6p7; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747354417; c=relaxed/simple;
+	bh=CGG6jGXMIinSQ0YSIHvn85mnGlEINaaQlo/+CW6AhP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z85JVTMBQCWSK+wT07cb4orW4WaFJH2Pq79EFSqt/XVPPVHjgniAxZh1lE3AvA2Hg5XaO+hrINdQpInEfzAQT+g+lWR+W584F+kTslE5XAef7yjB6ATRcv8nMYm868DLCkp6DYjc6AZfxtO7oqGG5LplUbE6DSAnwyffz8Pfwx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=minyard.net; spf=none smtp.mailfrom=minyard.net; dkim=pass (2048-bit key) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.b=zr+Kv/G6; arc=none smtp.client-ip=209.85.167.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=minyard.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=minyard.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gwCbs6p7"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b1276984386so104991a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 May 2025 07:37:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.b="zr+Kv/G6"
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3f9a7cbc8f1so913682b6e.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 May 2025 17:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747319851; x=1747924651; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=minyard-net.20230601.gappssmtp.com; s=20230601; t=1747354414; x=1747959214; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Yhx/trwlq7m4oFPBZzH0TmWWvywnM8oewCNJl0cBG00=;
-        b=gwCbs6p7fBCQH+sWsaUf0kumO02v0CNwKFsAYIRZ3cIo6cEC1Ddql1vZ1NVyWzUD/S
-         PgCvEgH5qbyzBnRric/Q/t22o8QsVJY6QgKSeUoLVyM+ygz0EQmXyKjzCizkMAzkRtde
-         lUTIzv3MDnzCxI8sUsqJ2RlUujaH4zQ9DGbfaC4al5IzaH3yVhrqptIGYFmlQO3NpjWl
-         /10htWN7pmbGQBFh/j25tw3JipMbNNrfhZNVefpRjXqK/wEybJKZZ3NmmtByLUnm4WhU
-         8A9YC7oalxyKtWNDq/fCqb5rVHPhKluUuYFsLcP8e4CGB03lvHZV0k0PLs1g2/EbDdWO
-         k7xA==
+        bh=fIQzh+d2Cl2iQMRyzQRgpL9ZV/FSzUS9sLNvNDM8pQA=;
+        b=zr+Kv/G66bomUjVB9BMYRkl+zLOivQXGGeXIqYvmNdCBEo9hKWw/noDqufHtofvwOA
+         jgcA2ZX0jzCOF3HLcAwd9gR5fPA00TMjVWaqkecJcBT7WQsx/e+FDJUECJTlEDs47aF4
+         vFrOIIFsWvI+kkQi9wARHILMPt5OrYgSLTmRpWJHhL5iNm1j1rdFpANLo7S1FyP4gze7
+         9Q6k4mTLfLB1/9LhyTnckvHX2fRqPvnY7cJEWZ4enkzdtYyMLh/ufk7b8uNGGHvd7SwF
+         TjrsqRZezNIs+gJI2YqqN5oWdMrPMKEGEWTT5Ap6/b9ZIKafmTppEQ9W9pe3dyqUqCj0
+         4DDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747319851; x=1747924651;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1747354414; x=1747959214;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Yhx/trwlq7m4oFPBZzH0TmWWvywnM8oewCNJl0cBG00=;
-        b=Oil6xg6M99VdtQAdlpq9VcYbF9dpwMCe9IROs+4bOs7IG5gn0rmK9eAxTY2X190EUD
-         bvj812HGPNXAm1XrXfvjJ8IKY8umwS8QZMdB8MDAmBR4Vnttlh9K4VhohofBw7qhTvJJ
-         0qzE999/E+iFFp6Uq/JWJsixRi1V6VMlfr4teLijvsoPUMiwZBjwt7gfXq2RwDsJmrh6
-         XBd/l0AqGDsJoJ4PYC58HjxRf5WxXQwnOjtZ8ZYn8yIvVBPkXKdfLs5FQWL24I2uUWF4
-         dgXWZ6fy69rY/mFGp3/EwajqO1SJmXMEZKz1vdmxfOdpvr9R7wHv9I3RDpUKnSd3oG7w
-         zPCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVsu6g0GsLDmt4strC+ZjAqbvwlNaJAWvVjTQ+kd46u44sxHfizre1/BZh7mbJtzNulWoMLKmgV3y7Vg+m2aCQmUXgpmg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWH3FlgOXdzFfTU/7omcvow7wUE6zYEt5+EL7Ba3J6/gD59e+z
-	UnmfsjC1Bgi6GlnK7ufWMljgv05eECyBvauKtVCduvNE+z3zLjtTg8zSS5HgFolmNPOWYtf8LNK
-	iBYmcf9+2s5g84UJMEGh+SeZinro=
-X-Gm-Gg: ASbGnct4D9bQVcqT0axWvSbHvoxDntqo1AvTfDwJpqFmhZsWfzJYtakpv7LXEB2BExY
-	ZDrYcNn2TFaKglCGAeEhso5D6a9uP2n3GZzjUwGr11cn38WSNMs6RVGGMrdrELbmk4IlQSE3JqS
-	w5PG0Zjq7gGj0puz7GIpSnVVVZHGTSE1M8rw==
-X-Google-Smtp-Source: AGHT+IE6YzckvATVsA8ojqUKzTuHbFQEbdpn6dyEbZwwrvVfuh9yZqbs6GMEM12xPFjFO+94qbP7aQBl2ClYYnEZHX0=
-X-Received: by 2002:a17:902:dac9:b0:22f:a1b6:4495 with SMTP id
- d9443c01a7336-231980e4054mr41337035ad.5.1747319850679; Thu, 15 May 2025
- 07:37:30 -0700 (PDT)
+        bh=fIQzh+d2Cl2iQMRyzQRgpL9ZV/FSzUS9sLNvNDM8pQA=;
+        b=WaTQDIGFa9e5Q57t86CKtisNxh/CiftNXx6CpogEItKg5cm5p2L47esujOE2FnoMC/
+         EAjlFFACpxip+MM7qcYMRvuRoGP1CcgUgX0ccnmj64ZRngsJLs5ItAVnvaZVn383Wn4z
+         hn9OyYwpYo/XV+evxjtItXu0FVW47Lgu3K5FYC+Y1pdPNaRJCcOZq9+5JAuRxgLZgEF5
+         lyOFM4k+1YoTjo8/ZzSRgsPfU2Rb3CIsEyBagoCrPOdDxGigWV424LbGBNM4Ej5ASecE
+         d7N7QOaxuCmzEgWmFgIN/3A6KaC8+Lh0njFph+XxDLppfLVNOEzNzcDOp94egq4H3NUM
+         9RoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWTB5YwBUYcTU8a2uXrDBlCdwSk9OX8zs8QElZ4HOXVC5Ov2Y0KRC4TMzi2jIWAMy+ejlyaOi3gw8+WE0HVGGio6ekp2g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLrvQ73C4Coc3WhPZe3OjRXa4VZ0xwqFbDWD1ht5TEMMTUcrQb
+	+KsQktrY02vaT+EBVkkuTCaZj+N2jYoRJbeOL67As0RwM1YS5ijC5U5f09jIGBa09DY=
+X-Gm-Gg: ASbGncvhgWFI2Ch1jApxZ7GPjx4lToqRDrZz5Bv1maMa7O0k6cGxMhv7ksgoEQkSnRC
+	b2TQ/K5l+FcWGCSJlWrcb78xtUD8WLIClzvmIdtSBdzYtEfPTtR1/ZanUS1OM+9/WMfIbHRcICo
+	iKCu8kBd9qj+iPQWgJ3ptn83Jcc/4Il14h5UPdwCt+bVIDQNZvtNLOYvmYz6VibsdLPqS+uzT+5
+	KAl+WLGfRLrNHREOsFOxRTzUGyAto4yq9464GqRWtoxBKBBTLxiEurohTyNomsAPJRfviqQ3hXT
+	uzg4lMHR6DHF4vEhGIZk8m+B2llv3Bp3bv2Te48N38DQhkqCJhRCl9M=
+X-Google-Smtp-Source: AGHT+IHw+xOETWTyOT89ZTuJ4/7y2Jcun/+WyMsgKHv9WFHVKeTtE/CECud8o+oMJFlD/SDqIiuTug==
+X-Received: by 2002:a05:6808:338c:b0:3f9:2fdc:ee93 with SMTP id 5614622812f47-404d87b897dmr1274677b6e.30.1747354414372;
+        Thu, 15 May 2025 17:13:34 -0700 (PDT)
+Received: from mail.minyard.net ([2001:470:b8f6:1b:d0c5:1ce0:9035:258c])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-609f2f43884sm188602eaf.15.2025.05.15.17.13.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 May 2025 17:13:32 -0700 (PDT)
+Date: Thu, 15 May 2025 19:13:27 -0500
+From: Corey Minyard <corey@minyard.net>
+To: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
+Cc: corbet@lwn.net, openipmi-developer@lists.sourceforge.net,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] docs: ipmi: fix spelling and grammar mistakes
+Message-ID: <aCaDJyq18soCNMqa@mail.minyard.net>
+Reply-To: corey@minyard.net
+References: <20250515234757.19710-1-praveen.balakrishnan@magd.ox.ac.uk>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250514213511.380890-1-rk0006818@gmail.com>
-In-Reply-To: <20250514213511.380890-1-rk0006818@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 15 May 2025 10:37:19 -0400
-X-Gm-Features: AX0GCFsggvZBkjWGjCTAgk5MrozCZH-a5UHDUJm9gsAKzfN3QltHqMR6QfX5QOI
-Message-ID: <CADnq5_NNRfTM-Cb_bvtEQcLRE4LXh7Uf1Pp1+chCtfRmee0aug@mail.gmail.com>
-Subject: Re: [PATCH] docs: fix doc warning for DC_HDCP_LC_ENABLE_SW_FALLBACK
- in amd_shared.h
-To: Rahul Kumar <rk0006818@gmail.com>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
-	simona@ffwll.ch, skhan@linuxfoundation.org, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250515234757.19710-1-praveen.balakrishnan@magd.ox.ac.uk>
 
-On Thu, May 15, 2025 at 3:09=E2=80=AFAM Rahul Kumar <rk0006818@gmail.com> w=
-rote:
->
-> Fixes a kernel-doc warning by correctly documenting the enum value
-> `DC_HDCP_LC_ENABLE_SW_FALLBACK` in the DC_DEBUG_MASK enum.
->
-> The previous documentation was incorrectly formatted and incomplete.
-> Updated to follow proper kernel-doc syntax with a full description.
->
-> Verified fix using `make htmldocs`, and the warning is no longer present.
->
-> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+On Fri, May 16, 2025 at 12:47:57AM +0100, Praveen Balakrishnan wrote:
+> Corrected various spelling and grammatical mistakes in
+> Documentation/driver-api/ipmi.rst to improve readability.
+> 
+> No changes to the technical content has been made.
 
-Thanks for the patch.  This is already fixed.
+Thank you, I have added this to my tree.
 
-Alex
+-corey
 
+> 
+> Signed-off-by: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
 > ---
->  drivers/gpu/drm/amd/include/amd_shared.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/a=
-md/include/amd_shared.h
-> index 4c95b885d1d0..ebe0caf1fda4 100644
-> --- a/drivers/gpu/drm/amd/include/amd_shared.h
-> +++ b/drivers/gpu/drm/amd/include/amd_shared.h
-> @@ -366,7 +366,7 @@ enum DC_DEBUG_MASK {
->         DC_HDCP_LC_FORCE_FW_ENABLE =3D 0x80000,
->
->         /**
-> -        * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Chec=
-k FW
-> +        * @DC_HDCP_LC_ENABLE_SW_FALLBACK: Enables software fallback for =
-HDCP locality check if the firmware fails.
->          * path failure, retry using legacy SW path.
->          */
->         DC_HDCP_LC_ENABLE_SW_FALLBACK =3D 0x100000,
-> --
-> 2.43.0
->
+>  Documentation/driver-api/ipmi.rst | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/ipmi.rst b/Documentation/driver-api/ipmi.rst
+> index dfa021eacd63..d9fb2376e8da 100644
+> --- a/Documentation/driver-api/ipmi.rst
+> +++ b/Documentation/driver-api/ipmi.rst
+> @@ -45,7 +45,7 @@ manual), choose the 'IPMI SI handler' option.  A driver also exists
+>  for direct I2C access to the IPMI management controller.  Some boards
+>  support this, but it is unknown if it will work on every board.  For
+>  this, choose 'IPMI SMBus handler', but be ready to try to do some
+> -figuring to see if it will work on your system if the SMBIOS/APCI
+> +figuring to see if it will work on your system if the SMBIOS/ACPI
+>  information is wrong or not present.  It is fairly safe to have both
+>  these enabled and let the drivers auto-detect what is present.
+>  
+> @@ -63,7 +63,7 @@ situation, you need to read the section below named 'The SI Driver' or
+>  IPMI defines a standard watchdog timer.  You can enable this with the
+>  'IPMI Watchdog Timer' config option.  If you compile the driver into
+>  the kernel, then via a kernel command-line option you can have the
+> -watchdog timer start as soon as it initializes.  It also have a lot
+> +watchdog timer start as soon as it initializes.  It also has a lot
+>  of other options, see the 'Watchdog' section below for more details.
+>  Note that you can also have the watchdog continue to run if it is
+>  closed (by default it is disabled on close).  Go into the 'Watchdog
+> @@ -317,13 +317,13 @@ This gives the receiver a place to actually put the message.
+>  
+>  If the message cannot fit into the data you provide, you will get an
+>  EMSGSIZE error and the driver will leave the data in the receive
+> -queue.  If you want to get it and have it truncate the message, us
+> +queue.  If you want to get it and have it truncate the message, use
+>  the IPMICTL_RECEIVE_MSG_TRUNC ioctl.
+>  
+>  When you send a command (which is defined by the lowest-order bit of
+>  the netfn per the IPMI spec) on the IPMB bus, the driver will
+>  automatically assign the sequence number to the command and save the
+> -command.  If the response is not receive in the IPMI-specified 5
+> +command.  If the response is not received in the IPMI-specified 5
+>  seconds, it will generate a response automatically saying the command
+>  timed out.  If an unsolicited response comes in (if it was after 5
+>  seconds, for instance), that response will be ignored.
+> @@ -367,7 +367,7 @@ channel bitmasks do not overlap.
+>  
+>  To respond to a received command, set the response bit in the returned
+>  netfn, use the address from the received message, and use the same
+> -msgid that you got in the receive message.
+> +msgid that you got in the received message.
+>  
+>  From userland, equivalent IOCTLs are provided to do these functions.
+>  
+> @@ -440,7 +440,7 @@ register would be 0xca6.  This defaults to 1.
+>  
+>  The regsizes parameter gives the size of a register, in bytes.  The
+>  data used by IPMI is 8-bits wide, but it may be inside a larger
+> -register.  This parameter allows the read and write type to specified.
+> +register.  This parameter allows the read and write type to be specified.
+>  It may be 1, 2, 4, or 8.  The default is 1.
+>  
+>  Since the register size may be larger than 32 bits, the IPMI data may not
+> @@ -481,8 +481,8 @@ If your IPMI interface does not support interrupts and is a KCS or
+>  SMIC interface, the IPMI driver will start a kernel thread for the
+>  interface to help speed things up.  This is a low-priority kernel
+>  thread that constantly polls the IPMI driver while an IPMI operation
+> -is in progress.  The force_kipmid module parameter will all the user to
+> -force this thread on or off.  If you force it off and don't have
+> +is in progress.  The force_kipmid module parameter will allow the user
+> +to force this thread on or off.  If you force it off and don't have
+>  interrupts, the driver will run VERY slowly.  Don't blame me,
+>  these interfaces suck.
+>  
+> @@ -583,7 +583,7 @@ kernel command line as::
+>  These are the same options as on the module command line.
+>  
+>  The I2C driver does not support non-blocking access or polling, so
+> -this driver cannod to IPMI panic events, extend the watchdog at panic
+> +this driver cannot do IPMI panic events, extend the watchdog at panic
+>  time, or other panic-related IPMI functions without special kernel
+>  patches and driver modifications.  You can get those at the openipmi
+>  web page.
+> @@ -610,7 +610,7 @@ Parameters are::
+>  	ipmi_ipmb.retry_time_ms=<Time between retries on IPMB>
+>  	ipmi_ipmb.max_retries=<Number of times to retry a message>
+>  
+> -Loading the module will not result in the driver automatcially
+> +Loading the module will not result in the driver automatically
+>  starting unless there is device tree information setting it up.  If
+>  you want to instantiate one of these by hand, do::
+>  
+> -- 
+> 2.39.5
+> 
