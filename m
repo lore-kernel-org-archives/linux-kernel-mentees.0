@@ -1,114 +1,153 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0757A74C08
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 14:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F723149C64
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 15:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747406253; cv=none; b=kKMP8w9sT/vUyRAKucvU1To3njFukeMzpcBc3LGJwcLllnj8+Jfwb+sqm0txvuGBpF7Gai7cqL6jROOE9lrs7YQarnZdINsdno93DR44q/ifFiEzwx6e6fHvv2K74VjcRWYStIgPmcaHqpH6V9WADe7nZ5qoFfu22jr96PRQAdw=
+	t=1747410015; cv=none; b=ZvMZNvayVv83iE12NYi94HtVH7E0aKStAPWt3YNGiWVjG0D2S4LwkshT4IXUNb2biV/xoodi7v1le2IwJi4hlOM0Nu3dmCmMBRDMgKYgZPZD+WgvwuFioikrDA67Y3t9LlnjfXOQonyaKVV10ME7w2NNRkjDjM3b4oJabEDipc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747406253; c=relaxed/simple;
-	bh=WwD/N93JoWvoK7UwKqwSLDauyBcOUESITur/eQjy79M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kRioyi7926pRp/SUQHFWJnhPN7HWYAtp7dnvgaI6TWCvfwGjtVfetLjxOOwAYHpSq5HzAcK/UNv+iSs4bniKQwbDE+7bE9B1GsPSV3BVuLK+Xd5u1GYxw1NCJQOPHXO8jnH8cSoCO3HwR01GrE1X1mB3v1AcGWTBjlLxqKqs4pQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B98C143865;
-	Fri, 16 May 2025 14:37:20 +0000 (UTC)
-Message-ID: <57352cc0-420b-42e6-a493-2764794a5206@ghiti.fr>
-Date: Fri, 16 May 2025 16:37:20 +0200
+	s=arc-20240116; t=1747410015; c=relaxed/simple;
+	bh=OkmWPTjquT7Em9YA1xUAAyJ9lTFW7kG9d9lFkrcF1xg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U4FYiyLp668SRmNTTqdSyJZk6/wCMtLRM5tRuh8Ste9mCrWMJXH8jEl6wdSZooYN2LMX1zGAd5qVGmLZUmBy7tcARB5LI1ueG7EpJU6bgcdsW6fNfM80LCL7ocSJHRZ7z28J+3tjfu9OCpZHoKaUixN7iWf7q2VbdXpKRiB364c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K3ZCa0+G; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K3ZCa0+G"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-22e331215dbso25422825ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 08:40:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747410013; x=1748014813; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oVa+nx7ZX9lU3h4aLIs2hsaIJXIw40eNIECVbp/jk1M=;
+        b=K3ZCa0+GMlP6NapfVZB8pYi4eUVDAbci+0yCfIL5iq6VVyPN8ZkvyvFSThXdveNhQG
+         qOjqf/kXSuT7WJ4byFSdkncXYYBZecc69MGXJ5lTT92LyDCbRd+hS2bZpQKl3xxt8r5g
+         M5HIYqfGkB6jDVq4s2KeYQd0wYEMJ8dMxBR/eXrWt/qeNdOoVOir8s6wWv1TL6qPAdk+
+         cpUr1nhzVX7kDyoWlsgVJlmRRAHAZHxsG0igpVFkE+2qn9CJqMNeaz9GhdeEi2xkr6Id
+         5MPe9l7PmJHWRmybhmrvqM/VyzCzIBrdfTxj6kAb6bgZKK1Z1/aML06X8zeroPRA71TH
+         zQGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747410013; x=1748014813;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oVa+nx7ZX9lU3h4aLIs2hsaIJXIw40eNIECVbp/jk1M=;
+        b=Io6XTRhAXB1zWpO3sgixIYkq7Z+7Xn3wekqDcAZb/ze2JQVTgUrOc3Nn2eS3cI9LWw
+         Spmx7ydkoUwmOtaOuIXS1ZsxcR3iQG2rzsbunMvPSJ1kvuIhZsJwWDuroFJUKpu2uSjD
+         A4hteEyWNKVcoMeyx8vk88Ycqrwer8UETl+9ZXU9rRW0V9h4GHLIIgtn8jYZNSKkO9aO
+         TvnDemExDqi+9cEBEvy+7YZGywhFtpZ+t2EyM9VruWls4jbCfxwfdJtIAq43CzxE+x0C
+         fbkHbQ5LS0FPnh5+gjV+8gZ/IZ9L5w2waO175wTG/U+OsMstduJ/u/EuZm93U8Yj7uqw
+         BLfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUjesUDZKzh1uxs+fUlIvpX7D7aYo8pJVsMs4zaAL0ainVW+FmOsK+IDfuY5/uPr3Eqgoytp/4OP7k7dzknqpzIqfb3QQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwPJTtq4tze1srqFyYj3APPK7ckhL6Ot4gDHsev9roLZF+ZEGfI
+	hctix1eccD2x0jLpUsQ92L3SONm+O6YHRtB8HHgFmPTj0XQvElFBnpTA
+X-Gm-Gg: ASbGncsJjKE7RHC1PUiIyP4SlLapqDi3XksArATJQHBt3gI/F+F5I02/BEkddse3jGf
+	TmZhRoWbLeKzG2HhlxD/0V4FVDqMa12hdLV369B2gnII2U3r1GOukvNj0RV8xsPODW1JpsbFeIL
+	qUeNjS3r+zAEJbuGH8qODUZKjqwA9QPCZj2smSXUX5X38fppPAyBZ4wqMVAihudTYjkTWi6Z8kg
+	7Ims6aTv1FAuguwFIsEAWtoyKPI6sk6j1HAaCqMk7G4Yuxyy6WScqJIoEg4faSiirerb6V2bIgp
+	FyA/l3ZVAjooxzgr+LlSc7sWxShIWUSkqP7MDXfFbZVGE6eyIIlCDq8=
+X-Google-Smtp-Source: AGHT+IHy1MRjqcETdIo/u3ddZC5u7do+au8+0mzwwoELqO0h9122LYf6ihu0l2hPu6Hx0SNxBvRd7g==
+X-Received: by 2002:a17:902:c202:b0:231:c89f:4e94 with SMTP id d9443c01a7336-231c89f4f9amr57706715ad.21.1747410013439;
+        Fri, 16 May 2025 08:40:13 -0700 (PDT)
+Received: from harshPC.. ([2405:201:400a:31fb:ab0a:c20e:fff6:2111])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4e980c0sm15779495ad.126.2025.05.16.08.40.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 May 2025 08:40:13 -0700 (PDT)
+From: Harshal <embedkari167@gmail.com>
+To: shuah@kernel.org,
+	skhan@linuxfoundation.org
+Cc: Harshal <embedkari167@gmail.com>,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] selftests: firmware: Add details in error logging
+Date: Fri, 16 May 2025 21:09:53 +0530
+Message-ID: <20250516153955.111815-1-embedkari167@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] Implement endianess swap macros for RISC-V
-Content-Language: en-US
-To: Ignacio Encinas <ignacio@iencinas.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Arnd Bergmann <arnd@arndb.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, Zhihang Shao <zhihang.shao.iscas@gmail.com>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- linux-arch@vger.kernel.org
-References: <20250426-riscv-swab-v4-0-64201404a68c@iencinas.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20250426-riscv-swab-v4-0-64201404a68c@iencinas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefudeftdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpefhhfdutdevgeelgeegfeeltdduhfduledvteduhfegffffiefggfektefhjedujeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedvtddtudemkeeiudemfeefkedvmegvfheltdemsgeiugehmeegfhduleemiegrledumeejkehftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemfeefkedvmegvfheltdemsgeiugehmeegfhduleemiegrledumeejkehftddphhgvlhhopeglkffrggeimedvtddtudemkeeiudemfeefkedvmegvfheltdemsgeiugehmeegfhduleemiegrledumeejkehftdgnpdhmrghilhhfrhhomheprghlvgigsehghhhithhirdhfrhdpnhgspghrtghpthhtohepuddvpdhrtghpthhtohepihhgnhgrtghiohesihgvnhgtihhnrghsrdgtohhmpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhto
- hepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhopegvsghighhgvghrsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhhishgtvheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugidruggvvh
-X-GND-Sasl: alex@ghiti.fr
+Content-Transfer-Encoding: 8bit
 
-Hi Arnd,
+Specify details in logs of failed cases
 
-Do you think we can merge that for 6.16? It is nice improvement for us.
+Use die() instead of exit() when write to
+sys_path fails
 
-Thanks,
+Signed-off-by: Harshal <embedkari167@gmail.com>
+---
+ tools/testing/selftests/firmware/fw_namespace.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-Alex
+diff --git a/tools/testing/selftests/firmware/fw_namespace.c b/tools/testing/selftests/firmware/fw_namespace.c
+index 04757dc7e546..deff7f57b694 100644
+--- a/tools/testing/selftests/firmware/fw_namespace.c
++++ b/tools/testing/selftests/firmware/fw_namespace.c
+@@ -38,10 +38,11 @@ static void trigger_fw(const char *fw_name, const char *sys_path)
+ 
+ 	fd = open(sys_path, O_WRONLY);
+ 	if (fd < 0)
+-		die("open failed: %s\n",
++		die("open of sys_path failed: %s\n",
+ 		    strerror(errno));
+ 	if (write(fd, fw_name, strlen(fw_name)) != strlen(fw_name))
+-		exit(EXIT_FAILURE);
++		die("write to sys_path failed: %s\n",
++		    strerror(errno));
+ 	close(fd);
+ }
+ 
+@@ -52,10 +53,10 @@ static void setup_fw(const char *fw_path)
+ 
+ 	fd = open(fw_path, O_WRONLY | O_CREAT, 0600);
+ 	if (fd < 0)
+-		die("open failed: %s\n",
++		die("open of firmware file failed: %s\n",
+ 		    strerror(errno));
+ 	if (write(fd, fw, sizeof(fw) -1) != sizeof(fw) -1)
+-		die("write failed: %s\n",
++		die("write to firmware file failed: %s\n",
+ 		    strerror(errno));
+ 	close(fd);
+ }
+@@ -66,7 +67,7 @@ static bool test_fw_in_ns(const char *fw_name, const char *sys_path, bool block_
+ 
+ 	if (block_fw_in_parent_ns)
+ 		if (mount("test", "/lib/firmware", "tmpfs", MS_RDONLY, NULL) == -1)
+-			die("blocking firmware in parent ns failed\n");
++			die("blocking firmware in parent namespace failed\n");
+ 
+ 	child = fork();
+ 	if (child == -1) {
+@@ -99,11 +100,11 @@ static bool test_fw_in_ns(const char *fw_name, const char *sys_path, bool block_
+ 			strerror(errno));
+ 	}
+ 	if (mount(NULL, "/", NULL, MS_SLAVE|MS_REC, NULL) == -1)
+-		die("remount root in child ns failed\n");
++		die("remount root in child namespace failed\n");
+ 
+ 	if (!block_fw_in_parent_ns) {
+ 		if (mount("test", "/lib/firmware", "tmpfs", MS_RDONLY, NULL) == -1)
+-			die("blocking firmware in child ns failed\n");
++			die("blocking firmware in child namespace failed\n");
+ 	} else
+ 		umount("/lib/firmware");
+ 
+@@ -129,8 +130,8 @@ int main(int argc, char **argv)
+ 		die("error: failed to build full fw_path\n");
+ 
+ 	setup_fw(fw_path);
+-
+ 	setvbuf(stdout, NULL, _IONBF, 0);
++
+ 	/* Positive case: firmware in PID1 mount namespace */
+ 	printf("Testing with firmware in parent namespace (assumed to be same file system as PID1)\n");
+ 	if (!test_fw_in_ns(fw_name, sys_path, false))
+-- 
+2.43.0
 
-On 26/04/2025 16:56, Ignacio Encinas wrote:
-> Motivated by [1]. A couple of things to note:
->
-> RISC-V needs a default implementation to fall back on. There is one
-> available in include/uapi/linux/swab.h but that header can't be included
-> from arch/riscv/include/asm/swab.h. Therefore, the first patch in this
-> series moves the default implementation into asm-generic.
->
-> Tested with crc_kunit as pointed out here [2]. I can't provide
-> performance numbers as I don't have RISC-V hardware yet.
->
-> [1] https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
-> [2] https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/
->
-> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
-> ---
-> Changes in v4:
->
-> - Add missing include in the 1st patch, reported by
->    https://lore.kernel.org/all/202504042300.it9RcOSt-lkp@intel.com/
-> - Rewrite the ARCH_SWAB macro as suggested by Arnd
-> - Define __arch_swab64 for CONFIG_32BIT (Ben)
-> - Link to v3: https://lore.kernel.org/r/20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com
->
-> Arnd, I know you don't like Patch 1 but I tried your suggestions and
-> couldn't make them work. Please let me know if I missed anything [3] [4]
->
-> [3] https://lore.kernel.org/linux-riscv/f5464e26-faa0-48f1-8585-9ce52c8c9f5f@iencinas.com/
-> [4] https://lore.kernel.org/linux-riscv/b3b59747-0484-4042-bdc4-c067688e3bfe@iencinas.com/
->
-> Changes in v3:
->
-> PATCH 2:
->    Use if(riscv_has_extension_likely) instead of asm goto (Eric). It
->    looks like both versions generate the same assembly. Perhaps we should
->    do the same change in other places such as arch/riscv/include/asm/bitops.h
-> - Link to v2: https://lore.kernel.org/r/20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com
->
-> Changes in v2:
-> - Introduce first patch factoring out the default implementation into
->    asm-generic
-> - Remove blank line to make checkpatch happy
-> - Link to v1: https://lore.kernel.org/r/20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com
->
-> ---
-> Ignacio Encinas (2):
->        include/uapi/linux/swab.h: move default implementation for swab macros into asm-generic
->        riscv: introduce asm/swab.h
->
->   arch/riscv/include/asm/swab.h   | 62 +++++++++++++++++++++++++++++++++++++++++
->   include/uapi/asm-generic/swab.h | 33 ++++++++++++++++++++++
->   include/uapi/linux/swab.h       | 33 +---------------------
->   3 files changed, 96 insertions(+), 32 deletions(-)
-> ---
-> base-commit: a7f2e10ecd8f18b83951b0bab47ddaf48f93bf47
-> change-id: 20250307-riscv-swab-b81b94a9ac1b
->
-> Best regards,
