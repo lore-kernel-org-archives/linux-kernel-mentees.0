@@ -1,155 +1,109 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A8B19CC27
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 17 May 2025 19:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D515B1AA786
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 May 2025 21:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747508950; cv=none; b=tSEWrRFQ4ZItix/CJz6APBHIZzPz4gEU8pgO1HI17VoCzqLKghSfF5HHlVTGsCr8Zo+Poxzhh5kICiXy3JJROOq2AnI3eGjYntFZmymmokltTu4vrchARFzku/FNYC+b41C1AqZ19GMDk98SBJyqq3xr7HgC/WPclEZ8jxDS0dU=
+	t=1747516252; cv=none; b=BtMloZzxZ/p+rwVqwtC3RCDoDxiabx0wwvHe5HhV2pTWcAHHhMoQtD2w2hkdrp3OHabeae2iadJNoEM0bUUFvA98x0uz9/p8XLcY1InERsDAkJT3aZv7WtouwJl37bBMrZrybjgSjyNnn95KotmI8zP1io2C3tGn09BLwZzqYGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747508950; c=relaxed/simple;
-	bh=giiFTAvo8R16w0FvI+CNVg05Te46rFwSFFDtIKhpE4s=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=BPWsWb6q+shXtGM2C4qXXJUr9LNNoTr+FfpV5XXE1Zx2O3N/sJzqQ6VWfv+5H0ole1fqvFUArOPyO2RZQdYHQ1zS0rx45txTQ4Cb0ljh5qpo8H4ncYCiTXqqMuvj6dDHMnF3Nen8+uIxRWqTNaeIgeAktjJzomOV+3VyvPmbJik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IR9/XvQk; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1747516252; c=relaxed/simple;
+	bh=o/Nya/tGk006xRA5N500QpaY5OOYSf0gkMPQt5ZX/IE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dn1mEi0e51YOF7uDKU+y4w0JeXqwkpff+LTX1H2PxZZPO+YNmUd8BlRRJ9dHkIffo6kuwJrNBU4k4L13l439uv9j0TiD5ZcKJCYCN6O8EBhILfZ6CX+6K4HR7l3vPcMnISUb1ngTyEniW+ix1Evn0UQsjYlfykPxjLBSZsxD8sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=fail (0-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=lyD1ucMT reason="key not found in DNS"; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IR9/XvQk"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id DF0D160B6C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 17 May 2025 19:09:08 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -8.092
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id oh9mdyU43bLH for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 17 May 2025 19:09:08 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 045F7608A3
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 045F7608A3
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=IR9/XvQk
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 045F7608A3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 17 May 2025 19:09:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 629BFA4CB02;
-	Sat, 17 May 2025 19:09:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B9C1C4CEE3;
-	Sat, 17 May 2025 19:09:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747508946;
-	bh=giiFTAvo8R16w0FvI+CNVg05Te46rFwSFFDtIKhpE4s=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=IR9/XvQkAzRrIlO/y4riEzzX89Lh0GNhb0InwxsPH+8vrn4k+fRGbD86BAhx/6DpN
-	 V8j++Vtc3ZXDFkZESkRowCPxFJuBpJE40Kw3O07/yD4blnSSDhYUP1C4+4YcV59FaX
-	 sfXoWpCb8FEcffbHFIMPt4GElrA2CrrfonApKqzfQWLkX4LUABxaKjixL1SxLexXJg
-	 CwikRMvueYBOZ95FBvpq49K5LSKVPLs3LOfaJM+2zZg+5UENJZA8COfRFCzoZIsmJr
-	 De7hYjKj6WdMCcajEpCFDCyGrOlT6bx3psU3k1c50aQjvPDPIGsheqUAkZjasyt4cO
-	 tOfZjJAH8ve5w==
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="lyD1ucMT"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3da785e3f90so17689385ab.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 May 2025 14:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1747516249; x=1748121049; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qsAWXt+W0ngarXnftcnhixQhh8eXvZ1EEvRj0zEMsI4=;
+        b=lyD1ucMT9Dlz3SSCdK1N9ImA0kf2ZN6xnd/iJQ0YAFRjiR6UVWh/StuKE3RTHUfIDB
+         IKnu8yVVbk+wDaMBLofGebjlnIVKwJeKrf/wJlWv6OhC+YXgHzAFsRQKK3uqD8Z3E5b9
+         s8F/JRjQGBH02rlbUqfh4YhR6FukYBmM2YeTICtEOmsqpY8yEtrugZXCrLEMoF9vKWMX
+         2x8gipOzktvzUWTiB1BLnWrKkAjxA+JZvdlNbKQHBUeS5wPt0cEjfX/IqscVcvwk/a6C
+         +Z0HLBAuBXgQIyrq0m8bM1EzEzXzQTg6QmDB+fKGq+JsjJSoQ3+MO/cUFYJQ+h0yR6eu
+         EiIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747516249; x=1748121049;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qsAWXt+W0ngarXnftcnhixQhh8eXvZ1EEvRj0zEMsI4=;
+        b=StFFY12vjnmOE9YxL1QdUGDZFBfxBbKQ+5RnHwUgfp9j7Tgb/6NWlmwwLHkCspmsbS
+         tLLkXsDFjyJbgBLR9KYBYzKXOvXe2RGVdLu6UQDOEbsrWxc7aZFxJynSQS5qHEIZHmRn
+         6FqclnQjgs5/FTt2ZhqqykLUAmw+TxaMzt8O+EX0SJeiFFDr23WsBfTnXGr/DHWNgIwf
+         3GF5oSbPlFSX7sPPOW9GkpYeQIk1IDnsDng33j0EJZfx6akG5WVxAz1XV0loPOddt987
+         zimnwuCGfc7t8AmSTgEsewkK01u/WjZS1yBif5dXVuEYHFU/7wWIYXHX8K+aoOSQC0lb
+         aUPA==
+X-Forwarded-Encrypted: i=1; AJvYcCV+ezBUrcxi43xnYWFlCQcE+5NDGmi5XxKZ48M5YTQxPw3LqLVlX9VOY1KgVFmoRZhpIA7V4ANDFPxG/razArNUA81G+w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0CD8ZpHsv3ULj+DU+ifw6fUcf3tnjJi7s8uzGy3yvm3s0UAng
+	4yhJkRBzjtYLxodlW0cssnIbxrA9kmo2E6ZZirlS3HvaPjGDGfvSsloAYm87JilhhNc=
+X-Gm-Gg: ASbGncv3FeiZJwOa9YGMK20bkIQZPPg4OnS2S11aBNAUJnkeWHJWz6LFTJuwbZQLvDX
+	BLMqY3g0pFEUQSSeeIXn0cVmnCJQ6EaRNRJw7ILRuvg0XdEF1ZN1kE0UeXMFhMEHmS3DwS22Bsq
+	jFKO6SnFXBkNOSiIavGFh0pDrA8C2yLMR59zTjxvIurq40J+XebjVEDyDnpRSalQQwptBhfcIAA
+	oyu6tUCtitRJprfnJvqWaClUDF0zZtD6rQ/bmhzlSk4J10CCdUwjdpnMTwhZLL4ogNQ12YAnECC
+	Dv+EWXm24j0TaBKLw6m3Sc+qSmOp6DtIp5wcnJLHpAzupKjEqZweN1D3BUoNo+sz4MZ7hr9oSLb
+	PbtuHLV8=
+X-Google-Smtp-Source: AGHT+IHO8vmPZ9wtEiIB3JiDHbb2n/QkwioIBKsC0rUUGe/Wln0nL1EQukSNTPuRfRNcvEViMy2SvA==
+X-Received: by 2002:a05:6e02:1c02:b0:3d9:66ba:1ad2 with SMTP id e9e14a558f8ab-3db8569e88bmr68385155ab.0.1747516248818;
+        Sat, 17 May 2025 14:10:48 -0700 (PDT)
+Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3db843e07b8sm11777445ab.20.2025.05.17.14.10.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 May 2025 14:10:47 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: shuah@kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH] docs: powerpc: Add htm.rst to table of contents
+Date: Sat, 17 May 2025 15:07:59 -0600
+Message-ID: <20250517210757.1076554-3-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 17 May 2025 21:09:02 +0200
-Message-Id: <D9YO7XDNV712.3A5HSSLUQIZ2W@kernel.org>
-Subject: Re: [PATCH v2] rust: doc: Clarify safety invariants for Revocable
- type
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Danilo Krummrich" <dakr@kernel.org>
-Cc: "Marcelo Moreira" <marcelomoreira1905@gmail.com>,
- <benno.lossin@proton.me>, <ojeda@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-X-Mailer: aerc 0.20.1
-References: <20250503145307.68063-1-marcelomoreira1905@gmail.com>
- <D9RJQYNTIOK1.3HI7NDDWPK6IM@kernel.org> <aChczAWsPdmdeen3@pollux>
-In-Reply-To: <aChczAWsPdmdeen3@pollux>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat May 17, 2025 at 11:54 AM CEST, Danilo Krummrich wrote:
-> On Fri, May 09, 2025 at 12:10:08PM +0200, Benno Lossin wrote:
->> On Sat May 3, 2025 at 4:53 PM CEST, Marcelo Moreira wrote:
->> >  /// # Invariants
->> >  ///
->> > -/// - The wrapped object `data` is valid if and only if `is_available=
-` is `true`.
->> > -/// - Access to `data` must occur only while holding the RCU read-sid=
-e lock (e.g., via
->> > -///   [`Revocable::try_access`] or [`Revocable::try_access_with_guard=
-`]).
->> > -/// - Once `is_available` is set to `false`, further access to `data`=
- is disallowed,
->> > -///   and the object is dropped either after an RCU grace period (in =
-[`revoke`]),
->> > -///   or immediately (in [`revoke_nosync`]).
->> > +/// - `data` is valid if and only if `is_available` is true.
->> > +/// - Access to `data` requires holding the RCU read-side lock.
->>=20
->> I'm not sure what the correct wording here should be. The current
->> wording makes the `revoke_internal` function illegal, as it doesn't hold
->> the read-side lock, but still accesses `data`.
->>=20
->> Maybe @Danilo can help here, but as I understand it, the value in `data`
->> is valid for as long as the rcu read-side lock is held *and* if
->> `is_available` was true at some point while holding the lock.
->
-> IMHO, the RCU read lock is *not* a requirement, it's (for some methods) t=
-he
-> justification for how it is ensured that the `is_available` atomic cannot=
- be
-> altered during the usage of `data`. So, it shouldn't be part of the type
-> invariants.
+These changes fix the following error, which was introduced by commit
+ab1456c5 when Documentation/arch/powerpc/htm.rst was added to the
+repository without any reference to the document.
 
-But the `is_available` atomic *can* be altered during the usage of
-`data`. And in that case it isn't clear to me how you still allow usage
-without relying on rcu.
+Documentation/arch/powerpc/htm.rst: WARNING: document isn't included in any toctree [toc.not_included]
 
-> For instance, we also have the Revocalbe::access() [1], which is an unsaf=
-e
-> direct accessor for `data`. It has the following safety requirement:
->
-> 	 "The caller must ensure this [`Revocable`] instance hasn't been revoked
-> 	 and won't be revoked as long as the returned `&T` lives."
->
-> Which is equal to the caller must ensure that `is_available` is true, and=
- won't
-> be altered to false as long as the returned reference lives.
-
-Sure. We could add that it remains valid while `is_available` is true,
-but when it changes, the data is still valid until the end of the rcu
-grace period?
-
-> One valid way for the caller would be to wrap it into an RCU read side cr=
-itical
-> section and check `is_available`. However, depending on the context, ther=
-e are
-> also other justifications, e.g. [2].
-
-For the justification in [2], you need a type invariant.
-
+Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
 ---
-Cheers,
-Benno
+ Documentation/arch/powerpc/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-> [1] https://gitlab.freedesktop.org/drm/nova/-/blob/nova-next/rust/kernel/=
-revocable.rs?ref_type=3Dheads#L148
-> [2] https://gitlab.freedesktop.org/drm/nova/-/blob/nova-next/rust/kernel/=
-devres.rs?ref_type=3Dheads#L221
->
->> > +/// - Once is_available is set to false, further access to data is di=
-sallowed,
->> > +///   and the object is dropped either after an RCU grace period (in =
-[revoke]),
->> > +///   or immediately (in [revoke_nosync]).
->
-> Same here, RCU isn't a relevant factor for the type invariant IMHO. It's =
-just
-> how part of the implementation guarantees to up-hold the invariant.
+diff --git a/Documentation/arch/powerpc/index.rst b/Documentation/arch/powerpc/index.rst
+index 0560cbae5fa1..53fc9f89f3e4 100644
+--- a/Documentation/arch/powerpc/index.rst
++++ b/Documentation/arch/powerpc/index.rst
+@@ -19,6 +19,7 @@ powerpc
+     elf_hwcaps
+     elfnote
+     firmware-assisted-dump
++    htm
+     hvcs
+     imc
+     isa-versions
+-- 
+2.49.0
 
