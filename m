@@ -1,74 +1,44 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2DF2A1AA
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 May 2025 02:06:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AFE770E2
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 May 2025 02:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747447583; cv=none; b=er4Xc3gyjBdUCasf/0vtlBN4IV+3bj4fFiWx+7KRnu4ZS/lMfc0TQ24j+8sP4OHndUH0ur8iaWpYQPflU04ye8JT4jF8EoOHJ0kpcl7h4hv/NcLIxmdJK1LwLxEI689TsZ8ZOq6odoXIGYnZav/gutbZn1bPlPNSh7Befy7zrD8=
+	t=1747447646; cv=none; b=i7gCNayhHwKjRgCrgAlGQa2SgaOxr5j7cdJn9w7L5PPJDJJnclv6q/EBU0bxV98b4+0A0kCcI0CGiI/L/xUDV6YxFM9cT4DhNk4d/Rni9Y72meqpTcH747v5t73m5puT+tDhwSkvRBbqJxXa2pag/1/LM7TQG8vTAyMSOFKiP54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747447583; c=relaxed/simple;
-	bh=2qHvh4pIm6qldHk5sjMMLAC004kNNTi8X3pMpMlPwKo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cAwt7/FpR23IYbA0Emj8z22lsypYBboOIUv0BFM4SUoLe+gb7WU2MRHx6q7eGni8Gt1QnjIFkmC/6JV+EmwAkA2TahVpTLGj8LTKaV1z8GA98Gd6X4CoQBWtzdR4pFqMBWKjXxiy0ucfdlFz5cdHhcsUBnZs9co+gbSDp/YJ3CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CzZ5vuwg; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747447646; c=relaxed/simple;
+	bh=x4Pk29mXlXFGt5bPU0zHpsrREAMkZcWP6ca7bVxz4ig=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O9D87OCtoW5ydmttFv/3KF7vKkn5llya9e3nN3uLznAs2knzpAcXdDDtq5lvFyI3bnJiGA0aT8RW6RW5CEkp/lyLADNGgpRoVwZisZDW3j/rTr/ei+7y/XJ9ABxZS5cQqN08VygVorIHctofY8lgO73pZCH+KwCNm8+Fyz9oySk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=IDMDaKoU; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CzZ5vuwg"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6f54e4f2989so59425356d6.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 May 2025 19:06:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747447580; x=1748052380; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BKXLeL3ukBspnW2IUVVrIXJnVabhkRXsrkb89rHps2U=;
-        b=CzZ5vuwgtH93wx2lU/0tlqPqI67Z+/XZvZsnpf3fEbtFbou/B2E+4WDS1sIgtm9S8z
-         vUvCgZirKK1VrAYJq+pXe0jT89RLKUAmWeydTWG4AKkKcWrXdPyrUBdH8815bnCDXjzF
-         pIV0CNQpPh9F5dABFVIFjQLYgVMELzs/rsXamN+tVVZ/7G9esZ1h/gbiTY2a+jKVfWxM
-         tWYgeh6nUvkLHWwVqPq7WbAWY89TiypXjS71CiYZJlkz4A2RVQo7ezceCWvIHaRqybsm
-         0xpnuiLk+4yC+QfCq0u2t9toU+q2c/0sSIuzBAV/JyMf1P+qSs6/aiigi1ZtFrShE3Ug
-         fR4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747447580; x=1748052380;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BKXLeL3ukBspnW2IUVVrIXJnVabhkRXsrkb89rHps2U=;
-        b=IfFap+KiMuWaX6VMN6SIs6Hp8Qw2xvYJnkkWR9DrM+D6sz1RkWYOri4WDttmoeFoCT
-         ki4ASLVyBCnerPPDPffwOqL8SVImSAqEkbs0bow558ojIWid6jlG5x0Az8LSstEPB3Yd
-         vT7+Lo+1F12Lmr+On7J6fhIVsWwPnEPzgtt/l7Zzg9JsvwedeoU23bRRjW6EVrwZFo28
-         DJOZBhTBicbIOn9ZisWfhvUSOEll4Xl3resk/o3kZLrYh0UAW29qGy7/d+t998/xCVxc
-         wp9XcxEONo1PXedFL7L1wyFtMT4eAq3yeDiJkSP41ggqvImp5YHdhquiMdlFyutdOVqc
-         pKOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXtSB0Zw77ipP+hm0NqZ13Qgc5niiCR+5HtLFw58GBAoOyYD+6VDah6oNXIz8WSVbkwoFBzX6Gu68N0TJGSjMqTe6LwPQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyzvq7KOd3Z0CfBk1Pv69Ib+uc8rxSx1NyGaAyJOAAXlHxsAHt9
-	1jmO51pp8ebF+8AFnBDx1a5BcwTDJA7nIg72YQ4dSYMDlfBgfPBw8p4=
-X-Gm-Gg: ASbGncvbjYIOInK21KmitfOl2B2dRpdQ9DooSAxeFDGrvAkLWFLrnZwGS5vAUkILP1N
-	+5ub0H4xRgfgC4RAuyKeVvMzEXFTkNXatcOMI+khrNaCxeHaILaOJoyIpq6chckWmTLKzrt8ZsA
-	lIMkRvcU8o1pGeXVUHkcf8VNSkkTOCU8tm5dIj+pyarzPPkoU09NzZk1O64GjmpSApVE8d2kvS7
-	wpF4zcwWbJePGRtnO9t5to3iPr/JE4rkaXj8VXcn69ZnD2O8S5oYDar9LIG4BBd7ujxFkbHnEgL
-	QF0ekUdEiN0q/eHRW7+htNxZ47V2QKNcf7XumCjlv3c9o0Rn18lvq0Ex2Y9tJKNMXT6TvBJ0MH2
-	Z
-X-Google-Smtp-Source: AGHT+IGpr4M6tPFJTIRklSzJoum9VgP6uUrsrUv4SQX78ySuBkpTAW8J4v1g4DGVFtzUXC4O5TsENg==
-X-Received: by 2002:a05:6214:2681:b0:6e8:9021:9090 with SMTP id 6a1803df08f44-6f8b2c9d22fmr78053266d6.26.1747447579646;
-        Fri, 16 May 2025 19:06:19 -0700 (PDT)
-Received: from localhost.localdomain ([2a0d:e487:224f:4011:50ae:ea20:4b60:8f04])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f8b0979851sm19250876d6.97.2025.05.16.19.06.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 May 2025 19:06:19 -0700 (PDT)
-From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-To: heiko@sntech.de,
-	briannorris@chromium.org
-Cc: devicetree@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
+	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="IDMDaKoU"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
+	t=1747447635;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+lvRKo2opiHt3C2ZcxwzgvE4ABuKBnR+Dybtxkrz/r0=;
+	b=IDMDaKoUIwN4IQBHxOec4J6VH5Kqfugn8dDL2XauaoNUUOB5pxRSl4RJ+irWjZmOrVOM6l
+	lq4vEyDTkh2R6sTY4Snz4S1zEkKuJ67JxHmZQueeRnGL6hT4pHHzQVojaiic0q6Wm+PZu6
+	u6XNhKEb9eBF0yi7bZLnYQtWRk0mLh+K5eXYC/e9PJ1x/vNKs7a0EYK3evcx00C4JJSfWy
+	kuzdG3Ms7BU7HgeU5dOU31uWUCG+WQbOxvhmsPvKKaLXsXZxP5Cq9n5FH4lItdHkZqrCBK
+	iKAF6z75w2KLiHvC1e+2D8vigRt7wUDN8s9gIl9gf94G1Jezk9Mi8PiC0zI+JA==
+From: George Anthony Vernon <contact@gvernon.com>
+To: akpm@linux-foundation.org,
+	shuah@kernel.org,
+	skhan@linuxfoundation.org
+Cc: George Anthony Vernon <contact@gvernon.com>,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	jihed.chaibi.dev@gmail.com
-Subject: [PATCH 1/1] Fixing a minor typo in YAML document
-Date: Sat, 17 May 2025 04:05:52 +0200
-Message-Id: <20250517020552.737932-1-jihed.chaibi.dev@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] selftests/mm: compaction_test: convert comments to preferred style
+Date: Sat, 17 May 2025 03:06:56 +0100
+Message-ID: <20250517020658.358461-1-contact@gvernon.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -76,46 +46,76 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-A small typo in the rockchip,rk3399 YAML document ;
-"less then" should become: "less than"
+Convert multi-line comments to preferred style with beginning and ending
+almost-blank lines.
 
-Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Signed-off-by: George Anthony Vernon <contact@gvernon.com>
 ---
- .../bindings/memory-controllers/rockchip,rk3399-dmc.yaml    | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tools/testing/selftests/mm/compaction_test.c | 22 +++++++++++++-------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/rockchip,rk3399-dmc.yaml b/Documentation/devicetree/bindings/memory-controllers/rockchip,rk3399-dmc.yaml
-index 1f58ee99b..1a96c743e 100644
---- a/Documentation/devicetree/bindings/memory-controllers/rockchip,rk3399-dmc.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/rockchip,rk3399-dmc.yaml
-@@ -128,7 +128,7 @@ properties:
-     minimum: 1000000  # In case anyone thought this was MHz.
-     description:
-       When the DRAM type is DDR3, this parameter defines the ODT disable
--      frequency in Hz. When the DDR frequency is less then ddr3_odt_dis_freq,
-+      frequency in Hz. When the DDR frequency is less than ddr3_odt_dis_freq,
-       the ODT on the DRAM side and controller side are both disabled.
+diff --git a/tools/testing/selftests/mm/compaction_test.c b/tools/testing/selftests/mm/compaction_test.c
+index 2c3a0eb6b22d..b217ec4a434b 100644
+--- a/tools/testing/selftests/mm/compaction_test.c
++++ b/tools/testing/selftests/mm/compaction_test.c
+@@ -1,6 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- *
+  * A test for the patch "Allow compaction of unevictable pages".
+  * With this patch we should be able to allocate at least 1/4
+  * of RAM in huge pages. Without the patch much less is
+@@ -94,8 +93,10 @@ int check_compaction(unsigned long mem_free, unsigned long hugepage_size,
+ 	snprintf(init_nr_hugepages, sizeof(init_nr_hugepages),
+ 		 "%lu", initial_nr_hugepages);
  
-   rockchip,ddr3_drv:
-@@ -176,7 +176,7 @@ properties:
-     minimum: 1000000  # In case anyone thought this was MHz.
-     description:
-       When the DRAM type is LPDDR3, this parameter defines then ODT disable
--      frequency in Hz. When DDR frequency is less then ddr3_odt_dis_freq, the
-+      frequency in Hz. When DDR frequency is less than ddr3_odt_dis_freq, the
-       ODT on the DRAM side and controller side are both disabled.
+-	/* We want to test with 80% of available memory. Else, OOM killer comes
+-	   in to play */
++	/*
++	 * We want to test with 80% of available memory. Else, OOM killer comes
++	 * in to play
++	 */
+ 	mem_free = mem_free * 0.8;
  
-   rockchip,lpddr3_drv:
-@@ -223,7 +223,7 @@ properties:
-     minimum: 1000000  # In case anyone thought this was MHz.
-     description:
-       When the DRAM type is LPDDR4, this parameter defines the ODT disable
--      frequency in Hz. When the DDR frequency is less then ddr3_odt_dis_freq,
-+      frequency in Hz. When the DDR frequency is less than ddr3_odt_dis_freq,
-       the ODT on the DRAM side and controller side are both disabled.
+ 	fd = open("/proc/sys/vm/nr_hugepages", O_RDWR | O_NONBLOCK);
+@@ -106,8 +107,10 @@ int check_compaction(unsigned long mem_free, unsigned long hugepage_size,
+ 		goto out;
+ 	}
  
-   rockchip,lpddr4_drv:
+-	/* Request a large number of huge pages. The Kernel will allocate
+-	   as much as it can */
++	/*
++	 * Request a large number of huge pages. The Kernel will allocate
++	 * as much as it can
++	 */
+ 	if (write(fd, "100000", (6*sizeof(char))) != (6*sizeof(char))) {
+ 		ksft_print_msg("Failed to write 100000 to /proc/sys/vm/nr_hugepages: %s\n",
+ 			       strerror(errno));
+@@ -122,8 +125,10 @@ int check_compaction(unsigned long mem_free, unsigned long hugepage_size,
+ 		goto close_fd;
+ 	}
+ 
+-	/* We should have been able to request at least 1/3 rd of the memory in
+-	   huge pages */
++	/*
++	 * We should have been able to request at least 1/3 rd of the memory in
++	 * huge pages
++	 */
+ 	nr_hugepages_ul = strtoul(nr_hugepages, NULL, 10);
+ 	if (!nr_hugepages_ul) {
+ 		ksft_print_msg("ERROR: No memory is available as huge pages\n");
+@@ -243,7 +248,8 @@ int main(int argc, char **argv)
+ 		entry->next = list;
+ 		list = entry;
+ 
+-		/* Write something (in this case the address of the map) to
++		/*
++		 * Write something (in this case the address of the map) to
+ 		 * ensure that KSM can't merge the mapped pages
+ 		 */
+ 		for (i = 0; i < MAP_SIZE; i += page_size)
 -- 
-2.39.5
+2.49.0
 
