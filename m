@@ -1,129 +1,155 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150D61FBCB5
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 May 2025 13:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A8B19CC27
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 17 May 2025 19:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747488487; cv=none; b=lWYsvVa6E+Qup61ks3zDcjH793i1P/tCcqHJAQfHiXQlNRD7lrwIjnmwGcgRSgfttnZEhCI6KjWRrU7edo6vdfWf+tc8hjYPTKY37RtgQEhgVShIEaaZDlGkUJW6u/YoYmjkLhY2GQ6gm4bSQsxx1a+YldROtDoQJbKO2mDtyss=
+	t=1747508950; cv=none; b=tSEWrRFQ4ZItix/CJz6APBHIZzPz4gEU8pgO1HI17VoCzqLKghSfF5HHlVTGsCr8Zo+Poxzhh5kICiXy3JJROOq2AnI3eGjYntFZmymmokltTu4vrchARFzku/FNYC+b41C1AqZ19GMDk98SBJyqq3xr7HgC/WPclEZ8jxDS0dU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747488487; c=relaxed/simple;
-	bh=gmDEnXwRjo+bJNFszJsbjo95GO8tD4tqGQW7d1o1lDQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Pwgy/g22l4JydCz1erqhvAiY036Jv5ufmIc33VYw3uFppGFTb/5tVV+9RlI5G9Aw8+GGK5yFwwtgcrAg7dlzDbPa56/yQdLv3t0NwLy5/JrQ/Xqw7oRnwxWOiTFQTrcZaINmSwUj4PfGBtGPz3wGqOcs+RpypM5QOnbUsiNin7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O0OmiZJM; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747508950; c=relaxed/simple;
+	bh=giiFTAvo8R16w0FvI+CNVg05Te46rFwSFFDtIKhpE4s=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=BPWsWb6q+shXtGM2C4qXXJUr9LNNoTr+FfpV5XXE1Zx2O3N/sJzqQ6VWfv+5H0ole1fqvFUArOPyO2RZQdYHQ1zS0rx45txTQ4Cb0ljh5qpo8H4ncYCiTXqqMuvj6dDHMnF3Nen8+uIxRWqTNaeIgeAktjJzomOV+3VyvPmbJik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IR9/XvQk; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O0OmiZJM"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-327ff195303so21911251fa.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 May 2025 06:28:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747488484; x=1748093284; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OI7TUjGfXSmfmXazMfqv5rln70w6M1XAC14rGLg1cvE=;
-        b=O0OmiZJMXNrUSCXnQrdZb/f7JVX/3aAuFACHxcJ9Bzdm29xiJ68NGwy/xtJdggL7VY
-         dRDYtYBw4gCEFrNHcXeWVjo6Awh/HCLOhI7uVai4uc3bi9VlRNtBAW35dED1DujpRfJC
-         GQjlREzrpF4b+Q0zJY5OZvMprf+UO7LiZ68W6tT30CwhahlaqZtQ8IaOgHZ9WzEs8evm
-         jry8F09sKhKYSU1aCNPGHMPP2f8sObcjVR3tUusvUHBNDLtK/w+bMPkNEio6tSlJW7OT
-         Y1JpISQ6qxSs3ER55ioTl6pKyFVgmEHRkM4Yrr2qO7AJMqKrdOKMAgYaYua/Y8Zpet4/
-         jg+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747488484; x=1748093284;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OI7TUjGfXSmfmXazMfqv5rln70w6M1XAC14rGLg1cvE=;
-        b=hWs9pwuvBzaSksvOev/PbQzMRsSpPC5gZxlyIt2c1MJAB8gwVs0S1Fm6qxJFaKmPQ3
-         Oh2xlk5cCd3MD3mdLHWOHrcbmm2E0kktnG2NT30G4YAcDC5UROvktb9oS/3/qdwH3o7r
-         LDTjSPutwm4BTESNyPZlfONG6eqB+p7ktoTvmkwXh7j+zVyjMXQLRJk4kG17aGfNA0VM
-         PYUoKQ7tIpmrZoyGpcPHi5qXe819AdHdktYUq3QAG96/OGxtY//VR76sGsLjYRpxSlvh
-         tpcCjj5nK6Fn+kDlCWMEtwB6esRc9LqOByznOL9vT4gjs+AywBOqVlJH0vmjRcu6A8tV
-         ioYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW3LoBHt8bI3jNA5ElBuVYuH/7+y6hhNomSXA+p4xZRopPAbMYfbe1huk0tiGGGKBSnFq5NuP8r62a0Us1E05EM8xuLKA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2lj5VyvOdRA+Bs2JxCJVau+7xK9lTcDMzvKCQy9cIqU4aV84v
-	ZAUFyDh14WXSoVa5xik3AKaoTxMlTr7d2N/dm7AcRstAFgJshj1SgmbG
-X-Gm-Gg: ASbGnctoujCutzWqlStpimaUgNyrh4rJrMu6OedwW7MO6yshD4Z72t43djPVZKox8lA
-	7FyvUnssfVOniJMbP51pttY1j2bQLFWwQ9uRCVV32JtW2l6Fv12vvvxRI/D9YICA1KHXxzS0bxz
-	qJ44qykduuXDO2ba2+JiSohf3vt3k2wbAyn0B23IqrZ9eBM2Je2QsVljuM/LWZFQheCK5+XsX06
-	fy5Piar55qiUFHQO+nAuabGx9VNznKoOia7115swjMWAf3wQFAr/CSpzC6051UwGIxkATnZjLHK
-	8C//qVRaxGvr9MMpIikMJWlSsjsIqh/kICxRmgZ0wVGkzpwrcVL7N0ZGzUUQRUKeS+E85deF8Ni
-	hOfw1J31lx/q5gbao6fWLp4zgClDYMJ1ua/p5UG/ZOukzrYx0
-X-Google-Smtp-Source: AGHT+IEsSe/ClhRreVvRQ63LjMBbkjm2VIQAaZkjewE3YafWUrvnIgpv+xribKL6G3lfDQrBgN+ulA==
-X-Received: by 2002:a05:651c:324b:b0:30b:f138:1b9f with SMTP id 38308e7fff4ca-3280771e454mr18580111fa.17.1747488483886;
-        Sat, 17 May 2025 06:28:03 -0700 (PDT)
-Received: from uuba.fritz.box (2001-14ba-53-1500-40ac-27de-68f1-6ee7.rev.dnainternet.fi. [2001:14ba:53:1500:40ac:27de:68f1:6ee7])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-328085cf9f9sm8663501fa.94.2025.05.17.06.28.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 May 2025 06:28:03 -0700 (PDT)
-From: =?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
-To: mchehab@kernel.org,
-	ribalda@chromium.org,
-	hverkuil@xs4all.nl,
-	hljunggr@cisco.com,
-	dave.jiang@intel.com,
-	jgg@ziepe.ca,
-	saeedm@nvidia.com,
-	Jonathan.Cameron@huawei.com,
-	corbet@lwn.net,
-	ilpo.jarvinen@linux.intel.com,
-	mario.limonciello@amd.com,
-	W_Armin@gmx.de,
-	mpearson-lenovo@squebb.ca
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	=?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
-Subject: [PATCH 4/4] docs: Fix typos, improve grammar in Userspace API
-Date: Sat, 17 May 2025 16:27:11 +0300
-Message-Id: <20250517132711.117618-4-hannelotta@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250517132711.117618-1-hannelotta@gmail.com>
-References: <20250517132711.117618-1-hannelotta@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IR9/XvQk"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id DF0D160B6C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 17 May 2025 19:09:08 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -8.092
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id oh9mdyU43bLH for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 17 May 2025 19:09:08 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 045F7608A3
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 045F7608A3
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=IR9/XvQk
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 045F7608A3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 17 May 2025 19:09:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 629BFA4CB02;
+	Sat, 17 May 2025 19:09:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B9C1C4CEE3;
+	Sat, 17 May 2025 19:09:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747508946;
+	bh=giiFTAvo8R16w0FvI+CNVg05Te46rFwSFFDtIKhpE4s=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=IR9/XvQkAzRrIlO/y4riEzzX89Lh0GNhb0InwxsPH+8vrn4k+fRGbD86BAhx/6DpN
+	 V8j++Vtc3ZXDFkZESkRowCPxFJuBpJE40Kw3O07/yD4blnSSDhYUP1C4+4YcV59FaX
+	 sfXoWpCb8FEcffbHFIMPt4GElrA2CrrfonApKqzfQWLkX4LUABxaKjixL1SxLexXJg
+	 CwikRMvueYBOZ95FBvpq49K5LSKVPLs3LOfaJM+2zZg+5UENJZA8COfRFCzoZIsmJr
+	 De7hYjKj6WdMCcajEpCFDCyGrOlT6bx3psU3k1c50aQjvPDPIGsheqUAkZjasyt4cO
+	 tOfZjJAH8ve5w==
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Sat, 17 May 2025 21:09:02 +0200
+Message-Id: <D9YO7XDNV712.3A5HSSLUQIZ2W@kernel.org>
+Subject: Re: [PATCH v2] rust: doc: Clarify safety invariants for Revocable
+ type
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Danilo Krummrich" <dakr@kernel.org>
+Cc: "Marcelo Moreira" <marcelomoreira1905@gmail.com>,
+ <benno.lossin@proton.me>, <ojeda@kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <skhan@linuxfoundation.org>,
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ <~lkcamp/patches@lists.sr.ht>
+X-Mailer: aerc 0.20.1
+References: <20250503145307.68063-1-marcelomoreira1905@gmail.com>
+ <D9RJQYNTIOK1.3HI7NDDWPK6IM@kernel.org> <aChczAWsPdmdeen3@pollux>
+In-Reply-To: <aChczAWsPdmdeen3@pollux>
 
-Fix a typo and improve wording and punctuation in
-the documentation for Userspace API.
+On Sat May 17, 2025 at 11:54 AM CEST, Danilo Krummrich wrote:
+> On Fri, May 09, 2025 at 12:10:08PM +0200, Benno Lossin wrote:
+>> On Sat May 3, 2025 at 4:53 PM CEST, Marcelo Moreira wrote:
+>> >  /// # Invariants
+>> >  ///
+>> > -/// - The wrapped object `data` is valid if and only if `is_available=
+` is `true`.
+>> > -/// - Access to `data` must occur only while holding the RCU read-sid=
+e lock (e.g., via
+>> > -///   [`Revocable::try_access`] or [`Revocable::try_access_with_guard=
+`]).
+>> > -/// - Once `is_available` is set to `false`, further access to `data`=
+ is disallowed,
+>> > -///   and the object is dropped either after an RCU grace period (in =
+[`revoke`]),
+>> > -///   or immediately (in [`revoke_nosync`]).
+>> > +/// - `data` is valid if and only if `is_available` is true.
+>> > +/// - Access to `data` requires holding the RCU read-side lock.
+>>=20
+>> I'm not sure what the correct wording here should be. The current
+>> wording makes the `revoke_internal` function illegal, as it doesn't hold
+>> the read-side lock, but still accesses `data`.
+>>=20
+>> Maybe @Danilo can help here, but as I understand it, the value in `data`
+>> is valid for as long as the rcu read-side lock is held *and* if
+>> `is_available` was true at some point while holding the lock.
+>
+> IMHO, the RCU read lock is *not* a requirement, it's (for some methods) t=
+he
+> justification for how it is ensured that the `is_available` atomic cannot=
+ be
+> altered during the usage of `data`. So, it shouldn't be part of the type
+> invariants.
 
-Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
+But the `is_available` atomic *can* be altered during the usage of
+`data`. And in that case it isn't clear to me how you still allow usage
+without relying on rcu.
+
+> For instance, we also have the Revocalbe::access() [1], which is an unsaf=
+e
+> direct accessor for `data`. It has the following safety requirement:
+>
+> 	 "The caller must ensure this [`Revocable`] instance hasn't been revoked
+> 	 and won't be revoked as long as the returned `&T` lives."
+>
+> Which is equal to the caller must ensure that `is_available` is true, and=
+ won't
+> be altered to false as long as the returned reference lives.
+
+Sure. We could add that it remains valid while `is_available` is true,
+but when it changes, the data is still valid until the end of the rcu
+grace period?
+
+> One valid way for the caller would be to wrap it into an RCU read side cr=
+itical
+> section and check `is_available`. However, depending on the context, ther=
+e are
+> also other justifications, e.g. [2].
+
+For the justification in [2], you need a type invariant.
+
 ---
- Documentation/userspace-api/sysfs-platform_profile.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Cheers,
+Benno
 
-diff --git a/Documentation/userspace-api/sysfs-platform_profile.rst b/Documentation/userspace-api/sysfs-platform_profile.rst
-index 7f013356118a..6613e188242a 100644
---- a/Documentation/userspace-api/sysfs-platform_profile.rst
-+++ b/Documentation/userspace-api/sysfs-platform_profile.rst
-@@ -18,9 +18,9 @@ API for selecting the platform profile of these automatic mechanisms.
- Note that this API is only for selecting the platform profile, it is
- NOT a goal of this API to allow monitoring the resulting performance
- characteristics. Monitoring performance is best done with device/vendor
--specific tools such as e.g. turbostat.
-+specific tools, e.g. turbostat.
- 
--Specifically when selecting a high performance profile the actual achieved
-+Specifically, when selecting a high performance profile the actual achieved
- performance may be limited by various factors such as: the heat generated
- by other components, room temperature, free air flow at the bottom of a
- laptop, etc. It is explicitly NOT a goal of this API to let userspace know
-@@ -44,7 +44,7 @@ added. Drivers which wish to introduce new profile names must:
- "Custom" profile support
- ========================
- The platform_profile class also supports profiles advertising a "custom"
--profile. This is intended to be set by drivers when the setttings in the
-+profile. This is intended to be set by drivers when the settings in the
- driver have been modified in a way that a standard profile doesn't represent
- the current state.
- 
--- 
-2.39.5
+> [1] https://gitlab.freedesktop.org/drm/nova/-/blob/nova-next/rust/kernel/=
+revocable.rs?ref_type=3Dheads#L148
+> [2] https://gitlab.freedesktop.org/drm/nova/-/blob/nova-next/rust/kernel/=
+devres.rs?ref_type=3Dheads#L221
+>
+>> > +/// - Once is_available is set to false, further access to data is di=
+sallowed,
+>> > +///   and the object is dropped either after an RCU grace period (in =
+[revoke]),
+>> > +///   or immediately (in [revoke_nosync]).
+>
+> Same here, RCU isn't a relevant factor for the type invariant IMHO. It's =
+just
+> how part of the implementation guarantees to up-hold the invariant.
 
