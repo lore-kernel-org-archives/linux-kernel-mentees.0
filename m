@@ -1,110 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB4B1D5166;
-	Sun, 18 May 2025 10:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E13972639
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 18 May 2025 12:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747564481; cv=none; b=XKhv4LE5V5lWr4oeg+eI7/3sU3L63JMVZHohdmdDMgC/oxBHfX2VJu1yMunN9uStNmNscKnaAxvhkpCwZnLQQvuiWNnAQR42WD0kusUZXLA9yOC+PQJ86Jff/TmxQgZl6izc1xbe05ssr2t8vGgdvbEiimR9RszA4cV1j2c+iW0=
+	t=1747570001; cv=none; b=RZC6Qy5kVh1jMADB0LdmxpKxGyzP72tHSR8TUsbuM3vTSv9T/1dU3vR9yy8KmRWpnrNLqdfGglfrxB+uc+XVsbHpKXcNJbGUGroex3D090ScX4+2dkUit9KX9bkJedI4GaHP0KpKymxofnaiu7Ds1CVnGS/tFR0wzGi+BBQC36c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747564481; c=relaxed/simple;
-	bh=WR4e6YLzZV5pOT3xn63eb0yK3YFmdXj7k7d6kgQZvFc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HANCNrsQWJMRT6ei+KQnHro9qdLkXMmebe5acNoSiIlCKNajirOcPOP9V6fnSwq4rCpmOMb0btvWZ+50GSkZESsioqQ3ICclmMPnNxZICofYvBr3rphxOcvyACJpdoiZ4n2H7VeRUKk1GqQpEf30BFir/yJywdohXZRVpuUvmsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YktI0z1e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747570001; c=relaxed/simple;
+	bh=Z9sPuqChQojAWKg0fz4wkdvAY/+fmKjMSJBj97hXBxs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VAlxO+mY2ebMFVWcnG+H0Kc6uRTyAbk4iqBBwNcSin4ACuGdltNRFeE3DFA0xEKn/OivFukbMqG8lUpCHAl/Bg7kQwn7NP1qPIaC9OGhOvkzq4FjoIuwL1JlnKexkKcsc3MKilxUwdLpEWOKvt7XWnIILFNlm4n282Nv9nhyMRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VRX2Di5h; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YktI0z1e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CF70C4CEE7;
-	Sun, 18 May 2025 10:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747564479;
-	bh=WR4e6YLzZV5pOT3xn63eb0yK3YFmdXj7k7d6kgQZvFc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YktI0z1erAGrxT2/gsTJ4KplDHDGF9sV2sA0kBvHPo5GHwXc1o8zaf40G/xIvUCZW
-	 DYM13ZkR5/75ar1fMXKdbjnDv7A1qvfV/TqpcTAAY6s5VqPbeHa0dzvbXfs603lkyW
-	 z34B/JE6i8IIyw6IE5PnfL1BrNahzJAoTPpmpVMfQZzNfvMWfGLA3QO/Wd51BaoKfY
-	 YizdjrPBcT+riomouob3mVX7E8hTSL2CA8DT6Yk3/abJfx2gZUAKw989VqL49tI6gv
-	 w3xOEOs9n/vPNMeGLOcZTO0IA69xGMe3Xayt7xW3ARk6+QcNANOMKuMc8Nv5s0W2wQ
-	 MtnGyHti9Y1ZQ==
-Message-ID: <5f7f8cbc-6501-459f-906a-250be5443d0e@kernel.org>
-Date: Sun, 18 May 2025 12:34:35 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VRX2Di5h"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-30e57a373c9so3326106a91.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 18 May 2025 05:06:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747569999; x=1748174799; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z9sPuqChQojAWKg0fz4wkdvAY/+fmKjMSJBj97hXBxs=;
+        b=VRX2Di5hhkXbCaciCAKTo3AdgUAzrLy2MsRqTxt4D+wTQxRsPnQiKIHWdUNLFAxbm3
+         JVVnJdvh+xataVQ1k4jlwLQxI0jtvdQ0ml3MM4a0BaA7eRn4TVamWyjNsgMsXpi3IbN6
+         OdBHsQOAOGPzmSh7F0hVHrwQV09grOfmRUKu/2xRv9LPbOgz14WDt7/1Ia2Xq0cacUf2
+         UBzakLbVbyR/qz13EzKJluD1muZRV33w0gEwG0in88Lo5CSR7yvTfE2scE3mHzgSPUA6
+         ibOtWRlwYA0KxxK7/uexT16hAWJ+tWdU/P2FZYRitkbX2ozO3JwMp02NFi/1EDmC3aYo
+         suew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747569999; x=1748174799;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z9sPuqChQojAWKg0fz4wkdvAY/+fmKjMSJBj97hXBxs=;
+        b=dyDbowU5OACegURJ3WQMqus78MhoVDvnj1bHmfBDQU8ggxkcYLTYiiybBopnFCPyCN
+         SXFh1I6HqF0S+c7dVfYIy3q8KxLoQoyQuKiDecdZvgeuuFwK/QehbUXqTm4mCJe4egMb
+         AMpAb9X14JZdvXiyLqQiRJEBnmZ9/nvFV8c4Ig0X4iIODj1mQUdyrO/3CRHTUXFvjz6b
+         BXU7YeTdqCe7di96y50djLKX0rpEbEDRdEuy3QQ6/GoXaZ1CfpQMHOa032tU9eoiytWU
+         W+wBlPyRSxZZIJXtPK8brH9nDqFPch6vURc526zqRMr0D6AUse1izBjBhFdZQ+ljUF5q
+         R6Fw==
+X-Forwarded-Encrypted: i=1; AJvYcCXwxo2940JVx3VcKGEFz4fQVTkhtP4k5Bc4QNUhbEatX4Oxrjo/zy1eeRsNQ/DAP2PNkQNysovd+iD/CxaZzDLYcTIruQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzx/Co+7gTJydRrXW8HIV1lrsffcXCeetSEc3xWa1zmK1qF1h87
+	0DI+YBcBmpYOo7QqDXJUcf7rQoeHcU5NClhK+5aFPqaRJecuy29nZ94xnOjKyZRtCm/F1oy+Gwi
+	VE4tEXU+zl5vAbwPk4qzzyf9u3LjqwQ==
+X-Gm-Gg: ASbGnct9C11lp1I9C+jpuy1Isbb84XIvCap5ZGjLcMP6eocSzr5o2iEfTuT66uQqinQ
+	Kt9kdmINedoZS0ghaZJJrz1yLJsURJpeJb26bmsSQN3yN0weDLMrH0nq2PM5sH62HgTn3JN6QN9
+	kd/U4pOQJH2or1q2rGlHz3KDyU0Z0R893u3hZaAdbIsP4H+GMWOwCv5Px99RBYMgs=
+X-Google-Smtp-Source: AGHT+IE8Jj3CM/JmTKb2ASWpYNZZ62w/yVrXgUBmwdTYC8IuyZ/ZSj3++gk2EU+iZobraqih76E8olzgbMxd5+52uZs=
+X-Received: by 2002:a17:90b:4b0f:b0:2fe:8a84:e033 with SMTP id
+ 98e67ed59e1d1-30e7d4ebdbcmr14696049a91.2.1747569998909; Sun, 18 May 2025
+ 05:06:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] Fixing a minor typo in YAML document
-To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: heiko@sntech.de, briannorris@chromium.org, devicetree@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, linux-kernel@vger.kernel.org
 References: <20250517020552.737932-1-jihed.chaibi.dev@gmail.com>
- <62bd6757-c4d0-42c1-a76d-abea18a8a55e@kernel.org>
- <CANBuOYpRQNx+n6BjpAF0LufpUqRA3wU-GzSNygeWurohXYNF6A@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CANBuOYpRQNx+n6BjpAF0LufpUqRA3wU-GzSNygeWurohXYNF6A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <62bd6757-c4d0-42c1-a76d-abea18a8a55e@kernel.org> <CANBuOYpRQNx+n6BjpAF0LufpUqRA3wU-GzSNygeWurohXYNF6A@mail.gmail.com>
+ <5f7f8cbc-6501-459f-906a-250be5443d0e@kernel.org>
+In-Reply-To: <5f7f8cbc-6501-459f-906a-250be5443d0e@kernel.org>
+From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Date: Sun, 18 May 2025 14:06:27 +0200
+X-Gm-Features: AX0GCFuB2F8YdWG4M6QquX7RSLJifIP2KUvWmNy9H9sSlJ0n7sh9CbHxp2tuYXU
+Message-ID: <CANBuOYohE0JofP6vnN_sLZrPkURDxRgOBCM2-NqtCPw1fZ24+A@mail.gmail.com>
+Subject: Re: [PATCH 1/1] Fixing a minor typo in YAML document
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: heiko@sntech.de, briannorris@chromium.org, devicetree@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel-mentees@lists.linux.dev, 
+	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 17/05/2025 14:05, Jihed Chaibi wrote:
-> Thanks for the feedback, this fix being kind of "trivial" I didn't
-> initially want to include everyone and thought it would end up to the
-> main maintainer after being reviewed by the reviewers/authors of the
-> file, sorry for that, I will make sure every maintainer is included in
-> future patches.
-> 
-> On the other hand, I can confirm that I'm using the last kernel version.
+On Sun, May 18, 2025 at 12:34=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.o=
+rg> wrote:
+>
+> On 17/05/2025 14:05, Jihed Chaibi wrote:
+> > Thanks for the feedback, this fix being kind of "trivial" I didn't
+> > initially want to include everyone and thought it would end up to the
+> > main maintainer after being reviewed by the reviewers/authors of the
+> > file, sorry for that, I will make sure every maintainer is included in
+> > future patches.
+> >
+> > On the other hand, I can confirm that I'm using the last kernel version=
+.
+>
+>
+> Please don't top post. If you do not Cc maintainers, how is it supposed
+> to be picked up by these maintainers?
+>
+>
+> Best regards,
+> Krzysztof
 
+My apologies again for not CC'ing the correct maintainers and for top
+posting in my previous reply. I understand the importance of both for
+the workflow and proper communication.
 
-Please don't top post. If you do not Cc maintainers, how is it supposed
-to be picked up by these maintainers?
+I've taken note of your feedback and will ensure I follow the
+recommended procedures for future submissions.
 
-
+As I'm still learning the contribution process, I appreciate the guidance.
 Best regards,
-Krzysztof
