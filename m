@@ -1,119 +1,101 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FE32853E8
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 May 2025 14:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0297284B36
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 May 2025 14:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747666693; cv=none; b=Fo0z4xPAr3VZ/qNC4G4IdtzJkKp7JvpFiNpHaNcTG2oHWnXCWgcQyz6PWjYe2t05widvWRFIvRqAJ7EBSJVEUqpaoHx1mk02JzniBAbDvtw36Vs2FvsdG66QsKhz2b+wCwVhOjprXsn+YDfUmEjcTnta5nSFUwPHszTb48U/FUk=
+	t=1747666779; cv=none; b=be40DL+FgJ6yH6FpDQlOdckXYFrUwthkmHmJh5qqY5Gip8BXBOR6N4yZPb++zch2SiDgN1ExJV2Ybg88GKQ9gU6cN5F4zu8fJxbpEr5mcVFuJV7YVmFL5/sJdGI10P42vaelxNXSlB83/4mWChmthtEV6j2v2MHI6uT0IKF31R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747666693; c=relaxed/simple;
-	bh=+TvgGqsTS0cQ8wJis1lJzVngOM4do4hNwiF9gXth3p8=;
+	s=arc-20240116; t=1747666779; c=relaxed/simple;
+	bh=7oSkyG6mSA89oGxPnxCMu+L1kjgYHryzmDKNjMLyeNw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hOFeh2r3YwSjJ4SaGJq1HLItNeHrSdiAJ4t4l2Lbw6nbX9K88qLZnZJwm09xdcf51gkQuXrkDJwstFy/3DfIAI3n+10kjTp8oa34FSZmoB0WaqvSSd85szAkodZqS/i5IwDNY8R1npsuDiCt6aya0UaFc0CnhqwFErUCoSQutwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PpL2ehta; arc=none smtp.client-ip=209.85.215.175
+	 To:Cc:Content-Type; b=P6j51HrP5UVxAKmtip0uyvu9Jeil7Yyw5ia7EZ6bZd26FpTU7FGvrRRiJkDUqOZpfgIRmsZY1a1x1l/CIyDTfFToLzoKxJOHjlqLcnW0HQ3L91vguRcOEBJAHu38+hNPxSeX8LIYpmssCslgsUIrK1ZDaKJx0IXKGJNrNyvYR5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OPdb52Ip; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PpL2ehta"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b1276984386so469297a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 May 2025 07:58:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OPdb52Ip"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-231ba912ba1so3875765ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 May 2025 07:59:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747666691; x=1748271491; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1747666777; x=1748271577; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z5gdvpRaAaLM19UVx/GrdVW5vV6MuRm9rJTVLs3u7oM=;
-        b=PpL2ehtauwv1mHGSD/xno8XX7SerM3k/67OGe1ShTiVpBDcaqy7FkuTUGqlAS69W8v
-         4nhUgCmO9IwsJc7d0HP9O4cHTp1WiG9fHzWCnfBWDKVe9XxPbzT7JDJQcziDx+7NdwHP
-         fUw+F0HhXT7m9tu66pfKrXXTgkG4XKOMIrSIKwVAtsJ11PnVJGNH70vEm52M/i36w7fx
-         E9Ko6SJk4o7KySZ0ATJ3dt+m+8tEyxKOTFJjp4Hdtyp4Z7lagv9wAe7iXcMSsgLLnAGl
-         2z2e6FvnlLtiO4YOS7EY3ORf1aQIYexZ2q6F8JMUn0+STVOhUwTP0OO9v7R0QtrLkViW
-         ebFg==
+        bh=PJbKnQ6THaOIWWHkWKM4XnXv59kQm5WmU7EOv3ddOfo=;
+        b=OPdb52IpShpJ94dpOfSn1nORE5c5sM0QIomCAe18k3tN2Gzj85xSStDApw46qjfil/
+         6BKUt5rb/4PmUFsbnO1UHhDSfnbilpTKs5L1I2abg8zSOlDnv9KQZQi2VL37xR/iAeVX
+         Ujm4I99PUnzHTiPMQ2Ki/icir2uCbZrT5qdcyfu8Dtb8zyk7t4orwtdQD7TzA5vF9C/w
+         RpCzzKgKQZq5r7XAQ7FCFXE07hs/gFy2MSEyPDDx+krWN0rAi8i3Q8IAaxjHvP0lgVxK
+         Z1KoSbaEZ9AoMKg5YFdKgtxNkXHGmpJ0rzP9jZoiod1CN2S4QAE2tPHD+y+in/mXVOQA
+         kKWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747666691; x=1748271491;
+        d=1e100.net; s=20230601; t=1747666777; x=1748271577;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z5gdvpRaAaLM19UVx/GrdVW5vV6MuRm9rJTVLs3u7oM=;
-        b=gBS0PHcltoYyJROAJtuvJTavvRS4NXDvJAjAm2W196C3dZIqlykjNu31SV9zCvCZ8A
-         KAao+nLGFVpr2JAf91nuHWUbEYuhvHDjHZbZEiEU313Kd6ZKpdKWBRdrYhpybzsCLyBS
-         iRoiYJORSDpaUXxtzHlI+579S42Jv1yCszhPqbRLxYBziqIWzrslCvqBk4TD8fpMVIl1
-         WpnYvw+CwuY+WzYVzhgBJYaDMQOfLPM9ZDUoa2q0TRg+6n/t/3DQSYLBVBX4iXJ7HiZm
-         Nj2rwXMMGfpGf+C06hbypdetZMosuavVvMuqhM5Rcr0z8TVyFqepRT4SjPdl1P1Z+uUt
-         x2BQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXWB0tdCgJRr98O/UCsbT7xiIzvC/5TzjcvEg/OzJPv3BaYmSvBCLk12pEr40/upy+pyhj6APyEEhnR+zRlPmpZ8f8CiQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxIIDl4QII7aldYL+fSIDmFYmn8lTuhYiUejHhIZmbojivTJkYe
-	5qYR0YH2ni21MUEhNRVubtpMIlWHTMtdBcJ8W6UxHk57tgJnzl6s/SXoFlu7qoQw/okd3yLvYKm
-	UImWcsk4/ggNRBNBszh7e5UceTvqHgkA=
-X-Gm-Gg: ASbGnct8xoYF7cYyHcfjteVrpsB/DyBMfbnWURTSfV7lxnMXdWMlCKNy+MlYMzXUBK6
-	JFubHNjRDKZp2b7szatQsqXt33aq0uf2T29z3TOZCUZ7WANqpRYZDea4KmjeBvX7e0V2Z2cfCX7
-	NCYCgHsyNqgXIGyYmImDC4jBwgQrJWLcvyWh+2uqsUaXbl
-X-Google-Smtp-Source: AGHT+IFS6lS24Joef5xwSP/U3viHYHqlSjU3heJ3YK/ZdGumYT2oGf+W1cgyzoDIT8SU1Nt1vS15n5viC2uvxxX0zH4=
-X-Received: by 2002:a17:903:2285:b0:223:49ce:67a2 with SMTP id
- d9443c01a7336-231d4502e3bmr65053865ad.9.1747666690994; Mon, 19 May 2025
- 07:58:10 -0700 (PDT)
+        bh=PJbKnQ6THaOIWWHkWKM4XnXv59kQm5WmU7EOv3ddOfo=;
+        b=wvNaxiS+HXbFeY6qcefRQao2f+7GLxOojKX4F78uZ+zIsYr0MfhNZ8HF1CTAUfV5cn
+         4Uc1Xh2Yhnszf/jatkcVf8p9bk8il0N1GEtwZp1nJndBVBwFFsQWOJIg07ZvIwy/18rp
+         +ucCmr4KCkokSqJIvkl0B+EFpSrm7iG49hAzsmy/+w0QxWCUGCc/Tb+W0V15D+8txu5t
+         yEy1wcJHw6dxLkzb9aPn3iRfSZS6Jy191wKr4ZfVCSbg4z4ow2eyh9BzFO2ZkpQOIN8f
+         77PiC/q/Ii+VFahM6hy6PSVrqcoXtSA5AdFlOWZMYVjEwCzwO8tTEhxcjz4O7pRUuif3
+         L4Ug==
+X-Forwarded-Encrypted: i=1; AJvYcCWDF68Uc4MkU7ELHdOUw/dAem6RHUjXLeiribQc4QOohyn1wrLdn0BTULuz5kvzIJt4bL63hI311538wuImnmcFzDraVg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxgoFGUFLl0L75+qU5U0nuu2oT+zuY6BqpCbimuhGGKmtiBPPAO
+	ggMcxxx2GTmLmb++8e8b4lpM2VffhVQBgekdnQgjIh2+o2f6B8GOW+i+m9wyK9INgo9a7j/v0ib
+	Xv4G33RDT2NCCZZhwtQGhwIuFXsDyfHI=
+X-Gm-Gg: ASbGnctcAAnEM8dmwGrZIWJb8Dz/oz8J9zLIRF/Al5wm3WsqjShWCBtB/K322+othPR
+	UeV+weaCGOrnlBzaAPX95RGzPHChulM5v2tbmpXj+vBF4RXCb952dGoitkxEoVsjmhO7bTdas9f
+	TOJLhORbc6zN8Rk8wkA3t0R4f+DjM4g4Jq4A==
+X-Google-Smtp-Source: AGHT+IHLS/MC9ULQUfEueaLkKs2Re4yb5qkf2UfVq+r3wklL/AUqeNW5UH4uETMeYpvy3Y7FlPakYzri3fcicI5uAZA=
+X-Received: by 2002:a17:902:cf07:b0:220:e1e6:446e with SMTP id
+ d9443c01a7336-231d437f0damr66974215ad.1.1747666777173; Mon, 19 May 2025
+ 07:59:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250517030609.818725-1-jihed.chaibi.dev@gmail.com>
-In-Reply-To: <20250517030609.818725-1-jihed.chaibi.dev@gmail.com>
+References: <20250517030935.823041-1-jihed.chaibi.dev@gmail.com>
+In-Reply-To: <20250517030935.823041-1-jihed.chaibi.dev@gmail.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 19 May 2025 10:57:59 -0400
-X-Gm-Features: AX0GCFvc-a8H_zK_oq_ihi9yggKR3zIAwzCZb1xZzKZDlyUyHmFEizJ6vo0AuvE
-Message-ID: <CADnq5_P1jJQGuJkcx-f-SiVWTJk=6Bd3b54djy-Tfb8tCkRO0A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] fixing typo in macro name
+Date: Mon, 19 May 2025 10:59:25 -0400
+X-Gm-Features: AX0GCFsSRi45LP3otZw9uo5k9qEKoUzLkQAZiNfSWJQGWEj7HNf0_zawacqQN8Y
+Message-ID: <CADnq5_PSfZ+jMMAXb427TF1Z0qQBq_kgZVo+3qfrXkFxJTSzRQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] fixing typo in function name
 To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
+	simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Applied.  Thanks!
-
-On Sat, May 17, 2025 at 7:43=E2=80=AFAM Jihed Chaibi <jihed.chaibi.dev@gmai=
+On Sat, May 17, 2025 at 8:38=E2=80=AFAM Jihed Chaibi <jihed.chaibi.dev@gmai=
 l.com> wrote:
 >
 > "ENABLE" is currently misspelled in SYS_INFO_GPUCAPS__ENABEL_DFS_BYPASS
 >
-> PS: checkpatch.pl is complaining about the presence of a space at the
-> start of drivers/gpu/drm/amd/include/atomfirmware.h line: 1716
-> This is propably because this file uses (two) spaces and not tabs.
->
 > Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+
+Applied.  Thanks!
+
+Alex
+
 > ---
->  drivers/gpu/drm/amd/display/include/grph_object_ctrl_defs.h | 2 +-
->  drivers/gpu/drm/amd/include/atombios.h                      | 4 ++--
->  drivers/gpu/drm/amd/include/atomfirmware.h                  | 2 +-
->  drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c                  | 2 +-
->  drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c         | 2 +-
->  5 files changed, 6 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/radeon/atombios.h | 2 +-
+>  drivers/gpu/drm/radeon/kv_dpm.c   | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/include/grph_object_ctrl_defs.h =
-b/drivers/gpu/drm/amd/display/include/grph_object_ctrl_defs.h
-> index 813463ffe..cc4670316 100644
-> --- a/drivers/gpu/drm/amd/display/include/grph_object_ctrl_defs.h
-> +++ b/drivers/gpu/drm/amd/display/include/grph_object_ctrl_defs.h
-> @@ -424,7 +424,7 @@ struct integrated_info {
->  /*
->   * DFS-bypass flag
->   */
-> -/* Copy of SYS_INFO_GPUCAPS__ENABEL_DFS_BYPASS from atombios.h */
-> +/* Copy of SYS_INFO_GPUCAPS__ENABLE_DFS_BYPASS from atombios.h */
->  enum {
->         DFS_BYPASS_ENABLE =3D 0x10
->  };
-> diff --git a/drivers/gpu/drm/amd/include/atombios.h b/drivers/gpu/drm/amd=
-/include/atombios.h
-> index b78360a71..a99923b4e 100644
-> --- a/drivers/gpu/drm/amd/include/atombios.h
-> +++ b/drivers/gpu/drm/amd/include/atombios.h
-> @@ -6017,7 +6017,7 @@ typedef struct _ATOM_INTEGRATED_SYSTEM_INFO_V1_7
+> diff --git a/drivers/gpu/drm/radeon/atombios.h b/drivers/gpu/drm/radeon/a=
+tombios.h
+> index 2db407892..b961096a4 100644
+> --- a/drivers/gpu/drm/radeon/atombios.h
+> +++ b/drivers/gpu/drm/radeon/atombios.h
+> @@ -5072,7 +5072,7 @@ typedef struct _ATOM_INTEGRATED_SYSTEM_INFO_V1_7
 >  #define SYS_INFO_GPUCAPS__TMDSHDMI_COHERENT_SINGLEPLL_MODE              =
   0x01
 >  #define SYS_INFO_GPUCAPS__DP_SINGLEPLL_MODE                             =
@@ -124,48 +106,17 @@ b/drivers/gpu/drm/amd/display/include/grph_object_ctrl_defs.h
   0x10
 > +#define SYS_INFO_GPUCAPS__ENABLE_DFS_BYPASS                             =
   0x10
->  //ulGPUCapInfo[16]=3D1 indicate SMC firmware is able to support GNB fast=
- resume function, so that driver can call SMC to program most of GNB regist=
-er during resuming, from ML
->  #define SYS_INFO_GPUCAPS__GNB_FAST_RESUME_CAPABLE                       =
-  0x00010000
 >
-> @@ -6460,7 +6460,7 @@ typedef struct _ATOM_INTEGRATED_SYSTEM_INFO_V1_9
->
->  // ulGPUCapInfo
->  #define SYS_INFO_V1_9_GPUCAPSINFO_DISABLE_AUX_MODE_DETECT               =
-          0x08
-> -#define SYS_INFO_V1_9_GPUCAPSINFO_ENABEL_DFS_BYPASS                     =
-          0x10
-> +#define SYS_INFO_V1_9_GPUCAPSINFO_ENABLE_DFS_BYPASS                     =
-          0x10
->  //ulGPUCapInfo[16]=3D1 indicate SMC firmware is able to support GNB fast=
- resume function, so that driver can call SMC to program most of GNB regist=
-er during resuming, from ML
->  #define SYS_INFO_V1_9_GPUCAPSINFO_GNB_FAST_RESUME_CAPABLE               =
-          0x00010000
->  //ulGPUCapInfo[18]=3D1 indicate the IOMMU is not available
-> diff --git a/drivers/gpu/drm/amd/include/atomfirmware.h b/drivers/gpu/drm=
-/amd/include/atomfirmware.h
-> index 0160d65f3..52eb3a474 100644
-> --- a/drivers/gpu/drm/amd/include/atomfirmware.h
-> +++ b/drivers/gpu/drm/amd/include/atomfirmware.h
-> @@ -1713,7 +1713,7 @@ enum atom_system_vbiosmisc_def{
->
->  // gpucapinfo
->  enum atom_system_gpucapinf_def{
-> -  SYS_INFO_GPUCAPS__ENABEL_DFS_BYPASS  =3D 0x10,
-> +  SYS_INFO_GPUCAPS__ENABLE_DFS_BYPASS  =3D 0x10,
->  };
->
->  //dpphy_override
-> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c b/drivers/gpu/drm=
-/amd/pm/legacy-dpm/kv_dpm.c
-> index 59fae668d..34e71727b 100644
-> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
-> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
-> @@ -2594,7 +2594,7 @@ static int kv_parse_sys_info_table(struct amdgpu_de=
-vice *adev)
+>  /***********************************************************************=
+***********************************************
+>    ATOM_INTEGRATED_SYSTEM_INFO_V1_7 Description
+> diff --git a/drivers/gpu/drm/radeon/kv_dpm.c b/drivers/gpu/drm/radeon/kv_=
+dpm.c
+> index 55dbf450b..4aa050385 100644
+> --- a/drivers/gpu/drm/radeon/kv_dpm.c
+> +++ b/drivers/gpu/drm/radeon/kv_dpm.c
+> @@ -2329,7 +2329,7 @@ static int kv_parse_sys_info_table(struct radeon_de=
+vice *rdev)
 >                                 le32_to_cpu(igp_info->info_8.ulNbpStateNC=
 lkFreq[i]);
 >                 }
@@ -174,22 +125,7 @@ lkFreq[i]);
 > +                   SYS_INFO_GPUCAPS__ENABLE_DFS_BYPASS)
 >                         pi->caps_enable_dfs_bypass =3D true;
 >
->                 sumo_construct_sclk_voltage_mapping_table(adev,
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c b/driver=
-s/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c
-> index 9d3b33446..9b20076e2 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c
-> @@ -394,7 +394,7 @@ static int smu8_get_system_info_data(struct pp_hwmgr =
-*hwmgr)
->         }
->
->         if (le32_to_cpu(info->ulGPUCapInfo) &
-> -               SYS_INFO_GPUCAPS__ENABEL_DFS_BYPASS) {
-> +               SYS_INFO_GPUCAPS__ENABLE_DFS_BYPASS) {
->                 phm_cap_set(hwmgr->platform_descriptor.platformCaps,
->                                     PHM_PlatformCaps_EnableDFSBypass);
->         }
+>                 sumo_construct_sclk_voltage_mapping_table(rdev,
 > --
 > 2.39.5
 >
