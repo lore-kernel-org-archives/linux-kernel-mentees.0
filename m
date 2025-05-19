@@ -1,161 +1,98 @@
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492002AD0D
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 May 2025 01:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFEC26D4FB
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 May 2025 08:39:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747619387; cv=none; b=iOLAXQml9/VsLXM+DXHQUs1JY+c3a+Pkn4Z+RR80wA6JCAyeSVgmubYOjSjtMsvK+RXOD41SAwQsY9aDdAALI1fETQ+WudqMAV4EltKqvyLvnOKSPGoLPPShKh0ukc6aSD02D9hAxMn1Met50YTcxcG7sfHkTWNEln+56iFycIQ=
+	t=1747643977; cv=none; b=hk4dnwHPo9IwSNsf5vcYacvTRakkMiOiKKzQbfQZcR5fV0qi66biIaErYaicLA5FzafL5XmjBdPmsHhKHCVfc+73M4rDCM3xBK6oUI4eREwvjCn0zjTfX54lCzzdfq9pMBR32NikjUksbyYTFkkCl0VaooWB+ar8jURdDRHlXKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747619387; c=relaxed/simple;
-	bh=/U6TKh2oMVkO/7Qth2zCrD0HNDB8iMs7E20SuYJycwc=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=nA3g5dKzb3GyuWQ8L5FRsP26iYhPPbkmXGA1bFSoHfOsgbz//KG1dYlKygFs4x/4e6IhvqyZ9Hr4xCBmAAtaTvfdIvpXyAFG+J4h9yhAudTAbpglbv0T1F8mUHM0XBJ6m8RFd68tWHMOAbZAF5hGNmBU1v7Fh8/6IZT7cgdgRds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=hv7IaCV9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Vr7d/1G8; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	s=arc-20240116; t=1747643977; c=relaxed/simple;
+	bh=gkL4c0N8EQCQ/TM+Xgmyl4Xxmq9xWn4IgHVEm5KSkQc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C1IVt3yxXnzBdFetWhJBpH/cUibXKpm0VQmDzTrG61+5h5HoPIpekYVw78g9bFmA649cxngaGy8tVx/fvCVkay3PmGEOrRDRqL0KffUn4nv/oQp9eF5m2l5bqQKPcaQ5+tq8TXO9Z+owYCIe+DbymI7cMEWefOdnQt3LqcNWeeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=blES142H; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="hv7IaCV9";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Vr7d/1G8"
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 9502125400A7;
-	Sun, 18 May 2025 21:49:43 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-12.internal (MEProxy); Sun, 18 May 2025 21:49:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1747619383;
-	 x=1747705783; bh=x31b95ul4uGCCE3g8B0frdXiCbArzUhwN/geGWE//n8=; b=
-	hv7IaCV9uheXABFsVG1xvJmLtOos9fpWYsNPE/Rxu2LQrdpJFYjwBKH3G2sPOWPn
-	c9gLvV8LRbMyFNewEKdef0zIPmyAh5BtHXg2ZA03sThwkUBa7AnkBV6r8jzyScMF
-	jlLZ0zQguZX3v17LbAyGcvNIsHQVlxzlbGYSjegOFEqOdqRI3zT3Lw9/knHTG26o
-	v8jdcDSdCEGb+kPYhrKFPmnLv1FdbOgcJAmyF8n4+sw8T0YrwsVBwEFQ71sl+TU2
-	/0zmTFlO0zE2OL1MU/IGdthdjC25gk1UvBjv3y7bBefAMEl5rMo2kGAelr0WNzFp
-	UyBvFoSPsyY2NyCSOZmIgQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747619383; x=
-	1747705783; bh=x31b95ul4uGCCE3g8B0frdXiCbArzUhwN/geGWE//n8=; b=V
-	r7d/1G8Mb2Fz4Zyobi5H1BfUEWxMl0475AgHTEWRuDgprEPzeFtRwskDzmWCPuXi
-	CVjQTXMOgV0/UeJHQkFPAIm/gnomsax2o3C17oz9G1q79mETO9K2FNvUWjVZ2lgd
-	DlR3p5zFwsOU0fjCUfin9HsdiwijM6xfSxh8tPa3FWLDBln/z5L/ktaPrXmIxW69
-	L9Ny2NoLvj7YWNPuNa3+uHfQtFkl2d2qctsbzThZgifT/bZ0nwOzy+e4WlK/ns7S
-	3icjCRGsA6RUKFbqszQvw5jCmkB3hx4/bvgDgx+8/EtP8ekYd7I97VTe8XbrFaga
-	9zvKY3Y4HGRe+CTvRXRWA==
-X-ME-Sender: <xms:No4qaFwROeGqAR2INU1cTc7HVSl04B7PV4ujQoIOJYuXZqktMXO3Gg>
-    <xme:No4qaFQoqzuxjNsKi65ZsR8xJnTJXIwZXM3vwXKMWoCeAvJuk04P-ctUeSfwdLEdV
-    1hary345R2V1fMbGGA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefvddtudduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertder
-    tdejnecuhfhrohhmpedfofgrrhhkucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlh
-    gvnhhovhhosehsqhhuvggssgdrtggrqeenucggtffrrghtthgvrhhnpefhveekjeeuueek
-    fefhleeljeehuedugfetffdvteekffejudelffdvjeekfeehvdenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhho
-    vhhosehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopeduiedpmhhouggvpehsmhhtph
-    houhhtpdhrtghpthhtohepmhgrrhhiohdrlhhimhhonhgtihgvlhhlohesrghmugdrtgho
-    mhdprhgtphhtthhopehrihgsrghluggrsegthhhrohhmihhumhdrohhrghdprhgtphhtth
-    hopehhlhhjuhhnghhgrhestghishgtohdrtghomhdprhgtphhtthhopehhrghnnhgvlhho
-    thhtrgesghhmrghilhdrtghomhdprhgtphhtthhopeifpggrrhhmihhnsehgmhigrdguvg
-    dprhgtphhtthhopehjohhnrghthhgrnhdrtggrmhgvrhhonheshhhurgifvghirdgtohhm
-    pdhrtghpthhtohepuggrvhgvrdhjihgrnhhgsehinhhtvghlrdgtohhmpdhrtghpthhtoh
-    epmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepihhlphhordhjrghr
-    vhhinhgvnheslhhinhhugidrihhnthgvlhdrtghomh
-X-ME-Proxy: <xmx:No4qaPX76yrs1wR-5hJOreJZVYwk4ChWrV7Wer98ih10bNKOcGulhQ>
-    <xmx:No4qaHjRl0umFrMO2hJNhGWSAB2uC50MHxLniswwBR_dTKZWj9Wigw>
-    <xmx:No4qaHDEufzhg85HSnD4eUr2_mMPPV3Y3cGebRG-x5QWSESlEQ5xzw>
-    <xmx:No4qaALguzlaefbioP9mo6dA9UQ0MW688Os1KQegoyI7KC3v_ANriQ>
-    <xmx:N44qaBqj2yXWHWPk_xyXkNVkprQwtFoUPcgWJfMj8Tn7DUPYFxfONs-j>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 62AF82CE005C; Sun, 18 May 2025 21:49:42 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="blES142H"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-742af84818cso1926743b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 May 2025 01:39:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747643975; x=1748248775; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kENFOvYuWcx0UUtOBeD2O9KLGAkfolJVCKtEv6YXZCE=;
+        b=blES142Ht5onpFE/4025XpUnohoOFpgSzNqitbV7MhzEtCaG8twIJVDG7TeG4jXLkO
+         xLc/kgwJYXZGpCrudmf7om7aZprjA2ZiysStzKdxK2W7V6zTc+X5qRsZlgQh48boEc76
+         ZapHrZIXK5GgaCSdT0S7j7f1h6Z+M9FZD7ARVMINUya+fCQuHR0ELJkaxb7471l/opYG
+         fln2xkN+rUArKTj4ExofU7hIMIEyqVP9DCOArUePgAs4HVLfqLvMrQNY6yVf5wAWewoG
+         ORH8fRFbOibWAw9xJvn6yeL32Fbi5cqa9FncB0Hm810/ne6fTnNTcnF7bfiAGRuoj5ky
+         5HGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747643975; x=1748248775;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kENFOvYuWcx0UUtOBeD2O9KLGAkfolJVCKtEv6YXZCE=;
+        b=kqleswTeRE4fULPzF9sc1trYXGI9h6G8TZKOQ3y5EGAuamR1GZBYPWZ+qvaqpvCEkM
+         b5fv5YPqfPvF/VaI82ix38IPGI7bjSXKZn7A4EW7BM08zOU15eqUyOxLii/oD69hWs7T
+         +NKKFz2Mn7AOonOFD84kazQAi9SJp2BljVvv12L3gQTYOgUesEqKnwiMfgrR4VT6xPxz
+         TAJ5PLvKtpfDMYOL1dtAUY6/j2z4qyPqw4CfJAZbNzxzb42YNim85q5F2c/n8g/wnNXZ
+         HcvHbRSczwSotSAJ/0vz5MDCz4KhnLcIMho54/wG/48miOxqDuPXJCwM/LA90cHv1jht
+         S0Sw==
+X-Forwarded-Encrypted: i=1; AJvYcCWQbO7UJM8/noTTa5QhuWSUxQkY4Ik2XqGEZQwIaUARhp852wLeuVOeKIuxe4+an0qA60K3lmN5y0aX0s4IwUTHpDXdiQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyS/Ed7uFZgEK0x8DklRaN9jPawIN1ZcoNj9S9pFAcwUB7ZrKMU
+	0Zx6nRau4tCyJewC7nnDohzfKz28pjOG/oUz0Lg0Imi+GlLVEAwBTUdxrUCCE3XUT2U=
+X-Gm-Gg: ASbGncuKAkpYklHrRdJdG1QmskYKrkWJ/QP7Xdxq+cGNE6cNqexyhiub0mqz2UMEiKx
+	zADkIAR66DDWdaAgxtTcVNlqKGXUs9EhokQWjN5fgX32jWj3CxuHgktaBlJsr9Fyl5E0GqhM5vI
+	WX7hF/cdoc3664Bvh1itZLVN5aOTg1gQ0/6QDpof7J7lF+gQbmG47bLe3SThW6RmbWvjJ48rVQ/
+	CEKrESgJAa//CTbffbV9ZDnz9Mq1J8gHMqQZg8SuDv1J56wAVvTa5OfNIP8+VVQAqCh7er8X0Th
+	g1y/CDcq7DvfrV9mXxH01iRclbM35Rp54EfVBPsYmx1+ER6bvDj8i8roobHjDv40ztZT1g==
+X-Google-Smtp-Source: AGHT+IHnMFyK4wPedXmqlwx7Uy3jvXCrtJ1LuMTdzsfxvdbOvP3q5VhbVHgZkkiVl/c3T1W5ka8SXA==
+X-Received: by 2002:a05:6a21:3511:b0:1f5:9961:c44 with SMTP id adf61e73a8af0-21621882725mr20142425637.3.1747643974720;
+        Mon, 19 May 2025 01:39:34 -0700 (PDT)
+Received: from localhost.localdomain ([45.252.73.168])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b26eb084428sm5705950a12.57.2025.05.19.01.39.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 May 2025 01:39:34 -0700 (PDT)
+From: Anish Dabhane <anishdabhane71@gmail.com>
+To: skhan@linuxfoundation.org
+Cc: Anish Dabhane <anishdabhane71@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH] selftests: cachestat: fix typo in error message
+Date: Mon, 19 May 2025 14:08:38 +0530
+Message-ID: <20250519083840.57099-1-anishdabhane71@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: T65863607ee30c55f
-Date: Sun, 18 May 2025 21:49:22 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: =?UTF-8?Q?Hanne-Lotta_M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>,
- mchehab@kernel.org, ribalda@chromium.org, hverkuil@xs4all.nl,
- hljunggr@cisco.com, dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
- Jonathan.Cameron@huawei.com, "Jonathan Corbet" <corbet@lwn.net>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Limonciello, Mario" <mario.limonciello@amd.com>,
- "Armin Wolf" <W_Armin@gmx.de>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-Message-Id: <288253c0-c194-47e0-be54-f17dc1695a1a@app.fastmail.com>
-In-Reply-To: <20250517132711.117618-4-hannelotta@gmail.com>
-References: <20250517132711.117618-1-hannelotta@gmail.com>
- <20250517132711.117618-4-hannelotta@gmail.com>
-Subject: Re: [PATCH 4/4] docs: Fix typos, improve grammar in Userspace API
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi
+Fixes a grammatical error in the output where the word 'to' was missing.
 
-On Sat, May 17, 2025, at 9:27 AM, Hanne-Lotta M=C3=A4enp=C3=A4=C3=A4 wro=
-te:
-> Fix a typo and improve wording and punctuation in
-> the documentation for Userspace API.
->
-> Signed-off-by: Hanne-Lotta M=C3=A4enp=C3=A4=C3=A4 <hannelotta@gmail.co=
-m>
-> ---
->  Documentation/userspace-api/sysfs-platform_profile.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/userspace-api/sysfs-platform_profile.rst=20
-> b/Documentation/userspace-api/sysfs-platform_profile.rst
-> index 7f013356118a..6613e188242a 100644
-> --- a/Documentation/userspace-api/sysfs-platform_profile.rst
-> +++ b/Documentation/userspace-api/sysfs-platform_profile.rst
-> @@ -18,9 +18,9 @@ API for selecting the platform profile of these=20
-> automatic mechanisms.
->  Note that this API is only for selecting the platform profile, it is
->  NOT a goal of this API to allow monitoring the resulting performance
->  characteristics. Monitoring performance is best done with device/vend=
-or
-> -specific tools such as e.g. turbostat.
-> +specific tools, e.g. turbostat.
->=20
-> -Specifically when selecting a high performance profile the actual ach=
-ieved
-> +Specifically, when selecting a high performance profile the actual ac=
-hieved
->  performance may be limited by various factors such as: the heat gener=
-ated
->  by other components, room temperature, free air flow at the bottom of=
- a
->  laptop, etc. It is explicitly NOT a goal of this API to let userspace=
- know
-> @@ -44,7 +44,7 @@ added. Drivers which wish to introduce new profile n=
-ames must:
->  "Custom" profile support
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  The platform_profile class also supports profiles advertising a "cust=
-om"
-> -profile. This is intended to be set by drivers when the setttings in =
-the
-> +profile. This is intended to be set by drivers when the settings in t=
-he
->  driver have been modified in a way that a standard profile doesn't re=
-present
->  the current state.
->=20
-> --=20
-> 2.39.5
+Signed-off-by: Anish Dabhane <anishdabhane71@gmail.com>
+---
+ tools/testing/selftests/cachestat/test_cachestat.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Looks good. Thanks.
-Mark
+diff --git a/tools/testing/selftests/cachestat/test_cachestat.c b/tools/testing/selftests/cachestat/test_cachestat.c
+index 632ab44737ec..1406bc9f2b87 100644
+--- a/tools/testing/selftests/cachestat/test_cachestat.c
++++ b/tools/testing/selftests/cachestat/test_cachestat.c
+@@ -76,7 +76,7 @@ bool write_exactly(int fd, size_t filesize)
+ 		ssize_t write_len = write(fd, cursor, remained);
+ 
+ 		if (write_len <= 0) {
+-			ksft_print_msg("Unable write random data to file.\n");
++			ksft_print_msg("Unable to write random data to file.\n");
+ 			ret = false;
+ 			goto out_free_data;
+ 		}
+-- 
+2.49.0
 
-Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
