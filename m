@@ -1,339 +1,92 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85A12749F7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 May 2025 11:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364B32750F8
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 May 2025 11:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747653041; cv=none; b=XitMLl+Kf2rtr8v4+vrDm9NiKv9JHEqyGcLUhzZ7R6btGGYUfBExfwlwNVdOAByixmvkPHLL4I12f0CBSf+ktFiz+enS+7l4eCOibC9r2CDQ/Ec2cSsnqLAbGGwJsw3cmlofR8ldFL2c/BLzJVMi7aU6EWykt9lONfzjUwP3j2M=
+	t=1747654513; cv=none; b=p1yiMiM3O2LGgF+8/+zYTsJVW7HTEfq55ZyGrfXJNOs/D8HqcoN853lzIPlyeiE+cWN64YRNXiXPw4ElaN1HWpd8bruNC1gRwgMqVdFJmNnKdV0bQR8CfjmlQSOBjeCpsm2TYymPATikiY4NRzOVuJsdrHPIF1bEORgKnpBfnvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747653041; c=relaxed/simple;
-	bh=f6MDDTBj2O+7Vj+9fhsQRjFq+H7LntSJDTAFSANrup8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=H3sRx48/DXWpHTcf26l+/v7Ndz/GN0PbG7f+0/hVhI26BdhrUS8dgn7gdUVtpS0kx7MrOv+dA4Hxz6ij0rIxUuwZeCC5Hb2lOOddRVzRXS86875exQFmAq7p/B5SGP746ZCTk2KGvOML5zgUWZAwiyComAX/qSd0hKAPP8SqwCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zh/IjoM+; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1747654513; c=relaxed/simple;
+	bh=eu9rWVlznA/C2vswdguAQyQ/0svrmPWXDeC+Fw0kykQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=M5gwFIcSNN1RUoRaZ3EvAnS/eoJHz4axqk8qFVeGq1PxxCzyS64heOQWSKQjWIZ/pj/q3/JmPWuDV3IKFyddgIMmoouBqPxYkOmoE2Tn/0npPL/2YWbdJm+o0yy7S4aCtbyO0+XBeQFnIQYbjAPEUjYUjdW6ZLjbq2SHm2mNSgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Hx8wKJma; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zh/IjoM+"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 1E9894102F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 May 2025 11:10:39 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id bf8ttE-P48vI for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 19 May 2025 11:10:38 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org B7E2441005
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B7E2441005
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Zh/IjoM+
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id B7E2441005
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 May 2025 11:10:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 2575FA4CB0F;
-	Mon, 19 May 2025 11:10:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31DDCC4CEE4;
-	Mon, 19 May 2025 11:10:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747653035;
-	bh=f6MDDTBj2O+7Vj+9fhsQRjFq+H7LntSJDTAFSANrup8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Zh/IjoM+lxmnImbRUjjrtg4ATF112x8m6luTgdwb5ADBX5B9IZKzWFKsuK+NTiE5B
-	 A1MdKG+2Exqi3RR+57+PtycDznX+jwpPUGKQKCbj1lxYi1jVtgVhNUhEwXwY2IUXxj
-	 p2U4kTB6bhfd77jVIHrdNvwtfcx7iGQezIqLwgbsgExLq5XWbnUFPALwvjO9jWe3aP
-	 u72x1rQwUwbbCw3KuVEAM3MbWEnKdqFeVQEbNS5PrmlsGHi+Bp4h2Gpho++FreUyrp
-	 kgOl4HVx3hfCZ7FBdvV/ukzSxNH+NBeEk3iNTrkcoS7WEyj9U9n2lK3+h0K8tH03D+
-	 DUgttsD2uRIew==
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Hx8wKJma"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 481F141086
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1747654511; bh=rC43ctk3JgjFsdCSePqHwMZ8viwNN7FFEhe7VqOcA+E=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Hx8wKJmafxprU76vsy0oROS8sec/4ZvLev9ld8LX27lokXPk0+d20kHJflIaWWVaX
+	 Tv0K321QQczUN9alXNDBi9i+8jcYEdtry5GFslr6CBiqiuhF40DRaaHT4GSU6B+lC+
+	 LnwiGUYyXIYzEEoVOmyPWjWpOF3tDf4juGxZyyJzgkHC8jA9fEUB0+t28jMVwypXTG
+	 NzQEIGHFKQqQKSkk2uPdAMmb4XgajdngrlF1IWifmxiBQ5RrHgvIZ8IujbzZYF+8qT
+	 yV301vax8+wlR4PsTzqbyIJqnFaS0g23o/SxE/QuXryd8E8TEQ5xS3X5fBQd1dhWWw
+	 MQWEnY2PyQwKw==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 481F141086;
+	Mon, 19 May 2025 11:35:09 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Anish Dabhane <anishdabhane71@gmail.com>, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev
+Cc: Anish Dabhane <anishdabhane71@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Fix spelling error for 'parallel'
+In-Reply-To: <20250518140107.21310-1-anishdabhane71@gmail.com>
+References: <20250518140107.21310-1-anishdabhane71@gmail.com>
+Date: Mon, 19 May 2025 05:35:06 -0600
+Message-ID: <87sel0kf4l.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 19 May 2025 13:10:32 +0200
-Message-Id: <DA03ANJMDOU2.1ZQWA6MIENVKD@kernel.org>
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Danilo Krummrich" <dakr@kernel.org>
-Cc: "Marcelo Moreira" <marcelomoreira1905@gmail.com>,
- <benno.lossin@proton.me>, <ojeda@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-Subject: Re: [PATCH v2] rust: doc: Clarify safety invariants for Revocable
- type
-X-Mailer: aerc 0.20.1
-References: <20250503145307.68063-1-marcelomoreira1905@gmail.com>
- <D9RJQYNTIOK1.3HI7NDDWPK6IM@kernel.org> <aChczAWsPdmdeen3@pollux>
- <D9YO7XDNV712.3A5HSSLUQIZ2W@kernel.org> <aCrwuQP46RFHxYB5@pollux>
- <DA00X0RTYKMA.2OG25TZ1X3AU@kernel.org> <aCsAEJtkCKKhspnF@pollux>
-In-Reply-To: <aCsAEJtkCKKhspnF@pollux>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Mon May 19, 2025 at 11:55 AM CEST, Danilo Krummrich wrote:
-> On Mon, May 19, 2025 at 11:18:42AM +0200, Benno Lossin wrote:
->> On Mon May 19, 2025 at 10:50 AM CEST, Danilo Krummrich wrote:
->> > On Sat, May 17, 2025 at 09:09:02PM +0200, Benno Lossin wrote:
->> >> On Sat May 17, 2025 at 11:54 AM CEST, Danilo Krummrich wrote:
->> >> > On Fri, May 09, 2025 at 12:10:08PM +0200, Benno Lossin wrote:
->> >> >> On Sat May 3, 2025 at 4:53 PM CEST, Marcelo Moreira wrote:
->> >> >> >  /// # Invariants
->> >> >> >  ///
->> >> >> > -/// - The wrapped object `data` is valid if and only if `is_ava=
-ilable` is `true`.
->> >> >> > -/// - Access to `data` must occur only while holding the RCU re=
-ad-side lock (e.g., via
->> >> >> > -///   [`Revocable::try_access`] or [`Revocable::try_access_with=
-_guard`]).
->> >> >> > -/// - Once `is_available` is set to `false`, further access to =
-`data` is disallowed,
->> >> >> > -///   and the object is dropped either after an RCU grace perio=
-d (in [`revoke`]),
->> >> >> > -///   or immediately (in [`revoke_nosync`]).
->> >> >> > +/// - `data` is valid if and only if `is_available` is true.
->> >> >> > +/// - Access to `data` requires holding the RCU read-side lock.
->> >> >>=20
->> >> >> I'm not sure what the correct wording here should be. The current
->> >> >> wording makes the `revoke_internal` function illegal, as it doesn'=
-t hold
->> >> >> the read-side lock, but still accesses `data`.
->> >> >>=20
->> >> >> Maybe @Danilo can help here, but as I understand it, the value in =
-`data`
->> >> >> is valid for as long as the rcu read-side lock is held *and* if
->> >> >> `is_available` was true at some point while holding the lock.
->> >> >
->> >> > IMHO, the RCU read lock is *not* a requirement, it's (for some meth=
-ods) the
->> >> > justification for how it is ensured that the `is_available` atomic =
-cannot be
->> >> > altered during the usage of `data`. So, it shouldn't be part of the=
- type
->> >> > invariants.
->> >>=20
->> >> But the `is_available` atomic *can* be altered during the usage of
->> >> `data`. And in that case it isn't clear to me how you still allow usa=
-ge
->> >> without relying on rcu.
->> >
->> > The only real rule is that the data is only valid as long as `is_avail=
-able` is
->> > true.
->> >
->> > Some functions - the safe ones, i.e. try_access(), try_access_with_gua=
-rd(),
->> > revoke() - ensure this by using RCU.
->> >
->> > Some other functions though - the unsafe ones, i.e. access() and revok=
-e_nosync()
->> > - leave it to the caller to ensure this, because sometimes the caller =
-(such as
->> > Devres) can give this gurarantee through other circumstances.
->> >
->> > So, the internal lock (RCU or any other kind of lock) isn't really par=
-t of the
->> > type invariant, it's just one tool to uphold the type invariant. Anoth=
-er such
->> > tool used by Revocable is `unsafe`, where we just require the caller t=
-o uphold
->> > this invariant.
->>=20
->> I get what you're trying to say, but the statement above about `data`
->> being valid while `is_available` is `true` is not correct.
+Anish Dabhane <anishdabhane71@gmail.com> writes:
+
+> Signed-off-by: Anish Dabhane <anishdabhane71@gmail.com>
+> ---
+>  Documentation/gpu/rfc/i915_scheduler.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Why not? Please show me a case where `is_available` is false, but I can s=
-till
-> technically access data (without violating a safety requirement).
+> diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/gpu/rfc/i915_scheduler.rst
+> index c237ebc024cd..2974525f0ac5 100644
+> --- a/Documentation/gpu/rfc/i915_scheduler.rst
+> +++ b/Documentation/gpu/rfc/i915_scheduler.rst
+> @@ -26,7 +26,7 @@ i915 with the DRM scheduler is:
+>  	  which configures a slot with N contexts
+>  	* After I915_CONTEXT_ENGINES_EXT_PARALLEL a user can submit N batches to
+>  	  a slot in a single execbuf IOCTL and the batches run on the GPU in
+> -	  paralllel
+> +	  parallel
+>  	* Initially only for GuC submission but execlists can be supported if
+>  	  needed
 
-    let r: Arc<Revocable<i32>> =3D ...;
-    let guard =3D r.try_access().unwrap(); // nobody else is holding a refe=
-rence, so this can't fail
+The patch itself is fine, but a couple of nits that are worth picking:
 
-    let r2 =3D r.clone();
+- Always use scripts/get_maintainer.pl to see who you should send a
+  patch to.  It should have told you to include the DRM maintainers on
+  this one, since they generally handle their own docs.
 
-    // I know we don't have threads, but I don't want to have to look up
-    // how to use the workqueue or something else...
-    thread::spawn(move || {
-        r2.revoke();
-    });
+- It is also a good idea to look at patches for the subsystem in
+  question and match their subject-line style.  In this case you would
+  see examples like:
 
-    for _ in 0..10_000_000 {
-        // do some non-sleeping work that takes a while
-    }
+> 0454a490bdeb drm/doc/rfc: i915 new parallel submission uAPI plan
+> f587623b78ff drm/doc/rfc: i915 GuC submission / DRM scheduler
 
-    // now the thread above has executed `self.is_available.swap(false, Ord=
-ering::Relaxed)`
-    // in `revoke_internal` and is waiting for the `synchronize_rcu` call t=
-o return.
-    // but we can still access `guard`:
+- Some maintainers will never accept patches with empty changelog text.
 
-    pr_info!("{}", &*guard);
+For a patch like this, none of these are enough to ask you to resend,
+but issues like that will get in your way for future work.
 
->> When using
->> RCU, you rely on the other functions like `revoke` to wait for the RCU
->> grace period to end. At the moment nothing prevents them from not doing
->> so, which means some safety documentation is wrong.
->
-> So, you're saying the problem is that with only the invariant above, revo=
-ke()
-> could be implemented without synchronize_rcu()?
+I've applied it, thanks for helping to make our documentation better.
 
-Indeed.
-
-> If so, why does not need to be covered by a type invariant? The implement=
-ation
-> uses a lock to uphold its type invariant, if it doesn't it simply is a bu=
-g, no?
-
-I don't follow this sentence. `try_access` is relying on RCU and thus
-anyone else accessing the value concurrently needs to respect that.
-
->> Currently `RevocableGuard` also mentions RCU in its type invariants, is
->> that correct?
->
-> Yes, we either access the data through the Guard (which is an RCU guard, =
-but
-> could also be any other lock guard) or with unsafe accessors directly.
->
->> >> > For instance, we also have the Revocalbe::access() [1], which is an=
- unsafe
->> >> > direct accessor for `data`. It has the following safety requirement=
-:
->> >> >
->> >> > 	 "The caller must ensure this [`Revocable`] instance hasn't been r=
-evoked
->> >> > 	 and won't be revoked as long as the returned `&T` lives."
->> >> >
->> >> > Which is equal to the caller must ensure that `is_available` is tru=
-e, and won't
->> >> > be altered to false as long as the returned reference lives.
->> >>=20
->> >> Sure. We could add that it remains valid while `is_available` is true=
-,
->> >> but when it changes, the data is still valid until the end of the rcu
->> >> grace period?
->> >
->> > Well, yes. But that would be true for every other lock as well. Let's =
-say we'd
->> > protect is_available with a mutex, the data would still be guaranteed =
-to be
->> > valid until the mutex is released. But for the reasons given above I d=
-on't think
->> > the "protection method" is part of the invariant, so we should just sa=
-y:
->> > "remains valid at least as long as `is_available` is true".
->>=20
->> No, in the mutex case, the `revoke` function could be implemented like
->> this:
->>    =20
->>     struct Revocable<T> {
->>         data: Mutex<Option<T>>,
->>     }
->>=20
->>     fn revoke(&self) {
->>         self.mutex.lock().take();
->>     }
->>=20
->> Now, anyone accessing first has to check if the value still exists and
->> while eg `try_access` is holding a `MutexGuard`, the data won't ever be
->> revoked.
->>=20
->> Now this is not a feasible implementation due to its performance &
->> access pattern, but we could use the same design if we were to use a
->> standard read-write lock (which would probably still be worse than RCU).
->>=20
->> But since `try_access` is using `RCU` under the hood, anyone revoking
->> **needs** to wait for the grace period to end after setting
->> `is_available` to false. That's just how life is and so we need to
->> document that in a type invariant (otherwise how is `try_access` going
->> to know that what it does is correct?). So if you want `try_access` to
->> be safe, the functions that don't respect the grace period need to
->> mention RCU or somehow prevent users from accessing `try_access`.
->> `revoke_nosync` at the moment does this with the safety requirement
->> "Callers need to ensure that there are no more concurrent users of the
->> revocable object." which is pretty vague to me.
->>=20
->> I'd probably be able to help more with the safety comments if you can
->> give me the different use-cases of this function, at the moment nothing
->> calls that function.
->
-> While we were talking past each other a bit with this,
-
-Yeah I thought that as well. But I feel like we're getting closer to
-mutual understanding :)
-
-> I guess I get your point
-> now, i.e. with a Mutex for instance, revoke() couldn't get it wrong, sinc=
-e
-> there is no way to "bypass" the mutex, but with RCU, there is a away to b=
-ypass
-> the lock by just not calling synchronize_rcu().
-
-Exactly.
-
-This difficulty makes a lot of sense, since we don't have a proper RCU
-primitive yet (which has several reasons, one of them being that RCU
-just has so many different applications). I guess `Revocable` is one
-such use-case for RCU (but also should support circumventing it when
-otherwise deemed correct).
-
-> So, you want a type invariant that guarantees the call to synchronize_rcu=
-() to
-> justify the try_access() variants, correct?
-
-I want a type invariant that allows `try_access` to give a valid pointer
-to a valid `T` to the guard. (By the way, why doesn't the guard store a
-`&T` instead of a raw pointer?)
-
-> However, this invariant does not need to be fulfilled for access() and
-
-Where is `access()` defined?
-
-> revoke_nosync(), because it would circumvent their purpose, i.e. cases wh=
-ere an
-> abstraction can prove that there can't be a concurrent user of the data o=
-r a
-> concurrent user revoking the data respectively.
-
-Yes. How about something like "`data` is valid while `is_available` is
-true. It also is valid if the RCU read-side lock is being held and it
-was taken while `is_available` was true."?
-
-That should also cover the "nobody else is accessing this" case.
-
-> An example of revoke_nosync() is the original Devres implementation [1].
-> However, this was re-worked with [2] to use a different logic that doesn'=
-t need
-> revoke_nosync() anymore.
->
-> Actually, "doesn't need revoke_nosync()" isn't exactly true. We would sti=
-ll
-> benefit from revoke_nosync(), but the implementation in [2] triggers the =
-devres
-> C callback from drop() and the devres C callback calls revoke().
->
-> If we'd had a way to know that the devres C callback has been triggered d=
-ue
-> drop(), we could use revoke_nosync() in this case as an optimization.
-
-Yeah that sounds like a plausible option. Given that, I think the
-following kind of function could be useful on `Revocable`: a safe
-`revoke_` function that takes `&mut self` and thus doesn't need to use
-RCU (since we have a unique mutable reference, only we have access).
-
-Do you have any other uses of `revoke_nosync` that do not have
-(potential) access to `&mut Revocable`?
-
----
-Cheers,
-Benno
-
->
-> [1] commit 76c01ded724b ("rust: add devres abstraction")
-> [2] commit 8ff656643d30 ("rust: devres: remove action in `Devres::drop`")
-
+jon
