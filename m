@@ -1,156 +1,138 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60A1243364
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 May 2025 12:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD64136327
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 May 2025 13:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747657573; cv=none; b=U+A+TRdM23/yeoJ8ayp8Rtl6NSr9y+2YubUXCcklg90ExovfsBjmGP+mFox8K27x0Au474esVpWT0U8j9SfHtV9Oct5eCe44EDIvbXqtgEcfWuMIAZDTqx2lsMOvZi5OD/WwgM+/bfq5YEQyNrCZGfgosgZfqnLop2qdwwR7x04=
+	t=1747659681; cv=none; b=E+nT0bhUgH5Y4aopDiBo77Q1U0tHOdtNdOCQPJlsYwTYNip3FOxwZ9/dIRZ2uvgaGTwTqSpJUZ3+2UAJPReKHx7sUSxA55Edtd47+TjzTQDof3gKLJnHRAG+aDRVFqY05+zUn8Y8DJAAXTSC5+VdLBClzlcl42J3XnDH+1naNsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747657573; c=relaxed/simple;
-	bh=IDm1lnmH8i5Jc0QN2R5yydX3w8LDzL7R8VSGykatnf8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=cgbSC7+YmO4Rdefj64vlfohPxAq9AQiLXK3lkWIW9Oyp0eCE7RA4Qf4Bi11EKv75MLczwGSz9xHIekjdQ9/jSOt4Y+i/mKXityjGCsi5I1bj35TQFP5s2iaw11OIouoEg423z9Z6R9mxjT/9YR2oWc9Hl3lqZp5W988GsHp9jSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kkh2beBp; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1747659681; c=relaxed/simple;
+	bh=XRtUzkmQDtQPNwDSMftAU2nE6DaqnPjL7qIzpbDhBas=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ZRyK5oJ3NTgcmAsABTR2i11vuv4npqd3rfASueCqpNYneBpbLO9Iz1clT5NsGcTF3NYJ9yW7glyieK/3ehN8j8BYvMXSaAteN/iUNbTdYe2Q3BwijWRj58X/0EL0MBIHuyx48/7IGFQqJ54cbquwsYIRxP1m76ntZC9zkA5xYYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eoq5UkQm; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kkh2beBp"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 43CC8410DE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 May 2025 12:26:11 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -10.792
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id QbOthuz026oh for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 19 May 2025 12:26:10 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org ED9294108D
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org ED9294108D
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Kkh2beBp
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id ED9294108D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 May 2025 12:26:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 912645C059C;
-	Mon, 19 May 2025 12:23:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9960C4CEE4;
-	Mon, 19 May 2025 12:26:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747657568;
-	bh=IDm1lnmH8i5Jc0QN2R5yydX3w8LDzL7R8VSGykatnf8=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=Kkh2beBpeRsbGlCBVl8e0CULPkNejvQJ4zJKUYGzUejxFwtsFkLHFkidcguhV/2TP
-	 ZLP1qFSw7xP9TheeusRNFJpeVDpYPaab0+0k6fQqxV9R6Itm2+buupGUTzjm0AVRfo
-	 PRTw5b3EtnkQH1+BCGit9iwe0WK79FUMQmjOAuaeDZaG0H3h2zGVU/xsgNweeQ73v/
-	 n6hHpK3sGEmELblGyxn8uU3mSFK2Z0b7DlETQjZSnVoQL3AlrdxZcTOqxHh9cIZwbw
-	 Wft67JZugUPPSGhIcfrJAzrgvgqC1jtK16SWicBcYnjeL+O03YLw3l5tLGuTHWeB6+
-	 B07l/91pwH77g==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eoq5UkQm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747659680; x=1779195680;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version:content-id;
+  bh=XRtUzkmQDtQPNwDSMftAU2nE6DaqnPjL7qIzpbDhBas=;
+  b=eoq5UkQmS/RqpPChxTQZVHRLyZNsToG+u1Y63l4oO0UOvSyoILxKGux0
+   q9TQH5akMhrzUgdTr+XrwPnjMqZPWkNsMFwXHI9i2bQH580gqupTbghTJ
+   P88+shVo8GNkpcYFoa8Q33LwL45kSZyqunpf3eu8Xa2lkFsE4XWl0OhRm
+   cku7DdCB987gmTtunHdiwV7fRYyclrcY0oKCD08OwCeBwswJTK6Ib7iJH
+   vM6auFhsjmUSXPHyb3rTRETI4ZK/GTiBqZ82Fem+o1X9CXprhBGwH6d41
+   o8w2k7dhqZA7uqp3XdWMnQsedncvAeVRvRmOEoFDQFksCkZrdiCG4KE/7
+   w==;
+X-CSE-ConnectionGUID: GztI3B3OTF2ss440+0OGlQ==
+X-CSE-MsgGUID: ndMwh5jLReuvYCp/pCkYdw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49460204"
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
+   d="scan'208";a="49460204"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 06:01:19 -0700
+X-CSE-ConnectionGUID: 51Hy0gzDRISduMGbZmn6lQ==
+X-CSE-MsgGUID: bIrUf+McQpOR80Xft5FVxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
+   d="scan'208";a="170393985"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.35])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 06:01:14 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 19 May 2025 16:01:11 +0300 (EEST)
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+cc: =?ISO-8859-15?Q?Hanne-Lotta_M=E4enp=E4=E4?= <hannelotta@gmail.com>, 
+    mchehab@kernel.org, ribalda@chromium.org, hverkuil@xs4all.nl, 
+    hljunggr@cisco.com, dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com, 
+    Jonathan.Cameron@huawei.com, corbet@lwn.net, mario.limonciello@amd.com, 
+    W_Armin@gmx.de, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH 3/4] docs: Improve grammar in Userspace API/fwctl
+In-Reply-To: <aCqKNg3p_VlGbce_@archie.me>
+Message-ID: <264386b3-075d-ef1d-e3b2-9a2937ca05cb@linux.intel.com>
+References: <20250517132711.117618-1-hannelotta@gmail.com> <20250517132711.117618-3-hannelotta@gmail.com> <aCqKNg3p_VlGbce_@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 19 May 2025 14:26:05 +0200
-Message-Id: <DA04WHRZBBS0.17WRMWDF0A335@kernel.org>
-Cc: "Marcelo Moreira" <marcelomoreira1905@gmail.com>,
- <benno.lossin@proton.me>, <ojeda@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-Subject: Re: [PATCH v2] rust: doc: Clarify safety invariants for Revocable
- type
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Danilo Krummrich" <dakr@kernel.org>
-X-Mailer: aerc 0.20.1
-References: <20250503145307.68063-1-marcelomoreira1905@gmail.com>
- <D9RJQYNTIOK1.3HI7NDDWPK6IM@kernel.org> <aChczAWsPdmdeen3@pollux>
- <D9YO7XDNV712.3A5HSSLUQIZ2W@kernel.org> <aCrwuQP46RFHxYB5@pollux>
- <DA00X0RTYKMA.2OG25TZ1X3AU@kernel.org> <aCsAEJtkCKKhspnF@pollux>
- <DA03ANJMDOU2.1ZQWA6MIENVKD@kernel.org> <aCsX-k0K_jqLvD4e@pollux>
-In-Reply-To: <aCsX-k0K_jqLvD4e@pollux>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; BOUNDARY="8323328-270692407-1747659638=:928"
+Content-ID: <2c36173e-18f9-8455-1fc7-dcd2cf39c2ec@linux.intel.com>
 
-On Mon May 19, 2025 at 1:37 PM CEST, Danilo Krummrich wrote:
-> On Mon, May 19, 2025 at 01:10:32PM +0200, Benno Lossin wrote:
->> On Mon May 19, 2025 at 11:55 AM CEST, Danilo Krummrich wrote:
->> > On Mon, May 19, 2025 at 11:18:42AM +0200, Benno Lossin wrote:
->> > Why not? Please show me a case where `is_available` is false, but I ca=
-n still
->> > technically access data (without violating a safety requirement).
->>=20
->>     let r: Arc<Revocable<i32>> =3D ...;
->>     let guard =3D r.try_access().unwrap(); // nobody else is holding a r=
-eference, so this can't fail
->>=20
->>     let r2 =3D r.clone();
->>=20
->>     // I know we don't have threads, but I don't want to have to look up
->>     // how to use the workqueue or something else...
->>     thread::spawn(move || {
->>         r2.revoke();
->>     });
->>=20
->>     for _ in 0..10_000_000 {
->>         // do some non-sleeping work that takes a while
->>     }
->>=20
->>     // now the thread above has executed `self.is_available.swap(false, =
-Ordering::Relaxed)`
->>     // in `revoke_internal` and is waiting for the `synchronize_rcu` cal=
-l to return.
->>     // but we can still access `guard`:
->>=20
->>     pr_info!("{}", &*guard);
->
-> Which is perfectly correct, you're right. I think I was too focused on th=
-e
-> optimization case. :-)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-And I was assuming the example was obvious with just saying "But the
-`is_available` atomic *can* be altered during the usage of `data`." :-)
+--8323328-270692407-1747659638=:928
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <1c748645-ab50-4a76-09fa-ad537a9180a6@linux.intel.com>
 
->> > However, this invariant does not need to be fulfilled for access() and
->>=20
->> Where is `access()` defined?
->
-> https://gitlab.freedesktop.org/drm/nova/-/commit/46f91addfabbd4109fb64876=
-a032ae4a4a924919
+On Mon, 19 May 2025, Bagas Sanjaya wrote:
 
-"Reviewed-by: Benno Lossin <benno.lossin@proton.me>" huh, I already
-forgot about the patch... But that also shouldn't be difficult to
-support with the right invariant.
+> On Sat, May 17, 2025 at 04:27:10PM +0300, Hanne-Lotta M=E4enp=E4=E4 wrote=
+:
+> > Fix typos and improve grammar in the documentation for
+> > fwctl subsystem.
+> >=20
+> > Use the word user space consistently, instead of having
+> > two variants (user space vs. userspace).
+> >=20
+> > Change wording of denied behaviour to be disallowed
+> > behaviour when describing the interface.
+> >=20
+> > Signed-off-by: Hanne-Lotta M=E4enp=E4=E4 <hannelotta@gmail.com>
+> > ---
+> >  Documentation/userspace-api/fwctl/fwctl.rst | 30 ++++++++++-----------
+> >  1 file changed, 15 insertions(+), 15 deletions(-)
+> >=20
+> > diff --git a/Documentation/userspace-api/fwctl/fwctl.rst b/Documentatio=
+n/userspace-api/fwctl/fwctl.rst
+> > index fdcfe418a83f..a74eab8d14c6 100644
+> > --- a/Documentation/userspace-api/fwctl/fwctl.rst
+> > +++ b/Documentation/userspace-api/fwctl/fwctl.rst
+> > @@ -54,7 +54,7 @@ operated by the block layer but also comes with a set=
+ of RPCs to administer the
+> >  construction of drives within the HW RAID.
+> > =20
+> >  In the past when devices were more single function, individual subsyst=
+ems would
+>=20
+> Do you mean that devices used to be singleton in its functionality? Or ha=
+ving
+> multiple functions?
+>=20
+> > -grow different approaches to solving some of these common problems. Fo=
+r instance
+> > +grow different approaches to solving some of these common problems. Fo=
+r instance,
+> >  monitoring device health, manipulating its FLASH, debugging the FW,
+> >  provisioning, all have various unique interfaces across the kernel.
+> > =20
+> > <snipped>...
+> >   3. Write access to function & child debug information strictly compat=
+ible with
+> >      the principles of kernel lockdown and kernel integrity protection.=
+ Triggers
+> > -    a kernel Taint.
+> > +    a kernel taint.
+>=20
+> Improving grammar includes s/Taint/taint/?
+>=20
+> Confused...
 
->> > revoke_nosync(), because it would circumvent their purpose, i.e. cases=
- where an
->> > abstraction can prove that there can't be a concurrent user of the dat=
-a or a
->> > concurrent user revoking the data respectively.
->>=20
->> Yes. How about something like "`data` is valid while `is_available` is
->> true. It also is valid if the RCU read-side lock is being held and it
->> was taken while `is_available` was true."?
->>=20
->> That should also cover the "nobody else is accessing this" case.
->
-> Sounds good to me!
+To be fair, the changelog also said "Fix typos". So Bagas, do you mean=20
+"Taint" should be always capitalized? At least this doesn't support=20
+that position:
 
-I'm not happy with the sentence structure, so how about:
+git grep -i  taint Documentation
 
-* `data` is valid for reads in two cases:
-    * while `is_available` is true, or
-    * while the RCU read-side lock is taken and it was acquired while `is_a=
-vailable` was `true`.
-* `data` is valid for writes when `is_available` was atomically changed fro=
-m `true` to `false`.
-
-The last one is needed in order to call `drop_in_place`.
-
----
-Cheers,
-Benno
+--=20
+ i.
+--8323328-270692407-1747659638=:928--
