@@ -1,149 +1,132 @@
-Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C270C1DC9A3
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 20 May 2025 02:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52876268686
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 20 May 2025 09:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747706795; cv=none; b=u50SZc4ObO3GsPX398V9XkhzV8ItgQBhGAEehPc8vwE2xxVFKlTv9UAOrhLaZjA9vLKcYG2SkSGEaRzaccGLLSsGW0Xs92/icA6E1xcO4mUTk+XbRhzUDDxoUm9571XIOqtJ2hq09F+SzlhpTWxfF8BYdthomELNBCk9HcUfnhQ=
+	t=1747734240; cv=none; b=NaJeqE40W1TgWw/4QO9DQ7OsjddznUm0i5i86ZuJMgOfzjAbIugyQgFXU8JpekjRC5MXE0bahHaaDN42yqBUhDddKm56ygoa0LM92PgH613qUVKMf8futDAc1osXzQjbsVIxbZ2lQFKmtcmLQgimCIRdIUXTIPv7OLFDXqIFdmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747706795; c=relaxed/simple;
-	bh=HUlde1F2x4YLaNwoYPak76Bc8dZ8hF83jQ0O1luAHB4=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=ZxxYM8M2uhReIleCgI7QNXGpxblHoKH7s423juBD5u5sIfEgI3O54Dv1tail1IqCIEHiCV+W8oBLwVE81HNeVKUumHLj3obGjPGg2hsSDKGCx8aK+7gPh2klJuyDdzqZfCOjIcqxMAJzaGf4kFtN3ZdMOgtZ642jXeyxl1phiU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=PcOPORvT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dqBRWi2Z; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
+	s=arc-20240116; t=1747734240; c=relaxed/simple;
+	bh=KRC80vXoGGKP5ZAHY2BxEV2sWz7Ool89aoaHqbBCfdg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b1inYvCYE+FRN1omz1Uu0+wpbSfwhaXvcS9voB1nRQpg90Misyrd+qUAg2ts6wWJiY8dZencs6gAU/E3N4gghRSG9MC+bAl5MouwG/hDzV2ArFQQhfXU+EPGugez2p4nR+17rZKg/s+r8+UcLjfV3u74FuMMLR7TgvLnvf+viLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=icEozplx; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="PcOPORvT";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dqBRWi2Z"
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id C701513803C1;
-	Mon, 19 May 2025 22:06:30 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-06.internal (MEProxy); Mon, 19 May 2025 22:06:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1747706790;
-	 x=1747793190; bh=mZ7WwfyJ61d2d/Fq29HMvfUfq/XAcz+uQK+XMDt9ykI=; b=
-	PcOPORvTTqJcNmE/5TlXvGAzK5Nf7by9gFrw3jGMsJ5uZ1RIyx5BsW+nSEir1ZOg
-	FTRo6RON8938Euv9vDWEKtiSAEe7dygxo2ellKDxFl/8AhOQmw4jGXdVqM2g+1S8
-	FJBDtYSqQmRfXn13o1w0EDw6IWcK/hE+Eq20mt53RrslJbPknvnuGkB6WS00EjqQ
-	iqAEQ4gN5vVT08u4pBdw9DZEWKM6vO8NSTWTI7ZkzyaGR3qZseda1FUqXWeT3lp8
-	R5oJN+usbO8WxNoC3UDh9T3d256jfMg/Z5uzGpy3R8MIHiFhNEgOm/9UOPRLxfmW
-	+Bkhh+OIrZz6P7YHurK4ug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747706790; x=
-	1747793190; bh=mZ7WwfyJ61d2d/Fq29HMvfUfq/XAcz+uQK+XMDt9ykI=; b=d
-	qBRWi2ZQSWXPgf+GMtNLA3aE9olJiSDXedE3Fmc0dvPc7Xn045jM/RTU7OQnBFid
-	sZrzgUXJuRj2kFeMudkieFCqMXe3SwFX2TZA5XDEoQRfsqdl2Zql14Gcsjzlp9Zu
-	e+cmG29FurR0pupfgsb5sii6JuziQn9OkoJFuxCnT6LM9yzbUhhs9EDDt/H8UClQ
-	fcpvvXTJhwXV1pWCY+c6L9h9DHPvClokpnLaq3DtRVydBJEYZflVu9yEqSFNx1Gq
-	fYCFfli03EFEDtFICYqBC/WMsuE+gBfGdX2K58jiqZXjxiwdEyKf9wvi4HqKOH/X
-	I6tQYSNw0JH0fv2EAjnlw==
-X-ME-Sender: <xms:peMraDfVvyQW2cY133_umWtYdsnD-MSJjkVoT8510hvguAwxD8SbAQ>
-    <xme:peMraJNO54e9z1hXHdCec0tCFZj4Zt7Y9dHn-jyQ4eh4iEdGpYZr-CNJKAn_kC3bR
-    LOdYsA2ymrRT_hWpb4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefvdeftdduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertder
-    tdejnecuhfhrohhmpeflrghmvghsuceosgholhgurdiiohhnvgdvfeejfeesfhgrshhtmh
-    grihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeeivdevieekieefudehteduvefgtdel
-    veeivdfgfeekudetgfeftdeugeejvddtvdenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpegsohhlugdriihonhgvvdefjeefsehfrghsthhmrghi
-    lhdrtghomhdpnhgspghrtghpthhtohepudehpdhmohguvgepshhmthhpohhuthdprhgtph
-    htthhopegrlhgvgidrhhhunhhgsegrmhgurdgtohhmpdhrtghpthhtoheprghlvgigrghn
-    uggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthhopegrlhhvihhnrdhlvg
-    gvvdesrghmugdrtghomhdprhgtphhtthhopegthhhrihhsthhirghnrdhkohgvnhhighes
-    rghmugdrtghomhdprhgtphhtthhopehhrghrrhihrdifvghnthhlrghnugesrghmugdrtg
-    homhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdrtghomhdprhgtphhtthho
-    peiirggvvghmrdhmohhhrghmvggusegrmhgurdgtohhmpdhrtghpthhtohepshhimhhonh
-    grsehffhiflhhlrdgthhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:peMraMje-I5IgPXbQCaPM7Vn-gdDBlNzjetV0uWaFu-DephIS0X78Q>
-    <xmx:peMraE_3YY2DnVaKzbjc-0Qc1RJvplFDcmPnv3r9sh_q1vYThzm4iQ>
-    <xmx:peMraPsK__EbJu3o-693yM0L4v8xs-Y-9UCqnolu5vmmk0D1jUH5gQ>
-    <xmx:peMraDHLv3e0oscSRLRhfl8p_EnnF_TIIaTEmT_4jOF_puTL5A1mEg>
-    <xmx:puMraF2lxc_ZLmdmmeFcG2eQlpwwJaJfPwgKWhUSPTwPMvDomtzW-oa->
-Feedback-ID: ibd7e4881:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B694B78006C; Mon, 19 May 2025 22:06:29 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="icEozplx"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-742c46611b6so3292510b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 20 May 2025 02:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747734237; x=1748339037; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=72RXTv/sI4vy4urdgBX3zIYwp1p5m2C94ZkpYBDXKgc=;
+        b=icEozplx7FBsVa86uw5osVi0lAkrTQEI3M24MTAO2IQMj8D19YzF4jSgUk0/Djvwqz
+         uhMLhzh53Kukg/uGxkiWKFcMmV+N9C3AnNYdHKDVxPj1mWvLPJxfVTE5eyeHBzVjnbuD
+         DYx+RmSdjwgHjtfHxcQramAUDMwa0iJqrrM20zjPbRDMkTWe2GVwMLCx3dELczDZqWSg
+         7KvbTf3LeAK6jICsQ1GDmke1MFV5a9XTs1IHI/nZ8Gf0kRkKkQYwfOH538Qo/EZfznHf
+         26aSNrf11DmT7Q2K5wdqmXPnKsEEsJGooAG06yJv2SDqdG76KcCOSn9dyrVxV6RC1G6F
+         QbvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747734237; x=1748339037;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=72RXTv/sI4vy4urdgBX3zIYwp1p5m2C94ZkpYBDXKgc=;
+        b=XEZpvQW+/SdOnhUHiOnZqWRS0VrIEmlH7vtAb2r826Ofsg2OLmuKSuC+FdyFOs3HrX
+         EWIdeNf6i+A8sVPPpNtTEX9v6yq/Ga/q/xZgZsde73pDz9sGA632xjitTLzjaxoB9OCB
+         qbTCbl6Oe5DfKkH8oIBwW4rq9osZaZ4KGJ5I+/xm2bObmfTy9nYs8uBQwFLKLOir9YKM
+         geuaR+ZLicb5fi2Kk6RyRXJWTaqpLY2u2oL61TZkwLSIWpOngt+MTDNtce1dQeW9xZkt
+         No+PJLmQQT2TzPXbjhVj/YvwvHmxLBvPjd6mokzy88AYni+KpAPJ1AciqqQxtTAVxgdM
+         BZFg==
+X-Gm-Message-State: AOJu0YzpvUvdsShOTZiknHhP5XzomXX1IkGXKwRsK/y2qiNLX1mxvGbx
+	KiWLB9eJ3jN0J+RnHlbbg14THUDA580P87AsfJHQJ0JdyA4xZvUMaWk4
+X-Gm-Gg: ASbGncv9hm6MYF6FQq6iQQ3c0qwTUFH2BOiWaFZZUNQYRxZASQcJjdgaFAGf0sV40gK
+	kjtPsU6csieEnfCF35GDpG/FTU9L6ZjrwfmIHjpREd3tHZGLfFrnx++tiDA/jcD39zaOVnJ+2+j
+	s6kAUv3wO2bT9vvQ1lUb/i4OB1ej1r/GrqHyvpSlwBa7MbGGvd2wb8S7Lyg+1/U/YEsnO8GGfp9
+	m1aE1+1vr9cTmn+SN0/YyW5WDdwudKf/WnoA0skv4bVgCEVggssBu9Qxw4lYWica08u2jDVZd2C
+	f8KAlFXrtY+zhFwG6JNgMT0LWIlXW1PcFLa4kbt/3C/zxCauktg7YHhJxOeYphkHt7Fa3JQj0f/
+	xQZrwgLLrCc2Wew==
+X-Google-Smtp-Source: AGHT+IGowChZd0yBQuEnow5mD+xA969bcqL8YkmmtlUyLJOW3JKKttacw6iwp5p0zrT9Yq8ZzAOl4w==
+X-Received: by 2002:a05:6a20:3d1c:b0:1ee:d418:f764 with SMTP id adf61e73a8af0-2170ce33ad3mr24484932637.38.1747734237424;
+        Tue, 20 May 2025 02:43:57 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:62fe:9593:f762:39d9:3865:830a])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b26eaf6ffdbsm6559891a12.20.2025.05.20.02.43.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 May 2025 02:43:57 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: trenn@suse.com,
+	shuah@kernel.org,
+	jwyatt@redhat.com,
+	jkacur@redhat.com,
+	linux-pm@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH v2] cpupower: Implement powercap_set_enabled()
+Date: Tue, 20 May 2025 15:13:45 +0530
+Message-ID: <20250520094345.97200-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: T895cc9c4e3ca05a1
-Date: Mon, 19 May 2025 19:06:09 -0700
-From: James <bold.zone2373@fastmail.com>
-To: "Alex Hung" <alex.hung@amd.com>,
- "Harry Wentland" <harry.wentland@amd.com>, sunpeng.li@amd.com,
- "Rodrigo Siqueira" <siqueira@igalia.com>,
- "Alex Deucher" <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- airlied@gmail.com, simona@ffwll.ch, alvin.lee2@amd.com,
- zaeem.mohamed@amd.com, "Shuah Khan" <skhan@linuxfoundation.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Message-Id: <458ee98c-872c-44eb-81a4-cb1fabcc4704@app.fastmail.com>
-In-Reply-To: <53d0e162-da9d-4fea-aba3-b96a9da844f2@amd.com>
-References: <20250503211902.70141-1-bold.zone2373@fastmail.com>
- <53d0e162-da9d-4fea-aba3-b96a9da844f2@amd.com>
-Subject: Re: [PATCH v2] drm/amd/display: adds kernel-doc comment for
- dc_stream_remove_writeback()
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
+The powercap_set_enabled() function previously returned a dummy value
+and was marked with a TODO comment to implement it. This patch implements the 
+function by writing the desired mode (0 or 1) to /sys/class/powercap/intel-rapl/enabled
 
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+---
+ tools/power/cpupower/lib/powercap.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-On Mon, May 5, 2025, at 9:02 AM, Alex Hung wrote:
-> Reviewed-by: Alex Hung <alex.hung@amd.com>
->
-> On 5/3/25 15:18, James Flowers wrote:
->> Adds kernel-doc for externally linked dc_stream_remove_writeback func=
-tion.
->>=20
->> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
->> ---
->> V1 -> V2: Corrected checkpatch warnings and errors
->>=20
->>   drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>=20
->> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/driver=
-s/gpu/drm/amd/display/dc/core/dc_stream.c
->> index e6e41678525f..b883fb24fa12 100644
->> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
->> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
->> @@ -569,6 +569,14 @@ bool dc_stream_fc_disable_writeback(struct dc *d=
-c,
->>   	return true;
->>   }
->>  =20
->> +/**
->> + * dc_stream_remove_writeback() - Disables writeback and removes wri=
-teback info.
->> + * @dc: Display core control structure.
->> + * @stream: Display core stream state.
->> + * @dwb_pipe_inst: Display writeback pipe.
->> + *
->> + * Return: returns true on success, false otherwise.
->> + */
->>   bool dc_stream_remove_writeback(struct dc *dc,
->>   		struct dc_stream_state *stream,
->>   		uint32_t dwb_pipe_inst)
+diff --git a/tools/power/cpupower/lib/powercap.c b/tools/power/cpupower/lib/powercap.c
+index 94a0c69e55ef..7947b9809239 100644
+--- a/tools/power/cpupower/lib/powercap.c
++++ b/tools/power/cpupower/lib/powercap.c
+@@ -70,6 +70,22 @@ static int sysfs_get_enabled(char *path, int *mode)
+ 	return ret;
+ }
+ 
++static int sysfs_set_enabled(const char *path, int mode)
++{
++	int fd;
++	char buf[2] = { mode ? '1' : '0', '\n' };
++	ssize_t ret;
++
++	fd = open(path, O_WRONLY);
++	if (fd == -1)
++		return -1;
++
++	ret = write(fd, buf, sizeof(buf));
++	close(fd);
++
++	return ret == sizeof(buf) ? 0 : -1;
++}
++
+ int powercap_get_enabled(int *mode)
+ {
+ 	char path[SYSFS_PATH_MAX] = PATH_TO_POWERCAP "/intel-rapl/enabled";
+@@ -77,12 +93,10 @@ int powercap_get_enabled(int *mode)
+ 	return sysfs_get_enabled(path, mode);
+ }
+ 
+-/*
+- * TODO: implement function. Returns dummy 0 for now.
+- */
+ int powercap_set_enabled(int mode)
+ {
+-	return 0;
++	char path[SYSFS_PATH_MAX] = PATH_TO_POWERCAP "/intel-rapl/enabled";
++	return sysfs_set_enabled(path, mode);
+ }
+ 
+ /*
+-- 
+2.49.0
 
-Hi,
-
-I am just following up on this to see if it=E2=80=99s been applied, or i=
-f any adjustments are still needed.
-
-Best regards,
-James Flowers
