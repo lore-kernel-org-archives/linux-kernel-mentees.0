@@ -1,94 +1,149 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C9C20D4E9;
-	Mon, 19 May 2025 20:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C270C1DC9A3
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 20 May 2025 02:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747686684; cv=none; b=eDd/U6ueJlCQABJi+wzbG/Jg2Jm06qHyYXWdfzVXzkvOh9Fyi/jinu6ONp6iLeLrpEoaTWCg5DXD9gnKyW3rGOLi61w/ikGozkf8ilNYH+j9NHgtRu5tJ1dAl/tQncnzNxaCeISRKcHZVtxR1p4Pi0KidhTTdemIhI5d31hj1iU=
+	t=1747706795; cv=none; b=u50SZc4ObO3GsPX398V9XkhzV8ItgQBhGAEehPc8vwE2xxVFKlTv9UAOrhLaZjA9vLKcYG2SkSGEaRzaccGLLSsGW0Xs92/icA6E1xcO4mUTk+XbRhzUDDxoUm9571XIOqtJ2hq09F+SzlhpTWxfF8BYdthomELNBCk9HcUfnhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747686684; c=relaxed/simple;
-	bh=o9Q+59JiYzFW31MVr6WigWqHBOJKE/LpGuXeepKX3qI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=uBLtu5C/MxEGQwm2XjM3pL70+6R0OG6yGPvEJfYvBgLaaApetO3kXuAit5WC3DqAYyRZPjADlcYKP32pK2L00W8+qsPPjMcWNQXtovKfjsq3+N5EWHXND29sTfiS8yedMpSLoVn83KPrSeYxmcZ3asnz5/Qp5ZiQvmKtKJd1SPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hL+c+2u9; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1747706795; c=relaxed/simple;
+	bh=HUlde1F2x4YLaNwoYPak76Bc8dZ8hF83jQ0O1luAHB4=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ZxxYM8M2uhReIleCgI7QNXGpxblHoKH7s423juBD5u5sIfEgI3O54Dv1tail1IqCIEHiCV+W8oBLwVE81HNeVKUumHLj3obGjPGg2hsSDKGCx8aK+7gPh2klJuyDdzqZfCOjIcqxMAJzaGf4kFtN3ZdMOgtZ642jXeyxl1phiU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=PcOPORvT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dqBRWi2Z; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hL+c+2u9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
-	Reply-To:Cc:Content-ID:Content-Description;
-	bh=yoFAXZ4yOrSLmS+OCOfyEIpqBmihPeI+uV271tPkKAk=; b=hL+c+2u9ljMpTVtZN9FQvggAwX
-	W+gFqdXmGylPRUpotCW6W/69Mp3GkRGz3dsmjXL9uxbnG0WXlnG+pFtgzmip1A2FFqOtd6iff+GDd
-	GkVsPJUXbTo3rCNEMoAFzpu8endMmJCsl980pIGC6P7B/cTr6F5I57PHCR5uObC3mLQXB/8hdi89o
-	TBDIq1gin2OazzlqoMHO4UnZ34W6VNFS/UjcxqaPODKuhON717LZ2T4trO+dKV9IzzWNqRPTGD+3X
-	SlSYhLfDQ+MnSfx9e5DoGyAHd7HD2dHudv/+XdNfI3VGjgMH2XtCwrt7s8tkZidnuG1EQg9Bm8yvt
-	23ms30dg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uH78p-00000002Lb1-38Yz;
-	Mon, 19 May 2025 20:31:19 +0000
-Message-ID: <90d3653b-0106-4368-a003-6bb698aa42a6@infradead.org>
-Date: Mon, 19 May 2025 13:31:16 -0700
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="PcOPORvT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dqBRWi2Z"
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id C701513803C1;
+	Mon, 19 May 2025 22:06:30 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-06.internal (MEProxy); Mon, 19 May 2025 22:06:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1747706790;
+	 x=1747793190; bh=mZ7WwfyJ61d2d/Fq29HMvfUfq/XAcz+uQK+XMDt9ykI=; b=
+	PcOPORvTTqJcNmE/5TlXvGAzK5Nf7by9gFrw3jGMsJ5uZ1RIyx5BsW+nSEir1ZOg
+	FTRo6RON8938Euv9vDWEKtiSAEe7dygxo2ellKDxFl/8AhOQmw4jGXdVqM2g+1S8
+	FJBDtYSqQmRfXn13o1w0EDw6IWcK/hE+Eq20mt53RrslJbPknvnuGkB6WS00EjqQ
+	iqAEQ4gN5vVT08u4pBdw9DZEWKM6vO8NSTWTI7ZkzyaGR3qZseda1FUqXWeT3lp8
+	R5oJN+usbO8WxNoC3UDh9T3d256jfMg/Z5uzGpy3R8MIHiFhNEgOm/9UOPRLxfmW
+	+Bkhh+OIrZz6P7YHurK4ug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747706790; x=
+	1747793190; bh=mZ7WwfyJ61d2d/Fq29HMvfUfq/XAcz+uQK+XMDt9ykI=; b=d
+	qBRWi2ZQSWXPgf+GMtNLA3aE9olJiSDXedE3Fmc0dvPc7Xn045jM/RTU7OQnBFid
+	sZrzgUXJuRj2kFeMudkieFCqMXe3SwFX2TZA5XDEoQRfsqdl2Zql14Gcsjzlp9Zu
+	e+cmG29FurR0pupfgsb5sii6JuziQn9OkoJFuxCnT6LM9yzbUhhs9EDDt/H8UClQ
+	fcpvvXTJhwXV1pWCY+c6L9h9DHPvClokpnLaq3DtRVydBJEYZflVu9yEqSFNx1Gq
+	fYCFfli03EFEDtFICYqBC/WMsuE+gBfGdX2K58jiqZXjxiwdEyKf9wvi4HqKOH/X
+	I6tQYSNw0JH0fv2EAjnlw==
+X-ME-Sender: <xms:peMraDfVvyQW2cY133_umWtYdsnD-MSJjkVoT8510hvguAwxD8SbAQ>
+    <xme:peMraJNO54e9z1hXHdCec0tCFZj4Zt7Y9dHn-jyQ4eh4iEdGpYZr-CNJKAn_kC3bR
+    LOdYsA2ymrRT_hWpb4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefvdeftdduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertder
+    tdejnecuhfhrohhmpeflrghmvghsuceosgholhgurdiiohhnvgdvfeejfeesfhgrshhtmh
+    grihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeeivdevieekieefudehteduvefgtdel
+    veeivdfgfeekudetgfeftdeugeejvddtvdenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpegsohhlugdriihonhgvvdefjeefsehfrghsthhmrghi
+    lhdrtghomhdpnhgspghrtghpthhtohepudehpdhmohguvgepshhmthhpohhuthdprhgtph
+    htthhopegrlhgvgidrhhhunhhgsegrmhgurdgtohhmpdhrtghpthhtoheprghlvgigrghn
+    uggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthhopegrlhhvihhnrdhlvg
+    gvvdesrghmugdrtghomhdprhgtphhtthhopegthhhrihhsthhirghnrdhkohgvnhhighes
+    rghmugdrtghomhdprhgtphhtthhopehhrghrrhihrdifvghnthhlrghnugesrghmugdrtg
+    homhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdrtghomhdprhgtphhtthho
+    peiirggvvghmrdhmohhhrghmvggusegrmhgurdgtohhmpdhrtghpthhtohepshhimhhonh
+    grsehffhiflhhlrdgthhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:peMraMje-I5IgPXbQCaPM7Vn-gdDBlNzjetV0uWaFu-DephIS0X78Q>
+    <xmx:peMraE_3YY2DnVaKzbjc-0Qc1RJvplFDcmPnv3r9sh_q1vYThzm4iQ>
+    <xmx:peMraPsK__EbJu3o-693yM0L4v8xs-Y-9UCqnolu5vmmk0D1jUH5gQ>
+    <xmx:peMraDHLv3e0oscSRLRhfl8p_EnnF_TIIaTEmT_4jOF_puTL5A1mEg>
+    <xmx:puMraF2lxc_ZLmdmmeFcG2eQlpwwJaJfPwgKWhUSPTwPMvDomtzW-oa->
+Feedback-ID: ibd7e4881:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B694B78006C; Mon, 19 May 2025 22:06:29 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: powerpc: Add htm.rst to table of contents
-To: Brigham Campbell <me@brighamcampbell.com>, shuah@kernel.org,
- linux-kernel-mentees@lists.linux.dev,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)"
- <linuxppc-dev@lists.ozlabs.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20250517210757.1076554-3-me@brighamcampbell.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250517210757.1076554-3-me@brighamcampbell.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-ThreadId: T895cc9c4e3ca05a1
+Date: Mon, 19 May 2025 19:06:09 -0700
+From: James <bold.zone2373@fastmail.com>
+To: "Alex Hung" <alex.hung@amd.com>,
+ "Harry Wentland" <harry.wentland@amd.com>, sunpeng.li@amd.com,
+ "Rodrigo Siqueira" <siqueira@igalia.com>,
+ "Alex Deucher" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ airlied@gmail.com, simona@ffwll.ch, alvin.lee2@amd.com,
+ zaeem.mohamed@amd.com, "Shuah Khan" <skhan@linuxfoundation.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Message-Id: <458ee98c-872c-44eb-81a4-cb1fabcc4704@app.fastmail.com>
+In-Reply-To: <53d0e162-da9d-4fea-aba3-b96a9da844f2@amd.com>
+References: <20250503211902.70141-1-bold.zone2373@fastmail.com>
+ <53d0e162-da9d-4fea-aba3-b96a9da844f2@amd.com>
+Subject: Re: [PATCH v2] drm/amd/display: adds kernel-doc comment for
+ dc_stream_remove_writeback()
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
 
-On 5/17/25 2:07 PM, Brigham Campbell wrote:
-> These changes fix the following error, which was introduced by commit
-> ab1456c5 when Documentation/arch/powerpc/htm.rst was added to the
-> repository without any reference to the document.
-> 
-> Documentation/arch/powerpc/htm.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> 
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+On Mon, May 5, 2025, at 9:02 AM, Alex Hung wrote:
+> Reviewed-by: Alex Hung <alex.hung@amd.com>
+>
+> On 5/3/25 15:18, James Flowers wrote:
+>> Adds kernel-doc for externally linked dc_stream_remove_writeback func=
+tion.
+>>=20
+>> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+>> ---
+>> V1 -> V2: Corrected checkpatch warnings and errors
+>>=20
+>>   drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
+>>=20
+>> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/driver=
+s/gpu/drm/amd/display/dc/core/dc_stream.c
+>> index e6e41678525f..b883fb24fa12 100644
+>> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+>> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+>> @@ -569,6 +569,14 @@ bool dc_stream_fc_disable_writeback(struct dc *d=
+c,
+>>   	return true;
+>>   }
+>>  =20
+>> +/**
+>> + * dc_stream_remove_writeback() - Disables writeback and removes wri=
+teback info.
+>> + * @dc: Display core control structure.
+>> + * @stream: Display core stream state.
+>> + * @dwb_pipe_inst: Display writeback pipe.
+>> + *
+>> + * Return: returns true on success, false otherwise.
+>> + */
+>>   bool dc_stream_remove_writeback(struct dc *dc,
+>>   		struct dc_stream_state *stream,
+>>   		uint32_t dwb_pipe_inst)
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Hi,
 
-Thanks.
+I am just following up on this to see if it=E2=80=99s been applied, or i=
+f any adjustments are still needed.
 
-> ---
->  Documentation/arch/powerpc/index.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/arch/powerpc/index.rst b/Documentation/arch/powerpc/index.rst
-> index 0560cbae5fa1..53fc9f89f3e4 100644
-> --- a/Documentation/arch/powerpc/index.rst
-> +++ b/Documentation/arch/powerpc/index.rst
-> @@ -19,6 +19,7 @@ powerpc
->      elf_hwcaps
->      elfnote
->      firmware-assisted-dump
-> +    htm
->      hvcs
->      imc
->      isa-versions
-
--- 
-~Randy
+Best regards,
+James Flowers
