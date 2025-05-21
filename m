@@ -1,123 +1,75 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4575570825
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 21 May 2025 15:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD34118CBFB;
+	Wed, 21 May 2025 15:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747840664; cv=none; b=Tws6TlvrA5xRi0Op2XqAodsZRrNvpx9tdp9uT801e6xwLI3ts3XHs9JDfQxDreQqRwZChNpoZtqTCZj+uLvdIC3OjcvcWODPLrm3GdcMd9gt6z0QeKmK+v2ybBEi+YZd4eLV8D5+R5eq0MLAHHz1VNxUvoFYUNG/MMw3dyGwo64=
+	t=1747840999; cv=none; b=DRrcFWVnNKSj+9rVzqIensNUwa6o3SLgmg/oOi5SyA2vEEUpe0VgDKULa2jprvaCHpPKxg/aXagVt4jTu4V6ke0b8OFB4ahiXXRqSlw5n/T7veIkjKsWKfH6iFx69zB+U6ZMOWhi3qy5NYURBSbH/LnO/XZeCuIwoQDVTtOEoGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747840664; c=relaxed/simple;
-	bh=kUCnnPeOSrm8mt4CfbncjKmyFQkFlkZd5zL0vOVsP5U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K/A4gdAFn/oASsJ5LaWE3qD6VQMXqO2fWotiNyJChCFElM1Bt75euQvfcNuYeSCaG1/+vKl80GtBe52/2Rf26oZLDxBdQGrvoB/wEOEeN263dtn/ne2tUIzwJaJuA8RJpFhT76WySwj5V1XhQCeRn5kaFqlztMC6TD1hRiArxo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bcAMa4L9; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747840999; c=relaxed/simple;
+	bh=h3GAfnHqQdjYb8KerfxcMvxAQu/1JesrqC8XxoefLB8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=N18MSmd1sBsGCN9w++OVhvd0FXDpkbJxgUZMf6O3AbQ/kdemxBZR1dbWkmLNT9KJxbmEEdEFFdp6ndVIVW+ypawA/+hhG0W7cP8aXyh49lc2uVt/a0txNl1wnJaZCn9Drxx9ffa7ZSehV8I5tq2ZLRS/4+7yXy8ADyNrNj4bX3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bAXkDsC/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bcAMa4L9"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-550e2b9084dso7910709e87.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 21 May 2025 08:17:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747840659; x=1748445459; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bY5S7Wfb5ySyKh5UvVG0WBqudaowOyoDQxB/bdCEle4=;
-        b=bcAMa4L9BQgdg9dI/Q+s2xnVlXdzs1yJo2fENnA3Ylz1Mp4Idljj5uAV5asgX+HRui
-         G1iJLLGu7ZzodYeLQCAKCj7lyd8nutYrxEqTOTvmTP2GOjvz0xoZtNGToQ0XF0UTkLCY
-         DLJl98urAj3IzxAaisc2mDBKRzZfDTelQef9wMsJ3lKvjC/riUOHzYDRJMIYVo0ZxEy9
-         vY2NltCI1REd1ai/zeqR5079kIYX5a89g6Zp+e/1Zf5n9qYgy0xpgsix6v6a9rVdNPaV
-         u6q6ELfRCTBRpCEgmZZTtAly0IMzrU8e8rGwH/xOO25IwlkIYVsSbsbCFrKglRQ3UfTH
-         NGDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747840659; x=1748445459;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bY5S7Wfb5ySyKh5UvVG0WBqudaowOyoDQxB/bdCEle4=;
-        b=nz635nrQDeb9raPiCUdL7LxRWEowSuDx1mRHaEyx5UPA3e32/2N/vK3ILtX4UiDpVD
-         mFpPtEX6+9l3fma75+F1SW01/ukaWI3D/Wtfk3IW0WdO48tWoItWUmFbGjmp4/yBbsyC
-         p9U6iXFbxeSER3I1xzUzPq6g1okw7rSUWakp5j6v5qzgo6wT2k4IPzQA9ORSkOZC1LF4
-         Zpp5MYe2D9byR8hqxXRfQECB0IesJ3wjQEo1tnyWx6QZZdqm9qeFlrGGWYl5yPvVc0y8
-         xnadsizk0TzgElRQ2GGPizM1CVSepXoXYw9V3OmoPKkJpMu5JLKRp+XD0IUcMsXbqxv8
-         FpUA==
-X-Forwarded-Encrypted: i=1; AJvYcCV/ESSwmQkgPoc3yF2ovF4uEdMwVhRw4FkPM09TtvIGliI5NHfmtLKVEVmHewJKlNpiX1guHmoYYYrrj3zjidOpJlhmdw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxxaY9NbVRldvw5xYIfVtm1cTXwZD5amH1Sb2peVsg46VAAZ0Yg
-	PfyjLsrhMEFeNrC43hphYoC9JillaQm1qSGZuVcsgJmXIAv12Z2mD3gg
-X-Gm-Gg: ASbGnctoHfiuPONaZ3NOBFTPKfd3ptBffNQiE53B5+Mp7GB6jsXoa2fjgCjbdCbd2WK
-	LK5C06FG2lw2db+OU+GgmbnyYVEQMEWjFbvpW7O4hInCZADOIMP2+fTHnQBuNd4Yz+qwjpwmzPg
-	iDGlTZ2qLTL/2aDCGC08zg8wJuzdtxrsFC35eXnoqW2sKI1eREdSbhmnS4R1wRDs1sbBUAXQ+yV
-	d5HrkepX+XYdoeswGKAVdaSC8SJAMLXSNYoOOA/qCZMgxoFPxS2KIb45BueGGszpLPB3xRxjuGF
-	TxJFy0xIMxpdz3O1DUQz1r3HwmRn/xUv4KjERuiSGksZz6r7VTT2wc1JRmfrQ6Lbh1oMpuACLSZ
-	nGRJ2+C4UQ44KmZdSBwzVk6VP3XKTrRzJzXNz7P9CdfAHPEoHVCf2KmSJiY2nPCOuBVwaC6MQ5V
-	jPIEWzMIMFmCceOzC39ziSoqg=
-X-Google-Smtp-Source: AGHT+IEpTliLMqbAZ45KCj30NQTnQIbtnS7k2akX1eclggrk0SecoLdw9WewNGAj/w+Zp405OJOV5Q==
-X-Received: by 2002:a05:6512:3d05:b0:54f:c184:9de with SMTP id 2adb3069b0e04-550e98fbfdbmr7135214e87.35.1747840658971;
-        Wed, 21 May 2025 08:17:38 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:53:1500:e8f4:97c2:d311:5b15? (2001-14ba-53-1500-e8f4-97c2-d311-5b15.rev.dnainternet.fi. [2001:14ba:53:1500:e8f4:97c2:d311:5b15])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-551fc0d476esm986067e87.203.2025.05.21.08.17.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 May 2025 08:17:38 -0700 (PDT)
-Message-ID: <b6954169-63d9-4cac-aabd-2df1642f98af@gmail.com>
-Date: Wed, 21 May 2025 18:17:37 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bAXkDsC/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F893C4CEE4;
+	Wed, 21 May 2025 15:23:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747840998;
+	bh=h3GAfnHqQdjYb8KerfxcMvxAQu/1JesrqC8XxoefLB8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bAXkDsC/cnA0VecY2wJBf4tmIpStq23KiR5PSsUguOpRKAw8o3H7/pskGwaAIzAgx
+	 TuN6bZsJeY6sMZS/QpWtA56N/lNt97NaVNAhREYmlv3jDsE2V3BmoTfAnXWdqAFn9z
+	 nGYwmmLzy9eeq6tGbMBA02yTX+UoxWYuesEhML8gK/GzVgd5TtUWPnXdoe0z1OBCk0
+	 XLp8UbfOMbQVol3GeJJuTvbxh3av6fPgONRFrziESf4eeu2QvKek8+ZV4boK4+R0U/
+	 6pZBHzrPA8GiC+QMbMs8tBOs3CudkMf36w+pHMpTtloIjvJQ6d7+sLv/IeAjgDyeAj
+	 QhxB6xZWNzNeA==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: richard120310@gmail.com,
+	aliceryhl@google.com
+Cc: a.hindborg@kernel.org,
+	alex.gaynor@gmail.com,
+	benno.lossin@proton.me,
+	bjorn3_gh@protonmail.com,
+	boqun.feng@gmail.com,
+	gary@garyguo.net,
+	jserv@ccns.ncku.edu.tw,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	ojeda@kernel.org,
+	rust-for-linux@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	tmgross@umich.edu
+Subject: Re: [PATCH] rust: list: Use "List::is_empty()" to perform checking when possible
+Date: Wed, 21 May 2025 17:23:07 +0200
+Message-ID: <20250521152307.1055810-1-ojeda@kernel.org>
+In-Reply-To: <20250310073853.427954-1-richard120310@gmail.com>
+References: <20250310073853.427954-1-richard120310@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] docs: Improve grammar, formatting in Video4Linux
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- mchehab@kernel.org, ribalda@chromium.org, hverkuil@xs4all.nl,
- hljunggr@cisco.com, dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
- Jonathan.Cameron@huawei.com, ilpo.jarvinen@linux.intel.com,
- mario.limonciello@amd.com, W_Armin@gmx.de, mpearson-lenovo@squebb.ca
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20250517132711.117618-1-hannelotta@gmail.com>
- <20250517132711.117618-2-hannelotta@gmail.com>
- <871psml4t7.fsf@trenco.lwn.net> <aCqIAkoVr2yvDJbN@archie.me>
-Content-Language: en-US
-From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
-In-Reply-To: <aCqIAkoVr2yvDJbN@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hello,
+On Mon, 10 Mar 2025 15:38:52 +0800 I Hsin Cheng <richard120310@gmail.com> wrote:
+>
+> "List::is_empty()" provides a straight forward convention to check
+> whether a given "List" is empty or not. There're numerous places in the
+> current implementation still use "self.first.is_null()" to perform the
+> equivalent check, replace them with "List::is_empty()".
+>
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
 
-On 5/19/25 04:23, Bagas Sanjaya wrote:
-> On Sun, May 18, 2025 at 02:08:04AM -0600, Jonathan Corbet wrote:
->>>       description of the correct character encoding for Programme Service
->>>       name strings. Also from RDS specification, PS is usually a single
->>>       eight character text. However, it is also possible to find receivers
->>> -    which can scroll strings sized as 8 x N characters. So, this control
->>> +    which can scroll strings sized as 8 x N characters. Therefore this control
->>
->> This kind of change just seems like churn that isn't really improving
->> the content?
-> 
-> I prefer the original as both so and therefore have the same meaning.>
->>>   ``V4L2_CID_RDS_TX_ALT_FREQS (__u32 array)``
->>>       The alternate frequencies in kHz units. The RDS standard allows for
->>> -    up to 25 frequencies to be defined. Drivers may support fewer
->>> -    frequencies so check the array size.
->>> +    up to 25 frequencies to be defined. Because drivers may support fewer
->>> +    frequencies, check the array size.
->>
->> Here too, I'm not sure I see the value in this kind of change.
-> 
-> Again I'm agree.
-> 
-> Thanks.
-> 
+There are a couple cases that still apply here (i.e. after the cursor
+between elements change), so I will pick it up.
 
-Alright, that is two opinions in favor of not changing this. I can send 
-a version 2 of this patch series without these.
+By the way, for some reason, your email did not reach my inbox.
 
-Thank you for reviewing!
+Thanks!
 
-Best regards,
-
-Hanne-Lotta Mäenpää
+Cheers,
+Miguel
