@@ -1,146 +1,118 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9712165EA
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 21 May 2025 15:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52ABA221D9A
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 21 May 2025 15:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747841895; cv=none; b=m+zrt9QLSrpLA44uTnhzFpIZGNvpD4QcqxtyPbV5x+BTZhe30WOiCl/8Hf4MvY34Dt20TqitS6LtEj0GkXlilrB9gRuWLxMia/dqygIkKGaSPHrU4VWkAzciafGUMpNtIDVPoX9wgyPpAHjSGfP5BsANu8zCq4/khZlYtU1TxEA=
+	t=1747842076; cv=none; b=cQfUyxdAAvVC7bp1TOK53XbxtU1NuA0oL9BtDkM+ebmOBbCva9bgbyefjpyfb7ddz6E/6nK03xCLfwo370J5G/gUfRMZOVGaVkC2SF6Mxuwm4Fe+Z4zJTvMBDhNAIvEeUpKixe9I5X31cMWt+1j58/Cy7QZoVeDw0mo8oXD12xA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747841895; c=relaxed/simple;
-	bh=j7sDhLAJG1NCqa/6sMKvVWjsSSAhvNNZC8wGEuMPu5o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TsohMNCNsz5oVGdJcGgbgoBVJhESRwt1QC/1VB2Atkss3XbgnEbE4weBbJkvkCYHtVrWn9e2Bn8j8mqKx2bK9GHEbWc3dEbmS8pgBLYVlVMVLGWhkCvkwHpf9FCynZDyeU46GY/N3q0VQTEU/jjdsjdtuS3BQDLiRixXq33CLUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VVAN37b2; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747842076; c=relaxed/simple;
+	bh=jAtWLy1ghlyAQZQU+F7/CpguGAIrpkZQWbVBzpNAcm0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:
+	 References:In-Reply-To; b=l/VKWcTTYfu7yQQzbN73IUHJXZxMdW+TOdwTHw9coKlDKHwYVLOkj09IreM+HYTONfJHUxkCLQZJXLWOoKXreC/One9O4Iq59T0c/kiKf+Oc11ib0nLuej7LGA8H03zcOuQNStcwWC1hwAmYmSWYAnpNLVb3RJGETCpZhBQFkSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=fail (0-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=Ey2DkYy1 reason="key not found in DNS"; arc=none smtp.client-ip=209.85.166.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VVAN37b2"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54d6f93316dso8278258e87.2
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 21 May 2025 08:38:13 -0700 (PDT)
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="Ey2DkYy1"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3dc64b08343so18330435ab.2
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 21 May 2025 08:41:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747841891; x=1748446691; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xX1GdWOhUQkZGneOEdWqA8kdYMe8hW7mvNhj+I9O+wM=;
-        b=VVAN37b29W729ar8I9rAbxCSzx6E/0cvmjS8r40anBeSg3RjyBPt0M7BwqPf2zE4Rq
-         YRq9byir0KT4CcX/CiYGqAbbnaNocnDhIvMO0pcDne1oAcQcA6unTt3SjvofPJyDsoA3
-         1OYAn10Lbbl8Bb/iMfs9gUORmyrDknRm6RrXAJW1z7zI7yZUNaAOchn2GDoaS+BErhVj
-         Y48Tg2ELnbehgerDIzMepCr6LgU1KjRxNO1wS9P+PCDR7NEj7nCUAZce55bTSh5g4/h6
-         JHh+LBqexfKSfFADv7wZAXLA3Xz8k8cOnbR0rCPMPXtRjpbXcxGrhliR/gBiSYl5Tvd/
-         NjTQ==
+        d=brighamcampbell.com; s=google; t=1747842072; x=1748446872; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lvD+mNVQm/2jmSgV0usT3IDjfQuZhMOI7Av7SLu7jf0=;
+        b=Ey2DkYy1few3pT5AIL3z7zDtLHXP6FM2vKg6uuArpYLbNviKuIaglDN5tXo53J9Fe3
+         Bq7R376rv2S9dC6pGW7lbyQi6PFIL7NBUHr6ho+ELUstGoS8NvPY0AuUcY52NIdBaXo/
+         LPq2xv7W7wlEUbpVMMuIxhHoY7VV5BVfbUeZt7Dr4d26lSqg8+HC2PcKfYGdsBg5eML5
+         Bn+M3xoqbVwZNgpsFTIttRiR2u2BNX1k2JG09aWZun6WxCepNvOE6FdSaZXBmdixO05O
+         mgWLEr3VHP5m9LZyXi/2VLIDY8nqC+nqEne5iJhCEhGXXfx06EBWOOQTErdqDM6HCp4d
+         9w5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747841891; x=1748446691;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xX1GdWOhUQkZGneOEdWqA8kdYMe8hW7mvNhj+I9O+wM=;
-        b=H8M2lmnHJs3sDTSl8cNu9uHqF6E4hQMzgNKu1DhOfiH6hFUuPxAGgbfAuGQ7urOas1
-         pdypjbRS+FIEbvmtMIrbIAhCtmLhJjxPz4cpyrwsc4SQWzepF8sNGGPUOP0lqBxLNO7x
-         +WfjMUNK1HFZGXv9NgMtXaEPfOc33hafmwis7yldjrRCrSAyNXujYcxTSZ4zYhKOVCzC
-         p5znkEULATQkaYDkRq2irTQMlB3KpN2z7uOR7ZsCaaZFXO/UP0HDdNcW6VzvZsUk9+F+
-         bwVwa/6v7C0Qhcdn7Zdb0wcgrbeCLXdxEAZKgZDOoJGBiKcb86Hxa+qlx1kulKA0xmzF
-         igYg==
-X-Forwarded-Encrypted: i=1; AJvYcCWKrq6nnvJa5YQiA3Qtg1C/acW/qXVaGU/XgLDH1D7Y/aBX/jwNG1mJZk90pcfgUvP9yBIdeAarbrW3R1Rt+mowyFreEQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz2eVJxXiNk3hOb8bPBuuFuWWP+ZzuxnQDaq6T64rUgdciC+Lu6
-	ioWrMB69xp2r0Hw44DrnSmTmCSIDoYljGIrl1fLYLuAPJdzbYYjgxpbD
-X-Gm-Gg: ASbGncuDexDu9S2gpSPhVHSvKJz6lAuddi37DFRhk/z3REoBfEWRnK0wAJ/bdCn31gM
-	gCzFXiM+gMHbT0H4f7I20bUjTJZ9P4skgz9j5C6OQ2bzldRgpXHqZ1MfLeXlTMp+26YZkibmrTb
-	7Qv4fZltm1KBqhKVezsv+5pWwHEu8Bvzj6PDtyDQhIDX6ayyH0r2Wl2HupyYzMQwgoXWgeQtPrz
-	BXh8L+etrMPSO4ZN/OJj4Jqs/8le12o5GFs7ydvIhOpp4AYejGPHiZDOnj015HINtbl05CO91Kd
-	UPSly1VE75AeqNudO71tCAOrwjL4dLXDCEVmzX1j5k4S2P/+DJHX71YMtQ/ztvNINVG9qKRfNUy
-	T5YgQeU3Jm7RlmDvp7sFAJ5AnBSBc2rlti88pgkeFMvo495M2k+XSeIVQHwT9kd3TmgWEVaPqOc
-	0z+4XJh1VI0Zd6
-X-Google-Smtp-Source: AGHT+IGJk/QA3hPb0+7+lQT4VfmFwPDxyEv47UVCzN+pVXLWlFipTvOAW7WEP1E09sDDyJ2Vmg3EGw==
-X-Received: by 2002:a05:6512:1049:b0:549:55df:8af6 with SMTP id 2adb3069b0e04-550e726a158mr5906365e87.53.1747841891225;
-        Wed, 21 May 2025 08:38:11 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:53:1500:e8f4:97c2:d311:5b15? (2001-14ba-53-1500-e8f4-97c2-d311-5b15.rev.dnainternet.fi. [2001:14ba:53:1500:e8f4:97c2:d311:5b15])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e9cb4d69sm2793218e87.21.2025.05.21.08.38.10
+        d=1e100.net; s=20230601; t=1747842072; x=1748446872;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lvD+mNVQm/2jmSgV0usT3IDjfQuZhMOI7Av7SLu7jf0=;
+        b=prrZOuPCRF1Xuan+sIpK+h036/SmubxfEAYOawObTAlwLgyE9fTMmIDWMysqGFwX94
+         KQvczEMXvtt7EPWJtLVEd2iRCm7R6kavBQpPg5ybkt3+mP4/E4qkis8GKuCEoNbR/vOp
+         3OAyKjx7xFtFE8dXdjZIdyTXyUKGV/CDTxc+NtlGee9xvv4z/BOHojNsYkbdvmfg+iFO
+         0NmuNqGuBOk78PU+awuty/Ir5vEKZtgBqdX0tMJbgK9rLtqwHCpNyzZ8kfcHwcUEOteS
+         m0JPywqahw3bJYIjsDRVwyDlbcKyGQhz4txl+mMgRsp+hgXnV1VpSmBJ6nvuecjoT8GN
+         2tMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX7Ib4IgWjZDca0z2J9BDtmbZKz/5H11Z8zCgLcTxnah6cHEc/xoop7eBYv5ioBh+5nYyEHqlhFMbqC5RMC7nZHotmCyw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwRQoR83BsvwH50L4JdoGNXuVEQUhV3NFCKUfIoLB9gPzOzyvWc
+	rSON6Vj62qgfB5me+XcBgmmkASiDOosLJtqW8FV8JMimoLrgr2CZd8cUZ2U+q5hDA04=
+X-Gm-Gg: ASbGncuzAp4DTbFLukMKl/YIW9dZ0pioC3Z3LhJN6l+VDI34/kBRbXCTRkIRFIXKFWk
+	5ETgbqh3KayCwQkF+26lbW1OJDZLS7UpwieUfnNAmK7VG+UjZ7mlcMfZrKnK2cR5s7siRuZDUqX
+	VO/bs0h2M9XXEjTNdjJzZnApUmaUCA6p2Y46MyUpT0pLAtjx0dnpCgd+3vAePrwVN5TiqCZR46y
+	g2KyV5tTo5FyA7wX3WU5Qd8E9mZgF5YHGiYPEJurkT4MglaHzxLB4+HJ09Xr/+74z1HtaQ+Lksk
+	O4HsI5vNVkA2j4yosdeRdxd4rnVKRBJE8r5vL78fqB0P4nhT
+X-Google-Smtp-Source: AGHT+IF1a/jzMbO7F6gJPzIDd9TjYyvBG5uSioYyo5MOYniqFNvItm2zBIXk5D1DSiZdNl+D5LzuRA==
+X-Received: by 2002:a05:6e02:1a2f:b0:3dc:7660:9efe with SMTP id e9e14a558f8ab-3dc7660a1b3mr97393735ab.9.1747842072167;
+        Wed, 21 May 2025 08:41:12 -0700 (PDT)
+Received: from localhost ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fbcc4af638sm2638635173.105.2025.05.21.08.41.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 May 2025 08:38:10 -0700 (PDT)
-Message-ID: <8bd31e5e-9f0a-48cc-9727-d2e6475ce046@gmail.com>
-Date: Wed, 21 May 2025 18:38:10 +0300
+        Wed, 21 May 2025 08:41:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] docs: Improve grammar in Userspace API/fwctl
-To: Bagas Sanjaya <bagasdotme@gmail.com>, mchehab@kernel.org,
- ribalda@chromium.org, hverkuil@xs4all.nl, hljunggr@cisco.com,
- dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
- Jonathan.Cameron@huawei.com, corbet@lwn.net, ilpo.jarvinen@linux.intel.com,
- mario.limonciello@amd.com, W_Armin@gmx.de, mpearson-lenovo@squebb.ca
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20250517132711.117618-1-hannelotta@gmail.com>
- <20250517132711.117618-3-hannelotta@gmail.com> <aCqKNg3p_VlGbce_@archie.me>
-Content-Language: en-US
-From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
-In-Reply-To: <aCqKNg3p_VlGbce_@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 21 May 2025 09:41:10 -0600
+Message-Id: <DA1YAY60022M.2IRYOYRE5IEVL@brighamcampbell.com>
+Subject: Re: [PATCH] docs: powerpc: Add htm.rst to table of contents
+From: "Brigham Campbell" <me@brighamcampbell.com>
+To: "Brigham Campbell" <me@brighamcampbell.com>, <shuah@kernel.org>,
+ <linux-kernel-mentees@lists.linux.dev>, "Madhavan Srinivasan"
+ <maddy@linux.ibm.com>, "Michael Ellerman" <mpe@ellerman.id.au>, "Nicholas
+ Piggin" <npiggin@gmail.com>, "Christophe Leroy"
+ <christophe.leroy@csgroup.eu>, "Naveen N Rao" <naveen@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "open list:LINUX FOR POWERPC (32-BIT
+ AND 64-BIT)" <linuxppc-dev@lists.ozlabs.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, "open list" <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250517210757.1076554-3-me@brighamcampbell.com>
+In-Reply-To: <20250517210757.1076554-3-me@brighamcampbell.com>
 
-Hello,
+On Sat May 17, 2025 at 3:07 PM MDT, Brigham Campbell wrote:
+> These changes fix the following error, which was introduced by commit
+> ab1456c5 when Documentation/arch/powerpc/htm.rst was added to the
 
-On 5/19/25 04:32, Bagas Sanjaya wrote:
-> On Sat, May 17, 2025 at 04:27:10PM +0300, Hanne-Lotta Mäenpää wrote:
->> Fix typos and improve grammar in the documentation for
->> fwctl subsystem.
->>
->> Use the word user space consistently, instead of having
->> two variants (user space vs. userspace).
->>
->> Change wording of denied behaviour to be disallowed
->> behaviour when describing the interface.
->>
->> Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
->> ---
->>   Documentation/userspace-api/fwctl/fwctl.rst | 30 ++++++++++-----------
->>   1 file changed, 15 insertions(+), 15 deletions(-)
->>
->> diff --git a/Documentation/userspace-api/fwctl/fwctl.rst b/Documentation/userspace-api/fwctl/fwctl.rst
->> index fdcfe418a83f..a74eab8d14c6 100644
->> --- a/Documentation/userspace-api/fwctl/fwctl.rst
->> +++ b/Documentation/userspace-api/fwctl/fwctl.rst
->> @@ -54,7 +54,7 @@ operated by the block layer but also comes with a set of RPCs to administer the
->>   construction of drives within the HW RAID.
->>   
->>   In the past when devices were more single function, individual subsystems would
-> 
-> Do you mean that devices used to be singleton in its functionality? Or having
-> multiple functions?
+After submitting this patch, I've become aware that it's customary to
+add a machine-parseable "Fixes" tag to help with backporting and
+bisecting:
 
-On this line I did not include any changes. On the next line I have 
-added a comma. To answer your question though, the original author may 
-have meant that devices had less functionality earlier, which resulted 
-in multiple implementations of the common functions, and now with a lot 
-more functionality it makes sense to have a common interface for those.
+Fixes: ab1456c5aa7a63d5 ("powerpc/pseries/htmdump: Add documentation for H_=
+HTM debugfs interface")
 
-> 
->> -grow different approaches to solving some of these common problems. For instance
->> +grow different approaches to solving some of these common problems. For instance,
->>   monitoring device health, manipulating its FLASH, debugging the FW,
->>   provisioning, all have various unique interfaces across the kernel.
->>   
->> <snipped>...
->>    3. Write access to function & child debug information strictly compatible with
->>       the principles of kernel lockdown and kernel integrity protection. Triggers
->> -    a kernel Taint.
->> +    a kernel taint.
-> 
-> Improving grammar includes s/Taint/taint/?
-> 
-> Confused...
-> 
-
-Here the capitalized word is not in the beginning of a sentence or a 
-name, which is why lowercase would be correct.
-
-Best regards,
-
-Hanne-Lotta Mäenpää
+> repository without any reference to the document.
+>
+> Documentation/arch/powerpc/htm.rst: WARNING: document isn't included in a=
+ny toctree [toc.not_included]
+>
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+> ---
+>  Documentation/arch/powerpc/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/arch/powerpc/index.rst b/Documentation/arch/po=
+werpc/index.rst
+> index 0560cbae5fa1..53fc9f89f3e4 100644
+> --- a/Documentation/arch/powerpc/index.rst
+> +++ b/Documentation/arch/powerpc/index.rst
+> @@ -19,6 +19,7 @@ powerpc
+>      elf_hwcaps
+>      elfnote
+>      firmware-assisted-dump
+> +    htm
+>      hvcs
+>      imc
+>      isa-versions
 
