@@ -1,69 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AC045C14;
-	Thu, 22 May 2025 08:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FA82868AA;
+	Thu, 22 May 2025 09:48:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747902652; cv=none; b=C2j0ZJceEUqhGiqcSBG1rn4qSd8C4yTBqvtCaqqKY+zxIdSR1Z8QJ063nR+4IZ05l6KvSAGRt44eUEcTuZ/9gMnIl+nOw9oT3uRsZdHr5bI69rYg8m37BHBDBWemoHw0SpBpnjo6Xca4IMsUrbVYtrSQk8LNfJNd17m/cxxT+1o=
+	t=1747907300; cv=none; b=g+zuGjIPYbeosepxTs7rLXN3ezPKFjBx7kkgsJIFHAsXATv8opJ9UFFzfTxAauDPyc9FqWY9rdstZPt7BfN4gt4KY7/mPwYDfMy/SeZ/o00cCmc3OzXW9j5nS4KAwR4h9YJdm4lQNPyQuwJ5/OCNBVC6AsSQjJvKzw2cHVKz2Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747902652; c=relaxed/simple;
-	bh=MRJHNZRt9utLQVgyJmGAvzAudoQRvVSqgUZWOLGd3q8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jv1rrlGf73afUFrKSjcGK7LQlpHqCiRWqGXbva6y7ntXc2nqu44GosObSwF5RJddAnyqS5MQt55z9hpzQ8T7gUw7JC8eN/HjPh0r2/M7mF1OIfbcqv2rJkvs1+4jR1LbFfnrAvbJqLHiDWHjNJBl2l5lC481GzpbtYIuJsvjfJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CzSOAiWp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747907300; c=relaxed/simple;
+	bh=2xc14kofAPTIvpumlYOz6JKhfN4twQKcUTXPRnhTva8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ruPWiMZWiyk+CAedNQs7KsQ4ZAbBUifhwhtzPeT9k+IQhMwiob+4UeXGqcbuWWSwy6xFtar5Cx48l3MvwhZxYpT6Lg2b0LkO8rtoSiMn6AcjmQmJZP7CFGaz/Q/H1aqD2BmaSo5pB5DhSQ/HGOVrT32gHDfxkCRkqIErbuxvtTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i0fuadPm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CzSOAiWp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B94D1C4CEE4;
-	Thu, 22 May 2025 08:30:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1747902651;
-	bh=MRJHNZRt9utLQVgyJmGAvzAudoQRvVSqgUZWOLGd3q8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CzSOAiWpzq2SF4bRdzcZra8Y0lJ9jYJsXDPzTyeKMwBj3YL5xWevgvOYL1kGdJXxP
-	 +0Y6IF0wYPml8dytGbDEex0dbCaNv8XxGtbNQz8CbwM7Z1sgOThHQ4nLjnY/eqWskY
-	 YTIJKgza7PNoKC7rN7PuED5q59C9aCRFub2SVkuo=
-Date: Thu, 22 May 2025 10:30:48 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: Jihed Chaibi <jihed.chaibi.dev@gmail.com>,
-	heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH 1/1] usb: typec: tipd: fix typo in
- TPS_STATUS_HIGH_VOLAGE_WARNING macro
-Message-ID: <2025052234-brewing-recall-a7ed@gregkh>
-References: <20250521214851.386796-1-jihed.chaibi.dev@gmail.com>
- <DA2IV4ZGT2M8.3QXO3L57VXSA5@brighamcampbell.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i0fuadPm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98F29C4CEED;
+	Thu, 22 May 2025 09:48:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747907299;
+	bh=2xc14kofAPTIvpumlYOz6JKhfN4twQKcUTXPRnhTva8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=i0fuadPmZO2CjoTQ5YGZmtOpheGXsVRn81YUD8z/ORLstL2eUxQqIQunSAQBVnMS/
+	 QLCciGm9Bg6IcpxKvFS3/M8pSkaghf8Khom9zR57BzqfDk6Qf/74MI05kzSuQeFgAY
+	 7Klzgd2pGuMqLg75cyhpvUmMt/KIVIt67kUW5gojukCPDb9URmki5zsegnsvRWmiTo
+	 gikw1b24qUBCk9t/7w3MgzJNPSDzCzFF5rrGeTfQneKMOjmPAFCiIjuqrPUcrtlcc4
+	 RqGRKzfWYfHXJwnWNPRUo1PP0kte3xXeu6wO0BR5Cx+ztC37Jb5iZP1XdmsEo0/NXS
+	 +zJC+X4wdDGAw==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: richard120310@gmail.com
+Cc: a.hindborg@kernel.org,
+	alex.gaynor@gmail.com,
+	aliceryhl@google.com,
+	benno.lossin@proton.me,
+	bjorn3_gh@protonmail.com,
+	boqun.feng@gmail.com,
+	gary@garyguo.net,
+	jserv@ccns.ncku.edu.tw,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	ojeda@kernel.org,
+	rust-for-linux@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	tmgross@umich.edu
+Subject: Re: [PATCH] rust: list: Use "List::is_empty()" to perform checking when possible
+Date: Thu, 22 May 2025 11:47:53 +0200
+Message-ID: <20250522094753.1369788-1-ojeda@kernel.org>
+In-Reply-To: <20250310073853.427954-1-richard120310@gmail.com>
+References: <20250310073853.427954-1-richard120310@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DA2IV4ZGT2M8.3QXO3L57VXSA5@brighamcampbell.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 22, 2025 at 01:47:54AM -0600, Brigham Campbell wrote:
-> On Wed May 21, 2025 at 3:48 PM MDT, Jihed Chaibi wrote:
-> > "VOLAGE" should become "VOLTAGE"
-> >
-> > Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-> 
-> Nice work! I was able to successfully compile this driver with your
-> changes and I don't see any further references to the misspelled macro.
-> 
-> Patches which fix issues which were introduced in some previous commit
-> typically indicate the offending commit via the "Fixes" tag. Admittedly,
-> I don't know if the tag is reserved for technical bugs rather than typos
-> such as the one you addressed, but such a tag would look like the
-> following for this patch:
-> 
-> Fixes: e011178579b57c03 ("usb: typec: tipd: fix typo in TPS_STATUS_HIGH_VOLAGE_WARNING macro")
+On Mon, 10 Mar 2025 15:38:52 +0800 I Hsin Cheng <richard120310@gmail.com> wrote:
+>
+> "List::is_empty()" provides a straight forward convention to check
+> whether a given "List" is empty or not. There're numerous places in the
+> current implementation still use "self.first.is_null()" to perform the
+> equivalent check, replace them with "List::is_empty()".
+>
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
 
-Too many characters for that sha1 value :)
+Applied to `rust-next` -- thanks!
 
-thanks,
+    [ Rebased dropping the cases that do not apply anymore. - Miguel ]
 
-greg k-hj
+Cheers,
+Miguel
