@@ -1,196 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CCE28B3F7
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 22 May 2025 14:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B951E3CF58
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 22 May 2025 16:21:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747925973; cv=none; b=n+gWmJ0qDeaqry3P0RtLXoi6/SkMB2ttsvt56yZlsJT382f7MLYETc1TYeYPDgtlb2AdPz6WwkgSA3RdLV3eNquwTRbu2CrzZ7meuih8ybKd5hcsoUwZau4AoY3UWtp6Mw0qiDZSpbVpkGPxVfat+kHcf/RBNS43SQA9ve2dBM8=
+	t=1747930875; cv=none; b=lLrehErWLtHi39WZy31wGaRB1nD6RLpv4vdMglBdO6PaA8k4YulzoZrWRhXbDAbc6Y8a3CdfcVg/EbcSvcIzoX07P7SieFohcQrbJVc0M48znXfKp41Hh8eagYa+ygttszs5ob1fSXvQlGuEXF0/HEPvKNS2iBMsYt6P3lCWaWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747925973; c=relaxed/simple;
-	bh=/HSY2bf7+CxdE8PnNA5ED4snO+PBqUNqJ8eFlqZfjRc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nEa/pZ3HIRIU6bA1p2BN+RjNamF4O4jJRRVmqp1njxD6EviEmYS48Xp2VLJQiWLvKS7Go9eMBtww8423eIZykR/yignJo3KHZlU369rpJWN6ZL6ek41WfW7AOnq4gxl6+B3Sb6Ygu2ZVLPQBRKVexpe5Ls3kkWK+MONdGAzbLI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P7pGBret; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1747930875; c=relaxed/simple;
+	bh=rrLDAIKiEK4nCi+9i4gqRmBlWWl8TS9ByU/6a1reG7A=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=d0SX3JWUFO5eRLigEAywJh0Rgqfg0F1z8tWbcBX2VplMwL0Ivaq5/q0g+GVWCbuLD4HzqUfNxrj8yp5vFp/TqlsGCLLWQnLkms99RS1/gqrg1lTo32ZFzLr8CwqTta4dmAI8c6WWp8onIiryBM89mITWxFEaJj0O7ywIJbleVWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=fail (0-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=ViNTx9WS reason="key not found in DNS"; arc=none smtp.client-ip=209.85.166.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P7pGBret"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747925971; x=1779461971;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=/HSY2bf7+CxdE8PnNA5ED4snO+PBqUNqJ8eFlqZfjRc=;
-  b=P7pGBretSxAH9R3VSHfPJ1rIXVD1xakhs2iw85ou77vNnSuOokA22pYY
-   qoz/fJixMPmmSZW64647XoGE7VAC+yfTDtUiiftwBCQorn+v+UrOnEA8b
-   VHDnj/OqTrPrOijpQjYSLvy+1OeG51iXG0Gx1T9ZXLuiV48e9LOZsDiVk
-   573bhQd91PZry8uRiIUnem9qhyNETmozQVOCTcQnDiFDXXS4g6lBP39aU
-   Xt67RDKn7Kjqp56Aeb7B/TPC/zSNccDNXGOCS3WRYgioWhQw4vJ+E1ON+
-   4ya2aNB0Qj2w/2ZaLaIdNe7Bnb2ukcOPnE5Kx4PW4f0hIZn/kbUeRZ0NO
-   A==;
-X-CSE-ConnectionGUID: DhOXWV/mRNOoZFpjXs258Q==
-X-CSE-MsgGUID: exkBb3j7SaGfXPamQw+4TQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50062784"
-X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
-   d="scan'208";a="50062784"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 07:59:30 -0700
-X-CSE-ConnectionGUID: 7vUoS313Tk64RjsxT56Daw==
-X-CSE-MsgGUID: 8x9pIxiMS7OM2vjeOjAwYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
-   d="scan'208";a="141147652"
-Received: from tjmaciei-mobl5.ger.corp.intel.com (HELO [10.125.109.122]) ([10.125.109.122])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 07:59:28 -0700
-Message-ID: <7310ef0a-44f9-44ae-9aee-3f2e07f93573@intel.com>
-Date: Thu, 22 May 2025 07:59:26 -0700
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="ViNTx9WS"
+Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3dc729471e3so15605365ab.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 22 May 2025 09:21:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1747930873; x=1748535673; darn=lists.linux.dev;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rrLDAIKiEK4nCi+9i4gqRmBlWWl8TS9ByU/6a1reG7A=;
+        b=ViNTx9WShSfxxp2eJrn5fxyYWVel8ao7/aPMwWq5nNde1IH98wguyVnWif99gRbxLL
+         mcamSZUU72/+02oXYf929CLImx0jKAV4+/9ISqgtXtBE/JN84bHISkTTVZ9f9yo589ax
+         ljO0qO/6YKYVxS8XkAZ9H0uZNlo/k0k/csVOGkL/WJVKzU4wzEwIvrDEQKvtIL3qEgoI
+         w7/b2pmJlKv2kt5+PlrYms9LcI1J+M3yJKzfCgqbZwOqT2spsGM4yUQLO1mayrVt4ABC
+         moJyBUZyATsUNUaI1GTK3jsGlR3f4ho0reMNvpxEg3damCcVjLlg0ybM3yJxShEZEOQo
+         JwmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747930873; x=1748535673;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rrLDAIKiEK4nCi+9i4gqRmBlWWl8TS9ByU/6a1reG7A=;
+        b=dBB7wilr1BQX/eLsWscpvIHvDq2Ma7QvGt3EzzgxDWrjOXC/35MpUAbdWol4KBCXzE
+         Gy3VR/x4GxkQjBC9VdNaZqKU3TTlnqeF027DqqJaioPOSDOdu2wxH9PpVZ1j2HVLX4S8
+         SNtVIFK7KphL0lZqQHUM2T7zjFoFjKqMyj6KyW+YshU4yf2SWAG/XfP+JO+87rmI2Da9
+         MDSZxQDaaj6O94f2F9+NR79pasES6U9li4DgSFWBWO9Jl/kkP7qDIAmn7o4g+CW06b+g
+         GV2RGzl+MuqPtIseKQqTynGO+sVvwAzReoaGpADyu/qBSc5yDKD64lm8pezWjFfkMC6+
+         eARQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX3Y3OVpbFcjOikd5z6j40WQommsIXhQajsxk1GppA6p5uTz9RZL9DbE75Pqhza/aBDhyEYRDtUecv6iJrhkFFn81G6cg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywi7z5T2yTIhwXpgICSzGLuew4Del6wZewda+JlKqOzmtzqiOiL
+	4tI782Qd2nFWJVyCixOIoAeO2Exzv6H8kG4QhOLp4BXYQERnTa0n8paYeT+00Sxn3EQ=
+X-Gm-Gg: ASbGncupuXb/fFr+DLWIGbvNHSJ9T6JtVv9kfdG3TZlnJV7okC1VC6O8whHR6gXkR63
+	q68UIQ5+zEWQfk0dSvOojEHp5FQItPhlRvVGn1QqUp/AQJXWSe9vxOY1wky++JVRbEJZzmSz7sK
+	L9nKKucKHreEmjmm+Uu/H9wOv91KUWD8mawS+8x8rlfANeXk8dO6jBdKF5Q5CJIp+kOM7PiEQNH
+	bUZiu9vptCZiWfDKiQD4FS+tMWBgAmYy5ylopYXtTRQBFVPGeYjXbSjfdN0lZieSXp3X9HWIAtI
+	pEAGau+GmGBMF6xoUxkNAAa2mhWUjmckp4DrgE1WReL0p+Gx
+X-Google-Smtp-Source: AGHT+IHOQ0SWVebfgDZDKmRx+6jWi05MfuX7gwZSb++7o+5qstcoX0pcP1SvRwbgMuT4PSBEfZtP+A==
+X-Received: by 2002:a05:6e02:743:b0:3dc:8c4e:2b8b with SMTP id e9e14a558f8ab-3dc8c4e2c10mr39021205ab.8.1747930872568;
+        Thu, 22 May 2025 09:21:12 -0700 (PDT)
+Received: from localhost ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3dc89bfeee0sm6988515ab.70.2025.05.22.09.21.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 May 2025 09:21:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] docs: Improve grammar in Userspace API/fwctl
-To: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>,
- mchehab@kernel.org, ribalda@chromium.org, hverkuil@xs4all.nl,
- sebastian.fricke@collabora.com, hljunggr@cisco.com, jgg@ziepe.ca,
- saeedm@nvidia.com, Jonathan.Cameron@huawei.com, corbet@lwn.net,
- ilpo.jarvinen@linux.intel.com, mario.limonciello@amd.com, W_Armin@gmx.de,
- mpearson-lenovo@squebb.ca, skhan@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20250522115255.137450-1-hannelotta@gmail.com>
- <20250522115255.137450-3-hannelotta@gmail.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20250522115255.137450-3-hannelotta@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Thu, 22 May 2025 10:21:10 -0600
+Message-Id: <DA2TS4HXZHLK.1WH4DSREYSAP4@brighamcampbell.com>
+Subject: Re: [PATCH 1/1] usb: typec: tipd: fix typo in
+ TPS_STATUS_HIGH_VOLAGE_WARNING macro
+From: "Brigham Campbell" <me@brighamcampbell.com>
+To: "Greg KH" <gregkh@linuxfoundation.org>
+Cc: "Jihed Chaibi" <jihed.chaibi.dev@gmail.com>,
+ <heikki.krogerus@linux.intel.com>, <linux-usb@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>,
+ <skhan@linuxfoundation.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250521214851.386796-1-jihed.chaibi.dev@gmail.com>
+ <DA2IV4ZGT2M8.3QXO3L57VXSA5@brighamcampbell.com>
+ <2025052234-brewing-recall-a7ed@gregkh>
+In-Reply-To: <2025052234-brewing-recall-a7ed@gregkh>
 
+On Thu May 22, 2025 at 2:30 AM MDT, Greg KH wrote:
+>
+> Too many characters for that sha1 value :)
 
+I heard recently about concerns regarding the collision of 12-character
+sha1 abbreviations [1] and had assumed that using 16 characters is
+acceptable. Regrettably, I neglected to read Linus's response to the
+email which rose those concerns. After reading his response, I'm
+satisfied knowing that there is still very little risk of a collision
+between the abbreviations of commit objects specifically.
 
-On 5/22/25 4:52 AM, Hanne-Lotta Mäenpää wrote:
-> Fix typos and improve grammar in the documentation for
-> fwctl subsystem.
-> 
-> Use the word user space consistently, instead of having
-> two variants (user space vs. userspace).
-> 
-> Change wording of denied behaviour to be disallowed
-> behaviour when describing the interface.
-> 
-> Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+I'll modify my git config to use 12 character abbrevs.
 
-> ---
-> 
-> Notes:
->     v1 -> v2: No changes
-> 
->  Documentation/userspace-api/fwctl/fwctl.rst | 30 ++++++++++-----------
->  1 file changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/fwctl/fwctl.rst b/Documentation/userspace-api/fwctl/fwctl.rst
-> index fdcfe418a83f..a74eab8d14c6 100644
-> --- a/Documentation/userspace-api/fwctl/fwctl.rst
-> +++ b/Documentation/userspace-api/fwctl/fwctl.rst
-> @@ -54,7 +54,7 @@ operated by the block layer but also comes with a set of RPCs to administer the
->  construction of drives within the HW RAID.
->  
->  In the past when devices were more single function, individual subsystems would
-> -grow different approaches to solving some of these common problems. For instance
-> +grow different approaches to solving some of these common problems. For instance,
->  monitoring device health, manipulating its FLASH, debugging the FW,
->  provisioning, all have various unique interfaces across the kernel.
->  
-> @@ -87,7 +87,7 @@ device today may broadly have several function-level scopes:
->   3. Multiple VM functions tightly scoped within the VM
->  
->  The device may create a logical parent/child relationship between these scopes.
-> -For instance a child VM's FW may be within the scope of the hypervisor FW. It is
-> +For instance, a child VM's FW may be within the scope of the hypervisor FW. It is
->  quite common in the VFIO world that the hypervisor environment has a complex
->  provisioning/profiling/configuration responsibility for the function VFIO
->  assigns to the VM.
-> @@ -105,19 +105,19 @@ some general scopes of action (see enum fwctl_rpc_scope):
->  
->   3. Write access to function & child debug information strictly compatible with
->      the principles of kernel lockdown and kernel integrity protection. Triggers
-> -    a kernel Taint.
-> +    a kernel taint.
->  
-> - 4. Full debug device access. Triggers a kernel Taint, requires CAP_SYS_RAWIO.
-> + 4. Full debug device access. Triggers a kernel taint, requires CAP_SYS_RAWIO.
->  
->  User space will provide a scope label on each RPC and the kernel must enforce the
->  above CAPs and taints based on that scope. A combination of kernel and FW can
->  enforce that RPCs are placed in the correct scope by user space.
->  
-> -Denied behavior
-> ----------------
-> +Disallowed behavior
-> +-------------------
->  
->  There are many things this interface must not allow user space to do (without a
-> -Taint or CAP), broadly derived from the principles of kernel lockdown. Some
-> +taint or CAP), broadly derived from the principles of kernel lockdown. Some
->  examples:
->  
->   1. DMA to/from arbitrary memory, hang the system, compromise FW integrity with
-> @@ -138,8 +138,8 @@ examples:
->  fwctl is not a replacement for device direct access subsystems like uacce or
->  VFIO.
->  
-> -Operations exposed through fwctl's non-taining interfaces should be fully
-> -sharable with other users of the device. For instance exposing a RPC through
-> +Operations exposed through fwctl's non-tainting interfaces should be fully
-> +sharable with other users of the device. For instance, exposing a RPC through
->  fwctl should never prevent a kernel subsystem from also concurrently using that
->  same RPC or hardware unit down the road. In such cases fwctl will be less
->  important than proper kernel subsystems that eventually emerge. Mistakes in this
-> @@ -225,12 +225,12 @@ subsystems.
->  
->  Each device type must be mindful of Linux's philosophy for stable ABI. The FW
->  RPC interface does not have to meet a strictly stable ABI, but it does need to
-> -meet an expectation that userspace tools that are deployed and in significant
-> +meet an expectation that user space tools that are deployed and in significant
->  use don't needlessly break. FW upgrade and kernel upgrade should keep widely
->  deployed tooling working.
->  
->  Development and debugging focused RPCs under more permissive scopes can have
-> -less stabilitiy if the tools using them are only run under exceptional
-> +less stability if the tools using them are only run under exceptional
->  circumstances and not for every day use of the device. Debugging tools may even
->  require exact version matching as they may require something similar to DWARF
->  debug information from the FW binary.
-> @@ -261,7 +261,7 @@ Some examples:
->   - HW RAID controllers. This includes RPCs to do things like compose drives into
->     a RAID volume, configure RAID parameters, monitor the HW and more.
->  
-> - - Baseboard managers. RPCs for configuring settings in the device and more
-> + - Baseboard managers. RPCs for configuring settings in the device and more.
->  
->   - NVMe vendor command capsules. nvme-cli provides access to some monitoring
->     functions that different products have defined, but more exist.
-> @@ -269,15 +269,15 @@ Some examples:
->   - CXL also has a NVMe-like vendor command system.
->  
->   - DRM allows user space drivers to send commands to the device via kernel
-> -   mediation
-> +   mediation.
->  
->   - RDMA allows user space drivers to directly push commands to the device
-> -   without kernel involvement
-> +   without kernel involvement.
->  
->   - Various “raw” APIs, raw HID (SDL2), raw USB, NVMe Generic Interface, etc.
->  
->  The first 4 are examples of areas that fwctl intends to cover. The latter three
-> -are examples of denied behavior as they fully overlap with the primary purpose
-> +are examples of disallowed behavior as they fully overlap with the primary purpose
->  of a kernel subsystem.
->  
->  Some key lessons learned from these past efforts are the importance of having a
+Thanks,
+Brigham
+
+[1]: https://lore.kernel.org/lkml/cover.1733421037.git.geert+renesas@glider=
+.be/
 
