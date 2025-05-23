@@ -1,127 +1,70 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A9420CCD3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 May 2025 11:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD50151990;
+	Fri, 23 May 2025 13:08:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748001212; cv=none; b=VXLf/viFH16Ov7nz2LShoghPNln5Tq/I7mBCTuy7M6t3pmk57+rTPDguNyQPnAsIsWd01TowmYvG4SBg1DPNpjCJUpvYDOT48yK/n0ME0Q3zrYYQtRSE0ZTTjJI/smV8ZE1geXjmfn4Zms9a3BD0c++Owgl7T+H808/W6my8+Rw=
+	t=1748005726; cv=none; b=tVMsVCvJMCPL2cdYkH2cCftRpaDTwtjc9r0zKVjy3n3zmjqwBN7jQmP1lyeUmGghsS9NgP2ESnnliJlnxX+oEHXhNZFWF/yTPX7EzPpDhS31iXWoO0YszSm/5xKzSJrsOSDMHhcVqy8iM4rRwHBdANBhkkzbN5pyvMo51qWzGus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748001212; c=relaxed/simple;
-	bh=8m+84PI0xY9G72NqwkULWmDnkygrhJle3AVSGN4iBy0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=Owlio1i1wq5XgDEcBkSnr8H7EKPGjyCCLh9LHOYFp5IszeZkHPDz7fu7kJ34hwuiTM3eqj9DrdC/+R3nyVfCtJoeRuzx8CgWMma0ayw3xuSBMc31aW5diPxkCDWKP9tQNvuJ8xlfFAoxjIss4aMbxVBlwYVgd7ra3G1rBuMbD2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HH0ieDuw; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1748005726; c=relaxed/simple;
+	bh=JV/1Gfqr7/DTYbohhc0eut/n2vI/4G6jIFGhCVznTik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YtqJJrwWY9C+xnQ7QQ0dLTNUA3UckakF8wPFCaVLCS1XPMlfujZKYacDotIO+oiz2+TQRITgdRylg0kp0dKkXM/7fyoGwyHspck1y+Adc7/5NwG8dhKw0KpPsIIlxu4p1kTd0l+g9pmzU6yf3C87EES2uWfCNesRSrOZH4o7+Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kcBej1hc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HH0ieDuw"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 135DC407AB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 May 2025 11:53:31 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id WJBiql8HD_u8 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 May 2025 11:53:30 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 7C93D4079D
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7C93D4079D
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HH0ieDuw
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 7C93D4079D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 May 2025 11:53:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 7787861154;
-	Fri, 23 May 2025 11:53:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63A2FC4CEE9;
-	Fri, 23 May 2025 11:53:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kcBej1hc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D868C4CEE9;
+	Fri, 23 May 2025 13:08:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748001208;
-	bh=8m+84PI0xY9G72NqwkULWmDnkygrhJle3AVSGN4iBy0=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=HH0ieDuwDesIqqzHmBoGn0nrdJiFp0qwHGygl8el1oYhY7/ywg8llks+Sav6g6uB7
-	 dR5wP2t7h+EKFThc7llYcOBpe9tuPOatOSThkedmIyaB1LPZ6mQCrUTlpM+h4DVd/S
-	 rtjeYlNKtJ+OlcuIOn5zQW8SprmEChmKQCb1St2IDi6yFd+SbaPSyYI4/oc06NFD3m
-	 03SoDlOdj2GbuHh73CQnb/i38BfpolGphuHrPF5Qo67LbhUtBONtTGzVPDRk8rYErl
-	 SO92yaffzXJOsVmmQteXH5i37MNPUgQ+U6rQxP1P4QFmolqjuannH5sEJxDcc4pr1b
-	 zKyY2cktRtz5g==
+	s=k20201202; t=1748005725;
+	bh=JV/1Gfqr7/DTYbohhc0eut/n2vI/4G6jIFGhCVznTik=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kcBej1hcKyPZAL+Y6Kt7H+YmTtUJEXG/vbY9hEAEOFrqAtuluopoLxfNZyc6B4mZp
+	 gm/W9sDufD3sIEvS5sMDANkwMqtYNJF7kI4vmb6i+yTcHcYnkEAtoTbrFz/XeaLUd5
+	 KFjrR/Tk/FXeCjfhhTSjEkcbnf7Lkpd+DlM/5Ng5VS2xQNnkjyvbGq9p21XidbBxfb
+	 uMD9xjY+eRFel9a3tJpF/wQbvgDCPvhfevuBJvFewf2sC1UHvgqyLXkjfSi4T/kcAR
+	 c7SLAcnFIgrHt6WXrxvTHHrmcqruZtj5MWOcgJjCo6Lmw6FArbJBlEVbBHTvavzaq+
+	 I3j60WApuHbCQ==
+Date: Fri, 23 May 2025 14:08:40 +0100
+From: Simon Horman <horms@kernel.org>
+To: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
+Cc: pablo@netfilter.org, kadlec@netfilter.org, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	shuah@kernel.org, aconole@redhat.com, echaudro@redhat.com,
+	i.maximets@ovn.org, netfilter-devel@vger.kernel.org,
+	coreteam@netfilter.org, netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2] selftests: net: fix spelling and grammar mistakes
+Message-ID: <20250523130840.GT365796@horms.kernel.org>
+References: <4f0d5c19-8358-4e5b-a8f0-3adcee34ffd4@linuxfoundation.org>
+ <20250523022242.3518-1-praveen.balakrishnan@magd.ox.ac.uk>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 23 May 2025 13:53:24 +0200
-Message-Id: <DA3IPNILKRA0.3LJ8DGKQ99KP8@kernel.org>
-Subject: Re: [PATCH v2] rust: doc: Clarify safety invariants for Revocable
- type
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Danilo Krummrich" <dakr@kernel.org>
-Cc: "Marcelo Moreira" <marcelomoreira1905@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, <benno.lossin@proton.me>, <ojeda@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-X-Mailer: aerc 0.20.1
-References: <aChczAWsPdmdeen3@pollux>
- <D9YO7XDNV712.3A5HSSLUQIZ2W@kernel.org> <aCrwuQP46RFHxYB5@pollux>
- <DA00X0RTYKMA.2OG25TZ1X3AU@kernel.org> <aCsAEJtkCKKhspnF@pollux>
- <DA03ANJMDOU2.1ZQWA6MIENVKD@kernel.org> <aCsX-k0K_jqLvD4e@pollux>
- <DA04WHRZBBS0.17WRMWDF0A335@kernel.org>
- <CAPZ3m_i8fwsBRJKay72LHT4pEW=eZ5LxCFD=8CYkuEksjjt3_Q@mail.gmail.com>
- <DA3ENUO97I6D.234AA7I97AV62@kernel.org> <aDA4HIOL-g37cvpy@cassiopeiae>
-In-Reply-To: <aDA4HIOL-g37cvpy@cassiopeiae>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250523022242.3518-1-praveen.balakrishnan@magd.ox.ac.uk>
 
-On Fri May 23, 2025 at 10:55 AM CEST, Danilo Krummrich wrote:
-> On Fri, May 23, 2025 at 10:42:58AM +0200, Benno Lossin wrote:
->> On Fri May 23, 2025 at 2:13 AM CEST, Marcelo Moreira wrote:
->> > 3. Clarified revoke_internal for SYNC =3D false and swap correction
->> > Proposed Documentation:
->> >  if self.is_available.swap(false, Ordering::Relaxed) {
->> >  if SYNC {
->> >                 // SAFETY: Just an FFI call, there are no further requ=
-irements.
->> >                 unsafe { bindings::synchronize_rcu() };
->>=20
->> @Boqun: is this true?
->>=20
->> If the answer is yes, then we should add this as a safe function in the
->> rcu module.
->
-> I think it's a case for Klint, since synchronize_rcu() must not be called=
- from
-> atomic context, since it may block. Otherwise, there shouldn't be any add=
-itional
-> requirements.
+On Fri, May 23, 2025 at 03:22:42AM +0100, Praveen Balakrishnan wrote:
+> Fix several spelling and grammatical mistakes in output messages from
+> the net selftests to improve readability.
+> 
+> Only the message strings for the test output have been modified. No
+> changes to the functional logic of the tests have been made.
+> 
+> Signed-off-by: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
+> ---
+> Changes in v2:
+> - Resending to full recipient list as requested by Shuah Khan. No code
+>   changes since v1.
 
-Makes sense, but then we should add this as a safe function (in a
-separate patch). After all we already have other safe functions that
-should be unsafe were it not for klint.
+Thanks,
 
->> >  }  else {
->> >        // This branch for `revoke_nosync` requires the caller to prove
->> > that `data`
->> >        // can be dropped immediately without waiting for any RCU grace=
- period.
->>=20
->> I'm not sure that having a single function that does the revocation, but
->> has this going on is a good idea. The safety requirements will be pretty
->> complex.
->>=20
->> @Danilo what do you think of inlining this function?
->
-> Sure, if it makes documentation significantly easier, which seems to be t=
-he
-> case, then it's probably worth.
+I agree these are all good improvements.
 
-Yeah then let's do it (also separate patch).
-
----
-Cheers,
-Benno
+Reviewed-by: Simon Horman <horms@kernel.org>
