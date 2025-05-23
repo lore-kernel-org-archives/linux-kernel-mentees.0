@@ -1,94 +1,111 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1027421B8F6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 May 2025 07:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E904C1DB127
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 23 May 2025 07:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747984762; cv=none; b=jQW3G9UF+lFuUvJpJWk0vm+FXvMHILkG6h+/lyGzzmvHGAQBp1FOJfqPLCDClWK9N9t9+PRSgpe8Dk13JW3TifjWXHYCEbhqMTULCO8DCOeTOrdnq5Tk5zQAvnI3VPvPuTwGJH+71RSAy8qYHulfC4AvQo5AzPFhwM3uweyCrYo=
+	t=1747985597; cv=none; b=mRSoThjTlrhgx9NgYF02nZrdY9pibOPTYNaFMwY/7Tyyf0I07Bl3k7xOnPMamEpJePoXg0TSFmADpkbJc9shbcVI5h8hq7v1ACabAsHkX0bDEQ5oaoHCpHi369eUCaYV0ny27OI1yeo9VINeLihDNZfK4yWGDSkLtaDgpb4hz/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747984762; c=relaxed/simple;
-	bh=E0ShDCdu9lAOMVz7ALM4jbU551cKu8SSMbDSrCRZxEU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h9aB7JHcpxT2PH2RRStjKS2griD3lKUU8eWYKHmoneClXQgTExJDVQPpE5ipErx4zCsF0eHEiONWYS++wi6i72BA7XDDkSAy9wxp2UAVa4eQC7p4sYTWQwh3Rv0sjZFTlxp5J0jBxJSkqiD0LtqYq5bO7TLK0U0ndTWvS39dKMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6ql+FeD; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1747985597; c=relaxed/simple;
+	bh=qAY6EeFJTZG28TvoJgL9U5bXPgvj6ZZgzASuq00yAbk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nWux7WCA+V/rNFE0BIKuZFMF8fMoUWTNRNHu3gJ/S8+rPlqpZ1GoY6Shl3EMQ3zCBjFRLBTmgE3fBCtMcDbKfsXi66bqlY7vKrW8TdAd3CzRJ9DqYwz1dzzEpy3/HOOaiqBAcRawnvy2OdVdmrUMy9QjvIZEAUNtoGI9dndxtiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=fail (0-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=UIe2d6di reason="key not found in DNS"; arc=none smtp.client-ip=209.85.166.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6ql+FeD"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 80D8141B87
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 May 2025 07:19:20 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.792
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 7CnDdNNghO4v for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 May 2025 07:19:20 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=dakr@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org F408E4039B
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F408E4039B
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=J6ql+FeD
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id F408E4039B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 May 2025 07:19:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 76859629F6;
-	Fri, 23 May 2025 07:19:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2CBAC4CEE9;
-	Fri, 23 May 2025 07:19:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747984758;
-	bh=E0ShDCdu9lAOMVz7ALM4jbU551cKu8SSMbDSrCRZxEU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=J6ql+FeD4AFFmKKjw47tjsuBVAqf9jtS0npqWGk3pkKq/ji4wg2/M9p3mGZNEkp5F
-	 lP1x/SjEBOI2Ihf78j5nfdRRPMHb/4pNyXwfyVS9pxN2TUcf1SCDjkcb8W/aoFOIKp
-	 AY/BWK09Br3j+yLyeEwB6kwoLxyrul/MzoFr8EVdH5qWMWcaMu2ar/SOcv0bcFqS4t
-	 vQvQgHvxV29GNOTk22RUgKZT6nrLCcFSoctur79u/XkvFvXn7PxA387EleEulfpg+1
-	 Y9v95a+MS60JrgG7axsv9OIAgcKPLPHxPZHECFdWGDZnkn9XeX98BVkw3pyshpUkS9
-	 xA67iJ0A97RqA==
-Message-ID: <2390300b-49d0-4fe5-81b5-5a9f3fd9e300@kernel.org>
-Date: Fri, 23 May 2025 09:19:14 +0200
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="UIe2d6di"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3d817bc6eb0so52171555ab.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 23 May 2025 00:33:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1747985593; x=1748590393; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EhDC8DXcjYenT+PN1rPVu6Md6wucoYZjvtH8KVhEPDM=;
+        b=UIe2d6diHnIIHrGHaWZFaL+CIORDeokQyF1/x58HYOnP7YMFnJciP8NjBSOwnFuXjQ
+         26eOuDcxcv83Dqq8/4m+IMnlWaxgn90ZH293Awdb3jw+uh0D4zPAVWtaqJaqXvxLpOce
+         zC6heUhgVqYltGmFgHjcWJS2FP0fu7ZShyQxSiDYHh817/6mjw4mggh175LWk9DhFgJ5
+         NVwTa+ivgolrAfCZUSEuYZ0U6U/rkG/zmh7F4VlRfPN1uJhywYa/AR8WaJQkb3MBYsQd
+         xEdofZz6hHrpZY8fmn/Jht9kWe0Dc0/58EpYP6qBhHKtZ3UfRnRKMxn1l8IAWZppCh1R
+         Bn+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747985593; x=1748590393;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EhDC8DXcjYenT+PN1rPVu6Md6wucoYZjvtH8KVhEPDM=;
+        b=A4749OB6tRx6oZstM4wTp22MdnHOK9b2noCXB2QG1jmUzlRF+Q/yu61AFzLIRFgRUD
+         hgH0ALVCPufLTps6ASh8OLxAyKXuL2xTdq1SHJNs98MCfWySVyc6mTt1Rmz9xEQ7N3KX
+         A55mgzXdeVZXaOnxgHdPSODNmIxfzhghJbVka+QUQhICBZYpEjss6n7sKxGjFHFPplCf
+         Wa5d+Y2Ft9/hU+nfFbUylFSn5ug9AN2Fgvp7CdHyJxLKic+VW7lgYRW2qc04SJ15zeUp
+         /ma5ZZckv7RFhFPMc4U+ogYlUDcXnXb1FmqUOKKfsKD5joDuR/AFNlMX09bXBVgRPrpe
+         8GYA==
+X-Forwarded-Encrypted: i=1; AJvYcCUpBenvNiMytugU65OseYMNQ3WQsLSoe78dpVaNsQlyYveAOk0k/Vem/6S2p95u/DRhpSaleeYHAo1iP+gzgz5g2A/0Qg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy3E6VVusvF/JAmtZrIRDvIMKu8/vX1WEwJbjF0is/JjTQWDmxV
+	qQVmCSb+ds5TCElHXSOuF0YVJzF2HzQHjLkOsl7wQnVqocytBUwPnGs9hqLdmsFmroc=
+X-Gm-Gg: ASbGncsT06CSnarJ39A78SU3/+jGDaDJsOan21DzMiiglmhDSA1s9kkD9C8JzTnJTo4
+	nklugDi+P2U3sDt6nJOKnhbSt3awB8qxsUWBZ8N5tTMuWZdFf1lDm3dG1stmSlKudLiejyoE2HE
+	MyXPQBEikcq7GR/Mlz1btSTuOX9R5mYwTMa2wm8HJliqcJn8gRw8DGnEQ6KibJXLWKLIsA8391e
+	X6Hin3iVLHr6yqGKLoFHe1NfMaQmEPt77mB0YXifJUWjONdIKwhmpU8tDpU613EaP/HyF1YdZyO
+	ILrMxu7bTuHiPKn0AVxLe9GaDC6LkHC47SnTNlNGltQZC0mXCk+v5+jDhFCVuF0iDPwZ0jHbPYP
+	CAH6t2rQ=
+X-Google-Smtp-Source: AGHT+IG79dWbaOnWh6fbDdUHStp0frh1mqNr2bxuilmex7AQRbHU72XCruvtgyU30RqIruk4/I1vVA==
+X-Received: by 2002:a05:6e02:3b05:b0:3dc:7a9a:4529 with SMTP id e9e14a558f8ab-3dc7a9a4999mr104600585ab.16.1747985592940;
+        Fri, 23 May 2025 00:33:12 -0700 (PDT)
+Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fbcc3ae5b9sm3460807173.32.2025.05.23.00.33.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 May 2025 00:33:12 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org (open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+	linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK)
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH v2] kselftest: x86: Improve MOV SS test result message
+Date: Fri, 23 May 2025 01:32:21 -0600
+Message-ID: <20250523073220.112238-2-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] rust: doc: Clarify safety invariants for Revocable
- type
-To: Benno Lossin <lossin@kernel.org>
-Cc: Marcelo Moreira <marcelomoreira1905@gmail.com>, benno.lossin@proton.me,
- ojeda@kernel.org, rust-for-linux@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
-References: <20250503145307.68063-1-marcelomoreira1905@gmail.com>
- <D9RJQYNTIOK1.3HI7NDDWPK6IM@kernel.org> <aChczAWsPdmdeen3@pollux>
- <D9YO7XDNV712.3A5HSSLUQIZ2W@kernel.org> <aCrwuQP46RFHxYB5@pollux>
- <DA00X0RTYKMA.2OG25TZ1X3AU@kernel.org> <aCsAEJtkCKKhspnF@pollux>
- <DA03ANJMDOU2.1ZQWA6MIENVKD@kernel.org> <aCsX-k0K_jqLvD4e@pollux>
- <DA04WHRZBBS0.17WRMWDF0A335@kernel.org>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <DA04WHRZBBS0.17WRMWDF0A335@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/19/25 2:26 PM, Benno Lossin wrote:
-> I'm not happy with the sentence structure, so how about:
-> 
-> * `data` is valid for reads in two cases:
->      * while `is_available` is true, or
->      * while the RCU read-side lock is taken and it was acquired while `is_available` was `true`.
+Apparently, this test completes successfully when it completes execution
+without either causing a kernel panic or being killed by the kernel.
+This new test result message is more descriptive and grammatically
+correct.
 
-That sounds good!
+There are no changes in v2. I'm resending this patch because I addressed
+it to the wrong email for Shuah.
 
-> * `data` is valid for writes when `is_available` was atomically changed from `true` to `false`.
-> 
-> The last one is needed in order to call `drop_in_place`.
+Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+---
+ tools/testing/selftests/x86/mov_ss_trap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If think for this you have the same conditional, in the RCU case you can't call
-drop_in_place() immediately after is_available was altered, but have to wait for
-synchronize_rcu() to return.
+diff --git a/tools/testing/selftests/x86/mov_ss_trap.c b/tools/testing/selftests/x86/mov_ss_trap.c
+index f22cb6b382f9..d80033c0d7eb 100644
+--- a/tools/testing/selftests/x86/mov_ss_trap.c
++++ b/tools/testing/selftests/x86/mov_ss_trap.c
+@@ -269,6 +269,6 @@ int main()
+ 			);
+ 	}
+ 
+-	printf("[OK]\tI aten't dead\n");
++	printf("[OK]\tkernel handled MOV SS without crashing test\n");
+ 	return 0;
+ }
+-- 
+2.49.0
+
