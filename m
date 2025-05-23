@@ -1,147 +1,94 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCB5225A3B
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 23 May 2025 06:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1027421B8F6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 May 2025 07:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747980866; cv=none; b=Oq4bTehYfdKT7qkUX0eRY1CCFVEpvn6/z+7YvJx+YfWzPqD7gN2JeTEVdLl+sl009v9A7yQnqq1hgnf5wnTHd6iGN0aW5SPV5p37I08+eqe/VQt35PkZxUgKyAWe3Z3FyTzQasuZCDcw4uQVW1MFa7ZY7EAlDVmsVqLNkJ+HLIk=
+	t=1747984762; cv=none; b=jQW3G9UF+lFuUvJpJWk0vm+FXvMHILkG6h+/lyGzzmvHGAQBp1FOJfqPLCDClWK9N9t9+PRSgpe8Dk13JW3TifjWXHYCEbhqMTULCO8DCOeTOrdnq5Tk5zQAvnI3VPvPuTwGJH+71RSAy8qYHulfC4AvQo5AzPFhwM3uweyCrYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747980866; c=relaxed/simple;
-	bh=QzJNuVs8vVKFKM8wKyULi4Vvzh4pwY3oC3m/lfAcQ9I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UUawQ2KfNfzPsQhU1f68lUjSwdFdZVMYvLXL71+OWak/66KLnaUGr6OmxSIc6fKhhLjUjk9Go5KRR45pKdqAhrN9E2oW406oSa2wmKc8+5LQhn45c1qY+HavqtDA7ui30ocHuZcJMyAvmdTIdfRGpyLipDuVO+IwTB21PPMS/rY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BT5Zw799; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747984762; c=relaxed/simple;
+	bh=E0ShDCdu9lAOMVz7ALM4jbU551cKu8SSMbDSrCRZxEU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h9aB7JHcpxT2PH2RRStjKS2griD3lKUU8eWYKHmoneClXQgTExJDVQPpE5ipErx4zCsF0eHEiONWYS++wi6i72BA7XDDkSAy9wxp2UAVa4eQC7p4sYTWQwh3Rv0sjZFTlxp5J0jBxJSkqiD0LtqYq5bO7TLK0U0ndTWvS39dKMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6ql+FeD; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BT5Zw799"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7376dd56f8fso9985487b3a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 22 May 2025 23:14:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747980864; x=1748585664; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MHl3B8D0g534+xOMHpbFZ1fPtFf+LSieMSonGIYFvHU=;
-        b=BT5Zw799ybH3SMtZ6W5JqE1JxzC5jlCNuLe1V/yXZwEwlyK9xHnFrfg/Oyau5JwrK+
-         KNqTF9wBGDydlubuzeXhKV+ilLil5tgjUUbCoLvAEYYpSCSIzj7IrhuaJ12srpCA62M5
-         cdcQ+lqnuA7QuPOx0s51d1BoOntE8B1yyyS4dW00LLGMeZE9AIA6j0cPT1JZt1ysecAp
-         6/WazXv6ofKLWpMrerroKuwN/wls3eZBDc4Xs09+Vp34p2Vcfh55S8UtuGuulzaqNJQ1
-         WWoAoFUnbMS5fFqjpZS07bZw9l41Wflto/MmMIWO4xVHqdOZvHVBj+696mdlQRL5/coS
-         0NNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747980864; x=1748585664;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MHl3B8D0g534+xOMHpbFZ1fPtFf+LSieMSonGIYFvHU=;
-        b=eenh3nYqsc7GwOyJo12Uxo96TddHHZ8Lm0uEA3uuTdJKpiEZVOCRSr7KwnG1Sup60I
-         6E+eEzRZAupbThM59DzCnhxjH1CJEYBAg5kn+Vdaf1AyrPP4KXovOXqYWJJBQ3VSlpQq
-         zBFrZxq5OXPb99uletDkwNDjCNvtCUYpGWntsoezDH9DFKmqxiEflr/NN9uNJL3zWJNC
-         LT67QOo6tpVkldFbsgyRJR9TnJzsHst1WwHlO4AAmAl2uS92uc+Wi0ajgb4AoNLUA4en
-         jiAwzgFe1iaVV40NHqYYb6dl+GVvQDn1/0UYuaLU7Bl2lsiw8ni6TcL5k1jcnu0Bw66Z
-         eJaA==
-X-Forwarded-Encrypted: i=1; AJvYcCUc1QfUTrznrTPSPiLGm2VxdphDZs/5PHq8g6HwKtLQsYVCS/lJEMXGYmqQyxvP1vEIv1XgwyC2nEQUrtYRni8536HGeA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhV4MWy+20TxHUkPHQlmowPKAmLgfoppRUjG+u9DUaHxOzu1cB
-	iZN65cR1FsvqDltvKcRUEEp78foOC1ns6OQfMqVVZjrCIaOWL6cCYmFO
-X-Gm-Gg: ASbGncsb5xECZyJ2g+4+Dr64Em/CECz12xSY57LwV+A4rKaMiRTDKUW2iLKmxWO6SeF
-	7sh7mzdxyAqQo+LNH21hFmgrvpCJjBF/sJqdP+d/UOVM+BS58JZ0O9kjqKhin25J2z7zCQKshpG
-	rgTkTY5Df4bcmuyBcmv4G1t8s+AD+HvG3ioTRRZmsAFXgwWhgcvfgUr6ouHOOV0F31aJe9OSILe
-	/AlYA9Pv3rYea6nBwJqH7Qms5GR+yA+sF2afEUr2ozJl5wNJeLGduLykbeeJ2RKNoyuRlJDa96R
-	BVbQt2BlepKRGNRP3BKZ9r9GuRpJccqZa8QTmuW+dX35fxg1zPwbYOnxyX9MEA==
-X-Google-Smtp-Source: AGHT+IF8NcYpLF/vCpsLTmL2BavFzYK0IE92XL7WtADDDe8q+CJGuAknVVIFrJ5MaDtWDYAN1k9fkw==
-X-Received: by 2002:a05:6a00:2d04:b0:73c:a55c:6cdf with SMTP id d2e1a72fcca58-742a978ebbbmr35788381b3a.1.1747980863708;
-        Thu, 22 May 2025 23:14:23 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742af5d1cbbsm12065992b3a.149.2025.05.22.23.14.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 23:14:22 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id D2C4942439C3; Fri, 23 May 2025 13:14:20 +0700 (WIB)
-Date: Fri, 23 May 2025 13:14:20 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Hanne-Lotta =?utf-8?B?TcOkZW5ww6TDpA==?= <hannelotta@gmail.com>,
-	mchehab@kernel.org, ribalda@chromium.org, hverkuil@xs4all.nl,
-	sebastian.fricke@collabora.com, hljunggr@cisco.com,
-	dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
-	Jonathan.Cameron@huawei.com, corbet@lwn.net,
-	ilpo.jarvinen@linux.intel.com, mario.limonciello@amd.com,
-	W_Armin@gmx.de, mpearson-lenovo@squebb.ca,
-	skhan@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2 4/4] docs: Fix typos, improve grammar in Userspace API
-Message-ID: <aDASPKOpCjv3rUeQ@archie.me>
-References: <20250522115255.137450-1-hannelotta@gmail.com>
- <20250522115255.137450-4-hannelotta@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6ql+FeD"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 80D8141B87
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 May 2025 07:19:20 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.792
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 7CnDdNNghO4v for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 23 May 2025 07:19:20 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=dakr@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org F408E4039B
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F408E4039B
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=J6ql+FeD
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id F408E4039B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 May 2025 07:19:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 76859629F6;
+	Fri, 23 May 2025 07:19:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2CBAC4CEE9;
+	Fri, 23 May 2025 07:19:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747984758;
+	bh=E0ShDCdu9lAOMVz7ALM4jbU551cKu8SSMbDSrCRZxEU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=J6ql+FeD4AFFmKKjw47tjsuBVAqf9jtS0npqWGk3pkKq/ji4wg2/M9p3mGZNEkp5F
+	 lP1x/SjEBOI2Ihf78j5nfdRRPMHb/4pNyXwfyVS9pxN2TUcf1SCDjkcb8W/aoFOIKp
+	 AY/BWK09Br3j+yLyeEwB6kwoLxyrul/MzoFr8EVdH5qWMWcaMu2ar/SOcv0bcFqS4t
+	 vQvQgHvxV29GNOTk22RUgKZT6nrLCcFSoctur79u/XkvFvXn7PxA387EleEulfpg+1
+	 Y9v95a+MS60JrgG7axsv9OIAgcKPLPHxPZHECFdWGDZnkn9XeX98BVkw3pyshpUkS9
+	 xA67iJ0A97RqA==
+Message-ID: <2390300b-49d0-4fe5-81b5-5a9f3fd9e300@kernel.org>
+Date: Fri, 23 May 2025 09:19:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7URSTXlAz4njnFY8"
-Content-Disposition: inline
-In-Reply-To: <20250522115255.137450-4-hannelotta@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] rust: doc: Clarify safety invariants for Revocable
+ type
+To: Benno Lossin <lossin@kernel.org>
+Cc: Marcelo Moreira <marcelomoreira1905@gmail.com>, benno.lossin@proton.me,
+ ojeda@kernel.org, rust-for-linux@vger.kernel.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
+References: <20250503145307.68063-1-marcelomoreira1905@gmail.com>
+ <D9RJQYNTIOK1.3HI7NDDWPK6IM@kernel.org> <aChczAWsPdmdeen3@pollux>
+ <D9YO7XDNV712.3A5HSSLUQIZ2W@kernel.org> <aCrwuQP46RFHxYB5@pollux>
+ <DA00X0RTYKMA.2OG25TZ1X3AU@kernel.org> <aCsAEJtkCKKhspnF@pollux>
+ <DA03ANJMDOU2.1ZQWA6MIENVKD@kernel.org> <aCsX-k0K_jqLvD4e@pollux>
+ <DA04WHRZBBS0.17WRMWDF0A335@kernel.org>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <DA04WHRZBBS0.17WRMWDF0A335@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 5/19/25 2:26 PM, Benno Lossin wrote:
+> I'm not happy with the sentence structure, so how about:
+> 
+> * `data` is valid for reads in two cases:
+>      * while `is_available` is true, or
+>      * while the RCU read-side lock is taken and it was acquired while `is_available` was `true`.
 
---7URSTXlAz4njnFY8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That sounds good!
 
-On Thu, May 22, 2025 at 02:52:55PM +0300, Hanne-Lotta M=C3=A4enp=C3=A4=C3=
-=A4 wrote:
-> diff --git a/Documentation/userspace-api/sysfs-platform_profile.rst b/Doc=
-umentation/userspace-api/sysfs-platform_profile.rst
-> index 7f013356118a..6613e188242a 100644
-> --- a/Documentation/userspace-api/sysfs-platform_profile.rst
-> +++ b/Documentation/userspace-api/sysfs-platform_profile.rst
-> @@ -18,9 +18,9 @@ API for selecting the platform profile of these automat=
-ic mechanisms.
->  Note that this API is only for selecting the platform profile, it is
->  NOT a goal of this API to allow monitoring the resulting performance
->  characteristics. Monitoring performance is best done with device/vendor
-> -specific tools such as e.g. turbostat.
-> +specific tools, e.g. turbostat.
-> =20
-> -Specifically when selecting a high performance profile the actual achiev=
-ed
-> +Specifically, when selecting a high performance profile the actual achie=
-ved
->  performance may be limited by various factors such as: the heat generated
->  by other components, room temperature, free air flow at the bottom of a
->  laptop, etc. It is explicitly NOT a goal of this API to let userspace kn=
-ow
-> @@ -44,7 +44,7 @@ added. Drivers which wish to introduce new profile name=
-s must:
->  "Custom" profile support
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  The platform_profile class also supports profiles advertising a "custom"
-> -profile. This is intended to be set by drivers when the setttings in the
-> +profile. This is intended to be set by drivers when the settings in the
->  driver have been modified in a way that a standard profile doesn't repre=
-sent
->  the current state.
-> =20
+> * `data` is valid for writes when `is_available` was atomically changed from `true` to `false`.
+> 
+> The last one is needed in order to call `drop_in_place`.
 
-LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---7URSTXlAz4njnFY8
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaDASPAAKCRD2uYlJVVFO
-o7K9AQCAadOCdr3sLHWQNMQdtCOg92nM0uxCES3VUJaSEZRzoQEAk4qnDQ4yVHkO
-T7roqthiiUAgSj8C3VgyyYkT8DK/YwY=
-=u/LH
------END PGP SIGNATURE-----
-
---7URSTXlAz4njnFY8--
+If think for this you have the same conditional, in the RCU case you can't call
+drop_in_place() immediately after is_available was altered, but have to wait for
+synchronize_rcu() to return.
