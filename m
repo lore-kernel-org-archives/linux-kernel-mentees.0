@@ -1,89 +1,112 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E817533E4
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 24 May 2025 14:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DA738F91
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 24 May 2025 23:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748097217; cv=none; b=c3DL1tljmBNU3Jw0KxAoMebmLrh1+jcCvlWI8/Gp55/ji7V+mIUkWFmMK5G9Z4QS5pF+q9Qa59hdcZ7lv1j1BUDdQ8eSPYl/x+VOu+4IhLWvgtO8oeEH/GzhmsIGdUAVc8+2K74umPPZpyvisJJboEBoX1c6ThewcA/AVGsG9YU=
+	t=1748130716; cv=none; b=FXTzkp1LbcgB86uDk6X6z6jkFqTWXDAVvIoysFGcA2YL9UPWZ1EU9PRnCT34Bxd027VXVa8xPi0PvrtlD8CccgqgbjwCTi3S5/rpuNc+Vc7ukvVNYAelqJSexqx0r/8LA0Uukq/8y9TWvD9g6qWcQWL7K5nisnWEg9MiNPd6Hk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748097217; c=relaxed/simple;
-	bh=9Y2Cy2Z684iV3WCV0FZgOy54ODTJIJFTPgB2qEiELMY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W5VFrXcqnKio9r34pKG4ny+VPF+22wCwoaIO1PF//fCqNbLgagmpWFA+ZYSMzznkpT1HtfvdVtA//5Ze0FiOhAl4A+ZnAeX33oHVugzkqf90vgwIdjLtrsVkuziXQ2Gd5GJ1Hor5EZbKzdtQ4Ri1pzKoYIw6x7F/tD7lJU/MHj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz; spf=pass smtp.mailfrom=listout.xyz; dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b=hyD0oJ5u; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=listout.xyz
+	s=arc-20240116; t=1748130716; c=relaxed/simple;
+	bh=inv8KaaFc84F6JuDmwPOSqpQLRVQndyXV1UdIu5Oix4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QEXSKNE5vDFeHov/mcaPM/jtKm49i+IgL/cFKosBWjCCzc4NauU6//VVPsB5/zgDnpl9/+4ST64PGs1sVI5wj4UWcmYpvmmJm10xnHxn/5bQzm/VrzTH4ZUuKvyAim7FPYtOGt49/Cukt57erQs2I+veTXJsHHzDW2A2Mu3sbic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O00ie+VA; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b="hyD0oJ5u"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4b4Pdy0FpBz9sFC;
-	Sat, 24 May 2025 16:33:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=listout.xyz; s=MBO0001;
-	t=1748097206;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GPjhRmUlvUDlyGASnR0b4c9p06n+6EXVDrA4lsSApk4=;
-	b=hyD0oJ5ueUot8fDEE1pFDPYK1uG4ua/fXc2Areeu9TrvzjiFwi+vt2MswGFU2+SQ5CIVcp
-	osFXnvcMn0ocG2C1TfsZYt0guWMxcPlEZGjqslFhoTRxtT8wTGiaH9rEAzNpgd1echVLb6
-	OiZLopTFjZTRslEh3mRrOfu/fVptoUgbTCPaaihGuoQIKJA8On+PZPNltiYy6+XalbZThb
-	Fh03TuagYMi/0QSfS3t79g15JTs7mc8b3MD3dLN01YWPSkRMzF0xL6CV4FdsBs7ajdufq3
-	OCVMJ+BBdBM4ZWPHzrfmJELERCLM+EER2zD34A4U5JVEtliDOoSjOgg9thBWFA==
-From: Brahmajit Das <listout@listout.xyz>
-To: linux-kernel-mentees@lists.linux.dev
-Cc: linux-kselftest@vger.kernel.org,
-	brauner@kernel.org,
-	skhan@linuxfoundation.org
-Subject: [PATCH 1/1] tests/pid_namespace: fix pid_max test building
-Date: Sat, 24 May 2025 20:03:18 +0530
-Message-ID: <20250524143318.6528-1-listout@listout.xyz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O00ie+VA"
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e7c5d470a8bso805402276.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 24 May 2025 16:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748130714; x=1748735514; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=inv8KaaFc84F6JuDmwPOSqpQLRVQndyXV1UdIu5Oix4=;
+        b=O00ie+VAaVYSFPMLiLr5q5+kmPl8sBBhKpI66bc7P4vLqMZuz0vaC9G2THQW8NtR82
+         0Ni6nNwdo7d1vWFgcTUiw2gDm+MWMBKFjYEicpnGOwZJnd7WmCo71WST8nF5B/VubRgh
+         R31IR4qw1ZBnZo1+HL4rKrozW6BAH6s7eI7q9riCVS1VYdSUT4KeWDgYOTML3LdWndaz
+         cwQcK/tRnke22L1kPz0vhUc623w5xP5Ymhip8CwKto7LeIKEZenmmyeR+w8s8cTe5A//
+         rFf3Nj/u+lnKKWXh66ZX/WjmpPJ71zJShWC4h772HTQbbnFHfjJJ+e4CCQqFlFqORWKf
+         g2OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748130714; x=1748735514;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=inv8KaaFc84F6JuDmwPOSqpQLRVQndyXV1UdIu5Oix4=;
+        b=FL1c5jk8BVLnZgyvLJvWYiBZK5rG0+MQWFOrRLZTF4aXn6mBh/rpgaqD8DigVgcvYP
+         v7Sg7uIOK00Gpwmyp3w/nSTTeU8X2OeVoUR7hinOIfX0MESyZ8KMyhmdSsetu6nUC5/E
+         TOOHEV/XviuSIoB4YdtZ1SPY8zZ8wAkruGe/mu83ZPC86G/JI98QXMgYTxd4lp/hFpvS
+         sVhDvWz/v+O2jzVrU/ptNJvo4r7QbF8URp/IdhjrlX0bWVxhKjpWgqOQ95kQDmK2CqCi
+         wwMGqLVrXmOxVBemwkkgJD0/6YRSeZn+C9qVrdiEq9hkcug4Q9JvlvXKXFyc0wJ5aU9i
+         vy8w==
+X-Forwarded-Encrypted: i=1; AJvYcCUGngwZyYQyy6A99xE0Ji1UoHYZDOwaQIYrP9c41GxV+YHKOXx42EaLckdeBKAvgQo3LlP8oN0ALq6Atv/WW4T1c2ZBtQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9L+8jvRYtjjAgKNKO/mx1pDGCYIoC6NGPl3RWdj0Ix2895awB
+	fKaO2qOjmDmcDizhSAthfTLaWO8gc+SFIv+4gzDxNulPo1t772xw34WdAVUSpOhCUDD5AWvQrfD
+	dLgjCU5c73kgAXAV6HTf9UluSrv6wOMk=
+X-Gm-Gg: ASbGncsOqRpdekX+Q5+H0nlLsXniKpAUdBP2PoIvcfI5OQU1TxM9N1kV/VZc2xGv0o+
+	agahBQyZ354gHb9aCl9FEAFF3PGig94jW65wWRcNI2RudxmdQNxFzSgKQ+njdGkxtblwdbeKiOh
+	uZZIqGOH71fiyZWBvDo4O6FSqmUBr0MEGaCHfvfNOx3oRgZpNxrz2gXIuOiuYT5oPNuUw=
+X-Google-Smtp-Source: AGHT+IHtT+6FtZi323BKbe02Tg28onDiUmd3DdzFaN3HimawQ+poIuje0XgcyrWxHdb/qLxjJzBW5cLB9cK+ZHFYRUE=
+X-Received: by 2002:a05:690c:6a0f:b0:6fd:318b:9acf with SMTP id
+ 00721157ae682-70e2dabf9edmr31362287b3.38.1748130713661; Sat, 24 May 2025
+ 16:51:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <aC_yu6Ll2E-3qRHj@brak3r-Ubuntu> <d86594f5-c6d0-4692-b1ec-41d76f947b7e@linuxfoundation.org>
+In-Reply-To: <d86594f5-c6d0-4692-b1ec-41d76f947b7e@linuxfoundation.org>
+From: Rujra Bhatt <braker.noob.kernel@gmail.com>
+Date: Sun, 25 May 2025 05:21:42 +0530
+X-Gm-Features: AX0GCFuCN754TTjc3XI9nZ-fSJL9rV3x8ViK6rj5OfiHnmyRtmFMbWwDC1xCGDM
+Message-ID: <CAG+54DajW=1cKGaHDg84RextOvB1FQtSJU8VwrWYNfuoHBigKA@mail.gmail.com>
+Subject: Re: [PATCH v2] selftests: timers: valid-adjtimex: fix coding style issues
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: shuah@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-With newer compilers the pid_max test is failing to build with the
-following build error:
+Respected Shuah,
 
-...
-pid_max.c: In function ‘pid_max_cb’:
-pid_max.c:42:15: error: implicit declaration of function ‘mount’ [-Wimplicit-function-declaration]
-   42 |         ret = mount("", "/", NULL, MS_PRIVATE | MS_REC, 0);
-      |               ^~~~~
-pid_max.c:42:36: error: ‘MS_PRIVATE’ undeclared (first use in this function); did you mean ‘MAP_PRIVATE’?
-   42 |         ret = mount("", "/", NULL, MS_PRIVATE | MS_REC, 0);
-      |                                    ^~~~~~~~~~
-      |                                    MAP_PRIVATE
-pid_max.c:42:36: note: each undeclared identifier is reported only once for each function it appears in
-...
 
-The fix seems to be including sys/mount.h which brings in the missing
-defines and missing definition mount function.
+On Fri, May 23, 2025 at 10:38=E2=80=AFPM Shuah Khan <skhan@linuxfoundation.=
+org> wrote:
+>
+> On 5/22/25 21:59, Rujra Bhatt wrote:
+> >
+> > This patch corrects minor coding style issues to comply with the Linux =
+kernel coding style:
+> >
+> > - Align closing parentheses to match opening ones in printf statements.
+> > - Break long lines to keep them within the 100-column limit.
+> >
+> > These changes address warnings reported by checkpatch.pl and do not
+> > affect functionality.
+> >
+> > changes in v2 :
+> > - Resubmitted the patch with a properly formatted commit message,
+> > following patch submission guidelines, as suggested by Shuah Khan.
+> >
+> > Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
+>
+> Sorry - I didn't realize these are all coding style related
+> printf - I am no longer concerned about the length of print
+> statements.
+>
+> It is too much churn with little benefit.
+>
 
-Signed-off-by: Brahmajit Das <listout@listout.xyz>
----
- tools/testing/selftests/pid_namespace/pid_max.c | 1 +
- 1 file changed, 1 insertion(+)
+Thank you for the feedback , also understanding your perspective.
+For future contributions, I will focus on more substantive changes,
+unless stylistic
+fixes are explicitly requested.
 
-diff --git a/tools/testing/selftests/pid_namespace/pid_max.c b/tools/testing/selftests/pid_namespace/pid_max.c
-index 51c414faabb0..96f274f0582b 100644
---- a/tools/testing/selftests/pid_namespace/pid_max.c
-+++ b/tools/testing/selftests/pid_namespace/pid_max.c
-@@ -10,6 +10,7 @@
- #include <stdlib.h>
- #include <string.h>
- #include <syscall.h>
-+#include <sys/mount.h>
- #include <sys/wait.h>
- 
- #include "../kselftest_harness.h"
--- 
-2.49.0
-
+thank you,
+regards,
+Rujra Bhatt
