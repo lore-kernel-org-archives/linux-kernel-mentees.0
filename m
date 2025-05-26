@@ -1,228 +1,81 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA95F2AEFE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 May 2025 08:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4081D90A5
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 26 May 2025 12:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748249794; cv=none; b=iz8899kTlKmhTl4sRNyu55dYH219LKB6UZ/H+HJ62EPeqVxfXotypxuYIEhMq2Mf4bCJcE3a1XOqBQ4g7wmcpmJ/FNEm72FL9hic/LHpfd0zSSgEaaRToB7/rMbr7UGGZfA7aU/TjaswwKEu6SIfbYJENmxaBSDWq3RSnjtl998=
+	t=1748263703; cv=none; b=hdznTf+ApZqbou+okagATOR7VX/Av7K7lAShWwNa4m9UIutdtqgVpWAM3ppn912Z2Vl9yOwJMiH0Pf3ddJm4FXQFIEYDwknc9hSTLAJtM4hXB7Jhi+jtCXYfEHUi2eyZarbcBbDK8Ua/O+BsPn4piUH1PulZDqH6GLN1FBptsWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748249794; c=relaxed/simple;
-	bh=2AnH+fxGCsytbjp1vBKeCXaL1g4/52to9EijNF4zjjs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:
-	 References:In-Reply-To; b=aZb+gEW28MLo5nSRUfa/rlmy01pnwJdw1PxZZExEBd9ovsXqK+EkqRrOw23qxwXFInYW8iCj8XZ6e+MuSgNG3UoVoq7KhJ5pLAs7pMNDRQl/CRk3JGalZ0HuqPtWa/bXVU2u+8KhAbvxmLGRuNknM5I962BK0ITF844d83v0d+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rfysd2h3; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1748263703; c=relaxed/simple;
+	bh=jRYRieyb26G5yNg3BSS+8T6pEZQzUcmgLKg/QGTJvQM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=IsNk2JK8tQlghJSVydNR8wyGEI33umfw4aqmA4OWQK61njxQ8CMU0/Imq4IhsIgKTKefVA3Cv8cSMzEeVxmVZT5xxxoyOtbQJ+4IJcxS4mDyzoCQhP53/daIyjcM9jpqBUP0HVOgSIWuKcTTs9kNA6AR2IUxWA2xb6sRvOGi5xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OPJDoxFU; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rfysd2h3"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8C5EE403A5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 May 2025 08:56:32 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id GPa4trdVoOR4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 May 2025 08:56:32 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org CCC4240333
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CCC4240333
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Rfysd2h3
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id CCC4240333
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 May 2025 08:56:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id E1EB261154;
-	Mon, 26 May 2025 08:56:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BD37C4CEF2;
-	Mon, 26 May 2025 08:56:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748249789;
-	bh=2AnH+fxGCsytbjp1vBKeCXaL1g4/52to9EijNF4zjjs=;
-	h=Date:Subject:From:To:References:In-Reply-To:From;
-	b=Rfysd2h3aFx97HMClU3aFmmUShXXbitnteKcj3VdLRJJ6ouVzfcDWSLnmWm2FhDID
-	 1jdh40YcV1OLjkK/GDd6J+zHB+iYlvkETrDXSKH0ztO91/ANkOhSPpl6f053dbsiLS
-	 S1PFyWNGDHvFj/DZ6+KmyM76NmXUJCpXD4sRTT9O0ofOVjE43IlLyZ2r5oMBmomyu5
-	 gP6t+D8IR8bi4RIUX/dCyEYc8H4Xw1gDOSvKFGZkv4BUldLfmZ1uJ6hQ0SkXig9SiD
-	 cmeJZ5jzk5J35RsjAlgaA/IpeRZ4j3x1hrSyV787GGXSgPLAc1mc3kcaRFCZoVGE/J
-	 +INf0qjjT4Cew==
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OPJDoxFU"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EEF6E41AA1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1748263695; bh=ps6uR+Ar7VRw5Fh81GvAUzQm6L4ZV3qIQbQjkyaGSq0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OPJDoxFUVxhrHOjEsRgYsikAKvch3Q4QtmmrFZ8oKqF7d4yeYr9y/BLjOgJcupFMZ
+	 grZsR7pjP7Unqd7mrXGztM+cnJLHX/GUZLd0U71kcjcRwmysPuiOi8iTuUopFCojnw
+	 rZGPh6Xfke3nR/4j4syEHK6BbgEbETVxmY3oUMkvrazsd8KVt8u6JzvPxB94iBOhoR
+	 2wogxwA7K3o42iKqUrTwg3R3MQWBX/o4twr6h3co5UWAWbfN7wTROnOHmqS38quAKy
+	 keSHr5tpN9AWAu8q9CGzxQKMz8uX/6XHyNS9I+iQey5PnbgSx+CAAFi+5Vm1Ds+lB3
+	 TZVCf2eLHXBIA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id EEF6E41AA1;
+	Mon, 26 May 2025 12:48:14 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, George Anthony Vernon
+ <contact@gvernon.com>, dmitry.torokhov@gmail.com, skhan@kernel.org
+Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH 3/3] input: docs: Fix Amiga joysticks grammar & formatting
+In-Reply-To: <aDPVOlBIpnqc7Tez@archie.me>
+References: <20250526011443.136804-1-contact@gvernon.com>
+ <20250526011443.136804-4-contact@gvernon.com> <aDPVOlBIpnqc7Tez@archie.me>
+Date: Mon, 26 May 2025 06:48:14 -0600
+Message-ID: <87a56za67l.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 26 May 2025 10:56:26 +0200
-Message-Id: <DA5YTSGIN9DK.3HQ7DNKTVQRP4@kernel.org>
-Subject: Re: [PATCH v3] rust: revocable: Correct safety comments and add
- invariants
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Marcelo Moreira" <marcelomoreira1905@gmail.com>, <dakr@kernel.org>,
- <ojeda@kernel.org>, <rust-for-linux@vger.kernel.org>,
- <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-X-Mailer: aerc 0.20.1
-References: <20250526020125.382976-1-marcelomoreira1905@gmail.com>
-In-Reply-To: <20250526020125.382976-1-marcelomoreira1905@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Mon May 26, 2025 at 4:01 AM CEST, Marcelo Moreira wrote:
-> diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
-> index 1e5a9d25c21b..fed860ad2e60 100644
-> --- a/rust/kernel/revocable.rs
-> +++ b/rust/kernel/revocable.rs
-> @@ -61,6 +61,14 @@
->  /// v.revoke();
->  /// assert_eq!(add_two(&v), None);
->  /// ```
-> +/// # Invariants
-> +///
-> +/// - `data` is valid for reads in two cases:
-> +///   - while `is_available` is true, or
-> +///   - while the RCU read-side lock is taken and it was acquired while =
-`is_available` was `true`.
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-This looks good now :)
+> On Mon, May 26, 2025 at 02:14:43AM +0100, George Anthony Vernon wrote:
+>> Make small grammar fixes to Amiga joystick documentation.
+>> 
+>> Also make heading adornments compliant with the guidelines to improve
+>> organisation of the page.
+>
+> Split up these two changes into separate patches.
 
-> +/// - `data` is valid for writes when `is_available` was atomically chan=
-ged from `true` to `false`
-> +///   and no thread is holding an RCU read-side lock that was acquired p=
-rior to the change in
-> +///   `is_available`.
+The word "also" in a changelog is indeed a hint that a patch is doing
+too many things.
 
-This doesn't cover the case needed in `drop`, since there might be a
-thread holding the RCU read-side lock when `drop` is run. But that
-doesn't matter, because that thread isn't going to access `data` (since
-it can't have a reference to the value anymore, after all we're dropping
-it).
+For a simple patch like this, though, I would not force a resend just
+for that.
 
->  #[pin_data(PinnedDrop)]
->  pub struct Revocable<T> {
->      is_available: AtomicBool,
-> @@ -97,8 +105,9 @@ pub fn new(data: impl PinInit<T>) -> impl PinInit<Self=
-> {
->      pub fn try_access(&self) -> Option<RevocableGuard<'_, T>> {
->          let guard =3D rcu::read_lock();
->          if self.is_available.load(Ordering::Relaxed) {
-> -            // Since `self.is_available` is true, data is initialised an=
-d has to remain valid
-> -            // because the RCU read side lock prevents it from being dro=
-pped.
-> +            // INVARIANT: `self.data` is valid for reads because `self.i=
-s_available` is true,
-> +            // and the RCU read-side lock held by `guard` ensures this c=
-ondition is maintained
-> +            // during access.
+>> -~~~~~~~~~~~~~~~~~~~~~~~~~
+>> -Amiga joystick extensions
+>> -~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +===============
+>> +Amiga joysticks
+>> +===============
+>
+> I would prefer to keep section adornments in this doc as-is, though.
 
-Two things here:
-1. This comment should refer to the type invariants of `Self` ie
-   "`self.data` is valid for reads because of the type invariants of
-   `Self` and because ...".
-2. `INVARIANT` comments report on changes in the type invariants of a
-   type. For example when constructing a type with type invariants, one
-   has to document that the invariants are fulfilled. In this case, the
-   invariants of `RevocableGuard` are:
+...and why...?  We have a standard progression, why not use it?
 
-   /// The RCU read-side lock is held while the guard is alive.
-
-   Which already is fulfilled by us having the `rcu::Guard` type around.
-   So we should also change the invariants of the `RevocableGuard`.
-
-I think I suggested on the previous version that we change `data_ref` to
-a shared reference and thus simplify the `RevocableGuard` type, because
-it won't need `unsafe` any more. Then we can also remove all invariants
-on it. (And we also won't need the `new` function any more, since we
-have direct access to the fields).
-
-(This change should be its own patch)
-
-Then we will gain a new `unsafe` block in the code here that we will
-justify with the type invariant of `Self`.
-
-On second thought, we can reuse the `try_access_with_guard` function and
-then we won't need an `unsafe` block here.
-
->              Some(RevocableGuard::new(self.data.get(), guard))
->          } else {
->              None
-> @@ -115,8 +124,8 @@ pub fn try_access(&self) -> Option<RevocableGuard<'_,=
- T>> {
->      /// object.
->      pub fn try_access_with_guard<'a>(&'a self, _guard: &'a rcu::Guard) -=
-> Option<&'a T> {
->          if self.is_available.load(Ordering::Relaxed) {
-> -            // SAFETY: Since `self.is_available` is true, data is initia=
-lised and has to remain
-> -            // valid because the RCU read side lock prevents it from bei=
-ng dropped.
-> +            // SAFETY: `self.data` is valid for reads as `is_available` =
-is true and `_guard`
-> +            // holds the RCU read-side lock, adhering to `Revocable<T>`'=
-s invariants.
-
-This is the wrong way around, the safety comment *relies* on the type
-invariants of `Self`. So it should be=20
-
-    SAFETY: `self.data` is valid for reads because of the type
-    invariants of `Self` and as `is_available` is true and `_guard`
-    holds the RCU read-side lock.
-
->              Some(unsafe { &*self.data.get() })
->          } else {
->              None
-> @@ -176,9 +185,11 @@ fn drop(self: Pin<&mut Self>) {
->          // SAFETY: We are not moving out of `p`, only dropping in place
->          let p =3D unsafe { self.get_unchecked_mut() };
->          if *p.is_available.get_mut() {
-> -            // SAFETY: We know `self.data` is valid because no other CPU=
- has changed
-> -            // `is_available` to `false` yet, and no other CPU can do it=
- anymore because this CPU
-> -            // holds the only reference (mutable) to `self` now.
-> +            // INVARIANT: `is_available` is true, so `data` is valid for=
- reads.
-
-We're not only reading `data`, but also writing to it! (`drop_in_place`
-takes a mutable raw pointer and will call `Drop::drop` with a mutable
-reference)
-
-> +            // SAFETY: `self.data` is valid for writes because `is_avail=
-able` is true, and
-> +            // this `PinnedDrop` context (having `&mut self`) guarantees=
- exclusive access,
-> +            // ensuring no other thread can concurrently access or revok=
-e `data`.
-> +            // This ensures `data` is valid for `drop_in_place`.
-
-We have to mention the type invariants of `Self` here too. And also we
-have to satisfy all the conditions on the second invariant:
-
-    /// - `data` is valid for writes when `is_available` was atomically cha=
-nged from `true` to `false`
-    ///   and no thread is holding an RCU read-side lock that was acquired =
-prior to the change in
-    ///   `is_available`.
-
-This is the problem with that invariant that I outlined above. Nobody
-can access `data`, since we're getting dropped.
-
->              unsafe { drop_in_place(p.data.get()) };
-
-A function that also needs to be adjusted is the `revoke_internal`
-function. That's where the second type invariant comes in. I suggested
-that we remove that and split the behavior into `revoke()` and
-`revoke_nosync()` and Danilo agreed, so could you add that in another
-patch?
-
----
-Cheers,
-Benno
-
->          }
->      }
-
+jon
