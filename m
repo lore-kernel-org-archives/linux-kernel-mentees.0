@@ -1,73 +1,73 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BA11C6B4
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 26 May 2025 02:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFEA01BF58
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 26 May 2025 02:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748226891; cv=none; b=BHcF1OI8chb6M3Cihn37xk28w4F7D1fiYSvMaO4kSFvFcmrqmkNsvFbRGJxDJQcDCzLRD2L10dJRkHmyeMEEk7wXfsFZklHS9yMP+kepWPq6wAOcrTPKf5Z5pOGYEClmYbcgvTRSOqCB6xoqsvzGl7iNna0Cz/CJnAb//YYTSOI=
+	t=1748227392; cv=none; b=cUa/DK+OWyyKjqZjBl6trcZgbc8tEitupDYRdyr5qbLnNJMO9EHOJ/pV1vrBZ55KjkDKnQQueyqmDOfJqpwv7t7CwH4XzldCnhnW/THsw6SUF9yaEl5r9csDLJVDr11zvSlLCFscOW0bid/ZEfCBa51Bi9Tl8OnCmg9Kr6Br6V4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748226891; c=relaxed/simple;
-	bh=BrsL6bLwBpPFSCG8U6SgP3NVr0sJJLRt3AVJmRMalIs=;
+	s=arc-20240116; t=1748227392; c=relaxed/simple;
+	bh=IC9uFzW1GraEckz1npeV7R+FHBO0O1DM7iSkV0imFfc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K9/Ietlm6WLdSSg41Qhl5lTisgPGNw0uzNVUaRh9ltgSsgAh9czqsXZS/YGA0GC4xK2+pLlpuoVmmXfxnGVphMfjW+Vnpfdu7YQsbbNcvbiceZRLMIdYAsnrr6A3oKzD1qsJdo4KkpI4yjsqLRUvU/6wfCCM8dqEPVvEUnylg78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F6lOVF1s; arc=none smtp.client-ip=209.85.215.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=kYNamW2uG22JMbL8T9Qx1yDFrfU0zAOSFaGY1gMPSogRhU314tzVOthQknUnAFafrAmXjAyS2aDyI7bchAI6X+yQqKkcpSIVEPrCEj3ZTV3CuE1B+6GdH1sUem3kixCRx2LyO1DUXjU2Cy2a9Kfc+5uw59Qo843wbdY7l4pfr3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCH7Yxi5; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6lOVF1s"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-af51596da56so804355a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 25 May 2025 19:34:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCH7Yxi5"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-23035b3edf1so10699885ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 25 May 2025 19:43:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748226889; x=1748831689; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1748227389; x=1748832189; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WNdOJh+NnMF/Str+UwFKXBafijjedPkZ85jMh2ARzic=;
-        b=F6lOVF1s58oAMODUVkRnYiiYaegX11E0wvInESQRfwh0H5oxA9XsxLK0lOmRoGM9YQ
-         uIrfkC0EwsV3mPI4xbrMbrxmRVSBDkVAVgq79jv9cCV08N7CfHKlMWL/mx1BEDcTVhkJ
-         UeBiTqsh+HLAcy3sjitUUT9M3SKIkXh2uVnw/MKRshvCryXOQXNvj0V5M/xqVfeklcdp
-         GTxnHhpG/BBFziXD6ATIC4xeeQuRUTuwIBzwlyDgn6rOfa9MNv2m0YU4Klnf1u57Rhqy
-         fYXo0WLZ8t+JeXuhlr7HsPFD+8/SMxEI7c9WdXnYwYT4/Bkxfs9zBa7Cx7oCn07zXMYt
-         V7sg==
+        bh=IC9uFzW1GraEckz1npeV7R+FHBO0O1DM7iSkV0imFfc=;
+        b=bCH7Yxi5uatFT8tPMRR6qHySjRs/e5FDt+WwcdjMLTJsQuPWVZsIyc6RzBZCnE90kV
+         WYrl5bad+XbhPXiu7tURp53PCPo46kWRiEoXaxwYhsZD3WvWy0HTqUiXaKs/bVCyaZ6s
+         fBQIpLLbcdhzPmV8LD93mKWq9i/4BxJzLsqZvaTCYZBWuRGO7SGrrYt301lwfDCuC61T
+         /vVzR/4zB8d6dTdVGUYSTEGfNwjFomtbEleDran/f0DrV12FWskWa5/iyJERd3Jbd2hd
+         Xc6SLhL+WGOBFKSknw4XgnPMF/TWHHpzyi2kVUSIakx1dteN3PbYVQLaWUw2MqKHnuKh
+         9fqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748226889; x=1748831689;
+        d=1e100.net; s=20230601; t=1748227389; x=1748832189;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WNdOJh+NnMF/Str+UwFKXBafijjedPkZ85jMh2ARzic=;
-        b=XmoHzcAHF6BoRj/jpWc1eciLoVNV0uPDeBUJQLBkZulCdaO8jEOlkg5OtCiiqXXqSL
-         ErskcdXeWxWpcyjjnTgv0KTFxxWMG3DPp3S06YYbuanX3IZHMW2J/Ifg99b4zBMiV+ph
-         ahZdskYT76P+i2edj81s+iRrmlRDzhv5fTqsDnKfB7X4gM0kejTddzv4lpN1cTYkUgAO
-         kzcZtYfoDTYZBD92IuXsyKte/gnvOAatwbxKYsIZ1t7NKDOf+Kf69BtHperIKyFJEPTj
-         5RYk5uticG4NMTVxT0Ex5lvmGczCjPJ8n9dDXLZ/y4Hs1ceQpuon6e7FxZcFOr7lN0YK
-         loFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXJox1MZmuZ9bmJt4IYDp9R1b2T9uDq793MQ9BnTEXQ5a+OzFnFAdhCj6up0Vpg78es8YhH8KyKFNzDbCpvsYokMR/CIQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyL+moCYpEFPBMav47+YLodJ0ixOi7Y7DuCmXoEyVbtyrQDHuRB
-	k2FMQ7/68qxgfuuu08jsROkXivvmRgZPaFrPSe46rhTO7Lml0Bc3sMNN
-X-Gm-Gg: ASbGncuZu7YEVSBCY4UDB9fy1uMcpYMhCckxFHTOxar0rIDoCE2RgAcHT1uLqV2tAg/
-	JgcRCmSEUwh7GpoJWdAaSLQR9i/BXMCDnr5eSvxw3AwBunfxPd/nHyCjC1aXEPzX4dpQ+PBr/Vg
-	la6zW0O+w5l07eM++gw+5jhNKAPzRpnHZnslTcPdd7sETsGQmvhOOHZ95xxbO9rXbRnBg1m9EbA
-	lQCl5jZ3RMB/TSI3sMm52ttXhstZ1DrirNuaF5LU2eDVFuF4jc/hdlONvDh1bPFB/IWcDU0WbN6
-	XK4lf+9TCPjCyT4VzletGbjp7Q6rF6/yhjBEFBS80GR7TKMjAO92MHIYqYQYFw==
-X-Google-Smtp-Source: AGHT+IHEQfVO4jOQL3Of/QYcqiFqVxdgSNZqlpR3S0pBQS+f1Nln9HrB4Or+CN1VaN22zOC7F3nnsg==
-X-Received: by 2002:a17:90b:55c3:b0:2ee:94d1:7a89 with SMTP id 98e67ed59e1d1-3110f0ee05cmr11603312a91.1.1748226889213;
-        Sun, 25 May 2025 19:34:49 -0700 (PDT)
+        bh=IC9uFzW1GraEckz1npeV7R+FHBO0O1DM7iSkV0imFfc=;
+        b=DO/DJJzaswKh60K31oobWabwzUN0lC2f7l2WgGph+Gy6gdzPx8Y8l2XaTyEDzsYT7B
+         590L+DYoqBpM4nMgpFC/1yW8bR7LFU67nD6hV0CVmPjMngJUy00CM3cEBVstVUnFaZai
+         4oRjvnxd9l4C9zUe0yZF2LUHf3AcxvQQHvhYAxo+yLrMHFcNoxip5d2RFU9U++7o9tuS
+         ehYs1kHlRPIe1LrYqmcli+fZSNYalGHQ0Ttd077Ee8M7EI7ggVIhEMYFYEeqP07Ibn3S
+         vKrVWsSNR4gl23c6tt8fGOZEdZithZ0vxPVpCsdtlo4Ps1p2Dj2dV+AxFGzjtQd6jxHN
+         2iDw==
+X-Forwarded-Encrypted: i=1; AJvYcCUjdR6hWAikZvsk9MROG9z/DDhnjmIEmUsBcZ5bfEy3NEP541R5PoszTVfvty+UxPFAEXJqN2PnoRz7YLBOm6ULC+Pt8w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwM7e7BeWwE6GVY8M+aFymNuXCfi2cIQt2o9sX+9eWb7Mdw0wMn
+	ybbLASGiTyJ8LmPy4bs+swuWgOZfa/QMZDuKt52EYmHnaG++ZdORsrNs
+X-Gm-Gg: ASbGncumDI7SHRT2/Hy4ndNhUYlX6RopMuFsgxssCj/qpqR8jWFMhBAkqL3EX/QbNm6
+	tkgZPQek6wGywZ0md5+VvewaMIvQ/AN6i4zTWnvy7VB/E30VZW8rdWUppK9mZdcCHd8awZK+2Wg
+	zQPRvIV/AltOVzApj+vF+kPailqhUMDeN9Jptnt46za4ory8iVhdU/AWHFXIIXC4iEyXDqSDHD0
+	JzHjZb4OxkU9nOJryTPFs1WPK5q/yFuvGJUJviSgGzhAbaqEwIY/+pfpsd2yAnVoLcg2QbjpRyH
+	DTNoqGMIFpnj+Xw4Jf8RpJxURvq+KL5zdyOsdu2656Mpcp8laY8=
+X-Google-Smtp-Source: AGHT+IE6IcDKP2eGy0o5YUOcd7vy0oot3F0p/IA9NKNpgNt6Jgt8tKvcQqxG3tD4qVmt2iBDGkOm/g==
+X-Received: by 2002:a17:902:cf42:b0:234:1163:ff99 with SMTP id d9443c01a7336-23414fd5dafmr132980195ad.43.1748227389024;
+        Sun, 25 May 2025 19:43:09 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30f365e59b3sm11123443a91.33.2025.05.25.19.34.47
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23430aefd6csm21797535ad.82.2025.05.25.19.43.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 May 2025 19:34:48 -0700 (PDT)
+        Sun, 25 May 2025 19:43:08 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id E3FD74230C03; Mon, 26 May 2025 09:34:44 +0700 (WIB)
-Date: Mon, 26 May 2025 09:34:44 +0700
+	id 7C89B4209E8A; Mon, 26 May 2025 09:43:06 +0700 (WIB)
+Date: Mon, 26 May 2025 09:43:06 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: George Anthony Vernon <contact@gvernon.com>, dmitry.torokhov@gmail.com,
 	corbet@lwn.net, skhan@kernel.org
 Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 1/3] input: docs: Fix broken table formatting
-Message-ID: <aDPTRGHNx2P-_wXj@archie.me>
+Subject: Re: [PATCH 3/3] input: docs: Fix Amiga joysticks grammar & formatting
+Message-ID: <aDPVOlBIpnqc7Tez@archie.me>
 References: <20250526011443.136804-1-contact@gvernon.com>
- <20250526011443.136804-2-contact@gvernon.com>
+ <20250526011443.136804-4-contact@gvernon.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -75,51 +75,55 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NdA65ZAYfdmxNg3d"
+	protocol="application/pgp-signature"; boundary="KntiioOK2g5D1YkR"
 Content-Disposition: inline
-In-Reply-To: <20250526011443.136804-2-contact@gvernon.com>
+In-Reply-To: <20250526011443.136804-4-contact@gvernon.com>
 
 
---NdA65ZAYfdmxNg3d
+--KntiioOK2g5D1YkR
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 26, 2025 at 02:14:41AM +0100, George Anthony Vernon wrote:
-> diff --git a/Documentation/input/devices/amijoy.rst b/Documentation/input=
-/devices/amijoy.rst
-> index 8df7b11cd98d..f854ee975247 100644
-> --- a/Documentation/input/devices/amijoy.rst
-> +++ b/Documentation/input/devices/amijoy.rst
-> @@ -123,7 +123,7 @@ JOY1DAT   Y7  Y6  Y5  Y4  Y3  Y2  Y1  Y0     X7  X6  =
-X5  X4  X3  X2  X1  X0
->          clocked by 2 of the signals input from the mouse serial
->          stream. Starting with first bit received:
-> =20
-> -         +-------------------+-----------------------------------------+
-> +         +--------+----------+-----------------------------------------+
->           | Serial | Bit Name | Description                             |
->           +=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
->           |   0    | M0H      | JOY0DAT Horizontal Clock                |
+On Mon, May 26, 2025 at 02:14:43AM +0100, George Anthony Vernon wrote:
+> Make small grammar fixes to Amiga joystick documentation.
+>=20
+> Also make heading adornments compliant with the guidelines to improve
+> organisation of the page.
 
-Fix is verified in htmldocs output, thanks!
+Split up these two changes into separate patches.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> -~~~~~~~~~~~~~~~~~~~~~~~~~
+> -Amiga joystick extensions
+> -~~~~~~~~~~~~~~~~~~~~~~~~~
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Amiga joysticks
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+I would prefer to keep section adornments in this doc as-is, though.
+
+> +Register addresses
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +JOY0DAT/JOY1DAT
+> +---------------
+
+But adding sections for register addresses looks OK.
+
+Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---NdA65ZAYfdmxNg3d
+--KntiioOK2g5D1YkR
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaDPTQAAKCRD2uYlJVVFO
-o2UyAP4uQBKtj4I45lSGFA3/M03jhbOnbCEU1RWANqhj+EXxuQEAwMBEdTeIbwPZ
-ed6fGLQmf/Gd9hfT6HKiFbyTPd3wvw8=
-=5jsN
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaDPVOgAKCRD2uYlJVVFO
+o4yOAQCqnQ8RdNDxbTGXB7K4fMlodV6JHiDTp29uYq1k1Vg9PQD/U6L1ZPND0gt/
+ysOPMZ9UazUaRvV6Ybqo2lFne86ZBQo=
+=CFhb
 -----END PGP SIGNATURE-----
 
---NdA65ZAYfdmxNg3d--
+--KntiioOK2g5D1YkR--
