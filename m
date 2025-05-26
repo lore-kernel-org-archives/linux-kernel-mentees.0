@@ -1,160 +1,125 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2142E40B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 May 2025 02:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BA11C6B4
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 26 May 2025 02:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748225437; cv=none; b=RImnynCRlYd6vHoL/5qon06LCvyS4AsrRwOFwBycemdI6CT3jQR9BxNcX4OvBQkiqD46UuAX8dX/GCBcJXrc1+1B6/UE8RrG6FvIe/GR9gTdNVnCdhD8zfrsIp2NMEW7v98RVZLhxyRbST+6rqyZW0blk7opFPfFNmruFOcUOcE=
+	t=1748226891; cv=none; b=BHcF1OI8chb6M3Cihn37xk28w4F7D1fiYSvMaO4kSFvFcmrqmkNsvFbRGJxDJQcDCzLRD2L10dJRkHmyeMEEk7wXfsFZklHS9yMP+kepWPq6wAOcrTPKf5Z5pOGYEClmYbcgvTRSOqCB6xoqsvzGl7iNna0Cz/CJnAb//YYTSOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748225437; c=relaxed/simple;
-	bh=0nbGT2GlXb33Ss9MQ4uxO6gE8jpDPRoMCrJSOOK5Q9E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZqpLMgc12UhQQWFY3IMOwoT45unB3u4qs+ufat4wwqZKmFyUB1EonOlL4g0n3LqduHSuuMzRUSV4B7/LMEuKw4hjxklOh9ZDY4D/pKOKC32fcF8ZDIUmCz9SuFg50vVsB7tVjOj+mSehGXCz1AAn88X4Oc/K6L76Vzs0SQrDdcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q/fpyfZV; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1748226891; c=relaxed/simple;
+	bh=BrsL6bLwBpPFSCG8U6SgP3NVr0sJJLRt3AVJmRMalIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K9/Ietlm6WLdSSg41Qhl5lTisgPGNw0uzNVUaRh9ltgSsgAh9czqsXZS/YGA0GC4xK2+pLlpuoVmmXfxnGVphMfjW+Vnpfdu7YQsbbNcvbiceZRLMIdYAsnrr6A3oKzD1qsJdo4KkpI4yjsqLRUvU/6wfCCM8dqEPVvEUnylg78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F6lOVF1s; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/fpyfZV"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1D417805B6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 May 2025 02:10:36 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 7e83EmO75eAI for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 May 2025 02:10:35 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2001:4860:4864:20::2d; helo=mail-oa1-x2d.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 5A5E58059A
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5A5E58059A
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Q/fpyfZV
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 5A5E58059A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 May 2025 02:10:35 +0000 (UTC)
-Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-2da73155e91so589912fac.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 25 May 2025 19:10:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6lOVF1s"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-af51596da56so804355a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 25 May 2025 19:34:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748225434; x=1748830234; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mn/KkI5glUJ7hQ7qi0uM8/HimmScaJn3h59Vw1YH2Ac=;
-        b=Q/fpyfZVkgG5rQQv3O0DZfTSRE2GazAzUisHytoSyIB70DbRXoiYdqyIkvufxlOJal
-         VA8vPVTL5xV2++gpp34mELZEJvb41eAbQXP1gDLBcRV4jmpddr4HPUyl6Y68s4KQkAwo
-         Coh6DCQalfjvY0RHXnx7xQE2b+KDmnp8rLNd0HdSLkFQ5+JN9W1RcPyWwhrSKB5rGE1Z
-         sGrpw1k+Mmn5fkk/Z0wJm3pt0e/jx3ZBK2Y0duAux1lIkQY1dU6fQ42yqHBYrN0gQ8ut
-         e1Cb+rdwQXwlspNbY10KrGNxXribLqgXd08dBY4KZz3QiWSBhP2rHpkvuwh5AZf00n6H
-         9bJA==
+        d=gmail.com; s=20230601; t=1748226889; x=1748831689; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WNdOJh+NnMF/Str+UwFKXBafijjedPkZ85jMh2ARzic=;
+        b=F6lOVF1s58oAMODUVkRnYiiYaegX11E0wvInESQRfwh0H5oxA9XsxLK0lOmRoGM9YQ
+         uIrfkC0EwsV3mPI4xbrMbrxmRVSBDkVAVgq79jv9cCV08N7CfHKlMWL/mx1BEDcTVhkJ
+         UeBiTqsh+HLAcy3sjitUUT9M3SKIkXh2uVnw/MKRshvCryXOQXNvj0V5M/xqVfeklcdp
+         GTxnHhpG/BBFziXD6ATIC4xeeQuRUTuwIBzwlyDgn6rOfa9MNv2m0YU4Klnf1u57Rhqy
+         fYXo0WLZ8t+JeXuhlr7HsPFD+8/SMxEI7c9WdXnYwYT4/Bkxfs9zBa7Cx7oCn07zXMYt
+         V7sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748225434; x=1748830234;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mn/KkI5glUJ7hQ7qi0uM8/HimmScaJn3h59Vw1YH2Ac=;
-        b=vCB//IcZGdIqOQAdn+byTGWHiqk/eQI8NKK0yiN/1sY0QTkq3cR2LGcY1mULAXrbSL
-         gN5EuAyFPNoVNVy5p3FpnqteTBUVabfovKiHMXXomyH47r4HYB/V/rqV6aOjBXmPxA3e
-         6i+wn0x6gbsPztGMSSPO4BF/YTRWNBA39BYkPFU3DVk/TZyD88I4AAt9B5s9HuoZDPpQ
-         /9nG59fGARiw6cR0EWxXYXVsdTjKUryhJ+ANlK9NJve95wDdvf26aW4y/EjOTZ88JUfb
-         uZUmuzu7xAjNAidHEk/tFaUBURv8ke0qO2uwrygiC5YDtwAcjP8BXECUJJLqpZvPyEFe
-         frcg==
-X-Forwarded-Encrypted: i=1; AJvYcCUwOKKC6xVg1MXZARQKUS2fn6//wY577S4NwhxJGT4fEQHF7UHo1HPx3jwAt9Vkqqp/K5EwLoUsaLszGACvPy4jvhPp0A==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzeegF/lz/8CWYMSUB0wmMwYDbounpjYsOcDc53kO0YJ/FWFx2H
-	vD3VQ7P5r7b5sYallR4ApeS+GQ1FHUjDR0yMbU0oH0Rahv59S1RXgvqVeTOr9j41T0WAadb/NYs
-	Qx74KhLrJkr9Z2xMAqVkgs/lXWzKkxWc=
-X-Gm-Gg: ASbGncuUEInDV60cxQfgNijUtAeWHRX2Qvin1hil0srOBokHVvCA9oT578Ihfw1Ucdm
-	XI820ROQRVmp4sQnfim0fuctrAxad0/v/+WD1YCRTkAG50P9d5OEJtD+wg+e5z5QQ0G5ACGQR8S
-	cxWv5n1xJRJ6jMqUs+pmXwpqGh3KYBNHH4dgp2mR80ORsL
-X-Google-Smtp-Source: AGHT+IE6GxnCgZfQE34+GGdxCnGU4yePgtG4uRtXLQLRBOpOIUwNJkgnFqMM0umpqsY81ZTDyF0GGxbskYdCpBZgnwY=
-X-Received: by 2002:a05:6870:4589:b0:2d6:109d:2598 with SMTP id
- 586e51a60fabf-2e861dd0438mr4215534fac.5.1748225434078; Sun, 25 May 2025
- 19:10:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748226889; x=1748831689;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WNdOJh+NnMF/Str+UwFKXBafijjedPkZ85jMh2ARzic=;
+        b=XmoHzcAHF6BoRj/jpWc1eciLoVNV0uPDeBUJQLBkZulCdaO8jEOlkg5OtCiiqXXqSL
+         ErskcdXeWxWpcyjjnTgv0KTFxxWMG3DPp3S06YYbuanX3IZHMW2J/Ifg99b4zBMiV+ph
+         ahZdskYT76P+i2edj81s+iRrmlRDzhv5fTqsDnKfB7X4gM0kejTddzv4lpN1cTYkUgAO
+         kzcZtYfoDTYZBD92IuXsyKte/gnvOAatwbxKYsIZ1t7NKDOf+Kf69BtHperIKyFJEPTj
+         5RYk5uticG4NMTVxT0Ex5lvmGczCjPJ8n9dDXLZ/y4Hs1ceQpuon6e7FxZcFOr7lN0YK
+         loFg==
+X-Forwarded-Encrypted: i=1; AJvYcCXJox1MZmuZ9bmJt4IYDp9R1b2T9uDq793MQ9BnTEXQ5a+OzFnFAdhCj6up0Vpg78es8YhH8KyKFNzDbCpvsYokMR/CIQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyL+moCYpEFPBMav47+YLodJ0ixOi7Y7DuCmXoEyVbtyrQDHuRB
+	k2FMQ7/68qxgfuuu08jsROkXivvmRgZPaFrPSe46rhTO7Lml0Bc3sMNN
+X-Gm-Gg: ASbGncuZu7YEVSBCY4UDB9fy1uMcpYMhCckxFHTOxar0rIDoCE2RgAcHT1uLqV2tAg/
+	JgcRCmSEUwh7GpoJWdAaSLQR9i/BXMCDnr5eSvxw3AwBunfxPd/nHyCjC1aXEPzX4dpQ+PBr/Vg
+	la6zW0O+w5l07eM++gw+5jhNKAPzRpnHZnslTcPdd7sETsGQmvhOOHZ95xxbO9rXbRnBg1m9EbA
+	lQCl5jZ3RMB/TSI3sMm52ttXhstZ1DrirNuaF5LU2eDVFuF4jc/hdlONvDh1bPFB/IWcDU0WbN6
+	XK4lf+9TCPjCyT4VzletGbjp7Q6rF6/yhjBEFBS80GR7TKMjAO92MHIYqYQYFw==
+X-Google-Smtp-Source: AGHT+IHEQfVO4jOQL3Of/QYcqiFqVxdgSNZqlpR3S0pBQS+f1Nln9HrB4Or+CN1VaN22zOC7F3nnsg==
+X-Received: by 2002:a17:90b:55c3:b0:2ee:94d1:7a89 with SMTP id 98e67ed59e1d1-3110f0ee05cmr11603312a91.1.1748226889213;
+        Sun, 25 May 2025 19:34:49 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30f365e59b3sm11123443a91.33.2025.05.25.19.34.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 May 2025 19:34:48 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id E3FD74230C03; Mon, 26 May 2025 09:34:44 +0700 (WIB)
+Date: Mon, 26 May 2025 09:34:44 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: George Anthony Vernon <contact@gvernon.com>, dmitry.torokhov@gmail.com,
+	corbet@lwn.net, skhan@kernel.org
+Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH 1/3] input: docs: Fix broken table formatting
+Message-ID: <aDPTRGHNx2P-_wXj@archie.me>
+References: <20250526011443.136804-1-contact@gvernon.com>
+ <20250526011443.136804-2-contact@gvernon.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <aChczAWsPdmdeen3@pollux> <D9YO7XDNV712.3A5HSSLUQIZ2W@kernel.org>
- <aCrwuQP46RFHxYB5@pollux> <DA00X0RTYKMA.2OG25TZ1X3AU@kernel.org>
- <aCsAEJtkCKKhspnF@pollux> <DA03ANJMDOU2.1ZQWA6MIENVKD@kernel.org>
- <aCsX-k0K_jqLvD4e@pollux> <DA04WHRZBBS0.17WRMWDF0A335@kernel.org>
- <CAPZ3m_i8fwsBRJKay72LHT4pEW=eZ5LxCFD=8CYkuEksjjt3_Q@mail.gmail.com>
- <DA3ENUO97I6D.234AA7I97AV62@kernel.org> <aDA4HIOL-g37cvpy@cassiopeiae> <DA3IPNILKRA0.3LJ8DGKQ99KP8@kernel.org>
-In-Reply-To: <DA3IPNILKRA0.3LJ8DGKQ99KP8@kernel.org>
-From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-Date: Sun, 25 May 2025 23:10:22 -0300
-X-Gm-Features: AX0GCFvh5ITjv588SBXUFjNEzCG7fOrSzN8qlbEeJ_5DVMpeDB5z9JJe-MCTxaQ
-Message-ID: <CAPZ3m_jw0LxK1MmseaamNYhj9VY8AXtJ0AOcYd9qcn=5wPE4eA@mail.gmail.com>
-Subject: Re: [PATCH v2] rust: doc: Clarify safety invariants for Revocable type
-To: Benno Lossin <lossin@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, benno.lossin@proton.me, 
-	ojeda@kernel.org, rust-for-linux@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="NdA65ZAYfdmxNg3d"
+Content-Disposition: inline
+In-Reply-To: <20250526011443.136804-2-contact@gvernon.com>
+
+
+--NdA65ZAYfdmxNg3d
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Guys, thanks for your patience and kindness =3DD
+On Mon, May 26, 2025 at 02:14:41AM +0100, George Anthony Vernon wrote:
+> diff --git a/Documentation/input/devices/amijoy.rst b/Documentation/input=
+/devices/amijoy.rst
+> index 8df7b11cd98d..f854ee975247 100644
+> --- a/Documentation/input/devices/amijoy.rst
+> +++ b/Documentation/input/devices/amijoy.rst
+> @@ -123,7 +123,7 @@ JOY1DAT   Y7  Y6  Y5  Y4  Y3  Y2  Y1  Y0     X7  X6  =
+X5  X4  X3  X2  X1  X0
+>          clocked by 2 of the signals input from the mouse serial
+>          stream. Starting with first bit received:
+> =20
+> -         +-------------------+-----------------------------------------+
+> +         +--------+----------+-----------------------------------------+
+>           | Serial | Bit Name | Description                             |
+>           +=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+>           |   0    | M0H      | JOY0DAT Horizontal Clock                |
 
-I'm sending v3 right now!
+Fix is verified in htmldocs output, thanks!
 
-In Brazil we say "Tamo Junto!" - We're in this together!
-Marcelo Moreira
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Em sex., 23 de mai. de 2025 =C3=A0s 08:53, Benno Lossin <lossin@kernel.org>=
- escreveu:
->
-> On Fri May 23, 2025 at 10:55 AM CEST, Danilo Krummrich wrote:
-> > On Fri, May 23, 2025 at 10:42:58AM +0200, Benno Lossin wrote:
-> >> On Fri May 23, 2025 at 2:13 AM CEST, Marcelo Moreira wrote:
-> >> > 3. Clarified revoke_internal for SYNC =3D false and swap correction
-> >> > Proposed Documentation:
-> >> >  if self.is_available.swap(false, Ordering::Relaxed) {
-> >> >  if SYNC {
-> >> >                 // SAFETY: Just an FFI call, there are no further re=
-quirements.
-> >> >                 unsafe { bindings::synchronize_rcu() };
-> >>
-> >> @Boqun: is this true?
-> >>
-> >> If the answer is yes, then we should add this as a safe function in th=
-e
-> >> rcu module.
-> >
-> > I think it's a case for Klint, since synchronize_rcu() must not be call=
-ed from
-> > atomic context, since it may block. Otherwise, there shouldn't be any a=
-dditional
-> > requirements.
->
-> Makes sense, but then we should add this as a safe function (in a
-> separate patch). After all we already have other safe functions that
-> should be unsafe were it not for klint.
->
-> >> >  }  else {
-> >> >        // This branch for `revoke_nosync` requires the caller to pro=
-ve
-> >> > that `data`
-> >> >        // can be dropped immediately without waiting for any RCU gra=
-ce period.
-> >>
-> >> I'm not sure that having a single function that does the revocation, b=
-ut
-> >> has this going on is a good idea. The safety requirements will be pret=
-ty
-> >> complex.
-> >>
-> >> @Danilo what do you think of inlining this function?
-> >
-> > Sure, if it makes documentation significantly easier, which seems to be=
- the
-> > case, then it's probably worth.
->
-> Yeah then let's do it (also separate patch).
->
-> ---
-> Cheers,
-> Benno
+--NdA65ZAYfdmxNg3d
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaDPTQAAKCRD2uYlJVVFO
+o2UyAP4uQBKtj4I45lSGFA3/M03jhbOnbCEU1RWANqhj+EXxuQEAwMBEdTeIbwPZ
+ed6fGLQmf/Gd9hfT6HKiFbyTPd3wvw8=
+=5jsN
+-----END PGP SIGNATURE-----
+
+--NdA65ZAYfdmxNg3d--
