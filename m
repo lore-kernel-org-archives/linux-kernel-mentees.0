@@ -1,49 +1,73 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F7420DD63
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 26 May 2025 14:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08021547C9
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 26 May 2025 18:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748268059; cv=none; b=kL741Zamx4c5yogUeRS/DABh7lyimazSx87GZhWMEikpvIpLRmn9OrQFvaWyoXAG6ZSuHOrZbfMZPHpTnygV0DDgOGFarxy9E0mQhbySl1DibJmOK3QROo2HGR35xG2tMf/dn0qGJ9BjVGvkqzBzB29yvY6QAOw6yJ8jBV4kjmo=
+	t=1748285064; cv=none; b=czdgBe7WaG355Po57d8pmQRPkly9AxlMVZ8QVCDxYhgCwPxRBlQV42opLEKJ5OJTWLEuslC46/M9hDK/3f/ZQP2fg+2lOYb7DVCCCaLbWZ352zXYNNhpKhVGP6n2MDE5tRRk9kymYnRcBmLqzoP0JW0NXPeBOgBKWQ60Qyg0LXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748268059; c=relaxed/simple;
-	bh=nMyPEDnf/zkddzZ2Cw4741aAO+yU0d/61z+A8WlOS94=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tNsj2rIxJEtzLPZVaUHYDQs1RdVp894ndJ+pQn0aqfCIitTnkUMMLIFJDQgPbZiezVV7hVM1OC+QndqW4a6WY1d1C/W6XpvDoBjHFqkwtYjQMFItadpSPiWGV7x8ikwslOjT471khGU+rPGaaJDvfT1BKlkCBZFHovsYEw1upBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=FBLIAQVM; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
+	s=arc-20240116; t=1748285064; c=relaxed/simple;
+	bh=F0nXqeztZjLXSCez38dqnwS/rbBaPXXvjEwZG3KufIE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CuTZnQ5Eaatrxzomerg5Q+zUYLUTZEV5o2SnmizKL98VBaxB8jbLjRSQWUgJg6/TNMyDJbRx3OR3EhgqouxzLmRfs5MHJy6nP1hIwJKLeNqz0nTA5BfF+lYwfgAk7oUzFZ5nsPTqojj+7tARCsb+Ac35Y219PFvp67O4c/B2F3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yd7Uu3ns; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="FBLIAQVM"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1748268056;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V6dGYyUwgVkfLIw2/DVw8Hb9GNF0VcyeeqTRDuJIL/A=;
-	b=FBLIAQVMmdfIUncAJN6oqa+PKQUXox17Sv8De+wBqYNWky7H0t30it9SRYSgQ1JOmYz7Ey
-	AXDSbnfDLv3hzEGyKbgIBfrrYUu/azuKE+gSYdPamgrSL4O5rX0Mht4E3D1URBTZfesCsG
-	59DWMnU7iTfXY8dA8jI2SbqwIiNQ/Q2DIL6vuO6q7LjDFzr+FQ2G8c9FKrY+OpQ+76LSiH
-	mKyReVAEgCccBBTUsWezHYP2LXwo4nbhVKbbAgLYifOAGZ387j/WZRqpdQ5GPE+okuuNYt
-	cPLakPex6754Op1M2Zc/TbFyNxLUnnagCiy+xpMVLkKYYSMtg+kqkQZx8eOJNg==
-From: George Anthony Vernon <contact@gvernon.com>
-To: dmitry.torokhov@gmail.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yd7Uu3ns"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a0ac853894so2670073f8f.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 26 May 2025 11:44:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748285061; x=1748889861; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hMCJtECyYLnVFjpZvyBd+ub3nNwjuB4xZOaytzPNUxg=;
+        b=Yd7Uu3nsBNDSZtis4ZmTOgTLaij0rIkdU8wixkKmE4/h4cFkqPEJB74SZqWvRmw/Mu
+         +nsazMFd+YAhYZNZIJPk7Pf5v+GVNGIVaCi5qo9RWMehKFAVfUAUvqUUvLFZ4JP5n/Gw
+         NSGxW4GunpDf4kmpXXFxA/r6yGbnjZbNzYWXzLcnSKlIG+/ExOF/6KX/QXMGlLY9zSek
+         dEuBUWPXPog/gcQc1hxql8e1KUqCXK85XkSv3ct0PpeNBILK7Z+axlrJC9FNehstQf0l
+         5j6H743970F8H1WZEZFFr91xIl4zyFEgH2Vu31SpSUNjgJUtWkscydaUMZBcTZ0pQAlX
+         AvVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748285061; x=1748889861;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hMCJtECyYLnVFjpZvyBd+ub3nNwjuB4xZOaytzPNUxg=;
+        b=ho2Tpxd83nxlzDhQKy0T0k1xzgxQuUHAff7j5wYuqoJZreU/39FzP/5QshCLszLkOW
+         HXxnq/Sf9dBC8sw+e3WLFXwo7pLDVE1CaGuCLA+WbVTHn5XT4vj2MPVU3ArBGFddQDh4
+         /EEl66L6brJl8pXTfYZXopwP+U/F6jDppOqmAHyfb89wIQfpZa/CdH9WJ3/QwETXN9ET
+         rptPYLLNDX+Qgw2Mjs6rz4A7OxgYw3rw8XlkbcvSD4eChqxuhS5GH+hxIdVUwiv5swbZ
+         rfCz3d9H+YT4x92sayQ8zE21vqyPE/3trROuk/CWByrjzLiUjXUh6Avn37RhUOOIn9AA
+         dbJg==
+X-Forwarded-Encrypted: i=1; AJvYcCWbvWpsBXIp6dp1c3nuoGLj9jL6763ucUKZ/KbVEyHgVRENQK1sec2CC3ISF1lhi7S1q+PoFaaX1tUrob+RMjo9M9Qr9A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxG6tygQ1zaKUR//kGqOQxtRyMtNT/BGyLjCrFyuax4Jxuwdja1
+	yVznlBhScOFkcg04vMkoTYgd2de0B/H/qEfrTbU62oxs0qjK1dFhXKwi
+X-Gm-Gg: ASbGncvpjZRAIWPy/Ujuqc/qFMcLlaYrL5ZYK9eR5petEjNgagudwPhYsiw2TucB90a
+	OK3CWunO79BUk5ISxokcCEnnN7Q1qDXeInS+c1nx9funE9Ti/+qWBaeKzaePZUkwC7ml1tDDHHt
+	UwzpEaeptEQXakRdpz0WhRC338IVDG5qNeuR3nyim1M+sewhAhEJG3R3S1Qt7cnONeNzl7zLRSG
+	47VX0N5lBNcERCebHBsPep3a5vtUpaf26Sw94ar33quAf2jlKmreRSZ3Jmw9tDdc1gCsatGHiPW
+	4zQSNrvk2ghQj54PVZNyyJddvKo8wdEkUP6rDm0+UVjuvl+QI+T2E6Q3Sl2VmQHKC2YnrXZ8tEi
+	kkA==
+X-Google-Smtp-Source: AGHT+IGTZSfVQ6dWElB0XLcV+e9gDpFNN4ZT+p1+bxpoMl8MrW/ZmACvkZFbP6thwQgK6HZ2PAqRXg==
+X-Received: by 2002:a05:6000:2503:b0:3a4:d048:124d with SMTP id ffacd0b85a97d-3a4d04812ddmr7668024f8f.26.1748285060991;
+        Mon, 26 May 2025 11:44:20 -0700 (PDT)
+Received: from localhost.localdomain ([154.183.23.207])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca62b5dsm36455664f8f.55.2025.05.26.11.44.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 May 2025 11:44:20 -0700 (PDT)
+From: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>,
+	linux-kernel-mentees@lists.linux.dev,
+	shuah@kernel.org,
 	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: George Anthony Vernon <contact@gvernon.com>,
-	bagasdotme@gmail.com,
-	linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v2 4/4] input: docs: Make headings compliant w/ guidelines
-Date: Mon, 26 May 2025 14:59:52 +0100
-Message-ID: <20250526135957.180254-5-contact@gvernon.com>
-In-Reply-To: <20250526135957.180254-1-contact@gvernon.com>
-References: <20250526135957.180254-1-contact@gvernon.com>
+	masahiroy@kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: escape literal asterisk to fix reST emphasis warning
+Date: Mon, 26 May 2025 21:43:59 +0300
+Message-ID: <20250526184401.33417-1-khaledelnaggarlinux@gmail.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -51,133 +75,33 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Make heading adornments compliant with the guidelines to improve
-organisation of the page.
+Escaped a literal '*' character in symbol-namespaces.rst to prevent
+a Docutils warning about unmatched emphasis markers during documentation build.
 
-Signed-off-by: George Anthony Vernon <contact@gvernon.com>
+Signed-off-by: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
 ---
- Documentation/input/devices/amijoy.rst | 42 ++++++++++++++++----------
- 1 file changed, 26 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/input/devices/amijoy.rst b/Documentation/input/devices/amijoy.rst
-index cbc5240f8af3..a81e9de481c7 100644
---- a/Documentation/input/devices/amijoy.rst
-+++ b/Documentation/input/devices/amijoy.rst
-@@ -1,10 +1,12 @@
--~~~~~~~~~~~~~~~
-+===============
- Amiga joysticks
--~~~~~~~~~~~~~~~
-+===============
- 
-+Pinouts
-+=======
- 
- Amiga 4-joystick parallel port extension
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+----------------------------------------
- 
- Parallel port pins:
- 
-@@ -19,8 +21,8 @@ Pin    Meaning  Pin    Meaning
- 19     Gnd1	18     Gnd2
- =====  ======== ====   ==========
- 
--Amiga digital joystick pinout
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Amiga digital joystick
-+----------------------
- 
- === ============
- Pin Meaning
-@@ -36,8 +38,8 @@ Pin Meaning
- 9   Thumb button
- === ============
- 
--Amiga mouse pinout
--~~~~~~~~~~~~~~~~~~
-+Amiga mouse
-+-----------
- 
- === ============
- Pin Meaning
-@@ -53,8 +55,8 @@ Pin Meaning
- 9   Right button
- === ============
- 
--Amiga analog joystick pinout
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Amiga analog joystick
-+---------------------
- 
- === ==============
- Pin Meaning
-@@ -70,8 +72,8 @@ Pin Meaning
- 9   Analog Y
- === ==============
- 
--Amiga lightpen pinout
--~~~~~~~~~~~~~~~~~~~~~
-+Amiga lightpen
-+--------------
- 
- === =============
- Pin Meaning
-@@ -87,7 +89,11 @@ Pin Meaning
- 9   Stylus button
- === =============
- 
---------------------------------------------------------------------------------
-+Register addresses
-+==================
-+
-+JOY0DAT/JOY1DAT
-+---------------
- 
- ======== === ==== ==== ====== ===========================================
- NAME     rev ADDR type chip   Description
-@@ -159,7 +165,8 @@ JOY1DAT   Y7  Y6  Y5  Y4  Y3  Y2  Y1  Y0     X7  X6  X5  X4  X3  X2  X1  X0
-          | Right      |  4   | X1                              |
-          +------------+------+---------------------------------+
- 
---------------------------------------------------------------------------------
-+JOYTEST
-+-------
- 
- ========  === ==== ==== ====== =================================================
- NAME      rev ADDR type chip    Description
-@@ -176,7 +183,8 @@ JOYTEST       036   W   Denise  Write to all 4  joystick-mouse counters at once.
-   JOYxDAT  Y7  Y6  Y5  Y4  Y3  Y2  xx  xx     X7  X6  X5  X4  X3  X2  xx  xx
- ========= === === === === === === === === ====== === === === === === === ===
- 
---------------------------------------------------------------------------------
-+POT0DAT/POT1DAT
-+---------------
- 
- ======= === ==== ==== ====== ===========================================
- NAME    rev ADDR type chip   Description
-@@ -217,7 +225,8 @@ POT1DAT  h  014   R   Paula  Pot counter data right pair (vert., horiz.)
-          the counters will count proportionally faster.
-          This should be noted when doing variable beam displays.
- 
---------------------------------------------------------------------------------
-+POTGO
-+-----
- 
- ====== === ==== ==== ====== ================================================
- NAME   rev ADDR type chip   Description
-@@ -226,7 +235,8 @@ POTGO      034   W   Paula  Pot port (4 bit) bi-direction and data, and pot
- 			    counter start.
- ====== === ==== ==== ====== ================================================
- 
---------------------------------------------------------------------------------
-+POTINP
-+------
- 
- ====== === ==== ==== ====== ================================================
- NAME   rev ADDR type chip   Description
--- 
-2.49.0
+Hello, this is probably too trivial to have its own patch, but I found
+it while building today's tag, so I thought I would send a patch.
+
+---
+ Documentation/core-api/symbol-namespaces.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
+index f7cfa7b73e97..008b34fe6629 100644
+--- a/Documentation/core-api/symbol-namespaces.rst
++++ b/Documentation/core-api/symbol-namespaces.rst
+@@ -87,7 +87,7 @@ modules to access this symbol. Simple tail-globs are supported.
+
+ For example:
+
+-  EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
++  EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-\*")
+
+ will limit usage of this symbol to modules whoes name matches the given
+ patterns.
+--
+2.47.2
 
