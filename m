@@ -1,345 +1,133 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5022417C5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 27 May 2025 12:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D21126C02
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 27 May 2025 14:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748347421; cv=none; b=Oztm1HKEJ1hgx1uIbpD2I9MxBRvYhCd3ZnwI6WM3cJP+GEMoFqDRoaSLqA2uySCMFccMxWg+JrbhC1fScNAHldfbDRKqhtX9LQw4aSoJGSNLymSQJXl4kCdj6c2FivD5fStQ6jj99/QZJuZam+GcqwnQgLxmW6soOyNWNBXh3Vo=
+	t=1748354856; cv=none; b=DXBlBvR2BSl3DCseH+0lIpqQe6klr0K1ffx4AB8FgVfc9rADZFjkXpnQzAvW2A0fWOHV+hIHmpdetenF12ATkla+Hf1hoLGeJ8doZUy/DYk3ymcDZxjJGGB1aJrqUXEAU2eh49tl/ur6Ggf0lPqjoIvUppS5mtct/HTUaia1IFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748347421; c=relaxed/simple;
-	bh=li+MQeHuYnzTa1Oo+qLw5a9C6kW/x2KBW1PajRsWFGY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=okYf1gOvIlwKwR3/+/Vebx6uieYQdS++VT6os4YQkGyGc1+B51/DBdx2Nomu/9ihUJS21GG97D3UMikDVk+NlI0okP41JQiamcpWdnDWe9UUf9RqcJMuhgO00ZNubPq2oL1okqyBvlAfjqRRYms8jZ2izRV5uYwJhGkE18hkfvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K+F1L8ZZ; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1748354856; c=relaxed/simple;
+	bh=iV+5TQFLMdpDIjSDs6o0Yi6BOun9sKQbdLa23G/sI5U=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Jt6s8zFzgTJcLqAPejtj/RZzASm16iQ8XuffALYviXdaQSih4zw1PJuiz5kISZns8wLcz3zeHqML989n3NRPNceE1UMo3iFXQvS8bUCUhQZFAbBC4dKy9M5WUzSQE6yi2vNLBnvsXx12OA7vuITM02RujKp150Auym8tVnVD2jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BX3qBNaZ; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K+F1L8ZZ"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 81679605EE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 27 May 2025 12:03:39 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -8.092
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 2FSGs_HM9PJk for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 May 2025 12:03:38 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 86CB2605BD
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 86CB2605BD
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=K+F1L8ZZ
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 86CB2605BD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 27 May 2025 12:03:38 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id CC140A4F6A5;
-	Tue, 27 May 2025 12:03:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08F4FC4CEEE;
-	Tue, 27 May 2025 12:03:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748347416;
-	bh=li+MQeHuYnzTa1Oo+qLw5a9C6kW/x2KBW1PajRsWFGY=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=K+F1L8ZZrEgXTD/tM+/5wSz09zqR4sstUlb8Zv2m/igf1hOjXxU9PzomgMxcbQOQg
-	 Yv5AMtFe6ro+FgOq63fTFEOIdDPPusKoCkcm5BZRZRb+5EqRGLIiqiRk0ULfx0y9qF
-	 RUemJX6Z1DHoU6JhLkA5Yoj0WyBXCm/lT49L2pK1C+SU3y7INhIa3RGIQ3Rypbw5+S
-	 H3nR8XRQJ8wIwPeajufTZnQ+d4mCaIp1M/3bw19OMzYftq+PDSaML4rBUwQCh7/IJj
-	 jG5VmMNlpG32jxK2biW0nSO7Vcrz70sTKb+/LxG3VSNgSjyP+1MFmpuHobP8lxU5cY
-	 3JjepRSYV4F2A==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BX3qBNaZ"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43f106a3591so3790265e9.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 27 May 2025 07:07:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748354852; x=1748959652; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KpK0x0wXhOnGFBSWU3ce03ScwCxpFS8ONVx7+umFELU=;
+        b=BX3qBNaZmteA2dazEW+Wg0+1B9Wb9UOGbABoIns1TbJL25CaMjN5wIytPg8dUa5jC1
+         rCQ4BTGqKYbBn7Q8ZbAxiayzm//I8rm2Lu7fKwhj0ycypwZvjapPupN29qOfnBmJigAv
+         VEhzXQ9K2ykR8SDFA98O3CgAZuXLqhkvDFJKxlmvN9jlM1T0Yfpr629RYFen9579oOh9
+         wE/ALsXJELOgjm6mJ30kSW8x0I0bAMV4IgP58gyJPuvKpTOboBFr6B55iS53hYbVoreX
+         zMochwAiOTiwITqqxQAEnQPeSry1kxGY9DUdsSK/Ac21gE0YCyjnOMYRSJeey2YCoDQ1
+         rl9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748354852; x=1748959652;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KpK0x0wXhOnGFBSWU3ce03ScwCxpFS8ONVx7+umFELU=;
+        b=N26tv2dZ5AzgEhJzRPGY+4Qqj141zeNLI9T/8j9VvGmiUexJ5TJkwL+cdy+jSw7Lsg
+         4UXZwx6auWjtQbTu1hubnq0/CEnegajlFynnCSeS/c7L6Z7+0xGymrRHsysgbjAp4mwF
+         Lfe2/BrWCA+FLCcNEl+vSyraYZ6unypxWWAz7fcyw3ddGZPxXCKeuGtVsfoMaks0n5IC
+         Z6PB6ijRA3On3xvK6q4hSh6pkJOesfCSjSAo2o9PZfBHxK5P5Xp6E37WIUVBSL7GV+Qg
+         KbmU3+tIVQgAVx33MuSn7UojqwP3kZjIoVO0NS7RnFjO61RjNnJmhqlG04yNP7HRbuUl
+         AZJg==
+X-Forwarded-Encrypted: i=1; AJvYcCXwz7ESLjO8XeLbrBr+XHQwSpdPOUkp+O4u4v1MTstyvIOwzZtUNWVZzAM+ENgpV3RN70IoReDK78+jmgUM2+2OJOPZ4A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxWhs6zJEok3N1EplpUIzA5JGob/h1pp0eIdjFKoQhKCnjSap5D
+	hgsOcQlqf7Hn6KUJ+KhSadzM3JbsK/U1lAsYd7DhTK3Ga78/AOYAJZGM
+X-Gm-Gg: ASbGncsE2LzAp3v4oqQJQrG1ABeN7wizouEZfPtFCcjTstG8Rim1YFYohRxgrdb7vZ7
+	wxYsFypMd5OSGDLo7/0/KNsutwfpsOc45XPcIind5/99Ahx37gXxQG8q+NXsLpWW1akNGNHsdoL
+	i0ZFS4Uk3nyOj91Z1Q7KbOnX5wJ7x4jWPMjWdhhjqOdDHhn5AVcVbTMa2BbcTfsZHu7P/1BMkWf
+	ODduKlIvC2qDcle7QJTt+r3xt2sj9cknfR7jF0umd8EXmSi6oWfMb3OpSXA3/TnBCDl6L/kxKtE
+	EBAUjuBdsZR+mtNU014TVCN1ffVO2F15BXSU5ZEj5zeIC2EsLX8bL/w5HACZOQRMkyoCP4yKm+i
+	DzhbEFBCobEd9dQ==
+X-Google-Smtp-Source: AGHT+IF5wR0JTE7yne3C1fjsCZJEquPOk+vzdCS7cS6ql1aWdP7U83LYFb0zWYD9Fq2nGsaFp64KIQ==
+X-Received: by 2002:a05:600c:510a:b0:441:d244:1463 with SMTP id 5b1f17b1804b1-44c8f355466mr46368625e9.0.1748354851830;
+        Tue, 27 May 2025 07:07:31 -0700 (PDT)
+Received: from localhost.localdomain ([156.208.106.128])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f6b29548sm284630675e9.4.2025.05.27.07.07.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 May 2025 07:07:31 -0700 (PDT)
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+To: shuah@kernel.org,
+	skhan@linuxfoundation.org
+Cc: linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Subject: [PATCH v2] selftests: acct: fix grammar and clarify output messages - Fixed email case mismatch in Signed-off-by
+Date: Tue, 27 May 2025 17:07:27 +0300
+Message-Id: <20250527140727.16910-1-abdelrahmanfekry375@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <e2ad679c-7c68-44c1-b4fb-20b3d02a7c35@linuxfoundation.org>
+References: <e2ad679c-7c68-44c1-b4fb-20b3d02a7c35@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 27 May 2025 14:03:33 +0200
-Message-Id: <DA6XFLKUTP1P.RR6P5AK9PKIZ@kernel.org>
-Cc: <dakr@kernel.org>, <ojeda@kernel.org>, <rust-for-linux@vger.kernel.org>,
- <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-Subject: Re: [PATCH v3] rust: revocable: Correct safety comments and add
- invariants
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Marcelo Moreira" <marcelomoreira1905@gmail.com>
-X-Mailer: aerc 0.20.1
-References: <20250526020125.382976-1-marcelomoreira1905@gmail.com>
- <DA5YTSGIN9DK.3HQ7DNKTVQRP4@kernel.org>
- <CAPZ3m_h3rFpMBNmP95H0z_nZn-oG0q2-9VDbSE+Ntt+PBBDYgw@mail.gmail.com>
-In-Reply-To: <CAPZ3m_h3rFpMBNmP95H0z_nZn-oG0q2-9VDbSE+Ntt+PBBDYgw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue May 27, 2025 at 3:02 AM CEST, Marcelo Moreira wrote:
-> Em seg., 26 de mai. de 2025 =C3=A0s 05:56, Benno Lossin <lossin@kernel.or=
-g> wrote:
->> On Mon May 26, 2025 at 4:01 AM CEST, Marcelo Moreira wrote:
->> > +/// - `data` is valid for writes when `is_available` was atomically c=
-hanged from `true` to `false`
->> > +///   and no thread is holding an RCU read-side lock that was acquire=
-d prior to the change in
->> > +///   `is_available`.
->>
->> This doesn't cover the case needed in `drop`, since there might be a
->> thread holding the RCU read-side lock when `drop` is run. But that
->> doesn't matter, because that thread isn't going to access `data` (since
->> it can't have a reference to the value anymore, after all we're dropping
->> it).
->
-> My understanding: I understand that the write invariant primarily describ=
-es
-> how data becomes valid for writes after revocation (RCU grace period).
-> In the specific context of drop, the validity for writes (e.g., drop_in_p=
-lace)
-> is predominantly guaranteed by the exclusive mutable access (&mut self) o=
-f the
-> PinnedDrop implementation, rather than the RCU-based write invariant.
-> The RCU readers would not be able to access the data being dropped anyway=
-.
->
-> Plans for v4: I don't understand if we need to change something here or i=
-f this
-> will be reflected in the SAFETY comment for drop.
+Hi, i already sent version 2 as a new thread 2 days ago
+but found out that i should also send as reply to
+the original thread so here it is.
 
-We should change the invariant to only consider threads that can access
-`data`. So=20
+v2 changes:
+- Fixed email case mismatch in Signed-off-by
 
-    - `data` is valid for writes when `is_available` was atomically
-      changed from `true` to `false` and no thread that has access to
-      `data` is holding an RCU read-side lock that was acquired prior to
-      the change in `is_available`.
+This patch improves the clarity and grammar of output messages
+in the acct() selftest. Minor changes were made to
+user-facing strings and comments to make them easier to understand
+and more consistent with the kselftest style.
 
->> >  #[pin_data(PinnedDrop)]
->> >  pub struct Revocable<T> {
->> >      is_available: AtomicBool,
->> > @@ -97,8 +105,9 @@ pub fn new(data: impl PinInit<T>) -> impl PinInit<S=
-elf> {
->> >      pub fn try_access(&self) -> Option<RevocableGuard<'_, T>> {
->> >          let guard =3D rcu::read_lock();
->> >          if self.is_available.load(Ordering::Relaxed) {
->> > -            // Since `self.is_available` is true, data is initialised=
- and has to remain valid
->> > -            // because the RCU read side lock prevents it from being =
-dropped.
->> > +            // INVARIANT: `self.data` is valid for reads because `sel=
-f.is_available` is true,
->> > +            // and the RCU read-side lock held by `guard` ensures thi=
-s condition is maintained
->> > +            // during access.
->>
->> Two things here:
->> 1. This comment should refer to the type invariants of `Self` ie
->>    "`self.data` is valid for reads because of the type invariants of
->>    `Self` and because ...".
->> 2. `INVARIANT` comments report on changes in the type invariants of a
->>    type. For example when constructing a type with type invariants, one
->>    has to document that the invariants are fulfilled. In this case, the
->>    invariants of `RevocableGuard` are:
->>
->>    /// The RCU read-side lock is held while the guard is alive.
->>
->>    Which already is fulfilled by us having the `rcu::Guard` type around.
->>    So we should also change the invariants of the `RevocableGuard`.
->>
->> I think I suggested on the previous version that we change `data_ref` to
->> a shared reference and thus simplify the `RevocableGuard` type, because
->> it won't need `unsafe` any more. Then we can also remove all invariants
->> on it. (And we also won't need the `new` function any more, since we
->> have direct access to the fields).
->>
->> (This change should be its own patch)
->>
->> Then we will gain a new `unsafe` block in the code here that we will
->> justify with the type invariant of `Self`.
->>
->> On second thought, we can reuse the `try_access_with_guard` function and
->> then we won't need an `unsafe` block here.
->>
->> >              Some(RevocableGuard::new(self.data.get(), guard))
->> >          } else {
->> >              None
->
->
-> My understanding: The INVARIANT comment should be changed to SAFETY,
-> as we are justifying an unsafe operation (implicitly within RevocableGuar=
-d::new
-> due to self.data.get()), not establishing a new invariant for Revocable<T=
->.
+Changes include:
+- Fixing grammar in printed messages and comments.
+- Rewording error and success outputs for clarity and professionalism.
+- Making the "root check" message more direct.
 
-We don't do SAFETY comments on "implicit" unsafe operations. A SAFETY
-comment must always be directly above an `unsafe` block.
+These updates improve readability without affecting test logic or behavior.
 
-> The SAFETY comment should explicitly state that the validity of self.data=
- for
-> reads is because of Revocable<T>'s type invariants, in addition to the
-> conditions
-> (is_available being true and RCU read-side lock).
->
-> The proposed RevocableGuard simplification (changing data_ref to &T and
-> making RevocableGuard internally safe) is a significant refactoring that
-> should be in a separate, future patch.
-
-I think it should be done in this patch series, as it makes the safety
-comments significantly easier. In my mind the refactoring also shouldn't
-be too expensive.
-
-> For this v4 patch, RevocableGuard::new will continue to take a raw
-> pointer. Therefore,
-> try_access will continue to call RevocableGuard::new(self.data.get(),
-> guard), and the SAFETY
-> comment will justify this existing (implicit) unsafe interaction,
-> rather than introducing a new
-> unsafe block by calling try_access_with_guard here, which would
-> prematurely depend on the
-> RevocableGuard refactoring.
->
-> Plans for v4: Change the comment from // INVARIANT: to // SAFETY.
-> - Reformulate the comment to: "SAFETY: self.data is valid for reads becau=
-se
-> of Revocable<T>'s type invariants, as is_available is true and _guard hol=
-ds
-> the RCU read-side lock."
->
-> - No changes to the underlying logic of try_access (it will still call
-> RevocableGuard::new with self.data.get()).
->
->
->> > @@ -115,8 +124,8 @@ pub fn try_access(&self) -> Option<RevocableGuard<=
-'_, T>> {
->> >      /// object.
->> >      pub fn try_access_with_guard<'a>(&'a self, _guard: &'a rcu::Guard=
-) -> Option<&'a T> {
->> >          if self.is_available.load(Ordering::Relaxed) {
->> > -            // SAFETY: Since `self.is_available` is true, data is ini=
-tialised and has to remain
->> > -            // valid because the RCU read side lock prevents it from =
-being dropped.
->> > +            // SAFETY: `self.data` is valid for reads as `is_availabl=
-e` is true and `_guard`
->> > +            // holds the RCU read-side lock, adhering to `Revocable<T=
->`'s invariants.
->>
->> This is the wrong way around, the safety comment *relies* on the type
->> invariants of `Self`. So it should be
->>
->>     SAFETY: `self.data` is valid for reads because of the type
->>     invariants of `Self` and as `is_available` is true and `_guard`
->>     holds the RCU read-side lock.
->
-> My understanding: The SAFETY comment should clarify that the
-> operation's safety derives from or
-> relies on Revocable<T>'s type invariants, rather than merely "adhering to=
-" them.
->
-> Plans for v4: Reformulate the SAFETY comment to:
-> SAFETY: self.data is valid for reads because of Revocable<T>'s type
-> invariants, as is_available is true and _guard holds the RCU read-side lo=
-ck.
-
-Missing '`' around code. Also please use `Self` instead of Revocable<T>.
-
->> >              Some(unsafe { &*self.data.get() })
->> >          } else {
->> >              None
->> > @@ -176,9 +185,11 @@ fn drop(self: Pin<&mut Self>) {
->> >          // SAFETY: We are not moving out of `p`, only dropping in pla=
-ce
->> >          let p =3D unsafe { self.get_unchecked_mut() };
->> >          if *p.is_available.get_mut() {
->> > -            // SAFETY: We know `self.data` is valid because no other =
-CPU has changed
->> > -            // `is_available` to `false` yet, and no other CPU can do=
- it anymore because this CPU
->> > -            // holds the only reference (mutable) to `self` now.
->> > +            // INVARIANT: `is_available` is true, so `data` is valid =
-for reads.
->>
->> We're not only reading `data`, but also writing to it! (`drop_in_place`
->> takes a mutable raw pointer and will call `Drop::drop` with a mutable
->> reference)
->>
->> > +            // SAFETY: `self.data` is valid for writes because `is_av=
-ailable` is true, and
->> > +            // this `PinnedDrop` context (having `&mut self`) guarant=
-ees exclusive access,
->> > +            // ensuring no other thread can concurrently access or re=
-voke `data`.
->> > +            // This ensures `data` is valid for `drop_in_place`.
->>
->> We have to mention the type invariants of `Self` here too. And also we
->> have to satisfy all the conditions on the second invariant:
->>
->>     /// - `data` is valid for writes when `is_available` was atomically =
-changed from `true` to `false`
->>     ///   and no thread is holding an RCU read-side lock that was acquir=
-ed prior to the change in
->>     ///   `is_available`.
->>
->> This is the problem with that invariant that I outlined above. Nobody
->> can access `data`, since we're getting dropped.
->>
->> >              unsafe { drop_in_place(p.data.get()) };
->
-> My understanding: The operation in drop_in_place is a write
-> (destruction), so the prior INVARIANT
-> comment focusing on "reads" was a mistake.
->
-> The SAFETY comment needs to explicitly mention Revocable<T>'s type invari=
-ants.
->
-> For drop, the primary safety guarantee for writes is the exclusive
-> mutable access (&mut self)
-> provided by the PinnedDrop context, in addition to is_available being
-> true. The RCU-specific
-> conditions of the write invariant are less directly relevant here
-> because of this exclusive ownership
-> during drop.
->
-> Plans for v4: Remove the line: // INVARIANT: is_available is true, so
-> data is valid for reads.
->
-> Reformulate the // SAFETY: comment to: SAFETY: self.data is valid for
-> writes because of
-> Revocable<T>'s type invariants (specifically, that data is valid when
-> is_available is true),
-> and because this PinnedDrop context (having &mut self) guarantees
-> exclusive access,
-> ensuring no other thread can concurrently access or revoke data. This
-> ensures data is valid
-> for drop_in_place.
-
-Your email client seems to rewrap the lines, could you avoid that, as it
-makes the text harder to read? Thanks!
-
-I don't think it's a good idea to have information in parenthesis in
-safety comments, they should be clear without the need for optional
-information. Also this needs the invariant change that I mentioned
-above.=20
-
->> A function that also needs to be adjusted is the `revoke_internal`
->> function. That's where the second type invariant comes in. I suggested
->> that we remove that and split the behavior into `revoke()` and
->> `revoke_nosync()` and Danilo agreed, so could you add that in another
->> patch?
->>
->
-> My understanding: I fully understand and agree that the following are
-> significant refactorings
-> and should be handled in separate, dedicated patches, not in v4
->
-> - RevocableGuard Simplification: Changing data_ref from a raw pointer
-> (*const T) to a shared
-> reference (&T), removing its unsafe logic and internal invariants.
->
-> - revoke_internal Refactoring: Splitting revoke_internal into revoke()
-> and revoke_nosync() functions.
-
-Yes, but please include them in the next version of your patch series :)
-They make the safety comments a lot simpler.
-
+Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
 ---
-Cheers,
-Benno
+ tools/testing/selftests/acct/acct_syscall.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/tools/testing/selftests/acct/acct_syscall.c b/tools/testing/selftests/acct/acct_syscall.c
+index 87c044fb9293..2c120a527574 100644
+--- a/tools/testing/selftests/acct/acct_syscall.c
++++ b/tools/testing/selftests/acct/acct_syscall.c
+@@ -22,9 +22,9 @@ int main(void)
+ 	ksft_print_header();
+ 	ksft_set_plan(1);
+ 
+-	// Check if test is run a root
++	// Check if test is run as root
+ 	if (geteuid()) {
+-		ksft_exit_skip("This test needs root to run!\n");
++		ksft_exit_skip("This test must be run as root!\n");
+ 		return 1;
+ 	}
+ 
+@@ -52,7 +52,7 @@ int main(void)
+ 	child_pid = fork();
+ 
+ 	if (child_pid < 0) {
+-		ksft_test_result_error("Creating a child process to log failed\n");
++		ksft_test_result_error("Failed to create child process for logging\n");
+ 		acct(NULL);
+ 		return 1;
+ 	} else if (child_pid > 0) {
+-- 
+2.25.1
+
