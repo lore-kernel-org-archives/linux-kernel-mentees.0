@@ -1,83 +1,67 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D07276051
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 27 May 2025 18:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4787B652;
+	Wed, 28 May 2025 01:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748370011; cv=none; b=ZfDLxCa1/udcM6LRzfgpVurhYldcGOg+5obLW8pEi2oKXeOYn9xkcCAwCFFBk6z9yqEfUJJfZeCfd3p5iQgrQ02hRhMdxg1K2OiNe/2/KS+77T0q802CKopROnhTPH708jLVLWe9Ehe8FYLOu9W1EX17qF5TXDZr2E40kDhQZ+I=
+	t=1748395121; cv=none; b=NVcMCwhfsEWkXBXDOVRDUD8Xq8tQCwPuU//HpbDyM82TB+H0ICc7raI1krHSpWNR4KvElQle6DJ+U9GgZPjSqvUM7JzpS1BUevL529P+WTI7NDKb2NMeFePfjSzNriiBlzl3ViOY85Z/CVdCPU7pzXrv2ujhkyXXNf6cYENjezs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748370011; c=relaxed/simple;
-	bh=sEVi5xn73Yeh8Ap0foTsEMNSOsy1XzgbIiNqMSAIwJs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CqALyC5YHasBCtPKP6xDBoVEF1Xnl+rLjVTdXEfjhLzrC9FUw3SUUwHbjihl2l9VHh4KQfmpruzLo5pKw8w4sD30ZYkafRfX/KhAQg2Q4GbPqCN84rAjl6AeSu7Hf8WXYSfBNro/goLOxip6fFOgVqHTGel8i3rv4wFBFhOFLBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TmluuGYR; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1748395121; c=relaxed/simple;
+	bh=p5QWRdhWaODG9aKY5tA69PeV91P0Vrp+Cj4FSE5f6hw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D9eB2yas5exIV8CoHCyNQeN3PAlbJ49dj+94tGp2vohlRbO/kxpZJjEnGdXwcyWWwgDS+rClIe47RLHOg1OHypXpeWr8Mz+utZH/opLqnQfaDjJe//qayhOX4xYC/O3I/0l9EqW+Fb1JOf1TFAqodBq9IL8QN0cUNyKrn0zdmEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uwa1K1NH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TmluuGYR"
-Date: Tue, 27 May 2025 14:20:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1748370007;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sEVi5xn73Yeh8Ap0foTsEMNSOsy1XzgbIiNqMSAIwJs=;
-	b=TmluuGYR+8ufeptzGamzCM6BbJrYwElWoCgkbSVRJ2on/KIiqARqnAGc2G1361RJbWJt4i
-	980JOAAEuLjQQfoK9+/jiee7IAfBmpFbuyK9nI82ie00emWY9rGJZT50UppCLNaI6yiZqc
-	ddV9CDv05P2Nh7u1B5yIu9UMpvHxbvc=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-Cc: linux-bcachefs@vger.kernel.org, shuah@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH bcachefs-testing] bcachefs: fix goto jumping over guard
- initializers
-Message-ID: <62qt435bsvvhstxhn2utpio7owmk6ddjuyzkjv3tvbnh2f5xoz@56kd22dgyjqg>
-References: <20250527173116.368912-2-bharadwaj.raju777@gmail.com>
- <CAPZ5DTE1z=PPm+v718ZfgYg0oJkEKHJ-pxrSjSGTmxQVqzaP7A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uwa1K1NH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87E20C4CEE9;
+	Wed, 28 May 2025 01:18:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748395120;
+	bh=p5QWRdhWaODG9aKY5tA69PeV91P0Vrp+Cj4FSE5f6hw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=uwa1K1NHzWm2IchSeYUR4fykOGrge/eVf2zfPNLzePfqn3/x9t3hLl5WqznVPEfPF
+	 7bj9XlA+KJHDUGz/MpZFgTQsNEfOW90u2Vx2E/xYRzt+3sYtLBc2m7VAr646Ez6uxj
+	 +q+5Vzke5jloJj65BsZiNwqNjnAwNLAb+MAp+XlbuQpmK7QvbQWP2CYF0wrEgypfmN
+	 V0SPSKlMuwaY8CpRZZKclRy45Kg/suOBhrlj5Xse6wXnDvyg1VACx1+dBSZxWUTlsN
+	 Az8ytsZi9dwKkJnMylk1H8ns2J6Lz4tU5sZMIDx2ibnWO+BFTp7PVb9vj2pfV9E5RE
+	 lPi6WZ7GfRT+w==
+Date: Tue, 27 May 2025 18:18:38 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
+Cc: <pablo@netfilter.org>, <kadlec@netfilter.org>, <davem@davemloft.net>,
+ <edumazet@google.com>, <pabeni@redhat.com>, <horms@kernel.org>,
+ <shuah@kernel.org>, <aconole@redhat.com>, <echaudro@redhat.com>,
+ <i.maximets@ovn.org>, <netfilter-devel@vger.kernel.org>,
+ <coreteam@netfilter.org>, <netdev@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>
+Subject: Re: [PATCH v2] selftests: net: fix spelling and grammar mistakes
+Message-ID: <20250527181838.05cccdb3@kernel.org>
+In-Reply-To: <20250523022242.3518-1-praveen.balakrishnan@magd.ox.ac.uk>
+References: <4f0d5c19-8358-4e5b-a8f0-3adcee34ffd4@linuxfoundation.org>
+	<20250523022242.3518-1-praveen.balakrishnan@magd.ox.ac.uk>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPZ5DTE1z=PPm+v718ZfgYg0oJkEKHJ-pxrSjSGTmxQVqzaP7A@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 27, 2025 at 11:09:00PM +0530, Bharadwaj Raju wrote:
-> Now I'm actually not sure this is the best solution -- the comments in
-> include/linux/cleanup.h say that gotos and cleanup helpers should never be
-> mixed in the same function in the first place. So ideally we should not use
-> these guard helpers until we develop helpers for everything that
-> we want to clean up using gotos, like printbuf_exit, bch2_trans_put,
-> and so on, and then switch over everything at once.
+On Fri, 23 May 2025 03:22:42 +0100 Praveen Balakrishnan wrote:
+> Fix several spelling and grammatical mistakes in output messages from
+> the net selftests to improve readability.
+> 
+> Only the message strings for the test output have been modified. No
+> changes to the functional logic of the tests have been made.
+> 
+> Signed-off-by: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
 
-I believe that's too strict; a goto that jumps after a CLASS()
-initialized object in the same scope clearly doesn't work, and probably
-the same is true for a goto that jumps backwards over a CLASS()
-initialization in the same scope (doesn't come up as much, haven't
-checked).
-
-But a goto that works like a break statement - jumping forwards out of a
-scope with a CLASS() object should be fine, and likewise for gotos that
-stay in the same scope and don't jump over CLASS() object initializers.
-
-(gotos that jump backwards out of scopes, or forwards into scopes, are
-really problematic for compilers to model; 'break' style gotos are much
-easier for them).
-
-So we should be ok with those rare cases fixed, and I'm running the full
-test suite on this series with lockdep/kasan/leak checking enabled.
-
-Agreed that it would be good to get everything converted. I've already
-done printbufs and btree_trans objects, but we still need darrays,
-wrappers for various device/filesystem refcounts (and the
-for_aach_device() macros might be tricky to convert, but worthwhile),
-and btree iterators.
-
-Btree iterators have an exit function that takes a pointer to
-btree_trans as well, and it didn't look like DEFINE_CLASS() could handle
-that directly - will have to look at how the lock/unlock guards work.
+This does not apply cleanly any more.
+Please wait until net-next re-opens after the merge window, 
+rebase and repost:
+https://netdev.bots.linux.dev/net-next.html
+-- 
+pw-bot: cr
