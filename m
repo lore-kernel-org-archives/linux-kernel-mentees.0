@@ -1,160 +1,136 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45F22874E3
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 28 May 2025 14:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3519BEAD7;
+	Wed, 28 May 2025 18:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748443173; cv=none; b=S0EZUVHyv/aOoniQOEl7qJcWy5XiYSRUD3TmgLjT5XhWE6NnfZbieQxYRX8mkQ4jvzOCxpnScqO4VWQAh4e92zeQi9i7corMlKs+3s5MMToveRUrUHnaBubnov3kQNx1z+DnrwmlAYQVEpQCOieCgFbZEsMfWHXhRurBtBqqJgo=
+	t=1748455628; cv=none; b=KGxaJJg8tcceSz+8qWu+LHu+oPEdYPhWGB4GNnQ+qufIMWN+r2qzQOokIyCcZ7AcKZj69K5uFxIgR1Vkq4asLMbjBtPNKpCLOP8Atxtzmp7DjVc/ivFNTO/gc2IiHxYfNGrdCPZInjH0Fqqyu88RdSHnES6JYPQhqo8+XkDzU0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748443173; c=relaxed/simple;
-	bh=WQWL+eAKKiAuLfGDDdt/xLT8MzV7WUoPJ6v+IwTBPeU=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=kHfQj8O70U76ipydVsWXj1ez6rKOGk6tM6Zhs86n2gHIfOn/3YYLKJZzgxVFGjnoEjIFrY9g7eKYkFYUFBxQOJb1YqAyCw3syvLzcFFE/fYrcl3JiALhmXrJZjujhcEwJe++0n11hfh/tSWvz5Ni+pbHAE8PXQ20MPIFCHolL20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=eR/C+2CG; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1748455628; c=relaxed/simple;
+	bh=n1jaTc09zu8RAZsHSVnrZVQ4yyD+khqHCH7iV6CHfjs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n7+Z73ty+0Oh3ZuYxIG5lRBWwvJ4H8O+eaVfAqVyViL3IfzqJXXpqPs9UmyYHozb7Z+wC2Wv3cq45roLHuF/YMUKbiwmyDJI3iymYhd/gPT1wCK0Vkl2CqS7EZ7dmVqW7bzIfWIY4VcB5FZdhG82bnB3RH0//tXRNedBSegFbjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ekUJQKQe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="eR/C+2CG"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54SE9qCt032761;
-	Wed, 28 May 2025 14:39:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=oAjHp1
-	ItUS1j3EslUs9fCVFgilA9MP6Ipijq08HmnZg=; b=eR/C+2CGMvXBi+Apg76Vw8
-	lTh8VVSbt+DgMQj8vGIiZxy8KW7GrAX26bIQ0wpofCOBlJHNRnvf8pg/5PArVecL
-	JUSHaTi3WNMKD2LNfXje0mu0RGUdLzQ83f3A9CbvXroXvfsX/r8oZ8GjL4pbKDs2
-	C9WlZInJnl2FNbgYXDMm2A3CN6k1Hlm9q1AUZQyMZMIX60liaNn5VBpPnX7eosMz
-	X9hgT2HkS23TsMZrYXmQ5KjEYRQLM1FFoYghzmI2E+jvgrxXeUvQC0MI8JfXRWjE
-	wl9y4myjYCejvx9IWw81DarQPJrvOT06vPjE0nD9LSAKCDF3+qGaYUgBdFhp3CDQ
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46x40jr5x4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 May 2025 14:39:14 +0000 (GMT)
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 54SEQ71X009419;
-	Wed, 28 May 2025 14:39:13 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46x40jr5wy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 May 2025 14:39:13 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 54SAvDbg016187;
-	Wed, 28 May 2025 14:39:12 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 46uru0r13y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 May 2025 14:39:12 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 54SEd8Yo37421542
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 28 May 2025 14:39:08 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3165120043;
-	Wed, 28 May 2025 14:39:08 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C63B920040;
-	Wed, 28 May 2025 14:39:02 +0000 (GMT)
-Received: from smtpclient.apple (unknown [9.61.244.234])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed, 28 May 2025 14:39:02 +0000 (GMT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ekUJQKQe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D0B2C4CEE3;
+	Wed, 28 May 2025 18:07:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748455627;
+	bh=n1jaTc09zu8RAZsHSVnrZVQ4yyD+khqHCH7iV6CHfjs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ekUJQKQeHM9EXOmJDZydfKsoPIxDQlvT/v1hThSkSO1n/k8/Hz41baXXpT0UPNkBj
+	 ir2dVwEiQFVDpxsE3Oyo45sg0WzDKtcz08smQ+jY6UTcB7mbGllcbIdLaZF0Iy7dqm
+	 v3S/dDhnzVwogBjmawhVnyjJauRuiOE7MNY0W0ocZQxSWdiMijoAy3+NkfHWcrKNww
+	 9xZ3cEgmvWrS4qJw2BCENWZCIH8z1wxf9f6KvwrAZPm8MRNOmJDdIIdOiEmGvvMUI3
+	 8YREgHo5xu+oVEvEt9hC8NtlTZwjx8U+TVxN7JHzL2XULvFZ9bXfNw77WbwXYiWBU7
+	 5ES1rAmz04/Uw==
+Date: Wed, 28 May 2025 15:07:04 -0300
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Cc: Yicong Yang <yangyicong@hisilicon.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Junhao He <hejunhao3@huawei.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+	Ingo Molnar <mingo@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+	alexander.shishkin@linux.intel.com,
+	linux-perf-users@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH RESEND] perf stat: Fix JSON output formatting in
+ iostat_prefix()
+Message-ID: <aDdQyPNrnd4b-qWg@x1>
+References: <20250520094525.97706-1-suchitkarunakaran@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
-Subject: Re: [PATCH v3] docs: powerpc: Add htm.rst to table of contents
-From: Athira Rajeev <atrajeev@linux.ibm.com>
-In-Reply-To: <20250528054146.2658537-2-me@brighamcampbell.com>
-Date: Wed, 28 May 2025 20:08:48 +0530
-Cc: Hari Bathini <hbathini@linux.ibm.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel-mentees@lists.linux.dev,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)" <linuxppc-dev@lists.ozlabs.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <7FF625BF-03E1-4EB4-BEE2-BEAEB1C5DD96@linux.ibm.com>
-References: <20250528054146.2658537-2-me@brighamcampbell.com>
-To: Brigham Campbell <me@brighamcampbell.com>
-X-Mailer: Apple Mail (2.3776.700.51)
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=SdL3duRu c=1 sm=1 tr=0 ts=68372012 cx=c_pps a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=wukD7SXyAAAA:8 a=JfrnYn6hAAAA:8 a=VnNF1IyMAAAA:8 a=bs08ehmE3BuyNYDtbNMA:9
- a=QEXdDO2ut3YA:10 a=n7THaJik3DRP1sDdJiGm:22 a=1CNFftbPRP8L7MoqJWF3:22
-X-Proofpoint-GUID: LUmEJCQEVgou63X75IUsqr_P7UpE6I4P
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDEyNyBTYWx0ZWRfX/5sC9EyYfYQf 4kBPoiHoytPVz02DUtS9VKeo7L+jJYfqh9khKL62ieg7w++gwphVlKl3d7NmIarLpGjYjMS7SVx OQ0AZeXmArv5kE3jFEldcDsFm3p0wPJ28L4Ua4XtcilZDiUPO+xeDaf1nJmnFK1alYCockum3cr
- 5M2y/huHRw2U9qbukcN2OXQkwOeEUw0wg13qKkHrPmsuy8jVg7SW2tdEclyEUblZLaF88xWwm1X Q1lEx3sgIm2CeA2L4HePa2RRvPBDMFCkURkOgI0njKrZATte9wC7JoBzlDEHeH8rpbBmpZ3jJ0k l/UI7MSfaDZ/uP8UqPlDYwf2lCjY7XX+Kql2e927YyG6Q6KiBDa+YFtXJmoH8FkX3DS73Y7IkFz
- HVI4OE69Rqcz6o+F5/nDBm0Fs9JrkliF4lkKTJx2KejYs7bmvIHTYJdtD+zE5oom/5H6ug+r
-X-Proofpoint-ORIG-GUID: OqOX88odwfV-1paicwDnn1JM_cS2iwlR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-28_07,2025-05-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- lowpriorityscore=0 mlxscore=0 adultscore=0 priorityscore=1501
- impostorscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- spamscore=0 clxscore=1011 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505280127
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250520094525.97706-1-suchitkarunakaran@gmail.com>
 
+On Tue, May 20, 2025 at 03:15:25PM +0530, Suchit Karunakaran wrote:
+> The iostat_prefix() function previously included a TODO noting that its output
+> format was incorrect in JSON mode. This patch corrects that by conditionally
+> formatting the prefix string based on the output mode specified in
+> perf_stat_config.
 
+O don't have how to test this as I dont have:
 
-> On 28 May 2025, at 11:11=E2=80=AFAM, Brigham Campbell =
-<me@brighamcampbell.com> wrote:
->=20
-> Fix the following documentation build error, which was introduced when
-> Documentation/arch/powerpc/htm.rst was added to the repository without
-> any reference to the document.
->=20
-> Documentation/arch/powerpc/htm.rst: WARNING: document isn't included =
-in any toctree [toc.not_included]
->=20
-> Fixes: ab1456c5aa7a ("powerpc/pseries/htmdump: Add documentation for =
-H_HTM debugfs interface")
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-Thanks for the fix
+access("/sys/bus/event_source/devices/uncore_iio_0", F_OK) = -1 ENOENT (No such file or directory)
+write(2, ""..., 37Unsupported uncore pmu configuration
+)                     = 37
+write(2, ""..., 43
+ Usage: perf stat [<options>] [<command>]
+)                     = 43
+write(2, ""..., 1
+<SNIP>
+write(2, ""..., 84                          measure I/O performance metrics provided by arch/platform
+)                     = 84
+exit_group(129)                         = ?
++++ exited with 129 +++
+root@x1:~# strace -s0 perf stat --iostat --timeout 1000
 
-Tested-by: Athira Rajeev <atrajeev@linux.ibm.com>
+Could someone with access to hardware with this capability to try this
+patch and provide a  Tested-by?
 
-Thanks
-Athira
+- Arnaldo
+ 
+> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
 > ---
-> Changes in v3:
-> - Edit commit message to conform better to de facto kernel development =
-style.
-> - No changes to the diff.
->=20
-> Documentation/arch/powerpc/index.rst | 1 +
-> 1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/arch/powerpc/index.rst =
-b/Documentation/arch/powerpc/index.rst
-> index 0560cbae5fa1..53fc9f89f3e4 100644
-> --- a/Documentation/arch/powerpc/index.rst
-> +++ b/Documentation/arch/powerpc/index.rst
-> @@ -19,6 +19,7 @@ powerpc
->     elf_hwcaps
->     elfnote
->     firmware-assisted-dump
-> +    htm
->     hvcs
->     imc
->     isa-versions
-> --=20
+>  tools/perf/arch/x86/util/iostat.c | 35 ++++++++++++++++++++-----------
+>  1 file changed, 23 insertions(+), 12 deletions(-)
+> 
+> diff --git a/tools/perf/arch/x86/util/iostat.c b/tools/perf/arch/x86/util/iostat.c
+> index 7442a2cd87ed..1d9c20dab5c7 100644
+> --- a/tools/perf/arch/x86/util/iostat.c
+> +++ b/tools/perf/arch/x86/util/iostat.c
+> @@ -403,18 +403,29 @@ void iostat_prefix(struct evlist *evlist,
+>  	struct iio_root_port *rp = evlist->selected->priv;
+>  
+>  	if (rp) {
+> -		/*
+> -		 * TODO: This is the incorrect format in JSON mode.
+> -		 *       See prepare_timestamp()
+> -		 */
+> -		if (ts)
+> -			sprintf(prefix, "%6lu.%09lu%s%04x:%02x%s",
+> -				ts->tv_sec, ts->tv_nsec,
+> -				config->csv_sep, rp->domain, rp->bus,
+> -				config->csv_sep);
+> -		else
+> -			sprintf(prefix, "%04x:%02x%s", rp->domain, rp->bus,
+> -				config->csv_sep);
+> +		if (ts) {
+> +			if (config->json_output)
+> +				sprintf(prefix,
+> +					"\"interval\" : %lu.%09lu, \"device\" : \"%04x:%02x\"",
+> +					(unsigned long)ts->tv_sec, ts->tv_nsec,
+> +					rp->domain, rp->bus);
+> +			else if (config->csv_output)
+> +				sprintf(prefix, "%lu.%09lu%s%04x:%02x%s",
+> +					(unsigned long)ts->tv_sec, ts->tv_nsec,
+> +					config->csv_sep,
+> +					rp->domain, rp->bus, config->csv_sep);
+> +			else
+> +				sprintf(prefix, "%6lu.%09lu %04x:%02x%s",
+> +					(unsigned long)ts->tv_sec, ts->tv_nsec,
+> +					rp->domain, rp->bus, config->csv_sep);
+> +		} else {
+> +			if (config->json_output)
+> +				sprintf(prefix, "\"device\" : \"%04x:%02x\"",
+> +					rp->domain, rp->bus);
+> +			else
+> +				sprintf(prefix, "%04x:%02x%s", rp->domain,
+> +					rp->bus, config->csv_sep);
+> +		}
+>  	}
+>  }
+>  
+> -- 
 > 2.49.0
->=20
->=20
->=20
-
