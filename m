@@ -1,117 +1,160 @@
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4EA20ADD6
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 28 May 2025 05:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45F22874E3
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 28 May 2025 14:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748411012; cv=none; b=TxYrTlR7FNbuZh+2M5Ui+R6GjDgrQILdgjNlmtuU43PwOD5VBniLXb1k7j9a1cPc3rpaVZHSt2PY1fAsqdajpRFdVD+EqlmlnRQXe6adHjeH3dpGwkWZuSlYDrqGDcpkjMic51fol3FbdVZjnrl6bMzzk1EaqP0J4ewtgt6lktg=
+	t=1748443173; cv=none; b=S0EZUVHyv/aOoniQOEl7qJcWy5XiYSRUD3TmgLjT5XhWE6NnfZbieQxYRX8mkQ4jvzOCxpnScqO4VWQAh4e92zeQi9i7corMlKs+3s5MMToveRUrUHnaBubnov3kQNx1z+DnrwmlAYQVEpQCOieCgFbZEsMfWHXhRurBtBqqJgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748411012; c=relaxed/simple;
-	bh=UAW4IDmFuxT7Xs53ZJBV5vj6+YrT1J7KuiKlAlHg/1M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZhYCLMaOs4hqR1Fr+PY2cfgfNfj/U/LJ15+zUTScjU4DhW1gRXrbKyvMNyFJLfXuqRAmc8w1YjJYzr0FVXWL6scNKM7UVhQ9gt2U/tVV8TWjw2ft3pKN4P+QaSN3cceBnKmk7ThTxNZ50dmNQgUeoVZOQpwIsZ1zWuicO9V+Ivs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=evpbAI7c; arc=none smtp.client-ip=209.85.166.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1748443173; c=relaxed/simple;
+	bh=WQWL+eAKKiAuLfGDDdt/xLT8MzV7WUoPJ6v+IwTBPeU=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=kHfQj8O70U76ipydVsWXj1ez6rKOGk6tM6Zhs86n2gHIfOn/3YYLKJZzgxVFGjnoEjIFrY9g7eKYkFYUFBxQOJb1YqAyCw3syvLzcFFE/fYrcl3JiALhmXrJZjujhcEwJe++0n11hfh/tSWvz5Ni+pbHAE8PXQ20MPIFCHolL20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=eR/C+2CG; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="evpbAI7c"
-Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-3dc6b2a8647so11477135ab.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 27 May 2025 22:43:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1748411010; x=1749015810; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MSMi/AKPsTMgRd8z+xkRR6U4DbzIU/rPyguhFHTtxoA=;
-        b=evpbAI7ccTcxlP3gAlBbX8qf5Nt+74koMshYLvxWd7IC1zQARv9OdFcA3r5UwtiI/Q
-         dcXSEyYqD90DH5agOwaYwJSN75fji2yYjch0o0uWcGyIZw1RMCeAbNTbLuBjNJ0UEEG/
-         gi9FYHojta45oxYPLVbJzEUA9CZiSE/vQR3o5L//sQLGLMbuK9hJbKGXNOLO3fjNotnw
-         AKEHrDk+ZP2R835oovD7Y5zwQw/Hh9GWa4tZUfjaigwxwNRav8UfhGAb2AO2iYYqZwz5
-         BKoP6VL6bAUyc7WA1FhQ/Y/P+cpnUf8oOB+fBzzNAqzXyJLoduuGPmw+fFB25AQ3MZHm
-         4fYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748411010; x=1749015810;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MSMi/AKPsTMgRd8z+xkRR6U4DbzIU/rPyguhFHTtxoA=;
-        b=h2FpyZMIxT/ykcoznrTMQtLncYdyxSsYaFxWvPUhAbTvnKmS3FbEt+Zb3pVSnatEdt
-         4foY4ag51krVGE0OZpboePrhtZFMxKqXhmDtxYyDfwUF/dAH4juBONxaMWsQsXjyX5H+
-         tHM4vw7IZfZmj7QO2NueXYP6EBNyE9uB/Qe4WXgFhrrAHFLCONhoImm/oZIHbLJplt39
-         9a15wD+LkJpX3/Fala0sKpIfaQ9RuHsGQntTvXA437hUPbJCxsqsGOi6g7l/1sw9/G6b
-         Zqoe/cG5StfOP4JMZNPVFGPP7tGyEu/Kv6qDJt+K9xMitq8TqpekSULj5algBegWZete
-         PUqA==
-X-Forwarded-Encrypted: i=1; AJvYcCXM8aux9mIy3AOdAMKqehIySkGszU6I0mQWTRHqsEUcwMAeJHDm71Ed7jxN54RDZPuAdd7yevapEl/skS9yBBNnbmswRg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwKfQsvYQeQsWJuUavgghJYbW1iLrnoPHXqsVpz9JIbTBbTI2GR
-	6JBQLd5Vff39Z2b/YJIUzm7UfnZ+m9UAG3sLB5V3fbNpaSguGxnHc7n+sdjJtvwS4dM=
-X-Gm-Gg: ASbGncv09RgsQ/tjhPBBRzRHIF5TUFo2RjqfhvFGpXRtcftYbEFLEdqkOJgNwKgKFAi
-	yKmai0ROftj5CCNvboc1OCPqHV6/mx6wL4iK7MMwgbgkJAkkDStET3Z+ppqbsHNk4R+oDsIZ2/n
-	PIxk98ZPerfnyX51dKSot7fLkH3NMeyk53ratVorLK5Ac8HRt6PUFe+O2mb53A/Xphlz4iyFITZ
-	7MvqCj+D2JFinOwl2mWAD1XtUx6KivkGxGPI35pogMAYYoHtX/lK12F0GgY3ScaI/y9yOODEeK7
-	CZFPgz0UFKefw4CwB3x9ygnnbtOH5Q5enOIxdHoYq+4Qmhb3btbBeXs/qkym0J2vpKkUkdRPX9u
-	TQkHUmzo=
-X-Google-Smtp-Source: AGHT+IF+v7eeJiqgx2CgLK57L91nnP+NaoqNBY3MrpJ58a87hZdHLPE/Eq+lD7S1GC6+xWdZO4pGrQ==
-X-Received: by 2002:a05:6e02:1686:b0:3dd:869e:d1f0 with SMTP id e9e14a558f8ab-3dd869ed599mr37235695ab.9.1748411006513;
-        Tue, 27 May 2025 22:43:26 -0700 (PDT)
-Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3dd8bfb2ec5sm1220685ab.1.2025.05.27.22.43.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 22:43:25 -0700 (PDT)
-From: Brigham Campbell <me@brighamcampbell.com>
-To: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Athira Rajeev <atrajeev@linux.ibm.com>,
-	linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Brigham Campbell <me@brighamcampbell.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v3] docs: powerpc: Add htm.rst to table of contents
-Date: Tue, 27 May 2025 23:41:47 -0600
-Message-ID: <20250528054146.2658537-2-me@brighamcampbell.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="eR/C+2CG"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54SE9qCt032761;
+	Wed, 28 May 2025 14:39:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=oAjHp1
+	ItUS1j3EslUs9fCVFgilA9MP6Ipijq08HmnZg=; b=eR/C+2CGMvXBi+Apg76Vw8
+	lTh8VVSbt+DgMQj8vGIiZxy8KW7GrAX26bIQ0wpofCOBlJHNRnvf8pg/5PArVecL
+	JUSHaTi3WNMKD2LNfXje0mu0RGUdLzQ83f3A9CbvXroXvfsX/r8oZ8GjL4pbKDs2
+	C9WlZInJnl2FNbgYXDMm2A3CN6k1Hlm9q1AUZQyMZMIX60liaNn5VBpPnX7eosMz
+	X9hgT2HkS23TsMZrYXmQ5KjEYRQLM1FFoYghzmI2E+jvgrxXeUvQC0MI8JfXRWjE
+	wl9y4myjYCejvx9IWw81DarQPJrvOT06vPjE0nD9LSAKCDF3+qGaYUgBdFhp3CDQ
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46x40jr5x4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 May 2025 14:39:14 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 54SEQ71X009419;
+	Wed, 28 May 2025 14:39:13 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46x40jr5wy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 May 2025 14:39:13 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 54SAvDbg016187;
+	Wed, 28 May 2025 14:39:12 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 46uru0r13y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 May 2025 14:39:12 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 54SEd8Yo37421542
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 May 2025 14:39:08 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3165120043;
+	Wed, 28 May 2025 14:39:08 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C63B920040;
+	Wed, 28 May 2025 14:39:02 +0000 (GMT)
+Received: from smtpclient.apple (unknown [9.61.244.234])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 28 May 2025 14:39:02 +0000 (GMT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
+Subject: Re: [PATCH v3] docs: powerpc: Add htm.rst to table of contents
+From: Athira Rajeev <atrajeev@linux.ibm.com>
+In-Reply-To: <20250528054146.2658537-2-me@brighamcampbell.com>
+Date: Wed, 28 May 2025 20:08:48 +0530
+Cc: Hari Bathini <hbathini@linux.ibm.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linux.dev,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)" <linuxppc-dev@lists.ozlabs.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <7FF625BF-03E1-4EB4-BEE2-BEAEB1C5DD96@linux.ibm.com>
+References: <20250528054146.2658537-2-me@brighamcampbell.com>
+To: Brigham Campbell <me@brighamcampbell.com>
+X-Mailer: Apple Mail (2.3776.700.51)
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=SdL3duRu c=1 sm=1 tr=0 ts=68372012 cx=c_pps a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=wukD7SXyAAAA:8 a=JfrnYn6hAAAA:8 a=VnNF1IyMAAAA:8 a=bs08ehmE3BuyNYDtbNMA:9
+ a=QEXdDO2ut3YA:10 a=n7THaJik3DRP1sDdJiGm:22 a=1CNFftbPRP8L7MoqJWF3:22
+X-Proofpoint-GUID: LUmEJCQEVgou63X75IUsqr_P7UpE6I4P
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDEyNyBTYWx0ZWRfX/5sC9EyYfYQf 4kBPoiHoytPVz02DUtS9VKeo7L+jJYfqh9khKL62ieg7w++gwphVlKl3d7NmIarLpGjYjMS7SVx OQ0AZeXmArv5kE3jFEldcDsFm3p0wPJ28L4Ua4XtcilZDiUPO+xeDaf1nJmnFK1alYCockum3cr
+ 5M2y/huHRw2U9qbukcN2OXQkwOeEUw0wg13qKkHrPmsuy8jVg7SW2tdEclyEUblZLaF88xWwm1X Q1lEx3sgIm2CeA2L4HePa2RRvPBDMFCkURkOgI0njKrZATte9wC7JoBzlDEHeH8rpbBmpZ3jJ0k l/UI7MSfaDZ/uP8UqPlDYwf2lCjY7XX+Kql2e927YyG6Q6KiBDa+YFtXJmoH8FkX3DS73Y7IkFz
+ HVI4OE69Rqcz6o+F5/nDBm0Fs9JrkliF4lkKTJx2KejYs7bmvIHTYJdtD+zE5oom/5H6ug+r
+X-Proofpoint-ORIG-GUID: OqOX88odwfV-1paicwDnn1JM_cS2iwlR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-28_07,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ lowpriorityscore=0 mlxscore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
+ spamscore=0 clxscore=1011 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505280127
 
-Fix the following documentation build error, which was introduced when
-Documentation/arch/powerpc/htm.rst was added to the repository without
-any reference to the document.
 
-Documentation/arch/powerpc/htm.rst: WARNING: document isn't included in any toctree [toc.not_included]
 
-Fixes: ab1456c5aa7a ("powerpc/pseries/htmdump: Add documentation for H_HTM debugfs interface")
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
----
-Changes in v3:
- - Edit commit message to conform better to de facto kernel development style.
- - No changes to the diff.
+> On 28 May 2025, at 11:11=E2=80=AFAM, Brigham Campbell =
+<me@brighamcampbell.com> wrote:
+>=20
+> Fix the following documentation build error, which was introduced when
+> Documentation/arch/powerpc/htm.rst was added to the repository without
+> any reference to the document.
+>=20
+> Documentation/arch/powerpc/htm.rst: WARNING: document isn't included =
+in any toctree [toc.not_included]
+>=20
+> Fixes: ab1456c5aa7a ("powerpc/pseries/htmdump: Add documentation for =
+H_HTM debugfs interface")
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+Thanks for the fix
 
- Documentation/arch/powerpc/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+Tested-by: Athira Rajeev <atrajeev@linux.ibm.com>
 
-diff --git a/Documentation/arch/powerpc/index.rst b/Documentation/arch/powerpc/index.rst
-index 0560cbae5fa1..53fc9f89f3e4 100644
---- a/Documentation/arch/powerpc/index.rst
-+++ b/Documentation/arch/powerpc/index.rst
-@@ -19,6 +19,7 @@ powerpc
-     elf_hwcaps
-     elfnote
-     firmware-assisted-dump
-+    htm
-     hvcs
-     imc
-     isa-versions
--- 
-2.49.0
+Thanks
+Athira
+> ---
+> Changes in v3:
+> - Edit commit message to conform better to de facto kernel development =
+style.
+> - No changes to the diff.
+>=20
+> Documentation/arch/powerpc/index.rst | 1 +
+> 1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/arch/powerpc/index.rst =
+b/Documentation/arch/powerpc/index.rst
+> index 0560cbae5fa1..53fc9f89f3e4 100644
+> --- a/Documentation/arch/powerpc/index.rst
+> +++ b/Documentation/arch/powerpc/index.rst
+> @@ -19,6 +19,7 @@ powerpc
+>     elf_hwcaps
+>     elfnote
+>     firmware-assisted-dump
+> +    htm
+>     hvcs
+>     imc
+>     isa-versions
+> --=20
+> 2.49.0
+>=20
+>=20
+>=20
 
