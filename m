@@ -1,134 +1,125 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8120029B0;
-	Mon,  2 Jun 2025 19:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160E4189F20
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  2 Jun 2025 23:22:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748891222; cv=none; b=MyD58JEoM0+yYjnfOMBN+p6bGe3uqh3Co5vX8C7w23wgEMuBC7UFPmUN0tl7IBM/wy84ZJx/DqVWmoNJ8aXhepI2cL01a28/Ufu/lJ6dbjmMmGTJr2zWjk7jc1VKvQiUvquyR8jAbGdYA+vS2KDKh8ZVhDJT6tK+V/t4YAfNhY0=
+	t=1748906553; cv=none; b=af1OFsdeklXp4Om4MNX6Vzq0/bS0xOWdLZRYyBHpiqcUr8oJfmxFNuvyO9+STyK+yySp2Xs5JcQyP/q/ufbEaaTlSrVLVg5U/ESmXZMKeBzM/rAKI99M9YkPPppgIZ1wAPcWu2HunylU67uiVpCD3PSM+5EcCJP8IX50IFUYt2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748891222; c=relaxed/simple;
-	bh=PN3fmGoLa5kt7rDvHpwnwpvdP3RQ8sd6Qaoj4VTuTUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rHlxt4Sjkqqog2bgukgKLInKVXQvW+0RJ8vqVV9L6PCCBdGROyZefmNW4xRNvohJFAT5d6mhUiqKrdLDPzH/DClWV3MGZ0YGJbJpCA7CiheVWGuIQUbUG3x4VlNdvNNMSJ/4KEd35xZAs2EruIK4Hv4AZ+UCStzJ9MMq0v/s4B0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=tvUiqwrA; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1748906553; c=relaxed/simple;
+	bh=CfnMNOCbjMEyJoz3Q1bK4Y14uGlSI1+jGpZw9hAUQRo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ubR6XiUHbQ+RVEiDPBSV4W2bHGMF7f4VrbGxZMXx631s7AQkHaOeLXN0p7i+BSpk61mHu/jLPgFX49ETrcW1ps5DUEMBIs9ohLI0tn1lgDWpRSaFnPosxMwEVAo9EOjRZVqFQpADwrLWR01RhZYX/YgvZVx1FWDPCVwfuOUo7gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=U1F2YhsU; arc=none smtp.client-ip=209.85.166.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="tvUiqwrA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=nGyo5dQjAPB8J+L3QOcvLvGg54g5jhrVrYCFrnRzTxc=; b=tvUiqwrAM8R3OlXTjiYGxjZcnX
-	4lVFDulQ6QK+hABwtn5ut+laP+gBK7b/MMsz/yU7V3UW+WMghJX/x8tXviESdGy3EIXw2uEkqCUKB
-	BwluKkf30/URDN0iS5tJ1jHcRt5yezT49Dq2fpq+Fzxb7y1lxESCfmGv0gXW5aG/5SBo=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uMAUj-00EWdV-3n; Mon, 02 Jun 2025 21:06:49 +0200
-Date: Mon, 2 Jun 2025 21:06:49 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Kees Cook <kees@kernel.org>
-Cc: Pranav Tyagi <pranav.tyagi03@gmail.com>, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] net: randomize layout of struct net_device
-Message-ID: <25d96fc0-c54b-4f24-a62b-cf68bf6da1a9@lunn.ch>
-References: <20250602135932.464194-1-pranav.tyagi03@gmail.com>
- <053507e4-14dc-48db-9464-f73f98c16b46@lunn.ch>
- <202506021057.3AB03F705@keescook>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="U1F2YhsU"
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-86cfe449f06so118718239f.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 02 Jun 2025 16:22:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1748906550; x=1749511350; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qT3wVHWE1rM3dJa7hjPLW9JGzPh24mia4Xa7cI/6U6k=;
+        b=U1F2YhsUo/lrAdmOl/TWbPbjfUyFHQOSfBx9cRws50rtaYltpKCwLSIU1dae/sslJe
+         z3TDa0wm3Y4ByCGICphOHyPB4QqgA09R8C+ekpijMgLejMsDNW4PQ/CNdddlm74ikgas
+         EDJRXXv4t3kglJx2Qhx5HIpDfNCWlAeHEmUns=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748906550; x=1749511350;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qT3wVHWE1rM3dJa7hjPLW9JGzPh24mia4Xa7cI/6U6k=;
+        b=ezEmDkbeZ1ggBhVNwMR7pZZ8R1W2ZZoBEisOy8cnDgwUXH3PI1G6RgvHcI9gndd1sX
+         PlfNN8SUBfdrhs3SAa30rRaJCZ+eB2Ay5Hh2Shfktz3JyFTjPKQVs0dXqBtj8gIoVGtz
+         OSd5NcTiVkBvGEUS0UCHBNl4AV6v+JZTDMQvQi9R9Excjxf7xq1DJVRNPmyu7ENrrf7M
+         O5uSKaY1OAr683JktxuSW4LNG0P58GuxrMmEn3hUuEtH0uc+axus1wZahic56a3IhPgX
+         QRK/Iay+wzefgF+4hVYX2d0r//h9DqVxaZSrEVT03y9jeVZQv4g8LMwkPIBrLFwhyOkk
+         XKRw==
+X-Forwarded-Encrypted: i=1; AJvYcCUa7Y18+uujzJNJJxY8ry1N1F15wDcVMwvNeTewcL8TxSuuL1HxPMj6O89YafaJTZ0qrLyYWeggFF6FOROIHk6r10pEZA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyHAh8vZvGbsYXm3tEBUUBGIZUybdmJ69RAFZKhdVprZYo8Foo2
+	Qz3PGvPoIeFVUivIHlA4mDwUGqHoqt7RKbLQwCedsXSS8NT6lKGxF6Ycsb6o86tfwTlt8oAaGY8
+	sffmu
+X-Gm-Gg: ASbGncsgU2Y84PJdzrc4P3NOLRgTGna+haAKkasjdUeFmbHSbEuoJx9zG4No9PlEUEe
+	6k45slQzs//okTqVfq3W54Dcsf4vUO1ZjJbOSrjcoekKIGgbOLOCKV9Mc4zYryPtXjAbZz9w2pl
+	Lu2zrRfhMRdic+VUQPvCNZLeN/R70itQ0zegPvs336h+glGnFyrZUIMLFJMl7ozov0LhN3aciM/
+	MufHF2Sg6ObOVI9l1t/xqbRD8g/92Q1Vryzxum8/Yv8TwBhA15E5hiSdhyJRJ1q6rC+8i11tDDA
+	wH0tdAcEPVs540MLGn3+tec6k3VbrR4gRuQ/CqBWNEx42zu3YU2wuRg2DaC9pQ==
+X-Google-Smtp-Source: AGHT+IF7uLkYyb2UqK/tGnOiuFb0m76VobbyWvrOenXTHdPcdfk9UTH7o8q1NlmnaIuPiCjJgFHuQg==
+X-Received: by 2002:a05:6e02:230a:b0:3dc:5be8:9695 with SMTP id e9e14a558f8ab-3dd9c989d83mr143426925ab.3.1748906550017;
+        Mon, 02 Jun 2025 16:22:30 -0700 (PDT)
+Received: from [192.168.1.14] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3dd935a7ad0sm24412105ab.66.2025.06.02.16.22.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Jun 2025 16:22:29 -0700 (PDT)
+Message-ID: <c7c071ed-6a4e-4a9c-ba9d-c745fd42c22f@linuxfoundation.org>
+Date: Mon, 2 Jun 2025 17:22:28 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202506021057.3AB03F705@keescook>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] selftests: firmware: Add details in error logging
+To: Harshal Wadhwa <embedkari167@gmail.com>
+Cc: shuah@kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20250516153955.111815-1-embedkari167@gmail.com>
+ <73a4b1c9-44b4-4f06-a766-ea7ed391c578@linuxfoundation.org>
+ <CAPCCTVOXHUh7j6Vb=dmnY4wi37f4NMo+Pumuho-sA7jq1iH_fQ@mail.gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <CAPCCTVOXHUh7j6Vb=dmnY4wi37f4NMo+Pumuho-sA7jq1iH_fQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 02, 2025 at 11:03:18AM -0700, Kees Cook wrote:
-> On Mon, Jun 02, 2025 at 04:46:14PM +0200, Andrew Lunn wrote:
-> > On Mon, Jun 02, 2025 at 07:29:32PM +0530, Pranav Tyagi wrote:
-> > > Add __randomize_layout to struct net_device to support structure layout
-> > > randomization if CONFIG_RANDSTRUCT is enabled else the macro expands to
-> > > do nothing. This enhances kernel protection by making it harder to
-> > > predict the memory layout of this structure.
-> > > 
-> > > Link: https://github.com/KSPP/linux/issues/188
+On 5/25/25 12:26, Harshal Wadhwa wrote:
+> On Fri, 23 May 2025 at 03:49, Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>
+>> On 5/16/25 09:39, Harshal wrote:
+>>> Specify details in logs of failed cases
+>>>
+>>> Use die() instead of exit() when write to
+>>> sys_path fails
+>>
+>> Please explain why this change is needed?
+>>
+>>>
+>>> Signed-off-by: Harshal <embedkari167@gmail.com>
+>>> ---
+>>>    tools/testing/selftests/firmware/fw_namespace.c | 17 +++++++++--------
+>>>    1 file changed, 9 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/tools/testing/selftests/firmware/fw_namespace.c b/tools/testing/selftests/firmware/fw_namespace.c
+>>> index 04757dc7e546..deff7f57b694 100644
+>>> --- a/tools/testing/selftests/firmware/fw_namespace.c
+>>> +++ b/tools/testing/selftests/firmware/fw_namespace.c
+>>> @@ -38,10 +38,11 @@ static void trigger_fw(const char *fw_name, const char *sys_path)
+>>>
+>>>        fd = open(sys_path, O_WRONLY);
+>>>        if (fd < 0)
+>>> -             die("open failed: %s\n",
+>>> +             die("open of sys_path failed: %s\n",
+>>>                    strerror(errno));
+>>>        if (write(fd, fw_name, strlen(fw_name)) != strlen(fw_name))
+>>> -             exit(EXIT_FAILURE);
+>>> +             die("write to sys_path failed: %s\n",
+>>> +                 strerror(errno));
+>>
+>> Hmm. Wrapper scripts key off of the EXIT_FAILURE - how does
+>> the output change with this change?
 > 
-> I would note that the TODO item in this Issue is "evaluate struct
-> net_device".
-> 
-> > A dumb question i hope.
-> > 
-> > As you can see from this comment, some time and effort has been put
-> > into the order of members in this structure so that those which are
-> > accessed on the TX fast path are in the same cache line, and those on
-> > the RX fast path are in the same cache line, and RX and TX fast paths
-> > are in different cache lines, etc.
-> 
-> This is pretty well exactly one of the right questions to ask, and
-> should be detailed in the commit message. Mainly: a) how do we know it
-> will not break anything? b) why is net_device a struct that is likely
-> to be targeted by an attacker?
+> In the whole test file, all fail cases uses die() with the specified
+> error log and error code, so just wanted to add a error log for this
+> fault condition and maintain consistency.
 
-For a), i doubt anything will break. The fact the structure has been
-optimised for performance implies that members have been moved around,
-and there are no comments in the structure saying don't move this,
-otherwise bad things will happen.
+You don't want to make changes to be consistent, especially when
+the change alters the behavior - this change changes the results.
 
-There is a:
-
-	u8			priv[] ____cacheline_aligned
-				       __counted_by(priv_len);
-
-at the end, but i assume RANDSTRUCT knows about them and won't move it.
-
-As for b), i've no idea, not my area. There are a number of pointers
-to structures contains ops. Maybe if you can take over those pointers,
-point to something you can control, you can take control of the
-Program Counter?
-
-> > Does CONFIG_RANDSTRUCT understand this? It is safe to move members
-> > around within a cache line. And it is safe to move whole cache lines
-> > around. But it would be bad if the randomisation moved members between
-> > cache lines, mixing up RX and TX fast path members, or spreading fast
-> > path members over more cache lines, etc.
-> 
-> No, it'll move stuff all around. It's very much a security vs
-> performance trade-off, but the systems being built with it are happy to
-> take the hit.
-
-It would be interesting to look back at the work optimising this
-stricture to get a ball park figure how big a hit this is?
-
-I also think some benchmark numbers would be interesting. I would
-consider two different systems:
-
-1) A small ARM/MIPS/RISC-V with 1G interfaces. The low amount of L1
-cache on these systems mean that cache misses are important. So
-spreading out the fast path members will be bad.
-
-2) Desktop/Server class hardware, lots of cores, lots of cache, 10G,
-40G or 100G interfaces. For these systems, i expect cache line
-bouncing is more of an issue, so Rx and Tx fast path members want to
-be kept in separate cache lines.
-
-> The basic details are in security/Kconfig.hardening in the "choice" following
-> the CC_HAS_RANDSTRUCT entry.
-
-So i see two settings here. It looks like RANDSTRUCT_PERFORMANCE
-should have minimal performance impact, so maybe this should be
-mentioned in the commit message, and the benchmarks performed both on
-full randomisation and with the performance setting.
-
-I would also suggest a comment is added to the top of
-Documentation/networking/net_cachelines/net_device.rst pointing out
-this assumed RANDSTRUCT is disabled, and the existing comment in
-struct net_device is also updated.
-
-	Andrew
+thanks,
+-- Shuah
