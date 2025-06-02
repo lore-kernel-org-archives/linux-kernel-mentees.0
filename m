@@ -1,123 +1,112 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15111FDA8B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  2 Jun 2025 10:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0A31E3772
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  2 Jun 2025 13:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748860141; cv=none; b=hAownHPZ2UjPNz6YkQK9edebc5ZiYYP6ltfnFLhDnsNv044LD7vfXxMASP1DlDEo/V8287WlsudW2sNrk7jHfJceCXMi6qy9qj0PIgPcZ19xVQTFmTAICFFQUNPkj7TRg1fkPPW1YZ5h+AVVjFkViuA65uLUE4ZA+to4iKr9dIU=
+	t=1748872789; cv=none; b=PLK49+G4lIx470sIRsAXl4TjbZ+ntQKqUZGyAzzDKxw85zaiBhBjINCkNrvv8bMbwob68mtrs2io2f3ZG3EY/xWgdUb868W+4bG9AAF5afrIrcXLVwZx7cUrhFf6H0ZeAF4HyFxjmxRKJHlme6BXu+OfNkAn+lMpz6bB6tkMh/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748860141; c=relaxed/simple;
-	bh=Lgz+BLFeEQabK0+ZpWJOlQc4IuQGHDjipBLDp5yZ7v0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ajKN9xg4IENJaTa3pWouocyBxS6pIMFaLM1+7nDNhcdvpeABaPl+QlL8Py+vafGF0p3O2VH922g6Fa9Q9bJ3KTjKfhT8DBjq+/hsRO/so40nJWlxYhNV46feVTBbgs1YUkD2MQGpI01+SQeTYezpD+ZaOcREQx+7TYfT56FYFY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VtE96yzy; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1748872789; c=relaxed/simple;
+	bh=510jMgMuVJgLONrJpYnhvGvMBIc9L3Cdb3rc79Pyu2Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aYHmbd/4lxPHjWLqYZuAow7FQiSVcDNmAsyywok4hzzLIzt1Kn0IHjNFZaWhtJEQNY9G2m8dxONsWgtKQdAxCe/swbLGYj4dGPe9UjhJ12WEyz/TlUzSUqINnN6K2q6UTtajUFa7qoSjaJptSLODqqcnVTdcodVGTRalyQtB83I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XwScPmnO; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VtE96yzy"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6BD4860E55
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  2 Jun 2025 10:28:59 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ptZzlImEn48E for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Jun 2025 10:28:59 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2001:4860:4864:20::30; helo=mail-oa1-x30.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org C3C2461110
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C3C2461110
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=VtE96yzy
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id C3C2461110
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  2 Jun 2025 10:28:58 +0000 (UTC)
-Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-2da73155e91so1708020fac.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 02 Jun 2025 03:28:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XwScPmnO"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b2c3c689d20so3194934a12.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 02 Jun 2025 06:59:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748860137; x=1749464937; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7qycxfetkp2Y445+JA1NY9RHjOJR61Z4glWtbTUVoHw=;
-        b=VtE96yzyIVZjllp35IVmaUof8o8ZjmmDMQIJSOyYD1OxF7sx+ic74q709OFH3ZbGaq
-         2n3aqYyKEyrX9ByXGWHQs5ZqeZ0IuWmBi94hG4Y6CZKz1uJZk1zQsW/qo50bu8pfRMCg
-         L7eMdh/Ge2MBL+aKcQmjFJk75mlCDt/09rz4LV0S1+r5zoL11bIVgOHqHthIa15X+187
-         gpUILt8Il5T9cotMnc0Nz1yuE+2dJ6TmJq1mVc6+qkJPHajVLdMtbtSk/hob+1q4zSQc
-         YfD4HBX088dDxsEkQbmXxOfDc0Yn+QgzbL2eywT5RQkNJXnTIXNpv/ymUudfmj+PdJwo
-         4hCA==
+        d=gmail.com; s=20230601; t=1748872787; x=1749477587; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2I9kHfTkQCdW1yuTkU7IIRkkfGeUty8kEfkKZcVJwRY=;
+        b=XwScPmnO7kJiuU8OXxbETX1bVXt1LlnjVz4vi+Ft47NtU2lnNlcvEbrqAFZrgE9too
+         GqgjU4MJ8MCsgQkFsBkO2JAxQjVzzu6lU3do9boaZoabELWT+Qvvej1DTStnlbS4ZyuW
+         ivptU8ssEg0nv0nUeW4p3XCcwyOhyUyeE6RVnBXE3rMmfb/HmVWQSiSqoK1zu/SRQ8Rd
+         IQz0xvMtJx4OD6HJt+eiFCIbPv+4P8DGuFnkzRxjM5jH9/MFpcLumXZxmljsoa4x5DuJ
+         0jwPGeW4f1NMckyTE0YLYElMJz9twdYSkY2DTDSz1wHql53skkCRffTKG0mceni4BA7u
+         k0Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748860137; x=1749464937;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7qycxfetkp2Y445+JA1NY9RHjOJR61Z4glWtbTUVoHw=;
-        b=WN8cI+c7FkJYNxPlgbeDTmgy9GOIBYUwHMGjk3Z/aB0dAzZeHLeUewp5DZkdE8Qi/9
-         6cvtbjMLJL9G+hFN42FyAldjj2CEsNO3tonK6aDWLPaWOCtxnylGo796knOOUoC5jlp3
-         SApiCQ+KdsZUiMJtH7q6UtbXJuMRUMwJ/ZzuYN/Dqsr2ozcKGf2TQZQ4r4QWaWkpg8ff
-         nfOnWmZ6S7AeKjodkgqgFj5TO8ZewH6wT4PrvtZzP8mur2LSProI6VyT3Nl80NBZoXE9
-         QHJY6w31yxR392bsAHfQ4EpQefRT4sCoJgYPAz5ACvDSOKADC5s92E4EHyuIDssca2jZ
-         7jUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXhGFUpBWsUpOMfGZSLJBq60SMOBfegQw5W1UW1s759HsmNbvKpMeoeyYrOBMm7FEqBS0c8xwGgmDoTTDjYZ1vnb7qk3w==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwvpT4Q3k/6KS5ABaNf4eabRh8TMnHm9IppwKt1+MJcOMJcf5Jf
-	R0Q8ZGYWpIcy+ko4j/bZw1i8uC7dJ+Oc3XqVXjvOnyxZOnQbb8ayuAWi/BSLjoHQlkOKCSzrm1E
-	6mz80FTccZhSa5p5FDWYJNd8IlgmweMA=
-X-Gm-Gg: ASbGncu5vsNYMcBDI16fDL1m0W8LyE4nK+CUaBD0MfihnHFfRfvkoIb1Nv9fa0QIAXh
-	+hbpgjBkEqkLKHJoI4RHiO4O8IDWtL0hTUN7diLG5kykXP+lpOjcMZKv57nSojoEAMG5AGBCIUX
-	DyAnlgwBA+Wd+MXh9ECo0ZoUXORyKKU7LyUAbYwQIY8ymr
-X-Google-Smtp-Source: AGHT+IF4SACnTbASdDZkerZF5fG9yGeHSIrww7kc0Vl6pFDo9/75ariOqTK6uDMBYZt1rLPbLUKDxLa2SaUTUv/DtU8=
-X-Received: by 2002:a05:6870:799a:b0:2d6:109d:2598 with SMTP id
- 586e51a60fabf-2e92a10d609mr6943321fac.5.1748860137546; Mon, 02 Jun 2025
- 03:28:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748872787; x=1749477587;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2I9kHfTkQCdW1yuTkU7IIRkkfGeUty8kEfkKZcVJwRY=;
+        b=IiAuLbrCaj5YOXyoQh/O8EdO0wP2nEvMZBYrXskVDp/hnvCyXqb/9YUKsZmSZclHLE
+         KT4Zcx7rA+OGpzKqtUXyM6jpU2SmJoPkQjNJbbz6LcS9A/Gxme3u0mvIFlapks5q9Ku/
+         7T350Y2CjV9Y6KsNf1eEP8wI5rQXNoYS/k9+V3VXc7fzdHvYK8giU5AHau5p7ulWfEgX
+         FXhc9J85dA1dTERobQlEqK7jByOyfI2KCzyNX/tROcK80qAiXTyzrd2TZfz+Sq7Gfevf
+         AwXqnhHrDX+HNGcozriSHVyRHzfGDssKZfbfbVhk3Jjtyv/gNBTUJskl9N0+qnqpAIPQ
+         kLjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUSMim0nIu9e1P3W8jj+qZbR6Q47GF86utQ36lwqBpxtTgzwTtGqIu54l18Bo80HOD6BdtDYYbewbTRxRsc1mzEnNDCjA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQnafAvvz7+qwvHcElCSOWyWXHk4bhbpsCbXx/5k0sGo5VkImU
+	p5iAE8e9uLxibP8dZBmM9dvvFr2ARejI9sJgW0MUMwY+8YgxD44ylYtY
+X-Gm-Gg: ASbGnctDgYRyCMcKTXlO06isjKWVdYJJoAAXF3t/wy9VeV/Bruxgq8sHikZCzv9SEEY
+	uHU5y+A+oILaFABCnoQtrSjnTScEKQdus4roaaPG6EsuXG5Sin+eW6YDvy6Ylc2F5bBpTOja2a4
+	QWldr4D/7EyyiR8eOryoKXnlrOZc3mGLMBTtpjx4Cxf7XsLDGjs8pT0acFa5uWBiON/eIb1O/B8
+	ycpUyqCIVFTHnZOQ5XiLZM8nwlSi7aDa9B0/N4zXZDqmi0k8/znB8J7Atin4qM+9K9u+Deiwt5o
+	cLJxes6qihSRT2MPosyKQEuLck1gyLWE2WE3UEvHEXY0mtNCck77FgmeSjS/4OY4ZckUp0g=
+X-Google-Smtp-Source: AGHT+IFY51lSdo7zfzC13+wWkvAWgQEqDkxEkSXJntWB0/HrzcJFz1Qu6WVZNLxHhgpfVvxEFhR9/w==
+X-Received: by 2002:a17:903:1c6:b0:234:ba37:879e with SMTP id d9443c01a7336-2355f781dadmr132895055ad.38.1748872786765;
+        Mon, 02 Jun 2025 06:59:46 -0700 (PDT)
+Received: from manjaro.domain.name ([2401:4900:1c66:a430:9007:9516:3e06:bd5d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506d14ddasm70988915ad.251.2025.06.02.06.59.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jun 2025 06:59:46 -0700 (PDT)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	keescook@chromium.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Cc: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH] net: randomize layout of struct net_device
+Date: Mon,  2 Jun 2025 19:29:32 +0530
+Message-ID: <20250602135932.464194-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250526020125.382976-1-marcelomoreira1905@gmail.com>
- <DA5YTSGIN9DK.3HQ7DNKTVQRP4@kernel.org> <CAPZ3m_h3rFpMBNmP95H0z_nZn-oG0q2-9VDbSE+Ntt+PBBDYgw@mail.gmail.com>
- <DA6XFLKUTP1P.RR6P5AK9PKIZ@kernel.org> <CAPZ3m_gCY=8PScnfGZmJrpxgPFtTOaSh6Xw-9hS5pcUs7y4p7A@mail.gmail.com>
- <CANiq72=MZ63Yyspe+XoHkT6zQNWmLt8_qRScoX=2jhLzV73e8w@mail.gmail.com>
-In-Reply-To: <CANiq72=MZ63Yyspe+XoHkT6zQNWmLt8_qRScoX=2jhLzV73e8w@mail.gmail.com>
-From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-Date: Mon, 2 Jun 2025 07:28:45 -0300
-X-Gm-Features: AX0GCFtNSGU_9kIiBSaaKE2gVPOqmTcX_fyaVKbKhODzCVXl8Pb3LSUjhysNYCA
-Message-ID: <CAPZ3m_hTr7BN=zy10m8kWchYiJ04MXKuJAp9wt67Krqw6wH-JQ@mail.gmail.com>
-Subject: Re: [PATCH v3] rust: revocable: Correct safety comments and add invariants
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Benno Lossin <lossin@kernel.org>, dakr@kernel.org, ojeda@kernel.org, 
-	rust-for-linux@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Em seg., 2 de jun. de 2025 =C3=A0s 03:38, Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> escreveu:
->
-> On Mon, Jun 2, 2025 at 3:18=E2=80=AFAM Marcelo Moreira
-> <marcelomoreira1905@gmail.com> wrote:
-> >
-> > oh no, it looks like I submitted the patch without the explicit v4
-> > version and without the 0/3 part :/...  Sorry for that, it's the first
-> > time I've made a split patch like that.
->
-> No worries!
->
-> I saw the other message with the extra "manual" v4 cover letter, but
-> that may confuse tooling, since it is wrapped and the title does not
-> match etc., so it is best to resubmit it properly at this point.
+Add __randomize_layout to struct net_device to support structure layout
+randomization if CONFIG_RANDSTRUCT is enabled else the macro expands to
+do nothing. This enhances kernel protection by making it harder to
+predict the memory layout of this structure.
 
-Ok, I will resend, Thanks!
+Link: https://github.com/KSPP/linux/issues/188
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+---
+ include/linux/netdevice.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> The cover letter, and the right titles etc. should be generated by
-> `git format-patch` for you, so I would suggest using that an
-> reviewing the output (you will need to fill the cover letter in the
-> file it generates) before sending it.
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 7ea022750e4e..0caff664ef3a 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -2077,7 +2077,11 @@ enum netdev_reg_state {
+  *	moves out.
+  */
+ 
++#ifdef CONFIG_RANDSTRUCT
++struct __randomize_layout net_device {
++#else
+ struct net_device {
++#endif
+ 	/* Cacheline organization can be found documented in
+ 	 * Documentation/networking/net_cachelines/net_device.rst.
+ 	 * Please update the document when adding new fields.
+-- 
+2.49.0
 
-Ok.
-
-Cheers,
-Marcelo Moreira.
