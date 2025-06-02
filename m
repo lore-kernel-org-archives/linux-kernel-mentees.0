@@ -1,34 +1,30 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C96522ACF3;
-	Mon,  2 Jun 2025 14:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7312C324F;
+	Mon,  2 Jun 2025 15:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748875587; cv=none; b=dzchyPkD7iw/GczQ8lnTdHxwQMsGFhH8o+MOr0QyTrUPXxpB4GrqIG5Cvnii28PfsE9I4e24LiwrniFdCW31zq6FH1IQxGYXmwQqWsJcndU1gp3EYCR8SaLgJVrwKDHJou6hZO0bnm2n+UeEj3xNanw73/lZEYSJmhI/zrP5j0M=
+	t=1748877625; cv=none; b=kjrIBBwLwJPkt1M+jsqr4l/p08TuExAycC307UmBkaYOYKu8xkLVFnYPpfX4fEgisOzdSSCzQpM3+NTEYszp4u6K1Evn/lAzIBR/a6voLNLD2DF0jjGEs3gJcf+tbiwhRV+lbCWVKXiCGPNiS77/qjeYRltjopY9CU0Q140uGu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748875587; c=relaxed/simple;
-	bh=ENKRbfuoyvn12sUftAMLhVEk/Pw8g8eOE1/dsG5q7aE=;
+	s=arc-20240116; t=1748877625; c=relaxed/simple;
+	bh=LBvVJzBurNPCarKvFZHqCf5wBt/aqypiHh6rcfLGFjM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gzmWAfJvtiRey8dhpR3lQqH4XUTTaiZSrgW7fIG/ybhC/6rCj7NDiZ5xMg5MuJESkOQIBmjOVpPTTbUZNhqqvrjIJwNip2WM8oae8aMOXyEemtL8+oi8wODe54I8lUn0dpg8z10OlreJQ3YQ4yYXpkgIvlyByErfuso3Y4A78KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ntQsgKkH; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=VK0ZGgbgj6i1CLG6m5uQ6dgeS3AvEjCh9SWwO59hgBx7/iv7spAEBYss628IMbKNDavwVsvA0CTFASOCxBFP5hWZL0QeLnjTESvstlEqOzNj6BzDMa6gjAVTl/dvGU3mjaUDq43q8G0/qDNaCi1Cee2Gg5VY1WJXjOgR1pc3b1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TZIMvn2m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ntQsgKkH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Q4yO2eet2X9VIb1gOn1jru8yU6ZZQDkTdsovDmjK68Y=; b=ntQsgKkHBdjkn6m4DKJju+CRDW
-	SAfsJsmmQgcuaoT+dVJIswbhK5OmKlWFf+QZpTV5zQW1O1UAomfigon+7+/4D7UNYVCCFxw4S6XRb
-	+Vdm85Vw7t3/61amkdhU0yDO9cbWTG4ydhaCTC9clMW4GDEtX0i3C3S826zmAOR2XNtM=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uM6QY-00EVfB-8J; Mon, 02 Jun 2025 16:46:14 +0200
-Date: Mon, 2 Jun 2025 16:46:14 +0200
-From: Andrew Lunn <andrew@lunn.ch>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TZIMvn2m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A560AC4CEEB;
+	Mon,  2 Jun 2025 15:20:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1748877625;
+	bh=LBvVJzBurNPCarKvFZHqCf5wBt/aqypiHh6rcfLGFjM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TZIMvn2mcWNwwcQ3IRcFXLfSbxIHZXrkZ7tcYsMWKpP5tuS/WHaHLN2jO+A51/mB0
+	 F4cfsJzjTTpblwHkAAe4G12Ld26VjyifNb1RxFGg/70eRTMYnx3hqgcv19AXsJcG5C
+	 WOs9qkkvyuSCcy5WDbkmF1GEQ3O6ebrSObH/AfY4=
+Date: Mon, 2 Jun 2025 16:07:56 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Pranav Tyagi <pranav.tyagi03@gmail.com>
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
 	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
@@ -36,7 +32,7 @@ Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
 	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev
 Subject: Re: [PATCH] net: randomize layout of struct net_device
-Message-ID: <053507e4-14dc-48db-9464-f73f98c16b46@lunn.ch>
+Message-ID: <2025060239-delirium-nephew-e37c@gregkh>
 References: <20250602135932.464194-1-pranav.tyagi03@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -73,28 +69,9 @@ On Mon, Jun 02, 2025 at 07:29:32PM +0530, Pranav Tyagi wrote:
 > +#else
 >  struct net_device {
 > +#endif
->  	/* Cacheline organization can be found documented in
->  	 * Documentation/networking/net_cachelines/net_device.rst.
->  	 * Please update the document when adding new fields.
 
-A dumb question i hope.
+Are you sure the #ifdef is needed?
 
-As you can see from this comment, some time and effort has been put
-into the order of members in this structure so that those which are
-accessed on the TX fast path are in the same cache line, and those on
-the RX fast path are in the same cache line, and RX and TX fast paths
-are in different cache lines, etc.
+thanks,
 
-Does CONFIG_RANDSTRUCT understand this? It is safe to move members
-around within a cache line. And it is safe to move whole cache lines
-around. But it would be bad if the randomisation moved members between
-cache lines, mixing up RX and TX fast path members, or spreading fast
-path members over more cache lines, etc.
-
-Is there documentation somewhere about what __randomize_layout
-actually does? Given you are posting to a networking mailing list, you
-should not assume the developers here are deep into how the compiler
-works, and want to include a link to documentation, so we can see this
-is actually safe to do.
-
-	 Andrew
+greg k-h
