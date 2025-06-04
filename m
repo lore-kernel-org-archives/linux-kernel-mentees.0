@@ -1,139 +1,125 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67753221DBD
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  3 Jun 2025 22:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B07B1DAC92
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  4 Jun 2025 09:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748989163; cv=none; b=uJ7seX54t6rncLcarIGt77Pj4Cri92/WHsXOaLjUm16yMUg9+XkrayiA2FdtSNS1ZmE1Nw5Sy6pbSC/t/ry3Uf2FhHrfmvYjMPCGolw1gCVLI5cfYn/hDhNasSVvwZ4AEnaYNWUUx+VS92gsy4r29p7VNqs8DcP4S4EHMDs4Zxg=
+	t=1749028566; cv=none; b=GFEmCPe8jSLVIDtNs26tYl/xq5ImiXoJJ2w4zzVxPwLLVgmainm3ZmZX/BDhs/JLDGDzm4k0m7ADYBYYxCwD6tTylzhuX0dYRSUVlT3NzgUH7bHXLwqEq5KHE+u2RP+Vbs1o1YtecerD705spYpMRv/xdW/iRPuF2CDjg9a13IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748989163; c=relaxed/simple;
-	bh=JwN9ELcSUl3mBJxYBcBop1epVVw04UgyCIZK3jECD2E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rZGwSDAbJO+47ZxuOw4JdJypm4gXnc2fQgEQu7MwSoTyEe5XVRP5lKNAGDUZFSCcGeJ0qIQZh81Nm4OXru4De50vXwXZdEUyUskxVR6t7RKOdT79YAppMdfwdfl0nsWg13yt2yWayMhazfeH8YNx9YNTAd/NwfCdIO5OWRSldUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HP9vl2h4; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1749028566; c=relaxed/simple;
+	bh=grsrZugybN3F6VyiCoKld/OeM/h4bD/8V9Nm5ynOLUk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q4gAamKc0N+lrFiJU27Kz/uUwHBkw9pjGOt0MRQmpSVfJ0O3dDwjoEq6D+ab5+4ez7heFrV8ZpBJsWeupzu+YiE2GM8EyX6uChMb6qR5BfYvJ+scXQmRcSeq1zeMaZP1uK8tEMMB3205nvOCU3sEKJI4bKhYFZA37jhKZPmDC3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nYMQCSnI; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HP9vl2h4"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-451ef12bc81so441655e9.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 03 Jun 2025 15:19:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nYMQCSnI"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2352400344aso47504935ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 04 Jun 2025 02:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748989160; x=1749593960; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f2MuCnQmfuymAmGE1q3a3tLJgIKf+tdHvWlxHjuDCBQ=;
-        b=HP9vl2h4Y5RuB1kD8zHDK18shH0/U/6WpZ89AA+RarpSfwK964mtqifgafRtd2dCXS
-         I7pB5938SlpgAHVv3A239gT3DmE2Xdzh7H13x9fMOUT5Y0ICYvzwi6JIRnOFuLjc2EFS
-         K3DOa3IbioeyDEkxaBO9xrV3NItNcHJwq4KKVKPiWEIa12/CSIOL8p/kpZTDIE7oMqW2
-         pNm5gygH0QpngBF9DFBNJQZ0nnbE66NZz+DVhWNQ3opYSXYg3ChpZ4lamgzR8aPvlirz
-         gRp5JKGJ4G9jYP1bx/1cv4XdLLbbva33fyEfDzShwoW82WCQDnlsp6PvFXohWOwGUTNT
-         Vjew==
+        d=gmail.com; s=20230601; t=1749028564; x=1749633364; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nI/6YlgTzUh2prtcIfEjGRmgA/bBPARRMlGcFScsjKQ=;
+        b=nYMQCSnICxlw0luPvpnOG4uiavI15cysHZ2m3kCESCj3069Pydvf6jYPwL3TM0/R8t
+         bQOqX5nfi+OjJEBitD3iRzsHHtq7ARNl9fASgjf6rqRyfdvtw2UlxNUq4Mg2OzD0wds1
+         Q0BO6ebp1F73C1K50MTM/bRJB4/mYr8y/fhdeQzMgAoaLQdsa4y749+06cav7JanComS
+         Cd9E6nXudtTC5vq129ssBX1Mqfnqx804s6AaHJkrYiV6w+6XXNdG7pmbI0IykjBB9rZw
+         KonUmsT5kX0u+VkSls949fW4/z9ZTvOKeAJLeQqG3LdkXBzGlZAdB4SZ0OsnW2lQj3Sc
+         q2NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748989160; x=1749593960;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f2MuCnQmfuymAmGE1q3a3tLJgIKf+tdHvWlxHjuDCBQ=;
-        b=OGZvOV6MQxLz+iGIjggF6kZrCd0LczUjEo9RZu2DCfskp0YMYlVvWmBKHtSK4gA/tT
-         Sh/kLdNYaDUitRZk210EGkiFTmhV0FvFXeV8M0/nbLX9AABS51Q2cxdKppXLRprWP9AF
-         uR8FKNHoszD9QSQdiMN0v4ht0KboT0gCawZ0p0jOxQV08/NT6Rcg/nvLtD0OEYeH/OHq
-         ae/4+2D0L7iDE2/xC/EfEMroQbmQijlZmxZyr4vspEAI4LvweyuzYcL3GIYzQyGpWSV4
-         7hLDCz88yyFmKSiwOTdwNBZO8exs9dEKxaBn9sGM9bRn6Fi4IJvvJeuKlCnjx+s/EHae
-         ybgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU0XenwvPJXTsQvyjCENXO7xRG4ECoFo/1HlMOj30xA3CpgNEoqAjK9lLLA7e4vaPgmxfg0AUOUxPX3dx2zL3xfJmr0YA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyIhU4QX3Ho9pzoOnogQsz/giGuqUnVMJhsx0ErtcjAYVhys2Bi
-	TNT8oO0GWawkuVDyYSFZ/Os+KI0tcSEHz4AqcPI30kZqSkPWcT2eUTUW
-X-Gm-Gg: ASbGncuTjAInta40PW0s89IIAxk27AsesS6OEXkNSYesMVf4iPHZvsFm62ZbheJvsoZ
-	snWYRnLBuL/EpGmXw3rt4b+LnRYpGzrLMz+dwRiIW0uPD4bQSGyz1OZjBzJWO1dL3TkCGHclDK2
-	Rm8mKYKDN8frmsXh+FOgL4GuJ4Q+dU36uig5iPjG6OqdHz9hjYlwtDQ6hHjIF9e9IE/1BonRh8j
-	mD/K6l8sQh1UcJ+2Ps5My23lBFVX/BM23DMVGLL3JhVTPatrNxjPzQ3tHT1whc9+S7cvE01H1fI
-	9yqlfzkdowZz95MMQhwit3+e9V7tbXntGpU0Gc4dYW1C7/PJZlHsa7GFDK/xrc1adVQ+Me1QxUZ
-	dsR9WE9uKql4=
-X-Google-Smtp-Source: AGHT+IEIY12wMUTGy581egmFECqQyjd34dT25No79UiTOYop0jzYJJ+YqVBbCRVZR1wEJPb9MQQJ3g==
-X-Received: by 2002:a05:600c:3b86:b0:439:9a1f:d73d with SMTP id 5b1f17b1804b1-451f0b40015mr969025e9.8.1748989159063;
-        Tue, 03 Jun 2025 15:19:19 -0700 (PDT)
-Received: from localhost.localdomain ([102.40.66.223])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450d7facf9dsm171215565e9.17.2025.06.03.15.19.17
+        d=1e100.net; s=20230601; t=1749028564; x=1749633364;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nI/6YlgTzUh2prtcIfEjGRmgA/bBPARRMlGcFScsjKQ=;
+        b=J6Uino/8QZoDTkzTlhFni++dBlx+zh7p6rZxBeO3DcPiEXtZqufkj/Emw8m6p6lJSp
+         Tah7Ixv1cesCTg7hbPXo9LKORtpAJpzDmasxLniUXLaeRhGibP10lNOWNU84BxrYUaLX
+         T+dZFNVE7ZWcaG69NmDrJ9klsp8lfllfoU064MLW1YI09EMqQWbVn5sAC5GQpw6gMDtA
+         /LI3VizbMR3SAoEqjnk1MB345iZFrye3N2J0z82C96x0l9blaswiRYGnBIihtt3hZWVL
+         l/r+KID0RUhiSvAq+lg792d7GogQhrGmayh2GTRJI85CL4W31gsEz40fgHY7nJP5CRBX
+         QowQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUhvK725nerP4/LhKCme2I/7vBt4UsXZr09H2BHZ4+2x9Ha12MjW6gBMxCXK9Qp3ubVifsl+TxG79SIfmypUnnqiMBRlw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwcA29GzwoMBv6KrNkI4/wRCJGvkB3PxIv6nn7XzGw9zEcure3/
+	X8COhiRAeE7m1MXFMQEawajafbTUjctUDzPIBQJlg4caX0j/4/fXyFuhGeDqTg==
+X-Gm-Gg: ASbGncuQdkAUgbp2DiV4wSsqn6MJUnd2YlmpM++RS01zKaPGY3sLG/peVSqNQZ/o4gj
+	sAaMHh5fdbcTXPq4oVehB27B4iPMnptbLoBGNAXNSovv0wpg4xajWlraPsGDtCN9y49iDi1yoMv
+	lLCyedsF+G8/CdJAx5P2nHzzkPnQ4iWF0Up40a7G95ZRG5FyIndtQ3Y+dvTjlQOapRumGX3yLJg
+	ZnHDz6ZRAprYHlCNeOdLMn+XUkMPU90/ImvmxPkydm98vn0jHs7+4Aq3wdno315Uc8KrED+YLlL
+	VMTH5Z/11L6dUNg/MmjOePqil3CAiN3yvT3TwTCxnuS4fF7+/kg=
+X-Google-Smtp-Source: AGHT+IHzv3k2gTUTKifPbpkzozgMxHoz7WVl1+DoJ5owKz1/z9GU0aQ8jzHXBqgXCR7VY6lLjPPErQ==
+X-Received: by 2002:a17:902:f684:b0:226:3781:379d with SMTP id d9443c01a7336-235e1504d3bmr28548765ad.33.1749028564327;
+        Wed, 04 Jun 2025 02:16:04 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506cf47edsm99708245ad.161.2025.06.04.02.16.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 15:19:18 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: shuah@kernel.org,
-	skhan@linuxfoundation.org
-Cc: linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH v2] selftests: ir_decoder: Convert header comment to proper multi-line block
-Date: Wed,  4 Jun 2025 01:19:14 +0300
-Message-Id: <20250603221914.102888-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 04 Jun 2025 02:16:03 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 239904208F51; Wed, 04 Jun 2025 16:16:01 +0700 (WIB)
+Date: Wed, 4 Jun 2025 16:16:01 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>,
+	linux-doc@vger.kernel.org
+Cc: willy@infradead.org, linux-kernel-mentees@lists.linux.dev,
+	shuah@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+	masahiroy@kernel.org
+Subject: Re: [PATCH v2] docs: symbol-namespaces: fix reST warning with
+ literal block
+Message-ID: <aEAO0VFSuIIKH8Pn@archie.me>
+References: <20250526184401.33417-1-khaledelnaggarlinux@gmail.com>
+ <20250526211039.163449-1-khaledelnaggarlinux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="36Yld1iwtkyBYIys"
+Content-Disposition: inline
+In-Reply-To: <20250526211039.163449-1-khaledelnaggarlinux@gmail.com>
 
-well, i checked the script using checkpatch.pl and
-it shows that the patch has no warnings or errors
-and its ready to be sent
 
-v2:
-- fixed multiple trailing whitespace errors and
-- the Signed-off-by mismatch
+--36Yld1iwtkyBYIys
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The test file for the IR decoder used single-line comments
-at the top to document its purpose and licensing,
-which is inconsistent with the style used throughout the
-Linux kernel.
+On Tue, May 27, 2025 at 12:10:39AM +0300, Khaled Elnaggar wrote:
+> diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation=
+/core-api/symbol-namespaces.rst
+> index f7cfa7b73e97..32fc73dc5529 100644
+> --- a/Documentation/core-api/symbol-namespaces.rst
+> +++ b/Documentation/core-api/symbol-namespaces.rst
+> @@ -85,7 +85,7 @@ namespace cannot be imported.
+>  The macro takes a comma separated list of module names, allowing only th=
+ose
+>  modules to access this symbol. Simple tail-globs are supported.
+>=20
+> -For example:
+> +For example::
+>=20
+>    EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
+>=20
+=20
+LGTM, thanks!
 
-In this patch i converted the file header to
-a proper multi-line comment block
-(/*) that aligns with standard kernel practices.
-This improves readability, consistency across selftests,
-and ensures the license and documentation are
-clearly visible in a familiar format.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-No functional changes have been made.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
- tools/testing/selftests/ir/ir_loopback.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+--36Yld1iwtkyBYIys
+Content-Type: application/pgp-signature; name=signature.asc
 
-diff --git a/tools/testing/selftests/ir/ir_loopback.c b/tools/testing/selftests/ir/ir_loopback.c
-index f4a15cbdd5ea..c94faa975630 100644
---- a/tools/testing/selftests/ir/ir_loopback.c
-+++ b/tools/testing/selftests/ir/ir_loopback.c
-@@ -1,14 +1,17 @@
- // SPDX-License-Identifier: GPL-2.0
--// test ir decoder
--//
--// Copyright (C) 2018 Sean Young <sean@mess.org>
--
--// When sending LIRC_MODE_SCANCODE, the IR will be encoded. rc-loopback
--// will send this IR to the receiver side, where we try to read the decoded
--// IR. Decoding happens in a separate kernel thread, so we will need to
--// wait until that is scheduled, hence we use poll to check for read
--// readiness.
--
-+/* Copyright (C) 2018 Sean Young <sean@mess.org>
-+ *
-+ * Selftest for IR decoder
-+ *
-+ *
-+ * When sending LIRC_MODE_SCANCODE, the IR will be encoded.
-+ * rc-loopback will send this IR to the receiver side,
-+ * where we try to read the decoded IR.
-+ * Decoding happens in a separate kernel thread,
-+ * so we will need to wait until that is scheduled,
-+ * hence we use poll to check for read
-+ * readiness.
-+ */
- #include <linux/lirc.h>
- #include <errno.h>
- #include <stdio.h>
--- 
-2.25.1
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaEAO0AAKCRD2uYlJVVFO
+oxXFAQCQBvmwrk24N85ZsbVQgSBPpBLTRsUUnF6bCri79+v0EwEAvvvCCxaNOgkD
+G9uFKpE386a6N4Q/Jm9LmW6tAkZtHgw=
+=Qhoh
+-----END PGP SIGNATURE-----
+
+--36Yld1iwtkyBYIys--
