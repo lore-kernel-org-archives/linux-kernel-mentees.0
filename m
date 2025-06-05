@@ -1,141 +1,88 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307A84400
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  5 Jun 2025 18:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963FF20C497
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  5 Jun 2025 19:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749146427; cv=none; b=XHrlyypXIn4xfdggQQNeYPJILZcKrtP5uRtIQY8vPv4PEJmWKDSnojUNjxccVxXeuto+6yG/RQAoHvqVbPprpIdTqeH4TxSPgqoFyS3P22dVdVpu4TqNp+ktCe+mHaQ+hCx6tpORZmz/U//TKfyCUECDSwCRQj/NCKKyg42IqMk=
+	t=1749152373; cv=none; b=XVsJJ0cwI59scpYsf7Sgt3YKxLjssg5prZlW8WvVt8VBfJ+Rq0VVFbBC9V54t0EkywqWRQMainNG9fS12T9xWadxX4dDoN6uFkkkaICyr0z8nZ91cA9XohgV/zC0U9sXNEvGWc13avVca8cLbHlLf9dIIooDPD7P5QpKCE1vlOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749146427; c=relaxed/simple;
-	bh=55t2jOzwJu/Pe94Z1MGgGTsjmdsmro44z4m15Q30ch4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pGLXSn4FouMBp2hFFXcGoKakKlXWqFMpoqjHZBsjoc0cL5sLnvgkqWqbOI+077KH4TkhpWrVHv8x6+wwmELOrQuEuWgWZ15WH7RtYSBsHXbkym/LLDhiHzoN8D54MDWblg2OPNgOhKNYS0Bv6Kk00dTwC06Xn0cW3K8cTF0H9e4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kQCgV1ys; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749152373; c=relaxed/simple;
+	bh=8kX+0SKha7Pws3nxTa2q2GKi8InvsonHOdQzOKyIg5c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=soxTOE9GaW4JShrn3EGQOq9SsBIfUpN4CQ8ex9QTcT9wgc5qr9R1l5JcYGO8+tezoqTcv7bLxtT3LUfHzqyUlNxTFumNQm1vylqKgY66RKi6QiN3AbtM/W1YcGI6OQRdM6IUjkGHVG0BStNmqjbYnDA3KtyYeRLgOdr+9NTT37U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sNoFza2W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQCgV1ys"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-74267c68c11so1207514b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 05 Jun 2025 11:00:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749146425; x=1749751225; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RF8ffXs2a5We2CWtSW9yaEOhQbyIvm2awu47Uy03/dI=;
-        b=kQCgV1ysmkq2lVmbEjR/o6KZofNWXErLpad3B6ea/nHFx7E3oaBDbdF3qhEIYIlE/2
-         noypxOaULeoISC/xwImYmi1NLKF7r/3wFesp0LAsMDFyQxIreyj8P0bkmeIMxxc7uDyF
-         dc4lHggQXv6E/td5e1LCAKQBYRFfG5c6FcL0QE9PBKu5S0kYpJ1hgpBOU6a08FJ7B9in
-         kNgQlaFZV6n918wp07u0yuLQF6zz++ZM84wn8x7WeYWKu7WXo2Cf7oTC5XtHpiE9O2Y5
-         coYNe797/I+pfb/P1xMQ+zw1VxcZQnI4qd2kOq9yUtBDEs/+vYDC58CykDibZJGuyH8k
-         TDVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749146425; x=1749751225;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RF8ffXs2a5We2CWtSW9yaEOhQbyIvm2awu47Uy03/dI=;
-        b=sezncAY0CEvdS5L5FLFbWKBsD2Mv8A7+x9xaKQBMTcYkyV+mVasWJJSKeKdl3y4HRs
-         S/NfSKQvByRG+sM9e2+3yLdTxrASewFOL844hbUjqBAPiKxsZMqOjhJGw7rfgdODxeCT
-         3J6rSdaF9L7VGDjgkUaqjIAgRV+f4DyqptrnkknZtXG78oUmgO2vFLfgGzqqn83y1AVt
-         JgZCc5UZGsH+sRNDl8ElqkgvJv5s1t/Qx9/EzlKHTk/LFzTxjDZ6mO1pSsfco2q7zsep
-         1ngQPg/UBnHIN/m5IIu4RzMKBfAZP4gZlileS7MM4nqmxJ7yABxjuxZ1XTvrewlltbI0
-         yCNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV4qL6Z4IlgzSazjdJRBgy2kOR4484Lb/ifDIrP6jjkxm5SxLlFDKTrPXPOd9l8KEAPDuh+lGu7hH2/jrbpNRtwRFb+aw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwADVRrXpFKmCfhQzRcjfi+CKN69g+6LEhSyEaltoUuxVL23Ajb
-	ScSQVUg0D7BfNgD1eg7FnU/HPwPO+fxVJSuqcDKkclHNi5fjykLJJubuZsTuyDQXB/TeAw==
-X-Gm-Gg: ASbGncsQdsRWG7mY7SC0m6r4Q6VuAlf7lCAGVuoYxKWePYBoyclmSa9g3ZLXBtZk8uN
-	KAblelEofTzDPF9yaeFWuRDvriDiNdo31rfQ1k8kBuAbYqwxJAYOWLFsG9rZHq10CTc8bGnnnrb
-	XgcZmza2g6aNaBNr8CyYOSSYOqd4S76Dd4VX4MZJy0gXmMI3yucKqmAeMiTUkCak6ja06953Jo8
-	J9mIJI185SBA+76xopbMTDyqw8pjqlVcHjvUVl7oj5rNVMFL+TeLPh0/ZQuuas3hzZq1+bnA7jC
-	m8tLyOf916KGrs6oMvuRiXE77cM1Y1CzM3hhGKx6ALLi59r0jcr991fTAB35F4m9xZ9OPH4qZ5n
-	YkgTrBhskMQ==
-X-Google-Smtp-Source: AGHT+IG35nhW2BaKHY08+bd9r62M+r94Fyct1DOa+cXTe18W6zYbZVo0lDD3CUa75gAzRZSVhbE65w==
-X-Received: by 2002:a05:6a00:14c2:b0:747:ab61:e4fa with SMTP id d2e1a72fcca58-74827ea5744mr825231b3a.14.1749146423838;
-        Thu, 05 Jun 2025 11:00:23 -0700 (PDT)
-Received: from localhost.localdomain ([205.254.163.44])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747affafaf6sm13405708b3a.100.2025.06.05.11.00.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jun 2025 11:00:23 -0700 (PDT)
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: peterz@infradead.org,
-	mingo@redhat.com,
-	acme@kernel.org,
-	namhyung@kernel.org,
-	mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com
-Cc: linux-perf-users@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: [PATCH RESEND] perf stat: Fix JSON output formatting in iostat_prefix()
-Date: Thu,  5 Jun 2025 23:30:11 +0530
-Message-ID: <20250605180012.16788-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sNoFza2W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23981C4CEE7
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  5 Jun 2025 19:39:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749152373;
+	bh=8kX+0SKha7Pws3nxTa2q2GKi8InvsonHOdQzOKyIg5c=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=sNoFza2WKsj59ZBl3LyAwyuvCSQonfD4ecSrSv0VaXOY3dzUibhwa9zE6zg+LxxD/
+	 YSVMpXnm1l5h5te334aTFJAQ7jaM7ToibyjLWWUnG5LgEx+m38qsLI4Yh8c3VpnnCv
+	 zmsAO09bjS4Cgblt10mOjAnsP7X+AHhCEoAVcpi666fiHyXtTE/A4GzDZvmeg0Tpwv
+	 rBQA2qs17HVBPcC1HcnhjfHmKCDNRV3d+Vxzbf+PREf80nh5WNTMs5rtAmJW+KmqNg
+	 T23MyVltYfjCZXQ5cBoFuBAv5BsUamckLeMahq3m+a5eHL6Zl7nxZMjhH3RbYoUnOD
+	 HEJ16LRabBrKw==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5533c562608so1338969e87.3
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 05 Jun 2025 12:39:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWcbVqQRLem+j5QhHcBwHKF1DTn6Eh/t/vKxc8Cpb2xMxZBlq+8sN8f9o2++L8IF9BSfJrDemJD/nUPjAwNwMJX35SMjA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzye7itBMYONqLqoZx7KW+nkfkWGvR8gvC6DxUGLWaDsX2oIG6S
+	sOtgaWr3KZOTcDQ0vNRSU9FxW9aEb2vEX+KVsurPu/liK+YPM1AoL+yCSRLwrvHeJTDXrnTiMgu
+	z0A1KrJCMmXRCNZpYju0noUTy7ZxaKvY=
+X-Google-Smtp-Source: AGHT+IGsSiZ3bAmB/88G8wDxNMfEjert3Zql/M99zaJiTWefbqY+2uUyuySefy7f1WLQwJ6fWz5vkqNRoTpjEeyfoFY=
+X-Received: by 2002:ac2:53ac:0:b0:553:20f2:2e77 with SMTP id
+ 2adb3069b0e04-55366e33a1emr80046e87.55.1749152371856; Thu, 05 Jun 2025
+ 12:39:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250526184401.33417-1-khaledelnaggarlinux@gmail.com> <20250526211039.163449-1-khaledelnaggarlinux@gmail.com>
+In-Reply-To: <20250526211039.163449-1-khaledelnaggarlinux@gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 6 Jun 2025 04:38:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR8ie2VmJ2RiMZaV4MaHi=hGebev7LV+jpD2cNt430aQQ@mail.gmail.com>
+X-Gm-Features: AX0GCFuFmrxL8miWi2wty8frgs2Oth1qCIdZqsrJMDUMEj9DGCIH_tEVwPEpd4k
+Message-ID: <CAK7LNAR8ie2VmJ2RiMZaV4MaHi=hGebev7LV+jpD2cNt430aQQ@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: symbol-namespaces: fix reST warning with literal block
+To: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+Cc: linux-doc@vger.kernel.org, willy@infradead.org, 
+	linux-kernel-mentees@lists.linux.dev, shuah@kernel.org, corbet@lwn.net, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The iostat_prefix() function previously included a TODO noting that its output
-format was incorrect in JSON mode. This patch corrects that by conditionally
-formatting the prefix string based on the output mode specified in
-perf_stat_config.
+On Tue, May 27, 2025 at 6:10=E2=80=AFAM Khaled Elnaggar
+<khaledelnaggarlinux@gmail.com> wrote:
+>
+> Use a literal block for the EXPORT_SYMBOL_GPL_FOR_MODULES() example to
+> avoid a Docutils warning about unmatched '*'. This ensures correct render=
+ing
+> and keeps the source readable.
+>
+> Warning:
+> Documentation/core-api/symbol-namespaces.rst:90: WARNING: Inline emphasis=
+ start-string without end-string. [docutils]
+>
+> Signed-off-by: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+> ---
+>
+> Changes in v2:
+> - Use 'For example::' to create a literal block, suggested by Matthew Wil=
+cox.
+>
+> --
 
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
----
- tools/perf/arch/x86/util/iostat.c | 35 ++++++++++++++++++++-----------
- 1 file changed, 23 insertions(+), 12 deletions(-)
 
-diff --git a/tools/perf/arch/x86/util/iostat.c b/tools/perf/arch/x86/util/iostat.c
-index 7442a2cd87ed..1d9c20dab5c7 100644
---- a/tools/perf/arch/x86/util/iostat.c
-+++ b/tools/perf/arch/x86/util/iostat.c
-@@ -403,18 +403,29 @@ void iostat_prefix(struct evlist *evlist,
- 	struct iio_root_port *rp = evlist->selected->priv;
- 
- 	if (rp) {
--		/*
--		 * TODO: This is the incorrect format in JSON mode.
--		 *       See prepare_timestamp()
--		 */
--		if (ts)
--			sprintf(prefix, "%6lu.%09lu%s%04x:%02x%s",
--				ts->tv_sec, ts->tv_nsec,
--				config->csv_sep, rp->domain, rp->bus,
--				config->csv_sep);
--		else
--			sprintf(prefix, "%04x:%02x%s", rp->domain, rp->bus,
--				config->csv_sep);
-+		if (ts) {
-+			if (config->json_output)
-+				sprintf(prefix,
-+					"\"interval\" : %lu.%09lu, \"device\" : \"%04x:%02x\"",
-+					(unsigned long)ts->tv_sec, ts->tv_nsec,
-+					rp->domain, rp->bus);
-+			else if (config->csv_output)
-+				sprintf(prefix, "%lu.%09lu%s%04x:%02x%s",
-+					(unsigned long)ts->tv_sec, ts->tv_nsec,
-+					config->csv_sep,
-+					rp->domain, rp->bus, config->csv_sep);
-+			else
-+				sprintf(prefix, "%6lu.%09lu %04x:%02x%s",
-+					(unsigned long)ts->tv_sec, ts->tv_nsec,
-+					rp->domain, rp->bus, config->csv_sep);
-+		} else {
-+			if (config->json_output)
-+				sprintf(prefix, "\"device\" : \"%04x:%02x\"",
-+					rp->domain, rp->bus);
-+			else
-+				sprintf(prefix, "%04x:%02x%s", rp->domain,
-+					rp->bus, config->csv_sep);
-+		}
- 	}
- }
- 
--- 
-2.49.0
 
+Applied to linux-kbuild.
+Thanks.
+
+--=20
+Best Regards
+Masahiro Yamada
