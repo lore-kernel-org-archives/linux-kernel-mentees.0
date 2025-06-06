@@ -1,68 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694EC36D;
-	Fri,  6 Jun 2025 19:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C93D1EF09D
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  6 Jun 2025 22:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749239181; cv=none; b=aMCK+i7wukPEiA5U1c3DjvRfnjdRzRRZt0TG87tbXetWwYun6hqoSjKJa3jwvspoVADEFbUu3N+h9lfEW38gYLkGVDNvpyTShizJwZaind33J2GM+6iXg3NC0s4FM8zcbuSzEsv/DplnJhVuvyRwSSfsMavWSN9WyObNbImbWFw=
+	t=1749249620; cv=none; b=Lk4xxWBhIs/z5oZYB4r1R5zfNPyaizhuwCxcZ+/VeDhrpfqx3dYmkgvzDRVFZel/T3ZPchLnxgmZ90fRjUsZYB3MNqp5h+V2UtoGqn4cP4CutfNyaIhEMDSadRe16rG3aZCqw64dI9kxMa7xSQXDDZmuzvGjwJLRQ/Btq457JXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749239181; c=relaxed/simple;
-	bh=01zrtN3LHWp3T9SlDc6J4OdMI4FP63NecS3WUI0ue1w=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=fknN+YwrXPrelds+TMRtFmCCrqZRGB4Mcnn3a8X6xplRM+RwxSBHTYWFyZhs+GubDUlYujdb3wa2FUxe3pUjTLVtEOIs+cDqnxTibJUA1wyXeTYhMrmkPW5fwmQtKYN3v11YTCpheLZJwwaF8OwU9WR5R32GTb3uTk8pKk5WaFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S1kh6CKn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749249620; c=relaxed/simple;
+	bh=Umf6aZ0L2/WBdq94G/QOnFxf54hsMxax8i4F49KC5fU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=LeKU8fdwwnkv8hkVDL0+Pr8N7PuPiF4fQGzrkvzm4zA2YaHMbWZJQUvp+HmUmKDGWx3v0Ya9YZBGrgLxfa/euh62BjwERtiW+US0M/wcI0tEEJlAObEUOl4AXBKsdJfx1SpHKjF2JpZb0yTLUEYE9nrR9e1Q3gLE8Wc94V2E97w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dsou+i6d; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S1kh6CKn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 668B1C4CEEB;
-	Fri,  6 Jun 2025 19:46:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749239180;
-	bh=01zrtN3LHWp3T9SlDc6J4OdMI4FP63NecS3WUI0ue1w=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=S1kh6CKnovjc32GVIf+1sxu269Qc4igI05LZNceRGVi7fI7Rii96g51x7D1iy3StZ
-	 /FbmDP9LAdRBUEbmuUxFPibEpJBF4F/SeWfBIvWMavG8UNU5u7qWi235r7THakknNv
-	 aYu5lZQdXwe5UfSnG0cUHyCVvrvDB9Ea6KOdtZlaW3ezdXF/i/HilWxp55k8CDR7Jc
-	 9e2l0XzmfdhP+EERWfjSGLdLFYEPLx+GIcBVCXGeDHGFc0sY3Ad7vNSoDHbn6d13KM
-	 B3AnAo14177XSxbPVXqH0vcfqSeqDb4JMg+RR79aa8dqs1dfhLdGSaCmAFbi5hrICb
-	 AodQPi+RO59jQ==
-Date: Fri, 06 Jun 2025 12:46:10 -0700
-From: Kees Cook <kees@kernel.org>
-To: Eric Dumazet <edumazet@google.com>, Pranav Tyagi <pranav.tyagi03@gmail.com>
-CC: Andrew Lunn <andrew@lunn.ch>, andrew+netdev@lunn.ch, davem@davemloft.net,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] net: randomize layout of struct net_device
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CANn89iJR1i3hhXrkDNtXyPCNUj1KmrTAff2=pcuYNsXBxogNpw@mail.gmail.com>
-References: <20250602135932.464194-1-pranav.tyagi03@gmail.com> <053507e4-14dc-48db-9464-f73f98c16b46@lunn.ch> <202506021057.3AB03F705@keescook> <25d96fc0-c54b-4f24-a62b-cf68bf6da1a9@lunn.ch> <CAH4c4jJRkeiCaRji9s1dXxWL538X=vXRyKgwcuAOLPNd-jv4VQ@mail.gmail.com> <CANn89iJR1i3hhXrkDNtXyPCNUj1KmrTAff2=pcuYNsXBxogNpw@mail.gmail.com>
-Message-ID: <123565BC-9619-40F1-9F38-0F2BAAE09716@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dsou+i6d"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a4e57d018cso409987f8f.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 06 Jun 2025 15:40:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749249617; x=1749854417; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xXshBSIZNU4BeC4KDEJtIathlHJ2M2oUxcH/B0uC15o=;
+        b=dsou+i6dbmHmgzZDTDU7l5JL3V1ERhgkeb9KyCbLbqQBs2ApsrI0o0QJ1nGT8qN2Ye
+         w9FqR9u1f/9fHQzCqtNrphhRz4dxkufngrZ67YPQgMSNETpvUMD4Zb2CwMMe8SzO3ExT
+         nqEfj9pFDXaCcZ4Nq8rHQV8DzX6SQ6RPhjjzIHXuyHQpXwHQy0HSAhbNBrBJOHx0Axdc
+         Fq2Df3KyjiQKvWCZxyavVjIhNCCi3q/shqgHB0UOi0Uu8iX/TMslqh9vWiTqnfaMO7bl
+         yuMyISMZIMiBXnloHlmB2RuzZyGK0mtIuCApnxtzgZ/of3vAt4QgPXWLFmXUaBGppz2p
+         EMhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749249617; x=1749854417;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xXshBSIZNU4BeC4KDEJtIathlHJ2M2oUxcH/B0uC15o=;
+        b=YRBjUG6ncuPlqN1o9pMPgU6xxi970NF2ZiY6HZxRn3c+LcTmw+/S4VK/UvbE2PZzZ4
+         W/ayZHl0kZ+f9rrCL8JIXbt8XwM4oVLPOaQLDQPg9oYyraQoYf7Fyqpd4acTIYYB5hD4
+         aCvdiEVZsic0xH4kSZI0OE+58iMoiYmbO8rQmruHGp1BtEk/4lZhcKbdjfXoQtn2cUXe
+         vs9za//iULiC9HpcOYsMXFa5v5I/trzv3mW0b97L6xRxShAAGs0lJADZw0dfWvBu1ngC
+         BDifmUVODhQXwrPo6WQcd7PvEoe9eYQQgJy63e77sIMMuyyEqYkl9f1gKH98PtQsGnuv
+         qPNA==
+X-Gm-Message-State: AOJu0Yy/iBZyFjSSYEAQlrrVCSaHtvFlMSc83Iovc52yhAxLS0Erh0H8
+	mfZDvzzNxcD8l07vgP7jxEvJfScVxAbHmVYk4vHFAatoSYc3WuB9V3qm
+X-Gm-Gg: ASbGncuj/L/F5cFMl0zp7C6dyx6zdLw9Uc7ULdpXCNgzhSi7zWJdjI1c71i5BROENu4
+	cUjHrjygqViJmIsDWJeMzZn634lXokZzEkiNoZ0TClD23tZXm/Ne/C6Qe8uHklo+gJOk0SbBn1r
+	biRtukYpgEeHZ+Oa+GiXTFeaoU8vzhojBtdmVUE+3jsEvni9XJOCqAfSfLgBUg25zj/N9LUVz65
+	T6l/3kSDS3o+46iFNg+6K1+7+p7of2RnCk3JIsQGrT+TYpF3niln5OSb9mb4StrFxYkLO0M1+N7
+	7fA/VQHdE2tDk07u/Fh9f9Sed0iLYRf4pvCHFbQYv7C4/Wshg2e2ZMGg+Sawd05z8E2CrUUag4t
+	Kv2HttUy3RuI=
+X-Google-Smtp-Source: AGHT+IG2IOCjOeOs8sYspOVGNo6JXAP4dCv2MZ+rJKi1VOqe3yrtvfxYWbt/lxPo4/W3/HuTbHFpPw==
+X-Received: by 2002:a05:6000:2281:b0:3a4:f7ae:77cd with SMTP id ffacd0b85a97d-3a53313110emr1363448f8f.1.1749249617020;
+        Fri, 06 Jun 2025 15:40:17 -0700 (PDT)
+Received: from localhost.localdomain ([41.34.150.118])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a5323bee86sm2968132f8f.43.2025.06.06.15.40.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jun 2025 15:40:16 -0700 (PDT)
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+To: skhan@linuxfoundation.org,
+	shuah@kernel.org
+Cc: linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Subject: [PATCH v2] selftests: ir_decoder: Convert header comment to proper multi-line block
+Date: Sat,  7 Jun 2025 01:39:14 +0300
+Message-Id: <20250606223914.117449-1-abdelrahmanfekry375@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <65743e71-fc2c-4a04-b7f1-b977031a4fb8@linuxfoundation.org>
+References: <65743e71-fc2c-4a04-b7f1-b977031a4fb8@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
+So, this is an updated version following
+the right way of writing change logs while
+making sure the signed-off-by mismatch is fixed.
 
+The test file for the IR decoder used single-line comments
+at the top to document its purpose and licensing,
+which is inconsistent with the style used throughout the
+Linux kernel.
 
-On June 6, 2025 8:42:45 AM PDT, Eric Dumazet <edumazet@google=2Ecom> wrote=
-:
->Most distros use CONFIG_RANDSTRUCT_NONE=3Dy
+In this patch i converted the file header to
+a proper multi-line comment block
+(/*) that aligns with standard kernel practices.
+This improves readability, consistency across selftests,
+and ensures the license and documentation are
+clearly visible in a familiar format.
 
-That is true=2E But distros don't strictly define our code base=2E :)
+No functional changes have been made.
 
-> I do not think __randomize_layout has a future=2E
+Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+---
+Changes in v2:
+- Fixed multiple trailing whitespace errors
+- Fixed Signed-off-by mismatch
+- Appropriate change log
+ tools/testing/selftests/ir/ir_loopback.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
 
-It will remain an actively supported feature -- many high security systems=
- (that build their own kernels) use it, along with other features where the=
-y have no problem trading performance for security=2E
+diff --git a/tools/testing/selftests/ir/ir_loopback.c b/tools/testing/selftests/ir/ir_loopback.c
+index f4a15cbdd5ea..c94faa975630 100644
+--- a/tools/testing/selftests/ir/ir_loopback.c
++++ b/tools/testing/selftests/ir/ir_loopback.c
+@@ -1,14 +1,17 @@
+ // SPDX-License-Identifier: GPL-2.0
+-// test ir decoder
+-//
+-// Copyright (C) 2018 Sean Young <sean@mess.org>
+-
+-// When sending LIRC_MODE_SCANCODE, the IR will be encoded. rc-loopback
+-// will send this IR to the receiver side, where we try to read the decoded
+-// IR. Decoding happens in a separate kernel thread, so we will need to
+-// wait until that is scheduled, hence we use poll to check for read
+-// readiness.
+-
++/* Copyright (C) 2018 Sean Young <sean@mess.org>
++ *
++ * Selftest for IR decoder
++ *
++ *
++ * When sending LIRC_MODE_SCANCODE, the IR will be encoded.
++ * rc-loopback will send this IR to the receiver side,
++ * where we try to read the decoded IR.
++ * Decoding happens in a separate kernel thread,
++ * so we will need to wait until that is scheduled,
++ * hence we use poll to check for read
++ * readiness.
++ */
+ #include <linux/lirc.h>
+ #include <errno.h>
+ #include <stdio.h>
+-- 
+2.25.1
 
--Kees
-
---=20
-Kees Cook
