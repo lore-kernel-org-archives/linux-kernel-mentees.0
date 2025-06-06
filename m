@@ -1,48 +1,43 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A800D27A127;
-	Thu,  5 Jun 2025 20:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DD72AF10;
+	Fri,  6 Jun 2025 03:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749155462; cv=none; b=maynn7XGMtyRNvMI9pzpqoMhLstWkXqYD8S7DW3MMcSkDvxQGjeJIOfbkwXnwutcFsTtqZGSVLhNu2XTkLGGeOy9PS3wFWQWJkbhW4O1S4tpa76i5oS3MyaVAwsrq8qOgl6T/kUYEPDT4UCpB9TkZ1jZLU0o8aaX/ZAgRs7Ddx4=
+	t=1749182276; cv=none; b=IyFgOYb+QjsDuLI1FD8Ai0C2KP0D4Ug47PduUUOAMgHXX3QJLL/A0hEs6caOxdGDy5h/ChrjW74bJqZ5W+b+MLOLynh/gSQq4RS3h5uDRuEIyRKyvQSWGjB4fiUazf8s72zLux1rhKoLBsgOjIdsMbvBr/6SOSJiGNuQyHexb00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749155462; c=relaxed/simple;
-	bh=gmlp2jwO30hBqhp/YJOURodm64jKP/qFtrzv2wdnmiY=;
+	s=arc-20240116; t=1749182276; c=relaxed/simple;
+	bh=+G79hgSmIG6oW9WzrBUTNEwLWgrs6kdcW4Ux99u8tkQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TQGUPg6cwsWUQwLmBqk0D0uVC+dr8LZrjznbMe19kaSk8Ibfdn5WAL/XkCmJjtNQYTjVKOMyyU0SRvdV5L0R/20lOYl9efQ0qJeZqSNL2bI8rFp5BkwZ67Y+wFZ/VGL1etVq/KzK3o9SFm2Wa9DFGfmzskK3JfnhwJg8GvVT/wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz; spf=pass smtp.mailfrom=listout.xyz; dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b=t2u0+gy4; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=listout.xyz
+	 Content-Type:Content-Disposition:In-Reply-To; b=B0mZQ/dAtboh826U4ZU0bp3tPwG6F4Yaa2t4pZg21qFAy3CmmZsGnVaCqkbV/hEyRv3ObUkCeITAuNCB5/mCyuJ5HE4yR3Pt0pThSHPTEXWjE369AK3JHOejP3u6dxPAjRmU2N37hvWZgEyG0SgpBJ3X8dEe6/pFBgmclZLQQfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=edfkVOT8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b="t2u0+gy4"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bCx0w75fNz9tCl;
-	Thu,  5 Jun 2025 22:30:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=listout.xyz; s=MBO0001;
-	t=1749155457;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pqZ663Cp9gzndHJjTiWWCOUPFc901sb/+7c37wwcIXE=;
-	b=t2u0+gy4JG5d0W54nnpWwF8JuiS0daocYRAz2FS8pJ20+YebcrSZAoHisR9G7K1HoltrZR
-	fYVjp3t7CLd47YIEtfBi0PGcxqLQC6w8xchHUyiprU5Tzh4dRzQ/gt3/mUS8Yad1J2pBe4
-	XoS6NKxnWOob6rITShJ6pIaYKV/Fo/mbArAgR0DHIn2fFey07SZvVxjhYOenijN1xzSi0I
-	yLes3fFWbuCnZiWI2N2c9NOq787Juj3t33GkjsuypWStOEZdhe+0f8pVGQT0zDGenqdCny
-	obOHKWD2MCItedA8FyzBs+tzD6B8+0uTzghnuOaJ7ZJQgJk6fmsBR49+ToL6NA==
-Date: Fri, 6 Jun 2025 02:00:52 +0530
-From: Brahmajit Das <listout@listout.xyz>
-To: stable@kernel.org
-Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-	gregkh@linuxfoundation.org, mpatocka@redhat.com, stable@vger.kernel.org, 
-	patches@lists.linux.dev
-Subject: Re: [PATCH 1/1] dm-verity: fix a memory leak if some arguments are
- specified multiple times
-Message-ID: <65ci7zvx3kr5qfq2ioadzzd4ghrtrtrc3pxefosexxpbup63kb@4jkc6e6usols>
-References: <20250605201116.24492-1-listout@listout.xyz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="edfkVOT8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 581BDC4CEED;
+	Fri,  6 Jun 2025 03:57:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749182275;
+	bh=+G79hgSmIG6oW9WzrBUTNEwLWgrs6kdcW4Ux99u8tkQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=edfkVOT8tJIHy17rb46G4tnRJDqlpRvUkbFQ5xYXK7tFccZ2CmJqLMT3ybMTEY/eP
+	 5VlmF+UhoI0sDHJnTyFRvOu0IWHzl1z/PHKrqFIeTP/KW6W4Lelzz1mb4pmI9EQdUU
+	 +1net7gUcsZHIwRRpjYiOceLQba56gYDZMU5wSBtgVP9f3/ZZtDTj5t5psfmqMJcqn
+	 OyDrjI6BMLThmeTvXcW6OsEFwOAfxTqr5DRi+fTXkhM1qob0YfN7d7DJUlVbVqAM3V
+	 L6C8OFmRmhwMZCeLCz1mHLGgIVVB48mkvcPyxsV1U1D1GCJB5vtmK/CDmi3JDR6ocs
+	 VEEML7OeFkRNg==
+Date: Thu, 5 Jun 2025 20:57:52 -0700
+From: Namhyung Kim <namhyung@kernel.org>
+To: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Cc: peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+	mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+	linux-perf-users@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH RESEND] perf stat: Fix JSON output formatting in
+ iostat_prefix()
+Message-ID: <aEJnQIviayEi-Jsv@google.com>
+References: <20250605180012.16788-1-suchitkarunakaran@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -51,134 +46,96 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250605201116.24492-1-listout@listout.xyz>
-X-Rspamd-Queue-Id: 4bCx0w75fNz9tCl
+In-Reply-To: <20250605180012.16788-1-suchitkarunakaran@gmail.com>
 
-Greg, Shuah, Mikulas,
-This is my first attempt at backporting an upstream patch (Part of Linux
-kernel Bug Fixing Summer 2025). Please feel free to correct me, I'm open
-to feedback.
-I see I've added two From section, if that requires me to
-resend a v2 of the patch, please let me know.
+Hello,
 
-On 06.06.2025 01:41, Brahmajit Das wrote:
-> From: Mikulas Patocka <mpatocka@redhat.com>
+On Thu, Jun 05, 2025 at 11:30:11PM +0530, Suchit Karunakaran wrote:
+> The iostat_prefix() function previously included a TODO noting that its output
+> format was incorrect in JSON mode. This patch corrects that by conditionally
+> formatting the prefix string based on the output mode specified in
+> perf_stat_config.
+
+I've tested this.  It doesn't work well.
+
+Before:
+  # ./perf iostat -j -I 1000 true
+  #          time    port              0.000517525 0000:00 "Inbound Read(MB)" : "0", "Inbound Write(MB)" : "0", "Outbound Read(MB)" : "0", "Outbound Write(MB)" : "0"
+       0.000517525 0000:80 
+       0.000517525 0000:17 , "Inbound Read(MB)" : "0", "Inbound Write(MB)" : "0", "Outbound Read(MB)" : "0", "Outbound Write(MB)" : "0"
+       0.000517525 0000:85 
+       0.000517525 0000:3a , "Inbound Read(MB)" : "0", "Inbound Write(MB)" : "0", "Outbound Read(MB)" : "0", "Outbound Write(MB)" : "0"
+       0.000517525 0000:ae 
+       0.000517525 0000:5d , "Inbound Read(MB)" : "0", "Inbound Write(MB)" : "0", "Outbound Read(MB)" : "0", "Outbound Write(MB)" : "0"
+       0.000517525 0000:d7 
+
+
+After:
+  # ./perf iostat -j -I 1000 true
+  #          time    port         "interval" : 0.000463559, "device" : "0000:00""Inbound Read(MB)" : "0", "Inbound Write(MB)" : "0", "Outbound Read(MB)" : "0", "Outbound Write(MB)" : "0"
+  "interval" : 0.000463559, "device" : "0000:80"
+  "interval" : 0.000463559, "device" : "0000:17", "Inbound Read(MB)" : "0", "Inbound Write(MB)" : "0", "Outbound Read(MB)" : "0", "Outbound Write(MB)" : "0"
+  "interval" : 0.000463559, "device" : "0000:85"
+  "interval" : 0.000463559, "device" : "0000:3a", "Inbound Read(MB)" : "0", "Inbound Write(MB)" : "0", "Outbound Read(MB)" : "0", "Outbound Write(MB)" : "0"
+  "interval" : 0.000463559, "device" : "0000:ae"
+  "interval" : 0.000463559, "device" : "0000:5d", "Inbound Read(MB)" : "0", "Inbound Write(MB)" : "0", "Outbound Read(MB)" : "0", "Outbound Write(MB)" : "0"
+  "interval" : 0.000463559, "device" : "0000:d7"
+
+Thanks,
+Namhyung
+
 > 
-> From: Mikulas Patocka <mpatocka@redhat.com>
-> 
-> [ Upstream commit 66be40a14e496689e1f0add50118408e22c96169 ]
-> 
-> If some of the arguments "check_at_most_once", "ignore_zero_blocks",
-> "use_fec_from_device", "root_hash_sig_key_desc" were specified more than
-> once on the target line, a memory leak would happen.
-> 
-> This commit fixes the memory leak. It also fixes error handling in
-> verity_verify_sig_parse_opt_args.
-> 
-> Signed-off-by: Mikulas Patocka <mpatocka@redhat.com>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Brahmajit Das <listout@listout.xyz>
+> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
 > ---
->  drivers/md/dm-verity-fec.c        |  4 ++++
->  drivers/md/dm-verity-target.c     |  8 +++++++-
->  drivers/md/dm-verity-verify-sig.c | 17 +++++++++++++----
->  3 files changed, 24 insertions(+), 5 deletions(-)
+>  tools/perf/arch/x86/util/iostat.c | 35 ++++++++++++++++++++-----------
+>  1 file changed, 23 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/md/dm-verity-fec.c b/drivers/md/dm-verity-fec.c
-> index 0c41949db784..631a887b487c 100644
-> --- a/drivers/md/dm-verity-fec.c
-> +++ b/drivers/md/dm-verity-fec.c
-> @@ -593,6 +593,10 @@ int verity_fec_parse_opt_args(struct dm_arg_set *as, struct dm_verity *v,
->  	(*argc)--;
+> diff --git a/tools/perf/arch/x86/util/iostat.c b/tools/perf/arch/x86/util/iostat.c
+> index 7442a2cd87ed..1d9c20dab5c7 100644
+> --- a/tools/perf/arch/x86/util/iostat.c
+> +++ b/tools/perf/arch/x86/util/iostat.c
+> @@ -403,18 +403,29 @@ void iostat_prefix(struct evlist *evlist,
+>  	struct iio_root_port *rp = evlist->selected->priv;
 >  
->  	if (!strcasecmp(arg_name, DM_VERITY_OPT_FEC_DEV)) {
-> +		if (v->fec->dev) {
-> +			ti->error = "FEC device already specified";
-> +			return -EINVAL;
+>  	if (rp) {
+> -		/*
+> -		 * TODO: This is the incorrect format in JSON mode.
+> -		 *       See prepare_timestamp()
+> -		 */
+> -		if (ts)
+> -			sprintf(prefix, "%6lu.%09lu%s%04x:%02x%s",
+> -				ts->tv_sec, ts->tv_nsec,
+> -				config->csv_sep, rp->domain, rp->bus,
+> -				config->csv_sep);
+> -		else
+> -			sprintf(prefix, "%04x:%02x%s", rp->domain, rp->bus,
+> -				config->csv_sep);
+> +		if (ts) {
+> +			if (config->json_output)
+> +				sprintf(prefix,
+> +					"\"interval\" : %lu.%09lu, \"device\" : \"%04x:%02x\"",
+> +					(unsigned long)ts->tv_sec, ts->tv_nsec,
+> +					rp->domain, rp->bus);
+> +			else if (config->csv_output)
+> +				sprintf(prefix, "%lu.%09lu%s%04x:%02x%s",
+> +					(unsigned long)ts->tv_sec, ts->tv_nsec,
+> +					config->csv_sep,
+> +					rp->domain, rp->bus, config->csv_sep);
+> +			else
+> +				sprintf(prefix, "%6lu.%09lu %04x:%02x%s",
+> +					(unsigned long)ts->tv_sec, ts->tv_nsec,
+> +					rp->domain, rp->bus, config->csv_sep);
+> +		} else {
+> +			if (config->json_output)
+> +				sprintf(prefix, "\"device\" : \"%04x:%02x\"",
+> +					rp->domain, rp->bus);
+> +			else
+> +				sprintf(prefix, "%04x:%02x%s", rp->domain,
+> +					rp->bus, config->csv_sep);
 > +		}
->  		r = dm_get_device(ti, arg_value, BLK_OPEN_READ, &v->fec->dev);
->  		if (r) {
->  			ti->error = "FEC device lookup failed";
-> diff --git a/drivers/md/dm-verity-target.c b/drivers/md/dm-verity-target.c
-> index 3c427f18a04b..ed49bcbd224f 100644
-> --- a/drivers/md/dm-verity-target.c
-> +++ b/drivers/md/dm-verity-target.c
-> @@ -1120,6 +1120,9 @@ static int verity_alloc_most_once(struct dm_verity *v)
->  {
->  	struct dm_target *ti = v->ti;
->  
-> +	if (v->validated_blocks)
-> +		return 0;
-> +
->  	/* the bitset can only handle INT_MAX blocks */
->  	if (v->data_blocks > INT_MAX) {
->  		ti->error = "device too large to use check_at_most_once";
-> @@ -1143,6 +1146,9 @@ static int verity_alloc_zero_digest(struct dm_verity *v)
->  	struct dm_verity_io *io;
->  	u8 *zero_data;
->  
-> +	if (v->zero_digest)
-> +		return 0;
-> +
->  	v->zero_digest = kmalloc(v->digest_size, GFP_KERNEL);
->  
->  	if (!v->zero_digest)
-> @@ -1577,7 +1583,7 @@ static int verity_ctr(struct dm_target *ti, unsigned int argc, char **argv)
->  			goto bad;
 >  	}
->  
-> -	/* Root hash signature is  a optional parameter*/
-> +	/* Root hash signature is an optional parameter */
->  	r = verity_verify_root_hash(root_hash_digest_to_validate,
->  				    strlen(root_hash_digest_to_validate),
->  				    verify_args.sig,
-> diff --git a/drivers/md/dm-verity-verify-sig.c b/drivers/md/dm-verity-verify-sig.c
-> index a9e2c6c0a33c..d5261a0e4232 100644
-> --- a/drivers/md/dm-verity-verify-sig.c
-> +++ b/drivers/md/dm-verity-verify-sig.c
-> @@ -71,9 +71,14 @@ int verity_verify_sig_parse_opt_args(struct dm_arg_set *as,
->  				     const char *arg_name)
->  {
->  	struct dm_target *ti = v->ti;
-> -	int ret = 0;
-> +	int ret;
->  	const char *sig_key = NULL;
->  
-> +	if (v->signature_key_desc) {
-> +		ti->error = DM_VERITY_VERIFY_ERR("root_hash_sig_key_desc already specified");
-> +		return -EINVAL;
-> +	}
-> +
->  	if (!*argc) {
->  		ti->error = DM_VERITY_VERIFY_ERR("Signature key not specified");
->  		return -EINVAL;
-> @@ -83,14 +88,18 @@ int verity_verify_sig_parse_opt_args(struct dm_arg_set *as,
->  	(*argc)--;
->  
->  	ret = verity_verify_get_sig_from_key(sig_key, sig_opts);
-> -	if (ret < 0)
-> +	if (ret < 0) {
->  		ti->error = DM_VERITY_VERIFY_ERR("Invalid key specified");
-> +		return ret;
-> +	}
->  
->  	v->signature_key_desc = kstrdup(sig_key, GFP_KERNEL);
-> -	if (!v->signature_key_desc)
-> +	if (!v->signature_key_desc) {
-> +		ti->error = DM_VERITY_VERIFY_ERR("Could not allocate memory for signature key");
->  		return -ENOMEM;
-> +	}
->  
-> -	return ret;
-> +	return 0;
 >  }
 >  
->  /*
 > -- 
 > 2.49.0
 > 
-> 
-
--- 
-Regards,
-listout
