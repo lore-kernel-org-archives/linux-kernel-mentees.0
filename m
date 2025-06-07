@@ -1,73 +1,75 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A4D7263A
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  7 Jun 2025 13:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F95A1DFFD
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  7 Jun 2025 15:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749303739; cv=none; b=Uyuk+iQ1c0De8bLpIKrYxjY5NxSbBUo5li/V8de8gLWDUpXBoutIE3/fITZXzFSB63QUxPHBKTg9cKwViRHhvzT+5AHNX1CfDnaUHKx1x5qDRoPk2YiQ2vMcrhCNyWtYLOVXj2PZWn/ssApW9rAD1SB13fUy6BM60YHjHMgqcy8=
+	t=1749310125; cv=none; b=CEI1z7sCTw+F7ZRoZzhvyWVOesjsRL7Git8gAr6pAGK88Lmz38DdXIEWnjptVx9nqTzFmt5OaekKqAHHa1St0rJSGcj5m4Dr2nkCJrB41VsSlA1Ii4E/ws8RO2ExAAyiXLnZI8ORbmypxqd1sm1NOHtuLsSpfs6isS3yRhxhBzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749303739; c=relaxed/simple;
-	bh=7OMXm2oX7DsrPRUa9wedeBvqixpmVGGeyS+cECzQPmY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ehPr8tXcnGsfh5N/lBdo5NwiVSEwQ4pja1YLKslNUwp3maQTG3nxJja5sPZ5DRdQgVJm7+CxmWYUt6OdjKdz5cMlZ0jhCnYuIo/J5PhulgcWPP6h6kWwGLUgr2ojwmnxkExNmjuvEuGWFfy8j2DPfQUnvkHGIhnxob4trDCJhb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bPWPrs6y; arc=none smtp.client-ip=209.85.216.46
+	s=arc-20240116; t=1749310125; c=relaxed/simple;
+	bh=z+jyBC0rDsvIMFnB2CX5hTuZkM0uQU8PSDEQ97J9Fms=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=msxe/qAPqpK74NiI4tmYekdVwTZfzV+dhCbGlABqBtZ8KehCQo7ZS+yPKtP97a3KFTnkiNOpg4UV2qR94gKXpWKzOUz288L9eLgacT0S2osMMZ9q3n3kMCbMwpIk37AYxQPYir1h65XoTO6C0eS/WUWhaN1zjGUbMNuVNRFZiT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eowf/WT0; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bPWPrs6y"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3127cc662e2so2476181a91.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 07 Jun 2025 06:42:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eowf/WT0"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-742c035f2afso2224941b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 07 Jun 2025 08:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749303736; x=1749908536; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1749310123; x=1749914923; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wYbdjoen+GlgAnAOQhE/zXRa8mz64qBD934C8Difs2E=;
-        b=bPWPrs6y+ZDtO0nAqaV9+5aPiw7F1dtj2JwpSnHs9Y+WlqzMduJF98u/oe2Euh5A+b
-         6SyyHvHW4xHYhJAfMpxdlhBTMDt4y5jSU32QdxNV2RBodOwf6gqJLT/gWaUVQgPQxRLr
-         5QEnqOX5/ezRgGyIotqbZ4YwRdGjr1iKVEs1AnjQ9YBoOpj8ZfJqBFnVpiXmODX+nEpH
-         Q9JFMNDiZjg5w5Neesd01w/ibBjskmoJigkOt134ZUhlOMRzKJ1bI3UMsSTUS9OZ0Cbi
-         I5BxQxO/KJM7KYa1IIPUsXZyLwca5BbvEwGG4oJQA+U8I5H88usPYidW+hGY5/SFKmHB
-         GMoA==
+        bh=+c2fxGTrOu+gHD3RHbFZi/o0nuFFUaAiSBwnrt9ygdg=;
+        b=Eowf/WT0S11mtM+ugLf4gPzJo2LmxAUl5qYJcLMTmpXoqDVWNZ8Nu7JwvwRwG0xZX5
+         ljRR17zP2vvp6e3F+XWUyePfuLj8TDLGcfaKKJcBgwPkqLigojGlBOkqGYUXabfbm6/w
+         TdzHOePSwcia/0oOZKa/F31Lx2F8u6n3txqsZUtFf+xRd8B5McMiCfr2S6Gv6ofmdYZp
+         SyBt8aueeUFtjK278cQXxL5NxBdaLHERg7br+aDsKbqnutIku4wjzAa+aPhWMmLVZEC2
+         qwibL283N1cltbaI850YDBKsEUMK4Enbwi4ekSAGdsiDAOvDzrlXzZ/shSk7jTHU3ByL
+         rYGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749303736; x=1749908536;
+        d=1e100.net; s=20230601; t=1749310123; x=1749914923;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wYbdjoen+GlgAnAOQhE/zXRa8mz64qBD934C8Difs2E=;
-        b=BADrwQXSKqr17Xd9KKei1rObIGfbtRXT01lazdv5FPnGNsJc20jCUQ3Vp6bTzwZAnM
-         1kmGR+h3xVwvDjvxy0wHcWOvEf52n7s3X1IJD6uIlxkDJ5ZFFBIgW6roe/9K58IQsBQn
-         dyqMAU25gB/bzMYfn2Grkdyf9/R/UCPBQeq5MAQ0evvsG7pb5zhRj3R4UVN07y6pVsdk
-         bDimROOKft6kbmdXO6tLjmJc6ZRmyrupNQt+ekuILWHG3K8uueTRK8L9WuXXbUbNpYCt
-         dj1gOdYXMi8GlaFAT7DfMtjQNFGHfqgM7jU/ZMShf9R/oAdxS9vqbmzohXfV+RQzcXzX
-         GR5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUc2rVN67YNnVPfEkSVJLHVbhMe926VmQETVvFMpadvK/GYPT/kabAXG+BYmUrOPxJCaizzSATuAZWzBsb+s8MmNvyL7w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxQWosVe3FH/qHkeKSCwQsed4YlQcZTyD/9mT8i2rK51aCad5iT
-	HH1GFblB/pgbiAzoXqMjN6HUu6W/gC0S7aIfvcyN0PvUuxar9pXF011a
-X-Gm-Gg: ASbGncvVoOCRRTAgCv0cIL8jexR/Lq8I4JUoGvKUby6B1dIrvn/0QZXe6WofHaFpP/x
-	n4uX5tS208Yo3qQGTpOYZ6muXMeIMJ60aDDIcy2JfsP5lPCrTTrcn8gk3v/7T72sPou+aPMksdP
-	axZcCl3TVE/ymL5PtyIoQvOjbb5Mev3YlhZiFr/4RrPuJ5HH0w/En907JvzPHMygXRN6f+dAQ6n
-	MOppI8j7O5qgGwYmHwy5+5mwfknfNwTCpx8EPFnh+Z+ksvLMW3e5c7xY70EZqlEp9VwpSbemmB3
-	JXEPjTMwXFQKc/44tDBKytAcchY/fvoaBJv0OHNMkukz6sfcYf/nvGXLoMr/gdfZuM6I1jUZbPG
-	YryBngw==
-X-Google-Smtp-Source: AGHT+IF9hhixo6qXrT5bf39wdeQ5dKAy/YMwF7LT99pO1uz5iof/4mKamI3R1vKkxZ3Er9xloCYr3g==
-X-Received: by 2002:a17:90b:57c3:b0:30e:3737:7c87 with SMTP id 98e67ed59e1d1-31349f424a2mr8764626a91.5.1749303735811;
-        Sat, 07 Jun 2025 06:42:15 -0700 (PDT)
+        bh=+c2fxGTrOu+gHD3RHbFZi/o0nuFFUaAiSBwnrt9ygdg=;
+        b=po9XhMAQeQsOIzlFSBv+R9c4cGW+jzPIcDxNXxkIyY3+zYymb/5Q1Qb68VTmE4Hhjq
+         9ugZiDUx+KLl/DUFyzNfc2Bsi7eeNaHtlgQTaDKrJpipng/dUeSVDH4B/IRehCf0W8Yp
+         qewz2phXDACvaAezVgeDLeg7uo3Es1wu97tF8f8NnlzxXa4mTXb/n2WyKOVgNcOS2/cA
+         9KmPS8Qq/Wry/KzZy0BQMNW4ZAegI7o/t/e0wRtBTFG/fLwSaHDRaWgGnd1gqaAkBbIj
+         gVUjNVCKaMmsP0VH0ADZz0mRlkTTktGDujIPXDgronymVfiO1veZLXYDhS7futz/JCOS
+         yTEw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmaLnQwyQPVaGcp2pzJ++FVbboBPt1VXtZKtOi6FKtIJNBy5EBvxQR/px7Cs8GKWVMsoepnSt8DrFnKG5VNKj/JZLxhQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yydo9xQD2sLsHhj3bgmhF6ZdYC//rs/UuQzD7O2nvxi2hwMNKZK
+	uQwGpt5ZFrGLxlD5dlSgT4bOtZPJB8N9cXmHjcZxdGIzYNXK3Ycxe/u/CgFJJELp
+X-Gm-Gg: ASbGncuE2kbjoNqwZsdeNy/SqdNvtxUETscUwJPjQ0zMjIJEWwS9yY09CKAkDva20iF
+	r8lxtyYhgUW8NwdpKjDlFv1cehKOPWrMr3Zg21p0sc5VsGmyaajNTZjCHFiJtse3Zf8AN5RLNbd
+	Ywb1sDYrJGAxGQG9rlX1oGPzms/NHllQzQBotlWbT39HPMJag2YLN5I6Wnh7dVX0/Cs3o2uxNcr
+	drFrHM/d2dpw0MATd0Zs49ZHylJm8Q9lBvTpwslWPeQ0WdX3FlT0neY6AwP+JnP9GCoCuvQ91l2
+	xK4zypzBe8hiedAtxSUVnG+z+fYgVczeWBUD/+drYdPdOlhquyI+KL9mrTIcIjyAYm0RbeI=
+X-Google-Smtp-Source: AGHT+IGe5PvLLkyfOcvRfGoQZO2yM5rs9oLpWj19Gd+8+aRM/ZSBmC4cTKl3EgRRwqh8R4Ru25G9lw==
+X-Received: by 2002:a05:6a00:4612:b0:736:a8db:93bb with SMTP id d2e1a72fcca58-74827fa2840mr8940461b3a.5.1749310123426;
+        Sat, 07 Jun 2025 08:28:43 -0700 (PDT)
 Received: from manjaro.domain.name ([2401:4900:1c66:bf5b:2e56:6e66:c9ef:ed1b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-236035069f3sm27157455ad.231.2025.06.07.06.42.11
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482af3831esm2965754b3a.13.2025.06.07.08.28.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Jun 2025 06:42:15 -0700 (PDT)
+        Sat, 07 Jun 2025 08:28:42 -0700 (PDT)
 From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: gregkh@linuxfoundation.org,
-	jirislaby@kernel.org
-Cc: kees@kernel.org,
-	skhan@linuxfoundation.org,
+To: davem@davemloft.net,
+	dsahern@kernel.org,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org
+Cc: skhan@linuxfoundation.org,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
 	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH] tty: replace capable() with file_ns_capable()
-Date: Sat,  7 Jun 2025 19:11:14 +0530
-Message-ID: <20250607134114.21899-1-pranav.tyagi03@gmail.com>
+Subject: [PATCH] net: ipconfig: replace strncpy with strscpy
+Date: Sat,  7 Jun 2025 20:58:30 +0530
+Message-ID: <20250607152830.26597-1-pranav.tyagi03@gmail.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -77,45 +79,29 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The TIOCCONS ioctl currently uses capable(CAP_SYS_ADMIN) to check for
-privileges, which validates the current task's credentials. Since this
-ioctl acts on an open file descriptor, the check should instead use the
-file opener's credentials.
-
-Replace capable() with file_ns_capable() to ensure the capability is
-checked against file->f_cred in the correct user namespace. This
-prevents unintended privilege escalation and aligns with best practices
-for secure ioctl implementations.
+Replace the deprecated strncpy() with strscpy() as the destination
+buffer is NUL-terminated and does not require any
+trailing NUL-padding. Also increase the length to 252
+as NUL-termination is guaranteed.
 
 Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Link: https://github.com/KSPP/linux/issues/156
 ---
- drivers/tty/tty_io.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ net/ipv4/ipconfig.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
-index e2d92cf70eb7..ee0df35d65c3 100644
---- a/drivers/tty/tty_io.c
-+++ b/drivers/tty/tty_io.c
-@@ -102,6 +102,9 @@
- #include <linux/uaccess.h>
- #include <linux/termios_internal.h>
- #include <linux/fs.h>
-+#include <linux/cred.h>
-+#include <linux/user_namespace.h>
-+#include <linux/capability.h>
- 
- #include <linux/kbd_kern.h>
- #include <linux/vt_kern.h>
-@@ -2379,7 +2382,7 @@ static int tiocswinsz(struct tty_struct *tty, struct winsize __user *arg)
-  */
- static int tioccons(struct file *file)
- {
--	if (!capable(CAP_SYS_ADMIN))
-+	if (!file_ns_capable(file, file->f_cred->user_ns, CAP_SYS_ADMIN))
- 		return -EPERM;
- 	if (file->f_op->write_iter == redirected_tty_write) {
- 		struct file *f;
+diff --git a/net/ipv4/ipconfig.c b/net/ipv4/ipconfig.c
+index c56b6fe6f0d7..eb9b32214e60 100644
+--- a/net/ipv4/ipconfig.c
++++ b/net/ipv4/ipconfig.c
+@@ -1690,7 +1690,7 @@ static int __init ic_proto_name(char *name)
+ 			*v = 0;
+ 			if (kstrtou8(client_id, 0, dhcp_client_identifier))
+ 				pr_debug("DHCP: Invalid client identifier type\n");
+-			strncpy(dhcp_client_identifier + 1, v + 1, 251);
++			strscpy(dhcp_client_identifier + 1, v + 1, 252);
+ 			*v = ',';
+ 		}
+ 		return 1;
 -- 
 2.49.0
 
