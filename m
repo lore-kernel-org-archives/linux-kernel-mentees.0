@@ -1,92 +1,86 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF612227B83
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  9 Jun 2025 21:00:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B325D21D59F
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  9 Jun 2025 21:12:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749502857; cv=none; b=WlPRCo7oJolGSSKZcXjRXX/QAAfCFi1Ne4uG+1kxmB82HJslQvUA+otukzOXcEvEf/3nmG+Cg6SAdKq80XndM4EJlVNR4ka96Gib3iaBpXWHAFtXsQ9ELeoBYtIT2cvPbABNgt33wyAhaPk6MNF9eNwHBU7DFtHqR2Agt3MWLL4=
+	t=1749503570; cv=none; b=pxxQeH3vtCJcMpHK27Bg33pnHhEDpvrqbW8mzSRh/N0fsmCF8s+5MBBFJ/5Ueoic+cSJDzgA7LGmuwWhoeDtGJ8kkPWdh+nqFuPz/FK6WjwQ5lfzEgVcP6Vw3WmMEVNX57FdKQsXHsBDDuMmmuKBQXI+iEw7BclqA2rOFkDKziA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749502857; c=relaxed/simple;
-	bh=XzCQb2hs95nRYm8RcK32DtG5sjazppbKMDyZ0t0F2xU=;
+	s=arc-20240116; t=1749503570; c=relaxed/simple;
+	bh=NT2UgqnErpFBb9pVgnzpL0UiyzFv8Ul/DJKbfOdd8PY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=U6Ztv/agkWbLZV6PXjHN3ra6nNvcLnGVJzrkvJ1D1i4agDV7KtHg6aTMUBdDdCsQTj/oL6fl4pHdFVhOk6j9bYxaBqaBnqioZ3mKrMsY/z4OzsKFiDD5FGeesWIH5AjFZz1XIL8h4NvglgYAP7+AGi5xQHrRtqEZVvhMpR7dGZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=MBKhHuMk; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=PgSC1ta9QtYYsLTD02D+HxlGlRB4fikODdsoTHTRLW0DnRYmi8bSj62BEqrGwC9oxSZDX5MngMTxor0Y+efuG2wYLxP7SqRghLkSP9wXcKZvo8eKlmvH3qx5BqYWNaH9Iol/txbwEXMa6lfzvORjbar41AM7OtQSoTYiAt4fBDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gHZ1a3lY; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MBKhHuMk"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A8BDE41AA1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gHZ1a3lY"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A90AB41AA1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1749502854; bh=Byi6ZbZeSTJ4d0f4c+Txg+G1R737uVa/AC1DuFNbhjQ=;
+	t=1749503567; bh=kVmqBCyOZoSYjjiDKN0T/GrRw00/Wp5UCB2rbJmBnFc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=MBKhHuMk27quWMUCqecP/2rE811WfvZ88RlmLggZ67jpwR0HL4WAIxKp7uRQ7/iwM
-	 wyoR83XEcQ6mPbBK0KcOb2Meua26eLYs1XOP+KGTaDEOtrjKhu+mg510aOFJByDZwJ
-	 HtAEwskVmRqFe1WLiVLC5Poc4QTa0OHVzTL6hpCk/AIkNHYGWyWd2+P7GhBishdD7T
-	 VBCwPji2GhB1AIULsTADjNtpFeaEIm9gnk6f5uhYuDvZa2q1VW2BBlWxxagCb7jc/W
-	 bjNjvINyD8AFwiLK1bUBPv1qEbycLxyi/iy1eSvgKTaeLv0scXI+1mqbMwbxfrF2GE
-	 GB1caN+/OV3iA==
+	b=gHZ1a3lY6xmAElRtFXGIyYJ3uYWGUzxCd1lWY8xIXLmfg5tk4UzWEzWlz5wIZ2jVu
+	 rg6/Lk1Afwyyu85VAReg85zEuj621/ZOxjEU2rNK243hnTX8TUemJFuYPZZwK9b3wh
+	 gWBRscbilgpH3Y+Dv+L0aPxdVr4dI3jXBAb1vWyJOEQhiY075tOGcoPDEmWACvYZPt
+	 NZ6NzvXAtaTh0vFqUzS9U4llPSp8oklgfHN90XbyGTdsz7ng+l/L2E9eD+RGYLR3bt
+	 9f6tLamSFgS9UQ48pw+ZUHVDJd/0wdGaQyM/5n+XowSpdWji7hCLIWNTkscrVeuusn
+	 Ilt9wyWpmOPUg==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A8BDE41AA1;
-	Mon,  9 Jun 2025 21:00:54 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id A90AB41AA1;
+	Mon,  9 Jun 2025 21:12:47 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Brigham Campbell <me@brighamcampbell.com>, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas
- Piggin <npiggin@gmail.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Athira Rajeev <atrajeev@linux.ibm.com>,
- "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)"
- <linuxppc-dev@lists.ozlabs.org>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Cc: Brigham Campbell <me@brighamcampbell.com>, Randy Dunlap
- <rdunlap@infradead.org>
-Subject: Re: [PATCH v3] docs: powerpc: Add htm.rst to table of contents
-In-Reply-To: <20250528054146.2658537-2-me@brighamcampbell.com>
-References: <20250528054146.2658537-2-me@brighamcampbell.com>
-Date: Mon, 09 Jun 2025 15:00:53 -0600
-Message-ID: <87ldq0aauy.fsf@trenco.lwn.net>
+To: Hanne-Lotta =?utf-8?B?TcOkZW5ww6TDpA==?= <hannelotta@gmail.com>,
+ mchehab@kernel.org,
+ ribalda@chromium.org, hverkuil@xs4all.nl, sebastian.fricke@collabora.com,
+ hljunggr@cisco.com, dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
+ Jonathan.Cameron@huawei.com, ilpo.jarvinen@linux.intel.com,
+ mario.limonciello@amd.com, W_Armin@gmx.de, mpearson-lenovo@squebb.ca,
+ skhan@linuxfoundation.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, Hanne-Lotta =?utf-8?B?TcOkZW5ww6Q=?=
+ =?utf-8?B?w6Q=?=
+ <hannelotta@gmail.com>
+Subject: Re: [PATCH v2 3/4] docs: Improve grammar in Userspace API/fwctl
+In-Reply-To: <20250522115255.137450-3-hannelotta@gmail.com>
+References: <20250522115255.137450-1-hannelotta@gmail.com>
+ <20250522115255.137450-3-hannelotta@gmail.com>
+Date: Mon, 09 Jun 2025 15:12:46 -0600
+Message-ID: <878qm0aab5.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Brigham Campbell <me@brighamcampbell.com> writes:
+Hanne-Lotta M=C3=A4enp=C3=A4=C3=A4 <hannelotta@gmail.com> writes:
 
-> Fix the following documentation build error, which was introduced when
-> Documentation/arch/powerpc/htm.rst was added to the repository without
-> any reference to the document.
+> Fix typos and improve grammar in the documentation for
+> fwctl subsystem.
 >
-> Documentation/arch/powerpc/htm.rst: WARNING: document isn't included in any toctree [toc.not_included]
+> Use the word user space consistently, instead of having
+> two variants (user space vs. userspace).
 >
-> Fixes: ab1456c5aa7a ("powerpc/pseries/htmdump: Add documentation for H_HTM debugfs interface")
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+> Change wording of denied behaviour to be disallowed
+> behaviour when describing the interface.
+>
+> Signed-off-by: Hanne-Lotta M=C3=A4enp=C3=A4=C3=A4 <hannelotta@gmail.com>
 > ---
-> Changes in v3:
->  - Edit commit message to conform better to de facto kernel development style.
->  - No changes to the diff.
 >
->  Documentation/arch/powerpc/index.rst | 1 +
->  1 file changed, 1 insertion(+)
+> Notes:
+>     v1 -> v2: No changes
 >
-> diff --git a/Documentation/arch/powerpc/index.rst b/Documentation/arch/powerpc/index.rst
-> index 0560cbae5fa1..53fc9f89f3e4 100644
-> --- a/Documentation/arch/powerpc/index.rst
-> +++ b/Documentation/arch/powerpc/index.rst
-> @@ -19,6 +19,7 @@ powerpc
->      elf_hwcaps
->      elfnote
->      firmware-assisted-dump
-> +    htm
->      hvcs
+>  Documentation/userspace-api/fwctl/fwctl.rst | 30 ++++++++++-----------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
 
-Applied, thanks.
+I've applied this one.
+
+Thanks,
 
 jon
