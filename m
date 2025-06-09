@@ -1,93 +1,223 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2DC1D9A54;
-	Sun,  8 Jun 2025 10:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EDC1E5205
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  9 Jun 2025 09:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749378327; cv=none; b=UOV6Rv15B4Lo4Hw5zQFROafybD/ZIz0AePW0er2pj7+GYSbirhNP7JsTtKsC0SIEEAKoUyNPVIkEn6H1J+Y/+VZizow85uAIbWzHqNBXpPnnKoYlqqyUODMsOJJugAQK7LvW/l1pRFTb6vqweOC+MWec9pvjZf3GDtP9eA99QCc=
+	t=1749462319; cv=none; b=YidnyI5q2p3kvJFzSEu3dsoPDFdsbbeAvFiSMlXkGsgV8DzjEgwLvuq8Y+jSY1f2fFd7sJvgaVsPC+MnqwKtZvVP4GdTj7pyy59LxJtivdX8QJb32Pmttr9KF6zvVd9gc5BojP5RtkIAI6UfVroX12Jt9Lyn6ATCAWWIZxXmNs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749378327; c=relaxed/simple;
-	bh=EwWnuZDwL8CWjwC41WMTajpnEVqWFoYdtMhyQl1IhA8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jOr3V+Geze4LRlyrAlqO/VKI6T7j+XP1K4O/QMMewk5j88E3V5TpEvQmhEmrFkYBq+LnjcUUjka453thaPDSwrmoQeWX3uZ+j7wMTi4nHxCPHpZH3yVIiracpxgNT3dIsLe3/+n077in1mj7zF4qXE+ZvJgQAIyJpQ2lXUuPBUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ku73px7I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749462319; c=relaxed/simple;
+	bh=l46Zyr1FXkEf9lccwovEz6+KsHmtM94mUBKbR00UvZQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=glTZsM7TehKOxifEBH8sUOEYAvl4l40VZhuVF6UkTekdaYNEumfPnS7Lgf6IJL87dXtmSvvoRBJ/6opOslX7LB6R0yVDpIMAlz4oSoF5wVtkrDGyPafwoAvFpVEPcIl57k6pZ1TnQ2moIbM+oYnigu02/+8QIRrncqmOCpHPUYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1ua0A5fM; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nZ0UYLH9; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ku73px7I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01F0BC4CEEE;
-	Sun,  8 Jun 2025 10:25:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1749378326;
-	bh=EwWnuZDwL8CWjwC41WMTajpnEVqWFoYdtMhyQl1IhA8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ku73px7I20qXjVqAYUEMB7OvTYjVx6ex1FP0Y9tqhW21mEYL1NwTOnpX3Tkqim+4b
-	 BfyfKeOub/T3nv27BzHkLvc4eaoW8AhGQ9pfECAvRJ+pw2Lb9591zvqAxW5Rc7/anM
-	 M3zjX6TpzfEQ70ww/GA6xvHAkNYCXAEyj8iY3pCE=
-Date: Sun, 8 Jun 2025 12:25:23 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Cc: jirislaby@kernel.org, kees@kernel.org, skhan@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] tty: replace capable() with file_ns_capable()
-Message-ID: <2025060848-exact-sasquatch-a899@gregkh>
-References: <20250607134114.21899-1-pranav.tyagi03@gmail.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1ua0A5fM";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nZ0UYLH9"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1749462308;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cHhK1h06yFqbndpg69rvwB5MOqgYYultp+E4tjZSIOE=;
+	b=1ua0A5fMXOnF256xv++g+LuwW9CZFG89dq4TdikJ5Mdp3LJfZ4XV6Z7nZgag0gRbOE6DpY
+	Mxh6aMm8hvHFODjxy3tmvWsf8ZOi90jJ42xrBg6sMpRaumIaZHp8ez/kGGqqLwG2wVbjgI
+	xrcVywMI1UlCkhbth0r8Rtqm0h1d+dJ1ODUC57pnFi9DTM7yEy8ULKN8ThheSCvTrR1KFH
+	a/+s5Ynmyz3OvqxzB7y8/AQQM3lwYGE2/dYR2P75L3NKyLG6h6ZOghIZ6NDeM1Qhu0qxj9
+	eKqLXrITsHGTiojr5WDwTPqfgW7xhlZiExMRPUSQIVhMkG2Oo+xTQp00ZG1QAg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1749462308;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cHhK1h06yFqbndpg69rvwB5MOqgYYultp+E4tjZSIOE=;
+	b=nZ0UYLH9SsYLGUo9qRruAomGW91gyHnvfl3ua5dGYe0/bJavJfBoIuI66dmNb6/i4Q96rA
+	kMMdQ7fP+oNWEvDg==
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>,
+ Davidlohr Bueso <dave@stgolabs.net>, =?utf-8?Q?Andr=C3=A9?= Almeida
+ <andrealmeid@igalia.com>, linux-kernel@vger.kernel.org
+Cc: jann@thejh.net, keescook@chromium.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, Pranav Tyagi
+ <pranav.tyagi03@gmail.com>
+Subject: Re: [PATCH] futex: don't leak robust_list pointer on exec race
+In-Reply-To: <20250607064444.4310-1-pranav.tyagi03@gmail.com>
+References: <20250607064444.4310-1-pranav.tyagi03@gmail.com>
+Date: Mon, 09 Jun 2025 11:45:07 +0200
+Message-ID: <87cybdp7to.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250607134114.21899-1-pranav.tyagi03@gmail.com>
+Content-Type: text/plain
 
-On Sat, Jun 07, 2025 at 07:11:14PM +0530, Pranav Tyagi wrote:
-> The TIOCCONS ioctl currently uses capable(CAP_SYS_ADMIN) to check for
-> privileges, which validates the current task's credentials. Since this
-> ioctl acts on an open file descriptor, the check should instead use the
-> file opener's credentials.
-> 
-> Replace capable() with file_ns_capable() to ensure the capability is
-> checked against file->f_cred in the correct user namespace. This
-> prevents unintended privilege escalation and aligns with best practices
-> for secure ioctl implementations.
-> 
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> Link: https://github.com/KSPP/linux/issues/156
-> ---
->  drivers/tty/tty_io.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
-> index e2d92cf70eb7..ee0df35d65c3 100644
-> --- a/drivers/tty/tty_io.c
-> +++ b/drivers/tty/tty_io.c
-> @@ -102,6 +102,9 @@
->  #include <linux/uaccess.h>
->  #include <linux/termios_internal.h>
->  #include <linux/fs.h>
-> +#include <linux/cred.h>
-> +#include <linux/user_namespace.h>
-> +#include <linux/capability.h>
+On Sat, Jun 07 2025 at 12:14, Pranav Tyagi wrote:
+> Previously, the get_robust_list() and compat_get_robust_list() syscalls
+> used rcu_read_lock() to access the target task's robust list pointer.
+
+This is not previously. It's how the code is right now and you want to
+describe the status as is.
+
+> However, rcu_read_lock() is not sufficient when the operation may sleep
+> (e.g., locking or user-spaces access), nor does it prevent the task from
+> exiting while the syscall is in progress.
+
+1) There is no sleeping operation in this code path.
+
+2) Of course it does not prevent the task from exiting, it only prevents
+   the task struct from being freed. But what's the actual problem with
+   that?
+
+   task->robust_list contains the tasks robust list pointer even after
+   the task exited. 
+
+> This patch replaces rcu_read_lock() with
+
+git grep 'This patch' Documentation/process/
+
+> get_task_struct()/put_task_struct() to ensure the task is pinned during
+> syscall execution prevent use-after-free.
+
+Which use after free? You fail to explain the actual problem in the
+first place and then you describe a solution for the non explained
+problem.
+
+> Additionally, the robust_list pointer can be modified during exec()
+> causing a race condition if accessed concurrently.
+
+Sure, but what is the effect of that race condition?
+
+begin_new_exec() -> exec_mmap() -> exec_mm_release() ->
+futex_exec_release()
+
+The latter sets task::robust_list to NULL. So this either sees the real
+pointer or NULL. The actual problem is?
+
+A similar concurrency race exists between sys_get_robust_list() and
+sys_set_robust_list(), no?
+
+> ... To fix this we
+
+We do nothing. See
+
+https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#changelog
+
+> introduce down_read_killable(&exec_update_lock), a read lock on a
+> rw_semaphore protecting signal_struct members that change during exec.
+
+> This read-write semaphore allows multiple concurrent readers of
+> robust_list, while exec() takes the write lock to modify it, ensuring
+> synchronization.
+
+Synchronization of what?
+
+> This prevents an attacker from determining the robust_list or
+> compat_robust_list userspace pointer of a process created by executing
+> a setuid binary. Such an attack could be performed by racing
+> get_robust_list() with setuid execution. The impact of this issue is that
+> the attacker could theoretically bypass ASLR when attacking setuid
+> binaries.
+
+It can theoretically bypass ASLR. That's impressive given the fact that
+there are a gazillion ways to do so.
+
+Now let me ask the obvious question. How is the new code so much more
+protective?
+
+T1                                      T2
+
+                                        exit();
+sys_get_robust_list(T2)
+   lock();
+   					lock();
+   head = T2->robust_list;
+   unlock();                            
+   copy_to_user(head);                  // T2 mops up
+   ....
+   return_to_user();
+
+T1 has the pointer, which is not longer valid. So what is this magic
+serialization actually preventing?
+
+Surely not the fact that the robust list pointer of T2 can be invalid
+immediately after T1 retrieved it.
+
+> Overall, this patch fixes a use-after-free and race condition by
+> properly pinning the task and synchronizing access to robust_list,
+> improving syscall safety and security.
+
+By handwaving....
+
+The real issue what Jann's original series is trying to address is that
+the ptrace_may_access() check is racy against a concurrent exec(). But
+that's nowhere mentionened in the above word salad.
+
+That said, I'm not opposed against the change per se, but it needs to
+come with a proper explanation of the actual problem and a description
+of the real world relevance of the issue in the existing code.
+
+Let me look at the code.
+
+> diff --git a/kernel/futex/syscalls.c b/kernel/futex/syscalls.c
+> index 4b6da9116aa6..27e44a304271 100644
+> --- a/kernel/futex/syscalls.c
+> +++ b/kernel/futex/syscalls.c
+> @@ -53,31 +53,43 @@ SYSCALL_DEFINE3(get_robust_list, int, pid,
+>  	unsigned long ret;
+>  	struct task_struct *p;
 >  
->  #include <linux/kbd_kern.h>
->  #include <linux/vt_kern.h>
-> @@ -2379,7 +2382,7 @@ static int tiocswinsz(struct tty_struct *tty, struct winsize __user *arg)
->   */
->  static int tioccons(struct file *file)
->  {
-> -	if (!capable(CAP_SYS_ADMIN))
-> +	if (!file_ns_capable(file, file->f_cred->user_ns, CAP_SYS_ADMIN))
+> -	rcu_read_lock();
+> -
+> -	ret = -ESRCH;
+> -	if (!pid)
+> +	if (!pid) {
+>  		p = current;
+> -	else {
+> +		get_task_struct(p);
+> +	} else {
+> +		rcu_read_lock();
+>  		p = find_task_by_vpid(pid);
+> +		/* pin the task to permit dropping the RCU read lock before
 
-As you now are affecting the user/kernel api here, how was this tested
-and are you _SURE_ this is the correct thing to be doing?  Did you audit
-all userspace users of this ioctl that you can find (i.e. a Debian code
-search) to verify that they can handle this change in behaviour?
+This is not networking code. So please use proper comment style:
 
-I need a lot of assurances before being able to take a change like this,
-for obvious reasons.
+https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#comment-style
 
-thanks,
+> +		 * acquiring the semaphore
+> +		 */
+> +		if (p)
+> +			get_task_struct(p);
+> +		rcu_read_unlock();
+>  		if (!p)
+> -			goto err_unlock;
+> +			return -ESRCH;
+>  	}
+>  
+> +	ret = down_read_killable(&p->signal->exec_update_lock);
 
-greg k-h
+Lacks a comment explaining what this is actually protecting.
+
+>  	if (put_user(sizeof(*head), len_ptr))
+>  		return -EFAULT;
+>  	return put_user(ptr_to_compat(head), head_ptr);
+>  
+>  err_unlock:
+> -	rcu_read_unlock();
+> -
+> +	up_read(&p->signal->exec_update_lock);
+> +err_put:
+> +	put_task_struct(p);
+>  	return ret;
+
+You really did not have a better idea than copying all of that logic
+into the compat code?
+
+Thanks,
+
+        tglx
