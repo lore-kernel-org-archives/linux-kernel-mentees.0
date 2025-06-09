@@ -1,175 +1,125 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BA624C09E
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  9 Jun 2025 11:25:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79561624CE;
+	Mon,  9 Jun 2025 16:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749468321; cv=none; b=f7d+tQpoopttRYmkMCK2+ljeO+yiRkivcepoQqFp28djvvin2CLIAzbjFixbQseP++R6eCV57JlRofO+FuYSP2HfXDC/qCWK/NMgyCFsKYnKb9DCyi8kfBfUKbcYa9C/vglIvB+8I/CCRKHHt4fct6FLGnLVySNHm52nSGDqkXs=
+	t=1749488295; cv=none; b=O4SHXWk/MMCn+T08zGbgSCyNpjiymia6U16wY2hN+tz6wCIgyHQ8VZq3SV38u2nSjjaigsnDIrrnfg90U6LlUcyEPRx4kGOV5nvvz9xcTB94OhgZCWMsrDEgVB0PGng03anRPpvstqkgzy80RlOgN4zc3jYqWEo2XC2JGEQ/D6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749468321; c=relaxed/simple;
-	bh=PAtdEJ9v9jfzk9L7TyadJUNVA2PMKdNcs1u9d3LhNWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DYeVxrh0DXLinkYx8tyMycgjBSf4V2Ckr/UM84tfqw3d4IOABXG/zwU2YipXY2d32FsaFKC5CLvfDa/T4/52Hsw68kRoIxar1ymQ2qFB7MVMMS2cMoxC3yayRLoyJR1GD2+PyQZlMWiq9x+KpbKTlBunzuImdtga4eYAUiNqiqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=SHBQQjq0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=VoLZ4iyh; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=SHBQQjq0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=VoLZ4iyh; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1749488295; c=relaxed/simple;
+	bh=dvLQWopZLx4yj+2d43xvqT4CLcTXZhfOrVd200EwOGY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MvgnSjyrG8KOArWf14TF2zHi6lhYYFBLZ8zLb0Q6fFJ286anxrRkpN6ZpI7EUp2B2lP0wxeRKpEBGEgc6B/wDZ6RgeWN4fidxwF9TX8XiNphPapxTpsF/O3NJDzXT0eKU7tnpC67Ov9J/Cq1CVCtrFYf7ujY99Vcpsk2iLsqB2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UkLViPEH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="SHBQQjq0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="VoLZ4iyh";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="SHBQQjq0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="VoLZ4iyh"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 021A721182;
-	Mon,  9 Jun 2025 11:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1749468318; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hsBQltkCVe5D2i0wiUV1DVAyAaiF31Q0/ZQK/fFHigE=;
-	b=SHBQQjq0Xd/pKI4LTO6+4uuqxy4pMrq1JxxfGlhBzcvE4WlBFlkUpz+WXuv/fNE8MC4Zku
-	+UrT1+04+4HLjSijs028c/igQ398jYXydf78Wl1KHKXZj8NPTr0O/MUhQd604jIBvO7SZG
-	E4eh2S34IKKWGEZo8IiB0rCDTzKaBPc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1749468318;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hsBQltkCVe5D2i0wiUV1DVAyAaiF31Q0/ZQK/fFHigE=;
-	b=VoLZ4iyh6N6pIX+VgRHdtXvf+a08nglTf6SQ4S11geiXHgyExZKl9DAr/gcMkvklvh8Fov
-	twVHak2Trn6e1dCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=SHBQQjq0;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=VoLZ4iyh
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1749468318; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hsBQltkCVe5D2i0wiUV1DVAyAaiF31Q0/ZQK/fFHigE=;
-	b=SHBQQjq0Xd/pKI4LTO6+4uuqxy4pMrq1JxxfGlhBzcvE4WlBFlkUpz+WXuv/fNE8MC4Zku
-	+UrT1+04+4HLjSijs028c/igQ398jYXydf78Wl1KHKXZj8NPTr0O/MUhQd604jIBvO7SZG
-	E4eh2S34IKKWGEZo8IiB0rCDTzKaBPc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1749468318;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hsBQltkCVe5D2i0wiUV1DVAyAaiF31Q0/ZQK/fFHigE=;
-	b=VoLZ4iyh6N6pIX+VgRHdtXvf+a08nglTf6SQ4S11geiXHgyExZKl9DAr/gcMkvklvh8Fov
-	twVHak2Trn6e1dCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E79A0137FE;
-	Mon,  9 Jun 2025 11:25:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5pY5OJ3ERmg0OwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 09 Jun 2025 11:25:17 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id A046DA094C; Mon,  9 Jun 2025 13:25:17 +0200 (CEST)
-Date: Mon, 9 Jun 2025 13:25:17 +0200
-From: Jan Kara <jack@suse.cz>
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	kees@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] binfmt_elf: use check_mul_overflow() for size calc
-Message-ID: <j7qo6dmmx2hu34453zfdp6rjrtlsyckjilm6qufe2qyj4dc6ei@su6omrup5rli>
-References: <20250607082844.8779-1-pranav.tyagi03@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UkLViPEH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2318CC4CEEB;
+	Mon,  9 Jun 2025 16:58:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749488294;
+	bh=dvLQWopZLx4yj+2d43xvqT4CLcTXZhfOrVd200EwOGY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=UkLViPEHbn3F+IUOZEjdRwjyj+Ni9YwaR7c3OItVzyezQmyzLmoMCln9HtkM2jTHy
+	 LP78Bx8p+X7NzjLH088lwzJZEXn1nccftTSnO04m6ARfzurh5qwwx7C5ypEhkXXE1B
+	 doFZOf/0Gmg0osVdM05bH4Oia2AtBm2FhI6H1xWX4oZ2tEMECqtTYIQalbz7Kx6xCW
+	 PLIPhifbAP/Alkx8x315u3hPbgWvkmVAZzH58+N55cmhe/qvJC//f5p3/Wi4zGfjsM
+	 WkDRIJCeJ48OtNgpCmGLxSurce6v8+11StjlfFWkAjchILi0UmcIDO5Hf2CA15O1lJ
+	 KrJoSCxaktJOQ==
+Message-ID: <447f265b-c7e2-49df-bd1a-76292e92cb0a@kernel.org>
+Date: Mon, 9 Jun 2025 10:58:13 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250607082844.8779-1-pranav.tyagi03@gmail.com>
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 021A721182
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:email];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	TO_DN_SOME(0.00)[]
-X-Spam-Score: -2.51
-X-Spam-Level: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] selftests: ir_decoder: Convert header comment to
+ proper multi-line block
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>,
+ skhan@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <65743e71-fc2c-4a04-b7f1-b977031a4fb8@linuxfoundation.org>
+ <20250606223914.117449-1-abdelrahmanfekry375@gmail.com>
+Content-Language: en-US
+From: Shuah <shuah@kernel.org>
+In-Reply-To: <20250606223914.117449-1-abdelrahmanfekry375@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat 07-06-25 13:58:44, Pranav Tyagi wrote:
-> Use check_mul_overflow() to safely compute the total size of ELF program
-> headers instead of relying on direct multiplication.
+On 6/6/25 16:39, Abdelrahman Fekry wrote:
+> So, this is an updated version following
+> the right way of writing change logs while
+> making sure the signed-off-by mismatch is fixed.
+
+The above doesn't belong in the change log
+
 > 
-> Directly multiplying sizeof(struct elf_phdr) with e_phnum risks integer
-> overflow, especially on 32-bit systems or with malformed ELF binaries
-> crafted to trigger wrap-around. If an overflow occurs, kmalloc() could
-> allocate insufficient memory, potentially leading to out-of-bound
-> accesses, memory corruption or security vulnerabilities.
+> The test file for the IR decoder used single-line comments
+> at the top to document its purpose and licensing,
+> which is inconsistent with the style used throughout the
+> Linux kernel.
 > 
-> Using check_mul_overflow() ensures the multiplication is performed
-> safely and detects overflows before memory allocation. This change makes
-> the function more robust when handling untrusted or corrupted binaries.
+> In this patch i converted the file header to
+> a proper multi-line comment block
+> (/*) that aligns with standard kernel practices.
+> This improves readability, consistency across selftests,
+> and ensures the license and documentation are
+> clearly visible in a familiar format.
+
+Refer to the submitting patches document for details on imperative
+mood.
+
 > 
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> Link: https://github.com/KSPP/linux/issues/92
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
+> No functional changes have been made.
+> 
+> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
 > ---
->  fs/binfmt_elf.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> Changes in v2:
+> - Fixed multiple trailing whitespace errors
+> - Fixed Signed-off-by mismatch
+> - Appropriate change log
+>   tools/testing/selftests/ir/ir_loopback.c | 23 +++++++++++++----------
+>   1 file changed, 13 insertions(+), 10 deletions(-)
 > 
-> diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-> index a43363d593e5..774e705798b8 100644
-> --- a/fs/binfmt_elf.c
-> +++ b/fs/binfmt_elf.c
-> @@ -518,7 +518,10 @@ static struct elf_phdr *load_elf_phdrs(const struct elfhdr *elf_ex,
->  
->  	/* Sanity check the number of program headers... */
->  	/* ...and their total size. */
-> -	size = sizeof(struct elf_phdr) * elf_ex->e_phnum;
-> +	
-> +	if (check_mul_overflow(sizeof(struct elf_phdr), elf_ex->e_phnum, &size))
-> +		goto out;
-> +
->  	if (size == 0 || size > 65536 || size > ELF_MIN_ALIGN)
->  		goto out;
->  
-> -- 
-> 2.49.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> diff --git a/tools/testing/selftests/ir/ir_loopback.c b/tools/testing/selftests/ir/ir_loopback.c
+> index f4a15cbdd5ea..c94faa975630 100644
+> --- a/tools/testing/selftests/ir/ir_loopback.c
+> +++ b/tools/testing/selftests/ir/ir_loopback.c
+> @@ -1,14 +1,17 @@
+>   // SPDX-License-Identifier: GPL-2.0
+> -// test ir decoder
+> -//
+> -// Copyright (C) 2018 Sean Young <sean@mess.org>
+> -
+> -// When sending LIRC_MODE_SCANCODE, the IR will be encoded. rc-loopback
+> -// will send this IR to the receiver side, where we try to read the decoded
+> -// IR. Decoding happens in a separate kernel thread, so we will need to
+> -// wait until that is scheduled, hence we use poll to check for read
+> -// readiness.
+> -
+> +/* Copyright (C) 2018 Sean Young <sean@mess.org>
+> + *
+> + * Selftest for IR decoder
+> + *
+> + *
+> + * When sending LIRC_MODE_SCANCODE, the IR will be encoded.
+> + * rc-loopback will send this IR to the receiver side,
+> + * where we try to read the decoded IR.
+> + * Decoding happens in a separate kernel thread,
+> + * so we will need to wait until that is scheduled,
+> + * hence we use poll to check for read
+> + * readiness.
+> + */
+>   #include <linux/lirc.h>
+>   #include <errno.h>
+>   #include <stdio.h>
+
+
+I don't think this patch is necessary. We have files that use // style
+comments. How did you find this issue.
+
+thanks,
+-- Shuah
