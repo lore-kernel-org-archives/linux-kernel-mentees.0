@@ -1,151 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8349A184F;
-	Tue, 10 Jun 2025 04:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033D725E478
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 10 Jun 2025 06:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749528279; cv=none; b=thFCFOyVXFBce0lhLYNDW+WsnCCNzqtzS8ME0Pw01P2rBKiI4w2dqFD+DIFzBQWF75aFsphbgjbO4fcOVH1i5HJ397ZowYD8a7h0OyFR+VvMOIt3kI0RbXZ4a7h8iRHEetc4k4oKB3hL+duoo1g9sSISpdorJNmaLrgv7yWnM9Y=
+	t=1749536882; cv=none; b=hlGEAbMhYUGEoGDZ/YrrjRfi7xCTEZiOTknUXwcNp44PlUiSAccuodsdC+/tLR3ZGgKLSz4zsujj70G5g+CmIYKhgU80RgfC361U8tHTMZF2UDQtqbsbFXrXDRxVaCD4XOXFdtjgJKBFWq1hQNJlhCSSML7z4mNac053dvFkADQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749528279; c=relaxed/simple;
-	bh=aVnJbC3z4nwrmfypL0Oi6Gf1QoMq9GB7sy1Q0NerLR8=;
+	s=arc-20240116; t=1749536882; c=relaxed/simple;
+	bh=3RySZmq6aFNeYlomSwoo4Yh12T77gmiZ464JOIGhQJg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XceUegN4JjqY+i2TvS/8HK23MZPCxmjr+L5QKFBrYXJlp+RJILQxrizOcCYHNpWFyY2qc1e6BeYRVm+sIi0A4F7GgeUNNJqHsPfxp6PA8Q0lgsfjQ8lVVN2wm6ePkehRuy90NKdFE2dWi/+8kRTCrQzb6kprokfT/ktZHFl8qqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wq0ePe08; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=aNbEr8SurACAnS2qEAOLuOErhRjjMBtQjca+wZCLXX6tit5kwESv7iN09XZVG5PrauSTkjtkjuKGb0mV+fxZVAYVE53tDVLIPcEiG338LG1L0DucRrQ1pGEJIppLRtTCwG7fUTc6/Vk09+lEVLVMKDZhd1wOvCDT9dLwGwDTy9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YlksF7+O; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wq0ePe08"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 002EEC4CEEF;
-	Tue, 10 Jun 2025 04:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749528277;
-	bh=aVnJbC3z4nwrmfypL0Oi6Gf1QoMq9GB7sy1Q0NerLR8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wq0ePe08BqT+ES0gpcmY92ykXFtKKa+HuUt26Kfn0ERlyV9OUGnJ2OQwKuqgxwF91
-	 svtoihBgrR41xsCAkR6Dvec7dFKveCKHQN7PLYbhSFYXwu5DVXvnyjBU+8QlUJaOwP
-	 YIdeFa5fUJe6aYmS1+i3bHM4TwB14sbrJj4fhZ6oKvjIleGvkgQW5ExV2OcncGpAMw
-	 5rqkgEvOYu2joguoZgODKd85X3+DZmMQ8r3GtVopJ4zK5H46iOSqambHDDZFkPHl8s
-	 IrPDeI4ygHtfTmEflaXVkKxDvnAJe6DnSDAH0KxNNnJwKoiSMy65z73dBQu5GtSO08
-	 W2jLe8TPrOReg==
-Date: Mon, 9 Jun 2025 21:04:36 -0700
-From: Kees Cook <kees@kernel.org>
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] binfmt_elf: use check_mul_overflow() for size calc
-Message-ID: <202506092053.827AD89DC5@keescook>
-References: <20250607082844.8779-1-pranav.tyagi03@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YlksF7+O"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-745fe311741so5601321b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 09 Jun 2025 23:27:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749536879; x=1750141679; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QSUw9NQ3m9yaoFUqCLQXfy1ZhQ4O+VqBpSj2IkfjqDU=;
+        b=YlksF7+OWzJjaVRawr28XfWgp4ay8kEavkpv/DO5HC5HcXI7t5Q/RujjtvoxLrQmcg
+         aQS4xDxmRziarMDVn4B2pk02tXUSZh3r8ngtglrrwf1RdF+GqfJ+FZMpUaZMPJvzqWL3
+         /qXYV5uPd6Ki/7B+GmQ4a2IhrNBEBjOkC62ebv+5Pcyc+TlDMUSP5HtgecuDrZz418Yy
+         /L9Pyh2mhaP2ebsr3ksmtF64EWtWuJVzVDBfDz37Gct0EPY+JQnyzg4flgG+X4DNwD4V
+         sX97+iowPQRrkyJ9RVv6CjNgC4AxAq3Abq8w9UOBoamK4+EpIs96Egd00sPkaScIfX3F
+         4VXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749536879; x=1750141679;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QSUw9NQ3m9yaoFUqCLQXfy1ZhQ4O+VqBpSj2IkfjqDU=;
+        b=QGEntPm4PhZGCgmtCqG0uJx3H/ksBOEkC5CWaMnGKhDN+WJ6TVT4qxvYL66CPAYHXh
+         e22bU2P+1q2nzT0Up41Lu1RhqWCx+/r3Prx/oklRm+DZx2z1IV98VdPFqIiZive1R3gK
+         9LfFkxiVj0yGr8+cvOMS2LQ2ztrqjHH4fQICUYMXKv0jXWNmuhT5WrA3lIhySpctoIgb
+         0sBmtI29wUPylUsWMQTKdO7sptcwk+8gatkbLNrGoUQaBCpTz7hToJyZIVxPgBuYn3RD
+         P4Y7xJKlBvPxKFwswAyByOxltYXWMxYTybeIUkLbOcT/q3O5DyVJHMMXaVasqy0fdm64
+         Xuzw==
+X-Forwarded-Encrypted: i=1; AJvYcCWiWmT9PR5E2l7QVsLa5gjM63G9Gpwv4kRGKy6OBJUK2nZnIFyAlhf4x98ZFG2yG9i+bweHKHVV+CXS0Tu+wscEsVVDGQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywm1xbGHAOHywW7esvNq02mMkyav/L6PVmUF17FupYJtmzY9PwB
+	PZku3Uh5bI4TisXo7czJl3VfhzCcx6El5guERyjiRfWQADv3nzP++Ur0
+X-Gm-Gg: ASbGncs0b/wS1XPD2XvMAeoyG8zRkIfNl+kHLuXs/C5oYUM4DAyGU1gHvVEkUaEXimV
+	6V/CNnLG1Gb9H2z80PtMfwTEpNHZ7QoVSyf4BkEyPDqAYQI9GYr987BJcLcnKFeBKVW5IU3RebP
+	Ivko5vwA8MH2LW6SUzBAPCexf+P/8fpc7iiHtPDERKEIXSewAZrD2YF0hFmBvbsU/jZfsAbpz08
+	A/tKh/vLaPw1VqjC9DZXVHd1kO9qtqhrc5Es3WR4dJKyI6kvk4Oayu/L8vRQrow5L4ijDyflu2w
+	7cySie8YxlYK3q63vKUBogA0AAWzfAtRet/6ois2gYhtxyww19cfxQ2iZ45NKE3LlkeNG0lf/eA
+	TR08hV3dQlim0xA==
+X-Google-Smtp-Source: AGHT+IGjpd5+nTkCN6vJhxOxRFSA253lWZbpZIbQsFwQfvVoj7VZCSp9o7UK71MHIR/U2kEbcPexrA==
+X-Received: by 2002:a05:6a00:c8a:b0:736:6043:69f9 with SMTP id d2e1a72fcca58-748618bdb31mr2172258b3a.19.1749536879296;
+        Mon, 09 Jun 2025 23:27:59 -0700 (PDT)
+Received: from vaxr-BM6660-BM6360 ([2001:288:7001:2703:92fa:651f:9075:3817])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b0e8163sm6988042b3a.145.2025.06.09.23.27.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jun 2025 23:27:58 -0700 (PDT)
+Date: Tue, 10 Jun 2025 14:27:54 +0800
+From: I Hsin Cheng <richard120310@gmail.com>
+To: John Stultz <jstultz@google.com>
+Cc: sboyd@kernel.org, tglx@linutronix.de, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+	jserv@ccns.ncku.edu.tw
+Subject: Re: [RFC PATCH] clocksource: Enhancement for clocks_calc_mult_shift()
+Message-ID: <aEfQauoqhEs2DkiG@vaxr-BM6660-BM6360>
+References: <20250609194611.690678-1-richard120310@gmail.com>
+ <CANDhNCrVtK9Tv+d1=z1yrh4OxiS+neENQejD5pCi+R=Cwra9Xg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250607082844.8779-1-pranav.tyagi03@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANDhNCrVtK9Tv+d1=z1yrh4OxiS+neENQejD5pCi+R=Cwra9Xg@mail.gmail.com>
 
-On Sat, Jun 07, 2025 at 01:58:44PM +0530, Pranav Tyagi wrote:
-> Use check_mul_overflow() to safely compute the total size of ELF program
-> headers instead of relying on direct multiplication.
+On Mon, Jun 09, 2025 at 05:32:05PM -0700, John Stultz wrote:
+> Thanks so much for sending this optimization in! It looks promising,
+> but a few comments below:
 > 
-> Directly multiplying sizeof(struct elf_phdr) with e_phnum risks integer
-> overflow, especially on 32-bit systems or with malformed ELF binaries
-> crafted to trigger wrap-around. If an overflow occurs, kmalloc() could
-> allocate insufficient memory, potentially leading to out-of-bound
-> accesses, memory corruption or security vulnerabilities.
+> On Mon, Jun 9, 2025 at 12:46 PM I Hsin Cheng <richard120310@gmail.com> wrote:
+> >
+> > Previously, counting the value of "sftacc" within
+> > "clocks_calc_mult_shift()" use a while loop to determine the amount of
+> > decrement operation for "sftacc".
 > 
-> Using check_mul_overflow() ensures the multiplication is performed
-> safely and detects overflows before memory allocation. This change makes
-> the function more robust when handling untrusted or corrupted binaries.
+> This is just a direct translation of the code into english, without
+> any context or explanation as to *why* the code is doing what it is
+> doing.
 > 
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> Link: https://github.com/KSPP/linux/issues/92
-> ---
->  fs/binfmt_elf.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> It might be better to explain first *why* the calculation is being
+> done, and then get into the limitations of the current implementation.
+>
+
+Sure thing, I'll change this part.
+
+> > It's equivalent to the position of MSB of "tmp", for which we can
+> > derive from (32 - __builtin_clz(tmp)). Use 32 instead of 31 here because
+> > 1UL should be treat as an amount of 1, not the index 0, and even though
+> > "tmp" is of type u64, since it's already shifted right by 32, only the
+> > lowest 32 bits will be possible to have non-zero value.
 > 
-> diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-> index a43363d593e5..774e705798b8 100644
-> --- a/fs/binfmt_elf.c
-> +++ b/fs/binfmt_elf.c
-> @@ -518,7 +518,10 @@ static struct elf_phdr *load_elf_phdrs(const struct elfhdr *elf_ex,
->  
->  	/* Sanity check the number of program headers... */
->  	/* ...and their total size. */
-> -	size = sizeof(struct elf_phdr) * elf_ex->e_phnum;
+> I was having a bit of a hard time parsing this paragraph, so it
+> probably needs some more work.
+> 
+> On first skim, this also was a bit confusing as __builtin_clz(u64)
+> *seems* like it could return greater than 32 (but that would be
+> __builtin_clzll).  So the (32 - clz(u64)) bit might confuse folks, as
+> It's pretty subtle that __builtin_clz() only works on the bottom
+> 32bits.  The code should definitely get clear a comment on this.
+> 
+> And thinking more, would using ffs() be more straightforward here for
+> what is wanted?
+> 
 
-size is unsigned int, which has a maximum value of 4,294,967,295.
+This is a nice head up, thanks so much ! I'll switch to ffs() and see
+how it goes.
 
-elf_ex->e_phnum is a u16 (2 bytes) and will not be changing:
+> > This change is tested against a test script [1].
+> > Result shown that it can save a significant amount of execution overhead
+> > for this function, which is invoked often, the whole system would likely
+> > benefit from it.
+> >
+> > -----------------------------
+> > | old version | new version |
+> > -----------------------------
+> > |  11500.6 ns |       44 ns |
+> > -----------------------------
+> >
+> > The execution time is reduced around 99.7%
+> 
+> That is impressive, but should probably be contextualized around how
+> often one might expect clocks_calc_mult_shift() to be called.
+> It still looks like a good optimization, but we shouldn't over-sell it
+> unless there's a concrete impact to users.
+> 
 
-$ pahole -C elf64_hdr */fs/binfmt_elf.o
-struct elf64_hdr {
-	...
-        Elf64_Half                 e_phnum;              /*    56     2 */
-	...
-$ pahole -C Elf64_Half */fs/binfmt_elf.o
-typedef __u16 Elf64_Half;
+No problem, I'll try to use bpf or some debug prints approach to test
+the invoked frequency of this function, what do you think ? maybe
+there're better and more elegant approach to do such profiling ?
 
-So it has a maximum value of 65,535.
+Btw I ran each test for 10 times and take the average of them, I should
+amend this in the commit message.
 
-sizeof(struct elf_phdr) is a fixed value, 56:
+> Thanks again for sending this along! I'd just take another pass at the
+> commit message and the comments and see if this can be made easier to
+> understand when someone 5 years from now is looking at the code.
+> 
+> thanks
+> -john
 
-$ pahole -C elf64_phdr */fs/binfmt_elf.o
-struct elf64_phdr {
-	...
-        /* size: 56, cachelines: 1, members: 8 */
-        /* last cacheline: 56 bytes */
-};
+Hi John,
 
-So the maximum product of the two is 3,669,960.
+Thanks for your review and these suggestions !
+I'll refine the commit message and do more test ( e.g. use ffs() ) to
+see if it can be better, I agree the commit message might be too
+confusing, I'll work on that more, thanks for your time!
 
-It is not possible for this calculation to overflow.
-
-> +	
-> +	if (check_mul_overflow(sizeof(struct elf_phdr), elf_ex->e_phnum, &size))
-> +		goto out;
-> +
-
-You can even see that the entire check would be elided by the compiler:
-
-#include <elf.h>
-
-unsigned int unchecked(Elf64_Ehdr *elf_ex)
-{
-    unsigned int size;
-
-    size = sizeof(Elf64_Phdr) * elf_ex->e_phnum;
-
-    return size;
-}
-
-unsigned int checked(Elf64_Ehdr *elf_ex)
-{
-    unsigned int size;
-
-    if (__builtin_mul_overflow(sizeof(Elf64_Phdr), elf_ex->e_phnum, &size))
-        return 0;
-
-    return size;
-}
-
-...produces this assembler, identical for both functions:
-
-unchecked:
-        movzx   eax, WORD PTR [rdi+56]
-        imul    eax, eax, 56
-        ret
-checked:
-        movzx   eax, WORD PTR [rdi+56]
-        imul    eax, eax, 56
-        ret
+Best regards,
+I Hsin Cheng
 
 
-https://godbolt.org/z/hTEef8cT9
-
--Kees
-
--- 
-Kees Cook
