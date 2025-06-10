@@ -1,107 +1,96 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C192441A0
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 10 Jun 2025 17:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7B817597
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 10 Jun 2025 17:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749576837; cv=none; b=sRv+iv/gD8KkGU2MXTk16jjvw7gJyxGCVRjdCe4dkL7enZ4irwNd92ASmg8s1PEzzZHhZB1gM4q2DIxYBiXGK+leGguAPKXRu7inEgMh/cVCFkU9U7tfr0Kj+SuvSVNaFXQ1PNzRCPK5hIx9vcLFVt05rapO8HsPaF2NXg2yl3w=
+	t=1749577301; cv=none; b=AgGZqGAfmhmVOCpXZkes1dAvoqNgTzBT6+GArXFLu+c2V9Ymy95acP8Udk3WPw6s/93N7NMzCAWyzXU24cZ2TzwQ2VSL7R2V/DV/LmbSmEHK9npSa4QB2K6ozvaIl/x3HUtgjVAUETYTC/8Scv9XnBijecQllv5+mEDld6RYaxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749576837; c=relaxed/simple;
-	bh=0CPTphKhrUBOZPlZ9pKlo5NWj8DVPWh9CCrT/9TEVXE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tpFBDg1xBwifnYPBgfZkF00yCx1m44mHLyvjxbzNbu/rZjlIYD0QYjpmKUItgh/TJQGJJ1RKEBLkfH4CPVzqHXCKIyC0DtwpGxofu6vY2DJPOpFp3Ab/wR+lZfGXBDOb22B2dom5vbiXjr2zQCu1wxJaxcxLBtDJIxlfzby2XMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BI/QmqsU; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749577301; c=relaxed/simple;
+	bh=Ognpew/E4byiPajspQy8PqqmvFMzBgvNmXyz1wCBkUY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WV5wQk+hB92Agjhl6prWcT0L0cbLgJvjcARuabnSpoVNWFfsbC3sbKY16GRs9/5ahsxjIUmj744zdIEEm+0W/BAcvGDGVgVIEudcvONZJyMWsB0tvds6PBeEfH4atNRHhtIROqZPUVsgSsAftRCVYl/b/p3wadpXFC2NWOFYHS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jZtgyZWa; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BI/QmqsU"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-234b9dfb842so51575475ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 10 Jun 2025 10:33:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749576835; x=1750181635; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xJ4a1Zth++0ZqMvctA3wgDOhGEIMr6HHOHD5mEZCyYA=;
-        b=BI/QmqsUlM8Qpe8WeJRx60pUIjXxh176+a8FO9pZCJWpOrcmGhawTvP/LY7mZMMhqm
-         115f3mnsWzLCKPda/oqpdOXiNhB/RF8pald6A8eu6tmiw16rFVqH7WAUF1yU31wiBStV
-         54JfO5K3xRsXGhSgRN9NQtA1arNlY5YkYU5SDG3DF2afIKPP2tJ0ugrM3m1u44ADZpka
-         og1vfBmmGIKQXcHgjehjudbWKfwEWfOjZGEgTs/CYm4egyAZfF8aMPe0nwGNOWl6+pQ5
-         NHa/+vLw9WfqmJWPJvGuBoJnue5AH9qYmdtaErTafNtZJK/gtzAsvks2aAyTPgNc7EP/
-         lW2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749576835; x=1750181635;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xJ4a1Zth++0ZqMvctA3wgDOhGEIMr6HHOHD5mEZCyYA=;
-        b=APX2DcBftJOt0qIIxcTrxfIvknFX3jFthw+WvlRXksk60YQY43XHYlsOdw4Q/m5uaw
-         GUFedleALpL93GKGIZqANLuWvCVvwgJ2dQ69YX725sS5ND7L3ghCWkKuhI0PqQivkkfn
-         WDAMMAe1YenYf/dJPTwSvctfBmjN8oAtCvSThGrHwgyOXmSZSDWJvd8gaWVCBRPRpcj3
-         0RwhlmdlWn8ZSG+LDkhDKgNp493jYE53+TyDNSqsRTKkPfQt0NPPHb7tMYg6dxmaSxVW
-         VOqWdd2gKkQqBw2CZeXpQVIdh7YYkGZOuqu7eUjNEG1AOqrF8S+4m9IdYUt+7XK/ULRs
-         EuiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX6KU8OSlTkrjigMh40YM3EE1EHIcg17k6c+b4DHhfs5IHbFO5xOfzZViF3A94Yc9IlgzBV7nWxDTSYskqUgfn22X+Etg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzD2HyszRn0wbWyri465HQKq1qmUWSMfELOTQ9g122YgH42F3ZV
-	4NBh124cpB4tiwqvHtk4/HTR6n8toBJlRbgLuDqTtI++7gCGVAew4yCh
-X-Gm-Gg: ASbGncscmXwFts+igCD/MWkzIK0dfrOqmfFVYUXK4mdm3Fct5JuPY5UOnJMbz9YqvJ9
-	XUCvEz1kOOKGEjREtM+2J+KxjbrsNDhCBBfNVj97LFA10O8dnNmSQG1+myDRrJKwlMgZ/TcsSXR
-	0FCX3/aE8/BjQnzGLstIdgPvTJqJzfzxzMbsCWywiCdONY1M9nOcgC2Ne5zAQ4eW8IKOogj5Ou9
-	900be1oVoLeA4M9Lcv0O/cOzc+8zHoVXCUgTKQAQsEBm8Zm4/VINjpTx989EiQtivvvjf4jMX7e
-	WSvhQdzK/Zeyzg07HNBkbnABQ3feKRud9xPbAGY729/PQlAsmmyEcy6Zc7c=
-X-Google-Smtp-Source: AGHT+IFZJTHsdk/TxpbHmEjLgwmerwlZHiNEHv4q9luAbNVAuVqA2jk6ZzkIZbMPI5Jw47KA/seAtA==
-X-Received: by 2002:a17:902:d585:b0:235:1ff0:369f with SMTP id d9443c01a7336-23641a8acddmr2433695ad.5.1749576835279;
-        Tue, 10 Jun 2025 10:33:55 -0700 (PDT)
-Received: from localhost ([159.117.73.36])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-23603077f95sm73627005ad.13.2025.06.10.10.33.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jun 2025 10:33:54 -0700 (PDT)
-From: Nai-Chen Cheng <bleach1827@gmail.com>
-To: Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Nai-Chen Cheng <bleach1827@gmail.com>
-Subject: [PATCH] Documentation: fix typo in CXL driver documentation
-Date: Wed, 11 Jun 2025 01:31:52 +0800
-Message-ID: <20250610173152.33566-1-bleach1827@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jZtgyZWa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749577300; x=1781113300;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Ognpew/E4byiPajspQy8PqqmvFMzBgvNmXyz1wCBkUY=;
+  b=jZtgyZWaQK+zVPVdDPnUcdjFibo1Oc/6uvo9mzipEDYzhJ5HIPN+u3Uu
+   83PR74HwE7YQQHH1F+MdQI+yJ82MGusSfp+/dHxTtEvLTGBtshDxt/5T+
+   Q/x5nrLdqps5agDBQchmP1suXHHbh2LNHM8EaysGCJK9YWjjlVWS2aWof
+   pFWOALUVW7mGe5pl5mDHLYtDhtck6neyunD1M7DC5p0rGgyM16vcjDj45
+   XeIUL5TtmnvSc2tesgRj3BidKPpa6zOHK7JUP+NmKCCcdVkRlpR6DUDar
+   oVMtcS9L0vTBYg578J5w4ArlhKvhebFARt0MI/LHkBtDYDmB1ysF/2pwI
+   g==;
+X-CSE-ConnectionGUID: TgXABqF/T2iB6qLJp7fQxA==
+X-CSE-MsgGUID: 5dvX18n8SAuz5KuOcBlpoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="55495000"
+X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
+   d="scan'208";a="55495000"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 10:41:39 -0700
+X-CSE-ConnectionGUID: 1HVtPtUSR1Wo9D0FVfXRdQ==
+X-CSE-MsgGUID: Y5ObahOAS2C6uZRKzI36/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
+   d="scan'208";a="147843909"
+Received: from lstrano-mobl6.amr.corp.intel.com (HELO [10.125.111.135]) ([10.125.111.135])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 10:41:38 -0700
+Message-ID: <36978c5d-9473-43f4-af7d-7a1b2927e36d@intel.com>
+Date: Tue, 10 Jun 2025 10:41:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: fix typo in CXL driver documentation
+To: Nai-Chen Cheng <bleach1827@gmail.com>, Davidlohr Bueso
+ <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, Shuah Khan <skhan@linuxfoundation.org>
+References: <20250610173152.33566-1-bleach1827@gmail.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20250610173152.33566-1-bleach1827@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fix typo 'enumates' to 'enumerate' in CXL driver operation
-documentation to improve readability.
 
-Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
----
- Documentation/driver-api/cxl/linux/cxl-driver.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/cxl/linux/cxl-driver.rst b/Documentation/driver-api/cxl/linux/cxl-driver.rst
-index 9759e90c3cf1..dd6dd17dc536 100644
---- a/Documentation/driver-api/cxl/linux/cxl-driver.rst
-+++ b/Documentation/driver-api/cxl/linux/cxl-driver.rst
-@@ -20,7 +20,7 @@ The CXL driver is split into a number of drivers.
- * cxl_port  - initializes root and provides port enumeration interface.
- * cxl_acpi  - initializes root decoders and interacts with ACPI data.
- * cxl_p/mem - initializes memory devices
--* cxl_pci   - uses cxl_port to enumates the actual fabric hierarchy.
-+* cxl_pci   - uses cxl_port to enumerate the actual fabric hierarchy.
- 
- Driver Devices
- ==============
--- 
-2.43.0
+On 6/10/25 10:31 AM, Nai-Chen Cheng wrote:
+> Fix typo 'enumates' to 'enumerate' in CXL driver operation
+> documentation to improve readability.
+> 
+> Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
+
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> ---
+>  Documentation/driver-api/cxl/linux/cxl-driver.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/driver-api/cxl/linux/cxl-driver.rst b/Documentation/driver-api/cxl/linux/cxl-driver.rst
+> index 9759e90c3cf1..dd6dd17dc536 100644
+> --- a/Documentation/driver-api/cxl/linux/cxl-driver.rst
+> +++ b/Documentation/driver-api/cxl/linux/cxl-driver.rst
+> @@ -20,7 +20,7 @@ The CXL driver is split into a number of drivers.
+>  * cxl_port  - initializes root and provides port enumeration interface.
+>  * cxl_acpi  - initializes root decoders and interacts with ACPI data.
+>  * cxl_p/mem - initializes memory devices
+> -* cxl_pci   - uses cxl_port to enumates the actual fabric hierarchy.
+> +* cxl_pci   - uses cxl_port to enumerate the actual fabric hierarchy.
+>  
+>  Driver Devices
+>  ==============
 
