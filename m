@@ -1,109 +1,107 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0FE22D4E2;
-	Tue, 10 Jun 2025 15:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C192441A0
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 10 Jun 2025 17:33:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749570242; cv=none; b=Jy/salPVR5cIjs3E/2C8vCacaKgr9yni8Tl6JM8ENChk2ZnlRHctaZAAIE7wr7aIj2hUBXaHARLMVFCEoysYYNWljhZ7b6UotuBfF53c8FXhF9nkeyZOSBTgkDKe6C2mzcQtlxANRCy9uiaUeegB12t4qf+Q7vPmAV2eR+0Hwpk=
+	t=1749576837; cv=none; b=sRv+iv/gD8KkGU2MXTk16jjvw7gJyxGCVRjdCe4dkL7enZ4irwNd92ASmg8s1PEzzZHhZB1gM4q2DIxYBiXGK+leGguAPKXRu7inEgMh/cVCFkU9U7tfr0Kj+SuvSVNaFXQ1PNzRCPK5hIx9vcLFVt05rapO8HsPaF2NXg2yl3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749570242; c=relaxed/simple;
-	bh=FpHd5k/WuqGkFa8AqlRyJwsexbf+fo2WnOclxAlQJgg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AsGmBX3dRtV8cacwhrz0t2VcbCLsBpD4VtGjz32gmRiWa6bSt3Q2MbBVAQWEjKqGCx4sfye2s/07r8YvTx1vR5peM2fxq82ZuGyhnrATQo8s+PhqAORfpAkCwlNdGI6ztao+ogB0e8fRYw162MhiTDpQWwC+kYQOs5TCCd745xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+	s=arc-20240116; t=1749576837; c=relaxed/simple;
+	bh=0CPTphKhrUBOZPlZ9pKlo5NWj8DVPWh9CCrT/9TEVXE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tpFBDg1xBwifnYPBgfZkF00yCx1m44mHLyvjxbzNbu/rZjlIYD0QYjpmKUItgh/TJQGJJ1RKEBLkfH4CPVzqHXCKIyC0DtwpGxofu6vY2DJPOpFp3Ab/wR+lZfGXBDOb22B2dom5vbiXjr2zQCu1wxJaxcxLBtDJIxlfzby2XMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BI/QmqsU; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-adb5cb6d8f1so899197666b.3;
-        Tue, 10 Jun 2025 08:44:00 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BI/QmqsU"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-234b9dfb842so51575475ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 10 Jun 2025 10:33:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749576835; x=1750181635; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xJ4a1Zth++0ZqMvctA3wgDOhGEIMr6HHOHD5mEZCyYA=;
+        b=BI/QmqsUlM8Qpe8WeJRx60pUIjXxh176+a8FO9pZCJWpOrcmGhawTvP/LY7mZMMhqm
+         115f3mnsWzLCKPda/oqpdOXiNhB/RF8pald6A8eu6tmiw16rFVqH7WAUF1yU31wiBStV
+         54JfO5K3xRsXGhSgRN9NQtA1arNlY5YkYU5SDG3DF2afIKPP2tJ0ugrM3m1u44ADZpka
+         og1vfBmmGIKQXcHgjehjudbWKfwEWfOjZGEgTs/CYm4egyAZfF8aMPe0nwGNOWl6+pQ5
+         NHa/+vLw9WfqmJWPJvGuBoJnue5AH9qYmdtaErTafNtZJK/gtzAsvks2aAyTPgNc7EP/
+         lW2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749570239; x=1750175039;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uuDaN3v7IKjjOwPuI92C78hEQA3//blEo1hg6ajXKJQ=;
-        b=uoKrU4eo3fBWotnwubxDEDlQRx9G0i0/A2g1n6VbWs8GsEVcBqPgnwHA5C7zo0DXOc
-         9e865blWyLz5K1RmeUNtu9IeUrtU/B0d9xk+n4xbuY3C2krIb5GWUzwKcx2mgrGB+wgN
-         LDNAcbC1rq10DXCt+CgrtsOfzZm80//Cnotfb5zYfDNzzwL3GLaS9NZO0g3UlDOzspyU
-         953E+/BHQWf9Pr7WGNyyvLAlK54XEhZfPIIXG+RmbXlN86c+gQ3cwtp1rpOSgwouNSd5
-         nbv05XR/MZV/2nHNcwtao0QRJKdfhMbXmlRTB8AYyUNJTySMttCmg/qmMU2cllRB7zak
-         Fk1w==
-X-Forwarded-Encrypted: i=1; AJvYcCX4JwVlkSwCENFtwiox7tMhRVYr+RkQI50cYa8tuRkNYodmpMJ8c1y+DesluNij45axi7WHLA==@lists.linux.dev, AJvYcCXtims1N7Rcm3Q2BHG+/jupqWKoFdF2T2Neb8PyngLp7+E2jGBJiX4M1gXsto0qvYHtxcy1HTxDanadfv/p9PZbwYTCXg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2LENIzQWI/F9ky/CYbpaG9CtmCysaUBWXnjhSnPs1Jsp1ZsbW
-	Dg+gl1yD+Cci2adcpNTqDzkt90KN+MpkMbUnL1F9kAZStWIxmuKaqINH
-X-Gm-Gg: ASbGncv08HToDl9RCcBDHOuTjd+1iVideA/8cCsGMkoGP6TjkLtUwy7JuQ3LYQrJARi
-	DgpOr6KpgZR6ljlEurHs7FZiJiAodNd20t/7rwonYvh92s3pT97+jwcqDxjoFq3N61hEf3F0Zfo
-	XE2djm06j6dWAOixRQhv+Vm37a2kq+TTCKsn7uip8u4/tqyv08rKVezDY7SJVIriGfv7gQqakb1
-	JdIeIkAE6cR0wUfJz1ZpzMZ8raZ3ahounUP/BF0Sr0dfDvqUZYsBrKAKcAaVtkXLAL6Ft0bwzDS
-	P7lA4Sny5f+RYeXWPsphrXDlstwDunHblguhLLyaNt4sAMpspwMq
-X-Google-Smtp-Source: AGHT+IH7vBoM84CZWFqasHt9KzLiG9LovQysp/riPIFgA4hZQCuVBAr5gBWic0qBZysBWtn+fw9E0w==
-X-Received: by 2002:a17:907:608e:b0:ad5:c462:3f60 with SMTP id a640c23a62f3a-ade1aa93187mr1760955366b.16.1749570238942;
-        Tue, 10 Jun 2025 08:43:58 -0700 (PDT)
-Received: from gmail.com ([2a03:2880:30ff:3::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1dc76feesm738828966b.147.2025.06.10.08.43.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 08:43:58 -0700 (PDT)
-Date: Tue, 10 Jun 2025 08:43:55 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Ignacio Encinas Rubio <ignacio@iencinas.com>,
-	Marco Elver <elver@google.com>,
+        d=1e100.net; s=20230601; t=1749576835; x=1750181635;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xJ4a1Zth++0ZqMvctA3wgDOhGEIMr6HHOHD5mEZCyYA=;
+        b=APX2DcBftJOt0qIIxcTrxfIvknFX3jFthw+WvlRXksk60YQY43XHYlsOdw4Q/m5uaw
+         GUFedleALpL93GKGIZqANLuWvCVvwgJ2dQ69YX725sS5ND7L3ghCWkKuhI0PqQivkkfn
+         WDAMMAe1YenYf/dJPTwSvctfBmjN8oAtCvSThGrHwgyOXmSZSDWJvd8gaWVCBRPRpcj3
+         0RwhlmdlWn8ZSG+LDkhDKgNp493jYE53+TyDNSqsRTKkPfQt0NPPHb7tMYg6dxmaSxVW
+         VOqWdd2gKkQqBw2CZeXpQVIdh7YYkGZOuqu7eUjNEG1AOqrF8S+4m9IdYUt+7XK/ULRs
+         EuiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX6KU8OSlTkrjigMh40YM3EE1EHIcg17k6c+b4DHhfs5IHbFO5xOfzZViF3A94Yc9IlgzBV7nWxDTSYskqUgfn22X+Etg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzD2HyszRn0wbWyri465HQKq1qmUWSMfELOTQ9g122YgH42F3ZV
+	4NBh124cpB4tiwqvHtk4/HTR6n8toBJlRbgLuDqTtI++7gCGVAew4yCh
+X-Gm-Gg: ASbGncscmXwFts+igCD/MWkzIK0dfrOqmfFVYUXK4mdm3Fct5JuPY5UOnJMbz9YqvJ9
+	XUCvEz1kOOKGEjREtM+2J+KxjbrsNDhCBBfNVj97LFA10O8dnNmSQG1+myDRrJKwlMgZ/TcsSXR
+	0FCX3/aE8/BjQnzGLstIdgPvTJqJzfzxzMbsCWywiCdONY1M9nOcgC2Ne5zAQ4eW8IKOogj5Ou9
+	900be1oVoLeA4M9Lcv0O/cOzc+8zHoVXCUgTKQAQsEBm8Zm4/VINjpTx989EiQtivvvjf4jMX7e
+	WSvhQdzK/Zeyzg07HNBkbnABQ3feKRud9xPbAGY729/PQlAsmmyEcy6Zc7c=
+X-Google-Smtp-Source: AGHT+IFZJTHsdk/TxpbHmEjLgwmerwlZHiNEHv4q9luAbNVAuVqA2jk6ZzkIZbMPI5Jw47KA/seAtA==
+X-Received: by 2002:a17:902:d585:b0:235:1ff0:369f with SMTP id d9443c01a7336-23641a8acddmr2433695ad.5.1749576835279;
+        Tue, 10 Jun 2025 10:33:55 -0700 (PDT)
+Received: from localhost ([159.117.73.36])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-23603077f95sm73627005ad.13.2025.06.10.10.33.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Jun 2025 10:33:54 -0700 (PDT)
+From: Nai-Chen Cheng <bleach1827@gmail.com>
+To: Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jan Stancek <jstancek@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
-	Ruben Wauters <rubenru09@aol.com>, joel@joelfernandes.org,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
-	stern@rowland.harvard.edu
-Subject: Re: [PATCH 4/4] docs: netlink: store generated .rst files at
- Documentation/output
-Message-ID: <aEhSu56ePZ/QPHUW@gmail.com>
-References: <cover.1749551140.git.mchehab+huawei@kernel.org>
- <5183ad8aacc1a56e2dce9cc125b62905b93e83ca.1749551140.git.mchehab+huawei@kernel.org>
+	Nai-Chen Cheng <bleach1827@gmail.com>
+Subject: [PATCH] Documentation: fix typo in CXL driver documentation
+Date: Wed, 11 Jun 2025 01:31:52 +0800
+Message-ID: <20250610173152.33566-1-bleach1827@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5183ad8aacc1a56e2dce9cc125b62905b93e83ca.1749551140.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hello Mauro,
+Fix typo 'enumates' to 'enumerate' in CXL driver operation
+documentation to improve readability.
 
-On Tue, Jun 10, 2025 at 12:46:07PM +0200, Mauro Carvalho Chehab wrote:
-> A better long term solution is to have an extension at
-> Documentation/sphinx that parses *.yaml files for netlink files,
-> which could internally be calling ynl_gen_rst.py. Yet, some care
-> needs to be taken, as yaml extensions are also used inside device
-> tree.
+Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
+---
+ Documentation/driver-api/cxl/linux/cxl-driver.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In fact, This is very similar to what I did initially in v1. And I was
-creating a sphinx extension to handle the generation, have a look here:
+diff --git a/Documentation/driver-api/cxl/linux/cxl-driver.rst b/Documentation/driver-api/cxl/linux/cxl-driver.rst
+index 9759e90c3cf1..dd6dd17dc536 100644
+--- a/Documentation/driver-api/cxl/linux/cxl-driver.rst
++++ b/Documentation/driver-api/cxl/linux/cxl-driver.rst
+@@ -20,7 +20,7 @@ The CXL driver is split into a number of drivers.
+ * cxl_port  - initializes root and provides port enumeration interface.
+ * cxl_acpi  - initializes root decoders and interacts with ACPI data.
+ * cxl_p/mem - initializes memory devices
+-* cxl_pci   - uses cxl_port to enumates the actual fabric hierarchy.
++* cxl_pci   - uses cxl_port to enumerate the actual fabric hierarchy.
+ 
+ Driver Devices
+ ==============
+-- 
+2.43.0
 
-https://lore.kernel.org/all/20231103135622.250314-1-leitao@debian.org/
-
-During the review, we agree to move out of the sphinx extension.
-the reasons are the stubs/templates that needs to be created and you are
-creating here.
-
-So, if we decide to come back to sphinx extension, we can leverage that
-code from v1 ?!
-
-> -def generate_main_index_rst(output: str) -> None:
-> +def generate_main_index_rst(output: str, index_dir: str, ) -> None:
-
-You probably don't need the last , before ).
-
-Other than that, LGTM.
-
-The question is, are we OK with the templates that need to be created
-for netlink specs?! 
-
-Thanks for looking at it,
---breno
