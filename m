@@ -1,135 +1,146 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42FD28F3
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 10 Jun 2025 00:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917A3221DAD;
+	Tue, 10 Jun 2025 02:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749515541; cv=none; b=pNiJaNpHk4qtedqQucYMn74G0qe4QrrdCrIdieVs+ymStOdl9fcf8vmmcepzQ+efK4GJwBdbOrGdO6Cf6dUZHiuw0KXzlvx9wFNDireq4fTNPod1Mx8tBupiIOhuGK1/EVvbpxq8H2QeHtAF3RNDCbEPQ+7wudSXPkvW7qo6ivg=
+	t=1749521518; cv=none; b=AGbVTZJK7mZ0ZrbN3LRveeJrDrwc7p7g6pyT5qZv2nOzFQRKxp56FRXwT6yK/PmPPedv58g0WVL7bFr3CUB2uA6drK3islCGAll0Rogt3grBHvCJ+SZcUJZnARa2jdjoRxlta0fIGR3kbpMyQL7L3Hz8zW0WxgzzeV+HRCX29T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749515541; c=relaxed/simple;
-	bh=TRTa5tgGNKgNZ4KTEE4nVgJEed7wNVNgn+tUpuW+2sg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ucUZeDP6wN6wqiDHuiO+i53JzSmxkQNYrO/Gr5ruDGvX2iSOxUhTPo0b2C7c7TfW9KNWuGzZ48sWiI0sOoFMacNUq4gqEuwut0B6Sh/Myu3OwkuudxuEWKa5s2F15/8WeTGIVUMnjUSQIS8++dMN5RUzl48XQ7BRHShiXspDOek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sYPX/f6m; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1749521518; c=relaxed/simple;
+	bh=tATsaWv8XZP6b8qRxvl/GSsSgoUtYmKnSYOHYbtcquU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=t53qY4B5WeIN9jBSt7o/URIdbYUSHBYOPCvYb2CkbbuuPnG9TrkpBbUFFVPHswmALw+RpijG1S3IBS0j53ZdMyVA17QoKlcwcdE1wn7MydwmWlxgjdjOlr/OYXSBHQwsuqCQ6VJunilk7OBRPyaCwDXbaY/xr4qOvcBIKApiYvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XmhOWcQn; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sYPX/f6m"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-552206ac67aso5905782e87.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 09 Jun 2025 17:32:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XmhOWcQn"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-747fc77ba9eso3589485b3a.0;
+        Mon, 09 Jun 2025 19:11:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1749515538; x=1750120338; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RkR7kz71cYbWF63G7HL4ImwDStD1UZsWCxUigkYuYL8=;
-        b=sYPX/f6mVHHqRC2AoB3MTFcK/vu//dkiJS6/761sCuyPSay/UU8OAgprqZBTcXzhV6
-         Blpxuo+zHj8wcf/FWK+p0OCY5Xoa0Koq/le7zbH6IjQ2F5x/pSXVx5ZEYQ60MnCCNcCY
-         xujwdaen1WD1d2pUwbhgOeJXerXNEZ26euA9KxkNW0CPPgQQ1+XIlVMw2V2OCsvhWEpg
-         N2n2leYp1I7/xaSY2bRFblUmYkVvHB6FroeSf63uMKneZ8p2+ErUrfLgHq/C8LTChvRa
-         dWHjVAPPh/+O1b5n+kxWIAPnZyN5Xhw3qgqQj+J+4pu5nAfW3ZNYfGvHheXVVl6cagcb
-         KQYQ==
+        d=gmail.com; s=20230601; t=1749521516; x=1750126316; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=dOzjjX69zeAqzNGoS/8mD5e48m9h1ILJMbdVXJtaK8k=;
+        b=XmhOWcQnWk7pjXrsv7kY+HQ/WDDsFmcp4i9tglyhoJJhKq8n+sanmhfnj++7FDFw6u
+         iE9KnJXGq4nESSZKxxjSWdizuXU5hy4zqj1fNBZZfKLhGvzBtv05BnYtES7hNgrL1b6a
+         EKluumpF3wudcmTaC0cyftqSkX7sqJePWipPkVvOMMeYuYLrqCrB3hl1oeTuDgZHo9gv
+         mTizMiarTMk/W28tqR/oSn4TNbMUTeKY+P8Vcy5NIOyiNOW8/a4BBuqxWQTZfiwPpcni
+         g7kasMKPaLGB87IfqROCwh3uhat2qXWbc/vHO8EDTo2xUppHSpKvlVBTvG7fzg7RUbQb
+         VaaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749515538; x=1750120338;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RkR7kz71cYbWF63G7HL4ImwDStD1UZsWCxUigkYuYL8=;
-        b=klLCFWI6/LA43pnWYhWZ7w5NDws/mgnej45Aidj+h4M8dB59MrQolzqe9aDo21KETa
-         Fv3QCFfhr54F3ucfxX0P1uDfRpG2jXD0z8dpggRYXgASivb3OTe6vjBgPlhTtCgyMTSr
-         q3+S3omNdx6kQFjl8+vBSJfX6ttSIS8loAniRwj/ocFVwp1Uu01QR4kwBaAKBSM6WQcu
-         HG4u7mJysq4Br68Vi2xADvlG61Rz1jNXL7ly25Qs4nssF1w5CT+EXqZE9UItF46Q/C5D
-         5/GmW6X5ZWB0lEVfj2jrSJV3b2jWabWafsfDIyyDyHjcr/JvYnt9mJturOq3d6ipK72f
-         jp4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUTSVHPoSZvKSk4ZT/AyHuhQsCQyJdTn6dl8Vu+smF7XxmbkNJAmhBKBoBU5km02FL6CMBKXZFiv1H2Ahcy34IBNIMoug==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxV+OvZXZwDNgw85P64GZBz3E9fod+eh71iOi2wmqhTzsDjLT69
-	e3ybcjvhPD5VQVn53Re8Xu97waQhb5x/qtUBrscuaL0/WxG19Qa1cuI13mZippX63bg8+4z5cSK
-	4u6pIYgd7BTYG2us/xQBL61dZbrFJbD7ZtZ2iS44=
-X-Gm-Gg: ASbGncu+nhn5RZ0yVHy4Bc49XfRS5p2EN9HUD7BL6CbkHqBBaN4yVJWNp3+UvE4o6b7
-	G4/tlp7dYo4c5xocie/3xPsBtm52KCwrXBEwwBP/fYoiq00VAVmNAu8yT50ZO1IRBIN2bOgnM3C
-	GoVBZ1oIgm2WQ2WxFZv+uSdhiNakl+KF3Df9EPDHXjRZ1ZXO1642NHCG0doeYzSDoXc/1LcTzeG
-	KBcHaqOpA==
-X-Google-Smtp-Source: AGHT+IE+QOoB+4EYkwNJ33qqgp/tdWSsvGDCg0LnlaKl1vhEEW7aFXBIZWj+I+z8posJeAu8MG6ZSGa46ECVfUTLj48=
-X-Received: by 2002:ac2:5d30:0:b0:553:653f:1b21 with SMTP id
- 2adb3069b0e04-55366c359fbmr3006474e87.37.1749515537762; Mon, 09 Jun 2025
- 17:32:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749521516; x=1750126316;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dOzjjX69zeAqzNGoS/8mD5e48m9h1ILJMbdVXJtaK8k=;
+        b=Ljr3ccWW1l8Kktoiy68S1Y+qX5dz1zFYcjhBJOWWpctEXxSUvcS+/rA4Tztw9ZVzL1
+         SxXsfPS8cf4HV9T1LqziuqwUZSImDk4ShpSGBDMq3j+QmgyVtFKqDOTUUg2+H5vz8c15
+         s2nXfLJ3Wti6Trq4qZjXT9Xw6StVok7nK3820iY1Z6IFSbkxr17HJpFJnGSIhOOmIiHC
+         q9CO4dPY4MAD8pqkAHHNQo19WfAM80z5077cHZlKwOa5BNjSKA1hxsA9GY0JIfcV0P0b
+         VJZjGdJcAY0Hr6SMGXoflCREmqgErhj6xK7mRxcCxkb91DbgM3LrJcBrUYSeZS1DRmnb
+         NtIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVZIYWPr29sLZGLW6cjI9iRk+bIECnSXF0czeQMXQ/DK2FG+fLyoZYO6jvIjTpEgw8YvFHLa5I3Ut6xb+tdf5Bg4wsfIQ==@lists.linux.dev, AJvYcCXVZE+PEDYMwEfWukI5TNN9EYuK/X3/fTLBAvhjn9GAOFhCvpYeRAKOdYNnb/1wT+QoWlS3kg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywo1aYSQFHerf0HcMV6bG26P6e7uEW/kvsXEk+mI6jqS8JpNPL2
+	CPQLVy90WZ94kWJrOfnuHpbnHW1o1dOUA0tIPpi8QpRVCezYQkE7bTsq
+X-Gm-Gg: ASbGncvqyC+EmbJm8oEEuDl9UgjGLAZcZ93mut4M+G4VNyaX5WAYnhust/CpyDYcs23
+	aa9uSVrN0ICtwzMRjJJCALkSq7qxFFYxgz25WCEusBvRv19vju6hPTHOqG8K+mi62Gut0KGeEit
+	MtALcMBZaQjHM0yXeTjTdDhbhhNKPEpXwxcXHiVEOZo7Ye3GWnsHqrhwGNIAvKIo0GNcB/D0IHs
+	CQT5/bI/VFm21KEqENyzS8IaOXQnJpzrBw8iFVeL5PueLabtekoiSbGXaNJiYjwz0advd4Wvudl
+	HXEbZBprzh5ebqM2sKuT/ASEsv6h282irOcBzioz8eMdpr+3gGvsdxcFJ5UFynL4Iq8OMD/2EGs
+	y7jRSOMosnOyLWfqkO8zR85aW2RRUfrHZK6rdZIxYNfQ=
+X-Google-Smtp-Source: AGHT+IFinisgc3J8oYpqhY/ibzPdRQH5npX4nMOvZpgH24ipzQnojwu27/upFNl/pwypgIaYqctZDA==
+X-Received: by 2002:a05:6a00:9141:b0:748:2b23:308c with SMTP id d2e1a72fcca58-7482b233724mr15790672b3a.14.1749521515721;
+        Mon, 09 Jun 2025 19:11:55 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b0e9a0fsm6382936b3a.155.2025.06.09.19.11.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Jun 2025 19:11:55 -0700 (PDT)
+Message-ID: <c1e93b99-21a1-4646-af6c-e05330e1cd3d@gmail.com>
+Date: Tue, 10 Jun 2025 11:11:50 +0900
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250609194611.690678-1-richard120310@gmail.com>
-In-Reply-To: <20250609194611.690678-1-richard120310@gmail.com>
-From: John Stultz <jstultz@google.com>
-Date: Mon, 9 Jun 2025 17:32:05 -0700
-X-Gm-Features: AX0GCFstX1Bjaf1o8eI-RH5fmIWj5yx6wc9FKIaHmt8_ONMOjbW0Gb6B3l5whhY
-Message-ID: <CANDhNCrVtK9Tv+d1=z1yrh4OxiS+neENQejD5pCi+R=Cwra9Xg@mail.gmail.com>
-Subject: Re: [RFC PATCH] clocksource: Enhancement for clocks_calc_mult_shift()
-To: I Hsin Cheng <richard120310@gmail.com>
-Cc: sboyd@kernel.org, tglx@linutronix.de, linux-kernel@vger.kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	jserv@ccns.ncku.edu.tw
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] lkmm: docs: Put LKMM documentation into dev-tools book
+To: Jonathan Corbet <corbet@lwn.net>, "Paul E. McKenney" <paulmck@kernel.org>
+Cc: mchehab+huawei@kernel.org, joel@joelfernandes.org,
+ linux-kernel-mentees@lists.linux.dev, peterz@infradead.org,
+ stern@rowland.harvard.edu, Shuah Khan <skhan@linuxfoundation.org>,
+ Ignacio Encinas Rubio <ignacio@iencinas.com>, lkmm@lists.linux.dev,
+ Marco Elver <elver@google.com>, Akira Yokosawa <akiyks@gmail.com>
+References: <837b4d83-b91f-40d1-995a-aa3c5a925b0b@iencinas.com>
+ <015198be-1f23-4fc9-ba58-be7c48550f36@gmail.com>
+ <87ikl48te3.fsf@trenco.lwn.net>
+Content-Language: en-US
+In-Reply-To: <87ikl48te3.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thanks so much for sending this optimization in! It looks promising,
-but a few comments below:
+On Mon, 09 Jun 2025 16:03:32 -0600, Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
+> 
+>> Currently, LKMM docs are not included in any of kernel documentation
+>> books.
+>>
+>> Commit e40573a43d16 ("docs: put atomic*.txt and memory-barriers.txt
+>> into the core-api book") covered plain-text docs under Documentation/
+>> by using the "include::" directive along with the ":literal:" option.
+>>
+>> As LKMM docs are not under Documentation/, the same approach would not
+>> work due to the limit of the include:: directive. 
+>>
+>> As a matter of fact, kernel documentation has an extended directive
+>> by the name of "kernel-include::", which has no such limitation.
+>>
+>> Rather than moving LKMM docs around, use the latter with source tree's
+>> abspath passed through via the "SOURCEDIR" variable which is now defined
+>> in Documentation/Makefile, and make them included in the dev-tools book
+>> next to KCSAN.
+> 
+> So this fell through the cracks during my May travel, sorry.
 
-On Mon, Jun 9, 2025 at 12:46=E2=80=AFPM I Hsin Cheng <richard120310@gmail.c=
-om> wrote:
->
-> Previously, counting the value of "sftacc" within
-> "clocks_calc_mult_shift()" use a while loop to determine the amount of
-> decrement operation for "sftacc".
+Thank you for taking the time!
 
-This is just a direct translation of the code into english, without
-any context or explanation as to *why* the code is doing what it is
-doing.
+> 
+> I've taken a look at it now ... it adds a vast number of build warnings:
+> 
+> Documentation/networking/netlink_spec/rt_addr.rst:28: WARNING: duplicate label rt-addr-operation-newaddr, other instance in /stuff/k/git/kernel/Documentation/networking/netlink_spec/rt-addr.rst
+> Documentation/networking/netlink_spec/rt_addr.rst:41: WARNING: duplicate label rt-addr-operation-deladdr, other instance in /stuff/k/git/kernel/Documentation/networking/netlink_spec/rt-addr.rst
+> Documentation/networking/netlink_spec/rt_addr.rst:54: WARNING: duplicate label rt-addr-operation-getaddr, other instance in /stuff/k/git/kernel/Documentation/networking/netlink_spec/rt-addr.rst
+> [...]
+> 
+> I haven't had a chance to figure out *why* it would have this particular
+> bizarre effect...
 
-It might be better to explain first *why* the calculation is being
-done, and then get into the limitations of the current implementation.
+I don't think those new warnings have anything to do with this patch.
 
-> It's equivalent to the position of MSB of "tmp", for which we can
-> derive from (32 - __builtin_clz(tmp)). Use 32 instead of 31 here because
-> 1UL should be treat as an amount of 1, not the index 0, and even though
-> "tmp" is of type u64, since it's already shifted right by 32, only the
-> lowest 32 bits will be possible to have non-zero value.
+This is mentioned by Paolo at:
+  https://lore.kernel.org/495e43ef-ae20-4dda-97c0-cb8ebe97394b@redhat.com/
 
-I was having a bit of a hard time parsing this paragraph, so it
-probably needs some more work.
+    My understanding is that this rename triggers rebuild of the related
+    doc, which in turns leads to quite a large number of htmldoc warning,
+    but it's really unharmful/pre-existing issue.
 
-On first skim, this also was a bit confusing as __builtin_clz(u64)
-*seems* like it could return greater than 32 (but that would be
-__builtin_clzll).  So the (32 - clz(u64)) bit might confuse folks, as
-It's pretty subtle that __builtin_clz() only works on the bottom
-32bits.  The code should definitely get clear a comment on this.
+, and Donald said in his reply at:
+  https://lore.kernel.org/CAD4GDZw+Enkd2dA8f7pNxMadwURFd_tHv1sUwkXqFqxsOquHQQ@mail.gmail.com/
 
-And thinking more, would using ffs() be more straightforward here for
-what is wanted?
+    Yes, Documentation/Makefile goes the extra mile to only try deleting a
+    list of .rst files generated from the list of source .yaml files. It
+    would be easier to just delete
+    Documentation/networking/netlink_spec/*.rst which would be able to
+    clean up old generated files in situations like this.
 
-> This change is tested against a test script [1].
-> Result shown that it can save a significant amount of execution overhead
-> for this function, which is invoked often, the whole system would likely
-> benefit from it.
->
-> -----------------------------
-> | old version | new version |
-> -----------------------------
-> |  11500.6 ns |       44 ns |
-> -----------------------------
->
-> The execution time is reduced around 99.7%
+HTH.
 
-That is impressive, but should probably be contextualized around how
-often one might expect clocks_calc_mult_shift() to be called.
-It still looks like a good optimization, but we shouldn't over-sell it
-unless there's a concrete impact to users.
+BTW, I assumed Paul would take this patch into his lkmm branch for v6.17,
+once all is clear for the new uses of "..kernel-include::" with ":literal:".
 
-Thanks again for sending this along! I'd just take another pass at the
-commit message and the comments and see if this can be made easier to
-understand when someone 5 years from now is looking at the code.
-
-thanks
--john
+Thanks,
+Akira
