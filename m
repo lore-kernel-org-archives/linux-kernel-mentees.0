@@ -1,530 +1,208 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8272517AA;
-	Wed, 11 Jun 2025 11:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DCA2620FC
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 11:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749641850; cv=none; b=m8146dD54rt/k9HBuznjtCOeO1MYWEWHY6F9KQ3MXtv6w7HVzNjTHULLTgeZIg2qeL81AvXZ++sSEnccf4SiVZYDbtl/jJaXrI1PeB2Q2dx7jHgZde4c0NJWPt8sVFI0gjgbm5wcvDj4UADN68QRrxgTbWB2CXbZIlaDuErxDZ8=
+	t=1749642609; cv=none; b=d4PYrVvhQwrhfU4LbPyr/GMQpLlJJH9x42CR/TQlCTK1jZv49Wj2KBMyRHFE4U8OZvPUqpcTbuXPjrQVgdiaCxZZg7DYqu43URP6DDmSnrwHTdpMFhRtQX9nqnYK4CQJ2z9GRSaQSyr1FYqh1KLM7sNQer35hBpANxFmqTPR2pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749641850; c=relaxed/simple;
-	bh=ynapGZn6oVCGqIqdm9ICyxeW7g0aY9YgageUSZw/YVc=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=UiAyAdvJIms0J97j4TaOs9aG+/+225H2AunsFO+te7M2lIgxjrSWNtuTNfmfTusKPFh0wH0Sx4+zUh48K5Gt/v9ceDIFhl/BJpGDYl65hD20ZCp7iYV9Uls69J09HZBZBqkxAqhWH78ridvK79zcnsrwVPQyQlYRDIhEm5H/tWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iwy7l2GJ; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1749642609; c=relaxed/simple;
+	bh=CWu6A+I1LjwFmAU+PAVS8KxvwoMO5RZ75mLuP8WTIVU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JqtBGAonkd3eBpGYy4Dl1jAkfcXOVSExnc3+R0IOx0+53zTpCENqYK0OtYDFQAlWgxlUdD6iQHBB2oo21cHzuSnZOClYITJK6CcfqIMGuAOZl2zX2hjeR/L1CtDAMg/R6OCNT64Jjv67g235lgkRukuO8o7bWuZ7+nqjCKYngtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lDlnw7BP; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iwy7l2GJ"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-450cf0120cdso56025515e9.2;
-        Wed, 11 Jun 2025 04:37:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lDlnw7BP"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2363616a1a6so18155805ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 04:50:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749641846; x=1750246646; darn=lists.linux.dev;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3srtY1BF1LfZhi5tBhl5EYeXZw1pakC0x+LoDf81OWM=;
-        b=iwy7l2GJBrbdSEM1BH6R1s5DMD8NdkhOTnXUsJc6N8UdFYEz5lsZ/7bxiafaMYeTsO
-         q1WJEKrjwztMw40Mz40kFUBuQi5KAdyCngmG/6L5rPOOZkjCf1KQH3jDG0aqg1axNzCZ
-         1DtxILxRjpckz7zeOOP/5TLDfXQyrWsYRNngWDTliOvU6qLHxNeGQRc4ZKAJ+xbpCCHI
-         LcRkhQA8JJVIsSSUB19NU7GmkshDKEhbIx9GP1vJb6y55+ibLkSmezWTi1RyGG2djsIH
-         yxa5dm2WSE1e9P81F80ub3AlUeGUxG2ElH/vjNNqcTUYdj1vaulZI6C9v7/5EdJ3faC5
-         Pa0A==
+        d=gmail.com; s=20230601; t=1749642607; x=1750247407; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yr1jR2n/3+iHKJOEuEz4EzcjD/8G3U4J0+bvzR27Ds4=;
+        b=lDlnw7BPi85q342QlMTLEnBOiVErZzTxuMoXKTrfnhubJ/XCI/OMi0O9fv1AaEpfoh
+         xIH00FG2c5RvSU3AfcsjHz89akPBlnkZOxX/NKaFt1/cC+uSUAlIeuYTdkNkd7JJ+qxy
+         i6WcoATQwSgZXcYkbFI7YMQFyxDZgtytglYSY0nktbyL2M0qkb9k7c2QfzklrYOPl6m+
+         Ra7TUCF1LAc0v7f9YrYzMc6pVMggAzlkOgF+ENyTba+gVRQcey7kM8/nujq0qU6qN7VS
+         ycwUB+TVH5RmY33IjfRi4/QNtJQiOuzV6Pz07JZHr5hW2lxUKPoqB1A5btxi6XVfn8/O
+         mHeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749641846; x=1750246646;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1749642607; x=1750247407;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3srtY1BF1LfZhi5tBhl5EYeXZw1pakC0x+LoDf81OWM=;
-        b=OU4r6iywku+qonKMkUu4Na79sHCIi0FnhCMfGQMIhmktgw4tlpfMAYkL12I6CG2ulA
-         G648oGxAvsweIQy46zx2URH5nfQSCIW0cyIFY+IrWSP1nXvsGpJIy0XVxKGzzyFZJBG5
-         As2l7VJTh8HFRtJBgtz1Mxua2gAb6rlbjCa4ilfE8ay4BJMDDQ+WL39/HJlddlLivd8E
-         vXo6hGGcLpYct2su5OqLpq33PBoMNYO3qHUWtWv4/pNuX485nHfs/12/WSzBvqzfk6ej
-         sRQGOq2GDNZPl8csr3LhwyiESOdCr7FXLtX5xYaXGb9WF47RuiDKEfBalyqS/VJIl8/G
-         dXrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW43ZctSfLZmyUR/aj+I6Du6TgvB40EswAol1Un/v5Ut3cRhBQZqvhbVXXqnFuzaxWDZd1B+w==@lists.linux.dev, AJvYcCWkcmWu9KCWxYuSvRzgVICr6Tm9cUE/bo8U8T23oXNX2NRMZ1p/F3+UQjj0rg2FVmqkEZld70xbr8RT83B2eQ+TznCqsw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLJkQPfxSRHTjFRhkZHOQLacaW4tKzLmqmk1kgwJvbBNenvXEU
-	NZ2KM58/mJBuRINluNY9Cxmz6Z5a6J2k0lxjd771jr0kfP99MLDLMymP
-X-Gm-Gg: ASbGncsfqljHV8EZ7R13dQ8c6PZHVwRDIeFawny9KbIzuYBvHGv9eCzYxiv4JY1GfSK
-	V4D03uIrTRkk+2ioYhtT/WxR5H9VuGgDIvcTiP41PtDxUreIbdD57WtGBwiK2mLtovZzpATme5F
-	6T/zYR8Xq9k1wQe/7z9ZEL30v509rWYv7bOHLHDBeUNacxzgWq6kHFaQYAKN0KgQhfkR0biOukK
-	fHieNP3g3r/q/hzN7UWkmL8ipn6IWwH5rOlbqqFaOKlREVpD9Dn+uAXNNoTm+BiQWFuYvJ4zd6v
-	v8aMvlQFeKeW4yKopOnzfA+Gp2VrYiuv0HDZb5dU/04f/ox8x8ijcd1ZX8hevO+sI6BdEBmopCw
-	RG5FsZtSGMw==
-X-Google-Smtp-Source: AGHT+IG/cnGtWMEfZprUpCdtd2OSBMsmyCKvHWbbS5Cw+GO1Y8SaUfoOEkBPDp9EDQhsDwPgcNJh6A==
-X-Received: by 2002:a05:600c:37c6:b0:43c:eeee:b713 with SMTP id 5b1f17b1804b1-453248cd27emr21132465e9.20.1749641846123;
-        Wed, 11 Jun 2025 04:37:26 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:acc4:f1bd:6203:c85f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532515e62asm18395095e9.13.2025.06.11.04.37.24
+        bh=Yr1jR2n/3+iHKJOEuEz4EzcjD/8G3U4J0+bvzR27Ds4=;
+        b=AmQde+nH0Fsm4aeSPNbRInmDOubK46pWI0bmUECRVKgrG4INaje7FIC641AjU9Yea9
+         55DWJS5SCRmVRvyACfhLzXxKxmO47HiikPTIUqxOeVnQDhp0YI5EDatD+wKJnM3u7h1B
+         Bz9iVRV9Y08JpVvFBkWg+14/AmHkX3cxBbzSZSr/up6lSkxp5bMfn9PxUeItjnIu+WVt
+         ylS2uMxuJkYhUPBYW5lsOouWXDbGg0fP+efzPZq/Ay3jPhh1EQpM9Ocxt9VKJhuVpndr
+         mBGwJuFq5pSVOKGVMIINe0KU1VR2Rxrfdyi8rVTRoLCyG8UH4cqWXqFu62t/FcukcheS
+         fxJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWpe0qOMIEH5aIAru7JQDnesNagdXGTu8n/81cmdHPI8jDVUno1fFxYXg5AtY0/Iojz9xZtfQnswxeC6w9sdB8Il1Tumw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwkaVGU7MsERRsfqtM6n6pKMJaNfHpU3Zrf2EnwxsALibV0DieI
+	UAS1+K5BpfHmoehcw4Y1hffq3Mm1X/Dea4Obv83JHdmLOPC86tjBg4ii
+X-Gm-Gg: ASbGncsUXLy1boeTUk9V2XQEYoyH/raaSSqAZ6pMfNhzOB6QWMZ3BoGU/TEfKLUlpJ7
+	h68p6HHM1QsrPK3wvZIWNek1pq5Z8ac7au6pCXnt3e/ELpeeL8F3Al3T1tXYNNFNAKDt9iC5eUF
+	R375YkebBreEyJ8zPb3+FpzPHTdii0Ho6PYK/arKZpFYEMyOKczCYcU67gClaYYYX0woUoXFSdQ
+	gJWFWMHFnM4EshzEFbG8zU67MHop1YyoNiFRM3rl8TsoQ+0GfxY+UcC247m6HwvVgrUvthNGOME
+	sSPAcAPpYE0QN86Ci+JWH5r0EK/uQ5G0AkeEnIWSSEqNQy9yChFphGphRSFczw==
+X-Google-Smtp-Source: AGHT+IH0mXPNVgqbjYeHRojtDfwaw37TfHsCnjGPZ7Ak5dI5UXEfPx4VvV1LNaJqLCESUv+gq00Mdw==
+X-Received: by 2002:a17:903:1b10:b0:235:f143:9b07 with SMTP id d9443c01a7336-23641a8ac0emr42538815ad.5.1749642607279;
+        Wed, 11 Jun 2025 04:50:07 -0700 (PDT)
+Received: from localhost ([216.228.127.130])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-236032fceb2sm85893185ad.96.2025.06.11.04.50.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 04:37:25 -0700 (PDT)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,  "Jonathan Corbet"
- <corbet@lwn.net>,  "Akira Yokosawa" <akiyks@gmail.com>,  "Breno Leitao"
- <leitao@debian.org>,  "David S. Miller" <davem@davemloft.net>,  "Ignacio
- Encinas Rubio" <ignacio@iencinas.com>,  "Marco Elver" <elver@google.com>,
-  "Shuah Khan" <skhan@linuxfoundation.org>,  Eric Dumazet
- <edumazet@google.com>,  Jan Stancek <jstancek@redhat.com>,  Paolo Abeni
- <pabeni@redhat.com>,  Ruben Wauters <rubenru09@aol.com>,
-  joel@joelfernandes.org,  linux-kernel-mentees@lists.linux.dev,
-  linux-kernel@vger.kernel.org,  lkmm@lists.linux.dev,
-  netdev@vger.kernel.org,  peterz@infradead.org,  stern@rowland.harvard.edu
-Subject: Re: [PATCH 4/4] docs: netlink: store generated .rst files at
- Documentation/output
-In-Reply-To: <5183ad8aacc1a56e2dce9cc125b62905b93e83ca.1749551140.git.mchehab+huawei@kernel.org>
-Date: Wed, 11 Jun 2025 12:36:57 +0100
-Message-ID: <m24iwmpl0m.fsf@gmail.com>
-References: <cover.1749551140.git.mchehab+huawei@kernel.org>
-	<5183ad8aacc1a56e2dce9cc125b62905b93e83ca.1749551140.git.mchehab+huawei@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        Wed, 11 Jun 2025 04:50:06 -0700 (PDT)
+Date: Wed, 11 Jun 2025 07:50:04 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: I Hsin Cheng <richard120310@gmail.com>
+Cc: jstultz@google.com, tglx@linutronix.de, sboyd@kernel.org,
+	linux-kernel@vger.kernel.org, yurynorov@gmail.com,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+	jserv@ccns.ncku.edu.tw
+Subject: Re: [PATCH v3] clocksource: Replace loop within
+ clocks_calc_mult_shift() with find_last_bit() for calculation of "sftacc"
+Message-ID: <aEltbEpA7US9h8qN@yury>
+References: <20250611073608.2049793-1-richard120310@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250611073608.2049793-1-richard120310@gmail.com>
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-
-> It is not a good practice to store build-generated files
-> inside $(srctree), as one may be using O=<BUILDDIR> and even
-> have the Kernel on a read-only directory.
->
-> Change the YAML generation for netlink files to be inside
-> the documentation output directory.
->
-> This solution is not perfect, though, as sphinx-build only produces
-> html files only for files inside the source tree. As it is desired
-> to have one netlink file per family, it means that one template
-> file is required for every file inside Documentation/netlink/specs.
-> Such template files are simple enough. All they need is:
->
-> 	# Template for Documentation/netlink/specs/<foo>.yaml
-> 	.. kernel-include:: $BUILDDIR/networking/netlink_spec/<foo>.rst
-
-I am not a fan of this approach because it pollutes the
-Documentation/output dir with source files and the kernel-include
-directive is a bit of a hacky workaround.
-
-> A better long term solution is to have an extension at
-> Documentation/sphinx that parses *.yaml files for netlink files,
-> which could internally be calling ynl_gen_rst.py. Yet, some care
-> needs to be taken, as yaml extensions are also used inside device
-> tree.
-
-The extension does seem like a better approach, but as mentioned by
-Jakub, we'd want to add stub creation to the YNL regen.
-
-The only other approach I can think of to avoid generating files in the
-source tree or polluting the Documentation/output dir is to stage all of
-the Documentation/ tree into BUILDDIR before adding generated files
-there, then running:
-
-  sphinx-build BUILDDIR/Documentation BUILDDIR/Documentation/output
-
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Wed, Jun 11, 2025 at 03:36:08PM +0800, I Hsin Cheng wrote:
+> Utilize "find_last_bit()" in replacement of while loop counting
+> for the decremenet of "sftacc". They're equivalent in computation result
+> but the former is more effective.
+> 
+> "find_last_bit()" will return the bit number of the last set bit of
+> "tmp", which is 0-based index. Plus 1 to convert it into bit width as
+> desired.
+> 
+> Note that only the lowest 32 bits of "tmp" is taken into consideration
+> of the operation, since it was already shifted right by 32 bits, the
+> topmost 32 bits should remain 0, only the lowest 32 bits are possible to
+> be non-zero.
+> 
+> This change is tested against a test script [1].
+> Run the test 10 times for each version of implementation and take the
+> average. The result shown that with this change, the operation overhead
+> of "clocks_calc_mult_shift()" can be reduced around 99.7% .
+> 
+> -----------------------------
+> | old version | new version |
+> -----------------------------
+> |  11500.6 ns |       44 ns |
+> -----------------------------
+> 
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
 > ---
->  Documentation/Makefile                        |  8 ++++----
->  .../networking/netlink_spec/conntrack.rst     |  3 +++
->  .../networking/netlink_spec/devlink.rst       |  3 +++
->  .../networking/netlink_spec/dpll.rst          |  3 +++
->  .../networking/netlink_spec/ethtool.rst       |  3 +++
->  Documentation/networking/netlink_spec/fou.rst |  3 +++
->  .../networking/netlink_spec/handshake.rst     |  3 +++
->  .../networking/netlink_spec/index.rst         |  6 ++++++
->  .../networking/netlink_spec/lockd.rst         |  3 +++
->  .../networking/netlink_spec/mptcp_pm.rst      |  3 +++
->  .../networking/netlink_spec/net_shaper.rst    |  3 +++
->  .../networking/netlink_spec/netdev.rst        |  3 +++
->  .../networking/netlink_spec/nfsd.rst          |  3 +++
->  .../networking/netlink_spec/nftables.rst      |  3 +++
->  .../networking/netlink_spec/nl80211.rst       |  3 +++
->  .../networking/netlink_spec/nlctrl.rst        |  3 +++
->  .../networking/netlink_spec/ovpn.rst          |  3 +++
->  .../networking/netlink_spec/ovs_datapath.rst  |  3 +++
->  .../networking/netlink_spec/ovs_flow.rst      |  3 +++
->  .../networking/netlink_spec/ovs_vport.rst     |  3 +++
->  .../networking/netlink_spec/readme.txt        |  4 ----
->  .../networking/netlink_spec/rt-addr.rst       |  3 +++
->  .../networking/netlink_spec/rt-link.rst       |  3 +++
->  .../networking/netlink_spec/rt-neigh.rst      |  3 +++
->  .../networking/netlink_spec/rt-route.rst      |  3 +++
->  .../networking/netlink_spec/rt-rule.rst       |  3 +++
->  Documentation/networking/netlink_spec/tc.rst  |  3 +++
->  .../networking/netlink_spec/tcp_metrics.rst   |  3 +++
->  .../networking/netlink_spec/team.rst          |  3 +++
->  tools/net/ynl/pyynl/ynl_gen_rst.py            | 19 +++++++++++++------
->  30 files changed, 101 insertions(+), 14 deletions(-)
->  create mode 100644 Documentation/networking/netlink_spec/conntrack.rst
->  create mode 100644 Documentation/networking/netlink_spec/devlink.rst
->  create mode 100644 Documentation/networking/netlink_spec/dpll.rst
->  create mode 100644 Documentation/networking/netlink_spec/ethtool.rst
->  create mode 100644 Documentation/networking/netlink_spec/fou.rst
->  create mode 100644 Documentation/networking/netlink_spec/handshake.rst
->  create mode 100644 Documentation/networking/netlink_spec/index.rst
->  create mode 100644 Documentation/networking/netlink_spec/lockd.rst
->  create mode 100644 Documentation/networking/netlink_spec/mptcp_pm.rst
->  create mode 100644 Documentation/networking/netlink_spec/net_shaper.rst
->  create mode 100644 Documentation/networking/netlink_spec/netdev.rst
->  create mode 100644 Documentation/networking/netlink_spec/nfsd.rst
->  create mode 100644 Documentation/networking/netlink_spec/nftables.rst
->  create mode 100644 Documentation/networking/netlink_spec/nl80211.rst
->  create mode 100644 Documentation/networking/netlink_spec/nlctrl.rst
->  create mode 100644 Documentation/networking/netlink_spec/ovpn.rst
->  create mode 100644 Documentation/networking/netlink_spec/ovs_datapath.rst
->  create mode 100644 Documentation/networking/netlink_spec/ovs_flow.rst
->  create mode 100644 Documentation/networking/netlink_spec/ovs_vport.rst
->  delete mode 100644 Documentation/networking/netlink_spec/readme.txt
->  create mode 100644 Documentation/networking/netlink_spec/rt-addr.rst
->  create mode 100644 Documentation/networking/netlink_spec/rt-link.rst
->  create mode 100644 Documentation/networking/netlink_spec/rt-neigh.rst
->  create mode 100644 Documentation/networking/netlink_spec/rt-route.rst
->  create mode 100644 Documentation/networking/netlink_spec/rt-rule.rst
->  create mode 100644 Documentation/networking/netlink_spec/tc.rst
->  create mode 100644 Documentation/networking/netlink_spec/tcp_metrics.rst
->  create mode 100644 Documentation/networking/netlink_spec/team.rst
->
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index d30d66ddf1ad..2383825dba49 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -102,8 +102,8 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
->  		cp $(if $(patsubst /%,,$(DOCS_CSS)),$(abspath $(srctree)/$(DOCS_CSS)),$(DOCS_CSS)) $(BUILDDIR)/$3/_static/; \
->  	fi
+> Changelog:
+> 
+> v1 -> v2:
+> 	- Refine commit message to explain more about "why"
+> 	- Check the frequency of "clocks_calc_mult_shift()" get called,
+> 	  it's not in hotpath on my machine, refine the commit message
+> to avoid overselling it
+> 	- Add comments for the code to explain the implementation in
+> 	  more detail
+> 	- Handle case for "tmp == 0" to avoid undefined behavior
+> v2 -> v3:
+> 	- Use "find_last_bit()" instead of "__builtin_clz()"
+> 	- Convert the type of "tmp" to "const unsigned long *" when
+> 	  sending into the function
+> 	- Highlight in the comment that only the lowest 32 bits part
+> 	  of "tmp" is taken into consideration
+> 
+> [1]:
+> static int __init test_init(void)
+> {
+>     u32 mult, shift;
+>     u32 from, to, maxsec;
+>     ktime_t start_time, end_time, total_time;
+>     pr_info("Starting clocks_calc_mult_shift simple test\n");
+> 
+>     start_time = ktime_get();
+>     // Test with parameters from 1 to 1000
+>     for (from = 1; from <= 1000; from += 100) {
+>         for (to = 1; to <= 1000; to += 100) {
+>             for (maxsec = 1; maxsec <= 10; maxsec++) {
+> 
+>                 clocks_calc_mult_shift(&mult, &shift, from, to, maxsec);
+>             }
+>         }
+>     }
+> 
+>     end_time = ktime_get();
+>     total_time = ktime_to_ns(ktime_sub(end_time, start_time));
+> 
+>     pr_info("Test completed\n");
+>     pr_info("Total execution time: %lld ns \n", total_time);
+>     return 0;
+> }
+> 
+> The test is running in the form of kernel module.
+> The test machine is running ubuntu 24.04 on x86_64 machine with kernel
+> version of v6.14.0, CPU type is AMD Ryzen 7 5700X3D 8-Core Processor.
+> 
+> Hi John, Yury,
+> 
+> Would you be so kind to give some suggestion/comments on how should the
+> usage of "find_last_bit()" be here ? I'm not sure about whether the type
+> conversion of "tmp" is appropriate, though compiler will pop out warnings
+> if not doing so.
+> 
+> Plus I'm thinking converting to another pointer type might might be correct
+> when the endianess isn't guaranteed ? (or this endianess problem should be
+> address and solved in filesystem layer ?)
+> 
+> Best regards,
+> I Hsin Cheng.
+> ---
+>  kernel/time/clocksource.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
+> index 2a7802ec480c..651bed1a53e7 100644
+> --- a/kernel/time/clocksource.c
+> +++ b/kernel/time/clocksource.c
+> @@ -66,10 +66,20 @@ clocks_calc_mult_shift(u32 *mult, u32 *shift, u32 from, u32 to, u32 maxsec)
+>  	 * range:
+>  	 */
+>  	tmp = ((u64)maxsec * from) >> 32;
+> -	while (tmp) {
+> -		tmp >>=1;
+> -		sftacc--;
+> -	}
+> +
+> +	/*
+> +	 * Decrement "sftacc" by the number of bits needed to represent "tmp".
+> +	 * Using "find_last_bit(&tmp, 32) + 1" to get the bit width:
+> +	 * - find_last_bit(&tmp, 32) returns the bit number of the last set bit
+> +	 * - Plus 1 to convert 0-based index into bit width as desired
+> +	 *
+> +	 * Note: Only the lowest 32 bits of "tmp" is taken into consideration,
+> +	 *		 since it was already shifted right by 32 bits, the topmost 32
+> +	 *		 bits are guaranteed to be 0.
+> +	 *
+> +	 */
+> +	if (sftacc)
+> +		sftacc -= (find_last_bit((const unsigned long *)&tmp, 32) + 1);
+
+1. sftacc is known to be 32. Comparing against 0 is useless.
+2. Just use __fls():
+        if (tmp)
+                sftacc -=__fls(tmp) + 1;
+
 >  
-> -YNL_INDEX:=$(srctree)/Documentation/networking/netlink_spec/index.rst
-> -YNL_RST_DIR:=$(srctree)/Documentation/networking/netlink_spec
-> +YNL_INDEX:=$(BUILDDIR)/networking/netlink_spec/netlink_index.rst
-> +YNL_RST_DIR:=$(BUILDDIR)/networking/netlink_spec/
->  YNL_YAML_DIR:=$(srctree)/Documentation/netlink/specs
->  YNL_TOOL:=$(srctree)/tools/net/ynl/pyynl/ynl_gen_rst.py
->  
-> @@ -111,12 +111,12 @@ YNL_RST_FILES_TMP := $(patsubst %.yaml,%.rst,$(wildcard $(YNL_YAML_DIR)/*.yaml))
->  YNL_RST_FILES := $(patsubst $(YNL_YAML_DIR)%,$(YNL_RST_DIR)%, $(YNL_RST_FILES_TMP))
->  
->  $(YNL_INDEX): $(YNL_RST_FILES)
-> -	$(Q)$(YNL_TOOL) -o $@ -x
-> +	$(Q)$(YNL_TOOL) -o $@ -d $(YNL_YAML_DIR) -x
->  
->  $(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml $(YNL_TOOL)
->  	$(Q)$(YNL_TOOL) -i $< -o $@
->  
-> -htmldocs texinfodocs latexdocs epubdocs xmldocs: $(YNL_INDEX)
-> +htmldocs texinfodocs latexdocs epubdocs xmldocs: $(YNL_INDEX) $(YNL_RST_FILES)
->  
->  htmldocs:
->  	@$(srctree)/scripts/sphinx-pre-install --version-check
-> diff --git a/Documentation/networking/netlink_spec/conntrack.rst b/Documentation/networking/netlink_spec/conntrack.rst
-> new file mode 100644
-> index 000000000000..6fc6af1e6de4
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/conntrack.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/conntrack.rst
-> diff --git a/Documentation/networking/netlink_spec/devlink.rst b/Documentation/networking/netlink_spec/devlink.rst
-> new file mode 100644
-> index 000000000000..412295d396c1
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/devlink.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/devlink.rst
-> diff --git a/Documentation/networking/netlink_spec/dpll.rst b/Documentation/networking/netlink_spec/dpll.rst
-> new file mode 100644
-> index 000000000000..913e1d9ef744
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/dpll.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/dpll.rst
-> diff --git a/Documentation/networking/netlink_spec/ethtool.rst b/Documentation/networking/netlink_spec/ethtool.rst
-> new file mode 100644
-> index 000000000000..42136a8572b9
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/ethtool.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/ethtool.rst
-> diff --git a/Documentation/networking/netlink_spec/fou.rst b/Documentation/networking/netlink_spec/fou.rst
-> new file mode 100644
-> index 000000000000..103528337d46
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/fou.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/fou.rst
-> diff --git a/Documentation/networking/netlink_spec/handshake.rst b/Documentation/networking/netlink_spec/handshake.rst
-> new file mode 100644
-> index 000000000000..600abec80431
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/handshake.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/handshake.rst
-> diff --git a/Documentation/networking/netlink_spec/index.rst b/Documentation/networking/netlink_spec/index.rst
-> new file mode 100644
-> index 000000000000..8a07a77f2e8b
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/index.rst
-> @@ -0,0 +1,6 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +# Netlink documentation is populated during the build of the documentation
-> +# (htmldocs) by the tools/net/ynl/pyynl/ynl_gen_rst.py script.
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/netlink_index.rst
-> diff --git a/Documentation/networking/netlink_spec/lockd.rst b/Documentation/networking/netlink_spec/lockd.rst
-> new file mode 100644
-> index 000000000000..6374dc2a982c
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/lockd.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/lockd.rst
-> diff --git a/Documentation/networking/netlink_spec/mptcp_pm.rst b/Documentation/networking/netlink_spec/mptcp_pm.rst
-> new file mode 100644
-> index 000000000000..8923db35603e
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/mptcp_pm.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/mptcp_pm.rst
-> diff --git a/Documentation/networking/netlink_spec/net_shaper.rst b/Documentation/networking/netlink_spec/net_shaper.rst
-> new file mode 100644
-> index 000000000000..82d9300f1c0c
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/net_shaper.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/net_shaper.rst
-> diff --git a/Documentation/networking/netlink_spec/netdev.rst b/Documentation/networking/netlink_spec/netdev.rst
-> new file mode 100644
-> index 000000000000..c379a79c5f23
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/netdev.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/netdev.rst
-> diff --git a/Documentation/networking/netlink_spec/nfsd.rst b/Documentation/networking/netlink_spec/nfsd.rst
-> new file mode 100644
-> index 000000000000..40716f4a3fa8
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/nfsd.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/nfsd.rst
-> diff --git a/Documentation/networking/netlink_spec/nftables.rst b/Documentation/networking/netlink_spec/nftables.rst
-> new file mode 100644
-> index 000000000000..1dc6d7c5ca58
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/nftables.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/nftables.rst
-> diff --git a/Documentation/networking/netlink_spec/nl80211.rst b/Documentation/networking/netlink_spec/nl80211.rst
-> new file mode 100644
-> index 000000000000..c056418f7068
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/nl80211.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/nl80211.rst
-> diff --git a/Documentation/networking/netlink_spec/nlctrl.rst b/Documentation/networking/netlink_spec/nlctrl.rst
-> new file mode 100644
-> index 000000000000..7fe48f26718e
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/nlctrl.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/nlctrl.rst
-> diff --git a/Documentation/networking/netlink_spec/ovpn.rst b/Documentation/networking/netlink_spec/ovpn.rst
-> new file mode 100644
-> index 000000000000..c146b803d742
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/ovpn.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/ovpn.rst
-> diff --git a/Documentation/networking/netlink_spec/ovs_datapath.rst b/Documentation/networking/netlink_spec/ovs_datapath.rst
-> new file mode 100644
-> index 000000000000..0b1242f2cc9c
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/ovs_datapath.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/ovs_datapath.rst
-> diff --git a/Documentation/networking/netlink_spec/ovs_flow.rst b/Documentation/networking/netlink_spec/ovs_flow.rst
-> new file mode 100644
-> index 000000000000..c1019ab06aff
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/ovs_flow.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/ovs_flow.rst
-> diff --git a/Documentation/networking/netlink_spec/ovs_vport.rst b/Documentation/networking/netlink_spec/ovs_vport.rst
-> new file mode 100644
-> index 000000000000..13eb53ff4c75
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/ovs_vport.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/ovs_vport.rst
-> diff --git a/Documentation/networking/netlink_spec/readme.txt b/Documentation/networking/netlink_spec/readme.txt
-> deleted file mode 100644
-> index 030b44aca4e6..000000000000
-> --- a/Documentation/networking/netlink_spec/readme.txt
-> +++ /dev/null
-> @@ -1,4 +0,0 @@
-> -SPDX-License-Identifier: GPL-2.0
-> -
-> -This file is populated during the build of the documentation (htmldocs) by the
-> -tools/net/ynl/pyynl/ynl_gen_rst.py script.
-> diff --git a/Documentation/networking/netlink_spec/rt-addr.rst b/Documentation/networking/netlink_spec/rt-addr.rst
-> new file mode 100644
-> index 000000000000..2739e81b7a04
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/rt-addr.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/rt-addr.rst
-> diff --git a/Documentation/networking/netlink_spec/rt-link.rst b/Documentation/networking/netlink_spec/rt-link.rst
-> new file mode 100644
-> index 000000000000..d4df7268d07c
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/rt-link.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/rt-link.rst
-> diff --git a/Documentation/networking/netlink_spec/rt-neigh.rst b/Documentation/networking/netlink_spec/rt-neigh.rst
-> new file mode 100644
-> index 000000000000..6c8b62d7b2ff
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/rt-neigh.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/rt-neigh.rst
-> diff --git a/Documentation/networking/netlink_spec/rt-route.rst b/Documentation/networking/netlink_spec/rt-route.rst
-> new file mode 100644
-> index 000000000000..a629d14bf405
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/rt-route.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/rt-route.rst
-> diff --git a/Documentation/networking/netlink_spec/rt-rule.rst b/Documentation/networking/netlink_spec/rt-rule.rst
-> new file mode 100644
-> index 000000000000..e4a991b1bacd
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/rt-rule.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/rt-rule.rst
-> diff --git a/Documentation/networking/netlink_spec/tc.rst b/Documentation/networking/netlink_spec/tc.rst
-> new file mode 100644
-> index 000000000000..1e78d3caeb5d
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/tc.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/tc.rst
-> diff --git a/Documentation/networking/netlink_spec/tcp_metrics.rst b/Documentation/networking/netlink_spec/tcp_metrics.rst
-> new file mode 100644
-> index 000000000000..ea43bd6f6925
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/tcp_metrics.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/tcp_metrics.rst
-> diff --git a/Documentation/networking/netlink_spec/team.rst b/Documentation/networking/netlink_spec/team.rst
-> new file mode 100644
-> index 000000000000..45a3f4d3ed80
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/team.rst
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +.. kernel-include:: $BUILDDIR/networking/netlink_spec/team.rst
-> diff --git a/tools/net/ynl/pyynl/ynl_gen_rst.py b/tools/net/ynl/pyynl/ynl_gen_rst.py
-> index 7bfb8ceeeefc..70417a9a8e96 100755
-> --- a/tools/net/ynl/pyynl/ynl_gen_rst.py
-> +++ b/tools/net/ynl/pyynl/ynl_gen_rst.py
-> @@ -365,6 +365,7 @@ def parse_arguments() -> argparse.Namespace:
->  
->      parser.add_argument("-v", "--verbose", action="store_true")
->      parser.add_argument("-o", "--output", help="Output file name")
-> +    parser.add_argument("-d", "--input_dir", help="YAML input directory")
->  
->      # Index and input are mutually exclusive
->      group = parser.add_mutually_exclusive_group()
-> @@ -405,11 +406,14 @@ def write_to_rstfile(content: str, filename: str) -> None:
->      """Write the generated content into an RST file"""
->      logging.debug("Saving RST file to %s", filename)
->  
-> +    dir = os.path.dirname(filename)
-> +    os.makedirs(dir, exist_ok=True)
-> +
->      with open(filename, "w", encoding="utf-8") as rst_file:
->          rst_file.write(content)
->  
->  
-> -def generate_main_index_rst(output: str) -> None:
-> +def generate_main_index_rst(output: str, index_dir: str, ) -> None:
->      """Generate the `networking_spec/index` content and write to the file"""
->      lines = []
->  
-> @@ -418,12 +422,15 @@ def generate_main_index_rst(output: str) -> None:
->      lines.append(rst_title("Netlink Family Specifications"))
->      lines.append(rst_toctree(1))
->  
-> -    index_dir = os.path.dirname(output)
-> -    logging.debug("Looking for .rst files in %s", index_dir)
-> +    index_fname = os.path.basename(output)
-> +    if not index_dir:
-> +        index_dir = os.path.dirname(output)
-> +
-> +    logging.debug("Looking for .yaml files in %s", index_dir)
->      for filename in sorted(os.listdir(index_dir)):
-> -        if not filename.endswith(".rst") or filename == "index.rst":
-> +        if not filename.endswith(".yaml") or filename == index_fname:
->              continue
-> -        lines.append(f"   {filename.replace('.rst', '')}\n")
-> +        lines.append(f"   {filename.replace('.yaml', '')}\n")
->  
->      logging.debug("Writing an index file at %s", output)
->      write_to_rstfile("".join(lines), output)
-> @@ -447,7 +454,7 @@ def main() -> None:
->  
->      if args.index:
->          # Generate the index RST file
-> -        generate_main_index_rst(args.output)
-> +        generate_main_index_rst(args.output, args.input_dir)
->  
->  
->  if __name__ == "__main__":
+>  	/*
+>  	 * Find the conversion shift/mult pair which has the best
+> -- 
+> 2.43.0
