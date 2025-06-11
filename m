@@ -1,43 +1,66 @@
-Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CAE2E6102
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 11:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749641292; cv=pass; b=XFYlFB3y9+3UDJ45IoYIwIhsc4Tp84PwVMn54Ni3A3dloW4oPEeXzE2lFyd4qkzK/rtR5YtMzeZPoMpSEDAR6DbqWH376FQZ/PHWAYZoe3aI0PNclpt14Y6nJkIV0MXCZaVH0F+nerBM5i5iMWn+ZMCOSBBO4VSdACc/8SsrXNE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749641292; c=relaxed/simple;
-	bh=9bAtrOVhW58iEopEem9hle2TkK2vl0U06nsZRHdY2WM=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE6122F3A8
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 11:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749641598; cv=none; b=Q/YyBw/v5F7PJk2ptvXjqURLJ5yTKZMDq4asPb2PXZQwY+Da2G9dvS1hoVMB1woNsiUi/UC2cEoXedx6+ikzGdXHPOJN8Hc0vKdxHuJm2KxmUCrMEQLYx6bIHt0GBkNPumStt3/1dQns7SJOrXxDrN/RYNQoLsYSS1wEzf6TyM0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749641598; c=relaxed/simple;
+	bh=AeoKYUfqPpxYTwa9dOPzz1NIZa4CwemYCpr69gr9Bbc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cOylb40kHBtuHUmIDY4Y7voxo3a4HFr/XmFw45vCCgdcrV0KbgXIo6GmxEAJIf6ihojwPvhDNvpU5hiG2b/HYsbBH+FDmvt9Fcd4uHNLCh91xypXZcYEkcQ6uvV6tn33F7NcJZDCNSUXmIfpkjJR5aqfmBhARC2hR5gUNwcsZiY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b=EL0+sO3N; arc=pass smtp.client-ip=136.143.188.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+	 In-Reply-To:Content-Type; b=juLRgbZ4FCX14ryOREPXDxjaktsYBPnpYdUxu171omA1NGvE6ZOLgmvq5kN1DMWVjxvghHsUr0FFiUEwSXd6n91mtNY8+Pd1YkciAsXA8xh2dnTOJ1y/mzGNx/3/X3Mf70+6bbJXj7ekBuNw7EhpRe8Hvc2t857dGR7qr0F+cwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RjgboLyP; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b="EL0+sO3N"
-ARC-Seal: i=1; a=rsa-sha256; t=1749641287; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Fsiu+Xri1nDZzPMh2VCN8zq16LVAvMTjJ3OmnQAfIo0Cd+KL4q9SxcK3920bJGz7iOp8KBthE5wbX3MyJsuQ5UXndftvs7ap/zPmJeRRcu+AywXgV56qTx/Zh0pgBceNkTBmguW5etg/i2uo23eJ91vDuzufTKqMF+HQm/Tlnb4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1749641287; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=eEkRwX3bcu6d9EfxMC5QWhVU9QbG0O36o+5JpYQjZko=; 
-	b=BrcOXrJ2C7LB7B2faYy7CD0EMtHlee++Mjvp3Qla8lTPgXOrp3TtJMA4595hKNtsFzizTlzF2+hvATCzSnorm7BoOd47ANqeTs/TiRgqVIsqcSfDHQcUXwyFXsMl3TH0r+1ZOkyqiwFiGsy75WqjtQKtPO5q9KXFq/+abRj4e/M=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=ming.li@zohomail.com;
-	dmarc=pass header.from=<ming.li@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749641287;
-	s=zm2022; d=zohomail.com; i=ming.li@zohomail.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=eEkRwX3bcu6d9EfxMC5QWhVU9QbG0O36o+5JpYQjZko=;
-	b=EL0+sO3NTKluuiu0tfMLuruliVOsc6MS3mmXKzhwxa+VNLW2L/CdR44yzfxEv1hL
-	/iiycqgnXjYcs6wZCppEtEpw8XfErG/dxDZ1HIWljWlRk2FO+hBOnXnwwAxuN9eNNKC
-	nCryFPo3CcQYXq05rnv0A+gNk2O4EMvIbtyESIGY=
-Received: by mx.zohomail.com with SMTPS id 1749641284765481.1752739316735;
-	Wed, 11 Jun 2025 04:28:04 -0700 (PDT)
-Message-ID: <a0205f77-e9b4-43b0-89b4-92897202c6f4@zohomail.com>
-Date: Wed, 11 Jun 2025 19:28:00 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RjgboLyP"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-32a7a5ab797so50721441fa.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 04:33:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749641594; x=1750246394; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IGE+TNgN8AiJDwpgQ02ln4zwsMtlaz7bMg5HLVNRnrA=;
+        b=RjgboLyPQM1Q1u8P0ec6W2sjve/IYKAiBNMkOC7HgdUkOuAc/oEk73j5G610Toz/Ny
+         2TtZG8pskJcJraiLA2ujyLF+DbBbqIamixPID33BWYXKkQcyigr68hMSmWd8Jssl0Wwd
+         +gTIpE4iXTCIutjbXQgY9PmAWpoaR2HuWByuV0jJwbZYYaCX+FmPZV8PX3TO+leKpO1D
+         5M6PfD7UdfQ0qQsLTURlngS2iqIaaczL5lJvuJMRRLU1Z8PbSTEpKBVW3THyPeSRe2AA
+         Dhhxe1gN/GN7xDr6FyEMX1L2Yen/4WF324sWeosJjmK1GaI7MFyX/+JvPsmJV58p42RZ
+         JtwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749641594; x=1750246394;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IGE+TNgN8AiJDwpgQ02ln4zwsMtlaz7bMg5HLVNRnrA=;
+        b=fumJc7FZYk8r1TagE/ROo8MAgj2JI4T5Inw3WtRLed6T+OiJt7mCvKF0+80qJ+WAsR
+         vwKPaEuNVxzS3kNq7Q2IinZtCIJD41X8ABnZvXQBCZitYfAvZiqvcPkeF4nLrIIOtmI8
+         fIp6RlRIojQnIEIYPUys8zU2HIovQBa1tBTObkvH4KaHCz5OvmLcstDb+K06QP3QNqhH
+         nvZg8C7qXWE2jzmXegW/4qpNmX1RjXkjRwtpqB/XJy/NIb5GeeCeeusyPsuGgouMx/dz
+         0sGPBuauAcIie2oZDlVVWi0M7eJ+lbD/QeVgwN2UILpTHbxwmcvGXqZV1Jy5sX267VoE
+         0sZA==
+X-Forwarded-Encrypted: i=1; AJvYcCWDjHwy6Xp1QjyII0OI/s8Aqpfrql5x8VlcwetWaQlMkfSt9uFPL8QvCeqsvTntd33pDWjKRe2Vc7JYq/lHtnz+xU8oyA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzS/QQFgt7eBAPJew7selaLbTdHsUhQ/Twu+2+Vxv5JQSMEYaOI
+	fJBuHlwj+Pw2fVvfPaPUUhHo87BfKT5RYkGfzxA4aklKsefEAgBpePK4
+X-Gm-Gg: ASbGncv/IaKCkZfHJO/+FmFyov4pa+Kfuo8iFquurCEBa7PWxrDeySW5Og7T9kjRznb
+	rXphXbr4qXfpT0lQYbWKEtd9HVsxfG7X4I9Qw88aQZbp8tFXgoAVIhZ13r4PlPnDm2O6FOJR1Is
+	ecZBUMzK6qzIlPgkBIXk3wT0TDWuGrpO5H0mrx3lJTEJtp1TidZ/T4HIpS74eRW4W3DQOycnD7z
+	TVWpBPvTR2SpL7/L6mCyS15WBH+6kANOdjL8RU1rz4HjR3ptYQIs1plegPH2iDHoQoxlihR6PmV
+	hkdSNKBXnVEWt2CvNlOL9BGRYGd6jrWpBckaXd10Ke4IUWOXelCRBKM7WR0iNhwxw485M9jOatJ
+	hm2/LNfS5N44MYRwFpQT1Nb6XoNmbrMSiI77UoDgK6OAyo9lbjIS5f9sz6aNaDbCePwy3Lf15+X
+	QkjdJcIHr5cLGqg5eetEgOfBwO
+X-Google-Smtp-Source: AGHT+IE2kzQKVgzgwd3yt80d6uhyHJ6VDdhEtsKW+aItli5kCRdPijQS2jEZ4uFGLbUyM9wZHtc6gw==
+X-Received: by 2002:a2e:b887:0:b0:32a:888e:b30f with SMTP id 38308e7fff4ca-32b2227dce0mr7598041fa.6.1749641594023;
+        Wed, 11 Jun 2025 04:33:14 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:6e:3100:d134:143d:95b6:6d13? (2001-14ba-6e-3100-d134-143d-95b6-6d13.rev.dnainternet.fi. [2001:14ba:6e:3100:d134:143d:95b6:6d13])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32ae1b0cf7fsm17713801fa.12.2025.06.11.04.33.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Jun 2025 04:33:13 -0700 (PDT)
+Message-ID: <5dad612b-495b-4f1c-82ff-e8ed4ef34c07@gmail.com>
+Date: Wed, 11 Jun 2025 14:33:12 +0300
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -45,46 +68,48 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: fix typo in CXL driver documentation
-To: Nai-Chen Cheng <bleach1827@gmail.com>
-Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, Shuah Khan
- <skhan@linuxfoundation.org>, Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Dan Williams <dan.j.williams@intel.com>
-References: <20250610173152.33566-1-bleach1827@gmail.com>
-From: Li Ming <ming.li@zohomail.com>
-In-Reply-To: <20250610173152.33566-1-bleach1827@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Feedback-ID: rr0801122758dac63f59411b822277c55400007f0e272b1e9d9f9c508b30d72fed609010fdc86e6cbecdf7e7:zu08011227c9d23f366ad105d643218e08000082d2ad27e97dfe0b0003f2bde8789392502be4494b363dda8c:rf0801122dbf444edff5dd7069e0cf5aa000007bb2898c1b75feea3ca715bc354293820032d6e470cd1008144da1145df99b:ZohoMail
-X-ZohoMailClient: External
+Subject: Re: [PATCH v2 1/4] docs: Improve grammar in Userspace API/DVB API
+To: Bagas Sanjaya <bagasdotme@gmail.com>, mchehab@kernel.org,
+ ribalda@chromium.org, hverkuil@xs4all.nl, hljunggr@cisco.com,
+ dave.jiang@intel.com, jgg@ziepe.ca, saeedm@nvidia.com,
+ Jonathan.Cameron@huawei.com, corbet@lwn.net, ilpo.jarvinen@linux.intel.com,
+ mario.limonciello@amd.com, W_Armin@gmx.de, mpearson-lenovo@squebb.ca,
+ skhan@linuxfoundation.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+References: <20250522115255.137450-1-hannelotta@gmail.com>
+ <aDAOhl7gKhkcTEjk@archie.me>
+Content-Language: en-US
+From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
+In-Reply-To: <aDAOhl7gKhkcTEjk@archie.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 6/11/2025 1:31 AM, Nai-Chen Cheng wrote:
-> Fix typo 'enumates' to 'enumerate' in CXL driver operation
-> documentation to improve readability.
->
-> Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
-Reviewed-by: Li Ming <ming.li@zohomail.com>
-> ---
->  Documentation/driver-api/cxl/linux/cxl-driver.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/driver-api/cxl/linux/cxl-driver.rst b/Documentation/driver-api/cxl/linux/cxl-driver.rst
-> index 9759e90c3cf1..dd6dd17dc536 100644
-> --- a/Documentation/driver-api/cxl/linux/cxl-driver.rst
-> +++ b/Documentation/driver-api/cxl/linux/cxl-driver.rst
-> @@ -20,7 +20,7 @@ The CXL driver is split into a number of drivers.
->  * cxl_port  - initializes root and provides port enumeration interface.
->  * cxl_acpi  - initializes root decoders and interacts with ACPI data.
->  * cxl_p/mem - initializes memory devices
-> -* cxl_pci   - uses cxl_port to enumates the actual fabric hierarchy.
-> +* cxl_pci   - uses cxl_port to enumerate the actual fabric hierarchy.
->  
->  Driver Devices
->  ==============
+On 5/23/25 08:58, Bagas Sanjaya wrote:
+> On Thu, May 22, 2025 at 02:52:52PM +0300, Hanne-Lotta Mäenpää wrote:
+>>     #. On Satellite and Cable delivery systems, the bandwidth depends on
+>> -     the symbol rate. So, the Kernel will silently ignore any setting
+>> -     :ref:`DTV-BANDWIDTH-HZ`. I will however fill it back with a
+>> -     bandwidth estimation.
+>> +     the symbol rate. The kernel will silently ignore any setting
+>> +     :ref:`DTV-BANDWIDTH-HZ` and overwrites it with bandwidth estimation.
+> "The kernel will silently ignore any :ref:`DTV-BANDWIDTH-HZ` setting ..."
+>>   
+>>        Such bandwidth estimation takes into account the symbol rate set with
+>>        :ref:`DTV-SYMBOL-RATE`, and the rolloff factor, with is fixed for
+> 
+> Thanks.
+> 
 
+Hello,
 
+What is the best way to send an update on this patch, now that patches 
+3/4 and 4/4 have been applied, but 1/4 and 2/4 have not been applied?
+
+Do I send v3 for the first two only?
+
+Any guidance is greatly appreciated, since I am new to kernel development.
+
+Best regards,
+
+Hanne-Lotta Mäenpää
