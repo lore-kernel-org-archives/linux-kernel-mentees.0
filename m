@@ -1,112 +1,90 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BBA289E30
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 10:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749638714; cv=none; b=jpN1ReIuw4Qu0iMHf7TOWmWmvf4pF5t880eFZhIdoDw8mntHR0XROZ/3EOHQUewKjMUvWnhJdt1YWxl83+hJ0OdZOB56PEypZ87no5cD8Jd9zVHNfD2XbaMXXaG+CstrmLaGqSuH9eU9UAEz8Dxw+PIiDKPBmSYhFN0HeHMNYaM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749638714; c=relaxed/simple;
-	bh=r6AzIemY8jhRgeGmeH2XDBuKf9B22/TpiN2MBecEYM0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gAIxFgW0Eu/CJ57wLD2stDhpXeWjmdL21yCAn58l/bK5vYXE9FS5jmgZfVHRzsuI1IuSxbIYqjZaccNflX9J6jsYuOkZrga+57LyK9XWofmwvhgSrTop2S6OHEOi8YaCyhxHh+ucwMx48mAngMwyt7qGQopg1V8yDWbgHuolkys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ArHKQ/8+; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CAE2E6102
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 11:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749641292; cv=pass; b=XFYlFB3y9+3UDJ45IoYIwIhsc4Tp84PwVMn54Ni3A3dloW4oPEeXzE2lFyd4qkzK/rtR5YtMzeZPoMpSEDAR6DbqWH376FQZ/PHWAYZoe3aI0PNclpt14Y6nJkIV0MXCZaVH0F+nerBM5i5iMWn+ZMCOSBBO4VSdACc/8SsrXNE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749641292; c=relaxed/simple;
+	bh=9bAtrOVhW58iEopEem9hle2TkK2vl0U06nsZRHdY2WM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cOylb40kHBtuHUmIDY4Y7voxo3a4HFr/XmFw45vCCgdcrV0KbgXIo6GmxEAJIf6ihojwPvhDNvpU5hiG2b/HYsbBH+FDmvt9Fcd4uHNLCh91xypXZcYEkcQ6uvV6tn33F7NcJZDCNSUXmIfpkjJR5aqfmBhARC2hR5gUNwcsZiY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b=EL0+sO3N; arc=pass smtp.client-ip=136.143.188.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ArHKQ/8+"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-742c73f82dfso5364454b3a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 03:45:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749638712; x=1750243512; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i+hXt20KOnpHxPZlTruLIdjQ7iUCgl0yVHEwobe4r+s=;
-        b=ArHKQ/8+3R6FAmf0hHC5MBdsUdDEMQpSZ1aasMtByeKsQYij55rmjW7fuFeodCKZa6
-         RuKiliZ+RPyqbqmCId3HOjtUpEEifwK1+tyMJHYot+L7Z+hBXa8cklk+1rZolns9NZ5T
-         2N2gZoQwmxG+dSXa+wDdQSgeIv0WPSTWGOTRPNEBStLft97eqlTY53dxQViygfSxGS/Z
-         tM3fCauD470Ab2C0d98Vkre8gaztRo5mVIFnSYwZBZLJAzJxjNxLu1R1xSRBvXQPH804
-         ehkteuLI7VY9iOHW3/3W1YID9qW+rl9DzlkdpBBpQpnDFfEGo4/k/3DnOeyzqBaMtzKn
-         hPXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749638712; x=1750243512;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i+hXt20KOnpHxPZlTruLIdjQ7iUCgl0yVHEwobe4r+s=;
-        b=XS2Tvo4LC/IcugFvLRXHAEDFJx1eAT0HqRuS7NrJ79pLr8tA9MzFIYZM9XT0x4cgfZ
-         AUbPt7AyQ+Yc/zh95nt3R1pB+GuukWGGLxYZDjP/qDmXMpDP9Itrs4kICxEGNT4u7NAJ
-         ApIlFe4Q2kqnvC48ZGk2epqCHKQZjRZzxC0Dw3YbXtPBE/24/wC5afL4lvaI8fMNoTPY
-         q2GhQLkGCqwhWVq5wWzyv8RemIwFvAglcpI30K+exuUGbAv4Q2s7EYXR8v0E/wIcmQV1
-         v4myv3P23dZyKrN3nSswYqVToNtEaTYNVCiLiYWpnlcRHFgyudoreO7GKu5AnmfXefPY
-         IIeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVosDSGLe7bDTK/DywyMZ7inJKu0e0h9oy7N+0g6qiFsdppNo2oxV185F9pc841a0l2Mb3e24Tmwe5WFpUo/gb71bySCQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw5SahiPrnv24xLFZkO/g2CjIuI+5xTikrWWjdX+pU754peJzoy
-	MsQvB4a+AE5Vgq+8H2AmmDMHD2pOwddApJy+aroAXz/RTbntdPFZGS0d
-X-Gm-Gg: ASbGncv9VXqw9H4G3Rj63jMvDSuLBNj+zvP/+nFYwMjsKZ9bwv/aM6vJ112oMjtteht
-	QBCQOUazLgsfpIIaznUBAM46cIuw8tReSDXNYf6PKeC/KXqVkvvP9O95nXUEp2JNWuy99BaCMZg
-	0w3Elfe11NgWvQyPAAKHbzDhGOEV1LUqQ7NSCk1n+kSZuTupqv7V1phxaTqMKps/xEOcyQsuX9h
-	XwMhepkqggzrFRsPMgcnaD/BjK10jcU9O6kQrAVbgITVGjh0iD66TnJhXHI217tvgWLd4aw13Yb
-	g2YjB6geM26ocTY/37X7cU908AtWz/1CwefvA4Tyzz32Uz3rb8ihBFc/ATe0EJkQZEbrXDEeSmQ
-	F+oZ7+MuFcgIAT6K0
-X-Google-Smtp-Source: AGHT+IHaa70N8CkqnPXWc91UlgDo+p6GMS44gx+oso4/GpQPu/T3Sek0DJUNLJfLi0Wcarzi3fnvig==
-X-Received: by 2002:a05:6a21:4593:b0:21f:449e:f6df with SMTP id adf61e73a8af0-21f86746da6mr4732949637.41.1749638712361;
-        Wed, 11 Jun 2025 03:45:12 -0700 (PDT)
-Received: from vaxr-ASUSPRO-D840MB-M840MB.. ([2001:288:7001:2703:52f2:ddbc:f858:ca43])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b0f2e77sm9099735b3a.176.2025.06.11.03.45.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 03:45:11 -0700 (PDT)
-From: I Hsin Cheng <richard120310@gmail.com>
-To: jstultz@google.com
-Cc: tglx@linutronix.de,
-	sboyd@kernel.org,
-	linux-kernel@vger.kernel.org,
-	jserv@ccns.ncku.edu.tw,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	I Hsin Cheng <richard120310@gmail.com>
-Subject: [PATCH] clocksource: Utilize cpumask_next_wrap() to shrink code size
-Date: Wed, 11 Jun 2025 18:45:06 +0800
-Message-ID: <20250611104506.2270561-1-richard120310@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b="EL0+sO3N"
+ARC-Seal: i=1; a=rsa-sha256; t=1749641287; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Fsiu+Xri1nDZzPMh2VCN8zq16LVAvMTjJ3OmnQAfIo0Cd+KL4q9SxcK3920bJGz7iOp8KBthE5wbX3MyJsuQ5UXndftvs7ap/zPmJeRRcu+AywXgV56qTx/Zh0pgBceNkTBmguW5etg/i2uo23eJ91vDuzufTKqMF+HQm/Tlnb4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1749641287; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=eEkRwX3bcu6d9EfxMC5QWhVU9QbG0O36o+5JpYQjZko=; 
+	b=BrcOXrJ2C7LB7B2faYy7CD0EMtHlee++Mjvp3Qla8lTPgXOrp3TtJMA4595hKNtsFzizTlzF2+hvATCzSnorm7BoOd47ANqeTs/TiRgqVIsqcSfDHQcUXwyFXsMl3TH0r+1ZOkyqiwFiGsy75WqjtQKtPO5q9KXFq/+abRj4e/M=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=ming.li@zohomail.com;
+	dmarc=pass header.from=<ming.li@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749641287;
+	s=zm2022; d=zohomail.com; i=ming.li@zohomail.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=eEkRwX3bcu6d9EfxMC5QWhVU9QbG0O36o+5JpYQjZko=;
+	b=EL0+sO3NTKluuiu0tfMLuruliVOsc6MS3mmXKzhwxa+VNLW2L/CdR44yzfxEv1hL
+	/iiycqgnXjYcs6wZCppEtEpw8XfErG/dxDZ1HIWljWlRk2FO+hBOnXnwwAxuN9eNNKC
+	nCryFPo3CcQYXq05rnv0A+gNk2O4EMvIbtyESIGY=
+Received: by mx.zohomail.com with SMTPS id 1749641284765481.1752739316735;
+	Wed, 11 Jun 2025 04:28:04 -0700 (PDT)
+Message-ID: <a0205f77-e9b4-43b0-89b4-92897202c6f4@zohomail.com>
+Date: Wed, 11 Jun 2025 19:28:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: fix typo in CXL driver documentation
+To: Nai-Chen Cheng <bleach1827@gmail.com>
+Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, Shuah Khan
+ <skhan@linuxfoundation.org>, Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Dan Williams <dan.j.williams@intel.com>
+References: <20250610173152.33566-1-bleach1827@gmail.com>
+From: Li Ming <ming.li@zohomail.com>
+In-Reply-To: <20250610173152.33566-1-bleach1827@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Feedback-ID: rr0801122758dac63f59411b822277c55400007f0e272b1e9d9f9c508b30d72fed609010fdc86e6cbecdf7e7:zu08011227c9d23f366ad105d643218e08000082d2ad27e97dfe0b0003f2bde8789392502be4494b363dda8c:rf0801122dbf444edff5dd7069e0cf5aa000007bb2898c1b75feea3ca715bc354293820032d6e470cd1008144da1145df99b:ZohoMail
+X-ZohoMailClient: External
 
-Simplify the procedure of CPU random selection under
-"clocksource_verify_choose_cpus()" with "cpumask_next_wrap()". The
-logic is still the same but with this change it can shrink the code size
-by 18 bytes and increase readability.
+On 6/11/2025 1:31 AM, Nai-Chen Cheng wrote:
+> Fix typo 'enumates' to 'enumerate' in CXL driver operation
+> documentation to improve readability.
+>
+> Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
+Reviewed-by: Li Ming <ming.li@zohomail.com>
+> ---
+>  Documentation/driver-api/cxl/linux/cxl-driver.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/driver-api/cxl/linux/cxl-driver.rst b/Documentation/driver-api/cxl/linux/cxl-driver.rst
+> index 9759e90c3cf1..dd6dd17dc536 100644
+> --- a/Documentation/driver-api/cxl/linux/cxl-driver.rst
+> +++ b/Documentation/driver-api/cxl/linux/cxl-driver.rst
+> @@ -20,7 +20,7 @@ The CXL driver is split into a number of drivers.
+>  * cxl_port  - initializes root and provides port enumeration interface.
+>  * cxl_acpi  - initializes root decoders and interacts with ACPI data.
+>  * cxl_p/mem - initializes memory devices
+> -* cxl_pci   - uses cxl_port to enumates the actual fabric hierarchy.
+> +* cxl_pci   - uses cxl_port to enumerate the actual fabric hierarchy.
+>  
+>  Driver Devices
+>  ==============
 
-$ ./scripts/bloat-o-meter vmlinux_old vmlinux_new
-add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-18 (-18)
-Function                                     old     new   delta
-clocksource_verify_percpu                   1064    1046     -18
-
-Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
----
- kernel/time/clocksource.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
-index bb48498ebb5a..ab580873408b 100644
---- a/kernel/time/clocksource.c
-+++ b/kernel/time/clocksource.c
-@@ -343,9 +343,7 @@ static void clocksource_verify_choose_cpus(void)
- 	 */
- 	for (i = 1; i < n; i++) {
- 		cpu = get_random_u32_below(nr_cpu_ids);
--		cpu = cpumask_next(cpu - 1, cpu_online_mask);
--		if (cpu >= nr_cpu_ids)
--			cpu = cpumask_first(cpu_online_mask);
-+		cpu = cpumask_next_wrap(cpu - 1, cpu_online_mask);
- 		if (!WARN_ON_ONCE(cpu >= nr_cpu_ids))
- 			cpumask_set_cpu(cpu, &cpus_chosen);
- 	}
--- 
-2.43.0
 
