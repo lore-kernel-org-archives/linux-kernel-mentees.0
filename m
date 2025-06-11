@@ -1,75 +1,79 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6028B280CD0
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 12:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96522286D45
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 13:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749646244; cv=none; b=h11rk+pC+yTstNd0h7kmtjKI6fedB0n1DL1Yihkjvc+q+ZOZFLvgsqT4UCZSdOkz81h21zeRBAyhQCAoOLe0KrDVP4F8NnKGJXhjdHCLJluYtLZbGhf3Il1C7FfAmik253fCt3p4LSdtS+yFJSik46HfA5lbrJXcB77Es/gZFdE=
+	t=1749648551; cv=none; b=Q1WwNCr8MkYiYQ/bMLbpkQ8hPnHpsfruKGjJ9a6HvEoDxqhqVuF4oZ9DFW7dh5vKE2D3KLYeJslKZJFwY3rJk6thyxpqYTv2ySs+FJdTdQy90SNmuS4SpfFUbNm2fKkXTkEJPm9zRTjKMECuIC+ev2pDwPCtylfMkDDJEEHfF24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749646244; c=relaxed/simple;
-	bh=a4Pe6Hrx1bmJT+ddJQdiMkCsR84XUPzU0+wqpELBmE4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PbNoQ3TNucC2e8eYbLprVCNH7yp4hTfIZR6HWZl77azf63PcV7qBXB+VrMeeOP3sue/z9I7ZYGU8KoC4wZMYGJ1Qjc8Add53qymyZV8ldqWhLTngTTYhphr4EwWOlqcDyiu71Jl9tK4VlUo3KORVxNxl1zvcd5sP7PTNgNQtm5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Wobpye/t; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Wobpye/t"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DE47941ECC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1749646237; bh=a4Pe6Hrx1bmJT+ddJQdiMkCsR84XUPzU0+wqpELBmE4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Wobpye/tfQSWG2Ji0OTS32YWOvaq1VmgIsYRUYO4x8ntQ+kTDgq0vaPHrnttixcAV
-	 +yhxVyxLsO4XKAQfd+299rOQt+la03SDy9qA1TvmxZ/D7L/2nmpAT/xdw170imnbLl
-	 MyB1eMCswaUXq7W6OSg94oP/UikzkV/YOqP0a3nXjNCGiVMc+gBR0m0zpVsBf5srPB
-	 eEIkdBHX1a1Iwklq3ZvKL5MxRenFK1Lj+E/sK3QUO0DCZjFK8jqUqmfY+CkkKJaR04
-	 awqhKgF1hh/ncaoo0+pTaBusd4iVi83Lc1hmu7h9XfPotU23S3sffLwE/FszJaeU0F
-	 i9rojaGKfMgfw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id DE47941ECC;
-	Wed, 11 Jun 2025 12:50:36 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Hanne-Lotta =?utf-8?B?TcOkZW5ww6TDpA==?= <hannelotta@gmail.com>, Bagas
- Sanjaya
- <bagasdotme@gmail.com>, mchehab@kernel.org, ribalda@chromium.org,
- hverkuil@xs4all.nl, hljunggr@cisco.com, dave.jiang@intel.com,
- jgg@ziepe.ca, saeedm@nvidia.com, Jonathan.Cameron@huawei.com,
- ilpo.jarvinen@linux.intel.com, mario.limonciello@amd.com, W_Armin@gmx.de,
- mpearson-lenovo@squebb.ca, skhan@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2 1/4] docs: Improve grammar in Userspace API/DVB API
-In-Reply-To: <5dad612b-495b-4f1c-82ff-e8ed4ef34c07@gmail.com>
-References: <20250522115255.137450-1-hannelotta@gmail.com>
- <aDAOhl7gKhkcTEjk@archie.me>
- <5dad612b-495b-4f1c-82ff-e8ed4ef34c07@gmail.com>
-Date: Wed, 11 Jun 2025 06:50:36 -0600
-Message-ID: <87v7p230ir.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1749648551; c=relaxed/simple;
+	bh=MzKTTjwQLF+OacywlNa7xEiLACFrII4fS3xBw3RL6jw=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o6rB2jwoQ8GZxO/fqikGAuW+SVxby6hH3yBp1tPLuIJRIWbUVv4l0mlHFBADIxw7zacIN6VGnRpBUmCosJymJ2hMJ54pod9pvHfX5RUCQIMZtX1rtjQMVyaiQ7gqxjKMV9IodovWMD4ls1324H5mv8NhZf+Y8EzpLmwhc+Kl2eY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bHRKF4t9hz6J9dh;
+	Wed, 11 Jun 2025 21:27:13 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 577491402EC;
+	Wed, 11 Jun 2025 21:29:06 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 11 Jun
+ 2025 15:29:05 +0200
+Date: Wed, 11 Jun 2025 14:29:04 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Nai-Chen Cheng <bleach1827@gmail.com>
+CC: Davidlohr Bueso <dave@stgolabs.net>, Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>, Vishal Verma
+	<vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
+	<dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel-mentees@lists.linux.dev>, Shuah Khan
+	<skhan@linuxfoundation.org>
+Subject: Re: [PATCH] Documentation: fix typo in CXL driver documentation
+Message-ID: <20250611142904.00007a48@huawei.com>
+In-Reply-To: <20250610173152.33566-1-bleach1827@gmail.com>
+References: <20250610173152.33566-1-bleach1827@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-Hanne-Lotta M=C3=A4enp=C3=A4=C3=A4 <hannelotta@gmail.com> writes:
+On Wed, 11 Jun 2025 01:31:52 +0800
+Nai-Chen Cheng <bleach1827@gmail.com> wrote:
 
-> On 5/23/25 08:58, Bagas Sanjaya wrote:
-> What is the best way to send an update on this patch, now that patches=20
-> 3/4 and 4/4 have been applied, but 1/4 and 2/4 have not been applied?
->
-> Do I send v3 for the first two only?
+> Fix typo 'enumates' to 'enumerate' in CXL driver operation
+> documentation to improve readability.
+> 
+> Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-Yes, it has been long enough that you resend the two unapplied patches.
-They are media-subsystem patches, so the media folks need to pick them
-up.
+> ---
+>  Documentation/driver-api/cxl/linux/cxl-driver.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/driver-api/cxl/linux/cxl-driver.rst b/Documentation/driver-api/cxl/linux/cxl-driver.rst
+> index 9759e90c3cf1..dd6dd17dc536 100644
+> --- a/Documentation/driver-api/cxl/linux/cxl-driver.rst
+> +++ b/Documentation/driver-api/cxl/linux/cxl-driver.rst
+> @@ -20,7 +20,7 @@ The CXL driver is split into a number of drivers.
+>  * cxl_port  - initializes root and provides port enumeration interface.
+>  * cxl_acpi  - initializes root decoders and interacts with ACPI data.
+>  * cxl_p/mem - initializes memory devices
+> -* cxl_pci   - uses cxl_port to enumates the actual fabric hierarchy.
+> +* cxl_pci   - uses cxl_port to enumerate the actual fabric hierarchy.
+>  
+>  Driver Devices
+>  ==============
 
-Thanks,
-
-jon
