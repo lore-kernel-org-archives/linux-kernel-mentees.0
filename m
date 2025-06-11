@@ -1,107 +1,97 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EA22BD589
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 14:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA75E1D7E41
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 15:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749652241; cv=none; b=mNlCP+EM1a/VYKax26eLs9CsZdPvFbD3z3FOhpVfw4N1DbrU9OJh+C91GfL7FhvysKVKKLsTG6I3T2MUcYHvJZ50c0VCn2JGTrajlmkPkdhOWqXnPSRPyr0OcMv8gkaodsM49ecadYCoqV2390cKfFgEnjr6VAP3oz1cHz92B3s=
+	t=1749656361; cv=none; b=fuGzCjITzkEevwDJ5Fj+BV+LHiJPJYp0vHxzusJVnna4WJNBHMCYu4FQtET8LPWDPFaRVCVaS8sQzq25L6/4J4wFXWRvlddMtiBjw7XfLi9mBnqjqRXoPevaLmuZt36Ce7ZlMyHVSpHdPm40oeJjDpHTBvBhHGVmk/NbXmSrvVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749652241; c=relaxed/simple;
-	bh=aFmitG4GGLZP2RIysH0rFcAxmrewRQ4O1r7kUt3WQyg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XbYmp0/ZAOnJiW5mdrSVlK4DBy6UKtsWsakuJk+mLh7RVl4nFOl7Cvs897FgY6mSLU+h0IyvJ+Y4epjcr3M+dwXMIbjueYZuq9f78lFznzbLGm+qPCeN5xbEhKBk+gYgRibVZDcHqhSBoK4xzDxjK1UABQLoHgFReMBgApSssys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iEdax8a3; arc=none smtp.client-ip=209.85.167.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749656361; c=relaxed/simple;
+	bh=XLk4LWwwo5lH3hddjSgOakROb8Q1UrrXjATsa1j/tAs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ET2q3kFESfJGIyuE7ZiHBkS0984zBf1RJsSgMR1sjrpNJLebCYA+puAGcn4SU2+vpW+70kbawFcpuKVuBAlHRYhlQ8ln/CL5oQd1TZ/Wv+SqgYUMhlXYjxC3hf0qb7Nb/nLu3T7mdXfGNQZQUSIGZacWfLWc1XyFmeax+whnKaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=npV1I8tm; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iEdax8a3"
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-408d7e2b040so4232773b6e.2
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 07:30:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749652238; x=1750257038; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=enQPgRCJmFw7LiR6Wl3Xr1k68TxIo9wg2ECQ7hgm09c=;
-        b=iEdax8a3n8aVR0k9wav1rlg2EH7gjxL1Sr+ks+gbzSE7Odo0CkjsJazTlhXQy+4krr
-         42FhCuQRmeYB3s19iMSOUeLaZfPLzVQcLlqBHZpeVoawKXddIyneoxG+YQZpqrqA8IHa
-         yA3kgE3DM+gOp+wYRU2vqV11l42l9iXcqjJkU5oP8gyfSFRICIFb1awnZOp+P6LOUGxi
-         mN7i+92Im8mtdMsNzDAaSQsafeaNqF350R5+8+rcvhDqJF/41q4WkZoTGa0Bt3tWFWoD
-         OKd6tJ1BEYySq7xMZB3Dh+nW5J/dS378pcU+wevFjMBuYoNSxttXb6WVYgzDtv4xcHXi
-         aP1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749652238; x=1750257038;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=enQPgRCJmFw7LiR6Wl3Xr1k68TxIo9wg2ECQ7hgm09c=;
-        b=rwIMQAKiD2wnSe+edcg1iyZm7ETqvOpyGGImqohyC6C6B9y8G2tfVIzgxwb1YtI7FO
-         roPqszhf/CuJafksqX1Ksu2aJ0jKaIr97xlxMpbrxeSCSxnQiM5j7INZfPO1fFgXLVgr
-         WJfAlAOzdZeFQJtJ/2OYULe7osRteru0iKfMKegp8jeSqPtBVPsKCL01BzhY7YHbF3GT
-         DsDINkLFKHDgofMeyt/RhfXsoeajp5vKljkpmTQk3saprCMM2vV2CKlIUtBy7mhqe6+D
-         PBIr2OZ9unhWj99Q/ceSj8VUqREv2idxfQcsXRJf8LLpuZ7n69e5x8enPDPMKTJ5coNw
-         vHbA==
-X-Forwarded-Encrypted: i=1; AJvYcCVwCGhn0p1I0XnlPx0mofxLeELy81cMlQEdlr1dVqepznfJH+2nRqPsUmAlr/JcAObkgqEJ9HHmNEIfgYZwis5Ui9CYqg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNT1NBzWqG0tGGyOx3SyME41xlciyzy9m4v03j0FXa/xn3Lq0S
-	TkQ1yWytGSMQEEYB47rQjK8DvCcdNzJBmSOcAtCHjJdgrn80ypo8s2lxivO3pA==
-X-Gm-Gg: ASbGnctOa/hAPD7jShpg3YHf5uM0oFUVIGYf5YSPFSfS88976kl8ToJjM+iM5ZC1bLr
-	5WEOF3jiBpUd6A+kHMglPsf5EA2ZQXcXzMRIqdTxdKevgmKe3th8rTaT/FvHkmA/45X5gJEnJcw
-	uPZyrnGxtes3jT0G50sB2Rj4gwxxz1DM19FJBWWNG2z055grxtMgj+Vq/lk9gcGoIrCF1QgeDLX
-	c6CUFyYNHQh2qpr519a/tmi+ZoNLu5Ei9AQQcP6mTRfYH5QzzmThnnO2Cp2ZHY0kRHCGJdbJSrS
-	OLe2hACeUEyF26j/XOnq4C6tKFtSBm5Gc12xTRwTt9AkwehcNrpdCuidlWd6dwdeZ9jyBPP/
-X-Google-Smtp-Source: AGHT+IEnHE0kT21oftfwsFW+OjfecHVoI/p6aDA1O1Vjub713TCN6oc5+A6aaLJ5zxZu4lw4K5Xq3Q==
-X-Received: by 2002:a05:6a21:999a:b0:1f5:8eec:e517 with SMTP id adf61e73a8af0-21f8660015bmr5487664637.9.1749652227533;
-        Wed, 11 Jun 2025 07:30:27 -0700 (PDT)
-Received: from localhost ([216.228.127.130])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2f5f782594sm8558433a12.60.2025.06.11.07.30.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 07:30:27 -0700 (PDT)
-Date: Wed, 11 Jun 2025 10:30:24 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: I Hsin Cheng <richard120310@gmail.com>
-Cc: jstultz@google.com, tglx@linutronix.de, sboyd@kernel.org,
-	linux-kernel@vger.kernel.org, yurynorov@gmail.com,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
-	jserv@ccns.ncku.edu.tw
-Subject: Re: [PATCH v3] clocksource: Replace loop within
- clocks_calc_mult_shift() with find_last_bit() for calculation of "sftacc"
-Message-ID: <aEmTAMc9stMWMMI-@yury>
-References: <20250611073608.2049793-1-richard120310@gmail.com>
- <aEltbEpA7US9h8qN@yury>
- <aEmSH50geb-2qTBb@vaxr-BM6660-BM6360>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="npV1I8tm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749656360; x=1781192360;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=XLk4LWwwo5lH3hddjSgOakROb8Q1UrrXjATsa1j/tAs=;
+  b=npV1I8tmL42SgIvxv8IEjwxgyxv5prvHc0Kgy9g0gH4eIhA4/pkeMH8n
+   2J0VCQrfpfOdCIdUkS39t5XU9svnvyua0rZUM2idhwEbWXga2ekSj2U8X
+   PEnJNTKyOuW2+nH0MsLzoTRBQUrj25ymnCO3m41WxuA4WifMpfzKw6prC
+   JE0PhM+fV5r1L4RerbgL10ZMo3hEpufimiP9taQi1NRcJXFliyqtIbe25
+   PxAIbUzzuXuB98Q3pSg+l85g+3HSoIzk4bbR5GluClzFrNaDNVnwnxJui
+   axMP0rh6xUVtjTR4POxBQTOHWrWGzgbp8RtuX6xKbD8bejTa42f1mkxYR
+   g==;
+X-CSE-ConnectionGUID: e1lA4WPHR+e+BvPgIm03HQ==
+X-CSE-MsgGUID: ouSlm83CQp6nozMrWZfCYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="62417326"
+X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
+   d="scan'208";a="62417326"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 08:39:19 -0700
+X-CSE-ConnectionGUID: HY5jWm2rTKiyb2HVs93cpA==
+X-CSE-MsgGUID: aEJ1Xm/jS/Kdqg94q13zHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
+   d="scan'208";a="152505341"
+Received: from spandruv-desk1.amr.corp.intel.com (HELO [10.125.111.168]) ([10.125.111.168])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 08:39:18 -0700
+Message-ID: <8c95a001-3593-452a-a4aa-714938b62f50@intel.com>
+Date: Wed, 11 Jun 2025 08:39:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aEmSH50geb-2qTBb@vaxr-BM6660-BM6360>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: fix typo in CXL driver documentation
+To: Nai-Chen Cheng <bleach1827@gmail.com>, Davidlohr Bueso
+ <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, Shuah Khan <skhan@linuxfoundation.org>
+References: <20250610173152.33566-1-bleach1827@gmail.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20250610173152.33566-1-bleach1827@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 11, 2025 at 10:26:39PM +0800, I Hsin Cheng wrote:
-> line
-> In-Reply-To: <aEltbEpA7US9h8qN@yury>
-> Status: O
-> Content-Length: 5191
-> Lines: 144
-> 
-> On Wed, Jun 11, 2025 at 07:50:04AM -0400, Yury Norov wrote:
-> > On Wed, Jun 11, 2025 at 03:36:08PM +0800, I Hsin Cheng wrote:
 
-> Hi Yury,
-> 
-> Thanks for your suggestions !
-> 
-> > 1. sftacc is known to be 32. Comparing against 0 is useless.
-> > 2. Just use __fls():
-> >         if (tmp)
-> >                 sftacc -=__fls(tmp) + 1;
-> > 
-> 
-> No problem, I'll fix them up in the next version.
-> Just wondering the reason to use __fls() directly, is it because we're
-> sure that the value of "tmp" will definitely fall into
-> small_const_nbits() case in find_last_bit() ? 
 
-That's because tmp is not a bitmap. It's u64.
+On 6/10/25 10:31 AM, Nai-Chen Cheng wrote:
+> Fix typo 'enumates' to 'enumerate' in CXL driver operation
+> documentation to improve readability.
+> 
+> Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
+
+Applied to cxl/next
+
+> ---
+>  Documentation/driver-api/cxl/linux/cxl-driver.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/driver-api/cxl/linux/cxl-driver.rst b/Documentation/driver-api/cxl/linux/cxl-driver.rst
+> index 9759e90c3cf1..dd6dd17dc536 100644
+> --- a/Documentation/driver-api/cxl/linux/cxl-driver.rst
+> +++ b/Documentation/driver-api/cxl/linux/cxl-driver.rst
+> @@ -20,7 +20,7 @@ The CXL driver is split into a number of drivers.
+>  * cxl_port  - initializes root and provides port enumeration interface.
+>  * cxl_acpi  - initializes root decoders and interacts with ACPI data.
+>  * cxl_p/mem - initializes memory devices
+> -* cxl_pci   - uses cxl_port to enumates the actual fabric hierarchy.
+> +* cxl_pci   - uses cxl_port to enumerate the actual fabric hierarchy.
+>  
+>  Driver Devices
+>  ==============
+
