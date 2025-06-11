@@ -1,126 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23861A5B99;
-	Wed, 11 Jun 2025 16:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A6017A31F
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 18:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749658265; cv=none; b=sK/unnk1vNILlkHkvdaca/Ya5kH3GOcImFHOBiKBrsWsE0JQNX/tv2BVxrJ85h0ToYU0FTP1TmFQ7YDMgm76KEeXGFKXslpXZajuycF2pAgNB08o/2dh4FA3ZPx/YtW2Il5U5BBplQgQEqF6qFJt5bXD340lqpdqf/ZujyMICLc=
+	t=1749666928; cv=none; b=ieG14Va1J6WZjypDS4nu3ewG46tFbldHv8HYb8Jng1fDNZSTX67/C0vvM0XmHBMi3eGAa+nuiwsM5jiX8dv1kUP8eys1OLuuqnZj3ikxrzW3sto9kP1LzCSM6KNQQJ/jJQwgTskkLftAM8GMlQFEytXkJzu5HIrIjeinIIYKFKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749658265; c=relaxed/simple;
-	bh=dZ8l0HjmwfhJtitEaf6kw6c4ZQY523g8u3AvC2TJ93A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mgaUesONdmHxQPxGjFbRlizKrG+cQZRYFp+gIng/sc1frNcfrhO4AtAIc9J9LvdcbkOOhoJ2c/MPuIe4LYLLNbEK3hobDQ3YASYH5uPS8lxCHuco7w/oysezgQTUWPmJFnKoXqcvt3xSwArBDFNBuQHJ8nfT1c76h4gttUCC9M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jy6IT4ki; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749666928; c=relaxed/simple;
+	bh=PX+uFi2TRcTAZzkDxUG4RPAgbW201ntMO7lrolf22Fk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QhBaU4ge16siKLkZ043n8KWyabNkbd8ArFyBF60Qv09JAe+QG98Ku/0QHig2offvcEZxY6PXZIPEaRt7LB6NcMWwRNibOn5t9ggGAFnhsSXAayfu0fvrMxN6fawGTRBKHqoccHJyr/4VpSZ9wR3mFr3UxHNLxPY4fV1ea/1gmtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rpp6E5lh; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jy6IT4ki"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 007BEC4CEE3;
-	Wed, 11 Jun 2025 16:10:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749658264;
-	bh=dZ8l0HjmwfhJtitEaf6kw6c4ZQY523g8u3AvC2TJ93A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=jy6IT4kiD2lDYe71W7diDiGt7oL1e/xuNhWSoXCCAtj4caCgRHLRqPdmYvYW0PiRI
-	 JU/i/Csy6gD8wNDGapjxU9VaUk4rfzlXsP7nOW74W1Jeq1gqes+i5e5I3jsafmU3xv
-	 OR4zg1wvmNKL9bItwL/Sz95VxD1D1hxCXh00OkDsfBDfZvLytbwFD8QO/9dImO9tEb
-	 EAC3SYvvn6DuYJ0ueHh8NNuitcZcf2HP1E6QglBZYOh3TI1kMLoOjCgdZ4yZFTg5XJ
-	 GD87oKR3rk08/4zSSO8ZZmL1RbKPuxwuVORjYwDN8svITdJw7XtZnCg7PfNLmzaL0j
-	 XBdqKJN8dmhjA==
-Date: Wed, 11 Jun 2025 18:10:56 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, "Jonathan Corbet"
- <corbet@lwn.net>, "Akira Yokosawa" <akiyks@gmail.com>, "Breno Leitao"
- <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, "Ignacio
- Encinas Rubio" <ignacio@iencinas.com>, "Marco Elver" <elver@google.com>,
- "Shuah Khan" <skhan@linuxfoundation.org>, Eric Dumazet
- <edumazet@google.com>, Jan Stancek <jstancek@redhat.com>, Paolo Abeni
- <pabeni@redhat.com>, Ruben Wauters <rubenru09@aol.com>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu
-Subject: Re: [PATCH 4/4] docs: netlink: store generated .rst files at
- Documentation/output
-Message-ID: <20250611181056.6543e71e@sal.lan>
-In-Reply-To: <m24iwmpl0m.fsf@gmail.com>
-References: <cover.1749551140.git.mchehab+huawei@kernel.org>
-	<5183ad8aacc1a56e2dce9cc125b62905b93e83ca.1749551140.git.mchehab+huawei@kernel.org>
-	<m24iwmpl0m.fsf@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rpp6E5lh"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-55351af2fc6so103505e87.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 11:35:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1749666925; x=1750271725; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4LW+JbhkF0pib1AA3WNg/XYx3vRhJwNQnFgWXrNhyNI=;
+        b=rpp6E5lh+NEk8WDX0HC9wkZgmTiCFe4Oz/2/ZPn9Km+tA2NFYSMOtERszmGk1bKEY2
+         FZjc1YBiUDWf2iQxSE1qzqIgMMXeSFmZo/1+mCs0ClWyO+jQOW42K6/A0kXhA7WM0z1O
+         Wn8ngsPL763qhwNzOm9YgF49y/4RaatPHg9DcDU4JcIGJRkh0M1FoEgD4rWFuXh3CwFH
+         NROI1O1KhYqJ8yVOJSIgthzN7VFF/yAtfE4/FVDO1jTRgkD1KkMZMcivMyOZLq+CxuCH
+         vHCHvqpQ84vhPOXFT/bQiIWHuWTURkrC5YrBSQ2SYPYS7QGfOdQtJ64c15reSPMwWPTn
+         Czfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749666925; x=1750271725;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4LW+JbhkF0pib1AA3WNg/XYx3vRhJwNQnFgWXrNhyNI=;
+        b=v6+4YqtJh9wWXpWFP/lQ9duOrrqkkcu34x05eut3iy/hhe85k22Ay5eqHdkMs+ecyy
+         d3HoOoeFkdzZpys3QivNuy045byJ/fW7r3/whnyy9vqFrxkgwj0HNpB3jGT23BAtDKPu
+         Yd6PiOTDTUtRUpJZDuJMBXC2jKk0EnNKWwgt0mb55+EtnwZRpGR9jCmGkN9+Z/FU4pf5
+         NL9+SZBK8ITaRTw5C6bvMpqTpGH5tGqcA5rGzm14aA4fU5i2EVSSAsaRCWT5MzGwlXgb
+         X+VfyKCsIo4eyEyU7CQzraAmU5Kv2SEibulWelGT3HhXOmoL7nYeZSX+VAdwTf9YwlhT
+         is+g==
+X-Forwarded-Encrypted: i=1; AJvYcCX8SoY+slP/PLbZ3lTOrg9KNC2D7tibRKALDrByJ35zlyXhQ50/qcS08JtwdoUlIxZwnMLdnsv3sEUOabwmSYTp3ff2+Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzmTwSlPXp1NQ1+dHD198wFkgCFj0bEyttJeUt4QLqjh2j4tsT/
+	D39VJZsJcU+NUQ4G48ONvzQBlrTzB5Cn3jrievBGWup0JpMVkozbc66ogXvtcnsdN7fCASnWylG
+	hDnEbf5VVV1+YbQMPZyoB3aGhNinmT1eDZVzF1i4=
+X-Gm-Gg: ASbGncsyevd7uJ4KLV14dXSk1GsK+Wnls8a+N/5tWsYOVMISZMw0ecGHfJK8AwVWo2E
+	0EqVc5nMaAq2FlL1KtRtJzIM9RuO911AT2Dzh9IoNB7p3qEXT8exflRnPKPtXT6GuOl6x2COMTv
+	s1vuEjcyVnoAVBL8/+MjcU3MwvjVfRGo8aFQ8LPPdpiQz8AKpKkratz6IDQPd2K+pqn8DvTLOZ9
+	jTWsXC6
+X-Google-Smtp-Source: AGHT+IHhJ2bujyaLwyGfM62GuB4nxlpb8VRVfrxNgScBPvK+ovW5Gr8i/lmdjCY06YU1YK3LOhGiWRzZ2Ly5ZcPlDyQ=
+X-Received: by 2002:ac2:4bca:0:b0:553:3916:4e1c with SMTP id
+ 2adb3069b0e04-553a556785dmr144689e87.2.1749666924953; Wed, 11 Jun 2025
+ 11:35:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250611104506.2270561-1-richard120310@gmail.com>
+In-Reply-To: <20250611104506.2270561-1-richard120310@gmail.com>
+From: John Stultz <jstultz@google.com>
+Date: Wed, 11 Jun 2025 11:35:13 -0700
+X-Gm-Features: AX0GCFvxFuyx5v9O2yGfkI2Uej1mipIc8heSHC46LTYcnHRLUpOAa2r2xFAgXhE
+Message-ID: <CANDhNCoJ_MmpEfyuL+JWav+NUfQDH3dm196JSE-Mv3QrPUzi3g@mail.gmail.com>
+Subject: Re: [PATCH] clocksource: Utilize cpumask_next_wrap() to shrink code size
+To: I Hsin Cheng <richard120310@gmail.com>, Yury Norov <yury.norov@gmail.com>
+Cc: tglx@linutronix.de, sboyd@kernel.org, linux-kernel@vger.kernel.org, 
+	jserv@ccns.ncku.edu.tw, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Em Wed, 11 Jun 2025 12:36:57 +0100
-Donald Hunter <donald.hunter@gmail.com> escreveu:
+On Wed, Jun 11, 2025 at 3:45=E2=80=AFAM I Hsin Cheng <richard120310@gmail.c=
+om> wrote:
+>
+> Simplify the procedure of CPU random selection under
+> "clocksource_verify_choose_cpus()" with "cpumask_next_wrap()". The
+> logic is still the same but with this change it can shrink the code size
+> by 18 bytes and increase readability.
+>
+> $ ./scripts/bloat-o-meter vmlinux_old vmlinux_new
+> add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-18 (-18)
+> Function                                     old     new   delta
+> clocksource_verify_percpu                   1064    1046     -18
+>
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+> ---
+>  kernel/time/clocksource.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
+> index bb48498ebb5a..ab580873408b 100644
+> --- a/kernel/time/clocksource.c
+> +++ b/kernel/time/clocksource.c
+> @@ -343,9 +343,7 @@ static void clocksource_verify_choose_cpus(void)
+>          */
+>         for (i =3D 1; i < n; i++) {
+>                 cpu =3D get_random_u32_below(nr_cpu_ids);
+> -               cpu =3D cpumask_next(cpu - 1, cpu_online_mask);
+> -               if (cpu >=3D nr_cpu_ids)
+> -                       cpu =3D cpumask_first(cpu_online_mask);
+> +               cpu =3D cpumask_next_wrap(cpu - 1, cpu_online_mask);
+>                 if (!WARN_ON_ONCE(cpu >=3D nr_cpu_ids))
+>                         cpumask_set_cpu(cpu, &cpus_chosen);
+>         }
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > It is not a good practice to store build-generated files
-> > inside $(srctree), as one may be using O=<BUILDDIR> and even
-> > have the Kernel on a read-only directory.
-> >
-> > Change the YAML generation for netlink files to be inside
-> > the documentation output directory.
-> >
-> > This solution is not perfect, though, as sphinx-build only produces
-> > html files only for files inside the source tree. As it is desired
-> > to have one netlink file per family, it means that one template
-> > file is required for every file inside Documentation/netlink/specs.
-> > Such template files are simple enough. All they need is:
-> >
-> > 	# Template for Documentation/netlink/specs/<foo>.yaml
-> > 	.. kernel-include:: $BUILDDIR/networking/netlink_spec/<foo>.rst  
-> 
-> I am not a fan of this approach because it pollutes the
-> Documentation/output dir with source files and the kernel-include
-> directive is a bit of a hacky workaround.
-> 
-> > A better long term solution is to have an extension at
-> > Documentation/sphinx that parses *.yaml files for netlink files,
-> > which could internally be calling ynl_gen_rst.py. Yet, some care
-> > needs to be taken, as yaml extensions are also used inside device
-> > tree.  
-> 
-> The extension does seem like a better approach, but as mentioned by
-> Jakub, we'd want to add stub creation to the YNL regen.
-> 
-> The only other approach I can think of to avoid generating files in the
-> source tree or polluting the Documentation/output dir is to stage all of
-> the Documentation/ tree into BUILDDIR before adding generated files
-> there, then running:
-> 
->   sphinx-build BUILDDIR/Documentation BUILDDIR/Documentation/output
+I think Yury submitted the same change here recently:
+  https://lore.kernel.org/lkml/20250607141106.563924-3-yury.norov@gmail.com=
+/
 
-I did some tests here adding yaml to conf.py:
+Though, I think he has another iteration needed as Thomas had feedback
+on the subject line.
 
-	-source_suffix = '.rst'
-	+source_suffix = ['.rst', '.yaml']
+The bloat-o-meter data is a nice inclusion here!
 
-Such change made the extension to automatically generate one file per 
-each existing yaml without the need of adding any template. I tested on 
-a brand new tree with just Sphinx + netlink files + Breno's original
-extension (untouched). Such empty tree was generated with 
-sphinx-quickstart (sent a reply to Breno with a patch with all inside
-it).
+Yury: Would you be open to adapting I Hsin Cheng's commit message into
+yours and adding them as co-author via the Co-developed-by: tag?
+(Assuming I Hsin Cheng agrees - See
+Documentation/process/submitting-patches.rst for how to do this
+properly).
 
-When applying it to the Kernel, we can do this change at
-Documentation/conf.py, together with:
-
-	-exclude_patterns = ['output']
-	+exclude_patterns = ['output', 'devicetree/bindings/**.yaml']
-
-(glob pattern not tested)
-
-As we don't want DT yaml files to be processed as netlink families.
-
-After such tests, it sounds to me that the Sphinx extension approach 
-may work without requiring templates. Tested here with Sphinx 8.1.3.
-
-Regards,
-Mauro
+thanks
+-john
