@@ -1,146 +1,225 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F95265608
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 14:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5513D1E485
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 14:26:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749651494; cv=none; b=k/VxOJCZsnkvsLtMliXWO2oTjpogqb0FzTWYg+HgyXODow6sjPog5HV6afhqSFfuzErH0YmuwV7cw1UtB5UGoF9RiGynb/exORVi9WDj6ICQbYJkF3sAAIum0v9vkK9xse6TzULDOfj88iFgWVIHT39gR2G/qwXyfddS/LT74wg=
+	t=1749652006; cv=none; b=ofbPQr/7iG51Ail2iMewfPJmTn5bIEmgnER/L50u+gobbN5Omd1H6ZKYBUoepkFw4sjbdF0sUNQhqszmW1wBf0Clhh5TMKIVcdq3qudGdB1vvffLH7CnfeQEjUrJwbkjymcbOtBVxTtNhhrlEcnanOt8xbShY02d25Gas6rwOe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749651494; c=relaxed/simple;
-	bh=lQ5H38hc2yWWodWSuje7NKKY2ujQtmIDJ1T3piilQ3M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C3Z1MGHdDGUQDpy9Ah4tJdi819c+5HUD6P8GbaBBVSF2nsv33eT8m79g0folw3s6Tqz7kwPVKsGKzyx9KMCOhhz1rFUJpYBy5ccjSBxViyMcugv9VWHt3uff5QUobtbpOt5K6Z4/U0QTGQC0nV1Sejg97gpX2EsuQd7hht32jXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=STtleKLa; arc=none smtp.client-ip=209.85.208.175
+	s=arc-20240116; t=1749652006; c=relaxed/simple;
+	bh=t0kpz7pvCeH8E2yL46QfBqaRY/4ZUJel5yFsSnt9ujs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LmutvALaIqPy6hZcitqprig1gTNXwpnQw/aVVHuDH+6joLBzro4jbebqC8T4s3sg3kXElLkLwefk6a0LLY4yUtsP+onHQC6UlfJ3Zm65/FlWaivO+QP9xNG89WaFMyNNNCPrHlZlWBhvBEwfqbknGwo3tqza8E7Fy72+nJnOgIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZW5BBwdc; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="STtleKLa"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-32a658c4cc4so56585761fa.2
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 07:18:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZW5BBwdc"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b2c4e46a89fso5000042a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 07:26:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749651491; x=1750256291; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1JHyDDVL96PT69+HIUFTlQwzyTVvaxPDQBDHlKvb0lw=;
-        b=STtleKLa971DLozEAEcxWPiMP4gwAaIln/8vKTGCsq2vI6TgS9Y5AGQ7ghl6JBnIG7
-         JHVvTCue+DJTNdkQ3ExZu6bnZAHs8WST09PPvhc95roULGm+DazkrE7INyoz3V5egHKd
-         fEuxStxQum5TpYyagPz2bTo91lyeWF/ntXWKW+rViK1ax++qfC4xwIaeAv/MA6Q6lAWW
-         6qf67p6t8TYoAt1ohiJPHcVwxZsoVxLqa15A8TMsqUnBTStwKssQ05UJ/FF6yJcaHZ/i
-         5aOzNuv8nXd4i5MvNsPjBxUVZGFSMGTtyVBymWy3vSvJUPzBGlp6HyubK0t3JL9YVxvg
-         Y98w==
+        d=gmail.com; s=20230601; t=1749652004; x=1750256804; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DraqQelyt+bdJU5+YFLLhDQGQccP2q6ONNc7M1b6iwQ=;
+        b=ZW5BBwdc7RD8q4AYKzNLjC841AJi3tEuR0peUuTT6KG/ayia62F9zv3xPwUs0qPSCH
+         wj30sdScJNo0yfVpa6UVEdFo7Ri+DbJoQyU480QKA/XjgisqfdFqBHnnfzzDBcb4BY0I
+         IPc9z4MZTaAUJ8bWVoA6DAFP9fn7iL+eHlPTmxJdtY92u7O2Vo95SImILk6NB3AL7pIW
+         5DDYIvBp2Dl/Po4EOQfjGQRvITMdHrniwQvxzlys3BNdA/8e1tLUVFWe54siiyoU0PWk
+         Zf++s2ujLuOXOSBHilU4Du264xLlSF+ZVZE8HKpCpT9yTa5gCh5YI0CBpvSui08F6e/4
+         Ow+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749651491; x=1750256291;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1JHyDDVL96PT69+HIUFTlQwzyTVvaxPDQBDHlKvb0lw=;
-        b=GiStk737kENosEcDxKuYo8ioqdbyaPZdqS5OtxBXGclbcYv/QWMA8OpNJnho2iL/kT
-         KFPbfrbejWTpm0bP+1vK7eSB/Ea/+gLNamRch4pRqwMypJPNIU4F5KLl1drWe4yd4DOK
-         TBOiUHS1At1EgGLX1Vp6GSU7vxMyJ24hz0deooJCdVT6PfYNl3Fc7XizII9NEWPU5IPS
-         /SO6Ks8nevVaT+qamIpq8MPYSPJEECtc32a02vj0gZ+wd//g+NuWbPisNk0kDaulEYt8
-         7ZkD82EPIQjh9NsM1yoPAfXv+dMmASrwaGbk7k8JkOSwwZsVwMwgxfc354Nhrv41+vMj
-         vrSA==
-X-Forwarded-Encrypted: i=1; AJvYcCUD/nEAXf40wOD4F7M1jguIaupFmuy7Ww+vcxOdYa2d+tirOnTtJw1EcjuaeHk/w9ra6wWuzrXbKeu8lNhsEol5F3NwWQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJsphJB4vT4MrUH+lziGAnKrQAC1Q7HV2n8qrl5nCbVOvM0Twa
-	XELZAQlkITJyOxR5atY5mxPHknSA3N62uyGKD3PBPjLKZH9kmZUumf3aj7P5iPjbsm23YY7yJM+
-	Ew6bbmq8KjtuXTKgqZdSKgPk3tuQEkUw=
-X-Gm-Gg: ASbGncs54dv4SP/K+CPETwGZDn+RxMCIJZT4zK4d54WE9DlJR+ZqzG+gp0rAAYkIuex
-	OLu/2MkUhAApOr9juf46dmoylTUinpXqCVrK02FBD/m2qNoSkEtLctIs0esTcuxZJQWGHs824a7
-	BBGOO7NtDyJHLLHrchqr4daz723a6rux9lShQJYx7n6yj4nuTAjSmtj6W7RuEGlccZQQvYVdaQf
-	Yc5Rw==
-X-Google-Smtp-Source: AGHT+IEw99JZ3Ni2MxwdgIFYpOqtbrPsWWAib83ZR7Rw9sZS3Aa6YYdAkawHMQmcsqGznXxBoTb+QwWK6QtF+QGgKHM=
-X-Received: by 2002:a05:651c:221f:b0:32a:74db:fe73 with SMTP id
- 38308e7fff4ca-32b21de3f22mr11802421fa.28.1749651490434; Wed, 11 Jun 2025
- 07:18:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749652004; x=1750256804;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DraqQelyt+bdJU5+YFLLhDQGQccP2q6ONNc7M1b6iwQ=;
+        b=WdK1i7wf9PNKxI7n3Mci481jg5gucMSdNLb/dKMaf0jI0Mb/RduFi3iXaT3OEzhBSy
+         7yzu9g0+J9SPePBP76foYGx9b1BS7Jo8mufbmPfD2Onp7O+kJCrc1CsR2XJt+tREOOBV
+         EEyATtZRIcV74465lW4QWKbDEd3eunnNNvDLPLMRsnEvB14/VWqn/6HZsrDvHmFkgo8M
+         rDlZ6GLwP83HzI1NxRsSh+eQGYVAo7NqcAJPDNrKWt6uHXAtMcXizsRqJbiRdSyrcz02
+         TiNkXkfw5dPeDKjlS2JA4NbEJBMEBFed2J68b9gjUZHnIkuOBW538nUfmCDyRHknuiNQ
+         tNhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWJU0XBNp/Y+dJi6YLHMcIQ+qeKIqAre9ym8J0pDf6ojTq4IymH1jGAlpWDtzbrp3EhcTNldDZA8tg9jEFYbPkh5bhtCA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzoyUcJY9cFATA0aLXDvEB/U9doWxWcU/Jjs6LfVRGdPs1mvWMr
+	CIlu5wzKenN4SFyl0KPkVDAMBu2abSDMhomiaS0qVhg6Ck9VOWquAuDjMe/0WDr/
+X-Gm-Gg: ASbGncvSOdlx9i45M8/TvVxlzIvVyz/2qMjCXlZkBC0NSgToYnMTSMuJrXgR5z72DGl
+	6Z61aUVAhukVON3RyyXLckx9Nd04IMOW/W/yUNHE0U8BawIu56YRCIp1LsDlp8sDcIE96rCr2yE
+	P0JRRXM7pSLuYy58xbzNAK9YNV3BED76I4N7M1BL0k6qNxsNDchLsj2asvXd7/765UGzg8KKzSC
+	GAqt7HX824NI13AoAopwSKOIPPX+XTAqSPMiq9NvYlqpeLj5JNpsxAtfYuhE4H5u9cGQuaKQw1C
+	ixdBNTZLtgXc1vyghuMpEpgmnGwoO2QRpG8J/JD53kC4LLFeJJs3SASij3sZT8Zd/bPkQDR3K0X
+	PHw==
+X-Google-Smtp-Source: AGHT+IFCy7pJmrhs4pVrZNcNeETyXGxqD+9XpTLoLS7EYamXpVVm7nhNsOc/iKkxIxzO8Vo/DPb30Q==
+X-Received: by 2002:a17:90b:4cc5:b0:311:2f5:6b1 with SMTP id 98e67ed59e1d1-313b1fbe77fmr3324748a91.22.1749652004380;
+        Wed, 11 Jun 2025 07:26:44 -0700 (PDT)
+Received: from vaxr-BM6660-BM6360 ([2001:288:7001:2703:2c7d:4ae3:493:2da6])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313b2039bfdsm1346088a91.36.2025.06.11.07.26.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Jun 2025 07:26:43 -0700 (PDT)
+Date: Wed, 11 Jun 2025 22:26:39 +0800
+From: I Hsin Cheng <richard120310@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: jstultz@google.com, tglx@linutronix.de, sboyd@kernel.org,
+	linux-kernel@vger.kernel.org, yurynorov@gmail.com,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+	jserv@ccns.ncku.edu.tw
+Subject: Re: [PATCH v3] clocksource: Replace loop within
+ clocks_calc_mult_shift() with find_last_bit() for calculation of "sftacc"
+Message-ID: <aEmSH50geb-2qTBb@vaxr-BM6660-BM6360>
+References: <20250611073608.2049793-1-richard120310@gmail.com>
+ <aEltbEpA7US9h8qN@yury>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250607082844.8779-1-pranav.tyagi03@gmail.com>
- <202506092053.827AD89DC5@keescook> <decv7f4drznbeoyjjm7ixlsgmu7ust4fltwwlnbltdjcvmhtbk@5qreij76z7jn>
-In-Reply-To: <decv7f4drznbeoyjjm7ixlsgmu7ust4fltwwlnbltdjcvmhtbk@5qreij76z7jn>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Wed, 11 Jun 2025 19:47:58 +0530
-X-Gm-Features: AX0GCFu4sDFJ8r-fSsh6QpnCWFxzSyxmgew_3nZ6MvQ-4CtPA9tGvltGmTDudag
-Message-ID: <CAH4c4jKD1TdpyfUXxvz1F_-ONTbKC=4z2V0iH4rGCBgYv0-Kxg@mail.gmail.com>
-Subject: Re: [PATCH] binfmt_elf: use check_mul_overflow() for size calc
-To: Jan Kara <jack@suse.cz>
-Cc: Kees Cook <kees@kernel.org>, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aEltbEpA7US9h8qN@yury>
 
-On Tue, Jun 10, 2025 at 1:29=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
->
-> On Mon 09-06-25 21:04:36, Kees Cook wrote:
-> > On Sat, Jun 07, 2025 at 01:58:44PM +0530, Pranav Tyagi wrote:
-> > > Use check_mul_overflow() to safely compute the total size of ELF prog=
-ram
-> > > headers instead of relying on direct multiplication.
-> > >
-> > > Directly multiplying sizeof(struct elf_phdr) with e_phnum risks integ=
-er
-> > > overflow, especially on 32-bit systems or with malformed ELF binaries
-> > > crafted to trigger wrap-around. If an overflow occurs, kmalloc() coul=
-d
-> > > allocate insufficient memory, potentially leading to out-of-bound
-> > > accesses, memory corruption or security vulnerabilities.
-> > >
-> > > Using check_mul_overflow() ensures the multiplication is performed
-> > > safely and detects overflows before memory allocation. This change ma=
-kes
-> > > the function more robust when handling untrusted or corrupted binarie=
-s.
-> > >
-> > > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> > > Link: https://github.com/KSPP/linux/issues/92
-> > > ---
-> > >  fs/binfmt_elf.c | 5 ++++-
-> > >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-> > > index a43363d593e5..774e705798b8 100644
-> > > --- a/fs/binfmt_elf.c
-> > > +++ b/fs/binfmt_elf.c
-> > > @@ -518,7 +518,10 @@ static struct elf_phdr *load_elf_phdrs(const str=
-uct elfhdr *elf_ex,
-> > >
-> > >     /* Sanity check the number of program headers... */
-> > >     /* ...and their total size. */
-> > > -   size =3D sizeof(struct elf_phdr) * elf_ex->e_phnum;
-> >
-> > size is unsigned int, which has a maximum value of 4,294,967,295.
-> >
-> > elf_ex->e_phnum is a u16 (2 bytes) and will not be changing:
-> >
-> > $ pahole -C elf64_hdr */fs/binfmt_elf.o
-> > struct elf64_hdr {
-> >       ...
-> >         Elf64_Half                 e_phnum;              /*    56     2=
- */
-> >       ...
->
-> Ah, what confused me was that I somehow thought Elf64_Half is u32 without
-> checking it's definition which clearly shows its actually u16. Thanks for
-> checking it! You're right that the patch is pointless then.
->
->                                                                 Honza
-> --
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
+On Wed, Jun 11, 2025 at 07:50:04AM -0400, Yury Norov wrote:
+> On Wed, Jun 11, 2025 at 03:36:08PM +0800, I Hsin Cheng wrote:
+> > Utilize "find_last_bit()" in replacement of while loop counting
+> > for the decremenet of "sftacc". They're equivalent in computation result
+> > but the former is more effective.
+> > 
+> > "find_last_bit()" will return the bit number of the last set bit of
+> > "tmp", which is 0-based index. Plus 1 to convert it into bit width as
+> > desired.
+> > 
+> > Note that only the lowest 32 bits of "tmp" is taken into consideration
+> > of the operation, since it was already shifted right by 32 bits, the
+> > topmost 32 bits should remain 0, only the lowest 32 bits are possible to
+> > be non-zero.
+> > 
+> > This change is tested against a test script [1].
+> > Run the test 10 times for each version of implementation and take the
+> > average. The result shown that with this change, the operation overhead
+> > of "clocks_calc_mult_shift()" can be reduced around 99.7% .
+> > 
+> > -----------------------------
+> > | old version | new version |
+> > -----------------------------
+> > |  11500.6 ns |       44 ns |
+> > -----------------------------
+> > 
+> > Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+> > ---
+> > Changelog:
+> > 
+> > v1 -> v2:
+> > 	- Refine commit message to explain more about "why"
+> > 	- Check the frequency of "clocks_calc_mult_shift()" get called,
+> > 	  it's not in hotpath on my machine, refine the commit message
+> > to avoid overselling it
+> > 	- Add comments for the code to explain the implementation in
+> > 	  more detail
+> > 	- Handle case for "tmp == 0" to avoid undefined behavior
+> > v2 -> v3:
+> > 	- Use "find_last_bit()" instead of "__builtin_clz()"
+> > 	- Convert the type of "tmp" to "const unsigned long *" when
+> > 	  sending into the function
+> > 	- Highlight in the comment that only the lowest 32 bits part
+> > 	  of "tmp" is taken into consideration
+> > 
+> > [1]:
+> > static int __init test_init(void)
+> > {
+> >     u32 mult, shift;
+> >     u32 from, to, maxsec;
+> >     ktime_t start_time, end_time, total_time;
+> >     pr_info("Starting clocks_calc_mult_shift simple test\n");
+> > 
+> >     start_time = ktime_get();
+> >     // Test with parameters from 1 to 1000
+> >     for (from = 1; from <= 1000; from += 100) {
+> >         for (to = 1; to <= 1000; to += 100) {
+> >             for (maxsec = 1; maxsec <= 10; maxsec++) {
+> > 
+> >                 clocks_calc_mult_shift(&mult, &shift, from, to, maxsec);
+> >             }
+> >         }
+> >     }
+> > 
+> >     end_time = ktime_get();
+> >     total_time = ktime_to_ns(ktime_sub(end_time, start_time));
+> > 
+> >     pr_info("Test completed\n");
+> >     pr_info("Total execution time: %lld ns \n", total_time);
+> >     return 0;
+> > }
+> > 
+> > The test is running in the form of kernel module.
+> > The test machine is running ubuntu 24.04 on x86_64 machine with kernel
+> > version of v6.14.0, CPU type is AMD Ryzen 7 5700X3D 8-Core Processor.
+> > 
+> > Hi John, Yury,
+> > 
+> > Would you be so kind to give some suggestion/comments on how should the
+> > usage of "find_last_bit()" be here ? I'm not sure about whether the type
+> > conversion of "tmp" is appropriate, though compiler will pop out warnings
+> > if not doing so.
+> > 
+> > Plus I'm thinking converting to another pointer type might might be correct
+> > when the endianess isn't guaranteed ? (or this endianess problem should be
+> > address and solved in filesystem layer ?)
+> > 
+> > Best regards,
+> > I Hsin Cheng.
+> > ---
+> >  kernel/time/clocksource.c | 18 ++++++++++++++----
+> >  1 file changed, 14 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
+> > index 2a7802ec480c..651bed1a53e7 100644
+> > --- a/kernel/time/clocksource.c
+> > +++ b/kernel/time/clocksource.c
+> > @@ -66,10 +66,20 @@ clocks_calc_mult_shift(u32 *mult, u32 *shift, u32 from, u32 to, u32 maxsec)
+> >  	 * range:
+> >  	 */
+> >  	tmp = ((u64)maxsec * from) >> 32;
+> > -	while (tmp) {
+> > -		tmp >>=1;
+> > -		sftacc--;
+> > -	}
+> > +
+> > +	/*
+> > +	 * Decrement "sftacc" by the number of bits needed to represent "tmp".
+> > +	 * Using "find_last_bit(&tmp, 32) + 1" to get the bit width:
+> > +	 * - find_last_bit(&tmp, 32) returns the bit number of the last set bit
+> > +	 * - Plus 1 to convert 0-based index into bit width as desired
+> > +	 *
+> > +	 * Note: Only the lowest 32 bits of "tmp" is taken into consideration,
+> > +	 *		 since it was already shifted right by 32 bits, the topmost 32
+> > +	 *		 bits are guaranteed to be 0.
+> > +	 *
+> > +	 */
+> > +	if (sftacc)
+> > +		sftacc -= (find_last_bit((const unsigned long *)&tmp, 32) + 1);
+> 
 
-Hi,
+Hi Yury,
 
-I understand that the patch is actually pointless. I am still
-new to kernel dev and learnt a lot from your comments. I will keep
-this in mind while sending patches in the future.
+Thanks for your suggestions !
 
-Regards
+> 1. sftacc is known to be 32. Comparing against 0 is useless.
+> 2. Just use __fls():
+>         if (tmp)
+>                 sftacc -=__fls(tmp) + 1;
+> 
 
-Pranav Tyagi
+No problem, I'll fix them up in the next version.
+Just wondering the reason to use __fls() directly, is it because we're
+sure that the value of "tmp" will definitely fall into
+small_const_nbits() case in find_last_bit() ? 
+
+Best regards,
+I Hsin Cheng
+
+> >  
+> >  	/*
+> >  	 * Find the conversion shift/mult pair which has the best
+> > -- 
+> > 2.43.0
