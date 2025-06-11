@@ -1,125 +1,145 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66312874EB
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 14:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F95265608
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 14:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749651176; cv=none; b=Su3rPqfAgNj2oHNmAkZ7Zm+E9UGS0GRcxtJZa7x2rVll8ll4tipHXYWOkF4H+qpTcUYuLd8PYRh/Dawux0y0EXwunheo8UWljB4EOSoY5leVtXo/pe0IQZ6qhwQel4eEENV3psqaY98BgOM8qwcMH1lM3bUN6DizZzdn/alfn+E=
+	t=1749651494; cv=none; b=k/VxOJCZsnkvsLtMliXWO2oTjpogqb0FzTWYg+HgyXODow6sjPog5HV6afhqSFfuzErH0YmuwV7cw1UtB5UGoF9RiGynb/exORVi9WDj6ICQbYJkF3sAAIum0v9vkK9xse6TzULDOfj88iFgWVIHT39gR2G/qwXyfddS/LT74wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749651176; c=relaxed/simple;
-	bh=AiOkcrQXv5dBfuU+br0+1pqKGEfPTV809EosE5nl+x8=;
+	s=arc-20240116; t=1749651494; c=relaxed/simple;
+	bh=lQ5H38hc2yWWodWSuje7NKKY2ujQtmIDJ1T3piilQ3M=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qiHSKQrHNBaEbeWi0aNj3nVp4MHbk8noDStWpQR2oEvO5HhqP1SWrrNZo4iQ3pW1iWzUSsuPoUFpsT7LrtLT2W26ZU0M+sWuZR9n+TFgJGFwgwRb3PUGY9+rFDpwkVAHZarnEbslLmcK/l2LBGwe7VZRU2C/1f51E8TMzX3/t6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eYlCb4g9; arc=none smtp.client-ip=209.85.208.178
+	 To:Cc:Content-Type; b=C3Z1MGHdDGUQDpy9Ah4tJdi819c+5HUD6P8GbaBBVSF2nsv33eT8m79g0folw3s6Tqz7kwPVKsGKzyx9KMCOhhz1rFUJpYBy5ccjSBxViyMcugv9VWHt3uff5QUobtbpOt5K6Z4/U0QTGQC0nV1Sejg97gpX2EsuQd7hht32jXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=STtleKLa; arc=none smtp.client-ip=209.85.208.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eYlCb4g9"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-32a64f8480eso9891471fa.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 07:12:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="STtleKLa"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-32a658c4cc4so56585761fa.2
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 11 Jun 2025 07:18:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749651173; x=1750255973; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1749651491; x=1750256291; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hiHg7SNH+pSMtOhNSqpQ2vUspKGZ2spdd3OjZnoxU8Q=;
-        b=eYlCb4g9/6CiQZwkOyKTCoLNVTbSWdKZ5CeNALD/g3Yv6ZbognU/I3rl19IyNneeO2
-         FJSqe5bshy3kKJksLkk/pX5Q2pP5vwrjww60qfifOp2w4nfRUFay8vMq5d0NvekMCdsr
-         sV77A8+/KNbZo9RUsaw6EO2Qa/zyKiHDudnprLFu8wmx1cqHHXZBrDPLp+y9DfxuhLQ9
-         gVg1R4Fvw4+VpU+7JHm0Rb2LPNUOLkcZW8CdigfbBr/VWXBfAgayvXh0LrZc8A689tgH
-         XmrJ2B1glysSHobBqgay/9jG8nGEvb08BpTnq/CBslFMeA2jt1pHZ5dJMiZgyh+ar0ya
-         tjdA==
+        bh=1JHyDDVL96PT69+HIUFTlQwzyTVvaxPDQBDHlKvb0lw=;
+        b=STtleKLa971DLozEAEcxWPiMP4gwAaIln/8vKTGCsq2vI6TgS9Y5AGQ7ghl6JBnIG7
+         JHVvTCue+DJTNdkQ3ExZu6bnZAHs8WST09PPvhc95roULGm+DazkrE7INyoz3V5egHKd
+         fEuxStxQum5TpYyagPz2bTo91lyeWF/ntXWKW+rViK1ax++qfC4xwIaeAv/MA6Q6lAWW
+         6qf67p6t8TYoAt1ohiJPHcVwxZsoVxLqa15A8TMsqUnBTStwKssQ05UJ/FF6yJcaHZ/i
+         5aOzNuv8nXd4i5MvNsPjBxUVZGFSMGTtyVBymWy3vSvJUPzBGlp6HyubK0t3JL9YVxvg
+         Y98w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749651173; x=1750255973;
+        d=1e100.net; s=20230601; t=1749651491; x=1750256291;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hiHg7SNH+pSMtOhNSqpQ2vUspKGZ2spdd3OjZnoxU8Q=;
-        b=olrDM6G01RwGy3fX6gYQeZXJgvmsvj8L7dAQ3x6tManyIdCmS/FP4YJfxoCZMraE/s
-         g3JGWlCBKYhn/3INWh6UgfEqfDS39qWAmSvC5GwATNFYilgeQ9wF5yjWYd1aPDKlV7mE
-         Q2EogK7knnnukTGiA8kEJSD02PPnxailCkIOQ7W3p7T4HcvVbWtVwcuqpoXIP0T7j7n1
-         URPrtJ/GusVWFv6s5Dcz6QomCqbzX8UPI/21r3Pbnc1f6vBTuzvcgKOqE47WYoJv6cGo
-         HEVw5tX7ax23EO+RQ5+yUQLT11YzsGWN0Sa2Mtq6uVm2H/j/j9qgim8zpK2odZtGyGhW
-         dXgg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlm9Cs7DtEtcW2XXYnIb1Vf1YhfkF7ug0YqFdD1aBQQFHFmEr2hCcuVnbaTm7yMsl9t1XB5r2+oQNlkMVivOSjZybY3Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxBrWJVbFW4gPEdCOaog5uf5PrURYQw9m+kmCtpkLqgtzpTcULD
-	zFJ1R9WlL2EXjXTZr1D3k6P142qScsz5RHs4mQwq17nEi/oFba72xtNN0GSlbNWIzfkaAzlNRNp
-	HPFPRP8wBMwxKBIEhWSAWDw8mSC2veuw=
-X-Gm-Gg: ASbGnctFWOTjEDI72C9ST74pfzy4vuk/o+qbzNW8U4ZFYYODC6UZ4lyowz7N65ph3Qc
-	TRwQXBrjwF5Z9/tAGosQ7fTH5UGcEKU1iUhayePDbVPOVK//UFQYWfTmubny5CN0DuMnj+3j1Fc
-	FlMOnX4xu6P/4LIrUCmyIOZGBZyf1xR3ro4m0rsd5d0cpU0BDu3G6DxV2hcc6A8P0/zRhH9I+CS
-	aUT5w==
-X-Google-Smtp-Source: AGHT+IEAValel8liDMEYhfCrnmQ5CestXZtWv84livqk4j/ymswdWR+PpAD0W4JSr184M5y7GQRG879SrHISz7W20Eg=
-X-Received: by 2002:a05:651c:4ca:b0:328:d50:d7cc with SMTP id
- 38308e7fff4ca-32b21269b9dmr10951451fa.20.1749651172599; Wed, 11 Jun 2025
- 07:12:52 -0700 (PDT)
+        bh=1JHyDDVL96PT69+HIUFTlQwzyTVvaxPDQBDHlKvb0lw=;
+        b=GiStk737kENosEcDxKuYo8ioqdbyaPZdqS5OtxBXGclbcYv/QWMA8OpNJnho2iL/kT
+         KFPbfrbejWTpm0bP+1vK7eSB/Ea/+gLNamRch4pRqwMypJPNIU4F5KLl1drWe4yd4DOK
+         TBOiUHS1At1EgGLX1Vp6GSU7vxMyJ24hz0deooJCdVT6PfYNl3Fc7XizII9NEWPU5IPS
+         /SO6Ks8nevVaT+qamIpq8MPYSPJEECtc32a02vj0gZ+wd//g+NuWbPisNk0kDaulEYt8
+         7ZkD82EPIQjh9NsM1yoPAfXv+dMmASrwaGbk7k8JkOSwwZsVwMwgxfc354Nhrv41+vMj
+         vrSA==
+X-Forwarded-Encrypted: i=1; AJvYcCUD/nEAXf40wOD4F7M1jguIaupFmuy7Ww+vcxOdYa2d+tirOnTtJw1EcjuaeHk/w9ra6wWuzrXbKeu8lNhsEol5F3NwWQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJsphJB4vT4MrUH+lziGAnKrQAC1Q7HV2n8qrl5nCbVOvM0Twa
+	XELZAQlkITJyOxR5atY5mxPHknSA3N62uyGKD3PBPjLKZH9kmZUumf3aj7P5iPjbsm23YY7yJM+
+	Ew6bbmq8KjtuXTKgqZdSKgPk3tuQEkUw=
+X-Gm-Gg: ASbGncs54dv4SP/K+CPETwGZDn+RxMCIJZT4zK4d54WE9DlJR+ZqzG+gp0rAAYkIuex
+	OLu/2MkUhAApOr9juf46dmoylTUinpXqCVrK02FBD/m2qNoSkEtLctIs0esTcuxZJQWGHs824a7
+	BBGOO7NtDyJHLLHrchqr4daz723a6rux9lShQJYx7n6yj4nuTAjSmtj6W7RuEGlccZQQvYVdaQf
+	Yc5Rw==
+X-Google-Smtp-Source: AGHT+IEw99JZ3Ni2MxwdgIFYpOqtbrPsWWAib83ZR7Rw9sZS3Aa6YYdAkawHMQmcsqGznXxBoTb+QwWK6QtF+QGgKHM=
+X-Received: by 2002:a05:651c:221f:b0:32a:74db:fe73 with SMTP id
+ 38308e7fff4ca-32b21de3f22mr11802421fa.28.1749651490434; Wed, 11 Jun 2025
+ 07:18:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250607152830.26597-1-pranav.tyagi03@gmail.com> <20250607164200.GC197663@horms.kernel.org>
-In-Reply-To: <20250607164200.GC197663@horms.kernel.org>
+References: <20250607082844.8779-1-pranav.tyagi03@gmail.com>
+ <202506092053.827AD89DC5@keescook> <decv7f4drznbeoyjjm7ixlsgmu7ust4fltwwlnbltdjcvmhtbk@5qreij76z7jn>
+In-Reply-To: <decv7f4drznbeoyjjm7ixlsgmu7ust4fltwwlnbltdjcvmhtbk@5qreij76z7jn>
 From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Wed, 11 Jun 2025 19:42:41 +0530
-X-Gm-Features: AX0GCFvcXQG5H4Lymw6YWunRZt95liFnErGnHf7Tk2DyxYxDDx34gA1WdzNq0ac
-Message-ID: <CAH4c4jKcnmquBJ1fXo0ENRf+D3xuogF+Cu4iGVsR18FZfggqqw@mail.gmail.com>
-Subject: Re: [PATCH] net: ipconfig: replace strncpy with strscpy
-To: Simon Horman <horms@kernel.org>
-Cc: davem@davemloft.net, dsahern@kernel.org, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, skhan@linuxfoundation.org, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+Date: Wed, 11 Jun 2025 19:47:58 +0530
+X-Gm-Features: AX0GCFu4sDFJ8r-fSsh6QpnCWFxzSyxmgew_3nZ6MvQ-4CtPA9tGvltGmTDudag
+Message-ID: <CAH4c4jKD1TdpyfUXxvz1F_-ONTbKC=4z2V0iH4rGCBgYv0-Kxg@mail.gmail.com>
+Subject: Re: [PATCH] binfmt_elf: use check_mul_overflow() for size calc
+To: Jan Kara <jack@suse.cz>
+Cc: Kees Cook <kees@kernel.org>, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
 	linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 7, 2025 at 10:12=E2=80=AFPM Simon Horman <horms@kernel.org> wro=
-te:
+On Tue, Jun 10, 2025 at 1:29=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
 >
-> On Sat, Jun 07, 2025 at 08:58:30PM +0530, Pranav Tyagi wrote:
-> > Replace the deprecated strncpy() with strscpy() as the destination
-> > buffer is NUL-terminated and does not require any
-> > trailing NUL-padding. Also increase the length to 252
-> > as NUL-termination is guaranteed.
+> On Mon 09-06-25 21:04:36, Kees Cook wrote:
+> > On Sat, Jun 07, 2025 at 01:58:44PM +0530, Pranav Tyagi wrote:
+> > > Use check_mul_overflow() to safely compute the total size of ELF prog=
+ram
+> > > headers instead of relying on direct multiplication.
+> > >
+> > > Directly multiplying sizeof(struct elf_phdr) with e_phnum risks integ=
+er
+> > > overflow, especially on 32-bit systems or with malformed ELF binaries
+> > > crafted to trigger wrap-around. If an overflow occurs, kmalloc() coul=
+d
+> > > allocate insufficient memory, potentially leading to out-of-bound
+> > > accesses, memory corruption or security vulnerabilities.
+> > >
+> > > Using check_mul_overflow() ensures the multiplication is performed
+> > > safely and detects overflows before memory allocation. This change ma=
+kes
+> > > the function more robust when handling untrusted or corrupted binarie=
+s.
+> > >
+> > > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> > > Link: https://github.com/KSPP/linux/issues/92
+> > > ---
+> > >  fs/binfmt_elf.c | 5 ++++-
+> > >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+> > > index a43363d593e5..774e705798b8 100644
+> > > --- a/fs/binfmt_elf.c
+> > > +++ b/fs/binfmt_elf.c
+> > > @@ -518,7 +518,10 @@ static struct elf_phdr *load_elf_phdrs(const str=
+uct elfhdr *elf_ex,
+> > >
+> > >     /* Sanity check the number of program headers... */
+> > >     /* ...and their total size. */
+> > > -   size =3D sizeof(struct elf_phdr) * elf_ex->e_phnum;
 > >
-> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> > size is unsigned int, which has a maximum value of 4,294,967,295.
+> >
+> > elf_ex->e_phnum is a u16 (2 bytes) and will not be changing:
+> >
+> > $ pahole -C elf64_hdr */fs/binfmt_elf.o
+> > struct elf64_hdr {
+> >       ...
+> >         Elf64_Half                 e_phnum;              /*    56     2=
+ */
+> >       ...
 >
-> Hi Pranav,
+> Ah, what confused me was that I somehow thought Elf64_Half is u32 without
+> checking it's definition which clearly shows its actually u16. Thanks for
+> checking it! You're right that the patch is pointless then.
 >
-> As a non-bug fix for Networking code this should be targeted
-> at net-next. And it's helpful to do so explicitly in the patch subject,
-> like this:
->
->         [PATCH v2 net-next] ...
->
-> Also, unfortunately the timing of this patch is not good
-> as net-next is currently closed for the merge window.
->
-> You can find more information about the above,
-> and other aspects of the workflow for the Networking subsystem
-> in https://docs.kernel.org/process/maintainer-netdev.html
->
->
-> ## Form letter - net-next-closed
->
-> The merge window for v6.16 has begun and therefore net-next is closed
-> for new drivers, features, code refactoring and optimizations. We are
-> currently accepting bug fixes only.
->
-> Please repost when net-next reopens after June 8th.
->
-> RFC patches sent for review only are obviously welcome at any time.
->
+>                                                                 Honza
 > --
-> pw-bot: defer
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
 
 Hi,
 
-Thanks for pointing out the shortcomings in the patch.
-The doc will help a lot. I will correct the patch accordingly and
-send the v2 as the merge window has reopened.
+I understand that the patch is actually pointless. I am still
+new to kernel dev and learnt a lot from your comments. I will keep
+this in mind while sending patches in the future.
 
 Regards
 
