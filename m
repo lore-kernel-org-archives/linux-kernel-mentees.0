@@ -1,155 +1,136 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1A41F92E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Jun 2025 09:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F3E1FBCB0;
+	Thu, 12 Jun 2025 10:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749721956; cv=none; b=huf7ySEMyQtnghPQUqVj1IyMTqDq6O8LsG4jMSYlcQoxehbFBq8p1dInbGa2cnv687oEO/MHrWXd8K3sfuH2+V4vFU5ePWJRFV2ohJqApQA1uHVJ1uOWV4PFkolyE4LsAPA5rOzNEh2ez8+HHtaCT3xohODzHKnshmxTtnMw5Rg=
+	t=1749723737; cv=none; b=Z5QdhXp2UBU7x0FAFH+Lo66n6W+2SoJpik1ZX1U0OLTJW07nDbCG6tZer//GpO+0VEOCPa+MvA3tkR4Liyo9pL4/xDlz4o0H56bEhiBjN98t6NbettD6wRv6tnV2gmkZXWnxOVsZstffzggLifEkX1DZ4e1zG0BwZdX1YWQwyWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749721956; c=relaxed/simple;
-	bh=OQ8WN/7ZBeWYIq/U4L85IKOkozwEeRXFle5rqcu3WRw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=ejlJp9dsfDj8Qq80shLRRWEYY0gLMRLMmKlMUP25vMbbdBNIgHQbPdHtlGjnujyJc01WdG6EaijuoCCmPenkjadh2NLyauAE7LcZFssORRz8UWsKmmfjxtFherfxOkQaR8wc39Gqxv0PEDeER3Eml7jcNpo3rTXO7aa0F5BIs1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s7mmizg/; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1749723737; c=relaxed/simple;
+	bh=WBpdmufKnBDk9rZeG5lCMO14K4uhYDEUZ+4wHENjVl4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qVE7rI7JmQrEYq+Oj5WdVoMgOOsv3gzeqUFBIONPc0V/p7GiK4YR7ZIqwe5qTjcgqwuheDF5Phwimjj9/nyZgtkWzq8yJPRn3c4HU+dzpDDF4tj73DKeMu+srrrzv6V2oshX7zeb4Uo5bqEy2MjQV/VIqeyOTUQ1dQRhjmEC4LU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RWBCFIlN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s7mmizg/"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B3E45407CC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Jun 2025 09:52:34 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id LR8YRhn7kpM0 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Jun 2025 09:52:34 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org C5D1C407BA
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C5D1C407BA
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=s7mmizg/
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id C5D1C407BA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Jun 2025 09:52:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 8BB636113A;
-	Thu, 12 Jun 2025 09:52:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF139C4CEEA;
-	Thu, 12 Jun 2025 09:52:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RWBCFIlN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48742C4CEEA;
+	Thu, 12 Jun 2025 10:22:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749721952;
-	bh=OQ8WN/7ZBeWYIq/U4L85IKOkozwEeRXFle5rqcu3WRw=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=s7mmizg/RUGOraWrwT+xN+TksKCRuDkUfh78R3YjYdHqm4Kxu8TKDNQIzKp6VebDP
-	 hsd5W34HH5fuZR4yMP+ybMDw/SR1Fo4xXDWwUMeLrxY+Lnv7s5jPy9W6H68XevJe2E
-	 Y66NcXveGf1TKXqLoF7ZrKTWpmZXM35/K1BfXWSZuDXhkhevuZW6RwECQsXsj4Qcrk
-	 JCFVti+ZTzT2G7oF5NeIKMZsxr9vGn0jQkJCftr66U2kVuwhhsSbXK4lGx15aqZ7z1
-	 6fj4EFyAzDIvNvH7o0xqwHRbtfpZXmf/Cu1egH83jeB40V1nF5vKSHT2VMwbaZ8aBN
-	 rZbgirMYotF5g==
+	s=k20201202; t=1749723737;
+	bh=WBpdmufKnBDk9rZeG5lCMO14K4uhYDEUZ+4wHENjVl4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RWBCFIlNQKFj9pJ/kPjaY9tZO8jJmFM+ZX6ThsGDetlfFRkeHA3FrhJFzU1rTCRY8
+	 4cQxZcOitkCnOSjpb5S1kunsxV1TLClbQv541MxAqzFB3lS7fQSt3y93DXNVoCVKXv
+	 ueiZQVx6Dny8cfx25W18Zu4g2a2CzWYdAqlb7J+pVYJUeopfv2GbmQF2flW7mlc66+
+	 Xn8pHpJDuDDSBDDPkInZbxNj4Y0BxfFkq77wVlomIe1kuZae81quNV5Ue8vhrWe8oQ
+	 bc6RTB2q8ymJsRMLmIHxGo5wrPhulE3FJ7Ld7AJTVLuw+PiEh5z9CZNBiyxrBd76g/
+	 Y1YvMi0T7sOzQ==
+Date: Thu, 12 Jun 2025 12:22:09 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Ignacio Encinas Rubio <ignacio@iencinas.com>, Marco
+ Elver <elver@google.com>, Shuah Khan <skhan@linuxfoundation.org>, Donald
+ Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>, Jan
+ Stancek <jstancek@redhat.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
+ Wauters <rubenru09@aol.com>, joel@joelfernandes.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
+ stern@rowland.harvard.edu
+Subject: Re: [PATCH 4/4] docs: netlink: store generated .rst files at
+ Documentation/output
+Message-ID: <20250612122209.0f48fbda@foz.lan>
+In-Reply-To: <aEmm4bHxn3+l0vDO@gmail.com>
+References: <cover.1749551140.git.mchehab+huawei@kernel.org>
+	<5183ad8aacc1a56e2dce9cc125b62905b93e83ca.1749551140.git.mchehab+huawei@kernel.org>
+	<aEhSu56ePZ/QPHUW@gmail.com>
+	<20250611174518.5b24bdad@sal.lan>
+	<aEmm4bHxn3+l0vDO@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Jun 2025 11:52:29 +0200
-Message-Id: <DAKGNYQ6M24H.1KVXZASA4V00C@kernel.org>
-Cc: <dakr@kernel.org>, <ojeda@kernel.org>, <rust-for-linux@vger.kernel.org>,
- <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-Subject: Re: [PATCH v4 2/3] rust: revocable: simplify RevocableGuard for
- internal safety
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Alice Ryhl" <aliceryhl@google.com>, "Marcelo Moreira"
- <marcelomoreira1905@gmail.com>
-X-Mailer: aerc 0.20.1
-References: <20250602232842.144304-1-marcelomoreira1905@gmail.com>
- <20250602232842.144304-3-marcelomoreira1905@gmail.com>
- <aEqdur4JTFa1V20U@google.com>
-In-Reply-To: <aEqdur4JTFa1V20U@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu Jun 12, 2025 at 11:28 AM CEST, Alice Ryhl wrote:
-> On Mon, Jun 02, 2025 at 08:26:23PM -0300, Marcelo Moreira wrote:
->> This commit refactors `RevocableGuard` to hold a direct reference
->> (`&'a T`) instead of a raw pointer (`*const T`). This makes the guard
->> internally safe, reducing the need for `unsafe` blocks in its usage
->> and simplifying its implementation.
->>=20
->> The `try_access` function is updated to leverage `try_access_with_guard`
->> and `map` to construct the `RevocableGuard` in a more idiomatic and safe
->> Rust way, avoiding manual pointer operations. The associated invariants
->> and `SAFETY` comments for `RevocableGuard` itself are removed as its
->> safety is now guaranteed by its type definition.
->>=20
->> Suggested-by: Benno Lossin <lossin@kernel.org>
->> Suggested-by: Danilo Krummrich <dakr@kernel.org>
->> Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
->> ---
->>  rust/kernel/revocable.rs | 26 ++++++--------------------
->>  1 file changed, 6 insertions(+), 20 deletions(-)
->>=20
->> diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
->> index d14f9052f1ac..43cc9bdc94f4 100644
->> --- a/rust/kernel/revocable.rs
->> +++ b/rust/kernel/revocable.rs
->> @@ -105,13 +105,7 @@ pub fn new(data: impl PinInit<T>) -> impl PinInit<S=
-elf> {
->>      /// because another CPU may be waiting to complete the revocation o=
-f this object.
->>      pub fn try_access(&self) -> Option<RevocableGuard<'_, T>> {
->>          let guard =3D rcu::read_lock();
->> -        if self.is_available.load(Ordering::Relaxed) {
->> -            // Since `self.is_available` is true, data is initialised a=
-nd has to remain valid
->> -            // because the RCU read side lock prevents it from being dr=
-opped.
->> -            Some(RevocableGuard::new(self.data.get(), guard))
->> -        } else {
->> -            None
->> -        }
->> +        self.try_access_with_guard(&guard).map(|data| RevocableGuard::n=
-ew(data, guard))
->>      }
->> =20
->>      /// Tries to access the revocable wrapped object.
->> @@ -198,22 +192,16 @@ fn drop(self: Pin<&mut Self>) {
->>  ///
->>  /// CPUs may not sleep while holding on to [`RevocableGuard`] because i=
-t's in atomic context
->>  /// holding the RCU read-side lock.
->> -///
->> -/// # Invariants
->> -///
->> -/// The RCU read-side lock is held while the guard is alive.
->>  pub struct RevocableGuard<'a, T> {
->> -    data_ref: *const T,
->> +    data: &'a T,
->>      _rcu_guard: rcu::Guard,
->> -    _p: PhantomData<&'a ()>,
->>  }
->
-> I don't think this change is valid. Consider this code:
->
-> fn takes_guard(arg: RevocableGuard<'_, i32>) {
->     drop(arg);
->     // rcu guard is dropped, so `arg.data` may become dangling now
-> }
->
-> This violates the requirement that references that appear in function
-> arguments are valid for the entire function call, see:
-> https://perso.crans.org/vanille/treebor/protectors.html
+Hi Breno,
 
-That's a good point. I don't see a way to make this work then... That's
-a bit sad :(
+Em Wed, 11 Jun 2025 08:55:13 -0700
+Breno Leitao <leitao@debian.org> escreveu:
 
-@Marcelo: sorry for the extra work.
+> Hello Mauro,
+> 
+> On Wed, Jun 11, 2025 at 05:45:18PM +0200, Mauro Carvalho Chehab wrote:
+> > Em Tue, 10 Jun 2025 08:43:55 -0700
+> > Breno Leitao <leitao@debian.org> escreveu:
+> >   
+> > > Hello Mauro,
+> > > 
+> > > On Tue, Jun 10, 2025 at 12:46:07PM +0200, Mauro Carvalho Chehab wrote:  
+> > > > A better long term solution is to have an extension at
+> > > > Documentation/sphinx that parses *.yaml files for netlink files,
+> > > > which could internally be calling ynl_gen_rst.py. Yet, some care
+> > > > needs to be taken, as yaml extensions are also used inside device
+> > > > tree.    
+> > > 
+> > > In fact, This is very similar to what I did initially in v1. And I was
+> > > creating a sphinx extension to handle the generation, have a look here:
+> > > 
+> > > https://lore.kernel.org/all/20231103135622.250314-1-leitao@debian.org/
+> > > 
+> > > During the review, we agree to move out of the sphinx extension.
+> > > the reasons are the stubs/templates that needs to be created and you are
+> > > creating here.
+> > > 
+> > > So, if we decide to come back to sphinx extension, we can leverage that
+> > > code from v1 ?!
+> > >   
+> > > > -def generate_main_index_rst(output: str) -> None:
+> > > > +def generate_main_index_rst(output: str, index_dir: str, ) -> None:    
+> > > 
+> > > You probably don't need the last , before ).
+> > > 
+> > > Other than that, LGTM.
+> > > 
+> > > The question is, are we OK with the templates that need to be created
+> > > for netlink specs?! 
+> > > 
+> > > Thanks for looking at it,
+> > > --breno  
+> > 
+> > Hi Breno,
+> > 
+> > I did here a test creating a completely new repository using
+> > sphinx-quickstart, adding yaml to conf.py with:
+> > 
+> > 	source_suffix = ['.rst', '.yaml']
+> > 
+> > There, I imported your v1 patch from:
+> > 	https://lore.kernel.org/all/20231103135622.250314-1-leitao@debian.org/
+> > 
+> > While your extension seems to require some work, as it has issues
+> > processing the current patch, it *is* creating one html file per each
+> > yaml, without needing any template. All it is needed there is to place
+> > an yaml file somewhere under source/ directory:  
+> 
+> Thanks for the tests. It appears that the sphinx extension can function
+> without requiring stubs and templates, right?
+> 
+> Given you have your hands dirty with it, and probably more experience
+> than I have with sphinx extensions, would you be willing to take
+> ownership of this extension and submit it? I'd be more than happy
+> to review it.
 
----
-Cheers,
-Benno
+Sure. I wrote an extension that will do what it is expected. Yet,
+I opted to have a static index.rst file. I tried to do auto-generation,
+but, at least when using SPHINXDIRS, it didn't work.
+
+I'm sending the patch series in a few.
+ 
+Thanks,
+Mauro
