@@ -1,297 +1,236 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D889519C560
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 16:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749745823; cv=none; b=U8eTIvqbMT0onVwq5gVmaZvplA+PNgGLq1R3rwfw6BLQymCdniiY2XiRNsTWbxUi4JW7MxXyR2+z/R0L8zAKX3nUCjkF5rdPJIFOqK9gzQM2HvRLTpR6fd9jhDMOU2pJc2PxW/+z6K/v/xhx6nx995Lo3v2ZSKVDdmaJ0VttRV8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749745823; c=relaxed/simple;
-	bh=AjJaai9iEL5xRpPzz41oHvg6cnXsWNmzbO7rx581ebc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XaKXVbgXCMQX7bA/GU9OXRHx0xJirQGcbx4jpPTJMdG/0Xnf0nFeDqpOSUBdKIhZvNXfeKcGgSxmazrx701W9+rQNhMqnWzwEeTGQNNV6ErPjH4arIDRUN7qiKG36HPdQjiHX3febh7ah5EiuictXpgr3Yj9FY8bYqCQ7tRu7Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GBMVEaga; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6148829B8EA
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 17:19:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749748749; cv=fail; b=YM3H3ETddfy0ALWpnnrriegLbGEjAkxXCPA2+TpcGLfT+vn7wFVpy/SCv3aXcA3etaHM9FGuUa2LDzxAtKz5hLTqsmAL+Lr1Hzalocq9WW7D/T8AunmzzndSJhm+Ac6jho5hQUsyS3GVmGeSrGyIABenpR7XQCFzm90PhegZ9y8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749748749; c=relaxed/simple;
+	bh=MewSS7qOBKzC1+WhRMld5GGMskixxpluGIXqn07H0Hg=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=J7vkcuwJ8oNspg2FALvml25uIsG/UNMn3stI0Gvj9/vrqEyNDxVEy0ufZPW/2EqVGTjoqPaOTw+pCCMltqHgfQkuoXVA9BH7BAl+mbUQo48Zwuwte2m43LH3Nm4E4MkcRfawJizhaLnNR5+gLV9qFjFPSVYW9VGVU3t32EpfG/Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KlgeQrMB; arc=fail smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GBMVEaga"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a4eb4dfd8eso92065f8f.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 09:30:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749745820; x=1750350620; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3o0VnVi1dbV9tBOqGAJzI9G91QEofUUU96Z5/r8Hs4o=;
-        b=GBMVEagaSk6mGvfx0MnW0VZEaa0vMTo9BSfpl9fSAVLbjAJOz8MQP3mZUAJWsMC0la
-         EK1/HNQV3o9m5LsKQjF7FdiTYE1stBaNwRZ8u++gHS6wLl8etIhHCjq2O/+tBlVOaCML
-         9u/RomeH87w+FQO4GCH9XOaJVDOlMi6sQzFqm1Njlc2XmR5147hipXHfDlXEFZ8k0Cye
-         /f0m3ZB9erOInRWVLqOQ7roa/ImvSITOmKZGBwXwlJ5yh0sDX4FhlNfrTcO8xMY6UTBb
-         dtupWsqw3Mj+R5kn1xx13Mlwwepeb1ik80gEB4atMBncKmfQspyZfCftPkWxYSuqtsG9
-         2dnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749745820; x=1750350620;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3o0VnVi1dbV9tBOqGAJzI9G91QEofUUU96Z5/r8Hs4o=;
-        b=F8T6YxRhCzz+cm3hFFE0WAgoBhOy3EO4niXSfTE3OPgkUUdhePu9OBxctHU6Ns+Y5l
-         DnOfPZl3DmkgYzmk0Vk6TVzTHn5l8r1c9qxTNbFUi68w409IvLt8nmrAssbxe8WfeNu2
-         IpNAucu2loBW6a6gPQMmpfZE2m3Pi8wrVXHw088hGWuJH1Kn1wx/SACov4pMwCTtggfE
-         5Dw1bx+hfTSGb35P+ISFPCth8zywIUq+qGfHD9wloJjZ1fbL49BQ5PO+/mXVXzUPzVi1
-         FGdRFCtnnjDlDfzCpQGqJuc1a8IFx21uOGWXP/L3EgOWUiKe65L6KyoZohg+9LdpVYUA
-         HUFw==
-X-Forwarded-Encrypted: i=1; AJvYcCXT23nBboN+Xd0ifhmclr69gzmbc4nTlu9u17o0QgcIO9HnedwRRTDiPanG8C1xaR7jxv19pFWHEZxyRZjatPtxOfg2jQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyAHxupCWIoMdWpoCiWKuIe6J4T/6rVEEVsJZBHTkDT7V4H3w2C
-	idh+3jUUd+laZ+1vvBJvvx2FgRc+gX+2dHNmDKSGDITM6TfWHXtx5OA3
-X-Gm-Gg: ASbGncuWugTfynY1WGa28iVACXls+B3rRzvxjt4/9zZDAwD3MzZFp7s/bcwqbNKsCw+
-	cqOofD4tQJFpina8usKqhD9fKUkyoDV6XuZc7WeSyCry0B8R1gMLAdol1BXEKV+FprpCzNFrCxS
-	tDEAYCwZ9V82QbhEZWKX65ekf7KvRHBK9CvHKGmB2RN9S/duvETOsjn4ZC6HkL2CoFM1qA3heec
-	ohtX4nih6dXjPuJhHgASfD41TCUU/fxomOtcgAQHtqq3Bk2tLKhD2ZNcuc4nNtC9K3imZSo6oGv
-	/yxeBK0Gzlq3O0xYMUH+POLY/cBY3ayOPd+/WGbGCjuUZTmVvYWexuXLMXYJafV4rHQm+nlinpb
-	Qegwo1+GYZTmMOh3iHGtHBQ==
-X-Google-Smtp-Source: AGHT+IGVDuSGJuohJRZKq1esAq8HonbJ3Cbg6ELoq/f8wyb1XeKFRdINfRLFCE32CSQ89UNHD0Og/A==
-X-Received: by 2002:a05:6000:2908:b0:3a5:3369:391c with SMTP id ffacd0b85a97d-3a5586b9c38mr2550921f8f.1.1749745819863;
-        Thu, 12 Jun 2025 09:30:19 -0700 (PDT)
-Received: from localhost.localdomain ([102.40.66.223])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e24b0c8sm24872135e9.24.2025.06.12.09.30.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 09:30:19 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net
-Cc: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.com,
-	linux-kernel-mentees@lists.linux.dev,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH 2/2] docs: net: clarify sysctl value constraints
-Date: Thu, 12 Jun 2025 19:29:54 +0300
-Message-Id: <20250612162954.55843-3-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250612162954.55843-1-abdelrahmanfekry375@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KlgeQrMB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749748747; x=1781284747;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=MewSS7qOBKzC1+WhRMld5GGMskixxpluGIXqn07H0Hg=;
+  b=KlgeQrMBR6quc1mqtZPHm0zolViO7SJKW/H5qiRaeTVp08lqGuZRtkBF
+   JsaGcvia8qH7c2MFGgNXVU3yBeFebmwP3nx1KBA+GRV9N/TY2NAPSpo3f
+   BO80TjqPenERf1viY8ogXsDFhJcQIyWRIsALwKRjgR804Nk8oCVT4Im8v
+   UpKaErJic0dpawLV1pu5rXHLt3qm9FCMLdxLTkhKu02aLeERfQoRs1IK8
+   JXCWgsg0P0xYW+CMN6IQrAgqiy+dEUIDMHFXlG8BUNhrq+hLgNuAO8zBe
+   1bMSezqd7r9zayMArwF9YNRH8BuXG0SrPAza+08ppZiRjgdNfGPzTmLP2
+   A==;
+X-CSE-ConnectionGUID: vT8gfH0gS2qoOOvGu1KVXQ==
+X-CSE-MsgGUID: HwYJYUwvSLCODt5NQ0+Irw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="62596161"
+X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
+   d="scan'208";a="62596161"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 10:19:00 -0700
+X-CSE-ConnectionGUID: Vu+4aolwTiSVFFIg4CZ8Wg==
+X-CSE-MsgGUID: YK5hGD0pSqS7Y9WZvY4sbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
+   d="scan'208";a="184827129"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 10:18:59 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 12 Jun 2025 10:18:59 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Thu, 12 Jun 2025 10:18:59 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (40.107.236.57)
+ by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 12 Jun 2025 10:18:59 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bZOCSr6pLR8XEUK6XH3dYP5hwXKWg7lOJtrcsT9GDtBNootpskt0xiuCeoC4v0QnV463WQ9jQEX7vGqDt6GbDVKn/EYIRHSADMx+x5EyvFzuQwsLQUBx0RkGVddbaT6aEt/iX9xWuWbEpGfotiimnSKUvO0FgZqfTL94XqLZc8MQ31znOcEth9De+IZ4YiyzWysNmts5fXCieQzGFVt9WbXbu0uX1E62ozmMm8K08VETMuu9b/CmwnqwV7Xy70B/3RTQ5Tb32MDK7BiZF8+yNH6hVNtIl/9aPx/ee9n+ETWwXABuq6GTrMKWCNRIGpxipA/Nu56EX63RKkfezgby0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=40L13ZwBR4ZZSL29Czvw4rb1mboMdIp4uznbpbVvsWI=;
+ b=OuR4LtYU7YJxYELTC454H4dYh0Sa1AQzgghG0d8MLAtWSbVdrlAszjrzZ3ISbtU4QautwSN4sQqe84c2AmBlKPDIAbCTtILO12lawdeAgOTis7IzEEbttzas8Vp5VdbLUOxO/L5qU7TDTatNehJcWE3DzKwCU8IkZKrLU2L3mQ0vEiKp8ahXEDN1S4gZGJk+lb2vNKnCNza77GhXj7zroRj4SYuzP/uj2LQOFmn0+hU/H5tzlBazum9BTMLAUvC2cQnwPQ1JEIothK97RukYo70vHY89y4N/Kqr7U8ouNPhblBnEahUd91bhPAopd8FEN6wb1AK9KE/Ez13bNmqyEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB5095.namprd11.prod.outlook.com (2603:10b6:510:3b::14)
+ by SA1PR11MB8426.namprd11.prod.outlook.com (2603:10b6:806:38d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.19; Thu, 12 Jun
+ 2025 17:18:51 +0000
+Received: from PH0PR11MB5095.namprd11.prod.outlook.com
+ ([fe80::215b:e85e:1973:8189]) by PH0PR11MB5095.namprd11.prod.outlook.com
+ ([fe80::215b:e85e:1973:8189%6]) with mapi id 15.20.8835.018; Thu, 12 Jun 2025
+ 17:18:50 +0000
+Message-ID: <ede97506-e6ce-4af0-8c2f-19cd1987ec97@intel.com>
+Date: Thu, 12 Jun 2025 10:18:48 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] docs: net: sysctl documentation cleanup
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<horms@kernel.org>, <corbet@lwn.net>
+CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <skhan@linuxfoundation.com>,
+	<linux-kernel-mentees@lists.linux.dev>
 References: <20250612162954.55843-1-abdelrahmanfekry375@gmail.com>
+ <20250612162954.55843-2-abdelrahmanfekry375@gmail.com>
+Content-Language: en-US
+From: Jacob Keller <jacob.e.keller@intel.com>
+In-Reply-To: <20250612162954.55843-2-abdelrahmanfekry375@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4P222CA0019.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:303:114::24) To PH0PR11MB5095.namprd11.prod.outlook.com
+ (2603:10b6:510:3b::14)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5095:EE_|SA1PR11MB8426:EE_
+X-MS-Office365-Filtering-Correlation-Id: a04e8093-4ba3-4370-0cb0-08dda9d532f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?blNCMldJNGdJSmU2WU1LR3RjaFE4b3pLRU9OTDU3amYvT0hrR1k3SjdpM1Bv?=
+ =?utf-8?B?M0RkUmU3UzlXRUJPMjNKa1BRanVrZlRUSFNxNTAvcGI0L3V5ZDNGNXBTRUR1?=
+ =?utf-8?B?M3ZNN3RTYnk4ZGl3TDI3NnVWU0lEK25UU3gvRURjdmJ5VHlhdXF6dmtqRlRp?=
+ =?utf-8?B?QUVtNHdTek0xdXYycHcyK0dITCs2azJqeEF5NElZalFTbGJXbmVoZHJDdnk4?=
+ =?utf-8?B?bmZaa3YxN3BkWk5iRXNrVmNKMWM0T255MGVnWmV4MCtVOTNBbE90QnRjdzB2?=
+ =?utf-8?B?U1k5blE3SElMQi8zZXJhRGxFRkFFaXpuN2Q5TGt4NVR3MkhOUnkzRWZRMWJ1?=
+ =?utf-8?B?SzNBNGhRMk5odXUybkVLUlNvWVhZSGdTejdpZHRXek0vYVJ0Q2pWMDFlQSts?=
+ =?utf-8?B?M2JneEpKaHk0RmpGS29sVzZsdmQwV3E5K2ZjZTRyN0tST1pEaVRGSU5ybS9T?=
+ =?utf-8?B?V1BEcXNOV1dxMjY5NVM2Vng5M2loeGp6TTVXZkE0K05SNUVzOGVIU0I0ZVhx?=
+ =?utf-8?B?c2JTZk9MWHJhc2ZhODVYMmVORHFXTjM5RzliNGhGK1BwcEk3cGRmN0RPbEJQ?=
+ =?utf-8?B?eVlGeWV6UUptQmRWcHJSS283SFluT3RaTFk1UnZ3c0loTDlxL3ZQL3dNK0pP?=
+ =?utf-8?B?REFOOW9OTXVhNS9ZTHFvYWEyb2RDM3Z3dko5UFNndTIyRXBybnJXOTNSOEEv?=
+ =?utf-8?B?ZjgrRTVjanlGRlEvZHJaN21rb0hTVmxkQ1NiSTBjblNoV2hzZXZCdS9aZFFO?=
+ =?utf-8?B?UWZJNjJicmlkbTAzTERrNFpZUXhmdnMxYjZKRlRLbElwSlp6dStHd3dYT2dF?=
+ =?utf-8?B?R1ZubGhqdnpiUWpoUk12L3ZBcW9tNldVbWx4bUZyYk5RQUFhYm85TzVuWlNy?=
+ =?utf-8?B?dlQrRnRjOEl2WWZhQndKbmlQb2dwTUs5S2tDcTBMZTlwZXJQNVNYcHZIa1ZV?=
+ =?utf-8?B?aGR0RWEzY1NJVTQ5dGk1K0FoUVNJK2U2bURBNFRFRVBsYU1zcHg2UDZyUzMr?=
+ =?utf-8?B?Y2tMYU9iei9HbkdlVjdLOFRtQk9VZ2RVbHZXOUoxckRiSUhGWmIxY1h3Y012?=
+ =?utf-8?B?bzkweHVRREhrL0JXaS9PQ3Ayb0NneFdCMm44dXVJMXVQOHREVjNUbWZMam1t?=
+ =?utf-8?B?VS8wRER5bW9VZGJ5YmxiQ204YjduMXB4WG9MdUdyNGVET2lQcXg2dnUxZm5Q?=
+ =?utf-8?B?STNlbGJOSkJNdklJaEVVc3EwUDRtUDRLQlV5RXNSV3RLbUoxVFI2MTZWVTFn?=
+ =?utf-8?B?WUNYSmxiTjRzbjBYR3dnK2VuTUduYTdpSXlrd1VQTEpDaUtTNXJlNGRmVWk0?=
+ =?utf-8?B?MnhZdEVOcHlXQnZKZzVkNlZibFBJU3BWZFM3bWo5VXZyZGNmODY3YVdoK0hO?=
+ =?utf-8?B?OGpPRktoMWV4dmcyb2Z5cnVpaXd1TEpOUm1FL1BNckQ3N0k2YUUvTnVqVUJX?=
+ =?utf-8?B?Ri9WcFFFN2JLeTg0RzloU3hsUmFWZlJxNjd4V3VRNUs2TkNwdHpKZ0E2MXM0?=
+ =?utf-8?B?bnlCOVpjM1MwK0ZuQkRjR1Bic052YklERVd0ZHZGL05KS2FRMHhoL2N5dFdR?=
+ =?utf-8?B?MEN6em81NDltVVhpYjlSMTdvZkdYSU1rQ3FSbnR3RUE1bEtucVliclkrN29v?=
+ =?utf-8?B?MDdQNFlMclVzb2dmNW1WdDJMSGRxY2ZJWkxadmFTc09wbkRVTG56ZkVKbmRJ?=
+ =?utf-8?B?OVJaOTRaUTVFRmljK05paTZQaHg0cUhocVRGTklYR2l2Z011R0RCNkVCTEFz?=
+ =?utf-8?B?ZUdxaUxCL3NnYzRSaENpWjJML2VSUkhuRDM0T3p2b0dNZ29sQ2VudFFBc2tJ?=
+ =?utf-8?B?V25oSDRvQTJhTTdMYzhvdHJKYzltWGZCenIrMitFNkZINkRxYUN3UlpYYUtr?=
+ =?utf-8?B?alk3d3FpZndsT2VrTVU5ZjdjVDZXZDB1VCs0RDl5N0VxdC9jc3Y5ZStXYi95?=
+ =?utf-8?Q?ObX1C5+fKSM=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5095.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZGV6YmtrWG4wWGFMVHNBei83WHdyLzlaaHR6aVNMdmhEaG5qck9nUTBYSWNW?=
+ =?utf-8?B?ZDQzT0ZGbGlwNGRPMEJieG5pNzB2eFFFYWIwR2NNWWExMTZ2aGkrdEkwd1Rp?=
+ =?utf-8?B?UG1XRDA0NjQ2K2Rxd2cvWjBkdEFVYVZCZk1NY3NvNEFKOFQ2K2I5SzdlR282?=
+ =?utf-8?B?MTdkZWJleVVZZFFHVGV1ODlaU0doL0tIOVVyWmZnYmNjanF3SjBBUG11TXJX?=
+ =?utf-8?B?L3Q4OTYvamFkekNHaE9XV3M1Rms3SmxvSVhTUThhZENzVzZEUDZ6Z0RML09X?=
+ =?utf-8?B?S0ZNeHJwWDltTmM2a2gvcGw1SzFRMytXdHd3dnB2THVKMjlNQVhjMEUwTFJz?=
+ =?utf-8?B?c3ZGMmhKVHQ4VmxKWTlTeWtOeTc5R2ZLaTVsTkVvV0tGM2UvUmdTSHowbUpr?=
+ =?utf-8?B?VUpFdll6QitlcXA5eHFGTU5hTXBuMzE1ZmNrWFBleUpPbUUwSEZKRTdHVXJX?=
+ =?utf-8?B?a0tibW9tbmN2dHNKa3EwaFRHZk5aTWZ3Ukg0SE11dnQwY011c1J3Z1NZMGN6?=
+ =?utf-8?B?eEZmU1dpdllDUWZrUlFVcU5PNUlCSFV3eGM5RHdFcFlvWTFYajNmSHV3Q0lH?=
+ =?utf-8?B?Rk4vcEljcjVkS2NvNFcrbGZhcFRuaUl3bDl5RktHZFBvRkFBUDkybXhOaHl4?=
+ =?utf-8?B?WXZ6ZFlmT2RTeFRNb3orajRFQVNpdVdQVUp4TU84Qk01T2pGbWZtQXVweDIz?=
+ =?utf-8?B?YnZqaU5SRzV5RGdNdGVSbWlNWHRheko3TnRNOUJ1c1JNNXk0Uk03N09QRXd3?=
+ =?utf-8?B?TVc2eTNrV0JGbC96WXpGNHZQOEFtMXBCQ1dOWlNZOGcza3phR1luQkRwMjc1?=
+ =?utf-8?B?cWlPNGNqWEZLbkJiZlhTRnBndDBnYzQ4aGZKaXZQcGJUdUxZZW50aGQ1aWl6?=
+ =?utf-8?B?N0oyZG84Sjl3eC9LT3pTcml3RGdJOWVpT1dmbGhoMEhjMVB5dUV6ZHp2Smwx?=
+ =?utf-8?B?elVHbVBkelFmQkhOQm1kZHU1eXgxaTlmOUorK3p4VXNINFB2RkorelVFVHlx?=
+ =?utf-8?B?UDlISHF6b0owZ2N2THU5Ym41cXcwY0MweXNEaTNvZlU2cmVWUTJRcE9ua0Vm?=
+ =?utf-8?B?NWVJSEJqZnpScmQvc2lDRGZ2MVlCbWpuWlVQcndnMjZ2VVVTT1hMaHBpVDU0?=
+ =?utf-8?B?WDlVMFlMY3hzdCsxd2dtL1pBNzFhWVhxb0hFbDYwYlNoSUxXYXo5ajZLc1N0?=
+ =?utf-8?B?dFArTGdoSkJ4cGRQeGJzM3MzZk9Wd3d5VVVQOGNITzAxd2NGYjN4NWRFcDZq?=
+ =?utf-8?B?dlhUVHd5cnRmaGJhM3lFQVpUQStDM2hQYmdvYWllc0FXZk8wOTlpM1o4WXRs?=
+ =?utf-8?B?b2JwUlJqUjZjZTVZd3lURGNaNHZRTUwrWUZaK1MrQTZ2cis5VG16WU9hZXB6?=
+ =?utf-8?B?MnB1d0xjb3hQbnlIUFlsMkgwUktvQUsxWG50QUxVekIxdStRUlkyYURKRGZR?=
+ =?utf-8?B?MjBiVWtKTFhKR1dEWUp3bGZldzZwZ3JjNjBxOHl3MGlsYVFYcUZwZDA2eGN3?=
+ =?utf-8?B?NHI1dUx3clY3c0VWV2xTbW5uL0FJdWRRWVJCcVltSE5GNTFuVFVwbk1udVV1?=
+ =?utf-8?B?U0QrTHNJdDFkUkhwRzR5Nk5kRjJJcmFtL3EvQU5VaVNkMm5ZbmlWdXUwQWYr?=
+ =?utf-8?B?Q1NoMFJoVGtOK0hNck9GSHh6RkJZUjRSbm5jWVhFNGc4STlwdFF4eGIvWjN3?=
+ =?utf-8?B?MS9aL29WekI2UXo2K1h5Z3pzaFZWUTIvdWhkM3Vza0RjS1Nxam02M3ozR0VH?=
+ =?utf-8?B?T1d5ZkMrWmRieWxJWHRZdHVZUzR4T2VuOWNBRU9VQ0c5OGZCaVUrWXRQMWtQ?=
+ =?utf-8?B?ak1yUWJpOGMxZVNtNTdHYjhlU2Y4YjNyaHEzS21wOVQ5V0N6azR4U2lSdzZL?=
+ =?utf-8?B?QU9VYzk5eGgzL1lJdER4bjVjK1FzaVBMcUt3d0JONHJVT3J5QlFKT1Vxb0Uw?=
+ =?utf-8?B?OElGL3JmcDdTeHZWNFEvY2ovLzdPbHpQVEpjMk5JWFAvMGxDMks2bVpUZzRN?=
+ =?utf-8?B?ejlOSWd0MEo4TkFId0hzc29IaldTT0wrNlhuMHhNa0NYYmwxRjI0S2FkRDRS?=
+ =?utf-8?B?VlRpSFBZVzB4SjI4U3FFUURkSlNPNlIrMnh3ZjAyWmNyaVdGNzZuUkE1bzFS?=
+ =?utf-8?B?VjhjN05QaXVEMTZLTXE2bG42WnJaR1RPL3FSaDZYQlgrZlljRkdCbnd6clJl?=
+ =?utf-8?B?NHc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a04e8093-4ba3-4370-0cb0-08dda9d532f0
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5095.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2025 17:18:50.7094
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: svRxdfCBC0mrRFbLIcvB3xDtZSs9s9KAq+7jQDitBOtrTwpOFw8lllaDNIWXay/b3O18o1BAp1G+rRu+ecyVbvc9BXKaAbDK5mk5H/7x7Aw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8426
+X-OriginatorOrg: intel.com
 
-So, i also noticed that some of the parameters represented
-as boolean have no value constrain checks and accept integer
-values due to u8 implementation, so i wrote a note for every
-boolean parameter that have no constrain checks in code. and
-fixed a typo in fmwark instead of fwmark.
 
-Added notes for 19 confirmed parameters,
-Verified by code inspection and runtime testing.
 
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
- Documentation/networking/ip-sysctl.rst | 50 +++++++++++++++++++++++---
- 1 file changed, 45 insertions(+), 5 deletions(-)
+On 6/12/2025 9:29 AM, Abdelrahman Fekry wrote:
+> I noticed that some boolean parameters have missing default values
+> (enabled/disabled) in the documentation so i checked the initialization
+> functions to get their default values, also there was some inconsistency
+> in the representation. During the process , i stumbled upon a typo in
+> cipso_rbm_struct_valid instead of cipso_rbm_struct_valid. 
+> 
+> - Fixed typo in cipso_rbm_struct_valid
+> - Added missing default value declarations
+> - Standardized boolean representation (0/1 with enabled/disabled)
+> 
+> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+> ---
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index f7ff8c53f412..99e786915204 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -68,6 +68,8 @@ ip_forward_use_pmtu - BOOLEAN
- 
- 	- 0 - disabled
- 	- 1 - enabled
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
- 
- fwmark_reflect - BOOLEAN
- 	Controls the fwmark of kernel-generated IPv4 reply packets that are not
-@@ -89,6 +91,8 @@ fib_multipath_use_neigh - BOOLEAN
- 
- 	- 0 - disabled
- 	- 1 - enabled
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
- 
- fib_multipath_hash_policy - INTEGER
- 	Controls which hash policy to use for multipath routes. Only valid
-@@ -489,6 +493,8 @@ tcp_fwmark_accept - BOOLEAN
- 	unaffected.
- 
- 	Default: 0
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
- 
- tcp_invalid_ratelimit - INTEGER
- 	Limit the maximal rate for sending duplicate acknowledgments
-@@ -603,6 +609,8 @@ tcp_moderate_rcvbuf - BOOLEAN
- 	automatically size the buffer (no greater than tcp_rmem[2]) to
- 	match the size required by the path for full throughput.  Enabled by
- 	default.
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
- 
- tcp_mtu_probing - INTEGER
- 	Controls TCP Packetization-Layer Path MTU Discovery.  Takes three
-@@ -636,6 +644,8 @@ tcp_no_ssthresh_metrics_save - BOOLEAN
- 	Controls whether TCP saves ssthresh metrics in the route cache.
- 
- 	Default is 1, which disables ssthresh metrics.
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
- 
- tcp_orphan_retries - INTEGER
- 	This value influences the timeout of a locally closed TCP connection,
-@@ -703,7 +713,9 @@ tcp_retries1 - INTEGER
- 
- 	RFC 1122 recommends at least 3 retransmissions, which is the
- 	default.
--
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
-+
- tcp_retries2 - INTEGER
- 	This value influences the timeout of an alive TCP connection,
- 	when RTO retransmissions remain unacknowledged.
-@@ -751,6 +763,8 @@ tcp_sack - BOOLEAN
- 	Enable select acknowledgments (SACKS).
- 	
- 	Default: 1 (enabled)
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
- 
- tcp_comp_sack_delay_ns - LONG INTEGER
- 	TCP tries to reduce number of SACK sent, using a timer
-@@ -787,6 +801,8 @@ tcp_slow_start_after_idle - BOOLEAN
- 	be timed out after an idle period.
- 
- 	Default: 1
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
- 
- tcp_stdurg - BOOLEAN
- 	Use the Host requirements interpretation of the TCP urgent pointer field.
-@@ -794,6 +810,8 @@ tcp_stdurg - BOOLEAN
- 	Linux might not communicate correctly with them.
- 
- 	Default: 0 (disabled)
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
- 
- tcp_synack_retries - INTEGER
- 	Number of times SYNACKs for a passive TCP connection attempt will
-@@ -1034,6 +1052,8 @@ tcp_window_scaling - BOOLEAN
- 	- 1 - Enabled.
- 	
- 	Default: 1 (enabled)
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
- 
- tcp_shrink_window - BOOLEAN
- 	This changes how the TCP receive window is calculated.
-@@ -1049,6 +1069,8 @@ tcp_shrink_window - BOOLEAN
- 			scaling factor is also in effect.
- 
- 	Default: 0
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
- 
- tcp_wmem - vector of 3 INTEGERs: min, default, max
- 	min: Amount of memory reserved for send buffers for TCP sockets.
-@@ -1104,7 +1126,9 @@ tcp_thin_linear_timeouts - BOOLEAN
- 	Documentation/networking/tcp-thin.rst
- 
- 	Default: 0
--
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
-+
- tcp_limit_output_bytes - INTEGER
- 	Controls TCP Small Queue limit per tcp socket.
- 	TCP bulk sender tends to increase packets in flight until it
-@@ -1367,6 +1391,9 @@ cipso_rbm_optfmt - BOOLEAN
- 	categories in order to make the packet data 32-bit aligned.
- 
- 	Default: 0
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
-+
- 
- cipso_rbm_strictvalid - BOOLEAN
- 	If set, do a very strict check of the CIPSO option when
-@@ -1377,6 +1404,9 @@ cipso_rbm_strictvalid - BOOLEAN
- 	with other implementations that require strict checking.
- 
- 	Default: 0
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
-+
- 
- IP Variables
- ============
-@@ -1437,6 +1467,9 @@ ip_nonlocal_bind - BOOLEAN
- 	which can be quite useful - but may break some applications.
- 
- 	Default: 0
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
-+
- 
- ip_autobind_reuse - BOOLEAN
- 	By default, bind() does not select the ports automatically even if
-@@ -1447,6 +1480,8 @@ ip_autobind_reuse - BOOLEAN
- 	option should only be set by experts.
- 	Default: 0
- 
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
-+
- ip_dynaddr - INTEGER
- 	If set non-zero, enables support for dynamic addresses.
- 	If set to a non-zero value larger than 1, a kernel log
-@@ -1476,13 +1511,16 @@ tcp_early_demux - BOOLEAN
- 	Enable early demux for established TCP sockets.
- 
- 	Default: 1
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
-+
- 
- udp_early_demux - BOOLEAN
- 	Enable early demux for connected UDP sockets. Disable this if
- 	your system could experience more unconnected load.
- 
- 	Default: 1
--
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
-+
- icmp_echo_ignore_all - BOOLEAN
- 	If set non-zero, then the kernel will ignore all ICMP ECHO
- 	requests sent to it.
-@@ -1815,7 +1853,7 @@ src_valid_mark - BOOLEAN
- 	  lookup.  This permits rp_filter to function when the fwmark is
- 	  used for routing traffic in both directions.
- 
--	This setting also affects the utilization of fmwark when
-+	This setting also affects the utilization of fwmark when
- 	performing source address selection for ICMP replies, or
- 	determining addresses stored for the IPOPT_TS_TSANDADDR and
- 	IPOPT_RR IP options.
-@@ -2324,7 +2362,9 @@ fwmark_reflect - BOOLEAN
- 	fwmark of the packet they are replying to.
- 
- 	Default: 0
--
-+
-+	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
-+
- ``conf/interface/*``:
- 	Change special settings per interface.
- 
--- 
-2.25.1
+Thank you for the documentation improvements! I do think its a bit more
+clear to include the "(enabled)" or "(disabled)".
+
+Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+
+>  Documentation/networking/ip-sysctl.rst | 37 +++++++++++++++++++++-----
+>  1 file changed, 31 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+> index 0f1251cce314..f7ff8c53f412 100644
+> --- a/Documentation/networking/ip-sysctl.rst
+> +++ b/Documentation/networking/ip-sysctl.rst
+> @@ -407,6 +407,12 @@ tcp_congestion_control - STRING
+>  
+>  tcp_dsack - BOOLEAN
+>  	Allows TCP to send "duplicate" SACKs.
+> +	Possible values:
+> +		- 0 disabled
+> +		- 1 enabled
+> +
+> +	Default: 1 (enabled)
+>  
+
+Would it make sense to use "0 (disabled)" and "1 (enabled)" with
+parenthesis for consistency with the default value?
 
