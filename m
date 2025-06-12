@@ -1,63 +1,63 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD59C29B79A
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 16:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D889519C560
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 16:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749745812; cv=none; b=OX3CsXRZdkhFRiYqNzdFbJjsmWZmk7R7mmuPSG5V/q6BX/ibeYgnjM0Z3t8jR/9WvQQMvJIA6u9yhWRmGmBkqtnr+2I+17JTU62nrXk5lEYhGgbnNOYUIjVLECP5HJBcxNpEk+6otXSTBgxqLmem959D3lSbcxoFuXNOi47ZE9w=
+	t=1749745823; cv=none; b=U8eTIvqbMT0onVwq5gVmaZvplA+PNgGLq1R3rwfw6BLQymCdniiY2XiRNsTWbxUi4JW7MxXyR2+z/R0L8zAKX3nUCjkF5rdPJIFOqK9gzQM2HvRLTpR6fd9jhDMOU2pJc2PxW/+z6K/v/xhx6nx995Lo3v2ZSKVDdmaJ0VttRV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749745812; c=relaxed/simple;
-	bh=Z/6636C5BKuJi09HF8IucU5lTzOrUHky7LlqR8CAeRY=;
+	s=arc-20240116; t=1749745823; c=relaxed/simple;
+	bh=AjJaai9iEL5xRpPzz41oHvg6cnXsWNmzbO7rx581ebc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FvCueH7kmmd8SWLI3q4aG3yJ3xLdjoVUmbZKzk/xy0aNhMT+uEoUXJOLAI5UhfBAlNU6BsHLx3ExLOsKwb+bu8CJz/7OGXd4gAE/mrtk/1+PuLR1PO4SHJUI1+6YYX7SScdKQL3sRH6QU2QPUZw6iXWykdvUdkGhmHO1yI+7cfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F0yTGASI; arc=none smtp.client-ip=209.85.221.49
+	 MIME-Version; b=XaKXVbgXCMQX7bA/GU9OXRHx0xJirQGcbx4jpPTJMdG/0Xnf0nFeDqpOSUBdKIhZvNXfeKcGgSxmazrx701W9+rQNhMqnWzwEeTGQNNV6ErPjH4arIDRUN7qiKG36HPdQjiHX3febh7ah5EiuictXpgr3Yj9FY8bYqCQ7tRu7Jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GBMVEaga; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F0yTGASI"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a4e749d7b2so177081f8f.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 09:30:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GBMVEaga"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a4eb4dfd8eso92065f8f.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 09:30:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749745808; x=1750350608; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1749745820; x=1750350620; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CScEe5Fl8rGG4trMJJLF20CQ737qTO5smIAvJAcmjB0=;
-        b=F0yTGASIaZxsJ3Fm96eI9bEKegcARhlDRbXOWYoNzBDeUSbv2hrfHBDHtZrgkarFgL
-         0mRl+wRW1u5GFVMzyQpBPPRptgEzJM7yV3tjM7DGDQRSd7wJ+Weh20mfXonpC0RR+9pG
-         yOVoG8I1EjOWTEMgg5EHp/fEbHazBWLSA85Iyw6BGBTwXDMCerdmsRVo2cO9Tn/8xbsR
-         KUekV+57afkzbs0uE6GwuSuQ2BTveS5gbIj3Z3J9hBnALaLCJmZJSwjKHiQt90JjzfEd
-         E9oG0ONP+pfLr9nOh8nP+FvCZRrQu714CWm86Gs4taMKFeApqG7SQEHmn0c7Dxpnc4ad
-         q7TA==
+        bh=3o0VnVi1dbV9tBOqGAJzI9G91QEofUUU96Z5/r8Hs4o=;
+        b=GBMVEagaSk6mGvfx0MnW0VZEaa0vMTo9BSfpl9fSAVLbjAJOz8MQP3mZUAJWsMC0la
+         EK1/HNQV3o9m5LsKQjF7FdiTYE1stBaNwRZ8u++gHS6wLl8etIhHCjq2O/+tBlVOaCML
+         9u/RomeH87w+FQO4GCH9XOaJVDOlMi6sQzFqm1Njlc2XmR5147hipXHfDlXEFZ8k0Cye
+         /f0m3ZB9erOInRWVLqOQ7roa/ImvSITOmKZGBwXwlJ5yh0sDX4FhlNfrTcO8xMY6UTBb
+         dtupWsqw3Mj+R5kn1xx13Mlwwepeb1ik80gEB4atMBncKmfQspyZfCftPkWxYSuqtsG9
+         2dnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749745808; x=1750350608;
+        d=1e100.net; s=20230601; t=1749745820; x=1750350620;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CScEe5Fl8rGG4trMJJLF20CQ737qTO5smIAvJAcmjB0=;
-        b=j23bfXB2FVbawCSwxK/2U/m5zUuLR0VLDLYN5Nn1k1di4O9Lf0ayEwnSFrI8wenXYv
-         DlYn4BCOTCH0fxfobfSVIPGrX44gW/yVk9hgYRsGFmTyQmC68+7zsRulXlEH4mE3+2nq
-         3j/lJsn4uGQBb8p/uY44Jx/DYCIFL2AMkpw8SkfkCxv+rGG4AfJfDn+AhragX+DtwSCG
-         TjXUila2W8rDp6P7QtWiWgRdZGYJJlKA9wpjgaNcjx9mEpxRjW/sOu9E+N5nUKy5CSuZ
-         5OREL+/9OjhYuD9SfIxF93q93RG4aFjdTfgb7+AsEfnwjq0aprfs1J9lDQAwHodw/7pq
-         qN5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUkMWz4d540pJiTeSY0C1Axd0yH4X36cxnIw3oZ3EEtve1ps/sRU6J255ryxKFzAuOGcxJ7KFx8dS/qJ8mZRNK77qCOHQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyz3IyHNJIyuOSiO9+oq9o2+NJxC5xYJuusVrM49+63xGhhDEcd
-	RGdmAgl25au13n/gevshkDjCjK7anNvn4buCNPw0bVtX5EIKJMKreJJY
-X-Gm-Gg: ASbGnctQN0aoR9w8M7JdR+kK3yDipjhVuj9yyzsUtSRMSdbIATwdDwXDrDovrpLHG6o
-	T0wcLGoT2CRgnOzI13mh6dRmzbeT0QeZ2iNnUswfA5f9/aaQzF9XXKqYxKPv35WWraJ+28eVMp+
-	3T5G1/7w7yG4++WcStgUKR+7lCpmd9d7biS0dFVNe7VUK1qcSbOdhOjvLry1sDpjiwLzQsvI7rz
-	mr9v4YCuC8U1re+CsytevpOZTIKWfZD79m4LgTRKKxPyFgaBN+95QEgc71M6YaI1610MCnaAbYi
-	2tIxgRFT41WITT1C3TlnnZQobnQoGN1J1DczkfZw3XwIA3brW1TNtrmgNAaPsRgJDfWrerbn5Wv
-	E3X5d8DMLNe8vz5P0LsOPvA==
-X-Google-Smtp-Source: AGHT+IFmCRmSjVXq+/Z7AsehGKAhL1CUvk0M6whN6xRD/ICWsaXTBvCe4yalqw7IIeTvkln/ZyhwbQ==
-X-Received: by 2002:a5d:5f85:0:b0:3a3:6ab0:8863 with SMTP id ffacd0b85a97d-3a558a218bamr2758748f8f.16.1749745807677;
-        Thu, 12 Jun 2025 09:30:07 -0700 (PDT)
+        bh=3o0VnVi1dbV9tBOqGAJzI9G91QEofUUU96Z5/r8Hs4o=;
+        b=F8T6YxRhCzz+cm3hFFE0WAgoBhOy3EO4niXSfTE3OPgkUUdhePu9OBxctHU6Ns+Y5l
+         DnOfPZl3DmkgYzmk0Vk6TVzTHn5l8r1c9qxTNbFUi68w409IvLt8nmrAssbxe8WfeNu2
+         IpNAucu2loBW6a6gPQMmpfZE2m3Pi8wrVXHw088hGWuJH1Kn1wx/SACov4pMwCTtggfE
+         5Dw1bx+hfTSGb35P+ISFPCth8zywIUq+qGfHD9wloJjZ1fbL49BQ5PO+/mXVXzUPzVi1
+         FGdRFCtnnjDlDfzCpQGqJuc1a8IFx21uOGWXP/L3EgOWUiKe65L6KyoZohg+9LdpVYUA
+         HUFw==
+X-Forwarded-Encrypted: i=1; AJvYcCXT23nBboN+Xd0ifhmclr69gzmbc4nTlu9u17o0QgcIO9HnedwRRTDiPanG8C1xaR7jxv19pFWHEZxyRZjatPtxOfg2jQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyAHxupCWIoMdWpoCiWKuIe6J4T/6rVEEVsJZBHTkDT7V4H3w2C
+	idh+3jUUd+laZ+1vvBJvvx2FgRc+gX+2dHNmDKSGDITM6TfWHXtx5OA3
+X-Gm-Gg: ASbGncuWugTfynY1WGa28iVACXls+B3rRzvxjt4/9zZDAwD3MzZFp7s/bcwqbNKsCw+
+	cqOofD4tQJFpina8usKqhD9fKUkyoDV6XuZc7WeSyCry0B8R1gMLAdol1BXEKV+FprpCzNFrCxS
+	tDEAYCwZ9V82QbhEZWKX65ekf7KvRHBK9CvHKGmB2RN9S/duvETOsjn4ZC6HkL2CoFM1qA3heec
+	ohtX4nih6dXjPuJhHgASfD41TCUU/fxomOtcgAQHtqq3Bk2tLKhD2ZNcuc4nNtC9K3imZSo6oGv
+	/yxeBK0Gzlq3O0xYMUH+POLY/cBY3ayOPd+/WGbGCjuUZTmVvYWexuXLMXYJafV4rHQm+nlinpb
+	Qegwo1+GYZTmMOh3iHGtHBQ==
+X-Google-Smtp-Source: AGHT+IGVDuSGJuohJRZKq1esAq8HonbJ3Cbg6ELoq/f8wyb1XeKFRdINfRLFCE32CSQ89UNHD0Og/A==
+X-Received: by 2002:a05:6000:2908:b0:3a5:3369:391c with SMTP id ffacd0b85a97d-3a5586b9c38mr2550921f8f.1.1749745819863;
+        Thu, 12 Jun 2025 09:30:19 -0700 (PDT)
 Received: from localhost.localdomain ([102.40.66.223])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e24b0c8sm24872135e9.24.2025.06.12.09.30.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e24b0c8sm24872135e9.24.2025.06.12.09.30.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 09:30:07 -0700 (PDT)
+        Thu, 12 Jun 2025 09:30:19 -0700 (PDT)
 From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
 To: davem@davemloft.net,
 	edumazet@google.com,
@@ -71,9 +71,9 @@ Cc: netdev@vger.kernel.org,
 	skhan@linuxfoundation.com,
 	linux-kernel-mentees@lists.linux.dev,
 	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH 1/2] docs: net: sysctl documentation cleanup
-Date: Thu, 12 Jun 2025 19:29:53 +0300
-Message-Id: <20250612162954.55843-2-abdelrahmanfekry375@gmail.com>
+Subject: [PATCH 2/2] docs: net: clarify sysctl value constraints
+Date: Thu, 12 Jun 2025 19:29:54 +0300
+Message-Id: <20250612162954.55843-3-abdelrahmanfekry375@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250612162954.55843-1-abdelrahmanfekry375@gmail.com>
 References: <20250612162954.55843-1-abdelrahmanfekry375@gmail.com>
@@ -85,161 +85,213 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-I noticed that some boolean parameters have missing default values
-(enabled/disabled) in the documentation so i checked the initialization
-functions to get their default values, also there was some inconsistency
-in the representation. During the process , i stumbled upon a typo in
-cipso_rbm_struct_valid instead of cipso_rbm_struct_valid. 
+So, i also noticed that some of the parameters represented
+as boolean have no value constrain checks and accept integer
+values due to u8 implementation, so i wrote a note for every
+boolean parameter that have no constrain checks in code. and
+fixed a typo in fmwark instead of fwmark.
 
-- Fixed typo in cipso_rbm_struct_valid
-- Added missing default value declarations
-- Standardized boolean representation (0/1 with enabled/disabled)
+Added notes for 19 confirmed parameters,
+Verified by code inspection and runtime testing.
 
 Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
 ---
- Documentation/networking/ip-sysctl.rst | 37 +++++++++++++++++++++-----
- 1 file changed, 31 insertions(+), 6 deletions(-)
+ Documentation/networking/ip-sysctl.rst | 50 +++++++++++++++++++++++---
+ 1 file changed, 45 insertions(+), 5 deletions(-)
 
 diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 0f1251cce314..f7ff8c53f412 100644
+index f7ff8c53f412..99e786915204 100644
 --- a/Documentation/networking/ip-sysctl.rst
 +++ b/Documentation/networking/ip-sysctl.rst
-@@ -75,7 +75,7 @@ fwmark_reflect - BOOLEAN
- 	If unset, these packets have a fwmark of zero. If set, they have the
- 	fwmark of the packet they are replying to.
+@@ -68,6 +68,8 @@ ip_forward_use_pmtu - BOOLEAN
  
--	Default: 0
-+	Default: 0 (disabled)
- 
- fib_multipath_use_neigh - BOOLEAN
- 	Use status of existing neighbor entry when determining nexthop for
-@@ -368,7 +368,7 @@ tcp_autocorking - BOOLEAN
- 	queue. Applications can still use TCP_CORK for optimal behavior
- 	when they know how/when to uncork their sockets.
- 
--	Default : 1
-+	Default : 1 (enabled)
- 
- tcp_available_congestion_control - STRING
- 	Shows the available congestion control choices that are registered.
-@@ -407,6 +407,12 @@ tcp_congestion_control - STRING
- 
- tcp_dsack - BOOLEAN
- 	Allows TCP to send "duplicate" SACKs.
-+	Possible values:
-+		- 0 disabled
-+		- 1 enabled
+ 	- 0 - disabled
+ 	- 1 - enabled
 +
-+	Default: 1 (enabled)
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
  
- tcp_early_retrans - INTEGER
- 	Tail loss probe (TLP) converts RTOs occurring due to tail
-@@ -623,6 +629,8 @@ tcp_no_metrics_save - BOOLEAN
- 	increases overall performance, but may sometimes cause performance
- 	degradation.  If set, TCP will not cache metrics on closing
- 	connections.
+ fwmark_reflect - BOOLEAN
+ 	Controls the fwmark of kernel-generated IPv4 reply packets that are not
+@@ -89,6 +91,8 @@ fib_multipath_use_neigh - BOOLEAN
+ 
+ 	- 0 - disabled
+ 	- 1 - enabled
 +
-+	Default: 0 (disabled)
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
  
- tcp_no_ssthresh_metrics_save - BOOLEAN
+ fib_multipath_hash_policy - INTEGER
+ 	Controls which hash policy to use for multipath routes. Only valid
+@@ -489,6 +493,8 @@ tcp_fwmark_accept - BOOLEAN
+ 	unaffected.
+ 
+ 	Default: 0
++
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
+ 
+ tcp_invalid_ratelimit - INTEGER
+ 	Limit the maximal rate for sending duplicate acknowledgments
+@@ -603,6 +609,8 @@ tcp_moderate_rcvbuf - BOOLEAN
+ 	automatically size the buffer (no greater than tcp_rmem[2]) to
+ 	match the size required by the path for full throughput.  Enabled by
+ 	default.
++
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
+ 
+ tcp_mtu_probing - INTEGER
+ 	Controls TCP Packetization-Layer Path MTU Discovery.  Takes three
+@@ -636,6 +644,8 @@ tcp_no_ssthresh_metrics_save - BOOLEAN
  	Controls whether TCP saves ssthresh metrics in the route cache.
-@@ -684,6 +692,8 @@ tcp_retrans_collapse - BOOLEAN
- 	Bug-to-bug compatibility with some broken printers.
- 	On retransmit try to send bigger packets to work around bugs in
- 	certain TCP stacks.
+ 
+ 	Default is 1, which disables ssthresh metrics.
 +
-+	Default: 1 (enabled)
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
  
- tcp_retries1 - INTEGER
- 	This value influences the time, after which TCP decides, that
-@@ -739,6 +749,8 @@ tcp_rmem - vector of 3 INTEGERs: min, default, max
+ tcp_orphan_retries - INTEGER
+ 	This value influences the timeout of a locally closed TCP connection,
+@@ -703,7 +713,9 @@ tcp_retries1 - INTEGER
  
- tcp_sack - BOOLEAN
+ 	RFC 1122 recommends at least 3 retransmissions, which is the
+ 	default.
+-
++
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
++
+ tcp_retries2 - INTEGER
+ 	This value influences the timeout of an alive TCP connection,
+ 	when RTO retransmissions remain unacknowledged.
+@@ -751,6 +763,8 @@ tcp_sack - BOOLEAN
  	Enable select acknowledgments (SACKS).
+ 	
+ 	Default: 1 (enabled)
 +
-+	Default: 1 (enabled)
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
  
  tcp_comp_sack_delay_ns - LONG INTEGER
  	TCP tries to reduce number of SACK sent, using a timer
-@@ -766,7 +778,7 @@ tcp_backlog_ack_defer - BOOLEAN
- 	one ACK for the whole queue. This helps to avoid potential
- 	long latencies at end of a TCP socket syscall.
+@@ -787,6 +801,8 @@ tcp_slow_start_after_idle - BOOLEAN
+ 	be timed out after an idle period.
  
--	Default : true
-+	Default : 1 (enabled)
+ 	Default: 1
++
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
  
- tcp_slow_start_after_idle - BOOLEAN
- 	If set, provide RFC2861 behavior and time out the congestion
-@@ -781,7 +793,7 @@ tcp_stdurg - BOOLEAN
- 	Most hosts use the older BSD interpretation, so if you turn this on
+ tcp_stdurg - BOOLEAN
+ 	Use the Host requirements interpretation of the TCP urgent pointer field.
+@@ -794,6 +810,8 @@ tcp_stdurg - BOOLEAN
  	Linux might not communicate correctly with them.
  
--	Default: FALSE
-+	Default: 0 (disabled)
+ 	Default: 0 (disabled)
++
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
  
  tcp_synack_retries - INTEGER
  	Number of times SYNACKs for a passive TCP connection attempt will
-@@ -1018,6 +1030,10 @@ tcp_tw_reuse_delay - UNSIGNED INTEGER
- 
- tcp_window_scaling - BOOLEAN
- 	Enable window scaling as defined in RFC1323.
-+	- 0 - Disabled.
-+	- 1 - Enabled.
+@@ -1034,6 +1052,8 @@ tcp_window_scaling - BOOLEAN
+ 	- 1 - Enabled.
+ 	
+ 	Default: 1 (enabled)
 +
-+	Default: 1 (enabled)
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
  
  tcp_shrink_window - BOOLEAN
  	This changes how the TCP receive window is calculated.
-@@ -1160,7 +1176,7 @@ tcp_plb_enabled - BOOLEAN
- 	congestion measure (e.g. ce_ratio). PLB needs a congestion measure to
- 	make repathing decisions.
- 
--	Default: FALSE
-+	Default: 0 (disabled)
- 
- tcp_plb_idle_rehash_rounds - INTEGER
- 	Number of consecutive congested rounds (RTT) seen after which
-@@ -1352,7 +1368,7 @@ cipso_rbm_optfmt - BOOLEAN
+@@ -1049,6 +1069,8 @@ tcp_shrink_window - BOOLEAN
+ 			scaling factor is also in effect.
  
  	Default: 0
++
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
  
--cipso_rbm_structvalid - BOOLEAN
-+cipso_rbm_strictvalid - BOOLEAN
+ tcp_wmem - vector of 3 INTEGERs: min, default, max
+ 	min: Amount of memory reserved for send buffers for TCP sockets.
+@@ -1104,7 +1126,9 @@ tcp_thin_linear_timeouts - BOOLEAN
+ 	Documentation/networking/tcp-thin.rst
+ 
+ 	Default: 0
+-
++
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
++
+ tcp_limit_output_bytes - INTEGER
+ 	Controls TCP Small Queue limit per tcp socket.
+ 	TCP bulk sender tends to increase packets in flight until it
+@@ -1367,6 +1391,9 @@ cipso_rbm_optfmt - BOOLEAN
+ 	categories in order to make the packet data 32-bit aligned.
+ 
+ 	Default: 0
++
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
++
+ 
+ cipso_rbm_strictvalid - BOOLEAN
  	If set, do a very strict check of the CIPSO option when
- 	ip_options_compile() is called.  If unset, relax the checks done during
- 	ip_options_compile().  Either way is "safe" as errors are caught else
-@@ -1933,10 +1949,15 @@ mcast_resolicit - INTEGER
+@@ -1377,6 +1404,9 @@ cipso_rbm_strictvalid - BOOLEAN
+ 	with other implementations that require strict checking.
  
- disable_policy - BOOLEAN
- 	Disable IPSEC policy (SPD) for this interface
+ 	Default: 0
 +
-+	Default: 0
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
 +
  
- disable_xfrm - BOOLEAN
- 	Disable IPSEC encryption on this interface, whatever the policy
+ IP Variables
+ ============
+@@ -1437,6 +1467,9 @@ ip_nonlocal_bind - BOOLEAN
+ 	which can be quite useful - but may break some applications.
  
-+	Default: 0
+ 	Default: 0
 +
- igmpv2_unsolicited_report_interval - INTEGER
- 	The interval in milliseconds in which the next unsolicited
- 	IGMPv1 or IGMPv2 report retransmit will take place.
-@@ -1951,11 +1972,15 @@ igmpv3_unsolicited_report_interval - INTEGER
- 
- ignore_routes_with_linkdown - BOOLEAN
-         Ignore routes whose link is down when performing a FIB lookup.
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
 +
-+        Default: 0 (disabled)
  
- promote_secondaries - BOOLEAN
- 	When a primary IP address is removed from this interface
- 	promote a corresponding secondary IP address instead of
- 	removing all the corresponding secondary IP addresses.
+ ip_autobind_reuse - BOOLEAN
+ 	By default, bind() does not select the ports automatically even if
+@@ -1447,6 +1480,8 @@ ip_autobind_reuse - BOOLEAN
+ 	option should only be set by experts.
+ 	Default: 0
+ 
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
 +
-+	Default: 0 (disabled)
+ ip_dynaddr - INTEGER
+ 	If set non-zero, enables support for dynamic addresses.
+ 	If set to a non-zero value larger than 1, a kernel log
+@@ -1476,13 +1511,16 @@ tcp_early_demux - BOOLEAN
+ 	Enable early demux for established TCP sockets.
  
- drop_unicast_in_l2_multicast - BOOLEAN
- 	Drop any unicast IP packets that are received in link-layer
+ 	Default: 1
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
++
+ 
+ udp_early_demux - BOOLEAN
+ 	Enable early demux for connected UDP sockets. Disable this if
+ 	your system could experience more unconnected load.
+ 
+ 	Default: 1
+-
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
++
+ icmp_echo_ignore_all - BOOLEAN
+ 	If set non-zero, then the kernel will ignore all ICMP ECHO
+ 	requests sent to it.
+@@ -1815,7 +1853,7 @@ src_valid_mark - BOOLEAN
+ 	  lookup.  This permits rp_filter to function when the fwmark is
+ 	  used for routing traffic in both directions.
+ 
+-	This setting also affects the utilization of fmwark when
++	This setting also affects the utilization of fwmark when
+ 	performing source address selection for ICMP replies, or
+ 	determining addresses stored for the IPOPT_TS_TSANDADDR and
+ 	IPOPT_RR IP options.
+@@ -2324,7 +2362,9 @@ fwmark_reflect - BOOLEAN
+ 	fwmark of the packet they are replying to.
+ 
+ 	Default: 0
+-
++
++	note: Accepts integer values (0-255) but only 0/1 have defined behaviour.
++
+ ``conf/interface/*``:
+ 	Change special settings per interface.
+ 
 -- 
 2.25.1
 
