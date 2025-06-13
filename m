@@ -1,172 +1,123 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A565C2D5C78
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 11:37:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45B12D8798;
+	Fri, 13 Jun 2025 11:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749814666; cv=none; b=RD2QZ0G2tnn2WcSeRVfYM+Q97jufHKbTERUqvHWoc9f8nOKudXtIVbWeFvSshPds8uly1MJcvwB04zoEQo4VBSM2q9EgGwRMLhGUeMEh6cv7u4Zp2l8HtH4ChXmgBOqNsxwfdVPKc1ffF46g6z8liDektTJvC1d9CQ1M9nPeJ+s=
+	t=1749814967; cv=none; b=elsSeBWzMaSXSxanTYHthDQ5nNjPx6bZL8MmBy32V8papym5mNqGaydmtu1ysb1WYu7PUTymv3lUnHR8/KFz8/YayNN9IggTi2NxGiBpeTJSq10OaHFr7dBHgjW+Y3JvTZty7GUIlkYblltxuORIgN0ngM52pFDM7vNzT7z4EDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749814666; c=relaxed/simple;
-	bh=9nOSWkmKXGxZeCKeJfHc4BTvtEPmtKmuPEyXTrCEXE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DYRaEKKNJpQ4+g0UwwVf+Et/URnl/89XVHm08C9rAcG/VtxYCLH+L7UGDJ4uuefPbGbOwXHQpIQOTj1RsbSLeiIkV634oKq8FEpKsmj2y4jXC8Qvb5ghBDUlQq6y6Ha1rhKgBUnFrZAImY3c4e2orLi3HoTyyDF2bgK3nMBHjRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OOpyrFtD; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749814967; c=relaxed/simple;
+	bh=nVMNn0VSngYDSLAUJezTR2b19OzJ86I1XkvSWoGjSbY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QRpz+FtuZmlhBQXhZlHlt+B5dGSlsMEvrTKX4wBZ/KTvs1q7ezafuSq0dGEsdvsSB6RNg7G2gcnmZDQhmoGFx3nNQqSAe1BqodvpWYHbbF9t72XE9LjlapFoqi1KbuD36VY21EGymS9tg6rmKuGoj4Eqc1UnmnAm0BA1KOLCAf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iseCSxCn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OOpyrFtD"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-306b6ae4fb2so1871201a91.3
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 04:37:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749814664; x=1750419464; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jKGg0bB1/QQAEHL8cmKXw80iv4zUBwrxD0VPEgJGB1c=;
-        b=OOpyrFtDvygOqrompHSuw3xp2DyhtqRZ2RmvKqOe6PGdBZ016pAygAND5M02Rk8SzN
-         dpUGgrmSpiCa4VRcTCpimFN4hNRif6/hzP72ksDRoBYAigqWaiJTbpZwseG+NEPbpDvn
-         lrOuF1+tAC2opP9adWi0FJ4Y/UeuuNtby5sKfgnm+y0zPcWv1lBBi48Q3E7EFDppergj
-         VDS+pcKhH9OtpxPrW+C40Vgj5ylt8T+bXzlcVGFfZox1qltA7x1xcQOkvjgrpXDui9yK
-         clRTpDkHiFGR0Dpktt/stDK8vwydRFEQtxghI2AqXdibgehXoXJpbTztehYIMzF76k93
-         2vUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749814664; x=1750419464;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jKGg0bB1/QQAEHL8cmKXw80iv4zUBwrxD0VPEgJGB1c=;
-        b=RBReTMDSaHI53WCUuygOo3UfJNVM4ED+bvObscAvm7LWqsUTYDwxMfEq2OFJmOQd1T
-         k4+uApPM2MQ95MxbiYLtHpeetHnLAEUGdPfmdqKBAUC7mcw31SMSDV5NB/LYdpqHUa8A
-         13HtRnaYGta6dD6ZXFaMSIAsadjfUKf/jWqQaHtBH5uAmzFWtFtT+EiJQCjLWu+D0hAX
-         Trc4HHyMgiIr3nEJyBSQYbUhOUj1D2TCbx3slHQcoy0tfBJOSUgYAPYRC8LylFk9wW7X
-         QxeuEsfOIDs0SzRLEiwlxP7oz6rgVDq91CcFn90zfqUC4TPoXgb1pLKOoefxzpMuIcBD
-         C3Dg==
-X-Forwarded-Encrypted: i=1; AJvYcCU46mdYoqV2fGBU/wNtbLwXn18nNAebgs3+yt+19Dn9Ao7QppFJoOVLChd6cwo4ZejrkOKWfbobKUChzQiTSesk1khlLA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzhtKXKOBCgYnNrKssSl8Pyt7rRwUN5In34KK6R2btR02tyOy2h
-	fcGePoPZHrUhtV3cOoed0k/E/Twl78QEjeCJp4t5jVqUSEZimaM3xDMW
-X-Gm-Gg: ASbGncu1k+/3wgCuK3xllPdS2c0TSE3FqvEIKe6GavVdQzSXaRlfXHORakCK3gmNy/M
-	Gkezdup/YptaQCJgKErCSafvcpxrSVfE7DP/cKNR7PbM4JwfI04SzniAuOJbAB8h8emm5BZNyPq
-	1z88YugV1WON3GWJKFzWgVjIZgmOJqO7HIKbV0udKiQE1WdCcstiKZuVPuBqWnSWynoce1QSHBV
-	MbQu7/IjPTM2qZFdkHkrTSJS75K6fik6J4Fq4pS05Yo1zfNgRKqm/gql+l6v5vg7un9cHjHfKQe
-	Yr5x1mPNBLSGwYhKFQ9Y6Bm5uMbAqxvSjQbS9zGCgd41NtYJnOYlSaobRHjKdMkXvOltWEW/Q06
-	Vv0Y=
-X-Google-Smtp-Source: AGHT+IEtO7AJctbwySDiG4IYWUnqbCXmYhViiO2826Yp+/7UzXYJWcG/B84cs6yfhKmrpN1By8fMng==
-X-Received: by 2002:a17:90b:4b41:b0:312:18e:d930 with SMTP id 98e67ed59e1d1-313d9eaec51mr3970567a91.19.1749814663686;
-        Fri, 13 Jun 2025 04:37:43 -0700 (PDT)
-Received: from vaxr-BM6660-BM6360 ([2001:288:7001:2703:10a9:4163:7b48:3809])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365decaf4csm12097125ad.218.2025.06.13.04.37.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jun 2025 04:37:43 -0700 (PDT)
-Date: Fri, 13 Jun 2025 19:37:39 +0800
-From: I Hsin Cheng <richard120310@gmail.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Yury Norov <yury.norov@gmail.com>, linux@rasmusvillemoes.dk,
-	jstultz@google.com, sboyd@kernel.org, linux-kernel@vger.kernel.org,
-	eleanor15x@gmail.com, visitorckw@gmail.com, jserv@ccns.ncku.edu.tw,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [RFC PATCH 2/2] clocksource: Use cpumask_first_but() in
- clocksource_verify_choose_cpus()
-Message-ID: <aEwNg-chMazUvS6-@vaxr-BM6660-BM6360>
-References: <20250613033447.3531709-1-richard120310@gmail.com>
- <20250613033447.3531709-3-richard120310@gmail.com>
- <aEuw7ls9hieUv_Ox@yury>
- <87ldpvsyr8.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iseCSxCn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8848FC4CEF1;
+	Fri, 13 Jun 2025 11:42:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749814966;
+	bh=nVMNn0VSngYDSLAUJezTR2b19OzJ86I1XkvSWoGjSbY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=iseCSxCnlDuhCFoik+zsyW1hS+dvI8LFmQkqNzeKQXrmtIQMqVdQRfDsddXgoFyGr
+	 vdFDu1+Fo2rnKsLmGt03+a6EL8sCxiw6FjwZBbb/FDBfqqAcbDHw6srZf/SZ8Wkfc8
+	 LPN8AUDeHtE+zi17SL2y6EdGg6HVaBRO6Iop6dOkdqWAXoRK0wRPKrXWJZwZc23kAY
+	 rDOCoFgTa3y2+QeJKmMIWCpv54OXB2bWWTwnax2iQkDt+V1Bi2euQieLaRinw/HHy2
+	 kpAqJBLQmeh3021zP3dVWrMwTk2nszWTzitkMMjWEGOM/MxrGroeTym/RjtM4Bm4iq
+	 4UuKTg1Ygk1dg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uQ2o0-00000005dEt-2cmm;
+	Fri, 13 Jun 2025 13:42:44 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Akira Yokosawa" <akiyks@gmail.com>,
+	"Breno Leitao" <leitao@debian.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	"Donald Hunter" <donald.hunter@gmail.com>,
+	"Eric Dumazet" <edumazet@google.com>,
+	"Ignacio Encinas Rubio" <ignacio@iencinas.com>,
+	"Jan Stancek" <jstancek@redhat.com>,
+	"Marco Elver" <elver@google.com>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	"Paolo Abeni" <pabeni@redhat.com>,
+	"Ruben Wauters" <rubenru09@aol.com>,
+	"Shuah Khan" <skhan@linuxfoundation.org>,
+	Jakub Kicinski <mchehab+huawei@kernel.org>,
+	Simon Horman <mchehab+huawei@kernel.org>,
+	joel@joelfernandes.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	lkmm@lists.linux.dev,
+	netdev@vger.kernel.org,
+	peterz@infradead.org,
+	stern@rowland.harvard.edu
+Subject: [PATCH v3 03/16] docs: netlink: don't ignore generated rst files
+Date: Fri, 13 Jun 2025 13:42:24 +0200
+Message-ID: <1cf12ab4c027cf27decf70a40aafdd0e2f669299.1749812870.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1749812870.git.mchehab+huawei@kernel.org>
+References: <cover.1749812870.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ldpvsyr8.ffs@tglx>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Fri, Jun 13, 2025 at 12:48:43PM +0200, Thomas Gleixner wrote:
-> Yury!
-> 
-> On Fri, Jun 13 2025 at 01:02, Yury Norov wrote:
-> > This exact change has already been submitted by me and is under review.
-> >
-> > https://lore.kernel.org/all/20250604232550.40491-2-yury.norov@gmail.com/
-> >
-> > I don't understand why are you undercutting my work, and moreover do it 
-> > for the second time.
-> >
-> > For the first time you submitted something that duplicates my another
-> > patch from the exact same series. John Stultz has pointed that, so you're
-> > surely aware.
-> >
-> > https://lore.kernel.org/all/CANDhNCoJ_MmpEfyuL+JWav+NUfQDH3dm196JSE-Mv3QrPUzi3g@mail.gmail.com/
-> >
-> > Kernel development process implies that one makes sure that his work
-> > is unique and doesn't break someone else's development, at one's best
-> > knowledge.
-> >
-> > What you're doing not only breaks this rule. You're in fact trying to
-> > get credit for the work that is done by someone else. This is the
-> > definition of fraud.
-> >
-> > I cannot make sure that any other patches from you are unique and
-> > written by actually you. Therefore, I will not take your work anymore.
-> >
-> > I encourage everyone else to be careful working with I Hsing Cheng
-> > and check his patches for uniqueness, at minimum.  
-> 
-> There is absolutely no justification for accusing Hsin of fraud or other
-> nasty intentions.
-> 
-> It's sufficient to point him to your series and tell him that it's
-> already been dealt with.
-> 
-> I deal with redundant and conflicting patches every other day. That's part
-> of how open source development works and it's trivial enough to either
-> pick one of the patches or ask the involved parties to sort the
-> conflicts out.
-> 
-> Thanks,
-> 
->         tglx
+Currently, the build system generates ReST files inside the
+source directory. This is not a good idea, specially when
+we have renames, as make clean won't get rid of them.
 
-Hello Thomas,
+As the first step to address the issue, stop ignoring those
+files. This way, we can see exactly what has been produced
+at build time inside $(srctree):
 
-Thanks for your word, really appreciate it.
-Though I can understand abit why Yury was annoyed for this patch, at the
-patch [1] I sent earlier, it already collide with Yury's patch, he did
-paste the link of his patch for me, but I only take a look at the patch
-in the link, not the whole patch series.
-And then I send this patch, again collide with his work, if it were me, I
-might feel the same like alittle bit of offended.
+        Documentation/networking/netlink_spec/conntrack.rst
+        Documentation/networking/netlink_spec/devlink.rst
+        Documentation/networking/netlink_spec/dpll.rst
+        Documentation/networking/netlink_spec/ethtool.rst
+        Documentation/networking/netlink_spec/fou.rst
+        Documentation/networking/netlink_spec/handshake.rst
+        Documentation/networking/netlink_spec/index.rst
+        Documentation/networking/netlink_spec/lockd.rst
+        Documentation/networking/netlink_spec/mptcp_pm.rst
+        Documentation/networking/netlink_spec/net_shaper.rst
+        Documentation/networking/netlink_spec/netdev.rst
+        Documentation/networking/netlink_spec/nfsd.rst
+        Documentation/networking/netlink_spec/nftables.rst
+        Documentation/networking/netlink_spec/nl80211.rst
+        Documentation/networking/netlink_spec/nlctrl.rst
+        Documentation/networking/netlink_spec/ovs_datapath.rst
+        Documentation/networking/netlink_spec/ovs_flow.rst
+        Documentation/networking/netlink_spec/ovs_vport.rst
+        Documentation/networking/netlink_spec/rt_addr.rst
+        Documentation/networking/netlink_spec/rt_link.rst
+        Documentation/networking/netlink_spec/rt_neigh.rst
+        Documentation/networking/netlink_spec/rt_route.rst
+        Documentation/networking/netlink_spec/rt_rule.rst
+        Documentation/networking/netlink_spec/tc.rst
+        Documentation/networking/netlink_spec/tcp_metrics.rst
+        Documentation/networking/netlink_spec/team.rst
 
-I send this patch because after I send this patch [2] , I think of
-Kuan-Wei's patch [3] months ago and see there might be a use case here,
-so I ask Kuan-Wei whether I can pick up his work.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/networking/netlink_spec/.gitignore | 1 -
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 Documentation/networking/netlink_spec/.gitignore
 
-I admit I wasn't paying attention to detail enough when looking at other's
-work, neither did I subscribe the mailing list cuz I don't want my mail
-box to be exploded with mails that aren't sent to me.
-
-My workflow for patches was making sure it works as expected, and then
-use scripts to check patch format, get maintainers, and then send it. I
-know there's always room for improvments or something I might've done
-inappropriately, that's why I always send the first patch with RFC tag.
-
-That's the whole story, I am sorry to Yury, but again I think the
-accusation is too over, like I said earlier, if I mean to steal
-someone's work, why would I send it directly to the author ?
-
-Still, I respect Yury and his professions, months ago he gave me many
-suggesetions and help in another patch.
-
-That's why I send my patch [2] to him to asked him for some comments
-even though he's not in the maintainers list of that file.
-I would never want to offend someone I respect, I hope he can
-understand.
-
-[1]: https://lore.kernel.org/lkml/20250611104506.2270561-1-richard120310@gmail.com/
-[2]: https://lore.kernel.org/lkml/20250609194611.690678-1-richard120310@gmail.com/
-[3]: https://lore.kernel.org/lkml/20250117142658.297325-1-visitorckw@gmail.com/
-
-Best regards,
-I Hsin Cheng
-
+diff --git a/Documentation/networking/netlink_spec/.gitignore b/Documentation/networking/netlink_spec/.gitignore
+deleted file mode 100644
+index 30d85567b592..000000000000
+--- a/Documentation/networking/netlink_spec/.gitignore
++++ /dev/null
+@@ -1 +0,0 @@
+-*.rst
+-- 
+2.49.0
 
