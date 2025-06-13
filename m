@@ -1,70 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9DC2E173D;
-	Fri, 13 Jun 2025 10:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F089526B774
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 10:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749811216; cv=none; b=uOO8tmPS8l0MDQrP/+eVeJ7IKnEnTdI2zOkJkNCzDpGPSVqPTyoIqLz5ogylEIb20oiS2WbeuQpQHjLEdCTExdaw2UowqsCUpTiyLdFwHUMESKpL5AoZk+F3Ro4Td1QhKqYrTdQCIgOeafI+7azr6QnBXmwrONXu+8qsqyhD5sU=
+	t=1749811728; cv=none; b=Cu8OakgRWyeNB+yfqOo1xKfwntKDelysL4hawWm77GfCRlJAwPPy2xDmcsWTgL+nTYtbfpyokhGGfmuaxh3taWglF/9CEXjNSnURMWxaU7MTK5++K3tInvY/eo/GhLBppwDju9beiBVhvQLxWzCM9QXUIN1j62S2oYd1xnQWu+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749811216; c=relaxed/simple;
-	bh=mLZwn8nwTw0SpjqZedbLfqtbjfMBNExKx1RJT6U74bk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IzIqM3YrlF+qedY3CUI1W0eTClQXtaXIuTndMMqqeZY2u2yjqjZP0HZ2OXELFRaNnXYnxN3MjCOUNEnW9upahcvy4lp2mxi8BRh4eebFBIDgWd0z9hOtuTsXft97T8Q24wz3N39Jg66sFuSEFqNA8ubm+QmM/CIe1wC9JMdsPx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PFWyq0c/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749811728; c=relaxed/simple;
+	bh=8FoUBY39YWLYR5zMkSvqogVDZoelGOlIN3A2H7Y4LS8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pgHTCR2yefNUoxTQEZdDiikn34gUDfZUlfadQ12OC6+Eom4VkA/sY5kj4AXf273szLlVtqKIY+FjTNwuiqzM2vjkB7IcXejHC7eG4i6HAj9mjLOEKamY9EkTbSY5qREnpnumJ5H6ksv4S+14dRHwx1GVQXy9nsnE7ciX3DlwUes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ugJabBhH; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=21kYq2+B; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PFWyq0c/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0623DC4CEEB;
-	Fri, 13 Jun 2025 10:40:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749811215;
-	bh=mLZwn8nwTw0SpjqZedbLfqtbjfMBNExKx1RJT6U74bk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PFWyq0c/e1O6gPHVqvZjxxyEKgSKVMVRV84ZPqcDpoOKSs0Tcys2Boi28pGi7Nr7X
-	 xWkWCSDaI4xpq5aS+PKb8shbEagetpCELAEQ0MsDeM4roDQ69EBaTqUACzOhP4F/u6
-	 1LDvdMUXLXEUGnGimoWhWEnEgJQ+RrzWyQZwjv0Dyr3ktgtg6xzNCdPZB7JIZHa70I
-	 Rw6xb804N8kxIWuGsqxlBg5kdj48Jqn1XZ7/VXqHYTRC1k4mV5fo+OnwJaBpwPnM6F
-	 cH9g1WECWv5DfMMdvN7rDeC+u6F3bY9b9gFIxP6Y4Z77jX3tsQPZD4sT3fla2Fnxg1
-	 irXdMl4Nfn2JQ==
-Date: Fri, 13 Jun 2025 12:40:06 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>, "David S. Miller" <davem@davemloft.net>, Ignacio
- Encinas Rubio <ignacio@iencinas.com>, Marco Elver <elver@google.com>, Shuah
- Khan <skhan@linuxfoundation.org>, Eric Dumazet <edumazet@google.com>, Jan
- Stancek <jstancek@redhat.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
- Wauters <rubenru09@aol.com>, joel@joelfernandes.org,
- linux-kernel-mentees@lists.linux.dev, lkmm@lists.linux.dev,
- netdev@vger.kernel.org, peterz@infradead.org, stern@rowland.harvard.edu,
- Breno Leitao <leitao@debian.org>
-Subject: Re: [PATCH v2 0/2] Some extra patches for netlink doc generation
-Message-ID: <20250613124006.3f0bb3c6@foz.lan>
-In-Reply-To: <m2ldpwnj5g.fsf@gmail.com>
-References: <cover.1749735022.git.mchehab+huawei@kernel.org>
-	<m2ldpwnj5g.fsf@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ugJabBhH";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="21kYq2+B"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1749811725;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WQHIscwFPFdzo5VbdA29wmcTnji85y17xI4a/67wplg=;
+	b=ugJabBhHkJx4S7eRqku0M6vVNaSQmadWBmK4E6zG7KdS22AAve2spf96BAkybifJg57kCq
+	Qxs8KsfNKg7ScCh9h2T85Iw3etjevlCrQFcr6+wIUVIPc0S7fUBBBYoFGeMQlArt0n3Y59
+	QW538+ukxLlon3iBWtay6Q1GPiZ3VESJ8geGYVCfboZO7Fif5axd0BoHBLC20paSXDIGnb
+	mYbI/IjeUNjlOnCMvU+BbEiGLHAH9eMU8Eoxz8j+Bsv4Th7feJ85lQxqF19VBfekLczrL3
+	3ncY3vJsoCnknizlNL+87utywxOezEhxqz+8+5EEWW1XaKd57MtfcXOngW3EeQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1749811725;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WQHIscwFPFdzo5VbdA29wmcTnji85y17xI4a/67wplg=;
+	b=21kYq2+B3lN0T0GM4taq8XefVW1tPHK87juKaFp28l+QnP0MAO9yv3QXgKI6mDcqMzlSj+
+	UU/2qV39NOlasJDg==
+To: Yury Norov <yury.norov@gmail.com>, I Hsin Cheng <richard120310@gmail.com>
+Cc: linux@rasmusvillemoes.dk, jstultz@google.com, sboyd@kernel.org,
+ linux-kernel@vger.kernel.org, eleanor15x@gmail.com, visitorckw@gmail.com,
+ jserv@ccns.ncku.edu.tw, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev
+Subject: Re: [RFC PATCH 2/2] clocksource: Use cpumask_first_but() in
+ clocksource_verify_choose_cpus()
+In-Reply-To: <aEuw7ls9hieUv_Ox@yury>
+References: <20250613033447.3531709-1-richard120310@gmail.com>
+ <20250613033447.3531709-3-richard120310@gmail.com> <aEuw7ls9hieUv_Ox@yury>
+Date: Fri, 13 Jun 2025 12:48:43 +0200
+Message-ID: <87ldpvsyr8.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Em Fri, 13 Jun 2025 09:24:43 +0100
-Donald Hunter <donald.hunter@gmail.com> escreveu:
+Yury!
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > This patch series comes after:
-> > 	https://lore.kernel.org/linux-doc/cover.1749723671.git.mchehab+huawei@kernel.org/T/#t  
-> 
-> Can you please incorporate this series into a v3 of the other patch set.
+On Fri, Jun 13 2025 at 01:02, Yury Norov wrote:
+> This exact change has already been submitted by me and is under review.
+>
+> https://lore.kernel.org/all/20250604232550.40491-2-yury.norov@gmail.com/
+>
+> I don't understand why are you undercutting my work, and moreover do it 
+> for the second time.
+>
+> For the first time you submitted something that duplicates my another
+> patch from the exact same series. John Stultz has pointed that, so you're
+> surely aware.
+>
+> https://lore.kernel.org/all/CANDhNCoJ_MmpEfyuL+JWav+NUfQDH3dm196JSE-Mv3QrPUzi3g@mail.gmail.com/
+>
+> Kernel development process implies that one makes sure that his work
+> is unique and doesn't break someone else's development, at one's best
+> knowledge.
+>
+> What you're doing not only breaks this rule. You're in fact trying to
+> get credit for the work that is done by someone else. This is the
+> definition of fraud.
+>
+> I cannot make sure that any other patches from you are unique and
+> written by actually you. Therefore, I will not take your work anymore.
+>
+> I encourage everyone else to be careful working with I Hsing Cheng
+> and check his patches for uniqueness, at minimum.  
 
-Sure. Will send it in a few.
+There is absolutely no justification for accusing Hsin of fraud or other
+nasty intentions.
+
+It's sufficient to point him to your series and tell him that it's
+already been dealt with.
+
+I deal with redundant and conflicting patches every other day. That's part
+of how open source development works and it's trivial enough to either
+pick one of the patches or ask the involved parties to sort the
+conflicts out.
 
 Thanks,
-Mauro
+
+        tglx
