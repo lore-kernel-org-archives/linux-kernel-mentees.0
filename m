@@ -1,75 +1,75 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E733220F47
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 05:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4842F4321
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 05:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749791623; cv=none; b=KmjjMzNI+Z/3r2uU3R5sYNX4usA8q/yNSQFTE2Hk4znlpKj6HmhK+bNSuaa03RJp+8IV0wF2+nZZ7NEbI3Gv3/KE+rlEBo5S6i+K/HMbeee1Q7u3MBx7/kyhL8axKkneBlPERWtAYsKaCs5Q+M1MJ3rS9aAjwh3LQPwbD/z/zL8=
+	t=1749792182; cv=none; b=UlO5gPacJRqqPJaKF8Cwti2UW+gRrugkpFcLVWX+Nd00I+efgWy+mA94VTHdYWi+kd7cK2aO+F0fdFQnw6JCGFPuoA4kwrFabUghk3CTkVFSBu2kN1ZNHHt3URJ38JjQET2CK8QdC87eTbofECKD3ohTnJ+6B8ppB3LqbiAhrBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749791623; c=relaxed/simple;
-	bh=G08/pOykYg7g+o5uKwDII0lrW6v1oU2ghmCj1yDk/Rg=;
+	s=arc-20240116; t=1749792182; c=relaxed/simple;
+	bh=CzfUoU/F6OeWFirpLwxi5VsjH9jIIE4t1ioTm3n+IkM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A4YtafHfzVGYSnANAehL3olmLKiNKrwgIDWjqaHU7Addvg1fnL52+OJkzukRQ1buFFxrG65oGpde4ZQ8thsK5/GSnRM9mM6CAnSNUQ1JwsoIC+z5grL8uBXTo37QMB/ZXJ1bfI6agx087bny6hsqVE1uvg67Q47zDBETpSd4lQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EpOxRFtn; arc=none smtp.client-ip=209.85.214.180
+	 Content-Type:Content-Disposition:In-Reply-To; b=YTZXqNqZW/EQxAKWBrzDVFfcGLHdPkp7iV6kf9OCrZ+ccuLbGo6E3LJaN7OwD2vvN48ThRm0NZRk62szG95C/hnFoa/2FzOSk6XVlAmiMctEImhGdfeuGwYEMnwYcKjpqANf0CtznxXI4Tn8IQbO7dgclWfDDQUOqT2RtCYq078=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ndcbF0UE; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EpOxRFtn"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-236377f00a1so16363275ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 22:13:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ndcbF0UE"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-236470b2dceso16304545ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 22:23:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749791621; x=1750396421; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1749792180; x=1750396980; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=S7J7ogaBI7CcQcq/qXPbtxb7m8fBt7tl+AACNdp4HFs=;
-        b=EpOxRFtnzYgjD77MRSlnU3ONRpyuo2acukmZiei7f0Ws9tkw4QjJ15TMhm0wjefuCs
-         qwsKibx1kHNZG1h6YhEGKQprV9TGeh0jrKVJLxIaamXeIys/IfuKa2CsWVywpJGXae9W
-         ur2M2MYpNQo51T+dp3xx00Ew+oeEX/PbvjqzppH0rJGEFKbMzcpJNr5o+X9irkZPVczJ
-         Fz/I9v+fSWTZIPqZyYkZB4njfLMJ104dN1GNBCpgEL4I+j68JnUiPr7gP05fZUck2nhO
-         J3vMynQlYlLfRzhriZ164gh1Mtpw5XQCO1MsdUGNySPVoQzj7jnOYl9Tb57O3XD1cALS
-         3JnQ==
+        bh=MvMoFYwoxd+5v+JlYcXvt8KEYE3zUwaZzStFo0AwJ1g=;
+        b=ndcbF0UE4ZbNztl/JlQLYTTP7v5aZtjLgHZRtfHKhgXaQ67ojQYRn59X0FSxNK6eL6
+         9t5L6qn+Bon69Lb1OblUuoFXNaO4EduT3jmm3AcDZ7l/AZNb9pJ0Um0nj+LkOGiJLzVS
+         qxmzb6chGy6gYB3sTn+QoMJI78anbdjipmlXm3A6HtxIr+9aXQ4W3Q8ta8s2Vc85Nrul
+         8yRBSKnI6ACYlZEQAHHvoHorYjfAoyKq5zz1D9jWpGeTklwOw9lLKn8/ramGi0+xifP4
+         OvotysvSASzQHwyPd/NCMvwnL72xQKGzffgXSHnVRhR6pbCu5BWOQAJzKRB1xB+ia9De
+         5TlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749791621; x=1750396421;
+        d=1e100.net; s=20230601; t=1749792180; x=1750396980;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=S7J7ogaBI7CcQcq/qXPbtxb7m8fBt7tl+AACNdp4HFs=;
-        b=tOuOyI6iMHJ/jJPZO9l+JzD95+iZDLPZLrxwOwSIq7qkRe7BvGSr0bfScU0vUGcgvl
-         HnC6medW0yLpBIImHxQ12YYjyKt8yayZTZq74ibD2+b2gTNV7j6SmpQKAxpF6eWpZG1W
-         eEpoF33pP+pZTM/DxacUHkOOreft4AMjZDmmsBvIxdgoSoddIj+1Aw2yRKZAiZZ2U/ui
-         CmFBCnE2Y7RLhUHbg0R2hnNxV4eTRHUiQ2n0y+X9PF0RF7Il5ohCLWrZlsrF2uJ3vGrx
-         hqOi0yOqzH73pnhvR8FQUl08lz27ET8A6kMoIE0dF/TsWLP33Ldr0DTo9iGjkzYIRLx/
-         /30g==
-X-Forwarded-Encrypted: i=1; AJvYcCVktdFFDm6BZM9ZHivtR0SvRwpIk4VqecUil6HWq7DsotHt36IpKuO3DEGQJNJnGdPtA4rmnvAOpM8u3c7h6m7uaPqjJA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw56CirZQLJGLpaVgB8BowQolF5qLhVapBFuWyssK75HuJ0tP1j
-	PWuFFpANFR5dp3FF23KjJfaAiXT1sW86majjAOPDcKKs6yC+Qd6zULUa
-X-Gm-Gg: ASbGncvrJUJt5isP1RQXpfBmi4XhvIEUR70D9IfPBKczzKBGRwTFr4OYDgCeLN0YZRa
-	prWZUfjPA8hxlGzN7WYKRjFGB2lhMRAgTeyeJWXJ/PFJIHTrwRq1xa+UT4H7b0vf2W+ZK7vIlt0
-	SiySavWuCufGSpCrK+q/mNmhMo9d0lk/zt6YHmOuPTni+IBo6e9JhI1VJuDKWbcFaFUNEJPFU0x
-	sqk/9+E/rRJxo6YvBZr9VLx3ADGxpJ05wO/RWFhJe2Ia9QUG/1ABXjg/K2O8ac/x9SqOqvZM9eB
-	b1Upd5thhWyR0BPY3cCSPIoJMKq/5udcxgrQEAjFr7nLUXXJIBuLkS9oYMFtxg==
-X-Google-Smtp-Source: AGHT+IEaUFlrRu0V3wU6FVfbzQxdLX/0v+xsOpRp/MD80VV8ZklYnFrbWKdpIt54AKbXffMKADjvbw==
-X-Received: by 2002:a17:902:db0d:b0:234:11f9:a72b with SMTP id d9443c01a7336-2365de400efmr22727345ad.50.1749791621346;
-        Thu, 12 Jun 2025 22:13:41 -0700 (PDT)
-Received: from localhost ([216.228.127.129])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313c19b8139sm2490755a91.1.2025.06.12.22.13.40
+        bh=MvMoFYwoxd+5v+JlYcXvt8KEYE3zUwaZzStFo0AwJ1g=;
+        b=eBx5VRR3rdw0hDHJyFG8aTpU7rhTBu069r53TLfRiEvG58L6iaUJsH4aI7jN9Pa1RR
+         dNUgCNJNcqWKIsHNND7BPV9hpv65tjIzYq2JxYgFaPoQ+1dL2DtDpb0Bxstqs0y17ljl
+         Vx017cbdky4gU1GiJhk479ryEqwC359vCCIsoFmSscXJ3Z8jss6mzJNFOJ77oMnvevaH
+         Fzp+D5EVGoNs9BI/IJdnl1OMEhLn55x/6VqQG1BP3xP2MTD4NvTMQl09d/1CFM0ZITLQ
+         5lWFBnBwFLwa70AaGLXxAu8TjAoBjPK4dg2XAyhg2BIeKopxRM0HaUG0Wh1Xto6/OSwU
+         FR6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXVAEjqmRn8ZC31Pi0DmdHA2Hos6dZZya9XrBPRI+M3qmKpsoNqt1FVUd6LotM6oplEd7SqNayD5ZrQbU9MSqrDXlu6kw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQVhjfbGwoYeFJOw6BqUnkIsBG/8QJLDTQjN9NXPKXwvflQfXH
+	7HStEqtg4xK8otrpKcTQ+e7Hi1Vq6FamjmlthwBYLiMzlLLxrXCs67MA
+X-Gm-Gg: ASbGnctghtBmQu8ToBgC0s+to273EKxBgGmQ/ctIMPWnXAQSP+Yh2JClN3+fn5T2zVN
+	SAsVheU6N5ch1BdIWC0xOEqzuUmf5zYVSViPtSLfPq+uZ+2JpJfXC5iy9OLC+bv5nDFqUNY7ns+
+	+siz+ZBsVoAEwr+KZrXIJo+8qrql40S2eTzxheV1h2fU3th4L/zi0XfXwwuTXLZqU9UogDhga6v
+	7Apr4CZNHTZYwPelf6oNGRjaczkOCba2ryWgR4c1hfaTwTF2JoEhPhNwL/Ac8ybLWthasulNtRT
+	We6NxkPTC1tGmhZGyTjAAZeBne6ResTuud6mqAqO0s4ULrM0fY6ccVunFjjqudBfn0bCwOr9Z2H
+	yias=
+X-Google-Smtp-Source: AGHT+IH/+q1AAngn1g1v5S0pRF3/srqeZGaw+VXxABBS2AqgAEONOjQel6ro0wVKKJxQ8DwpOzCG5Q==
+X-Received: by 2002:a17:902:ccc2:b0:234:cc7c:d2e8 with SMTP id d9443c01a7336-2365dc0f622mr23088165ad.37.1749792180339;
+        Thu, 12 Jun 2025 22:23:00 -0700 (PDT)
+Received: from vaxr-BM6660-BM6360 ([2001:288:7001:2703:f20f:da05:7371:bb5c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dfc56a7sm6232405ad.233.2025.06.12.22.22.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 22:13:40 -0700 (PDT)
-Date: Fri, 13 Jun 2025 01:13:38 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: I Hsin Cheng <richard120310@gmail.com>
-Cc: John Stultz <jstultz@google.com>, tglx@linutronix.de, sboyd@kernel.org,
-	linux-kernel@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+        Thu, 12 Jun 2025 22:22:59 -0700 (PDT)
+Date: Fri, 13 Jun 2025 13:22:55 +0800
+From: I Hsin Cheng <richard120310@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: linux@rasmusvillemoes.dk, jstultz@google.com, tglx@linutronix.de,
+	sboyd@kernel.org, linux-kernel@vger.kernel.org,
+	eleanor15x@gmail.com, visitorckw@gmail.com, jserv@ccns.ncku.edu.tw,
 	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] clocksource: Utilize cpumask_next_wrap() to shrink code
- size
-Message-ID: <aEuzgmClrimyc0RY@yury>
-References: <20250611104506.2270561-1-richard120310@gmail.com>
- <CANDhNCoJ_MmpEfyuL+JWav+NUfQDH3dm196JSE-Mv3QrPUzi3g@mail.gmail.com>
- <aEnTSuVy2Aq8jRk8@yury>
- <aEqFoNGGu3eOKBEL@vaxr-BM6660-BM6360>
- <aErzPhCYGLqOdlTe@yury>
+Subject: Re: [RFC PATCH 2/2] clocksource: Use cpumask_first_but() in
+ clocksource_verify_choose_cpus()
+Message-ID: <aEu1r12L_34Lxsgp@vaxr-BM6660-BM6360>
+References: <20250613033447.3531709-1-richard120310@gmail.com>
+ <20250613033447.3531709-3-richard120310@gmail.com>
+ <aEuw7ls9hieUv_Ox@yury>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -78,39 +78,107 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aErzPhCYGLqOdlTe@yury>
+In-Reply-To: <aEuw7ls9hieUv_Ox@yury>
 
-> > > > I think Yury submitted the same change here recently:
-> > > >   https://lore.kernel.org/lkml/20250607141106.563924-3-yury.norov@gmail.com/
-> > > > 
-> > > > Though, I think he has another iteration needed as Thomas had feedback
-> > > > on the subject line.
-> > > > 
-> > > > The bloat-o-meter data is a nice inclusion here!
-> > > > 
-> > > > Yury: Would you be open to adapting I Hsin Cheng's commit message into
-> > > > yours and adding them as co-author via the Co-developed-by: tag?
-> > > > (Assuming I Hsin Cheng agrees - See
-> > > > Documentation/process/submitting-patches.rst for how to do this
-> > > > properly).
-> > > 
-> > > Yeah, bloat-o-meter report is good enough to add co-developed-by tag.
-> > > I Hsin, do you agree?
-> > 
-> > Sure thing, so do I need to apply the tag myself or we'll follow Yury's
-> > patch work?
+On Fri, Jun 13, 2025 at 01:02:38AM -0400, Yury Norov wrote:
+> I Hsin,
 > 
-> I'll send v2 and include your results.
+> This exact change has already been submitted by me and is under review.
+> 
+> https://lore.kernel.org/all/20250604232550.40491-2-yury.norov@gmail.com/
+> 
+> I don't understand why are you undercutting my work, and moreover do it 
+> for the second time.
+> 
+> For the first time you submitted something that duplicates my another
+> patch from the exact same series. John Stultz has pointed that, so you're
+> surely aware.
+> 
+> https://lore.kernel.org/all/CANDhNCoJ_MmpEfyuL+JWav+NUfQDH3dm196JSE-Mv3QrPUzi3g@mail.gmail.com/
+> 
+> Kernel development process implies that one makes sure that his work
+> is unique and doesn't break someone else's development, at one's best
+> knowledge.
+> 
+> What you're doing not only breaks this rule. You're in fact trying to
+> get credit for the work that is done by someone else. This is the
+> definition of fraud.
+> 
+> I cannot make sure that any other patches from you are unique and
+> written by actually you. Therefore, I will not take your work anymore.
+> 
+> I encourage everyone else to be careful working with I Hsing Cheng
+> and check his patches for uniqueness, at minimum.  
+> 
+> NAKed-by: Yury Norov <yury.norov@gmail.com>
+> 
+> Thanks,
+> Yury
+>
 
-John, FYI.
+Hello Yury,
 
-I Hsing submitted another patch that duplicates this series. You're in
-CC, but just in case:
+Sorry to make troubles, I didn't mean to do this, I wasn't aware that
+you've send the same work and nor do I mean to interrupt your work. I
+didn't have the habit to check others patches regularly, I'm sorry for
+that.
 
-https://lore.kernel.org/all/20250613033447.3531709-1-richard120310@gmail.com/
+I just saw Kuan-Wei's patch from months ago and I asked him whether I
+can continue that work, and he agrees, so I try to do something from
+there.
 
-I think it's pretty disgusting. I will not make him co-author, and
-will not give any credit for this work.
+Again sorry for causing troubles, I'll make sure to look for others
+patches first before submitting them.
+
+Sincerely sorry for this.
 
 Thanks,
-Yury
+I Hsin Cheng
+
+> On Fri, Jun 13, 2025 at 11:34:47AM +0800, I Hsin Cheng wrote:
+> > Utilize cpumask_first_but() helper instead of first using
+> > cpumask_first() and then cpumask_next(). The logic is the same here,
+> > using the new helper will make it more conscious.
+> > 
+> > Use bloat-o-meter to check the impact on code size, the result is the
+> > same, does not have positive impact nor negative impact.
+> > 
+> > $ ./scripts/bloat-o-meter vmlinux_old vmlinux_new
+> > add/remove: 0/0 grow/shrink: 0/0 up/down: 0/0 (0)
+> > Function                                     old     new   delta
+> > Total: Before=22590709, After=22590709, chg +0.00%
+> > 
+> > Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+> > ---
+> > Generally speaking, I think this is just a small tweak on the code,
+> > making it more readable. However, no benefit in code size or performance
+> > as the implementation behind the helper is in fact the same as the one
+> > used here.
+> > 
+> > Maybe more tests should be done to ensure the change is solid, I hope to
+> > seek some suggestions from everyone who has any ideas, or this is enough
+> > then it's good.
+> > 
+> > Best regards,
+> > I Hsin Cheng
+> > ---
+> >  kernel/time/clocksource.c | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> > 
+> > diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
+> > index bb48498ebb5a..12ff0c048570 100644
+> > --- a/kernel/time/clocksource.c
+> > +++ b/kernel/time/clocksource.c
+> > @@ -323,9 +323,7 @@ static void clocksource_verify_choose_cpus(void)
+> >  		return;
+> >  
+> >  	/* Make sure to select at least one CPU other than the current CPU. */
+> > -	cpu = cpumask_first(cpu_online_mask);
+> > -	if (cpu == smp_processor_id())
+> > -		cpu = cpumask_next(cpu, cpu_online_mask);
+> > +	cpu = cpumask_first_but(cpu_online_mask, smp_processor_id());
+> >  	if (WARN_ON_ONCE(cpu >= nr_cpu_ids))
+> >  		return;
+> >  	cpumask_set_cpu(cpu, &cpus_chosen);
+> > -- 
+> > 2.43.0
