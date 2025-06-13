@@ -1,96 +1,118 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1DB291C07
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 13 Jun 2025 14:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA2A19D08F;
+	Fri, 13 Jun 2025 15:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749823882; cv=none; b=PlqqQsUYydYPNpSXZJ1zNx3+hndLwX2fNNGN7za6MgAPvBdUcQeGPN1u+6PC3nrXYQzBZiMPnP5U1oij01Sxl9RQOMgj/ZRQibkZjBztVX2SsWLWUKORK4eUOPefdOKidgksTss+jJhUWXPSZVH+w4nUEhGUycBwRGcA28onN0s=
+	t=1749829332; cv=none; b=Qg5b1vCcM3cgfvAQ2zK4pyJa0VSGylHgUGXz6kpN9tTRytffExcBDoZGFqIkyk6qm3F5VxBZyFerBmbFxI6b4tTk6DyhTybV1PzUTKDnILpllEvj5wTqpdvQ2CPj3MJoDIXiBA8s9IHUf5c66/xITxl3WVr97Mp94cJIUef3wCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749823882; c=relaxed/simple;
-	bh=bhR4Bb2bwwXTLXLAtF8PnnNR8WQ9nu759oSJREasAeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FPsDVeApZL60nUF48kwBYp9xHSYsiiG6+QcTpewfwcIpNjBLlbqiHcKLPRWKrCve/qIN5RA+x1h8sKPujqcsLhe9eqDfFU3P1vKeJTp8zQwjn/Wzpf3tt8BoFy3L+T16grG5wyMkYFxY5ZkdVwL5jFBQXVpGBpqGMerfhpyIB+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gSMObpRg; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1749829332; c=relaxed/simple;
+	bh=zewWVz9OBaB1bQbv1bL1NQdNn0xp5wKBNRoUrIH5RDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aMLGCWUBClK61EKCQw2ssU12POBzGvWNVpvR2FAbH+/uA00GN689ZrcS1blY6ho3TK88xMNCilw/4e8vGo+6xHNp+bODXYKS/m5bxE8N6ncTXbMx5XbCGdFIkAylwN5BBeRP5cQ33beci5ULcfl4OY0sQUVyxO/jthC+mNRTOBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c94WwD+J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gSMObpRg"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id DAD8784341
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 13 Jun 2025 14:11:20 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -10.792
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id u56O3T_Y2Z8S for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Jun 2025 14:11:20 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=dakr@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org E8F8684340
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E8F8684340
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=gSMObpRg
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E8F8684340
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 13 Jun 2025 14:11:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 076855C6200;
-	Fri, 13 Jun 2025 14:09:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 975F4C4CEEF;
-	Fri, 13 Jun 2025 14:11:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c94WwD+J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41AFFC4CEE3;
+	Fri, 13 Jun 2025 15:42:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749823878;
-	bh=bhR4Bb2bwwXTLXLAtF8PnnNR8WQ9nu759oSJREasAeI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gSMObpRgyYD8505xSwE+6TE87oiNA0I1ZGarLcXLblMu+Y89Q2jHm/d5SKXBpchY1
-	 WP6NiRROohIxLAz+IiEztI4sdV0ClnQUZYkzU7Ha9wujxxJcUmt48FmnfGFVjhY2wc
-	 WSKTTKSigbRQE7Mx5DoWXayIgiAr3SkkP1N7RcvEIFGUi1ep29QMPc23/NAg/StDM4
-	 hjlKpNiQHZfDpJtp0ozEj6q7WjJmiJcPxgPRdiHeHOfXyFEtonZSvBERm7K/DWZVlD
-	 WZKfI0WrdixCqFm18DfeFwaY7mK3lSkpRheS26Z7JgmZyZg/fipcO2kPSJcRV1c60x
-	 JOIkueoHGZIrg==
-Date: Fri, 13 Jun 2025 16:11:13 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Marcelo Moreira <marcelomoreira1905@gmail.com>, lossin@kernel.org,
-	ojeda@kernel.org, rust-for-linux@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH v4 2/3] rust: revocable: simplify RevocableGuard for
- internal safety
-Message-ID: <aEwxgUjYiNaJuzc_@pollux>
-References: <20250602232842.144304-1-marcelomoreira1905@gmail.com>
- <20250602232842.144304-3-marcelomoreira1905@gmail.com>
- <aEqdur4JTFa1V20U@google.com>
+	s=k20201202; t=1749829332;
+	bh=zewWVz9OBaB1bQbv1bL1NQdNn0xp5wKBNRoUrIH5RDA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=c94WwD+JJWKs8yyv3+igkbzlPTOpkGQm3ioCluPpNTsMr8wQ6SucQvqkEjY0ZqzzW
+	 3ZaQlqzlbbHklbhU6U6WfkG/94jBAq/m/YI4CjZ7BBil8tGZw1/eo0C7m0pY3X6QpG
+	 M1sWB191a1bYcnQXQKTuJ5UZLdEJSt6b5UxTABSgMetVbF/uoKPc8YGk8SNjmZCSGq
+	 9+/IUTersjN/xlbV8rx7Sb+iZcMSTJOmu2NLQpTLBQweRNX4AnixwCxWlwJN3oCp91
+	 lzuUfDL+R/lsonzi5sHVTF9SSXr2eUNmeLbSw5DBqsqrWtTHjGCkBhJj8JthlnqxTS
+	 NeLmGje+wPXUA==
+Date: Fri, 13 Jun 2025 17:42:03 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, "Akira Yokosawa" <akiyks@gmail.com>, "Breno Leitao"
+ <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, "Ignacio Encinas Rubio"
+ <ignacio@iencinas.com>, "Jan Stancek" <jstancek@redhat.com>, "Marco Elver"
+ <elver@google.com>, "Paolo Abeni" <pabeni@redhat.com>, "Ruben Wauters"
+ <rubenru09@aol.com>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
+ peterz@infradead.org, stern@rowland.harvard.edu
+Subject: Re: [PATCH v2 09/12] docs: sphinx: add a parser template for yaml
+ files
+Message-ID: <20250613174203.1bcdf4bc@sal.lan>
+In-Reply-To: <20250613142644.6497ed9b@foz.lan>
+References: <cover.1749723671.git.mchehab+huawei@kernel.org>
+	<39789f17215178892544ffc408a4d0d9f4017f37.1749723671.git.mchehab+huawei@kernel.org>
+	<m2tt4jnald.fsf@gmail.com>
+	<20250613142644.6497ed9b@foz.lan>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aEqdur4JTFa1V20U@google.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 12, 2025 at 09:28:26AM +0000, Alice Ryhl wrote:
-> I don't think this change is valid. Consider this code:
-> 
-> fn takes_guard(arg: RevocableGuard<'_, i32>) {
->     drop(arg);
->     // rcu guard is dropped, so `arg.data` may become dangling now
-> }
-> 
-> This violates the requirement that references that appear in function
-> arguments are valid for the entire function call, see:
-> https://perso.crans.org/vanille/treebor/protectors.html
-> 
-> Or the LLVM perspective: When Rust sees a reference in a function
-> argument, it adds the LLVM attribute dereferencable to it, which implies
-> that the pointer must be valid for *the entire function call*. If the
-> memory becomes dangling after the rcu guard is dropped, then this is
-> violated and the compiler could perform optimizations that are not
-> correct.
+Em Fri, 13 Jun 2025 14:26:44 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-Interesting, I wasn't aware of that. I wonder, why can't the compiler catch this
-and throw an error?
+> > > +
+> > > +    supported = ('yaml', 'yml')    
+> > 
+> > I don't think we need to support the .yml extension.  
+> 
+> Ok, will drop "yml".
+
+"supported" is not just extensions. It is a list of aliases for the
+supported standard (*), like:
+
+    supported = ('rst', 'restructuredtext', 'rest', 'restx', 'rtxt', 'rstx')
+    """Aliases this parser supports."""
+
+    (*) see: https://www.sphinx-doc.org/en/master/_modules/docutils/parsers/rst.html
+
+Anyway, I tried with:
+
+	supported = ('yaml')    
+
+but it crashed with:
+
+	sphinx.errors.SphinxError: Source parser for yaml not registered
+
+On my tests, if "supported" set has just one element, it crashes.
+
+On this specific case, this, for instance, works:
+
+    supported = ('yaml', 'foobar')
+
+Anyway, not worth spending too much time on it, as it could be
+a bug or a feature at either docutils or sphinx. As we want it to
+work with existing versions, I'll keep it as:
+
+	supported = ('yaml', 'yml')    
+
+at the next version.
+
+> > > +def setup(app):
+> > > +    """Setup function for the Sphinx extension."""
+> > > +
+> > > +    # Add YAML parser
+> > > +    app.add_source_parser(YamlParser)
+> > > +    app.add_source_suffix('.yaml', 'yaml')
+> > > +    app.add_source_suffix('.yml', 'yaml')    
+> > 
+> > No need to support the .yml extension.  
+
+Dropping .yml works here. So, here I'll keep just:
+
+    # Add YAML parser
+    app.add_source_parser(YamlParser)
+    app.add_source_suffix('.yaml', 'yaml')
+
+Regards,
+Mauro
+
