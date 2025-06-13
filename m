@@ -1,75 +1,73 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7F47082A
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 05:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9DB24BD02
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 05:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749793278; cv=none; b=S8XCZNAUukN02fkCbLnICQjtvHGX7Q8r+TR4nJmSMaFHMtr7y8sxm9He5guCghvgdgaqFRn+NHx346NvmgDISbLVh6+QqNXqa6T9If3XrzcgwyO0vHseVOUl/QTDGvd51retxev9I3zjPZ4SDlVXOz427JaeiOu+qXCpU8/wVxw=
+	t=1749794119; cv=none; b=N7a6+tJr0MXB1K5plGstdQSSmh7Or60rRvep6+yO2vgj9gPxNwpZcWBmJrLFcVytb5QToGvdms4ByW4c07p71qAbr/m7VT9ZgUe6ZDxDTNI4LvrPlZ7nDShyZdNoBGoJGgcBa7ZVJe0bowT1ohJ4G73mhlT72BIjqyNPnkkTk3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749793278; c=relaxed/simple;
-	bh=elnnXuAj0XGkyMJVG379w1xklEvpv3cMHLtwruxp92w=;
+	s=arc-20240116; t=1749794119; c=relaxed/simple;
+	bh=+cOmmUM74/tpV+I2t2dxh2EFwz5r9R46rJVnaQ++8g0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Em8oc4lHlwbpjadpza08Jm3S3TneOYrFv8r9DgegDue3TvWs1iK2S3UooYJmeFR6slQi4WsO6E2e/JJosUjdK4mqvj5Y22sGwnFEUQf+/7hw7TnjPZoG2Sr7dz5jMJigUWXbEJaoOoeKNlCSrw+Dom+aaCHZXS/leT8+Yh7wxwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E4FbR0j8; arc=none smtp.client-ip=209.85.216.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=UzpsohOQcwyuHYNTQTe5DLbns8DMilVT7wMA0yL8LvEv1NEYLyGN0PxARJB7NAonuD3mrZnUT5B3CHz+quDDU66MJPOXptaNQK8SE9NCcw6VGFE0MvOoK0wvdqgKGYTFdW0qvm2cx1SizOPebpapf7KLeAneyAbgsQZ6lV/v6eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hldUaDjF; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E4FbR0j8"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-313154270bbso1888523a91.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 22:41:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hldUaDjF"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-742c7a52e97so1652059b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 22:55:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749793276; x=1750398076; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1749794117; x=1750398917; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=s95Ebzl7WwrATICP+8xPyOJ+NiYPwE1zBeo3hMOEKwY=;
-        b=E4FbR0j8oD9UvDqJihhq4a0JwtoxLgjjVOL+2n5TT1mD1hUhiVDUGkuE/ylwwySU9i
-         6yiwpvjZbkbYtJ+/v5l/Gq6Z6K3tW1tpy9EiV6HsJYlX0KgcSsm7zw41fwxW/pReascN
-         mCzENJAwskXylJkdgXCiQ6jv6LE1jwOFqL9ivQXq17qlSzADPQ63OnAkIWkMN//L3Dtq
-         36xrblI8F4BeLBJFbs5SXr4LCeB32CVrm78xHdeVosF0u7lYIXVyykIdMje2iFD2WNXu
-         Yh9Q8l8qbuthiBMP0lJoXz3nZ6QMP+nfjczPIy1UfXUd19GAs/IHw//PLCYfbuA47ZU+
-         6suA==
+        bh=CJsbsFtvJh3mi6WqBDy/sZhRMjZIt1uqQYKG02JO95o=;
+        b=hldUaDjF1saaFZSK5SSrkT4+BWIrjuOF3zV8en8hFimrAyk013Luxudt3s+phf28Wi
+         kJVO4qv4nY8P7L304hNcPJGk+VLlJh0WJnR4pDIOf8QckgRewyRrp87AVZytN2Lg2shD
+         nVqKOgqPOClbUL5RtA6BidMFuEuSRmO/4n/F9ENDEz9riq93gdA2937FJQFHOnTNdt2D
+         7Cqec0WfYDdL8bP65bW68S3u4RHu6i6T9EjeNsOoIA9YjVeO0075yi2tjr+cV7AV3Tq4
+         OL3FUtCnmclNweZpuYinmj34wWRBMOKKVrUw+uctKm+gGZA3+v6oDPDhiCEWTcLc+IwB
+         9KZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749793276; x=1750398076;
+        d=1e100.net; s=20230601; t=1749794117; x=1750398917;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s95Ebzl7WwrATICP+8xPyOJ+NiYPwE1zBeo3hMOEKwY=;
-        b=l3jyBPVw7RPIZxrEBOSl6hBPpa9FjqCJVFMMEu0/f1V0eWeqbC/d2aFGqERMpfJO2d
-         XnqUiCqt10iexcMyxi3drJ/3Y5lYD6irElTo/d9age2hfVmUPTWh1/007zJahkqWTfgc
-         +IVHXclQZNnHR+EBxJmnA73xvwCfYa/S4k9aRI30sHJjP7F2egCHHhCLEypj9I0WqFkO
-         Ivf9C9RPSTLKVtZkYc8zG9IbSsZYg+cpoZyh5sVMU3hLs8tMR/PvqA5JL/XKWIjwJFHX
-         gKgYGMImvGbIu769I+TGULnmTjDQrwJsuY9MHBafzjZwDZ/YpTqfOKSEQ+Cc/IatFWIQ
-         nK+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVQBrqkfCBBqa2t+u53ovC3y5pusc2VpBfmjXtmS23sKYUUrvRkw6UD+jgCebn+HK3OX1LBIn+OVwNrksGiVkv4jRnkmQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxdNDGyNd9oz6Z4wHisM6Ap4jmCI0lbNvsmb5DycN/u7jRxskZK
-	ECH6S/yugKtj0ecdRb7HRsughXMmYX1GyQjX+heIfpzb97PcRY0ksWD6
-X-Gm-Gg: ASbGnct6tPgJSxMt1qrPQ8NJaQxalziu5l06DbT6+QGjZMy8HH7DxK22sUwEVjWHm/V
-	8ltYR5pZXImc2HW+BiEkzAmQD09JAMDeRnt77g75O6CBXO4il2F/jmryNwWC78D2X6cz/gtbWxk
-	orI/zSqWWkjZkgD4FHfxH9RGd8jllXRPMW3WqAOYhymlW/c81r/4QBaUFmkcOKByKMgNKgnh/aT
-	iKBszLp2fTVOTZHYQ1Y2bN/NJHk6TkcYaIR4/VR1//jWhSsGSp5VXEI/y/sMbGbuPsVdcFnFUoo
-	TOoGSwkNgG3oQDZ9+OBRnV+3pEQqE/5Do7Rf8ZMiCNFsJAjzM3Tb8J2RTbDv4/1kgdNC44AAa/N
-	Ddnw=
-X-Google-Smtp-Source: AGHT+IGc5/VkIHmVAMn6qOt2NgCnTvEvqk6JyPzsOIT9JCgTBKP9QdT03QtpkvciVfY7VJGhm10yQA==
-X-Received: by 2002:a17:90b:3842:b0:313:2adc:b4ca with SMTP id 98e67ed59e1d1-313d9e926d0mr2987296a91.18.1749793275975;
-        Thu, 12 Jun 2025 22:41:15 -0700 (PDT)
-Received: from vaxr-BM6660-BM6360 ([2001:288:7001:2703:f20f:da05:7371:bb5c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313c1bcbb62sm2515633a91.4.2025.06.12.22.41.13
+        bh=CJsbsFtvJh3mi6WqBDy/sZhRMjZIt1uqQYKG02JO95o=;
+        b=wi5CxFbMugdJu5Nu7rVdh8sTJCE3pBIzSlgybmCjZGO3Jq3tLG9COWAlhy9BpqA4Bz
+         7LygEMvBHUAcZ9oAZDvcezMhLWhigqwDZQjgIc7PFsSnGN60K4EC3f2pDVIjwc89H27E
+         hqOxkDpCxLdRNB+U3/6rtwQHSA2D47jat63nQY/Ru7RINcF7WjBY1UJbGacAwJaK4+uD
+         HkjnpIhmKFphbKbsCciJn1djwRPOfxUYi8wHkuxreKM7/IEV6Mb6xRmvfbRAgZWAEi8l
+         2CQasqtDhhVxffPElhXQ3llY8nT3dO4DDMKXWtbkV9Yhw6SShWcazbMTy2ldUl4VJO3V
+         tCcg==
+X-Forwarded-Encrypted: i=1; AJvYcCUGU0f4Stmy11FF8G080qUpy8ofSbrrLhiKJW6dKqYOEceJYozrgAdCdX1br91OF/SaFgeUpqiKrB15K3wZzgTtQ+29cQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YznxAEa0GQsnK5/4AMqScjigv97FDiW5DZtpdbJOZ39iTqOL73/
+	+P5CSyxigAbcJwTtYTFms+s1/2TEIU81B4tA+ovuYmp2m5GzsAysuq7V
+X-Gm-Gg: ASbGnctHgp3HpBmsuDFl7wxbeqIX4HgFNPY8dsYrbtW4v2EAgpjJy+aeUf/aHqsJoNC
+	foteQDvipdJ5EQMfkA29FWf3yEJERW+74XIV4kYzGlXaVXyGMQu9rqdz8OJXgzLyb/ODGo54J/F
+	Kw+kOlQue+FMCwxUl8yjy64LTRoGp+Blsug4CddMwv7kuzw0p+xTvnG44t5O4hINRvobTh+mrvL
+	DPi0eGlgQBNVP2up3lV4oBx0M5F3m7ZQH9pLIhlqfHGv2OD5kadpTywai2Hz5/mvaws0T/5leKi
+	5jxFDCqYb8eOi3xJ87Gv5Dn3951/WycUYDIAsCsumi+xOCzi/+9xmuURh+U9pkWEz+6zaa+99AH
+	fsSf/hB6srNXVEfcypJKRtAsd
+X-Google-Smtp-Source: AGHT+IFjqHaZvYT40439kqyyUl4MX/IbwIFjcF+jlPyoakwJlY3Ti84Z7N4Ww7tyqJbqNmhIaeDdjQ==
+X-Received: by 2002:a05:6a00:2386:b0:725:96f2:9e63 with SMTP id d2e1a72fcca58-7488f73fb81mr3066784b3a.24.1749794116817;
+        Thu, 12 Jun 2025 22:55:16 -0700 (PDT)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748900d29a2sm777511b3a.175.2025.06.12.22.55.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 22:41:15 -0700 (PDT)
-Date: Fri, 13 Jun 2025 13:41:08 +0800
-From: I Hsin Cheng <richard120310@gmail.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: linux@rasmusvillemoes.dk, jstultz@google.com, tglx@linutronix.de,
-	sboyd@kernel.org, linux-kernel@vger.kernel.org,
-	eleanor15x@gmail.com, visitorckw@gmail.com, jserv@ccns.ncku.edu.tw,
+        Thu, 12 Jun 2025 22:55:16 -0700 (PDT)
+Date: Fri, 13 Jun 2025 13:55:13 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: I Hsin Cheng <richard120310@gmail.com>
+Cc: yury.norov@gmail.com, linux@rasmusvillemoes.dk, jstultz@google.com,
+	tglx@linutronix.de, sboyd@kernel.org, linux-kernel@vger.kernel.org,
+	eleanor15x@gmail.com, jserv@ccns.ncku.edu.tw,
 	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [RFC PATCH 2/2] clocksource: Use cpumask_first_but() in
- clocksource_verify_choose_cpus()
-Message-ID: <aEu59BVKFoKXXpp4@vaxr-BM6660-BM6360>
+Subject: Re: [RFC PATCH 1/2] cpumask: Introduce cpumask_first_but()
+Message-ID: <aEu9QQ0n8PEsLvRq@visitorckw-System-Product-Name>
 References: <20250613033447.3531709-1-richard120310@gmail.com>
- <20250613033447.3531709-3-richard120310@gmail.com>
- <aEuw7ls9hieUv_Ox@yury>
+ <20250613033447.3531709-2-richard120310@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -78,102 +76,167 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aEuw7ls9hieUv_Ox@yury>
+In-Reply-To: <20250613033447.3531709-2-richard120310@gmail.com>
 
-On Fri, Jun 13, 2025 at 01:02:38AM -0400, Yury Norov wrote:
-> I Hsin,
+On Fri, Jun 13, 2025 at 11:34:46AM +0800, I Hsin Cheng wrote:
+> Switch the implementation of cpumask_any_but() to cpumask_first_but().
+> Elimate the need to looping and make cpumask_any_but() a macro to wrap
+> around cpumask_first_but(), just like cpumask_any() does, to make it
+> more consistence.
 > 
-> This exact change has already been submitted by me and is under review.
+> The change brings some benefit in terms of code size shrinking of
+> vmlinux, for NR_CPUS=64, it reduce 78 bytes in total, for
+> NR_CPUS=4096, it reduce 2 bytes in total. The details are shown in the
+> table [1].
 > 
-> https://lore.kernel.org/all/20250604232550.40491-2-yury.norov@gmail.com/
+> Performance test is done using the test script [2]. Running the test for
+> 10000 times, the origin implementation of cpumask_any_but() use 19665287
+> nanoseconds in total, the new version of it, which is a wrapper around
+> cpumask_first_but(), uses 19545574 nanoseconds. The difference is 119713
+> nanoseconds.
 > 
-> I don't understand why are you undercutting my work, and moreover do it 
-> for the second time.
-> 
-> For the first time you submitted something that duplicates my another
-> patch from the exact same series. John Stultz has pointed that, so you're
-> surely aware.
-> 
-> https://lore.kernel.org/all/CANDhNCoJ_MmpEfyuL+JWav+NUfQDH3dm196JSE-Mv3QrPUzi3g@mail.gmail.com/
-> 
-> Kernel development process implies that one makes sure that his work
-> is unique and doesn't break someone else's development, at one's best
-> knowledge.
-> 
-> What you're doing not only breaks this rule. You're in fact trying to
-> get credit for the work that is done by someone else. This is the
-> definition of fraud.
-> 
-> I cannot make sure that any other patches from you are unique and
-> written by actually you. Therefore, I will not take your work anymore.
-> 
-> I encourage everyone else to be careful working with I Hsing Cheng
-> and check his patches for uniqueness, at minimum.  
-> 
-> NAKed-by: Yury Norov <yury.norov@gmail.com>
-> 
-> Thanks,
-> Yury
->
+> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 
-Hello Yury,
+This looks like an invalid SoB chain.
+In our private discussion, I did agree that you're free to build upon
+my previous patch for further development. Since this patch is almost
+identical to mine, I assume you intended to include me and Yu-Chun as
+co-authors. If that's the case, you should also add a Co-developed-by:
+tag for me. It might also be helpful to add a Link: tag pointing to my
+original patch for better traceability.
 
-Sorry again, just like I mentioned in another thread, I didn't check the
-patch 1 of your patch series, I'm really sorry for that and causing your
-trouble.
+https://docs.kernel.org/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
 
-I really have no offense on that, the motivation of this patch was just
-like I mentioned earlier, anyway sorry for not be careful enough and 
-interrupt your work.
-Hope you can forgive me this time.
+Regards,
+Kuan-Wei
 
-Best regards,
-I Hsin Cheng
-
-> On Fri, Jun 13, 2025 at 11:34:47AM +0800, I Hsin Cheng wrote:
-> > Utilize cpumask_first_but() helper instead of first using
-> > cpumask_first() and then cpumask_next(). The logic is the same here,
-> > using the new helper will make it more conscious.
-> > 
-> > Use bloat-o-meter to check the impact on code size, the result is the
-> > same, does not have positive impact nor negative impact.
-> > 
-> > $ ./scripts/bloat-o-meter vmlinux_old vmlinux_new
-> > add/remove: 0/0 grow/shrink: 0/0 up/down: 0/0 (0)
-> > Function                                     old     new   delta
-> > Total: Before=22590709, After=22590709, chg +0.00%
-> > 
-> > Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
-> > ---
-> > Generally speaking, I think this is just a small tweak on the code,
-> > making it more readable. However, no benefit in code size or performance
-> > as the implementation behind the helper is in fact the same as the one
-> > used here.
-> > 
-> > Maybe more tests should be done to ensure the change is solid, I hope to
-> > seek some suggestions from everyone who has any ideas, or this is enough
-> > then it's good.
-> > 
-> > Best regards,
-> > I Hsin Cheng
-> > ---
-> >  kernel/time/clocksource.c | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> > 
-> > diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
-> > index bb48498ebb5a..12ff0c048570 100644
-> > --- a/kernel/time/clocksource.c
-> > +++ b/kernel/time/clocksource.c
-> > @@ -323,9 +323,7 @@ static void clocksource_verify_choose_cpus(void)
-> >  		return;
-> >  
-> >  	/* Make sure to select at least one CPU other than the current CPU. */
-> > -	cpu = cpumask_first(cpu_online_mask);
-> > -	if (cpu == smp_processor_id())
-> > -		cpu = cpumask_next(cpu, cpu_online_mask);
-> > +	cpu = cpumask_first_but(cpu_online_mask, smp_processor_id());
-> >  	if (WARN_ON_ONCE(cpu >= nr_cpu_ids))
-> >  		return;
-> >  	cpumask_set_cpu(cpu, &cpus_chosen);
-> > -- 
-> > 2.43.0
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+> ---
+> [1]:
+> 
+> For NR_CPUS=64:
+> $ ./scripts/bloat-o-meter vmlinux_old vmlinux_new
+> add/remove: 0/0 grow/shrink: 3/7 up/down: 46/-124 (-78)
+> Function                                     old     new   delta
+> irq_migrate_all_off_this_cpu                 716     745     +29
+> try_to_unmap_one                            3380    3391     +11
+> try_to_migrate_one                          2451    2457      +6
+> uncore_event_cpu_offline                     343     342      -1
+> calibrate_delay_is_known                     236     235      -1
+> tsc_store_and_check_tsc_adjust               506     495     -11
+> arch_tlbbatch_flush                          302     288     -14
+> tmigr_cpu_offline                            406     382     -24
+> perf_event_exit_cpu_context                  592     565     -27
+> flush_tlb_mm_range                          1561    1515     -46
+> Total: Before=23390770, After=23390692, chg -0.00%
+> 
+> For NR_CPUS=4096:
+> $ ./scripts/bloat-o-meter vmlinux_old vmlinux_new
+> add/remove: 0/0 grow/shrink: 7/3 up/down: 136/-138 (-2)
+> Function                                     old     new   delta
+> uncore_event_cpu_offline                     291     333     +42
+> try_to_migrate_one                          2378    2413     +35
+> flush_tlb_mm_range                          1476    1503     +27
+> irq_migrate_all_off_this_cpu                 741     754     +13
+> tmigr_cpu_offline                            353     362      +9
+> calibrate_delay_is_known                     183     192      +9
+> arch_tlbbatch_flush                          296     297      +1
+> tsc_store_and_check_tsc_adjust               484     482      -2
+> perf_event_exit_cpu_context                  546     528     -18
+> try_to_unmap_one                            3560    3442    -118
+> Total: Before=23448698, After=23448696, chg -0.00%
+> 
+> [2]:
+> static int __init test_init(void)
+> {
+>     struct cpumask test_mask;
+>     ktime_t start_time, end_time;
+>     s64 elapsed_ns;
+>     unsigned int result;
+>     unsigned int random_cpu;
+>     int i;
+> 
+>     cpumask_copy(&test_mask, cpu_online_mask);
+> 
+>     start_time = ktime_get();
+> 
+>     for (i = 0; i < 100000; i++) {
+>         get_random_bytes(&random_cpu, sizeof(random_cpu));
+>         random_cpu = random_cpu % nr_cpu_ids;
+>         result = cpumask_any_but(&test_mask, random_cpu);
+>     }
+> 
+>     end_time = ktime_get();
+> 
+>     elapsed_ns = ktime_to_ns(ktime_sub(end_time, start_time));
+> 
+> 	pr_info("Total time: %lld ns\n", elapsed_ns);
+> 
+>     return 0;
+> }
+> 
+> The test is running in the form of kernel module.
+> The test machine is running ubuntu 24.04 on x86_64 machine with kernel
+> version of v6.14.0, CPU type is AMD Ryzen 7 5700X3D 8-Core Processor.
+> 
+> Best regards,
+> I Hsin Cheng
+> ---
+>  include/linux/cpumask.h | 22 ++++++++++++++++------
+>  1 file changed, 16 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
+> index f9a868384083..d91630a97d76 100644
+> --- a/include/linux/cpumask.h
+> +++ b/include/linux/cpumask.h
+> @@ -408,22 +408,22 @@ unsigned int cpumask_next_wrap(int n, const struct cpumask *src)
+>  	for_each_set_bit_from(cpu, cpumask_bits(mask), small_cpumask_bits)
+>  
+>  /**
+> - * cpumask_any_but - return an arbitrary cpu in a cpumask, but not this one.
+> + * cpumask_first_but - return the first cpu in a cpumask, but not this one.
+>   * @mask: the cpumask to search
+>   * @cpu: the cpu to ignore.
+>   *
+> - * Often used to find any cpu but smp_processor_id() in a mask.
+> + * Often used to find the first cpu but smp_processor_id() in a mask.
+>   * Return: >= nr_cpu_ids if no cpus set.
+>   */
+>  static __always_inline
+> -unsigned int cpumask_any_but(const struct cpumask *mask, unsigned int cpu)
+> +unsigned int cpumask_first_but(const struct cpumask *mask, unsigned int cpu)
+>  {
+>  	unsigned int i;
+>  
+>  	cpumask_check(cpu);
+> -	for_each_cpu(i, mask)
+> -		if (i != cpu)
+> -			break;
+> +	i = cpumask_first(mask);
+> +	if (i == cpu)
+> +		i = cpumask_next(i, mask);
+>  	return i;
+>  }
+>  
+> @@ -864,6 +864,16 @@ void cpumask_copy(struct cpumask *dstp, const struct cpumask *srcp)
+>   */
+>  #define cpumask_any(srcp) cpumask_first(srcp)
+>  
+> +/**
+> + * cpumask_any_but - pick an arbitrary cpu from *srcp but not the given cpu
+> + * @srcp: the input cpumask
+> + * @cpu: the cpu to ignore
+> + *
+> + * Often used to find any cpu but smp_processor_id() in a mask.
+> + * Return: >= nr_cpu_ids if no cpus set.
+> + */
+> +#define cpumask_any_but(srcp, cpu) cpumask_first_but(srcp, cpu)
+> +
+>  /**
+>   * cpumask_any_and - pick an arbitrary cpu from *mask1 & *mask2
+>   * @mask1: the first input cpumask
+> -- 
+> 2.43.0
+> 
