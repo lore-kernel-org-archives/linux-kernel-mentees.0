@@ -1,118 +1,154 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B49B1946DA
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 13:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4528F19C54B
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 13:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749822300; cv=none; b=Xu2oghwRIsXKeRVR3gnXMaOsoL7HlN4tZd0uS2944wRq15hIbxyIfg/KlOJY4W0ORc4v6a/pTg8orA9/aTV/j+DWJ78hIWYItPT+GsAnBVTvXikCNZWqLTJAB8emF6NkXr0LsgvlD9c5XN6KBC69WYmEmX6UeQK7GtPvnajnKfE=
+	t=1749822810; cv=none; b=PJDtjt6Et+EkcXu4w5c0lHZdsegdjjx8X3hI9Sw8biAQ/ZGo7oXhYBL/W7XsYuxk74tntWy7JfWBc1Z718lD3Ee0cmcoRm03yshtC5VO8UV1F4fOKAULZS/cWrlWyFR1vPolOOeQtCJviMjmCJrJ1cCcSlxmTPDNkaXbMmVtog8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749822300; c=relaxed/simple;
-	bh=q0NfNcDeaw2dkT7ssIvsVhJpYdlm29fY3PiCs47ExhY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tm1wM3pnOmm6qHXhOVBuUHKARAA3qwrykzfiqMnSV6YpilZ8fzI7qLCqKlSGeDqOwMD0BqC2lZ1a0DOU5hu6/wZgcnCh/H95RIdhcCY8cHl43+pTK+t68wJjjDEAl76aX2HPNcvjjnDdHhMaTPcXo40EiG12sSiVGBE0TjvGbRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B8yRLGtC; arc=none smtp.client-ip=209.85.214.179
+	s=arc-20240116; t=1749822810; c=relaxed/simple;
+	bh=KUZfzfZsPE24PRLfx/DqXRXx6K0jTqrrFaXznX8oEdw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Kutt72tMspojQUbvmjBCjtnKxlg9dy/3FKFO1gra2yS3PijpUQRQ97Ty3ezDxSTQ2rh3w5qZ4yrX5FFVbEhgjz1HqHgDC/QWDSt67Jj4qG/MzN/LPHmszrWzgeaJRClnhizxflPmz8dxTF5WD6vt4/GQKdM9NMWu0Wx6FsT9dkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E4kffyXt; arc=none smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B8yRLGtC"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2363616a1a6so18059785ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 06:44:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E4kffyXt"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-553543ddfc7so2165916e87.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 06:53:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749822298; x=1750427098; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/NDaCbVF56xnPNvNjsdyRE5TUgx3SSgRAAlgm9SJ4O4=;
-        b=B8yRLGtCN/Zoi8cWOmw1NAP7x9VeFBxsxnzTxtqf8tmbuf0y87F7UjEkFfadp7KaQ9
-         PguopYnzOFhTZpPXZdEHfLUMfTBhvBqc2Xl6qAG5Dg9UkBHP/qVJnPw/QNniiwTvNn97
-         4W2lFFx/h8QbCnlp5+IrfKNbgrioxNJyiwN+8P32X9wyyQLsmf/g9oG4Ha/om3q3kQ7P
-         VyRLibSa7Ki+niW7wLL3xv5yi3/ChG7S4q40bSYv1DW1ibeaWkjkcysM6+5WxrUo6SNS
-         m4zUo15Ipn2G/meB41QQjhsM6pMmJbUnTrRi6fkPpl/4arnmVG+gVDabNDFdn0Xqcp/+
-         tIPg==
+        d=gmail.com; s=20230601; t=1749822805; x=1750427605; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ujtinyWtMOPXsq5wXbPCOHOmFoKO1rUWjgdXnoqJksw=;
+        b=E4kffyXtXhQ63I4tIirO8tiisKLHneOUS0PsgcA9ODm0+0avgfxmIVxSyjPaYyWzri
+         HQMc3vBEhzKWnSh/f7r2LxZ+sELsl6KIxEH4dRpi/sqVqi2yhjbut6OXy3SFD+vjknOK
+         6zHPpVnHdF1neQgi9+s2VFCf/XatW6P9lADD4pMjlRzicXIiMQaZXh7mAGFZTsuhbbGU
+         wksmNpY0i5/yIxY0RKdlaPa3ZMIHzpWujPK0OpwQibdvE6GwAJzPK4smzfjyn+C/t9s3
+         bRZXEr58+JPyq6fi9b2kngwAx1LyfD0yjPKa6B53i7srGKT49gIAZGtwx85kiTvZox+r
+         tHHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749822298; x=1750427098;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/NDaCbVF56xnPNvNjsdyRE5TUgx3SSgRAAlgm9SJ4O4=;
-        b=rLba/VwEz0C6nB2OvjoDNoHnPB7HlobIQKu6xONOVxpL3zIfmJxjDYt5jAc9X5hP4f
-         swiZ2otYQsVnwJfe+zt8D4QtX9ChGksX+auUpCX5bWLLi8AvzV84q7+OBIkSRSnZNxXb
-         V5j+asrQ7fim4KjcAkrR9Apruu3Bd6+exqkCW+VRtyxrW1D6y/bMCuYf8uatGQ/uIiiO
-         DhmnuG6zdP8nLgba2zCXfqaKPmvG32zG05yeIJnkacuH4JXS3cz2WdCGA1/ljf818JEB
-         EPQ9bBcYiyJN4g83FQhICeEFv5GS1OH4SuiKyztXHYIm90088L+ybcWnt1uNEtUm5FQf
-         Z66A==
-X-Forwarded-Encrypted: i=1; AJvYcCUyvXJcildPl5M54/UHENcrsCU5o7YX7SFhuJbwQv23n9MnwWRxh2BPPr8XYkglgzDJgUjhU8JW2DHbIBxIO7F8h2TNMg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3GVUjThmRZznnGufLJ+MrMUZvPqMne+D3E3Pf7j1k71YKJHB/
-	WJFqYrz3HifSWm0pGm/aUWMoMWcremsrEP/IMfFw5zOVW6OI3rfo/hb2
-X-Gm-Gg: ASbGncs3EnfqjYdOjxfzoI/NnhDIbH4z9ofDnAFZvOo77wrRv8E1CCokOejIZeGzJwY
-	rOJVi+aV/xAYpMjui9H0jWQeMhqFDwSS/AZOOT1CcGG6VrTHHPpTLAK4QJtnUbPh65OKlSkpdqj
-	vPt+nueyVTFsmByCrt6ohZBtbjUyDJJFV6u7Pc939kJG7JKP8ulW2qmqLHbRxiKBLH1Gm3/pAhF
-	fu2+GegBg0KsLu6Xpy/bcI8O39DXvUisDkSNuIcXj48WXfWt/HcBqmLaWrn95Cqp6bYww+paiYw
-	aHAcuVnWAbFjXG9WM6QIOXByY2WBcpLU1rEAI2DbRJesjRkZZpjaZTiRpYYLqjTigJ26vlm9oB8
-	N8GlY/nI=
-X-Google-Smtp-Source: AGHT+IFOIz/HmbvARBQzrFmiPDNxw41TO9on4zitwpOQf33DCfHwlEI/HyXVAe5aSUG/GmDc9R/NLg==
-X-Received: by 2002:a17:902:eccb:b0:234:eadc:c0b4 with SMTP id d9443c01a7336-2365dd3d482mr51958985ad.44.1749822298318;
-        Fri, 13 Jun 2025 06:44:58 -0700 (PDT)
-Received: from manjaro.domain.name ([2401:4900:1c30:6c31:49d8:cd52:9d21:df60])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365deca368sm14017475ad.201.2025.06.13.06.44.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jun 2025 06:44:57 -0700 (PDT)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	chentao@kylinos.cn,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH] firmware/memmap: use scnprintf() in show funcs
-Date: Fri, 13 Jun 2025 19:14:49 +0530
-Message-ID: <20250613134449.7459-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        d=1e100.net; s=20230601; t=1749822805; x=1750427605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ujtinyWtMOPXsq5wXbPCOHOmFoKO1rUWjgdXnoqJksw=;
+        b=osjzfK5oWBaBSS6O3Vq1k8mM/wODzSCIDvKsUhk9A9Zfiy1BXBtxR5hvRSXF+9La3F
+         w/kLpryw4qSY84OzLsQCanRaXX6EuAB2XrJpVNeW7bnYVtQTv7XWIcf7r6r5xMf4jHIk
+         p/FxoWJF1j+SgaXQt+CR8ZBrNAYyWcSuDatDYtyZjGCnDeY7zgOMBl/tVc3q0ZhoL/Jx
+         2EQ8HWYgWpWUt3CNcS7qQ0nUcXn1d1yPUd+zvtpmxgs18MZ+mWc0zSE9UJ4i3AXv6+zW
+         XUswmYDjDeCH8z+Wb6gLglSxjJYenamJ1SEPKq1kFkoNOLPUA2cN6Ft4MSnZNjDPpVcw
+         WZlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU4X+qR8N2EDgKFG/jRMTOjt03iXUdohRGDiWnmQOdhgJk59VAuX/a2mMH8WheqAftRi8JeTuQyMw72ZaAIUH7BeEwcNA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yybu72wQxFD2sXF3HdXaOrEqCwH8MO4TKIQsPl0nzKxZ1r0Tg3F
+	YLgzH1HbCKGkKGLkNdKqqkDLVOlpL+nK9ahYir3Ss+W28j+hKjK/pO6eXFZnWnciEai0mj6DIAi
+	ksTbGwWomKThGGCNAormLlHCpvkdvP4Q=
+X-Gm-Gg: ASbGnctzm1CQ54ZHSbzD3qYVt/qK9AwcybVIGhygHTn3GcqJGmBZ9zkv67TtlRHJZA2
+	m9d3xozynb00nuWgS7/QcHESJweSP212XNzOPzCPUoycAajT6R46ICergv/5Agcz2r1GSn5PApz
+	d1KV7qId3jfffeI3VWbaJCh84OYb/j3OYyFr/hLyad44rqhkiviFSRcHm2V8QCugjFIP5IcsBuL
+	wZwAOZ6c1XnxLGH
+X-Google-Smtp-Source: AGHT+IEl9qUXSspxpoaRt1cWqMw9LrrkgkBou8E8RGmOH7wcmz4yJUesGfCY+Lzvcz6mFzDt9o/Pi/NbzEKE8A2bXvU=
+X-Received: by 2002:a05:6512:3ba3:b0:553:3654:3319 with SMTP id
+ 2adb3069b0e04-553af96da66mr960902e87.43.1749822805033; Fri, 13 Jun 2025
+ 06:53:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250607134114.21899-1-pranav.tyagi03@gmail.com> <2025060848-exact-sasquatch-a899@gregkh>
+In-Reply-To: <2025060848-exact-sasquatch-a899@gregkh>
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Date: Fri, 13 Jun 2025 19:23:13 +0530
+X-Gm-Features: AX0GCFuGnNvyr6p72H6rynUnhfvQazx12X4BcJBVJRGB_9dMoCuBvt4-i8OKev4
+Message-ID: <CAH4c4jLRcjceC2tynp5h9zFv9ev+usUrKO2Titnup1SPe_aNBg@mail.gmail.com>
+Subject: Re: [PATCH] tty: replace capable() with file_ns_capable()
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: jirislaby@kernel.org, kees@kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Replace all snprintf() instances with scnprintf(). snprintf() returns
-the number of bytes that would have been written had there been enough
-space. For sysfs attributes, snprintf() should not be used for the
-show() method. Instead use scnprintf() which returns the number of bytes
-actually written.
+On Sun, Jun 8, 2025 at 3:55=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
+ wrote:
+>
+> On Sat, Jun 07, 2025 at 07:11:14PM +0530, Pranav Tyagi wrote:
+> > The TIOCCONS ioctl currently uses capable(CAP_SYS_ADMIN) to check for
+> > privileges, which validates the current task's credentials. Since this
+> > ioctl acts on an open file descriptor, the check should instead use the
+> > file opener's credentials.
+> >
+> > Replace capable() with file_ns_capable() to ensure the capability is
+> > checked against file->f_cred in the correct user namespace. This
+> > prevents unintended privilege escalation and aligns with best practices
+> > for secure ioctl implementations.
+> >
+> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> > Link: https://github.com/KSPP/linux/issues/156
+> > ---
+> >  drivers/tty/tty_io.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+> > index e2d92cf70eb7..ee0df35d65c3 100644
+> > --- a/drivers/tty/tty_io.c
+> > +++ b/drivers/tty/tty_io.c
+> > @@ -102,6 +102,9 @@
+> >  #include <linux/uaccess.h>
+> >  #include <linux/termios_internal.h>
+> >  #include <linux/fs.h>
+> > +#include <linux/cred.h>
+> > +#include <linux/user_namespace.h>
+> > +#include <linux/capability.h>
+> >
+> >  #include <linux/kbd_kern.h>
+> >  #include <linux/vt_kern.h>
+> > @@ -2379,7 +2382,7 @@ static int tiocswinsz(struct tty_struct *tty, str=
+uct winsize __user *arg)
+> >   */
+> >  static int tioccons(struct file *file)
+> >  {
+> > -     if (!capable(CAP_SYS_ADMIN))
+> > +     if (!file_ns_capable(file, file->f_cred->user_ns, CAP_SYS_ADMIN))
+>
+> As you now are affecting the user/kernel api here, how was this tested
+> and are you _SURE_ this is the correct thing to be doing?  Did you audit
+> all userspace users of this ioctl that you can find (i.e. a Debian code
+> search) to verify that they can handle this change in behaviour?
+>
+> I need a lot of assurances before being able to take a change like this,
+> for obvious reasons.
+>
+> thanks,
+>
+> greg k-h
 
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
----
- drivers/firmware/memmap.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Hi,
 
-diff --git a/drivers/firmware/memmap.c b/drivers/firmware/memmap.c
-index 55b9cfad8a04..fef18f598ff8 100644
---- a/drivers/firmware/memmap.c
-+++ b/drivers/firmware/memmap.c
-@@ -369,19 +369,19 @@ int __meminit firmware_map_remove(u64 start, u64 end, const char *type)
- 
- static ssize_t start_show(struct firmware_map_entry *entry, char *buf)
- {
--	return snprintf(buf, PAGE_SIZE, "0x%llx\n",
-+	return scnprintf(buf, PAGE_SIZE, "0x%llx\n",
- 		(unsigned long long)entry->start);
- }
- 
- static ssize_t end_show(struct firmware_map_entry *entry, char *buf)
- {
--	return snprintf(buf, PAGE_SIZE, "0x%llx\n",
-+	return scnprintf(buf, PAGE_SIZE, "0x%llx\n",
- 		(unsigned long long)entry->end);
- }
- 
- static ssize_t type_show(struct firmware_map_entry *entry, char *buf)
- {
--	return snprintf(buf, PAGE_SIZE, "%s\n", entry->type);
-+	return scnprintf(buf, PAGE_SIZE, "%s\n", entry->type);
- }
- 
- static inline struct memmap_attribute *to_memmap_attr(struct attribute *attr)
--- 
-2.49.0
+Thank you for the feedback.
 
+I could not find any existing selftests specifically targeting
+TIOCCONS. If there are any related ones, I=E2=80=99d appreciate it if you
+could point me in the right direction.
+
+Given that, I had to write a standalone functional test to exercise
+this ioctl and validate the permission behavior with the proposed
+change. I=E2=80=99ll share the test code and output shortly.
+
+I'm also in the process of auditing userspace tools that use
+TIOCCONS, using Debian Code Search as suggested. That is taking a
+bit of time, but I=E2=80=99ll include the findings in my next update.
+
+In addition, I plan to run integration tests with a few known tools
+that rely on TIOCCONS and will report those results as well.
+
+I=E2=80=99d appreciate a bit more time to complete this work and ensure all
+bases are covered before resubmitting.
+
+Regards
+Pranav Tyagi
