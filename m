@@ -1,199 +1,161 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041461F4615
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 03:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1BB1FDA89
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 13 Jun 2025 05:02:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749786767; cv=none; b=DxeWfZDYFcGWDg4ScNZ9O8uaDlWYiy303M4bQRaDARz2jY/tzU/3nX8RmjX0XTaveyEFQ1vdFP/MGHkmsLpB4b5yvS47fyeap4r9szPmf8NpMo4+BFdkoxcwNmjKhskX6cPqD1CY1qEk/y2unYz2nHipFFbnBfycbYyrBWKP6/Y=
+	t=1749790963; cv=none; b=IXfP7R962ks0DwGxXAzGbzm4TqZ5NE4OpDbLjXUz1sJ1EtScn50AFF7fMgjxgPCkaCKr/tVT0GOQBOCVLpSlUe19a37D+zDXI9IUZQ8rc9F1oOeVPck5s/kpVutiazQGnjt9Ps2kfNXZiQuR5uXw47juZRENWYoY3uFoHeWkBU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749786767; c=relaxed/simple;
-	bh=PCnqi5sVLD/Rz88yz5R4xSG2M0Y9Jq4pzJDU3PPIIMk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ow38hr0aT103rZh1RZPpVG0ISB7n7H7zitdb5JK1nCkwsia0y0cQuANq2anrvW8z0zh/5nLZi7Rp4YKvM56BBJDnlzsbxdQJlccdPQYkgTZatstiMBsplQeIVagO3D6OC8c11SCVQec771fZZ264/HdFK8us3KsoHazRb999vvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TfI+dpzG; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1749790963; c=relaxed/simple;
+	bh=ih4/xa2KkoXBJlt31uSLZyLlwq1jhZSsfTgNn0bdHtM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GNncFiUvUwA1JLJtcOOCjAWw1v0ekQoVLVbkaDxqSKgz9CYgY4pQ8olickrkgG8EOXRGx1Gg3wnlq6yuWdbIkslNQdy3oyyipdqslvh6L0h9aVmPvQMm6P3EA2/+nLn/SnfjNcxqDhMV4QrFLh8jbCEvvT2+GoUMtRYDZ9WQioE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UdQVYI3k; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TfI+dpzG"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-235a3dd4f0dso11163005ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 20:52:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UdQVYI3k"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3138e64b3fcso1600046a91.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 12 Jun 2025 22:02:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749786765; x=1750391565; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/BJcwG5cjEd6RoVlGatwHPsYMBzQlGVzeAkVl5gfwcA=;
-        b=TfI+dpzGldeu+mVKG8ZW7o7vRLa2CfBEj2DGkm0gxz3IQjh1dXoUONpNxvJRZEOzMD
-         +Ou2d7eAyD1pR3HjEAojsLJSk2qKzUDFp21hqpEqk8R6TdTI7nCAEmyKHfGfiKC/9MOb
-         OzF6M9JRNOYSlzv7/sSn/xGZpNDUCircJGKHiNCoWG+faWklJdQm6HNDxgkAYV9w9Z51
-         V5cXdE9h8lwgJgDvD51lE0qPzvymA7T6pA+acUmpqD+QLooIL+DSihKk4wWqnzB1Psyc
-         OrYQeWaBR+rtFCavfLLhq/WIevaK8Gdndn4F/WEPC2fi6NaGnEg6tjxNP7KvA22N3nPz
-         exvg==
+        d=gmail.com; s=20230601; t=1749790961; x=1750395761; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jcwj3yAJ7pyDvm1tu7+3gSa4GtMgtj32T0lLORRGnzY=;
+        b=UdQVYI3kAyXMCRO2+1RQSh0d6zExFzoDEZY6WxxGt3mHViQa03+jFhPqvDQByUuL7O
+         6SV843I+QpxKqbsMON0/uM9ZhZm2jvy6OcYmZFMH05sYzB+n/LWZJeIfTPkYvKgmSYky
+         iulOfufcdK0A928zzkPhwtcYXe1nYGREgpfAXnnpwGbCdcKFYGKw1YuVeyx8AAfzMfGv
+         FS48FPkBlUTO7w+wQZCzHJvfYvp5Mwu7IQyqJfglqG7VCnsikj8ljOLDBp9Cr/1/v4Bj
+         ne7KIcuwrYXoVCuoFYMndaRas9AsTbixXZ4VfXLMdGlzznV4Yc8LcOMMfp6KPL3ny5P7
+         yPYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749786765; x=1750391565;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/BJcwG5cjEd6RoVlGatwHPsYMBzQlGVzeAkVl5gfwcA=;
-        b=pMpiho5+BoAGOLgUKyjA64BZnMvDgrGIvTDDGQM/cKfwESGlF/2RoRBR95otP70/ni
-         du/fCBTVDTv9Vykt6aVHmdR0uEKfXJgWChSOqI5YaNK4NFQXqLzBE/0cdKYdn/jUyNZG
-         YvdvNiioIQjYq3I0W3AoLyJZ0H6ZSPJ3O6HeElJWdy9vof5FbO0JDo4cllVBOpdHk3vs
-         AjmGeFnI/Bi2lMMNws+jBehIaeB2avgyURxRyETUrydmJslTKKwOEJMb0UDLnGYFl7oG
-         7zJYEt5Xig20a3XrULhH8FP+iPHxgUJR2VHZ87tVojjOlefZ+BLGBYg6GOvAEUZQDa57
-         3Ytg==
-X-Forwarded-Encrypted: i=1; AJvYcCVGdHj0M+QTFwg4aPUMprVBAFi4vMArNL0KNEkC+5Z2eTB4qmT9MhJyxhbwq2Hh1yX0CrGITCR+t0X69anR4PUa8PZvCQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxmqpHED9wG+Zg1Ix+ANBg4zaJBQFT8U7TbDp23tBn+opo847TI
-	DX7jBdntGvhDY70NybIyL9j1A1H9SZWk2iEcg337fGE6PIbUwpuayG/d
-X-Gm-Gg: ASbGnctTxsaZUdF98s7InDFloPP+PNBDARG1b9rI9SzQ91RpBnwv/cqZXzwWEq9YhxP
-	aBERm2y+etijUz3hLAYrX/Uamq99wbAPmd+xdJE9ILOXQ6gNzL3l0TQByD6GEv+ABdWvhJTbP9g
-	AtxP7xLkkrsyvy57xrJ+QcPsBGZkS2jid2WNsFMtP0xw9mRIEGIIKDIuUYDKG1jTV5qGIO3P7L3
-	KkoVYmdC5ahZymh1Dh5mARKn0GsEAtCh5vOEPQ444lG6IB+LmKHv1jBe2LTrDj+fjiJwyb2Nz+k
-	Ap1QsNmG4fkxuCHCaetANWXe+QvpG89KRqXYDGKFrX+nmx/d9OQ7kYqmB6pQZ6PDy16RXaOnv9H
-	hrss/lhZqJq/+O68=
-X-Google-Smtp-Source: AGHT+IEMlMcFeu+56I8EdU4CSHOQVBz5TmparClkfG4A6JtMLI6BFWTm09zEB1uwzM3j/ltzKMrJ9w==
-X-Received: by 2002:a17:903:3204:b0:22e:6cc6:cf77 with SMTP id d9443c01a7336-2365de40addmr22682765ad.53.1749786765169;
-        Thu, 12 Jun 2025 20:52:45 -0700 (PDT)
-Received: from vaxr-ASUSPRO-D840MB-M840MB.. ([2001:288:7001:2703:873:d810:9d97:1c69])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dea7d82sm4982105ad.146.2025.06.12.20.52.42
+        d=1e100.net; s=20230601; t=1749790961; x=1750395761;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jcwj3yAJ7pyDvm1tu7+3gSa4GtMgtj32T0lLORRGnzY=;
+        b=Pn69jnePo1ukPl1OrASp5GwAWNEGiPfQklVmDJJjWxS8DFacfOAA87xzIKlWVg5KZq
+         Q6vPF6sjq94rP6TOXVed5L/trRpl5FPlUvjL/AR+4fO92Ss8Gf2IFohJrwt3XHmZTAG7
+         sH2o5yxTiRSFqoQGQZBKKKoKOoH+y6gVLdVH/h5hSxqmdLGD4QeEniWRc+Z9GnvRaez3
+         bszoLoHR9inCjII2QozEVt/eypPjLPEtw6apJ2bvbHH/qlPhv7pTByb+pB7wdxcJEaLm
+         dvrmLfgUERkPzdFdhvHqK+eEU1e+molmJObRoT+ARR4JugQjwPDVbEz1eNV1UTqdd5WA
+         VTwg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6r1vXcSaiuQ4enxNYBVLXcgHd+3STnvkwCJEGtya1vCwra50kWygOYQRVetrXksxC3rUU8dyuONWEDaODQewNP9OF7w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyfTXp3z1JDDHYAMrXE3nz4ubwnrpMQ2gfu8gx5xJoGlPrWExY/
+	b4YpwPVr9rbx+VOF44YMNXWWWRn8d4QF97POVd/AwxQNoNYKth8HDbv7
+X-Gm-Gg: ASbGnctMckCoprd8MNrcKTexN8zKP3dNu9ZFChLI/LUDxTBeF7TMuEHlHSdWQSVoy+f
+	hRkQwepfaDUQ4O46rTTLB0vJLWo2HY5dKMOJz6BZ8/ai/9aqOuIvT1d2fiMeoWKQLSp/cmVXA85
+	wImiaFi5uDsqFfjeOE0G3i7YHg+8pax6BWU/qBYWtlJWqsUMjYYQI0xMmsiftEbCSw8mwrp1O6v
+	H6j8jt5ugL4EYkBVhUseUZiJLi0hW5zXHKqNZrcW9FfgyEHZD78D2qpHkre5vMX6FBAYusFRY2k
+	7hkOSCJYyrvE98N4wcbGEPF2vHSPFgbeawuGkdDC3pH18RdPOPns5VXNrNUnzA==
+X-Google-Smtp-Source: AGHT+IHj9asMbod66o6NA5yopeZ8imOgK1x8/waa6ZVfyYqH+0n6eUNCQ3F6hlYMLPVZggDbqcln+Q==
+X-Received: by 2002:a17:90b:56c4:b0:311:9c1f:8524 with SMTP id 98e67ed59e1d1-313d9c7a6bamr2790183a91.15.1749790961390;
+        Thu, 12 Jun 2025 22:02:41 -0700 (PDT)
+Received: from localhost ([216.228.127.129])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365de782fcsm5915585ad.104.2025.06.12.22.02.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 20:52:44 -0700 (PDT)
-From: I Hsin Cheng <richard120310@gmail.com>
-To: jstultz@google.com
-Cc: tglx@linutronix.de,
-	sboyd@kernel.org,
-	yury.norov@gmail.com,
-	linux-kernel@vger.kernel.org,
-	jserv@ccns.ncku.edu.tw,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	I Hsin Cheng <richard120310@gmail.com>
-Subject: [PATCH v5] clocksource: Replace loop within clocks_calc_mult_shift() with __fls() for calculation of "sftacc"
-Date: Fri, 13 Jun 2025 11:52:39 +0800
-Message-ID: <20250613035239.3571301-1-richard120310@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 12 Jun 2025 22:02:40 -0700 (PDT)
+Date: Fri, 13 Jun 2025 01:02:38 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: I Hsin Cheng <richard120310@gmail.com>
+Cc: linux@rasmusvillemoes.dk, jstultz@google.com, tglx@linutronix.de,
+	sboyd@kernel.org, linux-kernel@vger.kernel.org,
+	eleanor15x@gmail.com, visitorckw@gmail.com, jserv@ccns.ncku.edu.tw,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [RFC PATCH 2/2] clocksource: Use cpumask_first_but() in
+ clocksource_verify_choose_cpus()
+Message-ID: <aEuw7ls9hieUv_Ox@yury>
+References: <20250613033447.3531709-1-richard120310@gmail.com>
+ <20250613033447.3531709-3-richard120310@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250613033447.3531709-3-richard120310@gmail.com>
 
-Utilize "__fls()" in replacement of while loop counting
-for the decremenet of "sftacc". They're equivalent in computation result
-but the former is more effective.
+I Hsin,
 
-"__fls()" will return the bit number of the last set bit of
-"tmp", which is 0-based index. Plus 1 to convert it into bit width as
-desired.
+This exact change has already been submitted by me and is under review.
 
-Note that only the lowest 32 bits of "tmp" is taken into consideration
-of the operation, since it was already shifted right by 32 bits, the
-topmost 32 bits should remain 0, only the lowest 32 bits are possible to
-be non-zero.
+https://lore.kernel.org/all/20250604232550.40491-2-yury.norov@gmail.com/
 
-This change is tested against a test script [1].
-Run the test 10 times for each version of implementation and take the
-average. The result shown that with this change, the operation overhead
-of "clocks_calc_mult_shift()" can be reduced around 99.7% .
+I don't understand why are you undercutting my work, and moreover do it 
+for the second time.
 
------------------------------
-| old version | new version |
------------------------------
-|  11500.6 ns |       44 ns |
------------------------------
+For the first time you submitted something that duplicates my another
+patch from the exact same series. John Stultz has pointed that, so you're
+surely aware.
 
-Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
----
-Changelog:
+https://lore.kernel.org/all/CANDhNCoJ_MmpEfyuL+JWav+NUfQDH3dm196JSE-Mv3QrPUzi3g@mail.gmail.com/
 
-v1 -> v2:
-	- Refine commit message to explain more about "why"
-	- Check the frequency of "clocks_calc_mult_shift()" get called,
-	  it's not in hotpath on my machine, refine the commit message
-to avoid overselling it
-	- Add comments for the code to explain the implementation in
-	  more detail
-	- Handle case for "tmp == 0" to avoid undefined behavior
+Kernel development process implies that one makes sure that his work
+is unique and doesn't break someone else's development, at one's best
+knowledge.
 
-v2 -> v3:
-	- Use "find_last_bit()" instead of "__builtin_clz()"
-	- Convert the type of "tmp" to "const unsigned long *" when
-	  sending into the function
-	- Highlight in the comment that only the lowest 32 bits part
-	  of "tmp" is taken into consideration
+What you're doing not only breaks this rule. You're in fact trying to
+get credit for the work that is done by someone else. This is the
+definition of fraud.
 
-v3 -> v4:
-	- Use "__fls()" since "tmp" is of type u64, not cpumask
-	- Refine commit messages to match the current implementation
+I cannot make sure that any other patches from you are unique and
+written by actually you. Therefore, I will not take your work anymore.
 
-v4 -> v5:
-	- Update commit header to mention the use of __fls()
+I encourage everyone else to be careful working with I Hsing Cheng
+and check his patches for uniqueness, at minimum.  
 
-[1]:
-static int __init test_init(void)
-{
-    u32 mult, shift;
-    u32 from, to, maxsec;
-    ktime_t start_time, end_time, total_time;
-    pr_info("Starting clocks_calc_mult_shift simple test\n");
+NAKed-by: Yury Norov <yury.norov@gmail.com>
 
-    start_time = ktime_get();
-    // Test with parameters from 1 to 1000
-    for (from = 1; from <= 1000; from += 100) {
-        for (to = 1; to <= 1000; to += 100) {
-            for (maxsec = 1; maxsec <= 10; maxsec++) {
+Thanks,
+Yury
 
-                clocks_calc_mult_shift(&mult, &shift, from, to, maxsec);
-            }
-        }
-    }
-
-    end_time = ktime_get();
-    total_time = ktime_to_ns(ktime_sub(end_time, start_time));
-
-    pr_info("Test completed\n");
-    pr_info("Total execution time: %lld ns \n", total_time);
-    return 0;
-}
-
-The test is running in the form of kernel module.
-The test machine is running ubuntu 24.04 on x86_64 machine with kernel
-version of v6.14.0, CPU type is AMD Ryzen 7 5700X3D 8-Core Processor.
-
-Best regards,
-I Hsin Cheng.
----
- kernel/time/clocksource.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
-
-diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
-index 2a7802ec480c..1e3dc68c696d 100644
---- a/kernel/time/clocksource.c
-+++ b/kernel/time/clocksource.c
-@@ -66,10 +66,19 @@ clocks_calc_mult_shift(u32 *mult, u32 *shift, u32 from, u32 to, u32 maxsec)
- 	 * range:
- 	 */
- 	tmp = ((u64)maxsec * from) >> 32;
--	while (tmp) {
--		tmp >>=1;
--		sftacc--;
--	}
-+
-+	/*
-+	 * Decrement "sftacc" by the number of bits needed to represent "tmp".
-+	 * Using "__fls(tmp) + 1" to get the bit width:
-+	 * - __fls(tmp) returns the bit number of the last set bit
-+	 * - Plus 1 to convert 0-based index into bit width as desired
-+	 *
-+	 * Note: Only the lowest 32 bits of "tmp" is taken into consideration,
-+	 *		 since it was already shifted right by 32 bits, the topmost 32
-+	 *		 bits are guaranteed to be 0.
-+	 */
-+	if (tmp)
-+		sftacc -= __fls(tmp) + 1;
- 
- 	/*
- 	 * Find the conversion shift/mult pair which has the best
--- 
-2.43.0
-
+On Fri, Jun 13, 2025 at 11:34:47AM +0800, I Hsin Cheng wrote:
+> Utilize cpumask_first_but() helper instead of first using
+> cpumask_first() and then cpumask_next(). The logic is the same here,
+> using the new helper will make it more conscious.
+> 
+> Use bloat-o-meter to check the impact on code size, the result is the
+> same, does not have positive impact nor negative impact.
+> 
+> $ ./scripts/bloat-o-meter vmlinux_old vmlinux_new
+> add/remove: 0/0 grow/shrink: 0/0 up/down: 0/0 (0)
+> Function                                     old     new   delta
+> Total: Before=22590709, After=22590709, chg +0.00%
+> 
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+> ---
+> Generally speaking, I think this is just a small tweak on the code,
+> making it more readable. However, no benefit in code size or performance
+> as the implementation behind the helper is in fact the same as the one
+> used here.
+> 
+> Maybe more tests should be done to ensure the change is solid, I hope to
+> seek some suggestions from everyone who has any ideas, or this is enough
+> then it's good.
+> 
+> Best regards,
+> I Hsin Cheng
+> ---
+>  kernel/time/clocksource.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
+> index bb48498ebb5a..12ff0c048570 100644
+> --- a/kernel/time/clocksource.c
+> +++ b/kernel/time/clocksource.c
+> @@ -323,9 +323,7 @@ static void clocksource_verify_choose_cpus(void)
+>  		return;
+>  
+>  	/* Make sure to select at least one CPU other than the current CPU. */
+> -	cpu = cpumask_first(cpu_online_mask);
+> -	if (cpu == smp_processor_id())
+> -		cpu = cpumask_next(cpu, cpu_online_mask);
+> +	cpu = cpumask_first_but(cpu_online_mask, smp_processor_id());
+>  	if (WARN_ON_ONCE(cpu >= nr_cpu_ids))
+>  		return;
+>  	cpumask_set_cpu(cpu, &cpus_chosen);
+> -- 
+> 2.43.0
