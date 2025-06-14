@@ -1,106 +1,77 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717804A0C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Jun 2025 17:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2411C54AF;
+	Sat, 14 Jun 2025 17:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749920416; cv=none; b=LcMpjqi2RC61bxbAKiz+llSL0CXx/1P0qYiZ75V5OuFWuR0UQuZjlONKKDz4EhLckNzMXqEbfFDJnJtFX2hDVSBYazM+CutXy93/lzda6zEx/bmGRRvkMpqrQbPR5FmbEN7lHvSUGs+PYFTNZMlzifWh9PNt+X4uxnS0zTAKXTA=
+	t=1749922622; cv=none; b=geXOOY7lGYSSpEqVimtgvaQ4XC6vN7HAB+Y5HgNoAD7kPqU9uLKQCR1AoB1vaOYk3vWzDQIbjjt0uEXFxNyuGWuIOU+2uoGtorSLiP0juc869987KQpiBFaPjHIuTbcal1WqhRglugIHmXwYSLXpcmXLzUokMyuxzdXkrhXaz3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749920416; c=relaxed/simple;
-	bh=OoWy69Boj6cdroz5WMXyhjOECqxhHKN5pp7eazSZkEQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=IS0QXKZFFakLsAtJhi4AoXM7bSNxnVbNUKp0a0ok5q1K3SU/85K3OIsoz2O7WY9cANh9MQNFBnVdu1adLO/yI5a3Omap3ebWjE7ka0X6Z6+QhwJFDhzrJnKpheFDwTzKSZNc9upCbWN0oLOHTLpQZYxZ3qqxqaItQnjvCzd8CQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PgE/2AW9; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1749922622; c=relaxed/simple;
+	bh=giWEbQVGPDAUjjSTlftLxeH1yHeLxWW9myogm0Xe15s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QLx9ISpNZm6B5Q4xGMj/bPsouk9bDZYoGgG2t+/N1vbeyhaXGRo2+Zrtr7XgB6kfbIjESPX56jckuUwb7aoOlY619WFxrsIRayd5qh6Pag4QkFrlpjSG9HKpHEQ2QvLX++n1Nopd+SeML+ALMn/jcCncxgfXtrKCV/L6revuZDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RupatiqN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PgE/2AW9"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 02A7640B3B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Jun 2025 17:00:14 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id g7TBCvHeQMzs for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Jun 2025 17:00:12 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org C0F1D40AF7
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C0F1D40AF7
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PgE/2AW9
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id C0F1D40AF7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Jun 2025 17:00:12 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id D0EA25C0C4D;
-	Sat, 14 Jun 2025 16:57:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F268C4CEEB;
-	Sat, 14 Jun 2025 17:00:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RupatiqN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D0D8C4CEEB;
+	Sat, 14 Jun 2025 17:37:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749920410;
-	bh=OoWy69Boj6cdroz5WMXyhjOECqxhHKN5pp7eazSZkEQ=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=PgE/2AW9FaZ36aoeeKqMK21jipUgi4FAFOGedh886C1ncAhMKhpQqpo4Iz/jswYhy
-	 08u4qUkvVqRmxgM+sLbwt32sUY5EUI2w9q6vLACT4DBf9Z6BWmVpIsKbnNT5dh6h8t
-	 kMQj8dKU9pFS9BPDGqhzUh0/pEOpX/3swr1idL3m++MaGpTpWqsEU+2NIPfFQHh4ZK
-	 42TTMT1pxjynIU5SM4NvrFW1q8uT2rluV6zIH27qmGSFhCabcIebOt32eqTHoPlFWi
-	 jJRbWCi9tgp76/S1VzPpBgixW4RLZnk5SRaLszX1/EwJCubsL/IfLcS0WwWIttlN5J
-	 /94+aVhXcR98g==
+	s=k20201202; t=1749922622;
+	bh=giWEbQVGPDAUjjSTlftLxeH1yHeLxWW9myogm0Xe15s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RupatiqNGmEi2ttyLukWxybZN5O3W1zwp6BtLXJErrSUf/aF+OwYPT+DmBkH2WNGY
+	 Lckjf/Mi90RsO60JeKaj6VH/N25cSKoKwpOSNWNJgrt0ClDjk0o/FppvRnFY8MtaC5
+	 4uFiDGcwKekZ7Izxs7rgw1fRUzMFunNs8olLbSVCDGKyKILtdfgZsbnLTPiMh38ABR
+	 Fl5yy0ssRFatLI7JqqekkHJc49wIy7RkElzhhf6U6Xke90wfuzUvUV/OAVLwZmnSHC
+	 yHyNRiHsDRNXT9AtQLcDmHVGznYmFgI6cQyj0GkblAvE2iSq+Xwq3YYAd1IfHb4nHT
+	 BNmnvdce2DDEA==
+Date: Sat, 14 Jun 2025 10:37:00 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, Akira
+ Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Ignacio
+ Encinas Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>,
+ Marco Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
+ Wauters <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
+ peterz@infradead.org, stern@rowland.harvard.edu
+Subject: Re: [PATCH v4 12/14] MAINTAINERS: add maintainers for
+ netlink_yml_parser.py
+Message-ID: <20250614103700.0be60115@kernel.org>
+In-Reply-To: <20250614173235.7374027a@foz.lan>
+References: <cover.1749891128.git.mchehab+huawei@kernel.org>
+	<ba75692b90bf7aa512772ca775fde4c4688d7e03.1749891128.git.mchehab+huawei@kernel.org>
+	<CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
+	<20250614173235.7374027a@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 14 Jun 2025 19:00:07 +0200
-Message-Id: <DAMF0H159M8X.2NWDQM5KQH4N0@kernel.org>
-Cc: "Marcelo Moreira" <marcelomoreira1905@gmail.com>, <ojeda@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-Subject: Re: [PATCH v4 2/3] rust: revocable: simplify RevocableGuard for
- internal safety
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>
-X-Mailer: aerc 0.20.1
-References: <20250602232842.144304-1-marcelomoreira1905@gmail.com>
- <20250602232842.144304-3-marcelomoreira1905@gmail.com>
- <aEqdur4JTFa1V20U@google.com> <aEwxgUjYiNaJuzc_@pollux>
-In-Reply-To: <aEwxgUjYiNaJuzc_@pollux>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri Jun 13, 2025 at 4:11 PM CEST, Danilo Krummrich wrote:
-> On Thu, Jun 12, 2025 at 09:28:26AM +0000, Alice Ryhl wrote:
->> I don't think this change is valid. Consider this code:
->>=20
->> fn takes_guard(arg: RevocableGuard<'_, i32>) {
->>     drop(arg);
->>     // rcu guard is dropped, so `arg.data` may become dangling now
->> }
->>=20
->> This violates the requirement that references that appear in function
->> arguments are valid for the entire function call, see:
->> https://perso.crans.org/vanille/treebor/protectors.html
->>=20
->> Or the LLVM perspective: When Rust sees a reference in a function
->> argument, it adds the LLVM attribute dereferencable to it, which implies
->> that the pointer must be valid for *the entire function call*. If the
->> memory becomes dangling after the rcu guard is dropped, then this is
->> violated and the compiler could perform optimizations that are not
->> correct.
->
-> Interesting, I wasn't aware of that. I wonder, why can't the compiler cat=
-ch this
-> and throw an error?
+On Sat, 14 Jun 2025 17:32:35 +0200 Mauro Carvalho Chehab wrote:
+> > > @@ -27314,6 +27315,7 @@ M:      Jakub Kicinski <kuba@kernel.org>
+> > >  F:     Documentation/netlink/
+> > >  F:     Documentation/userspace-api/netlink/intro-specs.rst
+> > >  F:     Documentation/userspace-api/netlink/specs.rst
+> > > +F:     scripts/lib/netlink_yml_parser.py
+> > >  F:     tools/net/ynl/  
+> 
+> With regards to the location itself, as I said earlier, it is up to
+> Jon and you to decide.
+> 
+> My preference is to have all Python libraries at the entire Kernel
+> inside scripts/lib (or at some other common location), no matter where
+> the caller Python command or in-kernel Sphinx extensions are located.
 
-Because the compiler doesn't know that the reference's validity is tied
-to the rcu guard existing.
-
----
-Cheers,
-Benno
+I understand that from the PoV of ease of maintenance of the docs.
+Is it fair to say there is a trade off here between ease of maintenance
+for docs maintainers and encouraging people to integrate with kernel
+docs in novel ways?
