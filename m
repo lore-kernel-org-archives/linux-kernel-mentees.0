@@ -1,52 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2411C54AF;
-	Sat, 14 Jun 2025 17:37:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001292E11CB;
+	Sat, 14 Jun 2025 17:46:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749922622; cv=none; b=geXOOY7lGYSSpEqVimtgvaQ4XC6vN7HAB+Y5HgNoAD7kPqU9uLKQCR1AoB1vaOYk3vWzDQIbjjt0uEXFxNyuGWuIOU+2uoGtorSLiP0juc869987KQpiBFaPjHIuTbcal1WqhRglugIHmXwYSLXpcmXLzUokMyuxzdXkrhXaz3Q=
+	t=1749923199; cv=none; b=gahpxQNk63JqmkAt3aeUsz8HiE2ulvV1mDqn0z83nYhZVl1vb2IvMLFz3H7p2J/mA1rux5Z2+KODTzNxSsUz9V2m630RV3QpfWwzPGsVwcsySpjTGtBett8bn3sIoXftaoskyeALjEKXfppxyHPmz+uViqxfDphy9KRmjMsd8+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749922622; c=relaxed/simple;
-	bh=giWEbQVGPDAUjjSTlftLxeH1yHeLxWW9myogm0Xe15s=;
+	s=arc-20240116; t=1749923199; c=relaxed/simple;
+	bh=GNkxHeLIntl+XCRb6I3HDnxagoxNOfJiiSN5S334ZUM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QLx9ISpNZm6B5Q4xGMj/bPsouk9bDZYoGgG2t+/N1vbeyhaXGRo2+Zrtr7XgB6kfbIjESPX56jckuUwb7aoOlY619WFxrsIRayd5qh6Pag4QkFrlpjSG9HKpHEQ2QvLX++n1Nopd+SeML+ALMn/jcCncxgfXtrKCV/L6revuZDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RupatiqN; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=cM8Mp2a0p12wUtRyUB5BdUJiVFUzlODVu79tZ7nXjTJV4y8oq3YRwAub6EgLGPl2MJtee6l7JKDjprrn2gWbldsPSRWCTin8m6LezrXusnT6oKDz70iBbYBrxrkbCKcmPt+NTV8vwZmFcrIUknxOWkeQ2xRQ3KQi3knsOdcMPEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=buKMpWlV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RupatiqN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D0D8C4CEEB;
-	Sat, 14 Jun 2025 17:37:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="buKMpWlV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08FE2C4CEEB;
+	Sat, 14 Jun 2025 17:46:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749922622;
-	bh=giWEbQVGPDAUjjSTlftLxeH1yHeLxWW9myogm0Xe15s=;
+	s=k20201202; t=1749923195;
+	bh=GNkxHeLIntl+XCRb6I3HDnxagoxNOfJiiSN5S334ZUM=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RupatiqNGmEi2ttyLukWxybZN5O3W1zwp6BtLXJErrSUf/aF+OwYPT+DmBkH2WNGY
-	 Lckjf/Mi90RsO60JeKaj6VH/N25cSKoKwpOSNWNJgrt0ClDjk0o/FppvRnFY8MtaC5
-	 4uFiDGcwKekZ7Izxs7rgw1fRUzMFunNs8olLbSVCDGKyKILtdfgZsbnLTPiMh38ABR
-	 Fl5yy0ssRFatLI7JqqekkHJc49wIy7RkElzhhf6U6Xke90wfuzUvUV/OAVLwZmnSHC
-	 yHyNRiHsDRNXT9AtQLcDmHVGznYmFgI6cQyj0GkblAvE2iSq+Xwq3YYAd1IfHb4nHT
-	 BNmnvdce2DDEA==
-Date: Sat, 14 Jun 2025 10:37:00 -0700
+	b=buKMpWlVBv0WWAPBQj4YiJyF1MkZ+eNPy7wfsA4tvIsrVlTzck5O3tkUqlR/0kKpv
+	 av6zi8ufbgOv7GpPLu9YvIde3YZ5iCAqEYPkWTGH0DtlvjgLxGwfg+K+ajB7DX4UX5
+	 HBkRLHGc4cZ4YlOHuBbZRyaU7g50Psnqo/IlPwX4lF588Xq7l8av8EyECXsCTlj6Yh
+	 TmuSmOuGVvadKQYrTWlrPQqy2X0Ivv77XWZ2CrCP9MVhv8RTXExiduEyaCZPzIC2AI
+	 Yr0eRfoMf8lESOlgK2WWkPBMz4VozSY66YaPgr/MyhcsQYaB6JJJZpaF8thsTGTg7F
+	 fvIbTzZ5RQUgA==
+Date: Sat, 14 Jun 2025 10:46:29 -0700
 From: Jakub Kicinski <kuba@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, Akira
- Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Ignacio
- Encinas Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>,
- Marco Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
- Wauters <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu
-Subject: Re: [PATCH v4 12/14] MAINTAINERS: add maintainers for
- netlink_yml_parser.py
-Message-ID: <20250614103700.0be60115@kernel.org>
-In-Reply-To: <20250614173235.7374027a@foz.lan>
-References: <cover.1749891128.git.mchehab+huawei@kernel.org>
-	<ba75692b90bf7aa512772ca775fde4c4688d7e03.1749891128.git.mchehab+huawei@kernel.org>
-	<CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
-	<20250614173235.7374027a@foz.lan>
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
+ horms@kernel.org, pabeni@redhat.com, linux-doc@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, skhan@linuxfoundation.com
+Subject: Re: [PATCH v2 1/2] docs: net: sysctl documentation cleanup
+Message-ID: <20250614104629.1b857375@kernel.org>
+In-Reply-To: <20250614092542.66138-1-abdelrahmanfekry375@gmail.com>
+References: <20250612162954.55843-2-abdelrahmanfekry375@gmail.com>
+	<20250614092542.66138-1-abdelrahmanfekry375@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -56,22 +47,11 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 14 Jun 2025 17:32:35 +0200 Mauro Carvalho Chehab wrote:
-> > > @@ -27314,6 +27315,7 @@ M:      Jakub Kicinski <kuba@kernel.org>
-> > >  F:     Documentation/netlink/
-> > >  F:     Documentation/userspace-api/netlink/intro-specs.rst
-> > >  F:     Documentation/userspace-api/netlink/specs.rst
-> > > +F:     scripts/lib/netlink_yml_parser.py
-> > >  F:     tools/net/ynl/  
-> 
-> With regards to the location itself, as I said earlier, it is up to
-> Jon and you to decide.
-> 
-> My preference is to have all Python libraries at the entire Kernel
-> inside scripts/lib (or at some other common location), no matter where
-> the caller Python command or in-kernel Sphinx extensions are located.
+On Sat, 14 Jun 2025 12:25:42 +0300 Abdelrahman Fekry wrote:
+> Changes in v2:
+> - Deleted space before colon for consistency
+> - Standardized more boolean representation (0/1 with enabled/disabled)
 
-I understand that from the PoV of ease of maintenance of the docs.
-Is it fair to say there is a trade off here between ease of maintenance
-for docs maintainers and encouraging people to integrate with kernel
-docs in novel ways?
+You need to repost the entire series. Make sure you read:
+https://www.kernel.org/doc/html/next/process/maintainer-netdev.html
+before you do.
