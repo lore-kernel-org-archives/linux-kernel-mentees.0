@@ -1,109 +1,130 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C175C2E11DD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Jun 2025 18:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A811DE4D8;
+	Sat, 14 Jun 2025 18:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749924345; cv=none; b=KzFBt/rJNwGetM5fD/gk1sBs9noZoB99ihhksaW9gLQ01HWROvf3teKd+0Hcknyv+ext3CfriEOc+3iVrXdi2o47EwSVAXnnhIaDmg7r+/9fHDLGUsAa4gbHqZccYRG83nuEb7icwIAju8nYhnWc6IN+NtfL9i53n7jdeTnUvcs=
+	t=1749927376; cv=none; b=NTNLQjwP4Vcx27fo47fvXgLjLkfU3qRh3KI0MTvLvuFm1wqJ8r3NrIYdXuwSfwGxXxOE0NK9Y14wV53QupvE3jO7+20Gmaa/nEDln7MYzd1jlKDHgB6hDXEJpwy/vFH6Nbeq7oh0Nsfe2bJgQsPkph30l/JnM+qhBp7z2oNvx54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749924345; c=relaxed/simple;
-	bh=0HNFlzjQMcGG+Qr6GFRtuTiCYmtliJoYJvNpN/FASRY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=pOnaA9Q4Qm7MaTEysv8IRHmqrRXI3xsW1VWxuHOBvcbFu1cdt1FNWKexzMfThf81ImNUYF0lOVz+QUD1W/OOtffrwYBjfnglNGVxu1h/Kkyu/sehqk5WXVZWlJTsUfiZbyi8BNLGb1wRAMZXhv6n0jFGZO3cwlY8ff4tQiGnuzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ox6mNkVQ; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1749927376; c=relaxed/simple;
+	bh=Ay9WNfd7Dkl5+6/0J8IggnfWgT3C7wSHD0mCsf3vo9M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GbW1jXvxIICdGSL54YtTlRBJJ7QEnaFuNC9ksFiw8YUTDbJG9xt8gg1mbwySMUo0KmogLQI+9bKQBLh0PQtcdoGpxtQd+yKzg/AR9mALP1Xag2cEU995JKlKDZCmn/A0h7LzV3n9SuO0MRDIP7Y3C2TyaS9GwSjVDkyVjcJBP4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lnEVX1n2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ox6mNkVQ"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5FFBF6078B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Jun 2025 18:05:44 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ZVwpKAyMk3nh for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Jun 2025 18:05:44 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org BFE1A6069A
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BFE1A6069A
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ox6mNkVQ
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id BFE1A6069A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Jun 2025 18:05:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 1EFAB61126;
-	Sat, 14 Jun 2025 18:05:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 620F6C4CEEB;
-	Sat, 14 Jun 2025 18:05:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lnEVX1n2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16268C4CEEF;
+	Sat, 14 Jun 2025 18:56:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749924341;
-	bh=0HNFlzjQMcGG+Qr6GFRtuTiCYmtliJoYJvNpN/FASRY=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=ox6mNkVQY0D1FO68sU7GVRE+RJKzWnbp4uTe/GxP7A3+mhgxbpOPTUW7gEzgnZqFD
-	 cfQa/0dlUJ7vOWbnszJeq8yKuTq1A79cRLpOvUaAc5H+EEvPOYVeusRyls3BE0snMP
-	 1zu/nMDiJ0JndamPv/ZUExzAmiiqgmHjRJcJeIKEamjUO2AnxOK6X9ooOupbeBSoFm
-	 +erE66YQVCs3OzP5q6o6+BRiT94F/Tr2VXlkLbvkCvsTpYLxpZIZG4q9e016Zyjd7l
-	 3aEN4orzBuY7WBtBFYoA6le4nT8rZoRlnAELqSL80Gv2/hw4TXhTU1ivjtOYqc0HL3
-	 Pga6y2EEcWlYg==
+	s=k20201202; t=1749927376;
+	bh=Ay9WNfd7Dkl5+6/0J8IggnfWgT3C7wSHD0mCsf3vo9M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lnEVX1n2MxvyMsJ4d1/QTdLtOBZR2/8cC7OnUGlndhbnoUp2wZIYEMhi7bvSkEI4F
+	 l3ui9zw3cjaof3z7J0eL4PhCdAgl5vP7rdHax9fSQd7DZQg2TAUwPwRJVWtcKJLUBN
+	 RE+cOiMKSY5W+slhJ3acsRhbi5JUGljhPHiB5vEAlRPAloJlRS8KN2lwBVGIv4B0op
+	 EgKwLx9yrdWUFYOf4mxquUTsOEanaePdCThj3/EnfDMDs4eglmzj2i8CabZydFS/4b
+	 ivbkx24q4+997EoKwW4I8iSVG12TVfLN9ObHpJ6WFtdy3C+0r6nOg9SzUMrllsPVyp
+	 Gb+91nCyrLHUA==
+Date: Sat, 14 Jun 2025 20:56:09 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, Akira
+ Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Ignacio
+ Encinas Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>,
+ Marco Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
+ Wauters <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
+ peterz@infradead.org, stern@rowland.harvard.edu
+Subject: Re: [PATCH v4 12/14] MAINTAINERS: add maintainers for
+ netlink_yml_parser.py
+Message-ID: <20250614205609.50e7c3ad@foz.lan>
+In-Reply-To: <20250614103700.0be60115@kernel.org>
+References: <cover.1749891128.git.mchehab+huawei@kernel.org>
+	<ba75692b90bf7aa512772ca775fde4c4688d7e03.1749891128.git.mchehab+huawei@kernel.org>
+	<CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
+	<20250614173235.7374027a@foz.lan>
+	<20250614103700.0be60115@kernel.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 14 Jun 2025 20:05:38 +0200
-Message-Id: <DAMGEMZF6UC9.1YB4QHDZIW5PS@kernel.org>
-Cc: <dakr@kernel.org>, <ojeda@kernel.org>, <rust-for-linux@vger.kernel.org>,
- <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-Subject: Re: [PATCH v4 1/3] rust: revocable: update write invariant and fix
- safety comments
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Marcelo Moreira" <marcelomoreira1905@gmail.com>
-X-Mailer: aerc 0.20.1
-References: <20250602232842.144304-1-marcelomoreira1905@gmail.com>
- <20250602232842.144304-2-marcelomoreira1905@gmail.com>
- <DAKFLKX7HS7W.29I8XUZP8L1KN@kernel.org>
- <CAPZ3m_hQF+ZHdfWTVZ3Z3dJoMu37Q8YcSecKi=fv1s3dw6UTSA@mail.gmail.com>
-In-Reply-To: <CAPZ3m_hQF+ZHdfWTVZ3Z3dJoMu37Q8YcSecKi=fv1s3dw6UTSA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu Jun 12, 2025 at 9:22 PM CEST, Marcelo Moreira wrote:
-> Em qui., 12 de jun. de 2025 =C3=A0s 06:02, Benno Lossin <lossin@kernel.or=
-g> escreveu:
->> On Tue Jun 3, 2025 at 1:26 AM CEST, Marcelo Moreira wrote:
->> > +            // and because this `PinnedDrop` context (having `&mut Se=
-lf`) guarantees exclusive access,
->> > +            // ensuring no other thread can concurrently access or re=
-voke `data`.
->> > +            // This ensures `data` is valid for `drop_in_place`.
->>
->> This last sentence is not needed. Instead, we should mention that since
->> this is a `drop` function, we're only called once, so it's fine to call
->> drop (since that also is only allowed to be called once).
->>
->
-> ok, I thought of something like:
->
-> // SAFETY: `self.data` is valid for writes because of `Self`'s type invar=
-iants.
-> // The `&mut Self` context guarantees exclusive access and a single
-> call to `drop`,
+Em Sat, 14 Jun 2025 10:37:00 -0700
+Jakub Kicinski <kuba@kernel.org> escreveu:
 
-Let's mention that no thread can access `data` *because* of the
-exclusive reference.
+> On Sat, 14 Jun 2025 17:32:35 +0200 Mauro Carvalho Chehab wrote:
+> > > > @@ -27314,6 +27315,7 @@ M:      Jakub Kicinski <kuba@kernel.org>
+> > > >  F:     Documentation/netlink/
+> > > >  F:     Documentation/userspace-api/netlink/intro-specs.rst
+> > > >  F:     Documentation/userspace-api/netlink/specs.rst
+> > > > +F:     scripts/lib/netlink_yml_parser.py
+> > > >  F:     tools/net/ynl/    
+> > 
+> > With regards to the location itself, as I said earlier, it is up to
+> > Jon and you to decide.
+> > 
+> > My preference is to have all Python libraries at the entire Kernel
+> > inside scripts/lib (or at some other common location), no matter where
+> > the caller Python command or in-kernel Sphinx extensions are located.  
+> 
+> I understand that from the PoV of ease of maintenance of the docs.
+> Is it fair to say there is a trade off here between ease of maintenance
+> for docs maintainers and encouraging people to integrate with kernel
+> docs in novel ways?
 
-> // making `self.data` valid for `drop_in_place`.
+Placing elsewhere won't make much difference from doc maintainers and
+developers.
 
-The part about drop should be separate. We usually use bullet points for
-that.
+I'm more interested on having a single place where python libraries
+could be placed. Eventually, some classes might be re-used in the future
+by multiple scripts and subsystems, when it makes sense, just like we do
+already with Kernel's kAPIs. This also helps when checking what is the
+Python's minimal version that are required by the Kernel when updating
+it at:
 
----
-Cheers,
-Benno
+	Documentation/process/changes.rst
+
+And writing patches documenting it like:
+
+	d2b239099cf0 ("docs: changes: update Sphinx minimal version to 3.4.3")
+	5e25b972a22b ("docs: changes: update Python minimal version")
+
+Properly setting the minimal Python version is important specially to
+check if the minimal version set at changes.rst is compatible with
+the Makefile build targets:
+
+	$ pip install --user vermin
+	...
+	$ vermin -v scripts/lib/
+	Detecting python files..
+	Analyzing 9 files using 24 processes..
+	!2, 3.6      /new_devel/v4l/docs/scripts/lib/abi/abi_parser.py
+	!2, 3.6      /new_devel/v4l/docs/scripts/lib/abi/abi_regex.py
+	~2, ~3       /new_devel/v4l/docs/scripts/lib/abi/helpers.py
+	!2, 3.6      /new_devel/v4l/docs/scripts/lib/abi/system_symbols.py
+	!2, 3.6      /new_devel/v4l/docs/scripts/lib/kdoc/kdoc_files.py
+	!2, 3.6      /new_devel/v4l/docs/scripts/lib/kdoc/kdoc_output.py
+	!2, 3.6      /new_devel/v4l/docs/scripts/lib/kdoc/kdoc_parser.py
+	2.3, 3.0     /new_devel/v4l/docs/scripts/lib/kdoc/kdoc_re.py
+	!2, 3.6      /new_devel/v4l/docs/scripts/lib/netlink_yml_parser.py
+
+	Tips:
+	- You're using potentially backported modules: argparse, typing
+	  If so, try using the following for better results: --backport argparse --backport typing
+	- Since '# novm' or '# novermin' weren't used, a speedup can be achieved using: --no-parse-comments
+	(disable using: --no-tips)
+
+	Minimum required versions: 3.6
+	Incompatible versions:     2
+
+Thanks,
+Mauro
