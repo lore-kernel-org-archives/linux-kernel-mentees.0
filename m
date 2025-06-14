@@ -1,77 +1,78 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C25186E2E
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 14 Jun 2025 09:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B9C17332C
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 14 Jun 2025 10:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749893608; cv=none; b=D3ldCTx52YLj/Hax3lGtE2p9j9e5dhU2YWFb0sI06oQX6htTPWMfzX+1lnr8yNXEs29HUYL9CrXIR8WUdl5RrFc+VcARjrZg+h40fkBry+12zAlGiMLqmsVPfiizX7qzDv5fDLIazid1vp6ireGBSvCJ7HACq2JcuFomWxTokZA=
+	t=1749897443; cv=none; b=WcxLWn15rtMPBpMe1sIYITsGAYxwpmLQIu2uWZHYPSDWSKNFcQQon4wb+DC2k9E9vUj9H5cK0EDaOCuuU19cTdCmBZDGPlCJ92TUk8NdOCgiWuqx/As5iEn8f7H2lZj0M6foZzaeI8TM/Z1VdUCgbUwjWP4f1iwFbkYRTiBv/Z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749893608; c=relaxed/simple;
-	bh=jqiRf5jpsYfPahTWJgkrFQNqWCksHEG0UZ4QVuvztrQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CGjh+S3EAWDuGoDOzHu4erUm3xFUzEy/9moQigFRA/+Fgqsn9qexaxWWye7rM+egiFHcMjr5S7U/llpS0UB2xf4xIA0+T4SHijmiaNckb4flQEJVr1jCKJ1bktQyW31JzGKKppaZ61fdv9bcYdtZAamrj3X7xdjWaiq96N/kgdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WkkXz4QG; arc=none smtp.client-ip=209.85.221.52
+	s=arc-20240116; t=1749897443; c=relaxed/simple;
+	bh=V7uu/VARavhUP6rwGCjJXOTwLAbvEiVz1O2YrqzoPZk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ieFLHfJTU8LBKvf3KeB9r5bJ9ZIMPzk7lf6MQivzWQvhVt27g2AxjYfdFhVN86s3jTC/zCWcg2grtpmOeG6JMoAm1QugveU/diHNR7AZckQ5pqs2ezQ9Vmjx+HODIVX9FS7oSDdDrN0G65ZuDgHSSKJVKl79OHM/5zEr2cB5i/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ClOFurx1; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WkkXz4QG"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a4ebbfb18fso293944f8f.3
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 14 Jun 2025 02:33:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ClOFurx1"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a4eed70f24so188314f8f.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 14 Jun 2025 03:37:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749893604; x=1750498404; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1749897440; x=1750502240; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TUaqaUgH0UpGeWeQjj9qkPhsCQex5dp5zI7Y8+I2rfg=;
-        b=WkkXz4QG6cdpNFtK0nDBVgM1sioqAEpj/IONLBrOPu5HxZkmMD4ZhxxnJVt7p7nohL
-         tDurzbSGwsoQ28Ss+maeNyE5yac84Xb9oOoBIqx6dydUkM07PiC/Wn5ikEvIayU/hmS4
-         yBngfyFvjxTPyCwbrUjDbVrOqeDMTxR1yaYR0pRBJMJZ3TtwQtOvCKRK1qaoxalVZNnE
-         qE8AJLDQS32MAusJsEq1vSFfZRVu4hN/V+qAuW0bkEgrZtHc4HF1FW53lf0nSlB+4oMj
-         ZGEC7aS3icIITBeEgEyCaThXN5lIae5nqmHXQVCNeiTuCpBrmaPoL6clRToI9zuJoUF1
-         sEBw==
+        bh=PLl1qEEwnvWsAvy9J8JIB4fScmcygAgIc7ADndq+ADY=;
+        b=ClOFurx18IezrG3IYeaJvg1c7QoLPubx27+6FRTfNw2PjDWUig9tZFSifcHW/8qxhW
+         41S7tUBvsvTL38PjIcAFpyq3EYz4caKUcGC84aSn507asA0tOWdHZKR+92RPfWuer//x
+         TfDMoEteqzfrSOxPdrQcGvjQoWUTN+2nrQSWAMjQ0YCljhI6+XSKoKK7cSjRjQ2G7nEJ
+         wcZ8MfWzjbLJ/SvV8rE2Z86cOFD5Ed86+uQYYIpgDoxMHkBDJ+jpcCoTDbd3nVUjvSdQ
+         z0TIZyK9I8t4djLGdtz5nsLZhcczzK5MlFn/emKG+zmqG7xtVH/BkQDSNnzyXCyUBH93
+         QXWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749893604; x=1750498404;
+        d=1e100.net; s=20230601; t=1749897440; x=1750502240;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TUaqaUgH0UpGeWeQjj9qkPhsCQex5dp5zI7Y8+I2rfg=;
-        b=wBSDdpS5yJsbYrO3hutI+6kk9z20BTMYDu7qXbAQDeCHIrU9hoXVrcU+60F6AUbJqy
-         jvbeZlbeHAbdDpZDp0yNi+C9W4a9Az6jIC4Ab+aXuA3pPR1yRzIED3mfnsiy2Gv+0yb3
-         ElngI30tYQ+Sf0o+Flia5xfb5dsFv2pWbYrcKPR17YwK5UsZ04P8Qu5zcqS9Gg+Pl2fe
-         jpNbJtCAwac1+y1Skd/fRWHt7lqgj4mJoretiIeIsMDcorX87PCjxd9/XkiIF0428bsX
-         ReE6pEIeI7U5YToyGmJkM9oIwPSabIwECm4yhkAiDYCgiDjmK4HV17t176YRwwOs0N8A
-         vPmw==
-X-Forwarded-Encrypted: i=1; AJvYcCVW/HJsrz3F5cgpV7qFQuAlkeBe9pJC4rWHrriWfgCT43P6wdU64FT4vetFe01XVzDtuN+wDSZXbuinlG+UnEem8DRddw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxD3hK+F1VjheSHbNs1a8ccKmsW4U/S0JWJgzgJs7qB/PyY+Flu
-	WmCzuYrhvtj75NXE9+Sn/BNj8LC9KJu3ukv8J+NoPD4NoOx1eJANUfFt
-X-Gm-Gg: ASbGncvpLkvgyq1XEgGQNkmmngRTyjaSKUWV9RaWxUb8YV0sPJHMaoM8z2wOqM/G5H3
-	b1rfocspP1HMsU+vefqjWhI6nnlk3R8HriQPbB8yjbCSZTBOAOAYVmC5mlM8Jfns4Kx7SfJrJ8E
-	JFshPjZ6nSCpRHOdFylZjMHETv85Il7Z6rUi0GNPS3vkmnuiEQthvGUnQ0uk71hKHesA6reV1KB
-	CkxwwfnBjqrO1P/CVtVSpgslJwDWyaPk7qYdFaZvgT7XILEZ3aZwCFqpztFJhhQRafCdxLoehav
-	V+tpfbFXvyUhDzW2OsjE2ff3SAcP2Bk/Xq0DVtm8webYuROsMn05FcR0UIL8eUCUzaBcaKevrJ5
-	h/hRDwaUCFr5HobtGLyDOgiw=
-X-Google-Smtp-Source: AGHT+IHJrX1wpdGZCfj8uCpLbwDScjIUQkTycHTtdero5rVtXihT250rUm65T5ZgeEzHzxqe+XC6Zg==
-X-Received: by 2002:a05:6000:4211:b0:3a5:324a:89b5 with SMTP id ffacd0b85a97d-3a57238353emr927568f8f.8.1749893604029;
-        Sat, 14 Jun 2025 02:33:24 -0700 (PDT)
+        bh=PLl1qEEwnvWsAvy9J8JIB4fScmcygAgIc7ADndq+ADY=;
+        b=m6S0QxCSiKWZlaWPHNoL375/UPevveQmNg+rOpNFVEMqeDyQEPN9+jLrAnydts6u/4
+         rURQO0Gm5OG0BT2ozF1qUWpsLdWd93gltSUprvcvs+Ic8VfG9JIwQwneSZSncsAmX9n+
+         nZtJRQMIxBehyK3fuqtObKrl4s9NAPj0C26nzpZb0FJCIh0yROahM51gjLFEiBoIa29Q
+         MvUvg5LGZg57lZGs5NoApNdBfQ/mzeJ04SSB+nShuiUkaK5PYHoTtSRha/7Lad81iBGu
+         t3wWiwjp+IEPFwW/6qW+IiJTY67P/8HFwMvTauwJlep2GCCwUqrHuNRHRYyM335F448f
+         CXmg==
+X-Forwarded-Encrypted: i=1; AJvYcCVxhTSZpKunH6UbJWB4ZmUxzYIYu3DUj666z2QrigqsYf091V7hslQJFEhLQ1bDgf5StOsR2ofNUn3j+D20HVY9mZU/Ig==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz4jFqE10qRnpMffmbbpAlDVmZRZjlZYrKjMzQFZC6yX5ia0uGn
+	duxm8Q+jHMtbwWcGEUrdnBc/dDMm1LIbaXzJb2Hu3J0R5lAqvWa8Yu8Q
+X-Gm-Gg: ASbGncs5IY1Nnrlng0RaGcS4UmvKbQ2OIqT8TzqGAOZc+KuP+f1k4CH2hRrImFPze4J
+	Ylryp2cuzn3WeyG/x21wL3pHWXlK2IuyT9/LDe6cZWXy9JQlcsLgDadhsx28kaPVoqAv969afCG
+	fIFMp71B0f1saXPi5gR9PdIXq8DchUI+iGvGnmVPagrfoGI70Iue1Gb36DaCe11v5wgeHsF+cTH
+	0rwfEXVXcjjBtnmM8ZqyuU3f4v09Alid0dLimtk5E5Zal2tj1saLuQRQ7ZG5eXuYT/w2gLqf0vI
+	l0dq2me8aA9q9ZHq21A+tOCo6aFHnnf05yrkEglzTShwyw/a81+AKg1UOW1TvzuaVA940/lHmne
+	u8PbqspqcbrDyrpCm1DJCEK+0hz4OCzKHOw==
+X-Google-Smtp-Source: AGHT+IEO2WJsG7rm3hmH9d2SJMbbIL0GVTNr61YBvUZhyy9Qp55TsFSXVuwBOr+Ocv8M12TzoBRQiA==
+X-Received: by 2002:a05:6000:2f84:b0:3a5:2ee8:ee1d with SMTP id ffacd0b85a97d-3a572e99672mr881171f8f.16.1749897439458;
+        Sat, 14 Jun 2025 03:37:19 -0700 (PDT)
 Received: from localhost.localdomain ([154.182.223.70])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e256d95sm77332165e9.31.2025.06.14.02.33.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e24420csm78091745e9.20.2025.06.14.03.37.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Jun 2025 02:33:23 -0700 (PDT)
+        Sat, 14 Jun 2025 03:37:18 -0700 (PDT)
 From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: corbet@lwn.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	horms@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
+To: harry.wentland@amd.com,
+	sunpeng.li@amd.com,
+	siqueira@igalia.com,
+	alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	airlied@gmail.com,
+	simona@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
 	skhan@linuxfoundation.com,
 	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH v2 1/2] docs: net: sysctl documentation cleanup
-Date: Sat, 14 Jun 2025 12:33:06 +0300
-Message-Id: <20250614093306.66542-1-abdelrahmanfekry375@gmail.com>
+Subject: [PATCH] drm/amd/display: Add kernel-doc for mpc_funcs.mcm and rmcm
+Date: Sat, 14 Jun 2025 13:37:09 +0300
+Message-Id: <20250614103709.72045-1-abdelrahmanfekry375@gmail.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -81,193 +82,50 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Changes in v2:
-- Deleted space before colon for consistency
-- Standardized more boolean representation (0/1 with enabled/disabled)
+This patch fixes documentation build warnings:
+- WARNING: ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:1068 
+struct member 'mcm' not described in 'mpc_funcs'
+- WARNING: ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:1068
+struct member 'rmcm' not described in 'mpc_funcs'
 
 Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
 ---
- Documentation/networking/ip-sysctl.rst | 47 ++++++++++++++++++++------
- 1 file changed, 37 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 0f1251cce314..68778532faa5 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -8,14 +8,16 @@ IP Sysctl
- ==============================
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+index 6e303b81bfb0..ac2957c9fdd2 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+@@ -1038,6 +1038,16 @@ struct mpc_funcs {
+ 	*/
+ 	void (*program_3dlut_size)(struct mpc *mpc, bool is_17x17x17, int mpcc_id);
  
- ip_forward - BOOLEAN
--	- 0 - disabled (default)
--	- not 0 - enabled
-+	- 0 (disabled)
-+	- not 0 (enabled)
++     /**
++	* @mcm: Multi-Channel Mode configuration operations
++	*
++	* Contains functions for programming Multi-Channel Mode features:
++	* - 3D LUT sizing
++	* - Bias/scale programming
++	* - Bit depth configuration
++	* - LUT read/write control
++	* - LUT population
++	*/
+ 	struct {
+ 		void (*program_3dlut_size)(struct mpc *mpc, uint32_t width, int mpcc_id);
+ 		void (*program_bias_scale)(struct mpc *mpc, uint16_t bias, uint16_t scale, int mpcc_id);
+@@ -1050,6 +1060,11 @@ struct mpc_funcs {
+ 			bool lut_bank_a, int mpcc_id);
+ 	} mcm;
  
- 	Forward Packets between interfaces.
- 
- 	This variable is special, its change resets all configuration
- 	parameters to their default state (RFC1122 for hosts, RFC1812
- 	for routers)
-+
-+	Default: 0 (disabled)
- 
- ip_default_ttl - INTEGER
- 	Default value of TTL field (Time To Live) for outgoing (but not
-@@ -75,7 +77,7 @@ fwmark_reflect - BOOLEAN
- 	If unset, these packets have a fwmark of zero. If set, they have the
- 	fwmark of the packet they are replying to.
- 
--	Default: 0
-+	Default: 0 (disabled)
- 
- fib_multipath_use_neigh - BOOLEAN
- 	Use status of existing neighbor entry when determining nexthop for
-@@ -368,7 +370,7 @@ tcp_autocorking - BOOLEAN
- 	queue. Applications can still use TCP_CORK for optimal behavior
- 	when they know how/when to uncork their sockets.
- 
--	Default : 1
-+	Default: 1 (enabled)
- 
- tcp_available_congestion_control - STRING
- 	Shows the available congestion control choices that are registered.
-@@ -407,6 +409,12 @@ tcp_congestion_control - STRING
- 
- tcp_dsack - BOOLEAN
- 	Allows TCP to send "duplicate" SACKs.
-+
-+	Possible values:
-+		- 0 (disabled)
-+		- 1 (enabled)
-+
-+	Default: 1 (enabled)
- 
- tcp_early_retrans - INTEGER
- 	Tail loss probe (TLP) converts RTOs occurring due to tail
-@@ -623,6 +631,8 @@ tcp_no_metrics_save - BOOLEAN
- 	increases overall performance, but may sometimes cause performance
- 	degradation.  If set, TCP will not cache metrics on closing
- 	connections.
-+
-+	Default: 0 (disabled)
- 
- tcp_no_ssthresh_metrics_save - BOOLEAN
- 	Controls whether TCP saves ssthresh metrics in the route cache.
-@@ -684,6 +694,8 @@ tcp_retrans_collapse - BOOLEAN
- 	Bug-to-bug compatibility with some broken printers.
- 	On retransmit try to send bigger packets to work around bugs in
- 	certain TCP stacks.
-+
-+	Default: 1 (enabled)
- 
- tcp_retries1 - INTEGER
- 	This value influences the time, after which TCP decides, that
-@@ -739,6 +751,8 @@ tcp_rmem - vector of 3 INTEGERs: min, default, max
- 
- tcp_sack - BOOLEAN
- 	Enable select acknowledgments (SACKS).
-+
-+	Default: 1 (enabled)
- 
- tcp_comp_sack_delay_ns - LONG INTEGER
- 	TCP tries to reduce number of SACK sent, using a timer
-@@ -766,7 +780,7 @@ tcp_backlog_ack_defer - BOOLEAN
- 	one ACK for the whole queue. This helps to avoid potential
- 	long latencies at end of a TCP socket syscall.
- 
--	Default : true
-+	Default: 1 (enabled)
- 
- tcp_slow_start_after_idle - BOOLEAN
- 	If set, provide RFC2861 behavior and time out the congestion
-@@ -781,7 +795,7 @@ tcp_stdurg - BOOLEAN
- 	Most hosts use the older BSD interpretation, so if you turn this on
- 	Linux might not communicate correctly with them.
- 
--	Default: FALSE
-+	Default: 0 (disabled)
- 
- tcp_synack_retries - INTEGER
- 	Number of times SYNACKs for a passive TCP connection attempt will
-@@ -1018,6 +1032,10 @@ tcp_tw_reuse_delay - UNSIGNED INTEGER
- 
- tcp_window_scaling - BOOLEAN
- 	Enable window scaling as defined in RFC1323.
-+	- 0 (disabled)
-+	- 1 (enabled)
-+
-+	Default: 1 (enabled)
- 
- tcp_shrink_window - BOOLEAN
- 	This changes how the TCP receive window is calculated.
-@@ -1160,7 +1178,7 @@ tcp_plb_enabled - BOOLEAN
- 	congestion measure (e.g. ce_ratio). PLB needs a congestion measure to
- 	make repathing decisions.
- 
--	Default: FALSE
-+	Default: 0 (disabled)
- 
- tcp_plb_idle_rehash_rounds - INTEGER
- 	Number of consecutive congested rounds (RTT) seen after which
-@@ -1352,7 +1370,7 @@ cipso_rbm_optfmt - BOOLEAN
- 
- 	Default: 0
- 
--cipso_rbm_structvalid - BOOLEAN
-+cipso_rbm_strictvalid - BOOLEAN
- 	If set, do a very strict check of the CIPSO option when
- 	ip_options_compile() is called.  If unset, relax the checks done during
- 	ip_options_compile().  Either way is "safe" as errors are caught else
-@@ -1543,7 +1561,7 @@ icmp_ignore_bogus_error_responses - BOOLEAN
- 	If this is set to TRUE, the kernel will not give such warnings, which
- 	will avoid log file clutter.
- 
--	Default: 1
-+	Default: 1 (enabled)
- 
- icmp_errors_use_inbound_ifaddr - BOOLEAN
- 
-@@ -1560,7 +1578,7 @@ icmp_errors_use_inbound_ifaddr - BOOLEAN
- 	then the primary address of the first non-loopback interface that
- 	has one will be used regardless of this setting.
- 
--	Default: 0
-+	Default: 0 (disabled)
- 
- igmp_max_memberships - INTEGER
- 	Change the maximum number of multicast groups we can subscribe to.
-@@ -1933,10 +1951,15 @@ mcast_resolicit - INTEGER
- 
- disable_policy - BOOLEAN
- 	Disable IPSEC policy (SPD) for this interface
-+
-+	Default: 0
-+
- 
- disable_xfrm - BOOLEAN
- 	Disable IPSEC encryption on this interface, whatever the policy
- 
-+	Default: 0
-+
- igmpv2_unsolicited_report_interval - INTEGER
- 	The interval in milliseconds in which the next unsolicited
- 	IGMPv1 or IGMPv2 report retransmit will take place.
-@@ -1951,11 +1974,15 @@ igmpv3_unsolicited_report_interval - INTEGER
- 
- ignore_routes_with_linkdown - BOOLEAN
-         Ignore routes whose link is down when performing a FIB lookup.
-+
-+        Default: 0 (disabled)
- 
- promote_secondaries - BOOLEAN
- 	When a primary IP address is removed from this interface
- 	promote a corresponding secondary IP address instead of
- 	removing all the corresponding secondary IP addresses.
-+
-+	Default: 0 (disabled)
- 
- drop_unicast_in_l2_multicast - BOOLEAN
- 	Drop any unicast IP packets that are received in link-layer
++     /**
++	* @rmcm: Remove Multi-Channel Mode configuration operations
++	*
++	* Contains functions for removing or resetting Multi-Channel Mode features
++	*/
+ 	struct {
+ 		void (*enable_3dlut_fl)(struct mpc *mpc, bool enable, int mpcc_id);
+ 		void (*update_3dlut_fast_load_select)(struct mpc *mpc, int mpcc_id, int hubp_idx);
 -- 
 2.25.1
 
