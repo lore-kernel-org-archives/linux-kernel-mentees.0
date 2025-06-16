@@ -1,118 +1,91 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12751C6FE5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 16 Jun 2025 07:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C751DDC0F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 16 Jun 2025 09:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750058776; cv=none; b=trAjwLRibQW6IE4bbohZ62zi3OuWNO6EhL7oKz1szf9Pj7SD/vP8LzAYTak9SPZ4iW+sYbpLMiTj/DnC3elOPK0kI/HlTGGVfyklstOQJtf5et0W6RACsSlStES0qUocxQc8FXvxfKGlItIHApGO9AxDd2G9ti4eptlBcI0HXKg=
+	t=1750065457; cv=none; b=SRhtAYvAopW6HUQ/w95/LpUqVGrjfKW0yqNAH07vG82oYzjKrLggNyyXUKpD3xjFxfVvzhMheRvliPLu4KPzi445rw7VXpR22hgsOYGC5sxyO75NpYyut0cs1jU2pwMToKkn1hIBA/tSbfJ80yN0wt+VWNEFyJAsSl7kEmEghv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750058776; c=relaxed/simple;
-	bh=mJYitqaIgu00nPVFj7JM9/H2NYxDQSw81n3Uo6DjgQY=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=Meq5HSuwdjTBebHgBQS275LJ7hoD8OW1/D1AQgbgLN/Onq0l6EnHKUv8qivyowaRFQ8XYh2cZn9Glpmm47Cr6QYpXYB4chMV+D4X7rV1EXM1kPEEqfnpzV2mK+6Yo/RXokpHyRZ399/1hBds681IdAd7kjek5+irni+ZdiF+le0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DObvbq2q; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1750065457; c=relaxed/simple;
+	bh=JWZrSlYHDkFAJCg8PmG33o9HsHzGP5MCt7w7d3F9CZY=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tviuNUN/2B4m751PV79xo4r6EbV/OEh5jGTyg3blB9VjciNm95YOi6hzL4SCyPRhvHkL55K353YW3mXiQwr1N9WvJro9NE8PlBIS70ASTc6IbeJt1mJfOqcz5WCqppzq61w4QjG7fQYqwS2tmI6WbMdOtGsihbO79FfeAUDBBFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=I/YlVLFI; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DObvbq2q"
+	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="I/YlVLFI"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3ABCC403F9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 16 Jun 2025 07:26:15 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6D282606BA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 16 Jun 2025 09:17:35 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -0.203
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Ntk1qbnGUsVm for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Jun 2025 07:26:14 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::336; helo=mail-ot1-x336.google.com; envelope-from=seokwoo.chung130@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 955AD40386
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 955AD40386
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DObvbq2q
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 955AD40386
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 16 Jun 2025 07:26:14 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id 46e09a7af769-72c40235c34so1000438a34.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 16 Jun 2025 00:26:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750058773; x=1750663573; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mJYitqaIgu00nPVFj7JM9/H2NYxDQSw81n3Uo6DjgQY=;
-        b=DObvbq2qgbeSobY9pCJoF59/q+Dr8MAaJdOA+oVpH+qc7eiQmfbW/8Fo60CeX/gKFd
-         68J7K3QwZ0F+wq8V/lBEpwM5z8LAe17Su7Rq1lmbgKF3MFiLV9hhoZdsRuMCdJMf+T58
-         N01bT7UZecZwWe3dhescWGyGTdkLTnvIqEeKfOXdnWhxEVEeyS9rDxXK/8kt+HSadJnu
-         eo4/m1pQT/87Y4PopNrJ83SYNvYzDbNBA80bE2UL/osjHvFKxueR06pjIS7EP7DL8KNA
-         WF3WSDQVlmUWgYmNQfrsROFJcoRbChYjmj8H5XJ1mSiUOz9T0KixVc+Ouv9oAUyV+Vik
-         zlyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750058773; x=1750663573;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mJYitqaIgu00nPVFj7JM9/H2NYxDQSw81n3Uo6DjgQY=;
-        b=Iidi5CsIg3yxujdIfK8gqjpw17xi9P5d8g1ExO5NwJgsOxBcVv+/QKnug+GRs0+PFn
-         jnq28PnbExbok61kKI6mhzxaKnd/y7uk7mmtPFFeig1G/40E5AmWoO4QmT4Ng9gKG9yq
-         OlCB0byaYcDfFgeXttCh5ZSDCNzqTSY4U9tBA24TbFIFila7+o5AN5QB9/XAs/SZHO7O
-         gkWhh4pjUijF0unnH1kr0GdWRV8CwHZ4QHD97afNTXGAL2isL7d78CHqSlTLwNK6DbKq
-         YR287GR13vuqYEmiHlsVnjbip19/OEuE/liTjFJpZ3mMzhL5LGcNPjSDGcCkvVoqrf1z
-         D4Ow==
-X-Gm-Message-State: AOJu0Yxdf059+j8YIumUEEDBOCRuOnKFnlyscQvvUCITwXNmXrjFl2rA
-	hi8skOJuahoGZ5htYcaRG423cO+EF3e4bPPYSJpJAL9StjC83QLkZspNynX+rcQnUNb5TlISjay
-	z4TYFAL9T7IOzUO24JmtMuqhTURfY4QKRlw29l54=
-X-Gm-Gg: ASbGncuZWH272lsbr6EwTdauNfoz4RIT3YporxmPLpDqcUKCUdsMJTjFzICmiaqZIlB
-	tsgtdf3sH6WnzD5Lzxu4nMNKr8kHEO1C9hxnHCVgTmiMNsP2lnbc4/M5BeNlou6+eQUz4FahAsu
-	jEjk084O1wxUBQzYGC65mk6rs8YssdcWZy5mWxsd2D6bF/kw==
-X-Google-Smtp-Source: AGHT+IEzqLDpYCYICbqkpjUMi/HK1TVlIAyEQ+6YgadwJY6J50g6HR5GVX3qXVz5blGaCWN9UjXxo0dtZ9rXUyRZQ0U=
-X-Received: by 2002:a05:6870:d0d5:b0:2d5:2955:aa6a with SMTP id
- 586e51a60fabf-2eaf0830607mr4405427fac.7.1750058773144; Mon, 16 Jun 2025
- 00:26:13 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id h-CdnLPrzWrl for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 16 Jun 2025 09:17:35 +0000 (UTC)
+X-Greylist: delayed 1318 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 16 Jun 2025 09:17:34 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org B680A605AA
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B680A605AA
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=sipsolutions.net header.i=@sipsolutions.net header.a=rsa-sha256 header.s=mail header.b=I/YlVLFI
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a01:4f8:242:246e::2; helo=sipsolutions.net; envelope-from=johannes@sipsolutions.net; receiver=<UNKNOWN> 
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:242:246e::2])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B680A605AA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 16 Jun 2025 09:17:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:To:From:Subject:Message-ID:Sender:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=JWZrSlYHDkFAJCg8PmG33o9HsHzGP5MCt7w7d3F9CZY=;
+	t=1750065454; x=1751275054; b=I/YlVLFINMmoayE6yZ0rENRZ74ElFMWf6dytK1UYYH3hhRc
+	s7iMwSTHeKOUT10LccDIWMzPGZTGk3Vs0dnc61DKtiQLNhWrz4H/zxdb+A8Oug9/Q6fx2GURZtDr7
+	SdUkY4iOWaG1yKhW9qTL6jYe7w4d1LFtxP89B5COb2d7Py4xUPBr8zqN9mjOZJwMu80QeTTaQumkR
+	+eAXblKK1KhnDSxDuq1EtR5RgJFMdBvE+zaRinXP/ubG+36drUDH4D+d239UvbEnQon5rl8t+WsSP
+	ZQG80S9DsCthelD+Ls0A3a6Ns2Ztxn97/sjJydiRqSBaOKKZvtJkIvdI4lGgmc2w==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.98.2)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1uR5cp-0000000Byso-3xEU;
+	Mon, 16 Jun 2025 10:55:32 +0200
+Message-ID: <138684ee550d027a96d7b9d515b84921637eae57.camel@sipsolutions.net>
+Subject: Re: [BUG] wifi: iwlwifi driver does not detect the card in Linux
+ 6.16
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Ryan Chung <seokwoo.chung130@gmail.com>, 
+	linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-wireless@vger.kernel.org
+Date: Mon, 16 Jun 2025 10:55:31 +0200
+In-Reply-To: <CAB1jyqw5RzeC4bT0oXEZ4fC2hcLj65sokW8gt=bp6=1d511D_g@mail.gmail.com>
+References: 
+	<CAB1jyqw5RzeC4bT0oXEZ4fC2hcLj65sokW8gt=bp6=1d511D_g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Ryan Chung <seokwoo.chung130@gmail.com>
-Date: Mon, 16 Jun 2025 16:26:00 +0900
-X-Gm-Features: AX0GCFuDEOd-JI1oJ4C24zpNfUEjByFoC1Zs46UDTWDwisOyNfNWyli6GVjuo7o
-Message-ID: <CAB1jyqw5RzeC4bT0oXEZ4fC2hcLj65sokW8gt=bp6=1d511D_g@mail.gmail.com>
-Subject: [BUG] wifi: iwlwifi driver does not detect the card in Linux 6.16
-To: linux-kernel-mentees@lists.linuxfoundation.org, 
-	linux-wireless@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-malware-bazaar: not-scanned
 
-Hi. I have been trying to build the mainline on my laptop and have
-been facing a weird issue. I have been able to use WIFI on my
-linux-6.11.0-25-generic on my Ubuntu 24.04. However, on my newest
-build (linux-6.16.0-rc1), I can't use my WIFI. Secure boot is off.
+On Mon, 2025-06-16 at 16:26 +0900, Ryan Chung wrote:
+> I also checked the bottom configs and they seemed to be set correctly.
+> CONFIG_IWLWIFI=3Dm
+> CONFIG_IWLMVM=3Dm
+>=20
+> Below are some additional information:
+> - Network controller [0280]: Intel Corporation Device [8086:a840] (rev 10=
+)
+> - I was able to find my card (A840/00E4) in drv.c
 
-I have realized that kernels built with 'make defconfig' would simply
-not boot up after adding to grub. Therefore, I copied the .config from
-the generic and changed the following two configs:
+There's a bug with the recognition of these devices, please set
+CONFIG_IWLMLD as a workaround for now.
 
-CONFIG_SYSTEM_ TRUSTED KEYS=3D=E2=80=9D=E2=80=9D
-CONFIG_SYSTEM_REVOCATION_KEYS=3D""
+We'll also have a patch to fix this, but looks like it's not on the way
+yet.
 
-They initially required .pem files, but the original .config will not
-compile as it created errors and were therefore modified.
-
-I also checked the bottom configs and they seemed to be set correctly.
-CONFIG_IWLWIFI=3Dm
-CONFIG_IWLMVM=3Dm
-
-Below are some additional information:
-- Network controller [0280]: Intel Corporation Device [8086:a840] (rev 10)
-- I was able to find my card (A840/00E4) in drv.c
-- When running 'lspci -nnk | grep -iA3 network', iwlwifi is NOT listed
-as a kernel driver.
-- Running 'sudo modprobe iwlwifi' does work
-
-Please let me know if there are ways to fix the issue. If given the
-guidance, I would be glad to work on it and write the necessary
-patches. Thank you.
-
-Best regards,
-Ryan Chung
+johannes
