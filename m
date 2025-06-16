@@ -1,228 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D05295D8F;
-	Mon, 16 Jun 2025 10:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73D1295D8F;
+	Mon, 16 Jun 2025 10:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750071075; cv=none; b=gikmnZw6IksytBQTSS5leXZXVVIZ0mKZR3WoMMfScBGVbD+UcOOkxVZeQDqweQXKVgtvyhnaIopPFZ86D3lpDOiA1j2HPw8CI9uUgWskOvAiMzmsgqpIfxmaqJQu6pPw1EIxvig6XeR250IgdgtJfcaF6zswLMtTxrdyjUmONaA=
+	t=1750071401; cv=none; b=hU5FpjiCA+WCpEXnuM8BZ+SYJ/W91ehWLVltzG3gv74Q/M1TJKNsKZBwFG96saePSKOf97Tz9q/8ATX0V9r04Jhyw/UrbXe+K0sY9ooHKtztkF2zKslB7oygdp3t7Bsftdfijij5yhv8c9WlRrLWMh6a5tYLQWQ1woLtr02NCrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750071075; c=relaxed/simple;
-	bh=WaQAp1hhm2gKAeY2p2nZTgu1+jygTwVGUhSeNAqM2RQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gCZPgvnLJ1D0MPMVBZNnf28xUrcnOqziQxNfZZqbn0Ts6V4UiCpzcEHDe6TP37DjcKeGlXJ727dJOG3n9i91OWuzsdMgogHr4Oj4AD/ESxHmuEMZ4yVt4b4dB9lB+nEclJrNU1iVIAGeM7+UpTeicU0sZRvPaFUjE4LPWN0lZ4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BJUk/Ui9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750071401; c=relaxed/simple;
+	bh=CkOxFf7EE54QiWk3H3djGE1kHgl8sxStzqzBqhoUAzc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=POEXpeGJVVjpXRADKolhZiIEBRJxevfm2KQv8OLpWdeNWl/ZkQv6HtYtJ49qM9nevOrcnToIeBk4nEJoZjSReDwfC5r0UppwqQ3GC+kCsgPQifDjin6y/wgQXL+NrAnBLrltJhvaQh6AOo2eTqshGNyQF39snXPw4WLtoEzC3W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZpeT2GwD; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BJUk/Ui9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 744D5C4CEF1;
-	Mon, 16 Jun 2025 10:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750071073;
-	bh=WaQAp1hhm2gKAeY2p2nZTgu1+jygTwVGUhSeNAqM2RQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BJUk/Ui9lefM/bDm0RZwP71Ccys+RiIcirvbkyHC2lIfyWHo8zRYLNdFHrIpjdAqO
-	 c93QasgHPhoURjWaivuDm5HgOv8CIV+StPUP/MGmaGb9r6DvV9MiJPo8GjUkIjQU4I
-	 k87jG2OwBsCMEk0QAaNB1A/ryl2t+CWHsVv2ujj79HrEp1Xpifn5AqsJ3zrx1a5THl
-	 PNWJShMVwyk9yo0VTvXPUlt6WlGBZMeW6torR1uYzgbWDyI1pgb2xcFqjg5qwGSxue
-	 ZayjqOhpLfwP9diAiya5uA0TXsTsqetkpdolFrk2DF2P/DOvF3kwftOvUS2IHFzGLZ
-	 l05YHL9Rpgb0w==
-Date: Mon, 16 Jun 2025 12:51:06 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, Akira
- Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Ignacio
- Encinas Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>,
- Marco Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
- Wauters <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu
-Subject: Re: [PATCH v4 12/14] MAINTAINERS: add maintainers for
- netlink_yml_parser.py
-Message-ID: <20250616125106.5d7fd18f@foz.lan>
-In-Reply-To: <20250614124649.2c41407c@kernel.org>
-References: <cover.1749891128.git.mchehab+huawei@kernel.org>
-	<ba75692b90bf7aa512772ca775fde4c4688d7e03.1749891128.git.mchehab+huawei@kernel.org>
-	<CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
-	<20250614173235.7374027a@foz.lan>
-	<20250614103700.0be60115@kernel.org>
-	<20250614205609.50e7c3ad@foz.lan>
-	<20250614124649.2c41407c@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZpeT2GwD"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-235e1d710d8so52254075ad.1;
+        Mon, 16 Jun 2025 03:56:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750071397; x=1750676197; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BdDBWycVFIVV412Xw0TdxhPfgA72SVqwCO00BmRsjEc=;
+        b=ZpeT2GwD/XDWEdmVPftY2tG2qEOrwo8ocg700C5Oe7FfAwGdCry3KcZW0GpyHMAtLc
+         Ck0aluBz1XDy+ewNromacsunGThgTnPsP41lyor5NIACb8jnXVH/sZq4fV0RQswEPGKN
+         GcxPWkrM2ytA+A2fZPz3SUIA9fNgo02EI/CFwMxF7CdtgVWHfKUM1OEiOdWev4fJqgB5
+         P//hHJngCwpnohSDQsypZe8j8avfzBYfp/onxZwO12D6d/+QcRUO6yxVrOqDhaAOkKS8
+         7/63RKPlhERbjbVIO9kKez3wjqbrI6VbA9dSx8PvXAmOztCjcZfGsJgHrZMktSHsDBGP
+         PICQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750071397; x=1750676197;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BdDBWycVFIVV412Xw0TdxhPfgA72SVqwCO00BmRsjEc=;
+        b=mKs+Ea0S+1IFGQyHK1D9inqnEbtLKpMTfla2lsyZKbOpL0PNIdtpICg808VUQZ6J0x
+         oOoQ3c5DZFMbbmzDDloXPaCHmtUw9sgfqSa+NpqAgWe1BUA4ihFWX7psfdXXJ5oLXFyt
+         oTk2hN51s53PyoOkEDYFmPA/rFcGOQ9c68k21Ops2sJnxIKb2xbMi5uZtImfsjo9LDr0
+         H139s9BdCzmgGSEYTCvYQa3oAyz01pv6iHn718ZV1O7KvsdS4LgyrfnHmgW58xLQz5Mj
+         +YBwRAuEOlyJzZMw6r1Q5E3D1stXO4zCnOSlUZzBEddCzv5e+B4K8l3CRW/ZzID4z29N
+         3Qaw==
+X-Forwarded-Encrypted: i=1; AJvYcCU4Yg3/s4N694LiBJ7KRgMyBbPzTguuBtrYCk7NHZiwO+Wx8rustsF72iieNORY+MYwJ9jjkGTAl2am+yIhRI/yFH2xq0A=@lists.linux.dev, AJvYcCUrMsqnZb0OnKZIarTOo4vXf+9KB7swATcSGPYclIXQ/byA6bYoo3e2V7uQxneiUGiskpTX@lists.linux.dev
+X-Gm-Message-State: AOJu0YwciG+gn9kCL4/3LOaogBbVv80nIa3HM5bHiGBHzF23ppoNHajz
+	+VUf4AZ9T9InqlfzJNuCx7Aj0TyJjORnBJ/gybDT1ZPsZq+5qug/s/VkSXBmJASn
+X-Gm-Gg: ASbGncv0BDzBkVOePgDP+wDhRpZPlNwB5+9JbPDc3EzHSHBoo7IheQcA7fntTiB+vDz
+	ZlWmo4/mCzQd0FhnUtCee6A8deAcu6n3cQBewSRvhQAr6vMUiOGhgvhQnnyj690PIhuMTmTRVuM
+	6tt43pLiwDzGw3OdfkjJOQPOz50mUZIfw4Uesx/CDQ/UnSbC+MnwfuUX0uMuUay0Kx+ecyczKJi
+	nXwC0Yqw6LmYsLbT+yaJX8B9ouUcF9t7oFeQYvadxZlmixG/4Ft0vK7+EtkdAYPL/qShbzIU1pW
+	IYvT/lUeAF58bpvyjZLSfr6yV4VZAchzk6TxzsXJ7NU3tulgL4QkKN9BwgbSREFgRCTUFWTGJDa
+	8Uqw70Z71in40xjI/TA==
+X-Google-Smtp-Source: AGHT+IHbTcVdwxhdfcP798T6pP1VsYxzzYGaXdvIwkCmRvnp/SY1JJEv6fQ/wVRyxzqBhML+XIv4lg==
+X-Received: by 2002:a17:902:ce81:b0:234:f1ac:c036 with SMTP id d9443c01a7336-2366b40b7c2mr115347415ad.50.1750071396733;
+        Mon, 16 Jun 2025 03:56:36 -0700 (PDT)
+Received: from manjaro.domain.name ([2401:4900:1c68:884c:5800:7324:c411:408d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365deaaa15sm58456615ad.173.2025.06.16.03.56.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 03:56:36 -0700 (PDT)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: agruenba@redhat.com
+Cc: skhan@linuxfoundation.org,
+	gfs2@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH] fs/gfs2: use scnprintf() in show functions
+Date: Mon, 16 Jun 2025 16:26:26 +0530
+Message-ID: <20250616105626.372040-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Em Sat, 14 Jun 2025 12:46:49 -0700
-Jakub Kicinski <kuba@kernel.org> escreveu:
+Replace all snprintf() instances with scnprintf(). snprintf() returns
+the number of bytes that would have been written had there been enough
+space. For sysfs attributes, snprintf() should not be used with the
+show() method. Instead use scnprintf() which returns the number of bytes
+actually written.
 
-> On Sat, 14 Jun 2025 20:56:09 +0200 Mauro Carvalho Chehab wrote:
-> > > I understand that from the PoV of ease of maintenance of the docs.
-> > > Is it fair to say there is a trade off here between ease of maintenan=
-ce
-> > > for docs maintainers and encouraging people to integrate with kernel
-> > > docs in novel ways?   =20
-> >=20
-> > Placing elsewhere won't make much difference from doc maintainers and
-> > developers. =20
->=20
-> I must be missing your point. Clearly it makes a difference to Donald,
-> who is a maintainer of the docs in question.
-
-Heh, I was just saying that I missed your point ;-)
-
-See, you said that "there is a trade off here between ease of maintenance
-for docs maintainers and encouraging people to integrate with kernel
-docs in novel ways".
-
-I can't see how being easy/hard to maintain or even "integrate with
-kernel docs in novel ways" would be affected by the script location.
-
-Whatever it is located, there should be MAINTAINERS entries that would
-point to YAML and network maintainers maintainers:
-
-	$ ./scripts/get_maintainer.pl tools/net/ynl/pyynl/ynl_gen_rst.py --nogit -=
--nogit-blame --nogit-fallback
-	Donald Hunter <donald.hunter@gmail.com> (maintainer:YAML NETLINK (YNL))
-	Jakub Kicinski <kuba@kernel.org> (maintainer:YAML NETLINK (YNL))
-	"David S. Miller" <davem@davemloft.net> (maintainer:NETWORKING [GENERAL])
-	Eric Dumazet <edumazet@google.com> (maintainer:NETWORKING [GENERAL])
-	Paolo Abeni <pabeni@redhat.com> (maintainer:NETWORKING [GENERAL])
-	Simon Horman <horms@kernel.org> (reviewer:NETWORKING [GENERAL])
-	netdev@vger.kernel.org (open list:NETWORKING [GENERAL])
-	linux-kernel@vger.kernel.org (open list)
-	YAML NETLINK (YNL) status: Unknown
-
-	(do they all apply to YNL doc parser?)
-
-Plus having doc ML/Maintainer on it:
-
-	Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-
-So, at least the file called by the Sphinx class should be at the
-linux-doc entry at the maintainers' file.
-
-The rationale is that linux-doc and Jon should be c/c, just in case some=20
-change there might end causing build issues using a version of the toolchain
-that is officially supported, as documented at
-Documentation/process/changes.rst, e.g. currently whatever it there is=20
-expected to be compatible with:
-
-	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-	        Program        Minimal version       Command to check the version
-	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-	...
-	Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-	...
-	Python (optional)      3.9.x            python3 --version
-	...
-
-
-This is independent if the YNL classes are either at scripts/lib
-or at tools/net/ynl/pyynl/lib.
-
->=20
-> > I'm more interested on having a single place where python libraries
-> > could be placed. =20
->=20
-> Me too, especially for selftests. But it's not clear to me that
-> scripts/ is the right location. I thought purely user space code
-> should live in tools/ and bulk of YNL is for user space.
-
-Several scripts under scripts/ are meant to run outside build
-time. One clear example is:
-
-	$ ./scripts/get_abi.py undefined
-
-That basically checks if the userspace sysfs API is properly
-documented, by reading the macine's sysfs node and comparing
-with the uAPI documentation. Such tool can also used to check if
-the ABI documentation Python classes are working as expected.
-
-So, it is a mix of kernel build time and userspace.
-
-There are also pure userspace tools like those two:
-
-	./scripts/get_dvb_firmware
-	./scripts/extract_xc3028.pl=09
-
-Both extract firmware files from some other OS and write as a
-Linux firmware file to be stored under /lib/firmware. They are
-userspace-only tools.
-
--
-
-=46rom my side, I don't care where Python classes would be placed,
-but I prefer having them on a single common place. It could be:
-
-	/scripts/lib
-	/tools/lib
-	/python/lib
-
-eventually with their own sub-directories on it, like what we have
-today:
-
-	${some_prefix}/kdoc
-	${some_prefix}/abi
-
-In the case of netlink, it could be:
-
-	${some_prefix}/netlink
-
-Yet, IMO, we should not have a different location for userspace
-and non-userspace, as it is very hard to draw the borders on several
-cases, like the ABI toolset.
-
-> > Eventually, some classes might be re-used in the future
-> > by multiple scripts and subsystems, when it makes sense, just like we do
-> > already with Kernel's kAPIs. This also helps when checking what is the
-> > Python's minimal version that are required by the Kernel when updating
-> > it at: =20
->=20
-> I think this is exactly the same point Donald is making, but from YNL
-> perspective. The hope is to share more code between the ReST generator,
-> the existing C generator and Python library. The later two are already
-> based on a shared spec model.
-
-That makes perfect sense to me. Yet, this doesn't preventing having
-a:
-
-	${some_prefix}/ynl
-
-directory where you would place Netlink YNL parsing, where the prefix
-would be either:
-
-	- /scripts/lib
-	- /tools/lib
-	- /python/lib
-	- something else
-
-It may even use some common classes under:
-
-	${some_prefix}/${some_common_prefix}
-
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
 ---
+ fs/gfs2/sys.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Now, seeing your comments, maybe the main point is wheather it is OK to=20
-add userspace libraries to scripts/lib or not. IMO, using "/scripts/lib"
-is OK, no matter if the script is kernel-build related or "pure userspace",
-but if there are no consensus, we could migrate what we have to
-"python/lib" or to some other place.
+diff --git a/fs/gfs2/sys.c b/fs/gfs2/sys.c
+index c3c8842920d2..25c1d71359ed 100644
+--- a/fs/gfs2/sys.c
++++ b/fs/gfs2/sys.c
+@@ -59,7 +59,7 @@ static struct kset *gfs2_kset;
+ 
+ static ssize_t id_show(struct gfs2_sbd *sdp, char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "%u:%u\n",
++	return scnprintf(buf, PAGE_SIZE, "%u:%u\n",
+ 			MAJOR(sdp->sd_vfs->s_dev), MINOR(sdp->sd_vfs->s_dev));
+ }
+ 
+@@ -68,7 +68,7 @@ static ssize_t status_show(struct gfs2_sbd *sdp, char *buf)
+ 	unsigned long f = sdp->sd_flags;
+ 	ssize_t s;
+ 
+-	s = snprintf(buf, PAGE_SIZE,
++	s = scnprintf(buf, PAGE_SIZE,
+ 		     "Journal Checked:          %d\n"
+ 		     "Journal Live:             %d\n"
+ 		     "Journal ID:               %d\n"
+@@ -140,7 +140,7 @@ static ssize_t status_show(struct gfs2_sbd *sdp, char *buf)
+ 
+ static ssize_t fsname_show(struct gfs2_sbd *sdp, char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "%s\n", sdp->sd_fsname);
++	return scnprintf(buf, PAGE_SIZE, "%s\n", sdp->sd_fsname);
+ }
+ 
+ static ssize_t uuid_show(struct gfs2_sbd *sdp, char *buf)
+@@ -150,7 +150,7 @@ static ssize_t uuid_show(struct gfs2_sbd *sdp, char *buf)
+ 	buf[0] = '\0';
+ 	if (uuid_is_null(&s->s_uuid))
+ 		return 0;
+-	return snprintf(buf, PAGE_SIZE, "%pUB\n", &s->s_uuid);
++	return scnprintf(buf, PAGE_SIZE, "%pUB\n", &s->s_uuid);
+ }
+ 
+ static ssize_t freeze_show(struct gfs2_sbd *sdp, char *buf)
+@@ -158,7 +158,7 @@ static ssize_t freeze_show(struct gfs2_sbd *sdp, char *buf)
+ 	struct super_block *sb = sdp->sd_vfs;
+ 	int frozen = (sb->s_writers.frozen == SB_UNFROZEN) ? 0 : 1;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", frozen);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", frozen);
+ }
+ 
+ static ssize_t freeze_store(struct gfs2_sbd *sdp, const char *buf, size_t len)
+@@ -194,7 +194,7 @@ static ssize_t freeze_store(struct gfs2_sbd *sdp, const char *buf, size_t len)
+ static ssize_t withdraw_show(struct gfs2_sbd *sdp, char *buf)
+ {
+ 	unsigned int b = gfs2_withdrawing_or_withdrawn(sdp);
+-	return snprintf(buf, PAGE_SIZE, "%u\n", b);
++	return scnprintf(buf, PAGE_SIZE, "%u\n", b);
+ }
+ 
+ static ssize_t withdraw_store(struct gfs2_sbd *sdp, const char *buf, size_t len)
+@@ -626,7 +626,7 @@ static struct attribute *lock_module_attrs[] = {
+ 
+ static ssize_t quota_scale_show(struct gfs2_sbd *sdp, char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "%u %u\n",
++	return scnprintf(buf, PAGE_SIZE, "%u %u\n",
+ 			sdp->sd_tune.gt_quota_scale_num,
+ 			sdp->sd_tune.gt_quota_scale_den);
+ }
+@@ -679,7 +679,7 @@ static struct gfs2_attr tune_attr_##name = __ATTR(name, 0644, show, store)
+ #define TUNE_ATTR_2(name, store)                                              \
+ static ssize_t name##_show(struct gfs2_sbd *sdp, char *buf)                   \
+ {                                                                             \
+-	return snprintf(buf, PAGE_SIZE, "%u\n", sdp->sd_tune.gt_##name);      \
++	return scnprintf(buf, PAGE_SIZE, "%u\n", sdp->sd_tune.gt_##name);     \
+ }                                                                             \
+ TUNE_ATTR_3(name, name##_show, store)
+ 
+-- 
+2.49.0
 
-
-Thanks,
-Mauro
