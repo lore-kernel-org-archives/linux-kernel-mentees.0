@@ -1,132 +1,108 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6171E3DD7
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 16 Jun 2025 14:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C321E5710
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 16 Jun 2025 19:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750084700; cv=none; b=HBu+UG/QpWKxqQpPXkTAOuQgeo8+dBUF88AqaTJqLXOsK04lY6d4rDu+XbHSq/q6MH5aR4L9XGaVzrfiTWRRGZHJMfLog2o7ply8gcX+pAIL/EzNa5Am7ghtii1mQthkclgAz5TlrLmDZblLw2OYBzrgDfLt2uMBKCSWPVgFhAM=
+	t=1750102440; cv=none; b=H/3S4T4Yn1F8byln+XEw5P4eP0CP6B5EhL5XAhlCUVDgiFswe7jB3zP4FKbbJ3xmgCn8IRztrJSzKrAACIpKGmV/DJYtPgnXrpA2iDOFm6TXaOs/sZIQDNbmxzfnHF99eItj/2CrROyJmT/Q6lBy1oyWKnUwZPQEi55N+OlLxhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750084700; c=relaxed/simple;
-	bh=UXaABHQD22K9FyO8R9mM3dQFCxIl3GBYZjPUSbcMKwc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R08tBetxVZzmB3IMiY2W0f2Vcsw/qfdXS0CRfH1nQjJxYamqfUcu35zr4WxUW32p4gn1o+d3EU5SLKXmWq2Z6uJkpJ5oL+Iml5guPESzKIWc/cdzGJCfaZ+6BGYYCqOo6HoUhJGSeS1q5ri6bEtM4xoR7fYP3/6IDbrPTnYHseI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LdvNwPnU; arc=none smtp.client-ip=209.85.166.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1750102440; c=relaxed/simple;
+	bh=uCedvSrgAICW/jw+EN4TMS/9a2h0bxIMv+L0P4+6084=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XTx2RQ+ElZUAotBxjWxYOozsACBzr1FIgqx3B5dmU/nXt8xvvzj8XdC0+9gdZW1yHv/OFkoRwjaKIXmMc1HJmA38c3sW5JuYC9fUYDvYjN/kTSCFPokNbeCEqamZRiAppRSPY9aKpsaKJCeGHmk0OMfN5ZzvJgBVHFgLXPj+mbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XkIQ8Xlu; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LdvNwPnU"
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3da73df6b6bso16361505ab.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 16 Jun 2025 07:38:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XkIQ8Xlu"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 31660608A2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 16 Jun 2025 19:33:59 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id zCOeeR1_MUrM for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 16 Jun 2025 19:33:58 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1030; helo=mail-pj1-x1030.google.com; envelope-from=miguel.ojeda.sandonis@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org AE7FA60870
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AE7FA60870
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XkIQ8Xlu
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id AE7FA60870
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 16 Jun 2025 19:33:58 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-313fab41fd5so523378a91.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 16 Jun 2025 12:33:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1750084697; x=1750689497; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RaDdB7ecZw9rq7H/cB+ruY2mtDm9EqdjfLyEE/nDh7s=;
-        b=LdvNwPnU5ClvgmE0jmwJ1bhL46p/bNksLzKsVOsP41KyTbaYy9SsubTAKr9d0xkHGX
-         25P/Ghzvp1NPP60Xm4mEISKcEtFFZP1X6lIdCLbc/nRSbcz+SGAZqmVZgMZ9vBITh91s
-         WUBRNxHmU5a7HgIwhpZfoDjshbHwUQN+X5o9E=
+        d=gmail.com; s=20230601; t=1750102438; x=1750707238; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uCedvSrgAICW/jw+EN4TMS/9a2h0bxIMv+L0P4+6084=;
+        b=XkIQ8XlurABbZjOK61QgkZnlIcU4308tt1vkuOtwhOK/ctY8wE/9HFDw9CLknBDSrh
+         P+mBp/IXg7JQGggc6L06zSgLd8uh4gr31hkZQACqqJVrlwA/jB2HO/ZKhBNqlsZ4Wp9h
+         F4nN5gMcrv7DakiMqJNXlFtrcMTfsngqYcF4+Uci2KmWnFIMjkJMU9bM4l9A3Ca2YmXD
+         Fe76ujLASQup85pH7nptn8Uk4/iBbCKyuLnxC669qnqiHRWuaXhWjod5T6YBttukcQD6
+         M43bis1FKh2ASjTHN9qDTjCjjA5pR2EiUvEwgnMRHZ8TDNLpGltM+I3VIhVDLN8J1CHg
+         3qMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750084697; x=1750689497;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RaDdB7ecZw9rq7H/cB+ruY2mtDm9EqdjfLyEE/nDh7s=;
-        b=AJ9kt7vHbdit3CRnGQ4yCZuZCZ1HZRCJab9BoXThF8hmFcp68whL7Eb520sCxH1WUG
-         i4fqkMDubrrcJ3BgUKIgjT6B0wtZJK0javfbYnQsXklEqEEM8MyT+Sq+NWSE+8JBezpc
-         kdyNizTxYzWXLeUnWe+gPgoT9VpQn5f7mYMqonMDYR65ygZafftRlmvI5cACi0Fac19d
-         Y06rb7SelGKkaGYgDZ6TE5bantw/7s1UCe5qS0RU9MFOrW/alP8LMHturfwP/qPLv+M2
-         zYYF4oN2J0CnTinSp/AYm/mOIMCBLRfQXtuoZT/fV8aPc6OOURhSNw8Cbq5mOyOM5vm2
-         Kpfg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlqzUJzrvxMHhmTDo36AranxMrVXXA+qtGGpPAxsg2iS0BP/AzBYZLKHa0KN5IMSJelETekcw65QnOFTxk+OFT0yRQjQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwCYnyKjpWmREWUOI+8WeLj/6vNOmfV2b74dj6+kmw+VoaejTow
-	ANNEtyYMStOjIPe8KoM7s6ayH911nASYbr5c2H8o1S1DJJlzscp21Bfr//G2Yo4kvws=
-X-Gm-Gg: ASbGncu4zfOab+RyX5Cprok850GKk2PZ6CBmcT3FzZdBBFJYYpiFtQ3+YFgufh568d6
-	B5qrcjblUWW1H4/qN65ommaN/Pi2IfqRxLQO1nPPWJ05uxZGSmGwRoNnUsC72pgdQH8SS/BxUxB
-	+IUEj+mKpYyMCedAJ6WV9kvTeVRNT9TfV6I8TP/r45CTAwNaS0zEj8Kiwk7mvZuSqm1rdNymSh8
-	vgEngoUoyxgJgHjmM0KmN/fCfcl2o+zXWf39fFqS/rdUxsn5li+3hfSLZyMixZZkws5p6lMomKU
-	CYeepegfFxMvESQbDDNuoufzvxSIO4uP6Cug31994cH66pjdEsaXZK8C6XhV9ov0TofHsD/Plw=
-	=
-X-Google-Smtp-Source: AGHT+IGp/2E6cAX4aTSkp5+1j4lVd5Xk0hzBOAiQZW5tUPxlnAfIJ0ewA01WNGRwtt7CvP7Nt/sbOw==
-X-Received: by 2002:a05:6e02:1c09:b0:3db:86fc:d328 with SMTP id e9e14a558f8ab-3de07c3ef41mr106272685ab.5.1750084697187;
-        Mon, 16 Jun 2025 07:38:17 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3de019b3fd0sm19388505ab.11.2025.06.16.07.38.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jun 2025 07:38:16 -0700 (PDT)
-Message-ID: <5e8e0f17-9a4c-41d0-854f-e73a6f5866b7@linuxfoundation.org>
-Date: Mon, 16 Jun 2025 08:38:16 -0600
+        d=1e100.net; s=20230601; t=1750102438; x=1750707238;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uCedvSrgAICW/jw+EN4TMS/9a2h0bxIMv+L0P4+6084=;
+        b=eGL/IfiEi+a7YGXzz0Fp2nlkUP5Cj6EOx5qExNuZeNE42ha3xOnT3rODoysXVZjZh7
+         GC1Jnun63CI0dj+FFax1B5mbiyMbYzEXfyR+JNVDEFni5r9SH+E3nr8rHWYC4D1WyA3C
+         MFd8hd+pb3num6+soEJXiwPJ0gsb6ZGIGiynwbrDhPzAvzgBBsHalcJlyF4pPl8Tj+8Q
+         Z/6/j5TbNftr0Nwv8V8QCG7mbObmDLV7C02Y2veyFmac4T9t3qWld6IHsoTGlgaXrZiO
+         XkEeTUaYCwmckYMuxjejRwiY0jceawyhpxjui212j5Zrox0fBzdmcyPoJlwpQ5GFPous
+         PrXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW2XPvWqm1k21eySGGnoqIq74ECAGU817CaYBlY9EzWzkQv8OnbwUeB+H1E4LJHv1D6ak6cTJeX+rj8ny/dmavcGMr0mg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxtGe5uTB6KudUF1p9Wxncra4nWtIzn4DI4N7eIjAsdxJ6JairE
+	2zxk+N3kbyNeDCaDC4GwgkOXy24rVXHh2LtLrKlPauW2DHb3fnUrWDr80hgBDtGdVbIxGEzy3nV
+	RyUfzRg1cZEEiu9ZpD4Rjns9y7DnCquY=
+X-Gm-Gg: ASbGnctSWFj89N4Yztfk05GZM61ZhrAQ2Jd26HznJsS7qLu0cKhim8FXmu8jQ5M5RrS
+	MWbFFnHzCTapN57xAkLSjDG45ddDYtyjkrYrv5UPzbm69B8jCkVgd5uKdwBr0TMBDE+wYlE0g8/
+	zE6/BGS5mRoV/hEbhO2KLFxdTOSXgsXdhsJQffr03gsmE=
+X-Google-Smtp-Source: AGHT+IGX1yTNJn9QjTBq+4djSQclteAYttiWkHLIUTJs1acMahla8Gcc0/uhfgKPFjM8MtLUlrJysId16RaIFIL8I8c=
+X-Received: by 2002:a17:90b:17c6:b0:313:2f9a:13c0 with SMTP id
+ 98e67ed59e1d1-313f1befa77mr5972239a91.1.1750102437885; Mon, 16 Jun 2025
+ 12:33:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/2] clocksource: Use cpumask_first_but() in
- clocksource_verify_choose_cpus()
-To: Thomas Gleixner <tglx@linutronix.de>, Yury Norov <yury.norov@gmail.com>,
- I Hsin Cheng <richard120310@gmail.com>
-Cc: linux@rasmusvillemoes.dk, jstultz@google.com, sboyd@kernel.org,
- linux-kernel@vger.kernel.org, eleanor15x@gmail.com, visitorckw@gmail.com,
- jserv@ccns.ncku.edu.tw, linux-kernel-mentees@lists.linux.dev,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20250613033447.3531709-1-richard120310@gmail.com>
- <20250613033447.3531709-3-richard120310@gmail.com> <aEuw7ls9hieUv_Ox@yury>
- <87ldpvsyr8.ffs@tglx>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <87ldpvsyr8.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250602232842.144304-1-marcelomoreira1905@gmail.com> <aE_xcV766hQacECP@pollux>
+In-Reply-To: <aE_xcV766hQacECP@pollux>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 16 Jun 2025 21:33:45 +0200
+X-Gm-Features: AX0GCFsppoY2oxS87ex3PV-5TXOb_9kmj3nhJIvD8pJAvmN_kTi_G_nZ26aBxz0
+Message-ID: <CANiq72=YzDKUCbkw9tWuSNDSUHPybhVfV+BsA3Ze-1x48=SThg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] rust: revocable: documentation and refactorings
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: ojeda@kernel.org, lossin@kernel.org, rust-for-linux@vger.kernel.org, 
+	Marcelo Moreira <marcelomoreira1905@gmail.com>, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht, 
+	gregkh@linuxfoundation.org, rafael@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/13/25 04:48, Thomas Gleixner wrote:
-> Yury!
-> 
-> On Fri, Jun 13 2025 at 01:02, Yury Norov wrote:
->> This exact change has already been submitted by me and is under review.
->>
->> https://lore.kernel.org/all/20250604232550.40491-2-yury.norov@gmail.com/
->>
->> I don't understand why are you undercutting my work, and moreover do it
->> for the second time.
->>
->> For the first time you submitted something that duplicates my another
->> patch from the exact same series. John Stultz has pointed that, so you're
->> surely aware.
->>
->> https://lore.kernel.org/all/CANDhNCoJ_MmpEfyuL+JWav+NUfQDH3dm196JSE-Mv3QrPUzi3g@mail.gmail.com/
->>
->> Kernel development process implies that one makes sure that his work
->> is unique and doesn't break someone else's development, at one's best
->> knowledge.
->>
->> What you're doing not only breaks this rule. You're in fact trying to
->> get credit for the work that is done by someone else. This is the
->> definition of fraud.
->>
->> I cannot make sure that any other patches from you are unique and
->> written by actually you. Therefore, I will not take your work anymore.
->>
->> I encourage everyone else to be careful working with I Hsing Cheng
->> and check his patches for uniqueness, at minimum.
-> 
-> There is absolutely no justification for accusing Hsin of fraud or other
-> nasty intentions.
-> 
-> It's sufficient to point him to your series and tell him that it's
-> already been dealt with.
+On Mon, Jun 16, 2025 at 12:27=E2=80=AFPM Danilo Krummrich <dakr@kernel.org>=
+ wrote:
+>
+> @Miguel: This series will have conflicts with [1]. Given that it does not
+> provide any functional changes, do you want me to route it through the
+> driver-core tree to avoid conflicts, once ready?
+>
+> (Will have to backmerge -fixes anyways for other patches.)
 
-Thank you Thomas.
+I think the conflict is not too bad, right? But if you need it this
+cycle anyway for something else, sure. Let's see the next version...
 
-I Hsin is enrolled in kernel mentorship program and is new to the
-kernel community. Pleas give them the benefit of the doubt. It can
-be overwhelming when you just start sending patches. It can be
-difficult to figure out if there is duplicate work happening.
-
-Duplicate patches happen during kernel workflow. Most of us have done
-that at least once.
-
-thanks,
--- Shuah
+Cheers,
+Miguel
