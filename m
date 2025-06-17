@@ -1,103 +1,147 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7022E7197
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 17 Jun 2025 13:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3042F2E7168;
+	Tue, 17 Jun 2025 13:16:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750166101; cv=none; b=MNeCq2OFr65daoKnUmiqNGKgIgNa9YD28Lhn1BtBkOay3Wp0QggFqGqq3qk5i4tED4YBbm2Su6XCght9K3e2/egneXoXw2lf+pcYPPcrTIzI8acPm2dryX4Z4OKLN9s1JOtt54faW7UbByGNJrq0yxtpLBgeClIDyLtlPIpWKeA=
+	t=1750166170; cv=none; b=O8rjIiNal500XwbHZBeZOo7HiAJ0P7uSViP20qBU7YGXONt6/hFwga3oARp2TBf+VknBtWWj4O1LDkU1S1Ozm2XsQLbK0KasbvBTufwGIkhqisEzqavk1z5CC8T6zMJSsadQGiMWsfwgtZe+JPBIjkTc19ZSDPmSOzfuVoZu/1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750166101; c=relaxed/simple;
-	bh=p7DOfF+FVsKwThiS6DtW1TTjKjyRC+p9KTOjsE2PN9M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WMRmr3I6xtJt0czo69+ZXSiwyHAgaDlEfVl2nCbFI4hVVhHTiONNCaiKkHOxcXg2zS7cEbmk7bboCxOEc2EMiQgQhn6QtROukIaOCwhaA4XAxWoKGWDPh20M46030shFsccYEio4yXMXnxhCw5SMmE7l+v5Hxh5xF8SXbytgEZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NT5NTayj; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750166170; c=relaxed/simple;
+	bh=9cun8hm4DoSGnNtasEwFjJD+AdzVWvo5ehIT5kRvc1E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BdTIgoKgRk5gvsiVJbjwA8+ftpqvCfWCfKRHVRSpLzd15mb+CZ1yeXRS9qzODSq2CzIFyASvrMVyR5DymmxHH/XsPLxGFdd1ZeOTNESFvS6oxAvnbMfU7ZLOBfjxQwRBnj7Hg7I15UvESrseUG7xAZm4F5BOEru0KLim8fQgytY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=X1FnF3cG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NT5NTayj"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7481600130eso6241087b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 17 Jun 2025 06:14:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750166099; x=1750770899; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qdj6PEXQSBqXoHF+okOiKXmDKN7rBK1h3xMiJzkSQlg=;
-        b=NT5NTayj8htCAxFN2bN2bPr3OEJ71bgL+Uuieeprkq52H3kA+x60tt8O7tQoEqIVMP
-         +yBvftBQbgdghRkLZCBc35myPehlqHe0puG0Wtf5qvDXb174Zq55LX8qMdEru894Kuzw
-         0AulaRHfSuFYHcTp7EAp3ZaI8aesqGLF0MR6z6zX6zjr1oVF0Ihn50gLdt3duGvuW5rX
-         O6yXB3S4IS5rCuwLLeTXE3kpFcas7N4+VbNGi8sl70PHWKnyc4yyVNYaGMvcZuBf9iKx
-         cH+x5eAS5jYceoGPoF1Bcck9JNVyeGuxN1Hg/cEP6ayJ+7Euxdb5dPZ4hpCCs8dwrVvx
-         lFLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750166099; x=1750770899;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Qdj6PEXQSBqXoHF+okOiKXmDKN7rBK1h3xMiJzkSQlg=;
-        b=unn0pzQghUTgcEw246zT5VG9ILAQ0dK0aMaGKgtodGmig22RtihL2Eb2YTtehmkE7R
-         hzZWdyytl0nAMq5aQ9H7u7vB6/xCR/scCvEoppONLKoR68rq9WrnQ2MhyCp30B4JXFFV
-         NYEmGgoodmHET3dWzskxyhpjRC6x9AbxkudF2tk/LAPeneISjX6+gbsa5Lzyig4bZMqX
-         /nOBaW3HJdoTHDERSYi7nDz7eb8ZrYsdFFHKnJJdti2oASJSI5HxMQoAEjDTICzQo4G1
-         SdsgxzpbY7rFMf8WGI1cNxCHJ8qVXySkCWiMFzPXG5s4r7StIbl2E9NgyKR3SUNlpaIn
-         KptQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWdd8SRCioDE1FtYxDtMtWoBaVrWz/WHVBvZdkiURDu7sZlkGjGRJeBevyOkgOPQkkOO6N8F7hMVxBzsJC2FHq+1mLxyw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywm5+etKMfVBP4BstP/2wsEf5B8bSl6g2YHc31T1H+a7AgndmTL
-	8vSbRNKhloBq7oD+dj3XpD3KGcVyGseu4dH5DYxNpy7QZKY8XnFxBZBy
-X-Gm-Gg: ASbGncskjS8bllF85NnkKAfY+/HdSfHHIvbgQcyDqJZP0qKwyOt9p/ekXDQNXKoJGSj
-	tPvX8aiT8u2nSR4WhcpihcRI7fg3I/Tz58JTQL+JJQNB3XizTZE74lygRzJBBpf6sCeNibZXCK9
-	7csiGGN6NwlfoYi+8zmu952krs9BLpx9z0+NoUUkx2Clvqrw8CcPTPiHR/EgI3hitr3X9MO9OhR
-	+DJSC7P7dsdd9ZCZlrAh6cObNOFZaiSwGsrUchRB99kWaBMAk9QYd/kK5FaI22P2WKnrvHMiRtx
-	ZD/NOZ2zBI+FJMWX7JCXTYywsZ68ZK5rRY+W4mVb58b/gIP0mpbGonoMngcL0Sdq+IB3t+xDRId
-	RnK4OC7M=
-X-Google-Smtp-Source: AGHT+IEj47XzIhTDcSayzRQ0CFz7ib3XQdJW80v1f1Wk6QFx4GpfqPmgDq8HhOc7YT3tqSGvz5AKdw==
-X-Received: by 2002:a05:6a00:13a9:b0:740:9c57:3907 with SMTP id d2e1a72fcca58-7489d175260mr18366198b3a.19.1750166099185;
-        Tue, 17 Jun 2025 06:14:59 -0700 (PDT)
-Received: from manjaro.domain.name ([2401:4900:1c68:884c:5800:7324:c411:408d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748900cec7dsm8775059b3a.153.2025.06.17.06.14.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 06:14:58 -0700 (PDT)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: cem@kernel.org
-Cc: skhan@linuxfoundation.org,
-	linux-xfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH] xfs: replace strncpy with memcpy in xattr listing
-Date: Tue, 17 Jun 2025 18:44:46 +0530
-Message-ID: <20250617131446.25551-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="X1FnF3cG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ADC8C4CEEE;
+	Tue, 17 Jun 2025 13:16:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1750166169;
+	bh=9cun8hm4DoSGnNtasEwFjJD+AdzVWvo5ehIT5kRvc1E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X1FnF3cG7xN00Z3jv1IhIBVmLNV2+EBG29+diL76dmyi6pW646s3tG1devedyKeUZ
+	 ZWf0o9JgV2AUasE6/z5q9axVKeQWAPAVWkZVcyYZGvvJyTf9kpl1MxwAgyNjLARpSZ
+	 FM66ffyNZd7AyNQPBt/1R3ZtrfqxlTGoBCejAXdA=
+Date: Tue, 17 Jun 2025 15:16:06 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Cc: johan@kernel.org, elder@kernel.org, vireshk@kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] greybus: firmware: use strscpy, fix tag size
+Message-ID: <2025061743-surging-legwarmer-b3a9@gregkh>
+References: <20250617125137.24503-1-pranav.tyagi03@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250617125137.24503-1-pranav.tyagi03@gmail.com>
 
-Use memcpy() in place of strncpy() in __xfs_xattr_put_listent().
-The length is known and a null byte is added manually.
+On Tue, Jun 17, 2025 at 06:21:37PM +0530, Pranav Tyagi wrote:
+> Increase the size of firmware_tag arrays in the following structs from
+> GB_FIRMWARE_U_TAG_MAX_SIZE to GB_FIRMWARE_U_TAG_MAX_SIZE + 1 to
+> accommodate null termination:
+> 	- fw_mgmt_ioc_intf_load_and_validate
+> 	- fw_mgmt_ioc_get_backend_version
+> 	- fw_mgmt_ioc_backend_fw_update
+> 	- fw_mgmt_ioc_get_intf_version
+> 
+> Replace strncpy() with strscpy() to ensure proper null termination as
+> firmware_tag is interpreted as a null-terminated string
+> and printed with %s.
+> 
+> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> ---
+>  .../greybus/Documentation/firmware/firmware.c        | 12 ++++++------
+>  drivers/staging/greybus/greybus_firmware.h           |  8 ++++----
+>  2 files changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c b/drivers/staging/greybus/Documentation/firmware/firmware.c
+> index 765d69faa9cc..3b4061f4b34a 100644
+> --- a/drivers/staging/greybus/Documentation/firmware/firmware.c
+> +++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
+> @@ -63,8 +63,8 @@ static int update_intf_firmware(int fd)
+>  	intf_load.major = 0;
+>  	intf_load.minor = 0;
+>  
+> -	strncpy((char *)&intf_load.firmware_tag, firmware_tag,
+> -		GB_FIRMWARE_U_TAG_MAX_SIZE);
+> +	strscpy((char *)&intf_load.firmware_tag, firmware_tag,
+> +		GB_FIRMWARE_U_TAG_MAX_SIZE + 1);
+>  
+>  	ret = ioctl(fd, FW_MGMT_IOC_INTF_LOAD_AND_VALIDATE, &intf_load);
+>  	if (ret < 0) {
+> @@ -101,8 +101,8 @@ static int update_backend_firmware(int fd)
+>  	/* Get Backend Firmware Version */
+>  	printf("Getting Backend Firmware Version\n");
+>  
+> -	strncpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
+> -		GB_FIRMWARE_U_TAG_MAX_SIZE);
+> +	strscpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
+> +		GB_FIRMWARE_U_TAG_MAX_SIZE + 1);
+>  
+>  retry_fw_version:
+>  	ret = ioctl(fd, FW_MGMT_IOC_GET_BACKEND_FW, &backend_fw_info);
+> @@ -129,8 +129,8 @@ static int update_backend_firmware(int fd)
+>  	/* Try Backend Firmware Update over Unipro */
+>  	printf("Updating Backend Firmware\n");
+>  
+> -	strncpy((char *)&backend_update.firmware_tag, firmware_tag,
+> -		GB_FIRMWARE_U_TAG_MAX_SIZE);
+> +	strscpy((char *)&backend_update.firmware_tag, firmware_tag,
+> +		GB_FIRMWARE_U_TAG_MAX_SIZE + 1);
+>  
+>  retry_fw_update:
+>  	backend_update.status = 0;
+> diff --git a/drivers/staging/greybus/greybus_firmware.h b/drivers/staging/greybus/greybus_firmware.h
+> index b6042a82ada4..ad5b2c8a6461 100644
+> --- a/drivers/staging/greybus/greybus_firmware.h
+> +++ b/drivers/staging/greybus/greybus_firmware.h
+> @@ -38,20 +38,20 @@
+>  
+>  /* IOCTL support */
+>  struct fw_mgmt_ioc_get_intf_version {
+> -	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE];
+> +	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE + 1];
+>  	__u16 major;
+>  	__u16 minor;
+>  } __packed;
+>  
+>  struct fw_mgmt_ioc_get_backend_version {
+> -	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE];
+> +	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE + 1];
+>  	__u16 major;
+>  	__u16 minor;
+>  	__u8 status;
+>  } __packed;
+>  
+>  struct fw_mgmt_ioc_intf_load_and_validate {
+> -	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE];
+> +	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE + 1];
+>  	__u8 load_method;
+>  	__u8 status;
+>  	__u16 major;
+> @@ -59,7 +59,7 @@ struct fw_mgmt_ioc_intf_load_and_validate {
+>  } __packed;
+>  
+>  struct fw_mgmt_ioc_backend_fw_update {
+> -	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE];
+> +	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE + 1];
+>  	__u8 status;
+>  } __packed;
+>  
 
-No functional change intended.
+You are changing the size of a userspace structure here, are you SURE
+this is allowed?
 
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
----
- fs/xfs/xfs_xattr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+How was this tested?
 
-diff --git a/fs/xfs/xfs_xattr.c b/fs/xfs/xfs_xattr.c
-index 0f641a9091ec..ac5cecec9aa1 100644
---- a/fs/xfs/xfs_xattr.c
-+++ b/fs/xfs/xfs_xattr.c
-@@ -243,7 +243,7 @@ __xfs_xattr_put_listent(
- 	offset = context->buffer + context->count;
- 	memcpy(offset, prefix, prefix_len);
- 	offset += prefix_len;
--	strncpy(offset, (char *)name, namelen);			/* real name */
-+	memcpy(offset, (char *)name, namelen);			/* real name */
- 	offset += namelen;
- 	*offset = '\0';
- 
--- 
-2.49.0
+thanks,
 
+greg k-h
