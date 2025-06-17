@@ -1,176 +1,109 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E632DBF69;
-	Tue, 17 Jun 2025 12:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A598F28D85F;
+	Tue, 17 Jun 2025 12:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750164708; cv=none; b=DyW6uzbSMXQVX68zGNdhbna8N2AD9nIhYNCM2P16O79woMoErcXVdU70D2GdyuxiVi51hv6ryf+Kr07q/jK2oZw0ys7qC2uODTuB0VJbl5x/Tsb+imUCH2HpFn1DB7QyZk9gqB5lE8G3QW/qQ6klpfnOyT0uHpHAJa42mggCaT0=
+	t=1750165199; cv=none; b=FW11bpTgsD4hEF2qazSRrKPiS4tX8edLxK/eDYEZe9VrV6q/R+DCA3Ouw1R+0IreEjrtlHi0SkLj7Z/HOdo+NdImoYb0v49trwgoBMPBcsZXBmACLMOxUym3cVG3BTpp+lqNAmcO4FCWEMwAPnbh8zo7OLJPBJQMeJyQ14Jxqo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750164708; c=relaxed/simple;
-	bh=y8+C7iI8r1NplDnN9G0yvYuEi4mGegIOzJfcfmDW34w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GOag2aJzXzNFLaGnj9ZWfWH4qcjzq/SM6+4GgWYkolURKg9HzD32ZPa8gFe03gB5OFv+FhGf0LMtW9fs9O6uJyWitbIQe2y5DZRFxemsF1WT0MnTN4YqhpBqJTRr21lrjDvvVNVIt85JlRIS6+dhPxsVRFVxZbN7EKFcFRkRkh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FlFwy6rL; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1750165199; c=relaxed/simple;
+	bh=bQYR6efMPCgHSXc5WbPc2ysqUPrzj3om34G9i+1jBvg=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-Version:Content-Type; b=eWAHxV2coJmFYOnZw3pwttMEM2vBKvfQJ1qIyleyGo2+x3PPTZ5R3eQoLEoCMBo6ot9GTWvTZAmSPWCfx2OtX/DQ7AgDUA042w/gqfGPncjfOMlsWkuICBiIrbeFBn8YQCqAp8UAnXT4ypqLxR88InszChn6b+AFqXhVMvaWzRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kBSY0k6f; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FlFwy6rL"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3138e64b42aso6490321a91.0;
-        Tue, 17 Jun 2025 05:51:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kBSY0k6f"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-450cf0120cdso46753345e9.2;
+        Tue, 17 Jun 2025 05:59:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750164706; x=1750769506; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hSxo0ZHyfJr1fQpftYFJehkxIFFbw7pyxo/Db9fNjFU=;
-        b=FlFwy6rLBDkwcfRvu/+0h28jNMorbDBKUln4xSRbZbt4f68O2r9QOIuJPX7f8PcG/a
-         0Qgj2vIWFXIp5w86ivo160KmbADp7ngoAFVhDEGzgXYzPfZy1bT/jpQpl+Zg87LCamlk
-         I0ePjw0s8fgPzKrzV/3VwxW6mjFih8QobSCXdBl7/mZXLj3VmZW5i8rSKPCo/mQvMP9B
-         AfNkrEs55DO6CXhjEIu61n3Bqbw8+4GEqvK2STBve+g/z7gPmtDdHDP+5jtwZXsDG2KJ
-         9YRssWWmzMJX+CjNAV4JQu8AbWWq/pC5cNGraMWZE/JPcRya1tSVosTvBelb9bSFue6a
-         NnQg==
+        d=gmail.com; s=20230601; t=1750165196; x=1750769996; darn=lists.linux.dev;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pfUao9xL+Nf+9UmRpe2eBeY78KoI4cSH6kfRJvoG+2g=;
+        b=kBSY0k6fpWruqrzncMlOFDXwxVYttNINgP5IzcDpzYhi1xjhpWnVcPPsBCRZqZNEAE
+         BqMxv8/kMB/h2sS75nTw+0i1RoaM/MsgCUHa87Isg4fSfFAiarqo5TQlCR34PR7ZLLNJ
+         o/XYpfzwJS3J+bHINdJOJsHYSmRAdECJkMIKmTP+phy0lQNYX8EHFe6XM1rRVKyDX73Z
+         JY5k+fCqH6mVSMyE0EPjtlqSNcL0nDxkedLQ4gf7xNFla1mv+a+UYMav3th1Qyg8WlPA
+         lerOMo/RrDzqbI4qPNwaORxRQQxzbBGCekZoVJ6NAj0Hof98wVWVuZuDQh60lfswS4I6
+         dj+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750164706; x=1750769506;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hSxo0ZHyfJr1fQpftYFJehkxIFFbw7pyxo/Db9fNjFU=;
-        b=w2bPHq55ZyKdMU3wwI/VDAvi28N/xvdD38hbY+nqWyfbz4WrfpS1Ne5FKhFXpetBzI
-         TT4Dh0XDWh95mj15qRRCGSu+2A0vWF7U1LKtqa61Jj0wi4Yi/3SCNFj1vYWeMxT2Rkqd
-         cva8SsOcjmCdnpAPUcT2r7iHzOrnEH/XZDjGbz8GZOsHgpDxM3/+JutgANgTq1DVd82V
-         SjTAtyDWempAVKHj87VEJ4vBxh8q3ctWL0+0xMFOj4JWgxPJBTPBmR2johSwBF16X66z
-         +q4UJTRUez+CggKJ0Jk0/XdgDCCku1LaXmiOwYbQCt5ro8q3CedY4uivmE1ee499xoBI
-         PjUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVo9YImaJlST1mOEJpYSVpK5JwrTVuPtzfU63IAZFxO9akj8arwLjqgBtMWvCHgINYlAigKKNNK25ypmSbu4CB29OoG4g==@lists.linux.dev, AJvYcCXYcE1i3lSbVQ2GUZMKGtJshisIQSg2R5kli+wJiiNOZYyYZOsJSnNCF0YC77Uvl/rIbDPCKBixVCWnuIBCHA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyFhcqgYs+plIbm4or6xb5lKfLbLGVpS2K0zx8/stsXgxlUdJtU
-	5mFCgxtmX/0mnVROb+qU71c3gu0E0qbY8qa8lKI77FUV8pjv4cBBEBV0
-X-Gm-Gg: ASbGncvALVK/a6drYCRi2M6oTJD8UCERhElZGnO8yM39tiZIpQadofpswHAC/hDUpN7
-	C0GMXNeOVbtV3UMvfJLVUaiE7Tdj/bdlwm6ORN82ZDmc85raP4Qv1useIwpqidu75KPFF7/brow
-	FftO3aJLWSl8SCMu/2x1lyVG+YpUtBuShQhmTetLQsLW9m6GdgtDceXPmI0Z0e3spW8qllHzwRj
-	6hJe99t3aAZzG+QlcSYtl70ctyxWbmDbcy+2z9UClINbbv/DYriKs2BaMVtOzuZh0jfYjH+mWam
-	ABe8yY6QAFthxQAkzSzQq2eoEhL2oqayLP+azL1Z9CcreqwL76+q0RTGeAl/+Q+IBEBQLEdeAcS
-	5i/LSr3F200lESIEh/A==
-X-Google-Smtp-Source: AGHT+IFDyTmPgMZj/RHIVJLIOL48m69TjdL4fouKx5vArpbDJpyInEok0Mk+dEvaEXL3/xudr7VNHA==
-X-Received: by 2002:a17:90a:dfc8:b0:311:f05b:86a5 with SMTP id 98e67ed59e1d1-313f19d2977mr23454941a91.0.1750164706232;
-        Tue, 17 Jun 2025 05:51:46 -0700 (PDT)
-Received: from manjaro.domain.name ([2401:4900:1c68:884c:5800:7324:c411:408d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313c1806282sm10421980a91.0.2025.06.17.05.51.42
+        d=1e100.net; s=20230601; t=1750165196; x=1750769996;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pfUao9xL+Nf+9UmRpe2eBeY78KoI4cSH6kfRJvoG+2g=;
+        b=dCc8hM4XEXQqBJm5zgBrNGOTo56266+BBLuGqqrvosgIVYplqusAsbPogr32bDFIhH
+         86dJKOSazx3ZAOwu7lQww9x/vc7I3LOXh0s6RW9un34Tm5nh00GXHDH2VOB3wBMU9J4b
+         Vo9baqmshRrpt2HGF+bLS7cotamHow+yzRva4FTX6zUAB/XaFCTlcUADu2RvZwJP/hxD
+         iY+5hqcRpbwh/IBX/3i7M4RK0ZUSEMcjfXFLhTaLUr9IyRYRWKwF//lHSjQjKLM6fcln
+         qZ5rRhysOeMQrj9k3sZskSRE914tgq9MoojbM9Bs4P3bNd7p8Ya8xpklA/UpaN7QomIz
+         XL6g==
+X-Forwarded-Encrypted: i=1; AJvYcCVUjnaVHFHXPO1QY4k4UFbGeWGOcrgEy6DgOJJn0f3nuNfH7fa7At6cUVVF1Uo+WX2fUTuGbw==@lists.linux.dev, AJvYcCWGAsnqoy6UVZqqzLtyWchlj4QuRO9Po0nxQG2XuZBkwTNJmJmJuki120K/AopAjheN3aExMAdk0J3wwu0bnafA00ReCg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywksh6ojyPv5wCm6sAafhymDI4dskAsa1T2Ees+DwBqUSjCd4rL
+	SQM3kj5xFeyUYb4s/mEVLovcINA2D9sqIXXe8mutnU/GY0Q+yxTKDHFE
+X-Gm-Gg: ASbGncv0h1johU21mb9AlkAdBxbwgJ9f10bqDH0YuxURERhP/jEMTu1cYQ3fCmzh6g5
+	gmc6NjvXxSnaACyeQwrpNTbgJAqTS2+Ez/1u7vb+fi0PpWeKUm6u1Dg5cZD5vJb0ii9SiHOf6qP
+	IOGSj2XbCEroM5Z3o26cOmcRFOM3be4tXwn3LfZXCI8hlbf4dV1X4K/YmgFxCAdGhgakF/qrSag
+	YRtMM8cTC7V639aJeu05oaZJ2zRWwbbjp6+iccu5RHjE+I8UbPMj7gDGc4sXa65LJ+NteK1UTRG
+	9+8bjfs1frfWDZfoDxZrSRXRUyPbttJ9nOTgVM0TogKvlf2JL+/W5vOk7iSqxJ1M5QogqDl8oR0
+	=
+X-Google-Smtp-Source: AGHT+IF61fOL3eHzYcgqTc6vlyac0Gb7tm3KYDOskETixTUcfYre70Gc0Oij3ykKtyQjrqCRI7YAKw==
+X-Received: by 2002:a05:6000:2884:b0:3a4:cb4f:ac2a with SMTP id ffacd0b85a97d-3a572374884mr11851638f8f.21.1750165195752;
+        Tue, 17 Jun 2025 05:59:55 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:8931:baa3:a9ed:4f01])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e2449f1sm180628625e9.23.2025.06.17.05.59.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 05:51:45 -0700 (PDT)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	vireshk@kernel.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH] greybus: firmware: use strscpy, fix tag size
-Date: Tue, 17 Jun 2025 18:21:37 +0530
-Message-ID: <20250617125137.24503-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        Tue, 17 Jun 2025 05:59:55 -0700 (PDT)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,  Jonathan Corbet
+ <corbet@lwn.net>,  "Akira Yokosawa" <akiyks@gmail.com>,  "Breno Leitao"
+ <leitao@debian.org>,  "David S. Miller" <davem@davemloft.net>,  "Eric
+ Dumazet" <edumazet@google.com>,  "Ignacio Encinas Rubio"
+ <ignacio@iencinas.com>,  "Jan Stancek" <jstancek@redhat.com>,  "Marco
+ Elver" <elver@google.com>,  "Paolo Abeni" <pabeni@redhat.com>,  "Ruben
+ Wauters" <rubenru09@aol.com>,  "Shuah Khan" <skhan@linuxfoundation.org>,
+  joel@joelfernandes.org,  linux-kernel-mentees@lists.linux.dev,
+  linux-kernel@vger.kernel.org,  lkmm@lists.linux.dev,
+  netdev@vger.kernel.org,  peterz@infradead.org,  stern@rowland.harvard.edu
+Subject: Re: [PATCH v5 01/15] docs: conf.py: properly handle include and
+ exclude patterns
+In-Reply-To: <cca10f879998c8f0ea78658bf9eabf94beb0af2b.1750146719.git.mchehab+huawei@kernel.org>
+Date: Tue, 17 Jun 2025 11:38:06 +0100
+Message-ID: <m21prilkkx.fsf@gmail.com>
+References: <cover.1750146719.git.mchehab+huawei@kernel.org>
+	<cca10f879998c8f0ea78658bf9eabf94beb0af2b.1750146719.git.mchehab+huawei@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Increase the size of firmware_tag arrays in the following structs from
-GB_FIRMWARE_U_TAG_MAX_SIZE to GB_FIRMWARE_U_TAG_MAX_SIZE + 1 to
-accommodate null termination:
-	- fw_mgmt_ioc_intf_load_and_validate
-	- fw_mgmt_ioc_get_backend_version
-	- fw_mgmt_ioc_backend_fw_update
-	- fw_mgmt_ioc_get_intf_version
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-Replace strncpy() with strscpy() to ensure proper null termination as
-firmware_tag is interpreted as a null-terminated string
-and printed with %s.
+> When one does:
+> 	make SPHINXDIRS="foo" htmldocs
+>
+> All patterns would be relative to Documentation/foo, which
+> causes the include/exclude patterns like:
+>
+> 	include_patterns = [
+> 		...
+> 		f'foo/*.{ext}',
+> 	]
+>
+> to break. This is not what it is expected. Address it by
+> adding a logic to dynamically adjust the pattern when
+> SPHINXDIRS is used.
+>
+> That allows adding parsers for other file types.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
----
- .../greybus/Documentation/firmware/firmware.c        | 12 ++++++------
- drivers/staging/greybus/greybus_firmware.h           |  8 ++++----
- 2 files changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c b/drivers/staging/greybus/Documentation/firmware/firmware.c
-index 765d69faa9cc..3b4061f4b34a 100644
---- a/drivers/staging/greybus/Documentation/firmware/firmware.c
-+++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
-@@ -63,8 +63,8 @@ static int update_intf_firmware(int fd)
- 	intf_load.major = 0;
- 	intf_load.minor = 0;
- 
--	strncpy((char *)&intf_load.firmware_tag, firmware_tag,
--		GB_FIRMWARE_U_TAG_MAX_SIZE);
-+	strscpy((char *)&intf_load.firmware_tag, firmware_tag,
-+		GB_FIRMWARE_U_TAG_MAX_SIZE + 1);
- 
- 	ret = ioctl(fd, FW_MGMT_IOC_INTF_LOAD_AND_VALIDATE, &intf_load);
- 	if (ret < 0) {
-@@ -101,8 +101,8 @@ static int update_backend_firmware(int fd)
- 	/* Get Backend Firmware Version */
- 	printf("Getting Backend Firmware Version\n");
- 
--	strncpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
--		GB_FIRMWARE_U_TAG_MAX_SIZE);
-+	strscpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
-+		GB_FIRMWARE_U_TAG_MAX_SIZE + 1);
- 
- retry_fw_version:
- 	ret = ioctl(fd, FW_MGMT_IOC_GET_BACKEND_FW, &backend_fw_info);
-@@ -129,8 +129,8 @@ static int update_backend_firmware(int fd)
- 	/* Try Backend Firmware Update over Unipro */
- 	printf("Updating Backend Firmware\n");
- 
--	strncpy((char *)&backend_update.firmware_tag, firmware_tag,
--		GB_FIRMWARE_U_TAG_MAX_SIZE);
-+	strscpy((char *)&backend_update.firmware_tag, firmware_tag,
-+		GB_FIRMWARE_U_TAG_MAX_SIZE + 1);
- 
- retry_fw_update:
- 	backend_update.status = 0;
-diff --git a/drivers/staging/greybus/greybus_firmware.h b/drivers/staging/greybus/greybus_firmware.h
-index b6042a82ada4..ad5b2c8a6461 100644
---- a/drivers/staging/greybus/greybus_firmware.h
-+++ b/drivers/staging/greybus/greybus_firmware.h
-@@ -38,20 +38,20 @@
- 
- /* IOCTL support */
- struct fw_mgmt_ioc_get_intf_version {
--	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE];
-+	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE + 1];
- 	__u16 major;
- 	__u16 minor;
- } __packed;
- 
- struct fw_mgmt_ioc_get_backend_version {
--	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE];
-+	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE + 1];
- 	__u16 major;
- 	__u16 minor;
- 	__u8 status;
- } __packed;
- 
- struct fw_mgmt_ioc_intf_load_and_validate {
--	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE];
-+	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE + 1];
- 	__u8 load_method;
- 	__u8 status;
- 	__u16 major;
-@@ -59,7 +59,7 @@ struct fw_mgmt_ioc_intf_load_and_validate {
- } __packed;
- 
- struct fw_mgmt_ioc_backend_fw_update {
--	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE];
-+	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE + 1];
- 	__u8 status;
- } __packed;
- 
--- 
-2.49.0
-
+Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
