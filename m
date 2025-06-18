@@ -1,50 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62121C861F;
-	Wed, 18 Jun 2025 16:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731631E0B91;
+	Wed, 18 Jun 2025 19:55:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750263641; cv=none; b=Ui2O6qZuEEfUFUmW8u9XHt0/CZ03ER5GNWWyRoZXagQAlsW1fVMTcCb0rOL1XgV69BHaDc6KGlmm3GeoFnaV4fbMGpBW5idlsa7J7BxdTD4BX3qeG80sjHk+4XwLR5j8RolxjA1e+H5un0BnYIR9u/Qd5tK2yoCt/NS05Q4KejU=
+	t=1750276505; cv=none; b=D2BdpQf3Qoy4+5Ib/Xo6M1Q0fTlWZ6JHaeSeP49Eq4AdFuowL6F1UOfbyvUKjLLBzEILDi4uFWQYZoMzRd3MaeXus1aQZWPA7XlbhQ+/HyDEH6DFOEubkdsLrdsnGCiZ7XWyFSAz0xkxnbvQ/BYZVerIxHb0i2oiMnQ2AvXWRr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750263641; c=relaxed/simple;
-	bh=IkySy5pTUIaa1j80e/sSRvJR71Vpo8qwgLf6v3TA6as=;
+	s=arc-20240116; t=1750276505; c=relaxed/simple;
+	bh=1RlycySOdSP3ZEPT62sfSnVE+tSXDy0OAIIpXyF3AKU=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iGAlDhvsyBSzlqX4zRYF6lpHUy2FaxKgjKWNEySThJYKVLvB+c8aWl76X2Y0nD7/hXlHnfjrXL9TJRUhc2rUDA3tXQ4jXrNRtxqDBbZf7ck8e8mTsqbcsXzvl2qxRtsnS/y7ttGAFMoObfAi7SjXfH3i7GMOvgxWbdMVCzj0TQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B9/zZbRF; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=HUdoyTH+7+zPdqq3b7wlQuMzrCRptxm/0xMjtgQpUSLhK6bmqkc873ZxMXgzEq4mv7px729tbWTWhUAlG1G4XxrUjpX8CmWdStHOH7FKWaGLToiR1sqhgHZKm70jXLUlJlxinQipffvVrtTxzW+nQobgOWCHb3YbkimGxLDKDrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mkx4JIXw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B9/zZbRF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0DA4C4CEE7;
-	Wed, 18 Jun 2025 16:20:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mkx4JIXw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 025DAC4CEE7;
+	Wed, 18 Jun 2025 19:55:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750263640;
-	bh=IkySy5pTUIaa1j80e/sSRvJR71Vpo8qwgLf6v3TA6as=;
+	s=k20201202; t=1750276505;
+	bh=1RlycySOdSP3ZEPT62sfSnVE+tSXDy0OAIIpXyF3AKU=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=B9/zZbRFgUlUjn1SvFThE5Oars1U8O/jKfPUmrref+JR6AdcjD43bqeNQsK5J91vf
-	 TAEZTCRZru5ZwjP1QKJuYegddPHlQ+hMGMf/pFcT7WxDCjutITnxs8E1CqWhs9j6Sl
-	 8s47TFgICxVNvyxm1jtzbDfjGvEHpSDoJjBGKLP5v+2nI0xTvNHOQSlPF9i84+YPTm
-	 26zOvmoOKXhSRDRvH1H01TvKP42ZngFGxa6hBZq/yJEeSz0jZW10OIaf/kdRqLsd9P
-	 6GMfbiE4gpXNdTr5/ubXM43Li8PbaUbuQLxZaLl6LPiIqB2GM4ExTvRheNNy/vPDUh
-	 ZEK4fjNxVCOlg==
-Date: Wed, 18 Jun 2025 18:20:32 +0200
+	b=Mkx4JIXwXrnHLEBQvsqdW8RQuZ9ro4sF496hW+Nz2EUz3hGoyOssK8CDgRrj7zfq6
+	 kHx9kNAJRe4tiFbn5CxjXby7pDGgWrN6ncNZru50wpgIlHpSjgLh8IVgKBYBWb5u3a
+	 ScvcmA9JYKhPljZwKKvfMVfxnt4XtYzzsNRQH1qa8Gi1WIL8TNmt3ZbNg6tdbAXv6y
+	 QOQ1JweU/4wPFO884GFGJ+tVHUzeCeMq6Oim6N8Fz4/NvnH+Mok+/FAbV2FsfXiSeC
+	 yPZsTaEpj9jr3mDfRvhNUrtgR/ngH68Z7eKvMjC4gf18xp0631bOiPFXsc9V5vYz0z
+	 DRK5GxK8gExdg==
+Date: Wed, 18 Jun 2025 21:54:57 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>
+To: Breno Leitao <leitao@debian.org>
 Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, linux-kernel@vger.kernel.org, "David S. Miller"
- <davem@davemloft.net>, Ignacio Encinas Rubio <ignacio@iencinas.com>, Marco
- Elver <elver@google.com>, Shuah Khan <skhan@linuxfoundation.org>, Donald
- Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>, Jan
- Stancek <jstancek@redhat.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
- Wauters <rubenru09@aol.com>, joel@joelfernandes.org,
- linux-kernel-mentees@lists.linux.dev, lkmm@lists.linux.dev,
- netdev@vger.kernel.org, peterz@infradead.org, stern@rowland.harvard.edu,
- Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v6 00/15] Don't generate netlink .rst files inside
- $(srctree)
-Message-ID: <20250618182032.03e7a727@sal.lan>
-In-Reply-To: <17f2a9ce-85ac-414a-b872-fbcd30354473@gmail.com>
+ <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, Eric
+ Dumazet <edumazet@google.com>, Ignacio Encinas Rubio
+ <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>, Marco Elver
+ <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben Wauters
+ <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
+ peterz@infradead.org, stern@rowland.harvard.edu
+Subject: Re: [PATCH v6 01/15] docs: conf.py: properly handle include and
+ exclude patterns
+Message-ID: <20250618215457.72b93b8d@foz.lan>
+In-Reply-To: <aFLee2PdbK+6SiA8@gmail.com>
 References: <cover.1750246291.git.mchehab+huawei@kernel.org>
-	<17f2a9ce-85ac-414a-b872-fbcd30354473@gmail.com>
+	<737b08e891765dc10bd944d4d42f8b1e37b80275.1750246291.git.mchehab+huawei@kernel.org>
+	<aFLee2PdbK+6SiA8@gmail.com>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -55,149 +56,150 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Thu, 19 Jun 2025 00:46:15 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+Em Wed, 18 Jun 2025 08:42:51 -0700
+Breno Leitao <leitao@debian.org> escreveu:
 
-> Hi Mauro,
-> 
-> On 2025/06/18 20:46, Mauro Carvalho Chehab wrote:
-> > As discussed at:
-> >    https://lore.kernel.org/all/20250610101331.62ba466f@foz.lan/
+> On Wed, Jun 18, 2025 at 01:46:28PM +0200, Mauro Carvalho Chehab wrote:
+> > When one does:
+> > 	make SPHINXDIRS="foo" htmldocs
 > > 
-> > changeset f061c9f7d058 ("Documentation: Document each netlink family")
-> > added a logic which generates *.rst files inside $(srctree). This is bad
-> > when O=<BUILDDIR> is used.
+> > All patterns would be relative to Documentation/foo, which
+> > causes the include/exclude patterns like:
 > > 
-> > A recent change renamed the yaml files used by Netlink, revealing a bad
-> > side effect: as "make cleandocs" don't clean the produced files and symbols
-> > appear duplicated for people that don't build the kernel from scratch.
+> > 	include_patterns = [
+> > 		...
+> > 		f'foo/*.{ext}',
+> > 	]
 > > 
-> > This series adds an yaml parser extension and uses an index file with glob for
-> > *. We opted to write such extension in a way that no actual yaml conversion
-> > code is inside it. This makes it flexible enough to handle other types of yaml
-> > files in the future. The actual yaml conversion logic were placed at 
-> > netlink_yml_parser.py. 
+> > to break. This is not what it is expected. Address it by
+> > adding a logic to dynamically adjust the pattern when
+> > SPHINXDIRS is used.
 > > 
-> > As requested by YNL maintainers, this version has netlink_yml_parser.py
-> > inside tools/net/ynl/pyynl/ directory. I don't like mixing libraries with
-> > binaries, nor to have Python libraries spread all over the Kernel. IMO,
-> > the best is to put all of them on a common place (scripts/lib, python/lib,
-> > lib/python, ...) but, as this can be solved later, for now let's keep it this
-> > way.
+> > That allows adding parsers for other file types.
 > > 
+> > It should be noticed that include_patterns was added on
+> > Sphinx 5.1:
+> > 	https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-include_patterns
+> > 
+> > So, a backward-compatible code is needed when we start
+> > using it for real.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
 > > ---
+> >  Documentation/conf.py | 67 ++++++++++++++++++++++++++++++++++++++++---
+> >  1 file changed, 63 insertions(+), 4 deletions(-)
 > > 
-> > v6:
-> > - YNL doc parser is now at tools/net/ynl/pyynl/lib/doc_generator.py;
-> > - two patches got merged;
-> > - added instructions to test docs with Sphinx 3.4.3 (minimal supported
-> >   version);
-> > - minor fixes.  
+> > diff --git a/Documentation/conf.py b/Documentation/conf.py
+> > index 12de52a2b17e..4ba4ee45e599 100644
+> > --- a/Documentation/conf.py
+> > +++ b/Documentation/conf.py
+> > @@ -17,6 +17,66 @@ import os
+> >  import sphinx
+> >  import shutil
+> >  
+> > +# Get Sphinx version
+> > +major, minor, patch = sphinx.version_info[:3]
+> > +
+> > +# Include_patterns were added on Sphinx 5.1
+> > +if (major < 5) or (major == 5 and minor < 1):
+> > +    has_include_patterns = False
+> > +else:
+> > +    has_include_patterns = True
+> > +    # Include patterns that don't contain directory names, in glob format
+> > +    include_patterns = ['**.rst']
+> > +
+> > +# Location of Documentation/ directory
+> > +doctree = os.path.abspath('.')
+> > +
+> > +# Exclude of patterns that don't contain directory names, in glob format.
+> > +exclude_patterns = []
+> > +
+> > +# List of patterns that contain directory names in glob format.
+> > +dyn_include_patterns = []
+> > +dyn_exclude_patterns = ['output']
+> > +
+> > +# Properly handle include/exclude patterns
+> > +# ----------------------------------------
+> > +
+> > +def update_patterns(app):
+> > +  
 > 
-> Quick tests against Sphinx 3.4.3 using container images based on
-> debian:bullseye and almalinux:9, both of which have 3.4.3 as their distro
-> packages, emits a *bunch* of warnings like the following:
+> PEP-257 says we don't want a line before docstring:
 > 
-> /<srcdir>/Documentation/netlink/specs/conntrack.yaml:: WARNING: YAML parsing error: AttributeError("'Values' object has no attribute 'tab_width'")
-> /<srcdir>/Documentation/netlink/specs/devlink.yaml:: WARNING: YAML parsing error: AttributeError("'Values' object has no attribute 'tab_width'")
-> /<srcdir>/Documentation/netlink/specs/dpll.yaml:: WARNING: YAML parsing error: AttributeError("'Values' object has no attribute 'tab_width'")
-> /<srcdir>/Documentation/netlink/specs/ethtool.yaml:: WARNING: YAML parsing error: AttributeError("'Values' object has no attribute 'tab_width'")
-> /<srcdir>/Documentation/netlink/specs/fou.yaml:: WARNING: YAML parsing error: AttributeError("'Values' object has no attribute 'tab_width'")
-> [...]
-> 
-> I suspect there should be a minimal required minimal version of PyYAML.
+> https://peps.python.org/pep-0257/#multi-line-docstrings
 
-Likely yes. From my side, I didn't change anything related to PyYAML, 
-except by adding a loader at the latest patch to add line numbers.
+True, but:
 
-The above warnings don't seem related. So, probably this was already
-an issue.
+$ pylint Documentation/conf.py 
+************* Module conf
+Documentation/conf.py:357:0: W0311: Bad indentation. Found 16 spaces, expected 12 (bad-indentation)
+Documentation/conf.py:587:0: W0311: Bad indentation. Found 1 spaces, expected 4 (bad-indentation)
+Documentation/conf.py:567:1: W0511: FIXME: Do not add the index file here; the result will be too big. Adding (fixme)
+Documentation/conf.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+Documentation/conf.py:229:0: W0622: Redefining built-in 'copyright' (redefined-builtin)
+Documentation/conf.py:21:22: I1101: Module 'sphinx' has no 'version_info' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
+Documentation/conf.py:25:4: C0103: Constant name "has_include_patterns" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:27:4: C0103: Constant name "has_include_patterns" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:65:4: W0612: Unused variable 'sourcedir' (unused-variable)
+Documentation/conf.py:66:4: W0612: Unused variable 'builddir' (unused-variable)
+Documentation/conf.py:104:0: E0401: Unable to import 'load_config' (import-error)
+Documentation/conf.py:104:0: C0413: Import "from load_config import loadConfig" should be placed at the top of the module (wrong-import-position)
+Documentation/conf.py:109:0: C0103: Constant name "needs_sphinx" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:186:0: C0103: Constant name "autosectionlabel_prefix_document" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:187:0: C0103: Constant name "autosectionlabel_maxdepth" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:200:8: C0103: Constant name "load_imgmath" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:202:8: C0103: Constant name "load_imgmath" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:204:25: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+Documentation/conf.py:208:4: C0103: Constant name "math_renderer" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:210:4: C0103: Constant name "math_renderer" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:225:0: C0103: Constant name "master_doc" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:228:0: C0103: Constant name "project" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:229:0: C0103: Constant name "copyright" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:230:0: C0103: Constant name "author" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:253:0: W0702: No exception type(s) specified (bare-except)
+Documentation/conf.py:243:4: C0103: Constant name "makefile_version" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:244:4: C0103: Constant name "makefile_patchlevel" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:245:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+Documentation/conf.py:245:16: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+Documentation/conf.py:259:8: C0103: Constant name "version" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:259:18: C0103: Constant name "release" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:266:0: C0116: Missing function or method docstring (missing-function-docstring)
+Documentation/conf.py:284:0: C0103: Constant name "language" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:308:0: C0103: Constant name "pygments_style" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:317:0: C0103: Constant name "todo_include_todos" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:319:0: C0103: Constant name "primary_domain" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:320:0: C0103: Constant name "highlight_language" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:328:0: C0103: Constant name "html_theme" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:334:3: R1714: Consider merging these comparisons with 'in' by using 'html_theme in ('sphinx_rtd_theme', 'sphinx_rtd_dark_mode')'. Use a set instead if elements are hashable. (consider-using-in)
+Documentation/conf.py:353:16: W0104: Statement seems to have no effect (pointless-statement)
+Documentation/conf.py:364:8: C0103: Constant name "html_theme" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:382:17: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+Documentation/conf.py:392:0: C0103: Constant name "smartquotes_action" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:404:0: C0103: Constant name "html_logo" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:407:0: C0103: Constant name "htmlhelp_basename" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:487:8: C0103: Constant name "has" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:490:16: C0103: Constant name "has" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:494:36: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+Documentation/conf.py:551:0: C0103: Constant name "epub_title" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:552:0: C0103: Constant name "epub_author" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:553:0: C0103: Constant name "epub_publisher" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:554:0: C0103: Constant name "epub_copyright" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:571:29: W1406: The u prefix for strings is no longer necessary in Python >=3.0 (redundant-u-string-prefix)
+Documentation/conf.py:571:40: W1406: The u prefix for strings is no longer necessary in Python >=3.0 (redundant-u-string-prefix)
+Documentation/conf.py:571:51: W1406: The u prefix for strings is no longer necessary in Python >=3.0 (redundant-u-string-prefix)
+Documentation/conf.py:577:0: C0103: Constant name "kerneldoc_bin" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:578:0: C0103: Constant name "kerneldoc_srctree" doesn't conform to UPPER_CASE naming style (invalid-name)
+Documentation/conf.py:586:0: C0116: Missing function or method docstring (missing-function-docstring)
+Documentation/conf.py:18:0: C0411: standard import "shutil" should be placed before third party import "sphinx" (wrong-import-order)
+Documentation/conf.py:350:16: W0611: Unused import sphinx_rtd_dark_mode (unused-import)
 
-Funny enough, I did, on my venv:
+This file needs a major cleanup, as it is currently not following
+any Python code style, and still has some Phython 2.x legacy
+coding styles.
 
-	$ pip install PyYAML==5.1
-	$ tools/net/ynl/pyynl/ynl_gen_rst.py -i Documentation/netlink/specs/dpll.yaml -o Documentation/output/netlink/specs/dpll.rst -v
-	...
-	$ make clean; make SPHINXDIRS="netlink/specs" htmldocs
-	...
+Perhaps it is time to take some care of it and on other
+sphinx/*.py files that aren't compliant ;-)
 
-but didn't get any issue (I have a later version installed outside
-venv - not sure it it will do the right thing).
-
-That's what I have at venv:
-
------------------------------ ---------
-Package                       Version
------------------------------ ---------
-alabaster                     0.7.13
-babel                         2.17.0
-certifi                       2025.6.15
-charset-normalizer            3.4.2
-docutils                      0.17.1
-idna                          3.10
-imagesize                     1.4.1
-Jinja2                        2.8.1
-MarkupSafe                    1.1.1
-packaging                     25.0
-pip                           25.1.1
-Pygments                      2.19.1
-PyYAML                        5.1
-requests                      2.32.4
-setuptools                    80.1.0
-snowballstemmer               3.0.1
-Sphinx                        3.4.3
-sphinxcontrib-applehelp       1.0.4
-sphinxcontrib-devhelp         1.0.2
-sphinxcontrib-htmlhelp        2.0.1
-sphinxcontrib-jsmath          1.0.1
-sphinxcontrib-qthelp          1.0.3
-sphinxcontrib-serializinghtml 1.1.5
-urllib3                       2.4.0
------------------------------ ---------
-
-> "pip freeze" based on almalinux:9 says:
-> 
->     PyYAML==5.4.1
-> 
-> "pip freeze" based on debian:bullseye says:
-> 
->     PyYAML==5.3.1
-> 
-> What is the minimal required version here?
-
-Breno, what's the minimal version? Please update requirements.txt
-to ensure that, and modify ./scripts/sphinx-pre-install to
-check for it.
-
-> 
-> And if users of those old distros need to manually upgrade PyYAML,
-> why don't you suggest them to upgrade Sphinx as well?
-
-The criteria we used to define minimal version for python/sphinx
-was having them released at the end of 2020/beginning 2021. So,
-up to ~4 years old. We also double-checked latest LTS versions
-from major distros.
-
-With that, PyYAML 5.4.1 met the ~4 years old, and so 5.3.1 and
-5.1.
-
-funny enough:
-
-	$ git grep tab_width Documentation/netlink/
-
-doesn't return anything. Yet, tab_width is used by sphinx
-extensions. The in-kernel ones do it the right way using
-get:
-
-	tab_width = self.options.get('tab-width',
-				     self.state.document.settings.tab_width)
-
-But perhaps some other extension you might have installed on your
-environment has issues, or maybe Documentation/sphinx/parser_yaml.py
-need to expand tabs with certain versions of docutils.
-
-Please compare the versions that you're using on your test
-environment with the ones I used here.
-
-Regards,
+Thanks,
 Mauro
