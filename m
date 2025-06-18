@@ -1,135 +1,144 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EEA2EAD1C
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 18 Jun 2025 14:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F95B2E9EAB;
+	Wed, 18 Jun 2025 15:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750257162; cv=none; b=UlJaacDGEDM86yujy9n152wi0nmt/QC/jJv1tL02oruGUIf2GDAensb7J6k8u/xWmFsuPKgdLCxWG3nGx61d40y+JIFWfzCetk8WsLRVwADDtjiETpx77re4/1TSyfI83nfUFqH53xxEIZNfWfqVSf0UGqwsowz8eX/P5wB6w54=
+	t=1750261378; cv=none; b=GQqTmkekOGi0FxhUcMtLSKRhqUdSuO02x/DRVWzdVfBIqBlgUmt85EW8BupSwW7hgMnJ+MGI7lZnehXix+pkigJXLBdlZD7M2Kj6ooPiNHtwncQ9gVorM8rgIPTbjAe3ozshzq4dMcMB9sceXW7jfg9uuM7f6F6jb2qtPXXHFww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750257162; c=relaxed/simple;
-	bh=rUMIy7WMDIqMX5nqHFhcWEJhMU/5V3MUoPXR1atiSL4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RySqOiCIV4HJGcvZNi7bBmVTCs93W/c1DpILXrRaiqUrsB+Z5o7PictnvFl7MGG2VM15fn3X53y61LxcydNUlli7elGR29ulAf5M+XwdicNAmP7eaGXZKo4RQIWrKDUJwZRT+FMsipGdJ9euAA5SmOR2NeFk7I6+ethMfmN//tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ak/KPQRE; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1750261378; c=relaxed/simple;
+	bh=ZAdHHI1Qa6a7uSzz9G6krYI8Sdg7y2V5dKsM4QZVgG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jc7xdly/EMjtfFCQZuPtNAWKpj8pJRfT3+XGPLMx74CG0dmCQi+2EYkZ2NGhBQJXqpAaAMX7CggdX/awImTyym6jLV7ebqGDXgYvdjtdsVsCQr6/3YeNQAyoYzCGGqTNL0QMA/x1mQW8ll96C1Ekkm99cGnFLo1HF3xVH3Hb1c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ak/KPQRE"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-553644b8f56so7206028e87.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 18 Jun 2025 07:32:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750257159; x=1750861959; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ihCXHRZ1nufqzjmG/TdDihkEo5FvL+VMlNINtJVdES0=;
-        b=Ak/KPQREtN1hDQ5iSvJUOaMDl4jCkfpVV+B/XkHKJtbJ86K2dWGrCfbeILcfMDDoeM
-         vYuBJYwDO9SoUXR7bgbJS/9YOhN9qmRdpRxqv3QnKMGW8E/oTv1JEflD2pAouD0xZ39E
-         ILRXyqsywvlc8JgvC4dCjurAVpfQ2S18PAuVMJ2lJlW4ISn70c4y97WPg/Lg9KuGdWTx
-         wm1YeyxeXMg4kItQMCtd6GcXmJ7y1mwbDg8GLN4/UHCItlMjV6m0EAp0jgMt6OyyETD/
-         CHNdoYLdJuj47u2BV2IzDEMyH3kClwpaiKt7NwxVzDII2JO88rn/HTV9EqIFJLic45dW
-         qVcQ==
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ad574992fcaso1118296366b.1;
+        Wed, 18 Jun 2025 08:42:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750257159; x=1750861959;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ihCXHRZ1nufqzjmG/TdDihkEo5FvL+VMlNINtJVdES0=;
-        b=DEpUimx5HfVZrAqhin6y4tX+sBXszieIrZH1tv1axsAuJdhSq+BzlaXAtMFGIvJIHp
-         bT3YtImfWThS8qYTEBeqmcuzveb4jOiStAdTHsnRX1wFuwyBd+o2m6bpK7vg83P3mWf9
-         1IDFB0sSQBcx4vLMnMtxaX7ntJFuWOmh68aQleQWMiw6z6ta+2bM68JBcwBbhCbwS5Vx
-         dufgxRwfvWVOaeTfdguVO+kfhH5S8qXqxmdIsgrBwflqN6k4KNFwQm55QaLQLgOsRIQO
-         Lo0q1umpvXMARk77kHdsKGQIk8597YA0/rETcZl135hPtpyv3cK/HlDy+b3ouUsBHepA
-         eC2A==
-X-Forwarded-Encrypted: i=1; AJvYcCXoDttlm5zvT9DzapKfP6fF1YAobdXcU4UYycNILXrCaBTWjuPlBmRzqF8JZkYrCjS1puRMmd/kQKU2DKCCGy2mKlrzXg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzDaobgJCws93OPyh566X1uFFnmXk5qOJPQ2yENIxnwjLtiaszv
-	PpXoa3eT34nVzhhQ64O9bKw2NHTmxOD+0B+evNDlnGgfxB/k545JzSYS7wrTlfhg2VXxT4ES5yO
-	Uzblv1tPE8IyOml0j8JeYHI9Tvr+Omo0=
-X-Gm-Gg: ASbGncs7sNg6q2DCRW5NqCrOaj3bKUZMrscAj037Zl2p717/O1YDZBoQVhJYEDlcrJl
-	uj5AUgz5OcG/spr1CnpbWFqowvZIWQ2IntFyspOeGArIRnipJCCruflq3MzmscTaLIYlU4J4Y6k
-	++DHYLJkFeKVF8LyT+YgJDANdEhEnUnbrfdYZc/50Qy+vOkQocpDqXAE16/jZabYVEvLCHszeIh
-	tzXWQ==
-X-Google-Smtp-Source: AGHT+IE9LWXuzf5K5WiugQZzr59mWmBCSO8Dngn+hDqQ+L7WD83q+dR609mZpacuubkSA72ZHmRLknqpUnl4K69yegE=
-X-Received: by 2002:a05:6512:39c3:b0:553:23f9:bb3b with SMTP id
- 2adb3069b0e04-553b6f43089mr4423414e87.49.1750257158310; Wed, 18 Jun 2025
- 07:32:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750261375; x=1750866175;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LWYHbpP051s3adQYzbRj7oJpUnu9maWKCI8y343Rnlo=;
+        b=JEo8PYBM1eTqZ0Y4ebIRkaDvQBxq9Xw7mKcbXg+8fS1do6SzjDp/sIa888WXtZG37q
+         P5Odyg1EODSYfLE1bzfe+Hki0bJc5pIzMnqOpdmi1KZyC1wpSwNB+qUHo/lKDlS/tbrT
+         /ebOFTxBReinor5D/0A6ajHx+PQNoL3Jy/VM27TuaNKcfKg+L2+bMeTiZ7T4Kb4ipkDI
+         0ni9t6PpLmGSlVeGU8VpUNl7yvLcJX6I03ZeMttxfVLrzsIIJpyMsQiFdFBniFpWOLud
+         xEbvz2CGJ9EXEfsCcscubs23LSSU8C2i7hBzlkIt3RxIByLIr0XK4s1Ie/zt77gMowJu
+         nVWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUh+LvUG7oBH/m5+VazKyqB4HOeK7qROWd1MKjiHKmhgC9GIT5nPcavvHqwRBis+/imxKebGbku34yFnkAQG3CB9uJtUw==@lists.linux.dev, AJvYcCV4d+8CpRI/XxQ0bRgIjF75gm/UP2YI0asbpsduxMnuvzA3QEAs/V2dyNE/IzdgdjqKtrtAgw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwCNj+1y5D9U2baCOuxtoWgqWw5vN3DrS6889fRQFD3/p3IefmC
+	8smQdcEbKDOzBlobHXLzcYfs3MKU2mIlhfw4w+f+7Prp4rPbKsdSUznnQu8hFg==
+X-Gm-Gg: ASbGnctjwAON9zqVmS9/mdGtKrXJbmaEa/eH7KchLCgGm3AxA0HwCRCALBnKW3WiJMp
+	3Tx4ZIIMqErn6oqncEIOqOQOPfBHAxjMAjvAqwz1eRj03eIHk7fkIHtj2dGdbN2rsD68OZp4gaY
+	8kM6kNVk4igLqgt9CO6Wad4LvDeepuiBhDVTyOf1lwptclBRXAML/bKcW2Xps4n4hB55pKc0wgF
+	w9GUH/iJNFtj26484YxBfiTcbTQg4rAQehxHcQ1VpKll8mzubGUgKJ84CMx99dUU0eWmaMWsJ2l
+	iaPtPExj6DBGWfZ+xvZNCJMT3eJ2AcLFg92611Jwpc4lrBw3NluZ
+X-Google-Smtp-Source: AGHT+IEZeb5BUZBwW+3X3Mghevtyvvv3qa+6/WQujzPyWQjQVnuNccvQjc/vqxVtBIzGQN0UTopzuA==
+X-Received: by 2002:a17:907:3f07:b0:adb:2db9:b0b0 with SMTP id a640c23a62f3a-adfad415cafmr1729558966b.35.1750261374664;
+        Wed, 18 Jun 2025 08:42:54 -0700 (PDT)
+Received: from gmail.com ([2a03:2880:30ff:4::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec88ff5d3sm1104154566b.101.2025.06.18.08.42.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jun 2025 08:42:54 -0700 (PDT)
+Date: Wed, 18 Jun 2025 08:42:51 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Ignacio Encinas Rubio <ignacio@iencinas.com>,
+	Jan Stancek <jstancek@redhat.com>, Marco Elver <elver@google.com>,
+	Paolo Abeni <pabeni@redhat.com>, Ruben Wauters <rubenru09@aol.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, joel@joelfernandes.org,
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
+	stern@rowland.harvard.edu
+Subject: Re: [PATCH v6 01/15] docs: conf.py: properly handle include and
+ exclude patterns
+Message-ID: <aFLee2PdbK+6SiA8@gmail.com>
+References: <cover.1750246291.git.mchehab+huawei@kernel.org>
+ <737b08e891765dc10bd944d4d42f8b1e37b80275.1750246291.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250617122512.21979-1-pranav.tyagi03@gmail.com> <20250618105039.GE1699@horms.kernel.org>
-In-Reply-To: <20250618105039.GE1699@horms.kernel.org>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Wed, 18 Jun 2025 20:02:26 +0530
-X-Gm-Features: Ac12FXw90DPxRpXgVMbGiXurWYc-LHuM_yqfq7DYOEEK79nbIo_aIr8UtNR_8e8
-Message-ID: <CAH4c4j+Cx3gTh0aBjBVJqvZjETR6ijphi=x1rQAy_S9fA48NJw@mail.gmail.com>
-Subject: Re: [PATCH] net/smc: replace strncpy with strscpy
-To: Simon Horman <horms@kernel.org>
-Cc: wenjia@linux.ibm.com, jaka@linux.ibm.com, davem@davemloft.net, 
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
-	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	alibuda@linux.alibaba.com, tonylu@linux.alibaba.com, guwen@linux.alibaba.com, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <737b08e891765dc10bd944d4d42f8b1e37b80275.1750246291.git.mchehab+huawei@kernel.org>
 
-On Wed, Jun 18, 2025 at 4:20=E2=80=AFPM Simon Horman <horms@kernel.org> wro=
-te:
->
-> On Tue, Jun 17, 2025 at 05:55:12PM +0530, Pranav Tyagi wrote:
-> > Replace the deprecated strncpy() with strscpy() as the destination
-> > buffer should be NUL-terminated and does not require any trailing
-> > NUL-padding.
-> >
-> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> > ---
-> >  net/smc/smc_pnet.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/net/smc/smc_pnet.c b/net/smc/smc_pnet.c
-> > index b391c2ef463f..b70e1f3179c5 100644
-> > --- a/net/smc/smc_pnet.c
-> > +++ b/net/smc/smc_pnet.c
-> > @@ -370,7 +370,7 @@ static int smc_pnet_add_eth(struct smc_pnettable *p=
-nettable, struct net *net,
-> >               goto out_put;
-> >       new_pe->type =3D SMC_PNET_ETH;
-> >       memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
-> > -     strncpy(new_pe->eth_name, eth_name, IFNAMSIZ);
-> > +     strscpy(new_pe->eth_name, eth_name, IFNAMSIZ);
->
-> Hi Pranav,
->
-> I think that because strscpy always results in a NULL terminated string
-> the length argument can be increased by one to IFNAMSIZ + 1, matching
-> the size of the destination.
->
-> But I also think that we can handle this automatically by switching
-> to the two-argument version of strscpy() because the destination is an
-> array.
->
->         strscpy(new_pe->eth_name, eth_name);
->
-> >       rc =3D -EEXIST;
-> >       new_netdev =3D true;
-> >       mutex_lock(&pnettable->lock);
-> > --
-> > 2.49.0
-> >
->
-> --
-> pw-bot: changes-requested
+On Wed, Jun 18, 2025 at 01:46:28PM +0200, Mauro Carvalho Chehab wrote:
+> When one does:
+> 	make SPHINXDIRS="foo" htmldocs
+> 
+> All patterns would be relative to Documentation/foo, which
+> causes the include/exclude patterns like:
+> 
+> 	include_patterns = [
+> 		...
+> 		f'foo/*.{ext}',
+> 	]
+> 
+> to break. This is not what it is expected. Address it by
+> adding a logic to dynamically adjust the pattern when
+> SPHINXDIRS is used.
+> 
+> That allows adding parsers for other file types.
+> 
+> It should be noticed that include_patterns was added on
+> Sphinx 5.1:
+> 	https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-include_patterns
+> 
+> So, a backward-compatible code is needed when we start
+> using it for real.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
+> ---
+>  Documentation/conf.py | 67 ++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 63 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 12de52a2b17e..4ba4ee45e599 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -17,6 +17,66 @@ import os
+>  import sphinx
+>  import shutil
+>  
+> +# Get Sphinx version
+> +major, minor, patch = sphinx.version_info[:3]
+> +
+> +# Include_patterns were added on Sphinx 5.1
+> +if (major < 5) or (major == 5 and minor < 1):
+> +    has_include_patterns = False
+> +else:
+> +    has_include_patterns = True
+> +    # Include patterns that don't contain directory names, in glob format
+> +    include_patterns = ['**.rst']
+> +
+> +# Location of Documentation/ directory
+> +doctree = os.path.abspath('.')
+> +
+> +# Exclude of patterns that don't contain directory names, in glob format.
+> +exclude_patterns = []
+> +
+> +# List of patterns that contain directory names in glob format.
+> +dyn_include_patterns = []
+> +dyn_exclude_patterns = ['output']
+> +
+> +# Properly handle include/exclude patterns
+> +# ----------------------------------------
+> +
+> +def update_patterns(app):
+> +
 
-Hi,
+PEP-257 says we don't want a line before docstring:
 
-Thanks for the feedback. Apologies for the oversight.
-The size parameter should match the size of the destination.
-Anyway, I will now use the two-argument version
-send a v2.
-
-Regards
-Pranav Tyagi
+https://peps.python.org/pep-0257/#multi-line-docstrings
