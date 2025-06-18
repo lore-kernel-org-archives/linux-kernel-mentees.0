@@ -1,172 +1,152 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF17194C75;
-	Wed, 18 Jun 2025 02:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5FC1E3769
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 18 Jun 2025 06:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750214542; cv=none; b=Q6P4v/JOLFahnTfQkElAUFFdzdI0PER/eJjQm4fIv0sEMWVb9r20VyoD9e93vxxhmbV5GpEeAZedJRAya2gf7bzGyjByGKRmNILWBpqD/+1BzTIPEWlcKDD8xDPMXoX6BjL9qNibNUXrepHcSEFgb7stGvSj1DRScr/7nvZvUQg=
+	t=1750227646; cv=none; b=dJ76L0LJNEknixkKy7Oi5IuVp79xsFVeSjLlw37optw/8WwfggsTV139SCeGydukbQlCYGqD8edeNU6CQlXryG12Kn4wkH+8HbyO/3AfYrxMeH+qaklzwwNAXQFZbBxRMIB5AlUzwoyab9sQ+z9h3xd4Xxj/NSri46i2BQ0o+gI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750214542; c=relaxed/simple;
-	bh=7i5+1Vmj56/aTiTJ9aGMjarno6AIHKUGDq5Tb5xI53w=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Qp1uyn0t6Ihj2le3grGWwxxXCn1+khWCGHvSwU4UOhjyuubBmqgiIOh1SG7i6cIZf/loYKlcmNn/VKWIxivDhdOxsBkC3iUo7bsa+QPofMPaWLFcJe+RVjLygN305D8RsQKuNFbkhADKxL0vOGVTRI4XxrPoq+Qt9Tr/RhrWFcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HXKwIIh3; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1750227646; c=relaxed/simple;
+	bh=r2P/jqnlG8ER5T2kcyLzbg88KxQ1hQIle5v/J/VH4RA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rvDBeWtZ/dReytx42cvFxpbLRWyxjRTM2FKkJkk0Vp1KBxQFdz7OLC4YQicSllILkVA0rfzZfBMPZGztHL+sCLtLgbR3Xyo+GdLr6GrGsOzwwnjYBr/5sPFvxNRTwJoMRTcZGxKT0ZMmaSvwZqz2Rn2PJvyEXIWBnUljGxuSdLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kzHlfV3l; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HXKwIIh3"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-234bfe37cccso82649625ad.0;
-        Tue, 17 Jun 2025 19:42:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kzHlfV3l"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-54b10594812so6736983e87.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 17 Jun 2025 23:20:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750214540; x=1750819340; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fuYMA/57H5BAmU65jan5lqjjy5ZSUjRygUj6a7SK/2Y=;
-        b=HXKwIIh3+4LOUdWlqp1yY65yAiYKWYGk7m1zfVFLsUjXTlcNazSFisnJnAr8/YGLmN
-         vKaKjL19FtxJq0ectdp8SEwoozvXJTAn30H7Jx410sWwzbrZTR/5YMoXAzFT2PiFqOHW
-         FoqiPC/Tj74pXJmkTmiy3HJLLufB8ZOlw3Ypnj8kTwuAPnweH6zqje2qLCNpZT6PwyCj
-         r+l2jz5W6EgppDYxP48hAXCiTEMvrARkC0XBENi1qordA6vQsBBWFjjbkmY5OWI8qVNn
-         vRz2csvWKG51Y5N5XasuT8f4bQCnB7kuVCPzp7uke5MgDMV6GOPEofqZqBVQMGWb+c+4
-         p+lg==
+        d=gmail.com; s=20230601; t=1750227643; x=1750832443; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dIX0DhlfHWBvvUubwltKbzItPX4eDrBzSY0SuHSHILE=;
+        b=kzHlfV3l+TpqX93ZNGQZ6cv9ISD0hJTNt2u31ntDbAk3wguI7H/wkfan1R+qAls3pA
+         W4CrplNY5nStV5y1/GIufa4sRf0i5owyUdkY9zWYH0uTWz5Zz6e9LPijiJespt3uMXp/
+         7RUevL2Sw0oeJNEwy6nQPVQIzaTqvFUtCAK4gAL1r4nZk7RaCbm3KtwVYiNx4qWyBYft
+         KKCpmBXra1UfaLgNJF+VRRmw4drZv90y6AoqkhO+2/RVJWEW0ZLbhf0En+5RS+/7EVN2
+         zCY9xqi8Evuh7icXRQa2M2nqx2TP2B2FHn1PLmevPoIYRH+YvEvgLCQzySK7UcB2W9i+
+         4zDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750214540; x=1750819340;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fuYMA/57H5BAmU65jan5lqjjy5ZSUjRygUj6a7SK/2Y=;
-        b=bdwE/dyX5E2orU58oS9tVvVe70ZHZO8l1Chb36T4zeJv3oOJ4M7Ko6ThvRXitHF3ei
-         spOK6T35OVGs/9dfXsyeaiWSb66DPJinFLhDNXuYS+i9/j9dTnGaj0J5rm9amOEgIaZq
-         +khypiyO+/TZukpp26IFAhs06M3DOEURmqV8KJH9+HGBYauXFD+8ROTUmGXdFVVHdC5a
-         QX5ijAbmkk5IGYDZngt541miGyP5BiGuLMymeTaMpa1HEinVXQhb76ipeLXGibsErOv1
-         s+WM7JmeclTsFEy/hzyy55Bdf5KGXvao5prhXLLPgMV1ouiFsFp5fxXHF/MMLxV0q/AF
-         6Lkw==
-X-Forwarded-Encrypted: i=1; AJvYcCU8aSazyyQkEHr82ThGnoIndOtp95V5t4yKg09QsZ5vDaJvy0BZyxQ7LG6O9ztihMH90m5h4UV5vzdwILcibDHLx1FFqg==@lists.linux.dev, AJvYcCWBTU9aUFQRWnanCckNX6RMoaG2B7Vj4L4vA4FHtfJQ/FX/FoxlZdlejnHfpUYY5mQB/VQHGA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2sqtRkZnM0zkgzKL734Zsu559WtGX/qfA26W9UwsdWHvjJJR5
-	Lwe5Swra9vQjwA5fJJ8PXB1goUYfk/iLvq+klFo0hpaAoTodBYDBNXy9
-X-Gm-Gg: ASbGncvNO3tg3sl46meK+x1h7lDyZs2PQ2Nn9yelrNxtAj2hk2bGBBhQ/pudwr7t//u
-	0VAkm2G2eFIC3sFvnc2fVNl3zms7jly5fgZxeP6xRvU86HvhhNeBpcyDq5bRLFOAEfbZeGU1WGn
-	CWwOkaoFlfzNgRzTRva0EdpwNCqdnGql+6d55bqG9PZ/3eVNPXCpqYocd2rwSylwFlXOGj+zfB4
-	7Qj0TuLMsRsPPveLwkUaDc/CBAFUtYUN4/Wl5PdruMbCVTcB9cF6rv7xX9OWumtiUWAvsf7xeIl
-	rR+SLuaf9b9OS3HXqtljEkLvESlSgK4TNlH6wYymojC+xjd3vrrNHhEIHO1gkTxUJ/c7hnSGXrw
-	oi4AfVu+FG+G07GYKvKdd12HCZHBnress
-X-Google-Smtp-Source: AGHT+IHvoHz8x/cvMCuTAeyI0cA9D+sbDRrQQCvuQAcnDzndTzmiRTQy44tnbpaZaEQHbGQzSCzMBg==
-X-Received: by 2002:a17:903:2347:b0:235:91a:4d with SMTP id d9443c01a7336-2366b0185e5mr212827035ad.23.1750214539698;
-        Tue, 17 Jun 2025 19:42:19 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dfc68c1sm88027995ad.238.2025.06.17.19.42.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jun 2025 19:42:19 -0700 (PDT)
-Message-ID: <1adba2c6-e4c3-4da2-874e-a304a1fdfd25@gmail.com>
-Date: Wed, 18 Jun 2025 11:42:14 +0900
+        d=1e100.net; s=20230601; t=1750227643; x=1750832443;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dIX0DhlfHWBvvUubwltKbzItPX4eDrBzSY0SuHSHILE=;
+        b=wF3EorgvhRujzBHBOkEp1VX4zYhRpoTTV+O5GK/rqwUMLCsWkT/dqjG5FgjI5qlHMk
+         IYKh+wYV2C20RKhru9drX96fz0VJYiigOtyRLN3Iv1Oj3/FDIOVo8ZeBHjM030UYnC58
+         pvrYvGRSQR4MVNX2bAk+EKV2qeupwXkjVRZx+PL+Ui6hoW3X5ztAxojcGJ/G0p8GF0rU
+         RLb7Po5nnOAzt5MncMYwhv8RHa4kcTF9re/lfJTAwOFjpE3mvVkAxr4h3aHQuayU5Fkc
+         YD5lT1QWT5xodWvR0674sxlUriXlw48V+wYWZWjkLCoWooT/m8nRJloohniSMfpSNVED
+         vTSw==
+X-Forwarded-Encrypted: i=1; AJvYcCUI6K7FpSpg+P3huRnYKVft/YQ209S5mWmQkQko9w32Vl2AetaggxQn9G26pWB/l+TmMwwFCkFviYk6ivewmSEbYTFqVg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwI6m/0In0deryl3po0L7G7bI8fPgY4MFEJE6WjOtYRBQ1MoSfz
+	EBh25vCVyxt461nXl+7Ruuxrqm4gitNOXBM1i7P0QuOUaasLTzXqhUdxBpEE8DyjDSST1yOPZpu
+	LGfqWF6UYOwqct3dRaR6XNf31ZX+p7lk=
+X-Gm-Gg: ASbGncvDzhVjbPfWqgtIoPreO/5gnepuhOL+7lNr/h1CmeqqNHuCjvgpZSh3HuE8nb/
+	lJFolQFLp+iMk18OuT9v+lsAy6w742APbSaHfmn5IKR66zYAu39nCZr2yBDvji4Cc3mWUxNrzCL
+	fFLPQB53+Zsh/1cuzEJjvdM4SFR+atNA4eM1wZH/RZjPpzIfbFJobmxwfkQYH5Pkp23TxbrbhZ9
+	MmAjw==
+X-Google-Smtp-Source: AGHT+IFDwTlSZDjQACLoP7ljsYhRuDW1C2uoKdnb91cZZMLXrn21OYVXh8RXGHMFWPKcrLuKWobe5N+eLwVuZQ+7gLA=
+X-Received: by 2002:a05:6512:31c9:b0:553:28a6:4384 with SMTP id
+ 2adb3069b0e04-553b6e68a2cmr4807234e87.10.1750227642416; Tue, 17 Jun 2025
+ 23:20:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v5 01/15] docs: conf.py: properly handle include and
- exclude patterns
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Breno Leitao <leitao@debian.org>, "David S. Miller"
- <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>,
- Eric Dumazet <edumazet@google.com>,
- Ignacio Encinas Rubio <ignacio@iencinas.com>,
- Jan Stancek <jstancek@redhat.com>, Marco Elver <elver@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Ruben Wauters <rubenru09@aol.com>,
- Shuah Khan <skhan@linuxfoundation.org>, joel@joelfernandes.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
- stern@rowland.harvard.edu, Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1750146719.git.mchehab+huawei@kernel.org>
- <cca10f879998c8f0ea78658bf9eabf94beb0af2b.1750146719.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-In-Reply-To: <cca10f879998c8f0ea78658bf9eabf94beb0af2b.1750146719.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250607064444.4310-1-pranav.tyagi03@gmail.com>
+ <87cybdp7to.ffs@tglx> <CAH4c4jLjSBxbd3bqkdgcCSWqXURratANgnbq9negrSU283xHpg@mail.gmail.com>
+ <87frg3ss9s.ffs@tglx>
+In-Reply-To: <87frg3ss9s.ffs@tglx>
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Date: Wed, 18 Jun 2025 11:50:31 +0530
+X-Gm-Features: Ac12FXxjciqKI82M-DbqXPNhkQ3tfmpyi86Fx9VXoSkenBP_2KlF1yVqsqV4iO0
+Message-ID: <CAH4c4j+P2MJWZWv6M2s+wOdfCF6q6Wyq3=VsB=uNCtEH1LMp-g@mail.gmail.com>
+Subject: Re: [PATCH] futex: don't leak robust_list pointer on exec race
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Darren Hart <dvhart@infradead.org>, Davidlohr Bueso <dave@stgolabs.net>, 
+	=?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	linux-kernel@vger.kernel.org, jann@thejh.net, keescook@chromium.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mauro,
+On Fri, Jun 13, 2025 at 6:38=E2=80=AFPM Thomas Gleixner <tglx@linutronix.de=
+> wrote:
+>
+> On Wed, Jun 11 2025 at 19:33, Pranav Tyagi wrote:
+> > On Mon, Jun 9, 2025 at 3:15=E2=80=AFPM Thomas Gleixner <tglx@linutronix=
+.de> wrote:
+> > Does the revised version below address the concerns more effectively
+> > or does it still need a bit more seasoning?
+> >
+> > "Currently, sys_get_robust_list() and compat_get_robust_list() perform =
+a
+> > ptrace_may_access() check to verify if the calling task is allowed to
+> > query another task=E2=80=99s robust_list pointer. However, this check i=
+s racy
+> > against a concurrent exec() in the target process.
+> >
+> > During exec(), a task's credentials and memory mappings can change, and
+> > the task may transition from a non-privileged binary to a privileged on=
+e
+> > (e.g., a setuid binary). If get_robust_list() performs ptrace_may_acces=
+s()
+> > before this transition, it may wrongly allow access to sensitive
+> > information after the target becomes privileged.
+> >
+> > To address this, a read lock is taken on signal->exec_update_lock prior
+> > to invoking ptrace_may_access() and accessing the robust_list. This
+> > ensures that the target task's exec state remains stable during the
+> > check, allowing for consistent and synchronized validation of
+> > credentials."
+>
+> That's way better, but it still does not explain what the consequences
+> of the racy access are.
 
-A comment on compatibility with earlier Sphinx.
+"The racy access allows a malicious observer to exploit a window during
+which ptrace_may_access() passes before a target process transitions to
+a privileged state via exec(). For example, consider a non-privileged
+task T that is about to execute a setuid-root binary. An attacker task A
+calls get_robust_list(T) while T is still unprivileged. Since
+ptrace_may_access() checks permissions based on current credentials, it
+succeeds.
 
-On Tue, 17 Jun 2025 10:01:58 +0200, Mauro Carvalho Chehab wrote:
-> When one does:
-> 	make SPHINXDIRS="foo" htmldocs
-> 
-> All patterns would be relative to Documentation/foo, which
-> causes the include/exclude patterns like:
-> 
-> 	include_patterns = [
-> 		...
-> 		f'foo/*.{ext}',
-> 	]
-> 
-> to break. This is not what it is expected. Address it by
-> adding a logic to dynamically adjust the pattern when
-> SPHINXDIRS is used.
-> 
-> That allows adding parsers for other file types.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/conf.py | 52 +++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 48 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 12de52a2b17e..e887c1b786a4 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -17,6 +17,54 @@ import os
->  import sphinx
->  import shutil
->  
-> +# Location of Documentation/ directory
-> +doctree = os.path.abspath('.')
-> +
-> +# List of patterns that don't contain directory names, in glob format.
-> +include_patterns = ['**.rst']
-> +exclude_patterns = []
-> +
+However, if T begins its exec() immediately afterward, it becomes
+privileged and may change its memory mappings. Because get_robust_list()
+proceeds to access T->robust_list without synchronizing with exec(), it
+may read user-space pointers from a now-privileged process. This
+violates the intended post-exec access restrictions and could expose
+sensitive memory addresses or be used as a primitive in a larger exploit
+chain.
 
-Where "exclude_patterns" has been with us ever since Sphinx 1.0,
-"include_patterns" was added fairly recently in Sphinx 5.1 [1].
+Thus, the race can lead to unauthorized disclosure of information across
+privilege boundaries and poses a potential security risk. Taking a read
+lock on exec_update_lock ensures that the target task's exec state
+remains stable during both the permission check and the access,
+preventing this inconsistent and potentially unsafe access."
 
-[1]: https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-include_patterns
+I hope this explains the consequences of the race condition. If it is fine,
+I'll add it to changelog when I resubmit with the helper function.
 
-So, this breaks earlier Sphinx versions.
-
-Also, after applying all of v5 on top of docs-next, I see these new
-warnings with Sphinx 7.2.6 (of Ubuntu 24.04):
-
-/<srcdir>/Documentation/output/ca.h.rst: WARNING: document isn't included in any toctree
-/<srcdir>/Documentation/output/cec.h.rst: WARNING: document isn't included in any toctree
-/<srcdir>/Documentation/output/dmx.h.rst: WARNING: document isn't included in any toctree
-/<srcdir>/Documentation/output/frontend.h.rst: WARNING: document isn't included in any toctree
-/<srcdir>/Documentation/output/lirc.h.rst: WARNING: document isn't included in any toctree
-/<srcdir>/Documentation/output/media.h.rst: WARNING: document isn't included in any toctree
-/<srcdir>/Documentation/output/net.h.rst: WARNING: document isn't included in any toctree
-/<srcdir>/Documentation/output/videodev2.h.rst: WARNING: document isn't included in any toctree
-
-Sphinx 7.3.7 and later are free of them.  I have no idea which change in
-Sphinx 7.3 got rid of them.
-
-Now that the parallel build performance regression has be resolved in
-Sphinx 7.4, I don't think there is much demand for keeping Sphinx versions
-compatible.
-These build errors and extra warnings would encourage people to upgrade
-there Sphinx.  So I'm not going to nack this.
-
-Of course, getting rid of above warnings with < Sphinx 7.3 would be ideal.
-
-        Thanks, Akira
-
-> +# List of patterns that contain directory names in glob format.
-> +dyn_include_patterns = []
-> +dyn_exclude_patterns = ['output']
-> +
-[...]
+> >>
+> >> You really did not have a better idea than copying all of that logic
+> >> into the compat code?
+> >
+> > As I=E2=80=99m still learning, I wasn=E2=80=99t quite sure how to avoid
+> > duplication there. Would factoring out the common logic into a helper f=
+unction
+> > be the right direction? I=E2=80=99d be grateful for your suggestion.
+>
+> Exactly.
+>
+> Thanks,
+>
+>         tglx
