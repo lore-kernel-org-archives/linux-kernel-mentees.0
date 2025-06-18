@@ -1,191 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2F82EBB90;
-	Tue, 17 Jun 2025 18:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF17194C75;
+	Wed, 18 Jun 2025 02:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750185089; cv=none; b=na/a1W6i1QpKRzjapW3MAKE+Nh9Nimb7ZvG9MUMco7zexQD9jouGSXdU5fi627ANWoeB2H4QKCBy678kH6EiZqOKHMVuTU55sKDWUuEO4m0wan/+kDwrZnq+n7U6wzksi+U50WUSCc857+DcFYEGyd/N+AVJEeNuT62qFph+6V4=
+	t=1750214542; cv=none; b=Q6P4v/JOLFahnTfQkElAUFFdzdI0PER/eJjQm4fIv0sEMWVb9r20VyoD9e93vxxhmbV5GpEeAZedJRAya2gf7bzGyjByGKRmNILWBpqD/+1BzTIPEWlcKDD8xDPMXoX6BjL9qNibNUXrepHcSEFgb7stGvSj1DRScr/7nvZvUQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750185089; c=relaxed/simple;
-	bh=XPD0E6xQgTVH4IjnsmJ69h+bHt2lmoQrqOhiXIJh0lU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sEwiJwr+pp/SDFOg3CYWfzyyXheZKwOQ2KCJfnkMhB6B0g98+SpCPMcol5hSsdekGIJOyJ7tCOpP89yLEtrINGKAvqmkkwf/2LtC3APdFRENApzSBU+Z7emrtJKZy4czOgEHalYYJ8Z//j/rEvbp566CVYFKoAD1v62bWM5ouKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GGzs0c9z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750214542; c=relaxed/simple;
+	bh=7i5+1Vmj56/aTiTJ9aGMjarno6AIHKUGDq5Tb5xI53w=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Qp1uyn0t6Ihj2le3grGWwxxXCn1+khWCGHvSwU4UOhjyuubBmqgiIOh1SG7i6cIZf/loYKlcmNn/VKWIxivDhdOxsBkC3iUo7bsa+QPofMPaWLFcJe+RVjLygN305D8RsQKuNFbkhADKxL0vOGVTRI4XxrPoq+Qt9Tr/RhrWFcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HXKwIIh3; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GGzs0c9z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAAB0C4CEE3;
-	Tue, 17 Jun 2025 18:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750185089;
-	bh=XPD0E6xQgTVH4IjnsmJ69h+bHt2lmoQrqOhiXIJh0lU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GGzs0c9zcn8nIQ04zNDLudS0oQ1e7abWV+d2fLy4Lb4213uYypwIOg3rBd4iu2D2c
-	 qo5k3v+YOwSZ5AAO5qYdoRcvPBOW10DmPb1ZrH/qA0An1IkJYtkxZ0lr9XH6FOXjQ4
-	 XiQIyuRCgQbTg3JPOv010FSL+2nx7bS3V+DcsrMwFiFj97ohDAbTA0GagBEe5iygUy
-	 SUsS8DwATC0Ew1NUGwPZ6otGRb9XgMQYTbolhWWVk+zrzaybPa7NLce165NaZoERQm
-	 HwLMRCa899had9//Q0JTHjX9y1RgVUZV9gawy/AjaEvC2bQsw5LEhRJ3Yj+VZWyEWU
-	 d3eb6qaaaaLaA==
-Date: Tue, 17 Jun 2025 19:31:24 +0100
-From: Simon Horman <horms@kernel.org>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, skhan@linuxfoundation.com,
-	jacob.e.keller@intel.com, alok.a.tiwari@oracle.com
-Subject: Re: [PATCH v2 1/2] docs: net: sysctl documentation cleanup
-Message-ID: <20250617183124.GC2545@horms.kernel.org>
-References: <20250614225324.82810-1-abdelrahmanfekry375@gmail.com>
- <20250614225324.82810-2-abdelrahmanfekry375@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HXKwIIh3"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-234bfe37cccso82649625ad.0;
+        Tue, 17 Jun 2025 19:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750214540; x=1750819340; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fuYMA/57H5BAmU65jan5lqjjy5ZSUjRygUj6a7SK/2Y=;
+        b=HXKwIIh3+4LOUdWlqp1yY65yAiYKWYGk7m1zfVFLsUjXTlcNazSFisnJnAr8/YGLmN
+         vKaKjL19FtxJq0ectdp8SEwoozvXJTAn30H7Jx410sWwzbrZTR/5YMoXAzFT2PiFqOHW
+         FoqiPC/Tj74pXJmkTmiy3HJLLufB8ZOlw3Ypnj8kTwuAPnweH6zqje2qLCNpZT6PwyCj
+         r+l2jz5W6EgppDYxP48hAXCiTEMvrARkC0XBENi1qordA6vQsBBWFjjbkmY5OWI8qVNn
+         vRz2csvWKG51Y5N5XasuT8f4bQCnB7kuVCPzp7uke5MgDMV6GOPEofqZqBVQMGWb+c+4
+         p+lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750214540; x=1750819340;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fuYMA/57H5BAmU65jan5lqjjy5ZSUjRygUj6a7SK/2Y=;
+        b=bdwE/dyX5E2orU58oS9tVvVe70ZHZO8l1Chb36T4zeJv3oOJ4M7Ko6ThvRXitHF3ei
+         spOK6T35OVGs/9dfXsyeaiWSb66DPJinFLhDNXuYS+i9/j9dTnGaj0J5rm9amOEgIaZq
+         +khypiyO+/TZukpp26IFAhs06M3DOEURmqV8KJH9+HGBYauXFD+8ROTUmGXdFVVHdC5a
+         QX5ijAbmkk5IGYDZngt541miGyP5BiGuLMymeTaMpa1HEinVXQhb76ipeLXGibsErOv1
+         s+WM7JmeclTsFEy/hzyy55Bdf5KGXvao5prhXLLPgMV1ouiFsFp5fxXHF/MMLxV0q/AF
+         6Lkw==
+X-Forwarded-Encrypted: i=1; AJvYcCU8aSazyyQkEHr82ThGnoIndOtp95V5t4yKg09QsZ5vDaJvy0BZyxQ7LG6O9ztihMH90m5h4UV5vzdwILcibDHLx1FFqg==@lists.linux.dev, AJvYcCWBTU9aUFQRWnanCckNX6RMoaG2B7Vj4L4vA4FHtfJQ/FX/FoxlZdlejnHfpUYY5mQB/VQHGA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy2sqtRkZnM0zkgzKL734Zsu559WtGX/qfA26W9UwsdWHvjJJR5
+	Lwe5Swra9vQjwA5fJJ8PXB1goUYfk/iLvq+klFo0hpaAoTodBYDBNXy9
+X-Gm-Gg: ASbGncvNO3tg3sl46meK+x1h7lDyZs2PQ2Nn9yelrNxtAj2hk2bGBBhQ/pudwr7t//u
+	0VAkm2G2eFIC3sFvnc2fVNl3zms7jly5fgZxeP6xRvU86HvhhNeBpcyDq5bRLFOAEfbZeGU1WGn
+	CWwOkaoFlfzNgRzTRva0EdpwNCqdnGql+6d55bqG9PZ/3eVNPXCpqYocd2rwSylwFlXOGj+zfB4
+	7Qj0TuLMsRsPPveLwkUaDc/CBAFUtYUN4/Wl5PdruMbCVTcB9cF6rv7xX9OWumtiUWAvsf7xeIl
+	rR+SLuaf9b9OS3HXqtljEkLvESlSgK4TNlH6wYymojC+xjd3vrrNHhEIHO1gkTxUJ/c7hnSGXrw
+	oi4AfVu+FG+G07GYKvKdd12HCZHBnress
+X-Google-Smtp-Source: AGHT+IHvoHz8x/cvMCuTAeyI0cA9D+sbDRrQQCvuQAcnDzndTzmiRTQy44tnbpaZaEQHbGQzSCzMBg==
+X-Received: by 2002:a17:903:2347:b0:235:91a:4d with SMTP id d9443c01a7336-2366b0185e5mr212827035ad.23.1750214539698;
+        Tue, 17 Jun 2025 19:42:19 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dfc68c1sm88027995ad.238.2025.06.17.19.42.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Jun 2025 19:42:19 -0700 (PDT)
+Message-ID: <1adba2c6-e4c3-4da2-874e-a304a1fdfd25@gmail.com>
+Date: Wed, 18 Jun 2025 11:42:14 +0900
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250614225324.82810-2-abdelrahmanfekry375@gmail.com>
+User-Agent: Mozilla Thunderbird
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH v5 01/15] docs: conf.py: properly handle include and
+ exclude patterns
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Breno Leitao <leitao@debian.org>, "David S. Miller"
+ <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>,
+ Eric Dumazet <edumazet@google.com>,
+ Ignacio Encinas Rubio <ignacio@iencinas.com>,
+ Jan Stancek <jstancek@redhat.com>, Marco Elver <elver@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Ruben Wauters <rubenru09@aol.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, joel@joelfernandes.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
+ stern@rowland.harvard.edu, Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1750146719.git.mchehab+huawei@kernel.org>
+ <cca10f879998c8f0ea78658bf9eabf94beb0af2b.1750146719.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+In-Reply-To: <cca10f879998c8f0ea78658bf9eabf94beb0af2b.1750146719.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jun 15, 2025 at 01:53:23AM +0300, Abdelrahman Fekry wrote:
-> I noticed that some boolean parameters have missing default values
-> (enabled/disabled) in the documentation so i checked the initialization
-> functions to get their default values, also there was some inconsistency
-> in the representation. During the process , i stumbled upon a typo in
-> cipso_rbm_struct_valid instead of cipso_rbm_struct_valid.
+Hi Mauro,
 
-Please consider using the imperative mood in patch discriptions.
+A comment on compatibility with earlier Sphinx.
 
-As per [*] please denote the target tree for Networking patches.
-In this case net-next seems appropriate.
-
-  [PATCH net-next v3 1/2] ...
-
-[*] https://docs.kernel.org/process/maintainer-netdev.html
-
-And please make sure the patches apply cleanly, without fuzz, on
-top of the target tree: this series seems to apply cleanly neither
-on net or net-next.
-
-The text below, up to (but not including your Signed-off-by line)
-doesn't belong in the patch description. If you wish to include
-notes or commentary of this nature then please do so below the
-scissors ("---"). But I think the brief summary you already
-have there is sufficient in this case - we can follow
-the link to v1 for more information.
-
+On Tue, 17 Jun 2025 10:01:58 +0200, Mauro Carvalho Chehab wrote:
+> When one does:
+> 	make SPHINXDIRS="foo" htmldocs
 > 
-> Thanks for the review.
+> All patterns would be relative to Documentation/foo, which
+> causes the include/exclude patterns like:
 > 
-> On Thu, 12 Jun 2025, Jacob Keller wrote:
-> > Would it make sense to use "0 (disabled)" and "1 (enabled)" with
-> > parenthesis for consistency with the default value?
+> 	include_patterns = [
+> 		...
+> 		f'foo/*.{ext}',
+> 	]
 > 
-> Used as suggested.
+> to break. This is not what it is expected. Address it by
+> adding a logic to dynamically adjust the pattern when
+> SPHINXDIRS is used.
 > 
-> On Fri, 13 Jun 2025, ALOK TIWARI wrote:
-> > for consistency
-> > remove extra space before colon
-> > Default: 1 (enabled)
+> That allows adding parsers for other file types.
 > 
-> Fixed. 
-> 
-> On Sat, 14 Jun 2025 10:46:29 -0700, Jakub Kicinski wrote:
-> > You need to repost the entire series. Make sure you read:
-> > https://www.kernel.org/doc/html/next/process/maintainer-netdev.html
-> > before you do.
-> 
-> Reposted the entire series, Thanks for you patiency.
-> 
-> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
-> v2:
-> - Deleted space before colon for consistency
-> - Standardized more boolean representation (0/1 with enabled/disabled)
+>  Documentation/conf.py | 52 +++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 48 insertions(+), 4 deletions(-)
 > 
-> v1: https://lore.kernel.org/all/20250612162954.55843-2-abdelrahmanfekry375@gmail.com/
-> - Fixed typo in cipso_rbm_struct_valid
-> - Added missing default value declarations
-> - Standardized boolean representation (0/1 with enabled/disabled)
->  Documentation/networking/ip-sysctl.rst | 47 ++++++++++++++++++++------
->  1 file changed, 37 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-> index 0f1251cce314..68778532faa5 100644
-> --- a/Documentation/networking/ip-sysctl.rst
-> +++ b/Documentation/networking/ip-sysctl.rst
-> @@ -8,14 +8,16 @@ IP Sysctl
->  ==============================
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 12de52a2b17e..e887c1b786a4 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -17,6 +17,54 @@ import os
+>  import sphinx
+>  import shutil
 >  
->  ip_forward - BOOLEAN
-> -	- 0 - disabled (default)
-> -	- not 0 - enabled
-> +	- 0 (disabled)
-> +	- not 0 (enabled)
->  
->  	Forward Packets between interfaces.
->  
->  	This variable is special, its change resets all configuration
->  	parameters to their default state (RFC1122 for hosts, RFC1812
->  	for routers)
+> +# Location of Documentation/ directory
+> +doctree = os.path.abspath('.')
 > +
-> +	Default: 0 (disabled)
->  
->  ip_default_ttl - INTEGER
->  	Default value of TTL field (Time To Live) for outgoing (but not
-> @@ -75,7 +77,7 @@ fwmark_reflect - BOOLEAN
->  	If unset, these packets have a fwmark of zero. If set, they have the
->  	fwmark of the packet they are replying to.
-
-Maybe it would be more consistent to describe this in terms
-of enabled / disabled rather than set / unset.
-
->  
-> -	Default: 0
-> +	Default: 0 (disabled)
->  
->  fib_multipath_use_neigh - BOOLEAN
->  	Use status of existing neighbor entry when determining nexthop for
-> @@ -368,7 +370,7 @@ tcp_autocorking - BOOLEAN
->  	queue. Applications can still use TCP_CORK for optimal behavior
->  	when they know how/when to uncork their sockets.
->  
-> -	Default : 1
-> +	Default: 1 (enabled)
-
-For consistency, would it make sense to document the possible values here.
-
->  
->  tcp_available_congestion_control - STRING
->  	Shows the available congestion control choices that are registered.
-> @@ -407,6 +409,12 @@ tcp_congestion_control - STRING
->  
->  tcp_dsack - BOOLEAN
->  	Allows TCP to send "duplicate" SACKs.
+> +# List of patterns that don't contain directory names, in glob format.
+> +include_patterns = ['**.rst']
+> +exclude_patterns = []
 > +
-> +	Possible values:
-> +		- 0 (disabled)
-> +		- 1 (enabled)
 
-In the case of ip_forward, the possible values are not explicitly named
-as such and appear at the top of the documentation for the parameter.
+Where "exclude_patterns" has been with us ever since Sphinx 1.0,
+"include_patterns" was added fairly recently in Sphinx 5.1 [1].
 
-Here they are explicitly named possible values and appear below the
-description of the parameter, but before documentation of the Default.
-Elsewhere, e.g. ip_forward_use_pmtu, they appear after the documentation of
-the Default. And sometimes, e.g. ip_default_ttl, the possible values are
-documented at all.
+[1]: https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-include_patterns
 
-Likewise, indentation and use of blank lines seems inconsistent.
+So, this breaks earlier Sphinx versions.
 
-Is there a value in cleaning this up too?
+Also, after applying all of v5 on top of docs-next, I see these new
+warnings with Sphinx 7.2.6 (of Ubuntu 24.04):
 
+/<srcdir>/Documentation/output/ca.h.rst: WARNING: document isn't included in any toctree
+/<srcdir>/Documentation/output/cec.h.rst: WARNING: document isn't included in any toctree
+/<srcdir>/Documentation/output/dmx.h.rst: WARNING: document isn't included in any toctree
+/<srcdir>/Documentation/output/frontend.h.rst: WARNING: document isn't included in any toctree
+/<srcdir>/Documentation/output/lirc.h.rst: WARNING: document isn't included in any toctree
+/<srcdir>/Documentation/output/media.h.rst: WARNING: document isn't included in any toctree
+/<srcdir>/Documentation/output/net.h.rst: WARNING: document isn't included in any toctree
+/<srcdir>/Documentation/output/videodev2.h.rst: WARNING: document isn't included in any toctree
+
+Sphinx 7.3.7 and later are free of them.  I have no idea which change in
+Sphinx 7.3 got rid of them.
+
+Now that the parallel build performance regression has be resolved in
+Sphinx 7.4, I don't think there is much demand for keeping Sphinx versions
+compatible.
+These build errors and extra warnings would encourage people to upgrade
+there Sphinx.  So I'm not going to nack this.
+
+Of course, getting rid of above warnings with < Sphinx 7.3 would be ideal.
+
+        Thanks, Akira
+
+> +# List of patterns that contain directory names in glob format.
+> +dyn_include_patterns = []
+> +dyn_exclude_patterns = ['output']
 > +
-> +	Default: 1 (enabled)
->  
-
-...
-
--- 
-pw-bot: changes-requested
+[...]
