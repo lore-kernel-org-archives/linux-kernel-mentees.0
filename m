@@ -1,151 +1,125 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892231E0E14
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 18 Jun 2025 06:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA80257AC2;
+	Wed, 18 Jun 2025 06:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750228364; cv=none; b=abFI3xF7D/9TrvFZjr5uxaLT+1x952i9veBSTEsQF01SZAKUnT4T6AfLwr2F2bjvLNkrpv9LTldKEdOtlRbG+yqWhotarA0CRFVvFrlGkG7x8mze1thG6cKi+9FeBvjJop5TvJ3YskEU9wgqCoUNwBc9XAcSumXABDt9uGHVWIc=
+	t=1750229863; cv=none; b=LFb8Nj5hq9iiH0rxbc2eh6wHAmFzAfvHqUy9HgqWMoMHWqnmkgNBiQCTSuZshSbM9RMJS7tXoG6BO9cGtoSugPVsXIb1pzgC3466iYwG+PJZ/6WRfLhk5+pL3ralU543xB54iibXkBfoc/VKIvB5Ejt1OjHT7iHRyt+7+9uX4/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750228364; c=relaxed/simple;
-	bh=Q6R9VpJK+yebI8V2UHdLDoGLpV7IjX7AVke6WGXxh3M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gGg1jBeekZRv23KfiNYED5YHbaqeliOgzYIe/bmMYjtF8h2HUWCNIAArIec4FYm7s42LmxX2dzg7UPsm1x8YQhCz3NR0JLSfptpi9rvDLKXRjKkaUKe52Pyng5sdy/pYsl7p52VUxgVfvkdthB1Y6uq0VHVdwRafxV+ZH6MU5Ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iqsIpqw6; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750229863; c=relaxed/simple;
+	bh=RFQtspKngvjxdT3mkmOe3FrXsaTZvezQsEA/vCFJOSQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EAO9l/DlT7ue7MjCCJzoPCe97tsaluHrpPWZd4GAz12WsZmWzTBf13tvnCzBMhiFspeXPmdvM7RXDMx474ist49pztNCzIGXI5Np0R9rUIpwy1coZD+yaPvcYletYlOX03lHU8k6UL73PKbopSOIHBSwiXS8AkdKpjZpSOgKCyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pvLvDGTF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iqsIpqw6"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-553c31542b1so3087870e87.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 17 Jun 2025 23:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750228361; x=1750833161; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bwqo1Tn/UI5NB53KqrvduG70MhvCcVKMdoEFHbfpgfk=;
-        b=iqsIpqw6uL8zp74H3mBIZBDAhtw+NUbEyIGwX8iOltqmyjvziExRT+vmHP/Qq//MrH
-         36RyxwE0obMpR+5QER57ijd1zElDQ88fz+AwNlD6psjkAmLoapIgTnGnG0pBeL7pNfa9
-         VilzW2fg/JXZxczVKZV8ZP3OMe1A2siHpMW3ZAg9Gb00oHZ5sbXZ0xdppKKDnmk53f3C
-         BKipMQozDCzuWBhBCdYLM34yYWYAs8L7CdHBAEc5xg8pJkEyAqN7heypUO8hLPuH4uyg
-         RfU//eIQUM/zTVC9iMIDBF/ZNv7DPz2YbwT7mHPS0qis4LqmdMH8nvNDd7f239SYRiMK
-         JKag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750228361; x=1750833161;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Bwqo1Tn/UI5NB53KqrvduG70MhvCcVKMdoEFHbfpgfk=;
-        b=jzsP0T4M9oAKYB1arIqZDWMYKaIlCyU2MHPThtb2tvvZAAnoZzLTZOLwhlW8Tb56hI
-         3LgZggiH/bzsP3vJelWnuphxufo0ul41i87+SnR1h57fDy3SfEUfXDG4jbhj4bKApcMf
-         LZzOqcmyMbXaFUY0biCXqgk6rg2wWSAW+s3Hx4eULm2P/pwQpbq8X4CPgJneorH4n58T
-         blWUdkKf2yjYK6I8hnXZMb0bWgim3cbRLr5ma1Z9dj5hTGxkUKWk9Wzh1XD2gqxIN76R
-         /7aPYfxd4MtrabGhotkv7cw4zUTUY/M1PQReYcKuwRydqMPtalBnoq7qsy4Cgi4diRxP
-         1tKg==
-X-Forwarded-Encrypted: i=1; AJvYcCWy6AxZ/WrzpOTYpd1hsh2g/CZ1MU0JNsEtgIAoQyzea6kKT4IaLOoyxkpDk/i4DeefDp0+kbZVoBt8HY/HAreb2UNSCw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy57TmWtQHsr0cyyrr+ryaVaZ4cwWyZynO0E3ocmb69NkSWguLX
-	oGlDZ/ShKXS1AHw84oBSPuE0dTL6pu4ACXgEXuxXr0SidLJ+F92StAnc4+CN0+kjdCdi+qEblfy
-	DaUqD15TXwrSnkSGAX6ipIrk+X1OQcUI=
-X-Gm-Gg: ASbGnct0CJRwAXqqUh8SCqnd0TUEVEaWp/7MEfL/QVyKBH2CtAu+p6gdQSkJ2Z1YDqO
-	lYHXXjVB9XkFIO7JOkNpCQLoCPRy2skmuPa17aGZrdYpYcECqEroxxhC62yL5r/v6tAeQj6rwix
-	pCB/fW97kAGOwis0kpgG6PcMbZVzcaWBHPrT4axfxlLw3kLdL2U6yyqbfeUAfLx8YIubvOep3tr
-	hY7Hg==
-X-Google-Smtp-Source: AGHT+IE9/lVOC9RD5dqHWaSWa1j5VajQRRLgW6hA855xIJmZ/spd0YvrkdXm0ZHnMiUmLACFqGFrlt0hesE7QYoVWtc=
-X-Received: by 2002:a05:6512:304d:b0:553:3172:1c23 with SMTP id
- 2adb3069b0e04-553b6e75482mr5205429e87.17.1750228360458; Tue, 17 Jun 2025
- 23:32:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pvLvDGTF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25104C4CEED;
+	Wed, 18 Jun 2025 06:57:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750229862;
+	bh=RFQtspKngvjxdT3mkmOe3FrXsaTZvezQsEA/vCFJOSQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=pvLvDGTFYOWl3fc6P3KuOrtwdTiOuGl6+DvxBg0GsdS8wmwav5EBVT67CPl1IzQ8v
+	 N988iKSa2lXRm7aA8OMF9nuKVcuNHDRz4/TRHg/tYLneDDdP/53A96EV3k/z7/RADQ
+	 YC+4NbycT40fGbDxSYmS8+2ijRBYxGB0UzmCh22CHyzULWpfWYw5WMYydCpH2Ml86M
+	 z7SqWtLuvwHhNvsSbOugVYLLe4ZJowKDOGaXSuLd2iA3GwoyCDAoN3/UOFKuuJ+97o
+	 KZoSRqmOHg2FwrqHFE+R9jWnEjc436segDd5QKyu+BG2yCOucbbQkW3RYKORUGtfvR
+	 0reNTsB2M81qQ==
+Date: Wed, 18 Jun 2025 08:57:35 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Simon Horman <horms@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>, Breno Leitao
+ <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>, Ignacio
+ Encinas Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>,
+ Marco Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
+ Wauters <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
+ peterz@infradead.org, stern@rowland.harvard.edu
+Subject: Re: [PATCH v5 05/15] tools: ynl_gen_rst.py: make the index parser
+ more generic
+Message-ID: <20250618085735.7f9aa5a6@foz.lan>
+In-Reply-To: <20250617115927.GK5000@horms.kernel.org>
+References: <cover.1750146719.git.mchehab+huawei@kernel.org>
+	<1cd8b28bfe159677b8a8b1228b04ba2919c8aee8.1750146719.git.mchehab+huawei@kernel.org>
+	<20250617115927.GK5000@horms.kernel.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250607134114.21899-1-pranav.tyagi03@gmail.com> <20250617130431.50f761dc@pumpkin>
-In-Reply-To: <20250617130431.50f761dc@pumpkin>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Wed, 18 Jun 2025 12:02:28 +0530
-X-Gm-Features: Ac12FXw1swBMxxqP7uL84LhUXsvU1fv-TbWZJqVqxFBuKmhpQqAXjySO2_KEEhg
-Message-ID: <CAH4c4j+BEJqMqECPDgOF5vq4hg7_yBRrLBPSuTKnA+CO658SOQ@mail.gmail.com>
-Subject: Re: [PATCH] tty: replace capable() with file_ns_capable()
-To: David Laight <david.laight.linux@gmail.com>
-Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, kees@kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 17, 2025 at 5:34=E2=80=AFPM David Laight
-<david.laight.linux@gmail.com> wrote:
->
-> On Sat,  7 Jun 2025 19:11:14 +0530
-> Pranav Tyagi <pranav.tyagi03@gmail.com> wrote:
->
-> > The TIOCCONS ioctl currently uses capable(CAP_SYS_ADMIN) to check for
-> > privileges, which validates the current task's credentials. Since this
-> > ioctl acts on an open file descriptor, the check should instead use the
-> > file opener's credentials.
->
-> Is that right?
-> A terminal will have been opened before the login sequence changed the us=
-er id.
->
-> The 'best practise' might be to check both!
->
->         David
+Em Tue, 17 Jun 2025 12:59:27 +0100
+Simon Horman <horms@kernel.org> escreveu:
 
-Hi,
-
-You're right =E2=80=94 I hadn=E2=80=99t fully considered that the terminal =
-is typically
-opened before the user ID changes during login. Checking only the file
-opener's credentials may miss important security context.
-
-Best practice would indeed be to validate both: ensure that the current
-task has sufficient privileges and that the file was opened by an
-authorized user.
-
-Thanks for pointing this out =E2=80=94 I=E2=80=99ll revise the patch accord=
-ingly.
-
-Regards
-Pranav Tyagi
-
-
->
-> >
-> > Replace capable() with file_ns_capable() to ensure the capability is
-> > checked against file->f_cred in the correct user namespace. This
-> > prevents unintended privilege escalation and aligns with best practices
-> > for secure ioctl implementations.
-> >
-> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> > Link: https://github.com/KSPP/linux/issues/156
+> On Tue, Jun 17, 2025 at 10:02:02AM +0200, Mauro Carvalho Chehab wrote:
+> > It is not a good practice to store build-generated files
+> > inside $(srctree), as one may be using O=<BUILDDIR> and even
+> > have the Kernel on a read-only directory.
+> > 
+> > Change the YAML generation for netlink files to allow it
+> > to parse data based on the source or on the object tree.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > > ---
-> >  drivers/tty/tty_io.c | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
-> > index e2d92cf70eb7..ee0df35d65c3 100644
-> > --- a/drivers/tty/tty_io.c
-> > +++ b/drivers/tty/tty_io.c
-> > @@ -102,6 +102,9 @@
-> >  #include <linux/uaccess.h>
-> >  #include <linux/termios_internal.h>
-> >  #include <linux/fs.h>
-> > +#include <linux/cred.h>
-> > +#include <linux/user_namespace.h>
-> > +#include <linux/capability.h>
-> >
-> >  #include <linux/kbd_kern.h>
-> >  #include <linux/vt_kern.h>
-> > @@ -2379,7 +2382,7 @@ static int tiocswinsz(struct tty_struct *tty, str=
-uct winsize __user *arg)
-> >   */
-> >  static int tioccons(struct file *file)
-> >  {
-> > -     if (!capable(CAP_SYS_ADMIN))
-> > +     if (!file_ns_capable(file, file->f_cred->user_ns, CAP_SYS_ADMIN))
-> >               return -EPERM;
-> >       if (file->f_op->write_iter =3D=3D redirected_tty_write) {
-> >               struct file *f;
->
+> >  tools/net/ynl/pyynl/ynl_gen_rst.py | 22 ++++++++++++++++------
+> >  1 file changed, 16 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/tools/net/ynl/pyynl/ynl_gen_rst.py b/tools/net/ynl/pyynl/ynl_gen_rst.py
+> > index 7bfb8ceeeefc..b1e5acafb998 100755
+> > --- a/tools/net/ynl/pyynl/ynl_gen_rst.py
+> > +++ b/tools/net/ynl/pyynl/ynl_gen_rst.py
+> > @@ -365,6 +365,7 @@ def parse_arguments() -> argparse.Namespace:
+> >  
+> >      parser.add_argument("-v", "--verbose", action="store_true")
+> >      parser.add_argument("-o", "--output", help="Output file name")
+> > +    parser.add_argument("-d", "--input_dir", help="YAML input directory")
+> >  
+> >      # Index and input are mutually exclusive
+> >      group = parser.add_mutually_exclusive_group()
+> > @@ -405,11 +406,14 @@ def write_to_rstfile(content: str, filename: str) -> None:
+> >      """Write the generated content into an RST file"""
+> >      logging.debug("Saving RST file to %s", filename)
+> >  
+> > +    dir = os.path.dirname(filename)
+> > +    os.makedirs(dir, exist_ok=True)
+> > +
+> >      with open(filename, "w", encoding="utf-8") as rst_file:
+> >          rst_file.write(content)  
+> 
+> Hi Mauro,
+> 
+> With this patch applied I see the following, which did not happen before.
+
+Thanks! this was an intermediate step. I'll just drop this patch and
+fix conflicts at the next version.
+
+> 
+> $ make -C tools/net/ynl
+> ...
+> Traceback (most recent call last):
+>   File ".../tools/net/ynl/generated/../pyynl/ynl_gen_rst.py", line 464, in <module>
+>     main()
+>     ~~~~^^
+>   File ".../tools/net/ynl/generated/../pyynl/ynl_gen_rst.py", line 456, in main
+>     write_to_rstfile(content, args.output)
+>     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+>   File ".../tools/net/ynl/generated/../pyynl/ynl_gen_rst.py", line 410, in write_to_rstfile
+>     os.makedirs(dir, exist_ok=True)
+>     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+>   File "<frozen os>", line 227, in makedirs
+> FileNotFoundError: [Errno 2] No such file or directory: ''
+> make[1]: *** [Makefile:55: conntrack.rst] Error 1
+> 
+
+
+
+Thanks,
+Mauro
