@@ -1,98 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03AC214814;
-	Wed, 18 Jun 2025 08:21:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203A815D1;
+	Wed, 18 Jun 2025 10:50:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750234873; cv=none; b=E/jTnzzbieG2QqC2OoPEskDoiTIYlRleJ+/GtnXFJPgQtCxw7xR4l7lromXdjNCpBNZkrKNWQeP6sbiXof77Q2IYqMptp5PeJh3hDJ/v5dxjopv+rhv3vI20OlaWMkxFKBHquahZiz+fACJPZ2n5HBKCRmksNVIJiqxS+3KDdtk=
+	t=1750243845; cv=none; b=ZhICvSDtZfNRgO/rk7zfYFavNgfIll1AMk0iRU1fZr+DwOWDPaL+1Ga4m7V/l+KJYLhOXY3ywrCxsjMp99zisfjNmGD18fiRlkB7wdyDPRqJwnmvB4RluCd8wIxQ1smuNDF1XsiWAqLyQbQOeqzMho6NcfeE/y3rF8Ds1KGlWFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750234873; c=relaxed/simple;
-	bh=2jmRDv6D0zcNdU19DqnV2thTGn3pGjWksLXvn5+PggA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WIxG1mCQFyYEjQRcfPTg/Dmsa6RMHyVdBKGBdLqQA34ds6IiHpeXVLlbnWJ2JWIRfoHng1StG3vwyqhdIvAe0mYaGfG52b+CNbfL+ZjkWllvNTJn4VnhMtKZ1nrCZsRRGEhPMOJ/EVdOnF/FecOKI8iL2MC49eA2nyshcEWu+pA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k/8DVKLk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750243845; c=relaxed/simple;
+	bh=P9DpeVaEogu2weAKQYMLvPOBSRCiK1DvlDpPcXEYd6g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OEf0i4cQvWXS8AULZN1NBEe/fbgJFNYRxIWp6z5wSupQ9XUELD3fFHmDeWcT2APxBC5eXItuct5fwVOV7nU4PAlvCK0ij5dN0YY/gmHfejPA223A4Sd4Hby/UCMAiQAfZzA1DzK1HnnhUUJCkN1m0PFimY5TwGyILmPpYQE00Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QDvcYXuJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k/8DVKLk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0C3DC4CEE7;
-	Wed, 18 Jun 2025 08:21:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QDvcYXuJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A825BC4CEE7;
+	Wed, 18 Jun 2025 10:50:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750234872;
-	bh=2jmRDv6D0zcNdU19DqnV2thTGn3pGjWksLXvn5+PggA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=k/8DVKLk1jQCHbK1h5bINp41EjysKV48pO7nmzXin8chccf5giyGW2oCA3VuU0giN
-	 GE+ZhpHpRgFhdmQb4oW+ZEPGWmcXzooJXo5+M75ZzRQGSsGWJkUyByTJvgA8tZn4uu
-	 QJmGRRd9Z6dJkj2jAaSkiKF++lcEPaaucfGzCiCuD6md9NQIVlmtEt2eg7D+vSkO20
-	 QEUu9jve94s9HsY7VtopXIwUmkP8mmoF8Fq4Qf39ztPsBUWr8VEWcr9T9yvtz6VLoq
-	 MEXwkiwKj+ODQh0UIlUd033KTyYFAlpqcenVq8DQ3meW7GKSE+FC68bVBqqhECR/e2
-	 jI1ND8WMXcbsA==
-Date: Wed, 18 Jun 2025 10:21:05 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>, Breno Leitao
- <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Ignacio Encinas Rubio <ignacio@iencinas.com>, Jan
- Stancek <jstancek@redhat.com>, Marco Elver <elver@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Ruben Wauters <rubenru09@aol.com>, Shuah Khan
- <skhan@linuxfoundation.org>, joel@joelfernandes.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
- stern@rowland.harvard.edu
-Subject: Re: [PATCH v5 10/15] docs: sphinx: add a parser for yaml files for
- Netlink specs
-Message-ID: <20250618102105.66ce01f0@foz.lan>
-In-Reply-To: <CAD4GDZzWMoxnatNXYbKOphzVZ4NyedD5FtjxF7cgB1ad-wDFWg@mail.gmail.com>
-References: <cover.1750146719.git.mchehab+huawei@kernel.org>
-	<c407d769c9f47083e8f411c13989522e32262562.1750146719.git.mchehab+huawei@kernel.org>
-	<m27c1ak0k9.fsf@gmail.com>
-	<20250617154049.104ef6ff@sal.lan>
-	<20250617180001.46931ba9@sal.lan>
-	<CAD4GDZzWMoxnatNXYbKOphzVZ4NyedD5FtjxF7cgB1ad-wDFWg@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1750243844;
+	bh=P9DpeVaEogu2weAKQYMLvPOBSRCiK1DvlDpPcXEYd6g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QDvcYXuJMFj2g78UHlONH5p31qSY0DNV2n8XZ5V8NQa5dMzH56dbUY8sl4x8uBor6
+	 hvo2mxCluHglVPdeqxAYH44Xpscmvi2grGmfz4JkTxTshVXQwvJHzGn9P7AUrIqELX
+	 4PdDPvm3YzksDR2XMVil0MX2+qmLK2nH6tKyw933d0k+d8zWz942/RmegYCbA3qe4X
+	 sGHdq3hply8wwWm49Maer8R1eIDuKIpe63WX6nvwpt9yT8IwAaiq48IUA6N18pdjMV
+	 1lQJsCGEGXuZwJXnqOJjXf6hQMkGcjntE0Jf7wW1coNaP6LdW9rK3IOYUojb6nHHYE
+	 gTxrg5dt5uS5g==
+Date: Wed, 18 Jun 2025 11:50:39 +0100
+From: Simon Horman <horms@kernel.org>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Cc: wenjia@linux.ibm.com, jaka@linux.ibm.com, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	alibuda@linux.alibaba.com, tonylu@linux.alibaba.com,
+	guwen@linux.alibaba.com, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] net/smc: replace strncpy with strscpy
+Message-ID: <20250618105039.GE1699@horms.kernel.org>
+References: <20250617122512.21979-1-pranav.tyagi03@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250617122512.21979-1-pranav.tyagi03@gmail.com>
 
-Em Tue, 17 Jun 2025 18:23:22 +0100
-Donald Hunter <donald.hunter@gmail.com> escreveu:
-
-> On Tue, 17 Jun 2025 at 17:00, Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> > >
-> > > (2) is cleaner and faster, but (1) is easier to implement on an
-> > > already-existing code.  
-> >
-> > The logic below implements (1). This seems to be the easiest way for
-> > pyyaml. I will submit as 2 separate patches at the end of the next
-> > version.
-> >
-> > Please notice that I didn't check yet for the "quality" of the
-> > line numbers. Some tweaks could be needed later on.  
+On Tue, Jun 17, 2025 at 05:55:12PM +0530, Pranav Tyagi wrote:
+> Replace the deprecated strncpy() with strscpy() as the destination
+> buffer should be NUL-terminated and does not require any trailing
+> NUL-padding.
 > 
-> Thanks for working on this. I suppose we might be able to work on an
-> evolution from (1) to (2) in a followup piece of work?
+> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> ---
+>  net/smc/smc_pnet.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/net/smc/smc_pnet.c b/net/smc/smc_pnet.c
+> index b391c2ef463f..b70e1f3179c5 100644
+> --- a/net/smc/smc_pnet.c
+> +++ b/net/smc/smc_pnet.c
+> @@ -370,7 +370,7 @@ static int smc_pnet_add_eth(struct smc_pnettable *pnettable, struct net *net,
+>  		goto out_put;
+>  	new_pe->type = SMC_PNET_ETH;
+>  	memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
+> -	strncpy(new_pe->eth_name, eth_name, IFNAMSIZ);
+> +	strscpy(new_pe->eth_name, eth_name, IFNAMSIZ);
 
-Yes, it shouldn't be hard for you to migrate to (2) in the future. 
+Hi Pranav,
 
-Currently, the parser is stateless, but, as there's now a class,
-IMO the best would be to store the lines as an array of tuples
-inside the YnlDocGenerator class, like this:
+I think that because strscpy always results in a NULL terminated string
+the length argument can be increased by one to IFNAMSIZ + 1, matching
+the size of the destination.
 
-	self.lines = [
-		(line_number1, message_string1),
-		(line_number2, message_string2),
-		(line_number3, message_string3),
-		(line_number4, message_string4),
-		...
-	]
+But I also think that we can handle this automatically by switching
+to the two-argument version of strscpy() because the destination is an
+array.
 
-This way, the parse_yaml_file() method would just return self.lines.
+	strscpy(new_pe->eth_name, eth_name);
 
-Thanks,
-Mauro
+>  	rc = -EEXIST;
+>  	new_netdev = true;
+>  	mutex_lock(&pnettable->lock);
+> -- 
+> 2.49.0
+> 
+
+-- 
+pw-bot: changes-requested
