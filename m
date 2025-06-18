@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1080B2DBF4C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409DD2DE1F8;
 	Wed, 18 Jun 2025 11:46:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750247212; cv=none; b=WIMbHWtkYz2XdfS7se/m6u9Vdn+XeqBl2X32SrBZPSlnG8vrhkPYNCan4iWucW8ptqLmC97VpDur9g7gmI7sPZYGINAbmDc1od9kxKXzSQNHwE03Lw1bdOcrJho2BIkLkaL5Kx66zPDhAdZ3SmEpVNY23De+696CowMFQvm5buE=
+	t=1750247212; cv=none; b=kic5xGMlcl+mFkDL65IcMOHs3DkYFWVAuY2yM1pNiOyFdD01USHTy4cRZKi+0v7EeFj55YtA9V1QqQlCzFvB3Zl4KYBBi4dH/43GYH/QgXJTc41qhXf1lH5eEV97lnF7IdpGcbueqJsDccoHHk+cnEEu9tPKkUg6vBvpN4NvO3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750247212; c=relaxed/simple;
-	bh=9sv3o8O8M0IyOR5wJkoSEusaPecRlQcEL5SoMo0iJ7A=;
+	bh=EpBDvvCEgkXYhfewwIef0GKxoO/B4wVDI6b8/pzv1js=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lw+jiwaF/Tfi2zyBRc3u6nRZXJEWzckD/zp5kF4ijgiMh64UdEMF/YzE/pkSquyU1OJkFjddPyh4j1Ss4NQK8unuptCK9x65I/kycFdsqH0j7Q1zP6ioIrSy2i+z0WxTb7vkeW227SygplSwnNGeelcRuOG5qbVR0rk27Ggfia4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uKo5HGIf; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ShOOFP/IbVcw9McHjAQGA2nH4C/RUyzOMWWFctFR1AcV9m2jgM7PNJgOXFxilFArs+f1vbkyCSwioMLMdlCz8lakE40SoVy6OqoDaWDMKjghYdEms5+VdRbZ3U3bDdThfAK06JWw3IuTgUeG399zB9cnlXGazIUVTdzJwe+c4WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W+ZRYobj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uKo5HGIf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B8B0C4AF0B;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W+ZRYobj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 792B3C4CEF7;
 	Wed, 18 Jun 2025 11:46:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1750247211;
-	bh=9sv3o8O8M0IyOR5wJkoSEusaPecRlQcEL5SoMo0iJ7A=;
+	bh=EpBDvvCEgkXYhfewwIef0GKxoO/B4wVDI6b8/pzv1js=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uKo5HGIfommgZx8yi6Zi+eJ1SoQ2VQ+0T5muWeAbjZTUtGMXuu8g73Mc1KWSLPPCT
-	 RZSfdvSj+AetUWCOucjQtZDb/DrDX8D2GrPThxG0Nkjuvl7BM+ttN8nQyQfAGOrZpZ
-	 ZIk44uUGn5Ex2o6s1xNoHE2y0rYR8Bli8XYuPV/6XAnCbqZkoXc5ugdr2sRn4+05jp
-	 ob7sqMs3tDQDF8/X/sP7TUHE3diI7O/NbQCLZXz5ilJ+UejabNBc8zptGaFqjqJ6mK
-	 WCxOmyMFcUYh6vZrAkTiuyJ9gpmwhVe70bwe0v2CwmsXJHbyIy2QXlkevHf+jnaH2P
-	 R6+Uh2uam2B7w==
+	b=W+ZRYobjcLWK0vU17Ws2hevZE0iFBwszhyTYartunBQDEzBnb0bCCXQvtclt7D+3B
+	 HVb8Kw/SvOJrc6Frsu2epI4VEzFhYYwkzuMtek/M+XRiU1tq2xwH4zhWDmHs93sVCw
+	 d9snjHFdwZr860yuHcxS039luOTnkK2rHxOkcpEOl2S4jV2n4SoTjveEUTv6au9xQ+
+	 SdEs2bbd6a7LHA52uT+H+1XhwNh6Z3KnAr9OYe2/RKlSIgWMbLMyglBSw1Ttrx4aEp
+	 JbYCgN+UfW70DIxwBK0gCnsNgYGH29pBOOGDTOjR9SafThcSXmQbP0wdVEteFd+mkd
+	 tn/6UdQvq0qIA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uRrFh-000000036UN-1zMZ;
+	id 1uRrFh-000000036Ut-2w6u;
 	Wed, 18 Jun 2025 13:46:49 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -46,6 +46,8 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Paolo Abeni" <pabeni@redhat.com>,
 	"Ruben Wauters" <rubenru09@aol.com>,
 	"Shuah Khan" <skhan@linuxfoundation.org>,
+	Jakub Kicinski <mchehab+huawei@kernel.org>,
+	Simon Horman <mchehab+huawei@kernel.org>,
 	joel@joelfernandes.org,
 	linux-kernel-mentees@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
@@ -53,9 +55,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	netdev@vger.kernel.org,
 	peterz@infradead.org,
 	stern@rowland.harvard.edu
-Subject: [PATCH v6 02/15] docs: Makefile: disable check rules on make cleandocs
-Date: Wed, 18 Jun 2025 13:46:29 +0200
-Message-ID: <e4ad47a238cffc8659786bcfdba4126f08522035.1750246291.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v6 10/15] tools: ynl_gen_rst.py: drop support for generating index files
+Date: Wed, 18 Jun 2025 13:46:37 +0200
+Message-ID: <f0cac4c299684395f68081fe6cb98aa7689550f5.1750246291.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1750246291.git.mchehab+huawei@kernel.org>
 References: <cover.1750246291.git.mchehab+huawei@kernel.org>
@@ -68,36 +70,100 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-It doesn't make sense to check for missing ABI and documents
-when cleaning the tree.
+As we're now using an index file with a glob, there's no need
+to generate index files anymore.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Breno Leitao <leitao@debian.org>
-Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
 ---
- Documentation/Makefile | 2 ++
- 1 file changed, 2 insertions(+)
+ tools/net/ynl/pyynl/lib/doc_generator.py | 26 ------------------------
+ tools/net/ynl/pyynl/ynl_gen_rst.py       | 26 ------------------------
+ 2 files changed, 52 deletions(-)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index d30d66ddf1ad..b98477df5ddf 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -5,6 +5,7 @@
- # for cleaning
- subdir- := devicetree/bindings
+diff --git a/tools/net/ynl/pyynl/lib/doc_generator.py b/tools/net/ynl/pyynl/lib/doc_generator.py
+index f71360f0ceb7..866551726723 100644
+--- a/tools/net/ynl/pyynl/lib/doc_generator.py
++++ b/tools/net/ynl/pyynl/lib/doc_generator.py
+@@ -358,29 +358,3 @@ class YnlDocGenerator:
+             content = self.parse_yaml(yaml_data)
  
-+ifneq ($(MAKECMDGOALS),cleandocs)
- # Check for broken documentation file references
- ifeq ($(CONFIG_WARN_MISSING_DOCUMENTS),y)
- $(shell $(srctree)/scripts/documentation-file-ref-check --warn)
-@@ -14,6 +15,7 @@ endif
- ifeq ($(CONFIG_WARN_ABI_ERRORS),y)
- $(shell $(srctree)/scripts/get_abi.py --dir $(srctree)/Documentation/ABI validate)
- endif
-+endif
+         return content
+-
+-    def generate_main_index_rst(self, output: str, index_dir: str) -> None:
+-        """Generate the `networking_spec/index` content and write to the file"""
+-        lines = []
+-
+-        lines.append(self.fmt.rst_header())
+-        lines.append(self.fmt.rst_label("specs"))
+-        lines.append(self.fmt.rst_title("Netlink Family Specifications"))
+-        lines.append(self.fmt.rst_toctree(1))
+-
+-        index_fname = os.path.basename(output)
+-        base, ext = os.path.splitext(index_fname)
+-
+-        if not index_dir:
+-            index_dir = os.path.dirname(output)
+-
+-        logging.debug(f"Looking for {ext} files in %s", index_dir)
+-        for filename in sorted(os.listdir(index_dir)):
+-            if not filename.endswith(ext) or filename == index_fname:
+-                continue
+-            base, ext = os.path.splitext(filename)
+-            lines.append(f"   {base}\n")
+-
+-        logging.debug("Writing an index file at %s", output)
+-
+-        return "".join(lines)
+diff --git a/tools/net/ynl/pyynl/ynl_gen_rst.py b/tools/net/ynl/pyynl/ynl_gen_rst.py
+index b5a665eeaa5a..90ae19aac89d 100755
+--- a/tools/net/ynl/pyynl/ynl_gen_rst.py
++++ b/tools/net/ynl/pyynl/ynl_gen_rst.py
+@@ -31,9 +31,6 @@ def parse_arguments() -> argparse.Namespace:
  
- # You can set these variables from the command line.
- SPHINXBUILD   = sphinx-build
+     # Index and input are mutually exclusive
+     group = parser.add_mutually_exclusive_group()
+-    group.add_argument(
+-        "-x", "--index", action="store_true", help="Generate the index page"
+-    )
+     group.add_argument("-i", "--input", help="YAML file name")
+ 
+     args = parser.parse_args()
+@@ -63,25 +60,6 @@ def write_to_rstfile(content: str, filename: str) -> None:
+         rst_file.write(content)
+ 
+ 
+-def generate_main_index_rst(output: str) -> None:
+-    """Generate the `networking_spec/index` content and write to the file"""
+-
+-    lines.append(rst_header())
+-    lines.append(rst_label("specs"))
+-    lines.append(rst_title("Netlink Family Specifications"))
+-    lines.append(rst_toctree(1))
+-
+-    index_dir = os.path.dirname(output)
+-    logging.debug("Looking for .rst files in %s", index_dir)
+-    for filename in sorted(os.listdir(index_dir)):
+-        if not filename.endswith(".rst") or filename == "index.rst":
+-            continue
+-        lines.append(f"   {filename.replace('.rst', '')}\n")
+-
+-    logging.debug("Writing an index file at %s", output)
+-    write_to_rstfile(msg, output)
+-
+-
+ def main() -> None:
+     """Main function that reads the YAML files and generates the RST files"""
+ 
+@@ -100,10 +78,6 @@ def main() -> None:
+ 
+         write_to_rstfile(content, args.output)
+ 
+-    if args.index:
+-        # Generate the index RST file
+-        generate_main_index_rst(args.output)
+-
+ 
+ if __name__ == "__main__":
+     main()
 -- 
 2.49.0
 
