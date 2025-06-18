@@ -1,205 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731631E0B91;
-	Wed, 18 Jun 2025 19:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1634321C9F4
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 18 Jun 2025 20:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750276505; cv=none; b=D2BdpQf3Qoy4+5Ib/Xo6M1Q0fTlWZ6JHaeSeP49Eq4AdFuowL6F1UOfbyvUKjLLBzEILDi4uFWQYZoMzRd3MaeXus1aQZWPA7XlbhQ+/HyDEH6DFOEubkdsLrdsnGCiZ7XWyFSAz0xkxnbvQ/BYZVerIxHb0i2oiMnQ2AvXWRr4=
+	t=1750279340; cv=none; b=Jnq0xhUYyRDpRKjK2Wm9Po0HUtyXEkQxOZjis2titAEi0R6e0k3R2wzd/pQb7QGoy+56R2gwP3DUCKUo79FTE1KnVhqjnkPcVFwI8rqHPRxi3JmZK6dHhrx2SMDeMhEE+m+61F1fOHQS4tlE8iNz0wznlgEIPm+hHS3UPn//U90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750276505; c=relaxed/simple;
-	bh=1RlycySOdSP3ZEPT62sfSnVE+tSXDy0OAIIpXyF3AKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HUdoyTH+7+zPdqq3b7wlQuMzrCRptxm/0xMjtgQpUSLhK6bmqkc873ZxMXgzEq4mv7px729tbWTWhUAlG1G4XxrUjpX8CmWdStHOH7FKWaGLToiR1sqhgHZKm70jXLUlJlxinQipffvVrtTxzW+nQobgOWCHb3YbkimGxLDKDrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mkx4JIXw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750279340; c=relaxed/simple;
+	bh=L+cyLQGnllq28JQ6DaYTG1avcsFD5VA3UICOvndcs64=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o6ez+w04NvFdJzEXCfT0pXCdEQ10MTESgL1Z5nMFIdm4RjdlJqYQ3KYXDxR086l66labJ4X+jG/vh37jdk+CeolNNCm1DZgDp8guN55zuyGkqzN9QqTJuo++/CQBIQSHoIbTlSLRXbKmDRTzBQub1ixzSfAVzH/FZB0X0Z68axs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Pa8gfA9i; arc=none smtp.client-ip=209.85.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mkx4JIXw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 025DAC4CEE7;
-	Wed, 18 Jun 2025 19:55:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750276505;
-	bh=1RlycySOdSP3ZEPT62sfSnVE+tSXDy0OAIIpXyF3AKU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Mkx4JIXwXrnHLEBQvsqdW8RQuZ9ro4sF496hW+Nz2EUz3hGoyOssK8CDgRrj7zfq6
-	 kHx9kNAJRe4tiFbn5CxjXby7pDGgWrN6ncNZru50wpgIlHpSjgLh8IVgKBYBWb5u3a
-	 ScvcmA9JYKhPljZwKKvfMVfxnt4XtYzzsNRQH1qa8Gi1WIL8TNmt3ZbNg6tdbAXv6y
-	 QOQ1JweU/4wPFO884GFGJ+tVHUzeCeMq6Oim6N8Fz4/NvnH+Mok+/FAbV2FsfXiSeC
-	 yPZsTaEpj9jr3mDfRvhNUrtgR/ngH68Z7eKvMjC4gf18xp0631bOiPFXsc9V5vYz0z
-	 DRK5GxK8gExdg==
-Date: Wed, 18 Jun 2025 21:54:57 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, Eric
- Dumazet <edumazet@google.com>, Ignacio Encinas Rubio
- <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>, Marco Elver
- <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben Wauters
- <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu
-Subject: Re: [PATCH v6 01/15] docs: conf.py: properly handle include and
- exclude patterns
-Message-ID: <20250618215457.72b93b8d@foz.lan>
-In-Reply-To: <aFLee2PdbK+6SiA8@gmail.com>
-References: <cover.1750246291.git.mchehab+huawei@kernel.org>
-	<737b08e891765dc10bd944d4d42f8b1e37b80275.1750246291.git.mchehab+huawei@kernel.org>
-	<aFLee2PdbK+6SiA8@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Pa8gfA9i"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-72c09f8369cso36391a34.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 18 Jun 2025 13:42:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750279338; x=1750884138; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hYufF9gbGHCLXN7Cc7t3rq/6SWdHhk4SLqkzSCs6BiI=;
+        b=Pa8gfA9iAa/10QHS7jXUFM8Km+EGRoWN/RYlZoIVwf6+jlY1NV1LeUinFIKeynskcw
+         +CCSJmw7Hp0km52OBgy6nhuLetsl39OstNfp7ivtTfxRfTgtEsgmxhl7V1ZbEJYTDWsC
+         C7DhSdmhnhnFNDadaosvZGOty9AXO3s7p1PpipiDvyUMTDcUZSJNEOkdFNqN+MxJLuH6
+         100Xz9fo8Q0tIDPeWKnjcsKDMAVahBN0Bkp6aYuCl09HUMpYEGCERINqSLFIcfqBrPUS
+         eM98hUqfY1N/ogXZ18vOaieto+irfhAL5H/682qxjGcsc0bREqfETX2YEEktF8nBRa6g
+         6GjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750279338; x=1750884138;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hYufF9gbGHCLXN7Cc7t3rq/6SWdHhk4SLqkzSCs6BiI=;
+        b=rJnDwwlioF00j/0wqOil0aseifMPX0ZF9TRPiEOx62MHbd9G3RbfbIPigcx6/r3F16
+         ajxIbv40CgWwUnvsHTsckumWYQDl4KUbiD1W4O2/EZm/KYnBLfZZcYw0YWUigH1rkT+g
+         daeUUfk0JbnmxYWDKzyyX5NKWfA6i6FMznWuUGKxc0yiPViHtkx8RXTX5sBf3iHarcGe
+         3owm3TipTsTGt0EpojH/r9HduzqwDWVzrOs4vdD6+76hEnWDS2RX+GpEAViz/ddlNcFG
+         b0ST0sEGpq7uq8Pai5q5Wk+eZV9ZBQJDOfVTrb26/3EAh1CKDaDlvDyylEjLuWV7a5nv
+         papQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW3e1sjMqYCID7FKFpyvKeWjvM33/PAa8Gk6TBkM8MAqSFtpgsnbDosLjgME+6O5jcl79w2ct8nBAhcDy0j5dV9Lukv2w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXjaWV/3Vqbs+8sdL8ZLkOXvSZukgnjtJ23KBr6KiVRDdZjIhW
+	BJl82EKTrveu4m20Ap45PTOrzG19j2GgJR/5oxf1f6ZZZ64hB/jC0zsEYLEWv6oSjn8=
+X-Gm-Gg: ASbGnct0KJLTqaGaDxZ6d4yjd123CVghvgYWhCAfX/dWsddB+vXUJJqnsyazOR5Fari
+	hCOrEpCM3kUkA97sx02yuGQPxy3hAzQgFdIlfnA2REDW7kpzOujCts+v4OIbRDhUoWqdNZbJ61u
+	WjCMNuj38/2lqwMkh87LsZqela7KQiQrKMl9EEbgFSZcl6QBLnDwblfqDo8icPICdEUIO3VPbAI
+	zQObhhjf1udi6+gje9j/k/DCbj7ofUcgzCU8nMUop/e6EJkqy15XCfa6YMRPXm98M83ktQt4vTm
+	EpPJD+LHy6pZq5HtE35GmXb1pVD/iuVtqp3RWcgXmMaFSjX+bf0ih+wClqVKVR0J96dmIGOPXPk
+	hw+NQ
+X-Google-Smtp-Source: AGHT+IGzzeXqvvtMYEhgelf1zxaiR/pha/QAgFAlvhTzf3pfuLBytIh1fL2ehaLfaCgrcdK94vSXtA==
+X-Received: by 2002:a05:6830:8209:b0:72a:10ec:3542 with SMTP id 46e09a7af769-73a36318969mr11536449a34.13.1750279338012;
+        Wed, 18 Jun 2025 13:42:18 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:1b3b:c162:aefa:da1b])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a28403ed0sm2124977a34.26.2025.06.18.13.42.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jun 2025 13:42:17 -0700 (PDT)
+Date: Wed, 18 Jun 2025 23:42:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
+	vireshk@kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] greybus: firmware: use strscpy, fix tag size
+Message-ID: <29717a11-8867-4a28-81a6-2d847b254042@suswa.mountain>
+References: <20250617125137.24503-1-pranav.tyagi03@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250617125137.24503-1-pranav.tyagi03@gmail.com>
 
-Em Wed, 18 Jun 2025 08:42:51 -0700
-Breno Leitao <leitao@debian.org> escreveu:
-
-> On Wed, Jun 18, 2025 at 01:46:28PM +0200, Mauro Carvalho Chehab wrote:
-> > When one does:
-> > 	make SPHINXDIRS="foo" htmldocs
-> > 
-> > All patterns would be relative to Documentation/foo, which
-> > causes the include/exclude patterns like:
-> > 
-> > 	include_patterns = [
-> > 		...
-> > 		f'foo/*.{ext}',
-> > 	]
-> > 
-> > to break. This is not what it is expected. Address it by
-> > adding a logic to dynamically adjust the pattern when
-> > SPHINXDIRS is used.
-> > 
-> > That allows adding parsers for other file types.
-> > 
-> > It should be noticed that include_patterns was added on
-> > Sphinx 5.1:
-> > 	https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-include_patterns
-> > 
-> > So, a backward-compatible code is needed when we start
-> > using it for real.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
-> > ---
-> >  Documentation/conf.py | 67 ++++++++++++++++++++++++++++++++++++++++---
-> >  1 file changed, 63 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/Documentation/conf.py b/Documentation/conf.py
-> > index 12de52a2b17e..4ba4ee45e599 100644
-> > --- a/Documentation/conf.py
-> > +++ b/Documentation/conf.py
-> > @@ -17,6 +17,66 @@ import os
-> >  import sphinx
-> >  import shutil
-> >  
-> > +# Get Sphinx version
-> > +major, minor, patch = sphinx.version_info[:3]
-> > +
-> > +# Include_patterns were added on Sphinx 5.1
-> > +if (major < 5) or (major == 5 and minor < 1):
-> > +    has_include_patterns = False
-> > +else:
-> > +    has_include_patterns = True
-> > +    # Include patterns that don't contain directory names, in glob format
-> > +    include_patterns = ['**.rst']
-> > +
-> > +# Location of Documentation/ directory
-> > +doctree = os.path.abspath('.')
-> > +
-> > +# Exclude of patterns that don't contain directory names, in glob format.
-> > +exclude_patterns = []
-> > +
-> > +# List of patterns that contain directory names in glob format.
-> > +dyn_include_patterns = []
-> > +dyn_exclude_patterns = ['output']
-> > +
-> > +# Properly handle include/exclude patterns
-> > +# ----------------------------------------
-> > +
-> > +def update_patterns(app):
-> > +  
+On Tue, Jun 17, 2025 at 06:21:37PM +0530, Pranav Tyagi wrote:
+> Increase the size of firmware_tag arrays in the following structs from
+> GB_FIRMWARE_U_TAG_MAX_SIZE to GB_FIRMWARE_U_TAG_MAX_SIZE + 1 to
+> accommodate null termination:
+> 	- fw_mgmt_ioc_intf_load_and_validate
+> 	- fw_mgmt_ioc_get_backend_version
+> 	- fw_mgmt_ioc_backend_fw_update
+> 	- fw_mgmt_ioc_get_intf_version
 > 
-> PEP-257 says we don't want a line before docstring:
+> Replace strncpy() with strscpy() to ensure proper null termination as
+> firmware_tag is interpreted as a null-terminated string
+> and printed with %s.
 > 
-> https://peps.python.org/pep-0257/#multi-line-docstrings
+> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> ---
+>  .../greybus/Documentation/firmware/firmware.c        | 12 ++++++------
+>  drivers/staging/greybus/greybus_firmware.h           |  8 ++++----
+>  2 files changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c b/drivers/staging/greybus/Documentation/firmware/firmware.c
+> index 765d69faa9cc..3b4061f4b34a 100644
+> --- a/drivers/staging/greybus/Documentation/firmware/firmware.c
+> +++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
+> @@ -63,8 +63,8 @@ static int update_intf_firmware(int fd)
+>  	intf_load.major = 0;
+>  	intf_load.minor = 0;
+>  
+> -	strncpy((char *)&intf_load.firmware_tag, firmware_tag,
+> -		GB_FIRMWARE_U_TAG_MAX_SIZE);
+> +	strscpy((char *)&intf_load.firmware_tag, firmware_tag,
+> +		GB_FIRMWARE_U_TAG_MAX_SIZE + 1);
 
-True, but:
 
-$ pylint Documentation/conf.py 
-************* Module conf
-Documentation/conf.py:357:0: W0311: Bad indentation. Found 16 spaces, expected 12 (bad-indentation)
-Documentation/conf.py:587:0: W0311: Bad indentation. Found 1 spaces, expected 4 (bad-indentation)
-Documentation/conf.py:567:1: W0511: FIXME: Do not add the index file here; the result will be too big. Adding (fixme)
-Documentation/conf.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-Documentation/conf.py:229:0: W0622: Redefining built-in 'copyright' (redefined-builtin)
-Documentation/conf.py:21:22: I1101: Module 'sphinx' has no 'version_info' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
-Documentation/conf.py:25:4: C0103: Constant name "has_include_patterns" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:27:4: C0103: Constant name "has_include_patterns" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:65:4: W0612: Unused variable 'sourcedir' (unused-variable)
-Documentation/conf.py:66:4: W0612: Unused variable 'builddir' (unused-variable)
-Documentation/conf.py:104:0: E0401: Unable to import 'load_config' (import-error)
-Documentation/conf.py:104:0: C0413: Import "from load_config import loadConfig" should be placed at the top of the module (wrong-import-position)
-Documentation/conf.py:109:0: C0103: Constant name "needs_sphinx" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:186:0: C0103: Constant name "autosectionlabel_prefix_document" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:187:0: C0103: Constant name "autosectionlabel_maxdepth" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:200:8: C0103: Constant name "load_imgmath" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:202:8: C0103: Constant name "load_imgmath" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:204:25: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-Documentation/conf.py:208:4: C0103: Constant name "math_renderer" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:210:4: C0103: Constant name "math_renderer" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:225:0: C0103: Constant name "master_doc" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:228:0: C0103: Constant name "project" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:229:0: C0103: Constant name "copyright" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:230:0: C0103: Constant name "author" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:253:0: W0702: No exception type(s) specified (bare-except)
-Documentation/conf.py:243:4: C0103: Constant name "makefile_version" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:244:4: C0103: Constant name "makefile_patchlevel" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:245:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-Documentation/conf.py:245:16: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-Documentation/conf.py:259:8: C0103: Constant name "version" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:259:18: C0103: Constant name "release" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:266:0: C0116: Missing function or method docstring (missing-function-docstring)
-Documentation/conf.py:284:0: C0103: Constant name "language" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:308:0: C0103: Constant name "pygments_style" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:317:0: C0103: Constant name "todo_include_todos" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:319:0: C0103: Constant name "primary_domain" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:320:0: C0103: Constant name "highlight_language" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:328:0: C0103: Constant name "html_theme" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:334:3: R1714: Consider merging these comparisons with 'in' by using 'html_theme in ('sphinx_rtd_theme', 'sphinx_rtd_dark_mode')'. Use a set instead if elements are hashable. (consider-using-in)
-Documentation/conf.py:353:16: W0104: Statement seems to have no effect (pointless-statement)
-Documentation/conf.py:364:8: C0103: Constant name "html_theme" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:382:17: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-Documentation/conf.py:392:0: C0103: Constant name "smartquotes_action" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:404:0: C0103: Constant name "html_logo" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:407:0: C0103: Constant name "htmlhelp_basename" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:487:8: C0103: Constant name "has" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:490:16: C0103: Constant name "has" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:494:36: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-Documentation/conf.py:551:0: C0103: Constant name "epub_title" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:552:0: C0103: Constant name "epub_author" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:553:0: C0103: Constant name "epub_publisher" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:554:0: C0103: Constant name "epub_copyright" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:571:29: W1406: The u prefix for strings is no longer necessary in Python >=3.0 (redundant-u-string-prefix)
-Documentation/conf.py:571:40: W1406: The u prefix for strings is no longer necessary in Python >=3.0 (redundant-u-string-prefix)
-Documentation/conf.py:571:51: W1406: The u prefix for strings is no longer necessary in Python >=3.0 (redundant-u-string-prefix)
-Documentation/conf.py:577:0: C0103: Constant name "kerneldoc_bin" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:578:0: C0103: Constant name "kerneldoc_srctree" doesn't conform to UPPER_CASE naming style (invalid-name)
-Documentation/conf.py:586:0: C0116: Missing function or method docstring (missing-function-docstring)
-Documentation/conf.py:18:0: C0411: standard import "shutil" should be placed before third party import "sphinx" (wrong-import-order)
-Documentation/conf.py:350:16: W0611: Unused import sphinx_rtd_dark_mode (unused-import)
+This is in the Documentation/ directory.  It's sample userspace
+code.  Userspace code doesn't have strscpy() so this won't
+compile.
 
-This file needs a major cleanup, as it is currently not following
-any Python code style, and still has some Phython 2.x legacy
-coding styles.
+regards,
+dan carpenter
 
-Perhaps it is time to take some care of it and on other
-sphinx/*.py files that aren't compliant ;-)
-
-Thanks,
-Mauro
