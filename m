@@ -1,89 +1,92 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED7221883E
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 19 Jun 2025 14:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E36E24679D;
+	Thu, 19 Jun 2025 20:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750343157; cv=none; b=FDkJnSEZdDlPNz9U97HByApP0PwLjFIbHgU52uaZVVENdXb7lPQL+1aaaVIBENJ7TlIgYLQJYEkxv1ai2HKYEG1rIoKrwYy9MGpErIJRagenheT0xSHF83aknVJWqcDlXKfPyNqY1OQ18cDV8rZrJBU2NaGAqgrItH33r4G9/+4=
+	t=1750363622; cv=none; b=hEDVq3g2KNtNpU0BJWS178Kqaonw7VfbPPUgud5etqkqgrFIPX3jUuZOElpPqlVOlo7PBF8j7cLJNIG+JI1Jqdz8HFjeDkzlh2ZVT/trxFwyaONeiLawCEkTH1VDszgPI1B+NLCUuk0JJjFVmce/3cv+OZnF/gClf4DnVtpRlMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750343157; c=relaxed/simple;
-	bh=XivIsKtLHxsnTwVlRhl4Dr8yCQ88AWH5wGjsQuso/gU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CYVOniee9kd84/d5nhvhgQzWEq7boJvooCluRP/0HtDD3n05siq9UqdAAkIFq1LwNpHxcKdQItHp/dnohJA61Qnt+xl8YYJ9tCLmSpDb3cjzMDLGepFM3HO2zulwcAjmyu4X0fl3TCtExfU+Fi8msrMFfdurHOQNF4xlDIXCg+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=DlLhstCJ; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1750363622; c=relaxed/simple;
+	bh=x8nkZpBV8B1RfMXzIjaeghHZ0IZmHLuUDZJUgB28/C8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=jpXM3fHQOGP1X2GQO8r6lzYTlX2H/D+tAtdWUOkX3sQPYvPe92Bigcp1UwnDkQwJ6qke5ds6E2U9KMTBRjk3EjfpM4qN/2Cpgpwv0krru8IuczTWwCBawMMl06HTE68E9e31ggeYL8u27mwymQOQlA9RcVQQyh6FCAhdrixLi0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=rVUKW6py; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="DlLhstCJ"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7d219896edeso103713385a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 19 Jun 2025 07:25:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1750343154; x=1750947954; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aDxodWZZFiLGzD+rmeop7HWG34rN9saTSNItB0iBSXQ=;
-        b=DlLhstCJI3lrQkW8VjRUd+iDiJEbj55e5rYRnsZlJcvlgF86V859kq7MzvkeNGSP1s
-         vfuy6kMXlgqhruzDZcuEGpXKYWB+fjE5J+/sbQtuFl+C7YWsj6aki/qYwfFjoa4wGKAt
-         hshskzrHHN6RtsxyxNLXwzJFx7ec0k9/af6M6fpecMf5iA1/DQ9CyI2QxTvnpCVrJqR/
-         L11eBQz1HX5HQlcFuyUKFhd9GjqYiWE7l2WR9MF0lPsyc9El0Rnd6DtHEBLu0hg+I8zk
-         4iUujPguvAJxOnQISs4m/ilcklWoPKMH0Y2spMtquRHOWn0jwNUbPFNRx1+zDBW47DMM
-         T6lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750343154; x=1750947954;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aDxodWZZFiLGzD+rmeop7HWG34rN9saTSNItB0iBSXQ=;
-        b=KOejR1GBUO7i3+0HKpbrwjA0amKIw5YzN5x1dJ/58LsbKaF/LVnkqsPz2nMaSYzkre
-         ir5dTzWR6qws8fVdmkDZHLBexo+cWQg+sCg94vGFLmunwZjQ7oEN1h7eDht0E68AWa0r
-         8aJuRfeQ6e/TJzSE9JzI5j0cVZt8j4MQDiT0GTwpkT5n3wSUP5rWG00NhkJS0c8nAfz8
-         iZQ9PRGD0DBz57FBogYdxa0Z1MCNnqwzpDr9/kNFg4CXjU58BYijl89oVsbWe/pTQ5nI
-         OQ2GNy8fhSwOJHTLo8HIRjggIMdtEU52c62zD7xeNaKfTzC3T9N7Aa8F9Rsq0rPIO85K
-         BEIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVs+hnMTgeVnUgTVGgk+IoNjpVo1j0VP4/jSCcMwpULCpHZfaK+15L+j1nCdnmAy07s+PuEuDAyhRZhO7cZFODLeOVpHg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxO/rlLiLDcRPqdrTe+38J1IDmg/ujiuBcxY+dnHwbA0KQxpN5l
-	heU25pP8gbl5aljzdeEX5IS1UhG5sBDdOx15HcDsELfIZ4XHyHaehiH0Yq07pmo3gg==
-X-Gm-Gg: ASbGnctOpz8ISqJuA6bSf/XLUchST0loY27eqpFX9V8s8o1NpxoUT1poKGQLWKDzlDJ
-	4vbI4IVDa67MnUhD68FuKt1VXdvv9vMYdAGB/iWiTvmma0IaluGxVFbX8QRYK0Q0xlrt/MDrXQx
-	6lmYemfJVuMwoAm1lQBoPy0hZkNiwR5OAKPHIv/6EybJGBALWordyNwDQN1hPB1wSx+M9LvUTLj
-	PRm3mjkDAoClfbr9ZH5wupAwht2sy7iEUiCz5TvDATXx5go30ClThKF0uXA4FxQ9CFuxB/y9Qgy
-	uSWv+3W8lc4tPcMWirxAxR0DgDVovxYO+1t8OPcCpVIb9bgX5HcqFsf+c1MbiK8=
-X-Google-Smtp-Source: AGHT+IHoxGFmOWyxo0l5cv3zNYUJJmLzJxOJmUnEXBZTUwO3KalFcEgAIn0/tUUNPftUnsVKxRmxVg==
-X-Received: by 2002:a05:620a:2a11:b0:7d0:99dc:d026 with SMTP id af79cd13be357-7d3c6c0c737mr2951152985a.12.1750343153662;
-        Thu, 19 Jun 2025 07:25:53 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:681:fd10::9ca8])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d3f8dc9378sm3558485a.9.2025.06.19.07.25.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jun 2025 07:25:53 -0700 (PDT)
-Date: Thu, 19 Jun 2025 10:25:50 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-Cc: gregkh@linuxfoundation.org, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: ehci: replace scnprintf() with sysfs_emit()
-Message-ID: <20d37e05-c496-499a-97a2-bcde9b7fe958@rowland.harvard.edu>
-References: <20250619120711.552662-1-hendrik.hamerlinck@hammernet.be>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rVUKW6py"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7B75A41AD8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1750363619; bh=R9c4vgL7SuYf1vxfbbp+JsNTP8qE+XIiFw2ZuOXL6S8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=rVUKW6pywt1KAVhnsKmGFtuxGHE20Sn/qoL2NdO84G2FNt+qf2dslll76hqnx+p3W
+	 Bd8yIVeDuuAZh6A0J23a4GRqbZ5ovmDB7rPgiYGco+FQKEck4Brit0VA93ggk2Nkh2
+	 fuK6N4b4x9AyLkHMukIzKOOejFe5RvgZx43Wg1RiYO5x+AulGvGXdv68l8v+K69shU
+	 VTbrrzDKYi5iMvUni58QUNlolykUJlpgzMNIpVB2ol/UH6gdYhzcSQoaHEcJwpdLK/
+	 oY4FQkcPtcn7eSEeDqLQ7cn1VX67jckzQV/DSvPU5WhGIAedv/Xg8O9MhM+OUxUhiS
+	 LaJERjmb96X5Q==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7B75A41AD8;
+	Thu, 19 Jun 2025 20:06:59 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jakub Kicinski <kuba@kernel.org>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>
+Cc: Donald Hunter <donald.hunter@gmail.com>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, Akira
+ Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Ignacio
+ Encinas Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>,
+ Marco Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
+ Wauters <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lkmm@lists.linux.dev,
+ netdev@vger.kernel.org, peterz@infradead.org, stern@rowland.harvard.edu
+Subject: Re: [PATCH v4 12/14] MAINTAINERS: add maintainers for
+ netlink_yml_parser.py
+In-Reply-To: <20250614124649.2c41407c@kernel.org>
+References: <cover.1749891128.git.mchehab+huawei@kernel.org>
+ <ba75692b90bf7aa512772ca775fde4c4688d7e03.1749891128.git.mchehab+huawei@kernel.org>
+ <CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
+ <20250614173235.7374027a@foz.lan> <20250614103700.0be60115@kernel.org>
+ <20250614205609.50e7c3ad@foz.lan> <20250614124649.2c41407c@kernel.org>
+Date: Thu, 19 Jun 2025 14:06:58 -0600
+Message-ID: <877c17h4wt.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250619120711.552662-1-hendrik.hamerlinck@hammernet.be>
+Content-Type: text/plain
 
-On Thu, Jun 19, 2025 at 02:07:11PM +0200, Hendrik Hamerlinck wrote:
-> Per Documentation/filesystems/sysfs.rst, show() methods should only
-> use sysfs_emit() or sysfs_emit_at() when formatting values to be
-> returned to userspace.
-> 
-> Convert the uses of scnprintf() in sysfs show() methods to
-> sysfs_emit() and sysfs_emit_at() for better safety and consistency.
-> 
-> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-> ---
+Jakub Kicinski <kuba@kernel.org> writes:
 
-Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
+> On Sat, 14 Jun 2025 20:56:09 +0200 Mauro Carvalho Chehab wrote:
+
+>> I'm more interested on having a single place where python libraries
+>> could be placed.
+>
+> Me too, especially for selftests. But it's not clear to me that
+> scripts/ is the right location. I thought purely user space code
+> should live in tools/ and bulk of YNL is for user space.
+
+I've been out wandering the woods and canyons with no connectivity for a
+bit, so missed this whole discussion, sorry.
+
+Mauro and I had talked about the proper home for Python libraries when
+he reworked kernel-doc; we ended up with them under scripts/, which I
+didn't find entirely pleasing.  If you were to ask me today, I'd say
+they should be under lib/python, but tomorrow I might say something
+else...
+
+In truth, I don't think it matters much, but I *do* think we should have
+a single location from which to import kernel-specific Python code.
+Spreading it throughout the tree just isn't going to lead to joy.
+
+Thanks,
+
+jon
