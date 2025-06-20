@@ -1,142 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389EE2D5410;
-	Fri, 20 Jun 2025 15:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28AE92BF3EB
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 20 Jun 2025 18:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750433500; cv=none; b=DyccujuMqfuGuSZ0SjCcN9Xvytue3I4Lhkn4vf6a7jIU1qN9SeOAbDBNpIAcd0P6YsdhCYma8ZOU1YoPpQYXMWVMj1e2C/GlfFDcm1Rs6Bl/eo65+2DmTePXspYIM+ZE6+XMWTzR2+SOXy9+9bzZnOHenvVMSoAwv2HHALwDipg=
+	t=1750442591; cv=none; b=HCQ41jhSwXtG6hm5SzVGB4tjRdv2Suo9JT6Jy2x3sFUkkqTueB1bfzF60Pn7W71jCssuY9NRU9H7E+E4Hb64fDzuawgoWPEgS/dgHxprdJ/A+O4kncq0e1CoH5efRhFl1nsxxGP04ULPOcz8EzGba5srj5oAhICgJHTetPCQA54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750433500; c=relaxed/simple;
-	bh=iEFys1xc86l4xtETpg83SAgsifwnlZH1zuU6toODk5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NpYh5cJIlj5X+E3sxQOTdMVoI7YPdWg4u02hWpauKJgIS2pMx6yXdwC+/tjf0WAqcsTMHWq9pWdQ8w6zLJxBQRR/tTe3FfSH06oYKtXMW6akkaZEiSsFWtTaWE+4MFNe4Hp0u9lP2D6OBWWxO1CTVX/RDWYTiT09HhIojEtlH0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oJdOGt/9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750442591; c=relaxed/simple;
+	bh=jFX7Zn97NNqcIpZJHQJ1GlN7HXgR2NyfxKF/YU5EaSc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TGgOe6bhU3JFDeoUTg+MJb/rfZTOIswBEVoNss/5vSzLZnJsJpaxCvQEpgZ/sXwaDQhYcFKDveLlCm/tqMe8qUmjHDOf0F614fvGM1cq3EsCIbJYzi9S6q0tq6JxredYczvdx8L/benTsBZGaEbvSvi73nufUHIv+DHmpzhdMDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=aNsjkc5c; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oJdOGt/9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15C8EC4CEF0;
-	Fri, 20 Jun 2025 15:31:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750433500;
-	bh=iEFys1xc86l4xtETpg83SAgsifwnlZH1zuU6toODk5w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=oJdOGt/9sIYB1KkSe+3nyc+LxyaEtycRPXHeperkDCsgcc7fHizbtlLI7BeFyIL2H
-	 AHOsDCzaoIAWCMu+tBwPIGef/r1cfK+3/y6xvdw7Hb9TwcLc+c/HUf7QyRCDAg0Zrn
-	 X/ULCXxIYYpyRQlxDRrC/rpxKboMjsjoehZuxrjZy1EqSnuxmC6i++CTgxY2ie/xk4
-	 7ZvOL9I3WBx1v0GsNEm/hwGR0pIHQ/QhoKwg7GubDihcWQLlB93/bGuXwGdrBal5Pg
-	 /WYDxCcQe0c+PU2Yu/2XxX1trOgvwcYwnsUGub69rGdKzKoDjLAL5S48nM0Ap9Q6lz
-	 AgQzVEqLGia1A==
-Date: Fri, 20 Jun 2025 17:31:29 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Jakub Kicinski <kuba@kernel.org>, Donald Hunter
- <donald.hunter@gmail.com>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, Breno
- Leitao <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jan Stancek <jstancek@redhat.com>, Marco
- Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben Wauters
- <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu
-Subject: Re: [PATCH v4 12/14] MAINTAINERS: add maintainers for
- netlink_yml_parser.py
-Message-ID: <20250620172949.1525075a@sal.lan>
-In-Reply-To: <877c17h4wt.fsf@trenco.lwn.net>
-References: <cover.1749891128.git.mchehab+huawei@kernel.org>
-	<ba75692b90bf7aa512772ca775fde4c4688d7e03.1749891128.git.mchehab+huawei@kernel.org>
-	<CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
-	<20250614173235.7374027a@foz.lan>
-	<20250614103700.0be60115@kernel.org>
-	<20250614205609.50e7c3ad@foz.lan>
-	<20250614124649.2c41407c@kernel.org>
-	<877c17h4wt.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="aNsjkc5c"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-748764d8540so2111883b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 20 Jun 2025 11:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1750442589; x=1751047389; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LASqD0oWUo5WFt/+IQjzZizw1Tgw6LTsbm7AdZ6Fm7Q=;
+        b=aNsjkc5c1vBUuoc9+VfmKwAPCFC0vNlCJQPSnYa7gXrKL/iBq/U0W18c4nU6VP4QQ5
+         IG/aiD+mHclmcbMzlq0dcmWHy5sszaAtoq/b2PElVXweXrOUdpspbhG55PsrvjPEbE86
+         CdWwLMXC+vgJRCG4EGqVimCcwCY4UdAnr/EnmPfZdI9YLyl25KWbweY50N/gMSxy01q1
+         VsuXbCYmBETZDdvGnUMTQEI0wC7xRRvy26gooP5QR7E9XtkF+fZmE5vuMQjw6EPoEigR
+         S6GNzV+Vnio4snvvAcfTxYadzfAnyQclW6Sf7egE+m33HrAL+EQEKYeM5TCq/R3gPtoU
+         +yVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750442589; x=1751047389;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LASqD0oWUo5WFt/+IQjzZizw1Tgw6LTsbm7AdZ6Fm7Q=;
+        b=DO6nukbCtpWyc0ipkiMtgpaSAkPa3CjTFHYxi736SHa+bqK2fGSqJgCkARFRvUMliN
+         DuBhhShJTUO/HwogLhcofnZKj4574D0NZNc9AU6KIJywphGWwWRXbDwA+DCmqfbCNcKx
+         gxlsbCwaqizrqeQLSPeMScMsjd/sZwhVGNS7GyoJZAIpbqbGYIP+uJpIjMAYP2JSYlvs
+         cuRgNaIvzV6ZJDG6VdTc+Q8RWkhJ8o+4PBV1D1aBkrWOsErt1VrpAAeDNgRC80zyOrGQ
+         ZIoV+z5ATCAoJUjlXDulJiz2HjdSthGONQFC2J68LENEiXgiHOpQ+yU6ksLiri8oIXlJ
+         a2Rw==
+X-Forwarded-Encrypted: i=1; AJvYcCXhI6OVfLSVHbV+LZx+Y8rVRrFTHX952kO3gQ3PQmtfB2+D0NIc6aPYOIEaIB6mtkj94ymFxByPakWsbct7LWF4pQGSLA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzMUOw9XyPO7FMUs58EGk4hK91HkJN1A2tmr0oVJ9hN4xhhutTV
+	SKvcCHltBP7OMSN6gHgeEZj/ueOS/rUWl1viaoUM+4Jho8MBHh6ntmKhCdWDaRPWRr8=
+X-Gm-Gg: ASbGnctwXRMgL80WTZaH/uCX2PoVYPnL4e1X1wyxdpure0d0lxC4/hUvZm3Ab+Vr3dz
+	JHO8+Y0gAMaSuPccdjbpC/9qP7doj0W/haUGXFfEmSGpsGcpGeV81s9LuKUAdtKLQYTqR4jKfpy
+	UnV785Iu9JNaqBFlKZL4xBt1gDlWFez5jtxCl8F52vegjeV2F1vbVRcDN2iPZbWMP2HKAqNs3kS
+	s+dkwZgt4Y09T153bj1i8gzoVyO8Mv4d2KytbtM8FJp8Jxc7riXF60nxY0J3lbF/EhTqPxziAPV
+	oBrtHGsuseJzVMKHEbLKjOKp+vIQUGTKe5w1bA2GUx/8cQdvdrdqpcGSpNfuyoOWe0zhEpcDgzb
+	o2Cpr6Dl9ZY+i4JVraw==
+X-Google-Smtp-Source: AGHT+IFlM8cNRiBkGT187wOeWcfkfeb30/gPkHi7Ft0d5GjTVFgLhRQpzSohSUSYFxFeTwX7y0TLjg==
+X-Received: by 2002:a05:6a20:72a5:b0:203:bb65:995a with SMTP id adf61e73a8af0-22026f007fcmr6414483637.30.1750442589385;
+        Fri, 20 Jun 2025 11:03:09 -0700 (PDT)
+Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b31f1256f03sm2131724a12.51.2025.06.20.11.03.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jun 2025 11:03:08 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH] Fix typo in drm docs
+Date: Fri, 20 Jun 2025 12:02:58 -0600
+Message-ID: <20250620180258.132160-1-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Em Thu, 19 Jun 2025 14:06:58 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Fix typo in Documentation/gpu/introduction.rst
 
-> Jakub Kicinski <kuba@kernel.org> writes:
->=20
-> > On Sat, 14 Jun 2025 20:56:09 +0200 Mauro Carvalho Chehab wrote: =20
->=20
-> >> I'm more interested on having a single place where python libraries
-> >> could be placed. =20
-> >
-> > Me too, especially for selftests. But it's not clear to me that
-> > scripts/ is the right location. I thought purely user space code
-> > should live in tools/ and bulk of YNL is for user space. =20
->=20
-> I've been out wandering the woods and canyons with no connectivity for a
-> bit, so missed this whole discussion, sorry.
+Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+---
+ Documentation/gpu/introduction.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sounds fun!
+diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
+index 3cd0c8860b94..39b4c943fa00 100644
+--- a/Documentation/gpu/introduction.rst
++++ b/Documentation/gpu/introduction.rst
+@@ -32,7 +32,7 @@ member, only the structure.
+ 
+ Except in special situations (to separate locked from unlocked variants)
+ locking requirements for functions aren't documented in the kerneldoc.
+-Instead locking should be check at runtime using e.g.
++Instead locking should be checked at runtime using e.g.
+ ``WARN_ON(!mutex_is_locked(...));``. Since it's much easier to ignore
+ documentation than runtime noise this provides more value. And on top of
+ that runtime checks do need to be updated when the locking rules change,
+-- 
+2.49.0
 
-> Mauro and I had talked about the proper home for Python libraries when
-> he reworked kernel-doc; we ended up with them under scripts/, which I
-> didn't find entirely pleasing.  If you were to ask me today, I'd say
-> they should be under lib/python, but tomorrow I might say something
-> else...
-
-Yeah, I guess you proposed lib/python before... I could be wrong though.
-Anyway, at least for me lib/python sounds a better alternative than
-scripts. I won't mind tools/lib/python or some other place.
-
-> In truth, I don't think it matters much, but I *do* think we should have
-> a single location from which to import kernel-specific Python code.
-> Spreading it throughout the tree just isn't going to lead to joy.
-
-We're aligned with that regards: IMO, we need a single store within
-the Kernel for classes that might be shared.
-
-As I commented on one of PRs, maybe the series could be merged
-with Donald proposed (tools/net/ynl/pyynl/lib/doc_generator.py),
-while we're still discussing. So, let's focus on get it reviewed
-and merged without needing to wait for a broader discussion
-about its permanent location.
-
-We can later shift the code once we reach an agreement.
-
--
-
-To start the discussions about a permanent location, in the specific=20
-case of YNL, we currently have there:
-
-	$ tree -d tools/net/ynl/ -I __pycache__
-	tools/net/ynl/
-	=E2=94=9C=E2=94=80=E2=94=80 generated
-	=E2=94=9C=E2=94=80=E2=94=80 lib
-	=E2=94=9C=E2=94=80=E2=94=80 pyynl
-	=E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 lib
-	=E2=94=94=E2=94=80=E2=94=80 samples
-
-where pyynl have executables and pyynl the python libraries.
-
-what I would suggest is to move what it is under "pyynl/lib"
-to "{prefix}/ynl", where "{prefix}" can be "lib/python",
-"tools/lib/python", "scripts/lib" or whatever other location
-we reach an agreement.
-
-For now, I placed the latest version of my doc patch series
-under:
-
-	https://github.com/mchehab/linux/tree/netlink_v8
-
-to have a central place to have them on one of my scratch
-trees.
-
-I sent today for review to linux-doc ML an initial patch series
-with some non-YAML related patches. I have another set of
-patches after it, which I'm planning to send on Monday. At the
-end, there are the YAML parser submission.
-
-Regards,
-Mauro
