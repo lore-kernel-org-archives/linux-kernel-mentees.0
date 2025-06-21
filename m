@@ -1,126 +1,137 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE36E2745C
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 21 Jun 2025 11:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FC135977
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 21 Jun 2025 16:15:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750504922; cv=none; b=kjrmF+jtyQ/Q6QikVDZHUZGjmUczczN6pFUbNJTrf8awc7rpX2c74xV+hI+MJXnVXSMT2awN7XBZ0KJYcEBcAXx9RDJbLHRBKEAZNK3//Kz7DOAbC6aDx7Piq/Si3sFgu6MhXPlL6M6TMj5O/6oMYUBAcTySse3kbeTZlU8kDOg=
+	t=1750522543; cv=none; b=ms0K6pXjFUj8iXL3blWw68PsU9s/nHORqbzZAwxn7vOT8qwb/zjP4K2GNP51bwP/k2jOl1ahAGkp5aJTyXpeKSQ+xBT+0VvMC82HcHVj11fZUfCgO22pumPOrJg7PJC+IP3hkINk563L+7r05xzCndC+frIju9YdXh4iGLvC1Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750504922; c=relaxed/simple;
-	bh=ohRWAiCfbgS/aXA4RVDCNgMCTaTOzaemdQHvS/o3vaA=;
+	s=arc-20240116; t=1750522543; c=relaxed/simple;
+	bh=BkUZHxWuDCBAQER5ld+ZZ+mr0I+SwoBxQU3VuNcheKA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aQKJpq9UE9vuVniZWoAyXS5hstLFgkMhIBBDhNqbsuNIi7jERU4y9M4Hjel+eIo5XTZI0YnHxV5esOdS0i+m6MI+BcoRvZUYrq23ssUzleIJ7xp1gmUpC8SjnAvsHgt6hQOhY5jSLktjk8f3ymAi6TNO3LH4nAqKKtbqAvZG3Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VOXilbID; arc=none smtp.client-ip=209.85.210.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=cVShSUsBz5j/Y+pQLidIWHl6Ef3ddCdYXDy3u832nFx3eqe8swLcMRCLq/s4uTMnCcUQgfolQlmQYOifVLs/QgEVg0pJW9NoaKH2qyxNYrnFaZIFc5r/Jr0DLpaiqhBtvZVS9amcrz9FXGa3sS7qvNXC3aRgV6iKNSp6SaSY934=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FT5fF+QJ; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VOXilbID"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-748ece799bdso1814192b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 21 Jun 2025 04:22:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FT5fF+QJ"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ade48b24c97so467287466b.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 21 Jun 2025 09:15:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750504920; x=1751109720; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1750522540; x=1751127340; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=woaxyv+j8Y1KBB+MeQ1QihpwoORfG9XIi5cXFKLshHY=;
-        b=VOXilbIDpbfh5SnzXSHk7N0C9AkLD7db9MHPOsOWT3GVuKgXe8THIk6ksl0NKDjojn
-         +B2D5LqfrET1/nnmuTjTyTro1Y8ZKsgaQE4GWfOgnTUZ7ZVSqx7cqOzkJ3LLWlC5Mk1B
-         epnRMd3JhSLQhUPLUNFKIWzzpCMDvTpZllTX/dt5JeOnvd/BHwd+bSD9QLw1tvRSOHKd
-         eMPc0YDsKqUPg5tNTFeppeQEmTIqKkURPEHq9GQrGDyn6Buitrbbxgmisu9hGbjXRG/1
-         DFWdrR3qGmM17nwwtetmKQVmjwTYGD2xWXa+SJmRjKNVdxBx0tgIF7qVIbhFC99Kk4kV
-         Z30w==
+        bh=9MerQjCeoB/tfauO+gxNkhr//t2Y54VYSS0pmA0OG84=;
+        b=FT5fF+QJohOvJvTjS0kXF2TzHO2MUWqRaYZmVBxC0LZNg1uzu4kLksxGrw/gWFFfbv
+         xJFPGiTdTnK5a+2c8+AJzfFig4kzNa64+R0EOO4SoZi2O0Nmy7jk7WBSKDByvNdSwHqM
+         ++vxbwyU48bZn0X0uua23FqsqgsbhnojzIR0vhD91D7Z0ARGBQZaYB3GR058XH83W7Td
+         65INL4a78x5lRyCVUT0OhJ3xXjVTNgMzAaZGT4GaR6Zr+eSrzXMyLq92/B/xy0dqBJ46
+         hUro5S6aEnV0D6JWXrIQ30CWkPeYJ/p6Zh2bVxVV4EwOQ8N5cuK5va7pz54O6KrcgNY6
+         1pbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750504920; x=1751109720;
+        d=1e100.net; s=20230601; t=1750522540; x=1751127340;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=woaxyv+j8Y1KBB+MeQ1QihpwoORfG9XIi5cXFKLshHY=;
-        b=kgwT4X3GWt9MegfWtyDf5EYdscuL1aYvbOmTpgxfyLWHdH/CUbiOjOP/4f9iAY3gFt
-         8ve+wUk7XomiDD2iLWG/JFtTfAvL0oBfoxrqEVfjTztTWNq41grkeupOgj0BNabHlWwX
-         1foyqmeRgC/cVZ1YcVnzusMlAh0/V/Y0bUIeO+lED2SzAMNDpB1NFb1cvy8dqNEfOXoo
-         tQQ2PoA504uI/8GK8Ui0QOPVRUUUp/b4ldqQLcpLuPPzzdrEhBradfJxPn8t0D6ew7kU
-         c+B16vUxO+aX/yzOhfnWmdVEtj8V6G8vGseWAxNgRM7T49GQUzlwnCKhNpAdO4y2aGYQ
-         HKhA==
-X-Forwarded-Encrypted: i=1; AJvYcCXa6DsjfIZNqguqlyx2NKcT/FTt4HPVk/Q395gPej4GZ3hHP/ih5ApJhI41aGSubw7De0Cr0hnYlVvW1EeMMxR/6QZOcg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw2eCMj/ZJKTixVKZfzSUSWzwzNMZWm7HAvO402nwTU+xx68AuG
-	ljl9wBajUELRJXAbxSsaQHFGsx6BgyLeyBz7h/V3O1wGPj3wm5oSAOO4
-X-Gm-Gg: ASbGncsT1uOYUJmKJKuGGxlLKdMpIwUSExqXh4106eKQ1c9SVvLzncEgpKDjst9yHUy
-	P9rtx2w+Y9//HI1ghW2yqZVSMLjiu4MBfreE/OXLm3gm5foqoCiOZGTAnUKdoXy2f3t5hy0EhY/
-	Txzx7odkCAUIi/g5yzKrKNaLRrsy1207D6IcagCrWvnm1v/LMouIiX6sH7MgDjqieh6QDA3KuKh
-	UH1POnbWKBJ6dW+4Q5i5+/Go6YT7cb/63T2rMmP4ngEEVuBwpwt1e6h94q7gLu12Mf1WES3bzSK
-	YQhnXkT8mplnO75ia0jyG2hGWx7ZA57unS2hYe4//76R0EMuE+4toS8l3Rp1dQ==
-X-Google-Smtp-Source: AGHT+IG/O8T1LnjkmwUuzaEvqwFNIWd0CfKLMGROZs4Ty0QlCl2WpaGZb0qmuhiRZruQg4JzjsVl/Q==
-X-Received: by 2002:a05:6a21:68b:b0:21a:d061:2f84 with SMTP id adf61e73a8af0-22026fa63a8mr9871935637.30.1750504920143;
-        Sat, 21 Jun 2025 04:22:00 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a4ac6b2sm4099007b3a.69.2025.06.21.04.21.58
+        bh=9MerQjCeoB/tfauO+gxNkhr//t2Y54VYSS0pmA0OG84=;
+        b=BWsuQs8Ao13n62wM0gm01C18zHlzspApyc77E7sLsaOr3gWjA5iJitBQ22b0jxkwMz
+         oGKIaAdukkVKtBbCa7YJDvz3WatWjFC2Ah0/Ud+9X+40V2t6uhOHmJZBcxWMLIciknb1
+         RIKvrjkFBE9eSq+tyrc3SHnGRER/bih6aEx2Vdmyg9srnLwimw4NFgRc0y6wZP7K+Irk
+         gqavlfmWK3eMIXrw3VzMToLDf1jrLHJgnB49EWFFSgHsg4Agcs6W0L5NxwI4FccmARAp
+         R6VGVpd1zFY2sgVBScgLWJaerTmiYS2HriILz0/lqcZb0rK+c8pfDGR8CD4mfjH/gAFy
+         FGQw==
+X-Forwarded-Encrypted: i=1; AJvYcCXpOncL6BM1Pyd4nLNRDq8l3+90dzynDGIHlUC6w2CQJCynfGAcW9SMwjvrgJZfQ/Wr2fpQ4x3owzjrnW0VkXU/U+hC6Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzCDeZHrU+Cq7WeGslX2uC1sFIsottyAmeyw1tChpPW1cc0lgH5
+	61Vsqr8zWJvjoReuwwVa+EuZMsBgj3oOgya2fnMLUQHQVPOlnNvAr+NR
+X-Gm-Gg: ASbGncsvY822jW+4SalT924MMRzoX2yjMJRwQYKLlA0PPzqnbKvLj9o6pWjDw2D+8GE
+	xDiNxMkbdCifj+FhBdrQVAyOCWvYgiofdfI29KLzSOoT4BLK6anhcsMAmzZM2dO3pMy/i2AhCGF
+	KBuaf/qvqIs6O03NDlohLSLMdS1Kz01lKnoCHiXgRuyJLiebnxYEB2o3RzbNTnfRTcdnQOlPhdP
+	x5CWHd5zF0t3vQ93ZDRTnOyt3V0pT8iqloOXUWT/oi/3fj1i74lmhW9YSar57hbbX79q+yieDMi
+	g2bF6xW5Je9tWFt688ZTC5bAS/eYONydzta5TGCLTP1mRMCImBYkyvCI
+X-Google-Smtp-Source: AGHT+IEV3zNBZRAZaL6Ty9ZazSqmnCQisegd5org4xX7GQNi4SF20RwV+ACtN3Sv9ZZx5uzjTUvwkA==
+X-Received: by 2002:a17:907:6088:b0:ad8:8529:4f9b with SMTP id a640c23a62f3a-ae057bc4354mr695132566b.38.1750522539633;
+        Sat, 21 Jun 2025 09:15:39 -0700 (PDT)
+Received: from localhost ([185.246.188.73])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-60a18cba458sm3425202a12.59.2025.06.21.09.15.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Jun 2025 04:21:59 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 0A4874207D0B; Sat, 21 Jun 2025 18:21:54 +0700 (WIB)
-Date: Sat, 21 Jun 2025 18:21:54 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
-	horms@kernel.org, kuba@kernel.org, pabeni@redhat.com,
-	linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	skhan@linuxfoundation.com, jacob.e.keller@intel.com,
-	alok.a.tiwari@oracle.com
-Subject: Re: [PATCH net-next v3] docs: net: sysctl documentation cleanup
-Message-ID: <aFaV0kD6zI6N0Keg@archie.me>
-References: <20250620215542.153440-1-abdelrahmanfekry375@gmail.com>
- <aFZ5OhP3Ci5KzOff@archie.me>
- <CAGn2d8OT0SS+wYphKBmM21Lo__N_ZFRyZCQ8pL34c0Z0bqDoag@mail.gmail.com>
+        Sat, 21 Jun 2025 09:15:39 -0700 (PDT)
+Date: Sat, 21 Jun 2025 19:15:31 +0300
+From: Ahmed Salem <x0rw3ll@gmail.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [RFC PATCH] amd64-agp: do not bind to pci driver if probing fails
+Message-ID: <7rv3j2it6wbv4gu7jgsews3niste5y52h67scwwjpblhy2royh@hqfmpbjzdj77>
+References: <c5kqcudzrcafm24nr5ixgalhxdkxl3uoueerjlp6tbksj3hzy7@klytjugpkvdm>
+ <aFZ_YJH30f1WDneD@wunner.de>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LQzEutQpcKFcOvi9"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGn2d8OT0SS+wYphKBmM21Lo__N_ZFRyZCQ8pL34c0Z0bqDoag@mail.gmail.com>
+In-Reply-To: <aFZ_YJH30f1WDneD@wunner.de>
 
+Hi Lukas,
 
---LQzEutQpcKFcOvi9
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 25/06/21 11:46AM, Lukas Wunner wrote:
+> On Sat, Jun 21, 2025 at 04:55:52AM +0300, Ahmed Salem wrote:
+> > --- a/drivers/char/agp/amd64-agp.c
+> > +++ b/drivers/char/agp/amd64-agp.c
+> > @@ -768,10 +768,15 @@ int __init agp_amd64_init(void)
+> >  
+> >  		/* Look for any AGP bridge */
+> >  		agp_amd64_pci_driver.id_table = agp_amd64_pci_promisc_table;
+> > -		err = driver_attach(&agp_amd64_pci_driver.driver);
+> > -		if (err == 0 && agp_bridges_found == 0) {
+> > +		if ((int *)agp_amd64_pci_driver.probe != 0) {
+> >  			pci_unregister_driver(&agp_amd64_pci_driver);
+> >  			err = -ENODEV;
+> > +		} else {
+> > +			err = driver_attach(&agp_amd64_pci_driver.driver);
+> > +			if (err == 0 && agp_bridges_found == 0) {
+> > +				pci_unregister_driver(&agp_amd64_pci_driver);
+> > +				err = -ENODEV;
+> > +			}
+> 
+> Is the "probe" member in agp_amd64_pci_driver overwritten with a
+> zero pointer anywhere?  I don't see that it is, so it seems the
+> else-branch is never entered.
+> 
 
-On Sat, Jun 21, 2025 at 12:58:46PM +0300, Abdelrahman Fekry wrote:
-> On Sat, Jun 21, 2025 at 12:20 Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> >
-> > On Sat, Jun 21, 2025 at 12:55:42AM +0300, Abdelrahman Fekry wrote:
-> > > +     Possible values:
-> > > +     - 0 (disabled)
-> > > +     - 1 (enabled)
-> > > +
-> > > +     Default: 0 (disabled)
-> >
-> > I see boolean lists as normal paragraph instead, so I have to separate
-> > them:
-> >
->=20
-> Thanks for the fix , should I resend it or is your modification enough?
+That is a great question. I thought since pci_register_driver calls the
+probe function, it would return with or without a zero, saving that
+value in the .probe member. (I find my lack of C
+experience...disturbing)
 
-Resend (v4), with the review suggestion applied.
+> I had already prepared a fix for this, but waited for 0-day to
+> crunch through it.  I've just submitted it, so that's what I had
+> in mind:
+> 
+> https://lore.kernel.org/r/f8ff40f35a9a5836d1371f60e85c09c5735e3c5e.1750497201.git.lukas@wunner.de/
+> 
 
-Thanks.
+That one I've seen even prior to catching this one, and this is
+originally what I had in mind based on what commit 6fd024893911
+("amd64-agp: Probe unknown AGP devices the right way") removed (i.e.
+!pci_find_capability) when you suggested checking for caps beforehand,
+but I figured "why make other calls when .probe already does it right
+off the bat?" Clearly, I was in the wrong there.
 
---=20
-An old man doll... just what I always wanted! - Clara
+Nonetheless, thank you so much for the review, and Ccing me in the above
+patch. Ultimately, what matters to me is getting the right fix in order,
+and learning not only what I'd missed here (i.e. Reported-by trailer;
+just wasn't quite certain how to approach the situation with SDN in
+mind, as well as the original Cced developers), but also fundamental C
+knowledge I've been trying to acquire. I appreciate you!
 
---LQzEutQpcKFcOvi9
-Content-Type: application/pgp-signature; name=signature.asc
+--
+Best regards,
+Ahmed Salem <x0rw3ll@gmail.com>
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaFaVzgAKCRD2uYlJVVFO
-owp9AQC6yCLXGLrK6u9AU7f1j4MGLkn7iAokGhf3h4Sn5sFUFwD+NWMMTo0awl4Q
-nQikhcvXjjXr+nCOmOTomS1uS3ZQEwU=
-=8KNA
------END PGP SIGNATURE-----
-
---LQzEutQpcKFcOvi9--
+> Thanks,
+> 
+> Lukas
