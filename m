@@ -1,125 +1,123 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2162063D2
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 21 Jun 2025 16:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBAD525CC54;
+	Sat, 21 Jun 2025 18:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750524040; cv=none; b=SJvIxtIvIPx9kBQgv/QKTQZK1fYL6z/BzbGYTuOpZvqPQxMGelGRGOC+AfM0ciepTR6HlOhBSA/8VPlyA78Z06h5Uzb0uNiISdMD24qpXgkrBMUqQmT8ejF5124yRhWHJeVKMuoTO8A7j63Rl3mXxPpdBmjUuBNBP5OUaVmsP5I=
+	t=1750530320; cv=none; b=QhkBPo0AETW7ZJhLxH1sOv6yAoHuJ9D92NFpOMuqKhhLY7wqIw3iKEqg2PE/sZ9zdi8gdSJxh6CeqvVCY5XBtAu08EMXS//8Ek7Jm+xOua7SmFYvwG5+Fk7dnvfPt5T7YQ2U0CLrdyGCvw5L5/nTPsli51pTnyYG0eRRHoEfNr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750524040; c=relaxed/simple;
-	bh=EVmf8TzEW8JxRdGdURPPOuBKozXNkpk3zCaggC36l1A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=fQt5cLIXFqsIMpNGyBxzHls/2y23oAQWe6Snp/wisrupnS2Zosy8Kwrj73FfvLSJK+PxbmnLKwVvSFnq68Ybqg8PTeJ2juyv7nVcKy1qbTMt5P2MSCxvEkBnVa8EauVLC/7PxAsa8uSXbBSUSqCVBzNCP/Y3N9OzVYwZT+kDvqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CSsOcLRh; arc=none smtp.client-ip=209.85.167.52
+	s=arc-20240116; t=1750530320; c=relaxed/simple;
+	bh=WXDAT0p5ZVcXK8GhqJvWCQLjsqE9/G3NdrAazvXFfmg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ay5ENtM2M9PNBAznvSuGAmoZpe9i3uFUeHGmoLCkJqPhOMcyFCnj+i7zCJxmqTEnN3jajFRVdRgEEkdaUQfHMzEgOLAaqNF7VCHDC2YDtWWVarFR4rNHrG1wfUq85tIWFC1QAdXdJCH9cm68TnawtTOttQZD8IHLks3r+CW4nIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ckKgFrNn; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CSsOcLRh"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5535652f42cso3072460e87.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 21 Jun 2025 09:40:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ckKgFrNn"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6070293103cso5299726a12.0;
+        Sat, 21 Jun 2025 11:25:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750524037; x=1751128837; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sR1NMUT1yhTOJR/QHSq5p3ddT3ng4Ofa4jScIH8rNIo=;
-        b=CSsOcLRhbxJhhkBO3TjKglgVn2fBp/lMARmYoEOUWLA0iL3Etw1PMM4s19NUT5/qir
-         h/H6AVCjcTGF0f9Y54mRPO8pb8b3eBRkQdh+xo1y0WKDMZzVJjATjCHzK8+EAQK0UPA6
-         mlvHPbBij06glOk/V+S8NGEfgFjb47F1O+P3fGEQlZvwuE+SYW53zaH0LZTGX/W25cgu
-         9DQpAUsJ9b1cTSqXoUuLPpnJe16Idf4fnaw0odXTqTPBcZ0qV+yYO09+OY2oVCtF5rrI
-         YNOqTgFnk3r3g2/B627TUKcaw0adGTzdQIWqCtUH2Z2jrLU5VeNsOc+bDPyjgt9DDm7y
-         gxJQ==
+        d=gmail.com; s=20230601; t=1750530317; x=1751135117; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kw9tbk5Ggbk3BxQq8PGaG2PHCPfTa77ZcVZchgZ1Z+E=;
+        b=ckKgFrNnJmW7I6gHs2QGmm5BlO5THSsYQ3kAoZZ2pz2gzXCqPuPDpT9dYwwxHgeMWB
+         MgIVpGRPP72D3NvKfwaTF6kkEHv1EHXZsL1UcInpZ9tg0jgx9YAeVQoF0HDGmaBo6U5B
+         mNGgkSTpQqilQvzKalLqPZJh3vup5IiTYfpIdkEARihi6dv2hApsgR/uqjnQb857Qxdi
+         s8Vh/gQq7UNAuaCs/gOF28b3gR3JD8BHX+4iCdZYj3tXPFruAXIFWHvJPSQSTDtW/v3c
+         PsKYprK8u78e+QzCEUmDlBvaqC5WkDglcdNWzUK0cLhMNi2Kj0sq/Db+0ZBwxj/aym/U
+         B8Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750524037; x=1751128837;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sR1NMUT1yhTOJR/QHSq5p3ddT3ng4Ofa4jScIH8rNIo=;
-        b=EtvAJ2o3qJdEaR011te9cQA4tQnyzQDaHfK+yXEhYBHhRWMn/P7tzDXAhPV9r1Yy0H
-         LAEt5Yz06V+T1TmxtRnNVXuIhO2SOaFTDGbHUo2FY/TQpxVuPT6ELJTai8rHeVM7lpcK
-         /jOnsjlFsYwHiee2A+ZMqksHS1/h5qAnxygvSvhjIcEBT/p13IR5yon2gVfz32R8pTIR
-         TGrZFvqeY2qyeA+BnvI6cW8g4KD9lTn1wj2paIpDztpDQn0bMuizOqEKPeVLSdKAz5Bm
-         Spoyb86PdY1SvWK7JVkUQJGWKPdEleHrJTkdwSb8VTguRcuxTPWxajU18EEqc+IG85a/
-         0tWA==
-X-Forwarded-Encrypted: i=1; AJvYcCXmjsY4xcGzNliO5sEvvr1rcHIq2/SYuuQ7Aa5H2bXmSmZ3ZWhSekprX7Jj8iB+qX/ZSL40LtdSJCtl3NF+yN8ScTlvrw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyB5cNHaFroW2dIBC4b+OBUwip+dYiwP4v0D6Z/iLVJh+Ym2Cf/
-	jntkwjfgP5YRc4Ms/FhpyPSWsAFAtG7DbFUyABa81vDlJjutQZLdK0Sa
-X-Gm-Gg: ASbGncv+hLnpJ9sxyQybwOpfKN5lI0fSQqoa2mgvUbzeSjvxjqwM55wDXv6XjtR0dQf
-	D21R7w8d9OoIjmz5oaVHNhdPKlsQPH8ZUUiysemEfE1/of5YAS8Mfvkg2fpKAf4g20ParTmGmeh
-	utMAAbiN6IwAujX6xpugSCMd8tJkAnOkygz6NzpJhw/D9sPIBuNaost4muK5JBhxaSQANGZyxXh
-	7c+9vAionUzMIKaiS1fjHmZJte+w8r2/QLCWFXXtyKCA789bBm0n8j61DoX8y5xurKLC5WzrnxA
-	xIaEGpPGeGcSSVYXxby5trH88GwRLYenGfmkJ8q8cYuCOa0d7iP//5FOkzRPOpYhPyRxT0WszJP
-	PrHb1UB+1yKgwJE8RM6QwiSdI
-X-Google-Smtp-Source: AGHT+IHxqWLBSElMYJDacdsNFfRrwGmh+pbTfsDtlw+a+l6yrvBq/9PzP7Rt0WQhltV3zTXUv10ruQ==
-X-Received: by 2002:a05:6512:4014:b0:553:acf9:c430 with SMTP id 2adb3069b0e04-553e3ba865emr2701926e87.17.1750524036540;
-        Sat, 21 Jun 2025 09:40:36 -0700 (PDT)
-Received: from uuba.fritz.box (89-166-61-133.bb.dnainternet.fi. [89.166.61.133])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32b980dc32bsm6561081fa.94.2025.06.21.09.40.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Jun 2025 09:40:36 -0700 (PDT)
-From: =?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
-To: gregkh@linuxfoundation.org,
-	kekrby@gmail.com,
-	elder@kernel.org,
-	quic_zijuhu@quicinc.com,
-	sumit.garg@kernel.org,
-	skhan@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	=?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
-Subject: [PATCH] usb: core: Use sysfs_emit_at() when showing dynamic IDs
-Date: Sat, 21 Jun 2025 19:40:05 +0300
-Message-Id: <20250621164005.4004-1-hannelotta@gmail.com>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20230601; t=1750530317; x=1751135117;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kw9tbk5Ggbk3BxQq8PGaG2PHCPfTa77ZcVZchgZ1Z+E=;
+        b=XBynYfq5WBM+BHLn9lT7bHyCoz5vQIo1mAtw9Gx4m3/PfpCEKr8KJ/JmvclExWpihB
+         4J+9ffn+BkfL4ctT5qjJDcggC9XiDoJYIXQtN2bFKazNqxs+jzNgzNwCOs9egqRSf/fb
+         KNINRTj1bIJAFmuHLIulWptD0q53HdZwlKj7S5svl0cn1fJpF7f8hiniA80A3ptztEnA
+         6qJeQKAagq55y6L2+eaJWBkL9O2N3YcQPlWJcW/2vkT6xJY4uJoq6xtFgVmfqOlCxcQg
+         P6LOy7We0fVoMTe+XhMfOp61pEFzqTYNeUG2ZL4wfMBZtTk1qb1JLR37D9HGDaJnAfcp
+         3htQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCJGRn8slPTIflaigIpVnVAWpby21OCyy7mGPLrhhz76lrBA9IaMrHdvh3gWHAffZ3QLaRDHo5rMkkDy6JQlc2GWvj5g==@lists.linux.dev, AJvYcCXmF7WVMsWs/2+sVLLevc9gaO/8HXYAKEhPXW3foFkRMwO9aYQTbbOLnDCi/8ZVSL/6ek5P9CiQ1QomqA/v0Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxI6zTtkzQWupAeFFBjvMPkN/QqUNQTV3aC7XpxfaDkojetOCX4
+	xr4BjXDgOKwiXogAdLDyeOV4VV8QvCSHJfA/FDxg86qdZngNZ+ABA9EX4Bdgp1BpWtYbM9m4Iwy
+	werWqo2ajGBDhTniVo3zKwgym1CJec+s=
+X-Gm-Gg: ASbGncsw+ufx3cNFgDKUsnS9EQ6wL/xyLtbPNU1hP3MH9Asp43+k5g96rmjG2UZddBf
+	xqstatpU6ef3Te90ZkLG5OYobfWr5n17cvqf90B6apf2rBYCnqP2lr/yFmT6xscZdtvWcC1lm7I
+	DXN0OB7P3HLrs+kwPpZPPXmJBk6se18ghbEl5c8/e4Y9U=
+X-Google-Smtp-Source: AGHT+IHK2rTt5Insjp/jKKM1rSYBliXDNBFwgyaQDS2bk5jUmokhpWhRIGFeX45VfVac1F47IfDW/3qmzFO03lvfzoM=
+X-Received: by 2002:a17:907:1c10:b0:ad8:9e5b:9217 with SMTP id
+ a640c23a62f3a-ae057f653a3mr686464466b.45.1750530316842; Sat, 21 Jun 2025
+ 11:25:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250621062944.168386-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <20250621062944.168386-1-abdelrahmanfekry375@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 21 Jun 2025 21:24:40 +0300
+X-Gm-Features: AX0GCFtrGpRHPsY7yoSy6uZXYIi5rESiR7BcUli23Y0PElYlMLQpvpeR40LW4SE
+Message-ID: <CAHp75Ve3PWgkwncVv5tGxzjWkF+Nodtp=Q3dpCejfSRD1BFMig@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: Replace scnprintf with
+ sysfs_emit in bo_show
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When formatting the dynamic USB device IDs to show to
-the user space, instead of scnprintf() function use
-sysfs_emit_at(). The functions are equivalent, but
-using the latter is recommended as it ensures that
-no buffer overruns occur.
+On Sat, Jun 21, 2025 at 9:30=E2=80=AFAM Abdelrahman Fekry
+<abdelrahmanfekry375@gmail.com> wrote:
+>
+> Convert buffer output to use sysfs_emit/sysfs_emit_at API for safer
+> PAGE_SIZE handling and standardized sysfs output.
 
-Testing the change can be done by assigning new IDs
-to the USB driver's sysfs attribute new_id,
-and then checking that the same values are returned.
+...
 
-For example:
+> -       ssize_t ret =3D 0;
+> +       ssize_t offset =3D 0;
 
-echo 4533 7515 > /sys/bus/usb/drivers/usbfs/new_id
-cat /sys/bus/usb/drivers/usbfs/new_id
+It would be good to move this...
 
-The output should match the assigned IDs (4533 7515).
+>         struct hmm_buffer_object *bo;
+>         unsigned long flags;
+>         int i;
+>         long total[HMM_BO_LAST] =3D { 0 };
+>         long count[HMM_BO_LAST] =3D { 0 };
+> -       int index1 =3D 0;
+> -       int index2 =3D 0;
 
-Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
----
- drivers/usb/core/driver.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+...to be here.
 
-diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index 460d4dde5994..c3177034b779 100644
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -119,11 +119,11 @@ ssize_t usb_show_dynids(struct usb_dynids *dynids, char *buf)
- 	guard(mutex)(&usb_dynids_lock);
- 	list_for_each_entry(dynid, &dynids->list, node)
- 		if (dynid->id.bInterfaceClass != 0)
--			count += scnprintf(&buf[count], PAGE_SIZE - count, "%04x %04x %02x\n",
-+			count += sysfs_emit_at(&buf[count], count, "%04x %04x %02x\n",
- 					   dynid->id.idVendor, dynid->id.idProduct,
- 					   dynid->id.bInterfaceClass);
- 		else
--			count += scnprintf(&buf[count], PAGE_SIZE - count, "%04x %04x\n",
-+			count += sysfs_emit_at(&buf[count], count, "%04x %04x\n",
- 					   dynid->id.idVendor, dynid->id.idProduct);
- 	return count;
- }
--- 
-2.39.5
+>
+> -       ret =3D scnprintf(buf, PAGE_SIZE, "type pgnr\n");
+> -       if (ret <=3D 0)
+> -               return 0;
+> -
+> -       index1 +=3D ret;
+> +       offset +=3D sysfs_emit(buf, "type pgnr\n");
 
+This changes the behaviour in case the sysfs_emit() fails. Not that
+this is a big issue, but it should be pointed out somewhere.
+
+...
+
+> +       /* Direct return of accumlated length */
+
+accumulated
+
+Don't forget to run a spell-checker.
+
+--=20
+With Best Regards,
+Andy Shevchenko
