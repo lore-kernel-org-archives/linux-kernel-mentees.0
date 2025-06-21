@@ -1,72 +1,76 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F9918BC3B
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 21 Jun 2025 05:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980F718FDBE;
+	Sat, 21 Jun 2025 06:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750485128; cv=none; b=LPf+a9hYNiEppqgxMC2Mihw2ED5b0WQm9CCsHhxsGSeDkq4tv0lp/W2tpAvlStw55ruAOZ4RLIyY6Yxrh56WpNItSnDAhkizUSzwMdIIpU3h7CtuCvfWtN1vqrVtKXU+0xMH3w1LRY7inp0H1zVE1ZSZKtJ86bFyQz0KB8jonEU=
+	t=1750487401; cv=none; b=URwnmV/9zHX9SU59ERQYUU4BrJwP7ICarZMswYJus4zuHbIbi0sM9QLq6pwfnu9pfnTtSAzpRhbBlQ4jyvoJ+xW8YM7w5lkzO3qZC2Nwt/r+slDhor38ZzJvPK75YVosc3eP+wT7ODvnc5WkD1Yc0HMU6Ir4veCC+rywyx3ME4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750485128; c=relaxed/simple;
-	bh=I2qfDeaK/yT5SBxGqMaxj0vINrFUNTL30vXC81G8BN4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rtyuOtv2vrpN+Gr/GScQqFG8jwBKFMIYFjt+FDznUuZt+LkgYU+mg6o2u4m8WyqxhmqimrGhhCtwGhMPDfPYXeQzxXaO47eytF/eQ/5pNXL16F3bY++RubdTL8m7fmGamHlpT1u+2HDiaU76WRZN82CaNrPRXsVRqLrN83wA1BA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BlInPoFI; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1750487401; c=relaxed/simple;
+	bh=+8nxB59T4nNd/zAuaPjugmozXPdx/wYZUcfV2AVIE7k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Sm7gZCMrxtyIrw25+y/dtb741NTHPmlUoFbsmJ6KIsBEasLXiLbONCUzE5v/YF+0G58SdIs0NwUNte1k2MlY9H9Fs9JjK02VnlcG8UKAQcN5TcBtEiJXSb6cQHbDGUkxKihQ80rk392jERdduFhD5c+tQGrORQHy1Nm5YSiC+PI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hQHXEXQj; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BlInPoFI"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4519dd6523dso1173715e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 20 Jun 2025 22:52:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hQHXEXQj"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a4eed70f24so364568f8f.0;
+        Fri, 20 Jun 2025 23:29:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750485125; x=1751089925; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1750487398; x=1751092198; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WQpUEjf0YxYX6Ci4pItp/DxE3akefzENzegjXg1pXvE=;
-        b=BlInPoFIIi/8Chwn2xc3tVnfcwCNjqm8rE1nr5//NUjWCRUQCmAwLVvVyTCfH0Tv7v
-         ruRcaf8xalAeasB/FsDOL7sRGhaUJYK/EiWhOSaC70C2bBCJyR/AKWyiz9ZZ0m+Aldy6
-         +BZa7jZHFxPAikGqYNGkopgXTLXInMp81lfY0xdQPSwxKgPIVDSIjrNMRvJup88dwCld
-         PcORdx5uOE4mieaDkLiOcyFuaPT7AM8VVJWRxiA1Ynv1LHM21ucE0VrEnXpTweSsCBoU
-         IUEDjX65c3z/845Nnif7Z+/4aXPOKb2OP6pFrxrYhhh3KCcxjCVeoRyQy1ZzEklw1YeT
-         F7HA==
+        bh=NkjbtNwR+2HkOqNIDNJiFuWYyKYkGQKZSPa6ldxqxrI=;
+        b=hQHXEXQjPFcttE4lNgq45oMQWhswrYliZF72N7b01LfkbuxNT4YQJcrqhlqILothYT
+         0ZKxBhdOKmeQB+FMHb+E3T8iVqNBrPhfJWxJfteYGhu4UL8HD3LC3oJQ1V8V7yqw6zRR
+         yPXtB/MhkcxwSY66oVWgNjYW7sZibctIv1D48EtQM5/+jCSXR5KwXJY4ASbRnFbGIzuA
+         HQBqIj0C3MElCvBRil6tcHVWffTPvwoxQVXpme36CfAXobkoQ86R/MrUwohqBsZWbBQ1
+         26TPnpO/HKzR3vaQQI8mP/GPbAUoxZUGOtrR211Lu46P7yD2iR/mNU0StiqUl9WOv6AO
+         c3NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750485125; x=1751089925;
+        d=1e100.net; s=20230601; t=1750487398; x=1751092198;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WQpUEjf0YxYX6Ci4pItp/DxE3akefzENzegjXg1pXvE=;
-        b=IMovO+cw/qYC9t0JVw7bcZhkUzx6xB4h4wMOCvlKSp30CD+iFjieLxM7D+ASsXTkoe
-         0ctFeASVmEZeXvBWdCu5EHt2LQ8YSeafcQaOuO+2OibW65lTYOBRjCD8RUY1mvM9ybhR
-         WJJ1gH4/fRLP/hfKLcyECaIizN2JLnGGQLV22kEcuMKd/WLJxAh7JzLhNOOsKWodywrp
-         BZy3AAqR/3XDnureLhkN8crarzqdwKCkCR4ZCi5+JP9xq1AUfEK/p72T2XO9mcHPkLmj
-         hSFzxOsmZ9cuXveyE2OJis0dV/HhSCpFTCIuaOPV57Ha2Z3S5VKYA1zRuTryrjt2exTV
-         vRVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWHCmgFZGdOfkYKwUDI+4Hh75hGagMZiBDk+WWs+8RsY6rS/hLx0qhYLFvV4bxJrVwZCy3ei9aFjn2s13SdLL/V6QtZdg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzl+LU7DT/hPwjZNO3q2DDLACmOZV8CI8L/CjiseqsrCaZN8p1O
-	kmzBWWIbLu8BTuRaF09mknG0pWsz8KBNd5X6NfldbhnH5L1BOj5TZ+Ei
-X-Gm-Gg: ASbGncvxPlUS9EuZGNMNVPugLlBPTYBhOUC8YerAE3kjadtOmjQvSEAOeHis8zzGe4h
-	0ZaLPe0qVQWAi6CVtgn9TbtOWfeK5PmHRxrh+mVLjErbkXKbr1b8+8utngn25nVkeQLshZNYi7D
-	qXXyCgXSjK8Imb9IfT77okwxtasHybrYzdAYrvZI4O69N7l7KP+q3YE/1nCNvk3Zu6UBC0HQvs2
-	LufMHDr6EDjg8c8naxXQ01o4+YtBt5j+L6ftoA4aCKCPrOLXDFLanA8KONKHjY+otIMVxpL1pPW
-	+NIhGCboETzjm6M3aOcvy2GCtLdACUONJQtgLlRsL5TiLgMZZlyNMTKhzokXLXEMkFThskGJTlU
-	1eZVWA/ARHDLeEXNJn/6kZJ2JdJxBkicqow==
-X-Google-Smtp-Source: AGHT+IGpx8LAUbfT+/oAv5emrbinMdbFFJI0Ah20iXYdZhFuPKxIxIt+hSS5OM2azlVyMH9Ov14N1A==
-X-Received: by 2002:a05:600c:5494:b0:453:590b:d392 with SMTP id 5b1f17b1804b1-453657bf79cmr18822625e9.2.1750485124972;
-        Fri, 20 Jun 2025 22:52:04 -0700 (PDT)
+        bh=NkjbtNwR+2HkOqNIDNJiFuWYyKYkGQKZSPa6ldxqxrI=;
+        b=mzL78rNFMHsuhYDu9lAFtYuJUVYMzlb/wRq/1QteqcK2TUs36jjv5BKiq//kSHeN8F
+         OMRMm0UirIvwqUYEKtBmogWLxWj7aAGLyc9W1cmVi3cUkNe329LAnCibkS+j05yTQJ5k
+         CoK+UyuZHXCG3aiUDe4FJkP7uNCMSw+cQ0+Tll5OtSC9Y32DPbJmdpE+W+ILZ6HFaKri
+         lrOviYUi1PNRONBo2f9014qUgWo5GtrrlMvhek4qsYuv3zYljt5TG22QCeRos2bO5cmN
+         DkgaXM5ZB7hkMTNNsES36LVogUQIQaVgAicffpaL+GK9b3WH3GXZthFRWpaqxkHwTJJe
+         nH3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUoNUv7glaR0appSopfRP1ExYaaz/bEEnyVY0Rt2FPpxJkRD44TlU9UdNTbsNgaCYszhxQd4rgMchuX9XTFFisgPZNI7w==@lists.linux.dev, AJvYcCWp4NYCzzbHLc0dQlsCTasgr7tcwbtwcgni+W+Jk7sIFBXWwCRpOrBm+fp62IHsibQmsMNzhTgsZX9wX5Gq8A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywa8huyUmpIt96FTex9TvUpVUZDpCXJK3OjnVf/qRSE7FF0Yr9V
+	IQH+pnTu8SyzUxxzcqMJITVNQJGm0W+i5Y/hDQTuJg/Wx7Q1sGQMsy02F+ZbtDWcgYw=
+X-Gm-Gg: ASbGncsmLiKEz/XWF8wRyH2SLuUkcwbSbiayQLZa9LoWjQuyxJ71MyiZ7sGmrLUBgSs
+	TUtGK9oBA67zAQVFGKPUwsPGJHhuByuJL0PuxnWMsM8MY++9oQZcQJ4twJqhWMUe+Z8XdKNZNyd
+	zETf7PGXLY/0Vqxw96SrNCtsel29iyl1qzTSzEiqCfGbFjJkfjlxnFkCgy9IdkyuGliB+B3ecXx
+	Amlt/aQI8YU40bO1BL6oRheUWQU0d6PzBt8o51MVT2FTWJYjAZTS8puV0DXJItzc65IxCf3llfJ
+	lZFAEKQzpuqFbwdSIGM3YkiyO52hkfhm37I2GubWk22rW8mogRLJ6sEiptV6VbCUvwh8TJk7kD0
+	0+Ml8bZTHKmJ7hwzdY2c3AD0=
+X-Google-Smtp-Source: AGHT+IE/hg0M6sQ7nkl4Ba9kld0aQ2r8UvzDVcYS3F+oasLbyx+jmasGilFbARj3pfUJY1NIUWai6A==
+X-Received: by 2002:a5d:5f4a:0:b0:3a3:6e85:a550 with SMTP id ffacd0b85a97d-3a6d12a1d62mr1739186f8f.5.1750487397581;
+        Fri, 20 Jun 2025 23:29:57 -0700 (PDT)
 Received: from localhost.localdomain ([102.46.244.122])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6d1190d13sm3785172f8f.90.2025.06.20.22.52.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453646d1391sm44165945e9.9.2025.06.20.23.29.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jun 2025 22:52:04 -0700 (PDT)
+        Fri, 20 Jun 2025 23:29:57 -0700 (PDT)
 From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: rafael@kernel.org,
-	lenb@kernel.org
-Cc: skhan@linuxfoundation.com,
-	linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+To: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev,
 	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH] ACPI: fan: Replace sprintf/scnprintf with sysfs_emit in show functions
-Date: Sat, 21 Jun 2025 08:52:00 +0300
-Message-Id: <20250621055200.166361-1-abdelrahmanfekry375@gmail.com>
+Subject: [PATCH] staging: media: atomisp: Replace scnprintf with sysfs_emit in bo_show
+Date: Sat, 21 Jun 2025 09:29:44 +0300
+Message-Id: <20250621062944.168386-1-abdelrahmanfekry375@gmail.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -76,47 +80,77 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update two sysfs show() functions in the ACPI fan driver to use sysfs_emit()
-and sysfs_emit_at() instead of sprintf() and scnprintf().
-
-- show_fan_speed(): replaced sprintf() with sysfs_emit().
-- show_state(): replaced scnprintf() with sysfs_emit() for the first write,
-  and retained sysfs_emit_at() for incremental writes.
-
-This change is in accordance with Documentation/filesystems/sysfs.rst,
-which recommends using sysfs_emit/sysfs_emit_at in all sysfs show()
-callbacks for buffer safety, clarity, and consistency.
+Convert buffer output to use sysfs_emit/sysfs_emit_at API for safer
+PAGE_SIZE handling and standardized sysfs output.
 
 Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
 ---
- drivers/acpi/fan_attr.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/media/atomisp/pci/hmm/hmm.c | 24 ++++++---------------
+ 1 file changed, 7 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/acpi/fan_attr.c b/drivers/acpi/fan_attr.c
-index 22d29ac2447c..6a53da3d6d82 100644
---- a/drivers/acpi/fan_attr.c
-+++ b/drivers/acpi/fan_attr.c
-@@ -22,9 +22,9 @@ static ssize_t show_state(struct device *dev, struct device_attribute *attr, cha
- 	int count;
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+index 84102c3aaf97..cae1fccd06af 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+@@ -37,51 +37,41 @@ static const char hmm_bo_type_string[] = "pv";
+ static ssize_t bo_show(struct device *dev, struct device_attribute *attr,
+ 		       char *buf, struct list_head *bo_list, bool active)
+ {
+-	ssize_t ret = 0;
++	ssize_t offset = 0;
+ 	struct hmm_buffer_object *bo;
+ 	unsigned long flags;
+ 	int i;
+ 	long total[HMM_BO_LAST] = { 0 };
+ 	long count[HMM_BO_LAST] = { 0 };
+-	int index1 = 0;
+-	int index2 = 0;
  
- 	if (fps->control == 0xFFFFFFFF || fps->control > 100)
--		count = scnprintf(buf, PAGE_SIZE, "not-defined:");
-+		count = sysfs_emit(buf, "not-defined:");
- 	else
--		count = scnprintf(buf, PAGE_SIZE, "%lld:", fps->control);
-+		count = sysfs_emit(buf, "%lld:", fps->control);
+-	ret = scnprintf(buf, PAGE_SIZE, "type pgnr\n");
+-	if (ret <= 0)
+-		return 0;
+-
+-	index1 += ret;
++	offset += sysfs_emit(buf, "type pgnr\n");
  
- 	if (fps->trip_point == 0xFFFFFFFF || fps->trip_point > 9)
- 		count += sysfs_emit_at(buf, count, "not-defined:");
-@@ -59,7 +59,7 @@ static ssize_t show_fan_speed(struct device *dev, struct device_attribute *attr,
- 	if (status)
- 		return status;
+ 	spin_lock_irqsave(&bo_device.list_lock, flags);
+ 	list_for_each_entry(bo, bo_list, list) {
+ 		if ((active && (bo->status & HMM_BO_ALLOCED)) ||
+ 		    (!active && !(bo->status & HMM_BO_ALLOCED))) {
+-			ret = scnprintf(buf + index1, PAGE_SIZE - index1,
++			offset += sysfs_emit_at(buf, offset,
+ 					"%c %d\n",
+ 					hmm_bo_type_string[bo->type], bo->pgnr);
  
--	return sprintf(buf, "%lld\n", fst.speed);
-+	return sysfs_emit(buf, "%lld\n", fst.speed);
+ 			total[bo->type] += bo->pgnr;
+ 			count[bo->type]++;
+-			if (ret > 0)
+-				index1 += ret;
+ 		}
+ 	}
+ 	spin_unlock_irqrestore(&bo_device.list_lock, flags);
+ 
+ 	for (i = 0; i < HMM_BO_LAST; i++) {
+ 		if (count[i]) {
+-			ret = scnprintf(buf + index1 + index2,
+-					PAGE_SIZE - index1 - index2,
++			offset += sysfs_emit_at(buf,
++					offset,
+ 					"%ld %c buffer objects: %ld KB\n",
+ 					count[i], hmm_bo_type_string[i],
+ 					total[i] * 4);
+-			if (ret > 0)
+-				index2 += ret;
+ 		}
+ 	}
+ 
+-	/* Add trailing zero, not included by scnprintf */
+-	return index1 + index2 + 1;
++	/* Direct return of accumlated length */
++	return offset;
  }
  
- static ssize_t show_fine_grain_control(struct device *dev, struct device_attribute *attr, char *buf)
+ static ssize_t active_bo_show(struct device *dev, struct device_attribute *attr,
 -- 
 2.25.1
 
