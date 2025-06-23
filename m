@@ -1,128 +1,137 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E6614D2A0
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 08:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9924522259A
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 09:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750668979; cv=none; b=XqxTrD8hgkNMw9gndYY6JTHOfxZv+NY+Z9/mR7USVB12coPKpMqtTEqy/gvhp9eQ6+5XScgsECrgWcCE/j6HZYMG9HxYmRADBczj6tw6+nDnzz2BAJvaipIRTZqeiyAV5AIkm5BD1cGNyIX4KFZa3k4EHeHbgpkgNzHfEHCtnbc=
+	t=1750670383; cv=none; b=lo2eXTG72o5EpLzOyABJ2Dj/PIpR7ykZHnEGgZs9H42zZg5ZRpYEbdqBB/52/PqHfmlE9MHIdv9hj0Su/lII5s4jEPPiXiP1v8PjyOfvUFyloEY7apYabGTnl3qFl6s16sIWcTAU+IHaWSGA9yEgSZV+LpygfO3C8lPtrwCr3JM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750668979; c=relaxed/simple;
-	bh=n3+W5D8CnGWfTlHowjBSq2SphepD7q7N6mU4Inz8Lzw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DD9ofk7xfHkP39B6jLvwtFp8HQ419o3lTXu5qkvD3Md8jvOQiGPnpZ7MM2eQXmCPYPRL8+JdTXXNkazesnKzwlRptAF7YRy2zk1z48EyabQG7pjnUCNFoT5NrYCCfi4DDFR82XhJyRS6EjRa9GHjlmkb9iWdHWr9FQEfh1x/CDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=Mcx0IXEk; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
+	s=arc-20240116; t=1750670383; c=relaxed/simple;
+	bh=ji/FAgHI92OTK5f23io89QCG5WvGIIeBGOkDnmo9nuY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QWLnOD6MeoHpn2PcVM+VhSy/iUfLh25padyx8p1KBSQPPjaTIuy0BiPQRvlGze74UPcOFQQAXRppimNgD7zwLgILUgFa9LSfzz6QpW0YRbIQSoPYEAmzKa4PxlxtiiEpSSBwLUPFCaHeV7Z6mpymLn9+iR23LnluFqg06elFbkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DPd1r2FA; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="Mcx0IXEk"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-451dbe494d6so45360975e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 01:56:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DPd1r2FA"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-74801bc6dc5so3027129b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 02:19:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1750668974; x=1751273774; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=n3+W5D8CnGWfTlHowjBSq2SphepD7q7N6mU4Inz8Lzw=;
-        b=Mcx0IXEkP1+pQ4lAUPD3nwVH0NDcXSehw0sVdVnC4ZhSVfjOLA44ttgCihmQCPXqFH
-         9sjBSAnCwWQymjM2Cx9y9Fq5jD/SUOS4xysOigMNQ7THDYx6hNVgwWdozGKAbAbjh55j
-         QivytJgGN6BcK+qQiSLJ6XCbcqfWGn/Hpm5uiOPGS1HfqjYETVTUsopRxigVWlqvswcn
-         hfJJrQZYAyCkFD9A4NQbpn0/6xw3kcpo1qob/pQmLGr40e2QoUUaOhnbgRLALVwBTrYG
-         z+IOdXASsb6UmLdJJIO/HT5HhvbWSBqnTljg8m5xjW4vXEAfTeuzH7PJpTlUC/RLHcyl
-         cnxA==
+        d=gmail.com; s=20230601; t=1750670381; x=1751275181; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W4YJw5XPCMvS5//y1Mmde0UI3BPz61gnsXJcsAlcDn4=;
+        b=DPd1r2FAfQLnfPl+7zGDI1qUIt3nnYnedMXr+WOVla28DNvbhdeE4IobTvaYeiNJ3G
+         F15J39JW5v69WNqPfo5IhboaOLJvj9e5OJrAMnqUWkDcADEqpYdda16AwwpZaupTk2ie
+         ucGvNohNE8ZTtydn7RDLsdLdQHKFUy+Cu4GAZIWCVVSQiBcdKwFkNuddzZYAke1dnbTc
+         u1VRNTAfWoi6TxKxMpLCPSwNPEUSVH7JVLRIcSYJPirG2Dcrxy3tbaHEDIriVckmi7bX
+         t55JarODbfAxbjxA9lF8pYmPIEoVhJL8PKDf6IrWxvsO9B5uiXlItrozyVa4zKSeD6tR
+         FSEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750668974; x=1751273774;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n3+W5D8CnGWfTlHowjBSq2SphepD7q7N6mU4Inz8Lzw=;
-        b=OVvQDnZ/mBGJToSd8qhxcS+CpajQ8e68tFOCzWnnaMKkjIuARAS/VObaXlqpiV/EOk
-         jrgCuo361SKB00ycwqlxbEWWHNZsHxFrAwYzjZ5rje8BsHZv1TOV89/S103bi3gXUMPo
-         mVE/nCqWnuxLYZDxx0fZuZNRrD+t8/ckngqQiMX2NXhzSD0SQl69lDsNGxOZrtaTwyf3
-         IO/jSn2eWBrq8nKiJP/l8/f9zbH+l9o+ZjuUOKIHcBIGOohUwngMWs8Ur7rWYqGcj4xT
-         3bquiiBLqmdHONU7TZbAlPTUWE8k7802C83bVpJjV2XM0NnOXaazSUI6DKyPRe+A8gg0
-         Fwtw==
-X-Forwarded-Encrypted: i=1; AJvYcCVERHSGRu2PtZ6UIlQQWZPXum3ILd82pxaGDiZIjP32AJqU76nQ7xfl5nlE50Ta/z3iuu5lF4ftuR2oycEA6oo+Bjx8Pw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxSJIi7NJMJnUXD8MrBrThRYFu7HDhrSkv7wCLy7JfSM1aqiwGo
-	NRW3P7LHgl7VCOzhpUKbSILCsFIt0FLdpzkxTjkBJeTxTxlCxvliFKDCOPbSP7QBMYKTEEshmgq
-	b4R2fQsQ=
-X-Gm-Gg: ASbGncvuBUNzDHC8XVulkGdnrNG2JXY8aREfDoaoaLywNOCW5mlJ3JWmuOpe32OX/1k
-	vh5skmWyQNsuhf1nXNw2ferosuvxWvHMhlzfJw//31bW+GfFHxjTXtXI98dCvs985pgWh7bATt7
-	BdAyWenjfkL0XVPIEoCrvrpa2fsX+LhOzM5pnaa5TiEY04RfvVoiT9gRhWnpYTBN6BEbqjVWFK+
-	fMWsv4aFeVliZW7p1B8+KoFopojBdRwYZ/iRpVY/na3aXJcA1EzwUjZaFc9SfSPOw0HNH7i/uZV
-	EXnAyU0op+DQWTPpjB37sDHwFKPmBSV+cM+Vw1b67pS5BIkG1AoX9ahDtO/4OpUqe7vs1nC+YaY
-	2wTyrLgkTCHFFAMlMUTu8n//VmANJQitFWNGuvTubfJ8x2g9YXxtl
-X-Google-Smtp-Source: AGHT+IERqVhXUuZaycJ9TXWhRB2gxybcEMP4NaEWUk1qVF4LE8ISnCBkZkByr7Mu7swhmGQOyICAkw==
-X-Received: by 2002:a05:600c:4512:b0:453:5c30:a1d0 with SMTP id 5b1f17b1804b1-4536e0da765mr49058295e9.21.1750668973790;
-        Mon, 23 Jun 2025 01:56:13 -0700 (PDT)
-Received: from ?IPV6:2a02:1807:2a00:3400:8778:2532:8a32:106a? ([2a02:1807:2a00:3400:8778:2532:8a32:106a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4536466596asm107238875e9.0.2025.06.23.01.56.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jun 2025 01:56:13 -0700 (PDT)
-Message-ID: <643db411-d72c-4542-82a2-056d7d745967@hammernet.be>
-Date: Mon, 23 Jun 2025 10:56:12 +0200
+        d=1e100.net; s=20230601; t=1750670381; x=1751275181;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W4YJw5XPCMvS5//y1Mmde0UI3BPz61gnsXJcsAlcDn4=;
+        b=CaJuTAnVkxgjys4G2mzkzs36Zjn3xw3JkA+9EWqByODBkiUB+j/Hq3knv37OqeCy77
+         vZjsFKMwjblYZrzYU0tlqLrLLmYDDYlai//TrNR6LdbaDhxDpbj+Wy/GxvdtX8vGA0jf
+         YsH07mkQiXefc6eiZyuSPRCuIBXUfaOay0KTHyd+PUQEu7uNwpJ1yDkvKxNCucjmevcG
+         FcC5sjZrAz31AgMyGyinJQQEet0yuw8S2HMCZv1mRwPialt2cwu23bWlVj6+lz4R2z/2
+         mXpiICz7S01cXDUuP2/4hWe+M9PB8vMKHT+KX7bWkiW9fgZ+72/Xx/sr7w4vUONYWNIq
+         UNKg==
+X-Forwarded-Encrypted: i=1; AJvYcCUS+igWJFkKORw4N96892wJpW1oEdm+k/yy9ceiLHgN5HJ6b3lzB7UIUiPJ9WsqxR3+JS7R1QzbpljxK63JAoIIgnM81A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy4iCb/QlZJvhVTIldYur/h4weFzOH/R2Asr+3Ykptg3bIHtD1K
+	ieNlJCxkWas9jgwNhjP3/arc6nrtDKRjecuHQ9v9npYFycHhiubKOpVa
+X-Gm-Gg: ASbGnctqRFkkSdC1bQOwTEyP3XwrrS4zVCcSlo/Sb0GzGwiczsrf+2Kci414gdq1/K5
+	CKu9iBX2H572EKyq8LH6o6ZPaYLSdoW6nEmM0YGpQnQiSHaDoEIN+smNKCERQQRKornO3/qWLLj
+	zb9VHwLrUmLMK1fxDq/+dmPFQA/3rVAFc3vpd9AeOsROgcO3Ql5cL4Xjd6MfW4tv2eCE2DwiCVN
+	mvTT00AnGFoIbUlCtNPO5daZWRIjHhSadvfIKKiNcBayQNBr8UD0LFBUTZXBUurTlGVw5L8WYLm
+	Uxq3IdcecUcLxwL1h/q0XNC2fnFkANCqYfPYF1krKFeMNgeE3RR+n4vziDa/M4g+5hly+eqIAz9
+	BqLtdVK0=
+X-Google-Smtp-Source: AGHT+IH9RLIYNgOIHeCndHNhloZ7mp+IiMwxQJdW8lE1NhoYyXy7rgsiZiOa8Fo2+Ilx9+DVNMOxdA==
+X-Received: by 2002:a05:6a00:cd4:b0:742:ae7e:7da1 with SMTP id d2e1a72fcca58-7490f287c44mr14578637b3a.0.1750670380544;
+        Mon, 23 Jun 2025 02:19:40 -0700 (PDT)
+Received: from manjaro.domain.name ([2401:4900:1c66:8091:47dd:9377:3ab1:4e4c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a6bd5bbsm7773093b3a.168.2025.06.23.02.19.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jun 2025 02:19:40 -0700 (PDT)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: dave@stgolabs.net,
+	jonathan.cameron@huawei.com,
+	dave.jiang@intel.com,
+	alison.schofield@intel.com,
+	vishal.l.verma@intel.com,
+	ira.weiny@intel.com,
+	dan.j.williams@intel.com
+Cc: ming.li@zohomail.com,
+	rrichter@amd.com,
+	jeff.johnson@oss.qualcomm.com,
+	peterz@infradead.org,
+	linux-cxl@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH] cxl/port: automate cleanup with __free()
+Date: Mon, 23 Jun 2025 14:49:29 +0530
+Message-ID: <20250623091929.366357-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: ehci: replace scnprintf() with sysfs_emit()
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- stern@rowland.harvard.edu, gregkh@linuxfoundation.org
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250619120711.552662-1-hendrik.hamerlinck@hammernet.be>
- <d2d321cd-7ca7-42d9-8eb8-7ab639dddfa6@wanadoo.fr>
-Content-Language: en-US
-From: Hendrik Hammernet <hendrik.hamerlinck@hammernet.be>
-In-Reply-To: <d2d321cd-7ca7-42d9-8eb8-7ab639dddfa6@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Use the scope based resource management (defined in linux/cleanup.h) to
+automate the lifetime control of struct cxl_endpoint_decoder. This
+eliminates the explicit kfree() call and makes the code more robust and
+maintainable in presence of early returns.
 
-On 6/20/25 21:56, Christophe JAILLET wrote:
-> Le 19/06/2025 à 14:07, Hendrik Hamerlinck a écrit :
->> Per Documentation/filesystems/sysfs.rst, show() methods should only
->> use sysfs_emit() or sysfs_emit_at() when formatting values to be
->> returned to userspace.
->>
->> Convert the uses of scnprintf() in sysfs show() methods to
->> sysfs_emit() and sysfs_emit_at() for better safety and consistency.
->>
->> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
->> ---
->>   drivers/usb/host/ehci-sysfs.c | 15 +++++----------
->>   1 file changed, 5 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/usb/host/ehci-sysfs.c b/drivers/usb/host/ehci-sysfs.c
->> index 8f75cb7b197c..3786e81b0ed9 100644
->> --- a/drivers/usb/host/ehci-sysfs.c
->> +++ b/drivers/usb/host/ehci-sysfs.c
->> @@ -12,21 +12,18 @@ static ssize_t companion_show(struct device *dev,
->>                     char *buf)
->>   {
->>       struct ehci_hcd        *ehci;
->> -    int            nports, index, n;
->> -    int            count = PAGE_SIZE;
->> -    char            *ptr = buf;
->> +    int            nports, index;
->> +    int            len = 0;
->>         ehci = hcd_to_ehci(dev_get_drvdata(dev));
->>       nports = HCS_N_PORTS(ehci->hcs_params);
->>         for (index = 0; index < nports; ++index) {
->>           if (test_bit(index, &ehci->companion_ports)) {
->> -            n = scnprintf(ptr, count, "%d\n", index + 1);
->> -            ptr += n;
->> -            count -= n;
->> +            len += sysfs_emit_at(buf, len, "%d\n", index + 1);
->>           }
->
-> Nitpick: extra { } looks useless now.
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+---
+ drivers/cxl/core/port.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I'm fairly new to kernel development. I checked the coding style guide and
-indeed saw that the curly braces should be avoided if they are unnecessary.
-
-Thanks for pointing that out. I'll fix it in the next revision.
+diff --git a/drivers/cxl/core/port.c b/drivers/cxl/core/port.c
+index eb46c6764d20..c35946882b20 100644
+--- a/drivers/cxl/core/port.c
++++ b/drivers/cxl/core/port.c
+@@ -10,6 +10,7 @@
+ #include <linux/slab.h>
+ #include <linux/idr.h>
+ #include <linux/node.h>
++#include <linux/cleanup.h>
+ #include <cxl/einj.h>
+ #include <cxlmem.h>
+ #include <cxlpci.h>
+@@ -1888,14 +1889,14 @@ EXPORT_SYMBOL_NS_GPL(cxl_switch_decoder_alloc, "CXL");
+  */
+ struct cxl_endpoint_decoder *cxl_endpoint_decoder_alloc(struct cxl_port *port)
+ {
+-	struct cxl_endpoint_decoder *cxled;
+ 	struct cxl_decoder *cxld;
+ 	int rc;
+ 
+ 	if (!is_cxl_endpoint(port))
+ 		return ERR_PTR(-EINVAL);
+ 
+-	cxled = kzalloc(sizeof(*cxled), GFP_KERNEL);
++	struct cxl_endpoint_decoder *cxled __free(kfree) =
++		kzalloc(sizeof(*cxled), GFP_KERNEL);
+ 	if (!cxled)
+ 		return ERR_PTR(-ENOMEM);
+ 
+@@ -1904,7 +1905,6 @@ struct cxl_endpoint_decoder *cxl_endpoint_decoder_alloc(struct cxl_port *port)
+ 	cxld = &cxled->cxld;
+ 	rc = cxl_decoder_init(port, cxld);
+ 	if (rc)	 {
+-		kfree(cxled);
+ 		return ERR_PTR(rc);
+ 	}
+ 
+-- 
+2.49.0
 
