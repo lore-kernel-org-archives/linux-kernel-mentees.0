@@ -1,171 +1,128 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E18922DA0A
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 08:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E6614D2A0
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 08:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750667934; cv=none; b=rE8NkQoR5DHDAVKRahs00dDlOLY+jklwGxl1V72TKgWT7DFZZ2MzzW52/VxGRzLrxVjxrGIrYO9zlemkYRcR4epl9GzmjO4iPKnxcq/KIDt/u/WvtF5lmwQexmFqqWnL73h/S5YIH7PHdXo9qaywS+ml9p1YinkuqZIBZ1a/vAs=
+	t=1750668979; cv=none; b=XqxTrD8hgkNMw9gndYY6JTHOfxZv+NY+Z9/mR7USVB12coPKpMqtTEqy/gvhp9eQ6+5XScgsECrgWcCE/j6HZYMG9HxYmRADBczj6tw6+nDnzz2BAJvaipIRTZqeiyAV5AIkm5BD1cGNyIX4KFZa3k4EHeHbgpkgNzHfEHCtnbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750667934; c=relaxed/simple;
-	bh=KPTfA+lD82RyS97lfltBlDwFaXpnQXlrck43kgnV2pA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hBw5bdH51gdi73bL6/4JTHSGZPk1OMbafu0R+FpYqqpcFk0ryGANpKp8HopbJ8YVeTBIM8BGiDq1I8p92K4InWm9vezetzpWaqHk9OLb+ThAFnD5UQdu++VxNUkPsgG564hvYlqKlRDx85Kv8EmWuSyqortOW3n/+LtaAgIH4JY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cMZBQnHO; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750668979; c=relaxed/simple;
+	bh=n3+W5D8CnGWfTlHowjBSq2SphepD7q7N6mU4Inz8Lzw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DD9ofk7xfHkP39B6jLvwtFp8HQ419o3lTXu5qkvD3Md8jvOQiGPnpZ7MM2eQXmCPYPRL8+JdTXXNkazesnKzwlRptAF7YRy2zk1z48EyabQG7pjnUCNFoT5NrYCCfi4DDFR82XhJyRS6EjRa9GHjlmkb9iWdHWr9FQEfh1x/CDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=Mcx0IXEk; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cMZBQnHO"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-747abb3cd0bso2659698b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 01:38:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="Mcx0IXEk"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-451dbe494d6so45360975e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 01:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750667933; x=1751272733; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PyVVTWaZgryZ9TMNe9jpkxLwz3WmJyduY+dRovtnePo=;
-        b=cMZBQnHOZt/IhbQJWqkPZeIRIbqvZ7NOQD4M3VToCJuRcDZGftGcV4HefInhV/BHtc
-         wEOLAZ1XA0k5plQ04YqkXv1BvplcMgTrHJQp0JZolCj7EdgXeD4n0FC4QX6aIVflRott
-         dzTjGvZSHUvf9IoaeuLOttIKp7CQCnR/HzCyiQUemypZuRpT6qglZTPGtj3r+sCrr467
-         s2ZirRqu5ELEcdVFVag9iYy5DHpT8XzMZzZXIXN6Sayb/mLPDxU56szgQBCBHAoiy3yv
-         +xb/uhZ0ruryQmJs7rAGnTWdF3WYwniIX3GLtu3Uuy304+eVnFDHi4itrdlejz/OSH7y
-         lk5w==
+        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1750668974; x=1751273774; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n3+W5D8CnGWfTlHowjBSq2SphepD7q7N6mU4Inz8Lzw=;
+        b=Mcx0IXEkP1+pQ4lAUPD3nwVH0NDcXSehw0sVdVnC4ZhSVfjOLA44ttgCihmQCPXqFH
+         9sjBSAnCwWQymjM2Cx9y9Fq5jD/SUOS4xysOigMNQ7THDYx6hNVgwWdozGKAbAbjh55j
+         QivytJgGN6BcK+qQiSLJ6XCbcqfWGn/Hpm5uiOPGS1HfqjYETVTUsopRxigVWlqvswcn
+         hfJJrQZYAyCkFD9A4NQbpn0/6xw3kcpo1qob/pQmLGr40e2QoUUaOhnbgRLALVwBTrYG
+         z+IOdXASsb6UmLdJJIO/HT5HhvbWSBqnTljg8m5xjW4vXEAfTeuzH7PJpTlUC/RLHcyl
+         cnxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750667933; x=1751272733;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PyVVTWaZgryZ9TMNe9jpkxLwz3WmJyduY+dRovtnePo=;
-        b=AwHvht8OPiV4+e2CSPzM6ovCGaogdXq4ZBhRy5bl6gDreNVBrG0CF19pvf1AKDE3Qu
-         w1CbQAfVxYxeErb/z5Ru/smGl0kU//hCaRC8Onl6e88MYWoFzeS1mvHJeBNsyz1NrQh1
-         GSscdEhh6s0jx9Wc7KSvY8I18ulkHQeqtx47BWIVJXRSXg934HK75qkGMqyUctRD+dn6
-         LuQ4upEz+2u6DWiFkbBTceLqctLHWjFVmsrv7AUMkoLfpt9bQmwNjlIloXglNsS+rWfF
-         XWz94d7mexHOGAc3jcdDRIuIbfBcTARU+J9s7Ym0Y2leoCDcWY8tP/a+kSu7jR9YjRqR
-         ycVg==
-X-Forwarded-Encrypted: i=1; AJvYcCXtelEw+jZuGSHbBrS0ffLhidxAokWhOGR8Vy0L8fgTGdRIAvWheBwd8trR8eDoInpLt4DItJj18iKV2MBpXogJ6ogDcg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxO4zenr1ymkhvtOfVxx2qIZD3inQFB30kADbmPubqo00F9miLf
-	hu2ik43vmJcXDLjfONe3AJLiLSoPgi9sS5pA2Ud1BK9l20qhd1dJzni3
-X-Gm-Gg: ASbGnctLdME+EEAlMjMIP4uluQsm7R4y7oqZYSWU4So+PVAFpeYK7ECIOAoP6p8xP4X
-	P9EGKbB+PPDxqgePTcOfF3Oq9nFJaz+gTw0gPYPm3HjYhr9SDgLCUdNyDu8lcXZqYtdJl2uPspm
-	KIFKgfR7aMIrZAfMH+Lu+EHLJnu8E5RlJ9qGgEpxUPaS5cCYw1PsuNG8kXminNpmb3+8FtCYJ5d
-	75bb6ro6KIo7egFf4dRDPAJWZBzpaQo1tgByiltXbemmwBs8TZawjgkutWatGI1nL5x3J38iH4M
-	Q/fiMw6XDzERGH8hipm1oLkkuRozOfFSC8lU8fQPTAJa0I1kk23ULQ/qVv036FCRStWcGcPTDju
-	QwJEwbmo=
-X-Google-Smtp-Source: AGHT+IGUeFiCv00KVBMrpOmKRu6YCsOh3f2syfhlZ6O0RFPGj97gwW+e+gn6L9Eq8La3deVTY0MrQA==
-X-Received: by 2002:a05:6a21:6d91:b0:1ee:ab52:b8cc with SMTP id adf61e73a8af0-2202934b9e0mr18197566637.21.1750667932543;
-        Mon, 23 Jun 2025 01:38:52 -0700 (PDT)
-Received: from manjaro.domain.name ([2401:4900:1c66:8091:47dd:9377:3ab1:4e4c])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b31f1258b55sm6209442a12.61.2025.06.23.01.38.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jun 2025 01:38:52 -0700 (PDT)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: dave@stgolabs.net,
-	jonathan.cameron@huawei.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	vishal.l.verma@intel.com,
-	ira.weiny@intel.com,
-	dan.j.williams@intel.com,
-	linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: ming.li@zohomail.com,
-	rrichter@amd.com,
-	peterz@infradead.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH v2] cxl/memdev: automate cleanup with __free()
-Date: Mon, 23 Jun 2025 14:08:41 +0530
-Message-ID: <20250623083841.364002-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        d=1e100.net; s=20230601; t=1750668974; x=1751273774;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n3+W5D8CnGWfTlHowjBSq2SphepD7q7N6mU4Inz8Lzw=;
+        b=OVvQDnZ/mBGJToSd8qhxcS+CpajQ8e68tFOCzWnnaMKkjIuARAS/VObaXlqpiV/EOk
+         jrgCuo361SKB00ycwqlxbEWWHNZsHxFrAwYzjZ5rje8BsHZv1TOV89/S103bi3gXUMPo
+         mVE/nCqWnuxLYZDxx0fZuZNRrD+t8/ckngqQiMX2NXhzSD0SQl69lDsNGxOZrtaTwyf3
+         IO/jSn2eWBrq8nKiJP/l8/f9zbH+l9o+ZjuUOKIHcBIGOohUwngMWs8Ur7rWYqGcj4xT
+         3bquiiBLqmdHONU7TZbAlPTUWE8k7802C83bVpJjV2XM0NnOXaazSUI6DKyPRe+A8gg0
+         Fwtw==
+X-Forwarded-Encrypted: i=1; AJvYcCVERHSGRu2PtZ6UIlQQWZPXum3ILd82pxaGDiZIjP32AJqU76nQ7xfl5nlE50Ta/z3iuu5lF4ftuR2oycEA6oo+Bjx8Pw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxSJIi7NJMJnUXD8MrBrThRYFu7HDhrSkv7wCLy7JfSM1aqiwGo
+	NRW3P7LHgl7VCOzhpUKbSILCsFIt0FLdpzkxTjkBJeTxTxlCxvliFKDCOPbSP7QBMYKTEEshmgq
+	b4R2fQsQ=
+X-Gm-Gg: ASbGncvuBUNzDHC8XVulkGdnrNG2JXY8aREfDoaoaLywNOCW5mlJ3JWmuOpe32OX/1k
+	vh5skmWyQNsuhf1nXNw2ferosuvxWvHMhlzfJw//31bW+GfFHxjTXtXI98dCvs985pgWh7bATt7
+	BdAyWenjfkL0XVPIEoCrvrpa2fsX+LhOzM5pnaa5TiEY04RfvVoiT9gRhWnpYTBN6BEbqjVWFK+
+	fMWsv4aFeVliZW7p1B8+KoFopojBdRwYZ/iRpVY/na3aXJcA1EzwUjZaFc9SfSPOw0HNH7i/uZV
+	EXnAyU0op+DQWTPpjB37sDHwFKPmBSV+cM+Vw1b67pS5BIkG1AoX9ahDtO/4OpUqe7vs1nC+YaY
+	2wTyrLgkTCHFFAMlMUTu8n//VmANJQitFWNGuvTubfJ8x2g9YXxtl
+X-Google-Smtp-Source: AGHT+IERqVhXUuZaycJ9TXWhRB2gxybcEMP4NaEWUk1qVF4LE8ISnCBkZkByr7Mu7swhmGQOyICAkw==
+X-Received: by 2002:a05:600c:4512:b0:453:5c30:a1d0 with SMTP id 5b1f17b1804b1-4536e0da765mr49058295e9.21.1750668973790;
+        Mon, 23 Jun 2025 01:56:13 -0700 (PDT)
+Received: from ?IPV6:2a02:1807:2a00:3400:8778:2532:8a32:106a? ([2a02:1807:2a00:3400:8778:2532:8a32:106a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4536466596asm107238875e9.0.2025.06.23.01.56.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jun 2025 01:56:13 -0700 (PDT)
+Message-ID: <643db411-d72c-4542-82a2-056d7d745967@hammernet.be>
+Date: Mon, 23 Jun 2025 10:56:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: ehci: replace scnprintf() with sysfs_emit()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ stern@rowland.harvard.edu, gregkh@linuxfoundation.org
+Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250619120711.552662-1-hendrik.hamerlinck@hammernet.be>
+ <d2d321cd-7ca7-42d9-8eb8-7ab639dddfa6@wanadoo.fr>
+Content-Language: en-US
+From: Hendrik Hammernet <hendrik.hamerlinck@hammernet.be>
+In-Reply-To: <d2d321cd-7ca7-42d9-8eb8-7ab639dddfa6@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Use the scope based resource management (defined in linux/cleanup.h) to
-automate the lifetime control of struct cxl_mbox_transfer_fw. This
-eliminates explicit kfree() calls and makes the code more robust and
-maintainable in presence of early returns.
 
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
----
- drivers/cxl/core/memdev.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+On 6/20/25 21:56, Christophe JAILLET wrote:
+> Le 19/06/2025 à 14:07, Hendrik Hamerlinck a écrit :
+>> Per Documentation/filesystems/sysfs.rst, show() methods should only
+>> use sysfs_emit() or sysfs_emit_at() when formatting values to be
+>> returned to userspace.
+>>
+>> Convert the uses of scnprintf() in sysfs show() methods to
+>> sysfs_emit() and sysfs_emit_at() for better safety and consistency.
+>>
+>> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+>> ---
+>>   drivers/usb/host/ehci-sysfs.c | 15 +++++----------
+>>   1 file changed, 5 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/usb/host/ehci-sysfs.c b/drivers/usb/host/ehci-sysfs.c
+>> index 8f75cb7b197c..3786e81b0ed9 100644
+>> --- a/drivers/usb/host/ehci-sysfs.c
+>> +++ b/drivers/usb/host/ehci-sysfs.c
+>> @@ -12,21 +12,18 @@ static ssize_t companion_show(struct device *dev,
+>>                     char *buf)
+>>   {
+>>       struct ehci_hcd        *ehci;
+>> -    int            nports, index, n;
+>> -    int            count = PAGE_SIZE;
+>> -    char            *ptr = buf;
+>> +    int            nports, index;
+>> +    int            len = 0;
+>>         ehci = hcd_to_ehci(dev_get_drvdata(dev));
+>>       nports = HCS_N_PORTS(ehci->hcs_params);
+>>         for (index = 0; index < nports; ++index) {
+>>           if (test_bit(index, &ehci->companion_ports)) {
+>> -            n = scnprintf(ptr, count, "%d\n", index + 1);
+>> -            ptr += n;
+>> -            count -= n;
+>> +            len += sysfs_emit_at(buf, len, "%d\n", index + 1);
+>>           }
+>
+> Nitpick: extra { } looks useless now.
 
-diff --git a/drivers/cxl/core/memdev.c b/drivers/cxl/core/memdev.c
-index f88a13adf7fa..38f4449f9740 100644
---- a/drivers/cxl/core/memdev.c
-+++ b/drivers/cxl/core/memdev.c
-@@ -7,6 +7,7 @@
- #include <linux/slab.h>
- #include <linux/idr.h>
- #include <linux/pci.h>
-+#include <linux/cleanup.h>
- #include <cxlmem.h>
- #include "trace.h"
- #include "core.h"
-@@ -802,11 +803,10 @@ static int cxl_mem_activate_fw(struct cxl_memdev_state *mds, int slot)
- static int cxl_mem_abort_fw_xfer(struct cxl_memdev_state *mds)
- {
- 	struct cxl_mailbox *cxl_mbox = &mds->cxlds.cxl_mbox;
--	struct cxl_mbox_transfer_fw *transfer;
- 	struct cxl_mbox_cmd mbox_cmd;
--	int rc;
--
--	transfer = kzalloc(struct_size(transfer, data, 0), GFP_KERNEL);
-+	
-+	struct cxl_mbox_transfer_fw *transfer __free(kfree) =
-+		kzalloc(struct_size(transfer, data, 0), GFP_KERNEL);
- 	if (!transfer)
- 		return -ENOMEM;
- 
-@@ -821,9 +821,7 @@ static int cxl_mem_abort_fw_xfer(struct cxl_memdev_state *mds)
- 
- 	transfer->action = CXL_FW_TRANSFER_ACTION_ABORT;
- 
--	rc = cxl_internal_send_cmd(cxl_mbox, &mbox_cmd);
--	kfree(transfer);
--	return rc;
-+	return cxl_internal_send_cmd(cxl_mbox, &mbox_cmd);
- }
- 
- static void cxl_fw_cleanup(struct fw_upload *fwl)
-@@ -880,7 +878,7 @@ static enum fw_upload_err cxl_fw_write(struct fw_upload *fwl, const u8 *data,
- 	struct cxl_dev_state *cxlds = &mds->cxlds;
- 	struct cxl_mailbox *cxl_mbox = &cxlds->cxl_mbox;
- 	struct cxl_memdev *cxlmd = cxlds->cxlmd;
--	struct cxl_mbox_transfer_fw *transfer;
-+	struct cxl_mbox_transfer_fw *transfer __free(kfree);
- 	struct cxl_mbox_cmd mbox_cmd;
- 	u32 cur_size, remaining;
- 	size_t size_in;
-@@ -949,7 +947,7 @@ static enum fw_upload_err cxl_fw_write(struct fw_upload *fwl, const u8 *data,
- 	rc = cxl_internal_send_cmd(cxl_mbox, &mbox_cmd);
- 	if (rc < 0) {
- 		rc = FW_UPLOAD_ERR_RW_ERROR;
--		goto out_free;
-+		return rc;
- 	}
- 
- 	*written = cur_size;
-@@ -963,14 +961,11 @@ static enum fw_upload_err cxl_fw_write(struct fw_upload *fwl, const u8 *data,
- 			dev_err(&cxlmd->dev, "Error activating firmware: %d\n",
- 				rc);
- 			rc = FW_UPLOAD_ERR_HW_ERROR;
--			goto out_free;
-+			return rc;
- 		}
- 	}
- 
- 	rc = FW_UPLOAD_ERR_NONE;
--
--out_free:
--	kfree(transfer);
- 	return rc;
- }
- 
--- 
-2.49.0
+I'm fairly new to kernel development. I checked the coding style guide and
+indeed saw that the curly braces should be avoided if they are unnecessary.
+
+Thanks for pointing that out. I'll fix it in the next revision.
 
