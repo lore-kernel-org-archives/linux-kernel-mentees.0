@@ -1,103 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07FC525C6FC;
-	Mon, 23 Jun 2025 14:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23B2139D;
+	Mon, 23 Jun 2025 18:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750689158; cv=none; b=p+G/52EFyUEHmXJn6wODkCNAa8Ypp9F8V56BEXQQ8Xuw+58u5Dh6DknFP7CYyEW6HtLXm0ikURH2rFmEIwRHGeynr3gWmwVxz48+Oe5wGpKUyZykOwPnqlIFHwt7GjJ23NwlZjTATw666ncx2Lcd6DTnoYLTlPzzdGr1ZhV3OKg=
+	t=1750703501; cv=none; b=qNA71Qc94WG4QeoLoAapO6J+hqfq1y4jDGDK445HUgMQoCi4b0RDEVRX4u7k3GKWcp3562cP3SkP+PlXCyJ/1vBICYyUpNsXl45KOCKidZm1xB5vQiVQjJt+KdG4xmrNfC+7a1cdd7v5PJsThNAEpA7wXuYPw1AQD05+qFicrHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750689158; c=relaxed/simple;
-	bh=vMTcLD498Wk13c0JEhQoB7DOAQr9EqJCvaELj4r63kM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LAOSEJqqFyKCUrOigHuODkLI8G/TZPUkfuubEc/GwhiHomT6ZKSTPgkXYsOF6enKksvh/gEerJYo+WmNTAgxBcS7I1nQrn1G6XeJyE8C7PktLiIs6nphoFKezHGs7AGguF3a6i4fe2tDd8r54UCIONio4FzhWIVcNz5TKCeoPHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eeoQ0xYT; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750703501; c=relaxed/simple;
+	bh=pIAKt0mo2QJg6RZ/HaTWayaYZm/T1dbYJzk9s50QWK8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pqzDYE/bcc8mRQM5uR97HYANNdVnSlSRRtn90Lnybxjt0WY0csSN7hi/V06by+aR+NU0WjZJEp+h6VcFD9gUp7xkW6Zdexb92LD/ZOWeMDoEK3Az9oqPwCYhcLuNvE+7gBLpRXIOP6whptTfSyvFw9iiDyvtUy4wdzXLtip7bRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P5v695LA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eeoQ0xYT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750689157; x=1782225157;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=vMTcLD498Wk13c0JEhQoB7DOAQr9EqJCvaELj4r63kM=;
-  b=eeoQ0xYTKzq32qWITCsK+RnpxZBcroJb0tFbG4iL7BHUNgD3yuxQZ/EU
-   tAV4jjjPZMQbpi6l9y3lRDzZTEv3H8YeH7OedMCOYk2spcYtMuod7brWt
-   1R/RDy7Jl2wGCMNiJb64QDLKyNDQDCe7sf6VJzDYDH+tNJ4sYX8Svthh4
-   dQ+Ww8SBD7it7SAkqLIeemoY0wcySeUD/PASRBNUfbxL9FeO0uV/rgJet
-   /faG5rGLyxq9D6wMG0tm/CX4K71AW6olgUfZmlWQzzAD8z+mPJT7sJ8uX
-   uX0R7aI2wiaWkOkIxvDR/ZRdqcR68RviCv2m5OIeRh0lG6WPo8vRgb7g0
-   w==;
-X-CSE-ConnectionGUID: y5QeG5TFQ9u6VzvtykDcvg==
-X-CSE-MsgGUID: LzX3+1KFS0CDBz3f8pf7+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="75431900"
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="75431900"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 07:32:37 -0700
-X-CSE-ConnectionGUID: 43BbV4pWQ/uKWUbuioHfkg==
-X-CSE-MsgGUID: T0AY/+3qRD69iPCJBY0IVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="152135974"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 07:32:33 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uTiDm-00000009CSC-1JdB;
-	Mon, 23 Jun 2025 17:32:30 +0300
-Date: Mon, 23 Jun 2025 17:32:30 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, andy@kernel.org,
-	hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: Replace scnprintf with
- sysfs_emit in bo_show
-Message-ID: <aFllforMcR-WStUf@smile.fi.intel.com>
-References: <20250621062944.168386-1-abdelrahmanfekry375@gmail.com>
- <CAHp75Ve3PWgkwncVv5tGxzjWkF+Nodtp=Q3dpCejfSRD1BFMig@mail.gmail.com>
- <a2a67998-f67e-4677-a348-780bf640bfc3@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P5v695LA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E4AEC4CEEA;
+	Mon, 23 Jun 2025 18:31:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750703501;
+	bh=pIAKt0mo2QJg6RZ/HaTWayaYZm/T1dbYJzk9s50QWK8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=P5v695LAJHKKfLs9TIMbUstzth6jW7LKjgRplbbGuC5nMLc1K/1VYAwsyalAYYClr
+	 yl0efTcz9DWHXPswgiZrIfrB1EGhVnW28394ph+tLx19BVkPoO4BJKqTifOJ2Y9o5c
+	 YcBUkCD92lJw6kAdB0fBU2e2s5JaBXMD7+W5WFxPvZpeE+9U/uoaUCbsVWMtESK5NT
+	 h3lAvS80TvMWiLsvTmgo86uoEA6wkNVYnL3XrQ37wygTOJGD+pZ4FT4Ba/ZpKmrt5W
+	 1LGuW09ZeMNqs/txwjQE0gIXi8/gkQ1Xv40xH3DzmAqRvgmJTfNly0H+KnL1vV3aOu
+	 knmx6krb9XRtA==
+Message-ID: <7852d6ac-95f0-41ec-8365-d23a2b16b208@kernel.org>
+Date: Mon, 23 Jun 2025 20:31:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a2a67998-f67e-4677-a348-780bf640bfc3@suswa.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: media: atomisp: Replace scnprintf with
+ sysfs_emit in bo_show
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, andy@kernel.org,
+ mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev
+References: <20250621062944.168386-1-abdelrahmanfekry375@gmail.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20250621062944.168386-1-abdelrahmanfekry375@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 23, 2025 at 05:16:57PM +0300, Dan Carpenter wrote:
-> On Sat, Jun 21, 2025 at 09:24:40PM +0300, Andy Shevchenko wrote:
-> > On Sat, Jun 21, 2025 at 9:30 AM Abdelrahman Fekry
+Hi,
+
+On 21-Jun-25 8:29 AM, Abdelrahman Fekry wrote:
+> Convert buffer output to use sysfs_emit/sysfs_emit_at API for safer
+> PAGE_SIZE handling and standardized sysfs output.
+> 
+> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+> ---
+>  drivers/staging/media/atomisp/pci/hmm/hmm.c | 24 ++++++---------------
+>  1 file changed, 7 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> index 84102c3aaf97..cae1fccd06af 100644
+> --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> @@ -37,51 +37,41 @@ static const char hmm_bo_type_string[] = "pv";
+>  static ssize_t bo_show(struct device *dev, struct device_attribute *attr,
+>  		       char *buf, struct list_head *bo_list, bool active)
+>  {
+
+<snip>
+
+As Andy already mentioned you really should try to first better understand
+the code before changing it.
+
+In this case this code is used for 2 custom sysfs attributes called
+"active_bo" and "free_bo".
+
+sysfs attributes are custom userspace API and we really want to remove
+all custom userspace APIs from this driver before moving it out of
+drivers/staging
+
+Instead everything should be done through existing standard kernels
+API, mostly the standard v4l2 API.
+
+Note this is already mentioned in drivers/staging/media/atomisp/TODO
+although these specific sysfs attributes are not named:
+
+"""
+TODO
+====
+
+1. Items which MUST be fixed before the driver can be moved out of staging:
+
+* Remove/disable private IOCTLs
+
+* Remove/disable custom v4l2-ctrls
+
+* Remove custom sysfs files created by atomisp_drvfs.c
+"""
+
+In this case the "active_bo" and "free_bo" sysfs attributes seem
+to be there for debugging purposes only and they can simply be removed.
+
+So instead of replacing scnprintf you should write a new patch
+removing everything starting at:
+
+<--- start removing code here --->
+/*
+ * p: private
+ * v: vmalloc
 
 ...
 
-> > > -       ret = scnprintf(buf, PAGE_SIZE, "type pgnr\n");
-> > > -       if (ret <= 0)
-> > > -               return 0;
-> > > -
-> > > -       index1 += ret;
-> > > +       offset += sysfs_emit(buf, "type pgnr\n");
-> > 
-> > This changes the behaviour in case the sysfs_emit() fails. Not that
-> > this is a big issue, but it should be pointed out somewhere.
-> 
-> Neither scnprintf() nor sysfs_emit() can return negatives.
+static struct attribute_group atomisp_attribute_group[] = {
+        {.attrs = sysfs_attrs_ctrl },
+};
+<--- end removing code here --->
 
-Good, that's what I asked the author to investigate and add the respective
-comment / update commit message accordingly.
+and then also remove the sysfs_create_group() and
+sysfs_remove_group() calls.
 
--- 
-With Best Regards,
-Andy Shevchenko
+After writing that patch maybe you can also take a look at tackling
+the "Remove custom sysfs files created by atomisp_drvfs.c" TODO
+list item?
+
+Regards,
+
+Hans
+
+
+
 
 
