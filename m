@@ -1,72 +1,80 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2987624EA85
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 18:34:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C705B1DF98B
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 18:47:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750703685; cv=none; b=sFzwoLkqexwVNU6JR0mSEAN0eQHIomEutOwuy9T0/7qmMdZkAWm48NLN4+NoWv0//e3kG+lhshRHlCkfJjucZ4FdeEkBVk+7e31npPq/cTwnHhf8nA86R0wfSmzjptzIpB+uJDtZefxw249gEWj8WGozBlmwrmYxa9s+X3WJXZg=
+	t=1750704462; cv=none; b=RVL2gurwU4lMV7laglWbeqO5diPL6BEtxPOw5oz1DLRnUmxuFb+MMFV6VucYa4zs5hUWkOa+E2+mBx/SClEyb9K8q13AmV0SjoWAXn6TgTGregUvvGqoSQgDEQSN1QsLly3L8gJIYOMdi0LrhXkIl6Ri38DDIfX3m3Xo9A3KYJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750703685; c=relaxed/simple;
-	bh=xjO1fMe22Jaq4EfwiQGsg+pOSrk3eS2XnMdZUXlcSYU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q7UN12/xCkeVjwL/lB+/d3a9Q5AuQ4j+v2Xjwtjh31atvMhfpVFmP5+TlhOBt/fJo69ty4fOtKyoRyeiPzdwSIktiQ/025pKCOrj5s406wlKGIOlpF6+msUyw5EAeVtKZTB5xcohx3aobBY10DWi32ZxNee2uRJ5kqS6a77eWng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OrE+gApv; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1750704462; c=relaxed/simple;
+	bh=3rshOR7CPuXyaGwHcakcso417Fg4JBCnCi4RyECR8xI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SkLZpchcAMDsTbwSkblG+hqnE9w88fICywrzcGAGV89vDGRZnbw5FCwq1DS0WVUxllItKcYMWwvSrsVAFcnVLLho5mWEoR6MLKjXTAjo6VjzPO/yGkyPN429k+r0blfyXAPJvuxTb2V0dOzvI96YyhP9+UgjpO0wHpYUzrA+tKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QqJodWzR; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OrE+gApv"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-74924255af4so2007523b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 11:34:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QqJodWzR"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-235f9ea8d08so46236145ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 11:47:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750703683; x=1751308483; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1750704460; x=1751309260; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zV1oDEAS/vgPXZB0E98XPXxtO6/7/BkH9zWvruYfUv0=;
-        b=OrE+gApvIvaEGqA/6P4AhhqEw0lyiA1McA12I1DTy3E6j0V4l+YSt5Y1Cbjb6VHlaX
-         qMnb4uOG3yudKlqXIt/F5WbmATpLYgF4H9P0zi/sU0ab/rVAc4C0KfLO2adYtPAaPU0q
-         tLKgx+e2UZ6tFTnzYeHVMCNBjPNmAZysdPn1EsCpM7q3TbaP8gO04fO1ze0v34DJlsQb
-         Q/fh55IIIUQ7eW3q7/WzeDMESHrEOtK4UJ0P7dc8+7RVp8/sJ7AV92hyRoy4KMek0tnL
-         wTNALcE3N2l/3zvAwjfCL7rCuRyz6egO3AOHcqSs58tbD1yo5tuw5dR79jjYRf13KgPs
-         x3Gw==
+        bh=lX1PV8eCj+w6gmSly9JqA8eydGEbPW07Za33Kr6VYKg=;
+        b=QqJodWzRi0+8OIBOm2vvbsCg+DQNvsvDR1TlobRMENgLd3YkokAGtFCauivOhkuBr4
+         PWiMZRClaBmMEmEvFi6fMT42q6ZIw0nr0lhfHgHYz2zait8EJnjLFTXMKMr1/COlGdby
+         GwGA7lhQP7YbQW4j0Ieb8IOc7WlgWKKKEQ8z28jaPHpg/6TypBbf/tvZdrKubKrHpnUZ
+         xxwYba8LllLVI+SGDSTTt+oyicn/5lnNTuLGUtEuBltM/CUpw4jzsqB485S8pO4PsP2L
+         +YRdKaQXPfr+LE0IY5+V8z7HDHG0f8YX5a83NVdjc9g7bxORiVX9K1/qj6C8/ZLKo5WI
+         6H9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750703683; x=1751308483;
+        d=1e100.net; s=20230601; t=1750704460; x=1751309260;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zV1oDEAS/vgPXZB0E98XPXxtO6/7/BkH9zWvruYfUv0=;
-        b=lzJnHVBt/bIIj+YKh8pFGxAKigZgmockOTtYn2tS50hu9XoKcGpfcpVsJJwwccrCLr
-         CwzvsmhPdiEADLTv6/SXCxP9v1tncfz3H8FVEatIFSgHxstXURxBZUEfBwV4dWpT6/g8
-         OJ8h6HjljL0h0pf4Mn5rMpcg92bxcetBCsQcH5cNPqOBD8cPI6x4LsffE6c453Om0UOj
-         mcmoT3TyR8O7oHKI1gK/19ZYkPr10wIvPFkHVNKBvCr846DOoZT5etAkOX/8xP1gW6HH
-         deWVBqy/QSE0PoEKvLfXPLRDkVuJf+WouTXTQ8tl1uv/6HML98NuScsjLg2XuJ8V+qyc
-         96fw==
-X-Forwarded-Encrypted: i=1; AJvYcCUeyIB5FFkn9FmEGbcAelMPAZuKMnuQGDtuVOpCk0P3GI2T4x0tsK78vUzzRxMAaS03KRUYArmBNmwubJHBOELYC5n+sQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCno9QQxA9rnrXMLLSIF6KtJe5gYPCn1J7RFtFQLV+WWtyqRnD
-	QFLCk5aCl+LzrxxzCuM17LHMA7H8zQOIoxEB0OhF5QFxNrdUSt+Lc7C1
-X-Gm-Gg: ASbGncuB3IBR5rvWuaKCJvFjJtn0MCtgw/kUY4CjUAOocODTNkbNUBsF4GRnD8iJY5L
-	8IbPTcIdI5Tz9hNBbrqE14oqY7TRA/STXevEiPe4K3UC0SGObeDw1blFkgzjB5pVbp6As05nYYC
-	RemBFKiiH/7rUHuUTGFA0xq3+2rLFVqwG8atBjNQ1r0lplb8j+vURFIsTIQ+CnRFt33sfzeZYGQ
-	ohPWsceMLNQrE4xBfH86Kq8Wdfeb0N3C05V2ehHEABw7YmpnCWIaouaxgz0wzNz+Ft1FNIML/8B
-	l/zOLgRF4ZT/BO7E5EKvC9uHOk8CzobHjYCYZhp1+47lvmfWcDVq6d9+RLXcgbEo
-X-Google-Smtp-Source: AGHT+IH+8Rz4nyS+SsDsXTf8cDsY/zbLgN/bbs3ip/7BUvQfo0uOZ2R0DjFgXe5hfXV7s+zZSmM7rQ==
-X-Received: by 2002:a05:6a00:2e99:b0:742:b3a6:db16 with SMTP id d2e1a72fcca58-7490d67f737mr18775964b3a.20.1750703683359;
-        Mon, 23 Jun 2025 11:34:43 -0700 (PDT)
-Received: from p920.. ([2001:569:799a:1600:c8bc:68c3:c88e:7a72])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a49f3a8sm9119603b3a.62.2025.06.23.11.34.42
+        bh=lX1PV8eCj+w6gmSly9JqA8eydGEbPW07Za33Kr6VYKg=;
+        b=hv3kpGyV8rSMBT3PcU5QGapqq0fGFI67ZGkwE2yOOly6RninwZ1a+1DQWXJ3W5LDNV
+         R9q1YLHEEL1rFPuiEasaxq4uUITEqWXpSfMhUaPOoUoK+OvBq1rptfNbj2VupMVb74q8
+         LhpSKpFmZb/Y5ucwiK8zGKx0pvV2rQxiN311SC08gBJcbZegYdcM1HHj/fXJu//6oY7+
+         tzeLK8MCKxKmTvIWi3kqpmY2HxPinYAKQjIxanrHSiPO2fMo+bb6FVg3CN3B8D8pOPNY
+         6RMBlhTcVzgaD96s2J3kAbQhRpVIkQabVZ+3MN/iM0pEWGQ+4w4gDV76e/9pgqJBHyGu
+         b18g==
+X-Forwarded-Encrypted: i=1; AJvYcCWUj1WR67RcLQgrYmcJjPsZ2WrNhngmGxQFAaASj/EgIfk+njVHIewOlp64aeu/kL30cJarbEBvled/jsIHcJ9sBDr+ow==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy5Eh0UQU5D5miwtXwER8qPpaPt0ZZOsUk7TinmxzacvEByZI8b
+	qeYqcxqPw+9L5A63Eul+KhUpWWSRtUFtWQ/17tezaQ3un/JN7Z2pztur
+X-Gm-Gg: ASbGncvPZH6PBF3CwaXzJIJdS67f3x7PY8JpxFyIpMtL7ckTLuhwjnW5S31iGbpv0uO
+	lBG5LKzokqdq6KUvsU9OtMAiwn16y8L8wNUfM9QtpF3BXK6TuZufjM6LSfRTaVPWLpbyGfE4jZd
+	pJsICR5NTltagfZZPv56CJKDCmPusTFp+NSWNZy3Mqurp7h4jmoF5yl5VsBOq/nhXWd8SmW+tRz
+	EX2tid0ugZStsgeFluVZmRQy701ouEz1nHliEgbmFQoQM5Oa/414zNA22G2l8VpaBz+RMu3rgPl
+	pJ6GVbJd91xcVFP+6TNWodq4kqwKzCiLs+u+OD+BNhYcoZ9xl8dXNYq7LMC6WU8JwxuCEbPthKK
+	hNAG267ZlpkJCw2EHVRsUL4pkcjs=
+X-Google-Smtp-Source: AGHT+IG+q7JDDjJJiD6LIsW+SwYhlGS8aClQvrcI6niGs17mM8MdIZ/h4GRG4ZubHXABG5IObcnk4g==
+X-Received: by 2002:a17:902:f64a:b0:235:6e1:3edf with SMTP id d9443c01a7336-237d9878c08mr226699925ad.34.1750704459951;
+        Mon, 23 Jun 2025 11:47:39 -0700 (PDT)
+Received: from vaxr-ASUSPRO-D840MB-M840MB.. ([2001:288:7001:2703:229b:2db5:edc5:d79f])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d86150d8sm88037745ad.123.2025.06.23.11.47.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jun 2025 11:34:43 -0700 (PDT)
-From: Moon Hee Lee <moonhee.lee.ca@gmail.com>
-To: shuah@kernel.org
-Cc: oleg@redhat.com,
-	ldv@strace.io,
-	akpm@linux-foundation.org,
-	linux-kselftest@vger.kernel.org,
+        Mon, 23 Jun 2025 11:47:39 -0700 (PDT)
+From: I Hsin Cheng <richard120310@gmail.com>
+To: robin.clark@oss.qualcomm.com
+Cc: lumag@kernel.org,
+	abhinav.kumar@linux.dev,
+	jessica.zhang@oss.qualcomm.com,
+	sean@poorly.run,
+	marijn.suijten@somainline.org,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
+	shuah@kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
-	Moon Hee Lee <moonhee.lee.ca@gmail.com>
-Subject: [PATCH] selftests: ptrace: add set_syscall_info to .gitignore
-Date: Mon, 23 Jun 2025 11:34:06 -0700
-Message-ID: <20250623183405.133434-2-moonhee.lee.ca@gmail.com>
+	I Hsin Cheng <richard120310@gmail.com>
+Subject: [RFC PATCH] drm/msm: Remove dead code in msm_ioctl_gem_submit()
+Date: Tue, 24 Jun 2025 02:47:34 +0800
+Message-ID: <20250623184734.22947-1-richard120310@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -76,23 +84,29 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the set_syscall_info test binary to .gitignore to avoid tracking
-build artifacts in the ptrace selftests directory.
+According to the report of Coverity Scan [1], "sync_file" is going to be
+NULL when entering the "if" section after "out_post_unlock", so
+"fput(sync_file->file)" is never going to be exected in this block.
 
-Signed-off-by: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+[1]: https://scan5.scan.coverity.com/#/project-view/10074/10063?selectedIssue=1655089
+Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
 ---
- tools/testing/selftests/ptrace/.gitignore | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/msm/msm_gem_submit.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/tools/testing/selftests/ptrace/.gitignore b/tools/testing/selftests/ptrace/.gitignore
-index b7dde152e75a..f6be8efd57ea 100644
---- a/tools/testing/selftests/ptrace/.gitignore
-+++ b/tools/testing/selftests/ptrace/.gitignore
-@@ -3,3 +3,4 @@ get_syscall_info
- get_set_sud
- peeksiginfo
- vmaccess
-+set_syscall_info
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index d4f71bb54e84..cba1dc6fe6c6 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -904,8 +904,6 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ out_post_unlock:
+ 	if (ret && (out_fence_fd >= 0)) {
+ 		put_unused_fd(out_fence_fd);
+-		if (sync_file)
+-			fput(sync_file->file);
+ 	}
+ 
+ 	if (!IS_ERR_OR_NULL(submit)) {
 -- 
 2.43.0
 
