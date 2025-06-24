@@ -1,101 +1,226 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1092129994E;
-	Tue, 24 Jun 2025 13:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098FE27AC21
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 13:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750771509; cv=none; b=JRxaE0jFWbS9cclDi3ujcQ4iJbIRBsaFMwBXHLE2hbGeqQIanVV6p3TjLDQAbFPSoBqeJjryGSIQnsm5jtAF7F+C1jo16z6x8T/NSQ4xxj7EqeXnKXj/2oSsY8cA9bHmCwyL9SeBIN0CBfjkqK5xgSjNSuVbyyRy/H+6GEnC5UE=
+	t=1750772931; cv=none; b=ThCbMbJ1ZDuZ8Ksby8kK3LFmQlZLeTU7hlGVHMRQT0kXN+h6+iYUBkscPwAosXrBZCsmGkljwRej/ATx8YNMLZAnzMx3VazvEg4Nyk1Diji1JKiypVgJRlV2iWtYDXka13EgjlGDvcfCn8VT5lAQFPAXPQ0JfHq4RrQqwQ3FbuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750771509; c=relaxed/simple;
-	bh=MzfSzjUF95yxpmEYVS+Rj4B5oJS885I5tmi8QnxSL1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E/LmwUjEH7vG2Qq/8HCmxhGqziSQxeP8tjyW4v+LrWvHw3UqYCELIY/Af/xctnWxcVnf6qPXC1h8O7tlY0YVK5fKO+ckttq2VBGzyJH8kqPZhxZuhPXmwXMBhTct6yq4hINjbSbDYL6qJv5/75O4JUpEoJgzOm2R4z83XARSbs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gbs6DHX7; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1750772931; c=relaxed/simple;
+	bh=xGrATvnsr2No50uFgmrozZRPjRz6yymAT4fJabipdgA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dywYymnaYwwO8JOiMwHSdm4L4SB4qbdDC611E7ClVJ8ydx0jb5BMTLoYmXgiBJ5TiDVt3/YEIQ6bA7YTfNpQp+hXtK10A0wfvv+UiPUGTWJqueByneNj7WyCuaFOECJMYJgNWpif/fPDi4cc73SUrQ8GllqT9QZYcAfte+D1dRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N4qmYBXO; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gbs6DHX7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750771508; x=1782307508;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MzfSzjUF95yxpmEYVS+Rj4B5oJS885I5tmi8QnxSL1c=;
-  b=Gbs6DHX7vJXE+ub0x2b8lJDOrFkLav+EdFE9v89KpqLvNM2MmhJTzZY6
-   H1WyE0Fw9fIvovUKmxQGpOskau1jnnCLfNTQQvkWAxEOpJO42wUJocB6/
-   /lIQT2pVtqprs8RGU9aPU5DZ+d3MOXprLnlq4ErNdIT4tWVhVC0e1hRga
-   YA0BsRkzLREowI35fvyCQAcnKGavSDjp1B+Na/uGMnrvup/EAVl2FDqJu
-   PIiliPgeD5BCxoOYfKEvIGgwaWTePhICBK5sSKvMnVt/nSttFUDDkB8h8
-   v5MpMcZoCV6ri6rRYhqeSHe3Ev0zTAtxJtR3vESOJI/mG4YRC7YzmQTIq
-   w==;
-X-CSE-ConnectionGUID: 2uFw6Nz8QIWlI+RucuDJ+w==
-X-CSE-MsgGUID: hRwTYrTPS8emHCYl0NZxYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="78429903"
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="78429903"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 06:25:07 -0700
-X-CSE-ConnectionGUID: hjY2OfY9Sy6CJL0qqPCPFA==
-X-CSE-MsgGUID: sgp4haqyTcCmo2ZwpTutYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="152210127"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 06:25:04 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uU3e0-00000009TgJ-1Uhr;
-	Tue, 24 Jun 2025 16:25:00 +0300
-Date: Tue, 24 Jun 2025 16:24:59 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, shuah@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, dan.carpenter@linaro.org
-Subject: Re: [PATCH] staging: media: atomisp: remove debug sysfs attributes
- active_bo and free_bo
-Message-ID: <aFqnK5nIHilUSxPq@smile.fi.intel.com>
-References: <20250624130841.34693-1-abdelrahmanfekry375@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N4qmYBXO"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-23526264386so58624865ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 06:48:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750772929; x=1751377729; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hk6pB62R8/rFBBcS2uuP0R5gJUE79987GNhPqNjMRo8=;
+        b=N4qmYBXOniCs1KrMfMLE7VOKmfRcZ9PlUKNhPjr7xRf9UloeEl0jV7Ox2bMVHsDkjn
+         8khWwPFScSJpGvCmFvNSX+LrI7nVxv6e+5KiPJtUJcQNv4yA28EJL2NrIAQCO3mCypGU
+         r2ZJVHqFm8IwVHF/aiHNVmUcHq24d5SY6erd67ddWg/05Z6LUSadg6Ok3gkp5OYIbyg8
+         kGcL+WniH06GJCq/0lL/8e23ifw7US1RZGjt0N5wFbqN0dznsNf/SwXdnVEuVdX124qj
+         YsFrSoQkPRcoSNPcP+Mv76o0cUF2D0Un+z4LL+Ae7W6nb/wW4Imx+U3vfUXPfuMB9i/U
+         9gog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750772929; x=1751377729;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hk6pB62R8/rFBBcS2uuP0R5gJUE79987GNhPqNjMRo8=;
+        b=wwZnb+6DXfsZm2gqax5anYfeJDyFljPmlt89SnGpkd2OaP7KMffrehAydOzpVzoo26
+         jHrYCb8CjB//tPQ+dUgY/D5JmQ25iTIr9XVF5KduquKj+E7NMKgXAfDgRkaMBPtEmpPH
+         FN2MLfprHgyQh87Cnq4Dav8dBOkvjfhKWS2aGGCaUYWii4NdzpaLVfotfPUnXFYG44F7
+         twuRjFCEroIoQzV2jMNyAGkhE21Rq+WZWv3za3F8Jpc5U2E846xBtXKk5CF3LnoC2xHU
+         Dq23L1s7PHHtpJX3QFhrOLqZo4C06OL1dL8ckexT72bOEJWksT8Yuj7jIrbwErVmwmjt
+         DvMw==
+X-Forwarded-Encrypted: i=1; AJvYcCV3X5OcxYl1r1Ok0cleOkIrh+tjiPb3wVSQeGNhTlO4u9fW+XYNNZiJwRT9iPg+oCga+2wvF5tTG/R+sabIwIM8BHbKjw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/9lDlPptf50vGALaE6YEPGXKgKdl0PTrQBQuxMIMqspZpJ1o4
+	OxGVVM3slXYXvULcGcCp3+E4bBAlK40c3paOiuP6eqt1CHi84CRduW6EYE2RCXPF
+X-Gm-Gg: ASbGncuyPJZYIbsoEz1ILIF1guQ2u18uEgTdHmmzbuqDjsi2fVV26L8/W7WCs2RKu6V
+	6IhnTnu6bsmhrK7HYi94BKTD2JAdVjKEJSD8lJql/TZbS4ZPtJYZidRt6Bas3RCcOsLw+Ex5+yN
+	un+vezIDYRNgoCWXSVGuRutRAT51/eJTDR0ZzBZN/cCp/hYdt0Cwy0u2Zh0qgTNm4qKwHB9FaUZ
+	UbCNGj74+gzPV1BcXcSguNvXd5pFTCL3NT2t3A5uMnt/YA8ZhDLp/FH6QWDcIDsSpdWufwQZ/uT
+	f5zYIfM5tBcL2sD5OArlXGR2rUlMXqiBMsdMCAgZ+EPpbGureKw+guZVbV1MFlYX+PSlbvQNqPf
+	raNQphZg=
+X-Google-Smtp-Source: AGHT+IElliQeDtJFb0sxRL7fqhBF58Qku40qz2wb/HqE9C6if71wyFRvz5Gor/lVluwB88KvtwlGPg==
+X-Received: by 2002:a17:903:94b:b0:234:d292:be83 with SMTP id d9443c01a7336-237d9778c65mr279303895ad.10.1750772929068;
+        Tue, 24 Jun 2025 06:48:49 -0700 (PDT)
+Received: from manjaro.domain.name ([2401:4900:1c67:6116:afb5:b6ab:2dc8:4a21])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d8729490sm114526515ad.236.2025.06.24.06.48.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jun 2025 06:48:48 -0700 (PDT)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: linux-xfs@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: djwong@kernel.org,
+	leah.rumancik@gmail.com,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Guo Xuenan <guoxuenan@huawei.com>,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH 5.15.y] xfs: fix super block buf log item UAF during force shutdown
+Date: Tue, 24 Jun 2025 19:18:40 +0530
+Message-ID: <20250624134840.47853-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250624130841.34693-1-abdelrahmanfekry375@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 24, 2025 at 04:08:41PM +0300, Abdelrahman Fekry wrote:
-> The sysfs attributes active_bo and free_bo expose internal buffer
-> state used only for debugging purposes. These are not part of
-> any standard kernel ABI and needs to be removed before this
-> driver can be moved out of drivers/staging.
-> 
-> - Remove active_bo and free_bo attributes
-> - Remove group registration calls form hmm_init() and hmm_cleanup()
+From: Guo Xuenan <guoxuenan@huawei.com>
 
-Suggested-by: ?
+[ Upstream commit 575689fc0ffa6c4bb4e72fd18e31a6525a6124e0 ]
 
-...
+xfs log io error will trigger xlog shut down, and end_io worker call
+xlog_state_shutdown_callbacks to unpin and release the buf log item.
+The race condition is that when there are some thread doing transaction
+commit and happened not to be intercepted by xlog_is_shutdown, then,
+these log item will be insert into CIL, when unpin and release these
+buf log item, UAF will occur. BTW, add delay before `xlog_cil_commit`
+can increase recurrence probability.
 
-> +	/* Removed sysfs group registration for active_bo and free_bo attributes */
+The following call graph actually encountered this bad situation.
+fsstress                    io end worker kworker/0:1H-216
+                            xlog_ioend_work
+                              ->xlog_force_shutdown
+                                ->xlog_state_shutdown_callbacks
+                                  ->xlog_cil_process_committed
+                                    ->xlog_cil_committed
+                                      ->xfs_trans_committed_bulk
+->xfs_trans_apply_sb_deltas             ->li_ops->iop_unpin(lip, 1);
+  ->xfs_trans_getsb
+    ->_xfs_trans_bjoin
+      ->xfs_buf_item_init
+        ->if (bip) { return 0;} //relog
+->xlog_cil_commit
+  ->xlog_cil_insert_items //insert into CIL
+                                           ->xfs_buf_ioend_fail(bp);
+                                             ->xfs_buf_ioend
+                                               ->xfs_buf_item_done
+                                                 ->xfs_buf_item_relse
+                                                   ->xfs_buf_item_free
 
-> +
-> +	/* Removed sysfs group remove for active_bo and free_bo attributes */
+when cil push worker gather percpu cil and insert super block buf log item
+into ctx->log_items then uaf occurs.
 
-These comments do not bring a value, no need to have them.
+==================================================================
+BUG: KASAN: use-after-free in xlog_cil_push_work+0x1c8f/0x22f0
+Write of size 8 at addr ffff88801800f3f0 by task kworker/u4:4/105
 
-With the above fixed,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CPU: 0 PID: 105 Comm: kworker/u4:4 Tainted: G W
+6.1.0-rc1-00001-g274115149b42 #136
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+1.13.0-1ubuntu1.1 04/01/2014
+Workqueue: xfs-cil/sda xlog_cil_push_work
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x4d/0x66
+ print_report+0x171/0x4a6
+ kasan_report+0xb3/0x130
+ xlog_cil_push_work+0x1c8f/0x22f0
+ process_one_work+0x6f9/0xf70
+ worker_thread+0x578/0xf30
+ kthread+0x28c/0x330
+ ret_from_fork+0x1f/0x30
+ </TASK>
 
+Allocated by task 2145:
+ kasan_save_stack+0x1e/0x40
+ kasan_set_track+0x21/0x30
+ __kasan_slab_alloc+0x54/0x60
+ kmem_cache_alloc+0x14a/0x510
+ xfs_buf_item_init+0x160/0x6d0
+ _xfs_trans_bjoin+0x7f/0x2e0
+ xfs_trans_getsb+0xb6/0x3f0
+ xfs_trans_apply_sb_deltas+0x1f/0x8c0
+ __xfs_trans_commit+0xa25/0xe10
+ xfs_symlink+0xe23/0x1660
+ xfs_vn_symlink+0x157/0x280
+ vfs_symlink+0x491/0x790
+ do_symlinkat+0x128/0x220
+ __x64_sys_symlink+0x7a/0x90
+ do_syscall_64+0x35/0x80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+Freed by task 216:
+ kasan_save_stack+0x1e/0x40
+ kasan_set_track+0x21/0x30
+ kasan_save_free_info+0x2a/0x40
+ __kasan_slab_free+0x105/0x1a0
+ kmem_cache_free+0xb6/0x460
+ xfs_buf_ioend+0x1e9/0x11f0
+ xfs_buf_item_unpin+0x3d6/0x840
+ xfs_trans_committed_bulk+0x4c2/0x7c0
+ xlog_cil_committed+0xab6/0xfb0
+ xlog_cil_process_committed+0x117/0x1e0
+ xlog_state_shutdown_callbacks+0x208/0x440
+ xlog_force_shutdown+0x1b3/0x3a0
+ xlog_ioend_work+0xef/0x1d0
+ process_one_work+0x6f9/0xf70
+ worker_thread+0x578/0xf30
+ kthread+0x28c/0x330
+ ret_from_fork+0x1f/0x30
+
+The buggy address belongs to the object at ffff88801800f388
+ which belongs to the cache xfs_buf_item of size 272
+The buggy address is located 104 bytes inside of
+ 272-byte region [ffff88801800f388, ffff88801800f498)
+
+The buggy address belongs to the physical page:
+page:ffffea0000600380 refcount:1 mapcount:0 mapping:0000000000000000
+index:0xffff88801800f208 pfn:0x1800e
+head:ffffea0000600380 order:1 compound_mapcount:0 compound_pincount:0
+flags: 0x1fffff80010200(slab|head|node=0|zone=1|lastcpupid=0x1fffff)
+raw: 001fffff80010200 ffffea0000699788 ffff88801319db50 ffff88800fb50640
+raw: ffff88801800f208 000000000015000a 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff88801800f280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88801800f300: fb fb fb fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff88801800f380: fc fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                             ^
+ ffff88801800f400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88801800f480: fb fb fb fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
+Disabling lock debugging due to kernel taint
+
+[ Backport to 5.15: context cleanly applied with no semantic changes.
+Build-tested. ]
+
+Signed-off-by: Guo Xuenan <guoxuenan@huawei.com>
+Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+---
+ fs/xfs/xfs_buf_item.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/fs/xfs/xfs_buf_item.c b/fs/xfs/xfs_buf_item.c
+index b1ab100c09e1..ffe318eb897f 100644
+--- a/fs/xfs/xfs_buf_item.c
++++ b/fs/xfs/xfs_buf_item.c
+@@ -1017,6 +1017,8 @@ xfs_buf_item_relse(
+ 	trace_xfs_buf_item_relse(bp, _RET_IP_);
+ 	ASSERT(!test_bit(XFS_LI_IN_AIL, &bip->bli_item.li_flags));
+ 
++	if (atomic_read(&bip->bli_refcount))
++		return;
+ 	bp->b_log_item = NULL;
+ 	xfs_buf_rele(bp);
+ 	xfs_buf_item_free(bip);
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.49.0
 
