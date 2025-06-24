@@ -1,169 +1,112 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7762D1F68
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 13:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53241A2630;
+	Tue, 24 Jun 2025 14:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750773416; cv=none; b=k9mAcLWG9mDMsoeuuqVkV9pagLTyt5hCONn6dBRHwnpsVbvteOWaXk3GVyv5S83F1yYFMIYtO8o1wKNF17tWC9+b2O+iXsFzsc8yeBx75OwrV3T0bvJ2GaKCjmHhDUbe9xWG+1jGeN7mQx1AQqazGX+UhuhGE4Up9xFuB2hy0Yk=
+	t=1750775461; cv=none; b=OIKs9l3E6TpBDHrRjA2j/rwTmXs7DhL6GcDXrwZeHO6n0IiLNZrqxxJKp3WGivECFA/T/LreuRrxJ7TV5ILUFsWmKS3n/x6v/2twfgWDSE1BDbqqxbsnHVG2oAx3B1Hwl2/jvym3nNjfhaDdezPCGd0NUKbJn5ltJ/oK8+KMbgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750773416; c=relaxed/simple;
-	bh=BpzCqYrZgktHyHFsZFW3UfcXDFM+0KqnOLAMuBNHnj0=;
+	s=arc-20240116; t=1750775461; c=relaxed/simple;
+	bh=rUHKFAGtpoHh7qi7QoaP8poZE35x55yLFNHotiaZsC0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SGS4bH8AU1fD+fES6tMAkDLLUiSSQLeD8Qh5GQhvGvMCjE+JBoClkP3tKIJN/F/El0FM1peEpvezADm1LqELoLdGGgMCKin/7h7kKLZb/ULB1FFSPiIcw9llP3VssSAK+d1A06bXXnm6UprO0u72B6b0u+XNb/6EN7st6U1TeWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mQnwpYcz; arc=none smtp.client-ip=209.85.167.41
+	 To:Cc:Content-Type; b=bcZ7G7gWclt3Ie8eBdplI4woi2ARg/fuanHcXhEMMoa4++yaxT9oDgcxuOuhADYPZEuQ9fMbhonqM18Pa0tqcqWgvAhdFR6vtAFYDvTzOQ3O7fgTmhFGUviBtTG68+y3S0dMn+eRSjXVfQsi6aNz2DI5VV6tenG04PK+RIh9JiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jT5cPjWq; arc=none smtp.client-ip=209.85.219.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mQnwpYcz"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-553b82f3767so4805744e87.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 06:56:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jT5cPjWq"
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e7dc7245bcdso654087276.2;
+        Tue, 24 Jun 2025 07:30:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750773413; x=1751378213; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1750775459; x=1751380259; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1yABC0w8DEfvFsnNOYqPanr5Sg2H2x2a5U7q3it7HMM=;
-        b=mQnwpYczlEYkSwyL/+mlainV1bwumx7zf8LcbcfCQQOTMIMPw/aStbQHBeQi71Mvxt
-         vwJxQZWl9acYj1GwHfWPl+H19doTFF8TkE9AgNxt+zmLRP6JIsq3fXC3UbqcRawAbqMs
-         GbGc2ShFMjw+ak8cKZyrto6mcIZzsTuHsqU7sC93qzLJItimZX/lliMLSF01/UV+bYGG
-         GnjNTC5Yn7KyjHn/qGoC5xcI3HXKzQm0UUWzRULwwick9r2n6h8yeWRFqxFWFS/KNcaQ
-         2Wos2ifb01PaPCDeaJnQXskm+E1YD2R6pkXZppwYD7Dpa0akzE93O7lDO5zm+6UoL7qN
-         80Dw==
+        bh=47JKdWTsMsATiMIUqYdzfJGuvO9OstUGqC+AM2ehj08=;
+        b=jT5cPjWqaB+z+0i228Hye8VlRxpcf4ehsWekjvIecUnOzGOFwBoKm7TdrDZWmpdE4B
+         9H8Uj1uM2S7UIT3iTmstnPC0B0MbxALndmUWPRav8ueh17HIxHYyZO7sXI+FU88oSFgr
+         6CuDixSfDuZDV7Y+GB5e59ttFSR9yEah64ItlGqAiu6dZMqJcEyLcfEp5brI844IKi9b
+         czYPalWoLDi8howBK4mCTv8EcuY8Wvhy0xKZZ0u6v50S3raCKO0PUVn3PrzWUSGueHaR
+         zsMHLMKbj7zD4+hHptt7bO9YEqh0SLn/MCuMUtlL57UGKRRQcSWVt2aN+VmhHic67XcL
+         aoHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750773413; x=1751378213;
+        d=1e100.net; s=20230601; t=1750775459; x=1751380259;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1yABC0w8DEfvFsnNOYqPanr5Sg2H2x2a5U7q3it7HMM=;
-        b=c9jLJlz1AyNHNkGY9vm0GtenlGiWqjK94IHRprqqSQIkil3o5pHGTvVFFpaB18VhOu
-         8FzgQG3O4sKj/pocEmlyW8wht+/GVRV8P2GV4sAWdrMNpUwdcOkAOYhFpd8kiotHunUf
-         xy/UIin6wncAZ7yuK7yqvXl4KGOYcgwkQIgoKJKSqgXrEeX0M9VD0R/m4R4Y02CQQwuE
-         JfUSIHjYSjv6Gk5qPMcMyprnM/6Ci39IGySaT55YfCo5JoIqnFS0OJ5PW75b0d98UDiN
-         mHFkYqnKWKiQ+WZwxVBaqX/LNB6i4HOZJnajaotvJ9nv/nkWdorzzxNG/6dlIk9wfXqw
-         mIvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV3Rp5yZ6BBAzRqDxQclswwIu4zxWXn/iaSA31cOT7H/LUwXY4t/UjxOCd1pI81wnpyjISRNteaY17qEMJf156OfqgMew==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxlfAhTc24ZglnDqVAN4bW9EQl47bmMqe4YEOCTi84Yp/ArFUwO
-	ckudhgT5NXp2bVGbinddRwMr+boMvbr45BCCPh2UFQMcwFvz2kxHQKhXWvzRz6kWTBifzmP3NOQ
-	iwo1ic3m45hdT48yzweEtIQu+Cqqc8CE=
-X-Gm-Gg: ASbGncuzQb0d9IOAKH/LoLiB9ojGgkSytxb8Tyr09eeoShCqpLKxvJ2Qx5XvkT1W3FX
-	GbjWqIEZuU5lUlal9EAYgP3rC6KlPx7IBCF6W0aE39oSgsVK3fvE1ZUGCwakyyFAhYOVKFdE41c
-	FMEM4p4dWdQOri3xkdkAgyrC751afQ5kRDn6Z64mqB/PsT9bY013V/ykrb2heBd3Dyasl1ihCV2
-	iJ6zA==
-X-Google-Smtp-Source: AGHT+IHXYi6I/UqWOT18oDq+1JOOpyKXM7cogsUpmD7YM+DSdmtZsArE5Lb3v+YDn6Av7/arwxcsKeYaVo5vgs03PuI=
-X-Received: by 2002:a05:6512:b8e:b0:553:37a7:b217 with SMTP id
- 2adb3069b0e04-553e3bf3e5dmr5544673e87.35.1750773412740; Tue, 24 Jun 2025
- 06:56:52 -0700 (PDT)
+        bh=47JKdWTsMsATiMIUqYdzfJGuvO9OstUGqC+AM2ehj08=;
+        b=CGDAK9QYrPiMUeimK3u9T0ZBCv070U+80BxEYZybFA7a8YKF1tJFue/XpmsyFv944h
+         dqIosH4XiyiRdU6S943J5YpLEgbFzSNEyRr+9xneo4Koo2k6/q30UO1k8pm78YkOA7lb
+         rRz5QU0Hafw/FxWHHX0pDqEHV5nKygKZvRstC6yk/YMhDu5QNmpEwwAbhzkmEi17SfaI
+         pEwamFF6A43LDu/6KPhnpYJHzhMGMBPz5zn12fD1oTQ5qEwvcjqE967WuI+Cy+PxjXqC
+         VCMeRmUcB/5KEUR7SJYpQGHUnx2bYU/BsC5qOv9dbpIZGbB8MXc5Uh8Yzr1YMJgvxlvV
+         BLFA==
+X-Forwarded-Encrypted: i=1; AJvYcCXIN5OkqSDyboUjBuy3izl7861RW3jSSg1iBms2bWRgjzOkUnfY+rZ6FRFF+g9eE/oTyrtr5njP0NHgshksxlV93VpqGQ==@lists.linux.dev, AJvYcCXgr/agqhvQQcJyP5tCbp1VOqUDjE/SAXgvckJKXby3UgwDXWJe4TIqH9K4XDzuro5HJ46Un9rD5RVTC01npw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1gcLGCsgs2R9O78vY7qpoRATvHV60ZxvDm4T4tYwWz8lf4ej0
+	4UDVzMa3tL+D5muFL5fH3FStcEbX3ru1BO1PDgqsZfPMMrn04FRHQDT7pqwckH3lwTCWSrdLaNC
+	RgPPMgcBU73TNpdO3BUwvgumc32sBmcg=
+X-Gm-Gg: ASbGncumgPmcfjESEKBRaMyooITPW25wnYpy2a/f2HIpjhyhZhWZeOBSeljRPhdTS0T
+	DQXhiSxFhir/uHJmtwIKRSdik3stC2Un6qtP4OXHnO5pIPX4v/2Q+fE1wpquNv66jgq7CNE7AMI
+	ufNdJ5WtTggvNjI7KtZvAj6g4qD14c2prM3otj56ruCGCW
+X-Google-Smtp-Source: AGHT+IGkc9lDh/qTdWnQdUPKLcAIyMi8ZYUXwuqjFHaD94kvXRNBk8ZVu21FRKUl2y6HHg+AtAc3aGAkJb/C+PSHZWc=
+X-Received: by 2002:a05:690c:4b10:b0:712:a286:2ca2 with SMTP id
+ 00721157ae682-712c654cc21mr112798577b3.7.1750775458572; Tue, 24 Jun 2025
+ 07:30:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250623091929.366357-1-pranav.tyagi03@gmail.com> <2025062343-brilliant-laziness-e2cf@gregkh>
-In-Reply-To: <2025062343-brilliant-laziness-e2cf@gregkh>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Tue, 24 Jun 2025 19:26:40 +0530
-X-Gm-Features: Ac12FXxXAIMa7msu1Ixldzq9g6VHMyrCm53AQgkcjWXSWvwjIHhI1C4QApdm17g
-Message-ID: <CAH4c4jJtKP_MsqGBgt1kRim_nmWOS=Zd49iNYiHNM2-yDgMv1g@mail.gmail.com>
-Subject: Re: [PATCH] cxl/port: automate cleanup with __free()
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: dave@stgolabs.net, jonathan.cameron@huawei.com, dave.jiang@intel.com, 
-	alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com, 
-	dan.j.williams@intel.com, ming.li@zohomail.com, rrichter@amd.com, 
-	jeff.johnson@oss.qualcomm.com, peterz@infradead.org, 
-	linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+References: <20250624130841.34693-1-abdelrahmanfekry375@gmail.com> <aFqnK5nIHilUSxPq@smile.fi.intel.com>
+In-Reply-To: <aFqnK5nIHilUSxPq@smile.fi.intel.com>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Tue, 24 Jun 2025 17:30:46 +0300
+X-Gm-Features: Ac12FXwbJgmBpV-jBM_-Wd0HLMnK31Enz6FwQ4_mWR8PFGdVY_7Dq_TVpSDZ6qc
+Message-ID: <CAGn2d8NMApie5Ba8HuzzLtmhixkPpyXh3_goHbrMCzY0DE0wfw@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: remove debug sysfs attributes
+ active_bo and free_bo
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, shuah@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, dan.carpenter@linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 23, 2025 at 2:57=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
+On Tue, Jun 24, 2025 at 4:25=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Mon, Jun 23, 2025 at 02:49:29PM +0530, Pranav Tyagi wrote:
-> > Use the scope based resource management (defined in linux/cleanup.h) to
-> > automate the lifetime control of struct cxl_endpoint_decoder. This
-> > eliminates the explicit kfree() call and makes the code more robust and
-> > maintainable in presence of early returns.
+> On Tue, Jun 24, 2025 at 04:08:41PM +0300, Abdelrahman Fekry wrote:
+> > The sysfs attributes active_bo and free_bo expose internal buffer
+> > state used only for debugging purposes. These are not part of
+> > any standard kernel ABI and needs to be removed before this
+> > driver can be moved out of drivers/staging.
 > >
-> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> > ---
-> >  drivers/cxl/core/port.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/cxl/core/port.c b/drivers/cxl/core/port.c
-> > index eb46c6764d20..c35946882b20 100644
-> > --- a/drivers/cxl/core/port.c
-> > +++ b/drivers/cxl/core/port.c
-> > @@ -10,6 +10,7 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/idr.h>
-> >  #include <linux/node.h>
-> > +#include <linux/cleanup.h>
-> >  #include <cxl/einj.h>
-> >  #include <cxlmem.h>
-> >  #include <cxlpci.h>
-> > @@ -1888,14 +1889,14 @@ EXPORT_SYMBOL_NS_GPL(cxl_switch_decoder_alloc, =
-"CXL");
-> >   */
-> >  struct cxl_endpoint_decoder *cxl_endpoint_decoder_alloc(struct cxl_por=
-t *port)
-> >  {
-> > -     struct cxl_endpoint_decoder *cxled;
-> >       struct cxl_decoder *cxld;
-> >       int rc;
-> >
-> >       if (!is_cxl_endpoint(port))
-> >               return ERR_PTR(-EINVAL);
-> >
-> > -     cxled =3D kzalloc(sizeof(*cxled), GFP_KERNEL);
-> > +     struct cxl_endpoint_decoder *cxled __free(kfree) =3D
-> > +             kzalloc(sizeof(*cxled), GFP_KERNEL);
-> >       if (!cxled)
-> >               return ERR_PTR(-ENOMEM);
-> >
-> > @@ -1904,7 +1905,6 @@ struct cxl_endpoint_decoder *cxl_endpoint_decoder=
-_alloc(struct cxl_port *port)
-> >       cxld =3D &cxled->cxld;
-> >       rc =3D cxl_decoder_init(port, cxld);
-> >       if (rc)  {
-> > -             kfree(cxled);
-> >               return ERR_PTR(rc);
-> >       }
-> >
-> > --
-> > 2.49.0
+> > - Remove active_bo and free_bo attributes
+> > - Remove group registration calls form hmm_init() and hmm_cleanup()
 >
-> Note, I can't speak for the maintainers of this subsystem, but
-> generally, making changes like this for no real good reason, for code
-> that has been around for years, is really not needed at all.
+> Suggested-by: ?
 >
-> If you fix a bug with it, sure, but changes for the sake of "let's use
-> this new feature" in here really might not be necessary.
+> ...
 >
-> Why not add cleanup.h support to code paths that actually fix existing
-> bugs instead?
+> > +     /* Removed sysfs group registration for active_bo and free_bo att=
+ributes */
 >
-> Also, you have added some coding style errors to the code now with this
-> patch, which also is generally not considered a good idea :)
+> > +
+> > +     /* Removed sysfs group remove for active_bo and free_bo attribute=
+s */
 >
-> thanks,
+> These comments do not bring a value, no need to have them.
 >
-> greg k-h
-
-Hi Greg,
-
-Thanks for the feedback.
-
-This patch was intended as a cleanup to improve consistency and
-readability, particularly around handling early returns using
-cleanup.h. I followed up on similar prior patches that introduced
-automatic cleanup in this subsystem and aimed to extend that style
-more consistently.
-
-That said, I understand your concern about changing long-standing
-code without a strong functional reason. I=E2=80=99ll be more careful going
-forward and focus such changes around actual bug fixes.
-
-Regards
-Pranav Tyagi
+noted , thank you will send v2
+> With the above fixed,
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
