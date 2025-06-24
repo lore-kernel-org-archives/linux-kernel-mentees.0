@@ -1,112 +1,154 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53241A2630;
-	Tue, 24 Jun 2025 14:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8652E2EF6
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 14:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750775461; cv=none; b=OIKs9l3E6TpBDHrRjA2j/rwTmXs7DhL6GcDXrwZeHO6n0IiLNZrqxxJKp3WGivECFA/T/LreuRrxJ7TV5ILUFsWmKS3n/x6v/2twfgWDSE1BDbqqxbsnHVG2oAx3B1Hwl2/jvym3nNjfhaDdezPCGd0NUKbJn5ltJ/oK8+KMbgw=
+	t=1750776200; cv=none; b=MCDYuPQLKToRmb2xmma7q9D4Cy/+976VV4C97AaVIrhUOMyM4IzIHhFaL/mcl08oXOHmA1Nig/WWP+CrBzocGHFaEtvebvQdswB4KclGDWWgOeLDbnwvZ5zJs8uad0H72sHt8KUuNxv6aZERYlknD4pXgoj/wh82+PGLKrQcavA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750775461; c=relaxed/simple;
-	bh=rUHKFAGtpoHh7qi7QoaP8poZE35x55yLFNHotiaZsC0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bcZ7G7gWclt3Ie8eBdplI4woi2ARg/fuanHcXhEMMoa4++yaxT9oDgcxuOuhADYPZEuQ9fMbhonqM18Pa0tqcqWgvAhdFR6vtAFYDvTzOQ3O7fgTmhFGUviBtTG68+y3S0dMn+eRSjXVfQsi6aNz2DI5VV6tenG04PK+RIh9JiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jT5cPjWq; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jT5cPjWq"
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e7dc7245bcdso654087276.2;
-        Tue, 24 Jun 2025 07:30:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750775459; x=1751380259; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=47JKdWTsMsATiMIUqYdzfJGuvO9OstUGqC+AM2ehj08=;
-        b=jT5cPjWqaB+z+0i228Hye8VlRxpcf4ehsWekjvIecUnOzGOFwBoKm7TdrDZWmpdE4B
-         9H8Uj1uM2S7UIT3iTmstnPC0B0MbxALndmUWPRav8ueh17HIxHYyZO7sXI+FU88oSFgr
-         6CuDixSfDuZDV7Y+GB5e59ttFSR9yEah64ItlGqAiu6dZMqJcEyLcfEp5brI844IKi9b
-         czYPalWoLDi8howBK4mCTv8EcuY8Wvhy0xKZZ0u6v50S3raCKO0PUVn3PrzWUSGueHaR
-         zsMHLMKbj7zD4+hHptt7bO9YEqh0SLn/MCuMUtlL57UGKRRQcSWVt2aN+VmhHic67XcL
-         aoHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750775459; x=1751380259;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=47JKdWTsMsATiMIUqYdzfJGuvO9OstUGqC+AM2ehj08=;
-        b=CGDAK9QYrPiMUeimK3u9T0ZBCv070U+80BxEYZybFA7a8YKF1tJFue/XpmsyFv944h
-         dqIosH4XiyiRdU6S943J5YpLEgbFzSNEyRr+9xneo4Koo2k6/q30UO1k8pm78YkOA7lb
-         rRz5QU0Hafw/FxWHHX0pDqEHV5nKygKZvRstC6yk/YMhDu5QNmpEwwAbhzkmEi17SfaI
-         pEwamFF6A43LDu/6KPhnpYJHzhMGMBPz5zn12fD1oTQ5qEwvcjqE967WuI+Cy+PxjXqC
-         VCMeRmUcB/5KEUR7SJYpQGHUnx2bYU/BsC5qOv9dbpIZGbB8MXc5Uh8Yzr1YMJgvxlvV
-         BLFA==
-X-Forwarded-Encrypted: i=1; AJvYcCXIN5OkqSDyboUjBuy3izl7861RW3jSSg1iBms2bWRgjzOkUnfY+rZ6FRFF+g9eE/oTyrtr5njP0NHgshksxlV93VpqGQ==@lists.linux.dev, AJvYcCXgr/agqhvQQcJyP5tCbp1VOqUDjE/SAXgvckJKXby3UgwDXWJe4TIqH9K4XDzuro5HJ46Un9rD5RVTC01npw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw1gcLGCsgs2R9O78vY7qpoRATvHV60ZxvDm4T4tYwWz8lf4ej0
-	4UDVzMa3tL+D5muFL5fH3FStcEbX3ru1BO1PDgqsZfPMMrn04FRHQDT7pqwckH3lwTCWSrdLaNC
-	RgPPMgcBU73TNpdO3BUwvgumc32sBmcg=
-X-Gm-Gg: ASbGncumgPmcfjESEKBRaMyooITPW25wnYpy2a/f2HIpjhyhZhWZeOBSeljRPhdTS0T
-	DQXhiSxFhir/uHJmtwIKRSdik3stC2Un6qtP4OXHnO5pIPX4v/2Q+fE1wpquNv66jgq7CNE7AMI
-	ufNdJ5WtTggvNjI7KtZvAj6g4qD14c2prM3otj56ruCGCW
-X-Google-Smtp-Source: AGHT+IGkc9lDh/qTdWnQdUPKLcAIyMi8ZYUXwuqjFHaD94kvXRNBk8ZVu21FRKUl2y6HHg+AtAc3aGAkJb/C+PSHZWc=
-X-Received: by 2002:a05:690c:4b10:b0:712:a286:2ca2 with SMTP id
- 00721157ae682-712c654cc21mr112798577b3.7.1750775458572; Tue, 24 Jun 2025
- 07:30:58 -0700 (PDT)
+	s=arc-20240116; t=1750776200; c=relaxed/simple;
+	bh=kBH2XMaNUtF536dyGQwy+MLisydRW31h9neokM1Na4w=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=q1wnevJxTnoEsVgmJG9YRmVhYsU5bE0ZrIRBJ6VYv1SdIOzZfa6j3V0iILWjrrYuvxjcGouBM/UFI9/SggBwm7JrRdnrufkmhL/De/hPMWMULf06gkU8sFzEqFi+YIBqEZ85Q1675JatrBSn/I5FQO8+hfLI6OXg/M0ByOR3ZpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bRSL63spBz6D9C5;
+	Tue, 24 Jun 2025 22:40:46 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id A5CB61402EA;
+	Tue, 24 Jun 2025 22:43:16 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 24 Jun
+ 2025 16:43:16 +0200
+Date: Tue, 24 Jun 2025 15:43:14 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>
+CC: <dave@stgolabs.net>, <dave.jiang@intel.com>, <alison.schofield@intel.com>,
+	<vishal.l.verma@intel.com>, <ira.weiny@intel.com>,
+	<dan.j.williams@intel.com>, <linux-cxl@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <ming.li@zohomail.com>, <rrichter@amd.com>,
+	<peterz@infradead.org>, <skhan@linuxfoundation.org>,
+	<linux-kernel-mentees@lists.linux.dev>
+Subject: Re: [PATCH v2] cxl/memdev: automate cleanup with __free()
+Message-ID: <20250624154314.00004fde@huawei.com>
+In-Reply-To: <20250623083841.364002-1-pranav.tyagi03@gmail.com>
+References: <20250623083841.364002-1-pranav.tyagi03@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250624130841.34693-1-abdelrahmanfekry375@gmail.com> <aFqnK5nIHilUSxPq@smile.fi.intel.com>
-In-Reply-To: <aFqnK5nIHilUSxPq@smile.fi.intel.com>
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Date: Tue, 24 Jun 2025 17:30:46 +0300
-X-Gm-Features: Ac12FXwbJgmBpV-jBM_-Wd0HLMnK31Enz6FwQ4_mWR8PFGdVY_7Dq_TVpSDZ6qc
-Message-ID: <CAGn2d8NMApie5Ba8HuzzLtmhixkPpyXh3_goHbrMCzY0DE0wfw@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: remove debug sysfs attributes
- active_bo and free_bo
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, shuah@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, dan.carpenter@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Tue, Jun 24, 2025 at 4:25=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Tue, Jun 24, 2025 at 04:08:41PM +0300, Abdelrahman Fekry wrote:
-> > The sysfs attributes active_bo and free_bo expose internal buffer
-> > state used only for debugging purposes. These are not part of
-> > any standard kernel ABI and needs to be removed before this
-> > driver can be moved out of drivers/staging.
-> >
-> > - Remove active_bo and free_bo attributes
-> > - Remove group registration calls form hmm_init() and hmm_cleanup()
->
-> Suggested-by: ?
->
-> ...
->
-> > +     /* Removed sysfs group registration for active_bo and free_bo att=
-ributes */
->
-> > +
-> > +     /* Removed sysfs group remove for active_bo and free_bo attribute=
-s */
->
-> These comments do not bring a value, no need to have them.
->
-noted , thank you will send v2
-> With the above fixed,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+On Mon, 23 Jun 2025 14:08:41 +0530
+Pranav Tyagi <pranav.tyagi03@gmail.com> wrote:
+
+> Use the scope based resource management (defined in linux/cleanup.h) to
+> automate the lifetime control of struct cxl_mbox_transfer_fw. This
+> eliminates explicit kfree() calls and makes the code more robust and
+> maintainable in presence of early returns.
+> 
+> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+
+Resend as I accidentally only sent 1st reply to Pranav.
+
+> ---
+>  drivers/cxl/core/memdev.c | 21 ++++++++-------------
+>  1 file changed, 8 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/cxl/core/memdev.c b/drivers/cxl/core/memdev.c
+> index f88a13adf7fa..38f4449f9740 100644
+> --- a/drivers/cxl/core/memdev.c
+> +++ b/drivers/cxl/core/memdev.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/idr.h>
+>  #include <linux/pci.h>
+> +#include <linux/cleanup.h>
+>  #include <cxlmem.h>
+>  #include "trace.h"
+>  #include "core.h"
+> @@ -802,11 +803,10 @@ static int cxl_mem_activate_fw(struct cxl_memdev_state *mds, int slot)
+>  static int cxl_mem_abort_fw_xfer(struct cxl_memdev_state *mds)
+>  {
+>  	struct cxl_mailbox *cxl_mbox = &mds->cxlds.cxl_mbox;
+> -	struct cxl_mbox_transfer_fw *transfer;
+>  	struct cxl_mbox_cmd mbox_cmd;
+> -	int rc;
+> -
+> -	transfer = kzalloc(struct_size(transfer, data, 0), GFP_KERNEL);
+> +	
+> +	struct cxl_mbox_transfer_fw *transfer __free(kfree) =
+> +		kzalloc(struct_size(transfer, data, 0), GFP_KERNEL);
+
+This one is fine.
+
+>  	if (!transfer)
+>  		return -ENOMEM;
+>  
+> @@ -821,9 +821,7 @@ static int cxl_mem_abort_fw_xfer(struct cxl_memdev_state *mds)
+>  
+>  	transfer->action = CXL_FW_TRANSFER_ACTION_ABORT;
+>  
+> -	rc = cxl_internal_send_cmd(cxl_mbox, &mbox_cmd);
+> -	kfree(transfer);
+> -	return rc;
+> +	return cxl_internal_send_cmd(cxl_mbox, &mbox_cmd);
+>  }
+>  
+>  static void cxl_fw_cleanup(struct fw_upload *fwl)
+> @@ -880,7 +878,7 @@ static enum fw_upload_err cxl_fw_write(struct fw_upload *fwl, const u8 *data,
+>  	struct cxl_dev_state *cxlds = &mds->cxlds;
+>  	struct cxl_mailbox *cxl_mbox = &cxlds->cxl_mbox;
+>  	struct cxl_memdev *cxlmd = cxlds->cxlmd;
+> -	struct cxl_mbox_transfer_fw *transfer;
+> +	struct cxl_mbox_transfer_fw *transfer __free(kfree);
+
+This one is not.
+
+Look at the comments in cleanup.h and consider if this obeys the rules
+on use of this feature that are laid out there.  As it stands you will have
+kfree() of an uninitialized pointer with unpredictable results in some
+of the error paths.
+
+>  	struct cxl_mbox_cmd mbox_cmd;
+>  	u32 cur_size, remaining;
+>  	size_t size_in;
+> @@ -949,7 +947,7 @@ static enum fw_upload_err cxl_fw_write(struct fw_upload *fwl, const u8 *data,
+>  	rc = cxl_internal_send_cmd(cxl_mbox, &mbox_cmd);
+>  	if (rc < 0) {
+>  		rc = FW_UPLOAD_ERR_RW_ERROR;
+> -		goto out_free;
+> +		return rc;
+>  	}
+>  
+>  	*written = cur_size;
+> @@ -963,14 +961,11 @@ static enum fw_upload_err cxl_fw_write(struct fw_upload *fwl, const u8 *data,
+>  			dev_err(&cxlmd->dev, "Error activating firmware: %d\n",
+>  				rc);
+>  			rc = FW_UPLOAD_ERR_HW_ERROR;
+> -			goto out_free;
+> +			return rc;
+>  		}
+>  	}
+>  
+>  	rc = FW_UPLOAD_ERR_NONE;
+
+return FW_UPLOAD_ERR_NONE;
+
+> -
+> -out_free:
+> -	kfree(transfer);
+>  	return rc;
+>  }
+>  
+
