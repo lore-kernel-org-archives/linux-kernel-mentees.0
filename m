@@ -1,148 +1,131 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74044299AAA;
-	Tue, 24 Jun 2025 12:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5212929ACCB
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 12:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750767246; cv=none; b=Ey8sgX80GnGmYQlIfFWmmaUAXk4SLlIo7+1GxEbBAlqNx/f1Sp31dS+ziqvbdmivmfuuf9hgC0RHgecE65vEzGdu12PABNzFrriM8b/ZpSP13WkWXfA68rl47+FbuNomufwQpEN5UvyOAE7ZiQOfNoPQZrHzrg2UTp0v5MW+NkA=
+	t=1750769643; cv=none; b=UFwy//YVlSs212zPsj9YQaPD+PDzKczNpLTHFodGPDeu8ZyYmJzlAA2Dfj+plOebjR9ihoXZUj6Ct+j33pGYdrgt8OkIcAwO8f3e6kegxhvJjHHMtRczgJWYEkCoJF+qxn8U2X8aPZ+JgHgoWyzm6TbCHH826gafV4OHIIoG5dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750767246; c=relaxed/simple;
-	bh=ePm0jJWqGXRR7vHBFxgYXrJJtOzI3e/OKIPjCcbV0nI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TLQf6XzwGYR+vgE3BvO/UiLoM6cN5PomwdxVmfzRIXEf8mvsQr2uBGIyQqppL5DKTn6hBhFHA13RTWhGpVZS+cQuSSvGiCnnIcuPAdGCuCoXasltsNAOdg0+VRlksU8o8eL6S0uOlxWAF7z8h+T8SNPuU1HF6oK+pHLGAHxJ0EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bTzWSoyZ; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750769643; c=relaxed/simple;
+	bh=2kOE0t10Ys08qMax53uN1Ij++jJiV3VlExemldFQM8Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cjk2xACbEcBCld0CSdbe87JoS6vTL+jo2gGdPuNX7+bIws2PC6ywlr1SjHESpe05aIZuqMUJeHcsIvmDAVQMJGsfYYJDpMxeLZyjaDqtEQXYplk14UGmNoZw6xA8/MCHKWgWaFk8mK0vrhwcP3ILkyMZ2cbr/2VOAB/iePXn7G8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SL8Yt1zg; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bTzWSoyZ"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-7111c6b0f1dso3340527b3.1;
-        Tue, 24 Jun 2025 05:14:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750767243; x=1751372043; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ml9c9kjIjL4ob9bPUhkIZhRpvrm1uOprQJuOEQPEJo0=;
-        b=bTzWSoyZdxn40E80D20f6KlKD0OZoNZ3jFMeqAtytYUbhlSLKmCBgvC26M23SvqoTh
-         Ex0OgmFhPpKApdwouxE71dYkUZErcw0EFMxRPL+2SXS6YVmqHc8flg0WlaBe4yZG5xkg
-         EYnThWkob2dKg2UaQho4oFNVohIdWs4TQkhuSRLe7ooeK7J2R8Z3+WYZEzBcBTWAOpE3
-         5uWeHEGNQiVVjgk4mCbXdKZfweAzCmqFPU3Yn7xHEiOfxH/TtkudyFjeF0lxLO5zYAsL
-         eQYeomj5YiNdE1u8ZfyG5XXOmZHSDyBrncit43Jt2SttyN+Wmzc8R4pVh1+KVxB23oJh
-         pB7w==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SL8Yt1zg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1750769641;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T1zTpwcC335IMGuNVVSMsviTgOOTgO+DQI5xktWwQcI=;
+	b=SL8Yt1zg9TIO29wLDMVTHDWzSd1Zg2m61jrZhBZjaPIiIldBNwhkVyyJBirpPOB6jG66Ys
+	clN2G31GnBTlxzEDvRyl+xT22GrvY2LDn1mUas8jSaIcJF0bYTLfVgHB8t4aT0fy4Y4QgR
+	bYJl3ILudv6fg9jpyhrozjLKI94iAco=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-499-wIq6LjHIOc6vuia3bt5Rzw-1; Tue, 24 Jun 2025 08:53:59 -0400
+X-MC-Unique: wIq6LjHIOc6vuia3bt5Rzw-1
+X-Mimecast-MFC-AGG-ID: wIq6LjHIOc6vuia3bt5Rzw_1750769638
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-451d7de4ae3so3061175e9.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 05:53:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750767243; x=1751372043;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ml9c9kjIjL4ob9bPUhkIZhRpvrm1uOprQJuOEQPEJo0=;
-        b=F5cm8MQH6jNYUUKXMra8U0Anwti7eap8JelRR+7g8TR7cO4yjoAWyjNGgDIU3fQ8jG
-         suOCiKgZvOQaJY2e2aQccXT+z4tmZUEeO5VNaR2wjMdnK11iL7SyERjnGtSwdvHBEVNV
-         gvHpW8I3vRLmRc8Y6nPKuXOT5eTab87giyTSgcmAIob1QuYgHQRS4pnULzZQhHTp+RXx
-         7yQFYNkABs3cJoTqNyAwsReB63aeloM8qe8kcbJ+cQ2hT7GeEntPvjLZlcE7DGYZPW8x
-         l4ZZWz8etySVFyMp4L2uRZrBKQBPErRpnHdS+/dACuIYY0NqGidvKZim39jUSQ4v5l5o
-         EeiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVtB1+OtGZggFpmp+C76s1Fkkj42sF0PgT7mGlT73wIriZvEPvJaW32i9PdsPHy9BX5k9HCmyKM5L8U4Ij4COvLVIZI2A==@lists.linux.dev, AJvYcCW4VCAMC/CWEFQY4+7C0Ze3ysWHjSwJiq2DDoK5MzGbh27Wv2t5xzDIE0iKKjGXn7xnxK9t/6+x39nZ6vw6jw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx4LrAV8VyjczKltDr5By8fYC1A3BuiwPZyIK4Mf6uUNea7g6+p
-	tKhDtXdB4kvMnVSnIaxOANT50PNEc+yOopQoXoCQX+K8UFEj3OoB986l7k/X7cBYYF6J1YO/q4c
-	kEhuvUatzeKNEsPKEnB/WXRnloP5/ifZRVVim
-X-Gm-Gg: ASbGncswXiemdGwvVWVM+EcuA/AkacL0an1bL8hwAW7FRV++svgUhEi2i20AG0gvRaQ
-	jpiiyVhSCUI/daOU80qmOqo8TkYq8KE3f3IDgj0E7kpbszn3XQWZ+G5rnejj7PX+mlVaPZkyTWa
-	Nw0ctrUfWax03giGcJ2bM5B55Z0HYmgUM5iyyJbXJlZd5K
-X-Google-Smtp-Source: AGHT+IGJneseQd34valjwD4g7qXNUGa5fvh5W4dFNyk2R9RoiDvyW7yd9lajATYT7lSlzYjGnEFNumQ7oA81TwA56nw=
-X-Received: by 2002:a05:690c:a0a8:10b0:712:c14a:a363 with SMTP id
- 00721157ae682-712c5fecc20mr77351027b3.0.1750767243031; Tue, 24 Jun 2025
- 05:14:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750769638; x=1751374438;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=T1zTpwcC335IMGuNVVSMsviTgOOTgO+DQI5xktWwQcI=;
+        b=cHfcCuCFqBsQkLCNwspiLcC4dhM9Fzi121r8DatommjZviEqUjoFZ2lbuFId2Bx0YW
+         NDa+ZtW8ICFQEVfhEeyv2klCTHOPHF9+BlidcYjgnZdlRm9Z1Qa+YzAsNeYsv6bY2AaD
+         T1uRXpucla29BsSRxhfx2HdGQkOrCc+cD5p3sx3oW8HWnc9r2p5FKh4RjQ8pJR6+KW+u
+         f2Xgjbn8KSSWnn+X0GXbddck4sky0B4xx3CjGNLTQWA74FtS3iLU67go2oKK7YFwe26l
+         Rs1MDxrN4oxbLRLB7Y7vn3leRC9Km2Qqg2DPOEg6Ij+H7uU5DSJJLFCsWiQMWbWM+3qT
+         VCkA==
+X-Forwarded-Encrypted: i=1; AJvYcCVGYXjNdFMxkwkilBTUoGDsnRzkIvTp+J9gPbmdOyc+XJaYncMYDQGd5IQ8jsXMCdg3xa2llcDchwykYwQKSCAxupjxdw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLl7Da0NVikiSqjiXheYejn2W4EJRU7jDqRfW0mZ0eIUE+BIim
+	jN1y3Rx+zsQ9Q/yUQmeppPfm1yv/93NHVegaCzXU9cVm3T2fxp7AQVcnP0RqP8SZ8la3xYCJT6U
+	+jAKYqnUZLJe2cgvLgnBDtr0c5q1vHWsA07Vg7FnGN3/5tnXIzfG7D1ulvP+7mtry/fgcq7O34Y
+	8l
+X-Gm-Gg: ASbGncvofXBvvqlhIA/uuphowPwvvXtR2cm+rEjjj13L7nGFv1y0B3Ila5X+mUwvg+x
+	nK8+UuiojNHuu5KM/eYEj8JkmNAzGlirOboTFtWKIhwAXSPURmwmv2wEPvDWAwrlWSij5KKCAip
+	bH6/JBFePuR36dW2fBhGPgXiPhsAAncP/O5dba9XD9UeQSt/j8DOOrP7SxQV+CHP7ZhgrMm4iVU
+	bDzf7Nc4zv2e8yjDi0Mz9kYWVMPWwMIYlN/Pf2kdH6h40XFzar7LBN8xpS3jQVVaEuko2rmn540
+	5I9+onVJ6hXbwnKdd52q4M5nSMuC7w==
+X-Received: by 2002:a05:600c:b8a:b0:450:d4a6:799e with SMTP id 5b1f17b1804b1-453658bac1fmr127799395e9.20.1750769638133;
+        Tue, 24 Jun 2025 05:53:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFY7lMZVaWFiRWIPG8b3cMXMdvCcNTK8MZjjGLVmokK+tCuYyoVQ5c/x3K3fImoxj9zLjbwsw==
+X-Received: by 2002:a05:600c:b8a:b0:450:d4a6:799e with SMTP id 5b1f17b1804b1-453658bac1fmr127799095e9.20.1750769637706;
+        Tue, 24 Jun 2025 05:53:57 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:2445:d510::f39? ([2a0d:3344:2445:d510::f39])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453646dc761sm139345745e9.17.2025.06.24.05.53.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Jun 2025 05:53:57 -0700 (PDT)
+Message-ID: <fb0f1e3c-2229-4860-b46a-b99f6dbfdfe6@redhat.com>
+Date: Tue, 24 Jun 2025 14:53:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250621062944.168386-1-abdelrahmanfekry375@gmail.com> <7852d6ac-95f0-41ec-8365-d23a2b16b208@kernel.org>
-In-Reply-To: <7852d6ac-95f0-41ec-8365-d23a2b16b208@kernel.org>
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Date: Tue, 24 Jun 2025 15:13:51 +0300
-X-Gm-Features: Ac12FXzFNhMuUIJFqi8IDai0efhsfCqHPuMbewzkMoJuG_hD0-sw55sonDvBegw
-Message-ID: <CAGn2d8MfaEpfc2a0MbuuGQ8_Z6HjTRLQVLk9AvqxWuSJSo43QA@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: Replace scnprintf with
- sysfs_emit in bo_show
-To: Hans de Goede <hansg@kernel.org>
-Cc: andy@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v5] docs: net: sysctl documentation cleanup
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, corbet@lwn.net,
+ davem@davemloft.net, edumazet@google.com, horms@kernel.org, kuba@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ skhan@linuxfoundation.com, jacob.e.keller@intel.com,
+ alok.a.tiwari@oracle.com, bagasdotme@gmail.com
+References: <20250622090720.190673-1-abdelrahmanfekry375@gmail.com>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250622090720.190673-1-abdelrahmanfekry375@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: S2fyJ3pRIPS06M5fvYJ5_up229FxSJqJpdVFpGWwkM4_1750769638
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 23, 2025 at 9:31=E2=80=AFPM Hans de Goede <hansg@kernel.org> wr=
-ote:
->
-> Hi,
-> As Andy already mentioned you really should try to first better understan=
-d
-> the code before changing it.
->
-> In this case this code is used for 2 custom sysfs attributes called
-> "active_bo" and "free_bo".
->
-> sysfs attributes are custom userspace API and we really want to remove
-> all custom userspace APIs from this driver before moving it out of
-> drivers/staging
->
-> Instead everything should be done through existing standard kernels
-> API, mostly the standard v4l2 API.
->
-> Note this is already mentioned in drivers/staging/media/atomisp/TODO
-> although these specific sysfs attributes are not named:
->
-> """
-> TODO
-> =3D=3D=3D=3D
->
-> 1. Items which MUST be fixed before the driver can be moved out of stagin=
-g:
->
-> * Remove/disable private IOCTLs
->
-> * Remove/disable custom v4l2-ctrls
->
-> * Remove custom sysfs files created by atomisp_drvfs.c
-> """
->
-> In this case the "active_bo" and "free_bo" sysfs attributes seem
-> to be there for debugging purposes only and they can simply be removed.
->
-> So instead of replacing scnprintf you should write a new patch
-> removing everything starting at:
->
-> <--- start removing code here --->
-> /*
->  * p: private
->  * v: vmalloc
->
-> ...
->
-> static struct attribute_group atomisp_attribute_group[] =3D {
->         {.attrs =3D sysfs_attrs_ctrl },
-> };
-> <--- end removing code here --->
->
-> and then also remove the sysfs_create_group() and
-> sysfs_remove_group() calls.
->
-> After writing that patch maybe you can also take a look at tackling
-> the "Remove custom sysfs files created by atomisp_drvfs.c" TODO
-> list item?
->
-> Regards,
->
-> Hans
->
+On 6/22/25 11:07 AM, Abdelrahman Fekry wrote:
+> @@ -593,10 +629,16 @@ tcp_min_rtt_wlen - INTEGER
+>  	Default: 300
+>  
+>  tcp_moderate_rcvbuf - BOOLEAN
+> -	If set, TCP performs receive buffer auto-tuning, attempting to
+> +	If enabled, TCP performs receive buffer auto-tuning, attempting to
+>  	automatically size the buffer (no greater than tcp_rmem[2]) to
+> -	match the size required by the path for full throughput.  Enabled by
+> -	default.
+> +	match the size required by the path for full throughput.
+> +
+> +	Possible values:
+> +
+> +	- 0 (disabled)
+> +	- 1 (enabled)
+> +
+> +	Default: 0 (disabled)
 
-Thank you so much Hans for this informative feedback , i now see the
-whole picture ,
-i will submit a new patch that removes the two custom attributes
-active_bo and free_bo
-and then will proceed with the TODO list item " Remove custom sysfs
-files created by atomisp_drvfs.c"
+This uncorrectly changes the default value: should be 1.
+
+>  icmp_echo_ignore_broadcasts - BOOLEAN
+> -	If set non-zero, then the kernel will ignore all ICMP ECHO and
+> +	If enabled, then the kernel will ignore all ICMP ECHO and
+>  	TIMESTAMP requests sent to it via broadcast/multicast.
+>  
+> -	Default: 1
+> +	Possible values:
+> +
+> +	- 0 (disabled)
+> +	- 1 (enabled)
+> +
+> +	Default: 0 (disabled)
+
+Same here.
+
+/P
+
