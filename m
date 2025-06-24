@@ -1,76 +1,72 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B9D2222B2
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 06:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F23E22258C
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 07:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750746456; cv=none; b=UfH6JkOfXsGFkjAy1RTsI9FzM3kIsAMhiYf91eALkPCrCtBovOGLUeDBCC9TrNBmUOMSlFNN2qI4fBYJ64a+Qo4zredVU/XrS6rvJ392yIMONsUQFQb+nG7XSBoIV/k2hEZ6nLkz1XG/+N8DVr4JNMT/H6NxUryLKlu2qUFiJSA=
+	t=1750748697; cv=none; b=Ay8HdtQo+lEogKRlm12ZOKd9us54zqzTn2RcxAi/fd8o2dYOOqxeJQu9JS6Uwv+1ciBQ4DQME3cvsYunjhLlV+TJgTU7NrG9sRGTnPh5FRsEvhztHaM2RDfmjRbgMc5aAGGvmMXYZZ89k9X8E/NoPcZ+o5kaKYwTNpCRsg1qyn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750746456; c=relaxed/simple;
-	bh=xkTiZpv/ASXY9zvmJWSVodQL9KYOVQ0OTX1/kMLhvsU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UpobmCeT3/GVTVgdKvO+RDiZlueX6SdpHDGq/L8I4qBb4yXrDjvJODcJnUXeXlPXFw2mMvNpSttUigAEvo2PFESw6E1eLxdE1WBk6LROWR4pUsViyaatD9FGSgaqSlrA/nJA3lv3p071o2e2UdjjzJgR5sLAVkJFxRIly/Vf83I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=Fk7Luo33; arc=none smtp.client-ip=209.85.160.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1750748697; c=relaxed/simple;
+	bh=WQIe86JuUNhj2gkklQzuWuDuGEmfX2qJAnjURmdjQsM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AsCdO+zOKZLbbD/WGdlsg2SeqThqxjd+y5L+xC0b/6UTuWTSbGP9aYS0gM2mSnhrw9kH3LbzDx6+ndUhGgnt6kfHVymuZ7QiDFf1GPMpOgEkZsqK8tO+/Ud6C9wG0bWr7u6udG59pKQtOdAqqa8W8IIrlwD2usCIs6+Uyw4qs64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SQ/taTul; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="Fk7Luo33"
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-2ea6dd628a7so51217fac.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Jun 2025 23:27:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SQ/taTul"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-313154270bbso5530626a91.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 00:04:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1750746453; x=1751351253; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1750748694; x=1751353494; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jtWuSUmqyfHOpJX4FSI5IleGdX0aakm+epSuzbOI/jM=;
-        b=Fk7Luo332rJC7KJ94cPp/L38t20m7MtmcBo1eo2WPipL74aV+Yia/5Dk12T6RjB2UT
-         rVAcyC8YbyYcVtI9JbOcdZ64uvS/8HOLAUZDfbNCf+Vt253kS/fd+xxBigENOdi3u9Sb
-         Mo3tepBAIsgAPz99dhQSI4KgOzJuEx8oOydS9AhHKoPl5uYLhzG7Ei89YlS9LTaJ1nyJ
-         VlyuncnXcaPZeSP3sVkRdEw+IstoSeq8FtdH2G98zt9XbKMj1a0ixabbfKQnvi86zLAc
-         GLQ2r92TnO5+JUeJZYdgWTKbO6sfwP28AgxDXIwTaHjIRrr4kGaDNfTpG1dG4hsAqysv
-         gQjg==
+        bh=NFaPEwYqVk8swUeuusja02739T2S2QTaLE27xP5T8F4=;
+        b=SQ/taTulh/ntlbwlGmA5z8/QrpfQxZBUhiN0tdiJNIWfD7xnPjN0AnOp8j2qC5aTl5
+         gj1WvW4UoVnUCzsmymPuWuBCg3FvtEAHVh+qywl4CAfHFcqOmTikppcAOrNlFzqViCbZ
+         hCgPPJvn3IZaOr2zzwFASPHeYTarHo3fpMlmiXcYDbsfUlHGH7ALp/UFIehZkbc1TE2T
+         GeyFLYsJs0iyWRbtbI4ih1w2yjbdjeyzkU8TdXrAZcCVUUk6Wow0g2OPMMdtNrgFeurq
+         ZDX0sc7lBXi8TJXC3WKFTMTaJ/OB+8OMzHWoosV2tDznxdnmlPgh/zGdD4SApME/yuUG
+         w0jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750746453; x=1751351253;
+        d=1e100.net; s=20230601; t=1750748694; x=1751353494;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jtWuSUmqyfHOpJX4FSI5IleGdX0aakm+epSuzbOI/jM=;
-        b=Ey6hFeTC3mz7HuHHXtHgdwFK56QCVQJ72m0tLy2gwzliNB8/zCw/l809e9NwO+apgF
-         z2Cw0lYWiCqcIPI9b+GjBlHvxK5d1rNMyXsAj7Qwwq5Bg80Ou9uDFgaeSTzSR3kFoMYL
-         cCQqkfeNB5YuFaAucN1RGbri0zJfdEmh8x44U+nzSqgb3A+bbmVgza4hSgxiA/kbNx3V
-         sAAyFWKM57AbDvowhatbJpkUIJAs6bhHqM7BCfElS8j8VTqQhXBuwjNWIjfElfcLTh23
-         bU5CG/VpEtDLN5vglnaL/uAvz7+PwzlP/uulBLlVknRzDLcevB5oEAUv0LeSJ/HW9O68
-         bMBw==
-X-Forwarded-Encrypted: i=1; AJvYcCXagCFDxya+3s/PoQppRf9tp/TNkeDkrliXBkESibzhNN9RMa8sztvKDGbx/6Bj4iG9Ssg9RLTm68cPLWhsd/b7Yt3NKw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLLZrDUpzP1yI6HpAnYZYs4J0nCfPm83Ckpb63ATWpg4JQQXge
-	CN9CgJviBWbYu2zI73ed/4QIGPHbdD8P+Sft2KwiYxzx/8puHMMS2uxW/TGTs4JfB5U=
-X-Gm-Gg: ASbGnct2ht6oEzqx5KjjXLtKS9wL7M7mzd+6WXhHIuLbltCiGbXDfGptr08hC3SMIj0
-	omOGuVI16rFJA4NX0dMfYCjW9+hv9TDk5NNvSrhqhdTQ8yIlloSailUqK6a+RLPf47+XeQ44HYa
-	x553DE/mRwwzeJdwAD0B9iOwJ5u3VMu8dGVseVNsxap3ODbN1FFgdLzySim+ypnnEq/EKibvgFt
-	LhmzHHn/ha6XV6LrFQcc3JpdVtvuoSiP9on+Hze0lNmYphCkjlTFrqxI8X+mXPjJWOTAtTTWTE6
-	0X8iCk1AxqDxwyRzJjmUav7cWwcJMlct20tYU2Z2zVxgqNmJJJVYFH3bO7P/erd/4Qy0s2NXUCN
-	r3bNpfbZUVmYfyu5y0wnoYACVuTw=
-X-Google-Smtp-Source: AGHT+IGXzXncSuwViLxhLF7LjICBNjU3M6FzetwciG96U6KAFP9MbxjiOEvJ2Uymt/tfqzWTPe1Bbg==
-X-Received: by 2002:a05:6870:f699:b0:2d4:e8fd:7ffb with SMTP id 586e51a60fabf-2eeda4d3058mr10282116fac.1.1750746452932;
-        Mon, 23 Jun 2025 23:27:32 -0700 (PDT)
-Received: from acerlaptop.tail542cf.ts.net ([2600:100e:b0c5:b996:8d65:22dd:1f32:69ca])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ee665ae530sm1957728fac.20.2025.06.23.23.27.30
+        bh=NFaPEwYqVk8swUeuusja02739T2S2QTaLE27xP5T8F4=;
+        b=Ge5jxA11ZZyZuU18MHyDg7U+kz8vEIFsC6hpqcxNpy9ZdiOIB1KVG4QuDl0GV6RpKS
+         /IPHAzdrLHPpZ1akKO4gLS9SLR7wJEkyHkDIouEApWcqnb4dFD8tWJqM5e3/0x3BnhR9
+         262EDm6RbktFDftISkNUrivpeolit9CDBSpBVaT0m0fMf2xoWsxGLoqT3nvZ7DNKax23
+         Of5xsUR4lTmZlXBpId1AXtBRQJi29zWO6ZL3Q3CaeNFrU34LWYpl2TOi0VR/1kPj8FNA
+         TPqIKUUzgaS4UOVU6sjcuMYaiuTf3cypiGXW1vf9h0xiqlfVLI4iqANzeUBt+oSMpRuu
+         GrOw==
+X-Forwarded-Encrypted: i=1; AJvYcCVxcgVE1YZfaANfHAMGqok6ayn2QI8NbmKgktbxbgSXSe6bF/lPyrsBu8uZFI2Ahld76CxI3ERwxpa3S6djnvCudek5HQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6eM+gWdySiPqLn3VIIt3cmvw3lR9tXcLgv5HKp6zEJnbC1eXw
+	1BMKo55LQYpOp+82Kz8sSt/CX+dccf/vJ52FdTUGOX1KVb1m17h+Jg5z
+X-Gm-Gg: ASbGnct7rGYFJf952pWOnIIfALqat/syV0zWbXTJ7gN7zqLpNongAh95op+uqZpjiOx
+	TbHMvQ1a2JDDIhzoBuEZoymwa7Zh5W99KySlg1ucPS+F2WQ0mUS6cze/kgoNNA02xiTm+I6nleN
+	Fm16/qTA//JYTiks3YyiHQE/FCWF26sYBNAL8GyQKm6hDiK+NrzVPWRSIGd5iy44JB5XZiPCJhN
+	NJbyGUhukmrBQifdmB0bJN3MsLG0ByT0ZVjAeqJDhIcAf6GWgjHH/Y7aJ2MTw6KHuTUYk6nADmJ
+	Kswk2s6P4a72dvyxOkYg8HbC+I9JBzvfs4hp57F8LfenBG2kbAJcopb0+ic0FiWgACdTXdz2foo
+	G23a3
+X-Google-Smtp-Source: AGHT+IEhlwIsSspUcRAJkdSSVmCisgdMIL1hyOAtY/muUDQ/EBJGGCf1AuTRLdemhb2h+4QRgwCiMA==
+X-Received: by 2002:a17:90b:3cc5:b0:312:959:dc4d with SMTP id 98e67ed59e1d1-3159d6260efmr25628648a91.7.1750748694011;
+        Tue, 24 Jun 2025 00:04:54 -0700 (PDT)
+Received: from seokw-960QHA.lan ([210.100.209.148])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3159e06acfesm10479145a91.36.2025.06.24.00.04.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jun 2025 23:27:32 -0700 (PDT)
-From: Brigham Campbell <me@brighamcampbell.com>
-To: skhan@linuxfoundation.org,
+        Tue, 24 Jun 2025 00:04:53 -0700 (PDT)
+From: Ryan Chung <seokwoo.chung130@gmail.com>
+To: jgross@suse.com,
+	sstabellini@kernel.org,
+	oleksandr_tyshchenko@epam.com
+Cc: linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH] gpu: drm: Replace scnprintf() with sysfs_emit_at()
-Date: Tue, 24 Jun 2025 00:27:27 -0600
-Message-ID: <20250624062728.4424-1-me@brighamcampbell.com>
-X-Mailer: git-send-email 2.50.0
+	Ryan Chung <seokwoo.chung130@gmail.com>
+Subject: [PATCH v2] xen-pciback: Replace scnprintf() with sysfs_emit_at()
+Date: Tue, 24 Jun 2025 16:04:42 +0900
+Message-ID: <20250624070443.11740-1-seokwoo.chung130@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -79,35 +75,73 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace scnprintf() with sysfs_emit_at() in drivers/gpu/drm/drm_sysfs.c.
-Per kernel documentation, show() should only use sysfs_emit() or
-sysfs_emit_at() when formatting the value to be returned to user space.
+This change uses sysfs_emit() API usage for sysfs 'show'
+functions as recommended from Documentation/filesystems/sysfs.rst.
 
-Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+No functional change intended.
+Signed-off-by: Ryan Chung <seokwoo.chung130@gmail.com>
 ---
+ drivers/xen/xen-pciback/pci_stub.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-I tested this patch with a device that outputs one specific resolution,
-or "mode" and with a dummy device which has no output modes. I'd
-appreciate Tested-by tags from anyone who can confirm that multi-mode
-graphics adapters work as expected too.
-
- drivers/gpu/drm/drm_sysfs.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index 60c1f26edb6f..66d1fc804c84 100644
---- a/drivers/gpu/drm/drm_sysfs.c
-+++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -283,8 +283,7 @@ static ssize_t modes_show(struct device *device,
+diff --git a/drivers/xen/xen-pciback/pci_stub.c b/drivers/xen/xen-pciback/pci_stub.c
+index 5c2f829d5b0b..045e74847fe6 100644
+--- a/drivers/xen/xen-pciback/pci_stub.c
++++ b/drivers/xen/xen-pciback/pci_stub.c
+@@ -1261,7 +1261,7 @@ static ssize_t slots_show(struct device_driver *drv, char *buf)
+ 		if (count >= PAGE_SIZE)
+ 			break;
  
- 	mutex_lock(&connector->dev->mode_config.mutex);
- 	list_for_each_entry(mode, &connector->modes, head) {
--		written += scnprintf(buf + written, PAGE_SIZE - written, "%s\n",
--				    mode->name);
-+		written += sysfs_emit_at(buf, written, "%s\n", mode->name);
+-		count += scnprintf(buf + count, PAGE_SIZE - count,
++		count += sysfs_emit_at(buf, count,
+ 				   "%04x:%02x:%02x.%d\n",
+ 				   pci_dev_id->domain, pci_dev_id->bus,
+ 				   PCI_SLOT(pci_dev_id->devfn),
+@@ -1290,7 +1290,7 @@ static ssize_t irq_handlers_show(struct device_driver *drv, char *buf)
+ 		if (!dev_data)
+ 			continue;
+ 		count +=
+-		    scnprintf(buf + count, PAGE_SIZE - count,
++		    sysfs_emit_at(buf, count,
+ 			      "%s:%s:%sing:%ld\n",
+ 			      pci_name(psdev->dev),
+ 			      dev_data->isr_on ? "on" : "off",
+@@ -1375,7 +1375,7 @@ static ssize_t quirks_show(struct device_driver *drv, char *buf)
+ 		if (count >= PAGE_SIZE)
+ 			goto out;
+ 
+-		count += scnprintf(buf + count, PAGE_SIZE - count,
++		count += sysfs_emit_at(buf, count,
+ 				   "%02x:%02x.%01x\n\t%04x:%04x:%04x:%04x\n",
+ 				   quirk->pdev->bus->number,
+ 				   PCI_SLOT(quirk->pdev->devfn),
+@@ -1391,7 +1391,7 @@ static ssize_t quirks_show(struct device_driver *drv, char *buf)
+ 			if (count >= PAGE_SIZE)
+ 				goto out;
+ 
+-			count += scnprintf(buf + count, PAGE_SIZE - count,
++			count += sysfs_emit_at(buf, count,
+ 					   "\t\t%08x:%01x:%08x\n",
+ 					   cfg_entry->base_offset +
+ 					   field->offset, field->size,
+@@ -1462,7 +1462,7 @@ static ssize_t permissive_show(struct device_driver *drv, char *buf)
+ 		if (!dev_data || !dev_data->permissive)
+ 			continue;
+ 		count +=
+-		    scnprintf(buf + count, PAGE_SIZE - count, "%s\n",
++		    sysfs_emit_at(buf, count, "%s\n",
+ 			      pci_name(psdev->dev));
  	}
- 	mutex_unlock(&connector->dev->mode_config.mutex);
- 
+ 	spin_unlock_irqrestore(&pcistub_devices_lock, flags);
+@@ -1521,7 +1521,7 @@ static ssize_t allow_interrupt_control_show(struct device_driver *drv,
+ 		if (!dev_data || !dev_data->allow_interrupt_control)
+ 			continue;
+ 		count +=
+-		    scnprintf(buf + count, PAGE_SIZE - count, "%s\n",
++		    sysfs_emit_at(buf, count, "%s\n",
+ 			      pci_name(psdev->dev));
+ 	}
+ 	spin_unlock_irqrestore(&pcistub_devices_lock, flags);
 -- 
-2.50.0
+2.43.0
 
