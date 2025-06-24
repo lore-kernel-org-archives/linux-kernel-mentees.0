@@ -1,138 +1,85 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93050566A
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 18:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472742EFDAA
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 19:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750789891; cv=none; b=WKovZ/ZAqrJP5hHEuzinxRfPKIhMK83390w+ACXgjguKgBMXf06uuLfMSe+RZUZpV4fJTf0kgUGxEDuaZDKPg/lY5TJ+rS61n/c0grP1mm5LdyMBJXQDdotCdpIKFtT4U0HGqtf8LXAGdWuDdaPktknBsvjtB8WdMo5uBhlG8ZA=
+	t=1750794140; cv=none; b=C0diCwKRhE+h9kxP2Jr5ckBrcmm7yqV/yg2MQtyvm3blVLldTtanbtD1S8P/3mLmIy2DQkeMelJtSPsluly7G+plzPIydfaESN70Qm1AIEDQNjLMTEo0t2aGyIFu4CYHbZ4IF6AHU0wejNNKDnVaL/H3m5z1ys3/GSce2Fy1Aj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750789891; c=relaxed/simple;
-	bh=m8J3O7QzYtKHkTJW6LMTlN1rnZ3hXaZDwhHlnyjRWHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BGvoAAlYCy7Lg+2cN5p+4ahVbIcRq2PxX13jkMQEmrxpfnkOkGm+Lc27fU9EG9LVaZVyldyqRgBgGxf7efy+ldAyl+Bj+otwEFcQkFmiyKHb/I8SuEijZ8rCXi7o/wklYxl1vldxs/lD0qa2gNLgSnOkjaT0NYqY/0tSbZbig0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UOp4j7JI; arc=none smtp.client-ip=209.85.167.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750794140; c=relaxed/simple;
+	bh=7WnHnjZ2Inj8vNFPOPMWn5vUT1QywHWs7gt7IcDZPtY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=hpI7ZsM7p6Q7SsiPboXQYQU2zzGrG8G35LGZ29JwhtWscrDWhb/LjQdkbMlMXheRRG2UqgTJuMx7VUYhV3YH2uyW7KOEDgIVMIFeVb6MwnFuVR3+O/ZcW6VRU/VaY0d7TkxqL5ynwIW1zK/nK9aRZ54rj5d+smnu1vhJgLvchPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UeKKzx4T; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UOp4j7JI"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-40a6692b75cso4431413b6e.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 11:31:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UeKKzx4T"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-313ff01d2a6so758777a91.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 24 Jun 2025 12:42:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750789889; x=1751394689; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=GjxEYQ1lbJWp4ECKZKQpz8oozPbUNKZGlrJ6EmAWMmk=;
-        b=UOp4j7JI8LzCbtrn9jCTGTcATuLOElhrzIov4mxAC5reVcKI0lJrMiQ2/caWCLAqBk
-         JA2pEFT2nqRoO1kdDokBELzv1xZiJTLODZ/hfnTHeYmPcsTG9wQmag7jWGydwjwaHo9m
-         sbFG/rHpSPwTbQ9SO+8dZths108rCIpu5UioFP4nFkvO40jnZUfjjrtHvNeuW7nBiXRj
-         sqHI0tA62ySuvSsBTZ7XrOMv7q0JyeyYDRwsixKKfovEsy0X8NLxJ7FrSj4RNKMI4+Xx
-         4M/65MmQr+QlI1tNVBWJlOZFrjI0pWYiq2dzZDqI9OqqBb0rlOP02IfmzK1TD4t0wUx6
-         o85A==
+        d=google.com; s=20230601; t=1750794138; x=1751398938; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eiZv+Ux8bnoIxxwKrwVqiL0FOPFJvedVqWOdvOf0LcA=;
+        b=UeKKzx4Trakd5sJarRmIYz3IGPHDJa8sOp1OzTbRQkgdjbiiBMfAfO/XkqPMRzzvFN
+         WZPQtrU7Qkx2BoDz69CnsKtI6kD7Xj4UjOBT4F9cdfmiCfjbY7qT446MJgReqzDh4tVi
+         XCaQfr91e0P2qSwptJDVO9A1afeE8bWKm3hZhL19xncGB52czC+kbSaX2zVf2IPmhob4
+         3KHPD454IEy1tcpceBBqm0VSTmHANtfNTQMIfeA1ngGU4tlsD+9VeGOWHWCe/3oqtp+P
+         76lJBNwKcY+UaTpW38gHYNKa+ikvBLncDO47aRj2rzjZcgUS74ltQygjvSAj2Yy5ztzp
+         AWow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750789889; x=1751394689;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GjxEYQ1lbJWp4ECKZKQpz8oozPbUNKZGlrJ6EmAWMmk=;
-        b=k8AjnRljphC+635v8yqSHVfl7ZRWlhBm1wMQbg87rgOu4SItMiR35qIuHPhGz5pxDQ
-         nuvIASbuMxsysEdXXrPH4ywVd2mVlf0aglq/6UagDaZau3exLp2W1ZslUtcPerl+EsWs
-         +ccyuhclCTWEePcORRWkk0ZF6ztpKbQQV/w8ghT2d27QKx2O38hJLcmEHdOqQ4hi6yqp
-         bpsOt5PVqZOaKZtEWajfQryAJ/FNmz6h5MBUnA85dXh68Xk8FvF9nRo0ed5KfSVlJjRG
-         0hJqsw/Bkl4iOvMhBjb90CWtfGNfydx4q4pw/IcjaGMndjJYVwHclgnBgtwtUHNz/4I+
-         YO1g==
-X-Forwarded-Encrypted: i=1; AJvYcCUOj7BKlKe3Y8xZJJiiuPZhYOkn2VZMnzZ9Att123r/W9XpCaaZQqB0rErOFFCRbL34Ajbd0JzfX4+h9DondeHf5x5zaQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzPhj482/JTCZXcHB2qMMkrRsWqURFJ3CkgpmO3TQ306Gtzmr7D
-	zWk47hj4j6nfwburjDwHiB/+gIdjBRZ0HhvHet+MugagHI6K3E0WKSDJEovBcbtv7y8=
-X-Gm-Gg: ASbGncvyKStK6vsKzLX2s4/uvvCoNZ/qGPbb5wlsDjivwJYNb7VAa6EzZMmsFRPT8Qy
-	DfZ6196xeY15ZHwH3sOD4pThHWVsgxKc3oQQYzlzJdQi8t7M3nJ4y/Ma6rVCFst9a32URJsCEaF
-	CtP+/ucG9Gcyhu9AuWWmcshyRAIVXssrr1jMSk8wKufQigAHw4lSCkIODIQyjrf/CP6SyK2uwxh
-	/Sv+8srDjE1DndwjRQH6ab1yy198oIXyqeK1nassSZhBca/NmdM0246DAuqVZgD0L0Z8a8Xbc+3
-	UgTb50zQFgmHV4RfD6ooXmGjskRyplZ4fEJKc0ecYqCHKspGZbS1kPurV19tjc3ehBHnaw==
-X-Google-Smtp-Source: AGHT+IFwefbh7k0nvQhczietm5nprEfi0G1/PBzQxhLLmXWhfFEBYvdG9Ik5OraSPjQQOjmjLaMTJA==
-X-Received: by 2002:a05:6808:d4e:b0:3f9:76d2:e437 with SMTP id 5614622812f47-40b05bf2641mr317669b6e.20.1750789888699;
-        Tue, 24 Jun 2025 11:31:28 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:22c9:dcd3:f442:dd1d])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-40ac6c30481sm1893573b6e.17.2025.06.24.11.31.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 11:31:28 -0700 (PDT)
-Date: Tue, 24 Jun 2025 21:31:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2] staging: media: atomisp: remove debug sysfs
- attributes active_bo and free_bo
-Message-ID: <5d579b8c-0676-46d8-a020-77ee91e1e7d3@suswa.mountain>
-References: <20250624144943.39297-1-abdelrahmanfekry375@gmail.com>
- <cef03d37-715c-47a8-81d4-0872d505c39b@suswa.mountain>
- <CAGn2d8ML8eTcN2G18B7FYkapROnOeAKJir5fJvOXDdXTLY43aQ@mail.gmail.com>
- <5ce9dac3-0b7a-45d1-8313-2f65165b50e7@suswa.mountain>
- <CAGn2d8N8GrRR0FnaB7S2BsPs0HXHhwHfg+q55HbfkMqy1kMGTw@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1750794138; x=1751398938;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eiZv+Ux8bnoIxxwKrwVqiL0FOPFJvedVqWOdvOf0LcA=;
+        b=I8tTtj+oOjHQJqnsPnv/kifm9RI9K9S7fc6W2YYa8TdAIAievTzJwuPjAi9wSVkrLS
+         01hwtCVqEDW54PzKge0j/jt+d+cBkGjJo5u0zsFcembYxCuf2AnsYz9RrIJkhL9p21zv
+         aL+kSAfEx7HX9XEYVTHvEt19jBN00IfnRioWcXEUIurGcJR5qMBWseF1P56p1pA1qmK5
+         4CZYFWGkrtzyhCkTf4YVvA7gLe768FumBWPrMi4PbTXR7QyknI0TUDDRrllGBTzvEPXh
+         JcbYEhl+lGxWjPO7F+Z09IDZcGq3i11U88Tjgp99Ev/p13dKflb+OLf9XZgHiKa9M9uA
+         0JAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUETN3NMCgwjFHHWeNG7F+msn/PN7s6bHOgcaXBtqUMDxZx9ETHwKuRNrmntcV8wRy497IskzTEAZBQhYSOUi7pEXtEqQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyVR0YgJ/IclQmofksyUQTufnEstlUffl4N1dd96fj19f/++g+b
+	QCQIDZYNfaKNWDJJhl227EKXx96Ycm/zVcjbiONE7y1Xh0/eq+fU8Ibp7JTJ347mcsO8RBGlfUD
+	ViqT+6Q==
+X-Google-Smtp-Source: AGHT+IECMFlbef6lDHwuSpgtWmzJM6Kenqel0iDDnhehUo2TFEdmq9e7oOv+NFpDNFQ4sz1U43MsG6xhPwc=
+X-Received: from pjboe18.prod.google.com ([2002:a17:90b:3952:b0:312:f88d:25f6])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:5626:b0:312:1dc9:9f67
+ with SMTP id 98e67ed59e1d1-315f26132bcmr173645a91.2.1750794137714; Tue, 24
+ Jun 2025 12:42:17 -0700 (PDT)
+Date: Tue, 24 Jun 2025 12:38:41 -0700
+In-Reply-To: <20250523181606.568320-1-rk0006818@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGn2d8N8GrRR0FnaB7S2BsPs0HXHhwHfg+q55HbfkMqy1kMGTw@mail.gmail.com>
+Mime-Version: 1.0
+References: <20250523181606.568320-1-rk0006818@gmail.com>
+X-Mailer: git-send-email 2.50.0.714.g196bf9f422-goog
+Message-ID: <175079223746.515152.1077822979652127877.b4-ty@google.com>
+Subject: Re: [PATCH] selftests: kvm: Fix spelling of 'occurrences' in
+ sparsebit.c comments
+From: Sean Christopherson <seanjc@google.com>
+To: Sean Christopherson <seanjc@google.com>, skhan@linuxfoundation.org, 
+	Rahul Kumar <rk0006818@gmail.com>
+Cc: pbonzini@redhat.com, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Jun 24, 2025 at 08:49:36PM +0300, Abdelrahman Fekry wrote:
-> On Tue, Jun 24, 2025 at 8:32 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> >
-> > On Tue, Jun 24, 2025 at 07:51:10PM +0300, Abdelrahman Fekry wrote:
-> > > On Tue, Jun 24, 2025 at 7:31 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> > > >
-> > > > On Tue, Jun 24, 2025 at 05:49:43PM +0300, Abdelrahman Fekry wrote:
-> > > > >  int hmm_init(void)
-> > > > >  {
-> > > > >       int ret;
-> > > > > @@ -130,14 +48,6 @@ int hmm_init(void)
-> > > > >        */
-> > > > >       dummy_ptr = hmm_alloc(1);
-> > > > >
-> > > > > -     if (!ret) {
-> > > > > -             ret = sysfs_create_group(&atomisp_dev->kobj,
-> > > > > -                                      atomisp_attribute_group);
-> > > > > -             if (ret)
-> > > > > -                     dev_err(atomisp_dev,
-> > > > > -                             "%s Failed to create sysfs\n", __func__);
-> > > > > -     }
-> > > > > -
-> > > > >       return ret;
-> > > >
-> > > >
-> > > > It's really unclear how this "return ret;" is supposed to work.  Was
-> > > > that part of the sysfs_create_group()?
-> > > >
-> > > yes , but still it can be set by hmm_bo_device_init so even after removing
-> > > sysfs_create_group , ret value depends on another function.
-> > >
-> >
-> > You're in too big of a hurry.  Wait for a day between resending patches.
-> > I have looked at this some more and it turns out that nothing checks the
-> > error code so the "return ret;" doesn't work.  What do you think we
-> > should do?
-> >
-> sorry , will keep the time issue in mind.
-> regarding the "return ret", its now basically returning the error code of
-> hmm_bo_device_init () inside the function , but outside the function
-> scope like you mentioned, no function call to the hmm_init() checks
-> the error code. Thats what you mean right ?
+On Fri, 23 May 2025 23:43:52 +0530, Rahul Kumar wrote:
+> Corrected two instances of the misspelled word 'occurences' to
+> 'occurrences' in comments explaining node invariants in sparsebit.c.
+> These comments describe core behavior of the data structure and
+> should be clear.
+ 
 
-Yes.  Nothing is checking for if hmm_init() fails.  Step through the
-code and verify that nothing crashes or bad happens as a result.
+Applied to kvm-x86 selftests, thanks!
 
-For example, I think hmm_bo_alloc() will print "hmm_bo_device not inited
-yet." and return.  So that's kind of annoying but it's not a crash.
-Search through the rest of the driver and verify how it will behave.
+[1/1] selftests: kvm: Fix spelling of 'occurrences' in sparsebit.c comments
+      https://github.com/kvm-x86/linux/commit/30142a93b164
 
-regards,
-dan carpenter
+--
+https://github.com/kvm-x86/kvm-unit-tests/tree/next
