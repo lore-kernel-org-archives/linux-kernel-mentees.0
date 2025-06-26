@@ -1,67 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABBD25F78D;
-	Thu, 26 Jun 2025 08:13:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2523420FA8B;
+	Thu, 26 Jun 2025 13:19:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750925637; cv=none; b=EelqM2QuVh2DlpSTj2HQnCbqOaT8q2iL2tXkBq3zPDEDr9901AV5aAAflYNmqtPE4IpuMX1OZg0ezLojGoho9XMdMHf8dsvnuDN4XkXktiE9cv8hdkGUTLq1XmmVRPOCuz/nK3YYQPXZHwfcXkVZaXQQlxYjoUIPmMpzPtEQJjw=
+	t=1750943980; cv=none; b=pnVRZHTpeMMhB31EgeilVN8mBecDhTXbgfAcRECw312DeVBAvXJp1M8jtHYlnsLMyPNXNACD9jxbBHD7Ru3ms373pDTVzNcufqbIKG46xzYr7GdlSiT4puYjjije6Ek6I72EYR9PS8cK3IqWpt31+oKUs7dhqeBGs5jZUzdeFAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750925637; c=relaxed/simple;
-	bh=RtMlJEGnwJcXwbx5tmVTpg7dpV3ohe25eAqzrcO2vOE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KN0/icCD05Xbvukl1vEKGGM6PCoJbeR6e1qxX9CIV8t73Tvlu8xq4cOrCUVhCtdbuCVRq0cp/2vNpt+1rBCtpfsj40Nep4Pi/OVyUjKEMITWf2TJ+zcdWnnjPlXXjQDdGhQDrBZHGVdikvB5Co+LnKtejA5EGfKO1SSAyBfpl6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gf4RJEbh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750943980; c=relaxed/simple;
+	bh=RKK9i3woSuc/hPkLqzG8OyyihSg5r6v+/BxW1hVqfUM=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=gib5AaCg6Rgd5FjEY8kl4FSnCwXW41bXe2m1wyadIS420Xaf2bLLEhqRd9PYjFoeihy6jmG0GAdWj9hRECV+k+rm87tYbU5V+Ua/rRUHrHRXft/+f9kAUTY5PRio7Mlv8759AGYqJysVRiX85/GVkWDs5DeFa4WivMhjNaIvEs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hFS8usx6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gf4RJEbh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517DAC4CEEF;
-	Thu, 26 Jun 2025 08:13:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hFS8usx6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B25CC4CEEB;
+	Thu, 26 Jun 2025 13:19:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750925637;
-	bh=RtMlJEGnwJcXwbx5tmVTpg7dpV3ohe25eAqzrcO2vOE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Gf4RJEbh1bU6CjFcqFyfrh1BM6hLKCj/Ki4yBrZXB7u8EsthzzTwr8QM4uHmD0pUG
-	 YUvZc0lPp+5xUuUVjq0iQoqlWTbzQ7MP57eK221NHaxFfoW8SReKJn1HLA0E8XQo/N
-	 M9KAUnkhjyumg/HK8E6v+6aoIekQTpFC63wyuSQA39Oux9NoO5Vkl/mcOwV7aUEytO
-	 xxTenjKFlrj/2k4v0o+NLY76txtDDhhLPCw4O82PC1JIUwgo8XXDw/gZd7h1z5qOzb
-	 U26VNPcA/BBM9mVYVPo0g2nZ+Ty5faotVIMZ9guMWFk9kLaw4iQu0x1IacQKYlroBH
-	 3GOACjN+j2g7g==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uUhjT-00000004svu-1oUW;
-	Thu, 26 Jun 2025 10:13:19 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Akira Yokosawa" <akiyks@gmail.com>,
-	"Breno Leitao" <leitao@debian.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	"Donald Hunter" <donald.hunter@gmail.com>,
-	"Eric Dumazet" <edumazet@google.com>,
-	"Ignacio Encinas Rubio" <ignacio@iencinas.com>,
-	"Jan Stancek" <jstancek@redhat.com>,
-	"Marco Elver" <elver@google.com>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	"Paolo Abeni" <pabeni@redhat.com>,
-	"Randy Dunlap" <rdunlap@infradead.org>,
-	"Ruben Wauters" <rubenru09@aol.com>,
-	"Shuah Khan" <skhan@linuxfoundation.org>,
-	Jakub Kicinski <mchehab+huawei@kernel.org>,
-	Simon Horman <mchehab+huawei@kernel.org>,
-	joel@joelfernandes.org,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lkmm@lists.linux.dev,
-	netdev@vger.kernel.org,
-	peterz@infradead.org,
-	stern@rowland.harvard.edu
-Subject: [PATCH v8 08/13] tools: ynl_gen_rst.py: drop support for generating index files
-Date: Thu, 26 Jun 2025 10:13:04 +0200
-Message-ID: <95d1ed00026acbe425f036f860f7bcd1a18ce98b.1750925410.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1750925410.git.mchehab+huawei@kernel.org>
-References: <cover.1750925410.git.mchehab+huawei@kernel.org>
+	s=k20201202; t=1750943979;
+	bh=RKK9i3woSuc/hPkLqzG8OyyihSg5r6v+/BxW1hVqfUM=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=hFS8usx60l3rH0a6pZPgSotwhtrPp0fq/clbb7DENhQHGzGr9HCnEck+fVQuOm48X
+	 72btNVEPjvKTcKHPy2cDfOcG2rbG23rDRtJmfSNm19Mn2mC01fWiIv7JSGrOMKMgI9
+	 N6LOWxuQFU+EVNNKc1WTzAT9A4uvqFWzwQHHmTSwg6gDhnEgzhVh6tJ9a5OwffLItj
+	 ZM2tT4as875aPOGSHv0Xh7EBANVdDDGzfC8yPSZm78sZqS+WiDBu77hHoVj4CLKVEq
+	 ZYhReGP9Viw2MOgH4+vm3gMD89h3tlohNFFQJ/WKIRwIo9Rv0Sojx1B1hhvLfZoUbL
+	 Uh8gcqH1QpIgw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33E5F3A40FCB;
+	Thu, 26 Jun 2025 13:20:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -69,69 +37,43 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH net-next v6] docs: net: sysctl documentation cleanup
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <175094400601.1199554.14225911513900561603.git-patchwork-notify@kernel.org>
+Date: Thu, 26 Jun 2025 13:20:06 +0000
+References: <20250624150923.40590-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <20250624150923.40590-1-abdelrahmanfekry375@gmail.com>
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
+ horms@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ skhan@linuxfoundation.com, jacob.e.keller@intel.com,
+ alok.a.tiwari@oracle.com, bagasdotme@gmail.com
 
-As we're now using an index file with a glob, there's no need
-to generate index files anymore.
+Hello:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/net/ynl/pyynl/ynl_gen_rst.py | 28 ----------------------------
- 1 file changed, 28 deletions(-)
+This patch was applied to netdev/net-next.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
 
-diff --git a/tools/net/ynl/pyynl/ynl_gen_rst.py b/tools/net/ynl/pyynl/ynl_gen_rst.py
-index 010315fad498..90ae19aac89d 100755
---- a/tools/net/ynl/pyynl/ynl_gen_rst.py
-+++ b/tools/net/ynl/pyynl/ynl_gen_rst.py
-@@ -31,9 +31,6 @@ def parse_arguments() -> argparse.Namespace:
- 
-     # Index and input are mutually exclusive
-     group = parser.add_mutually_exclusive_group()
--    group.add_argument(
--        "-x", "--index", action="store_true", help="Generate the index page"
--    )
-     group.add_argument("-i", "--input", help="YAML file name")
- 
-     args = parser.parse_args()
-@@ -63,27 +60,6 @@ def write_to_rstfile(content: str, filename: str) -> None:
-         rst_file.write(content)
- 
- 
--def generate_main_index_rst(parser: YnlDocGenerator, output: str) -> None:
--    """Generate the `networking_spec/index` content and write to the file"""
--    lines = []
--
--    lines.append(parser.fmt.rst_header())
--    lines.append(parser.fmt.rst_label("specs"))
--    lines.append(parser.fmt.rst_title("Netlink Family Specifications"))
--    lines.append(parser.fmt.rst_toctree(1))
--
--    index_dir = os.path.dirname(output)
--    logging.debug("Looking for .rst files in %s", index_dir)
--    for filename in sorted(os.listdir(index_dir)):
--        base, ext = os.path.splitext(filename)
--        if filename == "index.rst" or ext not in [".rst", ".yaml"]:
--            continue
--        lines.append(f"   {base}\n")
--
--    logging.debug("Writing an index file at %s", output)
--    write_to_rstfile("".join(lines), output)
--
--
- def main() -> None:
-     """Main function that reads the YAML files and generates the RST files"""
- 
-@@ -102,10 +78,6 @@ def main() -> None:
- 
-         write_to_rstfile(content, args.output)
- 
--    if args.index:
--        # Generate the index RST file
--        generate_main_index_rst(parser, args.output)
--
- 
- if __name__ == "__main__":
-     main()
+On Tue, 24 Jun 2025 18:09:23 +0300 you wrote:
+> Add missing default values for networking sysctl parameters and
+> standardize documentation:
+> - Use "0 (disabled)" / "1 (enabled)" format consistently
+> - Fix cipso_rbm_struct_valid -> cipso_rbm_strictvalid typo
+> - Convert fwmark_reflect description to enabled/disabled terminology
+> - Document possible values for tcp_autocorking
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v6] docs: net: sysctl documentation cleanup
+    https://git.kernel.org/netdev/net-next/c/5cfb2ac2806c
+
+You are awesome, thank you!
 -- 
-2.49.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
