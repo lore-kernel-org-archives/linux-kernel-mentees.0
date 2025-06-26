@@ -1,138 +1,105 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5F82E6133
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 15:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8992E7623
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 15:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750950641; cv=none; b=odReXG324oWZAZDoXQdcpSnvH/cpryw3+WoA5MEH14AXKbvfMi2ufau9Wms88r39Q9eqGiPMcxG02uOEUg/snwujocbFCZSeJiuwAzJoZVyIBB1j+8kKmoxDkmcaKOPKaB5/AdzVwCPdhys4Am9XVQhCE7JYSpWZ+QJx3spgPFk=
+	t=1750950758; cv=none; b=qZq2t5YzAu4zJfTExEdtcpHKemG+sfvabTBsKCHgquEDEqFcA7BBcRHs01zCuOn5fo3/uuLA9Hy9xlfsb6iUTo0dnUAF2arsktUzPDzIXNaQGUPcK6Go0ChCsE6euB5qGsiLMe8qgTYUBWw3qC4ss4y7nTg6/SlKpuO0SN4yqsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750950641; c=relaxed/simple;
-	bh=Fsz5f/99U5JBaQvbPVrImfkgU9hAjFN83v0YZEnzFrM=;
+	s=arc-20240116; t=1750950758; c=relaxed/simple;
+	bh=kAS/IOSk7LsBnAUgqtwuX4g9he1Zg4oVAbf4qm4DPmk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=prqeknzKqCSq+ta6c5/ZgN+9YUzs3DfX3ocT+P3gZ4SRh0L88pu4AV74mswj3bLwi7xt2kLL6hakA3e41P7vQi5bMysaB0N290Jkwz8HVUH1RGVybq7OI3/UXrchZ+2FqDSnVWDx4Yt4vTUTbGfaBxFwFxJgTgGDF1lzdMZ/+58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hsdXjJ4k; arc=none smtp.client-ip=209.85.208.173
+	 To:Cc:Content-Type; b=sEFip7XSQdBliJxBDzbmUxd65hmYzuFZsRt/B9nFHHgyxkFyNnqHputWlTNgnDi+XTjTnCGujtgBqH2hdc6+CLrMQMpzjCBnUCMPr8VHzn3+gLPL9NNHgm+pXPTN+S0EBkNcSCx54ETge3snhtZAU1nuwOQjnwEEMT6eEqo14HI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ct2yhX/b; arc=none smtp.client-ip=209.85.208.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hsdXjJ4k"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-32b4876dfecso21509201fa.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 08:10:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ct2yhX/b"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-32b7113ed6bso11437381fa.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 08:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750950634; x=1751555434; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1750950755; x=1751555555; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=axf5NbpAUzrmzPpqLLrUEqqBeYpEBv2j8XoiaPjeVEQ=;
-        b=hsdXjJ4k63oQkxqjLu4oM67+TkTjxnhafzu4zj57dYJCq2dx2/LY1bF3ciQ2Hriimd
-         DTmMJGLxLFF2Fw0Nx/67/FOi/7cSn5aVp1mC2X0ubEFzBN2Lo5rxEa/D0IompAfrIXaf
-         q2QsKntnwUBenr/EIJuGCuUWlpli85GmqE3Chjjl+V9ZmLpsyZdCH6+0aSmfYukMgG7U
-         p2LkEPbaOJyUJBkR3Rto4HbQV9vTNLA5n/0LwR5X/BKvGenKOohHXFs0/dda4MuSM9vj
-         QTlPycoWsgqI/SO3VozLktcC6hQsm+5NppvRCBBBr4guWDyJt+DKuoOznaUzyMAvEy5I
-         W0Ug==
+        bh=kAS/IOSk7LsBnAUgqtwuX4g9he1Zg4oVAbf4qm4DPmk=;
+        b=ct2yhX/bW+1HCRBH8yAeYyJwL0UfVJ4VMk1oz8rWIvRNL9wwkEI2KkfmloPkyqxjOt
+         POQUMOasyAfZtj9ebMSkU11IPIzi804U69fFG3QLTwKz1NPq+76XdklapaLuLzJ8F8w0
+         Bbfs7o/8Ez9sZFKB2T64K9eKgPqzflOBdEj3n3qRY0b9soKtt7CuyFW8wFuCVz30po0w
+         Ioy+shuf6Y+RCrwgObD77LxXdj1FaOnrffv7/+1cKstpQK2UB/9POk+YfDpykct87/cc
+         Ol4f3A1EahHbi9C+c81wBR+efIbGgUX4IBSSBqP+6/6LoaqW+tD6IoribkhOQla1cWxG
+         v43Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750950634; x=1751555434;
+        d=1e100.net; s=20230601; t=1750950755; x=1751555555;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=axf5NbpAUzrmzPpqLLrUEqqBeYpEBv2j8XoiaPjeVEQ=;
-        b=U1+glCT3k6troOKU85rHghjnwkhxAkg0ffFay/NyqijNLmHDXSGgLpTLdS6SoYOId2
-         0e6aVUwuzLVlWgINmzWrKX+wc83iVvjkqPwrJvk8i5emqXnlHZgL1svMJQIUp5PMjq7l
-         Ltz07zMNztJ1oNEd+udm0E2v4ZXHgAIi7OyWee1RJaaIPg/DnmHZuk+DODOyjh8jmAu7
-         m5vuS5IJur7GSc6Aq+ESXEnT9ds2VtZleb3qa+OY02SChMB6suajQQM7J9vUM8LlyLsd
-         hyCOrNAwuThS+C+5hsxcdE/mDZ8JBdldT10WVOYsvdjkjC2fyv39rTyETOCJ/kzURXAw
-         mg6g==
-X-Forwarded-Encrypted: i=1; AJvYcCWhMhkE/xNERd0coA/WQI4ROlwQq7/1uU8cV1VLMePV3n3v+Z6/abCtATc8CRy5tqpeD1ZUkE8cZf8IsmXEwJ9QilhBMQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzvp5w8XPRI4fCcvP6c4pf1Fj/fOJUvhrGX5PWY/zuiyB52Z9dA
-	3lHgNhWpQ/WuZFPtEkvBKn+m20+2R1FSGYUJUAG+nvVp4v5IJKs+4YFoGIGaFiaq5I+4fXkm3Da
-	fIqnhNVcYLvKkZrzY3IUzyeab98G/HrI=
-X-Gm-Gg: ASbGncsNaZI3pgKN4FImTzCWom2lW3sSmrU9FnzfOoIGZi7avSlRpGsn2slQffMU2fL
-	79zGs6PmLeO3Lgv2JzmMnTd+72GZADD4v6B69q1ozzr0RXooef7zj6SUzxRjwuRCCEK0Goj5JIb
-	kXJcdY/tbyqmmh0ocfNTq6xFDNy+yuJlR9keT1XUgvZLhqnSjUCubFf+iFBq9Xm5NZiGt/aIHfF
-	Anx6A==
-X-Google-Smtp-Source: AGHT+IG3aKdtoEX8k5XdMgWvxuQl/T0lmpkWTNORwe1brAkFFcnT7EjGtyotrt42fszQPUKuv/8ziotoOqBGlnuUj28=
-X-Received: by 2002:a05:6512:239e:b0:553:2159:8716 with SMTP id
- 2adb3069b0e04-55502caf1a4mr1616123e87.26.1750950633544; Thu, 26 Jun 2025
- 08:10:33 -0700 (PDT)
+        bh=kAS/IOSk7LsBnAUgqtwuX4g9he1Zg4oVAbf4qm4DPmk=;
+        b=sbk9P7CPAkUaVXeQzKjah/J7QxkWcZTR5JKdq5UOLl+dFKpLiEVwx0ddy0ZmXSv5T2
+         6iruoLL71yvKekiHfgHdBItJyilwgCb/N+xINyHjuW710B4Wq9h5Jvke8pgey8DIdKwn
+         0ymLrW4b7rYpy8tsh0LknPGRGCHcfcHF4keXoM2b2F1pZ+noBY8uRmwjz0Hvoufuwe1I
+         1dgMJyyXJmZdnWkdORmmb0mo9S/NeG2J4pJmqhn+QT8ttxZskr/V1l0OKKQMZnYLcMBR
+         qlXMbdsjhKymVfhFnSxOzKdB+qiEmH1JNQ8ne9U3aoO3fGh4LDLWSLJUsMEqbZDthSbq
+         AA8w==
+X-Forwarded-Encrypted: i=1; AJvYcCWkLK2n1JTqTb8J152qr+R3PaDPe5K34iI2ph0VyUcz6OdKTsaxsiF5UyTzXM3e0+2yXhxTGWvvN3TbCSWAdQdarnwwnA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/mJGRhWM4Dv2HcF/QQbsMtejnGduaSBhrlykO0CVYR2Afsbzp
+	PlBFviQhD8tciUgXvxnl2xCVB164jkaqrDxkZ1Abwy4k1LasP3hnn4nR614y8XzCtyo++nVx5MB
+	umq+tkP5SPjEs2mz65JlB+DJ+Naxkgoc=
+X-Gm-Gg: ASbGnctcNXzsyV6HBoBp/JqJTuLhDuaGS/CKQCYc0YLj213RGjpy64LRd8e84NQROj0
+	A71tNsciRFu799nS/+sruwRW47vRGIOQ1EMHEaGgTB9mcP9wUGU3kK2c6vZjwzxQZhKErtjr4xg
+	Ep81BdwzzIwzbfpmqD6hWD/7vUtOVDDgNqQ47VogbjNC3Vrlxa3PlQHBgddWsNlM5qn6pYuuQOp
+	IlGYw==
+X-Google-Smtp-Source: AGHT+IFDKoSkD2CJiWyVaF6kz2z7E/EJqhlSUVFS6EzXhXgn9q6Iom3W+1bxFqxhEyMbXQMlarVbh+wES6zPUtiA2VQ=
+X-Received: by 2002:a2e:8543:0:b0:32c:a006:2a36 with SMTP id
+ 38308e7fff4ca-32cc658247emr22139451fa.20.1750950754606; Thu, 26 Jun 2025
+ 08:12:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250626142243.19071-1-pranav.tyagi03@gmail.com> <5baab2ed-c48d-41ae-819a-71ca195c4407@igalia.com>
-In-Reply-To: <5baab2ed-c48d-41ae-819a-71ca195c4407@igalia.com>
+References: <20250623083841.364002-1-pranav.tyagi03@gmail.com>
+ <aFrBeCn-j_AB1yzv@rric.localdomain> <CAH4c4jLAfMTn6wN3wJSOQZ3mAoYC3uhswDu6c+c6v-wv8mSifQ@mail.gmail.com>
+ <2025062615-footpath-plank-b84f@gregkh>
+In-Reply-To: <2025062615-footpath-plank-b84f@gregkh>
 From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Thu, 26 Jun 2025 20:40:22 +0530
-X-Gm-Features: Ac12FXzNyUo0k5FLeYm1nQk0x2e9IyduCv2spuHDSlghF9NcaV2B_Em4IpBcyCY
-Message-ID: <CAH4c4jLqQORVWNLmNGAqevbSCnALtkfod6gTuXe-oae0izR9Bw@mail.gmail.com>
-Subject: Re: [PATCH] drm/vkms: Fix race-condition between the hrtimer and the
- atomic commit
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, hamohammed.sa@gmail.com, 
-	daniel@ffwll.ch, airlied@linux.ie, arthurgrillo@riseup.net, 
-	mairacanal@riseup.net, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org, 
-	gregkh@linuxfoundation.org, sashal@kernel.org
+Date: Thu, 26 Jun 2025 20:42:22 +0530
+X-Gm-Features: Ac12FXwJLCSX-KjqBQhvdKlckWb8pRkvIb6E3hyGEXP7zXlxzlU_QTkv3i_OQzM
+Message-ID: <CAH4c4j+ahO6yREWAQbm3ZXykASmjyEh2dzPGE0Jhj+j71qT5vw@mail.gmail.com>
+Subject: Re: [PATCH v2] cxl/memdev: automate cleanup with __free()
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Robert Richter <rrichter@amd.com>, dave@stgolabs.net, jonathan.cameron@huawei.com, 
+	dave.jiang@intel.com, alison.schofield@intel.com, vishal.l.verma@intel.com, 
+	ira.weiny@intel.com, dan.j.williams@intel.com, linux-cxl@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ming.li@zohomail.com, peterz@infradead.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 26, 2025 at 8:32=E2=80=AFPM Ma=C3=ADra Canal <mcanal@igalia.com=
+On Thu, Jun 26, 2025 at 8:26=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
 > wrote:
 >
-> Hi Pranav,
+> On Thu, Jun 26, 2025 at 08:02:10PM +0530, Pranav Tyagi wrote:
+> > Thank you for the feedback. I understand your concerns and completely
+> > agree with your reasoning. Please pardon my misjudgment in sending this
+> > patch. I am still a beginner with kernel development and learning to
+> > better assess what makes a meaningful contribution.
 >
-> On 26/06/25 11:22, Pranav Tyagi wrote:
-> > From: Ma=C3=ADra Canal <mcanal@igalia.com>
-> >
-> > [ Upstream commit a0e6a017ab56936c0405fe914a793b241ed25ee0 ]
-> >
-> > Currently, it is possible for the composer to be set as enabled and the=
-n
-> > as disabled without a proper call for the vkms_vblank_simulate(). This
-> > is problematic, because the driver would skip one CRC output, causing C=
-RC
-> > tests to fail. Therefore, we need to make sure that, for each time the
-> > composer is set as enabled, a composer job is added to the queue.
-> >
-> > In order to provide this guarantee, add a mutex that will lock before
-> > the composer is set as enabled and will unlock only after the composer
-> > job is added to the queue. This way, we can have a guarantee that the
-> > driver won't skip a CRC entry.
-> >
-> > This race-condition is affecting the IGT test "writeback-check-output",
-> > making the test fail and also, leaking writeback framebuffers, as the
-> > writeback job is queued, but it is not signaled. This patch avoids both
-> > problems.
-> >
-> > [v2]:
-> >      * Create a new mutex and keep the spinlock across the atomic commi=
-t in
-> >        order to avoid interrupts that could result in deadlocks.
-> >
-> > [ Backport to 5.15: context cleanly applied with no semantic changes.
-> > Build-tested. ]
-> >
-> > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> > Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
-> > Signed-off-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20230523123207.1739=
-76-1-mcanal@igalia.com
-> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> I suggest you start in drivers/staging/ which is specifically designed
+> for beginners to get involved without having to bother other maintainers =
+:)
 >
-> This patch violates locking rules and it was reversed a while ago.
-> Please, check commit 7908632f2927 ("Revert "drm/vkms: Fix race-condition
-> between the hrtimer and the atomic commit"").
+> thanks,
 >
-> Best Regards,
-> - Ma=C3=ADra
+> greg k-h
 
-Thanks for pointing that out.
+Hi Greg,
 
-I missed the revert. I now see that commit 7908632f2927 reversed
-this due to locking issues. I=E2=80=99ll drop this backport from 5.15
-accordingly.
+Thank you for the suggestion. I=E2=80=99ll start looking into
+drivers/staging/ and focus my efforts there. I appreciate your
+patience and guidance.
 
 Regards
 Pranav Tyagi
