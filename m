@@ -1,87 +1,89 @@
 Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8952E6D12
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 15:08:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5F82E6133
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 15:10:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750950505; cv=none; b=BZd7gRPqSiyQ9vbgKdwYwqS1APSh2XYeKZbieqNcSgwNIullG/jv9Qs4RCE/1cN0KheMfIKGPE52aqJAsJu3GW2KAxOC5MXzS/iRqzfeqYfcqLJIQd2H7lJn6pCoL5w5f8GT6BJ1hBOs/z8WY0ognYBjpQP8+iu/LOsPqnw7ZSo=
+	t=1750950641; cv=none; b=odReXG324oWZAZDoXQdcpSnvH/cpryw3+WoA5MEH14AXKbvfMi2ufau9Wms88r39Q9eqGiPMcxG02uOEUg/snwujocbFCZSeJiuwAzJoZVyIBB1j+8kKmoxDkmcaKOPKaB5/AdzVwCPdhys4Am9XVQhCE7JYSpWZ+QJx3spgPFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750950505; c=relaxed/simple;
-	bh=Ha+edyNTGZ8ndXkb5lo/UV54gtYkiA8WRmrab3d+X4s=;
+	s=arc-20240116; t=1750950641; c=relaxed/simple;
+	bh=Fsz5f/99U5JBaQvbPVrImfkgU9hAjFN83v0YZEnzFrM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hnzjNKsqhE7cKHzCay6K6H0ahFp4I4dCWPkLBVvZM+I7DQ+mas5V2/p1Lf/0lRHZdqTwfVy3YZI6VUgDWddbJczmOFJeadrF2O93mACBqyeUs0/TeRfFp98NjdF3Y144VteBN+vcVFwaAXcqw6GXIq6G8u3hiC9BVCQbwVNepSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AsbXSwLP; arc=none smtp.client-ip=209.85.208.173
+	 To:Cc:Content-Type; b=prqeknzKqCSq+ta6c5/ZgN+9YUzs3DfX3ocT+P3gZ4SRh0L88pu4AV74mswj3bLwi7xt2kLL6hakA3e41P7vQi5bMysaB0N290Jkwz8HVUH1RGVybq7OI3/UXrchZ+2FqDSnVWDx4Yt4vTUTbGfaBxFwFxJgTgGDF1lzdMZ/+58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hsdXjJ4k; arc=none smtp.client-ip=209.85.208.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AsbXSwLP"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-32b7123edb9so10222091fa.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 08:08:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hsdXjJ4k"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-32b4876dfecso21509201fa.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 08:10:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750950502; x=1751555302; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1750950634; x=1751555434; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rFuEEDOzNJYie2aS6VWkJQnYh/biJhh/VjmDxkcdYnA=;
-        b=AsbXSwLPm5fnxhtXkBi+YdYdaVq4wHiv7okyCyWS4IzRBF+liIgAgaaP/e4zUQURZS
-         TcTeK1aOVrkKOq/9/kG/NXBxd4KtzFn6vzC4h/PjD5WcrT3NvUBAJwYUeHxbj3DyUUWP
-         EdbroC+evXJHc5AiJ1gv6y88wOSBQE+E+DAsXXULBMew+/IxAt/alty05QWsgGRNklOB
-         bWRJgzOBjHmxqCU9K6Vcox3ivI+SgmKTWN3h9FLG0BB9u9RBXeWWgmz8i77eH62Xu1t+
-         rTk53Rv+9QVYUFVt+CRsnAUXsaAfWFqZlkw9k+p7qZLcYTiQdDzcj/nDXrcsHRF232ru
-         eSkA==
+        bh=axf5NbpAUzrmzPpqLLrUEqqBeYpEBv2j8XoiaPjeVEQ=;
+        b=hsdXjJ4k63oQkxqjLu4oM67+TkTjxnhafzu4zj57dYJCq2dx2/LY1bF3ciQ2Hriimd
+         DTmMJGLxLFF2Fw0Nx/67/FOi/7cSn5aVp1mC2X0ubEFzBN2Lo5rxEa/D0IompAfrIXaf
+         q2QsKntnwUBenr/EIJuGCuUWlpli85GmqE3Chjjl+V9ZmLpsyZdCH6+0aSmfYukMgG7U
+         p2LkEPbaOJyUJBkR3Rto4HbQV9vTNLA5n/0LwR5X/BKvGenKOohHXFs0/dda4MuSM9vj
+         QTlPycoWsgqI/SO3VozLktcC6hQsm+5NppvRCBBBr4guWDyJt+DKuoOznaUzyMAvEy5I
+         W0Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750950502; x=1751555302;
+        d=1e100.net; s=20230601; t=1750950634; x=1751555434;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rFuEEDOzNJYie2aS6VWkJQnYh/biJhh/VjmDxkcdYnA=;
-        b=BkIzGMPi4pXXeMlfVpq9N8y2ceKJi2qZ12ZRhCMj0SRJZI6AewNF/8wAZkh96uDX07
-         lIbgR5BhcClPWmMsKHy+05kL/aAJXBLm1mVDYRxnRnXMzRpKiZnyJdZPXoWSgN72XxzG
-         xMxOG2+9jALcQTcT3w/peyq5u/3OCb+x9+ecZI5UKxQcbMuUTI2N7iL3lUD+6CNqvIoL
-         ApKiZR6reH1XHxQt9ZI+2PeSpwglLC8Xe2A4LTLOFy9p5EBMcv1iRSMZtZkG4Qyrd53c
-         pzTYd2QFsWQ7NN7O2qqUlC8lpfoFCTXtT5Z11DddT4gh4zjDA/g1/FnyuGzZwZa212K5
-         LKdg==
-X-Forwarded-Encrypted: i=1; AJvYcCWMohEUeYeP/fZzxqKlgg4by72WLRo2klCZSuTMA6cTYlGttXEYoWV6XOLzw2dgCXswXAKUEPw8CKZYgOJsGMpDFg4GDA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQ3gI9PPYSFLdPu5ncfte8vQonyqNVNQHkwrhAkAjXy/bEXGoI
-	mxCTnMfT8aDCflp3J6Z8/K4hiM+AmDb/QWAO4wW8EeWqkMXxNgMtATG3oWaioj4rhujYR/0iXiM
-	btyyxPwrCYN2f5UKjvSJeBpqXmHpMrns=
-X-Gm-Gg: ASbGncv1+NseMYbyD7dh49Mhyb0elE1xqnnhSm2jsY1w1u5wxWTfUr69JRxhmCyfMTR
-	Cr6s2W/GPlG8dHQrsegZ5R7GQc3Jdnw4n57kNGWQBR/awptZIlJMfBIg5HHCYOoOh1hKfcvQ4KK
-	L34c9oL14W1c54VAbgZGQ7CoJz1KfJzi8jP3Nq34FuVW/SAd+moeMRyMtam0jzNDje0Nx6IjKhe
-	B93eA==
-X-Google-Smtp-Source: AGHT+IGrpoccZpE7gCl7xfdKVG914W+wx7VH7Dsg1ZCo+rhw6h3VHHsoRSKoF6qysZJ9WGyQege+2T82Jbrty12yIA0=
-X-Received: by 2002:a2e:a011:0:b0:32b:59d1:7ef3 with SMTP id
- 38308e7fff4ca-32cc65b7b0cmr18432591fa.35.1750950500472; Thu, 26 Jun 2025
- 08:08:20 -0700 (PDT)
+        bh=axf5NbpAUzrmzPpqLLrUEqqBeYpEBv2j8XoiaPjeVEQ=;
+        b=U1+glCT3k6troOKU85rHghjnwkhxAkg0ffFay/NyqijNLmHDXSGgLpTLdS6SoYOId2
+         0e6aVUwuzLVlWgINmzWrKX+wc83iVvjkqPwrJvk8i5emqXnlHZgL1svMJQIUp5PMjq7l
+         Ltz07zMNztJ1oNEd+udm0E2v4ZXHgAIi7OyWee1RJaaIPg/DnmHZuk+DODOyjh8jmAu7
+         m5vuS5IJur7GSc6Aq+ESXEnT9ds2VtZleb3qa+OY02SChMB6suajQQM7J9vUM8LlyLsd
+         hyCOrNAwuThS+C+5hsxcdE/mDZ8JBdldT10WVOYsvdjkjC2fyv39rTyETOCJ/kzURXAw
+         mg6g==
+X-Forwarded-Encrypted: i=1; AJvYcCWhMhkE/xNERd0coA/WQI4ROlwQq7/1uU8cV1VLMePV3n3v+Z6/abCtATc8CRy5tqpeD1ZUkE8cZf8IsmXEwJ9QilhBMQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzvp5w8XPRI4fCcvP6c4pf1Fj/fOJUvhrGX5PWY/zuiyB52Z9dA
+	3lHgNhWpQ/WuZFPtEkvBKn+m20+2R1FSGYUJUAG+nvVp4v5IJKs+4YFoGIGaFiaq5I+4fXkm3Da
+	fIqnhNVcYLvKkZrzY3IUzyeab98G/HrI=
+X-Gm-Gg: ASbGncsNaZI3pgKN4FImTzCWom2lW3sSmrU9FnzfOoIGZi7avSlRpGsn2slQffMU2fL
+	79zGs6PmLeO3Lgv2JzmMnTd+72GZADD4v6B69q1ozzr0RXooef7zj6SUzxRjwuRCCEK0Goj5JIb
+	kXJcdY/tbyqmmh0ocfNTq6xFDNy+yuJlR9keT1XUgvZLhqnSjUCubFf+iFBq9Xm5NZiGt/aIHfF
+	Anx6A==
+X-Google-Smtp-Source: AGHT+IG3aKdtoEX8k5XdMgWvxuQl/T0lmpkWTNORwe1brAkFFcnT7EjGtyotrt42fszQPUKuv/8ziotoOqBGlnuUj28=
+X-Received: by 2002:a05:6512:239e:b0:553:2159:8716 with SMTP id
+ 2adb3069b0e04-55502caf1a4mr1616123e87.26.1750950633544; Thu, 26 Jun 2025
+ 08:10:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250626142243.19071-1-pranav.tyagi03@gmail.com> <2025062607-hardener-splotchy-1e70@gregkh>
-In-Reply-To: <2025062607-hardener-splotchy-1e70@gregkh>
+References: <20250626142243.19071-1-pranav.tyagi03@gmail.com> <5baab2ed-c48d-41ae-819a-71ca195c4407@igalia.com>
+In-Reply-To: <5baab2ed-c48d-41ae-819a-71ca195c4407@igalia.com>
 From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Thu, 26 Jun 2025 20:38:09 +0530
-X-Gm-Features: Ac12FXz90vVDsL3CpnJRMV-o2H8K_6Vief1VnLAmxr4fTIuJkeSDNsKRMhYHXKg
-Message-ID: <CAH4c4jJqX6C4+xvHKqC2fmN7HRhKPgD2XcjnwO2MR0xtMyEhRQ@mail.gmail.com>
+Date: Thu, 26 Jun 2025 20:40:22 +0530
+X-Gm-Features: Ac12FXzNyUo0k5FLeYm1nQk0x2e9IyduCv2spuHDSlghF9NcaV2B_Em4IpBcyCY
+Message-ID: <CAH4c4jLqQORVWNLmNGAqevbSCnALtkfod6gTuXe-oae0izR9Bw@mail.gmail.com>
 Subject: Re: [PATCH] drm/vkms: Fix race-condition between the hrtimer and the
  atomic commit
-To: Greg KH <gregkh@linuxfoundation.org>
+To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
 	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, hamohammed.sa@gmail.com, 
-	daniel@ffwll.ch, airlied@linux.ie, mcanal@igalia.com, arthurgrillo@riseup.net, 
+	daniel@ffwll.ch, airlied@linux.ie, arthurgrillo@riseup.net, 
 	mairacanal@riseup.net, skhan@linuxfoundation.org, 
 	linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org, 
-	sashal@kernel.org
+	gregkh@linuxfoundation.org, sashal@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 26, 2025 at 8:27=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+On Thu, Jun 26, 2025 at 8:32=E2=80=AFPM Ma=C3=ADra Canal <mcanal@igalia.com=
 > wrote:
 >
-> On Thu, Jun 26, 2025 at 07:52:43PM +0530, Pranav Tyagi wrote:
+> Hi Pranav,
+>
+> On 26/06/25 11:22, Pranav Tyagi wrote:
 > > From: Ma=C3=ADra Canal <mcanal@igalia.com>
 > >
 > > [ Upstream commit a0e6a017ab56936c0405fe914a793b241ed25ee0 ]
@@ -105,20 +107,32 @@ RC
 > > problems.
 > >
 > > [v2]:
-> >     * Create a new mutex and keep the spinlock across the atomic commit=
- in
-> >       order to avoid interrupts that could result in deadlocks.
+> >      * Create a new mutex and keep the spinlock across the atomic commi=
+t in
+> >        order to avoid interrupts that could result in deadlocks.
 > >
 > > [ Backport to 5.15: context cleanly applied with no semantic changes.
 > > Build-tested. ]
+> >
+> > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> > Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
+> > Signed-off-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
+> > Link: https://patchwork.freedesktop.org/patch/msgid/20230523123207.1739=
+76-1-mcanal@igalia.com
+> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
 >
-> Did you forget about 6.1.y?
+> This patch violates locking rules and it was reversed a while ago.
+> Please, check commit 7908632f2927 ("Revert "drm/vkms: Fix race-condition
+> between the hrtimer and the atomic commit"").
 >
-> confused,
->
-> greg k-h
+> Best Regards,
+> - Ma=C3=ADra
 
-Apologies for the oversight.
+Thanks for pointing that out.
+
+I missed the revert. I now see that commit 7908632f2927 reversed
+this due to locking issues. I=E2=80=99ll drop this backport from 5.15
+accordingly.
 
 Regards
 Pranav Tyagi
