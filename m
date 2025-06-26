@@ -1,95 +1,72 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977A02ECE8E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 26 Jun 2025 16:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06802213E66
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 19:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750957187; cv=none; b=R/52YQXS5kD6ngCgqFCtUMRuQA4vwvrB6PgaJfZZZxf2N/n3ETMsgrxThBhj3PiHwT9QHtGK+0tR1k3aiKjoFOYEen69js/COWoXNlD0Ii5dc/bHLuyDHFKxb1yGH8qh1A+0DmhCUt9X8trHSRS38a6pxUUfPOR8NBa6muNG870=
+	t=1750965391; cv=none; b=QYKg8HldwjPS1WDNSr8QZIv9gyHHhYJlXXtXpxSlgOZ91piti65ExfI0kfYVsLbRs+sWm8kv7kPSbzzj4yyi9Bs8fDV+txjAxtosMdbgCgbuNyuwFZXh0Q1iOd/0K1lZDuc9A2ZaVJN11YUpl+xuuCbMDCdnCavIJhuZK4+m8to=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750957187; c=relaxed/simple;
-	bh=woQ7Ps6zyvRtD+WlXLhl9749tSlqBMx5iIjummqWtGk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IYinjoGZlu+Qb9tY2wvf/wHlkQvk7e8Ldo0bIYhgrxREBVy3juQOx4u0AZpvHiyiU4MQw1qp6yFAeXoqUUnOZ4aW4f3aIfR2dEf8b/6rqxAnFQHW+uXeblS1TILfWnVDP66Yfrl+i3jyeYRW0dGg2+99EZJjTYKxVnG72l/VsKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MF2W6bkp; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1750965391; c=relaxed/simple;
+	bh=h3+wCYKb+e64nlS7ZiGvNL4qU/lPfezz6///qDSCFIs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J+tWyZEIybMYtjz+QRaBXI3AeOkhhCpNKYeM9Y//Vhnfbui255jxZcPcWa2w4aISmtKDxfpmIJuCnDparbEcrwcIj8A/JO78t2dbt0pcwgH344YqVZFw/aCFR9ZodsMIoAyfP7e6JO7UG71s6HVFGJMBpCNp7oDmByiCilEwiIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l11m7DKB; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MF2W6bkp"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 31A348175A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 26 Jun 2025 16:59:46 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: 1.486
-X-Spam-Level: *
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Jn5ZUrFycnqW for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Jun 2025 16:59:45 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62d; helo=mail-pl1-x62d.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 75ACD81514
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 75ACD81514
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=MF2W6bkp
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 75ACD81514
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 26 Jun 2025 16:59:45 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-235d6de331fso18116715ad.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 26 Jun 2025 09:59:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l11m7DKB"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-23694cec0feso15900825ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 12:16:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750957185; x=1751561985; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+MqwhnBeaC4XpPLUvW23OFmerSzldciI6gEbfm50iZM=;
-        b=MF2W6bkpYY5QEdsVFFM73jnznDHfpvXfofSWR9ToMpOVPaD9k/fDrKdrT7ny6FtU3R
-         AihrjPsYUNCcJMu9AJmpFVgqnsqHWLwY096fObXu2XKmCZzi8IuhgViyYTZfDEmfcnCj
-         GfxPLTXhR6afAWm26RZC/3vGc7MHVxeSgbuliI3fnvHf4YIoio2Bb+lhnuAkV2rCLAfh
-         uxPf28DQd7EtpplKpIjvo4jVvRsG9gLLCLTgMfPTlTmSFQr81KjLnUPLXDS9xcMvuB0D
-         /N6D95tGjZTI+9YbhPG2RPIPYe38qMox1Z+QTXMs0LOyrqWcMIo5VbyZ0guBR8JFZwWV
-         s9Lw==
+        d=gmail.com; s=20230601; t=1750965389; x=1751570189; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kEGLkVDliz6D9cLYESQeH89M3mbRzJDwNUogp0ZBAxw=;
+        b=l11m7DKBBW73Xag3DS28cVjbMdQT9oZP2qhoCbpBWdMdyKfJGACbcmgYx6JMbAMIFg
+         gvx62mMxCAnfSNc1wdRZGuTrP0HPCwSbEBt8MdXzmiR8ADzprgGo4lqX3I/kwnFs7u/1
+         ybGDwBqD5QvSdpbZzDRtSbgg6NM7YXNPwqIUAW9jBJlY7LbeVyWewurfqFCqxGEIFXVt
+         ABk7d4r4rPZYmlSlRU9FhIaXYjW82HJM6cEvvxPzlc1qvGfW+NOWAOjV2BugFXs8mo9V
+         4VhjQN4p8pvK+q0wCaf54GuzlZyL3tcVDymGa6zGz85dabfzv8HgAOb24gaG5fe3EPAe
+         Mn1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750957185; x=1751561985;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+MqwhnBeaC4XpPLUvW23OFmerSzldciI6gEbfm50iZM=;
-        b=V8t9vGnbWUhP1fU2Dvc8Z6xH4hoEmDfGewFt0kGYPBScogoXIZ+tyXoNeJlwlmOYMe
-         n+itMGz84/Rka1oC65y2NLic25qQDKPuXhEtQYwTkf8lEoAVEBwo7zYJiHmiOWmhFCTX
-         QgFZZi4p/5Y5zg6TC/4XOcF5uY0fa/m/K4oRR/DlQ0ASlkzgpHNQg1tjsB7kkklRzTZi
-         eBCQHAL99QfVfVec2yjF3qDXzcBd3ndjaTROT5+4uP/6sm07GN8zgMbJfyUUYwJVj9WQ
-         /LRbSoPcEOGigznuZekjWtz/BHt/MrkTGf9a4VGLA6P2DEL8FpF17hrFSI7ABQjzIxLz
-         JARA==
-X-Forwarded-Encrypted: i=1; AJvYcCWurR2LqP/glQQp4aEMuat4+6j9FI0uL/Ve7Ia9nOKjXLIlMY9njYVWm4Z+PzoPtncGYsP0SDs086GvgUTvyOqPpqMkQg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzN8xCl/i4KCY05J0RDEJngA1OZgkzOvle6iWzTrAruVDgx63gW
-	aUTE37LxVCwrPzHgXkLWTBVwdH/GeCWQj3n18YKvPx4UncLduRg7hPZR
-X-Gm-Gg: ASbGncsIVJWUQktRLRysdbJ15ZHus2OW1q+IhEsMZVweBNH/6UfkQFHgGaM8TqbQ/Ls
-	ojpS/5Pnxoucp6hc89z8Z+Rk7Eefb974UHN2KzoKjSE1/Xi0bcbrCYQsqy9jbAHBkrYmdMiJmRI
-	3BvzmOVpIIFTBmJ8Kop4b3nTs375Bc2yyiDRzEZZVKwIal7aZIm1L7Jj3nEAL7R+C7PsaG+5Hqm
-	3P/5NwEIdmX/MMhPo0mx4niep2EV1x2RIdEfsfhRnCDsywU+XrFTBNRV3jiwQ7GbGRP7iQq5RRY
-	GYuHlla8c8RBt3FZCTUHZ3+/8xMtzPm2y2+pHfkNbVCanClp
-X-Google-Smtp-Source: AGHT+IHx8R2JoJQnCwEUerphA5k8Y45YgrDDxrho1BCyWHdxn0mxwmrAutPMVaNzv7a2UBc5e1GwIQ==
-X-Received: by 2002:a17:903:18c:b0:235:ca87:37ae with SMTP id d9443c01a7336-23ac4637152mr742295ad.41.1750957184779;
-        Thu, 26 Jun 2025 09:59:44 -0700 (PDT)
-Received: from fedora ([2804:14c:64:af90::1001])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23abe329b72sm2615195ad.80.2025.06.26.09.59.42
+        d=1e100.net; s=20230601; t=1750965389; x=1751570189;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kEGLkVDliz6D9cLYESQeH89M3mbRzJDwNUogp0ZBAxw=;
+        b=JDaq39G2Wy+VYQNBFQ/k6/fWKQSt6a7SFuBHLudRXEpXVWouhACdnGErXh8+KYdxLj
+         lu5d1Py+OiUX+7qghqFW+yf3sGVX7dRYpDq2oAzK+PqVh6QVyqpoLHTJDTjZ6PI5x317
+         dTZdci2HsiNxqT/3ialakweNvcfFLst5dfXajl8rRMRDAbGYBGysjvhKi7yNAuZ6dBri
+         43l0PooG+WXIosPMbkIudpPpp6S/+ELyydWj5VjhFh9nBv6ZVutAJ8cQsNiZQJ3W8PNi
+         qih6mHVHzslyikHuvsIhfkHa+W/A0pTwMCE/Bu/2gDC5OW801zve1wS4OWR+sB45rCoW
+         LE9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVIAFvBYZ3n/VfIgQTFYhv+RYtWfKDrIW4b3/69Swa07HPBwGqIxyTdabYkR52ElRM2Gh8TsB6KRDaHLizVHVS/uFFi0A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwNIigaxoKaEHIxFa6rNNGyI35yQFYMOC0V2yc7m3bWmvqlRqi
+	SnA2P2s+KUYSJUIYNc7WpaV17tleSr9YQ1vNZQda58dx1hmbARsPzErJ
+X-Gm-Gg: ASbGnctvNt8aCGkXhAuvdWtcu4pqzh2ayPwJS/hDClYemzz+fKESA6x3y3DGd3yToFx
+	GmE86Ve4QrsH9ytSiss3rBZp9h+c0ukxrTHDlbt9bqusQVMhVkBKP72G8Le4U5LgR2Nw9zHMPvc
+	3D2QrnMU/MvnPAQhbqnLYbEA48gPsPNAjcwadUI4PfUaw5JFgGk8R7cKATvMtvYMckO6dD4qIEG
+	oW7vxf+xzkFrCDs1j/xj1KDTUnSkxErZolaRzoORkytENu9DdbcjExiYeJQzAoyTVx8DvJC6TUv
+	8z24Bufp3D8MN3DY39pUvDotN7ut/6YY3MaP65L//6aLG6d9cvoBZV6F2NOSYAH6
+X-Google-Smtp-Source: AGHT+IGZJiK7V87UN2yeGD2QBj1W9kV1b1WZgMlsenEy/ueEwohDtG/9+5bGugIvGv5i43iGmzj+jA==
+X-Received: by 2002:a17:902:ce8e:b0:223:4d7e:e52c with SMTP id d9443c01a7336-23ac3cf546dmr7602755ad.5.1750965389212;
+        Thu, 26 Jun 2025 12:16:29 -0700 (PDT)
+Received: from p920.. ([2001:569:799a:1600:203c:1dca:e60c:1243])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23abe4245d2sm4038765ad.199.2025.06.26.12.16.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 09:59:44 -0700 (PDT)
-From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-To: rust-for-linux@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	lossin@kernel.org,
-	dakr@kernel.org,
-	ojeda@kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH v5 2/2] rust: revocable: Clarify write invariant and update safety comments
-Date: Thu, 26 Jun 2025 13:59:27 -0300
-Message-ID: <20250626165927.66498-3-marcelomoreira1905@gmail.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250626165927.66498-1-marcelomoreira1905@gmail.com>
-References: <20250626165927.66498-1-marcelomoreira1905@gmail.com>
+        Thu, 26 Jun 2025 12:16:28 -0700 (PDT)
+From: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+To: shuah@kernel.org
+Cc: yifei.l.liu@oracle.com,
+	zhujun2@cmss.chinamobile.com,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Moon Hee Lee <moonhee.lee.ca@gmail.com>
+Subject: [PATCH] selftests: breakpoints: use suspend_stats to reliably check suspend success
+Date: Thu, 26 Jun 2025 12:16:26 -0700
+Message-ID: <20250626191626.36794-1-moonhee.lee.ca@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -98,73 +75,105 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Clarifies the write invariant of the `Revocabl` type and
-updates associated `SAFETY` comments. The write invariant now precisely
-states that `data` is valid for writes after `is_available` transitions
-from true to false, provided no thread holding an RCU read-side lock
-(acquired before the change) still has access to `data`.
+The step_after_suspend_test verifies that the system successfully
+suspended and resumed by setting a timerfd and checking whether the
+timer fully expired. However, this method is unreliable due to timing
+races.
 
-The `SAFETY` comment in `try_access_with_guard` is updated to reflect
-this invariant, and the `PinnedDrop` `drop` implementation's `SAFETY`
-comment is refined to clearly state the guarantees provided by the `&mut Self`
-context regarding exclusive access and `data`'s validity for dropping.
+In practice, the system may take time to enter suspend, during which the
+timer may expire just before or during the transition. As a result,
+the remaining time after resume may show non-zero nanoseconds, even if
+suspend/resume completed successfully. This leads to false test failures.
 
-Reported-by: Benno Lossin <lossin@kernel.org>
-Closes: https://github.com/Rust-for-Linux/linux/issues/1160
-Suggested-by: Benno Lossin <lossin@kernel.org>
-Suggested-by: Danilo Krummrich <dakr@kernel.org>
-Reviewed-by: Benno Lossin <lossin@kernel.org>
-Reviewed-by: Danilo Krummrich <dakr@kernel.org>
-Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
+Replace the timer-based check with a read from
+/sys/power/suspend_stats/success. This counter is incremented only
+after a full suspend/resume cycle, providing a reliable and race-free
+indicator.
+
+Also remove the unused file descriptor for /sys/power/state, which
+remained after switching to a system() call to trigger suspend [1].
+
+[1] https://lore.kernel.org/all/20240930224025.2858767-1-yifei.l.liu@oracle.com/
+
+Fixes: c66be905cda2 ("selftests: breakpoints: use remaining time to check if suspend succeed")
+Signed-off-by: Moon Hee Lee <moonhee.lee.ca@gmail.com>
 ---
- rust/kernel/revocable.rs | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ .../breakpoints/step_after_suspend_test.c     | 41 ++++++++++++++-----
+ 1 file changed, 31 insertions(+), 10 deletions(-)
 
-diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
-index f10ce5c1ed77..88976c62e1ef 100644
---- a/rust/kernel/revocable.rs
-+++ b/rust/kernel/revocable.rs
-@@ -61,6 +61,15 @@
- /// v.revoke();
- /// assert_eq!(add_two(&v), None);
- /// ```
-+///
-+/// # Invariants
-+///
-+/// - `data` is valid for reads in two cases:
-+///   - while `is_available` is true, or
-+///   - while the RCU read-side lock is taken and it was acquired while `is_available` was `true`.
-+/// - `data` is valid for writes when `is_available` was atomically changed from `true` to `false`
-+///   and no thread that has access to `data` is holding an RCU read-side lock that was acquired prior to
-+///   the change in `is_available`.
- #[pin_data(PinnedDrop)]
- pub struct Revocable<T> {
-     is_available: AtomicBool,
-@@ -115,8 +124,8 @@ pub fn try_access(&self) -> Option<RevocableGuard<'_, T>> {
-     /// object.
-     pub fn try_access_with_guard<'a>(&'a self, _guard: &'a rcu::Guard) -> Option<&'a T> {
-         if self.is_available.load(Ordering::Relaxed) {
--            // SAFETY: Since `self.is_available` is true, data is initialised and has to remain
--            // valid because the RCU read side lock prevents it from being dropped.
-+            // SAFETY: `self.data` is valid for reads because of `Self`'s type invariants,
-+            // as `self.is_available` is true and `_guard` holds the RCU read-side lock.
-             Some(unsafe { &*self.data.get() })
-         } else {
-             None
-@@ -208,9 +217,10 @@ fn drop(self: Pin<&mut Self>) {
-         // SAFETY: We are not moving out of `p`, only dropping in place
-         let p = unsafe { self.get_unchecked_mut() };
-         if *p.is_available.get_mut() {
--            // SAFETY: We know `self.data` is valid because no other CPU has changed
--            // `is_available` to `false` yet, and no other CPU can do it anymore because this CPU
--            // holds the only reference (mutable) to `self` now.
-+            // SAFETY:
-+            // - `self.data` is valid for writes because of `Self`'s type invariants:
-+            //   `&mut Self` guarantees exclusive access, so no other thread can concurrently access `data`.
-+            // - this function is a drop function, thus this code is at most executed once.
-             unsafe { drop_in_place(p.data.get()) };
-         }
-     }
+diff --git a/tools/testing/selftests/breakpoints/step_after_suspend_test.c b/tools/testing/selftests/breakpoints/step_after_suspend_test.c
+index 8d275f03e977..8d233ac95696 100644
+--- a/tools/testing/selftests/breakpoints/step_after_suspend_test.c
++++ b/tools/testing/selftests/breakpoints/step_after_suspend_test.c
+@@ -127,22 +127,42 @@ int run_test(int cpu)
+ 	return KSFT_PASS;
+ }
+ 
++/*
++ * Reads the suspend success count from sysfs.
++ * Returns the count on success or exits on failure.
++ */
++static int get_suspend_success_count_or_fail(void)
++{
++	FILE *fp;
++	int val;
++
++	fp = fopen("/sys/power/suspend_stats/success", "r");
++	if (!fp)
++		ksft_exit_fail_msg(
++			"Failed to open suspend_stats/success: %s\n",
++			strerror(errno));
++
++	if (fscanf(fp, "%d", &val) != 1) {
++		fclose(fp);
++		ksft_exit_fail_msg(
++			"Failed to read suspend success count\n");
++	}
++
++	fclose(fp);
++	return val;
++}
++
+ void suspend(void)
+ {
+-	int power_state_fd;
+ 	int timerfd;
+ 	int err;
++	int count_before;
++	int count_after;
+ 	struct itimerspec spec = {};
+ 
+ 	if (getuid() != 0)
+ 		ksft_exit_skip("Please run the test as root - Exiting.\n");
+ 
+-	power_state_fd = open("/sys/power/state", O_RDWR);
+-	if (power_state_fd < 0)
+-		ksft_exit_fail_msg(
+-			"open(\"/sys/power/state\") failed %s)\n",
+-			strerror(errno));
+-
+ 	timerfd = timerfd_create(CLOCK_BOOTTIME_ALARM, 0);
+ 	if (timerfd < 0)
+ 		ksft_exit_fail_msg("timerfd_create() failed\n");
+@@ -152,14 +172,15 @@ void suspend(void)
+ 	if (err < 0)
+ 		ksft_exit_fail_msg("timerfd_settime() failed\n");
+ 
++	count_before = get_suspend_success_count_or_fail();
++
+ 	system("(echo mem > /sys/power/state) 2> /dev/null");
+ 
+-	timerfd_gettime(timerfd, &spec);
+-	if (spec.it_value.tv_sec != 0 || spec.it_value.tv_nsec != 0)
++	count_after = get_suspend_success_count_or_fail();
++	if (count_after <= count_before)
+ 		ksft_exit_fail_msg("Failed to enter Suspend state\n");
+ 
+ 	close(timerfd);
+-	close(power_state_fd);
+ }
+ 
+ int main(int argc, char **argv)
 -- 
-2.50.0
+2.43.0
 
