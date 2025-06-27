@@ -1,84 +1,110 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7A814EC73
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Jun 2025 16:00:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61FB71CEACB
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Jun 2025 16:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751040047; cv=none; b=k35Vsar1dlZ2SggRO3KQcDgNKlMxGjMG/I/l7I6kTcVO1dOD9JMDJxKn4tNDHCPwA+IdN7iJzcF2zK/N2nYthWVba7wvXRn/9KpVRVr+QVanFdWAxc5kyRSYzN0mbY1npYjbSF749OubnHaRfl80wMBkNDqkYTplm4OwM5u4Cvk=
+	t=1751042504; cv=none; b=EqO3iGCLK6bwmpmMxbhce2O8tgO7tygAU9L2KJiXHFGXYhTCbPQfUTarXpNZQCtnMUgXo++QcTWt6MJYod6+kSieVCF7bkNS3wbI8JHGsdUg8PacMDAXCZPJ086Ogl2qA2mVWA8gQT4XIbbGNoMlf1AdSM9dZZI6hGa/WIVF9Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751040047; c=relaxed/simple;
-	bh=eBobpTH5dO5aFYWBOFgi7YHuDOocnJlbZIlJ/t4tWrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d+lv+/vknLK2acgJVI7s6VfFKpJv2B4vBQ0D6Wbra1ihrGDNqBLFp2zQl/27cBTwD5IbPmFDNGlqxrtJ8prXdJR/OR4pivbuNnvGtbTmwgFvhZmVxy8U6gRC5h3RfsBESrbYqBzVlKKaJjZbgUCotI5k2unnG1gMYGEEqTwE07Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wtfC1lj8; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1751042504; c=relaxed/simple;
+	bh=ZuEQ1zQrVtuPrJ/IhK0yiaA3AB1kj94s9i4/FDqfzHw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HrrWJRjDZREYnGma9NjVQO6NAvdBhaPDoxWvVx7lQh8Tq8d4uuuCtgkVWizF32uhwBOod4NJejgBvSqOkRu9rYtzZtBBy3vIpyk3hUN58YL1VW9y921q3tFGT3qpBxzCFWk3E2TjbGKW62KGh+qkqnRiREapCmozTSFLbxe4fSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b6QQ1g5A; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wtfC1lj8"
-Date: Fri, 27 Jun 2025 12:00:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1751040043;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EFd2TeDZePnyevS06G3vybw5Qpi1D8XzIEjoYS75/gg=;
-	b=wtfC1lj8G/k/A9owK6q8rE9rsVurmiVwBf4wimjSsEF5e6ddfCeAq/aGw2cLEAzOgwj2tZ
-	JASy5Wswd+rz0+X1pUTPxiXnGiqZ0uLNY2fGmI8/4WOGS5AOfq9j9Wi6H2mgO9WfNZ9+CI
-	++SNdvcrMRbAsON5PUDtgMkGkizYlK0=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-Cc: linux-bcachefs@vger.kernel.org, shuah@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b6QQ1g5A"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-748e378ba4fso3440524b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Jun 2025 09:41:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751042503; x=1751647303; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2i7605PqYhjxoEfLi96zRKazL0WE2fE/OxEmeLqdoGw=;
+        b=b6QQ1g5A2TGytKdp6N8JnrIklc4yIminsHDPZ6cPcVYZjWfBpM2O388m3tA3x4dvhn
+         IWAw5PK1O+kXLKk6HhRocqMxi0tTkl1FqkjUGoccaqrG07kFKSqD1sdZcXq8iSOOdQOd
+         pMxhSxB8wHsqeoDT/r+p4qrCWr3GeXmBedBfkKsVb63CbMgPDc2IBk2RQqyS/4MMOf1k
+         XVAPm+jncghoQkjzIgttqwxihzBw6CkWsX8jBCs2plqJ898yhRFH79fMhxv+Bkwup5TS
+         D6GLUIL4kCPYWfioWpNwSV0VSebx/ulkjqpdvuaLoulqWwPRbSjLMa7RXKjYqneBIUyA
+         VQuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751042503; x=1751647303;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2i7605PqYhjxoEfLi96zRKazL0WE2fE/OxEmeLqdoGw=;
+        b=G52J5VNRjRsyfrwTXmUUUtkdqrIp3Cob+rduDB9sHKSvkiHRLP3FpGZ73+ZQi+g7eb
+         /Q1GizHn3kljhTdZGcH1JFQhEb7YoIacj23rwAhBfC45WDIzTT5dlo1LtOray3kCJiQN
+         /2QC0GeUOpyAt2PdX5aPiFL9KeSTSASxvUa1kGpqIDBtBwacW94OhjDhQBpw7TaqHJ+Y
+         7+kkrzTc91Gd/XHgTwZs4ZgpII2qNBUYpo/ritzA5ymebhmKO0TWJBYZ8bETdtdNjewD
+         f5NWeY/cMrgDLEKTe76VHnaQ2qPvIWrJ8JssI5XLbYjxBSHLE0ZNU8PigeoDkh7QjmBW
+         MQWw==
+X-Forwarded-Encrypted: i=1; AJvYcCWKo+ITa0aqvpO5sSGBl9sHX/AR+9oXLPnyR9QCg8Rwyf7PjafTvQqjOvgH9NIqLK8XP1lqaA2UVxKzedXOiZ7GimV53A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzShDwWNPf9sseKavxZduZjHQVj57U2jjTpr2J3Z+sm0uMar8UL
+	fXWUzBACCp9FqNJ4G8vtXibSfE+uCM9xguj2led5at+FI3I5CDjXAbAQ
+X-Gm-Gg: ASbGncs59bbVmHua8UFeF/NI4R2gLi15ghmRuTnXEMVdsqfEnknKjXQquvXCdaew6fp
+	3lSf72qvqihyzh4Gjj+oBDGc4TB6boPDtxFQ9H7a8uH+6mxU0JLGgOvSLNKPPrn/pEGL3is/JA9
+	QrfvygPuovxynowm/xN1dJ9TMSb0sPRpf6P8O/u2sMJMTzyoIVx+nGo8elVLl+yVMsiNGP0zJuo
+	zkCVjFzWMK7paB2raGN2dhncZ52CIt3RLfKWah39UUBl0zzntoIb7Ws/NiKOCwjVG5PbmSTDUFs
+	/SGjtl8Vfz1LNbAQbB3znHTmmbu1rjR7jTpzBlg7hncO6YR/3L6gpEG2ZZTB+hhaIVmTkQ==
+X-Google-Smtp-Source: AGHT+IHaDj/27wSNKkgOMC54QMnSSkZsPoqTkAu/WqBajOE4jy1fA/XxncHSudIk4NwzKEBXIrs7cA==
+X-Received: by 2002:a05:6a00:4fcf:b0:749:b41:2976 with SMTP id d2e1a72fcca58-74af6e631e1mr6081658b3a.3.1751042502636;
+        Fri, 27 Jun 2025 09:41:42 -0700 (PDT)
+Received: from archlinux ([136.185.226.69])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af57f7e6bsm2644083b3a.179.2025.06.27.09.41.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jun 2025 09:41:42 -0700 (PDT)
+From: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+To: kent.overstreet@linux.dev
+Cc: Bharadwaj Raju <bharadwaj.raju777@gmail.com>,
+	linux-bcachefs@vger.kernel.org,
+	shuah@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
 	syzbot+029d1989099aa5ae3e89@syzkaller.appspotmail.com
-Subject: Re: [PATCH] bcachefs: use mustfix to check invalid btree IDs
-Message-ID: <j2sx5unznfhswob6iuzeh5fp6tirxrbktdxkeednh7p7lfbemv@2ywasorzlvg3>
-References: <20250627084033.614376-2-bharadwaj.raju777@gmail.com>
+Subject: [PATCH] bcachefs: mark invalid_btree_id autofix
+Date: Fri, 27 Jun 2025 22:11:29 +0530
+Message-ID: <20250627164132.25133-1-bharadwaj.raju777@gmail.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250627084033.614376-2-bharadwaj.raju777@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 27, 2025 at 02:10:32PM +0530, Bharadwaj Raju wrote:
-> Checking for invalid IDs was introduced in 9e7cfb35e266 ("bcachefs: Check for invalid btree IDs")
-> to prevent an invalid shift later, but since 141526548052 ("bcachefs: Bad btree roots are now autofix")
-> made the parent class btree_root_bkey_invalid FSCK_AUTOFIX, fsck_err_on
-> no longer works for this check.
-> 
-> Change the condition to use mustfix_fsck_err_on instead.
+Checking for invalid IDs was introduced in 9e7cfb35e266 ("bcachefs: Check for invalid btree IDs")
+to prevent an invalid shift later, but since 141526548052 ("bcachefs: Bad btree roots are now autofix")
+which made btree_root_bkey_invalid autofix, the fsck_err_on call didn't
+do anything.
 
-We can mark this one autofix instead
+We can mark this err type (invalid_btree_id) autofix as well, so it gets
+handled.
 
-> 
-> Reported-by: syzbot+029d1989099aa5ae3e89@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=029d1989099aa5ae3e89
-> Fixes: 141526548052 ("bcachefs: Bad btree roots are now autofix")
-> 
-> Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-> ---
->  fs/bcachefs/recovery.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/bcachefs/recovery.c b/fs/bcachefs/recovery.c
-> index d0b7e3a36a54..abcaa0e3e2e6 100644
-> --- a/fs/bcachefs/recovery.c
-> +++ b/fs/bcachefs/recovery.c
-> @@ -489,7 +489,7 @@ static int journal_replay_entry_early(struct bch_fs *c,
->  		if (unlikely(!entry->u64s))
->  			return 0;
->  
-> -		if (fsck_err_on(entry->btree_id >= BTREE_ID_NR_MAX,
-> +		if (mustfix_fsck_err_on(entry->btree_id >= BTREE_ID_NR_MAX,
->  				c, invalid_btree_id,
->  				"invalid btree id %u (max %u)",
->  				entry->btree_id, BTREE_ID_NR_MAX))
-> -- 
-> 2.50.0
-> 
+Reported-by: syzbot+029d1989099aa5ae3e89@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=029d1989099aa5ae3e89
+Fixes: 141526548052 ("bcachefs: Bad btree roots are now autofix")
+
+Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+---
+ fs/bcachefs/sb-errors_format.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/bcachefs/sb-errors_format.h b/fs/bcachefs/sb-errors_format.h
+index 0641fb634bd4..d154b7651d28 100644
+--- a/fs/bcachefs/sb-errors_format.h
++++ b/fs/bcachefs/sb-errors_format.h
+@@ -314,7 +314,7 @@ enum bch_fsck_flags {
+ 	x(accounting_mismatch,					272,	FSCK_AUTOFIX)	\
+ 	x(accounting_replicas_not_marked,			273,	0)		\
+ 	x(accounting_to_invalid_device,				289,	0)		\
+-	x(invalid_btree_id,					274,	0)		\
++	x(invalid_btree_id,					274,	FSCK_AUTOFIX)		\
+ 	x(alloc_key_io_time_bad,				275,	0)		\
+ 	x(alloc_key_fragmentation_lru_wrong,			276,	FSCK_AUTOFIX)	\
+ 	x(accounting_key_junk_at_end,				277,	FSCK_AUTOFIX)	\
+-- 
+2.50.0
+
