@@ -1,143 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3A0323E;
-	Fri, 27 Jun 2025 06:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0AC21ADB7;
+	Fri, 27 Jun 2025 06:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751006902; cv=none; b=F5HRPYZvxle5+6bt7wHDG31FHZiF1RF0B28vQnCVQzPGGdIys1HySglN1uXjOiAsy9p+kWA3ZyiCwGI3Di/6tb9mPPIEcqqZS4QlHt/v6FftLO5V88glnaJhDrrBdqnSx7c22svo+7vhPY76ckeisvCJ11M/GvjJFLvYDadl9UI=
+	t=1751007562; cv=none; b=SgmpOB5XpyQJHP2xMTBtf7fQ/EBpKIwJzcaUK1Snf5SrEZTdk2h4FVU2fBMSvrZZz1XajRVOwU2HtgUz5g4IlwfdmBWa3HPRMXvVuyWssuBY1fnh6TIcKN5fZmJUgF5MYjC7L2ZRRJKbfVM2vs8M3PoNhWER0an85cTVuidKS2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751006902; c=relaxed/simple;
-	bh=Gk61ujEoSEVxxkZaVv4tUnsHFqXUUAQCjXVa3r0CnDY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MJDAxz53z/hB8cWdppDX9hZ9m8bXYAhN5oodHNiWam6dOljwaUnlKD93S3sV/jsLlJmmPUTJDc9+rBFur5+e42HHxAiJMMpK4AxAHo7Ny7d+WfYstWoZX5wsjd9O4oclwUxRd4BOer2Mr/5SjDfIh25KxycowlVNibvy8TpONhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t08uwEq6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751007562; c=relaxed/simple;
+	bh=WdWVEfpJgxRMWzUF0VMsgV/Wr9vf2FxeqiqykC9OATQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u5H7wL7sPqH01dw0i0C/1Q1PxnXCYH0+QTn5LbbNSF6z+rvDrhhQl7cYaMEbtWpo9vvo2MVsGpJdWHelWACH6v49674JuhzOxJkq1/rhGhSXFsaCGkH9mXMaAW11hzPVeFHOZvRUFcP7jiLkTjU+Y3Fi3kneXBM/7D4gWMmuXdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NFvUoDdk; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t08uwEq6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8465FC4CEE3;
-	Fri, 27 Jun 2025 06:48:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751006901;
-	bh=Gk61ujEoSEVxxkZaVv4tUnsHFqXUUAQCjXVa3r0CnDY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=t08uwEq64ptQhfSGo4H8UuSvXroAFX2X+2ikEziO04jWE0rsW4zd0KIOUK/5v7Qcs
-	 LZsFAvWLC0LKJJ5VcE4xawcYpe+OC8GLHHfkJZxdA2Z3TYw+Qhh/DsvDR8g9yKaMnx
-	 wzyD0GvJ0uYsEYYqLvKiP5QEhL/1Te++/hiGz391m4zorOEaf2SWmPjjwX2uJF5i34
-	 MR+DnD1Fnnt1bUSpq5MbG0qsy2jRmBXK5VthA2n9737ulzhiIKW7sXqwkokWI2hJ9m
-	 5t+EPRor34f1aW4Xw/xdPqyddGr+RyPrTtZ/34rRU4fmjb++BBCGwG95wLbuDf7RHt
-	 MuWbbjAF61ZcA==
-Date: Fri, 27 Jun 2025 08:48:14 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Breno Leitao <leitao@debian.org>, "David S. Miller"
- <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, Eric
- Dumazet <edumazet@google.com>, Ignacio Encinas Rubio
- <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>, Marco Elver
- <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Randy Dunlap
- <rdunlap@infradead.org>, Ruben Wauters <rubenru09@aol.com>, Shuah Khan
- <skhan@linuxfoundation.org>, joel@joelfernandes.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
- stern@rowland.harvard.edu
-Subject: Re: [PATCH v8 13/13] docs: parser_yaml.py: fix backward
- compatibility with old docutils
-Message-ID: <20250627084814.7f4a43d4@foz.lan>
-In-Reply-To: <ebdb0f12-0573-4023-bb7f-c51a94dedb27@gmail.com>
-References: <cover.1750925410.git.mchehab+huawei@kernel.org>
-	<d00a73776167e486a1804cf87746fa342294c943.1750925410.git.mchehab+huawei@kernel.org>
-	<ebdb0f12-0573-4023-bb7f-c51a94dedb27@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NFvUoDdk"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-60bf5a08729so3555732a12.0;
+        Thu, 26 Jun 2025 23:59:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751007559; x=1751612359; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HlXypzUn9k5HtMzPQR4dnvaBprfSwN8h+TU/oblYn18=;
+        b=NFvUoDdkJVQt6BTCKWEmlauyXoSGZoN7T2mIL0GcAbiKvBOEFc7vATCPmAmytMApaR
+         p1c+wrcezEraBrQ0uq6WxYnJRZWsDpjf3kpYTZz4azDfBtxb/N7jRaUonieyz9E+Dfjz
+         vmybde2tpFb1PMZ+MJ48Up1qtVq4KMloWAaUihsiD3/HCW/EFQhymMM9/qIOczAzETZg
+         HO32y/dHwMhFR1vfV62vzdnQAr2O17JgBbf3BzeVTSvjz24KDbgXyJ+4lmkKNqMmaltY
+         Ic4oByj88XHuMHKrp9Zxw/9HVNjKZcJXWLKjleRBVMVlDfmBFN7a6WdBcCMh+Lhmq6We
+         XmfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751007559; x=1751612359;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HlXypzUn9k5HtMzPQR4dnvaBprfSwN8h+TU/oblYn18=;
+        b=EbBnXP09y6wpPt6TN8VTAedpu8SZ+5JOPShHrkAYZ4SPZiylirCQrNK8uW+4qjOcCh
+         Yu84wYjV1fyhH1ygJaCVg7lJujExIuUNmFsL8su0CZHBe8uDRj1r3/4+ow1N4MdC2Rgg
+         JMNrV4AZsktAv+CFumA6xfE2a4WKTaASP4cuF4DsEByVDgX3dQFlriQ5ixslWKnODfLy
+         +HFCuUDNTHHDFDj/Up9/t8A0yYMqepMi4R5efPqYRW8PhseBRQhE3paJRBsceGMsTseK
+         CdAYPsXx5BZG2OLnPX4IcWMDenEGXhE5z/PXkoZ4mKocaGijsS5++sPcjMMyaUt5adI3
+         L2cg==
+X-Forwarded-Encrypted: i=1; AJvYcCVl1WXyGsLQvY+ourqEIcy8AZKU3nLoxWvt/hGUHlFUdvJZS3aIqI9qSLV81rSAHDTKKt426R4Su0JaVUO1qzhsfmaODA==@lists.linux.dev, AJvYcCX5X6mrLDTtZ6rLusvVrFrX5JR58OQe3wbHP/1tdjag/VA9BlgfAC45aZiqN5Tl01bVbTIvIIcU70nep2QvGw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPPHQFCgo3+skkzWuWE7hQkS5R5KeZQeEd28nufaAMduM7i1Xl
+	ScfYClgcvrsU2h0P7+PgZckVDqm7gKvNiP7KD0NSIVSgiQb5pzrj9xGw2y3aqMVM3AeERAkyV3u
+	WomavBATR86NBIiz3qNHFLIxqejGeSBg=
+X-Gm-Gg: ASbGncu6lsLIYr9sJe3ciacxeved3RjVcQy9KfgLcJyiWrW19CV2PG6c2taxz1Ewx9P
+	e+rWnxwJpy08mKRN/DeKK97uOm6AeemeJzko1LxXN0uIdIFkscnEL3SPNsBGvbrD/kXc17+Sy+J
+	NrPBjlcJ21q51g5y4ouoJgU9JGQKJvafbyBHVeasLiYQ7HMQ==
+X-Google-Smtp-Source: AGHT+IEmWbRtk76xsYUG7tUxzQkRkJ1wrXitDqF+1SHZis5RQWtxqj7D4XE70D3ATd2L8od2NXySpP+GMSxtY+FbAJM=
+X-Received: by 2002:a17:907:c15:b0:ad8:9c97:c2eb with SMTP id
+ a640c23a62f3a-ae34fd88214mr167722766b.19.1751007559028; Thu, 26 Jun 2025
+ 23:59:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250624170746.47188-1-abdelrahmanfekry375@gmail.com>
+ <fdaedc62-2beb-4f18-9e4f-f60ef35e1b38@suswa.mountain> <CAGn2d8ND8Gm8E=CwyNbejmOeuqwk32zNCV-EW-k_N6GTOn7aZw@mail.gmail.com>
+In-Reply-To: <CAGn2d8ND8Gm8E=CwyNbejmOeuqwk32zNCV-EW-k_N6GTOn7aZw@mail.gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 27 Jun 2025 09:58:42 +0300
+X-Gm-Features: Ac12FXx-PMWf0TVMwD4Ez26sP2r6fcj0O18xN9CPdd3xTV4ObZol-SVTCmOY_30
+Message-ID: <CAHp75VfQ9geeSOjSq8GoBuk_8ZrrCrkgpLxn1nXWgHU0dLnavg@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: media: atomisp: remove debug sysfs attributes
+ active_bo and free_bo
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, andy@kernel.org, hdegoede@redhat.com, 
+	mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Akira,
+On Fri, Jun 27, 2025 at 9:39=E2=80=AFAM Abdelrahman Fekry
+<abdelrahmanfekry375@gmail.com> wrote:
+> On Fri, Jun 27, 2025 at 12:32=E2=80=AFAM Dan Carpenter <dan.carpenter@lin=
+aro.org> wrote:
 
-Em Fri, 27 Jun 2025 08:59:16 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+...
 
-> Hi Mauro,
-> 
-> On Thu, 26 Jun 2025 10:13:09 +0200, Mauro Carvalho Chehab wrote:
-> > As reported by Akira, older docutils versions are not compatible
-> > with the way some Sphinx versions send tab_width. Add a code to
-> > address it.
-> >   
-> 
-> Tested OK against debian:11's and almalinux:9's Sphinx 3.4.3, both of
-> which have docutils 0.16 bundled.
-> 
-> opensuse/leap:15.6's Sphinx 4.2.0 has docutils 0.16 with it, but it is
-> python 3.6 base and it does't work with the ynl integration.
-> As opensuse/leap:15.6 provides Sphinx 7.2.6 (on top of python 3.11) as
-> an alternative, obsoleting it should be acceptable.  
+> > The other things we discussed can be done separately.  It's also fine
+> > to never do them.  I'm not your boss.  ;)
+> >
+> I think I will continue working on it. I'm very excited to contribute
+> to something as big as this .
 
-Thank you for the tests! At changes.rst we updated the minimum
-python requirement to:
+This driver is a rabbit hole. You've been warned! :-)
 
-	Python (optional)      3.9.x            python3 --version
-
-So, I guess we can keep this way. 
-
-The 3.9 requirement reflects the needs of most scripts. Still, for doc build, 
-the min requirement was to support f-string, so Python 3.6.
-
-In this specific case, it is likely some minor incompatibility, as vermin 
-tool thinks that 3.6 would be enough: 
-
-	$ vermin --no-tips --hidden --pessimistic -v tools/net/ynl/pyynl/ynl_gen_rst.py Documentation/sphinx/parser_yaml.py tools/net/ynl/pyynl/lib/*.py
-	Detecting python files..
-	Analyzing 6 files using 24 processes..
-	2.3, 3.0     /new_devel/v4l/docs/Documentation/sphinx/parser_yaml.py
-	~2, ~3       /new_devel/v4l/docs/tools/net/ynl/pyynl/lib/__init__.py
-	!2, 3.6      /new_devel/v4l/docs/tools/net/ynl/pyynl/lib/doc_generator.py
-	!2, 3.6      /new_devel/v4l/docs/tools/net/ynl/pyynl/lib/nlspec.py
-	!2, 3.6      /new_devel/v4l/docs/tools/net/ynl/pyynl/lib/ynl.py
-	!2, 3.4      /new_devel/v4l/docs/tools/net/ynl/pyynl/ynl_gen_rst.py
-	Minimum required versions: 3.6
-	Incompatible versions:     2
-
-If the change is minimal, I don't mind having it fixed.
-
-Anyway, IMO we need to add a checker at scripts/sphinx-pre-install to
-warn against too old Python versions.
-
-> 
-> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> > Closes: https://lore.kernel.org/linux-doc/598b2cb7-2fd7-4388-96ba-2ddf0ab55d2a@gmail.com/
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> Tested-by: Akira Yokosawa <akiyks@gmail.com>
-> 
->         Thanks, Akira
-> 
-> > ---
-> >  Documentation/sphinx/parser_yaml.py | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/Documentation/sphinx/parser_yaml.py b/Documentation/sphinx/parser_yaml.py
-> > index 8288e2ff7c7c..1602b31f448e 100755
-> > --- a/Documentation/sphinx/parser_yaml.py
-> > +++ b/Documentation/sphinx/parser_yaml.py
-> > @@ -77,6 +77,10 @@ class YamlParser(Parser):
-> >  
-> >                  result.append(line, document.current_source, lineoffset)
-> >  
-> > +            # Fix backward compatibility with docutils < 0.17.1
-> > +            if "tab_width" not in vars(document.settings):
-> > +                document.settings.tab_width = 8
-> > +
-> >              rst_parser = RSTParser()
-> >              rst_parser.parse('\n'.join(result), document)
-> >    
-> 
-
-
-
-Thanks,
-Mauro
+--=20
+With Best Regards,
+Andy Shevchenko
