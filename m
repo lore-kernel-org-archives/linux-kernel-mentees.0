@@ -1,190 +1,86 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEFC2AD2D
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Jun 2025 03:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677A41C5D55
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Jun 2025 04:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750996407; cv=none; b=gLGkYM7TcVvCUe1qp5jPc4Aym6W1DNKmafraW6z771ubhs0yJrXFKgS7hhsq39+H+vTJX9dUOS8vu9PXZ1xr8d1mEX0sVNelL+pN8Gqyoe0aJgOY/SGLWLsCxY1aGCkr7zzzlsyByb5E0+UlXo93FDd+kViwegfLfOuMWHAb85w=
+	t=1750998746; cv=none; b=iwNlqhqTVGJEH92PnIFNpB/gq5rq2lC3jPc5xblGy8ZzIoEC8H7ZRZ/6pntfEENKqoJ1A81QVSoe9Mtll6/uSkYp0xG//GmdTBI8h5sF8tXwY1ji3TcS62p0QIBy0Tjo1heL4qtlefdlcn6+4Gg0ICP04HkeGgljW+zozt+iyGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750996407; c=relaxed/simple;
-	bh=Gk7kFiL+rrU52+4FUyQNDVBOPxsbEg3rY7ghxnKefLY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k+7nDTUVTDQqD379Tvrh6E73kVS3bO8BQRdeOH+697w059UttyUyiPJz+AJu61LM5fO32JLe7D41MUojPgoXb4yRcD/I6LGF7HasRlqf9t6INzto3bG3ax1aRxztl5C4Z8EoRgiPymsB5UBNCoczVgZiqd7e3BB1GMB4C7blwSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LjS0Z0sP; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750998746; c=relaxed/simple;
+	bh=v+42VstUVNPd2mezC8iuO8gwNNt9a6yuYkzSDlyNOJ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FNSNE8IN3zchuWXemB/XO4nj07nw3RxsY1HDqRjVb+CRLLc6jivIi9tWgIIn4H3+a5TILsl+8jEaCxsOeYIkeReplgqkv7y2wvU89ArGHZsmbD+4NdhTmFZ4c8C2+hkZMhiYr6z64xSATE7rero79BEAgrp7aK/scpNJnHBHAsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eqqt9vbG; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjS0Z0sP"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7490702fc7cso1205703b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 20:53:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eqqt9vbG"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-747ef5996edso1516059b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 21:32:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750996405; x=1751601205; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K87WAvZZg6aBFOTATYCqslzfrGhe3K40+/UhVUBzSYs=;
-        b=LjS0Z0sPN72GxLb+3ErODSIXHnGZC1Ouf39QSokniNkQ16GFM9AAOP5qs8sX0n7XrH
-         uNgcy5MdB5KL0DoD7V2n+3cJTLnxpHriEEP3tJO5vAOkcFsK7OxzfjHjVygQ55ts/T+5
-         0wIeYWB304GYs2Uz84QNtsTJSlFdqq9vy/w9M2oWCrG9+IgX8FfxbaztCFYwVUbYbTA8
-         yfv6kb0C9eUdJlqTWO6Mg0liB+nBxseIWzIv79u+EAW83nJ47ehzglJTwwY2w5xZ5P+V
-         xCEfNLVt066Uzb3bh4wb7aXpPggZIepmpv6tYquBjiKt4M792YHxNN0jEwsQOnT2XJi9
-         zUPQ==
+        d=chromium.org; s=google; t=1750998745; x=1751603545; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Et1vKrANEWd1oLPdiIp7rldoq/gXylaA1yJpyMaOcf8=;
+        b=eqqt9vbGNKgGPHtBA8jwimu9o8LlgpJMCr42MIG8WoZZhWIXXlJYEPkZmSH8xQNeOv
+         vXaWbfMnCTS0/6LdjCjiublaCT50Y9k/O1MmPPi+yT6KKHL6ETfY0ENYLyehfF8QQyHz
+         EAFsfNcXWa36ukkaS3QpNgnzbwfx9REt2QPzo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750996405; x=1751601205;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K87WAvZZg6aBFOTATYCqslzfrGhe3K40+/UhVUBzSYs=;
-        b=OPc/ZxInAECI0/VWjwRME+exFqjkDnSOQdJtTwjLfbDit0lIexh4jbrlM/U6wHDtPR
-         eB9w7q5dwgp2EBRSd3KoWZQxzSctAv4vpTmiPEJUh5UzSdXdeJ4nQYcCbMjhOovn3xC/
-         KrHuw0uxNnQ0/23ELu54n/9w0oo4+L1CeUf1u2/zmD9unAHg7xieDcaVbFbkgyc+I0TK
-         eZlw2rIeZ+b3ECSWRm9061ornQAEtcoEbts5uPSeZm4upmXgkAK5MbmHFgYtRN25KVfv
-         +N7eWm/qpYCW2UuhQGAYdgaZLFUGsJUW4qzi1rmoDDMZS+SDCVbD+CfgmTixaKVgiRev
-         i6RQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXxzVZ32WsC8iICfio6RHo7OLWMyTgQC0M37/I2bDT3V0J3ST4R0WBOwHJ1e8/9zY+1y378l/jsBN4nDMYAgpXjE5YG9A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlDs6ribFa4/sgHnb6SgffEA0F7s8KO0wGZjl+SgLLWBBzZA1L
-	BHHVqUnG9N3S4WljbcMKnSnYCZ/Z0YA/kfOibnZcdwL+U+mwpucW73Xs
-X-Gm-Gg: ASbGnctzxVV5RPDcrQcotvnof4qvnoWFtFASIFb5e5zrRV9xuX3GchPg5lMBIjcGJ3K
-	83D3yRJr8dd6NHxuhIPBXZZLlzLUsy22/5tFs7yCpFmn4Fp6ZgnFDLI8CuHcfSHBKjPW8Qb/Ek7
-	ZAhROra83GAj5MuX929Rwrggw5jQ+73xopRmRI3MxzoAuqNfdWkyHwNci5+8iLqSE052F3XuKME
-	jfOHloxBjLa4TkBTb2IrAf4knBzetAJ9QDn0FMqntmk1kr8AwLl2tdIjdjgjGCmjcOlXt7f9hCI
-	IW6iTZAe+AOVy9fHZVB6B0FgQJRrSa+XxnoHcXs/EOFDPGub+L6c7rNwbiGDZ8YZptXhHgHyTtV
-	Z
-X-Google-Smtp-Source: AGHT+IF7R5hjRTDRDCQN9AaGEHThNKiPKHDQS9ya7XZS3RcjsRj8yG10vQFi6xfY9LoKiuNBh6EX2w==
-X-Received: by 2002:aa7:88c9:0:b0:736:33fd:f57d with SMTP id d2e1a72fcca58-74af6f7e449mr2262434b3a.17.1750996404849;
-        Thu, 26 Jun 2025 20:53:24 -0700 (PDT)
-Received: from rahul-mintos.ban-spse ([165.204.156.251])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af557b3bcsm1110713b3a.101.2025.06.26.20.53.22
+        d=1e100.net; s=20230601; t=1750998745; x=1751603545;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Et1vKrANEWd1oLPdiIp7rldoq/gXylaA1yJpyMaOcf8=;
+        b=kNSAWwWqsRbhQxKPqx8CDWchIANXGzXvASvH0WouC57sBZ0pwHoVwhm2PPUMz3xown
+         h+mSvwZTShMpcOomX+QmiI8+VLshMmZAvljycXpV44vcWYY0NKBmJtDrlH55DBaPQ6EU
+         nbZRcQv7CCvo47V7/nZj9qdJoE96l2VSMJvTzFs42GqjZOz4SXkqHQJ15zAZBKMgi7Jo
+         pGFeUXQVbGHHeh5/VOsk/iSucWl7thGOs4V0MUD62hi3ILf3bnozN1wEQPoclwd5snPc
+         hX2mPAmHOl97Dw8o/aWk8/hr4zcM8ye4qPKzLMdUzafQR0EB34D8WH67i1jv5EI7ITXA
+         /UtA==
+X-Forwarded-Encrypted: i=1; AJvYcCWtu0KGPfuJiwYemAav+FtS1b+Bc5SO0C1jAydz7lPZU+ecJCFELpQ6IA1sQCeh8yXIr80+JfAWPheXfK+wuukhwjFGwQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxvSpqmNh+z/2zC56PBS+uau47qt/zRqnnSzBwxIfeLjvnKRs/A
+	T3yzHu/04sHkAJ5sv5GPmAY3ZE9xCbyVpKDL1lfJ3osA3JgI55gOi4hZdgpRBizhHQ==
+X-Gm-Gg: ASbGncsrRW1UrIC40rANwvkKVBP8RFStq7QQ2PU+F/GKJU/S3Ndoy0AoHUTH6ct7OLD
+	+IfOFeIt21LNAxRtRagGBWeuPeMc4gN/VNOyHMMli99KgnRGTjeCxSwtnRFPQm0a/Ah3GEx88U7
+	5wzQtWbS4FQ4xfhhtg2iuoJ5JzGXiWiNiBX0qOiwYZ2QZ/6mR6jTsDay+3rqAsTCT0aUxU+xTGu
+	lVzSxa/b9fAFXTaBh8MmOMaalWDrG5EF3jJToS2zDrcFRarbBYlHez89PdbiVUfKUoi0TdGdXwA
+	QrQsqR5hK4W4VWCOR9cOvt/ZiWpSJIXD0UbsCYX0IHNb9uCtdwRmfy7+FzWOh1p/Zw==
+X-Google-Smtp-Source: AGHT+IFsUUHvXLkVnFLLwlY36+r3+Fgx+TFevhxTOC4GjFZoOrSNFaMyU9W5wFF/BGs6YIpTwbjcOg==
+X-Received: by 2002:a05:6a00:23cb:b0:736:4d05:2e2e with SMTP id d2e1a72fcca58-74af6e60f24mr2433036b3a.6.1750998744783;
+        Thu, 26 Jun 2025 21:32:24 -0700 (PDT)
+Received: from google.com ([2401:fa00:8f:203:de1c:e88f:de93:cd95])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af540b37bsm1190315b3a.24.2025.06.26.21.32.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 20:53:24 -0700 (PDT)
-From: Rahul Kumar <rk0006818@gmail.com>
-To: minchan@kernel.org,
-	senozhatsky@chromium.org,
-	axboe@kernel.dk
-Cc: linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	rk0006818@gmail.com
-Subject: [PATCH] block: zram: replace scnprintf() with sysfs_emit() in *_show() functions
-Date: Fri, 27 Jun 2025 09:22:56 +0530
-Message-ID: <20250627035256.1120740-1-rk0006818@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 26 Jun 2025 21:32:24 -0700 (PDT)
+Date: Fri, 27 Jun 2025 13:32:20 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Jens Axboe <axboe@kernel.dk>, Rahul Kumar <rk0006818@gmail.com>
+Cc: minchan@kernel.org, senozhatsky@chromium.org, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+Subject: Re: [PATCH] block: zram: replace scnprintf() with sysfs_emit() in
+ *_show() functions
+Message-ID: <zzscki3fdg75nl4gojsqo7exhwodt6sm66avcwmmhnz5yvc5sm@sld334al6udp>
+References: <20250627035256.1120740-1-rk0006818@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250627035256.1120740-1-rk0006818@gmail.com>
 
-Replace scnprintf() with sysfs_emit() or sysfs_emit_at() in sysfs
-*_show() functions in zram_drv.c to follow the kernel's guidelines
-from Documentation/filesystems/sysfs.rst.
+On (25/06/27 09:22), Rahul Kumar wrote:
+> Replace scnprintf() with sysfs_emit() or sysfs_emit_at() in sysfs
+> *_show() functions in zram_drv.c to follow the kernel's guidelines
+> from Documentation/filesystems/sysfs.rst.
+> 
+> This improves consistency, safety, and makes the code easier to
+> maintain and update in the future.
+> 
+> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
 
-This improves consistency, safety, and makes the code easier to
-maintain and update in the future.
-
-Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
----
- drivers/block/zram/zram_drv.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index fda7d8624889..a1f2f45d4b99 100644
---- a/drivers/block/zram/zram_drv.c
-+++ b/drivers/block/zram/zram_drv.c
-@@ -373,7 +373,7 @@ static ssize_t initstate_show(struct device *dev,
- 	val = init_done(zram);
- 	up_read(&zram->init_lock);
- 
--	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
-+	return sysfs_emit(buf, "%u\n", val);
- }
- 
- static ssize_t disksize_show(struct device *dev,
-@@ -381,7 +381,7 @@ static ssize_t disksize_show(struct device *dev,
- {
- 	struct zram *zram = dev_to_zram(dev);
- 
--	return scnprintf(buf, PAGE_SIZE, "%llu\n", zram->disksize);
-+	return sysfs_emit(buf, "%llu\n", zram->disksize);
- }
- 
- static ssize_t mem_limit_store(struct device *dev,
-@@ -532,7 +532,7 @@ static ssize_t writeback_limit_enable_show(struct device *dev,
- 	spin_unlock(&zram->wb_limit_lock);
- 	up_read(&zram->init_lock);
- 
--	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
-+	return sysfs_emit(buf, "%d\n", val);
- }
- 
- static ssize_t writeback_limit_store(struct device *dev,
-@@ -567,7 +567,7 @@ static ssize_t writeback_limit_show(struct device *dev,
- 	spin_unlock(&zram->wb_limit_lock);
- 	up_read(&zram->init_lock);
- 
--	return scnprintf(buf, PAGE_SIZE, "%llu\n", val);
-+	return sysfs_emit(buf, "%llu\n", val);
- }
- 
- static void reset_bdev(struct zram *zram)
-@@ -1292,7 +1292,7 @@ static ssize_t recomp_algorithm_show(struct device *dev,
- 		if (!zram->comp_algs[prio])
- 			continue;
- 
--		sz += scnprintf(buf + sz, PAGE_SIZE - sz - 2, "#%d: ", prio);
-+		sz += sysfs_emit_at(buf, sz, "#%d: ", prio);
- 		sz += __comp_algorithm_show(zram, prio, buf + sz);
- 	}
- 
-@@ -1365,7 +1365,7 @@ static ssize_t io_stat_show(struct device *dev,
- 	ssize_t ret;
- 
- 	down_read(&zram->init_lock);
--	ret = scnprintf(buf, PAGE_SIZE,
-+	ret = sysfs_emit(buf,
- 			"%8llu %8llu 0 %8llu\n",
- 			(u64)atomic64_read(&zram->stats.failed_reads),
- 			(u64)atomic64_read(&zram->stats.failed_writes),
-@@ -1395,7 +1395,7 @@ static ssize_t mm_stat_show(struct device *dev,
- 	orig_size = atomic64_read(&zram->stats.pages_stored);
- 	max_used = atomic_long_read(&zram->stats.max_used_pages);
- 
--	ret = scnprintf(buf, PAGE_SIZE,
-+	ret = sysfs_emit(buf,
- 			"%8llu %8llu %8llu %8lu %8ld %8llu %8lu %8llu %8llu\n",
- 			orig_size << PAGE_SHIFT,
- 			(u64)atomic64_read(&zram->stats.compr_data_size),
-@@ -1420,8 +1420,8 @@ static ssize_t bd_stat_show(struct device *dev,
- 	ssize_t ret;
- 
- 	down_read(&zram->init_lock);
--	ret = scnprintf(buf, PAGE_SIZE,
--		"%8llu %8llu %8llu\n",
-+	ret = sysfs_emit(buf,
-+			"%8llu %8llu %8llu\n",
- 			FOUR_K((u64)atomic64_read(&zram->stats.bd_count)),
- 			FOUR_K((u64)atomic64_read(&zram->stats.bd_reads)),
- 			FOUR_K((u64)atomic64_read(&zram->stats.bd_writes)));
-@@ -1439,7 +1439,7 @@ static ssize_t debug_stat_show(struct device *dev,
- 	ssize_t ret;
- 
- 	down_read(&zram->init_lock);
--	ret = scnprintf(buf, PAGE_SIZE,
-+	ret = sysfs_emit(buf,
- 			"version: %d\n0 %8llu\n",
- 			version,
- 			(u64)atomic64_read(&zram->stats.miss_free));
-@@ -2682,7 +2682,7 @@ static ssize_t hot_add_show(const struct class *class,
- 
- 	if (ret < 0)
- 		return ret;
--	return scnprintf(buf, PAGE_SIZE, "%d\n", ret);
-+	return sysfs_emit(buf, "%d\n", ret);
- }
- /* This attribute must be set to 0400, so CLASS_ATTR_RO() can not be used */
- static struct class_attribute class_attr_hot_add =
--- 
-2.43.0
-
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
