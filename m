@@ -1,136 +1,190 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F0022A813;
-	Thu, 26 Jun 2025 23:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEFC2AD2D
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Jun 2025 03:53:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750982364; cv=none; b=s3JdbeT9mfqlTmnA7sjYdMqoNirURs9907nGT0NUSfpBFxTX0xtpI2WgiBY7TpzDeGxXN6ZpgvhSGpnTY0z6J8p3ckgYtxJbkq8YyQBSsD8pJ3d6NJwGfEHywLkfinFXU5M5w7qvAdqywJrBZztiRkS3k96tWKlxYkO/LEPireA=
+	t=1750996407; cv=none; b=gLGkYM7TcVvCUe1qp5jPc4Aym6W1DNKmafraW6z771ubhs0yJrXFKgS7hhsq39+H+vTJX9dUOS8vu9PXZ1xr8d1mEX0sVNelL+pN8Gqyoe0aJgOY/SGLWLsCxY1aGCkr7zzzlsyByb5E0+UlXo93FDd+kViwegfLfOuMWHAb85w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750982364; c=relaxed/simple;
-	bh=s3rbMWUAfYhIRKU2aYRNEwpl6k00a31yw5xuU8prP3c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sd4oOTUNL55jAxBhEQaO6WWW8PHXEQ3/Rr1sUjksq9/JZ7mqtP5mK93iFljZBYjuR+uN0sSuluFiA2q6VB7oyQeiQogNrduCMnZCZE9xj83408zlaMvVWnTx3Z6O9Uj+URKAfI1N2bGv96qYoBn0rMvvSu0uaOjKeSQ3MFF1Bgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FihTM8KH; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1750996407; c=relaxed/simple;
+	bh=Gk7kFiL+rrU52+4FUyQNDVBOPxsbEg3rY7ghxnKefLY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k+7nDTUVTDQqD379Tvrh6E73kVS3bO8BQRdeOH+697w059UttyUyiPJz+AJu61LM5fO32JLe7D41MUojPgoXb4yRcD/I6LGF7HasRlqf9t6INzto3bG3ax1aRxztl5C4Z8EoRgiPymsB5UBNCoczVgZiqd7e3BB1GMB4C7blwSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LjS0Z0sP; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FihTM8KH"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-74ad4533ac5so2091449b3a.0;
-        Thu, 26 Jun 2025 16:59:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjS0Z0sP"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7490702fc7cso1205703b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 20:53:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750982363; x=1751587163; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MU802fHFDsWEcG5O/JQOLJRXUp/Mx/sjo2Oncuu4jl0=;
-        b=FihTM8KHAgT4ltimKVVnFBf+wYh48aR5cRSo9DOKAgD6zpzQgDaNHb5Xtz9uI5cOCg
-         2SRvdNoiPV0jj9vTVBxj4ge5ZHqScQmqrswAJaEoCEuC163f3mcfRMNevh0dnzhxEceO
-         hefEmRZG2hgdDEaoExbyF4VbmCAB9eXyFjUQTEPJu8IlF35CEasDCeg0stLlyDaUC3WW
-         O4evESxLp7QrhMoigK3JxxLxeozAL6lWr3uDEjh3iczIzlX6AIQ2lnP9lNIQTfD/VzYY
-         YXvbxwTz16hAPBAZaarDtZXx/Ydew96vPm8QCaFeohUrv39mMJIGzTelx0dg7nHfRyWh
-         zS5A==
+        d=gmail.com; s=20230601; t=1750996405; x=1751601205; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K87WAvZZg6aBFOTATYCqslzfrGhe3K40+/UhVUBzSYs=;
+        b=LjS0Z0sPN72GxLb+3ErODSIXHnGZC1Ouf39QSokniNkQ16GFM9AAOP5qs8sX0n7XrH
+         uNgcy5MdB5KL0DoD7V2n+3cJTLnxpHriEEP3tJO5vAOkcFsK7OxzfjHjVygQ55ts/T+5
+         0wIeYWB304GYs2Uz84QNtsTJSlFdqq9vy/w9M2oWCrG9+IgX8FfxbaztCFYwVUbYbTA8
+         yfv6kb0C9eUdJlqTWO6Mg0liB+nBxseIWzIv79u+EAW83nJ47ehzglJTwwY2w5xZ5P+V
+         xCEfNLVt066Uzb3bh4wb7aXpPggZIepmpv6tYquBjiKt4M792YHxNN0jEwsQOnT2XJi9
+         zUPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750982363; x=1751587163;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MU802fHFDsWEcG5O/JQOLJRXUp/Mx/sjo2Oncuu4jl0=;
-        b=ZSg9y3FxtUAFaxeqVc7hZ8yh5JayYM0fc+ztwJpGoQRZ20MTdDDRnoHwq8DrDNAhOR
-         5ag8gAGBZl6KaXHcIVceITutkLZTODXWFrUNlrOOsTWTLTLmYNOvzvrBQ4atGBHOSOTD
-         d4HDGLoqd5K1B0btcH9JYVyMI1mDP3VLBdcFv1LWhPyzeZTyYrEC7dkyl2OdJEYyU7bd
-         vFgMvpVmj5TseZzXX751UxQOcNd+CuElAHmp11B4njyHfVZaoyNyRVBEa765OoTZkc3K
-         EZkrPscG+ABEmISvTjjYM4ZfciryXDTKv02aBmgmfl2rViAeV6UTO8aFLfn5XbW4nEr2
-         WTtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV7Cb+zrxHpJ9XAoPm41+4xIYQlYmTtf8Hf95U0QJ6zYJqQr6kZvhZcJzF0vwYonhZ+Wj6I4Q==@lists.linux.dev, AJvYcCWjKkE00+j1KJ4fbYYQogBVSGu6+qCBHwxiMnqyaxb2rEV4fnC/PLpVBdWPM3OYzLNDSa+wLFp4M6ZvytYHeaMqHkNywQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHg7cIAUJ4vsNL8zXFyadij0P5SOOefc6hdcbWOD6RyQe/KJzs
-	IBkWfCcidtjrwlkxI82wpUDdCTia+mviCK+Q1dOsJfonR216di7nvObV
-X-Gm-Gg: ASbGnct3DbTP1uLQdlDUJ4lKpUJIMA/UVEgxTXTvcW63CgQ4+6IFq6LlNTvWrL4jg3f
-	mdHyglMbZzR5OnA8IThwKwH1kSYTSjpegsAvrrOL2l+XtbwF+F4FJ1mEVTmlHT2Eva7Xtz6Q8vy
-	9YeB00VSrepgctY+ezQ9cO7aXvVsKvM4Szf2yTON6mZ0ECTtAZ2L2dNHNIqafevnS2F8ozjKBLp
-	AHIW5kDZo+ufGdL0iGSxPZLd8VPp6qdgKlMfoFe5sHAcn90KblOZjTgH6pYA+74Q+qi4gWo3iUx
-	KQkACMGqdB3/PtEoP2QLxAZMVrUPRfas4CXD5A9FvkMIWRiE6nqSxGWZCK5E3Za2FvMJ1Poxjb+
-	kl6KNOTn46ycRC8RD/fw1U/GOC6uM7YBG
-X-Google-Smtp-Source: AGHT+IH2QEv1EXX1AwW0bplm/IMyDMqzMeclzHruNi6dErZJ0S6a5ZLa64wP13/R2bF/xVlDw1ddCA==
-X-Received: by 2002:a05:6a21:1fc3:b0:1f3:3547:f21b with SMTP id adf61e73a8af0-220a08dc64amr1126298637.5.1750982362495;
-        Thu, 26 Jun 2025 16:59:22 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af56cffccsm799591b3a.130.2025.06.26.16.59.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jun 2025 16:59:22 -0700 (PDT)
-Message-ID: <ebdb0f12-0573-4023-bb7f-c51a94dedb27@gmail.com>
-Date: Fri, 27 Jun 2025 08:59:16 +0900
+        d=1e100.net; s=20230601; t=1750996405; x=1751601205;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K87WAvZZg6aBFOTATYCqslzfrGhe3K40+/UhVUBzSYs=;
+        b=OPc/ZxInAECI0/VWjwRME+exFqjkDnSOQdJtTwjLfbDit0lIexh4jbrlM/U6wHDtPR
+         eB9w7q5dwgp2EBRSd3KoWZQxzSctAv4vpTmiPEJUh5UzSdXdeJ4nQYcCbMjhOovn3xC/
+         KrHuw0uxNnQ0/23ELu54n/9w0oo4+L1CeUf1u2/zmD9unAHg7xieDcaVbFbkgyc+I0TK
+         eZlw2rIeZ+b3ECSWRm9061ornQAEtcoEbts5uPSeZm4upmXgkAK5MbmHFgYtRN25KVfv
+         +N7eWm/qpYCW2UuhQGAYdgaZLFUGsJUW4qzi1rmoDDMZS+SDCVbD+CfgmTixaKVgiRev
+         i6RQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXxzVZ32WsC8iICfio6RHo7OLWMyTgQC0M37/I2bDT3V0J3ST4R0WBOwHJ1e8/9zY+1y378l/jsBN4nDMYAgpXjE5YG9A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwlDs6ribFa4/sgHnb6SgffEA0F7s8KO0wGZjl+SgLLWBBzZA1L
+	BHHVqUnG9N3S4WljbcMKnSnYCZ/Z0YA/kfOibnZcdwL+U+mwpucW73Xs
+X-Gm-Gg: ASbGnctzxVV5RPDcrQcotvnof4qvnoWFtFASIFb5e5zrRV9xuX3GchPg5lMBIjcGJ3K
+	83D3yRJr8dd6NHxuhIPBXZZLlzLUsy22/5tFs7yCpFmn4Fp6ZgnFDLI8CuHcfSHBKjPW8Qb/Ek7
+	ZAhROra83GAj5MuX929Rwrggw5jQ+73xopRmRI3MxzoAuqNfdWkyHwNci5+8iLqSE052F3XuKME
+	jfOHloxBjLa4TkBTb2IrAf4knBzetAJ9QDn0FMqntmk1kr8AwLl2tdIjdjgjGCmjcOlXt7f9hCI
+	IW6iTZAe+AOVy9fHZVB6B0FgQJRrSa+XxnoHcXs/EOFDPGub+L6c7rNwbiGDZ8YZptXhHgHyTtV
+	Z
+X-Google-Smtp-Source: AGHT+IF7R5hjRTDRDCQN9AaGEHThNKiPKHDQS9ya7XZS3RcjsRj8yG10vQFi6xfY9LoKiuNBh6EX2w==
+X-Received: by 2002:aa7:88c9:0:b0:736:33fd:f57d with SMTP id d2e1a72fcca58-74af6f7e449mr2262434b3a.17.1750996404849;
+        Thu, 26 Jun 2025 20:53:24 -0700 (PDT)
+Received: from rahul-mintos.ban-spse ([165.204.156.251])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af557b3bcsm1110713b3a.101.2025.06.26.20.53.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jun 2025 20:53:24 -0700 (PDT)
+From: Rahul Kumar <rk0006818@gmail.com>
+To: minchan@kernel.org,
+	senozhatsky@chromium.org,
+	axboe@kernel.dk
+Cc: linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	rk0006818@gmail.com
+Subject: [PATCH] block: zram: replace scnprintf() with sysfs_emit() in *_show() functions
+Date: Fri, 27 Jun 2025 09:22:56 +0530
+Message-ID: <20250627035256.1120740-1-rk0006818@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 13/13] docs: parser_yaml.py: fix backward compatibility
- with old docutils
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Breno Leitao <leitao@debian.org>, "David S. Miller"
- <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>,
- Eric Dumazet <edumazet@google.com>,
- Ignacio Encinas Rubio <ignacio@iencinas.com>,
- Jan Stancek <jstancek@redhat.com>, Marco Elver <elver@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Randy Dunlap <rdunlap@infradead.org>,
- Ruben Wauters <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu,
- Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1750925410.git.mchehab+huawei@kernel.org>
- <d00a73776167e486a1804cf87746fa342294c943.1750925410.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <d00a73776167e486a1804cf87746fa342294c943.1750925410.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Mauro,
+Replace scnprintf() with sysfs_emit() or sysfs_emit_at() in sysfs
+*_show() functions in zram_drv.c to follow the kernel's guidelines
+from Documentation/filesystems/sysfs.rst.
 
-On Thu, 26 Jun 2025 10:13:09 +0200, Mauro Carvalho Chehab wrote:
-> As reported by Akira, older docutils versions are not compatible
-> with the way some Sphinx versions send tab_width. Add a code to
-> address it.
-> 
+This improves consistency, safety, and makes the code easier to
+maintain and update in the future.
 
-Tested OK against debian:11's and almalinux:9's Sphinx 3.4.3, both of
-which have docutils 0.16 bundled.
+Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+---
+ drivers/block/zram/zram_drv.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-opensuse/leap:15.6's Sphinx 4.2.0 has docutils 0.16 with it, but it is
-python 3.6 base and it does't work with the ynl integration.
-As opensuse/leap:15.6 provides Sphinx 7.2.6 (on top of python 3.11) as
-an alternative, obsoleting it should be acceptable.  
-
-Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> Closes: https://lore.kernel.org/linux-doc/598b2cb7-2fd7-4388-96ba-2ddf0ab55d2a@gmail.com/
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Tested-by: Akira Yokosawa <akiyks@gmail.com>
-
-        Thanks, Akira
-
-> ---
->  Documentation/sphinx/parser_yaml.py | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/sphinx/parser_yaml.py b/Documentation/sphinx/parser_yaml.py
-> index 8288e2ff7c7c..1602b31f448e 100755
-> --- a/Documentation/sphinx/parser_yaml.py
-> +++ b/Documentation/sphinx/parser_yaml.py
-> @@ -77,6 +77,10 @@ class YamlParser(Parser):
->  
->                  result.append(line, document.current_source, lineoffset)
->  
-> +            # Fix backward compatibility with docutils < 0.17.1
-> +            if "tab_width" not in vars(document.settings):
-> +                document.settings.tab_width = 8
-> +
->              rst_parser = RSTParser()
->              rst_parser.parse('\n'.join(result), document)
->  
+diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+index fda7d8624889..a1f2f45d4b99 100644
+--- a/drivers/block/zram/zram_drv.c
++++ b/drivers/block/zram/zram_drv.c
+@@ -373,7 +373,7 @@ static ssize_t initstate_show(struct device *dev,
+ 	val = init_done(zram);
+ 	up_read(&zram->init_lock);
+ 
+-	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
++	return sysfs_emit(buf, "%u\n", val);
+ }
+ 
+ static ssize_t disksize_show(struct device *dev,
+@@ -381,7 +381,7 @@ static ssize_t disksize_show(struct device *dev,
+ {
+ 	struct zram *zram = dev_to_zram(dev);
+ 
+-	return scnprintf(buf, PAGE_SIZE, "%llu\n", zram->disksize);
++	return sysfs_emit(buf, "%llu\n", zram->disksize);
+ }
+ 
+ static ssize_t mem_limit_store(struct device *dev,
+@@ -532,7 +532,7 @@ static ssize_t writeback_limit_enable_show(struct device *dev,
+ 	spin_unlock(&zram->wb_limit_lock);
+ 	up_read(&zram->init_lock);
+ 
+-	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
++	return sysfs_emit(buf, "%d\n", val);
+ }
+ 
+ static ssize_t writeback_limit_store(struct device *dev,
+@@ -567,7 +567,7 @@ static ssize_t writeback_limit_show(struct device *dev,
+ 	spin_unlock(&zram->wb_limit_lock);
+ 	up_read(&zram->init_lock);
+ 
+-	return scnprintf(buf, PAGE_SIZE, "%llu\n", val);
++	return sysfs_emit(buf, "%llu\n", val);
+ }
+ 
+ static void reset_bdev(struct zram *zram)
+@@ -1292,7 +1292,7 @@ static ssize_t recomp_algorithm_show(struct device *dev,
+ 		if (!zram->comp_algs[prio])
+ 			continue;
+ 
+-		sz += scnprintf(buf + sz, PAGE_SIZE - sz - 2, "#%d: ", prio);
++		sz += sysfs_emit_at(buf, sz, "#%d: ", prio);
+ 		sz += __comp_algorithm_show(zram, prio, buf + sz);
+ 	}
+ 
+@@ -1365,7 +1365,7 @@ static ssize_t io_stat_show(struct device *dev,
+ 	ssize_t ret;
+ 
+ 	down_read(&zram->init_lock);
+-	ret = scnprintf(buf, PAGE_SIZE,
++	ret = sysfs_emit(buf,
+ 			"%8llu %8llu 0 %8llu\n",
+ 			(u64)atomic64_read(&zram->stats.failed_reads),
+ 			(u64)atomic64_read(&zram->stats.failed_writes),
+@@ -1395,7 +1395,7 @@ static ssize_t mm_stat_show(struct device *dev,
+ 	orig_size = atomic64_read(&zram->stats.pages_stored);
+ 	max_used = atomic_long_read(&zram->stats.max_used_pages);
+ 
+-	ret = scnprintf(buf, PAGE_SIZE,
++	ret = sysfs_emit(buf,
+ 			"%8llu %8llu %8llu %8lu %8ld %8llu %8lu %8llu %8llu\n",
+ 			orig_size << PAGE_SHIFT,
+ 			(u64)atomic64_read(&zram->stats.compr_data_size),
+@@ -1420,8 +1420,8 @@ static ssize_t bd_stat_show(struct device *dev,
+ 	ssize_t ret;
+ 
+ 	down_read(&zram->init_lock);
+-	ret = scnprintf(buf, PAGE_SIZE,
+-		"%8llu %8llu %8llu\n",
++	ret = sysfs_emit(buf,
++			"%8llu %8llu %8llu\n",
+ 			FOUR_K((u64)atomic64_read(&zram->stats.bd_count)),
+ 			FOUR_K((u64)atomic64_read(&zram->stats.bd_reads)),
+ 			FOUR_K((u64)atomic64_read(&zram->stats.bd_writes)));
+@@ -1439,7 +1439,7 @@ static ssize_t debug_stat_show(struct device *dev,
+ 	ssize_t ret;
+ 
+ 	down_read(&zram->init_lock);
+-	ret = scnprintf(buf, PAGE_SIZE,
++	ret = sysfs_emit(buf,
+ 			"version: %d\n0 %8llu\n",
+ 			version,
+ 			(u64)atomic64_read(&zram->stats.miss_free));
+@@ -2682,7 +2682,7 @@ static ssize_t hot_add_show(const struct class *class,
+ 
+ 	if (ret < 0)
+ 		return ret;
+-	return scnprintf(buf, PAGE_SIZE, "%d\n", ret);
++	return sysfs_emit(buf, "%d\n", ret);
+ }
+ /* This attribute must be set to 0400, so CLASS_ATTR_RO() can not be used */
+ static struct class_attribute class_attr_hot_add =
+-- 
+2.43.0
 
