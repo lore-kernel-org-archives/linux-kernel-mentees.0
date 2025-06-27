@@ -1,99 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7B023BD1B;
-	Fri, 27 Jun 2025 08:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AC82512DD
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Jun 2025 08:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751013613; cv=none; b=h4r8I92zA7yTUXE3qQTJ/28f52BGMbFJbFcZHN0EIF6u3sQgzlQ/+0rqMyTogvMlbW+7I+aP81oXuP3un5FuS7JXRcarMCRo84/PcJLfBNG8xMsbiGfFwSKn18TFbCs1oDgaF2AzJLjExkLGDvrErfTqa84qKQEul9tSM16nv6Y=
+	t=1751013681; cv=none; b=nRrI5DXRku7CYB6yoH7U7WQ4QWXiEZCZlcfAkXHEwoWs5HnXwSfb1jVBxnGbsitk7ctg0P+cs78ahrWVarytYUJuGVNRGKKROhJ8Fp82irXnMIL6hdbN7ngGaeReERQuVZ6IemWDW+FHh5tjOI7ci0E6cdAaBitD66ZDNyUWKX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751013613; c=relaxed/simple;
-	bh=ZXQv8A7rE1QeYVvPDBbpi00YbXrCjpG5YanCEs6oU/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kut6FRDKU7IJndhQ5Nl4mmxWOJQwCo+2PdjH4NVLd7uFhrvyfqeRU/vJi+4eKSmCFx70yFh5jm3IQ9cg7wOOkFf6Le8gkEBI1FY4DVVBONcLIThhME2dBzWZfXXeJTWKu9eyuRIqQqtk9uc3zAaJxWlCR9LVEBYk7NSE+jQif/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mkm8oHDd; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751013681; c=relaxed/simple;
+	bh=G15TbEaaORHlH4PKFvQC5S1g2tM1QIEczD+xXH/buq8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=adbrCqlOVRDBdxfEZF1DGb+QxO092g4wzpUh7VQ8CM0j06S47gDtGJIV+g5DpHlFw5UzRslJFUv1tOZX1OksQ+CNa/pzTL6F3JqEJpLEhSH8YV0V0tnp2Ge7VHIlxoSQet/zi1/v0JOBjcoFKa3C6N4m3UZgDRO3yVZIOQEOVwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dGpGGMyh; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mkm8oHDd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751013612; x=1782549612;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZXQv8A7rE1QeYVvPDBbpi00YbXrCjpG5YanCEs6oU/8=;
-  b=Mkm8oHDdkkxCIu0XUVQ9JEGshJjUlYtxy1sw8KcC/8baj4TlcSt80KHs
-   RDPatHb2fn5H3yQWDQ+Yodr3Bxs2rxPE1GcALnLxopl+gaO9XEK5THmw4
-   5Bc5fEZZb2bBGtpSiMJutIshgGpfJQJDYpEckMsgDKW49OAdUGSnX2Ynp
-   77XrUi7NWsEC/8PjeamDz4ow5NanP/07pl3klz0rV8/8DJCAMM8Ik6p73
-   t6L3wGZeCoGDKeNlTx7N1gt7Z1Ve0wCYE51L6PwGRA3ukXbUZl8sJIWPb
-   Q0qBMwGqUt6xhlbNcEh34J97xOEYIzZgOzZJ4RwPtmWjGrorC0kvPJiuW
-   A==;
-X-CSE-ConnectionGUID: lNIxR8pKRRqmVCwklWfvcA==
-X-CSE-MsgGUID: EApK2HXSRDK9Py0sHASz1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="57107017"
-X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="57107017"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 01:40:11 -0700
-X-CSE-ConnectionGUID: nREfy643TraafLx5LJBAQg==
-X-CSE-MsgGUID: gmVUi71YTj6P31cJV3iiKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="153246976"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 01:40:08 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uV4cu-0000000AQas-3Itq;
-	Fri, 27 Jun 2025 11:40:04 +0300
-Date: Fri, 27 Jun 2025 11:40:04 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	skhan@linuxfoundation.com, dan.carpenter@linaro.org,
-	Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH v4] staging: media: atomisp: remove debug sysfs
- attributes active_bo and free_bo
-Message-ID: <aF5Y5MurVIn1mUk1@smile.fi.intel.com>
-References: <20250627072939.21447-1-abdelrahmanfekry375@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dGpGGMyh"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2363497cc4dso19080045ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Jun 2025 01:41:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751013680; x=1751618480; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=S7P03Am8WwxtD8ZLQtp8L4pE4xvZy13+wsAyXWAqk3w=;
+        b=dGpGGMyhVWyX0sYhhKoZcLLXnEMSK+2n9yfpmm/UZsq1SCvNlHAeMU2aHj05mllCh9
+         EJUHG6gt4/lurnqDV4VvCRveJj9IVISxKjyr7ZensYgD+txCtzzhxje/Qbfr+p5y2OTM
+         ADfgTAihd5xSRRtNG8fuhq0d1nUzuZZgi1Eowjoejw6FPqMY2DMf94hhgEb1XVycfdhp
+         SaxGqzZJeRgDyMoyKLBs1EoMOAoaPy6vJLcuaiJE7hLXLbGUK+AxQg2xArZ21MxW9QMc
+         2kriB/lNi365qD8cm2bCa7Izg4NMg1qOjzNSbzzDQ5v8DjBQBFsJvReZHtSOzwzWx4bR
+         vJaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751013680; x=1751618480;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S7P03Am8WwxtD8ZLQtp8L4pE4xvZy13+wsAyXWAqk3w=;
+        b=aumtI5S+3S3Mmfr1mcZlZWC1XXnobFxYVWgrih6MIxT5j1DtiOlN6OV1FONGJ8N03I
+         9UW8iY+axHpH5WQE4/wX6+Jl3SN2FGnnfjEwf4WLL7vfFIdwQngORE/nMMKeAV68ub/i
+         kuQUY+Dx8huWXbi1MyxfrRbx2E/iCW/m2PU2Gj+y80W50hGiSZDD1fF8tw0YiD4Lzsn7
+         XLGlIT062bhiMeO9EjlGYiM18vJG4o5aJbU2GLyugwWH0rmyDJCnqOKQk94ayiez2VTg
+         JMOYtja+ZCDXouI1tydQRrQ93n7cu8MmpP6bj/dvtEqkJYC8yXdcB/4Oyje8f2bu7+Ep
+         XBWA==
+X-Forwarded-Encrypted: i=1; AJvYcCXYxGG6uC2/bXLtqCI1b34Sz0MWu/a2K3THrPvEm+hG9qQSKGJcptvyIh/Ya+H9g1WhtTseOKvGUMuROBbcUp/ayrnzkA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxwYk1d18UYk1t6sYJBvRwXGm4XD2er4+fBXqJNIIzV2jKq+c0t
+	nS5FDPSo+UScUA41KzhjsI5P8eJ7C2FMKUDqFrRM7WaAXt10iw4Bbzgo
+X-Gm-Gg: ASbGnctaTz538ulR9KNYzNEPuCvj6kDtjx9N6h8fxV38DV++XX2OW5WbAgBpErpT5CK
+	pDEcE+vh+jRuMMlqxbVA6B8xlYkuqkv3oLXlxKLq401+SbYmg72abc/fOl7/fcgoYYx5Rdx2ryX
+	kCYJw87K5WZ0xvT0OLeqN9dLdmLANKuS8OsHqQS52QN3WW+8JqGmZA2ORT2wZ06kZmEzIbxE3US
+	o83KiZsdLGlAMP7pgylTwpt9kYi9hLkNd4818SOfSJpT6soqx2g8fZfR2H0ZpbCv3Kbq51XZyE4
+	/rynbgse0eBgfx96XnNl5QcsVZwihijA7dAUD6cpEboUww4SXiQyKGIoOLZ1KAbUYTxQQ/Mn0og
+	ZXby2
+X-Google-Smtp-Source: AGHT+IEhtmnbYvve8P8SDXttYyhI5mB1zS1BNdn1fSZzamgnXBJXcQIUlABy/QdajF1bRdhSmyCINw==
+X-Received: by 2002:a17:903:1c6:b0:236:9726:7264 with SMTP id d9443c01a7336-23ac2d8687emr45206315ad.5.1751013679650;
+        Fri, 27 Jun 2025 01:41:19 -0700 (PDT)
+Received: from archlinux ([136.185.226.69])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3c9cecsm10989485ad.251.2025.06.27.01.41.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jun 2025 01:41:19 -0700 (PDT)
+From: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+To: kent.overstreet@linux.dev
+Cc: Bharadwaj Raju <bharadwaj.raju777@gmail.com>,
+	linux-bcachefs@vger.kernel.org,
+	shuah@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	syzbot+029d1989099aa5ae3e89@syzkaller.appspotmail.com
+Subject: [PATCH] bcachefs: use mustfix to check invalid btree IDs
+Date: Fri, 27 Jun 2025 14:10:32 +0530
+Message-ID: <20250627084033.614376-2-bharadwaj.raju777@gmail.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250627072939.21447-1-abdelrahmanfekry375@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 27, 2025 at 10:29:39AM +0300, Abdelrahman Fekry wrote:
-> The sysfs attributes active_bo and free_bo expose internal buffer
-> state used only for debugging purposes. These are not part of
-> any standard kernel ABI, and need to be removed before this
-> driver may be moved out of drivers/staging.
-> 
-> - Remove active_bo and free_bo attributes
-> - Remove group registration calls form hmm_init() and hmm_cleanup()
+Checking for invalid IDs was introduced in 9e7cfb35e266 ("bcachefs: Check for invalid btree IDs")
+to prevent an invalid shift later, but since 141526548052 ("bcachefs: Bad btree roots are now autofix")
+made the parent class btree_root_bkey_invalid FSCK_AUTOFIX, fsck_err_on
+no longer works for this check.
 
-...
+Change the condition to use mustfix_fsck_err_on instead.
 
->  	/* free dummy memory first */
->  	hmm_free(dummy_ptr);
->  	dummy_ptr = 0;
-> -
->  	hmm_bo_device_exit(&bo_device);
->  	hmm_initialized = false;
+Reported-by: syzbot+029d1989099aa5ae3e89@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=029d1989099aa5ae3e89
+Fixes: 141526548052 ("bcachefs: Bad btree roots are now autofix")
 
-Stray change.
+Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+---
+ fs/bcachefs/recovery.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/fs/bcachefs/recovery.c b/fs/bcachefs/recovery.c
+index d0b7e3a36a54..abcaa0e3e2e6 100644
+--- a/fs/bcachefs/recovery.c
++++ b/fs/bcachefs/recovery.c
+@@ -489,7 +489,7 @@ static int journal_replay_entry_early(struct bch_fs *c,
+ 		if (unlikely(!entry->u64s))
+ 			return 0;
+ 
+-		if (fsck_err_on(entry->btree_id >= BTREE_ID_NR_MAX,
++		if (mustfix_fsck_err_on(entry->btree_id >= BTREE_ID_NR_MAX,
+ 				c, invalid_btree_id,
+ 				"invalid btree id %u (max %u)",
+ 				entry->btree_id, BTREE_ID_NR_MAX))
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.50.0
 
