@@ -1,110 +1,108 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AC82512DD
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Jun 2025 08:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4DE2F1FD5;
+	Fri, 27 Jun 2025 09:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751013681; cv=none; b=nRrI5DXRku7CYB6yoH7U7WQ4QWXiEZCZlcfAkXHEwoWs5HnXwSfb1jVBxnGbsitk7ctg0P+cs78ahrWVarytYUJuGVNRGKKROhJ8Fp82irXnMIL6hdbN7ngGaeReERQuVZ6IemWDW+FHh5tjOI7ci0E6cdAaBitD66ZDNyUWKX8=
+	t=1751015032; cv=none; b=AkwIa9e4mM2RkYxnkcurU7nP8Fa8twS8XpXy/g4hrK6hSc1omJ+2fQVkWpyxt2xcjneBbhlAr8ChNmdpq2wK42pCI2NXveLqHxyTCI3PPxuKjQ/siyutZiypcyYeOdEdBFyUw7fYaU4wCN9TgAyy77PpYCLOKwFYvefd2ba1C6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751013681; c=relaxed/simple;
-	bh=G15TbEaaORHlH4PKFvQC5S1g2tM1QIEczD+xXH/buq8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=adbrCqlOVRDBdxfEZF1DGb+QxO092g4wzpUh7VQ8CM0j06S47gDtGJIV+g5DpHlFw5UzRslJFUv1tOZX1OksQ+CNa/pzTL6F3JqEJpLEhSH8YV0V0tnp2Ge7VHIlxoSQet/zi1/v0JOBjcoFKa3C6N4m3UZgDRO3yVZIOQEOVwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dGpGGMyh; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1751015032; c=relaxed/simple;
+	bh=SkT01FuiroIHQcsTRFpB/e7tKPVnTyJoT7yGqpKBv3k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G7nxjodLTutSdVBZs8yzZudBHnE8yKaEuHGxWZjgAze/mKqC3FlhrlJji3TVdEY2aAzwifX1Iog5zE44gjHde9k0xlQnkb8U2qK065+5l+ZCovqjQ6EPvC0VLhNP40I33vqnCivmDZMoeFXgXPsL0buoJ5eVdIz2XW1W72GNWQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=alK4fye4; arc=none smtp.client-ip=209.85.128.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dGpGGMyh"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2363497cc4dso19080045ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Jun 2025 01:41:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="alK4fye4"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-713ef518da4so2217827b3.2;
+        Fri, 27 Jun 2025 02:03:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751013680; x=1751618480; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S7P03Am8WwxtD8ZLQtp8L4pE4xvZy13+wsAyXWAqk3w=;
-        b=dGpGGMyhVWyX0sYhhKoZcLLXnEMSK+2n9yfpmm/UZsq1SCvNlHAeMU2aHj05mllCh9
-         EJUHG6gt4/lurnqDV4VvCRveJj9IVISxKjyr7ZensYgD+txCtzzhxje/Qbfr+p5y2OTM
-         ADfgTAihd5xSRRtNG8fuhq0d1nUzuZZgi1Eowjoejw6FPqMY2DMf94hhgEb1XVycfdhp
-         SaxGqzZJeRgDyMoyKLBs1EoMOAoaPy6vJLcuaiJE7hLXLbGUK+AxQg2xArZ21MxW9QMc
-         2kriB/lNi365qD8cm2bCa7Izg4NMg1qOjzNSbzzDQ5v8DjBQBFsJvReZHtSOzwzWx4bR
-         vJaQ==
+        d=gmail.com; s=20230601; t=1751015030; x=1751619830; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LxPXFm/2Af/O0czSgJFjpR6ljpGP3r1+LOljZ09h6rw=;
+        b=alK4fye4ax2Xm+4DCPO8V7nmraLpdBnFwyZe0DZ3OYAEBpvioTf/ZjgXYeIj84Jeb1
+         4QzG0+LLlaVzkq2C7nYFveZ4gzZ61xVMNnH2Q8MaAiR2/jg5t2YM07NQbw9fJue+QmIQ
+         IqD8XE2Vq24kcVOkhaZGueKm8vvp8PtmdJaaf6hbP/hjiGDe6ik/lpGI98BIrSKPfH5Z
+         kd0qdpCv6qt+bVbHBYGQhvaapHk1RIfb1J9NPJf9OA6xhreJ4D3sHYkPz7uY7kzsso1h
+         tzZSRcJjyacsBrR4EqC1tUCPuZgBEmz0ok6N/WzkIx0yUx9BW55nGZKVStUSLFakmVjl
+         2hnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751013680; x=1751618480;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S7P03Am8WwxtD8ZLQtp8L4pE4xvZy13+wsAyXWAqk3w=;
-        b=aumtI5S+3S3Mmfr1mcZlZWC1XXnobFxYVWgrih6MIxT5j1DtiOlN6OV1FONGJ8N03I
-         9UW8iY+axHpH5WQE4/wX6+Jl3SN2FGnnfjEwf4WLL7vfFIdwQngORE/nMMKeAV68ub/i
-         kuQUY+Dx8huWXbi1MyxfrRbx2E/iCW/m2PU2Gj+y80W50hGiSZDD1fF8tw0YiD4Lzsn7
-         XLGlIT062bhiMeO9EjlGYiM18vJG4o5aJbU2GLyugwWH0rmyDJCnqOKQk94ayiez2VTg
-         JMOYtja+ZCDXouI1tydQRrQ93n7cu8MmpP6bj/dvtEqkJYC8yXdcB/4Oyje8f2bu7+Ep
-         XBWA==
-X-Forwarded-Encrypted: i=1; AJvYcCXYxGG6uC2/bXLtqCI1b34Sz0MWu/a2K3THrPvEm+hG9qQSKGJcptvyIh/Ya+H9g1WhtTseOKvGUMuROBbcUp/ayrnzkA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxwYk1d18UYk1t6sYJBvRwXGm4XD2er4+fBXqJNIIzV2jKq+c0t
-	nS5FDPSo+UScUA41KzhjsI5P8eJ7C2FMKUDqFrRM7WaAXt10iw4Bbzgo
-X-Gm-Gg: ASbGnctaTz538ulR9KNYzNEPuCvj6kDtjx9N6h8fxV38DV++XX2OW5WbAgBpErpT5CK
-	pDEcE+vh+jRuMMlqxbVA6B8xlYkuqkv3oLXlxKLq401+SbYmg72abc/fOl7/fcgoYYx5Rdx2ryX
-	kCYJw87K5WZ0xvT0OLeqN9dLdmLANKuS8OsHqQS52QN3WW+8JqGmZA2ORT2wZ06kZmEzIbxE3US
-	o83KiZsdLGlAMP7pgylTwpt9kYi9hLkNd4818SOfSJpT6soqx2g8fZfR2H0ZpbCv3Kbq51XZyE4
-	/rynbgse0eBgfx96XnNl5QcsVZwihijA7dAUD6cpEboUww4SXiQyKGIoOLZ1KAbUYTxQQ/Mn0og
-	ZXby2
-X-Google-Smtp-Source: AGHT+IEhtmnbYvve8P8SDXttYyhI5mB1zS1BNdn1fSZzamgnXBJXcQIUlABy/QdajF1bRdhSmyCINw==
-X-Received: by 2002:a17:903:1c6:b0:236:9726:7264 with SMTP id d9443c01a7336-23ac2d8687emr45206315ad.5.1751013679650;
-        Fri, 27 Jun 2025 01:41:19 -0700 (PDT)
-Received: from archlinux ([136.185.226.69])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3c9cecsm10989485ad.251.2025.06.27.01.41.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 01:41:19 -0700 (PDT)
-From: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-To: kent.overstreet@linux.dev
-Cc: Bharadwaj Raju <bharadwaj.raju777@gmail.com>,
-	linux-bcachefs@vger.kernel.org,
-	shuah@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	syzbot+029d1989099aa5ae3e89@syzkaller.appspotmail.com
-Subject: [PATCH] bcachefs: use mustfix to check invalid btree IDs
-Date: Fri, 27 Jun 2025 14:10:32 +0530
-Message-ID: <20250627084033.614376-2-bharadwaj.raju777@gmail.com>
-X-Mailer: git-send-email 2.50.0
+        d=1e100.net; s=20230601; t=1751015030; x=1751619830;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LxPXFm/2Af/O0czSgJFjpR6ljpGP3r1+LOljZ09h6rw=;
+        b=TQuMo6MfOPzXvmFwDBXV2SaxAtQM+7+iMceVk2t4M3I2/9I9SLkzL4ugGd2l16FY6m
+         69l8l34o6twk+odSGZoyDyoa+ZGFn+gWRoylLnG9wIZEjCDgd2hV8gN7lLEhLf6Yfw+w
+         qFEobPb6p0h4VhENbEx+ZbvBFaU4Ai9WhQu/kadwEfJcGyqvCsUWjywqHI7J8D0yZnoQ
+         V2sfEiDlkd2LjepxVY4Rx2IwVmSHScgJFwoiKEefTz5wCNaf8mjWBFGQkdJpiVAx5+En
+         iJxSxkIqW33iTwMLWjVGY/PG+zVUQt4OihuYNIvyXDnlU8mLhyTeUfpW+tnd2nGXi9v4
+         IoLg==
+X-Forwarded-Encrypted: i=1; AJvYcCUWV6ETwjGaYHifa4+TU15ZzpYD6LbaC8QssLPGTqMxZ8bu6cI2gPEBI2LoEhX7XJiEX7ipLLqpCwDivDPvcQ==@lists.linux.dev, AJvYcCV43JL+NiP3OfoD8k/lcCRuGIQz2Kicg3Z8+FAcxE70pFSudCkBZopnZi7ziOAolya+pdES5oy3tYbi2HpC1DAYrACGdw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzN+8jN2LIzwqLmzo6HCX5q45dfsL0qBgz9x2szuQvhxUFDKUvf
+	zLe2mLwdQ9N4KUMWa8/solygdh6piOyGpJjuhGjF9fZovfNPK5gk6yVEAvogcafv6ApJFuFqXMr
+	ZU0uTgKGT0wzsWCyZxKyPFrsevxCu/HE=
+X-Gm-Gg: ASbGncttH1RAKMQHKWqzWnhOsEo8fbXpgNJznqLcMf7ZdcWKjT6zy4cWl0XExPdaGWM
+	o/CoEGJ5D7jVaUEdKdek/B803mWaLZOdj3ia/8XcO/94WgJKpP8hvtQ2GqXxvMi878XVlPhSnnR
+	PlAMOLP+rrvhp1U2s4sucUQWOKGqKpm/3RNsjUex2bsv3/gg==
+X-Google-Smtp-Source: AGHT+IHxWtIJzA7AjqYBeRaD1K1kJoZF1TThU2Qzy0U70LW+zaf9l8TXpjHPTMMpS0pxvero1s7YpQzkzOAIKEGREi8=
+X-Received: by 2002:a05:690c:4a01:b0:713:fff3:62ad with SMTP id
+ 00721157ae682-7151719d791mr15585547b3.8.1751015030205; Fri, 27 Jun 2025
+ 02:03:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250627072939.21447-1-abdelrahmanfekry375@gmail.com> <aF5Y5MurVIn1mUk1@smile.fi.intel.com>
+In-Reply-To: <aF5Y5MurVIn1mUk1@smile.fi.intel.com>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Fri, 27 Jun 2025 12:03:39 +0300
+X-Gm-Features: Ac12FXwOUEosg--SmicR1srEOI1Ci9W95VvN9pfI47FDKsi8dSoopfUooLVYraM
+Message-ID: <CAGn2d8O-X8mgmf9kED=XbFYAoySs6+is=dorkz4yPbrSLiP6Nw@mail.gmail.com>
+Subject: Re: [PATCH v4] staging: media: atomisp: remove debug sysfs attributes
+ active_bo and free_bo
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	skhan@linuxfoundation.com, dan.carpenter@linaro.org, 
+	Hans de Goede <hansg@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Checking for invalid IDs was introduced in 9e7cfb35e266 ("bcachefs: Check for invalid btree IDs")
-to prevent an invalid shift later, but since 141526548052 ("bcachefs: Bad btree roots are now autofix")
-made the parent class btree_root_bkey_invalid FSCK_AUTOFIX, fsck_err_on
-no longer works for this check.
-
-Change the condition to use mustfix_fsck_err_on instead.
-
-Reported-by: syzbot+029d1989099aa5ae3e89@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=029d1989099aa5ae3e89
-Fixes: 141526548052 ("bcachefs: Bad btree roots are now autofix")
-
-Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
----
- fs/bcachefs/recovery.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/bcachefs/recovery.c b/fs/bcachefs/recovery.c
-index d0b7e3a36a54..abcaa0e3e2e6 100644
---- a/fs/bcachefs/recovery.c
-+++ b/fs/bcachefs/recovery.c
-@@ -489,7 +489,7 @@ static int journal_replay_entry_early(struct bch_fs *c,
- 		if (unlikely(!entry->u64s))
- 			return 0;
- 
--		if (fsck_err_on(entry->btree_id >= BTREE_ID_NR_MAX,
-+		if (mustfix_fsck_err_on(entry->btree_id >= BTREE_ID_NR_MAX,
- 				c, invalid_btree_id,
- 				"invalid btree id %u (max %u)",
- 				entry->btree_id, BTREE_ID_NR_MAX))
--- 
-2.50.0
-
+On Fri, Jun 27, 2025 at 11:40=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Fri, Jun 27, 2025 at 10:29:39AM +0300, Abdelrahman Fekry wrote:
+> > The sysfs attributes active_bo and free_bo expose internal buffer
+> > state used only for debugging purposes. These are not part of
+> > any standard kernel ABI, and need to be removed before this
+> > driver may be moved out of drivers/staging.
+> >
+> > - Remove active_bo and free_bo attributes
+> > - Remove group registration calls form hmm_init() and hmm_cleanup()
+>
+> ...
+>
+> >       /* free dummy memory first */
+> >       hmm_free(dummy_ptr);
+> >       dummy_ptr =3D 0;
+> > -
+> >       hmm_bo_device_exit(&bo_device);
+> >       hmm_initialized =3D false;
+>
+> Stray change.
+>
+sorry for that , will fix and resend it right away
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
