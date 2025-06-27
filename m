@@ -1,86 +1,99 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677A41C5D55
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Jun 2025 04:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79FA211A05;
+	Fri, 27 Jun 2025 06:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750998746; cv=none; b=iwNlqhqTVGJEH92PnIFNpB/gq5rq2lC3jPc5xblGy8ZzIoEC8H7ZRZ/6pntfEENKqoJ1A81QVSoe9Mtll6/uSkYp0xG//GmdTBI8h5sF8tXwY1ji3TcS62p0QIBy0Tjo1heL4qtlefdlcn6+4Gg0ICP04HkeGgljW+zozt+iyGs=
+	t=1751006353; cv=none; b=nqvjNIP5GIazMmFLWaimzPiNckmiioHZm3OOTId1+xWSe0PIOx4IbOCEiSoqb0FneQekgs13SwhBmfjgQDeKq/1/ntW4v9RXkJZ7AUOTCAgM4fghQUbVvvNrBuaoVqeLHiyfVc5sq1cI5wZ3hXLLNyXfQ14pT1WWHbG35nlBr3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750998746; c=relaxed/simple;
-	bh=v+42VstUVNPd2mezC8iuO8gwNNt9a6yuYkzSDlyNOJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FNSNE8IN3zchuWXemB/XO4nj07nw3RxsY1HDqRjVb+CRLLc6jivIi9tWgIIn4H3+a5TILsl+8jEaCxsOeYIkeReplgqkv7y2wvU89ArGHZsmbD+4NdhTmFZ4c8C2+hkZMhiYr6z64xSATE7rero79BEAgrp7aK/scpNJnHBHAsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eqqt9vbG; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1751006353; c=relaxed/simple;
+	bh=H9s6SjNj+RDHJHJdAu/dk43mt6UKRQE8bixPQovPJ7E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=spOgFJC0Ry+beNnnjIQKPJ39zHipFbZsA2M1+sHkqTCQ952BMZROs6ChK7/A/0juQedxAryzT151RRBBH5ZvVVaPlP52H7OFrO0SXLEhAx4XKpNLZWNm6AAx81049snaFb49IiVISPmxviICWEKDLdQMJ5J8fqHWc1efLU44xQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cUM5NAQL; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eqqt9vbG"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-747ef5996edso1516059b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Jun 2025 21:32:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cUM5NAQL"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-712e7aceb0fso2675917b3.0;
+        Thu, 26 Jun 2025 23:39:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1750998745; x=1751603545; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Et1vKrANEWd1oLPdiIp7rldoq/gXylaA1yJpyMaOcf8=;
-        b=eqqt9vbGNKgGPHtBA8jwimu9o8LlgpJMCr42MIG8WoZZhWIXXlJYEPkZmSH8xQNeOv
-         vXaWbfMnCTS0/6LdjCjiublaCT50Y9k/O1MmPPi+yT6KKHL6ETfY0ENYLyehfF8QQyHz
-         EAFsfNcXWa36ukkaS3QpNgnzbwfx9REt2QPzo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750998745; x=1751603545;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1751006350; x=1751611150; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Et1vKrANEWd1oLPdiIp7rldoq/gXylaA1yJpyMaOcf8=;
-        b=kNSAWwWqsRbhQxKPqx8CDWchIANXGzXvASvH0WouC57sBZ0pwHoVwhm2PPUMz3xown
-         h+mSvwZTShMpcOomX+QmiI8+VLshMmZAvljycXpV44vcWYY0NKBmJtDrlH55DBaPQ6EU
-         nbZRcQv7CCvo47V7/nZj9qdJoE96l2VSMJvTzFs42GqjZOz4SXkqHQJ15zAZBKMgi7Jo
-         pGFeUXQVbGHHeh5/VOsk/iSucWl7thGOs4V0MUD62hi3ILf3bnozN1wEQPoclwd5snPc
-         hX2mPAmHOl97Dw8o/aWk8/hr4zcM8ye4qPKzLMdUzafQR0EB34D8WH67i1jv5EI7ITXA
-         /UtA==
-X-Forwarded-Encrypted: i=1; AJvYcCWtu0KGPfuJiwYemAav+FtS1b+Bc5SO0C1jAydz7lPZU+ecJCFELpQ6IA1sQCeh8yXIr80+JfAWPheXfK+wuukhwjFGwQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxvSpqmNh+z/2zC56PBS+uau47qt/zRqnnSzBwxIfeLjvnKRs/A
-	T3yzHu/04sHkAJ5sv5GPmAY3ZE9xCbyVpKDL1lfJ3osA3JgI55gOi4hZdgpRBizhHQ==
-X-Gm-Gg: ASbGncsrRW1UrIC40rANwvkKVBP8RFStq7QQ2PU+F/GKJU/S3Ndoy0AoHUTH6ct7OLD
-	+IfOFeIt21LNAxRtRagGBWeuPeMc4gN/VNOyHMMli99KgnRGTjeCxSwtnRFPQm0a/Ah3GEx88U7
-	5wzQtWbS4FQ4xfhhtg2iuoJ5JzGXiWiNiBX0qOiwYZ2QZ/6mR6jTsDay+3rqAsTCT0aUxU+xTGu
-	lVzSxa/b9fAFXTaBh8MmOMaalWDrG5EF3jJToS2zDrcFRarbBYlHez89PdbiVUfKUoi0TdGdXwA
-	QrQsqR5hK4W4VWCOR9cOvt/ZiWpSJIXD0UbsCYX0IHNb9uCtdwRmfy7+FzWOh1p/Zw==
-X-Google-Smtp-Source: AGHT+IFsUUHvXLkVnFLLwlY36+r3+Fgx+TFevhxTOC4GjFZoOrSNFaMyU9W5wFF/BGs6YIpTwbjcOg==
-X-Received: by 2002:a05:6a00:23cb:b0:736:4d05:2e2e with SMTP id d2e1a72fcca58-74af6e60f24mr2433036b3a.6.1750998744783;
-        Thu, 26 Jun 2025 21:32:24 -0700 (PDT)
-Received: from google.com ([2401:fa00:8f:203:de1c:e88f:de93:cd95])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af540b37bsm1190315b3a.24.2025.06.26.21.32.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 21:32:24 -0700 (PDT)
-Date: Fri, 27 Jun 2025 13:32:20 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Jens Axboe <axboe@kernel.dk>, Rahul Kumar <rk0006818@gmail.com>
-Cc: minchan@kernel.org, senozhatsky@chromium.org, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-Subject: Re: [PATCH] block: zram: replace scnprintf() with sysfs_emit() in
- *_show() functions
-Message-ID: <zzscki3fdg75nl4gojsqo7exhwodt6sm66avcwmmhnz5yvc5sm@sld334al6udp>
-References: <20250627035256.1120740-1-rk0006818@gmail.com>
+        bh=onir1NlpWyCI0dVQmmMsqkrXg02cy81P8SAAeEAoBLo=;
+        b=cUM5NAQL4/64YJYUvEeSPN+qPTpmJ+nn7ngMNR+S7pUTgwQCIt/+fi5StKyOaGG1Z9
+         VFCfQYDuR2Ul7bN9aR5BSPzJNYEWdwWG7wyIc/n7as7/jvhcjt/6fCyKI5PsCin9cxey
+         TC4PfLNtNh5OeYFeAtWP6SwYcpEGi5ygF2hhzGCqccRnkqt9m6aiTjBxR2IOk0cQ+dhl
+         FPZbCKUNa+ELEHW0/IDMC23PTJM/WKWREadzOlsO60ak74CjsCIXSn7IEPY/py5K1Gnm
+         X44kZssfniWvojFEOy/KEG6ySIYA7WfoX2qCp/ia51BHY9AsEl1VYXDAaYnGYA5G9NKx
+         NEIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751006350; x=1751611150;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=onir1NlpWyCI0dVQmmMsqkrXg02cy81P8SAAeEAoBLo=;
+        b=bh5GNfJEtbBg9yPmkL+8YvZXlWeRhBE+xX7IhhY1MXnF0DZ28V9AMdTdlQy5GgDmEH
+         XjX7tje3xOG8oPcH3/WNwXmVTI8KlWZKvqFMePiJM3yGH1mckPg0iN5B2jcucPR0jusW
+         X2lqkjFbujXXJH0FORpK5oAAGC+XcCZl9srM+PwCj6um91n5xEus/UB9Cb5d9xEvZ/yf
+         VhvfqUzgzMZChkGyfafzXvDTKAllvGaGjowM/yHqeOSTjMM+8QdC0jDqSOusm7sdyrqO
+         /4cWCExx051vfoC8iYV85+qgga6o8q5t72UGyZ1C20SLh+H1q3K6agHBtgMuPz06cSUV
+         hT9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW2/SeP6I/N3ws1GgfF5kpIbc1KijI9bALzzvgPtXYiS44o943vpRJRxnOV3V7e4q6OOCVKsx/yZdC+1NXH8TH5t+eIBg==@lists.linux.dev, AJvYcCW6A9sFAc/7hYva28lHyIgtEcZJku/xHNGF20pxjaR2/AHmS3eSWKlQfzHxfuyHbnM8qlP6N5jd3lNoo+tvig==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwnYxh3VG3sKnB18yCc+8tIOfVF1krcqgJwMO4M9xSynmgS6ty5
+	B4+mJ6Yr2pRouiXeJKHrCSIDb9NCcZNhwjuR2NLsh22krxuuP81wenHq8QdAwLMcwcmWdb2nxvW
+	KJQoc5yEGUC8ekskLuVPIXDvdlDBhs3E=
+X-Gm-Gg: ASbGncsSGqvgvsRmrR4tXSpT/sClXrgn0n1zXdKv7cRZkWxl/6Byw88RkMBYE8xT+CE
+	uThZomOxv6pLYF2zj/tL7qMI5K6P4pqUCS/E/gl0kVTs1l2zqi87xNO152NKac9tx6hXuGLZfoI
+	w+t+t/+6ky/OTlFKmpht5l/Ek5y0RCBkVb+hc9DMYqW6g=
+X-Google-Smtp-Source: AGHT+IFLXLETAN2g0YLI/m+TdlWxRgsW7CKClEWk8SveKK4B+rK6hli1LycaO27zbXV6hVpgVFRcMcgj4wyLs3zsHjE=
+X-Received: by 2002:a05:690c:6f0b:b0:70e:6261:f7f1 with SMTP id
+ 00721157ae682-715171c2777mr14644577b3.7.1751006350533; Thu, 26 Jun 2025
+ 23:39:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250627035256.1120740-1-rk0006818@gmail.com>
+References: <20250624170746.47188-1-abdelrahmanfekry375@gmail.com> <fdaedc62-2beb-4f18-9e4f-f60ef35e1b38@suswa.mountain>
+In-Reply-To: <fdaedc62-2beb-4f18-9e4f-f60ef35e1b38@suswa.mountain>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Fri, 27 Jun 2025 09:38:59 +0300
+X-Gm-Features: Ac12FXz9KhDNUrKyV-tQ6S9YDv9iqORA_TjYOWzlsoG6CfX-2Q5mIrypUCkMpx4
+Message-ID: <CAGn2d8ND8Gm8E=CwyNbejmOeuqwk32zNCV-EW-k_N6GTOn7aZw@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: media: atomisp: remove debug sysfs attributes
+ active_bo and free_bo
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On (25/06/27 09:22), Rahul Kumar wrote:
-> Replace scnprintf() with sysfs_emit() or sysfs_emit_at() in sysfs
-> *_show() functions in zram_drv.c to follow the kernel's guidelines
-> from Documentation/filesystems/sysfs.rst.
-> 
-> This improves consistency, safety, and makes the code easier to
-> maintain and update in the future.
-> 
-> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+Hello Dan,
 
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Thank you so much for your good words
+
+On Fri, Jun 27, 2025 at 12:32=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
+>
+> Resend this patch with the changes Andy asked for and I'll Ack it.
+On it , thanks.
+>
+> The other things we discussed can be done separately.  It's also fine
+> to never do them.  I'm not your boss.  ;)
+>
+I think I will continue working on it. I'm very excited to contribute
+to something as big as this .
+
+> regards,
+> dan carpenter
+>
+regards,
+Abdelrahman Fekry
