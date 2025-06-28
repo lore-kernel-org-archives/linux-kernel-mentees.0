@@ -1,78 +1,76 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AB4FBF6;
-	Sat, 28 Jun 2025 05:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1128113633F;
+	Sat, 28 Jun 2025 06:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751088387; cv=none; b=hRHPyOIw9HL421Ncy4L/aLLKi4ow5UUxDvPh7KUXtbvx/Y9fazWXKdH6IRusDy8Eq5nuui49kHN1pbDYd3kRj5kMW6f9K6bLlgJXo/sYDq074eyI88e+JMGseLtBkeQhISK/SfoImTK2jdUP0KArbzuQJGuXyrkSDl7y3A5JdJo=
+	t=1751092299; cv=none; b=uWaMRlHSrVJZTJ/83fxy18xRjeyxgRxJrXHdqco+DmHezZ3yiDSi9HqfCzSEVZNdUcNnCK7nbEuGyAG68eHDEMsgaZMzqiwzcXoAOEAHLD0w8yKWWT0AjiVN0LAmVLF5h7/2ZoueCmnHKrO0ppDYArDH+1NHA5WimyoCZJJjLzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751088387; c=relaxed/simple;
-	bh=boM0zRBXLjwthJwgYSDO0LB1VAaDDug+6PDOcd8jBGc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ce1gZ3gYsMpCRDwel4wZKrftjtz3B9R1BPZtKd/8EYsnzAUcVLYJa+5slzF8u72N7idPYUOHmSYayoMwREBCCidVcuZWLDAwcvbIwpTpKOdW8Q64B/LxsC4hfAFoC6QqSivVjgf8gi/zc5Ig3PALdjiZy48r/xvEms2VqpIdk5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mbtqUyOQ; arc=none smtp.client-ip=209.85.221.50
+	s=arc-20240116; t=1751092299; c=relaxed/simple;
+	bh=OcjJRmPKs4f/dFfmS1CrK8xQIj20niQNZEq7XVMVMXo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SegjAcHrEFkYsshQGpzul5uf4VjozRp3D3ZKdxk4fhZ+/nMB4HEnoaeCBzxSK7DqhIzbeHjd6LQ4EcBg/p6ThySktueQ818gD5w2yXI2bEYfXUcE9z4sgLTgejtM5rHQ4HjMYQO5dIG59Z7R2kkiWWm1BpLINqfClsT0XQOGkvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CHpQbwoj; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mbtqUyOQ"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a6f24ef3acso303905f8f.3;
-        Fri, 27 Jun 2025 22:26:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CHpQbwoj"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-747fba9f962so2915665b3a.0;
+        Fri, 27 Jun 2025 23:31:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751088384; x=1751693184; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1751092297; x=1751697097; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uKiNM7/pAXmiQj3djLWyWoHT8Gthrzr/6qV9hsqDsUI=;
-        b=mbtqUyOQfp8Bg8QDMRbnlC0Aqz+cNMrdZZFw5eBdJTdNPD8176xwCFNT71CLAh08jL
-         la380Y1rUQ+I3GnZ7ykAsVO6XUUz1hkpnOMoIqiYyQsjldMhyySSxCcIaLHnSapEZUBm
-         dIss6sB8miYhs9Mq0H7uWvKsS7DBEUmO0NPFzq0CVJNoENwVZyltimWf8uXhlTY5jA51
-         NId79jbozbvNPxrGWq8up0MR0ifR9GHxR6P6c9rGXSBe7gi3X29gAniQXvFRLjvmI/4l
-         6R03VM5NfxqPcQQIIg1St2CrmTV9pjmixlIhG1Y6voOcLB2YqXzK41sysMf2t2rua+7Y
-         d0Iw==
+        bh=QOBUCLBuTfXdSALdN6Vhehv2a8w9yUjOo7KeQ2AcNNY=;
+        b=CHpQbwojLXKp2ldFSjzJgPyt33NpbRulSx+XTGUPpiauD9KJfVKEjoAPaMLvgKDtIe
+         XGzWFUO+9ji3F9cdbjF0hUmBNMIWkMvjQaqmvpWz+S18cU3f9A9cSVLhLh8YyDWJSfcD
+         8DISoXl18GiCgqzm44RixVEkwIsR9RBre9RkzX8yp2ffvx9GsTCxPjx/fFIYK5Fgk4ot
+         1iz3SDLu+37yYSHcjobL2YlpS334eu9eZ4nraJK33rCpw948jR6YLm6orUdMqHyOVdTH
+         0nN5cOWVtBpuscv6KAqMc405Ldazy73Lk7c7K+z2qCQ0InCykNxV2Wed+4D9SLR+2KuE
+         l9+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751088384; x=1751693184;
+        d=1e100.net; s=20230601; t=1751092297; x=1751697097;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uKiNM7/pAXmiQj3djLWyWoHT8Gthrzr/6qV9hsqDsUI=;
-        b=i2vpW7yzeL7rNm2ELdL2Cue8jil1+GEqjzreC+rfPPQ+UpCuRhac5yTx2zGXjTYygx
-         EAx2bGr07mQ2WJUwb5MhkK4EDBY2dpbhjofDFCN2oK81UESskRKD5MmUN3cvuHNnBxWS
-         TFjZyZn1C456nUE68OlgY44lFZgwfvKvX14ovZx99XlCWTZptms9lWUm15zmkUyrmt9h
-         bAIx0iMeroBVqVqN+OoQn5mw58mUM2nAKuxGo+2okKrqzoe3tlX1DIZC5nBPigPDJjOr
-         uRCxs2lEd3WwG3v29KiU8ML3nU/2eV7pw0HQpEH338HYXVKife3jQN99qTgq7EZ0h4ZQ
-         B50w==
-X-Forwarded-Encrypted: i=1; AJvYcCXtnRDQXvTGalFcqauPJurzU69uMFP4eEf5dKyxXyhfIEvTUmuonUJq1xrf/lJj/pCYKHQ93L8sOAuD6QWH@lists.linux.dev
-X-Gm-Message-State: AOJu0YyPhyAuA102VX+OMISupu0SMpkq4cpKq3r18R5szs1jYTEekIjA
-	LEgEMWITuStyUXMUjrzsqXWuG5L4h4z5oj0q8rDi2hu98I1Zux/JTSRD
-X-Gm-Gg: ASbGncu/ukUwug+cMrdrIxoja0LPQTdnbMBG+PyotuEsMNyR+4OyxVvD3CSO1ZUlPvW
-	0dfz9vphh0ejGxR6LENomGE7FTcKc6YVAFhzv7JCUjiJZ3zd1TUGF8P2xbiPu47VepEmVT2qige
-	5XpRTi9opz7n6bqb3NNDPeeDq9nJhnqGK2INoSxPeZGSIYG3ORiN9+c5VxpRK1F2rr5aO87NroQ
-	RJghqCmov4A9cNH3G4yvgCVMu3l5zqg1duSkKXD5eeE+6LpmdxDBTOSfdz5tHQnm9ZMWO5yIHJ5
-	R05iVhFLoytidIDl0kFeBppYNDz0S+ACKJV9VtglUzJJAG3dnwcBLXgidWRFvgKC/56yAF9pze3
-	f6TvJ5ZKrpjk7BSn5DCyEIDs=
-X-Google-Smtp-Source: AGHT+IEhmKtKJ6ishzSKPnEF+eduFX7OxjSKBg8TeE0H+zh5uxxd+nQywKJLgF9bYCuTnjTMwE84Dg==
-X-Received: by 2002:a05:600c:c0c3:20b0:453:bf1:8895 with SMTP id 5b1f17b1804b1-453955642e3mr2860875e9.5.1751088383609;
-        Fri, 27 Jun 2025 22:26:23 -0700 (PDT)
-Received: from localhost.localdomain ([156.208.43.188])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453823ad01csm99905265e9.22.2025.06.27.22.26.20
+        bh=QOBUCLBuTfXdSALdN6Vhehv2a8w9yUjOo7KeQ2AcNNY=;
+        b=r1j96m+xjHPX0hEXe+1pMnIW1enZnP5B8kcL+qE0huKfs829/e9FTpjfNutK5a5vgi
+         fhXRrKxBcCCr09uGaLkpUUrWJU12BudIE0vOM/czwCl8Y2XututwB9RC8xFk9nbVNlbP
+         DJqMQrC95sdi4eHT19mHs+NzCrP3iDvcwJaTwfwGgnCoBq3GlVz4OJ87L3dgnrp7+ZDl
+         ND29u7JSHhQ5NmyQ097DQhYTvPuIaRpuaP1z9hVjHB7o3ZbBSed5RC7XqYBDTBoSluIV
+         znXQcv1lng3tMicDNVWbu+IlqJ6V0wI4tDHLSfoE0Lp8osk0WFB6K1ZMrzwFSZBSLF4C
+         R9kQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVlnaRqLPWrUjJgdCKeumrGldH9icCd6QVerCxEw7bJt6uA/5iD/xCz+Rism0nUYGVDSpbmH358d9v03ov+Ni5iCAAa1Q==@lists.linux.dev, AJvYcCVzazWtvp9eX6gOu2BZ9oXVfNShYcv/PeBw+/kvpGWlC/8qVNOTRFxSOgw7Km7X/Z91z2iSQfQVXt7kib/0Dg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyu4nd3jsTIPs4l2zqV93GH3fDYibXOtKBnaMD5uCpfKqggAka5
+	+TR7rM2dSWbmp0AGZo6YuUHW++0gpHWg/B/pJBuiP/LooUnGYRi3ceYE
+X-Gm-Gg: ASbGncvJKLVg8MjvBltxVYxAYlzK3MPMfsinndhbQ0cgKvtrMKcXsv065X2mLHwK/c4
+	W+v4jMNvIeM8mcxaMSZBYtN+YX3Q3NTgOLvRxNVUDeC1FCKy89q0WP3rp4/OnAyZXuczNYsjayu
+	rgkVeM+z642GT8naUPj70BJGArYohQ5EHjBuQX7XHDoFhcWfMN8LwL8q1A1cnjh4FjCcWzToZDt
+	yAmxGbjlORMNQK6pSRBsu56zgcVInYMQwBNEKFcSgyhIeIYCBdXiYDx7morMPDczlCsj4FOoVDR
+	DsnW1hI2cHjAebtae66D9JH9b7Dv10egqLvKlhaSiOborygkCk686uodinwsM0hQasqFkz9ZOZK
+	cWCY3fTC+++fMLdzJMw==
+X-Google-Smtp-Source: AGHT+IEWpizPCQsGrOAiyMcr0FAuPQFRdWyOcJk3cOZz1JJvdwfoh/5L9YaZDy/VEMzWehbaSMmfOg==
+X-Received: by 2002:a05:6a00:ac02:b0:74a:d2a3:80dd with SMTP id d2e1a72fcca58-74ae3e7b7f9mr15110492b3a.3.1751092297180;
+        Fri, 27 Jun 2025 23:31:37 -0700 (PDT)
+Received: from manjaro.domain.name ([2401:4900:1c30:2179:50ec:85e6:275e:cc56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af57ef669sm3656147b3a.158.2025.06.27.23.31.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 22:26:23 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: andy@kernel.org,
-	hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
+        Fri, 27 Jun 2025 23:31:36 -0700 (PDT)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	skhan@linuxfoundation.com,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH] staging: media: atomisp: Fix premature setting of HMM_BO_DEVICE_INITED flag
-Date: Sat, 28 Jun 2025 08:25:36 +0300
-Message-Id: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel@vger.kernel.org
+Cc: pure.logic@nexus-software.ie,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH] greybus: loopback: remove gb_loopback_async_wait_all()
+Date: Sat, 28 Jun 2025 12:01:21 +0530
+Message-ID: <20250628063121.362685-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -81,57 +79,32 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The HMM_BO_DEVICE_INITED flag was being set in hmm_bo_device_init()
-before key initialization steps like kmem_cache_create(),
-kmem_cache_alloc(), and __bo_init().
+Remove redundant gb_loopback_async_wait_all() as connection is disabled
+at the beginning and no further incoming/outgoing requests are possible.
 
-This means that if any of these steps fail, the flag remains set,
-misleading other parts of the driver (e.g. hmm_bo_alloc())
-into thinking the device is initialized. This could lead
-to undefined behavior or invalid memory use.
-
-Additionally, since __bo_init() is called from inside
-hmm_bo_device_init() after the flag was already set, its internal
-check for HMM_BO_DEVICE_INITED is redundant.
-
-- Move the flag assignment to the end after all allocations succeed.
-- Remove redundant check of the flag inside __bo_init()
-
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/hmm/hmm_bo.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/staging/greybus/loopback.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-index 224ca8d42721..5d0cd5260d3a 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-@@ -37,8 +37,6 @@ static int __bo_init(struct hmm_bo_device *bdev, struct hmm_buffer_object *bo,
- 		     unsigned int pgnr)
- {
- 	check_bodev_null_return(bdev, -EINVAL);
--	var_equal_return(hmm_bo_device_inited(bdev), 0, -EINVAL,
--			 "hmm_bo_device not inited yet.\n");
- 	/* prevent zero size buffer object */
- 	if (pgnr == 0) {
- 		dev_err(atomisp_dev, "0 size buffer is not allowed.\n");
-@@ -341,7 +339,6 @@ int hmm_bo_device_init(struct hmm_bo_device *bdev,
- 	spin_lock_init(&bdev->list_lock);
- 	mutex_init(&bdev->rbtree_mutex);
-
--	bdev->flag = HMM_BO_DEVICE_INITED;
-
- 	INIT_LIST_HEAD(&bdev->entire_bo_list);
- 	bdev->allocated_rbtree = RB_ROOT;
-@@ -376,6 +373,8 @@ int hmm_bo_device_init(struct hmm_bo_device *bdev,
-
- 	__bo_insert_to_free_rbtree(&bdev->free_rbtree, bo);
-
-+	bdev->flag = HMM_BO_DEVICE_INITED;
-+
- 	return 0;
- }
-
---
-2.25.1
+diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+index 1f19323b0e1a..9d0d4308ad25 100644
+--- a/drivers/staging/greybus/loopback.c
++++ b/drivers/staging/greybus/loopback.c
+@@ -1110,13 +1110,6 @@ static void gb_loopback_disconnect(struct gb_bundle *bundle)
+ 	gb_connection_latency_tag_disable(gb->connection);
+ 	debugfs_remove(gb->file);
+ 
+-	/*
+-	 * FIXME: gb_loopback_async_wait_all() is redundant now, as connection
+-	 * is disabled at the beginning and so we can't have any more
+-	 * incoming/outgoing requests.
+-	 */
+-	gb_loopback_async_wait_all(gb);
+-
+ 	spin_lock_irqsave(&gb_dev.lock, flags);
+ 	gb_dev.count--;
+ 	spin_unlock_irqrestore(&gb_dev.lock, flags);
+-- 
+2.49.0
 
