@@ -1,169 +1,137 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69D219E7D1
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 28 Jun 2025 03:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AB4FBF6;
+	Sat, 28 Jun 2025 05:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751079879; cv=none; b=m7Tng34xKNm2LiEYDWnTR+Ini7Uj3J4CcbrQOYjdv8UOLEr0CpbSbKKW5B916VJaJvxL4jLVQMFhIg1PNBa+/ys0XtWnYv84Hiovc2nlZwF36VpsjCRtaD6Yu03DMw8paSgFKNNGzNwrRswOA7DsFaaQJHWVO/rGIXOa4qH51Ho=
+	t=1751088387; cv=none; b=hRHPyOIw9HL421Ncy4L/aLLKi4ow5UUxDvPh7KUXtbvx/Y9fazWXKdH6IRusDy8Eq5nuui49kHN1pbDYd3kRj5kMW6f9K6bLlgJXo/sYDq074eyI88e+JMGseLtBkeQhISK/SfoImTK2jdUP0KArbzuQJGuXyrkSDl7y3A5JdJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751079879; c=relaxed/simple;
-	bh=e2HPA9/wexrugXoBcyL63QFmQkVRMg3Vbgzl8tLlmv4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=gZ5E2S36KpL984a6loA1mcVhKu3TMHekKM/vKqquPXhWoxKdmBemt51/aYyED2R8xcJks1is9ut2OlU0UaiRsWP5pO+xh0+5VJJVDYw9MNQFiXl+hMo20pY7u50eLUwxZx5L1X0SQClQQLkvIPAm1cLxCT+WsY9c042GsDisQnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eEfNeenY; arc=none smtp.client-ip=209.85.210.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1751088387; c=relaxed/simple;
+	bh=boM0zRBXLjwthJwgYSDO0LB1VAaDDug+6PDOcd8jBGc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ce1gZ3gYsMpCRDwel4wZKrftjtz3B9R1BPZtKd/8EYsnzAUcVLYJa+5slzF8u72N7idPYUOHmSYayoMwREBCCidVcuZWLDAwcvbIwpTpKOdW8Q64B/LxsC4hfAFoC6QqSivVjgf8gi/zc5Ig3PALdjiZy48r/xvEms2VqpIdk5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mbtqUyOQ; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eEfNeenY"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7382ffcb373so1455310a34.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Jun 2025 20:04:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mbtqUyOQ"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a6f24ef3acso303905f8f.3;
+        Fri, 27 Jun 2025 22:26:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751079876; x=1751684676; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4mrEXq+k4C9jjEUBgclh5S8eupzCvj0cpocVaBAvBRg=;
-        b=eEfNeenYnq0QOSIDuJTkYDcOQGwLaQ336NqBmg4nU5k5DL7eTXoyySShAw9lOJiCyk
-         6PsoTSNhcgV0OySiHNuOdmHI/Aa/gl2SyVjzgKfrA6yrHkch7G+kb6HTfmQdGKiIVazn
-         IQgAS9dUSK8l6gVZhH+iaHoYD041Q3ClSR2L0n6iSJq7otcsdJ9bE/oTlrlrc/948H0b
-         AwWpmA9/uupHFgpm745CYGEgBhZ4HixgdYMRuinJ4ISRm3K6P6pt3yyPgNXhaz5DL3Wp
-         XpUaCPdeBMIyligTwxZcQJfsbsWEnGHH4GyMHPXkQ1wvBAkH/tr6tva50N7nrEDCK1Ts
-         5tUA==
+        d=gmail.com; s=20230601; t=1751088384; x=1751693184; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uKiNM7/pAXmiQj3djLWyWoHT8Gthrzr/6qV9hsqDsUI=;
+        b=mbtqUyOQfp8Bg8QDMRbnlC0Aqz+cNMrdZZFw5eBdJTdNPD8176xwCFNT71CLAh08jL
+         la380Y1rUQ+I3GnZ7ykAsVO6XUUz1hkpnOMoIqiYyQsjldMhyySSxCcIaLHnSapEZUBm
+         dIss6sB8miYhs9Mq0H7uWvKsS7DBEUmO0NPFzq0CVJNoENwVZyltimWf8uXhlTY5jA51
+         NId79jbozbvNPxrGWq8up0MR0ifR9GHxR6P6c9rGXSBe7gi3X29gAniQXvFRLjvmI/4l
+         6R03VM5NfxqPcQQIIg1St2CrmTV9pjmixlIhG1Y6voOcLB2YqXzK41sysMf2t2rua+7Y
+         d0Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751079876; x=1751684676;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1751088384; x=1751693184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4mrEXq+k4C9jjEUBgclh5S8eupzCvj0cpocVaBAvBRg=;
-        b=Z/jWwqnEVnzQ53NO+1uHZUKG3a/6hlBzWAkl7BJFoiydUESeF2LpB/6SGGNq+Ux3zb
-         6WqbS0YeJJIf5qQWBNN50BrZ6Ahz3ZtFLnUJUCp7xzB2Thrf0Itrj0w1lR5CDC84JPVC
-         JH+2JC3X3z+yWtXF1VPBiMqOaPQjtnO/5gaxKYcS8CUczw5m2r+IVfAhYDdNlRvG1HIk
-         gPPr5N5A0uGybdF5Sukhi4dOltBJzrxOGofh9t68FWQRpfV6KIM7KUwQGQclh2v0uAfg
-         uuSdU5DzSMVu7VudIQLlhBzojvSrYjT6GuKP5bjMwDgj4SBCyvH0CIc5ohGkHlzH58eG
-         knqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFIMLFTOoahDURE0fymifPJglGBRdhnFUOhqXMK0e18i2BcD/BALq87yneSCxBfXLY7rzyE5afJziEPlz7/GJaZH4Fgw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyoCR4RiQ9RNICWcQ/2lcQSHLfpXm+/E3/Fe6qpOca0kvtbOoz6
-	UBeTWVEXZtjv/mz+dmSZBbIdC35dDDQB/zszmG/vgF0TO7MkLC/ip8Pt5B1AVgy/A/4=
-X-Gm-Gg: ASbGncv2kR9Hrjhqh9z3UeI+keAn/QfOv8R31gaIZjEM0A9yHhetqseeEb4n6Gzilvn
-	FC462ksGXYGDrQXwlBO/IuQY3WqIsm1ocCGdsdEFt1V33t3pdtHgTORJ6aXIxqpBXHEfDZY7ERX
-	S5ANZrtYenakqTt8F01DnKGvsrCoAdqRfaBZiDD3PwCGNakwtGn4iLrLM3oLk/MSkkHs4h32+uz
-	SUDBsCKZbPONiUViXrKuAKKaP41Kd/nkkZVAOvfPMlkI0dd3iuTGRLeG69GGMeDTwhb6+vLmL6k
-	g4qMU6AljoGIb0ZWWL+WVofNtsS66Wzqt2vpszjbjeZ4+ekoKg4BvEbEs+OYtIBj3rZFJw==
-X-Google-Smtp-Source: AGHT+IEIQNB9vXn483lHvLJjj700RgdbzHfAUE56Wc6QSRX5AYvxFzu5TfYpGMA0L0F7fB4pfrcJZw==
-X-Received: by 2002:a05:6830:6f42:b0:739:fe04:7aec with SMTP id 46e09a7af769-73afc6821ffmr3875325a34.26.1751079875682;
-        Fri, 27 Jun 2025 20:04:35 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:f3a4:7b11:3bf4:5d7b])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73afb124960sm624104a34.66.2025.06.27.20.04.34
+        bh=uKiNM7/pAXmiQj3djLWyWoHT8Gthrzr/6qV9hsqDsUI=;
+        b=i2vpW7yzeL7rNm2ELdL2Cue8jil1+GEqjzreC+rfPPQ+UpCuRhac5yTx2zGXjTYygx
+         EAx2bGr07mQ2WJUwb5MhkK4EDBY2dpbhjofDFCN2oK81UESskRKD5MmUN3cvuHNnBxWS
+         TFjZyZn1C456nUE68OlgY44lFZgwfvKvX14ovZx99XlCWTZptms9lWUm15zmkUyrmt9h
+         bAIx0iMeroBVqVqN+OoQn5mw58mUM2nAKuxGo+2okKrqzoe3tlX1DIZC5nBPigPDJjOr
+         uRCxs2lEd3WwG3v29KiU8ML3nU/2eV7pw0HQpEH338HYXVKife3jQN99qTgq7EZ0h4ZQ
+         B50w==
+X-Forwarded-Encrypted: i=1; AJvYcCXtnRDQXvTGalFcqauPJurzU69uMFP4eEf5dKyxXyhfIEvTUmuonUJq1xrf/lJj/pCYKHQ93L8sOAuD6QWH@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPhyAuA102VX+OMISupu0SMpkq4cpKq3r18R5szs1jYTEekIjA
+	LEgEMWITuStyUXMUjrzsqXWuG5L4h4z5oj0q8rDi2hu98I1Zux/JTSRD
+X-Gm-Gg: ASbGncu/ukUwug+cMrdrIxoja0LPQTdnbMBG+PyotuEsMNyR+4OyxVvD3CSO1ZUlPvW
+	0dfz9vphh0ejGxR6LENomGE7FTcKc6YVAFhzv7JCUjiJZ3zd1TUGF8P2xbiPu47VepEmVT2qige
+	5XpRTi9opz7n6bqb3NNDPeeDq9nJhnqGK2INoSxPeZGSIYG3ORiN9+c5VxpRK1F2rr5aO87NroQ
+	RJghqCmov4A9cNH3G4yvgCVMu3l5zqg1duSkKXD5eeE+6LpmdxDBTOSfdz5tHQnm9ZMWO5yIHJ5
+	R05iVhFLoytidIDl0kFeBppYNDz0S+ACKJV9VtglUzJJAG3dnwcBLXgidWRFvgKC/56yAF9pze3
+	f6TvJ5ZKrpjk7BSn5DCyEIDs=
+X-Google-Smtp-Source: AGHT+IEhmKtKJ6ishzSKPnEF+eduFX7OxjSKBg8TeE0H+zh5uxxd+nQywKJLgF9bYCuTnjTMwE84Dg==
+X-Received: by 2002:a05:600c:c0c3:20b0:453:bf1:8895 with SMTP id 5b1f17b1804b1-453955642e3mr2860875e9.5.1751088383609;
+        Fri, 27 Jun 2025 22:26:23 -0700 (PDT)
+Received: from localhost.localdomain ([156.208.43.188])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453823ad01csm99905265e9.22.2025.06.27.22.26.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 20:04:35 -0700 (PDT)
-Date: Sat, 28 Jun 2025 06:04:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Pranav Tyagi <pranav.tyagi03@gmail.com>,
-	dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com, linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ming.li@zohomail.com,
-	rrichter@amd.com, peterz@infradead.org, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: Re: [PATCH v2] cxl/memdev: automate cleanup with __free()
-Message-ID: <ef5ee5ac-5c8d-4717-aa84-7db085a556a9@suswa.mountain>
+        Fri, 27 Jun 2025 22:26:23 -0700 (PDT)
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+To: andy@kernel.org,
+	hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	skhan@linuxfoundation.com,
+	dan.carpenter@linaro.org,
+	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Subject: [PATCH] staging: media: atomisp: Fix premature setting of HMM_BO_DEVICE_INITED flag
+Date: Sat, 28 Jun 2025 08:25:36 +0300
+Message-Id: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250623083841.364002-1-pranav.tyagi03@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Pranav,
+The HMM_BO_DEVICE_INITED flag was being set in hmm_bo_device_init()
+before key initialization steps like kmem_cache_create(),
+kmem_cache_alloc(), and __bo_init().
 
-kernel test robot noticed the following build warnings:
+This means that if any of these steps fail, the flag remains set,
+misleading other parts of the driver (e.g. hmm_bo_alloc())
+into thinking the device is initialized. This could lead
+to undefined behavior or invalid memory use.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Additionally, since __bo_init() is called from inside
+hmm_bo_device_init() after the flag was already set, its internal
+check for HMM_BO_DEVICE_INITED is redundant.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pranav-Tyagi/cxl-memdev-automate-cleanup-with-__free/20250623-164014
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
-patch link:    https://lore.kernel.org/r/20250623083841.364002-1-pranav.tyagi03%40gmail.com
-patch subject: [PATCH v2] cxl/memdev: automate cleanup with __free()
-config: x86_64-randconfig-161-20250627 (https://download.01.org/0day-ci/archive/20250628/202506280653.WmzTbwEN-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+- Move the flag assignment to the end after all allocations succeed.
+- Remove redundant check of the flag inside __bo_init()
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506280653.WmzTbwEN-lkp@intel.com/
+Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/hmm/hmm_bo.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-smatch warnings:
-drivers/cxl/core/memdev.c:881 cxl_fw_write() error: uninitialized symbol 'transfer'.
-drivers/cxl/core/memdev.c:881 cxl_fw_write() error: uninitialized symbol 'transfer'.
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+index 224ca8d42721..5d0cd5260d3a 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+@@ -37,8 +37,6 @@ static int __bo_init(struct hmm_bo_device *bdev, struct hmm_buffer_object *bo,
+ 		     unsigned int pgnr)
+ {
+ 	check_bodev_null_return(bdev, -EINVAL);
+-	var_equal_return(hmm_bo_device_inited(bdev), 0, -EINVAL,
+-			 "hmm_bo_device not inited yet.\n");
+ 	/* prevent zero size buffer object */
+ 	if (pgnr == 0) {
+ 		dev_err(atomisp_dev, "0 size buffer is not allowed.\n");
+@@ -341,7 +339,6 @@ int hmm_bo_device_init(struct hmm_bo_device *bdev,
+ 	spin_lock_init(&bdev->list_lock);
+ 	mutex_init(&bdev->rbtree_mutex);
 
-vim +/transfer +881 drivers/cxl/core/memdev.c
+-	bdev->flag = HMM_BO_DEVICE_INITED;
 
-9521875bbe0055 Vishal Verma 2023-06-14  874  static enum fw_upload_err cxl_fw_write(struct fw_upload *fwl, const u8 *data,
-9521875bbe0055 Vishal Verma 2023-06-14  875  				       u32 offset, u32 size, u32 *written)
-9521875bbe0055 Vishal Verma 2023-06-14  876  {
-aeaefabc59ec3c Dan Williams 2023-06-25  877  	struct cxl_memdev_state *mds = fwl->dd_handle;
-aeaefabc59ec3c Dan Williams 2023-06-25  878  	struct cxl_dev_state *cxlds = &mds->cxlds;
-8d8081cecfb994 Dave Jiang   2024-09-05  879  	struct cxl_mailbox *cxl_mbox = &cxlds->cxl_mbox;
-9521875bbe0055 Vishal Verma 2023-06-14  880  	struct cxl_memdev *cxlmd = cxlds->cxlmd;
-f76a702ca63e85 Pranav Tyagi 2025-06-23 @881  	struct cxl_mbox_transfer_fw *transfer __free(kfree);
+ 	INIT_LIST_HEAD(&bdev->entire_bo_list);
+ 	bdev->allocated_rbtree = RB_ROOT;
+@@ -376,6 +373,8 @@ int hmm_bo_device_init(struct hmm_bo_device *bdev,
 
-cleanup magic variables need to be initialized to NULL etc.
+ 	__bo_insert_to_free_rbtree(&bdev->free_rbtree, bo);
 
-9521875bbe0055 Vishal Verma 2023-06-14  882  	struct cxl_mbox_cmd mbox_cmd;
-9521875bbe0055 Vishal Verma 2023-06-14  883  	u32 cur_size, remaining;
-9521875bbe0055 Vishal Verma 2023-06-14  884  	size_t size_in;
-9521875bbe0055 Vishal Verma 2023-06-14  885  	int rc;
-9521875bbe0055 Vishal Verma 2023-06-14  886  
-9521875bbe0055 Vishal Verma 2023-06-14  887  	*written = 0;
-9521875bbe0055 Vishal Verma 2023-06-14  888  
-9521875bbe0055 Vishal Verma 2023-06-14  889  	/* Offset has to be aligned to 128B (CXL-3.0 8.2.9.3.2 Table 8-57) */
-9521875bbe0055 Vishal Verma 2023-06-14  890  	if (!IS_ALIGNED(offset, CXL_FW_TRANSFER_ALIGNMENT)) {
-9521875bbe0055 Vishal Verma 2023-06-14  891  		dev_err(&cxlmd->dev,
-9521875bbe0055 Vishal Verma 2023-06-14  892  			"misaligned offset for FW transfer slice (%u)\n",
-9521875bbe0055 Vishal Verma 2023-06-14  893  			offset);
-9521875bbe0055 Vishal Verma 2023-06-14  894  		return FW_UPLOAD_ERR_RW_ERROR;
++	bdev->flag = HMM_BO_DEVICE_INITED;
++
+ 	return 0;
+ }
 
-This return will try to free an uninitialized pointer.
-
-9521875bbe0055 Vishal Verma 2023-06-14  895  	}
-9521875bbe0055 Vishal Verma 2023-06-14  896  
-9521875bbe0055 Vishal Verma 2023-06-14  897  	/*
-aeaefabc59ec3c Dan Williams 2023-06-25  898  	 * Pick transfer size based on mds->payload_size @size must bw 128-byte
-aeaefabc59ec3c Dan Williams 2023-06-25  899  	 * aligned, ->payload_size is a power of 2 starting at 256 bytes, and
-aeaefabc59ec3c Dan Williams 2023-06-25  900  	 * sizeof(*transfer) is 128.  These constraints imply that @cur_size
-aeaefabc59ec3c Dan Williams 2023-06-25  901  	 * will always be 128b aligned.
-9521875bbe0055 Vishal Verma 2023-06-14  902  	 */
-8d8081cecfb994 Dave Jiang   2024-09-05  903  	cur_size = min_t(size_t, size, cxl_mbox->payload_size - sizeof(*transfer));
-9521875bbe0055 Vishal Verma 2023-06-14  904  
-9521875bbe0055 Vishal Verma 2023-06-14  905  	remaining = size - cur_size;
-9521875bbe0055 Vishal Verma 2023-06-14  906  	size_in = struct_size(transfer, data, cur_size);
-9521875bbe0055 Vishal Verma 2023-06-14  907  
-aeaefabc59ec3c Dan Williams 2023-06-25  908  	if (test_and_clear_bit(CXL_FW_CANCEL, mds->fw.state))
-9521875bbe0055 Vishal Verma 2023-06-14  909  		return cxl_fw_do_cancel(fwl);
-9521875bbe0055 Vishal Verma 2023-06-14  910  
-9521875bbe0055 Vishal Verma 2023-06-14  911  	/*
-9521875bbe0055 Vishal Verma 2023-06-14  912  	 * Slot numbers are 1-indexed
-9521875bbe0055 Vishal Verma 2023-06-14  913  	 * cur_slot is the 0-indexed next_slot (i.e. 'cur_slot - 1 + 1')
-9521875bbe0055 Vishal Verma 2023-06-14  914  	 * Check for rollover using modulo, and 1-index it by adding 1
-9521875bbe0055 Vishal Verma 2023-06-14  915  	 */
-aeaefabc59ec3c Dan Williams 2023-06-25  916  	mds->fw.next_slot = (mds->fw.cur_slot % mds->fw.num_slots) + 1;
-9521875bbe0055 Vishal Verma 2023-06-14  917  
-9521875bbe0055 Vishal Verma 2023-06-14  918  	/* Do the transfer via mailbox cmd */
-9521875bbe0055 Vishal Verma 2023-06-14  919  	transfer = kzalloc(size_in, GFP_KERNEL);
-9521875bbe0055 Vishal Verma 2023-06-14  920  	if (!transfer)
-9521875bbe0055 Vishal Verma 2023-06-14  921  		return FW_UPLOAD_ERR_RW_ERROR;
-9521875bbe0055 Vishal Verma 2023-06-14  922  
-9521875bbe0055 Vishal Verma 2023-06-14  923  	transfer->offset = cpu_to_le32(offset / CXL_FW_TRANSFER_ALIGNMENT);
-9521875bbe0055 Vishal Verma 2023-06-14  924  	memcpy(transfer->data, data + offset, cur_size);
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+2.25.1
 
