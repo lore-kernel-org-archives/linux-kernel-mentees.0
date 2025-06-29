@@ -1,91 +1,98 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B984E19ADBF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Jun 2025 18:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D15920B7F4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Jun 2025 23:35:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751221502; cv=none; b=X0SerOFecH2z05R60OjTUXcT9DGHcGqrEHE/tGNpBrqRB27jpfWyIgNLudbzaawt9TfqwDAJ3DC86NtBH8BlmBBv2xfpMqsDPmw/6Oxjz9um6l4TaTCEyrcfq8LHpYK/21DOG+24jxZ83K7gF6/x/09ajX8+wmZQ8SyrTjakdAM=
+	t=1751240127; cv=none; b=ZgHZ5nY0fIIfC1VMFzOrr15hbDV77zRQ/WkdJhX2lRltO7VyV3GKbO/8L5MKjh9ejP+XpdoZjkWZUgy7WxJduM64CONOi7LV2rXCDqe7DKNoR+ClRgHYEhSUBCG0pSJPE8wkykuhCFsnzIO04ht+iHr6AmReTrdd0evLKeonGU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751221502; c=relaxed/simple;
-	bh=DhBKlmjLOiyFfEEsVCIlTdKsD++1KdN8yi/Q0MbSXQw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PlBxkXuzSP3aSrwECJsELjyATlX76QhrD7oJi2958DES6Hz0NC6gNHr5UMryQmDKyoOZ92R6QGR0ZLIPsa0CQ4TPJ/p2W6fOgRc9zOxs8fh2rG2GM7JJRNtdNIr2xR0TNWN+fUWncr+Nrj4s8O3fnyfD1uc7NzxAPk/9aUwPOIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ygmag+qu; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1751240127; c=relaxed/simple;
+	bh=hnAex+xrS8FpUWygXla21LOG0suo16GMo41+67qfg/E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r4OJj8U3QFISOnrFPIjqqHIsZu1LkxcTihgY/NLcZYWcby6T0bjUWLrtB1OEAqRUBbJvExlI55hQh7KOer5MrfXNH4zIxHvRMHUpZ4ZX6agDcoKWTzGTHXUsK4bFvMrgP+IO5gPz08Wyv6inxzMH0SHyhXzZAYU8R5iEU+/cdWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HNPwGQRa; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ygmag+qu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HNPwGQRa"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 5498D4038A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Jun 2025 18:25:01 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id BE78A846E4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Jun 2025 23:35:25 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: 1.486
 X-Spam-Level: *
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ZgThhhH6tiFL for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 29 Jun 2025 18:25:00 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::f2e; helo=mail-qv1-xf2e.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org B21F140388
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B21F140388
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ygmag+qu
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B21F140388
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Jun 2025 18:25:00 +0000 (UTC)
-Received: by mail-qv1-xf2e.google.com with SMTP id 6a1803df08f44-6fafdd322d3so17126196d6.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Jun 2025 11:25:00 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id GkXwWlcF2iFx for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 29 Jun 2025 23:35:25 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62a; helo=mail-pl1-x62a.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 2A3E2843CB
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2A3E2843CB
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HNPwGQRa
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 2A3E2843CB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Jun 2025 23:35:24 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-234f17910d8so34413065ad.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Jun 2025 16:35:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751221499; x=1751826299; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1751240124; x=1751844924; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PCn0+ucEkRvS1MPOQbl5PoaWNKu1L1cu8L9SbyabJaI=;
-        b=Ygmag+quPooCqR4VdArgb+s7cIFfXBzzrcZp7Vy+HTEbLW0y1SHi7o6mOcR+1lojfU
-         EM1cQvrOmTm0e7ijB5ByibGJ3zKFmwozr5SZU98DAIrVBE3ktzPvRyoZ5kO1l1NIpawd
-         v0lqOr9P9Q4SSxzj2j81n3ogg/XhryOJw+0OPKJV4ozFYo4Fy/VOwcxTH+yVy9xnY0xZ
-         6XCfKJrOgDmLtI3x/+o2pR3C1+Y9govxEqbp+HXM4oM+yDFxyZELBUj/ATh8whmwm/7V
-         D90p6a8jrvSdhj/Jgk823tZ4pfQv9pzQrp9Lz+3JMHuh78byE4M4ojBKOJjEkng1/vLp
-         qJLA==
+        bh=pXPOk3nqEUuFIqBZ1Us9rXYq5TplB4NjRHfPRWTgB30=;
+        b=HNPwGQRapjKjh1OgWIaA3ZkyP+kyTuyrntAfAJ7b0DZqZ3bpFJyNGqB2N7zhWxTGev
+         jsPPh7GjATbroRhdKePddEklm1zB+1R03+j3HlaVKpe6QHGusWDHZUorV1MXMy0jYY3q
+         jbt7K5Ycx3oR9en9ehwSAOJL7cmIFtNqUHFPGimmJ4WL780iukbneusJQeLvuOooXKGb
+         nlc0yuPp12P+CouP8Ld+n3BBYGyPwa0aUIF7iW7SybuDsFoGj/gb1svhahwJNLOO3iVm
+         XFPzyzeiAUDyIa/2W2AJbv1Kkx01cxzcWalNSwfcjIzXLdqFdZeckbbfV5CblUk5L9Pa
+         y9zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751221499; x=1751826299;
+        d=1e100.net; s=20230601; t=1751240124; x=1751844924;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PCn0+ucEkRvS1MPOQbl5PoaWNKu1L1cu8L9SbyabJaI=;
-        b=gIAhoD8KNxsKMEhtPFAVQuS5W0AAfW/gONFtxhrn2h182RmI1Ole8W7zv1oipjMg6J
-         OluRcZLQnCVYoX/ZeDFgiaONQi8EVY8xW5PNgzq7vx3KZi37KTUW6BfJrOnyNrHIAjc0
-         6M6RCFbCul5fxGGD0DNlYWJyW4Y2XaLhOzXGELwy+y+Ps8Mi0M1s2t75GcGckGjACkSI
-         kugyHhPv7aKSO/KECqhpLJM7U5p+RTodShPFhw2FKf8u1fZVayWhWU4epszlLsvx3ODl
-         LxIKDNOZenvp1XUY/mgX6COFq1bX2RaKKCOKs7GQKcw3eJY6hTtzGfSFOubZeMoOjbVr
-         R92A==
-X-Forwarded-Encrypted: i=1; AJvYcCW6q6hTPUjfc4J9x6qApONySOH1DBOQpttMuaPTvSopFjuOFqcP70cUbcgvHAQhZDlZw/HWUD8tiFXNKEzv2o2SgfgMVQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YznlpxEDvW0FPWvJ82sb4GtTOp4ylvZaB1BVC2e2+9nyYftdJhm
-	Y5NQ4lhTKwevYywjYukduvG8Vc91BCXgpYsyohFOsDeXqueaoaAtP3Bd
-X-Gm-Gg: ASbGnctQyIBdSCMs+tuyyL2TGwMESQOFi5oVLxsQGxkx3q1ABoZ5uUFEKV88EfRZVRV
-	SuTGjX1inIK9c455HsbuV3CU38ihLPxMrIs7dB0DOtBp/cI0OI5qAdrG8Yhpj58jEnYxRshe+kR
-	n9kzRvwyHJ9s4QTBt3VPV96o91A15R7MIV1jPwwY04VoOKr8ounDPyrf8ePKqXSodsugOBj+UlL
-	dFMEnaWkXzVHeE7X/r8gU4f3KQVVofOWuQ+fVCgZ3Kqz8FTc441ZHQ+5AKzQYFrMETNlPhRtO0V
-	hzsemMHJuDzB0cfwocm1ykZ3FV6Y83P8L94kqObShSlBx2pw
-X-Google-Smtp-Source: AGHT+IE8ZFa0LSuu03SsIfsP4BI06sEZwP6Jddmvw7w8JwUeW05PDyCVNTa79hGOPUDZS+0Hpq8xJQ==
-X-Received: by 2002:a05:6214:2466:b0:6f8:8fdf:f460 with SMTP id 6a1803df08f44-6fffdcfc04bmr176240576d6.9.1751221499271;
-        Sun, 29 Jun 2025 11:24:59 -0700 (PDT)
+        bh=pXPOk3nqEUuFIqBZ1Us9rXYq5TplB4NjRHfPRWTgB30=;
+        b=RWmsSALcq7HgOmSGT+s0vYW7khkwxzsc654T/gTctlajIjeNW6uZID+xH+foRtBmL6
+         vQ5UVOGi0SFxsm2mdcLBBsivEva9EzFoqroT43VmJb6UicpIaYvOiTU7oIyAsY5ekmMm
+         AouaVH+GzQFTVdJPE9x/sbSz0Mo6HZB9MhyJ+QWQETxnSwDW1Wn3dV01ol3Y1aG/0TTf
+         tHhTrFWXiuXycJJg8mwPg/zNOqdtv0bZ+CRcuW1xiEx/7lhCC8kFHtgSE5yNs2dCi2gU
+         B2kwqkSSus173dQ5mko0oTzWG/SAYBbgOtzJIym1BVfyJZ0QP62guwOk+KiuKTz3f1RH
+         xT6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXX2Az62Jq5beqMsl56+RopvFwmsQdaCO4XvfEPMapuhx2FqnFdlWiTw0vnt+blf2e0ho02F9B5a+oX58dfuEt2pn+98w==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yw4RUNeQUd73Alj96kL8NFO79G8dtTI8k2kRk+t7s4yrK7CswKa
+	Y6lMXufHdP08CeJSEwN0Y1qzH1o0MvTrqxGjQlk6Vnv1EJ8ni/RnRUbg
+X-Gm-Gg: ASbGnctpBUJFepl8M5TdHkT/TZE8fUDXeZUfs/JySPNvx9jHSdvJCzabBxMGsCFY8nU
+	UFLG7Y7rYnZPTVlb0Fn7c8UlXOn27Ok/FXdOdItDqwzz6tzZz6CA17ONXOT4v71Um2MF+E5Fk43
+	sI2Pdx31x43HnZbzrNSyNrJtjz8mMxtJg/uixIaP0BwBE9UL0P5BSG9e+K0+rDcjn6aACLeLNh4
+	saz1gLe8jZHtuUtUPdu0k9p+Wy59bgPWDzNyc8PgExjir6vvnBVYHeV57VPCKm2TyZNqmlaWoWU
+	LOtCdlKAphOUjGoSafh2vY5qzzHFFyjny+Ose6tstuPKoweF
+X-Google-Smtp-Source: AGHT+IFO5QoN4K5K/v4sh7hmW17whurpIN5P0eVHuHATG4/IgZWs2ApHRywY+DGQ0YFm+ysET+U3Qw==
+X-Received: by 2002:a17:902:ccc9:b0:234:909b:3da9 with SMTP id d9443c01a7336-23ac4680f11mr161686875ad.27.1751240124361;
+        Sun, 29 Jun 2025 16:35:24 -0700 (PDT)
 Received: from fedora ([2804:14c:64:af90::1001])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fd771ab9d6sm55220746d6.28.2025.06.29.11.24.56
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3c9695sm69433775ad.238.2025.06.29.16.35.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jun 2025 11:24:58 -0700 (PDT)
+        Sun, 29 Jun 2025 16:35:23 -0700 (PDT)
 From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-To: Yazen Ghannam <yazen.ghannam@amd.com>,
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
 	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	~lkcamp/patches@lists.sr.ht
-Cc: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	James Morse <james.morse@arm.com>,
-	linux-edac@vger.kernel.org,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] EDAC/amd64: replace sprintf with sysfs_emit in show functions
-Date: Sun, 29 Jun 2025 15:24:48 -0300
-Message-ID: <20250629182448.265407-1-marcelomoreira1905@gmail.com>
+Subject: [PATCH] drm/bridge: it6505: replace scnprintf with sysfs_emit_at in debugfs show
+Date: Sun, 29 Jun 2025 20:35:09 -0300
+Message-ID: <20250629233509.291786-1-marcelomoreira1905@gmail.com>
 X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -95,66 +102,82 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update all device attribute 'show' callbacks in the EDAC AMD64 driver to
-utilize sysfs_emit(). This change adheres to the recommendation outlined
+Update the receive_timing_debugfs_show() function to utilize
+sysfs_emit_at() for formatting output to the debugfs buffer.
+This change adheres to the recommendation outlined
 in Documentation/filesystems/sysfs.rst.
 
-This modification aligns with current sysfs subsystem guidelines.
+This modification aligns with current sysfs guidelines.
 
 Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
 ---
- drivers/edac/amd64_edac.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 46 ++++++++++++++---------------
+ 1 file changed, 22 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index b681c0663203..b6d211255ef0 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -552,7 +552,7 @@ static ssize_t reg##_show(struct device *dev,				\
- 	struct mem_ctl_info *mci = to_mci(dev);				\
- 	struct amd64_pvt *pvt = mci->pvt_info;				\
- 									\
--	return sprintf(data, "0x%016llx\n", (u64)pvt->reg);		\
-+	return  sysfs_emit(data, "0x%016llx\n", (u64)pvt->reg);		\
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 1383d1e21afe..98bea08a14e4 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -3427,37 +3427,35 @@ static ssize_t receive_timing_debugfs_show(struct file *file, char __user *buf,
+ 	struct it6505 *it6505 = file->private_data;
+ 	struct drm_display_mode *vid;
+ 	u8 read_buf[READ_BUFFER_SIZE];
+-	u8 *str = read_buf, *end = read_buf + READ_BUFFER_SIZE;
+-	ssize_t ret, count;
++	ssize_t ret;
++	ssize_t count = 0;
+ 
+ 	if (!it6505)
+ 		return -ENODEV;
+ 
+ 	it6505_calc_video_info(it6505);
+ 	vid = &it6505->video_info;
+-	str += scnprintf(str, end - str, "---video timing---\n");
+-	str += scnprintf(str, end - str, "PCLK:%d.%03dMHz\n",
+-			 vid->clock / 1000, vid->clock % 1000);
+-	str += scnprintf(str, end - str, "HTotal:%d\n", vid->htotal);
+-	str += scnprintf(str, end - str, "HActive:%d\n", vid->hdisplay);
+-	str += scnprintf(str, end - str, "HFrontPorch:%d\n",
+-			 vid->hsync_start - vid->hdisplay);
+-	str += scnprintf(str, end - str, "HSyncWidth:%d\n",
+-			 vid->hsync_end - vid->hsync_start);
+-	str += scnprintf(str, end - str, "HBackPorch:%d\n",
+-			 vid->htotal - vid->hsync_end);
+-	str += scnprintf(str, end - str, "VTotal:%d\n", vid->vtotal);
+-	str += scnprintf(str, end - str, "VActive:%d\n", vid->vdisplay);
+-	str += scnprintf(str, end - str, "VFrontPorch:%d\n",
+-			 vid->vsync_start - vid->vdisplay);
+-	str += scnprintf(str, end - str, "VSyncWidth:%d\n",
+-			 vid->vsync_end - vid->vsync_start);
+-	str += scnprintf(str, end - str, "VBackPorch:%d\n",
+-			 vid->vtotal - vid->vsync_end);
+-
+-	count = str - read_buf;
++	count += sysfs_emit_at(read_buf, count, "---video timing---\n");
++	count += sysfs_emit_at(read_buf, count, "PCLK:%d.%03dMHz\n",
++			vid->clock / 1000, vid->clock % 1000);
++	count += sysfs_emit_at(read_buf, count, "HTotal:%d\n", vid->htotal);
++	count += sysfs_emit_at(read_buf, count, "HActive:%d\n", vid->hdisplay);
++	count += sysfs_emit_at(read_buf, count, "HFrontPorch:%d\n",
++			vid->hsync_start - vid->hdisplay);
++	count += sysfs_emit_at(read_buf, count, "HSyncWidth:%d\n",
++			vid->hsync_end - vid->hsync_start);
++	count += sysfs_emit_at(read_buf, count, "HBackPorch:%d\n",
++			vid->htotal - vid->hsync_end);
++	count += sysfs_emit_at(read_buf, count, "VTotal:%d\n", vid->vtotal);
++	count += sysfs_emit_at(read_buf, count, "VActive:%d\n", vid->vdisplay);
++	count += sysfs_emit_at(read_buf, count, "VFrontPorch:%d\n",
++			vid->vsync_start - vid->vdisplay);
++	count += sysfs_emit_at(read_buf, count, "VSyncWidth:%d\n",
++			vid->vsync_end - vid->vsync_start);
++	count += sysfs_emit_at(read_buf, count, "VBackPorch:%d\n",
++			vid->vtotal - vid->vsync_end);
++	
+ 	ret = simple_read_from_buffer(buf, len, ppos, read_buf, count);
+-
+ 	return ret;
  }
  
- EDAC_DCT_ATTR_SHOW(dhar);
-@@ -571,7 +571,7 @@ static ssize_t dram_hole_show(struct device *dev, struct device_attribute *mattr
- 
- 	get_dram_hole_info(mci, &hole_base, &hole_offset, &hole_size);
- 
--	return sprintf(data, "%llx %llx %llx\n", hole_base, hole_offset,
-+	return sysfs_emit(data, "%llx %llx %llx\n", hole_base, hole_offset,
- 						 hole_size);
- }
- 
-@@ -602,7 +602,7 @@ static ssize_t inject_section_show(struct device *dev,
- {
- 	struct mem_ctl_info *mci = to_mci(dev);
- 	struct amd64_pvt *pvt = mci->pvt_info;
--	return sprintf(buf, "0x%x\n", pvt->injection.section);
-+	return sysfs_emit(buf, "0x%x\n", pvt->injection.section);
- }
- 
- /*
-@@ -638,7 +638,7 @@ static ssize_t inject_word_show(struct device *dev,
- {
- 	struct mem_ctl_info *mci = to_mci(dev);
- 	struct amd64_pvt *pvt = mci->pvt_info;
--	return sprintf(buf, "0x%x\n", pvt->injection.word);
-+	return sysfs_emit(buf, "0x%x\n", pvt->injection.word);
- }
- 
- /*
-@@ -675,7 +675,7 @@ static ssize_t inject_ecc_vector_show(struct device *dev,
- {
- 	struct mem_ctl_info *mci = to_mci(dev);
- 	struct amd64_pvt *pvt = mci->pvt_info;
--	return sprintf(buf, "0x%x\n", pvt->injection.bit_map);
-+	return sysfs_emit(buf, "0x%x\n", pvt->injection.bit_map);
- }
- 
- /*
 -- 
 2.50.0
 
