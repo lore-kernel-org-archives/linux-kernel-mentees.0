@@ -1,86 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA94728B7EF;
-	Mon, 30 Jun 2025 13:15:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900BA25B30D
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 30 Jun 2025 14:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751289351; cv=none; b=Tx7Isie7ceszNj77AkSgvjpm7sKqazYoVSmfnCu0L0mdwwJWXuyKRl6QSPITPrFZUCPTBLu/nVr9ZV2EOeuRwad/QH1SBjALiKmJTxNXvRwhnVkDHQ36ar99uyXi/MXwgUSvGisJaXHdr5oO6xjPlmbvLzyYMMCYYxmhUq6aQDo=
+	t=1751293101; cv=none; b=nTe94rqLMfFHvx/L4KacVzHrCm7IRlxmk/p4BlfR0PgV9L+nFrx8FR45yNcI82m1aLm5XUfXmJ8lfrXkXfEV48pbbvdCHvfZS6hiN08u9bRIN+0mSLG4ttsBpXXcGnFoRQuJdNcTFWQuA2sSbvvzWUNp3S1n0LnnEavsSOlzVDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751289351; c=relaxed/simple;
-	bh=1y6vmVuDYenWeLrLPlwct+pyU/EgPCro2JAQe6Hydgw=;
+	s=arc-20240116; t=1751293101; c=relaxed/simple;
+	bh=MJKZQQl4xS6GkWd/fK/rvCo6TRq6P4jCNco7oktzSZs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H3wnX3QVBF29HNJmEtuEIfcY+XZnolbBTgnAYg8OIAfKVZdkyFxlzPiUzZt1rGUEcTWC/ILWCQ9kUTi5g9p+Lv+F5bfd7vDZ1CjY4hqQ2e+UijgUYL8Xb+rsW75slQlzbPqkXtmRGdWnSqGHOyRUOy+RiYQJZEt3HpLN5sti6O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MkOujb4V; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=et1CptktXLF0WIRKHGn0vyFiehUYmU5iUE1Fmojsqi5udw3MjVALZjZQ78SxQ9xhPvVtTfg639cVcIemjuBhyjJGQOS8u/YpAt+bOJR7nlJgbbqSgirLwxtunXVs9ZNTtydIYjzcapz1NDKOI+T1dnGcavdMvYisxrzEqPcbFNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz; spf=pass smtp.mailfrom=listout.xyz; dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b=iFV20gty; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=listout.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MkOujb4V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CE83C4CEF1;
-	Mon, 30 Jun 2025 13:15:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1751289351;
-	bh=1y6vmVuDYenWeLrLPlwct+pyU/EgPCro2JAQe6Hydgw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MkOujb4VFvtoHPHFke1pQ9V0orbmqc6400lTZIRq0ZB2bAAZVwWgiM9mwaLEpaOXq
-	 iA6glFdeck0fPEL3sXxqaCn7ej4Nk8ywG7Lbu6jFALemjh3NESa+Ej7usegv573JuD
-	 tz6Kx4re8JK3VYHwYZNxuKx61erWb83ufs7WvzOg=
-Date: Mon, 30 Jun 2025 15:15:48 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ryan Chung <seokwoo.chung130@gmail.com>
-Cc: hao.wu@intel.com, trix@redhat.com, mdf@kernel.org, yilun.xu@intel.com,
-	linux-fpga@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fpga: dfl: Replace scnprintf() with sysfs_emit()
-Message-ID: <2025063046-grub-lego-59a4@gregkh>
-References: <20250630125018.48417-1-seokwoo.chung130@gmail.com>
+	dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b="iFV20gty"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bW7YM5Rqbz9smJ;
+	Mon, 30 Jun 2025 16:18:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=listout.xyz; s=MBO0001;
+	t=1751293095;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=t7fvedv2c/IIXDtuy4ODNT6VaqU7XH//j7biHuOSDJ8=;
+	b=iFV20gty7lS9FWG2R/tdYlaKqwJF9ZmznAY4Zp4LBGigUMQDqwBC5QWcSadn7lAV7moSMX
+	COGhJpdokXFLYpUOb6QIc64xp29WcpW5KVFIOvcJ20ho33PUYnZC7LJXzJnvSW7EG0vc7l
+	f3+c86gUBhlWcG4D6pQu5+ehA5V1UMD/NEgTQUOb71H1lh2nIVH+P2dFWSbFLaqPAMXF1s
+	clddVSoNZRqqrDRbUzxlgrJgu0kID3WT0wxAlsw0KKFw28PhzCnyaNhEbRxoZQzgIdFpS+
+	yywN7FJe7kPfzD8No+cZx4tXO9XAjHB8dn+pnmrR8wnxMx32LjixKfBFHhAdCQ==
+Date: Mon, 30 Jun 2025 19:48:03 +0530
+From: Brahmajit Das <listout@listout.xyz>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Cc: Carlos Maiolino <cem@kernel.org>, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fs/xfs: replace strncpy with strscpy
+Message-ID: <ldak3a3zmqlkv67mjproobt4g7pe6ii7pkqzzohd5o5kyv64xw@r63jjlqzafzp>
+References: <BgUaxdxshFCssVdvh_jiOf_C2IyUDDKB9gNz_bt5pLaC8fFmFa0E_Cvq6s9eXOGe8M0fvBUFYG3bqVQAsCyz3w==@protonmail.internalid>
+ <20250617124546.24102-1-pranav.tyagi03@gmail.com>
+ <qlogdnggv2y4nbzzt62oq4yguitq4ytkqavdwele3xrqi6gwfo@aj45rl7f3eik>
+ <CAH4c4jLjiBEqVxgRG0GH37RELDp=Py3EoY6bcJhzA+ydfV=Q1A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250630125018.48417-1-seokwoo.chung130@gmail.com>
+In-Reply-To: <CAH4c4jLjiBEqVxgRG0GH37RELDp=Py3EoY6bcJhzA+ydfV=Q1A@mail.gmail.com>
 
-On Mon, Jun 30, 2025 at 09:50:18PM +0900, Ryan Chung wrote:
-> Signed-off-by: Ryan Chung <seokwoo.chung130@gmail.com>
-
-I know I can't take patches without any changelog text, but maybe other
-maintainers are more lax?
-
-Also, you only said what you did, but not why you did it.
-
-> ---
->  drivers/fpga/dfl-afu-main.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+On 30.06.2025 14:36, Pranav Tyagi wrote:
+... snip ...
+> > >       spin_unlock(&mp->m_sb_lock);
+> > >
+> > >       if (copy_to_user(user_label, label, sizeof(label)))
+> > > --
+> > > 2.49.0
+> > >
 > 
-> diff --git a/drivers/fpga/dfl-afu-main.c b/drivers/fpga/dfl-afu-main.c
-> index 3bf8e7338dbe..f2dd4667a43d 100644
-> --- a/drivers/fpga/dfl-afu-main.c
-> +++ b/drivers/fpga/dfl-afu-main.c
-> @@ -156,7 +156,7 @@ id_show(struct device *dev, struct device_attribute *attr, char *buf)
->  	struct dfl_feature_dev_data *fdata = to_dfl_feature_dev_data(dev);
->  	int id = port_get_id(fdata);
->  
-> -	return scnprintf(buf, PAGE_SIZE, "%d\n", id);
-> +	return sysfs_emit(buf, PAGE_SIZE, "%d\n", id);
+> Hi,
+> 
+> Thank you for the feedback. I understand that my patch is incorrect and
+> it causes a buffer overrun. The destination buffer is indeed, already, null
+> terminated. Would you like me to send a corrected patch which uses
+> strscpy() (as strncpy() is deprecated)?
+> 
+If the destination buffer is already NUL terminated, you can use either
+strtomem or strtomem_pad [0].
 
-Did you build this?  Did you test it?
+[0]: https://docs.kernel.org/core-api/kernel-api.html#c.strncpy
+(Description)
+> Regret the inconvenience.
+> 
+> Regards
+> Pranav Tyagi
+> 
 
->  }
->  static DEVICE_ATTR_RO(id);
->  
-> @@ -475,7 +475,7 @@ afu_id_show(struct device *dev, struct device_attribute *attr, char *buf)
->  	guidh = readq(base + GUID_H);
->  	mutex_unlock(&fdata->lock);
->  
-> -	return scnprintf(buf, PAGE_SIZE, "%016llx%016llx\n", guidh, guidl);
-> +	return sysfs_emit(buf, PAGE_SIZE, "%016llx%016llx\n", guidh, guidl);
-
-Same here, was this built?
-
-And what's wrong with the original code?
-
-thanks,
-
-greg k-h
+-- 
+Regards,
+listout
