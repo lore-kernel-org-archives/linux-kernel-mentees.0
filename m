@@ -1,168 +1,110 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E94B226165
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 30 Jun 2025 08:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA34924466F;
+	Mon, 30 Jun 2025 08:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751272556; cv=none; b=uWiyJCtlQwG+yWcdX2a5++KgnNbNe/zYAkFT+gMOvCyvbY79SBdv5JP/i3mrwgSm6T5Hvt7DiiPBG1+S9hfIPHQfs0NTAqqGKIc/lhgoDfKKwISqKlNZO0v1C4hdIyhHEuvy/+K6dcRtuigxW5t0SA8zQrkcJ6aEJ8Zu9tQKU1g=
+	t=1751272744; cv=none; b=KnbMNBIP+qJ14gXeAf+/0bDjXvgM2E4APfpKzoJglCFGVZa6SMOSMLh2ijt+y6DyNgX8hS9Ex7cr6rHOJyRlriCcFBOS1zLonh/HCcqLgbtSPiz6NSPq/V0bfBQBYgF9l5NBICvAIHbbYNOENBeITSySP/n1rABW+clwLLST9is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751272556; c=relaxed/simple;
-	bh=hbl6aKOFyrCpAMd3O9ukAhgw6X3wjq6glq0MIKEE2gk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ErGUBPFysG91mUBF9ojvcghNbT9geuCUuAs0dB0i9q79NKEWFdFUd1uxKIo2fblix5T+4aeTf20lC0Ts49QvxcvPa4YvSyBohEUZ1ZePGIQntgS/XvX/oY4c4oimDnsCDhtRxCYhba1rA9ylyn80pduVvw23Pms8igTamTkn/RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kllonPT+; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751272744; c=relaxed/simple;
+	bh=dXeTuzcgcqEB0p+KJUY9jWL49qMbSvHNlA+EHsWxX3o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cXhRdl6eKI/Oq3DW5OajA1Oabjt/PUisJkqSFCP0UDttNYa0SVSZ+8hHDOCnEk0zYgRt7OMwu5uZrlOHvnfpydXVl6C6sv1yFP8zZer/oAIDJ8KhNIZfj3teGb66ZL6X99CtFSjnmKuXvKN7J7+kfVFsmC5bB5smxMppWuZ+3+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s3aweSNK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kllonPT+"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-747fba9f962so3846346b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 30 Jun 2025 01:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751272554; x=1751877354; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=c4plGK5bq5RnwaM8ctVOu6ZgjjUnMHD+gm6XjSI880o=;
-        b=kllonPT+UJxHv3YQPXL/Js53/DdRrCkc9H1ryoCa/ir2xLotNKAmFvvwMIW0QfL75s
-         iwKNHtSf0dDsv9vBk4BA/EE0hXrma6YHJgH9n5tFkxcNXIYRmNfjfFZwJ96s8rl4eE/w
-         m13ZkbZVjhMsQFzz60fFST7IONZ6BLhZ8YFQ7ih8ouyby3UzAh6VDaZ7PB8krHIgrTFn
-         BGyBwinwqMlfbwW9+nU3YcQhRK3TTBC2yShN2YZ5XxyvHFP7+RrcliBxrhuTF6zjfTx0
-         VchGFvrNSxgWBJAQ0JFekMvoyDHC+pwkIMc5FWIvUTt593T2MQF5IvBgbb7SiZTv6f9t
-         Airw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751272554; x=1751877354;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c4plGK5bq5RnwaM8ctVOu6ZgjjUnMHD+gm6XjSI880o=;
-        b=CXti6xeMpvea4pX0KrFB3caq57E9nSxlSopPrfNbEHAo7ma0+yWWDbPBU15x8AJTG8
-         22lOYAN4d8jVcKivvb5A4OWJhbElmBxNHo6yoBRYP3U81rWb9SENXdD/yISlTuMT9xQf
-         +wlM7tk32PAPdH6O2eMBiRULQvMt5Mz3h9u7dLBV/4Rl5ysHjnXVzrjE6lNKhOfsscNx
-         CbFM+Ozers1aadbhd1g+rlDmudjjvy9zmtWqyp02UJjS7BdXEOCITNfI8j48vNnygffP
-         XzePOHvMcmLQPVEE/VCUazMypL1hsIlr+Eboncn+1SXxt7t6Wk96qCELcrV4FVgWdn4L
-         Sf6g==
-X-Forwarded-Encrypted: i=1; AJvYcCV/fdh2AaiBHFmrvxeXSXn/6I0RiyrXCSttG6NQg7wPVoJg/CugbJFCIlj3wq47EgJWS+CUBK3cI8Y/l7Ha4B70kxfSUA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0OOKa0NKW0Cm6EIjQanawVj0Y/W60Xa++/Sl+QA6UGpmKhJ99
-	QoVE6KDV0n4uHLRyNcvfKWOCDjL0/mvG7D6j85CZ1ppcncmynR5CUJc1
-X-Gm-Gg: ASbGncvqFekL3WAjbp8PPIAGawNL/0oEnJuRYfa/t5bcJ01MD+v/d6uSdjEEiv0ahzS
-	sYf6F/84Ymqb1lUFoV5rUrU4RzrcJ3UoDDT+9YDDhpjfZIPOA18nUXaMoWZXoz/05T2vFhV3Y8z
-	UCTbIEa7w9dTJ0skLLO1xhRa+3LuPuv9zNLp2F4AFTbLb9F8KMEzO2m4eh2DZvJUptcw7TByhPg
-	iGG3D5TuPmJnIzoebN1YyJIxRK5dvolecFiTxS5MufEPx/D/9dIxcd5ocq6oDdvcJbGhoya4r0G
-	0OrrgXQ46lUd4HDnCDMsgqlXfPOZnHxPYAU8om8REnqklVqw3PSzT1QLm3Wga5kgoF7d3yE6pvT
-	CMm/VxQ==
-X-Google-Smtp-Source: AGHT+IGM9wfHSeMMXfeBZheGggepk2ZqiWnb9R0ko13yd/AL0hGgh5N+CjMk8e3oprn88leMOC/mQA==
-X-Received: by 2002:a05:6a00:b52:b0:748:6a12:1b47 with SMTP id d2e1a72fcca58-74af7aef473mr17756726b3a.10.1751272553630;
-        Mon, 30 Jun 2025 01:35:53 -0700 (PDT)
-Received: from manjaro.domain.name ([2401:4900:1c31:3031:bed6:689:68b3:ea6e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af57ebcb5sm8320722b3a.151.2025.06.30.01.35.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 01:35:53 -0700 (PDT)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: ocfs2-devel@oss.oracle.com,
-	linux-kernel@vger.kernel.org
-Cc: mark@fasheh.com,
-	jlbec@evilplan.org,
-	joseph.qi@linux.alibaba.com,
-	pvmohammedanees2003@gmail.com,
-	akpm@linux-foundation.org,
-	gregkh@linuxfoundation.org,
-	sashal@kernel.org,
-	skhan@linuxfoundation.org,
-	stable@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	syzbot+e0055ea09f1f5e6fabdd@syzkaller.appspotmail.com,
-	Junxiao Bi <junxiao.bi@oracle.com>,
-	Changwei Ge <gechangwei@live.cn>,
-	Gang He <ghe@suse.com>,
-	Jun Piao <piaojun@huawei.com>,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH 5.15.y] ocfs2: fix deadlock in ocfs2_get_system_file_inode
-Date: Mon, 30 Jun 2025 14:05:42 +0530
-Message-ID: <20250630083542.10121-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s3aweSNK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AA1BC4CEE3;
+	Mon, 30 Jun 2025 08:39:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751272743;
+	bh=dXeTuzcgcqEB0p+KJUY9jWL49qMbSvHNlA+EHsWxX3o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=s3aweSNK50ehyIVaU33NZusDCONXpWb2aiAYnt4ufTSqdzqs7WetkbH3QfCmCfawH
+	 zvm7sb0KbzUocbZKOdEUotb7GavVcNjIbDb6PaDE5n6AfWLvtjILd7scwmUkrtUXIU
+	 5GRFBsp36BLCkqs/YK4Gv+smuEhmw+linY++VYeF92ydNUO6CrLNkyrY5cFET0ex83
+	 xKIJJzQr6DLpcifTLnwfqEtxENxUM7C7RR54vePZT7sxpeMw0ni+q69CH9l0MsvUOq
+	 5YMF64EW7Sr6sWaZjnnOhM+A22byK8MLSUj42XuiLhoX+xhjQHTwVJf26msZZ+IQbe
+	 CHVP+SaBbMwQA==
+Date: Mon, 30 Jun 2025 10:38:59 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fs/xfs: replace strncpy with strscpy
+Message-ID: <qlogdnggv2y4nbzzt62oq4yguitq4ytkqavdwele3xrqi6gwfo@aj45rl7f3eik>
+References: <BgUaxdxshFCssVdvh_jiOf_C2IyUDDKB9gNz_bt5pLaC8fFmFa0E_Cvq6s9eXOGe8M0fvBUFYG3bqVQAsCyz3w==@protonmail.internalid>
+ <20250617124546.24102-1-pranav.tyagi03@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250617124546.24102-1-pranav.tyagi03@gmail.com>
 
-From: Mohammed Anees <pvmohammedanees2003@gmail.com>
+On Tue, Jun 17, 2025 at 06:15:46PM +0530, Pranav Tyagi wrote:
+> Replace the deprecated strncpy() with strscpy() as the destination
+> buffer should be NUL-terminated and does not require any trailing
+> NUL-padding. Also, since NUL-termination is guaranteed,
 
-[ Upstream commit 7bf1823e010e8db2fb649c790bd1b449a75f52d8 ]
+NUL-termination is only guaranteed if you copy into the buffer one less
+byte than the label requires, i.e XFSLABEL_MAX.
 
-syzbot has found a possible deadlock in ocfs2_get_system_file_inode [1].
+> use sizeof(label) in place of XFSLABEL_MAX as the size
+> parameter.
 
-The scenario is depicted here,
+This is wrong, see below why.
 
-	CPU0					CPU1
-lock(&ocfs2_file_ip_alloc_sem_key);
-                               lock(&osb->system_file_mutex);
-                               lock(&ocfs2_file_ip_alloc_sem_key);
-lock(&osb->system_file_mutex);
+> 
+> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> ---
+>  fs/xfs/xfs_ioctl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
+> index d250f7f74e3b..9f4d68c5b5ab 100644
+> --- a/fs/xfs/xfs_ioctl.c
+> +++ b/fs/xfs/xfs_ioctl.c
+> @@ -992,7 +992,7 @@ xfs_ioc_getlabel(
+>  	/* 1 larger than sb_fname, so this ensures a trailing NUL char */
+>  	memset(label, 0, sizeof(label));
+>  	spin_lock(&mp->m_sb_lock);
+> -	strncpy(label, sbp->sb_fname, XFSLABEL_MAX);
+> +	strscpy(label, sbp->sb_fname, sizeof(label));
 
-The function calls which could lead to this are:
+This is broken and you created a buffer overrun here.
 
-CPU0
-ocfs2_mknod - lock(&ocfs2_file_ip_alloc_sem_key);
-.
-.
-.
-ocfs2_get_system_file_inode - lock(&osb->system_file_mutex);
+XFSLABEL_MAX is set to 12 bytes. The current label size is 13 bytes:
 
-CPU1 -
-ocfs2_fill_super - lock(&osb->system_file_mutex);
-.
-.
-.
-ocfs2_read_virt_blocks - lock(&ocfs2_file_ip_alloc_sem_key);
+char                    label[XFSLABEL_MAX + 1];
 
-This issue can be resolved by making the down_read -> down_read_try
-in the ocfs2_read_virt_blocks.
+This ensures the label will always have a null termination character as
+long as you copy XFSLABEL_MAX bytes into the label.
 
-[1] https://syzkaller.appspot.com/bug?extid=e0055ea09f1f5e6fabdd
+- strncpy(label, sbp->sb_fname, XFSLABEL_MAX);
 
-[ Backport to 5.15: context cleanly applied with no semantic changes.
-Build-tested. ]
+Copies 12 bytes from sb_fname into label. This ensures we always have a
+trailing \0 at the last byte.
 
-Link: https://lkml.kernel.org/r/20240924093257.7181-1-pvmohammedanees2003@gmail.com
-Signed-off-by: Mohammed Anees <pvmohammedanees2003@gmail.com>
-Reviewed-by: Joseph Qi <joseph.qi@linux.alibaba.com>
-Reported-by: <syzbot+e0055ea09f1f5e6fabdd@syzkaller.appspotmail.com>
-Closes: https://syzkaller.appspot.com/bug?extid=e0055ea09f1f5e6fabdd
-Tested-by: syzbot+e0055ea09f1f5e6fabdd@syzkaller.appspotmail.com
-Cc: Mark Fasheh <mark@fasheh.com>
-Cc: Joel Becker <jlbec@evilplan.org>
-Cc: Junxiao Bi <junxiao.bi@oracle.com>
-Cc: Changwei Ge <gechangwei@live.cn>
-Cc: Gang He <ghe@suse.com>
-Cc: Jun Piao <piaojun@huawei.com>
-Cc:  <stable@vger.kernel.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
----
- fs/ocfs2/extent_map.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Your version:
 
-diff --git a/fs/ocfs2/extent_map.c b/fs/ocfs2/extent_map.c
-index 70a768b623cf..f7672472fa82 100644
---- a/fs/ocfs2/extent_map.c
-+++ b/fs/ocfs2/extent_map.c
-@@ -973,7 +973,13 @@ int ocfs2_read_virt_blocks(struct inode *inode, u64 v_block, int nr,
- 	}
- 
- 	while (done < nr) {
--		down_read(&OCFS2_I(inode)->ip_alloc_sem);
-+		if (!down_read_trylock(&OCFS2_I(inode)->ip_alloc_sem)) {
-+			rc = -EAGAIN;
-+			mlog(ML_ERROR,
-+				 "Inode #%llu ip_alloc_sem is temporarily unavailable\n",
-+				 (unsigned long long)OCFS2_I(inode)->ip_blkno);
-+			break;
-+		}
- 		rc = ocfs2_extent_map_get_blocks(inode, v_block + done,
- 						 &p_block, &p_count, NULL);
- 		up_read(&OCFS2_I(inode)->ip_alloc_sem);
--- 
-2.49.0
+strscpy(label, sbp->sb_fname, sizeof(label));
 
+Copies 13 bytes from sb_fname into the label buffer.
+
+This not only could have copied a non-null byte to the last byte in the
+label buffer, but also But sbp->sb_fname size is XFSLABEL_MAX, so you
+are reading beyond the source buffer size, causing a buffer overrun as you
+can see on the kernel test robot report.
+
+Carlos
+
+>  	spin_unlock(&mp->m_sb_lock);
+> 
+>  	if (copy_to_user(user_label, label, sizeof(label)))
+> --
+> 2.49.0
+> 
