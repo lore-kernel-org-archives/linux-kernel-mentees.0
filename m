@@ -1,111 +1,93 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253CA1DC994
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  1 Jul 2025 11:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834FF272E72
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  1 Jul 2025 11:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751369379; cv=none; b=GbT35jxOCeeluj+24Xub36OaFpvqQFnRYbYcsanOPqARGbvismG+Cx8+wloQBzo9GpeqX6OQH4xEhnkk8cIb0uOOQceRPuU0QnNf0MNsE8HTsQ8zrwXflQV81JlO/L4AVprRjlmRM0yctb9JRf4GTpOV5XWglwe9WgTDxyc0p2Y=
+	t=1751370016; cv=none; b=ESaChkepAfhs8t1DsCDLWRhH+38mYWq28+4v7LhOMyM7di1cRb7DePy1iRk+CC6PuyNejKCMTV/nLdlhS0P3TjGeSr3/xl3eAIiGF48WCGD2NRpsWqQNoe5bsccwlWc2k8aVwz8F/MZMA4JCZhieaNNGnCjNBakjTDRN3qWJQv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751369379; c=relaxed/simple;
-	bh=/uQArIpWv6jgks+MQz2FdbcZCHRD3fHAxYqX6fLBpUY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Tk4fqQ/4fEdVpQKmPrwEj3x0U7A3DYqk1UIgVQka+41/REl8R2QE24FrswYdS499pDLJGqhcRoLseUCK6KOsp0ONtU3xubZXB5jdyGw9HmW/TMMq/1jK0Kn/ilTFsXR7zkAm0/Jm5BKuMYmrqOsKuU7GHxzsB1tMJstCmalNux4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fxmdB2Cg; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751370016; c=relaxed/simple;
+	bh=u8zZNCS4lvpD1VplOy6onJI7j2IZhMgAIkB1xz0hPjI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s/wF+POP8Ixv1SlhU0LPUrln5URhjciOva30S7bKpSn4TVzaby2vekfcISCZp04bYh+z8hGHrwEOm/IT1//79ThwKBXjyoiPmsXmvwB2OjbTn1WtIZK/TyEt0oTyWPZ94AZxidyGYyzsd5sri2jpiuXu4AKTEArapWcdfoB4pxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PShz8UON; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fxmdB2Cg"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-32b43846e8cso47874751fa.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 01 Jul 2025 04:29:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751369375; x=1751974175; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dICzWEcWfyURmGG1tAzlz5bT3KCvUrBKE1a6Eh/dqu0=;
-        b=fxmdB2Cga7G9JIqoJRRgmN93GD9LwpzBLG/P6jwA0GZ9hcNknYioX1HMrJHnsJB4qI
-         U4QRIwWUqx2MIyMaDjiZQtEA6KMdxWwkQQL+C6f8O74wHBf1XiAdHWYzJTxotmEccXGn
-         Qs8ZXJe+iLLKq0mnMJgutmmdQxT5y7dGOS2/pU3gpJ3lJRZGvtRj51RVlbdtV2EFSYwz
-         5BRbAmXGhxGBDpVtTZM5B1X6v3Fc+x+sjP6ypkFDf7DRSBY6qBnsqnKdLptdZkf/RDtU
-         qNFmyyZJWm3GRRQw+lIwEQtfRXATVnll03TkzKLBFsWFFV5PxpqrTvtTwgIk2xk/VtaI
-         qa7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751369375; x=1751974175;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dICzWEcWfyURmGG1tAzlz5bT3KCvUrBKE1a6Eh/dqu0=;
-        b=CM4Oz41lNG5bQEdeY84nhRFyrrHDp19JvI08uYps9/qfl4pXN3/cAszvdEqkCpXepW
-         iZCQc/tvSQiXm/9YCl7gBtPA0zNBDqStKYWbTVg/1YPXwFWkiIq0R5hHR4iG3wPnYrqV
-         6VEVzQnIaSDuzkb4hmRkhkIrXXxMwkbZtOCbCmEwbdPA5SP3dnY8lA4Ey9dbdVs7RKEh
-         +QPZOaHvNKYuJACOOt3lHlL5Rrw6mcY3T8h8OSuaQWxVDg/24ZXQEAAHRdxlMfUqa8rY
-         OuI84wcJBH8+LjoHSfqfzKFT1lK2DeIF9T8Nt5lmoa0g+NKTdly+Kvf3VSyyQ0dnSrBX
-         qs9w==
-X-Forwarded-Encrypted: i=1; AJvYcCWQDf1nuNY0tF5xRn+MLxU7a6IgfeAWDyl0enchW46GAhYmwmC/gWWPYTg6wqa0i/uby3ptMyNhoJzPz5MG8QnQf5V2+g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YziCql4z33OCyo5DuGQ9wAfgRC98wpDdJjXLbxpLY+0TAT4qDCY
-	tOIiK2vHAAX5KYQ16+7G3QyiabQQEnH3hO2SY5y2UM77m4M1i3/FsJyLeXjAcaaIMtbNop8xqQ7
-	zK3B8zNuYReUatsfWJyYP9pZaUfDLbs0=
-X-Gm-Gg: ASbGnct48mIN1EI9u1dQi3jH3H2fBdKx7JZ6e9QRz/EUoMEJ+1waewkd2QNpbT5/nEo
-	KYDcoy4HY5qD8khfH0fZ053WTyD2eLOthiW3j1aMsj8kbHaUaK54QhUEVteaGSedP7JuESeZqie
-	v0fnHPWL8wZdQWxYyBg5cAUEeI+lkHe1l9L3f3LM2PcbaxR5YovX1QFehit4KC6ptZnXA5t89Ez
-	pwq
-X-Google-Smtp-Source: AGHT+IFa6Y8dSDucSupqIAEE6/ssEZJPz40XEHljLpWrs5EbvtMthy+CRzrw4f9yRN6r2pcDsQDOR8NJ03CQvmy3BsY=
-X-Received: by 2002:a05:651c:154b:b0:32c:bc69:e938 with SMTP id
- 38308e7fff4ca-32df9e2d9f7mr5219611fa.20.1751369374735; Tue, 01 Jul 2025
- 04:29:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PShz8UON"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 209A381AA7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  1 Jul 2025 11:40:15 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.101
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id QsPrXndW1xVW for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  1 Jul 2025 11:40:14 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=dakr@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 892FB812C4
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 892FB812C4
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PShz8UON
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 892FB812C4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  1 Jul 2025 11:40:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 10B86A52F09;
+	Tue,  1 Jul 2025 11:40:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFB92C4CEEB;
+	Tue,  1 Jul 2025 11:40:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751370012;
+	bh=u8zZNCS4lvpD1VplOy6onJI7j2IZhMgAIkB1xz0hPjI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PShz8UONIBJ7VTbSCVd9ONPARVYPA4QnMiTuO/LwiBb4ejnn+D2aRCpyzipuIA54x
+	 xZGEyaVfFFXNRp0kG5tLgswG/lrL958MQghZHD3PJmX6rRBLr/M0NRm2x9tbxeIEeL
+	 wieRiLuHupQ7J0HVAkCQSirNTGtVlRrvJUD8oM9KDGamDNI0FOd79YcSk1a35i07qI
+	 lVpTXPQ08ImfNvJFacsKj8aVC9wVLBqAjf3kSulXFv9K+ybc5L0UuvWc1zR16Qz5EV
+	 FwcztaJ9CfyRMM+nLKZ/J/u8hrRN6FZ5ZUBKFhqr9CRFT+q4rkQMnC4+wUygWBvD4I
+	 OYihIxf+i7NQw==
+Date: Tue, 1 Jul 2025 13:40:07 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Marcelo Moreira <marcelomoreira1905@gmail.com>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lossin@kernel.org, ojeda@kernel.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: Re: [PATCH v5 0/2] rust: revocable: documentation and refactorings
+Message-ID: <aGPJFw_Ouj8MNbuq@pollux>
+References: <20250626165927.66498-1-marcelomoreira1905@gmail.com>
+ <CAH5fLgiTTXVMs3tzrHAU1rwQDCs_VPuPgEVcEkjbu+rNT=35vA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250613134449.7459-1-pranav.tyagi03@gmail.com> <2025070154-cringe-tidings-20f5@gregkh>
-In-Reply-To: <2025070154-cringe-tidings-20f5@gregkh>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Tue, 1 Jul 2025 16:59:23 +0530
-X-Gm-Features: Ac12FXw89JSuAZTTqiDy7yiGTbpPr2ZNQEeLQSSY7id7dMW7zkv0bXRX-3tSChY
-Message-ID: <CAH4c4jLAQghiQXMVB3-pYhoE0HiFPHdN3d7LT0rVCmJ-o6SP=A@mail.gmail.com>
-Subject: Re: [PATCH] firmware/memmap: use scnprintf() in show funcs
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, chentao@kylinos.cn, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAH5fLgiTTXVMs3tzrHAU1rwQDCs_VPuPgEVcEkjbu+rNT=35vA@mail.gmail.com>
 
-On Tue, Jul 1, 2025 at 3:57=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
- wrote:
->
-> On Fri, Jun 13, 2025 at 07:14:49PM +0530, Pranav Tyagi wrote:
-> > Replace all snprintf() instances with scnprintf(). snprintf() returns
-> > the number of bytes that would have been written had there been enough
-> > space. For sysfs attributes, snprintf() should not be used for the
-> > show() method. Instead use scnprintf() which returns the number of byte=
-s
-> > actually written.
->
-> for sysfs attributes, sysfs_emit() should be used instead.  Why not do
-> that here?
->
-> But what is wrong with the current code?  Is it not working properly?
->
-> thanks,
->
-> greg k-h'
+On Tue, Jul 01, 2025 at 01:27:17PM +0200, Alice Ryhl wrote:
+> On Thu, Jun 26, 2025 at 6:59 PM Marcelo Moreira
+> <marcelomoreira1905@gmail.com> wrote:
+> >
+> > This patch series brings documentation and refactorings to the `Revocable` type.
+> >
+> > Changes include:
+> > - Clarifying the write invariant and updating associated safety comments for `Revocable<T>`.
+> > - Splitting the internal `revoke_internal` function into two distinct, explicit functions: `revoke()` (safe, synchronizing with RCU) and `revoke_nosync()` (unsafe, without RCU synchronization), now returning `bool` to indicate revocation status.
+> >
+> > Marcelo Moreira (2):
+> >   rust: revocable: Refactor revocation mechanism to remove generic
+> >     revoke_internal
+> >   rust: revocable: Clarify write invariant and update safety comments
+> 
+> Danilo, did you have Revocable / Devres changes that conflict with this?
 
-I had sent this patch earlier along with a few others of similar
-nature. The code in question was working correctly. However, the
-intent was to perform cleanups based on documentation guidance.
-
-Specifically, for sysfs attributes, the documentation discourages
-using snprintf() in the show() method since it returns the
-number of bytes that would have been written, not the number
-actually written. This can potentially lead to buffer overflows.
-
-You had previously pointed out that either sysfs_emit() should
-be used or the code should be left unchanged if it is working
-correctly. To avoid unnecessary churn, I decided to drop those
-( including this one ) patches entirely.
-
-Regards
-Pranav Tyagi
+Yes, but I sent them to Linus for -rc3 already. Given that rust-next is based on
+-rc3, we should be good. There shouldn't be any further conflicts.
