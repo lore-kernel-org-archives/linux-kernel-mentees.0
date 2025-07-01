@@ -1,119 +1,129 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8196222590
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  1 Jul 2025 08:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7982F22259D;
+	Tue,  1 Jul 2025 09:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751359708; cv=none; b=ICd28YzgN712TZqec+wZArRVK6Xti0dhrQL5qVm6oCAWz2BTKTIrYBw/b57+UKhWJ0ZzNeXsYUhvyM3tarMVK2DYU9s3U8NDcZQXH+AgXdQZVXcvFjNkY4mGWCAcwWcHbUwakkUuJWT0nt6+531Gj6FEMJ58HauS3/s6SQ8K9E8=
+	t=1751361192; cv=none; b=SzUM1UcYqXlZuGN7qUfrINWOWiu3VolX5Kr1IxMWGVBcPElVobxJLs3slxTB2NMqkjR/zOwcBwWPRZzfPOgSQC2RTMLkhMI+Gu5T9lTTjw+bWBDVq/FQfMb0C2XKVLn5YmF4r3lVEsr6FmSe6u/af/Z3fJi/sDz/zKJFf3Rg3tY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751359708; c=relaxed/simple;
-	bh=bUYUIt7n5OcwxqVw8g8uXUJAIxLA66GdHxIXW4wbQ7Q=;
+	s=arc-20240116; t=1751361192; c=relaxed/simple;
+	bh=BEBCuL+HEVEQiBaCPZ5XvZuKChav6VO2aoDzCzNOkCQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SAREsp3hDwPrpQIuRD7XB+Czz8wZh0hJLyaN5PDsQ6qkiNAI9M5gry9gwLh0WUpUrmNh822+i3xfe9l3wUW7u9ZZ57YZzB6l8cZdvs6RY6D5bTJSi04i2AlVNLP0w6UA9eSkX7e3Aj7revotW7Mpa6D+JbSe4qEPVzL11cbOyZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cx5i/GLO; arc=none smtp.client-ip=209.85.208.180
+	 To:Cc:Content-Type; b=IbuJvC9CI3F6KEfBT2YaEmkZ/ShZ07jq0btdnfSpc0hv6EFkFUeAB3fy/9P4FtNcvjnSUzr+n2C26Siu0fjR7Fi+C8LvWVLKzTp9DHLkFU4k+OdAZz9wFG0k5niazlbEhsrhlKJQgJHGJgRWn6wOFXM1MXTEcWfZYWhdne+yFr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lEJFk6NP; arc=none smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cx5i/GLO"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-32cd0dfbd66so23171061fa.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 01 Jul 2025 01:48:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lEJFk6NP"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-32b3b250621so50866051fa.2;
+        Tue, 01 Jul 2025 02:13:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751359705; x=1751964505; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1751361188; x=1751965988; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qlz9G1EGtx3NEnNnxuRUfIX8nol1KFsq1PaL5R1mF/A=;
-        b=Cx5i/GLOREtqXDOO+KFZCGOW1aps+I0TwpoKUuIwXAO9IQT8tk5qLtC51wUe9DQ0ef
-         KQEQcBQia2vYDFV8zUlwiEoYHdzn1Hn3mTZdTob3gs6jWIlTkXO0xQdJFERcCcqipoUJ
-         T3UwCkaqDJ3+eQ3O24oyXo0H5hpD2qIvcHDO4TaXXn3D4WCL7uQ47UkQGPVuGLRT3ruX
-         ldVbHQ4tuunsWKQ8sdkCxNHjFQyEMUZIK1egRHtRXR2TJayDyeUzcdc1QzQymaajoGcZ
-         yJpvoYJpV966AOoci93SEiXSgCWgS0J2OOB4BJSrsndg8U5OQSry+uahNIGOetPZN9Uk
-         ByKw==
+        bh=ROgPEw9PJSV4rDIb9YQpEctVvh6PzqhiH26Y+jXtSJo=;
+        b=lEJFk6NP9qXo5zfDAPLhi0gg8Y3SRoe4/mpPTH+2OhspkVgU4POkEdUNHKUJgj4/Ma
+         DQtlrh4+cOdrZh+fxDKWws5xHJ8zYDRy9DVRIIkOYL0mbKj7R9Iq19iZz2U2VdX6TcPW
+         RdlKTWpNMhMM9G3bbW273wJKumsFmnr2U8nkke+25EIkkXTgX9BNFm+3PE4YAmk3o89V
+         TG46NG8ylKnlt1pGRy+IGuKcKcnWYs+3BMO6xg9unVrtgLmJbexmIR0m283KGeXfamx/
+         CWg3hHkR2JlPV2H5R+zbJd2DNyLtGrbOex0gX72QHYHQcC0yI2krybA88QasZG2V/Eev
+         Hxxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751359705; x=1751964505;
+        d=1e100.net; s=20230601; t=1751361188; x=1751965988;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qlz9G1EGtx3NEnNnxuRUfIX8nol1KFsq1PaL5R1mF/A=;
-        b=XFXuLe70V9MwG+twXaW0dkxq89EGlPzhrXjfuMIX9isBe7ZPtZQOOa29u4paW9vApM
-         5FT6jkjNVPJVRfWI05qaC4GQ/wdJ0r5gv8rw/ZvG8NSRis6730x9pr5e56Hj5iBX9Ky/
-         cC+RFYdQ/BJDQqUAdZmqyPEz1oR0XHJtad65mXu2rdKnl9TrPdsVq6Zs2Ef05M2sgx2K
-         nEQjBfyU9QKPScAet+iwGICkA/Tf0V2rG3NaTco8VLh+9PdceQsx54w3OQgaic0/D659
-         uyUMhdxs9tdIjI8+jLi01uCCXLbN9fjTnb82URHaGyvBChs4GMdoyvUjTXhpFEJTgvGO
-         5XHA==
-X-Forwarded-Encrypted: i=1; AJvYcCXA0s8EktDUROdjM84397Vf8dZ9I4Q9vhTDSd7Recs9M7NSg09LxZTsHeNtG1VpHf1r01kIcKDHINMMxUpnGLMXcJZ/Cg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzsGgvMfD8hIRrjIPtuc01e0Gr+5SN58p4KvO13uDaNj7fgtAkS
-	KquLq4v+n2Jg9Fz/G62Eezvo/RKvXbtmmJ9NeF9SrcFTm9Kmxo/5euuOQMA8E0e+DrToVWLWmMR
-	gnRfXrQVUBxbnn3vsvQCkGL+b3vo/et0=
-X-Gm-Gg: ASbGnctLZJqZaJ5iI6m1/7qj1El16FnR3peTVS/bASlU0DWpc/nirOm6bnQ9xedT5en
-	pCzQqNT2BiMaYyFv9M37BCGCsMZR30Kb5UBw/IXuOhSJlJz1OpGtHKkefc+rsAX+4bu0/3fzqNN
-	oJg9ZQq3KLXkrFpD8poTDz1BnglYr5iqCZKcWeJaFc4jB14aRHtzV6ZApwYrnkyxG1AcG9HCrLI
-	MZ3e9dd8mEfBwc=
-X-Google-Smtp-Source: AGHT+IErmMRan+sKmTTHK37Vk8l1nc2SvVeFF1R3OUSqouyPhRnqa2qhw9hJkcrN1a1c7VkhUpmiklz7WxPFHCxWJL4=
-X-Received: by 2002:a2e:a239:0:b0:32a:de39:eb4c with SMTP id
- 38308e7fff4ca-32cdc4991cdmr30441751fa.18.1751359704426; Tue, 01 Jul 2025
- 01:48:24 -0700 (PDT)
+        bh=ROgPEw9PJSV4rDIb9YQpEctVvh6PzqhiH26Y+jXtSJo=;
+        b=PoGXOaa61QXm6ekPbG7aeUWb/BmEy3qBPiCz4bKNwfKXxuF5uSFFtTrHtzBN1glrtc
+         mTHmAsSVhoO/mLLrPZ4ihuHgY2OprpTTZdnKYBU+sxBe+x/RLpPFeyio/uxB4c2iK9n6
+         Y3BnoIj3O2msTHNmeDJPz4zIywIe6uNZK32Pi8No9FFl2tdAIykfqR3iv+0YQLct6LVe
+         yHU5uDbDM2wqf/Fbzpqx7sP5+amB+/qntuDFcYe39VIdb2e+zJsq666kg2nrVVYeqXEl
+         oPJr/q9+qgc3dzt8djmOK4nshSwBIIxaCAUoGEosTogmJ1O/05rsrLkgNHt+n67xU2FG
+         UCBA==
+X-Forwarded-Encrypted: i=1; AJvYcCVwR/SwsoPID+Xi8VXvw+kXceN0P6lMJ7qjAzRsJM/bHT+BdPvFfDsirb7r2opMlN0cAbOjYPy8/ixBve46eA==@lists.linux.dev, AJvYcCWTLdJPN1sC6Mwhjoir+ILacGRUxhgR3i0QDqO+L2TcEVskyC4TttD2dxGs10zGgDhqBRWdnHEuyFgqUP6F6fadOpq6NQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJ0VAAt4QLriKHzz23F+1Dx/R6sX0nYT6X8BjbsmsfhWOgWSPv
+	RO5oG8cs04mZzy9jqCUhkyCPqequ1e8m77VLlVbAveMfYZSJeyO9uwkPRp5Z2cEormQ6O76dfbq
+	m360G1+zcaE1HZTx5rRFM1f4QOMhNwHbG59dBbJ0ALg==
+X-Gm-Gg: ASbGncudSJWP+vCtYE+nBm2HqZsjHz83naQcc8d+B1WuzEVNnHduo92C51EjDIQTN1Z
+	0WiKStvZaMI9b6Z48VInqw5lO1KG7/cuymTWEDGz6quNAgkdpFjWFyEre7iYLpa9LU2/Q6c3lHj
+	Gcvvc4dPZNkktsu4rK+1FN5UJ3xCyGgNS9L2WiGtF5kE2zwglIJXzKkPmFnwrb8KNv0nYRRPvpO
+	WpM6dmezqmfs1Y=
+X-Google-Smtp-Source: AGHT+IFaRimBXwf+/UEtRyiC+KK+xadzvj9nmalX2Tk87W6sIlFV3Hdmxz/NSxN6EDVUMGJK6IRPijyU9g+dPjzrzUI=
+X-Received: by 2002:a05:651c:2205:b0:32b:7614:5745 with SMTP id
+ 38308e7fff4ca-32cdc4efdf5mr57485841fa.20.1751361188252; Tue, 01 Jul 2025
+ 02:13:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <BgUaxdxshFCssVdvh_jiOf_C2IyUDDKB9gNz_bt5pLaC8fFmFa0E_Cvq6s9eXOGe8M0fvBUFYG3bqVQAsCyz3w==@protonmail.internalid>
- <20250617124546.24102-1-pranav.tyagi03@gmail.com> <qlogdnggv2y4nbzzt62oq4yguitq4ytkqavdwele3xrqi6gwfo@aj45rl7f3eik>
- <CAH4c4jLjiBEqVxgRG0GH37RELDp=Py3EoY6bcJhzA+ydfV=Q1A@mail.gmail.com> <ldak3a3zmqlkv67mjproobt4g7pe6ii7pkqzzohd5o5kyv64xw@r63jjlqzafzp>
-In-Reply-To: <ldak3a3zmqlkv67mjproobt4g7pe6ii7pkqzzohd5o5kyv64xw@r63jjlqzafzp>
+References: <20250628063121.362685-1-pranav.tyagi03@gmail.com> <2025062945-prologue-plutonium-870f@gregkh>
+In-Reply-To: <2025062945-prologue-plutonium-870f@gregkh>
 From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Tue, 1 Jul 2025 14:18:12 +0530
-X-Gm-Features: Ac12FXwKv4GTEJXH-cF4nonvlMBRj4FNPI9VATuH549AH0Rji8nOLlaLVC8Pjmg
-Message-ID: <CAH4c4jJcyA+=x5y3BrW7dQkWOM3bVTepH0W16cm+_CLqHr4hfw@mail.gmail.com>
-Subject: Re: [PATCH] fs/xfs: replace strncpy with strscpy
-To: Brahmajit Das <listout@listout.xyz>
-Cc: Carlos Maiolino <cem@kernel.org>, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, linux-xfs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Tue, 1 Jul 2025 14:42:57 +0530
+X-Gm-Features: Ac12FXwHc8lXS26tySAKuBhdyhXYJyZqD9JrvOV0o15Dkdc9IcQXg0PK4LpxJM4
+Message-ID: <CAH4c4j+yh99h3V0Ody5yx8DnC=Ee4J0kbEKL85k366FdTyXSdA@mail.gmail.com>
+Subject: Re: [PATCH] greybus: loopback: remove gb_loopback_async_wait_all()
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, pure.logic@nexus-software.ie, johan@kernel.org, 
+	elder@kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 30, 2025 at 7:48=E2=80=AFPM Brahmajit Das <listout@listout.xyz>=
- wrote:
+On Sun, Jun 29, 2025 at 3:17=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
 >
-> On 30.06.2025 14:36, Pranav Tyagi wrote:
-> ... snip ...
-> > > >       spin_unlock(&mp->m_sb_lock);
-> > > >
-> > > >       if (copy_to_user(user_label, label, sizeof(label)))
-> > > > --
-> > > > 2.49.0
-> > > >
+> On Sat, Jun 28, 2025 at 12:01:21PM +0530, Pranav Tyagi wrote:
+> > Remove redundant gb_loopback_async_wait_all() as connection is disabled
+> > at the beginning and no further incoming/outgoing requests are possible=
+.
 > >
-> > Hi,
+> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> > ---
+> >  drivers/staging/greybus/loopback.c | 7 -------
+> >  1 file changed, 7 deletions(-)
 > >
-> > Thank you for the feedback. I understand that my patch is incorrect and
-> > it causes a buffer overrun. The destination buffer is indeed, already, =
-null
-> > terminated. Would you like me to send a corrected patch which uses
-> > strscpy() (as strncpy() is deprecated)?
+> > diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greyb=
+us/loopback.c
+> > index 1f19323b0e1a..9d0d4308ad25 100644
+> > --- a/drivers/staging/greybus/loopback.c
+> > +++ b/drivers/staging/greybus/loopback.c
+> > @@ -1110,13 +1110,6 @@ static void gb_loopback_disconnect(struct gb_bun=
+dle *bundle)
+> >       gb_connection_latency_tag_disable(gb->connection);
+> >       debugfs_remove(gb->file);
 > >
-> If the destination buffer is already NUL terminated, you can use either
-> strtomem or strtomem_pad [0].
+> > -     /*
+> > -      * FIXME: gb_loopback_async_wait_all() is redundant now, as conne=
+ction
+> > -      * is disabled at the beginning and so we can't have any more
+> > -      * incoming/outgoing requests.
+> > -      */
+> > -     gb_loopback_async_wait_all(gb);
 >
-> [0]: https://docs.kernel.org/core-api/kernel-api.html#c.strncpy
-> (Description)
+> How was this tested?  It might be redundant but I don't think you can
+> delete this just yet, otherwise we would have done so a long time ago.
+>
+> And your changelog just says the same thing as this comment, shouldn't
+> you write something different?
+>
+> thanks,
+>
+> greg k-h
 
-Thank you for the suggestion. On going through [0], I see that,
-both, strtomem and strscpy require the src to be null
-terminated. As far as I know, sb_fname buffer has a size of
-XFSLABEL_MAX (12 bytes). This means no terminating NULL
-for the src. So shouldn't memcpy() be the right function to use here?
+Hi,
 
-> > Regret the inconvenience.
-> >
-> > Regards
-> > Pranav Tyagi
-> >
->
-> --
-> Regards,
-> listout
+Thanks for the feedback. On checking the context, I found the FIXME to
+be trivial and build-test the patch. But, it definitely can not guarantee
+runtime correctness. I will also try to write better changelogs for future
+patches.
+
+Apologies for the noise.
+
+Regards
+Pranav Tyagi
