@@ -1,112 +1,122 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F9E277CBE
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  2 Jul 2025 16:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6968B2D781E
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  2 Jul 2025 17:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751472469; cv=none; b=FpBZxrC69R0ZG614MoKNXCHXKTleaLDjDdPfdIbcTMM6hxbhdZrc2pi2+XZso1LN3kEnhMYgU+jykOuBRjdFBoGIds3FelYVy8EG0cScM/Ev/mQ1O98Tm/bgJLuTjEoM9Zb+uMjyUMYt2p/SbYOqrqoh6hHDqnxZnZyBDEVnK9k=
+	t=1751476638; cv=none; b=keFcUpXz9QLrFllnCEu0tsAxKbbxVhPJ+Q4VXF3rRcA4RPJ2zUNa8ZH0lQU6i13qDjxpzTr0RxemJL844KGE6pa/CB8Jn0/zDhGT4UEZiY/oaO5YfTUNP6z7G71RjerjapNVA/4BL2FFt57apqyqA3s0sC9V3E952XdIAlmxzXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751472469; c=relaxed/simple;
-	bh=HD+xgnYDji4Msf7wrsJXB90TJgJt6pJI4Z6MoS60Mb4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kKZr/K1tvFyiwEWt4J4EtcQ5W+845G0dVhWCdOpipw3yZjtRSZantyNysbGuzeQbvAhUPg2XUGKhs+UMqg/J9PoVqxlpiL35yKU6YFkD3vTfM62B4uSabI02f5Os8Rol+80sX1kikEzUvj2gE0pvmcagfuYDF2RwBAHY0OKArQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RP3mZvxU; arc=none smtp.client-ip=209.85.219.169
+	s=arc-20240116; t=1751476638; c=relaxed/simple;
+	bh=eysMrIQ62IHEN1IrnTH/RbeWmSOOIErti0LPAnDPqpU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nxwzu7E9rZCmjzBZgff2+oRsmH+hEPG9iaPkeqiWSMmpX7p5rjPwnCUtsUXNOVnUJzLdKfQFGE4aCzXl/Er2SYLYyyFwSEifDOH2jMUnd44NScVa41LfhQb1p1uxkwx5VQZU3xvCK+WA8mxmC3EFfM0jstze+Sm0sH7bRZFW8g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NxMDxdJn; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RP3mZvxU"
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e7311e66a8eso4305472276.2
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 02 Jul 2025 09:07:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NxMDxdJn"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-23aeac7d77aso43619185ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 02 Jul 2025 10:17:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751472466; x=1752077266; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HD+xgnYDji4Msf7wrsJXB90TJgJt6pJI4Z6MoS60Mb4=;
-        b=RP3mZvxUmCiQCIxT/G95j+WKfkbkh/DINH7Tl8u0Yv5/VEoV2dHsOL4CgOMuXdhJby
-         jx6pnZxye92C3Y8O96s89ICUbLMEaqn2yta8z39ZPpRCbtWfVZ/oWhXBw/kRtRFshlEr
-         +9DK26eP9gdUWqCzMtlhmS40I4tkHOkzp5ep/vCVSg/W6mOx9iiy/URHqc85M1alzEGU
-         iYOJK/6ScjTOdULof44h9MCSh25ICyB0YIjlFYapbRDyCmJ0NtDIEonAGRHYkGVkiCAj
-         RlpoK0neSierfk0uwZBgEei0G3s75SJ2ikYvzf4PoRlTHdeq/XdqMFJP2iVuPZneZpdn
-         XOPw==
+        d=gmail.com; s=20230601; t=1751476636; x=1752081436; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wcCtm9f7p6jwuZ0do6mGaH16Y08BotVqwa8c/wAtMks=;
+        b=NxMDxdJn/JBxQ6OEh4UsTGBXPJSeDne3KKHjcAQX7bkMMaXGFqyS4mBzRnjjBPHPsf
+         GnjB3XzdoC24H2UKbxwdaJXyfpyUWBSaRXH2r7BLQmVUvrc7YlzKobKSzacrKDnfd4wN
+         rWtBlKbkswXbBJVRIPXyEvRrFAsqyZ7DeF39vPrDq9VgQFYttTYzgLvEk2c1WRDZ81Ij
+         RonVx6RtNLeavX9M80Lye7YjnOOpOzWzqBNI4WyE3sIhzCVGUXwdI3LQt1m4ry1mj6tP
+         7Q5Igl3So0Ofnjl8csJQpXbhFJNWv7oz2JaodI/mmZrCmAirjgXQOHAVcX/Em7Eq3GrX
+         Ewgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751472466; x=1752077266;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HD+xgnYDji4Msf7wrsJXB90TJgJt6pJI4Z6MoS60Mb4=;
-        b=SY18hvBk21i4CA168PNT2AqhQaq3Bec0g1i1omyAhB80erdLSVuPcVR2wR1RabE4W7
-         2eQY7fZ1XQSuNSKozWs5ZaSwzHg6wYT/hfBii+vDdVnFe8prp0O4Uo7D0b+7Z3z837uv
-         tqFveKt03ZugxX5N4jzB9svQuEKmocThEvoGHd3G6CDrBFcB7PZE/W8yVgfEWucVE5OV
-         /4+0CjNsgBNw7O+cYEC5CMoR/HoytCY9ae0j0oz7s9qfghgThf+hbj6sIkcY2MQ7sknj
-         aVVTiLqM6flmi6yQ8P7cM3f11ScEY8Rr3BPE/5NgPhxhaqXCzuiP+vWNRw/Rg9X6yA4r
-         R4vw==
-X-Forwarded-Encrypted: i=1; AJvYcCVSOc/baaX4unb/u9Ui5KEn9zAJka289wS+SNuMsAj1DwoJiWPYaTp1mk1dCQBW7VKk3qwigSHM7zoU/reLb5tYsEFaXg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwtYDouA2hcDEhhGbWRsgs5qvY7RBZ3VO4HuWyRdbAoP/olAI28
-	YhETN4JKigIIQ6ywM7dA5EiumU+T/lTVWU7csnFeI+iJ85u+/2EzeibyeSnV9ugYsajYAwHq/Qn
-	UcGfr/7+taMC9u6DDlmmgvwmvEbtxd5U=
-X-Gm-Gg: ASbGncupPpdXiqDucSH1DMhhSSrQEcbfJN3vpVr6pmxSCGTs3tyOH8b5cKUikP0Rj8p
-	04DZPCOoRwcLsKtJd07vJRZqURdcNFDOSd/jD73A/NNGjxHYww+y+eP6sI/UCfUrYnsXeZDk2Tm
-	sd7hREk+lL1Mv/CA9AtxzWqIgZFxpPgrjG6j1D9p9kRJAEQUrtgiLdBpEBeFNvTf0ccY+dA1noa
-	DcyS2Z8dc+q66E=
-X-Google-Smtp-Source: AGHT+IGJlgMebHeafPhpvXNEnuwrkCWG7XoVPlNbjrpQZw1BfOjYrG9vvzbLo5wAqGetaoboXNjnvUJBf0NJewO55f8=
-X-Received: by 2002:a05:690c:fcc:b0:709:197d:5d3c with SMTP id
- 00721157ae682-7164d2c7e12mr49580597b3.11.1751472466302; Wed, 02 Jul 2025
- 09:07:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751476636; x=1752081436;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wcCtm9f7p6jwuZ0do6mGaH16Y08BotVqwa8c/wAtMks=;
+        b=plHgKdYvXxUdvVbNd4uz/MKGBQFnaJ8/XnHgUSLTxHpCA/iCiv/jUC+4a9mZOdDp02
+         /a1yKa/3E7Juycz7gIp+T6F9l1KePGcuzItmUIhB68lWB4cWWgauDxcyOtRhVNfWWVJ/
+         TBfhFPulUuOHoL52Iu3vHmR/umU9IVXqaykOAbX86JreuuMnc3veEl67XYMWfi6du4Qr
+         8fFi32qgS1wON0Wz54n8l1eVTRUmR9Cf4r9GoYp1D9GHruxJjvtzizveCJ6HmCNja3u0
+         JhKoqBoAy/7z0D5QJuou7xfCmOo5KmXctheFc8bUrs1YxLocZtdfYcS20RvAVNztD+x4
+         7Uow==
+X-Forwarded-Encrypted: i=1; AJvYcCX5/jd6KFffVECsREI8GsZtTnXAlXF/mDHulMxvZGo5w5GP2kBELDA5dGtXy0kCYp7xJ3bjNY0fSmmUUuM4Z0oz4rtHSQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxk02qnMpgfyQ6l4hNaTGKYQKhH+1mlw/4KlkT+bLAT3irovTCp
+	FsgFpHh/eaOfgDfGtCQZ+9JSLZvzaqwfXuhaAMIYeSrRauXKkLOVnGPn
+X-Gm-Gg: ASbGnct9E3g5nIRQniRx5f+2S5F1ZrcK1fbmHtphCtjxiGzbOWJhdM+OHeqG5nq5yUc
+	AaXkvD565e2oYmBOzIcAXAQwNKJliXGcbnAb0hy3hy8Z23t9EcsDkX07uRh9iTruQ3Ui7f32bAM
+	wyd7BEMlC67JFai5H1mIeCF7Z87NmllQaVolcE/COL18BH/QuRKHHTC5coPpODgSdkr0Lka9oX4
+	yTBXjdXY/qiUd/8IlrzsHx5JmI70dS5xB3hq+hUtU6fVk/3Z8KJpnGaeHiKFffeE/vTIGw03+TF
+	eT9gmJq0qw3j04R2q8tAZd8BmYQDbb2j5PsfKo6ahU0WIIRvApwpJxFPNV1LEq3r
+X-Google-Smtp-Source: AGHT+IGoqFyrVCn6Y1nY8V1kqw3Ktn3Uz+x2Fn28RGNMIDJoOM2Rf1r7mTP7AxkaWXBBJ0Gt2fEGnw==
+X-Received: by 2002:a17:903:1b67:b0:236:15b7:62e4 with SMTP id d9443c01a7336-23c6e511dc5mr70706755ad.38.1751476635539;
+        Wed, 02 Jul 2025 10:17:15 -0700 (PDT)
+Received: from p920.. ([2001:569:799a:1600:a36d:9d50:6dc7:23e0])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3b7a47sm138699745ad.166.2025.07.02.10.17.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jul 2025 10:17:15 -0700 (PDT)
+From: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+To: khan@linuxfoundation.org
+Cc: kexec@lists.infradead.org,
+	dwmw@amazon.co.uk,
+	mingo@kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	shuah@kernel.org,
+	Moon Hee Lee <moonhee.lee.ca@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v2] selftests/kexec: fix test_kexec_jump build
+Date: Wed,  2 Jul 2025 10:17:05 -0700
+Message-ID: <20250702171704.22559-2-moonhee.lee.ca@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250624201438.89391-1-moonhee.lee.ca@gmail.com> <744bd439-2613-45d7-8724-5959d25100aa@linuxfoundation.org>
-In-Reply-To: <744bd439-2613-45d7-8724-5959d25100aa@linuxfoundation.org>
-From: Moonhee Lee <moonhee.lee.ca@gmail.com>
-Date: Wed, 2 Jul 2025 09:07:35 -0700
-X-Gm-Features: Ac12FXwoDxTwwqAXE8JcpNRXiozFERVYFVPE9rjvlkt3rV15dPoHwueD88FdyYo
-Message-ID: <CAF3JpA72DWF8=2HF+_HMsH4DuOg5aVYZdgyhmJisDG-WxL=uYw@mail.gmail.com>
-Subject: Re: [PATCH] selftests/kexec: fix test_kexec_jump build and ignore
- generated binary
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: kexec@lists.infradead.org, dwmw@amazon.co.uk, mingo@kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Shuah,
+The test_kexec_jump program builds correctly when invoked from the top-level
+selftests/Makefile, which explicitly sets the OUTPUT variable. However,
+building directly in tools/testing/selftests/kexec fails with:
 
-On Tue, Jul 1, 2025 at 12:53=E2=80=AFPM Shuah Khan <skhan@linuxfoundation.o=
-rg> wrote:
-> The change looks good to me.
->
-> Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+  make: *** No rule to make target '/test_kexec_jump', needed by 'test_kexec_jump.sh'.  Stop.
 
-Thank you, Shuah. I'll carry your Acked-by tag in v2.
+This failure occurs because the Makefile rule relies on $(OUTPUT), which is
+undefined in direct builds.
 
-> There is another patch that adds the executable to .gitignore
-> https://lore.kernel.org/r/20250623232549.3263273-1-dyudaken@gmail.com
->
+Fix this by listing test_kexec_jump in TEST_GEN_PROGS, the standard way to
+declare generated test binaries in the kselftest framework. This ensures the
+binary is built regardless of invocation context and properly removed by
+make clean.
 
-I missed that patch. Thank you for pointing it out.
-I'll drop this change in v2.
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+---
+Changes in v2:
+- Dropped the .gitignore addition, as it is already handled in [1]
 
-> I think you are missing kexec@lists.infradead.org - added it
+[1] https://lore.kernel.org/r/20250623232549.3263273-1-dyudaken@gmail.com
 
-Thanks, I=E2=80=99ll add kexec@lists.infradead.org manually in future patch=
-es since
-get_maintainer.pl didn=E2=80=99t include it.
 
-$ ./scripts/get_maintainer.pl --scm tools/testing/selftests/kexec
-Shuah Khan <shuah@kernel.org> (maintainer:KERNEL SELFTEST FRAMEWORK)
-David Woodhouse <dwmw@amazon.co.uk> (commit_signer:1/1=3D100%,authored:1/1=
-=3D100%)
-Ingo Molnar <mingo@kernel.org> (commit_signer:1/1=3D100%)
-linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK)
-linux-kernel@vger.kernel.org (open list)
-git git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git
-git git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+ tools/testing/selftests/kexec/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Moonhee
+diff --git a/tools/testing/selftests/kexec/Makefile b/tools/testing/selftests/kexec/Makefile
+index e3000ccb9a5d..874cfdd3b75b 100644
+--- a/tools/testing/selftests/kexec/Makefile
++++ b/tools/testing/selftests/kexec/Makefile
+@@ -12,7 +12,7 @@ include ../../../scripts/Makefile.arch
+ 
+ ifeq ($(IS_64_BIT)$(ARCH_PROCESSED),1x86)
+ TEST_PROGS += test_kexec_jump.sh
+-test_kexec_jump.sh: $(OUTPUT)/test_kexec_jump
++TEST_GEN_PROGS := test_kexec_jump
+ endif
+ 
+ include ../lib.mk
+-- 
+2.43.0
+
