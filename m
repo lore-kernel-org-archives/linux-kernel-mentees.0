@@ -1,155 +1,135 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEED61F4295
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  2 Jul 2025 18:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C897B2BE63F
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  2 Jul 2025 19:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751482438; cv=none; b=patf8Wnjik6Mcd28IZZIsCsbJrmKmFbTuWrdvZe2kOljHyUqM/gO161TPnC+OKzZTTw9EmDCjJXQpdzkMiR8tiQO36NrmGYiAvTad5tYmF75nchTFGQKlfthV8+bw/8ZxkaClpbQiHhQf04iLzMBfRWPuX3TXhWcebCIu9795AA=
+	t=1751482831; cv=none; b=ex5uDx+mrliTOAAXT3E1mht0F8LQctrXxk9BBrX9Tv/CNKfhosPgzUEcGdoI0ibCA6cbuC7yoyu19rQQjKQHEtJJKdzoIGiv3fsq3E9hyDwhmU3MLVNrbcIjlT0RYOQANzFvhKzrRldcUBte3rnBS7l/D0o2E/n6rsvpZgE92jM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751482438; c=relaxed/simple;
-	bh=sWVfMaKLsECjIyi5MUgKTM26UVwF4aLhRuw9374xhxQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T2wbFYJiika3mP3YBhrwOpeRGPcnfteWUjOEwuCg29wpnZFj1+GDzKDlXgN59rhVGZs9GoApYiorFFYLUs0W+OLevGgtBNpnkMWzJidfhqNBGARSPe17W6j/RJPiZ9DoAwu5hvi6zBpIDr9tWoJ0c4Y8A4cQGB2xM2xoozJDweM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dnH/DPAm; arc=none smtp.client-ip=209.85.221.169
+	s=arc-20240116; t=1751482831; c=relaxed/simple;
+	bh=d8RdH4bygtc6dzbH1AbeiVyiXe9i4xNli8uyMLHR01g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=r6DIW8Zctz1eJVgB31u41XH/zpCveUbN10xWZgizpJgYs+6t/UoBlbBPnezh6YlL1mvBm8dztVHpurbr/7ZlpoZMiaiQTcJu17y/ut7ZaSEOIE8Zcn+9FDq/9VZrcmnM3EQRS4Qrnkl3u3S71IsFCWojBLnc9E1qf4wKgbQD43U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CO+seq/b; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dnH/DPAm"
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5313eff2649so1632210e0c.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 02 Jul 2025 11:53:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CO+seq/b"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-31332cff2d5so5994049a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 02 Jul 2025 12:00:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751482435; x=1752087235; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rGpr20X06c4IYo1szuAw6hcwGxTmHbpUqGh7ovFyqx4=;
-        b=dnH/DPAm0LGKd9kZRaoFVw6OMb/eduSPk/i7EFl7YnlyYxNexHIMiwmGN00ANFdAEj
-         PP8DX70Ll62YyIEKed1RQ1qKaSfciGavuH511KUuVATGpUfrolo+nSq8BQbVrqia5Bv7
-         zZZin64LLz8DoC1pwsVf6BduC1ETBGjut5LUmylKl9k1o12oYhv1DHhAp8vUoHh3x1ww
-         hKNcxNn8Ud2jHE3LvQikZbEcj/OePbzleHZ08dBDilO8xDMA2xgsG4HbHjbDF6zkYfwm
-         A87rU7DpDgUAAfs/JgDz8BG7iVUW/Oyrw5C3WDnwJBMcM9pAvXPuhFBbW7fLk1GhFQdD
-         FDQg==
+        d=gmail.com; s=20230601; t=1751482829; x=1752087629; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dNvEoNaOIW82DnFZ370ho50EsopFgUiF2vv7ai8Lmhs=;
+        b=CO+seq/bIsZMScl/WXGe9FPYPmnUt64v1r8ZtWCBBO0csdSykqKurx/+X+JsNo/V3w
+         svwvI24vGtrrYgm9L2tliDQtswLUleUZhzk9z83oj53ohmTthFWNTZJrK2vYqVBF0xgp
+         ZkUOUPngEQjuHwkr1EpmU57RlRPi7fZmQIrZXPAJsj6Elq+QIj0W1nbnuxm0bW4SmcYK
+         PZmd87AyUeYxO+1CFmRBatlAeukxk/lR1fX8ph9qkf1q3TgyVHT1+XMGpP8OOg67TrX8
+         iH8rEaeAgeOIOuSLkIeBu8DdO9wjn63YeNVScmE/l6t0k/FCIWkiRgs3x0uj7c4dSVt1
+         IRaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751482435; x=1752087235;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rGpr20X06c4IYo1szuAw6hcwGxTmHbpUqGh7ovFyqx4=;
-        b=QPHM3rrkUl2e3M+WuNQFltpDqhZ8WcvRIH/GK/fstYb0QrUwElRwKlxzB10IvVYVrj
-         8VQbFfW9cdqZ/yo2GG/1g3Yva7qnAh+LcOBZeXYQNh1KLXEzUxxOXqwd9MKbVBeyE/7E
-         QUEYnuj4CpjvX8zckv47m4uovcZBEZzaCDLw0HjqJ7c7csWqiCr+NttS0dC80mbomtEW
-         Y3rXy9Q/khciygEwKl0XAeYC5otAZ9n+EHbUw6Yn3EtyxiwLIZsozgxQWBu9ugtBPMKs
-         Nw1IjKL3Y+FQks5jVfRfkSEC+lKISpUr1PwOLr0LC2yEQSHCoLzmU7FcI/Z/RNFDcPjc
-         xi3A==
-X-Forwarded-Encrypted: i=1; AJvYcCUkrUzJ2LZVtn6+ci5z7DvVMu4sZCY87iQXhIFzPsb86+PZsXE9S4NqxjEwwEdFNpoUcgstxMnj9Li2qelwgLWcUf9pZA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFUyXri33+MB/rSu/qZ783dqPSZ5CrOLb8Va7jC0+JG2iX/PSl
-	oEkzzOBoOBeHWCujMc1gkVgo85n1D0nqpYTrAtUfTYp8Er5i6Z4If90uZdrx8UsADIxcI0OSMku
-	RXq1fItJ5gYlCvwjsA97xNy+5oq39PFg=
-X-Gm-Gg: ASbGncvpMHLJ54F2FWAClCGCmV4ud2KCwp0bmU+9FnejyBQotHXx3BXmkAecN0U6kUn
-	ADwa5i+TXjbCMZzjUKls2VWPbQ/Vv8YK4Y8MqFqugxVRInZzfVEwtLZhZXu6b6KFtqjOVCR5RI2
-	qKBN9lDQhePnMEWx+dHviY7hS+6KMlX/0EHo6YdeO8gBo=
-X-Google-Smtp-Source: AGHT+IGQcNbkNCL1zSuxVw3ayQxDPwY4K6hVoovbfKHpavfr6RyQNOABf7c8aYnbDaPOxGOpHCrKfzNVskqnsSbi53g=
-X-Received: by 2002:a05:6122:553:b0:531:2d3a:32aa with SMTP id
- 71dfb90a1353d-53466603979mr626634e0c.0.1751482435572; Wed, 02 Jul 2025
- 11:53:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751482829; x=1752087629;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dNvEoNaOIW82DnFZ370ho50EsopFgUiF2vv7ai8Lmhs=;
+        b=E2J6yxRNETaceClK81foMCm62wj6aTgzGlC7k08T7Qe0/ECFP3gXXh82bxFnG+Dncn
+         aiwNK7oBQEd7OR2BZHCq15q2IVL7+/aLcahcudl98SMY5XdT3OrllVdxhl5nMGerQ4Kb
+         v6RiLE8+JWxTuKwt4aQ0sizCC2xwtM3WMg8qyLTwDwK4WGfghLQOeOA6FxM6XOGFkS8+
+         z8MaUTKF4n/mz6BkgfyOBnTr/P695GZA/jhxjhH8zL5BvuTse8HucbnW4VvynZkrH60B
+         g8hex/QmED/mDujRY1xfAqHhMvBEtQRIjg++kwKBzN7bmeiSWOj4tW2wj5kLdto5hT9l
+         VCVA==
+X-Forwarded-Encrypted: i=1; AJvYcCWzR4vaxeo4HKWc4NAoSm7xgMI6nBmkBq0nrMzqD8S7PELFx+dm0PmB71+fRbb/LpCzVe8MF915sTCKA7hO1gDIh0LHYA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzlpD3R+wuBFbqtkkGEtZ7U2kXrxj1tdR4IPkANzZh5h4xE1Rox
+	VZFjDNKnzuVqBshzQMfWXDu4Vq/ctRh4h5jp317fqKLcVDZAMTNkKXvi
+X-Gm-Gg: ASbGncvIalMiGuKFsNo37ohqXpBlk2WFvFy2VgnDACPMrH8dltA0WClG4faT2gTD4Qa
+	TnOunZ0AXg+4mHa7pCHzV7Mnl2mMjEA1ez+xDIy7N+5Y/q6ttlbio3fn+fmRBfJAFZnJDnuN7nA
+	FEX9NWVBnC/QK44KN6P8ataTzk7I1NpEpbURAmaczUbxVhEpVNsdrFAW6hx0eCA13sO4sv/dEBY
+	wtfBJRFG3jYxOgZs8KT4Gkec+SzZduYXhlU1/OT41OtKNA6h3I8DZSWZAAMLKVnRWcvEzZ/jTNP
+	KnhhXJvpkHZ5WmdM8sZtguiMWAZoxzJyzo9wgED3JSysePX3WnGSrmO7yBPJku9bxpEPjQbV
+X-Google-Smtp-Source: AGHT+IHisT+jL2i9exD2iEGFPt0p0HhJMwOgwOqxm5sMieaqvdl02QcRn6IPSerxf/AqzuegXaPCvw==
+X-Received: by 2002:a17:90b:52c6:b0:316:3972:b9d0 with SMTP id 98e67ed59e1d1-31a90a2d5d4mr7166223a91.0.1751482828855;
+        Wed, 02 Jul 2025 12:00:28 -0700 (PDT)
+Received: from pop-os.. ([49.207.217.131])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31a9cc66830sm415374a91.16.2025.07.02.12.00.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jul 2025 12:00:28 -0700 (PDT)
+From: Aditya Dutt <duttaditya18@gmail.com>
+To: stable@vger.kernel.org
+Cc: Edward Adam Davis <eadavis@qq.com>,
+	Dave Kleikamp <dave.kleikamp@oracle.com>,
+	Dave Kleikamp <shaggy@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	jfs-discussion@lists.sourceforge.net,
+	skhan@linuxfoundation.org,
+	Manas Ghandat <ghandatmanas@gmail.com>,
+	syzbot+30b3e48dc48dd2ad45b6@syzkaller.appspotmail.com,
+	syzbot+bba84aef3a26fb93deb9@syzkaller.appspotmail.com,
+	Aditya Dutt <duttaditya18@gmail.com>
+Subject: [PATCH 5.15.y] jfs: fix null ptr deref in dtInsertEntry
+Date: Thu,  3 Jul 2025 00:29:36 +0530
+Message-Id: <20250702185936.68245-1-duttaditya18@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250618215843.109941-1-usmanakinyemi202@gmail.com>
-In-Reply-To: <20250618215843.109941-1-usmanakinyemi202@gmail.com>
-From: Usman Akinyemi <usmanakinyemi202@gmail.com>
-Date: Thu, 3 Jul 2025 00:23:44 +0530
-X-Gm-Features: Ac12FXwVWPAC1aru0ELPnfULxHDKrh4sVJoMhmHfgf5DdxsrpMCb4mBVcWpGxi0
-Message-ID: <CAPSxiM_hKOdMkpsogs8dhX3S=Fz42noOFM1KFTYmaBBwK6g23w@mail.gmail.com>
-Subject: Re: [PATCH] perf/x86: Replace strncpy() with memcpy() for vendor string
-To: peterz@infradead.org, mingo@redhat.com, acme@kernel.org, 
-	namhyung@kernel.org
-Cc: mark.rutland@arm.com, alexander.shishkin@linux.intel.com, jolsa@kernel.org, 
-	irogers@google.com, adrian.hunter@intel.com, kan.liang@linux.intel.com, 
-	james.clark@linaro.org, linux-perf-users@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 19, 2025 at 3:28=E2=80=AFAM Usman Akinyemi
-<usmanakinyemi202@gmail.com> wrote:
->
-> strncpy() is unsafe for fixed-size binary data as
-> it may not NUL-terminate and is deprecated for such
-> usage. Since we're copying raw CPUID register values,
-> memcpy() is the correct and safe choice.
->
-> Signed-off-by: Usman Akinyemi <usmanakinyemi202@gmail.com>
-> ---
->  tools/perf/arch/x86/util/header.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/tools/perf/arch/x86/util/header.c b/tools/perf/arch/x86/util=
-/header.c
-> index 412977f8aa83..43ba55627817 100644
-> --- a/tools/perf/arch/x86/util/header.c
-> +++ b/tools/perf/arch/x86/util/header.c
-> @@ -16,9 +16,9 @@ void get_cpuid_0(char *vendor, unsigned int *lvl)
->         unsigned int b, c, d;
->
->         cpuid(0, 0, lvl, &b, &c, &d);
-> -       strncpy(&vendor[0], (char *)(&b), 4);
-> -       strncpy(&vendor[4], (char *)(&d), 4);
-> -       strncpy(&vendor[8], (char *)(&c), 4);
-> +       memcpy(&vendor[0], (char *)(&b), 4);
-> +       memcpy(&vendor[4], (char *)(&d), 4);
-> +       memcpy(&vendor[8], (char *)(&c), 4);
->         vendor[12] =3D '\0';
->  }
->
-Hello,
+From: Edward Adam Davis <eadavis@qq.com>
 
-I am just bringing attention to this patch.
+[ Upstream commit ce6dede912f064a855acf6f04a04cbb2c25b8c8c ]
 
-I have not received any comments about it.
+[syzbot reported]
+general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] PREEMPT SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+CPU: 0 PID: 5061 Comm: syz-executor404 Not tainted 6.8.0-syzkaller-08951-gfe46a7dd189e #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
+RIP: 0010:dtInsertEntry+0xd0c/0x1780 fs/jfs/jfs_dtree.c:3713
+...
+[Analyze]
+In dtInsertEntry(), when the pointer h has the same value as p, after writing
+name in UniStrncpy_to_le(), p->header.flag will be cleared. This will cause the
+previously true judgment "p->header.flag & BT-LEAF" to change to no after writing
+the name operation, this leads to entering an incorrect branch and accessing the
+uninitialized object ih when judging this condition for the second time.
 
-Thank you.
-Usman Akinyemi.
-> --
-> 2.49.0
->
+[Fix]
+After got the page, check freelist first, if freelist == 0 then exit dtInsert()
+and return -EINVAL.
 
-On Thu, Jun 19, 2025 at 3:28=E2=80=AFAM Usman Akinyemi
-<usmanakinyemi202@gmail.com> wrote:
->
-> strncpy() is unsafe for fixed-size binary data as
-> it may not NUL-terminate and is deprecated for such
-> usage. Since we're copying raw CPUID register values,
-> memcpy() is the correct and safe choice.
->
-> Signed-off-by: Usman Akinyemi <usmanakinyemi202@gmail.com>
-> ---
->  tools/perf/arch/x86/util/header.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/tools/perf/arch/x86/util/header.c b/tools/perf/arch/x86/util=
-/header.c
-> index 412977f8aa83..43ba55627817 100644
-> --- a/tools/perf/arch/x86/util/header.c
-> +++ b/tools/perf/arch/x86/util/header.c
-> @@ -16,9 +16,9 @@ void get_cpuid_0(char *vendor, unsigned int *lvl)
->         unsigned int b, c, d;
->
->         cpuid(0, 0, lvl, &b, &c, &d);
-> -       strncpy(&vendor[0], (char *)(&b), 4);
-> -       strncpy(&vendor[4], (char *)(&d), 4);
-> -       strncpy(&vendor[8], (char *)(&c), 4);
-> +       memcpy(&vendor[0], (char *)(&b), 4);
-> +       memcpy(&vendor[4], (char *)(&d), 4);
-> +       memcpy(&vendor[8], (char *)(&c), 4);
->         vendor[12] =3D '\0';
->  }
->
-> --
-> 2.49.0
->
+Closes: https://syzkaller.appspot.com/bug?extid=30b3e48dc48dd2ad45b6
+Reported-by: syzbot+30b3e48dc48dd2ad45b6@syzkaller.appspotmail.com
+Reported-by: syzbot+bba84aef3a26fb93deb9@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+Signed-off-by: Dave Kleikamp <dave.kleikamp@oracle.com>
+Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
+---
+
+I tested the patch manually using the C reproducer:
+https://syzkaller.appspot.com/text?tag=ReproC&x=135c9b70580000
+given in the syzkaller dashboard above.
+
+ fs/jfs/jfs_dtree.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/fs/jfs/jfs_dtree.c b/fs/jfs/jfs_dtree.c
+index 27ca98614b0b..cb57d4f1161f 100644
+--- a/fs/jfs/jfs_dtree.c
++++ b/fs/jfs/jfs_dtree.c
+@@ -835,6 +835,8 @@ int dtInsert(tid_t tid, struct inode *ip,
+ 	 * the full page.
+ 	 */
+ 	DT_GETSEARCH(ip, btstack->top, bn, mp, p, index);
++	if (p->header.freelist == 0)
++		return -EINVAL;
+ 
+ 	/*
+ 	 *	insert entry for new key
+-- 
+2.34.1
+
