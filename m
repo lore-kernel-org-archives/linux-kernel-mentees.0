@@ -1,114 +1,96 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A8A2EBBAA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Jul 2025 15:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C273196D8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Jul 2025 15:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751469766; cv=none; b=RHc1IZDa/P68kMpAlpd5IDOQyYAEmX2U0ycRpjjqmV37XxDEZHR0Ev7FlpXam1HLeX2yKN4JkVS/lSv2qic1fwZsU2RoA/7S54BnYK3VBt4r68aAlTzd9mcW2w9vMxVjAc5RF+mpTeNyYMuVrVo6SUuQQCoJwTiRUcQNw0TuF8I=
+	t=1751471532; cv=none; b=SjeG4+FqU0OuWWh4xcqxV/DkBYZbMnP4klsuSOdhLGiFAi2YC3YVcTz7bSMc83kyT7oe/wI0bUqQOUSJJtxlkq2BiX13NCy1jWLNOyrzTGsmrMDL0/VDjvcqi6/0tqg7xhi7MY0B/DNkFW+1Udqp2Moyv7nwVfKxo7EbUqxv8DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751469766; c=relaxed/simple;
-	bh=Gfd43r0aPmt7xwxQu+ivhcc61vxw7OkRTYOyvI6KUBs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PSEqkd8VIKx+ElMwV5y8DYIeWSGUbvJJLaoxAm2yPCx1ziYWRIKYXcWQIQT1zCjBLuUVUrFVupYPSI55VKU+m+jaqEEz5BCpDxC5LlorG3lGn1tMhXqEtpnezWhQCPAQfgR+udrsQD3bTkU/CXkX7ly5KatD/nuVFFx0zTHYi5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GFzV4YHg; arc=none smtp.client-ip=140.211.166.136
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GFzV4YHg"
+	s=arc-20240116; t=1751471532; c=relaxed/simple;
+	bh=XvErPKwXmrSaWnLPQRt75z9XMYPtu63Ke0m16RaoJ+k=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XpcozoSVOIXq0JlfBSvN381OzSDg7xEnQhP0pYTSakj2GsczCZMONQSFENLelVs4Bs1zFob+MIVSrnlvXP0LbJdRNi2puxxeqxhXbzRNBeLnkBJd/1vAzMUY3AWYBf6toNy4Tl1ldfiArZbn9+sToS5satPdYAEKwzCwhk8/ITc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 50A446076D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Jul 2025 15:22:45 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id B5F1A817A4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Jul 2025 15:52:09 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -8.092
+X-Spam-Score: -7.889
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id EslvTXl7m_gT for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Jul 2025 15:22:44 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=192.198.163.15; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@intel.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 48FB760779
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 48FB760779
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GFzV4YHg
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 48FB760779
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Jul 2025 15:22:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751469764; x=1783005764;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Gfd43r0aPmt7xwxQu+ivhcc61vxw7OkRTYOyvI6KUBs=;
-  b=GFzV4YHgwJ48pgMqI2+KtNTOX1iXgHAlC4CmDQ//Hg/1E5aiaz8d5pet
-   feRNHIcsDanAk9xW44lycfYl0w5C6gk//y4PJm6KmZPpIzzUTX5VM0yp8
-   Up3CKpaG2uo6Ugt98gPnfuFCHoEErZzY+inZMtWpq/gaYwjUGINu/EaK9
-   jLg9TnNq0vxxBKlyJUKluXnXxaeeqbv3qmdnlm4tIPnqw1hcgk0A//DIh
-   Z5tJV8SXGA9zzVN04EV/lYizT1LIQ5VJfZAyIWzrXdpJcdpJKhE2YEVZ3
-   dkim2TWEUIeOr9YOgT5K2s5NGZ6xBhiFJcSivUNPaLYQURjFjgG6KXBTd
-   w==;
-X-CSE-ConnectionGUID: 82OUwavoRtmYe1TIccCn0Q==
-X-CSE-MsgGUID: a80cF7XOTFm7Da4nUIhBDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="53916727"
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="53916727"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 08:22:43 -0700
-X-CSE-ConnectionGUID: JazSnvquTuOe/GL6N+pS9w==
-X-CSE-MsgGUID: j0fBUXJ4QIWvk3ArkQJfew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="185051371"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 08:22:41 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uWzIE-0000000BxC8-1T4K;
-	Wed, 02 Jul 2025 18:22:38 +0300
-Date: Wed, 2 Jul 2025 18:22:38 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id lLDr4LIsaD2k for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  2 Jul 2025 15:52:08 +0000 (UTC)
+X-Greylist: delayed 1101 seconds by postgrey-1.37 at util1.osuosl.org; Wed, 02 Jul 2025 15:52:08 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 5E8B5817A0
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5E8B5817A0
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=185.176.79.56; helo=frasgout.his.huawei.com; envelope-from=jonathan.cameron@huawei.com; receiver=<UNKNOWN> 
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 5E8B5817A0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Jul 2025 15:52:07 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bXP6S3Hm3z6M4tH;
+	Wed,  2 Jul 2025 23:32:48 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 3C5D914011A;
+	Wed,  2 Jul 2025 23:33:44 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 2 Jul
+ 2025 17:33:43 +0200
+Date: Wed, 2 Jul 2025 16:33:42 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 To: David Lechner <dlechner@baylibre.com>
-Cc: Akshay Bansod <akbansd@gmail.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+CC: Andy Shevchenko <andriy.shevchenko@intel.com>, Akshay Bansod
+	<akbansd@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>, "Jonathan
+ Cameron" <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
 	Andy Shevchenko <andy@kernel.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+	<linux-kernel-mentees@lists.linuxfoundation.org>,
+	<linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
-Message-ID: <aGVOvgxhBO_qSoe3@smile.fi.intel.com>
+Message-ID: <20250702163342.00003c66@huawei.com>
+In-Reply-To: <e474db53-1b52-48b0-9253-2f62a3861bb4@baylibre.com>
 References: <20250702135855.59955-1-akbansd@gmail.com>
- <f96b68a5-d750-45f0-8cdd-9761b5daca1d@baylibre.com>
- <aGVIcBLgXZj_YR7B@smile.fi.intel.com>
- <e474db53-1b52-48b0-9253-2f62a3861bb4@baylibre.com>
+	<f96b68a5-d750-45f0-8cdd-9761b5daca1d@baylibre.com>
+	<aGVIcBLgXZj_YR7B@smile.fi.intel.com>
+	<e474db53-1b52-48b0-9253-2f62a3861bb4@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e474db53-1b52-48b0-9253-2f62a3861bb4@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Wed, Jul 02, 2025 at 10:04:23AM -0500, David Lechner wrote:
+On Wed, 2 Jul 2025 10:04:23 -0500
+David Lechner <dlechner@baylibre.com> wrote:
+
 > On 7/2/25 9:55 AM, Andy Shevchenko wrote:
-> > On Wed, Jul 02, 2025 at 09:16:51AM -0500, David Lechner wrote:
-> >> On 7/2/25 8:58 AM, Akshay Bansod wrote:
-
-...
-
+> > On Wed, Jul 02, 2025 at 09:16:51AM -0500, David Lechner wrote:  
+> >> On 7/2/25 8:58 AM, Akshay Bansod wrote:  
+> >>> Update the sysfs interface for sampling frequency and scale attributes.
+> >>> Replace `scnprintf()` with `sysfs_emit_at()` which is PAGE_SIZE-aware
+> >>> and recommended for use in sysfs.  
+> > 
+> > ...
+> >   
 > >>> +		len += sysfs_emit_at(buf, len, "%d.%03d ",
 > >>>  				 odr_table->odr_avl[i].milli_hz / 1000,
-> >>>  				 odr_table->odr_avl[i].milli_hz % 1000);
+> >>>  				 odr_table->odr_avl[i].milli_hz % 1000);  
 > >>
 > >> Let's keep checkpatch happy and change the indent of the wrapped lines to
-> >> line up with ( since the ( moved.
+> >> line up with ( since the ( moved.  
 > > 
 > > While I see the point, wouldn't be better to have 1000 replaced with MILLI
 > > at the same time?
+> >   
 > 
 > For anything with 3 zeros, I don't consider MILLI better (or worse).
 > Science shows that the average human can easily see 3 or 4 things
@@ -118,13 +100,14 @@ On Wed, Jul 02, 2025 at 10:04:23AM -0500, David Lechner wrote:
 > 
 > And in this particular case, we are converting milli to micro so `1000`
 > should be replaced by `(MICRO / MILLI)` if we are going to do that.
+No we aren't.
 
-I see. This changes the picture drastically. Let's leave it for another day then.
+This one is converting from milli_hz to hz + sticking to milli for the decimal
+part.
 
+Lots of other IIO cases where you would have been right, but I think not here.
+> 
 > [1]: https://www.scientificamerican.com/article/your-brain-finds-it-easy-to-size-up-four-objects-but-not-five-heres-why/
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> 
+> 
 
