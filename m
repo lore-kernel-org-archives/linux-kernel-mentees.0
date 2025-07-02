@@ -1,166 +1,133 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5941E307AEC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Jul 2025 14:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CD8292B53
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Jul 2025 15:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751468282; cv=none; b=BiQWZF2zrO1G/J7C6k0PEi4adqZ9/MwJgcJ8nDqDaaNDiQr70hVjUtns3szd9H0IiMwPccHnn+c+xxcNIBS5qe6tIO/dZoy9NLwDP4wfFHyu+xNLGuHji1G93qrrsU3JE+dqlh5niMZYBT6kzeTetaSZLN6bkfahEtpe8kurBi4=
+	t=1751468670; cv=none; b=PicW10B2CLOqAog4Mw6XV+m7ky8jkCZTlLMtab+x48VCQ52nno70Qce9SYjRYPILqQ4lpcK8nsga1DGfQLJoSvVsfjliFg+nIBdgDcZwbqeP5sgrI3A9d5+MD/twZqBU9BQINMD/BIQPwV8o+Hdab1adnJhFitZGQT47lBaO9Hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751468282; c=relaxed/simple;
-	bh=BjH9ZL9GM336U/7LmIC7pQDa5Ym6s6rn2+kjuOw1wp4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=prdZNqRy+X/Y5X2yr3pkTOSHBFXtwigk5U8nVLzclsL+T+VJEctjMX0bXuxu+cq2ROE708t6LlqwC+Iwo/jOE693+UPK28MudDCeNb+n8RiCa8Bau9dyDRCTvKli2WwI7NFHblDul5NU/WqxMFBlBtjRsO4ureyBlyUpLKVGaJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bv67mqxu; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1751468670; c=relaxed/simple;
+	bh=+1Y6ZNOjjbezKMVrD98UVg4jqhd2A4KkLJqkx9x2Baw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bQtttyEEpaWXZ4nSb3KdAir93soRYjjMRO1aR38bMX3vGWiGGnttmARFUxH3pSxkjiMIoo1Xs96Yox2qfhwLVRuI0XTYAnbu4V/jFoHNsI0muP2bjOwoUxCxmVY1zsIdFpFmTQnAVM72MIrShDrrfqQSybkA2YsklfWV3KDDuiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=KBISDKb8; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bv67mqxu"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="KBISDKb8"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E7FFF4094C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Jul 2025 14:58:00 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 8EDB584230
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Jul 2025 15:04:28 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -1.9
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id nskVR3k8YHcN for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Jul 2025 14:58:00 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::629; helo=mail-pl1-x629.google.com; envelope-from=akbansd@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 54C06404D6
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 54C06404D6
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Bv67mqxu
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 54C06404D6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Jul 2025 14:58:00 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-235d6de331fso58682185ad.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 02 Jul 2025 07:58:00 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id BTJeZBfrxZhK for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  2 Jul 2025 15:04:27 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2001:4860:4864:20::31; helo=mail-oa1-x31.google.com; envelope-from=dlechner@baylibre.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org C63A58418C
+Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C63A58418C
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=KBISDKb8
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C63A58418C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Jul 2025 15:04:26 +0000 (UTC)
+Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-2ea65f5a0easo3950377fac.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 02 Jul 2025 08:04:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751468279; x=1752073079; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G8mb6YKO/25FxCcRxNpOnxxYjHITO3LXQLCHLiZTW/c=;
-        b=Bv67mqxurKZV17BbH+etEBYrM0T1nYG6MV4iqnzdpxQEKJF700omM8Czd0ouJio0yh
-         eudffp0a4j2ePiwIwqSktxey61n6Af72mR3GUzBrP2f0hSdddeQRnglHy4inHcFPUn6E
-         4BXuER6M/UHWgm3n6e7LKzccTGjAVaM8rihAhKDB4VNWWd6CggpnyXALjJuV+tWpwFjj
-         oN2TuYvfNmVk1P6husdXoXBvI2AP61tMCO3TP5p9SLVh9CCbTra3gdeO8ISYtRjjWhc/
-         OqYdBzMKRrfp5c2TmcVzo2Sv7n0E0oqZj3er4KJEycQZEQTz7dGhGiyslyq+V9w9fehd
-         2PHg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1751468665; x=1752073465; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EpSkZNRj+KNJmdYaS5yXC0vQwBvPJpgN8lcF/7GiAl8=;
+        b=KBISDKb8dGYKwJa+YLi8qw7sN0Hbt3NCNBWSTEdR3miSpFDjt6wjRJ5tI1CqzjQLq0
+         n1lPDVKtLD/BwIWnYZlOjGU3Yrwy7wAloDTNBxxbK3AZKLLZZ2pHSneEr9QXmSQ31XYE
+         qq9SLSm7YMKrWHdDvXxvw2py/o0zA+rrpZasZvwvz7a2TEA/maE9lWURcWMhkNTHANAp
+         XnXygr8Cik2nUHmhbVZeKXra1j266UBO8APId7GHeQnn6tvjh1qHuhMQz0iCAl9hdDvh
+         OOQJgF/b8+GyP4L5OLpKes1BVzD9T1nAmVETldffzPBDq0tWUZyZmNFNXM8iMbICkMCz
+         FshA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751468279; x=1752073079;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G8mb6YKO/25FxCcRxNpOnxxYjHITO3LXQLCHLiZTW/c=;
-        b=YMgGHKqsUOaLmLSf6n0iJroSeBAhOeaykGdMD084lJt/q+L8qO0UpmhFYusG+klVmY
-         xo2SsGAl0Vlta1xPzVvrpgD4XV0tKJK5M2tXO0+JQI+UZgG6fmAilloFrDbxRVDVEWOV
-         RMY8jynGvjS/QwssEhfjnZe4FTVofTQQ5Da9qjg9umaOt/vmH4qOdVSXo4wnpCkmbo5g
-         pcdUUl+CJP8Bf0DNj/kLxgzdehF+FSdiU9is5ceYyNfvI0qsEg48j5rae+NN6oM4e8/w
-         qTiN+zQtgyH1Fu15WRXVBrnyJAiUTF9gZsVh3qBphPQ9gfgJPYck1uOUjtHG5Rnqrbj7
-         V+Vg==
-X-Gm-Message-State: AOJu0Yy+PJQ1RnM2CCLe9kOSWzALRrz/zW36Xbwqli/g83kcevfnhdHp
-	WjO9LwRtdSu27zP6w5RI3XMLsqilYsiGctMlyUtehm8b12jsxKj3Syjm
-X-Gm-Gg: ASbGnctjtk5P9haEZyWrnlHm0ccMEHHY5cL4gNNVmClTfBJ0uyejG7lj6DRadtrytp4
-	TrZYa4QIViUWIt06n6JN5n4lc6xNkluHe2t9ne1l1ypwoodA9a7JRh0xaQZG96QX57ns8ulZWi5
-	55Ok0PjoP9QF6mfdUlNPMHq8Lc5hVF5rkURd/SABKV/eMlBsK4udErkOIQ+HZh4x22MD2CKlrvv
-	iUWZ+ogoQVU7TsU8V/s4HJ7J5uVKd78g4KMn1BlJmPvi0M+MQWRgSHzFIJ+FdFTHZVUHnKzYzYu
-	uWmFhH8zQh0JtISnzdr5eqO/dkUjFznhuC+7gkrKcXILerM8Em8/49oWKO5/6MOuoGO4LqU=
-X-Google-Smtp-Source: AGHT+IGgNwNCyuwa7r5FGF7RkrD49EIguonUe9/QiJBv7+/xI5mloY38Y/AsFY/SVbUDzwPV58ljBA==
-X-Received: by 2002:a17:903:2984:b0:234:b743:c7a4 with SMTP id d9443c01a7336-23c6e56f44emr61631745ad.38.1751468279578;
-        Wed, 02 Jul 2025 07:57:59 -0700 (PDT)
-Received: from mbox.localnet ([36.50.162.229])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3b8ec2sm132043445ad.183.2025.07.02.07.57.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jul 2025 07:57:59 -0700 (PDT)
-From: akshay bansod <akbansd@gmail.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>,
- Jonathan Cameron <jic23@kernel.org>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, David Lechner <dlechner@baylibre.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-Subject: Re: [PATCH] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
-Date: Wed, 02 Jul 2025 20:27:53 +0530
-Message-ID: <3363941.44csPzL39Z@mbox>
-In-Reply-To: <f96b68a5-d750-45f0-8cdd-9761b5daca1d@baylibre.com>
-References:
- <20250702135855.59955-1-akbansd@gmail.com>
- <f96b68a5-d750-45f0-8cdd-9761b5daca1d@baylibre.com>
+        d=1e100.net; s=20230601; t=1751468665; x=1752073465;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EpSkZNRj+KNJmdYaS5yXC0vQwBvPJpgN8lcF/7GiAl8=;
+        b=vkDK2S2+LdfNhH8yC3X7pLAgHPkvqlOkjURTtDEeNELhLcUq1RmXtM5BddzPO5qp85
+         MYV/RN4zyNJqIfK3hh3+vAGrykRGS9kCULhmCeXGJJdVKUOC8oeGJz/RaFY2s5akEQMe
+         5lGnNXn/3ej8IKwCChZVNAncMBbd6D/sIaXZoYsZFzj/8dyCkFn7broosOhdXhi2Ab0U
+         QU8+tjxT4Q/uE5kQrdRisUHoO1vwgEf62xyZnLm8HbDkqvw0AnV4s4fH9hzSVJ3eupSZ
+         +GZeqnS3lMx7bK38wfINPfAUPFrimE4FpmKE4KtCVehnAiFZTjzrOuFE+YvrXN19sfhx
+         FAuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW5oHWILIQDL6AovX06DclCzM+Rm9Q7azLlSL/SH98I0vlX/BZYWbMrRPZwhneWJtOcMOZFa8oV71/Ne5B68Hpq06kjNg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yz48BiMhEA4QoWkSWe2pa5Q0nGud3pA1615xTgQ/l0tYsjggpYC
+	Rp9gejlyC8J8eh2jmLF/8pXMEGWf3DFHGWMl7z732AolQVzvpUk9OS080Jg+kXHocHQ=
+X-Gm-Gg: ASbGncv32D+/yztFE7NmqmMf7pJGgdgOZROgFplceCnzhBodffVbhalamrD7dhyWHXN
+	ZHE3w3/8xIvjqizTHqUVNy27rHFKqCGuZaHN3uYqFVpqve0B3MsIhEMU+BOKQYf89x6SM4RGRda
+	mcEbsqUiKpvPQfLizjN7HEaboqHBQPEiUZjoehlbO9mhUeU9axP6MYG9tUR0GedSVqcblw99YJj
+	+is1urbyuew7qimKQiFqwHq5vl4DyggLsAbU/paNGikag7Lkg+DG3j+SPHANMsueVadPFj6V4AO
+	AkZlYZbsBdp4APCoUdGgOShgyxLLOl9XJ2oJbgJzvfchetNNn+8LImKFk/foZulj6v/7THrltI2
+	4M2pmbbC/UXiK0Uerjjml0w0//5TRKikglmMj7+hN6MJ1sxFnFg==
+X-Google-Smtp-Source: AGHT+IFce9C5ghIoSx3a2rGe/4a+oNnev+bEZ9sPLErCFoyKvHyn2elLjaO6JeBMAX7wGFfiUCYBRw==
+X-Received: by 2002:a05:6871:796:b0:2d4:dc79:b92 with SMTP id 586e51a60fabf-2f6472a600cmr2079285fac.6.1751468664770;
+        Wed, 02 Jul 2025 08:04:24 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:1d00:5c00:24f0:997b:5458? ([2600:8803:e7e4:1d00:5c00:24f0:997b:5458])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73afb124960sm2543365a34.66.2025.07.02.08.04.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Jul 2025 08:04:24 -0700 (PDT)
+Message-ID: <e474db53-1b52-48b0-9253-2f62a3861bb4@baylibre.com>
+Date: Wed, 2 Jul 2025 10:04:23 -0500
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Akshay Bansod <akbansd@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250702135855.59955-1-akbansd@gmail.com>
+ <f96b68a5-d750-45f0-8cdd-9761b5daca1d@baylibre.com>
+ <aGVIcBLgXZj_YR7B@smile.fi.intel.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <aGVIcBLgXZj_YR7B@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wednesday, 2 July 2025 8:25=E2=80=AFpm +0530 David Lechner wrote:
-> On 7/2/25 8:58 AM, Akshay Bansod wrote:
-> > Update the sysfs interface for sampling frequency and scale attributes.
-> > Replace `scnprintf()` with `sysfs_emit_at()` which is PAGE_SIZE-aware
-> > and recommended for use in sysfs.
-> >=20
-> > Signed-off-by: Akshay Bansod <akbansd@gmail.com>
-> > ---
-> >=20
-> > Testing:
-> > - Built the driver (`st_lsm6dsx_i2c`) as a module.
-> > - Tested using `i2c-stub` to mock the device.
-> > - Verified that reading sysfs attributes like `sampling_frequency_avail=
-able`
-> >   works correctly and shows no change in functionality.
->=20
-> Nice to see it was actually tested. :-)
->=20
-:-)
-> >=20
-> >  drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c b/drivers/iio=
-/imu/st_lsm6dsx/st_lsm6dsx_core.c
-> > index c65ad4982..1cef10919 100644
-> > --- a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
-> > +++ b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
-> > @@ -2035,7 +2035,7 @@ st_lsm6dsx_sysfs_sampling_frequency_avail(struct =
-device *dev,
-> > =20
-> >  	odr_table =3D &sensor->hw->settings->odr_table[sensor->id];
-> >  	for (i =3D 0; i < odr_table->odr_len; i++)
-> > -		len +=3D scnprintf(buf + len, PAGE_SIZE - len, "%d.%03d ",
-> > +		len +=3D sysfs_emit_at(buf, len, "%d.%03d ",
-> >  				 odr_table->odr_avl[i].milli_hz / 1000,
-> >  				 odr_table->odr_avl[i].milli_hz % 1000);
->=20
-> Let's keep checkpatch happy and change the indent of the wrapped lines to
-> line up with ( since the ( moved.
->=20
-noted. I wasn't aware of that.
-> >  	buf[len - 1] =3D '\n';
-> > @@ -2054,7 +2054,7 @@ static ssize_t st_lsm6dsx_sysfs_scale_avail(struc=
-t device *dev,
-> > =20
-> >  	fs_table =3D &hw->settings->fs_table[sensor->id];
-> >  	for (i =3D 0; i < fs_table->fs_len; i++)
-> > -		len +=3D scnprintf(buf + len, PAGE_SIZE - len, "0.%09u ",
-> > +		len +=3D sysfs_emit_at(buf, len, "0.%09u ",
-> >  				 fs_table->fs_avl[i].gain);
->=20
-> ditto
->=20
-noted.
-> >  	buf[len - 1] =3D '\n';
-> > =20
->=20
->=20
+On 7/2/25 9:55 AM, Andy Shevchenko wrote:
+> On Wed, Jul 02, 2025 at 09:16:51AM -0500, David Lechner wrote:
+>> On 7/2/25 8:58 AM, Akshay Bansod wrote:
+>>> Update the sysfs interface for sampling frequency and scale attributes.
+>>> Replace `scnprintf()` with `sysfs_emit_at()` which is PAGE_SIZE-aware
+>>> and recommended for use in sysfs.
+> 
+> ...
+> 
+>>> +		len += sysfs_emit_at(buf, len, "%d.%03d ",
+>>>  				 odr_table->odr_avl[i].milli_hz / 1000,
+>>>  				 odr_table->odr_avl[i].milli_hz % 1000);
+>>
+>> Let's keep checkpatch happy and change the indent of the wrapped lines to
+>> line up with ( since the ( moved.
+> 
+> While I see the point, wouldn't be better to have 1000 replaced with MILLI
+> at the same time?
+> 
 
-Thanks for the review. I'll revise the patch.
+For anything with 3 zeros, I don't consider MILLI better (or worse).
+Science shows that the average human can easily see 3 or 4 things
+without having to count them [1]. So it is only when we start getting
+more 0s than that is when I think we should be picky about using macros
+instead.
 
-Regards,
-Akshay
+And in this particular case, we are converting milli to micro so `1000`
+should be replaced by `(MICRO / MILLI)` if we are going to do that.
 
-
-
+[1]: https://www.scientificamerican.com/article/your-brain-finds-it-easy-to-size-up-four-objects-but-not-five-heres-why/
