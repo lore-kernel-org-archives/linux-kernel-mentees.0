@@ -1,164 +1,103 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59A32D1303
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Jul 2025 08:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A492DE719
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  3 Jul 2025 09:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751531098; cv=none; b=mU2tGIIziDz4RIRa5Y9bTUAujzv/v0CNULcn7w8IvIjIRMbUW/SmTZi2M0PtfcmvimSI+KZfV4bHLUuiTnFoJGjzB3VlFaqoLDbgJ6GrDCkOkNIxN+AKvoPlJR4t7IoTc4m4/mY7CxJvwpZ2pDLnV8Of5/ssxI62P6eTHtckVR0=
+	t=1751533339; cv=none; b=TifGB9hgjjkFLpQDa8i8r8hZTneGwcd1DGFC+b+1HIuTTU5WK9ILhRuyAzIMfLPwXGDhH65s9ZGOWjhTS/LqIWhUitRL4hI0vvopzWVaA4TOpZtEZ22XWSb5O/4DWLPE9vOOvinUw79OWbUsWOAds+ksOIq5Q79fmAvljLI9ndY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751531098; c=relaxed/simple;
-	bh=M4Ov1VXaqpydoTJijiZAO+F7mcgehJ0Rtm+hmVqdK1M=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=pvliLc9vwOkrKuoTB4O+C39cP1eiKiTONrk4sHtIXDNJdXJWb8b3aLP25kzcJik2XpDd2s8L6qCrHCCcozAfHNBaUIgHqeoN3K9x386J82crKXH15UZucMdQdR1ztdKZ/aNRco0PK8oxF3ko2ITaH30TirMSoJAOQWCqOAaytDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y2lWhRds; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1751533339; c=relaxed/simple;
+	bh=r9iNBHzBMwWsOC2LNoiI/v8Ks+Adv9SBboC7T9eoqaU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T6KiExIh5g2KI4wnKn6MNs4rD3m+l7u9wNXCPJo6z6ALFPut65hvcZ5ievSCArVO467yVnfUT3ZLeatIFJLO6WQpw7zj/YSy54NtrrBFP44GrCTaJTKgzom6eG4y3l9CWS9clkBmRsF4eCI6QPEq7mX108yBtEi9TF327RwqIYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ANn2Z6dG; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y2lWhRds"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6A12260C18
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Jul 2025 08:24:56 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -8.092
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Z8e-EU9DpIUs for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Jul 2025 08:24:55 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 7C41E60AC8
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7C41E60AC8
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Y2lWhRds
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 7C41E60AC8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Jul 2025 08:24:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 54CA8A53759;
-	Thu,  3 Jul 2025 08:24:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72DE8C4AF09;
-	Thu,  3 Jul 2025 08:24:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751531094;
-	bh=M4Ov1VXaqpydoTJijiZAO+F7mcgehJ0Rtm+hmVqdK1M=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=Y2lWhRdsOmzLuubH2Eiq282ZlYPt0wt+WSwNPrzub6usYaUenhIMkygqY4YoFbg9X
-	 BFYhnkQXaNBcdccW9WsRVRiXHMBHM3KYJIbDDEa0r7mHWYUx2XGwB0sY0RkuJS3p0Q
-	 C41kycAt3NnQncbDNjulhtyWPmqanjaVrhq426mJLEMd5XGPI44LVg2x2nJCaNzntM
-	 j3D6eXS9NoiZL7AhO4v1w0TtalxtagC+hNwNn1lFXDhz0yuLMgF3v0ofVLzL/87O4m
-	 se2s7NNdfOzfCjBDSZH5qsZPESZIwKXHbWXIaK9npH3FvigVfUgUSSnJn6ov8POEUF
-	 YpBx7wqvjgt7Q==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ANn2Z6dG"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-70e4043c5b7so52626207b3.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 03 Jul 2025 02:02:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751533337; x=1752138137; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dua4EX6vICZ4ncNmnpExr5W8cwU+tQuHJtXdNhi/iGU=;
+        b=ANn2Z6dGAfoOXuvMVbhtPBoOt2t2MTmdxT9EhkQ1XibjIb3O0x7b738q6JxEhPQFkI
+         jXrO5YI7hH7E9GqjIHiEbhEGKLwYPFpjNfNDurebCHoJKas7c7LUPaGj/anQalZ/DbKo
+         ZjZMqpYTnl+eCiaIInz9VBepvEIRyvfIBLjjRBDXadDiw5TP8SjpszIiCnRjpystrOEY
+         oru242zhYtm9cfztuzEVpbGsAtAolEYkmd8ZIwCVf06WlfZb37TNcWnAIF1CXkPveneC
+         6YHhJlcWKRRU1hvDilfIj2CgJZtAkVxQYRND+DodYAdeUGYLEWe+O9oTjc4Rzhk692Bo
+         hXoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751533337; x=1752138137;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Dua4EX6vICZ4ncNmnpExr5W8cwU+tQuHJtXdNhi/iGU=;
+        b=O5EHt6AxkZcFBzqFMPQ2DvuMQYCyY2eULe1Li24Ra/9O+bEVagepBkgmCObfa0KJUF
+         xpJO2ibGFYpyhjfVg9IfvvP4NTMqbqiZxh4jUXRsjcHg0Uen1C0kyLow/aAe1SPR9+qe
+         x/qxieMrirmUtvMyoilt9YNF1gWLlBg5Yxv5Dvzf/YV5nFRzo93w6175Rxvwa7zgIg6d
+         0OiG7br6nD9gZZ4wescWDe7lqw3dYuHunfVmQGwG0L9ZOqIlVURVPPM2pPvPikPh6hEm
+         qWkXSYh8phh/qFKl/Zo2n7gLxjiWBQRG9MK5mWiK36NbqmEingkxtY7hpqDlF+ScDRTP
+         5BVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXnodeZGfd8OV7JWWxqbZ/Va/PGA8G99plWKLQef5KRXCQNKyIayxFtvV1qaSFZgsewbtHRLz4a9ermfQd++uSQKOKCOg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7vs/Tyz/+AuGA/cMv94cDIBgibgnc46soYK178V9b9qnYgAKi
+	4x4l2qftA2mxjSNmRY0pRkb1lavT7jdlrQcJ03TPVxdONLMFbPG6NPaEFujkunql/ac42giiZb/
+	Y/OXI4bvZqQws+N515tbu5DZjNtUVV7U=
+X-Gm-Gg: ASbGncuXt88IqOJy/9ij9/QIIB4OD4+6oe8r/Hg1nO/uOuj6tn0nnuDCEOINEdtHopt
+	ir3s1++WDxaTbFbiFtM9OHF5K34d63AOyl2kWFGAYB23WZyCh4MvBESXIwhGjjmEzjFCEpZj4oX
+	DkJx3H9pkkMTHHZjIa1xomcEg248bOSEhpEvJiMxME6rJNV0qVTusOShmWuiuRjD29WPpHEVJs3
+	1rq1jI5pzcjacY=
+X-Google-Smtp-Source: AGHT+IFPagC/bJXD/I8xAFfYmmHWH8z3OLkpesDap76h+qYDoOuGP8g36pSAUapeCBHboIP7KJtMiM5WqD9+MQ8t/7I=
+X-Received: by 2002:a05:690c:fcc:b0:709:197d:5d3c with SMTP id
+ 00721157ae682-7164d2c7e12mr90141507b3.11.1751533337096; Thu, 03 Jul 2025
+ 02:02:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20250702065908.430229-2-moonhee.lee.ca@gmail.com> <DB29OMQH4W9Z.1GPKEZBBIRSTS@gmail.com>
+In-Reply-To: <DB29OMQH4W9Z.1GPKEZBBIRSTS@gmail.com>
+From: Moonhee Lee <moonhee.lee.ca@gmail.com>
+Date: Thu, 3 Jul 2025 02:02:06 -0700
+X-Gm-Features: Ac12FXxcX-6zWRjtsp0bKhB4_ffVbC4IS-cAUihVV3UL7VYsPXyWVqyR0taTsEQ
+Message-ID: <CAF3JpA7wM4JBdd6OvGS+hmv0UahcW=h4HrPNDwRNhduk8iKsWw@mail.gmail.com>
+Subject: Re: [PATCH wireless-next] wifi: mac80211: reject VHT opmode for
+ unsupported channel widths
+To: Nicolas Escande <nico.escande@gmail.com>
+Cc: johannes@sipsolutions.net, linux-wireless@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	syzbot+ededba317ddeca8b3f08@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 03 Jul 2025 10:24:50 +0200
-Message-Id: <DB29YAYDK6YW.1NF5I2WSI1BPR@kernel.org>
-Cc: <linux-kernel@vger.kernel.org>, <dakr@kernel.org>, <ojeda@kernel.org>,
- <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-Subject: Re: [PATCH v5 0/2] rust: revocable: documentation and refactorings
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Marcelo Moreira" <marcelomoreira1905@gmail.com>,
- <rust-for-linux@vger.kernel.org>
-X-Mailer: aerc 0.20.1
-References: <20250626165927.66498-1-marcelomoreira1905@gmail.com>
-In-Reply-To: <20250626165927.66498-1-marcelomoreira1905@gmail.com>
 
-On Thu Jun 26, 2025 at 6:59 PM CEST, Marcelo Moreira wrote:
-> This patch series brings documentation and refactorings to the `Revocable=
-` type.
->
-> Changes include:
-> - Clarifying the write invariant and updating associated safety comments =
-for `Revocable<T>`.
-> - Splitting the internal `revoke_internal` function into two distinct, ex=
-plicit functions: `revoke()` (safe, synchronizing with RCU) and `revoke_nos=
-ync()` (unsafe, without RCU synchronization), now returning `bool` to indic=
-ate revocation status.
+Hi Nicolas,
 
-Could you wrap your text to a more readable column? Thanks!
+On Thu, Jul 3, 2025 at 1:12=E2=80=AFAM Nicolas Escande <nico.escande@gmail.=
+com> wrote:
 
+> Is this really specific for VHT ? or for HE /EHT as well ?
 >
-> Marcelo Moreira (2):
->   rust: revocable: Refactor revocation mechanism to remove generic
->     revoke_internal
->   rust: revocable: Clarify write invariant and update safety comments
+> > +             switch (width) {
+> > +             case NL80211_CHAN_WIDTH_20_NOHT:
+> Because this seems weird for VHT
+> > +             case NL80211_CHAN_WIDTH_320:
+> And this did not exist for VHT either
 >
-> Changelog
-> ---------
->
-> Changes since v4:
-> - Rebased the series onto the latest `rfl/rust-next` to integrate recent =
-changes, specifically the `bool` return for `revoke()` and `revoke_nosync()=
-`.
-> - Dropped the "rust: revocable: simplify RevocableGuard for internal safe=
-ty" patch, as the approach of using a direct reference (`&'a T`) for `Revoc=
-ableGuard` was found to be unsound due to Rust's aliasing rules and LLVM's =
-`dereferencable` attribute guarantees, which require references to remain v=
-alid for the entire function call duration, even if the internal RCU guard =
-is dropped earlier.
-> - Refined the `PinnedDrop::drop` `SAFETY` comment based on Benno Lossin's=
- and Miguel Ojeda's feedback, adopting a more concise and standard Kernel-s=
-tyle bullet point format.
-> - Corrected a duplicated line in the commit message of the second patch.
 
-Now since we had to drop the `RevocableGuard` change, its safety
-invariant & comment in `deref` is insufficient. It shouldn't have the
-invariant that the rcu lock is held (since it owns an `rcu::Guard`, that
-already is guaranteed), but instead it should require that the
-`data_ref` pointer is valid. That invariant is then used by the safety
-comment in `deref` to justify dereferencing the pointer.
+Thanks for the feedback. The intention was to handle VHT opmode notificatio=
+ns,
+as noted in the commit message, but the check incorrectly included widths t=
+hat
+are not valid for VHT, such as 20_NOHT and 320. I will update v2 to reject =
+any
+invalid widths, not just 5 or 10 MHz, and restrict the check to the valid s=
+et
+for VHT: 20, 40, 80, 160, and 80+80.
 
-Also, I think it's better to reorder the patches again (since the
-current first one relies on changes from the second one), the first one
-should be the change to the invariants section of `Revocable` (so
-currently the second patch). Then the second and third patches can be
-the removal of `revoke_internal` and the `RevocableGuard` safety
-documentation fix.
-
----
-Cheers,
-Benno
-
-> Link to v4: https://lore.kernel.org/rust-for-linux/DAOMIWBZXFO9.U353H8NWT=
-LC5@kernel.org/T/#u
->
-> Changes since v3:
-> - Refined the wording of the `Revocable<T>` invariants to be more precise=
- about read and write validity conditions, specifically including RCU read-=
-side lock acquisition timing for reads and RCU grace period for writes.
-> - Simplified the `try_access_with_guard` safety comment for better concis=
-eness.
-> - Refactored `RevocableGuard` to use `&'a T` instead of `*const T`, remov=
-ing its internal invariants and `unsafe` blocks.
-> - Simplified `Revocable::try_access` to leverage `try_access_with_guard` =
-and `map`.
-> - Split `revoke_internal` into `revoke()` and `revoke_nosync()` functions=
-, making synchronization behavior explicit.
-> - Link to v3: https://lore.kernel.org/rust-for-linux/DAOMIWBZXFO9.U353H8N=
-WTLC5@kernel.org/T/#u
->
-> Changes in v2:
-> - Refined the wording of the invariants in `Revocable<T>` to be more dire=
-ct and address feedback regarding the phrase 'must occur'.
-> - Added '// INVARIANT:' comments in `try_access` and `try_access_with_gua=
-rd` as suggested by reviewers.
-> - Added the missing invariant for `RevocableGuard<'_, T>` regarding the v=
-alidity of `data_ref`.
-> - Updated the safety comment in the `Deref` implementation of `RevocableG=
-uard` to refer to the new invariant.
-> - Link to v2: https://lore.kernel.org/rust-for-linux/CAPZ3m_jw0LxK1Mmseaa=
-mNYhj9VY8AXtJ0AOcYd9qcn=3D5wPE4eA@mail.gmail.com/T/#t
->
->  rust/kernel/revocable.rs | 68 +++++++++++++++++++++-------------------
->  1 file changed, 36 insertions(+), 32 deletions(-)
->
-> base-commit: 0303584766b7bdb6564c7e8f13e0b59b6ef44984
-
+Best regards,
+Moonhee
