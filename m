@@ -1,103 +1,116 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A492DE719
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  3 Jul 2025 09:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA4E223DFB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Jul 2025 09:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751533339; cv=none; b=TifGB9hgjjkFLpQDa8i8r8hZTneGwcd1DGFC+b+1HIuTTU5WK9ILhRuyAzIMfLPwXGDhH65s9ZGOWjhTS/LqIWhUitRL4hI0vvopzWVaA4TOpZtEZ22XWSb5O/4DWLPE9vOOvinUw79OWbUsWOAds+ksOIq5Q79fmAvljLI9ndY=
+	t=1751534487; cv=none; b=E9/50pwgzo6swo8ozvgMIgvqZOyiWSly3ngUFA5s3ULqHfCnz+jrJA2h6gCQGVZHjqVkdqDVLPnT5on+UScLx95Y2gbH+r6v9FKA8zLXy5GTYY9RdaGRsszBkPe/zv4x+AdkD8laGxeLEmXzApegMXb1/PYFkgF9oLKt5UqoK4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751533339; c=relaxed/simple;
-	bh=r9iNBHzBMwWsOC2LNoiI/v8Ks+Adv9SBboC7T9eoqaU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T6KiExIh5g2KI4wnKn6MNs4rD3m+l7u9wNXCPJo6z6ALFPut65hvcZ5ievSCArVO467yVnfUT3ZLeatIFJLO6WQpw7zj/YSy54NtrrBFP44GrCTaJTKgzom6eG4y3l9CWS9clkBmRsF4eCI6QPEq7mX108yBtEi9TF327RwqIYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ANn2Z6dG; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ANn2Z6dG"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-70e4043c5b7so52626207b3.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 03 Jul 2025 02:02:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751533337; x=1752138137; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dua4EX6vICZ4ncNmnpExr5W8cwU+tQuHJtXdNhi/iGU=;
-        b=ANn2Z6dGAfoOXuvMVbhtPBoOt2t2MTmdxT9EhkQ1XibjIb3O0x7b738q6JxEhPQFkI
-         jXrO5YI7hH7E9GqjIHiEbhEGKLwYPFpjNfNDurebCHoJKas7c7LUPaGj/anQalZ/DbKo
-         ZjZMqpYTnl+eCiaIInz9VBepvEIRyvfIBLjjRBDXadDiw5TP8SjpszIiCnRjpystrOEY
-         oru242zhYtm9cfztuzEVpbGsAtAolEYkmd8ZIwCVf06WlfZb37TNcWnAIF1CXkPveneC
-         6YHhJlcWKRRU1hvDilfIj2CgJZtAkVxQYRND+DodYAdeUGYLEWe+O9oTjc4Rzhk692Bo
-         hXoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751533337; x=1752138137;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dua4EX6vICZ4ncNmnpExr5W8cwU+tQuHJtXdNhi/iGU=;
-        b=O5EHt6AxkZcFBzqFMPQ2DvuMQYCyY2eULe1Li24Ra/9O+bEVagepBkgmCObfa0KJUF
-         xpJO2ibGFYpyhjfVg9IfvvP4NTMqbqiZxh4jUXRsjcHg0Uen1C0kyLow/aAe1SPR9+qe
-         x/qxieMrirmUtvMyoilt9YNF1gWLlBg5Yxv5Dvzf/YV5nFRzo93w6175Rxvwa7zgIg6d
-         0OiG7br6nD9gZZ4wescWDe7lqw3dYuHunfVmQGwG0L9ZOqIlVURVPPM2pPvPikPh6hEm
-         qWkXSYh8phh/qFKl/Zo2n7gLxjiWBQRG9MK5mWiK36NbqmEingkxtY7hpqDlF+ScDRTP
-         5BVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXnodeZGfd8OV7JWWxqbZ/Va/PGA8G99plWKLQef5KRXCQNKyIayxFtvV1qaSFZgsewbtHRLz4a9ermfQd++uSQKOKCOg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7vs/Tyz/+AuGA/cMv94cDIBgibgnc46soYK178V9b9qnYgAKi
-	4x4l2qftA2mxjSNmRY0pRkb1lavT7jdlrQcJ03TPVxdONLMFbPG6NPaEFujkunql/ac42giiZb/
-	Y/OXI4bvZqQws+N515tbu5DZjNtUVV7U=
-X-Gm-Gg: ASbGncuXt88IqOJy/9ij9/QIIB4OD4+6oe8r/Hg1nO/uOuj6tn0nnuDCEOINEdtHopt
-	ir3s1++WDxaTbFbiFtM9OHF5K34d63AOyl2kWFGAYB23WZyCh4MvBESXIwhGjjmEzjFCEpZj4oX
-	DkJx3H9pkkMTHHZjIa1xomcEg248bOSEhpEvJiMxME6rJNV0qVTusOShmWuiuRjD29WPpHEVJs3
-	1rq1jI5pzcjacY=
-X-Google-Smtp-Source: AGHT+IFPagC/bJXD/I8xAFfYmmHWH8z3OLkpesDap76h+qYDoOuGP8g36pSAUapeCBHboIP7KJtMiM5WqD9+MQ8t/7I=
-X-Received: by 2002:a05:690c:fcc:b0:709:197d:5d3c with SMTP id
- 00721157ae682-7164d2c7e12mr90141507b3.11.1751533337096; Thu, 03 Jul 2025
- 02:02:17 -0700 (PDT)
+	s=arc-20240116; t=1751534487; c=relaxed/simple;
+	bh=X/OtZrHYw9wMzUW+LghhL9+Dxd7vhit5tE+xLb7/ldc=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mN7m3TfpgcF4y9uFmd0H5+nNyLp/EeiNmVwhW5ws9HKeMm1szO1iEu/aN56fsSXjtrf+Nn946CC+0YnGqW9yxB0zVF2tI7PqBHmVD6YkUrnwEbEPzQApUGxvHoqtBJfFnXfAp61xn/vrsVpVrLRt3u6B4JlpD0IUAwiP3S53aMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id AFE4D60859
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Jul 2025 09:21:25 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -3.023
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 7CD6FhSdRf84 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  3 Jul 2025 09:21:25 +0000 (UTC)
+X-Greylist: delayed 964 seconds by postgrey-1.37 at util1.osuosl.org; Thu, 03 Jul 2025 09:21:24 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org DB59260661
+Authentication-Results: smtp3.osuosl.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DB59260661
+Received-SPF: Softfail (mailfrom) identity=mailfrom; client-ip=62.142.5.82; helo=fgw21-7.mail.saunalahti.fi; envelope-from=andy.shevchenko@gmail.com; receiver=<UNKNOWN> 
+Received: from fgw21-7.mail.saunalahti.fi (fgw21-7.mail.saunalahti.fi [62.142.5.82])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id DB59260661
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Jul 2025 09:21:24 +0000 (UTC)
+Received: from localhost (88-113-26-232.elisa-laajakaista.fi [88.113.26.232])
+	by fgw21.mail.saunalahti.fi (Halon) with ESMTP
+	id d4d9889c-57ec-11f0-9796-005056bdd08f;
+	Thu, 03 Jul 2025 12:05:14 +0300 (EEST)
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 3 Jul 2025 12:05:14 +0300
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Akshay Bansod <akbansd@gmail.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
+Message-ID: <aGZHyr5zSRLp1m2p@surfacebook.localdomain>
+References: <20250702135855.59955-1-akbansd@gmail.com>
+ <f96b68a5-d750-45f0-8cdd-9761b5daca1d@baylibre.com>
+ <aGVIcBLgXZj_YR7B@smile.fi.intel.com>
+ <e474db53-1b52-48b0-9253-2f62a3861bb4@baylibre.com>
+ <20250702163342.00003c66@huawei.com>
+ <3361875b-712e-423f-88ed-baf41af5ad22@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250702065908.430229-2-moonhee.lee.ca@gmail.com> <DB29OMQH4W9Z.1GPKEZBBIRSTS@gmail.com>
-In-Reply-To: <DB29OMQH4W9Z.1GPKEZBBIRSTS@gmail.com>
-From: Moonhee Lee <moonhee.lee.ca@gmail.com>
-Date: Thu, 3 Jul 2025 02:02:06 -0700
-X-Gm-Features: Ac12FXxcX-6zWRjtsp0bKhB4_ffVbC4IS-cAUihVV3UL7VYsPXyWVqyR0taTsEQ
-Message-ID: <CAF3JpA7wM4JBdd6OvGS+hmv0UahcW=h4HrPNDwRNhduk8iKsWw@mail.gmail.com>
-Subject: Re: [PATCH wireless-next] wifi: mac80211: reject VHT opmode for
- unsupported channel widths
-To: Nicolas Escande <nico.escande@gmail.com>
-Cc: johannes@sipsolutions.net, linux-wireless@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	syzbot+ededba317ddeca8b3f08@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3361875b-712e-423f-88ed-baf41af5ad22@baylibre.com>
 
-Hi Nicolas,
+Wed, Jul 02, 2025 at 10:53:31AM -0500, David Lechner kirjoitti:
+> On 7/2/25 10:33 AM, Jonathan Cameron wrote:
+> > On Wed, 2 Jul 2025 10:04:23 -0500
+> > David Lechner <dlechner@baylibre.com> wrote:
+> >> On 7/2/25 9:55 AM, Andy Shevchenko wrote:
+> >>> On Wed, Jul 02, 2025 at 09:16:51AM -0500, David Lechner wrote:  
+> >>>> On 7/2/25 8:58 AM, Akshay Bansod wrote:  
 
-On Thu, Jul 3, 2025 at 1:12=E2=80=AFAM Nicolas Escande <nico.escande@gmail.=
-com> wrote:
+...
 
-> Is this really specific for VHT ? or for HE /EHT as well ?
->
-> > +             switch (width) {
-> > +             case NL80211_CHAN_WIDTH_20_NOHT:
-> Because this seems weird for VHT
-> > +             case NL80211_CHAN_WIDTH_320:
-> And this did not exist for VHT either
->
+> >>>>> +		len += sysfs_emit_at(buf, len, "%d.%03d ",
+> >>>>>  				 odr_table->odr_avl[i].milli_hz / 1000,
+> >>>>>  				 odr_table->odr_avl[i].milli_hz % 1000);  
+> >>>>
+> >>>> Let's keep checkpatch happy and change the indent of the wrapped lines to
+> >>>> line up with ( since the ( moved.  
+> >>>
+> >>> While I see the point, wouldn't be better to have 1000 replaced with MILLI
+> >>> at the same time?
+> >>
+> >> For anything with 3 zeros, I don't consider MILLI better (or worse).
+> >> Science shows that the average human can easily see 3 or 4 things
+> >> without having to count them [1]. So it is only when we start getting
+> >> more 0s than that is when I think we should be picky about using macros
+> >> instead.
+> >>
+> >> And in this particular case, we are converting milli to micro so `1000`
+> >> should be replaced by `(MICRO / MILLI)` if we are going to do that.
+> > No we aren't.
+> > 
+> > This one is converting from milli_hz to hz + sticking to milli for the decimal
+> > part.
+> > 
+> > Lots of other IIO cases where you would have been right, but I think not here.
+> 
+> Oops. The %03d instead of %06d should have given it away!
 
-Thanks for the feedback. The intention was to handle VHT opmode notificatio=
-ns,
-as noted in the commit message, but the check incorrectly included widths t=
-hat
-are not valid for VHT, such as 20_NOHT and 320. I will update v2 to reject =
-any
-invalid widths, not just 5 or 10 MHz, and restrict the check to the valid s=
-et
-for VHT: 20, 40, 80, 160, and 80+80.
+I'm not sure I got your comment. The '3' vs. '6' will just define
+the minimum amount of printed digits, it does *not* limit the upper
+numbers anyhow (it's limited by the 'd', which is (INT_MIN .. INT_MAX).
 
-Best regards,
-Moonhee
+
+> >> [1]: https://www.scientificamerican.com/article/your-brain-finds-it-easy-to-size-up-four-objects-but-not-five-heres-why/
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
