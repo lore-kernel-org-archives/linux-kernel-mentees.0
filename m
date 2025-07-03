@@ -1,105 +1,136 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C788634CF5
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  3 Jul 2025 18:45:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A268D1A2622
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  3 Jul 2025 19:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751568322; cv=none; b=MATfCjJ8GLVFIOH+S8RKiBN69Zw60FxlIRPJlS0KORSTZlHG/TOr/0EI09e+CgGU8QtvrGxSmQgHMur9xZOBV1fVJbu0eZTKYcrmYGAMWuunRS0jQeuIxib73ho4SrgbhMmYwyke8BevJMFJUqJEVvQ5zD7wDzNfOCo2rlc3+1M=
+	t=1751571495; cv=none; b=WhiXWjZCoRoYBNMTqFszdm1yvHl4IWZk5Hp2Q545cL3U9l/N7BTtpe/5dj3JtJkYyM0Xrzdr1LE5yg6XdEaiqOo9GKCGnSSJYt6DqZcQ7uaO+dvG+0cXfMlO927xm38kh20UFhqGr2lOlehjtyB16wzjpxt72O5bgkB9LVrytmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751568322; c=relaxed/simple;
-	bh=y1ibFcHZ3Gp2zMIJAUNfr3OLUuofICdR6lY4OC1LOpg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LZN9I5aSDmH7M0Mc8iJ54BbuR+fgPlm0eX/U4wRAx4soxggQaPivj4Q2eLVdD6p3rnxdwt61uM2th1ZbpnDGnNEJfczuMo/9FBSM+QkZH1rnaxUmuZH2sggUWzJ79tZVwWLZPK5/n3O66huxMZX2TVUvSdIl68XTkFvWxXYp64I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tn3B6v8T; arc=none smtp.client-ip=209.85.128.174
+	s=arc-20240116; t=1751571495; c=relaxed/simple;
+	bh=p5uOMFHvJwUGuJvmvYotmeGOkDlMkIpY+4J3jc724Sg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PSBiBxiuyak7mPXJ1ShKWyiFgpOGI9buzacFqFbJwJ2e/npaPgMd6RFeq68zJy+/GaHkoFSx4gExuXwOGZaOZBJP5dSju/8JIWBTiU50Rj313h3GrMkDPWv3LDP9i60jdt2SCTIIqEIafxdM1MVfnv5TtiSsaUuHRTO1BnhgFXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N2hx0bbR; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tn3B6v8T"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-71101668dedso1017827b3.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 03 Jul 2025 11:45:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N2hx0bbR"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-23694cec0feso2575505ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 03 Jul 2025 12:38:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751568320; x=1752173120; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y1ibFcHZ3Gp2zMIJAUNfr3OLUuofICdR6lY4OC1LOpg=;
-        b=Tn3B6v8T39aTBv6tmN76a6Vy4kHuq4S9wn8P7edCR7itlFlMsisGkYJFUFRKBRI2Fv
-         3gXTDd4cZqjdWsexL6e6BWLvLalUwuywroSPfdIlcNkIDaK6s8RBwNzW6/YWONKah16e
-         4seY0b9BqfiFNCUX2FGJbu9DaaAGts9SCr0Jy3e3eApMrmUBsiYYHSchVimW/mlAJXeR
-         Cs81gr8s6/mQBcS2OVjJd3JC3DH6Bs3OmLaCtqHs12zv2/or3iPFxAxyNqJIkik2sOBW
-         OZ7MHXEPvjR4oAwFIprW2K0eExkFQhi3KhgNDwglg/WMstq5UdUUQq/vcHyVj6r9Hyso
-         XYcw==
+        d=gmail.com; s=20230601; t=1751571493; x=1752176293; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mfLY4ZIIX6c7Uf9FQfy3N6nezkDQGS+OMzVy2anSQiE=;
+        b=N2hx0bbRxubEHflsxcamIB1cIN5xwYDLxnpZcJOpGxm7iu0hD7Xvm6VdwmqfpFLIHX
+         lPF7whjE6LsW01UZ79fygcyo/PEnTVDda5E5znAvR+T7JObpZLjNO9JPtiD76XQOZb4r
+         y7BmIdsmwbhU1CdQSzGdgbxpa5FigpQ5Yl5vTZJvKKzPEjByw3eKtwr4HG7GoQ8EfFK0
+         soOaVEmu1h/UrFuDOGOeFrGc3HqpSpc/GpvREQ8u72+D+a7GV9a3aSu2gBXzGnWGdz9n
+         Alr9ScbMC63LfWs6hSrXcN3T81dMw9beAk3eRpG+vHPHPntSEDzqQUC5ACoHpvU7uNaL
+         NA9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751568320; x=1752173120;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y1ibFcHZ3Gp2zMIJAUNfr3OLUuofICdR6lY4OC1LOpg=;
-        b=PyOO6943tMk4ZJN7nakAl2wyMXp1WCW+pBLlasnNcXToszsrHVNTHnyf7RdTxIf9qW
-         6lCfNm1Vq+7I3qHmNS+9u1QXVPL07P995FWyE+zHAl2a0AuL/buF0QgqbFtPJV1M5WfF
-         L3m0sgD34VXo7QJAL7s17JTjD1xF0FHsBVV0FAkxacKyUciXyus88lFTYe8IWcrCfPMj
-         YTF4u0nLDtbhflmCoeLaIe2S54Z6nm8lU/ErB5mg27I/IZeSYUlvLRdegerfrtNaEYZU
-         pspMb30+ORW3zRqF7DonMjq0PckLEWP9qTBHx1m7Yr32eVhgWe6uLPwn9fwPtEE9ZaDn
-         fL8A==
-X-Forwarded-Encrypted: i=1; AJvYcCX6oUrb+gBARGs66In9/saTO7JO8T1qpeQHonPDyQl2V6kLnizUSvhVQ+JqzYFw9Fq83ORtnrrZrNIG7ISJ5zbUNnVn6A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLGOdznNFoLDrRtDAJRqhqRbIC/x+aYxhSN+WJuNvlKOn4vcaJ
-	qhzIEjEEh8gSpM5dwBEMuR6qwnQtyejIpuW7CPjQCcXapUEE4cLogUBKoI36hBl99v4eghLoCe0
-	l0o29QmgGVcu2GVE1L2oOhprXGL1XuN0=
-X-Gm-Gg: ASbGnctWm0ND+aNlDelr5+QtHZD4/FZ+U43Bwp0rX2Sn7uV34ZZbTcMjyDThaKWc3/7
-	/qGFIoQEEqWaX0VU4vcLoJXUO8YkltDPZykWacxvnCf/PTlIkktX2+6mKyzaZmR96gFBQbg4k8P
-	DLgX91my2BKQ7v1ACopcu61uXV5j99pBW04VhUE9wjmt/1u4JF2lbD0WVRa2SDi2cP/mTiQvmuA
-	7o7psWfkyMZSA==
-X-Google-Smtp-Source: AGHT+IETh+dtwHH1oQ6RDkj71gx9dRfVQ1cl9MyjEm5vYfcjUtxAw+hOLZg2KSK0HxkTOIcr1LYq8P/WUFL4eiM78gU=
-X-Received: by 2002:a05:690c:3501:b0:710:f74b:61ab with SMTP id
- 00721157ae682-7164d357a9bmr111373057b3.9.1751568319629; Thu, 03 Jul 2025
- 11:45:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751571493; x=1752176293;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mfLY4ZIIX6c7Uf9FQfy3N6nezkDQGS+OMzVy2anSQiE=;
+        b=h+0GQurOtEuGsiKA8puEhmOdSt8Ogn31fCvM4hbdFhaxN6GXFlip765QlD89aejdDi
+         GbWplsB5hdBpWhDi0vTykyCkUGNtqzZNlu2/PznkTTtLZdJJNRQv7KNseziD+JifEoz0
+         Px7C+DQE+NliS46qfbns1pRo/Lo0Di5Azf2tumfppo2frhjEPGjBe4OS8wC9TsSYeKGC
+         5hOyvUqoC7yPYNe0Cm4kwkZdW0KMj37dWBaalO+5uQZ01eTVYxSF1rExLyZlmlnxAo7N
+         7lF9A8At6+G6oLBb/bZka/nx+hcB9LaIVN0BRGxSiLmBvYpu7Md96oSIusiJK689Alzu
+         rONQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVHu06f0w1b0G0mJuD/w7iGL6l068dIq2ClxjywGcPPMH5vHC2pupTSzZdY+mnsJO1UaHtySLL22XKj0KVURNDCOrA4QQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwYAvLhRuivOVo29b88tiHYfsCc0HkcpDh1AgPJ8/dKCuT2/NVk
+	qN+t3blm0vQi/euZ4+f941gZnvwaCEXAxD9Zxbvuty4Shv8OZFpzC5Fu
+X-Gm-Gg: ASbGncuTMHPJzjHb08HUAxCA7Gdfe+qaMb5IFxeQ3IZ4znzwd3Dn4dFo9/WOQT0n9CI
+	TZeVEQGzBO5Am7iEFV7T9IdyWoorTEmNjQFx3BmY8J+6UMm5RmfsuztVwnmnhThf1wK6S0ywafP
+	1jD8lCYIikdjF8qfH5kOfYx2eGqSGxGIp0XTdMIQhEDi7bar1kLgcPzzISni1r1wBIrHAbvG4cG
+	RGNxcaPLITP/vZYekCmNsCgLWrvvj35TFw2fyjbILrfxOzZiM9XFQz9Ayv65BdqNyrgNKyaCH8u
+	EhBKvBgBe+B0S1s0VJsrKtqm9048QbcZxmZkOEWlcVUSkdEuOnzz8d1AjADbTbo=
+X-Google-Smtp-Source: AGHT+IEWpfYnkVr+s6TSpjhobBo4AZaEkt/VIFDfi8qDj8tp/r66E4q6OKPr5Gj3/ggnBkjffzqwxQ==
+X-Received: by 2002:a17:903:2f8d:b0:235:779:ede5 with SMTP id d9443c01a7336-23c6e5b6125mr114749925ad.40.1751571492849;
+        Thu, 03 Jul 2025 12:38:12 -0700 (PDT)
+Received: from p920.. ([2001:569:799a:1600:788:c50d:c37c:e870])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8431f1basm2947795ad.25.2025.07.03.12.38.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Jul 2025 12:38:12 -0700 (PDT)
+From: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+To: johannes@sipsolutions.net
+Cc: nico.escande@gmail.com,
+	linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	syzbot+ededba317ddeca8b3f08@syzkaller.appspotmail.com,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	Moon Hee Lee <moonhee.lee.ca@gmail.com>
+Subject: [PATCH v2] wifi: mac80211: reject VHT opmode for unsupported channel widths
+Date: Thu,  3 Jul 2025 12:37:57 -0700
+Message-ID: <20250703193756.46622-2-moonhee.lee.ca@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250702065908.430229-2-moonhee.lee.ca@gmail.com>
- <DB29OMQH4W9Z.1GPKEZBBIRSTS@gmail.com> <CAF3JpA7wM4JBdd6OvGS+hmv0UahcW=h4HrPNDwRNhduk8iKsWw@mail.gmail.com>
- <1f13328a55c54fb49d8ca1dd72bc5de23f161ac8.camel@sipsolutions.net>
- <6ecced8b962cf3a6f5056a87aa3442c49941e74c.camel@sipsolutions.net>
- <CAF3JpA7ZeG5uxLJr1NQBBzF=UZRi4sj4TSfBw=Pvx7xb1NCqTw@mail.gmail.com> <5fda29626ca04e7c2ad46ca4a3d0eb1d992789d9.camel@sipsolutions.net>
-In-Reply-To: <5fda29626ca04e7c2ad46ca4a3d0eb1d992789d9.camel@sipsolutions.net>
-From: Moonhee Lee <moonhee.lee.ca@gmail.com>
-Date: Thu, 3 Jul 2025 11:45:08 -0700
-X-Gm-Features: Ac12FXw2hciaDGGmicqLi-QwVnR0XzGOoZpgR7-KTUS52QJWhiCxZTmjAb3lcmo
-Message-ID: <CAF3JpA5NX4s5XrUvOfVg59oOmfFMHoZ0e5+yHynRYifbPY05Mw@mail.gmail.com>
-Subject: Re: [PATCH wireless-next] wifi: mac80211: reject VHT opmode for
- unsupported channel widths
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: Nicolas Escande <nico.escande@gmail.com>, linux-wireless@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	syzbot+ededba317ddeca8b3f08@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 3, 2025 at 9:54=E2=80=AFAM Johannes Berg <johannes@sipsolutions=
-.net> wrote:
->
-> I think it'd make more sense to go the other way around and list the
-> bandwidths that are _valid_ here, even if I don't see it getting
-> extended any time soon (anyone working on TVHT? ;-) )
->
-> But in some way I also have a feeling we _should_ be able to reject this
-> in cfg80211 already - although it seems that right now we cannot. Hmm. I
-> guess better to have this validation here now than fail/WARN, but then
-> I'd like a positive list of allowed values, rather than forbidden ones.
+VHT operating mode notifications are not defined for channel widths
+below 20 MHz. In particular, 5 MHz and 10 MHz are not valid under the
+VHT specification and must be rejected.
 
-Thank you for the feedback.
+Without this check, malformed notifications using these widths may
+reach ieee80211_chan_width_to_rx_bw(), leading to a WARN_ON due to
+invalid input. This issue was reported by syzbot.
 
-I agree it is clearer to apply a positive list of valid channel widths rath=
-er
-than excluding specific ones. I will update v2 accordingly, and drop
-NL80211_CHAN_WIDTH_20_NOHT from the current patch as well. This ensures onl=
-y
-the valid set is accepted, while preventing the WARN_ON from being triggere=
-d.
+Reject these unsupported widths early in sta_link_apply_parameters()
+when opmode_notif is used. The accepted set includes 20, 40, 80, 160,
+and 80+80 MHz, which are valid for VHT. While 320 MHz is not defined
+for VHT, it is allowed to avoid rejecting HE or EHT clients that may
+still send a VHT opmode notification.
 
-Best regards,
-Moonhee
+Reported-by: syzbot+ededba317ddeca8b3f08@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=ededba317ddeca8b3f08
+Fixes: 751e7489c1d7 ("wifi: mac80211: expose ieee80211_chan_width_to_rx_bw() to drivers")
+Tested-by: syzbot+ededba317ddeca8b3f08@syzkaller.appspotmail.com
+Signed-off-by: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+---
+Changes in v2:
+- Dropped NL80211_CHAN_WIDTH_20_NOHT from the accepted channel widths.
+- Clarified in the commit message that 320 MHz is not defined for VHT
+  but still allowed to support HE/EHT clients that may send a VHT
+  opmode notification.
+
+ net/mac80211/cfg.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/net/mac80211/cfg.c b/net/mac80211/cfg.c
+index 56540c3701ed..d76643d46150 100644
+--- a/net/mac80211/cfg.c
++++ b/net/mac80211/cfg.c
+@@ -1981,6 +1981,20 @@ static int sta_link_apply_parameters(struct ieee80211_local *local,
+ 	ieee80211_sta_init_nss(link_sta);
+ 
+ 	if (params->opmode_notif_used) {
++		enum nl80211_chan_width width = link->conf->chanreq.oper.width;
++
++		switch (width) {
++		case NL80211_CHAN_WIDTH_20:
++		case NL80211_CHAN_WIDTH_40:
++		case NL80211_CHAN_WIDTH_80:
++		case NL80211_CHAN_WIDTH_160:
++		case NL80211_CHAN_WIDTH_80P80:
++		case NL80211_CHAN_WIDTH_320: /* not VHT, allowed for HE/EHT */
++			break;
++		default:
++			return -EINVAL;
++		}
++
+ 		/* returned value is only needed for rc update, but the
+ 		 * rc isn't initialized here yet, so ignore it
+ 		 */
+-- 
+2.43.0
+
