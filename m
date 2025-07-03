@@ -1,258 +1,124 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5094D22CBF1;
-	Thu,  3 Jul 2025 16:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0F730100
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  3 Jul 2025 16:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751560468; cv=none; b=poBo/tsv5P5BswPUf4ktDST3UV8F0DQzgSskqteq6uWbLz7/SVdrXjneiPnnPLXAiUvQ+sSx9dLSkuR+TehOun522SgRCOgtZiU1ycy6lxbBKHqF1SrC3DF/sydLS7abiuzdgobW0M0/x2egjjxKIB3Z14BDuqbFtuoIGdnpy3Y=
+	t=1751560535; cv=none; b=YZT9Gb+UrTQLq+3XJDmYq0Vv7ZUh3KJO8W/TdhnPcHz5kumgNxYmEjFMLJAVoFG+f3KCUTEbMMD9cBxekAo5WP/o970LIqu6Ug3XEtGfhzxGBnNDy199FjylfYSto+Izwym4nl+9kCpsbRD+l4LWiWcCQBvXsZFzfdIXwwkFo2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751560468; c=relaxed/simple;
-	bh=VKwdBc7nBeYzyYiWahHZprHF+d0zFQMTpiieOfjnnbs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rvq+/1PhPUtOVaFZLO82MjLMz6VEMr8sy+qXK6sY0cAzPHwq1CQRvVEPbluB9pe6zZl+4QerqdrQkf1Y6tmGTzGsYCZLm8o+AWRepYzxx1KXHC9jsXnZpm3uU5QTiv2OwGymqFjEEAYYwK9M+iY+WKIS558oMHkyfqHRUfwapN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fLnIRspR; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1751560535; c=relaxed/simple;
+	bh=mitvISWYz9VXM4jc5Q04XMHY5jFnGMTPup9ISmOOkYg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O36kHZN6F4B28MUnr2AXF2p2TVDDaiUBGseJod0/S3dkG1R0loKCqaTLPwl2L6hY2Brptm4OtCnXGo0EZayuN9f+YdRL6s8TosdrtxPrNXbur4jQh6IjUqM2gXWpLzjNxSpcSCGxzg26D2R4uD8z2GELr1qA9mEmdeCycJ5takw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NaNyuE7f; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fLnIRspR"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-453442d3a15so26425e9.0;
-        Thu, 03 Jul 2025 09:34:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NaNyuE7f"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7115e32802bso56808457b3.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 03 Jul 2025 09:35:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751560465; x=1752165265; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Srec9QR/GmFsR6ZG7Q56odxAHiKleEbcbPmhdL22Zbg=;
-        b=fLnIRspRq2aWBwDA7TucyyjrnBUqtVMizQF8xQLe95eFXqxE1ts+gARkB547H0TZGG
-         5vr03rps5M2AXG0zFfoEfE6Z1y2NyTQtZi3PHzjUPzj3Mngu8pW57WaSBoZMBi20hp/h
-         fogDWj171giekhNNm9NLam4in1IcHmf/QvL8N3YnSP3OyAQOvX7Jp/nJtmbgqf6UOHIo
-         9pl66zh9Q0Jvcrvc4+u2pYSfMMU6U1jIwCuD5jOt9M2zD429a5VrGPReOYfOjTZRAEej
-         Gkjz/45mO+oA+rHkLY1IpZmFvRB4iESFSwtb9VtXJST9+A3lq1Ydi4LUNZuprs18fF3A
-         Hf9w==
+        d=gmail.com; s=20230601; t=1751560533; x=1752165333; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=utBS017XFgzQ0zp8Wqpxes+6RofiALZItP1TdxQEbKI=;
+        b=NaNyuE7fDGzNnu0cbtjVrUOcr50E5ta8rQ1Ja0v/f3KcpbA7nL/+7NcbPpKF4G/0Cg
+         FZRuzmrAsxv1LAwzue9LvPLOMgl2sKXtBvfUC9DZCd9www5x+Rsot7NR+lIaHjWyeX2H
+         fIV2PGX68Bto7ZlfWQRMszH0BC4jpJv0Rn5Rcrb5dSfAJa1rPTaCFe8Bj+4pTqgynV+V
+         EVT33fZ/N1jek/aqqvz75Iq54hGtdHqkJO6mrSmlbjzM4vKY8Bh+6lYNOti5CJ6hOn5G
+         OiSoTnTPreWQgrW/7mAcXuNd0S8g55iIEck9d5CzwzDCC+1p305ns2ziGqpn6791IUgG
+         Ykbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751560465; x=1752165265;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1751560533; x=1752165333;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Srec9QR/GmFsR6ZG7Q56odxAHiKleEbcbPmhdL22Zbg=;
-        b=lTF/GvqVHgjY7YJ+JWCnG6T8GN+HkbXFQp7rauIFAAf1xVauV1meE96zVti6K/W02G
-         Jn/7rX0oKhvqVq52rBvgEF+AxK8GAp/YWQM6XGq34NxpiByi9Wogi3/So1yUjXqNOuJa
-         NPk4RpghxBRb0GQEHI7sqJIseWSYycJSgjRqR4m9AZN9Zc+LRbnFACvcrc9/w2e+fyzW
-         ECDfiZwbdilJf2Hgdqy2yFnuykohK+6KZ3ajp3Byg12GaxG8NW7XgbZy95j4XMUeSHOL
-         qtbU9PKQjBbSPaQY+TQ7VvxWheG1sMOZujOaTuF5LtgvhYBYZ3gQo+JtDYokvDNYF0hC
-         HCxw==
-X-Forwarded-Encrypted: i=1; AJvYcCVnLcsbtWu0AIFpbqbcff3MtaW27D3jnMG+mdB2D6gV/6Fx9lVdXLM9Fc2XWSiULB4nVMtNXCGaP3f+h1kTclGRVbC7Sw==@lists.linux.dev, AJvYcCXacKH+IQ3uNbiZN7PMA/IV+zkP46PULQ2+xHAff/lRZh4xT9NvvK+YR2gV+04D27N2ut+skFlv5OI68huBwA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9D9rLbd7nEi6YSA1KjBpK9H99QjmJG4Hafava9Xxf8kyOi0h8
-	pxU27Z5bwkWN+R5JFgquEswCgZ0qCWJProGk+xsF03JiWGgRD49HsV8l
-X-Gm-Gg: ASbGncuLLLHNpWs0mxeHmS6/b7tGvaE/G9q2oyAAPz0AelPHgSY1n1ITD9waJwBNV64
-	CCwk7RcIxUz84QEWJ2gxTdOxS3iSiVQ4Phr2mONBvKIkeQKrY2WZRQy9DsG4/sRdx06G0MbIT0z
-	KSn/gyBWA6UvQsRzTmPKOcf/nv5Exu6NubAgF580RkgIkKQLHpUyYsiO1VtGTdPj1cOfIlTRFME
-	PTx4h/TjBRPz1RE5GjeG/OfCM2O9jBkvubsSPPKBtLefpD9+YX7p2q9sBgFc5fLxhEDpIz7kbdl
-	tM5FtPjGz/7x4M32nb7/oYZDWylubx2Tpx4Km6GLL8PfwdADkoArj/gX/RvYvF+AnI4Idrp+Yno
-	nxuSNwMyLVFa4n8GOqRLP
-X-Google-Smtp-Source: AGHT+IF1gdEMbWmckU8zZNqNOEiPSgfYqKdroPQU+DWQMNKxl4cBvFKaJ1cKNO2FmfxqEFvic+P0nQ==
-X-Received: by 2002:a05:600c:a30a:b0:453:9b3:5b70 with SMTP id 5b1f17b1804b1-454a373583cmr21491165e9.8.1751560463966;
-        Thu, 03 Jul 2025 09:34:23 -0700 (PDT)
-Received: from localhost.localdomain ([102.42.87.50])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454b168673asm2153235e9.26.2025.07.03.09.34.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 09:34:23 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.org,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH] staging: media: atomisp: Remove custom sysfs attributes from atomisp_drvfs.c
-Date: Thu,  3 Jul 2025 19:33:50 +0300
-Message-Id: <20250703163350.5163-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=utBS017XFgzQ0zp8Wqpxes+6RofiALZItP1TdxQEbKI=;
+        b=ROSvJoL7D2SDXoeeam0fHNR63Su1l+Nhko1ImIS64slk1k7BaLO784sfB8LRIwcV+x
+         85OxzxV2yPDVjxGXPuT1JRMeIaDYq1cz+vocPwV4r261LCPekavsSsPlyTqnFdsAiF16
+         WffMNs88TkCuY5b4rm14k3y1O6iTwoFtzBEscA5WvJ9LX25EJKVeQg8PH/5x0LbZe8p5
+         DVTy1YMZ3FaVlhhG8Bh8ygHqI+yrWySJbG7c1HUGjmQltDYjglKqrnuyBTa/AOFfohij
+         OkuvKTC3uqR1Rq+boi7ed+uu2/4iBHHx+we7Cy7o10odGUFlMAkycIkrzCi14+tzly5y
+         yIBA==
+X-Forwarded-Encrypted: i=1; AJvYcCXiUgP6+enrzsEeJHAQsfAJSIDGT9qfJo5/7o4hdChAyzFGqQlEO8qvBl+E/0hmis1tlZIKOTKvCXg8N4PIrEEkgg3Ryg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvYVy47fXS8mqUm+7r2/A+xWEGJ8HvRK52asq6aRdRbQml9D4a
+	uHkn4/p4QFB3m1joQ5mhqKxvO5M+uLkj4b2AjE24t8XoY0i/e4iLNvnFre1UgpALLxJOwDkM3Nh
+	wboq/1yztMEcfdQetrlebOKK48x/cWTY=
+X-Gm-Gg: ASbGnctHurZyMcbQwVTorI7DT8ZBn1Imj7Jc0kR9hQ3UXnYL9UmLFJR8JvswiIVfx/q
+	DP3PJEjEclfBdM5SiP8Yw96MxJcoqJ62RpWHVQd/2SZ/cdJIPMMluIn9OAvABevAzQRs6alaUUK
+	o/dnU32kr9QcMd112QM13/PLo1JmoCy2OcVJ2CoC6MNda9AKXQUvrGTFoXwaIm771x0iVnGTsxJ
+	s4=
+X-Google-Smtp-Source: AGHT+IH/iyPTFqL3M3jHfprWGyO2TfoMbrPC7NbrggZ1Yo0bYJAC8QHCPeDEMdhCNBakZBK3OaY2qZtlskNgpVcnuS0=
+X-Received: by 2002:a05:690c:9993:b0:70f:253d:f278 with SMTP id
+ 00721157ae682-7164d2d0f01mr107532887b3.15.1751560533232; Thu, 03 Jul 2025
+ 09:35:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250702065908.430229-2-moonhee.lee.ca@gmail.com>
+ <DB29OMQH4W9Z.1GPKEZBBIRSTS@gmail.com> <CAF3JpA7wM4JBdd6OvGS+hmv0UahcW=h4HrPNDwRNhduk8iKsWw@mail.gmail.com>
+ <1f13328a55c54fb49d8ca1dd72bc5de23f161ac8.camel@sipsolutions.net> <6ecced8b962cf3a6f5056a87aa3442c49941e74c.camel@sipsolutions.net>
+In-Reply-To: <6ecced8b962cf3a6f5056a87aa3442c49941e74c.camel@sipsolutions.net>
+From: Moonhee Lee <moonhee.lee.ca@gmail.com>
+Date: Thu, 3 Jul 2025 09:35:22 -0700
+X-Gm-Features: Ac12FXwg4u1q7mSzj9AU16Ms01bFVIpviQb0K31UMy7j7IsxJBZgw4Jou9gHLgw
+Message-ID: <CAF3JpA7ZeG5uxLJr1NQBBzF=UZRi4sj4TSfBw=Pvx7xb1NCqTw@mail.gmail.com>
+Subject: Re: [PATCH wireless-next] wifi: mac80211: reject VHT opmode for
+ unsupported channel widths
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: Nicolas Escande <nico.escande@gmail.com>, linux-wireless@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	syzbot+ededba317ddeca8b3f08@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-Continue the process of atomisp driver cleanup as dicussed with hans
-and andy in [1].
+Hi Johannes,
 
-Tackle TODO item "Remove custom sysfs files created by atomisp_drvfs.c":
-- Removing dbglvl, dbgfun, and dbgopt sysfs attributes
-- Eliminating their show/store handler functions
-- Deleting the attribute group definitions
-- Preserving dbg_attr_groups[] as an empty array for compatibility
+On Thu, Jul 3, 2025 at 8:09 AM Johannes Berg <johannes@sipsolutions.net> wrote:
+>
+> I'm not entirely sure that'd be correct. 320 MHz can only be used on the
+> 6 GHz band, so clients must be at least HE, but I'm not sure that VHT
+> opmode notification frames are completely illegal for them, even if
+> they'd like use OMI instead.
+>
 
-[1]: https://lore.kernel.org/all/836dc6b6-2821-47fc-8f24-0838f979af76@kernel.org/
+Understood. That clarifies the case for not filtering out 320 MHz, even when a
+VHT opmode notification is present.
 
-Suggested-by: Hans de Goede <hansg@kernel.org>
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
- .../staging/media/atomisp/pci/atomisp_drvfs.c | 138 ------------------
- 1 file changed, 138 deletions(-)
+On Thu, Jul 3, 2025 at 8:11 AM Johannes Berg <johannes@sipsolutions.net> wrote:
+>
+> n/m, it just did that quite explicitly. I really want to get rid of all
+> that 5/10 MHz code, but we still have S1G so that might still happen
+> anyway, and I expect for S1G VHT operating mode notification frames
+> _are_ invalid.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-index 31c82c3c0d33..c25fd3ff003d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-@@ -1,9 +1,4 @@
- // SPDX-License-Identifier: GPL-2.0
--/*
-- * Support for atomisp driver sysfs interface
-- *
-- * Copyright (c) 2014 Intel Corporation. All Rights Reserved.
-- */
+To address this, I plan to reject the set of channel widths that are not valid
+with VHT opmode. This includes all channel widths below 20 MHz, as well as
+20 MHz without HT (20_NOHT), which is also incompatible.
 
- #include <linux/device.h>
- #include <linux/err.h>
-@@ -16,140 +11,7 @@
- #include "hmm/hmm.h"
- #include "ia_css_debug.h"
+Would the following logic for v2 be acceptable?
 
--#define OPTION_BIN_LIST			BIT(0)
--#define OPTION_BIN_RUN			BIT(1)
--#define OPTION_VALID			(OPTION_BIN_LIST | OPTION_BIN_RUN)
--
--/*
-- * dbgopt: iunit debug option:
-- *        bit 0: binary list
-- *        bit 1: running binary
-- *        bit 2: memory statistic
-- */
--static unsigned int dbgopt = OPTION_BIN_LIST;
--
--static inline int iunit_dump_dbgopt(struct atomisp_device *isp,
--				    unsigned int opt)
--{
--	int ret = 0;
--
--	if (opt & OPTION_VALID) {
--		if (opt & OPTION_BIN_LIST) {
--			ret = atomisp_css_dump_blob_infor(isp);
--			if (ret) {
--				dev_err(isp->dev, "%s dump blob infor err[ret:%d]\n",
--					__func__, ret);
--				goto opt_err;
--			}
--		}
--
--		if (opt & OPTION_BIN_RUN) {
--			if (isp->asd.streaming) {
--				atomisp_css_dump_sp_raw_copy_linecount(true);
--				atomisp_css_debug_dump_isp_binary();
--			} else {
--				ret = -EPERM;
--				dev_err(isp->dev, "%s dump running bin err[ret:%d]\n",
--					__func__, ret);
--				goto opt_err;
--			}
--		}
--	} else {
--		ret = -EINVAL;
--		dev_err(isp->dev, "%s dump nothing[ret=%d]\n", __func__, ret);
--	}
--
--opt_err:
--	return ret;
--}
--
--static ssize_t dbglvl_show(struct device *dev, struct device_attribute *attr,
--			   char *buf)
--{
--	unsigned int dbglvl = ia_css_debug_get_dtrace_level();
--
--	return sysfs_emit(buf, "dtrace level:%u\n", dbglvl);
--}
--
--static ssize_t dbglvl_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t size)
--{
--	unsigned int dbglvl;
--	int ret;
--
--	ret = kstrtouint(buf, 10, &dbglvl);
--	if (ret)
--		return ret;
--
--	if (dbglvl < 1 || dbglvl > 9)
--		return -ERANGE;
--
--	ia_css_debug_set_dtrace_level(dbglvl);
--	return size;
--}
--static DEVICE_ATTR_RW(dbglvl);
--
--static ssize_t dbgfun_show(struct device *dev, struct device_attribute *attr,
--			   char *buf)
--{
--	unsigned int dbgfun = atomisp_get_css_dbgfunc();
--
--	return sysfs_emit(buf, "dbgfun opt:%u\n", dbgfun);
--}
--
--static ssize_t dbgfun_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t size)
--{
--	struct atomisp_device *isp = dev_get_drvdata(dev);
--	unsigned int opt;
--	int ret;
--
--	ret = kstrtouint(buf, 10, &opt);
--	if (ret)
--		return ret;
--
--	return atomisp_set_css_dbgfunc(isp, opt);
--}
--static DEVICE_ATTR_RW(dbgfun);
--
--static ssize_t dbgopt_show(struct device *dev, struct device_attribute *attr,
--			   char *buf)
--{
--	return sysfs_emit(buf, "option:0x%x\n", dbgopt);
--}
--
--static ssize_t dbgopt_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t size)
--{
--	struct atomisp_device *isp = dev_get_drvdata(dev);
--	unsigned int opt;
--	int ret;
--
--	ret = kstrtouint(buf, 10, &opt);
--	if (ret)
--		return ret;
--
--	dbgopt = opt;
--	ret = iunit_dump_dbgopt(isp, dbgopt);
--	if (ret)
--		return ret;
--
--	return size;
--}
--static DEVICE_ATTR_RW(dbgopt);
--
--static struct attribute *dbg_attrs[] = {
--	&dev_attr_dbglvl.attr,
--	&dev_attr_dbgfun.attr,
--	&dev_attr_dbgopt.attr,
--	NULL
--};
--
--static const struct attribute_group dbg_attr_group = {
--	.attrs = dbg_attrs,
--};
+    /* reject channel widths not valid with VHT opmode */
+    switch (width) {
+    case NL80211_CHAN_WIDTH_5:
+    case NL80211_CHAN_WIDTH_10:
+    case NL80211_CHAN_WIDTH_1:
+    case NL80211_CHAN_WIDTH_2:
+    case NL80211_CHAN_WIDTH_4:
+    case NL80211_CHAN_WIDTH_8:
+    case NL80211_CHAN_WIDTH_16:
+    case NL80211_CHAN_WIDTH_20_NOHT:
+        return -EINVAL;
+    default:
+        break;
+    }
 
- const struct attribute_group *dbg_attr_groups[] = {
--	&dbg_attr_group,
- 	NULL
- };
---
-2.25.1
+This allows valid HT/VHT channel widths, including 20, 40, 80, 80+80, 160, and
+320, to pass through while filtering out values that would otherwise trigger a
+WARN_ON.
 
+Best regards,
+Moonhee
