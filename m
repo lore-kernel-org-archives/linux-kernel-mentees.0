@@ -1,154 +1,105 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DEA254B09
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Jul 2025 16:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C788634CF5
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  3 Jul 2025 18:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751561902; cv=none; b=a2Bb3D5/CM0iwgUn25YPQyEXG2Tx7S13bsujgSHooriP0cKi0rDJMxjM1ll5BVkp/LtpSdbqXJBC7jDC1AwjUWRTUXyr0fYMr5LD6C0vQR91VBjL54Ud9nwt5GnCXmwVFJSz7mzNUyCV6cmQBhR64aWfhC8iXeJvQd8vGOf+9bY=
+	t=1751568322; cv=none; b=MATfCjJ8GLVFIOH+S8RKiBN69Zw60FxlIRPJlS0KORSTZlHG/TOr/0EI09e+CgGU8QtvrGxSmQgHMur9xZOBV1fVJbu0eZTKYcrmYGAMWuunRS0jQeuIxib73ho4SrgbhMmYwyke8BevJMFJUqJEVvQ5zD7wDzNfOCo2rlc3+1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751561902; c=relaxed/simple;
-	bh=gTADXefJfpRuQnZneIMTgmGJqA5Hp6PtGpOLvS7HbS8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qx5hdniXbIYvxEmMKVdNP6SSLOGbuz0kv37NTGjcM3rCyO4BaBa/pdf6axHS3WdH8c19zsm8xE6vBSf/aHuOoiwOUdcSYVTwT0DdkfRTlQ62jOPB+TGoecyFPl4kvjL+gSWoUtrsW8bBdxHYlVrqElg/VFcSck/xo/1mxF6PHAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lHmroS9J; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1751568322; c=relaxed/simple;
+	bh=y1ibFcHZ3Gp2zMIJAUNfr3OLUuofICdR6lY4OC1LOpg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LZN9I5aSDmH7M0Mc8iJ54BbuR+fgPlm0eX/U4wRAx4soxggQaPivj4Q2eLVdD6p3rnxdwt61uM2th1ZbpnDGnNEJfczuMo/9FBSM+QkZH1rnaxUmuZH2sggUWzJ79tZVwWLZPK5/n3O66huxMZX2TVUvSdIl68XTkFvWxXYp64I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tn3B6v8T; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lHmroS9J"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5A52C60709
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Jul 2025 16:58:21 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 0skR7s3GFJcW for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Jul 2025 16:58:20 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62a; helo=mail-pl1-x62a.google.com; envelope-from=akbansd@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org B125A608FB
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B125A608FB
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=lHmroS9J
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B125A608FB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  3 Jul 2025 16:58:20 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-235d6de331fso2077425ad.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 03 Jul 2025 09:58:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tn3B6v8T"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-71101668dedso1017827b3.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 03 Jul 2025 11:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751561900; x=1752166700; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1751568320; x=1752173120; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Nfdd40hGPW9+mSHHbH6Co29MQZFw5Zd3l8gaeJvJ/Dk=;
-        b=lHmroS9JTH43RdL9LrZ0gYLAZSMgVB8q+q5Iv6nvVPUZGwD9tLlQxr/2dC5Zn0QHR3
-         pNlp8u3bIqy33Ya2pd/0RtWLk6JazobsSExs3acKt939/4f2JwDX6ltwqqxCxXPUls+u
-         9wKeNmCvkXU6FwcuNfCCYwg8omBJGFdpBJ1hvk6GJhEOIOxqsOU3ZvZWCpAiqsH0LbVC
-         PqL5RjzOhLxjCZ+D4aQXcVH47aE3i1hvYLU+AkrAECn2R+0x19SM5V4aSb0jFnOEl7l4
-         OJez9eaimmyuppE5q36uEpcb81Q0pmKlDUBbWLqzUGGxKaX7N/Mgy00MJSzX/Pl2JBWU
-         Vyjw==
+        bh=y1ibFcHZ3Gp2zMIJAUNfr3OLUuofICdR6lY4OC1LOpg=;
+        b=Tn3B6v8T39aTBv6tmN76a6Vy4kHuq4S9wn8P7edCR7itlFlMsisGkYJFUFRKBRI2Fv
+         3gXTDd4cZqjdWsexL6e6BWLvLalUwuywroSPfdIlcNkIDaK6s8RBwNzW6/YWONKah16e
+         4seY0b9BqfiFNCUX2FGJbu9DaaAGts9SCr0Jy3e3eApMrmUBsiYYHSchVimW/mlAJXeR
+         Cs81gr8s6/mQBcS2OVjJd3JC3DH6Bs3OmLaCtqHs12zv2/or3iPFxAxyNqJIkik2sOBW
+         OZ7MHXEPvjR4oAwFIprW2K0eExkFQhi3KhgNDwglg/WMstq5UdUUQq/vcHyVj6r9Hyso
+         XYcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751561900; x=1752166700;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1751568320; x=1752173120;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Nfdd40hGPW9+mSHHbH6Co29MQZFw5Zd3l8gaeJvJ/Dk=;
-        b=OHMk5nggdvdE1YF/FJw4USWbWKmZdWZtm3cRKEBjXyOiG6Ot/gHwX7fCxYERT4dJ7V
-         tfvw9lRcN33XIO8i1/ndTKAhpzieQusf02AKwKQeFNP7r64FoXx5Yj8L61z8j8M8GcsH
-         9MPyz2bx65Eg1peZ78w6Zj6TSiXmKdBqzJpgfJkaD78nE8rr1e04B09RQ7EJ+WCJEEpo
-         HCULMFnJ22lhUKlOd/Q8C1R8kRLNOPlPqItf4iY0BVVm0xFXYuoVP9RRXtN3op5wDEQ4
-         +ecQBMs5eP46uuOCxM8Bbey6tSjBLBQNhh8HN+CnzSKlwfQrlEsmsFU7U7xV3pm92s9/
-         wa+g==
-X-Forwarded-Encrypted: i=1; AJvYcCWniGM+QBC47fVYgxlUCtr0jxBd/CsNpNVsE8kyEMTptiaAivgKMcR31ilcIlBItJpoCiA4jqhuGh5v8pK5oE5mdAe3XA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yywdh7jbz0/x71RJqIzyPrw4NUkILSaPzcEwRXmV/Ts2aETztjY
-	6/slvNnAJlot7PbrTpDAWAvrvA1nbhqx9LPzK1RV84oSVVJYvczsoIP/
-X-Gm-Gg: ASbGncvVYiWMajnYI2SobtBL/Sw9wKqiyEHHpDWa9DAttAvnv4QgxBq0Ax1/MJkfSGP
-	eNjNxk8L1Oi/K7hn3GnfJaOjXbGmo5aWB53JCGsOCiPe7x106phdp/ZD6UtiguBHZf9SZEgZsGM
-	SbRe5LviqpWMXSl5Y4HfR+TRhzG6HOvPfEcwXqXUH5Rf3vW1dvrlyij53SoTpD1msPMWY7XUx1w
-	sRJCUjzYr7jkVpg0THaY1BnCewe6UDqP5LvxIqbIXbtBRpdk+1ebOhfAZH8O+o0cSn4s5wasRMW
-	GGlm6dDm1ScXNeVZLAKSiaR/u+aMfhNxAJSAz8GY18XpPtszagRoaiC3nFbb
-X-Google-Smtp-Source: AGHT+IH8FObvGV7iLQxpoXaMWI/xlTrZYbrAR5aXp8VpSULc6F5ZzAmEgd7yWsFD0hTIxulY4uJk9A==
-X-Received: by 2002:a17:902:f745:b0:235:799:eca5 with SMTP id d9443c01a7336-23c797ab3d4mr64095645ad.44.1751561899962;
-        Thu, 03 Jul 2025 09:58:19 -0700 (PDT)
-Received: from mbox.localnet ([36.50.162.229])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8457f308sm292935ad.149.2025.07.03.09.58.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 09:58:19 -0700 (PDT)
-From: akshay bansod <akbansd@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Lorenzo Bianconi <lorenzo@kernel.org>,
- Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
-Date: Thu, 03 Jul 2025 22:28:13 +0530
-Message-ID: <2413481.ElGaqSPkdT@mbox>
-In-Reply-To: <aGaIMjkYBmfMmCBn@smile.fi.intel.com>
-References:
- <20250703053900.36530-1-akbansd@gmail.com>
- <aGaIMjkYBmfMmCBn@smile.fi.intel.com>
+        bh=y1ibFcHZ3Gp2zMIJAUNfr3OLUuofICdR6lY4OC1LOpg=;
+        b=PyOO6943tMk4ZJN7nakAl2wyMXp1WCW+pBLlasnNcXToszsrHVNTHnyf7RdTxIf9qW
+         6lCfNm1Vq+7I3qHmNS+9u1QXVPL07P995FWyE+zHAl2a0AuL/buF0QgqbFtPJV1M5WfF
+         L3m0sgD34VXo7QJAL7s17JTjD1xF0FHsBVV0FAkxacKyUciXyus88lFTYe8IWcrCfPMj
+         YTF4u0nLDtbhflmCoeLaIe2S54Z6nm8lU/ErB5mg27I/IZeSYUlvLRdegerfrtNaEYZU
+         pspMb30+ORW3zRqF7DonMjq0PckLEWP9qTBHx1m7Yr32eVhgWe6uLPwn9fwPtEE9ZaDn
+         fL8A==
+X-Forwarded-Encrypted: i=1; AJvYcCX6oUrb+gBARGs66In9/saTO7JO8T1qpeQHonPDyQl2V6kLnizUSvhVQ+JqzYFw9Fq83ORtnrrZrNIG7ISJ5zbUNnVn6A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLGOdznNFoLDrRtDAJRqhqRbIC/x+aYxhSN+WJuNvlKOn4vcaJ
+	qhzIEjEEh8gSpM5dwBEMuR6qwnQtyejIpuW7CPjQCcXapUEE4cLogUBKoI36hBl99v4eghLoCe0
+	l0o29QmgGVcu2GVE1L2oOhprXGL1XuN0=
+X-Gm-Gg: ASbGnctWm0ND+aNlDelr5+QtHZD4/FZ+U43Bwp0rX2Sn7uV34ZZbTcMjyDThaKWc3/7
+	/qGFIoQEEqWaX0VU4vcLoJXUO8YkltDPZykWacxvnCf/PTlIkktX2+6mKyzaZmR96gFBQbg4k8P
+	DLgX91my2BKQ7v1ACopcu61uXV5j99pBW04VhUE9wjmt/1u4JF2lbD0WVRa2SDi2cP/mTiQvmuA
+	7o7psWfkyMZSA==
+X-Google-Smtp-Source: AGHT+IETh+dtwHH1oQ6RDkj71gx9dRfVQ1cl9MyjEm5vYfcjUtxAw+hOLZg2KSK0HxkTOIcr1LYq8P/WUFL4eiM78gU=
+X-Received: by 2002:a05:690c:3501:b0:710:f74b:61ab with SMTP id
+ 00721157ae682-7164d357a9bmr111373057b3.9.1751568319629; Thu, 03 Jul 2025
+ 11:45:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20250702065908.430229-2-moonhee.lee.ca@gmail.com>
+ <DB29OMQH4W9Z.1GPKEZBBIRSTS@gmail.com> <CAF3JpA7wM4JBdd6OvGS+hmv0UahcW=h4HrPNDwRNhduk8iKsWw@mail.gmail.com>
+ <1f13328a55c54fb49d8ca1dd72bc5de23f161ac8.camel@sipsolutions.net>
+ <6ecced8b962cf3a6f5056a87aa3442c49941e74c.camel@sipsolutions.net>
+ <CAF3JpA7ZeG5uxLJr1NQBBzF=UZRi4sj4TSfBw=Pvx7xb1NCqTw@mail.gmail.com> <5fda29626ca04e7c2ad46ca4a3d0eb1d992789d9.camel@sipsolutions.net>
+In-Reply-To: <5fda29626ca04e7c2ad46ca4a3d0eb1d992789d9.camel@sipsolutions.net>
+From: Moonhee Lee <moonhee.lee.ca@gmail.com>
+Date: Thu, 3 Jul 2025 11:45:08 -0700
+X-Gm-Features: Ac12FXw2hciaDGGmicqLi-QwVnR0XzGOoZpgR7-KTUS52QJWhiCxZTmjAb3lcmo
+Message-ID: <CAF3JpA5NX4s5XrUvOfVg59oOmfFMHoZ0e5+yHynRYifbPY05Mw@mail.gmail.com>
+Subject: Re: [PATCH wireless-next] wifi: mac80211: reject VHT opmode for
+ unsupported channel widths
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: Nicolas Escande <nico.escande@gmail.com>, linux-wireless@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	syzbot+ededba317ddeca8b3f08@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-On Thursday, 3 July 2025 10:12=E2=80=AFpm +0530 Andy Shevchenko wrote:
-> On Thu, Jul 03, 2025 at 11:08:59AM +0530, Akshay Bansod wrote:
-> > Update the sysfs interface for sampling frequency and scale attributes.
-> > Replace `scnprintf()` with `sysfs_emit_at()` which is PAGE_SIZE-aware
-> > and recommended for use in sysfs.
->=20
-> 'must' is stronger than 'recommendation'.
-> Of has the documentation been changed lately?
->=20
-> ...
->=20
-> > st_lsm6dsx_sysfs_sampling_frequency_avail(struct device *dev,
->=20
-> >  	odr_table =3D &sensor->hw->settings->odr_table[sensor->id];
-> >  	for (i =3D 0; i < odr_table->odr_len; i++)
-> > -		len +=3D scnprintf(buf + len, PAGE_SIZE - len, "%d.%03d ",
-> > -				 odr_table->odr_avl[i].milli_hz / 1000,
-> > -				 odr_table->odr_avl[i].milli_hz % 1000);
-> > +		len +=3D sysfs_emit_at(buf, len, "%d.%03d ",
-> > +				     odr_table->odr_avl[i].milli_hz / 1000,
-> > +				     odr_table->odr_avl[i].milli_hz % 1000);
-> >  	buf[len - 1] =3D '\n';
->=20
-> My gosh, this is error prone. I'm wondering when some CIs will start to
-> complain on this line. But this was already before your change...
->=20
-I'm planning to drop It entirely or should I replace it with another `sysfs=
-_emit_at()` ?
-I've seen other device driver returning space terminated buffers. Maybe I'm=
- overlooking
-something.
+On Thu, Jul 3, 2025 at 9:54=E2=80=AFAM Johannes Berg <johannes@sipsolutions=
+.net> wrote:
+>
+> I think it'd make more sense to go the other way around and list the
+> bandwidths that are _valid_ here, even if I don't see it getting
+> extended any time soon (anyone working on TVHT? ;-) )
+>
+> But in some way I also have a feeling we _should_ be able to reject this
+> in cfg80211 already - although it seems that right now we cannot. Hmm. I
+> guess better to have this validation here now than fail/WARN, but then
+> I'd like a positive list of allowed values, rather than forbidden ones.
 
-> >  	return len;
->=20
-> ...
->=20
-> >  	fs_table =3D &hw->settings->fs_table[sensor->id];
-> >  	for (i =3D 0; i < fs_table->fs_len; i++)
-> > -		len +=3D scnprintf(buf + len, PAGE_SIZE - len, "0.%09u ",
-> > -				 fs_table->fs_avl[i].gain);
-> > +		len +=3D sysfs_emit_at(buf, len, "0.%09u ",
-> > +				     fs_table->fs_avl[i].gain);
-> >  	buf[len - 1] =3D '\n';
->=20
-> Ditto.
->=20
->=20
+Thank you for the feedback.
 
-regards,
-Akshay Bansod
+I agree it is clearer to apply a positive list of valid channel widths rath=
+er
+than excluding specific ones. I will update v2 accordingly, and drop
+NL80211_CHAN_WIDTH_20_NOHT from the current patch as well. This ensures onl=
+y
+the valid set is accepted, while preventing the WARN_ON from being triggere=
+d.
 
-
-
+Best regards,
+Moonhee
