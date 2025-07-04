@@ -1,159 +1,261 @@
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70F22D8DC8
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  4 Jul 2025 12:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED6E1B7F4;
+	Fri,  4 Jul 2025 14:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751633255; cv=none; b=ahp4m5kHO0PeYN2FguAHVRp+vej9yKPWs4cqRKAbz+CQB95sqxWrphXaZhoqog9Sic1VXGH/Bcpv4RGtEnAmTS0kO6nUeVqDQlPP2XSdJr6DUtF7eUK4PZX6KgiWHyDHnwCjzPcs5VqQrrZAuHxxPhq4x4g437vK4Us5BY9v6k8=
+	t=1751638583; cv=none; b=sefXXAIoz45lnzJ3hKy3FuKOF3Ihnzg3dOV6BgwOGSJxxLSx/BCkIlqioC5Ry+qjNdo7jsqg9jyiaUr2Ws+xu5WEAR1vGlefZiUvvWtzVywxkzhZAINNe4GvQXnoYSPhIBS0ApBOLsaWynufSufUuO+YLWANAErhYS1+j191k4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751633255; c=relaxed/simple;
-	bh=6jP9D9616ela9JZEfLO4DfalddDJ+mCTmT8T39jD33Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gKcpZ2ANUNS7c9l/W9E84nU/r5XBfjHGJ+tMv1ObSV/hlLDp51o9H5f5CAKddCvxwKvV1NLoEuGPx3hCsUxaadUcQPgpSdTatP9Jxu5j10rEGLF0ZQqfxpyCwFYJhDw1FCpeLQsCavckplFX+pyywOypjRGCgpX+cW1eo30wnAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ae89+Xip; arc=none smtp.client-ip=209.85.217.51
+	s=arc-20240116; t=1751638583; c=relaxed/simple;
+	bh=oo+uEgK1Jfph1XkO08KqkKaj+w/7lywoKLOEgNgfAZQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SZgbRfy9TLeAvp2o8viyMF8C1U9oJOJdoVmoG+CgEyDJCAojemKm10ksjfH4M+hqyoPLlKmZLt8damHr+q6BrvIAGv33IzMILXzL+OZd9YwzHyvVf90qB1uUL7oLSI6owjs8Jk81uMpwAlDSttDXACBBMkaZZJettocoIg8MBdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bPJqc0Q6; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ae89+Xip"
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4e9c3d752a8so561909137.2
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 04 Jul 2025 05:47:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bPJqc0Q6"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-60fdd24613fso73087a12.1;
+        Fri, 04 Jul 2025 07:16:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751633252; x=1752238052; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qmkC/J54lBcE9vTJQ/eqQ53eT1txKtJeKwM2czVAqok=;
-        b=ae89+XipPKR7AlgC9hraKCumvs670vuHMf1jFvgu6q9gPnon/NMcD1gyBUSazgkj5b
-         8kvojpE3KGMSlb4uJznFMk30VXq5FSkjS+i50MD7WGRR7U6AcrMHKhHkLP0s6QBz+XLU
-         cP+BJExrQPkMvA7ogoY1CYslblFmdc4/55vYHY5BQ8ReikWZDgr6bnrvPsb5wA+oOHgf
-         zdbrsmPtO1b6eUKiVL0arLxYx9DzJrX742YJP2Cmw60AckmELRjmp+Qbq9ZIP/dIZoUC
-         lKnlZBgWlv6vRX3X9t4yGtCXmn2nldVKnWsUY7h91335JZ0yaNlGjWf0GFKVIMeuVk0i
-         VuqA==
+        d=gmail.com; s=20230601; t=1751638580; x=1752243380; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sb8iimynI9CzYNi0AnSl9OGFpIWMTxy9TSj8evqbmoU=;
+        b=bPJqc0Q6kmMYlrPeC370yknI0IqkEaAmvOu8cVQaceq6WrwAQJxOhg/r+wgaKSKdrw
+         jZL7Sm7+KLlPyaooAfVYTwGrmiBwOgFdX2LByGiImwbv2++lsT5D7h/X27vJVa1VPPdB
+         tlEsyhISrodgY7UtN/Dp1LyGWjPyHrnemwk7fqJmZea7/bxgqM4VXc7PboNBtTIuzO6S
+         Jyn/mQVLSrNR2BzJqUqORandA9dinpqfZmUoYYt9rZ9c3toU/itOXgXulaojVhnUuDWh
+         ui/nbVcPD/AfbGhRxZUpkScLDYYp+33QKi2QOxzmvnG6PaPoho4Fy4MR7Ng1VDdK98NQ
+         sQZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751633252; x=1752238052;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qmkC/J54lBcE9vTJQ/eqQ53eT1txKtJeKwM2czVAqok=;
-        b=eE7pRJR+anE/cWeivFC343Y4D/EhuyMFrUIlKFKef3fiKzqI0YhjxdHhQBQJTkAeQd
-         RRLWxs9vb0iQco/cyquhdyyRHmYDscjUXd96xIZeSsFOlmh4sEbZehk5ciRxne4yVIAF
-         07WpXA6uzysLfysHZ0UrBZaVZcKAGzVqtMy6vCI/hhErQkwmgofPvkkdfu2hFsWlJM/a
-         vJ3dwr4iKs0gfzLj+b9FhlnpL6w9VhqIs3wBMRiVgIenHn8ZyoC40Npk7hi7BdtXPHk1
-         zjlFtFcd6zSRndriBnqtQwObtKYA0cEkrjVYudhI3gxy3kKFfpag7+7xclI0Fxh/WbuR
-         AJZA==
-X-Forwarded-Encrypted: i=1; AJvYcCU0ssYBYAgWYgLvuFSmcroxMKf9mBGH76Baqq+MgI4pc41LNGD2F4WB/70gUkJNi8zRKE1yW65lvan+/d9cC3df1PrGTQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyUmbI2K5ywiNSJh58B7pMMkAgYCeL3agybU5PiopGf5s53XTr4
-	UHBuWo3nmMvfBe1PWeypLtoxRNi7iKTcRa4g1DW+andM45vk0pHURiCg7pZsS3CESc/p5BDbVXt
-	8Hi/H4WJBxgmt8a4IKofTKyEuxUa/KtQ=
-X-Gm-Gg: ASbGncu8CzsMg32F7ujikeTCVvb66focc+/yx7UzddgZRzua7TAEjUiRyeBUHU5O9sH
-	JHNoQMj9MW5qRxZQbKIsPPAwxYUPLbHaI060O8Nx6dQkzC3jvZcHu/0i14z6LewCXeCgWqbnum5
-	OeMVB+mSVhFTaC2u3cv74lwDyOZmmaUIW1lvnNeooFZulRV+L1sgNjKQ==
-X-Google-Smtp-Source: AGHT+IHawTsrx4WDbFlRPlxlZcwpJ9SQEb2goe8AMjagYDS4e6sLzohPm0ltLUpjuFrfN802O/n2TCqX5jwiMAcEvq0=
-X-Received: by 2002:a05:6102:1613:b0:4e7:7146:a9e with SMTP id
- ada2fe7eead31-4f2f1785dcdmr1076295137.6.1751633252563; Fri, 04 Jul 2025
- 05:47:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751638580; x=1752243380;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sb8iimynI9CzYNi0AnSl9OGFpIWMTxy9TSj8evqbmoU=;
+        b=itE91ElacRha/sZEM6cn0/hIABYYdRcWMqao2HH4tApC7KLg7h3UqrtJepHSW/lD5H
+         Ib5qDKNJRkr3AijDtlVK+lRtyWUF4CUX70och3AqJgw9Oi5qHqtsASYps8pmMx8WxEKB
+         KHta3xeZz1W9c6h+r5bBARpZLHJud1ExBb68gLPTrjF6FTIF7dZxmAyHlGzSkKvOdPax
+         d9PutMitgZgsWPhaNrko6DJzCAilmtIF9w2DgWELzUkT1J/1h1xkA1V5P1xNW1pvKacW
+         VIS7RsAfhrKZkGqqSQNcj9PDfoSJMd/czYcoe8IYAV6T2KORRz3+wECcJ7+m4gNQ5aen
+         tpGg==
+X-Forwarded-Encrypted: i=1; AJvYcCW95P4JiEA9D2PaMEVyJikWNWzaxnUJwkxh6lrE7cLpsEi3RP6y8xrYOW4Nu/Stsk0pxi70w22flU4ZhnQXCw==@lists.linux.dev, AJvYcCWI4CDB8yZ4oAuYPAQcB1QeNkqgKBWTRUfOLGKinWGDHZ3PEae3LE0MzPI2Vm/SKC5A7JNE0pwZH3DkgNzc9osjX2LfKw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzaWaboasj+HbSnYKHPR17+MmhvJkhNgto2aqaODzdJgAwyAcHo
+	RDryiKrAeE+ZVg2Qwo6t3NlD3unT/8j7m/taWVeNBONUj6lSj0wkH52p
+X-Gm-Gg: ASbGncsjEGfxRWsbBExxMjx5Mp8IJpoYaj38JU98OnhQ8icy8AA5B1Af39jDMFx14DY
+	MNnv7pCTsK34UJgj2h6a9slVi2k4mzCkImJLF4aMoY3OuzzHUVKKWvKTzz4jGMTSAtrK41IN5Xi
+	+TO6++02XqGI5NlvVxCtANkcPMU44Av5mwPIMGpVHGOvRDR/7CvoXIQsSkr8W2KlrsA48kmurA3
+	F4aTIsUsxy2ZbiY77FznkROquVG56FgxRpZT6wfsZ4drQweHR0c+18wtt5wFp1CIj9Ft+ImBjPA
+	Jv+2B7WH/11YqmkDemPm7eGme+J4ZUxl68fswjNYJJw1SMKTLiVx+eipKhF4fglcjU90Y6nhoZs
+	0UfSEFZ+OYFDR8vzooRjKuA==
+X-Google-Smtp-Source: AGHT+IFc7IohEsknf/s8s4QFDEXv5Yh63dnCdh0iNkJ2FiQksbeWPWAzsgLI+sTiW+yLce4CuDrXlw==
+X-Received: by 2002:a05:6402:40c9:b0:602:f026:82cc with SMTP id 4fb4d7f45d1cf-60fd65641e7mr705154a12.5.1751638579144;
+        Fri, 04 Jul 2025 07:16:19 -0700 (PDT)
+Received: from localhost.localdomain ([41.37.222.172])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60fcb8c7f7bsm1390972a12.81.2025.07.04.07.16.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Jul 2025 07:16:18 -0700 (PDT)
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	dan.carpenter@linaro.org,
+	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Subject: [PATCH v2] staging: media: atomisp: Remove custom sysfs attributes from atomisp_drvfs.c
+Date: Fri,  4 Jul 2025 17:15:27 +0300
+Message-Id: <20250704141527.10146-1-abdelrahmanfekry375@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250618215843.109941-1-usmanakinyemi202@gmail.com>
- <20250704102007.6354ce9f@pumpkin> <9c59d1b1-a483-49d9-b57a-c86e3e020234@linaro.org>
-In-Reply-To: <9c59d1b1-a483-49d9-b57a-c86e3e020234@linaro.org>
-From: Usman Akinyemi <usmanakinyemi202@gmail.com>
-Date: Fri, 4 Jul 2025 18:17:20 +0530
-X-Gm-Features: Ac12FXzG0zByMCB0ae0k2YgqZqwpOgNB1rpA4c239EAnHokHVO5eYPlU3-XxRjA
-Message-ID: <CAPSxiM9AHNrAhRjJKe9fHZ9s7VAQBF9c4S2_HWj2qu1A48hh+g@mail.gmail.com>
-Subject: Re: [PATCH] perf/x86: Replace strncpy() with memcpy() for vendor string
-To: James Clark <james.clark@linaro.org>
-Cc: David Laight <david.laight.linux@gmail.com>, peterz@infradead.org, mingo@redhat.com, 
-	acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com, 
-	alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com, 
-	adrian.hunter@intel.com, kan.liang@linux.intel.com, 
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 4, 2025 at 4:40=E2=80=AFPM James Clark <james.clark@linaro.org>=
- wrote:
->
->
->
-> On 04/07/2025 10:20 am, David Laight wrote:
-> > On Thu, 19 Jun 2025 03:28:43 +0530
-> > Usman Akinyemi <usmanakinyemi202@gmail.com> wrote:
-> >
-> >> strncpy() is unsafe for fixed-size binary data as
-> >> it may not NUL-terminate and is deprecated for such
->
-> But memcpy doesn't null terminate after the 4 chars either so I don't
-> think that's a good justification. Surely you don't want null
-> termination, because char *vendor is supposed to be a single string
-> without extra nulls in the middle. It specifically adds a null at the
-> end of the function.
->
-> >> usage. Since we're copying raw CPUID register values,
-> >> memcpy() is the correct and safe choice.
-> >>
->
-> There should be a fixes: tag here if it actually fixes something. But in
-> this use case strncpy seems to behave identically to memcpy so I don't
-> think we should change it. Except maybe if b,c,d have NULLs in them then
-> strncpy will give you uninitialized parts where memcpy won't. But that's
-> not mentioned in the commit message and presumably it doesn't happen?
+Continue the cleanup of the AtomISP driver as discussed with Hans and Andy
+in [1].
 
-Hi James,
+Tackle the TODO item: "Remove custom sysfs files created by atomisp_drvfs.c":
+- Remove the sysfs attributes `dbglvl`, `dbgfun`, and `dbgopt`.
+- Delete their associated show/store handler functions.
+- Remove the corresponding attribute group definitions.
+- Keep `dbg_attr_groups[]` as an empty array to preserve compatibility.
 
-Thanks for the review.
+Link: https://lore.kernel.org/all/836dc6b6-2821-47fc-8f24-0838f979af76@kernel.org/ [1]
+Suggested-by: Hans de Goede <hansg@kernel.org>
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
+Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+---
+v2:
+- modify the reference link line.
 
-What you said is true, strncpy and memcpy seem to behave identically.
+ .../staging/media/atomisp/pci/atomisp_drvfs.c | 138 ------------------
+ 1 file changed, 138 deletions(-)
 
-I should have rephrased the commit message in a different way.
-While strncpy seems to work here, firstly, it is an interface that has
-been deprecated.
-See -> https://github.com/KSPP/linux/issues/90.
-Also, memcpy is semantically correct for copying raw data compared to
-strncpy which is for string.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
+index 31c82c3c0d33..c25fd3ff003d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
+@@ -1,9 +1,4 @@
+ // SPDX-License-Identifier: GPL-2.0
+-/*
+- * Support for atomisp driver sysfs interface
+- *
+- * Copyright (c) 2014 Intel Corporation. All Rights Reserved.
+- */
 
-I am not sure if the b, c, d can have a null byte, I think using the
-semantically correct function (memcpy) improves the robustness even in
-cases where b, c, d have null byte.
+ #include <linux/device.h>
+ #include <linux/err.h>
+@@ -16,140 +11,7 @@
+ #include "hmm/hmm.h"
+ #include "ia_css_debug.h"
 
-What do you think?
+-#define OPTION_BIN_LIST			BIT(0)
+-#define OPTION_BIN_RUN			BIT(1)
+-#define OPTION_VALID			(OPTION_BIN_LIST | OPTION_BIN_RUN)
+-
+-/*
+- * dbgopt: iunit debug option:
+- *        bit 0: binary list
+- *        bit 1: running binary
+- *        bit 2: memory statistic
+- */
+-static unsigned int dbgopt = OPTION_BIN_LIST;
+-
+-static inline int iunit_dump_dbgopt(struct atomisp_device *isp,
+-				    unsigned int opt)
+-{
+-	int ret = 0;
+-
+-	if (opt & OPTION_VALID) {
+-		if (opt & OPTION_BIN_LIST) {
+-			ret = atomisp_css_dump_blob_infor(isp);
+-			if (ret) {
+-				dev_err(isp->dev, "%s dump blob infor err[ret:%d]\n",
+-					__func__, ret);
+-				goto opt_err;
+-			}
+-		}
+-
+-		if (opt & OPTION_BIN_RUN) {
+-			if (isp->asd.streaming) {
+-				atomisp_css_dump_sp_raw_copy_linecount(true);
+-				atomisp_css_debug_dump_isp_binary();
+-			} else {
+-				ret = -EPERM;
+-				dev_err(isp->dev, "%s dump running bin err[ret:%d]\n",
+-					__func__, ret);
+-				goto opt_err;
+-			}
+-		}
+-	} else {
+-		ret = -EINVAL;
+-		dev_err(isp->dev, "%s dump nothing[ret=%d]\n", __func__, ret);
+-	}
+-
+-opt_err:
+-	return ret;
+-}
+-
+-static ssize_t dbglvl_show(struct device *dev, struct device_attribute *attr,
+-			   char *buf)
+-{
+-	unsigned int dbglvl = ia_css_debug_get_dtrace_level();
+-
+-	return sysfs_emit(buf, "dtrace level:%u\n", dbglvl);
+-}
+-
+-static ssize_t dbglvl_store(struct device *dev, struct device_attribute *attr,
+-			    const char *buf, size_t size)
+-{
+-	unsigned int dbglvl;
+-	int ret;
+-
+-	ret = kstrtouint(buf, 10, &dbglvl);
+-	if (ret)
+-		return ret;
+-
+-	if (dbglvl < 1 || dbglvl > 9)
+-		return -ERANGE;
+-
+-	ia_css_debug_set_dtrace_level(dbglvl);
+-	return size;
+-}
+-static DEVICE_ATTR_RW(dbglvl);
+-
+-static ssize_t dbgfun_show(struct device *dev, struct device_attribute *attr,
+-			   char *buf)
+-{
+-	unsigned int dbgfun = atomisp_get_css_dbgfunc();
+-
+-	return sysfs_emit(buf, "dbgfun opt:%u\n", dbgfun);
+-}
+-
+-static ssize_t dbgfun_store(struct device *dev, struct device_attribute *attr,
+-			    const char *buf, size_t size)
+-{
+-	struct atomisp_device *isp = dev_get_drvdata(dev);
+-	unsigned int opt;
+-	int ret;
+-
+-	ret = kstrtouint(buf, 10, &opt);
+-	if (ret)
+-		return ret;
+-
+-	return atomisp_set_css_dbgfunc(isp, opt);
+-}
+-static DEVICE_ATTR_RW(dbgfun);
+-
+-static ssize_t dbgopt_show(struct device *dev, struct device_attribute *attr,
+-			   char *buf)
+-{
+-	return sysfs_emit(buf, "option:0x%x\n", dbgopt);
+-}
+-
+-static ssize_t dbgopt_store(struct device *dev, struct device_attribute *attr,
+-			    const char *buf, size_t size)
+-{
+-	struct atomisp_device *isp = dev_get_drvdata(dev);
+-	unsigned int opt;
+-	int ret;
+-
+-	ret = kstrtouint(buf, 10, &opt);
+-	if (ret)
+-		return ret;
+-
+-	dbgopt = opt;
+-	ret = iunit_dump_dbgopt(isp, dbgopt);
+-	if (ret)
+-		return ret;
+-
+-	return size;
+-}
+-static DEVICE_ATTR_RW(dbgopt);
+-
+-static struct attribute *dbg_attrs[] = {
+-	&dev_attr_dbglvl.attr,
+-	&dev_attr_dbgfun.attr,
+-	&dev_attr_dbgopt.attr,
+-	NULL
+-};
+-
+-static const struct attribute_group dbg_attr_group = {
+-	.attrs = dbg_attrs,
+-};
 
-Thank you.
->
-> >> Signed-off-by: Usman Akinyemi <usmanakinyemi202@gmail.com>
-> >> ---
-> >>   tools/perf/arch/x86/util/header.c | 6 +++---
-> >>   1 file changed, 3 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/tools/perf/arch/x86/util/header.c b/tools/perf/arch/x86/u=
-til/header.c
-> >> index 412977f8aa83..43ba55627817 100644
-> >> --- a/tools/perf/arch/x86/util/header.c
-> >> +++ b/tools/perf/arch/x86/util/header.c
-> >> @@ -16,9 +16,9 @@ void get_cpuid_0(char *vendor, unsigned int *lvl)
-> >>      unsigned int b, c, d;
-> >>
-> >>      cpuid(0, 0, lvl, &b, &c, &d);
-> >> -    strncpy(&vendor[0], (char *)(&b), 4);
-> >> -    strncpy(&vendor[4], (char *)(&d), 4);
-> >> -    strncpy(&vendor[8], (char *)(&c), 4);
-> >> +    memcpy(&vendor[0], (char *)(&b), 4);
-> >> +    memcpy(&vendor[4], (char *)(&d), 4);
-> >> +    memcpy(&vendor[8], (char *)(&c), 4);
-> >
-> > Why not:
-> >       cpuid(0, 0, lvl, (void *)vendor, (void *)(vendor + 8), (void *)(v=
-endor + 4));
-> >
-> >
-> >>      vendor[12] =3D '\0';
-> >>   }
-> >>
-> >
->
+ const struct attribute_group *dbg_attr_groups[] = {
+-	&dbg_attr_group,
+ 	NULL
+ };
+--
+2.25.1
+
