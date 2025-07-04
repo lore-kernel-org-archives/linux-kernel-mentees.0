@@ -1,120 +1,152 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA3528B419
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  4 Jul 2025 09:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7BC2DCC17
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  4 Jul 2025 09:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751620831; cv=none; b=YmFlE3aJ/PeC3algS9w5WLyLVk+wSr/GQLMQd2jnGSV5qqz3R0Y39QLdYLnYgcrdq828pCV1qGqU+Wt3kd1HK9Uf4ibcPWfjAMLa0GTM4uEK15rYfjPeaBqnMK+33YzrXc5kvjPmqQlKnTqxtyS1549+hlOxtqJgLljEl8X6sVo=
+	t=1751622768; cv=none; b=YRL9eJGLtW84+8QrgAbx7Vc6/p0nBc2P/qRYDUufqycUE0G8xVbd0E6uIMJfSOqCMYOD1TQQpKhROJP8PaApcLQCFnne6XeNfDffkV+vxPhCMc3WgPW4jmr6gJJrWMesI04IhGZL+wcrbtHqmTtiZlU81WF/u/9LVU4O9AhxFGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751620831; c=relaxed/simple;
-	bh=M4kyxHF27eymEVDJwIeVmNTutyHMh9udlF6lQLdU9Gc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SLFxrjL7yptDv2PMp9pDXp1rGcgwt+/TKuP9vXbHFlajHdmPDikSdKNBPPXfeXSnMkb45a3KGXnKwuYJBGY9jg348ve6MMzp4+6f6tr0NWUozQdgRWWpFVod4i4GUwI43h5IjXvkSfkaxqeL1ZCPBBmYdAnYNTZcmInS369qXxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XQ9k6tlq; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1751622768; c=relaxed/simple;
+	bh=fJk3jJe2GsDsuplJHVKGRlGVC8VaPj6RPnuA5RW6v/s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tjBpYQ568gp/QwWY2g1HS19eOeTZAvhcRjgFiYLeVJ8Yr8Cwynaqnffiivtu+kgzSEOo/pzzUDIyBKWegVz3T+dE8QTxMzfWgVd7GUxYcXbs+kBpgDdGmwv2hO4K3+5plgFvLz9UILzcsqzXH1551FCBv9rW1na5o8k4IR1VRM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MEjncjEv; arc=none smtp.client-ip=209.85.208.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XQ9k6tlq"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a4e742dc97so1200813f8f.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 04 Jul 2025 02:20:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MEjncjEv"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-32b5226e6beso7284911fa.2
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 04 Jul 2025 02:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751620828; x=1752225628; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1751622765; x=1752227565; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u+Ik9FB2BHF2LFVVV6mpBekWZ6EW7mXHVXys5mfnlr0=;
-        b=XQ9k6tlqAttVQ5qfTGODwUENVXNN78lpClaTdC2WGGJ+C4mGbeO6Vp5A6JImtabjGz
-         YDx7wyYSdSgQDY9yEBWnOhNCtxmVQGpYNB/PqH1rpYOJuzEUWMbcitLfGZUSPysvnMXO
-         6/f33UdviEXRbtuNW5hXl7ZzWB1EY7/tLTnkEwiAHbpbWCZ1AZI8CPSMpQW/MCRIgyXD
-         AJE0viu7tGlGLwVw+9awHjSM1YEbPl/u+5CRGQOCeNPhnzIjYdqCcBWUSobKFyTKt9K/
-         8dSE6icagwfqTZxrOL9GxwVZ8WLqXFHlhTr9KxQfMDNPz8bFrepWTFJtEyMWDAslcFX0
-         Af6A==
+        bh=rtcggWI0EUkrnHdnx97WWYML+IOpgM/8IBDpI/ZQAlw=;
+        b=MEjncjEvUUkglM3I04JJRCGd7jKowgncVr9Z0LeeImBXRH4Pgc8bP1fOeOi9GNLDHG
+         xTepEBAVnLcKo/Qh8PUz1T1wBHqHrtiR9RLWoj+RXEtGtkGuKp8zPCKoW6ny7ovCp28K
+         Owj6QPq5pqfUYrz02JeL7T+x1R5Wwl3erzbNyAlDzGoZn/j3mgFPNIxFOapmTfdEvYaW
+         o8TtSsbtCe24k3PdTPHpDHLjNeEYvtI1cLJBrTrTqhfe/RsO8hRrNNwGzOEIUMnm2PMw
+         cR/LKc5vrSTBXtYF7JXV7k8bIkCppfrjQ7WYt6vE/7L3V/O6Q9l9jLbgDDJ00tGDPdP5
+         aD1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751620828; x=1752225628;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1751622765; x=1752227565;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=u+Ik9FB2BHF2LFVVV6mpBekWZ6EW7mXHVXys5mfnlr0=;
-        b=jyQc0isBbXyXgQgHrgALpyUuRkduGQZzk0Nuxr6jQSc9SqmpD/6kcBgGdAr8l+AAgG
-         Q4/Vl28nel2r/+bXLJLcx9JgXdhDIDZ9v491etikidAQlspLUC0H0p6y7m7ChV9iK78q
-         M+BDVY05uWyqZD8g1Msi3RUd1n4tVdQhMcaWrYUAucGcvs91AN5NVeNueGzuUz4tgNPz
-         xEXylZVeu7j7Uryexw5vyU5J23GBvYqRTPT/lT/06hUpl/oFMcVlWFq6UahRGuvxboim
-         Ah6H0Ite5XrBe20NNhfXBKL52U1jqGUDLIOCM8Ow+9CWCezVAeTQZjJXyA0YKotOo06+
-         e1eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU6Zq3anCrjCLg4+cpp8bgotPmcACbRzAFj9hyARJccoikdMQykgzDPOrreIAlxKHXEdDvQVlzVT73Mz/6Kbz8YrtsutA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw1BDnFygHax4Wtqt18iixn4ygkc66144721jU+UUJV1OH23vyt
-	re1HjdEbcyNsX0237tEVCcCNNqw0K1M6bIYrtyj7/gItQHIAvic182AX
-X-Gm-Gg: ASbGncuZqcid19GiGTaPJDJZJ0Y5IYoMjlUUHJbvJSzYwUbXgnNFNyGvEXm0E90HITP
-	osyJZbXW5RUQAJupaeacRpCl9jDC6bWuaX/q0mAjaO2kNTNPoLIEtBNXXGSvhisq4t+VluW6ToV
-	kedypBF0Oay8dBBCtU7J40+f2PiTPhFHTX+F51D0lxpUYHa9hFPrX5nSafY5mQvwxx7+PAUm8ZL
-	bVTUmEuC+FVjZlCuUpoASwtltk+FJtUiu8FOTWXOfPL+oI7NkSc2Fkm3YhHJ9jS35NhvFA/qCUK
-	t2QmTvFPiByMlKAezdyUGjbYr4tkkSHJAPEkRnltE+90Z72+0VsrLY2twoorWVKIbZEuwEC6M8f
-	0lGFsQwVtnHDY7A+ZoQ==
-X-Google-Smtp-Source: AGHT+IFrlNc7sZqyAZg5GPKF/fl2jdn72qDl3Dccv12xQ9nx91zaIVbtMctI2uw/u5xVcuxpGQSwcw==
-X-Received: by 2002:a05:6000:4601:b0:3a3:64b9:773 with SMTP id ffacd0b85a97d-3b495b9442fmr1765994f8f.10.1751620827681;
-        Fri, 04 Jul 2025 02:20:27 -0700 (PDT)
-Received: from pumpkin (host-92-21-58-28.as13285.net. [92.21.58.28])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47285c4f9sm1945049f8f.88.2025.07.04.02.20.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 02:20:27 -0700 (PDT)
-Date: Fri, 4 Jul 2025 10:20:07 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Usman Akinyemi <usmanakinyemi202@gmail.com>
-Cc: peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
- namhyung@kernel.org, mark.rutland@arm.com,
- alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com,
- adrian.hunter@intel.com, kan.liang@linux.intel.com, james.clark@linaro.org,
- linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] perf/x86: Replace strncpy() with memcpy() for vendor
- string
-Message-ID: <20250704102007.6354ce9f@pumpkin>
-In-Reply-To: <20250618215843.109941-1-usmanakinyemi202@gmail.com>
-References: <20250618215843.109941-1-usmanakinyemi202@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        bh=rtcggWI0EUkrnHdnx97WWYML+IOpgM/8IBDpI/ZQAlw=;
+        b=ni0FsjGbjNSaELtb9VjQyy9onPiR3xVTVg/3w5RNacRxz4FCGya5bc+O2sI8HrMA/m
+         GXjvSw8u/l0mw/w0guDX+Zy+1MBOs4opGmjaMCmTcgH+KESbQtONFZ1ZgQGbbnpmhLb+
+         aeQBs64/P27BhwoxznzF/gt5neS97TjZdG8AzvJQSOaIt6fx1wVZlnnuArwtKOzibtL6
+         +uHZfafC9KPkkK0ltLKxO7dPRXvnWKFyckYARmQCayf4oFGtOKtceP2x7OQ4RdjvCffv
+         KjfpwutXwTFtIVFAOzUvw6vudqXySKUzTWU809hife+lTvme1wiwQaTrXU2w9tHcBcxX
+         uM2w==
+X-Forwarded-Encrypted: i=1; AJvYcCUbgSpFxsXORtaQ3ATAGTVpYm211TiZNsVQHkuJ76pwsA8SxE/6tg2JtHbDJInAo6q5EP1CzZUSVbQoExqkoZYVv1+2TA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzqPBzq5UuiwJH0VyCff/6n2L0VAHmSjFTxYenYcUviC/uDF+1x
+	/9AS6xjtgZhuZ3X5v7sSsZCOiIsP0oGcmz6ne/ZFaPuk0+fXNUngHRll+YqyYfGWee2Yxgm/aae
+	4p36yq20Gk/WjRUcOB8z+WCO2T1KvnaE=
+X-Gm-Gg: ASbGncuLpf4w2Lw7YmdOHWpTXbZRTglK879rLFttTkvCHGAC5uLVzJ2qcMfFurN0fqM
+	9uuHV5SAk9TV9I/EQKRBYECQVXmtOpHAoYVhluO5vyCwdqEjihhEz7q9uXBwMp7H9LMvJ4mJUIg
+	fBtOkMuyIoNvI6AgY4XY91PUMKjGW6acopovTvyd1GDtbk/egm4mumoH/mgVBuMPvbB9G2tmgbv
+	8ge
+X-Google-Smtp-Source: AGHT+IEQJtvURip5Eo1r+T3XuSDUEc12iPmo7gyNNW171IOi7PFDjp+RgiXo0ZnKbXQHoCybXScYJr7aE+3jHaGkQBc=
+X-Received: by 2002:a05:651c:2220:b0:32a:7332:bf7a with SMTP id
+ 38308e7fff4ca-32f00c93008mr4007081fa.13.1751622764562; Fri, 04 Jul 2025
+ 02:52:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <nrq9MPwFBIHZRQzC6iAdiUz7uvBdbqKNxdfM8Jus8lTDZCwtPkFMjtJ1V5mkcpX0YX34TYNOddSEOgsXngLtHQ==@protonmail.internalid>
+ <20250704072604.13605-1-pranav.tyagi03@gmail.com> <y5d46toqsrrbqfxfioo5yqo532tzqh3f2arsidbe4gq4w3jdqp@rktbxszwtsbh>
+In-Reply-To: <y5d46toqsrrbqfxfioo5yqo532tzqh3f2arsidbe4gq4w3jdqp@rktbxszwtsbh>
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Date: Fri, 4 Jul 2025 15:22:33 +0530
+X-Gm-Features: Ac12FXyB3Xh9rJNctZ8qbUMoAf9rw6VaTvRVqfUEGOT7ePXJYmEJ14PIuqSHVSM
+Message-ID: <CAH4c4j+Hz8HNzxZhe0DzDAN8vUS3vGN+SL1iMJuXL29AnmQ0cg@mail.gmail.com>
+Subject: Re: [PATCH] fs/xfs: replace strncpy with memtostr_pad()
+To: Carlos Maiolino <cem@kernel.org>
+Cc: linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, djwong@kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	kernel test robot <oliver.sang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 19 Jun 2025 03:28:43 +0530
-Usman Akinyemi <usmanakinyemi202@gmail.com> wrote:
+On Fri, Jul 4, 2025 at 2:22=E2=80=AFPM Carlos Maiolino <cem@kernel.org> wro=
+te:
+>
+> On Fri, Jul 04, 2025 at 12:56:04PM +0530, Pranav Tyagi wrote:
+> > Replace the deprecated strncpy() with memtostr_pad(). This also avoids
+> > the need for separate zeroing using memset(). Mark sb_fname buffer with
+> > __nonstring as its size is XFSLABEL_MAX and so no terminating NULL for
+> > sb_fname.
+> >
+> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> > Reported-by: kernel test robot <oliver.sang@intel.com>
+> > Closes: https://lore.kernel.org/oe-lkp/202506300953.8b18c4e0-lkp@intel.=
+com
+>
+> Hi Pranav.
+>
+> Please Read the kernel-test-robot email:
+>
+> "
+> If you fix the issue in a separate patch/commit (i.e. not just a new
+> version of the same patch/commit), kindly add following tags...
+> "
+>
+> Those tags shouldn't be added here as you are not fixing anything, your
+> previous patch have not been committed.
+>
+> Cheers,
+> Carlos
+>
+Hi Carlos,
 
-> strncpy() is unsafe for fixed-size binary data as
-> it may not NUL-terminate and is deprecated for such
-> usage. Since we're copying raw CPUID register values,
-> memcpy() is the correct and safe choice.
-> 
-> Signed-off-by: Usman Akinyemi <usmanakinyemi202@gmail.com>
-> ---
->  tools/perf/arch/x86/util/header.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tools/perf/arch/x86/util/header.c b/tools/perf/arch/x86/util/header.c
-> index 412977f8aa83..43ba55627817 100644
-> --- a/tools/perf/arch/x86/util/header.c
-> +++ b/tools/perf/arch/x86/util/header.c
-> @@ -16,9 +16,9 @@ void get_cpuid_0(char *vendor, unsigned int *lvl)
->  	unsigned int b, c, d;
->  
->  	cpuid(0, 0, lvl, &b, &c, &d);
-> -	strncpy(&vendor[0], (char *)(&b), 4);
-> -	strncpy(&vendor[4], (char *)(&d), 4);
-> -	strncpy(&vendor[8], (char *)(&c), 4);
-> +	memcpy(&vendor[0], (char *)(&b), 4);
-> +	memcpy(&vendor[4], (char *)(&d), 4);
-> +	memcpy(&vendor[8], (char *)(&c), 4);
+Thanks for the clarification. I was confused and thought that "separate
+patch" referred to correcting the original one and resending it separately.
+I=E2=80=99ll remove the tags and send a v2 shortly.
 
-Why not:
-	cpuid(0, 0, lvl, (void *)vendor, (void *)(vendor + 8), (void *)(vendor + 4));
+Regards
+Pranav Tyagi
 
-
->  	vendor[12] = '\0';
->  }
->  
-
+> > ---
+> >  fs/xfs/libxfs/xfs_format.h | 2 +-
+> >  fs/xfs/xfs_ioctl.c         | 3 +--
+> >  2 files changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
+> > index 9566a7623365..779dac59b1f3 100644
+> > --- a/fs/xfs/libxfs/xfs_format.h
+> > +++ b/fs/xfs/libxfs/xfs_format.h
+> > @@ -112,7 +112,7 @@ typedef struct xfs_sb {
+> >       uint16_t        sb_sectsize;    /* volume sector size, bytes */
+> >       uint16_t        sb_inodesize;   /* inode size, bytes */
+> >       uint16_t        sb_inopblock;   /* inodes per block */
+> > -     char            sb_fname[XFSLABEL_MAX]; /* file system name */
+> > +     char            sb_fname[XFSLABEL_MAX] __nonstring; /* file syste=
+m name */
+> >       uint8_t         sb_blocklog;    /* log2 of sb_blocksize */
+> >       uint8_t         sb_sectlog;     /* log2 of sb_sectsize */
+> >       uint8_t         sb_inodelog;    /* log2 of sb_inodesize */
+> > diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
+> > index d250f7f74e3b..c3e8c5c1084f 100644
+> > --- a/fs/xfs/xfs_ioctl.c
+> > +++ b/fs/xfs/xfs_ioctl.c
+> > @@ -990,9 +990,8 @@ xfs_ioc_getlabel(
+> >       BUILD_BUG_ON(sizeof(sbp->sb_fname) > FSLABEL_MAX);
+> >
+> >       /* 1 larger than sb_fname, so this ensures a trailing NUL char */
+> > -     memset(label, 0, sizeof(label));
+> >       spin_lock(&mp->m_sb_lock);
+> > -     strncpy(label, sbp->sb_fname, XFSLABEL_MAX);
+> > +     memtostr_pad(label, sbp->sb_fname);
+> >       spin_unlock(&mp->m_sb_lock);
+> >
+> >       if (copy_to_user(user_label, label, sizeof(label)))
+> > --
+> > 2.49.0
+> >
