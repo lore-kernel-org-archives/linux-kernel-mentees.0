@@ -1,104 +1,123 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D98F33DF
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  4 Jul 2025 01:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3B828725F
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  4 Jul 2025 07:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751594248; cv=none; b=WeXPlxPbwN5AEacwFY4oxi54CTRsv1xaa3/qRR8JFuGabLNXa+WKZv4+eegvHG8leZGABHiirNJm+08cuPGoKzuXJIRe1mJ2teN83QpmuXQuKWhXOnMZJI8C2CeII1RjCeMIHi3nlWsmwO6DH3v8PA6XP24gqsiijc1DsRFvbjU=
+	t=1751613981; cv=none; b=Ovd4oxjqNXwR+/tXdO6Q2TSJFablwPNjBMVx0LFUADE6mwpEIRy96JlVgUwNK0KcDVrSFLHH0b1zG0NIlopxDhwtk6Jmuj8RKEwNYx+u84ACNHalJXVf47fmRhwkOE8ZU3a0AKzNROVYBz0RrcEWepP6eks3s9po6SbY5YdaGvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751594248; c=relaxed/simple;
-	bh=OoCZq6LdsFnIFXOYI9tB7SS91E2B0eFrGNPYaxleC80=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ffHiYO4pCCqMy0c9bTBZ8BfWmVzUtdXwfX0j/SHWXquee8sWFXgLEJUBVtcG9plycccCrChKy280yYjdbtvkHd50mWjqnM4BrSAsB+8/xP36QSF96iGf9c6S4ezdFlT3CYzKdHf50YRJTa55NPNSwAtBiVobehTCZ8nZ9vza4MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=giNB8HqJ; arc=none smtp.client-ip=209.85.166.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1751613981; c=relaxed/simple;
+	bh=Upigb2pu4dZf0sT6kkLAt84b8rlfCgQMY6Qq/ZtbZrY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dBqhspb5ucFkOTciPzq2UHI4Yjpwer+hwSGvACW3Y7dRufn0/xpxmiw2EGlzdGZRvtiMkIkCGDkjK/YifPbG+tMWeyy8AHQuZCpuaJ9E3ieYB7cqkTFmI18gOYJoV09J6652NMpsySvBVBpGrLgrUvUfUIxgfiyqbVE6aklX0DE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JyRSD6jS; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="giNB8HqJ"
-Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-86d0168616aso46301639f.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 03 Jul 2025 18:57:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JyRSD6jS"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-235f9e87f78so8114835ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 04 Jul 2025 00:26:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1751594245; x=1752199045; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QcpGOYJoS+x1DjWEeDlJG5WLQCM2ycI6S4ggaBmrR7U=;
-        b=giNB8HqJIqV5MuajqZw5YXXxX0TzJOblNhn+YM0ZYx1S/L+zQrELqAycSCmZus+LXB
-         kIq0awQXZe04cLG+Ir4yLizlqg7coNqpY1jfL2svp07b5RQ+fi3b+HVl4ryR/3Pydy5d
-         5xQ8+0DslaNQER23Aseu/pdzVGMGVahcIYe8OanMAg9+HQoethKYFQq68GLuyOLIvI3v
-         WSBy1GsbV5Mo3k09yHNz/8Kj4tChLdFk2eT4Gbl+Cgj4OkZR0cxRBqi+zw2wdOXC0YIX
-         dhoFQaZ6q43Ddpktwg39gHXMr4weL4LViGo+HzvOgI5bM4V2BJluv+GfBdt/PHbTVxlv
-         O/Lg==
+        d=gmail.com; s=20230601; t=1751613978; x=1752218778; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kDxuxUDgUgDkcVZdx4yl7cOtfH39Xq3bSHZLoPDyb9E=;
+        b=JyRSD6jSzilt4MHnONDHrT27gb1i+PIeesSJArjVmAcR7UpSztByGSnQxpSMDCvRm7
+         ATxaf6+TPWX11ogDFln+WLPmOZIym+coNzBFDK4IMbfHt68jFvaJbHx2bTfBS5GZrIS7
+         vBMtT6sfJjUXsSafamGfmxvgy6GjskVTtWb/Vc64JyKQpy4YPzpU62de9UEyCLCrIzu7
+         xQ1HLqXmrIzppbcufsEd1xjRGY872edhCf6KaQxxjY04d3rS1Jyo5fJVstldp9c7BHtY
+         k8q3skIX4zEU8+fHSAeyxugB/ijZM5vXBWpwVT/CIy2zeuQ94hqj0acanpLx491X702v
+         KcxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751594245; x=1752199045;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QcpGOYJoS+x1DjWEeDlJG5WLQCM2ycI6S4ggaBmrR7U=;
-        b=fl21BrFVSJ44oLf/q6WlVEcqre0C5+GGR1RQ6ud/Qk1YspGSoD6nbSBDwHFqi1oaVg
-         XzhPX3+u+lIKq3SBNL8jJjV9eg6zrEbK6jNXYahYcqPB+Ih4xGPSPGtaVBtN5sdduNam
-         h3sENf4fI8CNRzjoip51h5kx3ubQqXoJx+LSiVPR/Zj31OFUb+BSRJNY9/V9Ta9qJOb4
-         ZGWkjUGNryqgfUjG22h917slTZnJBAgNWB4YAsdcAYPBwu81XDFKevCnLJkFxz3PwS+e
-         7G2R09P135BEKSsXBme6nGy01McCittiEzhfkzxOefm0DChbwa1j2BOSlESt55wVBJqo
-         ylMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXEF+g2W6F1vt+KvtQGP0P4w9ox0W/OUevmd8P8OrfsLyJMBAKknsHxrDSBATzUU4S5icIePvMqtVbwoWgIw14fkIuNA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzd+cEi9l2lBItAYE+n86Cfu55UkXyKRHO5TV8PgnMiEP9tPjDW
-	vTwMubxiDDOURAnsmHtL4NzgRq/x4ufSm+Wp5iMktprU89fGkwMLX5RivYUdCd9lDBU=
-X-Gm-Gg: ASbGncssJRjHDqaIZwrylxrNY3ab4QolDnxfZmr2ZeZTfkVo2ynSQN2NKRPh5Q34wGM
-	i0MVy4cHGtym9U4BQtdOJlNeCF4H+1iRSeGYYNydSS8cmV0/OBZXvtaiWeOiAzE6w3+gfkcVlQ6
-	YOKPiQ0PQG+L01SSrGibMAEOrichxYeXdFGe5I0xbXluYXOzWaTRI4CtNHawylNkLBZmyzmc+DT
-	wymuHdypxmCftLmQPlSqK+75nDaXSofFEAXTIh5wNa0v5HlQ7K3uK+QCXzEKtzMOEUwf8vPLT7J
-	Gn9ABhKHYCg6YEOgwX4CcJfycwAOtwb8xdGQid4oM5FsJH7tUxCcjETHXn3MQYob
-X-Google-Smtp-Source: AGHT+IGUGe/QPbULYs8yVIdrGcRGsydBwpQMFK+/9rqX/ujQ16crNXvpMjb/DcznQMGXzDKwDWM1cg==
-X-Received: by 2002:a05:6602:29c6:b0:875:acf6:20f with SMTP id ca18e2360f4ac-876e490c7famr9887639f.10.1751594245338;
-        Thu, 03 Jul 2025 18:57:25 -0700 (PDT)
-Received: from [127.0.0.1] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-503b5c38a6bsm218292173.120.2025.07.03.18.57.24
+        d=1e100.net; s=20230601; t=1751613978; x=1752218778;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kDxuxUDgUgDkcVZdx4yl7cOtfH39Xq3bSHZLoPDyb9E=;
+        b=mq/7AZa1Qb9cw71EIVlOaSlw8ugzxgImEPJ4eUhw7S/mrq/5dnCjIHcU/LoNymUdq4
+         LJ2yDUydHYjy1886eEWAEyub/DKN+S2lyJPYaNTdaf4NJe+mFxeYVelhC6KyvhHg6P+h
+         SMEiQRdLkIkj9KfysNY631JSF8Q2YgJuZI+fB1MOR45E70kHCQRlsxYivuyhxa3449zv
+         KQqVz+kJhNCLr7quCm1WNMU9ipBnYoeJzTjPJ5+ac6HE1CYopleyQQVad7B+ebiAoCwl
+         oOVtkLOjC2ognrXYtkYOGS9G8GTSM7luIVzDvX2V+45jdnQpNI32Yv1idjtfLboFREy6
+         WNlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUTOohNboVTF+2oDvh2Yi2YMIPzvgx8g4G0ZZqSQ9xszMY2MUhabL3Z0aP1ckNydyljF+gNnd3UVLt+gY1p/JTq7hQHug==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzrFaHXpaHG6nqHcZYJE0pTbAkhMuf/Xz1/gSF49maG3DIi8yxm
+	ya3eZpLzyg9timBdULD1ngpD5eiaDJm9FwqSxun+zjNjbI6UNmg8BTdB
+X-Gm-Gg: ASbGnctXiMwYLT2ZeofeJ38VpMpChv7CzL8gaDln2hmJ7+lwXWTBCDfTL9qhKvQMxvL
+	8WFueUO8HTBwHmike7sIcHPR97UA1IyPXas8rYq5CHpHK/FEjBFA+LgHVGKBiCGw3Df47u0hIj3
+	eBycy3TJmB3iqYw/wO8I22hDdbtndlikfJH85TzswDwUFc/+iaMlrWaiWVAwiEkhLb9Ul9s5UpK
+	ipWgtyqX3GKp4ZfO2fLlQNLp7czYPp1gIkPZgPQcV2jTK/ZAneCm0rK1BZZ7tOEoUJyT5FcCsj8
+	2BifIGq6ply0D7tTFtAw6312pkPVmX984B+tSRSHjeiTU1D8E+Df4r7AE7QNZmoPXFYMre7RwIX
+	GV2bTXL3lIqsOdDFD
+X-Google-Smtp-Source: AGHT+IF868eyucOmTptTbQbUozxpL8rfVAZcdj+zsUMVFE1ZmgFNdh9GJcoKkdvBbd8xKBaEX3JDJw==
+X-Received: by 2002:a17:902:fc48:b0:235:27b6:a891 with SMTP id d9443c01a7336-23c85e772c8mr31057695ad.28.1751613978318;
+        Fri, 04 Jul 2025 00:26:18 -0700 (PDT)
+Received: from manjaro.domain.name ([2401:4900:1c30:6f3f:3d1:c4c0:3855:2a18])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8455dafcsm13455985ad.96.2025.07.04.00.26.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 18:57:24 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: minchan@kernel.org, senozhatsky@chromium.org, 
- Rahul Kumar <rk0006818@gmail.com>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-In-Reply-To: <20250627035256.1120740-1-rk0006818@gmail.com>
-References: <20250627035256.1120740-1-rk0006818@gmail.com>
-Subject: Re: [PATCH] block: zram: replace scnprintf() with sysfs_emit() in
- *_show() functions
-Message-Id: <175159424438.587194.16568667665048848339.b4-ty@kernel.dk>
-Date: Thu, 03 Jul 2025 19:57:24 -0600
+        Fri, 04 Jul 2025 00:26:17 -0700 (PDT)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: cem@kernel.org,
+	djwong@kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>,
+	kernel test robot <oliver.sang@intel.com>
+Subject: [PATCH] fs/xfs: replace strncpy with memtostr_pad()
+Date: Fri,  4 Jul 2025 12:56:04 +0530
+Message-ID: <20250704072604.13605-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-d7477
+Content-Transfer-Encoding: 8bit
 
+Replace the deprecated strncpy() with memtostr_pad(). This also avoids
+the need for separate zeroing using memset(). Mark sb_fname buffer with
+__nonstring as its size is XFSLABEL_MAX and so no terminating NULL for
+sb_fname.
 
-On Fri, 27 Jun 2025 09:22:56 +0530, Rahul Kumar wrote:
-> Replace scnprintf() with sysfs_emit() or sysfs_emit_at() in sysfs
-> *_show() functions in zram_drv.c to follow the kernel's guidelines
-> from Documentation/filesystems/sysfs.rst.
-> 
-> This improves consistency, safety, and makes the code easier to
-> maintain and update in the future.
-> 
-> [...]
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Reported-by: kernel test robot <oliver.sang@intel.com>
+Closes: https://lore.kernel.org/oe-lkp/202506300953.8b18c4e0-lkp@intel.com
+---
+ fs/xfs/libxfs/xfs_format.h | 2 +-
+ fs/xfs/xfs_ioctl.c         | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-Applied, thanks!
-
-[1/1] block: zram: replace scnprintf() with sysfs_emit() in *_show() functions
-      commit: 264a3fdab2365395e43d3a0b40162a29e61ffa22
-[1/1] zram: pass buffer offset to zcomp_available_show()
-      commit: e74a1c6a8e8af2422fce125c29b14f1d3fab5b5c
-
-Best regards,
+diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
+index 9566a7623365..779dac59b1f3 100644
+--- a/fs/xfs/libxfs/xfs_format.h
++++ b/fs/xfs/libxfs/xfs_format.h
+@@ -112,7 +112,7 @@ typedef struct xfs_sb {
+ 	uint16_t	sb_sectsize;	/* volume sector size, bytes */
+ 	uint16_t	sb_inodesize;	/* inode size, bytes */
+ 	uint16_t	sb_inopblock;	/* inodes per block */
+-	char		sb_fname[XFSLABEL_MAX]; /* file system name */
++	char		sb_fname[XFSLABEL_MAX] __nonstring; /* file system name */
+ 	uint8_t		sb_blocklog;	/* log2 of sb_blocksize */
+ 	uint8_t		sb_sectlog;	/* log2 of sb_sectsize */
+ 	uint8_t		sb_inodelog;	/* log2 of sb_inodesize */
+diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
+index d250f7f74e3b..c3e8c5c1084f 100644
+--- a/fs/xfs/xfs_ioctl.c
++++ b/fs/xfs/xfs_ioctl.c
+@@ -990,9 +990,8 @@ xfs_ioc_getlabel(
+ 	BUILD_BUG_ON(sizeof(sbp->sb_fname) > FSLABEL_MAX);
+ 
+ 	/* 1 larger than sb_fname, so this ensures a trailing NUL char */
+-	memset(label, 0, sizeof(label));
+ 	spin_lock(&mp->m_sb_lock);
+-	strncpy(label, sbp->sb_fname, XFSLABEL_MAX);
++	memtostr_pad(label, sbp->sb_fname);
+ 	spin_unlock(&mp->m_sb_lock);
+ 
+ 	if (copy_to_user(user_label, label, sizeof(label)))
 -- 
-Jens Axboe
-
-
+2.49.0
 
