@@ -1,263 +1,164 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CEC309DCE;
-	Fri,  4 Jul 2025 16:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9261117B50F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Jul 2025 05:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751645461; cv=none; b=Q/iTtU8LlKakDDA38AWl7KLRPXII9sXiJ4OLosS25F/WppRs1vgRMVuKvfcj8anwHooBOm8SnvVK2PAGMw1rj+TKt/VFf3H/r/7SMYhSdvoIOVdRkqnIrRVTpkcSTVgBeuCUKTN+YFZkbHgLTViIkho6VE2pKMY7TUMFhEX11Tw=
+	t=1751692179; cv=none; b=uFD4ryVWZlvhwy0zQGh7avnJMe1eUi8Lm/BX9iPdd24evnq6GPlE8j5dpEl8Bhv16iWiQ33Y3lAeB9huVdTCPatDs5DCbagA4mCnKyC2C7nzlbo/TJNnVigkUWLLHDY5geopMB2UV3xCHtzGwN0zLJ6bG6qxwv8Cfkes4Y1b0RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751645461; c=relaxed/simple;
-	bh=cwdZtGz3IXQ1EG/p34K3KVA9kUdd0ZAHJagpVOIanHA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VGYHwMPGFZl0og21crruIXT+By+fjiuPYm+CmhFOK1MHcaJm/uv5vMRHNuyaYSNFfCnzL1XAbSakxvzVqOqmP8GoPmIwq5HeXFK/YJHiYOqnAnW/iabKzyiYqQBckGrv67/gC/ArMsGa4LaGvyWsoNJWjY697DK3giIQ0csmnvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dqa0HdUO; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751692179; c=relaxed/simple;
+	bh=3C351zXaKNZkvaAEmTZH4DhXiQkWrXqhX8EEeSNlyjY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iX+ClguauXzbhLo+7KWSTONHmirc8m5nCCyP7HE14HtUS54zyuCe39MGeOsFAEolO6EKr+kNdiO9rHInfEDv+QYQCkfejgT92dBDk0Lu3trmplSfN/44mH8bIv58p8mwllaLKARU1xtF2RTlVgpqmCUGTMOmzj3MkY4Ulkazc4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XwMkiJOk; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dqa0HdUO"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ae0df0bb8fbso18709166b.3;
-        Fri, 04 Jul 2025 09:10:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XwMkiJOk"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1A38160688
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Jul 2025 05:09:38 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 4lmLBPkUySR2 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  5 Jul 2025 05:09:37 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::229; helo=mail-oi1-x229.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 7221260822
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7221260822
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XwMkiJOk
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 7221260822
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Jul 2025 05:09:37 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id 5614622812f47-4067ac8f6cdso1174334b6e.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 04 Jul 2025 22:09:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751645458; x=1752250258; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TWKv6PM/BcPQ/i8arO/1LhjBpgoq9M2qMlX7Y0R2Fpg=;
-        b=dqa0HdUOl4yPn0qQI30b5654uN7euhxtmJGMom7096qa9qEr2dO+qKrVt3DzzjVGOT
-         rRN6QVmjTmkXSTEZCv35+yrtWachzd9jYpHeU5DZyUXKY+qOG0uR5KNuT8ZsYIx7RypN
-         jZC0RnoTdFh/u7RIiHlekI5gNLLcQzSBZtM+OQXO1ZmM0Uc3S4ef2eUwYT+D4sYedtbt
-         L8VfBoM2MEB6iBCbcGUZHojqbARkTVtnkno4s5MZOicJkT1qD3XYfrQ6SxvLX9Co8jij
-         j8uqeRCUX1JzABYBTEUdiP0A8BLX1IZ3A2CsbuVbaID8KxbqpYdxh4SzUstnQ2HQ3DrG
-         qN3g==
+        d=gmail.com; s=20230601; t=1751692176; x=1752296976; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DMci5qtDxPxCQhNXMosu45LJdV+xYetyKg8i0aR49bg=;
+        b=XwMkiJOk18GLKasK6D5Aziv0PGFXiiPMrU8FYngn4uMiz4Auw6tVLy1qMTXgv5GQNd
+         tVupiBF5kK5oyunN52Y1k6G2c2StFXP4RW06PxZIeXppp0Pp3qST0nsLAa3/ntBMTLrx
+         eDDV1e05aPVfqURm0H7ohT6W1Q5osTV02m29NJzUKw7rkeAf4EYlqkX/sXbHbaIRbVea
+         42kbUMV1ssGiOKvet9R8rP1tzesFQtru9JfM0wJlYxx427dDOhsiN0Wq1PK3NJXWhLFz
+         Tc+gAp0raURCzkMoHtvk6kkAGIrTsxNZLX77yZLROLTBW7wZHztUSQuNVpK9gdg8STxu
+         yr+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751645458; x=1752250258;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TWKv6PM/BcPQ/i8arO/1LhjBpgoq9M2qMlX7Y0R2Fpg=;
-        b=Xzno7llc+os9KjNfNL86iNjdU2X+LefBAiYXnbt1ygJIWuwcyqUvitv1QI6VyeJnYv
-         IYNjkF9zvkPP20xYO6hdtu9mtukcu9vecEC4TGHAbUNk1Dq1pqI+2J1FWpS8kjlBSICE
-         3IhxNJgtSIbuMX+P1VfwPhsMuIAa1gJgRQC8ZTmh2tuK81jvgjNtVq0DZYeXEJYxd17S
-         h52lPbmRwUgFCJIS+MWgkQeEc/nN/UBPGbFdtNdN5BUVV+8pXDs6IxO/sXjtfnBAg2ri
-         nq2gMpNI0CXewSk6Qrbo0QdAkJOQOjFESMQ5M8BhH/o6XIGzVbxtJq/IPIkqF7nLcZaY
-         27Nw==
-X-Forwarded-Encrypted: i=1; AJvYcCUvE6YoAWLvmjXGkVayEw86WQeEZXu9s/FiwHo+R/7c0NTgLu7kWIkSm8zpKaYRnTEGZmcUZ9mcdzNXASPdxw==@lists.linux.dev, AJvYcCVz3Ss0C6fTpyAnJYC6PB1QHhhCCiowGD50g6bIQOcPac1Fw96K0+o0p3SIVHr7eiru+lm92d73ZdG0eUHmm2cnPpTywA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YydhHzcfpK9f/HLFccLrlhqNLAXXBSar2yKzingjLvTQiCTvER7
-	GQNUZVVjmABafkTeJBtkvalrjX3pMpbUGYfeqdbGFEI7s4HHT+k7hSU5
-X-Gm-Gg: ASbGncvXUvGZ+z2lgGDPQP8bz/meGxt2opFwOt2iv3aLYXQ6wQPvLALfA5PUvwReKpa
-	D338w1fOKZWhBy9oGjzTcdG8bMFfMUi5Gzp5q6hFYE6Rlagif9Fzz9VobuzbZaJ8MStJVXL+GVo
-	cxkvWe1CXnu2ywBZ8Snc7kFcFNvWEeYc3cg7Ictzj3qDe1uzgZBQlWlkT0Xzylwu9Tl9MYOtg1l
-	BD8o1/rsH20t5jTMlvDRvKp389lcza6Po3JOuMrpg0FDYdlnLsnFhCsl0bGQDgbt7q4ZViHO43t
-	KgDKN84Yn/cvU0dY/KqTiL4We9gAfPqK4+F/bGYqjd6ZUj+Rxyf0GPIGMdDU5ZAljESq08kKZgg
-	oroxThtf/FwKGYFPGKuTz6IAB7NkPveLx
-X-Google-Smtp-Source: AGHT+IEi7/w7Pg0qVqgIrY+90Z1GOtJ0vUjMDQm+fZE47PMuaudthmL0Fjysm83XElDu8wKctqr5kA==
-X-Received: by 2002:a17:906:f583:b0:ade:40ed:9f3e with SMTP id a640c23a62f3a-ae3fbe6027amr111119666b.0.1751645457649;
-        Fri, 04 Jul 2025 09:10:57 -0700 (PDT)
-Received: from localhost.localdomain ([41.37.222.172])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f6b04d30sm192940066b.133.2025.07.04.09.10.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 09:10:57 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH v3] staging: media: atomisp: Remove custom sysfs attributes from atomisp_drvfs.c
-Date: Fri,  4 Jul 2025 19:10:51 +0300
-Message-Id: <20250704161051.16733-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1751692176; x=1752296976;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DMci5qtDxPxCQhNXMosu45LJdV+xYetyKg8i0aR49bg=;
+        b=Mdmj9iwGuQuqEbRE3VQ4UjfkkHvcYMb2jb4VWKylcUbr/noC7/iFoKpQ2PJZ1xQSSa
+         undwm4eUbLCAkCspsjFr3HVWOHXdGI+W1PAlfBmfIE9tw/gT71ItYe6U8fBuSjE7CuTn
+         TXKeeptQ0g57fgc5y6hYQ8ah2ve4kWwtocBXwYi7KtMBAHMhP4wiP962cpG4zA2y6AyK
+         c7r6YXu9BcEwHOq6yhcasEHSzm/Iv1tMnmyU1yMz3+k9BaWcGxiqGEZT8VNxqBLU4+lZ
+         Gdav88gGR48VdNNDP3f0CgSQXI2lq+3YzKaTXZYEIiMbXGeS0PtW5JZ7GgnKfg8kpZcC
+         7Zpg==
+X-Forwarded-Encrypted: i=1; AJvYcCXMOM+puRaXPWLcwcGAynIb31vJqhWR1ScZPw3GQD2n6I80PIBXdldr62TMhqAG26H8xCRQUllrJ+oCJSFfNCitmNT8oA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yw52ttQSeGuobzcpLrOXVwpQWkU7xS+Gbc7Sf2TTqP6KOrNfjU5
+	zVyaNcKiXfHfJ4gLwyWZ01dPom0DnQUClscxcRFYCAI9xMPy1P9mjS5edWpkuFpj+JpBHTXkqkS
+	dttCKDSz6bf8IegMuF1IxgrqJ1MXhsrU=
+X-Gm-Gg: ASbGncsea61/hsL+D9p7JiWT94zj7eWfp1iMYKr6eYS6yivULEY7MbDV38azgoOzbNU
+	S7PY8NritgfXevd0PY/MGjHBambqzJAS14xc3AUom0j8o+exK7jOtrmNxIRLlL8w97hqr8a02QA
+	dtnVKOpkD8xXnTuW0bkByHlTks0rXdp89TSFlnKWp1z+o2ERNoXiDAits=
+X-Google-Smtp-Source: AGHT+IEFVAApNVakbH9gnhkeeESDuh0C5GYe1c/ZLqBTdYx916A7d0kUrooJJ4SlCZvqHrb8qJOHZjgmeynsloSVeI4=
+X-Received: by 2002:a05:6808:3027:b0:3fa:f848:8dfa with SMTP id
+ 5614622812f47-40d073e03abmr3463576b6e.30.1751692176282; Fri, 04 Jul 2025
+ 22:09:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250626165927.66498-1-marcelomoreira1905@gmail.com> <DB29YAYDK6YW.1NF5I2WSI1BPR@kernel.org>
+In-Reply-To: <DB29YAYDK6YW.1NF5I2WSI1BPR@kernel.org>
+From: Marcelo Moreira <marcelomoreira1905@gmail.com>
+Date: Sat, 5 Jul 2025 02:09:25 -0300
+X-Gm-Features: Ac12FXyjwVkGy5wdiL8UlfvZq9uJJjU263ycqnw9WEXcj2hJBVhhlbztfAnAZ0U
+Message-ID: <CAPZ3m_iqCRYh+XhMip3h=ZWKpw4VPfnRQ6ofmoAnrzKDbOO-PA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/2] rust: revocable: documentation and refactorings
+To: Benno Lossin <lossin@kernel.org>
+Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dakr@kernel.org, ojeda@kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Continue the cleanup of the AtomISP driver as discussed with Hans and Andy
-in [1].
+Em qui., 3 de jul. de 2025 =C3=A0s 05:24, Benno Lossin <lossin@kernel.org> =
+escreveu:
+>
+> On Thu Jun 26, 2025 at 6:59 PM CEST, Marcelo Moreira wrote:
+> > This patch series brings documentation and refactorings to the `Revocab=
+le` type.
+> >
+> > Changes include:
+> > - Clarifying the write invariant and updating associated safety comment=
+s for `Revocable<T>`.
+> > - Splitting the internal `revoke_internal` function into two distinct, =
+explicit functions: `revoke()` (safe, synchronizing with RCU) and `revoke_n=
+osync()` (unsafe, without RCU synchronization), now returning `bool` to ind=
+icate revocation status.
+>
+> Could you wrap your text to a more readable column? Thanks!
 
-Tackle TODO item: "Remove custom sysfs files created by atomisp_drvfs.c":
-- Remove the sysfs attributes `dbglvl`, `dbgfun`, and `dbgopt`.
-- Delete their associated show/store handler functions.
-- Remove the corresponding attribute group definitions.
-- Keep `dbg_attr_groups[]` as an empty array to preserve compatibility.
+Sure! Thanks!
 
-Link: https://lore.kernel.org/all/836dc6b6-2821-47fc-8f24-0838f979af76@kernel.org/ [1]
-Suggested-by: Hans de Goede <hansg@kernel.org>
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
-v3:
-- fix style warning
-v2:
-- modify the reference link line.
+>
+> >
+> > Marcelo Moreira (2):
+> >   rust: revocable: Refactor revocation mechanism to remove generic
+> >     revoke_internal
+> >   rust: revocable: Clarify write invariant and update safety comments
+> >
+> > Changelog
+> > ---------
+> >
+> > Changes since v4:
+> > - Rebased the series onto the latest `rfl/rust-next` to integrate recen=
+t changes, specifically the `bool` return for `revoke()` and `revoke_nosync=
+()`.
+> > - Dropped the "rust: revocable: simplify RevocableGuard for internal sa=
+fety" patch, as the approach of using a direct reference (`&'a T`) for `Rev=
+ocableGuard` was found to be unsound due to Rust's aliasing rules and LLVM'=
+s `dereferencable` attribute guarantees, which require references to remain=
+ valid for the entire function call duration, even if the internal RCU guar=
+d is dropped earlier.
+> > - Refined the `PinnedDrop::drop` `SAFETY` comment based on Benno Lossin=
+'s and Miguel Ojeda's feedback, adopting a more concise and standard Kernel=
+-style bullet point format.
+> > - Corrected a duplicated line in the commit message of the second patch=
+.
+>
+> Now since we had to drop the `RevocableGuard` change, its safety
+> invariant & comment in `deref` is insufficient. It shouldn't have the
+> invariant that the rcu lock is held (since it owns an `rcu::Guard`, that
+> already is guaranteed), but instead it should require that the
+> `data_ref` pointer is valid. That invariant is then used by the safety
+> comment in `deref` to justify dereferencing the pointer.
+>
+> Also, I think it's better to reorder the patches again (since the
+> current first one relies on changes from the second one), the first one
+> should be the change to the invariants section of `Revocable` (so
+> currently the second patch). Then the second and third patches can be
+> the removal of `revoke_internal` and the `RevocableGuard` safety
+> documentation fix.
 
- .../staging/media/atomisp/pci/atomisp_drvfs.c | 138 ------------------
- 1 file changed, 138 deletions(-)
+All right Benno, I'll prepare the comment for `RevocableGuard` and send v6.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-index 31c82c3c0d33..c25fd3ff003d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-@@ -1,9 +1,4 @@
- // SPDX-License-Identifier: GPL-2.0
--/*
-- * Support for atomisp driver sysfs interface
-- *
-- * Copyright (c) 2014 Intel Corporation. All Rights Reserved.
-- */
+The order now is:
+1- Documentation for invariant and updates associated `SAFETY` comments
+2- Remove `revoke_internal` (Refactoring)
+3- `RevocableGuard` safety documentation fix.
 
- #include <linux/device.h>
- #include <linux/err.h>
-@@ -16,140 +11,7 @@
- #include "hmm/hmm.h"
- #include "ia_css_debug.h"
+Thanks! :)
 
--#define OPTION_BIN_LIST			BIT(0)
--#define OPTION_BIN_RUN			BIT(1)
--#define OPTION_VALID			(OPTION_BIN_LIST | OPTION_BIN_RUN)
--
--/*
-- * dbgopt: iunit debug option:
-- *        bit 0: binary list
-- *        bit 1: running binary
-- *        bit 2: memory statistic
-- */
--static unsigned int dbgopt = OPTION_BIN_LIST;
--
--static inline int iunit_dump_dbgopt(struct atomisp_device *isp,
--				    unsigned int opt)
--{
--	int ret = 0;
--
--	if (opt & OPTION_VALID) {
--		if (opt & OPTION_BIN_LIST) {
--			ret = atomisp_css_dump_blob_infor(isp);
--			if (ret) {
--				dev_err(isp->dev, "%s dump blob infor err[ret:%d]\n",
--					__func__, ret);
--				goto opt_err;
--			}
--		}
--
--		if (opt & OPTION_BIN_RUN) {
--			if (isp->asd.streaming) {
--				atomisp_css_dump_sp_raw_copy_linecount(true);
--				atomisp_css_debug_dump_isp_binary();
--			} else {
--				ret = -EPERM;
--				dev_err(isp->dev, "%s dump running bin err[ret:%d]\n",
--					__func__, ret);
--				goto opt_err;
--			}
--		}
--	} else {
--		ret = -EINVAL;
--		dev_err(isp->dev, "%s dump nothing[ret=%d]\n", __func__, ret);
--	}
--
--opt_err:
--	return ret;
--}
--
--static ssize_t dbglvl_show(struct device *dev, struct device_attribute *attr,
--			   char *buf)
--{
--	unsigned int dbglvl = ia_css_debug_get_dtrace_level();
--
--	return sysfs_emit(buf, "dtrace level:%u\n", dbglvl);
--}
--
--static ssize_t dbglvl_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t size)
--{
--	unsigned int dbglvl;
--	int ret;
--
--	ret = kstrtouint(buf, 10, &dbglvl);
--	if (ret)
--		return ret;
--
--	if (dbglvl < 1 || dbglvl > 9)
--		return -ERANGE;
--
--	ia_css_debug_set_dtrace_level(dbglvl);
--	return size;
--}
--static DEVICE_ATTR_RW(dbglvl);
--
--static ssize_t dbgfun_show(struct device *dev, struct device_attribute *attr,
--			   char *buf)
--{
--	unsigned int dbgfun = atomisp_get_css_dbgfunc();
--
--	return sysfs_emit(buf, "dbgfun opt:%u\n", dbgfun);
--}
--
--static ssize_t dbgfun_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t size)
--{
--	struct atomisp_device *isp = dev_get_drvdata(dev);
--	unsigned int opt;
--	int ret;
--
--	ret = kstrtouint(buf, 10, &opt);
--	if (ret)
--		return ret;
--
--	return atomisp_set_css_dbgfunc(isp, opt);
--}
--static DEVICE_ATTR_RW(dbgfun);
--
--static ssize_t dbgopt_show(struct device *dev, struct device_attribute *attr,
--			   char *buf)
--{
--	return sysfs_emit(buf, "option:0x%x\n", dbgopt);
--}
--
--static ssize_t dbgopt_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t size)
--{
--	struct atomisp_device *isp = dev_get_drvdata(dev);
--	unsigned int opt;
--	int ret;
--
--	ret = kstrtouint(buf, 10, &opt);
--	if (ret)
--		return ret;
--
--	dbgopt = opt;
--	ret = iunit_dump_dbgopt(isp, dbgopt);
--	if (ret)
--		return ret;
--
--	return size;
--}
--static DEVICE_ATTR_RW(dbgopt);
--
--static struct attribute *dbg_attrs[] = {
--	&dev_attr_dbglvl.attr,
--	&dev_attr_dbgfun.attr,
--	&dev_attr_dbgopt.attr,
--	NULL
--};
--
--static const struct attribute_group dbg_attr_group = {
--	.attrs = dbg_attrs,
--};
-
- const struct attribute_group *dbg_attr_groups[] = {
--	&dbg_attr_group,
- 	NULL
- };
 --
-2.25.1
-
+Cheers,
+Marcelo Moreira
