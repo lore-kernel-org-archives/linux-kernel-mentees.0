@@ -1,130 +1,145 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D6574BE1
-	for <linux-kernel-mentees@lists.linux.dev>; Sun,  6 Jul 2025 09:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF6820371E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  6 Jul 2025 10:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751793933; cv=none; b=eSvbAoJdNhQIKLWl9t+JWKQiqE30mXP6SGWI9mO7/ZRRgixsc7NKk84Dqak2TGLbDZbdqDP1s1vutOD1HwV7t0rYOMdXnU5sGrWIdoEJe9sOOQcrCxcQNjmTfzL1UXagSq8WfuWgGbfEoYuzqP93ytEP6bctKfeZmkWjPr/WkTc=
+	t=1751799015; cv=none; b=PzH/BFBu6V8ZDPm90Q+hWJgZL6l9riM2RErDAOGjfEL03rz84rmo/NDY0ucn97U8g6GTm1BEVjMCXK65n++j0RkvGFOTWamFbFopXQSERMLK7lF9xR7nKM1yQPWTtEHKw2fymDUuXzFGNSPA0KhafTNILoZgdzyf/Ka+bA0VJMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751793933; c=relaxed/simple;
-	bh=uNRG7Dp9Y5lA1BfsuxAk7MQ5UhU9xjl3Bg3u9K1zj8I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZD7OxcoiQRvm3GolODJjIGZ+qDQx+mWpJSbFATPzC5zxyBxjM4SZNaLOq//ZoXue+vrbSukcSM0VJTu5pPCVCzp7toVp7FaEbwRWoe0t8Qo9l7CWFUziblAgMdUds02EoiUqJt0UCmoB2j9XluSNu2lol76CUU6kGT0SBnWl49E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wuas0d2e; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751799015; c=relaxed/simple;
+	bh=rnlOCsOx8oCuPmV5KoaTeoAVYCzmPUH79UN0xUbYiqs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LWh4e/xbZjjp9H6Qt3aADsmrHtdj/KsXDQJhl4+rfA2JzqRvhtV6Wl9FeSbLJvtTlHhnukruA0/DwOU+4LLs6EX6DOPQk6BbhluutKcXoHyjM+SAhTwm179yeU6rWKEZRmZjjdbju3PGcRFzwVJZYtDs9WJplNzmL8NJpUdodlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Du7bI8mF; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wuas0d2e"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-23694cec0feso17273575ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 06 Jul 2025 02:25:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751793932; x=1752398732; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lA8KNkPs04Haqqyk/LQTF4+bgbkvtNg6lmvOnF3xgBo=;
-        b=Wuas0d2eR9YjcSZYUlnDcLN68VdBzKuDO8qc2VpJ2WNLiPLsM5DhUpIglNm8JT/mJi
-         2RDSih6s8um2IghaSxkw/DE7vStC6f5I1ZhnqKUIAdFmDKGHMVwSCHdufkn/ecnfF1bD
-         tBBAhem9PtGRcvzOuE/dg8HV+6eRIQymTT7WxKRU1PyU7EBC4VUxxRhqiWh36spcXxKv
-         EbqiTaSZKGuZk85EHJMuOnrRbTUfvSrA2POKfsSLwwUX9s6n8RLaRx+e0ZBEQqk2R98f
-         CWwTixMzRHsFA75G7+14w1G3MB9VuYz5I6xSjywGCh4JDq2DsXPbu0tUL9Z2K1BEPfFx
-         LLqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751793932; x=1752398732;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lA8KNkPs04Haqqyk/LQTF4+bgbkvtNg6lmvOnF3xgBo=;
-        b=IWCff51zC40w55WAo/0eZu8fMJpCuS1OnxUpg6UOLz6C3j+1MZ0g3f5yLjNvA6YSFG
-         kt8fbsbxNJdUAyqyn0cmWVMrloipLhd/i23AvSflay/NqY/jzMk3f2x29iSWTmgUSGEB
-         a+0vZG7MKiohosSfMf5ORqscXzpXWSd9z1LPy63tF93OQIj3AP7Yibaxf6MypnPSnrrk
-         fJm8eRbZL5NuJPLthtJo85/NvT3WBx44X3TSRPDTq80RcrSzKx/7vKxi07fjHWRIB1S8
-         oxagsLe/T+jmDgyot+Guk0bHcso5gj1DtLn92ggPsodyQRN7PPx2a/hiOZ8Z5SbH3pfJ
-         Jrpg==
-X-Forwarded-Encrypted: i=1; AJvYcCXEKONdlSfB0mN12NNWLnznfHCpH1TJ5EOxn+P0KHQzbfUGyaHeFDMTAkcZmG+X0yCDF8kq+hL1F056bV6EHMm/HhANIA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxXFalgD3BJteEatdH63opwLZbmzOI6FLaD2ZNZiB3+bdV1ZfFa
-	kCv2hp8afRb2QWU4ihMv9sT0l0S75rfoBo7OyC+++1p9L63lGj6jg0Rz
-X-Gm-Gg: ASbGncv7gDnQpXso6CCU/BNjrSCJiKjHwMmVMy5zo36O5teVQHv3+LRvkg8Hrs8hTQX
-	GF3lP2mPnLH9w7oc2YVrb3g0Plr6C2mvrHYoEXYR5fh/WUw6oCVAmW09iM1tGM8F6Qvjv/kKjAJ
-	H6PF+JSPhWA2IizmDY5F5ubgzcwpA083iL5ICVL8VQmza/XBvuE9Fp/98aDvXjZu9u+REgVNkmN
-	e4KbVzzGz8SErzFUSFqOxyMCRE7RJQk0qxSt6txJMyfAERvr4I/zjC9nrwAgOAP2IPkjWF6XCdW
-	3PkGR/DI4I/6a7mcC1XopU6V77+w7qi6gxvqiZBMbpuMD0ZsmqhZ3e91WpjlMT/1wgxGwNhgvGH
-	Kokipuw==
-X-Google-Smtp-Source: AGHT+IH3vq2oxcWMOz4KCi0buYRStjOlQa2oNevR3gflhsdNi9rysjwR5KZGyuusMR46XX2R/z7LXQ==
-X-Received: by 2002:a17:902:db0c:b0:234:8ec1:4af6 with SMTP id d9443c01a7336-23c91056ecfmr73738155ad.45.1751793931566;
-        Sun, 06 Jul 2025 02:25:31 -0700 (PDT)
-Received: from manjaro.domain.name ([2401:4900:1c30:6f3f:3d1:c4c0:3855:2a18])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31aaae5393dsm6247089a91.11.2025.07.06.02.25.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Jul 2025 02:25:31 -0700 (PDT)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: martin.petersen@oracle.com,
-	linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH] target/core: replace strncpy with strscpy
-Date: Sun,  6 Jul 2025 14:55:22 +0530
-Message-ID: <20250706092522.9298-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Du7bI8mF"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 7E67781F0C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  6 Jul 2025 10:50:13 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.792
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id sCEecgQIZOUN for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  6 Jul 2025 10:50:12 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=jic23@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 52D0F81F09
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 52D0F81F09
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Du7bI8mF
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 52D0F81F09
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  6 Jul 2025 10:50:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 2AFA0447E8;
+	Sun,  6 Jul 2025 10:50:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70B18C4CEED;
+	Sun,  6 Jul 2025 10:50:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751799011;
+	bh=rnlOCsOx8oCuPmV5KoaTeoAVYCzmPUH79UN0xUbYiqs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Du7bI8mF3pklE/y4wUYkC+0Swb4+ZE1tnVHV1pau0A5sSa61VWSBKWpVL2czGSeqq
+	 lP9A1hKIDFXO8GV8cQzZ9UFCY1b3qqlB4jivrH9tEhHRkfQVs77ulQopLiVkBrFmUL
+	 xygqxKpX2s3I2hgb/HIHeLDXRvw+8w0X4nIcS7R+KBibZ1DZr1tRQg7LLmZENCi1RQ
+	 i9wXQrwxnKEabvFeT8ncG/gVoLFQ7WrYHy0I5X308DLRppzRgCYb3QLYZCSCjNegV7
+	 thYQv774XI2xsFTcmojrX3GNRaoF60dcqZuLOLdkFeFxKfwC7Ku0Jp630Sz7PWde2R
+	 WCiV6kOCHacVw==
+Date: Sun, 6 Jul 2025 11:50:03 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: akshay bansod <akbansd@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Lorenzo Bianconi
+ <lorenzo@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
+Message-ID: <20250706115003.5752261c@jic23-huawei>
+In-Reply-To: <2413481.ElGaqSPkdT@mbox>
+References: <20250703053900.36530-1-akbansd@gmail.com>
+	<aGaIMjkYBmfMmCBn@smile.fi.intel.com>
+	<2413481.ElGaqSPkdT@mbox>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-strncpy() is deprecated and its use is discouraged. Replace strncpy()
-with safer strscpy() as the p_buf buffer should be NUL-terminated, since
-it holds human readable debug output strings.
+On Thu, 03 Jul 2025 22:28:13 +0530
+akshay bansod <akbansd@gmail.com> wrote:
 
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
----
- drivers/target/target_core_transport.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> On Thursday, 3 July 2025 10:12=E2=80=AFpm +0530 Andy Shevchenko wrote:
+> > On Thu, Jul 03, 2025 at 11:08:59AM +0530, Akshay Bansod wrote: =20
+> > > Update the sysfs interface for sampling frequency and scale attribute=
+s.
+> > > Replace `scnprintf()` with `sysfs_emit_at()` which is PAGE_SIZE-aware
+> > > and recommended for use in sysfs. =20
+> >=20
+> > 'must' is stronger than 'recommendation'.
+> > Of has the documentation been changed lately?
+> >=20
+> > ...
+> >  =20
+> > > st_lsm6dsx_sysfs_sampling_frequency_avail(struct device *dev, =20
+> >  =20
+> > >  	odr_table =3D &sensor->hw->settings->odr_table[sensor->id];
+> > >  	for (i =3D 0; i < odr_table->odr_len; i++)
+> > > -		len +=3D scnprintf(buf + len, PAGE_SIZE - len, "%d.%03d ",
+> > > -				 odr_table->odr_avl[i].milli_hz / 1000,
+> > > -				 odr_table->odr_avl[i].milli_hz % 1000);
+> > > +		len +=3D sysfs_emit_at(buf, len, "%d.%03d ",
+> > > +				     odr_table->odr_avl[i].milli_hz / 1000,
+> > > +				     odr_table->odr_avl[i].milli_hz % 1000);
+> > >  	buf[len - 1] =3D '\n'; =20
+> >=20
+> > My gosh, this is error prone. I'm wondering when some CIs will start to
+> > complain on this line. But this was already before your change...
+> >  =20
+> I'm planning to drop It entirely or should I replace it with another `sys=
+fs_emit_at()` ?
+> I've seen other device driver returning space terminated buffers. Maybe I=
+'m overlooking
+> something.
 
-diff --git a/drivers/target/target_core_transport.c b/drivers/target/target_core_transport.c
-index 0a76bdfe5528..9c255ed21789 100644
---- a/drivers/target/target_core_transport.c
-+++ b/drivers/target/target_core_transport.c
-@@ -1112,7 +1112,7 @@ void transport_dump_vpd_proto_id(
- 	}
- 
- 	if (p_buf)
--		strncpy(p_buf, buf, p_buf_len);
-+		strscpy(p_buf, buf, p_buf_len);
- 	else
- 		pr_debug("%s", buf);
- }
-@@ -1162,7 +1162,7 @@ int transport_dump_vpd_assoc(
- 	}
- 
- 	if (p_buf)
--		strncpy(p_buf, buf, p_buf_len);
-+		strscpy(p_buf, buf, p_buf_len);
- 	else
- 		pr_debug("%s", buf);
- 
-@@ -1222,7 +1222,7 @@ int transport_dump_vpd_ident_type(
- 	if (p_buf) {
- 		if (p_buf_len < strlen(buf)+1)
- 			return -EINVAL;
--		strncpy(p_buf, buf, p_buf_len);
-+		strscpy(p_buf, buf, p_buf_len);
- 	} else {
- 		pr_debug("%s", buf);
- 	}
-@@ -1276,7 +1276,7 @@ int transport_dump_vpd_ident(
- 	}
- 
- 	if (p_buf)
--		strncpy(p_buf, buf, p_buf_len);
-+		strscpy(p_buf, buf, p_buf_len);
- 	else
- 		pr_debug("%s", buf);
- 
--- 
-2.49.0
+It is rather ugly currently but not a bug as such as we know we don't actua=
+lly run
+out of space in the page (it would just overwrite last byte in that case so=
+ odd
+output, but not a bug) and that we always print something so just as you su=
+ggest
+sysfs_emit_at(buf, len - 1, "\n"); is safe.  It also checks under and overf=
+low
+so that safe + hopefully won't trip up static analysis tools.
+
+>=20
+> > >  	return len; =20
+> >=20
+> > ...
+> >  =20
+> > >  	fs_table =3D &hw->settings->fs_table[sensor->id];
+> > >  	for (i =3D 0; i < fs_table->fs_len; i++)
+> > > -		len +=3D scnprintf(buf + len, PAGE_SIZE - len, "0.%09u ",
+> > > -				 fs_table->fs_avl[i].gain);
+> > > +		len +=3D sysfs_emit_at(buf, len, "0.%09u ",
+> > > +				     fs_table->fs_avl[i].gain);
+> > >  	buf[len - 1] =3D '\n'; =20
+> >=20
+> > Ditto.
+> >=20
+> >  =20
+>=20
+> regards,
+> Akshay Bansod
+>=20
+>=20
+>=20
+>=20
 
