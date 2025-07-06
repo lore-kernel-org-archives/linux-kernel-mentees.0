@@ -1,145 +1,222 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF6820371E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  6 Jul 2025 10:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BB115D1;
+	Sun,  6 Jul 2025 16:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751799015; cv=none; b=PzH/BFBu6V8ZDPm90Q+hWJgZL6l9riM2RErDAOGjfEL03rz84rmo/NDY0ucn97U8g6GTm1BEVjMCXK65n++j0RkvGFOTWamFbFopXQSERMLK7lF9xR7nKM1yQPWTtEHKw2fymDUuXzFGNSPA0KhafTNILoZgdzyf/Ka+bA0VJMA=
+	t=1751818388; cv=none; b=kevQVBHy/LBp30pqgZr5NY99ONjVV41Qt/oi4/jNFBj3hZ1ba3jomTDzio5gxL7yev4JSDh92Cmzrz+Q//Is6PQ4Y9JuFFk2enUSVyPcLjWrk3SQJ7FhwlfHE2Q2L2bMnU9X4cU9W1Bk9WCHBwQ5jR4WVERIy/Zlj+CxDlhFr/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751799015; c=relaxed/simple;
-	bh=rnlOCsOx8oCuPmV5KoaTeoAVYCzmPUH79UN0xUbYiqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LWh4e/xbZjjp9H6Qt3aADsmrHtdj/KsXDQJhl4+rfA2JzqRvhtV6Wl9FeSbLJvtTlHhnukruA0/DwOU+4LLs6EX6DOPQk6BbhluutKcXoHyjM+SAhTwm179yeU6rWKEZRmZjjdbju3PGcRFzwVJZYtDs9WJplNzmL8NJpUdodlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Du7bI8mF; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1751818388; c=relaxed/simple;
+	bh=zDCLYT9ltxWJE6HZNfeuQPUYSB2SXgBeXCHKX7wTHpk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S1YCLZ9X3Unrn4PsgFf8lnKhcR75CT+l2m12tXZZ3UtZFDO6Nz9VhITLjHAnZgcYZMrAJxodch9GJ8UJHnuIDQabnd9ORZuw6QaIEn5MLOWAUmIaItQ58RlouoNNPq47HLUJ2RJ5SHqh0Au266rnCEIbgrY1ZrxdIloMajI+3yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DTrvN2uT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Du7bI8mF"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7E67781F0C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  6 Jul 2025 10:50:13 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.792
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id sCEecgQIZOUN for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Jul 2025 10:50:12 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=jic23@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 52D0F81F09
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 52D0F81F09
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Du7bI8mF
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 52D0F81F09
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  6 Jul 2025 10:50:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 2AFA0447E8;
-	Sun,  6 Jul 2025 10:50:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70B18C4CEED;
-	Sun,  6 Jul 2025 10:50:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DTrvN2uT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B3E3C4CEED;
+	Sun,  6 Jul 2025 16:13:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751799011;
-	bh=rnlOCsOx8oCuPmV5KoaTeoAVYCzmPUH79UN0xUbYiqs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Du7bI8mF3pklE/y4wUYkC+0Swb4+ZE1tnVHV1pau0A5sSa61VWSBKWpVL2czGSeqq
-	 lP9A1hKIDFXO8GV8cQzZ9UFCY1b3qqlB4jivrH9tEhHRkfQVs77ulQopLiVkBrFmUL
-	 xygqxKpX2s3I2hgb/HIHeLDXRvw+8w0X4nIcS7R+KBibZ1DZr1tRQg7LLmZENCi1RQ
-	 i9wXQrwxnKEabvFeT8ncG/gVoLFQ7WrYHy0I5X308DLRppzRgCYb3QLYZCSCjNegV7
-	 thYQv774XI2xsFTcmojrX3GNRaoF60dcqZuLOLdkFeFxKfwC7Ku0Jp630Sz7PWde2R
-	 WCiV6kOCHacVw==
-Date: Sun, 6 Jul 2025 11:50:03 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: akshay bansod <akbansd@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Lorenzo Bianconi
- <lorenzo@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
-Message-ID: <20250706115003.5752261c@jic23-huawei>
-In-Reply-To: <2413481.ElGaqSPkdT@mbox>
-References: <20250703053900.36530-1-akbansd@gmail.com>
-	<aGaIMjkYBmfMmCBn@smile.fi.intel.com>
-	<2413481.ElGaqSPkdT@mbox>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+	s=k20201202; t=1751818387;
+	bh=zDCLYT9ltxWJE6HZNfeuQPUYSB2SXgBeXCHKX7wTHpk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DTrvN2uTCtZIL1z52MUhpOaZUXvvP4ffRd37nzXKgrKxZFCTElmU/x7qTdVuss1F5
+	 3JbkjXifZW+4Hjb1LKTYJ8cvFnirVXmWf+VPMLrqJPoAYOPlmz5S9emfbOcd4nkkc0
+	 vMXgcgUDhiQF840CeLFFCI102sDMlK0XsH0hHf8VLcUrXNFWaIah9EzHEqfao5DY+d
+	 Rtwj+GT1ra4Dj/k5JYm7X9o4QBLj5Fh7nbNhL0TtcwhE1v+lrMvJ5oQSu/LVIo55jY
+	 rT4yYuLLzBzu7CJ20Vt+/9uke+xJjbRRuLO7ep4J31N895Nwz8y0eGwZRyeRKDLov9
+	 gcmN+1KxV42rg==
+Message-ID: <d5982c46-6353-4ffd-8a7a-126ac795f751@kernel.org>
+Date: Sun, 6 Jul 2025 18:13:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] staging: media: atomisp: remove debug sysfs attributes
+ active_bo and free_bo
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, andy@kernel.org,
+ mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ skhan@linuxfoundation.com, dan.carpenter@linaro.org
+References: <20250627100604.29061-1-abdelrahmanfekry375@gmail.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20250627100604.29061-1-abdelrahmanfekry375@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Thu, 03 Jul 2025 22:28:13 +0530
-akshay bansod <akbansd@gmail.com> wrote:
+Hi,
 
-> On Thursday, 3 July 2025 10:12=E2=80=AFpm +0530 Andy Shevchenko wrote:
-> > On Thu, Jul 03, 2025 at 11:08:59AM +0530, Akshay Bansod wrote: =20
-> > > Update the sysfs interface for sampling frequency and scale attribute=
-s.
-> > > Replace `scnprintf()` with `sysfs_emit_at()` which is PAGE_SIZE-aware
-> > > and recommended for use in sysfs. =20
-> >=20
-> > 'must' is stronger than 'recommendation'.
-> > Of has the documentation been changed lately?
-> >=20
-> > ...
-> >  =20
-> > > st_lsm6dsx_sysfs_sampling_frequency_avail(struct device *dev, =20
-> >  =20
-> > >  	odr_table =3D &sensor->hw->settings->odr_table[sensor->id];
-> > >  	for (i =3D 0; i < odr_table->odr_len; i++)
-> > > -		len +=3D scnprintf(buf + len, PAGE_SIZE - len, "%d.%03d ",
-> > > -				 odr_table->odr_avl[i].milli_hz / 1000,
-> > > -				 odr_table->odr_avl[i].milli_hz % 1000);
-> > > +		len +=3D sysfs_emit_at(buf, len, "%d.%03d ",
-> > > +				     odr_table->odr_avl[i].milli_hz / 1000,
-> > > +				     odr_table->odr_avl[i].milli_hz % 1000);
-> > >  	buf[len - 1] =3D '\n'; =20
-> >=20
-> > My gosh, this is error prone. I'm wondering when some CIs will start to
-> > complain on this line. But this was already before your change...
-> >  =20
-> I'm planning to drop It entirely or should I replace it with another `sys=
-fs_emit_at()` ?
-> I've seen other device driver returning space terminated buffers. Maybe I=
-'m overlooking
-> something.
+On 27-Jun-25 12:06 PM, Abdelrahman Fekry wrote:
+> The sysfs attributes active_bo and free_bo expose internal buffer
+> state used only for debugging purposes. These are not part of
+> any standard kernel ABI, and need to be removed before this
+> driver may be moved out of drivers/staging.
+> 
+> - Remove active_bo and free_bo attributes
+> - Remove group registration calls form hmm_init() and hmm_cleanup()
+> 
+> Suggested-by: Hans de Goede <hansg@kernel.org>
+> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
 
-It is rather ugly currently but not a bug as such as we know we don't actua=
-lly run
-out of space in the page (it would just overwrite last byte in that case so=
- odd
-output, but not a bug) and that we always print something so just as you su=
-ggest
-sysfs_emit_at(buf, len - 1, "\n"); is safe.  It also checks under and overf=
-low
-so that safe + hopefully won't trip up static analysis tools.
+Thanks, patch looks good to me:
 
->=20
-> > >  	return len; =20
-> >=20
-> > ...
-> >  =20
-> > >  	fs_table =3D &hw->settings->fs_table[sensor->id];
-> > >  	for (i =3D 0; i < fs_table->fs_len; i++)
-> > > -		len +=3D scnprintf(buf + len, PAGE_SIZE - len, "0.%09u ",
-> > > -				 fs_table->fs_avl[i].gain);
-> > > +		len +=3D sysfs_emit_at(buf, len, "0.%09u ",
-> > > +				     fs_table->fs_avl[i].gain);
-> > >  	buf[len - 1] =3D '\n'; =20
-> >=20
-> > Ditto.
-> >=20
-> >  =20
->=20
-> regards,
-> Akshay Bansod
->=20
->=20
->=20
->=20
+Reviewed-by: Hans de Goede <hansg@kernel.org>
+
+I have merged this in my media-atomisp branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+
+And this patch will be included in my next
+pull-request to Mauro (to media subsystem maintainer)
+
+Regards,
+
+Hans
+
+
+
+
+> ---
+> v5:
+> - remove stray change
+> 
+> v4: https://lore.kernel.org/all/20250627072939.21447-1-abdelrahmanfekry375@gmail.com/
+> - fix typos
+> 
+> v3: https://lore.kernel.org/all/20250624170746.47188-1-abdelrahmanfekry375@gmail.com/
+> - remove blank line
+> 
+> v2: https://lore.kernel.org/all/20250624144943.39297-1-abdelrahmanfekry375@gmail.com/
+> - add Suggested-by line
+> - remove unnecessary comments
+> 
+> v1: https://lore.kernel.org/all/20250624130841.34693-1-abdelrahmanfekry375@gmail.com/
+> 
+> ---
+>  drivers/staging/media/atomisp/pci/hmm/hmm.c | 91 ---------------------
+>  1 file changed, 91 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> index 84102c3aaf97..f998b57f90c4 100644
+> --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> @@ -28,88 +28,6 @@ struct hmm_bo_device bo_device;
+>  static ia_css_ptr dummy_ptr = mmgr_EXCEPTION;
+>  static bool hmm_initialized;
+> 
+> -/*
+> - * p: private
+> - * v: vmalloc
+> - */
+> -static const char hmm_bo_type_string[] = "pv";
+> -
+> -static ssize_t bo_show(struct device *dev, struct device_attribute *attr,
+> -		       char *buf, struct list_head *bo_list, bool active)
+> -{
+> -	ssize_t ret = 0;
+> -	struct hmm_buffer_object *bo;
+> -	unsigned long flags;
+> -	int i;
+> -	long total[HMM_BO_LAST] = { 0 };
+> -	long count[HMM_BO_LAST] = { 0 };
+> -	int index1 = 0;
+> -	int index2 = 0;
+> -
+> -	ret = scnprintf(buf, PAGE_SIZE, "type pgnr\n");
+> -	if (ret <= 0)
+> -		return 0;
+> -
+> -	index1 += ret;
+> -
+> -	spin_lock_irqsave(&bo_device.list_lock, flags);
+> -	list_for_each_entry(bo, bo_list, list) {
+> -		if ((active && (bo->status & HMM_BO_ALLOCED)) ||
+> -		    (!active && !(bo->status & HMM_BO_ALLOCED))) {
+> -			ret = scnprintf(buf + index1, PAGE_SIZE - index1,
+> -					"%c %d\n",
+> -					hmm_bo_type_string[bo->type], bo->pgnr);
+> -
+> -			total[bo->type] += bo->pgnr;
+> -			count[bo->type]++;
+> -			if (ret > 0)
+> -				index1 += ret;
+> -		}
+> -	}
+> -	spin_unlock_irqrestore(&bo_device.list_lock, flags);
+> -
+> -	for (i = 0; i < HMM_BO_LAST; i++) {
+> -		if (count[i]) {
+> -			ret = scnprintf(buf + index1 + index2,
+> -					PAGE_SIZE - index1 - index2,
+> -					"%ld %c buffer objects: %ld KB\n",
+> -					count[i], hmm_bo_type_string[i],
+> -					total[i] * 4);
+> -			if (ret > 0)
+> -				index2 += ret;
+> -		}
+> -	}
+> -
+> -	/* Add trailing zero, not included by scnprintf */
+> -	return index1 + index2 + 1;
+> -}
+> -
+> -static ssize_t active_bo_show(struct device *dev, struct device_attribute *attr,
+> -			      char *buf)
+> -{
+> -	return bo_show(dev, attr, buf, &bo_device.entire_bo_list, true);
+> -}
+> -
+> -static ssize_t free_bo_show(struct device *dev, struct device_attribute *attr,
+> -			    char *buf)
+> -{
+> -	return bo_show(dev, attr, buf, &bo_device.entire_bo_list, false);
+> -}
+> -
+> -
+> -static DEVICE_ATTR_RO(active_bo);
+> -static DEVICE_ATTR_RO(free_bo);
+> -
+> -static struct attribute *sysfs_attrs_ctrl[] = {
+> -	&dev_attr_active_bo.attr,
+> -	&dev_attr_free_bo.attr,
+> -	NULL
+> -};
+> -
+> -static struct attribute_group atomisp_attribute_group[] = {
+> -	{.attrs = sysfs_attrs_ctrl },
+> -};
+> -
+>  int hmm_init(void)
+>  {
+>  	int ret;
+> @@ -130,14 +48,6 @@ int hmm_init(void)
+>  	 */
+>  	dummy_ptr = hmm_alloc(1);
+> 
+> -	if (!ret) {
+> -		ret = sysfs_create_group(&atomisp_dev->kobj,
+> -					 atomisp_attribute_group);
+> -		if (ret)
+> -			dev_err(atomisp_dev,
+> -				"%s Failed to create sysfs\n", __func__);
+> -	}
+> -
+>  	return ret;
+>  }
+> 
+> @@ -145,7 +55,6 @@ void hmm_cleanup(void)
+>  {
+>  	if (dummy_ptr == mmgr_EXCEPTION)
+>  		return;
+> -	sysfs_remove_group(&atomisp_dev->kobj, atomisp_attribute_group);
+> 
+>  	/* free dummy memory first */
+>  	hmm_free(dummy_ptr);
+> --
+> 2.25.1
+> 
 
