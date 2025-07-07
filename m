@@ -1,97 +1,109 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE4827B51A
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  7 Jul 2025 07:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA79286885
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  7 Jul 2025 07:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751874758; cv=none; b=cAXwedkNAFuO5ihCj/IXja5SWkq52haraVAuoxk+taBFwP5NP/mZD9n6awORJiJXu2wU8fiRAbRlWyTXHICd6oE7USPUFgBSIaMQavHTbjsuaPb2y0nu8ItK2IFUDzyY73UoU0bMMi3ULKfrc1VtqUWJTx5nJkGqQuyA/adgNy0=
+	t=1751875040; cv=none; b=jpBmFWfKHXNTRTE+5Cw9wFRoQq9n2flFO9pFMWi/Vlp6NCvToKnXYBvVro+xjT5aK9djisrbUrfAbyBKSRm6kAr0qn2RxZ6+JKpk5yeyUa8Zrr3nDaTbv5FYgTTb6jcN5SQAHPxjSWJHBRxWJv4FcShwGnTMPw2yQjSdU+7Bj7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751874758; c=relaxed/simple;
-	bh=GHD7u8MLy6W9x0ZQVMwgkXAbSYr4OeXpNJoaDqFzbxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JWoCnG7KG5GE1/P48Nff/t3Ojf0lUPIFiss5OEe/id7OwKX71rb2pXW0QlzA1swDvtRIUkB948au23CKh7iwgz5TppR6nXM5te2mro1HTAy0no1uENocRoDquINgRe2U0rDVn+gHV8Pt8DSNWyeHn5nqgT5JLJG0fQ+TS43XLRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e3sA551I; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751875040; c=relaxed/simple;
+	bh=3jDMpGyu6tKmKZCNbOyYSDDf/AFtsCO10XzjbaachO4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h8IZjIss4KBw6jBaZla3Y1V19RCV7VOXNRAUy/xzZ3/YeX0SVbECiJXRvye1hZVCuEcKOtXDSXw5pDwXUDEvOgMSqomMapA5PU8BS9Gdm6WOr1wwYDQi8j90cUWex3hak7L/g+RZE4enCPdA4K/B3vUW7akemVvrDzLS+QLnjhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=ZGST4f2r; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e3sA551I"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-742c3d06de3so3208663b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 07 Jul 2025 00:52:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="ZGST4f2r"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7490cb9a892so1580113b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 07 Jul 2025 00:57:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751874756; x=1752479556; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Qc9/Jm3EhOg6r3cSjvfW7JqJ4HY8qkLQsGPxe+uMLd4=;
-        b=e3sA551INy3ia5Ll5GvqumZst2rYe1GGuROwbPMemQhL0o54rFx/t+vmO38bEtJK87
-         c0e6A82TO/GYygIqwRgElK0aIPPMxwFxHWI7oCuLImpomwnZRp64InhamOnaXHbqb/aT
-         XP543I8G8qpu1F+Z3Yz0BeAzjYH6K9TuOw9DQ2MlmDjEcC51FMkvdhhXA9NzaKKc9Bq9
-         DWevsX2l6BEfjbk389W4YeNUfNVjtHak4x11ZlItwoEjtali3fX/cGRgLY0SvkDS2Jr1
-         EB4d6qcE5VfadMWPY+bCcEy6oUxUd1VsKTNHB2xavbucZhgJHNnYY0Xr7xzS/V+YacnC
-         iVjw==
+        d=brighamcampbell.com; s=google; t=1751875038; x=1752479838; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fQK/9TljJT68jk0i2VGXxC4KsVLmbF/aNC235kAq204=;
+        b=ZGST4f2rzkpnrJy6WYDeOIeI3fYdg/3rImiUK1SnOQkHTZ6CWFq6J80rICcCiSF9v8
+         sdGh4gk/BnCwhImRXSRI2j28LwGFMnfgvltGXsDctk909RhI0ujKP3rOZujDf58wp2wJ
+         R0vG9+Q8DNihbHIfFC1KGTLbSKoa9iR2Odnb2Jqzn9LwVXy4geO5qAZZqaYq2GYhxNz3
+         7o2vrEyq+s0RoGGnrGg9wIjPEMxxclWuyqWqyyFtqEBEcbKRKlBkaGrdBwKbYoNO2T33
+         UsY7hXQwGNo12kNalIp+FtNuGgxsvIjAct91c8tP0tPwNN7g4yxKMpmSqQmiMneVeZsF
+         /mqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751874756; x=1752479556;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qc9/Jm3EhOg6r3cSjvfW7JqJ4HY8qkLQsGPxe+uMLd4=;
-        b=nTBtQ/MLmH+7kJJnGV947CfpSd5mEoST+0wjnp8y/OFTLfmD8UVhjCDyrj2nXZ2tpt
-         YndW9qsBWS2TGdt5DHQJkqvP5s8iJuXF3HlyybJy6JMlr2Etx/dlnEzzh0sHwKxJ50ah
-         zuG9EprkliAA0MJz2sajit5CgZcVwuirwzXNuJ/gpeJJ3UkLqvov2DqguKP5gw0m0boP
-         IqOV+Lpeq/hI3Pqaqsu3AmAzwALZRL3P5dczejLVPzyS+yaYLieXmNA1qSFsbLW41ei9
-         zBun2ke6B+oV2osUArDXrw1CccUi3oEb/w2/+JDW3cdEPfgJfC1HMvQDgSy4wIIgAhM0
-         oLkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUYk0RwoSUEqU4z7C6xYHHZjYJCWWpO2FUZ4sTIOvR+UbTJoMm/tJQ5IaRMpBBUfkYRc/9szDTlAQN4M2Tff0SiWQm38g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZ+Q9Jzf9YyQA4QrW+CfhXJZvUGMe9hqHAFwoGzFPT64u2/mqG
-	TEOexpe2i18RiGqwyY7H6KmU+qLaa3huYR38J9T4oi8r44nZhMAGFKIb
-X-Gm-Gg: ASbGncsS3ctynZmpExZeDgEZagLUTBM2EzrDGckZHF8sHVLOKxIV6bxUciGb5nPs6NI
-	FUTQN8I+eGtNvYm7Vu6z6T/P8Zs4B7Iee8pDiq+1aDHiPnqVw6Ztz3JQRJQMNOqH2fK4RNzMhNX
-	wxq7CxdIh9S9Fp47xTmQhq84DFXRy+4tiyMcFGibg7pQtKX33+3bw+MSXb1/djLzUzygWKdO1h4
-	poHXRY41hL7vl13tJe4zICGOrj/nJ1tANixk70LdgsyEe9b7EgAA7JQjKQJiPxAw04QO+ijq7F9
-	yk9QZN6FKEvkXf+L2itQ9r8CheIxyqAoo+16CBJTurZUVJ39OTJpmF+OEOaWLAqAntl9
-X-Google-Smtp-Source: AGHT+IEirJCByeAXvTvV0Yhd1R7ncfdagNA5N2NijJvg5PjE98/jpFGSFyXappMWaYcr8iCBMWXpVA==
-X-Received: by 2002:a05:6a00:218b:b0:747:bd28:1ca1 with SMTP id d2e1a72fcca58-74ce658a5d9mr20099941b3a.3.1751874756120;
-        Mon, 07 Jul 2025 00:52:36 -0700 (PDT)
-Received: from gmail.com ([115.137.3.141])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce35cbee8sm7884537b3a.40.2025.07.07.00.52.34
+        d=1e100.net; s=20230601; t=1751875038; x=1752479838;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fQK/9TljJT68jk0i2VGXxC4KsVLmbF/aNC235kAq204=;
+        b=oTK9SJgGzif7B7MIuXndHOkMeaMAFu2yJlwKw1IpFD+stYyi9IvxVaNVpVqO/WarBH
+         g4sGDE84p01g/W83YpuYzK9MZ1GHvG29K9SgWuPI3yiSWFENVDYXvb/ojfmHDM1YdWC/
+         YCW+vsa+WuO5ECGjfZWuAF80Arx927jkyBmw/ITiAE8I3ZqmDeA90gJ9Q5oH2RM3ey33
+         i/F9Q8UyNqw1Rx7jIs/jFMO+uzmO5xfq3XsfqqakDKrOfts4Soz8993nRYngp1O1uNon
+         WGVUWTdeb0N0yWxWr+QnNIhHosZNBh7wd+hc8EsSErVngEfA5CxdDptsZomc0A9AYDqb
+         D4lw==
+X-Forwarded-Encrypted: i=1; AJvYcCVAI+15hLIBPjo08w9pA7mzViHa2MLFyPhnNJzC2fhUox8UI+3oyKKlCtDuyLALE8cCMKwOuLN4FCywQRyf2LT7/E+Pvw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/ejGxTI0qOoyS0idfiwdjEsG7aydR0davSE/UnTxYoj70F14C
+	Ouo28D3wBC6Bcoa8s7BdvTZRuf2qQYMVjty1bQZkBd7Ij0HSDAoUSoCsh0aJ+OTybOE=
+X-Gm-Gg: ASbGncv/ZLSwfjkRc9Z4DHRocBdy6oNY4gMm7MLv+KoZv8o2lyAeZXO26QcaYojgpp7
+	Q+O82YADNDvmLeUFuhHOJ6ScvAiF+RhMFUexOigumEOCGTLROFDBKenZZBEtE0ITmrDt3H9prge
+	UmwX+VNpoYcLWA5njUpn6THZtXebghasjf6VgaRGafOQ5qgdXRjc4oRTJQEhdZm0SFronauwGPI
+	gL6ROSb0rG+ts8RDrxSt6qOW3NcBZXIxiAjvB8RM6dEoZ/W8KL3zrbdd4bY2mBzlS2sRG8x4CNz
+	SxswJ1B+4W1N65YCpP9QUhSKbwUToo7QOUV0KLmZYBfZyw3W2g6jeqg2No2roRVeOBu04qIXhB0
+	sxUSJCDUkAVfMByp+uw==
+X-Google-Smtp-Source: AGHT+IE2lbn1qBhh8KgJDxKX2gey0GXo1rH+SaJuo7y82wLYHSPHk5Utp4cnQZCTDw+CPsMhqqQlfw==
+X-Received: by 2002:a05:6a20:9189:b0:21f:5aa1:3102 with SMTP id adf61e73a8af0-2272235311bmr12458991637.37.1751875037995;
+        Mon, 07 Jul 2025 00:57:17 -0700 (PDT)
+Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b38ee62f8bdsm8246476a12.57.2025.07.07.00.57.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 00:52:35 -0700 (PDT)
-Date: Mon, 7 Jul 2025 16:52:31 +0900
-From: Ryan Chung <seokwoo.chung130@gmail.com>
-To: =?iso-8859-1?Q?J=FCrgen_Gro=DF?= <jgross@suse.com>
-Cc: sstabellini@kernel.org, oleksandr_tyshchenko@epam.com,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2] xen-pciback: Replace scnprintf() with sysfs_emit_at()
-Message-ID: <aGt8v7RyBocLDBfY@gmail.com>
-References: <20250624070443.11740-1-seokwoo.chung130@gmail.com>
- <98d87171-741a-4f50-a632-e84dd24c6933@suse.com>
+        Mon, 07 Jul 2025 00:57:17 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: dianders@chromium.org,
+	tejasvipin76@gmail.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH 0/3] drm: docs: Remove deprecated MIPI DSI macro
+Date: Mon,  7 Jul 2025 01:56:55 -0600
+Message-ID: <20250707075659.75810-1-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <98d87171-741a-4f50-a632-e84dd24c6933@suse.com>
 
-On Tue, Jul 01, 2025 at 09:32:31AM +0200, Jürgen Groß wrote:
-> On 24.06.25 09:04, Ryan Chung wrote:
-> > This change uses sysfs_emit() API usage for sysfs 'show'
-> > functions as recommended from Documentation/filesystems/sysfs.rst.
-> > 
-> > No functional change intended.
-> > Signed-off-by: Ryan Chung <seokwoo.chung130@gmail.com>
-> 
-> Reviewed-by: Juergen Gross <jgross@suse.com>
-> 
-> 
-> Juergen
+This series removes the unintuitive mipi_dsi_generic_write_seq() macro
+and related mipi_dsi_generic_write_chatty() method from the drm
+subsystem. This is in accordance with a TODO item from Douglas Anderson
+in the drm subsystem documentation. Tejas Vipin (among others) has
+largely spearheaded this effort up until now, converting MIPI panel
+drivers one at a time.
 
-Thank you. I will send the v3 shortly.
+The first patch of the series converts the last remaining driver to use
+the preferred _multi() variant of mipi_dsi_generic_write_seq(). This
+work likely hasn't been completed until now because the panel's usage of
+two separate MIPI DSI interfaces at once requires special treatment. Any
+behavioral modification to the jdi lpm102a188a panel driver by this
+series is unintentional.
+
+Brigham Campbell (3):
+  Replace usage of deprecated MIPI function
+  Remove unused MIPI write seq and chatty functions
+  Remove completed task from drm TODO list
+
+ Documentation/gpu/todo.rst                    | 18 ----------
+ drivers/gpu/drm/drm_mipi_dsi.c                | 34 ++-----------------
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 18 ++++++----
+ include/drm/drm_mipi_dsi.h                    | 23 -------------
+ 4 files changed, 15 insertions(+), 78 deletions(-)
 
 
-
+base-commit: e33f256dbc293a1a3a31f18d56f659e7a27a491a
+-- 
+2.49.0
 
