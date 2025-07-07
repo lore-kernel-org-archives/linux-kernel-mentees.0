@@ -1,33 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F932D8DA8;
-	Mon,  7 Jul 2025 15:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05891224B12
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  7 Jul 2025 17:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751900493; cv=none; b=A3uxZ7OdlinTWSfMA9nGia5NLACjSYIWdKcIESMim3o+FDphYi8lUmzLiG/i89H+g2coI2uZAKiaZ8a9/IC4XTioyiDxcDBMfL1QLQfa6nf0pEH+EUfv+iUXKahiBg6wAxk0Tvf5Y/LgC4w6kXYV8hq9dw2B9/vGnsXY/vp9nio=
+	t=1751907755; cv=none; b=PHyh/lB7TRVC/ErHPtGMufShPh3K15SZIn63eyiu2BvzZRHGyanQ4SxX6K69Z4P26OtpW8U7uhhddNCMTGmNSXXJJAMUg5W1ud7S6kv4sqyGQpfhWN+XoTRm1nI73N/FCgxqLKLbUibeGZUDrRCftQ6oTA2qP74CEyVYpa2SjYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751900493; c=relaxed/simple;
-	bh=bDeOA9LNZPnxTNLqEm+hANJIkTLV5RLBv0lR/n6Vkf4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=RYqPJ+FIQ5fHTsWrnI0Rn2lmFAfcryRtZ2NRC3NTAvNXql9a6U1tJMDH9wgv5gR4atvcG+D4O9uFuTFMmGc5hsZHXr6N0f8+nj8ukT6rTIfMCf+hUH3guEOEKAiq7JlTH1irxOtlWc8foYiS2WOZT1KCAN5e7WBl7yw3QwPO1FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lohaAPHP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751907755; c=relaxed/simple;
+	bh=qEpcMyFiKfiNP7wV30h27bvrbTZ9SYrfEQ5szRtfEgo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=qbQ6GcGj4Lmi+m3BofnsFE1G3dzWS5PYiVrpkRxmA655YKluTbL8iw3EsnmPVjEsayWoc+IFe1gyfZCDeaEo4GsWdnOn7DaJsYjkBMPfXJxjRW5xVj246TU+WsEy3aUHj4EcPQm++6iBJSQ6Rir6yA/oofEuzIrsoC2XnmGpSGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LfobaSeg; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lohaAPHP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7793C4CEE3;
-	Mon,  7 Jul 2025 15:01:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751900492;
-	bh=bDeOA9LNZPnxTNLqEm+hANJIkTLV5RLBv0lR/n6Vkf4=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=lohaAPHPXCoMNk6HZgIRmMLDCBsO1a8u2mot/h/UUsVV9h9rCPfgpeVeYehsS4xdf
-	 bXzzc/loEl3MQxlZv3afzoSxo1wJZLFktdqqz+BpHjHXM8x32q5+bmBdEe4PSTX/Aj
-	 Q4fKrs5lhSwk5EcmpgVndQhKUcsvgwL1xMNLG+fidqT2SEbYkkr8Lc+9J3N27x06S8
-	 3OATFWswRDBcO+RFIuUoQHl0zhq8nsqi+qzDCKpQu2eMSn6h4Hvgc0Qx0YAs9ArPRW
-	 Yz/u/LbSw0DmVIAs6ijZV9J0E6pPyjJGzcsrnWsVdgqSBoQ5DKE0agKUiWhMXb41XI
-	 9Nqx4pRxORX4w==
-Message-ID: <ade60c0c-f3ef-4089-89e5-f57483ac8b66@kernel.org>
-Date: Mon, 7 Jul 2025 17:01:28 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LfobaSeg"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-234c5b57557so30951255ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 07 Jul 2025 10:02:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751907753; x=1752512553; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sf7fXWM8cJOpPopwpN8BZiyBh+hJ95cXslAdvwdcSo4=;
+        b=LfobaSegZdsSuOQY9ndtFpTwR3dMaDqJDIXjXTG027Mtt6R2eVl8ud9WoXYQMf4x+7
+         2CWhNpjRAgu1UhpZAv47KoN03+0Xyny2TXaqIgxtFNnsS/OPvsyXq9Cqahpuhm3+M/k2
+         +a0uG4td/3Ne5A/q8v+Q6+cJmhiBpXKPiBvdLix6Ww4WTD2pbVsPF4Rj/sh1Yzcxms0c
+         lh0ZxDExreCb/ittaGhZhQwndIu9cjqGWlGUytSqd9nat6BAvRFIGJ9io+3hFQ1cf7K5
+         6UOZteElJcOkVrQTdc12YeN/V5n/27mcaMOI+rfQdlHhLwaXnrT4dooOiXDH7Af2jl5K
+         +xEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751907753; x=1752512553;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sf7fXWM8cJOpPopwpN8BZiyBh+hJ95cXslAdvwdcSo4=;
+        b=sWZcybAmr5d/VrWzqp4NFzwj/ReLQS7Ao/QMPZT4v1mT7/hf694QiU8qVpNUy0Ddqw
+         qZoCzKXfGDVEwNdmCH+fyiHWdevZFFKL72DG0tknuLxox3TS8O5BgRs7w71k1hlE3Tup
+         gmfAgJJ5ZGLAqH2hPIow78AlfRZKmBR4GpwappmqI0DwswYiq69GC+aWop1U2oHYAT5c
+         YAJKnFB0m0y9ywXL+dNJxCPn+qI6yfhTC+Ih6dKJwW4De8xI240lDOT3TlJfm2YTWncA
+         CQrPOUbL62eifwxlFL5MLGPmHLRw24tWODHE2I5NfNB6z37YlMR281CgtrTm5ttBJZUF
+         4c7g==
+X-Forwarded-Encrypted: i=1; AJvYcCXBWEUSuBkYyYlz0l/QH6lPAI57OhJCvinb5w6/r95h/Gi0291bYGo/gM2wQh0EnWVe2CmsE6PkGwYyfAwwjYcTnHATRw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwGVuUhhQsCFyvRf6SXqmeejESFKdlKJgqQgCop34CXh3fPmymj
+	G4xkcvcweQsD8Pj+p9Z+YAmGmViv//Zh5S02uB0fOsWRFoYrPt6qDMCB
+X-Gm-Gg: ASbGncvpHg0tzeXtnY7ns2Vm8FGjZqs5I2AmVbdkVFHkyiCV3gMbnmI35E5HlycRDJy
+	ZBlj/ols5zodzTxenpUnnD/+fgB0X2Rirpr7fjdNXf5T7xXzNhQil0dExBTS9fzxhkZ1PSdMCVz
+	aNWt7eh/yDOq+ANCaHXlONtA7NSJhjk9ZzMwoHkewcvRaQ2AwCbFyWxn+tFyQns5MXkNUoBrij7
+	evje3mRI8ZsTaDT8Fx49d8lXYXlhtGdHHD9XBuHOnZeE/tCiv1H1sAeZfZzANCNoALn9EdLeix4
+	4Hjcswl4FDwx077gFMr/92YobD+XNot91ZyG8lM7WJiPpZ5P8wJLpq0xczlzXcK2
+X-Google-Smtp-Source: AGHT+IG8yMUXenYEn60fkq7ok6nf8gr6qJOoaMZCKEBtHTYasFnNHGVKtr5hAhaAnpN5pj44sUjrvg==
+X-Received: by 2002:a17:902:d512:b0:235:ed02:288b with SMTP id d9443c01a7336-23c85e745c2mr174825445ad.30.1751907753129;
+        Mon, 07 Jul 2025 10:02:33 -0700 (PDT)
+Received: from [10.0.0.86] ([122.172.85.55])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8459c6e5sm94885855ad.227.2025.07.07.10.02.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jul 2025 10:02:32 -0700 (PDT)
+Message-ID: <2529b1e4-390f-4459-b7f4-82a9cd005da3@gmail.com>
+Date: Mon, 7 Jul 2025 22:32:22 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -35,122 +66,93 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] staging: media: atomisp: unify initialization flag
- usage in HMM
-From: Hans de Goede <hansg@kernel.org>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, mchehab@kernel.org,
- sakari.ailus@linux.intel.org, andy@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, dan.carpenter@linaro.org
-References: <20250707140923.58935-1-abdelrahmanfekry375@gmail.com>
- <20250707140923.58935-3-abdelrahmanfekry375@gmail.com>
- <d063964c-5ca9-4602-8338-05c46c2d2775@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <d063964c-5ca9-4602-8338-05c46c2d2775@kernel.org>
+Subject: Re: [PATCH 1/3] drm: panel: Replace usage of deprecated MIPI macro
+To: Brigham Campbell <me@brighamcampbell.com>, dianders@chromium.org,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250707075659.75810-1-me@brighamcampbell.com>
+ <20250707075659.75810-2-me@brighamcampbell.com>
+Content-Language: en-US
+From: Tejas Vipin <tejasvipin76@gmail.com>
+In-Reply-To: <20250707075659.75810-2-me@brighamcampbell.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 7-Jul-25 4:14 PM, Hans de Goede wrote:
-> Hi Abdelrahman,
+On 7/7/25 1:26 PM, Brigham Campbell wrote:
+> Replace all usages of the deprecated mipi_dsi_generic_write_seq() with
+> mipi_dsi_generic_write_seq_multi().
 > 
-> On 7-Jul-25 16:09, Abdelrahman Fekry wrote:
->> Previously, the initialization state of the `hmm_bo_device` was tracked
->> in two places: a global `hmm_initialized` boolean in `hmm.c`, and a local
->> integer `flag` in the `hmm_bo_device` struct. This was redundant and could
->> lead to inconsistent state checks.
->>
->> - Removes the global `hmm_initialized` variable and all checks against it.
->> - Replaces the `int flag` in `struct hmm_bo_device` with a strongly-typed 
->>  `enum hmm_bo_device_init_flag flag` (values: UNINITED = 0, INITED = 1).
->> - Initializes `flag` to `HMM_BO_DEVICE_UNINITED` at declaration to 
->>   ensure a well-defined starting state.
->> - Removes a redundant `hmm_init()` call inside `__hmm_alloc()` since its
->>   always called after hmm_init()
->>
->> This change improves type safety, consistency, and readability when
->> handling the HMM initialization state.
->>
->> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
->> ---
->>  .../staging/media/atomisp/include/hmm/hmm_bo.h   |  9 +++++++--
->>  drivers/staging/media/atomisp/pci/hmm/hmm.c      | 16 ++++------------
->>  2 files changed, 11 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
->> index e09ac29ac43d..155f9d89b365 100644
->> --- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
->> +++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
->> @@ -58,7 +58,10 @@
->>  #define	ISP_VM_SIZE	(0x7FFFFFFF)	/* 2G address space */
->>  #define	ISP_PTR_NULL	NULL
->>  
->> -#define	HMM_BO_DEVICE_INITED	0x1
->> +enum hmm_bo_device_init_flag {
->> +	HMM_BO_DEVICE_INITED	= 0x1,
->> +	HMM_BO_DEVICE_UNINITED	= 0x2,
->> +};
->>  
->>  enum hmm_bo_type {
->>  	HMM_BO_PRIVATE,
->> @@ -86,7 +89,9 @@ struct hmm_bo_device {
->>  
->>  	/* list lock is used to protect the entire_bo_list */
->>  	spinlock_t	list_lock;
->> -	int flag;
->> +
->> +	/* flag to indicate whether the bo device is inited or not */
->> +	enum hmm_bo_device_init_flag flag;
+> This patch's usage of the mipi_dsi_multi_context struct is not
+> idiomatic. Rightfully, the struct wasn't designed to cater to the needs
+> of panels with multiple MIPI DSI interfaces. This panel is an oddity
+> which requires swapping the dsi pointer between calls to
+> mipi_dsi_generic_write_seq_multi() in order to preserve the exact
+> behavior implemented using the non-multi variant of the macro.
 > 
-> Please just replace this with a "bool initialized"; data
-> member taking `true` and `false as values instead of
-> introducing a new type for this.
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+> ---
+>  drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
 > 
->>  
->>  	/* linked list for entire buffer object */
->>  	struct list_head entire_bo_list;
->> diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
->> index c2ee9d2ec0d5..767a3a24f8e5 100644
->> --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
->> +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
->> @@ -24,9 +24,10 @@
->>  #include "mmu/isp_mmu.h"
->>  #include "mmu/sh_mmu_mrfld.h"
->>  
->> -struct hmm_bo_device bo_device;
->> +struct hmm_bo_device bo_device = {
->> +	.flag = HMM_BO_DEVICE_UNINITED,
->> +};
->>  static ia_css_ptr dummy_ptr = mmgr_EXCEPTION;
->> -static bool hmm_initialized;
->>  
->>  int hmm_init(void)
->>  {
->> @@ -38,8 +39,6 @@ int hmm_init(void)
->>  		dev_err(atomisp_dev, "hmm_bo_device_init failed.\n");
->>  		return ret;
->>  
->> -	hmm_initialized = true;
->> -
->>  	/*
->>  	 * As hmm use NULL to indicate invalid ISP virtual address,
->>  	 * and ISP_VM_START is defined to 0 too, so we allocate
->> @@ -62,7 +61,7 @@ void hmm_cleanup(void)
->>  	dummy_ptr = 0;
->>  
->>  	hmm_bo_device_exit(&bo_device);
->> -	hmm_initialized = false;
->> +	bo_device.flag = HMM_BO_DEVICE_UNINITED;
-> 
-> This clearing of the flag / setting `initialized = false` belongs inside bo_exit()
-> not here.
+> diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+> index 5b5082efb282..777a8ab3a397 100644
+> --- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+> +++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+> @@ -161,29 +161,35 @@ static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
+>  
+>  static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
+>  {
+> +	struct mipi_dsi_multi_context dsi_ctx;
+> +
+>  	/* Clear the manufacturer command access protection */
+> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
+> +	dsi_ctx.dsi = jdi->link1;
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MCS_CMD_ACS_PROT,
+>  				   MCS_CMD_ACS_PROT_OFF);
+> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
+> +	dsi_ctx.dsi = jdi->link2;
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MCS_CMD_ACS_PROT,
+>  				   MCS_CMD_ACS_PROT_OFF);
+>  	/*
+> -	 * Change the VGH/VGL divide rations to move the noise generated by the
+> +	 * Change the VGH/VGL divide ratios to move the noise generated by the
+>  	 * TCONN. This should hopefully avoid interaction with the backlight
+>  	 * controller.
+>  	 */
+> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_PWR_CTRL_FUNC,
+> +	dsi_ctx.dsi = jdi->link1;
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MCS_PWR_CTRL_FUNC,
+>  				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
+>  				   MCS_PWR_CTRL_PARAM1_DEFAULT,
+>  				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
+>  				   MCS_PWR_CTRL_PARAM2_DEFAULT);
+>  
+> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_PWR_CTRL_FUNC,
+> +	dsi_ctx.dsi = jdi->link2;
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MCS_PWR_CTRL_FUNC,
+>  				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
+>  				   MCS_PWR_CTRL_PARAM1_DEFAULT,
+>  				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
+>  				   MCS_PWR_CTRL_PARAM2_DEFAULT);
+>  
+> -	return 0;
+> +	return dsi_ctx.accum_err;
+>  }
+>  
+>  static int jdi_panel_prepare(struct drm_panel *panel)
 
-To be clear I meant this belongs inside hmm_bo_device_exit().
+There's a lot more functions that should be replaced in this panel. You
+can get a good idea of which ones by looking for the keyword
+"deprecated" in drm_mipi_dsi.c . Here's a good reference for what a
+conversion patch usually looks like:
+https://lore.kernel.org/all/20250319183106.12613-1-tejasvipin76@gmail.com/
 
-Regards,
-
-Hans
-
-
+-- 
+Tejas Vipin
