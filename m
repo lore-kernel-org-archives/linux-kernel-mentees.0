@@ -1,129 +1,116 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E89C28C5C7
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  7 Jul 2025 07:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325DD293C67;
+	Mon,  7 Jul 2025 10:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751875058; cv=none; b=YSsnk4Wc6zsb1fSjaMaThFxrztsy/XoXaNsGKN2/EQ5P5ercPfiIznAMlpQ/5RBi7Mczeprlq6DW6mLyF1Tjwv2x7D1x08VoviZWz6DMyY9SFvRXwuwr547TBGwQmjrARsfzbBxzrVzmgvaE5OB/bMNwk4lmlNjYt6xjpkqESIw=
+	t=1751885877; cv=none; b=eYIirYAknsFFFFodnanWXKtrljY9TsUAMyfLi8E3B6PblgD7dBRG1Nl2QKJTCJOYvA46QUm0VKhjPh172cG5Y8AFHmoIbUes7JUN5gj0hzhoB7kYmGJYXRdkiZsupekuyQFmqoDK+2S7qHzeCOyNM8u69XpS25sL39T8H/0J1m4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751875058; c=relaxed/simple;
-	bh=TIYvoKfMMCjlv2uIdTylizwMRIdwqTIRMTgS9s8saVs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A+GQ4WAy63wRzyGXjbMwmD28GMyQOWARSIOuW70IOiCwNQJ1wxTKRzHOxNMqS5TmyiHfwK79GQFVr03gQ7uord0OtZJPDKj5AqOPWxgvmMKgJkOISMtUVpFpMWS7tGC7wKFW7PdZlnDmQSKUlkgqNG35t6fkFLwv6J8FMovi+Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=P49QcLuH; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1751885877; c=relaxed/simple;
+	bh=CjdYiBoeMS7qseIEcuh47YFTpqlehtkQQLEcP/t1k+o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RK2P4//Yz4sbWObHXIeXUsBrYWi83hojA+6Z5kLZh3TLe2nTO7Lp6te8WdndCYRCfr6C4LUKi3HoqwStyJwJdxDe9GzJIk7oHEz+naZKOouVC6CrbSniFd1EKD80+blABmFTE2UHLuva8nGq6gPI9Y0mEeeBI5mVZrgKuU0ToG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VLNshdTV; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="P49QcLuH"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-748f5a4a423so1534364b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 07 Jul 2025 00:57:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VLNshdTV"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-712e7aceb69so1313087b3.1;
+        Mon, 07 Jul 2025 03:57:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1751875055; x=1752479855; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/MC/xohKHOcg+vnOOSNCEDTYlZuTz6zJxo6U8fkD0yY=;
-        b=P49QcLuH7dhT/bBT+SuqZu+BT7NZSAucmZwum8a13RnqtiMU/sXaSofwCP6oeCC1y5
-         gKp60hY8qWq9xGCRGMCQtFR5QHps2DUyXCUAZgd5KnSq69BN6S8kvPseKfsQlTFpwcge
-         9VIa8GPyCdxo5UprGHQypoi+YME1bPJOK4B9jZ6xFshdC71isMqE8AggLIyjCOfga7NY
-         ELxCoHIGSe1YbzS2tpK5RFwZuSdOr8wmMOhm5BN7AaCUSYC7o0FSySyDKPFUvd6nz5l5
-         qG9uR00oWVq1nHEwBiOs2hDYeJ/1HRyXQohJ/5GWdKhJym9D5u6Y2g0zfKqE5Fif1kgJ
-         ZEzQ==
+        d=gmail.com; s=20230601; t=1751885874; x=1752490674; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7ioNsEHWfe5qdqz4ks5nH1iCIyBMczU2uy4kn1CK7dc=;
+        b=VLNshdTVzI4OockyOLMZzZlhbv0aW/EDdk6fjFMIbVARw6Er8ailECWVpYTN9KWM41
+         +xswyJrEYC4FDCjWD6qlo9t9jZqVmynMKZwzTXzvuy1Xhu3weG4sIBzkUtkGJOTOTPve
+         o0md580W5+Szh1Q+//0aDuXRT3IW4u5gz1WVpICMS99JEzvFI0VwB3q56YcjpcP8kYwV
+         8zOg65s9Q16CcQeVTqSf2LLXiOYH6z0HP0H8S2HcE4iSVM6SvWls1s0x05dJN0sxfGBL
+         olf6mS5dnDrCL5y/yi8shZGrh9U/icXgHxghlzAbGg+DgHkI+A3bev94HG6g3QVUZ0ue
+         8oMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751875055; x=1752479855;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/MC/xohKHOcg+vnOOSNCEDTYlZuTz6zJxo6U8fkD0yY=;
-        b=Pi0YMXqAoVTMvkL6+BkGFXBw2Za3kB4TV2l9iS+AWCGGCFg9nz+xjJTRiHlNowMKzr
-         PCJFEg3kbGzBsz837UJHOszr8bmWUi1dMh71z8hk5te8gJPIDqyn4Oc7AMl4QAFIulQW
-         EFd5920OZX/z/1T2MOrFRR9hWQxq19YfqRBN4hCsXn39RQGBkkZ7GxkYkGpesz4Ubwkb
-         mO0QTDN+RWbZrl513rsvRUjIAyZUWHugidgvOfWPzD82xBKuFro3gek06Z8n26E4THKJ
-         6nPnuinbrtdWyWv7reApPVOa9vSasCGXvdOWXcfaM9fbuu2f2KO7/yD4NeF4Y2wR9iC1
-         cEwg==
-X-Forwarded-Encrypted: i=1; AJvYcCUPw9duXPCFehbtc6EUsCQOa3L1WRnQwKEEqkPkUhfI+d5btCu2ZJHS430xuUbqMvCwerVPlmD6vkrJeMMiTx1IsJuhuw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2jx3FMqCNzJPAjkR9jrAht+FU1U+PBIGE9OxjojgOPBQDRBXV
-	TKYenL9sIBc2eo38wgjlQXSjcmv6Gkw3vma9WTZQ9wWuWc5L3QJU6WnEkFhkQrJZBMo=
-X-Gm-Gg: ASbGnctdnuqq2ohYpmjEQz0Vw46ElBnAM3KpKLuL3niR0+YWXUetSN7A9n39Btqbbv8
-	XbfPUjrktMjeS60HeGoiKU+5TRKE6HvuLTBWhIfMb5ZrZO71O2EbOzOXz3m0tWfj9levHPotkdb
-	hKDHfgscMDSzKwukrc3YJ7ggGPG+eNnOrMa+wvPjGafK0BmkyhbfJ3zeIC1Se9pW2kImajsvRaG
-	I3G+t0pDPXtHOTtLVcw05jNeRL+oJ1rSSi2Mdcq1Aju+hB7I0N57DPAdvXnkqRmQcVACW1o1pjE
-	1Ko3AYnuEVxOYElnROTJuiMhWY4jv0zbz/uDgjaf75a8HcRBxbGMIeGxz9E8dgBHfb7BBI0V21Z
-	9dhq+Bm4N5giabkTnYg==
-X-Google-Smtp-Source: AGHT+IEG3rUVLj/sU9Sc3cCmT/rktoO/r9+WAKUWx4b+U8GR+jBcTNhe69ooHHcJV8ngN58Oe5tUvA==
-X-Received: by 2002:a05:6a20:2583:b0:21f:54f0:3b84 with SMTP id adf61e73a8af0-2260b96873fmr18892440637.35.1751875054860;
-        Mon, 07 Jul 2025 00:57:34 -0700 (PDT)
-Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b38ee62f8bdsm8246476a12.57.2025.07.07.00.57.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 00:57:34 -0700 (PDT)
-From: Brigham Campbell <me@brighamcampbell.com>
-To: dianders@chromium.org,
-	tejasvipin76@gmail.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH 3/3] drm: docs: Remove completed task from drm TODO list
-Date: Mon,  7 Jul 2025 01:56:58 -0600
-Message-ID: <20250707075659.75810-4-me@brighamcampbell.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250707075659.75810-1-me@brighamcampbell.com>
-References: <20250707075659.75810-1-me@brighamcampbell.com>
+        d=1e100.net; s=20230601; t=1751885874; x=1752490674;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7ioNsEHWfe5qdqz4ks5nH1iCIyBMczU2uy4kn1CK7dc=;
+        b=AmNWtrPQ8DEuulTNcHBZBHABQ23Vko2wacyMk6CzJ90q0mEjvD51DgDs/K6hh9XBYA
+         2KZonwiYPdjpgjrQ1ddCnGR8V7CqM4jOM97JF+53mty2G1uwU0axcwKep/yulOivWAUp
+         EKvQzQfBu8ZMxtVwSMt0nOh5Y2PhnFqQZpMp8xIMFzHJTsu+H7JYEwZOdBIrdHjMdcll
+         15+iaibMPO/9LaXewi7GJ92QFodSvRzHAh2ClRnjmUe/yeMbZHsQp34diVvpZ37Rz9oG
+         K8l137bFv+FXJ4w14WIChSazPGGtbUJRfo/b7MXeEtldt5uEdgIYzbuniMm+HLjqGwlf
+         qW+g==
+X-Forwarded-Encrypted: i=1; AJvYcCWChVc2kE8+A0Sxf7DRHGxvUpwCaxxn594njn8cY6qOCH4bZcd5f0MYkmtmgC1dUaobeft0cmNgzMjvXrkvkg==@lists.linux.dev, AJvYcCWbE+hEvdEW6trEEbkOSutSHDWUOcZ6tEnxc5QiPZLFqO/IycXmLDwHR7lVg4CZAFo/Z4ji2l5+acdSkN9uDp2Euc2ilQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzo0F8yWCef2jIQrCTsILaQeqIH59k2N+LSKzhLV3Qrzt3i6+9Q
+	SqF+Xh9NNFiPmWbbEf4Pye1fjRYe2bw0WSmkoa8Cfa3ad3feqYq7O/QIi+RboIh8Oz+UU8MMUbv
+	9FxTmvsJ1BABORJlEewt8P48kJeiDBV4=
+X-Gm-Gg: ASbGncvYLjO3CwJhscYJEGvDzVCH92ULueAtjFJAffPwnXVgP+tz2VCgQ15Quk7Xlxd
+	2U7llqtIx2/RlgcywQQrhOV2PvnW+DPHQgjHPHCX8p4ymvCe/YZf2oHUK9vfN60dOrIFR0Iad0l
+	MlT1m7Y4rhPcHhxv5CzJiDz8cfhjUNkACK2XRb4JRqPxk=
+X-Google-Smtp-Source: AGHT+IGC8/osnImIufkkdDbo94SnWRe56rECvcr4sumXfQ1CXHwC0L1J81sjFCmHQGPgO6vDkShX/OtMSww4Y9CubhI=
+X-Received: by 2002:a05:690c:1a:b0:712:b566:bf7c with SMTP id
+ 00721157ae682-71669eb7e1bmr71790577b3.1.1751885873842; Mon, 07 Jul 2025
+ 03:57:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
+ <CAHp75Vcy3dHRu8Wb2KZ=xK7adz=-P-iuRTeR8vOWzHzZL9uFeg@mail.gmail.com>
+ <CAGn2d8OMRaeozOMxj1Ry8i9T3sJ5J1QqA_Jpk7wYO8KiUbpKBA@mail.gmail.com>
+ <aGPYZhK65LaD0wVO@smile.fi.intel.com> <836dc6b6-2821-47fc-8f24-0838f979af76@kernel.org>
+ <CAGn2d8NBEwWm0mQ0YQ3KZ+V1Zon84zusfsQQV2foVmUTBAzEAQ@mail.gmail.com> <fbfbd0e5-2c27-4f32-a3d7-9cf57fde5098@kernel.org>
+In-Reply-To: <fbfbd0e5-2c27-4f32-a3d7-9cf57fde5098@kernel.org>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Mon, 7 Jul 2025 13:57:41 +0300
+X-Gm-Features: Ac12FXw7W1irHG_Shk7SGyIt6mDyRdJM1OxzhEC8PPcEWPID0WwjfabTg3nNrbQ
+Message-ID: <CAGn2d8OrhbJ_MqZEwfCrXy27+-a_6JVDQW_TVmVHM=mWbcEe2w@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: Fix premature setting of
+ HMM_BO_DEVICE_INITED flag
+To: Hans de Goede <hansg@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	Andy Shevchenko <andy.shevchenko@gmail.com>, andy@kernel.org, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	skhan@linuxfoundation.com, dan.carpenter@linaro.org
+Content-Type: text/plain; charset="UTF-8"
 
-Remove TODO item from drm documentation to transition away from using
-mipi_dsi_*_write_seq() macros now that the work is complete.
+Hi Hans,
+Thank you so much for your support and guidance. It really helps a lot.
 
-Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
----
- Documentation/gpu/todo.rst | 18 ------------------
- 1 file changed, 18 deletions(-)
+> The hmm_alloc code can use some more cleanups:
+>
+> * hmm_get_mmu_base_addr() should be moved to drivers/staging/media/atomisp/pci/hmm/hmm.c
+>   and then the "struct hmm_bo_device bo_device;" in hmm.c can be made static
+>
+On it .
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index be8637da3fe9..76afb8a784e3 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -497,24 +497,6 @@ Contact: Douglas Anderson <dianders@chromium.org>
- 
- Level: Intermediate
- 
--Transition away from using mipi_dsi_*_write_seq()
---------------------------------------------------
--
--The macros mipi_dsi_generic_write_seq() and mipi_dsi_dcs_write_seq() are
--non-intuitive because, if there are errors, they return out of the *caller's*
--function. We should move all callers to use mipi_dsi_generic_write_seq_multi()
--and mipi_dsi_dcs_write_seq_multi() macros instead.
--
--Once all callers are transitioned, the macros and the functions that they call,
--mipi_dsi_generic_write_chatty() and mipi_dsi_dcs_write_buffer_chatty(), can
--probably be removed. Alternatively, if people feel like the _multi() variants
--are overkill for some use cases, we could keep the mipi_dsi_*_write_seq()
--variants but change them not to return out of the caller.
--
--Contact: Douglas Anderson <dianders@chromium.org>
--
--Level: Starter
--
- Remove devm_drm_put_bridge()
- ----------------------------
- 
--- 
-2.49.0
+> * hmm_init() sets hmm_initialized = true even on errors. It should
+>   immediately exit (return ret) on errors instead of continue-ing
+>   with calling hmm_alloc() even though hmm_bo_device_init() failed.
 
+I have created a patch for this but i was waiting for the other patch on
+hmm_init() to be applied because it builds on it.
+
+> * I've checked the code and hmm_init() is called before any hmm_alloc()
+>   calls are made so the extra hmm_init() call in __hmm_alloc() can be
+>   dropped.
+
+Same for this too , i was just waiting for the prev patch to get
+applied to avoid conflicts.
+
+> * After dropping the extra hmm_init() call in __hmm_alloc() the
+>   hmm_initialized flag can be removed since it is now no longer read
+>   anywhere.
+>
+I agree with this too , will do it
+
+> Regards,
+>
+> Hans
+Thank you
+Abdelrahman Fekry
