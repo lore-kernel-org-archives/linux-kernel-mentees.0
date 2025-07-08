@@ -1,133 +1,152 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2252E7F22
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  7 Jul 2025 17:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59441F949
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  8 Jul 2025 00:14:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751907956; cv=none; b=mj674DjI5+8huQnlhWMosVxktgblsGwOJY5987bOsyNwHj/5NwZxb4Jafxe1+o3WMvi7Mg7EjVgyVjpTDZaj2go4aLiKQfDxHzxQnHRkAPg9RJcBOGj9RuQkFAIp+vJ68KyR+HqAJhUveFromTx+Wk7VmyLlZ7DwlWJeNWiMo/U=
+	t=1751933693; cv=none; b=Tq0ZC61TUuGcV+ZLwshf7kcnSQ7AH3X6THjyMlnTRzD6HPglVK765BU/yyHOQhtc32OMgEbhlU48YVe9kUNX00PU0j3WF75uTzhE99vEGVtJ41uuSu1A9TFfaLAo/GF2jDVXcWj1COBq0LMHBEmfqSQUGGlIiQFCEFIDYNazN/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751907956; c=relaxed/simple;
-	bh=PY+mw4mTUhq/6RadpdMRqZgmrB8wZ5jm+Z1Dkpgo29Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=j7jkHLN+0SGGz8QyHLk6e3wsq3seWAqw2fQcavuCrorPVF7WZd2Q529QJKsqNkenJQ1dhO9Utd1wMN+qazgubr0eYPG1P4bcCvB9Rq2VOVKjSA+lCSy2ZXiUtypWqcu4BXl8vSy7+0PuFWXmLHzZDNQ0+Sy//Bu0oS68TJSct7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sj2vYBlO; arc=none smtp.client-ip=209.85.216.42
+	s=arc-20240116; t=1751933693; c=relaxed/simple;
+	bh=dmlr9QU9PejKKi6yw4+ngRoaBiSbg3gp5UFCg3+6BGA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Y0sdFNcst8Wn5rqsvSuC1DK96flQGLIt2jg0a937qAlE4aeDKPR1si9iK72GZSlw/CVb5V6dX6cJD1hwvQNJrNSjwjo1IUFx3GVSPTS6dfgpOiS/eS3hdqU4EexSP0Daoe7P+klT8n6pBA8CuT7LEwUroD5F5ZLhQk/gfZ7ADTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j3rbGoj/; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sj2vYBlO"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3137c2021a0so2761414a91.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 07 Jul 2025 10:05:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j3rbGoj/"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-234c5b57557so34616195ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 07 Jul 2025 17:14:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751907954; x=1752512754; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TpMdXzDnCfdN/GalFwfGmK2Pny6VW2Rxcn9/iXdWGFw=;
-        b=Sj2vYBlORJWhmU13ceQ6fj87FHk/HSD4XdrrRN1Q+15QBwwMPx2X9NV6X2SvVVSNzT
-         twaf/cDgePtVLlEhA8i4rsD4LZfNNdZFPqTPn+yLOgZ6+M5egp1tpzrD2pyHRIqWpaOT
-         7F8/GWEFpJK2sX+/mVN6skQqDiOsrvBv3PGdVKAOQkH+ZNbW5CB6cXjHxUpTGQioVIoR
-         XzKisIHilpsXijA2+S4ULCR9YpY0PbQAUchm7p2Yk506ePKuaQsu0+GX6o9pRh4cab8B
-         iu2YkiV4XBcxcl8Mv2oD5O5/Ws0f2TRhyFv5a3ESacCYC+dfhspkWjVra0yJwq/FjWXO
-         CXjw==
+        d=gmail.com; s=20230601; t=1751933691; x=1752538491; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZetFX6wW4YDbBAC0JxzbJ3+PwShQwl335DiD7tIdsd4=;
+        b=j3rbGoj/kvTjiknN1fw2Dn99E42iI88HRutI/fED0+5RK307u0pWUa1+IIMzt9wiI3
+         RfyNoJePp8aCg5/jrDC6L16/6Bgad04ScqxL9FZH+n7IFnlGWwr6/Z4b86o0CarlV4ZR
+         NGri4PEEFJqc4CNn7YcDCTX1Yv2iUgRcEh6VU0zxGiUIRASgFcM1wS3SGoxyoWeihhy2
+         sbCk3XUL6h+BPq7hPeXOMTITVFAsstaFaksu0f5x7vOvsv+7zGu9I80HyghZttIdnH7l
+         44Pq7mFjmkOd7cTgkvWukCBGuS/7HD3eNKIYeZhaDJDreWyY9Q7MCwXwhhgc1ossMzfM
+         n1Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751907954; x=1752512754;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TpMdXzDnCfdN/GalFwfGmK2Pny6VW2Rxcn9/iXdWGFw=;
-        b=CPmsHtU/4nZKcSVxkyX/y76s7v5Th5tRwmX29EGvXvyj/OxYKmRowDxIR8Ajlu6GcQ
-         Ibxvzh4pGvFPcS7fprMCgImkTGHZ3s4TVlCs6LbtPFyVbLUDyHypffYdGAjXT8Frlgt+
-         b+mO/8TSECJZwOxA8tye7Ue1jXF1j5J6fFkfn1Fp0oI6UsAcTdlA/0AV3dS61ROUkb7Z
-         x2kdBiMdpgzbJd4q2iPKwvKUkVTp0mjq30necGa8LettMGEOrqZTcpeyFiunDZjgNQKJ
-         2dCAi6d/7gnybI40qK9As/YSa2yDo2aSBgav3qS/fnNKt63I3cZSPYqUPTv5HZTrkEOc
-         To5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUPd30/ARtHG+sW9sitiOhi2tHe0OxTRXSoTsGubdxGQOslJm2AdNjpZdUFBtl5ubrOaFe/5GytBk7Hrpom33Nu3DKDnQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz60QghSJzJuQ12SfLjEvbZmkk4jpufHPMSqd9xZu7VswsGKIwa
-	iEjkOhH2dmhaqfHWk0evtzrarI71v8FeFpOmPMyzpyCprxMAS+axR3YI
-X-Gm-Gg: ASbGnctHfUhTFFNWuLu6GUunmwZOPtzkqpG3GKFl0c9WExwzuCop0sCEfNztbDpnDTw
-	RbP7E2C6BQVhJVBt9E8Qj6hof2pFUdi1PzmwASdzSOAu3AyYLk0sZF6hIYUAiLWVOZfZmUurzdb
-	muuEDhasl4Qx2aEi1PsWF+LXBbZVexfL8aT8Ab6WmHdq309vXIgkyS7hObc5qGlHJoT6ga6owyr
-	4Pj353TVI58H2QQLm5EFtMBO94F06JbACTnqo8tAWu/Vqb1ycAVsh8naA9D1krRMwnn11bpwcaq
-	NYw95hErKtFBLq4s8Cy556AhUel+j0RUDF0F0u4eJ93uUql8aGsp07N1Ji00Qt0q9OIb8U6G+wM
-	=
-X-Google-Smtp-Source: AGHT+IEF5fattogvax5kob4VN55wmQfM65/bVQ74yFaRHd7Gk2rpdUBuYA2r6FYpXtk6hWnOBGZqww==
-X-Received: by 2002:a17:90b:4b43:b0:312:29e:9ed5 with SMTP id 98e67ed59e1d1-31c20e59333mr265155a91.23.1751907954241;
-        Mon, 07 Jul 2025 10:05:54 -0700 (PDT)
-Received: from [10.0.0.86] ([122.172.85.55])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31a9f17bc5bsm11683652a91.48.2025.07.07.10.05.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jul 2025 10:05:53 -0700 (PDT)
-Message-ID: <c7296a36-0bdd-464d-a681-517c814afed7@gmail.com>
-Date: Mon, 7 Jul 2025 22:35:44 +0530
+        d=1e100.net; s=20230601; t=1751933691; x=1752538491;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZetFX6wW4YDbBAC0JxzbJ3+PwShQwl335DiD7tIdsd4=;
+        b=BiqnEVBs/cWlpTvq63s+nN8Z8jfvOBJCgk6PMqkDvfTikKV7IbNCfv3g3ZiVWxVmXb
+         zqK2Ll1xWrx6JmGWeemeofaQ0OkOKLMgUMUWnybDeKkrB95/+7A7f60xQ14YPbMzvNrU
+         3Tpg/5zQW0PkEchvVeH10qoqplmY3nkYfnc4Smdf3XDkaGzCXwF25Z/2hDhSSbQ5Vebd
+         6rM/qN26pJsBrh+pWDcswhEUMusHr+tg/yfvJOcJGhDVNLRCvwwQ9V5mDnl6PsIfFQUc
+         PWl3k50by2Krv5ZYom9GyunSkqb/4ocsZgKhNpX0ITde1WVw9YcrbsfTW26ImoImHiiK
+         7lwg==
+X-Forwarded-Encrypted: i=1; AJvYcCUV40OyGXIoRQ3mo5JXWoaZS17sL6U8s1Rm25R/u1b/eRPY/xlsmoNioTzIszgN4iPpIawtZiygR8K2NQmnPbIipLKZcA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzHID4Bk+3hoU3IS4Aj0CMrjKmcE76mC401tEZYmDsnN4eyOL/R
+	jLBgTUGmsBrg22T/Xz8fNimZuqRIYg1MezaYP4gi4TBBKOJS7oW/JIWt
+X-Gm-Gg: ASbGnctkDRMbfZBIL6xZayI6yYwEphGjFN0OGsjpgIb/L8B3/HGQgc7eK4PekOtTCHZ
+	xL0hAxuIW02hJ4maDUA1l0ZW3UKt8+3/GpiMn8jIlLEyDWRg6Bdvc4jubKGWhAntTggvz8V7BGf
+	bdLPXW9/hqxTM/dy89ty0TzADN77HAEIqh5cHMkwnFYiSkUPMOOqLLkC9MloNW2a9m+wegYwgbY
+	YBLok7JxFI0zw34jL0bbQ1vxyjTw2eQpDnRGA8bsMzZ4ySbtzVQsHF7kib9lxnrN8CDiG0eJfCh
+	q+9lHi4vJHX+HFWQFJtsLNtVg+moDF2C2gEbfvfBPDocSwn3y6i0Obj/YawekZaHNlwFtQrQIGK
+	Jscu5bR5t
+X-Google-Smtp-Source: AGHT+IG8TGYBMB1axi5fHGbVJ42BJ87cjqsFjSk1o0khIde1Z/ZybxhjiWb4KmGSQ8SCNbMNkpEj1g==
+X-Received: by 2002:a17:903:2784:b0:234:986c:66e0 with SMTP id d9443c01a7336-23c85d8f78dmr180752565ad.4.1751933691057;
+        Mon, 07 Jul 2025 17:14:51 -0700 (PDT)
+Received: from localhost.localdomain ([115.137.3.141])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c22055c73sm481201a91.1.2025.07.07.17.14.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Jul 2025 17:14:50 -0700 (PDT)
+From: Ryan Chung <seokwoo.chung130@gmail.com>
+To: jgross@suse.com,
+	sstabellini@kernel.org,
+	oleksandr_tyshchenko@epam.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Ryan Chung <seokwoo.chung130@gmail.com>
+Subject: [PATCH v3] xen-pciback: Replace scnprintf() with sysfs_emit_at()
+Date: Tue,  8 Jul 2025 09:14:40 +0900
+Message-ID: <20250708001444.86155-1-seokwoo.chung130@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250624070443.11740-1-seokwoo.chung130@gmail.com>
+References: <20250624070443.11740-1-seokwoo.chung130@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm: docs: Remove completed task from drm TODO list
-To: Brigham Campbell <me@brighamcampbell.com>, dianders@chromium.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>
-References: <20250707075659.75810-1-me@brighamcampbell.com>
- <20250707075659.75810-4-me@brighamcampbell.com>
-Content-Language: en-US
-From: Tejas Vipin <tejasvipin76@gmail.com>
-In-Reply-To: <20250707075659.75810-4-me@brighamcampbell.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This is the third revision (v3) of this patch series.
+No changes since v2—only adding Reviewed-by lines.
 
-On 7/7/25 1:26 PM, Brigham Campbell wrote:
-> Remove TODO item from drm documentation to transition away from using
-> mipi_dsi_*_write_seq() macros now that the work is complete.
-> 
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-> ---
->  Documentation/gpu/todo.rst | 18 ------------------
->  1 file changed, 18 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index be8637da3fe9..76afb8a784e3 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -497,24 +497,6 @@ Contact: Douglas Anderson <dianders@chromium.org>
->  
->  Level: Intermediate
->  
-> -Transition away from using mipi_dsi_*_write_seq()
-> --------------------------------------------------
-> -
-> -The macros mipi_dsi_generic_write_seq() and mipi_dsi_dcs_write_seq() are
-> -non-intuitive because, if there are errors, they return out of the *caller's*
-> -function. We should move all callers to use mipi_dsi_generic_write_seq_multi()
-> -and mipi_dsi_dcs_write_seq_multi() macros instead.
-> -
-> -Once all callers are transitioned, the macros and the functions that they call,
-> -mipi_dsi_generic_write_chatty() and mipi_dsi_dcs_write_buffer_chatty(), can
-> -probably be removed. Alternatively, if people feel like the _multi() variants
-> -are overkill for some use cases, we could keep the mipi_dsi_*_write_seq()
-> -variants but change them not to return out of the caller.
-> -
-> -Contact: Douglas Anderson <dianders@chromium.org>
-> -
-> -Level: Starter
-> -
->  Remove devm_drm_put_bridge()
->  ----------------------------
->  
+Reviewed-by: Juergen Gross <jgross@suse.com>
+Signed-off-by: Ryan Chung <seokwoo.chung130@gmail.com>
+---
+ drivers/xen/xen-pciback/pci_stub.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Personally I think there's merit in keeping this TODO around until all
-the other mipi_dsi functions are transitioned as well and removed
-entirely. Maybe rewording it to reflect this could be better?
-
+diff --git a/drivers/xen/xen-pciback/pci_stub.c b/drivers/xen/xen-pciback/pci_stub.c
+index 5c2f829d5b0b..045e74847fe6 100644
+--- a/drivers/xen/xen-pciback/pci_stub.c
++++ b/drivers/xen/xen-pciback/pci_stub.c
+@@ -1261,7 +1261,7 @@ static ssize_t slots_show(struct device_driver *drv, char *buf)
+ 		if (count >= PAGE_SIZE)
+ 			break;
+ 
+-		count += scnprintf(buf + count, PAGE_SIZE - count,
++		count += sysfs_emit_at(buf, count,
+ 				   "%04x:%02x:%02x.%d\n",
+ 				   pci_dev_id->domain, pci_dev_id->bus,
+ 				   PCI_SLOT(pci_dev_id->devfn),
+@@ -1290,7 +1290,7 @@ static ssize_t irq_handlers_show(struct device_driver *drv, char *buf)
+ 		if (!dev_data)
+ 			continue;
+ 		count +=
+-		    scnprintf(buf + count, PAGE_SIZE - count,
++		    sysfs_emit_at(buf, count,
+ 			      "%s:%s:%sing:%ld\n",
+ 			      pci_name(psdev->dev),
+ 			      dev_data->isr_on ? "on" : "off",
+@@ -1375,7 +1375,7 @@ static ssize_t quirks_show(struct device_driver *drv, char *buf)
+ 		if (count >= PAGE_SIZE)
+ 			goto out;
+ 
+-		count += scnprintf(buf + count, PAGE_SIZE - count,
++		count += sysfs_emit_at(buf, count,
+ 				   "%02x:%02x.%01x\n\t%04x:%04x:%04x:%04x\n",
+ 				   quirk->pdev->bus->number,
+ 				   PCI_SLOT(quirk->pdev->devfn),
+@@ -1391,7 +1391,7 @@ static ssize_t quirks_show(struct device_driver *drv, char *buf)
+ 			if (count >= PAGE_SIZE)
+ 				goto out;
+ 
+-			count += scnprintf(buf + count, PAGE_SIZE - count,
++			count += sysfs_emit_at(buf, count,
+ 					   "\t\t%08x:%01x:%08x\n",
+ 					   cfg_entry->base_offset +
+ 					   field->offset, field->size,
+@@ -1462,7 +1462,7 @@ static ssize_t permissive_show(struct device_driver *drv, char *buf)
+ 		if (!dev_data || !dev_data->permissive)
+ 			continue;
+ 		count +=
+-		    scnprintf(buf + count, PAGE_SIZE - count, "%s\n",
++		    sysfs_emit_at(buf, count, "%s\n",
+ 			      pci_name(psdev->dev));
+ 	}
+ 	spin_unlock_irqrestore(&pcistub_devices_lock, flags);
+@@ -1521,7 +1521,7 @@ static ssize_t allow_interrupt_control_show(struct device_driver *drv,
+ 		if (!dev_data || !dev_data->allow_interrupt_control)
+ 			continue;
+ 		count +=
+-		    scnprintf(buf + count, PAGE_SIZE - count, "%s\n",
++		    sysfs_emit_at(buf, count, "%s\n",
+ 			      pci_name(psdev->dev));
+ 	}
+ 	spin_unlock_irqrestore(&pcistub_devices_lock, flags);
 -- 
-Tejas Vipin
+2.43.0
+
