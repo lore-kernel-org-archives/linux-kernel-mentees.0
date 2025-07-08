@@ -1,162 +1,124 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE4525A659
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  8 Jul 2025 22:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE871990A7;
+	Tue,  8 Jul 2025 23:05:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752013487; cv=none; b=pN7RyW5sw43/+MnHOgIkDFH//y1/w4aHBpdyJcbiZTGuxIBWk04ZxKpaAsBJfjL/l1LdMhYYq1Khs23VFBIqTVBBrHG8lqgRvySi/RkCokEppGRfcY5xwvJS6k9cqbt76wB766FYrMvwCahbG5rrz3JR9GaV0GmMIM+nyCPqAVM=
+	t=1752015922; cv=none; b=OXN1L8YRhJ4+hWLXGD6B87mKCK3OjICxqkT6qtq/QczKhB0NYYnLt4M735yIKZgvERhwPinPYCnR2ozgLZ1Cf/JVh6kpnEI2mJ11wPrv7h9L6RYA0BAOL2A+a2e0DpBMIBIvQ8TxbV364TY8Dh6lN9pYURT3YL1mkTUf37O3+JY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752013487; c=relaxed/simple;
-	bh=1IG7fym2wnRXLJOMKB00X7u5L7eu38piDlH6pEzjL/4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JVVvqPb/j0ZhBUK1AQ1g5n35SmhX/Jrol6O0mfMs2vDGQyYSbyFlrHSl5kh3/XZB9r6fNmI3dBnx/ozJMIZ5U273YQMf6HKTgHUlE+ddsb5P/Mxw2ODzkNxjxP135CE+SGs7uX86nGVYr2EKLQvl31Vb7GGoMP+skM25C2W2uKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJQBoZFI; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1752015922; c=relaxed/simple;
+	bh=WovQaQ9PikrY5uLmVbsHl3tpSSKbTT19zMVimO8nhF8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sw5gcSS9+66dBAPHGOqC5wVIh5dksRW/M0rAm+LG34WNiqEjskVsYm06PRXMVaBn38XmB14Q+QMnkjnuM0KEyhqdQC6I5T2sMmldnUZqf4Qe0n4SwFvHMSWtAGC+oZdHs6ZSqy43Y+uGdpg5MyG5FWgdScuzBaap1xAHiTf3Q54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K2SOicbe; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJQBoZFI"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 00C5D816EE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  8 Jul 2025 22:24:46 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id wG444DSGjb_j for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Jul 2025 22:24:45 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::c2c; helo=mail-oo1-xc2c.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 3D219816E7
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3D219816E7
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=MJQBoZFI
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com [IPv6:2607:f8b0:4864:20::c2c])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 3D219816E7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  8 Jul 2025 22:24:44 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id 006d021491bc7-610d86b3da9so1222467eaf.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 08 Jul 2025 15:24:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K2SOicbe"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-235e1d710d8so65013515ad.1;
+        Tue, 08 Jul 2025 16:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752013484; x=1752618284; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RwCnPHpixWh2MxDiEiUT8nt+4FfPoK+sTsuqRzuBJhI=;
-        b=MJQBoZFICTrDP0PxP9w/Jnaj8hEK+5zqapIM3DmE7JrHhbD6Me5v8WdX2UFLZF3SD7
-         DYwHWyJXA6fR9SrOb/cAewSBGy5gNFu5ddwP03gica/yPTM2q3bXSIOuvEgd0C2DMuky
-         UOG3hgomEvGf9TXzGveq3qEXFfs1sklmHFikITVIIRfhCcEdG5+tBZLRItFPAoqK3Za5
-         rfp+v/DXw0hIKyqBAtYzrtW0+B5K7y2WUV2tF7cWJw841ofVi3oyv5/ZIoRbcquo45HK
-         239rC+in8fZKPuU1IO28eN8zrLlXGIZGAZSttw/6x1zRJlVMFYHWXNcRXLQoVW1qamSq
-         ISPA==
+        d=gmail.com; s=20230601; t=1752015920; x=1752620720; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3nTeLrKufhqWMbv8ZxgNZNY3CTIL94aICMXLX0urdhU=;
+        b=K2SOicbejzpkIS7DtgE9isBonEBZ3bMftY6uj1L3XCVYn5PCLtM4MCrqCbJ7m8LstI
+         wVEYVoexCBUasozFtd4Q77oy7MHu1P6MPRpFcGduDMLAyBKXTbzI8LxHkGvjtP51qyRJ
+         RQdEAGFyjHaJvzRyeV/LlZLxoGpR35IJ0gtZyE+ixFxVmmn9cwv4U5uu254Ot6K+gOVW
+         dYpUYThAfDDD9xcxrKSAX9bAXhWuhyfy5icUh18KAbWXCRbKivI7mDkcG00jSY28YX7O
+         mOqPEgmZ8bb8+qpzgOyHYeLHgTuTa4GjoBqIJ7uRJPAcztbgZJddD65d69USFPDdRpPR
+         FGrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752013484; x=1752618284;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RwCnPHpixWh2MxDiEiUT8nt+4FfPoK+sTsuqRzuBJhI=;
-        b=IkPPLVt99cflDJ8kF4ayOxNJpbpq1C3ZtkES7bBjXu0Uhx/IVVMRtLJSorc8M195xt
-         8Dc7p7PMJ4h8egJUXiGdYlS2gNyBE7BYi9+6FTvTD6/BuPSO29Lv0YDwW5VrJZMusTWp
-         pAChdu35VIhqiOBc1huRAXCvdFZrzbnFnFVEr01zZva6dHy86fz4qswh6x33s919P6TD
-         d83XXZ0IV0HfT1I8AoeO9YgWQbrIyiI7rfaGFir5JanjnPH6idXMNNnIJMqr3ifVjqLW
-         Jy6ieYVLuttxYjz67Fx5gQhI2eZo9PM9MZTkAiD4SzK8FG2JgR6WMk4VAfE7hjYnvjfm
-         j2/A==
-X-Forwarded-Encrypted: i=1; AJvYcCXnurFC9qs0SFXgZlfZXnCqaEMZVrVl5TYRdiYd82R/8EOC1JOIPiZKyaVNMnFgetw9mExntUkhr/VAH2pEWISVVQTLjA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxmJHqPyRJsRwGJ+HqC94rvQpENIj6pDCw3EIYvl49e+CFXKE7k
-	RoBTK9I5EnMZjTJv0yMN0UVTBqfFkZCMQv/vNrlyM/tRDVxhVfUzL0eDEvQAwQURSWFUOvmwwH2
-	Da8TDkXprzknfSHsKcFcfHuFhyppPVU4=
-X-Gm-Gg: ASbGncu247rZ6U4aK6nqp1Ex8ja7m/4YZvsoHA988tvA/qiXFrhcyjgcwN5Ymt+QIon
-	bTI8EnH/mvxZsJuT8gT9KtDg5mgbb9AVlJBn6W0NRCJA260PN17l099TanLefjqWx0wLAcugnis
-	hVwAbYXbwogLgd9tLTttbvWaBZVNjROW5YC2y52ZOwleJB837rAb8Bjtg=
-X-Google-Smtp-Source: AGHT+IHXuecyrSKj57EyW4OksWUY/S1xTwgoQX541RUX9ZLBb2rY2uaGobqt+FiwxgvLteid6oifLoyEpnXA2/UEq9E=
-X-Received: by 2002:a05:6820:138a:b0:605:f34d:7e00 with SMTP id
- 006d021491bc7-613cceda6e7mr88768eaf.7.1752013483820; Tue, 08 Jul 2025
- 15:24:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752015920; x=1752620720;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3nTeLrKufhqWMbv8ZxgNZNY3CTIL94aICMXLX0urdhU=;
+        b=VNfrIgYQUXhaH/kkxYsdGTsMB21bfttTHMF466oyUc+i+wLSHeV13BJh2dPszp0kKR
+         GCCAybVJr8J+3Z3E7gPa2q06c6y0Hv8bYuGl03h6/xscL6kCRQ7Agv4tQH/YoIB3eylq
+         gcv018g7/ZTrQrjtsc8VDqOjf1E87eoYd2TQurozwo4YgXfwWXV2EJm2fxRj3NcijmC5
+         41USkgVQpP0Ba3IF1R/MFOx/+3M9yMtsa1vwPUMrsLOCzeyUKq72vpgvn7JZgS4zxwxr
+         YAiOHROVTUo7ptmetp1V3rJ6ezxKL92fbM28DRpAvRCfjDAXp+Ml3ilkdg9JD7HhBXgR
+         mzpA==
+X-Forwarded-Encrypted: i=1; AJvYcCWAWPT0Gd4gmHQhhPBBqA3Xlf9BlLDY9RWZ2bjbjFAmwEpAccoTGaNSkumuv5/IbXICYHaOn//swdOfdSwmVJLXY3UUXw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyUkt+2nkjJOFLgwvlE4xrhlntUwmlDqHqGRg/cv4R4dPofTOyp
+	+oWON+bwiVJSX4hryvLk0r/hUKJvOwCNK6lR9vOE68hjp7fThgIforFk
+X-Gm-Gg: ASbGncuHiYhpX/c548JFrVhUamJ/KhqVER6oXsxJGraVQ5CZmVLi5x3CRPOCcQJ3RFH
+	4GPYAB10KWSBNvP0A9UMLr5mhM1Yo66aYUhieH9gLEebo7cTtYuPZPikHHY5Is96ILMk18JNGNC
+	xZrJ9sV4+Ly8qAmFv2hBIzr63Cwy+p45OX9A/W8u9Ml39ZjiarLrVmihKGN3pYejut6iHaTiOcF
+	v4f0aZTIogq6VQIEliF0/VpyI43R5gOBkHKVCqyh0d1N3gQeVUx6+aEem2soHbquK+UoPPxrezf
+	oiws/Yn1hUqUgW1hHJg3Tm2KNhW1b34cRQK4zVXa3aCqcQFCB506+eh6EZn7JmPk
+X-Google-Smtp-Source: AGHT+IEKFLgqtEP19+48DpnOvxj3AeRJtQt+1/a9IT4AzzhP5p8Oq+cBQQrGaVgjDHWgXi4OBaDXaA==
+X-Received: by 2002:a17:903:2888:b0:236:363e:55d with SMTP id d9443c01a7336-23ddb2f2e2emr3240005ad.28.1752015919744;
+        Tue, 08 Jul 2025 16:05:19 -0700 (PDT)
+Received: from p920.. ([2001:569:799a:1600:edd4:8189:b111:bc2a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8434ee13sm118879925ad.70.2025.07.08.16.05.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Jul 2025 16:05:19 -0700 (PDT)
+From: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com,
+	Moon Hee Lee <moonhee.lee.ca@gmail.com>
+Subject: [PATCH] fs/ntfs3: reject index allocation if $BITMAP is empty but blocks exist
+Date: Tue,  8 Jul 2025 16:04:55 -0700
+Message-ID: <20250708230454.156971-2-moonhee.lee.ca@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250708003428.76783-1-marcelomoreira1905@gmail.com>
- <20250708003428.76783-4-marcelomoreira1905@gmail.com> <DB6RKSNTHUZ8.DW0EBFDU6L1I@kernel.org>
-In-Reply-To: <DB6RKSNTHUZ8.DW0EBFDU6L1I@kernel.org>
-From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-Date: Tue, 8 Jul 2025 19:24:32 -0300
-X-Gm-Features: Ac12FXx-fqgCn77oYJv9TW6Ruc92PZPIwM2ZiFegyDapKQeHs_V0sX1d4fV5QuE
-Message-ID: <CAPZ3m_hArv5MA7H4RYRj1FHUaaFF9+2QAuo03xhUKGQ-YZ8uFg@mail.gmail.com>
-Subject: Re: [PATCH v6 3/3] rust: revocable: Document RevocableGuard
- invariants and refine Deref safety
-To: Benno Lossin <lossin@kernel.org>
-Cc: aliceryhl@google.com, dakr@kernel.org, ojeda@kernel.org, 
-	rust-for-linux@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Em ter., 8 de jul. de 2025 =C3=A0s 12:04, Benno Lossin <lossin@kernel.org> =
-escreveu:
->
-> On Tue Jul 8, 2025 at 2:33 AM CEST, Marcelo Moreira wrote:
-> > Improves the `RevocableGuard` documentation by explicitly stating that
-> > its `data_ref` member is a valid pointer as an invariant. Additionally,
-> > the `Deref` implementation's `SAFETY` comment is refined to justify
-> > the `unsafe` dereference based on this new invariant and the
-> > `_rcu_guard` ensuring data accessibility.
-> >
-> > These changes address feedback regarding the clarity and completeness
-> > of `RevocableGuard`'s safety guarantees.
-> >
-> > Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
-> > ---
-> >  rust/kernel/revocable.rs | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
-> > index 6d8e9237dbdf..64fe44b4f5a3 100644
-> > --- a/rust/kernel/revocable.rs
-> > +++ b/rust/kernel/revocable.rs
-> > @@ -233,7 +233,8 @@ fn drop(self: Pin<&mut Self>) {
-> >  ///
-> >  /// # Invariants
-> >  ///
-> > -/// The RCU read-side lock is held while the guard is alive.
-> > +/// - `data_ref` is a valid pointer to a `T` object for the entire lif=
-etime of this guard.
->
-> This should be:
->
->     /// - `data_ref` is a valid pointer for as long as the RCU read-side =
-lock is held.
+Index allocation requires at least one bit in the $BITMAP attribute to
+track usage of index entries. If the bitmap is empty while index blocks
+are already present, this reflects on-disk corruption.
 
-Ok, I will keep only this comment. Thanks!
+syzbot triggered this condition using a malformed NTFS image. During a
+rename() operation involving a long filename (which spans multiple
+index entries), the empty bitmap allowed the name to be added without
+valid tracking. Subsequent deletion of the original entry failed with
+-ENOENT, due to unexpected index state.
 
+Reject such cases by verifying that the bitmap is not empty when index
+blocks exist.
 
-> >  pub struct RevocableGuard<'a, T> {
-> >      // This can't use the `&'a T` type because references that appear =
-in function arguments must
-> >      // not become dangling during the execution of the function, which=
- can happen if the
-> > @@ -258,8 +259,8 @@ impl<T> Deref for RevocableGuard<'_, T> {
-> >      type Target =3D T;
-> >
-> >      fn deref(&self) -> &Self::Target {
-> > -        // SAFETY: By the type invariants, we hold the rcu read-side l=
-ock, so the object is
-> > -        // guaranteed to remain valid.
-> > +        // SAFETY: `self.data_ref` is valid for writes because of `Sel=
-f`'s type invariants,
-> > +        // and `_rcu_guard` ensures the data's accessibility for the l=
-ifetime of this guard.
->
-> This also needs to be adjusted.
+Reported-by: syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=b0373017f711c06ada64
+Fixes: d99208b91933 ("fs/ntfs3: cancle set bad inode after removing name fails")
+Tested-by: syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com
+Signed-off-by: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+---
+ fs/ntfs3/index.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-oh, of course, &T is an immutable reference, mb.
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 1bf2a6593dec..6d1bf890929d 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -1508,6 +1508,16 @@ static int indx_add_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 			bmp_size = bmp_size_v = le32_to_cpu(bmp->res.data_size);
+ 		}
+ 
++		/*
++		 * Index blocks exist, but $BITMAP has zero valid bits.
++		 * This implies an on-disk corruption and must be rejected.
++		 */
++		if (in->name == I30_NAME &&
++		    unlikely(bmp_size_v == 0 && indx->alloc_run.count)) {
++			err = -EINVAL;
++			goto out1;
++		}
++
+ 		bit = bmp_size << 3;
+ 	}
+ 
+-- 
+2.43.0
 
-What about:
-// SAFETY: `self.data_ref` is valid because of `Self`'s type invariants
-// and the active RCU read-side lock held via `_rcu_guard`, ensuring
-the data's accessibility.
-
---=20
-Cheers,
-Marcelo Moreira
