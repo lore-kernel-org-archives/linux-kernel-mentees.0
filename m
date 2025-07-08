@@ -1,247 +1,116 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC67922F77E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  8 Jul 2025 06:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B66298CDC
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  8 Jul 2025 07:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751957417; cv=none; b=dot2ul68a5+/6fpr/kNBTy8l127PoY2D1/2YELBYB2FFKteFWz9308VDkSnQ3QKthkiW2y7xCwHGC2dZFtIAtGh/ah779PAdZhngI320zmLX54Gh7158xPyQWvbFmSUM4zPaeYCwPLRnWhy5g0axtudJ+wgFnxdoz/P/ncspSyQ=
+	t=1751960349; cv=none; b=VnQ4JWBrRzXsRYrmZ3n1otxQCpepfzMjcTayvRII2S34ROoikLWKAXhbPno6bdYZB2bLiXqcJaBSnqwSLnrRONSRC0d3OijGpLReoewx4G1qDnGodyHaKRADbt9IBApg29DzxxN/Gvrg+npMOq+PAjzP23aDCY4gUnKwEb1U1n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751957417; c=relaxed/simple;
-	bh=p7Vczb2qgKmJ1lCdlCQ9oB0YanB7KoIMpQZqJ3Ly4MY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mye0r70gS/rW6JX6xW7R3M8ziRjxmSpOR/q59GI3k/1jQpY2Ghnsor7ZNvvUgV3guOMglMZH9qNhAt9XXTUMGQEYbLvQrKRUEChF/YYyDUCTPwKnMkcixw67WbKqS+GRmUgxivjYrF6YgR1D7YmZ5YmSkmnt1EiAiM3cmpLcCr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ipUvlGup; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1751960349; c=relaxed/simple;
+	bh=wypA2EBmpHp+y/b2ODxhiTcNbDIFZEPcjrmQqxW5FIA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GD0rS/PD0w4Z1G579prTlQT7ELfhL98i5Pk3OzOWQrlpdPJvOB+tQ4NoxSQ+bWz8aPOD18dNGFrh+K4hgviMOYrNO6beY+Om8ttxrx1niDohbXWJXfEvmhLGhMZOXZIlVBkJMnTqQ8Hvfk/kHko5VDt8he4bp06taMkpufz86Sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=dukyhvIa; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ipUvlGup"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 4762181865
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  8 Jul 2025 06:50:15 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id eUEE4-sJ8Mif for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Jul 2025 06:50:14 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::435; helo=mail-pf1-x435.google.com; envelope-from=akbansd@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 9B12781323
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9B12781323
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ipUvlGup
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 9B12781323
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  8 Jul 2025 06:50:14 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-74b56b1d301so2262831b3a.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 07 Jul 2025 23:50:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="dukyhvIa"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b3220c39cffso4010442a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 08 Jul 2025 00:39:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751957414; x=1752562214; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aqugteN2eEIc2l2DBcvL/f8yXrIHgaMnuOSPwTtzdIk=;
-        b=ipUvlGup7oO2mKNRQxqnC94aZZ/4bSV2cflll8sMvGUY72499mryhfCSa4k9aHMFz5
-         iBrGUja8p1KCF/qElKsLmme5vIJTTUzIjTFfrwB+LM8CDb4jtC7iUTPBnxREQT9eKij5
-         P4DdB5rCBgda6XT4QuWbP9kVIKMCddkhPRjB/jmDxlQj7V8JEgulA+cZFhy2WhM6FpJJ
-         Vt5U02tlNmWdzedTX1yJe2leGZiJsQTsK/jWJIb0+BPYxH2//SUq8/kfKqoHqIc6tRRl
-         dUAN2TgPXMQK1xUwneymHSmc6Ap2KxNPnYsDIEifiAJz6mHFBVKKbW7A3qgOXaedrzJC
-         oQmg==
+        d=brighamcampbell.com; s=google; t=1751960347; x=1752565147; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZN7aSjUU2m/lgLen2skU4S+C9lHA5hU+Z1BWGyIcRGk=;
+        b=dukyhvIaZ7Uzlm7nlz9FfjVrrAGL33caglEQFr/itVk3chx9mqW7Bye546GkMqc3/n
+         WiCpmKHv19b/sWQr2cN1clvlnDAqJOGDzef1yqSrtzt6Xyc2gMWCMwoUba7fUHSvGXJI
+         ikp5s4Vpv+pQ3Yl8EAUmJc24QyGRUSvNyal5PHGiMR+qBsA5JDb67Vj0YMEAf928xQ+p
+         Ah8PmEnDjFb/rl71McQdoVAms+iXWZtUoQHtG+oI/mu96aeAYCHPXmaBcTnmjRAtbFmN
+         v5eSspps2ZvpuENke0OCR9ymaSkLr+vanPiHzNXbrh0RW4jThMn0HjddC3ktMfwOUiMS
+         zibg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751957414; x=1752562214;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aqugteN2eEIc2l2DBcvL/f8yXrIHgaMnuOSPwTtzdIk=;
-        b=thHG1+horO2Hs96EPUv4mtSo88shJL7sA5aeyZQM48H/tHi9tJVGuyAgfr+LDlYX63
-         P2GFgNZbXj5OufJgrYut17dr9MDc4kLZtPVUzsTewJqSqoiRBSuDmazTVnc3JCn5Q/zO
-         4PDjZ2lJyvB8zLcUSm5vafR9BeYpWgYkh4Ka13BQ3+4ZLOp+sY9oy2Zb0AgsqFujUZkV
-         gEWumuM9+YQWD+CcZZg8QvmClNNDhW3aIEhXxWBxsVsxFw1S+CFyt1tqGyMmdT0rHARk
-         hqq/5sEzejSipleCsviTh0TreB35cGGoxYhDEx3hPgEDjg4p9c3xgAa5Nh5TrazjK9Yt
-         7Asg==
-X-Forwarded-Encrypted: i=1; AJvYcCW7cEL3ZOhqaPzWobcbu7e3BL7H1uOSokC5r6Z/CX5ifMTOVrj7KENXDiSbqUcNMlk3dY2bS+aLr7B6YjNek0vsCuegxA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzLkvEQWzVGyI/8m1DiwpOa7XqAw6a8TRNiLEftFwreXlhBac0T
-	nN1BrO4cE2SQrbmjWdTtJbxVn1Alvo8AtVVm5sTdRLX/oSRR7cQWtu4v
-X-Gm-Gg: ASbGnctOgYarvymjqi+JUm8aijj6mhDQ0Fnq8Xbl6A4ntRf4a81zSppeEGSnW2lEc+z
-	Zhfial9xSMjW68hgQuWujEm7I60iJWaXkFTdKdPvQrY1WtDWXd0AXXbg681jP1BlYWNXSEQ1Zxy
-	AJDE5UDLJhYGeY7p+vloYfNYTXh9EmS9mbg2MC65G8GHHTBnJXAC85iDUk1IHXt0QONXk5joeHs
-	bR2PC7bhjdoJHpyrtvT+UA/vYmcQ9sYZQXotjoDVWF66lwLKRgnBGijraUoXDshU7xVFjTTF7Q5
-	Y+I6cFpL35dgxWqVzIRQVhWmaXfXqxjOYEiUpyNGbHdt2/NSLZZ/HRCmm+mQ
-X-Google-Smtp-Source: AGHT+IEDnB13/b3LmDOwrFJZtQd45JvmCuztyCFmjCx6EDfkeVSU5wUDDdMIIH9GoBNpGm4oSRkvBg==
-X-Received: by 2002:a05:6a00:1c86:b0:74c:efae:fd8f with SMTP id d2e1a72fcca58-74cefaefdf8mr18459328b3a.15.1751957413474;
-        Mon, 07 Jul 2025 23:50:13 -0700 (PDT)
-Received: from mbox.localnet ([36.50.162.228])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce417dde0sm10402432b3a.73.2025.07.07.23.50.07
+        d=1e100.net; s=20230601; t=1751960347; x=1752565147;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZN7aSjUU2m/lgLen2skU4S+C9lHA5hU+Z1BWGyIcRGk=;
+        b=rVXCxYR2cjmTTp1IvTcNtRYaeqFO8kAN8XL4ik9YXnghpY5uu1+5HBnEY8jW8zahBj
+         bcL8nNKzKidOrWMpb7vAu7cUuPeiD8VV1Oh0wYMno6tzCBwBujhNm93dH+74dnNJr7f1
+         zAu9zVeh2tyIcvDH+j2I65E0f72n/x4pL6vfz25CoBz1k64IG9XvG0bO8JshbsrQfMeD
+         E3WYwlF0u3lPZ3fH69Mw+J8QmOGYMsAre+SJJdpwUjTXYYbG5gs8CAj5x4sEe4Jc8Yff
+         +Ppuqwk5o2HlbwfNoo+oF0PpW6dhw9votypvNyZrQoDyW9hN6R6KQcdODFliuNIxgMy/
+         Ol0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU3THozsxkRkksd2Omm74l7CekFaaYBsmKxKwvRBwiAFU4QOy55+I7A6Q72Lj4JJQBECv226mbOat8eE8696UOmlW9/vQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwkTGfMElggF+3LJxBRVExIBzjEo4xHDLpXUinZ+0OGS3L5tWD4
+	BI4ac5/NQH/oWVaeesy+nWaAsVCMXsnw4IqIwhBOD7x2n9+U2xjZIFsK2a3IqVtys5SROzTjsWw
+	2Gi1SF+nHXg==
+X-Gm-Gg: ASbGnctGtBg1TDaqOGC2Zhbfj+hog8HDkTVW8+Fqgrg7K5+PajmOjcfPUIYocOM8M22
+	K4M3pc+o3ESdA1XlidbbnTIC4M4tBww7LF4bwiDoboUVh7nl4ULDdgb2pdVUPITSxNmD18cv7g6
+	2gGcFI35mS3vqsATpiJF0I68DBWw3VnNS6rJOSwWfZfZRwmAKdaS2wqOzhoDy/s9lK9gIiNn/bJ
+	RxLy6LF3HtsBPpN+WznG6ZqnaX4nNF83iIJ+fYsHfHPK2SwQ4S0bNfv4YypZjUaZ5hoSeyViDVz
+	1I++tgTU1Qimy51lLR8fitD5TeGm7pcRYHqWBgCNC3PcHRanTQ8nbYIDGDVdDM95Ku4k4BUmoia
+	/fqhKU26bKUGE1fWbIg==
+X-Google-Smtp-Source: AGHT+IGcYNPUjs2kwjkvmFdGShMU4syGWz/FE+DbOGjtHhPQiV8ZsbgVj6QjspJrmZqOo3MkvanzoA==
+X-Received: by 2002:a05:6a20:e687:b0:21f:cdfa:120e with SMTP id adf61e73a8af0-2260c839353mr26223435637.30.1751960347004;
+        Tue, 08 Jul 2025 00:39:07 -0700 (PDT)
+Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce42a540bsm11633523b3a.140.2025.07.08.00.39.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 23:50:12 -0700 (PDT)
-From: akshay bansod <akbansd@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, David Lechner <dlechner@baylibre.com>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
-Date: Tue, 08 Jul 2025 12:20:04 +0530
-Message-ID: <22754870.EfDdHjke4D@mbox>
-In-Reply-To: <20250706115003.5752261c@jic23-huawei>
-References:
- <20250703053900.36530-1-akbansd@gmail.com> <2413481.ElGaqSPkdT@mbox>
- <20250706115003.5752261c@jic23-huawei>
+        Tue, 08 Jul 2025 00:39:06 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: dianders@chromium.org,
+	tejasvipin76@gmail.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH v2 0/3] drm: docs: Remove deprecated MIPI DSI macro
+Date: Tue,  8 Jul 2025 01:38:57 -0600
+Message-ID: <20250708073901.90027-1-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Sunday, 6 July 2025 10:00=E2=80=AFam +0530 Jonathan Cameron wrote:
-> On Thu, 03 Jul 2025 22:28:13 +0530
-> akshay bansod <akbansd@gmail.com> wrote:
->=20
-> > On Thursday, 3 July 2025 10:12=E2=80=AFpm +0530 Andy Shevchenko wrote:
-> > > On Thu, Jul 03, 2025 at 11:08:59AM +0530, Akshay Bansod wrote: =20
-> > > > Update the sysfs interface for sampling frequency and scale attribu=
-tes.
-> > > > Replace `scnprintf()` with `sysfs_emit_at()` which is PAGE_SIZE-awa=
-re
-> > > > and recommended for use in sysfs. =20
-> > >=20
-> > > 'must' is stronger than 'recommendation'.
-> > > Of has the documentation been changed lately?
-> > >=20
-> > > ...
-> > >  =20
-> > > > st_lsm6dsx_sysfs_sampling_frequency_avail(struct device *dev, =20
-> > >  =20
-> > > >  	odr_table =3D &sensor->hw->settings->odr_table[sensor->id];
-> > > >  	for (i =3D 0; i < odr_table->odr_len; i++)
-> > > > -		len +=3D scnprintf(buf + len, PAGE_SIZE - len, "%d.%03d ",
-> > > > -				 odr_table->odr_avl[i].milli_hz / 1000,
-> > > > -				 odr_table->odr_avl[i].milli_hz % 1000);
-> > > > +		len +=3D sysfs_emit_at(buf, len, "%d.%03d ",
-> > > > +				     odr_table->odr_avl[i].milli_hz / 1000,
-> > > > +				     odr_table->odr_avl[i].milli_hz % 1000);
-> > > >  	buf[len - 1] =3D '\n'; =20
-> > >=20
-> > > My gosh, this is error prone. I'm wondering when some CIs will start =
-to
-> > > complain on this line. But this was already before your change...
-> > >  =20
-> > I'm planning to drop It entirely or should I replace it with another `s=
-ysfs_emit_at()` ?
-> > I've seen other device driver returning space terminated buffers. Maybe=
- I'm overlooking
-> > something.
->=20
-> It is rather ugly currently but not a bug as such as we know we don't act=
-ually run
-> out of space in the page (it would just overwrite last byte in that case =
-so odd
-> output, but not a bug) and that we always print something so just as you =
-suggest
-> sysfs_emit_at(buf, len - 1, "\n"); is safe.  It also checks under and ove=
-rflow
-> so that safe + hopefully won't trip up static analysis tools.
->=20
-understood. I'll revise the patch.
+This series removes the unintuitive mipi_dsi_generic_write_seq() macro
+and related mipi_dsi_generic_write_chatty() method from the drm
+subsystem. This is in accordance with a TODO item from Douglas Anderson
+in the drm subsystem documentation. Tejas Vipin (among others) has
+largely spearheaded this effort up until now, converting MIPI panel
+drivers one at a time.
 
-On a sidenode, I see a lot of repetitive code trying to write to a sysfs bu=
-ffer
-from a static array. for example
+The first patch of the series removes the last remaining references to
+mipi_dsi_generic_write_seq() in the jdi-lpm102a188a driver and updates
+the driver to use the undeprecated _multi variants of MIPI functions.
+Any behavioral modification to the jdi lpm102a188a panel driver by this
+series is unintentional.
 
- drivers/iio/common/st_sensors/st_sensors_core.c:629
- drivers/iio/adc/vf610_adc.c:614
- drivers/iio/accel/adxl372.c:972
+changes to v2:
+ - Remove all usages of deprecated MIPI functions from jdi-lpm102a188a
+   driver instead of just mipi_dsi_generic_write_seq().
+ - Update TODO item in drm documentation instead of removing it
+   entirely.
 
- ...
+Brigham Campbell (3):
+  drm/panel: jdi-lpm102a188a: Update deprecated MIPI function calls
+  Remove unused MIPI write seq and chatty functions
+  drm: docs: Update task from drm TODO list
 
-What if we export a symbol from industrialio-core.c which does something=20
-similar to
-
- drivers/iio/industrialio-core.c:815
-
- 'iio_format_avail_list(char *buf, const int *vals,
-				     int type, int length)'
+ Documentation/gpu/todo.rst                    |  26 +--
+ drivers/gpu/drm/drm_mipi_dsi.c                |  34 +---
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 150 +++++++-----------
+ include/drm/drm_mipi_dsi.h                    |  23 ---
+ 4 files changed, 71 insertions(+), 162 deletions(-)
 
 
-but rather than taking integer array, it take `void* ptr` and `int stride` =
-as
-parameter. Then iterates from `vals` by `stride` for `count` times and type=
-cast
-the pointer and 'sysfs_emit` it.
-
-static ssize_t iio_format_avail_list(char *buf, void *vals,=20
-			      int stride, int type, int count) {
-
-	// iterate (void*) vals by stride and perform `sysfs_emit`
-=09
-	void* ref =3D vals;
-	for(int i =3D 0; i < count; i++){
-=09
-		ref +=3D stride;
-	=09
-		// typecast and write to buf using sysfs_emit
-		...
-
-	}
-};
-
-
-Thus, drivers can use this as follows.
-
-=2D-- a/drivers/iio/common/st_sensors/st_sensors_core.c
-+++ b/drivers/iio/common/st_sensors/st_sensors_core.c
-@@ -618,20 +618,11 @@ EXPORT_SYMBOL_NS(st_sensors_verify_id, "IIO_ST_SENSOR=
-S");
- ssize_t st_sensors_sysfs_sampling_frequency_avail(struct device *dev,
-                                struct device_attribute *attr, char *buf)
- {
-=2D       int i, len =3D 0;
-        struct iio_dev *indio_dev =3D dev_to_iio_dev(dev);
-        struct st_sensor_data *sdata =3D iio_priv(indio_dev);
-=20
-=2D       for (i =3D 0; i < ST_SENSORS_ODR_LIST_MAX; i++) {
-=2D               if (sdata->sensor_settings->odr.odr_avl[i].hz =3D=3D 0)
-=2D                       break;
-=2D
-=2D               len +=3D scnprintf(buf + len, PAGE_SIZE - len, "%d ",
-=2D                               sdata->sensor_settings->odr.odr_avl[i].hz=
-);
-=2D       }
-=2D       buf[len - 1] =3D '\n';
-=2D
-=2D       return len;
-+       return iio_format_avail_list(buf, &sdata->sensor_settings->odr.odr_=
-avl[0].hz,
-+               sizeof(st_sensor_odr_avl), IIO_VAL_INT, ST_SENSORS_ODR_LIST=
-_MAX);
- }
-
-The details about the various types to cover is still unclear.=20
-But does this sounds feasible ?=20
-
-> >=20
-> > > >  	return len; =20
-> > >=20
-> > > ...
-> > >  =20
-
-=2E..
-
-> >=20
-> >=20
-> >=20
-> >=20
->=20
-
-Regards,=20
-Akshay Bansod
-
-
-
+Link: https://lore.kernel.org/lkml/20250707075659.75810-1-me@brighamcampbell.com/
+base-commit: e33f256dbc293a1a3a31f18d56f659e7a27a491a
+-- 
+2.49.0
 
