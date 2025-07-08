@@ -1,246 +1,162 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B272E5B3C;
-	Tue,  8 Jul 2025 16:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE4525A659
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  8 Jul 2025 22:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751993104; cv=none; b=kiI7GQdjI426SQAzhlbWUNBD9se0WJx+kvzAvJTOU/D+7rN15rmSCwXFBymqShqs/q7pvGJZ2UTq0jiEPPoMsp89Yml4hJdzoW/NR0iRwNDXFvJ1E0Qgn8noL8vzaRYuPXYhL1nNvSu4stuBAeqSr+Ax3eqTyFillfdX37x58Zc=
+	t=1752013487; cv=none; b=pN7RyW5sw43/+MnHOgIkDFH//y1/w4aHBpdyJcbiZTGuxIBWk04ZxKpaAsBJfjL/l1LdMhYYq1Khs23VFBIqTVBBrHG8lqgRvySi/RkCokEppGRfcY5xwvJS6k9cqbt76wB766FYrMvwCahbG5rrz3JR9GaV0GmMIM+nyCPqAVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751993104; c=relaxed/simple;
-	bh=pHamtUUjOA8ryouu3snUtyAR27Apfiwqlbd0r/Sargc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pmlzHye0ATDWmEgMcP5IbRUDifWrb6W6N4++5Nju8kDYmjO9p5wt/ng0HYbLbS2h774ifWAFAwf1IUnNWGgdcxi/GOs9qi4whyFUAMlVg/fT+xT4rmhTQ6B9EWP7/fF8zwaSZbeiuZZxJMltygCvsk/YBHbpgrFgnj9LpsPTGX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TDsBJb6u; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752013487; c=relaxed/simple;
+	bh=1IG7fym2wnRXLJOMKB00X7u5L7eu38piDlH6pEzjL/4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JVVvqPb/j0ZhBUK1AQ1g5n35SmhX/Jrol6O0mfMs2vDGQyYSbyFlrHSl5kh3/XZB9r6fNmI3dBnx/ozJMIZ5U273YQMf6HKTgHUlE+ddsb5P/Mxw2ODzkNxjxP135CE+SGs7uX86nGVYr2EKLQvl31Vb7GGoMP+skM25C2W2uKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJQBoZFI; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TDsBJb6u"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45362642f3bso4718385e9.2;
-        Tue, 08 Jul 2025 09:45:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJQBoZFI"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 00C5D816EE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  8 Jul 2025 22:24:46 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id wG444DSGjb_j for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  8 Jul 2025 22:24:45 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::c2c; helo=mail-oo1-xc2c.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 3D219816E7
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3D219816E7
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=MJQBoZFI
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com [IPv6:2607:f8b0:4864:20::c2c])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 3D219816E7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  8 Jul 2025 22:24:44 +0000 (UTC)
+Received: by mail-oo1-xc2c.google.com with SMTP id 006d021491bc7-610d86b3da9so1222467eaf.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 08 Jul 2025 15:24:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751993101; x=1752597901; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1752013484; x=1752618284; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JLk2b9xAs78jTwaFIbSGjv7ZXKL01z3N/m48S9+9wRQ=;
-        b=TDsBJb6uSfjXzB9cs9NNEsKUu7nDaAqVsiG+uhSa3GHwA7xGLAL+R0CcM50PF0kMQp
-         E8n1iqw1KxFUMkQfMz+h7O4mVtN1VuV3wS5EVChwPS8kzr8GZiETp/bNC0VVrrfQNJRn
-         RSc65byfIz1zxO8Cw3UNhNmk8jcEFgacdxbrciOh2GZp304FLgQfmQTDSwOZyzzvkrpf
-         50ntecCgdid0ZeuqkG5eoQnbxdzJegwBZ5Hs887FJz69OVdKqeFtYWM+eZKCaJhHE8DQ
-         gcWy4kOVh7cmvAlug+TX5z037MY/hsaRQVnreLjZ7hKi5TdKYy9ENNSqauKI0SzH2cf7
-         8WYA==
+        bh=RwCnPHpixWh2MxDiEiUT8nt+4FfPoK+sTsuqRzuBJhI=;
+        b=MJQBoZFICTrDP0PxP9w/Jnaj8hEK+5zqapIM3DmE7JrHhbD6Me5v8WdX2UFLZF3SD7
+         DYwHWyJXA6fR9SrOb/cAewSBGy5gNFu5ddwP03gica/yPTM2q3bXSIOuvEgd0C2DMuky
+         UOG3hgomEvGf9TXzGveq3qEXFfs1sklmHFikITVIIRfhCcEdG5+tBZLRItFPAoqK3Za5
+         rfp+v/DXw0hIKyqBAtYzrtW0+B5K7y2WUV2tF7cWJw841ofVi3oyv5/ZIoRbcquo45HK
+         239rC+in8fZKPuU1IO28eN8zrLlXGIZGAZSttw/6x1zRJlVMFYHWXNcRXLQoVW1qamSq
+         ISPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751993102; x=1752597902;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1752013484; x=1752618284;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JLk2b9xAs78jTwaFIbSGjv7ZXKL01z3N/m48S9+9wRQ=;
-        b=oYuvHS7cWHdfbJUSa/fOwCBd1WVn4cTSoP4RgG2SR6iAaTiqqp7k04M5g17cJwBIOA
-         +ruRluisdDjI5DakPlFS78i7+S0vp6/iaRrDdLOQIXnoDqyEWYRsBVkZGo5hfztfpgZQ
-         FyA+ekKKRE6NewWYl6Icp9pLOa0Ne8/HTOVk1fYmmx+0hmU70RSh09ZsLTWBCJbovEfo
-         LPZ7lgxstY0qDRfB1SlEh/xVTKscScakq2Sv0Q+kGsfK7cTVEASEwK2+BRgCAqqD4J4F
-         Bm+9IqJ6Sy2mA4nrgAiZkx45V38vjLq8UUwyR7FS6ycCcVzfhZJYmkPMlc3FV+jOJahs
-         I+NA==
-X-Forwarded-Encrypted: i=1; AJvYcCVG9Phw3VyUmKnnXGwWnP55aSrUPX2dgK3/e7oWRanLdUSQ1F/R+S2uciQx8NC54e2pMsj4AIeTtV23FR61eEaTJjWwWQ==@lists.linux.dev, AJvYcCWUP5DI779JbCnghrLxWUu6gtKfgoTQom3rxUyxoPtkk66HnxIwm9WSLCxeitgFSzMxKp3ZODxG4pWKCKJqsg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLgFj9VVX9xh0ATXyHJ3o92wW81jqVoseutXz0TDlNttYWR5Rx
-	8ykxDbAnAc/9fE12mukmyUk50jow6zvooXBLjkH59KNWbwyYnIXuwlbB
-X-Gm-Gg: ASbGncuXtPUzm+vHtrj9kbQbm2DNsrdccGa+pNkGnzQueDv9daVOI88/07aFzLzyC+C
-	r609Bi69WazLTP5iAWOYeKyaGTV2THgYoWb62lO780FFT/SQEooIbLWghFHALrhiuALgBhh/gYA
-	VH+tKu11r1daCdCxrMvMuCqqiZvaZBe5/b2V/zVziBab5tGA344EGlGUZwObjEQqyBkgKPRh5O/
-	NoJwgyLc+KJjwB7dHEoLEQl2+V2gYJn5QWIA0VoaA1nsL9VtSGHeRggpxEYGDL9d6B/fU4pDrpL
-	a0CGz651jaWdRnDhJsmMdYdmAvwW50DENU5c7LqnJuTANb5ihg24E+zjtTpdpwnGd5F3ZfZCYTc
-	p8ux2jmYbmgeDbJU1/ox1kA==
-X-Google-Smtp-Source: AGHT+IEiIM5e80NzDGvoO0PEoXobTmaoyRMDUTlMa0fnINQdt1Hc+MrCGBWhG9etfLV1Zx0zsGRGog==
-X-Received: by 2002:a05:600c:3153:b0:453:6124:e70e with SMTP id 5b1f17b1804b1-454b384e532mr59938705e9.9.1751993101215;
-        Tue, 08 Jul 2025 09:45:01 -0700 (PDT)
-Received: from localhost.localdomain ([156.208.8.236])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47030bd42sm13184563f8f.5.2025.07.08.09.44.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 09:45:00 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH v2 2/2] staging: media: atomisp: unify HMM initialization tracking
-Date: Tue,  8 Jul 2025 19:44:08 +0300
-Message-Id: <20250708164408.79863-2-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250708164408.79863-1-abdelrahmanfekry375@gmail.com>
-References: <20250708164408.79863-1-abdelrahmanfekry375@gmail.com>
+        bh=RwCnPHpixWh2MxDiEiUT8nt+4FfPoK+sTsuqRzuBJhI=;
+        b=IkPPLVt99cflDJ8kF4ayOxNJpbpq1C3ZtkES7bBjXu0Uhx/IVVMRtLJSorc8M195xt
+         8Dc7p7PMJ4h8egJUXiGdYlS2gNyBE7BYi9+6FTvTD6/BuPSO29Lv0YDwW5VrJZMusTWp
+         pAChdu35VIhqiOBc1huRAXCvdFZrzbnFnFVEr01zZva6dHy86fz4qswh6x33s919P6TD
+         d83XXZ0IV0HfT1I8AoeO9YgWQbrIyiI7rfaGFir5JanjnPH6idXMNNnIJMqr3ifVjqLW
+         Jy6ieYVLuttxYjz67Fx5gQhI2eZo9PM9MZTkAiD4SzK8FG2JgR6WMk4VAfE7hjYnvjfm
+         j2/A==
+X-Forwarded-Encrypted: i=1; AJvYcCXnurFC9qs0SFXgZlfZXnCqaEMZVrVl5TYRdiYd82R/8EOC1JOIPiZKyaVNMnFgetw9mExntUkhr/VAH2pEWISVVQTLjA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxmJHqPyRJsRwGJ+HqC94rvQpENIj6pDCw3EIYvl49e+CFXKE7k
+	RoBTK9I5EnMZjTJv0yMN0UVTBqfFkZCMQv/vNrlyM/tRDVxhVfUzL0eDEvQAwQURSWFUOvmwwH2
+	Da8TDkXprzknfSHsKcFcfHuFhyppPVU4=
+X-Gm-Gg: ASbGncu247rZ6U4aK6nqp1Ex8ja7m/4YZvsoHA988tvA/qiXFrhcyjgcwN5Ymt+QIon
+	bTI8EnH/mvxZsJuT8gT9KtDg5mgbb9AVlJBn6W0NRCJA260PN17l099TanLefjqWx0wLAcugnis
+	hVwAbYXbwogLgd9tLTttbvWaBZVNjROW5YC2y52ZOwleJB837rAb8Bjtg=
+X-Google-Smtp-Source: AGHT+IHXuecyrSKj57EyW4OksWUY/S1xTwgoQX541RUX9ZLBb2rY2uaGobqt+FiwxgvLteid6oifLoyEpnXA2/UEq9E=
+X-Received: by 2002:a05:6820:138a:b0:605:f34d:7e00 with SMTP id
+ 006d021491bc7-613cceda6e7mr88768eaf.7.1752013483820; Tue, 08 Jul 2025
+ 15:24:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250708003428.76783-1-marcelomoreira1905@gmail.com>
+ <20250708003428.76783-4-marcelomoreira1905@gmail.com> <DB6RKSNTHUZ8.DW0EBFDU6L1I@kernel.org>
+In-Reply-To: <DB6RKSNTHUZ8.DW0EBFDU6L1I@kernel.org>
+From: Marcelo Moreira <marcelomoreira1905@gmail.com>
+Date: Tue, 8 Jul 2025 19:24:32 -0300
+X-Gm-Features: Ac12FXx-fqgCn77oYJv9TW6Ruc92PZPIwM2ZiFegyDapKQeHs_V0sX1d4fV5QuE
+Message-ID: <CAPZ3m_hArv5MA7H4RYRj1FHUaaFF9+2QAuo03xhUKGQ-YZ8uFg@mail.gmail.com>
+Subject: Re: [PATCH v6 3/3] rust: revocable: Document RevocableGuard
+ invariants and refine Deref safety
+To: Benno Lossin <lossin@kernel.org>
+Cc: aliceryhl@google.com, dakr@kernel.org, ojeda@kernel.org, 
+	rust-for-linux@vger.kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The HMM subsystem previously used two separate mechanisms to track
-initialization state:
-1. A global boolean `hmm_initialized` in hmm.c
-2. A device-specific `flag` in struct hmm_bo_device with magic values
+Em ter., 8 de jul. de 2025 =C3=A0s 12:04, Benno Lossin <lossin@kernel.org> =
+escreveu:
+>
+> On Tue Jul 8, 2025 at 2:33 AM CEST, Marcelo Moreira wrote:
+> > Improves the `RevocableGuard` documentation by explicitly stating that
+> > its `data_ref` member is a valid pointer as an invariant. Additionally,
+> > the `Deref` implementation's `SAFETY` comment is refined to justify
+> > the `unsafe` dereference based on this new invariant and the
+> > `_rcu_guard` ensuring data accessibility.
+> >
+> > These changes address feedback regarding the clarity and completeness
+> > of `RevocableGuard`'s safety guarantees.
+> >
+> > Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
+> > ---
+> >  rust/kernel/revocable.rs | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
+> > index 6d8e9237dbdf..64fe44b4f5a3 100644
+> > --- a/rust/kernel/revocable.rs
+> > +++ b/rust/kernel/revocable.rs
+> > @@ -233,7 +233,8 @@ fn drop(self: Pin<&mut Self>) {
+> >  ///
+> >  /// # Invariants
+> >  ///
+> > -/// The RCU read-side lock is held while the guard is alive.
+> > +/// - `data_ref` is a valid pointer to a `T` object for the entire lif=
+etime of this guard.
+>
+> This should be:
+>
+>     /// - `data_ref` is a valid pointer for as long as the RCU read-side =
+lock is held.
 
-This dual approach was redundant and error-prone. Additionally, a
-redundant hmm_init() call existed in the allocation path.
-
-This patch:
-- Replaces the device-specific `flag` with a boolean `initialized` field
-- Removes the global `hmm_initialized` variable
-- Eliminates the hmm_bo_device_inited() helper function since we can
-  now simply check the boolean
-- Removes the redundant hmm_init() call from __hmm_alloc() since its 
-  always called after hmm_init()
-  
-Tested by:
-- Building the Driver.
-- Applying to media-committers [1] tree.
+Ok, I will keep only this comment. Thanks!
 
 
-Link: https://gitlab.freedesktop.org/linux-media/media-committers.git [1]
-Suggested-by: Hans de Goede <hansg@kernel.org>
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
-v2:
-- replaces the init state enum used in v1 with boolean
-- moves setting the flag uninited to hmm_bo_device_exit()
-  
-v1: https://lore.kernel.org/all/20250707140923.58935-3-abdelrahmanfekry375@gmail.com/
- .../staging/media/atomisp/include/hmm/hmm_bo.h  | 11 +++--------
- drivers/staging/media/atomisp/pci/hmm/hmm.c     | 11 -----------
- drivers/staging/media/atomisp/pci/hmm/hmm_bo.c  | 17 ++++++-----------
- 3 files changed, 9 insertions(+), 30 deletions(-)
+> >  pub struct RevocableGuard<'a, T> {
+> >      // This can't use the `&'a T` type because references that appear =
+in function arguments must
+> >      // not become dangling during the execution of the function, which=
+ can happen if the
+> > @@ -258,8 +259,8 @@ impl<T> Deref for RevocableGuard<'_, T> {
+> >      type Target =3D T;
+> >
+> >      fn deref(&self) -> &Self::Target {
+> > -        // SAFETY: By the type invariants, we hold the rcu read-side l=
+ock, so the object is
+> > -        // guaranteed to remain valid.
+> > +        // SAFETY: `self.data_ref` is valid for writes because of `Sel=
+f`'s type invariants,
+> > +        // and `_rcu_guard` ensures the data's accessibility for the l=
+ifetime of this guard.
+>
+> This also needs to be adjusted.
 
-diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-index e09ac29ac43d..ac556c1d71bb 100644
---- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-+++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-@@ -58,8 +58,6 @@
- #define	ISP_VM_SIZE	(0x7FFFFFFF)	/* 2G address space */
- #define	ISP_PTR_NULL	NULL
- 
--#define	HMM_BO_DEVICE_INITED	0x1
--
- enum hmm_bo_type {
- 	HMM_BO_PRIVATE,
- 	HMM_BO_VMALLOC,
-@@ -86,7 +84,9 @@ struct hmm_bo_device {
- 
- 	/* list lock is used to protect the entire_bo_list */
- 	spinlock_t	list_lock;
--	int flag;
-+
-+	/* boolean to indicate whether the bo device is inited or not*/
-+	bool initialized;
- 
- 	/* linked list for entire buffer object */
- 	struct list_head entire_bo_list;
-@@ -142,11 +142,6 @@ int hmm_bo_device_init(struct hmm_bo_device *bdev,
-  */
- void hmm_bo_device_exit(struct hmm_bo_device *bdev);
- 
--/*
-- * whether the bo device is inited or not.
-- */
--int hmm_bo_device_inited(struct hmm_bo_device *bdev);
--
- /*
-  * increase buffer object reference.
-  */
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index 97c7ce970aef..8d64e5fd812c 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -26,7 +26,6 @@
- 
- struct hmm_bo_device bo_device;
- static ia_css_ptr dummy_ptr = mmgr_EXCEPTION;
--static bool hmm_initialized;
- 
- int hmm_init(void)
- {
-@@ -39,8 +38,6 @@ int hmm_init(void)
- 		return ret;
- 	}
- 
--	hmm_initialized = true;
--
- 	/*
- 	 * As hmm use NULL to indicate invalid ISP virtual address,
- 	 * and ISP_VM_START is defined to 0 too, so we allocate
-@@ -63,7 +60,6 @@ void hmm_cleanup(void)
- 	dummy_ptr = 0;
- 
- 	hmm_bo_device_exit(&bo_device);
--	hmm_initialized = false;
- }
- 
- static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
-@@ -73,13 +69,6 @@ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
- 	struct hmm_buffer_object *bo;
- 	int ret;
- 
--	/*
--	 * Check if we are initialized. In the ideal world we wouldn't need
--	 * this but we can tackle it once the driver is a lot cleaner
--	 */
--
--	if (!hmm_initialized)
--		hmm_init();
- 	/* Get page number from size */
- 	pgnr = size_to_pgnr_ceil(bytes);
- 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-index 5d0cd5260d3a..aabb2a126caa 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-@@ -373,7 +373,7 @@ int hmm_bo_device_init(struct hmm_bo_device *bdev,
- 
- 	__bo_insert_to_free_rbtree(&bdev->free_rbtree, bo);
- 
--	bdev->flag = HMM_BO_DEVICE_INITED;
-+	bdev->initialized = true;
- 
- 	return 0;
- }
-@@ -385,9 +385,10 @@ struct hmm_buffer_object *hmm_bo_alloc(struct hmm_bo_device *bdev,
- 	struct rb_root *root = &bdev->free_rbtree;
- 
- 	check_bodev_null_return(bdev, NULL);
--	var_equal_return(hmm_bo_device_inited(bdev), 0, NULL,
--			 "hmm_bo_device not inited yet.\n");
--
-+	if (!bdev->initialized) {
-+		dev_err(atomisp_dev, "hmm_bo_device is not initialized!\n");
-+		return NULL;
-+	}
- 	if (pgnr == 0) {
- 		dev_err(atomisp_dev, "0 size buffer is not allowed.\n");
- 		return NULL;
-@@ -522,13 +523,7 @@ void hmm_bo_device_exit(struct hmm_bo_device *bdev)
- 	kmem_cache_destroy(bdev->bo_cache);
- 
- 	isp_mmu_exit(&bdev->mmu);
--}
--
--int hmm_bo_device_inited(struct hmm_bo_device *bdev)
--{
--	check_bodev_null_return(bdev, -EINVAL);
--
--	return bdev->flag == HMM_BO_DEVICE_INITED;
-+	bdev->initialized = false;
- }
- 
- int hmm_bo_allocated(struct hmm_buffer_object *bo)
--- 
-2.25.1
+oh, of course, &T is an immutable reference, mb.
 
+What about:
+// SAFETY: `self.data_ref` is valid because of `Self`'s type invariants
+// and the active RCU read-side lock held via `_rcu_guard`, ensuring
+the data's accessibility.
+
+--=20
+Cheers,
+Marcelo Moreira
