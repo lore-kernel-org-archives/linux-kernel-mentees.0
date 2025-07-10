@@ -1,122 +1,117 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A2525D8E8
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 10 Jul 2025 13:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E742027056F;
+	Thu, 10 Jul 2025 14:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752155085; cv=none; b=L0jwjge0+dYLX7QFFpAyom52n/fWFNSQct9zq57s56eeK4tyNXSZmTJ95YR0pggzzfzru3sCa2f7QiSVMGfU/oO63hoaqyeIhz7klmkxTGvTK7CYY/ACGJJnmWehdzFW5U8bRsXW0wy+5sQUs/gT05fxkoXOTni/2APSQw+iKYA=
+	t=1752157632; cv=none; b=Ukq7sJcVPFsnpJ14EgbWAxfoBoSNKVQLWcNSkEv3dwl6KiqbFeOkydckfmpUC3kZJoBqOOPoYPU8DNUYaxQWPBJ6dfTGlVcampPKqLRRyHBL8yWhe3m8F4YIWiQ1jOXU0bPP3A28SL6dIZ02zxHR/BYzmom8VIv4ajYMtf0NprU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752155085; c=relaxed/simple;
-	bh=axItH2vBexI9WYp+hgNirm/qy/Qm2h6LocHN2HrnuC4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U6yS+mwV6rmx59sNXkXEvhBwHJl8MQg+5bcEsQJ7mGhSAX1/ZdjkTaacJsIbZaHnF363TTTu6+uQBS+ix+gka3pQS6Qh0sA2QzePc1IhPiAFmgnaGLyeifahUNkB54/Etu/Ac/pQ6uukXNHnkICNNdnsxHRqWtScwyXRXiN/dGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gLpLrpqk; arc=none smtp.client-ip=209.85.167.49
+	s=arc-20240116; t=1752157632; c=relaxed/simple;
+	bh=SE9IOhUv1MNCCrAdQ80BgU7INBJblvB5g5BNAJCOdvY=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-Version:Content-Type; b=PPFlT0U64DaGq4nQ0el1UfjQwpD4/2NnDgBFnJE4B89F/tSHFcDH7cTSSkeXUU70+5OoXh9hlYXCnIWr0uNjQaLmqmUYRqw5hl2av+p3KiSGLznIJnKmNSPIXRQg/8uJjCJ0BmZLMmnFzvCsmQlxQECMJUb1+IfwXA7MFmJMiPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M07WGiVk; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gLpLrpqk"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-553bcf41440so993059e87.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 10 Jul 2025 06:44:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M07WGiVk"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a4e742dc97so1450608f8f.0;
+        Thu, 10 Jul 2025 07:27:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752155081; x=1752759881; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XZcBxk6Ub7G3BSN8mWlE2MxlVN1ULSz2H9YriMM7YwY=;
-        b=gLpLrpqkLXmt+WSx2QLNxkZtNyoSXh80WPV5n/VUc3pwx2cKI4j55qul57upXAU2C6
-         qUKIrNw/zbL38HzpBtw2eBGwVrvnIw/UtYX3wYswX/dYBaC5dtz6gDCZBZjsAHO+VoyT
-         Vx3A+Z9G3mC50EP0Ep5htijYt01GQIDQZF2pvmzUR0fm3swqNLQNfxOLcTpiuhHo8+EF
-         BnaDsZUCWgYXF9v5c9NAdewmCkKOJxJ+kCtIeObXOBgEeIs2C89mebtmWAryOlOsAe9A
-         gET09aeTd2gTLUbM5NhjaUynPSBp2UF5WIzFS4r6lAncUnUaSUYkH0TT71pk5qKxwVXw
-         qErw==
+        d=gmail.com; s=20230601; t=1752157629; x=1752762429; darn=lists.linux.dev;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8+aeDuNjHdMlA3YEkviB2IrzxUH9ijDL9rPE1bZjJuQ=;
+        b=M07WGiVkjpW78j2ws13tRcGNiIkBALlLARsxtiIW3A1cM5touhJMs4ry7N2poScguy
+         dIV0S33REYOBCfAGxirs3WZOdaZIPFT803B4l5HbJC/z5ObDFRn0sCTTX0aWGXwA54dl
+         VT7K8djW7UuwQaMH6ufdfoV7WZu0FoOsx0M7OMYZMFrALgDf0X/iJZPpNc12WBTjixdl
+         ay+ySUg8wMp1F5zgvPBh/Sja32sOq/C+f4g6HSFi2k4V/bvNH7iOlB2f6RX9HQq2bf4i
+         MQo0i2FrWvqyjhw979LisxIPbr8bjSHsJ2LbM3rWpXuk0plz9pwtVeePqLmdIVKIi3FW
+         DcjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752155081; x=1752759881;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XZcBxk6Ub7G3BSN8mWlE2MxlVN1ULSz2H9YriMM7YwY=;
-        b=uGPU8qY8XLRjR29py00JDafyUpPqOvcyo59SVBHvgu69MW1wio5YURsBQR81zFouIx
-         W8vzrcC4ToJHTPJOKKAsFHhSgNyxCi5JC84CK3WQ6/P9KQXpFcItsZR9BRjVgBxswNZr
-         moydLZCDtcS1eMl0prIvf9rKC0DcQnH2Ae9pElDXdey1UmRmD93C30UNp51hv6HbDrkE
-         K3R9CZSfTvvbz1JFkgnWU0sEnkmI7YNVUDkf600Ph+nX4mBbcYxjlafXrm4Bg3eNRMSs
-         PE9z3VOPDkU52c0e0R7K9lR+HREBsaWBudJ4stk93c/1SWmJkwrIC7Iu2ZYbxCdqrjru
-         BL9A==
-X-Forwarded-Encrypted: i=1; AJvYcCVn47ZB5RZKZPufjB8JzNNLGBMiFFfI5V4nov0iMpZjXy6zmLD3adC+hWsYJDMY/R6RdNXPA7W9rLN4V+9N3h27ym4iuA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwMT6P/0DLuQJ6POwGH3Kn2lfj1b7L9qgL6iGXWvo9WMb/gDQmt
-	WsOLH8rYu/mjZEex0njGrs0gNHOXZiWgaq5/lcAPh36YKaSfyvH+He4t
-X-Gm-Gg: ASbGncuuJMu/+cIuMDB5iaVfbfVA53bP5yFhprFaCyEmLGopZAgQZnwuWJJA6L3SKnl
-	Ne7XxZd3RO2R921CQh4rCVUcRBkan9P1Md42bVPs0Da69pOUD/4S1Pc12jJ+XSd6AxLIzB7KaGD
-	KdU2AkVYGPJCL2b6V1mN6N0nZZAfsINgxaA2WyD5KkeaIzjY5pVp4FrRVrzfUgMavEgSQZoyUcs
-	XDCyuJS6bqqHHs9OeBsg98jW0TjRvw1sSuVQZy5iXCEEeYnuWdKbJX1oKofKOwQCH95tudRWrPF
-	PyWP+Zy5f6Gm0qRXWJ1bnwyQ5z61NoIDNaA4p/ghkkNgKGuFftmqnDtXYoEWYkpCd/4lYa9ni/8
-	snyiyutcYT8UrNgnTG880nmeO6K98ubw9k/wGnoJTKur4PtKQae+Of0ht6AfCEXRaCxSdPE6SOa
-	OKsjEmC0eJLHYY/JfZ75n+K5Ar
-X-Google-Smtp-Source: AGHT+IF3xzLbFd6eb1uuvSPRe25LEU48vxGpoZoR54hsmwmCzDQWYAU+9W5sMZtYCz1b98KqiGXgsg==
-X-Received: by 2002:a05:6512:3508:b0:554:f9c5:6b3e with SMTP id 2adb3069b0e04-558fa90c6f4mr2987115e87.41.1752155081143;
-        Thu, 10 Jul 2025 06:44:41 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:6e:3100:f766:61ba:c3c7:fc97? (2001-14ba-6e-3100-f766-61ba-c3c7-fc97.rev.dnainternet.fi. [2001:14ba:6e:3100:f766:61ba:c3c7:fc97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55943b736d5sm369615e87.213.2025.07.10.06.44.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Jul 2025 06:44:39 -0700 (PDT)
-Message-ID: <221b6c0b-ac23-4b27-804a-aab9e563453d@gmail.com>
-Date: Thu, 10 Jul 2025 16:44:39 +0300
+        d=1e100.net; s=20230601; t=1752157629; x=1752762429;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8+aeDuNjHdMlA3YEkviB2IrzxUH9ijDL9rPE1bZjJuQ=;
+        b=iwsUYTX4uLILbMZoehiEXghmRPsV84P1x4r2wmZhx/VfGxAmQv/GLYFYdYiLA95Pbe
+         qwsh02Rd0GGJu+pZcs80rMkAIDpSd+rMa6yTinKDUDgat/NKURkdQfxMsn2h++KR1WJT
+         hw5d5JMGmHjwTUiAF+sIiETkUrCr4g2IP3PBR7H6e0RXkgAM9sWeBC4J94Al7VXbvq+N
+         r46sycsXihXKPkg5FSjAhbAY2OpHB4nWJqhPWGWXnIHN7CK7cxuUfbftrPa99ZbZ2sTe
+         rerj5wxr0IQAt09+9JQJsNscojJENfCiCSi6xFqNsMGuFwwX1ZMP2mXQh89UWiVrU6RM
+         k4Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCVWuHuvHCDXB9hmAxcexE9/cp3TKFPLHcWURDb5FwWBXf555pKJkVubfUUA/OFc8Uumnh6xtA==@lists.linux.dev, AJvYcCX9GOQ25Mfsm3mNlUPcQlTnTOI+9nY+6hu0bt4oWHSzGyCttjx4+B+PVRNoQtvh9F7aJO7CAa2Z7lEtGNlCpUAudc+msg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwDAFJf7WVPEWza0buCKjWGrHx4vO+DllyVuCbJWoJJE9fFhquR
+	MLm1QKDkVBpz4pMjtGK3D/04uxLw77pt9ZcD+Ue0GvZv0HXxMoMd830k
+X-Gm-Gg: ASbGncvNbwNN5V60OfF7XSUYuDwDffJqdCWBQDAeVGSXGc86SOtqRmKWTpZnI1CTSR+
+	wIXjbEBtZMExXfPj8vbBCNPQQOu31Jvv7VRxI9WdMplIf8B68SYsiz/kRUUEzmuWI/HplHmq2VO
+	yySro+nJYscbDjwcthXvjNjfNB3Z77FWbN2iH/JocEfnM9h4DJkpSPmOfmNyFPzXJ4V/w9rD3Mr
+	N/d4Nsw7raAXn6X6ScMGdysTGW+6gNWpDjYyCOnVactan66fPxNeVdby5mKiEk5zUhLOBnIcy1Z
+	g2KI1wknuNlXOxvLm7zx5bAelCBUI9Kr+w6UBbJuYlC11/gHWvSs9xb6L1inTJi3RsmChrW0V7Q
+	=
+X-Google-Smtp-Source: AGHT+IGbhb1Zio9W5HRGTNs7ZDqwVrGP0s2avBpyUCsXHGSEKkLCgpXpwSHo+05QvzlMF+IRw+s3EQ==
+X-Received: by 2002:a05:6000:2283:b0:3a4:d685:3de7 with SMTP id ffacd0b85a97d-3b5e7f0efe6mr3140716f8f.8.1752157629028;
+        Thu, 10 Jul 2025 07:27:09 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:a8bc:3071:67a5:abea])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc2147sm2051192f8f.32.2025.07.10.07.27.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jul 2025 07:27:08 -0700 (PDT)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,  Jonathan Corbet
+ <corbet@lwn.net>,  "Akira Yokosawa" <akiyks@gmail.com>,  "Breno Leitao"
+ <leitao@debian.org>,  "David S. Miller" <davem@davemloft.net>,  "Eric
+ Dumazet" <edumazet@google.com>,  "Ignacio Encinas Rubio"
+ <ignacio@iencinas.com>,  "Jan Stancek" <jstancek@redhat.com>,  "Marco
+ Elver" <elver@google.com>,  "Paolo Abeni" <pabeni@redhat.com>,  "Randy
+ Dunlap" <rdunlap@infradead.org>,  "Ruben Wauters" <rubenru09@aol.com>,
+  "Shuah Khan" <skhan@linuxfoundation.org>,  Jakub Kicinski
+ <kuba@kernel.org>,  Simon Horman <horms@kernel.org>,
+  joel@joelfernandes.org,  linux-kernel-mentees@lists.linux.dev,
+  linux-kernel@vger.kernel.org,  lkmm@lists.linux.dev,
+  netdev@vger.kernel.org,  peterz@infradead.org,  stern@rowland.harvard.edu
+Subject: Re: [PATCH v9 12/13] docs: parser_yaml.py: add support for line
+ numbers from the parser
+In-Reply-To: <m2zfdc5ltn.fsf@gmail.com>
+Date: Thu, 10 Jul 2025 15:25:20 +0100
+Message-ID: <m2ms9c5din.fsf@gmail.com>
+References: <cover.1752076293.git.mchehab+huawei@kernel.org>
+	<3b18b30b1b50b01a014fd4b5a38423e529cde2fb.1752076293.git.mchehab+huawei@kernel.org>
+	<m2zfdc5ltn.fsf@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] media: Documentation: Improve grammar in DVB API
-To: David Hunter <david.hunter.linux@gmail.com>, mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-References: <20250708155206.91281-1-hannelotta@gmail.com>
- <680b91c0-0fae-4230-9fa1-da988cb82e65@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
-In-Reply-To: <680b91c0-0fae-4230-9fa1-da988cb82e65@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Hello,
+Donald Hunter <donald.hunter@gmail.com> writes:
 
-On 7/10/25 7:22 AM, David Hunter wrote:
-> On 7/8/25 11:52, Hanne-Lotta Mäenpää wrote:
->> Fix typos and punctuation and improve grammar in documentation.
->>
->> Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
-> 
-> Overall, good work. Here is a suggestion for future patch series:
+>>              # Parse message with RSTParser
+>> -            for i, line in enumerate(msg.split('\n')):
+>> -                result.append(line, document.current_source, i)
+>> +            lineoffset = 0;
+>> +            for line in msg.split('\n'):
+>> +                match = self.re_lineno.match(line)
+>> +                if match:
+>> +                    lineoffset = int(match.group(1))
+>> +                    continue
+>> +
+>> +                result.append(line, document.current_source, lineoffset)
+>
+> I expect this would need to be source=document.current_source, offset=lineoffset
 
-Thank you very much!
+Ignore that. I see it's not kwargs. It's just the issue below.
 
-> Subsequent versions of patch series should be posted as replies in the same thread. Currently, each version is its own independent thread, which makes it hard to track changes. This link has the documentation for the proper way to handle subsequent patches:
-> 
-> https://www.kernel.org/pub/software/scm/git/docs/SubmittingPatches.html
-> 
-> The relevant part starts at "To that end, send them as replies to either..."
+>>              rst_parser = RSTParser()
+>>              rst_parser.parse('\n'.join(result), document)
+>
+> But anyway this discards any line information by just concatenating the
+> lines together again.
 
-I wonder which way is preferred. I have been reading the kernel 
-documentation at 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#explicit-in-reply-to-headers
-
-Quoting the instructions:
-
-"However, for a multi-patch series, it is generally best to avoid using 
-In-Reply-To: to link to older versions of the series."
-
-> Another good practice is to have the previous versions' links from "lore.kernel.org" directly in the change log.
-
-Good point, thank you. I will start to include the links to previous 
-versions.
-
-> Thanks,
-> David Hunter
-
-How come there are two sets of documentation?
-
-Best regards,
-
-Hanne-Lotta Mäenpää
+Looks to me like there's no Parser() API that works with ViewList() so
+it would be necessary to directly use the docutils RSTStateMachine() for
+this approach to work.
