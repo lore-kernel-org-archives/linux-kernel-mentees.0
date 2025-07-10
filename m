@@ -1,177 +1,98 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C852627E05F;
-	Thu, 10 Jul 2025 01:01:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51FE42F3E
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 10 Jul 2025 04:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752109312; cv=none; b=ZX/kZSIoZi2YTOa3xEQXEWCgKYBi3zw+DqPxO+Lc8kZwJ7U4wqzqZV4CGUEqfgrm1Jt8l6VNK0XjYeccaUNdrGklc2s3PXob/RhKdZ2/MTv2SRhNn7g0/6C9aOErgnQGqAC9BvjBTL5nAbVpGcZkAljInBvaI77YUZVozh+pBxY=
+	t=1752121329; cv=none; b=nUo8FuKvCTHSjFqEyqQ4HPY94rYmdi1du4SDxJbxuc2s51Xqu82mnsMwQbTdZsUONce7Us21DvPxAEdSR5omk/FpFWzgUCEZwsNWrQfzputCVIKoa9/rTHDYdG1+Q5Jbfh97Lnxw2EAKIlGa0MEEDzW4lCXwUe9GKxIF+xJ3p6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752109312; c=relaxed/simple;
-	bh=M1YsmDbGJwWY/B0rcU4jVlyPC8PdNio+2N9SDx19JPA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hbqcZovLUXgb1iiG5MD2vPhkekiS7Ul/qW5n6Z1vf8HPEf5zcZ6cheRL2QhcwpSzTWWR/qrphogvhztfR1gJy/vfjhEUoeu5nNU+onez0eHAU6UMmuAtXIUz/SIWuah1z0a6qXDHwEieLf+1hsikoIdzojQ7pDy4MnGHjqTLCj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i9Z+Ugue; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1752121329; c=relaxed/simple;
+	bh=zpk9bRN0L2uWmTh6P1V8dthV4qxXL3T4kvyeb5/URIE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sXWgMLiu1kgUQFo/1Kg9YUxroyYLldZ8DmgInusIA4P4LgMohKufvsEB1FaNu+cJQvS+Dg1dysQzfWQfxcNfVbRqYiJeq6EgbIWHOKCkuuDAfpp2X3XY+pftr6bGID2arKWBbLLzUaTYjDs5vkcq0TGPvJ5BbkBXoQ15LSG8p9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F2W5kHY2; arc=none smtp.client-ip=209.85.219.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i9Z+Ugue"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a4e57d018cso89608f8f.1;
-        Wed, 09 Jul 2025 18:01:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F2W5kHY2"
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e73e9e18556so635702276.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 09 Jul 2025 21:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752109309; x=1752714109; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6lqJZbsPmHAs+IvsrdhKTt1/Tbcc/A+mUT/M0FKTBrw=;
-        b=i9Z+UgueGRTU61JHRR9/l6roy0vL65BiuYGIgImy21T+YnoQyxZO+tixRaOhGtQ3Fl
-         +B7bnu33FpJNaom+L6KxKNZacjhWgxGeoT9FRiWhUpkv5yNwH3G1GKS44ayhn3xK5Du9
-         sx8203YWvsDG9NbLUgqJmjf4rwguv6GSCrO0z+tLnJ2f/zqmOKy88s/SxAQ0Y1Zuvho2
-         A16DRS1hU6Sc+q0nfkJhxO1M5nQTxGa9CAglavk0vLRDr+AEDEfChSTKlRh6YRELx6yB
-         Y/NIAV0YrhR00VJ4s+IoiPuY+X9ELqTw6V/2NnTKLcKYo5fwycjUs3ycXdmM9haxwAFu
-         wFlw==
+        d=gmail.com; s=20230601; t=1752121327; x=1752726127; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fX1F7Z4PAEFtJGiOe09XclubaX8vKVCrpTd1hRg1Eik=;
+        b=F2W5kHY2P94zmf7h75l/aEaASaR00Qiz6Ru/UeXnExPluMXAIarpIUGGBfHIbJU2TR
+         LZEvbqjSqkKEIsR8p8Xjvu/zA7QXfAuky2E1zSiakBWCYeiRMnAa66PkrwtdnlAArrom
+         yBTkIQHip70xz81lW02SrNSLVJWIpo7ntpWNHownYgEAlmP1+3UxDlDjkgYvBnAhnh03
+         Nv2FRb8Ow75XiNgaJYxYgB7+IS388KfNR4q/B/lGHcBKLrv9VVNac1Ho7s0idNt4cIp4
+         ITJXs6Jiz3jhKbkIlL2TXiHBtQu0sty2xy3fQmtA9WccQEobiTE/9z0lKwIJpfLTGK5M
+         Ug3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752109309; x=1752714109;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6lqJZbsPmHAs+IvsrdhKTt1/Tbcc/A+mUT/M0FKTBrw=;
-        b=ndow9wk37RjfelnRq5JC5ohAaxDQYxVODjlSRv6Di05NV9fAYhX0jn37j7oOehUdhf
-         oOsf6BOK/bTc5Yv/wWYhtas2sBJu/pDFU623kyITW1rBXkpoZwiTxkkMEkqaYghV8/by
-         lWlw46L6i+4GJPG50GkcvkYiKl4kwCvyTXBnR1DOYBgXJHklbAaLOFlyoBRvnLWKqPXo
-         FNhm+1BP8lZ/ODcTmTEmMNvYL+kdl9fN9012f93bRIt606psitAy23JPbaDKQq7UTp1D
-         0l08FJVfmf+tmX8ctYwjY63t6BC9pSL+ss7SbOsLe9iFFaSlkuvWHp5KaHW8pTlttmDe
-         b7Yg==
-X-Forwarded-Encrypted: i=1; AJvYcCUe4653g+1Mp0w+2Hu2z7Dwe5XKGXvcAmS5tzKOTVhosOT9OFtyVkCBJ0afW+bi6ivglN1vS+w07jp/uYLr24soEMI9xw==@lists.linux.dev, AJvYcCVPwqxY+cgDyIPuYHXEn1lYL6DtYfZV4sduHF9+GfEE/Rz7nQ5me+rlRMh7tt/NiYRhKllu+9d6e6NXLjsUHw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzW5qGTVtXi5Qn3uyNLZHLRxqbKz5CMgkS95DNzExNWr4rQRkek
-	kbZ8BiBv7KlFcp3QZkmw7P9wHSXXIz7kbGwxJWVoA0Ys+6mcD0jGzWBn
-X-Gm-Gg: ASbGncve8ee6eYA/PrHNdAqC3frxVQkT16expI9szhffsJ394sQr8VU46eK9Am+UHDC
-	tpiZCu1mD8tEfeglR9XFjoqhsj9G6B+u+lxIjvZF95IPFUjQhwG0RxPHyDuRlD6hDWhB0Dh70ev
-	rED5reIq95xhQEAEss3oKz2Ohoi3EaqJjgkYHnujUVoZITEhvTyQsUThDFFt1mx1tHJYWjbuUyj
-	dNNQJ7i2kpRTaofhfj8Wm/G+y5NhNlXB3uS0Gd1rgHOdMH6eufqVbX7RNe0aMS6yBsnPMoksVAm
-	fombBVuVBA0ocL2V9V7B22TSYCmcTkOe9XhHNnlBIDETtCtw28e6bXmERFAakSKXuvhw/OEj7NE
-	OFyj37h2vg4F4mP4KqgXX+5g=
-X-Google-Smtp-Source: AGHT+IF5UvDpLNDVjM54tSi8Gr5TA9ysTCFcSut/nKUTewLVf1mVhmlBgKi4jczA+xhIl606XbYwGw==
-X-Received: by 2002:a05:600c:45c8:b0:442:e608:12a6 with SMTP id 5b1f17b1804b1-454d5301ea8mr16803995e9.1.1752109308466;
-        Wed, 09 Jul 2025 18:01:48 -0700 (PDT)
-Received: from localhost.localdomain ([154.182.167.55])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454dd43915dsm3587375e9.7.2025.07.09.18.01.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jul 2025 18:01:48 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH] staging: media: atomisp: move hmm_get_mmu_base_addr()
-Date: Thu, 10 Jul 2025 04:01:30 +0300
-Message-Id: <20250710010130.113441-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1752121327; x=1752726127;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fX1F7Z4PAEFtJGiOe09XclubaX8vKVCrpTd1hRg1Eik=;
+        b=v55NxRB+3t6Rhnq4QWmNy8Wy539OATr1+1avZttRkB+81W8W33U07941E1ARK+gbnC
+         IjmNZY+509K9BZTe8yhr/b3J4JXt/h1hlCLPA4a4cqRKhRn06Z2kcRZ9mc+RoQgRRBzk
+         8DMlaxKX5cmBo7sAeHBFn7Tad/Qsbmt2zdMYwpYHpOwmf5ixYmJoUgtslUPn4plfcXpl
+         CR11e131Pixh6M+xkEyio9AuxJYGwJE4YhFmIpS3zWpOX7JtwkGEZK7vb8CklY4Z4rdc
+         Bzr3b+FN8z3o77SoYRecjndRwQ2VyjxPQs13FoQPb0bgS5CgHVfBZ8sm6vZzyxePuMQz
+         QK8w==
+X-Forwarded-Encrypted: i=1; AJvYcCWDma3mDHAUSODbD3zfioPjH9LSaUJu9a36CiuSOAH9F/u32UHKcK2EVbQfbbHGEBlIeujxl6RV5nfh6mToYGQPmNOqVw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWdX2vesPJuObiJzU/Ci/A3U+x7TMhB7Xd+OZhf9aSRl/UXI4i
+	omf5mquzpjsJR/tFN8thjBhMd9HPniergbgG/NEMip/Xj4AFMMGs3IGB
+X-Gm-Gg: ASbGncsiRF13VTUgsol89lljhq7pAuGaGkOqT+ksA6F0InjC6DGI3vtO/FZHuamnXPe
+	I0gfJkVtuJ9gla4PIQmOB06wPtSlyzfXysdtdq8V4w3o32Opcqr4hFd5SeR7Tp9wKh0L0+p5CwE
+	/zDtvFokdQdfCk0LBNHW1G9Tpkg/J4G4EOaDKXOSY+XGvbVOAvWoHBUSSCI+rAy0csWGB5W4Zq4
+	v8nZDMxOeUo/1OjLj9BOQwaKhqzS31XUyrNphK/Q2Lf49dSihiUoWQDkOMcMZdF2zyTlhyDEKKk
+	VlfR+YiPYmfHx4mGAL2On4qkgKi+eR637vGGW2JhdcLc6X9x86PRoeII0tRP+9VElq4ZK/tXZBu
+	d2Ev4
+X-Google-Smtp-Source: AGHT+IHVGlZCAdSiwwxIIDU0/vbdwHIDdUcAS82VRxXOOKEokRZbUd46s+cUagR8D6kkBJpJNSMyEA==
+X-Received: by 2002:a05:690c:c1d:b0:70e:4d8:5cab with SMTP id 00721157ae682-717c149b229mr33047897b3.2.1752121326994;
+        Wed, 09 Jul 2025 21:22:06 -0700 (PDT)
+Received: from [192.168.201.155] ([76.200.76.117])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-717c61b4cc4sm1270447b3.67.2025.07.09.21.22.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Jul 2025 21:22:06 -0700 (PDT)
+Message-ID: <680b91c0-0fae-4230-9fa1-da988cb82e65@gmail.com>
+Date: Thu, 10 Jul 2025 00:22:02 -0400
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] media: Documentation: Improve grammar in DVB API
+To: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>,
+ mchehab@kernel.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+References: <20250708155206.91281-1-hannelotta@gmail.com>
+Content-Language: en-US
+From: David Hunter <david.hunter.linux@gmail.com>
+In-Reply-To: <20250708155206.91281-1-hannelotta@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The function hmm_get_mmu_base_addr() is related to the functionality
-of hmm so its better to be declared and defined in this scope.
+On 7/8/25 11:52, Hanne-Lotta Mäenpää wrote:
+> Fix typos and punctuation and improve grammar in documentation.
+> 
+> Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
 
-- Move hmm_get_mmu_base_addr() to hmm.c.
-- Change hmm_bo_device struct to be static.
+Overall, good work. Here is a suggestion for future patch series:
 
-Note:
-This patch builds on [1], [2] that were not accepted yet.
+Subsequent versions of patch series should be posted as replies in the same thread. Currently, each version is its own independent thread, which makes it hard to track changes. This link has the documentation for the proper way to handle subsequent patches:
 
+https://www.kernel.org/pub/software/scm/git/docs/SubmittingPatches.html
 
-Link: https://lore.kernel.org/all/20250708164408.79863-1-abdelrahmanfekry375@gmail.com/ [1]
-Link: https://lore.kernel.org/all/20250708164408.79863-2-abdelrahmanfekry375@gmail.com/ [2]
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
- drivers/staging/media/atomisp/include/hmm/hmm.h    |  4 +---
- .../media/atomisp/pci/atomisp_compat_css20.c       | 12 ------------
- drivers/staging/media/atomisp/pci/hmm/hmm.c        | 14 +++++++++++++-
- 3 files changed, 14 insertions(+), 16 deletions(-)
+The relevant part starts at "To that end, send them as replies to either..."
 
-diff --git a/drivers/staging/media/atomisp/include/hmm/hmm.h b/drivers/staging/media/atomisp/include/hmm/hmm.h
-index a7aef27f54de..da85d835ec10 100644
---- a/drivers/staging/media/atomisp/include/hmm/hmm.h
-+++ b/drivers/staging/media/atomisp/include/hmm/hmm.h
-@@ -33,7 +33,7 @@ int hmm_load(ia_css_ptr virt, void *data, unsigned int bytes);
- int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes);
- int hmm_set(ia_css_ptr virt, int c, unsigned int bytes);
- int hmm_flush(ia_css_ptr virt, unsigned int bytes);
--
-+int hmm_get_mmu_base_addr(struct device *dev, unsigned int *mmu_base_addr);
- /*
-  * get kernel memory physical address from ISP virtual address.
-  */
-@@ -65,6 +65,4 @@ void hmm_flush_vmap(ia_css_ptr virt);
-  */
- int hmm_mmap(struct vm_area_struct *vma, ia_css_ptr virt);
- 
--extern struct hmm_bo_device bo_device;
--
- #endif
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index be5f37f4a6fd..b4913cb32a64 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -157,18 +157,6 @@ void atomisp_load_uint32(hrt_address addr, uint32_t *data)
- 	*data = atomisp_css2_hw_load_32(addr);
- }
- 
--static int hmm_get_mmu_base_addr(struct device *dev, unsigned int *mmu_base_addr)
--{
--	if (!sh_mmu_mrfld.get_pd_base) {
--		dev_err(dev, "get mmu base address failed.\n");
--		return -EINVAL;
--	}
--
--	*mmu_base_addr = sh_mmu_mrfld.get_pd_base(&bo_device.mmu,
--			 bo_device.mmu.base_address);
--	return 0;
--}
--
- static void __dump_pipe_config(struct atomisp_sub_device *asd,
- 			       struct atomisp_stream_env *stream_env,
- 			       unsigned int pipe_id)
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index 8d64e5fd812c..321166e58bb5 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -24,7 +24,7 @@
- #include "mmu/isp_mmu.h"
- #include "mmu/sh_mmu_mrfld.h"
- 
--struct hmm_bo_device bo_device;
-+static struct hmm_bo_device bo_device;
- static ia_css_ptr dummy_ptr = mmgr_EXCEPTION;
- 
- int hmm_init(void)
-@@ -488,3 +488,15 @@ void hmm_vunmap(ia_css_ptr virt)
- 
- 	hmm_bo_vunmap(bo);
- }
-+
-+int hmm_get_mmu_base_addr(struct device *dev, unsigned int *mmu_base_addr)
-+{
-+	if (!sh_mmu_mrfld.get_pd_base) {
-+		dev_err(dev, "get mmu base address failed.\n");
-+		return -EINVAL;
-+	}
-+
-+	*mmu_base_addr = sh_mmu_mrfld.get_pd_base(&bo_device.mmu,
-+			 bo_device.mmu.base_address);
-+	return 0;
-+}
--- 
-2.25.1
+Another good practice is to have the previous versions' links from "lore.kernel.org" directly in the change log. 
 
+Thanks, 
+David Hunter
