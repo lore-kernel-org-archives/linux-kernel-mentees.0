@@ -1,108 +1,123 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCC9303DE5
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 10 Jul 2025 20:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11ED18BC3D
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 10 Jul 2025 23:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752179142; cv=none; b=LGV2qs8DCcwzRwWcRSbJPeD18eoiA1RClCzgTU3Ifck7OZ7p0LQKlCiFzJDu6+EId+M0yuJqNak4WoSnUdLtHhs0N6opRQGzjuWS1Ab7sT0ZlvVOj3htogjsP0iBTK8bko7f0oeWdPitnmhL7JegPIVxkMtKdhUt1+MjBRc1mOQ=
+	t=1752191753; cv=none; b=cocPVVjHFKRkZwPOEbSKCqXhhOXJcZLSHrUkDLQpxkKNFYbkj5iE0rOPSBTXdt7x2uKN4HK5YRvDJZJc2YyW+7iTY0AC+6NhyHWg0NTrdhDSjnWiCDRgcR5xqei3/Qnw8umw45L4dzb7d+3/ljOtPZERbCGSpnjNhzwXkLV0WGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752179142; c=relaxed/simple;
-	bh=dpAvXXm8l9op444PryNU84jOrFviRRWTvceQmBQJj7Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tmgVdRpNJo6TS5ssG147/IhxcX2g5XCC3QhyqsVgW3EmZ6OhbbIgxVVAgUzGBX8Sb0iZrQBOgS5rQc/nL+LgnskOYpUlAOndg4nWoUR23bF6BOo633l1QW23ap1/kGmUhA6I+f2uNucX/8OQl3WagwnWFWOFTJNHKZrQVJmNcM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ThQzsvxw; arc=none smtp.client-ip=209.85.166.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1752191753; c=relaxed/simple;
+	bh=XAiCmdF7RkApsrZzspm68HM57eB+JOIvtiEXT38QR50=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=bOA6HGc1z1wuBTEhTUNVLafVmMdxI+E2TA8TmNlA57rhnj7a3t6tSGy/HvHwLeJc8nCCRBFtDJZPCBVSQwcF6l3TERiec/R9F1xT+k7SfmpZyt0Zy1r+Mi7oo0x25fXpZXdaTXv1zBIkCJsV/1NYpddu7CHzpLiahr/+ec8UBjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=AJiYnw55; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ThQzsvxw"
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3dda399db09so12032435ab.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 10 Jul 2025 13:25:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="AJiYnw55"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-23508d30142so17475135ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 10 Jul 2025 16:55:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1752179140; x=1752783940; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UOW545cnbFCjCw58sZPhZTZK+ICYR+NAj71Tm0cVR1c=;
-        b=ThQzsvxws1MGDGIQ/n6zwI/TBmUzcNMeT9iALIz8hbRX7vfvN0kcOqNrSg34BiAUcX
-         B+/tHVY5aQNuqrTN4HHPZBKhGUAH5+xzq+XR/aV1hELDfo/RX6fslKa8x8jaUkUQvX5z
-         vbsgpCFuQAQX2RaKD3zOODvOwDGDhSvc5RSaI=
+        d=brighamcampbell.com; s=google; t=1752191750; x=1752796550; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XAiCmdF7RkApsrZzspm68HM57eB+JOIvtiEXT38QR50=;
+        b=AJiYnw55QflHXB7pF6E8R6C0pLLrRtVlehsbHqFiCVEHir80jIXAM0cd3ffZAAU8Ta
+         ho1p3skw4zcyOSUwCZktfexNnjd5SkuSNbpAISTANJxtkg6Aq7oWHfZ4M3blXm+sppbC
+         Bc6La1APXbnTRDuz0JuF6QcQEQNP60/1gqQdHpoXfwoAtoQudkY1HGUddp2IjL2W2Atw
+         X6umew0DYFctqngf7jlKIn48ozxI5JhYspj+YhyMFU+8BBBJ0ddpPrCr8jl/i39FIWaI
+         ln/zxc45Cjf55p2LFnvAC6nb130/HYYT4jb/e2Lb0vqVqdexsB8PSI10ubVV4CsTTRjV
+         fzpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752179140; x=1752783940;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UOW545cnbFCjCw58sZPhZTZK+ICYR+NAj71Tm0cVR1c=;
-        b=G2GLOje/hGjQpit/enoc9hIXja73xbFlpur3y7AAJcoMH5mSAQLvFWFgu++eFBdFI2
-         HCKoe2FXR6cvdHh0DzJnfPJDBBuCw6Nbga/USr5n2twyQVbpXocU+IjIQGPNgN+F/D1G
-         I+FaSVrliujEyt3xo6zVpcLgkEJf9kcLGE48NRh9wPHhoZXOMYQycg76yDzLWeeN51IN
-         54kuFETYs6yzG/OcmXW0H2TN7+hqs+JUOBFcBwVQZdK51fquAV21Ehb02C47oyDNdMXq
-         mXE+DXH7WGP5OlN+BkrScny2J2RTi4yTrazaeTVJKcTOhL9S2py4KC8YglrUnb89HKaD
-         SLfw==
-X-Forwarded-Encrypted: i=1; AJvYcCU4e0rdfS867nbmsyOXnSGt4XgjYXuwGExxgGlGDWtCQQWwokA5xjRtwrD3MCbYgqHBNe8Z2NWzeHtkcpx5t3SvsYn3jg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyV79TIzm0JwjnWEqKhDdr/jc1edJ9pSXXpbv5US1EXcZAU28Wg
-	0UTeraCsl+Mp8afX22YGdFEdRNc4GdhroMx2p1HXhR9eEq9qECLT7pLuE7gunUW6XQM=
-X-Gm-Gg: ASbGncuSD+9lM2T20WB1xDaSU7dqjk2M15U06VbCM7sZSCvyCkwFLMEvVFhxx83aQ7y
-	yRpjg9bPhTKLfXcHS0yG4Suhiur4pmgbaTSJeKuO+60K6WlEn1G+TiMFoPaa6cvx5ssVTe7mZVU
-	WX5nMOW8O+B5pqYkDwbRFGeEIyNzNk6GaAEfOew2bJ8QzrJNkgxA6+3YztOGtGvFEXpR2zv/q0k
-	oSCICnbMUpNEooLd/HB+vFaRUt5f2W+8k93HWkyGaglg0z/DCM2CIKTgzPD+5j7XeeTA9iz1R0b
-	pjN18c677lOjOTxvqcuJGKDJW7yNXPsF4z9ee61ElksltPjYFlRI/WQet/5o2XBnpEIvfcUKWg=
-	=
-X-Google-Smtp-Source: AGHT+IHzlWsf/jsE9z63MA8RnwflOpfP+qTaGsCEOAMrn0ovuDzhRAv3fYk2H2SczvZO524QmmMh8g==
-X-Received: by 2002:a05:6e02:3420:b0:3df:3b77:1ed8 with SMTP id e9e14a558f8ab-3e25329bb7dmr10180025ab.7.1752179139748;
-        Thu, 10 Jul 2025 13:25:39 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3e2462422bfsm7371645ab.60.2025.07.10.13.25.38
+        d=1e100.net; s=20230601; t=1752191750; x=1752796550;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XAiCmdF7RkApsrZzspm68HM57eB+JOIvtiEXT38QR50=;
+        b=lEllM7sqqXZxmu2Y32bvKTlgbwbakrMvxlPBStg04DN3OdKCxNhugxpOHQAXyqPxq6
+         OJUXJ9+gudKtGwqXVvBlYY950k7/rnLlqoHLwrl5Bc12frUdFdqBQnNwm6QC5JCtXfnF
+         nnC5dXYmaSw1VH6alKHOy8fFktT4lpaBnBzyHMxjXMpOpaHBSYjoRv7oqp7BPJH+iz3f
+         eCdlGkvZmKlqRPboBH9oDgpTFK0xMBIP4MENVj/5uujJroXO3K5aLor0zkMp90fz/tCt
+         G1jNfPXoxQ6SLqfJ7q55V7Oune53O3YEiyRjN4VbnDH4fgCfAGLw3v499tsrtQ/O33Xh
+         Yi0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVEUYGduvtecNoVX0I7LgV04hJQN1QcnKIgANuEwenot+GhzqTfIJw6ONswNLn8/Ists5gOegJFPqcvdK3sBQAybul8eg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyewL4ahPO2F5svaZ6st8JpAPTRUU5I2QXZPlQaLJBjoJkFYCNp
+	33a8DyJjjYsgia9o/ZlHiWRPSy4UqZjr8uwVqLATZM54V7Q5gGVIrMkoo9rcBKP13p4=
+X-Gm-Gg: ASbGncsFZJuvgwn4OjZFCVh7/Un3Gc4bUb3Ju+pUIFMwE8FKg4I+vbMr8m4API49NiS
+	B/krP3bgFk1csJ0yuMzpXM27WzP4kiLLs0Lg71w9JRi+H9S1Ag3g+NExB5RI/tgUD1GtIZBRGRS
+	jIBf+NL7nf2Ab/LdeRXW6DDNkOmk5zNMmaSM/DUwynFyQDyxh26PJiTOUqtKpnLw+Tr67YYPgtD
+	TFZnmUaOe+NgFAOTiP4eL/DqqSrsDs/0XPaDjqfO5TMgKPfNca423RK77r9WopiTXuK91EE+CVh
+	rVeTWbaQUZuXDwrYN3en6m4j7wvVnxV4REXnrNi/frcDbnYivsGw3MKLsAlJBj60ZybqsRWuA5Y
+	nff3zlnJojxP/YJZySo4=
+X-Google-Smtp-Source: AGHT+IGFOD84u48rdMoEXoU5fk8FMmvZ6/jUey0yaBE6/wbev3/1XX3T9b4F6Rm6Kh49JQ9zptu2AQ==
+X-Received: by 2002:a17:903:3df1:b0:235:be0:db53 with SMTP id d9443c01a7336-23dede98446mr11872605ad.51.1752191750126;
+        Thu, 10 Jul 2025 16:55:50 -0700 (PDT)
+Received: from localhost ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4365b10sm31581145ad.240.2025.07.10.16.55.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Jul 2025 13:25:39 -0700 (PDT)
-Message-ID: <78cd5960-ea18-4e18-9f13-fb3c513014f2@linuxfoundation.org>
-Date: Thu, 10 Jul 2025 14:25:38 -0600
+        Thu, 10 Jul 2025 16:55:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] selftests: breakpoints: use suspend_stats to reliably
- check suspend success
-To: Moon Hee Lee <moonhee.lee.ca@gmail.com>, shuah@kernel.org
-Cc: yifei.l.liu@oracle.com, zhujun2@cmss.chinamobile.com,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, Shuah Khan <skhan@linuxfoundation.org>
-References: <20250626191626.36794-1-moonhee.lee.ca@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20250626191626.36794-1-moonhee.lee.ca@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 10 Jul 2025 17:55:47 -0600
+Message-Id: <DB8S4WLTG1SS.NVODTL6KNFXF@brighamcampbell.com>
+From: "Brigham Campbell" <me@brighamcampbell.com>
+To: "David Hunter" <david.hunter.linux@gmail.com>,
+ =?utf-8?q?Hanne-Lotta_M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>,
+ <mchehab@kernel.org>
+Cc: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-kernel-mentees@lists.linux.dev>, <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v4] media: Documentation: Improve grammar in DVB API
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250708155206.91281-1-hannelotta@gmail.com>
+ <680b91c0-0fae-4230-9fa1-da988cb82e65@gmail.com>
+In-Reply-To: <680b91c0-0fae-4230-9fa1-da988cb82e65@gmail.com>
 
-On 6/26/25 13:16, Moon Hee Lee wrote:
-> The step_after_suspend_test verifies that the system successfully
-> suspended and resumed by setting a timerfd and checking whether the
-> timer fully expired. However, this method is unreliable due to timing
-> races.
-> 
-> In practice, the system may take time to enter suspend, during which the
-> timer may expire just before or during the transition. As a result,
-> the remaining time after resume may show non-zero nanoseconds, even if
-> suspend/resume completed successfully. This leads to false test failures.
-> 
-> Replace the timer-based check with a read from
-> /sys/power/suspend_stats/success. This counter is incremented only
-> after a full suspend/resume cycle, providing a reliable and race-free
-> indicator.
-> 
-> Also remove the unused file descriptor for /sys/power/state, which
-> remained after switching to a system() call to trigger suspend [1].
-> 
-> [1] https://lore.kernel.org/all/20240930224025.2858767-1-yifei.l.liu@oracle.com/
-> 
-> Fixes: c66be905cda2 ("selftests: breakpoints: use remaining time to check if suspend succeed")
-> Signed-off-by: Moon Hee Lee <moonhee.lee.ca@gmail.com>
-> ---
+On Wed Jul 9, 2025 at 10:22 PM MDT, David Hunter wrote:
+> On 7/8/25 11:52, Hanne-Lotta M=C3=A4enp=C3=A4=C3=A4 wrote:
+>> Fix typos and punctuation and improve grammar in documentation.
+>>=20
+>> Signed-off-by: Hanne-Lotta M=C3=A4enp=C3=A4=C3=A4 <hannelotta@gmail.com>
+>
+> Overall, good work. Here is a suggestion for future patch series:
+>
+> Subsequent versions of patch series should be posted as replies in the sa=
+me thread. Currently, each version is its own independent thread, which mak=
+es it hard to track changes. This link has the documentation for the proper=
+ way to handle subsequent patches:
+>
+> https://www.kernel.org/pub/software/scm/git/docs/SubmittingPatches.html
+>
+> The relevant part starts at "To that end, send them as replies to either.=
+.."
 
-Applied to linux-kselftest next branch for Linux 6.17-rc1
+This documentation you've linked is specific to git, not the linux
+kernel.
 
-thanks,
--- Shuah
+The kernel documentation argues against doing what you suggest [1]: "for
+a multi-patch series, it is generally best to avoid using In-Reply-To:
+to link to older versions of the series. This way multiple versions of
+the patch don=E2=80=99t become an unmanageable forest of references in emai=
+l
+clients."
+
+[1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+
+>
+> Another good practice is to have the previous versions' links from "lore.=
+kernel.org" directly in the change log.=20
+>
+> Thanks,=20
+> David Hunter
+
+Nice work, as usual, Hanne-Lotta.
+
+Brigham
+
