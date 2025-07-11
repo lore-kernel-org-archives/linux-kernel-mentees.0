@@ -1,78 +1,65 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A9EA95C
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 11 Jul 2025 03:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A9518D;
+	Fri, 11 Jul 2025 08:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752202926; cv=none; b=Hn10ncn6ffIjGXG/w4m4/E9+oZmxPo7imkh+BzyJDMMJndXu8W0YgQdyPtad1oK5BXB6D7wdVTKo6SX2YzaQFZaY/Iaw34tNOdWhP5ldjxwfN/tjKg1wahIqWJzfdzlxlLNGuMcuWBA6HHKvbRds7I1EOynBaklLCaxeZNeoVGA=
+	t=1752223049; cv=none; b=ATdC5B8f9fjSR4Z/oEzI4EqbJ+yPLIKXIxycKfp71vW/Hptc+W5bYQ9GvzHvzoddTU9uQBZxXMCPU5AAIakF1AIJEqh+OlyBRysbCgLgvoFVXqnZ6AiK70O/49EODP5XHH8NBodcprDQ81aoBE9f+nOJgXIBUkJ3BAY3gPQYjS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752202926; c=relaxed/simple;
-	bh=LGWAtyXrM2PxxMeZprVLJBwaxJToCaYtQ/uTGw3d918=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iEGmLwYIfgPZfqCYpTLVV2buc62ifY/OCRCyA41qLeziM+L2BiNrtzUBjcJXSqtFbRBde3mngxA0BDP0Wm/veeaUkvDU5QIYE5Mb3UNS4cNDhQOrxIzppYdM0Vsj5KnMddi5YTlESmalkG786GEys2/38O0ywJMEIIS7WvJbnKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=SKIsQ21G; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1752223049; c=relaxed/simple;
+	bh=OHCIgiPuGTOLfp8ArVy61aLbLOSN/ySRGK+gWTBkLBU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CEivNZbl4eyYC8HoDhlmpsfkhplal+htTtXDOKWBcQPV02qbTYFEYfMWrxiRLygHvAhLaztfgN+K3GUgfJS64DP2kEYKHq3xUxMSd60Tm5+cD7VkmMboJ4AG/vXWtZvUaT8KiS3ZUh4aK0O1LStBV7lhS7FeZ9x9HlaUkjJWdek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ThKvuZwq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="SKIsQ21G"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2349f096605so21285835ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 10 Jul 2025 20:02:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1752202924; x=1752807724; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sadpaz8PrWvHMkbxmc3mROAwLmTsdYFXlPsL8N6jUTo=;
-        b=SKIsQ21GX8itjJOUNJtAe5Zwz1rmrny9kwVJbpK9skaj13PjG2dNj2mbv+h4Or3Fg+
-         ws4U/eyJ7r3DOkOmeQ2aFOHAU8Zp1jfbLjESHccGwFaPjeWQ98ywVA6TMAMMG9uTGr2p
-         gFUwsme7sj1EOWLekvHhzH2gMZ5CIMwRVUVtoc1G8fOFbJRtt8XbRu7QwnpEpDu2lw4c
-         dmKD7DDj4pqH2SAWWZNvpXZi14AcDKLtHX/aFpdy9WU8blRvKKGxWbZZHqbSyve23zQE
-         AX/1acJoqGAlm0G+lb7WYGyuIl2smhhO44/leeLY9kyWoazWjdqv5NvzIaUorGBG0V0K
-         G+4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752202924; x=1752807724;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Sadpaz8PrWvHMkbxmc3mROAwLmTsdYFXlPsL8N6jUTo=;
-        b=wBuXVaGlEaDbHUvi+UktValJqCYdy96U6MwNfjz+4XcSGLbemf/vaSkDbEwYA3KOOd
-         V75RiIJGpsuVlssIdzTS0O76voLNf4viLdyKkbxVoZdoaftWdSekLCvtfgyKwHc1kt/f
-         MrMN68YzIMdq+54WRhJehxCkyo795vsBNnw6FYi2TYxZLv88jzpMB/omSr+4DBp2B8NE
-         8JGrNmNDPwYH0kVvl/Vz+Y9kYB0UABKP9RiBYSx3m2wj/q4GCBUWguDHu4ecOWtVBxFU
-         Qt/Z2dOCfhKuMgJCpQ4ZPC0DO/tZYz1aJGchMkf+j337S770ZsPuePC9OT6dUnAC4zXb
-         TL3w==
-X-Forwarded-Encrypted: i=1; AJvYcCWN+77siyK6aTfDbiR4QZP89LHeoENorNLdkXiw4TWl7L9goq8yHFo3fQJkYjEbti1BMX6W3AORACmFc93xNGTpwuLBvw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxcUeK6lqqZXoJSGptgGhp4n4wwEkNKmr2I5po8ZL+FWnenCgw7
-	eluKqLrAJ84CO7Wh2nLKkPaZpLoDqIA7SIDbnjljCcLKtYl/Sa+9bPfMA97q7Znm8ug=
-X-Gm-Gg: ASbGncs3BVG68B+PHEpTE4nxIhPFpowj48wKhdseWqRpauYi8Y7oY7Xo8R8UqRk+TIk
-	HuMH/Ng0a3GXs7qEO/+F/biaNOC6y5WuNBiFd7JNt00QMvQT2O3tWUQVo4m9O2ueEVzL/pxJpkw
-	KcNiOXzWcalZ6ddUv56RVDKilMLCQsi30Mo7G2GezafSfHXtaP2Ngb7yisjxogOKTf4NoWP2ruY
-	JsS2pQ2MNBispc6CB52rjPjHivnmi3sQsfngOW92K40gHlonFg+1FrfuDho2cufNo0KHRgcbAfr
-	jePSS3ysVB5FDllGILknsDDubbbCc8+neK3nTeOV53cjqEb+vizaNNxslmAJzSTUtS2uysYrQsK
-	ZPgIK/ZlVznfZJuLDTenvQbu7UY1dpUViBb3umQefW4pdVj0WmL4CoQ==
-X-Google-Smtp-Source: AGHT+IG3BdlUocDPxEIVRsXKPoLXrNsAE7NpPAv9kznyZrwFjv8MOOYM3yOY/fwUdxGzEatLzBzkSw==
-X-Received: by 2002:a17:903:f87:b0:223:619e:71da with SMTP id d9443c01a7336-23dee28523bmr21809105ad.49.1752202924535;
-        Thu, 10 Jul 2025 20:02:04 -0700 (PDT)
-Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de42ad25dsm34219115ad.64.2025.07.10.20.02.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jul 2025 20:02:03 -0700 (PDT)
-From: Brigham Campbell <me@brighamcampbell.com>
-To: skhan@linuxfoundation.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ThKvuZwq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 118FDC4CEED;
+	Fri, 11 Jul 2025 08:37:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752223049;
+	bh=OHCIgiPuGTOLfp8ArVy61aLbLOSN/ySRGK+gWTBkLBU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ThKvuZwqdhuC5eWcMREi5ebn4Hmn8EDthtu/b4le/mSaNIBuNYYylhL6n4PDhDmwr
+	 pZFAawYh3d/ut4Qn1EMA3rLfjFwZilVks1Cy1aoRcPGg86XlABdrTbwOzA7tgqYaI5
+	 KR3mnMI6irZwn3I6+9LKtn4rQfiMPqxmiBI7sWTEhg0uFl3HYenoT2vT+9d7n92RyX
+	 6A1Gaeah2C+NOV3jPlZGcwB15BM89zYPBsGwby2yvWiDUkINI/u8OLWJqpB3JfXkOL
+	 WkDSFMf57nXRT/JkfsOMM25KTIEXZJBYj/+fH4hGGGcdrk9+sHU2Wn6QvYBA0r0Gl5
+	 gfKjee6RjqbYg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1ua9G3-0000000FXSq-0eVb;
+	Fri, 11 Jul 2025 10:37:27 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Akira Yokosawa" <akiyks@gmail.com>,
+	"Breno Leitao" <leitao@debian.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	"Donald Hunter" <donald.hunter@gmail.com>,
+	"Eric Dumazet" <edumazet@google.com>,
+	"Ignacio Encinas Rubio" <ignacio@iencinas.com>,
+	"Jan Stancek" <jstancek@redhat.com>,
+	"Marco Elver" <elver@google.com>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	"Paolo Abeni" <pabeni@redhat.com>,
+	"Randy Dunlap" <rdunlap@infradead.org>,
+	"Ruben Wauters" <rubenru09@aol.com>,
+	"Shuah Khan" <skhan@linuxfoundation.org>,
+	joel@joelfernandes.org,
 	linux-kernel-mentees@lists.linux.dev,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH RESEND] drm: docs: Fix typo in introduction.rst
-Date: Thu, 10 Jul 2025 21:01:57 -0600
-Message-ID: <20250711030157.124778-1-me@brighamcampbell.com>
-X-Mailer: git-send-email 2.49.0
+	linux-kernel@vger.kernel.org,
+	lkmm@lists.linux.dev,
+	netdev@vger.kernel.org,
+	peterz@infradead.org,
+	stern@rowland.harvard.edu
+Subject: [PATCH v9 14/13] sphinx: parser_yaml.py: fix line numbers information
+Date: Fri, 11 Jul 2025 10:36:23 +0200
+Message-ID: <4d1e0f5283ae1c6874cef272c5760035eb51278a.1752222934.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <cover.1752076293.git.mchehab+huawei@kernel.org>
+References: <cover.1752076293.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -80,36 +67,98 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Fix typo in Documentation/gpu/introduction.rst
+As reported by Donald, this code:
 
-Link: https://lore.kernel.org/all/20250620180258.132160-1-me@brighamcampbell.com/
-Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+	rst_parser = RSTParser()
+	rst_parser.parse('\n'.join(result), document)
+
+breaks line parsing. As an alternative, I tested a variant of it:
+
+	rst_parser.parse(result, document)
+
+but still line number was not preserved. As Donald noted,
+standard Parser classes don't have a direct mechanism to preserve
+line numbers from ViewList().
+
+So, instead, let's use a mechanism similar to what we do already at
+kerneldoc.py: call the statemachine mechanism directly there.
+
+I double-checked when states and statemachine were introduced:
+both were back in 2002. I also tested doc build with docutils 0.16
+and 0.21.2. It worked with both, so it seems to be stable enough
+for our needs.
+
+Reported-by: Donald Hunter <donald.hunter@gmail.com>
+Closes: https://lore.kernel.org/linux-doc/m24ivk78ng.fsf@gmail.com/T/#u
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
-This patch has received no response as of June 20th. If it's
-unacceptable for whatever reason, please let me know and I'll drop it.
-This is the only typo I happened across while reading the document. I
-scanned it for more typos when I prepared this patch, but found none.
+PS.: I'm opting to send this as 14/13 to avoid respanning the entire
+series again just due to this extra change.
 
- Documentation/gpu/introduction.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/sphinx/parser_yaml.py | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
-index 3cd0c8860b94..39b4c943fa00 100644
---- a/Documentation/gpu/introduction.rst
-+++ b/Documentation/gpu/introduction.rst
-@@ -32,7 +32,7 @@ member, only the structure.
+diff --git a/Documentation/sphinx/parser_yaml.py b/Documentation/sphinx/parser_yaml.py
+index 1602b31f448e..634d84a202fc 100755
+--- a/Documentation/sphinx/parser_yaml.py
++++ b/Documentation/sphinx/parser_yaml.py
+@@ -11,7 +11,9 @@ import sys
  
- Except in special situations (to separate locked from unlocked variants)
- locking requirements for functions aren't documented in the kerneldoc.
--Instead locking should be check at runtime using e.g.
-+Instead locking should be checked at runtime using e.g.
- ``WARN_ON(!mutex_is_locked(...));``. Since it's much easier to ignore
- documentation than runtime noise this provides more value. And on top of
- that runtime checks do need to be updated when the locking rules change,
-
-base-commit: 667efb341917bde19f5d7517b65defcdaed67c9e
+ from pprint import pformat
+ 
++from docutils import statemachine
+ from docutils.parsers.rst import Parser as RSTParser
++from docutils.parsers.rst import states
+ from docutils.statemachine import ViewList
+ 
+ from sphinx.util import logging
+@@ -56,6 +58,8 @@ class YamlParser(Parser):
+ 
+     re_lineno = re.compile(r"\.\. LINENO ([0-9]+)$")
+ 
++    tab_width = 8
++
+     def rst_parse(self, inputstring, document, msg):
+         """
+         Receives a ReST content that was previously converted by the
+@@ -66,10 +70,18 @@ class YamlParser(Parser):
+ 
+         result = ViewList()
+ 
++        self.statemachine = states.RSTStateMachine(state_classes=states.state_classes,
++                                                   initial_state='Body',
++                                                   debug=document.reporter.debug_flag)
++
+         try:
+             # Parse message with RSTParser
+             lineoffset = 0;
+-            for line in msg.split('\n'):
++
++            lines = statemachine.string2lines(msg, self.tab_width,
++                                              convert_whitespace=True)
++
++            for line in lines:
+                 match = self.re_lineno.match(line)
+                 if match:
+                     lineoffset = int(match.group(1))
+@@ -77,12 +89,7 @@ class YamlParser(Parser):
+ 
+                 result.append(line, document.current_source, lineoffset)
+ 
+-            # Fix backward compatibility with docutils < 0.17.1
+-            if "tab_width" not in vars(document.settings):
+-                document.settings.tab_width = 8
+-
+-            rst_parser = RSTParser()
+-            rst_parser.parse('\n'.join(result), document)
++            self.statemachine.run(result, document)
+ 
+         except Exception as e:
+             document.reporter.error("YAML parsing error: %s" % pformat(e))
 -- 
-2.49.0
+2.50.0
+
 
