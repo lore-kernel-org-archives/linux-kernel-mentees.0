@@ -1,79 +1,128 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AB02C325A
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 11 Jul 2025 12:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2047F6ADD
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 11 Jul 2025 17:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752238316; cv=none; b=uHdxrZolHPHSykd3pRNdLLmhy3UGzWdO67dCEsWgekMaKCpBkKYu+7cjm7oCHhXnJHCArjzz9RG1KT/y2vdeycv3rIbIuuKGnVHlooJgD/U4Z/qwskeY+IDdz/oxu+z0ij/98Dab5xd124QAe9/nUrjS/ZTErADa/eo0Xuowvj8=
+	t=1752253572; cv=none; b=BocGuW1S+n+6jL0QdyUdSS0Cgp7vMZI3inMK5k+4ZvMK5lElKTDTQCjoUL0e7j5nrO2BM+UmRw6kw0nLdjdnEcjl4BP3HWbUAotUSdGtH9TuZkAAiDoyRjxfC7lWXUmukl1HFzdiZJmqeDQ2sEGRzy+JyoFbGqKu6FhATodaWP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752238316; c=relaxed/simple;
-	bh=3AWkZ0s/sd1/QOxaopIuWTXz/ibv2bkQR7ck3+1BeNM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VYoNYjajCjmAONXTeRnGKqnU+m9WM9ncdNDCChu/G40ZMxw6pki+OWEqjJUksdufDivuLbPNPxfBDG6Uf5ISnTQDMMGNuR/zT1D3PF3+P8hItAvYHKv4xYlrA7CDcdjyrX18Y+ZeSFzm/q9nX0K76keGkbaIfdVFFLCOPmvsAqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NiRaG5fK; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1752253572; c=relaxed/simple;
+	bh=WrvB8GsIeIreYnuKoMq5URVLOHQy+PAHYcyx6LKjwSU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LUMkMDSuvJv2U5q/rzhMIQDh/g4PZ0LX0Gw0R6PHuC6747FwPwjUDeAqMbYP9X84PQxoX7gbCeo+KUEkmu00Xl/MuhDOeXBsMhUF8foWtDPkebav2kNeNApMeEebZeMuESJHRAxr6J3bT8piHOCHE7AbMCTBK4FX/X+d3VBwkHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YB57Hksv; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NiRaG5fK"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 621E740AAB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1752238314; bh=pvRnJ6fGOQ7F967zLvEgbnXWICTTFrxnNk+K97WLwE8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=NiRaG5fKsjN7WffXbrhAuhdRprY1EBIqGa1L83BZwvFypcbZrp+r3mPQ0hywM8vjo
-	 +cx4yzl7BGI0TuM4Pa7Pb1PiJjRO2jaTwlHGnsU7tKeUs8Fq5Xgl5OaOUh4Zt/c/hV
-	 0uA+3oP57e4ewPqzGNF+FWCQDHzCtosTGscCRzYF7rZf1gj2lbHEosU+Y2KgN5m+Qd
-	 xSChMHMt1YlFC9OPHLMO8xd00zPUk/HOMkRjfgSKcXOorCPCzgsTUsjLxohfgsrGY5
-	 l/JixLrhTLWp2kb2VqstwbFsZwCDOI+3+MF5fjnv1NJaDVMghYk/a5UnwQVAE4Vild
-	 zyZupmv2jCjvw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 621E740AAB;
-	Fri, 11 Jul 2025 12:51:54 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Brigham Campbell <me@brighamcampbell.com>, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, "open list:DRM DRIVERS"
- <dri-devel@lists.freedesktop.org>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Cc: Brigham Campbell <me@brighamcampbell.com>
-Subject: Re: [PATCH RESEND] drm: docs: Fix typo in introduction.rst
-In-Reply-To: <20250711030157.124778-1-me@brighamcampbell.com>
-References: <20250711030157.124778-1-me@brighamcampbell.com>
-Date: Fri, 11 Jul 2025 06:51:53 -0600
-Message-ID: <87tt3ix53q.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YB57Hksv"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-558f7fda97eso1454158e87.2
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 11 Jul 2025 10:06:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752253569; x=1752858369; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PNAWGrPiwj3E1EhTq5Tl1CO6rinMEagBkU9r1o4zi7U=;
+        b=YB57HksvtSy+q4IaCE7rmX5GlqE9HsfJ1fTveDGGXQn2s1lT5Oi9IYvjHtMJrjBfvq
+         bEaUszhvaQi4mYJsI4tl8QqaSDyvs4I1K0Aw/RbZlF5nSZt8VQP5G4Ux1qDM5XG/m0/c
+         OvmPcu5eZT8btS/xHxjY9WOXRnZ/nhKgN33qpVbWxVcfG241wCRCDXw8SzEVJgMa3fS3
+         jA46CYjxYUqUQiyVRvXb1Tk7WFip7yjYSOFRRzp4/E2zUwBfVIo8rfaDWOW3FzzZGEzH
+         rDinr++pKpdXeQo7s+W0kwPU5hKH1Qz/JrJGxBfc0ioRINAQzBnZ0JXhGMucn3Cj7/4n
+         1oYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752253569; x=1752858369;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PNAWGrPiwj3E1EhTq5Tl1CO6rinMEagBkU9r1o4zi7U=;
+        b=YgHVqOZAycwQrdvSUj+xoIFsvw8OGAhG+hBTpw2fwe+StCeK0jw+z5hyBM2zQSEl24
+         hEOFKmS/jPdUitcNMxH1wgb4f8CCir8xf6NqFmfVBUv8unCW7XlG1bPbaiFv90GHpzTO
+         SSiC11wq7oJBvnoO77noTvVwZQa1Z0/UIVNfiWDi4TUM5soWaPOSoIXP/1q7ad93dZsN
+         mKEqEG9gIExNWDGHXSTQy7Y+2lAToIzg6kLYYxR2aL6hZvNzvw5ZlYkTzU7A171v/BTE
+         BavWvdJswZxUulBhMIAdHgNNWsDF2SHYPirwe7EKjneFUdFckopx7dkPDsRAiF6A2uGm
+         TIxw==
+X-Forwarded-Encrypted: i=1; AJvYcCXG9shR4ysC8pmkeEqwPx3d/4Chox2jYAISk9adU4oA4q6qClPkjN66krB2Guk6CzTIrODYysEnGujDs+cL0YwpA1C08Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzShYN1/D4+c4dJi+HoeESGZExoMTvsxlOG0aAXKgWgKl6B7xaP
+	N9VS5HoAEVuQN5k+Q4LkhwBHLg7HjOTqier5gypjUKWfw0IvKosPw/lu
+X-Gm-Gg: ASbGncubrhUMc8N6XuoVH9jRBVdnwKfazCdif9TSZe6nWMe/rmSHRnIRLhdhkXhLsuI
+	by3k1GVOhiPvI6KGF71+Vqq7Bs+s1DXqT6ysdi5kJTFHjp7SWTv9yJT3PxN8YbocvzVuemXon3/
+	1gMh3+/9tzjJRxHczL3qC8yP+cSpI5TQFRpTlzALmYJ8dD35DvDX2v6fp/wC3EWbj87L5QeYZQF
+	Q1fVMOfeCh29ipdi8qn8Y03BinsQCjtCoTDzb0NOLiHwu+xbfAhzAuAirTR+UlhmF0k7OO3NxP8
+	rtyPlt6rEgsm1ICxrR4O663yx9jKUkMwWaaWDEOzAPaAdDu6V2zhgHi0Nj2ZA9eP/QaffSVX+Lx
+	MsjyozuGH/jwdKTQ8nN4w10eMskZqDoEwmnO+DU0TEizHX3mjsoSVEgL5p0ePBgtE40EexFCpQ1
+	E43JgTXSsdZq+uYoXuT5oNN6wWsJiUfJXLxPl+zd8AgPIoOT/LRDqDysJfQGYJcw==
+X-Google-Smtp-Source: AGHT+IGXo0leNEZOdpcDo5mboEAsYRR7bsRSf0EC+JdFXlc+xOggVj+ftQvTd/RTlrxgZhW5tHX3RQ==
+X-Received: by 2002:a05:6512:ea1:b0:553:2c58:f973 with SMTP id 2adb3069b0e04-55a046733b8mr1503974e87.52.1752253568879;
+        Fri, 11 Jul 2025 10:06:08 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:6e:3100:ed74:9560:782d:a190? (2001-14ba-6e-3100-ed74-9560-782d-a190.rev.dnainternet.fi. [2001:14ba:6e:3100:ed74:9560:782d:a190])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5593c9d0f2asm1009210e87.131.2025.07.11.10.05.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Jul 2025 10:05:55 -0700 (PDT)
+Message-ID: <6b872eb0-22ca-408e-9c4e-8f094c3580ae@gmail.com>
+Date: Fri, 11 Jul 2025 20:05:51 +0300
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] media: Documentation: Improve grammar in DVB API
+To: Brigham Campbell <me@brighamcampbell.com>,
+ David Hunter <david.hunter.linux@gmail.com>, mchehab@kernel.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+References: <20250708155206.91281-1-hannelotta@gmail.com>
+ <680b91c0-0fae-4230-9fa1-da988cb82e65@gmail.com>
+ <DB8S4WLTG1SS.NVODTL6KNFXF@brighamcampbell.com>
+Content-Language: en-US
+From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
+In-Reply-To: <DB8S4WLTG1SS.NVODTL6KNFXF@brighamcampbell.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Brigham Campbell <me@brighamcampbell.com> writes:
+Hello,
 
-> Fix typo in Documentation/gpu/introduction.rst
->
-> Link: https://lore.kernel.org/all/20250620180258.132160-1-me@brighamcampbell.com/
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-> ---
->
-> This patch has received no response as of June 20th. If it's
-> unacceptable for whatever reason, please let me know and I'll drop it.
-> This is the only typo I happened across while reading the document. I
-> scanned it for more typos when I prepared this patch, but found none.
+On 7/11/25 2:55 AM, Brigham Campbell wrote:
+> On Wed Jul 9, 2025 at 10:22 PM MDT, David Hunter wrote:
+>> On 7/8/25 11:52, Hanne-Lotta Mäenpää wrote:
+>>> Fix typos and punctuation and improve grammar in documentation.
+>>>
+>>> Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
+>>
+>> Overall, good work. Here is a suggestion for future patch series:
+>>
+>> Subsequent versions of patch series should be posted as replies in the same thread. Currently, each version is its own independent thread, which makes it hard to track changes. This link has the documentation for the proper way to handle subsequent patches:
+>>
+>> https://www.kernel.org/pub/software/scm/git/docs/SubmittingPatches.html
+>>
+>> The relevant part starts at "To that end, send them as replies to either..."
+> 
+> This documentation you've linked is specific to git, not the linux
+> kernel.
+> 
+> The kernel documentation argues against doing what you suggest [1]: "for
+> a multi-patch series, it is generally best to avoid using In-Reply-To:
+> to link to older versions of the series. This way multiple versions of
+> the patch don’t become an unmanageable forest of references in email
+> clients."
+> 
+> [1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+> 
 
-The patch seems fine, though I wouldn't put a Link: tag for a previous
-version like that.
+Right, that clears it up. On a closer look, the URL indicates which 
+documentation is for git development.
 
-I didn't apply it because the DRM folks generally handle their own
-documentation patches.  I'm assuming this one just fell through the
-cracks; resending it was the right thing to do.
+> 
+> Nice work, as usual, Hanne-Lotta.
+> 
+> Brigham
+> 
 
-Thanks,
+I really appreciate this comment. Thank you for your encouragement!
 
-jon
+Best regards,
+
+Hanne-Lotta Mäenpää
+
