@@ -1,138 +1,201 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9315258
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 12 Jul 2025 17:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C6C28A1F5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 12 Jul 2025 18:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752340325; cv=none; b=P58+ePIkYP+gl9yKJdAWayEVPl1NjzQfafSLhKrYqQdEGY8/6pT13oJOr8HHoo9BgVq6PbZdEQ7GUfpyqWP9HyxGpYts8zQTEViprQtYjdYnx64XlpTd4JerSgN/a1Ig0iwAFbYmtrt943v4QHbti1MlNgFN31QBltnqwrqWrZU=
+	t=1752346207; cv=none; b=LEVvkYYkjoy6dXCr2ySLszjsfDPrguv8fT+zaSKQJGyJ+z+XgGigKFn5t/a53hCr6csAdITE/+VhigdldecrOsJBHsBFK1Ksdla5JozHFB/ggYdyHBqV5yBPOgwAJVfGZOASkMmopZ4SrngN3GC+5N6o55UvMYy97rGogO5InNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752340325; c=relaxed/simple;
-	bh=8aN8Lggjc+78El6nxcKpMhrfSv8uxqhToi/9AVMmQZ0=;
+	s=arc-20240116; t=1752346207; c=relaxed/simple;
+	bh=DB6Ga8bM7aygL1kZpLGO9sfqmiDJCBOeNWjASjzmSLM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=omsVp5PGPDqUF/fl+NQ+41iryv+q/dfa4qOVpqiYqUXZjJLSSMTHDYodBh1ybF6yw3oxEYep87CSldzauMDn5uH/ZS25R4mqa8L4s0fYl4sUjXPi/S3MHhhFzccCf5od01fz9HAnUs7ta/u59okEPxhMOYh1ZSZ+/tG2NhNmFaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mda3CSMI; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=bNA5OEZ+y6UShsj80Yp9JC0B9vybMsrww5znkG53QoWYWKAJgEFAql0pyAQYcSQBvxQLcqbwEFBV6BOJ6KETAlbSZ+/Uz57caU3XLKeahD1mqpcRh2499TSgD6P48oQ4vbxvapkYg/vSKdC4AXzqG6v8rKSSJRwdt23fdro0wqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NviRsuaU; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mda3CSMI"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-553be4d2fbfso3506714e87.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 12 Jul 2025 10:12:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NviRsuaU"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id EFDC560F94
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 12 Jul 2025 18:50:05 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id aIX0uFBMLh0j for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 12 Jul 2025 18:50:05 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::22c; helo=mail-oi1-x22c.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 1958260F0E
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1958260F0E
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=NviRsuaU
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1958260F0E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 12 Jul 2025 18:50:04 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-40af40aee93so1953924b6e.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 12 Jul 2025 11:50:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752340322; x=1752945122; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1752346204; x=1752951004; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZJVhCeS8COyKFGy1fiTAFuCQ8rCKhrZIJE4Iij87klY=;
-        b=Mda3CSMIzqXxr4bng3EhHcaGVler76eHOInqxnyGmMR0mVWRBg6w7ewM714mWzH8c4
-         7I8JeDzwIm0Fprzz+r9pJfWXhDw1vqke+hj5gNSWAcIwmgsNPyR62JNfIKOK1NZTw78M
-         WisL3a5s032Nzk/0cM/HHvLJ6JzbZX/s2GPVkr/qWAZ8ZXe6tZwEBP/D4DFeok8AgOeV
-         z3wmetz1gNQ3spmyU4/stWlnhstap3VsIhcTIUJ/s4c9zV/Lb9VpUsKyk1R5T6TUIyyD
-         ccllbfgrBrtn3tGbHDLQaZ6bpqun4Xd3KjIarry+JAYFafZH39rv0swDrCFg2vfmuCWL
-         /cBg==
+        bh=wmITCC/KfIDuOyy8MkPRa7zW/SdFzcGJZzQ3YXREI8w=;
+        b=NviRsuaUZmR/CrId6RQB3idbNMdF+o+NHNR9ROTS2V5JVJ6eQWK9GszVErbYcIAsnE
+         yYvI3dEFFrKs1L8X1FAD4oHNDRR5hOpB3EZPEmbiwJ9OJP/laEpO/jUFS0wot6zVtnS7
+         tw7/Wf5GjSarB0sus1lrrVNs8P2awsFd/4UnUjyy1QwM9ShCukKgu+qnDObTBF3TDKcX
+         xYs5QoSOBeIckRLdlRkfkFQCpeeuDU2lZH2u4b9Wn2DNqW0cwf1zbMUjWAZDeauViLKe
+         St3BSKOt8lWlI3PDcaYej2tPltOBYBDbklAPXG1WZBh1yR1T8B5sUqUz8weyDCiR1IrE
+         h8fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752340322; x=1752945122;
+        d=1e100.net; s=20230601; t=1752346204; x=1752951004;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZJVhCeS8COyKFGy1fiTAFuCQ8rCKhrZIJE4Iij87klY=;
-        b=dXddxXkGzgKNTeSeIJsEP+3J3MrSkjvXFvIQVzxj5j2tBZv8CYcTEYE2bjB6iiAUW3
-         17gOpRfPM14963I7os3q2uVAtOGAVNrKkDwbiNd1sVlz0p3cmP6V6kZ0UjrB2Ai1KfOZ
-         ifHGTc77dariihV/BgXlYBsgH9OgW2pHI9HYIFB95C/ib49Z13aQyukVvctXSHawoKfa
-         YXhq4tIdYJE6phQZ/RB8tDlsnXENWwRzdNwhi88+6kommL6bKLm53NWsUaAI37TqjPE+
-         M/02Ny2vz+czeh0fHfRQgnE+8YGtbR62phPcKfNp1UOT39DUV4M0JAkhRvF6PndNt8h3
-         8u2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUz1ZWkQUVJC6spqOujiRXYiEVSE2Dmqk/AX/XkXu8xSKt61003236FK2ByPg6h+ftMW32ixcRSNHODLmon+myUKbM1tw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZZosnEbu3WhLdl7fEf+zk//YPhZVwbcqjjn5cMOd3QKbMQEbW
-	maLS+jkCVbR1Gqzi69mx/IzQdizjiNwmHXLP5BDFLGECk7EqUNzTN90GPuPqGU/3t55WCYaqH0p
-	bBKDr0RawM/fGbKKNs/crOyAK86T4kWQ=
-X-Gm-Gg: ASbGncuvE/uOOu7uNQbXliscdm2Fo4kzDhNeAyIMgzSvSh8bgKF/W3McQKmvtvnJL1g
-	4iJ1jy6ly74NplsvFTchWQAHX0h1tdCITwEBromDPJM+wfb6WuowoxqCFu843KRYjo14/cwcuNj
-	+h47OGCYiYKvi5fsCu49oIs7lBIBHLstRbJ4duaBAoLbjbhXEO+23bFGHP4UnXRcG5LhMuCSANg
-	41XPZ52Xi8ndR6l+dkNckCSztUYc7vCH6X6LfsM
-X-Google-Smtp-Source: AGHT+IHBHk/tuoG0+PYXGt8N9d8SbJKla5JtPf2KgQeMTDOJSuW+Wn0RJ/uDlkqGD5wilalXrpQm9WXERIEwyIdgFks=
-X-Received: by 2002:a05:6512:3094:b0:553:2767:e398 with SMTP id
- 2adb3069b0e04-55a04634539mr2270254e87.39.1752340321712; Sat, 12 Jul 2025
- 10:12:01 -0700 (PDT)
+        bh=wmITCC/KfIDuOyy8MkPRa7zW/SdFzcGJZzQ3YXREI8w=;
+        b=rGFw4YU99UsS9k+zEKb7384BBSqpkrfmKLkVhKac5BrutOKhqMtBqX9RjuW1Fi0kyz
+         g+f/gBANSEsA+A/PYve4VYyTldHgPJXnP9lZq+D3YnSCKmVBCU44AOkYL5lPUezRWDc1
+         k2xCMFIGbbyqpr2SlkSzxjBYVKKlOQbmeWo/CHqsPt410u+ZnmN1xRGWyp1PYCThKxDn
+         YGp0/CgW+s09aWz0QA5mUqw+JYRMp2Q3XZ/Pc0O4c5CV6MMBEKXNJv4Zr9yYVOciKTHI
+         IelBMUlF3ECbEkx9Rig4NUH8mCp5oYQmxJrF1ZYt7UX85kvEuUy58GU0NCc3pkiWKBDb
+         Cdmg==
+X-Forwarded-Encrypted: i=1; AJvYcCXQgsgNIfGUdOhM1fgHECtyEwb+IhVidgRlvt+G4mVoquPR0aTjR0E8PXr37JgSiZKGM7z7etjla3dU23HT+U5BeKb1PA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxuFwOE//B51vRyWO1WXQB8jYw0tSXJYE2k7Qq7s38M31h49zYg
+	B6nuYsGrem7c2qgkSWX0A059fEzrweRmUxFzY4/djjYppmqrq2lUWT5jEvTU0pyMGr7pQdKqc9Y
+	VRT9tAP6s7yoEBgo8Kk444XWiVOcsFps=
+X-Gm-Gg: ASbGncuMPuAZieL5HiTGaZe1MYgM5/jkb228qfFsNGGEBytX/i02Y9NcJR2IqmDpMFd
+	3oUMk1IpMZ0oa6FnU1dRi0xTHCh3u527WacbUHvy54q7GjnsQB5MoPPAhnn0UCaGhAwnOc6ex9W
+	9JS9wgYUkuf6FxXsmGTLS4Fpq7cYFV0BzuOxP29XSWHkA+34O7OVOkeftigLG2RZCXB/qD5tFyt
+	3z4b3LrKXwd+nUUkDM=
+X-Google-Smtp-Source: AGHT+IHrnGtltH6d/LHRfVMeejHGN49UH18y373XYXucdgMGhTHtMXV2dUQV7GZp/6Uns+6AEbERNSDwNpcuNgUXiN8=
+X-Received: by 2002:a05:6808:1307:b0:406:6d79:49d2 with SMTP id
+ 5614622812f47-41567b4d886mr4828348b6e.26.1752346203776; Sat, 12 Jul 2025
+ 11:50:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250630083542.10121-1-pranav.tyagi03@gmail.com> <2025071245-snowsuit-pension-061d@gregkh>
-In-Reply-To: <2025071245-snowsuit-pension-061d@gregkh>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Sat, 12 Jul 2025 22:41:50 +0530
-X-Gm-Features: Ac12FXyzOTCSfI9zC6vRyqve_tIZJrwhdoSUM_hk5T3Og9T1ORDpCYIUbKwmYcU
-Message-ID: <CAH4c4jKMvLhgT_-2z_LH9scGQbT3J2tgH-RUXAUJ-5c30251MA@mail.gmail.com>
-Subject: Re: [PATCH 5.15.y] ocfs2: fix deadlock in ocfs2_get_system_file_inode
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: ocfs2-devel@oss.oracle.com, linux-kernel@vger.kernel.org, mark@fasheh.com, 
-	jlbec@evilplan.org, joseph.qi@linux.alibaba.com, 
-	pvmohammedanees2003@gmail.com, akpm@linux-foundation.org, sashal@kernel.org, 
-	skhan@linuxfoundation.org, stable@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, 
-	syzbot+e0055ea09f1f5e6fabdd@syzkaller.appspotmail.com, 
-	Junxiao Bi <junxiao.bi@oracle.com>, Changwei Ge <gechangwei@live.cn>, Gang He <ghe@suse.com>, 
-	Jun Piao <piaojun@huawei.com>
+References: <20250708003428.76783-1-marcelomoreira1905@gmail.com>
+ <20250708003428.76783-4-marcelomoreira1905@gmail.com> <DB6RKSNTHUZ8.DW0EBFDU6L1I@kernel.org>
+ <CAPZ3m_h37mCRO7oZX3qLnc+iFNwUu_wgYqEu_r0g-gtOB0661w@mail.gmail.com> <DB9XM595UG4V.3N51HST2TFVW@kernel.org>
+In-Reply-To: <DB9XM595UG4V.3N51HST2TFVW@kernel.org>
+From: Marcelo Moreira <marcelomoreira1905@gmail.com>
+Date: Sat, 12 Jul 2025 15:49:52 -0300
+X-Gm-Features: Ac12FXyJ-xuhxJnQvJzFdVIc4nNkoqOGmBgB8Mc0t3TJ_NJLBm_WmDalyOBRRTo
+Message-ID: <CAPZ3m_grA_T_ixfHs7Z44nf5je4ftBcqCx=vcyvJOsJb+LaMFg@mail.gmail.com>
+Subject: Re: [PATCH v6 3/3] rust: revocable: Document RevocableGuard
+ invariants and refine Deref safety
+To: Benno Lossin <lossin@kernel.org>
+Cc: aliceryhl@google.com, dakr@kernel.org, ojeda@kernel.org, 
+	rust-for-linux@vger.kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 12, 2025 at 7:16=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
+Em s=C3=A1b., 12 de jul. de 2025 =C3=A0s 05:26, Benno Lossin <lossin@kernel=
+.org> escreveu:
 >
-> On Mon, Jun 30, 2025 at 02:05:42PM +0530, Pranav Tyagi wrote:
-> > From: Mohammed Anees <pvmohammedanees2003@gmail.com>
+> On Sat Jul 12, 2025 at 1:06 AM CEST, Marcelo Moreira wrote:
+> > Em ter., 8 de jul. de 2025 =C3=A0s 12:04, Benno Lossin <lossin@kernel.o=
+rg> escreveu:
+> >> On Tue Jul 8, 2025 at 2:33 AM CEST, Marcelo Moreira wrote:
+> >> > Improves the `RevocableGuard` documentation by explicitly stating th=
+at
+> >> > its `data_ref` member is a valid pointer as an invariant. Additional=
+ly,
+> >> > the `Deref` implementation's `SAFETY` comment is refined to justify
+> >> > the `unsafe` dereference based on this new invariant and the
+> >> > `_rcu_guard` ensuring data accessibility.
+> >> >
+> >> > These changes address feedback regarding the clarity and completenes=
+s
+> >> > of `RevocableGuard`'s safety guarantees.
+> >> >
+> >> > Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
+> >> > ---
+> >> >  rust/kernel/revocable.rs | 7 ++++---
+> >> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> >> >
+> >> > diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
+> >> > index 6d8e9237dbdf..64fe44b4f5a3 100644
+> >> > --- a/rust/kernel/revocable.rs
+> >> > +++ b/rust/kernel/revocable.rs
+> >> > @@ -233,7 +233,8 @@ fn drop(self: Pin<&mut Self>) {
+> >> >  ///
+> >> >  /// # Invariants
+> >> >  ///
+> >> > -/// The RCU read-side lock is held while the guard is alive.
+> >> > +/// - `data_ref` is a valid pointer to a `T` object for the entire =
+lifetime of this guard.
+> >>
+> >> This should be:
+> >>
+> >>     /// - `data_ref` is a valid pointer for as long as the RCU read-si=
+de lock is held.
+> >>
+> >> > +/// - The RCU read-side lock is held while the guard is alive.
+> >>
+> >> And this invariant is unnecessary.
+> >>
+> >> >  pub struct RevocableGuard<'a, T> {
+> >> >      // This can't use the `&'a T` type because references that appe=
+ar in function arguments must
+> >> >      // not become dangling during the execution of the function, wh=
+ich can happen if the
+> >> > @@ -258,8 +259,8 @@ impl<T> Deref for RevocableGuard<'_, T> {
+> >> >      type Target =3D T;
+> >> >
+> >> >      fn deref(&self) -> &Self::Target {
+> >> > -        // SAFETY: By the type invariants, we hold the rcu read-sid=
+e lock, so the object is
+> >> > -        // guaranteed to remain valid.
+> >> > +        // SAFETY: `self.data_ref` is valid for writes because of `=
+Self`'s type invariants,
+> >> > +        // and `_rcu_guard` ensures the data's accessibility for th=
+e lifetime of this guard.
+> >>
+> >> This also needs to be adjusted.
+> >>
+> >> Also this patch should fix any invariant comments needed to construct
+> >> `RevocableGuard`.
 > >
-> > [ Upstream commit 7bf1823e010e8db2fb649c790bd1b449a75f52d8 ]
+> > Regarding this point, "...fix any invariant comments needed to
+> > construct `RevocableGuard`."
 > >
-> > syzbot has found a possible deadlock in ocfs2_get_system_file_inode [1]=
-.
+> > I looked at the function that constructs `RevocableGuard`
+> > (try_access->RevocableGuard::new) and I think it's correct.
 > >
-> > The scenario is depicted here,
-> >
-> >       CPU0                                    CPU1
-> > lock(&ocfs2_file_ip_alloc_sem_key);
-> >                                lock(&osb->system_file_mutex);
-> >                                lock(&ocfs2_file_ip_alloc_sem_key);
-> > lock(&osb->system_file_mutex);
-> >
-> > The function calls which could lead to this are:
-> >
-> > CPU0
-> > ocfs2_mknod - lock(&ocfs2_file_ip_alloc_sem_key);
-> > .
-> > .
-> > .
-> > ocfs2_get_system_file_inode - lock(&osb->system_file_mutex);
-> >
-> > CPU1 -
-> > ocfs2_fill_super - lock(&osb->system_file_mutex);
-> > .
-> > .
-> > .
-> > ocfs2_read_virt_blocks - lock(&ocfs2_file_ip_alloc_sem_key);
-> >
-> > This issue can be resolved by making the down_read -> down_read_try
-> > in the ocfs2_read_virt_blocks.
-> >
-> > [1] https://syzkaller.appspot.com/bug?extid=3De0055ea09f1f5e6fabdd
-> >
-> > [ Backport to 5.15: context cleanly applied with no semantic changes.
-> > Build-tested. ]
+> > In `try_access`, the comment justifies the validity of self.data.get()
+> > by mentioning that `self.is_available` is true and that the RCU read
+> > lock prevents data from being dropped. This aligns well with what we
+> > already have in try_access_with_guard, for example (from patch 1/3).
 >
-> We can't take a 5.15.y version, without it being in 6.1.y first, sorry
-> :(
+> The comment seems wrong to me, it isn't even an `INVARIANT` comment. It
+> also talks about RCU in the wrong way and doesn't mention the type
+> invariants of `Self`...
 >
+> > Since there are no other code snippets that construct
+> > `RevocableGuard`, I thought I'd submit the patch with just the
+> > adjustments I made previously.
+>
+> There also is the `new` function of `RevocableGuard` that doesn't use an
+> invariant comment. It also isn't unsafe despite taking a raw pointer...
+> So either we make it unsafe, add the correct safety requirements which
+> should just be the type invariants of the guard or we remove it, since
+> we only use it once.
 
-Hi,
+Even if it's only called once, I think it's better to make `new`
+unsafe because it can be used in the future, and keeping it unsafe
+gives us the advantage of maintainability.
 
-Thanks for pointing that out. I wasn=E2=80=99t aware of the 6.1.y prerequis=
-ite
-for 5.15.y backports. Learned something new today. I=E2=80=99ll make sure t=
-o get
-it into 6.1.y first.
+Understood, Benno. I'll change `new` to be unsafe, change
+`RevocableGuard::new` to an unsafe block, and adjust the `SAFEFY`
+comment.
+ok?
 
-Regards
-Pranav Tyagi
+--=20
+Cheers,
+Marcelo Moreira
