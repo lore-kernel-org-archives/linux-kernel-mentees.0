@@ -1,103 +1,92 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937D61C695
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 12 Jul 2025 13:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318B0AD2D;
+	Sat, 12 Jul 2025 13:46:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752327376; cv=none; b=FJqYeCQtWvnuqsGjwR5WO/gFvmt8czkJvRFDE6aSdRPaFzI9eQgbn1PcYvEarqAnVMLmOKZW1zc0FsnW3zS7ULA1y8H4akhU6Gl5VNDPN31mxBCs+57cv7nmmCBooKz5EznqzwJX9iPyQioNpQHkXgVIaMoquX18PUZxXMyxmR0=
+	t=1752327963; cv=none; b=gjFg8sB4e3lAUdGmsgFsJe7NQRQb4WTHPjqm5iCKrddPXLiJcV4HLZjO2E0hu2/Qnmm/XdIkt3xruK++4bHeeX8iy0FQMgCqkdsuai3aNBpszc+tjAe14FEbqckEJni5xxNmWYFq3edL8cHL+2jzoo/dXFQHRjE97vmyF87gG4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752327376; c=relaxed/simple;
-	bh=fI+EHGaEFFccDbypWav4Dk55fmRU1wtd6n3cxWUVsGs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U439KiG4rknwww6n2M9go1h8wn3reehqk3fyAPGErOy4K7oAk6IPcl2fZxwf0ojIejrMZHV7lfHyk2JD/2ZB+Igxtnm92XbsHsVPp2ZsyogysNu3BS0vvduI3dR7vEvJePic7PEnB+IJvBEe2AN2qJz7Hfh6Ocb09dBCM1Tl6zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DgxEIluB; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752327963; c=relaxed/simple;
+	bh=+PHUAdBy2iBvjv7VPGFKGBpHvoF5uDaGK2uUoG/c9TY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BJLMZtEpLmh9J8IhWH8syN1xomFby1X7CDJDOW/SorKE0XWrRbApQvP3BqWjowAVHRNqox6X/3gVoxswNZnJKhmv4Q213qisb10Sg38k4W+oX+PuI15qv9IvbSON+UDWmOW5mbYreJg4PjMti3tJd873LKltzy87MGt2Ja5Gp0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EPcgZFTY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DgxEIluB"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-454f426b3e5so7026805e9.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 12 Jul 2025 06:36:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752327373; x=1752932173; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8pUZ0sv18MpoDhK/ify1e8p2zlKRVv2EfUxVJ1Ymfrg=;
-        b=DgxEIluBrf3fl6w0tKRT5rob76IuwG9aAYFXRRjZatDSKr3VSWqCzAeiX60G5MAhVO
-         10T47hHS6VlvMdNR2z32amGg8DKHBxle3RaidZHJaAaMY7Q2IJ4ZJhmYnc0Kmf0OS5vU
-         yR9Y/b9rI/ZLHmx6ppd2I2y3DnJBa07xZF7LuzMf4C55f80p2PwrLCca9LdIfzZKFSTw
-         qae3vOzQNCHh7fBJhpVBaHL4vENougydhb2RVwpU9g4eKs/Z+WedZlzIDI6j71wYZpwu
-         /IyO3LxyviCU++wQ8Vs5xQ73drTQ0/duoYGPDhFOYNvCl+bCvBcN5QKjRwPycD1OJFMg
-         47OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752327373; x=1752932173;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8pUZ0sv18MpoDhK/ify1e8p2zlKRVv2EfUxVJ1Ymfrg=;
-        b=Sz967MSIBcrwPrUfKfXHUUDld/6Pmb3Y01EofT6M3zhWaWlbeemdInOgTQvktMKjwJ
-         Z06cGDeA4JKdmhQil7pGNZtuDH4CBtbnrVpm2T1vRlZ5Mz47MaaTs8G1tiNgO6ZrsgZU
-         josPv2Oa8SXxqUTF1eC9VxyCbUdiNU9DUgDvu4QHCxoAbrmJ7nrObrWfDac8riSmXMv3
-         G/ZR7LR/SZVZfZm07FPsoJZNC6C4SHfk4YPPBJ8UAv6pZ8tjkNmqBIMlbMS5GaIlWkTU
-         QsrFRP34LC+TMZOOzS5at4t6Hc/itIsbxhfFKhfycq9h9+ggo6fOATr4ljA5JqleikG6
-         rzAw==
-X-Forwarded-Encrypted: i=1; AJvYcCX8uSEpl/VFJFLtazVcvZ9rQYvufZEKgyo5XGKIkDh07eCPnMlTLRFP73i4OBYKZlH5uqKDoRLLV0LWEYEKLl2ov7wxrw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHmo8Nmymzw2FFvM7M0btenb2xoFaW3VZu+ycR7XbvcA5nb/57
-	gOt0vRv+qFgHTj4GRUiEtU5OM14SdcSFR71HXLJdXZug/Rb9zEMXJyJj
-X-Gm-Gg: ASbGnctrdq3oLaczejRdr6OY7WwSHupCvvgkk/d9OUzmLyUAFiSb6Z0QWfpvI1YBNtq
-	+LvZbvhO4cPu6+nZeuFaHUKZfOxNUcExkFSSrrRDvJ91yfhTunkPVn7uO2MelDt3/PvE3MXUnmO
-	sWy3Qi+5pePCJ+jExCsK1ww8fQmQpOR8KBsRtV7hKq1ePxoLCVTX+1aGNcfbaKeY6qHhr4fZXhg
-	X8kUpfCACgF6f+9/gpruKu7pcvzXnj0RULBqjZnI46ZqcSFvYdsGOcvqGKwpnvFsWe5vPW1QjuG
-	HlEJb88FcltcZJYvutsypwb49Dzx4Z9jisy25Dvghndp/4AJr+D2F8gm8RzPEgbdXkdIItdUidf
-	AYaqeZ5H1Ed0dCva+DEIPUzTAPapXsZALAKeKGv3Qh/Pq508=
-X-Google-Smtp-Source: AGHT+IG3HASTYf7cc5krk95istZ2ht/IcmtfyDDIqZ4We3a9kVh2QzYvzU9kqhCv8kKwdXp7OVDDlw==
-X-Received: by 2002:a05:600c:8483:b0:440:6a1a:d89f with SMTP id 5b1f17b1804b1-455bd87a4a2mr54822445e9.4.1752327372582;
-        Sat, 12 Jul 2025 06:36:12 -0700 (PDT)
-Received: from localhost.localdomain ([154.183.63.38])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc201asm7241267f8f.22.2025.07.12.06.36.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jul 2025 06:36:12 -0700 (PDT)
-From: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
-To: mkl@pengutronix.de,
-	mailhol.vincent@wanadoo.fr
-Cc: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>,
-	linux-kernel-mentees@lists.linux.dev,
-	shuah@kernel.org,
-	linux-can@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] can: janz-ican3: use sysfs_emit() in fwinfo_show()
-Date: Sat, 12 Jul 2025 16:36:07 +0300
-Message-ID: <20250712133609.331904-1-khaledelnaggarlinux@gmail.com>
-X-Mailer: git-send-email 2.47.2
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EPcgZFTY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B2A3C4CEEF;
+	Sat, 12 Jul 2025 13:46:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1752327962;
+	bh=+PHUAdBy2iBvjv7VPGFKGBpHvoF5uDaGK2uUoG/c9TY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EPcgZFTYP65MqcekfKKeUJ+GhZmYP8JSORlZJ61Im2TH7UZyo3sv5OYgj1jsUAzQe
+	 4Zy9kczq+p9aQq/yucdsAsmIdymVloeDWD19fuVQLqgb9b0OtVdk2zIrtDBDHd5qVO
+	 ub7YloUP2Xn9iHV6RqMkXs3HhaFGGqGCvFuHvZVc=
+Date: Sat, 12 Jul 2025 15:46:00 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Cc: ocfs2-devel@oss.oracle.com, linux-kernel@vger.kernel.org,
+	mark@fasheh.com, jlbec@evilplan.org, joseph.qi@linux.alibaba.com,
+	pvmohammedanees2003@gmail.com, akpm@linux-foundation.org,
+	sashal@kernel.org, skhan@linuxfoundation.org,
+	stable@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	syzbot+e0055ea09f1f5e6fabdd@syzkaller.appspotmail.com,
+	Junxiao Bi <junxiao.bi@oracle.com>,
+	Changwei Ge <gechangwei@live.cn>, Gang He <ghe@suse.com>,
+	Jun Piao <piaojun@huawei.com>
+Subject: Re: [PATCH 5.15.y] ocfs2: fix deadlock in ocfs2_get_system_file_inode
+Message-ID: <2025071245-snowsuit-pension-061d@gregkh>
+References: <20250630083542.10121-1-pranav.tyagi03@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250630083542.10121-1-pranav.tyagi03@gmail.com>
 
-As recommended in Documentation/filesystems/sysfs.rst, show() callbacks
-should use sysfs_emit() or sysfs_emit_at() to format values returned to
-userspace. Replace scnprintf() with sysfs_emit() in fwinfo_show().
+On Mon, Jun 30, 2025 at 02:05:42PM +0530, Pranav Tyagi wrote:
+> From: Mohammed Anees <pvmohammedanees2003@gmail.com>
+> 
+> [ Upstream commit 7bf1823e010e8db2fb649c790bd1b449a75f52d8 ]
+> 
+> syzbot has found a possible deadlock in ocfs2_get_system_file_inode [1].
+> 
+> The scenario is depicted here,
+> 
+> 	CPU0					CPU1
+> lock(&ocfs2_file_ip_alloc_sem_key);
+>                                lock(&osb->system_file_mutex);
+>                                lock(&ocfs2_file_ip_alloc_sem_key);
+> lock(&osb->system_file_mutex);
+> 
+> The function calls which could lead to this are:
+> 
+> CPU0
+> ocfs2_mknod - lock(&ocfs2_file_ip_alloc_sem_key);
+> .
+> .
+> .
+> ocfs2_get_system_file_inode - lock(&osb->system_file_mutex);
+> 
+> CPU1 -
+> ocfs2_fill_super - lock(&osb->system_file_mutex);
+> .
+> .
+> .
+> ocfs2_read_virt_blocks - lock(&ocfs2_file_ip_alloc_sem_key);
+> 
+> This issue can be resolved by making the down_read -> down_read_try
+> in the ocfs2_read_virt_blocks.
+> 
+> [1] https://syzkaller.appspot.com/bug?extid=e0055ea09f1f5e6fabdd
+> 
+> [ Backport to 5.15: context cleanly applied with no semantic changes.
+> Build-tested. ]
 
-Signed-off-by: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
----
- drivers/net/can/janz-ican3.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/net/can/janz-ican3.c b/drivers/net/can/janz-ican3.c
-index 60c7b83b4539..bfa5cbe88017 100644
---- a/drivers/net/can/janz-ican3.c
-+++ b/drivers/net/can/janz-ican3.c
-@@ -1867,7 +1867,7 @@ static ssize_t fwinfo_show(struct device *dev,
- {
- 	struct ican3_dev *mod = netdev_priv(to_net_dev(dev));
- 
--	return scnprintf(buf, PAGE_SIZE, "%s\n", mod->fwinfo);
-+	return sysfs_emit(buf, "%s\n", mod->fwinfo);
- }
- 
- static DEVICE_ATTR_RW(termination);
--- 
-2.47.2
+We can't take a 5.15.y version, without it being in 6.1.y first, sorry
+:(
 
