@@ -1,86 +1,150 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C581AC44D
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 13 Jul 2025 07:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14704149DF0
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 13 Jul 2025 15:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752391467; cv=none; b=ND9LXIWBWeY9BsvmQ8pMvvP8xeN47d0F7QAe0Neul6zjV+Z5+A8VzwroSi8lQPGaUYmn+BHFBqYTgobWijyfxIJdB9Aiv0a+Y9jb96QfsKUynYDhYxwY5nXXoLcMAW2WA68EdblVdq7ovOljT3NTWz3Jn1hIdZbA5qUBkiLm0/Q=
+	t=1752419559; cv=none; b=DDMAe+09+zbARYRkK0SG+mTEQz98lCbUTZ/QPwkrAVdoyLyUO+Q3waEEtl+1bQz3vlugE1U7TjVMvwOpYqFpdq6/ZLkf7G16Yi1JEbHAUxLjNPFgdqyx8IQLzut9BbZ0M6zyeemVcVInSBPJgVUa8jA6oNIQRbvcQdR8GrV9IzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752391467; c=relaxed/simple;
-	bh=NF4T7x0KqxjN1Zk8N6FsAYLGGhLudo88bi0zLj313w8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KgnfVcKg+fZ+pnIxQJpHn7ML2IgMz8UFxVhX66X+wCU+2maaZ535d1m7Lrq4t9al029AuTEzzVYuEhCCGch51vdr1d0vnBdzxEniv+bDExk6p9RuXNbIwmb7L64peisVZn8IKZYHaFh7NI2ZYXPLdxgN4XsXsqVcNaRcSPEzbOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S3MfWQ0l; arc=none smtp.client-ip=209.85.161.44
+	s=arc-20240116; t=1752419559; c=relaxed/simple;
+	bh=WhXhD8DoE5hAI18sbrgYoirqUWMUbYaQdRp4TZni8no=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D8HPI6js+Nz2+v4XMCAR7g0LZeILAwytH5rCPNYuKsjFEAmo4Yp8tQqzat7qU3YyJU87PmeDjNMwzHV0hBX/IVgbAPk17xWFu0kbNWJ2Mf8zHEf29PKCtxCExml/Hb2/NT74FIYFPFGv2uZkqGhQd0qKlCrrh6bW9SPwiQq49nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kaIdnBy/; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S3MfWQ0l"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-613b02e801aso1824415eaf.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 13 Jul 2025 00:24:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kaIdnBy/"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7425bd5a83aso2864604b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 13 Jul 2025 08:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752391465; x=1752996265; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NF4T7x0KqxjN1Zk8N6FsAYLGGhLudo88bi0zLj313w8=;
-        b=S3MfWQ0liR/wSBbK2JXE2c3DhfhTyLkz3ea5zPPYDoj5Lf8/dOfeC0Y7Fxtu4hIpWf
-         LC7P5ODNaucOLtwZor2ZufDPxre+tkPKY+wUzT6hEMj2riEH04Ce4R5ZOaWoTFNyl+92
-         2JYfHflzLGfd7XAfO+BOiIFLK+JqOOxdKq6J11xrXWqszguJxEMdGziw1l/dkfvzaZsl
-         12NGZ+5Bm7QKiYCLM/RBpZ7btETkrtMcDGNMYWj1HhSIaEXrJJUKnExuMY5YFntP6L//
-         HEitakHfhzo88RwLamMTF2BVS9FsaV4NDw7JP+EbZc3+V4/o0xCWXxtQDls8hSw7s/Ec
-         NuRA==
+        d=gmail.com; s=20230601; t=1752419556; x=1753024356; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aOHtBlXea9cd3aN0INW94Xle4LZ4tirGxfQi/1kIgss=;
+        b=kaIdnBy/GrJwS26tfchJ/PsKaM0m0DXcyon9pbx5J7k2yoHaj38ARr0YSySTu7MEEX
+         vQYiXwVWjSxvyDUEZABYTibnndkJ/MUHMRyx4OE0Eb6+WNscNkfTpLvEfOo+v6qJGMRD
+         P7Q5urlfsDkmXN0lwbjvo3BuRLrYw0AVa/AATUvzmK6MZpox3N0RiJ8l7dO0X4B/OX7X
+         SNhjLHcOZBQiMDxbphzRu2UoKLq4ZL29Wk32ArUzc7nIUn8FW1lH+Wxo8MIR5s3mr8p3
+         WT+30+RVWCCKpoMJaM+u0J1oq/apgc4SZEqOvxS1Yio8m/QHVg21BYgYkici3W92TkQQ
+         7hKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752391465; x=1752996265;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1752419556; x=1753024356;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NF4T7x0KqxjN1Zk8N6FsAYLGGhLudo88bi0zLj313w8=;
-        b=OYTBSXnt11LO0IB+mOHIEz+39uQMQ8JfM4i6816JhvQQIKUKBC1UhH527CQ8PxQHcN
-         /fE/FSVKcoKdcQVfO0AQ1ze9S5RdH1BQdhmML1DeSJ/yHstn45MfKW+x5MmaTogScI+j
-         d2sR8wgbfW+atALu/Cua4eaTJFiyqkg5/pQb44y0eY2yU2s+jTmzLkx+USbIdx1qTD1a
-         NVs6i5BP0A/t3xJ9ImiTkl8pXzchfwuA8KrenNvzrEbm9FM4FymrVTwuiW3TLj+Oj4+H
-         DPGOKOogSB8XdyxFcvnM6YhJHs/RJPtrG0++YvBt4+CjH2m63zBFPwydT965mhz/hjhn
-         4PSA==
-X-Forwarded-Encrypted: i=1; AJvYcCVukaXYsajTMFztlX74SMSUyyDSnr/7GTmW8gF7YhaY+KGqKr4Uvl2nhS4d0jytSFnm+QBJzITl9MDAXyazcyd2DonTMQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyN+5jKKtTfOI+PB0l57+7RLz0MMIhtf6suu9NrarXZkGZHlwf8
-	6QsKnBRZR010yddi8o/vR0gWsscHXWvnIzRb2VWe/2vTzEt6osq9GsRclyA3hv7XUJhC4BwazNK
-	pSJr6oAa2Ky2aQhThQKtA4m/rDMBT86c=
-X-Gm-Gg: ASbGncv9OrK1j66TRYmRZytwFzdHJ9h2yjRlsoszjKZXCCBR+wt1DV8YQzryqZr+FSf
-	8c1U4pzFLJbaUQFU7wnig/4m1GrAa+ogaqfpp2FRki3+R3wb4NtQ+QurpeRF65jxI/J2i63n6Zy
-	wP7ZyHoMb2WLZek3HQShwmLZKD1yw2diuUSG8kNdvsdnV93SaiV5hW1BLXFhCR4cLoCzWdeiW3V
-	oOvOJR+
-X-Google-Smtp-Source: AGHT+IF4MVlkH5px2xPEDZFHk6dNlX+XsNGMYba1X0b8T0K3Xbl3WyMNlX6CvaCyE1A4AgmNNGss1OBgEQJEirl7H3w=
-X-Received: by 2002:a05:6870:348:b0:2e4:68ee:4f21 with SMTP id
- 586e51a60fabf-2ff2691ae25mr6065869fac.20.1752391464913; Sun, 13 Jul 2025
- 00:24:24 -0700 (PDT)
+        bh=aOHtBlXea9cd3aN0INW94Xle4LZ4tirGxfQi/1kIgss=;
+        b=sj4eA/kBlY8lAy3Obj0eYRQyBMs/n/AlnAlbcLMN0ipF1CjBOrjC4v4r1nUlnSZ7os
+         5HPrOSywsOTLw7idCqpl1AnzHQhsAvOy+1ohraKI5uPHOYnwINmwW6+JnFTcBEuK8WVP
+         kwZXdyqFb93gkRUrddf5aMlFZWQT00l7PkgYv4przW3TfFGjA47sBkJ2FArWETwpXG78
+         Tx/sG3hwnqeqzcaTJqRi+bh701LelQIX2aP/4eNrgGaMptR1yTgbDDlhgk+XfrHK+xNW
+         5a0zuo02bdWCZxcYNB2i9K/VUyGO1SjhG8SpHi5M3nmZMIUAbOzBqxR7FGrVNekJREYk
+         H6YA==
+X-Forwarded-Encrypted: i=1; AJvYcCUllaVL03QjcMVerLyKn7tcCb6+BFh8cdrI1gPxpchTD5WwX0MBJYHMzAsZEYUakrZ9RNaM17VGVB4YLXhK19vXqTiomw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSanQu1yw1C2JjRsSiGZ5aVke5N244o9ujcEg+JHLfSXjZ0yBT
+	pDRFWnHJOFTCgyJiystH+wZW6/okw9eoF98u99lSw+pQEAQ1aZLjiz4m
+X-Gm-Gg: ASbGncuqp94fC4E9TfCAe+lbP0xiwBHbVzXFouxjyUQGLqn0WTd2oca9Xmy43FhjDLR
+	dvxxE5abRufof62xdEy9r4LzGwTOa8ENPG0kuhlmEplMekeua5OLr+dRJIJOikXolQNMwYtYhFU
+	1NG+0wbYFBNv2Vb8VqGSlBXgwRMjz81KLhD/kWl7gS4OU7HNb+mun2DbAxL0iX49OdNJnZ4Sbk8
+	DqjuGqJ1xoZOVUAQzRfVu8PpgfjZ8pI5dwRvAR3D7NpFPUrWrcHI8Qs7keiGG3TU1n7Bzs+PaqH
+	/Jtp5i4oOcohEjV+rcKrkIyMug+5iiwykd3b8g3tZjWINWOE4r/WttseDHaMWIzdDa+Gik24DXJ
+	NEqiGGCYaGw7sfKS1lj1lYitQ42fbcQ==
+X-Google-Smtp-Source: AGHT+IFfS9CYUZRVVqfQakPYkDfbYFTQ4i7frj2W2HT7q+V2vCSSPfXsTH4UwgX8Xr9t+y7mbk/w6A==
+X-Received: by 2002:a05:6a00:92a8:b0:74c:efae:ffae with SMTP id d2e1a72fcca58-74ee03a19acmr11235698b3a.5.1752419556077;
+        Sun, 13 Jul 2025 08:12:36 -0700 (PDT)
+Received: from archlinux ([205.254.163.32])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9dd7341sm8956513b3a.15.2025.07.13.08.12.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Jul 2025 08:12:35 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: peterz@infradead.org,
+	mingo@redhat.com,
+	acme@kernel.org,
+	namhyung@kernel.org,
+	mark.rutland@arm.com,
+	alexander.shishkin@linux.intel.com
+Cc: linux-perf-users@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH v2] perf stat: Fix JSON output formatting in iostat_prefix()
+Date: Sun, 13 Jul 2025 20:42:24 +0530
+Message-ID: <20250713151224.43764-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250605175634.16362-1-suchitkarunakaran@gmail.com> <4448980c-d385-45ea-b8c2-b4a0bdde39c9@oracle.com>
-In-Reply-To: <4448980c-d385-45ea-b8c2-b4a0bdde39c9@oracle.com>
-From: Suchit K <suchitkarunakaran@gmail.com>
-Date: Sun, 13 Jul 2025 12:54:13 +0530
-X-Gm-Features: Ac12FXztDpOAEQp2PK_JpoFMZDvk2yr5zsd19V5JVpNovPmjyPli4RSP681BYt8
-Message-ID: <CAO9wTFimpNU+h4XvpRSS5ocKWzVF4G3W8G2NyOMt09VtVdgKSg@mail.gmail.com>
-Subject: Re: [PATCH RESEND] jfs: jfs_xtree: replace XT_GETPAGE macro with xt_getpage()
-To: Dave Kleikamp <dave.kleikamp@oracle.com>
-Cc: jfs-discussion@lists.sourceforge.net, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, 12 Jul 2025 at 01:40, Dave Kleikamp <dave.kleikamp@oracle.com> wrote:
->
-> On 6/5/25 12:56PM, Suchit Karunakaran wrote:
-> > Replace legacy XT_GETPAGE macro with an inline function that returns a
-> > xtpage_t pointer and update all instances of XT_GETPAGE in jfs_xtree.c
->
-> I'm picking this up, but I simplified it a bit. I dropped the size and
-> rc arguments. size is always passed in as PSIZE and I have the function
-> return ERR_PTR(-EIO) on error.
->
+The iostat_prefix() function previously included a TODO noting that its output
+format was incorrect in JSON mode. This patch corrects that by conditionally
+formatting the prefix string based on the output mode specified in
+perf_stat_config. Note, I didn't test it since my system doesn't support
+it.
 
-Hi Dave. Thanks for picking this up. Is there anything that I need to
-do from my end?
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+---
+ tools/perf/arch/x86/util/iostat.c | 40 +++++++++++++++++++++----------
+ 1 file changed, 28 insertions(+), 12 deletions(-)
+
+Changes since v1:
+- Fix issues in formatting
+
+diff --git a/tools/perf/arch/x86/util/iostat.c b/tools/perf/arch/x86/util/iostat.c
+index 7442a2cd87ed..d7ae19fb83e5 100644
+--- a/tools/perf/arch/x86/util/iostat.c
++++ b/tools/perf/arch/x86/util/iostat.c
+@@ -403,18 +403,34 @@ void iostat_prefix(struct evlist *evlist,
+ 	struct iio_root_port *rp = evlist->selected->priv;
+ 
+ 	if (rp) {
+-		/*
+-		 * TODO: This is the incorrect format in JSON mode.
+-		 *       See prepare_timestamp()
+-		 */
+-		if (ts)
+-			sprintf(prefix, "%6lu.%09lu%s%04x:%02x%s",
+-				ts->tv_sec, ts->tv_nsec,
+-				config->csv_sep, rp->domain, rp->bus,
+-				config->csv_sep);
+-		else
+-			sprintf(prefix, "%04x:%02x%s", rp->domain, rp->bus,
+-				config->csv_sep);
++		if (config->json_output) {
++			if (ts) {
++				double timestamp = ts->tv_sec + (double)ts->tv_nsec / 1e9;
++				sprintf(prefix, "{\"interval\": %.6f, \"device\": \"%04x:%02x\", ",
++					timestamp, rp->domain, rp->bus);
++			} else {
++				sprintf(prefix, "{\"device\": \"%04x:%02x\", ",
++					rp->domain, rp->bus);
++			}
++		} else if (config->csv_output) {
++			if (ts) {
++				sprintf(prefix, "%lu.%09lu%s%04x:%02x%s",
++					(unsigned long)ts->tv_sec, ts->tv_nsec,
++					config->csv_sep, rp->domain, rp->bus, config->csv_sep);
++			} else {
++				sprintf(prefix, "%04x:%02x%s",
++					rp->domain, rp->bus, config->csv_sep);
++			}
++		} else {
++			if (ts) {
++				sprintf(prefix, "%6lu.%09lu %04x:%02x ",
++					(unsigned long)ts->tv_sec, ts->tv_nsec,
++					rp->domain, rp->bus);
++			} else {
++				sprintf(prefix, "%04x:%02x ",
++					rp->domain, rp->bus);
++			}
++		}
+ 	}
+ }
+ 
+-- 
+2.50.1
+
