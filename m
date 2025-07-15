@@ -1,117 +1,110 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B1A26D4F2
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 15 Jul 2025 08:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F3B26C396;
+	Tue, 15 Jul 2025 08:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752567132; cv=none; b=KlyTAJECZ9UzVsr4tnuyhNz3l6bqDXpjEyx8kHppoxHJjav902dCV3RZAGLWEEd72YtaE9fj0Hj63DgXFQYReNshvVTaXfj1PhcA5P1K1phWEFP/zTnVsqD3Ejrl1IeABnp0joPx7qrx4sMQsTybKz+GgqBvFf6dT4QJkwIKLaw=
+	t=1752567556; cv=none; b=lVxTILTopS4ZzSiJjIWPxJzVY9JtqQ8aJqlQZcZogxeyWqLkJKlJqqQ1uo6nMlcZYba4T9T2FlOO76rrU3IHL9JknL5Sjc+4LJgd9cwBJqnqt5xfTklCxTzJZHV0agn/28HMD1w7scxTCRfppVO36t3nxvAkVtFLRPb/gD9WFPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752567132; c=relaxed/simple;
-	bh=A42hZ1CXXzEmtAuN3Oh4U+HhEO00ifH9+iMTus1OfLM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IUxfrtm2TGGH1LovzJ+CrtgoXZMuh75tZa+uH3V5daiLALSha8cWlGzNWQawCZaDgxZ/3BiidVvuZr++DsTcOiPpvYo8KAZbcphARk3drjr8xIdHa1J95GZuPtRm4owz/sgTK8Pg4LtD/ZWCYHkIu4T8YQ0g6V4ceq0E7WveZPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LL7ma92J; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752567556; c=relaxed/simple;
+	bh=xYYx8zlxp5oa3pFs+0lI4y+5Yub7dz7/WicSltLdFB4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GLczCTnKPMFbg1lwGyPGWFdczSsNIfs8i80HiZiK4foO7HKgXIC2VtGVr6qvMRQbh9RErAbnXaO2K+cy2+ga+Ke10l4OpefyJzfD5i7GGPLim9SaJVZl0klksEYSB3asxnUTHPH11yph9nAe3x5yBPk1od2gyl+8+igTZeyv6os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dIJyN1Uq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LL7ma92J"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3135f3511bcso4289562a91.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 15 Jul 2025 01:12:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752567131; x=1753171931; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J9cZzIxfvxK1Q11zfJm7mjrfAiqzGoJPBeFUMFwlPyY=;
-        b=LL7ma92JuXILfU+H/LIc0VTGRrdxj2iGCn4X8toaOJ5PwDT96QiqerKeOjZBg6y8q/
-         Xb1lPGo/tsJEjmz5NYrEWndtZN1n4Utfi/OXZH3dxWVJTWWuQSk0oDnGi5yBR1bJIUHa
-         KAya4AYO1Otj1xgOzCAgW+u2SCHubOLssQHeDclnGvM4qFg6pIN/ZHdNonRjTPSkrvXk
-         VNS487XtVx7zjLACS1OMNUyKyJXBOoBADiBNQ+qL2kr80K4gOzSVwb56iB42DPL476d7
-         hlS7mL67BNE5ydyXrGfUOp0a9vQeCu8IDVllodbVrpWmdWb+H5jGqKNa5/FKppk24gWy
-         aTXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752567131; x=1753171931;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J9cZzIxfvxK1Q11zfJm7mjrfAiqzGoJPBeFUMFwlPyY=;
-        b=mn6xsV5tSL86E9mcQCchlz7sl3bU2bW/dd+nMMsnt4s3yX0g3bz+IzvWfQ6vlzjZgA
-         uZ6zDepxDYYWXBqIzL9u0t4jdYClAvAYnaSDbHFT7F3+EKs66tZiZi79Z2Iqw5T9IZl/
-         /pBSWcwHUpnrZrivu8SrxXICs1HmDXCKQHDHc+5+YLZ5eBy9qURlzTbz+saS184WO3ty
-         43zu2fDhBwFJdHfAiTn+fT1JD0RpikpFXja069kpzXeJWh7J/rEwBn0St5fC1P7bK86K
-         F8QCHkzN7EfxwF7G5z/1KP32rFc8Y87t4jVknG5ZSkdAX85AMSnzB8yLs7FHWQDin7km
-         JGpA==
-X-Forwarded-Encrypted: i=1; AJvYcCXvd6f7MoXyHOeGf3w3g6z3YjkvzJ1KR4m19U2VkfiaOocMR0+dxA5klL2Efcbx6suJ+1L9mR98jHCr1/4TaemLb2WPIA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzEggKf/rcGybVoWhqzybMsQHhpxfwm4LBlnEd1imqzgmCaX9m2
-	OkSx4QSptZkUVXlXclouDMq5u/uON9QqDVc8buxAIKAyVU4eklshH5Ca
-X-Gm-Gg: ASbGnctpuFw0s0fYoKTt04CpPxDPfFy08T9Sa9wafN6lzsfPwSV24qHeJ8EmpvZgTqV
-	aB6dZmu1Pe/J03fyFDCGhfPy5ZgEFkV1d1lLC3h7b95zLmxYM/kbY847088mIsF2OgGMmG+c3gb
-	0dHJSwR6v803miysdoAnCcEe5PwBpBaU+1xFIbdmP1zyuXAm6wV/e4mVa1iQTgqxJKSxxQmkl6I
-	7JMw/J4pVB5PZpzP0Sqf1Vy3356fr4+asVsAsWEZJT67Gig2z4vm4Gioj1ZiNCrXJs46cb5ii1h
-	M3hTLQjbAyRWbx6CL98jTp8wgQIbVYDWzPUgRmLLXknwmSOQh/4a+iZhONBkLLEjlR2pJ8ISVY/
-	UBGUEPakvI4Hf/qV932vtes5ZmqCsOK4s8MdNMJFU/Gk=
-X-Google-Smtp-Source: AGHT+IFs5trgbTAyKft18DYDReY5ltyl88fzCm7ptR0K9hii4EwznJNonE1VzgHtlmmcLfwXRMVL9g==
-X-Received: by 2002:a17:90b:3b90:b0:312:25dd:1c99 with SMTP id 98e67ed59e1d1-31c4ccd99d8mr25949761a91.19.1752567130634;
-        Tue, 15 Jul 2025 01:12:10 -0700 (PDT)
-Received: from manjaro.domain.name ([2401:4900:1c68:e0ce:6703:6e3f:3a79:d2e6])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c3017ca4csm14236712a91.31.2025.07.15.01.12.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 01:12:10 -0700 (PDT)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: john.fastabend@gmail.com,
-	jakub@cloudflare.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	ast@kernel.org,
-	cong.wang@bytedance.com,
-	netdev@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dIJyN1Uq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68501C4CEF5;
+	Tue, 15 Jul 2025 08:19:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1752567555;
+	bh=xYYx8zlxp5oa3pFs+0lI4y+5Yub7dz7/WicSltLdFB4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dIJyN1UqwTFT2l3WIYPcaJ2HLY8C7gsyXFuC6mvHTCA+fWxSG0xRSLEuHqSSkxA0p
+	 FfOgGnnUlI7kqgH7kveKZHLVxYAvw98MQn/IOuSFvKbPnrYzZeAsydZMS3iBzSMWO3
+	 dhA2C/NuR98H0BokdAb6bLWVcQWzl4x3fbGnHxtM=
+Date: Tue, 15 Jul 2025 10:19:13 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Cc: john.fastabend@gmail.com, jakub@cloudflare.com, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	ast@kernel.org, cong.wang@bytedance.com, netdev@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
 	syzbot+b18872ea9631b5dcef3b@syzkaller.appspotmail.com
-Subject: [PATCH] net: skmsg: fix NULL pointer dereference in sk_msg_recvmsg()
-Date: Tue, 15 Jul 2025 13:41:58 +0530
-Message-ID: <20250715081158.7651-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.49.0
+Subject: Re: [PATCH] net: skmsg: fix NULL pointer dereference in
+ sk_msg_recvmsg()
+Message-ID: <2025071555-august-deskwork-e162@gregkh>
+References: <20250715081158.7651-1-pranav.tyagi03@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250715081158.7651-1-pranav.tyagi03@gmail.com>
 
-A NULL page from sg_page() in sk_msg_recvmsg() can reach
-__kmap_local_page_prot() and crash the kernel. Add a check for the page
-before calling copy_page_to_iter() and fail early with -EFAULT to
-prevent the crash.
+On Tue, Jul 15, 2025 at 01:41:58PM +0530, Pranav Tyagi wrote:
+> A NULL page from sg_page() in sk_msg_recvmsg() can reach
+> __kmap_local_page_prot() and crash the kernel. Add a check for the page
+> before calling copy_page_to_iter() and fail early with -EFAULT to
+> prevent the crash.
+> 
+> Reported-by: syzbot+b18872ea9631b5dcef3b@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=b18872ea9631b5dcef3b
+> Fixes: 2bc793e3272a ("skmsg: Extract __tcp_bpf_recvmsg() and tcp_bpf_wait_data()")
+> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> ---
+>  net/core/skmsg.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/net/core/skmsg.c b/net/core/skmsg.c
+> index 4d75ef9d24bf..f5367356a483 100644
+> --- a/net/core/skmsg.c
+> +++ b/net/core/skmsg.c
+> @@ -432,6 +432,10 @@ int sk_msg_recvmsg(struct sock *sk, struct sk_psock *psock, struct msghdr *msg,
+>  			sge = sk_msg_elem(msg_rx, i);
+>  			copy = sge->length;
+>  			page = sg_page(sge);
+> +			if (!page) {
+> +				copied = copied ? copied : -EFAULT;
+> +				goto out;
+> +			}
+>  			if (copied + copy > len)
+>  				copy = len - copied;
+>  			copy = copy_page_to_iter(page, sge->offset, copy, iter);
+> -- 
+> 2.49.0
+> 
+> 
 
-Reported-by: syzbot+b18872ea9631b5dcef3b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=b18872ea9631b5dcef3b
-Fixes: 2bc793e3272a ("skmsg: Extract __tcp_bpf_recvmsg() and tcp_bpf_wait_data()")
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
----
- net/core/skmsg.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Hi,
 
-diff --git a/net/core/skmsg.c b/net/core/skmsg.c
-index 4d75ef9d24bf..f5367356a483 100644
---- a/net/core/skmsg.c
-+++ b/net/core/skmsg.c
-@@ -432,6 +432,10 @@ int sk_msg_recvmsg(struct sock *sk, struct sk_psock *psock, struct msghdr *msg,
- 			sge = sk_msg_elem(msg_rx, i);
- 			copy = sge->length;
- 			page = sg_page(sge);
-+			if (!page) {
-+				copied = copied ? copied : -EFAULT;
-+				goto out;
-+			}
- 			if (copied + copy > len)
- 				copy = len - copied;
- 			copy = copy_page_to_iter(page, sge->offset, copy, iter);
--- 
-2.49.0
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
