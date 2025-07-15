@@ -1,99 +1,146 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E9122DFB5
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 15 Jul 2025 09:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EE521C9F5;
+	Tue, 15 Jul 2025 10:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752572705; cv=none; b=a2nzmgpafLxaoVoiioyek4y5i99xMM+gDVOeiKrn0KsXk4VdC+SDlP+lWodDPk4IyxIxgJ1dJAECXMuVWQC78c1D7VG1QxSMQmK9+Cr1c0xXuWUho4TnCRDyUQcbp8evRdMk62vqtmPeUkXshy5xRJOIlf2QgGQ5Ie+hk1Rg86s=
+	t=1752575143; cv=none; b=K00NgEQp07u3MrGDowCFxawODg9i/Qy4BCswyEyIVkRNo/5tN4wcir5HgiIE+rEwM1WjqYUIyQZ2afuFTgZZ8vvtaQWwrdA1b/SZCPmTHi5u9Ec/b9vtA0yMLvIqVqaRi7gBPsIbmqjXxXAD5602furInqZM6xOvaZMIXIdqdkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752572705; c=relaxed/simple;
-	bh=KWOaxjP/bGNjDInQVlB7bR97fr6w9d/PYMDrgGxa8Fc=;
+	s=arc-20240116; t=1752575143; c=relaxed/simple;
+	bh=wwa8tOAdGrPcbMj0Jsm5cHaAzQEuyKFmUHesGXCUd7k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QN14xUvEmHaaaaxH5EK/xzHRafxtgE7OF2wOIyFH/cQDt4DQNChhLp6AC36hyUl7kG+ojutUCSBC6E0onOGgBSN8lIl4xHMtbeKB/rOomtG9lVCllGGBuZxJ1dcsYlujMV+fmktAdRh9wfzOjvlofiobE6bqgx24sImpaVOmGZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1ubcDd-0004mV-06; Tue, 15 Jul 2025 11:45:01 +0200
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1ubcDc-008YhW-28;
-	Tue, 15 Jul 2025 11:45:00 +0200
-Received: from pengutronix.de (p5b1645f7.dip0.t-ipconnect.de [91.22.69.247])
+	 Content-Type:Content-Disposition:In-Reply-To; b=YWOE+2WrQ8U7loGmtMGMRhckCYejoJ1H9acV1ofQvwKI2Vo55O5kVBO8OWfSDtBKZ3FNZZa68ae8fKHONftqiy2ebLgug7aLqIm+02/qaTWLA7yhd7trTK9qAamlc9JnCUCSgSVDfJ0n7xfJ6jg+E+gZH/t77jwW1K01XEspsq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from localhost (unknown [116.232.48.207])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 55BF6442293;
-	Tue, 15 Jul 2025 09:45:00 +0000 (UTC)
-Date: Tue, 15 Jul 2025 11:45:00 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
-Cc: mailhol.vincent@wanadoo.fr, linux-kernel-mentees@lists.linux.dev, 
-	shuah@kernel.org, linux-can@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] can: janz-ican3: use sysfs_emit() in fwinfo_show()
-Message-ID: <20250715-idealistic-majestic-goose-1f0486-mkl@pengutronix.de>
-References: <20250712133609.331904-1-khaledelnaggarlinux@gmail.com>
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dlan)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 2900F340DB0;
+	Tue, 15 Jul 2025 10:25:38 +0000 (UTC)
+Date: Tue, 15 Jul 2025 18:25:34 +0800
+From: Yixun Lan <dlan@gentoo.org>
+To: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	paul.walmsley@sifive.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+	palmer@dabbelt.com, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] riscv: dts: spacemit: Add OrangePi RV2 board device
+ tree
+Message-ID: <20250715102534-GYA542593@gentoo>
+References: <20250711183245.256683-1-hendrik.hamerlinck@hammernet.be>
+ <20250711183245.256683-3-hendrik.hamerlinck@hammernet.be>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nonvqcqqynx66ck2"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250712133609.331904-1-khaledelnaggarlinux@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kernel-mentees@lists.linux.dev
+In-Reply-To: <20250711183245.256683-3-hendrik.hamerlinck@hammernet.be>
 
 
---nonvqcqqynx66ck2
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] can: janz-ican3: use sysfs_emit() in fwinfo_show()
-MIME-Version: 1.0
+On 20:32 Fri 11 Jul     , Hendrik Hamerlinck wrote:
+> Add initial device tree support for the OrangePi RV2 board [1], which is
+> marketed as using the Ky X1 SoC but has been confirmed to be 
+> identical to the SpacemiT K1 [2].
+> 
+> The device tree is adapted from the OrangePi vendor tree [3], and similar
+> integration can be found in the Banana Pi kernel tree [4], confirming SoC
+> compatibility.
+> 
+> This minimal device tree enables booting into a serial console with UART
+> output and a blinking LED.
+> 
+> Link: http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-RV2.html [1]
+> Link: https://www.spacemit.com/en/key-stone-k1 [2]
+> Link: https://github.com/BPI-SINOVOIP/pi-linux/blob/linux-6.6.63-k1/arch/riscv/boot/dts/spacemit/k1-x_orangepi-rv2.dts [3]
+> Link: https://github.com/orangepi-xunlong/linux-orangepi/tree/orange-pi-6.6-ky [4]
+> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+> ---
+>  arch/riscv/boot/dts/spacemit/Makefile         |  1 +
+>  .../boot/dts/spacemit/k1-orangepi-rv2.dts     | 43 +++++++++++++++++++
+>  2 files changed, 44 insertions(+)
+>  create mode 100644 arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts
+> 
+> diff --git a/arch/riscv/boot/dts/spacemit/Makefile b/arch/riscv/boot/dts/spacemit/Makefile
+> index 92e13ce1c16d..152832644870 100644
+> --- a/arch/riscv/boot/dts/spacemit/Makefile
+> +++ b/arch/riscv/boot/dts/spacemit/Makefile
+> @@ -1,3 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  dtb-$(CONFIG_ARCH_SPACEMIT) += k1-bananapi-f3.dtb
+>  dtb-$(CONFIG_ARCH_SPACEMIT) += k1-milkv-jupiter.dtb
+> +dtb-$(CONFIG_ARCH_SPACEMIT) += k1-orangepi-rv2.dtb
+> diff --git a/arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts b/arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts
+> new file mode 100644
+> index 000000000000..8313f9589cd2
+> --- /dev/null
+> +++ b/arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts
+> @@ -0,0 +1,43 @@
+> +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+..
+> +/* Copyright (c) 2023 Ky, Inc */
+Copyright should cover current year, which is 2025..
+what's "Ky" stand for? Can you give a full description here
 
-On 12.07.2025 16:36:07, Khaled Elnaggar wrote:
-> As recommended in Documentation/filesystems/sysfs.rst, show() callbacks
-> should use sysfs_emit() or sysfs_emit_at() to format values returned to
-> userspace. Replace scnprintf() with sysfs_emit() in fwinfo_show().
->=20
-> Signed-off-by: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+> +
+> +/dts-v1/;
+> +
+> +#include "k1.dtsi"
+> +#include "k1-pinctrl.dtsi"
+> +
+> +/ {
+> +	model = "OrangePi RV2";
+> +	compatible = "xunlong,orangepi-rv2", "spacemit,k1";
+> +
+..
+> +	memory@0 {
+> +		device_type = "memory";
+> +		reg = <0x0 0x00000000 0x0 0x80000000>;
+> +	};
+> +
+> +	memory@100000000 {
+> +		device_type = "memory";
+> +		reg = <0x1 0x00000000 0x0 0x80000000>;
+> +	};
+> +
+for the memory nodes, there are 2/4/8GB variants from the Link [1], and
+you couldn't cover all of them in one dt
 
-Applied to linux-can-next.
+besides, I thought bootloader (u-boot) will populate these info, right?
+so the above nodes isn't really necessary
 
-Thanks,
-Marc
+> +	chosen {
+> +		stdout-path = "serial0";
+> +	};
+> +
+> +	leds {
+> +		compatible = "gpio-leds";
+> +
+> +		led1 {
+> +			label = "sys-led";
+> +			gpios = <&gpio K1_GPIO(96) GPIO_ACTIVE_LOW>;
+> +			linux,default-trigger = "heartbeat";
+> +			default-state = "on";
+> +		};
+> +	};
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_2_cfg>;
+> +	status = "okay";
+> +};
+> -- 
+> 2.43.0
+> 
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---nonvqcqqynx66ck2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmh2IxgACgkQDHRl3/mQ
-kZz3bAgAqieF81T8iq9I4vH0mpiqkhWao6EwnGxK5WkPhbbJTqP4NPAs9PMpBuB2
-V/2GYgNJWaitCLXE/mRLC7F9posbIGZYDLK4gpUYNJc2Ep51QMQsNkrriKx99qmP
-NSJ9+qyodWKEW999GLsfn0VOgso02WvL3HESRx+RccoZcaFL+7pK4Tqh7XaQAVwu
-8nHrMh9Ez7/PwbSNlqI9Mnv5+ehvEP3/fvPcRy/Sl8daVWqT3KDkCZKwbCIA/wV5
-lKEyPDCMnSQCx9RlWPbHmzRm7ycvKblhChQ+Ajjxee1hnP0TQWZSeiiVDoD1BiGj
-B/ku6CU1DDEGvAB3SoLX4qS6r7mhAA==
-=ht81
------END PGP SIGNATURE-----
-
---nonvqcqqynx66ck2--
+-- 
+Yixun Lan (dlan)
