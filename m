@@ -1,110 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F3B26C396;
-	Tue, 15 Jul 2025 08:19:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2BEB22CBEC;
+	Tue, 15 Jul 2025 08:41:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752567556; cv=none; b=lVxTILTopS4ZzSiJjIWPxJzVY9JtqQ8aJqlQZcZogxeyWqLkJKlJqqQ1uo6nMlcZYba4T9T2FlOO76rrU3IHL9JknL5Sjc+4LJgd9cwBJqnqt5xfTklCxTzJZHV0agn/28HMD1w7scxTCRfppVO36t3nxvAkVtFLRPb/gD9WFPM=
+	t=1752568893; cv=none; b=szHfKoaCn3eC0EqVTl87y1F/zuafDaVBi/8aKCziZbYEIZNbicdWwSWbgZS4tZOrW7B2+x6nfGw3kQ9CNB5u3FF8od5No24YINLQH081Pf/9vaj+THairL7M9dy5uFkL8pfaX+GIfYGOh2hCruNdr6Y91xtr3NawvvOPO8aOe+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752567556; c=relaxed/simple;
-	bh=xYYx8zlxp5oa3pFs+0lI4y+5Yub7dz7/WicSltLdFB4=;
+	s=arc-20240116; t=1752568893; c=relaxed/simple;
+	bh=it5bcb7P/86igKa4ZM+4PpjhFToNWvbyGywblQFSY8A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GLczCTnKPMFbg1lwGyPGWFdczSsNIfs8i80HiZiK4foO7HKgXIC2VtGVr6qvMRQbh9RErAbnXaO2K+cy2+ga+Ke10l4OpefyJzfD5i7GGPLim9SaJVZl0klksEYSB3asxnUTHPH11yph9nAe3x5yBPk1od2gyl+8+igTZeyv6os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dIJyN1Uq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fL9/O7SyGVg0Dh2YiTQzSAacOuu2V43vZ4adZqA/tn/XuPqbhiFcgr+MMT8usYtA5cQ0YnAQ45v8G+6wCXf4aztugDVLeXQOcULfkmndA8RFVVWxdsJfkhLvmI6RKyz3x11c2W0kpTzxS1VNdAzLuHqpvY+Z1nrKgn1qCSCZExc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mHdhSE0Z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dIJyN1Uq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68501C4CEF5;
-	Tue, 15 Jul 2025 08:19:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1752567555;
-	bh=xYYx8zlxp5oa3pFs+0lI4y+5Yub7dz7/WicSltLdFB4=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mHdhSE0Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9B03C4CEE3;
+	Tue, 15 Jul 2025 08:41:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752568893;
+	bh=it5bcb7P/86igKa4ZM+4PpjhFToNWvbyGywblQFSY8A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dIJyN1UqwTFT2l3WIYPcaJ2HLY8C7gsyXFuC6mvHTCA+fWxSG0xRSLEuHqSSkxA0p
-	 FfOgGnnUlI7kqgH7kveKZHLVxYAvw98MQn/IOuSFvKbPnrYzZeAsydZMS3iBzSMWO3
-	 dhA2C/NuR98H0BokdAb6bLWVcQWzl4x3fbGnHxtM=
-Date: Tue, 15 Jul 2025 10:19:13 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+	b=mHdhSE0ZD4u52G5NgHZJ1Ui3tB/8/Y/IBU2XbHFiFnEtk38HmTH796BLA5Jt629ve
+	 DGsn7AtBbaChShOGrrpX2l+O6fh2tqwwpz/MYi70++/TfvJtKWjSrD+aDosMqh3tZb
+	 nzNvTmF4KMHkWk8oVPejCPnkQahGaCz9Y1kGirYQT9OpM3DaohpRWHGJ9GKX8qhJ9o
+	 o/wyIyENWZAzpCZsIP4R1lC/0gLrNkfZnUMKbrKmfy/vQduwhYSJ2mk56pebJYzIW5
+	 VK2bsTGLDwnVJIM2X1z78EQHdHMgbpNXL3xI+hyH4dxYAaWQW/DNQFjaTbYirP683y
+	 epTfBXDGYEpSQ==
+Date: Tue, 15 Jul 2025 10:41:28 +0200
+From: Carlos Maiolino <cem@kernel.org>
 To: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Cc: john.fastabend@gmail.com, jakub@cloudflare.com, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	ast@kernel.org, cong.wang@bytedance.com, netdev@vger.kernel.org,
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
-	syzbot+b18872ea9631b5dcef3b@syzkaller.appspotmail.com
-Subject: Re: [PATCH] net: skmsg: fix NULL pointer dereference in
- sk_msg_recvmsg()
-Message-ID: <2025071555-august-deskwork-e162@gregkh>
-References: <20250715081158.7651-1-pranav.tyagi03@gmail.com>
+Cc: linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	djwong@kernel.org, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2] fs/xfs: replace strncpy with memtostr_pad()
+Message-ID: <5cwrwinj6j6nqhk2gc6aj4th3csls5ga3noydzykj6fkk2v4zi@qvboar3cyh7x>
+References: <20250704101250.24629-1-pranav.tyagi03@gmail.com>
+ <K5x4H41jqElESRuxXyh2MqE-igMg5PS77kCZOTtYzKuSMeRMHVp8VJC2eTQqblSYtoWkt6KGDsHr2g-S-zGbPg==@protonmail.internalid>
+ <CAH4c4jLCyb3kF0G25GU2JpPVkOXrgMTtMF+NTWgJpXBoEUaA5w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250715081158.7651-1-pranav.tyagi03@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAH4c4jLCyb3kF0G25GU2JpPVkOXrgMTtMF+NTWgJpXBoEUaA5w@mail.gmail.com>
 
-On Tue, Jul 15, 2025 at 01:41:58PM +0530, Pranav Tyagi wrote:
-> A NULL page from sg_page() in sk_msg_recvmsg() can reach
-> __kmap_local_page_prot() and crash the kernel. Add a check for the page
-> before calling copy_page_to_iter() and fail early with -EFAULT to
-> prevent the crash.
+On Thu, Jul 10, 2025 at 03:56:01PM +0530, Pranav Tyagi wrote:
+> On Fri, Jul 4, 2025 at 3:42 PM Pranav Tyagi <pranav.tyagi03@gmail.com> wrote:
+> >
+> > Replace the deprecated strncpy() with memtostr_pad(). This also avoids
+> > the need for separate zeroing using memset(). Mark sb_fname buffer with
+> > __nonstring as its size is XFSLABEL_MAX and so no terminating NULL for
+> > sb_fname.
+> >
+> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> > ---
+> >  fs/xfs/libxfs/xfs_format.h | 2 +-
+> >  fs/xfs/xfs_ioctl.c         | 3 +--
+> >  2 files changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
+> > index 9566a7623365..779dac59b1f3 100644
+> > --- a/fs/xfs/libxfs/xfs_format.h
+> > +++ b/fs/xfs/libxfs/xfs_format.h
+> > @@ -112,7 +112,7 @@ typedef struct xfs_sb {
+> >         uint16_t        sb_sectsize;    /* volume sector size, bytes */
+> >         uint16_t        sb_inodesize;   /* inode size, bytes */
+> >         uint16_t        sb_inopblock;   /* inodes per block */
+> > -       char            sb_fname[XFSLABEL_MAX]; /* file system name */
+> > +       char            sb_fname[XFSLABEL_MAX] __nonstring; /* file system name */
+> >         uint8_t         sb_blocklog;    /* log2 of sb_blocksize */
+> >         uint8_t         sb_sectlog;     /* log2 of sb_sectsize */
+> >         uint8_t         sb_inodelog;    /* log2 of sb_inodesize */
+> > diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
+> > index d250f7f74e3b..c3e8c5c1084f 100644
+> > --- a/fs/xfs/xfs_ioctl.c
+> > +++ b/fs/xfs/xfs_ioctl.c
+> > @@ -990,9 +990,8 @@ xfs_ioc_getlabel(
+> >         BUILD_BUG_ON(sizeof(sbp->sb_fname) > FSLABEL_MAX);
+> >
+> >         /* 1 larger than sb_fname, so this ensures a trailing NUL char */
+> > -       memset(label, 0, sizeof(label));
+> >         spin_lock(&mp->m_sb_lock);
+> > -       strncpy(label, sbp->sb_fname, XFSLABEL_MAX);
+> > +       memtostr_pad(label, sbp->sb_fname);
+> >         spin_unlock(&mp->m_sb_lock);
+> >
+> >         if (copy_to_user(user_label, label, sizeof(label)))
+> > --
+> > 2.49.0
+> >
+> Hi,
 > 
-> Reported-by: syzbot+b18872ea9631b5dcef3b@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=b18872ea9631b5dcef3b
-> Fixes: 2bc793e3272a ("skmsg: Extract __tcp_bpf_recvmsg() and tcp_bpf_wait_data()")
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> ---
->  net/core/skmsg.c | 4 ++++
->  1 file changed, 4 insertions(+)
+> This is a gentle follow-up on this patch. I would like to
+> know if there is any update on its state.
+
+Looks fine to me:
+
+Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
+
+
 > 
-> diff --git a/net/core/skmsg.c b/net/core/skmsg.c
-> index 4d75ef9d24bf..f5367356a483 100644
-> --- a/net/core/skmsg.c
-> +++ b/net/core/skmsg.c
-> @@ -432,6 +432,10 @@ int sk_msg_recvmsg(struct sock *sk, struct sk_psock *psock, struct msghdr *msg,
->  			sge = sk_msg_elem(msg_rx, i);
->  			copy = sge->length;
->  			page = sg_page(sge);
-> +			if (!page) {
-> +				copied = copied ? copied : -EFAULT;
-> +				goto out;
-> +			}
->  			if (copied + copy > len)
->  				copy = len - copied;
->  			copy = copy_page_to_iter(page, sge->offset, copy, iter);
-> -- 
-> 2.49.0
+> Regards
+> Pranav Tyagi
 > 
-> 
-
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
