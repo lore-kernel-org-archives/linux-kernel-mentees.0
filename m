@@ -1,108 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2BEB22CBEC;
-	Tue, 15 Jul 2025 08:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E9122DFB5
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 15 Jul 2025 09:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752568893; cv=none; b=szHfKoaCn3eC0EqVTl87y1F/zuafDaVBi/8aKCziZbYEIZNbicdWwSWbgZS4tZOrW7B2+x6nfGw3kQ9CNB5u3FF8od5No24YINLQH081Pf/9vaj+THairL7M9dy5uFkL8pfaX+GIfYGOh2hCruNdr6Y91xtr3NawvvOPO8aOe+U=
+	t=1752572705; cv=none; b=a2nzmgpafLxaoVoiioyek4y5i99xMM+gDVOeiKrn0KsXk4VdC+SDlP+lWodDPk4IyxIxgJ1dJAECXMuVWQC78c1D7VG1QxSMQmK9+Cr1c0xXuWUho4TnCRDyUQcbp8evRdMk62vqtmPeUkXshy5xRJOIlf2QgGQ5Ie+hk1Rg86s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752568893; c=relaxed/simple;
-	bh=it5bcb7P/86igKa4ZM+4PpjhFToNWvbyGywblQFSY8A=;
+	s=arc-20240116; t=1752572705; c=relaxed/simple;
+	bh=KWOaxjP/bGNjDInQVlB7bR97fr6w9d/PYMDrgGxa8Fc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fL9/O7SyGVg0Dh2YiTQzSAacOuu2V43vZ4adZqA/tn/XuPqbhiFcgr+MMT8usYtA5cQ0YnAQ45v8G+6wCXf4aztugDVLeXQOcULfkmndA8RFVVWxdsJfkhLvmI6RKyz3x11c2W0kpTzxS1VNdAzLuHqpvY+Z1nrKgn1qCSCZExc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mHdhSE0Z; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mHdhSE0Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9B03C4CEE3;
-	Tue, 15 Jul 2025 08:41:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752568893;
-	bh=it5bcb7P/86igKa4ZM+4PpjhFToNWvbyGywblQFSY8A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mHdhSE0ZD4u52G5NgHZJ1Ui3tB/8/Y/IBU2XbHFiFnEtk38HmTH796BLA5Jt629ve
-	 DGsn7AtBbaChShOGrrpX2l+O6fh2tqwwpz/MYi70++/TfvJtKWjSrD+aDosMqh3tZb
-	 nzNvTmF4KMHkWk8oVPejCPnkQahGaCz9Y1kGirYQT9OpM3DaohpRWHGJ9GKX8qhJ9o
-	 o/wyIyENWZAzpCZsIP4R1lC/0gLrNkfZnUMKbrKmfy/vQduwhYSJ2mk56pebJYzIW5
-	 VK2bsTGLDwnVJIM2X1z78EQHdHMgbpNXL3xI+hyH4dxYAaWQW/DNQFjaTbYirP683y
-	 epTfBXDGYEpSQ==
-Date: Tue, 15 Jul 2025 10:41:28 +0200
-From: Carlos Maiolino <cem@kernel.org>
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Cc: linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	djwong@kernel.org, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2] fs/xfs: replace strncpy with memtostr_pad()
-Message-ID: <5cwrwinj6j6nqhk2gc6aj4th3csls5ga3noydzykj6fkk2v4zi@qvboar3cyh7x>
-References: <20250704101250.24629-1-pranav.tyagi03@gmail.com>
- <K5x4H41jqElESRuxXyh2MqE-igMg5PS77kCZOTtYzKuSMeRMHVp8VJC2eTQqblSYtoWkt6KGDsHr2g-S-zGbPg==@protonmail.internalid>
- <CAH4c4jLCyb3kF0G25GU2JpPVkOXrgMTtMF+NTWgJpXBoEUaA5w@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QN14xUvEmHaaaaxH5EK/xzHRafxtgE7OF2wOIyFH/cQDt4DQNChhLp6AC36hyUl7kG+ojutUCSBC6E0onOGgBSN8lIl4xHMtbeKB/rOomtG9lVCllGGBuZxJ1dcsYlujMV+fmktAdRh9wfzOjvlofiobE6bqgx24sImpaVOmGZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1ubcDd-0004mV-06; Tue, 15 Jul 2025 11:45:01 +0200
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1ubcDc-008YhW-28;
+	Tue, 15 Jul 2025 11:45:00 +0200
+Received: from pengutronix.de (p5b1645f7.dip0.t-ipconnect.de [91.22.69.247])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 55BF6442293;
+	Tue, 15 Jul 2025 09:45:00 +0000 (UTC)
+Date: Tue, 15 Jul 2025 11:45:00 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+Cc: mailhol.vincent@wanadoo.fr, linux-kernel-mentees@lists.linux.dev, 
+	shuah@kernel.org, linux-can@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] can: janz-ican3: use sysfs_emit() in fwinfo_show()
+Message-ID: <20250715-idealistic-majestic-goose-1f0486-mkl@pengutronix.de>
+References: <20250712133609.331904-1-khaledelnaggarlinux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nonvqcqqynx66ck2"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAH4c4jLCyb3kF0G25GU2JpPVkOXrgMTtMF+NTWgJpXBoEUaA5w@mail.gmail.com>
-
-On Thu, Jul 10, 2025 at 03:56:01PM +0530, Pranav Tyagi wrote:
-> On Fri, Jul 4, 2025 at 3:42 PM Pranav Tyagi <pranav.tyagi03@gmail.com> wrote:
-> >
-> > Replace the deprecated strncpy() with memtostr_pad(). This also avoids
-> > the need for separate zeroing using memset(). Mark sb_fname buffer with
-> > __nonstring as its size is XFSLABEL_MAX and so no terminating NULL for
-> > sb_fname.
-> >
-> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> > ---
-> >  fs/xfs/libxfs/xfs_format.h | 2 +-
-> >  fs/xfs/xfs_ioctl.c         | 3 +--
-> >  2 files changed, 2 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
-> > index 9566a7623365..779dac59b1f3 100644
-> > --- a/fs/xfs/libxfs/xfs_format.h
-> > +++ b/fs/xfs/libxfs/xfs_format.h
-> > @@ -112,7 +112,7 @@ typedef struct xfs_sb {
-> >         uint16_t        sb_sectsize;    /* volume sector size, bytes */
-> >         uint16_t        sb_inodesize;   /* inode size, bytes */
-> >         uint16_t        sb_inopblock;   /* inodes per block */
-> > -       char            sb_fname[XFSLABEL_MAX]; /* file system name */
-> > +       char            sb_fname[XFSLABEL_MAX] __nonstring; /* file system name */
-> >         uint8_t         sb_blocklog;    /* log2 of sb_blocksize */
-> >         uint8_t         sb_sectlog;     /* log2 of sb_sectsize */
-> >         uint8_t         sb_inodelog;    /* log2 of sb_inodesize */
-> > diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
-> > index d250f7f74e3b..c3e8c5c1084f 100644
-> > --- a/fs/xfs/xfs_ioctl.c
-> > +++ b/fs/xfs/xfs_ioctl.c
-> > @@ -990,9 +990,8 @@ xfs_ioc_getlabel(
-> >         BUILD_BUG_ON(sizeof(sbp->sb_fname) > FSLABEL_MAX);
-> >
-> >         /* 1 larger than sb_fname, so this ensures a trailing NUL char */
-> > -       memset(label, 0, sizeof(label));
-> >         spin_lock(&mp->m_sb_lock);
-> > -       strncpy(label, sbp->sb_fname, XFSLABEL_MAX);
-> > +       memtostr_pad(label, sbp->sb_fname);
-> >         spin_unlock(&mp->m_sb_lock);
-> >
-> >         if (copy_to_user(user_label, label, sizeof(label)))
-> > --
-> > 2.49.0
-> >
-> Hi,
-> 
-> This is a gentle follow-up on this patch. I would like to
-> know if there is any update on its state.
-
-Looks fine to me:
-
-Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
+In-Reply-To: <20250712133609.331904-1-khaledelnaggarlinux@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kernel-mentees@lists.linux.dev
 
 
-> 
-> Regards
-> Pranav Tyagi
-> 
+--nonvqcqqynx66ck2
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] can: janz-ican3: use sysfs_emit() in fwinfo_show()
+MIME-Version: 1.0
+
+On 12.07.2025 16:36:07, Khaled Elnaggar wrote:
+> As recommended in Documentation/filesystems/sysfs.rst, show() callbacks
+> should use sysfs_emit() or sysfs_emit_at() to format values returned to
+> userspace. Replace scnprintf() with sysfs_emit() in fwinfo_show().
+>=20
+> Signed-off-by: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+
+Applied to linux-can-next.
+
+Thanks,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--nonvqcqqynx66ck2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmh2IxgACgkQDHRl3/mQ
+kZz3bAgAqieF81T8iq9I4vH0mpiqkhWao6EwnGxK5WkPhbbJTqP4NPAs9PMpBuB2
+V/2GYgNJWaitCLXE/mRLC7F9posbIGZYDLK4gpUYNJc2Ep51QMQsNkrriKx99qmP
+NSJ9+qyodWKEW999GLsfn0VOgso02WvL3HESRx+RccoZcaFL+7pK4Tqh7XaQAVwu
+8nHrMh9Ez7/PwbSNlqI9Mnv5+ehvEP3/fvPcRy/Sl8daVWqT3KDkCZKwbCIA/wV5
+lKEyPDCMnSQCx9RlWPbHmzRm7ycvKblhChQ+Ajjxee1hnP0TQWZSeiiVDoD1BiGj
+B/ku6CU1DDEGvAB3SoLX4qS6r7mhAA==
+=ht81
+-----END PGP SIGNATURE-----
+
+--nonvqcqqynx66ck2--
