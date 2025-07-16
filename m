@@ -1,222 +1,190 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A7F2BEC25
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 16 Jul 2025 20:12:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DDD2ECE82
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 16 Jul 2025 23:52:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752696726; cv=none; b=pW+z+/SzWUgcVVNvg/Xap3EwRKXfBw17jQsUmtb8jrwKiE4dea6o+DEfXquWv/k+T/SWMdVO1mLzWpkcDAETRdldiNC99pbkBX+ya/LpHOqRGl0qvhrJsy6F2E9lW69mgecGwpkYo/OkjbUFlJw41CCFdk5F8GDSp4NPy7sw60c=
+	t=1752709931; cv=none; b=iHpJfMBFRCR7A1kI1SdYd93vnkRztqHqkvz9fVuoXvZyQoMdJtIg5JvSb/2j/0bitdm6CFzqCZHiSrn0sEBBAlXwHJpSaOwCwZAyEBMN0ihe6irYc/fk/yjZ73H3FpysXj+ikly/captwEHUzIB0pWSz8oygtw7VRWsjAE+q0Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752696726; c=relaxed/simple;
-	bh=YlvdcJp3JJip5BkmEMaC0OZOtG+DOOiozRI/czCgQ0E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n4MbBX6dMHO9dAA44laDoxGct4vR1aW0BMREnnH58sXYLgSXE81RbZg+B2Q2TbAfqzZyTP1zmUUtdDO/a6ACWxRhs9JHaxER7+yBVvzOiQRzTMAqQwE2K+VjM6oH62icHi1wQQ3VUIliocBdJ5ZKFjxsxBaxwCFX5Tw+/dX/bz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m6iwWa/b; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1752709931; c=relaxed/simple;
+	bh=8cc2Nz87MAuzNDTFYLrAfgQhXEv/HRfUJbJCoQPND0A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q6lhruHsIm50K5gEwR/kgDp8lAHppSyaQqML3FiOxHxacaILCbG8Olbtrw8cljXNfF3g0ijzwAYQa+cFWg84pTS1ITMJ67gbsWrODqlHDO1kJlHBhHuOLZx22i2KZK6nLWJNU5GBpVpv2fflLbZt0mdmTTJE/TtW0LMJgEnuUTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=aPsuBr6u; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m6iwWa/b"
+	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="aPsuBr6u"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 3828083F3C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 16 Jul 2025 20:12:05 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E01CD83F11
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 16 Jul 2025 23:52:09 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -1.9
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 1l8h0iMd4waQ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Jul 2025 20:12:04 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::c2b; helo=mail-oo1-xc2b.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 751E083CE5
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 751E083CE5
+ id nXv891ibsnLa for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Jul 2025 23:52:09 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42d; helo=mail-pf1-x42d.google.com; envelope-from=david@fromorbit.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org D2F8B83F10
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D2F8B83F10
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=m6iwWa/b
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 751E083CE5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 16 Jul 2025 20:12:04 +0000 (UTC)
-Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-61593d5f92bso175657eaf.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 16 Jul 2025 13:12:04 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=aPsuBr6u
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D2F8B83F10
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 16 Jul 2025 23:52:08 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-748d982e97cso407874b3a.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 16 Jul 2025 16:52:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752696723; x=1753301523; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7fOuszaQr9CL9eUMJdejd3ksjD49N9Pv+PwPZ2WVlkU=;
-        b=m6iwWa/bSlurWkfBsHL/iH9MHR/BYRjUIEhMhL92N9PEw8l6noTNx6uX0eGtuqV9FW
-         b1GAdTcazeHAaDfDkbXClKVUP2CY3YiY7IxdSETvvSwog1J0sS1OS4HvGswoFNxus6/r
-         QTn055xfx8Ogkgrx0KJe4wlUEnM9jF15r/icQExdZRWQWAOOxL6a4tLLHWU1eD8NGozC
-         YtSsqYmLAJRLFHUmN3P+5eOFXt2vlr2X0UIsZW9Br72CFnZPWEsgTPNKRdPBnhlX9wLI
-         KxPvlgf49Qo6fMGlFe/06OJROy9PIf52TrjgJ45JLmDQq4nTujlb0yls06T8/rJFRYR2
-         FT2w==
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1752709928; x=1753314728; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V9iYhf+TmOaeuGFTnHtMZsVUbgjznZbhmRqA/iiwsEQ=;
+        b=aPsuBr6uwAQMQ5z2KA5FWuVw3lP3sZltiCwWZOsKQtZt0paUVL0EgjbD4S4QLoZVqT
+         aOJj0VR4uLdXSbl/S2qta4ub2XTbMnYv4Yl8+qsz4PDAzTMEaSHVMSpcS5cgT/Zid5O+
+         rE3K97N6cfl8Q+oaJXO/zmtg4RvsLzahkI1U4G/d1RrCo/PsAiO1t1+4ApjVp0DVX4TS
+         aZifYGcJB/vtcVORyvVfSFZn50lzaF5iG2EZ4u15POpF4/u7fSXt7LGcNcxt+KvEKAti
+         TcZo7x9D94eKMaM4ecKReDl71bo4FCuyUe94OjnQLX7Uj/Y0VYm6QUMVza2mWr/5jf8L
+         P2zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752696723; x=1753301523;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7fOuszaQr9CL9eUMJdejd3ksjD49N9Pv+PwPZ2WVlkU=;
-        b=HAsj8mh9mIM98bNYrJWqaBfrUXvcUi2yIeXu22CfhUJDoJvzDrkKeYPgdPwAptyGfy
-         6Klyh6KrMBj+ZVxroAkoVjuPQxlXyP4cShfYFlZvLBORHALq3iKHSfbcSug0jaC5tmwQ
-         GJxhbVwwjPVdu/GqV2UVwl1xXEus6QIUJzFvkybmPC1RDae0Lu5kSHYdLn07v0MRep70
-         wdE28WxOCwsUbE4/APPNhe3OJfLLnY1QPUQgzdMojFd6b8Yu2KWn+tTQg77gaK05K0+Y
-         C1crCdoldHEvhh7XhcQ3RJuwbDU73N7puIFc9Hv3vNWvTR1BtndMVpcdCXieE2wXMyL2
-         BP4g==
-X-Forwarded-Encrypted: i=1; AJvYcCVR3A5s7s+v5ypelwvO5c98e4V3Pbb4GNs2prdhnY9ZbzUGrb+UHrer00MFLw6bO1hsa8KgnW/EdX5+KVYTIKhOexJ2Wg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yw9I10bKQIxQQ5lOnisTnlkBL7sVNVgtpF2nKRKXNc+m4djv8kx
-	RT0rnhDmZGCGJQhXRoOb/cWCqM2cmBF12kYzmDkeV67WnwfZ74OHBnpLlu4oOEfHh3TZ9JOOtid
-	upppJzni76OiPy3LztaaA+VahUaAGPa0=
-X-Gm-Gg: ASbGncvUZ4SX/5MdfFYHQkPgH296qkx+qtUitHXgpKwBalqG8LFdbx5G9gA77aTMmhe
-	LthvGn8Sasek0GnIfqGXMpfD9zGbhrSr8OSfhovVo67ekQL7jNpZ59ocsUmbbieVYeO0oEuhzSj
-	TgudPnQg7z6DF6VRpBAJfOJZ3Reh5pYyYpVq9I3ZvYPi2c5ulUANYWxUWuttgrUXpROQMi+mFd0
-	HnRW4FNfUnB7RE5F5k=
-X-Google-Smtp-Source: AGHT+IEQSHCRDUqox4A+3jgkR2kJo21sUHMgOxfS1zQtZ5MJOe0bPnRbW+HkB8TRuyaCmEV4t/fDzNnmzYfdLIoZTys=
-X-Received: by 2002:a4a:ee17:0:b0:613:bd07:54cc with SMTP id
- 006d021491bc7-615acb4ab78mr666388eaf.0.1752696723268; Wed, 16 Jul 2025
- 13:12:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752709928; x=1753314728;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V9iYhf+TmOaeuGFTnHtMZsVUbgjznZbhmRqA/iiwsEQ=;
+        b=YX06RtdGOyAVevKs2tlSw+OK0yhFIaAM4JMTNZ/3D0GBFPBfkb0cl+7dVY2RHMp4nH
+         7rUS7PfbkndQMMAZnCh8IyKGqSCUiZStEKv+dp7C7TmZJmPpZX0sDUr6VUxlkRc5AQ6T
+         adcaBE+29d9N9FcDtXjEw/CcIuWi+GVe2cOxnPNHCmv7HDEnbzvxwkcjt/JZFvINsdHx
+         cTekOz8FH8lSYOaFCXbuBBvXVREAH7Ka1+JXnFpPeahgl3TSS7zKskBL6jwZpaVgRlaN
+         FYRwfekppHPI9DuPJdNvMLKoyM6sq636eM3ZkCy31XGLNKR6Exd0lLpP5M9PuGarh/Fb
+         9olw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/cLZmOJqNeLfeKhCwxbhCKeATNCYcHMQABCNRMoOyEN7D+Cqfa6PfSuGKGvzKUg1CE+oMJA2ZGRW8WYPccaB7f6LYgw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzGwxqVoMIP/zrFTc0H/e0fVsU7sLEybAZCmVv1IepQSMz8g4XO
+	UcQiUpxanuEn10xhZ2qBOTNTETDT5IiMyRs6XAhWAp/AdtFPDr8eje1G24HOxYrnzvE=
+X-Gm-Gg: ASbGncviJAX05axpbi3Zi26VmL6azaeC2j5TLVk05zwxRJ5qSEE6hKN3NYap1V+1yG3
+	Y0kR6//L9M1W/9BJC+/uVkbCuyCpElbqi+v0yTqDk7KpGe447CwjYXHtaJEcMiLrIRaNgJpHB0f
+	Frq8ZEyKYb0KbXDcjcUzgptJHih4KBQrmTLgMDLM1tTieSpAkhk/TvRlwoP/IA/mj7Zs63lrCBf
+	7550AdjjXtteJmNrFXMjVz2tHroAlZaglA3pA1CdsyW14WonBdZ0yE4h1BjGCAr+wmfpULyXqO0
+	JT7SnzbqPmFE/jI3EqMuoOr5Jj3J8JTYc4pJ0Mx2uoktroUeHNG/blEEQkn6TRFdWYnhqH9WtXP
+	Gv2gfKgfFnV+YYCJSsxi8eJRolr2KElAlTUAK4YvmrmoUkcLeUQ2ekqEhZjiu1xYSvI1Ve6TZZQ
+	==
+X-Google-Smtp-Source: AGHT+IHUiw/cyohjV69lTrcKLCPTOr7ZJr1M8ncyo7AQFt9fgkchZHyM+/jOrI9YcMR1a/4YY9Pd7A==
+X-Received: by 2002:a05:6a20:734a:b0:220:3870:c61e with SMTP id adf61e73a8af0-23810a5901bmr7838780637.4.1752709928032;
+        Wed, 16 Jul 2025 16:52:08 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-64-170.pa.nsw.optusnet.com.au. [49.181.64.170])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9dd714bsm14430679b3a.6.2025.07.16.16.52.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 16:52:07 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.98.2)
+	(envelope-from <david@fromorbit.com>)
+	id 1ucBuu-0000000Bx4E-1rfh;
+	Thu, 17 Jul 2025 09:52:04 +1000
+Date: Thu, 17 Jul 2025 09:52:04 +1000
+From: Dave Chinner <david@fromorbit.com>
+To: Marcelo Moreira <marcelomoreira1905@gmail.com>
+Cc: cem@kernel.org, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] xfs: Replace strncpy with strscpy
+Message-ID: <aHg7JOY5UrOck9ck@dread.disaster.area>
+References: <20250716182220.203631-1-marcelomoreira1905@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250708003428.76783-1-marcelomoreira1905@gmail.com>
- <20250708003428.76783-4-marcelomoreira1905@gmail.com> <DB6RKSNTHUZ8.DW0EBFDU6L1I@kernel.org>
- <CAPZ3m_h37mCRO7oZX3qLnc+iFNwUu_wgYqEu_r0g-gtOB0661w@mail.gmail.com>
- <DB9XM595UG4V.3N51HST2TFVW@kernel.org> <CAPZ3m_grA_T_ixfHs7Z44nf5je4ftBcqCx=vcyvJOsJb+LaMFg@mail.gmail.com>
- <DBACAJ6K5FAH.3IHMMM6NHITEJ@kernel.org>
-In-Reply-To: <DBACAJ6K5FAH.3IHMMM6NHITEJ@kernel.org>
-From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-Date: Wed, 16 Jul 2025 17:11:52 -0300
-X-Gm-Features: Ac12FXx6I_pvMjNlSUhQyRDG4BoZKqYwKlQFV3CMFCUpL4UwVshlKdP4q2iWoDw
-Message-ID: <CAPZ3m_hmb9xpvy2tN_C36rEobMG1aJ5UQg6Y4hkM-Uy3AugjSg@mail.gmail.com>
-Subject: Re: [PATCH v6 3/3] rust: revocable: Document RevocableGuard
- invariants and refine Deref safety
-To: Benno Lossin <lossin@kernel.org>
-Cc: aliceryhl@google.com, dakr@kernel.org, ojeda@kernel.org, 
-	rust-for-linux@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250716182220.203631-1-marcelomoreira1905@gmail.com>
 
-Em s=C3=A1b., 12 de jul. de 2025 =C3=A0s 16:56, Benno Lossin <lossin@kernel=
-.org> escreveu:
->
-> On Sat Jul 12, 2025 at 8:49 PM CEST, Marcelo Moreira wrote:
-> > Em s=C3=A1b., 12 de jul. de 2025 =C3=A0s 05:26, Benno Lossin <lossin@ke=
-rnel.org> escreveu:
-> >>
-> >> On Sat Jul 12, 2025 at 1:06 AM CEST, Marcelo Moreira wrote:
-> >> > Em ter., 8 de jul. de 2025 =C3=A0s 12:04, Benno Lossin <lossin@kerne=
-l.org> escreveu:
-> >> >> On Tue Jul 8, 2025 at 2:33 AM CEST, Marcelo Moreira wrote:
-> >> >> > Improves the `RevocableGuard` documentation by explicitly stating=
- that
-> >> >> > its `data_ref` member is a valid pointer as an invariant. Additio=
-nally,
-> >> >> > the `Deref` implementation's `SAFETY` comment is refined to justi=
-fy
-> >> >> > the `unsafe` dereference based on this new invariant and the
-> >> >> > `_rcu_guard` ensuring data accessibility.
-> >> >> >
-> >> >> > These changes address feedback regarding the clarity and complete=
-ness
-> >> >> > of `RevocableGuard`'s safety guarantees.
-> >> >> >
-> >> >> > Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
-> >> >> > ---
-> >> >> >  rust/kernel/revocable.rs | 7 ++++---
-> >> >> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> >> >> >
-> >> >> > diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
-> >> >> > index 6d8e9237dbdf..64fe44b4f5a3 100644
-> >> >> > --- a/rust/kernel/revocable.rs
-> >> >> > +++ b/rust/kernel/revocable.rs
-> >> >> > @@ -233,7 +233,8 @@ fn drop(self: Pin<&mut Self>) {
-> >> >> >  ///
-> >> >> >  /// # Invariants
-> >> >> >  ///
-> >> >> > -/// The RCU read-side lock is held while the guard is alive.
-> >> >> > +/// - `data_ref` is a valid pointer to a `T` object for the enti=
-re lifetime of this guard.
-> >> >>
-> >> >> This should be:
-> >> >>
-> >> >>     /// - `data_ref` is a valid pointer for as long as the RCU read=
--side lock is held.
-> >> >>
-> >> >> > +/// - The RCU read-side lock is held while the guard is alive.
-> >> >>
-> >> >> And this invariant is unnecessary.
-> >> >>
-> >> >> >  pub struct RevocableGuard<'a, T> {
-> >> >> >      // This can't use the `&'a T` type because references that a=
-ppear in function arguments must
-> >> >> >      // not become dangling during the execution of the function,=
- which can happen if the
-> >> >> > @@ -258,8 +259,8 @@ impl<T> Deref for RevocableGuard<'_, T> {
-> >> >> >      type Target =3D T;
-> >> >> >
-> >> >> >      fn deref(&self) -> &Self::Target {
-> >> >> > -        // SAFETY: By the type invariants, we hold the rcu read-=
-side lock, so the object is
-> >> >> > -        // guaranteed to remain valid.
-> >> >> > +        // SAFETY: `self.data_ref` is valid for writes because o=
-f `Self`'s type invariants,
-> >> >> > +        // and `_rcu_guard` ensures the data's accessibility for=
- the lifetime of this guard.
-> >> >>
-> >> >> This also needs to be adjusted.
-> >> >>
-> >> >> Also this patch should fix any invariant comments needed to constru=
-ct
-> >> >> `RevocableGuard`.
-> >> >
-> >> > Regarding this point, "...fix any invariant comments needed to
-> >> > construct `RevocableGuard`."
-> >> >
-> >> > I looked at the function that constructs `RevocableGuard`
-> >> > (try_access->RevocableGuard::new) and I think it's correct.
-> >> >
-> >> > In `try_access`, the comment justifies the validity of self.data.get=
-()
-> >> > by mentioning that `self.is_available` is true and that the RCU read
-> >> > lock prevents data from being dropped. This aligns well with what we
-> >> > already have in try_access_with_guard, for example (from patch 1/3).
-> >>
-> >> The comment seems wrong to me, it isn't even an `INVARIANT` comment. I=
-t
-> >> also talks about RCU in the wrong way and doesn't mention the type
-> >> invariants of `Self`...
-> >>
-> >> > Since there are no other code snippets that construct
-> >> > `RevocableGuard`, I thought I'd submit the patch with just the
-> >> > adjustments I made previously.
-> >>
-> >> There also is the `new` function of `RevocableGuard` that doesn't use =
-an
-> >> invariant comment. It also isn't unsafe despite taking a raw pointer..=
-.
-> >> So either we make it unsafe, add the correct safety requirements which
-> >> should just be the type invariants of the guard or we remove it, since
-> >> we only use it once.
-> >
-> > Even if it's only called once, I think it's better to make `new`
-> > unsafe because it can be used in the future, and keeping it unsafe
-> > gives us the advantage of maintainability.
->
-> Eh I'm not so sure that there is the need to construct it in more places
-> than one. And if we ever need it, we could add it back in. But we can go
-> either way. Maybe Danilo has a preference?
->
-> > Understood, Benno. I'll change `new` to be unsafe, change
-> > `RevocableGuard::new` to an unsafe block, and adjust the `SAFEFY`
-> > comment.
-> > ok?
->
-> Sounds good, you also need to add an invariant comment inside of
-> `RevocableGuard::new`.
+On Wed, Jul 16, 2025 at 03:20:37PM -0300, Marcelo Moreira wrote:
+> The `strncpy` function is deprecated for NUL-terminated strings as
+> explained in the "strncpy() on NUL-terminated strings" section of
+> Documentation/process/deprecated.rst.
+> 
+> In `xrep_symlink_salvage_inline()`, the `target_buf` (which is `sc->buf`)
+> is intended to hold a NUL-terminated symlink path. The original code
+> used `strncpy(target_buf, ifp->if_data, nr)`, where `nr` is the maximum
+> number of bytes to copy.
 
-Ok, Thanks Benno! :)
+Yes, this prevents source buffer overrun in the event the corrupted
+symlink data buffer is not correctly nul terminated or there is a
+length mismatch between the symlink data and the inode metadata.
 
---=20
-Cheers,
-Marcelo Moreira
+This patch removes the explicit source buffer overrun protection the
+code currently provides.
+
+> This approach is problematic because `strncpy()`
+> does not guarantee NUL-termination if the source string is truncated
+> exactly at `nr` bytes, which can lead to out-of-bounds read issues
+> if the buffer is later treated as a NUL-terminated string.
+
+No, that can't happen, because sc->buf is initialised to contain
+NULs and is large enough to hold a max length symlink plus the
+trailing NUL termination.  Hence it will always be NUL-terminated,
+even if the symlink length (nr) is capped at XFS_SYMLINK_MAXLEN.
+
+> Evidence from `fs/xfs/scrub/symlink.c` (e.g., `strnlen(sc->buf,
+> XFS_SYMLINK_MAXLEN)`) confirms that `sc->buf` is indeed expected to be
+> NUL-terminated.
+
+Please read the code more carefully. This is -explicitly- called out
+in a comment in xrep_symlink_salvage() before it starts to process
+the symlink data buffer that we just used strncpy() to place the
+data in:
+
+		/*
+                 * NULL-terminate the buffer because the ondisk target does not
+                 * do that for us.  If salvage didn't find the exact amount of
+                 * data that we expected to find, don't salvage anything.
+                 */
+                target_buf[buflen] = 0;
+                if (strlen(target_buf) != sc->ip->i_disk_size)
+                        buflen = 0;
+
+Also, have a look at the remote symlink data copy above the inline
+salvage code you are changing (xrep_symlink_salvage_remote()).
+
+It uses memcpy() to reconstruct the symlink data from multiple
+source buffers. It does *not* explicitly NUL-terminate sc->buf after
+using memcpy() to copy from the on disk structures to sc->buf. The
+on-disk symlink data is *not* NUL-terminated, either.
+
+IOWs, the salvage code that reconstructs the symlink data does not
+guarantee NUL termination, so we do it explicitly before the data in
+the returned buffer is used.
+
+> Furthermore, `sc->buf` is allocated with
+> `kvzalloc(XFS_SYMLINK_MAXLEN + 1, ...)`, explicitly reserving space for
+> the NUL terminator.
+
+.... and initialising the entire buffer to contain NULs.  IOWs, we
+have multiple layers of defence against data extraction not doing
+NUL-termination of the data it extracts.
+
+> This change improves code safety and clarity by using a safer function for
+> string copying.
+
+I disagree. It is a bad change because it uses strscpy() incorrectly
+for the context. i.e. it removes explicit source buffer overrun
+protection whilst making the incorrect assumption that the callers
+need to be protected from unterminated strings in the destination
+buffer.
+
+This code is dealing with *corrupt structures*, so it -must not-
+make any assumptions about the validity of incoming data structures,
+nor the validity of recovered data.  It has to treat them as is they
+are always invalid, and explicitly protect against all types of
+buffer overruns.
+
+IOW, if you must replace strncpy() in xrep_symlink_salvage_inline(),
+then the correct replacement memcpy().  Using some other strcpy()
+variant is just as easy to get wrong as strncpy() if you don't
+understand why strncpy() is safe to use in the first place.
+
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
