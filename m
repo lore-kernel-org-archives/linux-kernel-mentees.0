@@ -1,119 +1,155 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay16.mail.gandi.net (relay16.mail.gandi.net [217.70.178.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32EDEC2;
-	Wed, 16 Jul 2025 11:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182262F3C1D
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 16 Jul 2025 13:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752665641; cv=none; b=Sui3WuIfjS6nn+/bLgHrpL1SB93ZkAGObVH0AqJT2oSfZfu5ZaHEM/CeD6PIdMsQORxiTP5BrO7YVc5vFglx+EcD8ftTQ+3gxmgXO97u0JM2g+bpE/OwEG+4FkYW6m7bjBXS7Fo7mvap6ne1uYssuyVswfkfuyuVBz3wJYL0Acc=
+	t=1752671380; cv=none; b=QaM6K5FpkL8bL0bTcA6phNaivNR1wQqkgWCsasDZID/GsTRCFIKtset+6b8W31X+CWLvcePKpqK2DBizDEo5wTnG38YvONEf2VqfQ15/F6039R3PnWTM/2EK8QnRUKlV1P8IPIrAmx0sL06I+VbkopVbTVTCfOgTcxDkG8jRkOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752665641; c=relaxed/simple;
-	bh=awABBVIKOIuNLKn63mQp2b5BWohQLkfGP/tBEjJgA7M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rJn1njdRbGlfogm9mKIs3FEWztJh/Qf7STevSFgRmzWQOrX5znBwYBDHGqAOdmDE7Pk9LfIK1lHPmt/kS+CZIOVWTjgXydZH8p1zBD2RCwroPUD3nNeuqgFllMXy+IQ6b+mW44uPbzLpnRAcgsgQZ0aus8+ZeR5US3HLPAllVso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from localhost (unknown [116.232.48.207])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id B619C340EC9;
-	Wed, 16 Jul 2025 11:33:58 +0000 (UTC)
-Date: Wed, 16 Jul 2025 19:33:54 +0800
-From: Yixun Lan <dlan@gentoo.org>
-To: Hendrik Hammernet <hendrik.hamerlinck@hammernet.be>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	paul.walmsley@sifive.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
-	palmer@dabbelt.com, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] riscv: dts: spacemit: Add OrangePi RV2 board device
- tree
-Message-ID: <20250716113354-GYB546922@gentoo>
-References: <20250711183245.256683-1-hendrik.hamerlinck@hammernet.be>
- <20250711183245.256683-3-hendrik.hamerlinck@hammernet.be>
- <20250715102534-GYA542593@gentoo>
- <95125019-8eaa-4242-8e68-78771ce85947@hammernet.be>
+	s=arc-20240116; t=1752671380; c=relaxed/simple;
+	bh=Tq/2KaStJzxYgXZpFCj99+W63ZyDYDMzJd+F8/Ad+5w=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=d7frTmDt90Yojd+b2aM0vTSyv1uUF7oAZOTt69ENyazZgJGJtxUnq/fjn5jcQ4C38VZSEusGXjGlbKpyPyCoBOszTLqZAuJHa6T1u0BQ7i5Oxpme8XzAbvlu2xSziLN3+6jApY32P/rP/EjPl1+iGfWWlZJ0Ha79yUk3xEGRi4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.178.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D141244984;
+	Wed, 16 Jul 2025 13:09:30 +0000 (UTC)
+Message-ID: <7e22a448-3cee-4475-b69b-3dd45b57f168@ghiti.fr>
+Date: Wed, 16 Jul 2025 15:09:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/2] Implement endianess swap macros for RISC-V
+From: Alexandre Ghiti <alex@ghiti.fr>
+To: Ignacio Encinas <ignacio@iencinas.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ skhan@linuxfoundation.org, Zhihang Shao <zhihang.shao.iscas@gmail.com>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ linux-arch@vger.kernel.org
+References: <20250426-riscv-swab-v4-0-64201404a68c@iencinas.com>
+ <57352cc0-420b-42e6-a493-2764794a5206@ghiti.fr>
+ <aae8559c-88d2-4882-92cd-7e906eb8b7d6@ghiti.fr>
+Content-Language: en-US
+In-Reply-To: <aae8559c-88d2-4882-92cd-7e906eb8b7d6@ghiti.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <95125019-8eaa-4242-8e68-78771ce85947@hammernet.be>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdehjeejlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffhvfevfhgjtgfgsehtkeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhepfeelheeluddtheekudfhveduiefgueefueffvdduvdejvdekueegueetleefveegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpihhnfhhrrgguvggrugdrohhrghenucfkphepvddttddumeekiedumeeffeekvdemvghfledtmeelhedtugemfhgtgeeimeejjeelvgemvdhfvgefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeeffeekvdemvghfledtmeelhedtugemfhgtgeeimeejjeelvgemvdhfvgefpdhhvghloheplgfkrfggieemvddttddumeekiedumeeffeekvdemvghfledtmeelhedtugemfhgtgeeimeejjeelvgemvdhfvgefngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehighhnrggtihhosehivghntghinhgrshdrtghomhdprhgtphhtthhopehprghulhdrfigrlhhmshhlvgihsehsihhfi
+ hhvvgdrtghomhdprhgtphhtthhopehprghlmhgvrhesuggrsggsvghlthdrtghomhdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggvpdhrtghpthhtohepvggsihhgghgvrhhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghv
 
-Hi Hendrik,
+Hi Ignacio,
 
-On 11:37 Wed 16 Jul     , Hendrik Hammernet wrote:
-> Hello,
-> 
-> Thank you for the review.
-> 
-> On 7/15/25 12:25, Yixun Lan wrote:
-> > On 20:32 Fri 11 Jul     , Hendrik Hamerlinck wrote:
-> >
-> >> +/* Copyright (c) 2023 Ky, Inc */
-> > Copyright should cover current year, which is 2025..
-> > what's "Ky" stand for? Can you give a full description here
-> Regarding the original copyright:
-> This file was based on a version from the Ky, Inc downstream kernel, which
-> itself appears to be adapted from earlier SpacemiT sources (dated 2023).
-> The Orange Pi RV2 board, however, was only released in 2025, suggesting
-> that the Ky version was likely copied and renamed from earlier generic
-> SpacemiT files.
-> 
-> In reviewing the Ky downstream tree, I also noticed that several files had
-> their copyright statements overwritten with "Ky, Inc", while the original
-> years (e.g., 2023) remained unchanged. This makes the provenance a bit
-> unclear.
-> 
-> Since I've significantly reworked the file for the actual Orange Pi RV2
-> hardware, I’d prefer to attribute it under my own name, unless retaining
-> the original "Ky, Inc" is required.
-> 
-Personally, your approach looks good to me
+Can you come up with a new version that only touches the riscv tree so 
+that we can merge this in 6.17? Not ideal but I guess we can live with 
+code duplication for now.
 
-> Please let me know what would be appropriate here.
-> 
-I'm no expert on this, unless people want the more strict way..
+Thanks,
 
-Personally, the dts file already has correct Copyright info with
-the "SPDX-License-Identifier" line, additional info gives credits
-for people who really contributed on this..
+Alex
 
-> >> +	memory@0 {
-> >> +		device_type = "memory";
-> >> +		reg = <0x0 0x00000000 0x0 0x80000000>;
-> >> +	};
-> >> +
-> >> +	memory@100000000 {
-> >> +		device_type = "memory";
-> >> +		reg = <0x1 0x00000000 0x0 0x80000000>;
-> >> +	};
-> >> +
-> > for the memory nodes, there are 2/4/8GB variants from the Link [1], and
-> > you couldn't cover all of them in one dt
-> >
-> > besides, I thought bootloader (u-boot) will populate these info, right?
-> > so the above nodes isn't really necessary
-> >
-> You're absolutely right, U-Boot does populate this information correctly
-> at runtime. I will remove the memory nodes in the next version.
-> 
-> I also noticed that the aliases section is missing in this version, which
-> means the chosen.stdout-path = "serial0" reference won’t resolve unless
-> serial0 = &uart0; is defined. I didn't encounter issues during testing
-> because I'm overriding the boot command in my Buildroot setup, but I’ll
-> add the proper aliases node in the next version to ensure upstream
-> compatibility.
-> 
-right, please!
-
--- 
-Yixun Lan (dlan)
+On 7/9/25 17:12, Alexandre Ghiti wrote:
+> Hi Arnd,
+>
+> Gentle ping as we would like to merge this in the riscv tree but we 
+> need your ack (or nack).
+>
+> Thanks,
+>
+> Alex
+>
+> On 5/16/25 16:37, Alexandre Ghiti wrote:
+>> Hi Arnd,
+>>
+>> Do you think we can merge that for 6.16? It is nice improvement for us.
+>>
+>> Thanks,
+>>
+>> Alex
+>>
+>> On 26/04/2025 16:56, Ignacio Encinas wrote:
+>>> Motivated by [1]. A couple of things to note:
+>>>
+>>> RISC-V needs a default implementation to fall back on. There is one
+>>> available in include/uapi/linux/swab.h but that header can't be 
+>>> included
+>>> from arch/riscv/include/asm/swab.h. Therefore, the first patch in this
+>>> series moves the default implementation into asm-generic.
+>>>
+>>> Tested with crc_kunit as pointed out here [2]. I can't provide
+>>> performance numbers as I don't have RISC-V hardware yet.
+>>>
+>>> [1] 
+>>> https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
+>>> [2] 
+>>> https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/ 
+>>>
+>>>
+>>> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+>>> ---
+>>> Changes in v4:
+>>>
+>>> - Add missing include in the 1st patch, reported by
+>>> https://lore.kernel.org/all/202504042300.it9RcOSt-lkp@intel.com/
+>>> - Rewrite the ARCH_SWAB macro as suggested by Arnd
+>>> - Define __arch_swab64 for CONFIG_32BIT (Ben)
+>>> - Link to v3: 
+>>> https://lore.kernel.org/r/20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com
+>>>
+>>> Arnd, I know you don't like Patch 1 but I tried your suggestions and
+>>> couldn't make them work. Please let me know if I missed anything [3] 
+>>> [4]
+>>>
+>>> [3] 
+>>> https://lore.kernel.org/linux-riscv/f5464e26-faa0-48f1-8585-9ce52c8c9f5f@iencinas.com/
+>>> [4] 
+>>> https://lore.kernel.org/linux-riscv/b3b59747-0484-4042-bdc4-c067688e3bfe@iencinas.com/
+>>>
+>>> Changes in v3:
+>>>
+>>> PATCH 2:
+>>>    Use if(riscv_has_extension_likely) instead of asm goto (Eric). It
+>>>    looks like both versions generate the same assembly. Perhaps we 
+>>> should
+>>>    do the same change in other places such as 
+>>> arch/riscv/include/asm/bitops.h
+>>> - Link to v2: 
+>>> https://lore.kernel.org/r/20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com
+>>>
+>>> Changes in v2:
+>>> - Introduce first patch factoring out the default implementation into
+>>>    asm-generic
+>>> - Remove blank line to make checkpatch happy
+>>> - Link to v1: 
+>>> https://lore.kernel.org/r/20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com
+>>>
+>>> ---
+>>> Ignacio Encinas (2):
+>>>        include/uapi/linux/swab.h: move default implementation for 
+>>> swab macros into asm-generic
+>>>        riscv: introduce asm/swab.h
+>>>
+>>>   arch/riscv/include/asm/swab.h   | 62 
+>>> +++++++++++++++++++++++++++++++++++++++++
+>>>   include/uapi/asm-generic/swab.h | 33 ++++++++++++++++++++++
+>>>   include/uapi/linux/swab.h       | 33 +---------------------
+>>>   3 files changed, 96 insertions(+), 32 deletions(-)
+>>> ---
+>>> base-commit: a7f2e10ecd8f18b83951b0bab47ddaf48f93bf47
+>>> change-id: 20250307-riscv-swab-b81b94a9ac1b
+>>>
+>>> Best regards,
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
