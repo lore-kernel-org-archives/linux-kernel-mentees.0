@@ -1,123 +1,276 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F292A266B40;
-	Wed, 16 Jul 2025 01:42:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3645E2E62DD
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 16 Jul 2025 05:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752630168; cv=none; b=Ec+VVIqxFK439lcyaZ4K5f3leRYMzu56Yy/0b+1cPNZhXDprW5r2VTf0udCcx6h1D9i6mIDT9Elw3KywRiNE7WJRhbsm1M5US1hGTaKMEt+kTrvGafqTqfeLTuOSeMsCpNSaS2URT3HDzRxcys1u5CEmYRbINicJkbp/QIe4S5s=
+	t=1752643938; cv=none; b=jF30AS1R2EXNSZQ7B1Fw+gGJHD66Pqnma5wIU/U2NfPdgqCdleGzpqUjc/2aOmnIEBOGgxH11roFa0U0+Zvzm+D9pWgBKrGNk5TPmHSdQqrVCn0/lBIwI5+vn4e8WLVhsEuco8EB/YUnp1kTv8SV1Boy2zEHOOuGKT2RAVZZqJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752630168; c=relaxed/simple;
-	bh=xPTaJ/vt4lk2a72T8bc6Fse4Xs2FqJLAdSx3tQyf6gE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A5vchCp15kPa+gBoi2n9tFu8BWzQyBr4DVQD6VCnKCvCTnJDXUakNCwRao4PCf+zeR0xzD6AXn3Go7MFjdbgMbgXDqsbJ5u9j8cgANJFMxr4UCMmUWXzzIu9tsSR8ANg2MWtZHxuko/aVTKbvIXZJGAlfrcod3wK8uqteh5JgQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jvxFQfYd; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752643938; c=relaxed/simple;
+	bh=87KcNmcNCfKzd5C+FHrTqadt2gHiOHzdg+/afSRwOF0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=dYb6s8PI0Si1XPAB0Kjuu4B9CRMvbrVi936H8BhMw5FVu37NtmVDVG9j2q79xepZmID93ia3KKczhSdZs9ip/Q+S6BVKbeM/pXZZPQKqEWlEJXdeEgY5iwfvkeEJtxBMokfMo68qj+q17JxKmP4+WAqw+Vy4EZ+g+RFeNQPGfzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=mfPDwXvS; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jvxFQfYd"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a577ab8c34so590930f8f.3;
-        Tue, 15 Jul 2025 18:42:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="mfPDwXvS"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7490cb9a892so3774031b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 15 Jul 2025 22:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752630165; x=1753234965; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GLeyLYXEFMibFLWvaUdvqmO2gpxZqhTUQ7OQNA+GmDk=;
-        b=jvxFQfYdEtOXLOEhma+zVUEeJWQjIo8MvFhwC1cFOWNr7CboCiS19rdb+UKigO30uY
-         i4wNZQBu8va5mUg6YvJLJ9lj1bS3mTl88E9nvZxvnRnXBUrMWhQClOl1L2GIGF/jWDCq
-         OfqLkiKkU1C/51STgTBcdEvCzI5BHhs3kg/YcjI5lhv/fCegOs2t7+YkfxcB3nziq1Ro
-         dBio46sEHB56aBChZRSibovTaCA4NBSCNdWGpZfOQK/sW31ETyRJpn+N/qr8uJqJgOE5
-         PdJtyPSeKMGkGiFIwbewNfahUf7Fzf6dxGFMJme145XOoARBbYd9FBlnR+XAC4dQU4tR
-         LWRw==
+        d=brighamcampbell.com; s=google; t=1752643935; x=1753248735; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RCMRUZQFGpcymBqkIe3rm+bYJxEBRs5oUHZ2hwPslEg=;
+        b=mfPDwXvS2+oIeABoir0mWyxVVI8mKZPiBidSXLVzAyd/+jgjewbBbPkSwOfOKcaHcG
+         pu5lY7XY7lCKQlQopNCxjQlCTS2DA9v9MUK7ANh3Td+EKqb2/jgwv66NHXP6/vT0cL+4
+         Alhav27hmkpcH5XzC2nNzwSqTxdfc2CRBaS9nkQdfWitAH7roiXaEaBBDeff87EVSu+U
+         UNcZovpAgPwULubZsaxB6YQBfTK1/Uqqa7c9d/WfVbUWEmFFOBsmd27WxVqcaqg+uERs
+         0Ml0da6PCOMlgmC6Ftm/JMOCbWL6RsQF97kN178YcwK3QbKqA/LbTipqzOV/q3J1jtcy
+         RaWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752630165; x=1753234965;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GLeyLYXEFMibFLWvaUdvqmO2gpxZqhTUQ7OQNA+GmDk=;
-        b=YEfgSiQdNiAwHXXfIlD/4/EGtBLQHgZWn9dYHH83eVF/An1YNk5v72qbUWFLt0rTbZ
-         QxfTARWJJMyOY2uJ7J7DoQGVT8uT+fmKYTsYOgPvp6UFCrwt6afRILMzQ4l785noMl/U
-         bVPm0Rhqc9z+ecT4vpn4H5KYV8b5lwd3Hw62hoj7A5IiIgov1RslXb/ZpFDHroPGrLz3
-         qLCrHtydXbyBDPJSzk4n1Qy9xZMkp0JBCDYWtKDP9dPio17+yuCtwqASirN9AdFBXKWo
-         Sw878B/otfPx1bquOpeg6bfUK6cmETRwsFTGP4oDO5JUMFXoyIvfPazzCyuOrjXc8Air
-         aUkA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEZKKK+UyoK6u7+zvbncF2pTFWjOgtas2G6ZfYGCSf4RsQ28P4Y3G7SqXrgeXELfOBhRp1TsMSq75wRMD2CdlcrQQIQg==@lists.linux.dev, AJvYcCXBSiaGJtrXHmsYhHkmAxDVXAKvjdNEYecGleZDZ8cGAVlMa84SD1jCVX6v2W8+rsNSMK2B6suVq636/hvPgQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxymJJj9Rf/6n0xaKguB5cCtDVvVrpDMNAmHAi+65GnFa2lOB5S
-	+dzRgDEW39+/X1n2pk3BaoAAHqDDDzlTRywZkfg0WU0KhjdxrAs7E48e
-X-Gm-Gg: ASbGncvtmPBJNwF1QctMRt28rv5RMjLQ5FnQZ6CEW0lAWITmzy0MkotRw4d/taJxJLP
-	+vVf9iv4KMiP/dyaqdP20Y8JS3TEvQGY3xkbNGXULhWJJlr7yL/us3XG+GUSZqf9QEgCdImbaR0
-	m+hZhhcr1SgTpCmOaCn+su1Zhj+u/6YmiTSE4wgPfDhkQHClne8iJpWSdmz+eSuy+jE3QHzCseF
-	L/u0ArWv7UEZqdD6aL8HPUlOWqgvhN1kT80Idr06Z+KxGami7n0pKewkDtiD5dpT/1/yPusMbeT
-	QpJ1V1v19+RJHtQZIvi4GrGkSUpxip4rp7c+tiRgvwoQ/2y/lxQ4RxPpdokpBOT61YInhE9VlTu
-	/pKmeT451yPsa3PM+5f0uK8gXt+iNbiOBMUovgKyoya7lj5iP87QszLMghzv9
-X-Google-Smtp-Source: AGHT+IENO4+qmqIviSlPAbVS9ZtjYXYAhHGWqJPgF2KWiIPDRbXn2F7WUNRL/NiNhLjZHit3fOEBMw==
-X-Received: by 2002:a05:6000:471c:b0:3a5:8b43:2c19 with SMTP id ffacd0b85a97d-3b60dd52f15mr298310f8f.4.1752630164926;
-        Tue, 15 Jul 2025 18:42:44 -0700 (PDT)
-Received: from localhost.localdomain ([156.208.220.148])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e0d76fsm16785637f8f.64.2025.07.15.18.42.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 18:42:44 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH] staging: media: atomisp: add missing mutex lock in atomisp_s_fmt_cap
-Date: Wed, 16 Jul 2025 04:42:25 +0300
-Message-Id: <20250716014225.15279-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1752643935; x=1753248735;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=RCMRUZQFGpcymBqkIe3rm+bYJxEBRs5oUHZ2hwPslEg=;
+        b=iwf3D50T8aP3NQQLNYJLgIyj4EYwd2swyO3+ZJ0+EENBH0R0usICgZDNsVsLM9qYYH
+         mI5XH5wUQChG2LkUwFzQkHKTrgFAsMINV6keDmGGJU0YL7i2Gcy2yWkkvH6DocYk37SI
+         boYBaSsSngYLz10NIMb/yLFyJj1LrO8J8oo+U56bOUcVWTmERgoby4nMbYRtD9wqitYs
+         VGelpJbDb5jkdMMtgAhKhTcKlSE2JNdevkCUA2A48FhowsfTP4yqJtCRNkV6C9q3MrVn
+         HF+J4n1t5hljuTQMV+Jz1cpbKMhvSQAnDy5Ss95NLtFrHWd5/ZslRoqFlKb5isFzVdEN
+         /xMA==
+X-Forwarded-Encrypted: i=1; AJvYcCUbGZ0mWAu8bmyqfwR7aaQ21LBZxsSCZpUixyvghda7y2n9PXWQ5+AoCB5ByLDpcFyYkSvyrVIJb6c5e6DR4aVpoRxdBA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVXagxr6kvqyIScXb3XJh9SKLxTs6kGFWQJpg0DDXxg4qd5gT3
+	VKRVmMInHFndShU54ytGM0qTg1WUi/ZtWk7Q4y+gOhVZ0TGV245h/9zzcxLWJ17V49s=
+X-Gm-Gg: ASbGnct6OcVzIanq4VyxB2DV8PfDHzcOfVIx+JQIJbIEiWXZ4AEc4F4hlWoDh6oh8Gq
+	ShVYho8yy7SQ2jW90kiztjXAKriGVqibA4IkwW9eAp0kvwpgyPRvzNK3URNOKvCkucY5wGyj4J4
+	wAwta1LM1c8x6YxlFPrkVuVdLU6GPveBjxGP7w6Nf2eoEQj8G9dHJQl+KrnA56SoeGn9BmQautp
+	b/Eg+4SkZmpYy5CNt+0akJxKdTrsfHaVvRHg5NV82YwC9WkLHZwO4JmEki+HDIwSQdWDDzkQw3f
+	QuagNtWA0Lv4Nj3UOutTYT3fKcLfg5/mRGMKh3V590CCUV0R30Wg8v3Yz+cK7ssZ8hGIlCX7Zwv
+	QgVLdceOidJHjIgicgk8=
+X-Google-Smtp-Source: AGHT+IGzq1EuT7l9xYvVOR/aL8LMKVAB7h0jn6W/ldNNUwCMMtMkTDWuR5Zq3zFKgnv8U+oOw6+/dA==
+X-Received: by 2002:a05:6a00:887:b0:736:50d1:fc84 with SMTP id d2e1a72fcca58-756ea8b5c61mr2671787b3a.21.1752643935242;
+        Tue, 15 Jul 2025 22:32:15 -0700 (PDT)
+Received: from localhost ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9dd5a9fsm13908822b3a.11.2025.07.15.22.32.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Jul 2025 22:32:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 15 Jul 2025 23:32:12 -0600
+Message-Id: <DBD8F7HINUHO.2487OZTDLKOWQ@brighamcampbell.com>
+Cc: <tejasvipin76@gmail.com>, <skhan@linuxfoundation.org>,
+ <linux-kernel-mentees@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, "Jessica Zhang"
+ <jessica.zhang@oss.qualcomm.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
+Subject: Re: [PATCH v2 1/3] drm/panel: jdi-lpm102a188a: Update deprecated
+ MIPI function calls
+From: "Brigham Campbell" <me@brighamcampbell.com>
+To: "Doug Anderson" <dianders@chromium.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250708073901.90027-1-me@brighamcampbell.com>
+ <20250708073901.90027-2-me@brighamcampbell.com>
+ <CAD=FV=UaNsMRqv_ncr-Xr9pVQGAxUtwwQPmv7h=xqv6RtDUvmg@mail.gmail.com>
+In-Reply-To: <CAD=FV=UaNsMRqv_ncr-Xr9pVQGAxUtwwQPmv7h=xqv6RtDUvmg@mail.gmail.com>
 
-The function atomisp_set_fmt() modifies shared device state and expects
-callers to hold the isp->mutex for synchronization. While most internal
-callers correctly lock the mutex before invoking atomisp_set_fmt(), the
-V4L2 ioctl handler atomisp_s_fmt_cap() does not.
+On Mon Jul 14, 2025 at 3:46 PM MDT, Doug Anderson wrote:
+> Hi,
+>
+> On Tue, Jul 8, 2025 at 12:39=E2=80=AFAM Brigham Campbell <me@brighamcampb=
+ell.com> wrote:
+>>
+>> Update jdi-lpm102a188a panel driver to use the "multi" variant of MIPI
+>> functions in order to facilitate improved error handling and remove the
+>> panel's dependency on deprecated MIPI functions.
+>>
+>> This patch's usage of the mipi_dsi_multi_context struct is not
+>> idiomatic. Rightfully, the struct wasn't designed to cater to the needs
+>> of panels with multiple MIPI DSI interfaces. This panel is an oddity
+>> which requires swapping the dsi pointer between MIPI function calls in
+>> order to preserve the exact behavior implemented using the non-multi
+>> variant of the macro.
+>
+> Right. We dealt with this before with "novatek-nt36523"...
+>
+>
+>> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+>> ---
+>>  drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 160 +++++++-----------
+>>  1 file changed, 59 insertions(+), 101 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu=
+/drm/panel/panel-jdi-lpm102a188a.c
+>> index 5b5082efb282..5001bea1798f 100644
+>> --- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+>> +++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+>> @@ -81,25 +81,20 @@ static int jdi_panel_disable(struct drm_panel *panel=
+)
+>>  static int jdi_panel_unprepare(struct drm_panel *panel)
+>>  {
+>>         struct jdi_panel *jdi =3D to_panel_jdi(panel);
+>> -       int ret;
+>> +       struct mipi_dsi_multi_context dsi_ctx;
+>>
+>> -       ret =3D mipi_dsi_dcs_set_display_off(jdi->link1);
+>> -       if (ret < 0)
+>> -               dev_err(panel->dev, "failed to set display off: %d\n", r=
+et);
+>> -
+>> -       ret =3D mipi_dsi_dcs_set_display_off(jdi->link2);
+>> -       if (ret < 0)
+>> -               dev_err(panel->dev, "failed to set display off: %d\n", r=
+et);
+>> +       dsi_ctx.dsi =3D jdi->link1;
+>> +       mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+>> +       dsi_ctx.dsi =3D jdi->link2;
+>> +       mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+>>
+>>         /* Specified by JDI @ 50ms, subject to change */
+>>         msleep(50);
+>
+> Needs to be mipi_dsi_msleep() to avoid the sleep in case the above
+> commands caused an error.
+>
+>
+>> -       ret =3D mipi_dsi_dcs_enter_sleep_mode(jdi->link1);
+>> -       if (ret < 0)
+>> -               dev_err(panel->dev, "failed to enter sleep mode: %d\n", =
+ret);
+>> -       ret =3D mipi_dsi_dcs_enter_sleep_mode(jdi->link2);
+>> -       if (ret < 0)
+>> -               dev_err(panel->dev, "failed to enter sleep mode: %d\n", =
+ret);
+>> +       dsi_ctx.dsi =3D jdi->link1;
+>> +       mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+>> +       dsi_ctx.dsi =3D jdi->link2;
+>> +       mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+>
+> I think you need this here:
+>
+> if (dsi_ctx.accum_err)
+>   return dsi_ctx.accum_err;
+>
+> ...otherwise the code will do the sleeps, GPIO calls, and regulator
+> calls even in the case of an error. You don't want that. Then at the
+> end of the function you'd just have "return 0;"
+>
+>
 
-This results in an unsafe execution path for VIDIOC_S_FMT ioctls
-(e.g. via v4l2-ctl), where shared structures such as pipe->pix and
-pipe->frame_info may be modified concurrently without proper protection.
+Regarding these two suggestions, I prepared this patch with the intent
+to change the drivers actual behavior as little as possible. It looks
+like the original driver will happily msleep and try to continue
+initialization even after an error has occurred. Of course, using the
+_multi variants of mipi dbi functions kind of implies that we want to
+stop communicating with a display after an error has occurred. And
+because all _multi functions are effectively no-ops after an error has
+occurred, it doesn't make sense to perform the other half of the
+initialization sequence while anything involving mipi is dutifully
+skipped.
 
-- Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
+I'll make these changes in the next patch revision.
 
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+>>  static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
+>>                                        struct mipi_dsi_device *right,
+>>                                        const struct drm_display_mode *mo=
+de)
+>>  {
+>> -       int err;
+>> +       struct mipi_dsi_multi_context dsi_ctx;
+>
+> I think you should actually pass in the "dsi_ctx" to this function
+> since the caller already has one. Then you can change it to a "void"
+> function...
+>
+>
+>>  static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
+>>  {
+>
+> I think you want to pass the context into this function too and make
+> it "void". Then the caller doesn't need to check for the error before
+> calling it...
+>
+> Then the "msleep(150)" after calling this function can change to a
+> `mipi_dsi_msleep()` and you don't need to check the error until right
+> before the LPM flag is cleared...
+>
+>
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index bb8b2f2213b0..9bf0be00657c 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -416,8 +416,15 @@ static int atomisp_s_fmt_cap(struct file *file, void *fh,
- 			     struct v4l2_format *f)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct atomisp_device *isp = video_get_drvdata(vdev);
-+
-+	int ret;
- 
--	return atomisp_set_fmt(vdev, f);
-+	mutex_lock(&isp->mutex);
-+	ret = atomisp_set_fmt(vdev, f);
-+	mutex_unlock(&isp->mutex);
-+
-+	return ret;
- }
- 
- /*
--- 
-2.25.1
+About the suggestion, "you don't need to check the error until right
+before the LPM flag is cleared...", if I change
+jdi_setup_symmetrical_split to accept a mipi_dsi_multi_context pointer,
+the driver will output "failed to set up symmetrical split" even if the
+error was encountered well before setting up the symmetrical split
+(meaning the driver doesn't even try to set up symmetrical split at all).
 
+The appropriate solution will be to either maintain the error checks in
+the driver, or remove the print statements. For the next revision, I'll
+simply go ahead and remove the error print statements because:
+  - the mipi _multi functions should handle error printing well enough
+    to facilitate tracking down the particular mipi sequence which
+    caused an error during probe/unprepare.
+  - less logic in this driver makes it easier to maintain
+
+>> +       struct mipi_dsi_multi_context dsi_ctx;
+>> +
+>>         /* Clear the manufacturer command access protection */
+>> -       mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
+>> +       dsi_ctx.dsi =3D jdi->link1;
+>> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, MCS_CMD_ACS_PROT,
+>>                                    MCS_CMD_ACS_PROT_OFF);
+>> -       mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
+>> +       dsi_ctx.dsi =3D jdi->link2;
+>> +       mipi_dsi_generic_write_seq_multi(&dsi_ctx, MCS_CMD_ACS_PROT,
+>>                                    MCS_CMD_ACS_PROT_OFF);
+>
+> All the duplication is annoying. In "novatek-nt36523" I guess we only
+> needed to send _some_ of the commands to both panels and so we ended
+> up with a macro in just that C file just for
+> mipi_dsi_dual_dcs_write_seq_multi(). ...but here you seem to be
+> needing it for lots of functions.
+>
+> Maybe the solution is to add something like this to "drm_mipi_dsi.h":
+>
+> #define mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, _args...) \
+>   do { \
+>     (_ctx)->dsi =3D (_dsi1); \
+>     (_func)((_ctx), _args); \
+>     (_ctx)->dsi =3D (_dsi2); \
+>     (_func)((_ctx), _args); \
+>   } while (0)
+>
+> Then you could have statements like:
+>
+> mipi_dsi_dual(mipi_dsi_generic_write_seq_multi, jdi->link1,
+> jdi->link2, &dsi_ctx, ...);
+>
+> I _think_ that will work? I at least prototyped it up with some simple
+> test code and it seemed to work... What do others think of that?
+
+In my opinion, this change is absolutely worth making, but the creation
+of a new macro like mipi_dsi_dual in drm_mipi_dsi.h is beyond the scope
+of this patch series because it has implications for panels like
+novatek-nt36523 and others. It looks like you've already effectively
+completed the work of implementing the macro, but I'm happy to address
+the adoption of the macro in lpm102a188a and other drivers as a part of
+a later patch series. Besides, there is no more duplication in this
+driver after applying my patch than there was before.
+
+Of course, maybe that's just me being pedantic. I'm happy to include
+mipi_dsi_dual in this series if you insist.
+
+
+Thanks for the thorough review,
+Brigham
