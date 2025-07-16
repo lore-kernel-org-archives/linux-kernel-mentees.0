@@ -1,155 +1,93 @@
-Received: from relay16.mail.gandi.net (relay16.mail.gandi.net [217.70.178.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182262F3C1D
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 16 Jul 2025 13:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DC926528B
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 16 Jul 2025 14:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752671380; cv=none; b=QaM6K5FpkL8bL0bTcA6phNaivNR1wQqkgWCsasDZID/GsTRCFIKtset+6b8W31X+CWLvcePKpqK2DBizDEo5wTnG38YvONEf2VqfQ15/F6039R3PnWTM/2EK8QnRUKlV1P8IPIrAmx0sL06I+VbkopVbTVTCfOgTcxDkG8jRkOI=
+	t=1752677287; cv=none; b=UX/bKnItrxENu9KwUaOZJDRMKpNsXxECJa8uG5DDq6R57KOYMuF/8PXhGdr7/d0kZQ/5sfpHfVQeY8M009brpX3Dow7VvNWLH8/J9r7WfLsb3E6ueAYu8CNrj8EW3FEHzz2quxAUKaKwx8cW1bipEUvNwwtqy/6tJ/mLH7eZGXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752671380; c=relaxed/simple;
-	bh=Tq/2KaStJzxYgXZpFCj99+W63ZyDYDMzJd+F8/Ad+5w=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=d7frTmDt90Yojd+b2aM0vTSyv1uUF7oAZOTt69ENyazZgJGJtxUnq/fjn5jcQ4C38VZSEusGXjGlbKpyPyCoBOszTLqZAuJHa6T1u0BQ7i5Oxpme8XzAbvlu2xSziLN3+6jApY32P/rP/EjPl1+iGfWWlZJ0Ha79yUk3xEGRi4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.178.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D141244984;
-	Wed, 16 Jul 2025 13:09:30 +0000 (UTC)
-Message-ID: <7e22a448-3cee-4475-b69b-3dd45b57f168@ghiti.fr>
-Date: Wed, 16 Jul 2025 15:09:30 +0200
+	s=arc-20240116; t=1752677287; c=relaxed/simple;
+	bh=buYIbE8b+yBnGJkQj4nap90I/0M3cyLAegERBn4DtZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hbBVoUccYxQxmiZ3Ar8d7zUjZk/VIEC7hVPL6eGuvjftc1IejAhpoipHhyvlE+YSfFuoYBRGLAvXiM4dghSg0hI/+CkUHTGHBzP878t1UF4QD+BrLFyi3iKmUf+WFwIPPLJcGivfbs757eIJyTF8xmx7x9p1TY5XbrVdEvfGGmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ispSD2IP; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ispSD2IP"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-234c5b57557so68401915ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 16 Jul 2025 07:48:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752677285; x=1753282085; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RLKg2EVNsiY8pEWCCtBrcomCdD+iwAcVZcaj3AoOsps=;
+        b=ispSD2IPwt1MOnTNOSi0pQ4/ICxm2FrN6AZUoi0rBpNcDfJrAAvk1/QgkeCuXKKZyI
+         SUtsIdfvCgwiHczx7wYrFyG83n1/trNs5TQHWU+2i0t0OITSMT5rjQaK5URrttje0LOT
+         gkBrTfz5TB320c8AqwVdmJhaiVpzPN2jroGHCKVmhG0hrYTOGl/pUaQdVMlmo8YkaqgP
+         lNkZG9FVGfx3yE0wF7OeK4l1QgynW3q2+ffCDvRPv/2BAJs3l8Fvp9s5ZC8M/n0z4IOk
+         qQjRDTDPMLoMRm+HolY6/5yJaM0XJn/yBw5+p7O2Qh61KS0/6GOWelp2LHi//Ez3yN8e
+         S4Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752677285; x=1753282085;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RLKg2EVNsiY8pEWCCtBrcomCdD+iwAcVZcaj3AoOsps=;
+        b=Er+UFwQT8QABHgs/ictXyToM9Hi8ni/oAHRIqO2nTwTIMsTS5P5lCzziCc9780wllo
+         ZodOikTRWJGMSUB3HBF6pFeQTYWxMFKmnFUj6G9ww2ffWlxqZgk9PSGZf9W7xIBFXuqb
+         iuqvEMi+51u4ingO69dM+RcPw6hWs0eBJtntuhDEVowFbWQldlKnPSlbvAY4eqDyzup+
+         oD5p4lg6BHHbsexl10MFzBKaVXppCzM4lF+HfHmJYESm19eYryGQQMu939VZbBZfCptG
+         iWuSahgi01BHhWVY9UYCjWjt4HRhjiCzD/mq8kodtUrrhBKZZAwBK+ANB55Piv+/irxc
+         7nJw==
+X-Forwarded-Encrypted: i=1; AJvYcCVBGPqsAFHqnS1XuYCWPNrk7NIF3drpirENAeWc7T412XLkXsIAPJpJ9nFV26rfBE0d1uK8kxjmmUflUqrPfY3OXf5+ew==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzstVRvGoDDXS9rAzOdrY9Zcg3tj+pxN/X8Gv+usVBYOJRrPgA8
+	nlTbPO2wfEvLSnM3dKDK6+IDpIh/UNVu0CmEx0/SaR6rXrbuRawD2IIEdWTNjw==
+X-Gm-Gg: ASbGnctuK7Uf9QjkgArqJ0AC/4w12jDPNH5N1ekVgxfIjXanV088iL1xYpADqJjxdGz
+	SJ6kuvVhDy6jXqcJpemcf9DnKSs/qLxd5YVyc1fVy7M3VgvpSMZk6wy2btfrcS4c2UvqQFtR8Yj
+	J/2v+geJQ0aCEjPXB9G0mNmrT5sLHV5E+mW5SYLCsApHQtsewAaKZvGvch+1ccLGSQRbvsZaC27
+	Nz3Q0pEUQB/4hffkVm0p2F2AMoLt1PpMh7N9N/oj8C47yR0JJ2GxaESJEYFVIPouV4a+N3xNnVP
+	BWqfcGrsPISj+/PLVR4vde8Y5VYKGpFCUJGIwiWyAF98NYZ4o8XQussqIaDZRXCtExQFthLH//Y
+	RK95JjaLPtmAa0so44z754Xr4tKHGK5tEAUM=
+X-Google-Smtp-Source: AGHT+IECtyEgUczaoPOLaIGNwOtcRqgorDLvQjbeRFw9z5fqGFExQtpeppviy6cQ4ZcWp0JL41yi+A==
+X-Received: by 2002:a17:902:d2d0:b0:234:8f5d:e3a4 with SMTP id d9443c01a7336-23e2568542dmr50953805ad.2.1752677284798;
+        Wed, 16 Jul 2025 07:48:04 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4322b17sm131023205ad.103.2025.07.16.07.48.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 07:48:04 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 16 Jul 2025 07:48:03 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+Cc: jdelvare@suse.com, linux-kernel-mentees@lists.linux.dev,
+	shuah@kernel.org, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: max31827: use sysfs_emit() in
+ temp1_resolution_show()
+Message-ID: <607fadd3-1c7a-4efb-8d31-8117f1ee6e50@roeck-us.net>
+References: <20250712131447.326995-1-khaledelnaggarlinux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] Implement endianess swap macros for RISC-V
-From: Alexandre Ghiti <alex@ghiti.fr>
-To: Ignacio Encinas <ignacio@iencinas.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Arnd Bergmann <arnd@arndb.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, Zhihang Shao <zhihang.shao.iscas@gmail.com>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- linux-arch@vger.kernel.org
-References: <20250426-riscv-swab-v4-0-64201404a68c@iencinas.com>
- <57352cc0-420b-42e6-a493-2764794a5206@ghiti.fr>
- <aae8559c-88d2-4882-92cd-7e906eb8b7d6@ghiti.fr>
-Content-Language: en-US
-In-Reply-To: <aae8559c-88d2-4882-92cd-7e906eb8b7d6@ghiti.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdehjeejlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffhvfevfhgjtgfgsehtkeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhepfeelheeluddtheekudfhveduiefgueefueffvdduvdejvdekueegueetleefveegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpihhnfhhrrgguvggrugdrohhrghenucfkphepvddttddumeekiedumeeffeekvdemvghfledtmeelhedtugemfhgtgeeimeejjeelvgemvdhfvgefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeeffeekvdemvghfledtmeelhedtugemfhgtgeeimeejjeelvgemvdhfvgefpdhhvghloheplgfkrfggieemvddttddumeekiedumeeffeekvdemvghfledtmeelhedtugemfhgtgeeimeejjeelvgemvdhfvgefngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehighhnrggtihhosehivghntghinhgrshdrtghomhdprhgtphhtthhopehprghulhdrfigrlhhmshhlvgihsehsihhfi
- hhvvgdrtghomhdprhgtphhtthhopehprghlmhgvrhesuggrsggsvghlthdrtghomhdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggvpdhrtghpthhtohepvggsihhgghgvrhhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250712131447.326995-1-khaledelnaggarlinux@gmail.com>
 
-Hi Ignacio,
+On Sat, Jul 12, 2025 at 04:14:46PM +0300, Khaled Elnaggar wrote:
+> Replace scnprintf() with sysfs_emit() in temp1_resolution_show(),
+> as recommended in Documentation/filesystems/sysfs.rst: show() callbacks
+> should use sysfs_emit() or sysfs_emit_at() to format values returned to
+> userspace.
+> 
+> Signed-off-by: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
 
-Can you come up with a new version that only touches the riscv tree so 
-that we can merge this in 6.17? Not ideal but I guess we can live with 
-code duplication for now.
+Applied.
 
 Thanks,
-
-Alex
-
-On 7/9/25 17:12, Alexandre Ghiti wrote:
-> Hi Arnd,
->
-> Gentle ping as we would like to merge this in the riscv tree but we 
-> need your ack (or nack).
->
-> Thanks,
->
-> Alex
->
-> On 5/16/25 16:37, Alexandre Ghiti wrote:
->> Hi Arnd,
->>
->> Do you think we can merge that for 6.16? It is nice improvement for us.
->>
->> Thanks,
->>
->> Alex
->>
->> On 26/04/2025 16:56, Ignacio Encinas wrote:
->>> Motivated by [1]. A couple of things to note:
->>>
->>> RISC-V needs a default implementation to fall back on. There is one
->>> available in include/uapi/linux/swab.h but that header can't be 
->>> included
->>> from arch/riscv/include/asm/swab.h. Therefore, the first patch in this
->>> series moves the default implementation into asm-generic.
->>>
->>> Tested with crc_kunit as pointed out here [2]. I can't provide
->>> performance numbers as I don't have RISC-V hardware yet.
->>>
->>> [1] 
->>> https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
->>> [2] 
->>> https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/ 
->>>
->>>
->>> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
->>> ---
->>> Changes in v4:
->>>
->>> - Add missing include in the 1st patch, reported by
->>> https://lore.kernel.org/all/202504042300.it9RcOSt-lkp@intel.com/
->>> - Rewrite the ARCH_SWAB macro as suggested by Arnd
->>> - Define __arch_swab64 for CONFIG_32BIT (Ben)
->>> - Link to v3: 
->>> https://lore.kernel.org/r/20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com
->>>
->>> Arnd, I know you don't like Patch 1 but I tried your suggestions and
->>> couldn't make them work. Please let me know if I missed anything [3] 
->>> [4]
->>>
->>> [3] 
->>> https://lore.kernel.org/linux-riscv/f5464e26-faa0-48f1-8585-9ce52c8c9f5f@iencinas.com/
->>> [4] 
->>> https://lore.kernel.org/linux-riscv/b3b59747-0484-4042-bdc4-c067688e3bfe@iencinas.com/
->>>
->>> Changes in v3:
->>>
->>> PATCH 2:
->>>    Use if(riscv_has_extension_likely) instead of asm goto (Eric). It
->>>    looks like both versions generate the same assembly. Perhaps we 
->>> should
->>>    do the same change in other places such as 
->>> arch/riscv/include/asm/bitops.h
->>> - Link to v2: 
->>> https://lore.kernel.org/r/20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com
->>>
->>> Changes in v2:
->>> - Introduce first patch factoring out the default implementation into
->>>    asm-generic
->>> - Remove blank line to make checkpatch happy
->>> - Link to v1: 
->>> https://lore.kernel.org/r/20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com
->>>
->>> ---
->>> Ignacio Encinas (2):
->>>        include/uapi/linux/swab.h: move default implementation for 
->>> swab macros into asm-generic
->>>        riscv: introduce asm/swab.h
->>>
->>>   arch/riscv/include/asm/swab.h   | 62 
->>> +++++++++++++++++++++++++++++++++++++++++
->>>   include/uapi/asm-generic/swab.h | 33 ++++++++++++++++++++++
->>>   include/uapi/linux/swab.h       | 33 +---------------------
->>>   3 files changed, 96 insertions(+), 32 deletions(-)
->>> ---
->>> base-commit: a7f2e10ecd8f18b83951b0bab47ddaf48f93bf47
->>> change-id: 20250307-riscv-swab-b81b94a9ac1b
->>>
->>> Best regards,
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Guenter
