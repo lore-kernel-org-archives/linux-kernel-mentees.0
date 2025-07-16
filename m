@@ -1,124 +1,104 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245C22F5C4C;
-	Wed, 16 Jul 2025 17:27:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7290629AB00
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 16 Jul 2025 18:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752686864; cv=none; b=bd7cxyltEiNoh3xzj4nlTU3hgHoofhYldsVrobmF9BziAXRXAsRZjoN5nGic4LY7ErxJ4GVBh4Q4drEsj13l583xWeuPB1SlgVkPCaF7MzX+zfQV65zGHSbqZJieLSEjOAXMyw0SSdy7m7Cwycst53pc27c8q7kVfxSFk+auXdQ=
+	t=1752690110; cv=none; b=GBQE6ohgX24SZyNm5Wew/Ts2KBYQhedpVMwni3mJ+HHYiSymKpD+cZcNd/p9LyfoSvUhTmk7dCoYpbLpXOhlMOY+ARYjCbNIsqZcmJHb+wnpywX9ZpO+oizBi9SGmz7KRB21xUKrZfjD1zds/zumvxhqeBFlxMbB2jj4RL3257g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752686864; c=relaxed/simple;
-	bh=vGllGUCGiDgHJ1wVGKD70Ly2L0DljA2b3eYLzfs3SOk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T/XoqA00gMHmtY6fOI3gBjb9PnRQvco4wU4xyIrSkoMF8xwXTzEwizZ2gUjZt4i5NPUQLLVEw58xpBTwa5EBAWcaQHNToC3C7A7Jb9SkWBsaz0wcPUzWY5KzONp36eQPWGmjGRVmD04MG2ZmzEbw4uE9L9RK2gC9y3LpgpRmaos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RKplPYRw; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752690110; c=relaxed/simple;
+	bh=bSE6/htDCjhVwR/NENeM4sfjDZISV5OmZWcaU5WSJWI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k7449RnS/j48xHyQARNKw1zfSxZp8PdzuPDqwVsoEbbho0+YzWt2boDnGJ36SeJomYpAy5AgMDu6GNFBWWgyzdHMV1zEJrFToFLn9++p8cN16B48QiOcaFkSuHgNWr3iht65v4/EknwTOe4P206fZVnvBoo8zpN/2VzPpG2szeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Jo3mIxaI; arc=none smtp.client-ip=209.85.210.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RKplPYRw"
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e8b802286efso19177276.3;
-        Wed, 16 Jul 2025 10:27:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Jo3mIxaI"
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-73ce7b40d7aso113548a34.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 16 Jul 2025 11:21:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752686862; x=1753291662; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NvloVeMtiDsDLEZd6NogCW6v2SRhUa+PTaZTZmI7UkU=;
-        b=RKplPYRwQjLx7UiPlhf5TSMTom0afZuiCIcDGOiE202OZJmAHH9MK30ySA5rdYeGQm
-         GaSdu+aZntiJ+3RoHEksCO6AvxNHruFgxxF0qVrpsknTBrapQtUNpCb6x1UIocHfIHtR
-         7c6XLYNLvGqlzK3YuBVYLKczNr6Kn6mikVpcbu39DzSdQOQW4gn/Vc8Z8l9vFAqPgXv2
-         LHOTjCpm9W4Lltcaa2cFFRUHUyjC3/XMXCLT2DJ03u9t6+GM0Ho4sM9U9FtQLK+UpvWA
-         koniTB1zrx7duRNZnDVB1+zxvRKhbmUDl8DmZ89YSX2ErHaNTPLLsL1wcX+7CNJ/omh5
-         HXlw==
+        d=linaro.org; s=google; t=1752690107; x=1753294907; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+I5gJUMV6DaD5nZCZUo7tbib3WO9WKglwCazUnA13Q8=;
+        b=Jo3mIxaIM9H3C8Wyt0Gz3JMoXjn8bsp1eTVSyj63sms1hyidCDSuqjB3KiktZRMpur
+         lzvRBfcQ9+kXNCBR4Y5Fyriz+2Kja3DkVxBSy/CvzQZSg/Gni+VYyI4pQyReaU+3sNT5
+         qUVYgcr045L1ybpyDqyirLb4t1AbqM3nWcGDnuemlF14g9izoYRLAtFPptj6fBYNwu3Q
+         CrhGABCLXR1pQJT70cUqsw0fMDlOb/AeaUB0YFEUOCMJ0qtC+Da/GtWDwSbGbr0EPC9b
+         5iFOKGXyFjULN2CX+a/MFZOU+wNHRlt3bcqSVq30GG1Bp3umDN4zirX0Ycl33wjh+zq2
+         neAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752686862; x=1753291662;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NvloVeMtiDsDLEZd6NogCW6v2SRhUa+PTaZTZmI7UkU=;
-        b=q6vDNzdgYaQjlmQfCUryJBt+YHqoVx943gwsNOX1RwCLVbs9be2GHdUYXkBJnczZE/
-         4vsT0jipCMuiDqmwnbKeis+iJEXsCdlISblp2v3U+IhFgU1GUc8vZSM3sw/W7H7rDi5w
-         a2ZMDIDHMBd/BXpkcSoHHq5/EEeVfouVTzMHFDTxXdp3tvHTEIsmSEGXKEvIpso2KOY/
-         qu7i/jDvJNq8icWGWV+Vd7wb/tPzbt4idiCS+UKF77t+HqoLslaXANwq4MMtcfNjuSfN
-         j+KLHZq+h0Wv25uZEOnvNgX4VZ1lFVVxSd0e0hu6i/W3KuIimFnSu6PjGutNXyEjt+6c
-         yn8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVbih7W8iCOvqR2Fh06qrcJBSKgrqhZKrPex4uLtoYKHGRMfd96OaLZulmHVRpS2wte9rIgEw1gVS3mcdAD/78EMoY6dQ==@lists.linux.dev, AJvYcCWH+hBkv6VKUIMVXLbR2gJs7i3KEOyZ+zX5oClrAopT2ra58m2i4h4PtGIBalONbU2N0poDgMsFrhHsLJm6OA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy99TeOlVQ9rpAclXQF+pQAKhf8O9/dRn89TYaBsG3KF+iwpDAF
-	RmM5mK1JGg/9uQbQi8E+aSThzKoTSdmHJSyHxKudFIbXvV1cydi7IGVRfog+/y3tog1P1nj4qCs
-	MW369mnJOTTQHcJiqlSwZY6TcGtv3Kn4=
-X-Gm-Gg: ASbGnct4yTH2ppWndrLF2D55k2XzCCB1bP7Sf8uQI3wkih+p37F40GajsFyQ+OuLnbm
-	RYhR1k/ok4WxDi5s+Z4qjvDUNJkTDuaSjbUTY9q8c1UBYysxR9iDpfBGvBnOXIpap3Y3gq80VN9
-	HJyIiT6oPqDQUbaIzVWuVW23x+HKG8zWxTZwbu2Ctf8Uzhq4bOrCCP3XbZOKzi0X4lBXoxNSNBy
-	k518aNClg==
-X-Google-Smtp-Source: AGHT+IFcZRB9tZAKWFUgshmLoFJAFSdkhYD1bM0wT/BrW7MpFemhgFBwLKraWqKGpig35iTB8Sh1V6QrJffqXy/oSu0=
-X-Received: by 2002:a05:690c:3:b0:714:49b:d58f with SMTP id
- 00721157ae682-71835187107mr27550687b3.8.1752686861665; Wed, 16 Jul 2025
- 10:27:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752690107; x=1753294907;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+I5gJUMV6DaD5nZCZUo7tbib3WO9WKglwCazUnA13Q8=;
+        b=oorP/9yVqWUwp+oBbELuHtmkqAu/fgHjvGFDeKP1BZYgcc4+29+4e/Bqki/KNm7tq5
+         LqiCXyYql/Mwm0AIFArDqzfpSDb8BpNYwojqaFY+lo3N57QfGBpwV+f8215o1KmaXbjC
+         /mJfbuASgCacH61SpGXl0UvWAhe82jdGtuyzUHcaLsTQFXr5OqVBc1FWwz1qI1kt9boS
+         NIMvD7Rd9EBfXvwDAN8OdEpWtIuqp+1S8cOwRaea80uro9a6lc6m+1xezaigh6VA6hm/
+         GdvpKeQWTLuY+cCbb8rHN/iLg+zGNjc43ds7AYWCQE3sdA14PeguKljlpkbTjkeVa4VB
+         wCYw==
+X-Forwarded-Encrypted: i=1; AJvYcCW9eG1cH5q767pn8ZnXwEMR4a1eG6ABm2prVm55t6upGHGqjEzC2x7q90CNm7FbZk3/243AdLBZJGzwf+XpzJ86V5upRA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwEYDcYvDGPj0BoF3V73cE13VK3OynlcRZLIjohAMVUdUAVMUxk
+	WmR5o2q6AT6HkIbNs8KOaqC48spmxhV4p8aso1hA+Yyg3a5AHI+uP/IY+xzAaItRF0A=
+X-Gm-Gg: ASbGncu76YhHqt12mGDtPvRPObA6QZs3vqeXZwaAQQlFtHkJxxBUZmG5xKqlYWDJqch
+	iEkfkMQruZWKSWIl/qlO9EbeacDhv9YcbSwwtZAhYv0sQ6vcxon3pWeJWUNqit+xkk7grBO2HBA
+	BCAGbc4BWIhgO/LBjMEd/05xTrVy8VVqJSC9pH1zn8OlNvusbntL9o3L+Rxik/sHRHO5ttM82Ce
+	Lwg7bZYRKoRjjIPfroinSDSte7STWrm3D0NMRyJ+X3ifXGNkuGTABsH0d7M6ACa00LyvJHOyNIt
+	fH4Emk5NEBdql1e1Egt/ek8Ab8MdDUAml2KAn7VoWe0tLffXdakuAlEHFLLrbkKOpsZ/hfmXsyM
+	LQ40m7z5ZBnoYQ7d5Ch3y7+IsODRv
+X-Google-Smtp-Source: AGHT+IEhlTR1gjdZzQg8e3cObaKUeHfTFTkWMXpRkjEp1uVPcyn+zwVpRrjFN9tYQgLGPfOIHTNFDA==
+X-Received: by 2002:a05:6830:4511:b0:73a:d3f6:8b22 with SMTP id 46e09a7af769-73e73219eecmr304837a34.11.1752690107122;
+        Wed, 16 Jul 2025 11:21:47 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:2564:68a3:7d6:cb7d])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73cf1064f39sm3187859a34.6.2025.07.16.11.21.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 11:21:46 -0700 (PDT)
+Date: Wed, 16 Jul 2025 21:21:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	andy@kernel.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH 0/3] staging: media: atomisp: More Cleanup on driver
+ AtomIsp
+Message-ID: <eb7fd8f3-1d6e-421f-b5d9-f9e2d2992da5@suswa.mountain>
+References: <20250712191325.132666-1-abdelrahmanfekry375@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250716014225.15279-1-abdelrahmanfekry375@gmail.com> <CAHp75Ve6rE22crmt5mUioWtkWm_-ODV+Dk2gcTQ8ickhMMkvAQ@mail.gmail.com>
-In-Reply-To: <CAHp75Ve6rE22crmt5mUioWtkWm_-ODV+Dk2gcTQ8ickhMMkvAQ@mail.gmail.com>
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Date: Wed, 16 Jul 2025 20:27:30 +0300
-X-Gm-Features: Ac12FXw688dtJae5mhU7UFhqJ-ZLDHJXMPWRh_b7-LKwxRnzxxdPYQexaIOmM0k
-Message-ID: <CAGn2d8NpjYse9k04Efy8cZtgs9sWwGD6s7LQqDyTcQ0+U3bMrg@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: add missing mutex lock in atomisp_s_fmt_cap
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
-	andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-	dan.carpenter@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250712191325.132666-1-abdelrahmanfekry375@gmail.com>
 
-Hi Andy,
+On Sat, Jul 12, 2025 at 10:13:22PM +0300, Abdelrahman Fekry wrote:
+> Continuing the cleanup work that is being done on the AtomIsp driver,
+> This series:
+> 
+> - Process the error inside hmm_init().
+> - Unifies the HMM init tracking method.
+> - move hmm related function to hmm.c.
+> 
+> Previously, These patches were sent individualy but they build on
+> each other so i resent them as one patch series
+> 
+> Suggested-by: Hans de Goede <hansg@kernel.org>
+> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
 
-On Wed, Jul 16, 2025 at 11:11=E2=80=AFAM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Wed, Jul 16, 2025 at 4:42=E2=80=AFAM Abdelrahman Fekry
-> <abdelrahmanfekry375@gmail.com> wrote:
-> >
-> > The function atomisp_set_fmt() modifies shared device state and expects
-> > callers to hold the isp->mutex for synchronization. While most internal
-> > callers correctly lock the mutex before invoking atomisp_set_fmt(), the
-> > V4L2 ioctl handler atomisp_s_fmt_cap() does not.
-> >
-> > This results in an unsafe execution path for VIDIOC_S_FMT ioctls
-> > (e.g. via v4l2-ctl), where shared structures such as pipe->pix and
-> > pipe->frame_info may be modified concurrently without proper protection=
-.
-> >
-> > - Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
->
-> If it's a fix, please add the Fixes tag.
->
-will do , thanks.
-> ...
->
-> > -       return atomisp_set_fmt(vdev, f);
-> > +       mutex_lock(&isp->mutex);
-> > +       ret =3D atomisp_set_fmt(vdev, f);
-> > +       mutex_unlock(&isp->mutex);
->
-> Side note: Can you consider switching the driver to use cleanup.h
-> (guard()(), scoped_guard(), __free(), etc)?
-will look at it .
+These seem reasonable enough to me.
 
-Would you please look at this patch series [1] , it hasn't got any feedback
-and i have more work that builds on it.
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-> --
-> With Best Regards,
-> Andy Shevchenko
+But it would be better if someone could test them as well.
 
-Link: https://lore.kernel.org/all/20250712191325.132666-1-abdelrahmanfekry3=
-75@gmail.com/
-[1]
-Best Regards,
-Abdelrahman Fekry
+regards,
+dan carpenter
+
