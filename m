@@ -1,130 +1,133 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F0C2F948A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 17 Jul 2025 16:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51C6145348
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 16:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752770366; cv=none; b=ifPDUKTv3ncSmTCynESv2XA7H5aE9a2bwGiAYddYAv09vvxdruemPd5RSG8eJuXQqEApcb4usN0CcMECx8L6TJGTRXVggj+XoSl8q+neFnZNNZRTI26s37xhNPFTAbGkHGYz7kSocIQsBl6myEDYwRz5yrpwxHNz4BYbncjdXTM=
+	t=1752770500; cv=none; b=lt8UG0bv8r/hC+plVcrB7sapNBvB0VdWXdrxfxFAC58KfcJ8oevhEheOCDVstRBhXfn5ZuBuIqwJxxiclSAAjzz7gt9Swxj2HMLRtrAyacGLTbw+802TtPJWIfFLrUEQOfolTVXqIMvA+es68E3HirPzXEEBGPp9RYco1U7SOU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752770366; c=relaxed/simple;
-	bh=DUuaQ5fBKnMeGewxsxqW1NmtpbgDaSIp9zGPMWqqa3Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fk9ARHi6F/DG4FVaf8BIKWo7DyR7DVB1LCa7Y9zIxQ9R7MIdgPGW1KLeZ+CB0caftk1QatgJB4LuCgFviTinttONei97IZ8fkxxg/mneAJcOvmkied6QOwswyHtmfVswGMcbksoAD0CWY6f7jVPfXpVp76X9AisYdQVGCR50DF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kPY+TatH; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1752770500; c=relaxed/simple;
+	bh=pPXx5Kxdptb3GobS6onHLMsPrJKy1RvezPijhN9+wfs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AnBDYla6y/oMSbySwRGkUoaaEJGNcPvX6lGn6PH/738mTf0/EZkUgGbMEdcpZR2nntQZ8GyQ14DHzOUxn4ysCVRRSgN6qE9aMgQ++05jJi9YJ/tY645vQCGOZDnbq/XYVWf4crkBxYkWnDT58nj7gLuAbZ5Ry8G5IQbH0xMswRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=FiLby5zC; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kPY+TatH"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AEBB483CEE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 17 Jul 2025 16:39:23 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -10.792
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 99osHkVTl9Mz for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Jul 2025 16:39:23 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=djwong@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org E592081A24
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E592081A24
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=kPY+TatH
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E592081A24
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 17 Jul 2025 16:39:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id D204C5C5B43;
-	Thu, 17 Jul 2025 16:39:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 728E1C4CEE3;
-	Thu, 17 Jul 2025 16:39:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752770357;
-	bh=DUuaQ5fBKnMeGewxsxqW1NmtpbgDaSIp9zGPMWqqa3Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kPY+TatHmQ+T9YDfwv/7mJ/0aor2fYIRcXUOWaXzMfKT1O3gg/yyleXmsK1fOv2SS
-	 Ce+Mpq10TVdPvhF8qyUSeGWDWNvMLuyxJuUeCH9Q0+9UePewq/gQKva6bymwMCVqPJ
-	 EPtIrNBIeEL20JNkU8BAvZVKe9wFWJrUhMkrDrtdttbNILVzx+2r8HUq7Lr/IfVoDe
-	 kfPjMDwyKXiASOcYar9+j2aFYuB4s0XHOw0U+hW1J9EdpBD/9mp6FSAKCLC9pq1plG
-	 hx12wTb5DWvbKO1BLglbC/qjbdBF6GDytUf2e/7Wz6vHWePlfDGuHsfHIQNBBoanlm
-	 2PtGGa/Blc53w==
-Date: Thu, 17 Jul 2025 09:39:16 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Marcelo Moreira <marcelomoreira1905@gmail.com>
-Cc: cem@kernel.org, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="FiLby5zC"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b31c84b8052so1224038a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 09:41:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1752770497; x=1753375297; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8zaVonVNWKr3b0dyGZR9LCJexaagL6PKA2t2eXcHfTo=;
+        b=FiLby5zChmZU7E3H87jjjZzyZdKOKMfWvXAmueP4vuZ0a7GdU2XlTgjhikKyZVKlEN
+         KC5yyBIUqcOlxwHlp4PzJbhWk65MvvNKygM+A5mcLq2EWTjFTK9/iikoJPvdi/QVaO1S
+         NdrD8mPiRjSMT+fDSNJGvHSMDJeWvsj5LXzwgyJnlYG0/EuTes4/wAA6utUM//DrD6k4
+         iVRrsO7+3gja7/qyRnOdo1q8Z75+QWDv19G06KKud1GA0pelP1/+289LU5UwPkP8AM/M
+         8NuEvKwstCnuXLz428EwWiDHayNy36fz21c/rw/J2mQ6cekjHvm2/tzG0a+2ntHCCpnx
+         UThA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752770497; x=1753375297;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8zaVonVNWKr3b0dyGZR9LCJexaagL6PKA2t2eXcHfTo=;
+        b=Nb5R3sXE0JC/KfNm9GCjzcEEfI2iJOMGnZxFjs1rwbYbEUNowohEB5mzNf7ctqyHIK
+         5GwwQ3gNDJzXztJ48EtVOFWT+KGjbM7bAr7pL+BPB/x1Uukmw6WDGUmp4NVkffUkeGjA
+         zY5S4IYthHdqJAfwM5qL+vWutJbNGrpoQ5p1J8RjdADl0z8OJEjSB1DhbYHhoHizgrTZ
+         wZGlDL0PM1LJYB71/c7bIAqK6krS/cPLFbcjACqQ7ARI3ByZ1e44TN6j8mT60NaF+Gyj
+         ZaT6/CF7mZuM6c89IZMgEcHYQXA5i3fuMLFyeyemOjaL5ZKbpP1tIDbasaqdny+uQ8NX
+         Vdtw==
+X-Forwarded-Encrypted: i=1; AJvYcCWwE0G9KJe02tisJwlvfI5vyxxFrZACeBaNG6LkgDK1M2aly0DY7MWaFGhQEsT1Cl9GLs9UQn5EktR116ChUCpz1l1qMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwXhE4P49vMQNNqnmSTPioT6yIa0Gqan1erk0eMzM/Q0QPMz03M
+	7QgSIgzaiytV7QuD23CKAgSHCiYmx5XCne3waVjoNL8UkbQi8IPJ10r3eIsV/oXqxGE=
+X-Gm-Gg: ASbGnctjQTraeUMffDssx8enisnhYQswwUTPLVVYdpbbVyarpj743cQwNxO92XRflwL
+	Tk3bT2OaIt0uY8PrkObCacFdS9Cy/xteajI8GekR+0iF79b8wJrHhUECI11a2zahdlne+bh3QPs
+	VGyHJt0+LsVsHpRpm0kSaUqkKBADxHIVRE6ssDHOG/PjbMQWlJLpeODJlO0E/blRJMuKa8Wn/Nh
+	SZgLTIxPzjbvjyjtHx2AJXqpu/EhJQBossglz2ekZ9sf+BJ0qsvxLsB3GxKE3WNPOa+8Ur1C7UU
+	Ke8v+8v1nfW9gREfkYogk50hW2QT278X3v2hIxCukEzwapVtdaKhNsMhJBpfIFotw9LESMtJFWc
+	DlQAJNVz04PfF5b9UZCGMN3BkhX+fs1W4HrwNA66jIu1jvzR5XA==
+X-Google-Smtp-Source: AGHT+IHnWxMFl+xdFfhd6iN1u48GSI5UYMmS7BfoELEh5F4oPsMjJBqSiWUBF1GSB6ivy5k7UULcDQ==
+X-Received: by 2002:a17:90b:390f:b0:313:1e60:584d with SMTP id 98e67ed59e1d1-31caf844db3mr5977675a91.11.1752770497172;
+        Thu, 17 Jul 2025 09:41:37 -0700 (PDT)
+Received: from mystery-machine.tail542cf.ts.net ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31caf7e8ae4sm1821750a91.24.2025.07.17.09.41.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jul 2025 09:41:36 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: dianders@chromium.org,
+	tejasvipin76@gmail.com,
+	diogo.ivo@tecnico.ulisboa.pt,
 	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] xfs: Replace strncpy with strscpy
-Message-ID: <20250717163916.GR2672049@frogsfrogsfrogs>
-References: <20250716182220.203631-1-marcelomoreira1905@gmail.com>
+	linux-kernel-mentees@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH v3 0/4] drm: Fix bug in panel driver, update MIPI support macros
+Date: Thu, 17 Jul 2025 10:40:48 -0600
+Message-ID: <20250717164053.284969-1-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250716182220.203631-1-marcelomoreira1905@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 16, 2025 at 03:20:37PM -0300, Marcelo Moreira wrote:
-> The `strncpy` function is deprecated for NUL-terminated strings as
-> explained in the "strncpy() on NUL-terminated strings" section of
-> Documentation/process/deprecated.rst.
-> 
-> In `xrep_symlink_salvage_inline()`, the `target_buf` (which is `sc->buf`)
-> is intended to hold a NUL-terminated symlink path. The original code
-> used `strncpy(target_buf, ifp->if_data, nr)`, where `nr` is the maximum
-> number of bytes to copy. This approach is problematic because `strncpy()`
-> does not guarantee NUL-termination if the source string is truncated
-> exactly at `nr` bytes, which can lead to out-of-bounds read issues
-> if the buffer is later treated as a NUL-terminated string.
-> Evidence from `fs/xfs/scrub/symlink.c` (e.g., `strnlen(sc->buf,
-> XFS_SYMLINK_MAXLEN)`) confirms that `sc->buf` is indeed expected to be
-> NUL-terminated. Furthermore, `sc->buf` is allocated with
-> `kvzalloc(XFS_SYMLINK_MAXLEN + 1, ...)`, explicitly reserving space for
-> the NUL terminator.
-> 
-> `strscpy()` is the proper replacement because it guarantees NUL-termination
-> of the destination buffer, correctly handles the copy limit, and aligns
-> with current kernel string-copying best practices.
-> Other recommended functions like `strscpy_pad()`, `memcpy()`, or
-> `memcpy_and_pad()` were not used because:
-> - `strscpy_pad()` would unnecessarily zero-pad the entire buffer beyond the
->   NUL terminator, which is not required as the function returns `nr` bytes.
-> - `memcpy()` and `memcpy_and_pad()` do not guarantee NUL-termination, which
->   is critical given `target_buf` is used as a NUL-terminated string.
-> 
-> This change improves code safety and clarity by using a safer function for
-> string copying.
+This series removes the unintuitive mipi_dsi_generic_write_seq() macro
+and related mipi_dsi_generic_write_chatty() method from the drm
+subsystem. This is in accordance with a TODO item from Douglas Anderson
+in the drm subsystem documentation. Tejas Vipin (among others) has
+largely spearheaded this effort up until now, converting MIPI panel
+drivers one at a time.
 
-Did you find an actual bug in online fsck, or is this just
-s/strncpy/strscpy/ ?  If the code already works correctly, please leave
-it alone.  Unless you want to take on all the online fsck and fuzz
-testing to make sure the changes don't break anything.
+The second patch of the series removes the last remaining references to
+mipi_dsi_generic_write_seq() in the jdi-lpm102a188a driver and updates
+the driver to use the undeprecated _multi variants of MIPI functions. It
+fixes a bug in the driver's unprepare function and cleans up duplicated
+code using the new mipi_dsi_dual macro introduced in the first patch.
 
---D
+changes to v4:
+ - Fix whitespace (I forgot to run checkpatch. Thanks for your patience
+   as I familiarize myself with the kernel development process)
+ - Initialize mipi_dsi_multi_context struct
 
-> Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
-> ---
->  fs/xfs/scrub/symlink_repair.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/xfs/scrub/symlink_repair.c b/fs/xfs/scrub/symlink_repair.c
-> index 953ce7be78dc..ce21c7f0ef54 100644
-> --- a/fs/xfs/scrub/symlink_repair.c
-> +++ b/fs/xfs/scrub/symlink_repair.c
-> @@ -185,7 +185,7 @@ xrep_symlink_salvage_inline(
->  		return 0;
->  
->  	nr = min(XFS_SYMLINK_MAXLEN, xfs_inode_data_fork_size(ip));
-> -	strncpy(target_buf, ifp->if_data, nr);
-> +	strscpy(target_buf, ifp->if_data, XFS_SYMLINK_MAXLEN + 1);
->  	return nr;
->  }
->  
-> -- 
-> 2.50.0
-> 
-> 
+changes to v3:
+ - Define new mipi_dsi_dual macro in drm_mipi_dsi.h to reduce code
+   duplication.
+ - Fix bug in lpm102a188a panel driver's unprepare function which causes
+   it to return a nonsensical value.
+ - Make lpm102a188a panel driver's unprepare function send "display off"
+   and "enter sleep mode" commands to both serial interfaces regardless
+   of whether an error occurred when sending the last command.
+
+changes to v2:
+ - Remove all usages of deprecated MIPI functions from jdi-lpm102a188a
+   driver instead of just mipi_dsi_generic_write_seq().
+ - Update TODO item in drm documentation instead of removing it
+   entirely.
+
+Brigham Campbell (4):
+  drm: Create mipi_dsi_dual macro
+  drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
+  drm: Remove unused MIPI write seq and chatty functions
+  drm: docs: Update task from drm TODO list
+
+ Documentation/gpu/todo.rst                    |  22 +-
+ drivers/gpu/drm/drm_mipi_dsi.c                |  34 +--
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 197 ++++++------------
+ include/drm/drm_mipi_dsi.h                    |  47 +++--
+ 4 files changed, 98 insertions(+), 202 deletions(-)
+
+v3: https://lore.kernel.org/all/20250717065757.246122-1-me@brighamcampbell.com/
+v2: https://lore.kernel.org/all/20250708073901.90027-1-me@brighamcampbell.com/
+v1: https://lore.kernel.org/all/20250707075659.75810-1-me@brighamcampbell.com/
+
+base-commit: 667efb341917bde19f5d7517b65defcdaed67c9e
+-- 
+2.50.1
+
