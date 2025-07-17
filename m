@@ -1,136 +1,98 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCA62D0C6D;
-	Thu, 17 Jul 2025 12:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F4C2D0C63;
+	Thu, 17 Jul 2025 12:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752756188; cv=none; b=oA2eEw1DjdGVQArxAAmkhyfOboCjKEkZh6ep8yFf3BgSOt9qvHICfkYfv+SjpDTeDRiuJpfRTkPuL0kpnXBIMoOnd+N6X2UIG7u+qpSa+UDYZfXDXxIg1a/sk9VP2tI3QRcMDJfH4ps05/G/rWEPgfGBPAFYNU11ADCaXUW4N7c=
+	t=1752756849; cv=none; b=V1jUucSdSE/4XBdmYm/PJQOEbaTyG7NxHVOMZ1PipmHN7IyFUaKVe35O1evt9vqFK8vzKrddXUhQMnKeBTLhaN3Okd9RK3q4QqZCyqvn+9ec15AeIKNQ+8TCMiziGBHDCtObEEBsz8qLQVjO+1a06Wgod0bpIyNuu9ofzoxTscc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752756188; c=relaxed/simple;
-	bh=COcQw/nm6DgVQsv6NohuIht1Jtb3N9YHU6/YJbBS1ck=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TV7Vvg884TZM4EKf9uNezZej1NqZnt0gYvowhHbndoHXRvlYJDPXm7bG8rk9KQZ5PALfQEzlPT8Vf9Ydppkv4y7faADjnAYLXcltn8bbscMipOGcpTs7Bvgg4vKIqhZNnBVWQOse8pud0CsiJg+3/RrCFGEgpccAGJS9yFrx3OE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fPisuoKZ; arc=none smtp.client-ip=209.85.221.49
+	s=arc-20240116; t=1752756849; c=relaxed/simple;
+	bh=6TqfmLAeBvpkFMFttqys3Zi3RrrHoD67gu5Uh3aTgmU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TOy3Uu47nwIvHbE0yZvZ+IPZ7wdy3mUmfCwWima6+TKYo9Ae7rMubzimkKp+Q2SKfxtNIJC+/p7RtGRlQT4Nd0V9WQpPUbl1boKiBcvEg58tdtSIrIEuIaIEa7D2ynRO9R6U4WzQ+BUTb2vT+59hUqbfvUe7vD5KpCU+76rMpUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LyisYtDI; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fPisuoKZ"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a4e57d018cso103013f8f.1;
-        Thu, 17 Jul 2025 05:43:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LyisYtDI"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ae3be3eabd8so203038766b.1;
+        Thu, 17 Jul 2025 05:54:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752756185; x=1753360985; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=d40bmhYnCHJ8YDHvaQ0Txhm8cZhbp1/LzycBNKupukg=;
-        b=fPisuoKZwgZFj0vlb1dRmk9HfQUnxUje96w8Zp/P9DMQt6jIiEP3hqFPDgfHBIHp99
-         SDC4kR8oauIy3KsFJIZs+oCDH+xL+ubqjNv347xy6G4dk1yW/QNDSwuYIVKQgBRdAUJn
-         I3GjvGCwBDQjgrMUEBD/SHFT7GPASDYDp3u8b0tcpQn6QOTzVSZSw7BEuF444pqhx6Jj
-         vxV7JGAAT/QlHJXJqITEWSKy0P0nM1lhvVeFcJ7BFw81maCRV0i54Fx0+djcinrkd8Ea
-         7Rylwx0ppXG3pwkySNPkHe5N08gKHGGe5Rdihq/P++8Z3xv/kYzhm8S0FBkInZJcKZ1h
-         2Ekg==
+        d=gmail.com; s=20230601; t=1752756846; x=1753361646; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6TqfmLAeBvpkFMFttqys3Zi3RrrHoD67gu5Uh3aTgmU=;
+        b=LyisYtDIfe48v1iB3r25zHuY8A64YJRjtQdffHrpKTZPw2Np6pBSfC8jrc37ywby6u
+         WaNXqCaFdBg5sjV0j396/WJHQLU3gHiWuJpPdUeOv8qlmDhgXEc7O66uiGx77AQVI+Oj
+         XgXZ8ciBPnLWdjrHe/nixxXa4wwWB3yxKN7dcTE7z5rUd+Su4DmGOJtqwsZjcJHsdzR8
+         NMGEc4XwlRX3V6hcReYU4nsXr6kNJQmIUd4klJH2pJoZUwpyv0NCerbp2NwPdfYr/gFY
+         DadAfg/hGyHRNPZMJwL2T7go3EknG6+f3MfxBQBNr0tKFWwAYdJvWnQF3kLpeT1FTysm
+         KaTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752756185; x=1753360985;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=d40bmhYnCHJ8YDHvaQ0Txhm8cZhbp1/LzycBNKupukg=;
-        b=gqgb6OWBD57C1A+vjZn37jokc2lMwZl6cpeJ6+icqT6i8DlMiYoToYgVJ5JYlDaZZF
-         sxFXoZPqt5wrzSwm+9oTn3hBJUGymiKasOK1jEVpOPCG7Ch/4b+6/L4OjbV8zUZPWB2V
-         eRk2ed73PwtIN3Nb0/nkFQRFrBRQYcp+/Tkx7DTFWzQep8OAGQrfhZispCrdMKmv+Q4T
-         qsBwYGSgPm9jfFok47UOT+XkdDlwCp+8573eMG9RsYLWarWFDP3SmPh05UvSh1+Aimrt
-         Shrwr89WDFChhN5Z/op+pzXXbZRdvY9yB7llqatXqGHIULCk6wtgPEofhDR2ks78zjPu
-         uvpw==
-X-Forwarded-Encrypted: i=1; AJvYcCU06vmGpduY62XeMSPBlOlyus1dMvpWAAvRFMVtUDceaIxdPO4ZXZJhgfE256sammttsso17CyMC0SK5rum7w==@lists.linux.dev, AJvYcCVH/WQaJrZJN8POfRcgHv945RHBfXurbLJ4RJRkH93CkSeZ3TKEztoxv9WXgzeYf0C8hztvoA4Y8o1LoPUEJATZdzP+Gw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyDoSSkJ3q+6hhK5VEn/PkH8s9/E/szF49CdfWvUP4UkDLGeAOY
-	FMMXwCcRrbCi8LNgzk93vvhcLsPnASdVuFptJin1JPdjHGDMC6ozT0NJ
-X-Gm-Gg: ASbGncsYOq1HOn8pzmhIX2xkBrp64XeW5z/qFxiJCzMJxoUkzYAG1osOFLahHGTiPhD
-	VAnos20r/GNCncdsgSXkGgKDyHjqKe9yPZ7DpsKl690SwPg/MqchrJz84/kUf3++8e1qHf31T/e
-	0r0Hb/pNiXLPYe79lMXzwYfPCzW6v9EASGzpSsk8cDeLPnzTFiqlQTEVMNSWg4qXPwuSJbQJRIM
-	GPB65zVoTSzEd3+G5e3qNCGB+Jf60sPIP8XRwMusan9UUjb4Wo1UYVADbbD+XNjewzvw9u5rAvY
-	+ygfXW5BohS82e6dHutlFtczoIT8Urb4RGlj4RqpPySvzpwu99ahrFSoUhKQpdqeMX8JTGDJbdh
-	5j4pXOrFqOs9La5rS1jzgS1Dp1f/3qfrZBD9hlhlb6v8lqC08IhAUAuaxu0Vt
-X-Google-Smtp-Source: AGHT+IFRlywe4tl9dYYqcWEYvjS6es1ezgBsDewHP6wfjpW6IO7HrqdyJCKLgzPhHOHXTcX8BEw3wA==
-X-Received: by 2002:a05:6000:18ab:b0:3a5:7875:576 with SMTP id ffacd0b85a97d-3b60dd4a802mr2670732f8f.1.1752756184266;
-        Thu, 17 Jul 2025 05:43:04 -0700 (PDT)
-Received: from localhost.localdomain ([154.182.204.213])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc3a62sm20506454f8f.40.2025.07.17.05.43.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 05:43:03 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH v3] staging: media: atomisp: add missing mutex lock in atomisp_s_fmt_cap
-Date: Thu, 17 Jul 2025 15:42:34 +0300
-Message-Id: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1752756846; x=1753361646;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6TqfmLAeBvpkFMFttqys3Zi3RrrHoD67gu5Uh3aTgmU=;
+        b=XchST4cWjrEBmTrrvpahb5vD6vhYvhSw3GfrI7RfXAm+0h7rwzngh9ZAOShUTFOmul
+         VxiyMYqS1QPq7i7ZcPXlVh8ViACgxpVAWPWtWbMkqeiEGWSJg+RH0Ifvc2jCEIZ+sSUo
+         agzCLae3/V5abYYMZeiLf711iGUwkqu15OFIwP/fA4pvuDEKXJn6wSKpfmbYL38CKtD+
+         IGALzEaCw7khFdKShwZg6PEM07W3HO52Cu3a39SiOD7VFBLStNqfPiagdfQTHzaogSkl
+         wzf/G5FwDIFK3JJhSCwNan6orbONR3+tkaQo/OeUf2G4YwMUd+lWM1+6m6Xsmq9FUyqt
+         VZ4g==
+X-Forwarded-Encrypted: i=1; AJvYcCU2bWDuOxG3DZnNfkF8OmYZ4qeSuDKI/WWthmj/oANU89qUPhsh4kusIwrFn5RR8Ae1oYtlIz/SXTtbgd06e0Dts05xaQ==@lists.linux.dev, AJvYcCVwetD3jgFL7oQ9Ulxgb7qwtDm2sKHgRULv7igtbINYnLz+VnXkXsucvf9xzEvK6HuHhtG29rPcm7C4PJv5BA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzUxU8h/Z/3OPdW1qURNJy9DKUP7ayKiTzdr8hsH8MMxjt5ZRMM
+	S93vmsiwHWA1/yc4pbrTf2G18cLIc35cuMBvUUE1cFF8j31NGuIRX/sz72BLkIru8wvWo2B8xjl
+	9J8yCQdsle3x8coely+QjsEQ3/a2+cVM=
+X-Gm-Gg: ASbGncvKsRWZDobhZLE4PzhNZYiGy0tEWNV5MFsiEyPfiI+QAosCF2L4Wnp60QULJIX
+	lFh/KMGJ7aS0pCeB4iam9I1bd0/HYjBh3Pxh72IqFPXf960xyTtkGqnOd5tdhBakS6W2w1SZ8nV
+	MzVfm/RWKoKQx/eQ2YGKFYThwgvUPS0bXTlF91DFMXhUIR2dRjlzqcTFTkqXGhCfa8Bwh6lpSQn
+	sJpcfE8cQ==
+X-Google-Smtp-Source: AGHT+IGwgcvfuosm5N+DZ25mI8Ik05xk7HliuiBmFYrl28GiWWkRW4WUjkaBwNjkPRhTpYEMuODvsj0bfLReIdUzIcI=
+X-Received: by 2002:a17:907:2d86:b0:ae9:cd0a:5827 with SMTP id
+ a640c23a62f3a-aec4deaf092mr281081666b.20.1752756845076; Thu, 17 Jul 2025
+ 05:54:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 17 Jul 2025 15:53:27 +0300
+X-Gm-Features: Ac12FXwwqnptpnT5aQ5qlp88PaC6-4KM13ZfLkpBCRIfiqwB3k8OHjQ8YI8f-Yo
+Message-ID: <CAHp75Vei5e3TMxTTWXBZVWsGqFbYwn6QQoOKz-MYmFd4xaTraw@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: media: atomisp: add missing mutex lock in atomisp_s_fmt_cap
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+	dan.carpenter@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The function atomisp_set_fmt() modifies shared device state and expects
-callers to hold the isp->mutex for synchronization. While most internal
-callers correctly lock the mutex before invoking atomisp_set_fmt(), the
-V4L2 ioctl handler atomisp_s_fmt_cap() does not.
+On Thu, Jul 17, 2025 at 3:43=E2=80=AFPM Abdelrahman Fekry
+<abdelrahmanfekry375@gmail.com> wrote:
+>
+> The function atomisp_set_fmt() modifies shared device state and expects
+> callers to hold the isp->mutex for synchronization. While most internal
+> callers correctly lock the mutex before invoking atomisp_set_fmt(), the
+> V4L2 ioctl handler atomisp_s_fmt_cap() does not.
+>
+> This results in an unsafe execution path for VIDIOC_S_FMT ioctls
+> (e.g. via v4l2-ctl), where shared structures such as pipe->pix and
+> pipe->frame_info may be modified concurrently without proper protection.
+>
+> - Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
 
-This results in an unsafe execution path for VIDIOC_S_FMT ioctls
-(e.g. via v4l2-ctl), where shared structures such as pipe->pix and
-pipe->frame_info may be modified concurrently without proper protection.
+Now LGTM, FWIW,
+Reviewed-by: Andy Shevchneko <andy@kernel.org>
 
-- Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
-
-Fixes: 4bdab80981ca ("media: atomisp: Make it possible to call atomisp_set_fmt() without a file handle")
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
-v3:
-- Use guard(mutex) as suggested by Dan Carpenter and Andy Shevchenko
-- Remove extra blank line after variable declaration
-- Fix include order as requested by Andy Shevchenko
-
-v2: https://lore.kernel.org/all/20250717013003.20936-1-abdelrahmanfekry375@gmail.com/
-- Add Fixes tag
-- use cleanup.h micros instead of explicitly calling mutex_lock/unlock
-
-v1: https://lore.kernel.org/all/20250716014225.15279-1-abdelrahmanfekry375@gmail.com/
----
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index bb8b2f2213b0..2690c05afff3 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -7,6 +7,7 @@
-  * Copyright (c) 2010 Silicon Hive www.siliconhive.com.
-  */
- 
-+#include <linux/cleanup.h>
- #include <linux/delay.h>
- #include <linux/pci.h>
- 
-@@ -416,7 +417,9 @@ static int atomisp_s_fmt_cap(struct file *file, void *fh,
- 			     struct v4l2_format *f)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct atomisp_device *isp = video_get_drvdata(vdev);
- 
-+	guard(mutex)(&isp->mutex);
- 	return atomisp_set_fmt(vdev, f);
- }
- 
--- 
-2.25.1
-
+--=20
+With Best Regards,
+Andy Shevchenko
