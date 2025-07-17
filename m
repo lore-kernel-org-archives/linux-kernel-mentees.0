@@ -1,118 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80201219EB
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 11:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14B529AB02
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 11:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752750634; cv=none; b=jE6LSIwXLv1PFcETE86o2jP9oYElCFiUayyOkSidOt66ilc13vw96pTGnV6obfzvxvkO0idfHB5FpBSuxHliGqsREAX9OJqCqhS0uTAScTEiV8MFwEKtipXePfMtK0cL8EbhAZ9L9j4suGTo8xXQIKvgqb4w38f5/1sAbODZ/Kk=
+	t=1752753592; cv=none; b=VzfWuTzkejDKdt127W+szuwnHWE58JYdESqj8unSiahl/zs+OoXvN0yQryLhdTHHkZxfV8sPPRlRTXqKyDmWbt5vnhwSiE8iCvUHan+2OsDEX8KlMzGpMgqp/6z1AH3Ks3pfNjTSEkwSBZiLFRS2j4Z0iri2Cf+mFpnnnLUP8rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752750634; c=relaxed/simple;
-	bh=o9DguUFd9ulRr/nGZ83LjaBmOxL8fPbmtWacXgwjtWA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OMl8v2u2z8vOgQElte1fFKFoYPzVHcNKb2VUbuDb5PFNZKl7LngBGvleYhq4yG5b/2Bo13onSh77twD8+dH9u76fdKTY1inB37iEam50+WU87EhlVcZh8NZvcfH3h5Sf+GQhp1TuGjk86FxAbkVNID0U0XtfMawR0YP1KZHwE/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=faZP6oRv; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1752753592; c=relaxed/simple;
+	bh=nkcmylT9yipRsOBI6uhXOZOwKH5/VJoxCifVdfyQYUQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FNbDuBvTbL9MU3sx8wfz1A90npeH5XkT8GmbSw+ZvB1eJ66B8/+r83r+2VCaYcBZoVWpO6IKepXTBS+CJfz4p57VJSyF+dyM5lOvhJekHP+ROl4pC5huN3rbrGI7veA+9VPNAYx76skBInGM9yChPvjh2LGklpcCQVkQdTHwuvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hzLCaFvG; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="faZP6oRv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752750631;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mcuwFP2i4FlUn9FFKBy/90wO5gqfwimly/CV8vM4gi8=;
-	b=faZP6oRvZllCHZ2BIyg9npqUkUKxbYXyU2EMHfW4XfV3o3wYGfRyc87mv9BdcPUrsR0N8z
-	YfCErjllDb4c4AL+ewFJZO7EF2HW+3ObRFCIsNN6Y2rya9k8Q3eumT3XFwHjHjaL6ra/Gm
-	8I1An+c9d3+m3FAU2zbYRG8FTqd/yy4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-286-M1NJLxxdOUuosm27QR9ldQ-1; Thu, 17 Jul 2025 07:10:30 -0400
-X-MC-Unique: M1NJLxxdOUuosm27QR9ldQ-1
-X-Mimecast-MFC-AGG-ID: M1NJLxxdOUuosm27QR9ldQ_1752750629
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-455ea9cb0beso6966585e9.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 04:10:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hzLCaFvG"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-23c703c471dso20597445ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 04:59:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752753589; x=1753358389; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PbLRuGBCBDgfVU6yEnMIFZuymSG0mxgBMi0dHo+HMI4=;
+        b=hzLCaFvGSHNzFQkBki0tZ4dKOgDnnGl9cz2IDGMtCiA7T9cOEi2d+AeJ10mKG2o5y1
+         6m33inuJFAmhDHo/cQb2vyY0nkfLtqSgMQLIZ+hrM9zOn4BlBiD4Ajt7N4ucz3ONNmR6
+         B+Zct33CB9z6GvGN7d1VC3bl+FGbO5xkkugD7kbvzN5yJUxQrvNvCUZCJ5F9xucDXQp6
+         GyPugAZjR/wcRIPVFKaBn3k9Rz3aV3TKPeuzc/miwCPvLelauyK/lmQIRlJ2gRMzRtrT
+         JtZAXjR/nI2w3hT3PWowqwyxbuJe8bJ8IMtcftuA4TFx9f462G6Old1v7NQcTC+HF6El
+         JN0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752750629; x=1753355429;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mcuwFP2i4FlUn9FFKBy/90wO5gqfwimly/CV8vM4gi8=;
-        b=T751Z8iUMDyysG/SGMRAlcvujZnfFGQ2Cen1xGmnrQVcu6FEnI2Aj/ihkFcykYvrN1
-         /Yi2l940ZkXJN/qjLgg8qFOhIHvxax8cUHVdnU8tMNm3PTiaAOAF2BIrt6V5KdNQ/71s
-         nflfPj2lZuQmaGB8Ex2mEyQys67lxvIyQDdQVutSjZnzWCY5QsjkUyTkSIDjsKj6pDMG
-         W/DVG3Rvd4Bu71YDKIKWDknamRGFA+59lHUs+jrG4b42ZvzRZDF8tSUVORI0tOJrib4k
-         SIDopOplnGB05KOza9I0/SI79oTODsff6C4u7QDr4rntx6H7WEaBFoZ4OOjEAxgIJq6c
-         Zx1A==
-X-Forwarded-Encrypted: i=1; AJvYcCXWDUZqCKamoIcrO7nA8xo7zA6nNv4N1YTZ7ovUBR9yg+0Xh4VyawJwFRo8uuMHei1ST656sUQFGgRL2QIZSYcfLb3xdA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLgRS751dMfa7qz4IuUOShzTWv6MAjHKBSHNJQn3Sb5yFJgcs8
-	G4K/u+9tJupQvPqZL5B1LJV7JzQoWGTxZ+TExE2seWtIDJE1sD1XWlqOBeyIsig7y3grilsRWLQ
-	Zxzlg6I0sh1aN7gwxBC0ryf/b7MponqdHVS4Eozy75grE2ETxQNKdT2t+nltQcUHkIRdZHVsihy
-	XT
-X-Gm-Gg: ASbGncvdl5dl5AsCUY17I/2mqpfd9RwACW3TCbriYYW3YlSUenFMUuojRTmNxqrVTTP
-	AnHi6v3Z/ctjw1bLTsmk0B4R3L1/uGJbLt1KY4QknfiLGKO2/KDG27JsVuGze/IE6x9hgkEqQ02
-	FQA1EL0Y7Im1ZD7yyCgc/ZhbbL2xL5qb5xRAe72KYbQMUDHD/7jLrZk5dOA5yBGepDphD2JNzST
-	kYtVN9loaelMdqAMl1o1GthP/ipB3w8x4THh+7YE0HwsBvckJWjn9wCa5e6Zj9Q9cSj5qIy7aAm
-	8TUFAdsdU65ElOlTcJkdaJqnZpANbsdy7ndPufEnXaYxOkVoSv+CrRSTmRoJTjjo/U79gfGTItN
-	C2hq1Wwuc0So=
-X-Received: by 2002:a05:600c:3b11:b0:456:1dd9:943 with SMTP id 5b1f17b1804b1-4562e364923mr61991255e9.3.1752750628844;
-        Thu, 17 Jul 2025 04:10:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHxXKe1dFz2jXXAF/w6N+sF1RD95sU2Z+R0uSK0mMsz4eDz0ygxowQ/EwGBBRV415p8rq+tCA==
-X-Received: by 2002:a05:600c:3b11:b0:456:1dd9:943 with SMTP id 5b1f17b1804b1-4562e364923mr61990895e9.3.1752750628413;
-        Thu, 17 Jul 2025 04:10:28 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45627898725sm53301605e9.1.2025.07.17.04.10.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Jul 2025 04:10:27 -0700 (PDT)
-Message-ID: <0f6e9770-1c79-418e-9135-df692f495a91@redhat.com>
-Date: Thu, 17 Jul 2025 13:10:26 +0200
+        d=1e100.net; s=20230601; t=1752753589; x=1753358389;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PbLRuGBCBDgfVU6yEnMIFZuymSG0mxgBMi0dHo+HMI4=;
+        b=b4CzQUlI76jgfxuh3s1fgTLHo3dO+lXpa4Js/LnFV7eRGVa+AiLdmi4i5nOwz8avfA
+         Tl/d+RsGR+QTmUAmbxJyECpVtNwaddWpqk9aaFAN11N1rLz2DmC1Sark7JpOyMSq60ER
+         aS5iCiKS/cCnDdLgV8IBd5Qjarcnp8FQYX5JnYd2q790CC475LCUnT9CgKzsndEfhfCA
+         Olfmsff833wSv6WVN5RqR0YRIb8qNCTHZhYHJsNnmsZfSZVvHCtuSfMpC608gKg9BvM3
+         SgNzHQCPx/DB84m6p2ZXBQIcdGIK3kgW8QuerHwpxuOHzB5gzoZsUMSpc1zupvOLLSZ/
+         oJXA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/JK2tz73DJlAqdIx8Qh7pJTuDRtVMdhqlO5RUY8fekZ4/ENpoZScLsiAEyIYfpST6Xakta4O2YGoZn9sb/jDDlByPtg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDjPBO3QfKEtwn/1qz4DNKwdtIpcpwHhyLj3jqX8mQS+wmpP+f
+	1soAd6dlg0YSbTnTft0Rwtc7IS3H5XK/DR6uesx646eoh7SckL0WyLt7
+X-Gm-Gg: ASbGnctcqO9By/pH5/f4ztizE/n3JptkTr74AO7IQuIn17DozvCAKeY+DDS4em62Z2N
+	hNyvCuQM2Zzoz88jVguZQbYvyaiy4tskfaqZjxK9KtZHsyRSGr3f1+zkGSiadAgz7pRzeJGftKQ
+	tn9g0gjLpXr3mqgHxfh5/FodiqISf4X3lIRm9f3Mx7Z7JpZRwFz8Hs+bRl1/4xVW0ri10lMPc5Y
+	goVqzrIqiB4L3nJOk5hAFvC0jqSoLCFnQM5e9jnW6bhvfkN0Z5OSU5AlFbHXM3qD1gU5Ucu7k7L
+	JxrYiQ/P/ZEsnupnzBOdkRm4aGGGOIJyLPBrUfxjb16owBZVLsFvJY7+q2DroJVXbRIMGo3gBw2
+	bY71fFBJSQT3BtOJkyjZMOqRlu78UFw==
+X-Google-Smtp-Source: AGHT+IE7gXMblI4F3h/n2WJ5+86/B68s1uRAd1eAVRlCcY9lkPK3X73PWe7RYmr9PH2N+slxR08t+Q==
+X-Received: by 2002:a17:902:bd4a:b0:237:e3bc:7691 with SMTP id d9443c01a7336-23e2f704bbamr31439535ad.13.1752753588815;
+        Thu, 17 Jul 2025 04:59:48 -0700 (PDT)
+Received: from archlinux ([38.188.108.234])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4322890sm146172075ad.136.2025.07.17.04.59.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jul 2025 04:59:48 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: ast@kernel.org,
+	daniel@iogearbox.net,
+	andrii@kernel.org,
+	martin.lau@linux.dev,
+	eddyz87@gmail.com,
+	song@kernel.org,
+	yonghong.song@linux.dev,
+	john.fastabend@gmail.com,
+	kpsingh@kernel.org,
+	sdf@fomichev.me,
+	haoluo@google.com,
+	jolsa@kernel.org,
+	bpf@vger.kernel.org
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH] libbpf: Replace strcpy() with memcpy() in bpf_object__new()
+Date: Thu, 17 Jul 2025 17:29:36 +0530
+Message-ID: <20250717115936.7025-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net: skmsg: fix NULL pointer dereference in
- sk_msg_recvmsg()
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>, john.fastabend@gmail.com,
- jakub@cloudflare.com, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, ast@kernel.org, cong.wang@bytedance.com,
- netdev@vger.kernel.org, bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- syzbot+b18872ea9631b5dcef3b@syzkaller.appspotmail.com
-References: <20250715081158.7651-1-pranav.tyagi03@gmail.com>
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250715081158.7651-1-pranav.tyagi03@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: rE15kx06upRSR_reKeerxMy1FS_qHPGwaAs-mprtjhM_1752750629
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 7/15/25 10:11 AM, Pranav Tyagi wrote:
-> A NULL page from sg_page() in sk_msg_recvmsg() can reach
-> __kmap_local_page_prot() and crash the kernel. Add a check for the page
-> before calling copy_page_to_iter() and fail early with -EFAULT to
-> prevent the crash.
+Replace the unsafe strcpy() call with memcpy() when copying the path
+into the bpf_object structure. Since the memory is pre-allocated to
+exactly strlen(path) + 1 bytes and the length is already known, memcpy()
+is safer than strcpy().
 
-Interesting. I thought the sge in this case are build from the kernel, I
-did not expect a null page to be possible. Can you describe in the
-commit message how such bad sges are created?
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+---
+ tools/lib/bpf/libbpf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> Reported-by: syzbot+b18872ea9631b5dcef3b@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=b18872ea9631b5dcef3b
-> Fixes: 2bc793e3272a ("skmsg: Extract __tcp_bpf_recvmsg() and tcp_bpf_wait_data()")
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-
-Does not apply to net. Please rebase and resend, adding the target tree
-in the subj prefix and specifying a revision number.
-
-Thanks,
-
-Paolo
+diff --git a/tools/lib/bpf/libbpf.c b/tools/lib/bpf/libbpf.c
+index 52e353368f58..279f226dd965 100644
+--- a/tools/lib/bpf/libbpf.c
++++ b/tools/lib/bpf/libbpf.c
+@@ -1495,7 +1495,7 @@ static struct bpf_object *bpf_object__new(const char *path,
+ 		return ERR_PTR(-ENOMEM);
+ 	}
+ 
+-	strcpy(obj->path, path);
++	memcpy(obj->path, path, strlen(path) + 1);
+ 	if (obj_name) {
+ 		libbpf_strlcpy(obj->name, obj_name, sizeof(obj->name));
+ 	} else {
+-- 
+2.50.1
 
