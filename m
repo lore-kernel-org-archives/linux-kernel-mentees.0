@@ -1,86 +1,97 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2635A2BCF75
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 16:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6002FE31F
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 17:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752770959; cv=none; b=iGstGj6oqPk0uVU5eg/V5UwQY8usmNcSUKJM/MgmpDAdukOALp1MohTF7lKL2/lgrGeHKuG8iyF+W09kh+skxIM2GUvQ71Yt1a2BOEvbXJmqWgmzkGabVt4UNi/vrASOutJf32KxDWosiypNThpZQkfk9p/Nq7x/UQB7Bw2npMY=
+	t=1752771604; cv=none; b=u7rpCgu43hC4ZIzCKRzuuasVHcfc023Lb1Ig06/ofCqL5T6YWYzDkOI/PMZCvInITp1zVGAidbLYmYCEQ8ec8gqeeN88JghLK5X6NFn0aJALGaiRAwcY1xh83LZ8U1F8/x+XWGamDT/jaY1hV1GbwZJ1w5dyoknsRs96pCfh94o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752770959; c=relaxed/simple;
-	bh=lzxjgkiO17y1kknVkxUwA03wmFH46rn+pwTM7guhgC4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VfqR5/xpCmjPWoXVXGk2N7Z4pSZFOXp2Ib51aL0bqGAXjdRN7K1PM2jXFFZiJPQDDmR6dGZKABn1Z1LIScjELsjJlnPN7G2JR9Zaw2w7/0vEEW00DhPjo4/4N+4aPZUYlnspT68oGmQF3DweagKNGDcOIv57k2T+4e+G+9ZrxYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kgOG5wWF; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1752771604; c=relaxed/simple;
+	bh=ewb+FIZz4kwCsl1j25xta8JzmAG2AEj7KxN2meRe0Kk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V2P+96JOsx3lhno2LyHoSF6Z+pnbdkz6z4e2YUwlxmWJMG4kDUB3j1H8JvKOjas0VvJAPnenU7hBWn8i6Tvlf8mAroMjlm+qoTFhSX6VSKAG7SbNk3MmNLsPjMv6g96ygZ/xf8fB2Rcul875xQE2q3QByqk3VAZDFF2Xtd8xjLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=drDpGx7b; arc=none smtp.client-ip=209.85.160.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kgOG5wWF"
-Message-ID: <f6c4944d-c6c2-4a7e-8dd3-791d0c29022b@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1752770954;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XyhHdjw2GpmeF7/B7DnThd2XfKjNSuRZ4w/Ep4jyig8=;
-	b=kgOG5wWFpRnxRKx18sTU934evaU58k6Bpu1zC73MEkis/puykwthk/7keQ/ORhuXAnco1K
-	w1dwo9fDWtwtR1liS9aKCa+UW42IgOnZ+gq3Za9ypvJA7N6jEtvAFIk1kOj0e2OlowXDuf
-	j3X4Ouq9zYWPjM2NXaWaH9wCHSpVpJY=
-Date: Thu, 17 Jul 2025 09:49:07 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="drDpGx7b"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-2cc89c59cc0so1545684fac.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 10:00:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752771602; x=1753376402; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ewb+FIZz4kwCsl1j25xta8JzmAG2AEj7KxN2meRe0Kk=;
+        b=drDpGx7b7tA4q1U2+xLrltb7sTNyl/U2z4zFNMlFlWacQAFjOUQPikapaBqSXzWpXl
+         JtIozuEPfaei4zg3wFAbLlgEAd6rrUq7xl0Egl+JkHSyx2YvB4+Ty8UPJhMJq+YC6Syd
+         NUSGoYRIiu2oJvlTr7PBjYRWhs+BgpOa0bDALDRNvx8K/GYXDL4813Gs7lP2zKCuPb3/
+         uAT4yDtrsB6+uq8/jY9jMph158udk3tKYT/ibp6xAfqiXl6idJ54QbAUDSf29pV1t/dL
+         QLd69v9erJlY/E9qdV5zpHVy9997Wy0rDvlkK0Q/v1v21j9JYXTn+rAD+2BZ0UsvrM86
+         fA6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752771602; x=1753376402;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ewb+FIZz4kwCsl1j25xta8JzmAG2AEj7KxN2meRe0Kk=;
+        b=SU9lbzIX9BFAylL4uLNL0SgWmCfuypf4eUwCOtRgUD0uzoXdQB/OH8eXe11NOODRme
+         BD/rvDuB+Qal1Ims3yK6/0OXMGVvxQrx1oLngfBwMESDs51VnuSsyZvPFmO48S66SL+n
+         fw/iHfUXFeFp2xzqPavw3mHOUCk2lBoklkhyKOVlPHeDX3Qdthkj0CUbgxY5MBIvHUjJ
+         R40ROQ4HXTUpVDGspD5Rmoh5pftga3YAwOmti0i2JBODsB4OuYjKVEyMuJ/dMN/YGz1r
+         RxljxU4lsVXoatsNfUAR25N0pZiYmNTntjZ9hSpRd9IASGdAC+nky7y0elgkUoCGoMQC
+         AQuA==
+X-Forwarded-Encrypted: i=1; AJvYcCWnLk8aT3fgZ/jlV/ZabszWunlNOCaQlzTNNzcEJqh0SlUK6T8fHW33r+CN3deaCoVoDrJ5F1Cnsb1242hYWRuQKgH6Bg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz+oOQP308ybB42+sl+fmfOGKQKxOGkeEEyDShlnfm67rdNTBxU
+	r6DmNNf3W4RGwJinZbuArjjGCO1ye8L6QWRwu1B8Ku6c6hJPwtwJBN7+eZn05XclPDvU5pZUAmg
+	E/mnvKh4eewQgmXMC91FCMclglfWnAR8=
+X-Gm-Gg: ASbGncuRZWwfcXnXBFTT41LNoJ++G413rXikdBbo/6UpHALftt5QQbcul2m6JpfMLQp
+	35LDnSibi13qu9KpGMlfQ446qFbMyhFyvQof9j6/QIppztYN3u4r8aL04co/L50onTzT2usp1pO
+	/KQPPYM4QztiRbLCUbju1/CH+jsL58c6CMFu2ThBRVCAElvy0KYOErkLNW1sNwr4efSxfmN1j/O
+	ZYYw8mp
+X-Google-Smtp-Source: AGHT+IHYBhYyFCO7kIhIJXgTO3z867nKb992R6AyR0gE9NGM9WDzDbHkdUMO0+XjlDg9KIzr1gOchlwer9OVKvMXqJU=
+X-Received: by 2002:a05:6871:e281:b0:2d5:2dfd:e11c with SMTP id
+ 586e51a60fabf-2ffcc181093mr2710454fac.7.1752771601492; Thu, 17 Jul 2025
+ 10:00:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH] libbpf: Replace strcpy() with memcpy() in
- bpf_object__new()
-Content-Language: en-GB
-To: Suchit Karunakaran <suchitkarunakaran@gmail.com>, ast@kernel.org,
- daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
- eddyz87@gmail.com, song@kernel.org, john.fastabend@gmail.com,
- kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org,
- bpf@vger.kernel.org
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20250717115936.7025-1-suchitkarunakaran@gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <20250717115936.7025-1-suchitkarunakaran@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250717115936.7025-1-suchitkarunakaran@gmail.com> <f6c4944d-c6c2-4a7e-8dd3-791d0c29022b@linux.dev>
+In-Reply-To: <f6c4944d-c6c2-4a7e-8dd3-791d0c29022b@linux.dev>
+From: Suchit K <suchitkarunakaran@gmail.com>
+Date: Thu, 17 Jul 2025 22:29:50 +0530
+X-Gm-Features: Ac12FXyTF7cN_d1c5mELIt20EHp_Qy3GriUYaqZEKLzGqZAStvwqLcaBbeQocBw
+Message-ID: <CAO9wTFjEJOfF7krFuV=DkZFzRU3FpRXtnq93UaX8=_Y=wnwbHw@mail.gmail.com>
+Subject: Re: [PATCH] libbpf: Replace strcpy() with memcpy() in bpf_object__new()
+To: Yonghong Song <yonghong.song@linux.dev>
+Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	haoluo@google.com, jolsa@kernel.org, bpf@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 7/17/25 4:59 AM, Suchit Karunakaran wrote:
-> Replace the unsafe strcpy() call with memcpy() when copying the path
-> into the bpf_object structure. Since the memory is pre-allocated to
-> exactly strlen(path) + 1 bytes and the length is already known, memcpy()
-> is safer than strcpy().
-
-I don't understand in this particular context why strcpy()
-is less safer than memcpy(). Both of them will achieve the
-exactly same goal.
-
+On Thu, 17 Jul 2025 at 22:19, Yonghong Song <yonghong.song@linux.dev> wrote:
 >
-> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-> ---
->   tools/lib/bpf/libbpf.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/tools/lib/bpf/libbpf.c b/tools/lib/bpf/libbpf.c
-> index 52e353368f58..279f226dd965 100644
-> --- a/tools/lib/bpf/libbpf.c
-> +++ b/tools/lib/bpf/libbpf.c
-> @@ -1495,7 +1495,7 @@ static struct bpf_object *bpf_object__new(const char *path,
->   		return ERR_PTR(-ENOMEM);
->   	}
->   
-> -	strcpy(obj->path, path);
-> +	memcpy(obj->path, path, strlen(path) + 1);
->   	if (obj_name) {
->   		libbpf_strlcpy(obj->name, obj_name, sizeof(obj->name));
->   	} else {
+>
+> On 7/17/25 4:59 AM, Suchit Karunakaran wrote:
+> > Replace the unsafe strcpy() call with memcpy() when copying the path
+> > into the bpf_object structure. Since the memory is pre-allocated to
+> > exactly strlen(path) + 1 bytes and the length is already known, memcpy()
+> > is safer than strcpy().
+>
+> I don't understand in this particular context why strcpy()
+> is less safer than memcpy(). Both of them will achieve the
+> exactly same goal.
+>
 
+Sorry, I meant that strcpy() is generally considered unsafe because it
+doesn't perform bounds checking. Its use is deprecated and
+discouraged, as noted in Documentation/process/deprecated.rst. I made
+this change with that in mind, although I'm not entirely certain
+whether it's actually unsafe in this specific context.
