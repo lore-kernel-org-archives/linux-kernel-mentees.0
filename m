@@ -1,83 +1,79 @@
 Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14B529AB02
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 11:59:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD752BDC00
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 12:06:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752753592; cv=none; b=VzfWuTzkejDKdt127W+szuwnHWE58JYdESqj8unSiahl/zs+OoXvN0yQryLhdTHHkZxfV8sPPRlRTXqKyDmWbt5vnhwSiE8iCvUHan+2OsDEX8KlMzGpMgqp/6z1AH3Ks3pfNjTSEkwSBZiLFRS2j4Z0iri2Cf+mFpnnnLUP8rQ=
+	t=1752754019; cv=none; b=gzN61jNzTXn1RLtTGPKW7h9Ia4jHgOqBB95pN4qJAf2oqCdJvOTiUQW16WYdVdxI+S1zdcDwva1pBVMq0bUrcbzJBuV1/qWBL6MfHsYqZ9mOZoFLMgOrp4DdBc4WRIOBuIJ9JM8unCzIV+6rOItcuk0vnznH61tBW4FDatvkE7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752753592; c=relaxed/simple;
-	bh=nkcmylT9yipRsOBI6uhXOZOwKH5/VJoxCifVdfyQYUQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FNbDuBvTbL9MU3sx8wfz1A90npeH5XkT8GmbSw+ZvB1eJ66B8/+r83r+2VCaYcBZoVWpO6IKepXTBS+CJfz4p57VJSyF+dyM5lOvhJekHP+ROl4pC5huN3rbrGI7veA+9VPNAYx76skBInGM9yChPvjh2LGklpcCQVkQdTHwuvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hzLCaFvG; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1752754019; c=relaxed/simple;
+	bh=GxfW4clTrYdWDgt2B0ob0S/y/KzST9qHo75GgYMee8c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CrbAUvVpjBeBJecqogPwGTw+y0YGfhbbAxiANX0kEvvuF9qSemnerzJgVl4SCYnzNttBxwuoTGosiBd0NgkFwzSCUPBtTuLrJAbq/3hvrbr9AVcapKErbnLx70eMdJSE9D8NOqKBwgbcPk+fhwTLXvdAuTSHV98hX74AzPco9eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mvDfNkmp; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hzLCaFvG"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-23c703c471dso20597445ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 04:59:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mvDfNkmp"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-236470b2dceso6675005ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 05:06:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752753589; x=1753358389; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1752754018; x=1753358818; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PbLRuGBCBDgfVU6yEnMIFZuymSG0mxgBMi0dHo+HMI4=;
-        b=hzLCaFvGSHNzFQkBki0tZ4dKOgDnnGl9cz2IDGMtCiA7T9cOEi2d+AeJ10mKG2o5y1
-         6m33inuJFAmhDHo/cQb2vyY0nkfLtqSgMQLIZ+hrM9zOn4BlBiD4Ajt7N4ucz3ONNmR6
-         B+Zct33CB9z6GvGN7d1VC3bl+FGbO5xkkugD7kbvzN5yJUxQrvNvCUZCJ5F9xucDXQp6
-         GyPugAZjR/wcRIPVFKaBn3k9Rz3aV3TKPeuzc/miwCPvLelauyK/lmQIRlJ2gRMzRtrT
-         JtZAXjR/nI2w3hT3PWowqwyxbuJe8bJ8IMtcftuA4TFx9f462G6Old1v7NQcTC+HF6El
-         JN0g==
+        bh=R+nJTi9+q4kpfv+a+czXe7cETLVFWBjiMNVoEDBKpJo=;
+        b=mvDfNkmpGkklEy5FdxljaIZqkK3lKkB1QG8Go1ZCuVECv55X7lqIgN5vUTFCNzlxS8
+         s9djYDXnHKwHmjt30L2gCEuhMuYXKpveAP2m/8PJ1rM9D1wimeicFrTob4bstg9nPSul
+         7Af6XKMS7aZRIFDuzrymEN4Kgbzc/ozW3AHG8WeKC/32RtX+CmbByvphGLi3WikCA/FO
+         XOBD09e8QBb+YCXtP8R/PmluJLOApjvQ/Sc1BoAjQZYv+iiqlmvE+Wa4hfzWxrFxWXuz
+         uKbbFy0nU4Kc/n5ZnJtmAWRmDKhWuJmC4+ov2Gj2MrSZZ9os4pXReHbZEB9nNCuDHpAH
+         /oUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752753589; x=1753358389;
+        d=1e100.net; s=20230601; t=1752754018; x=1753358818;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PbLRuGBCBDgfVU6yEnMIFZuymSG0mxgBMi0dHo+HMI4=;
-        b=b4CzQUlI76jgfxuh3s1fgTLHo3dO+lXpa4Js/LnFV7eRGVa+AiLdmi4i5nOwz8avfA
-         Tl/d+RsGR+QTmUAmbxJyECpVtNwaddWpqk9aaFAN11N1rLz2DmC1Sark7JpOyMSq60ER
-         aS5iCiKS/cCnDdLgV8IBd5Qjarcnp8FQYX5JnYd2q790CC475LCUnT9CgKzsndEfhfCA
-         Olfmsff833wSv6WVN5RqR0YRIb8qNCTHZhYHJsNnmsZfSZVvHCtuSfMpC608gKg9BvM3
-         SgNzHQCPx/DB84m6p2ZXBQIcdGIK3kgW8QuerHwpxuOHzB5gzoZsUMSpc1zupvOLLSZ/
-         oJXA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/JK2tz73DJlAqdIx8Qh7pJTuDRtVMdhqlO5RUY8fekZ4/ENpoZScLsiAEyIYfpST6Xakta4O2YGoZn9sb/jDDlByPtg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzDjPBO3QfKEtwn/1qz4DNKwdtIpcpwHhyLj3jqX8mQS+wmpP+f
-	1soAd6dlg0YSbTnTft0Rwtc7IS3H5XK/DR6uesx646eoh7SckL0WyLt7
-X-Gm-Gg: ASbGnctcqO9By/pH5/f4ztizE/n3JptkTr74AO7IQuIn17DozvCAKeY+DDS4em62Z2N
-	hNyvCuQM2Zzoz88jVguZQbYvyaiy4tskfaqZjxK9KtZHsyRSGr3f1+zkGSiadAgz7pRzeJGftKQ
-	tn9g0gjLpXr3mqgHxfh5/FodiqISf4X3lIRm9f3Mx7Z7JpZRwFz8Hs+bRl1/4xVW0ri10lMPc5Y
-	goVqzrIqiB4L3nJOk5hAFvC0jqSoLCFnQM5e9jnW6bhvfkN0Z5OSU5AlFbHXM3qD1gU5Ucu7k7L
-	JxrYiQ/P/ZEsnupnzBOdkRm4aGGGOIJyLPBrUfxjb16owBZVLsFvJY7+q2DroJVXbRIMGo3gBw2
-	bY71fFBJSQT3BtOJkyjZMOqRlu78UFw==
-X-Google-Smtp-Source: AGHT+IE7gXMblI4F3h/n2WJ5+86/B68s1uRAd1eAVRlCcY9lkPK3X73PWe7RYmr9PH2N+slxR08t+Q==
-X-Received: by 2002:a17:902:bd4a:b0:237:e3bc:7691 with SMTP id d9443c01a7336-23e2f704bbamr31439535ad.13.1752753588815;
-        Thu, 17 Jul 2025 04:59:48 -0700 (PDT)
-Received: from archlinux ([38.188.108.234])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4322890sm146172075ad.136.2025.07.17.04.59.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 04:59:48 -0700 (PDT)
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: ast@kernel.org,
-	daniel@iogearbox.net,
-	andrii@kernel.org,
-	martin.lau@linux.dev,
-	eddyz87@gmail.com,
-	song@kernel.org,
-	yonghong.song@linux.dev,
-	john.fastabend@gmail.com,
-	kpsingh@kernel.org,
-	sdf@fomichev.me,
-	haoluo@google.com,
-	jolsa@kernel.org,
-	bpf@vger.kernel.org
-Cc: skhan@linuxfoundation.org,
+        bh=R+nJTi9+q4kpfv+a+czXe7cETLVFWBjiMNVoEDBKpJo=;
+        b=SzMC4HOaXWg/voy0WmkZKukz7geaC8za3pwZdkWmoP44aBJUGgst59llcRvicYAAqa
+         VqKTghy9jbvvVOFZYX9Cnl61PLLYY/Te7CSmBVOjS4ysCVto/MQBiZ47sbmtLs0va7Po
+         l2tJrOQFOqNKNvPBiw+rJY/Hmvn8jcXOBQPna9UIoIjllwFZnePB3NINaAmkUwC3QOyJ
+         4IUOBud+jQDZHdaChJjhtv8WkfMJJSK7Uoxgtfc+mlblN5zhXDPenl3rEje/gtAoHKob
+         LorKm22MM8ZKDmBXkKGjuIz3b/cH1kVWkinWPcA0PL1+DdRObKX7YdEhVxEhKK3pXR1I
+         OpUA==
+X-Forwarded-Encrypted: i=1; AJvYcCV20UxbMgC94IKKhu8E1grbGcq9OZaJslc2abptg1Z0cOn5m2mGCWT1Avb7JRSuo7BFeB2mTw+PNC5uz9vBzuu4ozqixA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwP/tH/fQwrQ+8LdO9My2z3z9ddEc0RlURkG8Rt1VxLccrq8+7P
+	N0o7kX30GTNrIGNOExoES4lDE1m6mXMk1mVRRr/YWTTj59Y7HsTvoXRC
+X-Gm-Gg: ASbGnct8sA9jtcvJkiwxwAei2Y/IEU5gBUU5WCwjFGa5DZrq57puxQ5tIN4AV+jKT3t
+	vln5dK4+YzNWh6MXUU2ERIZ3ISBxIgkBSeLtjhNDf2GXPYQGD26w7uUEJd3Bl0gES5/YQS5wj5/
+	2ZtKYqj8/w9MBsvAXNO7D8UhLHUbHqdGb5vBQqUv6MMcD/3DQsc4umQuIuRJKdOT2OQh2XesA9O
+	jUEss+bdzAUtQdkTjirVLL0KO5xZhLDdZpukrcO6rXL7NjdRuIZfR121lfXy9OC9tpeHhrnSyJQ
+	drd2qmkDVCkKJSpJ50+n4oVljNDFmker2NsnMMaVy8C6ofAwLA28qAYny+idytMeg0gxgrTfFm8
+	A22kXRbM+0pvojJ0B1WUwHE7+Vxnt6DQo4vbUvaMOvICU3M2YfTI=
+X-Google-Smtp-Source: AGHT+IF4BBm7A1/lXjfX+5CFJckI70cd0JZq9N90Ne5ZdWVr/P6MXSKpPUknHKivgiR7OUlOkmQlow==
+X-Received: by 2002:a17:903:15ce:b0:23d:fa76:5c3b with SMTP id d9443c01a7336-23e256d7899mr89095575ad.22.1752754017576;
+        Thu, 17 Jul 2025 05:06:57 -0700 (PDT)
+Received: from localhost (61-221-35-49.hinet-ip.hinet.net. [61.221.35.49])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-23de4285fcasm139991255ad.5.2025.07.17.05.06.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Jul 2025 05:06:56 -0700 (PDT)
+From: Nai-Chen Cheng <bleach1827@gmail.com>
+To: tglx@linutronix.de,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	dvhart@infradead.org,
+	dave@stgolabs.net,
+	bigeasy@linutronix.de,
+	andrealmeid@igalia.com,
+	shuah@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: [PATCH] libbpf: Replace strcpy() with memcpy() in bpf_object__new()
-Date: Thu, 17 Jul 2025 17:29:36 +0530
-Message-ID: <20250717115936.7025-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	skhan@linuxfoundation.org,
+	Nai-Chen Cheng <bleach1827@gmail.com>
+Subject: [PATCH] selftest/futex: fix format-security warnings in futex_priv_hash
+Date: Thu, 17 Jul 2025 20:06:06 +0800
+Message-ID: <20250717120606.45115-1-bleach1827@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -86,29 +82,50 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace the unsafe strcpy() call with memcpy() when copying the path
-into the bpf_object structure. Since the memory is pre-allocated to
-exactly strlen(path) + 1 bytes and the length is already known, memcpy()
-is safer than strcpy().
+Fix format-security warnings by using proper format strings when
+passing message variables to ksft_exit_fail_msg(),
+ksft_test_result_pass(), and ksft_test_result_skip() function.
 
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+This prevents potential security issues and eliminates compiler warnings
+when building with -Wformat-security.
+
+Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
 ---
- tools/lib/bpf/libbpf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../selftests/futex/functional/futex_priv_hash.c       | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/tools/lib/bpf/libbpf.c b/tools/lib/bpf/libbpf.c
-index 52e353368f58..279f226dd965 100644
---- a/tools/lib/bpf/libbpf.c
-+++ b/tools/lib/bpf/libbpf.c
-@@ -1495,7 +1495,7 @@ static struct bpf_object *bpf_object__new(const char *path,
- 		return ERR_PTR(-ENOMEM);
+diff --git a/tools/testing/selftests/futex/functional/futex_priv_hash.c b/tools/testing/selftests/futex/functional/futex_priv_hash.c
+index 24a92dc94eb8..19651087c4de 100644
+--- a/tools/testing/selftests/futex/functional/futex_priv_hash.c
++++ b/tools/testing/selftests/futex/functional/futex_priv_hash.c
+@@ -184,10 +184,10 @@ int main(int argc, char *argv[])
+ 	futex_slots1 = futex_hash_slots_get();
+ 	if (futex_slots1 <= 0) {
+ 		ksft_print_msg("Current hash buckets: %d\n", futex_slots1);
+-		ksft_exit_fail_msg(test_msg_auto_create);
++		ksft_exit_fail_msg("%s", test_msg_auto_create);
  	}
  
--	strcpy(obj->path, path);
-+	memcpy(obj->path, path, strlen(path) + 1);
- 	if (obj_name) {
- 		libbpf_strlcpy(obj->name, obj_name, sizeof(obj->name));
+-	ksft_test_result_pass(test_msg_auto_create);
++	ksft_test_result_pass("%s", test_msg_auto_create);
+ 
+ 	online_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+ 	ret = pthread_barrier_init(&barrier_main, NULL, MAX_THREADS + 1);
+@@ -212,11 +212,11 @@ int main(int argc, char *argv[])
+ 		if (futex_slotsn < 0 || futex_slots1 == futex_slotsn) {
+ 			ksft_print_msg("Expected increase of hash buckets but got: %d -> %d\n",
+ 				       futex_slots1, futex_slotsn);
+-			ksft_exit_fail_msg(test_msg_auto_inc);
++			ksft_exit_fail_msg("%s", test_msg_auto_inc);
+ 		}
+-		ksft_test_result_pass(test_msg_auto_inc);
++		ksft_test_result_pass("%s", test_msg_auto_inc);
  	} else {
+-		ksft_test_result_skip(test_msg_auto_inc);
++		ksft_test_result_skip("%s", test_msg_auto_inc);
+ 	}
+ 	ret = pthread_mutex_unlock(&global_lock);
+ 
 -- 
-2.50.1
+2.43.0
 
