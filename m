@@ -1,102 +1,166 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4565C2DEA7E
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 15:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9642E6118
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 16:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752853173; cv=none; b=JMu6otCPoWPyammjsFCeMZICEgh5IHEdtuOWIFjKZtbDJ/UcnUXOhMeMi211sPx2yBWkvN5Xus28UnlDbdUPKyBMarWwkjpED6Qgheur1yxSsXBb5//GT6Kxor5fgG+iuDo1UO4QQRikTLwgqTGqwjhhaz0Xz/vj/WhIYcr80+g=
+	t=1752855039; cv=none; b=kI2P0XnOIgCvicCcOn6Wp+BCTO4jgzkpzsOhd8mDypRbUcQl8GhTZ+gJMRaniv7uyQYoKHPWRt3AVgnl80Ta1V6bVLl56TMvtOJaNonxBUwyyO5MYbVdwaaq47C/vqg9Jb9PpE5vW8zp7jXbtFVnAa3UpxDqEZss6VD+TXSQQko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752853173; c=relaxed/simple;
-	bh=9VSV9uLZb50DfyKoCnVz+avlkKOMbZZ5AZGoFFpkR+o=;
+	s=arc-20240116; t=1752855039; c=relaxed/simple;
+	bh=kGsCAEDUAs7PcvVTlXcxhCu1WLo8mCBe+P9DDCN74Cc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qpHcuUfo+VaivmFNN8zlKTbiUAvq6MtPjeTQ7Q4PqoKUzsjzmg7Mj+bdqkMJB3M+0J74fDjwzthvWiJrtj7yDBqLGfcrzxQSrkRo8sIH3KhmnzX848lj7dzmsZI5knV0Ml4Ck6iXMODG2zPs+PyeO/e8wPr9j97ApgfOrwxpqRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mips2Vxq; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=p+jqZJYY24ONlbKHffUu8poSQsMsrsNzukRO5WDFwEPPERaCtoZ0/TBVr7UQhzYrgWfPb5hYT1meNUo5KXHBoNV80O9cci597NUKu/Jrin0pFtSiVKjLMaifZjjlrrt+NxyUJy1grCXpgRT7Qj/9EiE6ryXxdyvxW75SQtJA9xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Nht1g0Yq; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mips2Vxq"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6070293103cso3435064a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 08:39:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Nht1g0Yq"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b3507b63c6fso2291199a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 09:10:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752853169; x=1753457969; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1752855036; x=1753459836; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9VSV9uLZb50DfyKoCnVz+avlkKOMbZZ5AZGoFFpkR+o=;
-        b=Mips2VxqJG8SpgTNZwcc67VEhITGa+XDcmlf80KN21k0gKs/xfHObZXpbjF1WKW3J9
-         9+9m5Uy/TZ8eAlCkjKBHsKaYOasfxAlEjnxxH0P7M5YksYjXq8kfWEp4mZaDY8DnSSJg
-         rUr5fdDMohSmWdyw5gRxqQlsDiT6Im7b3vfR0qjO1MzAI5xzJY8iaV2mm3egNt7Nnq8v
-         o2hySYg8zLp7p7vmlOe71AdsLxsLnGIY3yJ6s43E22O+sb8dVWKorbbe6DqReGbXDCOV
-         bciKBsUBu5jSgV38WujPNjxpkBaKsQT0IcehaFOyB4Q4zwszENJmOckWaXVs5Mk0Qb3w
-         xQrA==
+        bh=YjMu1e4Z2kPIqjvwczTBgX85r3dXx3nHkHeoGheSPn8=;
+        b=Nht1g0Yq00poCaFu8vZVe4np+98G6bqzOiFB+sqOzFIIYmocqqFnZ69ByE1FlLlaS2
+         NiZdA/yQGrzCKydMPXzeTCRdOx7yvUKof/bcSAWrBgojMr0j+Upv2s/Gawvtt/XDi+Ys
+         gKfxhZZE8AcOvJmdhzh3NJY6pLGBlt6oBImms=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752853169; x=1753457969;
+        d=1e100.net; s=20230601; t=1752855036; x=1753459836;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9VSV9uLZb50DfyKoCnVz+avlkKOMbZZ5AZGoFFpkR+o=;
-        b=WdX7zMyD7FyqXtgsRa1JgeTcTlCJovRlaq1RFi/rljrtMfb/bssOD0WMFulXberxOk
-         jPNUuvtqDTGoC/nLl1xjM1p527ve1Atb81kW/upL/VvMVyPSFmg1FGPiMILiKUGtuHxQ
-         CaiGGnjsxWGH5AURENdl3Sf/g3KKHRN/wjAfJ28hFNnlR/sqRy1a8JZFuplOWShJo15B
-         rcl1J+mafsKLm83+8eS+9h77LPlUf012fPDleOd8hpKw/AcfgwO2TmQzFlCqz/iIAwxx
-         bMV/C+l89EBggXs1d0zqxGbCzBsJD7Q7lbSmJu1xM6xzLtsWF4dCL5pGcc4h6aOw/blU
-         r1eA==
-X-Forwarded-Encrypted: i=1; AJvYcCUKJFLvWcYAp5pa/gQT/Tq4fgnVXzqw8vNymL3N5XIXjI/sl6ojR2k2CyrDJFaMIFECKFNglXW07nIq/SJ1BKTylJeFKg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWMvPhopVvryB7AxekBvfYtPj9/GOMQJiGBt2uIvOla6FBj/Vn
-	R3HXIEf+dkaJiXfdQW+0KX5tmvHj74Vn3nfKRvd386HgNXs+9PVCMfAoEe1mZs8J3iN1+02UYS5
-	L24NIQnpjNy5R0VOJqX/ddQG1D2aenJo=
-X-Gm-Gg: ASbGncsV3F1NpUOmvF24VWsy/+OY8O4DvFSh/FVpLfNce2L0RaAcAxwWJxO3K1J8Hon
-	7dnFjGgeM+4gEJvploR1asLgCE5JjqOrqlj7qBZ7Nt+2lPftP2BNCkf8zFoR2rdSrYEkI07TSkI
-	qykA5XwNwXMmmrZdi7eSXx3ZCV5BZTgehinAVKQ1ZQn3Z0JhYFSRgUfSCHVK357PeAyUb8fA2IP
-	3pv/g==
-X-Google-Smtp-Source: AGHT+IEpeVxME6aVq15riUIEW3IcE9rZry6wSWfhQX8HqiZb7qciuqAosUdiKMt2TXpE4cJ1jOG0BXke05WcjyCrYC8=
-X-Received: by 2002:a17:907:989:b0:ae0:b7ef:1c11 with SMTP id
- a640c23a62f3a-ae9cdd86a54mr1116865766b.5.1752853169232; Fri, 18 Jul 2025
- 08:39:29 -0700 (PDT)
+        bh=YjMu1e4Z2kPIqjvwczTBgX85r3dXx3nHkHeoGheSPn8=;
+        b=LMii6JyKykf3Bw8LtPlDm7Y+yDMZxy0AQcmWHjAW9kr5vwjmtbW8Gze9fd8KiXPV1P
+         uZpTmef6DdTRosjk6qULj6slV7Pv+zWM9BYE/8JasiqfHDAH8nx9SLyDBMw1mX8LuyPf
+         9AkdzgAPPJ+hOJWTd9M1bkVDbAwf9kRSfNPVCNGOQzPPtEceOQtXOVyh/mzh6jpmcYID
+         3ruz1a+wiFTwOfXd/9nedWBPjOYoMPp/TgrZS635qUE9bMyfYb8a//pauTdgsI+LfNx4
+         MsSlnalgOreDvAc0fx82TNnM/fFmPsyzs9MN60lBDGp4EHTj5pSE/0tq+QpgiCJi6egJ
+         HEBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWRjQBSfVNr8BGWbNfuyYv2DnS2UMAAIFr54Kej1Aw+aqCAyb/9XqdliAmPA1JtAaaWpSaGAatCenvHrVozOvqHJtAWng==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz77je2zxbEadBSmWlqML5zXYkJBdcEcS++pTP6tuIw1hPiDBrg
+	vT0Exlg6pUAsUx45+c662sfhvs1WCAWVNenf+6QcKa18OBWTsSQuNNQhDq7MZoX9Q9Mp1kE4Kmy
+	Wu3w=
+X-Gm-Gg: ASbGnct0MTtDeynLu0cm0Doe1JnxeJCohfSNFBSns6+H11rH2GgiL2NXX+0Kg3TvoX+
+	RJk7oURd6H2b3DiUB450KqWVNzrNKDnQH1HrKU2fXNLeKdKjenczS9yOfcmTfMHGMmgHA/ZzL8S
+	Ui2OkUPcwxleHbpHl9SOixD8ufTAJFxJjjkW7lHb6xEYzoSmclPPWZe9M1WV+gHWePB81FbIPJ4
+	Ok9qtWyZTbbdSWQQ6/6hkVkAhG0xmhzlM6spCejA6Sq5XawNooeJmUBqZD6tuquEuyHOUlWxkhi
+	q1p6/9zoFKm+Kp5sokcUj7+vNgtScvLwuI4NMA8Lc3j3F+TiO5aX9X6SwDiVzXtGZtaKzvbin2A
+	TFOyq2hwadvvRrntsBRLcld25auMZAd8ULS4zkCULYjmiuTtxoM3jPEfYogV8sp7rng==
+X-Google-Smtp-Source: AGHT+IFgHCNgQQbq6gMYwYODoZpjvTvu/arnfagZtk2M8Oq4KAq1Ok8iggzmZ5iOkvpYT3f3+fPzwQ==
+X-Received: by 2002:a17:902:d4d2:b0:235:15f5:cc30 with SMTP id d9443c01a7336-23e256cd096mr147037445ad.16.1752855035793;
+        Fri, 18 Jul 2025 09:10:35 -0700 (PDT)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com. [209.85.215.178])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b6b4c76sm15338525ad.116.2025.07.18.09.10.33
+        for <linux-kernel-mentees@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Jul 2025 09:10:34 -0700 (PDT)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b3220c39cffso2203965a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 09:10:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVOzXplgGLHTqTR9XSvwtdESWr+3eqxUpxwbIkvEot9aSYwonAfNU1zrps7zKR/JSthYUMvDCX3rzmtreaRkiMvtN+LBA==@lists.linux.dev
+X-Received: by 2002:a17:90b:2b4c:b0:311:eb85:96ea with SMTP id
+ 98e67ed59e1d1-31c9f3c5719mr16511405a91.9.1752855033213; Fri, 18 Jul 2025
+ 09:10:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250717115936.7025-1-suchitkarunakaran@gmail.com>
- <CAEf4BzZ+OTkaXmtWPbOGB0OWz5xmj-d06UWchooO+iUyDHar4g@mail.gmail.com> <CAO9wTFgLOymS+VDcUTCHZ7niu_gEgN-N-F1uX-Kpm+uqvaMrQg@mail.gmail.com>
-In-Reply-To: <CAO9wTFgLOymS+VDcUTCHZ7niu_gEgN-N-F1uX-Kpm+uqvaMrQg@mail.gmail.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Fri, 18 Jul 2025 08:39:01 -0700
-X-Gm-Features: Ac12FXxnbJSkiNaYLXamvASk4rtFXxTiGngAImtikLHkoEBtFQMXFsQXoFL0bO0
-Message-ID: <CAEf4Bzayn6UNjjbtgA8i2n4-_kuyERnOZAZMfc4cXTDKrSFr+w@mail.gmail.com>
-Subject: Re: [PATCH] libbpf: Replace strcpy() with memcpy() in bpf_object__new()
-To: Suchit K <suchitkarunakaran@gmail.com>
-Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
-	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
-	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
-	sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, bpf@vger.kernel.org, 
+References: <20250717164053.284969-1-me@brighamcampbell.com> <20250717164053.284969-2-me@brighamcampbell.com>
+In-Reply-To: <20250717164053.284969-2-me@brighamcampbell.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 18 Jul 2025 09:10:21 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WYBFrm-J55BTEJ7s=Jk4EFuMVAkahVZfdzW6V8mxE7Tg@mail.gmail.com>
+X-Gm-Features: Ac12FXz_prqGT_YDn81ubqDHwEClWFafCp94o67Bin1GS3o7VQCq9ZD3Qej-Cnw
+Message-ID: <CAD=FV=WYBFrm-J55BTEJ7s=Jk4EFuMVAkahVZfdzW6V8mxE7Tg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] drm: Create mipi_dsi_dual macro
+To: Brigham Campbell <me@brighamcampbell.com>
+Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
 	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 17, 2025 at 10:33=E2=80=AFAM Suchit K <suchitkarunakaran@gmail.=
-com> wrote:
->
-> > This is user-space libbpf code, where the API contract mandates that
-> > the path argument is a well-formed zero-terminated C string. Plus, if
-> > you look at the few lines above, we allocate just enough space to fit
-> > the entire contents of the string without truncation.
-> >
-> > In other words, there is nothing to fix or improve here.
-> >
->
-> Even though it=E2=80=99s safe in this context, would it still be a good i=
-dea
-> to replace strcpy() with something like memcpy() since it's
+Hi,
 
-no, there is no need. And keep in mind that this is libbpf library
-source code, which is developed as part of kernel repo, but isn't
-running inside the kernel itself
+On Thu, Jul 17, 2025 at 9:41=E2=80=AFAM Brigham Campbell <me@brighamcampbel=
+l.com> wrote:
+>
+> Create mipi_dsi_dual macro for panels which are driven by two parallel
+> serial interfaces. This allows for the reduction of code duplication in
+> drivers for these panels.
+>
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+> ---
+>  include/drm/drm_mipi_dsi.h | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+>
+> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+> index 369b0d8830c3..03199c966ea5 100644
+> --- a/include/drm/drm_mipi_dsi.h
+> +++ b/include/drm/drm_mipi_dsi.h
+> @@ -431,6 +431,30 @@ void mipi_dsi_dcs_set_tear_off_multi(struct mipi_dsi=
+_multi_context *ctx);
+>                 mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
+>         } while (0)
+>
+> +/**
+> + * mipi_dsi_dual - send the same MIPI DSI command to two interfaces
+> + *
+> + * This macro will send the specified MIPI DSI command twice, once per e=
+ach of
+> + * the two interfaces supplied. This is useful for reducing duplication =
+of code
+> + * in panel drivers which use two parallel serial interfaces.
+> + *
+> + * @_func: MIPI DSI function or macro to pass context and arguments into
+> + * @_dsi1: First DSI interface to act as recipient of the MIPI DSI comma=
+nd
+> + * @_dsi2: Second DSI interface to act as recipient of the MIPI DSI comm=
+and
+> + * @_ctx: Context for multiple DSI transactions
+> + * @...: Arguments to pass to MIPI DSI function or macro
+> + */
+> +#define mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...)           \
+> +       _mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ##__VA_ARGS__)
+> +
+> +#define _mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...) \
+> +       do {                                           \
+> +               (_ctx)->dsi =3D (_dsi1);                 \
+> +               _func((_ctx), ##__VA_ARGS__);          \
 
-> deprecated? I=E2=80=99m still a beginner in kernel development and trying=
- to
-> find my way around, so I=E2=80=99d appreciate any guidance.
+nit: shouldn't func be in parenthesis for safety? It's unlikely to
+really matter, but just in case it's somehow a calculated value that
+would make it safe from an order-of-operations point of view.
+
+
+> +               (_ctx)->dsi =3D (_dsi2);                 \
+> +               _func((_ctx), ##__VA_ARGS__);          \
+> +       } while (0)
+
+Can you explain why you need the extra level of indirection here (in
+other words, why do you need to define _mipi_dsi_dual() and then use
+it in mipi_dsi_dual())? I don't see it buying anything, but maybe it's
+performing some magic trick I'm not aware of?
+
+Reading this with a fresh set of eyes, I also realize that this macro
+is probably vulnerable to issues where arguments have side effects
+since we have to repeat them. I don't think there's a way around this
+and I think the macro is still worthwhile, but something to go into
+with open eyes. Possibly worth noting in the macro description? We
+could probably at least eliminate the need to reference "_ctx" more
+than once by assigning it to a local variable. I think referencing
+"_func" and "__VA_ARGS__" more than once is unavoidable...
+
+Maybe this is what you were trying to solve with the extra level of
+indirection, but (at least with my knowledge of the C preprocessor), I
+don't think it does.
+
+
+-Doug
