@@ -1,204 +1,119 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6FC2066DE
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 17 Jul 2025 18:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BE5292B4F
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 08:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752777879; cv=none; b=qTgCqQ49wZ8mtxN8tbVWgz0CIfePI+LC7IDcTIaWRWCJTVMeNLo9I161ZtEiVdsrqxnbCYD5V6AZDfCFHR+66XgMiItsEiXyFvA/FoGGiMW1aPhDIDmPyMtARQt/MHeiKtfMBzai8GIZCgx/pOgHMIpsb6Bkfryo7XWcriKGz5s=
+	t=1752828270; cv=none; b=hZ9YNG4yUmqbKWGXu6nn9uwFdTZvzeL9nX00oAqC5J49Pp8x4mkb0Cbl6yAja5m1qykmo4stal/5e8a3/QdwcssPbxxZNTHhiekZZrjWCCqhlbcMj1l3Ib4u+PaAMGc10ce4odZ5rJqGH9p1b6SNXH8/vNuCCENaMnwX4j7Q1I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752777879; c=relaxed/simple;
-	bh=ZCBDhVYdtk0y4eJcRuRLbrOsD67LlslZ+NDvFYkKj5o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Mb1HpV3q0maoaW7/xbjPLtSDPvGgRZpfDHy7QcQ1zaR7xWLl9SfMeYGGU3QY3szhKYRifKr9v3IkzwzDYmFd6bI+rMtL30lJMU1QgR0dz8Kk09++D7HIKlmuUB99V6I6Nc1IS9nd8snXen1uqIaqxm3901rWpmcpeAk1NI0XvMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=N2G56BT/; arc=none smtp.client-ip=91.218.175.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+	s=arc-20240116; t=1752828270; c=relaxed/simple;
+	bh=Uoj/2NsPxaTTI2japwMQ43nh93mfeyzRyN0+brvXZjI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YDsZgJH1ofnAjtpe3j50BFOxGMdcetmKWMSoA1vvoUVGz5rJuCGga9QSr8CerG/1Yb5j2ZKPFrlEZqYhGfpM9w17Td7LA2w5DchiVnmw9OJ6ferr679UIjEnQWksf/fKI1aC7eIjxnbbL7w9o1HNGtCCuYnK061hn8nL5D5j/XU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=YQz5259n; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="N2G56BT/"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1752777873;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=mAKc0gZj12q7OYrgO0jy//NODW8HnTIl71eRaw/GUw8=;
-	b=N2G56BT/BbYgC1C9q9Sr13xf+d4zwHYofERaUf+6Gk8OnCgO/Kkje/FKkRk26DhZuSh8qv
-	h+p1OztjWOrZaZNlhbNVTuvjyQK4/3SpMQ74iAjvb5NGIM81oYDe0Xef5LcYcBPyaw7qoG
-	p1NWs46vI3loIjEHlyZYd5bNGAmtEowjEhGuFDP6KwZ1imNjkklT2hixlnWwtLFK/tuC3G
-	hkG2WSMtxS+KmHhtYCzC6Kswqo5PNRelZdVPUPvra0/hlRyZrSgIAKeuqVJazPkEmbN+lj
-	nGGI8YPL2oofUEVdCQqzjOfn3kG5OsFbiIxu9xYm/JaEHUYZl7hMH/8IR0c/yQ==
-From: Ignacio Encinas <ignacio@iencinas.com>
-Date: Thu, 17 Jul 2025 19:44:02 +0100
-Subject: [PATCH v5] riscv: introduce asm/swab.h
+	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="YQz5259n"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a6f2c6715fso1469201f8f.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 01:44:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1752828267; x=1753433067; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jIjJ267yEtDnmiN+Y1fTBADY4HhOVJqHNJYRhatCK9Q=;
+        b=YQz5259nuPB6WEn1h30T5lG7EExwLx0tRpmuVSvCtp0Lybg36fY6G0c0Uc+B5UjBNp
+         twK1aKwExRgJDDCctZdly/ZRy1Y1Pk2LRwG29DT6V/QMFqUuarsrI6LSF1lBHsIdO+o5
+         WpolcF+oJBWhU8KaG4mEvmqfEanxf6TSdzbA8qigo5dXJwIesb+spNPwYbGRK06Am/Ql
+         nrtcJACsDTpbJgtbfxE9Rc3LhQtnxnXNn9V5J2dJ4DqbTVnlZ8+6y5Xcdg/BUUeGPN/8
+         n3O1Y0skIKohgNGVDfDdp9EzPznJ0KQ7wWREgX9TSWiKiJcUuVIUX2dhJ1KNWRG3Ra0G
+         JQKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752828267; x=1753433067;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jIjJ267yEtDnmiN+Y1fTBADY4HhOVJqHNJYRhatCK9Q=;
+        b=qJb+yxf5IRvvya2jAc5rXSJyNioHoIfM16kiHrkYh/s1h3jfwmbV68dDmwwJR8J9Bx
+         bb5ZLz6KbuZjymMunPiRz76q9/kHxzJy0nOmGzXvQ4nw4Q882kwJ1rc1ngxyRlpQQAvV
+         nrW00uMn6PxxY6TyulBt2abHvqp9yWy90RNYRq6YejemfSMIdrTqemUMyHk23hHUoaWB
+         GN4OxHfmkrkHde7zBn/vhKFlWK0q58lOj5tzqj7BdKFnyP/hoqS2er9+4nYZQgFlqOuM
+         IW3COA8epS63CUVaDNS5rAUBHTSl0CZDhT5edSnJfG/UrsHc+a+z5YqAui53kYDa1Kxm
+         jEfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQY2Szz414CrdcgBy7LDMLtoM4uS9DmvVoPdV0yzZ7G0ozUCM9G79QF+aGB1atpF89e3gcO01+RBQgzWkm4EqxqNyl7Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzmtLjqBSQdzfdX+em2dKggcXtEm/SnNVP8JKQvLn4jXiKpbCiL
+	IVck9JouHKdQxOc/3qujoyHEUKIGXKpiz6uHOE/qw50FyhBZQenOeJ6hA1zqx0BQab4=
+X-Gm-Gg: ASbGncthOj9VB+915JqwO68wNcftQmb+ZmOABg1/OhM3g/LN7qnM9Nd36fkKBkn6Q8L
+	CpGeVk0hfrIoiB2ZnlAzHqFSJFaXnFXqRoYPfUI/7xaA5K/SV0cNd2IQBM6zj+8KTuZ5Nl3oxIU
+	Ywv2gabr8HD3kn7p2x1VUY5U75mtv/zoRNFa27OrAtnCtygqMgrVvchasQQGIVXoqMPH+1luEXB
+	OuC+9PkFVNJqs2h4qzGys8bQ6RhZQPnAqQnmuPE8vs/KKH/Jxb4gOOLoqRtTo7jz82kywrBc1md
+	pmmfIp/37+qai4GrBCv/IASRIOM7+KjsvfdcaazvNness8Iz427e8/Ekicbl2UTm+ZRr9UGrsbS
+	pJRQQNWQS1LsGoingFd4O+6JvecqslRK4OOAZ2ueViapIsJkq
+X-Google-Smtp-Source: AGHT+IHMJeUs8RlmFkrQ9WTk0wqJZT629erQHVUIzMmI6akez7WS0GHbIEYfQ+fiZr6Q6Fy6PniGIg==
+X-Received: by 2002:a05:6000:2385:b0:3a4:dd8e:e16d with SMTP id ffacd0b85a97d-3b60e4c2194mr8115453f8f.15.1752828267262;
+        Fri, 18 Jul 2025 01:44:27 -0700 (PDT)
+Received: from pop-os.telenet.be ([2a02:1807:2a00:3400:9aa9:dd5c:bad6:e31])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45627962384sm58208115e9.2.2025.07.18.01.44.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jul 2025 01:44:26 -0700 (PDT)
+From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+To: dlan@gentoo.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	paul.walmsley@sifive.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	palmer@dabbelt.com
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+Subject: [PATCH v2 1/2] dt-bindings: riscv: spacemit: Add OrangePi RV2 board
+Date: Fri, 18 Jul 2025 10:43:38 +0200
+Message-ID: <20250718084339.471449-2-hendrik.hamerlinck@hammernet.be>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250718084339.471449-1-hendrik.hamerlinck@hammernet.be>
+References: <20250718084339.471449-1-hendrik.hamerlinck@hammernet.be>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250717-riscv-swab-v5-1-1d5bb7c42f38@iencinas.com>
-X-B4-Tracking: v=1; b=H4sIAHFEeWgC/23MQU7DMBCF4atUXmM047HdmBX3QCxsZ0JnQVLZy
- ICq3B23QiJBXb4nff9FVS7CVT0dLqpwkyrL3Id7OKh8ivMbaxn7VgaMA4KjLlJz0/UzJp0GTMH
- GEDMm1cG58CRft9jLa98nqR9L+b61G17f3wzCNtNQoybrneEJmYN/Fp6zzLE+5uVdXUvNbHXYa
- aNBj46SH31MAd0dTX/aAu00dU1pOoIbB2CiO9putPE7bbv21gBasNEP+Z9e1/UH6rs8pGEBAAA
- =
-X-Change-ID: 20250307-riscv-swab-b81b94a9ac1b
-To: Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Alexandre Ghiti <alex@ghiti.fr>
-Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Palmer Dabbelt <palmer@rivosinc.com>, 
- Ignacio Encinas <ignacio@iencinas.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-Implement endianness swap macros for RISC-V.
+Document the compatible string for the OrangePi RV2 board [1], which
+is marketed as using the Ky X1 SoC but is in fact identical to
+the SpacemiT K1 SoC [2].
 
-Use the rev8 instruction when Zbb is available. Otherwise, rely on the
-default mask-and-shift implementation.
-
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
-Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+Link: http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-RV2.html [1]
+Link: https://www.spacemit.com/en/key-stone-k1 [2]
+Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
-Motivated by [1]. Tested with crc_kunit as pointed out here [2]. I can't 
-provide performance numbers as I don't have RISC-V hardware.
-
-[1] https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
-[2] https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/
+v2: No changes.
 ---
-Changes in v5:
-- Duplicate ___constant_swab helpers in arch/riscv/include/asm/swab.h to
-  avoid delaying the patch as suggested by Alex in [3] (drop patch 1 and
-  convert this into a 1-patch series)
-- Link to v4: https://lore.kernel.org/r/20250426-riscv-swab-v4-0-64201404a68c@iencinas.com
+ Documentation/devicetree/bindings/riscv/spacemit.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-[3] https://lore.kernel.org/linux-riscv/7e22a448-3cee-4475-b69b-3dd45b57f168@ghiti.fr/
-
-Changes in v4:
-
-- Add missing include in the 1st patch, reported by
-  https://lore.kernel.org/all/202504042300.it9RcOSt-lkp@intel.com/
-- Rewrite the ARCH_SWAB macro as suggested by Arnd
-- Define __arch_swab64 for CONFIG_32BIT (Ben)
-- Link to v3: https://lore.kernel.org/r/20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com
-
-Changes in v3:
-
-PATCH 2:
-  Use if(riscv_has_extension_likely) instead of asm goto (Eric). It
-  looks like both versions generate the same assembly. Perhaps we should
-  do the same change in other places such as arch/riscv/include/asm/bitops.h
-- Link to v2: https://lore.kernel.org/r/20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com
-
-Changes in v2:
-- Introduce first patch factoring out the default implementation into
-  asm-generic
-- Remove blank line to make checkpatch happy
-- Link to v1: https://lore.kernel.org/r/20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com
----
- arch/riscv/include/asm/swab.h | 87 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 87 insertions(+)
-
-diff --git a/arch/riscv/include/asm/swab.h b/arch/riscv/include/asm/swab.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..4f408f59fada7251d62f56d174ae76ff19f4a319
---- /dev/null
-+++ b/arch/riscv/include/asm/swab.h
-@@ -0,0 +1,87 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef _ASM_RISCV_SWAB_H
-+#define _ASM_RISCV_SWAB_H
-+
-+#include <linux/types.h>
-+#include <linux/compiler.h>
-+#include <asm/cpufeature-macros.h>
-+#include <asm/hwcap.h>
-+#include <asm-generic/swab.h>
-+
-+#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
-+
-+// Duplicated from include/uapi/linux/swab.h
-+#define ___constant_swab16(x) ((__u16)(				\
-+	(((__u16)(x) & (__u16)0x00ffU) << 8) |			\
-+	(((__u16)(x) & (__u16)0xff00U) >> 8)))
-+
-+#define ___constant_swab32(x) ((__u32)(				\
-+	(((__u32)(x) & (__u32)0x000000ffUL) << 24) |		\
-+	(((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |		\
-+	(((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |		\
-+	(((__u32)(x) & (__u32)0xff000000UL) >> 24)))
-+
-+#define ___constant_swab64(x) ((__u64)(				\
-+	(((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |	\
-+	(((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |	\
-+	(((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |	\
-+	(((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |	\
-+	(((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |	\
-+	(((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |	\
-+	(((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |	\
-+	(((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
-+
-+#define ARCH_SWAB(size, value)						\
-+({									\
-+	unsigned long x = value;					\
-+									\
-+	if (riscv_has_extension_likely(RISCV_ISA_EXT_ZBB)) {            \
-+		asm volatile (".option push\n"				\
-+			      ".option arch,+zbb\n"			\
-+			      "rev8 %0, %1\n"				\
-+			      ".option pop\n"				\
-+			      : "=r" (x) : "r" (x));			\
-+		x = x >> (BITS_PER_LONG - size);			\
-+	} else {                                                        \
-+		x = ___constant_swab##size(value);                      \
-+	}								\
-+	x;								\
-+})
-+
-+static __always_inline __u16 __arch_swab16(__u16 value)
-+{
-+	return ARCH_SWAB(16, value);
-+}
-+
-+static __always_inline __u32 __arch_swab32(__u32 value)
-+{
-+	return ARCH_SWAB(32, value);
-+}
-+
-+#ifdef CONFIG_64BIT
-+static __always_inline __u64 __arch_swab64(__u64 value)
-+{
-+	return ARCH_SWAB(64, value);
-+}
-+#else
-+static __always_inline __u64 __arch_swab64(__u64 value)
-+{
-+	__u32 h = value >> 32;
-+	__u32 l = value & ((1ULL << 32) - 1);
-+
-+	return ((__u64)(__arch_swab32(l)) << 32) | ((__u64)(__arch_swab32(h)));
-+}
-+#endif
-+
-+#define __arch_swab64 __arch_swab64
-+#define __arch_swab32 __arch_swab32
-+#define __arch_swab16 __arch_swab16
-+
-+#undef ___constant_swab16
-+#undef ___constant_swab32
-+#undef ___constant_swab64
-+
-+#undef ARCH_SWAB
-+
-+#endif /* defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
-+#endif /* _ASM_RISCV_SWAB_H */
-
----
-base-commit: 155a3c003e555a7300d156a5252c004c392ec6b0
-change-id: 20250307-riscv-swab-b81b94a9ac1b
-
-Best regards,
+diff --git a/Documentation/devicetree/bindings/riscv/spacemit.yaml b/Documentation/devicetree/bindings/riscv/spacemit.yaml
+index 077b94f10dca..c56b62a6299a 100644
+--- a/Documentation/devicetree/bindings/riscv/spacemit.yaml
++++ b/Documentation/devicetree/bindings/riscv/spacemit.yaml
+@@ -22,6 +22,7 @@ properties:
+           - enum:
+               - bananapi,bpi-f3
+               - milkv,jupiter
++              - xunlong,orangepi-rv2
+           - const: spacemit,k1
+ 
+ additionalProperties: true
 -- 
-Ignacio Encinas <ignacio@iencinas.com>
+2.43.0
 
