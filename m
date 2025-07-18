@@ -1,146 +1,203 @@
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C748221297
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 11:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F092DBF5E
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 13:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752839284; cv=none; b=sonnbgfk976typn7nXTxiCpu20EsmvNaho/RenEhvMSUdOmsTr5VP2SAGRUq937MBcYlSTaVPM3h7GmNxgumRA45t2GFuuY/umcbCBxJO2Zgo2I421aYmWdB1DOlIrLY0Tn+dhvnri5iKGdJdqg8Q43KkmYgqiIoq+4dubCNvuc=
+	t=1752843839; cv=none; b=Qd96UA3Q0xk0Dpq6d1rmWXTFflulrD/SCgoI8Es2EAK6Lk2tNvAz7JbKYhinMJdy5s8zNM5dXY9jG11n/A9EC+qtdPfRZC/msGEr4pxAiH4bV0gvPbWHWunDhHJ5DpFftWbjDsL6uBWYMnF3QSMlPtVO5qLVQ/5rUlfcWKtYxQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752839284; c=relaxed/simple;
-	bh=EGtRkZ5U82Aqv6qxflDEOWj/WYCMX9s2gIGAP/sSaY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SI5BeFNmMNZJM0wdp0DeZ/T8zaZkdP7n3P1/veOUhOUAo2SBzi8+z0VKjJ1BRrcMsXk5VEPAEz1a1ru4h/Pl//6uaGWwvBpeBqiXSQc1LXfv90qvYWi5egao5e7EIC2fw0Klf+GUjA9KCejJnenqFTc9YiRDCBeeERfyaULlrA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=uFmmKuoJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eldWWJRZ; arc=none smtp.client-ip=202.12.124.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="uFmmKuoJ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eldWWJRZ"
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id B495D7A0179;
-	Fri, 18 Jul 2025 07:48:00 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 18 Jul 2025 07:48:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1752839280;
-	 x=1752925680; bh=TixgCXnBJyIqXhUnfdaZUNI3oOckDeciyEbiH83Iars=; b=
-	uFmmKuoJEFwkN9w9M9/KALI1tOWTBpMQ8X/YdhGWRYGR3HGR4zqJ+4mY/tIKA3lz
-	K6JrpnqzBdvKVIYidiMRdUqDHN6T6KPghwGKXx20z2yelscyUKa20DEnpt7n/tH9
-	CGw+h8+hAuNvaa342DoVxb60Mw84wSMXUx8G4AxQAKdW7BNw98/lea+dtbBl1XLC
-	+bgQ65qPFimTkJJr4hDAcPpzfmSVbkAyqdyR4QG+tBBdl8CxYjPVHBsjIn23mcoz
-	TYn2mWwmgFNBFGCgD2aVhNWvzR9BfEiF03NasySj1XNe19qIo3wn2X93PVucLVuu
-	ZmNx/fIqaZW+6myHuXm+9Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1752839280; x=
-	1752925680; bh=TixgCXnBJyIqXhUnfdaZUNI3oOckDeciyEbiH83Iars=; b=e
-	ldWWJRZXpycMZO4g1g39yKpaQe4dgQXLaQGyT6tqokPvwoW3rpoMmsF5Vd9sFJGq
-	vP4f0WtEHgl9uxtlZJWxTTWenQibeTqZKhw4sN/O5xRUBK8YjFWnNMrMNlH3FHGF
-	ZLp771oROhYm2T3DvXqoHsadk3ZbOdlT2Um2SWGY2E8lhXBEtJOFatDH5BHk7pgS
-	2SMHVGrhC0BFn4f/oMc7oV73ls3T2KyQIK1M3LhWzWRIYgq9RaGT1PgiZU4UJGHk
-	7ZneWgbUWSrqTA1MXertkoE0F7fwi8feaD36omUaoPzu0ZP+a6OCteeznWVfUfZe
-	6AvHpS3c1+g7gs+gqkNzA==
-X-ME-Sender: <xms:bzR6aPzxyY2UNeMJMGctEQygJEaZpk_wTgmHDOg7BUhXYKQQvV7R4A>
-    <xme:bzR6aNm4Hf6eVe8bC4D5bOvJJB-2S8LojTuKSnCc-ajRQOtiRWkQNe69_FGvrWu6C
-    OO_4M2ZFoC1oA>
-X-ME-Received: <xmr:bzR6aPUfU246mSVlmguOvaxZqnuOHTeT_Kt6V6a426DYR7lt3yCMFqG_kcNvuRnIxYIO8GzzaJm2AXb0XUX1sgsBMDF5MF_7H8TRdQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeifeefkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertd
-    dttdejnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeen
-    ucggtffrrghtthgvrhhnpefgkeffieefieevkeelteejvdetvddtledugfdvhfetjeejie
-    duledtfefffedvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhdpnhgspghrtghpthhtohepfeegpdhmoh
-    guvgepshhmthhpohhuthdprhgtphhtthhopegsrhgrkhgvrhdrnhhoohgsrdhkvghrnhgv
-    lhesghhmrghilhdrtghomhdprhgtphhtthhopehpvghtvghriiesihhnfhhrrgguvggrug
-    drohhrghdprhgtphhtthhopehmihhnghhosehrvgguhhgrthdrtghomhdprhgtphhtthho
-    pegrtghmvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrmhhhhihunhhgsehkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehmrghrkhdrrhhuthhlrghnugesrghrmhdrtgho
-    mhdprhgtphhtthhopegrlhgvgigrnhguvghrrdhshhhishhhkhhinheslhhinhhugidrih
-    hnthgvlhdrtghomhdprhgtphhtthhopehjohhlshgrsehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehirhhoghgvrhhssehgohhoghhlvgdrtghomh
-X-ME-Proxy: <xmx:bzR6aG1a8_Jm7Z8PUhNrDsZL5pCj7eKkHIb7QyugE8solOeclK9auw>
-    <xmx:bzR6aHkDuDVEqwmM5eITZ9M2qrK9K7o4Z9WmsX4bRINhozKz6G-JqA>
-    <xmx:bzR6aFFp9e_sb1F9vkWseJ2Pirf7iiUH8t5hzcGtkQchrbGUNF1KIg>
-    <xmx:bzR6aMlJDfoAuTxePBe-o703q2Q8C3aTQBK0FGDCTzEumq-pTX_31A>
-    <xmx:cDR6aDCkJWPN7o5mNZCTZ-VzGM-vKzYy8K1Fs4TBu73yW5ciCzf9ghRb>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 18 Jul 2025 07:47:59 -0400 (EDT)
-Date: Fri, 18 Jul 2025 13:47:56 +0200
-From: Greg KH <greg@kroah.com>
-To: Rujra Bhatt <braker.noob.kernel@gmail.com>
-Cc: peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-	namhyung@kernel.org, mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-	irogers@google.com, adrian.hunter@intel.com,
-	kan.liang@linux.intel.com, vgupta@kernel.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] arc:kernel:perf_event.c : replaced sprintf with
- sysfs_emit()
-Message-ID: <2025071801-driveway-curly-698c@gregkh>
-References: <aGjUpI1yNjEhSiAq@brak3rDesk>
- <CAG+54DZQC+-6E-P3D4BUtVujNegL1qKpcB5SGh28+rX5hrHFiw@mail.gmail.com>
+	s=arc-20240116; t=1752843839; c=relaxed/simple;
+	bh=jDicJEkuu6jllLY9bvQQ5QlaAlGVajBD8n01zNPt6lM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dmKgQqWLsLo0IO2I7be4VeUNSxIaL0rZcXWU6x4t+aU9RHDKhg4w95/w651A+fMLHNcOjXTgHreFr0tt8MNYIM4vURo7hCUx2JyZgsGqpXCXBGWqyrYqtZHhBUZwbNT2DXQCG1CBlyz/HGrZKFpUEhWYJoLqfZ0YeXexunUzJgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4998242D7F;
+	Fri, 18 Jul 2025 13:03:47 +0000 (UTC)
+Message-ID: <1b5f5121-67d8-49ca-94ef-8ac24aa90424@ghiti.fr>
+Date: Fri, 18 Jul 2025 15:03:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG+54DZQC+-6E-P3D4BUtVujNegL1qKpcB5SGh28+rX5hrHFiw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] riscv: introduce asm/swab.h
+To: Ignacio Encinas <ignacio@iencinas.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Palmer Dabbelt <palmer@rivosinc.com>
+References: <20250717-riscv-swab-v5-1-1d5bb7c42f38@iencinas.com>
+Content-Language: en-US
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20250717-riscv-swab-v5-1-1d5bb7c42f38@iencinas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeifeehfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhephffhuddtveegleeggeefledtudfhudelvdetudfhgeffffeigffgkeethfejudejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvddttddumeekiedumeeffeekvdemvghfledtmeeftdhftgemgedtjegtmeeiheegfhemfedvfhelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeeffeekvdemvghfledtmeeftdhftgemgedtjegtmeeiheegfhemfedvfhelpdhhvghloheplgfkrfggieemvddttddumeekiedumeeffeekvdemvghfledtmeeftdhftgemgedtjegtmeeiheegfhemfedvfhelngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeekpdhrtghpthhtohepihhgnhgrtghiohesihgvnhgtihhnrghsrdgtohhmpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhtohepp
+ hgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrlhhmvghrsehrihhvohhsihhntgdrtghomh
+X-GND-Sasl: alex@ghiti.fr
 
-On Fri, Jul 18, 2025 at 03:57:20PM +0530, Rujra Bhatt wrote:
-> Hi,
-> 
-> On Sat, Jul 5, 2025 at 1:00 PM Rujra Bhatt <braker.noob.kernel@gmail.com> wrote:
-> >
-> > Replaced sprintf() with sysfs_emit() in sysfs*_show() function in
-> > perf_event.c file to follow the kernel's guidelines from
-> > documentation/filesystems/sysfs.rst
-> > This will improve consistency, safety, and makes it easier to maintain
-> > and update in future.
-> >
-> > Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
-> > ---
-> >  arch/arc/kernel/perf_event.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/arch/arc/kernel/perf_event.c b/arch/arc/kernel/perf_event.c
-> > index ed6d4f0cd621..424ec072c441 100644
-> > --- a/arch/arc/kernel/perf_event.c
-> > +++ b/arch/arc/kernel/perf_event.c
-> > @@ -648,7 +648,7 @@ static ssize_t arc_pmu_events_sysfs_show(struct device *dev,
-> >         struct perf_pmu_events_attr *pmu_attr;
-> >
-> >         pmu_attr = container_of(attr, struct perf_pmu_events_attr, attr);
-> > -       return sprintf(page, "event=0x%04llx\n", pmu_attr->id);
-> > +       return sysfs_emit(page, "event=0x%04llx\n", pmu_attr->id);
-> >  }
-> >
-> >  /*
-> > --
-> > 2.43.0
-> >
-> 
-> Gentle reminder for the replacement of sprintf() with the sysfs_emit(), kindly
-> review it.
+Hi Ignacio,
 
-Why is this required?  There is no bug in the current code, so no need
-to change it at all.  Please just use sysfs_emit() for new sysfs files,
-no need to churn the tree and change all existing entries, otherwise we
-would have done this a long time ago when we introduced these functions.
+On 7/17/25 20:44, Ignacio Encinas wrote:
+> Implement endianness swap macros for RISC-V.
+>
+> Use the rev8 instruction when Zbb is available. Otherwise, rely on the
+> default mask-and-shift implementation.
+>
+> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+> ---
+> Motivated by [1]. Tested with crc_kunit as pointed out here [2]. I can't
+> provide performance numbers as I don't have RISC-V hardware.
+>
+> [1] https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
+> [2] https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/
+> ---
+> Changes in v5:
+> - Duplicate ___constant_swab helpers in arch/riscv/include/asm/swab.h to
+>    avoid delaying the patch as suggested by Alex in [3] (drop patch 1 and
+>    convert this into a 1-patch series)
+> - Link to v4: https://lore.kernel.org/r/20250426-riscv-swab-v4-0-64201404a68c@iencinas.com
+>
+> [3] https://lore.kernel.org/linux-riscv/7e22a448-3cee-4475-b69b-3dd45b57f168@ghiti.fr/
+>
+> Changes in v4:
+>
+> - Add missing include in the 1st patch, reported by
+>    https://lore.kernel.org/all/202504042300.it9RcOSt-lkp@intel.com/
+> - Rewrite the ARCH_SWAB macro as suggested by Arnd
+> - Define __arch_swab64 for CONFIG_32BIT (Ben)
+> - Link to v3: https://lore.kernel.org/r/20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com
+>
+> Changes in v3:
+>
+> PATCH 2:
+>    Use if(riscv_has_extension_likely) instead of asm goto (Eric). It
+>    looks like both versions generate the same assembly. Perhaps we should
+>    do the same change in other places such as arch/riscv/include/asm/bitops.h
+> - Link to v2: https://lore.kernel.org/r/20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com
+>
+> Changes in v2:
+> - Introduce first patch factoring out the default implementation into
+>    asm-generic
+> - Remove blank line to make checkpatch happy
+> - Link to v1: https://lore.kernel.org/r/20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com
+> ---
+>   arch/riscv/include/asm/swab.h | 87 +++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 87 insertions(+)
+>
+> diff --git a/arch/riscv/include/asm/swab.h b/arch/riscv/include/asm/swab.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..4f408f59fada7251d62f56d174ae76ff19f4a319
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/swab.h
+> @@ -0,0 +1,87 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +#ifndef _ASM_RISCV_SWAB_H
+> +#define _ASM_RISCV_SWAB_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/compiler.h>
+> +#include <asm/cpufeature-macros.h>
+> +#include <asm/hwcap.h>
+> +#include <asm-generic/swab.h>
+> +
+> +#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
+> +
+> +// Duplicated from include/uapi/linux/swab.h
+> +#define ___constant_swab16(x) ((__u16)(				\
+> +	(((__u16)(x) & (__u16)0x00ffU) << 8) |			\
+> +	(((__u16)(x) & (__u16)0xff00U) >> 8)))
+> +
+> +#define ___constant_swab32(x) ((__u32)(				\
+> +	(((__u32)(x) & (__u32)0x000000ffUL) << 24) |		\
+> +	(((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |		\
+> +	(((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |		\
+> +	(((__u32)(x) & (__u32)0xff000000UL) >> 24)))
+> +
+> +#define ___constant_swab64(x) ((__u64)(				\
+> +	(((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |	\
+> +	(((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |	\
+> +	(((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |	\
+> +	(((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |	\
+> +	(((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |	\
+> +	(((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |	\
+> +	(((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |	\
+> +	(((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
+> +
+> +#define ARCH_SWAB(size, value)						\
+> +({									\
+> +	unsigned long x = value;					\
+> +									\
+> +	if (riscv_has_extension_likely(RISCV_ISA_EXT_ZBB)) {            \
+> +		asm volatile (".option push\n"				\
+> +			      ".option arch,+zbb\n"			\
+> +			      "rev8 %0, %1\n"				\
+> +			      ".option pop\n"				\
+> +			      : "=r" (x) : "r" (x));			\
+> +		x = x >> (BITS_PER_LONG - size);			\
+> +	} else {                                                        \
+> +		x = ___constant_swab##size(value);                      \
+> +	}								\
+> +	x;								\
+> +})
+> +
+> +static __always_inline __u16 __arch_swab16(__u16 value)
+> +{
+> +	return ARCH_SWAB(16, value);
+> +}
+> +
+> +static __always_inline __u32 __arch_swab32(__u32 value)
+> +{
+> +	return ARCH_SWAB(32, value);
+> +}
+> +
+> +#ifdef CONFIG_64BIT
+> +static __always_inline __u64 __arch_swab64(__u64 value)
+> +{
+> +	return ARCH_SWAB(64, value);
+> +}
+> +#else
+> +static __always_inline __u64 __arch_swab64(__u64 value)
+> +{
+> +	__u32 h = value >> 32;
+> +	__u32 l = value & ((1ULL << 32) - 1);
+> +
+> +	return ((__u64)(__arch_swab32(l)) << 32) | ((__u64)(__arch_swab32(h)));
+> +}
+> +#endif
+> +
+> +#define __arch_swab64 __arch_swab64
+> +#define __arch_swab32 __arch_swab32
+> +#define __arch_swab16 __arch_swab16
+> +
+> +#undef ___constant_swab16
+> +#undef ___constant_swab32
+> +#undef ___constant_swab64
+> +
+> +#undef ARCH_SWAB
+> +
+> +#endif /* defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
+> +#endif /* _ASM_RISCV_SWAB_H */
+>
+> ---
+> base-commit: 155a3c003e555a7300d156a5252c004c392ec6b0
+> change-id: 20250307-riscv-swab-b81b94a9ac1b
+>
+> Best regards,
 
-thanks,
 
-greg k-h
+Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+Tested-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+
+Thanks for the quick new version!
+
+Alex
+
