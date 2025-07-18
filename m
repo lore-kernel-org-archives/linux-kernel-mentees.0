@@ -1,129 +1,146 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D4D2C1597
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 18 Jul 2025 11:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C748221297
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 11:48:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752837374; cv=none; b=rhoR0+lQwDQS5AVLRWwNZooPepOsolNIOn3aDn9ZaaG027BeXe37drTVVSMYwp1PCM5nAalJjhpjZpTZ8qo0HBkG+rTwK6GxBjYWyhY99NwnjKQEavzjgXF0/egjZom9snXpHCB3fRKv70zINEQQYv1HfkfaBeidfe+y5NOMMcY=
+	t=1752839284; cv=none; b=sonnbgfk976typn7nXTxiCpu20EsmvNaho/RenEhvMSUdOmsTr5VP2SAGRUq937MBcYlSTaVPM3h7GmNxgumRA45t2GFuuY/umcbCBxJO2Zgo2I421aYmWdB1DOlIrLY0Tn+dhvnri5iKGdJdqg8Q43KkmYgqiIoq+4dubCNvuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752837374; c=relaxed/simple;
-	bh=KAC7tKnqNw6ghQsIQoBhWab53HCnxnYmc4lm5r7+vxI=;
+	s=arc-20240116; t=1752839284; c=relaxed/simple;
+	bh=EGtRkZ5U82Aqv6qxflDEOWj/WYCMX9s2gIGAP/sSaY4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YKUYQnU95gYN0N8rHf6d9FmjdSzTwujw0ufX4cQjICHuT+WO8rkTpD6pbnMWc7ZhwWgvb3XhM3o0uilQKWLUHr/6puYvQchoUXWSj81go/Pk3uVzUsv+CqUodqHMnMVU/FWuS0PK25rGi/3JJ5AE04vY/w0CJLtEo6QldJp6x1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=gVJdeOtD; arc=none smtp.client-ip=140.211.166.136
+	 Content-Type:Content-Disposition:In-Reply-To; b=SI5BeFNmMNZJM0wdp0DeZ/T8zaZkdP7n3P1/veOUhOUAo2SBzi8+z0VKjJ1BRrcMsXk5VEPAEz1a1ru4h/Pl//6uaGWwvBpeBqiXSQc1LXfv90qvYWi5egao5e7EIC2fw0Klf+GUjA9KCejJnenqFTc9YiRDCBeeERfyaULlrA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=uFmmKuoJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eldWWJRZ; arc=none smtp.client-ip=202.12.124.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="gVJdeOtD"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 44F8D610EC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 18 Jul 2025 11:16:13 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.9
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Z4UsSczDup_W for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jul 2025 11:16:12 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::632; helo=mail-pl1-x632.google.com; envelope-from=david@fromorbit.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 5E584610E4
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5E584610E4
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=gVJdeOtD
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 5E584610E4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 18 Jul 2025 11:16:12 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-235ef62066eso24843205ad.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 18 Jul 2025 04:16:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1752837371; x=1753442171; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qpf3i0yhcut+LszaoQo/We6g+NwrXQm4EMP35kSjpEQ=;
-        b=gVJdeOtDoIJQUZgMBKPvjdtXZLjJkCzoONZujftPrSg2fTSBTCimgYgRLbbIY5QGbF
-         K8hCvHDFCulP1MIgCIR5RudH6xl8IJvKnZZpPC8W5QN2mL+vfFaaV2uqlfvMcOZ19Tb9
-         aAtrjJ4libuka8v7TseeXUbaWy62AiRzgRa1ZC8MQ7xWiPAgKwbsoN6KZuAANteXeNV/
-         PTfaf8mOB6E04IxZhKZLoRFPW9s1N9ibp7mvy8+hxJXcKK8nJJetdbFUEK6oG9uGLj8u
-         04VF7THYsROuSPkZMtpvXJstt3Ft1aMCAt68BUnKX99uukLIBqvTIJKJz2WGAMDfKa5G
-         Bdlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752837371; x=1753442171;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qpf3i0yhcut+LszaoQo/We6g+NwrXQm4EMP35kSjpEQ=;
-        b=b1nq1D+M8KCIXhtwVZXYcxpNEoFsQIWUVfM3Hhhj9YQWWxYfNxPg9D73kQUQA3LdM/
-         CcimZpoBYKRdXP67gV+5kCw+UEJaOzYkMOM0hEs+GNmcpUbwrfshoRLg+Jl1fGY+gu/u
-         9HdEFvSLF3YsShen5fVaRnHfZPXbN1SJOZUAJlga9/5jCI7mYWepe/N3s1Nhanvvqa3m
-         mqculXdj74lTfXu6Vf/any9bZtRQu0bDWez+BxMY6hKPFNZrE7LeHCta1F0b/lRgOSdF
-         pGnKvY00WtWgxc37DMydjXVKc/xftTjs0yRC6GpbTlJVAQHbge0xbDXI6GabswEHIlLM
-         0NDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWK+SE1Q0kFYjLL9nSprSAgt8BUFwUzeavRQGb++J3BA7i/58/soXfqjEqTx/D07AtBu+Dr7i+w9qfP0GDDOC0TMsw76g==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwMpVgBWfywHHEmMDIL0RWjXmdMf5YvfAib5YjN5bFHnx7p1pnv
-	9LzTA21gbyMmIcuAH4cznlaE8eCXsct+nvapmRtH8fKz58+RR0SljfCYpNlCOITwtvAVTxa5pUd
-	hpf/5
-X-Gm-Gg: ASbGncssr4ZrmStp1UMXKjBP4pP1qdmXMw12HnmApNafohtWge419zF3uIIrstGQ6Ik
-	CGI92hETAkrfLuIc7HkUAboykSZffoEc6W8Osrej+wVOSCfhd6zyRFQHtC0lAobCbHvtL+keMQ4
-	DVl2vU6nuY88fooVvQ6upueRBsjUw1tyMTyyL2fXRiY583pb/G9bOvZsTa8gYKWE7yXaWbDAPXq
-	6R3NuZ1H/yLkiU8uwd1fFrcMYdZxwxU1GCac4t1ScgM7MAe8SoMyARDuxWbFbXI09ZUeO6rEgFp
-	qYZbzmQTT1YCs5QeYMmLR5BW3P7HX9IR7k6a/qr6ffVeBwSWRTyS7VbqVl3+iHyYhdt8cQyFfAA
-	mJwlFEarerZxiUZALuBW0qNf0g6rV2FoRhEYDpkKIi/6bpZv3QemBm/b13SGoXe6EnYyVWAtWGg
-	==
-X-Google-Smtp-Source: AGHT+IH+YNkMNydCV8+ckYpqEo/rurDfmxt/BmZG9DSn518D6//2LQGAwxPczvGdppJLXJX8W68Ctw==
-X-Received: by 2002:a17:903:350d:b0:234:c549:da14 with SMTP id d9443c01a7336-23e303389aamr104128795ad.29.1752837371571;
-        Fri, 18 Jul 2025 04:16:11 -0700 (PDT)
-Received: from dread.disaster.area (pa49-181-64-170.pa.nsw.optusnet.com.au. [49.181.64.170])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3f2ff9e964sm1016534a12.59.2025.07.18.04.16.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 04:16:11 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.98.2)
-	(envelope-from <david@fromorbit.com>)
-	id 1ucj4S-0000000CZ8f-1Fgb;
-	Fri, 18 Jul 2025 21:16:08 +1000
-Date: Fri, 18 Jul 2025 21:16:08 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Marcelo Moreira <marcelomoreira1905@gmail.com>
-Cc: cem@kernel.org, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] xfs: Replace strncpy with strscpy
-Message-ID: <aHos-A3d0T6qcL0o@dread.disaster.area>
-References: <20250716182220.203631-1-marcelomoreira1905@gmail.com>
- <aHg7JOY5UrOck9ck@dread.disaster.area>
- <CAPZ3m_gL-K1d2r1YSZhFXmy4v3xHs5uigGOmC2TdsAAoZx+Tyg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="uFmmKuoJ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eldWWJRZ"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id B495D7A0179;
+	Fri, 18 Jul 2025 07:48:00 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Fri, 18 Jul 2025 07:48:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1752839280;
+	 x=1752925680; bh=TixgCXnBJyIqXhUnfdaZUNI3oOckDeciyEbiH83Iars=; b=
+	uFmmKuoJEFwkN9w9M9/KALI1tOWTBpMQ8X/YdhGWRYGR3HGR4zqJ+4mY/tIKA3lz
+	K6JrpnqzBdvKVIYidiMRdUqDHN6T6KPghwGKXx20z2yelscyUKa20DEnpt7n/tH9
+	CGw+h8+hAuNvaa342DoVxb60Mw84wSMXUx8G4AxQAKdW7BNw98/lea+dtbBl1XLC
+	+bgQ65qPFimTkJJr4hDAcPpzfmSVbkAyqdyR4QG+tBBdl8CxYjPVHBsjIn23mcoz
+	TYn2mWwmgFNBFGCgD2aVhNWvzR9BfEiF03NasySj1XNe19qIo3wn2X93PVucLVuu
+	ZmNx/fIqaZW+6myHuXm+9Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1752839280; x=
+	1752925680; bh=TixgCXnBJyIqXhUnfdaZUNI3oOckDeciyEbiH83Iars=; b=e
+	ldWWJRZXpycMZO4g1g39yKpaQe4dgQXLaQGyT6tqokPvwoW3rpoMmsF5Vd9sFJGq
+	vP4f0WtEHgl9uxtlZJWxTTWenQibeTqZKhw4sN/O5xRUBK8YjFWnNMrMNlH3FHGF
+	ZLp771oROhYm2T3DvXqoHsadk3ZbOdlT2Um2SWGY2E8lhXBEtJOFatDH5BHk7pgS
+	2SMHVGrhC0BFn4f/oMc7oV73ls3T2KyQIK1M3LhWzWRIYgq9RaGT1PgiZU4UJGHk
+	7ZneWgbUWSrqTA1MXertkoE0F7fwi8feaD36omUaoPzu0ZP+a6OCteeznWVfUfZe
+	6AvHpS3c1+g7gs+gqkNzA==
+X-ME-Sender: <xms:bzR6aPzxyY2UNeMJMGctEQygJEaZpk_wTgmHDOg7BUhXYKQQvV7R4A>
+    <xme:bzR6aNm4Hf6eVe8bC4D5bOvJJB-2S8LojTuKSnCc-ajRQOtiRWkQNe69_FGvrWu6C
+    OO_4M2ZFoC1oA>
+X-ME-Received: <xmr:bzR6aPUfU246mSVlmguOvaxZqnuOHTeT_Kt6V6a426DYR7lt3yCMFqG_kcNvuRnIxYIO8GzzaJm2AXb0XUX1sgsBMDF5MF_7H8TRdQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeifeefkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertd
+    dttdejnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeen
+    ucggtffrrghtthgvrhhnpefgkeffieefieevkeelteejvdetvddtledugfdvhfetjeejie
+    duledtfefffedvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+    fhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhdpnhgspghrtghpthhtohepfeegpdhmoh
+    guvgepshhmthhpohhuthdprhgtphhtthhopegsrhgrkhgvrhdrnhhoohgsrdhkvghrnhgv
+    lhesghhmrghilhdrtghomhdprhgtphhtthhopehpvghtvghriiesihhnfhhrrgguvggrug
+    drohhrghdprhgtphhtthhopehmihhnghhosehrvgguhhgrthdrtghomhdprhgtphhtthho
+    pegrtghmvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrmhhhhihunhhgsehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehmrghrkhdrrhhuthhlrghnugesrghrmhdrtgho
+    mhdprhgtphhtthhopegrlhgvgigrnhguvghrrdhshhhishhhkhhinheslhhinhhugidrih
+    hnthgvlhdrtghomhdprhgtphhtthhopehjohhlshgrsehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehirhhoghgvrhhssehgohhoghhlvgdrtghomh
+X-ME-Proxy: <xmx:bzR6aG1a8_Jm7Z8PUhNrDsZL5pCj7eKkHIb7QyugE8solOeclK9auw>
+    <xmx:bzR6aHkDuDVEqwmM5eITZ9M2qrK9K7o4Z9WmsX4bRINhozKz6G-JqA>
+    <xmx:bzR6aFFp9e_sb1F9vkWseJ2Pirf7iiUH8t5hzcGtkQchrbGUNF1KIg>
+    <xmx:bzR6aMlJDfoAuTxePBe-o703q2Q8C3aTQBK0FGDCTzEumq-pTX_31A>
+    <xmx:cDR6aDCkJWPN7o5mNZCTZ-VzGM-vKzYy8K1Fs4TBu73yW5ciCzf9ghRb>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 18 Jul 2025 07:47:59 -0400 (EDT)
+Date: Fri, 18 Jul 2025 13:47:56 +0200
+From: Greg KH <greg@kroah.com>
+To: Rujra Bhatt <braker.noob.kernel@gmail.com>
+Cc: peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+	namhyung@kernel.org, mark.rutland@arm.com,
+	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+	irogers@google.com, adrian.hunter@intel.com,
+	kan.liang@linux.intel.com, vgupta@kernel.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] arc:kernel:perf_event.c : replaced sprintf with
+ sysfs_emit()
+Message-ID: <2025071801-driveway-curly-698c@gregkh>
+References: <aGjUpI1yNjEhSiAq@brak3rDesk>
+ <CAG+54DZQC+-6E-P3D4BUtVujNegL1qKpcB5SGh28+rX5hrHFiw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPZ3m_gL-K1d2r1YSZhFXmy4v3xHs5uigGOmC2TdsAAoZx+Tyg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAG+54DZQC+-6E-P3D4BUtVujNegL1qKpcB5SGh28+rX5hrHFiw@mail.gmail.com>
 
-On Thu, Jul 17, 2025 at 02:34:25PM -0300, Marcelo Moreira wrote:
-> Given that the original `strncpy()` is safe and correctly implemented
-> for this context, and understanding that `memcpy()` would be the
-> correct replacement if a change were deemed necessary for
-> non-NUL-terminated raw data, I have a question:
+On Fri, Jul 18, 2025 at 03:57:20PM +0530, Rujra Bhatt wrote:
+> Hi,
 > 
-> Do you still think a replacement is necessary here, or would you
-> prefer to keep the existing `strncpy()` given its correct and safe
-> usage in this context? If a replacement is preferred, I will resubmit
-> a V2 using `memcpy()` instead.
+> On Sat, Jul 5, 2025 at 1:00 PM Rujra Bhatt <braker.noob.kernel@gmail.com> wrote:
+> >
+> > Replaced sprintf() with sysfs_emit() in sysfs*_show() function in
+> > perf_event.c file to follow the kernel's guidelines from
+> > documentation/filesystems/sysfs.rst
+> > This will improve consistency, safety, and makes it easier to maintain
+> > and update in future.
+> >
+> > Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
+> > ---
+> >  arch/arc/kernel/perf_event.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/arch/arc/kernel/perf_event.c b/arch/arc/kernel/perf_event.c
+> > index ed6d4f0cd621..424ec072c441 100644
+> > --- a/arch/arc/kernel/perf_event.c
+> > +++ b/arch/arc/kernel/perf_event.c
+> > @@ -648,7 +648,7 @@ static ssize_t arc_pmu_events_sysfs_show(struct device *dev,
+> >         struct perf_pmu_events_attr *pmu_attr;
+> >
+> >         pmu_attr = container_of(attr, struct perf_pmu_events_attr, attr);
+> > -       return sprintf(page, "event=0x%04llx\n", pmu_attr->id);
+> > +       return sysfs_emit(page, "event=0x%04llx\n", pmu_attr->id);
+> >  }
+> >
+> >  /*
+> > --
+> > 2.43.0
+> >
+> 
+> Gentle reminder for the replacement of sprintf() with the sysfs_emit(), kindly
+> review it.
 
-IMO: if it isn't broken, don't try to fix it. Hence I -personally-
-wouldn't change it.
+Why is this required?  There is no bug in the current code, so no need
+to change it at all.  Please just use sysfs_emit() for new sysfs files,
+no need to churn the tree and change all existing entries, otherwise we
+would have done this a long time ago when we introduced these functions.
 
-However, modernisation and cleaning up of the code base to be
-consistent is a useful endeavour. So from this perspective replacing
-strncpy with memcpy() would be something I'd consider an acceptible
-change.
+thanks,
 
-Largely it is up to the maintainer to decide.....
-
--Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+greg k-h
