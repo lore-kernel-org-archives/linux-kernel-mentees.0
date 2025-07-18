@@ -1,87 +1,88 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9642E6118
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 16:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841D32E6139
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 16:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752855039; cv=none; b=kI2P0XnOIgCvicCcOn6Wp+BCTO4jgzkpzsOhd8mDypRbUcQl8GhTZ+gJMRaniv7uyQYoKHPWRt3AVgnl80Ta1V6bVLl56TMvtOJaNonxBUwyyO5MYbVdwaaq47C/vqg9Jb9PpE5vW8zp7jXbtFVnAa3UpxDqEZss6VD+TXSQQko=
+	t=1752855099; cv=none; b=pZsBrgyAB43S0Qh0gaycVqFwKkTWl/UHfgqeUO7DAuwWsQ9w1Yv3SLAifUG9ncHr0qLsfMRa1WBxsJ7rsiSrqAvLM1eIRyZhZzwCeWc2m2L1/mLj0/AIFWWw/fdlFhfbSrXP8t7dhe+1abfMWnRH5mTIqBT0mXiwhTNHAvMEbXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752855039; c=relaxed/simple;
-	bh=kGsCAEDUAs7PcvVTlXcxhCu1WLo8mCBe+P9DDCN74Cc=;
+	s=arc-20240116; t=1752855099; c=relaxed/simple;
+	bh=FyRfBnxU/OGyyizvx31WzrOI+l2j9rU6IuwyuQVHu2M=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p+jqZJYY24ONlbKHffUu8poSQsMsrsNzukRO5WDFwEPPERaCtoZ0/TBVr7UQhzYrgWfPb5hYT1meNUo5KXHBoNV80O9cci597NUKu/Jrin0pFtSiVKjLMaifZjjlrrt+NxyUJy1grCXpgRT7Qj/9EiE6ryXxdyvxW75SQtJA9xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Nht1g0Yq; arc=none smtp.client-ip=209.85.215.182
+	 To:Cc:Content-Type; b=fwJv8PgX3SCT7wPaZ08UoGbgM8+zu922TOAWil4IFIBVFyQI2ddhCJV3n90GvOS0atXJLCRM+WrfvL31msg5jey9OuhY30JXaiVmL5AnlEgxt3bWIGkmTRS5pNuzAp/GnKU8yw7DmIWuzSE2F8eHLM49OMiI9KqeZp70s3/LGKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eF1EAnCD; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Nht1g0Yq"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b3507b63c6fso2291199a12.2
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 09:10:37 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eF1EAnCD"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-311e2cc157bso2053374a91.2
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 09:11:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1752855036; x=1753459836; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1752855094; x=1753459894; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YjMu1e4Z2kPIqjvwczTBgX85r3dXx3nHkHeoGheSPn8=;
-        b=Nht1g0Yq00poCaFu8vZVe4np+98G6bqzOiFB+sqOzFIIYmocqqFnZ69ByE1FlLlaS2
-         NiZdA/yQGrzCKydMPXzeTCRdOx7yvUKof/bcSAWrBgojMr0j+Upv2s/Gawvtt/XDi+Ys
-         gKfxhZZE8AcOvJmdhzh3NJY6pLGBlt6oBImms=
+        bh=w4sbOB8EUknRai1AuJ9cdNWA6bF4sUdUbr8Aph2l+CY=;
+        b=eF1EAnCDhvr0tUh2kyGnowGZkRz1w3nPK3xALKZGLmaTf8RmEAxSfGq0dBMlstRLqy
+         Y4hJhm3rB5Hju5RU9CqJszmz7ei/5YMXVI5IjcP5FRjiocFJwW/dpLtWgEbja8a8Xzt6
+         RyoaJENaop8YmytUn9BKb0pc5ggBkdmW21n8g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752855036; x=1753459836;
+        d=1e100.net; s=20230601; t=1752855094; x=1753459894;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YjMu1e4Z2kPIqjvwczTBgX85r3dXx3nHkHeoGheSPn8=;
-        b=LMii6JyKykf3Bw8LtPlDm7Y+yDMZxy0AQcmWHjAW9kr5vwjmtbW8Gze9fd8KiXPV1P
-         uZpTmef6DdTRosjk6qULj6slV7Pv+zWM9BYE/8JasiqfHDAH8nx9SLyDBMw1mX8LuyPf
-         9AkdzgAPPJ+hOJWTd9M1bkVDbAwf9kRSfNPVCNGOQzPPtEceOQtXOVyh/mzh6jpmcYID
-         3ruz1a+wiFTwOfXd/9nedWBPjOYoMPp/TgrZS635qUE9bMyfYb8a//pauTdgsI+LfNx4
-         MsSlnalgOreDvAc0fx82TNnM/fFmPsyzs9MN60lBDGp4EHTj5pSE/0tq+QpgiCJi6egJ
-         HEBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWRjQBSfVNr8BGWbNfuyYv2DnS2UMAAIFr54Kej1Aw+aqCAyb/9XqdliAmPA1JtAaaWpSaGAatCenvHrVozOvqHJtAWng==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz77je2zxbEadBSmWlqML5zXYkJBdcEcS++pTP6tuIw1hPiDBrg
-	vT0Exlg6pUAsUx45+c662sfhvs1WCAWVNenf+6QcKa18OBWTsSQuNNQhDq7MZoX9Q9Mp1kE4Kmy
-	Wu3w=
-X-Gm-Gg: ASbGnct0MTtDeynLu0cm0Doe1JnxeJCohfSNFBSns6+H11rH2GgiL2NXX+0Kg3TvoX+
-	RJk7oURd6H2b3DiUB450KqWVNzrNKDnQH1HrKU2fXNLeKdKjenczS9yOfcmTfMHGMmgHA/ZzL8S
-	Ui2OkUPcwxleHbpHl9SOixD8ufTAJFxJjjkW7lHb6xEYzoSmclPPWZe9M1WV+gHWePB81FbIPJ4
-	Ok9qtWyZTbbdSWQQ6/6hkVkAhG0xmhzlM6spCejA6Sq5XawNooeJmUBqZD6tuquEuyHOUlWxkhi
-	q1p6/9zoFKm+Kp5sokcUj7+vNgtScvLwuI4NMA8Lc3j3F+TiO5aX9X6SwDiVzXtGZtaKzvbin2A
-	TFOyq2hwadvvRrntsBRLcld25auMZAd8ULS4zkCULYjmiuTtxoM3jPEfYogV8sp7rng==
-X-Google-Smtp-Source: AGHT+IFgHCNgQQbq6gMYwYODoZpjvTvu/arnfagZtk2M8Oq4KAq1Ok8iggzmZ5iOkvpYT3f3+fPzwQ==
-X-Received: by 2002:a17:902:d4d2:b0:235:15f5:cc30 with SMTP id d9443c01a7336-23e256cd096mr147037445ad.16.1752855035793;
-        Fri, 18 Jul 2025 09:10:35 -0700 (PDT)
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com. [209.85.215.178])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b6b4c76sm15338525ad.116.2025.07.18.09.10.33
+        bh=w4sbOB8EUknRai1AuJ9cdNWA6bF4sUdUbr8Aph2l+CY=;
+        b=FpJyXkGKU0I7kjH2m5FTzXA1b3KriwIZ3jr+I1SU5pEMkP6OMCTwaMYZtrV77ouKes
+         722wwI9pbwKm7tGYfiW/icl7yG7Rf3TErM/YUsp91UOK+hrbt63E01dvcrBV1wUGCaFJ
+         Z21kDBoefDtLXFKkaEizT2JFsmzdgG4YWyu6YncD5an4KGVJOJ8MEFG+noyIWcrh/6gB
+         U9AnTY8iJiMqQHXoV39KN+OcLxaZq+13GQ2RkVREg7jJs5wypmSjV+gKCdaF3P63TeRg
+         KpDuQ+vcFhdZGxSUTPzoMKqcicM11G7Zz0U7nAHi2rWx93KK/+Ij1H3hThdPH+8+tj0x
+         mTug==
+X-Forwarded-Encrypted: i=1; AJvYcCUAGTfsNnrlIzeAO0zC+sXQtskMAfl6qr0GjT9WGtveQ0tgTKsIyrkf8L01JZfNzq3s6nO3I/+7SiyaB1WWKeJEKr9FxA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxIscwSvYs3ZDxnB1HwED12USsQLpn4WblDPNdR+s3ZOXEGBojr
+	1Kq3Zbj0xDZYiy3oatgg3E0+TCznLlyax86JTWaS7+F7XCQx2tYSH/3iQctnaXl2Ig6Jto92D1W
+	kkps=
+X-Gm-Gg: ASbGnctCN0SUhckFVMPskezV/BgdP5BW+QGI/P5nYKGP8meVm5VCkOQrRJIwv4/ZLNg
+	Ygq1a3dJ2FAZhR2EHIw9ZtjzpstQSBtMvIr7khGz5G8IkOmaEO1vfxp2PdrJ4h3lyuPas59EtFM
+	0+5169CdYsiR6MF6Gf21VDjZ+JprZk5GgIAnUFHfVclsrRm+yVFbYaTJS4kgI3BBJ1TYLrSHCV6
+	01sm6KHlaR8tXor566teoLYCxS8kSrXZL1CkzA3FFSlY1V9fPgagCAqk2fUSDJzYQ/0CFpJypHI
+	t0PSIvuLesmoajeWJoc4iB49qM1PefSrOA4w7jyV7EAeBaNz5CByGH2WRMVp059GJ23xHl5MgFf
+	vkg09rcsJlCAvgXzJb8JxKqkAEIO+EaLGiS84TWRgbmr8pRneZEehnHxzheslvQQHHw==
+X-Google-Smtp-Source: AGHT+IHRrGHZml7GrW522hL0YaTXGNNnYJPoHoE0NmyIzsLsXvZeyniHiss5FnAH2uEDqpidIJDzLg==
+X-Received: by 2002:a17:90b:5244:b0:312:db8:dbd2 with SMTP id 98e67ed59e1d1-31c9e75b9bcmr16804616a91.19.1752855094444;
+        Fri, 18 Jul 2025 09:11:34 -0700 (PDT)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com. [209.85.214.180])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f29e424sm5588399a91.40.2025.07.18.09.11.32
         for <linux-kernel-mentees@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Jul 2025 09:10:34 -0700 (PDT)
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b3220c39cffso2203965a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 09:10:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVOzXplgGLHTqTR9XSvwtdESWr+3eqxUpxwbIkvEot9aSYwonAfNU1zrps7zKR/JSthYUMvDCX3rzmtreaRkiMvtN+LBA==@lists.linux.dev
-X-Received: by 2002:a17:90b:2b4c:b0:311:eb85:96ea with SMTP id
- 98e67ed59e1d1-31c9f3c5719mr16511405a91.9.1752855033213; Fri, 18 Jul 2025
- 09:10:33 -0700 (PDT)
+        Fri, 18 Jul 2025 09:11:32 -0700 (PDT)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-23694cec0feso22058285ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 09:11:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXN6r5flaPwvhd3gRqWChMQTPqAIK7xsV0wThPFjG2Vnqa03JDIS0KjoCCzPteZ2DWZoFZyIZG8ZhnBJzK5/Kg+ASrq8g==@lists.linux.dev
+X-Received: by 2002:a17:903:2d1:b0:234:d2fb:2d28 with SMTP id
+ d9443c01a7336-23e24ec73b2mr186837285ad.2.1752855091825; Fri, 18 Jul 2025
+ 09:11:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250717164053.284969-1-me@brighamcampbell.com> <20250717164053.284969-2-me@brighamcampbell.com>
-In-Reply-To: <20250717164053.284969-2-me@brighamcampbell.com>
+References: <20250717164053.284969-1-me@brighamcampbell.com> <20250717164053.284969-3-me@brighamcampbell.com>
+In-Reply-To: <20250717164053.284969-3-me@brighamcampbell.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 18 Jul 2025 09:10:21 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WYBFrm-J55BTEJ7s=Jk4EFuMVAkahVZfdzW6V8mxE7Tg@mail.gmail.com>
-X-Gm-Features: Ac12FXz_prqGT_YDn81ubqDHwEClWFafCp94o67Bin1GS3o7VQCq9ZD3Qej-Cnw
-Message-ID: <CAD=FV=WYBFrm-J55BTEJ7s=Jk4EFuMVAkahVZfdzW6V8mxE7Tg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] drm: Create mipi_dsi_dual macro
+Date: Fri, 18 Jul 2025 09:11:20 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vrp9MM_5de10sV-TC_mp-D7en9gjU8DBoD6mBrRvF2eg@mail.gmail.com>
+X-Gm-Features: Ac12FXz3KKf6EYjEda0vjUCQyFQVXEd84VY4Ny25pnbUOfssxeUq4v1dFeHX4UU
+Message-ID: <CAD=FV=Vrp9MM_5de10sV-TC_mp-D7en9gjU8DBoD6mBrRvF2eg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
 To: Brigham Campbell <me@brighamcampbell.com>
 Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
 	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
 	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
 	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
@@ -92,75 +93,16 @@ Hi,
 On Thu, Jul 17, 2025 at 9:41=E2=80=AFAM Brigham Campbell <me@brighamcampbel=
 l.com> wrote:
 >
-> Create mipi_dsi_dual macro for panels which are driven by two parallel
-> serial interfaces. This allows for the reduction of code duplication in
-> drivers for these panels.
->
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-> ---
->  include/drm/drm_mipi_dsi.h | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
->
-> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-> index 369b0d8830c3..03199c966ea5 100644
-> --- a/include/drm/drm_mipi_dsi.h
-> +++ b/include/drm/drm_mipi_dsi.h
-> @@ -431,6 +431,30 @@ void mipi_dsi_dcs_set_tear_off_multi(struct mipi_dsi=
-_multi_context *ctx);
->                 mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
->         } while (0)
->
-> +/**
-> + * mipi_dsi_dual - send the same MIPI DSI command to two interfaces
-> + *
-> + * This macro will send the specified MIPI DSI command twice, once per e=
-ach of
-> + * the two interfaces supplied. This is useful for reducing duplication =
-of code
-> + * in panel drivers which use two parallel serial interfaces.
-> + *
-> + * @_func: MIPI DSI function or macro to pass context and arguments into
-> + * @_dsi1: First DSI interface to act as recipient of the MIPI DSI comma=
-nd
-> + * @_dsi2: Second DSI interface to act as recipient of the MIPI DSI comm=
-and
-> + * @_ctx: Context for multiple DSI transactions
-> + * @...: Arguments to pass to MIPI DSI function or macro
-> + */
-> +#define mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...)           \
-> +       _mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ##__VA_ARGS__)
-> +
-> +#define _mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...) \
-> +       do {                                           \
-> +               (_ctx)->dsi =3D (_dsi1);                 \
-> +               _func((_ctx), ##__VA_ARGS__);          \
+>  static int jdi_panel_prepare(struct drm_panel *panel)
+>  {
+>         struct jdi_panel *jdi =3D to_panel_jdi(panel);
+> +       struct mipi_dsi_multi_context dsi_ctx =3D { .accum_err =3D 0 };
 
-nit: shouldn't func be in parenthesis for safety? It's unlikely to
-really matter, but just in case it's somehow a calculated value that
-would make it safe from an order-of-operations point of view.
+nit: can just be this:
 
+struct mipi_dsi_multi_context dsi_ctx =3D {};
 
-> +               (_ctx)->dsi =3D (_dsi2);                 \
-> +               _func((_ctx), ##__VA_ARGS__);          \
-> +       } while (0)
+This looks so nice and clean now! :-) I'd bet that the compiled size
+of the code is also quite a bit smaller as well...
 
-Can you explain why you need the extra level of indirection here (in
-other words, why do you need to define _mipi_dsi_dual() and then use
-it in mipi_dsi_dual())? I don't see it buying anything, but maybe it's
-performing some magic trick I'm not aware of?
-
-Reading this with a fresh set of eyes, I also realize that this macro
-is probably vulnerable to issues where arguments have side effects
-since we have to repeat them. I don't think there's a way around this
-and I think the macro is still worthwhile, but something to go into
-with open eyes. Possibly worth noting in the macro description? We
-could probably at least eliminate the need to reference "_ctx" more
-than once by assigning it to a local variable. I think referencing
-"_func" and "__VA_ARGS__" more than once is unavoidable...
-
-Maybe this is what you were trying to solve with the extra level of
-indirection, but (at least with my knowledge of the C preprocessor), I
-don't think it does.
-
-
--Doug
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
