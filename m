@@ -1,203 +1,102 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F092DBF5E
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 13:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4565C2DEA7E
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 15:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752843839; cv=none; b=Qd96UA3Q0xk0Dpq6d1rmWXTFflulrD/SCgoI8Es2EAK6Lk2tNvAz7JbKYhinMJdy5s8zNM5dXY9jG11n/A9EC+qtdPfRZC/msGEr4pxAiH4bV0gvPbWHWunDhHJ5DpFftWbjDsL6uBWYMnF3QSMlPtVO5qLVQ/5rUlfcWKtYxQ4=
+	t=1752853173; cv=none; b=JMu6otCPoWPyammjsFCeMZICEgh5IHEdtuOWIFjKZtbDJ/UcnUXOhMeMi211sPx2yBWkvN5Xus28UnlDbdUPKyBMarWwkjpED6Qgheur1yxSsXBb5//GT6Kxor5fgG+iuDo1UO4QQRikTLwgqTGqwjhhaz0Xz/vj/WhIYcr80+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752843839; c=relaxed/simple;
-	bh=jDicJEkuu6jllLY9bvQQ5QlaAlGVajBD8n01zNPt6lM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dmKgQqWLsLo0IO2I7be4VeUNSxIaL0rZcXWU6x4t+aU9RHDKhg4w95/w651A+fMLHNcOjXTgHreFr0tt8MNYIM4vURo7hCUx2JyZgsGqpXCXBGWqyrYqtZHhBUZwbNT2DXQCG1CBlyz/HGrZKFpUEhWYJoLqfZ0YeXexunUzJgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4998242D7F;
-	Fri, 18 Jul 2025 13:03:47 +0000 (UTC)
-Message-ID: <1b5f5121-67d8-49ca-94ef-8ac24aa90424@ghiti.fr>
-Date: Fri, 18 Jul 2025 15:03:46 +0200
+	s=arc-20240116; t=1752853173; c=relaxed/simple;
+	bh=9VSV9uLZb50DfyKoCnVz+avlkKOMbZZ5AZGoFFpkR+o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qpHcuUfo+VaivmFNN8zlKTbiUAvq6MtPjeTQ7Q4PqoKUzsjzmg7Mj+bdqkMJB3M+0J74fDjwzthvWiJrtj7yDBqLGfcrzxQSrkRo8sIH3KhmnzX848lj7dzmsZI5knV0Ml4Ck6iXMODG2zPs+PyeO/e8wPr9j97ApgfOrwxpqRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mips2Vxq; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mips2Vxq"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6070293103cso3435064a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 18 Jul 2025 08:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752853169; x=1753457969; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9VSV9uLZb50DfyKoCnVz+avlkKOMbZZ5AZGoFFpkR+o=;
+        b=Mips2VxqJG8SpgTNZwcc67VEhITGa+XDcmlf80KN21k0gKs/xfHObZXpbjF1WKW3J9
+         9+9m5Uy/TZ8eAlCkjKBHsKaYOasfxAlEjnxxH0P7M5YksYjXq8kfWEp4mZaDY8DnSSJg
+         rUr5fdDMohSmWdyw5gRxqQlsDiT6Im7b3vfR0qjO1MzAI5xzJY8iaV2mm3egNt7Nnq8v
+         o2hySYg8zLp7p7vmlOe71AdsLxsLnGIY3yJ6s43E22O+sb8dVWKorbbe6DqReGbXDCOV
+         bciKBsUBu5jSgV38WujPNjxpkBaKsQT0IcehaFOyB4Q4zwszENJmOckWaXVs5Mk0Qb3w
+         xQrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752853169; x=1753457969;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9VSV9uLZb50DfyKoCnVz+avlkKOMbZZ5AZGoFFpkR+o=;
+        b=WdX7zMyD7FyqXtgsRa1JgeTcTlCJovRlaq1RFi/rljrtMfb/bssOD0WMFulXberxOk
+         jPNUuvtqDTGoC/nLl1xjM1p527ve1Atb81kW/upL/VvMVyPSFmg1FGPiMILiKUGtuHxQ
+         CaiGGnjsxWGH5AURENdl3Sf/g3KKHRN/wjAfJ28hFNnlR/sqRy1a8JZFuplOWShJo15B
+         rcl1J+mafsKLm83+8eS+9h77LPlUf012fPDleOd8hpKw/AcfgwO2TmQzFlCqz/iIAwxx
+         bMV/C+l89EBggXs1d0zqxGbCzBsJD7Q7lbSmJu1xM6xzLtsWF4dCL5pGcc4h6aOw/blU
+         r1eA==
+X-Forwarded-Encrypted: i=1; AJvYcCUKJFLvWcYAp5pa/gQT/Tq4fgnVXzqw8vNymL3N5XIXjI/sl6ojR2k2CyrDJFaMIFECKFNglXW07nIq/SJ1BKTylJeFKg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWMvPhopVvryB7AxekBvfYtPj9/GOMQJiGBt2uIvOla6FBj/Vn
+	R3HXIEf+dkaJiXfdQW+0KX5tmvHj74Vn3nfKRvd386HgNXs+9PVCMfAoEe1mZs8J3iN1+02UYS5
+	L24NIQnpjNy5R0VOJqX/ddQG1D2aenJo=
+X-Gm-Gg: ASbGncsV3F1NpUOmvF24VWsy/+OY8O4DvFSh/FVpLfNce2L0RaAcAxwWJxO3K1J8Hon
+	7dnFjGgeM+4gEJvploR1asLgCE5JjqOrqlj7qBZ7Nt+2lPftP2BNCkf8zFoR2rdSrYEkI07TSkI
+	qykA5XwNwXMmmrZdi7eSXx3ZCV5BZTgehinAVKQ1ZQn3Z0JhYFSRgUfSCHVK357PeAyUb8fA2IP
+	3pv/g==
+X-Google-Smtp-Source: AGHT+IEpeVxME6aVq15riUIEW3IcE9rZry6wSWfhQX8HqiZb7qciuqAosUdiKMt2TXpE4cJ1jOG0BXke05WcjyCrYC8=
+X-Received: by 2002:a17:907:989:b0:ae0:b7ef:1c11 with SMTP id
+ a640c23a62f3a-ae9cdd86a54mr1116865766b.5.1752853169232; Fri, 18 Jul 2025
+ 08:39:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] riscv: introduce asm/swab.h
-To: Ignacio Encinas <ignacio@iencinas.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
-Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- Palmer Dabbelt <palmer@rivosinc.com>
-References: <20250717-riscv-swab-v5-1-1d5bb7c42f38@iencinas.com>
-Content-Language: en-US
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20250717-riscv-swab-v5-1-1d5bb7c42f38@iencinas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeifeehfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhephffhuddtveegleeggeefledtudfhudelvdetudfhgeffffeigffgkeethfejudejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvddttddumeekiedumeeffeekvdemvghfledtmeeftdhftgemgedtjegtmeeiheegfhemfedvfhelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeeffeekvdemvghfledtmeeftdhftgemgedtjegtmeeiheegfhemfedvfhelpdhhvghloheplgfkrfggieemvddttddumeekiedumeeffeekvdemvghfledtmeeftdhftgemgedtjegtmeeiheegfhemfedvfhelngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeekpdhrtghpthhtohepihhgnhgrtghiohesihgvnhgtihhnrghsrdgtohhmpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhtohepp
- hgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrlhhmvghrsehrihhvohhsihhntgdrtghomh
-X-GND-Sasl: alex@ghiti.fr
+References: <20250717115936.7025-1-suchitkarunakaran@gmail.com>
+ <CAEf4BzZ+OTkaXmtWPbOGB0OWz5xmj-d06UWchooO+iUyDHar4g@mail.gmail.com> <CAO9wTFgLOymS+VDcUTCHZ7niu_gEgN-N-F1uX-Kpm+uqvaMrQg@mail.gmail.com>
+In-Reply-To: <CAO9wTFgLOymS+VDcUTCHZ7niu_gEgN-N-F1uX-Kpm+uqvaMrQg@mail.gmail.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Fri, 18 Jul 2025 08:39:01 -0700
+X-Gm-Features: Ac12FXxnbJSkiNaYLXamvASk4rtFXxTiGngAImtikLHkoEBtFQMXFsQXoFL0bO0
+Message-ID: <CAEf4Bzayn6UNjjbtgA8i2n4-_kuyERnOZAZMfc4cXTDKrSFr+w@mail.gmail.com>
+Subject: Re: [PATCH] libbpf: Replace strcpy() with memcpy() in bpf_object__new()
+To: Suchit K <suchitkarunakaran@gmail.com>
+Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
+	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
+	sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, bpf@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ignacio,
+On Thu, Jul 17, 2025 at 10:33=E2=80=AFAM Suchit K <suchitkarunakaran@gmail.=
+com> wrote:
+>
+> > This is user-space libbpf code, where the API contract mandates that
+> > the path argument is a well-formed zero-terminated C string. Plus, if
+> > you look at the few lines above, we allocate just enough space to fit
+> > the entire contents of the string without truncation.
+> >
+> > In other words, there is nothing to fix or improve here.
+> >
+>
+> Even though it=E2=80=99s safe in this context, would it still be a good i=
+dea
+> to replace strcpy() with something like memcpy() since it's
 
-On 7/17/25 20:44, Ignacio Encinas wrote:
-> Implement endianness swap macros for RISC-V.
->
-> Use the rev8 instruction when Zbb is available. Otherwise, rely on the
-> default mask-and-shift implementation.
->
-> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
-> ---
-> Motivated by [1]. Tested with crc_kunit as pointed out here [2]. I can't
-> provide performance numbers as I don't have RISC-V hardware.
->
-> [1] https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
-> [2] https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/
-> ---
-> Changes in v5:
-> - Duplicate ___constant_swab helpers in arch/riscv/include/asm/swab.h to
->    avoid delaying the patch as suggested by Alex in [3] (drop patch 1 and
->    convert this into a 1-patch series)
-> - Link to v4: https://lore.kernel.org/r/20250426-riscv-swab-v4-0-64201404a68c@iencinas.com
->
-> [3] https://lore.kernel.org/linux-riscv/7e22a448-3cee-4475-b69b-3dd45b57f168@ghiti.fr/
->
-> Changes in v4:
->
-> - Add missing include in the 1st patch, reported by
->    https://lore.kernel.org/all/202504042300.it9RcOSt-lkp@intel.com/
-> - Rewrite the ARCH_SWAB macro as suggested by Arnd
-> - Define __arch_swab64 for CONFIG_32BIT (Ben)
-> - Link to v3: https://lore.kernel.org/r/20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com
->
-> Changes in v3:
->
-> PATCH 2:
->    Use if(riscv_has_extension_likely) instead of asm goto (Eric). It
->    looks like both versions generate the same assembly. Perhaps we should
->    do the same change in other places such as arch/riscv/include/asm/bitops.h
-> - Link to v2: https://lore.kernel.org/r/20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com
->
-> Changes in v2:
-> - Introduce first patch factoring out the default implementation into
->    asm-generic
-> - Remove blank line to make checkpatch happy
-> - Link to v1: https://lore.kernel.org/r/20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com
-> ---
->   arch/riscv/include/asm/swab.h | 87 +++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 87 insertions(+)
->
-> diff --git a/arch/riscv/include/asm/swab.h b/arch/riscv/include/asm/swab.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..4f408f59fada7251d62f56d174ae76ff19f4a319
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/swab.h
-> @@ -0,0 +1,87 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +#ifndef _ASM_RISCV_SWAB_H
-> +#define _ASM_RISCV_SWAB_H
-> +
-> +#include <linux/types.h>
-> +#include <linux/compiler.h>
-> +#include <asm/cpufeature-macros.h>
-> +#include <asm/hwcap.h>
-> +#include <asm-generic/swab.h>
-> +
-> +#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
-> +
-> +// Duplicated from include/uapi/linux/swab.h
-> +#define ___constant_swab16(x) ((__u16)(				\
-> +	(((__u16)(x) & (__u16)0x00ffU) << 8) |			\
-> +	(((__u16)(x) & (__u16)0xff00U) >> 8)))
-> +
-> +#define ___constant_swab32(x) ((__u32)(				\
-> +	(((__u32)(x) & (__u32)0x000000ffUL) << 24) |		\
-> +	(((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |		\
-> +	(((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |		\
-> +	(((__u32)(x) & (__u32)0xff000000UL) >> 24)))
-> +
-> +#define ___constant_swab64(x) ((__u64)(				\
-> +	(((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |	\
-> +	(((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |	\
-> +	(((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |	\
-> +	(((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |	\
-> +	(((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |	\
-> +	(((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |	\
-> +	(((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |	\
-> +	(((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
-> +
-> +#define ARCH_SWAB(size, value)						\
-> +({									\
-> +	unsigned long x = value;					\
-> +									\
-> +	if (riscv_has_extension_likely(RISCV_ISA_EXT_ZBB)) {            \
-> +		asm volatile (".option push\n"				\
-> +			      ".option arch,+zbb\n"			\
-> +			      "rev8 %0, %1\n"				\
-> +			      ".option pop\n"				\
-> +			      : "=r" (x) : "r" (x));			\
-> +		x = x >> (BITS_PER_LONG - size);			\
-> +	} else {                                                        \
-> +		x = ___constant_swab##size(value);                      \
-> +	}								\
-> +	x;								\
-> +})
-> +
-> +static __always_inline __u16 __arch_swab16(__u16 value)
-> +{
-> +	return ARCH_SWAB(16, value);
-> +}
-> +
-> +static __always_inline __u32 __arch_swab32(__u32 value)
-> +{
-> +	return ARCH_SWAB(32, value);
-> +}
-> +
-> +#ifdef CONFIG_64BIT
-> +static __always_inline __u64 __arch_swab64(__u64 value)
-> +{
-> +	return ARCH_SWAB(64, value);
-> +}
-> +#else
-> +static __always_inline __u64 __arch_swab64(__u64 value)
-> +{
-> +	__u32 h = value >> 32;
-> +	__u32 l = value & ((1ULL << 32) - 1);
-> +
-> +	return ((__u64)(__arch_swab32(l)) << 32) | ((__u64)(__arch_swab32(h)));
-> +}
-> +#endif
-> +
-> +#define __arch_swab64 __arch_swab64
-> +#define __arch_swab32 __arch_swab32
-> +#define __arch_swab16 __arch_swab16
-> +
-> +#undef ___constant_swab16
-> +#undef ___constant_swab32
-> +#undef ___constant_swab64
-> +
-> +#undef ARCH_SWAB
-> +
-> +#endif /* defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
-> +#endif /* _ASM_RISCV_SWAB_H */
->
-> ---
-> base-commit: 155a3c003e555a7300d156a5252c004c392ec6b0
-> change-id: 20250307-riscv-swab-b81b94a9ac1b
->
-> Best regards,
+no, there is no need. And keep in mind that this is libbpf library
+source code, which is developed as part of kernel repo, but isn't
+running inside the kernel itself
 
-
-Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Tested-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-
-Thanks for the quick new version!
-
-Alex
-
+> deprecated? I=E2=80=99m still a beginner in kernel development and trying=
+ to
+> find my way around, so I=E2=80=99d appreciate any guidance.
