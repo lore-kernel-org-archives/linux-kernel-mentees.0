@@ -1,93 +1,95 @@
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2E99476
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 19 Jul 2025 17:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6E48BF8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 19 Jul 2025 21:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752945074; cv=none; b=G41i5y02BhQhnQj7rGYEcr50E/h+egfP31Q3pfwDLO98mJGB9yQjhj4YI9GwunnB89FbrQ3wMkLiiCPZIop7JgJD26ogv6OtmgV7mBU7kUxKQ7aWoUJ51pAKZ8BtCErwDCyTrupfvlXDqEMrvUSNPjU7FAXHWlJrVxUSyv6N0mA=
+	t=1752961572; cv=none; b=HvCjcFnm4Vj9Ors6oPrmqCkFbve6t3kHDkmnyW1TNM6G82ZHy0Vbah4DmNudqlVWv4due9bucQ7zC0zXMJ2Ok9MQWZhy7/virY2Rs+sOkdP8R2x2J/3dzexNwDgNH/wrExudu/S8wA3ckHMqBeux+IGhJD39v+abBNND6QLAlBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752945074; c=relaxed/simple;
-	bh=HHI4KQQvL86pW+ZxX2BSyPge5WGmclIv3uvMc0vhnsk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TOjpgB3nM0QGaA4PeEgMfKKmzEv1OCZhOzoAl5zLZxDSriQKc4gTHb0AE6QWXCh70RPWQ/nkIB7M374zdzoxpH9blXt2X6b0F1AQ4kb2CAw9vgX1hvpxnnr0lNPJ3TxEuyrxQMK89wEFrNOUqGoW1EhWIuzcSYcVxJQH9RbC7yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=NTEPsdt1; arc=none smtp.client-ip=193.136.128.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
+	s=arc-20240116; t=1752961572; c=relaxed/simple;
+	bh=K7fmwbzAGB5SviPmGFl+B09mUOuJ9NRY2Punbj4PEfA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BRF/ye5KOIHIar3yGc+M9W0CTHIVyiua52VxtdSxLpqCB8aN27/TyvMw46NdhnB8xtK+3Dap3gtCae/ZjUgfTer3oU380TAjeUthCv/ZekDkQ6vNhwKAurCAF269XnXSEgm3HXQov+2r9YwoOzdMXS7NzbkoszFORUU2YTCu0Ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=eQBdRZBC; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="NTEPsdt1"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id A7B3E600024E;
-	Sat, 19 Jul 2025 18:11:03 +0100 (WEST)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id dI7br0q4lzoc; Sat, 19 Jul 2025 18:11:01 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 999C16000856;
-	Sat, 19 Jul 2025 18:11:00 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
-	s=mail; t=1752945061;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Axx8W/LgHbcgJOf+Y3oMCoiRVKx3F5TuqXbiAOTJQDY=;
-	b=NTEPsdt16juAzkU6lfdFAbXw0xKjy4z6gSs+ruNyEqSf4uUkCz9dDA0fcebsfrE6nKbVJP
-	EO8mRC3NuN3ea2WeDj2UGWVDy2RdYTXAc2rf5P7M3TAHd1RHrTsmjCDfz7QoJ4Fcdqgd7X
-	hkCVffxRLKdRykpUulo474TPr+iK3KA=
-Received: from [IPV6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde] (unknown [IPv6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde])
-	(Authenticated sender: ist187313)
-	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id E7489360083;
-	Sat, 19 Jul 2025 18:10:58 +0100 (WEST)
-Message-ID: <f0d300fc-0141-4eab-a888-d1d32778f5de@tecnico.ulisboa.pt>
-Date: Sat, 19 Jul 2025 18:10:58 +0100
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="eQBdRZBC"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id DDC3360B90
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 19 Jul 2025 21:46:10 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.791
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id BQQ7j9Cl2NXQ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 19 Jul 2025 21:46:09 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=18.9.28.11; helo=outgoing.mit.edu; envelope-from=tytso@mit.edu; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org B03B56148F
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B03B56148F
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=eQBdRZBC
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B03B56148F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 19 Jul 2025 21:46:08 +0000 (UTC)
+Received: from trampoline.thunk.org (pool-173-48-117-186.bstnma.fios.verizon.net [173.48.117.186])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 56JLk1af009673
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 19 Jul 2025 17:46:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1752961564; bh=exflGeeC4CnyyIBrcYnERcNj2c+ONgP0MDuvyGETvs8=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=eQBdRZBCWYDQ6fdES3LPsxSp2HFiYmX15OSSgZ+SEzIZd8O01X2YnK74p7tOrB/Tk
+	 SUJoH11MN/ldLAmq4f0AFpqLkxSzobcQ6JBuDZPSSlxaguZ/aiGp08dtOEFtVnjHPX
+	 U9mh+qKUnOK01wiQlZ32Octf89IXktoNmFr3A+vsVYI5s5F0GwB9buDFI6m7qeBdjG
+	 4bj78mndaWXKk04oj0Jce1j6nOwXifD39VfsB1Ys3aX2b9hkiC4fKSYHI0WVdJgu4b
+	 adUakxEN4nJgX/pY2johgCftVaR4B8Pch8nulOijyzQ6G/xviigjxASegIU2ut6W0b
+	 GwizKCrXTXjMg==
+Received: by trampoline.thunk.org (Postfix, from userid 15806)
+	id 250E22E00D9; Sat, 19 Jul 2025 17:46:01 -0400 (EDT)
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: I Hsin Cheng <richard120310@gmail.com>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, adilger.kernel@dilger.ca,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] ext4: Refactor breaking condition for xattr_find_entry()
+Date: Sat, 19 Jul 2025 17:45:55 -0400
+Message-ID: <175296153001.397842.9125557926811806145.b4-ty@mit.edu>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250708020013.175728-1-richard120310@gmail.com>
+References: <20250708020013.175728-1-richard120310@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up
- driver
-To: Doug Anderson <dianders@chromium.org>,
- Brigham Campbell <me@brighamcampbell.com>
-Cc: tejasvipin76@gmail.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20250717164053.284969-1-me@brighamcampbell.com>
- <20250717164053.284969-3-me@brighamcampbell.com>
- <CAD=FV=Vrp9MM_5de10sV-TC_mp-D7en9gjU8DBoD6mBrRvF2eg@mail.gmail.com>
-Content-Language: en-US
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-In-Reply-To: <CAD=FV=Vrp9MM_5de10sV-TC_mp-D7en9gjU8DBoD6mBrRvF2eg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 
-
-On 7/18/25 5:11 PM, Doug Anderson wrote:
-> Hi,
+On Tue, 08 Jul 2025 10:00:13 +0800, I Hsin Cheng wrote:
+> Refactor the condition for breaking the loop within xattr_find_entry().
+> Elimate the usage of "<=" and take condition shortcut when "!cmp" is
+> true.
 > 
-> On Thu, Jul 17, 2025 at 9:41 AM Brigham Campbell <me@brighamcampbell.com> wrote:
->>
->>   static int jdi_panel_prepare(struct drm_panel *panel)
->>   {
->>          struct jdi_panel *jdi = to_panel_jdi(panel);
->> +       struct mipi_dsi_multi_context dsi_ctx = { .accum_err = 0 };
+> Originally, the condition was "(cmp <= 0 && (sorted || cmp == 0))", which
+> means after it knows "cmp <= 0" is true, it has to check the value of
+> "sorted" and "cmp". The checking of "cmp" here would be redundant since
+> it has already checked it.
 > 
-> nit: can just be this:
-> 
-> struct mipi_dsi_multi_context dsi_ctx = {};
+> [...]
 
-I am not an expert here but I was under the impression that this is only
-valid with C23 while the kernel is written in C11. Is there something I
-am missing?
+Applied, thanks!
 
-Diogo
+[1/1] ext4: Refactor breaking condition for xattr_find_entry()
+      commit: 9d9076238fe9fe45257f298bf51b35aa796cf0f1
+
+Best regards,
+-- 
+Theodore Ts'o <tytso@mit.edu>
