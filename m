@@ -1,35 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B6379DA;
-	Sat, 19 Jul 2025 00:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41CD2248BE
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 19 Jul 2025 08:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752883789; cv=none; b=aJQ3RbBFxmuX1z82P2eLuCPuDZ9albrNGU/z0Agzsxopp17B97x6zdzSe3JKbWl/CFiH1Ea6bpL0wY5H/DOnkpzlThXD7c8edlmdy7oj1236DQaSRrGUpYiD/7fDW4Xa7PNYufi27Bq75CxMczoD2epheqHvZ2/cU1E3VrunoGQ=
+	t=1752913625; cv=none; b=GM5V4PBthjiWFeCwVgnATM1Ldp8k+hy0It8jvfiJFydVLbe9Tl9FAuLpqPvEAmBDhcegEcL9McY7t2M/Z8te6Zf2aNHG21EAVhnR+GdVzibERUV8dkfk+d9h6yDiPKOreTQN0/IQwGx5/VbBFK3qVG8BpL67MB9FNgLzCNGLApc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752883789; c=relaxed/simple;
-	bh=L86YVyx0apxTgB24V2M98O9bhmi45r78/Kb29rRjzuw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=mzixdZXEBqD/nj1/MuRaGNtDyIUM90ONJmMTSw2kchnjdm3dq1VNm+DrXoBjjNAGxrC3ZEh5E9y6kFJNGFFVayy7HM5qr0jGL4+HM3HzLKz9QgQv6UC3cerq/axoXtFf6vlwnPkH3VsDpmmhFYEzD8Z1GJxzTqUYoP8g2YOriX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E5YXJy7T; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752913625; c=relaxed/simple;
+	bh=P22GETLL8XCTAG82w5KLzdw5PA4pQl85CxmaEqGA3PE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KZuuciwXoJGMGuJv0IA4z+zoGtf7/TqyHV7Qw/3mAInyodWHw7vRTgizIIpLST+LvtVaowkcx3bp9Brdz83kznCXlpt9NwqShDKWrn62o5P2OqFozvmJmqL87fxGSPlbpucMR3V/+QbGBtUWEcuvRkygUCnADpdjKWEsz0wnn8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=nWlnuRXI; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E5YXJy7T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C05CC4CEF7;
-	Sat, 19 Jul 2025 00:09:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752883789;
-	bh=L86YVyx0apxTgB24V2M98O9bhmi45r78/Kb29rRjzuw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=E5YXJy7T2ksdjnStajnIQUP1DKdcUwoAjxRkloGSEo4iSwjVDslktIfC1e82GYfu5
-	 /9vMAcVjugGG6LtYFAy7J1+ICjuPqO/HxgDxwYjuyxpkkQLCQMrYZu1HmR+d7pmBc4
-	 4Ffhvl/zJlDJVWxHIPJcg2HDuNr62cO6LMjJtD/NM6BMEwZ71kJZlRWmcTBNdaIHFh
-	 83xEbEVWeXg75cG0vjDan0VPimxtJ3rK3coDqQN3K3nQbzuvij3q/KcSo7lqZ4PIR3
-	 FIt7Hfu7XMWEbG6OR/96MCospk/JnElc9n/K9l6ohutVPhJF9PdLX6owFgXMM4YTaJ
-	 /kiHwbenCHRCQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33C75383BA3C;
-	Sat, 19 Jul 2025 00:10:10 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="nWlnuRXI"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-74b54cead6cso1911239b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 19 Jul 2025 01:27:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1752913622; x=1753518422; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EPId7hlRtak29cJpHNdXMRMJJGzWtgzI1RuZFg9RVGU=;
+        b=nWlnuRXIPZ/5D9H3QtzhegaIme1EsK20DMkUzf/HFXOdcqUUlFoonqDdRNQX8cv+9w
+         0IBTPjC6vhg6HK+MGYGnNdTox0zUGN19rdEabp27t9UUfViSmXfX0qAXY3ngorBWt9pg
+         zvLVbZU1E2Ip4T3doG4CEaxnrREbxbttsh5+hRoGxjGUQ6tWuWg07Z8HuBO1VGt1PkY9
+         FU7OCjeLXT9nyOv+Wl40VeTF2JvsjVwoxsRBpQX/+xPGOkRHg3VRTnriVMAfJnXw2n28
+         2W2Zm2sg+9AsVWqVnp9DUlz6X8UZqeij1/CksuvlGEo92Qoq9G66BGJxGsGDHMKTKHSl
+         rocA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752913622; x=1753518422;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EPId7hlRtak29cJpHNdXMRMJJGzWtgzI1RuZFg9RVGU=;
+        b=AiPIUmcoUgDn/y10rkEE+j8eWcoQnY6oe7GsqucwyCqsJzSrCZtbTzwuo+3tgEV+e7
+         BBWAZ0aBqaN1ngo6r+xBvL+TWNlWQiuAueXszarul7+j2Bb9TKZZy9+b0u5NSSx/Tfbp
+         VYdM538s6WvZKm4fPJLsK3BNrDxeCaCjwtKvToJajTG9ICUqD9BtmfzLihPqIsrxh2E4
+         ATVptAzmPPxinxEGKLRVSpeUBQ7MLqvJkinaNXU8VOBTG7W4k0bL4CsWlhk93iYyL/cl
+         rMKBB9Vzd1mx/vRHpH27lgqI87c1EVBzKysbWxI8A9xbibs/09TmdNhVJT59aNsXoHNb
+         TyJg==
+X-Forwarded-Encrypted: i=1; AJvYcCXIyz4yfcVzhYJXmvN0eiFNIXrbFOPFKgeDwf4WH2x3U5+3I4S7RtEiFGKpSLmjdySvuby/ASkgHnpHcSSW1bkJVhZXfA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzz1TxyiHF+ei5dMJATcSvIZH+M71+wKJ/fnt9DEHp9bpCdioqY
+	VsHnRdfIicCYw+8pUoDmfgxtB+rKUpno4Nd98I6Bqrv8/DH94Q18GTGXra9RH/qxgZs=
+X-Gm-Gg: ASbGncvbk0bD71oVzzEbmWr9YsFTs8YsCW71OnE3Gw0faqDUWrXUUAyDMgP7Gznw/4/
+	vUeJjy0duge6RFce6vbd+z+mqEZYjzmeYT+0F6bnCr0jF+JJuuQwJ13au2kfKd8e7xJtQ5klY/Z
+	lIkwmEeYAjLehhQX6pILQLJ0sQuK/lzOC9VwcYQ4ra73B75w4FlS+TH+qoNJtK6ymj5+24c+oz7
+	ZIE4ENr0fdg/WdFN/W4mS++e80ud3Vrpl2ZY+1eKtn7VfF+NPPdBuj7m1MTWfUY7gfBLWgelT78
+	NsttMAiB6R25DPOBR+9IyC7+os8LgMfz3Qap9ipb/sUSHn8LodbzsKZUSUScaoGcw9B/NtR849j
+	r+QslQq87db6JqtMna+mqJtg6AFacLRvjBNdrzMr3rvHiAaF9RQ==
+X-Google-Smtp-Source: AGHT+IEzBjqgE2BlaLz1oOWFjBrHioQyEDfCtdHE+F0FDfd8OvpCDexvgvzMEwrHYyRAhMYVJmlFCA==
+X-Received: by 2002:a05:6a00:3a11:b0:736:51ab:7aed with SMTP id d2e1a72fcca58-75724180944mr17224932b3a.16.1752913621977;
+        Sat, 19 Jul 2025 01:27:01 -0700 (PDT)
+Received: from mystery-machine.tail542cf.ts.net ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cb157635sm2475260b3a.83.2025.07.19.01.27.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Jul 2025 01:27:01 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: dianders@chromium.org,
+	tejasvipin76@gmail.com,
+	diogo.ivo@tecnico.ulisboa.pt,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH v5 0/4] drm: Fix bug in panel driver, update MIPI support macros
+Date: Sat, 19 Jul 2025 02:26:34 -0600
+Message-ID: <20250719082639.307545-1-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -37,41 +77,69 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net: stream: add description for sk_stream_write_space()
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175288380900.2831723.3967614204984051373.git-patchwork-notify@kernel.org>
-Date: Sat, 19 Jul 2025 00:10:09 +0000
-References: <20250716153404.7385-1-suchitkarunakaran@gmail.com>
-In-Reply-To: <20250716153404.7385-1-suchitkarunakaran@gmail.com>
-To: Suchit K <suchitkarunakaran@gmail.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, netdev@vger.kernel.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org
 
-Hello:
+This series removes the unintuitive mipi_dsi_generic_write_seq() macro
+and related mipi_dsi_generic_write_chatty() method from the drm
+subsystem. This is in accordance with a TODO item from Douglas Anderson
+in the drm subsystem documentation. Tejas Vipin (among others) has
+largely spearheaded this effort up until now, converting MIPI panel
+drivers one at a time.
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+The second patch of the series removes the last remaining references to
+mipi_dsi_generic_write_seq() in the jdi-lpm102a188a driver and updates
+the driver to use the undeprecated _multi variants of MIPI functions. It
+fixes a bug in the driver's unprepare function and cleans up duplicated
+code using the new mipi_dsi_dual macro introduced in the first patch.
 
-On Wed, 16 Jul 2025 21:04:04 +0530 you wrote:
-> Add a proper description for the sk_stream_write_space() function as
-> previously marked by a FIXME comment.
-> No functional changes.
-> 
-> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-> ---
->  net/core/stream.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+changes to v5:
+ - Rework mipi_dsi_dual to explicitly not support passing macros into
+   _func and add "dual" variants of the generic and dcs write macros.
+ - Make jdi-lpm102a188a use the new
+   mipi_dsi_dual_generic_write_seq_multi macro.
+ - Make local struct variable in jdi-lpm102a188a conform to reverse
+   christmas tree order.
 
-Here is the summary with links:
-  - net: stream: add description for sk_stream_write_space()
-    https://git.kernel.org/netdev/net-next/c/8b7ab8eb52b5
+changes to v4:
+ - Fix whitespace (I forgot to run checkpatch. Thanks for your patience
+   as I familiarize myself with the kernel development process)
+ - Initialize mipi_dsi_multi_context struct
 
-You are awesome, thank you!
+changes to v3:
+ - Define new mipi_dsi_dual macro in drm_mipi_dsi.h to reduce code
+   duplication.
+ - Fix bug in lpm102a188a panel driver's unprepare function which causes
+   it to return a nonsensical value.
+ - Make lpm102a188a panel driver's unprepare function send "display off"
+   and "enter sleep mode" commands to both serial interfaces regardless
+   of whether an error occurred when sending the last command.
+
+changes to v2:
+ - Remove all usages of deprecated MIPI functions from jdi-lpm102a188a
+   driver instead of just mipi_dsi_generic_write_seq().
+ - Update TODO item in drm documentation instead of removing it
+   entirely.
+
+Brigham Campbell (4):
+  drm: Create mipi_dsi_dual* macros
+  drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
+  drm: Remove unused MIPI write seq and chatty functions
+  drm: docs: Update task from drm TODO list
+
+ Documentation/gpu/todo.rst                    |  22 +-
+ drivers/gpu/drm/drm_mipi_dsi.c                |  82 +++++---
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 196 ++++++------------
+ include/drm/drm_mipi_dsi.h                    | 112 ++++++++--
+ 4 files changed, 210 insertions(+), 202 deletions(-)
+
+v4: https://lore.kernel.org/all/20250717164053.284969-1-me@brighamcampbell.com/
+v3: https://lore.kernel.org/all/20250717065757.246122-1-me@brighamcampbell.com/
+v2: https://lore.kernel.org/all/20250708073901.90027-1-me@brighamcampbell.com/
+v1: https://lore.kernel.org/all/20250707075659.75810-1-me@brighamcampbell.com/
+
+base-commit: ca2a6abdaee43808034cdb218428d2ed85fd3db8
+
+May you all have a wonderful weekend. I'll be riding my motorcycle up
+Logan Canyon.
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.50.1
 
