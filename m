@@ -1,121 +1,117 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20A01E1E1F
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 20 Jul 2025 08:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6787171CD
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 20 Jul 2025 11:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753001960; cv=none; b=nC/yrqm4twmGdpbJCZT/tqq3uEj7zMkcDO7iVcgsGsex8+NzwqmEhjR8z5Sl8aH0bj3sT6W7wcBlwzoh6YI1Aym+TtJnoHBZ1tFbb3h1TA/Lwv58vA6vd8yAXdo4QLd5SuqFBGSMdyEQeraYrsGetBT45gcKe/HV+w5RRi3kSL4=
+	t=1753010388; cv=none; b=lcmx6N5juMeVEnt051SQAjkQ3TKF775FMg1OWdw+zYgEAXzh6uK3PiBmSO72mvfpZ4G0YXjhgzUgRZosdiR+z8g4xXh2MVnAkdCc3O+VSXpAZ7kbt2FdBYxRP3sssncJ0LLzFGs/cvYNnRFDPfEntei7UvgdTd6uofipx5Nyb5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753001960; c=relaxed/simple;
-	bh=M0bOc/j6BpQq1mxDARi3426daG4a2ThIlUeEdFrkC8A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X2UQznusMSk8WLSGZFfou6PG4tvGGr60A/Gk5ZteDBf1s6Ls9pvU6bBD9Nzxq8MJy+YuOUHgHICSSbdSeKR5rhEC/79mJ2IrWj0rgL3cw8o5dddtIBuqVotoNXPQP/qBJg0pnrYQc9H9Powzose6DLGAtFdLhZ/5bg0/+qCFdPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lybq5Ity; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753010388; c=relaxed/simple;
+	bh=gyRICyURrjcBvq013Ng1FUcDfdiBGzcgj+dJMALYtug=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oTpXJcCV3sj7irhDL9ysssx8s3kziPStlI3LKKQjMvN19MM/ZynwgyVqFbQlOXtEuN5/uxXCb3BYrGo0QCChEi3j/GCfAlF+D+vXqNPBzHijX/vuFmekRFFJoewhzxlS+vNGMmgNYJvP9S5wDsPJVph+f9LBv39R7eKkxAxJu+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=QRaPlXD6; arc=none smtp.client-ip=193.136.128.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lybq5Ity"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2353a2bc210so30132925ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 20 Jul 2025 01:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753001957; x=1753606757; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sA2xO3FkcLO8DaNf6KbVUYpnZ2ST2OFsE3flTGRsM5U=;
-        b=Lybq5ItyC2UYKmValgz842rP15HiN7h67ApGLkpa9aO5DYyMMbU026BDKpYHU3sPpw
-         YD7/O2436CMWXFNkUZTZiLliVSqOiGZ3yB3AXccZd2bftr3VHSIF04XHFBJ0wYiR6NZ/
-         S3JmolU4Le6a91eDsMBGf7mQ79FbcU2kVMBdwx8IaDtLED4ALSHTllPWIGGVn1/obU3s
-         Y82MElIG03SOmc+UTlK0t9TEZ98xqsyWSnNv1S4uggIeLoTi9GVuX8wgyiW2er2XoO5g
-         ffakgL/iiNIQstjRFpmyvhyLcifBG8WXP8u+DCa2ROGUBL4PGd8pCLZb9YqHaoMSQtGu
-         N7ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753001957; x=1753606757;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sA2xO3FkcLO8DaNf6KbVUYpnZ2ST2OFsE3flTGRsM5U=;
-        b=viPPcdcuSSF7A40K7c8wPh1Zin2Kk/R0N1zHwRRQ6+2ezFViZERs9MH83FsmcmNpzs
-         /kWE7q6O2XSaIS5EOD6NDnJDgQqGNQZrztUySJ0myB8Q/K+51lp+S7n+EQ4xysRPqipv
-         qQt89Y5i/WKsjk3SB95w801VMLrOJTh/SAdT03j0wygJhM+0OIjeoqN/FU+9P/fDktHl
-         IBNDLh1jklle3a2/8dmlDMXGoSxYAJXhe+U2Jx0iQ7pny/EU4VUFecaf7idKQS1SmHx6
-         2sDvrMHYpwpJtotfQ2hbNPljrXaq73fRDTw1HFZ/6XRkC4hpCO0Gt5LJ5cBP6tJUF4zy
-         5Jwg==
-X-Forwarded-Encrypted: i=1; AJvYcCU6ZQPjsmu9QVTuKxmGmcxRRFW2rl0Xwv1Rd/LI/sIpQzFcV4AkH8JGWozjJTEfgCOwcGiEYcDYrnQh03PmRizMpaoAyg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzlJJac0RKFhjUtPMx+LMdopdnGwlw3VsImdVD6Dfu2Wj2kCA1h
-	rnvwwr5lwkLU3Vx3aaNNKQVuKoJORR6cpeAa05B93DGIhfDOORzLd7BA
-X-Gm-Gg: ASbGncvZG/A8lrHs70rRU8GjU1Mp7oIwDCRpxq2PJmZuqoiInadK7qorlCnB22zPznC
-	u1cOKmicR+55zh+XBQokxEdftvX91+kH6DA8ik3MtxY3I92KA4iJzsMMQWcHRIv3jSoe/KuW2j1
-	fH27kaKoR5wygiFCNQa1FC0UQ8umfIgaSp/B27uJ0u4etTvVx1S8MEi2iULeXofiC0iHFKVfIa4
-	9/G8vzXHPFyd6TSLP3wPdfikWg2As3w4XIIYnkmE6mlXMMNdG9HAtYcZMTYTW8wmyCfpazZhNPn
-	JktNs19QEASMfgqFHfGYMNITT2uyOu0fWEq7aVudmsGcl1sDeZRsJ+yJ5sBXcLkicGnE/K31kru
-	TRahSiWezA4q9wucvwuvhJ5FEWFdt
-X-Google-Smtp-Source: AGHT+IGQHzsV8pz3bryJ251pP0Aj07yt9omnf6sYGxLQAsHu/WuzEoDKSfTb4TUE2i34Lg2ek1yOHg==
-X-Received: by 2002:a17:902:d490:b0:234:c2e7:a0e4 with SMTP id d9443c01a7336-23e25684a67mr227746295ad.3.1753001956941;
-        Sun, 20 Jul 2025 01:59:16 -0700 (PDT)
-Received: from archlinux ([205.254.163.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b6f003esm39063405ad.221.2025.07.20.01.59.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jul 2025 01:59:16 -0700 (PDT)
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: peterz@infradead.org,
-	mingo@redhat.com,
-	acme@kernel.org,
-	namhyung@kernel.org,
-	mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com,
-	jolsa@kernel.org,
-	irogers@google.com,
-	adrian.hunter@intel.com,
-	kan.liang@linux.intel.com,
-	linux-perf-users@vger.kernel.org
-Cc: sesse@google.com,
-	charlie@rivosinc.com,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: [PATCH] perf tests: Fix lib path detection for non-x86 architectures
-Date: Sun, 20 Jul 2025 14:29:05 +0530
-Message-ID: <20250720085905.192652-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="QRaPlXD6"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 53F7C600085A;
+	Sun, 20 Jul 2025 12:19:43 +0100 (WEST)
+X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
+ with LMTP id fFBU6Rh2sC4W; Sun, 20 Jul 2025 12:19:41 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
+	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 7D5E1600086B;
+	Sun, 20 Jul 2025 12:19:39 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
+	s=mail; t=1753010380;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4AYcinkFOAcq7n312XvMccrwqLxCWTdWzIdRjmqY2XU=;
+	b=QRaPlXD66sIibZEDIjJ2zvX7gQs/B8rdfQb+t5Zae4AQxVWBGEGEgc3UgMJRugmK60YJU1
+	sgM2DPkHRz0HHqtOhSvMVuCjnD45iKEWVGAL+RNwBJv7rba0Eiuayp9OOz7Ckv9ZpZfch/
+	3MqHqNxeCQkIdPnHpwM+KQVgmIgJNC4=
+Received: from [IPV6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde] (unknown [IPv6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde])
+	(Authenticated sender: ist187313)
+	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id A09F5360071;
+	Sun, 20 Jul 2025 12:19:37 +0100 (WEST)
+Message-ID: <73686985-27c4-4a4f-8b75-18df112367a7@tecnico.ulisboa.pt>
+Date: Sun, 20 Jul 2025 12:19:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up
+ driver
+To: Brigham Campbell <me@brighamcampbell.com>,
+ Doug Anderson <dianders@chromium.org>
+Cc: tejasvipin76@gmail.com, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250717164053.284969-1-me@brighamcampbell.com>
+ <20250717164053.284969-3-me@brighamcampbell.com>
+ <CAD=FV=Vrp9MM_5de10sV-TC_mp-D7en9gjU8DBoD6mBrRvF2eg@mail.gmail.com>
+ <f0d300fc-0141-4eab-a888-d1d32778f5de@tecnico.ulisboa.pt>
+ <DBGPVFN5DTGU.5UTP35ALYS2Q@brighamcampbell.com>
+Content-Language: en-US
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+In-Reply-To: <DBGPVFN5DTGU.5UTP35ALYS2Q@brighamcampbell.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The existing Makefile logic for determining library paths was
-hardcoded for x86 architectures, causing incorrect behavior
-on other platforms. This patch implements a portable solution
-using system bit detection.
 
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
----
- tools/perf/tests/make | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/tools/perf/tests/make b/tools/perf/tests/make
-index 0ee94caf9ec1..565522408f99 100644
---- a/tools/perf/tests/make
-+++ b/tools/perf/tests/make
-@@ -53,9 +53,12 @@ endif
- 
- include $(srctree)/tools/scripts/Makefile.arch
- 
--# FIXME looks like x86 is the only arch running tests ;-)
--# we need some IS_(32/64) flag to make this generic
--ifeq ($(ARCH)$(IS_64_BIT), x861)
-+BITS := $(shell getconf LONG_BIT)
-+IS_64_BIT ?= 1
-+ifeq ($(BITS), 32)
-+IS_64_BIT = 0
-+endif
-+ifeq ($(IS_64_BIT), 1)
- lib = lib64
- else
- lib = lib
--- 
-2.50.1
+On 7/20/25 8:50 AM, Brigham Campbell wrote:
+> On Sat Jul 19, 2025 at 11:10 AM MDT, Diogo Ivo wrote:
+>>> nit: can just be this:
+>>>
+>>> struct mipi_dsi_multi_context dsi_ctx = {};
+>>
+>> I am not an expert here but I was under the impression that this is only
+>> valid with C23 while the kernel is written in C11. Is there something I
+>> am missing?
+>>
+>> Diogo
+> 
+> You're right, C23 was the first standard to bless the usage of the empty
+> initializer, ` = {};`, but if I'm right, it's been a GNU extension long
+> before C11. At risk of being pedantic, I'll draw attention to line 580
+> of the kernel's root Makefile:
+> 
+> KBUILD_CFLAGS += -std=gnu11
+> 
+> The kernel is technically written in the GNU variant of C11, extensions
+> and all. In fact, the first patch of this series uses optional variadic
+> macro arguments, which aren't a part of any official C standard as far
+> as I'm aware.
+> 
+> In any case, a simple grep for some forms of the empty initializer shows
+> usages all over the drm subsystem.
+> 
+> That said, I don't know if GNU extensions are formally documented or
+> where one would look for that information. Importantly, I am by far the
+> junior as far as kernel coding is concerned. I yield to your experience
+> and I'm happy to change this initialization in v6 if that's best.
 
+I found the documentation here [1], and it does state regarding designated
+initializers that "Omitted fields are implicitly initialized the same as for
+objects that have static storage duration." so I take it that no v6 is 
+needed :)
+
+Diogo
+
+[1]: 
+https://gcc.gnu.org/onlinedocs/gcc/Designated-Inits.html#Designated-Inits
