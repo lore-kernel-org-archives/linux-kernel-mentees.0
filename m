@@ -1,177 +1,152 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C3C2D77FA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Jul 2025 14:21:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC792DECC5
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Jul 2025 15:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753107672; cv=none; b=lC3GoOz4XP8NmGNPjXYqfYO0hfLrhtSrZUz77ngEjryH0rmOb0VzIchgnr+H2kNdDp6DYYSIfD+MAPMEnFIpTRN4Y7/3DYz7FfiTRO4gLOizCiUjs1UgYmdLPk0QUfP2Bns6DgtKURaU3EhZvg8z3gniH1a6K5b6gLmxHa8Ts7s=
+	t=1753112846; cv=none; b=VcZ4JuJOcHnSPigsZU1S6R4SqfSF+1GxJkvc7m61TqTJn88mNeEsS7IELgDX2WRmxp4xsU80A4TMG7MyqGhdtVqmeYlsiC/IcERQUZvu9BnawKYO8CFcs3dIc12WrNNHWrPxluiMOCW3HQOM4DGNM1hQTbsqHSQMqU//U7SaFzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753107672; c=relaxed/simple;
-	bh=JcKaZoeKmA9SRzBDl6ydTbkoimw1MEhKUioDycAt8sQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:
-	 References:In-Reply-To; b=mey996fouRhLWKKdAVao/tTxg04gpuNB1hNW/H6Vefx1o5LgDm75QMFO85s8sP+QnJEcnW9NJdeA7756EbWo+/TzH1jaGqXIJWkf2oBV1CvxFi9FriompGthouiHp7YfOcW2IH1u6/QYSMSE8g3nTq004tl4xYjBMqAzoJliYr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ob7vNlfi; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1753112846; c=relaxed/simple;
+	bh=JGN33wEJGPqudqX5w145Jh0yXvNgU9KTiqxmC8hFPY8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IourQC/KEWiGJ93Mu0x+8Xkpz9y4a+sWbfxLLjI38a7adRYNxLw4/BhVoEaqPY/wlih2i7+tp9JxoGxKyDTQcbOv/r7KvKcPY9OsqoWW4foQnMEyoPKKC17nTq8+jImvjdM4VESsUrGJtSjXxMa4uXV/njt7ksLMC9GYa4a7MRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=e++SXlWX; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ob7vNlfi"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6777083A35
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Jul 2025 14:21:09 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -8.092
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id JgldDKRVnldo for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Jul 2025 14:21:08 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 7D548839E0
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7D548839E0
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ob7vNlfi
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7D548839E0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Jul 2025 14:21:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 29540A54C87;
-	Mon, 21 Jul 2025 14:21:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17229C4CEF6;
-	Mon, 21 Jul 2025 14:20:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753107666;
-	bh=JcKaZoeKmA9SRzBDl6ydTbkoimw1MEhKUioDycAt8sQ=;
-	h=Date:Subject:From:To:References:In-Reply-To:From;
-	b=ob7vNlfi4oLjzH+erQ2Fcs4qmuGR6NaidSNJ4rZdyEaf+dM0jn3FKBdU8Dx2hKwjg
-	 1v8VP3z3jdJVIQhSbqvXg+hJu9O1GjTDQssFzy6eeO/uqj0ygrOtK2HdOR0W7Wb4S4
-	 QugC51TvZEufYKMUXfVQvI0VdXtyan/j9g/qzdHh0Xp8HtntHU37CJUPXGXPx93Wbb
-	 0Zv44c+B6KRbz1JGDmjPNznMNbfU4hRs1qVwt+QIJnwL4Ywn67Mn6di+0mLCTCyzna
-	 7woUtLLy7IC3c5RdX1HhKIsZxNNSFpPmIi9y24DkJIHaxV2cb2aMiY4bCFOuoBXFZ/
-	 4vdLA93kQX6Lw==
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e++SXlWX"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-747e41d5469so4826770b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Jul 2025 08:47:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1753112839; x=1753717639; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JGN33wEJGPqudqX5w145Jh0yXvNgU9KTiqxmC8hFPY8=;
+        b=e++SXlWX9C3Ea4JfZV5DKlHgQROJAfYpxfPOA3SDQkO5cO2Mr8RZlTf/JZw3XEcDhU
+         j63DQWR2UCTIhEPrjiO4zvWwiqLUONC/01Yw1B9Kqw3kV7Rlc5vr3GpbkJnr/UnvYmcC
+         TKonjS6bBDWyEXT+yqVw8o9n6Vllwoh8hCeWs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753112839; x=1753717639;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JGN33wEJGPqudqX5w145Jh0yXvNgU9KTiqxmC8hFPY8=;
+        b=MJUAB5s5O57JsTfAbJHNYLiLb+C9LlIQssLXL8fIEHL8Yqy2V//WpF/5tkxC8Gfpio
+         DDRYhrpTNf7od4A2qBja/72rTHzLdPO8r1g+8tgu0B3qW78/qmcX/Q/j2c1WDZbTdhC1
+         OvsAwWT4g5/TLuwbF7bNKJDYQOhujvQnlFAOHA/Kn9OTimIkTkxoiWLDAjj6UyO9UK7K
+         SkjYkXVtgjIeOrIAru1ZusfdlqqJaRw6JLw/myFJ9NuPYY4PK1MLFe4260e+MUeYnn3i
+         +tK929ZcBeJs8iaoAl2fFLFBhpGKWiXfEbjwnTzIXXGjui3rjQWMQLT2ja06SAYn0AgR
+         5jFg==
+X-Forwarded-Encrypted: i=1; AJvYcCWHFzBmBo5HyBwxh5m2UmaRgnIcwlTYz5+V4PqBec6GeFzaX+4q+q7jVidCPyhlbq41RIJ27OQf5PzG7w0+0T/p6Zr/6Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YziPbdmamFUsVXCanNnBVptAvYzkkkB4oeIfXwWsPw2Qfd/u7OT
+	DELMly9H3d0i3rLLHMpLFBAzwyEPyOz/JoFTPfARO7umCnkSAIsqGFvO+7YpsIfY/uqY9GO34R+
+	JGYg=
+X-Gm-Gg: ASbGncvENSf/qVZvWMQH8uhzJGOE+psfIlBEuGS9n4kxsjsb1wjuIbTMKzNgaUCur6r
+	ALf/uwZHdN2dafLF+EUQ0rfQeInblwb2EvY08prCKiVYlKJ1XkDjJICbnxJyhdlpttimrRgOBWD
+	0StROuYmTR4PiyBEFLvH/RuPpcwAHjo2GjkG/ibxuTOhedZ/EMla9/NJDwOSyzx10neeBSCWsQq
+	rKUVMrDsIKPsYjf5H6sMXF+CjP2chqMIdQKMPD3VHMsACySDI/tbhV/VLjGPz2vYOB+HwPdz4jQ
+	DmdfAD9ltr4Fxdwo1YPgESHNjDWJmEOCyqoSCS7T4/aCE2W85S9f+g9E3rz8+WaAHcinW0NS5uj
+	zYnRveyNG2sjBXgbejkF3kWCATaATKZJiEXalYKYlO1atZAD7Z9SqKpCgQxXJ+gpxsA==
+X-Google-Smtp-Source: AGHT+IHlqjLZ5F1xqAIVmXTyhFBRxyPhkfb3dYuqX1rS4MB3Ofd/CTz+emgpD0PWhxf98XPDu6vGJg==
+X-Received: by 2002:a05:6a00:1acb:b0:736:35d4:f03f with SMTP id d2e1a72fcca58-7572357ee82mr28687898b3a.6.1753112838811;
+        Mon, 21 Jul 2025 08:47:18 -0700 (PDT)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com. [209.85.215.176])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-75e17d2526esm1271685b3a.81.2025.07.21.08.47.13
+        for <linux-kernel-mentees@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Jul 2025 08:47:16 -0700 (PDT)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b3507b63c6fso4671697a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Jul 2025 08:47:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWF3UuQnC1rX7/rLRUiFB//M1A4EQID4kLlzRqN6jvfMGVbO+ekj8AUehSPRsz9c980aFpUf5BfTBGL0+8BsU7OCsx77A==@lists.linux.dev
+X-Received: by 2002:a17:90b:224c:b0:313:1769:eb49 with SMTP id
+ 98e67ed59e1d1-31c9f3c570emr31120725a91.8.1753112832610; Mon, 21 Jul 2025
+ 08:47:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20250717164053.284969-1-me@brighamcampbell.com>
+ <20250717164053.284969-3-me@brighamcampbell.com> <CAD=FV=Vrp9MM_5de10sV-TC_mp-D7en9gjU8DBoD6mBrRvF2eg@mail.gmail.com>
+ <f0d300fc-0141-4eab-a888-d1d32778f5de@tecnico.ulisboa.pt> <DBGPVFN5DTGU.5UTP35ALYS2Q@brighamcampbell.com>
+ <73686985-27c4-4a4f-8b75-18df112367a7@tecnico.ulisboa.pt>
+In-Reply-To: <73686985-27c4-4a4f-8b75-18df112367a7@tecnico.ulisboa.pt>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 21 Jul 2025 08:46:59 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Xbijn6j9Oxc88k3iq+wSF9bV76X6uw4ADWWxwR+q=o0w@mail.gmail.com>
+X-Gm-Features: Ac12FXwZOEsXzYGcRcET3f78cuk2K33ah-CaSaDSzBavG_qBk9uaa3AvVsHX2XQ
+Message-ID: <CAD=FV=Xbijn6j9Oxc88k3iq+wSF9bV76X6uw4ADWWxwR+q=o0w@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
+To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+Cc: Brigham Campbell <me@brighamcampbell.com>, tejasvipin76@gmail.com, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 21 Jul 2025 16:20:55 +0200
-Message-Id: <DBHSSQS2IALW.2OEWVKX6PY9LZ@kernel.org>
-Subject: Re: [PATCH v7 3/3] rust: revocable: Document RevocableGuard
- invariants/safety and refine Deref safety
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Marcelo Moreira" <marcelomoreira1905@gmail.com>,
- <aliceryhl@google.com>, <dakr@kernel.org>, <ojeda@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-X-Mailer: aerc 0.20.1
-References: <20250721010258.70567-1-marcelomoreira1905@gmail.com>
- <20250721010258.70567-4-marcelomoreira1905@gmail.com>
-In-Reply-To: <20250721010258.70567-4-marcelomoreira1905@gmail.com>
 
-On Mon Jul 21, 2025 at 3:01 AM CEST, Marcelo Moreira wrote:
-> Refinements include:
-> - `RevocableGuard`'s invariants are updated to precisely state that
->   `data_ref` is valid as long as the RCU read-side lock is held.
-> - The `RevocableGuard::new` constructor is made `unsafe`, explicitly
->   requiring callers to guarantee the validity of the raw pointer and
->   RCU read-side lock lifetime.
-> - A new `SAFETY` comment is added to `Revocable::try_access` to
->   justify the `unsafe` call to `RevocableGuard::new`, detailing how
->   `Self`'s type invariants and the active RCU read-side lock ensure data
->   validity for reads.
-> - The `Deref` implementation's `SAFETY` comment for `RevocableGuard`
->   is refined.
+Hi,
+
+On Sun, Jul 20, 2025 at 4:19=E2=80=AFAM Diogo Ivo <diogo.ivo@tecnico.ulisbo=
+a.pt> wrote:
 >
-> Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
-> ---
->  rust/kernel/revocable.rs | 25 ++++++++++++++++++-------
->  1 file changed, 18 insertions(+), 7 deletions(-)
+> On 7/20/25 8:50 AM, Brigham Campbell wrote:
+> > On Sat Jul 19, 2025 at 11:10 AM MDT, Diogo Ivo wrote:
+> >>> nit: can just be this:
+> >>>
+> >>> struct mipi_dsi_multi_context dsi_ctx =3D {};
+> >>
+> >> I am not an expert here but I was under the impression that this is on=
+ly
+> >> valid with C23 while the kernel is written in C11. Is there something =
+I
+> >> am missing?
+> >>
+> >> Diogo
+> >
+> > You're right, C23 was the first standard to bless the usage of the empt=
+y
+> > initializer, ` =3D {};`, but if I'm right, it's been a GNU extension lo=
+ng
+> > before C11. At risk of being pedantic, I'll draw attention to line 580
+> > of the kernel's root Makefile:
+> >
+> > KBUILD_CFLAGS +=3D -std=3Dgnu11
+> >
+> > The kernel is technically written in the GNU variant of C11, extensions
+> > and all. In fact, the first patch of this series uses optional variadic
+> > macro arguments, which aren't a part of any official C standard as far
+> > as I'm aware.
+> >
+> > In any case, a simple grep for some forms of the empty initializer show=
+s
+> > usages all over the drm subsystem.
+> >
+> > That said, I don't know if GNU extensions are formally documented or
+> > where one would look for that information. Importantly, I am by far the
+> > junior as far as kernel coding is concerned. I yield to your experience
+> > and I'm happy to change this initialization in v6 if that's best.
 >
-> diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
-> index 6d8e9237dbdf..0048de23ab44 100644
-> --- a/rust/kernel/revocable.rs
-> +++ b/rust/kernel/revocable.rs
-> @@ -106,9 +106,12 @@ pub fn new(data: impl PinInit<T>) -> impl PinInit<Se=
-lf> {
->      pub fn try_access(&self) -> Option<RevocableGuard<'_, T>> {
->          let guard =3D rcu::read_lock();
->          if self.is_available.load(Ordering::Relaxed) {
-> -            // Since `self.is_available` is true, data is initialised an=
-d has to remain valid
-> -            // because the RCU read side lock prevents it from being dro=
-pped.
-> -            Some(RevocableGuard::new(self.data.get(), guard))
-> +            // SAFETY:
-> +            // - `self.data` is valid for reads because of `Self`'s type=
- invariants:
-> +            //   `self.is_available` is true.
-> +            // - The RCU read-side lock is active via `guard`, preventin=
-g `self.data`
-> +            //   from being dropped and ensuring its validity for the gu=
-ard's lifetime.
+> I found the documentation here [1], and it does state regarding designate=
+d
+> initializers that "Omitted fields are implicitly initialized the same as =
+for
+> objects that have static storage duration." so I take it that no v6 is
+> needed :)
+>
+> Diogo
+>
+> [1]:
+> https://gcc.gnu.org/onlinedocs/gcc/Designated-Inits.html#Designated-Inits
 
-This shouldn't be needed.
+Right. I think the key here is (as Brigham said) `git grep '=3D {}'`
+shows countless hits in the kernel. :-) ...so we're not introducing
+any new compiler requirement here with your patch. ;-)
 
-> +            Some(unsafe { RevocableGuard::new(self.data.get(), guard) })
->          } else {
->              None
->          }
-> @@ -233,7 +236,7 @@ fn drop(self: Pin<&mut Self>) {
->  ///
->  /// # Invariants
->  ///
-> -/// The RCU read-side lock is held while the guard is alive.
-> +/// - `data_ref` is a valid pointer for as long as the RCU read-side loc=
-k is held.
->  pub struct RevocableGuard<'a, T> {
->      // This can't use the `&'a T` type because references that appear in=
- function arguments must
->      // not become dangling during the execution of the function, which c=
-an happen if the
-> @@ -245,7 +248,15 @@ pub struct RevocableGuard<'a, T> {
->  }
-> =20
->  impl<T> RevocableGuard<'_, T> {
-> -    fn new(data_ref: *const T, rcu_guard: rcu::Guard) -> Self {
-> +    /// Creates a new `RevocableGuard`.
-> +    ///
-> +    /// # Safety
-> +    ///
-> +    /// Callers must ensure that `data_ref` is a valid pointer to a `T` =
-object,
-> +    /// and that it remains valid for as long as the returned `Revocable=
-Guard` is alive.
-> +    /// The RCU read-side lock must be held for the duration of the guar=
-d's lifetime,
-> +    /// as indicated by `rcu_guard`.
-
-This last part shouldn't be needed, as the `rcu::Guard` already
-guarantees it.
-
----
-Cheers,
-Benno
-
-> +    unsafe fn new(data_ref: *const T, rcu_guard: rcu::Guard) -> Self {
->          Self {
->              data_ref,
->              _rcu_guard: rcu_guard,
-> @@ -258,8 +269,8 @@ impl<T> Deref for RevocableGuard<'_, T> {
->      type Target =3D T;
-> =20
->      fn deref(&self) -> &Self::Target {
-> -        // SAFETY: By the type invariants, we hold the rcu read-side loc=
-k, so the object is
-> -        // guaranteed to remain valid.
-> +        // SAFETY: `self.data_ref` is valid because of `Self`'s type inv=
-ariants,
-> +        // and the active RCU read-side lock held via `_rcu_guard`, ensu=
-ring the data's accessibility.
->          unsafe { &*self.data_ref }
->      }
->  }
-
+-Doug
