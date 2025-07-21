@@ -1,31 +1,54 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84DB28B7FD;
-	Mon, 21 Jul 2025 10:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C3C2D77FA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Jul 2025 14:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753092876; cv=none; b=u+XSnhwmN8Q+6k0RVXrJufaIhQZz3Gs/906vbSt3Qv10CLP7FGrmuGzkfQ+cQsptsdfc7JdAc8v3IhkjFYKrvDQU8p6RmsFrk6ONVOqfOwChun6ft6IQ4Px7RiLZlEFEYyh9EXXQQcCRoTvtmwRhxGIkcX2pBVGU9Vg5b/BkYfg=
+	t=1753107672; cv=none; b=lC3GoOz4XP8NmGNPjXYqfYO0hfLrhtSrZUz77ngEjryH0rmOb0VzIchgnr+H2kNdDp6DYYSIfD+MAPMEnFIpTRN4Y7/3DYz7FfiTRO4gLOizCiUjs1UgYmdLPk0QUfP2Bns6DgtKURaU3EhZvg8z3gniH1a6K5b6gLmxHa8Ts7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753092876; c=relaxed/simple;
-	bh=ETu8KpCEGzAKbdZ8gkiUUREkFwgiR/4pTO1+nAPNLgA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=tXuhcNBcUpdhkaoGe7UJoi5VEm1LllAvh9LjzlzXDKlTboZDvouryScBSfA7r2NkUkjoKpYTFKKED+PUgDwz5nzRtDoe4c002VyhbfisnF2G3UOc5qfbq1PcQGRUHFzBb+fpe/OO+D5NPAUK7MvcY6IJ+TbpKgtxpsTyUMEqemk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHUZbcdG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753107672; c=relaxed/simple;
+	bh=JcKaZoeKmA9SRzBDl6ydTbkoimw1MEhKUioDycAt8sQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:
+	 References:In-Reply-To; b=mey996fouRhLWKKdAVao/tTxg04gpuNB1hNW/H6Vefx1o5LgDm75QMFO85s8sP+QnJEcnW9NJdeA7756EbWo+/TzH1jaGqXIJWkf2oBV1CvxFi9FriompGthouiHp7YfOcW2IH1u6/QYSMSE8g3nTq004tl4xYjBMqAzoJliYr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ob7vNlfi; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHUZbcdG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3502C4CEED;
-	Mon, 21 Jul 2025 10:14:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ob7vNlfi"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6777083A35
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Jul 2025 14:21:09 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -8.092
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id JgldDKRVnldo for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 21 Jul 2025 14:21:08 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 7D548839E0
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7D548839E0
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ob7vNlfi
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7D548839E0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Jul 2025 14:21:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 29540A54C87;
+	Mon, 21 Jul 2025 14:21:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17229C4CEF6;
+	Mon, 21 Jul 2025 14:20:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753092875;
-	bh=ETu8KpCEGzAKbdZ8gkiUUREkFwgiR/4pTO1+nAPNLgA=;
-	h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
-	b=jHUZbcdG1rf4AW7gjQ5sVONiWRCYWOMptP8kv9M0gDoOHoABgCSZk8JJB4ZmEIMxP
-	 z1GBUldg3bdAB6LxDBca5BP1Uqp4GYfvUSz43adzS5NRidmP5rh5RPOmAx3aL16VlT
-	 I4K/d5qDIzcYmNU1XodnduRI8/yRzm1mXCVsNPRf4e5zlATa5iBg85iFjDWmUcCIu5
-	 3DIIo9XQHDPveIySryO6427HHKJGYNcYHyDouKi+YeDsezFiRrUQAmkBQV8oItDXet
-	 Irmg6iw8ck3sNRfm+yK1LVJryA+HvOBc1beMwvGkOnNv3bs+JSOs38ztYQnhI+6Ydr
-	 rElpqKGcbY0Fg==
+	s=k20201202; t=1753107666;
+	bh=JcKaZoeKmA9SRzBDl6ydTbkoimw1MEhKUioDycAt8sQ=;
+	h=Date:Subject:From:To:References:In-Reply-To:From;
+	b=ob7vNlfi4oLjzH+erQ2Fcs4qmuGR6NaidSNJ4rZdyEaf+dM0jn3FKBdU8Dx2hKwjg
+	 1v8VP3z3jdJVIQhSbqvXg+hJu9O1GjTDQssFzy6eeO/uqj0ygrOtK2HdOR0W7Wb4S4
+	 QugC51TvZEufYKMUXfVQvI0VdXtyan/j9g/qzdHh0Xp8HtntHU37CJUPXGXPx93Wbb
+	 0Zv44c+B6KRbz1JGDmjPNznMNbfU4hRs1qVwt+QIJnwL4Ywn67Mn6di+0mLCTCyzna
+	 7woUtLLy7IC3c5RdX1HhKIsZxNNSFpPmIi9y24DkJIHaxV2cb2aMiY4bCFOuoBXFZ/
+	 4vdLA93kQX6Lw==
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -34,172 +57,121 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 21 Jul 2025 12:14:31 +0200
-Message-Id: <DBHNK2XQHUIW.TQHV41LR5D8I@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH] drm/sched: Prevent stopped entities from being added to
- the run queue.
-Cc: <phasta@kernel.org>, "James Flowers" <bold.zone2373@fastmail.com>,
- <matthew.brost@intel.com>, <ckoenig.leichtzumerken@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <skhan@linuxfoundation.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>,
- "Tvrtko Ursulin" <tvrtko.ursulin@igalia.com>
-To: "Philipp Stanner" <phasta@mailbox.org>
-References: <20250720235748.2798-1-bold.zone2373@fastmail.com>
- <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
- <e7c0f63678a93261182b69aa526217821552a150.camel@mailbox.org>
-In-Reply-To: <e7c0f63678a93261182b69aa526217821552a150.camel@mailbox.org>
+Date: Mon, 21 Jul 2025 16:20:55 +0200
+Message-Id: <DBHSSQS2IALW.2OEWVKX6PY9LZ@kernel.org>
+Subject: Re: [PATCH v7 3/3] rust: revocable: Document RevocableGuard
+ invariants/safety and refine Deref safety
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Marcelo Moreira" <marcelomoreira1905@gmail.com>,
+ <aliceryhl@google.com>, <dakr@kernel.org>, <ojeda@kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <skhan@linuxfoundation.org>,
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ <~lkcamp/patches@lists.sr.ht>
+X-Mailer: aerc 0.20.1
+References: <20250721010258.70567-1-marcelomoreira1905@gmail.com>
+ <20250721010258.70567-4-marcelomoreira1905@gmail.com>
+In-Reply-To: <20250721010258.70567-4-marcelomoreira1905@gmail.com>
 
-On Mon Jul 21, 2025 at 10:16 AM CEST, Philipp Stanner wrote:
-> On Mon, 2025-07-21 at 09:52 +0200, Philipp Stanner wrote:
->> On Sun, 2025-07-20 at 16:56 -0700, James Flowers wrote:
->> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/=
-scheduler/sched_main.c
->> > index bfea608a7106..997a2cc1a635 100644
->> > --- a/drivers/gpu/drm/scheduler/sched_main.c
->> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> > @@ -172,8 +172,10 @@ void drm_sched_rq_update_fifo_locked(struct drm_s=
-ched_entity *entity,
->> > =C2=A0
->> > =C2=A0	entity->oldest_job_waiting =3D ts;
->> > =C2=A0
->> > -	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
->> > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_before);
->> > +	if (!entity->stopped) {
->> > +		rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
->> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_before);
->> > +	}
->>=20
->> If this is a race, then this patch here is broken, too, because you're
->> checking the 'stopped' boolean as the callers of that function do, too
->> =E2=80=93 just later. :O
->>=20
->> Could still race, just less likely.
->>=20
->> The proper way to fix it would then be to address the issue where the
->> locking is supposed to happen. Let's look at, for example,
->> drm_sched_entity_push_job():
->>=20
->>=20
->> void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->> {
->> 	(Bla bla bla)
->>=20
->> =C2=A0	=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
->>=20
->> 	/* first job wakes up scheduler */
->> 	if (first) {
->> 		struct drm_gpu_scheduler *sched;
->> 		struct drm_sched_rq *rq;
->>=20
->> 		/* Add the entity to the run queue */
->> 		spin_lock(&entity->lock);
->> 		if (entity->stopped) {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <---- Aha!
->> 			spin_unlock(&entity->lock);
->>=20
->> 			DRM_ERROR("Trying to push to a killed entity\n");
->> 			return;
->> 		}
->>=20
->> 		rq =3D entity->rq;
->> 		sched =3D rq->sched;
->>=20
->> 		spin_lock(&rq->lock);
->> 		drm_sched_rq_add_entity(rq, entity);
->>=20
->> 		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
->> 			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts); <---- bumm!
->>=20
->> 		spin_unlock(&rq->lock);
->> 		spin_unlock(&entity->lock);
->>=20
->> But the locks are still being hold. So that "shouldn't be happening"(tm)=
-.
->>=20
->> Interesting. AFAICS only drm_sched_entity_kill() and drm_sched_fini()
->> stop entities. The former holds appropriate locks, but drm_sched_fini()
->> doesn't. So that looks like a hot candidate to me. Opinions?
->>=20
->> On the other hand, aren't drivers prohibited from calling
->> drm_sched_entity_push_job() after calling drm_sched_fini()? If the
->> fuzzer does that, then it's not the scheduler's fault.
+On Mon Jul 21, 2025 at 3:01 AM CEST, Marcelo Moreira wrote:
+> Refinements include:
+> - `RevocableGuard`'s invariants are updated to precisely state that
+>   `data_ref` is valid as long as the RCU read-side lock is held.
+> - The `RevocableGuard::new` constructor is made `unsafe`, explicitly
+>   requiring callers to guarantee the validity of the raw pointer and
+>   RCU read-side lock lifetime.
+> - A new `SAFETY` comment is added to `Revocable::try_access` to
+>   justify the `unsafe` call to `RevocableGuard::new`, detailing how
+>   `Self`'s type invariants and the active RCU read-side lock ensure data
+>   validity for reads.
+> - The `Deref` implementation's `SAFETY` comment for `RevocableGuard`
+>   is refined.
+>
+> Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
+> ---
+>  rust/kernel/revocable.rs | 25 ++++++++++++++++++-------
+>  1 file changed, 18 insertions(+), 7 deletions(-)
+>
+> diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
+> index 6d8e9237dbdf..0048de23ab44 100644
+> --- a/rust/kernel/revocable.rs
+> +++ b/rust/kernel/revocable.rs
+> @@ -106,9 +106,12 @@ pub fn new(data: impl PinInit<T>) -> impl PinInit<Se=
+lf> {
+>      pub fn try_access(&self) -> Option<RevocableGuard<'_, T>> {
+>          let guard =3D rcu::read_lock();
+>          if self.is_available.load(Ordering::Relaxed) {
+> -            // Since `self.is_available` is true, data is initialised an=
+d has to remain valid
+> -            // because the RCU read side lock prevents it from being dro=
+pped.
+> -            Some(RevocableGuard::new(self.data.get(), guard))
+> +            // SAFETY:
+> +            // - `self.data` is valid for reads because of `Self`'s type=
+ invariants:
+> +            //   `self.is_available` is true.
+> +            // - The RCU read-side lock is active via `guard`, preventin=
+g `self.data`
+> +            //   from being dropped and ensuring its validity for the gu=
+ard's lifetime.
 
-Exactly, this is the first question to ask.
+This shouldn't be needed.
 
-And I think it's even more restrictive:
+> +            Some(unsafe { RevocableGuard::new(self.data.get(), guard) })
+>          } else {
+>              None
+>          }
+> @@ -233,7 +236,7 @@ fn drop(self: Pin<&mut Self>) {
+>  ///
+>  /// # Invariants
+>  ///
+> -/// The RCU read-side lock is held while the guard is alive.
+> +/// - `data_ref` is a valid pointer for as long as the RCU read-side loc=
+k is held.
+>  pub struct RevocableGuard<'a, T> {
+>      // This can't use the `&'a T` type because references that appear in=
+ function arguments must
+>      // not become dangling during the execution of the function, which c=
+an happen if the
+> @@ -245,7 +248,15 @@ pub struct RevocableGuard<'a, T> {
+>  }
+> =20
+>  impl<T> RevocableGuard<'_, T> {
+> -    fn new(data_ref: *const T, rcu_guard: rcu::Guard) -> Self {
+> +    /// Creates a new `RevocableGuard`.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// Callers must ensure that `data_ref` is a valid pointer to a `T` =
+object,
+> +    /// and that it remains valid for as long as the returned `Revocable=
+Guard` is alive.
+> +    /// The RCU read-side lock must be held for the duration of the guar=
+d's lifetime,
+> +    /// as indicated by `rcu_guard`.
 
-In drm_sched_fini()
+This last part shouldn't be needed, as the `rcu::Guard` already
+guarantees it.
 
-	for (i =3D DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
-		struct drm_sched_rq *rq =3D sched->sched_rq[i];
+---
+Cheers,
+Benno
 
-		spin_lock(&rq->lock);
-		list_for_each_entry(s_entity, &rq->entities, list)
-			/*
-			 * Prevents reinsertion and marks job_queue as idle,
-			 * it will be removed from the rq in drm_sched_entity_fini()
-			 * eventually
-			 */
-			s_entity->stopped =3D true;
-		spin_unlock(&rq->lock);
-		kfree(sched->sched_rq[i]);
-	}
+> +    unsafe fn new(data_ref: *const T, rcu_guard: rcu::Guard) -> Self {
+>          Self {
+>              data_ref,
+>              _rcu_guard: rcu_guard,
+> @@ -258,8 +269,8 @@ impl<T> Deref for RevocableGuard<'_, T> {
+>      type Target =3D T;
+> =20
+>      fn deref(&self) -> &Self::Target {
+> -        // SAFETY: By the type invariants, we hold the rcu read-side loc=
+k, so the object is
+> -        // guaranteed to remain valid.
+> +        // SAFETY: `self.data_ref` is valid because of `Self`'s type inv=
+ariants,
+> +        // and the active RCU read-side lock held via `_rcu_guard`, ensu=
+ring the data's accessibility.
+>          unsafe { &*self.data_ref }
+>      }
+>  }
 
-In drm_sched_entity_kill()
-
-	static void drm_sched_entity_kill(struct drm_sched_entity *entity)
-	{
-		struct drm_sched_job *job;
-		struct dma_fence *prev;
-
-		if (!entity->rq)
-			return;
-
-		spin_lock(&entity->lock);
-		entity->stopped =3D true;
-		drm_sched_rq_remove_entity(entity->rq, entity);
-		spin_unlock(&entity->lock);
-
-		[...]
-	}
-
-If this runs concurrently, this is a UAF as well.
-
-Personally, I have always been working with the assupmtion that entites hav=
-e to
-be torn down *before* the scheduler, but those lifetimes are not documented
-properly.
-
-There are two solutions:
-
-  (1) Strictly require all entities to be torn down before drm_sched_fini()=
-,
-      i.e. stick to the natural ownership and lifetime rules here (see belo=
-w).
-
-  (2) Actually protect *any* changes of the relevent fields of the entity
-      structure with the entity lock.
-
-While (2) seems rather obvious, we run into lock inversion with this approa=
-ch,
-as you note below as well. And I think drm_sched_fini() should not mess wit=
-h
-entities anyways.
-
-The ownership here seems obvious:
-
-The scheduler *owns* a resource that is used by entities. Consequently, ent=
-ities
-are not allowed to out-live the scheduler.
-
-Surely, the current implementation to just take the resource away from the
-entity under the hood can work as well with appropriate locking, but that's=
- a
-mess.
-
-If the resource *really* needs to be shared for some reason (which I don't =
-see),
-shared ownership, i.e. reference counting, is much less error prone.
