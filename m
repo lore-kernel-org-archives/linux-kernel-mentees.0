@@ -1,270 +1,352 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E442E06D2
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Jul 2025 16:30:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753115452; cv=none; b=afdaVoVwWFuh9Jt4LL9fQwcxIDBHN8NQVRmay8Nn07XORPNaeQb9u0C4lUvcFs/HTn58QvVijRG16ReiKTna3bTXug70vn1dIFh9Jtm8OeTL1Nj8pDkK3KWDe7fpN2cWcKm/xu/33Il4Ol6hPJmJfj32MKAXoZJYcm6UPvC5S2g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753115452; c=relaxed/simple;
-	bh=LcK4LIDhkpmNmzFtUfX5BsXG1e79f98fn51x8mcpMnk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N0vGfTbvdvg/AiXG8Xx5b1tBXUKCzcaiXfMhLcOezPUtFWP8pDalsxHQWtkTnzEDjHJZtc2zuQixlG+qcZpF57lII3ydjB5vqJCr3ZuEnkZCbYe3S1lNwBV4kTFV896cr4zk643SxoIrzfWDtRoE7daEBiy3mjRNpycIrdyH7fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Hnb4cCYP; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF922820DA
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Jul 2025 18:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753121162; cv=fail; b=mi/zZupTaJ/NlAz21PyU77Dz5P/2mgTjheVLC3+hfEtS2Hg+laNUPsnfSvlYsw5jz2anABTPQL+M4O7ElRkC4NUTQzur7jkHkjB8qyfhQ8r9s+0O/Xd5k/QNOdbkUsC07iDWTVcwRdkDvfaetUNIeNCRYq3F3lPHt1g3pPfekNk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753121162; c=relaxed/simple;
+	bh=6e1m/28FZMihuKxA6P6zWZmJoQVc4rdRjXOT/5T6yLE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=nJ1Nv3sRNAQCN8074DuZy03S/dyy0K7MnHCPF9csnyvXlO+DYSd4Am7y3wmOPRrWuAlkQ7v79RNBQYB4erTh9rQaQAoQoEGfKAf76BCwSfRlsz81+t2Jr+x2oYPzwR6wXQcrfnpCb02f8MsYj2KX3R95hi5N2skaY4yo1Dgua1c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z+PZGdPF; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Hnb4cCYP"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7494999de5cso3071761b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Jul 2025 09:30:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753115446; x=1753720246; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e1OthpiQLo0yn+Ex+1T1Nl8yMpcQVCC1Su5Bulvu4QQ=;
-        b=Hnb4cCYPAKn8WV6Qs8PJHmW211fRxkzP6MVscOrj/p4rrUXEw3jux4rGVm1uSOe4X+
-         HNqSaekBaUgCd5TwfcfkZ8uqTtGr118wpM9OsTQ4GM6QR/QGiIqkdqbOxGHT/S6KCWB5
-         EKIkRQfqwQzjhNvx6NJKW+UaaWdcLIPjp0q/A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753115446; x=1753720246;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e1OthpiQLo0yn+Ex+1T1Nl8yMpcQVCC1Su5Bulvu4QQ=;
-        b=jCLZssWoVtCH43kx628g3VGGeiFOBewN54AbHs15J0PBncO/QUpSdtpRYPkCDWWyvO
-         JOA6heRk/dxij1CedkNVDdJFllDjBGmRxwVW8G8zMVHAgDnGPOGUEB7lM/iN2b+B4lRK
-         Upz8Mryzxq8qEkYucj/bm7ixWYpUHrwclZ+XiHAWyGM0+oy1HPSf9xYdK596YFBKp/Fx
-         Njxv6ihMn9ubn2LgBfJaTWYMbUBL25qtDoaylBm4X+n5jO7qIkcALnTWUqOp/A566kgy
-         oa32qYbqsfRAdFzEc4GWhOqPmr5KmMqMKKOWYA8Wk9tNTYwA9Ax2n+KWqx8yPW2DygKp
-         A/CA==
-X-Forwarded-Encrypted: i=1; AJvYcCWkTpCu4+7dMHySWqqzYhIUUka4y2aR7agLf9lVGhkzSztC6HhNDvb5iqBBMp5HJVUOEkT9axF+CoYZLW1t0kmnff156g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzx5vvAtuxrOmUpIbhELdLv4TpiMOw8Czwlff3ZbBH2bJSxOzf6
-	kB1teLaWVEno33h9iW0QvgrZ1nlkDUMRQANFagwh1jUyDqdtoGpZtSA977DgvYtWpvw4qD4WEZN
-	UX3s=
-X-Gm-Gg: ASbGncsDEDxccwo1lnkPBKYkQLtkQNzQIyijlJHrz7S87RJkE0OXkrEgwXaiZ65kWL5
-	6mQK/A51x0F98Qa39ZJlUKcoI7OPhPqLGe+75XLNE66dYnyUs/OREThRyjO72TihsaswKgivY60
-	Jmkd6RTaORtf5isVrEe+K7f2igCWwEUC0nrk02FJXohgDV8loYX2cm6vk0T/jE7wPN0oy/ydqPQ
-	SoU5mqFOKv4E/VoSlzLSRLZ8d7urRFFkwC9HpsuDoeFWVvcDRtS5AbYWjhgNfmbgg9PdTKir8PS
-	6en39jdlUC5f0UpTPF3EdIBe0R1EdQnSBpAD0CVWIIS4PNoGVq0v2rhy2B08+GThY2x32bxgx4c
-	jVuiXm3TetUYnX9ygkgxKfTUt48yTlmqcWf57pO4fUxOqAeNx80HlebsLpBigAWbKXA==
-X-Google-Smtp-Source: AGHT+IEW7lFjjMN8I9LluIpVIjNtIKTmuQd9VL+N6R57kFgpWXLcwLJANMmfwexzYASXvFERTIBqFQ==
-X-Received: by 2002:a05:6a00:9298:b0:73e:2dc5:a93c with SMTP id d2e1a72fcca58-756ea1ddca4mr32935319b3a.11.1753115445951;
-        Mon, 21 Jul 2025 09:30:45 -0700 (PDT)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com. [209.85.214.173])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-75e17d2526esm1316343b3a.81.2025.07.21.09.30.44
-        for <linux-kernel-mentees@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jul 2025 09:30:44 -0700 (PDT)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-23694cec0feso42147825ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Jul 2025 09:30:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUdXw7h16xi1Wpv6tMO4l9aUBLv9y0s4TgpJI5xG41+ZOQAuldJamBfxx3m33XTkxVkQm8YoAz9gE/VjLQwKfszhV9I7w==@lists.linux.dev
-X-Received: by 2002:a17:903:3bcc:b0:235:f298:cbbe with SMTP id
- d9443c01a7336-23e24edc278mr357296245ad.12.1753115443448; Mon, 21 Jul 2025
- 09:30:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+PZGdPF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753121160; x=1784657160;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=6e1m/28FZMihuKxA6P6zWZmJoQVc4rdRjXOT/5T6yLE=;
+  b=Z+PZGdPFU7N3LQHX/yolrwh0qwy4sXTqEKN7gvpcFA16Unh3L2fftVkf
+   fKW8drSg7FLBoMCogL+pcS60ZsZG5jtHj0seAduMd0MJVMUS86s7E50cO
+   O28g4KyEuoMqdi+gvV050rrFNb+VndggyhpiJ9oAQ89NWdoEyV1dVF9jk
+   xwmW8XxWGkoOIHCwooy9VrNtGQp3OxeRwFBtzdDAIPtQ1qyEbFrqAcmEh
+   aXMu65jaQsJy81eTrR783DrXaaFsLUobl8Wdd8EVrlfRMXqBHGAHvkEwt
+   eFQfOLAE/IrIT7QxCEobSjCNrhuR/0vEt4kWyhW63caSdMt9A1LwT43W4
+   w==;
+X-CSE-ConnectionGUID: shCAL50LRyC4RHIZUeFw6Q==
+X-CSE-MsgGUID: u4Ya6fEKT/eW7IuRgn7CEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="66690808"
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
+   d="scan'208";a="66690808"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 11:05:59 -0700
+X-CSE-ConnectionGUID: xbmQyYA/SL+k1wVGqaTrAQ==
+X-CSE-MsgGUID: sznyUS23Tlay0B82G/XopQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
+   d="scan'208";a="159239086"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 11:05:58 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Mon, 21 Jul 2025 11:05:57 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Mon, 21 Jul 2025 11:05:57 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (40.107.223.69)
+ by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 21 Jul 2025 11:05:57 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Zz41gceHBAyF6f4j1m9YS05BgUr53jUU96/exs3fNJpxKoDdAKbp1djtB8MF/DiunYDQMvAg6v1Odad34GCqe7O3IhY1B6yMX3/N3E9Q8bt75DITydX7giNk0ZT7bMBP8KSTvIhVHxWL6rJPCbhENFfkcHeBAXzMQaO0im5ddIXk7FeAoIXeJd1Rdn08WsjTc37pQ6atz+3FboGp+/xEKsYBbLx2GWrhquLsMEbCwOB0qZdzucunqxlk55iIBSRFdI5OF/cvpKXoe2HZg7Zd+XeTTpF+7qD5KKXKZCYtEZ6QbvfdP4vYSkh/jVHqASSydsiltRkWH/1lQXlZdBnk8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yGjMTskxySNdYUtvoU4lcF1699HQAYsz/jGp/IX2Jhw=;
+ b=m9GD9infI/A1o/xB+n8+hMOMbJgyY0VZmFxOWPbYRcttpjZuJevR3NoNESCt7SKkRJNDkei12+MDfDMA9EoYdWp91u1Ebb/k3Aj8kNqN+nAXxj4fGl/yXbNTakJlKWo76ZETX2RjlRsFue9TTYOD9LNLkoYbZWcwluA+3M/0Sgiknwm8G5YwEY29ggGdYVBcdyyGu2IcqQa+YqmzUyUdXBVMK1tpSxRjeywPHHY/8xg5yetwvHYc49OqeZNiw1TyN+YNC6qiMt6HFj9rA4uFxdii2kKLu3oSo3QKQ/pNv8aCV3mxno/zQ0k26I7xd44Q4o6SJXw27c20mKqKTf7+yQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB6527.namprd11.prod.outlook.com (2603:10b6:8:8e::19) by
+ IA1PR11MB6195.namprd11.prod.outlook.com (2603:10b6:208:3e9::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8943.30; Mon, 21 Jul 2025 18:05:55 +0000
+Received: from DM4PR11MB6527.namprd11.prod.outlook.com
+ ([fe80::5a48:57be:974b:8ee0]) by DM4PR11MB6527.namprd11.prod.outlook.com
+ ([fe80::5a48:57be:974b:8ee0%7]) with mapi id 15.20.8922.037; Mon, 21 Jul 2025
+ 18:05:54 +0000
+Date: Mon, 21 Jul 2025 11:07:40 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Danilo Krummrich <dakr@kernel.org>
+CC: Philipp Stanner <phasta@mailbox.org>, <phasta@kernel.org>, James Flowers
+	<bold.zone2373@fastmail.com>, <ckoenig.leichtzumerken@gmail.com>,
+	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+	<tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+	<skhan@linuxfoundation.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>,
+	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Subject: Re: [PATCH] drm/sched: Prevent stopped entities from being added to
+ the run queue.
+Message-ID: <aH6B7JruWCkReaLw@lstrano-desk.jf.intel.com>
+References: <20250720235748.2798-1-bold.zone2373@fastmail.com>
+ <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
+ <e7c0f63678a93261182b69aa526217821552a150.camel@mailbox.org>
+ <DBHNK2XQHUIW.TQHV41LR5D8I@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DBHNK2XQHUIW.TQHV41LR5D8I@kernel.org>
+X-ClientProxiedBy: SJ0PR03CA0147.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::32) To DM4PR11MB6527.namprd11.prod.outlook.com
+ (2603:10b6:8:8e::19)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250719082639.307545-1-me@brighamcampbell.com> <20250719082639.307545-2-me@brighamcampbell.com>
-In-Reply-To: <20250719082639.307545-2-me@brighamcampbell.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 21 Jul 2025 09:30:31 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xzno3ReSyp9w+DC+nLoy1AXmcwd+j1=_XRxFi_k+bmng@mail.gmail.com>
-X-Gm-Features: Ac12FXy9MlSRxUz0cgfvqURcfFQN33HCDR1ifsxTc8_3lTfiq4MM633TTSdKa88
-Message-ID: <CAD=FV=Xzno3ReSyp9w+DC+nLoy1AXmcwd+j1=_XRxFi_k+bmng@mail.gmail.com>
-Subject: Re: [PATCH v5 1/4] drm: Create mipi_dsi_dual* macros
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB6527:EE_|IA1PR11MB6195:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70133f8c-7f1c-4e03-2829-08ddc8813c4b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QTJPQ1dEKzFDTElPK1NIN0hCRkNnWU1xY21qS09OdjFKbi9Hb0JEelJ4QlFh?=
+ =?utf-8?B?a3BFSjVhYmdqakZrQ0VMK0dQM21OcXMrY2p4c0xRenkzZU12U0xGWTZCYmZ3?=
+ =?utf-8?B?WDl1Lzh1czNNZ08zVUlhY1cxUXVJRXlxOSswOXZFMEdqRWU0bldGdkJwUGtW?=
+ =?utf-8?B?OHgyYjBveVhhZnMvdEdDb2VWRGRSRGRTR29pNEVmSGdtTTR4T0tmQm5GWEdk?=
+ =?utf-8?B?R3BVMjFManpqNmRRc2M1aWpDQVQrVDBBOS9qMzQ2dlJEdjlKQ2sxVFF2cDFz?=
+ =?utf-8?B?YTJyL0pBUXVtbm9YUS8rNzNBWlVzWWZUMEJ5ajlhOWFDL1B1Rk9HbDVqSXFI?=
+ =?utf-8?B?enZoWmN5cnIxSDF5MTl4MDFISEt3bzRSS3FVYm5ZTDljcVpnNCtheXl1TnhF?=
+ =?utf-8?B?RE5UN0ZYcmZ2Z29oUUQ5VEtKeGNRTDg0UVpjaFNpelo5RFVndndPdDJsaW5m?=
+ =?utf-8?B?NkgrSytTWmU2cFNlSjJoUGxUQ1JrMjdkRWkvNFY1R1prRG5kd1daU1QxeUF6?=
+ =?utf-8?B?dGFlQjBzaS83ZG9CUURBMXZnSlBjM2oyNnRjMmZjUGVXbzRtcDlHSjBTSDBh?=
+ =?utf-8?B?VlJiNU1IcUUvMmE3aEJFS0FVcTN6WHNlbUczVmNEeE9DMzlIbXkxZ0xxQ25t?=
+ =?utf-8?B?UFBtVTZQOXZtOUJDUlRUaWl6bDYxbkFSODVTcHdKZXcwWjJkeW1vY1BYSFJC?=
+ =?utf-8?B?TCtsLzVIUkZ1WjlWT2ErYmhtRy9UdGxsSHBMM3dUdDdGTXZCR2hoaTd1NGY5?=
+ =?utf-8?B?Nm8zdlZsV296RlZiLys5U2Yrc1VsSjcvemZCZGlncFlsbjNjQ2Y3U2VKMWVI?=
+ =?utf-8?B?UTdoZ0oxS3ZINy9mRzRRQlQvTE91MzRSY2w4RG9WSC94cFB2OGlPckQxcnla?=
+ =?utf-8?B?aUZ4dndoY3gyaU5qVGpNc3gwcU40SjcwMk1RS045UDlJNW9FZnk4WGlKZ2h1?=
+ =?utf-8?B?Mlp6dWh0RjhXaDNOQkpVcnlNaGRsZ0dKYlRSeVI4cWFaQWpBMnY3eVR4S2VE?=
+ =?utf-8?B?dzYxdjc2YmJ3TmFzZlhuVStKT1dQMUg5QldFRlN2ZVkwZWJBdDdDMlpjWDRC?=
+ =?utf-8?B?V0dhUzZBdkN0bEVpamZPazc3RHlsekxpa3RKZGthcmRBazhFb2lUY0ZLazNE?=
+ =?utf-8?B?aUc2Sk05K0pEd1Q4aHlDcWtmSzlTdlFOa0lsZHNRUWY5bG4yTkQvaUYwWUlZ?=
+ =?utf-8?B?MXZHVGxRVDBoT1JwWHRLSHY3T040endjdis0dXlFUmZYUDBxT2pIWlBxOUt1?=
+ =?utf-8?B?Q2FtUE1GVUY2WHhVem13R0o2T1FRa2Nha01aeks1TFdaakk4cnc5MkVhc3pm?=
+ =?utf-8?B?aDVoa3AycDFwb1EzS3NnMHlvRlhaeWxPRE9WL0NLQlNGYTV2MUZrVHdjK0oz?=
+ =?utf-8?B?ZDZUdXJCV3NYUGIwWXF5d3kvVXd3MG5JaWcvMmpUVXp4MysvVCtmdExRNzJE?=
+ =?utf-8?B?bHVZMFBmQzlsNVVUR3J5ZXRvM0N5dTJoR0k3Vk9VcG9lVDVwbCtHWnlvVnI5?=
+ =?utf-8?B?NENha3BYaklOYjhVNW96dHhOakpPenZSUmVQVkZ2UittanNrSDdEM05CS21F?=
+ =?utf-8?B?UWg1SjVjeE9mRkFUc3BydzVhaUMxallnRzVSN3dTUDVtVmFEN0RaVUdhNUQ5?=
+ =?utf-8?B?S3A3YmhQTGFYKzQydnlRQVRrVTdacnY3aUVSMUllY296VG9meGllN3FDai9k?=
+ =?utf-8?B?cjdiTUtyYlVubnBOUXRxb0hWSGNTSTVWMWNxb1d4YmwwQjloNHdYemJCcWpK?=
+ =?utf-8?B?RktGeVR0eHFqK2pHT3VsdWkyMVlJMEJJNFNQTTFuVHY1U01PM0hyaFc0amdI?=
+ =?utf-8?B?ZWNSR2FqeGJCQXhicVhCSlgyYmVMMVcwM0NGT3hRRkl6MnpocFcrYXBBWDBI?=
+ =?utf-8?B?YkVrc0dwcE1zSEFDVnovNnVCVkJkWnkzcHRIZGQ0RDg1Y2Y5MjgzS2Noc2Zt?=
+ =?utf-8?Q?zDQlPw3Uiqk=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6527.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TEk1b3FyODQyaFBoU1NXZTN3ZjVMZENhaVAwV0tsek5aQXh6UXJ6YVBzTzR3?=
+ =?utf-8?B?T3F6dzhKNVJqbE5HdWdGRU5YWno3VGFVemk5cHhDTHV2MjhXN1RaWnNZVDVG?=
+ =?utf-8?B?dmtPVTI3b0pHWDM5YU5mcGthZlRSejhSaHVwTTVudFIvb2dYTmV4NFRDdlZK?=
+ =?utf-8?B?TXJkODdVeHhVNllGZjdRTjBiU0UzRXdXelRoanFTSHZFcmluOFBsVis5THZr?=
+ =?utf-8?B?K1NGUHFSR0s1TElIQktXNkE2S2U0TmE1Wkc0QWY2a0t2czNtYVgwNk84QVd5?=
+ =?utf-8?B?WHBpQTRwT2VzeW9vTXkvaFI1bzErcHltUXBVUDFiSWhHeU1FZ3Z4djFKYk1G?=
+ =?utf-8?B?OUxQb3A0ZzBkRWJMbjFLR1hPTXA3a0tKbS9NbjBycW5PRCtYcUdHTmROdjI3?=
+ =?utf-8?B?eTIwQ2l1ZFk0TTAvbko5d1Y3alNGU1RwVEFaVjlwU3VnZjZ6aG1ZUHZWT2FX?=
+ =?utf-8?B?b2cyZlVRTU9KbHVDV2JBR1RUays1NTBuSzN0Q09kQ2hRY1RRMjVuQ1UrOWRI?=
+ =?utf-8?B?ZHkxZDJPbGV1TmpJMWRwYnl2QkpSU3BqWnJ5U3RuWjNUWnpEdkVtTUNEcWZR?=
+ =?utf-8?B?RlNJSVZEZy90NDBNOVhuSWRqR3FySlpWMzdGVS9VaEJSdW85bE1YYy9XNVNL?=
+ =?utf-8?B?Ly9iRFBmUDgya2F5Z0xrV0FtVHQ4Y3Urbk1qNEU4ZzRQV0tsNFZiUXZWNS82?=
+ =?utf-8?B?Qi9QUEw0QWVYdlBDYXlvSDlQV2c1c29wdXFONmV6NVRpa1dRRllIN2lVOVgx?=
+ =?utf-8?B?T0kxMERvZmppK0tQMmFRMVFXakNkVi9vTVprcHg0Z2dxL0VET2RpM2tGSDZB?=
+ =?utf-8?B?UmZaN3NCTTBwcEI0M2ZiZzEva1I3WElMbDVkZE1IdFZubW91NC9YZmhjR3lT?=
+ =?utf-8?B?L2EzUVRvODFUZ2dKQjQxOG5MRFhXalcxVWIxWmxsRkM2TGRTanJIWGVjb0Jo?=
+ =?utf-8?B?VFB6YjlHRE10WjQ3UHBzVFBpZ3RGb1ZGMXkvc1cwZWNTUFhKZU1Oc2NSc0py?=
+ =?utf-8?B?ajhBUnVCZnVkT1FqU0ZWckRRMm4wclFpSWhDcnE0U3Ird3M1UnFyVkMxUUNn?=
+ =?utf-8?B?YjJqM2NSemZGd0RkdWtZM1lYZVl3OGx4Y3VhaHVoWHcrbDR0YnZnRXNVWlFI?=
+ =?utf-8?B?SUhiVDF3Ukh5SmxuUUFRV213bGhTb1FObVJmalVleDF3Wkd3OWF6Wk1iVklM?=
+ =?utf-8?B?TjU3TWVvcTFmMFdOSzRqQ1hiTzRkSHgzblpRK3M1WlRBUXpsaG5QQ3BtaEtz?=
+ =?utf-8?B?emJmM1NONmVxalVpMVRMZ2hKOHAzYUVONng0c09NUU1tckFnZTBmYW5WRlFq?=
+ =?utf-8?B?ekpta05lbWJsS25PRmh6WHZXZThpa3E4c3FhOXlhUkpBL1pqdVc5T3d1NFIy?=
+ =?utf-8?B?Y1ZQRkVBTTl4MExyY0N2Ukl5bE1BeTgzeCt3V0E4WG9OenVKcXpLZmowSHZD?=
+ =?utf-8?B?bThFdGlmblVtdEJ1ZTBKc3lUbytVdzVzKzVWVllaUUgzSkdzS2FTaU03ZSsr?=
+ =?utf-8?B?Z1c1M0hueDJDK1NRLzUxdHZQblc4emFQalVob1l5V3VUUFRGZ1NZT3RFSTlM?=
+ =?utf-8?B?TzVMVkZzQVNybnZTVGQ5dmRjSmw2elZ6WlFscGRtQjNjbTlKMzBBNkNZSnhu?=
+ =?utf-8?B?U20zWXFGMXlCNVVIOTdiMElVNTlUYW1FSkZDZzZBcFQwcXpQNnU2aDUrQ1NZ?=
+ =?utf-8?B?RnBwM3ArYjNKL3FqWDh1R3ppQTdzOVdycXErVUd6TEgxVGVKbVIrR216ajZm?=
+ =?utf-8?B?Q3Fmd1hPVXdiL0kxOTdwM1pjZmduOVdxVXArQmZwM0JvNndHSXFtb1VBM0c2?=
+ =?utf-8?B?VXB5RjZQTGgvbzRZM1FyY0c5VHpsOHJ1cXI2ZDNhbkk4Y21UQmprNTZEazVx?=
+ =?utf-8?B?RjlodmpSMDJhOEx6OGxGN0k2WGNHdHRSSVAzd2JnZHBjK3lmeEFIcE9Yc0xY?=
+ =?utf-8?B?Yy9GTmFzcWF0cENWNXd5NnJoSFd0ZjdNUXRnMEg0SkhSeTBzS1JETTlGNFRT?=
+ =?utf-8?B?NXFSeFV4eUZMZ1VCdFpXbHcvVGZBTUlXZHAvUTd4UldGWUpJYVBFdXJTMFVy?=
+ =?utf-8?B?QnFiZVRvalFncGRXTkZlajFhMGtpem9tcm9obE9adjJEcDUvN0UvRU1wYTV6?=
+ =?utf-8?B?TEhURXNoNUNRL2wvdFNBU0V4aUhDeEd2eTBtQXBLUXN3L3dFaUlIaGlKUXV0?=
+ =?utf-8?B?S0E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70133f8c-7f1c-4e03-2829-08ddc8813c4b
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6527.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 18:05:54.8575
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xrhlwMisH/nLynGGv9TYmhXdvf2RyA0sJclmc5binQ1WPHCAxXABORxFZm//uorVgN6ckOkBpfecfZ0QNl1/iw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6195
+X-OriginatorOrg: intel.com
 
-Hi,
+On Mon, Jul 21, 2025 at 12:14:31PM +0200, Danilo Krummrich wrote:
+> On Mon Jul 21, 2025 at 10:16 AM CEST, Philipp Stanner wrote:
+> > On Mon, 2025-07-21 at 09:52 +0200, Philipp Stanner wrote:
+> >> On Sun, 2025-07-20 at 16:56 -0700, James Flowers wrote:
+> >> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> >> > index bfea608a7106..997a2cc1a635 100644
+> >> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> >> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> >> > @@ -172,8 +172,10 @@ void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
+> >> >  
+> >> >  	entity->oldest_job_waiting = ts;
+> >> >  
+> >> > -	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+> >> > -		      drm_sched_entity_compare_before);
+> >> > +	if (!entity->stopped) {
+> >> > +		rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+> >> > +			      drm_sched_entity_compare_before);
+> >> > +	}
+> >> 
+> >> If this is a race, then this patch here is broken, too, because you're
+> >> checking the 'stopped' boolean as the callers of that function do, too
+> >> – just later. :O
+> >> 
+> >> Could still race, just less likely.
+> >> 
+> >> The proper way to fix it would then be to address the issue where the
+> >> locking is supposed to happen. Let's look at, for example,
+> >> drm_sched_entity_push_job():
+> >> 
+> >> 
+> >> void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+> >> {
+> >> 	(Bla bla bla)
+> >> 
+> >>  	…………
+> >> 
+> >> 	/* first job wakes up scheduler */
+> >> 	if (first) {
+> >> 		struct drm_gpu_scheduler *sched;
+> >> 		struct drm_sched_rq *rq;
+> >> 
+> >> 		/* Add the entity to the run queue */
+> >> 		spin_lock(&entity->lock);
+> >> 		if (entity->stopped) {                  <---- Aha!
+> >> 			spin_unlock(&entity->lock);
+> >> 
+> >> 			DRM_ERROR("Trying to push to a killed entity\n");
+> >> 			return;
+> >> 		}
+> >> 
+> >> 		rq = entity->rq;
+> >> 		sched = rq->sched;
+> >> 
+> >> 		spin_lock(&rq->lock);
+> >> 		drm_sched_rq_add_entity(rq, entity);
+> >> 
+> >> 		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+> >> 			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts); <---- bumm!
+> >> 
+> >> 		spin_unlock(&rq->lock);
+> >> 		spin_unlock(&entity->lock);
+> >> 
+> >> But the locks are still being hold. So that "shouldn't be happening"(tm).
+> >> 
+> >> Interesting. AFAICS only drm_sched_entity_kill() and drm_sched_fini()
+> >> stop entities. The former holds appropriate locks, but drm_sched_fini()
+> >> doesn't. So that looks like a hot candidate to me. Opinions?
+> >> 
+> >> On the other hand, aren't drivers prohibited from calling
+> >> drm_sched_entity_push_job() after calling drm_sched_fini()? If the
+> >> fuzzer does that, then it's not the scheduler's fault.
+> 
+> Exactly, this is the first question to ask.
+> 
+> And I think it's even more restrictive:
+> 
+> In drm_sched_fini()
+> 
+> 	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
+> 		struct drm_sched_rq *rq = sched->sched_rq[i];
+> 
+> 		spin_lock(&rq->lock);
+> 		list_for_each_entry(s_entity, &rq->entities, list)
+> 			/*
+> 			 * Prevents reinsertion and marks job_queue as idle,
+> 			 * it will be removed from the rq in drm_sched_entity_fini()
+> 			 * eventually
+> 			 */
+> 			s_entity->stopped = true;
+> 		spin_unlock(&rq->lock);
+> 		kfree(sched->sched_rq[i]);
+> 	}
+> 
+> In drm_sched_entity_kill()
+> 
+> 	static void drm_sched_entity_kill(struct drm_sched_entity *entity)
+> 	{
+> 		struct drm_sched_job *job;
+> 		struct dma_fence *prev;
+> 
+> 		if (!entity->rq)
+> 			return;
+> 
+> 		spin_lock(&entity->lock);
+> 		entity->stopped = true;
+> 		drm_sched_rq_remove_entity(entity->rq, entity);
+> 		spin_unlock(&entity->lock);
+> 
+> 		[...]
+> 	}
+> 
+> If this runs concurrently, this is a UAF as well.
+> 
+> Personally, I have always been working with the assupmtion that entites have to
+> be torn down *before* the scheduler, but those lifetimes are not documented
+> properly.
 
-On Sat, Jul 19, 2025 at 1:27=E2=80=AFAM Brigham Campbell <me@brighamcampbel=
-l.com> wrote:
->
-> @@ -827,6 +827,30 @@ void mipi_dsi_generic_write_multi(struct mipi_dsi_mu=
-lti_context *ctx,
->  }
->  EXPORT_SYMBOL(mipi_dsi_generic_write_multi);
->
-> +/**
-> + * mipi_dsi_dual_generic_write_multi() - mipi_dsi_generic_write_multi() =
-for
-> + * two dsi channels, one after the other
-> + * @dsi1: First dsi channel to write buffer to
-> + * @dsi2: Second dsi channel to write buffer to
-> + * @ctx: Context for multiple DSI transactions
-> + * @payload: Buffer containing the payload
-> + * @size: Size of payload buffer
-> + *
-> + * A wrapper around mipi_dsi_generic_write_multi() that allows the user =
-to
-> + * conveniently write to two dsi channels, one after the other.
-> + */
-> +void mpi_dsi_dual_generic_write_multi(struct mipi_dsi_device *dsi1,
+Yes, this is my assumption too. I would even take it further: an entity
+shouldn't be torn down until all jobs associated with it are freed as
+well. I think this would solve a lot of issues I've seen on the list
+related to UAF, teardown, etc.
 
-BUG: above should be "mipi", not "mpi"
+> 
+> There are two solutions:
+> 
+>   (1) Strictly require all entities to be torn down before drm_sched_fini(),
+>       i.e. stick to the natural ownership and lifetime rules here (see below).
+> 
+>   (2) Actually protect *any* changes of the relevent fields of the entity
+>       structure with the entity lock.
+> 
+> While (2) seems rather obvious, we run into lock inversion with this approach,
+> as you note below as well. And I think drm_sched_fini() should not mess with
+> entities anyways.
+> 
+> The ownership here seems obvious:
+> 
+> The scheduler *owns* a resource that is used by entities. Consequently, entities
+> are not allowed to out-live the scheduler.
+> 
+> Surely, the current implementation to just take the resource away from the
+> entity under the hood can work as well with appropriate locking, but that's a
+> mess.
+> 
+> If the resource *really* needs to be shared for some reason (which I don't see),
+> shared ownership, i.e. reference counting, is much less error prone.
 
+Yes, Xe solves all of this via reference counting (jobs refcount the
+entity). It's a bit easier in Xe since the scheduler and entities are
+the same object due to their 1:1 relationship. But even in non-1:1
+relationships, an entity could refcount the scheduler. The teardown
+sequence would then be: all jobs complete on the entity → teardown the
+entity → all entities torn down → teardown the scheduler.
 
-> +                                     struct mipi_dsi_device *dsi2,
-> +                                     struct mipi_dsi_multi_context *ctx,
-> +                                     const void *payload, size_t size)
-> +{
-> +       ctx->dsi =3D dsi1;
-> +       mipi_dsi_generic_write_multi(ctx, data, len);
-
-BUG: "data" and "len" are not valid local variables...
-
-
-> @@ -431,6 +439,87 @@ void mipi_dsi_dcs_set_tear_off_multi(struct mipi_dsi=
-_multi_context *ctx);
->                 mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
->         } while (0)
->
-> +/**
-> + * mipi_dsi_dual - send the same MIPI DSI command to two interfaces
-> + *
-> + * This macro will send the specified MIPI DSI command twice, once per e=
-ach of
-> + * the two interfaces supplied. This is useful for reducing duplication =
-of code
-> + * in panel drivers which use two parallel serial interfaces.
-> + *
-> + * WARNING: This macro reuses the _func argument and the optional traili=
-ng
-> + * arguments twice each, which may cause unintended side effects. For ex=
-ample,
-> + * adding the postfix increment ++ operator to one of the arguments to b=
-e
-> + * passed to _func will cause the variable to be incremented twice inste=
-ad of
-> + * once and the variable will be its original value + 1 when sent to _ds=
-i2.
-
-It could be worth also pointing people to
-mipi_dsi_dual_generic_write_seq_multi() and
-mipi_dsi_dual_dcs_write_seq_multi() below?
-
-
-> + *
-> + * @_func: MIPI DSI function or macro to pass context and arguments into
-
-nit: remove "or macro".
-
-
-> + * @_dsi1: First DSI interface to act as recipient of the MIPI DSI comma=
-nd
-> + * @_dsi2: Second DSI interface to act as recipient of the MIPI DSI comm=
-and
-> + * @_ctx: Context for multiple DSI transactions
-> + * @...: Arguments to pass to MIPI DSI function or macro
-> + */
-> +#define mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...)           \
-> +       do {                                                     \
-> +               struct mipi_dsi_multi_context *_ctxcpy =3D (_ctx); \
-> +               (_ctxcpy)->dsi =3D (_dsi1);                        \
-
-nit: now that "_ctxcpy" is a local variable you no longer need the
-extra parenthesis around it.
-
-
-> +               (_func)((_ctxcpy), ##__VA_ARGS__);               \
-> +               (_ctxcpy)->dsi =3D (_dsi2);                        \
-> +               (_func)((_ctxcpy), ##__VA_ARGS__);               \
-> +       } while (0)
-> +
-> +/**
-> + * mipi_dsi_dual_generic_write_seq_multi - transmit data using a generic=
- write
-> + * packet to two dsi interfaces, one after the other
-> + *
-> + * This macro will send the specified generic packet twice, once per eac=
-h of
-> + * the two interfaces supplied. This is useful for reducing duplication =
-of code
-> + * in panel drivers which use two parallel serial interfaces.
-> + *
-> + * Note that if an error occurs while transmitting the packet to the fir=
-st DSI
-> + * interface, the packet will not be sent to the second DSI interface.
-> + *
-> + * This macro will print errors for you and error handling is optimized =
-for
-> + * callers that call this multiple times in a row.
-> + *
-> + * @_dsi1: First DSI interface to act as recipient of packet
-> + * @_dsi2: Second DSI interface to act as recipient of packet
-> + * @_ctx: Context for multiple DSI transactions
-> + * @_seq: buffer containing the payload
-> + */
-> +#define mipi_dsi_dual_generic_write_seq_multi(_dsi1, _dsi2, _ctx, _seq..=
-.)     \
-> +       do {                                                             =
-       \
-> +               static const u8 d[] =3D { _seq };                        =
-         \
-> +               mipi_dsi_dual_generic_write_multi(_dsi1, _dsi2, _ctx, d, =
-       \
-> +                                                        ARRAY_SIZE(d)); =
-       \
-
-nit: the indentation of ARRAY_SIZE() is slightly off.
-
-
-> +       } while (0)
-> +
-> +/**
-> + * mipi_dsi_dual_dcs_write_seq_multi - transmit a DCS command with paylo=
-ad to
-> + * two dsi interfaces, one after the other
-> + *
-> + * This macro will send the specified DCS command with payload twice, on=
-ce per
-> + * each of the two interfaces supplied. This is useful for reducing dupl=
-ication
-> + * of code in panel drivers which use two parallel serial interfaces.
-> + *
-> + * Note that if an error occurs while transmitting the payload to the fi=
-rst DSI
-> + * interface, the payload will not be sent to the second DSI interface.
-> + *
-> + * This macro will print errors for you and error handling is optimized =
-for
-> + * callers that call this multiple times in a row.
-> + *
-> + * @_dsi1: First DSI interface to act as recipient of packet
-> + * @_dsi2: Second DSI interface to act as recipient of packet
-> + * @_ctx: Context for multiple DSI transactions
-> + * @_cmd: Command
-> + * @_seq: buffer containing the payload
-> + */
-> +#define mipi_dsi_dual_dcs_write_seq_multi(_dsi1, _dsi2, _ctx, _cmd, _seq=
-)   \
-
-BUG: doesn't "_seq" need to be "_seq..." ?
-
-BUG: You need to remove the definition of this macro from
-`panel-novatek-nt36523.c` or else it won't compile anymore since the
-name of your macro is the exact same as theirs and they include this
-header file. It would be OK w/ me if you squashed that into the same
-patch since otherwise rejiggering things would just be churn...
-
-I guess we also chose different argument orders than they did (that's
-probably my fault, sorry!). They had the "ctx" still first and this
-patch consistently has "dsi1" and "dsi2" first. I don't think it
-really matters, but we should be consistent which means either
-adjusting your patch or theirs. It's probably worth confirming that
-the novatek driver at least compiles before you submit v6.
-
-
--Doug
+Matt
