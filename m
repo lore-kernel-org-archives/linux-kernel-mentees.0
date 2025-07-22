@@ -1,194 +1,169 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036D9242D65
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Jul 2025 23:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08F152F99
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 00:43:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753138895; cv=none; b=XRlGOgP87WLKVK+b3jnStNcYGB2eWj++TmGSI2y4OwkA2J9QnV1Jny9CVsprtCEvEIpUWq6BDUruweT8WtKxXM3jTuzDzFSmPi8EFinY1VE1VxuZm5meLsqvdO5hb/diw1CIDSbv4IjhbgGkPK+XuvSWi/AK/IIA7pN+6oto7YQ=
+	t=1753145030; cv=none; b=a9SneAQi/d0Eq6T3lN5oxFbDBvnkLM9JxGmAm0Vl+OXIW+YFo07pRmFswtGe5siHOcmyMTgRMmaUQhwWnAXw8pFA34lMfOebsNI+F+kF6KwqG5zAhydzqrTLMSEln/HQ75xltCP8SM1Ysa/fBQSAjtbxr8hivj4Dqtrgi6CZtOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753138895; c=relaxed/simple;
-	bh=oSDk1m8uBMc0vfQ1c6DOmzGyXrUpcAabRQnRAew9ym4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GYSUWpEI18q+rJeyiKXsfmMyAv5OxKXLkRZFKregY6DxOWHmoe2BvhgJoAKocXzscox1nsMAxCafqK4wNMYPo1X5aL8MQP6ys+yTg0OD/oTNiVYouZjy5I3T57gIbNT1MsGWtpNFJcx3HiR4W7CPN9SM+pu6rXMR0Rzuygr/Zvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d5aF6tNS; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1753145030; c=relaxed/simple;
+	bh=JeKxGwRxw8G0SEH/FXh9RSoQLmI9d281N19UPNitG/c=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=kcOHxTAuWK0ceBb8Ju5qIynhSINuTf9eL2VHjo5Gc06XgrMd6m3kLAmDmlGDx82PeYtlV4sAcwiYavLFRIQLKLvduTWmgN0anh6mCk/Iirhbg5v1SIoywY5M8dtmXhx4A4giM7aUxrm06zI/EtRv8YLCg3L1e1dlAUnh7DmUD7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=nO/NsXdR; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d5aF6tNS"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8B71283EF1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Jul 2025 23:01:32 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id q-ieYeUU304j for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Jul 2025 23:01:31 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::232; helo=mail-oi1-x232.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org AE04283F19
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AE04283F19
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=d5aF6tNS
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id AE04283F19
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Jul 2025 23:01:31 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id 5614622812f47-41cfa50c73dso2381623b6e.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 21 Jul 2025 16:01:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="nO/NsXdR"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-234f17910d8so43491875ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Jul 2025 17:43:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753138890; x=1753743690; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=brighamcampbell.com; s=google; t=1753145028; x=1753749828; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZKEhto9raNL4YZsb1wsL16sv2nRjzkFcDwUj+fpIMmk=;
-        b=d5aF6tNSWxlQtlb4qU2Z+xAvihQcqxVIGxceREXSKT4rIGxnLJK5JP0wM1dGTtSrGG
-         O+mxUO4DqMF2hZSWTcFHhh0bN2A20aj12n6/3eyF7/3aJ8qXAUY+XMxP8kXIn5wP6A9b
-         nOhrSGM7hewH1Klz2XHBj8u8clZfZqtaxhDGL5b0D29b0gQ2X3Wzj0db4W3tkqimsVAU
-         4Y5u/jWK/s+ZVXLON66WXO0ouyGJYky2rt36YxF7VK539nE6coA+OdfSd2AlQenzm2Ge
-         gGeXZyd8c6n8+GTBivw/irAJIVS8O7sEeHfMbWsIJCS9h6l74m+tgH0/wcGOdGtLkDQg
-         oluw==
+        bh=tWKESiOhzPub7HbCpVfb6VDAUw8MhO0B1PWXFEOdxNM=;
+        b=nO/NsXdRIDNmhAIZl1S/z0Y/AYuJqwWPJbEbWK44MGxRJkoqZjoyIDzLgiunBC3Zl/
+         lIEfIqS10Omy/4JlyBniO4jtpUzDTVKNMBHULRk3fGoKINq/siLAmnkUb0P7gHXcXleK
+         deFXUhH6E4WbP8Xoy0ySrxvmOu1LU8pdlm26eXCFllE17hYfaQZp1e+/IQ4pDeb/RvXq
+         rSJlN8J1XEKMlDl9H2va2lCrG9ndSH33TcOcfJGy3hwPACWfUUBCqgUeZrcaGnfiFy1K
+         JeHzJMRsNsuv+2zGExBfckri1SQkpfaBYZap7mKF3kQ3josoIvo4Q/Hn099ueIMEypEw
+         zcFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753138890; x=1753743690;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZKEhto9raNL4YZsb1wsL16sv2nRjzkFcDwUj+fpIMmk=;
-        b=Qc1P/z+9mvM5/OTNzd4CWcgXgp69gM7m4kbVKUjvA0YEeRh/NvJPkJTn47n/Iq/j4W
-         NNR2VkJ4Hdg2S4/xxiI3nK4iqTOYNwK806d1lnhuU6WiqlRddb177MpIbbMrHsHFn6Pt
-         YaB26QNaIgN+Bt8h/VqZda+Mbc+R0Z8TWxB6wyz9LVV4SWrGaayatWjw0DDrMk+Bx6fD
-         kdgUtuYG0kYD4Eqg3zk6rIpPuglp6IEcJK7VnV82iBpRVRz3FIzyp7L3M65iYsiceoXL
-         0amvUJvcXQgnOy8Ri7UEQfmWPLgAhl75Q7+4u3/XqCJENkC+X+CeUSQnJrGJvvukp3r5
-         5/Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZwbiENpM61FffgVM4wsBaxF0RArTEJbuqPSv8tgQPtoM2decF4ay1q+dyU9Kwk0fj/yTrf39AI/gv+tBDcUuPgXAtSg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yxn0DmeStlu2O2EtDJjgFehwj/fT9Ams1oAcaL089zskjPQNHsE
-	5cERGx+34lXupW3m38psk0EUrxGxMGzpEkCBvu/opBNRJHvW6g5JGSu2cxqm5RjBS71vTIbYx2G
-	xb2HGiNntgVmxRY2DnZJ0nF6j8+Pwz6I=
-X-Gm-Gg: ASbGncs4Qh3olFIYNIdmPa76oV6HnhCBCHNkqnQz4feQj6Ugqm3aBHBYoQXT9IZPDB0
-	UfZR064XjICUKwhjm2QIcogaL1WaiKQyHNBJIiMdFO30EFq65Zl/gFqr27cjOaVz8oeg/D/XVZ/
-	AV4oinK90QmbHr2GQIfeOAwPFY62IvrZMljq6a64XeXv+oGp18RUKm/v8UwpvTE5pLOoIKy0seq
-	OVZ8hDycewid+2e4QU=
-X-Google-Smtp-Source: AGHT+IHEg/1nRFO7h5VeJ6NMKIyca/En9otpaW7j+5Z7nS9c7ZhKDcK96TDj17Jc6whIMqwuClziuR+Sa2ttAGlAnhc=
-X-Received: by 2002:a05:6808:23ca:b0:409:f8e:726f with SMTP id
- 5614622812f47-41e468a7a39mr12475498b6e.25.1753138890364; Mon, 21 Jul 2025
- 16:01:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753145028; x=1753749828;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tWKESiOhzPub7HbCpVfb6VDAUw8MhO0B1PWXFEOdxNM=;
+        b=sUQRvdxcfmJTpH81G6SMdi8J2iDrZmcdH0RuOocDoImwjy4KrzOEQUqM58NlcXZLMT
+         cDGOznHuJMtXjv80mLuSr5MS+GSlRSyqWElBcjuSZyyegG6snzMuawuqIPn5jWkT3PUH
+         zz44DK3uEa6mOo5wVW0K74rH1O4ifQAE6P+RkzHHMz3Mv4XtSdN71B5tLIWvMz4btqln
+         SVSB58aWhTUh27P6ftm2geYLm4sdhsP8VEaNezD/MmZ8qcc7PnzR5ajEaVto+QnclAhj
+         ad19NXZIxSYCvlypF7a4zPzg2juSQSHr9YrnQDHmPaRUUopbWKVbHw3dtRBvzrU/yMZX
+         eQOA==
+X-Forwarded-Encrypted: i=1; AJvYcCWpbZt93UnyVW7008o1zej+lpmctzCOAEbyeVJqe+BoU2JNZms6ujiqPSToKHIQvmpHuVyjrVlH/SIhEL7Mg8qqJEITZQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwW51jIjPQ2v/1isOfyaYJ740hieYZT6TXi0gT5XcRcbB748kGQ
+	rc2qEx6SkbR0rhZiC5pnVDme7QcnTVE90euo9dUfRmhALmGXpN+K95ituN7T4w4Q7+w=
+X-Gm-Gg: ASbGnctFV58UrmqNpEA5Ffip5BG2BddUUQOMjVakJsKv5Z0H1RdgEXEZplFtzJc6Jrs
+	Zh3HgsrCNRWkQRMyIp88WU+Zeng5l4Ww2Ue+D5/7vFcYhtCqm5vJi7c1UKQmz3Lm1T1gFxSu939
+	OtG5kngJN4aOWGKRMcJlRBXHuP1E/tdVBVCb9IGNZe1QB8onzi38eMEG7PqRH141hg/P7/jjJh0
+	yHoasm2PB3Hd6l/nKN4cu9UfX61Khggtb4g/Elh4b3ilvU9Lr+M6ipX95oDcXpnaftOcuqZN77R
+	ONHSrnRQI7kz97uaUUySNJqQ8XZ83GIrasIbl734vjuTsbIGWPqfhalL6RMwxDkRM9yQUqrYFz9
+	89pCitOUFgq8EyAYElOg=
+X-Google-Smtp-Source: AGHT+IH5Ggw8HxNgNkIhkji1CsHIN+X1UuZlwLFphz3TWfdvpPzaUl2/O/py3sSxVD4cx62zQnYvpA==
+X-Received: by 2002:a17:903:138a:b0:235:ef79:2997 with SMTP id d9443c01a7336-23e3b88343bmr193293005ad.47.1753145028092;
+        Mon, 21 Jul 2025 17:43:48 -0700 (PDT)
+Received: from localhost ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b6d85d2sm64086765ad.168.2025.07.21.17.43.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Jul 2025 17:43:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20250721010258.70567-1-marcelomoreira1905@gmail.com>
- <20250721010258.70567-4-marcelomoreira1905@gmail.com> <DBHSSQS2IALW.2OEWVKX6PY9LZ@kernel.org>
-In-Reply-To: <DBHSSQS2IALW.2OEWVKX6PY9LZ@kernel.org>
-From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-Date: Mon, 21 Jul 2025 20:01:18 -0300
-X-Gm-Features: Ac12FXzSAGc46XYmDiNTuW7c68kRxL3WL0wImhqKCCd7IO0sECbrPI3Sv-dSCQI
-Message-ID: <CAPZ3m_h4rvV8gfBi0ZQN=569FhB1+DsF2A6XkkLuWAFUEuKPDQ@mail.gmail.com>
-Subject: Re: [PATCH v7 3/3] rust: revocable: Document RevocableGuard
- invariants/safety and refine Deref safety
-To: Benno Lossin <lossin@kernel.org>
-Cc: aliceryhl@google.com, dakr@kernel.org, ojeda@kernel.org, 
-	rust-for-linux@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 21 Jul 2025 18:43:45 -0600
+Message-Id: <DBI61MARVMJA.1DDSNK4TZE5TG@brighamcampbell.com>
+Cc: <tejasvipin76@gmail.com>, <diogo.ivo@tecnico.ulisboa.pt>,
+ <skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
+Subject: Re: [PATCH v5 1/4] drm: Create mipi_dsi_dual* macros
+From: "Brigham Campbell" <me@brighamcampbell.com>
+To: "Doug Anderson" <dianders@chromium.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <20250719082639.307545-1-me@brighamcampbell.com>
+ <20250719082639.307545-2-me@brighamcampbell.com>
+ <CAD=FV=Xzno3ReSyp9w+DC+nLoy1AXmcwd+j1=_XRxFi_k+bmng@mail.gmail.com>
+In-Reply-To: <CAD=FV=Xzno3ReSyp9w+DC+nLoy1AXmcwd+j1=_XRxFi_k+bmng@mail.gmail.com>
 
-Em seg., 21 de jul. de 2025 =C3=A0s 11:21, Benno Lossin <lossin@kernel.org>=
- escreveu:
+On Mon Jul 21, 2025 at 10:30 AM MDT, Doug Anderson wrote:
+>> +void mpi_dsi_dual_generic_write_multi(struct mipi_dsi_device *dsi1,
 >
-> On Mon Jul 21, 2025 at 3:01 AM CEST, Marcelo Moreira wrote:
-> > Refinements include:
-> > - `RevocableGuard`'s invariants are updated to precisely state that
-> >   `data_ref` is valid as long as the RCU read-side lock is held.
-> > - The `RevocableGuard::new` constructor is made `unsafe`, explicitly
-> >   requiring callers to guarantee the validity of the raw pointer and
-> >   RCU read-side lock lifetime.
-> > - A new `SAFETY` comment is added to `Revocable::try_access` to
-> >   justify the `unsafe` call to `RevocableGuard::new`, detailing how
-> >   `Self`'s type invariants and the active RCU read-side lock ensure dat=
-a
-> >   validity for reads.
-> > - The `Deref` implementation's `SAFETY` comment for `RevocableGuard`
-> >   is refined.
-> >
-> > Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
-> > ---
-> >  rust/kernel/revocable.rs | 25 ++++++++++++++++++-------
-> >  1 file changed, 18 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
-> > index 6d8e9237dbdf..0048de23ab44 100644
-> > --- a/rust/kernel/revocable.rs
-> > +++ b/rust/kernel/revocable.rs
-> > @@ -106,9 +106,12 @@ pub fn new(data: impl PinInit<T>) -> impl PinInit<=
-Self> {
-> >      pub fn try_access(&self) -> Option<RevocableGuard<'_, T>> {
-> >          let guard =3D rcu::read_lock();
-> >          if self.is_available.load(Ordering::Relaxed) {
-> > -            // Since `self.is_available` is true, data is initialised =
-and has to remain valid
-> > -            // because the RCU read side lock prevents it from being d=
-ropped.
-> > -            Some(RevocableGuard::new(self.data.get(), guard))
-> > +            // SAFETY:
-> > +            // - `self.data` is valid for reads because of `Self`'s ty=
-pe invariants:
-> > +            //   `self.is_available` is true.
-> > +            // - The RCU read-side lock is active via `guard`, prevent=
-ing `self.data`
-> > +            //   from being dropped and ensuring its validity for the =
-guard's lifetime.
+> BUG: above should be "mipi", not "mpi"
 >
-> This shouldn't be needed.
-
-hmm, about what exactly?
-
-Are you suggesting to:
-1. Simplify the content of the `SAFETY`, is it too verbose?
-2. Or are you suggesting that the use of bullet points within the
-`SAFETY` is not preferred here?
-
-
-> > +            Some(unsafe { RevocableGuard::new(self.data.get(), guard) =
-})
-> >          } else {
-> >              None
-> >          }
-> > @@ -233,7 +236,7 @@ fn drop(self: Pin<&mut Self>) {
-> >  ///
-> >  /// # Invariants
-> >  ///
-> > -/// The RCU read-side lock is held while the guard is alive.
-> > +/// - `data_ref` is a valid pointer for as long as the RCU read-side l=
-ock is held.
-> >  pub struct RevocableGuard<'a, T> {
-> >      // This can't use the `&'a T` type because references that appear =
-in function arguments must
-> >      // not become dangling during the execution of the function, which=
- can happen if the
-> > @@ -245,7 +248,15 @@ pub struct RevocableGuard<'a, T> {
-> >  }
-> >
-> >  impl<T> RevocableGuard<'_, T> {
-> > -    fn new(data_ref: *const T, rcu_guard: rcu::Guard) -> Self {
-> > +    /// Creates a new `RevocableGuard`.
-> > +    ///
-> > +    /// # Safety
-> > +    ///
-> > +    /// Callers must ensure that `data_ref` is a valid pointer to a `T=
-` object,
-> > +    /// and that it remains valid for as long as the returned `Revocab=
-leGuard` is alive.
-> > +    /// The RCU read-side lock must be held for the duration of the gu=
-ard's lifetime,
-> > +    /// as indicated by `rcu_guard`.
+>> +                                     struct mipi_dsi_device *dsi2,
+>> +                                     struct mipi_dsi_multi_context *ctx=
+,
+>> +                                     const void *payload, size_t size)
+>> +{
+>> +       ctx->dsi =3D dsi1;
+>> +       mipi_dsi_generic_write_multi(ctx, data, len);
 >
-> This last part shouldn't be needed, as the `rcu::Guard` already
-> guarantees it.
+> BUG: "data" and "len" are not valid local variables...
+>
+>> + * mipi_dsi_dual - send the same MIPI DSI command to two interfaces
+>
+> It could be worth also pointing people to
+> mipi_dsi_dual_generic_write_seq_multi() and
+> mipi_dsi_dual_dcs_write_seq_multi() below?
+>
+>> + * @_func: MIPI DSI function or macro to pass context and arguments int=
+o
+>
+> nit: remove "or macro".
+>
+>> +               struct mipi_dsi_multi_context *_ctxcpy =3D (_ctx); \
+>> +               (_ctxcpy)->dsi =3D (_dsi1);                        \
+>
+> nit: now that "_ctxcpy" is a local variable you no longer need the
+> extra parenthesis around it.
+>
+>> +               mipi_dsi_dual_generic_write_multi(_dsi1, _dsi2, _ctx, d,=
+        \
+>> +                                                        ARRAY_SIZE(d));=
+        \
+>
+> nit: the indentation of ARRAY_SIZE() is slightly off.
+>
+>> +#define mipi_dsi_dual_dcs_write_seq_multi(_dsi1, _dsi2, _ctx, _cmd, _se=
+q)   \
+>
+> BUG: doesn't "_seq" need to be "_seq..." ?
+>
+> BUG: You need to remove the definition of this macro from
+> `panel-novatek-nt36523.c` or else it won't compile anymore since the
+> name of your macro is the exact same as theirs and they include this
+> header file. It would be OK w/ me if you squashed that into the same
+> patch since otherwise rejiggering things would just be churn...
 
-Ok, I can remove just that part and keep the rest.
+Sorry to have sent out such a poor quality patch, Doug! I always compile
+changed files and test my changes when I can, but I think I must have
+compiled just the lpm102a188a panel C source file itself by mistake when
+I sent out this series revision. From now on, I'll simply enable the
+relevant kernel config options and rebuild the entire kernel.
 
---=20
-Cheers,
-Marcelo Moreira
+I'll address each of these items in v6.
+
+> I guess we also chose different argument orders than they did (that's
+> probably my fault, sorry!). They had the "ctx" still first and this
+> patch consistently has "dsi1" and "dsi2" first. I don't think it
+> really matters, but we should be consistent which means either
+> adjusting your patch or theirs. It's probably worth confirming that
+> the novatek driver at least compiles before you submit v6.
+
+No, this was my fault. You had suggested the correct order. When I
+implemented the change, I preferred to put `ctx` after `dsi1` and `dsi2`
+because that's what I had done when I implemented the mipi_dsi_dual
+macro. I'll swap up the order, remove the function definition from the
+novatek driver, and compile both lpm102a188a and the novatek driver
+before sending out v6.
+
+By the way, we can discuss this further when I've sent out v6, but the
+novatek driver appears to pass a mipi_dsi_context struct into the
+write_seq_multi macro directly instead of a mipi_dsi_context struct
+pointer. We opted to use a pointer in this patch series so that it can
+be passed to a function in order to reduce the compiled size of drivers.
+For now, I'll plan to solve this by changing calls to write_seq_multi in
+the novatek driver to pass a pointer. I hope that the churn that this
+will cause in the novatek driver isn't unacceptable.
+
+Thanks for your patience,
+Brigham
