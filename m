@@ -1,244 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3677A95E;
-	Tue, 22 Jul 2025 05:54:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753163677; cv=fail; b=puF83ZmJqpCot6W+ILVUHGI3d7PC0mQStL5qgPesf/PPcTdSbdlf938THyzKoYRg9wxS1fK/6IBRBlVgR4HImhqUaF98OX4AQDMg60fHoVQe1gPp4FE5E6QbD+Z3R85uYDVuaVRV6vc03ZzaOpyv3SiBZ6o3u7j0iZ/70brSeOE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753163677; c=relaxed/simple;
-	bh=wOb6Ra/lyR2sjtaOfNzB1lHlYzBdPPpkfrZsD59gJEc=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=nsmuJc4FU4rxVYNHU7IlwGo/Spq3tdhULHuWqEvDt3/sj67YBRzSzjvAugyOI09e3RMdG+b+g29P1UNZX0QGqNeg066mgndYhb4AGf3Sajos/KUF1FTSAEg6oGuA3REOsiskiee+3RpdwPkVu8X0D24s1yqio17B12ugfD5/S7o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BHEs3X+U; arc=fail smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB542206BE
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 07:15:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753168521; cv=none; b=Ynbg/GXDdQQqRLWSn9f4oEvmryrwVitCWAtZM715qsG+Z0jxOIc6ie4UZF7ASXWFyrodMJRQ/tXU7woWtYZUw+gQ2Jxb07jW6MjILRvPAGA4VeVKT7Le/zp+aFe4nCPHcz79WriFEtSPRTIqpY9acJ+d275XnCUrgl16QnR7gOo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753168521; c=relaxed/simple;
+	bh=akOILnwcc9pmGNevA3WX5BCXInqcsvZXjaatCCQKodE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RpYE/yDcR4ELH+MrUdH0OxORFtNCRR3IIZP9tHar2ukaYb0f90hiAEfD+yodNIx2cEwmlpyQLMvnClJrlspXCMYOzE5n9cHMPCs5aDRzrxkn1wZc/TJhHFO1i8WNNhpka+mKQmFzsvYIjIWoKFt64BL6twMCKDaeOGb5w5c042Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YVgdKbr4; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BHEs3X+U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753163675; x=1784699675;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=wOb6Ra/lyR2sjtaOfNzB1lHlYzBdPPpkfrZsD59gJEc=;
-  b=BHEs3X+Ufk6HpRd8WrZKr4FkC/QeND8g6gDQ342/54QwSOAWmCq9RIW0
-   PV1XjNamgYTu2oWDX70ry6b6PIk0MLwBVa8Y4dEgwHUwlFQt0I4rPGOJU
-   HzBVawc32dEWIbDh6DMu7BV09YXzp9FWjrY4lEYh4iGEB35IG0+QihlgS
-   n8KQEtWhhI0gaTDl8YWhyz5cVQDjAATofWdcvfrllAwNgY+hA20/PTAY6
-   kPHXDYUjB5itvS06g2JKS12W48oNL+PCicy7+sZkJbOqFnTfNruiMlGud
-   X83Z10CMc33APt/VnFDkWlzohqhNOwfeyqYlMt1pVTWz9mWd1aV/HbrfZ
-   Q==;
-X-CSE-ConnectionGUID: au1AyOONReWVUqEckh5Bzg==
-X-CSE-MsgGUID: ImiqjXHVSVCKgVn+HYkTIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="66468260"
-X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
-   d="scan'208";a="66468260"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 22:54:34 -0700
-X-CSE-ConnectionGUID: Ud02EzFKRNWsBEzFnCv3IA==
-X-CSE-MsgGUID: 6UGIxhhAS/KshaL+2nk+eQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
-   d="scan'208";a="196115837"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 22:54:34 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Mon, 21 Jul 2025 22:54:33 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Mon, 21 Jul 2025 22:54:33 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.71) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Mon, 21 Jul 2025 22:54:31 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KZvy+RvpO2hSoXolJeDkOXvIpRGYz3ZAz8VQT79OuG5/hggJJXdwicQdFYE64widm8/fB6IK830SeyIFSPlpkQACB4vteOrTYJpvSEMc0P3QfX131BMHfmOzH/VgPstjZsiqZYFKwQYDjlCMZctHs7CjtGJLLkDTGtOCCgscmHqADVdRydAwnjnmYrVPEnraDfTqjYQe3qQ8Q0L/LXDVnqhSqwC0QQZ/gn3jk/uCfzri/czbt4iwe49bOGqv273JMZpAl2chYJNOjRxHwyqRkScJdg4kbMIL4IY/46cJP3Mhn1zT72oz0+rAfxNJE7WSpIZZT0Jpeo84bu6UDkYtuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6xApnJs2cgjDYX+diKBqvkuiyIJTMMDslCU8dQy1uD4=;
- b=dEiqOSh2/yN9buRVjnG2Tpc8zXPuWBl7bcgwbOCSHD15AznUkYkobHYmAzS6+iUNbusfZRi13KrBy8DJXeEPAZFPpUIChpf03tKib/KfN3PZj6LoAv5ee6zwsv37ihep+ySmP7kjgPSuGVs6/ELdxlQ+fVnpNNNbRXc1KjzrcZ5CPIW43K6i+kG9iaX+6N6MoxNFyARrJoLoteA+bRCxL2Lpb6TTpYQJZrVyyM3CO7ipYCwQy6ZqbA8whMYsyj2PefVmdmX9KprBubWuGTzwTrmkfiA2RrpD++yQW9wcYDbiycew/a3grmuOW/8koVGuNtSuPzCF8xrVrEVMTbNbew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by SA1PR11MB8253.namprd11.prod.outlook.com (2603:10b6:806:250::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Tue, 22 Jul
- 2025 05:54:02 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c%3]) with mapi id 15.20.8943.029; Tue, 22 Jul 2025
- 05:54:02 +0000
-Date: Tue, 22 Jul 2025 13:53:44 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Moon Hee Lee <moonhee.lee.ca@gmail.com>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-ext4@vger.kernel.org>,
-	<tytso@mit.edu>, <adilger.kernel@dilger.ca>, <linux-kernel@vger.kernel.org>,
-	<syzbot+544248a761451c0df72f@syzkaller.appspotmail.com>,
-	<linux-kernel-mentees@lists.linux.dev>, <skhan@linuxfoundation.org>,
-	<david.hunter.linux@gmail.com>, Moon Hee Lee <moonhee.lee.ca@gmail.com>,
-	<oliver.sang@intel.com>
-Subject: Re: [PATCH] ext4: bail out when EXT4_INLINE_DATA_FL lacks
- system.data xattr
-Message-ID: <202507220717.738699fb-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250710175837.29822-2-moonhee.lee.ca@gmail.com>
-X-ClientProxiedBy: SG2PR01CA0177.apcprd01.prod.exchangelabs.com
- (2603:1096:4:28::33) To LV3PR11MB8603.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YVgdKbr4"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-23636167b30so46845205ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 00:15:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753168519; x=1753773319; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C+VMjOAQQOuEXnxm/JTcqhzieaE2t0Z16ySCSWuJaF4=;
+        b=YVgdKbr4wRqVfYmIGYf733ia1XH6rtVRK69vvJ3es4wp/70ntLBaHH06wRlqzRwiQj
+         mTNIPmxf+3my5J/cKShvAThTvuZpFOmX4Xe1TWGq0DWdjhZoUksDAuBWOtxDHI7Pe/Bz
+         S82etSX0isRGLRLeQGmr1FfLOfFLKSL2qXVahWc4TZB4AG6bT7c5zDc+z/h91vK09EVK
+         V6yAEcO7D3sxKgG8Wj4/tRl0r8laP51NdLmzj8KTvhaoC0F3nccK1O+vT0qmfevp7g6y
+         0fFQVupYy24Gy6eq5e0jPVUrC2+n7fzQ8pBjef1afAfUld1Rq8rOPhgLaMGvuLC9racd
+         IbFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753168519; x=1753773319;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C+VMjOAQQOuEXnxm/JTcqhzieaE2t0Z16ySCSWuJaF4=;
+        b=m0f2nfaTq7aD/Vvw1ImQKvbZcq2W4ufsvmACGkQGc3nvOXgx7boGXcpfB4DuNg91oE
+         nMzmTbUfceA12WlKu1bHcKJBZ84XGDwfJS0Fbmfz71rKLNXRM0SEPaiR495p81JVwoHH
+         jo/O3VggttgkF6w/e/eelIGXUiU2C83e73a+/VvVWREnwyjJENq7AGJdzMFvXPeGQORw
+         U/CB3239Zs+1x0nXCGpgGtih4pJBg0f4raHZQ1eZDvom830zDaPm/EhFVh1PZOb5ToPK
+         Zh+ZtWoeyknlhUzvfF1tMMQEfHjJEBSgrD1vOtb67U72iWvFOZTA/6XnqdwLZfhn/uTM
+         D72g==
+X-Forwarded-Encrypted: i=1; AJvYcCXoAVDl61H54Cy6DYQ5vUF3696sbDu3jpjy8Su/4pJsLCYkuUuaZVlnbiGMuoYXEekqze+zmZN8ysVL9qVCmqBVy1I4PQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQvTgqThjp4cbcjsUEbdDDEiXxrDot5xVk5T5Zl8LUDBK+0T9U
+	jOd6liXVcNrTMppk6cyjfju+j1CBhhgwubH3K4/KamKHiObFz7mz6nEm
+X-Gm-Gg: ASbGnctt6JFFNioI+POn5vCgdooXcx3ACu5so7j+822jIA7dc+1jNhpwg5vxa8B98C1
+	R+5Kjj90efCUe5+dL8G1z14+CrXvBxq+a2GJfIDIe4hgFj88x1+ykezypEPVTSGvemzKyC6NvuL
+	ILJkLv72d1bARG3eZI++VG7d9AjZY0T63NhchMqj58J7sVTLpSlyowotJe3nZXiVzKwpFHItpor
+	dmgnuDSjfGeWT+c9MqfIfZzWz0UmMRXYzzi7BKu8DrsfwxU1PiYTbDNV3u4aEr2aqK+A8nwx2v2
+	xZBWm3UQt0TzHDgLMVJWYDVz2E3yLjTm4cbBFUT9A761fm5FHaz7ySL3kF3p9UmN90JMLyNuP1H
+	ab59CBNpmoGHSEUeUYIBKGL0588+4gQ==
+X-Google-Smtp-Source: AGHT+IFFtyJvM2a2AEb7k9Jrp9kmCsiJqx3vXKdoGAMsFsONk/ZGr1SJZlzNLSxI6ryLGWuWN2M70w==
+X-Received: by 2002:a17:902:ea01:b0:235:2403:77c7 with SMTP id d9443c01a7336-23e2576e462mr261559035ad.37.1753168518460;
+        Tue, 22 Jul 2025 00:15:18 -0700 (PDT)
+Received: from archlinux ([38.188.108.234])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3c3a5d15sm69056005ad.62.2025.07.22.00.15.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jul 2025 00:15:18 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	jhs@mojatatu.com,
+	xiyou.wangcong@gmail.com,
+	jiri@resnulli.us,
+	sdf@fomichev.me,
+	kuniyu@google.com,
+	aleksander.lobakin@intel.com,
+	netdev@vger.kernel.org
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH] net: Revert tx queue length on partial failure in dev_qdisc_change_tx_queue_len()
+Date: Tue, 22 Jul 2025 12:45:08 +0530
+Message-ID: <20250722071508.12497-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|SA1PR11MB8253:EE_
-X-MS-Office365-Filtering-Correlation-Id: 51053fdf-2938-460b-6618-08ddc8e428ec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?JqhIQVoEvyu08AOXGbq/62daFhn3xnNJp2N41VLG+dGtqrLnKYnCKP45sIRr?=
- =?us-ascii?Q?bIvUBiqb9Aac0xGtUqPVc634zQ81BHRRciicV2kx52Yhz6vmUqUXIpoljTqv?=
- =?us-ascii?Q?60WhT+GKsMl9kRiYL+mDEFpbtlq89xe2vCYsKSUr0Ar7HNc57hRWt0SL8dVA?=
- =?us-ascii?Q?uvK1rYQuuD9v59eWDDZ6A8rTch8Y1POeKjL92ZpNsoQu1D3HOhMGyEmsco+M?=
- =?us-ascii?Q?J6t0HXqFGlgaF0ZhLQD4fknMbh83AL9BwyYj5w3Wb4WEb9kHG8FdngGzHJc3?=
- =?us-ascii?Q?seitLCFctd3Q05rO7L6zjaDwILXL9PQyBLLUPfm8fEoy1TFfLyv/tqaeFkF7?=
- =?us-ascii?Q?vawWYerkz15pcztrbB61iSSaZzM1PlI+P4UAj+WIEPDY+aGAEUp9ZiSM9GmI?=
- =?us-ascii?Q?WuVUkOcoTEiHdCO9PnWlTEScvKCnUDn5aMJw53CSaiw7fQDsgFNIzDo7a4Gh?=
- =?us-ascii?Q?VlRIBiXmK7IvH2p0MbWIrBeM0aA5t9VnsGgpOpXCdtNu9FJec4z+eKZbVBGY?=
- =?us-ascii?Q?CIPFsWArbcRlf2bf3mZ/6ACInNbzPWBVimdsa+3wLofl2ArHV0cMfEgRZ11f?=
- =?us-ascii?Q?8x4v+RCYc/dGEFUdighkLnmln208ScyrnLzmNQDbR7WgSfLEwFpwgf3fcF62?=
- =?us-ascii?Q?ePUtsrf7RmrsvfJuUSVbUD9OoayRar1+6lp8EaovpbNz6ecbZ/0VoHpnmZFP?=
- =?us-ascii?Q?YOnjMgUTKRbT7vrzdO9A2jPojO/6itUvQvs3tdQUVC0PvqsTYd97Y7LDYr1D?=
- =?us-ascii?Q?ivQRMn2+SQpuIY2QWCluUfVB7xgp/nAlpQqqSYgsGiu7z8SfSUHKtAncxsfp?=
- =?us-ascii?Q?Q5+7KUYOm2RPyfgEHh9QMJy2QmdwtjqEtCwhpNbflEFN+YSMHQjylTW894cW?=
- =?us-ascii?Q?nQA/rM+fQDzKb0MYc6j55JI3RsXwYHEYFJ3PbV2oGTsZObkGkVzNFU4WYxe4?=
- =?us-ascii?Q?KbOI9kVIZH4JCMMWu82siaQSUY7UWHRCIJbi14E/edH3nfJZqA03F94xp3rk?=
- =?us-ascii?Q?n6Oe+ZURwPF8Pk0RhdkoCCvC8C606Euwf1qidOLboQMfFOsU1G9Wutasi7jz?=
- =?us-ascii?Q?Zpoe5n1E8nN7ncLPjEOImd1iTqUYYOpjxKJ3U3ngf3WHQjjdr3PicdB1U3dT?=
- =?us-ascii?Q?vFfo3APJfVy244V994i6v65WIwLEKzsILHJGHHiip4n3TPSySkYoWrYbikzJ?=
- =?us-ascii?Q?VNrV59WKPqEDTMqTzBcU8pLiI3QrxPylTbY44HJu7eFNZwgT40SJkw6lOwkw?=
- =?us-ascii?Q?b8IY0/SQYKkesXIgplSLIsvGEtpvVVSDB0Ohb/jJb2gXrS55uj2bwySCeSHr?=
- =?us-ascii?Q?jkc/4IplGIdWAtB9WmalPFilNCA8eTeK2micaQv8WUYjr063gVTBDpFKILh7?=
- =?us-ascii?Q?WaZuQLk2MK90UFCW2o0VNbGYsf7M?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lwNHYtYB8mJdNGspEK0OuAT+4lF0j3JoPaMIziu/3kmikJT2Q6jiGRVPkJuv?=
- =?us-ascii?Q?ungRCBkbOp79rKoHgQuANSWR+t4Tgbom/nCSd3p0a9OLS2cUc8qhjOldxQYc?=
- =?us-ascii?Q?rzF+QSOd5ayyjd/1XzkkVZQqj/e4bTcox/LoLEQ2gtt+5YMTJJem+Pt9yP9X?=
- =?us-ascii?Q?bDgwAzkcQxUzXh8M8Zybh547uOJ/LlxFP1oLl8FY9b3pHjLCtwIuCUfWtEQb?=
- =?us-ascii?Q?CW+sosSBLpgPKosUvKmEqTDKKsQRbRYShNmATgsZuDNu1NGjU0fA+PNnri+E?=
- =?us-ascii?Q?Xm14b7SF0wJ3R9+OVJi+UTMb2ZxWXAkMH9qhaVa4gglYiwyz7KcHG+UR0w0D?=
- =?us-ascii?Q?gUxxxXypjLrDLHVrPxirSAVyKX4aR/8m2bLhkZknv3mM2s11x6PXWiRPPek3?=
- =?us-ascii?Q?J1dNMiUZbkRJ7wApjjdqsTikwGXf/iWSi0OUqr0hyWXx9oB1VLCvywohQ//Y?=
- =?us-ascii?Q?p0l4bylnO0Kc5KewkwqDQHJsQKX7JKkhehpaLesPH5ykQBgnGnO1vIYez5zt?=
- =?us-ascii?Q?5fE3/GJ7NjFDmhZu8XoavOFBNowww2QEZDMJgQs6EDjBeQWCAWK9ZNUURutd?=
- =?us-ascii?Q?fgB9doK85Wpv8udJir6Te6QyWpHrv+z28T7m8c3D6u2tRpkI4Hyh5PXmkwKv?=
- =?us-ascii?Q?0JbzL5UTbyjMSg6amo+HVy405Q/3/JoyVWulH21wdrLSyvz1f0zmUfIEl1Ae?=
- =?us-ascii?Q?/nun7iRnmHJYRvkRahHL1fT3ja4R5B1l2o0REpimghmpc9PamnOBgvcM1ojj?=
- =?us-ascii?Q?k1sodo0FMnHzsB+Byc5pgAa9AlgRG1IRyziRRTzMmNbdos4wLm//cjI0ijCx?=
- =?us-ascii?Q?0Wr3V85MQf0b2VtkXU9q0soPX1Jur2GiIqbzeuhg08NXippyO+nwcOoG54cc?=
- =?us-ascii?Q?660BoIDSYl//UjHH1WkLieZylZYiZFA9b1/AkKx7EGyIH9wtDWTF+ZlGTGwE?=
- =?us-ascii?Q?lacp5C60hihDu4qaO22Ik7uqEnF+uNK0deuT94kpa8jrLxiRNcUvM05B4F2b?=
- =?us-ascii?Q?uEEanfjaWz2WYjw+E6GtO9hITjgyTv0mQWYrBC0mekEcYOf6pCTmfZd9PJok?=
- =?us-ascii?Q?fUzbgVD8o6asow+2ctMdM6n1Fg61gT9Ai9LNrJoMvVA7PoinnhLLu5oK1Kvl?=
- =?us-ascii?Q?9VitIKjDwjhfX57QYNP07zUZjNNszcZkrkdzBnFFI/aNl0rnHrgX/qw/R7d8?=
- =?us-ascii?Q?1E55r/FirnCWm7p893cwVl+X19Iz/eV0eSRYGfFc/ouAY3iePapuOhUMZwZO?=
- =?us-ascii?Q?EYjJqoWRk/ZFQ2qV3T8lKt4a8r0ER8aSA/X3fpY3J3H8ug6wY/0lhzK7+mKl?=
- =?us-ascii?Q?ajJuthuLkLGOAt44zCsVfP6z3kK8D+zWTIcJkft5gIoVOD2H+/wmDs/cZzCy?=
- =?us-ascii?Q?p8+7Bc5kYgXcTcUEKhiVBWKtJdtFTvEbkbfTtNpKhWDXhF4TAr4IH1sTaiG1?=
- =?us-ascii?Q?dNMOIq96cZryRJ3x0NyseIrL8IWeUTGCakN+QJK2jLbR+h5m0wNx5VxyyGN1?=
- =?us-ascii?Q?RMpq8nbLk3EAwYe0XhRI9XoM0aLiFsnGQKE3yNtD4+jnS4S7neV5STMWbhjV?=
- =?us-ascii?Q?FW+fVLZTEM4CLrsIUCC5cKIW+7bhpD81mgOhgwD2KLN/EXAjJ79HYdFCZeWK?=
- =?us-ascii?Q?Ew=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51053fdf-2938-460b-6618-08ddc8e428ec
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 05:54:02.5203
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7I2Ui3h0is+Hymb0atRsI1EEbDegZ+3zzKuqu9zGeRNQWJIJQnfcXXUEImAfsSpMzIEXAdVdbWx33s8gxQ+ekA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8253
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
+When changing the tx queue length via dev_qdisc_change_tx_queue_len(),
+if one of the updates fails, the function currently exits
+without rolling back previously modified queues. This can leave the
+device and its qdiscs in an inconsistent state. This patch adds rollback logic
+that restores the original dev->tx_queue_len and re-applies it to each previously
+updated queue's qdisc by invoking qdisc_change_tx_queue_len() again.
+To support this, dev_qdisc_change_tx_queue_len() now takes an additional
+parameter old_len to remember the original tx_queue_len value.
 
+Note: I have built the kernel with these changes to ensure it compiles, but I
+have not tested the runtime behavior, as I am currently unsure how to test this
+change.
 
-Hello,
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+---
+ include/net/sch_generic.h |  2 +-
+ net/core/dev.c            |  2 +-
+ net/sched/sch_generic.c   | 12 +++++++++---
+ 3 files changed, 11 insertions(+), 5 deletions(-)
 
-kernel test robot noticed "xfstests.ext4.031.fail" on:
-
-commit: ac16746132e9dafa56057ce201948e8853fd3834 ("[PATCH] ext4: bail out when EXT4_INLINE_DATA_FL lacks system.data xattr")
-url: https://github.com/intel-lab-lkp/linux/commits/Moon-Hee-Lee/ext4-bail-out-when-EXT4_INLINE_DATA_FL-lacks-system-data-xattr/20250711-020009
-base: https://git.kernel.org/cgit/linux/kernel/git/tytso/ext4.git dev
-patch link: https://lore.kernel.org/all/20250710175837.29822-2-moonhee.lee.ca@gmail.com/
-patch subject: [PATCH] ext4: bail out when EXT4_INLINE_DATA_FL lacks system.data xattr
-
-in testcase: xfstests
-version: xfstests-x86_64-e1e4a0ea-1_20250714
-with following parameters:
-
-	bp1_memmap: 4G!8G
-	bp2_memmap: 4G!16G
-	disk: 2pmem
-	fs: ext4
-	test: ext4-031
-
-
-config: x86_64-rhel-9.4-func
-compiler: gcc-12
-test machine: 8 threads Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz (Skylake) with 28G memory
-
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202507220717.738699fb-lkp@intel.com
-
-2025-07-17 19:49:18 export TEST_DIR=/fs/pmem0
-2025-07-17 19:49:18 export TEST_DEV=/dev/pmem0
-2025-07-17 19:49:18 export FSTYP=ext4
-2025-07-17 19:49:18 export SCRATCH_MNT=/fs/scratch
-2025-07-17 19:49:18 mkdir /fs/scratch -p
-2025-07-17 19:49:18 export SCRATCH_DEV=/dev/pmem1
-2025-07-17 19:49:18 echo ext4/031
-2025-07-17 19:49:18 ./check -E tests/exclude/ext4 ext4/031
-FSTYP         -- ext4
-PLATFORM      -- Linux/x86_64 lkp-skl-d01 6.15.0-rc4-00053-gac16746132e9 #1 SMP PREEMPT_DYNAMIC Fri Jul 18 03:31:11 CST 2025
-MKFS_OPTIONS  -- -F /dev/pmem1
-MOUNT_OPTIONS -- -o acl,user_xattr /dev/pmem1 /fs/scratch
-
-ext4/031       - output mismatch (see /lkp/benchmarks/xfstests/results//ext4/031.out.bad)
-    --- tests/ext4/031.out	2025-07-14 17:48:52.000000000 +0000
-    +++ /lkp/benchmarks/xfstests/results//ext4/031.out.bad	2025-07-17 19:49:20.122098626 +0000
-    @@ -1,2 +1,3 @@
-     QA output created by 031
-    +/lkp/benchmarks/xfstests/tests/ext4/031: line 35: echo: write error: Structure needs cleaning
-     Silence is golden
-    ...
-    (Run 'diff -u /lkp/benchmarks/xfstests/tests/ext4/031.out /lkp/benchmarks/xfstests/results//ext4/031.out.bad'  to see the entire diff)
-Ran: ext4/031
-Failures: ext4/031
-Failed 1 of 1 tests
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20250722/202507220717.738699fb-lkp@intel.com
-
-
+diff --git a/include/net/sch_generic.h b/include/net/sch_generic.h
+index 638948be4c50..a4f59df2982f 100644
+--- a/include/net/sch_generic.h
++++ b/include/net/sch_generic.h
+@@ -681,7 +681,7 @@ void qdisc_class_hash_remove(struct Qdisc_class_hash *,
+ void qdisc_class_hash_grow(struct Qdisc *, struct Qdisc_class_hash *);
+ void qdisc_class_hash_destroy(struct Qdisc_class_hash *);
+ 
+-int dev_qdisc_change_tx_queue_len(struct net_device *dev);
++int dev_qdisc_change_tx_queue_len(struct net_device *dev, unsigned int old_len);
+ void dev_qdisc_change_real_num_tx(struct net_device *dev,
+ 				  unsigned int new_real_tx);
+ void dev_init_scheduler(struct net_device *dev);
+diff --git a/net/core/dev.c b/net/core/dev.c
+index be97c440ecd5..afa3c5a9bba1 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -9630,7 +9630,7 @@ int netif_change_tx_queue_len(struct net_device *dev, unsigned long new_len)
+ 		res = notifier_to_errno(res);
+ 		if (res)
+ 			goto err_rollback;
+-		res = dev_qdisc_change_tx_queue_len(dev);
++		res = dev_qdisc_change_tx_queue_len(dev, orig_len);
+ 		if (res)
+ 			goto err_rollback;
+ 	}
+diff --git a/net/sched/sch_generic.c b/net/sched/sch_generic.c
+index 16afb834fe4a..701dfbe722ed 100644
+--- a/net/sched/sch_generic.c
++++ b/net/sched/sch_generic.c
+@@ -1445,7 +1445,7 @@ void mq_change_real_num_tx(struct Qdisc *sch, unsigned int new_real_tx)
+ }
+ EXPORT_SYMBOL(mq_change_real_num_tx);
+ 
+-int dev_qdisc_change_tx_queue_len(struct net_device *dev)
++int dev_qdisc_change_tx_queue_len(struct net_device *dev, unsigned int old_len)
+ {
+ 	bool up = dev->flags & IFF_UP;
+ 	unsigned int i;
+@@ -1456,12 +1456,18 @@ int dev_qdisc_change_tx_queue_len(struct net_device *dev)
+ 
+ 	for (i = 0; i < dev->num_tx_queues; i++) {
+ 		ret = qdisc_change_tx_queue_len(dev, &dev->_tx[i]);
+-
+-		/* TODO: revert changes on a partial failure */
+ 		if (ret)
+ 			break;
+ 	}
+ 
++	if (ret) {
++		dev->tx_queue_len = old_len;
++		while (i >= 0) {
++			qdisc_change_tx_queue_len(dev, &dev->_tx[i]);
++			i--;
++		}
++	}
++
+ 	if (up)
+ 		dev_activate(dev);
+ 	return ret;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.50.1
 
