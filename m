@@ -1,127 +1,145 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63EF185E4A
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 16:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC22927A92E
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 16:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753201939; cv=none; b=Fx6QFFm+zXZw5VHkZ2gB9B4mxdJZiGTa268M3eOt9hfCoZl2vrpSHZif/JZcJxEMK1HePkyqHzdn3i5vP0vXJfyI8pFq8Hcx+PgpIyGwppvRnT+Z6fWZovlmIgxvRvuWj9u9mxE8MwITMJjAS1YvtMo6BAyanWsEPhN2nXH1HT4=
+	t=1753202433; cv=none; b=gFWtdhl6DlQaIiuj4jjr0lm67suLV0tvo0kOBvW7qqSHShsxXIXW/ngozmfhEYbqmHa1IStQOSgnD5pHEd4KmmywuyliTm199Oc3/lTUB8oBsZgfKJ1HSGLQTM+5JaT/UmT/XxeCZdQKZNESZF7/PLIPd0ZxQT/oVdAWGkRB0JI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753201939; c=relaxed/simple;
-	bh=Pqs4E5LUI8mWz/IsLr+Bi09UwKTqd2EriMVrdlnD4Fg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YZ7vhDlzpfVuebqHDhh1ewud+8LfMYJ8ERs/xeJWPrlqKf2v1u4ZNnxpzVgMkMji/z10OfwcMuXq/t+PJICIY12AV/4bkQM1VYIz7pQ5hlFyI407xuVo0fGzcaotNrfKPH+HoYJ16CVySBVPT14D4HLJ5IutpbxbBwUfNVhmG04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UuIvTleQ; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UuIvTleQ"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2353a2bc210so51615925ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 09:32:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753201934; x=1753806734; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g5dIDnAxZOX8ng1HhpeNVCkuVrJFpRO5masWNAnQ3RE=;
-        b=UuIvTleQ/SN5ZblMesJxgJ9MzMvexVCyhdU74sDWxL4TSK1uulDEhdIxDmxFO4p+P/
-         5nOmhAuEyWg3EjaT85+fWZp8OpiQvjULEivcsZ5m2eAA7VOZyFnia3Q24IrD0uSvXYjJ
-         nPzwmvNAOTZ98kKZK2LebFcn5DoG2DXphoI9w=
+	s=arc-20240116; t=1753202433; c=relaxed/simple;
+	bh=7eziT7MHUWuUn04e2QkemV4ozrXV+NW4q8oCaWNFvxc=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Cc:Content-Type; b=aSUlAlB1p5NRfyA79rMNzBRQVW2z9haP7pvavp4AUNh/bxp04miRQNQcVdxYf1V6HAqJGZn316I734jHXxu43FCjk3Th+CLtRUwypCANeKf+UjAnIRkpS/DcVSYMzoeWY0uJ8Ojrq/xwHFsI2R+GMR/2AFlucLjfCjP0N7wzvNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-87c41047044so416447139f.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 09:40:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753201934; x=1753806734;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g5dIDnAxZOX8ng1HhpeNVCkuVrJFpRO5masWNAnQ3RE=;
-        b=qambOYDiPks5G3PzmMhvGXo6d2dAbIx8QDLFpm0WSSJBxxsmY1gRbodss3FHSqOSoM
-         ExZ+iQ5SSntbwhhsGB1c7SrqfEkidUIkH8d/M6uz701wNeyvUhxLvNVb48KYnIX2gSlX
-         TgBsosJmb0RBUdBaEXgTXvHPSm0hkqvYo3F0ju/uoT6sdqGg25qk5C4Wo3UeJdLji9Fp
-         ZGQPYXNw1HqSUNbbxJgpyM/Dj4WlEjh2yWDOmdzD6J/DxN3Pi7AVkyrA1hq0y3eyhMgG
-         07yMMCRC/kNR8NXqMF86qr2tcTpFb5DXjCww4PID4B9ud3bbRcYcBrI2aG6RugXeN1og
-         hXfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXEaveMS862DKti1n2ILgZjA5/QHalQNOyGF+22m1iAQM+HrwtV8949T5iQbTaDudnhZPrXq2AccdaVOw7RTfQoSQ62Vg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvsPH91wnX8CYosCUeAs/7+dDvhiN5DBKffKWYzZCWMrgiGgoe
-	Zg+L6zx0bVEUEIKFZMRCMeGtewoEs4cyTuAxVgj4e99vzVuklQy7g0/7aHCwuRGHCR7DO7KCxRy
-	oaTU=
-X-Gm-Gg: ASbGncvDshV4IGpsp0oyHLt/6bZprA6SXjXq4VUhvXcarOL6WpGugKLhy6pV9yVgnmI
-	9idb0aPlrWWRA7TuJLn5YqKxLTd4hbgSUaHeep3vWGAyQCuklQUB83OEAhy0ly9n4rsqk19qNxn
-	B3mFUQMLDihc9KtM6cri+RaMQdl8Sz4AiclaVx//lraDI0nwlnOHKsbKTnLTBHlSp3Yvv7zpEjw
-	To2RlwsvqpngQhHVqkrwViD/Q94nuHrjkKKdAnBZNecV+5QGPRdgPNG3kVoLTmcmRKIlt1j7Wvd
-	g3OukbVopMkVc2A47tKsbLewGWmYcySvV1psVPxFjI5epcyRmqeaid4ecqxVmi/lICgOz9E6II3
-	32lKDj32MnxhUWq3kd9nW79IRNTdc74WpCqYhGOcwoR9f46GLWVq9xRA3axiPcNLBu0ebrQo5
-X-Google-Smtp-Source: AGHT+IFg2mYhxC0Rg1cSfGv5DEBQ69jeK0nxzEEjVwySeqBMz/AcOFlTRjImi1e/cQR6bAX+yTwa/Q==
-X-Received: by 2002:a17:902:ea11:b0:235:225d:30a2 with SMTP id d9443c01a7336-23e2579156dmr363800875ad.48.1753201933697;
-        Tue, 22 Jul 2025 09:32:13 -0700 (PDT)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com. [209.85.216.48])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b5e2d06sm79428565ad.43.2025.07.22.09.32.11
-        for <linux-kernel-mentees@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jul 2025 09:32:11 -0700 (PDT)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-313a001d781so4735693a91.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 09:32:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWOp0+eZATUt5CE/PlgyEMPqEbiQ+PebB9TvAgv+ZgADQ5gzDE8x7+bBo+TumhwOMhgonv+wn9dR7OeugryXVNn2bu8fg==@lists.linux.dev
-X-Received: by 2002:a17:90b:2247:b0:313:283e:e881 with SMTP id
- 98e67ed59e1d1-31c9f3ded05mr36938957a91.11.1753201930387; Tue, 22 Jul 2025
- 09:32:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753202431; x=1753807231;
+        h=cc:to:from:subject:message-id:reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hYFkI9O/131eW/Sqpoysg4fmtDGObV0slVd4zue++sE=;
+        b=FuZuAfBzWZiANyRef2XjSYcls4itoV7L2pfyIyQobE1cGDw/a4uNxipxoWLOVHWIRv
+         DOb09dgZQXwrralZN5kZ/l+jt1Ofn7w4SqcpvjNP/WRkauqI37WktE3pd1A0hb2plBOg
+         EBabgrWo4GK3m6jAFKWo2UM8mwIpJisJXpNAt4F5x6NylpyngUpOL4v5HYtw4LcyaKvw
+         doj4QPlHBRGkWiqHE3/Vtcug+/l4Etz5GkpzcBz3501k9uUP/vppQsobcKTQ0Kyu1naX
+         CYFLx5UiVAZWeoFjgIukK+0UKGkjobk3jy1yJRA+yYIqthXzzjmH+EQEZpoGQmwNXJJi
+         JRJg==
+X-Forwarded-Encrypted: i=1; AJvYcCWprbHeEBl5PAZmqnA3TllcfbCyddFccD7ZO6XbKGBuHS8aQxBhAqAnEmFkmCiGvbyo6lu+mpwFbQFXc3Sgq7471xMMYg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwXh0WTLM6nolmD/xM4Athfl9lLp/zTMF1sUG++wNEEepIc/JyK
+	EEzDUbEZr+Num52QkbCZ0PvBWyDYJsRzwCreJLrHZw42Gd5kAsi72kyNev6bw56M99pnAKCWg2W
+	Pzk6rnkYOKM2oXJPaY1I6eHXQOB722GFhwx4wpis8KwrRG8eyAjAIQxZsc/Q=
+X-Google-Smtp-Source: AGHT+IEd/oncA/FTQ3xxathOMJeMCYJEWzy4cGnbIk3x3fjeiD+6SI5m7RkWUytuXSqiwf2BFl3ZqdfXSsjZbKz6mJfmz5DmDXci
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250722015313.561966-1-me@brighamcampbell.com> <20250722015313.561966-3-me@brighamcampbell.com>
-In-Reply-To: <20250722015313.561966-3-me@brighamcampbell.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 22 Jul 2025 09:31:58 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Vg6LoPzOHRj=XzCcSb7rPb=vPuCZngrf4hROZNwfj2Pg@mail.gmail.com>
-X-Gm-Features: Ac12FXxeoQ5h83qTRHx6WqFmrhVxXb5TjaxOWmVQAou0S7ba7bXolm4shfJMxPI
-Message-ID: <CAD=FV=Vg6LoPzOHRj=XzCcSb7rPb=vPuCZngrf4hROZNwfj2Pg@mail.gmail.com>
-Subject: Re: [PATCH v6 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+X-Received: by 2002:a05:6602:2d94:b0:87c:4609:d10a with SMTP id
+ ca18e2360f4ac-87c4609d9c6mr1354451639f.9.1753202431060; Tue, 22 Jul 2025
+ 09:40:31 -0700 (PDT)
+Date: Tue, 22 Jul 2025 09:40:31 -0700
+Reply-To: <20250722071508.12497-1-suchitkarunakaran@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <687fbeff.a70a0220.21b99c.0011.GAE@google.com>
+Subject: [syzbot ci] Re: net: Revert tx queue length on partial failure in dev_qdisc_change_tx_queue_len()
+From: syzbot ci <syzbot+ci9865e4960193441a@syzkaller.appspotmail.com>
+To: aleksander.lobakin@intel.com, davem@davemloft.net, edumazet@google.com, 
+	horms@kernel.org, jhs@mojatatu.com, jiri@resnulli.us, kuba@kernel.org, 
+	kuniyu@google.com, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
+	sdf@fomichev.me, skhan@linuxfoundation.org, suchitkarunakaran@gmail.com, 
+	xiyou.wangcong@gmail.com
+Cc: syzbot@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+syzbot ci has tested the following series
 
-On Mon, Jul 21, 2025 at 6:53=E2=80=AFPM Brigham Campbell <me@brighamcampbel=
-l.com> wrote:
->
-> Fix bug in unprepare() which causes the function's return value to be
-> that of the last mipi "enter sleep mode" command.
->
-> Update driver to use the "multi" variant of MIPI functions in order to
-> facilitate improved error handling and remove the panel's dependency on
-> deprecated MIPI functions.
->
-> Use the new mipi_dsi_dual macro to reduce code duplication.
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-> ---
->  drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 196 ++++++------------
->  1 file changed, 59 insertions(+), 137 deletions(-)
+[v1] net: Revert tx queue length on partial failure in dev_qdisc_change_tx_queue_len()
+https://lore.kernel.org/all/<20250722071508.12497-1-suchitkarunakaran@gmail.com>
+* [PATCH] net: Revert tx queue length on partial failure in dev_qdisc_change_tx_queue_len()
 
-Just for fun, I ran bloat-o-meter to compare before and after.
+and found the following issue:
+BUG: unable to handle kernel paging request in dev_qdisc_change_tx_queue_len
 
-add/remove: 0/0 grow/shrink: 0/3 up/down: 0/-217 (-217)
-Function                                     old     new   delta
-jdi_write_dcdc_registers.d                    10       5      -5
-jdi_panel_unprepare                          312     260     -52
-jdi_panel_prepare                           1020     860    -160
-Total: Before=3D4908, After=3D4691, chg -4.42%
+Full report is available here:
+https://ci.syzbot.org/series/75b0a15e-cca4-4e46-8bf9-595c0dd34915
 
-...not as big of a savings, but that's not too surprising in this case
-since we don't have the whole pile of "seq" functions. Still the point
-was making the driver cleaner and the space savings is just an extra
-bonus!
+***
 
--Doug
+BUG: unable to handle kernel paging request in dev_qdisc_change_tx_queue_len
+
+tree:      netdev
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/netdev/net.git
+base:      81e0db8e839822b8380ce4716cd564a593ccbfc5
+arch:      amd64
+compiler:  Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
+config:    https://ci.syzbot.org/builds/2ee305f2-ddb8-45c6-8f47-2a150dc6dd22/config
+syz repro: https://ci.syzbot.org/findings/1e75a6d3-11ac-48da-af27-60753abb61c7/syz_repro
+
+netlink: 'syz.2.18': attribute type 13 has an invalid length.
+netlink: 'syz.2.18': attribute type 17 has an invalid length.
+BUG: unable to handle page fault for address: ffffed4821fa6a4b
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 13ffee067 P4D 13ffee067 PUD 0 
+Oops: Oops: 0000 [#1] SMP KASAN PTI
+CPU: 1 UID: 0 PID: 5980 Comm: syz.2.18 Not tainted 6.16.0-rc6-syzkaller-00128-g81e0db8e8398-dirty #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:dev_qdisc_change_tx_queue_len+0x542/0x640
+Code: be 7f 05 00 00 48 c7 c2 20 d2 95 8c e8 27 db 27 f8 44 89 e0 48 69 c0 c0 01 00 00 49 8d 1c 06 48 83 c3 18 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 1f af ab f8 48 8b 1b 4c 8d 73 18
+RSP: 0018:ffffc900024beaa0 EFLAGS: 00010a06
+RAX: 1ffff14821fa6a4b RBX: ffff8a410fd35258 RCX: ffff888020f2d640
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffc900024beb90 R08: ffffffff8fa1d6f7 R09: 1ffffffff1f43ade
+R10: dffffc0000000000 R11: fffffbfff1f43adf R12: 00000000ffffffff
+R13: dffffc0000000000 R14: ffff88810fd35400 R15: ffff88810ffe2018
+FS:  00007fa854ede6c0(0000) GS:ffff8881a3c23000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffed4821fa6a4b CR3: 00000000295fa000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ netif_change_tx_queue_len+0x167/0x270
+ do_setlink+0xdfb/0x41c0
+ rtnl_newlink+0x149f/0x1c70
+ rtnetlink_rcv_msg+0x7cf/0xb70
+ netlink_rcv_skb+0x208/0x470
+ netlink_unicast+0x75c/0x8e0
+ netlink_sendmsg+0x805/0xb30
+ __sock_sendmsg+0x21c/0x270
+ ____sys_sendmsg+0x505/0x830
+ ___sys_sendmsg+0x21f/0x2a0
+ __x64_sys_sendmsg+0x19b/0x260
+ do_syscall_64+0xfa/0x3b0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fa853f8e9a9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fa854ede038 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
+RAX: ffffffffffffffda RBX: 00007fa8541b5fa0 RCX: 00007fa853f8e9a9
+RDX: 0000000000000000 RSI: 0000200000000180 RDI: 0000000000000003
+RBP: 00007fa854010d69 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 00007fa8541b5fa0 R15: 00007ffe5a5f8288
+ </TASK>
+Modules linked in:
+CR2: ffffed4821fa6a4b
+---[ end trace 0000000000000000 ]---
+RIP: 0010:dev_qdisc_change_tx_queue_len+0x542/0x640
+Code: be 7f 05 00 00 48 c7 c2 20 d2 95 8c e8 27 db 27 f8 44 89 e0 48 69 c0 c0 01 00 00 49 8d 1c 06 48 83 c3 18 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 1f af ab f8 48 8b 1b 4c 8d 73 18
+RSP: 0018:ffffc900024beaa0 EFLAGS: 00010a06
+RAX: 1ffff14821fa6a4b RBX: ffff8a410fd35258 RCX: ffff888020f2d640
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffc900024beb90 R08: ffffffff8fa1d6f7 R09: 1ffffffff1f43ade
+R10: dffffc0000000000 R11: fffffbfff1f43adf R12: 00000000ffffffff
+R13: dffffc0000000000 R14: ffff88810fd35400 R15: ffff88810ffe2018
+FS:  00007fa854ede6c0(0000) GS:ffff8881a3c23000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffed4821fa6a4b CR3: 00000000295fa000 CR4: 00000000000006f0
+
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
