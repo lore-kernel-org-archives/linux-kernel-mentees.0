@@ -1,170 +1,259 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB542206BE
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 07:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05952DA746
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 07:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753168521; cv=none; b=Ynbg/GXDdQQqRLWSn9f4oEvmryrwVitCWAtZM715qsG+Z0jxOIc6ie4UZF7ASXWFyrodMJRQ/tXU7woWtYZUw+gQ2Jxb07jW6MjILRvPAGA4VeVKT7Le/zp+aFe4nCPHcz79WriFEtSPRTIqpY9acJ+d275XnCUrgl16QnR7gOo=
+	t=1753169842; cv=none; b=Lny+ta4R8gVWITtAqJXNgSZt4QtZ3dg4UkkTybvRm62YMuot/P1KiHImx5Hcicv5F7YbC7dzzRbFsBol2VYW4mdiIlF8hMrmPH8+ZMhi+rw/uB+PN2MXObd9q7v2Qt3Efv4u7Ew8YDgvyC4nLgHfNO+7+O6SfZMzl128SKeSyMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753168521; c=relaxed/simple;
-	bh=akOILnwcc9pmGNevA3WX5BCXInqcsvZXjaatCCQKodE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RpYE/yDcR4ELH+MrUdH0OxORFtNCRR3IIZP9tHar2ukaYb0f90hiAEfD+yodNIx2cEwmlpyQLMvnClJrlspXCMYOzE5n9cHMPCs5aDRzrxkn1wZc/TJhHFO1i8WNNhpka+mKQmFzsvYIjIWoKFt64BL6twMCKDaeOGb5w5c042Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YVgdKbr4; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753169842; c=relaxed/simple;
+	bh=jsSSy/EZQq/KL4x7xv0cp3iZrBIkYUwJy2lQplAbGh4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=V5Si7d9JEz8BHiqq9UeD7zD80N5HBXXWzSLg9VuFoZX2XJjHfTgIROEbvfg1duwrkP+O3zPEqfL1b9aZoaQtXHJihVLuqfkwGouWMhym70G2SOm55HeEs4yXk39ioo12ZPj4KpsCivatJ92F+SUeR0iDzHv1reg1nLJgFhJYgek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dOtFOwV2; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YVgdKbr4"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-23636167b30so46845205ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 00:15:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753168519; x=1753773319; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C+VMjOAQQOuEXnxm/JTcqhzieaE2t0Z16ySCSWuJaF4=;
-        b=YVgdKbr4wRqVfYmIGYf733ia1XH6rtVRK69vvJ3es4wp/70ntLBaHH06wRlqzRwiQj
-         mTNIPmxf+3my5J/cKShvAThTvuZpFOmX4Xe1TWGq0DWdjhZoUksDAuBWOtxDHI7Pe/Bz
-         S82etSX0isRGLRLeQGmr1FfLOfFLKSL2qXVahWc4TZB4AG6bT7c5zDc+z/h91vK09EVK
-         V6yAEcO7D3sxKgG8Wj4/tRl0r8laP51NdLmzj8KTvhaoC0F3nccK1O+vT0qmfevp7g6y
-         0fFQVupYy24Gy6eq5e0jPVUrC2+n7fzQ8pBjef1afAfUld1Rq8rOPhgLaMGvuLC9racd
-         IbFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753168519; x=1753773319;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C+VMjOAQQOuEXnxm/JTcqhzieaE2t0Z16ySCSWuJaF4=;
-        b=m0f2nfaTq7aD/Vvw1ImQKvbZcq2W4ufsvmACGkQGc3nvOXgx7boGXcpfB4DuNg91oE
-         nMzmTbUfceA12WlKu1bHcKJBZ84XGDwfJS0Fbmfz71rKLNXRM0SEPaiR495p81JVwoHH
-         jo/O3VggttgkF6w/e/eelIGXUiU2C83e73a+/VvVWREnwyjJENq7AGJdzMFvXPeGQORw
-         U/CB3239Zs+1x0nXCGpgGtih4pJBg0f4raHZQ1eZDvom830zDaPm/EhFVh1PZOb5ToPK
-         Zh+ZtWoeyknlhUzvfF1tMMQEfHjJEBSgrD1vOtb67U72iWvFOZTA/6XnqdwLZfhn/uTM
-         D72g==
-X-Forwarded-Encrypted: i=1; AJvYcCXoAVDl61H54Cy6DYQ5vUF3696sbDu3jpjy8Su/4pJsLCYkuUuaZVlnbiGMuoYXEekqze+zmZN8ysVL9qVCmqBVy1I4PQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQvTgqThjp4cbcjsUEbdDDEiXxrDot5xVk5T5Zl8LUDBK+0T9U
-	jOd6liXVcNrTMppk6cyjfju+j1CBhhgwubH3K4/KamKHiObFz7mz6nEm
-X-Gm-Gg: ASbGnctt6JFFNioI+POn5vCgdooXcx3ACu5so7j+822jIA7dc+1jNhpwg5vxa8B98C1
-	R+5Kjj90efCUe5+dL8G1z14+CrXvBxq+a2GJfIDIe4hgFj88x1+ykezypEPVTSGvemzKyC6NvuL
-	ILJkLv72d1bARG3eZI++VG7d9AjZY0T63NhchMqj58J7sVTLpSlyowotJe3nZXiVzKwpFHItpor
-	dmgnuDSjfGeWT+c9MqfIfZzWz0UmMRXYzzi7BKu8DrsfwxU1PiYTbDNV3u4aEr2aqK+A8nwx2v2
-	xZBWm3UQt0TzHDgLMVJWYDVz2E3yLjTm4cbBFUT9A761fm5FHaz7ySL3kF3p9UmN90JMLyNuP1H
-	ab59CBNpmoGHSEUeUYIBKGL0588+4gQ==
-X-Google-Smtp-Source: AGHT+IFFtyJvM2a2AEb7k9Jrp9kmCsiJqx3vXKdoGAMsFsONk/ZGr1SJZlzNLSxI6ryLGWuWN2M70w==
-X-Received: by 2002:a17:902:ea01:b0:235:2403:77c7 with SMTP id d9443c01a7336-23e2576e462mr261559035ad.37.1753168518460;
-        Tue, 22 Jul 2025 00:15:18 -0700 (PDT)
-Received: from archlinux ([38.188.108.234])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3c3a5d15sm69056005ad.62.2025.07.22.00.15.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jul 2025 00:15:18 -0700 (PDT)
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	jhs@mojatatu.com,
-	xiyou.wangcong@gmail.com,
-	jiri@resnulli.us,
-	sdf@fomichev.me,
-	kuniyu@google.com,
-	aleksander.lobakin@intel.com,
-	netdev@vger.kernel.org
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: [PATCH] net: Revert tx queue length on partial failure in dev_qdisc_change_tx_queue_len()
-Date: Tue, 22 Jul 2025 12:45:08 +0530
-Message-ID: <20250722071508.12497-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dOtFOwV2"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bmTcY17jTz9tCQ;
+	Tue, 22 Jul 2025 09:37:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1753169837; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q2bLNMdIPfKO4SCOWzbgq6cW49X1f449Ft9JQplmrnM=;
+	b=dOtFOwV2s+2zqp8anZO/A3wt55S5GA+OUOdwddJkA6Xjqamo+BQst4UfQ1JL6TSjS2sZWp
+	hSn/PbC0KPmuOmrOM1dn+j7gU6WDQXF86SLej4or0iuiYXKr83IAVO06VaE5JEtdIhutRA
+	7iIjLWAu4hlySiyyiRVjhYrK29/pHSHdDUzG+dHFCl6jGwZ2AcKK4kZ+c3ipQ8AS8UDOda
+	ANr40iGCENe9NWv9sO9/iDNOuyUoHYIB0aNCliEseREeYj6OZHwTMfL2p0voQPmoXVM/QA
+	HRmqPZf2SiZdS/23U9Cqow6eIx8X5zxQFEi7KbVC3M262lc2LGI2JEg04IGK4A==
+Message-ID: <80f569dd3c42f11927324ea80e7c14ac2d3352b5.camel@mailbox.org>
+Subject: Re: [PATCH] drm/sched: Prevent stopped entities from being added to
+ the run queue.
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
+ <dakr@kernel.org>
+Cc: phasta@kernel.org, James Flowers <bold.zone2373@fastmail.com>, 
+ ckoenig.leichtzumerken@gmail.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch,  skhan@linuxfoundation.org,
+ dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>
+Date: Tue, 22 Jul 2025 09:37:11 +0200
+In-Reply-To: <aH6B7JruWCkReaLw@lstrano-desk.jf.intel.com>
+References: <20250720235748.2798-1-bold.zone2373@fastmail.com>
+	 <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
+	 <e7c0f63678a93261182b69aa526217821552a150.camel@mailbox.org>
+	 <DBHNK2XQHUIW.TQHV41LR5D8I@kernel.org>
+	 <aH6B7JruWCkReaLw@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 41a315498ead22c9c49
+X-MBO-RS-META: pxs98gsf34wnustn6xmuyoea4zjoi7m8
 
-When changing the tx queue length via dev_qdisc_change_tx_queue_len(),
-if one of the updates fails, the function currently exits
-without rolling back previously modified queues. This can leave the
-device and its qdiscs in an inconsistent state. This patch adds rollback logic
-that restores the original dev->tx_queue_len and re-applies it to each previously
-updated queue's qdisc by invoking qdisc_change_tx_queue_len() again.
-To support this, dev_qdisc_change_tx_queue_len() now takes an additional
-parameter old_len to remember the original tx_queue_len value.
+On Mon, 2025-07-21 at 11:07 -0700, Matthew Brost wrote:
+> On Mon, Jul 21, 2025 at 12:14:31PM +0200, Danilo Krummrich wrote:
+> > On Mon Jul 21, 2025 at 10:16 AM CEST, Philipp Stanner wrote:
+> > > On Mon, 2025-07-21 at 09:52 +0200, Philipp Stanner wrote:
+> > > > On Sun, 2025-07-20 at 16:56 -0700, James Flowers wrote:
+> > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu=
+/drm/scheduler/sched_main.c
+> > > > > index bfea608a7106..997a2cc1a635 100644
+> > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > @@ -172,8 +172,10 @@ void drm_sched_rq_update_fifo_locked(struct =
+drm_sched_entity *entity,
+> > > > > =C2=A0
+> > > > > =C2=A0	entity->oldest_job_waiting =3D ts;
+> > > > > =C2=A0
+> > > > > -	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+> > > > > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_before=
+);
+> > > > > +	if (!entity->stopped) {
+> > > > > +		rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+> > > > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_befor=
+e);
+> > > > > +	}
+> > > >=20
+> > > > If this is a race, then this patch here is broken, too, because you=
+'re
+> > > > checking the 'stopped' boolean as the callers of that function do, =
+too
+> > > > =E2=80=93 just later. :O
+> > > >=20
+> > > > Could still race, just less likely.
+> > > >=20
+> > > > The proper way to fix it would then be to address the issue where t=
+he
+> > > > locking is supposed to happen. Let's look at, for example,
+> > > > drm_sched_entity_push_job():
+> > > >=20
+> > > >=20
+> > > > void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+> > > > {
+> > > > 	(Bla bla bla)
+> > > >=20
+> > > > =C2=A0	=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
+> > > >=20
+> > > > 	/* first job wakes up scheduler */
+> > > > 	if (first) {
+> > > > 		struct drm_gpu_scheduler *sched;
+> > > > 		struct drm_sched_rq *rq;
+> > > >=20
+> > > > 		/* Add the entity to the run queue */
+> > > > 		spin_lock(&entity->lock);
+> > > > 		if (entity->stopped) {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <---- Aha!
+> > > > 			spin_unlock(&entity->lock);
+> > > >=20
+> > > > 			DRM_ERROR("Trying to push to a killed entity\n");
+> > > > 			return;
+> > > > 		}
+> > > >=20
+> > > > 		rq =3D entity->rq;
+> > > > 		sched =3D rq->sched;
+> > > >=20
+> > > > 		spin_lock(&rq->lock);
+> > > > 		drm_sched_rq_add_entity(rq, entity);
+> > > >=20
+> > > > 		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> > > > 			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts); <---- bu=
+mm!
+> > > >=20
+> > > > 		spin_unlock(&rq->lock);
+> > > > 		spin_unlock(&entity->lock);
+> > > >=20
+> > > > But the locks are still being hold. So that "shouldn't be happening=
+"(tm).
+> > > >=20
+> > > > Interesting. AFAICS only drm_sched_entity_kill() and drm_sched_fini=
+()
+> > > > stop entities. The former holds appropriate locks, but drm_sched_fi=
+ni()
+> > > > doesn't. So that looks like a hot candidate to me. Opinions?
+> > > >=20
+> > > > On the other hand, aren't drivers prohibited from calling
+> > > > drm_sched_entity_push_job() after calling drm_sched_fini()? If the
+> > > > fuzzer does that, then it's not the scheduler's fault.
+> >=20
+> > Exactly, this is the first question to ask.
+> >=20
+> > And I think it's even more restrictive:
+> >=20
+> > In drm_sched_fini()
+> >=20
+> > 	for (i =3D DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
+> > 		struct drm_sched_rq *rq =3D sched->sched_rq[i];
+> >=20
+> > 		spin_lock(&rq->lock);
+> > 		list_for_each_entry(s_entity, &rq->entities, list)
+> > 			/*
+> > 			 * Prevents reinsertion and marks job_queue as idle,
+> > 			 * it will be removed from the rq in drm_sched_entity_fini()
+> > 			 * eventually
+> > 			 */
+> > 			s_entity->stopped =3D true;
+> > 		spin_unlock(&rq->lock);
+> > 		kfree(sched->sched_rq[i]);
+> > 	}
+> >=20
+> > In drm_sched_entity_kill()
+> >=20
+> > 	static void drm_sched_entity_kill(struct drm_sched_entity *entity)
+> > 	{
+> > 		struct drm_sched_job *job;
+> > 		struct dma_fence *prev;
+> >=20
+> > 		if (!entity->rq)
+> > 			return;
+> >=20
+> > 		spin_lock(&entity->lock);
+> > 		entity->stopped =3D true;
+> > 		drm_sched_rq_remove_entity(entity->rq, entity);
+> > 		spin_unlock(&entity->lock);
+> >=20
+> > 		[...]
+> > 	}
+> >=20
+> > If this runs concurrently, this is a UAF as well.
+> >=20
+> > Personally, I have always been working with the assupmtion that entites=
+ have to
+> > be torn down *before* the scheduler, but those lifetimes are not docume=
+nted
+> > properly.
+>=20
+> Yes, this is my assumption too. I would even take it further: an entity
+> shouldn't be torn down until all jobs associated with it are freed as
+> well. I think this would solve a lot of issues I've seen on the list
+> related to UAF, teardown, etc.
 
-Note: I have built the kernel with these changes to ensure it compiles, but I
-have not tested the runtime behavior, as I am currently unsure how to test this
-change.
+That's kind of impossible with the new tear down design, because
+drm_sched_fini() ensures that all jobs are freed on teardown. And
+drm_sched_fini() wouldn't be called before all jobs are gone,
+effectively resulting in a chicken-egg-problem, or rather: the driver
+implementing its own solution for teardown.
 
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
----
- include/net/sch_generic.h |  2 +-
- net/core/dev.c            |  2 +-
- net/sched/sch_generic.c   | 12 +++++++++---
- 3 files changed, 11 insertions(+), 5 deletions(-)
+P.
 
-diff --git a/include/net/sch_generic.h b/include/net/sch_generic.h
-index 638948be4c50..a4f59df2982f 100644
---- a/include/net/sch_generic.h
-+++ b/include/net/sch_generic.h
-@@ -681,7 +681,7 @@ void qdisc_class_hash_remove(struct Qdisc_class_hash *,
- void qdisc_class_hash_grow(struct Qdisc *, struct Qdisc_class_hash *);
- void qdisc_class_hash_destroy(struct Qdisc_class_hash *);
- 
--int dev_qdisc_change_tx_queue_len(struct net_device *dev);
-+int dev_qdisc_change_tx_queue_len(struct net_device *dev, unsigned int old_len);
- void dev_qdisc_change_real_num_tx(struct net_device *dev,
- 				  unsigned int new_real_tx);
- void dev_init_scheduler(struct net_device *dev);
-diff --git a/net/core/dev.c b/net/core/dev.c
-index be97c440ecd5..afa3c5a9bba1 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -9630,7 +9630,7 @@ int netif_change_tx_queue_len(struct net_device *dev, unsigned long new_len)
- 		res = notifier_to_errno(res);
- 		if (res)
- 			goto err_rollback;
--		res = dev_qdisc_change_tx_queue_len(dev);
-+		res = dev_qdisc_change_tx_queue_len(dev, orig_len);
- 		if (res)
- 			goto err_rollback;
- 	}
-diff --git a/net/sched/sch_generic.c b/net/sched/sch_generic.c
-index 16afb834fe4a..701dfbe722ed 100644
---- a/net/sched/sch_generic.c
-+++ b/net/sched/sch_generic.c
-@@ -1445,7 +1445,7 @@ void mq_change_real_num_tx(struct Qdisc *sch, unsigned int new_real_tx)
- }
- EXPORT_SYMBOL(mq_change_real_num_tx);
- 
--int dev_qdisc_change_tx_queue_len(struct net_device *dev)
-+int dev_qdisc_change_tx_queue_len(struct net_device *dev, unsigned int old_len)
- {
- 	bool up = dev->flags & IFF_UP;
- 	unsigned int i;
-@@ -1456,12 +1456,18 @@ int dev_qdisc_change_tx_queue_len(struct net_device *dev)
- 
- 	for (i = 0; i < dev->num_tx_queues; i++) {
- 		ret = qdisc_change_tx_queue_len(dev, &dev->_tx[i]);
--
--		/* TODO: revert changes on a partial failure */
- 		if (ret)
- 			break;
- 	}
- 
-+	if (ret) {
-+		dev->tx_queue_len = old_len;
-+		while (i >= 0) {
-+			qdisc_change_tx_queue_len(dev, &dev->_tx[i]);
-+			i--;
-+		}
-+	}
-+
- 	if (up)
- 		dev_activate(dev);
- 	return ret;
--- 
-2.50.1
+
+>=20
+> >=20
+> > There are two solutions:
+> >=20
+> > =C2=A0 (1) Strictly require all entities to be torn down before drm_sch=
+ed_fini(),
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i.e. stick to the natural ownership and =
+lifetime rules here (see below).
+> >=20
+> > =C2=A0 (2) Actually protect *any* changes of the relevent fields of the=
+ entity
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 structure with the entity lock.
+> >=20
+> > While (2) seems rather obvious, we run into lock inversion with this ap=
+proach,
+> > as you note below as well. And I think drm_sched_fini() should not mess=
+ with
+> > entities anyways.
+> >=20
+> > The ownership here seems obvious:
+> >=20
+> > The scheduler *owns* a resource that is used by entities. Consequently,=
+ entities
+> > are not allowed to out-live the scheduler.
+> >=20
+> > Surely, the current implementation to just take the resource away from =
+the
+> > entity under the hood can work as well with appropriate locking, but th=
+at's a
+> > mess.
+> >=20
+> > If the resource *really* needs to be shared for some reason (which I do=
+n't see),
+> > shared ownership, i.e. reference counting, is much less error prone.
+>=20
+> Yes, Xe solves all of this via reference counting (jobs refcount the
+> entity). It's a bit easier in Xe since the scheduler and entities are
+> the same object due to their 1:1 relationship. But even in non-1:1
+> relationships, an entity could refcount the scheduler. The teardown
+> sequence would then be: all jobs complete on the entity =E2=86=92 teardow=
+n the
+> entity =E2=86=92 all entities torn down =E2=86=92 teardown the scheduler.
+>=20
+> Matt
 
