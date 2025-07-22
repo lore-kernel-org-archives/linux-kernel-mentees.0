@@ -1,186 +1,132 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B70230268
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 22 Jul 2025 10:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CC81DE4DB;
+	Tue, 22 Jul 2025 13:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753181507; cv=none; b=VpW/DS4WXlMr32WnmkRIurWer/TUh+LRKHSc4N3/xWmn6ZlAkpZ5pXmeRRp4rgT/CXI++5JSwnaf338e+zIIO0Kt7oSckKxWrbWkKAoPJ1MilVyEnRzZr1cex7NLFQTORvCwiXh1turvlTT0yNdeTvNyzyB7i7sYtR/G6wmoIrY=
+	t=1753189620; cv=none; b=HSdfmZbGrxUZMSSeFOl37h7gq9s+oGZLweJWrJrhCq5KEyPRMA7ZwQpllWbmko/NmjZU/GC8pBFMnbgLurYIKTayxxnpvSfsVIGbN17c9EbhVeMvREYaoUKSgZoFOcORNnsiNZGaGwW/QkFG9o7/Ur4ew0zp0jXTci9QTeJb+qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753181507; c=relaxed/simple;
-	bh=Hyc1trAOCpuoyMZSWHfzvSgwJSHoPY92F+XW5u9s1ww=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=lrSJ9loKJDvk+mnhYTgp2xmsxgasGtcA52VfG+hCZSzeSBx+7beKX89fdMPSEnjyHnDh6A6yN+5b7nZ4JP5DLJouOs9KvDM9z3gSa7q1YifIVtKgOLvY3JMCzOTiNw3p/7tPohN4erbQYEpvPtFvdjnWGc1ZXnsaRyKyhPuWlSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dno6Kede; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1753189620; c=relaxed/simple;
+	bh=hilKGZUP7y5d1I7SUkMYXuUmhe9zt7HQf/8BUez4l/s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=peosrZ73yo/vtJRwO9FtrBMmAP2RtZArECbp5cef1EFbUyvILEIz9h5dvA1c2CxZ/rFJrjHuEdhxhZ11ksnKAEwUwUq2wBeeechJ1gLrIyBzQ+xe/1yeuK7D5MYxwGEdVl9NsO6UWqBOPopk2Te0+c/u2aqdqLUd7Us8expscd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KVw+o1MY; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dno6Kede"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 813A440164
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 22 Jul 2025 10:51:45 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -10.792
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 9yUEa2Id6QMT for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 22 Jul 2025 10:51:44 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 5DFBD4010C
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5DFBD4010C
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dno6Kede
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 5DFBD4010C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 22 Jul 2025 10:51:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 2C4AE5C56AF;
-	Tue, 22 Jul 2025 10:51:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 402C3C4CEEB;
-	Tue, 22 Jul 2025 10:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753181502;
-	bh=Hyc1trAOCpuoyMZSWHfzvSgwJSHoPY92F+XW5u9s1ww=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=dno6Kede86Icrz9zr8C1hy/1fDfdFRd2MeGra15wBAnphYAKEYeip890tJ3DbdJcH
-	 i6Tdvh06pjeFXi7VLScrWu8Szv3zCPuoMl1Zs0qnt1JaYahJF9RKfrnQTkhlyUDz+i
-	 0ruB3CJ4wJpoQRSpbuOEdcb6x2RDNKNPnsQIEHifUn9jZi5qPoW7w92R0bDrR5zjs3
-	 8ovM35G8TScjtb8Bmmutn8TqnHEjUMZVPrNVwblT3JWHjG2x4I5RjC+kjjvW2g0Qzl
-	 MUr8FyjWFj290utjPtvd+L4+CeX6U48CxkWMIe/Af41W79ErZTeews4+952NOAviFJ
-	 GYy3pucMx5uOA==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KVw+o1MY"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4ab5aec969eso102101161cf.3;
+        Tue, 22 Jul 2025 06:06:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753189617; x=1753794417; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wHXGkDCdTi/1FkvrPEpgEX+BFsQbleVdLRAj1y6UuUA=;
+        b=KVw+o1MY4//7byXk530Ufrd7KGbkjHO896IQ+jIwsYq9bQxDis1ja//aUQVtjRwyzu
+         5CbQ615JUnblQskeNZBKCu2Qm80JqZEFP7TdPdoOStqvGY+ASiVFxGluNwNzO7xkWc2P
+         lJqYY47ZpPHoN01jRdCRQPFioIFIryVinn1E56Pki1pB9XzrSfPHg25hKTdr1S1Y6dfD
+         eHLygxKZl9D5oXrYxRCtr/JiI9Va7w/O6FB+bd4CbYIBieIr5Ldjon737glpulWLWq3k
+         Bsmnc2TqMjcNaZujCfGrzatkCJ0GPZ5vCifJIdCnyQFYq2+1Bx7TAoe4XGt0FCN56t3W
+         2PrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753189617; x=1753794417;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wHXGkDCdTi/1FkvrPEpgEX+BFsQbleVdLRAj1y6UuUA=;
+        b=CdzznmLPk2xCbcn+Vsan6/EFNsPrR8wSUBxU1fkswy+DDisM1+rMUuEEEYDmZV2oby
+         AC+HMz5nW0c1l1wnbEbwdUoxpn+8imvVUx8pXMFaXUWG5PHm2ua/Z2hbG9bsevmNPlco
+         Z+Zzvsyis6lERLnw/ijagOb+LESkzd5rxoo2QZ1kUUpyXMNdVI9pyH15D14K1XePuiip
+         DNr24Pf+V2anerjCumJtPPGtNMWzwgPpJOfQ6i4aLhw7VWSeQuqv+pD8Yvp35eBMk115
+         ag3Ww0z17lP7XNM4kAQtOBxkPg0ZjAgkv6BIQaC3CCBceDk7URoRNBuuAB6iJr9fak9L
+         1ZYA==
+X-Forwarded-Encrypted: i=1; AJvYcCW8KPY+2BEXxJTxF0vky3yWp4wpHHCbCm6HwouKk3C78nOanjROeeuI9Ukk1tQYWAD0gRIrmxnKYxDO6M27ZTnbXfCTeks=@lists.linux.dev, AJvYcCXejUHZ0tmFMEDG/RjrNRJljpi+DzqQvDCaE+34vOgBpgaiGxiM7pr/vb3zZmKyKpkBAKzBHg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyHO4vjgpFYNKwQ1V9817NCiRgPfYX1/tqNOvkS63EAzOcv9C+t
+	FxoiLcGYFulkCsw6bF+8Jfi6JRgzpda/iiXV1HfzckAJfYunPMDwSP/79LbTcUkReOU=
+X-Gm-Gg: ASbGncvwaz0kGq3oeu9ck/EFasHajQdcBj0BSPNa6YV2Yve/n0qwtHiNJSLkMA6Pvxu
+	e4CmFPgEN/JDW54++ddNlV/T66CosPaGEeVxEUlk1BPboq4x7Ia2kSzAziJ1biZ5JU2hA4+9Bm3
+	9rwAsBqAUJAG2ehESN0q95R0Z6yes2OV3z8Dk3QIl0p/R8dKuCeV25cSgmvGKsN/JeFSXGz72kj
+	ZXIpkXhpzVFbhZa15t9R1/TmOyyrzGw0DflDK9O9MOKGxVupSc4NOspM7oldmFVaLPEfqP5uxNq
+	A7BScJz506V7aZYoth8m339gDgkQV93d+tBTWfaJ8rMLtvluJ2zZ0sWygCtGODt/cYU6qYnP9gi
+	iYCwPVgFkwWwj9rk4A8LYPg==
+X-Google-Smtp-Source: AGHT+IF6IjDqyjw6zDnG3oxKNR+WfveKAXP2vd7OChY+/7yqNei8ee7Mwd/9T8BjrslIPwUvBnIohw==
+X-Received: by 2002:ac8:7d82:0:b0:4ab:62cc:971b with SMTP id d75a77b69052e-4abb2cab50amr310328961cf.17.1753189617109;
+        Tue, 22 Jul 2025 06:06:57 -0700 (PDT)
+Received: from iman-pc.home ([142.186.9.88])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4abb49802efsm53977981cf.7.2025.07.22.06.06.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jul 2025 06:06:56 -0700 (PDT)
+From: Seyediman Seyedarab <imandevel@gmail.com>
+X-Google-Original-From: Seyediman Seyedarab <ImanDevel@gmail.com>
+To: dwmw2@infradead.org,
+	baolu.lu@linux.intel.com,
+	joro@8bytes.org,
+	will@kernel.org,
+	robin.murphy@arm.com
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Seyediman Seyedarab <ImanDevel@gmail.com>
+Subject: [PATCH] iommu/vt-d: replace snprintf with scnprintf in dmar_latency_snapshot()
+Date: Tue, 22 Jul 2025 09:11:17 -0400
+Message-ID: <20250722131117.2739-1-ImanDevel@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 22 Jul 2025 12:51:39 +0200
-Message-Id: <DBIIZ28TA8SD.XY1W0S6G280F@kernel.org>
-Cc: <aliceryhl@google.com>, <dakr@kernel.org>, <ojeda@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-Subject: Re: [PATCH v7 3/3] rust: revocable: Document RevocableGuard
- invariants/safety and refine Deref safety
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Marcelo Moreira" <marcelomoreira1905@gmail.com>
-X-Mailer: aerc 0.20.1
-References: <20250721010258.70567-1-marcelomoreira1905@gmail.com>
- <20250721010258.70567-4-marcelomoreira1905@gmail.com>
- <DBHSSQS2IALW.2OEWVKX6PY9LZ@kernel.org>
- <CAPZ3m_h4rvV8gfBi0ZQN=569FhB1+DsF2A6XkkLuWAFUEuKPDQ@mail.gmail.com>
-In-Reply-To: <CAPZ3m_h4rvV8gfBi0ZQN=569FhB1+DsF2A6XkkLuWAFUEuKPDQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue Jul 22, 2025 at 1:01 AM CEST, Marcelo Moreira wrote:
-> Em seg., 21 de jul. de 2025 =C3=A0s 11:21, Benno Lossin <lossin@kernel.or=
-g> escreveu:
->> On Mon Jul 21, 2025 at 3:01 AM CEST, Marcelo Moreira wrote:
->> > Refinements include:
->> > - `RevocableGuard`'s invariants are updated to precisely state that
->> >   `data_ref` is valid as long as the RCU read-side lock is held.
->> > - The `RevocableGuard::new` constructor is made `unsafe`, explicitly
->> >   requiring callers to guarantee the validity of the raw pointer and
->> >   RCU read-side lock lifetime.
->> > - A new `SAFETY` comment is added to `Revocable::try_access` to
->> >   justify the `unsafe` call to `RevocableGuard::new`, detailing how
->> >   `Self`'s type invariants and the active RCU read-side lock ensure da=
-ta
->> >   validity for reads.
->> > - The `Deref` implementation's `SAFETY` comment for `RevocableGuard`
->> >   is refined.
->> >
->> > Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
->> > ---
->> >  rust/kernel/revocable.rs | 25 ++++++++++++++++++-------
->> >  1 file changed, 18 insertions(+), 7 deletions(-)
->> >
->> > diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
->> > index 6d8e9237dbdf..0048de23ab44 100644
->> > --- a/rust/kernel/revocable.rs
->> > +++ b/rust/kernel/revocable.rs
->> > @@ -106,9 +106,12 @@ pub fn new(data: impl PinInit<T>) -> impl PinInit=
-<Self> {
->> >      pub fn try_access(&self) -> Option<RevocableGuard<'_, T>> {
->> >          let guard =3D rcu::read_lock();
->> >          if self.is_available.load(Ordering::Relaxed) {
->> > -            // Since `self.is_available` is true, data is initialised=
- and has to remain valid
->> > -            // because the RCU read side lock prevents it from being =
-dropped.
->> > -            Some(RevocableGuard::new(self.data.get(), guard))
->> > +            // SAFETY:
->> > +            // - `self.data` is valid for reads because of `Self`'s t=
-ype invariants:
->> > +            //   `self.is_available` is true.
->> > +            // - The RCU read-side lock is active via `guard`, preven=
-ting `self.data`
->> > +            //   from being dropped and ensuring its validity for the=
- guard's lifetime.
->>
->> This shouldn't be needed.
->
-> hmm, about what exactly?
->
-> Are you suggesting to:
-> 1. Simplify the content of the `SAFETY`, is it too verbose?
+snprintf returns the number of bytes that would have been written,
+not the number actually written to the buffer. When accumulating
+the byte count with the return value of snprintf, this can cause
+the offset to exceed the actual buffer size if truncation occurs.
 
-It's not too verbose. The requirement of holding the RCU read-side lock
-is not a *safety requirement*. It's already guaranteed by the existence
-of the `rcu::Guard` instance, so we don't need to concern ourselves with
-it in the safety requirements.
+The byte count is passed to seq_puts() in latency_show_one() with-
+out checking for truncation.
 
-Essentially you're just stating a tautology in the safety comment like
-saying "2 + 2 =3D 4".
+Replace snprintf with scnprintf, ensuring the buffer offset stays
+within bound.
 
-> 2. Or are you suggesting that the use of bullet points within the
-> `SAFETY` is not preferred here?
-
-No that is always preferred.
-
->> > +            Some(unsafe { RevocableGuard::new(self.data.get(), guard)=
- })
->> >          } else {
->> >              None
->> >          }
->> > @@ -233,7 +236,7 @@ fn drop(self: Pin<&mut Self>) {
->> >  ///
->> >  /// # Invariants
->> >  ///
->> > -/// The RCU read-side lock is held while the guard is alive.
->> > +/// - `data_ref` is a valid pointer for as long as the RCU read-side =
-lock is held.
->> >  pub struct RevocableGuard<'a, T> {
->> >      // This can't use the `&'a T` type because references that appear=
- in function arguments must
->> >      // not become dangling during the execution of the function, whic=
-h can happen if the
->> > @@ -245,7 +248,15 @@ pub struct RevocableGuard<'a, T> {
->> >  }
->> >
->> >  impl<T> RevocableGuard<'_, T> {
->> > -    fn new(data_ref: *const T, rcu_guard: rcu::Guard) -> Self {
->> > +    /// Creates a new `RevocableGuard`.
->> > +    ///
->> > +    /// # Safety
->> > +    ///
->> > +    /// Callers must ensure that `data_ref` is a valid pointer to a `=
-T` object,
->> > +    /// and that it remains valid for as long as the returned `Revoca=
-bleGuard` is alive.
->> > +    /// The RCU read-side lock must be held for the duration of the g=
-uard's lifetime,
->> > +    /// as indicated by `rcu_guard`.
->>
->> This last part shouldn't be needed, as the `rcu::Guard` already
->> guarantees it.
->
-> Ok, I can remove just that part and keep the rest.
-
-Thanks!
-
+Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
 ---
-Cheers,
-Benno
+ drivers/iommu/intel/perf.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/iommu/intel/perf.c b/drivers/iommu/intel/perf.c
+index adc4de6bb..cee4821f4 100644
+--- a/drivers/iommu/intel/perf.c
++++ b/drivers/iommu/intel/perf.c
+@@ -122,7 +122,7 @@ int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+ 	memset(str, 0, size);
+ 
+ 	for (i = 0; i < COUNTS_NUM; i++)
+-		bytes += snprintf(str + bytes, size - bytes,
++		bytes += scnprintf(str + bytes, size - bytes,
+ 				  "%s", latency_counter_names[i]);
+ 
+ 	spin_lock_irqsave(&latency_lock, flags);
+@@ -130,7 +130,7 @@ int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+ 		if (!dmar_latency_enabled(iommu, i))
+ 			continue;
+ 
+-		bytes += snprintf(str + bytes, size - bytes,
++		bytes += scnprintf(str + bytes, size - bytes,
+ 				  "\n%s", latency_type_names[i]);
+ 
+ 		for (j = 0; j < COUNTS_NUM; j++) {
+@@ -156,7 +156,7 @@ int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+ 				break;
+ 			}
+ 
+-			bytes += snprintf(str + bytes, size - bytes,
++			bytes += scnprintf(str + bytes, size - bytes,
+ 					  "%12lld", val);
+ 		}
+ 	}
+-- 
+2.50.1
+
