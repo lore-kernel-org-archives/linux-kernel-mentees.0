@@ -1,145 +1,123 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC22927A92E
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 16:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7137319309C
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 16:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753202433; cv=none; b=gFWtdhl6DlQaIiuj4jjr0lm67suLV0tvo0kOBvW7qqSHShsxXIXW/ngozmfhEYbqmHa1IStQOSgnD5pHEd4KmmywuyliTm199Oc3/lTUB8oBsZgfKJ1HSGLQTM+5JaT/UmT/XxeCZdQKZNESZF7/PLIPd0ZxQT/oVdAWGkRB0JI=
+	t=1753202737; cv=none; b=BTp/QburIb1sNrPfCDFyKKwfzkJrch2M7VvElxKnoW2huJelKGxt/XzYnfZlY3rkRF8QWvuMqdqbgJZIzytTkLwB4+0D5VnN8fB8i0xARVwKITcWz2SVTjFQCd2IeAYc3wGwFr8ahxYblqUz6Ag4at13jEpRc1lkDqluQA6qQ/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753202433; c=relaxed/simple;
-	bh=7eziT7MHUWuUn04e2QkemV4ozrXV+NW4q8oCaWNFvxc=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Cc:Content-Type; b=aSUlAlB1p5NRfyA79rMNzBRQVW2z9haP7pvavp4AUNh/bxp04miRQNQcVdxYf1V6HAqJGZn316I734jHXxu43FCjk3Th+CLtRUwypCANeKf+UjAnIRkpS/DcVSYMzoeWY0uJ8Ojrq/xwHFsI2R+GMR/2AFlucLjfCjP0N7wzvNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-87c41047044so416447139f.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 09:40:31 -0700 (PDT)
+	s=arc-20240116; t=1753202737; c=relaxed/simple;
+	bh=PHTcopnvoUUPICM9yN+/r0sMQFYJuZdnPPfIUrcHjqo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S9nx6QBxe27yNQ+Je0cAZ4GrScC7PuayDeK3DUpNCQOexLW0AXjc40FCZ02OJvSJpfu2Lpu9QZpU4SYE1U8fZKMWwc39tb02kAzh0uADyevTcDKeMeSxToEPFmZGfRfFZl6OO0h81G4SEJbhNolJzvI4f27Wecm3Sd3v42JO/yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YxA8m9o5; arc=none smtp.client-ip=209.85.161.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YxA8m9o5"
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-615a80bb75cso1742367eaf.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Jul 2025 09:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753202734; x=1753807534; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jrrhnQ3SPCtHnglawQ3hAL35cOq58qAmmuM+Az+YVko=;
+        b=YxA8m9o5ijunobt2QmDGiWFXa5drgbKeHIIMm6FyS05eAIrYqGAlQxltH2phqFFBnT
+         pQqY3FmZMCqpMswbDt9LyO4CWY5OC6517H3HQxm5XOBh5EnKo1OfsM81jWQ0ZQf5C0HX
+         7FELAb7KD+tEH6+IF6tYovDi+GJvPWoSn6/M0YUX9EVLxmwI/P8Q819KHaOPVSBoymYD
+         OLIH6nvpo7zb8vWQ/HPr9b1pjBD+7dHSabyyruKQgeZdjxzAZW1javfmWif30DY226e5
+         fV6OSuFRZNBJhydHYxxTUOS0M9XNeMAz3hpkNAxsPe4BkQzdyl3X8TXLtHu1I3lC0p/x
+         RLtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753202431; x=1753807231;
-        h=cc:to:from:subject:message-id:reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hYFkI9O/131eW/Sqpoysg4fmtDGObV0slVd4zue++sE=;
-        b=FuZuAfBzWZiANyRef2XjSYcls4itoV7L2pfyIyQobE1cGDw/a4uNxipxoWLOVHWIRv
-         DOb09dgZQXwrralZN5kZ/l+jt1Ofn7w4SqcpvjNP/WRkauqI37WktE3pd1A0hb2plBOg
-         EBabgrWo4GK3m6jAFKWo2UM8mwIpJisJXpNAt4F5x6NylpyngUpOL4v5HYtw4LcyaKvw
-         doj4QPlHBRGkWiqHE3/Vtcug+/l4Etz5GkpzcBz3501k9uUP/vppQsobcKTQ0Kyu1naX
-         CYFLx5UiVAZWeoFjgIukK+0UKGkjobk3jy1yJRA+yYIqthXzzjmH+EQEZpoGQmwNXJJi
-         JRJg==
-X-Forwarded-Encrypted: i=1; AJvYcCWprbHeEBl5PAZmqnA3TllcfbCyddFccD7ZO6XbKGBuHS8aQxBhAqAnEmFkmCiGvbyo6lu+mpwFbQFXc3Sgq7471xMMYg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwXh0WTLM6nolmD/xM4Athfl9lLp/zTMF1sUG++wNEEepIc/JyK
-	EEzDUbEZr+Num52QkbCZ0PvBWyDYJsRzwCreJLrHZw42Gd5kAsi72kyNev6bw56M99pnAKCWg2W
-	Pzk6rnkYOKM2oXJPaY1I6eHXQOB722GFhwx4wpis8KwrRG8eyAjAIQxZsc/Q=
-X-Google-Smtp-Source: AGHT+IEd/oncA/FTQ3xxathOMJeMCYJEWzy4cGnbIk3x3fjeiD+6SI5m7RkWUytuXSqiwf2BFl3ZqdfXSsjZbKz6mJfmz5DmDXci
+        d=1e100.net; s=20230601; t=1753202734; x=1753807534;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jrrhnQ3SPCtHnglawQ3hAL35cOq58qAmmuM+Az+YVko=;
+        b=ZShKzMdfanxH3r4VkoFa1xNOfFYGoIXCx31Rx3bDxTemeEzp5qxfEu9WpVQ5HAb0v2
+         W3Xg7bs6v35FBGXTackWwuO9hBP65ohbsMfS4cW1udREQdQnTQ2yy5+UdSDoC4BFF/ky
+         +rUWH8f0nh/Wg7aYqZoQh+18anP8tQsj9B2yTtnCzXW30jwgYfR37/JwvtgqHIhppUMo
+         TDGHgH6lHSomZk+v9MMaHIPhTW1wsJAp5OwMMrUpuT6CSZ3O/VipBQcrWhOxeoZ2LODx
+         EgG+O+UC19HxBfgPDqSmfgTMYXe2aNpM+8pv2jfT/OUYH8ZQSkdMg1aDCGHfJo9+BuUk
+         tHpw==
+X-Forwarded-Encrypted: i=1; AJvYcCXKtNCcUHGiCaK6Q2Rd1g8WyfLatrnW0i7cSpDKPBHS+/K0J0vP/5J2yAUh0A8AE7mWnWDB1EGkKSwp3h1JhU+srfG8yA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1WW/Wmd1qFcnH5o/UMDG59WzQiShpl5ryahB2xwzgVe83BU3w
+	V6kR2qDzECOYbliPKEE3tFOfOhZbXbFzP2v+XlDdx8s6TxzhthhRDi/UhsnxOwQZaGRK103pXKF
+	PqlGqByyO1p9fW0lp2+5GjE0IM/7Tb0M=
+X-Gm-Gg: ASbGncsKqzUOMyECO0YCrrv1w3PeH/Bp6L8yk85b3bV3s4+e4u9qqsClB3eWVw2dc+k
+	OmVROMCO6D3vst6Qm8oZdSvu+eLS3jonWwpaM3nglGzuWXUoM1LYUj34JtpCUACbBlhcT3R1bAd
+	4JNgeHiFmuxe/unJU2AtUGEvy1R92gkB+z2C5V0Q269Hdsaa/HvK9mu6aefnfymkLAPtIrMd/Nt
+	9iC7ATK
+X-Google-Smtp-Source: AGHT+IGujhh+TbcurHZKA27S4y43iuhUTCYpSn+qbOkt4C52QbJ8LuGP672Oxj7Kn+OQIp+QBBMom2C1Kfhm6mASIxo=
+X-Received: by 2002:a05:6871:3685:b0:2ff:a814:dfdf with SMTP id
+ 586e51a60fabf-300e9dcc04dmr15297143fac.20.1753202734115; Tue, 22 Jul 2025
+ 09:45:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:2d94:b0:87c:4609:d10a with SMTP id
- ca18e2360f4ac-87c4609d9c6mr1354451639f.9.1753202431060; Tue, 22 Jul 2025
- 09:40:31 -0700 (PDT)
-Date: Tue, 22 Jul 2025 09:40:31 -0700
-Reply-To: <20250722071508.12497-1-suchitkarunakaran@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <687fbeff.a70a0220.21b99c.0011.GAE@google.com>
-Subject: [syzbot ci] Re: net: Revert tx queue length on partial failure in dev_qdisc_change_tx_queue_len()
-From: syzbot ci <syzbot+ci9865e4960193441a@syzkaller.appspotmail.com>
-To: aleksander.lobakin@intel.com, davem@davemloft.net, edumazet@google.com, 
-	horms@kernel.org, jhs@mojatatu.com, jiri@resnulli.us, kuba@kernel.org, 
-	kuniyu@google.com, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
-	sdf@fomichev.me, skhan@linuxfoundation.org, suchitkarunakaran@gmail.com, 
-	xiyou.wangcong@gmail.com
-Cc: syzbot@lists.linux.dev
+References: <20250722071508.12497-1-suchitkarunakaran@gmail.com>
+ <CANn89iJgG3yRQv+a04wzUtgqorSOM3DOFvGV2mgFV8QTVFjYxg@mail.gmail.com>
+ <CAO9wTFgzNfPKBOY5XanjnUeE9FfAGovg02ZU6Q1TH-EnA52LAA@mail.gmail.com> <CANn89i+dif2qjKM6oO1o=BKutXoO6w9kWnnPfc50BDBJ7VpAeQ@mail.gmail.com>
+In-Reply-To: <CANn89i+dif2qjKM6oO1o=BKutXoO6w9kWnnPfc50BDBJ7VpAeQ@mail.gmail.com>
+From: Suchit K <suchitkarunakaran@gmail.com>
+Date: Tue, 22 Jul 2025 22:15:22 +0530
+X-Gm-Features: Ac12FXxPP_X2GzzSAxaYHWL1BgGFTF8gKQEBJ5k-jWzRXfsqbB-cYKlnKc5mw8o
+Message-ID: <CAO9wTFgYMfDzmL_PfpX4jRKaG2mEZmNq+rLRyprGLN6r23udkQ@mail.gmail.com>
+Subject: Re: [PATCH] net: Revert tx queue length on partial failure in dev_qdisc_change_tx_queue_len()
+To: Eric Dumazet <edumazet@google.com>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, 
+	jhs@mojatatu.com, xiyou.wangcong@gmail.com, jiri@resnulli.us, sdf@fomichev.me, 
+	kuniyu@google.com, aleksander.lobakin@intel.com, netdev@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot ci has tested the following series
+On Tue, 22 Jul 2025 at 21:58, Eric Dumazet <edumazet@google.com> wrote:
+>
+> On Tue, Jul 22, 2025 at 9:22=E2=80=AFAM Suchit K <suchitkarunakaran@gmail=
+.com> wrote:
+> >
+> > >
+> > > WRITE_ONCE() is missing.
+> >
+> > Oops, I'm sorry about that.
+> >
+> > >
+> > > > +               while (i >=3D 0) {
+> > > > +                       qdisc_change_tx_queue_len(dev, &dev->_tx[i]=
+);
+> > >
+> > > What happens if one of these calls fails ?
+> > >
+> > > I think a fix will be more complicated...
+> >
+> > I did consider that, but since I didn=E2=80=99t have a solution, I assu=
+med it
+> > wouldn=E2=80=99t fail.
+>
+> But this definitely could fail. Exactly the same way than the first time.
+>
 
-[v1] net: Revert tx queue length on partial failure in dev_qdisc_change_tx_queue_len()
-https://lore.kernel.org/all/<20250722071508.12497-1-suchitkarunakaran@gmail.com>
-* [PATCH] net: Revert tx queue length on partial failure in dev_qdisc_change_tx_queue_len()
+Yeah, it makes sense.
 
-and found the following issue:
-BUG: unable to handle kernel paging request in dev_qdisc_change_tx_queue_len
+> I also have a question. In the Qdisc_ops structure,
+> > there=E2=80=99s a function pointer for change_tx_queue_len, but I was o=
+nly
+> > able to find a single implementation which is
+> > pfifo_fast_change_tx_queue_len. Is that the only one? Apologies if
+> > this isn=E2=80=99t the right place to ask such questions. I=E2=80=99d r=
+eally
+> > appreciate any feedback. Thank you!
+>
+> I think only pfifo_fast has to re-allocate its data structures.
+>
+> Other qdiscs eventually dynamically read dev->tx_queue_len (thus the
+> WRITE_ONCE() I mentioned to you)
 
-Full report is available here:
-https://ci.syzbot.org/series/75b0a15e-cca4-4e46-8bf9-595c0dd34915
-
-***
-
-BUG: unable to handle kernel paging request in dev_qdisc_change_tx_queue_len
-
-tree:      netdev
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/netdev/net.git
-base:      81e0db8e839822b8380ce4716cd564a593ccbfc5
-arch:      amd64
-compiler:  Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
-config:    https://ci.syzbot.org/builds/2ee305f2-ddb8-45c6-8f47-2a150dc6dd22/config
-syz repro: https://ci.syzbot.org/findings/1e75a6d3-11ac-48da-af27-60753abb61c7/syz_repro
-
-netlink: 'syz.2.18': attribute type 13 has an invalid length.
-netlink: 'syz.2.18': attribute type 17 has an invalid length.
-BUG: unable to handle page fault for address: ffffed4821fa6a4b
-#PF: supervisor read access in kernel mode
-#PF: error_code(0x0000) - not-present page
-PGD 13ffee067 P4D 13ffee067 PUD 0 
-Oops: Oops: 0000 [#1] SMP KASAN PTI
-CPU: 1 UID: 0 PID: 5980 Comm: syz.2.18 Not tainted 6.16.0-rc6-syzkaller-00128-g81e0db8e8398-dirty #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:dev_qdisc_change_tx_queue_len+0x542/0x640
-Code: be 7f 05 00 00 48 c7 c2 20 d2 95 8c e8 27 db 27 f8 44 89 e0 48 69 c0 c0 01 00 00 49 8d 1c 06 48 83 c3 18 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 1f af ab f8 48 8b 1b 4c 8d 73 18
-RSP: 0018:ffffc900024beaa0 EFLAGS: 00010a06
-RAX: 1ffff14821fa6a4b RBX: ffff8a410fd35258 RCX: ffff888020f2d640
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: ffffc900024beb90 R08: ffffffff8fa1d6f7 R09: 1ffffffff1f43ade
-R10: dffffc0000000000 R11: fffffbfff1f43adf R12: 00000000ffffffff
-R13: dffffc0000000000 R14: ffff88810fd35400 R15: ffff88810ffe2018
-FS:  00007fa854ede6c0(0000) GS:ffff8881a3c23000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffed4821fa6a4b CR3: 00000000295fa000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- netif_change_tx_queue_len+0x167/0x270
- do_setlink+0xdfb/0x41c0
- rtnl_newlink+0x149f/0x1c70
- rtnetlink_rcv_msg+0x7cf/0xb70
- netlink_rcv_skb+0x208/0x470
- netlink_unicast+0x75c/0x8e0
- netlink_sendmsg+0x805/0xb30
- __sock_sendmsg+0x21c/0x270
- ____sys_sendmsg+0x505/0x830
- ___sys_sendmsg+0x21f/0x2a0
- __x64_sys_sendmsg+0x19b/0x260
- do_syscall_64+0xfa/0x3b0
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fa853f8e9a9
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fa854ede038 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
-RAX: ffffffffffffffda RBX: 00007fa8541b5fa0 RCX: 00007fa853f8e9a9
-RDX: 0000000000000000 RSI: 0000200000000180 RDI: 0000000000000003
-RBP: 00007fa854010d69 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 00007fa8541b5fa0 R15: 00007ffe5a5f8288
- </TASK>
-Modules linked in:
-CR2: ffffed4821fa6a4b
----[ end trace 0000000000000000 ]---
-RIP: 0010:dev_qdisc_change_tx_queue_len+0x542/0x640
-Code: be 7f 05 00 00 48 c7 c2 20 d2 95 8c e8 27 db 27 f8 44 89 e0 48 69 c0 c0 01 00 00 49 8d 1c 06 48 83 c3 18 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 1f af ab f8 48 8b 1b 4c 8d 73 18
-RSP: 0018:ffffc900024beaa0 EFLAGS: 00010a06
-RAX: 1ffff14821fa6a4b RBX: ffff8a410fd35258 RCX: ffff888020f2d640
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: ffffc900024beb90 R08: ffffffff8fa1d6f7 R09: 1ffffffff1f43ade
-R10: dffffc0000000000 R11: fffffbfff1f43adf R12: 00000000ffffffff
-R13: dffffc0000000000 R14: ffff88810fd35400 R15: ffff88810ffe2018
-FS:  00007fa854ede6c0(0000) GS:ffff8881a3c23000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffed4821fa6a4b CR3: 00000000295fa000 CR4: 00000000000006f0
-
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+Yup got it. Thank you so much.
