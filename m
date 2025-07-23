@@ -1,172 +1,81 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F00285C91
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 22 Jul 2025 21:23:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81E4335BA;
+	Wed, 23 Jul 2025 01:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753219434; cv=none; b=qFS03pkc6hi5S2q9H6gDAzyq5fhvMq8YTNhbQ9RBwtL3tTUPyF7963u4RdacTf6OASZdmG2J+S7fuMuO2KdQbjA7W6giUtVyrYGeHlTtMLJ2C1B65JMUqEMbxWDA3JnxjEUOPgLzNNL1NNt81Ys+1CuFHMbHUHhYPKT+RWgxQCI=
+	t=1753233191; cv=none; b=tPc7C9DumCafcJmUUZF0MU8/W6fQsDN4j32vYU6iYgQuBt6tWWgSocBb26nWyCF4XLGymh+MxWwG9HnaJS3qiSvHm1JUm4L657dk0Hyxi6ygT/zXF7DiuIzxl+ZkG3AUCVRoXN+/m1/i0HwPqaA9PRrlbakaPPWWKSOzm3Lyo00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753219434; c=relaxed/simple;
-	bh=b/7LJQ6qQ3Q5vacIEXk3tpmjxMdgqSwhrAK6bJjEcMc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N9UeEAPI564MGSrst6hNFEzYFmwbbBm+9k5eBQSjNHBz42f1zfdL5+H3WMs6mPwD2bgaVaFY18uBir4xwrvPm+pZMeeCVsZaYHy2yJvmyd/Zc2dL1brRv4kLtCSaapG/taqWSE8Ea/l4g4qvg6hwgHm0Wh6wl9NOrugbtIelJB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZxpP70ig; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1753233191; c=relaxed/simple;
+	bh=1/95MvPMbuTsd0UVAgsSIcwQjNv3V2i2sZ+7lHodDxE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=beFLEjCOqrPg70K5bLB7NLkU8M8g67DZjMHjBlaJ/Yz5R/km4tmHB+FkyvLjFRTbp/U7kBZl+lDaUlBXSK8Z6S8mt/f1bxjLfdChHZLt1sF92GPzJ5y2n+Q6nMr6AnprngqLi5oqwlOU172F8g5Vn/B5cKVqDSj4KpjnGnq5JFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pss0V7b+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZxpP70ig"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1848B41430
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 22 Jul 2025 21:23:53 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id vpbyRUyonTeS for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 22 Jul 2025 21:23:52 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::22d; helo=mail-oi1-x22d.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 4F2D841453
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4F2D841453
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ZxpP70ig
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 4F2D841453
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 22 Jul 2025 21:23:52 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id 5614622812f47-40a4de1753fso154168b6e.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 22 Jul 2025 14:23:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753219431; x=1753824231; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wHvXNQHoipe7vJQIGnLh+2kNSZ1IbtY7/n2adK7vTYo=;
-        b=ZxpP70igjrJQ2RSJZeXpJiChaVmigAfhQ4843Rbfk13Er23JVv+0w3SMH4kjeUJV76
-         kDq8/9o7Dbr4JKQQfk3llTwPnp7naSV61KKcudk4FJqrvyJAMjXnR5KJSXuRstaeLtum
-         oV6wU1Rz+a5apz9QcwDSGZCQdTmG0U2VQB6qkxI1luzq+wpclGS2t7OzWbHbKZO9I1pw
-         DQLXncNLjCKpW2PmVJyRcy5h4MwqIyq7kBPxTouKuIPZiv6Z47EAM0QZZLT5vfmAEZWV
-         tKUDaThs0VV91t0iFgQ3xrWlBLvx6Zepyd7cQdUCBcMytjk3EkvSUF6vwo4sxWGvFdPH
-         bkUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753219431; x=1753824231;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wHvXNQHoipe7vJQIGnLh+2kNSZ1IbtY7/n2adK7vTYo=;
-        b=qv/4JcMqYOm27ELDakR5FAy4Kz7z7URo2i8ZXAVJkIq7u/WVtPXNMc8hoZFdi4zwmG
-         Fw8puLXUs6ObX3/0fmGLap6cW+1pvfuolbj5aGJhcBQOJ8d8ug44A1moovPhEisIOYQu
-         GKpiXd8V+gVgBARsn4QFmcYLHhDeeZco3iRmBPW6GAFLxzbSsDL8MRJrmdxOqp0llEnS
-         GK3JJ12tH+MP/m07nEdC5UTLZOlZ5o6PP4H74xEF61ZrIuVPzVqODHUosfFeWuO3Uc1P
-         pMqZG4hqJWpvBvtoK54oNeXxVm7x8eFWeNmO+/g8tB7sLQY4LRntZ4Lza4KWX9JeanQK
-         xfMA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQGt9n/IK7C4Onsc/jJ6nYqqz9yR/JsnO0NCj1vvkSotM5fLd8rBDEL7CJNvtTh2YWxV1D5F56ZWSqzuWmrAVqTr79Pg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzHh3Bc+TzzwcdO0GUuWqd6bhSyxC5SDp856+SJQSDp1LyTqFy4
-	gJM4mmKxH9IRlitwF8nd7DMUpra3Jb1j2IUPlxI9kQ6WC7fEvwWFSO/Hk1qT617TFaOwkVW06Of
-	0apl1buJIdzQBZI5xc/v10A4L49W6/rs=
-X-Gm-Gg: ASbGncsnf7smTYSyrWwjxsl3drjvTPJy5iqMLZeItBS8bNmLhhkOKryoDwpkbWLN4Lv
-	3rAMGW78N6fWNBZcaEOrvMq+KVR443PONYTttwtDlrqI/GvZWYjAT+TYHXZFZiqpu9CsvNE2dtw
-	nmtNmwe2KB8eY26e+bVFLegWKXlrMmC8gQiZkcCgNEn43kzDfSVuxO9ThlCI2iZQlIH9nwiFIDT
-	mZKxtEv7m+SHERztdk=
-X-Google-Smtp-Source: AGHT+IGa2JLI9RX6mt7SsEiS/wNhdhIMmcCi9mJkHqTggXOigNvlFvRp14Cy4MefV7xHd92FQIPl11lw0iis8HwqmmM=
-X-Received: by 2002:a05:6808:1523:b0:41f:3a24:9726 with SMTP id
- 5614622812f47-424a84208dbmr3909478b6e.18.1753219431099; Tue, 22 Jul 2025
- 14:23:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pss0V7b+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEDEFC4CEEB;
+	Wed, 23 Jul 2025 01:13:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753233191;
+	bh=1/95MvPMbuTsd0UVAgsSIcwQjNv3V2i2sZ+7lHodDxE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pss0V7b+w1vmxjgW2N0SpuW4xPC1ePxKYUeDpVlbPP7Ab3mFRYYX7/bvPEVVntl4M
+	 EF3l+2VYVjubX+j4DUcA8+fcqLl0hutE4rWwn01/L6w6lGeQyjkngJs2wlfdaS6FMU
+	 5zuV21X/DnK5a6iQku/nd+wFJQj+6TCL2bs9RC+gnMfWvUanJaPvzgxoWmkMG5aVji
+	 wI6SN9nx+yFexX8k3MMO/tXav4cEcxG44auePe2k/wpKL5HhNV07NM8QoON9vbPumh
+	 /sG4U5Q3YAMj5wYJL39NM8k8+TzeOLGRr7wHQ9U/Krgn9hIPUMkPqJ0fM50Vic2RjP
+	 6Pu4YLbYcbE3Q==
+Date: Tue, 22 Jul 2025 18:13:09 -0700
+From: Namhyung Kim <namhyung@kernel.org>
+To: Suchit K <suchitkarunakaran@gmail.com>
+Cc: peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+	mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+	jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com,
+	kan.liang@linux.intel.com, linux-perf-users@vger.kernel.org,
+	sesse@google.com, charlie@rivosinc.com,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH] perf tests: Fix lib path detection for non-x86
+ architectures
+Message-ID: <aIA3JQWNs-0Jsla4@google.com>
+References: <20250720085905.192652-1-suchitkarunakaran@gmail.com>
+ <aH20-KEurjw5qJq0@google.com>
+ <CAO9wTFhdgHEFQDVt2715qP6-6bsE9+AeAAPYe4C8N1mqpy7g=Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250721010258.70567-1-marcelomoreira1905@gmail.com>
- <20250721010258.70567-4-marcelomoreira1905@gmail.com> <DBHSSQS2IALW.2OEWVKX6PY9LZ@kernel.org>
- <CAPZ3m_h4rvV8gfBi0ZQN=569FhB1+DsF2A6XkkLuWAFUEuKPDQ@mail.gmail.com> <DBIIZ28TA8SD.XY1W0S6G280F@kernel.org>
-In-Reply-To: <DBIIZ28TA8SD.XY1W0S6G280F@kernel.org>
-From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-Date: Tue, 22 Jul 2025 18:23:39 -0300
-X-Gm-Features: Ac12FXyVLcBvfdnEb5gqZWjrw0-rbnrnXtkeCPveaPjQzHuYHMXwny0KC8iBtJo
-Message-ID: <CAPZ3m_jepxCD-dr+gyun_=hb-fHX_yxTunsd4JX98nt4XmnEQA@mail.gmail.com>
-Subject: Re: [PATCH v7 3/3] rust: revocable: Document RevocableGuard
- invariants/safety and refine Deref safety
-To: Benno Lossin <lossin@kernel.org>
-Cc: aliceryhl@google.com, dakr@kernel.org, ojeda@kernel.org, 
-	rust-for-linux@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAO9wTFhdgHEFQDVt2715qP6-6bsE9+AeAAPYe4C8N1mqpy7g=Q@mail.gmail.com>
 
-Em ter., 22 de jul. de 2025 =C3=A0s 07:51, Benno Lossin <lossin@kernel.org>=
- escreveu:
->
-> On Tue Jul 22, 2025 at 1:01 AM CEST, Marcelo Moreira wrote:
-> > Em seg., 21 de jul. de 2025 =C3=A0s 11:21, Benno Lossin <lossin@kernel.=
-org> escreveu:
-> >> On Mon Jul 21, 2025 at 3:01 AM CEST, Marcelo Moreira wrote:
-> >> > Refinements include:
-> >> > - `RevocableGuard`'s invariants are updated to precisely state that
-> >> >   `data_ref` is valid as long as the RCU read-side lock is held.
-> >> > - The `RevocableGuard::new` constructor is made `unsafe`, explicitly
-> >> >   requiring callers to guarantee the validity of the raw pointer and
-> >> >   RCU read-side lock lifetime.
-> >> > - A new `SAFETY` comment is added to `Revocable::try_access` to
-> >> >   justify the `unsafe` call to `RevocableGuard::new`, detailing how
-> >> >   `Self`'s type invariants and the active RCU read-side lock ensure =
-data
-> >> >   validity for reads.
-> >> > - The `Deref` implementation's `SAFETY` comment for `RevocableGuard`
-> >> >   is refined.
-> >> >
-> >> > Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
-> >> > ---
-> >> >  rust/kernel/revocable.rs | 25 ++++++++++++++++++-------
-> >> >  1 file changed, 18 insertions(+), 7 deletions(-)
-> >> >
-> >> > diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
-> >> > index 6d8e9237dbdf..0048de23ab44 100644
-> >> > --- a/rust/kernel/revocable.rs
-> >> > +++ b/rust/kernel/revocable.rs
-> >> > @@ -106,9 +106,12 @@ pub fn new(data: impl PinInit<T>) -> impl PinIn=
-it<Self> {
-> >> >      pub fn try_access(&self) -> Option<RevocableGuard<'_, T>> {
-> >> >          let guard =3D rcu::read_lock();
-> >> >          if self.is_available.load(Ordering::Relaxed) {
-> >> > -            // Since `self.is_available` is true, data is initialis=
-ed and has to remain valid
-> >> > -            // because the RCU read side lock prevents it from bein=
-g dropped.
-> >> > -            Some(RevocableGuard::new(self.data.get(), guard))
-> >> > +            // SAFETY:
-> >> > +            // - `self.data` is valid for reads because of `Self`'s=
- type invariants:
-> >> > +            //   `self.is_available` is true.
-> >> > +            // - The RCU read-side lock is active via `guard`, prev=
-enting `self.data`
-> >> > +            //   from being dropped and ensuring its validity for t=
-he guard's lifetime.
-> >>
-> >> This shouldn't be needed.
+On Mon, Jul 21, 2025 at 11:10:18AM +0530, Suchit K wrote:
 > >
-> > hmm, about what exactly?
+> > A dummy question: Does all other architectures have lib64 vs lib
+> > separation?
 > >
-> > Are you suggesting to:
-> > 1. Simplify the content of the `SAFETY`, is it too verbose?
->
-> It's not too verbose. The requirement of holding the RCU read-side lock
-> is not a *safety requirement*. It's already guaranteed by the existence
-> of the `rcu::Guard` instance, so we don't need to concern ourselves with
-> it in the safety requirements.
->
-> Essentially you're just stating a tautology in the safety comment like
-> saying "2 + 2 =3D 4".
+> 
+> I had assumed there would always be symlinks, but thanks for pointing
+> that out. After your question, I checked various architectures like
+> x86, ARM, SPARC, s390x, etc and only x86 had both lib and lib64 (with
+> symlinks). On the others, even for 64-bit systems, only a lib
+> directory existed. I also realized this behavior seems to depend on
+> the distro. For example, multiarch distros like Debian use separate
+> directories for lib32 and lib64, and a lib symlink pointing to
+> /usr/lib. On the other hand, Arch Linux has both lib and lib64 as
+> symlinks to /usr/lib. Would it be reasonable if we create a symlink
+> named lib64 for non-x86 architectures? I'd appreciate your thoughts on
+> this. Thanks!
 
-Thanks for showing me that Benno.
-So we can keep it like this:
-// SAFETY: `self.data` is valid for reads because of `Self`'s type invarian=
-ts:
-// `self.is_available` is true.
+I'd be intrusive if we create a new symlink.  Probably we need to check
+if there's lib64 directory first and use it for 64 bit build.  But I
+feel like this needs more testing.
 
-Sounds good?
+Can you share what's the problem exactly?
 
---=20
-Cheers,
-Marcelo Moreira
+Thanks,
+Namhyung
+
