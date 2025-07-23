@@ -1,134 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B061CCEE0;
-	Wed, 23 Jul 2025 15:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105011EB5E1
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Jul 2025 16:25:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753285958; cv=none; b=esqfVVs89s5+zX30AQtmoOKlHKsnEVNH3C9vrOBj322alRLwtnPFQV+x0tlpNkYcFlu31nt5qgBrxLsHDQ9yY5KeF8bqMsBgDrcbUdvTC1xYEfaVEpacD2e6JzBi1rz+OZ3sPZZJMMfFeumKNw5vGV/sD5yi/2YFeqz65cV8qVk=
+	t=1753287953; cv=none; b=Yt+bFqJsxWg+0BKTsYVqApNHdyDXibayaa0X9hgZqUqm3/mXDPcgZmIj+2IiQkA7NUisgCpPBf8/sqKCaC7fbj+RdC2EJh9c277ipyurEhlWnddBanSO5PY8hFFvfHQe96uMTSLpoemuzH7jpGsGboejAN85hGTYTMQlzHwsN0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753285958; c=relaxed/simple;
-	bh=UOmggXegZ3I7AUbaO4eA1lGNTCljsX3RiPVrPuISBFw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hZITDuIE89+b4S0/hfCQmnPdrznyJmPe5yTJ7sYuqIB8yeCpBX0tipGiwEAzDy3JSzEie9azaaIwX43ci0RMmAlICFVeerFUxNyMK0YZbUWYKleBQItsU92yJ1E8XBhp5NPbWG9KOZ/m8BIUQdD9nLJmzXx0IHjVx593AIvAXy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TqYIm+bS; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753287953; c=relaxed/simple;
+	bh=crGSmEZZzBdX5XwVo1TjX4JZzyiOlGt+tkX5ORlR/dM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=eBOiVWAH0BzsSl+LLXYrPjmsSqN49Pio/IClDdOT7HEHrTs8E5YdfxZff8xrJDfLxiaSSDrjy7Snna1UDn0kXsSpEyLWR4H6iASxxDSRfZrp9y3fQ7NQRD4/KvHhfHNK1i2AJvWL+lUlPUYBhTVHVKM/uYuUFblSqioQikuE+wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--nogikh.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=l7xVAMEJ; arc=none smtp.client-ip=209.85.221.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nogikh.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TqYIm+bS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753285956; x=1784821956;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UOmggXegZ3I7AUbaO4eA1lGNTCljsX3RiPVrPuISBFw=;
-  b=TqYIm+bSHEYpQkYvvFQNFnD06b2/KX2b7cuifzYVGr3AE88rQJN4LXyu
-   yX+bI4YUIUS785Ow8k3Bug9n2R9EWUYuEGppINFFRoZ3GOENF+mbIDv1c
-   eIb5jLG1Hp6KDIJJDbPvNQMv0NMlDYbGrkIBLkpEG/0R4yvZ0JOtLrguj
-   tGAFSJIQGW7LksLPQcvirkBEFJxGc440bElh0HsGkci3yj+cgcCkWfaLN
-   D0X9bDhlWl+ZfwaKJlDRdw5z4jfsZmB/WLlJwVyq5Ye5KOgOtFnndmod4
-   /T8BNv0Di5nV/OGz+Ne1LJ0Wf5fYIZtTnsbO90//VM5+FNmjaas5Qtj4e
-   w==;
-X-CSE-ConnectionGUID: TjXvdg3kT1u8t0UZuU9rYg==
-X-CSE-MsgGUID: FXiEmtY3QIqeO4fl3tX/MQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="66271353"
-X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="66271353"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 08:52:34 -0700
-X-CSE-ConnectionGUID: 2oT4088jRjGtJKukWNNCSQ==
-X-CSE-MsgGUID: qImF+t5SQlqYvA/5KfLGOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="196690540"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 23 Jul 2025 08:52:31 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ueblc-000JVH-2E;
-	Wed, 23 Jul 2025 15:52:28 +0000
-Date: Wed, 23 Jul 2025 23:52:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Suchit Karunakaran <suchitkarunakaran@gmail.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, jhs@mojatatu.com, xiyou.wangcong@gmail.com,
-	jiri@resnulli.us, sdf@fomichev.me, kuniyu@google.com,
-	aleksander.lobakin@intel.com, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: Re: [PATCH] net: Revert tx queue length on partial failure in
- dev_qdisc_change_tx_queue_len()
-Message-ID: <202507232358.OuGr01a5-lkp@intel.com>
-References: <20250722071508.12497-1-suchitkarunakaran@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="l7xVAMEJ"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-3af3c860ed7so14947f8f.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Jul 2025 09:25:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1753287950; x=1753892750; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C7nlf4Cqx5uEEwMr05M8xGLym6bdF69iKrcAxYvQRwA=;
+        b=l7xVAMEJdZe3azYiFTofg+uiDmD2bYIEZlex8uMc6U8iD/fvJxFCHGzqTc3nEHb9Dk
+         EUN6POMmt1DPaQNcUT0fJxv4pUX1lHuJ4eBi+VN/aiw5uVkDhMO5wfq0/LzNoHDkfDkY
+         s9ZRnPC52zkvjbGPdO53Ib5BRCAels29kzpoWZPlIVI+FoZVbKROPHizO1JfX+LoqqEH
+         5WIEpTyIAlZhiAiNvlx67oKjvWbfrq4m4xrqx1jv6AVJF43nW/FoLY99QZwSsPIDJ848
+         X4iRj0dkJjgLmF1DaZg6M3/OL0iWAXSRuLIJPbBuJqmMzpVnYnHhQUrbIN8FeFe3jpBT
+         bTxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753287950; x=1753892750;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C7nlf4Cqx5uEEwMr05M8xGLym6bdF69iKrcAxYvQRwA=;
+        b=WbgS3PR2JGBTNv/2BcyQ01qJtjDxMPvpzYaJyGJRfHR1B4yrPwjiupebO+pX6PrC6z
+         Z6TLSZntbJ2bx6szBHjah3OCdEXa4rRg09hS6xPXrIFBIavpWPZxdBpzoeDpIkF601UK
+         lHjF9IbDJHgCJu2EsfDfpIDPtGFAZEaXBRA9wB4AKe2yrAAFA+tlEa2sdNbnb3qpaOS3
+         enCC3kbcNRRY/eRxrlk7qPiInE1aAEdlvtk3jGyEuHJLMMRDAhDJWhLmfvRsN7aIO8/S
+         RdqwhavxLiP0KnJ755lv6ebZp5wD8d4tNipE+TqG15LTzdc2Gi271gX+Z+u4zqJuazbN
+         vHaw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZeuaTdx09G/pRycmdG48DnTj9oGHk/slq9Zz31qQ2krxn2QPI+EUx0IbEgv/Bajr2q7DjQaB5nmR1SfHGLusIhm4YMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YznhCu+mWP6E4QNGul7ZKZAKojIH5WARXJF997SFQZU9yJKIh2f
+	tDUaEzp8hXguJE2ndulYeWZY1PH4LhkIHL0OOxUaGPUd0DVW3P8RIY8jRc3eeUSXR7R8y6KntPl
+	8ZKUyKg==
+X-Google-Smtp-Source: AGHT+IF1gZj7uYUs8D8ao+ag5oMJ8erDSIHrlj2XvlP24E0UVjCruiGOe8gDPJKfTVGemA9iyDmfCNj918Y=
+X-Received: from wrnt1.prod.google.com ([2002:adf:eb81:0:b0:3b6:1610:fc9f])
+ (user=nogikh job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:2c03:b0:3a4:f975:30f7
+ with SMTP id ffacd0b85a97d-3b768f12e09mr3084562f8f.56.1753287950449; Wed, 23
+ Jul 2025 09:25:50 -0700 (PDT)
+Date: Wed, 23 Jul 2025 18:25:47 +0200
+In-Reply-To: <20250722100743.38914e9a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250722071508.12497-1-suchitkarunakaran@gmail.com>
+Mime-Version: 1.0
+References: <20250722100743.38914e9a@kernel.org>
+X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
+Message-ID: <20250723162547.1395048-1-nogikh@google.com>
+Subject: Re: Re: [syzbot ci] Re: net: Revert tx queue length on partial
+ failure in dev_qdisc_change_tx_queue_len()
+From: Aleksandr Nogikh <nogikh@google.com>
+To: kuba@kernel.org
+Cc: dvyukov@google.com, edumazet@google.com, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, syzbot@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Suchit,
+Hi Jakub,
 
-kernel test robot noticed the following build warnings:
+On Tue, 22 Jul 2025 Jakub Kicinski wrote:
+> I think this email is missing a References: header ?
+> It doesn't get threaded properly.
 
-[auto build test WARNING on net-next/main]
-[also build test WARNING on net/main linus/master horms-ipvs/master v6.16-rc7 next-20250723]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Suchit-Karunakaran/net-Revert-tx-queue-length-on-partial-failure-in-dev_qdisc_change_tx_queue_len/20250722-151746
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250722071508.12497-1-suchitkarunakaran%40gmail.com
-patch subject: [PATCH] net: Revert tx queue length on partial failure in dev_qdisc_change_tx_queue_len()
-config: parisc-randconfig-r072-20250723 (https://download.01.org/0day-ci/archive/20250723/202507232358.OuGr01a5-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 9.5.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507232358.OuGr01a5-lkp@intel.com/
-
-smatch warnings:
-net/sched/sch_generic.c:1465 dev_qdisc_change_tx_queue_len() warn: always true condition '(i >= 0) => (0-u32max >= 0)'
-net/sched/sch_generic.c:1465 dev_qdisc_change_tx_queue_len() warn: always true condition '(i >= 0) => (0-u32max >= 0)'
-
-vim +1465 net/sched/sch_generic.c
-
-  1447	
-  1448	int dev_qdisc_change_tx_queue_len(struct net_device *dev, unsigned int old_len)
-  1449	{
-  1450		bool up = dev->flags & IFF_UP;
-  1451		unsigned int i;
-  1452		int ret = 0;
-  1453	
-  1454		if (up)
-  1455			dev_deactivate(dev);
-  1456	
-  1457		for (i = 0; i < dev->num_tx_queues; i++) {
-  1458			ret = qdisc_change_tx_queue_len(dev, &dev->_tx[i]);
-  1459			if (ret)
-  1460				break;
-  1461		}
-  1462	
-  1463		if (ret) {
-  1464			dev->tx_queue_len = old_len;
-> 1465			while (i >= 0) {
-  1466				qdisc_change_tx_queue_len(dev, &dev->_tx[i]);
-  1467				i--;
-  1468			}
-  1469		}
-  1470	
-  1471		if (up)
-  1472			dev_activate(dev);
-  1473		return ret;
-  1474	}
-  1475	
+Yes, that was indeed a bug that has now been fixed, thanks for
+reaching out!
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Aleksandr
