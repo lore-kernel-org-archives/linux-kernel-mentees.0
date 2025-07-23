@@ -1,227 +1,159 @@
-Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4B715530C
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Jul 2025 13:28:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06AB2DCBF5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Jul 2025 14:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753277331; cv=none; b=CW78icSLeQ7Ij4+AIddobDht0AScma8is2eI9o4NrqeNoZ1P93yaFIxEAaAXhsBVNgC8l0bDyfPYecDweeHnCt7rIVB7PdP46+TqtFBOfQelRqPNRcB8XyQgIqRm2iOMf7vuSmEx2t/AjTteZii328mg32l44FU821vSb3mmDsM=
+	t=1753280053; cv=none; b=XWohQy5B5jYQgOsv+oVKhBl4V17Y3yv7WJZAsRK0GkmjGc0XAjxQL7F/scaqZRyVC+osPKZqIQUDXto9105EwsSl4alXZt64nwthma81LxCETMG+/Dwvu2uf5bdVc/m6Bw7yCIdQ1J7islqEhKs3t4RqV9EFOnsTzmRSou2BrFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753277331; c=relaxed/simple;
-	bh=kusrcU0m9MTMA3Eo3cny717hdH8OU9+7eTmcqQacUSc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XRSSEzrtdlXNI3HS/YIlQ3HJ7VkqRwNvE5Rlb+X7YD1ejpEjxc6hklMLwfidsr0xvQM2XTr0+Xt6lhra/slMi+IGA0gqt249dVjRObYO8xYY7Rzo1Gl2N0ahJefJ2YefUWFYrdlIPQTdN8YcC7wGAGPL5YdWK2rbM9RPwcN1Y7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.178.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8EC3A442BB;
-	Wed, 23 Jul 2025 13:28:39 +0000 (UTC)
-Message-ID: <6ec13c2a-764c-4a88-a419-b4d7433c0731@ghiti.fr>
-Date: Wed, 23 Jul 2025 15:28:38 +0200
+	s=arc-20240116; t=1753280053; c=relaxed/simple;
+	bh=HGX2VLgyyt0GtxeLZpC1unio0AwmsC5hJT7R2JwR87U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ST/EMF1I9Prt5dwJ/4d1lbMn3Q2Iz4/eGx8xkeo8kqpmkiH4aJl/ym3aLxoEhqUtklcLNDLg++uf/FuykHrdCn63u6OLHKps1CgT8MgoAnaX0w0qrypb/qYfs5e5YEe2rclj3OZEVNzMl9eM48dC3ydv+ga/cjw/iP/iu9Fl5MI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nKVbxF8W; arc=none smtp.client-ip=140.211.166.137
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKVbxF8W"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5C85840E2D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Jul 2025 14:14:12 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: 1.236
+X-Spam-Level: *
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id VBfgSzcFNXHh for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 23 Jul 2025 14:14:11 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::435; helo=mail-pf1-x435.google.com; envelope-from=akbansd@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 9B15740C5D
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9B15740C5D
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=nKVbxF8W
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 9B15740C5D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Jul 2025 14:14:11 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-74931666cbcso5470737b3a.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Jul 2025 07:14:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753280051; x=1753884851; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nGCHphQckRxgoSh5w4iIxG/Rjxd4ND4u2+j5qV3kR94=;
+        b=nKVbxF8WG2cMkWk1zLZ/X6HkcPRoAf43NYhauQ0s+IOfa9MY5byjw1WbtvyKFjB3fD
+         UR/r9iU9k+Y+2QDnDhj+gr0HT5NWRfBOevVuvELI0pfA+Cmc5QZVBrVvwUAMBTiegMDo
+         lJBs2KgCFjCTjC5Bc0iRVswcHZhGn9/XL6Q2aQdusuk3kpaIDWnG7gqSlef00P71vmjP
+         j2fGYrGq26N0ypjxWxqCsEjlRPUWo00oHEvorxlOx0E9vJRhwTL4TNdu+ZuPgVIcXLu5
+         7kyHZ415fXE0N+f+m/v4PEbLSgRFtDww2ywfeLIyFln4gxILwhpanxB9EnhERBj0AZgK
+         VALw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753280051; x=1753884851;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nGCHphQckRxgoSh5w4iIxG/Rjxd4ND4u2+j5qV3kR94=;
+        b=QhViBvPywxVIH9mklV9THUlQet2ebr3m1Kbd+He3FKqNN17DzT5RGY0WDup5BrkDux
+         x/vpfXN6pOnIrshwV0uv+jipmYHsAWbhf/5BuWuaYHykKHTWMHsFswIEDZpLIuSxmYgT
+         MVRKsuig7p9Dwco8bO7xkwOUqfQuPsSXcT+rRqvpaVKXprIT1oPnDJDv7YKSCv2VBtXW
+         A4o5EuVYn0tLuIDjuPiD8aZugseKZ6NPu4kHEAmHDb28fImAzbsELn/VXV6jj3sLy+P+
+         7WE/hcd88U41wjFUQ1fd1WnodChY6+5KGaMANlWm54/SgRL5oIG/Ybt6lhYp0HJaBQqm
+         7MfA==
+X-Gm-Message-State: AOJu0YzpZzkVcpd+5WK8BrkOJjg2qYcVDGvgOKRvkdNI7sUO5uBo5PC9
+	m6U8fGeitBJ82cVuCRJvrDuI2LpfKfRj4EcgvmEg5aXlb2u5srqwc8+m
+X-Gm-Gg: ASbGncsmUdxH5RnaCoDTxBAf+RUqpCM7crq0DA7zcuALc7nwA4VliWOLCXYdx04sq9C
+	wJm2zj3g6EmHgi9HeXmj5f+FPhJgWpl8T/vimmsgJa02v5jeeG1TxdE1GCjdDRHoBbK7FE55kW1
+	Dr0qCEWBPON/PFH3Eo0o+fPpW8EO8PUMIvOTBp5E9o35jrw7urxfTmH6FSwfegu/9J5rK1q18EL
+	gw7pWjuWnU9D2R2BHSYQG2nfML/Q34rIPYNQVLQwOiYXK0gMmQO81ZDLPT1+mkwNc6HvMEgOfhU
+	nftQ3aFBLGK8IHSs8Vv62g8DBeVqsO7qU2LKItIBz5FVaTm7OWS4qgwK6WpRxJgvtgJieLxIORU
+	lytLlrRzuFsaNetGt0Yz0TOxxt3xuvd8=
+X-Google-Smtp-Source: AGHT+IE4qt3w/6LB9AAk6kh3kI6NFSk1U9uQtp2nJwSH2r8ih8tpWOApCnByotT7eWt9IywTghyJwA==
+X-Received: by 2002:a05:6a00:138f:b0:74e:ac15:10ff with SMTP id d2e1a72fcca58-76034c57330mr5352435b3a.4.1753280050818;
+        Wed, 23 Jul 2025 07:14:10 -0700 (PDT)
+Received: from localhost.localdomain ([103.49.233.38])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cb154006sm9655287b3a.76.2025.07.23.07.14.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jul 2025 07:14:10 -0700 (PDT)
+From: Akshay Bansod <akbansd@gmail.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
+Date: Wed, 23 Jul 2025 19:43:59 +0530
+Message-ID: <20250723141359.11723-1-akbansd@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] riscv: introduce asm/swab.h
-To: Ignacio Encinas <ignacio@iencinas.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
-Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- Palmer Dabbelt <palmer@rivosinc.com>
-References: <20250717-riscv-swab-v5-1-1d5bb7c42f38@iencinas.com>
-Content-Language: en-US
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20250717-riscv-swab-v5-1-1d5bb7c42f38@iencinas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdejjeeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhepjeeiuedujeeikeevuedtgeeuhfekudeludegveehffefjedugeegudffgfeluefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepleehrddugedurddutddvrddukeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepleehrddugedurddutddvrddukeeipdhhvghloheplgdutddruddtrddugeeirddvudejngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeekpdhrtghpthhtohepihhgnhgrtghiohesihgvnhgtihhnrghsrdgtohhmpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepshhkhhgrnheslhhin
- hhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrlhhmvghrsehrihhvohhsihhntgdrtghomh
 
-Hi Ignacio,
+Update the sysfs interface for sampling frequency and scale attributes.
+Replace `scnprintf()` with `sysfs_emit_at()` which is PAGE_SIZE-aware
+and recommended for use in sysfs.
 
-On 7/17/25 20:44, Ignacio Encinas wrote:
-> Implement endianness swap macros for RISC-V.
->
-> Use the rev8 instruction when Zbb is available. Otherwise, rely on the
-> default mask-and-shift implementation.
->
-> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
-> ---
-> Motivated by [1]. Tested with crc_kunit as pointed out here [2]. I can't
-> provide performance numbers as I don't have RISC-V hardware.
->
-> [1] https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
-> [2] https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/
-> ---
-> Changes in v5:
-> - Duplicate ___constant_swab helpers in arch/riscv/include/asm/swab.h to
->    avoid delaying the patch as suggested by Alex in [3] (drop patch 1 and
->    convert this into a 1-patch series)
-> - Link to v4: https://lore.kernel.org/r/20250426-riscv-swab-v4-0-64201404a68c@iencinas.com
->
-> [3] https://lore.kernel.org/linux-riscv/7e22a448-3cee-4475-b69b-3dd45b57f168@ghiti.fr/
->
-> Changes in v4:
->
-> - Add missing include in the 1st patch, reported by
->    https://lore.kernel.org/all/202504042300.it9RcOSt-lkp@intel.com/
-> - Rewrite the ARCH_SWAB macro as suggested by Arnd
-> - Define __arch_swab64 for CONFIG_32BIT (Ben)
-> - Link to v3: https://lore.kernel.org/r/20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com
->
-> Changes in v3:
->
-> PATCH 2:
->    Use if(riscv_has_extension_likely) instead of asm goto (Eric). It
->    looks like both versions generate the same assembly. Perhaps we should
->    do the same change in other places such as arch/riscv/include/asm/bitops.h
-> - Link to v2: https://lore.kernel.org/r/20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com
->
-> Changes in v2:
-> - Introduce first patch factoring out the default implementation into
->    asm-generic
-> - Remove blank line to make checkpatch happy
-> - Link to v1: https://lore.kernel.org/r/20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com
-> ---
->   arch/riscv/include/asm/swab.h | 87 +++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 87 insertions(+)
->
-> diff --git a/arch/riscv/include/asm/swab.h b/arch/riscv/include/asm/swab.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..4f408f59fada7251d62f56d174ae76ff19f4a319
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/swab.h
-> @@ -0,0 +1,87 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +#ifndef _ASM_RISCV_SWAB_H
-> +#define _ASM_RISCV_SWAB_H
-> +
-> +#include <linux/types.h>
-> +#include <linux/compiler.h>
-> +#include <asm/cpufeature-macros.h>
-> +#include <asm/hwcap.h>
-> +#include <asm-generic/swab.h>
-> +
-> +#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
+Signed-off-by: Akshay Bansod <akbansd@gmail.com>
+---
+
+changes in v3:
+- Use `sysfs_emit_at(buf, len - 1, "\n")` instead of directly modifying `buf[len - 1]`
+  for newline termination, aligning with `sysfs_emit_at()` usage.
+- Link to v2: https://lore.kernel.org/linux-iio/20250703053900.36530-1-akbansd@gmail.com/
+
+changes in v2:
+- Fixed indentation for line wrap
+- Link to v1: https://lore.kernel.org/linux-iio/20250702135855.59955-1-akbansd@gmail.com/
+
+Testing:
+- Built the driver (`st_lsm6dsx_i2c`) as a module.
+- Tested using `i2c-stub` to mock the device.
+- Verified that reading sysfs attributes like `sampling_frequency_available`
+  works correctly and shows no change in functionality.
 
 
-In order to fix kernel test robot report, we need to make sure the 
-toolchain supports Zbb, the following diff fixes the issue for me:
+---
+ drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/arch/riscv/include/asm/swab.h b/arch/riscv/include/asm/swab.h
-index 4f408f59fada7..8faa293a9b841 100644
---- a/arch/riscv/include/asm/swab.h
-+++ b/arch/riscv/include/asm/swab.h
-@@ -8,7 +8,7 @@
-  #include <asm/hwcap.h>
-  #include <asm-generic/swab.h>
+diff --git a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
+index c65ad4982..f0aab41f3 100644
+--- a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
++++ b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
+@@ -2035,10 +2035,10 @@ st_lsm6dsx_sysfs_sampling_frequency_avail(struct device *dev,
+ 
+ 	odr_table = &sensor->hw->settings->odr_table[sensor->id];
+ 	for (i = 0; i < odr_table->odr_len; i++)
+-		len += scnprintf(buf + len, PAGE_SIZE - len, "%d.%03d ",
+-				 odr_table->odr_avl[i].milli_hz / 1000,
+-				 odr_table->odr_avl[i].milli_hz % 1000);
+-	buf[len - 1] = '\n';
++		len += sysfs_emit_at(buf, len, "%d.%03d ",
++				     odr_table->odr_avl[i].milli_hz / 1000,
++				     odr_table->odr_avl[i].milli_hz % 1000);
++	sysfs_emit_at(buf, len - 1, "\n");
+ 
+ 	return len;
+ }
+@@ -2054,9 +2054,10 @@ static ssize_t st_lsm6dsx_sysfs_scale_avail(struct device *dev,
+ 
+ 	fs_table = &hw->settings->fs_table[sensor->id];
+ 	for (i = 0; i < fs_table->fs_len; i++)
+-		len += scnprintf(buf + len, PAGE_SIZE - len, "0.%09u ",
+-				 fs_table->fs_avl[i].gain);
+-	buf[len - 1] = '\n';
++		len += sysfs_emit_at(buf, len, "0.%09u ",
++				     fs_table->fs_avl[i].gain);
++
++	sysfs_emit_at(buf, len - 1, "\n");
+ 
+ 	return len;
+ }
+-- 
+2.49.0
 
--#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
-+#if defined(CONFIG_TOOLCHAIN_HAS_ZBB) && defined(CONFIG_RISCV_ISA_ZBB) 
-&& !defined(NO_ALTERNATIVE)          \
-
-  // Duplicated from include/uapi/linux/swab.h
-  #define ___constant_swab16(x) ((__u16)(                                \
-@@ -83,5 +83,5 @@ static __always_inline __u64 __arch_swab64(__u64 value)
-
-  #undef ARCH_SWAB
-
--#endif /* defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
-+#endif /* defined(CONFIG_TOOLCHAIN_HAS_ZBB) && 
-defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
-  #endif /* _ASM_RISCV_SWAB_H */
-
-Would you mind squashing that into a v6 please?
-
-Thanks,
-
-Alex
-
-> +
-> +// Duplicated from include/uapi/linux/swab.h
-> +#define ___constant_swab16(x) ((__u16)(				\
-> +	(((__u16)(x) & (__u16)0x00ffU) << 8) |			\
-> +	(((__u16)(x) & (__u16)0xff00U) >> 8)))
-> +
-> +#define ___constant_swab32(x) ((__u32)(				\
-> +	(((__u32)(x) & (__u32)0x000000ffUL) << 24) |		\
-> +	(((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |		\
-> +	(((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |		\
-> +	(((__u32)(x) & (__u32)0xff000000UL) >> 24)))
-> +
-> +#define ___constant_swab64(x) ((__u64)(				\
-> +	(((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |	\
-> +	(((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |	\
-> +	(((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |	\
-> +	(((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |	\
-> +	(((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |	\
-> +	(((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |	\
-> +	(((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |	\
-> +	(((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
-> +
-> +#define ARCH_SWAB(size, value)						\
-> +({									\
-> +	unsigned long x = value;					\
-> +									\
-> +	if (riscv_has_extension_likely(RISCV_ISA_EXT_ZBB)) {            \
-> +		asm volatile (".option push\n"				\
-> +			      ".option arch,+zbb\n"			\
-> +			      "rev8 %0, %1\n"				\
-> +			      ".option pop\n"				\
-> +			      : "=r" (x) : "r" (x));			\
-> +		x = x >> (BITS_PER_LONG - size);			\
-> +	} else {                                                        \
-> +		x = ___constant_swab##size(value);                      \
-> +	}								\
-> +	x;								\
-> +})
-> +
-> +static __always_inline __u16 __arch_swab16(__u16 value)
-> +{
-> +	return ARCH_SWAB(16, value);
-> +}
-> +
-> +static __always_inline __u32 __arch_swab32(__u32 value)
-> +{
-> +	return ARCH_SWAB(32, value);
-> +}
-> +
-> +#ifdef CONFIG_64BIT
-> +static __always_inline __u64 __arch_swab64(__u64 value)
-> +{
-> +	return ARCH_SWAB(64, value);
-> +}
-> +#else
-> +static __always_inline __u64 __arch_swab64(__u64 value)
-> +{
-> +	__u32 h = value >> 32;
-> +	__u32 l = value & ((1ULL << 32) - 1);
-> +
-> +	return ((__u64)(__arch_swab32(l)) << 32) | ((__u64)(__arch_swab32(h)));
-> +}
-> +#endif
-> +
-> +#define __arch_swab64 __arch_swab64
-> +#define __arch_swab32 __arch_swab32
-> +#define __arch_swab16 __arch_swab16
-> +
-> +#undef ___constant_swab16
-> +#undef ___constant_swab32
-> +#undef ___constant_swab64
-> +
-> +#undef ARCH_SWAB
-> +
-> +#endif /* defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
-> +#endif /* _ASM_RISCV_SWAB_H */
->
-> ---
-> base-commit: 155a3c003e555a7300d156a5252c004c392ec6b0
-> change-id: 20250307-riscv-swab-b81b94a9ac1b
->
-> Best regards,
