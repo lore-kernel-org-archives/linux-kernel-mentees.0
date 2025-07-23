@@ -1,122 +1,134 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7950C25A2C6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Jul 2025 15:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B061CCEE0;
+	Wed, 23 Jul 2025 15:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753285272; cv=none; b=C92PQsSldSOFDVINn1VyxDGKhAm+nL0oXNv3xFaPehPqKagoQNXS/zQnqTYehVO11Pu8Jo9UGwsQHWkWE4cMDmBXnkfQpq468WH0QCkXOHOzINraSQe68ywY5ayKOgLZBfM6sbIqxWNYPCSKDw9nG2JUyy1/peq7oW4x7EHtozI=
+	t=1753285958; cv=none; b=esqfVVs89s5+zX30AQtmoOKlHKsnEVNH3C9vrOBj322alRLwtnPFQV+x0tlpNkYcFlu31nt5qgBrxLsHDQ9yY5KeF8bqMsBgDrcbUdvTC1xYEfaVEpacD2e6JzBi1rz+OZ3sPZZJMMfFeumKNw5vGV/sD5yi/2YFeqz65cV8qVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753285272; c=relaxed/simple;
-	bh=CsdJOzPPr77jhjs2jpaoBnCP47V2IlP2Sop+mBWXqL4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Wg4gaS5kFqXE87jvMSze4g0KgnJuLbX6PEEG36wrq8N0L2gcaLuFuPEH9HmiSk1pMdGq/ZMr4P1SPRSDdBB82PbFRF1/iRooBY8Gs4dK9TxZACw2TavosOVgoH6xpmcml9uecsNBSMvV98ZnIyVobMv5NSPy7SRj272oX0lQZjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K9eJ+Upv; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1753285958; c=relaxed/simple;
+	bh=UOmggXegZ3I7AUbaO4eA1lGNTCljsX3RiPVrPuISBFw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hZITDuIE89+b4S0/hfCQmnPdrznyJmPe5yTJ7sYuqIB8yeCpBX0tipGiwEAzDy3JSzEie9azaaIwX43ci0RMmAlICFVeerFUxNyMK0YZbUWYKleBQItsU92yJ1E8XBhp5NPbWG9KOZ/m8BIUQdD9nLJmzXx0IHjVx593AIvAXy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TqYIm+bS; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K9eJ+Upv"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 05E2240AC9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Jul 2025 15:41:11 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -6.492
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Q69NnI1sK3kr for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Jul 2025 15:41:09 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=jic23@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 9C583407D0
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9C583407D0
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=K9eJ+Upv
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 9C583407D0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Jul 2025 15:41:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 414FCA4FFDC;
-	Wed, 23 Jul 2025 15:41:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC5CBC4CEE7;
-	Wed, 23 Jul 2025 15:41:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753285267;
-	bh=CsdJOzPPr77jhjs2jpaoBnCP47V2IlP2Sop+mBWXqL4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=K9eJ+UpvZlkpFrqZdempNtoTmDpX2b+qkJwoPc8uyPNIqzI0molk6YEwCTvvfvKYb
-	 LHrukBvXzJYd/Mqbpaoc1ZqvKEkRB4ODCxSp9m2SC0NL3jjJOseelZTghaosUGYDVc
-	 oIoCH823OUL7MtNShLq7pjFmzJz5rDv3NbrvbAym/d6dho4zctTFgGVCQRJSAERGYR
-	 MFaeJvTXsI4QlLcmNe8FrRCBVpM5a/aFanvHmWmNLo+8A0+HOV4gfdU2aC9Xms5qJ/
-	 /wQ80UNP7lkIVrpFY4nBIFgHXMNQk25WaFWojHnGN/ZtXoZP3b8oSq9LOEx4r74siZ
-	 /i6Bx+k9w2vVg==
-Date: Wed, 23 Jul 2025 16:41:00 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Akshay Bansod <akbansd@gmail.com>, Lorenzo Bianconi
- <lorenzo@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
-Message-ID: <20250723164100.34e864d6@jic23-huawei>
-In-Reply-To: <aID01DxC1Hf2PK0i@smile.fi.intel.com>
-References: <20250723141359.11723-1-akbansd@gmail.com>
-	<aID01DxC1Hf2PK0i@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TqYIm+bS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753285956; x=1784821956;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UOmggXegZ3I7AUbaO4eA1lGNTCljsX3RiPVrPuISBFw=;
+  b=TqYIm+bSHEYpQkYvvFQNFnD06b2/KX2b7cuifzYVGr3AE88rQJN4LXyu
+   yX+bI4YUIUS785Ow8k3Bug9n2R9EWUYuEGppINFFRoZ3GOENF+mbIDv1c
+   eIb5jLG1Hp6KDIJJDbPvNQMv0NMlDYbGrkIBLkpEG/0R4yvZ0JOtLrguj
+   tGAFSJIQGW7LksLPQcvirkBEFJxGc440bElh0HsGkci3yj+cgcCkWfaLN
+   D0X9bDhlWl+ZfwaKJlDRdw5z4jfsZmB/WLlJwVyq5Ye5KOgOtFnndmod4
+   /T8BNv0Di5nV/OGz+Ne1LJ0Wf5fYIZtTnsbO90//VM5+FNmjaas5Qtj4e
+   w==;
+X-CSE-ConnectionGUID: TjXvdg3kT1u8t0UZuU9rYg==
+X-CSE-MsgGUID: FXiEmtY3QIqeO4fl3tX/MQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="66271353"
+X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
+   d="scan'208";a="66271353"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 08:52:34 -0700
+X-CSE-ConnectionGUID: 2oT4088jRjGtJKukWNNCSQ==
+X-CSE-MsgGUID: qImF+t5SQlqYvA/5KfLGOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
+   d="scan'208";a="196690540"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 23 Jul 2025 08:52:31 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ueblc-000JVH-2E;
+	Wed, 23 Jul 2025 15:52:28 +0000
+Date: Wed, 23 Jul 2025 23:52:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Suchit Karunakaran <suchitkarunakaran@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	horms@kernel.org, jhs@mojatatu.com, xiyou.wangcong@gmail.com,
+	jiri@resnulli.us, sdf@fomichev.me, kuniyu@google.com,
+	aleksander.lobakin@intel.com, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: Re: [PATCH] net: Revert tx queue length on partial failure in
+ dev_qdisc_change_tx_queue_len()
+Message-ID: <202507232358.OuGr01a5-lkp@intel.com>
+References: <20250722071508.12497-1-suchitkarunakaran@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250722071508.12497-1-suchitkarunakaran@gmail.com>
 
-On Wed, 23 Jul 2025 17:42:28 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+Hi Suchit,
 
-> On Wed, Jul 23, 2025 at 07:43:59PM +0530, Akshay Bansod wrote:
-> > Update the sysfs interface for sampling frequency and scale attributes.
-> > Replace `scnprintf()` with `sysfs_emit_at()` which is PAGE_SIZE-aware
-> > and recommended for use in sysfs.  
-> 
-> ...
-> 
-> >  	fs_table = &hw->settings->fs_table[sensor->id];
-> >  	for (i = 0; i < fs_table->fs_len; i++)
-> > -		len += scnprintf(buf + len, PAGE_SIZE - len, "0.%09u ",
-> > -				 fs_table->fs_avl[i].gain);
-> > -	buf[len - 1] = '\n';
-> > +		len += sysfs_emit_at(buf, len, "0.%09u ",
-> > +				     fs_table->fs_avl[i].gain);
-> > +
-> > +	sysfs_emit_at(buf, len - 1, "\n");  
-> 
-> Still looks a bit weird (while working).
-> 
-> >  	return len;  
-> 
-> I deally we should have a helper doing all this under the hood for plenty of
-> the (existing) users in the kernel.
+kernel test robot noticed the following build warnings:
 
-hmm I'm not sure generic is terribly easy and I'd prefer this using the
-read_avail callbacks that require the data in an array where ever possible.
-Mind you that does the same print at len - 1 as this.  Let's play. 
-Completely untested.
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master horms-ipvs/master v6.16-rc7 next-20250723]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-	for (i = 0; i < fs_table->fs_len; i++)
-		len += sysfs_emit_at(buf, len, "0x%09u%c",
-				     fs_table->fs_avl[i].gain,
-				     ((i == fs_table->fs_len - 1) ? '\n', ' '));
+url:    https://github.com/intel-lab-lkp/linux/commits/Suchit-Karunakaran/net-Revert-tx-queue-length-on-partial-failure-in-dev_qdisc_change_tx_queue_len/20250722-151746
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250722071508.12497-1-suchitkarunakaran%40gmail.com
+patch subject: [PATCH] net: Revert tx queue length on partial failure in dev_qdisc_change_tx_queue_len()
+config: parisc-randconfig-r072-20250723 (https://download.01.org/0day-ci/archive/20250723/202507232358.OuGr01a5-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 9.5.0
 
-better?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507232358.OuGr01a5-lkp@intel.com/
 
-It's definitely not more readable than the above, but it does avoid the write
-to len - 1.
+smatch warnings:
+net/sched/sch_generic.c:1465 dev_qdisc_change_tx_queue_len() warn: always true condition '(i >= 0) => (0-u32max >= 0)'
+net/sched/sch_generic.c:1465 dev_qdisc_change_tx_queue_len() warn: always true condition '(i >= 0) => (0-u32max >= 0)'
 
-> 
-> In any case, I leave this change to others to comment, I don't object pushing
-> it in this form, either way len - 1 is simply weird.
-> 
-> 
+vim +1465 net/sched/sch_generic.c
 
+  1447	
+  1448	int dev_qdisc_change_tx_queue_len(struct net_device *dev, unsigned int old_len)
+  1449	{
+  1450		bool up = dev->flags & IFF_UP;
+  1451		unsigned int i;
+  1452		int ret = 0;
+  1453	
+  1454		if (up)
+  1455			dev_deactivate(dev);
+  1456	
+  1457		for (i = 0; i < dev->num_tx_queues; i++) {
+  1458			ret = qdisc_change_tx_queue_len(dev, &dev->_tx[i]);
+  1459			if (ret)
+  1460				break;
+  1461		}
+  1462	
+  1463		if (ret) {
+  1464			dev->tx_queue_len = old_len;
+> 1465			while (i >= 0) {
+  1466				qdisc_change_tx_queue_len(dev, &dev->_tx[i]);
+  1467				i--;
+  1468			}
+  1469		}
+  1470	
+  1471		if (up)
+  1472			dev_activate(dev);
+  1473		return ret;
+  1474	}
+  1475	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
