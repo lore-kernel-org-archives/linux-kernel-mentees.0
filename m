@@ -1,125 +1,123 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E8E2F4315
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Jul 2025 14:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6D01BF33F
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Jul 2025 15:10:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753281758; cv=none; b=XpULmXgmlUn4aoSgKSlMdpWh6KfPDxwhS9IjgCmA7fURBcVHZCcSIzSjQFbDve08OYPSkKotI27ltfWV2V0ric+pdPJoqHeJ6wEbsCw3hAZD55hQEf8dJ/R/ePFe1R4z31JXGqSci9UcCtnIWqy5H2R/Nrqg4c8vAyGx2gxu8as=
+	t=1753283431; cv=none; b=e2Lk70NObmRhgAfFMRxSzbe1NLTwZHl8sg8VHmduVLqnf1+bYmQvtoeWc2iQx66thGwqmx+BTP32c3b4zjGap3RDs5rASCi6/cB+IZ+uNTOP84XKo3x/IvCppoZDNLNB16t/xsUBrx7/XkSZVmRfPslChF3wRVHvud6hxmTtoBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753281758; c=relaxed/simple;
-	bh=EixATOmvq6d/Vv+wlPKnzbFFsh7ZcTMGBLQS273gUj8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fDXged3FskbAB/6apdu+lgZxZz53+bLgR1P/IXUpMvfnDAI6RVIb7/BGikND4ZnApS2fMMM5vW3Q0jrCP4x41jxC/mpMb1mtmtiBFUTpxMMi/Z9hlPvG4bNpVEKUeSoVTLgkdVEp2C1s4oVru84ZPYFcD6XgRn1Xs0VA6+VXzYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nI/wXrWR; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1753283431; c=relaxed/simple;
+	bh=s9X3Rf4iKvd8tihzYDWl7G2SYC11kejhiYfJ2FtSKJ4=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=WyC1VY+h4fvIEPZAG0aEvXtANhp8HBy4mL2isjh8PXq6/WRGV2wbSEeWEq0wuK2xShsno+5mNDZxHs4N8bl3WO8WTj9+pR4em8/lO7SDegFGoMcJ8mkYWusaf8kmS6WWLn6lR3YlYLFqt2+/c4gy0JgkURPHplHnVA8Xoc27yYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=DSCmg6KO; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nI/wXrWR"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id CAC6F80E78
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Jul 2025 14:42:35 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -8.092
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id vzBA7WVs_cMf for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Jul 2025 14:42:35 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=192.198.163.12; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@intel.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 3CE7180E6F
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3CE7180E6F
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nI/wXrWR
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 3CE7180E6F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 23 Jul 2025 14:42:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753281755; x=1784817755;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EixATOmvq6d/Vv+wlPKnzbFFsh7ZcTMGBLQS273gUj8=;
-  b=nI/wXrWRiJwL4qZ0gFUXxKystKj+lf6WVgMRmH/s+R0T8cYRnBasHTFZ
-   jdslmxHjpOsyR8HiteeniQSOmBfNIyKvjlfsKG0B8eBvQFcRFOX1v6wOs
-   bz8LWWNB2z/b1GljxzA5ht4bGyRxbZmAaTd5OlK+43YFq9nKg7JC9F6V3
-   Av5aaG6+Os98HJ+O+7tQx1ADVbxdpcC2y47cRf2LXzw/t29j2NUHrBKbb
-   V4alWtAm/erNlQxte5jGUkmJrKNi4Zo23vLRsTn3F3Z1cQy9WwNPjXt7j
-   /njJ3ahNFDAFd5HruvHL5QZoHZRQWBegrNQennblc62e6IzyOPdVZYjqD
-   Q==;
-X-CSE-ConnectionGUID: hEROM4xwRoOjphwlM5uAiQ==
-X-CSE-MsgGUID: yBFbYvunTLuOT6sS6sCreg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="59380920"
-X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="59380920"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 07:42:34 -0700
-X-CSE-ConnectionGUID: 073E5ZBqT/2LTIIiW0yMZQ==
-X-CSE-MsgGUID: C9oyC7lPTZeMSwWIXj4f1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="158821994"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 07:42:32 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1ueafs-00000000JdJ-1Mzt;
-	Wed, 23 Jul 2025 17:42:28 +0300
-Date: Wed, 23 Jul 2025 17:42:28 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Akshay Bansod <akbansd@gmail.com>
-Cc: Lorenzo Bianconi <lorenzo@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
-Message-ID: <aID01DxC1Hf2PK0i@smile.fi.intel.com>
-References: <20250723141359.11723-1-akbansd@gmail.com>
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="DSCmg6KO"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-75ce780af03so38137b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Jul 2025 08:10:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1753283429; x=1753888229; darn=lists.linux.dev;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UuChy1LULay+ShDL03IJdTFrOKC/jWx8pEhX699NilY=;
+        b=DSCmg6KO1+n+ce0LRUTcjJXFPWVSyZyjjyKP9f3o5aBvakrJH6z64Sumk9TKYTer+6
+         xhMa7+8J2KBkFGbM/gMahM1WyNp3DZBPm5tF8Y5Mc12+BCESfA1Ccu7teRLJSAMSrwYG
+         s4pRSC4Ha8zX4MeN4185Il6attDenkrlFVFyivMoFHvnWM0VRWbv1cHood+uSRZW7s11
+         /OiO+RRm1lYkgvkAICySpj41xvaYRwhaeHIwgkJ6QEsqXfb3JO5w4ZdH65N7+99fuCaG
+         rIGmWy8a4rAmIGdRaHK96dfF/wYOCN/LyyBz0RSVqhJPxda55X016v3sPF0CSMRg+nHX
+         2eqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753283429; x=1753888229;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=UuChy1LULay+ShDL03IJdTFrOKC/jWx8pEhX699NilY=;
+        b=lRwqzxjTR2A/9spV0LrmCEzAbnods1AM3ntG9I5asbzWU4iRvUwv/tsqHSh4nwjoTc
+         uYVorks8ZQZQjDvZw2AWnuLIeL0CAPga9u41PfhGyPyDaBi6SHKZ2DI0zL7ooyRc4L6V
+         7mlDT40wbx7S1R4LQno6g54LxVyUTTBecHk6XP2wtlOwfjbnOoU6OZuFmkpIG2UEyH9h
+         fGUR87hI1RohLqBXkwR/r6ufEu2KaaFu5to3mb8iwpbPbmlXwZhM0crZQkz2Z4QufA3N
+         BfasCys6I46rrUEM2hSjNOquPxSGBPkqOXZhh9+nnVJxL9kE2y7Zha2EUar/zsCy9a2m
+         fPDg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+hS4+hpp6aAYnId9NxJqO8RSAHFIPbUnhvFU7e1OYF+TJwQbIQoE2Pmj/ePVmwcKcQkJ+JtFA9RPxODeC2zxm0Eda4A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxORdBRBKblHARkx2thhEQQbQWS9SjLzMRL677zbeXJUPlgEdAW
+	mCYHGA8ywvNxQK9rglTkMYZpVVK1fnw2bFhdC+30BQuAfcByLnZYjHbI7dg++QzQc/4=
+X-Gm-Gg: ASbGncu63e/oQDip8AtS54W0201GeDsXxc/LeVSd1RQ5XtFwYSUFXZa795SMBIt6cH9
+	74Lm+ajy1iMOwEE+FVYOeh89xxQDMs6eHYfAWJ/zxVqb2015fCO2J/FRZVF32jb5932jQZrC2dl
+	TSivc7kkEvzszgrQrWu6cE5e75vDbfJNfyoZrmI7ZRJnFaY4u4AcFjk0AVG38hpxu9z78DUGTqx
+	pjaFILIxUZ4s1FHTQMoWGPvGHi7NKWtBZcgbhPkMugSUna71THmC9jNzqRHsCHVaPaKlxXowi+h
+	2qn0GwwuuEtUwIL6qHoXoAFf95qHqpVKT/bBLdGompjSO35sHxyT36g4CkPRcst1YgTDOSxGCCq
+	9gEsoWIudGnB2OlsybYz4n4zbynCW+Q==
+X-Google-Smtp-Source: AGHT+IE+co2aDTbuxqywk9VXXdq95Qx32EuhMNzguqNw2C4YBMnkv2fPJd5DUodgNwdXPUs40Wvm1w==
+X-Received: by 2002:a05:6a00:a1c:b0:748:eedb:902a with SMTP id d2e1a72fcca58-760353f328fmr4564271b3a.17.1753283429448;
+        Wed, 23 Jul 2025 08:10:29 -0700 (PDT)
+Received: from localhost ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cb1569absm9971551b3a.68.2025.07.23.08.10.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jul 2025 08:10:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250723141359.11723-1-akbansd@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 23 Jul 2025 09:10:26 -0600
+Message-Id: <DBJJ3QS0PN8E.3VW8UD9HEQAA6@brighamcampbell.com>
+To: "Doug Anderson" <dianders@chromium.org>
+Cc: <tejasvipin76@gmail.com>, <diogo.ivo@tecnico.ulisboa.pt>,
+ <skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jianhua Lu"
+ <lujianhua000@gmail.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Jessica Zhang" <jessica.zhang@oss.qualcomm.com>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v6 1/4] drm: Create mipi_dsi_dual* macros
+From: "Brigham Campbell" <me@brighamcampbell.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <20250722015313.561966-1-me@brighamcampbell.com>
+ <20250722015313.561966-2-me@brighamcampbell.com>
+ <CAD=FV=XGO5y0F40oaOANW-r-q5qZPFYRwO7aQHi3R6Ag-aeMag@mail.gmail.com>
+In-Reply-To: <CAD=FV=XGO5y0F40oaOANW-r-q5qZPFYRwO7aQHi3R6Ag-aeMag@mail.gmail.com>
 
-On Wed, Jul 23, 2025 at 07:43:59PM +0530, Akshay Bansod wrote:
-> Update the sysfs interface for sampling frequency and scale attributes.
-> Replace `scnprintf()` with `sysfs_emit_at()` which is PAGE_SIZE-aware
-> and recommended for use in sysfs.
+On Tue Jul 22, 2025 at 10:20 AM MDT, Doug Anderson wrote:
+> On Mon, Jul 21, 2025 at 6:53=E2=80=AFPM Brigham Campbell <me@brighamcampb=
+ell.com> wrote:
+> add/remove: 0/0 grow/shrink: 0/4 up/down: 0/-8754 (-8754)
+> Function                                     old     new   delta
+> elish_csot_init_sequence.d                   758     379    -379
+> elish_boe_init_sequence.d                    846     423    -423
+> elish_csot_init_sequence                    9136    5380   -3756
+> elish_boe_init_sequence                    10192    5996   -4196
+> Total: Before=3D33880, After=3D25126, chg -25.84%
+>
+> So the new way of defining mipi_dsi_dual_dcs_write_seq_multi() did
+> indeed give a pretty sweet space savings! :-)
 
-...
+Interesting! With as much as I've heard about compiler optimizations,
+I'm kind of surprised that the compiler didn't do a better job before
+redefining mipi_dsi_dual_dcs_write_seq_multi(). It's nice to know what
+to expect when the rubber hits the proverbial road.
 
->  	fs_table = &hw->settings->fs_table[sensor->id];
->  	for (i = 0; i < fs_table->fs_len; i++)
-> -		len += scnprintf(buf + len, PAGE_SIZE - len, "0.%09u ",
-> -				 fs_table->fs_avl[i].gain);
-> -	buf[len - 1] = '\n';
-> +		len += sysfs_emit_at(buf, len, "0.%09u ",
-> +				     fs_table->fs_avl[i].gain);
-> +
-> +	sysfs_emit_at(buf, len - 1, "\n");
+> This patch looks good to me now. Thanks for putting up with all my
+> requests. I know this is a lot bigger than you thought it would be
+> when you posted your first patch, but I appreciate you sticking with
+> it!
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> My plan would be to give this series another week on the list. If
+> there is no additional feedback then I'll plan to land it.
 
-Still looks a bit weird (while working).
+Thanks, Doug. I appreciate your patient suggestions. Waiting another
+week for any additional comments or suggestions sounds good to me!
+Thanks for letting me know.
 
->  	return len;
-
-I deally we should have a helper doing all this under the hood for plenty of
-the (existing) users in the kernel.
-
-In any case, I leave this change to others to comment, I don't object pushing
-it in this form, either way len - 1 is simply weird.
-
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Brigham
