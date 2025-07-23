@@ -1,112 +1,227 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9467733DF
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Jul 2025 13:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4B715530C
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Jul 2025 13:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753277146; cv=none; b=utSEkf3GSrOx+J9O/AwiwZtFAcBd5GWbuK6A2lhpgf4XmkGy8LC8Y2HxpVw6ut7MNKkAr35sRhm/nrnsq6iwVl3UVimZ4nD9a8obgSxDoEcxZZ5XWbNKH0Hnl9vTIQaUuxKnQHyjePEIc/h+Foqejh48bfR1K3nZ6wObYN3X9Cs=
+	t=1753277331; cv=none; b=CW78icSLeQ7Ij4+AIddobDht0AScma8is2eI9o4NrqeNoZ1P93yaFIxEAaAXhsBVNgC8l0bDyfPYecDweeHnCt7rIVB7PdP46+TqtFBOfQelRqPNRcB8XyQgIqRm2iOMf7vuSmEx2t/AjTteZii328mg32l44FU821vSb3mmDsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753277146; c=relaxed/simple;
-	bh=IRWOjBedd9/hnuVTcXrjjqnFUAKjZDKX/qV1HyL1jLk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HVFQW2fzpRyImPe3/Z8/CmkUWgyq7wNmwvU4u/8A4J4PwpYKg75feyIC8xyzZkepGKtOIvCHnxqsTbIjN9KX98tcjJCGiHDorhKpflQC7UviaZRdrkXURBD0kn5fqWRDtrif2W/bvitQlNhCqCsEuHJ5LL5838X/5B9cibWmOBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=Vc98fKag; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="Vc98fKag"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a6d1369d4eso4018309f8f.2
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Jul 2025 06:25:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1753277142; x=1753881942; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/jOFjaGN3CsVqLePSDjEetRndyZpxQTsvQQ0tgo6UDc=;
-        b=Vc98fKag0J4w9WpBHGO9Dxye9gJyiolFfZxXfKR5r5CXB/VhWB4w8uL4dGOCeEDjvj
-         uBt5N0k6NaHd3f6ShRwfjxtQzKTtATszeb0iX3P7AVfZXlVSHHp/eNhSTcve1RaLPCny
-         5Ohc+WLRtdNxyfcWDBT6MAjxavrXLpdyCKOwkr7THuMHUpZuRZIl78SHVpkSMQrlcZtk
-         Cw5pEV4eV2q3BFIK7enMXtP3m2bJobvGcqAhXB+2pk65kqCVL2h1Iiz2Ib8rLiYI7dmY
-         +YSVhJYkxNTtSlJ/m5sII5GAzFhfd2N9Sy4GTvj55hI30AW6B3AwbQLRHPlN9gk+yhsM
-         hAkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753277142; x=1753881942;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/jOFjaGN3CsVqLePSDjEetRndyZpxQTsvQQ0tgo6UDc=;
-        b=VAbHLAYqBDDhRHh+XF76plZZ3HdEgmcaeXURfSYsrubL6GAe8uoa1rV41WS9O2v069
-         /knCFC7d3bcEv2wnj0wUI8FJwXNx//c5CwrRyjnoevL3iwaHcy85MBrW9VboCNGGvxFG
-         l2/Qi7P/A0mAzat14w2TTJk3p8LQcuAn8heLK7SH9Acd2MnxRJy9OdeOcikYpZROCmXz
-         BBm5TDHVsTLoDPKhN+9b81sThu/uQYiiE+Dsf/Mayu9xjSap2nlI0CwRtZgjMIoSNMPI
-         cchd/qzMpaXktvJbrJYRtusyTkjcwatmEniMoQIPX078tOZVxJDoE07L9Y23Buyc+x8/
-         n60w==
-X-Forwarded-Encrypted: i=1; AJvYcCVgu9Fjx6HEFRgAMUBDsuxToH6i0LriVrMOJO/qsiJbLectXRDspU6lS6V+HS5szdRAlLfVIIi5igmgs/Q1Lf6Xn+tptA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxOA7KVmBYeViAZlidJZxpp8FJuE2tFBhqei4tAB+sS9MquSFzv
-	EwhjYalwPB5Ofg1+MXIcuphRSJL5w9jHWqonRXvEBhqosvkuI8HVYQlnT7wM6sbeadg=
-X-Gm-Gg: ASbGncsZm/0nsQtI8sf24tSj12H7gfryYlwwA8TC+ooKhpJ48oF0N3tc0xKxnzRjvLc
-	Xoz+H9vTd3pTVh7Dl6ICTFAEueVnJl2/SS1++/UwIhbG18WsP+MugNUt7TYFviA+egW97YoHgiJ
-	f69DGUUoD/j8ayRPIUp6v/Oo0TryJaZtptYM/9iP2eJ86PtKQDRzdj6O8g/z7erJrJFBBp++hGu
-	b1m+QH2FDiNsqwwI8xK8UJBI+RM+WToHH5Amj26ORp98OVgc93xLkUjWd7OIHy6GBXkbHRBiiAQ
-	0m5PiVP28cNzboGlLYMSSAzItF8lLGgN2dxUeJNwhbGjcd3iTuXafk6sYqQCsqXfL+jKrdXriXK
-	P6mhFcxK3dxKrRw1N1asQuUHmdh+Tn20Bs56O8yfDuyR0e4NDSA==
-X-Google-Smtp-Source: AGHT+IG7lEmEEOErHvtFjRdp4cL9IAeiY0R7yViDRurEsfQTfNPWbZmrOYW259gPKET6e12uFu2ovw==
-X-Received: by 2002:a05:6000:288a:b0:3a3:67bb:8f3f with SMTP id ffacd0b85a97d-3b768f16391mr2725907f8f.53.1753277141746;
-        Wed, 23 Jul 2025 06:25:41 -0700 (PDT)
-Received: from pop-os.telenet.be ([2a02:1807:2a00:3400:7fcb:5e01:8f11:1009])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca315basm16320109f8f.39.2025.07.23.06.25.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jul 2025 06:25:41 -0700 (PDT)
-From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-To: sboyd@kernel.org,
-	dlan@gentoo.org
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-clk@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-Subject: [PATCH v2] clk: spacemit: fix resource leak in spacemit_ccu_reset_register
-Date: Wed, 23 Jul 2025 15:25:04 +0200
-Message-ID: <20250723132504.66273-1-hendrik.hamerlinck@hammernet.be>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1753277331; c=relaxed/simple;
+	bh=kusrcU0m9MTMA3Eo3cny717hdH8OU9+7eTmcqQacUSc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XRSSEzrtdlXNI3HS/YIlQ3HJ7VkqRwNvE5Rlb+X7YD1ejpEjxc6hklMLwfidsr0xvQM2XTr0+Xt6lhra/slMi+IGA0gqt249dVjRObYO8xYY7Rzo1Gl2N0ahJefJ2YefUWFYrdlIPQTdN8YcC7wGAGPL5YdWK2rbM9RPwcN1Y7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.178.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8EC3A442BB;
+	Wed, 23 Jul 2025 13:28:39 +0000 (UTC)
+Message-ID: <6ec13c2a-764c-4a88-a419-b4d7433c0731@ghiti.fr>
+Date: Wed, 23 Jul 2025 15:28:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] riscv: introduce asm/swab.h
+To: Ignacio Encinas <ignacio@iencinas.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Palmer Dabbelt <palmer@rivosinc.com>
+References: <20250717-riscv-swab-v5-1-1d5bb7c42f38@iencinas.com>
+Content-Language: en-US
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20250717-riscv-swab-v5-1-1d5bb7c42f38@iencinas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdejjeeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhepjeeiuedujeeikeevuedtgeeuhfekudeludegveehffefjedugeegudffgfeluefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepleehrddugedurddutddvrddukeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepleehrddugedurddutddvrddukeeipdhhvghloheplgdutddruddtrddugeeirddvudejngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeekpdhrtghpthhtohepihhgnhgrtghiohesihgvnhgtihhnrghsrdgtohhmpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepshhkhhgrnheslhhin
+ hhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrlhhmvghrsehrihhvohhsihhntgdrtghomh
 
-The function spacemit_ccu_reset_register() allocates memory for an
-auxiliary device. If auxiliary_device_add() fails, it skips cleanup of
-these resources, resulting in leaks.
+Hi Ignacio,
 
-Fix this by using the appropriate error handling path.
+On 7/17/25 20:44, Ignacio Encinas wrote:
+> Implement endianness swap macros for RISC-V.
+>
+> Use the rev8 instruction when Zbb is available. Otherwise, rely on the
+> default mask-and-shift implementation.
+>
+> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Ignacio Encinas <ignacio@iencinas.com>
+> ---
+> Motivated by [1]. Tested with crc_kunit as pointed out here [2]. I can't
+> provide performance numbers as I don't have RISC-V hardware.
+>
+> [1] https://lore.kernel.org/all/20250302220426.GC2079@quark.localdomain/
+> [2] https://lore.kernel.org/all/20250216225530.306980-1-ebiggers@kernel.org/
+> ---
+> Changes in v5:
+> - Duplicate ___constant_swab helpers in arch/riscv/include/asm/swab.h to
+>    avoid delaying the patch as suggested by Alex in [3] (drop patch 1 and
+>    convert this into a 1-patch series)
+> - Link to v4: https://lore.kernel.org/r/20250426-riscv-swab-v4-0-64201404a68c@iencinas.com
+>
+> [3] https://lore.kernel.org/linux-riscv/7e22a448-3cee-4475-b69b-3dd45b57f168@ghiti.fr/
+>
+> Changes in v4:
+>
+> - Add missing include in the 1st patch, reported by
+>    https://lore.kernel.org/all/202504042300.it9RcOSt-lkp@intel.com/
+> - Rewrite the ARCH_SWAB macro as suggested by Arnd
+> - Define __arch_swab64 for CONFIG_32BIT (Ben)
+> - Link to v3: https://lore.kernel.org/r/20250403-riscv-swab-v3-0-3bf705d80e33@iencinas.com
+>
+> Changes in v3:
+>
+> PATCH 2:
+>    Use if(riscv_has_extension_likely) instead of asm goto (Eric). It
+>    looks like both versions generate the same assembly. Perhaps we should
+>    do the same change in other places such as arch/riscv/include/asm/bitops.h
+> - Link to v2: https://lore.kernel.org/r/20250319-riscv-swab-v2-0-d53b6d6ab915@iencinas.com
+>
+> Changes in v2:
+> - Introduce first patch factoring out the default implementation into
+>    asm-generic
+> - Remove blank line to make checkpatch happy
+> - Link to v1: https://lore.kernel.org/r/20250310-riscv-swab-v1-1-34652ef1ee96@iencinas.com
+> ---
+>   arch/riscv/include/asm/swab.h | 87 +++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 87 insertions(+)
+>
+> diff --git a/arch/riscv/include/asm/swab.h b/arch/riscv/include/asm/swab.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..4f408f59fada7251d62f56d174ae76ff19f4a319
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/swab.h
+> @@ -0,0 +1,87 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +#ifndef _ASM_RISCV_SWAB_H
+> +#define _ASM_RISCV_SWAB_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/compiler.h>
+> +#include <asm/cpufeature-macros.h>
+> +#include <asm/hwcap.h>
+> +#include <asm-generic/swab.h>
+> +
+> +#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
 
-Fixes: 988543522ebd ("clk: spacemit: set up reset auxiliary devices")
-Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-Reviewed-by: Yixun Lan <dlan@gentoo.org>
----
-Changes in v2:
-- Properly place the Fixes tip.
----
- drivers/clk/spacemit/ccu-k1.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/clk/spacemit/ccu-k1.c b/drivers/clk/spacemit/ccu-k1.c
-index 65e6de030717..5bb85e32c6cf 100644
---- a/drivers/clk/spacemit/ccu-k1.c
-+++ b/drivers/clk/spacemit/ccu-k1.c
-@@ -1059,7 +1059,7 @@ static int spacemit_ccu_reset_register(struct device *dev,
- 	ret = auxiliary_device_add(adev);
- 	if (ret) {
- 		auxiliary_device_uninit(adev);
--		return ret;
-+		goto err_free_aux_id;
- 	}
- 
- 	return devm_add_action_or_reset(dev, spacemit_adev_unregister, adev);
--- 
-2.43.0
+In order to fix kernel test robot report, we need to make sure the 
+toolchain supports Zbb, the following diff fixes the issue for me:
 
+diff --git a/arch/riscv/include/asm/swab.h b/arch/riscv/include/asm/swab.h
+index 4f408f59fada7..8faa293a9b841 100644
+--- a/arch/riscv/include/asm/swab.h
++++ b/arch/riscv/include/asm/swab.h
+@@ -8,7 +8,7 @@
+  #include <asm/hwcap.h>
+  #include <asm-generic/swab.h>
+
+-#if defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE)
++#if defined(CONFIG_TOOLCHAIN_HAS_ZBB) && defined(CONFIG_RISCV_ISA_ZBB) 
+&& !defined(NO_ALTERNATIVE)          \
+
+  // Duplicated from include/uapi/linux/swab.h
+  #define ___constant_swab16(x) ((__u16)(                                \
+@@ -83,5 +83,5 @@ static __always_inline __u64 __arch_swab64(__u64 value)
+
+  #undef ARCH_SWAB
+
+-#endif /* defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
++#endif /* defined(CONFIG_TOOLCHAIN_HAS_ZBB) && 
+defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
+  #endif /* _ASM_RISCV_SWAB_H */
+
+Would you mind squashing that into a v6 please?
+
+Thanks,
+
+Alex
+
+> +
+> +// Duplicated from include/uapi/linux/swab.h
+> +#define ___constant_swab16(x) ((__u16)(				\
+> +	(((__u16)(x) & (__u16)0x00ffU) << 8) |			\
+> +	(((__u16)(x) & (__u16)0xff00U) >> 8)))
+> +
+> +#define ___constant_swab32(x) ((__u32)(				\
+> +	(((__u32)(x) & (__u32)0x000000ffUL) << 24) |		\
+> +	(((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |		\
+> +	(((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |		\
+> +	(((__u32)(x) & (__u32)0xff000000UL) >> 24)))
+> +
+> +#define ___constant_swab64(x) ((__u64)(				\
+> +	(((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |	\
+> +	(((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |	\
+> +	(((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |	\
+> +	(((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |	\
+> +	(((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |	\
+> +	(((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |	\
+> +	(((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |	\
+> +	(((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
+> +
+> +#define ARCH_SWAB(size, value)						\
+> +({									\
+> +	unsigned long x = value;					\
+> +									\
+> +	if (riscv_has_extension_likely(RISCV_ISA_EXT_ZBB)) {            \
+> +		asm volatile (".option push\n"				\
+> +			      ".option arch,+zbb\n"			\
+> +			      "rev8 %0, %1\n"				\
+> +			      ".option pop\n"				\
+> +			      : "=r" (x) : "r" (x));			\
+> +		x = x >> (BITS_PER_LONG - size);			\
+> +	} else {                                                        \
+> +		x = ___constant_swab##size(value);                      \
+> +	}								\
+> +	x;								\
+> +})
+> +
+> +static __always_inline __u16 __arch_swab16(__u16 value)
+> +{
+> +	return ARCH_SWAB(16, value);
+> +}
+> +
+> +static __always_inline __u32 __arch_swab32(__u32 value)
+> +{
+> +	return ARCH_SWAB(32, value);
+> +}
+> +
+> +#ifdef CONFIG_64BIT
+> +static __always_inline __u64 __arch_swab64(__u64 value)
+> +{
+> +	return ARCH_SWAB(64, value);
+> +}
+> +#else
+> +static __always_inline __u64 __arch_swab64(__u64 value)
+> +{
+> +	__u32 h = value >> 32;
+> +	__u32 l = value & ((1ULL << 32) - 1);
+> +
+> +	return ((__u64)(__arch_swab32(l)) << 32) | ((__u64)(__arch_swab32(h)));
+> +}
+> +#endif
+> +
+> +#define __arch_swab64 __arch_swab64
+> +#define __arch_swab32 __arch_swab32
+> +#define __arch_swab16 __arch_swab16
+> +
+> +#undef ___constant_swab16
+> +#undef ___constant_swab32
+> +#undef ___constant_swab64
+> +
+> +#undef ARCH_SWAB
+> +
+> +#endif /* defined(CONFIG_RISCV_ISA_ZBB) && !defined(NO_ALTERNATIVE) */
+> +#endif /* _ASM_RISCV_SWAB_H */
+>
+> ---
+> base-commit: 155a3c003e555a7300d156a5252c004c392ec6b0
+> change-id: 20250307-riscv-swab-b81b94a9ac1b
+>
+> Best regards,
