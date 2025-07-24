@@ -1,191 +1,149 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC4A238140
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Jul 2025 10:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232841E7C38
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Jul 2025 11:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753353067; cv=none; b=bkNpmLAAw5SBU92TggRzsHpajAWaSLaspLSMhiMzoysGGJYmE3gaQGrn+SmZo07aUtjVUPrKZo2Snc5xf9OJT4ipv7xtP826MGmbmnDN9pkG9Y18BkcoiKXWVKlJf5nWNgYXz+6KX+531qOuCFk2zXBloGIux9xVLkQL6jNeuW4=
+	t=1753357669; cv=none; b=TpjwkQQb8dTWfONQDiU/tPiqwvDgHJwepkSxeq9BbM5L84hEdl0r45rpucbw9gKfTKlYLdjo7Cn135CajRzEafL7gVJgXEOAXCsTyl6xse+8dm8Edemn8GaGL+VdIt9qsT6230n7+NSuzoguPWcdeBUfjGXLku/F5fHvbhWFjuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753353067; c=relaxed/simple;
-	bh=LVenP+nsoNN4ztwTT7+5BvYnHp8m+S0KLrCHEPOqQ1Q=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=GtESiaKdnIcH5+ROPF1K7/n4ZupKzYfVp+DHK2UkmQZwDW5lLwQ/rkIinAiX4g5eji2+g9JulodHiDtN8mmFhrnILF8+6d9iJ8VDNFN6vFhHGfu1BTNeiEaI2JmPPCI7HcpudrA1b3/0XcJxbswi59ROJVpnOcAHK1f1lxi9LmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iR9I8h45; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1753357669; c=relaxed/simple;
+	bh=xgs77wx0lM2xjLQDZNmkRKSFSgm61ftYEgfHt5CdHN8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CxiS4sU/eOJt+TwwV02zSQ7FaEFQfADdpn9lOzG1EksceOjoKVKZdGMr72MMyp4RnegaPDQQZiuv8cC6uV3EfbD6EgPv31X0JPwr93p6BNZlC/Gs7T0c+Bdbw3T43y0VAsTpfwao4FjVaFKNYUQMJP3BR4dt60Ic+SIu46Kdy3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nz4Ludj7; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iR9I8h45"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nz4Ludj7"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D7CBC40404
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Jul 2025 10:31:00 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id B4D2B60FEC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Jul 2025 11:47:47 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.101
+X-Spam-Score: -8.092
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Rlpp6Rvx0ZfH for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Jul 2025 10:31:00 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 0934140053
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0934140053
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=iR9I8h45
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 0934140053
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Jul 2025 10:30:59 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id A3511A56243;
-	Thu, 24 Jul 2025 10:30:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4CB3C4CEED;
-	Thu, 24 Jul 2025 10:30:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753353058;
-	bh=LVenP+nsoNN4ztwTT7+5BvYnHp8m+S0KLrCHEPOqQ1Q=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=iR9I8h45Q7tiIkbLBJykYjfgolOdQ8GAHm36I6pEIclesD32lSlbuWQDqALYU0o1D
-	 LGHIBqpE+cEsIUCTGwdlxenPHWcOAhZtQ3sDXFcZqF71ltKGWJwr5URk5HH5N/nLnS
-	 Ua5yMfBMDNQKlhl6GywzIO1cSDmieK+I8CvN/SBty0GUoC15cAZ6xNf0Q1VVSI/ilI
-	 y8sbncPU4wyyvfD8bN5UsmV+eRbBzmUXcWk/Kk6h8rQ9RbZyFeCTQRAkdG4Y8zRRWE
-	 UJ5/TCGocK0Pcy+rtzk19rAxsuGcIERcmsf44w9lEKFKoWw9V/3TOgGIReW5tt1UUQ
-	 vPmye+NCbLwZg==
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Q3-wpw163ETj for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 24 Jul 2025 11:47:47 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=198.175.65.15; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@intel.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 0955360717
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0955360717
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nz4Ludj7
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 0955360717
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Jul 2025 11:47:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753357667; x=1784893667;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xgs77wx0lM2xjLQDZNmkRKSFSgm61ftYEgfHt5CdHN8=;
+  b=Nz4Ludj7N4BuQ4GN6Zv0rtyxlOJKV5y+VOg5HqePtAdrjc7n7rCnPljC
+   Z1AyydO4ICdWQ3QB0GVrd0RdaVNWxt0zJQwiSBbNFs1xOPYMw5ArsYXF5
+   WWwcoyRLoD6/iva+A9KLtiNv9e3fgGeW7VFPit+9FgmBLT3T7xPxH80Uy
+   tqasjh0wCAHtw+ixpo4ktHArXZo09NoOEqS5+gsAs2JPbCqkX/nxybljZ
+   JU747sq9Q2xIggazQLMcrAOAMK2a6iVj5otfJyjP7EIjXnMPTwPIHIMrB
+   64DyzUPg8EIaIGFIfMkilnlDwwKnk5Yj/wEk8v82pTlkLS2aQlhurDzRF
+   A==;
+X-CSE-ConnectionGUID: FJFsmkLWQ/SQIGZvwk6oew==
+X-CSE-MsgGUID: qfdxFpQUT/GfLdSss/3ytw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="59325232"
+X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
+   d="scan'208";a="59325232"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 04:47:37 -0700
+X-CSE-ConnectionGUID: kvjP7398T1mxSOqTWcEF1Q==
+X-CSE-MsgGUID: xsRqIuZyT7mW5crc68TO9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
+   d="scan'208";a="160175276"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 04:47:34 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1ueuQ7-00000000Yh7-1siL;
+	Thu, 24 Jul 2025 14:47:31 +0300
+Date: Thu, 24 Jul 2025 14:47:31 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Akshay Bansod <akbansd@gmail.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
+Message-ID: <aIIdU7mJi_cEdRuI@smile.fi.intel.com>
+References: <20250723141359.11723-1-akbansd@gmail.com>
+ <aID01DxC1Hf2PK0i@smile.fi.intel.com>
+ <20250723164100.34e864d6@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 24 Jul 2025 12:30:54 +0200
-Message-Id: <DBK7S9OWRZHX.9K74W43S2HRO@kernel.org>
-Cc: <aliceryhl@google.com>, <dakr@kernel.org>, <ojeda@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <~lkcamp/patches@lists.sr.ht>
-Subject: Re: [PATCH v7 3/3] rust: revocable: Document RevocableGuard
- invariants/safety and refine Deref safety
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Marcelo Moreira" <marcelomoreira1905@gmail.com>
-X-Mailer: aerc 0.20.1
-References: <20250721010258.70567-1-marcelomoreira1905@gmail.com>
- <20250721010258.70567-4-marcelomoreira1905@gmail.com>
- <DBHSSQS2IALW.2OEWVKX6PY9LZ@kernel.org>
- <CAPZ3m_h4rvV8gfBi0ZQN=569FhB1+DsF2A6XkkLuWAFUEuKPDQ@mail.gmail.com>
- <DBIIZ28TA8SD.XY1W0S6G280F@kernel.org>
- <CAPZ3m_jepxCD-dr+gyun_=hb-fHX_yxTunsd4JX98nt4XmnEQA@mail.gmail.com>
- <DBJI2YV59B29.2CZPPGB7G9TRF@kernel.org>
- <CAPZ3m_i8j90tkjYaEZp+trd7GHSu1eaQLO+rqpn6HhV35JQH-w@mail.gmail.com>
-In-Reply-To: <CAPZ3m_i8j90tkjYaEZp+trd7GHSu1eaQLO+rqpn6HhV35JQH-w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250723164100.34e864d6@jic23-huawei>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu Jul 24, 2025 at 1:49 AM CEST, Marcelo Moreira wrote:
-> Em qua., 23 de jul. de 2025 =C3=A0s 11:22, Benno Lossin <lossin@kernel.or=
-g> escreveu:
->>
->> On Tue Jul 22, 2025 at 11:23 PM CEST, Marcelo Moreira wrote:
->> > Em ter., 22 de jul. de 2025 =C3=A0s 07:51, Benno Lossin <lossin@kernel=
-.org> escreveu:
->> >> On Tue Jul 22, 2025 at 1:01 AM CEST, Marcelo Moreira wrote:
->> >> > Em seg., 21 de jul. de 2025 =C3=A0s 11:21, Benno Lossin <lossin@ker=
-nel.org> escreveu:
->> >> >> On Mon Jul 21, 2025 at 3:01 AM CEST, Marcelo Moreira wrote:
->> >> >> > Refinements include:
->> >> >> > - `RevocableGuard`'s invariants are updated to precisely state t=
-hat
->> >> >> >   `data_ref` is valid as long as the RCU read-side lock is held.
->> >> >> > - The `RevocableGuard::new` constructor is made `unsafe`, explic=
-itly
->> >> >> >   requiring callers to guarantee the validity of the raw pointer=
- and
->> >> >> >   RCU read-side lock lifetime.
->> >> >> > - A new `SAFETY` comment is added to `Revocable::try_access` to
->> >> >> >   justify the `unsafe` call to `RevocableGuard::new`, detailing =
-how
->> >> >> >   `Self`'s type invariants and the active RCU read-side lock ens=
-ure data
->> >> >> >   validity for reads.
->> >> >> > - The `Deref` implementation's `SAFETY` comment for `RevocableGu=
-ard`
->> >> >> >   is refined.
->> >> >> >
->> >> >> > Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
->> >> >> > ---
->> >> >> >  rust/kernel/revocable.rs | 25 ++++++++++++++++++-------
->> >> >> >  1 file changed, 18 insertions(+), 7 deletions(-)
->> >> >> >
->> >> >> > diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
->> >> >> > index 6d8e9237dbdf..0048de23ab44 100644
->> >> >> > --- a/rust/kernel/revocable.rs
->> >> >> > +++ b/rust/kernel/revocable.rs
->> >> >> > @@ -106,9 +106,12 @@ pub fn new(data: impl PinInit<T>) -> impl P=
-inInit<Self> {
->> >> >> >      pub fn try_access(&self) -> Option<RevocableGuard<'_, T>> {
->> >> >> >          let guard =3D rcu::read_lock();
->> >> >> >          if self.is_available.load(Ordering::Relaxed) {
->> >> >> > -            // Since `self.is_available` is true, data is initi=
-alised and has to remain valid
->> >> >> > -            // because the RCU read side lock prevents it from =
-being dropped.
->> >> >> > -            Some(RevocableGuard::new(self.data.get(), guard))
->> >> >> > +            // SAFETY:
->> >> >> > +            // - `self.data` is valid for reads because of `Sel=
-f`'s type invariants:
->> >> >> > +            //   `self.is_available` is true.
->> >> >> > +            // - The RCU read-side lock is active via `guard`, =
-preventing `self.data`
->> >> >> > +            //   from being dropped and ensuring its validity f=
-or the guard's lifetime.
->> >> >>
->> >> >> This shouldn't be needed.
->> >> >
->> >> > hmm, about what exactly?
->> >> >
->> >> > Are you suggesting to:
->> >> > 1. Simplify the content of the `SAFETY`, is it too verbose?
->> >>
->> >> It's not too verbose. The requirement of holding the RCU read-side lo=
-ck
->> >> is not a *safety requirement*. It's already guaranteed by the existen=
-ce
->> >> of the `rcu::Guard` instance, so we don't need to concern ourselves w=
-ith
->> >> it in the safety requirements.
->> >>
->> >> Essentially you're just stating a tautology in the safety comment lik=
-e
->> >> saying "2 + 2 =3D 4".
->> >
->> > Thanks for showing me that Benno.
->> > So we can keep it like this:
->> > // SAFETY: `self.data` is valid for reads because of `Self`'s type inv=
-ariants:
->> > // `self.is_available` is true.
->> >
->> > Sounds good?
->>
->> Ah sorry, I didn't take a good look at the non-RCU justification. I
->> liked the phrasing in the non-safety comment:
->>
->>     // Since `self.is_available` is true, data is initialised and has to=
- remain valid
->>     // because the RCU read side lock prevents it from being dropped.
->>
->> So how about we combine that with your current version:
->>
->>     // SAFETY: `self.data` is valid for reads for as long as the RCU rea=
-d-side lock is held because of
->>     // `Self`'s type invariants: `self.is_available` is true and the RCU=
- read-side lock is held by
->>     // `guard`.
->
-> good! but how about we simplify it:
-> // SAFETY: `self.data` is valid for reads because of `Self`'s type invari=
-ants:
-> // `self.is_available` is true and the RCU read-side lock is held by `gua=
-rd`.
+On Wed, Jul 23, 2025 at 04:41:00PM +0100, Jonathan Cameron wrote:
+> On Wed, 23 Jul 2025 17:42:28 +0300
+> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+> > On Wed, Jul 23, 2025 at 07:43:59PM +0530, Akshay Bansod wrote:
 
-Sounds good!
+...
 
----
-Cheers,
-Benno
+> > >  	fs_table = &hw->settings->fs_table[sensor->id];
+> > >  	for (i = 0; i < fs_table->fs_len; i++)
+> > > -		len += scnprintf(buf + len, PAGE_SIZE - len, "0.%09u ",
+> > > -				 fs_table->fs_avl[i].gain);
+> > > -	buf[len - 1] = '\n';
+> > > +		len += sysfs_emit_at(buf, len, "0.%09u ",
+> > > +				     fs_table->fs_avl[i].gain);
+> > > +
+> > > +	sysfs_emit_at(buf, len - 1, "\n");  
+> > 
+> > Still looks a bit weird (while working).
+> > 
+> > >  	return len;  
+> > 
+> > I deally we should have a helper doing all this under the hood for plenty of
+> > the (existing) users in the kernel.
+> 
+> hmm I'm not sure generic is terribly easy
+
+I agree, I have some plans for %p specifier extension, but I was stuck with it
+and it in half-basked state in some of my local Git branches.
+
+> and I'd prefer this using the
+> read_avail callbacks that require the data in an array where ever possible.
+> Mind you that does the same print at len - 1 as this.  Let's play. 
+> Completely untested.
+> 
+> 	for (i = 0; i < fs_table->fs_len; i++)
+> 		len += sysfs_emit_at(buf, len, "0x%09u%c",
+> 				     fs_table->fs_avl[i].gain,
+> 				     ((i == fs_table->fs_len - 1) ? '\n', ' '));
+> 
+> better?
+
+Without extra parentheses this makes the job.
+
+
+> It's definitely not more readable than the above, but it does avoid the write
+> to len - 1.
+> 
+> > In any case, I leave this change to others to comment, I don't object pushing
+> > it in this form, either way len - 1 is simply weird.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
