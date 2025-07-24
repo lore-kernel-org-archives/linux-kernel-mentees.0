@@ -1,72 +1,81 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6482EAB73
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Jul 2025 16:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3641E5B6F
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Jul 2025 17:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753376212; cv=none; b=p5GhWAp58xwRsxM36uLK1gY4TmdctIGeTLU7CgIp4Xpfifd/pcuR56/xwyqmhVm5G2uDshWoAdw6zNVLaPmrrrU9xSAMdfXpv/MXBA60nAHDXr0Tdfl+zLOXNFlIhJsNvxmy5e6UdPM0ZGwpscch8SdwUPmiWmPlaZhtriWUbYo=
+	t=1753377978; cv=none; b=fjFs2vpvXiWVxq0TYgPx2LpSrGREi/r5640u3wQZ2OWJdfutRl98Idvz9eFKREHjPjq7qvpaoeCjM4wL8How7gMLLoww0WGVkR76qvfLWnS/UYlSFVeuKams7VPOHoauA4Tu38B1+iSZ/i5sG0ET2ioa/mg6stwrAqQub8Zhk3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753376212; c=relaxed/simple;
-	bh=uJGbBLnOIx9G9aFmKA88U7Wt6IlhqHCuGklS/cfxJaI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j16f0zKKvfihYlJyZYhKRPaEL/X2/hsBbofYoLjo9BBixqxmyFmzGrV/OLF4ha5iuCrVmUCuRI5pyx+gzKq+IXhv0WKBCPm3R7FlV+L2vgtF35+XvwFtCjUHO221OCZxu3N97PgSFQk9MYIf5JlwvTdzLi4uLxud0lmK18zsNug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d0RBEecd; arc=none smtp.client-ip=209.85.210.171
+	s=arc-20240116; t=1753377978; c=relaxed/simple;
+	bh=KAeYHbxC1lS7s7cwnmvwfKOqD25berE2Ks0kTgjzGQU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X+VghVdb429c44Tcd7sbyht0oV5ZWyBg4zCHOzHNfGOj0Ed1OQX+VPOprzXA0HIju0QDHlnFNoEsXVw7Vy9CkxXC3qEgsKlHwmVu1VIJ05DteTAiVOTKtUE1RGdjr+b7SxtzUXYuSTtdXkfCpko9U3prFIsqbd0o67rxuI9cuh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZUbmwWYl; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d0RBEecd"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-748d982e97cso1208687b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Jul 2025 09:56:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZUbmwWYl"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7fd35b301bdso1676968a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Jul 2025 10:26:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753376210; x=1753981010; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1753377975; x=1753982775; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tYcAbkjc4Tkr2KyQs05DD+oyBfj2e0/3qety5W33Bjk=;
-        b=d0RBEecd+qBHxWC9AzMj5bkTz57jSpP6xMAUlb99u7tpKTqde30VWc6HBpbECubII9
-         cDiYG8G8/rqqIPW653vm8gzAlfest7SiaE74Wx3D7NGDiqz7oSiVfnvSZbaCa7MlgrtZ
-         TUFApqABciIUFUq+xEjVM8/GyInJ9qG1gH2rUYolWOI4u0tO0l9CFPftU1lEgbAshOuI
-         vLQab1iHRcvxGFgnsnHSycItdmTe3FP50clEJEf3eAZrhNgu5DpqibxXx86RXQL95MCs
-         VTxX/gwi1+VX1GwtaLNHWjiWPFEWXvfZudeIFEsv55mTTPrA+FWmZGLquOzgCGeN+NRh
-         KK9A==
+        bh=sUe9u1KCQnirtd227P6w1BmHNBfUepiJPaRAQLnBBF8=;
+        b=ZUbmwWYl8hE1udWEcsLc8NVkdTfmJ2WtzzIqaKDNYKWrOTkiEhenO85FRQRPvX1Flk
+         864Sdjxla++w//s5D8CydGz75LorRlXw8nr4IK9XqZM4frQqLAeIYieSD6rhdLSfvSt3
+         CCsTEwdu7+ndGHNO6BM/Yo4vnqa1uHFk9yJu1h0om8nqZpXfUD1J/9pTAZswg3f+rmo1
+         Jh12q+hjiKLHGn3Jwl+jK1JgZqhx2lGMUJ5NNIjszhzZHJsTPJVxhTYujMu4Cxjom0am
+         47htVTWInxVdJeoplOUnj3Of/NOLBRFxnI5+iPHuzF+sEo/1HdVL35Nyz3DsH396EhMf
+         FhZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753376210; x=1753981010;
+        d=1e100.net; s=20230601; t=1753377975; x=1753982775;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tYcAbkjc4Tkr2KyQs05DD+oyBfj2e0/3qety5W33Bjk=;
-        b=YbxbKDtkbjNvg3eCeq5KTxYNeihhMvo6inhLDPc8gWD5VcyTkroB/WkqwjprMTZXAy
-         oLmAzMhhB/O24yjLGYtSJrCprBqSdvvBAKTyF9tNO2e7yheFhojdLY7Ln028VC9DkYrJ
-         0CqnkmoqtWLYSAbzITJbx2NBFtuy98WQkPMvnFuWvmO6bPMitfO5f/bOfJ6tpx0UkE2x
-         /bzwDU/3rXVltIqII9tDv8B3ZRQJSyK7dHQRMDbB6a1GW1icIdOrvZb5brKnKGSWrz8m
-         WKUTzGJtPPWwfgWjgF6dtVvYLLVRnIFMKPlBOiBDnPh9qUPCE3lv0AMxBMaKg5xNFGWQ
-         zy+w==
-X-Forwarded-Encrypted: i=1; AJvYcCXqAJ4BU+/UAmDyIXx2WunnziGJhA6oIIaweteUtny2qwePLkma3K7MgcOZTwrqegw/QKU+/I8nvj1E+XkTESJZtTai1w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw1w1jeMWdbehHXDCzo5ykSdqMJ5LjKeddDSazQUPVQjmp8YcUe
-	/OsrYKpAXTe+x7bLogiyGYt9xoBdvTk6Hur1kmQdkVCvKC9SLL1ZRF2Q
-X-Gm-Gg: ASbGncuTa6IRMZ5S/Yxd670B1ob36Qk/mfOXAsJaKzqs1TqCCj1uCGT6vjFfQdXAKkf
-	BKJll43LG/2GLLaPcMXypa7tV1/t2GgnY/tsdiQJUVe2RIf8+dwom5+5k9tsGDt0/23JbzI+jB8
-	4YEdDxuKvCi8+nZn7ltPDledniX8xZIsMe+43yXpOgXwsMPZNotwn/6RFPWe+Yx2jFspjPFKd0m
-	bkKWFxGT5L0bMqaYYlso7xnyK0qJEhOtDsOdhWdLaIfh7mwuv1HjOIy4mSLUpYFznWyyU2oKiYl
-	sfjiG4Hrg/ZjH5LjFHyskcS03d0cLmYMzTcETZMIB0I0G4+KWU+qHP9cU+xuFqYhcr5cpAwOmg2
-	s3JhdVla4E68kpQHk1G8AIdpyG92UZVd8VQ==
-X-Google-Smtp-Source: AGHT+IEx1SRGfdVyHhlPutv9dzQMR/t+xKkZ8lw/2GL680PVA3DqTsdXoJDkH0z2PXFFMimZ5OowSA==
-X-Received: by 2002:a05:6a20:9c8b:b0:23d:4777:49c3 with SMTP id adf61e73a8af0-23d491bf059mr10760796637.32.1753376209985;
-        Thu, 24 Jul 2025 09:56:49 -0700 (PDT)
-Received: from archlinux ([2401:4900:6318:9e23:f078:c919:e302:8d2b])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3f6c1261e2sm1786314a12.66.2025.07.24.09.56.46
+        bh=sUe9u1KCQnirtd227P6w1BmHNBfUepiJPaRAQLnBBF8=;
+        b=h5I6LC7YSeDfRTnHR5OBPh2w04FN9CR2JrSoRCPI1kebj7gYS5QqM+nq110BRD4k9f
+         d8q3zxXV2h+aA7jigG6eNvr/HLxGCK3PNcIiLQuc7qOkxCulcaIsCu0akaVihPQsDg7h
+         qxMTlIgQkYSrnJOBu4mL2B28stEJdOKA/kkDIMl4KYhB3MG5wmL6BidyHnE+ZWGvyTvy
+         0/sXW0ta60K82hsF81+trOdU95TaoXhSzxat4/lV+GiAzFK13yYgl7eC5vq7W9I3L885
+         hQfVtzkthWGEqrU8Cd/2y840UUSbRe88vDAOJ1bgQquGs/uLTH2pkT3QulA9+rIABvLd
+         cgCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWHQsjWj3C1BSUhm5Z71Cqh+GvEXPqNbNjSVlzPhyLNHp8OCO/zaj61VVwv7/RG6VTB29f9Y/jAKoyse2RrpjzwPObkhg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZKEIltZHU8F/aeu0cnCvEgugh+tVPg95ReXoBFXUlRocSc8+n
+	3P/Nkyvqns97l8C3LYjLcsnOmounQBiSwTXXL8HuMUYtpuJmpPMe5860
+X-Gm-Gg: ASbGncvTldycn9xR6bW06MlYWjRoZeCnrEKDx4Vu3dcwU3CQWd4w2KDqqCRkH8N2asD
+	FulONyqYMNludBR23i4AUzo09qNb6lBYhY5SL+LsQ0Id+0rmNTePUDYBXRCaFfH+QAmXqn2DScK
+	jJFOQfPG10sWULXOTRYblPnO3Sr12Q+ZpJlR2kr/l7DIsCPEk93nY4ctml9fLAMRZ2Ayth+BglT
+	aieUMNn6X8bosOgkEzz3MxSXGjxk7SZEdK19D+v8cKCITh7JbN60q1VkeqPdlM6l+l39+MFH4nV
+	U091uBz7zaCnBiG+HoGOUKeajN5yA6HLXDlldvC+3rX7jAfuY1CnX1gSbHTzDI/e0BbAU2RgCjE
+	5d7LqaT2/uq/hjdCyVPyYNbz+KGCrsTpL/CHrQz1sBQ==
+X-Google-Smtp-Source: AGHT+IFcNSsyYwzraEG8EbrCJ0la1lFa1eFwIPy+bqFr6TTzxI3z6TYAGO2SmResKfllx+bfdd26bA==
+X-Received: by 2002:a05:6a20:a11d:b0:23d:40b6:3f9 with SMTP id adf61e73a8af0-23d4903ffa4mr13812559637.13.1753377975343;
+        Thu, 24 Jul 2025 10:26:15 -0700 (PDT)
+Received: from archlinux ([205.254.163.122])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-761ae1584bfsm1999495b3a.38.2025.07.24.10.26.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 09:56:49 -0700 (PDT)
+        Thu, 24 Jul 2025 10:26:14 -0700 (PDT)
 From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: catalin.marinas@arm.com,
-	will@kernel.org,
+To: linux@armlinux.org.uk,
+	rmk+kernel@armlinux.org.uk,
+	ardb@kernel.org,
+	linus.walleij@linaro.org,
+	ebiggers@google.com,
+	nathan@kernel.org,
+	lumag@kernel.org,
+	dave@vasilevsky.ca,
+	ruanjinjie@huawei.com,
+	kees@kernel.org,
+	liuyuntao12@huawei.com,
 	linux-arm-kernel@lists.infradead.org
 Cc: skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: [PATCH] arm64: allow NR_CPUS=1 for non-SMP and adjust default accordingly
-Date: Thu, 24 Jul 2025 22:26:39 +0530
-Message-ID: <20250724165639.13926-1-suchitkarunakaran@gmail.com>
+Subject: [PATCH] arm: allow single CPU configuration by adjusting NR_CPUS range and defaults
+Date: Thu, 24 Jul 2025 22:56:03 +0530
+Message-ID: <20250724172603.18701-1-suchitkarunakaran@gmail.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -76,37 +85,38 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The arm64 Kconfig for NR_CPUS previously required a minimum of 2 CPUs.
-This patch changes the minimum allowed CPUs to 1, enabling single-core
-non-SMP configurations.
-
-Additionally, the default value for NR_CPUS is now conditional:
-- Defaults to 1 if SMP is not selected (non-SMP systems)
-- Defaults to 512 if SMP is enabled
+Previously, the NR_CPUS config for ARM required a minimum of 2 CPUs.
+This patch changes the minimum NR_CPUS to 1 when SMP is not enabled,
+sets range to exactly 1 if !SMP, allowing only a single CPU setting and
+adds conditional defaults:
+    - default to 1 if SMP is disabled (uniprocessor)
+    - default to 4 if SMP is enabled (multiprocessor)
 
 Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
 ---
- arch/arm64/Kconfig | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ arch/arm/Kconfig | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 393d71124f5d..9b2970f7c5ec 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1528,9 +1528,10 @@ config SCHED_SMT
- 	  places. If unsure say N here.
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 3072731fe09c..23acee38721e 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -1063,11 +1063,13 @@ config KASAN_SHADOW_OFFSET
+ 	default 0xffffffff
  
  config NR_CPUS
--	int "Maximum number of CPUs (2-4096)"
--	range 2 4096
--	default "512"
-+	int "Maximum number of CPUs (1-4096)"
-+	range 1 4096
+-	int "Maximum number of CPUs (2-32)"
++	int "Maximum number of CPUs (1-32)"
++	range 1 1 if !SMP
+ 	range 2 16 if DEBUG_KMAP_LOCAL
+ 	range 2 32 if !DEBUG_KMAP_LOCAL
+ 	depends on SMP
+-	default "4"
 +	default "1" if !SMP
-+	default "512" if SMP
- 
- config HOTPLUG_CPU
- 	bool "Support for hot-pluggable CPUs"
++	default "4" if SMP
+ 	help
+ 	  The maximum number of CPUs that the kernel can support.
+ 	  Up to 32 CPUs can be supported, or up to 16 if kmap_local()
 -- 
 2.50.1
 
