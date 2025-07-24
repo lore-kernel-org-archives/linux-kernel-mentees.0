@@ -1,149 +1,118 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232841E7C38
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Jul 2025 11:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13B13BBF2
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Jul 2025 15:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753357669; cv=none; b=TpjwkQQb8dTWfONQDiU/tPiqwvDgHJwepkSxeq9BbM5L84hEdl0r45rpucbw9gKfTKlYLdjo7Cn135CajRzEafL7gVJgXEOAXCsTyl6xse+8dm8Edemn8GaGL+VdIt9qsT6230n7+NSuzoguPWcdeBUfjGXLku/F5fHvbhWFjuw=
+	t=1753369500; cv=none; b=YLrFs75RZrC+3qdYOexiowM7KRn+OxwMjPcEEBGD9VCWrN9hUbYS1qCFPzl6UR4Z7Kt59AQZvznAC1K32yuGNpksV6RfjMZ2Qt9Wa3TXconRYxhEpCHFpWG/Nd0cywDR/e4TOwyfYeBUP3k2y8vPesqfsg0RFKcGqnicIKiRlQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753357669; c=relaxed/simple;
-	bh=xgs77wx0lM2xjLQDZNmkRKSFSgm61ftYEgfHt5CdHN8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CxiS4sU/eOJt+TwwV02zSQ7FaEFQfADdpn9lOzG1EksceOjoKVKZdGMr72MMyp4RnegaPDQQZiuv8cC6uV3EfbD6EgPv31X0JPwr93p6BNZlC/Gs7T0c+Bdbw3T43y0VAsTpfwao4FjVaFKNYUQMJP3BR4dt60Ic+SIu46Kdy3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nz4Ludj7; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1753369500; c=relaxed/simple;
+	bh=ktDkf4ooHaeISTi4kJC16b6ncEGl//z4yaOeiADDyeY=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=fGv86U+tFBgJw/EO06XsMFJpIC3+9vMkV1tYpk0NdM13UXs9tSbTcgmL+8m8OrXaEFk3IEzZeUk/blcJx6C6THLHKB9FXacCh7uwdJyJwaaO5CvVfCoCxNSSia9L0m/M+UBbuTGgcGeNpOi3FPT2CJ4/A6DSrBL6lCcHNF4TRfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iW5v0sNV; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nz4Ludj7"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B4D2B60FEC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Jul 2025 11:47:47 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -8.092
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Q3-wpw163ETj for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Jul 2025 11:47:47 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=198.175.65.15; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@intel.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 0955360717
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0955360717
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nz4Ludj7
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 0955360717
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 24 Jul 2025 11:47:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753357667; x=1784893667;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xgs77wx0lM2xjLQDZNmkRKSFSgm61ftYEgfHt5CdHN8=;
-  b=Nz4Ludj7N4BuQ4GN6Zv0rtyxlOJKV5y+VOg5HqePtAdrjc7n7rCnPljC
-   Z1AyydO4ICdWQ3QB0GVrd0RdaVNWxt0zJQwiSBbNFs1xOPYMw5ArsYXF5
-   WWwcoyRLoD6/iva+A9KLtiNv9e3fgGeW7VFPit+9FgmBLT3T7xPxH80Uy
-   tqasjh0wCAHtw+ixpo4ktHArXZo09NoOEqS5+gsAs2JPbCqkX/nxybljZ
-   JU747sq9Q2xIggazQLMcrAOAMK2a6iVj5otfJyjP7EIjXnMPTwPIHIMrB
-   64DyzUPg8EIaIGFIfMkilnlDwwKnk5Yj/wEk8v82pTlkLS2aQlhurDzRF
-   A==;
-X-CSE-ConnectionGUID: FJFsmkLWQ/SQIGZvwk6oew==
-X-CSE-MsgGUID: qfdxFpQUT/GfLdSss/3ytw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="59325232"
-X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="59325232"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 04:47:37 -0700
-X-CSE-ConnectionGUID: kvjP7398T1mxSOqTWcEF1Q==
-X-CSE-MsgGUID: xsRqIuZyT7mW5crc68TO9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="160175276"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 04:47:34 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1ueuQ7-00000000Yh7-1siL;
-	Thu, 24 Jul 2025 14:47:31 +0300
-Date: Thu, 24 Jul 2025 14:47:31 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Akshay Bansod <akbansd@gmail.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
-Message-ID: <aIIdU7mJi_cEdRuI@smile.fi.intel.com>
-References: <20250723141359.11723-1-akbansd@gmail.com>
- <aID01DxC1Hf2PK0i@smile.fi.intel.com>
- <20250723164100.34e864d6@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iW5v0sNV"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-23dea2e01e4so14221335ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Jul 2025 08:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753369498; x=1753974298; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4VJi2cu4pu/Zp2p6DZkzJlLQR50cjtH6rzu4mo7OPz4=;
+        b=iW5v0sNV893XbtwxNbNjJZpLgjJo1ARau0FEQAAxYCRjasT6xxWwOwjBgI86B9RLSZ
+         pjfDBMMSsotDjMFqrsWayKPyopneKsxyl2+hPQmjbDczqNq79sfmlMkF/kqKBba7ttYk
+         XaAgdJSOisVYhx9BM1mjBJ0kZ+De32Efxn8IV/0geGQQJdIjQeoyxQknA8umolqL45u3
+         IbkbIOHROAilGIaUYc6vWp04Asq8SRKf9y8lBCY8ESmdkWmimuNKXLBhNQfDY1ZRPhOv
+         j2LetRr95l+yoS859APoKfpYbXe90V1MStO4P+oJB7ROjswZwUObMGvekzmneG2yxKV5
+         eZAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753369498; x=1753974298;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4VJi2cu4pu/Zp2p6DZkzJlLQR50cjtH6rzu4mo7OPz4=;
+        b=JY6sA8SjyBN9R5db3rfCatPO5AkWfM0ns4XU/BIeNsE44eSacTE3QIA/KOcia9CgRg
+         nb4FmTq/SjlqytbKCkkxKTathtgLA3RUlRDJANZIebM+ZhmaNAjW1W+3CoE7dZ6p43Gq
+         DvM5lggIXC89qo3LK3EiBuV0zkoqAMZJc6CeTwDv2QtQjT51WBvelIgNcREadUkadW/X
+         FNh/2brrHsQcRBp+Faap5kJTils69jVoB/UJddCV73TEpw1jH+xyA+6GsvG+CoSPOAG6
+         ELBpDLNcKuWRZ5woE8FYwwz0OhcTpSzFwbxsgHo3Br/k7r078EPICFRyXxIyiWIkzPOz
+         3rgg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+CJLdTLy9lBYpfRhoYvPBxVcSxvtrbyz52FNPwuTpoQ4PABAUimXN130JTobti7PaPIV7QjguIQHwy9tu+rMePwDG4g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfpGmonGRcXzAQ4tOjL4MDBKvG8Hzoc8V7BTn1LXDrejeyVvyt
+	nKmNMVNJj20NUVSHOO3ZlO8MwIG+R46bgQ4Zbbrf1Lsjx5IVfct9ZMQO
+X-Gm-Gg: ASbGncsyFW+3W6O9aY4PAki/Ngv00WO1GAAz0u+WPX+8lgcTM4aF9wavw2YtYhkWCsX
+	ClZgWseYakcwm9aOeWw2d0JCLbJCXPKTv8RsrkNIdVakMZTcD4BWMjUAJPqF5hwCsNI5eXiiPuu
+	Cg5y4bKaI1zH7DmSO+RvRreyJcoT8wFAh2rC3NFr04dZxc8A2d3BembVWn2AU2YuOVRHcvbrbZn
+	wzhiWeB/f3ibM1DSzvVu/0F+4xyWjbcy6vxD6DjPBiAsVxilUtheY0WVfC71EhzWdx4SLufPYgH
+	Wmi4l2HVr8tqFmL/w6nmafTVgfAo7vfUqdz5lP1VFCvY+li1gw9FP8GaeX2IxNzOpFNuSCq/zFm
+	iWt/KeLbMkr0voZuir/qM/ysMls0zzLIPaN+l612x/Q+b9N3K0Hfpq2ZCGLF+oGs5EF2w
+X-Google-Smtp-Source: AGHT+IH9cx1cvRD3IQY4uOu1d+OFFXg/UeSuSp7C6i2Hu8/kishvHcv8Nd2SqaZW2O0pJXbOH+sNHw==
+X-Received: by 2002:a17:903:46c4:b0:234:d292:be95 with SMTP id d9443c01a7336-23f981b6379mr104279395ad.42.1753369498157;
+        Thu, 24 Jul 2025 08:04:58 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fa48bc73dsm17772735ad.89.2025.07.24.08.04.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Jul 2025 08:04:57 -0700 (PDT)
+Message-ID: <8a88e6e7-c1f8-4ec7-87d4-c64714085a69@gmail.com>
+Date: Fri, 25 Jul 2025 00:04:54 +0900
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250723164100.34e864d6@jic23-huawei>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+To: hendrik.hamerlinck@hammernet.be
+Cc: apw@canonical.com, corbet@lwn.net, dwaipayanray1@gmail.com,
+ joe@perches.com, linux-doc@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ lukas.bulwahn@gmail.com, skhan@linuxfoundation.org, workflows@vger.kernel.org
+References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+Subject: Re: [PATCH] checkpatch: validate commit tag ordering
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 23, 2025 at 04:41:00PM +0100, Jonathan Cameron wrote:
-> On Wed, 23 Jul 2025 17:42:28 +0300
-> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
-> > On Wed, Jul 23, 2025 at 07:43:59PM +0530, Akshay Bansod wrote:
+Hello,
 
-...
-
-> > >  	fs_table = &hw->settings->fs_table[sensor->id];
-> > >  	for (i = 0; i < fs_table->fs_len; i++)
-> > > -		len += scnprintf(buf + len, PAGE_SIZE - len, "0.%09u ",
-> > > -				 fs_table->fs_avl[i].gain);
-> > > -	buf[len - 1] = '\n';
-> > > +		len += sysfs_emit_at(buf, len, "0.%09u ",
-> > > +				     fs_table->fs_avl[i].gain);
-> > > +
-> > > +	sysfs_emit_at(buf, len - 1, "\n");  
-> > 
-> > Still looks a bit weird (while working).
-> > 
-> > >  	return len;  
-> > 
-> > I deally we should have a helper doing all this under the hood for plenty of
-> > the (existing) users in the kernel.
+On Thu, 24 Jul 2025 09:20:32 +0200, Hendrik Hamerlinck wrote:
+> Modified the checkpatch script to ensure that commit tags (e.g.,
+> Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
+> correct order according to kernel conventions [1].
 > 
-> hmm I'm not sure generic is terribly easy
-
-I agree, I have some plans for %p specifier extension, but I was stuck with it
-and it in half-basked state in some of my local Git branches.
-
-> and I'd prefer this using the
-> read_avail callbacks that require the data in an array where ever possible.
-> Mind you that does the same print at len - 1 as this.  Let's play. 
-> Completely untested.
+> checkpatch.pl will now emit a BAD_TAG_ORDER warning when tags are out of
+> the expected sequence. Multiple tags of the same type are allowed, but
+> they must also follow the order. 'Link:' tags in the changelog are still
+> allowed before the tag sequence begins, but once the sequence has started,
+> any 'Link:' tags must follow the ordered commit tags. 
 > 
-> 	for (i = 0; i < fs_table->fs_len; i++)
-> 		len += sysfs_emit_at(buf, len, "0x%09u%c",
-> 				     fs_table->fs_avl[i].gain,
-> 				     ((i == fs_table->fs_len - 1) ? '\n', ' '));
-> 
-> better?
+> Link: https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#ordering-of-commit-tags # [1]
+>
 
-Without extra parentheses this makes the job.
+So, you are citing ordering rules specific to the "tip" tree.
 
+I don't think there is any wider consensus with regard to such strict
+rules.
 
-> It's definitely not more readable than the above, but it does avoid the write
-> to len - 1.
-> 
-> > In any case, I leave this change to others to comment, I don't object pushing
-> > it in this form, either way len - 1 is simply weird.
+I have to say that your change will make a lot of unneeded noise for
+most contributors.
 
--- 
-With Best Regards,
-Andy Shevchenko
+If such warnings are only shown when the user opted in to the tip rule,
+say, by using a "--tip" flag or something, they might be helpful.
 
+BR, Akira
+
+> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+> ---
+>  Documentation/dev-tools/checkpatch.rst |  6 ++++
+>  scripts/checkpatch.pl                  | 40 ++++++++++++++++++++++++++
+>  2 files changed, 46 insertions(+)
+[...]
 
