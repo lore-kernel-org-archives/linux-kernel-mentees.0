@@ -1,82 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570BB20012B;
-	Thu, 24 Jul 2025 19:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018A2223DCC
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Jul 2025 20:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753386197; cv=none; b=bZ1unCG6nr2Glyrrn6Tf002MDPU7GbgzPtckToo7ruePZOe+TMSp8SYHyty+/9fkFQWMQTujGw615oD3FOTETGSWkb2XjZT6QXne2eEeqQ5wKKrSh2lrAYRxJ6vet1KQPHmlaA91ef9VJdV0xM4iBglr1ozA82z0a1kY0tREuUU=
+	t=1753388625; cv=none; b=HXn23nrrXwsKMyyj/a7LDxv8R2GnsoNiqmtilMXP5hJR1r6j/+YSnKRD05ltabphLfeG3Zhj7L3HLLD+YDVMzDSnQ5xGyM6jFesHWAdRrnuhlPjZ405EVr/YaR6qrJbVW3BH1gvyfbtIlP5338uPHbnEBM74wbSUul0feqwtKVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753386197; c=relaxed/simple;
-	bh=BId8e81gEFbSFqQY1v7cyxqjQV93EVWZIRUWU0ayerY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L1K5j/JT7hvTTt+a2NDxLbOcOZGjXMCvm7FxIQ7/9gK203eTP4qTCLD9BI3jUO5LD5mz+LTOYfHfLdbb1axtrFSGjc0XqxEj/xA0VA1Gj1OzbcWhMK3+8LWtqfn4huHxwEjIE2dogh5+BgWnPOCJql7xuTMCqDujrtnJTLcaYzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iAqnqtNz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753388625; c=relaxed/simple;
+	bh=CPSldl5hqRKOFHGgVldI2p+/nx7cULLJ0sN3T0HMf3w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oRI+zX6bfSqUy02SHiabMCXWLu3UZwoezrT6ado/ECFTDsbppA9taxRlfB8LL4TkhwLVA3n1zv4WFLAql+ZCzmRUS56mNQn/a/26fm7iUa3HuxzBj3nNdb7lb7LCbYWIvRSDI2ZG8PHijgdjk6/jzrStIWTT638CFckI8XKEhB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=MSTavEqN; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iAqnqtNz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA45BC4CEED;
-	Thu, 24 Jul 2025 19:43:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753386196;
-	bh=BId8e81gEFbSFqQY1v7cyxqjQV93EVWZIRUWU0ayerY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iAqnqtNz1uRqNS23At5/mUzFZeS8mUM207bmCXhN4Un2PnfkiSL3yhMXeuFlyuwyT
-	 WaYmwFnLtFHlA5eXbRrfSBrFP4Myi6wOdTB68tAB/UkOzyymPtMpe5SfYT7X5/ZYfD
-	 j7wE1SDdg+sgN0CCa22Lvacy3zIG5m3Ow7hhKJE0=
-Date: Thu, 24 Jul 2025 15:43:15 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-Cc: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com, 
-	corbet@lwn.net, apw@canonical.com, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] checkpatch: validate commit tag ordering
-Message-ID: <20250724-rapid-auk-of-wind-f6d94a@lemur>
-References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="MSTavEqN"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-235a3dd4f0dso9091325ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Jul 2025 13:23:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1753388623; x=1753993423; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aNZbwQw5iHEb9CKajVAO1swZ1MthUYrqZ1xdxET+ZZU=;
+        b=MSTavEqN3LAb+LH7HnasyH2aK73UaPKiHYHYh28uY02V3diqu0qbU4Q5jeAodI8Ldn
+         +KZFiA/pmWiv6X/5TuMPfLXdiYWCVSKQkVx9psGX3BNN1EOJd3jMOf6Cp/V2hATsTG5N
+         RF1XscWaRJPOZqf466dfTT5Vc+MXjw5X3s+fjuooR5pUNJ6Y6cO5DLZYeu7xHZrD5s7e
+         aNqEzv+4pD3MUyiCN87WhaLQ0nkm2ivk7koTOpyyETaoH43r04LeltUwrXXPHgAu29r+
+         EUD+r7kEg+jHQp4WTeNXUdIaQ5Ie0ft0110tEob4T+sEgdWs0rx8L1KApWd1beTXglpj
+         rFCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753388623; x=1753993423;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aNZbwQw5iHEb9CKajVAO1swZ1MthUYrqZ1xdxET+ZZU=;
+        b=lX8h4Q3JGLdrbl7XlTOGsfuORVSStaGNYpMYjop+X4bZKM06SRg92MTRjrQ2dqre+m
+         Xz80LLxDxZBxizm/JdFyVR3EATTn5J3cnAO1ZVpggk71v1yaMS8jSJceOr/I9r7LutwZ
+         7wBasMtzIJUTOWlisk5nsIjlmPfrhoGwfpUywnkEs3sgnCacqn6cxe8KARH6nyH8Jm1y
+         6fwyTxmGoFBikCnUbeM/2JgFQ/G2QaYvL/dC3sgWhPY+r3ERgwrLg9FpS+Z7J7q7DTd1
+         aXuFKlzBNvmbfme3+c6IidByN5ZU9MJJT22C5jl8jvj8YPlQxZiFxCZml1wHZDN++Cx7
+         6T5g==
+X-Forwarded-Encrypted: i=1; AJvYcCUPtAuEHwCgtafMXopfuQBGu7y0Swd3XvJgmnCHjTDCVp+op5sGyQB1Ci3kF+/ObiwYYIxu0D+zxRzzK1SpdLO3Ytppvw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWHi1NfvJoeWjV+37bkE5wM2Ia5vaosIoub+mv2NFyVBXcvPl/
+	dAoKp+sebpyKHVJIHyZjRLruk1xy1Bq4dMK2tiai8lsr/etOQxuT0I9hy0yjO5/wSbA=
+X-Gm-Gg: ASbGncsaRIVgc134xjDzpFi6nwv7BKLB+XArN32ZA6eEi0+XT3anVYvYgPQ4LY1Aghv
+	mdnXVjQTA8B6m+xeQX/tY8l8MHIlBfhDOifuqXfBUdvJDDumUmdifOXoPRPuUIA22qQgJG/Efa9
+	DpkZjWxU/j+RfB5NLwu+oCcNuSryYKOR2N3rLirDSQC97Vm6xj13qVctKAkOwdUfLKIZLyir4hJ
+	s7117dqQpekkjik/SkFbvDaI6cbtorFsWH8tTWbuXAkF404H/yV1GM++IwNBUgrbF7rr/buu/0E
+	mWnsrudcsHFpwcgyiEkP1kfyaSxHHGP4YNJprRyfHuvrUl9iHj4ikkdcN0+R9suAw8nZpM0Lahe
+	tXPcyi3TSEf1WzSuhPf0QH08tRSdMgsQjvOReAgolnruZkGBLSg==
+X-Google-Smtp-Source: AGHT+IGPSLo7EaVXZqu37vUKdjxS3cia3ql+tqXEMZ48FC5JJP2rAz+cHkmUkDzlL3JzUsZOXDC49Q==
+X-Received: by 2002:a17:903:8c8:b0:23f:6fa4:1567 with SMTP id d9443c01a7336-23f98146861mr98965735ad.8.1753388623215;
+        Thu, 24 Jul 2025 13:23:43 -0700 (PDT)
+Received: from mystery-machine.tail542cf.ts.net ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fa48dbfccsm22077815ad.138.2025.07.24.13.23.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Jul 2025 13:23:42 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	linus.walleij@linaro.org,
+	neil.armstrong@linaro.org,
+	jessica.zhang@oss.qualcomm.com,
+	sam@ravnborg.org
+Cc: dianders@chromium.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH 0/2] drm/panel: novatek-nt35560: Fix bug and clean up
+Date: Thu, 24 Jul 2025 14:23:36 -0600
+Message-ID: <20250724202338.648499-1-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 24, 2025 at 09:20:32AM +0200, Hendrik Hamerlinck wrote:
-> Modified the checkpatch script to ensure that commit tags (e.g.,
-> Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
-> correct order according to kernel conventions [1].
+This series does the following:
+ - Add mipi_dsi_dcs_read_multi() to drm_mipi_dsi.c for improved error
+   handling in drivers which use mipi_dsi_dcs_read() such as the
+   novatek-nt35560 driver.
+ - Fix a bug in nt35560_set_brightness() which causes the driver to
+   incorrectly report that it "failed to disable display backlight".
+ - Clean up novatek-nt35560 driver to use "multi" variants of MIPI
+   functions which promote cleaner code.
 
-As already indicated, this is the convention used by the TIP tree and is not
-universal. Moreover, there is a lot more nuance to how trailers are used, with
-many other subsystems strongly preferring chain-of-custody boundaries. For
-example, the following trailers indicate a history of how the patch was
-reviewed:
+If there's a reason that mipi_dsi_dcs_read_multi doesn't exist, I'm
+happy to drop it.
 
-| Suggested-by: Sug Gester <sug@example.com>
-| Signed-off-by: Alex Dev <alex@example.com>          -- boundary 1
-| Acked-by: Acker Mack <acker@example.com>
-| Tested-by: Test Rogen <test@example.com>
-| Signed-off-by: Sub Maintainer <sub@example.com>     -- boundary 2
-| Reviewed-by: Rev Yewer <rev@example.com>
-| Tested-by: Integration Bot <int@example.com>
-| Link: https://patch.msgid.link/foomsgid@exmple.com
-| Signed-off-by: Main Tainer <main@example.com>       -- boundary 3
+Brigham Campbell (2):
+  drm: Create mipi_dsi_dcs_read_multi()
+  drm/panel: novatek-nt35560: Fix bug and clean up
 
-There are three chain of custody boundaries in the example above and in the
-chain-of-custody scenario the trailers should NOT be moved around between
-these boundaries, because each of the boundaries indicates what each
-signed-off-by person is claiming as their responsibility.
+ drivers/gpu/drm/drm_mipi_dsi.c                |  37 +++
+ drivers/gpu/drm/panel/panel-novatek-nt35560.c | 212 ++++++------------
+ include/drm/drm_mipi_dsi.h                    |   2 +
+ 3 files changed, 105 insertions(+), 146 deletions(-)
 
-Everything above boundary 1 is claimed by Alex Dev; all trailers above
-boundary 2 were collected and applied by Sub Maintainer; all trailers
-above boundary 3 were collected and applied by Main Tainer. Alex Dev has no
-responsibility for the tag provided by the Integration Bot, so moving their
-signed-off-by to the bottom of this series of trailer would imply that they
-are.
 
-I would leave the trailer order entirely alone and out of tools like
-checkpatch, so this is a gentle but firm NACK from me.
+base-commit: 1511d3c4d2bb30f784924a877f3cef518bb73077
+-- 
+2.50.1
 
--K
