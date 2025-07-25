@@ -1,106 +1,122 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE1B2114
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 11:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82842746A
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 11:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753443832; cv=none; b=EQEUSBTQsnIAhJketcDNVgw1d5t8K8AX0JiSb6EG3OJ5N3D5fjnSjcsTvc//t66w8IlX/hShkbe2kf+f1fZLFKHyITvgMzeU63b+CrupkWRiuWc6JKW5TEy/9Y7eCw4KvxhUmMfYOj372CuxIFnJnk6sT5wwx84KfpTd0Qv3zc8=
+	t=1753444549; cv=none; b=uEOBqDMTGDyMN6qc0tRyxH0Vx4J3s6c9kia/N4xqfamwTCwILfocWk9SjcPeZy4cQl/qZEJD2w1tIcPecstnqVEBcEiAwmiEvrU3xoCaSIr4+tl4612yctHk+dmZ11r9fETAn+u1DvpHddWGhehfVKAIOffWKOvZlVcq/V9goaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753443832; c=relaxed/simple;
-	bh=SX27gt8WGyTc//pddi/5lVAJTYadDFPS22964W7q9kc=;
+	s=arc-20240116; t=1753444549; c=relaxed/simple;
+	bh=EW3/RZewc04Z4GAtT/t6/g9e88MWqG2n6qtKS4h8eos=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WMWepFT6DDce7Iq4JAGq1bVxR16PJC7Y9Yn6/8lbVX8JQnVNVAWmhOdVrTf726Oy8QduEfvnublvtjrgbteceswUFSfJIB9pOiej9bGbwDMxb1V0zr06orKnV2oEDRsa1sA1zAyCQ6DC3wyp5J8OfF5dkz5fic2ChEL8buNqpZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k8ej320M; arc=none smtp.client-ip=209.85.208.169
+	 To:Cc:Content-Type; b=uqsn2R6RT6ktZdwFrog89QNdwvsZ6sM4YvT7OApBwhlFytY7kV+Hp0bS28Cca3fs9O9ntN5Grnoiaz2ZL3K5qUQilr9RK9rWiAtbHXMvyeajij3bCQ73MXERo5F5l876RQBSWnSTPK23d9klHRDyTi6jFzDGySKQeyr3OTLSxZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G5QbyhCd; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k8ej320M"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-32b2f5d91c8so17677501fa.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 04:43:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G5QbyhCd"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-32b43cce9efso14911331fa.3
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 04:55:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753443829; x=1754048629; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1753444546; x=1754049346; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SX27gt8WGyTc//pddi/5lVAJTYadDFPS22964W7q9kc=;
-        b=k8ej320M9zwc9c6wrUqmvHNI44uLjaB+Way/1/1BCAGoJHTjuQ4e3Py11DvvvvG0lD
-         PQhjs7m9SDezQ01Zru4aEUTy5IyQOoPVS7C6NmwpI1+KJ2PbS2SeVH11gYa/OAj7BtdW
-         ZmNp5KrcYhsa36VG2JTornWYSrjx5ZzZmBwO9TmgT7gtz3SzWxDJIKMp07UOwWzzmCFw
-         EWbbzdM70ZzPYcU8sq580QN4s4dW6EDcZxC7lOnwa9w1ViCvaqB0l98NqJn1Rh80c46W
-         W0oflbr1xD4R1q2dEwN6dDWjzqpbdLqUT70BsvIkM0URSVkquAsdrjbuPUR5CXnM26zc
-         SE6g==
+        bh=EW3/RZewc04Z4GAtT/t6/g9e88MWqG2n6qtKS4h8eos=;
+        b=G5QbyhCdkx45KNJsyGFDbl9qGHom6n2xWACIfDiJ8HUN+YXOKv3d7Npd6iQhOJZ3FY
+         67Ddt8t5umVoS7clAimlxfZ7Mg2+BStIqOAixmPTyNgPs4wI4t8byam/Xc7zWuP+kEax
+         r67+qGiZr83bNQw0NYFF38AfRS28MPvtNWqF3ymhOQrct16yYYvDAZkb+Q1wmVasBQyh
+         rOuwpBSiEo/vTH+hbtY41GcxjBrXgQa2FOSi0TSV4MB2bIgLI4NyPJsLwImBDMZhoGtu
+         z0+kxzHlnWGsy+knOJ43ppn7uNjiHIQckqQAOFrShqrey+q/xkZPhunsplHd+dDpJh4H
+         M9Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753443829; x=1754048629;
+        d=1e100.net; s=20230601; t=1753444546; x=1754049346;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SX27gt8WGyTc//pddi/5lVAJTYadDFPS22964W7q9kc=;
-        b=SVghva5pJ5weIQgEb4cruGWi0nQPIF7qYXC4zb2hrpSkmz4ZszDuth+5XDzcQUGRS8
-         AajHXxxIcEbxGuy3T7+5ivRLhL/XUfbruEFZITjbPoy995+ilbbXvASZCIufVss/N3S+
-         8f2bjuK3bwdnoqHc8OeUqEYIaDONKoHzflMabMBVPdX/4+XPyYSOsaNIIbwjWK9FF3YI
-         zg40IO+9EX8qHgB1tcheAh+UKM2+bJzFYEIo7a/Np1+vTAwZdwx4hbIhrGwNEsxr3Giv
-         thNRxUOuugZM12jO3uOUSB4PUIR1d89omF3bV7REV33HcW5FI0UdawGbsUaQ7wtWcteN
-         wRIw==
-X-Forwarded-Encrypted: i=1; AJvYcCXQ5W/Nc5A0zpIBIxTj5qzkj6fgn4XQEgL7GhlpCeOrV9VfVkWza6hEan8Mu87omyO1WJ1PLaoktXCPwHX4GaYCm/X52A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy3vbGHwG8zRUnqlM9tCHBYuDFi2W+K2PvFEHzjeyMFGFzQm2RP
-	87DrqN1zLkfrIC9gdSsCdqvtv6Nxaclk/R78MmOqh/oP4KiEWhZukmvdPYjAcll1OvCqSRQKZFI
-	6MVT+zB/7Kl/WIYT5m52UXVLOlyxLyIY=
-X-Gm-Gg: ASbGncujA0KPHI5Zo95VmgQyZtpzMmjoSytM5f3I2tpjJ8lQCKw+PHPxx2u8fIrWd5n
-	g3CSh8Q1mILKruZNiCormYRZ7EL0Jag7FsMv8M4YVDQH0uWu6cuq9C4XK6Huh05HbNUEfyv4R7z
-	Ms4l6Nm2sXZsAzLaecK/M07Y0GKuHTO2xrs8q6+YE5rI8oBwbl/sgmeuNosKYqj4v3tP67ugg3G
-	fIca76X1do1OU+SqU5Y2XxkwiMYjMEdqNSJqhYGcw==
-X-Google-Smtp-Source: AGHT+IF/uTq5VolVx8xgOwqCd67q1dDNjXpPQtZ/butMWQ8g+APYueKGfVZvFlHLNNPJ4DrX+vkmJhbG0cC9gN2MfJo=
-X-Received: by 2002:a2e:a90c:0:b0:32f:1df5:aca1 with SMTP id
- 38308e7fff4ca-331ee7c68a3mr4979891fa.22.1753443828658; Fri, 25 Jul 2025
- 04:43:48 -0700 (PDT)
+        bh=EW3/RZewc04Z4GAtT/t6/g9e88MWqG2n6qtKS4h8eos=;
+        b=gu/10uVlGdmnxYPjGXBPPz9bJ0AeH/6wOyeiZi21Vr3l5JciGD3OcD1osZ+vNNl5ET
+         C52xdynB00Gku7ktyHDFFV48fCuoSdbCgbbATns8zy225/HMPHMTD+N79x1bZs6+gZKG
+         yerJVdVZ3qPAzK67f/oj1WfjvLHY3a1EbihRVVJMZWdHJKDbal2EJ+KdE1XiFBad3OEH
+         q28bpaoLReviSgIFBOw6yqAN44F5IXHbsiu2w23RmTFjBVf9kjMHGv/f0OGrQJUZCXK9
+         orjHpXBOEWweASCzdluqGU7akWKTWz0yE57Wa41fXaUuPR/gkrmW6LKuvxfZTtHO/+f7
+         fE1A==
+X-Forwarded-Encrypted: i=1; AJvYcCVmCC/nbqOQs7R1RrByyuqsi+YGKlG4Jts2WIKAiTgccjGctv8YiJRGHgQkK+b+b78z1MCtKh9WBQBw6k6K4TGXhyArXw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNCbKleh8B3zRPwgdvs/kQVF8EthL1zL798to2m5+Gc16fGjxI
+	OWfI6cECBkh4BR4W/17QdjiezGiX2Y5FPFwUKLPVBo4Ypj1I1+5ew1bhCdMF0U1xEplPTPNQiSH
+	JtS+rgIozYj56yeJ6U+dvj6Cv/K5yRPo=
+X-Gm-Gg: ASbGncvJ4piRNlNClhG61vgBvPBKJN+4nxiG9ny97ipkccnN2oEEyaVEN17Gz/Sstmw
+	7M0bDpWtk+HMxRTy2IYEMILmbWMRr5Rm7nQDT4edk4rPzkfSFJYWRF+asBJV5VzDYFhn1ztbINW
+	CGaeR0iVsmzzyc1424q+Yv1ILXtLY9YVWL2XWLohjTwxy0cBAPXwM/E3qNxkeTmWXZIo5ZYGSQP
+	PrVFKRL6wUKSLlvN3wr8cJAe8YpDdH5ovJxg89kyw==
+X-Google-Smtp-Source: AGHT+IFQLSGhteolx/BhOZh7kHImhRPByLeZr3SrV0xHcjeohc1TolIS9Rf5FAEeQLC7LR/UZZU7aU/rJ0/IuqEp9es=
+X-Received: by 2002:a2e:bc04:0:b0:331:f04d:e689 with SMTP id
+ 38308e7fff4ca-331f04de9c8mr3170771fa.41.1753444545646; Fri, 25 Jul 2025
+ 04:55:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250607064444.4310-1-pranav.tyagi03@gmail.com>
- <87cybdp7to.ffs@tglx> <CAH4c4jLjSBxbd3bqkdgcCSWqXURratANgnbq9negrSU283xHpg@mail.gmail.com>
- <87frg3ss9s.ffs@tglx> <CAH4c4j+P2MJWZWv6M2s+wOdfCF6q6Wyq3=VsB=uNCtEH1LMp-g@mail.gmail.com>
- <202507241036.20E180AAA7@keescook>
-In-Reply-To: <202507241036.20E180AAA7@keescook>
+References: <20250715081158.7651-1-pranav.tyagi03@gmail.com> <0f6e9770-1c79-418e-9135-df692f495a91@redhat.com>
+In-Reply-To: <0f6e9770-1c79-418e-9135-df692f495a91@redhat.com>
 From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Fri, 25 Jul 2025 17:13:37 +0530
-X-Gm-Features: Ac12FXwLzkH5UZuvU38crMxGk5nW6M3q3H-vJxGUPtSXw36fA455ThldReWsSs4
-Message-ID: <CAH4c4jK45KVB7Zg_-xk6zYDgS16yq4Zrzvg1dTGxTaVQTMF=bg@mail.gmail.com>
-Subject: Re: [PATCH] futex: don't leak robust_list pointer on exec race
-To: Kees Cook <kees@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
-	Davidlohr Bueso <dave@stgolabs.net>, =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
-	linux-kernel@vger.kernel.org, jann@thejh.net, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev
+Date: Fri, 25 Jul 2025 17:25:34 +0530
+X-Gm-Features: Ac12FXz-wWa5xMiQLJyLbW0dhFUU7-B1JQL6vLwtj-BbP0qyqr7vZXvi1e48OKk
+Message-ID: <CAH4c4jK9nYf2n51m=eaS4gtx9+cjzhXDAb741BA+burmQtD28w@mail.gmail.com>
+Subject: Re: [PATCH] net: skmsg: fix NULL pointer dereference in sk_msg_recvmsg()
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: john.fastabend@gmail.com, jakub@cloudflare.com, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, ast@kernel.org, cong.wang@bytedance.com, 
+	netdev@vger.kernel.org, bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	syzbot+b18872ea9631b5dcef3b@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 24, 2025 at 11:07=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
+On Thu, Jul 17, 2025 at 4:40=E2=80=AFPM Paolo Abeni <pabeni@redhat.com> wro=
+te:
 >
-> On Wed, Jun 18, 2025 at 11:50:31AM +0530, Pranav Tyagi wrote:
-> > I hope this explains the consequences of the race condition. If it is f=
-ine,
-> > I'll add it to changelog when I resubmit with the helper function.
+> On 7/15/25 10:11 AM, Pranav Tyagi wrote:
+> > A NULL page from sg_page() in sk_msg_recvmsg() can reach
+> > __kmap_local_page_prot() and crash the kernel. Add a check for the page
+> > before calling copy_page_to_iter() and fail early with -EFAULT to
+> > prevent the crash.
 >
-> Thanks for working on this! Are you still planning to send a v2 of this
-> patch? It'd be lovely to make progress on closing out all the items in
-> https://github.com/KSPP/linux/issues/119
-> :)
+> Interesting. I thought the sge in this case are build from the kernel, I
+> did not expect a null page to be possible. Can you describe in the
+> commit message how such bad sges are created?
 >
-> -Kees
+> >
+> > Reported-by: syzbot+b18872ea9631b5dcef3b@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=3Db18872ea9631b5dcef3b
+> > Fixes: 2bc793e3272a ("skmsg: Extract __tcp_bpf_recvmsg() and tcp_bpf_wa=
+it_data()")
+> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
 >
-> --
-> Kees Cook
+> Does not apply to net. Please rebase and resend, adding the target tree
+> in the subj prefix and specifying a revision number.
+>
+> Thanks,
+>
+> Paolo
+>
+>
 
-Hi Kees,
+Hi Paolo,
 
-I will definitely send a v2 of this patch and would like to work on all
-of the issues listed on https://github.com/KSPP/linux/issues/119,
-as it presents me with a great learning opportunity.
+Apologies for a delayed response. I will send a v2 of the patch with all th=
+e
+required changes shortly. Also, as I am a beginner at kernel work, my initi=
+al
+intention was to just fix the bug and (honestly) I did not think about
+the cause of
+bad sges. But, I will definitely take a deep dive and try my level best
+to look for a suitable explanation for the same.
+
+Thanks for the feedback.
 
 Regards
 Pranav Tyagi
