@@ -1,111 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DE817D2;
-	Fri, 25 Jul 2025 08:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD77A2BFC85
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 08:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753432945; cv=none; b=WGN4QdePHJ8m6cZUKv3DjxIb6+VsAw6fnpshShUaNjskgKYfPAo27N+2RoyoTANiPKl1nanf5oN6zCjdR5NFdnH/UiVc7aMRDb7skOeScIDWtdYtqf1fhBPJuioDtAsaCK6K2jwp9H9zujMtGeqLJjY8aAFfUCFJkj6+CDyw3R8=
+	t=1753432948; cv=none; b=WyjzlrP046Bz6XJYMGb/F1+R67Nx8zVok1OpqzQMFy6DEWmrSL9EM5X31vXhntAYWFl9GHY1QFH9wjMQMcRDLvNrsyX/pv6ykRa3Q0+CocmAYxDN/VKt/crdD2y6jxiweWLuKy9ugECz01ZinHrIqyIVnxBfIx1O3vjyLusD//s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753432945; c=relaxed/simple;
-	bh=eyrIiE9CMNQgpmmPci4DyCrXvE2aIgHWutKBsm8t7fM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ggWF4aRNX+I9UhRIIUrPIZUbr+uUcbPXdgdxNa1LXk4WhpjleqVn7x8+tAVKEp1F/PXSqjXxWvC+aOskScTnRBNR1q1O2u6+A6uMWLiQFJpi6+ZhPiP6pT9euo4N5qrtMjFi1UcXpsbDUXE0s15Yu+JwBQcA+ujtjWpEyp1UL9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NdRZ1KKd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753432948; c=relaxed/simple;
+	bh=0VdI9Xfav68u9AfVX5VANCV5qkHLL0bR3T+28mB9B2I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p1n3sxr2avjyfSOUyPrzLYCgn6qNHhYFr462eOeUHzCd+eP+/mfE5MlHa4E4sKxzuitQzIyi1nUX9LCEVR/6PC8rNj8QlrrOZ4/DcQwlOdmRtnICF9bxtbsO63y4jzAof2udjj3dQvN5daeIiy/r72HDDQ8rsKKzujvgwRpdJhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PqRwRMQF; arc=none smtp.client-ip=209.85.160.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NdRZ1KKd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F637C4CEE7;
-	Fri, 25 Jul 2025 08:42:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753432945;
-	bh=eyrIiE9CMNQgpmmPci4DyCrXvE2aIgHWutKBsm8t7fM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NdRZ1KKdFwV6Pr4LYIaSZZFb50NnngdCFaLctSd24rgVAnqHqL0HLjJlR1tqXP0VN
-	 JrILcXYom1eIe70O818unv/B4WYz207Skcb0NYQRtEc1HkmquAWQMiJsgXBFfB9Koq
-	 E+ti6mMZeyeQXz7MEg51FgpvDJgHwo3zCODryavxNJZVNJzkQEi0j0m+BfEz6ctZFi
-	 HR5sK0TmKk2j5SRzINk+P4MkpRT76+ZePJqHx0sT8CNcgl1OCm3eYsfpRWaB7IMPOD
-	 p9sLPk8gEJABbh15H8+F2XF063z/2JRcwxT91Y0zkhbrV1jnjk12fmIu43nFsV2yeE
-	 17XDcAYHgcp7g==
-Message-ID: <53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
-Date: Fri, 25 Jul 2025 10:42:20 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PqRwRMQF"
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2ffaf8283faso1391281fac.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 01:42:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753432946; x=1754037746; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RtRwewxpwq6wdbx4qVBSFtRxsYRj3bEn6apmzcYXc4U=;
+        b=PqRwRMQFwORzErdsUzlWOccERTpR75eJHDbTyxiVINkXytAq1rFBVvYhqfV4EjjWY+
+         +GoXF/ryAbgoXDSdhYMOzbA5RCJwJCY8J7g72Si/NAA9QK/N8d9HyBWbnJ2P6mUk1Sly
+         biJTkfFw9F1gD/gLRHZzdz+K7LD7IBhYjYEVoQPPVJn3lXMnfcZk/mc/x3DgQE5Hfu2t
+         APrOiGTb5haWXvo+YG9gOrqUaeQ4C5bG2FWoFDJQ3qcIJyUbfF+LGAXuR0sO26wPOdZq
+         HpubdQuL+uVu0GQPCDuD09tRL7GG+3RCdxQJdCJcnqLjki/STuPBJSF4DsM6JKUD5q9r
+         lDYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753432946; x=1754037746;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RtRwewxpwq6wdbx4qVBSFtRxsYRj3bEn6apmzcYXc4U=;
+        b=XPXYzN7Rcd43GVKMrt6/TzIkICQVtACvauU061QPLaYEKV4DCOEK5dIQIUPO6zg1Am
+         fyGl6cUI4iuUjTsdOpSADpAZXcOMmHJIq6/cARjC1NGhNjzGlUxZW7bKa9aFs1ML3Y5x
+         uxig7yoAIgNDKanZ/CwQvIq7QoGA7PU3vnYwyNIZ5ArpQpxN21Hd3p+2afiug8Zk5D51
+         19xO34Wp+6qCnfAJiC3tVEvPjOuuphXfO4ISHd0xcjvc+qQJaFH02iWVjPhXl+vPpdY4
+         9iGhtRQUD+tGz4DiNqGhbDIAx+zYCJIEr7wadVmYNTNCkKq/MaN3OSEoLoY2ly+4KBYm
+         gEsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWkFnn5BjhkCxPGgXRrsYsSUEomJI+XwiNxIUMwjmqgPQ4vYRuHdiGyAn3dRecoQxj45fNmPp4dIo3fsbXNfSEz9zunCQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy05ccEVdI5UlPV3DLO5YTm6bgKUyP+dMgdY9T43a54BI2nL427
+	Kmu+A7ODSGiCuE8fLNljmjZ6F4U+2mPpgHe4okQgxJD+ogLodEgdQCdxCrIiRgS1qiL/A++ErhT
+	x/LohJRyg8RhbaW4r+rjQjiTIH+atgjE=
+X-Gm-Gg: ASbGncvnuzZM9hE4lgrcmwhjLSEhRde3O+dhXW4fgOOk79g0zpDVNHLm05qHi142/Eo
+	3U7XOb3PiULB1aeVFxEqCrTafFFOsiDABr2ZO4uEwZoEA4gHQzIQIw4CuWdT1CJfLAG4JA0PueE
+	IrEZhBYJAzRA9zCLJ0Yf9vXli7NqkmEAu+ZOHtaigCTOvvy4bObKEAjYjJnpb9pBbfNONV9WtW9
+	WxdXr9Uw5M80BGvRIs=
+X-Google-Smtp-Source: AGHT+IEVFljy3riv5EFfk3X+lUpRuFxZgCwOrvFCvupN/y94Ps1Jz3V/M3D+xKgRnuMZ/6lDOnpaj2GSxOEwWjj3QCE=
+X-Received: by 2002:a05:6870:6591:b0:2ff:a6d7:52a1 with SMTP id
+ 586e51a60fabf-30701b95dc2mr743859fac.35.1753432945740; Fri, 25 Jul 2025
+ 01:42:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] checkpatch: validate commit tag ordering
-To: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>,
- dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
- corbet@lwn.net, apw@canonical.com
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250724165639.13926-1-suchitkarunakaran@gmail.com> <aINB80UeE9pqKvrC@arm.com>
+In-Reply-To: <aINB80UeE9pqKvrC@arm.com>
+From: Suchit K <suchitkarunakaran@gmail.com>
+Date: Fri, 25 Jul 2025 14:12:14 +0530
+X-Gm-Features: Ac12FXzZNc1wz0lfkqTulvOvt5tDVpytLFbz6qy0ZVkM2HN4QImTHaxW2rcRyCw
+Message-ID: <CAO9wTFjYnNAiGXqczPMgmCMno2Y-T5GCmgBgjGfDRbEcvsyNhg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: allow NR_CPUS=1 for non-SMP and adjust default accordingly
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: will@kernel.org, linux-arm-kernel@lists.infradead.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 24/07/2025 09:20, Hendrik Hamerlinck wrote:
-> Modified the checkpatch script to ensure that commit tags (e.g.,
-> Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
-> correct order according to kernel conventions [1].
+On Fri, 25 Jul 2025 at 14:06, Catalin Marinas <catalin.marinas@arm.com> wrote:
+>
+> On Thu, Jul 24, 2025 at 10:26:39PM +0530, Suchit Karunakaran wrote:
+> > The arm64 Kconfig for NR_CPUS previously required a minimum of 2 CPUs.
+> > This patch changes the minimum allowed CPUs to 1, enabling single-core
+> > non-SMP configurations.
+>
+> Do you have such single-core system?
 
+No, I don't have a single core system. I've just used single core VMs
+using QEMU, etc, but I don't know if it's equivalent.
 
-These are not the conventions I use for my subsystems and ask others to
-follow, so imposing TIP rules to all maintainers needs broad consensus,
-not (yet) checkpatch.
+>
+> >  config NR_CPUS
+> > -     int "Maximum number of CPUs (2-4096)"
+> > -     range 2 4096
+> > -     default "512"
+> > +     int "Maximum number of CPUs (1-4096)"
+> > +     range 1 4096
+> > +     default "1" if !SMP
+> > +     default "512" if SMP
+>
+> It's been some time since we forced CONFIG_SMP always on for arm64.
+>
 
-What's more, I think above TIP rules are contradicting with existing,
-widely used and approved toolset - b4. So no, if you want universal
-tool, please use b4 or whatever b4 defines.
-
-Best regards,
-Krzysztof
-
+I'm sorry, I wasn't aware of it. Thanks for the clarification.
