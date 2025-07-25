@@ -1,100 +1,106 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD77A2BFC85
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 08:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE1B2114
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 11:43:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753432948; cv=none; b=WyjzlrP046Bz6XJYMGb/F1+R67Nx8zVok1OpqzQMFy6DEWmrSL9EM5X31vXhntAYWFl9GHY1QFH9wjMQMcRDLvNrsyX/pv6ykRa3Q0+CocmAYxDN/VKt/crdD2y6jxiweWLuKy9ugECz01ZinHrIqyIVnxBfIx1O3vjyLusD//s=
+	t=1753443832; cv=none; b=EQEUSBTQsnIAhJketcDNVgw1d5t8K8AX0JiSb6EG3OJ5N3D5fjnSjcsTvc//t66w8IlX/hShkbe2kf+f1fZLFKHyITvgMzeU63b+CrupkWRiuWc6JKW5TEy/9Y7eCw4KvxhUmMfYOj372CuxIFnJnk6sT5wwx84KfpTd0Qv3zc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753432948; c=relaxed/simple;
-	bh=0VdI9Xfav68u9AfVX5VANCV5qkHLL0bR3T+28mB9B2I=;
+	s=arc-20240116; t=1753443832; c=relaxed/simple;
+	bh=SX27gt8WGyTc//pddi/5lVAJTYadDFPS22964W7q9kc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p1n3sxr2avjyfSOUyPrzLYCgn6qNHhYFr462eOeUHzCd+eP+/mfE5MlHa4E4sKxzuitQzIyi1nUX9LCEVR/6PC8rNj8QlrrOZ4/DcQwlOdmRtnICF9bxtbsO63y4jzAof2udjj3dQvN5daeIiy/r72HDDQ8rsKKzujvgwRpdJhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PqRwRMQF; arc=none smtp.client-ip=209.85.160.51
+	 To:Cc:Content-Type; b=WMWepFT6DDce7Iq4JAGq1bVxR16PJC7Y9Yn6/8lbVX8JQnVNVAWmhOdVrTf726Oy8QduEfvnublvtjrgbteceswUFSfJIB9pOiej9bGbwDMxb1V0zr06orKnV2oEDRsa1sA1zAyCQ6DC3wyp5J8OfF5dkz5fic2ChEL8buNqpZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k8ej320M; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PqRwRMQF"
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2ffaf8283faso1391281fac.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 01:42:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k8ej320M"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-32b2f5d91c8so17677501fa.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 04:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753432946; x=1754037746; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RtRwewxpwq6wdbx4qVBSFtRxsYRj3bEn6apmzcYXc4U=;
-        b=PqRwRMQFwORzErdsUzlWOccERTpR75eJHDbTyxiVINkXytAq1rFBVvYhqfV4EjjWY+
-         +GoXF/ryAbgoXDSdhYMOzbA5RCJwJCY8J7g72Si/NAA9QK/N8d9HyBWbnJ2P6mUk1Sly
-         biJTkfFw9F1gD/gLRHZzdz+K7LD7IBhYjYEVoQPPVJn3lXMnfcZk/mc/x3DgQE5Hfu2t
-         APrOiGTb5haWXvo+YG9gOrqUaeQ4C5bG2FWoFDJQ3qcIJyUbfF+LGAXuR0sO26wPOdZq
-         HpubdQuL+uVu0GQPCDuD09tRL7GG+3RCdxQJdCJcnqLjki/STuPBJSF4DsM6JKUD5q9r
-         lDYw==
+        d=gmail.com; s=20230601; t=1753443829; x=1754048629; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SX27gt8WGyTc//pddi/5lVAJTYadDFPS22964W7q9kc=;
+        b=k8ej320M9zwc9c6wrUqmvHNI44uLjaB+Way/1/1BCAGoJHTjuQ4e3Py11DvvvvG0lD
+         PQhjs7m9SDezQ01Zru4aEUTy5IyQOoPVS7C6NmwpI1+KJ2PbS2SeVH11gYa/OAj7BtdW
+         ZmNp5KrcYhsa36VG2JTornWYSrjx5ZzZmBwO9TmgT7gtz3SzWxDJIKMp07UOwWzzmCFw
+         EWbbzdM70ZzPYcU8sq580QN4s4dW6EDcZxC7lOnwa9w1ViCvaqB0l98NqJn1Rh80c46W
+         W0oflbr1xD4R1q2dEwN6dDWjzqpbdLqUT70BsvIkM0URSVkquAsdrjbuPUR5CXnM26zc
+         SE6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753432946; x=1754037746;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RtRwewxpwq6wdbx4qVBSFtRxsYRj3bEn6apmzcYXc4U=;
-        b=XPXYzN7Rcd43GVKMrt6/TzIkICQVtACvauU061QPLaYEKV4DCOEK5dIQIUPO6zg1Am
-         fyGl6cUI4iuUjTsdOpSADpAZXcOMmHJIq6/cARjC1NGhNjzGlUxZW7bKa9aFs1ML3Y5x
-         uxig7yoAIgNDKanZ/CwQvIq7QoGA7PU3vnYwyNIZ5ArpQpxN21Hd3p+2afiug8Zk5D51
-         19xO34Wp+6qCnfAJiC3tVEvPjOuuphXfO4ISHd0xcjvc+qQJaFH02iWVjPhXl+vPpdY4
-         9iGhtRQUD+tGz4DiNqGhbDIAx+zYCJIEr7wadVmYNTNCkKq/MaN3OSEoLoY2ly+4KBYm
-         gEsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWkFnn5BjhkCxPGgXRrsYsSUEomJI+XwiNxIUMwjmqgPQ4vYRuHdiGyAn3dRecoQxj45fNmPp4dIo3fsbXNfSEz9zunCQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy05ccEVdI5UlPV3DLO5YTm6bgKUyP+dMgdY9T43a54BI2nL427
-	Kmu+A7ODSGiCuE8fLNljmjZ6F4U+2mPpgHe4okQgxJD+ogLodEgdQCdxCrIiRgS1qiL/A++ErhT
-	x/LohJRyg8RhbaW4r+rjQjiTIH+atgjE=
-X-Gm-Gg: ASbGncvnuzZM9hE4lgrcmwhjLSEhRde3O+dhXW4fgOOk79g0zpDVNHLm05qHi142/Eo
-	3U7XOb3PiULB1aeVFxEqCrTafFFOsiDABr2ZO4uEwZoEA4gHQzIQIw4CuWdT1CJfLAG4JA0PueE
-	IrEZhBYJAzRA9zCLJ0Yf9vXli7NqkmEAu+ZOHtaigCTOvvy4bObKEAjYjJnpb9pBbfNONV9WtW9
-	WxdXr9Uw5M80BGvRIs=
-X-Google-Smtp-Source: AGHT+IEVFljy3riv5EFfk3X+lUpRuFxZgCwOrvFCvupN/y94Ps1Jz3V/M3D+xKgRnuMZ/6lDOnpaj2GSxOEwWjj3QCE=
-X-Received: by 2002:a05:6870:6591:b0:2ff:a6d7:52a1 with SMTP id
- 586e51a60fabf-30701b95dc2mr743859fac.35.1753432945740; Fri, 25 Jul 2025
- 01:42:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753443829; x=1754048629;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SX27gt8WGyTc//pddi/5lVAJTYadDFPS22964W7q9kc=;
+        b=SVghva5pJ5weIQgEb4cruGWi0nQPIF7qYXC4zb2hrpSkmz4ZszDuth+5XDzcQUGRS8
+         AajHXxxIcEbxGuy3T7+5ivRLhL/XUfbruEFZITjbPoy995+ilbbXvASZCIufVss/N3S+
+         8f2bjuK3bwdnoqHc8OeUqEYIaDONKoHzflMabMBVPdX/4+XPyYSOsaNIIbwjWK9FF3YI
+         zg40IO+9EX8qHgB1tcheAh+UKM2+bJzFYEIo7a/Np1+vTAwZdwx4hbIhrGwNEsxr3Giv
+         thNRxUOuugZM12jO3uOUSB4PUIR1d89omF3bV7REV33HcW5FI0UdawGbsUaQ7wtWcteN
+         wRIw==
+X-Forwarded-Encrypted: i=1; AJvYcCXQ5W/Nc5A0zpIBIxTj5qzkj6fgn4XQEgL7GhlpCeOrV9VfVkWza6hEan8Mu87omyO1WJ1PLaoktXCPwHX4GaYCm/X52A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy3vbGHwG8zRUnqlM9tCHBYuDFi2W+K2PvFEHzjeyMFGFzQm2RP
+	87DrqN1zLkfrIC9gdSsCdqvtv6Nxaclk/R78MmOqh/oP4KiEWhZukmvdPYjAcll1OvCqSRQKZFI
+	6MVT+zB/7Kl/WIYT5m52UXVLOlyxLyIY=
+X-Gm-Gg: ASbGncujA0KPHI5Zo95VmgQyZtpzMmjoSytM5f3I2tpjJ8lQCKw+PHPxx2u8fIrWd5n
+	g3CSh8Q1mILKruZNiCormYRZ7EL0Jag7FsMv8M4YVDQH0uWu6cuq9C4XK6Huh05HbNUEfyv4R7z
+	Ms4l6Nm2sXZsAzLaecK/M07Y0GKuHTO2xrs8q6+YE5rI8oBwbl/sgmeuNosKYqj4v3tP67ugg3G
+	fIca76X1do1OU+SqU5Y2XxkwiMYjMEdqNSJqhYGcw==
+X-Google-Smtp-Source: AGHT+IF/uTq5VolVx8xgOwqCd67q1dDNjXpPQtZ/butMWQ8g+APYueKGfVZvFlHLNNPJ4DrX+vkmJhbG0cC9gN2MfJo=
+X-Received: by 2002:a2e:a90c:0:b0:32f:1df5:aca1 with SMTP id
+ 38308e7fff4ca-331ee7c68a3mr4979891fa.22.1753443828658; Fri, 25 Jul 2025
+ 04:43:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250724165639.13926-1-suchitkarunakaran@gmail.com> <aINB80UeE9pqKvrC@arm.com>
-In-Reply-To: <aINB80UeE9pqKvrC@arm.com>
-From: Suchit K <suchitkarunakaran@gmail.com>
-Date: Fri, 25 Jul 2025 14:12:14 +0530
-X-Gm-Features: Ac12FXzZNc1wz0lfkqTulvOvt5tDVpytLFbz6qy0ZVkM2HN4QImTHaxW2rcRyCw
-Message-ID: <CAO9wTFjYnNAiGXqczPMgmCMno2Y-T5GCmgBgjGfDRbEcvsyNhg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: allow NR_CPUS=1 for non-SMP and adjust default accordingly
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: will@kernel.org, linux-arm-kernel@lists.infradead.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+References: <20250607064444.4310-1-pranav.tyagi03@gmail.com>
+ <87cybdp7to.ffs@tglx> <CAH4c4jLjSBxbd3bqkdgcCSWqXURratANgnbq9negrSU283xHpg@mail.gmail.com>
+ <87frg3ss9s.ffs@tglx> <CAH4c4j+P2MJWZWv6M2s+wOdfCF6q6Wyq3=VsB=uNCtEH1LMp-g@mail.gmail.com>
+ <202507241036.20E180AAA7@keescook>
+In-Reply-To: <202507241036.20E180AAA7@keescook>
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Date: Fri, 25 Jul 2025 17:13:37 +0530
+X-Gm-Features: Ac12FXwLzkH5UZuvU38crMxGk5nW6M3q3H-vJxGUPtSXw36fA455ThldReWsSs4
+Message-ID: <CAH4c4jK45KVB7Zg_-xk6zYDgS16yq4Zrzvg1dTGxTaVQTMF=bg@mail.gmail.com>
+Subject: Re: [PATCH] futex: don't leak robust_list pointer on exec race
+To: Kees Cook <kees@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
+	Davidlohr Bueso <dave@stgolabs.net>, =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	linux-kernel@vger.kernel.org, jann@thejh.net, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 25 Jul 2025 at 14:06, Catalin Marinas <catalin.marinas@arm.com> wrote:
+On Thu, Jul 24, 2025 at 11:07=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
 >
-> On Thu, Jul 24, 2025 at 10:26:39PM +0530, Suchit Karunakaran wrote:
-> > The arm64 Kconfig for NR_CPUS previously required a minimum of 2 CPUs.
-> > This patch changes the minimum allowed CPUs to 1, enabling single-core
-> > non-SMP configurations.
+> On Wed, Jun 18, 2025 at 11:50:31AM +0530, Pranav Tyagi wrote:
+> > I hope this explains the consequences of the race condition. If it is f=
+ine,
+> > I'll add it to changelog when I resubmit with the helper function.
 >
-> Do you have such single-core system?
+> Thanks for working on this! Are you still planning to send a v2 of this
+> patch? It'd be lovely to make progress on closing out all the items in
+> https://github.com/KSPP/linux/issues/119
+> :)
+>
+> -Kees
+>
+> --
+> Kees Cook
 
-No, I don't have a single core system. I've just used single core VMs
-using QEMU, etc, but I don't know if it's equivalent.
+Hi Kees,
 
->
-> >  config NR_CPUS
-> > -     int "Maximum number of CPUs (2-4096)"
-> > -     range 2 4096
-> > -     default "512"
-> > +     int "Maximum number of CPUs (1-4096)"
-> > +     range 1 4096
-> > +     default "1" if !SMP
-> > +     default "512" if SMP
->
-> It's been some time since we forced CONFIG_SMP always on for arm64.
->
+I will definitely send a v2 of this patch and would like to work on all
+of the issues listed on https://github.com/KSPP/linux/issues/119,
+as it presents me with a great learning opportunity.
 
-I'm sorry, I wasn't aware of it. Thanks for the clarification.
+Regards
+Pranav Tyagi
