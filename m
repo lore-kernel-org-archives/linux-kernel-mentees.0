@@ -1,80 +1,59 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5E9915E90
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 02:16:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE48236430;
+	Fri, 25 Jul 2025 02:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753409776; cv=none; b=B6vNXJnq7zK8lUlXhaOtU+4fd4ZbFDUjcJgRGzRBIzbibqQlRkOzXkfqhd6cCx09yREh9NP9PNWDSVRZUAtMCv4v444Ixc5viHziE/Kc/lNF6ZTpZ/4Vec0OUZAFJjVfOPdICY3thSVTqr0llLD0b4iJisiNnvaEqkg05C7Tg/4=
+	t=1753411005; cv=none; b=eDb+UPjoBraYyalrntqdqhpAf/F55/oWIbSOYdSPkjZ9YKbuawag2w+iVyfLJf5jqqqNRuFm5Z+Nviw1AFQIOB8Gk0Ou4Ex7sh/Sr30sb83yIBc6hybAAONq8lu4jMIiAeYkst//seHymP2rygXTdkxjdUURWSNP2jE+kA0aXCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753409776; c=relaxed/simple;
-	bh=0vmeIDkaiq1z2hAicDXYFW3N5Ep3oCj9Tm8KCVC9LFE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ciIKEwZhmDzKGwtr+hRwJEgWFTiMACMaiBBg/5vBpezwgCdskEzvidwUqPerdnzuK/dWG8JB28a8LWls6bzL23d1gy2Y1FSagIX9evrUvTGRW/oVmolIGieFzUEsQ02Fkd90MCloDCE59b3owaTAMguTRO00FHEiFQeUcHTm2Po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 548881A00;
-	Thu, 24 Jul 2025 19:16:07 -0700 (PDT)
-Received: from [10.164.146.15] (unknown [10.164.146.15])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A3693F5A1;
-	Thu, 24 Jul 2025 19:16:11 -0700 (PDT)
-Message-ID: <90864bf5-2edb-4901-9566-c89431c6d717@arm.com>
-Date: Fri, 25 Jul 2025 07:46:08 +0530
+	s=arc-20240116; t=1753411005; c=relaxed/simple;
+	bh=NcQNLpCapTocLDEkrklXTk9xmH7O0wOVOHF2U8L23PQ=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=iwjhdc/DwUUN7i9rffiF1pYhlNw2eQxennKhhKMrIiEGJF6bWv/P68TAWgEyFWD4Eoqfm0YGTR2zgdz7RWn4lB1uxcfmECxJLtb2CUCMi0Km87oQhuOnieY5pyp2yo0UdtOKEkSidL9QXM6TcUNuUYqdLLobYjVxlQzAjwOqUJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MsSbZw0W; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MsSbZw0W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92400C4CEED;
+	Fri, 25 Jul 2025 02:36:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753411005;
+	bh=NcQNLpCapTocLDEkrklXTk9xmH7O0wOVOHF2U8L23PQ=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=MsSbZw0WrGmeLdlsR73muQEXhDwRkjqEVCYIXt06wTyB0IiBfncY5gV2qvFT7Kdpv
+	 PRo28nQZoPh1lepd5VteAn3PhMI8Ovk9NtahLcTtPRoBxbvaOQyoTJQmHdaz++Yz1a
+	 krKXqy9dqbxRRb5ipx/Tmdk/6LBoMuOKs2x8sLK6NagJQsGN2xWFZ/XxTFyIbj8fbj
+	 5zB5Kz7zfvD2j7aiTWarUMa4taUepCMVQ1nySoHBUOLLXeHywZFt+XHQ1o4xEz+Zy1
+	 r+1LkJygl18AKwJrnQLrS4NTw2cC8zDtKUhde7vJSHwWPOQ9mhnw5jR0E41X0zyBH9
+	 6fkGqtUx3nkyg==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: allow NR_CPUS=1 for non-SMP and adjust default
- accordingly
-To: Suchit Karunakaran <suchitkarunakaran@gmail.com>,
- catalin.marinas@arm.com, will@kernel.org,
- linux-arm-kernel@lists.infradead.org
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20250724165639.13926-1-suchitkarunakaran@gmail.com>
-Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20250724165639.13926-1-suchitkarunakaran@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250723132504.66273-1-hendrik.hamerlinck@hammernet.be>
+References: <20250723132504.66273-1-hendrik.hamerlinck@hammernet.be>
+Subject: Re: [PATCH v2] clk: spacemit: fix resource leak in spacemit_ccu_reset_register
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, linux-clk@vger.kernel.org, linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, linux-kernel@vger.kernel.org, Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+To: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>, dlan@gentoo.org
+Date: Thu, 24 Jul 2025 19:36:44 -0700
+Message-ID: <175341100482.3513.10826909212334043021@lazor>
+User-Agent: alot/0.11
 
-On 24/07/25 10:26 PM, Suchit Karunakaran wrote:
-> The arm64 Kconfig for NR_CPUS previously required a minimum of 2 CPUs.
-> This patch changes the minimum allowed CPUs to 1, enabling single-core
-> non-SMP configurations.
-> 
-> Additionally, the default value for NR_CPUS is now conditional:
-> - Defaults to 1 if SMP is not selected (non-SMP systems)
-> - Defaults to 512 if SMP is enabled
-
-Just curious - what actually prompted this change ?
-
-> 
-> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Quoting Hendrik Hamerlinck (2025-07-23 06:25:04)
+> The function spacemit_ccu_reset_register() allocates memory for an
+> auxiliary device. If auxiliary_device_add() fails, it skips cleanup of
+> these resources, resulting in leaks.
+>=20
+> Fix this by using the appropriate error handling path.
+>=20
+> Fixes: 988543522ebd ("clk: spacemit: set up reset auxiliary devices")
+> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+> Reviewed-by: Yixun Lan <dlan@gentoo.org>
 > ---
->  arch/arm64/Kconfig | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 393d71124f5d..9b2970f7c5ec 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -1528,9 +1528,10 @@ config SCHED_SMT
->  	  places. If unsure say N here.
->  
->  config NR_CPUS
-> -	int "Maximum number of CPUs (2-4096)"
-> -	range 2 4096
-> -	default "512"
-> +	int "Maximum number of CPUs (1-4096)"
-> +	range 1 4096
-> +	default "1" if !SMP
-> +	default "512" if SMP
->  
->  config HOTPLUG_CPU
->  	bool "Support for hot-pluggable CPUs"
 
-
+Applied to clk-next
