@@ -1,82 +1,82 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E221096F
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 21:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9787620487E
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 21:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753478208; cv=none; b=tWaik2v9GWJ1a89lX9G905Rj7oBqoKEKf0t/IB8T7CZmtOcQ1ek76iqvGIrciycIMiccYyHif+/m2Kt5sdYgwBedc1TUXLLjZwfZ3fETAsgl6UtyyeXMzYFO5v1myFmHsgMRLhDzr2TfWzHq8vNXXhIg+imBBQ976c9FYVwCvRc=
+	t=1753478241; cv=none; b=pGq5hGfwV9eUtKaJ41gFEOjViJC8NnfEfeZIw83V4renP3TUryS7wh2maCZlt+/+kLx+JGzdtp4UQMRW2AYfrDYtAb1wRrktx9TSSeIIFLk2CGlRxCz4prRmUzS2bbl3jsWd92q6tEvt4/uevdU10vDHkJvfVdazZrUDVINwYbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753478208; c=relaxed/simple;
-	bh=1fJ2MfilOVqJQrqzhISXTxGQxYhflr7VZ6mmtFSxeeY=;
+	s=arc-20240116; t=1753478241; c=relaxed/simple;
+	bh=5W1xWN/MH3bhYHOn5uEZ50/hNwMW6Ugv61qVaiOuZ68=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o9mk5vOqg3NEdvdxU8gLCIm9CbKQZCrB/xMlXoFIADd6f/UuzXvE0TFkr6XvCYKGAWvlNgFAkNbVivinEGqQ7D98IGMJtEltqLLukJT8rMHjg44fk6KIDAhtaVo3HJT9l0+nJpmwwz2osxBF+lkt0S60JMF6Ww9oMrTmMgS3n0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ak8fZo9i; arc=none smtp.client-ip=209.85.210.173
+	 To:Cc:Content-Type; b=DxdkfeGMckwuYEK272tpcra/A5rlEf3rz65XnE+wLg8OazuXLadLNJ12cHdA6qxrOBcYTZxGB2ns6w5a8KAiPsn1o1e8P0czKqNkZgpGsXbMYlORg1dRi686p0iYtW+byz3xV/hzfOm5qrU50zNC5/+UbhNXeG6/QIadGzI1lB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=J6iBjZ9l; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ak8fZo9i"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-74ce477af25so1849912b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 14:16:43 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J6iBjZ9l"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2350b1b9129so18498005ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 14:17:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753478201; x=1754083001; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1753478236; x=1754083036; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=k7cqUBtmisnuPeRZVUL+pQK8RmL59JAS5kkk6fLd2w4=;
-        b=ak8fZo9ilLSeSjK9VlnuOef9bQSkdkoSLZa8osFNP9HMI9SK/YLXZBPzTBx6jWmn5N
-         UIcfKgT0s721Xt3mqkN7NAk8+02M0+CFY98ed9K6rKzo20CWeRqKSn14BHmUwcsvi6js
-         3QAFmuUDiUkACW6+FPRHxVleL/fzXEwc8risY=
+        bh=ETkxLDxYY1VgsCRsmN7I3Wj916ZLSMePTLbGFUiSWPc=;
+        b=J6iBjZ9lq2bQk/GnV4D7qPNhHAdKEj4VN7EkyplNofSeTGeKVXO/s7PhbCbQetP681
+         vSLYFZFClmq5TTZNEPOm0XIxQsRe9W4uiFJ2ORcu17qUTsGJBs28gpwFq7urLfMoboTh
+         tQYmNe1v5AgXxh4UYjBKwxniTS+N3kgr5ZZEA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753478201; x=1754083001;
+        d=1e100.net; s=20230601; t=1753478236; x=1754083036;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=k7cqUBtmisnuPeRZVUL+pQK8RmL59JAS5kkk6fLd2w4=;
-        b=bvkebW4Jt7OULobpYk7ZDZ+CEpgnLGThItPhQN0wC3zz4G0IZQIcuh0oZ3+FAIzPZs
-         5UgGgiQjME/tbl4cjeqLAIKp97mmVcqIjyURY8cW0L4H57gB4RzMBxxJsBab3K8d0XU3
-         fUtuKEIwAObOpa7FPRT3ziTIgWC38NAOFqCGIRy/EKa4JT8dYkeGPUnaxOQHhWY2ruKz
-         S6RxS55lgo6q+Nk/dH7mReufCfccxMUUHk8M46Uh98YjtDNNeBk1FUf4j1acwfvyFDWe
-         IdPToigrQixP6q8+mYBGXmmtAPdf+ozG3b444L/Ss8Rbf3CjpVIOuVsjKTMk0mRJ6ryV
-         40iw==
-X-Forwarded-Encrypted: i=1; AJvYcCXbCuV8WzrPWqEGIvncIA4VCTagIHhb9q6IXlsEH9nJ9oV7VG2Hj5q/jiB8r+PVFrGnf7L+dFPT8/t63CBN0MyKmC4aEQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxAfSMqtRPVNcXhcsHPW78Nq2t4kJZHaFfN/WDtUgj6R+g4IjYD
-	+pndg11q+m8m9H5E+TDsS+9MUaGfEae4bSfebu5ZromAj/8jmt2YDRORAtJOAmykuwvN+vqRJUP
-	gaKQ=
-X-Gm-Gg: ASbGncvkvSOlfLu+aiZEpKWpzpu/MY62+P5CElzBf92rnlaMMgemWuOhMl9NKvoK8xl
-	9Eryns+RxDOc1eMhcl+sB+lBsI49fLFIgqVFpOfUZeXGh4hT40Rh3uoo5VSMyAOtk9vHul9HOPn
-	TAucfdfPPyp/rAZlLL7RdCWtFJ/Mxt12iEnqg5LwVchTbEwZgHMP76tSzJrl4+YnIZW4LW2VyuI
-	iDekwwvjGGop97quCznCqOnlWUQnp/XYmzOUTsVf5AINVlYwAVo3O8d9p/8sgjoZ1rZ+cdZdzy7
-	NYA0b60BJCT8oGB96QwhaegN3AiQMsLYsHs3UTsLPG3Vx+HaopkHfULzTL83Yj5At7D22S+agrP
-	1YGgXW0en/zWSh4DxhRhbq0GetidZ3lUva4WlL1K8iTepHbeJ+5usnEKmNa4PNXGrwg==
-X-Google-Smtp-Source: AGHT+IH0ft3ZLPAHoYoSzfEh3DtsBH6JdxeeDt9+s8lAzhLquF91fN2bzdsK1BI9eclcBcXNR3vvyQ==
-X-Received: by 2002:a05:6a00:853:b0:757:51d:9af9 with SMTP id d2e1a72fcca58-7633342abcdmr5049843b3a.0.1753478200931;
-        Fri, 25 Jul 2025 14:16:40 -0700 (PDT)
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com. [209.85.215.178])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-764090e178bsm433327b3a.62.2025.07.25.14.16.39
+        bh=ETkxLDxYY1VgsCRsmN7I3Wj916ZLSMePTLbGFUiSWPc=;
+        b=Q0wNHb7tD/u6MEQXDQbB8s/4WEBg0IpeUK0VupuUP6mUPKzfax5HNw055A6wlBd3KS
+         ktdhBI+bb5WvmsNGoJfbzfGjxBDjhUwAADZ++fxqasaukHPU2t3TXEZnsQt3SrgqY64V
+         RkmJC5AlPpskhi5ZnqlQzFbG1uGJGHoAH8stwM91VM1iXViYD+hAQm5gzoDRpAgnGGi4
+         5sxd78MfDJCggsn9ta7/7lIxljZVsyrCwLEyCu3CEocnyyrC/FIjxQZquBdUSR86OX5T
+         x6/ts3wSuO0i5OJoItoQyQ8APrhK/9/x8UvmFGucNVJZ1IEBD0n/wnbfkrRhBbswKg52
+         VovQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUH+ZN3ZCP1a8pic0Sug998onaopJcufnoc+D7t7K0+Y3WVRtQz+vfD36RqZSpaueIxW7rkNoOA6hzTeM/r1cfkm70uhw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyObcT79ZdDI1RzKeipZPrKHzpGbkUBiEVwB/bV3iEQpVVxwec3
+	jyRM3nu/XmhMr/NRHQFCHQT8JIoUhundwouGPqmBAYss3vvAZQ96fsgHlWfdxGx94sO2V3Kdshk
+	EvX8=
+X-Gm-Gg: ASbGncvxswiY12DO6uV14ZQIlelbEaivBsoK/69iAzkY2bL0U8+vLsNusobEhtxOb4K
+	o9i6jHBXK5w1vdArTthDP1XXCb1dRQGeYANeCwNVgxHRX6QaJmSoCtHT0Kx77PRn0oStZdYiSdu
+	577b9jp6JqnHf1rEJHrwZ8bK2l5ch5qsk9rMYvnYeoT8COUgQK+WN6/trP2AKOdyGZk2BAcmEJZ
+	qa3lVgHjwbTQJmhhcswLqNvM7BB6dHv+0OpyesMEDCbM7pt0igu/NG2qRlcLnSZG7Za8M8euEzW
+	2e/r9LUaBRUnzkc0MXtR2M9qNxuoEYmdhALJsTK5RGovSCzABq2nMLcUTkemRn7xaF6FYPA3OOW
+	uvldl39aGMFf1AI+rNGJpDt3jeKQrG0o/BoS7ebr1iQYQc2WeslCfWwSeb8OlTih4ZA==
+X-Google-Smtp-Source: AGHT+IE8gtnSj2wEudIJNp8iIU6cLG7Wgl5GrpZvJNuQihTfOwc4+GZEVE7HK/E6eLP3sUvgalQ5bw==
+X-Received: by 2002:a17:903:4b28:b0:235:81c7:3c45 with SMTP id d9443c01a7336-23fb3129c91mr53226565ad.46.1753478235818;
+        Fri, 25 Jul 2025 14:17:15 -0700 (PDT)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com. [209.85.210.174])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe327443sm4232755ad.44.2025.07.25.14.17.08
         for <linux-kernel-mentees@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Jul 2025 14:16:39 -0700 (PDT)
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b1fd59851baso1939490a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 14:16:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW36e5JdkOmvc0Q4vlUGoZ+hizH/GH2NjPMgdCfSreD1jmT34qNmh3iWxpMEkoBRTLVyglqXRS5yHr5QrZKejll1gMAGQ==@lists.linux.dev
-X-Received: by 2002:a17:90b:53cc:b0:315:c77b:37d6 with SMTP id
- 98e67ed59e1d1-31e779fcfb2mr4543990a91.23.1753478198547; Fri, 25 Jul 2025
- 14:16:38 -0700 (PDT)
+        Fri, 25 Jul 2025 14:17:13 -0700 (PDT)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-74ce477af25so1850035b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Jul 2025 14:17:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU8tk5YIYzj1/r1ftChyg6Kf3RIXg/h7C916CL4nY/5WqG0bxkV4Ny5JvxKniCIJu2NXwdTpTw4KmYpqQUUIjVDi/hVag==@lists.linux.dev
+X-Received: by 2002:a05:6a21:99aa:b0:232:ac34:70ec with SMTP id
+ adf61e73a8af0-23d6ffe455amr5790082637.7.1753478227853; Fri, 25 Jul 2025
+ 14:17:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250724202338.648499-1-me@brighamcampbell.com> <20250724202338.648499-2-me@brighamcampbell.com>
-In-Reply-To: <20250724202338.648499-2-me@brighamcampbell.com>
+References: <20250724202338.648499-1-me@brighamcampbell.com>
+In-Reply-To: <20250724202338.648499-1-me@brighamcampbell.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 25 Jul 2025 14:16:26 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UZqzWd+Ke2sU-z86jnhKhUo8v0ChyKYnGpmx+s7n0stQ@mail.gmail.com>
-X-Gm-Features: Ac12FXwuy3K1ITZUFyK7_VvNz0LpuHmryqPozv35YYsEjO_5SuA5IxC-IXYo5jQ
-Message-ID: <CAD=FV=UZqzWd+Ke2sU-z86jnhKhUo8v0ChyKYnGpmx+s7n0stQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm: Create mipi_dsi_dcs_read_multi()
+Date: Fri, 25 Jul 2025 14:16:56 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V65Pa0p-ckGAHTCgkqd00M9gE2Py99QcYmaq13jOdX9g@mail.gmail.com>
+X-Gm-Features: Ac12FXxmzjj5lJEikgMEtUTC8c1N1dj-92vpoAep7aMMBdfPQfUJq6k3EPzR0JU
+Message-ID: <CAD=FV=V65Pa0p-ckGAHTCgkqd00M9gE2Py99QcYmaq13jOdX9g@mail.gmail.com>
+Subject: Re: [PATCH 0/2] drm/panel: novatek-nt35560: Fix bug and clean up
 To: Brigham Campbell <me@brighamcampbell.com>
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
 	airlied@gmail.com, simona@ffwll.ch, linus.walleij@linaro.org, 
@@ -91,35 +91,23 @@ Hi,
 On Thu, Jul 24, 2025 at 1:23=E2=80=AFPM Brigham Campbell <me@brighamcampbel=
 l.com> wrote:
 >
-> +void mipi_dsi_dcs_read_multi(struct mipi_dsi_multi_context *ctx, u8 cmd,
-> +                            void *data, size_t len)
-> +{
-> +       struct mipi_dsi_device *dsi =3D ctx->dsi;
-> +       struct device *dev =3D &dsi->dev;
-> +       struct mipi_dsi_msg msg =3D {
-> +               .channel =3D dsi->channel,
-> +               .type =3D MIPI_DSI_DCS_READ,
-> +               .tx_buf =3D &cmd,
-> +               .tx_len =3D 1,
-> +               .rx_buf =3D data,
-> +               .rx_len =3D len
-> +       };
-> +       ssize_t ret;
-> +
-> +       if (ctx->accum_err)
-> +               return;
-> +
-> +       ret =3D mipi_dsi_device_transfer(dsi, &msg);
-> +       if (ret < 0) {
-> +               ctx->accum_err =3D ret;
-> +               dev_err(dev, "transferring dcs message %xh failed: %d\n",=
- cmd,
+> This series does the following:
+>  - Add mipi_dsi_dcs_read_multi() to drm_mipi_dsi.c for improved error
+>    handling in drivers which use mipi_dsi_dcs_read() such as the
+>    novatek-nt35560 driver.
+>  - Fix a bug in nt35560_set_brightness() which causes the driver to
+>    incorrectly report that it "failed to disable display backlight".
+>  - Clean up novatek-nt35560 driver to use "multi" variants of MIPI
+>    functions which promote cleaner code.
+>
+> If there's a reason that mipi_dsi_dcs_read_multi doesn't exist, I'm
+> happy to drop it.
 
-Format code "%xh" is probably not exactly what you want. If the error
-code is 0x10 it will print 10h, which is not very standard. You
-probably copied it from the write routine which uses "%*ph". There the
-"h" means something. See Documentation/core-api/printk-formats.rst.
-Probably you want "%#x".
+It's a _little_ weird since one would normally assume that the caller
+would want to immediately act on whatever was read and to do that
+they'd need to look at the error code right away.
 
-I'd probably also say "dcs read with cmd" rather than "transferring
-dcs message".
+...but then again, there are places where a driver might want to read
+multiple things and then check for errors once in the end (like the
+driver you're changing here does). So I'm not against it. I'm not sure
+I'd expect it to be universally used, though...
