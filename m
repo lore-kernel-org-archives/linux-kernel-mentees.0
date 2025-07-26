@@ -1,145 +1,191 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3251465A5
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Jul 2025 18:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0700B288CBD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Jul 2025 18:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753552817; cv=none; b=BQl/b6/jTO8YgaI9Z7TBY6pqbV/q030fGdpLlWZU2fBTaM4Rm9eD5CsXeRIMW+I5U9nfIzyNyT5nIgZ1nFNnnYoZZ1JNyov324fdGapq8vCPB3FuxV1a/eoo4Yqu/SHUW+yheY0Z53a0fmRiRSbCFLjI1lFQ9w2QjNzANMfXQNo=
+	t=1753554972; cv=none; b=JxEHUPZn9SIjcFiWQxubfPcHIJTuZkjAnZ+VpShRzP5TbVXdXFKcO5wKBsSNyZp8gOaFe/TZgNp38CssBqKMzNQ4nqKDLKNVAfNqsnjyEj00yu3+tc4rsqdWgUPnaQUCRUKwfrp20MGgLy5zu9BBdhfcpi7TLPDIbG6/j8/Rf70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753552817; c=relaxed/simple;
-	bh=yvcRHhXuYyD4nYec3hWl6gxmG7DKCLk6OOfx+dctTQc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GAgphfavGfkS5vH+Dty/SVjW4JW+GVC4qMgV/SwPb9404wmffTmdRFTpoNpSYIMwIRZj6eOYKQjAY9Odm/IdI2QU3a/wzPQZ+725pOSDY7xDj1qbx9S9xaRduj1i3+XCB5EaHdcISUdSqwh04n4MRSBbrQPyhAI1iSrtLmBcGFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=nT9EB+ew; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
+	s=arc-20240116; t=1753554972; c=relaxed/simple;
+	bh=1c6GV9bjG3BWxqcKocpW6fz62cs0Ni+OBYMNP4pw59w=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=td709mZYfxL5ojGyWZjDFXnCk3tE8BDhV2cLHv3xgo13WTmtmYK8gS3guqKLbLkkGheXk9aj5hxpNqx/2wRMqeCP5sYMAi1fZe3Q3eDW51jr2pEDnTWjitWEIOsW+1c/EeVIbyuWuoMty+1rsYfZXRP13QL4nZCBEya3vWbzH68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dThkLkyG; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="nT9EB+ew"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45617887276so19895335e9.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Jul 2025 11:00:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dThkLkyG"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8C7F440128
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Jul 2025 18:36:10 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: 1.486
+X-Spam-Level: *
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id hZOSeKyzmeVs for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 26 Jul 2025 18:36:06 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::434; helo=mail-pf1-x434.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 5ABB8400D5
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5ABB8400D5
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dThkLkyG
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 5ABB8400D5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Jul 2025 18:36:06 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-748e378ba4fso4020086b3a.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Jul 2025 11:36:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1753552812; x=1754157612; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yvcRHhXuYyD4nYec3hWl6gxmG7DKCLk6OOfx+dctTQc=;
-        b=nT9EB+ewyUwyivzPhGmJ3URjmixZVoiPAQHF6hCFOm8RRjAVhbMP/xZzWm+tyoLqIR
-         INkS5i5nnJ6AZq/wnnVAQR/QbdPFecbY1CTrvrS1gQhtYxNJUziWnylrf9Z4JTRVKu7c
-         q8p/1Pcxtog6RVxr3uwF6C47Erpym0gyhbzMC6G/5W1qdBYjkVc5taX9b6XVT3txM74l
-         YfxGJVGVKvqaCIbPifijXKlaHX2iZ4FgHu8901fG2J6PP3zZf2eSiuV6ON4pQO6jvr/k
-         veShjM2ffvi0vsTZZ8C024tjRtlxk0IqJdVz66Rkj5WIh3DD4zt6s+caKdhpVL0PPzxK
-         firw==
+        d=gmail.com; s=20230601; t=1753554965; x=1754159765; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gazh6tcQ9w90L/jQB1ckIBFFEKclZCFtRbHi0RY4a+k=;
+        b=dThkLkyGLkRRJbzgExN68POA2KPV1wLEJSKfppgmF8J8tk920JH58bl7w9IaY3PD/F
+         khkQxkAHaUbH8RdR4OBaVO9C3Z1tT4jopcCOUmrLfXaMFtZPc98KrVdK1zpTZR3sPI0D
+         FLV3QScC0482tZPVXX7TMOrBAp8j2GofWuJZFdGezYF06DgyLTYaNb2rF2HlcX7byhF3
+         /GUa0OrWDsuFdeDdw0dBzCdCnQ9xW4eyF93tlX2v6ZkMUh9pDJvnjFoRfdJ/7TJZuaHG
+         OZYuyU5LyvJJ9cR9R8+CYVbhbWEZZnltGdeHi28XAI3mhRbaOAFF0C7MuqpUntQlf4e3
+         Qm/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753552812; x=1754157612;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yvcRHhXuYyD4nYec3hWl6gxmG7DKCLk6OOfx+dctTQc=;
-        b=Tp81vliQvDoFlfJPgXgUAmPu2UoEmy+KiYrnhUC3OAt0sKwqWz1dglu5Dj4XrAaQ3T
-         GOyH1bncVvmWZfajY6EcSpbPsp5sgEgbTJh5yxs/HsMts6TBg3W6Pt1I+DBwVaikW5ky
-         HCr+j0+A735Dbv38zeqbShqcCjRDuW4rvwI1b9hcDfUuvE2NCu4jNIkpzEfIH/J2hg0d
-         oytNFOaf4t0INm5W1/X2H/9Kz9oxpB/AsMXGX04UR4CNLIx+KHzSTPucEF+8uLXMMev0
-         R2qyhQLdOtn0WstSEY+XRTnppqIyQLe6lZQGcVsfQT0J0XPDJ0MCjkmj7VUiDfaLDGq3
-         aT8w==
-X-Forwarded-Encrypted: i=1; AJvYcCVYZF2ViSJlecWZQoHm5eCUX3TBgBpbJM43JSzyKpmzKT1EBhYn6ftyOOxGa20/iYNkjvA5QkyOX9EimM2HdK5qhxV4qQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzvLHDwJnWvf+gVIdDLJ4kc2NXUDuHI5opcSG5vFeUDA97IGj3
-	uGl3y7R4Rxl0vU8Kbc/AkGofBkwtBXdz6DuieM5WhJ3exj+UNj7CrGtNHQRI98bXEpk=
-X-Gm-Gg: ASbGncvGaUfcG2NCn2aAcx1Du5IHa3JTpKhvBll+iaJFX1Y1iv/T7gTXgelUMxyLEmg
-	xPAXUKdBmrIj0frv4Sj9ylC6dvzRegU0aLVmm8V37kzFjS2V6m6C3fHjNlCdvgtoSpVd/j03m74
-	1vfBivK037cGY11wvseW73rQrySXWozlOBjf4x9cR0PHI3LGvYF5PGeas+iFT5yLDTSh3L8sG+K
-	PmEfmJBTXLrQ1/xQQFihhPgDRl0pKjkTLk188nU8EM0Aw/ca6kXVonTPFnedg20LlX0drU/a3ZK
-	EUZVw8EhPaBorkjPuXm6Uxn0MOffaou0yYUopZVBehdEJNmkdSAPpxaGjXWfdlJ7YR7toSU5svO
-	vmc4ktSFXhVkkXQ5KcFdh4qV2anGrfR5VNeLkBOwERtW0+bhcfXEuVkkFKcwpZ3OGDOwXhxbITY
-	JFhZVUlRABPH+f
-X-Google-Smtp-Source: AGHT+IEflhfEaAlph6QytLsmeVZzt9JsNjEPC6m2JqYaPbPelQ7eBKZoO5O6AvlWzFTa4x0V7hT1Cw==
-X-Received: by 2002:a05:600c:3514:b0:456:27a4:50ad with SMTP id 5b1f17b1804b1-4587667a7b4mr43141945e9.33.1753552812037;
-        Sat, 26 Jul 2025 11:00:12 -0700 (PDT)
-Received: from ?IPV6:2a02:1807:2a00:3400:49d0:43d5:5891:26ac? ([2a02:1807:2a00:3400:49d0:43d5:5891:26ac])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4587ac58045sm37621935e9.22.2025.07.26.11.00.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Jul 2025 11:00:11 -0700 (PDT)
-Message-ID: <a9acf284-d55c-4c8e-9f34-c2feb26a446b@hammernet.be>
-Date: Sat, 26 Jul 2025 20:00:10 +0200
+        d=1e100.net; s=20230601; t=1753554965; x=1754159765;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gazh6tcQ9w90L/jQB1ckIBFFEKclZCFtRbHi0RY4a+k=;
+        b=HMrIf+WzvNAKTksPfrrCdll1O1avX2m9qyQQD3Ow2Y6XAXDJqwesWkKP9O+r0DpcLS
+         Y7Ih9CqxLtFdZfRp7OiTLq9JML3XugHLKa8Tj3xesXOv6+E63OMKVYMgyasl//zZdOH+
+         P7XSst/hANv6adMlyTR7qCCnPpl9PvDXkEpz9Dn4KYFKsPXWXavv7HCmNPJiwJzGB1ZT
+         unub63k22hHZyi/z8Fqx4OhnGV6By1cxsfj8oJmeJuVm6jT98XZqhwaOX5Ui9O/r1CKB
+         +GLzJvrRy+CVZmhzDaDDZTeo0Yi8hQ6qqj6O6S7w1z4+red5AvGegMKkyO1R/au/3TDk
+         afOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU9lhmr+yo4dxWRVLAsAtY0+jrMwmF5TFkGOLmoJeEq08JFMvdrzohWw/x01mfQyaLJj0uxE8m37SXE6o9UlYPj+5Xjpw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzojaoFcQff8xI765VooGBFd9kjQe6rbyyvk6fs4maRQBiej6MR
+	JW1IpaybNz5xH0T8qtHK3JqOWCd3FiyzimfToFJEGtahdvU5+MYmCvOx
+X-Gm-Gg: ASbGncuyHaHacvoP8geFm50fCA3SDPxJe0b8BjiEMjLt1STotaroeFLVJ8mEYS9vaNr
+	dVcVtjOCdu8D00YlkZDSjNa+FeHezGYbLgFhJAVrZ6jjbrvdzZ8eq9LscrhZ2XoSE3NTA1Uwjjo
+	lPuwIQ091slZyx56U1wP6+Z/59hLrsox3QRB5NneiD9W4iMlBu7SBQMfr0l7pHFKN6F+/QSWUJb
+	Tt9pB3XnirXeEA1o768YOFQafObcq4bIoY9/aDUspVtb3elUSGMtjn/82xRPooOgPzBGW5ekXdC
+	DMNW+acxx1puqe4jZYAUWjxWpEsvjksa6lxCkiCL1qy6WTT6sZc014nAkIMvD5uT/Bqyb4FG2vv
+	Q5CHbo98r
+X-Google-Smtp-Source: AGHT+IG55CtyoAN9IFP4Oh/GdSiUwpHaPhrmoJ/1jaN/QB2uy6jUnnNNscYit5Sn3+ZKhvXbkbEFQg==
+X-Received: by 2002:a05:6a00:92a3:b0:758:72b9:e5da with SMTP id d2e1a72fcca58-763349b9fa3mr7523184b3a.17.1753554965548;
+        Sat, 26 Jul 2025 11:36:05 -0700 (PDT)
+Received: from fedora ([2804:14c:64:af90::1001])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7640881ee75sm2169295b3a.2.2025.07.26.11.36.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Jul 2025 11:36:04 -0700 (PDT)
+From: Marcelo Moreira <marcelomoreira1905@gmail.com>
+To: aliceryhl@google.com,
+	lossin@kernel.org,
+	dakr@kernel.org,
+	ojeda@kernel.org,
+	rust-for-linux@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: [PATCH v8 0/3] rust: revocable: Documentation, refactoring and safety refinements
+Date: Sat, 26 Jul 2025 15:35:00 -0300
+Message-ID: <20250726183552.23098-1-marcelomoreira1905@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] clk: spacemit: fix resource leak in
- spacemit_ccu_reset_register
-To: Alex Elder <elder@ieee.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, sboyd@kernel.org,
- dlan@gentoo.org
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- linux-clk@vger.kernel.org, linux-riscv@lists.infradead.org,
- spacemit@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20250723132504.66273-1-hendrik.hamerlinck@hammernet.be>
- <ed5fcfec-6330-46e8-a302-5cf1d8b3a9ce@wanadoo.fr>
- <d968eb77-50f2-4d28-a57a-112c87dff8bf@ieee.org>
-Content-Language: en-US
-From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-In-Reply-To: <d968eb77-50f2-4d28-a57a-112c87dff8bf@ieee.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+This patch series brings documentation and safety refinements to the
+`Revocable` type, addressing recent feedback and improving clarity of
+`unsafe` operations.
 
+Changes include:
+- Clarifying the write invariant and updating associated safety comments for `Revocable<T>`.
+- Splitting the internal `revoke_internal` function into two distinct functions:
+  `revoke()` (safe, synchronizing with RCU) and `revoke_nosync()` (unsafe, without RCU synchronization),
+  now returning bool to indicate revocation status.
+- Documenting `RevocableGuard`'s pointer validity invariants, making its constructor `unsafe`,
+  and refining its `Deref` and `try_access` safety comments.
 
-On 7/26/25 14:57, Alex Elder wrote:
-> On 7/26/25 4:16 AM, Christophe JAILLET wrote:
->> Le 23/07/2025 à 15:25, Hendrik Hamerlinck a écrit :
->>> The function spacemit_ccu_reset_register() allocates memory for an
->>> auxiliary device. If auxiliary_device_add() fails, it skips cleanup of
->>> these resources, resulting in leaks.
->>>
->>> Fix this by using the appropriate error handling path.
->>>
->>> Fixes: 988543522ebd ("clk: spacemit: set up reset auxiliary devices")
->>> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
->>> Reviewed-by: Yixun Lan <dlan@gentoo.org>
->>> ---
->>> Changes in v2:
->>> - Properly place the Fixes tip.
->>> ---
->>>   drivers/clk/spacemit/ccu-k1.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/clk/spacemit/ccu-k1.c b/drivers/clk/spacemit/ccu- k1.c
->>> index 65e6de030717..5bb85e32c6cf 100644
->>> --- a/drivers/clk/spacemit/ccu-k1.c
->>> +++ b/drivers/clk/spacemit/ccu-k1.c
->>> @@ -1059,7 +1059,7 @@ static int spacemit_ccu_reset_register(struct device *dev,
->>>       ret = auxiliary_device_add(adev);
->>>       if (ret) {
->>>           auxiliary_device_uninit(adev);
->>> -        return ret;
->>> +        goto err_free_aux_id;
->>>       }
->>>       return devm_add_action_or_reset(dev, spacemit_adev_unregister, adev);
->>
->>
->> Hi,
->>
->> I'm not sure this is correct.
->
-> I'm sure this patch is incorrect, and the original code did
-> not have the stated problem.  Thank you for calling attention
-> to this Christophe.
->
-> Stephen, could you please revert your commit of this patch?
->
-> Thank you.
->
->                     -Alex
->
-My apologies, I am terribly sorry for this mistake. I was convinced that
-this was a leak but was not thorough enough in checking it.
+---
+Changelog:
 
-Thank you for catching this issue in time. I will make sure to be more
-careful in the future. Sorry for your troubles on this.
+Changes since v7:
+- Patch 3 (`rust: revocable: Documents RevocableGuard invariants/safety and refine Deref safety`) was refined:
+  - The SAFETY comment in `Revocable::try_access` was updated, now clearly stating how `Self`'s type invariants
+    and the RCU read-side lock together ensure `self.data`'s validity for reads.
+  - The redundant line about the RCU read-side lock in `RevocableGuard::new`'s `# Safety` doc comment was removed.
 
-Kind regards,
-Hendrik
+Link to v7: https://lore.kernel.org/rust-for-linux/20250721010258.70567-1-marcelomoreira1905@gmail.com/T/#t
 
+Changes since v6:
+- Patch 3 (`rust: revocable: Document RevocableGuard invariants/safety and refine Deref safety`) was refined:
+  - `RevocableGuard`'s invariants were updated to state that `data_ref` is valid as long as the RCU read-side lock is held,
+    and the redundant RCU invariant was removed.
+  - The `RevocableGuard::new` constructor was made `unsafe`, and a `# Safety` comment was added specifying caller responsibilities.
+  - The comment in `Revocable::try_access` was changed to a `SAFETY` block, justifying the `unsafe` call to `RevocableGuard::new`
+    by `Self`'s type invariants (`is_available` being true) and the active RCU read-side lock.
+  - The `Deref` implementation's `SAFETY` comment was refined.
+
+Link to v6: https://lore.kernel.org/rust-for-linux/20250708003428.76783-1-marcelomoreira1905@gmail.com/T/#t
+
+Changes since v5:
+- Reordered the patch series to apply documentation fixes before the
+  refactoring, as suggested by Benno. The new order is:
+  1. `rust: revocable: Clarify write invariant and update safety comments`
+  2. `rust: revocable: Refactor revocation mechanism to remove generic revoke_internal`
+  3. `rust: revocable: Document RevocableGuard invariants and refine Deref safety`
+- Added a new patch, "rust: revocable: Document RevocableGuard invariants
+  and refine Deref safety", which explicitly documents the validity
+  invariant for `RevocableGuard`'s `data_ref` member and refines the
+  associated `Deref` `SAFETY` comment, addressing specific maintainer feedback.
+- Updated the `SAFETY` comment in `Deref` implementation of `RevocableGuard`
+  to match common kernel patterns.
+
+Link to v5: https://lore.kernel.org/rust-for-linux/DB3XFMG7M4SO.J6A2LVOAOJDX@kernel.org/T/#t
+
+Changes since v4:
+- Rebased the series onto the latest `rfl/rust-next` to integrate recent
+  changes, specifically the `bool` return for `revoke()` and
+  `revoke_nosync()`.
+- Dropped the "rust: revocable: simplify RevocableGuard for internal
+  safety" patch, as the approach of using a direct reference (`&'a T`)
+  for `RevocableGuard` was found to be unsound due to Rust's aliasing
+  rules and LLVM's `dereferencable` attribute guarantees, which require
+  references to remain valid for the entire function call duration, even
+  if the internal RCU guard is dropped earlier.
+- Refined the `PinnedDrop::drop` `SAFETY` comment based on Benno's and
+  Miguel's feedback, adopting a more concise and standard Kernel-style
+  bullet point format.
+
+Link to v4: https://lore.kernel.org/rust-for-linux/DAOMIWBZXFO9.U353H8NWTLC5@kernel.org/T/#u
+
+Changes since v3:
+- Refined the wording of the `Revocable<T>` invariants to be more
+  precise about read and write validity conditions, specifically including
+  RCU read-side lock acquisition timing for reads and RCU grace period
+  for writes.
+- Simplified the `try_access_with_guard` safety comment for better conciseness.
+- Refactored `RevocableGuard` to use `&'a T` instead of `*const T`, removing its internal invariants and `unsafe` blocks.
+- Simplified `Revocable::try_access` to leverage `try_access_with_guard` and `map`.
+- Split `revoke_internal` into `revoke()` and `revoke_nosync()` functions, making synchronization behavior explicit.
+
+Link to v3: https://lore.kernel.org/rust-for-linux/CAPZ3m_hTr7BN=zy10m8kWchYiJ04MXKuJAp9wt67Krqw6wH-JQ@mail.gmail.com/
+
+Changes in v2:
+- Refined the wording of the `Revocable<T>` invariants to be
+  more direct and address feedback regarding the phrase 'must occur'.
+- Added '// INVARIANT:' comments in `try_access` and `try_access_with_guard` as suggested by reviewers.
+- Added the missing invariant for `RevocableGuard<'_, T>` regarding the validity of `data_ref`.
+- Updated the safety comment in the `Deref` implementation of `RevocableGuard` to refer to the new invariant.
+
+Link to v2: https://lore.kernel.org/rust-for-linux/CAPZ3m_jw0LxK1MmseaamNYhj9VY8AXtJ0AOcYd9qcn=5wPE4eA@mail.gmail.com/T/#t
+
+Marcelo Moreira (3):
+  rust: revocable: Clarify write invariant and update safety comments
+  rust: revocable: Refactor revocation mechanism to remove generic
+    revoke_internal
+  rust: revocable: Document RevocableGuard invariants/safety and refine Deref
+    safety
+
+rust/kernel/revocable.rs | 88 +++++++++++++++++++++++++++++++++++++++++++++++++---------------------------------------
+ 1 file changed, 49 insertions(+), 39 deletions(-)
