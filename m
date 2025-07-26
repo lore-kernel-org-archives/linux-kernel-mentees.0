@@ -1,148 +1,108 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796F72264A0
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Jul 2025 12:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC31078F4C
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Jul 2025 17:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753534676; cv=none; b=a8Y6sQG3IKJWjIr/rIxlmJQheUfqA51kWZ9yBqrsr4G1P/15O4MEM4ysYQ78qemkl0rV4M1end+WGhJLRE137w9a6CpEk8nH+0nMb8rTkCCWcIv3UGo70OG2fhdJh49VCs1/LvRqEoeIA7rQCgPNZ11JAiSTHLEkXwJu6Iraw7g=
+	t=1753552534; cv=none; b=q7WdqxvTRNb0REMXJtAw5T03YGEeO+KjtKebeGXF+ykwYOTl0mUTjrwolMXFuTKtAlJePS4gHs/a9SI0GxQscAzdgTfNKDnWpkNzVUrocJptcw7G+lFR5UXdvcfRBoXMLL1NvllDY2XohTKWPUWr55tkLIH70v+Vle0o5r5Ccbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753534676; c=relaxed/simple;
-	bh=2lFsjqaXkY+9lybBw6P/Zhy/kr8mE8D11FVC2cE4RlA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r3hq3DeFGVEaGn+8zSRbeF2X4va2QzzaiflI3e5WQ8X2dHKFuNixus+fis9p2dzEgdyPgrhdMXLxFFpyW47rf22jLF2noN+UrdO8cincuBtH3xByGrcUK6XZWF9P1G4Odzn45HsC1V6wUxgKiw8jNJt5iXfFVGo0fDdSwuSBQQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=MVPUX8TD; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	s=arc-20240116; t=1753552534; c=relaxed/simple;
+	bh=J7tOKQm6KsbYvCR3Hdcgq3HJjA2YL0PvUJvCbeT5bRc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DQ4lXQep4fsPXj1Gdn5wiAYlrJMFHZWQwL3RZ9wTyZKCgHaYB8HpSDHV7OXHHYd3GGtOYtrI3UOl+X1cHUUCTzfWQg+MssLBZstIDygyszqhGO1V8G5tjyAkSMzPNT/w4L/sU4dd4ws4UAdvf1eu0qCMGV+zMQGv+zh05D4IHVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCwzbsNM; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="MVPUX8TD"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-707389a2fe3so1632306d6.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Jul 2025 05:57:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCwzbsNM"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-747e41d5469so3428020b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Jul 2025 10:55:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1753534672; x=1754139472; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=33vHvGUYy2jUaJ1MFRxvGoPpdjPDXIobpjBWzBoYSe0=;
-        b=MVPUX8TDf3DAkz92RFbqCOedsu7PkrPx1AmCQ/IJRzftJaraGp92rxN5NE3C0d/Gpe
-         Ajz7NKJilxoAlXOkJUyuvvQVVzA9Ljy6/hueDYY3CmRVGXwIYk/1rlod/fUurDmS/l1j
-         2FvsZF4zPqzCtOv5O0xqGyOeWK1rHBPMK+C0w=
+        d=gmail.com; s=20230601; t=1753552532; x=1754157332; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5W++au39rEBJxX2Q4rDpMomnaH1q1xWRqIVRKBNu/qM=;
+        b=bCwzbsNMgpfparlXEg8T2zfMskfU8cLlf+pcwPEI8VRmC31m8jr+n7PKcn1dXVi6Ld
+         oM5fPaGRGIah8gik0T32BpP3vktq7tdT62Zl6HTXf4UVKP5IeDfQooeG5/x0fditw5vG
+         aQwQlFX7NYAByAI910HDMynriF+JGqbOBU0wbOMbOY+vML6rY88hapRfbhZxXk4Ec3n2
+         YD4xQhoXKTdfy6i4tm74Q62APlzJp2ssr4GDaiFVDlNr0/vtqk7chB4Pmb+u2uOEMlV3
+         yYXIF8d/cxsCjO15nY1F8Js80GSAzfvmURkUh9gl7nX3898pv1JqZZgPMmLcHErm9d2L
+         pTPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753534672; x=1754139472;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=33vHvGUYy2jUaJ1MFRxvGoPpdjPDXIobpjBWzBoYSe0=;
-        b=lYUIhoj5fU422oQkkoFOy6ARYV+lJlm59rpgAtSAgOMZn7W2GLHwuTMrfuBIm5K6Lh
-         HAtH1sN7I7uQ2cVyTYUPRu4k5BCHdr1obCyeO72wWP1gQN6MSIf00fQfS6YN2t60jpLX
-         Rj4Kyzmm6YA0l0ckFSqXKuo7UWHGJ4zGw8wYgDnNeStoZuZvQrAHmIk9iXep7WAH+RHX
-         yo3JK6lUpcZsZsJSX7FmjefWnuyfVVvh1DlASFnwfm0/UfbLmiaBufvDMMWBLNMEYQ4R
-         QH2hkxSHtQ7thcmVnmCh4PmC3UJD1janJZENym0WcbEpwo2GmxAm6Zq6d6d9WA3goZYh
-         tb2g==
-X-Forwarded-Encrypted: i=1; AJvYcCXsaB5i312OOL2nEeDJ3bXEXPh7yI9YJ18U/Y0N2QvSKzJFRRZLLdgjnHIXPCBzqmORuf69OMCwLPID7RXtabgx4SsWQQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQpynXuwcAPisy1QJroKwkEaFWG2Khs4cu+m3RpoCPLZLX82JY
-	kQNpU/VrGwmxp1WsEWyyz8nkI4AQeuxe5vPE1B4ldP10RTFlMtkQsqYrlhr0gcuA8Q==
-X-Gm-Gg: ASbGncsQ88Szr0d5idUleP46HJ8Z4x87lkaY8tXksKHGMmdTH2p1TdftKn6C/ryGXsr
-	PYXEj5th8ckvPPkqSoVvbjt22grkmgBza29JS3PW/sfX85/69MmT1SGKIrt4uH2AERbcEtyBq5E
-	UtKQ5jNxO2By4XAdMb3QLkKFrYR9YFFYjhnwmmmBmBYivB7PgSKKHMXpG0ITiG/xH7o4JpgrT7h
-	XB6qfejMlEWgwQoqwkZ3jmKT3nhl7sbSnsDTvfj5/uP6STinxHo09pfpv5nnOyHzaiTGBNUZjFq
-	sRkw54/0OPF/HOVrofPj+W0mu+0nJDzxs62CxzyNbdD2eYqiyvMfnIeaYYWLMmbB02NFsJFODdP
-	xZ6ZaYWfirZvoqEGAnBZ2CCX61p6gN0u1E1tm8pQgKAQeQ7wF76C+aqIf85to3vtbvA==
-X-Google-Smtp-Source: AGHT+IGb5AjxoFosxgBP3Pc/RtOYVIrHr0x3CfJjhlmHSPGuq16MvnncfHDH4Nbi3Zz1t72hhHOhFA==
-X-Received: by 2002:a05:6214:268a:b0:704:8db8:d3cd with SMTP id 6a1803df08f44-707204e8855mr68135236d6.8.1753534672381;
-        Sat, 26 Jul 2025 05:57:52 -0700 (PDT)
-Received: from [10.211.55.5] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
-        by smtp.googlemail.com with ESMTPSA id 6a1803df08f44-70729ad99d0sm10716946d6.46.2025.07.26.05.57.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Jul 2025 05:57:51 -0700 (PDT)
-Message-ID: <d968eb77-50f2-4d28-a57a-112c87dff8bf@ieee.org>
-Date: Sat, 26 Jul 2025 07:57:50 -0500
+        d=1e100.net; s=20230601; t=1753552532; x=1754157332;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5W++au39rEBJxX2Q4rDpMomnaH1q1xWRqIVRKBNu/qM=;
+        b=MqoO+KNBOy/MJRDv43uiQQAvgpn7ukqQ6db7eoyDXl27JgdCac2IOri348MNmeHODK
+         4FG+o9RozMwhgofxvvqecu8pQt5snVfL+JB90fOaCPGVHuHtgNx2EmLeRd/GD6iOPeeS
+         D6zMGXOs7MKh3xHcOxJPimvOyCSxYGDpREyitxQA3+N9srtSzOCQtJbnemoB3fqQEmhZ
+         aMLVmA0H29Eun2hRVCe7WKnqQQjnAPPjd6v5GpSPIdYKh/Dr9w8gX7PUXTzCAsfpsgPu
+         Q91Vj2srpchhUVd9tiFf5vVExo1KirWKu1climzrrt1FuvPmg4DfDzqOMWmzWy9KORTj
+         3yxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUmv+O6KRGn8b7Vy+Mhqsn33klBlaoY13x6umPLhtfSJ/jUa3xIrNblmywBC090FSxuvkb+Mn+bxu0zQETiUEWXQmPhw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeIHf4u/kipfJhbAn96epmyZBCKzuW2ZUrucA+ZpV98lgd1slz
+	ddaIwrUVthG/iaWzemoKUZ0AsevhNm2Jp6rSC3XJa1zrzS0VB95rp34I
+X-Gm-Gg: ASbGncsmq4Q6x9GORvXvfwWiuj+2VtgmktAqD766fuHpNZtZpTpkEHWTlUe/VGrY6K1
+	ZkbpfmvTZHDzzAqBb7YOA+i7qpCpMc6Lhpxh1H+4Gd6XGAb1FhjDZYNfDeiuEIBaEiOeQ2EAGiQ
+	AOsoWyjuWUjvEY0LiHaY4jMxj8ZO31eW2nW+vDJ2QRuGtowS2tPXPbK1+FvBr6bKXTSEQQPT1kf
+	/waJTU8dLQ+4Rpi8WxTCbq2iml0eADjkWUAwXxZXhle91/TpzeDm3PA7fiqLaVBHNAqkWP0j1cJ
+	SEuTUhoixu0eBojnbP/8ISf+sYYmctkHgVSlY7Px8WO+aaeqpTATv28po6H1DKy5As8oyXYxoea
+	5msfrpZSIhW9kI6GGDP9Cldlxr0SDng==
+X-Google-Smtp-Source: AGHT+IGxlNYFc38S9eyRpImqOcQtnsmU476IB/ko2ETz+ypFrU/cqJ7CZ1/p3sY9pKlfg1fkHfAKrw==
+X-Received: by 2002:a05:6a00:3e01:b0:754:7376:548f with SMTP id d2e1a72fcca58-76337de94ebmr9720110b3a.23.1753552532040;
+        Sat, 26 Jul 2025 10:55:32 -0700 (PDT)
+Received: from archlinux ([205.254.163.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-766cf6c19dcsm167180b3a.68.2025.07.26.10.55.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Jul 2025 10:55:31 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: masahiroy@kernel.org,
+	nicolas.schier@linux.dev,
+	linux-kbuild@vger.kernel.org
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH v2] kconfig/lxdialog: replace strcpy() with strlcpy() in inputbox.c
+Date: Sat, 26 Jul 2025 23:25:24 +0530
+Message-ID: <20250726175524.146459-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] clk: spacemit: fix resource leak in
- spacemit_ccu_reset_register
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>, sboyd@kernel.org,
- dlan@gentoo.org
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- linux-clk@vger.kernel.org, linux-riscv@lists.infradead.org,
- spacemit@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20250723132504.66273-1-hendrik.hamerlinck@hammernet.be>
- <ed5fcfec-6330-46e8-a302-5cf1d8b3a9ce@wanadoo.fr>
-Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <ed5fcfec-6330-46e8-a302-5cf1d8b3a9ce@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 7/26/25 4:16 AM, Christophe JAILLET wrote:
-> Le 23/07/2025 à 15:25, Hendrik Hamerlinck a écrit :
->> The function spacemit_ccu_reset_register() allocates memory for an
->> auxiliary device. If auxiliary_device_add() fails, it skips cleanup of
->> these resources, resulting in leaks.
->>
->> Fix this by using the appropriate error handling path.
->>
->> Fixes: 988543522ebd ("clk: spacemit: set up reset auxiliary devices")
->> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
->> Reviewed-by: Yixun Lan <dlan@gentoo.org>
->> ---
->> Changes in v2:
->> - Properly place the Fixes tip.
->> ---
->>   drivers/clk/spacemit/ccu-k1.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/clk/spacemit/ccu-k1.c b/drivers/clk/spacemit/ccu- 
->> k1.c
->> index 65e6de030717..5bb85e32c6cf 100644
->> --- a/drivers/clk/spacemit/ccu-k1.c
->> +++ b/drivers/clk/spacemit/ccu-k1.c
->> @@ -1059,7 +1059,7 @@ static int spacemit_ccu_reset_register(struct 
->> device *dev,
->>       ret = auxiliary_device_add(adev);
->>       if (ret) {
->>           auxiliary_device_uninit(adev);
->> -        return ret;
->> +        goto err_free_aux_id;
->>       }
->>       return devm_add_action_or_reset(dev, spacemit_adev_unregister, 
->> adev);
-> 
-> 
-> Hi,
-> 
-> I'm not sure this is correct.
+strcpy() performs no bounds checking and can lead to buffer overflows if
+the input string exceeds the destination buffer size. This patch replaces
+it with strlcpy(), which ensures the input is always NULL-terminated,
+prevents overflows, following kernel coding guidelines.
 
-I'm sure this patch is incorrect, and the original code did
-not have the stated problem.  Thank you for calling attention
-to this Christophe.
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
 
-Stephen, could you please revert your commit of this patch?
+Changes since v1:
+- Replace strscpy with strlcpy
 
-Thank you.
+---
+ scripts/kconfig/lxdialog/inputbox.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-					-Alex
-
-> auxiliary_device_uninit() which is called if auxiliary_device_add() 
-> fails should already do the clean-up.
-> 
-> So I would say that this patch adds a double-free issue and should not 
-> be applied.
-> 
-> If I'm right, note that Stephen has already added a "Applied to clk-next"
-> 
-> CJ
-> 
-> 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+diff --git a/scripts/kconfig/lxdialog/inputbox.c b/scripts/kconfig/lxdialog/inputbox.c
+index 3c6e24b20f5b..ca778e270346 100644
+--- a/scripts/kconfig/lxdialog/inputbox.c
++++ b/scripts/kconfig/lxdialog/inputbox.c
+@@ -40,7 +40,7 @@ int dialog_inputbox(const char *title, const char *prompt, int height, int width
+ 	if (!init)
+ 		instr[0] = '\0';
+ 	else
+-		strcpy(instr, init);
++		strlcpy(instr, init, MAX_LEN + 1);
+ 
+ do_resize:
+ 	if (getmaxy(stdscr) <= (height - INPUTBOX_HEIGHT_MIN))
+-- 
+2.50.1
 
