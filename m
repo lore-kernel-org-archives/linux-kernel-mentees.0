@@ -1,96 +1,74 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 548A1288C9F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Jul 2025 18:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBB821A426
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Jul 2025 18:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753554976; cv=none; b=UzHASbeJ2K79Hvy/sqbA1YkFF1ra+xQ8jKkzJiHmmOrbDxipmiDru2Dn92ypY8gChQvr6b/KYjtv+OcZapsVIJV2d3Qn2D9J4YKgl4CeLl3XF44oPpX9qJJP/hG65xtCwewyL+7S2FQh6oy8WbbWcbjVCmDEsvXYV3JHZ3RTnD4=
+	t=1753556083; cv=none; b=M843XkSFpvX+NX8l0jKXY7iOe8EA/PKH2IykE4dxilAwzkSfXjOw2ispzSF3gp+Ow7e+slZL7iZ80Dr1S6oHJBeAT/jGLlnO+A25rTxVzia3umQqOXIOsT6q/Pxc7tzdIUo35sNDQu3cTF3t/S/rbIlbnkhp9PR3DFx93jicu/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753554976; c=relaxed/simple;
-	bh=eZme1SzjOeul0jhnShnKJQvP3nlnQk+EbC6sx7saJtQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T2T3ASTg1Y6dKWFM8QjEe96YdMMtCd2mJWpxHvplS9YnQgoBWp1VkFnaktDo0tce+AsuvnM/jAqPGPI8thoYjlGvpeIfDBQ9vTCuXL9NT//+ZxBONMcCfdtBMKlot3TNfTWt/WxNw+VqLGOe801aQjNrLSq8wjxU1nmp6bRvn2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SwBbuZsE; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1753556083; c=relaxed/simple;
+	bh=jN/bOZJKSgFzgJ9o+tglJc09DttMQIfo7cYiDWe4YGw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cnUSpiG4UgFuqBkWgLtilFnNvROxCwTUL6hQrqct4M3Hz5AW5Itie8G15kNZxlqBEq1c1NugoNZouK7NxvCeoOlgp3P1Xt++lUr/Vr71M9Saj3CnnBM9eZeRFNnNnfURZDMm4TlNklFk9MQqTBvPDoCKl+tStcgdlg5LA4rKedc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ROs47Ecq; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SwBbuZsE"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1CE2140C55
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Jul 2025 18:36:15 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: 1.486
-X-Spam-Level: *
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 65yT1fz6QQ7g for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Jul 2025 18:36:14 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::436; helo=mail-pf1-x436.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 6C02940A70
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6C02940A70
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SwBbuZsE
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 6C02940A70
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Jul 2025 18:36:14 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-7490cb9a892so2078552b3a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 26 Jul 2025 11:36:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ROs47Ecq"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-234c5b57557so27126685ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Jul 2025 11:54:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753554974; x=1754159774; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LVcdA331YjXfGGKaZvRHRPgJ6JXnIrSJxWaUWSwuxzw=;
-        b=SwBbuZsETnQNG/xaCMRoT4DtDxVn7SJxvdU8gJ7LbiL6aY2/GqY6x2dXmVBz3ubXaw
-         3g2sgbHU0WKDBsbDH7bVVS7A75bE2/7jCWmBBXcLNrB5PM9O771bcLqWzS/45mrs1VWc
-         nVc+7OU4ZaI2mLojU5AERPfLEuOKbs0Yy8w0Zxh99sj/yesY37nCQosEQOIeYO65dNtm
-         qdyn++61rOJM8lg57rgeDpe4tWWlaPHujGBs6E47poyfP4jwVqB2HdyiHSlhfgo066Cm
-         uyFXWUUAoW41valuLbo9EtKO3DLNgZFh6pxT1ZmbabuiHDSBunbU3jClvCpedQWJ32bl
-         uCJA==
+        d=gmail.com; s=20230601; t=1753556081; x=1754160881; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7kVErw+2M73e7AcLM+G/ti+P0e+oCHBlDMfj/liYyqY=;
+        b=ROs47EcqVJqJ6Ik/R0gwyC0axaz87YXwA+NY/rFcZKFkoxsdEifADuoEl8jIcLAXxV
+         +OeQtqMmgJZv69ZCClkp9Y2s1pvRk4LOYFKNB11WEfSZSfndrgoP2ZqUqHlTxW1//5YQ
+         t2oWSjyDXmgBDnINYYUbV4JE58YpHcbN7QT6BhOJXheV0RLAelZHkhg46t5TwWUP+ls4
+         6S9EtoqGBPFdb2/JGtDo30EndE1sPc1ZJh/DG6XcffDjLdQl70hOyb/hmvYGA4/lDtft
+         G/38aRb+S2L+PlZQPkQ+MVLn7IvUEBZzwDk4JIsJFu5XZdZ8KPKtTFS9NFmRwqX7VIKS
+         HdMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753554974; x=1754159774;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LVcdA331YjXfGGKaZvRHRPgJ6JXnIrSJxWaUWSwuxzw=;
-        b=s4I9aJosyk4rrPiH68QZWzF8/95qqQ+TU3GbuA30wx7UdK6bYOpuzifA2WyKXn6QRZ
-         GflLkeeqP4tXEPpkCIGIJguy/kpEflo37U/mS+US9nId2jWOaZQfvpUYTopQoMzUuEFc
-         4qDdul6E48CAHncoetyUZuxu4rBOXLaWZz6yCOKBkmrrY+Y03SHcX/KCCm3xvqyJaiMh
-         55428rombykinpZukrXeRNrjfODN3XVB+dkACUY+I2RXS/30giBQopBEwRoWv/6QLBkd
-         RGvx5ap/Qq9S4jDOlEy6twTuRIqANUIW5GcF4uGVWajgMP0LJV0WjNuAGTVbw7n2IAW/
-         gpyg==
-X-Forwarded-Encrypted: i=1; AJvYcCUk+RAUFHMBXlbyUK80W7hHsJv0otmAiyrsmrN/AHSQZufjqt7J5kWRxPhEgaLKsSJUtr4/HWxeb9KbZNM1VGhKAUqXTw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzuewRTtj7v8+eXhO2wBvIcmnj8eikVvZrlCaNvOVlAto3IXf6c
-	tcaHuZMD6erGty0VafenhiFDl1QWCIg6TZO077efas5Mppvxi0bWowIO
-X-Gm-Gg: ASbGncsYa7FmAJTULInK0hpjIr+w8+LNuT7iO6SyErgvDUuQGfnmjf1TTYviNBQZxkI
-	Znc023fs0hhKbLT4aqvKx7dFUHa7ToN7/14A4Dc9uhiJJc8nUvocbt+vPFmVvKD3ARIPElB6any
-	tTkLY9dh6Pvk+bAqaTkbON9AshmPp/4ON8DWxYpjxlSYo6JyLZc7B4ZwuSj6IXrNlxoSBsWHEyK
-	30457Vja7VoUFzo8AT3cdSB98Wj5dsoR75TlhoufR+lFtVwqY6wT4hvTCEIfsSrSlSS9+euLITM
-	R2PzDe/utGyHcEBE1ym841wv61JQblLUJge3NqsEXkqoiji7FNuyjMRHF0jo765Y8yBqvwBnKR3
-	CG9KhxBQV
-X-Google-Smtp-Source: AGHT+IFLw4HLiiTXvPLS6068oeR3S2hY3q8vy8XQQ14JoOkIWZYR1pdBxcunS1rfz+fmVo9gikmjdA==
-X-Received: by 2002:a05:6a00:2383:b0:74d:247f:fae4 with SMTP id d2e1a72fcca58-7633636aef3mr9798682b3a.4.1753554973660;
-        Sat, 26 Jul 2025 11:36:13 -0700 (PDT)
-Received: from fedora ([2804:14c:64:af90::1001])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7640881ee75sm2169295b3a.2.2025.07.26.11.36.11
+        d=1e100.net; s=20230601; t=1753556081; x=1754160881;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7kVErw+2M73e7AcLM+G/ti+P0e+oCHBlDMfj/liYyqY=;
+        b=JCaJh+4iE9jGsRcA848emwFUuYO9Ae3Y2d1/GCJlQ8h2lw2NIhgN6XE82JvIjKA1rv
+         +c2g/PyyDrsb5ywLEo32RJewgFfrVws4wN2SU7tw+ywcfzhCV4yiKijQYP607bcdUQJu
+         1jFItBim7ivE7y8PtZTewPsJs563j+rJVBI+EylITyvXCOaK3e3N/aI9yGz0N3qIPP9F
+         S+fJLczl0QojY0OFP1KJJoh4X3V3EPYZMrdzv4djYTabYKyGWNyNEfH6Dd+SjsUf0PJa
+         BJbtElmNSasIbunXA28rkic54Su6Tlr+rvfJzRBEUSD/OkVlGIfnS4kOaLSDLmGqEw40
+         XA7w==
+X-Forwarded-Encrypted: i=1; AJvYcCXrKQD9wn/OEDJNYCvTCaHyL/JDZON/NnEcjc4Y/KQR+aM5kh8ZMR06w7utH5lLrKJVJLb387HqUtuSSJAxY3FObpNi9Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwGs0PNQFOS0nF8tv8y80PVzM/lKNQh2JuPiy4m6XsowRASsCur
+	20+eA34xJILCgPB0uiBb4571xzitq5TofTRPnz6aBFemAgPrnP044c//
+X-Gm-Gg: ASbGncsvePrPh+OpqdMZOnLcttIsk6rMveE6reDFGivIaL6M+Hn8Y1Xc9DdB07QQ/rM
+	uphy/i7rl2F/zA7EjuPxVuuXxPr9OymDdjhuuhIkIn/TKMDsxzlKPizVOvoxW+FjuqHcqLpHkMA
+	Zs4GGtLRWzhNZRyZuf8vnK6EumufmwewvCXMqRmAgpajp5ii8ZPX1Ip/FTfRcawK1wdwEJB0UuD
+	BJe6sx2htrM/DhNk8TuM3SAs1oFuOk807TmyoJ89U5Pci0r+dsFPEa9Z7yomKJKoIg2RZjvgWYL
+	hVeKfuGlsCYuadGSO60EBxIMWHi8E7hLqD04OgEs9N1kUR3B9W5NGKkcn5VgqbconFT5hifYcM6
+	JFEYRh4k3mONT8B2+xjSaprQ4atTWwQ==
+X-Google-Smtp-Source: AGHT+IG0sgdycRxmHC8UktEn55Lgz+Tj0EvhZYQqjFKoAy4OyWyzTwjzmUv5uOmTdoMhzt20izQ+Zw==
+X-Received: by 2002:a17:903:204c:b0:23f:f96d:7579 with SMTP id d9443c01a7336-23ff96d7ab4mr5422885ad.37.1753556081277;
+        Sat, 26 Jul 2025 11:54:41 -0700 (PDT)
+Received: from archlinux ([205.254.163.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe512d29sm21363395ad.140.2025.07.26.11.54.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Jul 2025 11:36:13 -0700 (PDT)
-From: Marcelo Moreira <marcelomoreira1905@gmail.com>
-To: aliceryhl@google.com,
-	lossin@kernel.org,
-	dakr@kernel.org,
-	ojeda@kernel.org,
-	rust-for-linux@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH v8 3/3] rust: revocable: Documents RevocableGuard invariants/safety and refine Deref safety
-Date: Sat, 26 Jul 2025 15:35:03 -0300
-Message-ID: <20250726183552.23098-4-marcelomoreira1905@gmail.com>
+        Sat, 26 Jul 2025 11:54:40 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: apw@canonical.com,
+	joe@perches.com,
+	dwaipayanray1@gmail.com,
+	lukas.bulwahn@gmail.com
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH] checkpatch: suppress strscpy warnings for userspace tools
+Date: Sun, 27 Jul 2025 00:24:32 +0530
+Message-ID: <20250726185432.162632-1-suchitkarunakaran@gmail.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250726183552.23098-1-marcelomoreira1905@gmail.com>
-References: <20250726183552.23098-1-marcelomoreira1905@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -99,75 +77,44 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refinements include:
-- `RevocableGuard`'s invariants are updated to precisely state that
-  `data_ref` is valid as long as the RCU read-side lock is held.
-- The `RevocableGuard::new` constructor is made `unsafe`, explicitly
-  requiring callers to guarantee the validity of the raw pointer and
-  RCU read-side lock lifetime.
-- The `SAFETY` comment in `Revocable::try_access` is refined for
-  clarity, now explicitly stating how `Self`'s type invariants
-  and the RCU read-side lock together ensure data validity for reads.
-- The `Deref` implementation's `SAFETY` comment for `RevocableGuard`
-  is refined.
+The checkpatch.pl script currently warns against the use of strcpy, 
+strlcpy, and strncpy, recommending strscpy as a safer alternative. 
+However, these warnings are also triggered for code under tools/ and 
+scripts/, which are userspace code where strscpy is not available. 
+This patch suppresses these warnings for files in tools/ and scripts/.
 
-Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
 ---
- rust/kernel/revocable.rs | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ scripts/checkpatch.pl | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
-index 6d8e9237dbdf..a2aa7989231a 100644
---- a/rust/kernel/revocable.rs
-+++ b/rust/kernel/revocable.rs
-@@ -106,9 +106,9 @@ pub fn new(data: impl PinInit<T>) -> impl PinInit<Self> {
-     pub fn try_access(&self) -> Option<RevocableGuard<'_, T>> {
-         let guard = rcu::read_lock();
-         if self.is_available.load(Ordering::Relaxed) {
--            // Since `self.is_available` is true, data is initialised and has to remain valid
--            // because the RCU read side lock prevents it from being dropped.
--            Some(RevocableGuard::new(self.data.get(), guard))
-+            // SAFETY: `self.data` is valid for reads because of `Self`'s type invariants:
-+            // `self.is_available` is true and the RCU read-side lock is held by `guard`.
-+            Some(unsafe { RevocableGuard::new(self.data.get(), guard) })
-         } else {
-             None
-         }
-@@ -233,7 +233,7 @@ fn drop(self: Pin<&mut Self>) {
- ///
- /// # Invariants
- ///
--/// The RCU read-side lock is held while the guard is alive.
-+/// - `data_ref` is a valid pointer for as long as the RCU read-side lock is held.
- pub struct RevocableGuard<'a, T> {
-     // This can't use the `&'a T` type because references that appear in function arguments must
-     // not become dangling during the execution of the function, which can happen if the
-@@ -245,7 +245,13 @@ pub struct RevocableGuard<'a, T> {
- }
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index e722dd6fa8ef..1533cfbc8305 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -7020,19 +7020,19 @@ sub process {
+ #		}
  
- impl<T> RevocableGuard<'_, T> {
--    fn new(data_ref: *const T, rcu_guard: rcu::Guard) -> Self {
-+    /// Creates a new `RevocableGuard`.
-+    ///
-+    /// # Safety
-+    ///
-+    /// Callers must ensure that `data_ref` is a valid pointer to a `T` object,
-+    /// and that it remains valid for as long as the returned `RevocableGuard` is alive.
-+    unsafe fn new(data_ref: *const T, rcu_guard: rcu::Guard) -> Self {
-         Self {
-             data_ref,
-             _rcu_guard: rcu_guard,
-@@ -258,8 +264,8 @@ impl<T> Deref for RevocableGuard<'_, T> {
-     type Target = T;
+ # strcpy uses that should likely be strscpy
+-		if ($line =~ /\bstrcpy\s*\(/) {
++		if ($line =~ /\bstrcpy\s*\(/ && $realfile !~ m@\btools/@ && $realfile !~ m@\bscripts/@) {
+ 			WARN("STRCPY",
+ 			     "Prefer strscpy over strcpy - see: https://github.com/KSPP/linux/issues/88\n" . $herecurr);
+ 		}
  
-     fn deref(&self) -> &Self::Target {
--        // SAFETY: By the type invariants, we hold the rcu read-side lock, so the object is
--        // guaranteed to remain valid.
-+        // SAFETY: `self.data_ref` is valid because of `Self`'s type invariants,
-+        // and the active RCU read-side lock held via `_rcu_guard`, ensuring the data's accessibility.
-         unsafe { &*self.data_ref }
-     }
- }
+ # strlcpy uses that should likely be strscpy
+-		if ($line =~ /\bstrlcpy\s*\(/) {
++		if ($line =~ /\bstrlcpy\s*\(/ && $realfile !~ m@\btools/@ && $realfile !~ m@\bscripts/@) {
+ 			WARN("STRLCPY",
+ 			     "Prefer strscpy over strlcpy - see: https://github.com/KSPP/linux/issues/89\n" . $herecurr);
+ 		}
+ 
+ # strncpy uses that should likely be strscpy or strscpy_pad
+-		if ($line =~ /\bstrncpy\s*\(/) {
++		if ($line =~ /\bstrncpy\s*\(/ && $realfile !~ m@\btools/@ && $realfile !~ m@\bscripts/@) {
+ 			WARN("STRNCPY",
+ 			     "Prefer strscpy, strscpy_pad, or __nonstring over strncpy - see: https://github.com/KSPP/linux/issues/90\n" . $herecurr);
+ 		}
 -- 
 2.50.1
 
