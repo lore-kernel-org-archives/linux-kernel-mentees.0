@@ -1,83 +1,76 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28281D54E2
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 08:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6B41D7E26
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 09:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753604289; cv=none; b=eZq0tXZipauAsfpS3mi/itP0YybpI2LHDRvECUV+6QKR+sTC0Ud3ZsXiwzRYMcyonBagWuq9HMDrzYUsw0fT+AiOSY9ege0D0XGEJDBCJcHmbJ3EHZlo1IqK3V9v+jbZ7M7MF8/jUwgLTREsGYQI3ulX3VJ2ZO/3HoojvKE36s4=
+	t=1753609907; cv=none; b=V4xGVSY56BZvT9Qcgl/HfUCNAUMX6A26vwKkcVMlmBMObK0xXmTRoOWZmlF4+cGUjIHGbmTZWFF5auoOmY6ewVHOw5QJSmvw44Tf4ln3XkK9YsUZ6y1RSyMIU3GyD2h7I5ThmVWOiGf53+J5vuBiOm7mOcMK9wB+NbojBvW6eT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753604289; c=relaxed/simple;
-	bh=h2x6vdv/JzyV9NCqHup4antc8GUh2Fc+FuFK5KC/RRU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QM+WTRgDBCYADdnofoKS8vI2sTB7/gPp/zAvdZOFxN7mOO3vLJOHekZwiicBJdSZFFyLsawdoH6+RrwIimvieE0FBBP/04qVqNDCShEHI/ExE93JZSmRVZNNT8mCbFje4AXF/9VVJnEPhmlMdT++9L4QDb/ngNaWmZrrjUuKUOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BwafUI0B; arc=none smtp.client-ip=209.85.210.176
+	s=arc-20240116; t=1753609907; c=relaxed/simple;
+	bh=D5ppVq3QqCe7Zf1Zc+MyTGFktyD9Tu0/kwUllmqLIxs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TV61aVnFcIff6lbUv4suBdCOdjOi4N8xykIZh5l2h3YwHWz1mzQHReo9t0EJisnUMDSrDlba8cwvyN6ndXXIx/rNHKd13yMiOD85Ej8kRUpbq8Vvz6UUXrHcw9RVnlavH/PvFtiYzPlos72t5+s48wpNnl0I5sH/MhKSY6oKIlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mR86OwOq; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BwafUI0B"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-748fe69a7baso3099741b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 01:18:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mR86OwOq"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-235f9ea8d08so32691665ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 02:51:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753604287; x=1754209087; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1753609904; x=1754214704; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4w3nvIifgn0iSMKuiOg/hmSn/FEUf3sNnbRx7riRRJg=;
-        b=BwafUI0BJm3lVvHwisiAJfdE2jZ0F04qHp9GdzyzTh4GO8LUaXJArlQk6pKFKrIqq2
-         PaYM4qmSbRat6reT9UqNv7ZiM/7iT3GqbPCFhMBVICslL/+E8JJGJd35xQT5XlYnUh4N
-         2z0wTl2ksxtUnGnjlUoui94YcroWGo0R2qK3zpC9xvmtYHFI4s2EdoxqNeXDPxnVNckz
-         64ZKFWWTwcn5fNUNy5pFmhGh4d9R7s3L5Ln5VF+wd4Yq/GA403EsvCe+UcD8iA9oY998
-         dODErJ5nA0Bav2RN/or6EcTZ2Ek914GqlmM3Qx+TlaLroSPRCdIm1Bl3ccW9xXYn7J8n
-         7F4Q==
+        bh=dskf1rATUBFmCQprzjusof8q2SMFT1316UEra5Cd0Z8=;
+        b=mR86OwOqP/diZi7fLq+97/brJKJB+sABI0jrFMZnkj0K+Jey9HgeVanSIx4vjdTVv1
+         va/nIgT0l0VrJMg8IIbOEmidZOalT8C1k8p8sQ2h0Wza1NyfG1zvAZ7r1DVvRO6OpTNA
+         JvtLwa2VwuSNHpGKwZgz3K7zNI4NLiwzc5ckKtbkZGQ0mnJcP2VAO6/S4mBbdtTDAZLU
+         NS9y1SyaW5sIV7LvzMS7H63FNvHUT2+kZcH+EeChmnsOxFMKWsQesGbUFczgTEOKwB76
+         AdddWhywQc7La58XZ1a0r8OmA9ABoQSkjnCBlXjZd1cTEnVt6vgEf7ynMl9iIejACL9g
+         9xIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753604287; x=1754209087;
+        d=1e100.net; s=20230601; t=1753609904; x=1754214704;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4w3nvIifgn0iSMKuiOg/hmSn/FEUf3sNnbRx7riRRJg=;
-        b=mcEdfDx67MxWf6HLK1hRasvdT6L1/GPIbE1mbSPp+FDPWuVPzVIlXUJpeBeQK+VcAW
-         kjx8J6D4wK7wAekRw76UZtuclkzugasgAsId5kZiRtCm1HYGu1XqHVUplYBBNJezmG7f
-         BJVgjIk/FyavZ5HlX+rg/0Q5kFqqnngw+oP8zd+JexiPfZgctHUS3R65sIzVE8fasSs8
-         BqXxuJbvSGgybUwuszhT+uTmare+ZQ8Icv7wnROAZMFNjnPPvxazbuvYUbqlnxJDWUEo
-         2XzpmiNXp2N7TIDF12hj1CDdwPtyGOB9iTaxwqZW/fP2eg7VsSafE0AKi1BDa3WDC8JT
-         sn5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWeGHIkPnPKYqWqnP0K4isqu7RxhHFNJPXczG1j0l9+mciq6yvTHTuyZWNBZ9Rx4kdXx/9ljkmx4z/f/8t9yKH9WAeYqA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwDNJtx6UUXd6Z9xZ9LnB67WN82anfgP3cMPiJCaqpVscdZ9DVv
-	F47XAjH7ZZDK8fq+yf5laeFuXcd9b5QEXZhfvLKjyUu8gskfhbfoGd+V
-X-Gm-Gg: ASbGnctYptZVSykRtK6cUMt/NCs10dEcX5+dRo/AC5SCrjSzdBjXXuehUIn09MfWCQp
-	AH141RU4Zh30vjCHYWvKVSa+yjspDf9P7/gPYvUXJZ9oEYxASkzugv8945nL+MU3RBjSWPKl1YL
-	ER+qjAbRUJ9MmfY6j8AmmqbgP9yGQuCVd9EiN7gfm/prAQ7uq1ut8Xo9fHS/2dzmqVzvkjXqnDT
-	owYM6TMptxAukP1YV428SiZEPkqEaC4/sWFhjCDBYECktjd0wCKQn+eU3Tsh29PJL4KBQ9m+5sD
-	1K9cw1l464H5fCqnRjTCh+I1OtlnjWfxF7FJCenFGf+i+06pCGeJtJxpJVkatKZcBt9XpczsyoU
-	iInRE0gaKE49Nu449OVfbDDC244tOUGE=
-X-Google-Smtp-Source: AGHT+IERtAcA1hASNVnSuyLgCZuySFIDgpHVod4VMFHMhTbjWTMV5KfmnnO/eqKIF5S6h8aYQR0OlQ==
-X-Received: by 2002:a05:6a00:1741:b0:736:4644:86ee with SMTP id d2e1a72fcca58-763343da65dmr10726993b3a.14.1753604286599;
-        Sun, 27 Jul 2025 01:18:06 -0700 (PDT)
-Received: from archlinux ([205.254.163.108])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7640863503csm3085296b3a.5.2025.07.27.01.17.59
+        bh=dskf1rATUBFmCQprzjusof8q2SMFT1316UEra5Cd0Z8=;
+        b=PCrlyhNx+Dg6csTDK+ZmpqSj00E9KJH5q0dbBxxYbMA6+nbOGcTxOqHwbFy9l06tlI
+         Enwah9jQ5xe2NUc2P4ldQKbFMObb+GyysEN2Hd674lLxvOvSoNVnaZIOnmdNZwqNBPyF
+         uKEb7kGxMZQU9MLtiCtyTeCGxf8aU5hsPnSrOMZUnNvjANr9Ky0T7+0Y/CXz5/FZiFjC
+         rl2fv2fxG2Od4MXJ4glZL+Gmqxl4w00eUdf0RvIvGr/NcV1FNKXRJzg6zyROBXMswADx
+         QcNjrU5FWQDqYidHuvsWJcXDDFSCM0uPj8MXZCnuzpFanj3y1EuzERy03UcVJGBxuQ2k
+         xm/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUr618LC/OkRtG+M+Yt4eLD4sijBWgj7eMo5r+3JUb2Kq/TKFZ+pI0U2rvOJwY1TqQgMURJw7DujxkyUpAco5XHROPGLw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YylMRCtT6P7pWJhFK2Q7ZiDSirdeaThErtF+qYuguIwgVGN0eU2
+	6BkKsOePtQuf2Y9PLI4vAZt/PilfkKd7A6t6e1mL2dQSn1OKTw2TEBX66PISwaX6
+X-Gm-Gg: ASbGncuiyR4jvBDVUSt5Vl5rYzUhIQW+UwLW0RBZwxCjG6G/54BjJo5eTfJ3gkupH4i
+	ndgHo9z+q+UUNeQsGKLQ7fLGipl0UhyDLlUOAc7/ano32FoFaUa+gFnCdgXU2PLsC8ofxUQAYFv
+	pqhx4kSuojtVGcoU1T/0xqtVQIyTlpms6Xq9bRdBQWNk1siPSFg579Cxs7XPn1AC0d0upYa2Wn+
+	fWM7F3lC4nsFDUb09yPNfG9boiqEk1SPeIhZm9k1kpw/W/IYsxfox1G8lhjaTURZv0eNlryR/Vm
+	jGHEGhOJuEzf0cy4iXQnNKUWp80wHnLivO1o+eFhaE1FUNgeNOsfdgeM1V/TpKwGdwj/1rUh3Ez
+	iO5Z+3dZTMlYJzV7khre15A==
+X-Google-Smtp-Source: AGHT+IGpALJ699LdfAv3Y17ZVtcuGR1LM7zGC1tgkOCExgcr3JVyKpBWA7LQwWxspNNgwhzprbznWA==
+X-Received: by 2002:a17:902:cf03:b0:236:6f5f:caaf with SMTP id d9443c01a7336-23fb3031402mr119651315ad.15.1753609903645;
+        Sun, 27 Jul 2025 02:51:43 -0700 (PDT)
+Received: from pop-os.. ([49.207.200.229])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fc5a9d25bsm27910545ad.83.2025.07.27.02.51.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Jul 2025 01:18:06 -0700 (PDT)
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: ast@kernel.org,
-	daniel@iogearbox.net,
-	john.fastabend@gmail.com,
-	andrii@kernel.org,
-	martin.lau@linux.dev,
-	eddyz87@gmail.com,
-	song@kernel.org,
-	yonghong.song@linux.dev,
-	kpsingh@kernel.org,
-	sdf@fomichev.me,
-	haoluo@google.com,
-	jolsa@kernel.org,
-	bpf@vger.kernel.org
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
+        Sun, 27 Jul 2025 02:51:43 -0700 (PDT)
+From: Aditya Dutt <duttaditya18@gmail.com>
+To: stable@vger.kernel.org
+Cc: Dmitry Antipov <dmantipov@yandex.ru>,
+	Dave Kleikamp <dave.kleikamp@oracle.com>,
+	Dave Kleikamp <shaggy@kernel.org>,
+	skhan@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: [PATCH] bpf: fix various typos in verifier.c comments
-Date: Sun, 27 Jul 2025 13:47:54 +0530
-Message-ID: <20250727081754.15986-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	linux-kernel-mentees@lists.linux.dev,
+	jfs-discussion@lists.sourceforge.net,
+	syzbot+ac2116e48989e84a2893@syzkaller.appspotmail.com,
+	Aditya Dutt <duttaditya18@gmail.com>
+Subject: [PATCH 6.12.y] jfs: reject on-disk inodes of an unsupported type
+Date: Sun, 27 Jul 2025 15:21:11 +0530
+Message-Id: <20250727095111.527745-1-duttaditya18@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -86,63 +79,120 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch fixes several minor typos in comments within the BPF verifier.
-No changes in functionality.
+From: Dmitry Antipov <dmantipov@yandex.ru>
 
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+[ Upstream commit 8c3f9a70d2d4dd6c640afe294b05c6a0a45434d9 ]
+
+Syzbot has reported the following BUG:
+
+kernel BUG at fs/inode.c:668!
+Oops: invalid opcode: 0000 [#1] PREEMPT SMP KASAN PTI
+CPU: 3 UID: 0 PID: 139 Comm: jfsCommit Not tainted 6.12.0-rc4-syzkaller-00085-g4e46774408d9 #0
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-3.fc41 04/01/2014
+RIP: 0010:clear_inode+0x168/0x190
+Code: 4c 89 f7 e8 ba fe e5 ff e9 61 ff ff ff 44 89 f1 80 e1 07 80 c1 03 38 c1 7c c1 4c 89 f7 e8 90 ff e5 ff eb b7
+ 0b e8 01 5d 7f ff 90 0f 0b e8 f9 5c 7f ff 90 0f 0b e8 f1 5c 7f
+RSP: 0018:ffffc900027dfae8 EFLAGS: 00010093
+RAX: ffffffff82157a87 RBX: 0000000000000001 RCX: ffff888104d4b980
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffc900027dfc90 R08: ffffffff82157977 R09: fffff520004fbf38
+R10: dffffc0000000000 R11: fffff520004fbf38 R12: dffffc0000000000
+R13: ffff88811315bc00 R14: ffff88811315bda8 R15: ffff88811315bb80
+FS:  0000000000000000(0000) GS:ffff888135f00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005565222e0578 CR3: 0000000026ef0000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ ? __die_body+0x5f/0xb0
+ ? die+0x9e/0xc0
+ ? do_trap+0x15a/0x3a0
+ ? clear_inode+0x168/0x190
+ ? do_error_trap+0x1dc/0x2c0
+ ? clear_inode+0x168/0x190
+ ? __pfx_do_error_trap+0x10/0x10
+ ? report_bug+0x3cd/0x500
+ ? handle_invalid_op+0x34/0x40
+ ? clear_inode+0x168/0x190
+ ? exc_invalid_op+0x38/0x50
+ ? asm_exc_invalid_op+0x1a/0x20
+ ? clear_inode+0x57/0x190
+ ? clear_inode+0x167/0x190
+ ? clear_inode+0x168/0x190
+ ? clear_inode+0x167/0x190
+ jfs_evict_inode+0xb5/0x440
+ ? __pfx_jfs_evict_inode+0x10/0x10
+ evict+0x4ea/0x9b0
+ ? __pfx_evict+0x10/0x10
+ ? iput+0x713/0xa50
+ txUpdateMap+0x931/0xb10
+ ? __pfx_txUpdateMap+0x10/0x10
+ jfs_lazycommit+0x49a/0xb80
+ ? _raw_spin_unlock_irqrestore+0x8f/0x140
+ ? lockdep_hardirqs_on+0x99/0x150
+ ? __pfx_jfs_lazycommit+0x10/0x10
+ ? __pfx_default_wake_function+0x10/0x10
+ ? __kthread_parkme+0x169/0x1d0
+ ? __pfx_jfs_lazycommit+0x10/0x10
+ kthread+0x2f2/0x390
+ ? __pfx_jfs_lazycommit+0x10/0x10
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x4d/0x80
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork_asm+0x1a/0x30
+ </TASK>
+
+This happens when 'clear_inode()' makes an attempt to finalize an underlying
+JFS inode of unknown type. According to JFS layout description from
+https://jfs.sourceforge.net/project/pub/jfslayout.pdf, inode types from 5 to
+15 are reserved for future extensions and should not be encountered on a valid
+filesystem. So add an extra check for valid inode type in 'copy_from_dinode()'.
+
+Reported-by: syzbot+ac2116e48989e84a2893@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=ac2116e48989e84a2893
+Fixes: 79ac5a46c5c1 ("jfs_lookup(): don't bother with . or ..")
+Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+Signed-off-by: Dave Kleikamp <dave.kleikamp@oracle.com>
+Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
 ---
- kernel/bpf/verifier.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-index e2fcea860755..4f13cce28815 100644
---- a/kernel/bpf/verifier.c
-+++ b/kernel/bpf/verifier.c
-@@ -4518,7 +4518,7 @@ static int backtrack_insn(struct bpf_verifier_env *env, int idx, int subseq_idx,
-  *   . if (scalar cond K|scalar)
-  *   .  helper_call(.., scalar, ...) where ARG_CONST is expected
-  *   backtrack through the verifier states and mark all registers and
-- *   stack slots with spilled constants that these scalar regisers
-+ *   stack slots with spilled constants that these scalar registers
-  *   should be precise.
-  * . during state pruning two registers (or spilled stack slots)
-  *   are equivalent if both are not precise.
-@@ -18450,7 +18450,7 @@ static void clean_verifier_state(struct bpf_verifier_env *env,
- /* the parentage chains form a tree.
-  * the verifier states are added to state lists at given insn and
-  * pushed into state stack for future exploration.
-- * when the verifier reaches bpf_exit insn some of the verifer states
-+ * when the verifier reaches bpf_exit insn some of the verifier states
-  * stored in the state lists have their final liveness state already,
-  * but a lot of states will get revised from liveness point of view when
-  * the verifier explores other branches.
-@@ -19166,7 +19166,7 @@ static bool is_iter_next_insn(struct bpf_verifier_env *env, int insn_idx)
-  * terminology) calls specially: as opposed to bounded BPF loops, it *expects*
-  * states to match, which otherwise would look like an infinite loop. So while
-  * iter_next() calls are taken care of, we still need to be careful and
-- * prevent erroneous and too eager declaration of "ininite loop", when
-+ * prevent erroneous and too eager declaration of "infinite loop", when
-  * iterators are involved.
+As per: https://lore.kernel.org/all/CAODzB9roW_ObEa8K8kowbfQ4bL3w4R78v2b_yBU4BQL4bpXrWw@mail.gmail.com/
+this commit is not backported to any of the stable kernels (other than
+6.15.y)
+I will be sending separate emails for 6.6.y, 6.1.y and 5.15.y
+
+ fs/jfs/jfs_imap.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/fs/jfs/jfs_imap.c b/fs/jfs/jfs_imap.c
+index 8ddc14c56501..ecb8e05b8b84 100644
+--- a/fs/jfs/jfs_imap.c
++++ b/fs/jfs/jfs_imap.c
+@@ -3029,14 +3029,23 @@ static void duplicateIXtree(struct super_block *sb, s64 blkno,
   *
-  * Here's a situation in pseudo-BPF assembly form:
-@@ -19208,7 +19208,7 @@ static bool is_iter_next_insn(struct bpf_verifier_env *env, int insn_idx)
-  *
-  * This approach allows to keep infinite loop heuristic even in the face of
-  * active iterator. E.g., C snippet below is and will be detected as
-- * inifintely looping:
-+ * infinitely looping:
-  *
-  *   struct bpf_iter_num it;
-  *   int *p, x;
-@@ -24449,7 +24449,7 @@ static int compute_scc(struct bpf_verifier_env *env)
- 	 *        if pre[i] == 0:
- 	 *            recur(i)
- 	 *
--	 * Below implementation replaces explicit recusion with array 'dfs'.
-+	 * Below implementation replaces explicit recursion with array 'dfs'.
- 	 */
- 	for (i = 0; i < insn_cnt; i++) {
- 		if (pre[i])
+  * RETURN VALUES:
+  *	0	- success
+- *	-ENOMEM	- insufficient memory
++ *	-EINVAL	- unexpected inode type
+  */
+ static int copy_from_dinode(struct dinode * dip, struct inode *ip)
+ {
+ 	struct jfs_inode_info *jfs_ip = JFS_IP(ip);
+ 	struct jfs_sb_info *sbi = JFS_SBI(ip->i_sb);
++	int fileset = le32_to_cpu(dip->di_fileset);
++
++	switch (fileset) {
++	case AGGR_RESERVED_I: case AGGREGATE_I: case BMAP_I:
++	case LOG_I: case BADBLOCK_I: case FILESYSTEM_I:
++		break;
++	default:
++		return -EINVAL;
++	}
+ 
+-	jfs_ip->fileset = le32_to_cpu(dip->di_fileset);
++	jfs_ip->fileset = fileset;
+ 	jfs_ip->mode2 = le32_to_cpu(dip->di_mode);
+ 	jfs_set_inode_flags(ip);
+ 
 -- 
-2.50.1
+2.34.1
 
