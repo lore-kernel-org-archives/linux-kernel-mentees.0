@@ -1,76 +1,109 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89A61E2602
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 11:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92371E49F
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 12:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753617357; cv=none; b=D770D0ATs5xsMbvqeBsC/au3AHMqSz3JsCTAyM8QF/j2giJweOv1HJUwKDNdK3IHmLugIJeEqAGw0sEnMdWY1Tng5vUA7Vk0SX1Q6gNbcxFT5sCuPcjJmwYqghS2ew3OEP8NQCEC6AmoiKyyNh9XEi8+rSvkatWFLqLHcoar0pU=
+	t=1753619502; cv=none; b=d1KpNless+ZjMClBs1psfmenHwOmTQdSxZk4NlMtgfdoc2lOe/wyav5nojNLDZYefG+A8BdXq1jlM0yxXCr/AgeX6ZNFBq5hwe5CU5QqBmstbFSF7KlGuVn3YjcYkr7KFdZg+98SoSekw2D0q7XGDIPYSo7zcV1H9Drb6wxhq0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753617357; c=relaxed/simple;
-	bh=LtomfhiWAB6xUadkgFUuxkUjUXise5GTj6Gp1iOvrKs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LL4eDLI2P3MtDXQP1SdeCWDoix9bNc5gs6mJAw3KD0lSnWTk2i+BjmTasZhKXvgWi1AYheF/52ENFA+xZZdv3MPf6Hu5ZTtL2eGjg/d+xV60yQcTpXkevqUS7+nYTKsayahqyt3RNblsW4LUTMpa1FNZk7fTGaZt6E/ZqNLX77g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id C1B3B10D07C;
-	Sun, 27 Jul 2025 11:55:48 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 81ACD20025;
-	Sun, 27 Jul 2025 11:55:46 +0000 (UTC)
-Message-ID: <acacadd2c1112e31cccbe8db504ce30bd8587852.camel@perches.com>
-Subject: Re: [PATCH] checkpatch: suppress strscpy warnings for userspace
- tools
-From: Joe Perches <joe@perches.com>
-To: Suchit Karunakaran <suchitkarunakaran@gmail.com>, apw@canonical.com, 
-	dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Sun, 27 Jul 2025 04:55:44 -0700
-In-Reply-To: <20250726185432.162632-1-suchitkarunakaran@gmail.com>
-References: <20250726185432.162632-1-suchitkarunakaran@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	s=arc-20240116; t=1753619502; c=relaxed/simple;
+	bh=BwX+f6OvmUXCYCS6hwLlQqnr4JjkZ82M3Ns/Tm34nMA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eYpe7mvjjuj/vN5oDvbPYn52f3nC11uuJaLng7+sPfPtmVTQWvt+cPsXLceAbn81v9YZjfiEQg9t0b1Rx8reX2eMEpsMjaPtAzRyvhNUHCFjdH0xnaRcNJZcsK9vmlMieh9Z3j0VqAoSimfS7DON7RnKa815toSDW8MFlBIJ11w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FNQUp58F; arc=none smtp.client-ip=209.85.160.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FNQUp58F"
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2edec6c5511so2345794fac.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 05:31:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753619500; x=1754224300; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nr1FlrqtvRl/pW2s+Bj333vaZiPeY5tHgHRPgBeIBrE=;
+        b=FNQUp58F1I5KtnvV1ljPnBTfZh13snHnAG0V8OH05zbQJ9YGi8c0Lpa7nXGaugExbK
+         8BGpTnCwHX1jIvyUPjqQctjStdF/MK+khPk3PpZ58iuHVsQzuWmfmGdrAMMEKUEfa94c
+         yOeWaHjb7/GwnWYRuE1003qO/S/WNH4G3PymSBNesPs4PJ6Hsn6ehCJfxHy29ecrUGmc
+         6bvVx6oO78SqKAKEQSJFLzDQ+nuXitexB2ZE5qHEbFSi1RkRAergCImeyA2QO3jWFb+R
+         SKHJg2vSy6JL3FpiQCZsE+Pf138u7gCbiEn1RFXGTzc6EhIrveiw6yu620BZK42WXrw8
+         zAng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753619500; x=1754224300;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Nr1FlrqtvRl/pW2s+Bj333vaZiPeY5tHgHRPgBeIBrE=;
+        b=I8iP9cEpgX708zzS2Oy5sFs3QajH89A85j6kMetnhZnuPx3BC//ifLyBkJrt7BzRVZ
+         kSofpmkM6Q5UiXlsDHsgBkHZkwINaCwgtbchimZVwsnxZobBlBL0LtLKjzjJnJeZkHX9
+         cJBs8C8kyAxjExmvOizNZVz2hzZPLwAIqrzQmpXNWWVQqw1MVZlsMkMQu4832VS7+Mty
+         bb8X21Ur1V8IwKgf6SxZ53+Mw54PqZG1tXBY9HVd4dkwbYkTckdOCRZjXj026zmqBqUW
+         sozbcgUNfkIKpayKAipnCCRvCgFG5mjNHquHxE2PvcDv2UYSwJifN0q6RDJ5rOJ7jCC5
+         dJOw==
+X-Forwarded-Encrypted: i=1; AJvYcCWCYdfkowmn07vbld5DcVAlQd3U46eRLaliqpj/eH6M6e/dfFTEe8dlF+fMuKT4Qf5AIOwSLlkHo7gI3ZdW+iuoHnuX7A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzYhlCb5cW8F5K3hjirvvTo4OX9/XSVgx4wO6VOSE0f44tyV/bS
+	P1vMTZTmaFHTjmG1OwK070AJHk2xiC0205CsyfuRfPqJluOp3PqJicLskVk1kqWt2kA2wyWjULE
+	trqGFeqcZW9+TYdezzekJ1urmFU56Iw8=
+X-Gm-Gg: ASbGncu7uLTDTYOFRpBGUtTrnTPC7k3VDVzDYIV4BB7meQRPiHgtuSLxpRpzHe9hsLd
+	Wus/9Lv/sO1roY+2VRjj8zkIzv8fWlLR/hg113h0ybOrpYG0BLMQcjVibatkmGgQVns7QkzMcuR
+	j6EjZA8YWt8uH8xkidWK520pW4rbZAokBbl7g5eHN1lsOr3+wwsAkxSuPVHqF0RmiQ3BOwiAGdF
+	Fn2Fh2ETw==
+X-Google-Smtp-Source: AGHT+IFpuHK+r+RUZcTODiv1qZJM76ZiRuILDLgWk5mvrZ2hddpDeKAVit/CpJeJZ3oGkqKMAfiyzmpvtMO1w9FrH+I=
+X-Received: by 2002:a4a:ee97:0:b0:615:d3d9:5d1c with SMTP id
+ 006d021491bc7-6190caa7013mr4571605eaf.8.1753619499808; Sun, 27 Jul 2025
+ 05:31:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Stat-Signature: o7zufsf7ufptwzuyrrzd3w1jn8az9xq8
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 81ACD20025
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19dhVxEe1pYQ7C7rf6nIC/OwhobK5M3rFY=
-X-HE-Tag: 1753617346-20858
-X-HE-Meta: U2FsdGVkX1/R4cwxqgw1AfKXVvKU687clxSYbzQhxRzi0ykNdNGHYS1WVd3v3bxlfyomElTyoUW31xS96pXT2KeOlKLSiVaA/2yS/T6Kc5VJVTFkcfBSLYMLgNG+2/OnetJHbvVTLJt3IRKP1jnyxYu4L9DZNAs3Ol4ZH6Zu4NTuYGpRK53gZkxkixJ4BNLRdEc4knYV7IoOgkO65nMCUzUD/pyYOdcqYD5k1YXGx9fiBFGdSGSpIbI5EpTjTeS5xmdZ9yJbZ3TJkOs1XuAEyWRpO9pJWWkezqVoOogGzg5eyMrE6/pcOoknFHRYFY6J
+References: <20250726185432.162632-1-suchitkarunakaran@gmail.com> <acacadd2c1112e31cccbe8db504ce30bd8587852.camel@perches.com>
+In-Reply-To: <acacadd2c1112e31cccbe8db504ce30bd8587852.camel@perches.com>
+From: Suchit K <suchitkarunakaran@gmail.com>
+Date: Sun, 27 Jul 2025 18:01:27 +0530
+X-Gm-Features: Ac12FXzcfqjbmuR7tctu7RJvCSwo18x0U4iVbHzoRGSt3SfrOFID559ChNL-Mws
+Message-ID: <CAO9wTFjbD2qcVVCMYfLi3yKjT1cLtHto_Qzr=eAepg=8evbSFQ@mail.gmail.com>
+Subject: Re: [PATCH] checkpatch: suppress strscpy warnings for userspace tools
+To: Joe Perches <joe@perches.com>
+Cc: apw@canonical.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 2025-07-27 at 00:24 +0530, Suchit Karunakaran wrote:
-> The checkpatch.pl script currently warns against the use of strcpy,=20
-> strlcpy, and strncpy, recommending strscpy as a safer alternative.=20
-> However, these warnings are also triggered for code under tools/ and=20
-> scripts/, which are userspace code where strscpy is not available.=20
-> This patch suppresses these warnings for files in tools/ and scripts/.
-[]
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-[]
-> @@ -7020,19 +7020,19 @@ sub process {
->  #		}
-> =20
->  # strcpy uses that should likely be strscpy
-> -		if ($line =3D~ /\bstrcpy\s*\(/) {
-> +		if ($line =3D~ /\bstrcpy\s*\(/ && $realfile !~ m@\btools/@ && $realfil=
-e !~ m@\bscripts/@) {
+On Sun, 27 Jul 2025 at 17:25, Joe Perches <joe@perches.com> wrote:
+>
+> On Sun, 2025-07-27 at 00:24 +0530, Suchit Karunakaran wrote:
+> > The checkpatch.pl script currently warns against the use of strcpy,
+> > strlcpy, and strncpy, recommending strscpy as a safer alternative.
+> > However, these warnings are also triggered for code under tools/ and
+> > scripts/, which are userspace code where strscpy is not available.
+> > This patch suppresses these warnings for files in tools/ and scripts/.
+> []
+> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> []
+> > @@ -7020,19 +7020,19 @@ sub process {
+> >  #            }
+> >
+> >  # strcpy uses that should likely be strscpy
+> > -             if ($line =~ /\bstrcpy\s*\(/) {
+> > +             if ($line =~ /\bstrcpy\s*\(/ && $realfile !~ m@\btools/@ && $realfile !~ m@\bscripts/@) {
+>
+> Maybe instead create a is_kernel or is_userspace function
+> and use that instead of the test
 
-Maybe instead create a is_kernel or is_userspace function
-and use that instead of the test
+Sure, I will do it.
 
-	if (!is_userspace($realfile) &&
-	    $line =3D~ etc...
+>
+>         if (!is_userspace($realfile) &&
+>             $line =~ etc...
+>
+> and
+>
+> are all <any_subdirectory>tools/ always userspace ?
+>
 
-and=20
-
-are all <any_subdirectory>tools/ always userspace ?
-
+Yes, as far as I know, almost all of the code in the tools directory
+is userspace. Atleast, strscpy isn't available for the code inside
+tools and scripts.
