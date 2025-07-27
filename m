@@ -1,109 +1,129 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92371E49F
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 12:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60921DB95E
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 12:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753619502; cv=none; b=d1KpNless+ZjMClBs1psfmenHwOmTQdSxZk4NlMtgfdoc2lOe/wyav5nojNLDZYefG+A8BdXq1jlM0yxXCr/AgeX6ZNFBq5hwe5CU5QqBmstbFSF7KlGuVn3YjcYkr7KFdZg+98SoSekw2D0q7XGDIPYSo7zcV1H9Drb6wxhq0M=
+	t=1753620658; cv=none; b=XqJldJMDmne4cunZ7QcJW/IjPP3NcJJlCFODW4m+0rLmnCoHV8px0kMmz6j1AKv+l4AOCMXxJFAynhST1aHtdlB69rgBxmvHyBnK+WYbSLCqMSZ/8kuUQhE7M8zXUYBuvzw95PYA4940lzHktKCxLtIHZr59QjdQrNXMidthPbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753619502; c=relaxed/simple;
-	bh=BwX+f6OvmUXCYCS6hwLlQqnr4JjkZ82M3Ns/Tm34nMA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eYpe7mvjjuj/vN5oDvbPYn52f3nC11uuJaLng7+sPfPtmVTQWvt+cPsXLceAbn81v9YZjfiEQg9t0b1Rx8reX2eMEpsMjaPtAzRyvhNUHCFjdH0xnaRcNJZcsK9vmlMieh9Z3j0VqAoSimfS7DON7RnKa815toSDW8MFlBIJ11w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FNQUp58F; arc=none smtp.client-ip=209.85.160.45
+	s=arc-20240116; t=1753620658; c=relaxed/simple;
+	bh=qphoEMJcvtchYG0cd1lDMN9S2qws/1jokATGeV0IvRg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lhE/tJug4FRj5rify9a3xPp4JkHSllnz1f3RqXnMpm65XlOlKpmFbba7ZTIU8aJZoGW1UrYfZfJMwlgINz6iEZOq1sv03SfTPD4OmKCxL3Qp85RZHSEtmxj7W8G0W3Q9TAin1Wa555FRYzKAUdOgVJ0SaYrk6VDl3jvIreXw+7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IHcq0AQD; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FNQUp58F"
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2edec6c5511so2345794fac.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 05:31:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IHcq0AQD"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-75ce8f8a3cdso2266165b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 05:50:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753619500; x=1754224300; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nr1FlrqtvRl/pW2s+Bj333vaZiPeY5tHgHRPgBeIBrE=;
-        b=FNQUp58F1I5KtnvV1ljPnBTfZh13snHnAG0V8OH05zbQJ9YGi8c0Lpa7nXGaugExbK
-         8BGpTnCwHX1jIvyUPjqQctjStdF/MK+khPk3PpZ58iuHVsQzuWmfmGdrAMMEKUEfa94c
-         yOeWaHjb7/GwnWYRuE1003qO/S/WNH4G3PymSBNesPs4PJ6Hsn6ehCJfxHy29ecrUGmc
-         6bvVx6oO78SqKAKEQSJFLzDQ+nuXitexB2ZE5qHEbFSi1RkRAergCImeyA2QO3jWFb+R
-         SKHJg2vSy6JL3FpiQCZsE+Pf138u7gCbiEn1RFXGTzc6EhIrveiw6yu620BZK42WXrw8
-         zAng==
+        d=gmail.com; s=20230601; t=1753620656; x=1754225456; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OniimkhjVvSRmOjn7OfXVTo4mIJlM2vbjYTCYN8vti4=;
+        b=IHcq0AQDc6bbGMDXoS+lizsfVnPCXBafGrw08co70nJVBgs7tpktI/tC0hn1kY9eQs
+         tTO5lxnD5LvHwUTTjXKE41S51v8Gb03l6D2cG3YumHNdUwM+5CNavwxBrBauVBzLhe4Z
+         fvDJGI1ai29HRtFTyc5+hpIxHp2mZ3kUwKxOsBCv07h5rleSu/sz9B6DBZjm4pCLcCFg
+         YdOWIO2uJVdmXIyWYT/Dg3K/GNjuAfiWlQJ8vQ5VWvqKWHkOdAVDMTst2anZSqkJJ7se
+         sVwNLh85bncz64ERiDYSaikzUE4uuNLUI1DjSqS2TQdXiHNRNxbUxt0kjcIDa8oxEYdT
+         zREA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753619500; x=1754224300;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1753620656; x=1754225456;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Nr1FlrqtvRl/pW2s+Bj333vaZiPeY5tHgHRPgBeIBrE=;
-        b=I8iP9cEpgX708zzS2Oy5sFs3QajH89A85j6kMetnhZnuPx3BC//ifLyBkJrt7BzRVZ
-         kSofpmkM6Q5UiXlsDHsgBkHZkwINaCwgtbchimZVwsnxZobBlBL0LtLKjzjJnJeZkHX9
-         cJBs8C8kyAxjExmvOizNZVz2hzZPLwAIqrzQmpXNWWVQqw1MVZlsMkMQu4832VS7+Mty
-         bb8X21Ur1V8IwKgf6SxZ53+Mw54PqZG1tXBY9HVd4dkwbYkTckdOCRZjXj026zmqBqUW
-         sozbcgUNfkIKpayKAipnCCRvCgFG5mjNHquHxE2PvcDv2UYSwJifN0q6RDJ5rOJ7jCC5
-         dJOw==
-X-Forwarded-Encrypted: i=1; AJvYcCWCYdfkowmn07vbld5DcVAlQd3U46eRLaliqpj/eH6M6e/dfFTEe8dlF+fMuKT4Qf5AIOwSLlkHo7gI3ZdW+iuoHnuX7A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYhlCb5cW8F5K3hjirvvTo4OX9/XSVgx4wO6VOSE0f44tyV/bS
-	P1vMTZTmaFHTjmG1OwK070AJHk2xiC0205CsyfuRfPqJluOp3PqJicLskVk1kqWt2kA2wyWjULE
-	trqGFeqcZW9+TYdezzekJ1urmFU56Iw8=
-X-Gm-Gg: ASbGncu7uLTDTYOFRpBGUtTrnTPC7k3VDVzDYIV4BB7meQRPiHgtuSLxpRpzHe9hsLd
-	Wus/9Lv/sO1roY+2VRjj8zkIzv8fWlLR/hg113h0ybOrpYG0BLMQcjVibatkmGgQVns7QkzMcuR
-	j6EjZA8YWt8uH8xkidWK520pW4rbZAokBbl7g5eHN1lsOr3+wwsAkxSuPVHqF0RmiQ3BOwiAGdF
-	Fn2Fh2ETw==
-X-Google-Smtp-Source: AGHT+IFpuHK+r+RUZcTODiv1qZJM76ZiRuILDLgWk5mvrZ2hddpDeKAVit/CpJeJZ3oGkqKMAfiyzmpvtMO1w9FrH+I=
-X-Received: by 2002:a4a:ee97:0:b0:615:d3d9:5d1c with SMTP id
- 006d021491bc7-6190caa7013mr4571605eaf.8.1753619499808; Sun, 27 Jul 2025
- 05:31:39 -0700 (PDT)
+        bh=OniimkhjVvSRmOjn7OfXVTo4mIJlM2vbjYTCYN8vti4=;
+        b=jU6dH2m1qaTlXKs5EYeEud+ntJ8x8Pgy47x5Dtk0oVOc0165ky3PgPLRLuRon8tgQ+
+         iIR/G/uptR9JmpyYK0Ao85FFyo9zyn8tfDDP02L3IRtIyCWFuMhfaQDC2//t31uqCo0i
+         4OX2W3NLDBB9JvGuqEgG2vkElsp6OUGrqaPuS7vG+hOQ6o/gVPHYTyLqDyeTIa0WeCof
+         mUHSfz1oGeVOe44EQTM4Qa5JpHJAPpJUYsEZvi+DgodS2HgzD7FRALXcZc1PbNj83idw
+         X/FWMkckgmkqZz7CKHuz89WvcQXvQdX6zTbq5aC4EbEsNgDY9LzRSwARs3bzsr7oFbTz
+         oODw==
+X-Forwarded-Encrypted: i=1; AJvYcCX/Oc0vKZLTPYiA76X5EXwncp5f6DbsWJuYoIVVEX53CQYNAKmQvJGsf67tlYmMXPn7y00284gRwiyiBvD/odyXhJV+Mw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLAG1unCQMw9BhDqaKUkgYrvnUfroCPc2Yo9qAbWy26J9AtHb3
+	mAMnimPO/MGS9XRDFDdMpJpFO9orFmfgBkYDIcT6mB2F1zo+cFexc3ru
+X-Gm-Gg: ASbGncskwYY0flTTg2BNJOKaF0F2G/xtAf7Kk0Aynz6Ioj1ao1abKZzakqTH12b6bgm
+	Lns1GRqX/P11O7Wo1pwVd473w7PeBxjhhReakzqc5+zTSc4IfWaRDcvi2NmgX9vFr3+UrpoD61s
+	7twrTkHS2Agsk+YQzj1uLM2uQCp6CaOjjifWoaVMSrsuY9WuRz8TgAJf395CCsH4s9ZtzKmzSyd
+	hI5YkBrdZjpfYuZzhYB6Lg7O/yDBHpTk4h2U2252+nb6+StPRf9x18BZM4ByfI5L1dyqMYKUV+h
+	ekWNV9HvsV8YLgc/kEUKMn/+oOYRZdTqGsrRrO73uEYRb9giHhQreGkC8IYrDy71slhI/Kp4KUm
+	J5MZtMrC8gcTZ4iYadYb6HcxxIXvuQ90=
+X-Google-Smtp-Source: AGHT+IH1flJT/T4l3mHSvsO0oBzDl0gqh5Ie6QQ/+2/IZOeyCeYqWnPuNL8IEyNBDHU0KD+WMklzow==
+X-Received: by 2002:a05:6a00:1890:b0:748:fe1a:3432 with SMTP id d2e1a72fcca58-76336a3b834mr9228192b3a.9.1753620655613;
+        Sun, 27 Jul 2025 05:50:55 -0700 (PDT)
+Received: from archlinux ([205.254.163.108])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76408c02640sm3471873b3a.37.2025.07.27.05.50.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Jul 2025 05:50:55 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: apw@canonical.com,
+	joe@perches.com,
+	dwaipayanray1@gmail.com,
+	lukas.bulwahn@gmail.com
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH v2] checkpatch: suppress strscpy warnings for userspace tools
+Date: Sun, 27 Jul 2025 18:20:44 +0530
+Message-ID: <20250727125044.101779-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250726185432.162632-1-suchitkarunakaran@gmail.com> <acacadd2c1112e31cccbe8db504ce30bd8587852.camel@perches.com>
-In-Reply-To: <acacadd2c1112e31cccbe8db504ce30bd8587852.camel@perches.com>
-From: Suchit K <suchitkarunakaran@gmail.com>
-Date: Sun, 27 Jul 2025 18:01:27 +0530
-X-Gm-Features: Ac12FXzcfqjbmuR7tctu7RJvCSwo18x0U4iVbHzoRGSt3SfrOFID559ChNL-Mws
-Message-ID: <CAO9wTFjbD2qcVVCMYfLi3yKjT1cLtHto_Qzr=eAepg=8evbSFQ@mail.gmail.com>
-Subject: Re: [PATCH] checkpatch: suppress strscpy warnings for userspace tools
-To: Joe Perches <joe@perches.com>
-Cc: apw@canonical.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, 27 Jul 2025 at 17:25, Joe Perches <joe@perches.com> wrote:
->
-> On Sun, 2025-07-27 at 00:24 +0530, Suchit Karunakaran wrote:
-> > The checkpatch.pl script currently warns against the use of strcpy,
-> > strlcpy, and strncpy, recommending strscpy as a safer alternative.
-> > However, these warnings are also triggered for code under tools/ and
-> > scripts/, which are userspace code where strscpy is not available.
-> > This patch suppresses these warnings for files in tools/ and scripts/.
-> []
-> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> []
-> > @@ -7020,19 +7020,19 @@ sub process {
-> >  #            }
-> >
-> >  # strcpy uses that should likely be strscpy
-> > -             if ($line =~ /\bstrcpy\s*\(/) {
-> > +             if ($line =~ /\bstrcpy\s*\(/ && $realfile !~ m@\btools/@ && $realfile !~ m@\bscripts/@) {
->
-> Maybe instead create a is_kernel or is_userspace function
-> and use that instead of the test
+The checkpatch.pl script currently warns against the use of strcpy, 
+strlcpy, and strncpy, recommending strscpy as a safer alternative. 
+However, these warnings are also triggered for code under tools/ and 
+scripts/, which are userspace utilities where strscpy is not available.
+This patch suppresses these warnings for files in tools/ and scripts/.
 
-Sure, I will do it.
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
 
->
->         if (!is_userspace($realfile) &&
->             $line =~ etc...
->
-> and
->
-> are all <any_subdirectory>tools/ always userspace ?
->
+Changes since v1:
+- Create is_userspace function to check if the file is in userspace
+  directories
+---
+ scripts/checkpatch.pl | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-Yes, as far as I know, almost all of the code in the tools directory
-is userspace. Atleast, strscpy isn't available for the code inside
-tools and scripts.
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index e722dd6fa8ef..472cd8aac9c3 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -7019,20 +7019,24 @@ sub process {
+ #			}
+ #		}
+ 
++        sub is_userspace {
++            my ($file) = @_;
++            return ($file =~ m@\btools/@ || $file =~ m@\bscripts/@);
++        }
+ # strcpy uses that should likely be strscpy
+-		if ($line =~ /\bstrcpy\s*\(/) {
++		if ($line =~ /\bstrcpy\s*\(/ && !is_userspace($realfile)) {
+ 			WARN("STRCPY",
+ 			     "Prefer strscpy over strcpy - see: https://github.com/KSPP/linux/issues/88\n" . $herecurr);
+ 		}
+ 
+ # strlcpy uses that should likely be strscpy
+-		if ($line =~ /\bstrlcpy\s*\(/) {
++		if ($line =~ /\bstrlcpy\s*\(/ && !is_userspace($realfile)) {
+ 			WARN("STRLCPY",
+ 			     "Prefer strscpy over strlcpy - see: https://github.com/KSPP/linux/issues/89\n" . $herecurr);
+ 		}
+ 
+ # strncpy uses that should likely be strscpy or strscpy_pad
+-		if ($line =~ /\bstrncpy\s*\(/) {
++		if ($line =~ /\bstrncpy\s*\(/ && !is_userspace($realfile)) {
+ 			WARN("STRNCPY",
+ 			     "Prefer strscpy, strscpy_pad, or __nonstring over strncpy - see: https://github.com/KSPP/linux/issues/90\n" . $herecurr);
+ 		}
+-- 
+2.50.1
+
