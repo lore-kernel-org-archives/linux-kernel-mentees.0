@@ -1,90 +1,73 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9246725F7A4
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 28 Jul 2025 11:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1376F1A254E
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 28 Jul 2025 15:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753703868; cv=none; b=LIi9DXTZsZnO3PmhwKsLpQOmC1jQvlB4Nq28GSMtliJEEMikqZE/WkbVvWpjkGzei8WwpUTv+pdSC89LIBlRvxXQcQEmecIt0Wejbhg+5OJGpHZUb9IVfx3/11vKMiX6czUUPocLH9Zx6+gt2nDfo6ErfHiLND63vqb1Rd1dDDc=
+	t=1753717290; cv=none; b=FGqV2t8SWlnnwOT/IQLMz6ynO1oNnB3U/08Me8Ai9Cwy1zgAYfOnwwUd6lBK2BzImTPjq/nKTCvqpfNKURvB7CR9ys9sTyJxc6Z7AACzNEOFUK+2Of7h98/8GWtL9ui6mxmMEM73CiZXBO4ooknRw/gmqrSteQuzRoV4izbV0E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753703868; c=relaxed/simple;
-	bh=ZtT1le3P289gYN9XnvFtj8YV9WSOW1LkgpFqykFEcqI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GFHCBh27LaJhdvDBXilJEaHbQX7ddF82laac9L/CmHxDd/EwpPt+5akkQhMLerpoRS7j7r58NmQHUHubuj/yFbvRlGUcPQPW0toNMo3cpWMEGtcgBPH5HN+ae4QyEkTRNfxWLzm8la/rS2Ir1gUdWXr34FgEX8yD5o3Hf+dAWcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eWaA8Msb; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1753717290; c=relaxed/simple;
+	bh=rMZI/++Sl83oEviYROVHczJ3NA9sNaqcT1YdK0dP1Q0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=okugGTij158/JyyYGyatG59NlQcP5V0SrdlVujhJpL7qmMSaMQsFD+gDuw+RuisbPElHyBqb8mdQ7VuOzZb6hO6HjjlT3+idrt2p+47h7vm0k+3i1dTOahsHvZir3w3Wobceoha3PCtvRgBMu5mT2jYfV7mekEA7bHlWql3tqdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bLp0PPRs; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eWaA8Msb"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-234f17910d8so36953885ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 28 Jul 2025 04:57:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bLp0PPRs"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-23fe9a5e5e8so14084985ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 28 Jul 2025 08:41:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753703866; x=1754308666; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1753717288; x=1754322088; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7QH1fCvQmnSC89vnVLs/2ja8LbLIAQjyBUi34DkOfb0=;
-        b=eWaA8Msb5IMGLO9ZkL9foR5Wf/yueeHJxuqUM/dfa+zYC4h3AUF/YNxT23YbsjleSx
-         36LSBdj8rxgly2YdvImT32HuPG+Hjayj3qBFpXmWP4rKIEIAtCISmz23f7041FlFcrFw
-         D6FkIcmTLNxWuhN3GiSvOYgTCzWOSxxvqLaLt387CNRi1qj3pSkF0eZpQwzWTD1cfqVr
-         DwkTgT8WoUkd+t2yOREDqfb0CtK9iHvBs5CXVPwhNtturz1cyql/banI00YiSZrkHDZ8
-         ZmgJAGGfutAqfeCssD2bVGZ/PGYCl2qoc8bvNZzmgNaxKUxK5yaNDQTpDqW0UuUh8FuE
-         8jUQ==
+        bh=lf4c4+X3SHCf0c7CaWo3n9zdv/g/JaUx8MF3KOPrPUg=;
+        b=bLp0PPRsK8tjw0jIdoIMCmGfklG3vhssA6STCGzCNhhVwAvQrd3FENu89N5ymMeuqG
+         xHC8rSCx0BM3B+dsXEavZPSsMTUHaACXww6ExnBKu5gNA03Jl2t2q36jPQKaBXXmtfHC
+         yaBTDywiOHF+IiDXBOxrqiLN9V8jOLfTtEWpGEW5o5h7ERCfXkPAis3ky2yp1RHab0Mg
+         wIH/9a2cXnmSYKkGlzeJ3U/n8RBfCmxQhlU9sR79yCx8Ngnzjo53OJBjROAGwIuIn29Q
+         FoXfquqv71LJp1iegHvwI5VdlYgvvy68YK3rgmBr4oOFT+txFon9/ihE5MUxyxq3SRbI
+         jCYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753703866; x=1754308666;
+        d=1e100.net; s=20230601; t=1753717288; x=1754322088;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7QH1fCvQmnSC89vnVLs/2ja8LbLIAQjyBUi34DkOfb0=;
-        b=TMrE6/u97goIPOsyEWdRFlE5lF2oO2zrYuweUcIt96KMeoPs53w0NQMEjnDp+Mub9l
-         OL5ISLElWB3iqzrZNlSK62OUVfH1W3UUOw1ybnugsVNvEHC/8JkZytS5vqGjJOFykFxT
-         8hOa6Bg/rD1zNklvuPmtQhewZuKkurYKBmjKGohQQgvthAwJvp+O1PQG6eY+zJxiWssA
-         grVlVM9ypsCzYVXKXaS1DVcPtEC9/dh4c1A4DkLJOhfE4P+lJ4ZO1X3z64gi3cBAjgp1
-         WF8VEvAdnHDr9nqkGJHrYz6qN8mu5Yro7RavlJSKrcw5FVrGWXptdUmdR/iYVBNI0Qzd
-         r09Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXEG0NlQ9CUXTQMmO3KoqeuBWTlVn/KBQCBuF3g6CEsO1XZI0fVPA/KELMfDBfbWgYws/7K2zYY+qww9tGs6Bgm1m/Dhw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwsmZOd2xeI5Shzn5bhbbPbhzXEfoOekZkPCBouYbiX3ZcMLc0O
-	lZq9dANjdRXkFcQAVwgwm/sEv6H8BVQ30Fo4qoxfm8Zxf3VLOnIpcAKF
-X-Gm-Gg: ASbGncsBP2eO7ijblDR6sa+UpRLcyIulSlFrOHS/X3LqTx0VYSgUy2oj5PWxFt6oby4
-	roGI7D6wMAgAYrJ94e9Dn+2jhP3B+rL4i1AHeS7vil/xdVvDpshv0D+YolTSSD1gC5IsJPCa8V0
-	gDEAzjpQlWSd/KoXH3/RO+m0X/JVmLoR7cINH2chOjObO8cxr6zi0OLzWKnkFZ/QiAw31sSMPVu
-	2DcZdiGrxJKQ9OWJZ+eEep3+hhl32y8XmJU3TvgfqJyVH2MVjXJcWmrvzQ70Qi7vocxU0gRnD7c
-	0p6rQ1IRHcYtlIphJJ1ErwfpVOTW7/J3cGhWCmWXB3+0NNsa1KGiy/fMyXV8oj/hSQo7uqTU5Lo
-	xU3HFFW25UBDymn9RE+WtR4xDinrtrBSuT0rHosIkFSCpONjsJdcm3ccL
-X-Google-Smtp-Source: AGHT+IGVkxhzM4QAYwzySEvOd+NXUqVS/Jgx0EE1xymZXd3jvGCDUW6EzJ9xB7Zw08erZmtjmgDO+w==
-X-Received: by 2002:a17:902:f546:b0:240:44a6:5027 with SMTP id d9443c01a7336-24044a65233mr19422635ad.15.1753703865413;
-        Mon, 28 Jul 2025 04:57:45 -0700 (PDT)
-Received: from localhost.localdomain ([38.188.108.234])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24007d98b25sm30933685ad.97.2025.07.28.04.57.35
+        bh=lf4c4+X3SHCf0c7CaWo3n9zdv/g/JaUx8MF3KOPrPUg=;
+        b=O4NKVMSxTc6MFQ4NuYqe5WkxGMfdYdxRxMaPNBJ/2fV74uBxUG8ljtYbtvuKpNhUbb
+         6PJJEMXEd5azLvqOHs29glImvdkxgwj/4UM4AjDSxk4B+B9UufOJYIz97qfjFjBWRS3/
+         /+iOHYCcxXHOtyb5Hvvrl+u+t+PJYy1XBPlce9Nts9WRHG+Vb3BbIMn2fK+d4fVYTwg5
+         ApzchPb2FFBUcVztBXFyGFx7yNcpnbP7xK1hn+/4smaBcLBvsFHi/CMyed9xBHG9v+JR
+         VVWS7R66mOXSkcXmoOb1mzH7j00TztVTBeEC+IVrdMEnPJamncKMoTaO7XGvCXStyp/Y
+         sVxw==
+X-Forwarded-Encrypted: i=1; AJvYcCXdQ11W4i05WCIKeDbn1VvsD7CMq430cSV2qeS3K7PyYLlfGeNkUlzKjQt8IPtY/Ep8eXb/d99QYRqEYNMQVO8gWb0ibg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyrPwL9GnmVwZN66IuUn8O0AC/j8KPuqRv1GV8qmcM9/JSot02O
+	61VOU/holENC++o+bU0ouiooVoVPZdIe9x+f/AP8O2eOiFp+e9VAXtaZ
+X-Gm-Gg: ASbGncu0lyNxGuOSZ6KxNVe5mxYYTs8LvrrNdvrTrfZde2/FpQgSu8NShEXYi2V2i9T
+	si5SXbV8fJ78qcQ5lBnPbw4v4zIxoJZ6EQF8a2lt/o2Vwk6JWbHVhF3mNDfWsN2Bf2V0N7qobMr
+	ZFbTKPKPw1n6hX8900WNtsRh+geH8oZXUL8jveYg/RXmj91zDClJLFwWai7xQkr67mAWuFltTo2
+	mprEHJn6cCS7vF4qT4vmu4BBEr0UYomDonFrfBkDubCZIgFf2DZNs3HQ8anU4fBwy1Um8QHzW68
+	LbLHgd/NAszV1c0Rajya0VgwR254q6Jd9w1V5SmvnW/EkLHYOUBGyA2z9fupEF+hFUWwi0q411o
+	oyolMh+6pmggvPu+1JRScqflnJU98rQ==
+X-Google-Smtp-Source: AGHT+IHHYZnbOE3Rnoq0U8uMtLJaRU8HxAJqhVzzJC1VVDJaztpfjHvSCzur8LQWHtjsVVHq5/0lmA==
+X-Received: by 2002:a17:903:234c:b0:237:cc75:77b0 with SMTP id d9443c01a7336-23fb3129b41mr159525605ad.30.1753717287840;
+        Mon, 28 Jul 2025 08:41:27 -0700 (PDT)
+Received: from archlinux ([205.254.163.16])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2400a07224esm33226435ad.212.2025.07.28.08.41.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jul 2025 04:57:44 -0700 (PDT)
+        Mon, 28 Jul 2025 08:41:27 -0700 (PDT)
 From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: peterz@infradead.org,
-	mingo@redhat.com,
-	acme@kernel.org,
-	namhyung@kernel.org,
-	mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com,
-	jolsa@kernel.org,
-	irogers@google.com,
-	adrian.hunter@intel.com,
-	kan.liang@linux.intel.com,
-	paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr,
-	guoren@kernel.org,
-	atrajeev@linux.vnet.ibm.com,
-	kjain@linux.ibm.com,
-	linux-perf-users@vger.kernel.org
-Cc: linux-riscv@lists.infradead.org,
-	linux-csky@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+To: tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org
+Cc: skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
 	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: [PATCH] perf/util: make TYPE_STATE_MAX_REGS architecture-dependent
-Date: Mon, 28 Jul 2025 17:27:19 +0530
-Message-Id: <20250728115719.143372-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.39.5
+Subject: [PATCH] fs/ext4: remove unused variable 'de' in ext4_init_new_dir()
+Date: Mon, 28 Jul 2025 21:11:06 +0530
+Message-ID: <20250728154106.55730-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -93,74 +76,36 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace the fixed definition of TYPE_STATE_MAX_REGS with architecture-
-specific values for better accuracy across multiple CPU architectures
-including PowerPC, ARM, x86, RISC-V, MIPS, and others. This change ensures
-the type state registers array size matches the actual register count of
-the target platform.
+The variable 'de' was declared but never used in the ext4_init_new_dir()
+function, causing a compiler warning:
+variable 'de' set but not used [-Werror=unused-but-set-variable]
+Remove the unused declaration to clean up the code and fix the warning.
 
 Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
 ---
- tools/perf/util/annotate-data.h | 45 ++++++++++++++++++++++++++++++---
- 1 file changed, 41 insertions(+), 4 deletions(-)
+ fs/ext4/namei.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/tools/perf/util/annotate-data.h b/tools/perf/util/annotate-data.h
-index 541fee1a5f0a..0dfb12a8f1cc 100644
---- a/tools/perf/util/annotate-data.h
-+++ b/tools/perf/util/annotate-data.h
-@@ -189,11 +189,48 @@ struct type_state_stack {
- 	u8 kind;
- };
+diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
+index d83f91b62317..bb2370829928 100644
+--- a/fs/ext4/namei.c
++++ b/fs/ext4/namei.c
+@@ -2965,7 +2965,6 @@ int ext4_init_new_dir(handle_t *handle, struct inode *dir,
+ 			     struct inode *inode)
+ {
+ 	struct buffer_head *dir_block = NULL;
+-	struct ext4_dir_entry_2 *de;
+ 	ext4_lblk_t block = 0;
+ 	int err;
  
--/* FIXME: This should be arch-dependent */
--#ifdef __powerpc__
--#define TYPE_STATE_MAX_REGS  32
-+#if defined(__powerpc__) || defined(__powerpc64__)
-+#define TYPE_STATE_MAX_REGS 32
-+#elif defined(__aarch64__)
-+#define TYPE_STATE_MAX_REGS 31
-+#elif defined(__arm__)
-+#define TYPE_STATE_MAX_REGS 16
-+#elif defined(__x86_64__)
-+#define TYPE_STATE_MAX_REGS 16
-+#elif defined(__i386__)
-+#define TYPE_STATE_MAX_REGS 8
-+#elif defined(__riscv)
-+#define TYPE_STATE_MAX_REGS 32
-+#elif defined(__mips__)
-+#define TYPE_STATE_MAX_REGS 32
-+#elif defined(__sparc__) || defined(__sparc64__)
-+#define TYPE_STATE_MAX_REGS 32
-+#elif defined(__alpha__)
-+#define TYPE_STATE_MAX_REGS 32
-+#elif defined(__s390__) || defined(__s390x__)
-+#define TYPE_STATE_MAX_REGS 16
-+#elif defined(__sh__)
-+#define TYPE_STATE_MAX_REGS 16
-+#elif defined(__nios2__)
-+#define TYPE_STATE_MAX_REGS 32
-+#elif defined(__hexagon__)
-+#define TYPE_STATE_MAX_REGS 32
-+#elif defined(__openrisc__)
-+#define TYPE_STATE_MAX_REGS 32
-+#elif defined(__csky__)
-+#define TYPE_STATE_MAX_REGS 32
-+#elif defined(__loongarch__)
-+#define TYPE_STATE_MAX_REGS 32
-+#elif defined(__arc__)
-+#define TYPE_STATE_MAX_REGS 32
-+#elif defined(__microblaze__)
-+#define TYPE_STATE_MAX_REGS 32
-+#elif defined(__xtensa__)
-+#define TYPE_STATE_MAX_REGS 16
-+#elif defined(__m68k__)
-+#define TYPE_STATE_MAX_REGS 16
- #else
--#define TYPE_STATE_MAX_REGS  16
-+#define TYPE_STATE_MAX_REGS 16
- #endif
- 
- /*
+@@ -2982,7 +2981,6 @@ int ext4_init_new_dir(handle_t *handle, struct inode *dir,
+ 	dir_block = ext4_append(handle, inode, &block);
+ 	if (IS_ERR(dir_block))
+ 		return PTR_ERR(dir_block);
+-	de = (struct ext4_dir_entry_2 *)dir_block->b_data;
+ 	err = ext4_init_dirblock(handle, inode, dir_block, dir->i_ino, NULL, 0);
+ 	if (err)
+ 		goto out;
 -- 
-2.39.5
+2.50.1
 
