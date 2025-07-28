@@ -1,97 +1,123 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064F9442C
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 28 Jul 2025 03:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DAF1F92A
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 28 Jul 2025 04:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753675167; cv=none; b=MK1SFa7ESdBquTbHXFnMDm0Pv/H7qWzQ/Dt37DJ+TVDd/7ytpuFt+DsJXAkNRLITMH+9GjWCydpPoMSgK5q7Jlk8ZCGsHhrDQ4leRidhIAFeViiUl4awtA3Tm7rpQ+8+INGrBrCwBjIbUU30vWYyuTL0bJw9jm5MOp0XR6YtD0I=
+	t=1753675241; cv=none; b=pBWbGo7nLu6Vu9TopgzmOloWJcgFuxZ1LMSrzL58v/bIW768VKp7IAObZinx4G1fApRzRiUTUMNrNGpeqC6Vc8vfozU3GhiPJ/iOPIL0mYeo0Li13u9mdUwL78usuL4P6zGxULOh+5Ig8qZXwYOxBWzuT6vU9gZ2KmkOAI+mhgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753675167; c=relaxed/simple;
-	bh=25WCZfdlSmz3Rs3lTNoAlENbPfw0G6bC1g+GHwEHQ9A=;
+	s=arc-20240116; t=1753675241; c=relaxed/simple;
+	bh=qvN3pWCHp4FPHVOjEd0CKFbCWxdZzTv+jVDywDNGm0U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m599XTybvKJ32Ir8r2po2P5ljRmf2i8ifZESh0Zyig8waABhBMB2Lf1FrGw3l6IkkINn8eDy7yJPhBWcNAO8gjZmlNvqujIViRWBF9oCIJXkQ445e7ABwy96fgTJi2M/SzGxXRNzLwRjmvBuBPYqQgjESrJUzUxMLL0Oxe7YsZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cq5WQj3N; arc=none smtp.client-ip=209.85.161.51
+	 To:Cc:Content-Type; b=G7ETSHTBoECCh10b0E+asEiDSJQhBoFa4b3K3OIPFCoAIisBvgP7A1I9sMFWRm/iCF+kM3dZ4UNXw/Z9h6ji/5RqklF9JWWWmKNpqFx2exuNM9bknMgxUk4HyGa/q7X5yNJMf5Viwy8hxDhFSdPsDo9cG0gQnA8vqAcNYI3s5hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cde30Skd; arc=none smtp.client-ip=209.85.160.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cq5WQj3N"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-615d75ee53dso1007915eaf.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 20:59:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cde30Skd"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-2cc89c59cc0so3312624fac.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 27 Jul 2025 21:00:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753675165; x=1754279965; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZQuttMM3zYnydbjU8s49BqMo+slGpuyfhBNGS8FBZUg=;
-        b=cq5WQj3NuisHE3Q0UWgvy47b9pFU54c6IcjTMkQFqquIcnxceweVYdasYMAL/1N/BH
-         Pl7FZIruFxE7bju5CNTFXjvgKuq/Whp4XOtEWPU6A7vHwhp4+31TJfXXaqK6/1ImD6sZ
-         IYgZRj4COtpUyezvybFcFJk5ZuPEPYSF8ow9lntvmIcCDs8eSA0iPqaSZYwVoLojCXRr
-         gOp+RMU3Uor4AHN2R0/B7aQ3qNHYWrIQ8HcpxsqREd2wV6aX0zTOIf1f2yKacfHSMSTi
-         GwmM9Yzmit7sMOFGe/B0JOdrvKXuwWkD5t6MO23ePzhEAmz3zNcLqg51mWI5m4W9A2uA
-         DhZQ==
+        d=gmail.com; s=20230601; t=1753675235; x=1754280035; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qvN3pWCHp4FPHVOjEd0CKFbCWxdZzTv+jVDywDNGm0U=;
+        b=Cde30Skdv/u2wjBrYTOB0fRZ22rNqfe1VYJuw6yzQ1hbyA+fkG1voc09uZUQX8I/7z
+         vHfuk4+REmZKwO2fXtOKOOHQrAkGFK799bO5cWZy5V1TYzSQH0LhtprIs+bbNX+WO8xo
+         mlLX/peUU2hA6Hzb+MpGzKYPpzPnmKu5IRPMyH1xAY80p9zVE8E/pmaAxnD6eFGgjOaN
+         Jyth9jgBKRLVdphQ53BN4msW7ozcA7vp2jHdWDVIKdUMcxQNtr85rXB/HkTslJCjw/LC
+         5xaGJ4/SuY6tYrPhufOE+p1ED4Ox+7Jmh2hnxALXl13/2AW0GZYGPzoPhvALtuxP0eQS
+         bKBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753675165; x=1754279965;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZQuttMM3zYnydbjU8s49BqMo+slGpuyfhBNGS8FBZUg=;
-        b=WdnGtT5XOdhIg+AzElOKYc3A68aUngUYZvAnUPC3dnXGhqztYEvjUFOUodfD6o1ozO
-         etOzoptOxFcwK9yVvrqjR/wNuq8vxBouJiobV9C/7YPzaGH9yLs1nWuR4CVdw2tQZyCr
-         BvZjEmantGhQbhsXCSnfF2+0NkmQAE0pxAFXshjy+9/15rAhT6/Bvrqpw8dMIMp9k/ZU
-         M6bA+Bvq71GvE0ep+xQ4kpdOtbmwTAkGN/CvxsiTHIPIv6NgoccJqiXo4SQjjHuSvfXW
-         +c7kBvKw28RIHVCO0+MqVLEsHoLJkiVJEg7HORuKzPHSGa8GXU0wKqxIwzO+zaIuZBTQ
-         b0OQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUK/HaWQ4qAjesy35Exalyfb5hpTj+WyiDEzZr3x/YSa1Z12h1pc+MIca0BxA/6r1bHY/Jy2VKBTGS1KjBqRMhgdp5Lw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZAGRguTrQ8hZ3TspHunSyToHGSc4S0RszGealfOekDiertxJ2
-	JK/aOeZAU4nOkAcu8SCt0x48aSs20uM+dxALGaX1KpoAEkxQdcZLKcB8SddlDeItsLM7iah9XZY
-	QtDe6LP+EFFDZkS8nyngL6XZLdsirgAU=
-X-Gm-Gg: ASbGncsuemm0vLpP9IU8ZOSQvp5cx6f4expXR+E+GZ6G9XxanTgNWKf1x8HABskqQbu
-	q0EiNwRjxlFbpqhpI4YfrKzrlU//Oq0rJOM7xHsvwREU/U7nCMd2g/k4OWslJUE7tVa4j8xGRHr
-	Sbg2e7gDheiaim4LVj3//giHIEDCebHu+4RL6wHMNu7v6zXXp3vNMx7y/9z2lf110M5k36zxvLF
-	Rs+LBDm
-X-Google-Smtp-Source: AGHT+IGoxMOO0qrg/WJd4pJPQUD4scsCUweD2Zzk5YErFU34dJjBsHSRkWvbDlDbCyH8+t6n7xnh1BzEUWgAmZHHXlQ=
-X-Received: by 2002:a4a:e903:0:b0:615:e61d:2dca with SMTP id
- 006d021491bc7-6190c944cfcmr6726973eaf.2.1753675164910; Sun, 27 Jul 2025
- 20:59:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753675235; x=1754280035;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qvN3pWCHp4FPHVOjEd0CKFbCWxdZzTv+jVDywDNGm0U=;
+        b=GDD7b2lxzLw1khkbYBpIeXDt3LS4JK5P/Km8Tf/xprPJWm6HJK2pzwrtA9PTX6xB9M
+         Cm3GrST+bp1jOpEPNQDo9I/o18+GarzL6ReNNZzevU96dwfWgIZ4wKNu6iTUjCzc/xRK
+         Cok7VGwMltzRg6yJ1l/eFeG5NvDBtkSRs1GQzWrXddgME0Z0MHKKR/jjG+hd9qE+HGZ+
+         hN3JmyXw2cuRCgrYGyJ6DD95j0Ac0S9CBJAT6ZabD6WBMqWYO13xOJi2hlr+nXnNNCFw
+         SSpjHGDUBq615hoXYfvMwTszvuKmnjakc+yh+WbM9CRPyZxIKgmXSL06+3eqSfMLZPpV
+         XpgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUpARr+Ovp178d8NCdpvgPw7IXKd1Oh4a321V3nCU/KMsXaYdrIelbtsxf4q2jEuJu0HDg/NVOcU4v/RD8vINkk163o2A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZwlUyyHYjQGIfYl2mrm6/pfyr6qUq3Gzi5aZ1IDA0P5ZT+GNl
+	H5IvpUI5gBOCoe/uFYXwdsZ65EbYPbpWKA13eLL/CgQE/AWJccB5Z1+3YTLJmir+9sT4bcZZMp0
+	u582D8X0bc9bSqxuK9Lxg8Fu+8lAKFZY=
+X-Gm-Gg: ASbGncuYwwDNGBB0Wj4eH4DW/CPUDl7QVHLkDWKTkaiB8KKB3GUIo5IkhpfM2ELTKz6
+	e2uc3QD8lbV68jEh6ximL9DrmZURUETC8wcizx0YG+BSQIYJfYYubqOA8B/SYUsA7vU3tTPRs+n
+	TKi9U/61CDphu6kXE65LvY/a7PS8QzBcb1ezuFHzH261T2SRDU3pREntlk/juBrI9qnj+00fthq
+	AszKyqR5ypFthOy87A=
+X-Google-Smtp-Source: AGHT+IG7FXpna1h57gCU/IkaF5+PeDeNtItAlACpGm7WezR0tx16skuQv/RQ8wWIaxf19/YYa05/tuTKHz5x2htsUQk=
+X-Received: by 2002:a05:6870:c0b:b0:306:e708:c958 with SMTP id
+ 586e51a60fabf-30701e53fa4mr6524644fac.4.1753675235542; Sun, 27 Jul 2025
+ 21:00:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250727164433.203775-1-suchitkarunakaran@gmail.com> <aIZ7sDZdHAOg2cf_@fjasle.eu>
-In-Reply-To: <aIZ7sDZdHAOg2cf_@fjasle.eu>
+References: <20250727170217.206794-1-suchitkarunakaran@gmail.com>
+ <DBN0JG0QP7TU.PZSZ8NZL5LD6@kernel.org> <CAO9wTFisWa5qY2qQE+BEdD40vacGwtzw=2xxPnV0V_w=Gt4jwg@mail.gmail.com>
+ <DBN16LSXVANU.1LMW8POGVF2CJ@kernel.org>
+In-Reply-To: <DBN16LSXVANU.1LMW8POGVF2CJ@kernel.org>
 From: Suchit K <suchitkarunakaran@gmail.com>
-Date: Mon, 28 Jul 2025 09:29:12 +0530
-X-Gm-Features: Ac12FXw_dAhiuMtki3n4Q2NhUESTSy3iod6ZPQDaRNyud3xIrmOpJkhZ4n2Rzk0
-Message-ID: <CAO9wTFjdvjOcL7EBJiUmK90hRMF3RWp1+w4r2ciDKcNsn0x4Jg@mail.gmail.com>
-Subject: Re: [PATCH v3] kconfig/lxdialog: replace strcpy() with strncpy() in inputbox.c
-To: Nicolas Schier <nicolas.schier@linux.dev>
-Cc: masahiroy@kernel.org, linux-kbuild@vger.kernel.org, 
+Date: Mon, 28 Jul 2025 09:30:24 +0530
+X-Gm-Features: Ac12FXwH_4SIl4ADStj1aszm5Xio2dj4WhMN5qSwGpTUqcV6kWhDWBsCgDQ-d28
+Message-ID: <CAO9wTFhB1cJJOFOo1MWdXpoPau9pun8Of958DAB8Mwb-HPW5Yg@mail.gmail.com>
+Subject: Re: [PATCH] rust/pin-init: remove workaround for type inference cycle
+To: Benno Lossin <lossin@kernel.org>
+Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com, 
+	gary@garyguo.net, bjorn3_gh@protonmail.com, a.hindborg@kernel.org, 
+	aliceryhl@google.com, tmgross@umich.edu, dakr@kernel.org, me@kloenk.dev, 
+	chrisi.schrefl@gmail.com, rust-for-linux@vger.kernel.org, 
 	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 28 Jul 2025 at 00:49, Nicolas Schier <nicolas.schier@linux.dev> wrote:
+On Sun, 27 Jul 2025 at 23:28, Benno Lossin <lossin@kernel.org> wrote:
 >
-> On Sun, Jul 27, 2025 at 10:14:33PM +0530 Suchit Karunakaran wrote:
-> > strcpy() performs no bounds checking and can lead to buffer overflows if
-> > the input string exceeds the destination buffer size. This patch replaces
-> > it with strncpy(), and null terminates the input string.
+> On Sun Jul 27, 2025 at 7:44 PM CEST, Suchit K wrote:
+> > On Sun, 27 Jul 2025 at 22:58, Benno Lossin <lossin@kernel.org> wrote:
+> >> On Sun Jul 27, 2025 at 7:02 PM CEST, Suchit Karunakaran wrote:
+> >> > The `cast_pin_init` and `cast_init` functions previously used an
+> >> > intermediate `let` binding before returning the result expression to=
+ work
+> >> > around a Rust compiler issue causing type inference cycles. With the
+> >> > minimum Rust compiler version for the kernel now at 1.78.0, where th=
+is
+> >> > issue is fixed, the workaround is no longer needed. This patch remov=
+es the
+> >> > unnecessary `let` variables and returns the expressions directly.
+> >> >
+> >> > Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+> >>
+> >> I still encounter the cycle when compiling with 1.78.0, which version
+> >> did you test this with?
+> >>
 > >
-> > Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-> > ---
-> >  scripts/kconfig/lxdialog/inputbox.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > Oops, I just realised that I compiled it locally and forgot that I had
+> > installed version 1.78.0 on my VM and not on my local system. I
+> > actually compiled it with version 1.88.0. Sorry for the inconvenience.
 >
-> Reviewed-by: Nicolas Schier <nicolas.schier@linux.dev>
+> No worries.
 >
-> thanks for your contribution!
+> >> Do note the comment mentioning that it is needed for version 1.78 here=
+,
+> >> so I think this patch still needs to wait until we bump the minimum.
+> >>
+> >
+> > Yup got it. I'll send the patch after the minimum version is
+> > increased. Thanks for reviewing.
 >
-> If you want to continue contributing, you might want to check-out tools
-> like b4 which simplifies sending and tracking patch-sets.
+> If you do, then please send the patch upstream at [1], that makes things
+> easier for me, thanks!
+>
+> [1]: https://github.com/rust-for-linux/pin-init
 >
 
-Thank you very much! Please let me know if there's anything else I
-should do. Also, I'd appreciate it if you could take a look at my
-other patch that replaces strcpy with snprintf. Thanks again!
+Sure, I=E2=80=99ll send the patch both here and upstream at [1]. Thanks!
