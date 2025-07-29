@@ -1,115 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E265B23313E;
-	Tue, 29 Jul 2025 05:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDF5233158
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 05:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753766920; cv=none; b=XV+ykkW4rHyETU6YkvbVLy9xWRUHhVUiwMhtkJPmsy0pRZxriI6QWQ+dNak1SOwritQxkbqFGplmDOUKz/5uGZLyLBnJcsYjsgJ9nkCyaT8rk5f4xflx5ZmTEklJ9nMTaMAolzlowhnCR7duGl8WtYVvwlRCHrjIra2FYofHPDE=
+	t=1753767250; cv=none; b=kBtyCLdv6qK3UobA1/rHJhHxM0ZPbgKX+F55zDVupziRvADPOHFC2zlqRdZGpkXmGGqYq3y8pgNzjxRTp1fyDo8h7DFz2nTPW9B9zTceE+XhHg+BVMt6vsZYqReQjcXfM0zDU8yw7Dw9y7t8sLI6H6iw2gFzCYrie4Tw13NXpEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753766920; c=relaxed/simple;
-	bh=RgDWBuLQXDIfua6WFpM4jNdyD0EvjoZ+OJqExiNknj8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ctN0EbG62vb5ZLK0s6ZyWYwpa1SPym4HfejA5a212zTRqug6LJzX2IlB0hyP2ux9vEjZbVazZo2B/Gu04E0ZmZkaRkKJ8Qt3G0NgtvO8uyQFT1u3Gzbyh9ZZLckunWa+nRNnWvNtHwRznv7uDVQNFrx9pkre96BCSMvl5MvKICY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Tvv5qHsT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753767250; c=relaxed/simple;
+	bh=407w8iJwHF65aYeYyY26wEE5YIVGSOKIEr2PIFVDYMQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WmqcwIOdXLQiLnA8S4ww2ysmU31jeWb6xoKTyoiWNuk5qqL4Fm7HwHAWEVhwBrxEZ9yi7pnCcMQ0o7x/GfO2BjwYTxt4ryHAHVjKglUbt9BPb/3DIEMKkNtA1F5sd+pFtHRvd05YhpzOiMC/U/8E6Na2RibMGmFsba0nbQhLom0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B1ihzdfV; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Tvv5qHsT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C03E5C4CEFA;
-	Tue, 29 Jul 2025 05:28:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753766919;
-	bh=RgDWBuLQXDIfua6WFpM4jNdyD0EvjoZ+OJqExiNknj8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Tvv5qHsT/7DutttkOcdfb+kp4lO9frcjWZkku+iA/Gc8irK6qluNQM4AyzxAZidR2
-	 jBC8dGD3Mb0F9pc1iBbesDVJj0o8+eJZ7bE5a9sM9MFveCOs5W0CyAK7v9VL0IzcOe
-	 EV2TcrD+6u3olhRFSzULPxAPIWwN3r6esLq9dIBk=
-Date: Tue, 29 Jul 2025 07:28:36 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, darwi@linutronix.de,
-	sohil.mehta@intel.com, peterz@infradead.org, ravi.bangoria@amd.com,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B1ihzdfV"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2402b5396cdso11854565ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 28 Jul 2025 22:34:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753767248; x=1754372048; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=e8xL4Yrb+0IGFRYrAfHaHCJY7vgDKKICkeDH3Pk+l+o=;
+        b=B1ihzdfVeCpP/juYRgjkirVhp0XwT4eYZchYTfKn3IeNJEbEDMN+xMdn0MdVYiGImc
+         Q73NYLZbrXGc+bYWPXbpUM+3J+a75FVd/u55PXEw6ph6mpoynQvRD9gxYV40SYX/zM1/
+         R/L+bJ8yytEkSjAGe2nVVkWVaUFmd5j7uqXXGuSS6sxrkqE/Kxm/Evlca+S9gETZb8JQ
+         D+HXItCBoGTextkgozUjCdttjzUMdwrPWOD66L0uuXXWtIC0ZJoIHjYRskIn4rtNQ/7/
+         J4/2E+f4R2m2rBUqSRWF/1cQsyowAcZutFjY1jsLNZ3bRY9zcr4O6M9qaxQTEAkUyqx1
+         9HCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753767248; x=1754372048;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e8xL4Yrb+0IGFRYrAfHaHCJY7vgDKKICkeDH3Pk+l+o=;
+        b=GSgHAcHm1QOIHQlpmWPfBeEbpmvsK0qATThroZp7yTjCAoTtuSF1oyDsXaykgFfgGu
+         oo7cadfZMlVJai5+OWlVcmWk/qku3BCiO4hUIBpGCi4ei00WRq1hQElGatYRbXk5OvST
+         mdEY3rnZtR35YAthQTsCKqFA7dq8V49nRvAT2kj7NdC8hD/C0jk8W0dywH67LWnASwjr
+         2jX1rwDotT8sbgLzJ7/r86zcTBRJeOg4CTjfCxw2PCaR2Tn72gqQ8+/h/oGBBEOlmT77
+         p9urmygEDJKe5c4y8Xgn2ebmqX/5RAZ6sdrmEOZn7iGgGGGJQDeREdl2SqJdvwBDvdMJ
+         r+cQ==
+X-Gm-Message-State: AOJu0YxPhfkCoklUSL+6VsskjNicK1AUDqo464YJ6c9xslyC7JWN8Vek
+	sP7Ll7HB/u0KSiNhLoAxwO1ALbt5wDbb8PeNLFpMMgjuD/CszabegHTbLKha0IXzhrZT4g==
+X-Gm-Gg: ASbGncuPLQcwW4bmtgslJ4CgIIKHlahImaZ6/QRDDDKI/8z3O/nfghRWbwGkPqj8CqT
+	QkyUz4vLIohSKBzPPBNITLhQA/ycc00te8svcvdJSFu3ZIdPW8e7J5+OXLpZxxr8ohoS0FJch1D
+	vogk4YmNKgcr4Kqown5fGhxiKN3rWiI7zGZ3k/qiNrf4qBO7U7BgEONgEhiYN7vn+aSlA5KBCQ5
+	vEE9YS5tqWq6okTMg7XZfWfSC112DMTmnB52byPikB7Mtu6w+siFSyHDV6ExjW2YORBnbxDKvoA
+	WYa0BtEF6mXsoY8FxppFMRxU1/eikLHRrNCp/X+dVgnm4VSItNSvZFPzMYETMIFPt/9KhBhI5vA
+	CGXxOTVoyPPS1JHCLoD1lul8EBqpdpQ==
+X-Google-Smtp-Source: AGHT+IGViqHw3UAn0Jijm3ozP0ydhC4t4Hj6GjIEoXTf5RsE/+YsmXg5Yr2FXjHy15EhU7Bar+Z45g==
+X-Received: by 2002:a17:903:b8b:b0:23d:dd04:28e5 with SMTP id d9443c01a7336-23fb31254cfmr201529785ad.34.1753767247926;
+        Mon, 28 Jul 2025 22:34:07 -0700 (PDT)
+Received: from archlinux ([38.188.108.234])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2404d3f6241sm21364745ad.122.2025.07.28.22.34.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Jul 2025 22:34:07 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: skhan@linuxfoundation.org,
+	gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] x86/intel: Fix always false range check in x86_vfm
- model matching
-Message-ID: <2025072925-lint-agreement-77e8@gregkh>
-References: <20250729042621.6403-1-suchitkarunakaran@gmail.com>
+Cc: linux-kernel-mentees@lists.linux.dev,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH] tsacct: Remove unused macro definition
+Date: Tue, 29 Jul 2025 11:03:59 +0530
+Message-ID: <20250729053359.49258-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250729042621.6403-1-suchitkarunakaran@gmail.com>
 
-On Tue, Jul 29, 2025 at 09:56:21AM +0530, Suchit Karunakaran wrote:
-> Fix a logic bug in early_init_intel() where a conditional range check:
-> (c->x86_vfm >= INTEL_P4_PRESCOTT && c->x86_vfm <= INTEL_P4_WILLAMETTE)
-> was always false due to (PRESCOTT) being numerically greater than the
-> upper bound (WILLAMETTE). This triggers:-Werror=logical-op: 
-> logical ‘and’ of mutually exclusive tests is always false
-> The fix corrects the constant ordering to ensure the range is valid:
-> (c->x86_vfm >=  INTEL_P4_PRESCOTT && c->x86_vfm <= INTEL_P4_CEDARMILL)
-> 
-> Fixes: fadb6f569b10 ("x86/cpu/intel: Limit the non-architectural
-> constant_tsc model checks")
-> 
-> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-> 
-> Changes since v1:
-> - Fix incorrect logic
-> ---
->  arch/x86/kernel/cpu/intel.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
-> index 076eaa41b8c8..6f5bd5dbc249 100644
-> --- a/arch/x86/kernel/cpu/intel.c
-> +++ b/arch/x86/kernel/cpu/intel.c
-> @@ -262,7 +262,7 @@ static void early_init_intel(struct cpuinfo_x86 *c)
->  	if (c->x86_power & (1 << 8)) {
->  		set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
->  		set_cpu_cap(c, X86_FEATURE_NONSTOP_TSC);
-> -	} else if ((c->x86_vfm >= INTEL_P4_PRESCOTT && c->x86_vfm <= INTEL_P4_WILLAMETTE) ||
-> +	} else if ((c->x86_vfm >=  INTEL_P4_PRESCOTT && c->x86_vfm <= INTEL_P4_CEDARMILL) ||
->  		   (c->x86_vfm >= INTEL_CORE_YONAH  && c->x86_vfm <= INTEL_IVYBRIDGE)) {
->  		set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
->  	}
-> -- 
-> 2.50.1
-> 
-> 
+The MB macro was defined in tsacct.c but never used, leading to a compiler
+warning. This patch removes the unused definition to clean up the code and
+suppress the warning.
 
-Hi,
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+---
+ kernel/tsacct.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/kernel/tsacct.c b/kernel/tsacct.c
+index 16b283f9d831..0fd7ef291454 100644
+--- a/kernel/tsacct.c
++++ b/kernel/tsacct.c
+@@ -83,7 +83,6 @@ void bacct_add_tsk(struct user_namespace *user_ns,
+ #ifdef CONFIG_TASK_XACCT
+ 
+ #define KB 1024
+-#define MB (1024*KB)
+ #define KB_MASK (~(KB-1))
+ /*
+  * fill in extended accounting fields
+@@ -119,7 +118,6 @@ void xacct_add_tsk(struct taskstats *stats, struct task_struct *p)
+ #endif
+ }
+ #undef KB
+-#undef MB
+ 
+ static void __acct_update_integrals(struct task_struct *tsk,
+ 				    u64 utime, u64 stime)
+-- 
+2.50.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You have marked a patch with a "Fixes:" tag for a commit that is in an
-  older released kernel, yet you do not have a cc: stable line in the
-  signed-off-by area at all, which means that the patch will not be
-  applied to any older kernel releases.  To properly fix this, please
-  follow the documented rules in the
-  Documentation/process/stable-kernel-rules.rst file for how to resolve
-  this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
