@@ -1,112 +1,105 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440382110E
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 13:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6955F4C6D
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 14:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753796691; cv=none; b=sUGkSPjW6rH4GHKzrPhA83ZKfGvBfzuZ4NQ0dLdvBbXfAJwlzv5e9Xx7dwV5CyoMlvXi9yHQuBxFhB0I99x89Om2zDlnA+L2WFZNFA1Pya/uoTkldxN3ouvGr3yMO6BCOqMhq8bpyg5ifZkyVTdxYsc5RqoqntRf7b1DiKvXC28=
+	t=1753798335; cv=none; b=LsY7DCQ6N6cX0gdYg2hMKgoEdLwj4zBGmHQpqbxHHjcjDaImzASflP4E7FoVs+/fmM3VrxWBYC8v3zagmo3Pg4oONJYjFxXE+QpM2+6JiFGIB65dOD+vdJApJQk0YOm2u6393DQO4tJXJ6sgT4DwL1k1DeVbpWnNVi/usVBtj0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753796691; c=relaxed/simple;
-	bh=4hBBxUmTkrjxsBMjSk8pQJTgAvfA4TWiqUFF7D9Iyu8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lZKqVQxA5zpvHjOpbFfpOYTfQ40ZbEAT2B+MfBg00G8MSvBs6I1oOhj/8Vv88bcMBaVoBavSdDUdgEyV159i2mEjJqEa0NnNwkTuJ1RoflUH4KaafoIEIEP7ITuvNU6+L3GJyzN7pitEY6NpPpE5d3V57onS9HSubXN91ZXytgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 90F801A05BA;
-	Tue, 29 Jul 2025 13:44:48 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf10.hostedemail.com (Postfix) with ESMTPA id 185EB2F;
-	Tue, 29 Jul 2025 13:44:45 +0000 (UTC)
-Message-ID: <2a2bb7879e22208205fbb8f9bc56fb3c882bc307.camel@perches.com>
-Subject: Re: [PATCH v2] checkpatch: suppress strscpy warnings for userspace
- tools
-From: Joe Perches <joe@perches.com>
-To: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Cc: apw@canonical.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Tue, 29 Jul 2025 06:44:45 -0700
-In-Reply-To: <CAO9wTFhCb7gDEo+q2SAZcn2KdUyVe-fG1E4bR_+US9k2J9DOnw@mail.gmail.com>
-References: <20250727125044.101779-1-suchitkarunakaran@gmail.com>
-		 <61958a3cca40fc9a42b951c68c75f138cab9212e.camel@perches.com>
-	 <CAO9wTFhCb7gDEo+q2SAZcn2KdUyVe-fG1E4bR_+US9k2J9DOnw@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	s=arc-20240116; t=1753798335; c=relaxed/simple;
+	bh=jDRhN2IMBSob6zPe87nVLlzN7gWt3TNYEl/hJ6F36lU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p842a+n2qxVWqHD1uqkhMhs/LGv9Kxnn/j8OaDrBJLH5i5pKtDIpAR3x0lYpkmqbXz+kOIx9UZmzS+2BtnE79CBL7Reb5VMi6I64Xo64k9S47u+tmSkkWHuTwPQ6ylJDWQZ+FF2OsVCVQd2i2OKrfLYZfiSzK/7JRg+eJi++0xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cxynFBV/; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cxynFBV/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24D86C4CEF4
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 14:12:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753798335;
+	bh=jDRhN2IMBSob6zPe87nVLlzN7gWt3TNYEl/hJ6F36lU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=cxynFBV/6Bqqn6+gbuDvgsSNX7LB9BSsQhfh8nq/SyjSNUkGevn68dKBsbSn8NEQ4
+	 dytSuMpEeDZP9Wl//PM6Xh0lUkugz4sC+DMEJZ/yIphA95V+ldLwvga6Phb7IvtWA+
+	 3cHTVCrvynOQCZ+vbkLRj77g8CGP1vOr3MPNe64+MYi8/q8MXOLIc0Q5XFZsoI25pf
+	 CZWUxWKDLQwBPkdhimiHCvNLhxO+vO4h3FzN1w9lOgGrYM8VGUrLxcAt1s1KuIH6ya
+	 Zu/LNyiNcogw2bNzT+CSYoscxtjiYnpJz700h3XDaYWjVMtIg4irmqGWN9cn6rvmSU
+	 jguLnq4nOrWTw==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3321296ad03so12286941fa.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 07:12:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWo4DPbhl43TbgNvHYXUvCmOFQcF6M1270qurRoskLiYdaGTx78PaFFzl3msXLmtQzTr4uqRYaLvjscZ61fmXPH5m+m7A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzn97Ehw10iIjbcUaTh+XYMLhKLj1TypdQvS5dauHXO5+ZmOMbt
+	tiL7uTao2gzu/+ACVQrOezDd842AWCvM10mJQbg9UzEsriNeTMc+BzBe1e0jBl6/RwnINdNF3SX
+	elDpYt9gLuxCWmsMCX/fGysp6pJ7YB+A=
+X-Google-Smtp-Source: AGHT+IH23hRA/y0GXDlQjGAIRAipKSLMeP2SE9aWCB8j/9drPhwYl9q06csg2Q2zs9K02T+77MvfoHiRKXg8Sgpvvz4=
+X-Received: by 2002:a05:651c:1991:b0:332:2235:911c with SMTP id
+ 38308e7fff4ca-33222359358mr463391fa.37.1753798333708; Tue, 29 Jul 2025
+ 07:12:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 185EB2F
-X-Stat-Signature: qoor5ww7qf1s4s1o4bcamg87er3qayxt
-X-Rspamd-Server: rspamout02
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+LGL7A/INkG8rCM5a99SUSzVMd+9SkE54=
-X-HE-Tag: 1753796685-125964
-X-HE-Meta: U2FsdGVkX1+dRgzzUsrNIE4SBXvRz8LbcqBfJi9aHsY2pxsabmWEeIJFHdFRy+2V4zz35RalfLZS0FIrSaPx9jWmPWSepiFF7HZoQhKe9UZY3hs9BN/Ynt7uaIjyGx0d/S2NuXjfZnp160NaQFB5QZ7SIjsaTfce8G3Wm/emqFHTNvYsf7TqllcCeIinwGfFcFit+++GzFEMmnnx8wE+V+u4P92IZcvQimqdjulGTJtrDgA/xLytN9kikSbryfMjNbIQNJ0WC3c3Nym82iIFBu541yEvLnsS+JIyRC1RPT1kSwZB623ZTebtM3fYXFPWdoxG3Yxb9VqQTny7e1uwhrs+K+/RZC1RP6wOl6wkegM188h16fXO0vXm7XGwZsSZyFxGSkLZ0bnQ+1FNq299rQ==
+References: <20250726194307.182093-1-suchitkarunakaran@gmail.com>
+In-Reply-To: <20250726194307.182093-1-suchitkarunakaran@gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 29 Jul 2025 23:11:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQBLKpvZnSnDQwbByVvCvSWMEJYo4=pnx6_9ZTZRqFCBQ@mail.gmail.com>
+X-Gm-Features: Ac12FXyO8Zpy3bEwD1XaiVntflmoj0BvI1AivtiRIL0j8BjKTord1rBYVAGRK-E
+Message-ID: <CAK7LNAQBLKpvZnSnDQwbByVvCvSWMEJYo4=pnx6_9ZTZRqFCBQ@mail.gmail.com>
+Subject: Re: [PATCH] kconfig/lxdialog: replace strcpy with snprintf in print_autowrap
+To: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Cc: nicolas.schier@linux.dev, linux-kbuild@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2025-07-29 at 17:15 +0530, Suchit Karunakaran wrote:
-> On Tue, 29 Jul 2025 at 15:54, Joe Perches <joe@perches.com> wrote:
-> >=20
-> > On Sun, 2025-07-27 at 18:20 +0530, Suchit Karunakaran wrote:
-> > > The checkpatch.pl script currently warns against the use of strcpy,
-> > > strlcpy, and strncpy, recommending strscpy as a safer alternative.
-> > > However, these warnings are also triggered for code under tools/ and
-> > > scripts/, which are userspace utilities where strscpy is not availabl=
-e.
-> > > This patch suppresses these warnings for files in tools/ and scripts/=
-.
-> > >=20
-> > > Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-> > >=20
-> > > Changes since v1:
-> > > - Create is_userspace function to check if the file is in userspace
-> > >   directories
-> >=20
-> > the changelog bit should go below the --- line
-> >=20
-> > > ---
-> >=20
-> > This
->=20
-> Sorry I will change it in the next version.
->=20
-> > >  scripts/checkpatch.pl | 10 +++++++---
-> > >  1 file changed, 7 insertions(+), 3 deletions(-)
-> > >=20
-> > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> > []
-> > > @@ -7019,20 +7019,24 @@ sub process {
-> > >  #                    }
-> > >  #            }
-> > >=20
-> > > +        sub is_userspace {
-> > > +            my ($file) =3D @_;
-> > > +            return ($file =3D~ m@\btools/@ || $file =3D~ m@\bscripts=
-/@);
-> >=20
-> > All other sub uses start in without indentation.
-> > Please move this next to other sub blocks.
-> >=20
->=20
-> Yup will do it.
->=20
-> > Please do a git ls-files -- '*tools/' and see if too many other
-> > files are matched, especially the Documentation/ ones.
-> >=20
->=20
-> I didn't quite understand this. Could you please elaborate?
+On Sun, Jul 27, 2025 at 4:43=E2=80=AFAM Suchit Karunakaran
+<suchitkarunakaran@gmail.com> wrote:
+>
+> strcpy() does not perform bounds checking and can lead to buffer overflow=
+s
+> if the source string exceeds the destination buffer size. In
+> print_autowrap(), replace strcpy() with snprintf() to safely copy the
+> prompt string into the fixed-size tempstr buffer.
+>
+> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+> ---
 
-The search pattern m@\btools/@ matches files other than the
-first level tools/ directory.
+Applied to linux-kbuild.
+Thanks.
 
-It also matches Documentation/tools/
 
-Perhaps using m@^tools/@ to match only the first level tools
-and change $file to $realfile to make it clear it's not
-a/tools or b/tools like the diff filenames.
 
+>  scripts/kconfig/lxdialog/util.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/scripts/kconfig/lxdialog/util.c b/scripts/kconfig/lxdialog/u=
+til.c
+> index 964139c87fcb..b34000beb294 100644
+> --- a/scripts/kconfig/lxdialog/util.c
+> +++ b/scripts/kconfig/lxdialog/util.c
+> @@ -345,8 +345,7 @@ void print_autowrap(WINDOW * win, const char *prompt,=
+ int width, int y, int x)
+>         int prompt_len, room, wlen;
+>         char tempstr[MAX_LEN + 1], *word, *sp, *sp2, *newline_separator =
+=3D 0;
+>
+> -       strcpy(tempstr, prompt);
+> -
+> +       snprintf(tempstr, sizeof(tempstr), "%s", prompt);
+>         prompt_len =3D strlen(tempstr);
+>
+>         if (prompt_len <=3D width - x * 2) {      /* If prompt is short *=
+/
+> --
+> 2.50.1
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
