@@ -1,223 +1,142 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34BA15A8
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 09:10:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5691AC88A
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 09:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753780254; cv=none; b=twUVd1FMMI/lRymhHdELecq3ZDYshVJkNr5U/lWNNqU/s/J1PaMCttYJcxT/4Mdvdpe8d/CTBJ6Tu7PUSL/0NRoc88Fi3mQntZsigZks28Q4hWEyYLmioF7cAFbH9wyUrgFafSQcoi9s+E8nHmPC5DLxNwo9EEjkm3q8FckieYE=
+	t=1753780635; cv=none; b=EPtK3jrx6LBXd4Fxr+78O09E4khylWCXMEr0pJ3SQJZeArUEcSN0zIN6IeToj3V2fGoy6UiT3cyqXYi1b9HOPHKSJpRoXapg443E+I6Nea336xucHraYuSsMIFVNNf363CitDUzHCZAdXOcjkXxmsZqhBbz5Jvsg8VZyxqY81jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753780254; c=relaxed/simple;
-	bh=wk5XZ9Xoesnwv7BpUoCcwRfupjsCE7OBDZgYxGgI/rQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pKhglrtm9GVj583sPZCOle/lCt9zANA2vsZTv2dNDxTUDx0hzqbOlJLM2/Ql+NWfQqoaUfQY9ibIF3z/vrNi7duGkINWWpyNP8LZ2YQXxaP9JOc9lSL2QdV0KHRLDkAtL6LhAnDXtQI6Y/Djq50fgsXqL0Xvhnt3kYCs6Jiel30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bm+LR4ki; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753780635; c=relaxed/simple;
+	bh=M6rFzmVVrJYTEDtPq6tO1uhk8mTDCIssB7aBkjUROs0=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=N0t5ThqmiLqhYGmManBFJCLcQo+5rNDDhYd2ffS+2S6WGSbaQ5kkVf3B5wi8NzlkogMzL0gFGifpEYK4rGHvIDtVNc0JnEyjmjnKO57Mfo1KnkJVlBHFAEG9PYQMRR4WVjYvllGnrTx2F7X/0kttXJ7APiWfkppusDkr6HqRuwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BOtGYqwi; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bm+LR4ki"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-73e810dc01aso2952733a34.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 02:10:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BOtGYqwi"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4563cfac19cso55846085e9.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 02:17:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753780252; x=1754385052; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IVgUoy1pfAxiiccKL1EGeyDQmYYL5g4stylxxDaAc4I=;
-        b=bm+LR4kiOmWa8jLf3Wk8QG9DYLmMCjADAv5tFNhqPwAqnk+cEJAHaz76ETIiilWzbc
-         AE5ndI56wrRDJ+LA/KuqHdv3YIMtAgacQD5YGsSPKtgU/GBT7KPgukt441Y37ho4QvYy
-         5Kyb4MedvGyQ+FEvBnXCj5UGDXik/bPKoYMP7A5P8WIpZp1AhLjkevcZerzQwtmHUFLL
-         cLFEDEji5uJYYNwHWllh2R/v7CIcfMAvng/d58Zll1H14TQGw5QdNMv/CNRWt+yMgByW
-         qZDZVjUzy4fC+kI9mfXao5UXBeWz2X8gaJ8eyMgpp8e34C5JDGTIs1LFvM18uwOopKIf
-         tncg==
+        d=linaro.org; s=google; t=1753780632; x=1754385432; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=d60OURvTslskqUGqUM8qPLgQLo0x++CgR9duN5Eh1VM=;
+        b=BOtGYqwioeLOqcU2f+/hJS1WgKz5R2vUY9uNXTvg0K1ToxPhdE4xFQX6DTA3SohNd+
+         +bOdrLaVvXvLxdzhXPumGTPiHgR0olSkVPqLVxVBfECWOKesKW42UbEYbQq7rMhyWnKS
+         yEflFP/DY5Bakzf6tLd6Hf+iIu5x9pwbWD0Yzb/+t8XZ4M/q9f5/RwvkZFJtb48+LNCn
+         yX8J0pCc2Pop35yE8pOmay41+iv9w7Ziv+c64DqyhXa2a/RSMNoKSV9fHwXKVtpdiciU
+         VuQNQAbYXEw+c9KG9dq3hHY/Bj43M+lem5TYNvd9nOqvErfysTz2/9tASDUADcRNee5B
+         KFBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753780252; x=1754385052;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IVgUoy1pfAxiiccKL1EGeyDQmYYL5g4stylxxDaAc4I=;
-        b=ghgC44zXPXynQqlRGhBDF/WUSm+d7pWoDIry0UoBj/Yt13hnJSmfbRi1ea5z4Q1/MA
-         3bkiNYuEcLSERRyxOPPQmIOmfsJG8V8A+xzVyn2R9miRzrirHxFG2GqE08tNr+flcOQq
-         BYMjCXmPFtIK21Bg76rcfPyjDbDbG7ruXklSGwqlk0LQJecWmTJYoG9E2+ufzPiT5ifO
-         rhY2KbaHT5dg7Igkf+0TETGDyj3fSQitGxb0aeJ16f+OtxGEj7VFvdrn3hUhpEJoahtW
-         HqtQG4EWxta0cJEe1PfOzwXpVOFsb8xJB6p62sw26pCsO3/Gu9928e24syAAdNlE0Ria
-         AFxA==
-X-Forwarded-Encrypted: i=1; AJvYcCX4PQPo0I/+LpQOi8Qpe2qpkSPKGzjiyWgdHTTCIqTVJHMZj5BarWa/KCpW2dVTKKNPFAGVj0mci/dgl5jzAR/POUBqDA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwxmJnq3rPudWkIca+2VFgtLlyADBpLVf2j7gcAPsSjDxqBOABF
-	PWodSAK610WwkGP7NioPV8adWoRC7J44kbD2I/WYMI39vcQJFioLOLSZsni8rmZdKFkZTtDfplC
-	6Qo5tp0fTuM7ebYGnuvyTbmc5+OK6GLc=
-X-Gm-Gg: ASbGncspNwR+ONXmGvERrs52EVi2FPJv0iIOwW2b3fqtuT13m4dE9PrrXI70d0C5sdw
-	48TKjf+apqeylpmLGBZYGOeAprmo2KD15E93F3ZSvC2XTf3YpXZ8rZT63L0Im54nhid4XKrmMr3
-	5LlQ76D3yUfGHmiR0O9xnpqhJWKFf/prhJkLXiakWywDlbmEE32fNWAaKShsuWFBi2SqXYa0Ih0
-	2biJU0s
-X-Google-Smtp-Source: AGHT+IHrd6bOJN9L9i0wLAqStU6H0dOMIJiEcqH+r6EB0PtjIexDMQjYqPbwW8PCSfB99TZ/+c2XmdSCGs73XLWqcKw=
-X-Received: by 2002:a05:6871:ea86:b0:2ff:92c6:51f6 with SMTP id
- 586e51a60fabf-30701ffd2admr8099650fac.15.1753780251834; Tue, 29 Jul 2025
- 02:10:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753780632; x=1754385432;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=d60OURvTslskqUGqUM8qPLgQLo0x++CgR9duN5Eh1VM=;
+        b=nxapaEij/0AH6Mg50H/mv5bwzTKmrGq6b9FmYxq6rgZAM4noL0BCYaMDIgfkvD9O77
+         /TUXl1xHItDFmAB6UY9ktj3KTYNnBCzPVroFNWiNMV7k4Zv+ixmMtNVenZfzMhfoC+Dh
+         fTw+vtVCqP4gwvZnXzS1tJy7R9DCmguk98rxNOGbOWL9uRqgrlCSRT9UaMe3eXg7Xf2j
+         P5cXV/AXnwN1spp/Ud8/MM/Dm/nrnF2lo1mjCeMyG9sIHHDTMuiR1aAcygnqvn6Hx8SF
+         2z4ZIcA/y0Ui2rvbdOqlXQJ7CveKG2xiCWX+I4eos0a1wrRZjViREjiYPyQxReZ5dMuW
+         5DMA==
+X-Forwarded-Encrypted: i=1; AJvYcCUGw+vE3elO+UhE+v3eAqaYwnlCU/OvZebp3RSzjJhnL7Kw5d+Pou6bvA4v/UKfH+FS41fd04nk9cb671bavgD2TIcNTw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx5u3fTfUERWHm1zOukrH/ShxjM4AFilQ6x6ChWWwBTAaM1v3xO
+	oZ38kUWpqEMkL1MskbdrJt2CTzT7wHJDG1r1N97BHSNZPq1YjHcYiYEk4+WeF2CtcLw=
+X-Gm-Gg: ASbGncs8n3+fItKvJORUHHiftT/8aUhZP0IiejrdHd1204UKfTLMNufD+5acbPXiAcL
+	O1wgVLiV4HpCjh827Hz03jR/A7nvzikM39EalMA0LLFscR+nxiAqWvw9gnTwyfsR+rW6P+Rq0wk
+	mqfrO31Hfvit0SN8MIa1PwuPHvbtDKZgkVDpVZtMmW35nBBDIZMJ+NA4NwlYpX/UjdIgAM19wlI
+	FBU5Bm8P1L9CA05GOM3w6F5dFf0Nwx1QTR+NA8KaZskxNZotkP9lBcexp0KyRsHOuWJcaysGj51
+	WZIeUtztUxJtTeuNCUA2fV74BYh1Q8t55dmn54IGTGq2HN6cmd5u41uMJGNvMGIvy8u6qsPl8xQ
+	HmxZ3Xw2tgUUc4cgPjWZ0MKbvKhTJ3hLUdlQKnkYdguXGFygXWXEGYOK3krrwDllSAk++pAT2
+X-Google-Smtp-Source: AGHT+IHy8IlF5EsVFcN+ZeaLeXgccCzDTIMzFkralNzOHDs6W5E1jDZ+/O6pm9Q3S5ZwVCt98dtyVw==
+X-Received: by 2002:a05:600c:1c07:b0:456:2397:817 with SMTP id 5b1f17b1804b1-4587c530cc4mr82620185e9.13.1753780632006;
+        Tue, 29 Jul 2025 02:17:12 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:3ae8:20b:c783:9328? ([2a01:e0a:3d9:2080:3ae8:20b:c783:9328])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458705376d2sm187799235e9.3.2025.07.29.02.17.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Jul 2025 02:17:11 -0700 (PDT)
+Message-ID: <8cbbf5f8-84b4-43af-89b9-0ee4bc0a2591@linaro.org>
+Date: Tue, 29 Jul 2025 11:17:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250729042621.6403-1-suchitkarunakaran@gmail.com>
- <2025072925-lint-agreement-77e8@gregkh> <CAO9wTFg_jCUZ+DxXVDM11_715r6ALJ=HyRXkcBxhGrBUo4iVUg@mail.gmail.com>
- <2025072931-recount-stifling-73e8@gregkh> <CAO9wTFj1qCkhNG24hAWDfZqoJy4mhPFf6mKp=jg7GnaLmHix-w@mail.gmail.com>
- <2025072947-laziness-unlikable-e0f3@gregkh>
-In-Reply-To: <2025072947-laziness-unlikable-e0f3@gregkh>
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Date: Tue, 29 Jul 2025 14:40:40 +0530
-X-Gm-Features: Ac12FXwzdH2V2A5JwFiJLqVmS_WZQ4xv5WIo5FkdR20FIcyNONhvA_yMIZUZjG0
-Message-ID: <CAO9wTFixNE8F23-29WCHB_b+WadyU+J_rcA-=Od5TOJg2+hGOQ@mail.gmail.com>
-Subject: Re: [PATCH v2] x86/intel: Fix always false range check in x86_vfm
- model matching
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, hpa@zytor.com, darwi@linutronix.de, 
-	sohil.mehta@intel.com, peterz@infradead.org, ravi.bangoria@amd.com, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 1/3] drm/panel: novatek-nt35560: Fix invalid return
+ value
+To: Brigham Campbell <me@brighamcampbell.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, linus.walleij@linaro.org,
+ jessica.zhang@oss.qualcomm.com, sam@ravnborg.org
+Cc: dianders@chromium.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250729054435.1209156-1-me@brighamcampbell.com>
+ <20250729054435.1209156-2-me@brighamcampbell.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250729054435.1209156-2-me@brighamcampbell.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 29 Jul 2025 at 14:31, Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Jul 29, 2025 at 02:24:43PM +0530, Suchit Karunakaran wrote:
-> > On Tue, 29 Jul 2025 at 13:26, Greg KH <gregkh@linuxfoundation.org> wrot=
-e:
-> > >
-> > > On Tue, Jul 29, 2025 at 12:23:27PM +0530, Suchit Karunakaran wrote:
-> > > > On Tue, 29 Jul 2025 at 10:58, Greg KH <gregkh@linuxfoundation.org> =
-wrote:
-> > > > >
-> > > > > On Tue, Jul 29, 2025 at 09:56:21AM +0530, Suchit Karunakaran wrot=
-e:
-> > > > > > Fix a logic bug in early_init_intel() where a conditional range=
- check:
-> > > > > > (c->x86_vfm >=3D INTEL_P4_PRESCOTT && c->x86_vfm <=3D INTEL_P4_=
-WILLAMETTE)
-> > > > > > was always false due to (PRESCOTT) being numerically greater th=
-an the
-> > > > > > upper bound (WILLAMETTE). This triggers:-Werror=3Dlogical-op:
-> > > > > > logical =E2=80=98and=E2=80=99 of mutually exclusive tests is al=
-ways false
-> > > > > > The fix corrects the constant ordering to ensure the range is v=
-alid:
-> > > > > > (c->x86_vfm >=3D  INTEL_P4_PRESCOTT && c->x86_vfm <=3D INTEL_P4=
-_CEDARMILL)
-> > > > > >
-> > > > > > Fixes: fadb6f569b10 ("x86/cpu/intel: Limit the non-architectura=
-l
-> > > > > > constant_tsc model checks")
-> > > > > >
-> > > > > > Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-> > > > > >
-> > > > > > Changes since v1:
-> > > > > > - Fix incorrect logic
-> > > > > > ---
-> > > > > >  arch/x86/kernel/cpu/intel.c | 2 +-
-> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/=
-intel.c
-> > > > > > index 076eaa41b8c8..6f5bd5dbc249 100644
-> > > > > > --- a/arch/x86/kernel/cpu/intel.c
-> > > > > > +++ b/arch/x86/kernel/cpu/intel.c
-> > > > > > @@ -262,7 +262,7 @@ static void early_init_intel(struct cpuinfo=
-_x86 *c)
-> > > > > >       if (c->x86_power & (1 << 8)) {
-> > > > > >               set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
-> > > > > >               set_cpu_cap(c, X86_FEATURE_NONSTOP_TSC);
-> > > > > > -     } else if ((c->x86_vfm >=3D INTEL_P4_PRESCOTT && c->x86_v=
-fm <=3D INTEL_P4_WILLAMETTE) ||
-> > > > > > +     } else if ((c->x86_vfm >=3D  INTEL_P4_PRESCOTT && c->x86_=
-vfm <=3D INTEL_P4_CEDARMILL) ||
-> > > > > >                  (c->x86_vfm >=3D INTEL_CORE_YONAH  && c->x86_v=
-fm <=3D INTEL_IVYBRIDGE)) {
-> > > > > >               set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
-> > > > > >       }
-> > > > > > --
-> > > > > > 2.50.1
-> > > > > >
-> > > > > >
-> > > > >
-> > > > > Hi,
-> > > > >
-> > > > > This is the friendly patch-bot of Greg Kroah-Hartman.  You have s=
-ent him
-> > > > > a patch that has triggered this response.  He used to manually re=
-spond
-> > > > > to these common problems, but in order to save his sanity (he kep=
-t
-> > > > > writing the same thing over and over, yet to different people), I=
- was
-> > > > > created.  Hopefully you will not take offence and will fix the pr=
-oblem
-> > > > > in your patch and resubmit it so that it can be accepted into the=
- Linux
-> > > > > kernel tree.
-> > > > >
-> > > > > You are receiving this message because of the following common er=
-ror(s)
-> > > > > as indicated below:
-> > > > >
-> > > > > - You have marked a patch with a "Fixes:" tag for a commit that i=
-s in an
-> > > > >   older released kernel, yet you do not have a cc: stable line in=
- the
-> > > > >   signed-off-by area at all, which means that the patch will not =
-be
-> > > > >   applied to any older kernel releases.  To properly fix this, pl=
-ease
-> > > > >   follow the documented rules in the
-> > > > >   Documentation/process/stable-kernel-rules.rst file for how to r=
-esolve
-> > > > >   this.
-> > > > >
-> > > > > If you wish to discuss this problem further, or you have question=
-s about
-> > > > > how to resolve this issue, please feel free to respond to this em=
-ail and
-> > > > > Greg will reply once he has dug out from the pending patches rece=
-ived
-> > > > > from other developers.
-> > > > >
-> > > > > thanks,
-> > > > >
-> > > > > greg k-h's patch email bot
-> > > >
-> > > > Hi Greg,
-> > > > I've a question regarding backporting this fix. Can this fix be
-> > > > backported to stable kernel version 6.15.8? Also, should I send the
-> > > > backport patch only after the initial patch has been merged in
-> > > > mainline or linux-next?
-> > >
-> > > Did you read the document that my bot linked to above?  It should ans=
-wer
-> > > those questions :)
-> > >
-> > > thanks,
-> > >
-> > > greg k-h
-> >
-> > Hi Greg,
-> > I did go through the document you linked. I just wanted to clarify
-> > about the backporting process, especially since the merge window has
-> > already started and it might take some time for this to be merged into
-> > mainline. Regardless, I'll send the backport patch after the initial
-> > one has been merged.
->
-> As the document states, a commit must be in Linus's tree first, before
-> we can consider it for any stable release.
->
-> thanks,
->
-> greg k-h
+On 29/07/2025 07:44, Brigham Campbell wrote:
+> Fix bug in nt35560_set_brightness() which causes the function to
+> erroneously report an error. mipi_dsi_dcs_write() returns either a
+> negative value when an error occurred or a positive number of bytes
+> written when no error occurred. The buggy code reports an error under
+> either condition.
+> 
+> Fixes: 7835ed6a9e86 ("drm/panel-sony-acx424akp: Modernize backlight handling")
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+> ---
+>   drivers/gpu/drm/panel/panel-novatek-nt35560.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35560.c b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
+> index 98f0782c8411..17898a29efe8 100644
+> --- a/drivers/gpu/drm/panel/panel-novatek-nt35560.c
+> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
+> @@ -161,7 +161,7 @@ static int nt35560_set_brightness(struct backlight_device *bl)
+>   		par = 0x00;
+>   		ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY,
+>   					 &par, 1);
+> -		if (ret) {
+> +		if (ret < 0) {
+>   			dev_err(nt->dev, "failed to disable display backlight (%d)\n", ret);
+>   			return ret;
+>   		}
 
-Hi Greg,
-Thank you for the clarification. I now understand that a commit must
-be in Linus's tree before it can be considered for any stable release.
-I apologize for the repeated questions and any inconvenience.
-
-Thanks,
-Suchit
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
