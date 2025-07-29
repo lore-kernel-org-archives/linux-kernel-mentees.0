@@ -1,121 +1,104 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FF821B8E7
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 11:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA6B15383A
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 13:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753789515; cv=none; b=iXNRHkI2GiYmniNAPdnqLkCHeyZP3T8EtMIp2yu8IuePVtBmwNeHEd3lrD2UAaKZ/SGevUXlBNTpYWwykyxZBodO4z8Wk3/hxbPIr5B5ELRBaZ2rvjT5FjDsXH8uiE0X1e8tCz8SDW7ZVeHyU+/uYf65mjvf8bhqr7G4UFWVjtc=
+	t=1753796461; cv=none; b=o66SfdLb+KoPhD6imS/Y7W8cBf1OCgN0cn7Is29k3IrYetP3POa0NE16resAcYNyxNmZMonvszuDHleKPJ+VZbXFia2SajRXxYCMmZ44cNeviYtNzkvvPYSJ3Py8udX4b6euBfCzb3kdyR/dojLNYIhrLph/ClvhLWGIhKjoZVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753789515; c=relaxed/simple;
-	bh=CwqCF9KkaIWYMXKQ2dUMouAu7sXBqSPywjtOjPo7Rpc=;
+	s=arc-20240116; t=1753796461; c=relaxed/simple;
+	bh=ob0LmPTH3U6CFRPsZtkAASoRcO08ztzyJp1n8QEpOjk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V8e6QPsaxaUsdphLAdY00cCa/Tfdyqc9jb6ct13EXEQUaiONtfFRBrvzDd6iqdPfWJhEgvV4cWCF7dfnL1WCY3nmJgEbnvqEyF2HdSE1l45q0JSS0+mV6vfuks2o+JbVX+aHrwx3oFpZG7E26PIhODEX7nUAWrj+pzZ9wvgRRvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ph/5d7Oh; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=XPS4+SJEZqRdsOf9tbwTftvIaVmKMxfh9E+yBQd37I+e/7xRR9sg1NI0v78HzV5wMPpl7CNtuWuUkG1gEOXk8Zi2uUN3l63Tmc4dvygGiIuLEoqjVQeRvkKPcqhaK1BFshYVFhzVWSDkTVyx0wRSAfDhhhMZhBUVT2dzbcJsuyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mhZWEm11; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ph/5d7Oh"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-301fb587dfeso2376230fac.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 04:45:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753789513; x=1754394313; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=54GN9RZCdtZRrIIoQCXnrksy4ko/oLl8VdGeEOdkMU8=;
-        b=Ph/5d7Oh0qlV3vx4Y1q3hsvlcdFZ17vikyzaSwnBYItX1SDvnmgWXRJ62j2tpFDz0g
-         gV6gUWPk6vRw2GrRmZruqbe6pyWzutlSQaOrq1Sub8D9Zc9ib+Te98rSK28Yg61HZG1B
-         2WUoKUnMobAee4cwiRGpXhAUGk/oB+FH0aGFZtcX1OoELoU9KbKXJ0NGqyDXMhHfwu9m
-         pPP/xXYDsDdKHF+ha2QPxjlm1xyRX9Bml6QGZz1Y4Dk8Cx8pg9wG+HCaqsEJQHJJzy+G
-         yj6ULuOo0WlBk8ZWfRnfuk+9svKOd+RMcj70u4fQKZMVTGwj5GMeEkvOQm/2frPbC52B
-         qtVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753789513; x=1754394313;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=54GN9RZCdtZRrIIoQCXnrksy4ko/oLl8VdGeEOdkMU8=;
-        b=LceKKf5tiW7hgfOjXezcE425O+WN9JWm8Xe+iuIRQficUfroBV4w8fz0dkbeDNGx7f
-         4LTfa8qWZUgMZP1iEIncNos77clXxz5IdG6IlXsxkk6N/LwVV6n8y3HCJiaD/OCHilF+
-         WJoydUxhnDXhmS/3tbS/JuyP7wOyTV6gsb0ys+v2yMV/cM3GseGepBkVOPPXlIiJrgAu
-         vn1QfBGESjNt5oEjtQ6vVELE9uNZbHdp4HJzKRjQLfsd0AtgYBG2zZsq1mKk0dqARnxG
-         1NHU6DDj4l6XkPqDWL8O8IMUgipdF5/org8/CCbcunlwJ3d63IJZe3780nJoUXXRH037
-         3kDA==
-X-Forwarded-Encrypted: i=1; AJvYcCWh1W9GOc+2Hb5EtZr8z1aBCYXEZfHI1kqcQKhkJemPoauyBVdqKyaoHNOoC/MgRX3qZLx0lWvSNxvxS0dNX1VquBdxVg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxpJ/YJu1kiAKLagkMtvcT/6ZfHFjpSvTlz4eMeVKc0sqchw8D8
-	14hWpvS906tVSjzME7pvw4EkPEyourL4AxbqqczHpSjZ8yF/VzBmRI3dL7T4H0VZ+VvcZqMidnt
-	jKMvwNwsC2AhcvzYP+YmYqHTvNbnyBx8=
-X-Gm-Gg: ASbGncuwkQ8LvSs86H4A/E+Ikd3dN8836iDWVAWoKkp0M8a721c+41tMJ3dKtUe1ArM
-	JkUu0CVUgZXVFD3s51RSimaZMMCgbZeQ6okuXV/P1r72QcOoi2hpeCJmlowqsOro5yvpDLW1vNU
-	GkHtv3tjvFc6uFPwSoAAadM1sMWRskDSUjSqGz94QL/r3Ul6GR4DdevpLzlz2wpDVQHkyGP1ulq
-	0SWxxvS
-X-Google-Smtp-Source: AGHT+IF2VoFtEHdUx8olCgcz5kNZJoRqhVc9zCXSwVNqqUEXR6iKIoAe/QSJEdIbOw0bojrHy/bqKCA89eJ36HEwMsE=
-X-Received: by 2002:a05:6871:e604:b0:2ff:8bc7:44a0 with SMTP id
- 586e51a60fabf-30701ac679dmr9014878fac.22.1753789512861; Tue, 29 Jul 2025
- 04:45:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mhZWEm11"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B303CC4CEF4
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 13:41:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753796460;
+	bh=ob0LmPTH3U6CFRPsZtkAASoRcO08ztzyJp1n8QEpOjk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=mhZWEm11M9RhF3CJeSoMngXgk1GjxEfDV+bei91e2ua8vIpzGHDGmXXg1J9DkIKvv
+	 YITVIjrysmd1UmWOsJ6HfZk13Iw8Q5CGmln9P5q782H/UTMLt3BCIQPkmgCBtNhd06
+	 aNmFDIiFfqSW9p/SQBsz/d+0Sq9+8+g+2yrRtkdiALr37BfvXtHbsus4GnbLCoX3TS
+	 HyOhb/AvxCrnoa5WvU9pHIhzS8hEqoOLwpUy30MkRbUk8fT1iXsG7nkxXi7qCCacqU
+	 kn8VOUulH2wbYRYyDIg7g08e0Raj3IR6v5L7Lfa0C1HiqtgENYSSwLPMQI/wJV4e8i
+	 PjF0WX1d0qu8g==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-553dceb342fso4521484e87.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 06:41:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWghZltqu2qEHZw5lUXiPuPM6wB02x5pxfWscCinAPAw5iXz69EdL7YmVDPcIzuYJhOJ57sIMAos0gHma6oXZF3lRCzQw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzS+UfKK72dWq5GuJHPBDS3Xk5h7ipN/2hNXlFrqEfAIQ5xEX+X
+	3Pqv2Gm0fUdjCcC2uK8q7klbLgzBK/Kwb5Bbd0DmMreVhsPaD69JKxoYVBq74CWaPGdfgo6+NoU
+	KN3UZ3D/6GSqcJeN8BrXgZh0FLWRJVH4=
+X-Google-Smtp-Source: AGHT+IGXvDD6+HE+n6KcA5hrIEq9JCrAGhFeonVHxDMZsACrl6lzsMudWBV6SZoqc4ZPDFUI8EegsOK5pSV2AF56Pqs=
+X-Received: by 2002:a05:6512:1392:b0:54e:81ec:2c83 with SMTP id
+ 2adb3069b0e04-55b5f3ec63fmr3713126e87.18.1753796459386; Tue, 29 Jul 2025
+ 06:40:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250727125044.101779-1-suchitkarunakaran@gmail.com> <61958a3cca40fc9a42b951c68c75f138cab9212e.camel@perches.com>
-In-Reply-To: <61958a3cca40fc9a42b951c68c75f138cab9212e.camel@perches.com>
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Date: Tue, 29 Jul 2025 17:15:01 +0530
-X-Gm-Features: Ac12FXxiNwEvOzCx9tNPZ0SRAhaKaDMzzgk3wtnJmBlGhi8OfuHQjhh1fBGgmJ4
-Message-ID: <CAO9wTFhCb7gDEo+q2SAZcn2KdUyVe-fG1E4bR_+US9k2J9DOnw@mail.gmail.com>
-Subject: Re: [PATCH v2] checkpatch: suppress strscpy warnings for userspace tools
-To: Joe Perches <joe@perches.com>
-Cc: apw@canonical.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+References: <20250727164433.203775-1-suchitkarunakaran@gmail.com> <2025072842-require-smokeless-f98f@gregkh>
+In-Reply-To: <2025072842-require-smokeless-f98f@gregkh>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 29 Jul 2025 22:40:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ_e0xXb2Uyupo4U5PUtbVBf9_dZO6qkSG0HNxWVEBeFw@mail.gmail.com>
+X-Gm-Features: Ac12FXzaTJhx6-ERGwf60fRPnl9YGsOcabamn8mnBHm8jXreHlRlmuEP3bIGe1E
+Message-ID: <CAK7LNAQ_e0xXb2Uyupo4U5PUtbVBf9_dZO6qkSG0HNxWVEBeFw@mail.gmail.com>
+Subject: Re: [PATCH v3] kconfig/lxdialog: replace strcpy() with strncpy() in inputbox.c
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Suchit Karunakaran <suchitkarunakaran@gmail.com>, nicolas.schier@linux.dev, 
+	linux-kbuild@vger.kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 29 Jul 2025 at 15:54, Joe Perches <joe@perches.com> wrote:
+On Mon, Jul 28, 2025 at 1:29=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
 >
-> On Sun, 2025-07-27 at 18:20 +0530, Suchit Karunakaran wrote:
-> > The checkpatch.pl script currently warns against the use of strcpy,
-> > strlcpy, and strncpy, recommending strscpy as a safer alternative.
-> > However, these warnings are also triggered for code under tools/ and
-> > scripts/, which are userspace utilities where strscpy is not available.
-> > This patch suppresses these warnings for files in tools/ and scripts/.
+> On Sun, Jul 27, 2025 at 10:14:33PM +0530, Suchit Karunakaran wrote:
+> > strcpy() performs no bounds checking and can lead to buffer overflows i=
+f
+> > the input string exceeds the destination buffer size. This patch replac=
+es
+> > it with strncpy(), and null terminates the input string.
 > >
 > > Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-> >
-> > Changes since v1:
-> > - Create is_userspace function to check if the file is in userspace
-> >   directories
->
-> the changelog bit should go below the --- line
->
 > > ---
->
-> This
-
-Sorry I will change it in the next version.
-
-> >  scripts/checkpatch.pl | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
+> >  scripts/kconfig/lxdialog/inputbox.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> []
-> > @@ -7019,20 +7019,24 @@ sub process {
-> >  #                    }
-> >  #            }
+> > diff --git a/scripts/kconfig/lxdialog/inputbox.c b/scripts/kconfig/lxdi=
+alog/inputbox.c
+> > index 3c6e24b20f5b..5e4a131724f2 100644
+> > --- a/scripts/kconfig/lxdialog/inputbox.c
+> > +++ b/scripts/kconfig/lxdialog/inputbox.c
+> > @@ -39,8 +39,10 @@ int dialog_inputbox(const char *title, const char *p=
+rompt, int height, int width
 > >
-> > +        sub is_userspace {
-> > +            my ($file) = @_;
-> > +            return ($file =~ m@\btools/@ || $file =~ m@\bscripts/@);
+> >       if (!init)
+> >               instr[0] =3D '\0';
+> > -     else
+> > -             strcpy(instr, init);
+> > +     else {
+> > +             strncpy(instr, init, sizeof(dialog_input_result) - 1);
+> > +             instr[sizeof(dialog_input_result) - 1] =3D '\0';
 >
-> All other sub uses start in without indentation.
-> Please move this next to other sub blocks.
->
+> As this is a userspace tool, why is this change needed at all?  How can
+> this overflow and if it does, what happens?
 
-Yup will do it.
+The buffer size (2049 byte) is large enough, and
+buffer overflow is unlikely to happen in practical use cases.
+If it does, I think the program will crash.
 
-> Please do a git ls-files -- '*tools/' and see if too many other
-> files are matched, especially the Documentation/ ones.
->
 
-I didn't quite understand this. Could you please elaborate?
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
