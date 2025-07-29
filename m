@@ -1,107 +1,223 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5011C22539D
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 21:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D3D27CCEE
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 22:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753825237; cv=none; b=G2JEXGSTU4kFGfSxAld2R6m6FEcYKLMBnVB7xglG0/puI0576y6voV9atep/ML59g8HJJtaH1woiblZD+jt7nHENAaa+xQ9LsGrKwHnxy4nIY3BDE4qNnz6eo/Ot1aprsjEugKxHTkTLa3nDZGR//XzafWsyFIuJgMJjxaff0Vs=
+	t=1753828412; cv=none; b=CwzTihtodZ3NvOBgF7UykQYcXJa/81dVG/w8P/0V+SYYuy5kLYTSygb8Y04XWoQdWOa3x9ml0Fuii0Iq3TKq26eZZqaGnOqhTha38qxbhk75qtjUi3yVegF/i2b856tFQ8jpNhDTMV8xHW2pGp+CbKaj+EJC9hmcTv5DeCuoq+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753825237; c=relaxed/simple;
-	bh=hV8pNDtHEaZuH7Mi4bBOWtAgIplXFi9R/rVfvMjJlz4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ONq7buxwjIUdm9a3qsNKM9+2BzIpFx9s4lwnx8uSrf8OJBfrj11NJf8AvxSJhVJ9m2IIBGycHvU6OckRRBDvkiyu+/MT3VWhi44f++npNK5n4Mvg+PPF2guRcANesytQOJuKuI1vPZ+a9h3Bv6px7Q4U8dDu0ps/i8vWDv4RWRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KKdOmACR; arc=none smtp.client-ip=209.85.167.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1753828412; c=relaxed/simple;
+	bh=1qzJ4sfF9BBwF71oQR4+YFfDas1tVA2Sdpx5ngS9DDc=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=ehUaRiVB3tsXAowSZl94YLITSLbFYd63vBHveHYpLIKJATnZJ2ANXsQkMh4rqlqeGXvfXuIya20XBOOcrpJF2kAkfaCBJvqa22TGhhU3q/JFoIK4I+l0rGmwZcr/Tvb/loknOdUhC/DK8Sm5fhvmNOyn9AdeT7FQMlASDe1FkLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=umU64zn2; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KKdOmACR"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-41eaf97416eso3429073b6e.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 14:40:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753825235; x=1754430035; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PVCLxnNX9ssCVFunVtRLzu94Pq3RrLWSiFarp50OMoI=;
-        b=KKdOmACRnOr9xqnS1nmfW/J5M169n7odxqAAUnoNDG9eOX6qAbqslrhs9Eb77Zeofn
-         I47o3us9tshrpmk7p/32eZxhGBUL47Xx3EzFT+D9RhbCwDFITBXxV/bMLJpRHYK8sDLw
-         k0mIZmh3L2PSyH3DL5W2jA94Qlp9XcqSPNHSA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753825235; x=1754430035;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PVCLxnNX9ssCVFunVtRLzu94Pq3RrLWSiFarp50OMoI=;
-        b=ccvb19/oMIpqZ8/E7mLHF6wBL3byMELMlHv1+5V4bUbW56O0XS97uGfky1Xz5mAkm4
-         TW/tviDUUD7zB3jkqpZE2TyBYQvtb/cJFiQtMo74c+XKuf4hmBGFY/sO5QReKnJdJxoH
-         wHkwPLNOZBEg3FUMn+d4Yeaw/xtaKWqDJqVqlMuabzGV0Rn+oOqBjdFvhhGgGrOPiC7j
-         DVm0f0TXMsFsyHYvl4i8J4tT9JjrvjxlyODbJz58Ja3Jm7bX1+qZY0SnFlkTagkf4g0N
-         fHcfi/ERmozbJmaa2NLA1/tfvY7P5Z9Esiz20CzO1IQ5XWnO5cSXvVbnS3FjpUVIbU6L
-         YS0g==
-X-Forwarded-Encrypted: i=1; AJvYcCU/7/oIzmZcaKkfNf/uZfsRlo75J96ipIf0F959hMR1wTPTxtx+ln+c5OOCyk/1WyouTvaqMLXAxbSt50RguE8G1AOTIA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwMD4vX3vkKAgYv9mD2Yrd5tLBMQCCeouA88yKdRr6Y3ir8YVj1
-	BaaBQp3hB5KUvOSTBAtYbfyhiJxUfmzDw4TZRhtUM/GvEA7QXuCm/HtIT0pU4XNAhN106jOf7yO
-	22jw=
-X-Gm-Gg: ASbGnctUBUl06X0a6gjzwAuvGCHAcaOVdRh5ANqYRuBFVXrwfsxsDl1RyTOZgc9nsVW
-	H4mkVi/1nbhSj+CpaE8yQw7ej+Q+J3dNJig2OuZ1lA0+Oa3uGJe5rkrBT+gdFGSmSu4ZQXFuDdG
-	bHwSjZqd+z/U5NPG/71QlzSVq9FbFvdG8KN/5IHyW+WbJKV0bio41otArY5YiyljBghw4ccsFbq
-	TGL9XH+2f9StLvT1TE+dQwVEUgeXfGeWGrnyOTUSN8+iPp7DBNBqdVLUW6rJgT0G+vPGxGrVbhk
-	kLhQovImeeQ6m/akTtXpolhyGF2quiTPUQ5/8Boz1pYKm/9kC32Tn69o9zJjYzBhWnN0MG0fqMY
-	1wZwtg/w8BAnJhom+/fdDC8Ii7c+ifHGOIllAAgKqd0O03+ZuFVQA3Yt6jiZODGoVwJzyO9o6
-X-Google-Smtp-Source: AGHT+IHWVvOWBpcXTHb26JRyfKeeYv/C9JQCBMFOeuiooKO4/Y/mCD9ufosV1e/Rq/FQBKYPMh1lHw==
-X-Received: by 2002:a05:6808:138b:b0:42e:4134:da53 with SMTP id 5614622812f47-43199f87bc6mr664343b6e.12.1753825234757;
-        Tue, 29 Jul 2025 14:40:34 -0700 (PDT)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com. [209.85.160.46])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-42c7b55be77sm1602689b6e.14.2025.07.29.14.40.34
-        for <linux-kernel-mentees@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Jul 2025 14:40:34 -0700 (PDT)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-2eff5d1c7efso4548029fac.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 14:40:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU15l3uezbagufT7JzBknzRPTuF8DqBFirAAMKzLkoyFHsPomsc/jLSZo0S6Jlj9g+GPq7HABm7eGQxd8fF5j/rgKFQkA==@lists.linux.dev
-X-Received: by 2002:a17:90b:3948:b0:31f:3cfd:d334 with SMTP id
- 98e67ed59e1d1-31f5de1f1f7mr1224460a91.4.1753824882727; Tue, 29 Jul 2025
- 14:34:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="umU64zn2"
+Received: from [127.0.0.1] (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 56TMWV8C1101226
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 29 Jul 2025 15:32:32 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 56TMWV8C1101226
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025072201; t=1753828353;
+	bh=/tggXm0FyFEm+Ygc2qgRDy7yHSvAWF/GCU7KgVFJtxA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=umU64zn255xJ8MqmtwiOePWyJeP9FnD7fzXOyNyD/MmEhVnVeWu21jouO31yvVHNl
+	 aHpOMKZ1O/4+NJpU+/NSid/0meG26sbDoyoDqRBm/t6jWH7OhWax6JuIe/GjvgsIj1
+	 ip/Dw9rUm8+iMV+1FnTfkY7ie9KX0UKI/VDfbwZfdXLL3ZnS6GFSivf14yR2ZCk1xz
+	 JssQvvv6zPucmCiOHi9yuIjDzqdCrVdM+q1lI5N8J9c+Qzq2pwr8S7GNx0kUGArHSZ
+	 3p9rGRZx3wwDUOnuAxXHiXQI0Kn6kulZmr1KBORyIswBjyjASJL8DXkP6XEEVfhx8G
+	 VXC2lacbPKdYw==
+Date: Tue, 29 Jul 2025 15:32:31 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Suchit Karunakaran <suchitkarunakaran@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+CC: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, darwi@linutronix.de,
+        sohil.mehta@intel.com, peterz@infradead.org, ravi.bangoria@amd.com,
+        skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2=5D_x86/intel=3A_Fix_always_fal?=
+ =?US-ASCII?Q?se_range_check_in_x86=5Fvfm_model_matching?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAO9wTFjkBz=NbHeAdOaJ8jFpgOmO=pM5O+Q43hTT8qqvvXTSog@mail.gmail.com>
+References: <20250729042621.6403-1-suchitkarunakaran@gmail.com> <2025072925-lint-agreement-77e8@gregkh> <CAO9wTFg_jCUZ+DxXVDM11_715r6ALJ=HyRXkcBxhGrBUo4iVUg@mail.gmail.com> <2025072931-recount-stifling-73e8@gregkh> <CAO9wTFj1qCkhNG24hAWDfZqoJy4mhPFf6mKp=jg7GnaLmHix-w@mail.gmail.com> <2025072947-laziness-unlikable-e0f3@gregkh> <CAO9wTFjkBz=NbHeAdOaJ8jFpgOmO=pM5O+Q43hTT8qqvvXTSog@mail.gmail.com>
+Message-ID: <ACB37631-097C-4260-AE4C-F2FD7FB9B767@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250729054435.1209156-1-me@brighamcampbell.com> <20250729054435.1209156-4-me@brighamcampbell.com>
-In-Reply-To: <20250729054435.1209156-4-me@brighamcampbell.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 29 Jul 2025 14:34:30 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XbTQRD+hbykD5DXGWKXsJ5+rEH6vWa4dsSMmxU+NKz2Q@mail.gmail.com>
-X-Gm-Features: Ac12FXzeQrf6_M_2inD2z7AMl0MQ8EJWdRVuuxzGi0c9nlBwan7lOfCSMzDT35M
-Message-ID: <CAD=FV=XbTQRD+hbykD5DXGWKXsJ5+rEH6vWa4dsSMmxU+NKz2Q@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] drm/panel: novatek-nt35560: Clean up driver
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
-	airlied@gmail.com, simona@ffwll.ch, linus.walleij@linaro.org, 
-	neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, sam@ravnborg.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On July 29, 2025 2:08:47 AM PDT, Suchit Karunakaran <suchitkarunakaran@gmai=
+l=2Ecom> wrote:
+>On Tue, 29 Jul 2025 at 14:31, Greg KH <gregkh@linuxfoundation=2Eorg> wrot=
+e:
+>>
+>> On Tue, Jul 29, 2025 at 02:24:43PM +0530, Suchit Karunakaran wrote:
+>> > On Tue, 29 Jul 2025 at 13:26, Greg KH <gregkh@linuxfoundation=2Eorg>
+>wrote:
+>> > >
+>> > > On Tue, Jul 29, 2025 at 12:23:27PM +0530, Suchit Karunakaran wrote:
+>> > > > On Tue, 29 Jul 2025 at 10:58, Greg KH <gregkh@linuxfoundation=2Eo=
+rg>
+>wrote:
+>> > > > >
+>> > > > > On Tue, Jul 29, 2025 at 09:56:21AM +0530, Suchit Karunakaran
+>wrote:
+>> > > > > > Fix a logic bug in early_init_intel() where a conditional ran=
+ge
+>check:
+>> > > > > > (c->x86_vfm >=3D INTEL_P4_PRESCOTT && c->x86_vfm <=3D
+>INTEL_P4_WILLAMETTE)
+>> > > > > > was always false due to (PRESCOTT) being numerically greater
+>than the
+>> > > > > > upper bound (WILLAMETTE)=2E This triggers:-Werror=3Dlogical-o=
+p:
+>> > > > > > logical =E2=80=98and=E2=80=99 of mutually exclusive tests is =
+always false
+>> > > > > > The fix corrects the constant ordering to ensure the range is
+>valid:
+>> > > > > > (c->x86_vfm >=3D  INTEL_P4_PRESCOTT && c->x86_vfm <=3D
+>INTEL_P4_CEDARMILL)
+>> > > > > >
+>> > > > > > Fixes: fadb6f569b10 ("x86/cpu/intel: Limit the non-architectu=
+ral
+>> > > > > > constant_tsc model checks")
+>> > > > > >
+>> > > > > > Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail=2E=
+com>
+>> > > > > >
+>> > > > > > Changes since v1:
+>> > > > > > - Fix incorrect logic
+>> > > > > > ---
+>> > > > > >  arch/x86/kernel/cpu/intel=2Ec | 2 +-
+>> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> > > > > >
+>> > > > > > diff --git a/arch/x86/kernel/cpu/intel=2Ec
+>b/arch/x86/kernel/cpu/intel=2Ec
+>> > > > > > index 076eaa41b8c8=2E=2E6f5bd5dbc249 100644
+>> > > > > > --- a/arch/x86/kernel/cpu/intel=2Ec
+>> > > > > > +++ b/arch/x86/kernel/cpu/intel=2Ec
+>> > > > > > @@ -262,7 +262,7 @@ static void early_init_intel(struct
+>cpuinfo_x86 *c)
+>> > > > > >       if (c->x86_power & (1 << 8)) {
+>> > > > > >               set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
+>> > > > > >               set_cpu_cap(c, X86_FEATURE_NONSTOP_TSC);
+>> > > > > > -     } else if ((c->x86_vfm >=3D INTEL_P4_PRESCOTT && c->x86=
+_vfm
+><=3D INTEL_P4_WILLAMETTE) ||
+>> > > > > > +     } else if ((c->x86_vfm >=3D  INTEL_P4_PRESCOTT &&
+>c->x86_vfm <=3D INTEL_P4_CEDARMILL) ||
+>> > > > > >                  (c->x86_vfm >=3D INTEL_CORE_YONAH  && c->x86=
+_vfm
+><=3D INTEL_IVYBRIDGE)) {
+>> > > > > >               set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
+>> > > > > >       }
+>> > > > > > --
+>> > > > > > 2=2E50=2E1
+>> > > > > >
+>> > > > > >
+>> > > > >
+>> > > > > Hi,
+>> > > > >
+>> > > > > This is the friendly patch-bot of Greg Kroah-Hartman=2E  You ha=
+ve
+>sent him
+>> > > > > a patch that has triggered this response=2E  He used to manuall=
+y
+>respond
+>> > > > > to these common problems, but in order to save his sanity (he k=
+ept
+>> > > > > writing the same thing over and over, yet to different people),=
+ I
+>was
+>> > > > > created=2E  Hopefully you will not take offence and will fix th=
+e
+>problem
+>> > > > > in your patch and resubmit it so that it can be accepted into t=
+he
+>Linux
+>> > > > > kernel tree=2E
+>> > > > >
+>> > > > > You are receiving this message because of the following common
+>error(s)
+>> > > > > as indicated below:
+>> > > > >
+>> > > > > - You have marked a patch with a "Fixes:" tag for a commit that
+>is in an
+>> > > > >   older released kernel, yet you do not have a cc: stable line =
+in
+>the
+>> > > > >   signed-off-by area at all, which means that the patch will no=
+t
+>be
+>> > > > >   applied to any older kernel releases=2E  To properly fix this=
+,
+>please
+>> > > > >   follow the documented rules in the
+>> > > > >   Documentation/process/stable-kernel-rules=2Erst file for how =
+to
+>resolve
+>> > > > >   this=2E
+>> > > > >
+>> > > > > If you wish to discuss this problem further, or you have
+>questions about
+>> > > > > how to resolve this issue, please feel free to respond to this
+>email and
+>> > > > > Greg will reply once he has dug out from the pending patches
+>received
+>> > > > > from other developers=2E
+>> > > > >
+>> > > > > thanks,
+>> > > > >
+>> > > > > greg k-h's patch email bot
+>> > > >
+>> > > > Hi Greg,
+>> > > > I've a question regarding backporting this fix=2E Can this fix be
+>> > > > backported to stable kernel version 6=2E15=2E8? Also, should I se=
+nd the
+>> > > > backport patch only after the initial patch has been merged in
+>> > > > mainline or linux-next?
+>> > >
+>> > > Did you read the document that my bot linked to above?  It should
+>answer
+>> > > those questions :)
+>> > >
+>> > > thanks,
+>> > >
+>> > > greg k-h
+>> >
+>> > Hi Greg,
+>> > I did go through the document you linked=2E I just wanted to clarify
+>> > about the backporting process, especially since the merge window has
+>> > already started and it might take some time for this to be merged int=
+o
+>> > mainline=2E Regardless, I'll send the backport patch after the initia=
+l
+>> > one has been merged=2E
+>>
+>> As the document states, a commit must be in Linus's tree first, before
+>> we can consider it for any stable release=2E
+>>
+>
+>Hi Greg,
+>Thanks for clarifying=2E I understand now that a commit must be in Linus'=
+s
+>tree before it can be considered for any stable release=2E
+>I apologize for the repeated questions and any inconvenience=2E
+>
+>Thanks,
+>Suchit
 
-On Mon, Jul 28, 2025 at 10:44=E2=80=AFPM Brigham Campbell
-<me@brighamcampbell.com> wrote:
->
-> Update driver to use the "multi" variants of MIPI functions which
-> facilitate improved error handling and cleaner driver code.
->
-> Remove information from a comment which was made obsolete by commit
-> 994ea402c767 ("drm/panel: Rename Sony ACX424 to Novatek NT35560"), which
-> determined that this driver supports the Novatek NT35560 panel
-> controller.
->
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-> ---
->  drivers/gpu/drm/panel/panel-novatek-nt35560.c | 198 ++++++------------
->  1 file changed, 60 insertions(+), 138 deletions(-)
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+It does, *unless* there is a detailed explanation why it is not applicable=
+ to mainline (for example, "the code in mainline was completely rewritten a=
+nd does not have the bug because=2E=2E=2E")
