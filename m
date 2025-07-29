@@ -1,123 +1,138 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510DC1C2335
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 14:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46CBB1A238A
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 14:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753800151; cv=none; b=injJZC5pxPQxdHe2JhouD5HrvIRsyOXdNSMeb8m005anHsT09kyMNzvW428F5yLT+vD2XOXp2/2PgUfKJmoaSLRv6AsaK9MA9HGSVQinySa6KUzGaTPnmHRcqnkeSGY623bKtWqSMFjbiCrytVb9jJoaEe/n7hfDXG/TWYLGvbE=
+	t=1753800283; cv=none; b=TjNQhS25Wlthp4xvvvBRYy5HeJ7P6xKCDrtL2zv7C8xu/AQW4KrwVovY1K6jnugW/1FQ8QIV44ch/3BaRuhWA8DgBBoeduqW7+mv85Lr10dzjnRPYqGtiXot1IbeOq0CHVH5NjFcOhjd/1z2Mvx9hOtCtMLvE0s1SsESw964nR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753800151; c=relaxed/simple;
-	bh=IeqpUwDN+q4a6P3JINbsMLGyOaSDoAh+nGw1NYtnjCU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=gUijydPOZ3G+LG9QI0jgaa3NC352/kMpvYvnWGyV8nvTZvP2V8e7HMg8/4tb0ZZFt73bicAyGstuDiQpgNuiNfm71ZaH/IPyVFLTTrYGI+sP4gFk7lWHPE2tY8j3Y151DhHKCvzkcYoxgICzk2FisgK3oAaOeWAW11GzWgJLn+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=DRQ/BZJt; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1753800283; c=relaxed/simple;
+	bh=fMjKw8fJE6/DYyPVFlL4viEYITAF/89CcAe+AzMPyE8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=skNK6iHk+TBmngl0tfs/9ERH9lvDJeKZ530B7Ib1O8V9vp4ZeLUMKvzBsntXZ7FbVEySPveX8FMrGgGVy1bTVjktxixW1z2YT/kv/+RwAXP5PG+SxxHf3rh3Qzw24VguuDEtdSpk95yX0hoJRFCP5mZsl5QiPuw/Z7WBWJedW9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hQgfHsRy; arc=none smtp.client-ip=209.85.160.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="DRQ/BZJt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1753800132; x=1754404932; i=markus.elfring@web.de;
-	bh=IeqpUwDN+q4a6P3JINbsMLGyOaSDoAh+nGw1NYtnjCU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=DRQ/BZJtnhfu8PVhcSq0LYVDjKIb9j3ijPKNxRzSals5nfuhJRRMHCrevbq9X4vy
-	 jluFAx7PkNiq9d6d3wVTZU/94gvqWDXR2sAuXSTa8Omiv0sE7gAuIxDqW0urkwARF
-	 O5M5g2u1C0YBKYEJazQAMj8kJf2PY6UttE7dt6p/y3zlJZiD+LZAKkHe4Y8SHFzxe
-	 NdDHWyabg9h1Mua7YLb2AlDxwd5z5noOGJ1i4HktDoR5iOIGhmKv+n/EefDf6HN6q
-	 6MbgxIjVr1S2Wlu7m3BVcAYe7dtUFXKBS+B5LPxQ0AYin6ulWU0zxk1WMN635y/k/
-	 51BEV4pxzg5/fIGopA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.201]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N1LsH-1uWPYe43Ol-00uFMV; Tue, 29
- Jul 2025 16:42:12 +0200
-Message-ID: <079be718-ae8f-408d-a789-05f4816e0bd4@web.de>
-Date: Tue, 29 Jul 2025 16:42:09 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hQgfHsRy"
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-30008553e7eso2494543fac.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 07:44:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753800281; x=1754405081; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=e58Oz7oUEhQLUk8T4Mqsd2AZ8HqT3w/u9Zdk0j5kkxw=;
+        b=hQgfHsRyTKKSJoivZWO5MKom8M287MAEHwnufcPtgGRNkAHdPEj9Wva3VSZVW01S+m
+         sg2cm8mUEavSxfYVRrpyNJXJdLdH/L2PdjAAowc35Y1CvGnQSGgmo9Hp71eETwL8nQcp
+         3/5gJLstufuOAGt6U5fUHZG9kQWpJgoxwgBicMWePTltIX815PUOgjBrWA8IE7OnwXif
+         mGnKjJt9kxbA476zZTuxQyRQ2NUxeGgFQjBgeNjb6o9j5azbrzGahxzPpvLlvANNFbbT
+         z9vRcXrBpi1RTBGOqPT22Gw6CmQZiAeqdH2sUPoHff9phmAKQhB5xqnFSm1Bhvu7ak5p
+         pFnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753800281; x=1754405081;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e58Oz7oUEhQLUk8T4Mqsd2AZ8HqT3w/u9Zdk0j5kkxw=;
+        b=NrUIlAwkot5CJgxcpD5sTmemDPLixDr1K2zljPF+rCsGbDMCi9l2upifu8NjFrt9b/
+         Ev47kWmQGmkuA+qBsYnJBGZxDNvUSB5wZAxY/PkP2qOs6tBeeL4a6XXTzsnE7lCh/YWC
+         sAq1LCXKxqAaQmXXfJdiiVe+Pp3LSRg8E84oOoOxUlhIXUB9Pszhit1B4KBeByjmekEG
+         /pthpWunW1YrWCgN2xYPFbUKSexhE8l0Og350CZHnLGr6HnfKMdH4KjK/ge6Hn+179Mf
+         1yldxTsOXXjdWI3KLH+rdYJFeNhxGA5b52N0nWV90p29Mg4wAqIIrOTJW9VwzcAbxg5G
+         t5WA==
+X-Forwarded-Encrypted: i=1; AJvYcCXqUzNYi6aKnHUT63p9rYAPzSXUB3gbPEYzEqYBZ7EIjIxtvu5SOTvJ1QgryA9xtxka7xx8TdvOid+UWjJWTeTojEshDg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YydLqFCkcq3QVXvsszioiWQEtTTDMxy5ZZrCFnW4Ns8uTx/8ibI
+	Alz1hLzWz95eCEaYfLx7zug9nMc2C7AAOOAhELuTS4V/I7zINF9kHxoIbLUv/lfZ4VTcJJMnOMq
+	/siNE3lhNUXmYPJHWbX3zzRDno0JEp8s=
+X-Gm-Gg: ASbGncsSTPmwaEf+oWIItwdi3JMK5Cm7HqzxJAo2LS76+27c9sqjncr0iCQZenjWKU+
+	XZU05N7VpahTve8z/TXXiy49ORzd8KmSW/AQfG48rA+EXTSOmVlXrYknFrd3abBqy6amkgfmE5x
+	GXeYZhP33DnSC7DBueW2MIcAMEK8uGztbLdwdJTUh6MbnBK/NsMuQUj1EpsSGMcQnN68lp8yZoi
+	isWbKmo
+X-Google-Smtp-Source: AGHT+IGpZ1p6KnGy9noX018eYoSIQZ7nbMhop24dOULZsTAevFcYoUJSfW6pitPb5UB0Nbo/Dw2gvFvXCh80lYOFdfg=
+X-Received: by 2002:a05:6871:cca0:b0:2fc:2b74:7b79 with SMTP id
+ 586e51a60fabf-30701ef8394mr9974973fac.20.1753800281088; Tue, 29 Jul 2025
+ 07:44:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Suchit Karunakaran <suchitkarunakaran@gmail.com>,
- linux-kernel-mentees@lists.linux.dev, Andy Whitcroft <apw@canonical.com>,
- Dwaipayan Ray <dwaipayanray1@gmail.com>, Joe Perches <joe@perches.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
 References: <20250727125044.101779-1-suchitkarunakaran@gmail.com>
-Subject: Re: [PATCH v2] checkpatch: suppress strscpy warnings for userspace
- tools
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250727125044.101779-1-suchitkarunakaran@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:STqGquKOFdB+qNZApJMXTkk6cyXlIH7JMiNrlTOpCBJ/0S2YMLs
- WjOcaGT4bSfgVoFbZ2E4af+a3eaFCxeL5HFWbLqE20NkNpokVCWoNdSaVZCQwDUGXq3OkqE
- rgZS9PGp4k2JSTvSpkhIKhhyoO+mf5QQsHUBiIH8YUJX/PL9KDNVSN+X75J7chONQDYmge7
- dy8oYZe5k+5l1vzVxO24g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:I0B5X8vIuRE=;lwMYvdrIKoBNVftRop+yrayztIs
- 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
- ORDfYjfrqEEG4wyzzbp8PSCCzmkOxAYA=
+ <61958a3cca40fc9a42b951c68c75f138cab9212e.camel@perches.com>
+ <CAO9wTFhCb7gDEo+q2SAZcn2KdUyVe-fG1E4bR_+US9k2J9DOnw@mail.gmail.com> <2a2bb7879e22208205fbb8f9bc56fb3c882bc307.camel@perches.com>
+In-Reply-To: <2a2bb7879e22208205fbb8f9bc56fb3c882bc307.camel@perches.com>
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Date: Tue, 29 Jul 2025 20:14:30 +0530
+X-Gm-Features: Ac12FXy3fK67xSnSanQZzpriiQ5R6tCVBHHq-_iW5iFbtcF2Hd5yuVnENBkTDco
+Message-ID: <CAO9wTFjd3MfL1yPTbcPp8_oKtQwNiMHCiZs8Y9oha7m8g8BiUQ@mail.gmail.com>
+Subject: Re: [PATCH v2] checkpatch: suppress strscpy warnings for userspace tools
+To: Joe Perches <joe@perches.com>
+Cc: apw@canonical.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-=E2=80=A6
-> This patch suppresses =E2=80=A6
+On Tue, 29 Jul 2025 at 19:14, Joe Perches <joe@perches.com> wrote:
+>
+> On Tue, 2025-07-29 at 17:15 +0530, Suchit Karunakaran wrote:
+> > On Tue, 29 Jul 2025 at 15:54, Joe Perches <joe@perches.com> wrote:
+> > >
+> > > On Sun, 2025-07-27 at 18:20 +0530, Suchit Karunakaran wrote:
+> > > > The checkpatch.pl script currently warns against the use of strcpy,
+> > > > strlcpy, and strncpy, recommending strscpy as a safer alternative.
+> > > > However, these warnings are also triggered for code under tools/ and
+> > > > scripts/, which are userspace utilities where strscpy is not available.
+> > > > This patch suppresses these warnings for files in tools/ and scripts/.
+> > > >
+> > > > Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+> > > >
+> > > > Changes since v1:
+> > > > - Create is_userspace function to check if the file is in userspace
+> > > >   directories
+> > >
+> > > the changelog bit should go below the --- line
+> > >
+> > > > ---
+> > >
+> > > This
+> >
+> > Sorry I will change it in the next version.
+> >
+> > > >  scripts/checkpatch.pl | 10 +++++++---
+> > > >  1 file changed, 7 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > > []
+> > > > @@ -7019,20 +7019,24 @@ sub process {
+> > > >  #                    }
+> > > >  #            }
+> > > >
+> > > > +        sub is_userspace {
+> > > > +            my ($file) = @_;
+> > > > +            return ($file =~ m@\btools/@ || $file =~ m@\bscripts/@);
+> > >
+> > > All other sub uses start in without indentation.
+> > > Please move this next to other sub blocks.
+> > >
+> >
+> > Yup will do it.
+> >
+> > > Please do a git ls-files -- '*tools/' and see if too many other
+> > > files are matched, especially the Documentation/ ones.
+> > >
+> >
+> > I didn't quite understand this. Could you please elaborate?
+>
+> The search pattern m@\btools/@ matches files other than the
+> first level tools/ directory.
+>
+> It also matches Documentation/tools/
+>
+> Perhaps using m@^tools/@ to match only the first level tools
+> and change $file to $realfile to make it clear it's not
+> a/tools or b/tools like the diff filenames.
+>
 
-See also:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.16#n94
-
-Regards,
-Markus
+Apologies, I missed that part. Will fix it in the next version. Thanks!
