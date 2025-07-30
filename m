@@ -1,73 +1,76 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBDD21C17D
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Jul 2025 20:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E6C218AC1
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Jul 2025 20:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753906745; cv=none; b=qyWnScBGh9T7Ss8za6q44qK9u4GSVR8USCgltsachMnZC3QYqDr0pmINVEyK1dGkXTw2faI4dTeZXva1MLPKwZwfVpZ0eFq4/SIlkzZOafKgYDPX7yty7x2CVyzFavNoLJoDEezfL0XZahEWzBrzfLe3NJI9Bv7SVu8YRFGvtOo=
+	t=1753907284; cv=none; b=beFOKC2gNVZn3uAbLwqiIizutHOCIuaPbtCsbOlMol2G5AkozjAz1mP+HmpFitqDeldmyft+mujQdAx3TZqn6zPta/C9a36W+nonMcuTJR69zxhCnOLUxCxTcn2TYtj4G3rhdOJ29cmiBJaFw6F9nMymwRwLzcuRt/wToZ0/rFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753906745; c=relaxed/simple;
-	bh=aB7CBF9ndAPvB+Xnx16s4jRkTWA4duLFe047G2Mi1b8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fDtcn7KcBAsplqoOGruXh2GYahyfwN3fdQJ6Eu3N2wKv5cKPjGduB6aEoqPiqInOX8BbWN/ftBRUNYla91vXJuFdro1kh1NLnF2/IINd3lLOiPQxxwTUVhfSBq2qfssZ8O6/ZxFZ4ucy7x9y6DI4DH7ZLudYtF+JZW3iMhRAtI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iSj2g+X+; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1753907284; c=relaxed/simple;
+	bh=Q6LIZ9VfDbEASLk+68Jb8+v6eC5UQlBlmh88PSjJ81I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Cz2aMOgTxjR3BRAhKzT3NtyfMI1vpojSFNt52J3QGLTQan5kaNVKtgNBBmskj4HoOfTcbXoTqiSZ8O76oPi4HuV2/Lw+NDasHoYQ8IhoEXJgcFQDdpsad5Exu/bw2KbkOM0plHJBpW1bCn4i7BudC/haDsn5+ybri5cECjKH+LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LoWMHdXN; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iSj2g+X+"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-748d982e97cso190321b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Jul 2025 13:19:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LoWMHdXN"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-76bc68cc9e4so232379b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Jul 2025 13:28:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753906743; x=1754511543; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1753907282; x=1754512082; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AlO42ltRQH4KQlJYhZ6wjecii6JSbxSUwJocNSNqQQo=;
-        b=iSj2g+X+QKYbRj16PuB2lsam5gvEU0NHGtdMxMAonN6oqOy/O9nX8B/x6Z149CP005
-         AQNXxLt096tfmLrMuYoXH44CWqkpFnaBDh/h5DkZAepNxfXCSM+YinpKI6JG7uSJAGrk
-         enSR6oiCei1m7dJbIJQ1Yr3XkeeMBQD4DLwThFNPUA/9Kk2ib1YZYOrJwnL5X/+Hant6
-         cbYfWSQyUyVBmrJvwZj1SFXWE2Q5Wk/hBIpPb58xAXwSMyT0A9JsazW4kNjeVESg7n/w
-         q1E7WM8DfOyZuccanKO7F+IDVjDmzWjtrCWBV5SrEiRN/Jy/HqI/dGC9K1udxQ2iCXII
-         0gzg==
+        bh=ZgDycgduAUnq/4+6cJh6R3cHxik209mhVrzWhFm9578=;
+        b=LoWMHdXNMGZoTygp3mXOT0qzxl8Be3277MyGxgIIO1cEUzQ7g6So9yGJCVhY3Xbfuj
+         jatf8eHA81yqJzZldDmxuQO/PY/hhZpCEhzwYtjJXwpLQt78w/cNnqlf1mb17yAd5F3a
+         yWmYZT6MeWXjYqIq0w+6xRGD+1VRV+6ztXD9X9nqvu6I6yETaBNxrDcdsoOe0LwWN7bE
+         b6QpiKu2YIzCTP89zfffP2FMqTk57fu20UJpi0Xkh/34APHnGO3bz4Z+/LA3GhR5wWrD
+         iM641DOXk26f+8anjFJVa1ePMEONxxLq57cVhl+Iflq32WbvOt+ARlp9r3tx6o/6Aifv
+         /Lrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753906743; x=1754511543;
+        d=1e100.net; s=20230601; t=1753907282; x=1754512082;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AlO42ltRQH4KQlJYhZ6wjecii6JSbxSUwJocNSNqQQo=;
-        b=sH+eU4eOzskNJf9yAqA/EesywGgFwDtN+SY6tYUm7PqNlAG0tZz5UbD6iY8KLOp+/6
-         rzBT+QELXuFs0LMPQwvUR6+HoC2NMXMyZpMcpaY0q1MMqaUjWWa2cBOutxSIZjPNZvmT
-         wlPgIEsLADvEk0RunklUh2uIcRo9Gad3DM6ReiMaJdPdrrG3tV+lOm23SQHkEGvAfP80
-         IYfY8EgnHnJDzDrig7Z89DSCiXR+wbl3tpkbTVHwenilEizrlyE4fINXdNuGybESHfBB
-         vUubWJIuT9L00JrWgEvhgNBHeFWL3+zZ48GVvNy+ayyVLs9BEF4G0dw63eyqjATk/mbQ
-         6LQw==
-X-Forwarded-Encrypted: i=1; AJvYcCWn22OJEwuqa+3EBxaHpILJU2EnW000lgcFkbBcO9KcBZYZmorj1p6bvT37fFy3+8K6JVS3b9j/rIBO1ehehEtqT/w5/A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSeylRfyTnWrQjZsorhjQfgNSZGovzptxdcV+TAwgZ5a8xdIA8
-	AHYlmLp8N05XDIWKZn5/HcifTjO2NC+F8rg8jCH36djpus16bxXFsZ30
-X-Gm-Gg: ASbGnctq17x24z070xvmW5zFDd0Ek2esQCRsUHXZBQJqAk6BIYsCHdKSVYudbIx2EVC
-	85pQPNsg4pcx8gGmcCrL6GXooBYx0R+MLZmCwHqImFDjQlwPZIaLmNWBjj5N+YFD3n8Vs3ngkn4
-	NK0Sz2Clu+8T9uH//0nhaJbucTBkS1UetV7ogRNA7C7QfvRSZI1wfDwRuDzgpL7igXvm57Ts3IV
-	ZTKUr/3Bi2OjODATjbx1ac9jb76FDxAlLMNb/7jkjrPv0K/F5jn0vnHlPa3x6D/xjJNohRGrOTL
-	j+HHZOR9It2Szirb1UnY//5ZFkCzivE46ekbjNcG9ilqq9zIqAqaKi6xorMNjaHA6O5gZlgVoVP
-	G3N8fs2QBKiptui0Vp4w/SLjuvDfGhDC6o4urc3u3
-X-Google-Smtp-Source: AGHT+IHBG5gx5IHA8gfp0MfSUg4wj7EQYZ7A9K2oxxf6n/sZ+QJuN2mQffF7BmQWYJnYW6g8lKCcfQ==
-X-Received: by 2002:a17:902:e848:b0:240:3915:99d6 with SMTP id d9443c01a7336-24096b236bamr65250465ad.33.1753906743191;
-        Wed, 30 Jul 2025 13:19:03 -0700 (PDT)
+        bh=ZgDycgduAUnq/4+6cJh6R3cHxik209mhVrzWhFm9578=;
+        b=BZsBVkfayP1FaXbhyb3SlGFBhiUN5uL7Mbw3adhqC1tGBDo/AF56V+a/axVr33cLCe
+         4Q3Tkfbab200xR0X2rGK+yjfW4swZY4TIccmJR9wPUlLwQC5NsduIzUOS0zlsHypxsaV
+         9Pe9DkNjN+l/U1Mp5R+OW+c+GOJA1JCbiDoTe5DkegxbKW0q3qo/v64MzcyAf84Ir+BQ
+         Tx9ojX35F2uljrH9vdSntqLHUjoxMxefeld7BrsdvWWaOYKZ55715REciP9PBZh8hBh3
+         g+Oo37sk9lYOK+4Wn7x4i/llNV/hXsMk+imJt+NROQo84S5BM1+EAjwrXiNU59Iqzj4I
+         Sbmw==
+X-Forwarded-Encrypted: i=1; AJvYcCWcfgf+APPMHOeIgW/DnBoshYcveFt7Yi9KTHLil3VqerMHorjPzxvGChTbNR1ZmHLfdVVjtzhQIPVZHqB67wlY+XVdpQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyyb9xT2WO4/wMu3ydmHu+5qxEVTfh/BChiGiDWrfRSLt+n535A
+	NHy6L+2ADm1GZCXdTkrgNSoiGohnfky2L/2MzWvJ+3+XbW2qhuA2/fju
+X-Gm-Gg: ASbGncskq+OMQpbb+B8/sOpWscfxc7VXMLu0trLYfPp/4C81zZByIRG5MIMzIEnCTGK
+	hLSfExZiYUdGTCBMCrVG9JGLfYXSzR343g68hi9z5v4UMAqKYHGxKOqoJkeI66vjkNdcgoMlxWV
+	m4IZL7EjvBhHw5ehwJTmmDbaOSxG/Ra9vKff7cRRk/KITORISUUdbGNermxBtAGRJVFZD9HFPwE
+	ch7uD4aW0KvlipqV7IV5El92Y/D8uPZgZYE9MRUbPlQES/E6qO9gZmhHSfBgGp1YAnPG5AGjJ8A
+	q7lKCYcLZRQu/szLXqQul2MIBY414odkCtRQVeuYQ772HdQ0SaPzgPbj/HLGQXplNlT+WyX/khq
+	9YEXd+MA8vp1EAHGCsy6PAcCjYPQ3fChzEcgt1SHg
+X-Google-Smtp-Source: AGHT+IGLjgh/EtllwpcMQugZfIpJCA620ysg4LhMRyO7EP5nKjIvcOaz4ACdWsWsKJ6bRdSt2resVw==
+X-Received: by 2002:a05:6a00:a06:b0:730:9946:5973 with SMTP id d2e1a72fcca58-76ab0924273mr7083720b3a.5.1753907281917;
+        Wed, 30 Jul 2025 13:28:01 -0700 (PDT)
 Received: from crl-3.node2.local ([125.63.65.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24009b8661fsm85484925ad.126.2025.07.30.13.19.00
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bc5d321c5sm812199b3a.113.2025.07.30.13.27.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Jul 2025 13:19:02 -0700 (PDT)
+        Wed, 30 Jul 2025 13:28:01 -0700 (PDT)
 From: Kriish Sharma <kriish.sharma2006@gmail.com>
 To: skhan@linuxfoundation.org,
-	linux-fsdevel@vger.kernel.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz
-Cc: linux-kernel@vger.kernel.org,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au
+Cc: linuxppc-dev@lists.ozlabs.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	christophe.leroy@csgroup.eu,
+	npiggin@gmail.com,
 	linux-kernel-mentees@lists.linux.dev,
 	Kriish Sharma <kriish.sharma2006@gmail.com>
-Subject: [PATCH] fs: document 'name' parameter for name_contains_dotdot()
-Date: Wed, 30 Jul 2025 20:18:53 +0000
-Message-Id: <20250730201853.8436-1-kriish.sharma2006@gmail.com>
+Subject: [PATCH] docs/powerpc: add htm.rst to toctree to fix warning
+Date: Wed, 30 Jul 2025 20:27:52 +0000
+Message-Id: <20250730202752.8508-1-kriish.sharma2006@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -77,29 +80,29 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The kernel-doc for name_contains_dotdot() was missing the @name
-parameter description, leading to a warning during make htmldocs.
+The htm.rst file was not included in any toctree, leading to a Sphinx
+warning when building documentation.
 
-Add the missing documentation to resolve this warning.
+Include it in Documentation/arch/powerpc/index.rst to fix the warning.
 
 Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
 ---
- include/linux/fs.h | 2 +-
+ Documentation/arch/powerpc/index.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 2ec4807d4ea8..d7d311b99438 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -3279,7 +3279,7 @@ static inline bool is_dot_dotdot(const char *name, size_t len)
+diff --git a/Documentation/arch/powerpc/index.rst b/Documentation/arch/powerpc/index.rst
+index 0560cbae5fa1..ae0280383315 100644
+--- a/Documentation/arch/powerpc/index.rst
++++ b/Documentation/arch/powerpc/index.rst
+@@ -36,7 +36,7 @@ powerpc
+     vas-api
+     vcpudispatch_stats
+     vmemmap_dedup
+-
++    htm
+     features
  
- /**
-  * name_contains_dotdot - check if a file name contains ".." path components
-- *
-+ * @name: File path string to check
-  * Search for ".." surrounded by either '/' or start/end of string.
-  */
- static inline bool name_contains_dotdot(const char *name)
+ .. only::  subproject and html
 -- 
 2.34.1
 
