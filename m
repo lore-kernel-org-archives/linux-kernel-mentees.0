@@ -1,106 +1,131 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B511A26B
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Jul 2025 00:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822C31624F7
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Jul 2025 04:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753834521; cv=none; b=JEbUXQ1BUFSuw30lP2E3C11afuUhcLZWcHl0QtQ+s89l3znxnLsR3A3D51TC9GlUHRKhbI8D0lPWwOK4yWtStMkAHcaCpeAnxr3txBqdUJdO4sXaKZCX8D1rUgM9WLMBi1o62XbbHN5TtApgZiWJwqQDMZ/eJHy0gH0DQOSQ+b8=
+	t=1753849589; cv=none; b=JPUsEJXZvn5N44DanCqkPzFV/28A23Xu3YikMTSLFyA4ApTVPQwh822F2BQWt/nFjwHcEdfNNa8d1a4xge9ggKL/M4PWFZEbYPeb5BBPsETEa9wvexqS0a+o5VXAA8iSfdaMUWSD4qK0bARVbLqdLcblqwtj4yp4HpfCQDi7e4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753834521; c=relaxed/simple;
-	bh=B7mZ4nEVKbGQGNfr6ook2ZXrLnFiuRpQgXmMMoue3C0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=R/wTpXlDcKAdSLdgqXiHcrXScJD6S0w1tySCH62+QgJNqE7acj17jP9eMtqCs9k11vCXEe7a0cQkINlZ3ZppkODvPgewRbVNGcGINOEFsORXFAVBKsiMXWJOXIG5TvkUmUlAhaoNfk8j+xpT4q7I0ddf2vj75plavFpDtTZBmTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=Kzt96u5B; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1753849589; c=relaxed/simple;
+	bh=//VizQTrkMZKkTiVcA5DAPQBw4oGz3v0bgb0dgqHP/g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jLYUExNA0HvFiDzDATMV82sMyezfbfPxuj6V8eWWRuyEtTBHZdN4gCWRM7lgdQrsNXXzeNwuxEaVck1hd1l8OWT8YiPr5Kl2kF/1850h+f0lbVCR8SDYFsdinucelUBHNce6MvwzswV+dsrNCXRTWSlUUvsWEwXUX4MjMNVvUnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CaaPigul; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="Kzt96u5B"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-24009eeb2a7so27274135ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 17:15:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CaaPigul"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b3bad2f99f5so496097a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 21:26:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1753834519; x=1754439319; darn=lists.linux.dev;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B7mZ4nEVKbGQGNfr6ook2ZXrLnFiuRpQgXmMMoue3C0=;
-        b=Kzt96u5BDBPJmW6vXtBQA2ZUWv0YKE+m3fdyCHYhgckUefnUQS3H+x7O6rieUkP3AQ
-         goHqKY9i3PQDtgeglXXv1bPcw+l4g/RdLC7hW2wtpkQ1uZODBXdzJI9vk5e1P6reUutb
-         extajjceU3qXmGsc0DeZAJnqdOy7zPknfoYby+9yR7G9YtQJ5+vltteKtbizr5SmCZjV
-         NYe4VcffalBWVNeNeY8a4KTjp9FAq209fbpFhA6qDtTwH5AQGKZkVCOP0WlunsST1LAT
-         aCUEaWdGPtwEM8vACKBTN1GlouQwJTMizaxJCumBbBD8ZENON889BuJlnKsENzoJshvT
-         hOag==
+        d=gmail.com; s=20230601; t=1753849587; x=1754454387; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q2V9USrBXsSBMCZmUVcYrTmHrRQnQ4b5hPFo+KGIp4o=;
+        b=CaaPigulOsw4F8ujeRU36nLV4zT/CK3HuNoHP6LJ6b50ZIZPBukQMvs2X3HYZINk6b
+         c5Um8S7qstbDPD4zASchNUJARM4Ven2DV5Tgs4xHra5POAV1HSPImlicTp+zwEh03yWd
+         StwKocFvu29qxSVvvuodsuEqDKltT4ee5Epd0LkfbE0wEcDdsLoiew+PK/7hm5+wIowZ
+         xoAprRXSEpsO/qeJpMTly8fBdzzTiANNAeGfsJ91wyfsP97FPi4sq1ymHFLkfZ+aVPMl
+         kinUQPNKxipxmj2LXdSEYEcjhz8QoN5A9PreIfFcCZU6/tuI11xXvIjNSyaFJUUDAYv/
+         OWwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753834519; x=1754439319;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=B7mZ4nEVKbGQGNfr6ook2ZXrLnFiuRpQgXmMMoue3C0=;
-        b=oPioK0ooHETF+0Smn3fGNuNO8X576f2NBeezmslL/kai1Jd4Me8WTSBbz9Dt9mWQEJ
-         zwrxNHXwyRSpT9GCFbWDeHcjTdiq18UxXo6Sccn6DTDfXqUhBP4SuQL/VJPxNvwtMuo4
-         JpAjiittDpZSyZCD6AXEHmKfABJryP2ViixTjJZr1qCt1FCb3LrEEgAkdW+6UimDRGyt
-         oVygffECNcaYehK1B69HRSshlDZQUkHBBxBS5mWYQNrJtqM/PPegYd2XK29kQvHRFQNB
-         JCQg5KfLk7XCRkZcp6wl17dq7q1Klmd6MtwK0sNjkYjIivBLlZXWQBA07W5NOYnuYUyy
-         9R6w==
-X-Forwarded-Encrypted: i=1; AJvYcCVIiaoui4p863tnetHE8AEFQGk3/rC5QzD8nDKJxDFz6Nn8L0VXuopZVIQK8tOSpBKKlJW5Pbzomhcmrky5CSD0tUQsnQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzoebpXBqV//LXzD0qniJVmZc+DteWIKMwBZyI/Xl61ih2wfYP8
-	mN2HrhCYcks9JLcPbus7Tz2MuN6/5k5RLL9GuwaZxSlxbR2jQnkp44rOxjdyFPDkmG4=
-X-Gm-Gg: ASbGncvCVaUZoopwVTioF9KyXjQJnwLz06TScTc+3lE9ZbeU4Kr+0YDh/C4FXSQi7YG
-	sCiCcyPVhDdXHRe0+7Hs8ped7wH7vADMNvze/C8KaOba9U86MO+VGnv0jjgOuj4h14KJwXwQK7M
-	03XMdBeW6s9rJMQtrob5DEIc2x9DzmjwR6QBmi0cLyKTJuL6Y2ukbayU2qfLMsN3IJuEsO+HIW9
-	PuBUIpDX/FI0mNFzoNHY4PErGMnDAOxzXXTJ+F3SGjUtQKmAcJ18uaW2SQtJR992aWwfMxUi3cU
-	At5eNtqScFa0JSJ6L2WrFi11GhRGyUnfFZ6KdTAZCI25vzrZMwIYWX6V0iDIG1kuI2DVwQ5xij5
-	3YTU3ZVOj6Xncd29E9lY=
-X-Google-Smtp-Source: AGHT+IFtzt5MEl0tZciB3F8o6Fc5SKFZqY4YzGuLSUPsSrha4wOb+FYTYjRMuNTxbhYmOUlCfsVqRQ==
-X-Received: by 2002:a17:903:3b8b:b0:23f:cf96:3071 with SMTP id d9443c01a7336-24096b48bfcmr17839525ad.49.1753834519151;
-        Tue, 29 Jul 2025 17:15:19 -0700 (PDT)
-Received: from localhost ([64.71.154.6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23ff7044135sm69618295ad.71.2025.07.29.17.15.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Jul 2025 17:15:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753849587; x=1754454387;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=q2V9USrBXsSBMCZmUVcYrTmHrRQnQ4b5hPFo+KGIp4o=;
+        b=sFWMhU/uvCoKWAbWf7TMHQMvxVpEOGXdF7C1nzl1LX9G11IMPW/OV4D3mV9gqSL2wq
+         IMS3WFgOTx+qO61goCWlZVP2lEocgbil5Kdtz+fkAbsDXa+oTG7wcxTJj1Z+8n6BwwRr
+         NKPjQj6ZAt6aqb8bulzRtU/TU3zI++Plw5YZ8ukpQ0vJ2c/1mJX/I7X84t4fBGfcvMq7
+         Bj9/Hsrv/WvqbUPzNfQQ53iouBY2y2cV1YT1HPHa2pDA7GAyVHeb3aXyGsWR/YJHeqRJ
+         wklXRiCJ6/J5aP/A0DuqiQcznENjBI6reS0my1LScA3BADalnoIC4no1fqgiGO6gGTIU
+         T/Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCVKZ8TarQqh+JhRz1+TE0JuAR5SSBYzi6REZazeqgD81dWzrUfUDgjJgBJV7yRyJt1feeE8g8ZfEGb9hRkzydBS2JTqfQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxnTjkmxZ3VFXIRp9n3XWbCjT7rm8yN5MjwUJg2mfbH1SeZZFD5
+	SH2E9sro1NQzEITj2J6aGEhW7B9xNKlKn6q/HM3gbw1s9/di5bXaYJq2xXlnrLwXtdyUww==
+X-Gm-Gg: ASbGncvgS9+jJvF+CR0V7cCNnXJQKOcvNN+WzCXK2QLLpEJe7S+iKJGjJdVGY3ZtoSy
+	V5JQEcghGIyttu8PIpl725jVyKm2hiiF3IU81HCao59A18hGebK0L486uAh6D1yB+vXzfKW1/6c
+	QEaGIqjD6JryBV4U2FUWDyw/usg3smkKp1HsERq1r8lN1CRQ09cGhq2SDNvlwzJ+ZU39lGH+aA7
+	rbaDBTaVdES8TFlLummdohLPCB8xcINdtDjYcVRyOPf89fOoCmiuU7JXc5EWrJy2lxd+OfsSTT7
+	KVe5YHyvO5pXAQGV106E8b2QLLk9LIME5hdFazy3G+psqwcatmmx5E8mPLJI0QV3fBlwacQx4A+
+	umo/hyBfAW07qK4fTssfA0ylWOr1A9A==
+X-Google-Smtp-Source: AGHT+IGuv6wRtmjN8iZHw6frGooIYv84EAacrIywVuTREWybq2JpFF/vHKdmzkeZcnWiVJkvvOmwEA==
+X-Received: by 2002:a17:902:f544:b0:234:986c:66cf with SMTP id d9443c01a7336-24096884323mr31485585ad.16.1753849587064;
+        Tue, 29 Jul 2025 21:26:27 -0700 (PDT)
+Received: from archlinux ([38.188.108.234])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24058bbb554sm38795635ad.50.2025.07.29.21.26.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Jul 2025 21:26:26 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	darwi@linutronix.de,
+	sohil.mehta@intel.com,
+	peterz@infradead.org,
+	ravi.bangoria@amd.com
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] x86/cpu/intel: Fix the constant_tsc model check for Pentium 4s
+Date: Wed, 30 Jul 2025 09:56:17 +0530
+Message-ID: <20250730042617.5620-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 29 Jul 2025 18:15:17 -0600
-Message-Id: <DBOYG6B6WLDT.Z096YHZGRXDS@brighamcampbell.com>
-From: "Brigham Campbell" <me@brighamcampbell.com>
-To: "Doug Anderson" <dianders@chromium.org>
-Cc: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <linus.walleij@linaro.org>, <neil.armstrong@linaro.org>,
- <jessica.zhang@oss.qualcomm.com>, <sam@ravnborg.org>,
- <skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/3] drm: Add MIPI support function and macros
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250729054435.1209156-1-me@brighamcampbell.com>
- <20250729054435.1209156-3-me@brighamcampbell.com>
- <CAD=FV=VLoMenu22F_VeoHyfXwRO7JfXL8peQLEpkqeZ1tDOmEQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=VLoMenu22F_VeoHyfXwRO7JfXL8peQLEpkqeZ1tDOmEQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue Jul 29, 2025 at 3:34 PM MDT, Doug Anderson wrote:
->> +/**
->> + * mipi_dsi_generic_write_var_seq_multi - transmit non-static data usin=
-g a
->> + * generic write packet
->
-> nit: "non-constant", not "non-static"
->
-> From the caller's point of view the difference is that the data is
-> compile-time constant in one case and not compile-time constant in the
-> other case. It happens that means you can _store_ it in a "static
-> const" in one case and not in the other case, but that doesn't make
-> the parameters "static".
+The logic to synthesize constant_tsc for Pentium 4s (Family 15) is
+wrong. Since INTEL_P4_PRESCOTT is numerically greater than
+INTEL_P4_WILLAMETTE, the logic always results in false and never sets
+X86_FEATURE_CONSTANT_TSC for any Pentium 4 model.
+The error was introduced while replacing the x86_model check with a VFM
+one. The original check was as follows:
+        if ((c->x86 == 0xf && c->x86_model >= 0x03) ||
+                (c->x86 == 0x6 && c->x86_model >= 0x0e))
+                set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
 
-Good point. The storage class is an important implementation detail
-within drm_mipi_dsi.h, but just that from the perspective of a panel
-driver author: an implementation detail. I'll go ahead and address this
-and other feedback in v3.
+Fix the logic to cover all Pentium 4 models from Prescott (model 3) to
+Cedarmill (model 6) which is the last model released in Family 15.
 
-Thanks,
-Brigham
+Fixes: fadb6f569b10 ("x86/cpu/intel: Limit the non-architectural constant_tsc model checks")
+
+Cc: <stable@vger.kernel.org> # v6.15
+
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+
+---
+
+Changes since v2:
+- Improve commit message
+
+Changes since v1:
+- Fix incorrect logic
+
+ arch/x86/kernel/cpu/intel.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
+index 076eaa41b8c8..6f5bd5dbc249 100644
+--- a/arch/x86/kernel/cpu/intel.c
++++ b/arch/x86/kernel/cpu/intel.c
+@@ -262,7 +262,7 @@ static void early_init_intel(struct cpuinfo_x86 *c)
+ 	if (c->x86_power & (1 << 8)) {
+ 		set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
+ 		set_cpu_cap(c, X86_FEATURE_NONSTOP_TSC);
+-	} else if ((c->x86_vfm >= INTEL_P4_PRESCOTT && c->x86_vfm <= INTEL_P4_WILLAMETTE) ||
++	} else if ((c->x86_vfm >=  INTEL_P4_PRESCOTT && c->x86_vfm <= INTEL_P4_CEDARMILL) ||
+ 		   (c->x86_vfm >= INTEL_CORE_YONAH  && c->x86_vfm <= INTEL_IVYBRIDGE)) {
+ 		set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
+ 	}
+-- 
+2.50.1
+
