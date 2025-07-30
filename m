@@ -1,399 +1,133 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5D61F4C92
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Jul 2025 06:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21C91DED53
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Jul 2025 06:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753856282; cv=none; b=KyjO9hDiPDpGE9gvmVegPPFiNYLAzXGKQpzmL3gPyCbHmv+6eQ9x56nZzlYUHAJrs7ISYzJ+YOuGyCgZeY6Yslcui/i6ROa/SQbmHQ8uv1gNnfkrz6Gd2xG59J6QJpWACInsCyp/M6zv1IYVYkDyv83nc6Fnh96roAk+jFX+fl8=
+	t=1753856519; cv=none; b=XWOIy0jeKj/4SNBHPoZtaccDkrlvKyFAiW/dALSJZHdopUHwBXDEStVDkUNlq3Gz20OdQph6acRMYiuKoS6/bPDjo7Wj6yf7DfObVemCLhNHVc11Kv5P9EyGHIb59O5b8OcJVNkwlJn0sZeSFYCo/mm9iguJ0XEBbDR/+mJjiDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753856282; c=relaxed/simple;
-	bh=min3RkzhSY2+BuE9oVHC3RQH8qtFhVDcXi4weEpISO4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=otE582rSir21ULQa+guS6d05jEwdOAMe6iq8QkirJHJMW8DOMKQe5T3sDz+xNuI5/VUCcZ1c0iFrRbQtVl/RV/5lGr3C6wpfWGqB5eS4eEF4SW3lpsyPtfU9Yt/CWB3+wy5pmGzPIdy10ou4MI1Ms5Y6YPcmgTaIrrdvnRLPvVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=PDzDsJDM; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1753856519; c=relaxed/simple;
+	bh=JNZ6D3nGRFd1xsk3HwOPijD+rO+P2HFJjzPwNSl5yOg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d+f4kFy4kr4O+QmCyE3RAuk0UyZGBiIVIMruiH+iFoX4bEMeB2irOkNE2AJ7YepTsqp+GGluVXQzjmpH4n5aVUkdRXDFJiZnA965QqnlY9ptWZoiA9r8Ci7djPUTKiex1yp6Ukpo8NKcXdxGdx1tWSooH7MK6LlM+D0zLwstZaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nKcmjmVX; arc=none smtp.client-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="PDzDsJDM"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-24022261323so6223875ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 23:18:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKcmjmVX"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-615a4b504b2so1058110eaf.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Jul 2025 23:21:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1753856279; x=1754461079; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PR4erbh6ZgobZPCbAljGsIGhNSgdyY2tm2UVINDkl1A=;
-        b=PDzDsJDMpI+gVUCROAfm0vQxChLTj5xRrjeQLayb0eIDqLWbqkH8KB/j4+zVVQvDVa
-         nhI1hubnk48goQ+mbD+vVI9oiAiAkpJapa1Qlsagvo6Yy8Hv7JCna/oLJyWAOTfBKFvp
-         Tp/HUnCwyuxxJc49vha0o8evG53NBxq2Ed8Uq4kt03p6IkoVaaZDcYqI0Gvvi89ldeNA
-         mROV27CeonxYdlIE2vn4etQBd8vCEVhLuX/NHxOECK84dDkqmluvEu+rpambVKX9ECF8
-         TFebVldEifuT8FnsclpKq1/VGsbspP1K8t0nzcLxUK8i62HB54Iz1007brLK2r8dXwxQ
-         +jWA==
+        d=gmail.com; s=20230601; t=1753856516; x=1754461316; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FBkTI/UCDoqQNlnpZlPe3NHTfCsdIAJow1MJiptYraY=;
+        b=nKcmjmVXEONch3+ohzrX7Yo2wZRvahAwIspjvQ1FxFapQ479SVqPCipaSuK5bxePvg
+         lY7t7fobAEv0UlVnWcgo/OF+dtgX2c//PZkFELIYFBZA3jOlKfwnsHLJvzhnEJFYIkQ9
+         bOLyWcYeH4t26hBkUOAR44WSm6mfUtYl6Pld4t8rkt3MtU5soV/5gqhRQvaL6a4Ul/fc
+         linZ8HT0wgOQNr7Y1vAIrnATEKA4grf8xv1UBXw8CEQyWJGQLWme4G1KUliXcAlDWujK
+         nQqUGiyzjyfrR3xTvrzr2yVPj0CJVCJWJ7qsE95iHVi4oqfUg/q23xKh/abHlwgNVcdQ
+         WgeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753856279; x=1754461079;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PR4erbh6ZgobZPCbAljGsIGhNSgdyY2tm2UVINDkl1A=;
-        b=cI1RtNxZORcj9lynX1MzqJkJV+nh3xn+EqHowdSwlLWU7OwuzQETO2DLW6f+O0eCOB
-         6+xzeybQSC047lKhJzhJa3A79GJDkrve83gCh8p3QIIRwqdMaJhiCs4Z0A4LeAGbRBW4
-         BvkO7bpooht44/uYm+fqMIur1JZ2YPO8p3HgtVSXJ3BJr+NEw0OL9FfyoMuIadej+Kcs
-         9peUVe5aAJ5UHb7j6Oi6kaxJneqYXfNafv2At/KSVSUKVLP1Sx1NBa8dAbs5obDd0DS1
-         3Gc8RWdAHvWswOovTFSJsrdWGDfuXSiR29M7vX/u/WnvgrtTsAh3jSraqoxfiuWWIta8
-         yMFA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFhkmqvMtAli8u5VhQm1OXub0ahMJ3Bd6+HlAd1/OedD7PU+3qLyBDIn/OQDcX68kll6rFjB5iVIo3Ngurt51REk9lvQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQd5t/z5oDXHJxyMNHpnotiQs5gGn9Rmfk/DxT3i65q2e6wWOL
-	8UXGRptgODGituKCQUj4Pck1+IIQ4psT7weVwJRjEAJ8P7XFGTfUyK9IQdmTztadbJ0=
-X-Gm-Gg: ASbGncsWsEuU+NbEtZJ1gR1uFGw102e85y/Gshk9bbyecTuMHyklNZIv/YjfouOZRg8
-	fDK0dMLvB4v5jjSdiZU+L7gHUwVvJ8Se6Jl86DNUodX0O2xn0XTfld5VISRkqKQkMu3rJZXocn2
-	Tc1JmuRvlS5L2leg/FnM07PwL7S9GPiS4bWmfXi3Yoyi/BlrrILZoUDS3vutIbuTiqKNGBLM5N1
-	4ihxp6oOmT/+aIij+K4pzXiy5n9jYJYT54IxeezD2+2VZQbuz1b4PXfRIiY8Z8WcEEEax8Fbo6J
-	vvqM8VJVadAGJp6Kyvcr7n1DV42dQB+qr9tz9b/JimVjFKWs6JYQjwadArbQfVIWB9nGBByk6K+
-	hjqhoUBTRT2MofHd0mSZIfH7gzHMS2QDo9eE+fmE55el7HCXkyw==
-X-Google-Smtp-Source: AGHT+IGVpWVdI1JvsII9rcUCEpE1cDJVrBru18qi1g44qJSYL9UGrGYbIRyKJKQ8SZpLUGuKbX+kEA==
-X-Received: by 2002:a17:903:230d:b0:231:c3c1:babb with SMTP id d9443c01a7336-240968a0178mr31572865ad.18.1753856279535;
-        Tue, 29 Jul 2025 23:17:59 -0700 (PDT)
-Received: from mystery-machine.tail542cf.ts.net ([64.71.154.6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23ffa37f078sm75017815ad.115.2025.07.29.23.17.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Jul 2025 23:17:59 -0700 (PDT)
-From: Brigham Campbell <me@brighamcampbell.com>
-To: maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	linus.walleij@linaro.org,
-	neil.armstrong@linaro.org,
-	jessica.zhang@oss.qualcomm.com,
-	sam@ravnborg.org
-Cc: dianders@chromium.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH v3 3/3] drm/panel: novatek-nt35560: Clean up driver
-Date: Wed, 30 Jul 2025 00:17:48 -0600
-Message-ID: <20250730061748.1227643-4-me@brighamcampbell.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250730061748.1227643-1-me@brighamcampbell.com>
-References: <20250730061748.1227643-1-me@brighamcampbell.com>
+        d=1e100.net; s=20230601; t=1753856516; x=1754461316;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FBkTI/UCDoqQNlnpZlPe3NHTfCsdIAJow1MJiptYraY=;
+        b=H+VBTE23FuALbSmfbt9Df1jTb5MDLzMnVP2hC91b7Uh79cbmJP2tb9sxD6AdC2Ehlu
+         b/8YFY0KjDpxjtut2ECZOdZ+ADY5nWnSowg43bngKMtBm7MamaPQ+kaQwIziDcraA6J9
+         4AXIZbMupbjkVTjrrEWWjRw3jc7Q2R4jnX6hJBvx26vW2FzGZcR2VWlq3YQaYcJ0hLSO
+         n7tSQtAQJ4oxA2I19LZwGFUjnx2sYLc5X9qJyc4ozBEZBcB5IZEsVw8tw/9Nn/vUKfZS
+         InFFVgNrzneh75Tg8TX1SdchmVCYTrC8XqarKMVx43plM4kzVzQdWFeADWegQo3CgxSu
+         slLw==
+X-Forwarded-Encrypted: i=1; AJvYcCVF2XICGJSmAroWCygFhueC6L50X4zsgQzpZ0cfykYpjo5wvfoKAUASJ1dMzNoV31Gkwd7588Lh8gsSn6Y5bDynEnwhhg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YynADRQQ+Gb40iYIHQ1SmLrvWQbNF8T2+KLomgb4JRQ1tMMQ5mO
+	GrY9hz6kuHdAYrNqHVsparorL8ov0jHWYei4HmIftC3wynoBN43maJzaZVPFNlfAI+alcGqIXjW
+	0A9Fa7/dW9T3bH+nKeSMdZUFp+8tcx7c=
+X-Gm-Gg: ASbGnct6wdPVf2jBMVO0loPuvr2DLP20iNpl9Oc+Pb8Ya89+w1BLZg77Oi0xDoihgqh
+	2YxC6rVNIjZu0N+5A38npZ6yEWsjIL1p2jEPLfYlqvBqbYR69Wnib/alFoNWxHzI4VCj2cxaoGC
+	p4h4+biemg9+FavNCpqAeAOWKdXaSrLnzM3aehvcTmjG3agnE+NdqOFTEqxNs9BsrqFMgbbdzzq
+	jTCpkao+lcUcwA4um8wvfWYVTV9qw==
+X-Google-Smtp-Source: AGHT+IFhgRosSR72T+vNr0bx5hr3ciS38puiGjuj01JgbYBPEjB7f2hpeWkGLda67/RjHPy2kUR5TUoZLWCQGjWUJzc=
+X-Received: by 2002:a05:6820:210d:b0:619:64d1:8b8b with SMTP id
+ 006d021491bc7-61964d1a470mr358563eaf.1.1753856516508; Tue, 29 Jul 2025
+ 23:21:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250730042617.5620-1-suchitkarunakaran@gmail.com>
+ <2025073013-stimulus-snowdrift-d28c@gregkh> <CAO9wTFihpoVsf-SZYn6yUhCSuN9cBXFGWeGegDsS1QHk4wS7-Q@mail.gmail.com>
+ <2025073024-musky-smashing-812e@gregkh>
+In-Reply-To: <2025073024-musky-smashing-812e@gregkh>
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Date: Wed, 30 Jul 2025 11:51:44 +0530
+X-Gm-Features: Ac12FXyTmCZhlXPJ6VHRvUCE8qUeiyA07qunSM3G46ojasxIgFGJg8XhQqlKO9E
+Message-ID: <CAO9wTFiRCgFvyboh_K=HWYMtfgj3OGr=fcHFDkNBa9EHMyCtcQ@mail.gmail.com>
+Subject: Re: [PATCH v3] x86/cpu/intel: Fix the constant_tsc model check for
+ Pentium 4s
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, hpa@zytor.com, darwi@linutronix.de, 
+	sohil.mehta@intel.com, peterz@infradead.org, ravi.bangoria@amd.com, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Update driver to use the "multi" variants of MIPI functions which
-facilitate improved error handling and cleaner driver code.
+On Wed, 30 Jul 2025 at 11:25, Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Jul 30, 2025 at 11:05:31AM +0530, Suchit Karunakaran wrote:
+> > On Wed, 30 Jul 2025 at 10:22, Greg KH <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Wed, Jul 30, 2025 at 09:56:17AM +0530, Suchit Karunakaran wrote:
+> > > > The logic to synthesize constant_tsc for Pentium 4s (Family 15) is
+> > > > wrong. Since INTEL_P4_PRESCOTT is numerically greater than
+> > > > INTEL_P4_WILLAMETTE, the logic always results in false and never sets
+> > > > X86_FEATURE_CONSTANT_TSC for any Pentium 4 model.
+> > > > The error was introduced while replacing the x86_model check with a VFM
+> > > > one. The original check was as follows:
+> > > >         if ((c->x86 == 0xf && c->x86_model >= 0x03) ||
+> > > >                 (c->x86 == 0x6 && c->x86_model >= 0x0e))
+> > > >                 set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
+> > >
+> > > What do you mean by "original check"?  Before the change that caused
+> > > this, or what it should be?
+> > >
+> >
+> > Original check in this context refers to the change before the erroneous code.
+> >
+> > > > Fix the logic to cover all Pentium 4 models from Prescott (model 3) to
+> > > > Cedarmill (model 6) which is the last model released in Family 15.
+> > > >
+> > > > Fixes: fadb6f569b10 ("x86/cpu/intel: Limit the non-architectural constant_tsc model checks")
+> > > >
+> > > > Cc: <stable@vger.kernel.org> # v6.15
+> > > >
+> > > > Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+> > >
+> > > Nit, no blank lines beween all of those last lines.  Hint, look at all
+> > > of the patches on the mailing lists AND in the tree already, you have
+> > > hundreds of thousands of examples here of how to format things :)
+> > >
+> >
+> > Sorry about it. Should I send a new version of the patch removing the
+> > blank lines?
+>
+> That's up to the maintainer(s) of this subsystem, if they want to
+> manually edit the change or not.  As it's the middle of the merge
+> window, no one will probably be doing anything for another 2 weeks on it
+> anyway, so just relax and see what happens :)
+>
+> thanks,
+>
+> greg k-h
 
-Remove information from a comment which was made obsolete by commit
-994ea402c767 ("drm/panel: Rename Sony ACX424 to Novatek NT35560"), which
-determined that this driver supports the Novatek NT35560 panel
-controller.
+Hi Greg,
+Thank you for the clarification. I apologize for the mistakes and
+appreciate your patience in reviewing.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
----
- drivers/gpu/drm/panel/panel-novatek-nt35560.c | 198 ++++++------------
- 1 file changed, 60 insertions(+), 138 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35560.c b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-index 17898a29efe8..561e6643dcbb 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-@@ -148,24 +148,20 @@ static inline struct nt35560 *panel_to_nt35560(struct drm_panel *panel)
- static int nt35560_set_brightness(struct backlight_device *bl)
- {
- 	struct nt35560 *nt = bl_get_data(bl);
--	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
--	int period_ns = 1023;
-+	struct mipi_dsi_multi_context dsi_ctx = {
-+		.dsi = to_mipi_dsi_device(nt->dev)
-+	};
- 	int duty_ns = bl->props.brightness;
-+	int period_ns = 1023;
- 	u8 pwm_ratio;
- 	u8 pwm_div;
--	u8 par;
--	int ret;
- 
- 	if (backlight_is_blank(bl)) {
- 		/* Disable backlight */
--		par = 0x00;
--		ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY,
--					 &par, 1);
--		if (ret < 0) {
--			dev_err(nt->dev, "failed to disable display backlight (%d)\n", ret);
--			return ret;
--		}
--		return 0;
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx,
-+					     MIPI_DCS_WRITE_CONTROL_DISPLAY,
-+					     0x00);
-+		return dsi_ctx.accum_err;
- 	}
- 
- 	/* Calculate the PWM duty cycle in n/256's */
-@@ -176,12 +172,6 @@ static int nt35560_set_brightness(struct backlight_device *bl)
- 
- 	/* Set up PWM dutycycle ONE byte (differs from the standard) */
- 	dev_dbg(nt->dev, "calculated duty cycle %02x\n", pwm_ratio);
--	ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_SET_DISPLAY_BRIGHTNESS,
--				 &pwm_ratio, 1);
--	if (ret < 0) {
--		dev_err(nt->dev, "failed to set display PWM ratio (%d)\n", ret);
--		return ret;
--	}
- 
- 	/*
- 	 * Sequence to write PWMDIV:
-@@ -192,46 +182,23 @@ static int nt35560_set_brightness(struct backlight_device *bl)
- 	 *	0x22		PWMDIV
- 	 *	0x7F		0xAA   CMD2 page 1 lock
- 	 */
--	par = 0xaa;
--	ret = mipi_dsi_dcs_write(dsi, 0xf3, &par, 1);
--	if (ret < 0) {
--		dev_err(nt->dev, "failed to unlock CMD 2 (%d)\n", ret);
--		return ret;
--	}
--	par = 0x01;
--	ret = mipi_dsi_dcs_write(dsi, 0x00, &par, 1);
--	if (ret < 0) {
--		dev_err(nt->dev, "failed to enter page 1 (%d)\n", ret);
--		return ret;
--	}
--	par = 0x01;
--	ret = mipi_dsi_dcs_write(dsi, 0x7d, &par, 1);
--	if (ret < 0) {
--		dev_err(nt->dev, "failed to disable MTP reload (%d)\n", ret);
--		return ret;
--	}
--	ret = mipi_dsi_dcs_write(dsi, 0x22, &pwm_div, 1);
--	if (ret < 0) {
--		dev_err(nt->dev, "failed to set PWM divisor (%d)\n", ret);
--		return ret;
--	}
--	par = 0xaa;
--	ret = mipi_dsi_dcs_write(dsi, 0x7f, &par, 1);
--	if (ret < 0) {
--		dev_err(nt->dev, "failed to lock CMD 2 (%d)\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_write_var_seq_multi(&dsi_ctx,
-+					 MIPI_DCS_SET_DISPLAY_BRIGHTNESS,
-+					 pwm_ratio);
-+
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3, 0xaa);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7d, 0x01);
-+
-+	mipi_dsi_dcs_write_var_seq_multi(&dsi_ctx, 0x22, pwm_div);
-+
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7f, 0xaa);
- 
- 	/* Enable backlight */
--	par = 0x24;
--	ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY,
--				 &par, 1);
--	if (ret < 0) {
--		dev_err(nt->dev, "failed to enable display backlight (%d)\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY,
-+				     0x24);
- 
--	return 0;
-+	return dsi_ctx.accum_err;
- }
- 
- static const struct backlight_ops nt35560_bl_ops = {
-@@ -244,32 +211,23 @@ static const struct backlight_properties nt35560_bl_props = {
- 	.max_brightness = 1023,
- };
- 
--static int nt35560_read_id(struct nt35560 *nt)
-+static void nt35560_read_id(struct mipi_dsi_multi_context *dsi_ctx)
- {
--	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
-+	struct device dev = dsi_ctx->dsi->dev;
- 	u8 vendor, version, panel;
- 	u16 val;
--	int ret;
- 
--	ret = mipi_dsi_dcs_read(dsi, NT35560_DCS_READ_ID1, &vendor, 1);
--	if (ret < 0) {
--		dev_err(nt->dev, "could not vendor ID byte\n");
--		return ret;
--	}
--	ret = mipi_dsi_dcs_read(dsi, NT35560_DCS_READ_ID2, &version, 1);
--	if (ret < 0) {
--		dev_err(nt->dev, "could not read device version byte\n");
--		return ret;
--	}
--	ret = mipi_dsi_dcs_read(dsi, NT35560_DCS_READ_ID3, &panel, 1);
--	if (ret < 0) {
--		dev_err(nt->dev, "could not read panel ID byte\n");
--		return ret;
--	}
-+	mipi_dsi_dcs_read_multi(dsi_ctx, NT35560_DCS_READ_ID1, &vendor, 1);
-+	mipi_dsi_dcs_read_multi(dsi_ctx, NT35560_DCS_READ_ID2, &version, 1);
-+	mipi_dsi_dcs_read_multi(dsi_ctx, NT35560_DCS_READ_ID3, &panel, 1);
-+
-+	if (dsi_ctx->accum_err < 0)
-+		return;
- 
- 	if (vendor == 0x00) {
--		dev_err(nt->dev, "device vendor ID is zero\n");
--		return -ENODEV;
-+		dev_err(&dev, "device vendor ID is zero\n");
-+		dsi_ctx->accum_err = -ENODEV;
-+		return;
- 	}
- 
- 	val = (vendor << 8) | panel;
-@@ -278,16 +236,16 @@ static int nt35560_read_id(struct nt35560 *nt)
- 	case DISPLAY_SONY_ACX424AKP_ID2:
- 	case DISPLAY_SONY_ACX424AKP_ID3:
- 	case DISPLAY_SONY_ACX424AKP_ID4:
--		dev_info(nt->dev, "MTP vendor: %02x, version: %02x, panel: %02x\n",
-+		dev_info(&dev,
-+			 "MTP vendor: %02x, version: %02x, panel: %02x\n",
- 			 vendor, version, panel);
- 		break;
- 	default:
--		dev_info(nt->dev, "unknown vendor: %02x, version: %02x, panel: %02x\n",
-+		dev_info(&dev,
-+			 "unknown vendor: %02x, version: %02x, panel: %02x\n",
- 			 vendor, version, panel);
- 		break;
- 	}
--
--	return 0;
- }
- 
- static int nt35560_power_on(struct nt35560 *nt)
-@@ -322,92 +280,56 @@ static void nt35560_power_off(struct nt35560 *nt)
- static int nt35560_prepare(struct drm_panel *panel)
- {
- 	struct nt35560 *nt = panel_to_nt35560(panel);
--	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
--	const u8 mddi = 3;
-+	struct mipi_dsi_multi_context dsi_ctx = {
-+		.dsi = to_mipi_dsi_device(nt->dev)
-+	};
- 	int ret;
- 
- 	ret = nt35560_power_on(nt);
- 	if (ret)
- 		return ret;
- 
--	ret = nt35560_read_id(nt);
--	if (ret) {
--		dev_err(nt->dev, "failed to read panel ID (%d)\n", ret);
--		goto err_power_off;
--	}
-+	nt35560_read_id(&dsi_ctx);
- 
--	/* Enabe tearing mode: send TE (tearing effect) at VBLANK */
--	ret = mipi_dsi_dcs_set_tear_on(dsi,
-+	/* Enable tearing mode: send TE (tearing effect) at VBLANK */
-+	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx,
- 				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
--	if (ret) {
--		dev_err(nt->dev, "failed to enable vblank TE (%d)\n", ret);
--		goto err_power_off;
--	}
- 
- 	/*
- 	 * Set MDDI
- 	 *
- 	 * This presumably deactivates the Qualcomm MDDI interface and
- 	 * selects DSI, similar code is found in other drivers such as the
--	 * Sharp LS043T1LE01 which makes us suspect that this panel may be
--	 * using a Novatek NT35565 or similar display driver chip that shares
--	 * this command. Due to the lack of documentation we cannot know for
--	 * sure.
-+	 * Sharp LS043T1LE01.
- 	 */
--	ret = mipi_dsi_dcs_write(dsi, NT35560_DCS_SET_MDDI,
--				 &mddi, sizeof(mddi));
--	if (ret < 0) {
--		dev_err(nt->dev, "failed to set MDDI (%d)\n", ret);
--		goto err_power_off;
--	}
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, NT35560_DCS_SET_MDDI, 3);
- 
--	/* Exit sleep mode */
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret) {
--		dev_err(nt->dev, "failed to exit sleep mode (%d)\n", ret);
--		goto err_power_off;
--	}
--	msleep(140);
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 140);
- 
--	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret) {
--		dev_err(nt->dev, "failed to turn display on (%d)\n", ret);
--		goto err_power_off;
--	}
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
- 	if (nt->video_mode) {
--		/* In video mode turn peripheral on */
--		ret = mipi_dsi_turn_on_peripheral(dsi);
--		if (ret) {
--			dev_err(nt->dev, "failed to turn on peripheral\n");
--			goto err_power_off;
--		}
-+		mipi_dsi_turn_on_peripheral_multi(&dsi_ctx);
- 	}
- 
--	return 0;
--
--err_power_off:
--	nt35560_power_off(nt);
--	return ret;
-+	if (dsi_ctx.accum_err < 0)
-+		nt35560_power_off(nt);
-+	return dsi_ctx.accum_err;
- }
- 
- static int nt35560_unprepare(struct drm_panel *panel)
- {
- 	struct nt35560 *nt = panel_to_nt35560(panel);
--	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = {
-+		.dsi = to_mipi_dsi_device(nt->dev)
-+	};
- 
--	ret = mipi_dsi_dcs_set_display_off(dsi);
--	if (ret) {
--		dev_err(nt->dev, "failed to turn display off (%d)\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-+
-+	if (dsi_ctx.accum_err < 0)
-+		return dsi_ctx.accum_err;
- 
--	/* Enter sleep mode */
--	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
--	if (ret) {
--		dev_err(nt->dev, "failed to enter sleep mode (%d)\n", ret);
--		return ret;
--	}
- 	msleep(85);
- 
- 	nt35560_power_off(nt);
--- 
-2.50.1
-
+Thanks,
+Suchit
