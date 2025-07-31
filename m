@@ -1,61 +1,63 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF652CA6
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 31 Jul 2025 03:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6197A23B619
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 31 Jul 2025 03:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753932231; cv=none; b=bsCkFkWsVa+1hXMU9xuoN6nfPiLP7h5N4JcCcWlyRIB1a6ywlWdXnW7hWeN9uWtC0SWS5KLnOrGV2bJkfzG0PRYBi+Ujk9IeXNAR5cbLSH7eKLpesDPyjjtn/3qQnmvF7VwfvohhD9/adVKNRvezAzEXDo/lAySJLlY3VH6hOX4=
+	t=1753932232; cv=none; b=BWAcrgw8p+shLyc4x/UYkhJl3dQpslynpvkmhBxCClIiYz+w6Ko26HVAqfuOc449T3J/EkewOmN/Z/d7aMZ0eeX+HE9uOMBepiOFdbKypxZGdCRYH28L5urNqWD1vNY49JLEseDRM4VevcGv5PoC7On0Fol8Tb6UlTOx0ugnbuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753932231; c=relaxed/simple;
-	bh=vevOqegizmVwG5nsgBWisow3TPz4Yq9bqXkl1EGuUlI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bOxfGTkbmgVpqMxfr6rNI+dUuiawaijDfShHtrdC3+JngGU8ak4iYdYU4qGIuOGvDCag7uMW2VnZDyTQ8IE2WHeN1zUUXrI6kOID5VRgiITS3HS1Wy4SfscqD7bkZdLSF08ISsDFc+bCPf8wlbWBVHFsP1+8wlpYhY163xyGtpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=BjBFHCPN; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1753932232; c=relaxed/simple;
+	bh=XxMNf+s+au9pzXX5Y2tRQ2TxicTyQrqJ3gGr+HCCcZY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bWfh1Ykt/pxoXvOuK9GHl6mZN2jswvnVImO86HtTcuxxcIEThwakq43OK14juVOrRpmN16N53+fhzEeQi+Zm7ff3+zapxSO2DnSelSf6H167bFeb/x0g3i2AdXGjE78nXOp6w12clJOSYl7e60C8+oZ9k/mX1Vcx8IgwdFMlyv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=P2bn680l; arc=none smtp.client-ip=209.85.215.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="BjBFHCPN"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2403ca0313aso4646425ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Jul 2025 20:23:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="P2bn680l"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b422b31b1c0so155374a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Jul 2025 20:23:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1753932229; x=1754537029; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o/0ay50DHxiyPzyuFZGUiLzFtgNbpo/gDuEWB9tyHxI=;
-        b=BjBFHCPNiO26jc8XWgxXF48tXUcOlWSICbFzYgBIjb8uPD9q0m1Ch3a0EEGx/I7tpE
-         BQ4tNLqZcI9tT6cTZeBOL8PwU1mILVBkxlhnV+8HsnHj7hBYJr6/JuhgwGxJFnZrl61R
-         UH3N4SWC4KEHIQS2vckcNdA8sEfVSgImdr2Nl1w3oxlzNkiU6ogX1K1OyeWitDceaXpQ
-         e++YEwldmx8+opjbfbsmay//WjSgTeZRgWckscLxc2ilS6pac70hiU89j7phdSe7/yXO
-         FmO/OZ5nTY/+0nweX2+Z2QRwz6pdPolpnjrsDkhqS4RWNYhyBdazmQjMIArniKrWuK29
-         0f9Q==
+        d=brighamcampbell.com; s=google; t=1753932231; x=1754537031; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=98acdjAVPrJS4Gqdzmu/lk9sXTEBspyDUAMw8EWioqY=;
+        b=P2bn680l91Crp8OwdUVGdsUbphfiC3Ty8PTAUL4dNZKcl78WINcUIhwyLloA0o2VAe
+         kE2GFFQPQiHGoiEHcV4//Aq3zYhWbU3yBgZIrL1DgvYSz5aGvpRNdY8C3OpCkoDt5GPH
+         XrU8FzgmMoizogMMFxSt0aMCtzXGSy3OFKTHAUTRTG9AgHVX8gfCESi+NOCleafHzLZw
+         9iMnWSfCGCGIa2waoxfJevbrj+QikIbZ0u96v6HkQgaei4BZsmHt/oFwoeaRAsmng3E4
+         ACFx0Zaf49CmGgZO3xghRwo+td62MdNl8JYvlEapuzDKqHKMmXD3YdiSeMwz/HpUKwlV
+         m0OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753932229; x=1754537029;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=o/0ay50DHxiyPzyuFZGUiLzFtgNbpo/gDuEWB9tyHxI=;
-        b=ubXCTJ3mkGGwnkaKGUCwR6UgD6D2BKJsmfDU9X9U8EgMCo+QXu3I7D4vkab0ixIm7W
-         7lH5NKaFIiwi2d4WA6DtlW8lf7Je7K4vMBuiyJhZUaVKxStBqZOW3sBjalAUCpKyxJfi
-         JXXTWJpczCaIAU4EV9O9bHGNh6db+TF8dwR76wjvlvDMiJwz6E0JJhDw9BkcbbmmzPxT
-         etdaPbdcvstyL02j6BzLyH6ZP+blURnBWdEBEyKmjXbcP+CBtIANimzqD1PeFDNStOYK
-         42x7F+u4NF8kkzFkiqxZPZZZL6QVQ0H52gmouliNzkD5Tk4L2y0grOzLnzk4EJynEMm+
-         qdOg==
-X-Forwarded-Encrypted: i=1; AJvYcCW2xPXOq/syUvcMS3rLSXlf+q8+Owe3XxM4aDjEBdWGZJIY8861uCecl7UAwmKMOiiZaAWKGRPDcBIJQ5+UcJkzyFcUeg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXdTrcPMAnY59j1oHpTvB2wdysnMlRRlJlAnV4wnmJe/RZCOef
-	58LcKY1cMJ/rLQQeFiXCFsUZf8fpQOT8fF8U2QqLhieaGxHljIrC+sMeAHoQbwyjnf4=
-X-Gm-Gg: ASbGncsX5HQAVJFY0eTaN2JZNPpe3AVfYqlwQLm3zLFXcrFIsVUT6FvKettK/sPh4pk
-	Co+HaiCcg41MjoO4CWYse9bcyrfRfHD1aN1iT09Uu4HtsO+CIxW4G8pqesnDIo/cbANmaXlLAB2
-	v4hdSfDjm0xlVqDGLqoPxw2M7V3opA9lMocSlKVqvlqSgWM3nVxVpBprPFpTHXCD32+z912Ntjq
-	5F6/wt7pxYat/goQ9dhhohZNVn+rsWrb641UaF8u/O1PWgF5bJ7aKRVEOgGEqzJ92AmOXAj+eIL
-	MuNv7ShV84801kOt5F3ASfcEGBLzXqcitPeMu3eqNJPsJ8/2b4t2k3CS8zsDn5qqjvo5G9xt8t1
-	7ixxIa2ejX1EPgxx3T1zwh7jOayP/p8DHSC4nKhj+EX0TZ7B2q1TOsE6KHD9b
-X-Google-Smtp-Source: AGHT+IFbmyHUAZjzYXWConGjVtJnP4/KGTKSPvl0mvsildNQPPwPbZ1hL2oDeNwXOjX58/iQ7MIXHg==
-X-Received: by 2002:a17:903:1967:b0:237:e3a0:9d63 with SMTP id d9443c01a7336-24096b62eeemr79230975ad.43.1753932228913;
-        Wed, 30 Jul 2025 20:23:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753932231; x=1754537031;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=98acdjAVPrJS4Gqdzmu/lk9sXTEBspyDUAMw8EWioqY=;
+        b=sX0EHQ23nTHZUO49JdQ8Ii7GN7PpfVekhBtv7LOnpnoxrLmBnN2jjWL+lNdxLwjQ6z
+         IIByHyvj6zCZzCjfI5vWkMK4+QNy7Zb3NC/JL3vDAXqV5kc+cIcOpgEjFbGHRzbi5J+Z
+         S6iqeDEqJuW+FmFr1HGVQ34g7WLiXHS3Xt4KlyTG9fFmSGFm39sNnfwy0IcDFzHzoduV
+         4AuYLK8YGyjU5xepeW51M1xJSb1c7Hv2U/wA3eHV5NpFKjMFjZIpXc7R5zMc0q0C7J8A
+         IukpurD7VUz/sMtx2+SEKQhEEaIfcWAybVX0chReSwbCCERWPuLkRg0utz9dPRQnR92p
+         otbw==
+X-Forwarded-Encrypted: i=1; AJvYcCXR7tbaY00paj8L+9s17RkvK1jH9kmEVwzVOpk6VvohRlj1Xv93NzrbN/Q+TKQwV95lwJ7jsGr6TZMo1yvkGeZWi46cHg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzGH2WS2F7iAsWS3o4mIxeJwRsK0me7OKA2lx57frWoi6K228Bh
+	e/S9VuMr9nOk/SShMJLAv+7FIF3wVNl31qhveeq9H4C7SGMwA7rUfUQttIVwMYnHJIQ=
+X-Gm-Gg: ASbGncuHb0OPn4cRBp1QBt0Knqif6ycqZrV5OQ8Z5T8KOowWZ7kmdBg2B162IOpLnpH
+	OynizL0G2W5WiqOBiYZdC6iScepVMD+OELVXX64i4UbJULWG0SH3LpAH7tPtYYd0zYvOmq+cFcy
+	9wZe73z/dlgD5qXruUJtd0c7Iz85PL7pbIA3I1Ml7KpNFpTumafTCQwW6EOejkarQHCb7IkDiR9
+	aysd+NyHA7NBIEfNM1rzOtMw7E5uUsVHlINt/Gv10dl2RLYVjK/cZUuQRpDXTr2CxoIVE1wfdhn
+	NDoDOSb8zBTZWkEA/+0tOeUvhKXYy6TU/JPMq2d8Ej1UGh6JEbYGqLMjjWaFbA7bFc8t7M69R3s
+	p0UPi0zu3Oxv1mNy/P6IWrnJ8fAPO/DUCA/26atgJElAfPE+DEg==
+X-Google-Smtp-Source: AGHT+IG7cxswJdJ/7tpMHzX/PLpF1znLcf9i4exYcEFax9LRUgDC4Zu20SehYungolPEBKBedQbYCA==
+X-Received: by 2002:a17:903:1aee:b0:23f:d861:bd4b with SMTP id d9443c01a7336-24096a63f17mr93878045ad.5.1753932230738;
+        Wed, 30 Jul 2025 20:23:50 -0700 (PDT)
 Received: from mystery-machine.tail542cf.ts.net ([64.71.154.6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241d1f15092sm4854795ad.66.2025.07.30.20.23.46
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241d1f15092sm4854795ad.66.2025.07.30.20.23.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Jul 2025 20:23:48 -0700 (PDT)
+        Wed, 30 Jul 2025 20:23:50 -0700 (PDT)
 From: Brigham Campbell <me@brighamcampbell.com>
 To: maarten.lankhorst@linux.intel.com,
 	mripard@kernel.org,
@@ -72,10 +74,12 @@ Cc: dianders@chromium.org,
 	dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
 	Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH v4 0/3] drm/panel: novatek-nt35560: Fix bug and clean up
-Date: Wed, 30 Jul 2025 21:23:40 -0600
-Message-ID: <20250731032343.1258366-1-me@brighamcampbell.com>
+Subject: [PATCH v4 1/3] drm/panel: novatek-nt35560: Fix invalid return value
+Date: Wed, 30 Jul 2025 21:23:41 -0600
+Message-ID: <20250731032343.1258366-2-me@brighamcampbell.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250731032343.1258366-1-me@brighamcampbell.com>
+References: <20250731032343.1258366-1-me@brighamcampbell.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -84,43 +88,33 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix bug in novatek-nt35560 driver's nt35560_set_brightness() which
-causes the driver to incorrectly report that it "failed to disable
-display backlight".
+Fix bug in nt35560_set_brightness() which causes the function to
+erroneously report an error. mipi_dsi_dcs_write() returns either a
+negative value when an error occurred or a positive number of bytes
+written when no error occurred. The buggy code reports an error under
+either condition.
 
-Add mipi_dsi_dcs_read_multi() to drm_mipi_dsi.c for improved error
-handling in drivers which use mipi_dsi_dcs_read() multiple times in a
-row. Add mipi_dsi_dcs_write_var_seq_multi() and
-mipi_dsi_generic_write_var_seq_multi() to drm_mipi_dsi.h to allow
-drivers to more conveniently construct MIPI payloads at runtime.
+Fixes: 8152c2bfd780 ("drm/panel: Add driver for Sony ACX424AKP panel")
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+---
+ drivers/gpu/drm/panel/panel-novatek-nt35560.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Clean up novatek-nt35560 driver to use "multi" variants of MIPI.
-
-Changes to v4:
- - Replace "non-static" in kerneldoc comment with "non-constant"
-
-Changes to v3:
- - Fix incorrect Fixes tag. The bug was introduced by an earlier commit.
- - Minor formatting improvements.
-
-Changes to v2:
- - Separate bug fix into its own commit for backporting.
- - Add var_seq_multi() variants of MIPI write macros for sending
-   non-static MIPI messages.
- - Minor formatting improvements.
-
-Brigham Campbell (3):
-  drm/panel: novatek-nt35560: Fix invalid return value
-  drm: Add MIPI read_multi func and two write macros
-  drm/panel: novatek-nt35560: Clean up driver
-
- drivers/gpu/drm/drm_mipi_dsi.c                |  37 ++++
- drivers/gpu/drm/panel/panel-novatek-nt35560.c | 198 ++++++------------
- include/drm/drm_mipi_dsi.h                    |  35 ++++
- 3 files changed, 132 insertions(+), 138 deletions(-)
-
-
-base-commit: 33f8f321e7aa7715ce19560801ee5223ba8b9a7d
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35560.c b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
+index 98f0782c8411..17898a29efe8 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt35560.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
+@@ -161,7 +161,7 @@ static int nt35560_set_brightness(struct backlight_device *bl)
+ 		par = 0x00;
+ 		ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY,
+ 					 &par, 1);
+-		if (ret) {
++		if (ret < 0) {
+ 			dev_err(nt->dev, "failed to disable display backlight (%d)\n", ret);
+ 			return ret;
+ 		}
 -- 
 2.50.1
 
