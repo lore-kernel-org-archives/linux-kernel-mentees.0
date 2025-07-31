@@ -1,237 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BF02472B5
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 31 Jul 2025 18:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753988187; cv=fail; b=uAkjAag6Jri5ILZIvHm8omBSsbPbI8kEDuvTdHD+yd+3/J++XHMjIopocz/q6hisO4rwklVnDa2/AtHAxDpPAWEfwFDTyZuEh6FX3T6p1/V8pYk+T8nHUemvGaOSBSPPp3dcYeMYWss5Ym05Jk3NilOBseghqf/2+kKUwA98lno=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753988187; c=relaxed/simple;
-	bh=5tax0iMtv0H41T6t8UCm1Fq6gR8WPSie//DWpQ78z0w=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=rC0JBZMJqMRe1j4DqxdyQklSw7QN2/eYk43T4eCfx6v9sroXUuBfyr4t4q9h7czsuaRiXrSUb/MVzwa851sToFDv0SiT3IpG+mT0cTwRWCM8CNWZ30HFZcotVN0eY989esumcZwQilMw+hvFXa4vf5YIQ55oszzzXM/vc2jsiJ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WAf+ojzw; arc=fail smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258A221FF40
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 31 Jul 2025 20:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753994191; cv=none; b=j/Pe3JG1ImORCjskWu7sI4eJ2ZsrE+LQ+4TG3kn/F7/fHbrEics+oPNrjwuXIfvvlYJLVz6hLbbTq0KOYlxo/piXRBlEbJQRD8wEgRvKqeJJElpKa0foGTcrXNy/mogR8dm2359gffyCnq75kMPuTwBz+5VAXTqCpFAecaH8bRQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753994191; c=relaxed/simple;
+	bh=lllDj57kA6USq/JccDX4aEeiMCwv3lG54Maxa0HvAuE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NCxYXwad3iGwxfl0gIqAWd0pyjhZtuVMkdYCo74HiHVt/ipHqVG1f2OsJ1It0uneKT6Ftyc0Fv4YkQPIMPewYlGu3gA5kYJ2ZdLO507WrmezL5EbgbToUG+EvVKZLn5saBZuWCk5VA7acJgKfphMl1au8GZgM1zHPepAKYHVibg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M0eIjiHp; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WAf+ojzw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753988186; x=1785524186;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=5tax0iMtv0H41T6t8UCm1Fq6gR8WPSie//DWpQ78z0w=;
-  b=WAf+ojzwZ4yhXuMxovp4aJuhL3qKRAOB3ZQu8laBnwAlFVL7LzhuxeKY
-   CxPFHtlMVwVXNC48kmX/1/Hl2GbFu6OI9EQ1ciIViKCsDcwE33x6zwUrB
-   L3kzIgTX0Heu+YMuwRRylnaohIHihmpqBpQb6YjnUP+0ebOgw0/siqSW/
-   e5wvzJqki1RBppUY6u74AvV3LUmHKmHg4iWT7/aMvzzOCvc7gSMThc3RP
-   CfRp9oKXUk/1UkYodsmjOxab/x65Jp6fVGx086r9Xkg47h2G5eY6p0Rbt
-   4GFO96x0xkJTubu48X5+R5x2qAIczpx5coBvzAHdwj2Xb76icv9CGGe7T
-   g==;
-X-CSE-ConnectionGUID: iJMmULXOQjyskiq5c+l22Q==
-X-CSE-MsgGUID: zfHMmaknQLSdUc/sOeDNrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="81776192"
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="81776192"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 11:56:26 -0700
-X-CSE-ConnectionGUID: ZDRfW0YgTRCQn6m0RBDk+A==
-X-CSE-MsgGUID: h+9HvqvBRW6WpYJUNhG5YA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="194325449"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 11:56:26 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Thu, 31 Jul 2025 11:56:25 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Thu, 31 Jul 2025 11:56:25 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (40.107.102.81)
- by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 31 Jul 2025 11:56:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=erfyj+e4jJREbUDPjv8cvC10ZQDoADTTGJwajeQLJFgKjCvjXBMcidp6sh73C0GLXgRapztMLogxY/jzoi4Df5zUvGr1VNeY/vEyGjqmvwJ4QSnvHuIiwrjJUHKrKj/jnSO6833YmLLO8sqd0vhFqWGWwIHj+wKE4363rKxhd5icrnnE02M0PUI3iWH4mymEqt0yLgfA4IabHB4Yv43RhuWwmXwGB01qUUJzrww0xOu0N0fr55h/XMgLaRCTz2VoYnOQEvWlGtm0T8LlFG0y211xkqa6kq6BqSeyj5MapEfLd1iCYJnbNdy+8Rtv2Utavzt2F3Ds8BcJBjkWaV/woA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6bNdfYG2aEgeVIwfvuUsDQobMqnQo6vTDCv3hjMieW8=;
- b=D3gvhEaTce8dvwsXXuq9Yl0DsPKtCI9oEodTTgnLRoNwCDiNZ+TNaj8k+/Ft2ECCY9z4cT6fnT2Pt/6cA+Gxh86bD1aJYSPG+5M9CPDr+JLIiUWDc0zHCB79bXXYX679r1srQZpEpBSOPlQBCmTo8XDgH9EyvHLgrMWnI0BnMbt65mRiNIEJhiGAjEqHHfxDy20a5AoxRjJaKEekcW0rkGDPnKhXyTLXGU6bhmwB7mLn+LdH8vrb/KG+p5ZG2E4A+pjfMdEHSBHq6u5wRd2f2YJzf0bV83WUbkN+8wjD0c5aY1zNytYnpfU3ESCBRj5MByYooXRgz2MYz4DStLSQ3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BYAPR11MB3320.namprd11.prod.outlook.com (2603:10b6:a03:18::25)
- by CY8PR11MB7339.namprd11.prod.outlook.com (2603:10b6:930:9f::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.11; Thu, 31 Jul
- 2025 18:56:23 +0000
-Received: from BYAPR11MB3320.namprd11.prod.outlook.com
- ([fe80::e8c4:59e3:f1d5:af3b]) by BYAPR11MB3320.namprd11.prod.outlook.com
- ([fe80::e8c4:59e3:f1d5:af3b%7]) with mapi id 15.20.8964.026; Thu, 31 Jul 2025
- 18:56:23 +0000
-Message-ID: <85164f70-b61c-454e-ad43-c5e66faca601@intel.com>
-Date: Thu, 31 Jul 2025 11:56:22 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] x86/cpu/intel: Fix the constant_tsc model check for
- Pentium 4s
-Content-Language: en-US
-To: Dave Hansen <dave.hansen@intel.com>, Suchit Karunakaran
-	<suchitkarunakaran@gmail.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>, <hpa@zytor.com>,
-	<darwi@linutronix.de>, <peterz@infradead.org>, <ravi.bangoria@amd.com>
-CC: <skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-References: <20250730042617.5620-1-suchitkarunakaran@gmail.com>
- <3093fd14-d57a-4fc6-9e15-d9ce8b075b30@intel.com>
-From: Sohil Mehta <sohil.mehta@intel.com>
-In-Reply-To: <3093fd14-d57a-4fc6-9e15-d9ce8b075b30@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0193.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::18) To BYAPR11MB3320.namprd11.prod.outlook.com
- (2603:10b6:a03:18::25)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0eIjiHp"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id B5D5260EE9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 31 Jul 2025 20:36:29 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id tLSlVnGjjPwr for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 31 Jul 2025 20:36:29 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::d2f; helo=mail-io1-xd2f.google.com; envelope-from=sravankumarlpu@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org AFAAE60E3B
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AFAAE60E3B
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=M0eIjiHp
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id AFAAE60E3B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 31 Jul 2025 20:36:28 +0000 (UTC)
+Received: by mail-io1-xd2f.google.com with SMTP id ca18e2360f4ac-87c46159b24so29972839f.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 31 Jul 2025 13:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753994188; x=1754598988; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Bkzmad0FHY3Ddy5NFcMc3+By4Cx3sAMV/rP5o2AEJQ=;
+        b=M0eIjiHpS+ta8UtTpLXBW2kDHw/mCXBugtc7KJ/Zqs6o255biHXl4yo8Jf4TvJroO0
+         n2rhvwXbp1Htres3gRRwPD5VcbymKOQUPwOr7+2Yq1jUZQjZ81jB3zvTxL92fQE6jcH2
+         46lw86IPx9LlAb9m4+BXMiZD17H3S+IGELHeVb1ijYyYvt/FhivFXaE5y1sJFNaL7Lwo
+         xsPkLBeQR5rW0+X7sbUnLFsH53zhjtN6SG4D3lt+m2dfp6b4k6immRCATrwVnpld9t9h
+         wy8y7HJixjHOBDr9lOwslszY9vw5H8409knD3wdxJ6i7b7SKzRUyr8rArCFJHf4aq+QZ
+         51mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753994188; x=1754598988;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4Bkzmad0FHY3Ddy5NFcMc3+By4Cx3sAMV/rP5o2AEJQ=;
+        b=BMIZTBMK4CmB7hbTWc8p+FxlRNHi9cSvK3iTurTYJi7jB1hItzwU3lMBF6lER4EhC1
+         c1HzMejxR/lNRFXtxyQ/VjXTF76qXcvG9jvLOqjBiuMBH3eAGgWjt1t8ZKrrvB+s/Ldd
+         OCc0L5We05Kv22GxCMlzY36uc/4bihw+vfdBKUNnffdH3mMXTFC9WnzZFeZTrLyZ0P+S
+         imFxmBqrdeV0YNGlqtbF29k42xS/wrhThr5WtyKORK+DzfhVSgTArJqLpuuh5EuUTGcL
+         6tNWrenKhLxKA3HZRHIRjxoupT6EkJWayZb8N17gXZGjrAasrf8gYa71PoSbjlMHzufT
+         tVeg==
+X-Forwarded-Encrypted: i=1; AJvYcCU8/5hj1XNJjUKicATohdjBU7LqYwZ+dETyDorKQHCbtBfDhK9T2BAMaibLlRQ3IxzB9eDqg5DEnz1t88jkJpsC6ADb8Q==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwwhjqE93lY0Jd1geqdzWzvLA3ijW1BjwwbitAXgkJ/OIox2fQm
+	419WApKqMuIJtdLVboL8s2gynIVkaFOpebSEellcIk65a3/hkVMNc498
+X-Gm-Gg: ASbGncv1TVdcHXG9Dr6SY94yt1rMEbZfVZg8GApUK/p/RxNXRpOKuOb+9xa3p39CQNh
+	lDax1x8gIoHSNytgeNeA8cdJmXmKkKR2lRSZKsObtofzo/tbQPwUQfJEwLbMurMG/FSjmVMddKT
+	Rhma0l1tKm1U+BJzyum/Fvw9yX3QF1f7mlYRDek21yHzCf+vMXgIEoPd9KKSN4D2XluYWind6Hf
+	25WomvJkRoYQdCB+bzjSn8cz7/PS9Yp/QacY+EKIjszsIA37rRwm7I6eXa52sO/eP8kR4rIgQlA
+	5X+UxZOBdlrPjVMPjxvPvIY1LWt3rqUlot7H+lnbvkzxBQh83O9MPjbzacmg3A9FmqzbL3eGW0L
+	vw1TGBlvDZ//P5eHJxYyd9MzM2iR8Gp1J4C+dmH/09C0fYhBLBzsYeim4ohAh0fjd7URKb/XzNS
+	QP4ChSugnn/57ycvSi3LL79l0=
+X-Google-Smtp-Source: AGHT+IHw6r8Lf+6zjHlaPGrM/dmdCKU/6h6oK0JKKrXD5sL3aXoHzVWp5gzJ99Itr+K+yw6WuEQuQQ==
+X-Received: by 2002:a05:6602:60ce:b0:86c:ee8b:c089 with SMTP id ca18e2360f4ac-8815a870752mr15789939f.3.1753994187605;
+        Thu, 31 Jul 2025 13:36:27 -0700 (PDT)
+Received: from localhost.localdomain (syn-035-144-110-073.res.spectrum.com. [35.144.110.73])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-8814dfab231sm70312839f.28.2025.07.31.13.36.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Jul 2025 13:36:27 -0700 (PDT)
+From: Sravan Kumar Gundu <sravankumarlpu@gmail.com>
+To: deller@gmx.de,
+	daniel@ffwll.ch
+Cc: skhan@linuxfoundation.com,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Sravan Kumar Gundu <sravankumarlpu@gmail.com>,
+	syzbot+c4b7aa0513823e2ea880@syzkaller.appspotmail.com
+Subject: [PATCH] fbdev: Fix vmalloc out-of-bounds write in fast_imageblit
+Date: Thu, 31 Jul 2025 15:36:18 -0500
+Message-ID: <20250731203618.25973-1-sravankumarlpu@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3320:EE_|CY8PR11MB7339:EE_
-X-MS-Office365-Filtering-Correlation-Id: c22857d1-ac0e-4400-cb6c-08ddd063f1f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?c3hjd2NySGVOcDRnNnlUUUhzcE0wcGZaZTErdW1yVGc5eXAvU3lYNjBhMlVt?=
- =?utf-8?B?cmVyYXVrb0lra3N1YjUyZTZPdFRMenZwV200aWNQNWtqYjZBQkh1ZGtpbFF1?=
- =?utf-8?B?RUJBOVRQRW1Tc3E5M3Q3bXNybFBvWm4vQ0NFamZWYjNIb3lhcm8rZjFERXAz?=
- =?utf-8?B?VDJiL1pDVndFcDRQZUJyMXphMk1QbmFxUTZDdElFTkpwUXN0bmFiY3JjQVQr?=
- =?utf-8?B?QVk1VXN3emtRYTV6THplSmNTRG52bytlMXRKbXp0cUZha0NsZy9UUVpUSWRn?=
- =?utf-8?B?clZiSGcxZHdrNEZRcjZ5aVREbFpLblg0Y09kd20xQUh2Rk1oaXBRcUEwaThs?=
- =?utf-8?B?T3IraEdVY3ZyWGJwcUxVbEJqUjJ6WUpQTlJUa0lCNnB1VXVNdytBZ2c2VVF0?=
- =?utf-8?B?SHZURC84MzlFcXZGRGR6NGlIRTRnRWV5K1libjRYZXVwaHpYZVdQR1JPMzJV?=
- =?utf-8?B?anFPOEsvbG8wcWEvSnp6c3pNT1pZaHlXNitEWkxjYytXZGtDYjlYM3dTTm9l?=
- =?utf-8?B?LzYycndMdzdoeTZJdmY4SzJuVzlJV0UrREQ1V1g5UjVNd1V0WFkrb25Vb2FG?=
- =?utf-8?B?S0gvT21zejNrdnBwdkJONG50WXJ2QVdlUWlZNkMxTVV3ZTcxTFFmcTFEK29u?=
- =?utf-8?B?M3l4MTdtQk52cVQvZmdtMVlvckRFRXNwVG5lUGx6M1lxbWpHRHJOdmJ1akZN?=
- =?utf-8?B?SEM2OENNYTRWSjhJUGM4U3NjdHh2U2ZuaEdCOXZMM1RJclRieHpFNmpFcENs?=
- =?utf-8?B?U1lVSkR3S0YvdWsxdGR6OGplTzFiZjgwb004RExlYnFqdjlwRUxSZ09NbUNi?=
- =?utf-8?B?RWRDU2pSRTUrVG1HUVhibmtBMkE5R25Vblkwclg2bk9IRGswT3R1MXR3MVNx?=
- =?utf-8?B?c0xWQm56TkhOQ3EyM0ppMndRanBmM21ZdHBjTmxGQ1lkOFlQcjhFSnl3cWJW?=
- =?utf-8?B?dXg1UVFha1JXZWR6S2VkQ1J1Zkw5UnlydkZ4L2lvczhVSjNTQkVmclM3ZmNO?=
- =?utf-8?B?RUJyaE1mRjJBOHJVSlZZRUtqNTMrSVo5QmJtdnpORFNJUWxsaWJKUkJoWnE1?=
- =?utf-8?B?dldhQXIwR1hPWXFyRk9IVktCZDdaTUQ4RnZkSXhYMXp6V3ZmT2NNRWpsYjlD?=
- =?utf-8?B?OXlOQWpFYjI4Q2lqeng0VjhLYmRWWld3d3o0aGM2TlZaeGFnOCtpOUtqd2g0?=
- =?utf-8?B?MFF5WTJ1UXV6NWNrdXV1WHpmZFNjcml3a2MwSzB4OTI3c3hYZDNxTE01cG5L?=
- =?utf-8?B?R0R0YzBtUWZlOVppL1c1RzFrckdSMnd0UjhxVFQrMG9ITS96d241VkFWRm9i?=
- =?utf-8?B?Vk50QXF5SU9FSGJ1Zm5MQi9nRHo5WEJTUFNXZmRzN0NMeW84bjNvZ3hkVnpG?=
- =?utf-8?B?MkNvSDRFMnRSRmRlQ2Q0VVlCWEVZV1FrMEl6UzJ3SUZMWE1IbUVCaWRIK1VF?=
- =?utf-8?B?MVhSNitYVlVKYWZXckxKSEI1M3RQSnBZOHVqRjR3ZC9CdEFKb3Z0Yk9DZ1V2?=
- =?utf-8?B?eWM1SVQ0Zi9yd2dTM2lQb2R5OGQvT2dNcXJQNjFsZ0NEZkR1TytMRk91SDlL?=
- =?utf-8?B?NHFnamhFWFkrR1YyWDZ4Tk9sM3Fkbm0zeVlVZWtQVGQwdzlpZjA1bHc1MWJn?=
- =?utf-8?B?clQ3TmRtUVJGTi9DeTFCUytSMzhESGRXQk9Dd2VaalF5MkFaaWRxU0NyK2sy?=
- =?utf-8?B?ejZFemNNL2xwdVg4Y2dRTWp3UnpKNkpsRXQ3Y0lvemJPMmhEbG8xSXpObFk3?=
- =?utf-8?B?SHZFUVo2TCtJVm5wK3g0TklpV29lODRZdTYyYjZ1RFRiQ3Y2TS9ycmNGSGVh?=
- =?utf-8?B?NUlYWjRlcitzb1o4TjByaDZoTFFpV2I1MzdneHJwa2tDTkRGRkRmWlptTlBz?=
- =?utf-8?B?ZGs4YWhvd1M1TmRKYWd3UG43ak1sbGY0R3BoZUhkaXFOODArbGJtN1RQV2Nt?=
- =?utf-8?B?UzlSZ3BoRU5rRysyWGd5dmJaMUpnNEc2OE05ei9RYkJRZnUrZ0NvUXk2d3Nv?=
- =?utf-8?B?c0JJRVFuOXZ3PT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3320.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bktXWldjdm5zMkRwRkwzZWVBOUcwNm0xZTVlb3E4YnQrT3I4cENTUDVOZnBP?=
- =?utf-8?B?UjQ4K1JKc1lrRkZuQTZkcFpLMGJaeHJ6M1pRS2pkaDlCR1ZOaW4rb0FmRUQz?=
- =?utf-8?B?MHF3bXBjdTFscVNZcGw1OVhEaGJqeVl4YkhMSDg3U2Q4enNreTc5cG9uQXo0?=
- =?utf-8?B?WXVQdk1IZ1ZBMUdrUFJBdkVwRDNEaVN1ZVptcUFRL3Z2ZXViazVmK2JueGRP?=
- =?utf-8?B?clJUY3dJVVZqZitQdW9sdXhxNHAzQ0NkYnBTcXZuNGEveXNPZ3pZY0xxR0xk?=
- =?utf-8?B?YUVHTkhMd2UwYzZ3S2NIRjZtcVNPMWE0bVZOZTBvdFhvS2grc0FzNXA4dVo5?=
- =?utf-8?B?WnA4U05obDNiMSsrNGxPNTVlTEhicWZSMUpjMTQ4c25qa3VGZVlxckhGcCto?=
- =?utf-8?B?Y0RjakpwZmprNHVJWGdTTlpCdjBFaUhGcnpIOXZyOGhSZ09VcVkwNExpYkNI?=
- =?utf-8?B?M0lTcDFDckNNR0UrWjY2RG1RNXBYdllTS0w5b3hHWUo0djFqa0ZUMmYzN2tU?=
- =?utf-8?B?VFBEZzNPbWkvZDBFRXNRc0x3TmtESCtlamh2UnFacmN0RzhrWDRIZzJPbWl5?=
- =?utf-8?B?b1p4U05UTkM4cEdUYlkxa2k2Qm5YMDRuTTQ4S3FFeDNHanRORjJ0ZFgwWUIy?=
- =?utf-8?B?MUhjZmYxVVNVOFl0bVZHWXRYaDhUaWZhcDQrUnYyVE1yWjNQWEtLQ3pIakRK?=
- =?utf-8?B?UkZoM09uelBGbTk0c1lpMlFydVJ2YnpESE02VDl5NC9wV2t0N3ozMXc4TG02?=
- =?utf-8?B?VXh1SXdQRG1uZUJxZWdHVFNjd0RzU3drd0YxVUUvNktrNlBMWXdBV1dnVHR0?=
- =?utf-8?B?SEpHRE1udEdIcHhreXl6SExrSkpHS2FrQ0Qyc2U4UlZjQTFOUnhDYVpxSHor?=
- =?utf-8?B?RXFsaXJqSUYwS0IvditXSWJFZitxb3huVVVldWxyUXNEaEY1K25aZnJjNmVT?=
- =?utf-8?B?U0Q1MHVKcUlKQ0FTZmRwcFlVSC9qMkczNnRpcEhKWHU5V1czNWkrMDN6UTFH?=
- =?utf-8?B?V0JMNEdocnNUdWpvek84THdORmVzWlFKaXJXVG0yajJvd3l5Tm1zM1puT0Jt?=
- =?utf-8?B?NTM5b1cyZFpMOGxranFra2ZLbGlsY1BXNytveVo0ODRGZzJXMjZvWDNQQ0xt?=
- =?utf-8?B?bVlFUjNGTXNSZW1kaGNWT0hGWEVMUFlwc3NBdGphMzhvcGthNEQyTFpyOTh3?=
- =?utf-8?B?T3NlVDlkVkhBVFk4YXkraW1pbzRySWpUWElXQjBXcTZmNlREd3Zxd1RITmZ4?=
- =?utf-8?B?MS8vY3VQZFRYZ1UvSE1LMVZENnh2dWlqaTBxbVlvalhrRU9DdENOSk03SkVG?=
- =?utf-8?B?THVXV0pwNUNLVVRiclFJYXlTRFVyYkd4clZ3cjI1TUdNOWpqc2FYMjEyNUJS?=
- =?utf-8?B?R3UzRGdGQWQ0c0E3Vit6OE8zTnNEUWtQcVFqWWkvd2NBSjUxRzEyWklVTTV0?=
- =?utf-8?B?eFY0VW9LTlNTcWVUWlNGVWo4TmIrMTAxV1NNRjMzekdYQTNqU1kvTFNXUXpP?=
- =?utf-8?B?b2xISXY1eGVLVWQrY2ZUcVdySTlFL2dnMVdoL1pKaU9jYk55dWxLaWtnd1hz?=
- =?utf-8?B?SEl1THhwNHJGbjNCYU1mMEgzYUtGOU1MRkYwZGVPK2pIbjVRVU05d0lsYTdX?=
- =?utf-8?B?UDI2cHp5K25QSTg0YkVuWkp2UEN2MmNSdGszU294OWxKSGUydUhVc0syUTI0?=
- =?utf-8?B?SGlXeC9SSnRVbTZkVi8vdGVHOGVFSTNvbFlpUzZhREdydWdaRk1Pejdvck9V?=
- =?utf-8?B?QytRRTN5N3BjOUVrS1FjZCtBV0lYaDRsSGVEeVJjZFJQckxaNkk2amlGdlpS?=
- =?utf-8?B?NmVSdU1BWHB0L0VqUXhlSG1yU2VVeTJ0VnhqSkk0eTJmbFpTUjJvODVzQkNt?=
- =?utf-8?B?TjhEdldsWDdnRS9IWGMvSGJDUjYvNGg0RmxwVkdOdUM3bXo3MmIzZTZwS0ty?=
- =?utf-8?B?Z0IwTTF0MnBmOXJLakY4RFlGbGVhOGdXNi9EdUlDNHFDdjFmaXJab0hQeVNs?=
- =?utf-8?B?MmRTeTBvZHlKL2pIeFVuZ29ueDVpQUdPQjBKVGFzby9PM1BYRVlteFZWcGlj?=
- =?utf-8?B?ZDVzWG5PNXBZamRJbzlzVlo2R2ZzZnNXYmMxUzEvOFpNY0pTajEvRDVtVzFr?=
- =?utf-8?Q?6fGwUYh3jJChV/xxDlQQkfaEe?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c22857d1-ac0e-4400-cb6c-08ddd063f1f0
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3320.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2025 18:56:23.6919
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zd425jC98MMpiCCv2defSoz4NbmnOxXazN3yb8x6kq49qij9LxBxMhc9VVGBeX+s2z8gv+YtQO5x0NcgfMW8jA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7339
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On 7/31/2025 8:57 AM, Dave Hansen wrote:
+This issue triggers when a userspace program does an ioctl
+FBIOPUT_CON2FBMAP by passing console number and frame buffer number.
+Ideally this maps console to frame buffer and updates the screen if
+console is visible.
 
-> Could we have a slightly different changelog, please? The fact that the
-> logic results in the bit never getting set for P4's is IMNHO immaterial.
-> This looks like a plain and simple typo, not a logical error on the
-> patch author's part.
-> 
+As part of mapping it has to do resize of console according to frame
+buffer info. if this resize fails and returns from vc_do_resize() and
+continues further. At this point console and new frame buffer are mapped
+and sets display vars. Despite failure still it continue to proceed
+updating the screen at later stages where vc_data is related to previous
+frame buffer and frame buffer info and display vars are mapped to new
+frame buffer and eventully leading to out-of-bounds write in
+fast_imageblit(). This bheviour is excepted only when fg_console is
+equal to requested console which is a visible console and updates screen
+with invalid struct references in fbcon_putcs().
 
-I can confirm it was a typing error that led to this bogus logic.
+Reported-and-tested-by: syzbot+c4b7aa0513823e2ea880@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c4b7aa0513823e2ea880
+Signed-off-by: Sravan Kumar Gundu <sravankumarlpu@gmail.com>
+---
+ drivers/video/fbdev/core/fbcon.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-> How about this as a changelog?
-> 
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 3f7333dca508..2540d9046161 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -803,7 +803,8 @@ static void con2fb_init_display(struct vc_data *vc, struct fb_info *info,
+ 				   fg_vc->vc_rows);
+ 	}
+ 
+-	update_screen(vc_cons[fg_console].d);
++	if (fg_console != unit)
++		update_screen(vc_cons[fg_console].d);
+ }
+ 
+ /**
+@@ -1336,6 +1337,7 @@ static void fbcon_set_disp(struct fb_info *info, struct fb_var_screeninfo *var,
+ 	struct vc_data *svc;
+ 	struct fbcon_ops *ops = info->fbcon_par;
+ 	int rows, cols;
++	unsigned long ret = 0;
+ 
+ 	p = &fb_display[unit];
+ 
+@@ -1386,11 +1388,10 @@ static void fbcon_set_disp(struct fb_info *info, struct fb_var_screeninfo *var,
+ 	rows = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
+ 	cols /= vc->vc_font.width;
+ 	rows /= vc->vc_font.height;
+-	vc_resize(vc, cols, rows);
++	ret = vc_resize(vc, cols, rows);
+ 
+-	if (con_is_visible(vc)) {
++	if (con_is_visible(vc) && !ret)
+ 		update_screen(vc);
+-	}
+ }
+ 
+ static __inline__ void ywrap_up(struct vc_data *vc, int count)
+-- 
+2.43.0
 
-The changelog is fine, except the error happened while choosing the
-upper bound (INTEL_P4_WILLAMETTE instead of INTEL_P4_CEDARMILL) and
-*not* the lower bound (INTEL_P4_PRESCOTT) as suggested below.
-
-> --
-> 
-> Pentium 4's which are INTEL_P4_PRESCOTT (mode 0x03) and later have a
-> constant TSC. This was correctly captured until fadb6f569b10
-> ("x86/cpu/intel: Limit the non-architectural constant_tsc model
-> checks"). In that commit, the model was transposed from 0x03 to
-> INTEL_P4_WILLAMETTE, which is just plain wrong. That was presumably a
-> simple typo, probably just copying and pasting the wrong P4 model.
-> 
-> Fix the constant TSC logic to cover all later P4 models. End at
-> INTEL_P4_CEDARMILL which is the last P4 model.
-
-Tweaked this slightly for accuracy:
-
-Pentium 4's which are INTEL_P4_PRESCOTT (model 0x03) and later have
-a constant TSC. This was correctly captured until commit fadb6f569b10
-("x86/cpu/intel: Limit the non-architectural constant_tsc model checks").
-
-In that commit, an error was introduced while selecting the last P4
-model (0x06) as the upper bound. Model 0x06 was transposed to
-INTEL_P4_WILLAMETTE, which is just plain wrong. That was presumably a
-simple typo, probably just copying and pasting the wrong P4 model.
-
-Fix the constant TSC logic to cover all later P4 models. End at
-INTEL_P4_CEDARMILL which accurately corresponds to the last P4 model.
