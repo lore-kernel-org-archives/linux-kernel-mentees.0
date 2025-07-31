@@ -1,33 +1,50 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E658923099F;
-	Thu, 31 Jul 2025 12:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F3A141987
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 31 Jul 2025 15:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753965968; cv=none; b=grOZw71DllufP8mmjBVMNt7Ao8ZM1kXVxfQpoecf3d98fvXj6SJjY6zkHqjxlgsqxdoAkTNGu7YKHFL8uvkn90np8VuGIfBC8A4rAIGNrY8vp32BVE6UHxWA9c5TCSN4zCsIHhDn2pynTDzuwlZtV1MfYAHfzP56/btdNqlrHwc=
+	t=1753977579; cv=none; b=oQqALmp12OAV8icweKBTYq5PF6s4sUz58frQtvHDRFsc1gOdY/2A/RAalGOm1eay0P3ltk30bOX8rcaIx/MI05KhlW77PANwZIhsOtBAwoMGYqwwM0qXMrXky7VM7o/aax/X5SnRHF+1NDgIqboCFMAMnYEve7QeeyvCCFH0Tck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753965968; c=relaxed/simple;
-	bh=DA00UZ8mlsGJ9kOXBHUieLy/xRbrOMW6eEkjVUp/rb8=;
+	s=arc-20240116; t=1753977579; c=relaxed/simple;
+	bh=mmRcCImDzrZp0hu+IQGRPIsQJTluZBrHvuO0Rqa2YB4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V/aipa6h2MJ/8aiA21UbF6+SiX+gF3Ph4SF055pjmmOxBwRJ9i0VEKDbxxEX3GgV5R6ms0aecnpKGTsSX49rAm3faQv30mjRRSZIQdNkpxwIcnv9UXEPzDIh1AWopr05SEbBH6EnreKFUyTP5q9+FnISLmlX2bYL5qAHAmPOx2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W7aDNN6d; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=ogArPHzB3PqCJjQLBeoQf2S1KvP16VYKxG0KXsGF9hif61YblQpuN90rjOLvdBTTfeJUM5aoxIZcNw3NQb2ds8+7yhdGQOyqCUz6fW7dRGDY8bxaj9sarLHdbySDEqwoZ861vUX+a1c3W9KsprEnMYOhmZ2sHLuPKAHykgnbOsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJ+dkhsi; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W7aDNN6d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84DD1C4CEEF;
-	Thu, 31 Jul 2025 12:46:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753965967;
-	bh=DA00UZ8mlsGJ9kOXBHUieLy/xRbrOMW6eEkjVUp/rb8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=W7aDNN6dSO6s1cM2yVn0HbsAfV0aIMR5M7xWN4v7dSYD7KDfr8Ildxz+M5Fhpvo8w
-	 o9VoCD2wmOzRVFh5vEq0phCdoK9L1LCLJ2yYnvrwBmzjkMRCaaeFyaTNMhMdeU0d2D
-	 Pezq+UBK2cmhiAkit9pzG76hT8kLWFZIfSanVxT3O6IMGXKXbrJT2sBo5COGm0Rhus
-	 CXwVVCqGfwedGVp6THWH1NDNrdZw+hJ2u0Wuc3xOJdlC/9P/Cg3+wE319fg4hGAjXT
-	 H8JpaeDMGC4iab2ynlnfEpfnkDwhnubZYdiJpKkTBNpQKuY5RvqXGBtEEBwaJY70m6
-	 0fHShXC2DT7sA==
-Message-ID: <45f0995f-17ac-45a3-8bc0-3b276ee91a9d@kernel.org>
-Date: Thu, 31 Jul 2025 14:46:02 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJ+dkhsi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753977579; x=1785513579;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=mmRcCImDzrZp0hu+IQGRPIsQJTluZBrHvuO0Rqa2YB4=;
+  b=fJ+dkhsiCfMEcvd74UCywUZfyC3oYGoY/7Zwuoe1Efmrva1gMFtjWF8I
+   vF2m6IHF7huC2SQJAu9wOhvxBBoZzB3b3NRXvJJAuAtxt9KPSWdTuFwl5
+   YQlrEB5CzIla327jjZopYwkNPsmYX3EZ+HvdI0C/6zSutaB+BYwuDJ1AC
+   fwUuAQNXwyIi001ccDvuCsDAIzR0G2m9ksfo+MTM3B1stFxmTZOQldVxn
+   /CppnykmiCy0g5z+4J0tnZ7Xf/EJWyDSnEO65Qu7Q3LahJieMQK2W3ayW
+   CU7fGU86pwXl9WHG34v9RDw9s1UF0XbVE5peCgq9f5AzfJd2JaNpTySyB
+   g==;
+X-CSE-ConnectionGUID: 5twqriOERkySzpIrPUU3dg==
+X-CSE-MsgGUID: iKahw9H8QQGWLOKYis3Auw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="73765844"
+X-IronPort-AV: E=Sophos;i="6.17,254,1747724400"; 
+   d="scan'208";a="73765844"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 08:57:49 -0700
+X-CSE-ConnectionGUID: 8cIJHB/3SUmlM0a4cX/yPQ==
+X-CSE-MsgGUID: XqtxjqHFRdi3S8nGUSXvgQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,254,1747724400"; 
+   d="scan'208";a="162575528"
+Received: from tfalcon-desk.amr.corp.intel.com (HELO [10.125.109.198]) ([10.125.109.198])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 08:57:47 -0700
+Message-ID: <3093fd14-d57a-4fc6-9e15-d9ce8b075b30@intel.com>
+Date: Thu, 31 Jul 2025 08:57:47 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -35,98 +52,93 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] checkpatch: validate commit tag ordering
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>,
- dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
- corbet@lwn.net, apw@canonical.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
- <53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
- <CAMuHMdU2e+5Hf3v=C=sE=+25f_A=2=Zzw5rxvcT=hb75VC=iFQ@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v3] x86/cpu/intel: Fix the constant_tsc model check for
+ Pentium 4s
+To: Suchit Karunakaran <suchitkarunakaran@gmail.com>, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+ darwi@linutronix.de, sohil.mehta@intel.com, peterz@infradead.org,
+ ravi.bangoria@amd.com
+Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20250730042617.5620-1-suchitkarunakaran@gmail.com>
+From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAMuHMdU2e+5Hf3v=C=sE=+25f_A=2=Zzw5rxvcT=hb75VC=iFQ@mail.gmail.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
+ oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
+ 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
+ ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
+ VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
+ iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
+ c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
+ pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
+ ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
+ QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzUVEYXZpZCBDaHJp
+ c3RvcGhlciBIYW5zZW4gKEludGVsIFdvcmsgQWRkcmVzcykgPGRhdmUuaGFuc2VuQGludGVs
+ LmNvbT7CwXgEEwECACIFAlQ+9J0CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEGg1
+ lTBwyZKwLZUP/0dnbhDc229u2u6WtK1s1cSd9WsflGXGagkR6liJ4um3XCfYWDHvIdkHYC1t
+ MNcVHFBwmQkawxsYvgO8kXT3SaFZe4ISfB4K4CL2qp4JO+nJdlFUbZI7cz/Td9z8nHjMcWYF
+ IQuTsWOLs/LBMTs+ANumibtw6UkiGVD3dfHJAOPNApjVr+M0P/lVmTeP8w0uVcd2syiaU5jB
+ aht9CYATn+ytFGWZnBEEQFnqcibIaOrmoBLu2b3fKJEd8Jp7NHDSIdrvrMjYynmc6sZKUqH2
+ I1qOevaa8jUg7wlLJAWGfIqnu85kkqrVOkbNbk4TPub7VOqA6qG5GCNEIv6ZY7HLYd/vAkVY
+ E8Plzq/NwLAuOWxvGrOl7OPuwVeR4hBDfcrNb990MFPpjGgACzAZyjdmYoMu8j3/MAEW4P0z
+ F5+EYJAOZ+z212y1pchNNauehORXgjrNKsZwxwKpPY9qb84E3O9KYpwfATsqOoQ6tTgr+1BR
+ CCwP712H+E9U5HJ0iibN/CDZFVPL1bRerHziuwuQuvE0qWg0+0SChFe9oq0KAwEkVs6ZDMB2
+ P16MieEEQ6StQRlvy2YBv80L1TMl3T90Bo1UUn6ARXEpcbFE0/aORH/jEXcRteb+vuik5UGY
+ 5TsyLYdPur3TXm7XDBdmmyQVJjnJKYK9AQxj95KlXLVO38lczsFNBFRjzmoBEACyAxbvUEhd
+ GDGNg0JhDdezyTdN8C9BFsdxyTLnSH31NRiyp1QtuxvcqGZjb2trDVuCbIzRrgMZLVgo3upr
+ MIOx1CXEgmn23Zhh0EpdVHM8IKx9Z7V0r+rrpRWFE8/wQZngKYVi49PGoZj50ZEifEJ5qn/H
+ Nsp2+Y+bTUjDdgWMATg9DiFMyv8fvoqgNsNyrrZTnSgoLzdxr89FGHZCoSoAK8gfgFHuO54B
+ lI8QOfPDG9WDPJ66HCodjTlBEr/Cwq6GruxS5i2Y33YVqxvFvDa1tUtl+iJ2SWKS9kCai2DR
+ 3BwVONJEYSDQaven/EHMlY1q8Vln3lGPsS11vSUK3QcNJjmrgYxH5KsVsf6PNRj9mp8Z1kIG
+ qjRx08+nnyStWC0gZH6NrYyS9rpqH3j+hA2WcI7De51L4Rv9pFwzp161mvtc6eC/GxaiUGuH
+ BNAVP0PY0fqvIC68p3rLIAW3f97uv4ce2RSQ7LbsPsimOeCo/5vgS6YQsj83E+AipPr09Caj
+ 0hloj+hFoqiticNpmsxdWKoOsV0PftcQvBCCYuhKbZV9s5hjt9qn8CE86A5g5KqDf83Fxqm/
+ vXKgHNFHE5zgXGZnrmaf6resQzbvJHO0Fb0CcIohzrpPaL3YepcLDoCCgElGMGQjdCcSQ+Ci
+ FCRl0Bvyj1YZUql+ZkptgGjikQARAQABwsFfBBgBAgAJBQJUY85qAhsMAAoJEGg1lTBwyZKw
+ l4IQAIKHs/9po4spZDFyfDjunimEhVHqlUt7ggR1Hsl/tkvTSze8pI1P6dGp2XW6AnH1iayn
+ yRcoyT0ZJ+Zmm4xAH1zqKjWplzqdb/dO28qk0bPso8+1oPO8oDhLm1+tY+cOvufXkBTm+whm
+ +AyNTjaCRt6aSMnA/QHVGSJ8grrTJCoACVNhnXg/R0g90g8iV8Q+IBZyDkG0tBThaDdw1B2l
+ asInUTeb9EiVfL/Zjdg5VWiF9LL7iS+9hTeVdR09vThQ/DhVbCNxVk+DtyBHsjOKifrVsYep
+ WpRGBIAu3bK8eXtyvrw1igWTNs2wazJ71+0z2jMzbclKAyRHKU9JdN6Hkkgr2nPb561yjcB8
+ sIq1pFXKyO+nKy6SZYxOvHxCcjk2fkw6UmPU6/j/nQlj2lfOAgNVKuDLothIxzi8pndB8Jju
+ KktE5HJqUUMXePkAYIxEQ0mMc8Po7tuXdejgPMwgP7x65xtfEqI0RuzbUioFltsp1jUaRwQZ
+ MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
+ hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
+ vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
+In-Reply-To: <20250730042617.5620-1-suchitkarunakaran@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 31/07/2025 13:55, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
+On 7/29/25 21:26, Suchit Karunakaran wrote:
+> The logic to synthesize constant_tsc for Pentium 4s (Family 15) is
+> wrong. Since INTEL_P4_PRESCOTT is numerically greater than
+> INTEL_P4_WILLAMETTE, the logic always results in false and never sets
+> X86_FEATURE_CONSTANT_TSC for any Pentium 4 model.
+> The error was introduced while replacing the x86_model check with a VFM
+> one. The original check was as follows:
+>         if ((c->x86 == 0xf && c->x86_model >= 0x03) ||
+>                 (c->x86 == 0x6 && c->x86_model >= 0x0e))
+>                 set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
 > 
-> On Fri, 25 Jul 2025 at 10:42, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->> On 24/07/2025 09:20, Hendrik Hamerlinck wrote:
->>> Modified the checkpatch script to ensure that commit tags (e.g.,
->>> Signed-off-by, Reviewed-by, Acked-by, Tested-by, etc.) appear in the
->>> correct order according to kernel conventions [1].
->>
->> These are not the conventions I use for my subsystems and ask others to
->> follow, so imposing TIP rules to all maintainers needs broad consensus,
->> not (yet) checkpatch.
->>
->> What's more, I think above TIP rules are contradicting with existing,
->> widely used and approved toolset - b4. So no, if you want universal
->> tool, please use b4 or whatever b4 defines.
-> 
-> B4 does not follow the proper order:
+> Fix the logic to cover all Pentium 4 models from Prescott (model 3) to
+> Cedarmill (model 6) which is the last model released in Family 15.
 
-There is no "proper order" in terms of absolute facts.
+Could we have a slightly different changelog, please? The fact that the
+logic results in the bit never getting set for P4's is IMNHO immaterial.
+This looks like a plain and simple typo, not a logical error on the
+patch author's part.
 
->   1. Multiple Reviewed-by tags may be added in a different order
->       than given,
+How about this as a changelog?
 
-Maybe this could be fixed.
+--
 
->   2. When applying my own patches, b4 adds the given tags before
->      instead of after my own SoB.
+Pentium 4's which are INTEL_P4_PRESCOTT (mode 0x03) and later have a
+constant TSC. This was correctly captured until fadb6f569b10
+("x86/cpu/intel: Limit the non-architectural constant_tsc model
+checks"). In that commit, the model was transposed from 0x03 to
+INTEL_P4_WILLAMETTE, which is just plain wrong. That was presumably a
+simple typo, probably just copying and pasting the wrong P4 model.
 
-This is working exactly as expected (intentional), explained few times
-by Konstantin. Some people of course have different opinion and prefer
-different order (I know few subsystems), but majority I think accepted
-Konstantin's explanation.
-
-Best regards,
-Krzysztof
+Fix the constant TSC logic to cover all later P4 models. End at
+INTEL_P4_CEDARMILL which is the last P4 model.
