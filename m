@@ -1,79 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E8DA48;
-	Sat,  2 Aug 2025 16:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC701DED7B
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  2 Aug 2025 19:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754151985; cv=none; b=sDwlYVEx5qG/2Y7OGsm5JfDKLtuE7y22jVwPFUybP4dPEjv6bzm8oMFhDUWSBl5+J2KOsQFC8Y1WaXod8mTydRcwVb/z+iHgA+S4ZuMWPScUlghq/kXWV5Zy6K5Vh8KvEHBT1Blr+2cUegBgnBi5k4RzP/Doyp04/0/dHkbxoH4=
+	t=1754162762; cv=none; b=b6n8/TuI54TpC/dyjq/h6fLcIZqJE8FjWOsdphe5Tw6jU9b9dn8ZyFR6LhNQworKVwOUSDUsXaAZjYOwSGMPRV+Xh59xsSNUEjPQOzx3fS/Owi6QpfBrmvEjLwL6MJDPHLVJ2WIb2uRbcQKSGHsH0RgUt8VTWCyh27igGORzoVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754151985; c=relaxed/simple;
-	bh=W0ZacJKxa8AZBkVMM8nSyCWTVkVdazHmu557pWLPoto=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jxJaj/PpDiqaM6fZ8VroH/cwNiMdfjIDrM2NAwNLSx4swSv6DUXYcywpflBkxekCVRwjKJjVuahUxCBE9TGNk2ffmwIPLVCscpmUa091kn9UHkeGCrgmnmAHcWLmNPxQLMtcxC0IrWFIpmQ3Czy9hsefZdwUAjHCSnN3D0IgQxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=svcydBnD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754162762; c=relaxed/simple;
+	bh=C1UaNTuACGrRkW2E3FhQG0DrBcJFu24wR9QIIxX6tno=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Y8zEDJiBWuvUblm7Y6aA3f++mzGAU6G/U3hZd+oJgJv4AzQj1vpRYeJlmyW4QkvKNioT74VQO7ZgyzqgUkfcEJFUWe240X5RSTTTTLMVZQspFEN+k2T9pfe5Btjr+S9fDGytNOAUaFtt4RTD/D4tPLr7nDofvzsCkoGACFyE3Qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=mcborUEM; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="svcydBnD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16C48C4CEF4;
-	Sat,  2 Aug 2025 16:26:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1754151984;
-	bh=W0ZacJKxa8AZBkVMM8nSyCWTVkVdazHmu557pWLPoto=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=svcydBnDUxJF+sO6JuBzszDOfXYqJMWJKqWyq7wHYX+1JbaVZSfsalyxiHJcYJ/Ls
-	 c7FM0J+tb/n+iHJyDz4h1QAVgAjg5hzhqgTJGTO9EtNWy11KWSsEQwoE8jVYlb5uII
-	 SBkFIO5AZfqk9o4jl57pWzsBcBNq1sHFLGevEylY=
-Date: Sat, 2 Aug 2025 12:26:22 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jani Nikula <jani.nikula@intel.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, 
-	joe@perches.com, corbet@lwn.net, apw@canonical.com, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] checkpatch: validate commit tag ordering
-Message-ID: <20250802-hog-of-eternal-realization-a9ab6f@lemur>
-References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
- <53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
- <CAMuHMdU2e+5Hf3v=C=sE=+25f_A=2=Zzw5rxvcT=hb75VC=iFQ@mail.gmail.com>
- <45f0995f-17ac-45a3-8bc0-3b276ee91a9d@kernel.org>
- <3e9106d35d41a044adeadffeea32fa096c9e1370@intel.com>
- <20250802121200.665ea309@foz.lan>
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="mcborUEM"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-31f255eb191so2752699a91.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 02 Aug 2025 12:26:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1754162760; x=1754767560; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jd8Da3JQX6Y4PSybA2tHWl8SitZx9sYR2KOlV5oLUG0=;
+        b=mcborUEMSiy2eF9JE4pbqwLIHkL/DEhbCSZzj+23VWhUOjObbLEkvZk2kUFcuFlARZ
+         lhcMMdkoWsdmhTHD4hP08jYCWzC4yq19BYDinGf/5ny9ABm7INRY6QTvuTUUE6AsHlSv
+         y210jhHLHB4gIeaj6+QFeer2l0uhlGhMey2h7La57E5AJWikLHHPie7u2s56w7Bp82TQ
+         t+85FpUsFrIALiK00NEINOb/hImntFrD2Wk6HbDavpFLKsK5XKebw/oQfIRlFmS11o2e
+         dmjFSNxJi4HyqjXp72DIlNYY0MKeCZYsCbU5MItk/em2HZLMiTFnB4s8Ov35JkhN2Uki
+         YUvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754162760; x=1754767560;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jd8Da3JQX6Y4PSybA2tHWl8SitZx9sYR2KOlV5oLUG0=;
+        b=sOhqze6ztz13pir0sq97kptMXLl+vPpnqZjKckXY4077Fvgnr8NwLGuXLEXp3mecQE
+         9r8aOf4yaWs/BtrWMVr7PDUAQ03MrPdtcpdQDjBwyhuDkNZzOKNxKLEgOl/O4BcpE5Ot
+         iYZ4UqKLsHsD42ORWTPABfl+nGiyDX7b2sxbgT1H84uMe28zE/6uWpfz0ArAFA6vA/K2
+         L4kWL5qLiShc2alnVTyJxhE9qQHS6Ev4zdGQwwaz11OmEOOqLenYeIJxGnd5gfyDD4p3
+         Wrm2Q44tqwQd+AYcoKHXVu8KRlCZpk5sAD5r4iMEPC7+Iv9JGv3n/NNdsBcJotFHQYmp
+         Qp0w==
+X-Forwarded-Encrypted: i=1; AJvYcCUt2It727XQ99PSHF3CS5OUOrBtL8aaui7l9SVET7HcI4l1vfBYSHJCONhJaZOXbc1a5yIup5Zt5c/4si6ivPxhkrIqjA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWAtaJMkIv+RRtwhypatm893VoFJ9zx4dtJ191pWaBX+GdXI9f
+	AO+qEDgwn6DrMUxEqXyRZl/0dGUc2M1ttn7XSUn9Z+4LhyYR1tGjLmTQeBt3F3yNmLA=
+X-Gm-Gg: ASbGnctIt5jMArPtBUod1z0VQFDuh1hmoCYRXMSqafA8O8OXzv8nx0WLMgIvD5dIWMK
+	Sx0dr98bBshd4D6N4BvaakCZcNdtMDZFAqX+RJ0oO8FPbdU5kz5S3gjCLYp9YS4kVjzTdFQwJCu
+	seBR5AEfw95QTr8aIuoUA+1pXoGkSg9onKhD4DBXZX6EJVofDiug0rGAZhZyF78Xv50wTwakiWF
+	coa6SMoVjNvAZqFI+ntJ+yuJJGOQ9xoZVW53vetnGDyN/yY1vcRwVXi+RIwtYPr6jksxEoS6Trk
+	gEr866yiisAwZpuUmOP8kV7Ghud0RYjOXef7MTrELWao3u2kTPktNFHmT3cr8fhk4WwK0KhYXFX
+	QXSXUOD8uJ+bBGXAogkPG7prlcpSfFgx6J4w=
+X-Google-Smtp-Source: AGHT+IHO/dHbjA7eIboeg3fI24euyvdKdfkdQISMXRwMVcyEDVOqzT7XWdU+bvEG1Xrt7oOpsscNCQ==
+X-Received: by 2002:a17:90b:3947:b0:2fe:85f0:e115 with SMTP id 98e67ed59e1d1-321162dd19cmr6357739a91.26.1754162760525;
+        Sat, 02 Aug 2025 12:26:00 -0700 (PDT)
+Received: from mystery-machine.local ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3207eba6bb8sm7887583a91.4.2025.08.02.12.25.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Aug 2025 12:25:59 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH 0/2] accel/rocket: Fix build errors and sparse warning
+Date: Sat, 02 Aug 2025 13:25:45 -0600
+Message-Id: <20250802-fix-rockchip-npu-build-v1-0-fb0f0dacb3fe@brighamcampbell.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250802121200.665ea309@foz.lan>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADlmjmgC/x2MQQqAIBAAvxJ7bsGEyvpKdDDdcilMFCOI/p50H
+ JiZBxJFpgRj9UCkixOfvkBTV2Cc9hsh28IghWyFEhJXvjGeZjeOA/qQccl8WDS6b4dFK6tFByU
+ OkYr5j6f5fT8NmHveaAAAAA==
+X-Change-ID: 20250802-fix-rockchip-npu-build-ca759ba8da06
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+ Brigham Campbell <me@brighamcampbell.com>, 
+ kernel test robot <lkp@intel.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=805; i=me@brighamcampbell.com;
+ h=from:subject:message-id; bh=C1UaNTuACGrRkW2E3FhQG0DrBcJFu24wR9QIIxX6tno=;
+ b=owGbwMvMwCUWLsWS0KCyxZPxtFoSQ0Zfmtv7o5uupt5bnPdMjn/f526m5kVXn/6sVQpTOp96+
+ PeaOuWgjlIWBjEuBlkxRRaVW7PUL062fnQwgn8CzBxWJpAhDFycAjCRwCmMDA/UMytqO5aUsglI
+ KG23b5S6fGmhnm7l78kzPFQjDRn2yzAy7CmRdzylbH1S+l3i1E0JX9tXmZ0Nfqj0aUIgp63bdLs
+ 4RgA=
+X-Developer-Key: i=me@brighamcampbell.com; a=openpgp;
+ fpr=24DA9A27D1933BE2C1580F90571A04608024B449
 
-On Sat, Aug 02, 2025 at 12:12:00PM +0200, Mauro Carvalho Chehab wrote:
-> > Let's just decide whatever order b4 uses *is* the proper order, and save
-> > ourselves endless hours of debating! :p
-> 
-> I don't think it makes sense to have a "proper order" verified on
-> checkpatch, as some tags may appear on different places.
-> 
-> For instance, the custody chain was designed to have SoBs appearing
-> in different places:
-> 
-> - author(s) SoB together co-developed-by are usually the first ones;
-> - then patches may have been reviewed, tested, acked or passed on some
->   other trees, gaining tags like tested-by, R-B, A-B, SoB, Cc;
-> - the subsystem maintainer will add his SoB in the end.
-> 
-> non-custody chain tags, like fixes, closes, reported-by...
-> usually comes first, but I don't think we need to enforce an specific
-> order.
+Fix two build errors in rockchip NPU support code which were caused by
+the integration of recent changes in the drm subsystem.
 
-I wholeheartedly agree -- it really doesn't matter the order the trailers are
-in, as long as it's clear who is the person who pulled the trailer in, which
-is why I stick to the chain of custody. I'm pretty sure nobody has ever looked
-at a commit and went "I can't believe they put the Link trailer above the
-Suggested-by trailer," so enforcing it in checkpatch seems like wasted effort
-to me.
+Fix a sparse warning regarding an undeclared const, rocket_pm_ops.
 
--K
+I tested these changes by enabling DRM_ACCEL_ROCKET and recompiling with
+`make C=2`.
+
+Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+---
+Brigham Campbell (2):
+      accel/rocket: Fix Rockchip NPU compilation
+      accel/rocket: Fix undeclared const rocket_pm_ops
+
+ drivers/accel/rocket/rocket_drv.h | 2 ++
+ drivers/accel/rocket/rocket_job.c | 4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+---
+base-commit: 01ac6e4e53b6351df42c97d217b0d2dbeef5c917
+change-id: 20250802-fix-rockchip-npu-build-ca759ba8da06
+
+Best regards,
+-- 
+Brigham Campbell <me@brighamcampbell.com>
+
