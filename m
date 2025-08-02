@@ -1,131 +1,79 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572968836
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  2 Aug 2025 11:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E8DA48;
+	Sat,  2 Aug 2025 16:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754135451; cv=none; b=J5CCE/qcoPLRhAUhZxwefFcB8l3HOkFGQioETAsFmXrOAUBEsw9DtFt6x1V657RJrr7BkGkU1w3ZMJANZXYkYlsYFF5tjTX88Utdmov9R25Cf8sJAMv3ZBQ5y8GcHM7A+/ryqJg7gWBxTv/9/9OEEZfIDTw2OlbMO37bfQ+rVoU=
+	t=1754151985; cv=none; b=sDwlYVEx5qG/2Y7OGsm5JfDKLtuE7y22jVwPFUybP4dPEjv6bzm8oMFhDUWSBl5+J2KOsQFC8Y1WaXod8mTydRcwVb/z+iHgA+S4ZuMWPScUlghq/kXWV5Zy6K5Vh8KvEHBT1Blr+2cUegBgnBi5k4RzP/Doyp04/0/dHkbxoH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754135451; c=relaxed/simple;
-	bh=4hcyyY0ycxXkMqvv8873RLDK7Dzwl+Bmd7CBnlGgJw4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gryLHeeMv9Dmg11Is9vL8WvvAFJps7G5H5ZeTg7EGFX09X538YVWQIUI4ZvJ88Up4/53GvLUBxtn4JblgL7XZZx/i+Zko+AnJ6E6qk7L7RTMzfpNxVSC+TUm8Va1nUsIDS9nOZoV6sHXavcAwFi6YOSLvUyds6oQjACUzQxDCr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sg0WJ4ia; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1754151985; c=relaxed/simple;
+	bh=W0ZacJKxa8AZBkVMM8nSyCWTVkVdazHmu557pWLPoto=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jxJaj/PpDiqaM6fZ8VroH/cwNiMdfjIDrM2NAwNLSx4swSv6DUXYcywpflBkxekCVRwjKJjVuahUxCBE9TGNk2ffmwIPLVCscpmUa091kn9UHkeGCrgmnmAHcWLmNPxQLMtcxC0IrWFIpmQ3Czy9hsefZdwUAjHCSnN3D0IgQxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=svcydBnD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sg0WJ4ia"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0375F607B7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  2 Aug 2025 11:50:50 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id sJzURlEE7sA7 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 Aug 2025 11:50:49 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=jic23@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 518A2607B2
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 518A2607B2
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=sg0WJ4ia
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 518A2607B2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  2 Aug 2025 11:50:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 698AF600B0;
-	Sat,  2 Aug 2025 11:50:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49D08C4CEEF;
-	Sat,  2 Aug 2025 11:50:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754135446;
-	bh=4hcyyY0ycxXkMqvv8873RLDK7Dzwl+Bmd7CBnlGgJw4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sg0WJ4iaWt2fmucMbQ7OojnyCy1CbGoUATBLz6MdVpVqniPJ4jczxovgUhiA7+y01
-	 FNjBRxNEt34uujktLT1+lJqiNdWQvXrb3zy+Vzb2HKbGYKFXcy0wN7KadR3SnU3MpV
-	 NHcX+HhRyLlkvHF8J412g/c/vnIiZgRWIdGydRew+7AnbfQfTVINKQ4IRRoxDo7bi+
-	 tpbZHX9BRikZiMJzk7wCXec8c4KEhLackYWcJ0SfGNvoqES+trEpICrymjdXsp90nq
-	 25hc+FsTrew22pUMwiNHXBXOglL9B2CFvrhwx3LZNcQCbF35WFD0h8EMXMQvffV4Os
-	 VluRLOBm+9Nhg==
-Date: Sat, 2 Aug 2025 12:50:38 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Akshay Bansod <akbansd@gmail.com>, Lorenzo Bianconi
- <lorenzo@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
-Message-ID: <20250802125038.7a02cbce@jic23-huawei>
-In-Reply-To: <aIIdU7mJi_cEdRuI@smile.fi.intel.com>
-References: <20250723141359.11723-1-akbansd@gmail.com>
-	<aID01DxC1Hf2PK0i@smile.fi.intel.com>
-	<20250723164100.34e864d6@jic23-huawei>
-	<aIIdU7mJi_cEdRuI@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="svcydBnD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16C48C4CEF4;
+	Sat,  2 Aug 2025 16:26:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1754151984;
+	bh=W0ZacJKxa8AZBkVMM8nSyCWTVkVdazHmu557pWLPoto=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=svcydBnDUxJF+sO6JuBzszDOfXYqJMWJKqWyq7wHYX+1JbaVZSfsalyxiHJcYJ/Ls
+	 c7FM0J+tb/n+iHJyDz4h1QAVgAjg5hzhqgTJGTO9EtNWy11KWSsEQwoE8jVYlb5uII
+	 SBkFIO5AZfqk9o4jl57pWzsBcBNq1sHFLGevEylY=
+Date: Sat, 2 Aug 2025 12:26:22 -0400
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jani Nikula <jani.nikula@intel.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, 
+	joe@perches.com, corbet@lwn.net, apw@canonical.com, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] checkpatch: validate commit tag ordering
+Message-ID: <20250802-hog-of-eternal-realization-a9ab6f@lemur>
+References: <20250724072032.118554-1-hendrik.hamerlinck@hammernet.be>
+ <53eb0068-008b-48e6-9b92-d92de2ed4fc9@kernel.org>
+ <CAMuHMdU2e+5Hf3v=C=sE=+25f_A=2=Zzw5rxvcT=hb75VC=iFQ@mail.gmail.com>
+ <45f0995f-17ac-45a3-8bc0-3b276ee91a9d@kernel.org>
+ <3e9106d35d41a044adeadffeea32fa096c9e1370@intel.com>
+ <20250802121200.665ea309@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250802121200.665ea309@foz.lan>
 
-On Thu, 24 Jul 2025 14:47:31 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+On Sat, Aug 02, 2025 at 12:12:00PM +0200, Mauro Carvalho Chehab wrote:
+> > Let's just decide whatever order b4 uses *is* the proper order, and save
+> > ourselves endless hours of debating! :p
+> 
+> I don't think it makes sense to have a "proper order" verified on
+> checkpatch, as some tags may appear on different places.
+> 
+> For instance, the custody chain was designed to have SoBs appearing
+> in different places:
+> 
+> - author(s) SoB together co-developed-by are usually the first ones;
+> - then patches may have been reviewed, tested, acked or passed on some
+>   other trees, gaining tags like tested-by, R-B, A-B, SoB, Cc;
+> - the subsystem maintainer will add his SoB in the end.
+> 
+> non-custody chain tags, like fixes, closes, reported-by...
+> usually comes first, but I don't think we need to enforce an specific
+> order.
 
-> On Wed, Jul 23, 2025 at 04:41:00PM +0100, Jonathan Cameron wrote:
-> > On Wed, 23 Jul 2025 17:42:28 +0300
-> > Andy Shevchenko <andriy.shevchenko@intel.com> wrote:  
-> > > On Wed, Jul 23, 2025 at 07:43:59PM +0530, Akshay Bansod wrote:  
-> 
-> ...
-> 
-> > > >  	fs_table = &hw->settings->fs_table[sensor->id];
-> > > >  	for (i = 0; i < fs_table->fs_len; i++)
-> > > > -		len += scnprintf(buf + len, PAGE_SIZE - len, "0.%09u ",
-> > > > -				 fs_table->fs_avl[i].gain);
-> > > > -	buf[len - 1] = '\n';
-> > > > +		len += sysfs_emit_at(buf, len, "0.%09u ",
-> > > > +				     fs_table->fs_avl[i].gain);
-> > > > +
-> > > > +	sysfs_emit_at(buf, len - 1, "\n");    
-> > > 
-> > > Still looks a bit weird (while working).
-> > >   
-> > > >  	return len;    
-> > > 
-> > > I deally we should have a helper doing all this under the hood for plenty of
-> > > the (existing) users in the kernel.  
-> > 
-> > hmm I'm not sure generic is terribly easy  
-> 
-> I agree, I have some plans for %p specifier extension, but I was stuck with it
-> and it in half-basked state in some of my local Git branches.
-> 
-> > and I'd prefer this using the
-> > read_avail callbacks that require the data in an array where ever possible.
-> > Mind you that does the same print at len - 1 as this.  Let's play. 
-> > Completely untested.
-> > 
-> > 	for (i = 0; i < fs_table->fs_len; i++)
-> > 		len += sysfs_emit_at(buf, len, "0x%09u%c",
-> > 				     fs_table->fs_avl[i].gain,
-> > 				     ((i == fs_table->fs_len - 1) ? '\n', ' '));
-> > 
-> > better?  
-> 
-> Without extra parentheses this makes the job.
-> 
-Akshay, can you spin a new version along those lines?
-> 
-> > It's definitely not more readable than the above, but it does avoid the write
-> > to len - 1.
-> >   
-> > > In any case, I leave this change to others to comment, I don't object pushing
-> > > it in this form, either way len - 1 is simply weird.  
-> 
+I wholeheartedly agree -- it really doesn't matter the order the trailers are
+in, as long as it's clear who is the person who pulled the trailer in, which
+is why I stick to the chain of custody. I'm pretty sure nobody has ever looked
+at a commit and went "I can't believe they put the Link trailer above the
+Suggested-by trailer," so enforcing it in checkpatch seems like wasted effort
+to me.
 
+-K
