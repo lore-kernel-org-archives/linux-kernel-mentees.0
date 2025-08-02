@@ -1,66 +1,67 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2E725743E
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  2 Aug 2025 19:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EB3259C80
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  2 Aug 2025 19:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754162764; cv=none; b=UwCnariZcJNrS7TSgXE+xNXtqb37fVx6BIe3SL7no9U3PQ6Vm9RqJ7ee12CMuZ+gLiHH4U6gjJ8HXOT0PjQa5Cg/dXshPTjHLu6w2SMUXqivYAKEjtaZbEjwtloZFdvg4EcZuCq/y/wCdYZTawrpyFKHCahu+UA0pGnKNWOM66U=
+	t=1754162766; cv=none; b=TX87mTtmKEaIKU4lQPry6Enoh9LhyjThH94hzzd5KT4wBa5dV55wFrnccQNfjuJ6vdJ78+OJzrPmDEK8BKswktmbiZKVBalH1U43scVHQDqY978uYSKm+muvaQFM+URIL2SZV4z9Oo740Vm6JRg+GkDYN7O2lAI4IDhiCHk8s5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754162764; c=relaxed/simple;
-	bh=iYFZqe0FJwNf+ajNL5XFSo87/W08KOgeD3yFN7dsGdc=;
+	s=arc-20240116; t=1754162766; c=relaxed/simple;
+	bh=z+5KRxYc5UqnilO3In24UU4dyirhMN0G97cy/9xmtoA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NFe6PUp7dvWs8XkaFSU2B6lgGhoMOtN1Pwvr60QGTcSQJRYexEFtF67uDn2iDpGLDHOKnMYb5ko7SQ4VCC7KGgUjur0nvR4zknOQlyspJE2pWFSad3kQYe7AoCmli/vH6KyuNvLrOb11szJAnNSKISpK0aV4NVEqZ9q5DZ37cfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=J0ipzRRW; arc=none smtp.client-ip=209.85.215.170
+	 In-Reply-To:To:Cc; b=bL5nysqLphfSpNjEpnPRcR4j2h7wtvUhYASsK54JgIheYNS0n89OPBIXgUk02qmq/ajTWwlV1VyubbjxVtmtAFVB83LPzse6Sa45Eb+8wpoLnH3N/9O1KX7LIsuE1rVxSg89TO3DmQojpOSf//FXpwxqfZnfbc54zKli4KtKPs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=iRCZSP1O; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="J0ipzRRW"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b422b31b1c0so1866061a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 02 Aug 2025 12:26:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="iRCZSP1O"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b4233978326so1475978a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 02 Aug 2025 12:26:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1754162762; x=1754767562; darn=lists.linux.dev;
+        d=brighamcampbell.com; s=google; t=1754162764; x=1754767564; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=patF50HxwBAOhfbawHD1F2SI7QSAZ2zNgVR0o2+WGJc=;
-        b=J0ipzRRWWsslypYsU8rWc+K+i4oUIgbhU/4kbgktPDTbvwuCnSweDf/OAC/k2RKe4R
-         OtHD7eBnEHPd1hV0jW7FiFei1EEu8TJrF30wl9OaYHady23gG/dJVO7Jwq6iRPtSR0e6
-         pvsKnBKt/wu2kGa+5lPcA+bfTlVNvvnk2kuzKrY5bRjha8n8Kkuu5qQ3xuLfqqRd1jtN
-         SJgXr6RyBGssuzBDZ2G2G2UDxs/NRXtn+wupx3PF4szoXD9TKiq6N8Qb5IL7RReB9b++
-         a0hmFdXwJ+p59vzLVl/s2FFH0AllAarhpbwSDCcgwpXtbs9fk/10761PmyN5Jb1kW/CE
-         8Y+w==
+        bh=CaTaCEwiy5ye/b7edAgdJni69arTuyowWyDQz6ouBQQ=;
+        b=iRCZSP1OABz/A2N3/8jLRnDvs88A5UvfyDd2khhXGdNkcHj1X76Gd1J53cynOKnldi
+         7q9jWctAfDVdWLwbclRT3adCdhhIDVcdPt57T2uQaK8jSk5Mxpe/eknzJbooG3ygGHnS
+         ACj+ChJiKdOvfjLug4Kyr5498f0K38USX5XCkfQDlrLl6RNwdFmyctqPYCsEmSQq2GFb
+         Uty0C4rc8WXp2kwU7Z/dHMh7+qmylGreSQk/TuIRuZJdKVqryKhGRQsrv+sV01fZ9zkb
+         6r1VQhdZFYxIWpb/QHkEX0nb+8uhhc00tHIMnp7pgEMqSJjy9Mr1T+NIrqrgqVLuGf4N
+         blOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754162762; x=1754767562;
+        d=1e100.net; s=20230601; t=1754162764; x=1754767564;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=patF50HxwBAOhfbawHD1F2SI7QSAZ2zNgVR0o2+WGJc=;
-        b=kklQIMFvM2K7say/dvpICM+kdot7MgJ1jDGf8bm43FXF2rolM1QNyZyJZVK6dM/H2g
-         dCAO++vQeAFEL/35P2EWU8A3MSoaLGA5SCfkfbwBHxGJnpj5/EQSJHU5tbgcZ5lCi+8B
-         /WHyLYOt1vqNd4JJeCg5/u8hn6QbENVedH7k9ENHT58j31FK79VPQrM6ss18gTswvFzX
-         Xn7wgF9xyeP+UIE1Z35wH7l5QxDZwhfw9FO0Crs+KV10xBsqWBJT2Ar/j845+zJI0BUL
-         Xyb7VEb3fkVppvpwaFHQaAaQEeqFamWeohnp1RCWMYmZruvEChf3xMbz4rdjwi1Aty/Y
-         yJAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVixlaR67OydvBLVBOI6N5pTZhkarlKB8Shsfi+twvyRBdKkM9S/Gi551LcC7e60gHxDORqEEmdtZlgMRthxcbV44Q76g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzIijsM8CcgcIkqzeoK7zPQfKHyE9NEcqZg8CMnKe2BNulB6nlT
-	C1LkMMJXYDFesh7iLsxj2cEx4s7inRANWZ2dNeLwCofNzZNs68j4wifataU9cehGSU8=
-X-Gm-Gg: ASbGnctnSJBFm8sZVBIeZeqcplEYl1P903omE8ZwQYzcKlqgxMIhOTDNBCeXovZT1N2
-	cyq4LcGJU3C334KHfv6OW7TSG4/EPvo1G3cVQTbufmt26R+eERuXcnHSLDROz/jp6WgZ5vKwoTG
-	usERQ0tqyLa+8G/G0jCWkhpFbQNxIyoT/WHxlMZpMO6ng9WA6Lx/JaVJzluJZzQ/1yyoWA2pKhx
-	QMjGQ4/HW3nU+yES3QBEP0276U0c1UkMqJ0V5BocF9ovjOH8j4wn5ue/LDn+JXUHxjMs1NMmZRr
-	cwmkhoMPmIG6ORIEuOSkC0XuxXhTjxXgOOE0BJtCxl2OPSJhPp/mclT34g+pIDxCmLgt/sk8lGq
-	DdCoYLwJWhJXDWXhnk5XnVGIwRpAjF925ta4=
-X-Google-Smtp-Source: AGHT+IEUNY6RAxyfm2o8WI4OeBc0W8xJUgXWURl0s22NPmAoZ1ZpBLFdr2EyazqR3HO82uxLuqL2Qw==
-X-Received: by 2002:a17:90b:53c5:b0:31e:f397:b5b4 with SMTP id 98e67ed59e1d1-3211629df4cmr5741060a91.22.1754162762276;
-        Sat, 02 Aug 2025 12:26:02 -0700 (PDT)
+        bh=CaTaCEwiy5ye/b7edAgdJni69arTuyowWyDQz6ouBQQ=;
+        b=a7QoKI+9zomLqXtXFm4vfD5Rg+9F37ehATPpJZW6CXdGeg9+aMXoCrgtFCFHajD/mG
+         1egzvdBYI6ZRAhk/ODZBkPCLRhhmwsoKPSlGk7kM6Jfr7ElIQdEv7aOCGwdwpX9Zs+CF
+         Wn2JRGVl0lHwkunq0ns4P6KfGPhWdo0LdNy4UfDRBH7z2lcuSD+94awdBIasdFqG/wYc
+         mWRX5zXgEk4GJz4Ahrwu90t7IXuhxvYElUDP082v/rvchfiJofOi/soRZK13juU07lNf
+         B3eFsiOLxz1MNgj21zRi+8tolImlndrILp1aU7bjJZk59CtDILaroFfZnvYQdBwBQMuD
+         1j/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUDgpCsg8+0BA0cMVIqh1ap4yuGsN5cKhEtPXL+HVuOPuZQG45lqBEgNERfTvVC5/AwworTMyLVAuoEAkurdidO7mmAHw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzy8FVHwlz6CinHh4I6r0DAqQYwyLLp7ba/NrJZzWy1O6CJ1qSW
+	8A55G9bRVq5NlZu/EomddKwUf2kB1eF9q5QmIF+NxMlQ06Qy1EoE0uwbYFXGjoBPO0RDWJL81DV
+	eLYXsW4Q=
+X-Gm-Gg: ASbGncsVfs8tOwLniGKU5ICAis9gZafvUXJDZxnGGCQBEO2G4jjmZeqK2qaI8FSjlH8
+	MerpCKHWtBM5NvueYzUjIo/tODRggoIJLmhD2I2mXWv+0knxGp99FbCVi5C5mh/wDAYZGST2132
+	uC0h0R484rMML0cSsZnrI8bMqPXVFHx9g8cWGeSaXnEiK0xGJ2R++BozhU+FnjWi48do8fHcdVL
+	unDr3JLrmwzUN7Eaiy6JJ1K8CqrKZ6Ng9iPaUdIPKxgWUIcVb0VMLRWq6QfAIFgZ2ov5sFWFCE9
+	SrLQa+RFOX1OtoHaMdyR/LOoQ/cAW9GtLTfuLrnD6QSEY9RPQcLjQki8fERxmh782tmtyc4shRK
+	zZ9NZfT3XblJSFt9c4NUgRX+p8i3lrpiVXf8=
+X-Google-Smtp-Source: AGHT+IGlEGRhwr4gr8Z2C6l17HnHwUs58sjegA3GcEnBznTqiAkjnii/hJFGH6edhQsfKk84gJlxdw==
+X-Received: by 2002:a17:90b:6ce:b0:315:c77b:37d6 with SMTP id 98e67ed59e1d1-321162c7400mr5456322a91.23.1754162764043;
+        Sat, 02 Aug 2025 12:26:04 -0700 (PDT)
 Received: from mystery-machine.local ([64.71.154.6])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3207eba6bb8sm7887583a91.4.2025.08.02.12.26.00
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3207eba6bb8sm7887583a91.4.2025.08.02.12.26.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Aug 2025 12:26:01 -0700 (PDT)
+        Sat, 02 Aug 2025 12:26:03 -0700 (PDT)
 From: Brigham Campbell <me@brighamcampbell.com>
-Date: Sat, 02 Aug 2025 13:25:46 -0600
-Subject: [PATCH 1/2] accel/rocket: Fix Rockchip NPU compilation
+Date: Sat, 02 Aug 2025 13:25:47 -0600
+Subject: [PATCH 2/2] accel/rocket: Fix undeclared const rocket_pm_ops
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -69,58 +70,47 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250802-fix-rockchip-npu-build-v1-1-fb0f0dacb3fe@brighamcampbell.com>
+Message-Id: <20250802-fix-rockchip-npu-build-v1-2-fb0f0dacb3fe@brighamcampbell.com>
 References: <20250802-fix-rockchip-npu-build-v1-0-fb0f0dacb3fe@brighamcampbell.com>
 In-Reply-To: <20250802-fix-rockchip-npu-build-v1-0-fb0f0dacb3fe@brighamcampbell.com>
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
- Brigham Campbell <me@brighamcampbell.com>
+ Brigham Campbell <me@brighamcampbell.com>, 
+ kernel test robot <lkp@intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1351;
- i=me@brighamcampbell.com; h=from:subject:message-id;
- bh=iYFZqe0FJwNf+ajNL5XFSo87/W08KOgeD3yFN7dsGdc=;
- b=owGbwMvMwCUWLsWS0KCyxZPxtFoSQ0ZfmpvMtp8XL+wJKPaa55a2Y/8OLnU1fccyu3VHF0hFN
- cWcyPreUcrCIMbFICumyKJya5b6xcnWjw5G8E+AmcPKBDKEgYtTACYycSbDP72cuKMr9q5a/+7Y
- umopowoTD94pHJ/elRnqHa14MbHQ/C3DXwHzdV/2T5oWmCJykrmf/SEbh+R8rRXTmVs2bfRR2aN
- 8iwsA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=838; i=me@brighamcampbell.com;
+ h=from:subject:message-id; bh=z+5KRxYc5UqnilO3In24UU4dyirhMN0G97cy/9xmtoA=;
+ b=owGbwMvMwCUWLsWS0KCyxZPxtFoSQ0ZfmttLvbj5zpsCrVsrf13/u/D0Iq8zjQ9rJi7bO1/xh
+ NC0vObWjlIWBjEuBlkxRRaVW7PUL062fnQwgn8CzBxWJpAhDFycAjARBh5Ghq4JJYxNU1q9X7wp
+ bjhzzWd532QVb1/Ljc93ySnfThC182BkOGLs/ars5/3PS6XmiIYWOsovjXy98ebZ4Le3D4pmdsR
+ HsgAA
 X-Developer-Key: i=me@brighamcampbell.com; a=openpgp;
  fpr=24DA9A27D1933BE2C1580F90571A04608024B449
 
-Replace DRM_GPU_SCHED_STAT_NOMINAL with GPU_DRM_SCHED_STAT_RESET, in
-accordance with commit 0a5dc1b67ef5 ("drm/sched: Rename
-DRM_GPU_SCHED_STAT_NOMINAL to DRM_GPU_SCHED_STAT_RESET")
+Fix sparse warning regarding an undeclared const rocket_pm_ops, which is
+used in rocket_drv.c.
 
-Pass extra parameter to drm_sched_job_init, as required by commit
-2956554823ce ("drm/sched: Store the drm client_id in drm_sched_fence")
-
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202508030021.uwdr4P08-lkp@intel.com/
 Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
 ---
- drivers/accel/rocket/rocket_job.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/accel/rocket/rocket_drv.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
-index e731da15ebffca12e74035d2739a666a8e02d747..5d4afd69230623215e3105da7153d2d010636d52 100644
---- a/drivers/accel/rocket/rocket_job.c
-+++ b/drivers/accel/rocket/rocket_job.c
-@@ -390,7 +390,7 @@ static enum drm_gpu_sched_stat rocket_job_timedout(struct drm_sched_job *sched_j
- 	atomic_set(&core->reset.pending, 1);
- 	rocket_reset(core, sched_job);
+diff --git a/drivers/accel/rocket/rocket_drv.h b/drivers/accel/rocket/rocket_drv.h
+index f50634935b605c542cce16a2b91c1e43ec16bc81..2c673bb99ccc1d90e2dafdc89e9a5c6df216a309 100644
+--- a/drivers/accel/rocket/rocket_drv.h
++++ b/drivers/accel/rocket/rocket_drv.h
+@@ -9,6 +9,8 @@
  
--	return DRM_GPU_SCHED_STAT_NOMINAL;
-+	return DRM_GPU_SCHED_STAT_RESET;
- }
+ #include "rocket_device.h"
  
- static void rocket_reset_work(struct work_struct *work)
-@@ -552,7 +552,7 @@ static int rocket_ioctl_submit_job(struct drm_device *dev, struct drm_file *file
- 
- 	ret = drm_sched_job_init(&rjob->base,
- 				 &file_priv->sched_entity,
--				 1, NULL);
-+				 1, NULL, file->client_id);
- 	if (ret)
- 		goto out_put_job;
- 
++extern const struct dev_pm_ops rocket_pm_ops;
++
+ struct rocket_iommu_domain {
+ 	struct iommu_domain *domain;
+ 	struct kref kref;
 
 -- 
 2.50.1
