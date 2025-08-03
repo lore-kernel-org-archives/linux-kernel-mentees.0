@@ -1,129 +1,94 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072354502A
-	for <linux-kernel-mentees@lists.linux.dev>; Sun,  3 Aug 2025 15:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD061F61C
+	for <linux-kernel-mentees@lists.linux.dev>; Sun,  3 Aug 2025 16:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754235238; cv=none; b=F9x4ScgTt0NU7dn5wujT9VZqC55KPz7i4dJSfQvRzZRcfs/6+Z5oeJLodBISDy5NnLtCG3WfXgBilbFv4Zt0XI1ks3vrSgJ1OV8iQg4kFgxEgyo5PkekYxn0PtSbB9DGX05gZnhMFFvNSW3iqO73Wg2g+XUSL6mzUHoH93J9IGc=
+	t=1754237684; cv=none; b=iuXntphAO9QAqYbkxWdxBt/XjlEnZ8gvvr3ZwATgQ1dtaSWhKxYVFDUZPCnHQ/q0Efo5mMe9PbYlNKzrunFRHY5Wscu/WtxX3l71K/HUqhPHGBRYA0gH1xljXN6ZqdijCa9Q/CvXFmE5UreEjxbOmmz4Kst/V+zMC4dAs1/muVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754235238; c=relaxed/simple;
-	bh=6plFrRxfu+8N14R28roKX/MHWOfxITkJEscV+Weov4g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Icpl4DT6usILIdhddlpZfh+ZEDhQnEIeis1sg5i1WxakFwAqYvau8JmYODawtId2dnRSq0grQ9KhhHjFbzXC0bi3b479AZ1up4G0F8iqW+cj9rjmvF4dLd3wSBIRYc6QSPayPE54PqxUjVRIniVPKHHgqHZxhU1ZNQ+Wdr0Lz4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=tomeuvizoso.net; dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b=FFZkZu3V; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tomeuvizoso.net
+	s=arc-20240116; t=1754237684; c=relaxed/simple;
+	bh=JQpFEaDLYhO0uu/gdllj5IbvKTRqfxuInh2LybVDw4Y=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=syMe6BHObHz8J1nJjy9zOPbKJ76e18tM2F59fHknzrfJJruP7NTNz9AkmbL5Ay46678uzxZVSCzBDMo3egdcsKTTke+7gXKWh0bUe0rcotbP7FrvVOC5XxsxhOhFa+TFz5ai/poCi6FjVeDW1JdQIoOM8/o00gvvochNtjZjmmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=RGlk+WRl; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="FFZkZu3V"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-71b6ab52e8cso24292387b3.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 03 Aug 2025 08:33:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="RGlk+WRl"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-76bed310fa1so843794b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 03 Aug 2025 09:14:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1754235235; x=1754840035; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=brighamcampbell.com; s=google; t=1754237682; x=1754842482; darn=lists.linux.dev;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QSwmiYk+M5RmmFXBcZY5LfJlQfD47hJoEsHcQyHy/YU=;
-        b=FFZkZu3VXsInUp8g2RC2dmid6KXUhWiKpkPSK8kD5X+IiqP1KphSm6/cVgBZfLml5A
-         HxEXFjTvMIqFJ7KxKIwb0JB5qkeOvrDq765ejr+CeGqly3iKPLHyZwBBq1rXgB8ZSlL5
-         mCScFrLGFPFvEOOVhqo7n+qqmmVcEH8UhcMAuaWgkKNeLk6z9EfJ+f4q70hwoN+3iSuj
-         +QfqJEsb1YbAg+h/KSvsV3tLgGs0yYbCF6v5GKhRxaygQz+xuwQstde8FJ7X8d0qwbW9
-         YowVig6XXvT6W7zib1D4Lbw8aIP4wyvR03hEHTTVuh3BFKO7b5u2a1s54C+9KVo1R0Sp
-         zZsg==
+        bh=JQpFEaDLYhO0uu/gdllj5IbvKTRqfxuInh2LybVDw4Y=;
+        b=RGlk+WRlm+2b955Whvk3w7aHJPyXrX0pyWjriMWR03t3FoMVRgWGoI4W8p8VnYKMIa
+         pPCdviZSjfTikJQV3j/IwJqllE8uN46V1y1ffrDO5xDopnNc5F1zdBEC/F1Oa1PuaVQC
+         fAoCDKHk5++5CgzM5ndrWe62TnB2mDeatNYudGvrFC57nruDHRktDsdQyZh69w11fdJN
+         LtI73MBg6jUMlsYmJQoAiRj7U9h11HpbuNdGTd42mN5wbeMbJ6O/y1sNz4zFKsR7tQOn
+         lcqnch8lImPRcb1QIvP2bhEKFz32Wr0pPRa03Hl+clN97YfNLmSncLD1UKPgxmEtsYQf
+         Q3OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754235235; x=1754840035;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QSwmiYk+M5RmmFXBcZY5LfJlQfD47hJoEsHcQyHy/YU=;
-        b=PVeHW6Icyx803aW8Z6hcsOZ7YGYVVbbo//m69A+hjkTnZ53p2Q3FgUWmM+ncSqaf/t
-         /jWs3veQ0ua3XQ8TqLm6O3hLLk9fjwoEn2PdCVT6vIBv14pA1VZLSKfBPqRgUyDUPztJ
-         WNOS/QHVB6iu/eu6uDxNcOps+wOhztl5PnhvR5hhWgAWMElap7wNRJ5HNk+sqnSt4z2A
-         0esQfs53TJ0dVcU9iTz8o2+3TvaQ2KO9+Y646uHEULIvdXwR1/CmcfZNpRP21Gaj+qJK
-         RR35Vd+tm+MpSDVIQuIgyVimRA15x41ozBgp42ZlsK7uWU58LDuGbIedCLWK5/GDlaCx
-         mnbA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6+yqeN2IVSrWQoRJXMf0xFTeycp33Q14lCm04AEEEU//VcHSle59r7Wub3ngOoR6bhpte7EVdiBJDRd1nXFWbadqTSQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxSCskEFceDfd/o786H4WFXG6q7fudSZqk6Egqc5lqXffiiVRyJ
-	TEzEGlv65vkBMEUAmm/kUk3S9XqzAu+MfvU0khnRhgJnaM4ThLn7FynMTMiwCZVAFvTDuoMMlGw
-	2BhoNqq4=
-X-Gm-Gg: ASbGnctzWNNoYqjfemrh0XsjbHlSXai3D1l/UHO4Lso97ndcVO05SSm2aCCdS/QUCx/
-	JtnjIhoOWbqi3GB7PGsM5hWdKRIiWo5y/VPokKTTh+XxpxdRjnngkgH3y7rDORyC52qXelrFtGB
-	mkmUgBzbBWZTtEvT2G8XpS5f3n5y/epI9Wp84POMxIBYw0uI8pgjeN99rnqEv/CTqMevMWgmo4T
-	jtcMW4Bg0wVRc+s0mQCly7IH917bOsdS11driRgbuN2lK8JA0oxUcRt1T2YpsEv249uUxILsb61
-	6La+14eB+Lf1J67Ziwqzh2TALo86oIWe/vzI7RKh5osvpLaflg8Yr58znRlcNbwR8lttjqEWLNz
-	DhP4J0umRdztaxMSxKEUvvOd9ZAmVQL+1iCQNjNe2g52R5HUi7E3T6a0LWj7FZLiLkQ==
-X-Google-Smtp-Source: AGHT+IEBcj6rbRnfJ+WSqyw5KEnZFR6sK09iDlUn4e9ue0Q/V7C1atZSfX6Mmw+oHaURtWQ2jCU8LQ==
-X-Received: by 2002:a0d:e3c5:0:b0:71a:217e:4dc1 with SMTP id 00721157ae682-71b7f0a64e8mr58591717b3.41.1754235234738;
-        Sun, 03 Aug 2025 08:33:54 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-71b5a3a9986sm21066777b3.12.2025.08.03.08.33.53
-        for <linux-kernel-mentees@lists.linux.dev>
+        d=1e100.net; s=20230601; t=1754237682; x=1754842482;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=JQpFEaDLYhO0uu/gdllj5IbvKTRqfxuInh2LybVDw4Y=;
+        b=JAkubaPECyimYC6YU8Vbh7lN3Ydu+nwiNxZxu4ArZG7Ogp4FaLpUl4skvIEarrbILa
+         27lOjKckwB6sicbe96S5uxxQLI/xTIvsn5bp5NIOvTgdPC2+7mRl6pbF4kC5y5s3GqAv
+         9g43rlemAM9gP+AF1zrKItV6T7Weztt+skR5yXQup4cfYXXF4RoLcW5j9y+Kx6qlFZgi
+         NbGjmDx6Vqha8rh/4M5RVN9Ma4rjXn+v5Ej6aUCvvdy3aA2NWap8Pg59dZ9sYtqu/EXf
+         0WXMrZ9xo/fcTBaXK8DS8VCk8BEDfVPi5KuyRXizkXCX56IxbR4CAKgybsId7z1mVc6z
+         PA+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUTMjrsLuK1Hp5SZlag+eeggZVUrD7hJ+sqVu3aCMZ+lnziHV4utwmeRRyBhI0UVeNIAPxmMmGIWsCMbZl1c1oY3InvcA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZQ+oLUgEygUoOW4OZKpotoiXJXZ12aIpNn6T2yCzS/vakJR/D
+	VDz5yCIbhMNw129fiXAqbLlmw1Fv5A8bupRr4h9eCjDj0vPHlnpaz4BAkKbrk1rxGCo=
+X-Gm-Gg: ASbGnctf+kbxi8pi2/y1YguIXhUpmn4JmbwCvXowFOT2u8LOP+GvRF9XZfrc/mohi8z
+	BRTRxTNso7IEdksBB+YAbEnjfYYSvpMocM0TKvSlzk6KwYdaz2sc5mOFkoAZFm2zh4dXcd33S2V
+	IJ/7YfVzkKV5xNwfDzmaWZgIZAToBi+EnG1rRlQobL2QIJ737NWTBY9ZAyEvGbuL+WgQpEIsxeD
+	Yj937+FPmU6BiKrIGofO7O4FoM6n9nW113h3yhq/Biqx7+2KCP78IPZ1YPU1tQ71vDXuBi0nC2u
+	aUrEkz+SIHS/sLYQ/o7gff/+0tGp+IuDkP337sE85PggE/zkuH0jTezpW1TbTorwfOYghjLVQIU
+	d/pEna2PH8oyQQlp8WKs=
+X-Google-Smtp-Source: AGHT+IGEvYduDzdbwcJ7TQCIF912GvAtfZiRW2LnM75ZKQVh2Lue6+FoQSH0fMutpndDgLCvq3uePg==
+X-Received: by 2002:a17:903:183:b0:23f:d903:d867 with SMTP id d9443c01a7336-24247013eefmr93455085ad.35.1754237681805;
+        Sun, 03 Aug 2025 09:14:41 -0700 (PDT)
+Received: from localhost ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241d1ef6c62sm90444995ad.4.2025.08.03.09.14.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Aug 2025 08:33:54 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e8e0c6f1707so2676553276.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 03 Aug 2025 08:33:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXWvI0OMbmIY2Dqu/vOCUsHmZ5NoznM+vKKM20JABd/lTgRX980VcaYydWAlIFRZaktV5BgKIdYnSSrN2RlHk3JPO0iHQ==@lists.linux.dev
-X-Received: by 2002:a05:690c:7108:b0:71b:8cc6:6d41 with SMTP id
- 00721157ae682-71b8cc66fecmr55025047b3.17.1754235232707; Sun, 03 Aug 2025
- 08:33:52 -0700 (PDT)
+        Sun, 03 Aug 2025 09:14:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20250802-fix-rockchip-npu-build-v1-0-fb0f0dacb3fe@brighamcampbell.com>
-In-Reply-To: <20250802-fix-rockchip-npu-build-v1-0-fb0f0dacb3fe@brighamcampbell.com>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Sun, 3 Aug 2025 17:33:41 +0200
-X-Gmail-Original-Message-ID: <CAAObsKCUs0yn=S1PzGDKu8nNnTOkxqMMYzep-QhG00X1CY3DjA@mail.gmail.com>
-X-Gm-Features: Ac12FXxPVQwjDAIVgxnyFNwyCiKtQqDmuUpUnwaIigvKfVmO2D9Sk5m8K7Mojy8
-Message-ID: <CAAObsKCUs0yn=S1PzGDKu8nNnTOkxqMMYzep-QhG00X1CY3DjA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] accel/rocket: Fix build errors and sparse warning
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	skhan@linuxfoundation.org, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 03 Aug 2025 10:14:39 -0600
+Message-Id: <DBSXCWOKT4BE.1RD9LVC2CY12E@brighamcampbell.com>
+To: "Tomeu Vizoso" <tomeu@tomeuvizoso.net>
+Cc: "Oded Gabbay" <ogabbay@kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>,
+ <skhan@linuxfoundation.org>, "kernel test robot" <lkp@intel.com>,
+ "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH 0/2] accel/rocket: Fix build errors and sparse warning
+From: "Brigham Campbell" <me@brighamcampbell.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <20250802-fix-rockchip-npu-build-v1-0-fb0f0dacb3fe@brighamcampbell.com> <CAAObsKCUs0yn=S1PzGDKu8nNnTOkxqMMYzep-QhG00X1CY3DjA@mail.gmail.com>
+In-Reply-To: <CAAObsKCUs0yn=S1PzGDKu8nNnTOkxqMMYzep-QhG00X1CY3DjA@mail.gmail.com>
 
-Hi Brigham,
+On Sun Aug 3, 2025 at 9:33 AM MDT, Tomeu Vizoso wrote:
+> thanks for the fixes. Will pick them up. Hope you don't mind if I
+> change the subject of the first patch to something a bit more
+> specific, such as:
+>
+> accel/rocket: Adapt to changes in drm/sched API
 
-thanks for the fixes. Will pick them up. Hope you don't mind if I
-change the subject of the first patch to something a bit more
-specific, such as:
+No, I don't mind at all. Go ahead and use your editorial discretion with
+the shortlogs and commit messages. I'll put more thought into the patch
+subject next time.
 
-accel/rocket: Adapt to changes in drm/sched API
-
-Regards,
-
-Tomeu
-
-On Sat, Aug 2, 2025 at 9:25=E2=80=AFPM Brigham Campbell <me@brighamcampbell=
-.com> wrote:
->
-> Fix two build errors in rockchip NPU support code which were caused by
-> the integration of recent changes in the drm subsystem.
->
-> Fix a sparse warning regarding an undeclared const, rocket_pm_ops.
->
-> I tested these changes by enabling DRM_ACCEL_ROCKET and recompiling with
-> `make C=3D2`.
->
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-> ---
-> Brigham Campbell (2):
->       accel/rocket: Fix Rockchip NPU compilation
->       accel/rocket: Fix undeclared const rocket_pm_ops
->
->  drivers/accel/rocket/rocket_drv.h | 2 ++
->  drivers/accel/rocket/rocket_job.c | 4 ++--
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> ---
-> base-commit: 01ac6e4e53b6351df42c97d217b0d2dbeef5c917
-> change-id: 20250802-fix-rockchip-npu-build-ca759ba8da06
->
-> Best regards,
-> --
-> Brigham Campbell <me@brighamcampbell.com>
->
+Thanks,
+Brigham
