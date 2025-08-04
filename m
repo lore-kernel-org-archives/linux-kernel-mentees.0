@@ -1,162 +1,112 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA1C1A0730;
-	Sun,  3 Aug 2025 17:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066F329A2
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  4 Aug 2025 07:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754243450; cv=none; b=mEl/aJw6bHKSfvMYwtx5lJ2wpiI4lUNor/ViUyMrGziqz1+gBQCkeMSFtI/M+4JgC/rC7DE3yMSgmMb2F+y5ss0ON6udhhhFhuS6ZkLGXEMqHDvKy6mFpbM0brs5EsuzkUCfAa3hV0/UVPQhTR9GjZaSBvJtr2BtyefL5MYim+Y=
+	t=1754290892; cv=none; b=bWtIQctU0rhV28jZ3nLcCscBQqLYJj+p7H6p75WhBYNlYOsJdAcNXxzWZUVp/i8sFCdaQlTVn30Ad8n30dQjwlsdf1F8v1v7tXlNqqE4Q8Y3uKvU7z3OCTfX+R+q+7ikacv3FUOOveDbca7S3OiekcWW7Vf+7MBjk+DjAyoKhgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754243450; c=relaxed/simple;
-	bh=DJiSK5yw31vSZeaWgFi3HoD1YTH8Ir78jDdMH+9lJz8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=c1g6hc/4SzHYMA6Lj9v+zsjRXWsxU6pi4oGcqmDvd6F9CJAi1iGxh/5GlnwCAF6u+jcSgxwBruJtj/OP9vHh7nUkchWuwCWUGWCx2MDg5yQdfxtfxYLKMqoGQZlK6qIhtqQr7mDcKtNYXl0HQCQ2b3xcwZH7h0c3+wNARywNnSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eb/UePy9; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1754290892; c=relaxed/simple;
+	bh=pYYfbgtGKtJmMe3qV97+fPjpGWjo1ETtd5dCoPaov5M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=b6mMLLl3Vli9AnRmq3/w84x1rdc2BF/7KRpqqWsZ8K9LTI0d1B1Oi9sPBBX3/MbkaMafRIKXPskwWXLEoAY93+nQLdb+HFTbRb7nKfwRIH+RA5QQrgzRUeSQKY9kQzgsI3JUr68y4q4E0HVzUk//XvdLWAbg+25QXWebOdtBiLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ShfI/2mD; arc=none smtp.client-ip=209.85.208.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eb/UePy9"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b3aa2a0022cso3466369a12.1;
-        Sun, 03 Aug 2025 10:50:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ShfI/2mD"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-332559ace6eso17956441fa.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 04 Aug 2025 00:01:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754243449; x=1754848249; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5WDyaOvtCXv9NJO8ZoH8TFWDjjaf7wJBFVeWQpU5YhM=;
-        b=Eb/UePy96Qsg7n+Ek1NY8i8NJG2AAhph6+NRTOLc5Hebpfrfa8no/FH6exxzZIeLw4
-         +RpcDdo8MRU19tZfA7SCOPKUCZIOc/bTNI+adUgv+L8dLig1hyQMFCNaVNYyv01z5jok
-         y1SJVmkev3wWkp49ctCRVek0UR/sZElbr65Fr+wJNJamk+i8bmri/EBDhm3dcjCyZoNz
-         WO6qqo64hP8xsXniKW2njn+g0OB6TqhbbrH7ayAC6ygBcL9+49is72dVYWw254pU+R/H
-         8sWR18399+iWd6gE6CSqer9bIkVrE1lt3z6sPy1+X98TgnCQQ7jIICadNaH/15VSWoKZ
-         8SgA==
+        d=gmail.com; s=20230601; t=1754290889; x=1754895689; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mOeLQP+AJ+SiRI8RVG4vwpZ6jRWlqeSJrVM4bgwJ2FY=;
+        b=ShfI/2mDEn2JQr/CzoWQj4A8/BGZa0cKV+Zo0XcdSwCWto3Hzh99GLX7OCTVlLyxCF
+         Lp7SAIlzKQrgXCN01bxkYAhb3u6RpEx8tGbihqmAxqaFbcG6/dhT8mX2VF/RmOLOUXL1
+         bR263kKuh6aC0GCePyDqHpT2HvDrQgvrPoWX9I91hR2hVaTGmiJ1trjhVqIUkji1cveY
+         HSHg0phABsziVLlb/Xldx3VbcNwr4oVsmZwDTwjsSg95qncj3ZUj946p1G3GbHTZpD5Q
+         GSzwn/GKColimE4AMNOj7kTbvknMomDEzvY75ScgZoo59QuSmER2arg4hAq0CArKJC3f
+         z0VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754243449; x=1754848249;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5WDyaOvtCXv9NJO8ZoH8TFWDjjaf7wJBFVeWQpU5YhM=;
-        b=g67397zatKR6EsiSvNFjoHz/MNyEB5IvbYBTFzOhTiTwCsaXxfk2fyC57I1PgwH3Ko
-         TJDTv8x9PkrCwib69AWCT1hIKXa2WLUGOHKNGte3cwk/OU/AC4WujOcqYC/FRqz830a1
-         uHGhhjhA+k8XM+QPY0LW5c+oCUQWqAuRf7s+fsXqYPawYJNqJ0Fvxc3l/0M+JQxNdv3K
-         rnrMyAsLoRWjJTuugFjKViQvy3r5sipU9hdrYQPmFWlR/cdlEYZFbPEFSrn9ofQ/CGLI
-         HIrGqCk73fiMAI6X5HZRrzIEiGSw7jLkhcVvQGwW3oEDu7wcDOA8qlNz++o0rJJFhm7M
-         M2Xg==
-X-Forwarded-Encrypted: i=1; AJvYcCVOAp9zTPpDAI4DSRxb3AhfL6ooFvSfMBON3J8nTqpCyeO5Dv70eS011s9YylLFZ7rjFs67xvg3HbHVxBKqMrsM/TzDbQ==@lists.linux.dev, AJvYcCWF1cJ+Jw+LreY5PBFwLQ7nmhGF9brNDvZlOPrR2sIYTMGDdd1RANkolI8X1/bRRRH09eOw++CzlQMgVIRCDA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGuGWs9IjkDd3sbW1u2gE5bBo6GXFNH//PoQ2X18npMjNRMMBb
-	mWteOIk300JOek0C8a75xqvS2ranQ8q7PqxL99ObXzjoZTCUVM1xNGmx
-X-Gm-Gg: ASbGncs1eQGsPaSSdNv9zTR4YLN2+PMvoLRYdCqrpHIlyFU1UwhLYOAu6b3ByL9cad8
-	n2JbTE2fWdzXqrhGjECgbxxzx9SwybdUT+oN6+b7ZZgveYW6rso0hrp+PcbkxgJF/XhfQJd9hfv
-	DoBgunFbueLKh6oCXvTuJNdjboCjPPG+aqlO3lFHPul6yAZv/BewRBfiknav7Plgu3hqdmWtid6
-	PNFpk3Rua1h8r5JyX2sOJFhUZDlsOD4rAh1ZtdPKDNKX2aTvLnuxE5wzIhDvZxIySvQEQSeHTrl
-	rNGJ+a5DLdu5n9f27R+cKr2gIRwDP2vLfyWxbdJZiVOQcBXUv4JJG6iTRUF2hAxj4W4os8XQqK4
-	Ge2BefZWWZhNHU46I4HnKbcB7leEeGvpI
-X-Google-Smtp-Source: AGHT+IGX/HUMKV1bH9ywZLaMy2B08//y844ZJnjF/5ErmKsBhlBzUgfoooG0/8ewYodeApVof0bBbg==
-X-Received: by 2002:a17:903:32c1:b0:234:b743:c7a4 with SMTP id d9443c01a7336-2424701ae4fmr102641745ad.38.1754243448705;
-        Sun, 03 Aug 2025 10:50:48 -0700 (PDT)
-Received: from localhost ([106.105.221.253])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-241e899a48esm91069455ad.114.2025.08.03.10.50.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Aug 2025 10:50:48 -0700 (PDT)
-From: Nai-Chen Cheng <bleach1827@gmail.com>
-Date: Mon, 04 Aug 2025 01:49:55 +0800
-Subject: [PATCH] staging: media: ipu3: use string_choices API instead of
- ternary operator
+        d=1e100.net; s=20230601; t=1754290889; x=1754895689;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mOeLQP+AJ+SiRI8RVG4vwpZ6jRWlqeSJrVM4bgwJ2FY=;
+        b=ddIPx4NeZF3Z97k57KvMjoO7eFpwhoy3JUYfJUecQ3nTwqnR5QelkDeGxd0pGvUCt5
+         az6U/ykVht1SaOWyssFxOrF4LE6d8IhhMNi+/sXbPNE/LJugqmuc++uob+eZR9iWYaZO
+         UujWuc6B77c4jWxkga2LzhdzCw1ybr9CAsnr5PD5eJYBxokOB5lMkdsLwGmAsAkp81se
+         lzBnZ7mkDpwXwQwieKjsplQ0a641NGkH8kk3N1oyJQE2mTc+tswQWedcShQ91cpkHUiy
+         Z8IbDxBRJfoqiII1xiMjJoXlxUvZSdoUaEMzZ20GOfJm0yoSY33A279vetY11zmUiltz
+         9ZMA==
+X-Forwarded-Encrypted: i=1; AJvYcCW3GFam7b1PTGOeaKMi4AGMOvz+f9c9mZHTyB/LkV+4bmTb30Fg1Oy4QnGA5JHDlTT3JuDwuT2wnAZAqt0R52WzRd/Xjw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4cIcMn88WpCB9CFbIDC1CHD76w2+4gdSeO7sngtcbpc+UzaF/
+	Yj4nxMN1QzYGbWNi61DNoNcxfZ6GGZLzMzJ5fl5xQpwM3lU6ZotyvqtTgIEOPdMHcQC7sRa3Rwj
+	MJtnNeH0k+iBF9B5mxXJOju0ljxSCVYk=
+X-Gm-Gg: ASbGncuoebquLakA+Cgj7oGPuyQDZjHGNUYFd3gTwD35q6JsvnASggwML/uusK82YzG
+	n0yk9A+BSUI539YYQ/1Mm3W27tAs9F+mjm36Oy7l14rmdIGAqKmVW///ku83JT7wlR0uhH5aNqR
+	6+Qbue1ZZyz1HfmoPmClPfDT5dQVKwKezJTxcnMBNuz3H94QI9cyZ0EdyF3DMaph4Yt321pehvs
+	Q8R+uAJiC+qUPvGISiaBFWIGTKxVoxmYImmB9A9Y645gHsrFyTg
+X-Google-Smtp-Source: AGHT+IExYrDYlOhD8PYRKprLU9YY3QN8ioiYkkgYmkU4MRe6GPcKn/K68YK+q8Ter9ncHammKU/9pdBLWTG2jk7Defg=
+X-Received: by 2002:a2e:a375:0:b0:32b:4773:7aaf with SMTP id
+ 38308e7fff4ca-33256810b45mr14702521fa.35.1754290888567; Mon, 04 Aug 2025
+ 00:01:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250804-ipu3-string-choices-v1-1-506834a013b5@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAEKhj2gC/x3MPQqAMAxA4atIZgOx/hWvIg5SY5ulSqMiiHe3O
- H7Dew8oJ2GFoXgg8SUqW8yoygJcmKNnlCUbDJmWLDUo+1mjHkmiRxc2caxo5o6oWc3SWwu53BO
- vcv/XcXrfDxJfyBZlAAAA
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Nai-Chen Cheng <bleach1827@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754243443; l=2507;
- i=bleach1827@gmail.com; s=20250730; h=from:subject:message-id;
- bh=DJiSK5yw31vSZeaWgFi3HoD1YTH8Ir78jDdMH+9lJz8=;
- b=htjeU4Zc0Y182neDXxTA5WYFV023GLFtax2bY9msrCmY8VaQM8iVUxmWzyM0JUIi3ZHu9z7/z
- OmLsS9HRoqQA5z2KpiaaEdGLpQuXW22+thgPtEFK/gf8MK2zCxs3XVf
-X-Developer-Key: i=bleach1827@gmail.com; a=ed25519;
- pk=jahFPRplw20Aaim8fIt8SxlFMqkHbJ+s8zYBGbtHH5g=
+References: <20250607064444.4310-1-pranav.tyagi03@gmail.com>
+ <87cybdp7to.ffs@tglx> <CAH4c4jLjSBxbd3bqkdgcCSWqXURratANgnbq9negrSU283xHpg@mail.gmail.com>
+ <87frg3ss9s.ffs@tglx> <CAH4c4jKmj2gwmW2LS8CuGyw6phtiN+=_Bef8_pSEzjnbsqPOeg@mail.gmail.com>
+ <87pldhioov.ffs@tglx>
+In-Reply-To: <87pldhioov.ffs@tglx>
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Date: Mon, 4 Aug 2025 12:31:17 +0530
+X-Gm-Features: Ac12FXx2e9gO-8pYyZoWXyN8mb9SRh0jyrBetN4eiD7KtRPHp3RGszi8f_aBmoE
+Message-ID: <CAH4c4jJhB=P_bSwiqDb3d+AdT5QNv_qSgtKLZLNMDLJwVK-6hQ@mail.gmail.com>
+Subject: Re: [PATCH] futex: don't leak robust_list pointer on exec race
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Darren Hart <dvhart@infradead.org>, Davidlohr Bueso <dave@stgolabs.net>, 
+	=?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	linux-kernel@vger.kernel.org, jann@thejh.net, keescook@chromium.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Use string_choices API instead of manually determining the output using
-ternary operator to improve code readability and consistency.
+On Wed, Jul 30, 2025 at 10:46=E2=80=AFPM Thomas Gleixner <tglx@linutronix.d=
+e> wrote:
+>
+> On Wed, Jul 30 2025 at 20:21, Pranav Tyagi wrote:
+> > On Fri, Jun 13, 2025 at 6:38=E2=80=AFPM Thomas Gleixner <tglx@linutroni=
+x.de> wrote:
+> > I face a small issue while refactoring the common code in a helper.
+> >
+> > The main obstacle to a full refactor is that the native and compat
+> > syscalls use different user-visible types (size_t vs compat_size_t,
+> > struct robust_list_head * vs compat_uptr_t). Because put_user() is
+> > type-checked at compile-time, I can=E2=80=99t unify both into one funct=
+ion
+> > without either unsafe casting or weakening type safety (this is as far
+> > as I understand).
+> >
+> > The best I can do is refactor the common task lookup/permission
+> > logic into a helper, and leave ABI-specific put_user() calls in thin wr=
+appers.
+>
+> These are two different SYSCALL() implementations, so they
+> can deal with the difference sizes of put_user() there.
+>
+> Thanks,
+>
+>         tglx
 
-This also fixes cocci warning.
+Thanks for the suggestion, that clears things up.
 
-Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
----
- drivers/staging/media/ipu3/ipu3-css.c  | 3 ++-
- drivers/staging/media/ipu3/ipu3-v4l2.c | 5 +++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
-index 1b0a59b78949..777cac1c27bf 100644
---- a/drivers/staging/media/ipu3/ipu3-css.c
-+++ b/drivers/staging/media/ipu3/ipu3-css.c
-@@ -4,6 +4,7 @@
- #include <linux/device.h>
- #include <linux/iopoll.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
- 
- #include "ipu3.h"
- #include "ipu3-css.h"
-@@ -226,7 +227,7 @@ int imgu_css_set_powerup(struct device *dev, void __iomem *base,
- 	state = readl(base + IMGU_REG_STATE);
- 
- 	dev_dbg(dev, "CSS pm_ctrl 0x%x state 0x%x (power %s)\n",
--		pm_ctrl, state, state & IMGU_STATE_POWER_DOWN ? "down" : "up");
-+		pm_ctrl, state, str_down_up(state & IMGU_STATE_POWER_DOWN));
- 
- 	/* Power up CSS using wrapper */
- 	if (state & IMGU_STATE_POWER_DOWN) {
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index ad6095bf717d..2f6041d342f4 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -3,6 +3,7 @@
- 
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-+#include <linux/string_choices.h>
- 
- #include <media/v4l2-event.h>
- #include <media/v4l2-ioctl.h>
-@@ -287,7 +288,7 @@ static int imgu_link_setup(struct media_entity *entity,
- 	WARN_ON(pad >= IMGU_NODE_NUM);
- 
- 	dev_dbg(&imgu->pci_dev->dev, "pipe %u pad %u is %s", pipe, pad,
--		 flags & MEDIA_LNK_FL_ENABLED ? "enabled" : "disabled");
-+		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
- 
- 	imgu_pipe = &imgu->imgu_pipe[pipe];
- 	imgu_pipe->nodes[pad].enabled = flags & MEDIA_LNK_FL_ENABLED;
-@@ -302,7 +303,7 @@ static int imgu_link_setup(struct media_entity *entity,
- 		__clear_bit(pipe, imgu->css.enabled_pipes);
- 
- 	dev_dbg(&imgu->pci_dev->dev, "pipe %u is %s", pipe,
--		 flags & MEDIA_LNK_FL_ENABLED ? "enabled" : "disabled");
-+		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
- 
- 	return 0;
- }
-
----
-base-commit: 186f3edfdd41f2ae87fc40a9ccba52a3bf930994
-change-id: 20250804-ipu3-string-choices-2a6004f2d788
-
-Best regards,
--- 
-Nai-Chen Cheng <bleach1827@gmail.com>
-
+Regards
+Pranav Tyagi
