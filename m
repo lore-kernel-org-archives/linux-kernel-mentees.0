@@ -1,79 +1,73 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BE2229B2E
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  4 Aug 2025 17:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E371FF1A1
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  4 Aug 2025 18:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754330354; cv=none; b=WumuDevKjsAhFL4SOuCcTAK+NZRJi4RWpWUv479iP/5DoyXxWVE2gh8Ja49lGmoxmVTS8Q+DDlD1adkjyWkGcvzbMfHP733ZUsbTaWH8FiJww1bHuM4bLhCLUjbWC2g/+xNVVZjmu6RISloUSfhnsUHO5jEeSPuyBpykviz/d7A=
+	t=1754331005; cv=none; b=eh8+Qkvyn700XYWRMZSApcTYT+8bdZ9FvDhu/7RQWPrMybLzQHSyr6rnZSVjWyUpqlQnQGqpjBTQbTDBMb+mKENGw7cJ8cSvv5+jrs3UF5BzPVKAKNGa0YzQIIWnffCqeLNWKIpyVmmvkqY5SSsp7hj+LcKNzeuppSpgoTCgaDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754330354; c=relaxed/simple;
-	bh=hRBqtBgChyarswMkyqYaXicaN4pphCyOw/27Y+y30EM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SgXUKRV7cawNYnjiDAJCUbvDc6Q1MSi0NxK2jIslzAo8ZRocO/zBhxlP6RQ3jIUrOQMnKCoLcmDSXo63ewKa3TEGHJ3wqC9pmtgerTeJMB64V0L8OXAOuffpEVjdY8wqcdZ4uuUM3pcjrDpaqqANZJvSG6Rs8ceBuK2CZltTw18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VFZnT4i2; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1754331005; c=relaxed/simple;
+	bh=8tUVEOHCd6vgZOjmZ6wGCyZD35jdxuSt3593rFQJiRw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JB2O/so/ayWUls/lIew6165kDX/VpF0tKkb9uHnXMIH9/Tgmo54BoTcyqXZQgp91/l6YOsenD/ulpevF+XVMtMc5g7EDp7kZbtIAwdmu0N8EEh4cTTHPwkAo50sd0Zy4RfKS/QPKS2QC65BDoIm6QA3+RemsmULuk4eykG39KOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WtjrqWMC; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VFZnT4i2"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-23c8f179e1bso42267395ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 04 Aug 2025 10:59:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WtjrqWMC"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-31ec95ad016so3814021a91.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 04 Aug 2025 11:10:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754330353; x=1754935153; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1754331003; x=1754935803; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TML5SKZfJNHDTPDytEAgukzx0quH2eqGb0TO1OdDwgY=;
-        b=VFZnT4i2bgCB4OcBP9m1rILpQmPpX2m6ZOkVaafVrMjuMUY2uh5LJS03CUSB0Nokyr
-         91gMrkkfco6tg66EWDEyMhJ4T/k8sYnKkBFHrcr+E2skhfRjpYCLu1OAsxuczoO9Rn4K
-         Aqp8IeNcq560SqptIJRJKq5vkkn/SvuOweQyQOeE2hWTxgCdKzPQAtVLbrHplQPPbbm+
-         TPiitc3kcGiOOHrvAwN5V/QXOXmOCXFTlUY79FPOsI/o7jH5+lEpj9kk1kePKy65Jkfv
-         ZXir8EsmZM3r4kKmME3dz3LF282TTixM4L3FBXVGrc9mO90c+gX61SAsm8YfpyRfSXvs
-         qF6Q==
+        bh=zjnd6OOtdW9yy47zlEw4IHguBzP7Muvi9jj9yhTRBOE=;
+        b=WtjrqWMC3tNtoOS+86/0VMLA5sfi8NgFZ2gTDmrxW+CLgtC4+0cVKeS1HKCwb01/FE
+         rnFwBs5Re4We8NGpYtspTX3Qwu5I27Nms0XDZG0ERa/1zjzUV1ZFyZz7O4y0Zt4jq1LV
+         kxT/iuY6ear+GFdOe+BoXIoQYYjcr/2lkKx/m8gd2koTR9FQIxvu77Dw0BcHxeexgnX0
+         XqrgIDEzV8l8owATamQ4/zSummSdMEe6GJ346xAQ46YRzCxJlIKY1vJ4z/wHqZOSZscy
+         NAoCZOFhJJWCl+aJrlU/Fe99p00KDnN+YoucnGV68Fu6YbHeEATiAoLUhl8N8E5aMqZV
+         8CLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754330353; x=1754935153;
+        d=1e100.net; s=20230601; t=1754331003; x=1754935803;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TML5SKZfJNHDTPDytEAgukzx0quH2eqGb0TO1OdDwgY=;
-        b=hUnzgHQaCCVPnhDN83DXjjkPCywgBjfPVLE29o9i0cFBmB2KLwEIVh9tz5/ngksDbn
-         M4iwXzZN52qUIqzjgTaxLdecRkCqxeIzRni8+UgQXmGWdDCwtPsQHE1/+H7liEmx8aZw
-         SKAM1Q9leV/qNMzrzmgrrg8xkv+6qRFPMe31dVXFJmsZToK9ezD8hnuRqkQgW+zEajQC
-         t+EOlV6fjTBrOABpQpSY5NgCMAI0YaP+4sjcCr1cJJB1fjwJ9qeEODrqXnDoL+BqRUH2
-         lJd0vFArFsH6TDqDE6/eWbUHbx60rjDm86wnzE3kpexCtZh9aaD/SRRRP50SOihNfwRp
-         3Kxg==
-X-Forwarded-Encrypted: i=1; AJvYcCUS7lKAAWR1Q5tUi8e+wwcTmSCMSTZW24ECZspfDurbBrhagSXhCSI+teTbsbY1WVM077Ccf4aLHAsNMClV2p0jOB2ITg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw67PqXtGDGQojaybftmd6GTDNnSmqVZ0PkukR9emk3zunCUEKh
-	BgCvikVFE0w16PJyPc4kRgvknANTLpY+WhDbfSoy3tleu6J5dOhetUau
-X-Gm-Gg: ASbGncuYojrLeO8vHTT+FJ2v92jy3CDlWviQa3GyHoQCRPIAAxspT9ZJWB0U/6GxntJ
-	VevaqsjWIl8VJLR1lZdsuJgVXe1wSkmRpkP/u8MZ/unGRaC6hmmBnbgbtzSSpGlZTQKBGoKr1cC
-	gKa9m8VpgPURJuF986uVqKVcWv+xf99rSXGh5w1tGFQ7fVFRhdKsknjgNUNMOc4/upaiyNGnR+O
-	SYkbAXoR+Kx0vrHh6MDFK+0GpJFGmbSDaQDOXtIaTSSvixXe8u7cSZoLtfhBVpCu4IjNNfr/NLz
-	0eHzszcMuuAYFWdYHHTo76fGuGgezImw0kJAZwTOMOOOFXuK8gi+jHdLKXZHMJJ4jBWQCSGJPeP
-	Uxq8bkO40NciNCE4dsKaE+eDYWb+E0uE=
-X-Google-Smtp-Source: AGHT+IG3xbtJ7aB6w3otcsf12+CJy2T25OWBiy3cp3FPaOpHfRKzg+mfJFxHOfZ8gH7iNa/hMowAdw==
-X-Received: by 2002:a17:902:ecc6:b0:240:b075:577f with SMTP id d9443c01a7336-24247025e7emr152480025ad.37.1754330352555;
-        Mon, 04 Aug 2025 10:59:12 -0700 (PDT)
+        bh=zjnd6OOtdW9yy47zlEw4IHguBzP7Muvi9jj9yhTRBOE=;
+        b=uSLG8gfY1ySdfnBvTm7g012r6geF7jQ62toutr1hqkNNQZe0TiWFgnIfqqJ/7aBi+r
+         FJGsTVc6Y35qMVTiDaWwhPCe3J3JZnxtQzd+4G4JO5AZ6i31+4OKE9luteWUPad/wvo5
+         ZuYT/leAvp6P17dG4r3hSUznODsdMT5RJ3iiDdKO0Vvn0Lfwnz5HlSnYbLX2tn6rb4Kb
+         t4SAQolTnrTPOAoGybWXZHNKj1Nrshw8FjF7vbc4SGo7qhmfs2tso2jG08i4n4LTafjc
+         AMe2MZKvRLA/nu51dPZkfQsLG/YKO4tay0Vzjd07ARUE1OMbVxpawpK+0dSq6f3ZSnLH
+         0cJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV+miRKQ104kawRTjsMZL5XDlrLvXIvHC2WHOazg6cS5dk6xh88tDYxPlR2lN7o8xrjELudIezfLmCHvXEVlcusTUDzkA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyfWlNkQ/T8zLOqwYu91oiz5Cm1ZhW6qm2qdPpotCx0RbxFenai
+	YWvxURtUNVvJcuDhFnm5mWqPTKWK979soYiFf/RgP4ckgdw0ukiUmoqi
+X-Gm-Gg: ASbGncuuU4o/EODx/7JRiRo+pwpq9aUoV31ZdAv9bKORelTqwPZPAcZ3fJXPjTME1Dv
+	Ui/TDy00+8J7fBHOZ+K8eWpYmG3qq5dHN6Yb0fZB0eIPd1dS3zn4fpSfOlwfYdPMFk0AFNxh1pc
+	WddqmpgVhOekVUFfg53tLGgsNRb2NLAMfNX0NMuG5oeqddHpP9WbS40V8zA6FUDM0NbSuWLCoyp
+	Mvh2aS8AxjqQxCd1b1ndmBBVFlDybkxMFXk24/jXMCdBijDnbLjRrEz7U7I45RMedAaRHcozm4W
+	7By/DN7L71lIfc33dtPtbe63fAIZqdGducWvRGVP8lqlU02VWSTRior7sEbtvqcCc7eb8ti/4o8
+	YKJow4T/sLXJjfq41qXFGEbjZpnF9klk=
+X-Google-Smtp-Source: AGHT+IFutXw1L/XOjScRsdDSpV+r6eKI63rbxdFUQe76zmXPfvquCWiV+zd8b3fzU48UPDGnuelkQQ==
+X-Received: by 2002:a17:90b:4397:b0:31f:346:c670 with SMTP id 98e67ed59e1d1-321162cd915mr11001796a91.30.1754331002791;
+        Mon, 04 Aug 2025 11:10:02 -0700 (PDT)
 Received: from archlinux ([205.254.163.109])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e899b6casm113511255ad.127.2025.08.04.10.59.06
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b422bb09d1dsm9508864a12.58.2025.08.04.11.09.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Aug 2025 10:59:12 -0700 (PDT)
+        Mon, 04 Aug 2025 11:10:02 -0700 (PDT)
 From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	darwi@linutronix.de,
-	sohil.mehta@intel.com,
-	peterz@infradead.org,
-	ravi.bangoria@amd.com
+To: apw@canonical.com,
+	joe@perches.com,
+	dwaipayanray1@gmail.com,
+	lukas.bulwahn@gmail.com
 Cc: skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v4] x86/cpu/intel: Fix the constant_tsc model check for Pentium 4
-Date: Mon,  4 Aug 2025 23:29:01 +0530
-Message-ID: <20250804175901.13561-1-suchitkarunakaran@gmail.com>
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH v3 RESEND] checkpatch: suppress strscpy warnings for userspace tools
+Date: Mon,  4 Aug 2025 23:38:25 +0530
+Message-ID: <20250804180825.15055-1-suchitkarunakaran@gmail.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -83,47 +77,66 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Pentium 4's which are INTEL_P4_PRESCOTT (model 0x03) and later have
-a constant TSC. This was correctly captured until commit fadb6f569b10
-("x86/cpu/intel: Limit the non-architectural constant_tsc model checks").
-In that commit, an error was introduced while selecting the last P4
-model (0x06) as the upper bound. Model 0x06 was transposed to
-INTEL_P4_WILLAMETTE, which is just plain wrong. That was presumably a
-simple typo, probably just copying and pasting the wrong P4 model.
-Fix the constant TSC logic to cover all later P4 models. End at
-INTEL_P4_CEDARMILL which accurately corresponds to the last P4 model.
-Fixes: fadb6f569b10 ("x86/cpu/intel: Limit the non-architectural constant_tsc model checks")
-
-Cc: <stable@vger.kernel.org> # v6.15
+The checkpatch.pl script currently warns against the use of strcpy,
+strlcpy, and strncpy, recommending strscpy as a safer alternative.
+However, these warnings are also triggered for code under tools/ and
+scripts/, which are userspace utilities where strscpy is not available.
+This patch suppresses these warnings for files in tools/ and scripts/.
 
 Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-
-Changes since v3:
-- Refined changelog
-
-Changes since v2:
-- Improve commit message
+---
 
 Changes since v1:
-- Fix incorrect logic
+- Create is_userspace function to check if the file is in userspace
+  directories
 
----
- arch/x86/kernel/cpu/intel.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes since v2:
+- Change regex pattern to match top level directories only
 
-diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
-index 076eaa41b8c8..6f5bd5dbc249 100644
---- a/arch/x86/kernel/cpu/intel.c
-+++ b/arch/x86/kernel/cpu/intel.c
-@@ -262,7 +262,7 @@ static void early_init_intel(struct cpuinfo_x86 *c)
- 	if (c->x86_power & (1 << 8)) {
- 		set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
- 		set_cpu_cap(c, X86_FEATURE_NONSTOP_TSC);
--	} else if ((c->x86_vfm >= INTEL_P4_PRESCOTT && c->x86_vfm <= INTEL_P4_WILLAMETTE) ||
-+	} else if ((c->x86_vfm >=  INTEL_P4_PRESCOTT && c->x86_vfm <= INTEL_P4_CEDARMILL) ||
- 		   (c->x86_vfm >= INTEL_CORE_YONAH  && c->x86_vfm <= INTEL_IVYBRIDGE)) {
- 		set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
- 	}
+ scripts/checkpatch.pl | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index e722dd6fa8ef..fe580b0810f9 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -2636,6 +2636,11 @@ sub exclude_global_initialisers {
+ 		$realfile =~ m@/bpf/.*\.bpf\.c$@;
+ }
+ 
++sub is_userspace {
++    my ($realfile) = @_;
++    return ($realfile =~ m@^tools/@ || $realfile =~ m@^scripts/@);
++}
++
+ sub process {
+ 	my $filename = shift;
+ 
+@@ -7018,21 +7023,20 @@ sub process {
+ #				}
+ #			}
+ #		}
+-
+ # strcpy uses that should likely be strscpy
+-		if ($line =~ /\bstrcpy\s*\(/) {
++		if ($line =~ /\bstrcpy\s*\(/ && !is_userspace($realfile)) {
+ 			WARN("STRCPY",
+ 			     "Prefer strscpy over strcpy - see: https://github.com/KSPP/linux/issues/88\n" . $herecurr);
+ 		}
+ 
+ # strlcpy uses that should likely be strscpy
+-		if ($line =~ /\bstrlcpy\s*\(/) {
++		if ($line =~ /\bstrlcpy\s*\(/ && !is_userspace($realfile)) {
+ 			WARN("STRLCPY",
+ 			     "Prefer strscpy over strlcpy - see: https://github.com/KSPP/linux/issues/89\n" . $herecurr);
+ 		}
+ 
+ # strncpy uses that should likely be strscpy or strscpy_pad
+-		if ($line =~ /\bstrncpy\s*\(/) {
++		if ($line =~ /\bstrncpy\s*\(/ && !is_userspace($realfile)) {
+ 			WARN("STRNCPY",
+ 			     "Prefer strscpy, strscpy_pad, or __nonstring over strncpy - see: https://github.com/KSPP/linux/issues/90\n" . $herecurr);
+ 		}
 -- 
 2.50.1
 
