@@ -1,92 +1,80 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED60221FDD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Aug 2025 17:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BE2229B2E
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  4 Aug 2025 17:59:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754329362; cv=none; b=frcWzdwpQMqPS+vQt7zm21He6WgU0tQ7QqYNWi7OSI/c2UOcSQheZZtPgV1sObaBi+MSxiSWNEzES6J0uN4oykr4oGuLNNVXUR9vfu0Z4oIuq3rp8BB3DbRxWi0pt4uSKO9cT+3cpK54u/3/Rm19EW1YbX3uBlt3ND52OCE5ZXM=
+	t=1754330354; cv=none; b=WumuDevKjsAhFL4SOuCcTAK+NZRJi4RWpWUv479iP/5DoyXxWVE2gh8Ja49lGmoxmVTS8Q+DDlD1adkjyWkGcvzbMfHP733ZUsbTaWH8FiJww1bHuM4bLhCLUjbWC2g/+xNVVZjmu6RISloUSfhnsUHO5jEeSPuyBpykviz/d7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754329362; c=relaxed/simple;
-	bh=vzrXIt5TL4b9Ng5jv3r+kCVZCYVNZ1OqQdurqTIo3t0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZYY0PJfxr2MxcUV6bgqUnx+HFfTrkm3dUH5PMtGnW1vKDXSVsKWSObkEG5sSU0LqYV06YNq+8WO3dKXBIH3PdcexwR60pVAmsc0RAkUO7w9/d3brFWJJqRhQmHMzDsKZLn3u4xsyDhxJNt8ztQn9c/Hu3+TAUMX4xYEYl238uOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mK/17aJ7; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1754330354; c=relaxed/simple;
+	bh=hRBqtBgChyarswMkyqYaXicaN4pphCyOw/27Y+y30EM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SgXUKRV7cawNYnjiDAJCUbvDc6Q1MSi0NxK2jIslzAo8ZRocO/zBhxlP6RQ3jIUrOQMnKCoLcmDSXo63ewKa3TEGHJ3wqC9pmtgerTeJMB64V0L8OXAOuffpEVjdY8wqcdZ4uuUM3pcjrDpaqqANZJvSG6Rs8ceBuK2CZltTw18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VFZnT4i2; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mK/17aJ7"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2759440B91
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Aug 2025 17:42:41 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id xtA9hvEvj0VN for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Aug 2025 17:42:40 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62d; helo=mail-pl1-x62d.google.com; envelope-from=devaanshk840@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 8A80A40C62
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8A80A40C62
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=mK/17aJ7
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 8A80A40C62
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Aug 2025 17:42:40 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-23dc5bcf49eso70403915ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 04 Aug 2025 10:42:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VFZnT4i2"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-23c8f179e1bso42267395ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 04 Aug 2025 10:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754329360; x=1754934160; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1754330353; x=1754935153; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jmpuDQw4lcTu4tXxdtVUEIunPau4aNsOSJumWE7v3Hs=;
-        b=mK/17aJ7QabbXRNK3QUgYAa+e05G+OMvXw43OKdGZMDWp+ngFpFeQWdH+K/B4o3jyl
-         uSMpnC56JCIX+SCp4JSSjo2R5STRbm6pxxI8zPG/LnABK1r6kIhUj/rXZFPR5cTfU5zo
-         ifaJbBj1ddxc2Ff4kFAHpBX1Hx1mEx/v24w/7uBqTAGtliL+fNXk/XpWv4pxaOE6MHtl
-         6kJjcZZX5ZYJ1tt5cz80Ix0heQyP3JdrcjONEauvua2f9bYlt9CzCGimo3vpM01ZAXv2
-         sneqnR1bS3vEeqQHaZcSwOmd9idsU7A6tpa4dxnrViifzsZf55KBNH646n4yVf+YXINi
-         JgMg==
+        bh=TML5SKZfJNHDTPDytEAgukzx0quH2eqGb0TO1OdDwgY=;
+        b=VFZnT4i2bgCB4OcBP9m1rILpQmPpX2m6ZOkVaafVrMjuMUY2uh5LJS03CUSB0Nokyr
+         91gMrkkfco6tg66EWDEyMhJ4T/k8sYnKkBFHrcr+E2skhfRjpYCLu1OAsxuczoO9Rn4K
+         Aqp8IeNcq560SqptIJRJKq5vkkn/SvuOweQyQOeE2hWTxgCdKzPQAtVLbrHplQPPbbm+
+         TPiitc3kcGiOOHrvAwN5V/QXOXmOCXFTlUY79FPOsI/o7jH5+lEpj9kk1kePKy65Jkfv
+         ZXir8EsmZM3r4kKmME3dz3LF282TTixM4L3FBXVGrc9mO90c+gX61SAsm8YfpyRfSXvs
+         qF6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754329360; x=1754934160;
+        d=1e100.net; s=20230601; t=1754330353; x=1754935153;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jmpuDQw4lcTu4tXxdtVUEIunPau4aNsOSJumWE7v3Hs=;
-        b=XOujs5M2/dsRkI7dealWDBiZlHHcr2akj/SXWnnv+jyRcf10ZzhFDNbjYqKLnbvYwF
-         z/pf1TL1k+qSbDtrpvM8ABnQq6RKeHkh+NuwdpP0gfiCTQvQWzg9Sv6X8zhFBkXfFKyS
-         /8VEBOPtTHTKEl14ivQxDOR8cgokSOozkn6p0yAW1L7f7yhdUezZr+09JsWPwQThsR59
-         3RZZEd6FF93NCK7HJ3ZPIVU0doM7BjL16bPicHrklFZ/R0Ft0PtMyWaNhMX5/ljwNGJP
-         boZB1ziy1rzxWndPnu8ZibmtOEB8whWSZ7s2BdZtKcCeocEdcV2JJZ6KB4wvgdSvTbHe
-         zt+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU+zy4+2CklMzcEaia3VQQhC0UNlSGu6m63yhLire0cay3HzowNC5T1S5DRM6pM1xpmRqtfuEnmcmNQCzLEGatfeQoj+Q==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxZ24iIkfoc2b1mhNRvkmzqQVnQ7c1bDJ7FSiF+ChG7Sv+RZ73x
-	V+cETsAjIdu20DEzNibNb7yKvuZOswvobeCmOHJ892fJ4bOEaMb2xRy3
-X-Gm-Gg: ASbGncvKgCFPXywBL4v3VtzNy+R2VrYO1N9N1xb4fy9LY+XWPoQwkhnmPUU22XvmAkx
-	VvKj/YzHV+qy23f0jxsi9jN50J16bs1RyCiRLZ/blLM4KzAKV+iaHCHB+botar64QAEYmPx4Ce4
-	uPKoemWIhYbPNf6Ha6IqFOXkHDLHKMoyGTY5z3dDrE/BlidGE0ChGyvzoUpNIAFa0KAVP+NYsh2
-	FdBgcYFu3Q6ZjgAkMha6IV+KWcJ2xlEIvT+pcpw708nCq0CJFIXSyhUxuGoWMe9lLD229yxOO1K
-	Hxhp45Z8sQsn4rfJc/dk/dPGPDhot+uc2aVRdoA46Lq4d9hcip6hrxec5WSqnPMvgrhEo217VhH
-	QwKkRBEQuRYV5uuFiFzBencFGydOFtnXm
-X-Google-Smtp-Source: AGHT+IFI+8SdSFUw0aVzC0ng054xt2X3I1hBjCdWEE3aIB2LDKXSVvzTElJ/rk4zbP2WnqZwBQ+KGA==
-X-Received: by 2002:a17:902:db11:b0:234:d292:be7a with SMTP id d9443c01a7336-24246f30349mr169796815ad.1.1754329359639;
-        Mon, 04 Aug 2025 10:42:39 -0700 (PDT)
-Received: from fedora.. ([110.225.60.218])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241d1ef6713sm114370935ad.12.2025.08.04.10.42.35
+        bh=TML5SKZfJNHDTPDytEAgukzx0quH2eqGb0TO1OdDwgY=;
+        b=hUnzgHQaCCVPnhDN83DXjjkPCywgBjfPVLE29o9i0cFBmB2KLwEIVh9tz5/ngksDbn
+         M4iwXzZN52qUIqzjgTaxLdecRkCqxeIzRni8+UgQXmGWdDCwtPsQHE1/+H7liEmx8aZw
+         SKAM1Q9leV/qNMzrzmgrrg8xkv+6qRFPMe31dVXFJmsZToK9ezD8hnuRqkQgW+zEajQC
+         t+EOlV6fjTBrOABpQpSY5NgCMAI0YaP+4sjcCr1cJJB1fjwJ9qeEODrqXnDoL+BqRUH2
+         lJd0vFArFsH6TDqDE6/eWbUHbx60rjDm86wnzE3kpexCtZh9aaD/SRRRP50SOihNfwRp
+         3Kxg==
+X-Forwarded-Encrypted: i=1; AJvYcCUS7lKAAWR1Q5tUi8e+wwcTmSCMSTZW24ECZspfDurbBrhagSXhCSI+teTbsbY1WVM077Ccf4aLHAsNMClV2p0jOB2ITg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw67PqXtGDGQojaybftmd6GTDNnSmqVZ0PkukR9emk3zunCUEKh
+	BgCvikVFE0w16PJyPc4kRgvknANTLpY+WhDbfSoy3tleu6J5dOhetUau
+X-Gm-Gg: ASbGncuYojrLeO8vHTT+FJ2v92jy3CDlWviQa3GyHoQCRPIAAxspT9ZJWB0U/6GxntJ
+	VevaqsjWIl8VJLR1lZdsuJgVXe1wSkmRpkP/u8MZ/unGRaC6hmmBnbgbtzSSpGlZTQKBGoKr1cC
+	gKa9m8VpgPURJuF986uVqKVcWv+xf99rSXGh5w1tGFQ7fVFRhdKsknjgNUNMOc4/upaiyNGnR+O
+	SYkbAXoR+Kx0vrHh6MDFK+0GpJFGmbSDaQDOXtIaTSSvixXe8u7cSZoLtfhBVpCu4IjNNfr/NLz
+	0eHzszcMuuAYFWdYHHTo76fGuGgezImw0kJAZwTOMOOOFXuK8gi+jHdLKXZHMJJ4jBWQCSGJPeP
+	Uxq8bkO40NciNCE4dsKaE+eDYWb+E0uE=
+X-Google-Smtp-Source: AGHT+IG3xbtJ7aB6w3otcsf12+CJy2T25OWBiy3cp3FPaOpHfRKzg+mfJFxHOfZ8gH7iNa/hMowAdw==
+X-Received: by 2002:a17:902:ecc6:b0:240:b075:577f with SMTP id d9443c01a7336-24247025e7emr152480025ad.37.1754330352555;
+        Mon, 04 Aug 2025 10:59:12 -0700 (PDT)
+Received: from archlinux ([205.254.163.109])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e899b6casm113511255ad.127.2025.08.04.10.59.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Aug 2025 10:42:39 -0700 (PDT)
-From: Devaansh Kumar <devaanshk840@gmail.com>
-To: linux-perf-users@vger.kernel.org,
-	peterz@infradead.org,
+        Mon, 04 Aug 2025 10:59:12 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: tglx@linutronix.de,
 	mingo@redhat.com,
-	acme@kernel.org,
-	namhyung@kernel.org
-Cc: Devaansh Kumar <devaanshk840@gmail.com>,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] perf test: Added .gitignore to shell base_report
-Date: Mon,  4 Aug 2025 23:11:55 +0530
-Message-ID: <20250804174157.319224-1-devaanshk840@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	darwi@linutronix.de,
+	sohil.mehta@intel.com,
+	peterz@infradead.org,
+	ravi.bangoria@amd.com
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v4] x86/cpu/intel: Fix the constant_tsc model check for Pentium 4
+Date: Mon,  4 Aug 2025 23:29:01 +0530
+Message-ID: <20250804175901.13561-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -95,23 +83,47 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Created .gitignore to include base_report files so
-git status doesn't gripe about untracked files.
+Pentium 4's which are INTEL_P4_PRESCOTT (model 0x03) and later have
+a constant TSC. This was correctly captured until commit fadb6f569b10
+("x86/cpu/intel: Limit the non-architectural constant_tsc model checks").
+In that commit, an error was introduced while selecting the last P4
+model (0x06) as the upper bound. Model 0x06 was transposed to
+INTEL_P4_WILLAMETTE, which is just plain wrong. That was presumably a
+simple typo, probably just copying and pasting the wrong P4 model.
+Fix the constant TSC logic to cover all later P4 models. End at
+INTEL_P4_CEDARMILL which accurately corresponds to the last P4 model.
+Fixes: fadb6f569b10 ("x86/cpu/intel: Limit the non-architectural constant_tsc model checks")
 
-Signed-off-by: Devaansh Kumar <devaanshk840@gmail.com>
+Cc: <stable@vger.kernel.org> # v6.15
+
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+
+Changes since v3:
+- Refined changelog
+
+Changes since v2:
+- Improve commit message
+
+Changes since v1:
+- Fix incorrect logic
+
 ---
- tools/perf/tests/shell/base_report/.gitignore | 2 ++
- 1 file changed, 2 insertions(+)
- create mode 100644 tools/perf/tests/shell/base_report/.gitignore
+ arch/x86/kernel/cpu/intel.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/perf/tests/shell/base_report/.gitignore b/tools/perf/tests/shell/base_report/.gitignore
-new file mode 100644
-index 000000000000..8d3ce1278d83
---- /dev/null
-+++ b/tools/perf/tests/shell/base_report/.gitignore
-@@ -0,0 +1,2 @@
-+*.log
-+*.err
+diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
+index 076eaa41b8c8..6f5bd5dbc249 100644
+--- a/arch/x86/kernel/cpu/intel.c
++++ b/arch/x86/kernel/cpu/intel.c
+@@ -262,7 +262,7 @@ static void early_init_intel(struct cpuinfo_x86 *c)
+ 	if (c->x86_power & (1 << 8)) {
+ 		set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
+ 		set_cpu_cap(c, X86_FEATURE_NONSTOP_TSC);
+-	} else if ((c->x86_vfm >= INTEL_P4_PRESCOTT && c->x86_vfm <= INTEL_P4_WILLAMETTE) ||
++	} else if ((c->x86_vfm >=  INTEL_P4_PRESCOTT && c->x86_vfm <= INTEL_P4_CEDARMILL) ||
+ 		   (c->x86_vfm >= INTEL_CORE_YONAH  && c->x86_vfm <= INTEL_IVYBRIDGE)) {
+ 		set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
+ 	}
 -- 
-2.49.0
+2.50.1
 
