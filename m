@@ -1,263 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840F31EA7E9;
-	Mon,  4 Aug 2025 15:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A27A26B973
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  4 Aug 2025 15:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754320352; cv=none; b=q3v/+JEeUT5TRRD53k5yaHaJ8+b23fnRJCQgeOnBn0CPQuRUoo+ciplvm68ByPKAsac1Y6VYL5OYfHtkSJ6TB9RP+5a7hB0FRuxGuqy5jc1n6Nyx17hLsD8+GVSNTgbTmkdPTSjK6zWC6cs/Mujz9KpHFj8xsupcLPVfX/LPD5M=
+	t=1754321587; cv=none; b=ezvlceztQsdf50IZgZjoucq2zqfmJbofGRfAAFjxPb9o8ZbMRmJo1ANFGz4ekpeBIdKMIsOhtiBMuvjfljnHn2BdUm11gm2ucwjvSF9HFgn1SQtMaLjGx5bsfzHeDWYXsEm1DSPgJUftNbjAiv0FHpn9NakPIX+nh1FMH9Z22gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754320352; c=relaxed/simple;
-	bh=s8Hl5yqqBlXVSgd7w3HW62AgLG1twY0pWWHfz3al/M0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p23Z/FL0bNvcmYg04uIk3+eZsS91pInxAMsuoCQtglYWQNXNUTY3amM/lZceY4B52ZogxnxXLC5PQL1vsUaBuRVYhLLEwg2SmRA/J9aZW456xJuU2E3jnFRX3NZemPKw0OxjZVDOCsZ5kTHzAHEGOyJk0Cgb3y/czyW6VE7K3iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j4h9FXN9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754321587; c=relaxed/simple;
+	bh=uUkKHgrzOIHi/hAZ3QVzC5pF5jd7+2AosuCKLSA58Tw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PGkCCN4EPNGWyhWdzmUOg/wEaD6eA5kXPhNjmuALRaED48vCAbxhS5WQHQHG+gzwkP5Xa3Wc1MvP3KMKKsOPK80JbSxd+gAdxw1I0aU9X2NcIDhKIPSOCNzSWkg0cddQvOlrzsAf5uvM79eimD0nhgbsnLj6m/xkHEaExuCbUvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nolUKFc+; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j4h9FXN9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BFCAC4CEE7;
-	Mon,  4 Aug 2025 15:12:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754320352;
-	bh=s8Hl5yqqBlXVSgd7w3HW62AgLG1twY0pWWHfz3al/M0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j4h9FXN9MrTeETabRPKqGw0DlBEgTHhW01QwghvFgToGaA02bi9JnLLl4rQih1Fnc
-	 EKmLNxqOeoyea0cVkOHhdEmcvslersOvoLitcaIYZoPpcBLg1yElS3KNww6eIFQtF8
-	 TcFRE3zpR+JELLo6XLEE1TppL98Td8gaPZhDuNsy3tElr3MsLNyKMhZuLXbh88sJ6R
-	 +4qPXpmPCuBvRG7lnyvQRjHKnACtYf9xAuEL/q/B9BXWW4AjbVKafF/1cajrXxuV4n
-	 krQkqnxtL/mN91OKgvXY4hAVXD6NfSrFFA9jsZMNfgMBc+/U5R4A+JYCANhFZwjsI/
-	 1lEs8006JfP0Q==
-Date: Mon, 4 Aug 2025 08:12:31 -0700
-From: Kees Cook <kees@kernel.org>
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Cc: tglx@linutronix.de, mingo@redhat.com, peterz@infradead.org,
-	dvhart@infradead.org, dave@stgolabs.net, andrealmeid@igalia.com,
-	linux-kernel@vger.kernel.org, jann@thejh.net,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2] futex: don't leak robust_list pointer on exec race
-Message-ID: <202508040811.3DB8AA242@keescook>
-References: <20250804115533.14186-1-pranav.tyagi03@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nolUKFc+"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3b7961cf660so3473775f8f.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 04 Aug 2025 08:33:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1754321584; x=1754926384; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t+WopZFLryciAlo72DuJ/q4cJCaS9uxI8zd7Jh9HW34=;
+        b=nolUKFc+13FelANp/zWsxUVBtHUOZ7Hl//zHJbFV1KoAlk866EhUMHymJZc8subruj
+         15bxTu8UDFrLlro31Rb0CLqQXSWyMWhlGRP8plV23aUZeTv8U6ajf853OpGHAeERwLpJ
+         +wYWp9Q5Tc9mmlXVKr4l7zbdnRB4KPs5yMkYangGZONbmVw0DLLcAaz4RMJycuu3wg0y
+         Tb/EwzvM8NhwqFai7lCdOVKBC8OCHv8ODNQqcF0+U5DhS353o21Se/D/HGkK6VWP7z+J
+         XUVOMz8oEKRl5qy5wmqCFLHH9RWddqI8VL0s5ChDAeqinTC/a/3KqRPd9Tutj+AcexAE
+         1kzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754321584; x=1754926384;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t+WopZFLryciAlo72DuJ/q4cJCaS9uxI8zd7Jh9HW34=;
+        b=uQZhbTBB+0Jq+i/00zinKxt9NB6dBMQtzBM0yjU3FYbcSy6OaBCZM1sYY5wktHRU68
+         rUgtPqx5UR0IWat6HyPRPwvThGev2kGIMKVAFldUWQN3kOdItzRP5u/gre2cdSlxn9jZ
+         TTOmsjvn+Vz3sh9KlKs7Yok/sTD6JWV3qaI2kvdrw5K2LFs/g4TYDFjZN4s+9g0GBLpm
+         mfyCDu1Z3faV2235/+yWl9/F1/oVDabZT54CxgLUuoaB93SaJuHfdqPTpfHpT4PqB8r9
+         3ZarH+OrOF9/vmyOXqiZJRxOudgs9KfGY06QZEQMjRrN2DlEpoXgjnUrNpwfUIur8f5D
+         gq2A==
+X-Forwarded-Encrypted: i=1; AJvYcCWZHMJnU+bxOZ860RqbMWtWHMrPB6jHkynWlp5Jl1H6kVZ0wxfStgJ0fiT9vod++HnFr7G3pt38DmHW7C6hs2WI+UyDCg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3C2pJm8aGJSwsYhwHzlqsmrtO7DyKabheiR3MijaXaoq/xV46
+	Its/ox6CxhGSRMOUfgV+T/Py/t+2meyNfLy/93gVlkCVcwSaDlE92eQHmvPiKwzI5uQt0BGLOH1
+	Xnf8Yl/Q=
+X-Gm-Gg: ASbGncsN6eAzKVKZq/e8lFJuZcVGsiYxqH4qNJzasiCTbuBSYwyAs4zB8J/4AsCIUIq
+	Uh+WPaeEgsm7QvgxbLHfvV+OkP3cISQaFIJv4iIHYvC5boCPxsEqJakMbR8KfhR+1ONPcTdO+bh
+	vriTzebJ5MLjtEEmzS1OwrEJPwRcKxUb9m4Kb8x2LS9ZhxjoT6Yi+MRe8S8mTVTCoVqrOl1igAK
+	E1U1/M8JIx1pl9nymv9Ija6Wu0tMjYRBzo5pNzHvxuVGtypJSCU88w//cRETXaZNp2sSCbmDk4w
+	BhchMhJsVkJ7KuFqF7JcxTEQhHmzHyhBk+Q4LRYQVzf+FtcCydKboEjFSUO2K/HJ0JZ+ozjs7dg
+	tKJzw1eQ9CkYd862ujc9XtA5AkJPjSs7fxfXx25Hobg4=
+X-Google-Smtp-Source: AGHT+IEF8f1hU2BlwQYVtjlp2hUl6tPsOBX/61hQ8UhG3IJs/dhbSFdGfLAaTj/fxWh7CQaq0TRrWw==
+X-Received: by 2002:a05:6000:2387:b0:3b7:942c:5447 with SMTP id ffacd0b85a97d-3b8d94cf8f6mr7300794f8f.55.1754321583582;
+        Mon, 04 Aug 2025 08:33:03 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c47ca5fsm15664010f8f.63.2025.08.04.08.33.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Aug 2025 08:33:02 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ linus.walleij@linaro.org, jessica.zhang@oss.qualcomm.com, sam@ravnborg.org, 
+ Brigham Campbell <me@brighamcampbell.com>
+Cc: dianders@chromium.org, skhan@linuxfoundation.org, 
+ linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250731032343.1258366-1-me@brighamcampbell.com>
+References: <20250731032343.1258366-1-me@brighamcampbell.com>
+Subject: Re: [PATCH v4 0/3] drm/panel: novatek-nt35560: Fix bug and clean
+ up
+Message-Id: <175432158262.3671011.5417242916841349428.b4-ty@linaro.org>
+Date: Mon, 04 Aug 2025 17:33:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250804115533.14186-1-pranav.tyagi03@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Mon, Aug 04, 2025 at 05:25:33PM +0530, Pranav Tyagi wrote:
-> sys_get_robust_list() and compat_get_robust_list() use
-> ptrace_may_access() to check if the calling task is allowed to access
-> another task's robust_list pointer. This check is racy against a
-> concurrent exec() in the target process.
-> 
-> During exec(), a task may transition from a non-privileged binary to a
-> privileged one (e.g., setuid binary) and its credentials/memory mappings
-> may change. If get_robust_list() performs ptrace_may_access() before
-> this transition, it may erroneously allow access to sensitive information
-> after the target becomes privileged.
-> 
-> A racy access allows an attacker to exploit a window
-> during which ptrace_may_access() passes before a target process
-> transitions to a privileged state via exec().
-> 
-> For example, consider a non-privileged task T that is about to execute a
-> setuid-root binary. An attacker task A calls get_robust_list(T) while T
-> is still unprivileged. Since ptrace_may_access() checks permissions
-> based on current credentials, it succeeds. However, if T begins exec
-> immediately afterwards, it becomes privileged and may change its memory
-> mappings. Because get_robust_list() proceeds to access T->robust_list
-> without synchronizing with exec() it may read user-space pointers from a
-> now-privileged process.
-> 
-> This violates the intended post-exec access restrictions and could
-> expose sensitive memory addresses or be used as a primitive in a larger
-> exploit chain. Consequently, the race can lead to unauthorized
-> disclosure of information across privilege boundaries and poses a
-> potential security risk.
-> 
-> Take a read lock on signal->exec_update_lock prior to invoking
-> ptrace_may_access() and accessing the robust_list/compat_robust_list.
-> This ensures that the target task's exec state remains stable during the
-> check, allowing for consistent and synchronized validation of
-> credentials.
+Hi,
 
-Thanks for this commit log; I think it captures the concern very well.
-
+On Wed, 30 Jul 2025 21:23:40 -0600, Brigham Campbell wrote:
+> Fix bug in novatek-nt35560 driver's nt35560_set_brightness() which
+> causes the driver to incorrectly report that it "failed to disable
+> display backlight".
 > 
-> changed in v2:
-> - improved changelog
-> - helper function for common part of the compat and native syscalls
+> Add mipi_dsi_dcs_read_multi() to drm_mipi_dsi.c for improved error
+> handling in drivers which use mipi_dsi_dcs_read() multiple times in a
+> row. Add mipi_dsi_dcs_write_var_seq_multi() and
+> mipi_dsi_generic_write_var_seq_multi() to drm_mipi_dsi.h to allow
+> drivers to more conveniently construct MIPI payloads at runtime.
 > 
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> Suggested-by: Jann Horn <jann@thejh.net>
-> Link: https://lore.kernel.org/linux-fsdevel/1477863998-3298-5-git-send-email-jann@thejh.net/
-> Link: https://github.com/KSPP/linux/issues/119
-> ---
->  kernel/futex/syscalls.c | 110 ++++++++++++++++++++++------------------
->  1 file changed, 62 insertions(+), 48 deletions(-)
-> 
-> diff --git a/kernel/futex/syscalls.c b/kernel/futex/syscalls.c
-> index 4b6da9116aa6..3278d91d95ce 100644
-> --- a/kernel/futex/syscalls.c
-> +++ b/kernel/futex/syscalls.c
-> @@ -39,46 +39,81 @@ SYSCALL_DEFINE2(set_robust_list, struct robust_list_head __user *, head,
->  	return 0;
->  }
->  
-> -/**
-> - * sys_get_robust_list() - Get the robust-futex list head of a task
-> - * @pid:	pid of the process [zero for current task]
-> - * @head_ptr:	pointer to a list-head pointer, the kernel fills it in
-> - * @len_ptr:	pointer to a length field, the kernel fills in the header size
-> - */
-> -SYSCALL_DEFINE3(get_robust_list, int, pid,
-> -		struct robust_list_head __user * __user *, head_ptr,
-> -		size_t __user *, len_ptr)
-> +static void __user *get_robust_list_common(int pid,
-> +		bool compat)
->  {
-> -	struct robust_list_head __user *head;
-> +	void __user *head;
->  	unsigned long ret;
-> -	struct task_struct *p;
->  
-> -	rcu_read_lock();
-> +	struct task_struct *p;
->  
-> -	ret = -ESRCH;
-> -	if (!pid)
-> +	if (!pid) {
->  		p = current;
-> -	else {
-> +		get_task_struct(p);
-> +	} else {
-> +		rcu_read_lock();
->  		p = find_task_by_vpid(pid);
-> +		/*
-> +		 * pin the task to permit dropping the RCU read lock before
-> +		 * acquiring the semaphore
-> +		 */
-> +		if (p)
-> +			get_task_struct(p);
-> +		rcu_read_unlock();
->  		if (!p)
-> -			goto err_unlock;
-> +			return ERR_PTR(-ESRCH);
->  	}
->  
-> +	/*
-> +	 * Hold exec_update_lock to serialize with concurrent exec()
-> +	 * so ptrace_may_access() is checked against stable credentials
-> +	 */
-> +
-> +	ret = down_read_killable(&p->signal->exec_update_lock);
-> +	if (ret)
-> +		goto err_put;
-> +
->  	ret = -EPERM;
->  	if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
->  		goto err_unlock;
->  
-> -	head = p->robust_list;
-> -	rcu_read_unlock();
-> +	if (compat)
-> +		head = p->compat_robust_list;
-> +	else
-> +		head = p->robust_list;
->  
-> -	if (put_user(sizeof(*head), len_ptr))
-> -		return -EFAULT;
-> -	return put_user(head, head_ptr);
-> +	up_read(&p->signal->exec_update_lock);
-> +	put_task_struct(p);
-> +
-> +	return head;
->  
->  err_unlock:
-> -	rcu_read_unlock();
-> +	up_read(&p->signal->exec_update_lock);
-> +err_put:
-> +	put_task_struct(p);
-> +	return ERR_PTR(ret);
-> +}
->  
-> -	return ret;
-> +
-> +/**
-> + * sys_get_robust_list() - Get the robust-futex list head of a task
-> + * @pid:	pid of the process [zero for current task]
-> + * @head_ptr:	pointer to a list-head pointer, the kernel fills it in
-> + * @len_ptr:	pointer to a length field, the kernel fills in the header size
-> + */
-> +SYSCALL_DEFINE3(get_robust_list, int, pid,
-> +		struct robust_list_head __user * __user *, head_ptr,
-> +		size_t __user *, len_ptr)
-> +{
-> +	struct robust_list_head __user *head =
-> +		get_robust_list_common(pid, false);
-> +
-> +	if (IS_ERR(head))
-> +		return PTR_ERR(head);
-> +
-> +	if (put_user(sizeof(*head), len_ptr))
-> +		return -EFAULT;
-> +	return put_user(head, head_ptr);
->  }
->  
->  long do_futex(u32 __user *uaddr, int op, u32 val, ktime_t *timeout,
-> @@ -455,36 +490,15 @@ COMPAT_SYSCALL_DEFINE3(get_robust_list, int, pid,
->  			compat_uptr_t __user *, head_ptr,
->  			compat_size_t __user *, len_ptr)
->  {
-> -	struct compat_robust_list_head __user *head;
-> -	unsigned long ret;
-> -	struct task_struct *p;
-> +	struct compat_robust_list_head __user *head =
-> +		get_robust_list_common(pid, true);
->  
-> -	rcu_read_lock();
-> -
-> -	ret = -ESRCH;
-> -	if (!pid)
-> -		p = current;
-> -	else {
-> -		p = find_task_by_vpid(pid);
-> -		if (!p)
-> -			goto err_unlock;
-> -	}
-> -
-> -	ret = -EPERM;
-> -	if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
-> -		goto err_unlock;
-> -
-> -	head = p->compat_robust_list;
-> -	rcu_read_unlock();
-> +	if (IS_ERR(head))
-> +		return PTR_ERR(head);
->  
->  	if (put_user(sizeof(*head), len_ptr))
->  		return -EFAULT;
->  	return put_user(ptr_to_compat(head), head_ptr);
-> -
-> -err_unlock:
-> -	rcu_read_unlock();
-> -
-> -	return ret;
->  }
->  #endif /* CONFIG_COMPAT */
->  
-> -- 
-> 2.49.0
-> 
+> [...]
 
-This looks good to me; it needs to use a void * for the common helper,
-but it's nice to have it all in one place.
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-Reviewed-by: Kees Cook <kees@kernel.org>
-
--Kees
+[1/3] drm/panel: novatek-nt35560: Fix invalid return value
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/125459e19ec654924e472f3ff5aeea40358dbebf
+[2/3] drm: Add MIPI read_multi func and two write macros
+      (no commit info)
+[3/3] drm/panel: novatek-nt35560: Clean up driver
+      (no commit info)
 
 -- 
-Kees Cook
+Neil
+
