@@ -1,143 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BF7218AA3;
-	Tue,  5 Aug 2025 09:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA94259C84;
+	Tue,  5 Aug 2025 09:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754384413; cv=none; b=MqfveCCpxkIneyo8q6XGAcqG8Sj/858ToNFa0ycem4XRnU6N9jyV86iFENx2hxax06ONRJdpqQh5ctqnVfpSFJ/uaoWnDkneoU70hxgOIst2Gjc5gKA1H9K6PUQuA2USz7sVxY0uqqfRf/Ff5g38rIwrQ5fhz+lwSGpdVUInZxI=
+	t=1754384509; cv=none; b=KPhoiV9S/oU2q0G65nmNJnj96ePQcLLRN/pPBkntTK0Y9PNrKhM9pqYlli/C/iP0cQmszuLIZOPFbidnIy2QKMtTVZr9YFQ3WnJj0WR7s8RPzlA7X0cNMTRDsiLu8PYeWfAtfMcqMdDpdpS6TJ3DHETriOk9Q2HGDaIYeNoNfHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754384413; c=relaxed/simple;
-	bh=Ss5+o9mGlFGpOFYaX0Rvuk2dt041GM5MzYR0NO61GJk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ClTt/NQpllCffYX9RhBE5tJeKsXjRgOFCHjiJ3qQ48x/9s6/wA++7ZsRdDYGLlzPyBXYjaIjfz7hUSh7EBaWJEVOuqzanOWmxCGnvGt75Fg0gI/72Xc5O7Sluo4N7BVmOIBIV4AuJHaCwI9p+3uUyvfh/o7fhvu35vx9b8TDrFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=otP6Yr4J; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754384509; c=relaxed/simple;
+	bh=RDyUgR2PQ1GVGOThtsglLFcL8GrDSPC0hME5I1Gf3Ss=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VKfpq3sOhiqksOgs46BmRFtm9bu46XEI+NSPWNhaHM43xGbMIzSCfzgcOG4zMDoktY72PUAZ1q7RVsLAc0DhGHFY1bwLTGcZjEtfr1T8j+9oH1SaJU+ZoWOGdmRwxusfp3mrtq36PcQezk1fq7GMZ+nxsSbNS+fDLCliV1U0pL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f6MjZj1K; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="otP6Yr4J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 365ACC4CEF0;
-	Tue,  5 Aug 2025 09:00:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754384412;
-	bh=Ss5+o9mGlFGpOFYaX0Rvuk2dt041GM5MzYR0NO61GJk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=otP6Yr4J1pqfmmft5pQ/QcsnPJiwpUDtnQ/ghyYRPB2uJ5wtuJE2o7WKqZs0LECzB
-	 Z4fnkF+Bk1rEgSXGEFKTCbB8mN9mZ6yRXwE6HGNZ2ejTTEctVYfuFd5FRDDFplrqku
-	 yVlIOTR8wPkb4W1hhQNJAcugKH3dwbeYTOi0sxU8kYQv1tEmI4l2kxuA7M47p4NI6h
-	 d4QA4H3c+Zrzlg+z/m6yhTuPreyCzwzuBqbhTlYsDh6gd0KumsOb6JHhAU6X5bOlqV
-	 PNtnGP4URMJOFC+PIRzStMUUPyUYoB0QsdNZ9SAvRjg8Y2pI/8I86q1Le8lDsIo2cM
-	 zJPXcIhHA3XgA==
-Message-ID: <5c9bf027-f362-4176-b4af-bcba9aa96e0c@kernel.org>
-Date: Tue, 5 Aug 2025 11:00:08 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f6MjZj1K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754384508; x=1785920508;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RDyUgR2PQ1GVGOThtsglLFcL8GrDSPC0hME5I1Gf3Ss=;
+  b=f6MjZj1KG+k3EmVo598Ad3IBMbW2TaRczWfySFGeQ3Yah/KLPUFCIgpk
+   QBswtZwFOnF6vwEHZOuNVKTJuI3bjrgxfzpTTvqvQmWkmgAGRKREO38eo
+   ot7bIdGBt/bEexpzO9BzwZ+ohUCFeTTvUv7ZEjMIQIjPOsIWGu5F7YZ+N
+   PVt0sY1lHqrB17hDNvnK9Aqt2GYo5xxxRK/6mf+FvzBF1tSEDGSVxF0qK
+   buzUbrBJedEi5JgRLBhyjsApgZEQubXP3qw8XiM6js74j82QvGKu6lw0q
+   um7Wm6AXiQI78F1ka/Kr5xQdJz2tqxNaconDF1rrjYVTtT4qODeT2Ds/c
+   w==;
+X-CSE-ConnectionGUID: 1rqrcCWuRZuNhOgk9okV4w==
+X-CSE-MsgGUID: vUU3Xt21QlCO+W6SY4ZVcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="68120310"
+X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; 
+   d="scan'208";a="68120310"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 02:01:43 -0700
+X-CSE-ConnectionGUID: HPiZt80WRHmf5Ze8zQ44Jw==
+X-CSE-MsgGUID: Gzy1SfDaRceL5UHtY83ftA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; 
+   d="scan'208";a="168862744"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 05 Aug 2025 02:01:39 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ujDY8-0000Ue-2g;
+	Tue, 05 Aug 2025 09:01:36 +0000
+Date: Tue, 5 Aug 2025 17:01:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>, tglx@linutronix.de,
+	mingo@redhat.com, peterz@infradead.org, dvhart@infradead.org,
+	dave@stgolabs.net, andrealmeid@igalia.com,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, jann@thejh.net,
+	keescook@chromium.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: Re: [PATCH v2] futex: don't leak robust_list pointer on exec race
+Message-ID: <202508051607.VJkmdtGV-lkp@intel.com>
+References: <20250804115533.14186-1-pranav.tyagi03@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: media: atomisp: add missing mutex lock in
- atomisp_s_fmt_cap
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, mchehab@kernel.org,
- sakari.ailus@linux.intel.com, andy@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, dan.carpenter@linaro.org
-References: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250804115533.14186-1-pranav.tyagi03@gmail.com>
 
-Hi,
+Hi Pranav,
 
-On 17-Jul-25 2:42 PM, Abdelrahman Fekry wrote:
-> The function atomisp_set_fmt() modifies shared device state and expects
-> callers to hold the isp->mutex for synchronization. While most internal
-> callers correctly lock the mutex before invoking atomisp_set_fmt(), the
-> V4L2 ioctl handler atomisp_s_fmt_cap() does not.
-> 
-> This results in an unsafe execution path for VIDIOC_S_FMT ioctls
-> (e.g. via v4l2-ctl), where shared structures such as pipe->pix and
-> pipe->frame_info may be modified concurrently without proper protection.
-> 
-> - Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
+kernel test robot noticed the following build errors:
 
-Thank you for your patch, but I'm afraid that this stems from
-not understanding how v4l2 drivers work.
+[auto build test ERROR on tip/locking/core]
+[also build test ERROR on linus/master v6.16 next-20250805]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-isp->mutex is set as the mutex for the /dev/video# node in:
-drivers/staging/media/atomisp/pci/atomisp_v4l2.c:
+url:    https://github.com/intel-lab-lkp/linux/commits/Pranav-Tyagi/futex-don-t-leak-robust_list-pointer-on-exec-race/20250804-195739
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20250804115533.14186-1-pranav.tyagi03%40gmail.com
+patch subject: [PATCH v2] futex: don't leak robust_list pointer on exec race
+config: riscv-randconfig-001-20250805 (https://download.01.org/0day-ci/archive/20250805/202508051607.VJkmdtGV-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508051607.VJkmdtGV-lkp@intel.com/reproduce)
 
-int atomisp_video_init(struct atomisp_video_pipe *video)
-{
-	...
-	video->vdev.lock = &video->isp->mutex;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508051607.VJkmdtGV-lkp@intel.com/
 
-This guarantees that any ioctl handlers will be called with
-isp->mutex already held.
+All errors (new ones prefixed by >>):
 
-The suggested change here will result in trying to lock
-the mutex a second time leading to a deadlock.
-
-So NACK for this patch.
-
-What would be useful is adding:
-
-	lockdep_assert_held(&isp->mutex);
-
-to functions which expect the mutex to be held. I regularly
-test the atomisp code with lockdep enabled kernels so this
-will help catch any paths where we indeed are not locking
-the mutex while we should lock it.
-
-Regards.
-
-Hans
+>> kernel/futex/syscalls.c:81:13: error: no member named 'compat_robust_list' in 'struct task_struct'
+      81 |                 head = p->compat_robust_list;
+         |                        ~  ^
+   1 error generated.
 
 
+vim +81 kernel/futex/syscalls.c
 
+    41	
+    42	static void __user *get_robust_list_common(int pid,
+    43			bool compat)
+    44	{
+    45		void __user *head;
+    46		unsigned long ret;
+    47	
+    48		struct task_struct *p;
+    49	
+    50		if (!pid) {
+    51			p = current;
+    52			get_task_struct(p);
+    53		} else {
+    54			rcu_read_lock();
+    55			p = find_task_by_vpid(pid);
+    56			/*
+    57			 * pin the task to permit dropping the RCU read lock before
+    58			 * acquiring the semaphore
+    59			 */
+    60			if (p)
+    61				get_task_struct(p);
+    62			rcu_read_unlock();
+    63			if (!p)
+    64				return ERR_PTR(-ESRCH);
+    65		}
+    66	
+    67		/*
+    68		 * Hold exec_update_lock to serialize with concurrent exec()
+    69		 * so ptrace_may_access() is checked against stable credentials
+    70		 */
+    71	
+    72		ret = down_read_killable(&p->signal->exec_update_lock);
+    73		if (ret)
+    74			goto err_put;
+    75	
+    76		ret = -EPERM;
+    77		if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
+    78			goto err_unlock;
+    79	
+    80		if (compat)
+  > 81			head = p->compat_robust_list;
+    82		else
+    83			head = p->robust_list;
+    84	
+    85		up_read(&p->signal->exec_update_lock);
+    86		put_task_struct(p);
+    87	
+    88		return head;
+    89	
+    90	err_unlock:
+    91		up_read(&p->signal->exec_update_lock);
+    92	err_put:
+    93		put_task_struct(p);
+    94		return ERR_PTR(ret);
+    95	}
+    96	
 
-
-
-> 
-> Fixes: 4bdab80981ca ("media: atomisp: Make it possible to call atomisp_set_fmt() without a file handle")
-> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-> ---
-> v3:
-> - Use guard(mutex) as suggested by Dan Carpenter and Andy Shevchenko
-> - Remove extra blank line after variable declaration
-> - Fix include order as requested by Andy Shevchenko
-> 
-> v2: https://lore.kernel.org/all/20250717013003.20936-1-abdelrahmanfekry375@gmail.com/
-> - Add Fixes tag
-> - use cleanup.h micros instead of explicitly calling mutex_lock/unlock
-> 
-> v1: https://lore.kernel.org/all/20250716014225.15279-1-abdelrahmanfekry375@gmail.com/
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> index bb8b2f2213b0..2690c05afff3 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> @@ -7,6 +7,7 @@
->   * Copyright (c) 2010 Silicon Hive www.siliconhive.com.
->   */
->  
-> +#include <linux/cleanup.h>
->  #include <linux/delay.h>
->  #include <linux/pci.h>
->  
-> @@ -416,7 +417,9 @@ static int atomisp_s_fmt_cap(struct file *file, void *fh,
->  			     struct v4l2_format *f)
->  {
->  	struct video_device *vdev = video_devdata(file);
-> +	struct atomisp_device *isp = video_get_drvdata(vdev);
->  
-> +	guard(mutex)(&isp->mutex);
->  	return atomisp_set_fmt(vdev, f);
->  }
->  
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
