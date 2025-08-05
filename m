@@ -1,255 +1,143 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D641A5B8C
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  5 Aug 2025 08:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BF7218AA3;
+	Tue,  5 Aug 2025 09:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754381976; cv=none; b=PTqSAZTMswEb95E2v9ImYx9Gl8CFbd6gPgg3H+B2TTWzuELur1DgxBOaOFJsWhfP/CoqFafzSWlrovBXK6mvWf62n9MgrEdJ/C9nIY0/9imKrKPUv2wq+Rw/sbfvy4A6pj8KC3P1OcePHIf5dVoe6IvC2XyUi+0wiSqQKCbCIkA=
+	t=1754384413; cv=none; b=MqfveCCpxkIneyo8q6XGAcqG8Sj/858ToNFa0ycem4XRnU6N9jyV86iFENx2hxax06ONRJdpqQh5ctqnVfpSFJ/uaoWnDkneoU70hxgOIst2Gjc5gKA1H9K6PUQuA2USz7sVxY0uqqfRf/Ff5g38rIwrQ5fhz+lwSGpdVUInZxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754381976; c=relaxed/simple;
-	bh=Os9JiwIeGtnfmNy4C+UTY5wklB1lOf1J6DAA6X/9jus=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=InjuWfhymjnsbngGZTmOFbEKwryeu93SeUmQnWdAdcmvpaipMcw4JdE729OG8yc4LEp+//GkOj0aKzD+ArRbkOQhv2X5+CTaDRND+6xm3pVLyecTb611YsStVbmlhDDhkM7DK0jFzTuUeVDjDmz9h7p5euhDhY7kBQ4qHYh2TMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=a5RBPVSp; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HRtLr/dP; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1754384413; c=relaxed/simple;
+	bh=Ss5+o9mGlFGpOFYaX0Rvuk2dt041GM5MzYR0NO61GJk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ClTt/NQpllCffYX9RhBE5tJeKsXjRgOFCHjiJ3qQ48x/9s6/wA++7ZsRdDYGLlzPyBXYjaIjfz7hUSh7EBaWJEVOuqzanOWmxCGnvGt75Fg0gI/72Xc5O7Sluo4N7BVmOIBIV4AuJHaCwI9p+3uUyvfh/o7fhvu35vx9b8TDrFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=otP6Yr4J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="a5RBPVSp";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HRtLr/dP"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1754381972;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7eXqZukBJsjBSdz9QJmzEvxSldHJHVRIiX8d3xX8bzQ=;
-	b=a5RBPVSprZDV3Htcc3FsH6T6QM+N57wqK4qHzFp3A/CvpB5c/Yn7V13nYF66si8A9leMd0
-	bAH5i8vLnBWq7ulNuz6/AVFMBqt7wMTa70hx1ZBvjZgg2k2r4il9xT8NmbxiPgUH/yfqWQ
-	b8oE6UqH8nSAGfEWQWGKPh2mB0hO5QnDPL/qNI+BAUsaQsr+syh3IYeDHdSk5K1Hg0jIEc
-	Iot22oHSS8qVFwsZjMaTTnYIRmkB7MDcYicv6Kn4YGzmWIEstznZIYDFPEx7DwOLIo3Tas
-	Amk1mcoaGnohXTfssSInU83CppUUm/0XrRI0H7yNwJDPfLwksYuIm2xwcUKydQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1754381972;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7eXqZukBJsjBSdz9QJmzEvxSldHJHVRIiX8d3xX8bzQ=;
-	b=HRtLr/dPowXxJ7nvW9ff1UkZso7WUufswXqUPE5bt0MF8s5Qzdd0kt/P+Pl5S1dfH7/+2M
-	uE0L1ONaW0/O4eCg==
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>, mingo@redhat.com,
- peterz@infradead.org, dvhart@infradead.org, dave@stgolabs.net,
- andrealmeid@igalia.com, linux-kernel@vger.kernel.org
-Cc: jann@thejh.net, keescook@chromium.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, Pranav Tyagi
- <pranav.tyagi03@gmail.com>
-Subject: Re: [PATCH v2] futex: don't leak robust_list pointer on exec race
-In-Reply-To: <20250804115533.14186-1-pranav.tyagi03@gmail.com>
-References: <20250804115533.14186-1-pranav.tyagi03@gmail.com>
-Date: Tue, 05 Aug 2025 10:19:31 +0200
-Message-ID: <871ppqgoz0.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="otP6Yr4J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 365ACC4CEF0;
+	Tue,  5 Aug 2025 09:00:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754384412;
+	bh=Ss5+o9mGlFGpOFYaX0Rvuk2dt041GM5MzYR0NO61GJk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=otP6Yr4J1pqfmmft5pQ/QcsnPJiwpUDtnQ/ghyYRPB2uJ5wtuJE2o7WKqZs0LECzB
+	 Z4fnkF+Bk1rEgSXGEFKTCbB8mN9mZ6yRXwE6HGNZ2ejTTEctVYfuFd5FRDDFplrqku
+	 yVlIOTR8wPkb4W1hhQNJAcugKH3dwbeYTOi0sxU8kYQv1tEmI4l2kxuA7M47p4NI6h
+	 d4QA4H3c+Zrzlg+z/m6yhTuPreyCzwzuBqbhTlYsDh6gd0KumsOb6JHhAU6X5bOlqV
+	 PNtnGP4URMJOFC+PIRzStMUUPyUYoB0QsdNZ9SAvRjg8Y2pI/8I86q1Le8lDsIo2cM
+	 zJPXcIhHA3XgA==
+Message-ID: <5c9bf027-f362-4176-b4af-bcba9aa96e0c@kernel.org>
+Date: Tue, 5 Aug 2025 11:00:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] staging: media: atomisp: add missing mutex lock in
+ atomisp_s_fmt_cap
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, andy@kernel.org, gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
+ skhan@linuxfoundation.org, dan.carpenter@linaro.org
+References: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 04 2025 at 17:25, Pranav Tyagi wrote:
-> Take a read lock on signal->exec_update_lock prior to invoking
-> ptrace_may_access() and accessing the robust_list/compat_robust_list.
-> This ensures that the target task's exec state remains stable during the
-> check, allowing for consistent and synchronized validation of
-> credentials.
->
-> changed in v2:
-> - improved changelog
-> - helper function for common part of the compat and native syscalls
+Hi,
 
-Please put version log below the --- line. That's not part of the change log.
+On 17-Jul-25 2:42 PM, Abdelrahman Fekry wrote:
+> The function atomisp_set_fmt() modifies shared device state and expects
+> callers to hold the isp->mutex for synchronization. While most internal
+> callers correctly lock the mutex before invoking atomisp_set_fmt(), the
+> V4L2 ioctl handler atomisp_s_fmt_cap() does not.
+> 
+> This results in an unsafe execution path for VIDIOC_S_FMT ioctls
+> (e.g. via v4l2-ctl), where shared structures such as pipe->pix and
+> pipe->frame_info may be modified concurrently without proper protection.
+> 
+> - Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
 
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> Suggested-by: Jann Horn <jann@thejh.net>
-> Link: https://lore.kernel.org/linux-fsdevel/1477863998-3298-5-git-send-email-jann@thejh.net/
-> Link: https://github.com/KSPP/linux/issues/119
-> ---
->  kernel/futex/syscalls.c | 110 ++++++++++++++++++++++------------------
->  1 file changed, 62 insertions(+), 48 deletions(-)
->
-> diff --git a/kernel/futex/syscalls.c b/kernel/futex/syscalls.c
-> index 4b6da9116aa6..3278d91d95ce 100644
-> --- a/kernel/futex/syscalls.c
-> +++ b/kernel/futex/syscalls.c
-> @@ -39,46 +39,81 @@ SYSCALL_DEFINE2(set_robust_list, struct robust_list_head __user *, head,
->  	return 0;
->  }
->  
-> -/**
-> - * sys_get_robust_list() - Get the robust-futex list head of a task
-> - * @pid:	pid of the process [zero for current task]
-> - * @head_ptr:	pointer to a list-head pointer, the kernel fills it in
-> - * @len_ptr:	pointer to a length field, the kernel fills in the header size
-> - */
-> -SYSCALL_DEFINE3(get_robust_list, int, pid,
-> -		struct robust_list_head __user * __user *, head_ptr,
-> -		size_t __user *, len_ptr)
-> +static void __user *get_robust_list_common(int pid,
-> +		bool compat)
+Thank you for your patch, but I'm afraid that this stems from
+not understanding how v4l2 drivers work.
 
-What is this random line break for?
+isp->mutex is set as the mutex for the /dev/video# node in:
+drivers/staging/media/atomisp/pci/atomisp_v4l2.c:
 
->  {
-> -	struct robust_list_head __user *head;
-> +	void __user *head;
->  	unsigned long ret;
-> -	struct task_struct *p;
->  
-
-Stray new line and please use reverse fir tree ordering of variables:
-
-https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#variable-declarations
-
-> -	rcu_read_lock();
-> +	struct task_struct *p;
->  
-> -	ret = -ESRCH;
-> -	if (!pid)
-> +	if (!pid) {
->  		p = current;
-> -	else {
-> +		get_task_struct(p);
-> +	} else {
-> +		rcu_read_lock();
->  		p = find_task_by_vpid(pid);
-> +		/*
-> +		 * pin the task to permit dropping the RCU read lock before
-> +		 * acquiring the semaphore
-> +		 */
-> +		if (p)
-> +			get_task_struct(p);
-> +		rcu_read_unlock();
->  		if (!p)
-> -			goto err_unlock;
-> +			return ERR_PTR(-ESRCH);
-
-                scoped_guard(rcu) {
-                     p = find_task_by_vpid(pid);
-                     if (!p)
-			return (void __user *)ERR_PTR(-ESRCH);
-                     get_task_struct(p);
-                }
-
-No need for a comment about pinning the task. This is obvious and a
-common pattern all over the place. And note the type case on the error
-return.
-
-But you can simplify this whole thing even further:
-
-	struct task_struct *p = current;
-
-	scoped_guard(rcu) {
-        	if (pid) {
-                     p = find_task_by_vpid(pid);
-                     if (!p)
-			return (void __user *)ERR_PTR(-ESRCH);
-		}
-        	get_task_struct(p);
-        }
-
-Yes, RCU is not required for the !pid case, but this is not a hot path.
-
->  
-> +	/*
-> +	 * Hold exec_update_lock to serialize with concurrent exec()
-> +	 * so ptrace_may_access() is checked against stable credentials
-> +	 */
-> +
-
-Stray newline.
-
-> +	ret = down_read_killable(&p->signal->exec_update_lock);
-> +	if (ret)
-> +		goto err_put;
-> +
->  	ret = -EPERM;
->  	if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
->  		goto err_unlock;
->  
-> -	head = p->robust_list;
-> -	rcu_read_unlock();
-> +	if (compat)
-> +		head = p->compat_robust_list;
-> +	else
-> +		head = p->robust_list;
-
-Brain compiler complains about a build fail with CONFIG_COMPAT=n
-
-static inline void __user *task_robust_list(struct task_struct *p, bool compat)
+int atomisp_video_init(struct atomisp_video_pipe *video)
 {
-#ifdef COMPAT
-	if (compat)
-		return p->compat_robust_list;
-#endif
-	return p->robust_list;
-}
+	...
+	video->vdev.lock = &video->isp->mutex;
 
-So you don't have the #ifdef ugly in this function..
+This guarantees that any ioctl handlers will be called with
+isp->mutex already held.
 
-> -	if (put_user(sizeof(*head), len_ptr))
-> -		return -EFAULT;
-> -	return put_user(head, head_ptr);
-> +	up_read(&p->signal->exec_update_lock);
-> +	put_task_struct(p);
-> +
-> +	return head;
+The suggested change here will result in trying to lock
+the mutex a second time leading to a deadlock.
+
+So NACK for this patch.
+
+What would be useful is adding:
+
+	lockdep_assert_held(&isp->mutex);
+
+to functions which expect the mutex to be held. I regularly
+test the atomisp code with lockdep enabled kernels so this
+will help catch any paths where we indeed are not locking
+the mutex while we should lock it.
+
+Regards.
+
+Hans
+
+
+
+
+
+
+> 
+> Fixes: 4bdab80981ca ("media: atomisp: Make it possible to call atomisp_set_fmt() without a file handle")
+> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+> ---
+> v3:
+> - Use guard(mutex) as suggested by Dan Carpenter and Andy Shevchenko
+> - Remove extra blank line after variable declaration
+> - Fix include order as requested by Andy Shevchenko
+> 
+> v2: https://lore.kernel.org/all/20250717013003.20936-1-abdelrahmanfekry375@gmail.com/
+> - Add Fixes tag
+> - use cleanup.h micros instead of explicitly calling mutex_lock/unlock
+> 
+> v1: https://lore.kernel.org/all/20250716014225.15279-1-abdelrahmanfekry375@gmail.com/
+> ---
+>  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> index bb8b2f2213b0..2690c05afff3 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> @@ -7,6 +7,7 @@
+>   * Copyright (c) 2010 Silicon Hive www.siliconhive.com.
+>   */
 >  
->  err_unlock:
-> -	rcu_read_unlock();
-> +	up_read(&p->signal->exec_update_lock);
-> +err_put:
-> +	put_task_struct(p);
-> +	return ERR_PTR(ret);
-> +}
+> +#include <linux/cleanup.h>
+>  #include <linux/delay.h>
+>  #include <linux/pci.h>
 >  
-> -	return ret;
-> +
-> +/**
-> + * sys_get_robust_list() - Get the robust-futex list head of a task
-> + * @pid:	pid of the process [zero for current task]
-> + * @head_ptr:	pointer to a list-head pointer, the kernel fills it in
-> + * @len_ptr:	pointer to a length field, the kernel fills in the header size
-> + */
-> +SYSCALL_DEFINE3(get_robust_list, int, pid,
-> +		struct robust_list_head __user * __user *, head_ptr,
-> +		size_t __user *, len_ptr)
-> +{
-> +	struct robust_list_head __user *head =
-> +		get_robust_list_common(pid, false);
-
-No line break required.
-
-> +	if (IS_ERR(head))
-> +		return PTR_ERR(head);
-> +
-> +	if (put_user(sizeof(*head), len_ptr))
-> +		return -EFAULT;
-> +	return put_user(head, head_ptr);
+> @@ -416,7 +417,9 @@ static int atomisp_s_fmt_cap(struct file *file, void *fh,
+>  			     struct v4l2_format *f)
+>  {
+>  	struct video_device *vdev = video_devdata(file);
+> +	struct atomisp_device *isp = video_get_drvdata(vdev);
+>  
+> +	guard(mutex)(&isp->mutex);
+>  	return atomisp_set_fmt(vdev, f);
 >  }
 >  
->  long do_futex(u32 __user *uaddr, int op, u32 val, ktime_t *timeout,
-> @@ -455,36 +490,15 @@ COMPAT_SYSCALL_DEFINE3(get_robust_list, int, pid,
->  			compat_uptr_t __user *, head_ptr,
->  			compat_size_t __user *, len_ptr)
->  {
-> -	struct compat_robust_list_head __user *head;
-> -	unsigned long ret;
-> -	struct task_struct *p;
-> +	struct compat_robust_list_head __user *head =
-> +		get_robust_list_common(pid, true);
 
-Ditto
-
-Thanks,
-
-        tglx
