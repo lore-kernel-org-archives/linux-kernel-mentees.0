@@ -1,296 +1,119 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCFF275847
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  5 Aug 2025 13:57:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C37A2797AE
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  5 Aug 2025 15:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754402253; cv=none; b=Eof3SCfb/QGy6cAPXxU93HBbxuJWDPpiRzN1h5nH/gYEz0pWvvvTk9Agb7wCXHeE9pgc0oi3NcF2LGFAyRu0AXyZ3xeFwjFn4H/6+4Krh+gb+xOTIAEiwVne5KoFeo0Kly6ZSo7dlaG4q7SZjy9J3eKU57ANgIIu17h3NWijTPI=
+	t=1754406540; cv=none; b=W4S0jK8d2uAiemGx5KoewEjwRz1qjRwQF3RBevPVQznMqmymrybv0P0ZNTllPk0BAYleQOFpgxIuouwGdtPwb5poX2WyWYIbY7+VhvLWyNyfG1z9+kQ7LAh2N1QBIGzGnofksQurCB7SgRRbOzhGlFj1jJqg05GDaVr9hPUZvYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754402253; c=relaxed/simple;
-	bh=7mZLLojTaTNmZeT9QnUtEiyTdad0TC/+kp78K+eo16A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rqFqruLJi+jwyKQIttpmn6lDNn32floMo4aEKgQ+3nYGUlXLZrBK5ORxRYudr+8Ww0w3Nl/OTwAiBOTwtJkvBt8N78YttvAw2lcWTlC3KCUJTeLB31FZsNJaFwWCKvzg0AB1C6JswjzXnv1EFT/xPLClA2987HwF6RrV0ta7UKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fmo+KxMO; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754406540; c=relaxed/simple;
+	bh=6ooIakJHfw7YXMmRWfrQTaJz2DBq2g0w8g/ZJdwjlOM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=alPgdgdTYS9zC5w0xa1AUxX4NaU9h9bK01eKHEYpdWrwVmJLuaFYUiLRNcN8h0WlaEbMKj5RiwuDKzSp91SAbuf1C4eBwS6KYWEO2f2N5PZiEYs0xx+p73ldTrsSxGuZffIR1RCaOMTvUGE02Zhjra41WXsmx9LqqlvesDKOY0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=sVkFCCSa; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fmo+KxMO"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-55b975b459aso4130384e87.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 05 Aug 2025 06:57:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="sVkFCCSa"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45896cf24ebso44323325e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 05 Aug 2025 08:08:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754402250; x=1755007050; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A8x1ZaMc+KsTk7oJAjVa/yFvyS0e8ToozTSSDn94vgA=;
-        b=Fmo+KxMOQXdOs06BDr6xKmKURU74JvaZLg/f8l0S7gw7EGdPqaEASg0xYur6bM63Pj
-         2zdQXe4kosQk0p2kfE0nbj6zwEAQOuf0PJbB2jNwtQ1KL0nvBz8yRuQan9hX9p6mALxu
-         O4fsrgQZTkDkZmzap0a0jHXVxVlln30RNYb6tlwzisvdXTDr8xwv6zrrc/rOY2exZFGa
-         XAZBjkKnEU8H+o69xQS02FhN9Twmh7fm2bxUtRsf8bZiRKPKr3bMRiaYrxGNww0LmaiX
-         3CQxY2Lkq/42aGcUbw1Xcs5rM0v0fYgFc7hkhnzhR588lwTh9tE5Ynuk38WiddODJhq7
-         5M2A==
+        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1754406534; x=1755011334; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=H1NFToLTMCBICwkF2bXpGG3zLl1KYY37VeQX64wTwe4=;
+        b=sVkFCCSaqM4tQ21zm1ZTseBWRV/jgwSqJKRM21fidqXk8iMmhJiNwGaOP1MYMyM1f7
+         XV5TUIzTK3xcRoRP+X9D7SGDCHn6Xx+u5qPS4YJr8XBpUoKyxa4OBnjtXO3vcBBdUdsp
+         zcd68lRFlVfUiiXegtetjwRIu5skC2kFaIuckWhqGJTGST1Bq/EpAxCG+uwSedgv0s9L
+         9fwoXOVO57XLI5h9S6aJTCzokOpZJBbwdpWmT2Ty0Hx4FJUhnVTr6i3uq1Ui0XnoogWR
+         d+GSKOfdAX7a2N/G6SLsIuQNlhAfBKkhFxX4qIRHqXexVHEX/s33htXBiPuGsiYFetr+
+         rwPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754402250; x=1755007050;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A8x1ZaMc+KsTk7oJAjVa/yFvyS0e8ToozTSSDn94vgA=;
-        b=L7enSpacUZryRNLDbrxfIocS/KcSdZK/HSE5/hMe8jfuZjN6JRUAqEa2xzcQLLDXob
-         8+Aa30pKdbcIIzP44cf9hS45OK9RePW8ACTFvPl5+QM2JI55YT8ToXFv3WL2wGH6Camn
-         tmb2xDKwDaNyZOAtdfSA8ZiMWG2MGZQOIPPiP9T7OoLyYEvLEpgqxlpbzrYAGJSQ8BS5
-         66AZHIitSkf1oTE1n2l9n3/Uasxn9RjyXnV1qRyCjDtE4XX1COm66n1vlLdjVLivDglH
-         1rEVWuETTFr1JI721iOBrnSsFP3vxuXqCGXGupuKJcNgZgVm9bnWzZK5v5aMrK3zsH09
-         Gn4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUS2nneeS0SIf8MXmjpDTKsgPiyP5cM9vbuLwjp0HoW2QSrlMYVW2OhXkH5WnHSx9zaxlVrEmbGvUFkASsINLHbRFpPsQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYQOBIXpvHOajSLrrGoMViG4dbuskKNogamip6q9JcwJATavOY
-	TCoT/ewaqlSPRbmx9+zGGUa2QAPwWaTTaiq0LzmjWCLzNGgSKw+S3MG3xBXkuy/UYYh1Ts8L840
-	rsgfqJj1eQ4GCmY3W4DNnxCdJt+zgdJU=
-X-Gm-Gg: ASbGnctKXU1DxRwjCjzQ+2A2Ln9lELCuDQDivKVVYbM7GQYytEmTtyz83ZX91WQShBe
-	obftA6HndNf3hZ9aXj/K4Y07eB4O9CUTDXJLUtISPhOPYiv61xeuU3Xnmh/5cU0Nn4mYQGtkW8Z
-	Sow40hovDHKTtpHsLdOfDDoydXCaPog9VQBGZo9Qac0KQ79nDoRI60YTZZGdI6kteY5//Qs211h
-	Z9HU44t4ZoNOgELO9h48NVA30Sz3FbIlUE2x/Ntp795DAbxSnkXOTV7glwKCtc=
-X-Google-Smtp-Source: AGHT+IE6hEDmJq97vpjlOL7UQIlkvgomWNXiN58b4EEyHBWTB5an1DnMBan/ZHnhZYH9hPkt/AfkwC6jtltvzzDUwIo=
-X-Received: by 2002:a05:6512:31c8:b0:55b:81c4:5f22 with SMTP id
- 2adb3069b0e04-55b97b7b1ffmr3758549e87.47.1754402249525; Tue, 05 Aug 2025
- 06:57:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754406534; x=1755011334;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H1NFToLTMCBICwkF2bXpGG3zLl1KYY37VeQX64wTwe4=;
+        b=XJ/TPcU+4Sba/3vOudoEbedXAgB+5we5ej6yIxMz5/ZrW2QZf0bq/RFfiK4O9a05y3
+         FTazPA6OCuKmpRaesq6C/Olpm5LIWLsg/P3oEr2OnwuYZOyYwKW0v2qfGF6DXHdKS0Pg
+         2jmYBzv3x8n0ng3vjsx1CWvlbswlwMx3BbaFSoP2w/JeSNyVop086styoBNHJ1iFLnEq
+         utcyn2X6SI33tQDpqPLgM4HYUJgEe4Dp5EVjV+lp1qVYvXjKpzC2/KZIDC4ABzDKq+9Q
+         r6pYykqgA31aLl6C1TKqNb8fHn050KLSwdGDsehP4y5aMt8ct5LZ90bJ9pmXkovaR1hj
+         eg7w==
+X-Forwarded-Encrypted: i=1; AJvYcCWnLn01KcRbUeaRpLUETzEQAXRbzxQyv46euPFoMToze4BKztojfr0hH4Uh8SgMZC+DVh3mGT6Gx1phmUHEdk8Te6RGmQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwK+ewLaW2O5v4hOwUINYJeGwlUk0TMKjZqRQ9HW+Rf7d7GJtTb
+	KgGFbuCk7tFpAzYFyXwPJfxi8IEhjYd74m68DvdZxjsFzzofFXdgMmJUH8d0HM7ZQjs=
+X-Gm-Gg: ASbGnctQ16eqdZ4+lyGVrnP28mP03PdWdGvFWp4qSQqJu7HaICJ82jKYxaVPKUuWkVm
+	4woiZ5kQK6WP5LgAPQbw845+waUwo1Ee6MJVEjVAkLzS348OZnyJx+scPNyDdYLic7rX30Yxiys
+	7I9sPjCd7IlthaXZv/+OIPQ16SykgJYeMvvg2clZBjuZc+coX2LunkVmRQeKgRj9rNYgh2ftr4G
+	OpROZHSKT56jaWWz8NJjAQIpbtuajYeEWpSVYKQ+BJf7BONXQNpHZSdQv6uH5ay4Izxsd3uXH1q
+	ErfbOmBp9HQ5IZUiTCCEYEffFhs1hYl83pNE6k+LlP76FT5nLKKeFqJ7pAOjdmV9e1kCzZHAKsp
+	CzMW3A/yTVgzn3LhpcLxYO9xwcsJcnqJ4di6uGZqj1Qyi77w8
+X-Google-Smtp-Source: AGHT+IFxn5pLwK5DhH3KCFQWy4nsv5vsgTiDMhFW15HhwD65qkQk4OJb8IifzI8vS1mm024ju4SDkg==
+X-Received: by 2002:a05:600c:1c98:b0:459:d8c2:80b2 with SMTP id 5b1f17b1804b1-459d8c2833amr66948015e9.7.1754406534167;
+        Tue, 05 Aug 2025 08:08:54 -0700 (PDT)
+Received: from pop-os.telenet.be ([2a02:1807:2a00:3400:e77f:3816:a0b:2c4d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c469582sm19264199f8f.52.2025.08.05.08.08.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Aug 2025 08:08:53 -0700 (PDT)
+From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+To: linus.walleij@linaro.org,
+	dlan@gentoo.org
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+Subject: [PATCH] pinctrl: spacemit: remove extra line in debug output
+Date: Tue,  5 Aug 2025 17:07:01 +0200
+Message-ID: <20250805150701.129113-1-hendrik.hamerlinck@hammernet.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250804115533.14186-1-pranav.tyagi03@gmail.com> <871ppqgoz0.ffs@tglx>
-In-Reply-To: <871ppqgoz0.ffs@tglx>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Tue, 5 Aug 2025 19:27:17 +0530
-X-Gm-Features: Ac12FXzUzyRhwEIq9Mhys6GbNbXUuuGnNJZmpU_M14C8D3LU-CT0y5PbmBOLJJQ
-Message-ID: <CAH4c4j+1dG3523MGL5qdV2dC8OkqGN7QOn00HR0nuwQBaAz8iw@mail.gmail.com>
-Subject: Re: [PATCH v2] futex: don't leak robust_list pointer on exec race
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: mingo@redhat.com, peterz@infradead.org, dvhart@infradead.org, 
-	dave@stgolabs.net, andrealmeid@igalia.com, linux-kernel@vger.kernel.org, 
-	jann@thejh.net, keescook@chromium.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 5, 2025 at 1:49=E2=80=AFPM Thomas Gleixner <tglx@linutronix.de>=
- wrote:
->
-> On Mon, Aug 04 2025 at 17:25, Pranav Tyagi wrote:
-> > Take a read lock on signal->exec_update_lock prior to invoking
-> > ptrace_may_access() and accessing the robust_list/compat_robust_list.
-> > This ensures that the target task's exec state remains stable during th=
-e
-> > check, allowing for consistent and synchronized validation of
-> > credentials.
-> >
-> > changed in v2:
-> > - improved changelog
-> > - helper function for common part of the compat and native syscalls
->
-> Please put version log below the --- line. That's not part of the change =
-log.
->
-> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> > Suggested-by: Jann Horn <jann@thejh.net>
-> > Link: https://lore.kernel.org/linux-fsdevel/1477863998-3298-5-git-send-=
-email-jann@thejh.net/
-> > Link: https://github.com/KSPP/linux/issues/119
-> > ---
-> >  kernel/futex/syscalls.c | 110 ++++++++++++++++++++++------------------
-> >  1 file changed, 62 insertions(+), 48 deletions(-)
-> >
-> > diff --git a/kernel/futex/syscalls.c b/kernel/futex/syscalls.c
-> > index 4b6da9116aa6..3278d91d95ce 100644
-> > --- a/kernel/futex/syscalls.c
-> > +++ b/kernel/futex/syscalls.c
-> > @@ -39,46 +39,81 @@ SYSCALL_DEFINE2(set_robust_list, struct robust_list=
-_head __user *, head,
-> >       return 0;
-> >  }
-> >
-> > -/**
-> > - * sys_get_robust_list() - Get the robust-futex list head of a task
-> > - * @pid:     pid of the process [zero for current task]
-> > - * @head_ptr:        pointer to a list-head pointer, the kernel fills =
-it in
-> > - * @len_ptr: pointer to a length field, the kernel fills in the header=
- size
-> > - */
-> > -SYSCALL_DEFINE3(get_robust_list, int, pid,
-> > -             struct robust_list_head __user * __user *, head_ptr,
-> > -             size_t __user *, len_ptr)
-> > +static void __user *get_robust_list_common(int pid,
-> > +             bool compat)
->
-> What is this random line break for?
->
-> >  {
-> > -     struct robust_list_head __user *head;
-> > +     void __user *head;
-> >       unsigned long ret;
-> > -     struct task_struct *p;
-> >
->
-> Stray new line and please use reverse fir tree ordering of variables:
->
-> https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#variab=
-le-declarations
->
-> > -     rcu_read_lock();
-> > +     struct task_struct *p;
-> >
-> > -     ret =3D -ESRCH;
-> > -     if (!pid)
-> > +     if (!pid) {
-> >               p =3D current;
-> > -     else {
-> > +             get_task_struct(p);
-> > +     } else {
-> > +             rcu_read_lock();
-> >               p =3D find_task_by_vpid(pid);
-> > +             /*
-> > +              * pin the task to permit dropping the RCU read lock befo=
-re
-> > +              * acquiring the semaphore
-> > +              */
-> > +             if (p)
-> > +                     get_task_struct(p);
-> > +             rcu_read_unlock();
-> >               if (!p)
-> > -                     goto err_unlock;
-> > +                     return ERR_PTR(-ESRCH);
->
->                 scoped_guard(rcu) {
->                      p =3D find_task_by_vpid(pid);
->                      if (!p)
->                         return (void __user *)ERR_PTR(-ESRCH);
->                      get_task_struct(p);
->                 }
->
-> No need for a comment about pinning the task. This is obvious and a
-> common pattern all over the place. And note the type case on the error
-> return.
->
-> But you can simplify this whole thing even further:
->
->         struct task_struct *p =3D current;
->
->         scoped_guard(rcu) {
->                 if (pid) {
->                      p =3D find_task_by_vpid(pid);
->                      if (!p)
->                         return (void __user *)ERR_PTR(-ESRCH);
->                 }
->                 get_task_struct(p);
->         }
->
-> Yes, RCU is not required for the !pid case, but this is not a hot path.
->
-> >
-> > +     /*
-> > +      * Hold exec_update_lock to serialize with concurrent exec()
-> > +      * so ptrace_may_access() is checked against stable credentials
-> > +      */
-> > +
->
-> Stray newline.
->
-> > +     ret =3D down_read_killable(&p->signal->exec_update_lock);
-> > +     if (ret)
-> > +             goto err_put;
-> > +
-> >       ret =3D -EPERM;
-> >       if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
-> >               goto err_unlock;
-> >
-> > -     head =3D p->robust_list;
-> > -     rcu_read_unlock();
-> > +     if (compat)
-> > +             head =3D p->compat_robust_list;
-> > +     else
-> > +             head =3D p->robust_list;
->
-> Brain compiler complains about a build fail with CONFIG_COMPAT=3Dn
->
-> static inline void __user *task_robust_list(struct task_struct *p, bool c=
-ompat)
-> {
-> #ifdef COMPAT
->         if (compat)
->                 return p->compat_robust_list;
-> #endif
->         return p->robust_list;
-> }
->
-> So you don't have the #ifdef ugly in this function..
->
-> > -     if (put_user(sizeof(*head), len_ptr))
-> > -             return -EFAULT;
-> > -     return put_user(head, head_ptr);
-> > +     up_read(&p->signal->exec_update_lock);
-> > +     put_task_struct(p);
-> > +
-> > +     return head;
-> >
-> >  err_unlock:
-> > -     rcu_read_unlock();
-> > +     up_read(&p->signal->exec_update_lock);
-> > +err_put:
-> > +     put_task_struct(p);
-> > +     return ERR_PTR(ret);
-> > +}
-> >
-> > -     return ret;
-> > +
-> > +/**
-> > + * sys_get_robust_list() - Get the robust-futex list head of a task
-> > + * @pid:     pid of the process [zero for current task]
-> > + * @head_ptr:        pointer to a list-head pointer, the kernel fills =
-it in
-> > + * @len_ptr: pointer to a length field, the kernel fills in the header=
- size
-> > + */
-> > +SYSCALL_DEFINE3(get_robust_list, int, pid,
-> > +             struct robust_list_head __user * __user *, head_ptr,
-> > +             size_t __user *, len_ptr)
-> > +{
-> > +     struct robust_list_head __user *head =3D
-> > +             get_robust_list_common(pid, false);
->
-> No line break required.
->
-> > +     if (IS_ERR(head))
-> > +             return PTR_ERR(head);
-> > +
-> > +     if (put_user(sizeof(*head), len_ptr))
-> > +             return -EFAULT;
-> > +     return put_user(head, head_ptr);
-> >  }
-> >
-> >  long do_futex(u32 __user *uaddr, int op, u32 val, ktime_t *timeout,
-> > @@ -455,36 +490,15 @@ COMPAT_SYSCALL_DEFINE3(get_robust_list, int, pid,
-> >                       compat_uptr_t __user *, head_ptr,
-> >                       compat_size_t __user *, len_ptr)
-> >  {
-> > -     struct compat_robust_list_head __user *head;
-> > -     unsigned long ret;
-> > -     struct task_struct *p;
-> > +     struct compat_robust_list_head __user *head =3D
-> > +             get_robust_list_common(pid, true);
->
-> Ditto
->
-> Thanks,
->
->         tglx
+The debug output for spacemit_pinconf_dbg_show() prints an extra newline
+at the end. This is redundant as pinconf_pins_show() in pinconf.c already
+adds a newline in its for loop.
 
-Hi,
+Remove the newline to avoid the extra line in the output.
 
-Thanks for pointing out the shortcomings in my patch. I will
-resend a v3 for the same shortly.
+Example current output:
+$ cat /sys/kernel/debug/pinctrl/d401e000.pinctrl/pinconf-pins
+Pin config settings per pin
+Format: pin (name): configs
+pin 0 (GPIO_00): , bias pull disabled, io type (Fixed/1V8), drive strength (32 mA), register (0x1041)
 
-Regards
-Pranav Tyagi
+pin 1 (GPIO_01): slew rate (0x0), bias pull disabled, io type (Fixed/1V8), drive strength (32 mA), register (0x1041)
+
+pin 2 (GPIO_02): slew rate (0x0), bias pull disabled, io type (Fixed/1V8), drive strength (32 mA), register (0x1041)
+
+...
+
+Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+---
+ drivers/pinctrl/spacemit/pinctrl-k1.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pinctrl/spacemit/pinctrl-k1.c b/drivers/pinctrl/spacemit/pinctrl-k1.c
+index 9996b1c4a07e..fb361f2acb54 100644
+--- a/drivers/pinctrl/spacemit/pinctrl-k1.c
++++ b/drivers/pinctrl/spacemit/pinctrl-k1.c
+@@ -707,7 +707,7 @@ static void spacemit_pinconf_dbg_show(struct pinctrl_dev *pctldev,
+ 			   spacemit_get_drive_strength_mA(IO_TYPE_1V8, tmp),
+ 			   spacemit_get_drive_strength_mA(IO_TYPE_3V3, tmp));
+ 
+-	seq_printf(seq, ", register (0x%04x)\n", value);
++	seq_printf(seq, ", register (0x%04x)", value);
+ }
+ 
+ static const struct pinconf_ops spacemit_pinconf_ops = {
+-- 
+2.43.0
+
