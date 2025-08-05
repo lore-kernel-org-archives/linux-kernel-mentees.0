@@ -1,94 +1,88 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A62724DCE2
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  5 Aug 2025 21:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C345225B687;
+	Tue,  5 Aug 2025 22:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754430470; cv=none; b=OLa2axOD2kFKmcqEOYFjD5Eup5Gb11EwoCoF1hx0AzMdG5HLY7i6TOxxwGg2M5IKX8wXJl1xDy0JALvmu3A8lOWiHIn2g36U37J2ZI11/drBRmqmxf92YtKaBcF8YDq3xgBLXAVifb7gKFRgrZI4KFXIbhLSeptI6xOaM3ZjIJc=
+	t=1754433722; cv=none; b=nKeha28gnjmnFYvzzCRH1taaAX0qrdmrvOQVXC8hKkuOuDM7zZRHF1/3hSNlJU1k+Ft+jqvOjPDNtK0Mw42IXX4JUvDrv1V7vH9U+CTZ671EOIar4aAxOAhtiD42JG0YdgkRD24HC4iFvLRlHnkuoO8q31a28/U1eHibucCzZGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754430470; c=relaxed/simple;
-	bh=yYeG1V6t4ZHRjGttv1pJDmBATEHcfx0p5yuWagvDGXU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hOSqT4pLPobYKCjU6WlzuaNVX92yeds4QmQ1OO0rk48Z1upQ0NJeFZHrUxVEhw2zeZHIgK9VwHVAmwZrJpJady7WcM7BXlA1py7wL3hVDowr8elTp36Y9nlaGj5h0yDgeSDTu77qWOUIEWvtg2aYG8Ki8x+LtlbWIb6Ln99vaLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=uC31QA0g; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VK166dwQ; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="uC31QA0g";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VK166dwQ"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1754430467;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FLCk+N1CEF+OQ37UtR8LN9SHMYLGmt5Mn4Kf7hVjXto=;
-	b=uC31QA0gtnktRHnmxfzIlR++SJWu3B+riqv2IUEaewtBMhpnYTgR288qjbmOjQ1qJfZshL
-	mWaWvQCMXVtzNktd6BnuFLurjaAUDfjmeBV+a6agJVSbC1ncLxiFMKabcjw/mqyDF2U9R1
-	9J5ooaymYybSIZNgLqheCFkkDNCqqGUcEa20UJCENWgZSjKV6tz1OzMq3PBBIQ/7VoNSND
-	lkiPNawnakRAjEVU99/ejo0xEUA8Kp/X0ZLuQhXjqyfNiH7MPEz7vxSEnNaEkQXf763MEf
-	68nlgBlpaEXPhbJP7hXEFoog/iVjLh+HyPzo6JOk+PNs4tlFEhYPVDWwjDzovg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1754430467;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FLCk+N1CEF+OQ37UtR8LN9SHMYLGmt5Mn4Kf7hVjXto=;
-	b=VK166dwQKu1w1o4hmRDEfRAhhSYQNy/UDIE8FTbH1y9akAIF3aASNCTj9tIqa8BrW7kJGN
-	UJmoFZrNtdY8u9BA==
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>, mingo@redhat.com,
- peterz@infradead.org, dvhart@infradead.org, dave@stgolabs.net,
- andrealmeid@igalia.com, linux-kernel@vger.kernel.org
-Cc: jann@thejh.net, keescook@chromium.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, Pranav Tyagi
- <pranav.tyagi03@gmail.com>
-Subject: Re: [PATCH v3] futex: don't leak robust_list pointer on exec race
-In-Reply-To: <20250805154725.22031-1-pranav.tyagi03@gmail.com>
-References: <20250805154725.22031-1-pranav.tyagi03@gmail.com>
-Date: Tue, 05 Aug 2025 23:47:45 +0200
-Message-ID: <871pppfnjy.ffs@tglx>
+	s=arc-20240116; t=1754433722; c=relaxed/simple;
+	bh=VXgYibGzEYTF3VEY/ezdYz25VvLo89godDcuA1QyDIY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IuznPcs4qM3EBPQnK/u+sSfVGEA6VITHP0MPZXf0+dTCqU7Ke5rpzIf1caN1IgfbQh+AEfOGvhhq90Xmut3FPfvMKqtZ9BvrA7gnlTNjZskaI/C/W8jsPl9Wm90U0AX3xN4TvIMaz1JlS7SIyFsGS5ytb5LsngmaQCOu1Bp7h9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from localhost (unknown [116.232.147.33])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dlan)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id CFE16335DB1;
+	Tue, 05 Aug 2025 22:41:58 +0000 (UTC)
+Date: Wed, 6 Aug 2025 06:41:49 +0800
+From: Yixun Lan <dlan@gentoo.org>
+To: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+Cc: linus.walleij@linaro.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] pinctrl: spacemit: remove extra line in debug output
+Message-ID: <20250805224149-GYA950625@gentoo>
+References: <20250805150701.129113-1-hendrik.hamerlinck@hammernet.be>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250805150701.129113-1-hendrik.hamerlinck@hammernet.be>
 
-On Tue, Aug 05 2025 at 21:17, Pranav Tyagi wrote:
-> +
-> +	if (IS_ENABLED(CONFIG_COMPAT) && compat)
-> +		head =3D p->compat_robust_list;
+Hi Hendrik, 
+On 17:07 Tue 05 Aug     , Hendrik Hamerlinck wrote:
+> The debug output for spacemit_pinconf_dbg_show() prints an extra newline
+> at the end. This is redundant as pinconf_pins_show() in pinconf.c already
+> adds a newline in its for loop.
+> 
+> Remove the newline to avoid the extra line in the output.
+> 
+> Example current output:
+> $ cat /sys/kernel/debug/pinctrl/d401e000.pinctrl/pinconf-pins
+> Pin config settings per pin
+> Format: pin (name): configs
+> pin 0 (GPIO_00): , bias pull disabled, io type (Fixed/1V8), drive strength (32 mA), register (0x1041)
+> 
+> pin 1 (GPIO_01): slew rate (0x0), bias pull disabled, io type (Fixed/1V8), drive strength (32 mA), register (0x1041)
+> 
+> pin 2 (GPIO_02): slew rate (0x0), bias pull disabled, io type (Fixed/1V8), drive strength (32 mA), register (0x1041)
+> 
+> ...
+> 
+> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+Reviewed-by: Yixun Lan <dlan@gentoo.org>
+> ---
+>  drivers/pinctrl/spacemit/pinctrl-k1.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pinctrl/spacemit/pinctrl-k1.c b/drivers/pinctrl/spacemit/pinctrl-k1.c
+> index 9996b1c4a07e..fb361f2acb54 100644
+> --- a/drivers/pinctrl/spacemit/pinctrl-k1.c
+> +++ b/drivers/pinctrl/spacemit/pinctrl-k1.c
+> @@ -707,7 +707,7 @@ static void spacemit_pinconf_dbg_show(struct pinctrl_dev *pctldev,
+>  			   spacemit_get_drive_strength_mA(IO_TYPE_1V8, tmp),
+>  			   spacemit_get_drive_strength_mA(IO_TYPE_3V3, tmp));
+>  
+> -	seq_printf(seq, ", register (0x%04x)\n", value);
+> +	seq_printf(seq, ", register (0x%04x)", value);
+>  }
+>  
+>  static const struct pinconf_ops spacemit_pinconf_ops = {
+> -- 
+> 2.43.0
+> 
 
-This still does not compile because the dead code elimination comes
-_after_ the compiler decodes this line. I don't even need to fire up a
-compiler to predict the error emitted when CONFIG_COMPAT=3Dn:
-
-  error: =E2=80=98struct task_struct=E2=80=99 has no member named =E2=80=98=
-compat_robust_list=E2=80=99
-
-No?
-
-There is a reason why I suggested you to use that helper function.
-
-You are obviously free to ignore me, but then please make sure that the
-stuff you submit compiles _AND_ works. Otherwise if you are not sure,
-why I told you, ask.
-
-Please take your time and stop rushing out half baken crap, which wastes
-everybodys time. I don't care about your time wasted, but I pretty much
-care about mine.
-
-To be clear: I don't want to see this in my inbox again before next week
-and then it better be correct.
-
-Thanks,
-
-        tglx
-
-
-
+-- 
+Yixun Lan (dlan)
