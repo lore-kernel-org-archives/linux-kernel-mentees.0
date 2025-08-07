@@ -1,76 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2727379E1;
-	Thu,  7 Aug 2025 15:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E3C26A1AF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Aug 2025 15:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754580421; cv=none; b=XvKmaaDcUVSMBvyyzPaGFZyDaAgwqpRufHdo08Bd76i35G0pb6WHRtZCTo8kMtNxN/lx/PLgPyqPZqV73LeLlvSgamM2cW4TutZecUP/ItD6FKXsyXbsFXTGhkM/NK44JoSskodbxeGAEWHXvosq6VqVNBT4W6bmiCn4Sc2i+l0=
+	t=1754582239; cv=none; b=K0NuLeC7Hb4jjtzJl2vFVXLOOWH3Fz2Pu5VFZr308tS0LheaE1FbvpTjIZdQRMd/qm/XLSaxXF/pFx3jXrvosuFSlFfVpbGKbBj//n+lCyRWNN7UY/9FiS18hGlrw5Jsl/PLcRP7xBzttb8GfjUlWgGCzREP5zgPfYeu1eMGzAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754580421; c=relaxed/simple;
-	bh=DKtBAt1he1GWqidXOcvcFrkHmeHlrduKhcDb4KsYqUM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fl5aYAG1CEAWEI+xuwr0kYlsnx1aC08w5Rjobxolf10yQLVhkvx+WaYrTtFUwyXu18MTGv6UopgEZ7rc0znQ40ojb5ZsJN9poTMIB1/AGu0UF6dCHyZlMMJQ7f4h9RWv0y5TzGAz+SOCE6JezKqiFrjSP0naV1dRbiWiob7uvgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AGQQ+xCF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754582239; c=relaxed/simple;
+	bh=wijCqtSFgvwfCnGWy8j3vxWrbKu6Gn+GUWOOTZgLR3s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PjVma3asWWe2PZFldHPdoEaLEWDhV+aeMcESIV7HrnJAXdzUOVrrZfcosUBUgz/kBjOhR7dKAilontvVvMupjB8wvR9nIhd4yoECkCQL9HZx25BTm2eNm/EBnBmfL06SowflPiQl9DXFG5lY+EE1080drOU6/qYZ8dQ2j2o+HF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=brf6SW+g; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AGQQ+xCF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63763C4CEEB;
-	Thu,  7 Aug 2025 15:27:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754580420;
-	bh=DKtBAt1he1GWqidXOcvcFrkHmeHlrduKhcDb4KsYqUM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AGQQ+xCFD6bRp6RgDSbTLx07O7SHFvVP2RBvVy0pDUmjcd6sHT2OYh2trUoSZV8kx
-	 VBaSkFd19A0hxzXfefzajUQjMlCsE2loeji1Nv9rgwTDYKYVt95LtQdU4Mc3vTZ7Ir
-	 iW+74tvYInVMa9ebubbo3RMTJPV1+066P+iANb1NM7xNOgYB0sndrWhfsdjSU/8tPl
-	 bKwXiHdICGZurh2GxCPPZAQj7fcg63paks2BmIRPuVx0V6hY78gB2AJDHwX1upFlXV
-	 8Gpve0YsUdoIdf5+g9Mu7XzsHasZ80OkSOLMR+v17j450i+LlOoTn/G+b25lUhT1W/
-	 O0orEl9RAPRTA==
-Date: Thu, 7 Aug 2025 08:26:59 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Aleksandr Nogikh <nogikh@google.com>
-Cc: dvyukov@google.com, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot ci] Re: net: Revert tx queue length on partial failure
- in dev_qdisc_change_tx_queue_len()
-Message-ID: <20250807082659.5557e42b@kernel.org>
-In-Reply-To: <CANp29Y5mZJJgn5LYDiLx11bH__NXZ32ut6VUTsEyXwqrOhksTw@mail.gmail.com>
-References: <20250722100743.38914e9a@kernel.org>
-	<20250723162547.1395048-1-nogikh@google.com>
-	<20250723094720.3e41b6ed@kernel.org>
-	<20250807064116.6aa8e14f@kernel.org>
-	<CANp29Y5mZJJgn5LYDiLx11bH__NXZ32ut6VUTsEyXwqrOhksTw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="brf6SW+g"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id C868384ED3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Aug 2025 15:57:17 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.792
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id EJLzX2JbmrFl for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  7 Aug 2025 15:57:17 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 3924C84ED2
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3924C84ED2
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=brf6SW+g
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 3924C84ED2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  7 Aug 2025 15:57:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 51E8142B20;
+	Thu,  7 Aug 2025 15:57:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEDB4C4CEF1;
+	Thu,  7 Aug 2025 15:57:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1754582236;
+	bh=wijCqtSFgvwfCnGWy8j3vxWrbKu6Gn+GUWOOTZgLR3s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=brf6SW+gcSqUbaBUS+Fgzi6oxKy9Hme41RnY9oTbxW2vbJCaJF9Vhn4MoQgVRC72j
+	 jPxzCxP2cWMV8dn2PXEItHOlK3k07GSGmSNMjG0b6OnXrVcUx+MKBKi8kHmRzSXa2W
+	 6nIaFvFwIbOIGmQgjcrLc6V07wCzQZSHLlVLQ8Kk=
+Date: Thu, 7 Aug 2025 16:57:11 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Devaansh Kumar <devaanshk840@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, peterz@infradead.org,
+	dvhart@infradead.org, skhan@linuxfoundation.org, shuah@kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] futex: selftests: Add description for futex_wake_op()
+Message-ID: <2025080753-utensil-magnifier-3301@gregkh>
+References: <20250806183030.542453-1-devaanshk840@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250806183030.542453-1-devaanshk840@gmail.com>
 
-On Thu, 7 Aug 2025 17:09:24 +0200 Aleksandr Nogikh wrote:
-> > One more thing, would it be possible to add / correct the DKIM on these
-> > messages? Looks like when our bots load the syzbot ci emails from lore
-> > the DKIM verification fails. I see a X-Google-DKIM-Signature: header,
-> > but no real DKIM-Signature:  
+On Thu, Aug 07, 2025 at 12:00:26AM +0530, Devaansh Kumar wrote:
+> Signed-off-by: Devaansh Kumar <devaanshk840@gmail.com>
+> ---
+>  tools/testing/selftests/futex/include/futextest.h | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> Thanks for letting us know!
-> Do these bots also face DKIM verification issues with regular syzbot
-> emails? We send them absolutely the same way, so the problem must
-> affect all reports.
+> diff --git a/tools/testing/selftests/futex/include/futextest.h b/tools/testing/selftests/futex/include/futextest.h
+> index ddbcfc9b7..c77352b97 100644
+> --- a/tools/testing/selftests/futex/include/futextest.h
+> +++ b/tools/testing/selftests/futex/include/futextest.h
+> @@ -134,7 +134,9 @@ futex_unlock_pi(futex_t *uaddr, int opflags)
+>  }
+>  
+>  /**
+> - * futex_wake_op() - FIXME: COME UP WITH A GOOD ONE LINE DESCRIPTION
+> + * futex_wake_op() - atomically modify uaddr2
+> + * @nr_wake:	wake up to this many tasks on uaddr
+> + * @nr_wake2:	wake up to this many tasks on uaddr2
+>   */
+>  static inline int
+>  futex_wake_op(futex_t *uaddr, futex_t *uaddr2, int nr_wake, int nr_wake2,
+> -- 
+> 2.49.0
+> 
+> 
 
-I haven't checked, TBH, we don't have any automation for normal
-reports :( For the CI reports I was trying to hook them up to
-some actions, kick the patch out of our test branch unless human
-confirms that the report is a false positive.
+Hi,
 
-> We use the GAE Mail API, and its documentation[1] says that it signs
-> emails with DKIM only if a custom domain is configured. Since we send
-> from the default GAE domain, this would explain the verification
-> failures.
-> 
-> We'll explore the ways to fix this.
-> 
-> [1] https://cloud.google.com/appengine/docs/standard/services/mail?tab=go#authentication_with_domainkeys_identified_mail_dkim
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
