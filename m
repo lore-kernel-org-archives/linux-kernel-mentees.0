@@ -1,212 +1,220 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54CCC1FCF41
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  6 Aug 2025 23:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754523121; cv=fail; b=Oc3r280IYdMNbhtjDyGZBP6H6Qztlu2AWod2CuYcNQfuqY2kHeAZ8W3zEfeY9uKqpmAq2hhGj+GBzUHqrMOMG+2bSBl3gB/8Qyv9ouzclyN6V0708Jq0/RaQ32enHcMrZ6t0o3633uGIUV+laEMfEChmgCRQJp9bhq0ZSOELxLU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754523121; c=relaxed/simple;
-	bh=tb4nYAEWH03lUzTaoTrsKhRwxls6gJhXOtrgVJhh3Tg=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=GxysN9qyKCW+EekNPgJ/+dQUUdflg2Xzt9CTpiJ9sYDDY6TfXGT+A8CHimfyw6dHpxws8aRrxOQVrE3wvfpYkMGLNyxtSlKwVoXBMgEdWX3LMhjLN53AOEjw8zNZPX6Eh6+LApMuOV3o483V9vQy0J7+O2YE9i4tWiaon+AXxOk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m7Y6pxEy; arc=fail smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A4B1DD9D3;
+	Thu,  7 Aug 2025 08:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754556917; cv=none; b=ZvE6Z2ydwfxNGNZWbP15cWakyvB9XSweAAobUxAiguuMZIXKOKlNtaY9V3HHQ9/CzWwrb6YUkreQ46ITq6NIEyqeKjgQ922qSSSwwUo2GYM07e0BamMS/9AXvR5q/rhThmIkw5Pt3fsHiX6QIpnMuVJSkk5G697uwSsmgIrhyjk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754556917; c=relaxed/simple;
+	bh=g3yf/dOmHDZXoFZt1DvD8hFyMT82oPqy6hzZZaH9V7Y=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gJIk+Thzg7elQ5zvDpIcRydXQ6chK7olSYrWAeoitQ9dlJAswcC/v5TXOBg0MEcZjfVDZuRiBzClXwRotCOycVYPHD7aVzPfkOz4Y5B2KN0mJKXxdEFukG28AJZ7NeGFfcd8gWHd4mH8Wr4OdwTrCg3ZIaeeT7TZMBrs8JG8jo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AIBO4AAu; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m7Y6pxEy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754523119; x=1786059119;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=tb4nYAEWH03lUzTaoTrsKhRwxls6gJhXOtrgVJhh3Tg=;
-  b=m7Y6pxEycGvdoJzQQMT449szBnADtqL4z/pwf97p4MIlbl55AKZqlDhR
-   uG/we56468xCqlq8wjYF/Z+qjIz5IWoli6Yy6xNQxLqOnmCua9gF+6LUh
-   yp2lZhbng3GoPJd38lPL7+lPfuhk3/h3kC2w3GeZDWZYSWOmTsupbMG9B
-   sGZSpJ72u9YEcS5jJCKFr0nQCbPDtQ6jvRRu2rfHyxAy5dT3H2OKqaIBe
-   0nyU5Orfbkeu7HbyobqIF4+BCuvmfqg9QcNPpXEYfUHVg2a24tLiSDnAJ
-   t7XyXc6XoLTJwt8Z3psKvUmcAmbZis/w3nzs3BZVdtRgOZ0QGOMas7qi3
-   Q==;
-X-CSE-ConnectionGUID: ce9EtQlbR66GifdM5A2jRA==
-X-CSE-MsgGUID: eGPoDWlwTw2w4rcndI9hag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="60690790"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="60690790"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 16:31:58 -0700
-X-CSE-ConnectionGUID: 60M4Bk3WTFqTSqay8ixtpg==
-X-CSE-MsgGUID: 6FHbsb3FQ9SXTRGOT9s4rw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="165700141"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 16:31:58 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Wed, 6 Aug 2025 16:31:57 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Wed, 6 Aug 2025 16:31:57 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.64)
- by edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Wed, 6 Aug 2025 16:31:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Iwy3rFDHUm6fV6N5ubVfqC9fgyar/caq1dfTuW7U6OPvjRHTLIOLvPpRAHQjuFugLxRqatlMWJ8CX2gNBmJT2Qq2CchpDgoaFb2jp9FGO+Ovpr9PlNMCKCD6UIkda8VaPKbYoFHideyR3LCFTDtUcvGO4Y21I9OXAqt46A8cVsvE/R2IXeR5yppXH3yqlAptuWfHbO7VTTAgbwkExnTXYpe88q5G3TWTJzVRjkB5PMuPzANYKRHB0fTJHyZYo+yCPkCGRdDWnPbd4jgEIrwv42OTq/EVPYG9cxgAPOGzcTcvKPfx25Z1PH6ktYTY2cfFWzZzwHXC0qgs420WGDqDWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6tUgp7PICNKFRL2TbCFm7RHssfJUirqLKaEJvsSAxb4=;
- b=OJuLkVUEV92FbC8mcuNXmAQPlIPQN+zswyUFkO83TUxNxcXofktAzsVMfgO2atcHnPuLYmJ8vWgljBjqtAEkos5xn+Y9tOoPoU6U+2qHZ0sWEKKu1vCXRB+2lqusFUjVyxIY/4TgygJKXSfQkcTU0ZZ2xuBRZDxMS47VcYhjCCbJOK+MWnExLP34vk1MraPuJ1+StzLr77BRLDicGqGu/2tXHmHUN/gfgiFNsByInWQCX8xvS3iknpbG1Zv5Uq0S3kR2iOPRdk63NjJZKcolOrDxYao0FmKH6oJ12EUFbuVyJ2ULk1+JFiqAh3fNrqNram3cEE/FNk3aVOoOn8iWKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BYAPR11MB3320.namprd11.prod.outlook.com (2603:10b6:a03:18::25)
- by IA4PR11MB9035.namprd11.prod.outlook.com (2603:10b6:208:55e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.20; Wed, 6 Aug
- 2025 23:31:55 +0000
-Received: from BYAPR11MB3320.namprd11.prod.outlook.com
- ([fe80::e8c4:59e3:f1d5:af3b]) by BYAPR11MB3320.namprd11.prod.outlook.com
- ([fe80::e8c4:59e3:f1d5:af3b%7]) with mapi id 15.20.8989.020; Wed, 6 Aug 2025
- 23:31:55 +0000
-Message-ID: <f8f1faa6-d35d-439f-b5c3-2c20f2e2bb8d@intel.com>
-Date: Wed, 6 Aug 2025 16:31:54 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] x86/cpu/intel: Fix the constant_tsc model check for
- Pentium 4
-To: Suchit Karunakaran <suchitkarunakaran@gmail.com>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <darwi@linutronix.de>, <peterz@infradead.org>,
-	<ravi.bangoria@amd.com>
-CC: <skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-References: <20250806153433.9070-1-suchitkarunakaran@gmail.com>
-Content-Language: en-US
-From: Sohil Mehta <sohil.mehta@intel.com>
-In-Reply-To: <20250806153433.9070-1-suchitkarunakaran@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR01CA0071.prod.exchangelabs.com (2603:10b6:a03:94::48)
- To BYAPR11MB3320.namprd11.prod.outlook.com (2603:10b6:a03:18::25)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AIBO4AAu"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4b0a2dd3a75so6136391cf.0;
+        Thu, 07 Aug 2025 01:55:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754556914; x=1755161714; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k9a9WhbNCGb8YhrTnVPeyzgeezUvn/b3sTZjZO2U7CY=;
+        b=AIBO4AAu8q8TxGpvalFRsf+y5eAMmPAJ4jJNH1ThKI3RzwDm0frYJRdP0wkNYe7v48
+         ZFsofYwFObhxYkp0natZS8WFq/h0CrFIvuJw30JDdnoLv7jmGCm13e+CKx78vfCZNXlV
+         j7rmH/CituI2ud3eFyh/gCSJIyv+A0d3vBHHpd50DxRSvvBTcc9R99eQ5mRBVCJpncUD
+         cBlCyHCw5pH63/gUbT9UkSOowqxFv2o6z6CPN3REPW52GmBMjYjvKKD4/0Z/yUik8Qix
+         yRHPsqOWXLI23IMvXNeAK83TIONLhIW2fdJTxtTShm2cwHLlfDISU6Nvbk0/rnBMNYlF
+         SBOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754556914; x=1755161714;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k9a9WhbNCGb8YhrTnVPeyzgeezUvn/b3sTZjZO2U7CY=;
+        b=Pyx+sJKi6cnIKZ9bm61/yyxLYV6DUw1NNARHS4yiEaWpjLdE7bB6oAGr3osT4ES5wl
+         oPpYwKs+gkhMYo9sHkulI0reAxFJTGw2wMFi+Np0IuW3v19G4k1VcYloGNg98/O6zLSX
+         xXyE5nL1D8wQNZ3zKtL4TKMNZCem/cCyo3GmJTz8API8mLyceCWtYKfMQDt57Y5F5MWz
+         synPaglMADp9xN8puctrNEmyJnIB4mXtuzwEPkpIlHw66fMzzdiNq2lVefv3VHJDlMf6
+         zTpnQIpKUIqJqLQKKJJH3FdJDEQgQDzHJEKrykeAmflMET9sWxYcw8iNUIFh2xSf3Nl7
+         cDsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU+aWysK+2j/Dl8nojQgEKb/g/SS9cMpER7KmURc7U60UCbO9tds2YZDnJMx26V5TICnPzBoJSX0H/ULvE5NCRNxy4Rwg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YypNC3+th5v/64uG6uW++cATSOSzzG0foE3r6o3pp8r6RLpq3sU
+	PQLrD1eIlhEsSS5IEOL0kmyWVmdvF0buUHFn1MaqESvTeKDNSR2w2HKB
+X-Gm-Gg: ASbGncvTXjAz+25ROYGQVGuRhK8W85PZT6pEnVYqrNwXL+VzqC8CSgB/nr7eaO5Hhyh
+	2FsWokEo2RzQMSbjJYo+SBQ7zT/iv7j9JiLeY4hyHvXEm/Sw5m40jGbNx1nueqUZC7Lsdg3maSw
+	ow44CYkwQZU2ccYj3Xprak6duZg/h31cJ1VefeqdeXnUQ1x0EwggYqhaSn/EAUlC8Cw28PVgr+f
+	gegxqm9CdUJJ0CJ1/AdHGcRR1V5yq3B9WYmd5mF+uG+sJDg7sqPD9ZBoms+tFgVZUc4j6bcDDrJ
+	8pPZGvhcar25ONm6jOcmQz2kSRx3So9j/sl499LOtQi4+zJPeTzkAHW6rhpJeLGcezOkE3X6mP6
+	NzIcKV3LlWjPCqw1PPQ==
+X-Google-Smtp-Source: AGHT+IEBoTFn5fp5D0vEnyZRWpmeH5FejQKaRL6voGlP7R6jALLXCFYaUigc7+u+qekvvwXJy/JrZw==
+X-Received: by 2002:ac8:59d2:0:b0:4b0:38b2:3808 with SMTP id d75a77b69052e-4b0a1689282mr31711321cf.43.1754556914485;
+        Thu, 07 Aug 2025 01:55:14 -0700 (PDT)
+Received: from localhost ([142.186.9.88])
+        by smtp.gmail.com with UTF8SMTPSA id d75a77b69052e-4b0696a3744sm47901061cf.37.2025.08.07.01.55.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Aug 2025 01:55:14 -0700 (PDT)
+From: Seyediman Seyedarab <imandevel@gmail.com>
+X-Google-Original-From: Seyediman Seyedarab <ImanDevel@gmail.com>
+Date: Thu, 7 Aug 2025 05:00:00 -0400
+To: dwmw2@infradead.org, baolu.lu@linux.intel.com, joro@8bytes.org, 
+	will@kernel.org, robin.murphy@arm.com
+Cc: iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v4] iommu/vt-d: replace snprintf with scnprintf in
+ dmar_latency_snapshot()
+Message-ID: <h6impubmygtakszk7t6ffknvtje72c4ovknjgme5xletglkl5g@4lpcs22onyqi>
+References: <20250731225048.131364-1-ImanDevel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3320:EE_|IA4PR11MB9035:EE_
-X-MS-Office365-Filtering-Correlation-Id: f0d40aff-3d52-4af0-7790-08ddd5416e29
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aTBPOURhQ1NaU3BjaG9ieHhkZytNaityVEc1OWNTanJYNkkrY2ZKU3EyTVRM?=
- =?utf-8?B?T0lYNUZGSDV3NHNmQ2pxN3FMNjF4SVpERjJCVjhYejliNHIwRS8rcVhiVEgy?=
- =?utf-8?B?WVYvOG1FT2ZORjJPZC9WVEJqanMxR1BvRlFZTDhGbW9FT3B2RG1PM1lsL0FI?=
- =?utf-8?B?NEJCeSsxM1R3T2dpMUgzMVkwLzc4K25pdUg4a1c4cmNJd1d4V0k3TGNUbUVq?=
- =?utf-8?B?NzIvMVAzeUIrQVM0eUpaZzk0TkdhdFgvTlJJclZJeHNGcE1RTktweFVvSlVL?=
- =?utf-8?B?VmRSWjMyNnVNMzBWSHRhRHhoZ01kd0xkVWZlUzFST0V3cy9WR01OQ0FrcEJ3?=
- =?utf-8?B?NERMZ3ptNC9icy9TL1pFWTBQc3JhQWlmSDl5UGhtT0xyNG0vOXJOMDRVdzBD?=
- =?utf-8?B?bDV1MkQyNlllVEhpY1BWc0J1cmxDUmFpVjRjdkR4UmsrcWsrSWRHWjh6WE93?=
- =?utf-8?B?S0RJYUxzUURxTlp4Q0tnUHF3a1B4NVM4NFNxcmJrcjVQNDlqOGhtSkNJcTNV?=
- =?utf-8?B?S2ZPZ3FSeG9uZEVWakhZZFNFdEhmcXduSzhWWU9CMWRGSUNNejVZd1pkZUJp?=
- =?utf-8?B?VExPYUhXUlpWbGIyV2NFRlB5YWFZRFpOMkhZR3ltTnRySjE3Tnh1b2pmem4v?=
- =?utf-8?B?dlAyUTBSUzJILy9hTWhuYXpHRUdhL0JUUVpzRlRFUVRtZFdxVzJuanhqRk1K?=
- =?utf-8?B?OVhIZXNsWXgvdW9HUThzZFNaRVNINGlybXJYODd0OXh4eEhodStsK1g4YWtz?=
- =?utf-8?B?VklxL21yQWNSc2dLZWpUQ2JGSmhXdEtZalhOdDlRVHN5YWtER2hsekt1MHFl?=
- =?utf-8?B?czIyQjFkMzZNdEc0VWQrTzd2KzVCRVYzM3YwNkRiQ0FPMVUvUVdsZjVWbTI3?=
- =?utf-8?B?cHFwSHNDMUJBN2N1eFdPT0dMTXY4dldDVGZ6MjJDdW9nZXBPcDJPUmtQU3V5?=
- =?utf-8?B?NG80QkJqR2YyVHRwUE9HNE04NExOLzM1ajBaRFg4K3RFNXJtTTdrckpUMDRQ?=
- =?utf-8?B?QWY4bFpPMVRvUlkvKzhLc0JQSVZUNUZmc0pMM29qRnNEN05JSVdxbXBWQkFl?=
- =?utf-8?B?YjdYbEcwcFRETTRyRzBVaFNpY1RQUjBHZU9UN3Nob082YWp5TkV2aS9iWWdx?=
- =?utf-8?B?WUVmS2xwbktTOTlHU3cxSWExb056emw2dWQzMEN3dngreEp6cXJJa0dMVVJ6?=
- =?utf-8?B?UE1RUHQwWHRWYk9LRCtPdHZxZWppN1M0VERHaGU3S0N1L21YQ3VtVjNYS1RM?=
- =?utf-8?B?Sk1KUkdicGxYdG5mUExEenkrQVMvUzh2VkQ3bVR6R1hnb3FGa0FQL3o3dlB2?=
- =?utf-8?B?eWpTYmpjMlRaOSsxVHd2RFRtZjk4d252OGl1WVVMcHQ0OUFpOTZHWlFhODZo?=
- =?utf-8?B?cEYxcEd0TWxCZmlJQjk2anJsVTNubjF3anZRc3ZHSFlEcllDdTBXMytiNVZR?=
- =?utf-8?B?bnY4aXg0Vm5DQVM5TjRPT01kM05iTjZLeVM0clQ1dDBTOHc1cTV4cmN5NzRT?=
- =?utf-8?B?dUcxZlFWTUlVVjlHQzMvWXRWTG81NHEvUTlwdmRZRVBRYjhQWmRoUmZjZmxo?=
- =?utf-8?B?ZitKYTZIR3hlZXdSZVpTaFNHeWQ0TlpnTnVKeTJBN1RhVno1aVYrRjllN3Rn?=
- =?utf-8?B?NlJZWWdveHk1OTdhaVJzd2FJbWxvWStmZWpQc2JrZFBsMkttb0wxWDhnRGVy?=
- =?utf-8?B?OWh1MmtkcStIbm4vTHRIZDA1NldHK2ZYMUI3cjczMmdPOURkdDh2cTB0VnJa?=
- =?utf-8?B?Y3hiSEhLU205VjEyVnJQazVxZ3ZGaEM3V3h1TUNUakkvdlhEYi9LZUZPaGdo?=
- =?utf-8?B?aXo2ejR6NVlOV1NWRVZmbTN3MldVQUpCM2FzK1dHMzV4blpRREQ2aGxBbXBY?=
- =?utf-8?B?eG5nRlVoZGxCLzJ6Z0w4a0VlNEJsWC9GOG9ZVjZKU3BVbjRpamlpSlJYcnZN?=
- =?utf-8?Q?n5TQXx0iO1M=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3320.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y0tKL2VqUnc3alNHQVZINERNbDRaajZFMkJMalBnTnZITWtxNUJodE9BR2ZT?=
- =?utf-8?B?R3JGOFdGQWFHNHNlTGpsQlE4TjRaTTBIc0NUNWJBZVQrOGU5ZDFUL1VVSENo?=
- =?utf-8?B?YS9JN2hiUFNGYjRtWkJjUXl2RFg1WVJLbHJHRmhJV1dCbmgzT21laTNEa21t?=
- =?utf-8?B?SlhKQ2NQME9tUnBMeWJqTjNFNE50WWFwMTFpOE1jOHNxckFCTFRobVMzaEZo?=
- =?utf-8?B?cTA5V09mUU1QU1daUHhBb1ZlYkp3VmIvdzBqYlgwMkEwYy8rRWh4UkRBNDhr?=
- =?utf-8?B?UVpGRzFXdDNBdjNFVDFIN3hJZVhSaTVQa0ZKY29BUEZhSDFmbmd5eE9xUUQv?=
- =?utf-8?B?eGJZUGFOTERFak1IcTQ1alZaYWlONE05eHZCZE1SZ1FvQ3F5MFFYa0wraEFk?=
- =?utf-8?B?R1FCMGdHeUJIVXR6bG9NVURNM2J3cnREaG5yanBPMHBzNEZYLzlBZjJqL2Jn?=
- =?utf-8?B?YytReEF6d1V0REdQUmdUVTRBUUhZSHpheEswZzZvdzNlRGhvUEY0bnZFeUJp?=
- =?utf-8?B?elQ5T1poYm1UQm52Y2xRUktuUmljZ1dNY0w2aVV4Y3Z1bk1sNzVxUCs3aFhn?=
- =?utf-8?B?aEJxeVFuWCt0ZWY4OXd3NmVoZW5rN1c3aGJ6dWlZQndVbGlTU3ZESllhWDF2?=
- =?utf-8?B?Vkd0WklEN2l6TnVaNGZJcFlIN1pkSTVHeG5sOG5FYTh4MTZJTnRHT3o3THVM?=
- =?utf-8?B?WTc4T3Vyc1RJbmVCMUFxWXFuN0xtZm1lMEpUa0d3VEp2eEFIRTdrL0dPZ096?=
- =?utf-8?B?S28xY3FiNml4WVY2YnU4S1FwK1dNL3J1cDYzMFNTZ3VNYnFvRWhEbDBGN0pE?=
- =?utf-8?B?UlBmTXNPdzJtdUx3OEg2OWsyN2l5VzF2N0tkdmRTaXNVY2c0T3c5bmdLVXZE?=
- =?utf-8?B?MHZua3QvUGFUdm5Xc2xCZGRSOTEvRE1DWlNxRDZmMEl5dTdnSWFrcnVjTnox?=
- =?utf-8?B?eE02RStsWWJDK1RDMGlCNGVRcVNLTDNETU1YOGdFNEg3ZHk3dURyUUQ2UXNS?=
- =?utf-8?B?eTZ5cC9xSWdlRE96Tk1sTWxuVTA4RVRtZDhFYnl4VWRETVNvMVdQT3orYmVI?=
- =?utf-8?B?ZVdscGwvaWdENnpsSXR6Z2FQTWEyaFRmL2p4c2h1VzB0OXFoQlVjWGdLaEs2?=
- =?utf-8?B?UXM2WmYycGJLQ2h5ZWswNjZZcHhEcUl4UW1DQmJCb0U0SVlGNEZhRXNOcG04?=
- =?utf-8?B?UmJtUi9CMS8zUUNHdGtGQmxmVDFLK1VSZnZhUW5pVjJSMHIxNXhYQWk3blFi?=
- =?utf-8?B?eE4zeEltTlg5Y3lrU0QrN1pwdlFtQ2NqNy9pVHBtVERwTmkxS0lUREFpQ3VS?=
- =?utf-8?B?YlVnVGcrSnkyenB2MVpEQ3RzYXhScE1tWjNZK0x6aHlnMzZCSU1pV0QvS3p2?=
- =?utf-8?B?SGVLTlJjVHI2Z2lDeVhKL3MzT1hXRkp2emNMdjlxZ1JSN09JbjVhQ2VUeXc5?=
- =?utf-8?B?R2YyR1RadE1EUEJDR1E0Y05SU2JjOGtUTEdXaUV4a0x0cUJ3dFR1bTBSaXhO?=
- =?utf-8?B?QVJRbFJPZlhFQVJYQWVGTVA2c2JBR3pNN294Nk1kTW1qRGx4cnBBQTYzckJF?=
- =?utf-8?B?Mlh1T3ZicnhOMmo0dkR2R0tvWG44eHR3YmdxeWI2dC80a1Jwckg3cWpIcUs2?=
- =?utf-8?B?QmxUZVNYYktxRkpqeEI3WWdMdytFdGRZU3VhaCt5MkgyTSs5dmNSd01uR0RZ?=
- =?utf-8?B?L1d5ekFkQ25KMW1FdFBHalNpWTFtQzdEamdTZWxFdktMeFVUZFhPcW9hbC9G?=
- =?utf-8?B?Z1E5L0xNd1RiUEt6SXpPZ1V1S3dhYW9DLzdRWWhxblI5TTBjRjA1OWlVaW5B?=
- =?utf-8?B?eG9OdnZrZC9vL2RsU2Z3WTU3dXdOcFMvZWJ5OGZ2L2ZyM1lNZ2FsMHppVGRj?=
- =?utf-8?B?c0hBOUQzN2pvUGprMElaYWdTTDJUUWtib09IRXVDbEZuVnZHRlgxL3JuMHdz?=
- =?utf-8?B?RWtmR0ZvMWRHQXdiS25qN2ZYWGxVVEVqZElzTi9KUWxsb2RDV0FLSDFIMVQr?=
- =?utf-8?B?YTVud3IxNEpEMld6UlJhVHg3RTBDNFBvTzNSNW55aVIweVRLSzNFcmZwQU5D?=
- =?utf-8?B?UDJ3Tlc3N3A3WjFjbE1iQUxybEJnaDgrRjVHYnVvakVSTzkyK2g3d3BaMmxh?=
- =?utf-8?Q?rTvdH4eP92IH0yTCBUogb5CVl?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0d40aff-3d52-4af0-7790-08ddd5416e29
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3320.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2025 23:31:55.6074
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jlRwIgvPpPijLbM+K5LKYJem/39fqbuBFvjgVeW3tAcx5ehLgBqJpgaZENghnGhs/MKZa9r6jmAbgrvS/VE9xg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9035
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250731225048.131364-1-ImanDevel@gmail.com>
 
-On 8/6/2025 8:34 AM, Suchit Karunakaran wrote:
-> Pentium 4's which are INTEL_P4_PRESCOTT (model 0x03) and later have
-> a constant TSC. This was correctly captured until commit fadb6f569b10
-> ("x86/cpu/intel: Limit the non-architectural constant_tsc model checks").
+On 25/07/31 06:50PM, Seyediman Seyedarab wrote:
+> snprintf() returns the number of bytes that would have been
+> written, not the number actually written. Using this for offset
+> tracking can cause buffer overruns if truncation occurs.
 > 
-> In that commit, an error was introduced while selecting the last P4
-> model (0x06) as the upper bound. Model 0x06 was transposed to
-> INTEL_P4_WILLAMETTE, which is just plain wrong. That was presumably a
-> simple typo, probably just copying and pasting the wrong P4 model.
+> Replace snprintf() with scnprintf() to ensure the offset stays
+> within bounds.
 > 
-> Fix the constant TSC logic to cover all later P4 models. End at
-> INTEL_P4_CEDARMILL which accurately corresponds to the last P4 model.
+> Since scnprintf() never returns a negative value, and zero is not
+> possible in this context because 'bytes' starts at 0 and 'size - bytes'
+> is DEBUG_BUFFER_SIZE in the first call, which is large enough to hold
+> the string literals used, the return value is always positive. An integer
+> overflow is also completely out of reach here due to the small and fixed
+> buffer size. The error check in latency_show_one() is therefore unnecessary.
+> Remove it and make dmar_latency_snapshot() return void.
 > 
-> Fixes: fadb6f569b10 ("x86/cpu/intel: Limit the non-architectural constant_tsc model checks")
-> Cc: <stable@vger.kernel.org> # v6.15
-> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+> Signed-off-by: Seyediman Seyedarab <ImanDevel@gmail.com>
 > ---
+> Changes in v4:
+> - Removed 'ret' in latency_show_one() since it is not being used anymore:
+> https://lore.kernel.org/oe-kbuild-all/202508010632.WB0CM5Bz-lkp@intel.com/
+> 
+> Changes in v3:
+> - Restored return type of dmar_latency_enable() back to 'int'. It was
+>   mistakenly changed to 'void' in the previous version.
+> 
+> Changes in v2:
+> - The return type of dmar_latency_snapshot() was changed based on the
+>   discussion here:
+> https://lore.kernel.org/linux-iommu/aIDN3pvUSG3rN4SW@willie-the-truck/
+> 
+> 
+>  drivers/iommu/intel/debugfs.c | 10 ++--------
+>  drivers/iommu/intel/perf.c    | 10 ++++------
+>  drivers/iommu/intel/perf.h    |  5 ++---
+>  3 files changed, 8 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/iommu/intel/debugfs.c b/drivers/iommu/intel/debugfs.c
+> index affbf4a1558d..65d2f792f0f7 100644
+> --- a/drivers/iommu/intel/debugfs.c
+> +++ b/drivers/iommu/intel/debugfs.c
+> @@ -648,17 +648,11 @@ DEFINE_SHOW_ATTRIBUTE(ir_translation_struct);
+>  static void latency_show_one(struct seq_file *m, struct intel_iommu *iommu,
+>  			     struct dmar_drhd_unit *drhd)
+>  {
+> -	int ret;
+> -
+>  	seq_printf(m, "IOMMU: %s Register Base Address: %llx\n",
+>  		   iommu->name, drhd->reg_base_addr);
+>  
+> -	ret = dmar_latency_snapshot(iommu, debug_buf, DEBUG_BUFFER_SIZE);
+> -	if (ret < 0)
+> -		seq_puts(m, "Failed to get latency snapshot");
+> -	else
+> -		seq_puts(m, debug_buf);
+> -	seq_puts(m, "\n");
+> +	dmar_latency_snapshot(iommu, debug_buf, DEBUG_BUFFER_SIZE);
+> +	seq_printf(m, "%s\n", debug_buf);
+>  }
+>  
+>  static int latency_show(struct seq_file *m, void *v)
+> diff --git a/drivers/iommu/intel/perf.c b/drivers/iommu/intel/perf.c
+> index adc4de6bbd88..dceeadc3ee7c 100644
+> --- a/drivers/iommu/intel/perf.c
+> +++ b/drivers/iommu/intel/perf.c
+> @@ -113,7 +113,7 @@ static char *latency_type_names[] = {
+>  	"     svm_prq"
+>  };
+>  
+> -int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+> +void dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+>  {
+>  	struct latency_statistic *lstat = iommu->perf_statistic;
+>  	unsigned long flags;
+> @@ -122,7 +122,7 @@ int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+>  	memset(str, 0, size);
+>  
+>  	for (i = 0; i < COUNTS_NUM; i++)
+> -		bytes += snprintf(str + bytes, size - bytes,
+> +		bytes += scnprintf(str + bytes, size - bytes,
+>  				  "%s", latency_counter_names[i]);
+>  
+>  	spin_lock_irqsave(&latency_lock, flags);
+> @@ -130,7 +130,7 @@ int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+>  		if (!dmar_latency_enabled(iommu, i))
+>  			continue;
+>  
+> -		bytes += snprintf(str + bytes, size - bytes,
+> +		bytes += scnprintf(str + bytes, size - bytes,
+>  				  "\n%s", latency_type_names[i]);
+>  
+>  		for (j = 0; j < COUNTS_NUM; j++) {
+> @@ -156,11 +156,9 @@ int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+>  				break;
+>  			}
+>  
+> -			bytes += snprintf(str + bytes, size - bytes,
+> +			bytes += scnprintf(str + bytes, size - bytes,
+>  					  "%12lld", val);
+>  		}
+>  	}
+>  	spin_unlock_irqrestore(&latency_lock, flags);
+> -
+> -	return bytes;
+>  }
+> diff --git a/drivers/iommu/intel/perf.h b/drivers/iommu/intel/perf.h
+> index df9a36942d64..1d4baad7e852 100644
+> --- a/drivers/iommu/intel/perf.h
+> +++ b/drivers/iommu/intel/perf.h
+> @@ -40,7 +40,7 @@ void dmar_latency_disable(struct intel_iommu *iommu, enum latency_type type);
+>  bool dmar_latency_enabled(struct intel_iommu *iommu, enum latency_type type);
+>  void dmar_latency_update(struct intel_iommu *iommu, enum latency_type type,
+>  			 u64 latency);
+> -int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size);
+> +void dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size);
+>  #else
+>  static inline int
+>  dmar_latency_enable(struct intel_iommu *iommu, enum latency_type type)
+> @@ -64,9 +64,8 @@ dmar_latency_update(struct intel_iommu *iommu, enum latency_type type, u64 laten
+>  {
+>  }
+>  
+> -static inline int
+> +static inline void
+>  dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+>  {
+> -	return 0;
+>  }
+>  #endif /* CONFIG_DMAR_PERF */
+> -- 
+> 2.50.1
+> 
 
+Hi there,
 
-Reviewed-by: Sohil Mehta <sohil.mehta@intel.com>
+Just following up on this patch. Please let me know if there's
+anything else needed from my side.
+
+Regards,
+Seyediman
