@@ -1,78 +1,155 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE0927A451
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  8 Aug 2025 12:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4962215191;
+	Fri,  8 Aug 2025 18:14:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754657646; cv=none; b=guXLuTVauzM1vWdCV4TaPvTPut8gaqPe5KX6oAAz9SOTFInJDgekUqtdEotwI+2HACPDvRTEEvGfveus8fz240Z8Gd88PA4lGfopsO7stnSf/CXsGtOsTSzLpukVHy9hzoKBJaWXimO+TCZywpXAT2erVDq3rnOCaxEtwYojkGA=
+	t=1754676879; cv=none; b=Vdb7vgohPcHCGtl+cYdnFr8Gnzj+KMpOabYMUEzIzxKvG8wgFje55/cYd5OeI8607rilv7i+LrTbVYBHR5N7nBOlUWMBV6S9nC7Dtq+eO7HhlttDDP9vn6nAioAKQTW68XNZSZuijoKZ+ilqj/+R8YrZfUogHpUJmM7TJA+Zc1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754657646; c=relaxed/simple;
-	bh=14s83wKNHo4jb1NouuEHVhfJVywI1yO9i9LxcjEyolE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VrG3m7CNW9O7rOWAq20CAjqIkxuC4Yv7FaMZhUalB0cSm7yVffrndGNW88JXDEXABm1j8D/2kpUFGwk5B2SWNMFnPLUMhv/OTm7nxE/Gxv4KhG1fiymSQv/GWUK+X/CeoJwM2Sf/880rcKkoz8jUndZ8gxytVBsT2bd3GQftfOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EXmazuej; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754676879; c=relaxed/simple;
+	bh=jasLUExJ47MKUq1i0giM8qJ7AngHU2ackEGzfY43fco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iDa357hgVTlnDL8vNCa67ZP9ynWidlN5qUOuLzr28QrW2SX1/nS72DSrxBU0HrXsAJU3/Je9ut17wiAQQLE7MwQgKvMOYL7uQwjoAnvy5x5UYBxN+ZcI5uJ+43/r9Ur0CyfBCw6OeEAoirF+L6RTn4KDTBLwSU/Pm7QtAZrSLro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eO1yzf70; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EXmazuej"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-32ce1b2188dso23535741fa.3
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 08 Aug 2025 05:54:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754657643; x=1755262443; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=14s83wKNHo4jb1NouuEHVhfJVywI1yO9i9LxcjEyolE=;
-        b=EXmazuej8rAjwx+hXi2N6Al29j6VDHdEmcKYwXiijy5xEDRAbmVgg67lt0NouL70XM
-         EZpESgDs8AVJLK2/W/4KSnQwmz5JQaLffO3UxBmtOR9FydKymMN3fdi6tPlqTlo3YWB9
-         cB22d2Rce1VkFVml2TJsj7RPtWBolUTPQwaopWVxQloU5MGKRhhILelZejJ9zCGfGXhm
-         jh8oIE6onaJ50Wcd9C49nW0CNnqHewxNu1ADJWVo67DjiuRdIsCaOb7QxDFC6cdUZNEd
-         kYqh6SZFM3lJQUeMWD6k3mC0V9pa+tf1j9m+tuFdj3mBHmcsI82T/Bz9MP6UhzMeLslh
-         Mb7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754657643; x=1755262443;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=14s83wKNHo4jb1NouuEHVhfJVywI1yO9i9LxcjEyolE=;
-        b=lwq0nP6qRmKC0vdS3LMeb6nnPEukjpm+AKJN2XP8Czizit8IuY2oRDotWArjdNknXH
-         lm3wzHIDagPoWYUuciGzxTRWiZXGBtXiSeJsyp6WZwOhmrTPA5q+DwjFX5SHXQPHLLMd
-         u7nhQKej8Kz9MjorPjnwL9GD2meKdaZeQVDjdVs/zLtnEmsrue39wYDFu79MlReloK2d
-         DVCsG+heBH8ztsqJJ9TIPBk4jHPmxOI90Pi47ivpG/yE/LJerUw2vemPvDQQ9iN5OBEx
-         w/1mHi1cwL1hSR5isHXsPpEPC2A0uufjSzTRSWJkbFi1pz5D6iLYA+vZnSfZxcuqmX0O
-         WStQ==
-X-Gm-Message-State: AOJu0YyzYHqh8ygGRl1OWDNc/ASo+pNMbZmaycSn44JeVtwedgW/h0I2
-	4iJbjNtOJT65reWp6iBN0a/rUkWzJNmph7bs/BpfHv11tQCuvyI81PIaJAIX/iCrEkE0Bw==
-X-Gm-Gg: ASbGncsKPfPPQPgW0VrM5WjFNzH4yjZVIh/i+5GP19J1DTfxFQ5e2T3HDGgoiuUDPbw
-	KF/DbxLqhN0x4Y2/9aMyLefC3s9m+ZJTamUV2uaOVDyafse4oPVF9CaKOnkG1xZIUx3xMPyMN0M
-	6H+PeXCDSvn3NIaRiZmVIjA05W47hIIvDL2/M9+pJgj3Daip4ioZTMzodoeEQIKY13yfkfAIYNs
-	ZDAM9GL9NZUtlVfEunlBfznovZVYlvB7EZQMaNpcoqmUiZsCBzxGvwOKGIDBSM9AZuLQWuf0jCA
-	GkbJZhGJaxKEw1zj7AIwH8+GOenpKe2YB5XvCDcuzFAOot6cupfqKWC/cWL4jYSXXf6pMSh+JBW
-	2PJYR7AHMaquP3Zqto6zxI+pmGRO5QbDCjVvBrARs2lvmaQ==
-X-Google-Smtp-Source: AGHT+IHDGlUSzaIaARn4tMG7S/MPyveO9lKV8pZC0Bn4v67bzbtDnybxrQBPwzLTlDp7RLRWfVdPgQ==
-X-Received: by 2002:a05:651c:502:b0:330:8de6:de71 with SMTP id 38308e7fff4ca-333a1f4e90bmr7578711fa.0.1754657642229;
-        Fri, 08 Aug 2025 05:54:02 -0700 (PDT)
-Received: from aper-960qha.jay-rigel.ts.net ([46.160.226.222])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-333a6ff9789sm1593561fa.50.2025.08.08.05.54.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 05:54:01 -0700 (PDT)
-From: apepenkov <apepenkov@gmail.com>
-To: seokwoo.chung130@gmail.com
-Cc: linux-kernel-mentees@lists.linux.dev,
-	linux-sound@vger.linux.org
-Subject: [BUG] No Sound on Samsung GBP 5 on Linux 6.16
-Date: Fri,  8 Aug 2025 14:53:54 +0200
-Message-ID: <20250808125354.12763-1-apepenkov@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <CAB1jyqxWnmpu7mn65jNRkb3NuirayxWHO7TLnkvR5WqcOJPNOg@mail.gmail.com>
-References: <CAB1jyqxWnmpu7mn65jNRkb3NuirayxWHO7TLnkvR5WqcOJPNOg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eO1yzf70"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754676878; x=1786212878;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jasLUExJ47MKUq1i0giM8qJ7AngHU2ackEGzfY43fco=;
+  b=eO1yzf70CI11P+gvsIM61TMKIiyhMBpBST7ZFTzDRoIP3haKM6GTIlrO
+   juS7Hh63oRyGsAT4oXdOpubDb1j8O2zHwIho+kUWs1lYCrMrIH7/tYfw/
+   /cwsnNs0MTpj2GPGu7/fvvOkdDDcCzq2eaqhW2M6VwoA/uoMrgQEiGMQU
+   9t/4AGqB/fuGINJeLvnjLQj2uobrDw1yw5E4fBmO6lQMeoEoVgWQFFyPA
+   4dk69ICwbVrQKbRTn62Jx3MHFYf/bzFWdpAKmWaYwVaHryMgvtdizXTuf
+   lD+qYjVlPbQuPbhpHYOSClqycYIdS5ShNtOm3fk7Chwq31swqRFLGFUQp
+   Q==;
+X-CSE-ConnectionGUID: j6/z8RLlRbKquz203dnfaQ==
+X-CSE-MsgGUID: ok9iOisVTcmUlYhzy3eUFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="57108939"
+X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
+   d="scan'208";a="57108939"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 11:14:37 -0700
+X-CSE-ConnectionGUID: tGs8YgAcSvikbWwLjq0/wQ==
+X-CSE-MsgGUID: t5/iCW9mReaTpoT5KUD0zw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
+   d="scan'208";a="165797520"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 08 Aug 2025 11:14:34 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ukRbl-0004Bo-2x;
+	Fri, 08 Aug 2025 18:14:28 +0000
+Date: Sat, 9 Aug 2025 02:14:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>, tglx@linutronix.de,
+	mingo@redhat.com, peterz@infradead.org, dvhart@infradead.org,
+	dave@stgolabs.net, andrealmeid@igalia.com,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jann@thejh.net, keescook@chromium.org,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: Re: [PATCH v3] futex: don't leak robust_list pointer on exec race
+Message-ID: <202508090125.VIm8fAXD-lkp@intel.com>
+References: <20250805154725.22031-1-pranav.tyagi03@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250805154725.22031-1-pranav.tyagi03@gmail.com>
 
-Hello! I am facing similar issues on the same laptop. I tried using kernel 6.16, 6.15, installing latest (2025.05) SOF. Did you manage to find a solution?
+Hi Pranav,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/locking/core]
+[also build test ERROR on linus/master v6.16 next-20250808]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pranav-Tyagi/futex-don-t-leak-robust_list-pointer-on-exec-race/20250806-121303
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20250805154725.22031-1-pranav.tyagi03%40gmail.com
+patch subject: [PATCH v3] futex: don't leak robust_list pointer on exec race
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250809/202508090125.VIm8fAXD-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508090125.VIm8fAXD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508090125.VIm8fAXD-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/futex/syscalls.c:72:13: error: no member named 'compat_robust_list' in 'struct task_struct'
+      72 |                 head = p->compat_robust_list;
+         |                        ~  ^
+   1 error generated.
+
+
+vim +72 kernel/futex/syscalls.c
+
+    41	
+    42	static void __user *get_robust_list_common(int pid, bool compat)
+    43	{
+    44		struct task_struct *p;
+    45		void __user *head;
+    46		unsigned long ret;
+    47	
+    48		p = current;
+    49	
+    50		scoped_guard(rcu) {
+    51			if (pid) {
+    52				p = find_task_by_vpid(pid);
+    53				if (!p)
+    54					return (void __user *)ERR_PTR(-ESRCH);
+    55			}
+    56			get_task_struct(p);
+    57		}
+    58	
+    59		/*
+    60		 * Hold exec_update_lock to serialize with concurrent exec()
+    61		 * so ptrace_may_access() is checked against stable credentials
+    62		 */
+    63		ret = down_read_killable(&p->signal->exec_update_lock);
+    64		if (ret)
+    65			goto err_put;
+    66	
+    67		ret = -EPERM;
+    68		if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
+    69			goto err_unlock;
+    70	
+    71		if (IS_ENABLED(CONFIG_COMPAT) && compat)
+  > 72			head = p->compat_robust_list;
+    73		else
+    74			head = p->robust_list;
+    75	
+    76		up_read(&p->signal->exec_update_lock);
+    77		put_task_struct(p);
+    78	
+    79		return head;
+    80	
+    81	err_unlock:
+    82		up_read(&p->signal->exec_update_lock);
+    83	err_put:
+    84		put_task_struct(p);
+    85		return (void __user *)ERR_PTR(ret);
+    86	}
+    87	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
