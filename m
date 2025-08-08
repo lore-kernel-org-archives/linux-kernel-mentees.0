@@ -1,184 +1,210 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41D621ABDD
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  7 Aug 2025 19:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77161E32DB;
+	Fri,  8 Aug 2025 05:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754594340; cv=none; b=HgweiytqXeIa1brB0fsA/5zDNcDDTFKqQ8cf0GMgDRlia5c8UFRaY8AZL1hudbzf26lYGeMss3+WMI8EvPs7TFw8uA5EnnyBcwNJLfWl7JHpOYkB8VrME01ea46DvqGjylzP4vfCkZonjE+rOMGhf40ub9y3M81Jal8MQvsbpTw=
+	t=1754630468; cv=none; b=jz2ordmZn7BWR4muj/qKDnsnUI8CKc37WCpCRCTQwT/BigS8Ck5P5WXbShc1ViVZ9tnwkvkZP49fMG90PZTgkMnGiTxYh3hJM0CAHyFa6gXAxsETzkwJUCz5xnZEyJB+10l+7ezDN68E4ugYAJ5x4X47QaYNMXwHKlfBEoLolVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754594340; c=relaxed/simple;
-	bh=P6CYGkCBsS2/j/K0E7tBx1r/xDresPDft3Hy8CqhCSI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CD/3unMMbQSHpJqzuY7FXHE6BvxZbeBWC3akPQw0R3ltYRtOl3DnJQW2xlWe839H6CPW+VsAgs8cRUPbCQD3wW0A7UPNEfRm0OSInWgoEBrAkPn3zODD7nrVP3jLN6TdDPhaPuILDZDgd8jE7omGizA9PBcTr/GTh52af7hWIho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=EwJdssL9; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
+	s=arc-20240116; t=1754630468; c=relaxed/simple;
+	bh=XqBTmWBIyYrPkYwvSHX2UtS0QV8n7iP1YLBKlvO2zt0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=osd1hY1H0WCkDUptpESRshaN/TRMmwPpQMJaEGXxTJygdQj82RuDdpvuBwLW1U/Le7SSuzn7s52Cfc60teGtfSn8gGKJnpHNn6TmTdpihmYlLHMAbR8XLHwiACGxrjGX4aVJnZxHXDAPv2cnySMEloML4xkYo+2LmqNBR/OXdMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JBLtq523; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="EwJdssL9"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3b7886bee77so1080951f8f.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 07 Aug 2025 12:18:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1754594336; x=1755199136; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TMojSpDs0TkBAWsUruscamCHlztjGhkLSL63bamzheI=;
-        b=EwJdssL98N3QdZd2BfYaNfOKjthP9MFMkNfl06XNSe1nTz3LASi0td4bZe6VuuhOuc
-         N2Rem9t1d3jOADCWpkG7I1e4hG9Qx2TTJUlSCuWnxt83w2EbSQ1nlSLmrl4w9Gizhozo
-         3mtlDS8zfiXda81rk/1co9viGoMqNIRvJaipmJvAZhEOQOhCyp+wSVsnQjb3qHgTve98
-         4oSgYAiWOEklK1om7tBaiV8FDMp7PVrTGwZr9ilmeW2tAK/oLELr/buJ72ZaNw9yrB7s
-         9+0turUbHhE0dOWCh+CnkbT+8n6+Y1gtpQZ1Hz4uloK4xf+ucAv79a8lUuYfRZixRN68
-         BBmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754594336; x=1755199136;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TMojSpDs0TkBAWsUruscamCHlztjGhkLSL63bamzheI=;
-        b=LHUZf2SPosUPI7/UX16XQ/gcUVOPZGjWUwojSvH4QROmLlJYGhD/qaBeS0QStND9yl
-         c57Rd2z18XPY7tJYRg6CxDJqjXAFYIjhwrYFoJPiW8MQRVRnFhD46WVHc6M0ZFGYS/RT
-         sARuHoCLvnghXsqoxFoIIA1wzbLJ7P03TkwQsu8u2iHNqSDfjKPsTjXZDRvF4hj93U8z
-         ddnq4O1DelpYefV5ef5gx8KjiHM/Cn6aRwwboiWKUnELmOmnsV234no9/jmItSXerI3/
-         G22GeyDb8BuQjGkelebIFGKnYz4+ZU/dkDtmUVclLGQgnk6aJuvJmszY21hwFpxf5ZR9
-         ofzw==
-X-Forwarded-Encrypted: i=1; AJvYcCXf2ZiVIk2u4+mn9IJXuwpJJ4oUyAK3Ylha6JAhhd2KBOHVicfbX57+aN77/Q/DmocpIWnqlFLjqJC9MEzdc+K83PEg4Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwqqZkNlCMnjzBtQ3vZONtXrSNPvven5Q3awVMLTB2RBplbHY3L
-	BLESg+OefytR4wqYoF3YrNh/tt9scsg+TdiV+Qk3URJV/0OEz0qTakButhrg0aYLPlE=
-X-Gm-Gg: ASbGncvMmvV8KbaP0KM3DKy4+faNZCtuuqUCt2Dt1bVB1Pc9500PWjejQiyYG3rHFBM
-	tBzT3chU5ZtHQHPFpDRA20/3fmBjzvfeR+BIrmfev7z8+oPPKdBqodBONKBPJMby7BdOOPCv+EN
-	TsSFJrnoRyj0ldGd6T0/O1Lt3V36w6xElIw7pIeJxV552Sb22TTNJKvZHYZ2ooMnipJqLo6H6Ts
-	nQ/xtzYWpTK6+VwDXA3ZKntXs5X+Bn5DHKfPrgdtin5B5LIbzWjQEN7lZC4zklQYwSG9Jt9DvNB
-	jPWB3uJRlt32HxpUubwvPKjdnvKsYCNmbGrUI1v2wG9JctOZ/USYQFrjEhyevHpctAOMCTYdxnz
-	FgbEEAIPTK8peYc2rdbvX1JEJxYUFnepBP/bgBJ/qq8GrUVLcUg==
-X-Google-Smtp-Source: AGHT+IGmsZp5QGEdNPY5skMi/ehXySxn/2GJ+zanQmX1/LX2oBeqJ3fxjEoYN3cf/lF9eTayqWyhUQ==
-X-Received: by 2002:a05:6000:40ce:b0:3a3:65b5:51d7 with SMTP id ffacd0b85a97d-3b900b54b20mr297294f8f.26.1754594335784;
-        Thu, 07 Aug 2025 12:18:55 -0700 (PDT)
-Received: from pop-os.telenet.be ([2a02:1807:2a00:3400:3bcd:db43:406c:324d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c3c4d02sm26988589f8f.33.2025.08.07.12.18.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Aug 2025 12:18:54 -0700 (PDT)
-From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-To: dlan@gentoo.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-Subject: [PATCH] riscv: dts: spacemit: add UART resets for Soc K1
-Date: Thu,  7 Aug 2025 21:18:17 +0200
-Message-ID: <20250807191817.157494-1-hendrik.hamerlinck@hammernet.be>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JBLtq523"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754630466; x=1786166466;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=XqBTmWBIyYrPkYwvSHX2UtS0QV8n7iP1YLBKlvO2zt0=;
+  b=JBLtq523HeSXn6mvzZr19TVzIfQU8Dw372wYEmxh1W/cbG736U/MY/Z7
+   o/pTD+3yuPRMTMDIW9PBox2VbWy9u7CKGCJo6H8VRnuIZ0xRGdgZEsfsh
+   FPPBLIaYdjDOpnojZDuo+MY00z4y+lNTvNviLfkBzePBynqbcyws4Hbzt
+   Mg0cbd5sv2kN8CrhQvI/wwKnXRCOF1atskMP7jGwuipN4aSAqhztBYPcE
+   rxg8h+v2vk0KgR9JH9tqxLWWvHG7+iRyasyGGxyzxNDDi+DKdRjsNiqW2
+   ZzvPgJW9hiSkjmyAElPEnHQ5qF0spKm+zDjSzPQMIs8k4keBRFpQAegiI
+   g==;
+X-CSE-ConnectionGUID: tQ4NivhURUm1LSrANh09UQ==
+X-CSE-MsgGUID: gADYzcn3RYu7GDHH9mRzhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="57054972"
+X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
+   d="scan'208";a="57054972"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 22:21:06 -0700
+X-CSE-ConnectionGUID: DGIrCofRQG+fIzfWUwj3jg==
+X-CSE-MsgGUID: ZhH4djwBSReZ1rSSroaHxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
+   d="scan'208";a="169454052"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 22:21:03 -0700
+Message-ID: <57b135c3-228a-48cc-8dbe-ff8aa0249f9f@linux.intel.com>
+Date: Fri, 8 Aug 2025 13:19:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] iommu/vt-d: replace snprintf with scnprintf in
+ dmar_latency_snapshot()
+To: Seyediman Seyedarab <imandevel@gmail.com>, dwmw2@infradead.org,
+ joro@8bytes.org, will@kernel.org, robin.murphy@arm.com
+Cc: iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+References: <20250731225048.131364-1-ImanDevel@gmail.com>
+ <h6impubmygtakszk7t6ffknvtje72c4ovknjgme5xletglkl5g@4lpcs22onyqi>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <h6impubmygtakszk7t6ffknvtje72c4ovknjgme5xletglkl5g@4lpcs22onyqi>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add reset control entries for all UARTs in the SpaceMIT K1 SoC Device Tree.
-UART0 was functional as it did not need a reset. But the other UARTs were
-unable to access their registers without the reset being applied.
+On 8/7/25 17:00, Seyediman Seyedarab wrote:
+> On 25/07/31 06:50PM, Seyediman Seyedarab wrote:
+>> snprintf() returns the number of bytes that would have been
+>> written, not the number actually written. Using this for offset
+>> tracking can cause buffer overruns if truncation occurs.
+>>
+>> Replace snprintf() with scnprintf() to ensure the offset stays
+>> within bounds.
+>>
+>> Since scnprintf() never returns a negative value, and zero is not
+>> possible in this context because 'bytes' starts at 0 and 'size - bytes'
+>> is DEBUG_BUFFER_SIZE in the first call, which is large enough to hold
+>> the string literals used, the return value is always positive. An integer
+>> overflow is also completely out of reach here due to the small and fixed
+>> buffer size. The error check in latency_show_one() is therefore unnecessary.
+>> Remove it and make dmar_latency_snapshot() return void.
+>>
+>> Signed-off-by: Seyediman Seyedarab<ImanDevel@gmail.com>
+>> ---
+>> Changes in v4:
+>> - Removed 'ret' in latency_show_one() since it is not being used anymore:
+>> https://lore.kernel.org/oe-kbuild-all/202508010632.WB0CM5Bz-lkp@intel.com/
+>>
+>> Changes in v3:
+>> - Restored return type of dmar_latency_enable() back to 'int'. It was
+>>    mistakenly changed to 'void' in the previous version.
+>>
+>> Changes in v2:
+>> - The return type of dmar_latency_snapshot() was changed based on the
+>>    discussion here:
+>> https://lore.kernel.org/linux-iommu/aIDN3pvUSG3rN4SW@willie-the-truck/
+>>
+>>
+>>   drivers/iommu/intel/debugfs.c | 10 ++--------
+>>   drivers/iommu/intel/perf.c    | 10 ++++------
+>>   drivers/iommu/intel/perf.h    |  5 ++---
+>>   3 files changed, 8 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/iommu/intel/debugfs.c b/drivers/iommu/intel/debugfs.c
+>> index affbf4a1558d..65d2f792f0f7 100644
+>> --- a/drivers/iommu/intel/debugfs.c
+>> +++ b/drivers/iommu/intel/debugfs.c
+>> @@ -648,17 +648,11 @@ DEFINE_SHOW_ATTRIBUTE(ir_translation_struct);
+>>   static void latency_show_one(struct seq_file *m, struct intel_iommu *iommu,
+>>   			     struct dmar_drhd_unit *drhd)
+>>   {
+>> -	int ret;
+>> -
+>>   	seq_printf(m, "IOMMU: %s Register Base Address: %llx\n",
+>>   		   iommu->name, drhd->reg_base_addr);
+>>   
+>> -	ret = dmar_latency_snapshot(iommu, debug_buf, DEBUG_BUFFER_SIZE);
+>> -	if (ret < 0)
+>> -		seq_puts(m, "Failed to get latency snapshot");
+>> -	else
+>> -		seq_puts(m, debug_buf);
+>> -	seq_puts(m, "\n");
+>> +	dmar_latency_snapshot(iommu, debug_buf, DEBUG_BUFFER_SIZE);
+>> +	seq_printf(m, "%s\n", debug_buf);
+>>   }
+>>   
+>>   static int latency_show(struct seq_file *m, void *v)
+>> diff --git a/drivers/iommu/intel/perf.c b/drivers/iommu/intel/perf.c
+>> index adc4de6bbd88..dceeadc3ee7c 100644
+>> --- a/drivers/iommu/intel/perf.c
+>> +++ b/drivers/iommu/intel/perf.c
+>> @@ -113,7 +113,7 @@ static char *latency_type_names[] = {
+>>   	"     svm_prq"
+>>   };
+>>   
+>> -int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+>> +void dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+>>   {
+>>   	struct latency_statistic *lstat = iommu->perf_statistic;
+>>   	unsigned long flags;
+>> @@ -122,7 +122,7 @@ int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+>>   	memset(str, 0, size);
+>>   
+>>   	for (i = 0; i < COUNTS_NUM; i++)
+>> -		bytes += snprintf(str + bytes, size - bytes,
+>> +		bytes += scnprintf(str + bytes, size - bytes,
+>>   				  "%s", latency_counter_names[i]);
+>>   
+>>   	spin_lock_irqsave(&latency_lock, flags);
+>> @@ -130,7 +130,7 @@ int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+>>   		if (!dmar_latency_enabled(iommu, i))
+>>   			continue;
+>>   
+>> -		bytes += snprintf(str + bytes, size - bytes,
+>> +		bytes += scnprintf(str + bytes, size - bytes,
+>>   				  "\n%s", latency_type_names[i]);
+>>   
+>>   		for (j = 0; j < COUNTS_NUM; j++) {
+>> @@ -156,11 +156,9 @@ int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+>>   				break;
+>>   			}
+>>   
+>> -			bytes += snprintf(str + bytes, size - bytes,
+>> +			bytes += scnprintf(str + bytes, size - bytes,
+>>   					  "%12lld", val);
+>>   		}
+>>   	}
+>>   	spin_unlock_irqrestore(&latency_lock, flags);
+>> -
+>> -	return bytes;
+>>   }
+>> diff --git a/drivers/iommu/intel/perf.h b/drivers/iommu/intel/perf.h
+>> index df9a36942d64..1d4baad7e852 100644
+>> --- a/drivers/iommu/intel/perf.h
+>> +++ b/drivers/iommu/intel/perf.h
+>> @@ -40,7 +40,7 @@ void dmar_latency_disable(struct intel_iommu *iommu, enum latency_type type);
+>>   bool dmar_latency_enabled(struct intel_iommu *iommu, enum latency_type type);
+>>   void dmar_latency_update(struct intel_iommu *iommu, enum latency_type type,
+>>   			 u64 latency);
+>> -int dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size);
+>> +void dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size);
+>>   #else
+>>   static inline int
+>>   dmar_latency_enable(struct intel_iommu *iommu, enum latency_type type)
+>> @@ -64,9 +64,8 @@ dmar_latency_update(struct intel_iommu *iommu, enum latency_type type, u64 laten
+>>   {
+>>   }
+>>   
+>> -static inline int
+>> +static inline void
+>>   dmar_latency_snapshot(struct intel_iommu *iommu, char *str, size_t size)
+>>   {
+>> -	return 0;
+>>   }
+>>   #endif /* CONFIG_DMAR_PERF */
+>> -- 
+>> 2.50.1
+>>
+> Hi there,
+> 
+> Just following up on this patch. Please let me know if there's
+> anything else needed from my side.
 
-Although perhaps not needed I did add the reset for UART0 as well,
-to ensure consistency across all UARTs. With the current-speed set to
-112500 baud rate, it matches the factory U-Boot settings.
-This should not give issues with early console usage. But perhaps it could
-be a good idea to let somebody else confirm this as well.
+It just missed the v6.17 merge window, I'll queue it for v6.18.
 
-Tested this locally on both Orange Pi RV2 and Banana Pi BPI-F3 boards. 
-I enabled the UART9 and was able to use it successfully.
-
-Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
----
- arch/riscv/boot/dts/spacemit/k1.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/arch/riscv/boot/dts/spacemit/k1.dtsi b/arch/riscv/boot/dts/spacemit/k1.dtsi
-index abde8bb07c95..7a5196a98085 100644
---- a/arch/riscv/boot/dts/spacemit/k1.dtsi
-+++ b/arch/riscv/boot/dts/spacemit/k1.dtsi
-@@ -667,6 +667,8 @@ uart0: serial@d4017000 {
- 				clocks = <&syscon_apbc CLK_UART0>,
- 					 <&syscon_apbc CLK_UART0_BUS>;
- 				clock-names = "core", "bus";
-+				current-speed = <115200>;
-+				resets = <&syscon_apbc RESET_UART0>;
- 				interrupts = <42>;
- 				reg-shift = <2>;
- 				reg-io-width = <4>;
-@@ -680,6 +682,7 @@ uart2: serial@d4017100 {
- 				clocks = <&syscon_apbc CLK_UART2>,
- 					 <&syscon_apbc CLK_UART2_BUS>;
- 				clock-names = "core", "bus";
-+				resets = <&syscon_apbc RESET_UART2>;
- 				interrupts = <44>;
- 				reg-shift = <2>;
- 				reg-io-width = <4>;
-@@ -693,6 +696,7 @@ uart3: serial@d4017200 {
- 				clocks = <&syscon_apbc CLK_UART3>,
- 					 <&syscon_apbc CLK_UART3_BUS>;
- 				clock-names = "core", "bus";
-+				resets = <&syscon_apbc RESET_UART3>;
- 				interrupts = <45>;
- 				reg-shift = <2>;
- 				reg-io-width = <4>;
-@@ -706,6 +710,7 @@ uart4: serial@d4017300 {
- 				clocks = <&syscon_apbc CLK_UART4>,
- 					 <&syscon_apbc CLK_UART4_BUS>;
- 				clock-names = "core", "bus";
-+				resets = <&syscon_apbc RESET_UART4>;
- 				interrupts = <46>;
- 				reg-shift = <2>;
- 				reg-io-width = <4>;
-@@ -719,6 +724,7 @@ uart5: serial@d4017400 {
- 				clocks = <&syscon_apbc CLK_UART5>,
- 					 <&syscon_apbc CLK_UART5_BUS>;
- 				clock-names = "core", "bus";
-+				resets = <&syscon_apbc RESET_UART5>;
- 				interrupts = <47>;
- 				reg-shift = <2>;
- 				reg-io-width = <4>;
-@@ -732,6 +738,7 @@ uart6: serial@d4017500 {
- 				clocks = <&syscon_apbc CLK_UART6>,
- 					 <&syscon_apbc CLK_UART6_BUS>;
- 				clock-names = "core", "bus";
-+				resets = <&syscon_apbc RESET_UART6>;
- 				interrupts = <48>;
- 				reg-shift = <2>;
- 				reg-io-width = <4>;
-@@ -745,6 +752,7 @@ uart7: serial@d4017600 {
- 				clocks = <&syscon_apbc CLK_UART7>,
- 					 <&syscon_apbc CLK_UART7_BUS>;
- 				clock-names = "core", "bus";
-+				resets = <&syscon_apbc RESET_UART7>;
- 				interrupts = <49>;
- 				reg-shift = <2>;
- 				reg-io-width = <4>;
-@@ -758,6 +766,7 @@ uart8: serial@d4017700 {
- 				clocks = <&syscon_apbc CLK_UART8>,
- 					 <&syscon_apbc CLK_UART8_BUS>;
- 				clock-names = "core", "bus";
-+				resets = <&syscon_apbc RESET_UART8>;
- 				interrupts = <50>;
- 				reg-shift = <2>;
- 				reg-io-width = <4>;
-@@ -771,6 +780,7 @@ uart9: serial@d4017800 {
- 				clocks = <&syscon_apbc CLK_UART9>,
- 					 <&syscon_apbc CLK_UART9_BUS>;
- 				clock-names = "core", "bus";
-+				resets = <&syscon_apbc RESET_UART9>;
- 				interrupts = <51>;
- 				reg-shift = <2>;
- 				reg-io-width = <4>;
--- 
-2.43.0
-
+Thanks,
+baolu
