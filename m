@@ -1,89 +1,103 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3796F1F4606
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 19:24:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E77A22FAC3
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 23:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754853872; cv=none; b=PIrU4AKIO7YY8TTNjYzYAjyseRDV8LI5zhGr/X7Z+ZRX59wfFeuE5fytilQo45Rt/Q9NPY4lhi772iHVt/TiBWPlSQ9OoPqBzCdSQjy8cYhA80mZS/Y7I+L68NdGyPRmafBlYSi6SFnfn+481XtPr94RWlFD3h8hWzy/gFbhLq0=
+	t=1754870036; cv=none; b=JINXYfdJScuIVVjmOhf3aqGfoQkjkGTUbTusfHskpC0wcVlJYbFN+WrgIILLGB/V/yeopaaN7Irj2W2rb0ZtP84rvzCaF15C6Hrkw//25ir80CuIPQqIZ48bQZWVS1jba2nnajqkuOm3GzpRDXXHVFUshEEE4eC0GnpwBdXPZvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754853872; c=relaxed/simple;
-	bh=HtpGJp0ZbFCE1rIx90n7t0c5hjbie7VCoaqeoLMvIfA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S6p353H5db8/PZaeapngNOlhxHxco/WNVn6UVvlhYvIbHajut+PYLQM2aBKbtv9yj8EAxsInBASDNnSqTrlmA4eaGsbNaxzgUJtK8Ig2dPIw66rUuJ8bkVCVG05QC1UFkGBWN0pRh7YQTXx7ohoW7u48+NzYs+eFxnm//KFy70o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sLxfdIHw; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1754870036; c=relaxed/simple;
+	bh=YqmHMucSU2DlswN5+QJUfNE73hCMbH/3S1oPKLv7ipw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T+6FuN7duoswWEgWGgefwfr4Lz1PW/hBi2qUEIviKp8KLJtiSU11i6fW3FP//6dpVZ5uCQQIlYBJZryozgWmPFRoOc+/9RXoyhvUMQhmhB4SSRCpiS9lcwiC7yK1biNoC6JSM57MqIYg2ch3lFSaao7+a1t4f5f99FeUAa1Sphc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YNb1NF01; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sLxfdIHw"
-Date: Sun, 10 Aug 2025 15:24:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1754853857;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9HmsXbpwqlaW/GkSlDbz9l1p4JHFHsrJneC/npDv+Ac=;
-	b=sLxfdIHw2H7Zks/e58rzcGJMUukyJd/GyxHD8rJpT8uGSZCXEyyNYX8lt/6uwu5JAFFDRU
-	IuUIbfwjHZcpZ4J71a6+NdkwIVkEjr3Ra4xvlfOHsX3+dTCMgVc0z07z/8h4QilWj8oMh0
-	8KOdnDlPKs9mXmIaSRx4O6iP/GF7Bxg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Gopi Krishna Menon <krishnagopi487@gmail.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, 
-	linux-bcachefs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YNb1NF01"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76bd6e84eddso4606005b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 16:53:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754870034; x=1755474834; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7knVGaGsoWjApLEqvHDjmolbJK36ccHbDacWKxbNqHk=;
+        b=YNb1NF01iknc6sF9TxAxNyPdvySc+Aj22SAjacZlU5op4v5DHKI7wmHVDLElZhKEL9
+         9V0u8UCtED12n14+U9oEBiBv8T1OBgcppeR7WyzUuAhnsMeeMn+X47jlz+o+uWMj7Okv
+         ZZbbxEnjCjfk1Qc5s+9ue3YFHkwEqangCQPmRX0Tu+jOKL0IoLBJMic1G2oUpBzb6vLo
+         wAXoHkjo3YN5OQkG7HAgC61fXlU+/dqt3WftOX+0ypyfiwGZ0T6UzT2KaWhYDcdGXbgc
+         PsyOOU5N6ZXfu9MZhrn1BNT3V77wM4xbInzpnEQjbnK4oa4Lf4i7JvHpKwHxF0zKY2AD
+         jDSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754870034; x=1755474834;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7knVGaGsoWjApLEqvHDjmolbJK36ccHbDacWKxbNqHk=;
+        b=fyG/KeX0MxTMV/rtEsmKpu3pNl9/OSyxoYOO3lcev5NdQX0wJ0BOcjCDwwvuuQbw95
+         +53v22j7uw5e6J1A0BA3NbRaL+GZQsf9S4xmuhJJiODPAOaoILqy1C+dRtWLKoawLD+E
+         v7Yyo2seu1dEcxbXkbXaQVIpVhEoiQ9s9aqS3HJ9MMnhGLsv5oXbu6MFG+zWSMN/aYEI
+         3DdEuVjhcQHWyYWoJ5Mq2QagG4ftKbWUwg25MVkcIVBtMv4DnzJOuun5YZITGDdhccS4
+         ZynotMvV5YRnLmXY5fmXsFqRZUUDr4Viun59CPxcjX8q0+yn5QWKCv3qYWrKtGV3KJvA
+         EaRw==
+X-Forwarded-Encrypted: i=1; AJvYcCU7H9oSCD084dWbmXG9EWDi4YcJO2Fo3w27lUZfsKPGasz3OGZc6cYMKdtGqOr2BV3aFweJQWo3KlPD9Wjq9TIwoRm2sA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwrFUV/47IfRholevOnSXsGkTcwzvpbEdz1Jpye9bUXCVmhF41c
+	SCFna5IrOJk8DCVH4/kuoedcvvW3GIJ+FFJ/nJMAoTclOAKtWAt/446D
+X-Gm-Gg: ASbGnctAcsr3IOn6gdYyWJa+nh3cBPFF+DC/eeXVW/dyUpMFyW/ze+3TeB6yCdJYdrC
+	XzdLyHvTDCYUwt2DVzzKQYlxPyxHij9Mvlf7m0v/ttPcm/xnycs8kA18DDSZ7bG49rVBtH8ibjn
+	qKTj1x1GH6+rnoa0fXcZCFKW7ZXte+JYfYm2xYNk6V6C44618m4/FF7It1hX1rl1ISs84HTGwSx
+	SMkVrOW53eswy1cDrURS6YMF3SOrZRWG6e+BpUG0K5IC33koYIBfuBkHQBCntwF+8BeAcgJEIkY
+	Rop1RRPCcIooWK+Finu+rU1YtpePrnY0pZ5cRR0BV3sIyag/y1zU64ZFTVsKph0Rmh1eRAqBKLj
+	mZBzMSXWh1Lio+AdaNHSkjA580piO6TXAYegqJ1xGw4w=
+X-Google-Smtp-Source: AGHT+IGhK/OXz3cPQAKcMSk1OwiUpZ9lZPXMvKVLVmgTZXjh3inToIYTH0u80Hutih/F0cszD2duJw==
+X-Received: by 2002:aa7:8887:0:b0:748:e1e4:71d9 with SMTP id d2e1a72fcca58-76c461bdf62mr13304121b3a.22.1754870034249;
+        Sun, 10 Aug 2025 16:53:54 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfc0a2asm25281389b3a.70.2025.08.10.16.53.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Aug 2025 16:53:53 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: corbet@lwn.net
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	dhowells@redhat.com,
+	brauner@kernel.org,
+	max.kellermann@ionos.com,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] docs: filesystems: bcachefs: Fix spelling mistake in
- idle_work page
-Message-ID: <a2dvoh6sbqvxbueljd6xbbwytkydu6zgdvzkootojdgddvj4ke@trypmesssyiw>
-References: <20250810104654.90962-1-krishnagopi487@gmail.com>
+Subject: [PATCH] docs: folio_queue: Fix minor typo in folio_queue page
+Date: Mon, 11 Aug 2025 05:23:44 +0530
+Message-ID: <20250810235346.4153-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250810104654.90962-1-krishnagopi487@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 10, 2025 at 04:16:48PM +0530, Gopi Krishna Menon wrote:
-> Specifically, fix spelling mistake of "hierarchy"
-> 
-> Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+Specifically, fix typo 'hese'-> 'these'
 
-Applied
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+---
+ Documentation/core-api/folio_queue.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> ---
->  Documentation/filesystems/bcachefs/future/idle_work.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/bcachefs/future/idle_work.rst b/Documentation/filesystems/bcachefs/future/idle_work.rst
-> index 59a332509dcd..f1202113dde0 100644
-> --- a/Documentation/filesystems/bcachefs/future/idle_work.rst
-> +++ b/Documentation/filesystems/bcachefs/future/idle_work.rst
-> @@ -11,10 +11,10 @@ idle" so the system can go to sleep. We don't want to be dribbling out
->  background work while the system should be idle.
->  
->  The complicating factor is that there are a number of background tasks, which
-> -form a heirarchy (or a digraph, depending on how you divide it up) - one
-> +form a hierarchy (or a digraph, depending on how you divide it up) - one
->  background task may generate work for another.
->  
-> -Thus proper idle detection needs to model this heirarchy.
-> +Thus proper idle detection needs to model this hierarchy.
->  
->  - Foreground writes
->  - Page cache writeback
-> @@ -51,7 +51,7 @@ IDLE REGIME
->  When the system becomes idle, we should start flushing our pending work
->  quicker so the system can go to sleep.
->  
-> -Note that the definition of "idle" depends on where in the heirarchy a task
-> +Note that the definition of "idle" depends on where in the hierarchy a task
->  is - a task should start flushing work more quickly when the task above it has
->  stopped generating new work.
->  
-> -- 
-> 2.43.0
-> 
+diff --git a/Documentation/core-api/folio_queue.rst b/Documentation/core-api/folio_queue.rst
+index 83cfbc157e49..b7628896d2b6 100644
+--- a/Documentation/core-api/folio_queue.rst
++++ b/Documentation/core-api/folio_queue.rst
+@@ -44,7 +44,7 @@ Each segment in the list also stores:
+  * the size of each folio and
+  * three 1-bit marks per folio,
+ 
+-but hese should not be accessed directly as the underlying data structure may
++but these should not be accessed directly as the underlying data structure may
+ change, but rather the access functions outlined below should be used.
+ 
+ The facility can be made accessible by::
+-- 
+2.43.0
+
