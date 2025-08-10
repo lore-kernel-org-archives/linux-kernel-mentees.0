@@ -1,72 +1,73 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D455F241C8C
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 10:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D9623956E
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 11:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754822839; cv=none; b=WamyuoAiu91qXD5mhWg5Gwkx6OiwfuMxpTRxgKUdOL6H2Tg9J68BhmQblU0lCSN3GA2QogCYVuN5lGDJ9wQCnXfNKziAu9RvmdX21aW7rAZzW/OsHX5+aDLApeEw1mZzUJhiOwpV+aQeIX0aMEVly93Eep/o7NNpHaRNyr6tqZk=
+	t=1754824390; cv=none; b=YedOM6/QPpYVWsESdRDrlI0TAdkIDf72Uu+I1WPwj188pCXk32IlI2XKf2KsraeZawc24QtqAjSr+EVGk6hX0KNfnBjaaA9mX1cwPwXhcm64iQJ0k/bnCfhB1qIy5ewHOP+n5O2smsIUVT73GovHH0DmjvB+Y4Tg66nwwNvi6mE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754822839; c=relaxed/simple;
-	bh=nxaG1zwspR17PpSRctsHtA+r8+e7ahm88TtHx5G1y30=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tnP2sQFBQjIfnECTVY+vGW4qX8Kuq4LC4O3ydR1yH1V+RwAqYQ1mclvh0aRqKwqkIDFUidnB3xs4VfneO/o7/k32ZsIofhuSItll2XYNocxLwmWl4nIZwDNy00GV7VK4DlAS/HN9AE1/irVFXS/U+cIeIcBQZdHDCHTHFaseMjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YkOiBn30; arc=none smtp.client-ip=209.85.215.172
+	s=arc-20240116; t=1754824390; c=relaxed/simple;
+	bh=QhLjmOIS92P7ea/XzuNovZfDinZN9nt/o+nPMeNZ4zw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mP+n4u6Uf0DyoXy5EpRaMGY10Sj2oj2GXjmvupwViNODS9qh9N+vDtoPiOsgSlDpHCDEJnYNZ1XEDaEkQYSL7ZnandGyaUumLWrxLUK1Mh+wKX3D9YePkaBg6BCDhvANs+mzkEAXrmBdiGT3Q5sg+Tnh/4oTwqk2VUh00/2+kTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fdKXn6RG; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YkOiBn30"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b421b70f986so2470868a12.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 03:47:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fdKXn6RG"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7425bd5a83aso2953659b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 04:13:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754822835; x=1755427635; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1754824389; x=1755429189; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aE0rp9G6z0AX5t6srN3jmjast9AHcG827GIfR2iMskE=;
-        b=YkOiBn30l9jIQcTqt4aph2L0dCIu6Xia0TtnyY0hrLSiXUQpQAB2Evper0TBU+7jcd
-         lVjMa9Vki3MhVHUcjkdQ/8t+TpzT+GEN83y2mkPBuhHR4TaLjby151dLRopaw9zMrLxl
-         pyD+vAsvWLM+KEBB6wD7snEbJN0d2ZIN8rnDaPiWDq4TkK/QIsSOJsHSKJ/+2Rm1yiq2
-         oHVbFZmIzyE7zqrddGrKjIkCyR/dJst3eH0sqcz7rw3ETp90PeZXP+UxR7eOC9TJPmBb
-         07uW80QujpVVKBtNY7Itj3Y+fvdiucuqy9n8SUSHxdHSKxGftzozVtjNkkiArvPgdc5m
-         EnhA==
+        bh=Rb/Swu0G08J4y82/6Cs36yghjUYUfH8TllUehxDTCYg=;
+        b=fdKXn6RGTb8wCrYUvIUGO9ryEUV0zoQD2hL3YTMkj9gnS3igE7MiyCyCHFxyoYRRCi
+         J/jgIh6pQey2n0WU24+kdkfnuJWDyCfGu2OwSGXcfqRUEioBTMz6hIaToGjBcnejldHr
+         ZBlphTRCmNnfatQa5QxH3p4GLhz0gLKzrpXPfeggaQtHXR0Q6p8YJ4LJqtwW+mQw067z
+         uXNs43IBIrHmZIFbzktEoK/TuYsUE1bOewhH3W1oKZLNUzwD0CfrYTbq8B7ByDdQEsHn
+         oifWISUjI4c/ent69O9L9UvvUtLlnETFUGpYsN8q1iN9QYxRj8c+RBoY623HbKMTGoXC
+         482Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754822835; x=1755427635;
+        d=1e100.net; s=20230601; t=1754824389; x=1755429189;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aE0rp9G6z0AX5t6srN3jmjast9AHcG827GIfR2iMskE=;
-        b=QqLzL819R0n5WiopAHLVl50BWCsrwKQp6/VDjOBZnDBBtufXIp2VjwzbTARPni+82g
-         R1u3jF6rnHBLm0LGS5Xh/ZkRgmMUKKDZeZIf+77pH29ZgXV1lbgrSYRkaWmB3MYeDw3s
-         /Pb2L85X20NSjb83pxc8z4GNphWJhFRdZS/NYuMBcKc0JHrmb1RFE76rLb3LmA99UHyT
-         JUi6pJiLAjuKzWQ5qgobvg1WkrCXqvtug5FnMCMlI6C7/vVkrxrtNS+Q7CTORO7a12JE
-         a/RkURrbv2GSMYxg6aur0pi+fAuYbhPPxokmKsya/fUOI/wZZacOHiOsjSLFTL0zlhMx
-         rR4A==
-X-Forwarded-Encrypted: i=1; AJvYcCVSgwtHfDfcC/QLpq6Rzq+igGZ9P83MUIrPHD3i7WPoyW3ufKfFepyj1MBf/wYavZZZdER7lB6tPQErcwmTGPdAA9xLBA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxCiV+1Dj7eGa6D7M5fmXCN1ETAsULaahrTHZCZGcdb4q+olSMb
-	LIbBa/yS4ZiVB3j+be2tmyWFZCzOaMTTjCspLRgPv0GwdT6PS4k8T6VT
-X-Gm-Gg: ASbGncvvdcZa8UOqhibuFCACOvQBuyezyRxkDhVXQLEDkX7taIK3vuCrh5Ks/8tn485
-	UxVvnzLA8e303IYCV8LppsyPkoGuQp4OeS4p0TE+Ha2sEm1pfdiwzDkuVoG9TOsyPsErygmHW20
-	aDSPiiNm7+CvFsS7IiYw2A8ohjM2tsOlbwMAVfOifyyi0jnA01ZttHOrxUYiwbFdt3H5o0fWTkK
-	wkpbeGqLNjCTJhDH7ewafjiDxuBSmz5WX6KaKoziMxwJkqBd7PUtLIDrXmfDYxd3WLiLiYsMnE9
-	48xg7Xzba1CuPjO76frSJUFkVcmj0eYCQsyrFKgYjU4qrvz6mvGPwjpSicWboFWQg9X0R/nYX0M
-	BOSkSGV6Kbeoanex8B6ZDH0uUvlUP13/HKuOC3LWSKnY=
-X-Google-Smtp-Source: AGHT+IFfsYKCBdRC4wXmrwKLs5mBjgjgoUUK4akPCOJx0/1nLz3fwTx+LtyvZYi92z7Ecb8151LDBg==
-X-Received: by 2002:a17:902:ec88:b0:240:981d:a4f5 with SMTP id d9443c01a7336-242c221dcf7mr140890085ad.42.1754822835003;
-        Sun, 10 Aug 2025 03:47:15 -0700 (PDT)
+        bh=Rb/Swu0G08J4y82/6Cs36yghjUYUfH8TllUehxDTCYg=;
+        b=fCtOqAl7ZdQJir+z0jG0M7WUQFT2vnzI7akmguDoGYUk3VMjxBNeGVeze/MIP38GuR
+         UiCLIzwN6ThpwC1vg3ArElOYgoyFWTFoCuovbtfZ/UQhKA3dRQ8LNpE4MQDol5OURjTW
+         9uIvyzNd4evYkSX122Hu7xHyp8WHJvnaf9jjui+t3CTP9J41hSSMAgGCn2J8dMYx7Imo
+         ihOCrHJFWABJ1dhKeS1wSR5pZaLMPygMPVMuGjo42OezkNxKQ8AorHerD1GPjDyXNm83
+         qJE7U2cQKx1iGvUKuC3y/LglejS++PSTkGd/G71wcD3u+XVKJYbLS9DefiVuykWkml5u
+         +yWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWL02jo+psBM2c54eARNtV9z/Wmb1kcz/9c2CEry6qxrMb2IiErtheuasB27HVBXZa234SwLkj4CBdzipqJeZ2o+w6Ng==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/HPn4JxeX4WQ19R7grbVox05++B6BViShcF2gas2Q4N6ap45u
+	l/37MLYwo6QG0c4HDKI4Pr0dycmm/VBc0Y37JJvxC4ErxyojTiz/VB41
+X-Gm-Gg: ASbGncv15pr84QuQ/JxLEn+3QkLuCIq1a+cLmy3c/VGLOjIY//2RxkUs3nMqU71K/VP
+	JE7+DpyVJcuqTLtLBXUc1n8OrOrcMMTXmSs1dn7Ci0KSOwNn/380XOhwxxvOR8KtcQwuZnhY1cs
+	75VCdQ59Ni3T1EWFEA4NMQwydNSRTMlJ9VSoJq3SmDbNZ4nqsLoIvUCElSNBuzjkIE4nN3q1cHE
+	iJrYATjiSrn5b2GgTQ+kisQLvpefsbnLFUD43Nu4C8CTVOErQ56MaNOHrz6AnpnE7JBBnh463sn
+	CgI0m8sG2g9N14Yo8/YYl6heVpde7KKfxF7QBZQaRfGaQbuiJ14we5GWWql3+I/n2aBGvtrk0Bu
+	xVxMbB8q37k15eZhy84oZNv/YghvgTUbLP2x/yVQO3Qw=
+X-Google-Smtp-Source: AGHT+IFYbOlLruk89Zs56x9IK75Dy2SXGTNWfKStneEVZOxxj2/Sw109N76g6LUWLW1IDYmJc4i51w==
+X-Received: by 2002:a05:6a00:139e:b0:748:9d26:bb0a with SMTP id d2e1a72fcca58-76c461b2aa8mr13327685b3a.18.1754824388851;
+        Sun, 10 Aug 2025 04:13:08 -0700 (PDT)
 Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2426dec66desm166431485ad.54.2025.08.10.03.47.12
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76c0a952525sm15705030b3a.79.2025.08.10.04.13.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Aug 2025 03:47:14 -0700 (PDT)
+        Sun, 10 Aug 2025 04:13:08 -0700 (PDT)
 From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: kent.overstreet@linux.dev
+To: rostedt@goodmis.org
 Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
 	corbet@lwn.net,
 	skhan@linuxfoundation.org,
-	linux-bcachefs@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] docs: filesystems: bcachefs: Fix spelling mistake in idle_work page
-Date: Sun, 10 Aug 2025 16:16:48 +0530
-Message-ID: <20250810104654.90962-1-krishnagopi487@gmail.com>
+Subject: [PATCH] Documentation/rv: Fix minor typo in monitor_synthesis page
+Date: Sun, 10 Aug 2025 16:42:48 +0530
+Message-ID: <20250810111249.93181-1-krishnagopi487@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -76,38 +77,25 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Specifically, fix spelling mistake of "hierarchy"
+Specifically, fix spelling of "practice"
 
 Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
 ---
- Documentation/filesystems/bcachefs/future/idle_work.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/trace/rv/monitor_synthesis.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/filesystems/bcachefs/future/idle_work.rst b/Documentation/filesystems/bcachefs/future/idle_work.rst
-index 59a332509dcd..f1202113dde0 100644
---- a/Documentation/filesystems/bcachefs/future/idle_work.rst
-+++ b/Documentation/filesystems/bcachefs/future/idle_work.rst
-@@ -11,10 +11,10 @@ idle" so the system can go to sleep. We don't want to be dribbling out
- background work while the system should be idle.
+diff --git a/Documentation/trace/rv/monitor_synthesis.rst b/Documentation/trace/rv/monitor_synthesis.rst
+index ac808a7554f5..3a7d7b2f6cb6 100644
+--- a/Documentation/trace/rv/monitor_synthesis.rst
++++ b/Documentation/trace/rv/monitor_synthesis.rst
+@@ -181,7 +181,7 @@ which is the list of atomic propositions present in the LTL specification
+ functions interacting with the Buchi automaton.
  
- The complicating factor is that there are a number of background tasks, which
--form a heirarchy (or a digraph, depending on how you divide it up) - one
-+form a hierarchy (or a digraph, depending on how you divide it up) - one
- background task may generate work for another.
- 
--Thus proper idle detection needs to model this heirarchy.
-+Thus proper idle detection needs to model this hierarchy.
- 
- - Foreground writes
- - Page cache writeback
-@@ -51,7 +51,7 @@ IDLE REGIME
- When the system becomes idle, we should start flushing our pending work
- quicker so the system can go to sleep.
- 
--Note that the definition of "idle" depends on where in the heirarchy a task
-+Note that the definition of "idle" depends on where in the hierarchy a task
- is - a task should start flushing work more quickly when the task above it has
- stopped generating new work.
+ While generating code, `rvgen` cannot understand the meaning of the atomic
+-propositions. Thus, that task is left for manual work. The recommended pratice
++propositions. Thus, that task is left for manual work. The recommended practice
+ is adding tracepoints to places where the atomic propositions change; and in the
+ tracepoints' handlers: the Buchi automaton is executed using::
  
 -- 
 2.43.0
