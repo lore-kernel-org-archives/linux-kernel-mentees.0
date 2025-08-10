@@ -1,155 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4962215191;
-	Fri,  8 Aug 2025 18:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D455F241C8C
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 10:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754676879; cv=none; b=Vdb7vgohPcHCGtl+cYdnFr8Gnzj+KMpOabYMUEzIzxKvG8wgFje55/cYd5OeI8607rilv7i+LrTbVYBHR5N7nBOlUWMBV6S9nC7Dtq+eO7HhlttDDP9vn6nAioAKQTW68XNZSZuijoKZ+ilqj/+R8YrZfUogHpUJmM7TJA+Zc1Q=
+	t=1754822839; cv=none; b=WamyuoAiu91qXD5mhWg5Gwkx6OiwfuMxpTRxgKUdOL6H2Tg9J68BhmQblU0lCSN3GA2QogCYVuN5lGDJ9wQCnXfNKziAu9RvmdX21aW7rAZzW/OsHX5+aDLApeEw1mZzUJhiOwpV+aQeIX0aMEVly93Eep/o7NNpHaRNyr6tqZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754676879; c=relaxed/simple;
-	bh=jasLUExJ47MKUq1i0giM8qJ7AngHU2ackEGzfY43fco=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iDa357hgVTlnDL8vNCa67ZP9ynWidlN5qUOuLzr28QrW2SX1/nS72DSrxBU0HrXsAJU3/Je9ut17wiAQQLE7MwQgKvMOYL7uQwjoAnvy5x5UYBxN+ZcI5uJ+43/r9Ur0CyfBCw6OeEAoirF+L6RTn4KDTBLwSU/Pm7QtAZrSLro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eO1yzf70; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1754822839; c=relaxed/simple;
+	bh=nxaG1zwspR17PpSRctsHtA+r8+e7ahm88TtHx5G1y30=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tnP2sQFBQjIfnECTVY+vGW4qX8Kuq4LC4O3ydR1yH1V+RwAqYQ1mclvh0aRqKwqkIDFUidnB3xs4VfneO/o7/k32ZsIofhuSItll2XYNocxLwmWl4nIZwDNy00GV7VK4DlAS/HN9AE1/irVFXS/U+cIeIcBQZdHDCHTHFaseMjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YkOiBn30; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eO1yzf70"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754676878; x=1786212878;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jasLUExJ47MKUq1i0giM8qJ7AngHU2ackEGzfY43fco=;
-  b=eO1yzf70CI11P+gvsIM61TMKIiyhMBpBST7ZFTzDRoIP3haKM6GTIlrO
-   juS7Hh63oRyGsAT4oXdOpubDb1j8O2zHwIho+kUWs1lYCrMrIH7/tYfw/
-   /cwsnNs0MTpj2GPGu7/fvvOkdDDcCzq2eaqhW2M6VwoA/uoMrgQEiGMQU
-   9t/4AGqB/fuGINJeLvnjLQj2uobrDw1yw5E4fBmO6lQMeoEoVgWQFFyPA
-   4dk69ICwbVrQKbRTn62Jx3MHFYf/bzFWdpAKmWaYwVaHryMgvtdizXTuf
-   lD+qYjVlPbQuPbhpHYOSClqycYIdS5ShNtOm3fk7Chwq31swqRFLGFUQp
-   Q==;
-X-CSE-ConnectionGUID: j6/z8RLlRbKquz203dnfaQ==
-X-CSE-MsgGUID: ok9iOisVTcmUlYhzy3eUFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="57108939"
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="57108939"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 11:14:37 -0700
-X-CSE-ConnectionGUID: tGs8YgAcSvikbWwLjq0/wQ==
-X-CSE-MsgGUID: t5/iCW9mReaTpoT5KUD0zw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="165797520"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 08 Aug 2025 11:14:34 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ukRbl-0004Bo-2x;
-	Fri, 08 Aug 2025 18:14:28 +0000
-Date: Sat, 9 Aug 2025 02:14:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>, tglx@linutronix.de,
-	mingo@redhat.com, peterz@infradead.org, dvhart@infradead.org,
-	dave@stgolabs.net, andrealmeid@igalia.com,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jann@thejh.net, keescook@chromium.org,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: Re: [PATCH v3] futex: don't leak robust_list pointer on exec race
-Message-ID: <202508090125.VIm8fAXD-lkp@intel.com>
-References: <20250805154725.22031-1-pranav.tyagi03@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YkOiBn30"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b421b70f986so2470868a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 03:47:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754822835; x=1755427635; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aE0rp9G6z0AX5t6srN3jmjast9AHcG827GIfR2iMskE=;
+        b=YkOiBn30l9jIQcTqt4aph2L0dCIu6Xia0TtnyY0hrLSiXUQpQAB2Evper0TBU+7jcd
+         lVjMa9Vki3MhVHUcjkdQ/8t+TpzT+GEN83y2mkPBuhHR4TaLjby151dLRopaw9zMrLxl
+         pyD+vAsvWLM+KEBB6wD7snEbJN0d2ZIN8rnDaPiWDq4TkK/QIsSOJsHSKJ/+2Rm1yiq2
+         oHVbFZmIzyE7zqrddGrKjIkCyR/dJst3eH0sqcz7rw3ETp90PeZXP+UxR7eOC9TJPmBb
+         07uW80QujpVVKBtNY7Itj3Y+fvdiucuqy9n8SUSHxdHSKxGftzozVtjNkkiArvPgdc5m
+         EnhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754822835; x=1755427635;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aE0rp9G6z0AX5t6srN3jmjast9AHcG827GIfR2iMskE=;
+        b=QqLzL819R0n5WiopAHLVl50BWCsrwKQp6/VDjOBZnDBBtufXIp2VjwzbTARPni+82g
+         R1u3jF6rnHBLm0LGS5Xh/ZkRgmMUKKDZeZIf+77pH29ZgXV1lbgrSYRkaWmB3MYeDw3s
+         /Pb2L85X20NSjb83pxc8z4GNphWJhFRdZS/NYuMBcKc0JHrmb1RFE76rLb3LmA99UHyT
+         JUi6pJiLAjuKzWQ5qgobvg1WkrCXqvtug5FnMCMlI6C7/vVkrxrtNS+Q7CTORO7a12JE
+         a/RkURrbv2GSMYxg6aur0pi+fAuYbhPPxokmKsya/fUOI/wZZacOHiOsjSLFTL0zlhMx
+         rR4A==
+X-Forwarded-Encrypted: i=1; AJvYcCVSgwtHfDfcC/QLpq6Rzq+igGZ9P83MUIrPHD3i7WPoyW3ufKfFepyj1MBf/wYavZZZdER7lB6tPQErcwmTGPdAA9xLBA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxCiV+1Dj7eGa6D7M5fmXCN1ETAsULaahrTHZCZGcdb4q+olSMb
+	LIbBa/yS4ZiVB3j+be2tmyWFZCzOaMTTjCspLRgPv0GwdT6PS4k8T6VT
+X-Gm-Gg: ASbGncvvdcZa8UOqhibuFCACOvQBuyezyRxkDhVXQLEDkX7taIK3vuCrh5Ks/8tn485
+	UxVvnzLA8e303IYCV8LppsyPkoGuQp4OeS4p0TE+Ha2sEm1pfdiwzDkuVoG9TOsyPsErygmHW20
+	aDSPiiNm7+CvFsS7IiYw2A8ohjM2tsOlbwMAVfOifyyi0jnA01ZttHOrxUYiwbFdt3H5o0fWTkK
+	wkpbeGqLNjCTJhDH7ewafjiDxuBSmz5WX6KaKoziMxwJkqBd7PUtLIDrXmfDYxd3WLiLiYsMnE9
+	48xg7Xzba1CuPjO76frSJUFkVcmj0eYCQsyrFKgYjU4qrvz6mvGPwjpSicWboFWQg9X0R/nYX0M
+	BOSkSGV6Kbeoanex8B6ZDH0uUvlUP13/HKuOC3LWSKnY=
+X-Google-Smtp-Source: AGHT+IFfsYKCBdRC4wXmrwKLs5mBjgjgoUUK4akPCOJx0/1nLz3fwTx+LtyvZYi92z7Ecb8151LDBg==
+X-Received: by 2002:a17:902:ec88:b0:240:981d:a4f5 with SMTP id d9443c01a7336-242c221dcf7mr140890085ad.42.1754822835003;
+        Sun, 10 Aug 2025 03:47:15 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2426dec66desm166431485ad.54.2025.08.10.03.47.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Aug 2025 03:47:14 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: kent.overstreet@linux.dev
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-bcachefs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] docs: filesystems: bcachefs: Fix spelling mistake in idle_work page
+Date: Sun, 10 Aug 2025 16:16:48 +0530
+Message-ID: <20250810104654.90962-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250805154725.22031-1-pranav.tyagi03@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Pranav,
+Specifically, fix spelling mistake of "hierarchy"
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+---
+ Documentation/filesystems/bcachefs/future/idle_work.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-[auto build test ERROR on tip/locking/core]
-[also build test ERROR on linus/master v6.16 next-20250808]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pranav-Tyagi/futex-don-t-leak-robust_list-pointer-on-exec-race/20250806-121303
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20250805154725.22031-1-pranav.tyagi03%40gmail.com
-patch subject: [PATCH v3] futex: don't leak robust_list pointer on exec race
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250809/202508090125.VIm8fAXD-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508090125.VIm8fAXD-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508090125.VIm8fAXD-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> kernel/futex/syscalls.c:72:13: error: no member named 'compat_robust_list' in 'struct task_struct'
-      72 |                 head = p->compat_robust_list;
-         |                        ~  ^
-   1 error generated.
-
-
-vim +72 kernel/futex/syscalls.c
-
-    41	
-    42	static void __user *get_robust_list_common(int pid, bool compat)
-    43	{
-    44		struct task_struct *p;
-    45		void __user *head;
-    46		unsigned long ret;
-    47	
-    48		p = current;
-    49	
-    50		scoped_guard(rcu) {
-    51			if (pid) {
-    52				p = find_task_by_vpid(pid);
-    53				if (!p)
-    54					return (void __user *)ERR_PTR(-ESRCH);
-    55			}
-    56			get_task_struct(p);
-    57		}
-    58	
-    59		/*
-    60		 * Hold exec_update_lock to serialize with concurrent exec()
-    61		 * so ptrace_may_access() is checked against stable credentials
-    62		 */
-    63		ret = down_read_killable(&p->signal->exec_update_lock);
-    64		if (ret)
-    65			goto err_put;
-    66	
-    67		ret = -EPERM;
-    68		if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
-    69			goto err_unlock;
-    70	
-    71		if (IS_ENABLED(CONFIG_COMPAT) && compat)
-  > 72			head = p->compat_robust_list;
-    73		else
-    74			head = p->robust_list;
-    75	
-    76		up_read(&p->signal->exec_update_lock);
-    77		put_task_struct(p);
-    78	
-    79		return head;
-    80	
-    81	err_unlock:
-    82		up_read(&p->signal->exec_update_lock);
-    83	err_put:
-    84		put_task_struct(p);
-    85		return (void __user *)ERR_PTR(ret);
-    86	}
-    87	
-
+diff --git a/Documentation/filesystems/bcachefs/future/idle_work.rst b/Documentation/filesystems/bcachefs/future/idle_work.rst
+index 59a332509dcd..f1202113dde0 100644
+--- a/Documentation/filesystems/bcachefs/future/idle_work.rst
++++ b/Documentation/filesystems/bcachefs/future/idle_work.rst
+@@ -11,10 +11,10 @@ idle" so the system can go to sleep. We don't want to be dribbling out
+ background work while the system should be idle.
+ 
+ The complicating factor is that there are a number of background tasks, which
+-form a heirarchy (or a digraph, depending on how you divide it up) - one
++form a hierarchy (or a digraph, depending on how you divide it up) - one
+ background task may generate work for another.
+ 
+-Thus proper idle detection needs to model this heirarchy.
++Thus proper idle detection needs to model this hierarchy.
+ 
+ - Foreground writes
+ - Page cache writeback
+@@ -51,7 +51,7 @@ IDLE REGIME
+ When the system becomes idle, we should start flushing our pending work
+ quicker so the system can go to sleep.
+ 
+-Note that the definition of "idle" depends on where in the heirarchy a task
++Note that the definition of "idle" depends on where in the hierarchy a task
+ is - a task should start flushing work more quickly when the task above it has
+ stopped generating new work.
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
