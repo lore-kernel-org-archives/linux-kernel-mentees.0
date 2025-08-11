@@ -1,71 +1,75 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA102D8372
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 12:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6C91624C0
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 12:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754915935; cv=none; b=IVlcB8svXsYamajkcb3kiyB4OeIf5dWDX9iSTquAk9yui6RaWfT8byKelhtkU4q6mJ7UgS+sAOlvpArjSYzXwV/S4GvBSRwBvRhR+7J+GIeZ0M4IjOaVcr7NNjelz9Ih6ZFMGbF0DAGGOZEm4sZ8AktGHPzfVa1Y6qAxhatew7E=
+	t=1754915948; cv=none; b=VbwfznyuBTHq0nPFrE2hWI4fJHC6vfjnSp6MgweR5QB5LaABE0ovbaRXTFFryKYNdAgAVeCQfU6KRFpZ+xyqbxMTcl66Zh8t8D9PeOY35ax5fj07N+dsLqbxEJpO3wPOKu6Ugroupk+3SQ9cCiLeQFKnelS9r64rT+y9cWI0BCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754915935; c=relaxed/simple;
-	bh=yVT7zIEM8L0Ayto9GaQ35FMCs7tJuffENXDUPRt+cWg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PWbaR3IobjXv9R6wEOOOYrK2qniTJQa4O3gv12FDmpq2xjJMHyYMYbmXplOquY68z5CK+5HQIp8Chtr42JnZ1L3aL3KBWr/PuAU/+S6/vet6WZh9EmKT3UTI0mpUe9pWOEBg3O/LiMPtXf+cxCGemD6/fQwXWSMVTs+wyxSS7Nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EIgbpveI; arc=none smtp.client-ip=209.85.216.43
+	s=arc-20240116; t=1754915948; c=relaxed/simple;
+	bh=JELGV9uxYb771JQzUxfbsoM1pDEUVMvV4KIKwkr0cto=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=O0VEsFK8JTNMpL0q+aibUrtIT6gMgGbe1ebLn14zXWcHKSD6PC/IpigKwHpCyisWxbIQDz/BPdQUEVTfMoXWx1jRp3+KgnM5IJ/RB5tB64CtzQD6Dv1v8s0OH9Ha0KEK5JAC79Yye6mflQo2QohjhXsZKyjGZiW0ptSA9mRBm/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EAf4ty9b; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EIgbpveI"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-321a2faf29dso799119a91.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 05:38:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EAf4ty9b"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b3bdab4bf19so3354658a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 05:39:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754915934; x=1755520734; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=N/o0z3DaV7VAvUAExqBKbFBwFPtOI2swPV6d6/RKxhM=;
-        b=EIgbpveIIGsdut5CKI+zNngjxckrpmKnW1PFzWKCt9dYTwAUfKrnl0cG2S5x7rrpdf
-         btzVemyvnEo+YTeq/nHdAhULKfEQNkgMxr07Bhiy1ABFzjdhjEWUHdg7iyTQF95byn7B
-         bJp3r966ehQJjNSH14yiMPS3ZDP7clKJoNN4/aGir8sF/pvzxPE3EzOPLvnJhserCWs0
-         DMLJOBG1QFnuBbg6sbWY5BlFzn61ho0ia/SeT6c0AbXvENI8pmxY3YtcWEyGQPl7S/3t
-         kNMRgu1654ClOZMOOfzzekF9Fj2maWUPAdGVluT3pcxsa8GwYvWCShCRgyh7dq9gRohS
-         Wfrw==
+        d=gmail.com; s=20230601; t=1754915946; x=1755520746; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dRfeZ2wULaO/ukbbSK7auYzt6Gdpx1wOukQWQfpAB+Y=;
+        b=EAf4ty9b7s2QCjkfQ+svNcdmPXzYvbfSVWeRSnQ86MHLApdnwJgR1tCoGtrJ7DdknZ
+         6rviVf7GOm0CYACXESV1oY7wKS2Zol2Nq8bg6DjRenKHDhJouUHNYGgmcIQ67G5iWVGr
+         P1QZ0qQrxG+iDyOnp03fqG2NYz0se00U9UmZ/GkARL9vLJuQp4s5KAkDrm4JfUQhqMZS
+         lV4JtsFHGmMpEKq3yEeylGEr36qrHakAeRXqQ1QH25aRIGzHwQFVm+rxUBD4ih2jZrAQ
+         nZtRzJSHiZRCYmpLrWr6Igti3xb0XBWIDPXihspJQ0HwukpHEmSPsnAjshvZ3peCdh0W
+         336g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754915934; x=1755520734;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N/o0z3DaV7VAvUAExqBKbFBwFPtOI2swPV6d6/RKxhM=;
-        b=FAPWRX4otZlWWIQgrHfv0O8oHsKLVoY1lVYNGsEM5HwfBw8WjbrUBBy5hHVpL3/9R8
-         lSOtGFDfLmiRr40iCpsVZ4pB2XU5uzf8265bFxsfuQ2kytvyl7lLShx4RrE5AokfPjDi
-         6O90YfFyDtLeg02cNCW30zZIrtaE5AMAuPd4+f2dtSANszFizf7Vkevb/D0tIfvcifeB
-         FG2uoPxyCDFCsrjvIbE0m3OG4i0EKfHZFKUduj8Cxo0HbqUwFKzqE+xbAOdmNt5EGicO
-         9FLVuUOHUnSOrqJQqt291XhWuVFj8uIQCm1XD3rfpVRxOFwgm7dj1u/LjW4yJLyMyT82
-         SniQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWHmfbUIhcoYt6cp+soKnT367TB0fKePAM2fXzwuuVyItn2YgOCo+hNcSl6JHwNhHH4LMb+H0hrMMhtRkW3VHlF/dfyVg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzDDZhtQF/kA9j/S1hCbph1wJh0RbCao92h10+qJjYhYThD39+1
-	zIVzpcXGZmHFpF8dd/HScBnh6M2xBlDR27B+OK0YEnLSFBsxJOUDNvs=
-X-Gm-Gg: ASbGncs63u/Oz4nQEwhNi1DiYJU8+Ikyl7ubKBmPPWXvNKdYvjPXAYFomdv8EToEHYj
-	7ueypszaKawOSRAzb/mId2WgpuLc+ZxL97h9OIFgvM1Ukn6ev/yIMLGoOyEiQTYHt+biE+Y4sAY
-	2hyvEnkXvYtPZCXUFKdLPP54CgPlkGJOkfy3N3TUjKXc0K+RnSadgdZZOmr87XY1JJ8TM+FdQhD
-	rwlw4jXDBHki7LoXD92S2or3xCAL26jSicjcQfACehRQQs1BgAQKqfqg+dCQz2FqE4uW9VqJPiE
-	YGTcYNC1/RCpCf0SscMQ5xYQs6bIPbQNXlnyI45UJBkdkMDyb4Fsrt9i6gTX7Vbz+V7otvxlaiy
-	bSiXzwKGThyPVVHNvtv/azuP9AQuY5gBpnm5cWfiW
-X-Google-Smtp-Source: AGHT+IHf7OTgeX8W2U5Ar48gT005QTx5frqtP1Vp31xYrf3Gih3brf/ukJ5kgvVzbR5OhuRlYsgRAw==
-X-Received: by 2002:a17:90b:4f4b:b0:312:f0d0:bb0 with SMTP id 98e67ed59e1d1-32183a04a25mr18566994a91.12.1754915933256;
-        Mon, 11 Aug 2025 05:38:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754915946; x=1755520746;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dRfeZ2wULaO/ukbbSK7auYzt6Gdpx1wOukQWQfpAB+Y=;
+        b=qx9dWVqFSp4Y/+V1+ztjYfm8rjnLhBd2MXXZnuDZPVaC0qLxbfGERe5N4b47qxdxtz
+         +qrYchCD58eGfEytl8HNJYqFZZ2ByJpqvaL9TXYfNCp8kYjlcT44QhNZQWRu2vSKS5H+
+         FIAw3mRTm5VlIH1ZXG2IuuVzvRRsLnVOtr3rXfTqZW27aupB8eZcyEcXZRlorMcG+f14
+         uSETVeBHLLdfs6+virHelA0ukRYVM6MLypJXVRmYm7Pb9dBRXjHSCvzvHt34wyMo1bsx
+         /t2iPkUz8bI+nMCAnYDsYQdpiCk5TwdXnwfeIr96mYW+5I33ci8f5jhS9u5W+JeHeI3Y
+         0trg==
+X-Forwarded-Encrypted: i=1; AJvYcCVtr901/cu7IgGVZCm2sBQTNmatuxUon+9y9L6H8P52Y7hzUcH1MPnsuWxKweytEPrv/bUUt9gCL/Q4Oi/nlgtDia2Xbw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyN/KSUHsdETu2kEnbDlZ0Xzadutizlo2h+my3wFp4iVCugKFBT
+	7iftCMA8PBj6lmrm90Z0zahevKIe75TZLIzPCQo5OzVvExCrqFFBCzQ=
+X-Gm-Gg: ASbGncuFJxjPzXlQFdSQQazrONtybrQ9ni56iUlpm9D8L4yN/YMJT1ioStIwtHD9WkM
+	wIlCEq8iCRzQpi0s7r95ivKzdkuNwj9DZPXBZPsPRLXUybfBrzu45oF3/tmev4joLCIpDRnZR8o
+	Lkuz97VrmhyeOY47uUvStkUcgrEq1EYuRTMcVt75ry8wZEPptjmI+Hcf+1fy7jHaRg+hJCOc79O
+	XAlC/iaNEg8Cm1r8va8qas3fD2dC8QG5eCUHqXH/psxzPGSLbkN2u3HuXpvplcqEZIZk4oANWhn
+	VXoZGOz6+xN8fT62W1Rizjt9ZL4sSDlLpRv2IA1hw1tRTj8d2BgW9yNnkFx5pE5f2anWsYjr9oB
+	zmFjo12EUYg0DT0Pe9oFw8v1DhvkW74fEgpf5bwry
+X-Google-Smtp-Source: AGHT+IGr5GxVR+NNUc51sa7zH6pRSzPgZdTCS/mxkTxWL2PvWVdssdSaJyl1ykfwlZ0rhlI4ggtQaQ==
+X-Received: by 2002:a17:90b:558e:b0:311:ed2:b758 with SMTP id 98e67ed59e1d1-321839d9dfbmr18229202a91.3.1754915945476;
+        Mon, 11 Aug 2025 05:39:05 -0700 (PDT)
 Received: from kerneldocs.. ([157.51.80.105])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3216128ac08sm14731699a91.30.2025.08.11.05.38.49
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3216128ac08sm14731699a91.30.2025.08.11.05.39.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 05:38:52 -0700 (PDT)
+        Mon, 11 Aug 2025 05:39:05 -0700 (PDT)
 From: Nikil Paul S <snikilpaul@gmail.com>
 To: corbet@lwn.net
 Cc: skhan@linuxfoundation.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
 	snikilpaul@gmail.com
-Subject: [PATCH v2 0/2] docs: fix dead OLS links in timers and RCU docs
-Date: Mon, 11 Aug 2025 12:38:35 +0000
-Message-ID: <20250811123837.4378-1-snikilpaul@gmail.com>
+Subject: [PATCH 1/2] docs: timers: Update dead OLS link in timekeeping docs
+Date: Mon, 11 Aug 2025 12:38:36 +0000
+Message-ID: <20250811123837.4378-2-snikilpaul@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250811123837.4378-1-snikilpaul@gmail.com>
+References: <20250811123837.4378-1-snikilpaul@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -74,22 +78,29 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series updates outdated Ottawa Linux Symposium (OLS) links in the
-kernel documentation. The old URLs are no longer accessible, so they are
-replaced with working references to the preserved content.
+From: Nikil <snikilpaul@gmail.com>
 
-Changes since v1:
- - Added missing Signed-off-by lines to both patches
- - Updated commit message prefixes to follow subsystem conventions
+Replace a dead link to the OLS 2005 Proceedings with a working
+version hosted on kernel.org.
 
-Nikil Paul S (2):
-  docs: timers: Update dead OLS link in timekeeping docs
-  docs: rcu: Update dead OLS link in RTFP.txt
-
- Documentation/RCU/RTFP.txt       | 2 +-
+Signed-off-by: Nikil Paul S <snikilpaul@gmail.com>
+---
  Documentation/timers/highres.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/Documentation/timers/highres.rst b/Documentation/timers/highres.rst
+index bde5eb7e5c9e..24dcc32f8dcc 100644
+--- a/Documentation/timers/highres.rst
++++ b/Documentation/timers/highres.rst
+@@ -58,7 +58,7 @@ merged into the 2.6.18 kernel.
+ Further information about the Generic Time Of Day framework is available in the
+ OLS 2005 Proceedings Volume 1:
+ 
+-	http://www.linuxsymposium.org/2005/linuxsymposium_procv1.pdf
++	https://www.kernel.org/doc/ols/2005/ols2005v1-pages-227-240.pdf
+ 
+ The paper "We Are Not Getting Any Younger: A New Approach to Time and
+ Timers" was written by J. Stultz, D.V. Hart, & N. Aravamudan.
 -- 
 2.43.0
 
