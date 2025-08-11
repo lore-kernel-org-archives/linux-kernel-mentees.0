@@ -1,63 +1,33 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAE8AD23;
-	Mon, 11 Aug 2025 07:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 047174A21
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 09:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754897898; cv=none; b=WKJaIopHm0tfom1lK9tayvU3lIDD0lFqO8+Ami4cx92O94H6OlWZkCGkYfs75+izmllCkNVnPuOZqorCu6M+Nr2sBzBo4ABqZx4sRCIXNwPKC/vVO8UaxdzLPMyLgQ6g9E7ksU7If2H62IYsbifl/gnaubvVQvGF+5AEN8XfCuI=
+	t=1754906359; cv=none; b=k4+C8fNqPit+0Lu666CdJ7H230Dt2S8laXi2rBRFL6GV9viauAUs/6TCnFxp7MgG3NSmUx2Rmgih1/uUobpsh6rWEuZxLuj4BiAV6FX/eUcVQaebcPfs+kpXKMG3skE/gBcUP40Dvs0ntNw5vX7Neylts86IULOZGtP1KbAV/o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754897898; c=relaxed/simple;
-	bh=3JpJ6Jalyc/Z75TZtTL2bSln3Lv3ACasAx22cTuSofY=;
+	s=arc-20240116; t=1754906359; c=relaxed/simple;
+	bh=pU+oB7FLaONjgYsAfC74F13d4yG9Gxmvv+MRQWAdwS4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=olyZK5HqguzO8nnWQXZYTEKqUWgL1PYYiWjFu3ATTSSUPSH+O+iMKyTHfv9D56R8JknUSXaIWDAaaR3DSA3Q3mRMyMN1VSq4qh84hPonAlTzzfbUzsA84ZgItheRCgoz/HJbsR09KoRtj4VBIV913voN75jCtR+rNuzv0ExYDd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GsqCdSh+; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GsqCdSh+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754897896; x=1786433896;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3JpJ6Jalyc/Z75TZtTL2bSln3Lv3ACasAx22cTuSofY=;
-  b=GsqCdSh+svwUN7QBeqnc7mAMSSATtrXFtDIr41WoP2kw2xrfAxRUZxuI
-   /r0X9gWtUDju39+oG1ABni7ZD0VzfKmKpGtCQsovI+sGm6enMghYWlkGf
-   OmWebDDRTEHJ5pY2o8FLPFYn7vP3ASnmLSwaRnPz6q9m9YqOykc/RUKbj
-   1m2gUiGfHXksc5KAyrCs7cUFG6Lws+W4LwwLvDC8c3VzWR2m0aFuBln/V
-   K+TSgND+duQIdBhkpd3HpxvgFS9NHlpr+CivE+vqPWV/XQpdBt3cuaJQN
-   1Yp8nxxUbqgIwUtyaJHM4Svrt5cSVrhojHl04WTrZLPpYPGH5NqoWfhdL
-   w==;
-X-CSE-ConnectionGUID: JawKGr8US42+DvkKwe5msQ==
-X-CSE-MsgGUID: oC3uT6ocS8mb2c7mUeyGUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="56174420"
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="56174420"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 00:38:16 -0700
-X-CSE-ConnectionGUID: zvVXOCzmRUWLs8w+p1Ksyg==
-X-CSE-MsgGUID: o3W9HkPuSKiKNQUtk/wF6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="170285304"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 11 Aug 2025 00:38:13 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ulN6W-0005dU-37;
-	Mon, 11 Aug 2025 07:38:10 +0000
-Date: Mon, 11 Aug 2025 15:36:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rahul Kumar <rk0006818@gmail.com>, liviu.dudau@arm.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org, rk0006818@gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=haGS68voC4T8JTcz9h/GrSxjIZddpTSXRjyJKdLlmkEwO9c93yVnz5vk0FjwhvdwQQMIAaHNqjfYK1MdGxkhgSzEFXPx1nhv8xcl7EhG4MfBEf/w56lDWlE3wYkmQI2xAfCUJO/BZUtcFGD4smCXwidJY2baFrZmxiae98kEW6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2718C1D13
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 02:59:08 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0E2143F738
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 02:59:15 -0700 (PDT)
+Date: Mon, 11 Aug 2025 10:59:06 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Rahul Kumar <rk0006818@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
 Subject: Re: [PATCH] drm/komeda: Convert logging in komeda_crtc.c to drm_*
  with drm_device parameter
-Message-ID: <202508111503.saEElm01-lkp@intel.com>
+Message-ID: <aJm-6pbrllD56Cx8@e110455-lin.cambridge.arm.com>
 References: <20250811054459.15851-1-rk0006818@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -65,67 +35,198 @@ List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20250811054459.15851-1-rk0006818@gmail.com>
 
-Hi Rahul,
+Hi,
 
-kernel test robot noticed the following build errors:
+On Mon, Aug 11, 2025 at 11:14:59AM +0530, Rahul Kumar wrote:
+> Replace all dev_err(), dev_warn(), dev_info() and DRM_ERROR/WARN/INFO()
+> calls in drivers/gpu/drm/arm/display/komeda/komeda_crtc.c with the
+> corresponding drm_err(), drm_warn(), and drm_info() helpers.
+> 
+> The new drm_*() logging functions take a struct drm_device * as the
+> first argument. This allows the DRM core to prefix log messages with
+> the specific DRM device name and instance, which is essential for
+> distinguishing logs when multiple GPUs or display controllers are present.
+> 
+> This change aligns komeda with the DRM TODO item: "Convert logging to
+> drm_* functions with drm_device parameter".
+> 
+> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+> ---
+>  .../gpu/drm/arm/display/komeda/komeda_crtc.c  | 37 +++++++++++--------
+>  1 file changed, 21 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> index 2ad33559a33a..b50ce3653ff6 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> @@ -111,6 +111,7 @@ komeda_crtc_atomic_check(struct drm_crtc *crtc,
+>  static int
+>  komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+>  {
+> +	struct drm_device *drm = kcrtc->base.dev;
+>  	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
+>  	struct komeda_pipeline *master = kcrtc->master;
+>  	struct komeda_crtc_state *kcrtc_st = to_kcrtc_st(kcrtc->base.state);
+> @@ -128,8 +129,8 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+>  
+>  	err = mdev->funcs->change_opmode(mdev, new_mode);
+>  	if (err) {
+> -		DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
+> -			  mdev->dpmode, new_mode);
+> +		drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
+> +			mdev->dpmode, new_mode);
+>  		goto unlock;
+>  	}
+>  
+> @@ -142,18 +143,18 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+>  	if (new_mode != KOMEDA_MODE_DUAL_DISP) {
+>  		err = clk_set_rate(mdev->aclk, komeda_crtc_get_aclk(kcrtc_st));
+>  		if (err)
+> -			DRM_ERROR("failed to set aclk.\n");
+> +			drm_err(drm, "failed to set aclk.\n");
+>  		err = clk_prepare_enable(mdev->aclk);
+>  		if (err)
+> -			DRM_ERROR("failed to enable aclk.\n");
+> +			drm_err(drm, "failed to enable aclk.\n");
+>  	}
+>  
+>  	err = clk_set_rate(master->pxlclk, mode->crtc_clock * 1000);
+>  	if (err)
+> -		DRM_ERROR("failed to set pxlclk for pipe%d\n", master->id);
+> +		drm_err(drm, "failed to set pxlclk for pipe%d\n", master->id);
+>  	err = clk_prepare_enable(master->pxlclk);
+>  	if (err)
+> -		DRM_ERROR("failed to enable pxl clk for pipe%d.\n", master->id);
+> +		drm_err(drm, "failed to enable pxl clk for pipe%d.\n", master->id);
+>  
+>  unlock:
+>  	mutex_unlock(&mdev->lock);
+> @@ -164,6 +165,7 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+>  static int
+>  komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
+>  {
+> +	struct drm_device *drm = kcrtc->base.dev;
+>  	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
+>  	struct komeda_pipeline *master = kcrtc->master;
+>  	u32 new_mode;
+> @@ -180,8 +182,8 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
+>  
+>  	err = mdev->funcs->change_opmode(mdev, new_mode);
+>  	if (err) {
+> -		DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
+> -			  mdev->dpmode, new_mode);
+> +		drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
+> +			mdev->dpmode, new_mode);
+>  		goto unlock;
+>  	}
+>  
+> @@ -200,6 +202,7 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
+>  void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+>  			      struct komeda_events *evts)
+>  {
+> +	struct drm_device *drm = kcrtc->base.dev;
+>  	struct drm_crtc *crtc = &kcrtc->base;
+>  	u32 events = evts->pipes[kcrtc->master->id];
+>  
+> @@ -212,7 +215,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+>  		if (wb_conn)
+>  			drm_writeback_signal_completion(&wb_conn->base, 0);
+>  		else
+> -			DRM_WARN("CRTC[%d]: EOW happen but no wb_connector.\n",
+> +			drm_warn(drm, "CRTC[%d]: EOW happen but no wb_connector.\n",
+>  				 drm_crtc_index(&kcrtc->base));
+>  	}
+>  	/* will handle it together with the write back support */
+> @@ -236,7 +239,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+>  			crtc->state->event = NULL;
+>  			drm_crtc_send_vblank_event(crtc, event);
+>  		} else {
+> -			DRM_WARN("CRTC[%d]: FLIP happened but no pending commit.\n",
+> +			drm_warn(drm, "CRTC[%d]: FLIP happened but no pending commit.\n",
+>  				 drm_crtc_index(&kcrtc->base));
+>  		}
+>  		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+> @@ -309,7 +312,7 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
+>  
+>  	/* wait the flip take affect.*/
+>  	if (wait_for_completion_timeout(flip_done, HZ) == 0) {
+> -		DRM_ERROR("wait pipe%d flip done timeout\n", kcrtc->master->id);
+> +		drm_err(drm, "wait pipe%d flip done timeout\n", kcrtc->master->id);
+>  		if (!input_flip_done) {
+>  			unsigned long flags;
+>  
+> @@ -562,6 +565,7 @@ static const struct drm_crtc_funcs komeda_crtc_funcs = {
+>  int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
+>  			   struct komeda_dev *mdev)
+>  {
+> +	struct drm_device *drm = &kms->base;
+>  	struct komeda_crtc *crtc;
+>  	struct komeda_pipeline *master;
+>  	char str[16];
+> @@ -581,7 +585,7 @@ int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
+>  		else
+>  			sprintf(str, "None");
+>  
+> -		DRM_INFO("CRTC-%d: master(pipe-%d) slave(%s).\n",
+> +		drm_info(drm, "CRTC-%d: master(pipe-%d) slave(%s).\n",
+>  			 kms->n_crtcs, master->id, str);
+>  
+>  		kms->n_crtcs++;
+> @@ -609,10 +613,11 @@ get_crtc_primary(struct komeda_kms_dev *kms, struct komeda_crtc *crtc)
+>  	return NULL;
+>  }
+>  
+> -static int komeda_attach_bridge(struct device *dev,
+> -				struct komeda_pipeline *pipe,
+> +static int komeda_attach_bridge(struct komeda_pipeline *pipe,
+>  				struct drm_encoder *encoder)
+>  {
+> +	struct drm_device *drm = pipe->mdev->drm;
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.17-rc1 next-20250808]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+As the kernel build bot has already said, there is no struct drm_device in komeda_dev. Not
+sure what you're getting by trying to remove that parameter though.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rahul-Kumar/drm-komeda-Convert-logging-in-komeda_crtc-c-to-drm_-with-drm_device-parameter/20250811-134646
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250811054459.15851-1-rk0006818%40gmail.com
-patch subject: [PATCH] drm/komeda: Convert logging in komeda_crtc.c to drm_* with drm_device parameter
-config: riscv-randconfig-001-20250811 (https://download.01.org/0day-ci/archive/20250811/202508111503.saEElm01-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250811/202508111503.saEElm01-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508111503.saEElm01-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/arm/display/komeda/komeda_crtc.c: In function 'komeda_attach_bridge':
->> drivers/gpu/drm/arm/display/komeda/komeda_crtc.c:619:37: error: 'struct komeda_dev' has no member named 'drm'
-     struct drm_device *drm = pipe->mdev->drm;
-                                        ^~
+Best regards,
+Liviu
 
 
-vim +619 drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-
-   615	
-   616	static int komeda_attach_bridge(struct komeda_pipeline *pipe,
-   617					struct drm_encoder *encoder)
-   618	{
- > 619		struct drm_device *drm = pipe->mdev->drm;
-   620		struct device *dev = drm->dev;
-   621		struct drm_bridge *bridge;
-   622		int err;
-   623	
-   624		bridge = devm_drm_of_get_bridge(dev, pipe->of_node,
-   625						KOMEDA_OF_PORT_OUTPUT, 0);
-   626		if (IS_ERR(bridge))
-   627			return dev_err_probe(dev, PTR_ERR(bridge), "remote bridge not found for pipe: %s\n",
-   628					     of_node_full_name(pipe->of_node));
-   629	
-   630		err = drm_bridge_attach(encoder, bridge, NULL, 0);
-   631		if (err)
-   632			drm_err(drm, "bridge_attach() failed for pipe: %s\n",
-   633				of_node_full_name(pipe->of_node));
-   634	
-   635		return err;
-   636	}
-   637	
+> +	struct device *dev = drm->dev;
+>  	struct drm_bridge *bridge;
+>  	int err;
+>  
+> @@ -624,7 +629,7 @@ static int komeda_attach_bridge(struct device *dev,
+>  
+>  	err = drm_bridge_attach(encoder, bridge, NULL, 0);
+>  	if (err)
+> -		dev_err(dev, "bridge_attach() failed for pipe: %s\n",
+> +		drm_err(drm, "bridge_attach() failed for pipe: %s\n",
+>  			of_node_full_name(pipe->of_node));
+>  
+>  	return err;
+> @@ -658,7 +663,7 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
+>  		return err;
+>  
+>  	if (pipe->of_output_links[0]) {
+> -		err = komeda_attach_bridge(base->dev, pipe, encoder);
+> +		err = komeda_attach_bridge(pipe, encoder);
+>  		if (err)
+>  			return err;
+>  	}
+> -- 
+> 2.43.0
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
