@@ -1,131 +1,160 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D484D1ADC93
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 16:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D1F29BDA9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Aug 2025 16:57:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754930993; cv=none; b=iwSnyZF5juQ2L+yWF4VZimf8v6LqV8bWiaqxsGzO4l0AoS1/xSeAe5AUqCiQCbaTurNinsO9GLun5sPF0mmj/Hk7NW8wxzEw3AshxjKBfLVbv3HL6HrxHZtC18yowx/NKbkDCGCMSgRRwpCy8QUAG6lpYp6YJNFEvEVjUZdIHxg=
+	t=1754931431; cv=none; b=WhVFSJyMy35o9D/KOl4jvi72X3UmLVHJrFF5kIuTPoEerSdI3JUyvuPQO9qjgtZGOWbuYLF3PXCTgLrlTa+8zKmgaLOe0bg9rgwLsHpz6utKDQhUQZibtcyS8t9BW+RHXqHjd4zmtynNiH7KG1Pm/AvvSSk4wTtOgsIHIDh3BbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754930993; c=relaxed/simple;
-	bh=r3SklTF/J28zldzKGFpkhzr6DqkcSyicNNJtCcisZS4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SsUFDg84mk66cgY5FBm+X+69D+c9ZSDcxEq/iDjSpLf56ngJ7Y024Qs4QaxMzaBMWJEEK8P9T4ReCB9wWUJnaW0h/JUoa34+hmnxPcXfFc4jyAIeybfm8izQ/kfOs8xmW0yva4mr3jY+xsgH1tTg4+GlVESTtjxi9lLT85uKgjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZVLLOP27; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754931431; c=relaxed/simple;
+	bh=9zPnPHkgpiU4tEsuYcbnxA/jyHS4x3gGPa24HIh889k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dI4Arg4hmGOEmXAn+XrIRH2Jpvnm9ZYTiXJfGPfIWzu+D75zHWq03h36XKUh6K3QJgWSUIukzmzSugVxCagWrZXkoxHJh+J3MUpHe3wa8iAHWsZOkTiP+k0hTHxt5TCosyRVxbJsfSzRCMHGFeQaqx60EXRIm+Bp8cpqU2qRp98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lswy/BSm; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZVLLOP27"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-76c18568e5eso5098956b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 09:49:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lswy/BSm"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id F375E83F10
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Aug 2025 16:57:09 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id P6VQLfepbc11 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 11 Aug 2025 16:57:09 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::435; helo=mail-pf1-x435.google.com; envelope-from=akbansd@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org DFE77837A4
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DFE77837A4
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Lswy/BSm
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id DFE77837A4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Aug 2025 16:57:08 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-76be8e4b59aso3889595b3a.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Aug 2025 09:57:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754930991; x=1755535791; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kN7nybJBSUg9GTrQwRnc+qxQzY/TYZwbF8aIFzNGiuc=;
-        b=ZVLLOP277utB4LMnQ6PV9vM5KlrwPyxmZq7mhTJoQz7Rtoz/qtdbo0VKbEbr+m3V5M
-         mpPvXqnnKIJGGg41FLjn4g0tH5B64XlGYPQZlQRL4Oo9g7mImqpuMzoQTpYPTq1tJyAD
-         RMDZk1HasqSp8ErtkVj3wDkcyCvKWYmA+toatLIVOVHt3r4q4+LmD1HUNIX8SlA/LKU5
-         4siCN4qZwDH+GIK35YTApJHTOFzxSam1mpIfuQgZe5ljQ8CWAPjy7ohgbDkxm6Kl5uP7
-         0lk1eaUsfDfc3PSOGzkYTmoeWiyY8TXmjGeE52JflA2Xq41zR6WZ70qvdwCoMTbWaPxH
-         GDoQ==
+        d=gmail.com; s=20230601; t=1754931428; x=1755536228; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W1Yi7C8gEQP4bWpuAGELa858nfVqle4iUeljO1dFUIw=;
+        b=Lswy/BSmLInBtYUz6amRFdRf7EyEkTM29V9bvnW5ljWKqeW/RiUaKq5EoqGzWl6JYT
+         HsaLLIbvgZXzZEisYaP/pLPNdpC1CRg1OdZtWwe3ZrVlVjrjoaKvUnGB8WFwitDRsokr
+         pSc9JIOKzMPr4hdo44mgFZjYDprhaNxBHm3fBPDkxMTMtpFRq1oNThei4yugBZ3mVW1I
+         gSlAJrvnFZ3t1njUYJKf739+qPpaOOykb+VowZvKOMd3fmCMiUnGu0iW49o4sRfMmLhr
+         PKUdshR1ToPbrpOEv6jUCqc82Urpp/oSxKs7VfuiZZivDckiyoLzWXrJAdqVzvBkoE/E
+         xVMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754930991; x=1755535791;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1754931428; x=1755536228;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kN7nybJBSUg9GTrQwRnc+qxQzY/TYZwbF8aIFzNGiuc=;
-        b=YC8PHsoDc3Aq/W/XfbIuKeQB+SGfMzzoEqjsGDEz2g8iZdDBTmMvopVkUeeH6bWs0k
-         b7V3SbVvo1FDqI84ZOMU8KOAfFwdZU8fG4jjq5yWeIzMjNsthkp35/i/evcbIQfKYZSv
-         5zvwF/apNE3D4xO0iGzVEK59L4kI3/x+7C5mQ8K+d4gwTNMP30MifYYgP+zMxyAHx4L1
-         QrBvkooWBgJyD0sOP+jILp8zdrAdTyYkNTIn4vv8XP+arIVrSMvbiDAgE8G9DL/wPlv/
-         BUOFTrUsfT1fknBwkFoQ1W1zF5AHzfbu/M/v6mktSmxAyDUd98QLzeCkoHwtgj3xKgir
-         1HLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX9kXGzwhR71FrpRkPz8g23Z0V88Gkt2PUdKlFymLsc1kByPCR2Pb5PwLNBcK4Ay3XC2MiMlXLfKGzgGHYjB7jEPmpVIg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwxpZFddkiLIBsDQk2MdBA7B3HyAR4zeRMFkvKsR/C1CYuL5Yfh
-	7p7OV+/R8nKeVq4jckNhU2a9hGHnTaX8SKe5x4QS64RgBEQU07H5MBZy
-X-Gm-Gg: ASbGncvjmQHfQ4As3UrhE2CtLfHEunEZ/EaCgwVm1C2koJ08ap5TEVhG+CzMn0ac8nL
-	807MBlMLDoKzDLRVO5F+yDxX0nV9p/iR7By+k7wuGmHFrgD628y1tmV0Az20IIUtwq3RiC6RaS3
-	HIubyzArtGkaGzucFg/0rh3ZUt44hhGbnTDFoHvuu2O4Q1NzBGYvYSOXDFBhtFxQBPTUsU8jqvh
-	3aVuxvNzsvISQCu2REuu5wMjciw5d+TLRJjpeunMaJo2eNEcECGM1DU7SuCIteEXXukiy4o4DJE
-	k8nWTVLfYcs6eaJE0+icVdlv7YyPLjxfpPsjKfRlwNcZN+94F8BaaIKo/bn+jg5EoBvP5+79ajF
-	lv2aKefOQjKdHVN99jeNg
-X-Google-Smtp-Source: AGHT+IHX0e/PO4Z3IwmNT2g44cWPgFEvNfHjvzx7OGW61t+9EdTI2FUpffbo9A0LBSYC4/7QS364CA==
-X-Received: by 2002:a05:6a00:2d9d:b0:749:b41:2976 with SMTP id d2e1a72fcca58-76e0de36131mr468710b3a.3.1754930990889;
-        Mon, 11 Aug 2025 09:49:50 -0700 (PDT)
-Received: from localhost ([159.117.70.219])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-76c09adf8efsm18808340b3a.68.2025.08.11.09.49.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Aug 2025 09:49:50 -0700 (PDT)
-From: Nai-Chen Cheng <bleach1827@gmail.com>
-Date: Tue, 12 Aug 2025 00:49:46 +0800
-Subject: [PATCH] cxl/region: use str_enabled_disabled() instead of tenary
- operator
+        bh=W1Yi7C8gEQP4bWpuAGELa858nfVqle4iUeljO1dFUIw=;
+        b=NeOwB24ZRvu6eKefsZOmxvsZRrxUBHaFpscYrOVAI1k2adJYsimgcXv78gkRCCPGtf
+         d+WM1ySF7JKYhiu7qvC0UK0o1Xb6qDAB1a51vW3LYJJ7wySrMre+KJ8wzQpbBTBPSAXb
+         AtrbVJhLh1Mx/hF1b/yiAm94d7vFhODFrJIDT2303K38+Tnq0myw5mm7W2dtIIs0jJn+
+         Vs5XKZrM1+YfTYOGT9XxtiRYxOtlzcDYKBv/5FnNzpnf0scQUFjo/0xvtYsjYYtR2uC9
+         F4oGnn/m9IavwN2jVH3f5l3OyiqaxHGH/qilGTk9LXsGK3cR9DKv+OoeaQGdxMdAbZgt
+         vezA==
+X-Gm-Message-State: AOJu0YzSFkOfKGTQX5yebr1ErT6eQQ+aL6gMmsVuXMO7O0XoHsTMyV2g
+	tH2GUd2f2g9jiuvWGn2Gw2hRQyb5aF//Ene4pfE1y9WLhsTdNkrnjS4g
+X-Gm-Gg: ASbGnct9ix3DIaXaFpKy5KNitkWGDGoOhUbRviit8peDrOPh0EejBECT3JVDGW68m0G
+	mSlZdVw+xUEFjf96jnj7TNUbUdFGRuaAWsHTscNom70vxuELJuM975jU42LvSGwW6edgaTrUI2o
+	pUcAGuhvLI/02Gk5Kfc2Nmy1x2WMwj0Eu5q5iedK3MN5L26ItbwbIEv0A2gSbyaAJw/G18jkVvt
+	7LWaD+HCxGEuDClbKjCbVyO2fMu+TAHv1ESt6W0o3s+fAo6Ke8PXmA4nH0uMNyBRleCV+R+OIBo
+	pPOHdj8FCWvwQlBCn00N5YXwU6KZC+jrD4vTOauNwz8bwVnCFWgtzXHjuub2oohiuJgPuuZUhf6
+	40X+8LsBJhlIlTS5eHT8BXpYRwFq9XWA1ca5v
+X-Google-Smtp-Source: AGHT+IEkqrWoNzQeigT/AEoxekcMwPOO3clsp9fVXxpzh+JPN0nMFS0LQhGp/ytq+YFsSTqg1y1bFQ==
+X-Received: by 2002:a17:902:fc8f:b0:242:b42b:1335 with SMTP id d9443c01a7336-242c2059ca6mr223948205ad.22.1754931428119;
+        Mon, 11 Aug 2025 09:57:08 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:1f3a:31cb:81d4:471d:6f8e:380b])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e89a6ec2sm277124085ad.145.2025.08.11.09.56.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Aug 2025 09:57:07 -0700 (PDT)
+From: Akshay Bansod <akbansd@gmail.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
+Date: Mon, 11 Aug 2025 22:26:40 +0530
+Message-ID: <20250811165641.1214347-1-akbansd@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250812-cxl-region-string-choices-v1-1-50200b0bc782@gmail.com>
-X-B4-Tracking: v=1; b=H4sIACofmmgC/x2MQQqAMAzAviI9W9DpRP2KeBizbgWZ0ooI4t8dH
- gNJHlASJoWxeEDoYuU9ZajLAnx0KRDykhlMZWzV1wb9vaFQyBrqKZwC+rizJ8XVOjf0jWnajiD
- 3h9DK9/+e5vf9AFmqYxRrAAAA
-To: Davidlohr Bueso <dave@stgolabs.net>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>, 
- Dave Jiang <dave.jiang@intel.com>, 
- Alison Schofield <alison.schofield@intel.com>, 
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Dan Williams <dan.j.williams@intel.com>
-Cc: linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kernel-mentees@lists.linux.dev, Nai-Chen Cheng <bleach1827@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754930986; l=1250;
- i=bleach1827@gmail.com; s=20250730; h=from:subject:message-id;
- bh=r3SklTF/J28zldzKGFpkhzr6DqkcSyicNNJtCcisZS4=;
- b=RmrHqhWXztlnPYHIiYy0fLMXBeWj3a9h4BobSSZiAzZsOkanJ5yunaC+jR0Rs1ULm2fOlqXDs
- lfJwZzUvlM3DobMEhFxNVjW9SL4KwYG+ODfoN2qNQHOsf8LrYsoglF4
-X-Developer-Key: i=bleach1827@gmail.com; a=ed25519;
- pk=jahFPRplw20Aaim8fIt8SxlFMqkHbJ+s8zYBGbtHH5g=
+Content-Transfer-Encoding: 8bit
 
-Replace tenary operator with str_enabled_disabled() helper to enhance
-code readability and consistency.
+Update the sysfs interface for sampling frequency and scale attributes.
+Replace `scnprintf()` with `sysfs_emit_at()` which is PAGE_SIZE-aware
+and recommended for use in sysfs.
 
-Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
+Signed-off-by: Akshay Bansod <akbansd@gmail.com>
 ---
- drivers/cxl/core/region.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
-index 71cc42d05248..83d58787b5af 100644
---- a/drivers/cxl/core/region.c
-+++ b/drivers/cxl/core/region.c
-@@ -10,6 +10,7 @@
- #include <linux/sort.h>
- #include <linux/idr.h>
- #include <linux/memory-tiers.h>
-+#include <linux/string_choices.h>
- #include <cxlmem.h>
- #include <cxl.h>
- #include "core.h"
-@@ -1468,9 +1469,7 @@ static int cxl_port_setup_targets(struct cxl_port *port,
- 				dev_name(port->uport_dev), dev_name(&port->dev),
- 				__func__, cxld->interleave_ways,
- 				cxld->interleave_granularity,
--				(cxld->flags & CXL_DECODER_F_ENABLE) ?
--					"enabled" :
--					"disabled",
-+				str_enabled_disabled(cxld->flags & CXL_DECODER_F_ENABLE),
- 				cxld->hpa_range.start, cxld->hpa_range.end);
- 			return -ENXIO;
- 		}
+changes in v4:
+- reformatted as per sugessions, used ternary operator
+- Link to v3: https://lore.kernel.org/linux-iio/20250723141359.11723-1-akbansd@gmail.com/
 
+changes in v3:
+- Use `sysfs_emit_at(buf, len - 1, "\n")` instead of directly modifying `buf[len - 1]`
+  for newline termination, aligning with `sysfs_emit_at()` usage.
+- Link to v2: https://lore.kernel.org/linux-iio/20250703053900.36530-1-akbansd@gmail.com/
+
+changes in v2:
+- Fixed indentation for line wrap
+- Link to v1: https://lore.kernel.org/linux-iio/20250702135855.59955-1-akbansd@gmail.com/
+
+Testing:
+- Built the driver (`st_lsm6dsx_i2c`) as a module.
+- Tested using `i2c-stub` to mock the device.
+- Verified that reading sysfs attributes like `sampling_frequency_available`
+  works correctly and shows no change in functionality.
 ---
-base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-change-id: 20250812-cxl-region-string-choices-f5aa9832346e
+ drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Best regards,
+diff --git a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
+index c65ad4982..d8cb4b021 100644
+--- a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
++++ b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
+@@ -2035,10 +2035,10 @@ st_lsm6dsx_sysfs_sampling_frequency_avail(struct device *dev,
+ 
+ 	odr_table = &sensor->hw->settings->odr_table[sensor->id];
+ 	for (i = 0; i < odr_table->odr_len; i++)
+-		len += scnprintf(buf + len, PAGE_SIZE - len, "%d.%03d ",
+-				 odr_table->odr_avl[i].milli_hz / 1000,
+-				 odr_table->odr_avl[i].milli_hz % 1000);
+-	buf[len - 1] = '\n';
++	     len += sysfs_emit_at(buf, len, "%d.%03d%c",
++				  odr_table->odr_avl[i].milli_hz / 1000,
++				  odr_table->odr_avl[i].milli_hz % 1000,
++				  (i == odr_table->odr_len - 1) ? '\n' : ' ');
+ 
+ 	return len;
+ }
+@@ -2054,9 +2054,9 @@ static ssize_t st_lsm6dsx_sysfs_scale_avail(struct device *dev,
+ 
+ 	fs_table = &hw->settings->fs_table[sensor->id];
+ 	for (i = 0; i < fs_table->fs_len; i++)
+-		len += scnprintf(buf + len, PAGE_SIZE - len, "0.%09u ",
+-				 fs_table->fs_avl[i].gain);
+-	buf[len - 1] = '\n';
++	     len += sysfs_emit_at(buf, len, "0.%09u%c",
++				  fs_table->fs_avl[i].gain,
++				  (i == fs_table->fs_len - 1) ? '\n' : ' ');
+ 
+ 	return len;
+ }
 -- 
-Nai-Chen Cheng <bleach1827@gmail.com>
+2.49.0
 
