@@ -1,70 +1,70 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19EE2C9A
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 03:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021C6260583
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 04:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754884048; cv=none; b=gnqHGqS5mcS3ZH6n54tU+WLiS4sy+6xDwZF9t4AISWIJWxjFgCRYmmygwDaOXYw6l7VDQCwt7PdGYHiTfxaIAeYxy6r48NDiNnozaIghh7AEYHRJCes9UjLoU9lo8o3WJ437T3rVrP9DgwxewktqR6nZTjE9fE6REzso7RFS9gQ=
+	t=1754886586; cv=none; b=G0se7uxfczXdwj2om18Dl7+AotRsFTh7iKql38Syvi4fWW63OAuo43Ft7gk0XjUPI7Z/PDIh0nr4nfNGaV5oFnscZq9wo71pNG4wAlRVo8dRhg7x8urIT4V6PHsmlV9IkRp6U/tEKaCWCyBn0L/eyL2T76pPZx+dUVJYLtQr5Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754884048; c=relaxed/simple;
-	bh=rs1ZbDTkdXoK18Jlldz/kRW9hBLLB4AUFEUqTZReA0k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NLS5h+ixKwSHU5QQBaQ77aRcI5VMSZE9YqhdqTcRSspyXeCbyYMuppCDzjyKwCp//XXNOzuT/4OlJ2AAXhjTQPy0yUjpArlB63UUrgxuN3p9MpaK5Op8kneBp9QrvmL8TbbqV0ydcTHlOMmm4wQ8IYlrJ7kJKEwBWVaSGQgFJts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZJ43NRsm; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1754886586; c=relaxed/simple;
+	bh=asAYiJd2BPVbPq0TrnmfQDeswmedlMHPQ/HIzf4WD8g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LDvHSrVQUAjgKldD/ygkVym5ANDhWXQd3qm78Z49PzSdzdrj8M6dF01CIHCTtkQlhM/rEpwLMwwmGRB6AtjCK33xIyBe1W3pSspz+z1cSGuVNEwWclyx/MO5B3hTP+2i0T8qD1q72NH4PWkCJeODCsChkWVwxuzPeVAIl6CpXSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P6WzDbxV; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZJ43NRsm"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-76bc61152d8so3233432b3a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 20:47:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P6WzDbxV"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-31eb75f4ce1so3449278a91.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 21:29:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754884046; x=1755488846; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1754886584; x=1755491384; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AzgJOorJWfoxagIgZyAmkW/+CgCib8gpyjSc17Nah8o=;
-        b=ZJ43NRsmWKBABzJf85QM53r3Ok1RlzGshjop3H9K4msME9+R6aZO+Pm3T3w4pXtvdh
-         sDMC8/khtYcbydSvEBajdw4rfZRA+P+qUJcvkPVgdL+8pG0/fJYvz/YdTjjWVEoxBunu
-         7J1cZRgk6la1lIAs7hdo7vokBQ7wBniqMusAI+6lrhBVm7d0+bJXyT9rVdnDcFj4qqTa
-         oEyceHRpIC87dVNnpOS5xmnFNxFXAMbnB+wgGbo5b2ja+3iN5y7h2OEvv4MaDULK/lQn
-         19mMEkS/sn+uwmUQCyH3ykG0Nesqf4zT1OEYqTVrU+wKtwAslmyHxfwSO2vJgLRTk0oT
-         ZEtA==
+        bh=UyfTclra65yMzd5uvao1JUKR6GowJ/GfOw5QMCSske8=;
+        b=P6WzDbxV7qqgEBI+tCcv3CVM0CWdOhS9lZjNXKW/JfqSRQUXQDLNFUK2S0STw7nDC1
+         Z4PENmMg9TzZeq9OgkwFLvc0dpVSzYkug4IXLnyX0mjZEsEWv4KMVCzYNViXmM8TyQlg
+         lEIVCdBrA6SFpHKj2eK95oTVTouziKAHF+eBG6z5PgPj+b8ugBYlq23WMPZ285HyBAnl
+         L1Ulzlgxbl/q3yeNIWVeHCoEYBeEaD7SmMB7mz5p+Aaj6jpIf4wYq7VUMOCbxzxNo+T1
+         ePTy7+7dGkFKVlyhfmrVYszYrW1g9zsIKsnfwzIezFzgKhJ+to10hIlee7D4M2Plt9H0
+         2bzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754884046; x=1755488846;
+        d=1e100.net; s=20230601; t=1754886584; x=1755491384;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AzgJOorJWfoxagIgZyAmkW/+CgCib8gpyjSc17Nah8o=;
-        b=YcGKWlh+PTTl3ft9D40JRk/CumaXJVC7am53nNCj8LP3yiOO+rcyVd7tXGMX6Mnup3
-         sSdZlNIfMljU5SCJKRgRb4McGVepxNyL2KHu8FIm+Y1KEoTge6loPhQaPgW6AtYzVXgZ
-         mTC1VSv34QP1fKDEoSGGYuPS+ILmvOA9V78CjpEPgn2m7azpSGBFdbNxnqw+MFOsibSF
-         VPVndy0OTgYzsTYKW5yHQK8WGwprWyA2o9E8DdrctKnoze3BiF47DXgHsWF3xi988UP7
-         2DCTB4QuDrhS/xovz0fDDlYDaBsZnfkA5n+rvmoMKRQdfqlOGCrILDzUuqPG+6Q7hBs0
-         dz3g==
-X-Forwarded-Encrypted: i=1; AJvYcCXcjRirewjDp68DIqey47Qxig24i4zK4wncbZuMM1NQJW3MQcpE2hhDEUjAXvyo439DGqNYDY+cQ0CRS1aks2p7bUqCzA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxm/U531L1vFHoqjpQwy0o8L+5r/7hC5yXwOIHta+O5PpXcx3kl
-	AGq9qV0oRB9xegnfVT4eimZDkbW+tqG0z3C0lsbrze79XqFg0MUUUbNSGvGJS5j4NMpHw8I=
-X-Gm-Gg: ASbGnctuT9ByY5sxhXkqMs3fAXtI1rw+L+TcLD9ARsm4baiUQXW5OoKSAvF81knpOeM
-	K9Lo5ZuB9h9awiMR9VFlnJkSV5ql68wG0/URgXicVSfEL1Wn3fKeX1N19QwL/BNPgWh3zPtnX0x
-	Mj8CwxRntK5zHuamxduXbVIrJeoaIxdrex4BIupauOqeB+p9NHRyv4uOVbNzr3u1s4snDTVusOl
-	AdlylNx7SgCHF7NwxPs/zCH290hP7rhTqiiwiAIsY1ns7fgmHVt+bG3pswf1TPA/+TzfztGO9er
-	h45MUs4Pw5vyNd7gDso3LqKyVjEMAn9tyjavU24flJhCxBsDDQJ1SaYu9MU77gAUVrB6bJ3XaVA
-	VVFZggGx2Bhgc9dMQfRl3isSMrLuAOUnK9AsnpSE=
-X-Google-Smtp-Source: AGHT+IF4oM7SLruPY53gPR20B/yTto/vDJwxwk8SIxnGPvVl634pVWYjl4GCMAz4KqHHBfdvnZx9ng==
-X-Received: by 2002:a05:6a21:32a0:b0:240:1a3a:d7ec with SMTP id adf61e73a8af0-2405501258fmr18221624637.4.1754884046009;
-        Sun, 10 Aug 2025 20:47:26 -0700 (PDT)
+        bh=UyfTclra65yMzd5uvao1JUKR6GowJ/GfOw5QMCSske8=;
+        b=xJXzYz9PrrDPPmcF5vqNvXL7bthhlR1+yjjnD6EFWHtBp9Hxh40lpU28NrbiAfWz4G
+         7+XBHgLh0mVA/iTV3LPyFzcCEDEqxmTsXrKs+16zNs3eGFehfMSbp+7MZ1fqabgXcgEv
+         LdC51GcxqJi1gKPK0fT8L5V37Pd8AzAwpR2LjPExNOpdY+nWE5ExS3R10xtP/E8SL5Bt
+         gDnhqBOHBC7bXq5YqE3EZC+1Xf843YekwmeefWYV7smE0bWYmjwyfUBzIXbUvFIBSF9b
+         /JiFhJJ58Q73yWZcPvyKVn+V3brI5d57S1cqAcvRONL+5F+qqDzgBMcRGOjFkDFMfuOI
+         NtYA==
+X-Forwarded-Encrypted: i=1; AJvYcCVb7r5j+tgHF3iIc+eKrJfIBLUFNH5fs63JIH1r7WgKGrYjUievMrM4qtlYe2A9FuLaEmQfMMhtHZEnfFPadzUqOimhZQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyZSLg2obFmiOj6utstfFq3vqTBLZORaTHE+xSyz988uWf482Ut
+	u47Edibax5ZvOZTfK+ApIscwQAwzP9TchWu0I/zmM4/DiY/RP/0hJoM=
+X-Gm-Gg: ASbGncuDdwcfBX6jpy8Wxjd+StbscuZzsvRW6wTekVpzylgGhygZ0eYK5FjnPWMTrJ9
+	r6bmG7Npgpj8EpJ3E3mOkPsB7cd7lhfB9zw1SwXCuE0hhcJ11y8wHNHX1abLVugnxic0+qFPcoI
+	F2LdKIvn9DHrGqVh32y1GQQo+gAIs0htjMkS5VJ4CzCD64y4+6knhjFh909+uT9/ydRF94/mvpt
+	VJxbQAPIB8Hxq1z01g60zMc5Yv9ma/8l4CwqDqk84rQCLGADo2RsIYtx46DYSNj3ZP/uaapIwBD
+	INJauYRoXFDgMx5Y2aChkI/XBGl+rOt2QtP1HWDTspOkxfCZLGJVAy9DpnggDXKfu7aiyXP5anv
+	SEUqwVxk0846kJfxIUsEsAIoz8GxpCo0qzhddSl6dwZ9azUTh4g==
+X-Google-Smtp-Source: AGHT+IF32WnIAqQMfkdBLhJzzL+vsh7maHs2RRXoBX/ACxt8kloDd33fVoTNUpB1P6ihoXwRx79luA==
+X-Received: by 2002:a17:90b:4c8a:b0:2f8:34df:5652 with SMTP id 98e67ed59e1d1-32183b4382cmr15867750a91.21.1754886583965;
+        Sun, 10 Aug 2025 21:29:43 -0700 (PDT)
 Received: from kerneldocs.. ([117.231.194.180])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bdf61d092sm22706164b3a.116.2025.08.10.20.47.23
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-321611dd694sm13412186a91.1.2025.08.10.21.29.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Aug 2025 20:47:25 -0700 (PDT)
+        Sun, 10 Aug 2025 21:29:43 -0700 (PDT)
 From: Nikil <snikilpaul@gmail.com>
 To: corbet@lwn.net
 Cc: skhan@linuxfoundation.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
 	Nikil <snikilpaul@gmail.com>
-Subject: [PATCH] docs: timers: Update dead OLS link in timekeeping docs
-Date: Mon, 11 Aug 2025 03:47:17 +0000
-Message-ID: <20250811034717.6100-1-snikilpaul@gmail.com>
+Subject: [PATCH] docs: fix broken link in Documentation/RCU/RTFP.txt
+Date: Mon, 11 Aug 2025 04:23:58 +0000
+Message-ID: <20250811042357.7470-2-snikilpaul@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -74,23 +74,31 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+
+The original link to the Linux Symposium 2001 abstract is no longer valid,
+as the Linux Symposium website is no longer active. Replaced it with an updated
+link to the read-copy document available on kernel.org
+
+This ensures that readers can still access relevant resources without encountering
+a dead link.
+
 ---
- Documentation/timers/highres.rst | 2 +-
+ Documentation/RCU/RTFP.txt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/timers/highres.rst b/Documentation/timers/highres.rst
-index bde5eb7e5c9e..24dcc32f8dcc 100644
---- a/Documentation/timers/highres.rst
-+++ b/Documentation/timers/highres.rst
-@@ -58,7 +58,7 @@ merged into the 2.6.18 kernel.
- Further information about the Generic Time Of Day framework is available in the
- OLS 2005 Proceedings Volume 1:
- 
--	http://www.linuxsymposium.org/2005/linuxsymposium_procv1.pdf
-+	https://www.kernel.org/doc/ols/2005/ols2005v1-pages-227-240.pdf
- 
- The paper "We Are Not Getting Any Younger: A New Approach to Time and
- Timers" was written by J. Stultz, D.V. Hart, & N. Aravamudan.
+diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
+index db8f16b392aa..87b1c97c3ec3 100644
+--- a/Documentation/RCU/RTFP.txt
++++ b/Documentation/RCU/RTFP.txt
+@@ -641,7 +641,7 @@ Orran Krieger and Rusty Russell and Dipankar Sarma and Maneesh Soni"
+ ,Month="July"
+ ,Year="2001"
+ ,note="Available:
+-\url{http://www.linuxsymposium.org/2001/abstracts/readcopy.php}
++\url{https://www.kernel.org/doc/ols/2001/read-copy.pdf}
+ \url{http://www.rdrop.com/users/paulmck/RCU/rclock_OLS.2001.05.01c.pdf}
+ [Viewed June 23, 2004]"
+ ,annotation={
 -- 
 2.43.0
-
+Signed-off-by: Nikil <snikilpaul@gmail.com>
