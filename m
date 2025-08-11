@@ -1,74 +1,70 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E77A22FAC3
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 23:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19EE2C9A
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 03:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754870036; cv=none; b=JINXYfdJScuIVVjmOhf3aqGfoQkjkGTUbTusfHskpC0wcVlJYbFN+WrgIILLGB/V/yeopaaN7Irj2W2rb0ZtP84rvzCaF15C6Hrkw//25ir80CuIPQqIZ48bQZWVS1jba2nnajqkuOm3GzpRDXXHVFUshEEE4eC0GnpwBdXPZvo=
+	t=1754884048; cv=none; b=gnqHGqS5mcS3ZH6n54tU+WLiS4sy+6xDwZF9t4AISWIJWxjFgCRYmmygwDaOXYw6l7VDQCwt7PdGYHiTfxaIAeYxy6r48NDiNnozaIghh7AEYHRJCes9UjLoU9lo8o3WJ437T3rVrP9DgwxewktqR6nZTjE9fE6REzso7RFS9gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754870036; c=relaxed/simple;
-	bh=YqmHMucSU2DlswN5+QJUfNE73hCMbH/3S1oPKLv7ipw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T+6FuN7duoswWEgWGgefwfr4Lz1PW/hBi2qUEIviKp8KLJtiSU11i6fW3FP//6dpVZ5uCQQIlYBJZryozgWmPFRoOc+/9RXoyhvUMQhmhB4SSRCpiS9lcwiC7yK1biNoC6JSM57MqIYg2ch3lFSaao7+a1t4f5f99FeUAa1Sphc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YNb1NF01; arc=none smtp.client-ip=209.85.210.171
+	s=arc-20240116; t=1754884048; c=relaxed/simple;
+	bh=rs1ZbDTkdXoK18Jlldz/kRW9hBLLB4AUFEUqTZReA0k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NLS5h+ixKwSHU5QQBaQ77aRcI5VMSZE9YqhdqTcRSspyXeCbyYMuppCDzjyKwCp//XXNOzuT/4OlJ2AAXhjTQPy0yUjpArlB63UUrgxuN3p9MpaK5Op8kneBp9QrvmL8TbbqV0ydcTHlOMmm4wQ8IYlrJ7kJKEwBWVaSGQgFJts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZJ43NRsm; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YNb1NF01"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76bd6e84eddso4606005b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 16:53:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZJ43NRsm"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-76bc61152d8so3233432b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 10 Aug 2025 20:47:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754870034; x=1755474834; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1754884046; x=1755488846; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7knVGaGsoWjApLEqvHDjmolbJK36ccHbDacWKxbNqHk=;
-        b=YNb1NF01iknc6sF9TxAxNyPdvySc+Aj22SAjacZlU5op4v5DHKI7wmHVDLElZhKEL9
-         9V0u8UCtED12n14+U9oEBiBv8T1OBgcppeR7WyzUuAhnsMeeMn+X47jlz+o+uWMj7Okv
-         ZZbbxEnjCjfk1Qc5s+9ue3YFHkwEqangCQPmRX0Tu+jOKL0IoLBJMic1G2oUpBzb6vLo
-         wAXoHkjo3YN5OQkG7HAgC61fXlU+/dqt3WftOX+0ypyfiwGZ0T6UzT2KaWhYDcdGXbgc
-         PsyOOU5N6ZXfu9MZhrn1BNT3V77wM4xbInzpnEQjbnK4oa4Lf4i7JvHpKwHxF0zKY2AD
-         jDSA==
+        bh=AzgJOorJWfoxagIgZyAmkW/+CgCib8gpyjSc17Nah8o=;
+        b=ZJ43NRsmWKBABzJf85QM53r3Ok1RlzGshjop3H9K4msME9+R6aZO+Pm3T3w4pXtvdh
+         sDMC8/khtYcbydSvEBajdw4rfZRA+P+qUJcvkPVgdL+8pG0/fJYvz/YdTjjWVEoxBunu
+         7J1cZRgk6la1lIAs7hdo7vokBQ7wBniqMusAI+6lrhBVm7d0+bJXyT9rVdnDcFj4qqTa
+         oEyceHRpIC87dVNnpOS5xmnFNxFXAMbnB+wgGbo5b2ja+3iN5y7h2OEvv4MaDULK/lQn
+         19mMEkS/sn+uwmUQCyH3ykG0Nesqf4zT1OEYqTVrU+wKtwAslmyHxfwSO2vJgLRTk0oT
+         ZEtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754870034; x=1755474834;
+        d=1e100.net; s=20230601; t=1754884046; x=1755488846;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7knVGaGsoWjApLEqvHDjmolbJK36ccHbDacWKxbNqHk=;
-        b=fyG/KeX0MxTMV/rtEsmKpu3pNl9/OSyxoYOO3lcev5NdQX0wJ0BOcjCDwwvuuQbw95
-         +53v22j7uw5e6J1A0BA3NbRaL+GZQsf9S4xmuhJJiODPAOaoILqy1C+dRtWLKoawLD+E
-         v7Yyo2seu1dEcxbXkbXaQVIpVhEoiQ9s9aqS3HJ9MMnhGLsv5oXbu6MFG+zWSMN/aYEI
-         3DdEuVjhcQHWyYWoJ5Mq2QagG4ftKbWUwg25MVkcIVBtMv4DnzJOuun5YZITGDdhccS4
-         ZynotMvV5YRnLmXY5fmXsFqRZUUDr4Viun59CPxcjX8q0+yn5QWKCv3qYWrKtGV3KJvA
-         EaRw==
-X-Forwarded-Encrypted: i=1; AJvYcCU7H9oSCD084dWbmXG9EWDi4YcJO2Fo3w27lUZfsKPGasz3OGZc6cYMKdtGqOr2BV3aFweJQWo3KlPD9Wjq9TIwoRm2sA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwrFUV/47IfRholevOnSXsGkTcwzvpbEdz1Jpye9bUXCVmhF41c
-	SCFna5IrOJk8DCVH4/kuoedcvvW3GIJ+FFJ/nJMAoTclOAKtWAt/446D
-X-Gm-Gg: ASbGnctAcsr3IOn6gdYyWJa+nh3cBPFF+DC/eeXVW/dyUpMFyW/ze+3TeB6yCdJYdrC
-	XzdLyHvTDCYUwt2DVzzKQYlxPyxHij9Mvlf7m0v/ttPcm/xnycs8kA18DDSZ7bG49rVBtH8ibjn
-	qKTj1x1GH6+rnoa0fXcZCFKW7ZXte+JYfYm2xYNk6V6C44618m4/FF7It1hX1rl1ISs84HTGwSx
-	SMkVrOW53eswy1cDrURS6YMF3SOrZRWG6e+BpUG0K5IC33koYIBfuBkHQBCntwF+8BeAcgJEIkY
-	Rop1RRPCcIooWK+Finu+rU1YtpePrnY0pZ5cRR0BV3sIyag/y1zU64ZFTVsKph0Rmh1eRAqBKLj
-	mZBzMSXWh1Lio+AdaNHSkjA580piO6TXAYegqJ1xGw4w=
-X-Google-Smtp-Source: AGHT+IGhK/OXz3cPQAKcMSk1OwiUpZ9lZPXMvKVLVmgTZXjh3inToIYTH0u80Hutih/F0cszD2duJw==
-X-Received: by 2002:aa7:8887:0:b0:748:e1e4:71d9 with SMTP id d2e1a72fcca58-76c461bdf62mr13304121b3a.22.1754870034249;
-        Sun, 10 Aug 2025 16:53:54 -0700 (PDT)
-Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfc0a2asm25281389b3a.70.2025.08.10.16.53.50
+        bh=AzgJOorJWfoxagIgZyAmkW/+CgCib8gpyjSc17Nah8o=;
+        b=YcGKWlh+PTTl3ft9D40JRk/CumaXJVC7am53nNCj8LP3yiOO+rcyVd7tXGMX6Mnup3
+         sSdZlNIfMljU5SCJKRgRb4McGVepxNyL2KHu8FIm+Y1KEoTge6loPhQaPgW6AtYzVXgZ
+         mTC1VSv34QP1fKDEoSGGYuPS+ILmvOA9V78CjpEPgn2m7azpSGBFdbNxnqw+MFOsibSF
+         VPVndy0OTgYzsTYKW5yHQK8WGwprWyA2o9E8DdrctKnoze3BiF47DXgHsWF3xi988UP7
+         2DCTB4QuDrhS/xovz0fDDlYDaBsZnfkA5n+rvmoMKRQdfqlOGCrILDzUuqPG+6Q7hBs0
+         dz3g==
+X-Forwarded-Encrypted: i=1; AJvYcCXcjRirewjDp68DIqey47Qxig24i4zK4wncbZuMM1NQJW3MQcpE2hhDEUjAXvyo439DGqNYDY+cQ0CRS1aks2p7bUqCzA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxm/U531L1vFHoqjpQwy0o8L+5r/7hC5yXwOIHta+O5PpXcx3kl
+	AGq9qV0oRB9xegnfVT4eimZDkbW+tqG0z3C0lsbrze79XqFg0MUUUbNSGvGJS5j4NMpHw8I=
+X-Gm-Gg: ASbGnctuT9ByY5sxhXkqMs3fAXtI1rw+L+TcLD9ARsm4baiUQXW5OoKSAvF81knpOeM
+	K9Lo5ZuB9h9awiMR9VFlnJkSV5ql68wG0/URgXicVSfEL1Wn3fKeX1N19QwL/BNPgWh3zPtnX0x
+	Mj8CwxRntK5zHuamxduXbVIrJeoaIxdrex4BIupauOqeB+p9NHRyv4uOVbNzr3u1s4snDTVusOl
+	AdlylNx7SgCHF7NwxPs/zCH290hP7rhTqiiwiAIsY1ns7fgmHVt+bG3pswf1TPA/+TzfztGO9er
+	h45MUs4Pw5vyNd7gDso3LqKyVjEMAn9tyjavU24flJhCxBsDDQJ1SaYu9MU77gAUVrB6bJ3XaVA
+	VVFZggGx2Bhgc9dMQfRl3isSMrLuAOUnK9AsnpSE=
+X-Google-Smtp-Source: AGHT+IF4oM7SLruPY53gPR20B/yTto/vDJwxwk8SIxnGPvVl634pVWYjl4GCMAz4KqHHBfdvnZx9ng==
+X-Received: by 2002:a05:6a21:32a0:b0:240:1a3a:d7ec with SMTP id adf61e73a8af0-2405501258fmr18221624637.4.1754884046009;
+        Sun, 10 Aug 2025 20:47:26 -0700 (PDT)
+Received: from kerneldocs.. ([117.231.194.180])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bdf61d092sm22706164b3a.116.2025.08.10.20.47.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Aug 2025 16:53:53 -0700 (PDT)
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+        Sun, 10 Aug 2025 20:47:25 -0700 (PDT)
+From: Nikil <snikilpaul@gmail.com>
 To: corbet@lwn.net
-Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
-	dhowells@redhat.com,
-	brauner@kernel.org,
-	max.kellermann@ionos.com,
-	skhan@linuxfoundation.org,
+Cc: skhan@linuxfoundation.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] docs: folio_queue: Fix minor typo in folio_queue page
-Date: Mon, 11 Aug 2025 05:23:44 +0530
-Message-ID: <20250810235346.4153-1-krishnagopi487@gmail.com>
+	linux-kernel-mentees@lists.linux.dev,
+	Nikil <snikilpaul@gmail.com>
+Subject: [PATCH] docs: timers: Update dead OLS link in timekeeping docs
+Date: Mon, 11 Aug 2025 03:47:17 +0000
+Message-ID: <20250811034717.6100-1-snikilpaul@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -78,26 +74,23 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Specifically, fix typo 'hese'-> 'these'
-
-Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
 ---
- Documentation/core-api/folio_queue.rst | 2 +-
+ Documentation/timers/highres.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/core-api/folio_queue.rst b/Documentation/core-api/folio_queue.rst
-index 83cfbc157e49..b7628896d2b6 100644
---- a/Documentation/core-api/folio_queue.rst
-+++ b/Documentation/core-api/folio_queue.rst
-@@ -44,7 +44,7 @@ Each segment in the list also stores:
-  * the size of each folio and
-  * three 1-bit marks per folio,
+diff --git a/Documentation/timers/highres.rst b/Documentation/timers/highres.rst
+index bde5eb7e5c9e..24dcc32f8dcc 100644
+--- a/Documentation/timers/highres.rst
++++ b/Documentation/timers/highres.rst
+@@ -58,7 +58,7 @@ merged into the 2.6.18 kernel.
+ Further information about the Generic Time Of Day framework is available in the
+ OLS 2005 Proceedings Volume 1:
  
--but hese should not be accessed directly as the underlying data structure may
-+but these should not be accessed directly as the underlying data structure may
- change, but rather the access functions outlined below should be used.
+-	http://www.linuxsymposium.org/2005/linuxsymposium_procv1.pdf
++	https://www.kernel.org/doc/ols/2005/ols2005v1-pages-227-240.pdf
  
- The facility can be made accessible by::
+ The paper "We Are Not Getting Any Younger: A New Approach to Time and
+ Timers" was written by J. Stultz, D.V. Hart, & N. Aravamudan.
 -- 
 2.43.0
 
