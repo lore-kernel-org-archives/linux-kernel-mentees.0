@@ -1,78 +1,131 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19341A314B
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 14:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D484D1ADC93
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 16:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754921337; cv=none; b=RYZ456pmjsREwN/wnHV3IVMDOEOW+UTwJXAI2M2wIdd2o2Ifc6sqffBaLPjTroaA5PReDA3hFtsg5eW2OSmgf9vW6hHUTZyjWofpx1siSYOYALI9YY1bVesEHEjRkG3mCVah0qu1ZT6UV/3iDHNEPvOFvKlVx6T3R0y6H8Tu1kE=
+	t=1754930993; cv=none; b=iwSnyZF5juQ2L+yWF4VZimf8v6LqV8bWiaqxsGzO4l0AoS1/xSeAe5AUqCiQCbaTurNinsO9GLun5sPF0mmj/Hk7NW8wxzEw3AshxjKBfLVbv3HL6HrxHZtC18yowx/NKbkDCGCMSgRRwpCy8QUAG6lpYp6YJNFEvEVjUZdIHxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754921337; c=relaxed/simple;
-	bh=qVusmEX7F08TLfFu2Oy22o7zWBWgcHQ3EwY+yru4S3M=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=TWBswDZTqvTsu+Nklcvbw7GCoVL+dkSpbtwFna5LldDT/r7OJ3AiINHu6BOKxNtmDAJxapawZafmg7W6h5cuIEmpzemFAeatytXEmk5hUmY77JMBfHTLJZFVmjgJ8Rj/3O2a+/o6f8MvQ/wDF/HrJ8rTw66TLp4eaDon5JavFl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=N6rO8Nsq; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1754930993; c=relaxed/simple;
+	bh=r3SklTF/J28zldzKGFpkhzr6DqkcSyicNNJtCcisZS4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SsUFDg84mk66cgY5FBm+X+69D+c9ZSDcxEq/iDjSpLf56ngJ7Y024Qs4QaxMzaBMWJEEK8P9T4ReCB9wWUJnaW0h/JUoa34+hmnxPcXfFc4jyAIeybfm8izQ/kfOs8xmW0yva4mr3jY+xsgH1tTg4+GlVESTtjxi9lLT85uKgjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZVLLOP27; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="N6rO8Nsq"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2CAD940AB4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1754921334; bh=XnJOz379ec1OliKGJPfuP/l0AIgxdNSrWBCSdn9emi8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=N6rO8Nsqzr/Ey/UQzkerWuMK/PgB397iw/73xnbySEqxRfa0dxQvqUYxKfAMF4Y8y
-	 2/0I2qthr+oZJGNoDMRnnpKFEkq0AlszB3QI/YlOyEZ0MTyQ//RMPuhJcBnD0xy41C
-	 zrdRfezx+BaPZpFWdE0zGyizEdmanD5naYrKMxj34HrEyG6kp4z5WHhr17RyFS8g0r
-	 c8md3n6gkeAQxM+grhnHEX5GR0/Wb3LMDyNxO+OZRd7HffgXldtcNkVLD7FfCdZ/bH
-	 jVqdPfuAd5wziKD2heFOlBgwWKWeAOx/U8eafJgwgBJLu86b5m3+KMwjW5AG/kL6RP
-	 uQD/37YaLQtIA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2CAD940AB4;
-	Mon, 11 Aug 2025 14:08:54 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Nikil <snikilpaul@gmail.com>
-Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, Nikil <snikilpaul@gmail.com>
-Subject: Re: [PATCH] docs: timers: Update dead OLS link in timekeeping docs
-In-Reply-To: <878qjqgdew.fsf@trenco.lwn.net>
-References: <20250811034717.6100-1-snikilpaul@gmail.com>
- <878qjqgdew.fsf@trenco.lwn.net>
-Date: Mon, 11 Aug 2025 08:08:53 -0600
-Message-ID: <875xeugdca.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZVLLOP27"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-76c18568e5eso5098956b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 09:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754930991; x=1755535791; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kN7nybJBSUg9GTrQwRnc+qxQzY/TYZwbF8aIFzNGiuc=;
+        b=ZVLLOP277utB4LMnQ6PV9vM5KlrwPyxmZq7mhTJoQz7Rtoz/qtdbo0VKbEbr+m3V5M
+         mpPvXqnnKIJGGg41FLjn4g0tH5B64XlGYPQZlQRL4Oo9g7mImqpuMzoQTpYPTq1tJyAD
+         RMDZk1HasqSp8ErtkVj3wDkcyCvKWYmA+toatLIVOVHt3r4q4+LmD1HUNIX8SlA/LKU5
+         4siCN4qZwDH+GIK35YTApJHTOFzxSam1mpIfuQgZe5ljQ8CWAPjy7ohgbDkxm6Kl5uP7
+         0lk1eaUsfDfc3PSOGzkYTmoeWiyY8TXmjGeE52JflA2Xq41zR6WZ70qvdwCoMTbWaPxH
+         GDoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754930991; x=1755535791;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kN7nybJBSUg9GTrQwRnc+qxQzY/TYZwbF8aIFzNGiuc=;
+        b=YC8PHsoDc3Aq/W/XfbIuKeQB+SGfMzzoEqjsGDEz2g8iZdDBTmMvopVkUeeH6bWs0k
+         b7V3SbVvo1FDqI84ZOMU8KOAfFwdZU8fG4jjq5yWeIzMjNsthkp35/i/evcbIQfKYZSv
+         5zvwF/apNE3D4xO0iGzVEK59L4kI3/x+7C5mQ8K+d4gwTNMP30MifYYgP+zMxyAHx4L1
+         QrBvkooWBgJyD0sOP+jILp8zdrAdTyYkNTIn4vv8XP+arIVrSMvbiDAgE8G9DL/wPlv/
+         BUOFTrUsfT1fknBwkFoQ1W1zF5AHzfbu/M/v6mktSmxAyDUd98QLzeCkoHwtgj3xKgir
+         1HLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX9kXGzwhR71FrpRkPz8g23Z0V88Gkt2PUdKlFymLsc1kByPCR2Pb5PwLNBcK4Ay3XC2MiMlXLfKGzgGHYjB7jEPmpVIg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwxpZFddkiLIBsDQk2MdBA7B3HyAR4zeRMFkvKsR/C1CYuL5Yfh
+	7p7OV+/R8nKeVq4jckNhU2a9hGHnTaX8SKe5x4QS64RgBEQU07H5MBZy
+X-Gm-Gg: ASbGncvjmQHfQ4As3UrhE2CtLfHEunEZ/EaCgwVm1C2koJ08ap5TEVhG+CzMn0ac8nL
+	807MBlMLDoKzDLRVO5F+yDxX0nV9p/iR7By+k7wuGmHFrgD628y1tmV0Az20IIUtwq3RiC6RaS3
+	HIubyzArtGkaGzucFg/0rh3ZUt44hhGbnTDFoHvuu2O4Q1NzBGYvYSOXDFBhtFxQBPTUsU8jqvh
+	3aVuxvNzsvISQCu2REuu5wMjciw5d+TLRJjpeunMaJo2eNEcECGM1DU7SuCIteEXXukiy4o4DJE
+	k8nWTVLfYcs6eaJE0+icVdlv7YyPLjxfpPsjKfRlwNcZN+94F8BaaIKo/bn+jg5EoBvP5+79ajF
+	lv2aKefOQjKdHVN99jeNg
+X-Google-Smtp-Source: AGHT+IHX0e/PO4Z3IwmNT2g44cWPgFEvNfHjvzx7OGW61t+9EdTI2FUpffbo9A0LBSYC4/7QS364CA==
+X-Received: by 2002:a05:6a00:2d9d:b0:749:b41:2976 with SMTP id d2e1a72fcca58-76e0de36131mr468710b3a.3.1754930990889;
+        Mon, 11 Aug 2025 09:49:50 -0700 (PDT)
+Received: from localhost ([159.117.70.219])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-76c09adf8efsm18808340b3a.68.2025.08.11.09.49.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Aug 2025 09:49:50 -0700 (PDT)
+From: Nai-Chen Cheng <bleach1827@gmail.com>
+Date: Tue, 12 Aug 2025 00:49:46 +0800
+Subject: [PATCH] cxl/region: use str_enabled_disabled() instead of tenary
+ operator
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250812-cxl-region-string-choices-v1-1-50200b0bc782@gmail.com>
+X-B4-Tracking: v=1; b=H4sIACofmmgC/x2MQQqAMAzAviI9W9DpRP2KeBizbgWZ0ooI4t8dH
+ gNJHlASJoWxeEDoYuU9ZajLAnx0KRDykhlMZWzV1wb9vaFQyBrqKZwC+rizJ8XVOjf0jWnajiD
+ 3h9DK9/+e5vf9AFmqYxRrAAAA
+To: Davidlohr Bueso <dave@stgolabs.net>, 
+ Jonathan Cameron <jonathan.cameron@huawei.com>, 
+ Dave Jiang <dave.jiang@intel.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Dan Williams <dan.j.williams@intel.com>
+Cc: linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kernel-mentees@lists.linux.dev, Nai-Chen Cheng <bleach1827@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754930986; l=1250;
+ i=bleach1827@gmail.com; s=20250730; h=from:subject:message-id;
+ bh=r3SklTF/J28zldzKGFpkhzr6DqkcSyicNNJtCcisZS4=;
+ b=RmrHqhWXztlnPYHIiYy0fLMXBeWj3a9h4BobSSZiAzZsOkanJ5yunaC+jR0Rs1ULm2fOlqXDs
+ lfJwZzUvlM3DobMEhFxNVjW9SL4KwYG+ODfoN2qNQHOsf8LrYsoglF4
+X-Developer-Key: i=bleach1827@gmail.com; a=ed25519;
+ pk=jahFPRplw20Aaim8fIt8SxlFMqkHbJ+s8zYBGbtHH5g=
 
-Jonathan Corbet <corbet@lwn.net> writes:
+Replace tenary operator with str_enabled_disabled() helper to enhance
+code readability and consistency.
 
-> Nikil <snikilpaul@gmail.com> writes:
->
->> ---
->>  Documentation/timers/highres.rst | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/timers/highres.rst b/Documentation/timers/highres.rst
->> index bde5eb7e5c9e..24dcc32f8dcc 100644
->> --- a/Documentation/timers/highres.rst
->> +++ b/Documentation/timers/highres.rst
->> @@ -58,7 +58,7 @@ merged into the 2.6.18 kernel.
->>  Further information about the Generic Time Of Day framework is available in the
->>  OLS 2005 Proceedings Volume 1:
->>  
->> -	http://www.linuxsymposium.org/2005/linuxsymposium_procv1.pdf
->> +	https://www.kernel.org/doc/ols/2005/ols2005v1-pages-227-240.pdf
->>  
->
-> This is a worthy fix, but please provide a proper changelog and signoff
-> line.
+Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
+---
+ drivers/cxl/core/region.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Ah I see you've done that, thanks; sorry for the noise.
+diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
+index 71cc42d05248..83d58787b5af 100644
+--- a/drivers/cxl/core/region.c
++++ b/drivers/cxl/core/region.c
+@@ -10,6 +10,7 @@
+ #include <linux/sort.h>
+ #include <linux/idr.h>
+ #include <linux/memory-tiers.h>
++#include <linux/string_choices.h>
+ #include <cxlmem.h>
+ #include <cxl.h>
+ #include "core.h"
+@@ -1468,9 +1469,7 @@ static int cxl_port_setup_targets(struct cxl_port *port,
+ 				dev_name(port->uport_dev), dev_name(&port->dev),
+ 				__func__, cxld->interleave_ways,
+ 				cxld->interleave_granularity,
+-				(cxld->flags & CXL_DECODER_F_ENABLE) ?
+-					"enabled" :
+-					"disabled",
++				str_enabled_disabled(cxld->flags & CXL_DECODER_F_ENABLE),
+ 				cxld->hpa_range.start, cxld->hpa_range.end);
+ 			return -ENXIO;
+ 		}
 
-jon
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250812-cxl-region-string-choices-f5aa9832346e
+
+Best regards,
+-- 
+Nai-Chen Cheng <bleach1827@gmail.com>
+
