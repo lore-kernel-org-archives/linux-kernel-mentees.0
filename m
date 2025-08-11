@@ -1,232 +1,95 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 047174A21
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 09:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA102D8372
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 12:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754906359; cv=none; b=k4+C8fNqPit+0Lu666CdJ7H230Dt2S8laXi2rBRFL6GV9viauAUs/6TCnFxp7MgG3NSmUx2Rmgih1/uUobpsh6rWEuZxLuj4BiAV6FX/eUcVQaebcPfs+kpXKMG3skE/gBcUP40Dvs0ntNw5vX7Neylts86IULOZGtP1KbAV/o4=
+	t=1754915935; cv=none; b=IVlcB8svXsYamajkcb3kiyB4OeIf5dWDX9iSTquAk9yui6RaWfT8byKelhtkU4q6mJ7UgS+sAOlvpArjSYzXwV/S4GvBSRwBvRhR+7J+GIeZ0M4IjOaVcr7NNjelz9Ih6ZFMGbF0DAGGOZEm4sZ8AktGHPzfVa1Y6qAxhatew7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754906359; c=relaxed/simple;
-	bh=pU+oB7FLaONjgYsAfC74F13d4yG9Gxmvv+MRQWAdwS4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=haGS68voC4T8JTcz9h/GrSxjIZddpTSXRjyJKdLlmkEwO9c93yVnz5vk0FjwhvdwQQMIAaHNqjfYK1MdGxkhgSzEFXPx1nhv8xcl7EhG4MfBEf/w56lDWlE3wYkmQI2xAfCUJO/BZUtcFGD4smCXwidJY2baFrZmxiae98kEW6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2718C1D13
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 02:59:08 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0E2143F738
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 02:59:15 -0700 (PDT)
-Date: Mon, 11 Aug 2025 10:59:06 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Rahul Kumar <rk0006818@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-Subject: Re: [PATCH] drm/komeda: Convert logging in komeda_crtc.c to drm_*
- with drm_device parameter
-Message-ID: <aJm-6pbrllD56Cx8@e110455-lin.cambridge.arm.com>
-References: <20250811054459.15851-1-rk0006818@gmail.com>
+	s=arc-20240116; t=1754915935; c=relaxed/simple;
+	bh=yVT7zIEM8L0Ayto9GaQ35FMCs7tJuffENXDUPRt+cWg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PWbaR3IobjXv9R6wEOOOYrK2qniTJQa4O3gv12FDmpq2xjJMHyYMYbmXplOquY68z5CK+5HQIp8Chtr42JnZ1L3aL3KBWr/PuAU/+S6/vet6WZh9EmKT3UTI0mpUe9pWOEBg3O/LiMPtXf+cxCGemD6/fQwXWSMVTs+wyxSS7Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EIgbpveI; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EIgbpveI"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-321a2faf29dso799119a91.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 11 Aug 2025 05:38:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754915934; x=1755520734; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N/o0z3DaV7VAvUAExqBKbFBwFPtOI2swPV6d6/RKxhM=;
+        b=EIgbpveIIGsdut5CKI+zNngjxckrpmKnW1PFzWKCt9dYTwAUfKrnl0cG2S5x7rrpdf
+         btzVemyvnEo+YTeq/nHdAhULKfEQNkgMxr07Bhiy1ABFzjdhjEWUHdg7iyTQF95byn7B
+         bJp3r966ehQJjNSH14yiMPS3ZDP7clKJoNN4/aGir8sF/pvzxPE3EzOPLvnJhserCWs0
+         DMLJOBG1QFnuBbg6sbWY5BlFzn61ho0ia/SeT6c0AbXvENI8pmxY3YtcWEyGQPl7S/3t
+         kNMRgu1654ClOZMOOfzzekF9Fj2maWUPAdGVluT3pcxsa8GwYvWCShCRgyh7dq9gRohS
+         Wfrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754915934; x=1755520734;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N/o0z3DaV7VAvUAExqBKbFBwFPtOI2swPV6d6/RKxhM=;
+        b=FAPWRX4otZlWWIQgrHfv0O8oHsKLVoY1lVYNGsEM5HwfBw8WjbrUBBy5hHVpL3/9R8
+         lSOtGFDfLmiRr40iCpsVZ4pB2XU5uzf8265bFxsfuQ2kytvyl7lLShx4RrE5AokfPjDi
+         6O90YfFyDtLeg02cNCW30zZIrtaE5AMAuPd4+f2dtSANszFizf7Vkevb/D0tIfvcifeB
+         FG2uoPxyCDFCsrjvIbE0m3OG4i0EKfHZFKUduj8Cxo0HbqUwFKzqE+xbAOdmNt5EGicO
+         9FLVuUOHUnSOrqJQqt291XhWuVFj8uIQCm1XD3rfpVRxOFwgm7dj1u/LjW4yJLyMyT82
+         SniQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWHmfbUIhcoYt6cp+soKnT367TB0fKePAM2fXzwuuVyItn2YgOCo+hNcSl6JHwNhHH4LMb+H0hrMMhtRkW3VHlF/dfyVg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDDZhtQF/kA9j/S1hCbph1wJh0RbCao92h10+qJjYhYThD39+1
+	zIVzpcXGZmHFpF8dd/HScBnh6M2xBlDR27B+OK0YEnLSFBsxJOUDNvs=
+X-Gm-Gg: ASbGncs63u/Oz4nQEwhNi1DiYJU8+Ikyl7ubKBmPPWXvNKdYvjPXAYFomdv8EToEHYj
+	7ueypszaKawOSRAzb/mId2WgpuLc+ZxL97h9OIFgvM1Ukn6ev/yIMLGoOyEiQTYHt+biE+Y4sAY
+	2hyvEnkXvYtPZCXUFKdLPP54CgPlkGJOkfy3N3TUjKXc0K+RnSadgdZZOmr87XY1JJ8TM+FdQhD
+	rwlw4jXDBHki7LoXD92S2or3xCAL26jSicjcQfACehRQQs1BgAQKqfqg+dCQz2FqE4uW9VqJPiE
+	YGTcYNC1/RCpCf0SscMQ5xYQs6bIPbQNXlnyI45UJBkdkMDyb4Fsrt9i6gTX7Vbz+V7otvxlaiy
+	bSiXzwKGThyPVVHNvtv/azuP9AQuY5gBpnm5cWfiW
+X-Google-Smtp-Source: AGHT+IHf7OTgeX8W2U5Ar48gT005QTx5frqtP1Vp31xYrf3Gih3brf/ukJ5kgvVzbR5OhuRlYsgRAw==
+X-Received: by 2002:a17:90b:4f4b:b0:312:f0d0:bb0 with SMTP id 98e67ed59e1d1-32183a04a25mr18566994a91.12.1754915933256;
+        Mon, 11 Aug 2025 05:38:53 -0700 (PDT)
+Received: from kerneldocs.. ([157.51.80.105])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3216128ac08sm14731699a91.30.2025.08.11.05.38.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Aug 2025 05:38:52 -0700 (PDT)
+From: Nikil Paul S <snikilpaul@gmail.com>
+To: corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	snikilpaul@gmail.com
+Subject: [PATCH v2 0/2] docs: fix dead OLS links in timers and RCU docs
+Date: Mon, 11 Aug 2025 12:38:35 +0000
+Message-ID: <20250811123837.4378-1-snikilpaul@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250811054459.15851-1-rk0006818@gmail.com>
 
-Hi,
+This series updates outdated Ottawa Linux Symposium (OLS) links in the
+kernel documentation. The old URLs are no longer accessible, so they are
+replaced with working references to the preserved content.
 
-On Mon, Aug 11, 2025 at 11:14:59AM +0530, Rahul Kumar wrote:
-> Replace all dev_err(), dev_warn(), dev_info() and DRM_ERROR/WARN/INFO()
-> calls in drivers/gpu/drm/arm/display/komeda/komeda_crtc.c with the
-> corresponding drm_err(), drm_warn(), and drm_info() helpers.
-> 
-> The new drm_*() logging functions take a struct drm_device * as the
-> first argument. This allows the DRM core to prefix log messages with
-> the specific DRM device name and instance, which is essential for
-> distinguishing logs when multiple GPUs or display controllers are present.
-> 
-> This change aligns komeda with the DRM TODO item: "Convert logging to
-> drm_* functions with drm_device parameter".
-> 
-> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
-> ---
->  .../gpu/drm/arm/display/komeda/komeda_crtc.c  | 37 +++++++++++--------
->  1 file changed, 21 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> index 2ad33559a33a..b50ce3653ff6 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> @@ -111,6 +111,7 @@ komeda_crtc_atomic_check(struct drm_crtc *crtc,
->  static int
->  komeda_crtc_prepare(struct komeda_crtc *kcrtc)
->  {
-> +	struct drm_device *drm = kcrtc->base.dev;
->  	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
->  	struct komeda_pipeline *master = kcrtc->master;
->  	struct komeda_crtc_state *kcrtc_st = to_kcrtc_st(kcrtc->base.state);
-> @@ -128,8 +129,8 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
->  
->  	err = mdev->funcs->change_opmode(mdev, new_mode);
->  	if (err) {
-> -		DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
-> -			  mdev->dpmode, new_mode);
-> +		drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
-> +			mdev->dpmode, new_mode);
->  		goto unlock;
->  	}
->  
-> @@ -142,18 +143,18 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
->  	if (new_mode != KOMEDA_MODE_DUAL_DISP) {
->  		err = clk_set_rate(mdev->aclk, komeda_crtc_get_aclk(kcrtc_st));
->  		if (err)
-> -			DRM_ERROR("failed to set aclk.\n");
-> +			drm_err(drm, "failed to set aclk.\n");
->  		err = clk_prepare_enable(mdev->aclk);
->  		if (err)
-> -			DRM_ERROR("failed to enable aclk.\n");
-> +			drm_err(drm, "failed to enable aclk.\n");
->  	}
->  
->  	err = clk_set_rate(master->pxlclk, mode->crtc_clock * 1000);
->  	if (err)
-> -		DRM_ERROR("failed to set pxlclk for pipe%d\n", master->id);
-> +		drm_err(drm, "failed to set pxlclk for pipe%d\n", master->id);
->  	err = clk_prepare_enable(master->pxlclk);
->  	if (err)
-> -		DRM_ERROR("failed to enable pxl clk for pipe%d.\n", master->id);
-> +		drm_err(drm, "failed to enable pxl clk for pipe%d.\n", master->id);
->  
->  unlock:
->  	mutex_unlock(&mdev->lock);
-> @@ -164,6 +165,7 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
->  static int
->  komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
->  {
-> +	struct drm_device *drm = kcrtc->base.dev;
->  	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
->  	struct komeda_pipeline *master = kcrtc->master;
->  	u32 new_mode;
-> @@ -180,8 +182,8 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
->  
->  	err = mdev->funcs->change_opmode(mdev, new_mode);
->  	if (err) {
-> -		DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
-> -			  mdev->dpmode, new_mode);
-> +		drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
-> +			mdev->dpmode, new_mode);
->  		goto unlock;
->  	}
->  
-> @@ -200,6 +202,7 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
->  void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
->  			      struct komeda_events *evts)
->  {
-> +	struct drm_device *drm = kcrtc->base.dev;
->  	struct drm_crtc *crtc = &kcrtc->base;
->  	u32 events = evts->pipes[kcrtc->master->id];
->  
-> @@ -212,7 +215,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
->  		if (wb_conn)
->  			drm_writeback_signal_completion(&wb_conn->base, 0);
->  		else
-> -			DRM_WARN("CRTC[%d]: EOW happen but no wb_connector.\n",
-> +			drm_warn(drm, "CRTC[%d]: EOW happen but no wb_connector.\n",
->  				 drm_crtc_index(&kcrtc->base));
->  	}
->  	/* will handle it together with the write back support */
-> @@ -236,7 +239,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
->  			crtc->state->event = NULL;
->  			drm_crtc_send_vblank_event(crtc, event);
->  		} else {
-> -			DRM_WARN("CRTC[%d]: FLIP happened but no pending commit.\n",
-> +			drm_warn(drm, "CRTC[%d]: FLIP happened but no pending commit.\n",
->  				 drm_crtc_index(&kcrtc->base));
->  		}
->  		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
-> @@ -309,7 +312,7 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
->  
->  	/* wait the flip take affect.*/
->  	if (wait_for_completion_timeout(flip_done, HZ) == 0) {
-> -		DRM_ERROR("wait pipe%d flip done timeout\n", kcrtc->master->id);
-> +		drm_err(drm, "wait pipe%d flip done timeout\n", kcrtc->master->id);
->  		if (!input_flip_done) {
->  			unsigned long flags;
->  
-> @@ -562,6 +565,7 @@ static const struct drm_crtc_funcs komeda_crtc_funcs = {
->  int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
->  			   struct komeda_dev *mdev)
->  {
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_crtc *crtc;
->  	struct komeda_pipeline *master;
->  	char str[16];
-> @@ -581,7 +585,7 @@ int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
->  		else
->  			sprintf(str, "None");
->  
-> -		DRM_INFO("CRTC-%d: master(pipe-%d) slave(%s).\n",
-> +		drm_info(drm, "CRTC-%d: master(pipe-%d) slave(%s).\n",
->  			 kms->n_crtcs, master->id, str);
->  
->  		kms->n_crtcs++;
-> @@ -609,10 +613,11 @@ get_crtc_primary(struct komeda_kms_dev *kms, struct komeda_crtc *crtc)
->  	return NULL;
->  }
->  
-> -static int komeda_attach_bridge(struct device *dev,
-> -				struct komeda_pipeline *pipe,
-> +static int komeda_attach_bridge(struct komeda_pipeline *pipe,
->  				struct drm_encoder *encoder)
->  {
-> +	struct drm_device *drm = pipe->mdev->drm;
+Changes since v1:
+ - Added missing Signed-off-by lines to both patches
+ - Updated commit message prefixes to follow subsystem conventions
 
-As the kernel build bot has already said, there is no struct drm_device in komeda_dev. Not
-sure what you're getting by trying to remove that parameter though.
+Nikil Paul S (2):
+  docs: timers: Update dead OLS link in timekeeping docs
+  docs: rcu: Update dead OLS link in RTFP.txt
 
-Best regards,
-Liviu
-
-
-> +	struct device *dev = drm->dev;
->  	struct drm_bridge *bridge;
->  	int err;
->  
-> @@ -624,7 +629,7 @@ static int komeda_attach_bridge(struct device *dev,
->  
->  	err = drm_bridge_attach(encoder, bridge, NULL, 0);
->  	if (err)
-> -		dev_err(dev, "bridge_attach() failed for pipe: %s\n",
-> +		drm_err(drm, "bridge_attach() failed for pipe: %s\n",
->  			of_node_full_name(pipe->of_node));
->  
->  	return err;
-> @@ -658,7 +663,7 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
->  		return err;
->  
->  	if (pipe->of_output_links[0]) {
-> -		err = komeda_attach_bridge(base->dev, pipe, encoder);
-> +		err = komeda_attach_bridge(pipe, encoder);
->  		if (err)
->  			return err;
->  	}
-> -- 
-> 2.43.0
-> 
+ Documentation/RCU/RTFP.txt       | 2 +-
+ Documentation/timers/highres.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+2.43.0
+
