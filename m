@@ -1,155 +1,95 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981453FE7
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 12 Aug 2025 19:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732ED285043
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Aug 2025 19:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755025297; cv=none; b=OYN6vRNJclyfRpDrMs8JZhDOrG2J3UI6Vcj9uSiRzysFEwuxoiVt1LqptIwHFkjNvHO0NWdIrQz59RB3tF4Y9YBXI5NaQNO5Jv9eKhrzmvtadPkc4z6VMEjZMXgqkot8WyJ7AfokG1N/Q3oAPcLsYnMptBb9gidp2H1ZqcqL4QU=
+	t=1755025447; cv=none; b=HYf63Qs4TmdAQKwzti/hVCLmXUXWGVxy5z0tfv0wPULUUvNrrMgRifPNrJWb4QgGjPhhSEhbyQt2b29q+7vMzdvJ4aqVqhix/Vnkl+kR9DMu8JXfBJFvSqZM2xse0aiI/iKNp8Tn+KNKYwRpyYnqpddfhXtBdvI/Usf5LLPhvRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755025297; c=relaxed/simple;
-	bh=M/p3pYZE7NgDPFNWKrq7He8MGAFpae6CLjM2PEmsp+g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=RaQS9RPDX59Sxfs0TGKdenXMK3raXjrEa7iLQk38KvXz9rb3Jl143b96l6/U2IJ+6CF/H40tZfPUJXTwfABnPuDppUHDbtG/BHr7/omLfouqbLWpTYHtAyKGFg/g7Rbd8JO4BZbdh8ERzCwQCARfeL5Lh9MmHz7NAKfeU3klxtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TLVqBTko; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755025447; c=relaxed/simple;
+	bh=9Wnyfu+XaOOZnlufreHhCk7JiqaiO+DPUVXZqATdgmw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VonUiERS34S/Ex5nheHrqjyqlZUDS4ccotxLAVJwm97kWk6zalCkJ8EUYg2G+Y4qjD+4/k+ZnKp8sv8kNYr/y8bq6UumxAui6GW83VybV7tborgLZiSDKuIwyc8B5/hjQfNEQFlDHcw6IPdF+CcXXAYXNUGrIvOXAJtUb5DDXy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1NVraV+b; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TLVqBTko"
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e917b687974so953010276.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 12 Aug 2025 12:01:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755025294; x=1755630094; darn=lists.linux.dev;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RJdPfv4oJrrKa85uLhLU8NneF6sIzQNQGxQtBwW81ws=;
-        b=TLVqBTkor/tKrVdArIDPyc/zG7V6aPeBToOEv1LsXDN3czjSG9ek6hdag7CiGQVFh0
-         BsOKZ77Of/9lL6fuSga7iPSNVHuEyuo45D/YDHdwChC75cXL/BWxASRllfUSoudk8x32
-         r20sC3wzc70jiKBuGvyxGs0dX48WwsYRdwImxdjcg4JhNylqgcuh9AiJCCWyRNKoNwn1
-         frVVLO+Ozvr2kpgzM3v0IBuhq+IOEc5H2NhANZHUAFVK6gy+RBfMPUYSMlQ9vmH0CK4c
-         ueCXGD8eL2ok/zlHs1Qx76gHTRrUY2mqcPzQtWpU4M5l3zkaDneMc7TWdM6r+bQMny/O
-         Sq/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755025294; x=1755630094;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RJdPfv4oJrrKa85uLhLU8NneF6sIzQNQGxQtBwW81ws=;
-        b=iVubBwLUVLNHcp/J51B0+/PeXiNrLvjx99zA3tpxSDUQn90ir1YgDMj7g/XmRywdo6
-         Z07VKkxnykAMTfUmqHhT0Iu9C5PH3IWmSqGEoo2yO25etNC59fOzLyRgbrF35Q5Czv6J
-         2FDBhGNFBKdd7SvRIvoMEW7J5Sv7vZRdCEZ/HQT1lkQBRnfp14+/NuSH6+O9JG29Jlqq
-         RYrQzeO8OvQuvPlSwOOV13Y66XF2g4OlgdhfW93hhnh1CuqKhpw3vTeG3vlAbA330ELs
-         dRvr0O6U/H2EWjzKuvlOZ5rI6jfhNuJbapxyjdmcSqQEJrMTFiVagXyb3XlJF3kVLBfi
-         +rlg==
-X-Forwarded-Encrypted: i=1; AJvYcCX7YrtGLUY+uAP+rvnNH1w2RSW0yMS5FT4+HFhEaWAVbZG5GBYTg86Gvu1Cz8xsN3UbtK5KT/X5WJK761VrFDFmhY1Bxg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSzEVSUmJqnoI7QeqVJDVrKsG/QOhVx9Cgtqa5ouGqUwu53+/U
-	rwoESoEW6m93z/2zhMrLACt1RnpcaTUT7VVYFAmWrXwpF97AFtAayHGDQn4R7BE0TPz9UWXHj5A
-	LHwZWmr4PNGZNCc2Bec3ozFNMgXXQOas=
-X-Gm-Gg: ASbGncuEe1zBHxxp8aKgYkUvB3X3T241vRYFYN7vYofNyKUjRGgSNa0l05k3kRJ7S64
-	OowoUFa/4Ja5Oy8c/70BNSzwKouer3D3ulveZWPyvHdVU50W/Zsgqp6F76cms2uZrekOOOdWAb7
-	bNiG2S6FqCcKmH9Jn5YsGEf7657IlDGJToKFOasu1iG3m3vr+p62eFkUTYyx0YSxCAzHr+kL01l
-	kXVA8qvaxK5qgi4gQnerI2h0w6DXkiU4N1IS+4X8A==
-X-Google-Smtp-Source: AGHT+IGPPLINepNlKnFcr8z4SjIsSnt/rMexZuZnT12hj0cF/2iB0grJ9swlvm70eT5xVdjIhOfhJZt1My2vevHknTI=
-X-Received: by 2002:a05:690c:f0f:b0:71b:9482:d53d with SMTP id
- 00721157ae682-71d4e583afcmr3655797b3.35.1755025294325; Tue, 12 Aug 2025
- 12:01:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1NVraV+b"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id D980C6068D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Aug 2025 19:04:05 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.499
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id SceOYE_-h1t3 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 12 Aug 2025 19:04:04 +0000 (UTC)
+X-Greylist: delayed 4495 seconds by postgrey-1.37 at util1.osuosl.org; Tue, 12 Aug 2025 19:04:01 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org B4333605E8
+Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=infradead.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B4333605E8
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1NVraV+b
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2607:7c80:54:3::133; helo=bombadil.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN> 
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B4333605E8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Aug 2025 19:04:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=lrPIpyIK37IliP12r4RxpJdSz6iDcvTig/imS+n1pZs=; b=1NVraV+bxzQ/9gCkBMs1wm/QQD
+	qHdTa3Y/z2Y7OjG8BwS50zH6FmrAreVNBae/1EbYw7vONudBNG2B0KP//0kqnlH5oBPDDmYpgEbWb
+	jZCnVgV2ZeEn4X6B9RWHNSaQGN6dBn521augPEKGhGKiN5YibFQNo3Bfu5a7GKIt0rOHhFlWEoe8+
+	cMnzzh3HFsz59ek7TmXb9cCE/XGfhXVJrXaRSlvGraICX769vZ4ciI3YYKgNxdN884lkAjHTzLKzU
+	13p5PuvnttDmqxouIIf7yPs9NdUnOaeEUXqnRszz34I7esSGyPCwb/mSbXEu+lmnKd8pCmQ/SZFyx
+	SgKhDWew==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ult7M-0000000BeBB-0ekg;
+	Tue, 12 Aug 2025 17:49:00 +0000
+Message-ID: <36b8eed4-2148-4d73-af9f-5614060f9f54@infradead.org>
+Date: Tue, 12 Aug 2025 10:48:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250810180339.228231-1-chandramohan.explore@gmail.com> <aJp-qm55O_ka7vSv@MacBook-Air.local>
-In-Reply-To: <aJp-qm55O_ka7vSv@MacBook-Air.local>
-From: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
-Date: Wed, 13 Aug 2025 00:31:22 +0530
-X-Gm-Features: Ac12FXxxR-kay0lQFHL4WJVsvGyvbGh-9Np6TBGE-rCLMw2RbPNtLGXCmw5VIeo
-Message-ID: <CADBJw5aqQCprGJvG2T4v2_O6BK2dh+2cZRLbyryyktucsqHtVg@mail.gmail.com>
-Subject: Re: [PATCH net] Octeontx2-af: Fix negative array index read warning
-To: Joe Damato <joe@dama.to>, Chandra Mohan Sundar <chandramohan.explore@gmail.com>, sgoutham@marvell.com, 
-	lcherian@marvell.com, gakula@marvell.com, jerinj@marvell.com, 
-	hkelam@marvell.com, sbhatta@marvell.com, andrew+netdev@lunn.ch, 
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
-	shuah@kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: fix spelling mistakes across multiple directories
+To: Soham Metha <sohammetha01@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ skhan@linuxfoundation.org, jaegeuk@kernel.org, chao@kernel.org,
+ dlemoal@kernel.org, hch@lst.de, tj@kernel.org, hannes@cmpxchg.org,
+ mkoutny@suse.com, agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com,
+ kuurtb@gmail.com, sj@kernel.org, corbet@lwn.net, chenhuacai@kernel.org,
+ kernel@xen0n.name
+References: <20250812173903.43333-1-sohammetha01@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250812173903.43333-1-sohammetha01@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 11 Aug 2025 16:37:14 -0700, Joe Damato wrote:
->A couple pieces of feedback for you:
+Hi,
 
->1. Since this is a fixes it needs a Fixes tag and a commit SHA that it is =
-fixing.
-
-Thank you very much for your feedback.I will add the Fixes tag as suggested=
-.
-
->2. cgx_get_cgxid is called in 3 places, so your patch would probably need =
-to
->   be expanded to fix all uses?
-
-Thanks for the suggestion.
-I can add a similar check in cgxlmac_to_pf() to check if cgx_id is
-negative and return an error.
-
->Overall though, did you somehow trigger this issue?
->
->It seems like all cases where cgx_get_cgxid is used it would be extremely
->difficult (maybe impossible?) for cgxd to be NULL and for it to return a
->negative value.
-
-I could not reproduce a scenario where cgx_get_cgxid returns a
-negative value. However, this issue was reported by the Black Duck
-Coverity scan.
-The fix was made to cover all possible return paths.
-
-Please advise if you think there=E2=80=99s a better way to address it.
-
-Thanks,
-Chandra Mohan Sundar
+The changes all LGTM, although maintainers will probably want the patch split
+up by subsystem.
 
 
-On Tue, Aug 12, 2025 at 5:07=E2=80=AFAM Joe Damato <joe@dama.to> wrote:
->
-> On Sun, Aug 10, 2025 at 11:33:27PM +0530, Chandra Mohan Sundar wrote:
-> > The cgx_get_cgxid function may return a negative value.
-> > Using this value directly as an array index triggers Coverity warnings.
-> >
-> > Validate the returned value and handle the case gracefully.
-> >
-> > Signed-off-by: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
-> > ---
-> >  drivers/net/ethernet/marvell/octeontx2/af/rvu_debugfs.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/net/ethernet/marvell/octeontx2/af/rvu_debugfs.c b/=
-drivers/net/ethernet/marvell/octeontx2/af/rvu_debugfs.c
-> > index 8375f18c8e07..b14de93a2481 100644
-> > --- a/drivers/net/ethernet/marvell/octeontx2/af/rvu_debugfs.c
-> > +++ b/drivers/net/ethernet/marvell/octeontx2/af/rvu_debugfs.c
-> > @@ -3005,6 +3005,8 @@ static int cgx_print_fwdata(struct seq_file *s, i=
-nt lmac_id)
-> >               return -EAGAIN;
-> >
-> >       cgx_id =3D cgx_get_cgxid(cgxd);
-> > +     if (cgx_id < 0)
-> > +             return -EINVAL;
-> >
-> >       if (rvu->hw->lmac_per_cgx =3D=3D CGX_LMACS_USX)
-> >               fwdata =3D  &rvu->fwdata->cgx_fw_data_usx[cgx_id][lmac_id=
-];
->
-> A couple pieces of feedback for you:
->
-> 1. Since this is a fixes it needs a Fixes tag and a commit SHA that it is=
- fixing.
-> 2. cgx_get_cgxid is called in 3 places, so your patch would probably need=
- to
->    be expanded to fix all uses?
->
-> Overall though, did you somehow trigger this issue?
->
-> It seems like all cases where cgx_get_cgxid is used it would be extremely
-> difficult (maybe impossible?) for cgxd to be NULL and for it to return a
-> negative value.
+On 8/12/25 10:39 AM, Soham Metha wrote:
+
+> -Availablity
+> +Availability
+>  ~~~~~~~~~~~
+>  
+
+Whenever a heading is made longer, the underline for it must also be
+increased in length; otherwise it causes a build warning.
+
+thanks.
+-- 
+~Randy
+
