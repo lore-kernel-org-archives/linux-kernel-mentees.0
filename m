@@ -1,52 +1,36 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7A32FD1D6;
-	Tue, 12 Aug 2025 17:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6441D23D7E6
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 12 Aug 2025 18:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755020593; cv=none; b=S3bCJ+zrwW/48zTI36RTowBkotz1aO6X2Dpnf2ecPMnLENqvHHhXTHwJ1BI1Y4ziFZLsAilTK/QKLjiY6KpnYVLYj0rszTDFdbwQYUDH6pTpRSNEHjzerwqXxNEK9JZkUcxk6+7/7dtlU3GvHNxNCJVF1br6Lv/hUJNO0FEPUkg=
+	t=1755021798; cv=none; b=gl4bEWXo1r1RubNm5EUZoLwaQONFv7sKVNuzp0Ycjede8LRNg91fL8SwHEXSyiRuX77LKcyf+87b0T4/ZP1f3l/ueTcLMZqWiJ9qu3rWTeqQumzMwRHneA3pF7J7K11JcTKTYoeFRF/1xgw8+BBeuZwNpIGyritwMCEQGWKwQHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755020593; c=relaxed/simple;
-	bh=+9VxjHXMYKIJPxkzz610EA5fxF2cM2YNhxrdq0v1LLA=;
+	s=arc-20240116; t=1755021798; c=relaxed/simple;
+	bh=uoE5dWMT1rbqa37q/SivFeXKyXJu/a/1HAMw6FnM4ro=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zl4UJ1fTQtuVhjsGJVOktYbt3Onv+4/+UBBlfRu39rQTSEPA1oHj2t926XcyT5rBVT4VfUFk5n4TynOQF0YRUKvb+lvmfkjiP+vvcPbErJrSSgBiGF1U5/9S834riwimy/kedu2FnJjGnHtUxb6Xp75YRLN3iCaRE9l4kJncNjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BT40vCBP; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BT40vCBP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 729D2C4CEF0;
-	Tue, 12 Aug 2025 17:43:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755020593;
-	bh=+9VxjHXMYKIJPxkzz610EA5fxF2cM2YNhxrdq0v1LLA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BT40vCBPhEZY7aGVH77x4TqYZngNxzoIilVLHAoRNyaEeFvYIPx00lsibqF74FUzX
-	 0HXQZ8h9yhvTMxBC36KKxk0aZITS+0vIcQijFzusKTSDxqNXuciqMsLJPylEAJG6tH
-	 PEnQgU/mXa7fo2SLHMjCmNTRQZETy0cXJDOQMthF2ZOUT/W9SJoItVDIZF+qrZKMSD
-	 woKt5HW0IIAU9GXKS0iukSvptuVtkmtEILY+5NJsp3C998D0fst06x3dtuEGyk/bd8
-	 HTagI8z21WfG4wb9PlX0xO9o9c+CE6dJn5CLIQegxh0XIpiRn+sPfz5n/nXQ5V47aY
-	 gectQAuMDXDPQ==
-Date: Tue, 12 Aug 2025 10:43:11 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, EDAC Mailing List
- <linux-edac@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, "David S.
- Miller" <davem@davemloft.net>, Ignacio Encinas Rubio
- <ignacio@iencinas.com>, Marco Elver <elver@google.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Donald Hunter <donald.hunter@gmail.com>, Eric
- Dumazet <edumazet@google.com>, Jan Stancek <jstancek@redhat.com>, Paolo
- Abeni <pabeni@redhat.com>, Ruben Wauters <rubenru09@aol.com>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
- stern@rowland.harvard.edu, Breno Leitao <leitao@debian.org>, Randy Dunlap
- <rdunlap@infradead.org>, Simon Horman <horms@kernel.org>
-Subject: Re: [GIT PULL for v6.17-rc2] add a generic yaml parser integrated
- with Netlink specs generation
-Message-ID: <20250812104311.08fd0695@kernel.org>
-In-Reply-To: <20250812113329.356c93c2@foz.lan>
-References: <20250812113329.356c93c2@foz.lan>
+	 MIME-Version:Content-Type; b=MeXDDCAgWPlo1FkyPc5GDXHK38phKhh7dEtToTeKH/rJFMzqLNFtGrMupIC7L+duFYenijUktUHkPO9MBByaJEI4ok2iIl91ezZR/PHjBFoWrYTqOKZpdxYduOwgqPVLC3bosGjdH509HSqgqKEzltjkZdmat+atrinU5FA1Iic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf11.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id D90E0135974;
+	Tue, 12 Aug 2025 18:03:13 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf11.hostedemail.com (Postfix) with ESMTPA id 05A2A2002F;
+	Tue, 12 Aug 2025 18:03:11 +0000 (UTC)
+Date: Tue, 12 Aug 2025 14:03:57 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Ryan Chung <seokwoo.chung130@gmail.com>
+Cc: mhiramat@kernel.org, mathieu.desnoyer@efficios.com,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] trace/trace_fprobe.c: TODO: handle filter, nofilter or
+ symbol list
+Message-ID: <20250812140357.65d19062@gandalf.local.home>
+In-Reply-To: <20250812162101.5981-1-seokwoo.chung130@gmail.com>
+References: <20250812162101.5981-1-seokwoo.chung130@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -55,10 +39,171 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 05A2A2002F
+X-Stat-Signature: aqcdbrt1erm5365tnao8mx9yhbaosjwf
+X-Rspamd-Server: rspamout02
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18LYCTa3MKLGobOeCISNikzJOsZFzw7P0w=
+X-HE-Tag: 1755021791-302747
+X-HE-Meta: U2FsdGVkX19fo64gy4Zmd7lQ16RmDJ/YSTaXubJq5K4RC4Zl3Fj+PmlGAwrI5d9YWCmiVpt+GNLS0pc5F3/b8ohogMxg8jgLuIrv/pJVuV576eu9E9O/koFqgL1+4CtvQV2Gvd4tmxxTr0RJ/azgWNkR0qW57WvUWVR26/eUEwZ2mOCKFTy/XIDt5BZUvh0QrNiK6aop/q+jP4o72eYA0snS7rWtjH8LMhdwigiMHIH3xvU9VVKCZvLjUZB0RyZibbc6YDwInO1RG1NV2VmbF5iZ8AX7oS9KU6PzJ8RRLZhxMn7z4KH7fhuNhZHffFlcvGVfVmPKejDIcirricTTZKibU4vUpZNep0W+oGL4rZYMap8mUEL9US24BlQQlEstXtm6812xpnU=
 
-On Tue, 12 Aug 2025 11:33:29 +0200 Mauro Carvalho Chehab wrote:
-> The patch content is identical to my v10 submission:
+On Wed, 13 Aug 2025 01:21:01 +0900
+Ryan Chung <seokwoo.chung130@gmail.com> wrote:
+
+> Resolve TODO in `__register_trace_fprobe()`: 
+> parse `tf->symbol` robustly (support `sym!filter` and comma-separated lists), trim tokens, ignore empties, deduplicate symbols, use bulk registration for lists, return `-EEXIST` if already registered, and preserve lockdown/tracepoint deferral semantics.
+
+Hi Ryan,
+
+Please read the Submitting Patches document to have proper format.
+
+ https://docs.kernel.org/process/submitting-patches.html
+
+
+For example, the change long should have a max column of 74 (with the
+exception of cut and paste commands or output)
+
 > 
-> 	https://lore.kernel.org/linux-doc/cover.1753718185.git.mchehab+huawei@kernel.org/
+> Please note that this was my personal interpretation of what TODO
+> required here. Welcoming any feedback. 
+> 
+> Signed-off-by: Ryan Chung <seokwoo.chung130@gmail.com>
+> ---
+>  kernel/trace/trace_fprobe.c | 102 +++++++++++++++++++++++++++++++++++-
+>  1 file changed, 100 insertions(+), 2 deletions(-)
+> 
+> diff --git a/kernel/trace/trace_fprobe.c b/kernel/trace/trace_fprobe.c
+> index b40fa59159ac..37d4260b9012 100644
+> --- a/kernel/trace/trace_fprobe.c
+> +++ b/kernel/trace/trace_fprobe.c
+> @@ -12,6 +12,8 @@
+>  #include <linux/security.h>
+>  #include <linux/tracepoint.h>
+>  #include <linux/uaccess.h>
+> +#include <linux/string.h>
+> +#include <linux/slab.h>
+>  
+>  #include "trace_dynevent.h"
+>  #include "trace_probe.h"
+> @@ -762,8 +764,104 @@ static int __register_trace_fprobe(struct trace_fprobe *tf)
+>  		return __regsiter_tracepoint_fprobe(tf);
+>  	}
+>  
+> -	/* TODO: handle filter, nofilter or symbol list */
+> -	return register_fprobe(&tf->fp, tf->symbol, NULL);
+> +    /* Parse tf->symbol */
+> +    {
 
-Thank you! We'll merge on Thu, FWIW, after we fast forward to Linus.
+Code does not add random blocks.
+
+> +        char *spec, *bang, *p;
+> +        int n = 0, w = 0, j, rc;
+
+Indentation is always 8 byte tabs (not spaces).
+
+> +        char **syms = NULL;
+> +
+> +        spec = kstrdup(tf->symbol, GFP_KERNEL);
+
+Why did you declare spec as "char **" when you use it as "char *"?
+
+> +        if (!spec)
+> +            return -ENOMEM;
+> +
+> +        /* If a '!' exists, treat it as single symbol + filter */
+> +        bang = strchr(spec, '!');
+> +        if (bang) {
+> +            char *sym, *flt;
+> +
+> +            *bang = '\0';
+> +            sym = strim(spec);
+> +            flt = strim(bang + 1);
+> +
+> +            if (!*sym || !*flt) {
+> +                kfree(spec);
+> +                return -EINVAL; /* reject empty symbol/filter */
+> +            }
+> +
+> +            rc = register_fprobe(&tf->fp, sym, flt);
+> +            kfree(spec);
+> +            return rc;
+> +        }
+> +
+> +        /* Comma list (or single symbol without '!') */
+> +        /* First pass: count non-empty tokens */
+
+Strange comments. Did you use AI to help you write this?
+
+-- Steve
+
+> +        p = spec;
+> +        while (p) {
+> +            char *tok = strsep(&p, ",");
+> +            if (tok && *strim(tok))
+> +                n++;
+> +        }
+> +
+> +        if (n == 0){
+> +            kfree(spec);
+> +            return -EINVAL;
+> +        }
+> +
+> +        /* Allocate array for pointers into spec (callee copies/consumes) */
+> +        syms = kcalloc(n, sizeof(*syms), GFP_KERNEL);
+> +        if (!syms) {
+> +            kfree(spec);
+> +            return -ENOMEM;
+> +        }
+> +
+> +        /* Second pass: fill, skipping empties */
+> +        p = spec;
+> +        while (p) {
+> +            char *tok = strsep(&p, ",");
+> +            char *s;
+> +
+> +            if (!tok)
+> +                break;
+> +            s = strim(tok);
+> +            if (!*s)
+> +                continue;
+> +            syms[w++] = s; 
+> +        }
+> +        
+> +        /* Dedup in-place */
+> +        for (i = 0; i < w; i++){
+> +            if (!syms[i])
+> +                continue;
+> +            for (j = i + 1; j < w; j++) {
+> +                if (syms[j] && !strcmp(syms[i], syms[j]))
+> +                    syms[j] = NULL;
+> +            }
+> +        }
+> +
+> +        /* Compact */
+> +        for (i = 0, j = 0; i < w; i++) {
+> +            if (syms[i])
+> +                syms[j++] = syms[i];
+> +        }
+> +        w = j;
+> +
+> +        /* After dedup, ensure we still have at least one symbol */
+> +        if (w == 0){
+> +            kfree(syms);
+> +            kfree(spec);
+> +            return -EINVAL;
+> +        }
+> +
+> +        /* Register list or single symbol, using the existing bulk API */
+> +        if (w == 1)
+> +            rc = register_fprobe(&tf->fp, syms[0], NULL);
+> +        else
+> +            rc = register_fprobe_syms(&tf->fp, (const char **)syms, w);
+> +
+> +        kfree(syms);
+> +        kfree(spec);
+> +        return rc;
+> +    }
+>  }
+>  
+>  /* Internal unregister function - just handle fprobe and flags */
+
