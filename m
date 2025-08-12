@@ -1,95 +1,133 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732ED285043
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Aug 2025 19:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9257F2F8BC3;
+	Tue, 12 Aug 2025 19:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755025447; cv=none; b=HYf63Qs4TmdAQKwzti/hVCLmXUXWGVxy5z0tfv0wPULUUvNrrMgRifPNrJWb4QgGjPhhSEhbyQt2b29q+7vMzdvJ4aqVqhix/Vnkl+kR9DMu8JXfBJFvSqZM2xse0aiI/iKNp8Tn+KNKYwRpyYnqpddfhXtBdvI/Usf5LLPhvRI=
+	t=1755026647; cv=none; b=G9+5V4vNRVBnqzEobmg3Wewz1GCI0azNTBw8vL0J/h9M2C9KEAmecdoi7Yii+fJQpTf0xmZrytRcY+A2t0yltKyAMoMw5lQyC6fd9aW028WoNz899pWqieWzarWe3PprZGwJCZUxHS3cF/FtVFEF3hU+kagMh0fUm1S+yvNetPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755025447; c=relaxed/simple;
-	bh=9Wnyfu+XaOOZnlufreHhCk7JiqaiO+DPUVXZqATdgmw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VonUiERS34S/Ex5nheHrqjyqlZUDS4ccotxLAVJwm97kWk6zalCkJ8EUYg2G+Y4qjD+4/k+ZnKp8sv8kNYr/y8bq6UumxAui6GW83VybV7tborgLZiSDKuIwyc8B5/hjQfNEQFlDHcw6IPdF+CcXXAYXNUGrIvOXAJtUb5DDXy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1NVraV+b; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1755026647; c=relaxed/simple;
+	bh=xJKYOxUWkPZ3nmqmyRsauTD2N7Zyq6ecCwpko7Jpu+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FdWACO5yKKCxoA3Yrk5Au7wd7D3SILyZZB8ZADOz/GTQkSqmMFkBSxfGW/WqPXrG065ow40w2haRV2M+VS/Vo5LuTy+BhnQP5XAUGF8Fabm/sE8JpPOP577mCXsvcjYKQGDbPaOteF8YsmmawXe6tmO4QeO3r8Ps6yI0HV1XifE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sj+eHPKz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1NVraV+b"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D980C6068D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Aug 2025 19:04:05 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.499
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id SceOYE_-h1t3 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Aug 2025 19:04:04 +0000 (UTC)
-X-Greylist: delayed 4495 seconds by postgrey-1.37 at util1.osuosl.org; Tue, 12 Aug 2025 19:04:01 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org B4333605E8
-Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=infradead.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B4333605E8
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1NVraV+b
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2607:7c80:54:3::133; helo=bombadil.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN> 
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B4333605E8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Aug 2025 19:04:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=lrPIpyIK37IliP12r4RxpJdSz6iDcvTig/imS+n1pZs=; b=1NVraV+bxzQ/9gCkBMs1wm/QQD
-	qHdTa3Y/z2Y7OjG8BwS50zH6FmrAreVNBae/1EbYw7vONudBNG2B0KP//0kqnlH5oBPDDmYpgEbWb
-	jZCnVgV2ZeEn4X6B9RWHNSaQGN6dBn521augPEKGhGKiN5YibFQNo3Bfu5a7GKIt0rOHhFlWEoe8+
-	cMnzzh3HFsz59ek7TmXb9cCE/XGfhXVJrXaRSlvGraICX769vZ4ciI3YYKgNxdN884lkAjHTzLKzU
-	13p5PuvnttDmqxouIIf7yPs9NdUnOaeEUXqnRszz34I7esSGyPCwb/mSbXEu+lmnKd8pCmQ/SZFyx
-	SgKhDWew==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ult7M-0000000BeBB-0ekg;
-	Tue, 12 Aug 2025 17:49:00 +0000
-Message-ID: <36b8eed4-2148-4d73-af9f-5614060f9f54@infradead.org>
-Date: Tue, 12 Aug 2025 10:48:59 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sj+eHPKz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2F2C4CEF4;
+	Tue, 12 Aug 2025 19:24:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755026647;
+	bh=xJKYOxUWkPZ3nmqmyRsauTD2N7Zyq6ecCwpko7Jpu+M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=sj+eHPKzi4lnxnUtytBWZa/RjWt4wpZFiMhFmH2pPKmFPN+YoZmS1qpvmckNGaXPK
+	 z/lYmJezGczjR7PCuMnfx+GOrZ+u2Echk6c74OdP72tFXkA5X1gTgFFwHTsK++PcXW
+	 XmGdGPq8bs5EuO8ZcxXZq9Fs8dWHOtHTzovR2ZataMdtcTmiwWUeogufJXY9ZSYMZV
+	 HXltP0AlX48QSPX8JEI3gXJPuGOnKuT+9UbJjsHYYk9lRlsMY0ZZUjeiOURnu/JMCG
+	 XafKqyl7h/RUgreakPkdEXipd7z+vWcHyDUQdth3astZeQ6m61hOfW7kW0lcmPdYAd
+	 G4iPa2hjmcZUA==
+Date: Tue, 12 Aug 2025 21:23:59 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>, EDAC
+ Mailing List <linux-edac@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, "David S.
+ Miller" <davem@davemloft.net>, Ignacio Encinas Rubio
+ <ignacio@iencinas.com>, Marco Elver <elver@google.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Donald Hunter <donald.hunter@gmail.com>, Eric
+ Dumazet <edumazet@google.com>, Jan Stancek <jstancek@redhat.com>, Paolo
+ Abeni <pabeni@redhat.com>, Ruben Wauters <rubenru09@aol.com>,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
+ lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
+ stern@rowland.harvard.edu, Breno Leitao <leitao@debian.org>, Simon Horman
+ <horms@kernel.org>
+Subject: Re: [GIT PULL for v6.17-rc2] add a generic yaml parser integrated
+ with Netlink specs generation
+Message-ID: <20250812212359.6e905337@foz.lan>
+In-Reply-To: <e8731f6f-9057-46f0-8df0-7ece500c0928@infradead.org>
+References: <20250812113329.356c93c2@foz.lan>
+	<87h5ycfl3s.fsf@trenco.lwn.net>
+	<e8731f6f-9057-46f0-8df0-7ece500c0928@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: fix spelling mistakes across multiple directories
-To: Soham Metha <sohammetha01@gmail.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- skhan@linuxfoundation.org, jaegeuk@kernel.org, chao@kernel.org,
- dlemoal@kernel.org, hch@lst.de, tj@kernel.org, hannes@cmpxchg.org,
- mkoutny@suse.com, agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com,
- kuurtb@gmail.com, sj@kernel.org, corbet@lwn.net, chenhuacai@kernel.org,
- kernel@xen0n.name
-References: <20250812173903.43333-1-sohammetha01@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250812173903.43333-1-sohammetha01@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On Tue, 12 Aug 2025 11:41:58 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-The changes all LGTM, although maintainers will probably want the patch split
-up by subsystem.
+> On 8/12/25 11:31 AM, Jonathan Corbet wrote:
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> >   
+> >> Hi Jon/Jakub,
+> >>
+> >> In case you both prefer to merge from a stable tag, please pull from:
+> >>
+> >> 	git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-docs.git docs/v6.17-1
+> >>
+> >> For:
+> >>
+> >> - An YAML parser Sphinx plugin, integrated with Netlink YAML doc
+> >>   parser.  
+> > 
+> > OK, I have done that.  I will note that it adds a warning:
+> >   
+> >> Documentation/networking/netlink_spec/index.rst: WARNING: document isn't included in any toctree  
+> > ...it might be nice to get that straightened out.  
+> 
+> I see it, at least in linux-next. However, its format is
+> "different," so that may have confused whatever printed
+> that message:
+> 
+> from Documentation/networking/index.rst:
+> 
+>    filter
+>    generic-hdlc
+>    generic_netlink
+>    netlink_spec/index
+>    gen_stats
+>    gtp
+>    ila
 
+Maybe some merge conflict/merge issue, as this was renamed:
 
-On 8/12/25 10:39 AM, Soham Metha wrote:
+$ git show 1ce4da3dd99e98bd4a8b396c291041080e0fe85e Documentation/networking/index.rst
+commit 1ce4da3dd99e98bd4a8b396c291041080e0fe85e
+Author: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Date:   Thu Jun 12 10:34:30 2025 +0200
 
-> -Availablity
-> +Availability
->  ~~~~~~~~~~~
->  
+    docs: use parser_yaml extension to handle Netlink specs
+    
+    Instead of manually calling ynl_gen_rst.py, use a Sphinx extension.
+    This way, no .rst files would be written to the Kernel source
+    directories.
+    
+    We are using here a toctree with :glob: property. This way, there
+    is no need to touch the netlink/specs/index.rst file every time
+    a new Netlink spec is added/renamed/removed.
+    
+    Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+    Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
 
-Whenever a heading is made longer, the underline for it must also be
-increased in length; otherwise it causes a build warning.
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index ac90b82f3ce9..b7a4969e9bc9 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -57,7 +57,7 @@ Contents:
+    filter
+    generic-hdlc
+    generic_netlink
+-   netlink_spec/index
++   ../netlink/specs/index
+    gen_stats
+    gtp
+    ila
 
-thanks.
--- 
-~Randy
-
+Thanks,
+Mauro
