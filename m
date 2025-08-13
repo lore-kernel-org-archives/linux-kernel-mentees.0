@@ -1,89 +1,141 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0552F0C77
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 08:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94022F0C54
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 Aug 2025 09:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755075579; cv=none; b=AqTnqfRi/cYZzasT15GZxW+5yU4PODEKPFgP00I6VMQNyuUpfnOUSKRqV/yXMZyoOUORL18ma/CnYvaAMSxMCAFsfDPYazvEKxLK0ypjt8uL5cTdO0/CmYjH7vPJ97F0EYlaF7wkzLKMxhipC12Usk22rnobkilQCavWOZVbbnM=
+	t=1755077018; cv=none; b=QWGM6zSIDv1nMbTtLndAZXSkpemgwMOjlzd3RwgficqiwS/MJ36IsjoC4ndbaZR+tWMVzd+cDujx19xUFYFfhKwLd2xBz9709cfGWn3WtODho/NXSXtv7DQ6ysWfr4/z3mCf/c+9te9FLy80a8V/fwv8yxLwH+oVfKDlWNEByHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755075579; c=relaxed/simple;
-	bh=XmgEE2r9/03Htllgcwpg18c5MfZ8FEI0JOAF6sFxxKg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SB45WTbW3bo/eYq6kJHaseFMiVzf6r4znb21ZeaECH8sWq33RFV3r1VAQXWhwNGf7ThtyCpdH9m/qb94GNL8wrGoThHWTdGProHpp7Fk8TiUzZUPlak9pG79do7Jx3MSL2OMpk5bHByA+QY32GAxPuYJT53xRjkLRNVKP6R1PBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EFu5YI9m; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1755077018; c=relaxed/simple;
+	bh=nSnlQzS3Oijb3uuQVtZaTkeoC2ip6X+Cu8XPFNiTPn8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rlKxnsbOd3xlLkndQVRGuFo9NHXhxGMZPc58rF1oop+4RKMrz9lO74skhUletuL6t2fd8rh3vSAN6UBpxYcOy8aJzD9XbcXFhSD5i9v15MZb4zkbDAM+B9JKDNsirdbmzMowN7S7l1AXq/m2+AYCl1vOlbMjE4EM+vJTEsVQBQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=W5sBoc+M; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EFu5YI9m"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8994A412E3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 08:59:37 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Vgx_rYbGg2FT for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Aug 2025 08:59:37 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=dlemoal@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 00F7740F89
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 00F7740F89
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=EFu5YI9m
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 00F7740F89
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 08:59:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 78630601D3;
-	Wed, 13 Aug 2025 08:59:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 701F8C4CEEB;
-	Wed, 13 Aug 2025 08:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755075575;
-	bh=XmgEE2r9/03Htllgcwpg18c5MfZ8FEI0JOAF6sFxxKg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EFu5YI9mwImluA2LuTvGgHPMWyR/bSWgPuEhbfBznuDalHg4kTg+x0roHajv5AHg4
-	 D32HX/mrgpBryIOnX5aP/C+ChyZzzknuJrJlFWqhgFfUcmFpjHw1N3ZZ1UobJXGNMD
-	 YpoxbqZ7vcYXwjGi2VlcV0eQqgN3pnMMgGgrkUL3tcY0ImqL5zpQ7w6XAz6wY6wGcJ
-	 SF1yCyB4cBg3HrLdQLnlxB1yfLiiXg/rCEHS3z1YtA7YEWMeww9xARP4xkq1U/rb6q
-	 lI4HTQdA6ERBEayxeYrD6XYWW19PCgC78Jkw1bxmtmxRib7oXl/5hasQVnsnTfJsZP
-	 yD3XvXnlc8tsg==
-Message-ID: <066729ba-bd9a-4328-a813-9ef73620020c@kernel.org>
-Date: Wed, 13 Aug 2025 17:59:31 +0900
+	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="W5sBoc+M"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3b78d13bf10so6474107f8f.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 Aug 2025 02:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1755077014; x=1755681814; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TEyolKpesJRN4enzfkBag9GEI6SkLDls4Ifg+2q31hc=;
+        b=W5sBoc+MPTpPL6mKQr8ywhSZyn7NdEqijCPXVXMHYse5cAEAU/uwI8ex6GJyT/AsUi
+         xxtBJnNJa/divpCOlVXAS8tzLW334ELgSerkd3h+fCfwd0O/b4KQdwrgst8i6FJwWnQ9
+         LTL2w7an79QWJfXIuVwlIYWaE2wsFTKPExT7MtUz4/6UYXI8fp+V5dqhddRRAe9oPSNb
+         ClpXywWP4T/QbEos4qyeIM/jiQkLVMmEvAW6VOOsMiwx2ZXs5BcnnBG8J7gSqs4BPZsg
+         zuQv05FFBttp+IVhTnPSsEajrxkSsEBNbxfMyxzxvulT4to+Dw51PfOtjTkm3DLJ6TWU
+         iKhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755077014; x=1755681814;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TEyolKpesJRN4enzfkBag9GEI6SkLDls4Ifg+2q31hc=;
+        b=tbX0VyE47yhBtEWxlnwOt32DbitOn+aPZROU3Xk368hHi9m9VGFG/Jrfs8KyWnAXzo
+         6PhgYIdIVn/6SBP5KcXeFO3WeC3oCc79sjdSNb94a398XvSLpsq5zX6i494t9cqGWpdJ
+         JdCfJeSA+oG/mLm2/zaOx17FgH7/OiJeIJdPKpqw2selrwQ6c+EzPaec6pRWxdpU21ox
+         zLtlDg9cqWSNYO/rMypHdYZ3I/iWn1TKEEVPs108N6DleegrTFw64c/7Xxol7Mb/tXse
+         A+la2+TEow3TOF7Hc3KroPzioxyqWRM9f7bWfKYE+0r5bIeA3v20DEd98E3Yl/w9HZlg
+         gETw==
+X-Forwarded-Encrypted: i=1; AJvYcCW8NHYkxXbmSDyzRf3+etn8l+XNKNL4AqG6/GzcMG3g0EFNB4454kmIbGrGVZnvvKglZgFeCQ2lL2yr9fW/5gHXOUXuTA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0zffBJEVvPC+n5EG0QWNzB6rvZ/sWkjjWsPY/AIZUy/Ffq78g
+	kc3u1OLbTaMfiA7Fpr3PzGilDvN41q4tRhPqGvxFmm+qqAReqlEZr8+5TxD5JosUQhk=
+X-Gm-Gg: ASbGncswJy3phS/bdR7jiGwGf3ahnyU/mEoVvG1jmuq+k1d0MlNuIFG4fJwBKA0BoPc
+	5A6yKaJhQjr6wu8RXUzR4mU+DP/+gjjkTsP90C+jx8aIJQxyLUiwrM1l0OpVy4GDYytk3u9b4ox
+	r7gWceJAX4k7q2RmUcERRmkl2w4tJgC72q/EPMG7iaAs+RlYEeEX8iuvqOYzPKMf2q0fO+0up7d
+	ThN5p+HLUukc2GasiXqbw1HFOdEF3I7gb1b8961wdbLj4gb3YdB+45LuQqDmL/jfTM4Y8r88VYm
+	u7Pb5gs/gBsOWG8EKxQaQdlO3+R1lZaSSeAxsB16u0mqGYucFkFvxHLm+XBDCp5F3/srGkALfM3
+	tdzsdVDZudR1FYicWIbYdIA2VZrSV4ofLPZrFhSWfiHOzrmenIA==
+X-Google-Smtp-Source: AGHT+IFxawn2hn81XiBMFzlp9R7LXDt7IQlnw4bYwjrbGUdm+VKiMtSVAcwLlkK3/1f3t/cZPUZtdA==
+X-Received: by 2002:a05:6000:40cb:b0:3b7:9b58:5b53 with SMTP id ffacd0b85a97d-3b917ec345cmr1916488f8f.45.1755077013860;
+        Wed, 13 Aug 2025 02:23:33 -0700 (PDT)
+Received: from pop-os.telenet.be ([2a02:1807:2a00:3400:d33c:e682:2af6:3c3d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c3ac158sm47966077f8f.4.2025.08.13.02.23.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Aug 2025 02:23:33 -0700 (PDT)
+From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+To: dlan@gentoo.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	paul.walmsley@sifive.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	palmer@dabbelt.com
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+Subject: [PATCH v3 0/2] riscv: dts: spacemit: Add initial support for OrangePi RV2
+Date: Wed, 13 Aug 2025 11:22:38 +0200
+Message-ID: <20250813092240.180333-1-hendrik.hamerlinck@hammernet.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Docs: admin-guide: Correct spelling mistake
-To: Erick Karanja <karanja99erick@gmail.com>,
- Philipp Reisner <philipp.reisner@linbit.com>,
- Lars Ellenberg <lars.ellenberg@linbit.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Christoph Hellwig <hch@lst.de>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- linux-block@vger.kernel.org, drbd-dev@lists.linbit.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20250813071837.668613-1-karanja99erick@gmail.com>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20250813071837.668613-1-karanja99erick@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/13/25 16:18, Erick Karanja wrote:
-> Fix spelling mistake directoy to directory
-> 
-> Reported-by: codespell
-> 
-> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+This patchset adds initial device tree support for the OrangePi RV2 board.
 
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+The OrangePi RV2 [1] is described as using the Ky X1 SoC. Based on research
+and testing, it appears to be identical or very closely related to the
+SpacemiT K1 SoC [2], as suggested by the following:
+
+- Similar integration in the Banana Pi kernel tree [3], which uses the 
+  OrangePi RV2 and identifies it as the SpacemiT K1.
+- Comparison of the device tree code showing a match to the OrangePi RV2 
+  Linux tree [4].
+- Locally tested the OrangePi RV2 with the SpacemiT K1 device tree, 
+  confirming it boots and operates correctly.
+
+Patch #1 documents the compatible string for the OrangePi RV2, and 
+patch #2 adds its minimal device tree. This enables booting to a serial
+console with UART output and blinking a LED, similar to other K1-based 
+boards such as the Banana Pi BPI-F3 or the Milk-V Jupiter.
+
+Link: http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-RV2.html [1]
+Link: https://www.spacemit.com/en/key-stone-k1 [2]
+Link: https://github.com/BPI-SINOVOIP/pi-linux/blob/linux-6.6.63-k1/arch/riscv/boot/dts/spacemit/k1-x_orangepi-rv2.dts [3]
+Link: https://github.com/orangepi-xunlong/linux-orangepi/tree/orange-pi-6.6-ky [4]
+
+Changes in v3:
+Improved changelog: Reworded relation to SpacemiT K1 as presumed identical,
+based on downstream sources and testing.
+Applied Yixun Lan's Reviewed-by tag.
+
+Changes in v2:
+Patch 1: no changes.
+Patch 2:
+- Added aliases section to the device tree.
+- Removed the memory section, as it is populated by the bootloader.
+- Updated copyright header.
+Link: https://lore.kernel.org/spacemit/20250718084339.471449-3-hendrik.hamerlinck@hammernet.be/
+
+Here is version 1 of this series:
+  https://lore.kernel.org/spacemit/20250711183245.256683-1-hendrik.hamerlinck@hammernet.be/
+
+This is the follow-up mentioned in the previous version, sent now that
+v6.17-rc1 was released yesterday.
+
+Hendrik Hamerlinck (2):
+  dt-bindings: riscv: spacemit: Add OrangePi RV2 board
+  riscv: dts: spacemit: Add OrangePi RV2 board device tree
+
+ .../devicetree/bindings/riscv/spacemit.yaml   |  1 +
+ arch/riscv/boot/dts/spacemit/Makefile         |  1 +
+ .../boot/dts/spacemit/k1-orangepi-rv2.dts     | 40 +++++++++++++++++++
+ 3 files changed, 42 insertions(+)
+ create mode 100644 arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts
 
 -- 
-Damien Le Moal
-Western Digital Research
+2.43.0
+
