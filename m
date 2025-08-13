@@ -1,97 +1,78 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937CB2BD00E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 07:18:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414E32E3703
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 Aug 2025 07:42:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755069535; cv=none; b=S3egbdPplco41K5HcbkCjWT69Wcr88yHiuWS65swqymEvl5E1DO0jPnmOSaHiS2m57Lm8dNssB3j31N2jFzCbfvB0fYasQ8bB7EcX8tpTzYvTwJrG++qdSXdEBmXhHToXlacdOy3FRyYev1ch6+C+LkT//YP04Hn6iPZXiPrj3w=
+	t=1755070937; cv=none; b=iaB6+I8wU82N5Gzw+OmHGaIJM249CZw298P/8+QJPq8C76VdnyaJKVkqCiqe6BqkmUMH58NYlK/W4iUoRiRtbwlHdxhrKm5eBDhcHGgIIvpeLc+ANHYe/iRXCCvLNovjkPmHOPhSAbzPo6x3Y6T6aKFjEj+mzT6Xhn085uUpQvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755069535; c=relaxed/simple;
-	bh=8j2oxT6mk0yZmoWePt15+N5CrKZUEqAw4bGln0C329U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RN4W8klDS50CITMyCZrPvD680HIVzkx8a162nTjp69feM5+UNFuRLCqOXVIT7uBjfqejDihOw1PGkeKkAI/FNUrJvgDBpRNg0lPpSsRqLcH3l6kULlX0lb6Vhjp+HWzjTuCaemOb+bDC6K9L4MO5yM5FlViaPKH7mltBlfGgDYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T/guvnGT; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1755070937; c=relaxed/simple;
+	bh=jNrPDQvQa2z4vNt3ufQEDRvtq+3fqOqeCCF0Oy37Po8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tSR5Qe/kpbujNGfzrFVK7qw7hPkhRNReAIPNMC17R9bZy7n+Gi6ONJTr+92Bh3OLTTyWDNW6j8uX1hYP84/NnuHPhOLiNLsYyKgPvQuORecN8t8IRQeowRwZotiyyqMohDHFVNx0Fz9jMtJ0XFtypiFkJgFRvTCN6C3ZdMFisyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y6JyYEaU; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T/guvnGT"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BCDA36069B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 07:18:53 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id AXPITjB8gsos for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Aug 2025 07:18:53 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32c; helo=mail-wm1-x32c.google.com; envelope-from=karanja99erick@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 19AE460645
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 19AE460645
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=T/guvnGT
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 19AE460645
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 07:18:52 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-45a12b3f4b3so10913875e9.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 00:18:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y6JyYEaU"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-76b6422756fso8792488b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 Aug 2025 00:42:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755069531; x=1755674331; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1755070934; x=1755675734; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hT7zNC81MFnipI/Ag5QHfvvjbScQaZ5LLk5g2Y05B+0=;
-        b=T/guvnGTStNwJ6OBIrX9pv+icFVPutNOF4QRTSrB8H02fBr/Qx3cVvpensJCLcDJDH
-         F3MtwQPCcGEFTVtWnYZD4E3cHw7WrB8V9mIBSrLEmcUPsoGRPdyVRKhIYu3f6LJlYrS9
-         EEIVB8GFlFA2JftU7lCZDDJJUXL7GzBIIrEOouYo/kDUYvnPLCi5hU2wWfs8Hzkl+2GQ
-         qmeIEtXni83fWZaaJVZnd/8WGGtd1+gQnuCsTW/UQlmtDF/LoCYcUuAmt+lWCDkN2/UD
-         VgdO7d0T3eonWQj1wSk+eG6pIKKrXkZWhjjfT7lkpQ/0QyqNBh7o6AshHnpH4GZOHudA
-         U3mQ==
+        bh=CavdXOJmDoQ4WcQwQ9VbtE22m77hvVOEvRLARCsCyWk=;
+        b=Y6JyYEaUxEhJm2Q/hcokuKhRb2HbIyEaQ8MKoB/LcQ6eGtTNNipurdmvpxYZObqO36
+         GUf9rZQ0z9MPxuC5z/jDtS3dVDa3IYi3uZ6GxjefP+gPuH/FRidZfuozOrkCfm4rVzuc
+         sHK2ltC0bOM1nNa6X8AMgfsV4QmmqrXpEjR1CyFd5lKase9GDN4+On9rcnHSacHRpXdm
+         KUeh2IglCg7JXk0LKDySwtx2bI4pHmOLKw4ZHeLozGSYnP7GF9YX5sriqPwtSihos6hl
+         WmpC5KaxKiu8ZSDsfa1wsTDxY20yQirZk5hEcYRU8LDEP9NGJA8cCUF679AyYNZ8fOCi
+         BL2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755069531; x=1755674331;
+        d=1e100.net; s=20230601; t=1755070934; x=1755675734;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hT7zNC81MFnipI/Ag5QHfvvjbScQaZ5LLk5g2Y05B+0=;
-        b=eWg4y9sxQeavz5TnfJFGqYlNZsCKsJwh9RlrXXSEjhGjILqB9rH6JUzJJVjpFMtbC4
-         qD8oeVW3X5av509qkQQInng+bteA0mZXiucThgwBi8lAwtslvfJ7Vg3zVu5B4g7Q74uC
-         vTCEPpONb2f0mA0xkK7+aF/xYiWRuljqaZ3Ywt865/sRfxu2Ug53/UKdr8ImLipoPtTE
-         noSz9uA9++6zUL6HAuodxZKU2tHBT22BQ0t9sFqtXniP4b0BEfhKl68TzqM4vRjrXZ/V
-         zno+8FCr/JD6DFRwp7FzOHKZ7jNEA3vAsrvh3yFesHlKz/ROBLsecJ1+tzx1E5GOm9Wb
-         /KOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV0onx9vEaMqc3ZRydksE1wXE4xYtn2aYnEuausu//gDeSdNftt3KloBCszd/O7BuHr0CmGVFMheo9laCY4FL9Sc+iRkQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yw4mnvi31sav4AVRJHZqNIf45+tBM+5xGZ6jINCHuNnOW347pwW
-	P5zkSwYfWfcaXk3bmyHEqKV+ksDCmxthiVv2+s8LwQcM5oDP7hJk0uJe
-X-Gm-Gg: ASbGncuZR07g78OfE/ym0AxMqMPFXFpJL2tLgzVUoO6pmeynZGmvl5j0f4TlhWaEvtB
-	yEgFDgszR6fvcmhGvcYBd5kem5GhCTRRnRdwthqja8uCUkBDy+2/PDkicFTTEHt9nFmlIQ0mYML
-	D0WemLTKkwFTfSJbTFJZOAtaPwcG7cc0G6eL5cRq1YUX7UdAqQD1l085ZQ0iv8jcxyQkix5pQth
-	crYJ4/JfUNT0Rg1DX+PLk4qHMlR0xSNasYM3YLUiK2ijg87ubOs3AfimU4jvQypd8PLmV7hzq51
-	lfU4YikT0P7wMURi0C2pEligPE0peESRpV5pop0K87v4K+i5yxctm9rIifmuoqeYFK7GnehR6gc
-	F/KicvmnOnYB88zW0Xow=
-X-Google-Smtp-Source: AGHT+IEglHcl0W/BNit8lnQzWA48TYtNNYEYIowfu0Jp/7j5jJeKFCchpl/EObW5f9/xZRNrLK5j6g==
-X-Received: by 2002:a05:600c:1d20:b0:459:db80:c2ce with SMTP id 5b1f17b1804b1-45a165fbf95mr14268835e9.7.1755069530601;
-        Wed, 13 Aug 2025 00:18:50 -0700 (PDT)
-Received: from pc.. ([102.208.164.18])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a16df1cf8sm16944565e9.24.2025.08.13.00.18.46
+        bh=CavdXOJmDoQ4WcQwQ9VbtE22m77hvVOEvRLARCsCyWk=;
+        b=Mez/TM3jkndvpryMZLzzUi6IjU2BzOgXCky1CnM1ckSgR+8jIFZdDcOg2Rxf9ThIoB
+         hIZ5fFohMqgX0IDpTZdIiDAzRn3HSeaidT2b6fY/Kbh064pBSncB6QUqU1TdVRuWMfbC
+         saT8SOj5nzrOtiThWDIBlYFt0TDABoYSOCoYXnyNiPMp5AJUdJWOnPvlXLylNA5c0LRo
+         HxxAVb29cE/XgBUzuSmpK+bx22n+kimhq/AxIDl5OmgiL+0kaB+52MubyHjUDfOp7Jke
+         CNxfcLPSe5nJGCq2MWxuRzt5cWJEarxvZAZLk1Ap8+A1xbGvj6qMJDC3GRSycW8CNcjs
+         rX+g==
+X-Forwarded-Encrypted: i=1; AJvYcCU4zyWXm57fDh0uZSAvs3N092FOmENc48kzYHefzvoMNA7yjxFmgIBXFGZe79ksEX7T+8pQkq/6LUSQUNQFM7E7wwWPdQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy4ft1i17cTq2yEwpHSfJgrTY+s1xPlQFReoo6cCW8SV/NrAX+O
+	/iZd34RzFMMkrx9QGwRO6SMRCw6yV/IG0E6O7TK8hJ6aBHLPHDCtQIMJ
+X-Gm-Gg: ASbGncsz+EgIPXxhFs+8DGGgtNMAxOgC5XEBriNfYH/FXjZKnRrSNV2hYRb8DhLSpaO
+	dxrjnhr4lN8yRes3RE/0oM52xu8U/HqJAAgG7+OQrDr1euidMX0inaL0JBarZfn3Fv96hOBTa3+
+	PJpD/dVEBPp2Ri5XtETiXgaNl8vdYmBAMoee29ZP4w6372C3b7X2g68nSwDIlIlmjQz9lW48KHQ
+	StZ3PUqKf1LHbHOk0J3Cb6cTlv5nBzafnKNmJh9z/uziRQdcZDJoA+HoZdBcEfEh3scoEvOi+Kv
+	g/51JILo8ZW7KNQ671bg353es/ocNpQg9dCzdy8f4uvMDcB6FtEWivWoNRPwDTO0mOU9qg7jTWO
+	dOJo7Ivv2vTIcTTyfsMa7Ji39pqqfyDbxWTiTlmxgqA==
+X-Google-Smtp-Source: AGHT+IEhXNLhtUUwKSRp3Vr5YDOo/ZWfk9UUDwj9HJead4EPelMA7p/o0JPy4Z3dFA1LWs8XaMo84Q==
+X-Received: by 2002:a05:6a21:3381:b0:23d:4777:49bd with SMTP id adf61e73a8af0-240a8b0cf5bmr3533433637.21.1755070934344;
+        Wed, 13 Aug 2025 00:42:14 -0700 (PDT)
+Received: from manjaro.domain.name ([2401:4900:1c68:b9e1:95d4:9448:4c04:c914])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bcce6f474sm30819811b3a.4.2025.08.13.00.42.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 00:18:49 -0700 (PDT)
-From: Erick Karanja <karanja99erick@gmail.com>
-To: Damien Le Moal <dlemoal@kernel.org>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Christoph Hellwig <hch@lst.de>,
-	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	linux-block@vger.kernel.org,
-	drbd-dev@lists.linbit.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+        Wed, 13 Aug 2025 00:42:13 -0700 (PDT)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: tglx@linutronix.de,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	dvhart@infradead.org,
+	dave@stgolabs.net,
+	andrealmeid@igalia.com,
+	linux-kernel@vger.kernel.org
+Cc: jann@thejh.net,
+	keescook@chromium.org,
 	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Erick Karanja <karanja99erick@gmail.com>
-Subject: [PATCH] Docs: admin-guide: Correct spelling mistake
-Date: Wed, 13 Aug 2025 10:18:36 +0300
-Message-ID: <20250813071837.668613-1-karanja99erick@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel-mentees@lists.linux.dev,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH v4] futex: don't leak robust_list pointer on exec race
+Date: Wed, 13 Aug 2025 13:12:01 +0530
+Message-ID: <20250813074201.6253-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -100,28 +81,204 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix spelling mistake directoy to directory
+sys_get_robust_list() and compat_get_robust_list() use
+ptrace_may_access() to check if the calling task is allowed to access
+another task's robust_list pointer. This check is racy against a
+concurrent exec() in the target process.
 
-Reported-by: codespell
+During exec(), a task may transition from a non-privileged binary to a
+privileged one (e.g., setuid binary) and its credentials/memory mappings
+may change. If get_robust_list() performs ptrace_may_access() before
+this transition, it may erroneously allow access to sensitive information
+after the target becomes privileged.
 
-Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+A racy access allows an attacker to exploit a window
+during which ptrace_may_access() passes before a target process
+transitions to a privileged state via exec().
+
+For example, consider a non-privileged task T that is about to execute a
+setuid-root binary. An attacker task A calls get_robust_list(T) while T
+is still unprivileged. Since ptrace_may_access() checks permissions
+based on current credentials, it succeeds. However, if T begins exec
+immediately afterwards, it becomes privileged and may change its memory
+mappings. Because get_robust_list() proceeds to access T->robust_list
+without synchronizing with exec() it may read user-space pointers from a
+now-privileged process.
+
+This violates the intended post-exec access restrictions and could
+expose sensitive memory addresses or be used as a primitive in a larger
+exploit chain. Consequently, the race can lead to unauthorized
+disclosure of information across privilege boundaries and poses a
+potential security risk.
+
+Take a read lock on signal->exec_update_lock prior to invoking
+ptrace_may_access() and accessing the robust_list/compat_robust_list.
+This ensures that the target task's exec state remains stable during the
+check, allowing for consistent and synchronized validation of
+credentials.
+
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Suggested-by: Jann Horn <jann@thejh.net>
+Link: https://lore.kernel.org/linux-fsdevel/1477863998-3298-5-git-send-email-jann@thejh.net/
+Link: https://github.com/KSPP/linux/issues/119
 ---
- Documentation/admin-guide/blockdev/zoned_loop.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+changed in v4:
+- added task_robust_list() function
+changed in v3:
+- replaced RCU with scoped_guard(rcu)
+- corrected error return type cast
+- added IS_ENABLED(CONFIG_COMPAT) for ensuring compatability
+- removed stray newlines and unnecessary line breaks
+changed in v2:
+- improved changelog
+- helper function for common part of compat and native syscalls
 
-diff --git a/Documentation/admin-guide/blockdev/zoned_loop.rst b/Documentation/admin-guide/blockdev/zoned_loop.rst
-index 9c7aa3b482f3..64dcfde7450a 100644
---- a/Documentation/admin-guide/blockdev/zoned_loop.rst
-+++ b/Documentation/admin-guide/blockdev/zoned_loop.rst
-@@ -79,7 +79,7 @@ zone_capacity_mb   Device zone capacity (must always be equal to or lower than
-                    the zone size. Default: zone size.
- conv_zones         Total number of conventioanl zones starting from sector 0.
-                    Default: 8.
--base_dir           Path to the base directoy where to create the directory
-+base_dir           Path to the base directory where to create the directory
-                    containing the zone files of the device.
-                    Default=/var/local/zloop.
-                    The device directory containing the zone files is always
+ kernel/futex/syscalls.c | 108 +++++++++++++++++++++-------------------
+ 1 file changed, 58 insertions(+), 50 deletions(-)
+
+diff --git a/kernel/futex/syscalls.c b/kernel/futex/syscalls.c
+index 4b6da9116aa6..0da33abc2f17 100644
+--- a/kernel/futex/syscalls.c
++++ b/kernel/futex/syscalls.c
+@@ -39,6 +39,58 @@ SYSCALL_DEFINE2(set_robust_list, struct robust_list_head __user *, head,
+ 	return 0;
+ }
+ 
++static inline void __user *task_robust_list(struct task_struct *p, bool compat)
++{
++#ifdef CONFIG_COMPAT
++	if (compat)
++		return p->compat_robust_list;
++#endif
++	return p->robust_list;
++}
++
++static void __user *get_robust_list_common(int pid, bool compat)
++{
++	struct task_struct *p;
++	void __user *head;
++	unsigned long ret;
++
++	p = current;
++
++	scoped_guard(rcu) {
++		if (pid) {
++			p = find_task_by_vpid(pid);
++			if (!p)
++				return (void __user *)ERR_PTR(-ESRCH);
++		}
++		get_task_struct(p);
++	}
++
++	/*
++	 * Hold exec_update_lock to serialize with concurrent exec()
++	 * so ptrace_may_access() is checked against stable credentials
++	 */
++	ret = down_read_killable(&p->signal->exec_update_lock);
++	if (ret)
++		goto err_put;
++
++	ret = -EPERM;
++	if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
++		goto err_unlock;
++
++	head = task_robust_list(p, compat);
++
++	up_read(&p->signal->exec_update_lock);
++	put_task_struct(p);
++
++	return head;
++
++err_unlock:
++	up_read(&p->signal->exec_update_lock);
++err_put:
++	put_task_struct(p);
++	return (void __user *)ERR_PTR(ret);
++}
++
+ /**
+  * sys_get_robust_list() - Get the robust-futex list head of a task
+  * @pid:	pid of the process [zero for current task]
+@@ -49,36 +101,14 @@ SYSCALL_DEFINE3(get_robust_list, int, pid,
+ 		struct robust_list_head __user * __user *, head_ptr,
+ 		size_t __user *, len_ptr)
+ {
+-	struct robust_list_head __user *head;
+-	unsigned long ret;
+-	struct task_struct *p;
+-
+-	rcu_read_lock();
+-
+-	ret = -ESRCH;
+-	if (!pid)
+-		p = current;
+-	else {
+-		p = find_task_by_vpid(pid);
+-		if (!p)
+-			goto err_unlock;
+-	}
++	struct robust_list_head __user *head = get_robust_list_common(pid, false);
+ 
+-	ret = -EPERM;
+-	if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
+-		goto err_unlock;
+-
+-	head = p->robust_list;
+-	rcu_read_unlock();
++	if (IS_ERR(head))
++		return PTR_ERR(head);
+ 
+ 	if (put_user(sizeof(*head), len_ptr))
+ 		return -EFAULT;
+ 	return put_user(head, head_ptr);
+-
+-err_unlock:
+-	rcu_read_unlock();
+-
+-	return ret;
+ }
+ 
+ long do_futex(u32 __user *uaddr, int op, u32 val, ktime_t *timeout,
+@@ -455,36 +485,14 @@ COMPAT_SYSCALL_DEFINE3(get_robust_list, int, pid,
+ 			compat_uptr_t __user *, head_ptr,
+ 			compat_size_t __user *, len_ptr)
+ {
+-	struct compat_robust_list_head __user *head;
+-	unsigned long ret;
+-	struct task_struct *p;
+-
+-	rcu_read_lock();
+-
+-	ret = -ESRCH;
+-	if (!pid)
+-		p = current;
+-	else {
+-		p = find_task_by_vpid(pid);
+-		if (!p)
+-			goto err_unlock;
+-	}
+-
+-	ret = -EPERM;
+-	if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
+-		goto err_unlock;
++	struct compat_robust_list_head __user *head = get_robust_list_common(pid, true);
+ 
+-	head = p->compat_robust_list;
+-	rcu_read_unlock();
++	if (IS_ERR(head))
++		return PTR_ERR(head);
+ 
+ 	if (put_user(sizeof(*head), len_ptr))
+ 		return -EFAULT;
+ 	return put_user(ptr_to_compat(head), head_ptr);
+-
+-err_unlock:
+-	rcu_read_unlock();
+-
+-	return ret;
+ }
+ #endif /* CONFIG_COMPAT */
+ 
 -- 
-2.43.0
+2.49.0
 
