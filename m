@@ -1,122 +1,266 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDE923D7E3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 12:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3472D1308
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 Aug 2025 13:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755088343; cv=none; b=mZSf7KKBo9PedhP691ylAtSUraEEp82qLF5VaH/AxVA7ack3OUNLrLcNJS793rYLeLpqfCVqqQVRQstDtZZgOKIyaza7Uvidsd0/0VdbpdF9Nvu/+DqXq01EihH2J4bU5avk3/S8vo+RZKV7UICLuFYvVbsVj+3uOa/d1Ck7omw=
+	t=1755091319; cv=none; b=Q2hnc9jV8WC8xL7ldiHJK9odTYDVfAhix4YnlcJa4XTEGi8FCbwQy5bpuj6jlW6CwtSKJh0ldvxgzLYp46KFyFwLmcLNKEQU3JQYxSBAwrGFf2bbJ1iICAt/1o284OGMDazSxqOyYNoupwhz2ydccjtH3vQmdkMvur4CYgeFX30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755088343; c=relaxed/simple;
-	bh=78VP5p10Jg8NcnMtDmrrGCJeg8umSedtsXpZInRySm8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=N2XDJBnc8OGVJFwrGtPAOa0nWP6NpNfH8Zs1EXvHTxXCgaiy0KQ9yyzB2uGpRfwEIMWbINTdAIB27mL47G4YUl1Ft6UKEJcI/rlC5RXer9GSJ9HdHC3Bu2ZDh5Aw2dClvviOkicu35tDBEQEE180QAMu1MA/3r8jQ1h/HjrNf98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=x3UUviIc; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1755091319; c=relaxed/simple;
+	bh=SJE6fsMy/q/x1sFepPBQD+jE3uBfNRoLWaulGq/HAxE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uxUOzHiHp9p0KASPoIDJrc35tIoo9xwEt97jws8zkjFKmy5qeAHWaE2AkswOPFSuHs/bFyVRZADiTRtrILm7fm2EGqe1xRDbvuBYHZzvpShlyHdwwi06CdTnub2mIKtAhaBDITGom5wLsGMRZdHauWRBj5cE9lDja3SbsEVKf+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GwY39uBQ; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="x3UUviIc"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 9A86B40B37
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 12:32:21 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.9
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id R5TwTNUYBhC3 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Aug 2025 12:32:20 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::532; helo=mail-pg1-x532.google.com; envelope-from=axboe@kernel.dk; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org CE8E94119C
-Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CE8E94119C
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=x3UUviIc
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id CE8E94119C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 12:32:19 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-af51596da56so5060690a12.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 05:32:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GwY39uBQ"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-76bd2b11f80so6040198b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 Aug 2025 06:21:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1755088339; x=1755693139; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BNG3CwDZnVq+LlYCqJlDgz0JDJC7ub+N0Uk1MeSzHuI=;
-        b=x3UUviIcB2Yj0n3IpOeN1Ikly7fUuc0BGFjn7+1H5p/662Opd20E/3zxG99XRwHTzq
-         ZbWBRaAXcUOuTtlQcj6wWwpaRhIb1/6fFEBjEMf7s0t5F7csUT3NxGM8qopMRN3u9H5Q
-         S6vrAcSaM8JcsMtMulBORFW7WSzsID3QwVXvZP2UZADHNC8de2Nc0NDMbYTHtoIS1Cm/
-         IY24bHJOZiaJ6Csyfqm759fbjhlzsIE0XuVnpodfIB417RvrUukFtRcMM3HBqdinwLLu
-         xdCCvcaJ5ik+ZDo13zt5P9K8+9CZ9MRuV0RhIyn5AGG5bQj1aueAP89+0spIJntXK/3G
-         WmsQ==
+        d=gmail.com; s=20230601; t=1755091317; x=1755696117; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DeW3YS6ZpEp6cb21mzmL/tJL4kz2qFZdu1xrCIw6JEE=;
+        b=GwY39uBQQ0sy1yXRIo37oznECIsG9XoegtxURYM9Nebk8ScE2q1/+fCWgaYleYKA3h
+         GRkPM/f6F7hezvhypdvFkLu/HCmWjesX9NXtJkRwG4QKuvU1a68R5P5F/kiqfm7fRwVu
+         ZX20hATkucpb1B70W9LGEprp90WbfYExLAUmhKuWFpkbr5I7L4pf688w46rFnbNIJAKU
+         xbVpQ/bTVXaRaMGdVw9rS0JlUh0Mjvp9fSKc5sm1BxT6Em+hEBGGq243zh5fibn272pu
+         YVV+wstAMIs+bRi2Jr31XBME4oc0Oc9Bvhfb5VHiDbSukIu3s/4NBA9FjXtdCOc8L9Hr
+         kMjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755088339; x=1755693139;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BNG3CwDZnVq+LlYCqJlDgz0JDJC7ub+N0Uk1MeSzHuI=;
-        b=hekYf0x5vXOEeiQxcR1tvqlOYy6MFVIJoJbQjzFF2/+lyBcyqIGzhnDUMyFPRPgkvr
-         l3FmbOjLaWk/5k7CNXIg9xkbTFblCBlEm0GwMNO5PcYUdPl415VvtSR5uXsctrow+Zp+
-         g4d4aW3+jCHNN6MtKUFCCYxgnXOHz1ZP05BH/BDCb5r2/SdnKtcRyEKRDEbLQ4lpbZAv
-         cUa1OFUhKH15TphdsxM4awcWi3+gChy2m97Vv7wxEZUpqXqjdGYdeHEj5cvOguFUbDS6
-         enXjacASkr0mwTwdjcTK6Vl0WcADfinWmmVD2f7/N+wuKHN0fif6Q3rpdQdF8OP5rtmv
-         bUyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUG8kytjMaWAipLspatxGg3kGP+zeSwLxDyMP674tsMFZPbiexTTyfZuHBjgaShXmV3Z/l5lZGL1TivPLI77tg7bxDSQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Ywcb3gRYoC+vsBWdjToTK/D74gmo7BCdZz5Cwtm27jbEOcOgvnI
-	tRYp5cUHnACWoRRdBEBys8apacbxq4pMpYwzVaTu3+8oXt2w5ZB/du7LQ95EzeYIZmc=
-X-Gm-Gg: ASbGncugfErpya5wXMXilegKWjKDJhdjcWuiAoIwcMmK4LG6Af5liK6qExamjqCzclS
-	jW16gCtOLDZffdkuo21LnDlbr0T+Y36nCKlkj/cOw3abYu4n2dEYV+DkKuRC1L0cqqwOhupG7/e
-	6nJmtLwgxTI5l9SrAHLBKLk6usgx6ShPwSj+LbBn624TVKDjdSK5HXg8xb1YSD6qscJmvSC7Mme
-	lsJ+tQZBZ8H82mc70C7PIrFVQ5ktqIknjLoartSuMSxmmZW2+A+3F7c8Huw+SakDJlLiWIRvB69
-	Pw1eYS6Y0aUvEUPAC9M3K/8o0Vq4Ug/XuHw88aGc/tqEImZbH3lrfGQt/9e5qBS+Pq497GPeLuB
-	5E4EYSnXJYogT4Fs=
-X-Google-Smtp-Source: AGHT+IH45G27XmEuq78X8gxw6G2P5IIWEUKaJJDkJWCvlT9IOAHkUHlLvMF5cfFKCUbmxNPSZShPMA==
-X-Received: by 2002:a17:90b:5211:b0:31e:fe18:c6df with SMTP id 98e67ed59e1d1-321d0e5cdc3mr4379625a91.16.1755088338731;
-        Wed, 13 Aug 2025 05:32:18 -0700 (PDT)
-Received: from [127.0.0.1] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3232553e4a2sm82418a91.4.2025.08.13.05.32.17
+        d=1e100.net; s=20230601; t=1755091317; x=1755696117;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DeW3YS6ZpEp6cb21mzmL/tJL4kz2qFZdu1xrCIw6JEE=;
+        b=WpiAKJS8c+mf9X/ThkBcNiW4G6D/o+1LGemnmgdwlZlBdHtE4klAZ2C/EgZ3KCsllo
+         BrOs/PKBvBFF6GGcTWE9MCTWrGMkMs69lrWOwVso/YMkJuDp1zlsY9uPfYdUv6JWSr8G
+         uGAQPdkXUlVdL3fYJb74QWlgqykBcEK3RH5R7NYvbORzqUHVSxsChG7KnH8zD4IgGI9Y
+         DzPG4O1xNzS6Xu7LuY0M6Y75hjB+rtn5SAV3MMd2fIxmGo65imMYbHBed2YJCfBB4pwX
+         LHJFulQT5On4VOyWtnBQBs8h+srtkz2HAEQreTMCqZl+Ylp+mo/sXbxVPzNohv4gbnvF
+         UoDw==
+X-Forwarded-Encrypted: i=1; AJvYcCWSPhdW3+wuHW8HRk0NoB5op9ZwupRV5/AyU1rZd4/FwVL6RA56moBXuILL6bogE87+S3hlKffbg9niB7hZds5nYSCOVg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXMtcX/5tLk8AU1vInNBb0U+u1jJn/6NJ86vMRm2ebYrB1bdmm
+	q8DqtDKfg/ZI31RufIp7rIHP8zMEQVxt1cdDxaUI6wmXkr18dZwtWzedAYjaQavI
+X-Gm-Gg: ASbGncscdsqlEK6+2Q6AcT7FQtMA365+KMv1x3B8wNODkjK5c1Q06W3dekkr1byXuHU
+	k51dhHlCnUwzH2AQpvERA1Vdt8DnkwhMeyjG7Jqup/kYusFzUN3AnwfFSKuqhr/RHiLI36TBqd6
+	hQlNp5q6jc+JDoApyzrMoiTGH15vr7fp50isXrf5M4YtJWGMiQIXlFPwztolasnO5dkE6qC6UVn
+	ZqouV+y52BfK4xx675hk8F0wbbH7UpnzT90B1GPwysERWa/X1hfW3hBdJLWMq0UKk8acJcA3kZL
+	iNzD0CYvjUyPvnwEOfADGsJhmmW/PVa2X9ymYQ+7dlS5hQrtJYaqU1ef1XEcSrN0nyNjfD3fZEy
+	6Le5p7KDy
+X-Google-Smtp-Source: AGHT+IEO2C51W4ZA2n9RzuoiCubS/KwacyY8G27bYXr+yJ18kOOHtunnabAfnRZE8xyAQM+j5BjvUA==
+X-Received: by 2002:aa7:8889:0:b0:769:9f87:1dfa with SMTP id d2e1a72fcca58-76e20fba1damr4367769b3a.23.1755091316718;
+        Wed, 13 Aug 2025 06:21:56 -0700 (PDT)
+Received: from gmail.com ([2406:5900:2:f21::2a1])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfbd156sm32006909b3a.84.2025.08.13.06.21.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 05:32:18 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Damien Le Moal <dlemoal@kernel.org>, 
- Philipp Reisner <philipp.reisner@linbit.com>, 
- Lars Ellenberg <lars.ellenberg@linbit.com>, 
- Jonathan Corbet <corbet@lwn.net>, Erick Karanja <karanja99erick@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, 
- =?utf-8?q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>, 
- linux-block@vger.kernel.org, drbd-dev@lists.linbit.com, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-In-Reply-To: <20250813071837.668613-1-karanja99erick@gmail.com>
-References: <20250813071837.668613-1-karanja99erick@gmail.com>
-Subject: Re: [PATCH] Docs: admin-guide: Correct spelling mistake
-Message-Id: <175508833758.953995.10420055026430792302.b4-ty@kernel.dk>
-Date: Wed, 13 Aug 2025 06:32:17 -0600
+        Wed, 13 Aug 2025 06:21:56 -0700 (PDT)
+Date: Wed, 13 Aug 2025 22:21:50 +0900
+From: Ryan Chung <seokwoo.chung130@gmail.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: mhiramat@kernel.org, mathieu.desnoyer@efficios.com,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] trace/trace_fprobe.c: TODO: handle filter, nofilter or
+ symbol list
+Message-ID: <aJyRblXjHcxz4EGF@gmail.com>
+References: <20250812162101.5981-1-seokwoo.chung130@gmail.com>
+ <20250812140357.65d19062@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-2ce6c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250812140357.65d19062@gandalf.local.home>
 
-
-On Wed, 13 Aug 2025 10:18:36 +0300, Erick Karanja wrote:
-> Fix spelling mistake directoy to directory
+On Tue, Aug 12, 2025 at 02:03:57PM -0400, Steven Rostedt wrote:
+> On Wed, 13 Aug 2025 01:21:01 +0900
+> Ryan Chung <seokwoo.chung130@gmail.com> wrote:
 > 
-> Reported-by: codespell
+> > Resolve TODO in `__register_trace_fprobe()`: 
+> > parse `tf->symbol` robustly (support `sym!filter` and comma-separated lists), trim tokens, ignore empties, deduplicate symbols, use bulk registration for lists, return `-EEXIST` if already registered, and preserve lockdown/tracepoint deferral semantics.
+> 
+> Hi Ryan,
+> 
+> Please read the Submitting Patches document to have proper format.
+> 
+>  https://docs.kernel.org/process/submitting-patches.html
 > 
 > 
+> For example, the change long should have a max column of 74 (with the
+> exception of cut and paste commands or output)
+> 
 
-Applied, thanks!
+Thank you. I will make sure to follow the style guide.
 
-[1/1] Docs: admin-guide: Correct spelling mistake
-      commit: f7a2e1c08727384cde1c686dd57172f99b5f2e6e
+> > 
+> > Please note that this was my personal interpretation of what TODO
+> > required here. Welcoming any feedback. 
+> > 
+> > Signed-off-by: Ryan Chung <seokwoo.chung130@gmail.com>
+> > ---
+> >  kernel/trace/trace_fprobe.c | 102 +++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 100 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/kernel/trace/trace_fprobe.c b/kernel/trace/trace_fprobe.c
+> > index b40fa59159ac..37d4260b9012 100644
+> > --- a/kernel/trace/trace_fprobe.c
+> > +++ b/kernel/trace/trace_fprobe.c
+> > @@ -12,6 +12,8 @@
+> >  #include <linux/security.h>
+> >  #include <linux/tracepoint.h>
+> >  #include <linux/uaccess.h>
+> > +#include <linux/string.h>
+> > +#include <linux/slab.h>
+> >  
+> >  #include "trace_dynevent.h"
+> >  #include "trace_probe.h"
+> > @@ -762,8 +764,104 @@ static int __register_trace_fprobe(struct trace_fprobe *tf)
+> >  		return __regsiter_tracepoint_fprobe(tf);
+> >  	}
+> >  
+> > -	/* TODO: handle filter, nofilter or symbol list */
+> > -	return register_fprobe(&tf->fp, tf->symbol, NULL);
+> > +    /* Parse tf->symbol */
+> > +    {
+> 
+> Code does not add random blocks.
+> 
+
+I will remove the block and integrate the code directly. 
+Is this the recommended way in linux kernel development?
+
+> > +        char *spec, *bang, *p;
+> > +        int n = 0, w = 0, j, rc;
+> 
+> Indentation is always 8 byte tabs (not spaces).
+> 
+
+I will convert to 8 byte tabs as mentioned.
+
+> > +        char **syms = NULL;
+> > +
+> > +        spec = kstrdup(tf->symbol, GFP_KERNEL);
+> 
+> Why did you declare spec as "char **" when you use it as "char *"?
+> 
+
+This is my mistake. 
+I will correct the declaration. 
+
+> > +        if (!spec)
+> > +            return -ENOMEM;
+> > +
+> > +        /* If a '!' exists, treat it as single symbol + filter */
+> > +        bang = strchr(spec, '!');
+> > +        if (bang) {
+> > +            char *sym, *flt;
+> > +
+> > +            *bang = '\0';
+> > +            sym = strim(spec);
+> > +            flt = strim(bang + 1);
+> > +
+> > +            if (!*sym || !*flt) {
+> > +                kfree(spec);
+> > +                return -EINVAL; /* reject empty symbol/filter */
+> > +            }
+> > +
+> > +            rc = register_fprobe(&tf->fp, sym, flt);
+> > +            kfree(spec);
+> > +            return rc;
+> > +        }
+> > +
+> > +        /* Comma list (or single symbol without '!') */
+> > +        /* First pass: count non-empty tokens */
+> 
+> Strange comments. Did you use AI to help you write this?
+> 
+
+Yes I did use AI but not in a blatant way of copy-and-paste.
+I am relatively new to the codebase and kernel development and therefore used
+AI to help me get up to speed. 
+Please let me know if you don't recommend using AI.
+
+> -- Steve
+> 
+> > +        p = spec;
+> > +        while (p) {
+> > +            char *tok = strsep(&p, ",");
+> > +            if (tok && *strim(tok))
+> > +                n++;
+> > +        }
+> > +
+> > +        if (n == 0){
+> > +            kfree(spec);
+> > +            return -EINVAL;
+> > +        }
+> > +
+> > +        /* Allocate array for pointers into spec (callee copies/consumes) */
+> > +        syms = kcalloc(n, sizeof(*syms), GFP_KERNEL);
+> > +        if (!syms) {
+> > +            kfree(spec);
+> > +            return -ENOMEM;
+> > +        }
+> > +
+> > +        /* Second pass: fill, skipping empties */
+> > +        p = spec;
+> > +        while (p) {
+> > +            char *tok = strsep(&p, ",");
+> > +            char *s;
+> > +
+> > +            if (!tok)
+> > +                break;
+> > +            s = strim(tok);
+> > +            if (!*s)
+> > +                continue;
+> > +            syms[w++] = s; 
+> > +        }
+> > +        
+> > +        /* Dedup in-place */
+> > +        for (i = 0; i < w; i++){
+> > +            if (!syms[i])
+> > +                continue;
+> > +            for (j = i + 1; j < w; j++) {
+> > +                if (syms[j] && !strcmp(syms[i], syms[j]))
+> > +                    syms[j] = NULL;
+> > +            }
+> > +        }
+> > +
+> > +        /* Compact */
+> > +        for (i = 0, j = 0; i < w; i++) {
+> > +            if (syms[i])
+> > +                syms[j++] = syms[i];
+> > +        }
+> > +        w = j;
+> > +
+> > +        /* After dedup, ensure we still have at least one symbol */
+> > +        if (w == 0){
+> > +            kfree(syms);
+> > +            kfree(spec);
+> > +            return -EINVAL;
+> > +        }
+> > +
+> > +        /* Register list or single symbol, using the existing bulk API */
+> > +        if (w == 1)
+> > +            rc = register_fprobe(&tf->fp, syms[0], NULL);
+> > +        else
+> > +            rc = register_fprobe_syms(&tf->fp, (const char **)syms, w);
+> > +
+> > +        kfree(syms);
+> > +        kfree(spec);
+> > +        return rc;
+> > +    }
+> >  }
+> >  
+> >  /* Internal unregister function - just handle fprobe and flags */
+> 
+
+I will send v2 shortly with the above comments in mind.
 
 Best regards,
--- 
-Jens Axboe
-
-
-
+Ryan Chung
