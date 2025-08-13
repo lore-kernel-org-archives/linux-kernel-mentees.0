@@ -1,50 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986522E41E
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 Aug 2025 00:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA37F2AE8E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 00:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755043379; cv=none; b=C7DltqI1H/uwr6yr85fiL3VkbovWC1uhdQ1C9KzUHJNzrsHuI+6SKDNV/2t5wU521Js/ORaLI0Rt89mMUNHuAto8BoY+hcDTTCrKtgzSUtuQ4scoybFkdFLZrzjXpERLjySoPYyIeoDe3wL0YlhnnCNZw9rU8XlR9Qz5CqY1BA4=
+	t=1755046410; cv=none; b=Wh2K6Mlzj1Qjll1hPfgldPBpEf3OjEejghr6kX9p5SzVaY09BzpebVXfLvPmvStrOC7v4pfrUiawn4eNYQuC0thMH97sLQkURHa1F0xQiStUiymIWO3VO8ROBVON+tneAh8/vylIfurZJtZhHAJ+7VjEDH69p+3WGlJmEEIsukg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755043379; c=relaxed/simple;
-	bh=zykA6qfry9bt4gf1nt2c1l5Y3AMskg+ea5JhzydUnWo=;
+	s=arc-20240116; t=1755046410; c=relaxed/simple;
+	bh=vtp0RC1sRTsM+aidwfpW673og0T8imyaAXUup4h6biI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gAdpYI/tZzLHy+WE657w84jDjlFbN0ThHBxz9/HBlZkNraLm/JIaPlw7At14nomoUtvmyMBVYcILEWUQj7EPD4hXC+Tsk62WQlf8wo09tKHxVd/nr6/ZE7/5u0CHSEZ0gOfFnpzVcRvHzM7eCgeyxWzqx8d5/XoZfWjiMsR5iO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I8h79MLo; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type; b=g8qFvZ0V+NVd/JoBwng6LasnNMoveqX/864k5/o28sJrJKOh6xiYIq0H135VU70mwr2HPuXDTBa6D5g1TsXyXJ60hVBwT/J3OuS5KR1F5mF+ESDlcj09Pc65iOr055a5Upf4cQEZ1Ykr4WMSpHm27wP35Vw9NyMzmpYrTE/m008=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sqr5my9F; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I8h79MLo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755043377; x=1786579377;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=zykA6qfry9bt4gf1nt2c1l5Y3AMskg+ea5JhzydUnWo=;
-  b=I8h79MLoUxTko+k6/mY5k7DzPyTTNpmFlxIhqY+zjf1ilokKJDqaHeMu
-   QneL43RWztkWcU6E7HKwSDFH6lSsjyBU1P9ceLP8KxytHhZl+ldazd0eL
-   CgoW6pRaykXbw0RhF26VhUAvkihNF9RzHdRdIxDEwUOCuztTSgiE+8C31
-   77CNJiqvaLwNJ7ZkUQbB+ol6vPZWIp6aedHR6B9DvLVONr0ixRwuljN9T
-   4NpuwLpCKIRT+iO+o2cZ2GEcM3jlZuihSsbIfluBohfb9ieSmrIGWa0HV
-   d1rGaAzqdxejMsV9E2OhgwyxApE3Aayh6DTCftHhPxMC9dDx9pBRuoVZV
-   A==;
-X-CSE-ConnectionGUID: XiRaCvxrR52+bOK0pn/DWg==
-X-CSE-MsgGUID: DA8zqYb+QiKnAA5L4wMFlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="56538150"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="56538150"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 17:02:56 -0700
-X-CSE-ConnectionGUID: 8z9uwQqKQo2vr/TAm4u4Jg==
-X-CSE-MsgGUID: 4qIjPp2VQWSq+ALy/BPT0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="165952315"
-Received: from anmitta2-mobl4.gar.corp.intel.com (HELO [10.247.119.149]) ([10.247.119.149])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 17:02:50 -0700
-Message-ID: <143f328f-52fb-41b2-9e46-08a390c3e47a@intel.com>
-Date: Tue, 12 Aug 2025 17:02:45 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sqr5my9F"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 83CAF41398
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 00:53:28 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.101
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id RsFRuC1hc5cJ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 13 Aug 2025 00:53:28 +0000 (UTC)
+X-Greylist: delayed 1132 seconds by postgrey-1.37 at util1.osuosl.org; Wed, 13 Aug 2025 00:53:27 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org E2B7D41199
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E2B7D41199
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Sqr5my9F
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=dlemoal@kernel.org; receiver=<UNKNOWN> 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id E2B7D41199
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 00:53:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 451DE5C57F4;
+	Wed, 13 Aug 2025 00:34:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF329C4CEF0;
+	Wed, 13 Aug 2025 00:34:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755045273;
+	bh=vtp0RC1sRTsM+aidwfpW673og0T8imyaAXUup4h6biI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Sqr5my9FYzLh5XZ06mU/2Enj+aYffEhc2/YEfFKM+1fCCLzkiJO7lB0zCNstiMx1E
+	 plRUTjFtHPxEyfMNVkmLGjAmYQIrvRO5TeWig/ZMMmmSbFUW6iby1RukB292fU7dbY
+	 XkWd8iKwLqhbtcTagyQt1jTm40+IXkOGcIhTQqZORpuJyOPgMsDYNpy7p/Ejc+sgaH
+	 TQsJ2sgU8gEuUFoDmxpmM1ZkqUqbl2pocprfrvYfoNS8lZr+AEh0Jaj2zu/hK8Wx3b
+	 w3NiIi6a0/xO6g8hB8YFyf0/d2O+K7OHxAZOh69/9FQr2T1Xl05AHz509kBrsBkDnq
+	 tdM8NtHFv6coQ==
+Message-ID: <25bd83bd-6b39-48cd-b31b-dd6f1df00f94@kernel.org>
+Date: Wed, 13 Aug 2025 09:34:31 +0900
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -52,64 +59,31 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] cxl/region: use str_enabled_disabled() instead of tenary
- operator
-To: Nai-Chen Cheng <bleach1827@gmail.com>, Davidlohr Bueso
- <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>
-Cc: linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20250812-cxl-region-string-choices-v1-1-50200b0bc782@gmail.com>
+Subject: Re: [PATCH v2 2/9] docs: zoned_loop: fixed spelling mistakes in
+ documentation
+To: Soham Metha <sohammetha01@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ skhan@linuxfoundation.org, hch@lst.de
+References: <20250812202940.70560-1-sohammetha01@gmail.com>
 Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20250812-cxl-region-string-choices-v1-1-50200b0bc782@gmail.com>
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20250812202940.70560-1-sohammetha01@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 8/11/25 9:49 AM, Nai-Chen Cheng wrote:
-> Replace tenary operator with str_enabled_disabled() helper to enhance
-> code readability and consistency.
+On 8/13/25 05:29, Soham Metha wrote:
+> found/fixed the following typos
 > 
-> Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
-
-Applied to cxl/next. Spelling mistakes noted by Alison fixed.
-733c4e9bcec9
-
-> ---
->  drivers/cxl/core/region.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> - conventioanl -> conventional
+> - directoy -> directory
 > 
-> diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
-> index 71cc42d05248..83d58787b5af 100644
-> --- a/drivers/cxl/core/region.c
-> +++ b/drivers/cxl/core/region.c
-> @@ -10,6 +10,7 @@
->  #include <linux/sort.h>
->  #include <linux/idr.h>
->  #include <linux/memory-tiers.h>
-> +#include <linux/string_choices.h>
->  #include <cxlmem.h>
->  #include <cxl.h>
->  #include "core.h"
-> @@ -1468,9 +1469,7 @@ static int cxl_port_setup_targets(struct cxl_port *port,
->  				dev_name(port->uport_dev), dev_name(&port->dev),
->  				__func__, cxld->interleave_ways,
->  				cxld->interleave_granularity,
-> -				(cxld->flags & CXL_DECODER_F_ENABLE) ?
-> -					"enabled" :
-> -					"disabled",
-> +				str_enabled_disabled(cxld->flags & CXL_DECODER_F_ENABLE),
->  				cxld->hpa_range.start, cxld->hpa_range.end);
->  			return -ENXIO;
->  		}
+> in `Documentation/admin-guide/blockdev/zoned_loop.rst`
 > 
-> ---
-> base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-> change-id: 20250812-cxl-region-string-choices-f5aa9832346e
-> 
-> Best regards,
+> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
 
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+
+-- 
+Damien Le Moal
+Western Digital Research
