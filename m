@@ -1,111 +1,93 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8A519F424
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 Aug 2025 18:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C3C2F99A0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 19:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755109494; cv=none; b=kd17LfVRx6dbq+jd64cfsvDLu2qfZP3AWFLLlK7z37EQNg9AAKIUHjrOeA9srabyQd2gjr7SYLdbSQ55w4mbdEvZg50xMzIyamhdh2xannELKJ/PANRu1wd6R/oEFuLTpvSwrbs3GqhTgULUsnhkuNEIA0bShmGf/V3+TCHk8Zc=
+	t=1755112928; cv=none; b=A1As3E6OvdNkAfk+MsviFt/pi3AxtSa0BPJPpd12+mg7c/dNEoWhf0E6dl6WKmjQx5UeL2FgVz7vVlKwxHOd2hxh79bF0XfoG6Rf3XRQI7kAee3K4QEnYSjPQ44gneswrFzuf5jU1Tqk4SKWgABo1nl8IzhJm6OjQn64CRMcwjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755109494; c=relaxed/simple;
-	bh=rMZI/++Sl83oEviYROVHczJ3NA9sNaqcT1YdK0dP1Q0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bBrMvDmdIrucwHdwIZTglojEZm+QxaycWgGQbnl+qrtb1/IwhRmTeAahlC/tWmnKWD/udgjOBKtx2p3uXhmLTVFF6bXYPzQ2BKZAe83vbkgcYzLGZVxxxa6FAjMe8TrqYeNFHmsx0M4vwVNxjS9ql0CbMzmmiWciFEf41Bmjxz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HptZKcPH; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755112928; c=relaxed/simple;
+	bh=w0ouKptykXmNigxZC5kHw1IEzuv4psf7+p8nEWC69Mg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QwW+KZRwcoLxAefCBvWP3F8ISpHhUPZrcEl7SW2vz7Mg9s1TzEJz6AiAv44snT2WMLDJhhQSI5U0GiN+n6weJ0AdXn0+RYq1p1eVcQ51mEyxyWWGA2Auo1CRXznMsOzgopG1c8Ia8NAFwCA+HfsObUkBY8oTnCCGVius/zgq9nI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rZigzKGS; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HptZKcPH"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-76e2e8bb2e5so287518b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 Aug 2025 11:24:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755109493; x=1755714293; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lf4c4+X3SHCf0c7CaWo3n9zdv/g/JaUx8MF3KOPrPUg=;
-        b=HptZKcPHrhkioOkY1lGjTDLm7249MRtl3tbntncV12XhXvjsewaVwBEq7FGcl9t1g4
-         hrnPd3MK2G7SJI9Suuv3ToQEghngBhqRUzDt49fvmTxW6d9Kzr3oSyFpf33lGRjRvOcx
-         GCDwxBHqaMUrtjsQeN2RNwPtsQNn6S3gRFGzXpRZGbeF1NE1UKxSodpfFab96dwwzp3V
-         E1W4Bj79BI0CBVHVTnM3S6D/KJ09DqwDNK8PJFs3eosEYAIKcp2LZ+P4rWh0EUwRcKOL
-         3o1bhXk+ZXa2qe4YP2odvl9r7iZwGoNyGz5ycVZ4ulF0+W+KIYo7LYrzHuC5ezvjfd2G
-         Lbvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755109493; x=1755714293;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lf4c4+X3SHCf0c7CaWo3n9zdv/g/JaUx8MF3KOPrPUg=;
-        b=XcPQ9jYqaLzlxsvBrhGSl7Vkon0zGQDqPubsS0S+q3479GGfJ31Mw7ZBEIEBXDUAYW
-         sx16aDysKG3qzjicHAzDc5G5+naHnkHC9tHHZ59lHo9xBM23zkWncxEMWhNwiNJUP7QB
-         oguXoSWc25NdI3l1TNDPAScfj9vqETCJNQX7rASkfHEhSXaVTCpc/esVni+CLrEJu8fu
-         c9QfcH38VnslZ26Qzg1Bt8B27RExNJQ8RKw0Ao0EZc1/ldHpRk+nPc91wu0vKTvvQeAw
-         K4jUzd5RzsxvZN6YG98nJNZUDj9U+ntnYxFZAYRqRX1k8rgWLN8Tlk7UDYXmy8mVxBjI
-         kGlg==
-X-Forwarded-Encrypted: i=1; AJvYcCWrUb1c9gAF3NOal2NpL8Ng2Ecyqv2VbJVDEMzEHJe9X0NIqoPItqpE8qWChbkMV3mhRDNn3bUpcMWIiNj0bg1uBGmSqA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwYivccw3h6Ep+3UO6J+zC5iOivhFghhZSB15pZ+umFknlum0tO
-	gB8K/6CyXzCbv3RTsjMpviZGkcg6T/4ElGUTjzpbWA7oZ8IpZ/Y/RJO3bSAPZS13
-X-Gm-Gg: ASbGncs9j65vqpE7wky/cqZp9KFK3HeS/b7caxstG4OIJTQyms+tDRdyau723eK3QdM
-	hXmLHP8xGGIjPCEbVfzB6Takm+EfyVDg3e8XDaKOUrwfrcOPZZQcqwzIYy8mfEubk5+ffwx3C++
-	KGWkhIZ5T6nXKdOjOJxcUYn8No6NjoHiuMYadelKpmMa+LeKFVn2NtXQpitLghY61qd8AD/tWUu
-	AbGG79LpyQoFeTu/p8eTgespMMP/x2fu7Wp0xZT2VFZcSlerdHIEs0dyJL9AnFtOIH0TOZlE1/n
-	lHR1cRcVc0oXC5bL7gaRAIh23myHtKeETMjGlaoDnJV1onW/aBcbAXIqJ6bccWsoZ/Hv+mnyrO1
-	DvRMleiVqkObuHhKjVWmnnxj2fEu/lnP7ifUffyaj
-X-Google-Smtp-Source: AGHT+IGFPWxg01RMwiGU0dEwChvK6RJmUSmpiGeA5HRM48y193iq5Ghvtn2vXWFMsWE1r5tKYUst2Q==
-X-Received: by 2002:a05:6a20:3ca2:b0:240:11b3:bef3 with SMTP id adf61e73a8af0-240a8b50ffbmr7204349637.38.1755109492421;
-        Wed, 13 Aug 2025 11:24:52 -0700 (PDT)
-Received: from archlinux ([205.254.163.26])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4263836324sm20670472a12.10.2025.08.13.11.24.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 11:24:52 -0700 (PDT)
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: [PATCH RESEND] fs/ext4: remove unused variable 'de' in ext4_init_new_dir()
-Date: Wed, 13 Aug 2025 23:54:40 +0530
-Message-ID: <20250813182440.17581-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rZigzKGS"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id E95A681467
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 19:22:06 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -4.398
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id IHICLpq1acI0 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 13 Aug 2025 19:22:06 +0000 (UTC)
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2607:7c80:54:3::133; helo=bombadil.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 26DE68149E
+Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=infradead.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 26DE68149E
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rZigzKGS
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 26DE68149E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Aug 2025 19:22:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=pggfmbdpGZOyYC0NJM+dTAZP6m/p4pfU1MFCzI4Ifm4=; b=rZigzKGSGt5jG9U+tuFXQYEeMR
+	qMyvmJERodOJVtVDOF6KBXn97KcF8LExaHhrOu2dbYX6FTv2gB/Xi6bR885OSRiO3pQmJEKSc+Il9
+	Je3eGlX9kq+suX+PvrGFJusPbwiKre5900IiSwMyJ49K8a5YrQKC9yX003phV30eTrhEH4aZ/tv8b
+	LVMcwhnX6MQmV1KLXTQXvYmGpc6rsdFuScyqx9WO+DnmN9uZNBaM0/3psR6OcztyfTNGP9QY5Tgta
+	/Iz+R54C/j1Jhd5+6JqgEtxAEFTt88e2ZvqPQQdTrPFZeCH0ofcYK0ArKJqLArYA9CXf8Uq7+n8oS
+	/qWtDSuA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1umH2y-0000000EmmM-0rdm;
+	Wed, 13 Aug 2025 19:22:04 +0000
+Message-ID: <7daf2e6e-cd33-40d9-8ae5-d4cd08ff0162@infradead.org>
+Date: Wed, 13 Aug 2025 12:22:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/kernel_hacking: Fix minor typo in
+ hacking.rst
+To: rakuram <rakuram.e96@gmail.com>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
+ ukleinek@kernel.org
+References: <970be4df-e010-4ba2-b2e9-c2c24b8742ef@infradead.org>
+ <20250813182434.7189-1-rakuram.e96@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250813182434.7189-1-rakuram.e96@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The variable 'de' was declared but never used in the ext4_init_new_dir()
-function, causing a compiler warning:
-variable 'de' set but not used [-Werror=unused-but-set-variable]
-Remove the unused declaration to clean up the code and fix the warning.
 
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
----
- fs/ext4/namei.c | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
-index d83f91b62317..bb2370829928 100644
---- a/fs/ext4/namei.c
-+++ b/fs/ext4/namei.c
-@@ -2965,7 +2965,6 @@ int ext4_init_new_dir(handle_t *handle, struct inode *dir,
- 			     struct inode *inode)
- {
- 	struct buffer_head *dir_block = NULL;
--	struct ext4_dir_entry_2 *de;
- 	ext4_lblk_t block = 0;
- 	int err;
- 
-@@ -2982,7 +2981,6 @@ int ext4_init_new_dir(handle_t *handle, struct inode *dir,
- 	dir_block = ext4_append(handle, inode, &block);
- 	if (IS_ERR(dir_block))
- 		return PTR_ERR(dir_block);
--	de = (struct ext4_dir_entry_2 *)dir_block->b_data;
- 	err = ext4_init_dirblock(handle, inode, dir_block, dir->i_ino, NULL, 0);
- 	if (err)
- 		goto out;
+On 8/13/25 11:24 AM, rakuram wrote:
+> Thanks for the clarification, and I apologise for the oversight in my submission.
+> Could you please suggest the best way to check whether a similar patch has already been attempted before sending one?
+
+Well, I remembered seeing one recently so I searched the archives of the linux-doc
+mailing list (https://lore.kernel.org/linux-doc/). In the search box I entered:
+
+b:"compatibility"
+
+but that's not going to work for a general case. For other patches to the
+same file, I would change the search argument to
+
+b:"Documentation/kernel-hacking/hacking.rst"
+
+HTH.
 -- 
-2.50.1
+~Randy
 
