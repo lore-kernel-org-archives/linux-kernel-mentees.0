@@ -1,245 +1,164 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0059E1F582A;
-	Thu, 14 Aug 2025 12:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A458A301473
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 14 Aug 2025 13:58:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755173853; cv=none; b=m4MkbcHgwq4YXPPX5JBClMgfPIOcmGhJ/njzlDJw+ECpti4gHGVmTgDgjn0z4s2gCd9iVrYdoutPXanCTDcMmSdY0OET1nn572/HTwlEx6/ELmz8D49DM69PN66YncTVdyw+WyrdbyO0/g+6nw1U7frrnH1mJz+N5rOmeCdo8uc=
+	t=1755179917; cv=none; b=YCxciBeT0WYoQmURe2Uq2LvASNUGdQh+gUXX/QW1IQGM8YcI/yGS4Mi7g8LLpih80+WP8WTPQH+pGyOcM7bkXw/CUbGOO2PjxDpCdUM8SCJRX5Ec7ccRplJd44EIb6V081BhLhXtlM7pn5oOcYnyLh5gqw1DbsJUqPLRZByte8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755173853; c=relaxed/simple;
-	bh=GCI3UkzoLskNX9YAgNjPzxJEkiYHbWi5Zy1B0N1f9Qw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qlUo5eIjH07esf4Xo9P1kD/29ZdhuPpNAygDkn0N99IsbHsJrK1DZ2SJvcmNiIndEySymXE0rKUhVAJhjHZwWjRHGqP+UKah/0vuN5NML96SGM6yexuuBRAuvDYsGovP3+lqLmiU7VISOtyijeVTySCNPI0jcrxTyXcE3kWzBFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=ZyN4Q/cR; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1755179917; c=relaxed/simple;
+	bh=RjNP51rWOqwJvFPujRiwfpryaBNZ5h9BXsFdM4LJEDA=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=lXaDZtpJd2met8ROBPc7U7Flypncu1QtmX4F6RtHXJmt9gMKssD+uWjNV0nWbeqc/npWkM6m8in7sCGslP5Ofy4pFvvYay5f4orv+Zq3r5h8lxyUD4gh0bAS8xOyfaY2s6CrA2ZaSc956L5DTEocZ2fyy9JoYQJmRZdgiqbfhig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EH8lFX7w; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="ZyN4Q/cR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=ZOG76uaDp8U/rjuwq6QpgPB3jTygDtge7PgnECYfTCc=; b=ZyN4Q/cRDZ77eadd96PiRMVKH3
-	F56CxSXoLuFtQmnocLtG8razLjjHnqMURESaHIqO4JCs2iDW0BEpQdRXf1mERV9HZmGPqc2VvUyyT
-	2fzrmihDuEypkugKJZ3vPalu+RTpASZRTA2POsrZZRF0G6NRO/3HcaXmXXtx8J5iufHvWQb8zATF7
-	IA1jpFNKWJynZQ0217VFo+15groR0ZNPFweSbVJTzV2nqmAlQC/glzs/na97Eh1jwh1eMPoRNBMna
-	omFqSxKu0o3LklVK9oYGAEZjpVldV1Qreoa4lLEjQWyVx86Gmi6/tuOp4tOhDy029+IWj8vM0GDex
-	mcHKBqcg==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1umWtO-00E6Rh-L4; Thu, 14 Aug 2025 14:17:14 +0200
-Message-ID: <ba5ebb9d-4d56-445f-91bb-733c334a54a6@igalia.com>
-Date: Thu, 14 Aug 2025 13:17:13 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EH8lFX7w"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2C6FA4117A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 14 Aug 2025 13:58:36 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -3.292
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id k4juCUPePK1R for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 14 Aug 2025 13:58:35 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=mpatocka@redhat.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 7A2BD40C26
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7A2BD40C26
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=EH8lFX7w
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 7A2BD40C26
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 14 Aug 2025 13:58:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755179914;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+jw6WbtaoxN6m6sw5E6mdvsLGnRETkf4AVaUkSvs2F4=;
+	b=EH8lFX7wrNfarMiVXbnmhNb1ALDB0vG/7hHMjKpRBkfSxs8pJYPaLw0VfBm1SySWpnDKfC
+	g+gDbRc0oLMIhQWCJgU48bSQsmGQV6QjZRfPpFMyD7xAN5fpEJLq2PcaDVqLg4vI9bE16E
+	gr9TK0XywWZPp78p4gftWliA1nMZSKs=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-196-eG3dGHF4N9euJneMVvhlHg-1; Thu,
+ 14 Aug 2025 09:58:30 -0400
+X-MC-Unique: eG3dGHF4N9euJneMVvhlHg-1
+X-Mimecast-MFC-AGG-ID: eG3dGHF4N9euJneMVvhlHg_1755179909
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 43B92195609F;
+	Thu, 14 Aug 2025 13:58:29 +0000 (UTC)
+Received: from [10.22.80.50] (unknown [10.22.80.50])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B521C19A4CAB;
+	Thu, 14 Aug 2025 13:58:26 +0000 (UTC)
+Date: Thu, 14 Aug 2025 15:58:19 +0200 (CEST)
+From: Mikulas Patocka <mpatocka@redhat.com>
+To: Soham Metha <sohammetha01@gmail.com>
+cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+    skhan@linuxfoundation.org, Alasdair Kergon <agk@redhat.com>, 
+    Mike Snitzer <snitzer@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+    Matthew Sakai <msakai@redhat.com>
+Subject: Re: [PATCH v2 4/9] docs: device-mapper: fixed spelling mistakes in
+ documentation
+In-Reply-To: <20250812204952.73136-2-sohammetha01@gmail.com>
+Message-ID: <1b392cd9-ff49-2b5e-bc42-c544170c1da6@redhat.com>
+References: <20250812201523.69221-1-sohammetha01@gmail.com> <20250812204952.73136-1-sohammetha01@gmail.com> <20250812204952.73136-2-sohammetha01@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Prevent stopped entities from being added to
- the run queue.
-To: phasta@kernel.org, James Flowers <bold.zone2373@fastmail.com>,
- matthew.brost@intel.com, dakr@kernel.org, ckoenig.leichtzumerken@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, skhan@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20250720235748.2798-1-bold.zone2373@fastmail.com>
- <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
- <67c6a43a-a18b-4b5c-bb43-ba3aea2df05f@igalia.com>
- <0e5b8c8c-8faf-4167-b4a4-d35215c1d4d9@igalia.com>
- <7404e73561283f806456d1ecab92fbc17dfdd57a.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <7404e73561283f806456d1ecab92fbc17dfdd57a.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+
+Applied, thanks.
+
+Mikulas
 
 
-On 14/08/2025 12:49, Philipp Stanner wrote:
-> On Thu, 2025-08-14 at 12:45 +0100, Tvrtko Ursulin wrote:
->>
->> On 14/08/2025 11:42, Tvrtko Ursulin wrote:
->>>
->>> On 21/07/2025 08:52, Philipp Stanner wrote:
->>>> +Cc Tvrtko, who's currently reworking FIFO and RR.
->>>>
->>>> On Sun, 2025-07-20 at 16:56 -0700, James Flowers wrote:
->>>>> Fixes an issue where entities are added to the run queue in
->>>>> drm_sched_rq_update_fifo_locked after being killed, causing a
->>>>> slab-use-after-free error.
->>>>>
->>>>> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
->>>>> ---
->>>>> This issue was detected by syzkaller running on a Steam Deck OLED.
->>>>> Unfortunately I don't have a reproducer for it. I've
->>>>
->>>> Well, now that's kind of an issue – if you don't have a reproducer, how
->>>> can you know that your patch is correct? How can we?
->>>>
->>>> It would certainly be good to know what the fuzz testing framework
->>>> does.
->>>>
->>>>> included the KASAN reports below:
->>>>
->>>>
->>>> Anyways, KASAN reports look interesting. But those might be many
->>>> different issues. Again, would be good to know what the fuzzer has been
->>>> testing. Can you maybe split this fuzz test into sub-tests? I suspsect
->>>> those might be different faults.
->>>>
->>>>
->>>> Anyways, taking a first look…
->>>>
->>>>
-> 
-> 
-> [SNIP]
-> 
->>>>>
->>>>> ==================================================================
->>>>
->>>> If this is a race, then this patch here is broken, too, because you're
->>>> checking the 'stopped' boolean as the callers of that function do, too
->>>> – just later. :O
->>>>
->>>> Could still race, just less likely.
->>>>
->>>> The proper way to fix it would then be to address the issue where the
->>>> locking is supposed to happen. Let's look at, for example,
->>>> drm_sched_entity_push_job():
->>>>
->>>>
->>>> void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->>>> {
->>>>      (Bla bla bla)
->>>>
->>>>        …………
->>>>
->>>>      /* first job wakes up scheduler */
->>>>      if (first) {
->>>>          struct drm_gpu_scheduler *sched;
->>>>          struct drm_sched_rq *rq;
->>>>
->>>>          /* Add the entity to the run queue */
->>>>          spin_lock(&entity->lock);
->>>>          if (entity->stopped) {                  <---- Aha!
->>>>              spin_unlock(&entity->lock);
->>>>
->>>>              DRM_ERROR("Trying to push to a killed entity\n");
->>>>              return;
->>>>          }
->>>>
->>>>          rq = entity->rq;
->>>>          sched = rq->sched;
->>>>
->>>>          spin_lock(&rq->lock);
->>>>          drm_sched_rq_add_entity(rq, entity);
->>>>
->>>>          if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->>>>              drm_sched_rq_update_fifo_locked(entity, rq, submit_ts);
->>>> <---- bumm!
->>>>
->>>>          spin_unlock(&rq->lock);
->>>>          spin_unlock(&entity->lock);
->>>>
->>>> But the locks are still being hold. So that "shouldn't be happening"(tm).
->>>>
->>>> Interesting. AFAICS only drm_sched_entity_kill() and drm_sched_fini()
->>>> stop entities. The former holds appropriate locks, but drm_sched_fini()
->>>> doesn't. So that looks like a hot candidate to me. Opinions?
->>>>
->>>> On the other hand, aren't drivers prohibited from calling
->>>> drm_sched_entity_push_job() after calling drm_sched_fini()? If the
->>>> fuzzer does that, then it's not the scheduler's fault.
->>>>
->>>> Could you test adding spin_lock(&entity->lock) to drm_sched_fini()?
->>>>
->>>> Would be cool if Tvrtko and Christian take a look. Maybe we even have a
->>>> fundamental design issue.
->>>
->>> It would be nice to have a reproducer and from this thread I did not
->>> manage to figure out if the syzkaller snipper James posted was it, or
->>> not quite it.
->>>
->>> In either case, I think one race I see relates to the early exit !
->>> entity->rq check before setting entity->stopped in drm_sched_entity_kill().
->>>
->>> If the entity was not submitted at all yet (at the time of process
->>> exit / entity kill), entity->stopped will therefore not be set. A
->>> parallel job submit can then re-add the entity to the tree, as process
->>> exit / file close / entity kill is continuing and is about to kfree the
->>> entity (in the case of amdgpu report there are two entities embedded in
->>> file_priv).
->>>
->>> One way to make this more robust is to make the entity->rq check in
->>> drm_sched_entity_kill() stronger. Or actually to remove it altogether.
->>> But I think it also requires checking for entity->stopped in
->>> drm_sched_entity_select_rq() and propagating the error code all the way
->>> out from drm_sched_job_arm().
->>>
->>> That was entity->stopped is properly serialized and acted upon early
->>> enough to avoid dereferencing a freed entity and avoid creating jobs not
->>> attached to anything (but only have a warning from push job).
->>>
->>> Disclaimer I haven't tried to experiment with this yet, so I may be
->>> missing something. At least writing a reproducer for the race I
->>> described sounds easy so unless someone shouts I am talking nonsense I
->>> can do that and also sketch out a fix. *If* the theory will hold water
->>> after I write the test case.
->>
->> Nah I was talking nonsense. Forgot entity->rq is assigned on entity init
->> and jobs cannot be created unless it is set.
->>
->> Okay, I have no theories as to what bug syzkaller found.
-> 
-> I just was about to answer.
-> 
-> I agree that the rq check should be fine.
-> 
-> As you can see in the thread, I suspect that this is a race between
-> drm_sched_entity_push_job() and drm_sched_fini().
-> 
-> See here:
-> https://lore.kernel.org/dri-devel/20250813085654.102504-2-phasta@kernel.org/
 
-Yeah I read it.
+On Wed, 13 Aug 2025, Soham Metha wrote:
 
-Problem with the amdgpu angle and this KASAN report is that to me it 
-looked the UAF is about the two VM update entities embedded in struct 
-file priv. And the schedulers used to initialize those are not torn down 
-until driver unload. So I didn't think syzkaller would have hit that and 
-was looking for alternative ideas.
-
-Regards,
-
-Tvrtko
-
-> I think as long as there's no reproducer there is not much to do for us
-> here. A long term goal, though, is to enforce the life time rules.
-> Entities must be torn down before their scheduler. Checking this for
-> all drivers will be quite some work, though..
+> found/fixed the following typos
 > 
+> - flushs -> flushes
+> - explicitely -> explicitly
 > 
-> P.
+> in `Documentation/admin-guide/device-mapper/delay.rst`, and
 > 
+> - approriate -> appropriate
 > 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>
->>>>
->>>>>    }
->>>>>    /**
->>>>
->>>
->>
+> in `Documentation/admin-guide/device-mapper/vdo-design.rst`
+> 
+> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
+> ---
+>  Documentation/admin-guide/device-mapper/delay.rst      | 8 ++++----
+>  Documentation/admin-guide/device-mapper/vdo-design.rst | 2 +-
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/device-mapper/delay.rst b/Documentation/admin-guide/device-mapper/delay.rst
+> index 4d667228e744..a1e673c0e782 100644
+> --- a/Documentation/admin-guide/device-mapper/delay.rst
+> +++ b/Documentation/admin-guide/device-mapper/delay.rst
+> @@ -3,7 +3,7 @@ dm-delay
+>  ========
+>  
+>  Device-Mapper's "delay" target delays reads and/or writes
+> -and/or flushs and optionally maps them to different devices.
+> +and/or flushes and optionally maps them to different devices.
+>  
+>  Arguments::
+>  
+> @@ -18,7 +18,7 @@ Table line has to either have 3, 6 or 9 arguments:
+>     to write and flush operations on optionally different write_device with
+>     optionally different sector offset
+>  
+> -9: same as 6 arguments plus define flush_offset and flush_delay explicitely
+> +9: same as 6 arguments plus define flush_offset and flush_delay explicitly
+>     on/with optionally different flush_device/flush_offset.
+>  
+>  Offsets are specified in sectors.
+> @@ -40,7 +40,7 @@ Example scripts
+>  	#!/bin/sh
+>  	#
+>  	# Create mapped device delaying write and flush operations for 400ms and
+> -	# splitting reads to device $1 but writes and flushs to different device $2
+> +	# splitting reads to device $1 but writes and flushes to different device $2
+>  	# to different offsets of 2048 and 4096 sectors respectively.
+>  	#
+>  	dmsetup create delayed --table "0 `blockdev --getsz $1` delay $1 2048 0 $2 4096 400"
+> @@ -48,7 +48,7 @@ Example scripts
+>  ::
+>  	#!/bin/sh
+>  	#
+> -	# Create mapped device delaying reads for 50ms, writes for 100ms and flushs for 333ms
+> +	# Create mapped device delaying reads for 50ms, writes for 100ms and flushes for 333ms
+>  	# onto the same backing device at offset 0 sectors.
+>  	#
+>  	dmsetup create delayed --table "0 `blockdev --getsz $1` delay $1 0 50 $2 0 100 $1 0 333"
+> diff --git a/Documentation/admin-guide/device-mapper/vdo-design.rst b/Documentation/admin-guide/device-mapper/vdo-design.rst
+> index 3cd59decbec0..faa0ecd4a5ae 100644
+> --- a/Documentation/admin-guide/device-mapper/vdo-design.rst
+> +++ b/Documentation/admin-guide/device-mapper/vdo-design.rst
+> @@ -600,7 +600,7 @@ lock and return itself to the pool.
+>  All storage within vdo is managed as 4KB blocks, but it can accept writes
+>  as small as 512 bytes. Processing a write that is smaller than 4K requires
+>  a read-modify-write operation that reads the relevant 4K block, copies the
+> -new data over the approriate sectors of the block, and then launches a
+> +new data over the appropriate sectors of the block, and then launches a
+>  write operation for the modified data block. The read and write stages of
+>  this operation are nearly identical to the normal read and write
+>  operations, and a single data_vio is used throughout this operation.
+> -- 
+> 2.34.1
 > 
 
