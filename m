@@ -1,236 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E04248F51;
-	Thu, 14 Aug 2025 03:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36012222AA
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 14 Aug 2025 05:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755141309; cv=none; b=gEopOUYm8COmxdCVEXCIEawt2FzTTD5IZdlxDcdwhagQxOnSnXiF/uCt63e6qI1yGDQhCngZJqZxYvSgBdKfRz7mG6vL/NnG6LApRGInApjRb8sxO5O0qAw0v9jkYA4pAAOG0+J1Xhg9wS9uDRGRnad6o0AUBMwkBhVhbKAY4dk=
+	t=1755150504; cv=none; b=DNaES2cfYB8PyKnLcGE0y4OCiwrQcx/At1j3B4OwmTYetdjYrnPdVaeOhW+UvJlkgtNgaj/HiXED/2kaTztKcWyLW8P/+czks6dXTxWPNm6I9KGsZBi8PtCClQEX35Fo4vRHFT07E4NvWwn6F1YPdER+64sbg6iGhnLEOlaliXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755141309; c=relaxed/simple;
-	bh=/EfTcHR4ehUN2Hq9zYIvlMl54+9haGT06nRpAh+gwOo=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=qjt8dDWAVRH9xsjJHCYvWTyh9STluVstpu5Bcj7eU0/x2NhMQPDTdewulorKbWT2tX7BBAXVHHxVcMus6/QH7e2yrdBwShdhmwXWBAVuxaHlUB8GDHCojBApRRj+T68bG3shVmDslZTdF3wtm6bQ30zAwWYqNUdUvPmbToiWacE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hh8w2C3i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755150504; c=relaxed/simple;
+	bh=+0OzEiu1IwHYZBATpQwNvFeQfWRM20a9bZXzyMJbRNo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BgWFA9GdNJ7JIXLyrpFRA54oi35RgmLsse1gIY1/gWLmiycOZmqDii264MPzdI+3ENaIlQVRV1dM3S+SfSb8D1BTmp71XEWRwUrlHBL+dIirX6f+EEyp2xGZ0gfPNpYcqaNYmb0Ju7uCp8g0FORr2FRPLKEWc9KMVd+wNopHd84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M6mLUqJF; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hh8w2C3i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB2AC4CEEF;
-	Thu, 14 Aug 2025 03:15:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755141308;
-	bh=/EfTcHR4ehUN2Hq9zYIvlMl54+9haGT06nRpAh+gwOo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hh8w2C3iROrgp7OV6ideDpPm1NZZB3h+lajUYpzNEIKbc3HqooHpQdR48fRUWZmDz
-	 DahhpECxl8mJ01ep+OzeQKxcq68J5uS36UvvzFtVnrifpCz1NDx2NCOcXgY3tv5YRp
-	 0KMAH8ul+kHAoePNwoZW7dKmr30lqLZA5jotg00NNFxD59F5nDTFU5uv0VkItu4SpJ
-	 boNGZVOYAdta5iLZZmqjCzI2jFqD2XIoQe9O6jJJ+KXq1K+I4LuhAEFmAIxQ9KmrDe
-	 acdNqR909gxUF2I1503lbsI9bEK2Rv8E/jltoDHp9BZN8hABS87xGxul9Dkpfq582Z
-	 iu+XFetUV8J5A==
-Date: Thu, 14 Aug 2025 12:15:04 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Ryan Chung <seokwoo.chung130@gmail.com>
-Cc: rostedt@goodmis.org, mathieu.desnoyer@efficios.com,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] trace/trace_fprobe.c: TODO: handle filter, nofilter or
- symbol list
-Message-Id: <20250814121504.2784e740a4e6fd4e0dd563d6@kernel.org>
-In-Reply-To: <20250812162101.5981-1-seokwoo.chung130@gmail.com>
-References: <20250812162101.5981-1-seokwoo.chung130@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M6mLUqJF"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-55ce510e769so577307e87.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 Aug 2025 22:48:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755150501; x=1755755301; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PUNtO4pH/dYIC4p6AKf+kH0mLx/dB4II9+DFQLnph/s=;
+        b=M6mLUqJF2OJaTj0vwCKZ9qQ/PscamI2SU0NjEzl/x0Fkz6aNXgY0Jozjj9NtPTzoN9
+         t123cdPs2IyDRkKfE4/goBNPOdvU3Vior/IoBIoBa6cs09V/yso69DwL6BzKx814r1Xd
+         dWZXZtFBeM6npdXgYzqZFEvE3Xh0NAZuKCWJWvJ9txy+QokVCp0E6iLmjAhKelG0sgBI
+         Xd/Qd02xNFxevb/qWo/D+fO5e2eDAQ76p1BRby0KFi9ayBVR2FYkUXmEYsmYI9zUaGLW
+         uX6jp85KXe145wbHLSn/PA0C18dEDV1HZ0SfPqQ2zsEoo6qTiiF3HDnAY40aGCAJywp4
+         2q0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755150501; x=1755755301;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PUNtO4pH/dYIC4p6AKf+kH0mLx/dB4II9+DFQLnph/s=;
+        b=bXFMPzenx2XXnnJ1urbRmXrUSSykoE3b6izRGL0Hj3Ccmr5lvVqi5uWyJ0c1ITPO5T
+         aXPuflMoxyBqPwa5+/kqx83/kIaphugNBIZG/oOW4hjLmjumsvmuJe1LgEAlA42RdgtT
+         c0xUn50zo0XO/V/g6wF2CG1WYX7aEYF2Z7fEOJZPSvXtPDISuyc9hMwFjK66ozvG1XPw
+         qjoP/HkAdERIqsN3a3/GQkaXZ73oulz4TLUnYHewxsGAr/QO/N0gu2EmIVJoO9qP3jkt
+         pSBrlQd+ZE+xH9B05BdWTyW14RSzX+K8n6fxuftV1lBu/bGs4dH2Jhacsh5h9OOvW4cc
+         dphA==
+X-Forwarded-Encrypted: i=1; AJvYcCULWccn6EdMvDCqi6TB1uZxfMX4lCJNZ7UGY5yr4WJxCD/XmiEtMXFUV+NQq/ZvGy4UXfGvusqHfREit8OY71K6WnjgMQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWeOLskUdFd0NXcLyAsU25PPNXqmtyd6f8vfmgPPv+0u8QNBzm
+	BNjYzCe9AMzBwS1oYFIGUPAFYnwb5uhcIKC0/Afm4Zdz5gYgiWA7yMiz
+X-Gm-Gg: ASbGncs4SfwQKJGzz0ZkdTYJiCdZh6VfWS/PjpXF+LOZr9E8EsLKtdt8D63ObIaQh0t
+	RVHybI0JfHJl4hQM4NjGyHxt2W3yOcPr7eiR4VGAoU1mjacBEth56RkOf0MNzGrg6CMdPutmXj5
+	Jsh9NiJftKOGVvoR2r/m8UHDZn0N5LBuPPpMp10yjhASySEjeXJP95ww4vnKNOZRIZ1MWpqpHJk
+	v7jBihZPp4ptN88SPTidGBqJutu2BCIDHo88FYA/xmtU8P1I4ewfuuAklHBU3upp7t0Tqo9SLBl
+	Li0WPMIizilj3U4wYdtfJvi4VncX7/gDF5/Q5+abtC3C3VTo+jm1M4JKsWtNnKTIbhEnU3Xec9b
+	YrRLsq0UFhTAt2Oqyr1ut6aUIyHRudzbz6arFPEeU7NEwjfn8sBkXMFxCv5qEKwkYmaxgPlnJAF
+	s/HhvQStgnEMFktlrx51Gg
+X-Google-Smtp-Source: AGHT+IF0cS6nJeqSR4x3dUlA00S4ZeJZ+cRKVOPAb2WYQETUE7cy0JiKDYv/snz5x7N5TkN5gAYglw==
+X-Received: by 2002:a05:6512:420b:b0:55b:9192:319b with SMTP id 2adb3069b0e04-55ce5045d9emr390809e87.53.1755150500391;
+        Wed, 13 Aug 2025 22:48:20 -0700 (PDT)
+Received: from uuba.fritz.box (2001-14ba-6e-3100-4a6b-e900-eeb1-e216.rev.dnainternet.fi. [2001:14ba:6e:3100:4a6b:e900:eeb1:e216])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55b88c987acsm5447456e87.100.2025.08.13.22.48.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Aug 2025 22:48:19 -0700 (PDT)
+From: =?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
+To: stable@vger.kernel.org
+Cc: johannes@sipsolutions.net,
+	shaul.triebitz@intel.com,
+	linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	Mikhail Lobanov <m.lobanov@rosa.ru>,
+	Johannes Berg <johannes.berg@intel.com>,
+	=?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
+Subject: [PATCH 6.12.y] wifi: mac80211: check basic rates validity in sta_link_apply_parameters
+Date: Thu, 14 Aug 2025 08:48:04 +0300
+Message-ID: <20250814054804.114024-1-hannelotta@gmail.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Ryan,
+From: Mikhail Lobanov <m.lobanov@rosa.ru>
 
-On Wed, 13 Aug 2025 01:21:01 +0900
-Ryan Chung <seokwoo.chung130@gmail.com> wrote:
+[ Upstream commit 16ee3ea8faef8ff042acc15867a6c458c573de61 ]
 
-> Resolve TODO in `__register_trace_fprobe()`: 
-> parse `tf->symbol` robustly (support `sym!filter` and comma-separated lists), trim tokens, ignore empties, deduplicate symbols, use bulk registration for lists, return `-EEXIST` if already registered, and preserve lockdown/tracepoint deferral semantics.
+When userspace sets supported rates for a new station via
+NL80211_CMD_NEW_STATION, it might send a list that's empty
+or contains only invalid values. Currently, we process these
+values in sta_link_apply_parameters() without checking the result of
+ieee80211_parse_bitrates(), which can lead to an empty rates bitmap.
 
-Thanks for the improvement!
-And could you add the new syntax in the document too ?
+A similar issue was addressed for NL80211_CMD_SET_BSS in commit
+ce04abc3fcc6 ("wifi: mac80211: check basic rates validity").
+This patch applies the same approach in sta_link_apply_parameters()
+for NL80211_CMD_NEW_STATION, ensuring there is at least one valid
+rate by inspecting the result of ieee80211_parse_bitrates().
 
-> 
-> Please note that this was my personal interpretation of what TODO
-> required here. Welcoming any feedback. 
-> 
-> Signed-off-by: Ryan Chung <seokwoo.chung130@gmail.com>
-> ---
->  kernel/trace/trace_fprobe.c | 102 +++++++++++++++++++++++++++++++++++-
->  1 file changed, 100 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/trace/trace_fprobe.c b/kernel/trace/trace_fprobe.c
-> index b40fa59159ac..37d4260b9012 100644
-> --- a/kernel/trace/trace_fprobe.c
-> +++ b/kernel/trace/trace_fprobe.c
-> @@ -12,6 +12,8 @@
->  #include <linux/security.h>
->  #include <linux/tracepoint.h>
->  #include <linux/uaccess.h>
-> +#include <linux/string.h>
-> +#include <linux/slab.h>
+Found by Linux Verification Center (linuxtesting.org) with Syzkaller.
 
-Headers should be sorted alphabetically.
+Fixes: b95eb7f0eee4 ("wifi: cfg80211/mac80211: separate link params from station params")
+Signed-off-by: Mikhail Lobanov <m.lobanov@rosa.ru>
+Link: https://patch.msgid.link/20250317103139.17625-1-m.lobanov@rosa.ru
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+(cherry picked from commit 16ee3ea8faef8ff042acc15867a6c458c573de61)
+Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
+---
+ net/mac80211/cfg.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
->  
->  #include "trace_dynevent.h"
->  #include "trace_probe.h"
-> @@ -762,8 +764,104 @@ static int __register_trace_fprobe(struct trace_fprobe *tf)
->  		return __regsiter_tracepoint_fprobe(tf);
->  	}
->  
-> -	/* TODO: handle filter, nofilter or symbol list */
-> -	return register_fprobe(&tf->fp, tf->symbol, NULL);
-> +    /* Parse tf->symbol */
-
-Please make this parse and check as a sub-function instead of new
-scope. Also, it should be done in parse_symbol_and_return(), so that
-we can handle wrong syntax when parsing it.
-
-> +    {
-> +        char *spec, *bang, *p;
-> +        int n = 0, w = 0, j, rc;
-> +        char **syms = NULL;
-> +
-> +        spec = kstrdup(tf->symbol, GFP_KERNEL);
-> +        if (!spec)
-> +            return -ENOMEM;
-> +
-> +        /* If a '!' exists, treat it as single symbol + filter */
-> +        bang = strchr(spec, '!');
-> +        if (bang) {
-> +            char *sym, *flt;
-> +
-> +            *bang = '\0';
-> +            sym = strim(spec);
-> +            flt = strim(bang + 1);
-
-You don't need to do strim, since if there is a space, it
-should be parsed already. New syntax must be ',' separated.
-My basic syntax for this probe event is;
-
-WORD WORD WORD[:OPTWORD] SUBWORD[,SUBWORD]
-
-OPTWORD is qualifying the previous WORD, SUBWORDs are not
-quarifying, but the same-level words. (Currently using "%return"
-for the return of the function, that is a special case.)
-
-> +
-> +            if (!*sym || !*flt) {
-> +                kfree(spec);
-
-Please use __free(kfree) instead of repeating kfree().
-
-> +                return -EINVAL; /* reject empty symbol/filter */
-
-Also, before returning an error, use trace_probe_log_err() to
-notice the reason and the place of the error to user.
-
-> +            }
-> +
-> +            rc = register_fprobe(&tf->fp, sym, flt);
-> +            kfree(spec);
-> +            return rc;
-> +        }
-> +
-> +        /* Comma list (or single symbol without '!') */
-> +        /* First pass: count non-empty tokens */
-> +        p = spec;
-> +        while (p) {
-> +            char *tok = strsep(&p, ",");
-> +            if (tok && *strim(tok))
-> +                n++;
-> +        }
-> +
-> +        if (n == 0){
-> +            kfree(spec);
-> +            return -EINVAL;
-> +        }
-> +
-> +        /* Allocate array for pointers into spec (callee copies/consumes) */
-> +        syms = kcalloc(n, sizeof(*syms), GFP_KERNEL);
-> +        if (!syms) {
-> +            kfree(spec);
-> +            return -ENOMEM;
-> +        }
-> +
-> +        /* Second pass: fill, skipping empties */
-
-Again, symbol should not have a space.
-
-> +        p = spec;
-> +        while (p) {
-> +            char *tok = strsep(&p, ",");
-> +            char *s;
-> +
-> +            if (!tok)
-> +                break;
-> +            s = strim(tok);
-> +            if (!*s)
-> +                continue;
-> +            syms[w++] = s; 
-> +        }
-> +        
-> +        /* Dedup in-place */
-> +        for (i = 0; i < w; i++){
-> +            if (!syms[i])
-> +                continue;
-> +            for (j = i + 1; j < w; j++) {
-> +                if (syms[j] && !strcmp(syms[i], syms[j]))
-> +                    syms[j] = NULL;
-> +            }
-
-I think dedup will be done in ftrace, so we don't need to do this
-costly operation.
-
-> +        }
-> +
-> +        /* Compact */
-> +        for (i = 0, j = 0; i < w; i++) {
-> +            if (syms[i])
-> +                syms[j++] = syms[i];
-> +        }
-> +        w = j;
-> +
-> +        /* After dedup, ensure we still have at least one symbol */
-> +        if (w == 0){
-> +            kfree(syms);
-> +            kfree(spec);
-> +            return -EINVAL;
-> +        }
-> +
-> +        /* Register list or single symbol, using the existing bulk API */
-> +        if (w == 1)
-> +            rc = register_fprobe(&tf->fp, syms[0], NULL);
-
-Hmm, you might misunderstand this. What you need to do is to classify
-the list of symbols with '!' as nofilter, and others as "filter",
-and pass those as "register_fprobe(&tf->fp, filter, nofilter)".
-
-Thank you,
-
-> +        else
-> +            rc = register_fprobe_syms(&tf->fp, (const char **)syms, w);
-> +
-> +        kfree(syms);
-> +        kfree(spec);
-> +        return rc;
-> +    }
->  }
->  
->  /* Internal unregister function - just handle fprobe and flags */
-> -- 
-> 2.43.0
-> 
-
-
+diff --git a/net/mac80211/cfg.c b/net/mac80211/cfg.c
+index cf2b8a05c338..9da17d653238 100644
+--- a/net/mac80211/cfg.c
++++ b/net/mac80211/cfg.c
+@@ -1879,12 +1879,12 @@ static int sta_link_apply_parameters(struct ieee80211_local *local,
+ 	}
+ 
+ 	if (params->supported_rates &&
+-	    params->supported_rates_len) {
+-		ieee80211_parse_bitrates(link->conf->chanreq.oper.width,
+-					 sband, params->supported_rates,
+-					 params->supported_rates_len,
+-					 &link_sta->pub->supp_rates[sband->band]);
+-	}
++	    params->supported_rates_len &&
++	    !ieee80211_parse_bitrates(link->conf->chanreq.oper.width,
++				      sband, params->supported_rates,
++				      params->supported_rates_len,
++				      &link_sta->pub->supp_rates[sband->band]))
++		return -EINVAL;
+ 
+ 	if (params->ht_capa)
+ 		ieee80211_ht_cap_ie_to_sta_ht_cap(sdata, sband,
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+2.50.0
+
