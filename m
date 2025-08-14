@@ -1,164 +1,112 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A458A301473
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 14 Aug 2025 13:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346D5271468
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 14 Aug 2025 16:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755179917; cv=none; b=YCxciBeT0WYoQmURe2Uq2LvASNUGdQh+gUXX/QW1IQGM8YcI/yGS4Mi7g8LLpih80+WP8WTPQH+pGyOcM7bkXw/CUbGOO2PjxDpCdUM8SCJRX5Ec7ccRplJd44EIb6V081BhLhXtlM7pn5oOcYnyLh5gqw1DbsJUqPLRZByte8E=
+	t=1755189028; cv=none; b=pqROrcqRmMu+nNQVTTaL3tQT/dEDdLCgniO/gmSG+uUnQDRCFcPj0kS9P7A0AYikOi6xNbCfa7M60I/IdJIRBJuJ1IabUemxqxbcvcY5oVHzRZoxFsu70y4rnrvlu4qDJyk2wNRrlib8b/hkWOWIRIwxvCem/3XowmzCZt+RA/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755179917; c=relaxed/simple;
-	bh=RjNP51rWOqwJvFPujRiwfpryaBNZ5h9BXsFdM4LJEDA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=lXaDZtpJd2met8ROBPc7U7Flypncu1QtmX4F6RtHXJmt9gMKssD+uWjNV0nWbeqc/npWkM6m8in7sCGslP5Ofy4pFvvYay5f4orv+Zq3r5h8lxyUD4gh0bAS8xOyfaY2s6CrA2ZaSc956L5DTEocZ2fyy9JoYQJmRZdgiqbfhig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EH8lFX7w; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1755189028; c=relaxed/simple;
+	bh=8eTEDvbS27yrss3ut74R9MdQYKV6UwvenQ7s+8Lw6ic=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LDBnNfBrEzLROGegFrCXbmux+QxyrkD5KZr26OM516GDEk+PPRqmpJdJhal2EwiqjDeRTkSyHlSQmduDyq72drquz/3/THLoNDML9FfxxGL+WAC1LODLIvWpck82Re8GCowg1gcbZbrzvmTDpcJLHhdPm6zbTBsRqw2bw9ARyOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QwF2ZvRm; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EH8lFX7w"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2C6FA4117A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 14 Aug 2025 13:58:36 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -3.292
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id k4juCUPePK1R for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Aug 2025 13:58:35 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=mpatocka@redhat.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 7A2BD40C26
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7A2BD40C26
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=EH8lFX7w
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 7A2BD40C26
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 14 Aug 2025 13:58:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755179914;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+jw6WbtaoxN6m6sw5E6mdvsLGnRETkf4AVaUkSvs2F4=;
-	b=EH8lFX7wrNfarMiVXbnmhNb1ALDB0vG/7hHMjKpRBkfSxs8pJYPaLw0VfBm1SySWpnDKfC
-	g+gDbRc0oLMIhQWCJgU48bSQsmGQV6QjZRfPpFMyD7xAN5fpEJLq2PcaDVqLg4vI9bE16E
-	gr9TK0XywWZPp78p4gftWliA1nMZSKs=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-196-eG3dGHF4N9euJneMVvhlHg-1; Thu,
- 14 Aug 2025 09:58:30 -0400
-X-MC-Unique: eG3dGHF4N9euJneMVvhlHg-1
-X-Mimecast-MFC-AGG-ID: eG3dGHF4N9euJneMVvhlHg_1755179909
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 43B92195609F;
-	Thu, 14 Aug 2025 13:58:29 +0000 (UTC)
-Received: from [10.22.80.50] (unknown [10.22.80.50])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B521C19A4CAB;
-	Thu, 14 Aug 2025 13:58:26 +0000 (UTC)
-Date: Thu, 14 Aug 2025 15:58:19 +0200 (CEST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-To: Soham Metha <sohammetha01@gmail.com>
-cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
-    skhan@linuxfoundation.org, Alasdair Kergon <agk@redhat.com>, 
-    Mike Snitzer <snitzer@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-    Matthew Sakai <msakai@redhat.com>
-Subject: Re: [PATCH v2 4/9] docs: device-mapper: fixed spelling mistakes in
- documentation
-In-Reply-To: <20250812204952.73136-2-sohammetha01@gmail.com>
-Message-ID: <1b392cd9-ff49-2b5e-bc42-c544170c1da6@redhat.com>
-References: <20250812201523.69221-1-sohammetha01@gmail.com> <20250812204952.73136-1-sohammetha01@gmail.com> <20250812204952.73136-2-sohammetha01@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QwF2ZvRm"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-323267bc0a8so1927899a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 14 Aug 2025 09:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755189026; x=1755793826; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XJUpVtdQJ13ix1MWZWj9H2jS6xpOO2nJmtE7Ac5hyE0=;
+        b=QwF2ZvRm6OHSkRFy+jZJ+jnn8R5TbBCFveJhTh48zqlaFNyXeIOs8qpfAu3hhxBGSy
+         VYQh37zpt3e9LgY+ZOYfZagHz0432fUrWkgyCyLE7FdAfeRXg75D6nQBe496cfx6MDni
+         NVO4L6VCZzOci5LvSXy6Xqd/TKWVgrOCFUklVd+WAmCy8gHQN5FK6xQuCmsBm89yEDLK
+         zmq6QjiYJJacO7FfEmsWvwTvgGuhFJgEYwT6Io7nqkzaCHQlROuY4xF8Qy+2Iu3eb8SZ
+         lyjbArBrovyQWBkJltyxKVsUxZTkNv3z4KkXxJD/5xZL0F7O5lNJrkVIQkdzbaCBzLtl
+         7yJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755189026; x=1755793826;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XJUpVtdQJ13ix1MWZWj9H2jS6xpOO2nJmtE7Ac5hyE0=;
+        b=qGAd/wdGcYauzMzC5VOq9obZhCRsdBdy0VE6YJ0hWPbX3ndbXhyFLraGbg6Nc/eAgB
+         4lul+3q5v/qRuEwLsA9oLOuvauFi5u6V8o60vzgREfdpjk9UWakta87+GsdMQ3ZZnYil
+         uxupQvRjnP3818xkCVF5bp12V2cuMt843uRYeQ3134/t9V2gd9Wqv9BHm/x3lNPM9Xra
+         TTkC1sXlqowNGCq744FV7BdY04wwit2byWT/8GCs9Kv7MemDu2WU+U5tAHJzQLM8fShC
+         cKBFzhVG1Np5KkwAfhWSF+b4dQFNPjDgAMW5yi1oBN3+8l98j6CrtEkY2YQW4N+bNmxb
+         QZTw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmhF/nitNLHChy+HJseo0mc4C23VQizrStp9J6bfOU0DMbcRKvTjOqrRijuue1QVoInkJK3V2lau4CEziaxmvNhVW0Fg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyETWr1yak5anpRE0mC/HjrodY6e0uBZAJWgdYPHyYIoX+aymaK
+	mQMUivCRz/wj8v31J7bcvWCzCnbK8IGVUNxGQn9W0Q499da9yvE2Zuqh
+X-Gm-Gg: ASbGnct6yqJ4DLQr5XdG8OEfrgzL6Sf19eifVtHGeVEv+uGJ3jbI9a776bJjZjj2cm6
+	dI3tf0RIXcwf6Nhcs7RPxXNNFAE45BABsT2K8boHA/4tfEzYDHOA444TamSgThPtlpsmX89ZhIg
+	Ep2gkwztZoVLhyvNPkPl+KlKWLubBSCHhQXdCA303gBFqTuKNEIY250DjdtqRmfhT0DQinSOLRh
+	cfEbJJRssWChmm4LJduMWsF/mi567FdgQB1U07qsLyLbEcwV1GLQzhXQJYjq1eWC0V9PLSg6ZnH
+	6WuHwruvTNkjRA2Lz8ghoiEaY190uOw6aqzYuMxyL3QisWPp+XBQIMenIOtRl018vSWAPO9NXuz
+	RJxScY54tBJsxUbKFserYamBnHLrOANQYGwcVVEJwoTyejvciFpzyAeAZkQsIuNx8oPQqi9k0iH
+	olQAWylFIAiQ==
+X-Google-Smtp-Source: AGHT+IFNM6MvQxFQMmvHfm8EWRclofWRxVkoIbeED3WGrsSMg5Q4XsYpxHjt33kdE4mVFnfSiZXBUg==
+X-Received: by 2002:a17:902:ea0e:b0:240:3ed3:13e7 with SMTP id d9443c01a7336-244586daab4mr58933455ad.42.1755189026182;
+        Thu, 14 Aug 2025 09:30:26 -0700 (PDT)
+Received: from chandra-mohan-sundar.aristanetworks.com ([2401:4900:1cb8:7b85:37eb:c20:7321:181])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e899adc3sm356194365ad.118.2025.08.14.09.30.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Aug 2025 09:30:25 -0700 (PDT)
+From: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
+To: jiawenwu@trustnetic.com,
+	mengyuanlou@net-swift.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	shuah@kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Chandra Mohan Sundar <chandramohan.explore@gmail.com>,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH net] net: libwx: Fix the size in RSS hash key population
+Date: Thu, 14 Aug 2025 22:00:10 +0530
+Message-ID: <20250814163014.613004-1-chandramohan.explore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Transfer-Encoding: 8bit
 
-Applied, thanks.
+While trying to fill a random RSS key, the size of the pointer
+is being used rather than the actual size of the RSS key.
 
-Mikulas
+Fix by passing an appropriate value of the RSS key.
+This issue was reported by static coverity analyser.
 
+Fixes: eb4898fde1de8 ("net: libwx: add wangxun vf common api")
+Signed-off-by: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
+---
+ drivers/net/ethernet/wangxun/libwx/wx_vf_lib.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-On Wed, 13 Aug 2025, Soham Metha wrote:
-
-> found/fixed the following typos
-> 
-> - flushs -> flushes
-> - explicitely -> explicitly
-> 
-> in `Documentation/admin-guide/device-mapper/delay.rst`, and
-> 
-> - approriate -> appropriate
-> 
-> in `Documentation/admin-guide/device-mapper/vdo-design.rst`
-> 
-> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
-> ---
->  Documentation/admin-guide/device-mapper/delay.rst      | 8 ++++----
->  Documentation/admin-guide/device-mapper/vdo-design.rst | 2 +-
->  2 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/device-mapper/delay.rst b/Documentation/admin-guide/device-mapper/delay.rst
-> index 4d667228e744..a1e673c0e782 100644
-> --- a/Documentation/admin-guide/device-mapper/delay.rst
-> +++ b/Documentation/admin-guide/device-mapper/delay.rst
-> @@ -3,7 +3,7 @@ dm-delay
->  ========
->  
->  Device-Mapper's "delay" target delays reads and/or writes
-> -and/or flushs and optionally maps them to different devices.
-> +and/or flushes and optionally maps them to different devices.
->  
->  Arguments::
->  
-> @@ -18,7 +18,7 @@ Table line has to either have 3, 6 or 9 arguments:
->     to write and flush operations on optionally different write_device with
->     optionally different sector offset
->  
-> -9: same as 6 arguments plus define flush_offset and flush_delay explicitely
-> +9: same as 6 arguments plus define flush_offset and flush_delay explicitly
->     on/with optionally different flush_device/flush_offset.
->  
->  Offsets are specified in sectors.
-> @@ -40,7 +40,7 @@ Example scripts
->  	#!/bin/sh
->  	#
->  	# Create mapped device delaying write and flush operations for 400ms and
-> -	# splitting reads to device $1 but writes and flushs to different device $2
-> +	# splitting reads to device $1 but writes and flushes to different device $2
->  	# to different offsets of 2048 and 4096 sectors respectively.
->  	#
->  	dmsetup create delayed --table "0 `blockdev --getsz $1` delay $1 2048 0 $2 4096 400"
-> @@ -48,7 +48,7 @@ Example scripts
->  ::
->  	#!/bin/sh
->  	#
-> -	# Create mapped device delaying reads for 50ms, writes for 100ms and flushs for 333ms
-> +	# Create mapped device delaying reads for 50ms, writes for 100ms and flushes for 333ms
->  	# onto the same backing device at offset 0 sectors.
->  	#
->  	dmsetup create delayed --table "0 `blockdev --getsz $1` delay $1 0 50 $2 0 100 $1 0 333"
-> diff --git a/Documentation/admin-guide/device-mapper/vdo-design.rst b/Documentation/admin-guide/device-mapper/vdo-design.rst
-> index 3cd59decbec0..faa0ecd4a5ae 100644
-> --- a/Documentation/admin-guide/device-mapper/vdo-design.rst
-> +++ b/Documentation/admin-guide/device-mapper/vdo-design.rst
-> @@ -600,7 +600,7 @@ lock and return itself to the pool.
->  All storage within vdo is managed as 4KB blocks, but it can accept writes
->  as small as 512 bytes. Processing a write that is smaller than 4K requires
->  a read-modify-write operation that reads the relevant 4K block, copies the
-> -new data over the approriate sectors of the block, and then launches a
-> +new data over the appropriate sectors of the block, and then launches a
->  write operation for the modified data block. The read and write stages of
->  this operation are nearly identical to the normal read and write
->  operations, and a single data_vio is used throughout this operation.
-> -- 
-> 2.34.1
-> 
+diff --git a/drivers/net/ethernet/wangxun/libwx/wx_vf_lib.c b/drivers/net/ethernet/wangxun/libwx/wx_vf_lib.c
+index 5d48df7a849f..3023ea2732ef 100644
+--- a/drivers/net/ethernet/wangxun/libwx/wx_vf_lib.c
++++ b/drivers/net/ethernet/wangxun/libwx/wx_vf_lib.c
+@@ -192,7 +192,7 @@ void wx_setup_vfmrqc_vf(struct wx *wx)
+ 	u8 i, j;
+ 
+ 	/* Fill out hash function seeds */
+-	netdev_rss_key_fill(wx->rss_key, sizeof(wx->rss_key));
++	netdev_rss_key_fill(wx->rss_key, WX_RSS_KEY_SIZE);
+ 	for (i = 0; i < WX_RSS_KEY_SIZE / 4; i++)
+ 		wr32(wx, WX_VXRSSRK(i), wx->rss_key[i]);
+ 
+-- 
+2.43.0
 
