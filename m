@@ -1,79 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECFB13FEE;
-	Fri, 15 Aug 2025 19:49:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B40270548;
+	Fri, 15 Aug 2025 20:02:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755287396; cv=none; b=SXH/gZMgf0U+HQlVo1vs2Ko/NZeaZaE3/7w1jZ55vkPkz43hTAQTSQoRUfMz+ph0PQKeZ/3IQ8nJvWVyOYvMFBMwCtfgqfa4u3ZBMpIj17sf6TuiCi2qQHS/sr7PUaWztra8IkdnKj71rX+vNBOIOJSuDFkhViL/G9qRoxKiqec=
+	t=1755288179; cv=none; b=c+Bo+hIKyZn3VhabghVPVpx33upVPOYtkEuhWDPhPYA738n2Jg5amIqLr6imKHWNRT4EFMfkHMRBqqORFMrhTSg388PM+/Y6prgJjyZah0XUfl+Tmvc3iVkH0M+/dRsD3CF3K2wIq8KuXjhUe1uNeawiEOmmYlgHt9fRNoy3rx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755287396; c=relaxed/simple;
-	bh=2NBDReFMZPaqYngyq37YoXOx4dlfyV21ybOewgMSFbQ=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Xhi4iUeBGjxntB8bCID1g8ZtKrR7JCG2Lzue604YggZlWkYkMVt+kq+rLHE2Zox6DLLetl/iLzpapPB3ALA2zqH/uwq/moCf0dL5EtNW1Zt21HZpNVGP2H5SvaubkTQTY7JFKrlE6AI0IZft6mO9xD2NQlvroZ4sDjBxtpXPx6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hlrriN+4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755288179; c=relaxed/simple;
+	bh=be6Z+JaouOJVE3f+RWzpBxVj1NE79aYm+OuV+AsEfnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gOaxTAtPc1GVnMGhuX9U0feAMb0acnOegoaEkLPvl4anEp+Wys1E2eka0rU0TIsZSIja0IBLSkDFbVpt+NlAXJKjkg/4WWrkPo52v1oe9e679xegOfL8xOU/wTh7kcGOZDmmrjsSjj2KxmqZpX8cjPfZmi5wzVfEFuJyVeFOhrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KgrZhln9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hlrriN+4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B4A5C4CEF1;
-	Fri, 15 Aug 2025 19:49:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KgrZhln9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC057C4CEEB;
+	Fri, 15 Aug 2025 20:02:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755287395;
-	bh=2NBDReFMZPaqYngyq37YoXOx4dlfyV21ybOewgMSFbQ=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=hlrriN+4H/nPeRtwK+On2MgdSXGjvH3wCsCxujOvc3UlBDcKfFHwfbtDcwvk3iIX+
-	 J98l0PlmG1eLTJHfEeSW2M0q21gwdqmgxfD443t5fJAGl1BkY8G7SGgGYg+cc1vI/7
-	 pPKNSOFpRe43tZXwJhCO276WIZmaIXk79YjCwhntZoc0XB7rqDFl5nLsTdVbf72QQo
-	 oIKvJcl9kIArjCnSipcXahVU2+ZnsZlmUsf1ZM3vFJbIiS0QEWbk/TXEOH/H9tQsbi
-	 rcmrqXZUygbieUg1bPP6Oz3Ge8KmIT0KdS/YOSfNAjSnsg1ZvNqtkrsNoTFFWa3zDy
-	 U7CNeGACmSuUA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE0CC39D0C3D;
-	Fri, 15 Aug 2025 19:50:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1755288178;
+	bh=be6Z+JaouOJVE3f+RWzpBxVj1NE79aYm+OuV+AsEfnY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KgrZhln9EWqW26u3laNIrqswrW3VFQLifij7Y8RzhmCLnPLEED92ekMhguM835om5
+	 4UbDVkTmZ1dU88wfQymmXaTAty2c76ksxpxfrfaquF9jbiB37RGuX1snx+GxAzlsMg
+	 1YDFD9ZTOUo9KixQrNUS7k/r0m2lo1mD7M3+CU5crMMOEceN1KdrF0+VGXWOMjgx+t
+	 XrW+Em64tmvZAaUTJ+8N5pxdYWv7PkjSzDEEPwy8C1codCaGYzs4HxnPP9rf1UhdaJ
+	 QCpn5uOBpSkaH8whe0qEdMH8YJQioRrMalTB8ixx7lFopCu0mlYthAZ92XS1VdxbgI
+	 eT90vNihdy6sg==
+Date: Fri, 15 Aug 2025 13:02:56 -0700
+From: Namhyung Kim <namhyung@kernel.org>
+To: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Cc: peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+	mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+	jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com,
+	kan.liang@linux.intel.com, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+	guoren@kernel.org, linux-perf-users@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-csky@vger.kernel.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH RESEND] perf/util: make TYPE_STATE_MAX_REGS
+ architecture-dependent
+Message-ID: <aJ-ScOp3ZCG6PQmD@google.com>
+References: <20250815182742.45541-1-suchitkarunakaran@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] net: libwx: Fix the size in RSS hash key population
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175528740652.1253623.15402960535177320181.git-patchwork-notify@kernel.org>
-Date: Fri, 15 Aug 2025 19:50:06 +0000
-References: <20250814163014.613004-1-chandramohan.explore@gmail.com>
-In-Reply-To: <20250814163014.613004-1-chandramohan.explore@gmail.com>
-To: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
-Cc: jiawenwu@trustnetic.com, mengyuanlou@net-swift.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- shuah@kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250815182742.45541-1-suchitkarunakaran@gmail.com>
 
-Hello:
+Hello,
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+On Fri, Aug 15, 2025 at 11:57:42PM +0530, Suchit Karunakaran wrote:
+> Replace the fixed definition of TYPE_STATE_MAX_REGS with architecture-
+> specific values for better accuracy across multiple CPU architectures
+> including PowerPC, ARM, x86, RISC-V, MIPS, and others. This change ensures
+> the type state registers array size matches the actual register count of
+> the target platform.
 
-On Thu, 14 Aug 2025 22:00:10 +0530 you wrote:
-> While trying to fill a random RSS key, the size of the pointer
-> is being used rather than the actual size of the RSS key.
+Thanks for the patch.  Unfortunately we support x86 and powerpc only but
+this looks like good information for later work. :)
+
+Thanks,
+Namhyung
+
 > 
-> Fix by passing an appropriate value of the RSS key.
-> This issue was reported by static coverity analyser.
+> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+> ---
+>  tools/perf/util/annotate-data.h | 45 ++++++++++++++++++++++++++++++---
+>  1 file changed, 41 insertions(+), 4 deletions(-)
 > 
-> Fixes: eb4898fde1de8 ("net: libwx: add wangxun vf common api")
-> Signed-off-by: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
+> diff --git a/tools/perf/util/annotate-data.h b/tools/perf/util/annotate-data.h
+> index 541fee1a5f0a..0dfb12a8f1cc 100644
+> --- a/tools/perf/util/annotate-data.h
+> +++ b/tools/perf/util/annotate-data.h
+> @@ -189,11 +189,48 @@ struct type_state_stack {
+>  	u8 kind;
+>  };
+>  
+> -/* FIXME: This should be arch-dependent */
+> -#ifdef __powerpc__
+> -#define TYPE_STATE_MAX_REGS  32
+> +#if defined(__powerpc__) || defined(__powerpc64__)
+> +#define TYPE_STATE_MAX_REGS 32
+> +#elif defined(__aarch64__)
+> +#define TYPE_STATE_MAX_REGS 31
+> +#elif defined(__arm__)
+> +#define TYPE_STATE_MAX_REGS 16
+> +#elif defined(__x86_64__)
+> +#define TYPE_STATE_MAX_REGS 16
+> +#elif defined(__i386__)
+> +#define TYPE_STATE_MAX_REGS 8
+> +#elif defined(__riscv)
+> +#define TYPE_STATE_MAX_REGS 32
+> +#elif defined(__mips__)
+> +#define TYPE_STATE_MAX_REGS 32
+> +#elif defined(__sparc__) || defined(__sparc64__)
+> +#define TYPE_STATE_MAX_REGS 32
+> +#elif defined(__alpha__)
+> +#define TYPE_STATE_MAX_REGS 32
+> +#elif defined(__s390__) || defined(__s390x__)
+> +#define TYPE_STATE_MAX_REGS 16
+> +#elif defined(__sh__)
+> +#define TYPE_STATE_MAX_REGS 16
+> +#elif defined(__nios2__)
+> +#define TYPE_STATE_MAX_REGS 32
+> +#elif defined(__hexagon__)
+> +#define TYPE_STATE_MAX_REGS 32
+> +#elif defined(__openrisc__)
+> +#define TYPE_STATE_MAX_REGS 32
+> +#elif defined(__csky__)
+> +#define TYPE_STATE_MAX_REGS 32
+> +#elif defined(__loongarch__)
+> +#define TYPE_STATE_MAX_REGS 32
+> +#elif defined(__arc__)
+> +#define TYPE_STATE_MAX_REGS 32
+> +#elif defined(__microblaze__)
+> +#define TYPE_STATE_MAX_REGS 32
+> +#elif defined(__xtensa__)
+> +#define TYPE_STATE_MAX_REGS 16
+> +#elif defined(__m68k__)
+> +#define TYPE_STATE_MAX_REGS 16
+>  #else
+> -#define TYPE_STATE_MAX_REGS  16
+> +#define TYPE_STATE_MAX_REGS 16
+>  #endif
+>  
+>  /*
+> -- 
+> 2.50.1
 > 
-> [...]
-
-Here is the summary with links:
-  - [net] net: libwx: Fix the size in RSS hash key population
-    https://git.kernel.org/netdev/net/c/12da2b92ad50
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
