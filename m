@@ -1,99 +1,138 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D47AA92E
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 15 Aug 2025 06:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5BF2F99BF
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 15 Aug 2025 09:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755239657; cv=none; b=BtnLEogSHxigWdFX8+UIE1kKe3l9RDDjxTifluK2F4YFlwJ9CiVHXt9jYHMlPJghCDo8JZ92KaZXTlR4jc5EViR8qpbneTrgKYG+RMdyl2xatxH0WSYu5/PKT6CMhDcRS58y/Ihnk5HGi0jb1Nr3DdTGP6mMJtUPvk2M/BynbKk=
+	t=1755250821; cv=none; b=dStV4Oa1lAJSSFUFtIL3IPgUMK90FY0SRjbv1IWz77ncNxtTJgk7XBdHUINGMfc8egji/5bhhskg9SVwcs4/jNrsu3Ra4QAcuJ7B4WBBuYd3CNn/gXL+eFacMXBOxyMMLV6rWM96+7+bhzft+I0R/6oiiIvsE4+UaosDB/geRbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755239657; c=relaxed/simple;
-	bh=kuPdCpuTj1FBY4yhEPLgSb49bXec4fC3XCBOV2asUF4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cmDyCvR4gU/qbA7LjLwire37CIFWtBbXS7eVuqyDmBZ6UGcp9DUnS3i5iOlYXV2mH1hwvVo3RwNv09FCEOsT/6LSKmAs5RLOhZkopovl3yFztqcy6WUyZ0vDauwGfdzLHcIifNwhPKeOKdWNqsYQpaQRbMTyBh1jkP45trj5EkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CzsM1RFs; arc=none smtp.client-ip=209.85.128.173
+	s=arc-20240116; t=1755250821; c=relaxed/simple;
+	bh=whpeQLd/ONXc5d3w4EWvao23vVy7bdwGUSUQMFmelyo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Jkhi7u0deCoZpEKPCvF6LRVjrSNLCPO09bh9vLAwnCs/IP2/EQYfDm8lD9aoPYVAlhaEkQWnkwqwGzHyxej0RBjJIP/WExx4EEqpNKBTDXKwPkD7bFZP0pcFsvPN8ekY6nnj88473ZTEFNDRZfGd402YeUWQXVM/eQ/1/TDri6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y7+yc5Ue; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CzsM1RFs"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-71d603b60cbso14087687b3.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 14 Aug 2025 23:34:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y7+yc5Ue"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b47052620a6so2226667a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 15 Aug 2025 02:40:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755239655; x=1755844455; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kuPdCpuTj1FBY4yhEPLgSb49bXec4fC3XCBOV2asUF4=;
-        b=CzsM1RFsOUsgAfAX6cHAsy0pBjAPIxwautTSwRekuX/aA6XBaC/l9onXnrl/n+eGij
-         4EnlsC3/lkgP19m/jWZ+SO4MuUozEbTFYxbQuIUbK3j6+sITwGAWkHWFXSDTecfGRO9A
-         NnbAVRhdanA5FDOy9KoWzcZpBCo6nBY9Bq3sdp75plk3oKfZmDOIcLMVRn96gfcnlS/T
-         pX4u5I7XHJX5TQzfInKdPp91+Kf4xTlwXDdXTC7AVdSlynhlra8DHxk5dQRNqMnTQxKp
-         d5iTTw1HDb3Ruyc7QOgBeiNFMqHSk5VSCzoJCNstsNmPP8IKe2iWyW/gpv2+FXFKH3W9
-         6qWQ==
+        d=gmail.com; s=20230601; t=1755250817; x=1755855617; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Gb59vZc0r3SnxTBn3fpGLZ7jKF2s9oF0aj2fWUpQssE=;
+        b=Y7+yc5Uet5tsw69QVUDjB8BhYZ+Kzoj0w+iGLXFBsJBnytBbyqKOim+0kZK1WdCOlK
+         cP5wwwQPfgCDILjBoncer32YQ0GrUxe/agbPGKR89VMTJ8JB8xn4IFnvfB4FdcKvqqIW
+         JHBb2vAwUlIeVjzyIjlIB6QYjY9lQ5rB1THMPXbzKqkELTZfnDvXzzyCfFT3md5Vhjdb
+         /WKJpPfsRsrvl223l+t3DqdQbzsZxn5cHlU1YDUg8UgEHdZ5wtj0ChN6JvF8B/5DpPkC
+         lAoBCIIaaYK/dalbiuRrneK6LNB/RwCltyd/ka1BqTEt+qtZRkgv7sR1JS3CU0Vvksa1
+         VlvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755239655; x=1755844455;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kuPdCpuTj1FBY4yhEPLgSb49bXec4fC3XCBOV2asUF4=;
-        b=gTK0OBuOeDtmuyq+xEjdsvsUPfCT2CNEPP9N7pTshZG/MNy66IaS3Jjls4sWOGIVqg
-         SJVBhx9j3WARCoLQbpE4DqEcaiXbxtdou3UDOyDl/LkL56PQ5pyZ3b3lJ+3+9zTmcYu4
-         W30YH9PnKElD9AGUv4qUaj8V/oS93ddA43U1WjkgtZmuzGL5e81wyBmItbKIjLppfHdo
-         7UbmQdU2BqWO4IKtrOjRJbFIn71O9/qtl/sy0owCSIdjEGncm38IGW89AY0Kep0IpSNl
-         R5EpFScFPyK9IAe+oSHY5Xuh6GkZe5fuMuvrJnH5Wm7GhlDL7obdjxZQjh05lpW/6oyu
-         r6vQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUpjzsYMZl49Me3CTdH4iauGC/8x9NA9oI7NcHJCTA8RoKZ+BxI1GDfC+IRn/el+Lwfr7S6RQZdYqr5AGQo+suYWAtOEQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWtGyTO5UdFXa2SHeYCbyEYWMEDQZA9RonVk4iHHaF6lTXDdYQ
-	F/D7Ng4QrH65q0JX3ya2Ri6p0xP0xTL5I0oQN0lX4o/IsvffvM5uh6ndyTi+VAVXdllA7tlDxxt
-	E+kHmPzncTYxml4rjaZO57pvuS/ifapk=
-X-Gm-Gg: ASbGncsl167nuCxygeytQKE8x/l/R2X2riUyoqCY22G9L9k0dadNgNE25zgUNRJb8Af
-	P7cmneOfvJgbuaXH5HSdu7EMLOrEmUk9cdGOMUrxKnR0qavk9varQLmswzo7gLT42y/nUk81t5q
-	margWCMoHdA52JLMR6CV326vtDFLtADySoTZVYsrUKfIRPQ6a9fRYm28a3kt8Gqs11bMeGbmUKy
-	hCOBnEz2brSHr8oljnrPYo91zcqwI/jC707gBbq
-X-Google-Smtp-Source: AGHT+IH4dxohOh7qqn9xS+FXF0LJU4Rn2rbnVst81GNs7v9pVTjVeAoxkPTiRwcWbs/IDQdt1EluIl9NmK/g5rkKxiw=
-X-Received: by 2002:a05:690c:4c10:b0:71c:3de0:9687 with SMTP id
- 00721157ae682-71e6dd33a93mr13502637b3.35.1755239654844; Thu, 14 Aug 2025
- 23:34:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755250817; x=1755855617;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Gb59vZc0r3SnxTBn3fpGLZ7jKF2s9oF0aj2fWUpQssE=;
+        b=TKzVcASk02R6ergUdMcuR+2xM4q3M/DH7fOMLFLHaG1gjh2gfK+Xw9shOtEafkMqvF
+         AVWspXYwmh5RyznNaPGNAWsi7j6bX9QyWbxP0IfEAN7I/sLamEjvtfxkPdCnUQW8Sr1m
+         Ju7R8kR5qi2um58MsLhHTej7clTJ8e4h0P4v9obTQX6ePVRlgne4Kb6oXuFPYPjlZTNz
+         8AKV13//qGAEWKdLSrTJx3DGyuMPp6J7iQpFGHLJ4Z1/NF/gvuNOkuvK2LreeEuDkFJF
+         bj8a9iBXttJatD4xum/+O6YVXHPSqVOQql3T6KVPz+wGnotxmERpmFboqIh7n6l2M3Sp
+         xWbw==
+X-Forwarded-Encrypted: i=1; AJvYcCX87vcwfuaF4zFRxHMMZadbu6jqZA0Fmg7YaEWa78C2oJi2D2M5j3J3+jOKm1xBzbOgsR/R4n2gCKQJBTp4bZ8YLyqr2Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwVxMkFvW/t/+JP7IONJiqq23EjomuRYNYu56ByEYhHqPPGvJAW
+	+GPRu9xB3Tg4EYURcu5tlaiDyRGxo/ZxSqB+/YgSFy1kZuFzTl46i5i0
+X-Gm-Gg: ASbGncsUA0tQnJ3eODbcsdA5ihcTErHDw4kG3iC/LjJ6WZFwtkCRLWoDDnCtbiBEVOT
+	GzGtUlyiBXJ0OEwD8iAEO337MNu/B8sIpJaIAeJut+up4wOS5/tlwBvzS+eO0QVTikWgOkmMnKW
+	HcMuqlc9hRLq9IvdZrPPuGl25Bc25F5uULUUv4PDdJ8X+1zA0Iw8laBN30op8gNAdKAwIxs6Xsz
+	jh4AJZsNifesQ+zUeIUYcxiNlDxlTXnr7aAuDxfzs6mFrvuxuZkOIvhCSYZE5cdlBtHbc95aAPG
+	4rkoHQCnrtdnXrR6jkWUILdN/iE2zWP/ef112UrUpuoow20UR8fito9V7SmurA31x9goyeOY+bo
+	p7qrwg97zIZtgJ47SIn5lELxolsYmGbTR7SalXv6ndVOVYmyeWQWDvA==
+X-Google-Smtp-Source: AGHT+IF4s8vZ+UiJBxse2ETuu42pbherih7pTOd3GqJtWrEiYv5pQGik3DHXjIKSbfx73/CtvYgMvw==
+X-Received: by 2002:a17:902:da82:b0:242:b138:8119 with SMTP id d9443c01a7336-2445988787emr87476215ad.26.1755250816863;
+        Fri, 15 Aug 2025 02:40:16 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32343962af1sm856597a91.3.2025.08.15.02.40.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Aug 2025 02:40:16 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: tglx@linutronix.de
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	dvhart@infradead.org,
+	dave@stgolabs.net,
+	andrealmeid@igalia.com,
+	shuah@kernel.org,
+	bigeasy@linutronix.de,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] selftests/futex: fix typos and grammar in futex_priv_hash
+Date: Fri, 15 Aug 2025 15:09:39 +0530
+Message-ID: <20250815093942.8595-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250814165403.616195-1-chandramohan.explore@gmail.com> <aJ6zKriNeoM4B/km@bhairav-test.ee.iitb.ac.in>
-In-Reply-To: <aJ6zKriNeoM4B/km@bhairav-test.ee.iitb.ac.in>
-From: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
-Date: Fri, 15 Aug 2025 12:04:04 +0530
-X-Gm-Features: Ac12FXwMQOi8Fm4tfQ_EIB_XLNT01Ea7X8vPl9CSOiR843YJyAaCBHL4B4dCFE0
-Message-ID: <CADBJw5Zb7iOuzceDjeJ3e4JWAupxOTRnM62SmJFjv23vS-+bfQ@mail.gmail.com>
-Subject: Re: [PATCH v2] apparmor: Remove unused value
-To: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
-Cc: john.johansen@canonical.com, paul@paul-moore.com, jmorris@namei.org, 
-	serge@hallyn.com, apparmor@lists.ubuntu.com, 
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	shuah@kernel.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 15, 2025 at 9:40=E2=80=AFAM Akhilesh Patil <akhilesh@ee.iitb.ac=
-.in> wrote:
->
-> On Thu, Aug 14, 2025 at 10:24:01PM +0530, Chandra Mohan Sundar wrote:
-> > The value "new" is being assigned to NULL but that statement does not
-> > have effect since "new" is being overwritten in the subsequent
-> > fallback case.
-> >
-> > Remove the unused value. This issue was reported by coverity static
-> > analyzer.
->
-> Hi Chandra. Do you have Coverity ID for this issue ?
->
-Hi Akhilesh,
+Fix multiple typos and small grammar issues in help text,
+comments and test messages in futex_priv_hash test.
 
-Sure. The Coverity id is 1662453 (
-https://scan5.scan.coverity.com/#/project-view/65357/10063?selectedIssue=3D=
-1662453
-).
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+---
+ .../selftests/futex/functional/futex_priv_hash.c       | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Thanks,
-Chandra Mohan Sundar
+diff --git a/tools/testing/selftests/futex/functional/futex_priv_hash.c b/tools/testing/selftests/futex/functional/futex_priv_hash.c
+index 2dca18fefedc..4a7dea008314 100644
+--- a/tools/testing/selftests/futex/functional/futex_priv_hash.c
++++ b/tools/testing/selftests/futex/functional/futex_priv_hash.c
+@@ -115,7 +115,7 @@ static void usage(char *prog)
+ {
+ 	printf("Usage: %s\n", prog);
+ 	printf("  -c    Use color\n");
+-	printf("  -g    Test global hash instead intead local immutable \n");
++	printf("  -g    Test global hash instead of local immutable hash\n");
+ 	printf("  -h    Display this help message\n");
+ 	printf("  -v L  Verbosity level: %d=QUIET %d=CRITICAL %d=INFO\n",
+ 	       VQUIET, VCRITICAL, VINFO);
+@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
+ 	if (ret != 0)
+ 		ksft_exit_fail_msg("pthread_join() failed: %d, %m\n", ret);
+ 
+-	/* First thread, has to initialiaze private hash */
++	/* First thread, has to initialize private hash */
+ 	futex_slots1 = futex_hash_slots_get();
+ 	if (futex_slots1 <= 0) {
+ 		ksft_print_msg("Current hash buckets: %d\n", futex_slots1);
+@@ -232,17 +232,17 @@ int main(int argc, char *argv[])
+ 
+ 	futex_hash_slots_set_verify(2);
+ 	join_max_threads();
+-	ksft_test_result(counter == MAX_THREADS, "Created of waited for %d of %d threads\n",
++	ksft_test_result(counter == MAX_THREADS, "Created and waited for %d of %d threads\n",
+ 			 counter, MAX_THREADS);
+ 	counter = 0;
+-	/* Once the user set something, auto reisze must be disabled */
++	/* Once the user set something, auto resize must be disabled */
+ 	ret = pthread_barrier_init(&barrier_main, NULL, MAX_THREADS);
+ 
+ 	create_max_threads(thread_lock_fn);
+ 	join_max_threads();
+ 
+ 	ret = futex_hash_slots_get();
+-	ksft_test_result(ret == 2, "No more auto-resize after manaul setting, got %d\n",
++	ksft_test_result(ret == 2, "No more auto-resize after manual setting, got %d\n",
+ 			 ret);
+ 
+ 	futex_hash_slots_set_must_fail(1 << 29, 0);
+-- 
+2.43.0
+
