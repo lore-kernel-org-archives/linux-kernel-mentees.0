@@ -1,59 +1,76 @@
-Received: from smtp1.iitb.ac.in (smtpd9.iitb.ac.in [103.21.126.64])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043F078F4F
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 15 Aug 2025 04:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.21.126.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3051225522B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 15 Aug 2025 06:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755231040; cv=none; b=PPzbjM2LKSZ2XQ3PBXclhaZRKOZspy4gW/J1Vr/8ZSIgsCUlq9q1/b1ckFzSOxFA2+kkvoUCv22Nu7vvoMPhM0LzpuLEV5BW64a9c2ht2JfUSBMcreNMm0yPhCAkejhANlIARhURJ/T1UxldSOhvKJd0tFuZNpWk6zBCAbuQSZc=
+	t=1755238150; cv=none; b=eWgAxoBttHjIvez/JQAkjRE8h8gRxMa38ege4XdZC2mhXg/AJ8I5OJoLnSGGe8znTpkf8KCMzNx6b/SyDFMbTvTk5qC7Qlkf/sh2P/NP8icLgHGnBaQ4PDw5iO97LxBtZSxHqfF5ElkHVZZLzSpspCyOQaGUnMQVd3TxDNH5l84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755231040; c=relaxed/simple;
-	bh=WpFNvbaWQVIp9vddf/wtaqzKr6XUIX6RAmlpXQcERDY=;
+	s=arc-20240116; t=1755238150; c=relaxed/simple;
+	bh=mRn+1Pe0OUG5BtFAy3VwFP0Rk0qogNg0sXk/t/7nkvM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UwnWilzUEeNPkTnOgOzhSWmtKUnemOBUOiOTfjYtndJYF1HkFf/GdkiExwONkZWl42VoG+jhFV87JVfa2bZLCpUllpvu8cNhIPBYsHSjqrNBepJxdP5IgboQ9PQ1bVjuPOWeDU+8dUMUjPgfsgJnw4rlVlcMXSTmHLePxcbmaZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ee.iitb.ac.in; spf=pass smtp.mailfrom=ee.iitb.ac.in; dkim=pass (1024-bit key) header.d=iitb.ac.in header.i=@iitb.ac.in header.b=eKOS+99W; arc=none smtp.client-ip=103.21.126.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ee.iitb.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ee.iitb.ac.in
+	 Content-Type:Content-Disposition:In-Reply-To; b=tC/YCFoTQkQ8tB80Pw0tAaDVxw0NF23fY6//4rAX3aH54ZeSVz1n+q9DhOWBY/waDs+cQButxAmwY5+83aJc38TgoKsTM/lDkGR3HKUwsoCJJ1qbX93iMW5hJWPPbTN6dOtwR+5I5qWlzQMe2nMlvzwUAOAk0DG7tuiBMkf5sFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V/BLvZpz; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iitb.ac.in header.i=@iitb.ac.in header.b="eKOS+99W"
-Received: from ldns1.iitb.ac.in (ldns1.iitb.ac.in [10.200.12.1])
-	by smtp1.iitb.ac.in (Postfix) with SMTP id BB35C104D003
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 15 Aug 2025 09:40:25 +0530 (IST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.iitb.ac.in BB35C104D003
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=iitb.ac.in; s=mail;
-	t=1755231025; bh=WpFNvbaWQVIp9vddf/wtaqzKr6XUIX6RAmlpXQcERDY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eKOS+99WbntAeCs9jzvkG44S1wixeP9Ar92DoWpRLNAyUttrdROV0jSQJ+2t5pHiR
-	 tlIfm25OA5RV6edxitScd5TLDg/2JTKCCuLdFGSVhUJfjeymdnqO3SJpb77E4yTfjo
-	 l4vkTV32NGLgI53Z6zuR3fKTOCOLr9aB9fYeDkaA=
-Received: (qmail 10064 invoked by uid 510); 15 Aug 2025 09:40:25 +0530
-X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns1 (envelope-from <akhilesh@ee.iitb.ac.in>, uid 501) with qmail-scanner-2.11
- spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.101.4/26439} 
- Clear:RC:1(10.200.1.25):SA:0(0.0/7.0):. Processed in 2.190701 secs; 15 Aug 2025 09:40:25 +0530
-X-Spam-Level: 
-X-Spam-Pyzor: Reported 0 times.
-X-Envelope-From: akhilesh@ee.iitb.ac.in
-X-Qmail-Scanner-Mime-Attachments: |
-X-Qmail-Scanner-Zip-Files: |
-Received: from unknown (HELO ldns1.iitb.ac.in) (10.200.1.25)
-  by ldns1.iitb.ac.in with SMTP; 15 Aug 2025 09:40:23 +0530
-Received: from bhairav.ee.iitb.ac.in (bhairav.ee.iitb.ac.in [10.107.1.1])
-	by ldns1.iitb.ac.in (Postfix) with ESMTP id F0F9236003E;
-	Fri, 15 Aug 2025 09:40:22 +0530 (IST)
-Received: from bhairav-test.ee.iitb.ac.in (bhairav.ee.iitb.ac.in [10.107.1.1])
-	(Authenticated sender: akhilesh)
-	by bhairav.ee.iitb.ac.in (Postfix) with ESMTPSA id C2BBA1E813F8;
-	Fri, 15 Aug 2025 09:40:22 +0530 (IST)
-Date: Fri, 15 Aug 2025 09:40:18 +0530
-From: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
-To: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
-Cc: john.johansen@canonical.com, paul@paul-moore.com, jmorris@namei.org,
-	serge@hallyn.com, apparmor@lists.ubuntu.com,
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
-	shuah@kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2] apparmor: Remove unused value
-Message-ID: <aJ6zKriNeoM4B/km@bhairav-test.ee.iitb.ac.in>
-References: <20250814165403.616195-1-chandramohan.explore@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V/BLvZpz"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id BB0DC4095E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 15 Aug 2025 06:09:08 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.457
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 5C2mMf0BWvqA for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 15 Aug 2025 06:09:08 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=ming.lei@redhat.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org EFD0D409BD
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EFD0D409BD
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=V/BLvZpz
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id EFD0D409BD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 15 Aug 2025 06:09:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755238144;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CeuGtP6oJ3ASX+epXJ2slnSpr56EeHAKpiiitD+NUT8=;
+	b=V/BLvZpz4t6/gA8hbYDMfJFRt0VKn0AAtrxnv1FVmADyg0c8tHaRnIsifT3cEt8iIklM0E
+	Ldug0e3KfW8zVRvZwLx9oM4p7vRdpTLu/BTgXiqVr4jxvF6GXRDHrqbUKGMpHGftjDc4p/
+	ncHYO0GZfpuDy4l0eKHFouxHMjI3VCs=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-653-47MEAmEaMX-2fN6VqUisUA-1; Fri,
+ 15 Aug 2025 02:09:03 -0400
+X-MC-Unique: 47MEAmEaMX-2fN6VqUisUA-1
+X-Mimecast-MFC-AGG-ID: 47MEAmEaMX-2fN6VqUisUA_1755238141
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 91B92195422A;
+	Fri, 15 Aug 2025 06:09:01 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.153])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D3D6B1955E89;
+	Fri, 15 Aug 2025 06:08:56 +0000 (UTC)
+Date: Fri, 15 Aug 2025 14:08:51 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Soham Metha <sohammetha01@gmail.com>
+Cc: linux-kselftest@vger.kernel.org, shuah@kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
+Subject: Re: [PATCH 3/6] selftests: ublk: fixed spelling mistake in output
+Message-ID: <aJ7O8_3_GEhc6Xq1@fedora>
+References: <20250815000859.112169-1-sohammetha01@gmail.com>
+ <20250815001803.112924-1-sohammetha01@gmail.com>
+ <20250815001803.112924-2-sohammetha01@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -62,43 +79,20 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250814165403.616195-1-chandramohan.explore@gmail.com>
+In-Reply-To: <20250815001803.112924-2-sohammetha01@gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Thu, Aug 14, 2025 at 10:24:01PM +0530, Chandra Mohan Sundar wrote:
-> The value "new" is being assigned to NULL but that statement does not
-> have effect since "new" is being overwritten in the subsequent
-> fallback case.
+On Fri, Aug 15, 2025 at 05:48:00AM +0530, Soham Metha wrote:
+> found/fixed following typos
 > 
-> Remove the unused value. This issue was reported by coverity static
-> analyzer.
+> - faile -> failed
+> 
+> in `tools/testing/selftests/ublk/test_common.sh`
+> 
+> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
 
-Hi Chandra. Do you have Coverity ID for this issue ?
+Reviewed-by: Ming Lei <ming.lei@redhat.com>
 
-Regards,
-Akhilesh
-> 
-> Fixes: a9eb185be84e9 ("apparmor: fix x_table_lookup when stacking is not the first entry")
-> Signed-off-by: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
-> ---
-> Changes since v1:
->     Fixed the commit message and Fixes tag message formatting.
-> 
->  security/apparmor/domain.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/security/apparmor/domain.c b/security/apparmor/domain.c
-> index 267da82afb14..9c0c7fa8de46 100644
-> --- a/security/apparmor/domain.c
-> +++ b/security/apparmor/domain.c
-> @@ -592,7 +592,6 @@ static struct aa_label *x_to_label(struct aa_profile *profile,
->  		if (!new || **lookupname != '&')
->  			break;
->  		stack = new;
-> -		new = NULL;
->  		fallthrough;	/* to X_NAME */
->  	case AA_X_NAME:
->  		if (xindex & AA_X_CHILD)
-> -- 
-> 2.43.0
-> 
-> 
+Thanks,
+Ming
+
