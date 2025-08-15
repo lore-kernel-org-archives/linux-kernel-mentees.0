@@ -1,79 +1,88 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5413C20E31B;
-	Fri, 15 Aug 2025 18:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DA720E31B
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 15 Aug 2025 18:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755282290; cv=none; b=ZOsDybeEd70jZxX5o0EIBsyGkan6h91EgQhYSyj06R0s9zUeRquxdLmxxxFXs17iZK8zj4sFexImg5g+8dAbyBj1g+LD3HJgTRWX1lk5WmMECEF5xAxU9RT7T1XrVJ97SxGGs5NJosaf3IojarWhJSA7ndF5swqsDGGS4XfswfM=
+	t=1755282483; cv=none; b=caF1K2jyrRf5ZKaX6UNtmCxzSxqQKaQ9BgoDWNYIccnaRTd0TqyPWK39kkI1qjYNXgioiZs4pjbnufmffncK57FQr53q90ca4YQz/ghFs0VUqj/NIeqy44DL8r60/fp78bWDq6qwcY6cwnBWoYoqu9ZJ+gwH7M7yzeuRXzwDLHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755282290; c=relaxed/simple;
-	bh=QobVYEfTkkSCAnUJE1eYW2fseY8dFPW4L7iGC07OMNU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ozx7buKRB3ynWMDMzGt1KFMDAd8FXtXetQ0NMF54xatGSbHFhuWpxLictt/6I/EDPjCF4yrSN/UNsruOH1oPZ8YY7KhAuWcVfsSxjnYHkqdaX/Mh0eUU7v/E2qFkGMAozcOPwS7BhsJwNJmA6f9KVyviSen+LxusXf3Nm8lrLcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YfpoNvS9; arc=none smtp.client-ip=209.85.221.46
+	s=arc-20240116; t=1755282483; c=relaxed/simple;
+	bh=WcIeLS4ZXXoXdwDG9ZrZOy7xFIgwGO4Az7+RoIiV7CU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gq9n3Y67qiKegRpX+GjRxH92wsoGQwQ3iuQUf4Cq8VPhipFauXFpVAsrZIyx0+NnNJPSUbAaMkt55oojAlXVO8N7+vkHmGTWuVBsBt9p6eV1sCDHa7oQG/R2TT7t9iAz+N0Ce8w3UrxffarwoGjNYyY6NUEBDoFE1s2Cy3+TotE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Grdqjtl0; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YfpoNvS9"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3b9e4140f38so289330f8f.3;
-        Fri, 15 Aug 2025 11:24:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Grdqjtl0"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-323267bc2eeso1716567a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 15 Aug 2025 11:28:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755282287; x=1755887087; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1755282482; x=1755887282; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q0zpMZnkL3xUP4iMVr2Rvk20jrCXLh2STUJz8BkNkI8=;
-        b=YfpoNvS9fo9rJlWnTo3ED/4LfV9o0W/Yh7UbXaQbdM5Dutj4+nXIWg6/42gGmZe6i+
-         IF+Ea15ZjMqA/INc85EDS0b/oOgdwOytfcVIdGr90a9izZ+k3BVN1XKOkcPoinwZNeUk
-         u3V0I1+mGfiVZb+4KLyRjnmyiNwCGilyf0TXqmucrC8x7WLKjkA7BLu6IEu3w1G99CbW
-         795yb/T9Yl+NyvFIiZ7X2LbZhicgFxGxf0u/AbyRxsTa7wpKqC5+Lbkp/OaLHXWJ4PeQ
-         kMNE6e+jSop9+eHLE3xOOc5k9dLx4JwiQ4ORhtK+d7rnC3ij8LnH0vNsO90/GEZUSJcf
-         WUUQ==
+        bh=PRc1fd64O4J1Onrw7dVFQU3zu1pxcaQiGTVN2LS+H5M=;
+        b=Grdqjtl0cKzGeU8JKrbxwWZOmtuVMDkvskhMBCsKKPY9lsPixLeXCnbzapvQUePRwv
+         xmfHbxwKb0jaq0MsA1nAoYRcdly1Jux9N4X0IcDlBtKSA+2LjZJGqQtXWbVzW3NBWWqI
+         an1WFpF9cyhj3S8+/VAqbDwUqqxnRS+4StgMiOJZVjQJOGx2W+17p4tV6ddCrsjNThMs
+         3sQVVkE6NtXR/jOZIlAnfCJNS5OQvN48lO9++K2XtosiPyRd921cp/Ywsif0EJX67A1n
+         90TwAHDtPwxvqYctdZOe0zngmge8uLhtXKugmyouCuxUpcYp07Xi2j+yFZ2dE+cVl7iZ
+         fbow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755282287; x=1755887087;
+        d=1e100.net; s=20230601; t=1755282482; x=1755887282;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=q0zpMZnkL3xUP4iMVr2Rvk20jrCXLh2STUJz8BkNkI8=;
-        b=p9udIh4ozQcD4kbIAOQ9gkRKGbvDFEz3XZ4w8DEjJgBWJujG4yM7KV/yhKK3hBykjU
-         euDSv4NbQ03xIJA+E8xP1tyAZWzbwR2kgV8CRoqTesWy1wIz3vX5qnF8++Biv5YvoZXE
-         oIHXXuXuJ80VKB8w5mJ3HiaTKt7pNMsQdS2Qnv5YKYt2lxym8DbArrLrAre7HvlVzuBV
-         R4qdbUvAzRhx0VV92Ki9HX3An+Iaa5YfU/AVyupRt4RJN4mSo/K12H6c2J+J0ocLv/Uh
-         l9R8+4Bw/y6lonyaXuJ3AdKNK4OL3mmW6q2bYCtn3qknbcbfb1cMx8LegcGl/Dm0E2/1
-         ZiIg==
-X-Forwarded-Encrypted: i=1; AJvYcCUFuXA+UF6l4yqeI9wltVi7pLpS/CpQrDJ24n0AWEMWwmV6VP8CeS6uIDvxoLibNk0VNLW1u+hipDMsbm/4dZwMZb3laQ==@lists.linux.dev, AJvYcCWA1bKUZY0rGf+yUzJ4SasNCtZROACEoPZdDG3O3vxOH1eqnapmpQ+vaoPqjEn8DbVNoPU2yA5ycUTCwd+bAw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy0E15SO0S/wOyBAxIebIvmkSOXuOsriZM1JixqE7kujS3QuRTb
-	sjQ6FIKQsGOwbX4Ni8WAIts1bS06qqCcc9KLSBLLKzYGCtC0urgWjr+6
-X-Gm-Gg: ASbGncsCp2CMSfJ82vJfvrk08l0FYVk26bgnb7Wkwf+VRWzY2Z3Uzhuw9NpLhQX+cjQ
-	FpHjS0jub8oWuf/mAv4CIWZRApSox6/qFQNP+TBrEzcxKBGguZgFWaw2PEJCTWrJnYwAD6wbZPv
-	fQFPnr89HYSYYA9QZXO9cVXMEvrfmSODdvDLh2ztcvpAPJ63WtlzShcx6pSSP9P13Ii+O7U3NDo
-	Coa/WKpHtW+VhcHlkVUG9OATGHgcdAINsdGbK5qoN9nk7jQpsOVzF83nySsohHiAFNhiuRM2Sv5
-	90vS3hZaSlJc+BgLOLPSL+Ld+V2fN7NZCsym5kqAP7aiMeJxunlQCwn9hFJU1GDjjm5fFZ9tniZ
-	SHZ87fYNRLnKc7jXEYIZP5cmJK/fo/7XWr4LbvJGt2rb30ENEnuEcfLUzyD0Zt7hJm4HUDQ4=
-X-Google-Smtp-Source: AGHT+IG2Hgsf0X8riW5W1RS9V2Pmq4G97r97dj8tDlD9PVoE/DtRi0I+An1Iqw2p7XKPxCN6Cv5pOQ==
-X-Received: by 2002:a05:600c:37cd:b0:451:df07:f41e with SMTP id 5b1f17b1804b1-45a21803ec8mr11696575e9.1.1755282286429;
-        Fri, 15 Aug 2025 11:24:46 -0700 (PDT)
-Received: from localhost.localdomain ([154.182.175.247])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1c6be103sm71465605e9.2.2025.08.15.11.24.41
+        bh=PRc1fd64O4J1Onrw7dVFQU3zu1pxcaQiGTVN2LS+H5M=;
+        b=eBmLI7VDW43USQ75Z6zt6D42m3E4YeyEfxg9wNSYDoYt4MY/Nqg+mwYl3/KETbUeP3
+         KlnmjH4X+DKLDrphtweMd0WaU9/1K8hbrFbopl+Z9yUVkbBXCta/wEW64Yi9Y3I8Mm/j
+         NuT3/cQ5W0ic1t4p1+DUc3zLOVmt6e0PZnuir2j1wEiNFiucKSaoGBI6iwx7/MxvAizE
+         d2mlMEGYn9m2cgEhYdghdSYHQEbBwU8vGhw21HflwoApMj2t6ZNoOYAWm4OqvOc5svlA
+         sP6ChOcPeBwIU6mIIA8eSZCMLWMGwmY1v/Ka3EMp0QrBfxBUagoDsmt7h9hobGtDBF3I
+         oq6w==
+X-Forwarded-Encrypted: i=1; AJvYcCXZNGsYla6A+Dy2pS6y8HEk4kvlF/Mu8y/O3GRNsu09VOz/sDepnIWd4zcKOTOcfxkozw+EXAvbSkknrfl4Kys873uCTg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz8XVqDrtRXwKhIpdY4JqvLNtSVoFHg9CDodkEh3svKGb0GXugT
+	94A2yEB5OBX/EphV/UllBHtINL20LjAjhZ0TRHg6KPBH+qOqELUxQUob
+X-Gm-Gg: ASbGnctZPaTOcne0dJVDdsx9ZGkA7F1+h8x3T0nxQjACE66haPrsbmFHZXudre/rjU7
+	xUA48+MGFFgbKy8NJ8vPuXXHjhTcIfDsEOxLUQBQ4oLwv2DE8ZFScHtGHuufPIZkO2lWu47th9h
+	jsWJaJ+17RmIxkU3cP3TigKwxssVWySGWTNM7XegSQ01EbEb4Y4ziNdPEJ6TFi6SBHM2PPNuTPm
+	sWjN2TLLvwsH9i1BaHt6npE4EtIXd9rqU+MbVApYlzLAevGGTcBPpBC6SzDg6bPz85cahYjJ0BQ
+	33+S28ydGfllRONOQ8nZTUFPtao3baQdoaovVfRRFZ7uydJTX5UURyi6dVDGg77RmisMq3YOkgj
+	nUbDR+LoMgrjQ8E4gHAUthUs/yXIpaXKG
+X-Google-Smtp-Source: AGHT+IEHD1GjcrbAdBd7la+otQhbrqDF5HpTciQ3G09/nn/3VnQgMLKqhY0XaiQcIXJt9SZb1N/YZQ==
+X-Received: by 2002:a17:90b:3fc3:b0:321:4765:a423 with SMTP id 98e67ed59e1d1-32341ea7860mr4878289a91.6.1755282481580;
+        Fri, 15 Aug 2025 11:28:01 -0700 (PDT)
+Received: from archlinux ([2401:4900:93f2:6a91:9b6f:8f9d:11b:d64a])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32343994891sm1791582a91.8.2025.08.15.11.27.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Aug 2025 11:24:46 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev,
+        Fri, 15 Aug 2025 11:28:01 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: peterz@infradead.org,
+	mingo@redhat.com,
+	acme@kernel.org,
+	namhyung@kernel.org,
+	mark.rutland@arm.com,
+	alexander.shishkin@linux.intel.com,
+	jolsa@kernel.org,
+	irogers@google.com,
+	adrian.hunter@intel.com,
+	kan.liang@linux.intel.com,
+	paul.walmsley@sifive.com,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	guoren@kernel.org,
+	linux-perf-users@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-csky@vger.kernel.org,
 	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v2] media: atomisp: Add lock asserts for mutex protection
-Date: Fri, 15 Aug 2025 21:24:11 +0300
-Message-Id: <20250815182411.36092-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel-mentees@lists.linux.dev,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH RESEND] perf/util: make TYPE_STATE_MAX_REGS architecture-dependent
+Date: Fri, 15 Aug 2025 23:57:42 +0530
+Message-ID: <20250815182742.45541-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -82,141 +91,74 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add lockdep_assert_held(&isp->mutex) to critical functions accessing
-shared device state. This enforces proper locking and detects violations.
+Replace the fixed definition of TYPE_STATE_MAX_REGS with architecture-
+specific values for better accuracy across multiple CPU architectures
+including PowerPC, ARM, x86, RISC-V, MIPS, and others. This change ensures
+the type state registers array size matches the actual register count of
+the target platform.
 
-Suggested-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
 ---
-v2:
-- Fix Typos
-- tested by building the driver
+ tools/perf/util/annotate-data.h | 45 ++++++++++++++++++++++++++++++---
+ 1 file changed, 41 insertions(+), 4 deletions(-)
 
-v1: https://lore.kernel.org/all/20250815170901.32105-1-abdelrahmanfekry375@gmail.com/
- .../staging/media/atomisp/pci/atomisp_cmd.c   |  3 ++
- .../media/atomisp/pci/atomisp_compat_css20.c  | 31 +++++++++++++++++++
- 2 files changed, 34 insertions(+)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d3be..48ca33e1c92d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3794,6 +3794,7 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
- 		    const struct atomisp_format_bridge **fmt_ret,
- 		    const struct atomisp_format_bridge **snr_fmt_ret)
- {
-+	lockdep_assert_held(&isp->mutex);
- 	const struct atomisp_format_bridge *fmt, *snr_fmt;
- 	struct atomisp_sub_device *asd = &isp->asd;
- 	struct v4l2_mbus_framefmt ffmt = { };
-@@ -4324,6 +4325,8 @@ static int atomisp_set_fmt_to_snr(struct video_device *vdev, const struct v4l2_p
- int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- {
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
-+	lockdep_assert_held(&isp->mutex);
-+
- 	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
- 	struct atomisp_sub_device *asd = pipe->asd;
- 	const struct atomisp_format_bridge *format_bridge;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index be5f37f4a6fd..94f63d6a85df 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -1447,6 +1447,9 @@ int atomisp_css_input_set_resolution(struct atomisp_sub_device *asd,
- 				     enum atomisp_input_stream_id stream_id,
- 				     struct v4l2_mbus_framefmt *ffmt)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	struct ia_css_stream_config *s_config =
- 		    &asd->stream_env[stream_id].stream_config;
+diff --git a/tools/perf/util/annotate-data.h b/tools/perf/util/annotate-data.h
+index 541fee1a5f0a..0dfb12a8f1cc 100644
+--- a/tools/perf/util/annotate-data.h
++++ b/tools/perf/util/annotate-data.h
+@@ -189,11 +189,48 @@ struct type_state_stack {
+ 	u8 kind;
+ };
  
-@@ -1519,6 +1522,10 @@ int atomisp_css_set_default_isys_config(struct atomisp_sub_device *asd,
- 					enum atomisp_input_stream_id stream_id,
- 					struct v4l2_mbus_framefmt *ffmt)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
-+
- 	int i;
- 	struct ia_css_stream_config *s_config =
- 		    &asd->stream_env[stream_id].stream_config;
-@@ -1621,6 +1628,9 @@ void atomisp_css_input_set_two_pixels_per_clock(
+-/* FIXME: This should be arch-dependent */
+-#ifdef __powerpc__
+-#define TYPE_STATE_MAX_REGS  32
++#if defined(__powerpc__) || defined(__powerpc64__)
++#define TYPE_STATE_MAX_REGS 32
++#elif defined(__aarch64__)
++#define TYPE_STATE_MAX_REGS 31
++#elif defined(__arm__)
++#define TYPE_STATE_MAX_REGS 16
++#elif defined(__x86_64__)
++#define TYPE_STATE_MAX_REGS 16
++#elif defined(__i386__)
++#define TYPE_STATE_MAX_REGS 8
++#elif defined(__riscv)
++#define TYPE_STATE_MAX_REGS 32
++#elif defined(__mips__)
++#define TYPE_STATE_MAX_REGS 32
++#elif defined(__sparc__) || defined(__sparc64__)
++#define TYPE_STATE_MAX_REGS 32
++#elif defined(__alpha__)
++#define TYPE_STATE_MAX_REGS 32
++#elif defined(__s390__) || defined(__s390x__)
++#define TYPE_STATE_MAX_REGS 16
++#elif defined(__sh__)
++#define TYPE_STATE_MAX_REGS 16
++#elif defined(__nios2__)
++#define TYPE_STATE_MAX_REGS 32
++#elif defined(__hexagon__)
++#define TYPE_STATE_MAX_REGS 32
++#elif defined(__openrisc__)
++#define TYPE_STATE_MAX_REGS 32
++#elif defined(__csky__)
++#define TYPE_STATE_MAX_REGS 32
++#elif defined(__loongarch__)
++#define TYPE_STATE_MAX_REGS 32
++#elif defined(__arc__)
++#define TYPE_STATE_MAX_REGS 32
++#elif defined(__microblaze__)
++#define TYPE_STATE_MAX_REGS 32
++#elif defined(__xtensa__)
++#define TYPE_STATE_MAX_REGS 16
++#elif defined(__m68k__)
++#define TYPE_STATE_MAX_REGS 16
+ #else
+-#define TYPE_STATE_MAX_REGS  16
++#define TYPE_STATE_MAX_REGS 16
+ #endif
  
- void atomisp_css_enable_dz(struct atomisp_sub_device *asd, bool enable)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	int i;
- 
- 	for (i = 0; i < IA_CSS_PIPE_ID_NUM; i++)
-@@ -1631,6 +1641,9 @@ void atomisp_css_enable_dz(struct atomisp_sub_device *asd, bool enable)
- void atomisp_css_capture_set_mode(struct atomisp_sub_device *asd,
- 				  enum ia_css_capture_mode mode)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	struct atomisp_stream_env *stream_env =
- 		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
- 
-@@ -1646,6 +1659,9 @@ void atomisp_css_capture_set_mode(struct atomisp_sub_device *asd,
- void atomisp_css_input_set_mode(struct atomisp_sub_device *asd,
- 				enum ia_css_input_mode mode)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	unsigned int size_mem_words;
- 	int i;
- 
-@@ -1690,6 +1706,10 @@ void atomisp_css_input_set_mode(struct atomisp_sub_device *asd,
- void atomisp_css_capture_enable_online(struct atomisp_sub_device *asd,
- 				       unsigned short stream_index, bool enable)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
-+
- 	struct atomisp_stream_env *stream_env =
- 		    &asd->stream_env[stream_index];
- 
-@@ -1726,6 +1746,10 @@ int atomisp_css_input_configure_port(
- {
- 	int i;
- 	struct atomisp_stream_env *stream_env;
-+
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	/*
- 	 * Calculate rx_count as follows:
- 	 * Input: mipi_freq                 : CSI-2 bus frequency in Hz
-@@ -1760,6 +1784,10 @@ int atomisp_css_input_configure_port(
- 
- void atomisp_css_stop(struct atomisp_sub_device *asd, bool in_reset)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
-+
- 	unsigned long irqflags;
- 	unsigned int i;
- 
-@@ -1815,6 +1843,9 @@ void atomisp_css_continuous_set_num_raw_frames(
-      struct atomisp_sub_device *asd,
-      int num_frames)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	if (asd->enable_raw_buffer_lock->val) {
- 		asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
- 		.stream_config.init_num_cont_raw_buf =
+ /*
 -- 
-2.25.1
+2.50.1
 
