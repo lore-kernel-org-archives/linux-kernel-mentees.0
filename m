@@ -1,79 +1,98 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76740299AA4;
-	Sat, 16 Aug 2025 17:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F3814F9FB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 18:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755363985; cv=none; b=lCwbCgxfIm0I80PomQSWzxB8XLZtRphRm3SkJYLAGzr9i69+YwsC/AsGN917237RJWGdFaeJQdsu0o40WTXHXlEvu0mvlunMPFdopsudlWJuWz3+KNHsTP67Yd58I0y4ntGGD3wTue9ZDAsL9zjRGj1QRQf21G534mYOSii0D4k=
+	t=1755369054; cv=none; b=gwYrW5CRWOThwXw8sSZvJ2DGEMTf9IJYne+w8NTabNaSkB/dEqKBupzoZKLXqhfFJH3bm1dRLru1W5pTamM2eQC0susut+m5ZK5mdY5078QNGPjuFGk8EPW+RINshgQkSrBmfq9GllH/UnqTEhT5vQVvgx6IycjgerQdkWjnZHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755363985; c=relaxed/simple;
-	bh=sB2cYu5+Jf0zWpRTQV5q+PheZ/lZktCmmZantthNZFQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=feWctZ0d2haFzm0mz9ErNFfCrvGE5WEKRC0vhz2oDLsRvWLmE98QPZjwT1CbS2vMckkFZ3daZb0+mMf2Ee0qVBrCSEIgSxH3OKqLz3OGmJPmv+momEu1+/D7A6k3s4cB+6P8mvt51LtXNaeXrk+vlNXXHu+M66YD7uN16F1anQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OjupSdJx; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755369054; c=relaxed/simple;
+	bh=Ca9Tn1UJzfTzHyDL78FjDFTXk6DN5IoHNYT47ja8cTU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E9PTxYlopApl+AeJMAUWKA/AMYOJBFVZ8b45egj1pWPczIXwPD8ACRKxd1Xz0zuS8IcMB7hulADWApWAPIZ6wjmjCK2aBv+MIXJulcQNhy1u/gyetHFWJtl7T+iUg6lhqQCmy+eQXBjgEmCLy141fSkxNRvNownD0uddLWvsQzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f68n8GOj; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OjupSdJx"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3b9d41c0fe4so441218f8f.0;
-        Sat, 16 Aug 2025 10:06:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f68n8GOj"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0F2C76139F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 18:30:53 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id NAFJWgqTnvG2 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 16 Aug 2025 18:30:52 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::436; helo=mail-pf1-x436.google.com; envelope-from=rakuram.e96@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6244A61397
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6244A61397
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=f68n8GOj
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 6244A61397
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 18:30:52 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-76e2eb6d07bso2632161b3a.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 11:30:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755363982; x=1755968782; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1755369051; x=1755973851; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sgw7Gkb4p3y4ALqCmeQkgKUKoK0mG01yPSRfozmaBxU=;
-        b=OjupSdJxY+3Yhk0dmdOlq8g1Tjl5hZ3kMuVzSVxKQ2kyJfkG1x4yMU8KkQVEprTpKv
-         nILgbzl8HcCMNeSW9klKx3eccVJJqmKyqFbOz6bFLz9uXAqq4I+nSUkAQ4IhLqNTrRiv
-         KWXBhQ94NFGFNQG/WhUWP3c4yuIJSSqvLNLIZCUC1Es+cAyurwHUu2KA6/xyVfalsWkq
-         z2kGtQFsw0oy65juarTPqikAdAiXhmILYBRQPmdceQ+vWV9xW5EaXE5QlGdd83J8Ct4W
-         zVXgw4HVvRS9se3uOSFEcKnkuXLVRNaMoykxmGRScnuUM94UrFg/XvcYOd2CBUHJlZ4+
-         1JbA==
+        bh=Fhn2t1l0lC8TOAJKE/KsB3bglQE6ARXTKvnpQpTHz8U=;
+        b=f68n8GOjRYuU42UxN33AnpIxKk8BlkcFjBlB44stZd8+KndjdI2g0Cf/E0zvbtDWJI
+         KYIW+wzgEYAUt4wXkXDZ+VOghOtZqjDX2WbjW9FsZgyOQqfsV1fatsUEfzDeWy5yVegr
+         xlgN5Yx8mA5qUtd/CWklOXeM/GSuLWPFdKSnRur/vFdMe8C24QzqHtcDXR/ptct5NzV4
+         jpv8ftfvoG1p9xX+kUP1D1yAFbejKCl2w4aSFS1nP2LzuEgMmd+DL9QWzlLMfyM7BjjO
+         AGV3ih5KHPQTCbl/cCPL2AgRy95a1namkOp0l94SAGVdGWMK1SRM2LpT5jzDbqeb6Aoe
+         fg3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755363982; x=1755968782;
+        d=1e100.net; s=20230601; t=1755369051; x=1755973851;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sgw7Gkb4p3y4ALqCmeQkgKUKoK0mG01yPSRfozmaBxU=;
-        b=d1An7PB1HH1V+HQ/MnTWPhv/jXwvlYCYHnIs7sobnLWnnONBqDoc/hvGsZH7NiDzq/
-         iItbYb72L1ewOLiLj/Sj2pgQjxkk3x53ZfXXbb5avSznfxO+8hix/SqfX5qH+x5qx5eL
-         2QOx8cn0EQCTyZzRO2fZcM4HYPzyOuqhPW0+AXZ+jye/rVSq90C9/AnueIIaJ3PDdav7
-         48EkozFOCEx/KL/1wLu07ThcdvttlO48fw3hFpWkGFZSHY3RIlTsURBWBPazDO8S9H0m
-         aqUgB0ojiVD7FZoxkML5267v3+RzSbuM5kG7z5gkCA8STXLnQxcHgQILfI9KyAzTcoox
-         NOEA==
-X-Forwarded-Encrypted: i=1; AJvYcCVemLp5ZlUbs1x4rqkCG8nR9+wyXcJ4mQN5U3Q/4SAAa1BHGlama4/v0EoVGMXHkM/GeH80UyscZtf/SsGRGPeg4v9ZKw==@lists.linux.dev, AJvYcCXxKzHwmDbgDYyLYSbDKBGXp+dvlutvOjQu9UI4zTftomHxp4utevS9AQZiqV62qCcQKZ+CCKWHS1QDraNNSg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZTFXxESoc6wjhGQb0D8PUkb04+vipvlE0l12DmF8AkT/At1PI
-	k+HiejoKFrq7XcXVzJNUFH5lhZJqmrAAKCL7UehX+feN5KxKNtqK+Jz4
-X-Gm-Gg: ASbGncv4yMoaC+FIUT0+csyJjSEw52s15iOb4QspxtHgITjEwkuVID/RFZ8BAT3hIJu
-	0YYeS9PriNzO/nwwSK2IT9OWTWSwaz24qSDBXuTXt5y66Qrld4cEZPwXfkcy3ZJo/8SGXvAuEA6
-	nxu/MCZfOBANjvV9wExgVoKatQAzr1Zi/izwnbft4VAGqHzKqcq6dniM4m4qq8arQOXuRs32vT0
-	pFHBcKu+V/o8Wd0eQtVUVY3Keqea1HigsI4aWltyLDVsQ0i998pEk4qJ0738MTSVWru0MaPRbSQ
-	+1dsFRFfm6kdvtGwfJ3butChljoJDLiSb13o2qbefty4m0XKLa925kc/hZXxw0tzsedpYPqbhRW
-	MTdsR1g9HO61A+0uagr0HX91Wd9RHExWvQEJbdm1JJA8B2MvPx4Ne7AtmBQ==
-X-Google-Smtp-Source: AGHT+IH7o4mFvUskvJ8tgvRlrCg/v/TbnRR3ccsdkXgMqIiB9upLobfM18TFI+4x3gLQ0XPRzr2igA==
-X-Received: by 2002:a05:600c:4fd1:b0:456:1a00:c745 with SMTP id 5b1f17b1804b1-45a2185e3d6mr21491465e9.3.1755363981376;
-        Sat, 16 Aug 2025 10:06:21 -0700 (PDT)
-Received: from localhost.localdomain ([41.37.217.192])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1c6cf151sm101701315e9.8.2025.08.16.10.06.19
+        bh=Fhn2t1l0lC8TOAJKE/KsB3bglQE6ARXTKvnpQpTHz8U=;
+        b=EZ2/Oaq6FpfKAvMm9t8EADWRvnLFPw/AUZbV7XPaRcUM0XbACxECF0adNkMdNCqjYc
+         rcGnrl8Qwax4V0yJTTEwmox8/23ShcO9m7U7GrWX59i8X4Xe/qGlQGKw5QgyhLrjdfrr
+         JfpkxCQG3vDpMwZt0VQaZBd3xFPuwjuH0SEIuahKoRQ+ZAQLCJUZwWqjC1udML29iJGm
+         unfTcn7TT86G90RYMIpUfhKAtZdV+u7QOO3Vrx9LiFDLhiUwFQPA/nU4CKOn99yznANh
+         W1nO1tc1TARVXE0TQnct1am4jqcGdiVL/4vkmzifC8t0Hp0S8xjxVcYXcyL/3urZtC2b
+         b+Yw==
+X-Forwarded-Encrypted: i=1; AJvYcCWSy6lMOOaqwYyvBlNV3WAQo4sC1yggJnP757cIuBVMiGZZ+nIzcqrhJY9ohVdcfzYGiT9EPDHE4lS4fwDnLrQh5uJFAA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yzd/VORQrDNSFT0oA4XeTgrLRr1Ir0RK4U+0ZV3003/pAsdIpZA
+	U/PnSglwIBvMEhPdTz2qVeIX3OvV0845c8Zz6CxWORHWZmw1xsBfNXxe
+X-Gm-Gg: ASbGncvWC2q6qvHyfESyO8NQAMPVcvK6yKtMNxXGfhnLmCCIaOpt9w7V8t9GqK47C9j
+	Es88Z5sOojpE4wBi7NQHhICLnXTnV8Sv++/U18+wEEs9bnT4BLveE79yAIpnnqzHMuKWSegWi+g
+	5ScOHNqHUOctP4fjf6v2vo2e0or4j62ztNvhUp3VoOAlXSyD2SUXALY9Vy8aQSicmU/u3WSYmlo
+	htK+TZznp1Uu1/m6YJLuQHjzVLNlGjKpN24p7SVdDlGjC9lbNT0mu6Oq50HxcgRswNbR+mUlYez
+	4XYEpiBuB5w7Bs9/VJ/OZNb9+r/rdPyCq1jWt3k4ffri5hh2JQIyWCbwhmC2sVUCJQKybbI/1Pw
+	MXTwcUtx2LBAATFrFgPAAs92l5NXAG55a7UwGraAqGg==
+X-Google-Smtp-Source: AGHT+IFjz0rJDhGfparMNY6VC/JIueZmZiEB6VolaLHi06NigLtt9WJc9wH1l8gFuRX+8nKyr9njyg==
+X-Received: by 2002:a05:6a21:3391:b0:240:198:7790 with SMTP id adf61e73a8af0-240e619e927mr4884569637.10.1755369051185;
+        Sat, 16 Aug 2025 11:30:51 -0700 (PDT)
+Received: from lkmp.. ([157.51.100.44])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b472d73a418sm4251175a12.38.2025.08.16.11.30.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Aug 2025 10:06:20 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev,
+        Sat, 16 Aug 2025 11:30:50 -0700 (PDT)
+From: rakuram <rakuram.e96@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: dan.j.williams@intel.com,
+	dave@stgolabs.net,
+	dave.jiang@intel.com,
+	jonathan.cameron@huawei.com,
+	vishal.l.verma@intel.com,
+	ira.weiny@intel.com,
+	linux-cxl@vger.kernel.org,
+	alison.schofield@intel.com,
+	gourry@gourry.net,
 	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v3] staging: media: atomisp: Add lock asserts for various functions
-Date: Sat, 16 Aug 2025 20:06:03 +0300
-Message-Id: <20250816170603.41051-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	corbet@lwn.net,
+	rakuram.e96@gmail.com
+Subject: [PATCH] Documentation/driver-api: Fix typo error in cxl
+Date: Sun, 17 Aug 2025 00:00:33 +0530
+Message-ID: <20250816183034.7970-1-rakuram.e96@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -82,158 +101,46 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add lockdep_assert_held(&isp->mutex) to critical functions accessing
-shared device state. This enforces proper locking and detects violations.
+Fixed the following typo errors
 
-Suggested-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+intersparsed ==> interspersed
+in Documentation/driver-api/cxl/platform/bios-and-efi.rst
 
+ndoe ==> node
+in Documentation/driver-api/cxl/allocation/page-allocator.rst
+
+Signed-off-by: rakuram <rakuram.e96@gmail.com>
 ---
-v3:
-- modify declarations to match kernel style
+ Documentation/driver-api/cxl/allocation/page-allocator.rst | 2 +-
+ Documentation/driver-api/cxl/platform/bios-and-efi.rst     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-v2: https://lore.kernel.org/all/20250815182411.36092-1-abdelrahmanfekry375@gmail.com/
-- Fix Typos
-- tested by building the driver
-
-v1: https://lore.kernel.org/all/20250815170901.32105-1-abdelrahmanfekry375@gmail.com/
- .../staging/media/atomisp/pci/atomisp_cmd.c   |  3 ++
- .../media/atomisp/pci/atomisp_compat_css20.c  | 28 +++++++++++++++++--
- 2 files changed, 29 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d3be..fc5c8276b013 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3706,6 +3706,7 @@ static int atomisp_set_sensor_crop_and_fmt(struct atomisp_device *isp,
- 	struct v4l2_subdev_state *sd_state;
- 	int ret = 0;
+diff --git a/Documentation/driver-api/cxl/allocation/page-allocator.rst b/Documentation/driver-api/cxl/allocation/page-allocator.rst
+index 7b8fe1b8d5bb..4ac3368c3947 100644
+--- a/Documentation/driver-api/cxl/allocation/page-allocator.rst
++++ b/Documentation/driver-api/cxl/allocation/page-allocator.rst
+@@ -62,7 +62,7 @@ Because the local node does not have :code:`ZONE_MOVABLE`, the CXL node is
+ functionally unreachable for direct allocation.  As a result, the only way
+ for CXL capacity to be used is via `demotion` in the reclaim path.
  
-+	lockdep_assert_held(&isp->mutex);
- 	if (!input->sensor)
- 		return -EINVAL;
+-This configuration also means that if the DRAM ndoe has :code:`ZONE_MOVABLE`
++This configuration also means that if the DRAM node has :code:`ZONE_MOVABLE`
+ capacity - when that capacity is depleted, the page allocator will actually
+ prefer CXL :code:`ZONE_MOVABLE` pages over DRAM :code:`ZONE_NORMAL` pages.
  
-@@ -3800,6 +3801,7 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
- 	u32 padding_w, padding_h;
- 	int ret;
+diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+index 645322632cc9..a9aa0ccd92af 100644
+--- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
++++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+@@ -202,7 +202,7 @@ future and such a configuration should be avoided.
  
-+	lockdep_assert_held(&isp->mutex);
- 	fmt = atomisp_get_format_bridge(f->pixelformat);
- 	/* Currently, raw formats are broken!!! */
- 	if (!fmt || fmt->sh_fmt == IA_CSS_FRAME_FORMAT_RAW) {
-@@ -4334,6 +4336,7 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- 	struct v4l2_rect isp_sink_crop;
- 	int ret;
- 
-+	lockdep_assert_held(&isp->mutex);
- 	ret = atomisp_pipe_check(pipe, true);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index be5f37f4a6fd..03067479dd69 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -1447,9 +1447,11 @@ int atomisp_css_input_set_resolution(struct atomisp_sub_device *asd,
- 				     enum atomisp_input_stream_id stream_id,
- 				     struct v4l2_mbus_framefmt *ffmt)
- {
-+	struct atomisp_device *isp = asd->isp;
- 	struct ia_css_stream_config *s_config =
--		    &asd->stream_env[stream_id].stream_config;
-+	&asd->stream_env[stream_id].stream_config;
- 
-+	lockdep_assert_held(&isp->mutex);
- 	s_config->input_config.input_res.width = ffmt->width;
- 	s_config->input_config.input_res.height = ffmt->height;
- 	return 0;
-@@ -1519,6 +1521,10 @@ int atomisp_css_set_default_isys_config(struct atomisp_sub_device *asd,
- 					enum atomisp_input_stream_id stream_id,
- 					struct v4l2_mbus_framefmt *ffmt)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
-+
- 	int i;
- 	struct ia_css_stream_config *s_config =
- 		    &asd->stream_env[stream_id].stream_config;
-@@ -1621,6 +1627,9 @@ void atomisp_css_input_set_two_pixels_per_clock(
- 
- void atomisp_css_enable_dz(struct atomisp_sub_device *asd, bool enable)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	int i;
- 
- 	for (i = 0; i < IA_CSS_PIPE_ID_NUM; i++)
-@@ -1631,9 +1640,11 @@ void atomisp_css_enable_dz(struct atomisp_sub_device *asd, bool enable)
- void atomisp_css_capture_set_mode(struct atomisp_sub_device *asd,
- 				  enum ia_css_capture_mode mode)
- {
-+	struct atomisp_device *isp = asd->isp;
- 	struct atomisp_stream_env *stream_env =
--		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
-+	&asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
- 
-+	lockdep_assert_held(&isp->mutex);
- 	if (stream_env->pipe_configs[IA_CSS_PIPE_ID_CAPTURE]
- 	    .default_capture_config.mode == mode)
- 		return;
-@@ -1646,6 +1657,9 @@ void atomisp_css_capture_set_mode(struct atomisp_sub_device *asd,
- void atomisp_css_input_set_mode(struct atomisp_sub_device *asd,
- 				enum ia_css_input_mode mode)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	unsigned int size_mem_words;
- 	int i;
- 
-@@ -1690,9 +1704,11 @@ void atomisp_css_input_set_mode(struct atomisp_sub_device *asd,
- void atomisp_css_capture_enable_online(struct atomisp_sub_device *asd,
- 				       unsigned short stream_index, bool enable)
- {
-+	struct atomisp_device *isp = asd->isp;
- 	struct atomisp_stream_env *stream_env =
- 		    &asd->stream_env[stream_index];
- 
-+	lockdep_assert_held(&isp->mutex);
- 	if (stream_env->stream_config.online == !!enable)
- 		return;
- 
-@@ -1726,6 +1742,9 @@ int atomisp_css_input_configure_port(
- {
- 	int i;
- 	struct atomisp_stream_env *stream_env;
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	/*
- 	 * Calculate rx_count as follows:
- 	 * Input: mipi_freq                 : CSI-2 bus frequency in Hz
-@@ -1760,9 +1779,11 @@ int atomisp_css_input_configure_port(
- 
- void atomisp_css_stop(struct atomisp_sub_device *asd, bool in_reset)
- {
-+	struct atomisp_device *isp = asd->isp;
- 	unsigned long irqflags;
- 	unsigned int i;
- 
-+	lockdep_assert_held(&isp->mutex);
- 	/*
- 	 * CSS 2.0 API limitation: ia_css_stop_sp() can only be called after
- 	 * destroying all pipes.
-@@ -1815,6 +1836,9 @@ void atomisp_css_continuous_set_num_raw_frames(
-      struct atomisp_sub_device *asd,
-      int num_frames)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	if (asd->enable_raw_buffer_lock->val) {
- 		asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
- 		.stream_config.init_num_cont_raw_buf =
+ Memory Holes
+ ------------
+-If your platform includes memory holes intersparsed between your CXL memory, it
++If your platform includes memory holes interspersed between your CXL memory, it
+ is recommended to utilize multiple decoders to cover these regions of memory,
+ rather than try to program the decoders to accept the entire range and expect
+ Linux to manage the overlap.
 -- 
-2.25.1
+2.43.0
 
