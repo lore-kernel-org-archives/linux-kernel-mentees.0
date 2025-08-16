@@ -1,89 +1,90 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83333176F0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 06:55:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEE621D3E2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 08:25:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755327325; cv=none; b=ukir+P6koh/9Axw+mn4ymh6s8cyR/o+zNtKttW8+dXvhiWa0budB9cF/rF1hTCA9IAaWZkSTbBboQkbGpU1iXMdvEVY9WDk6s9tLmfGNjqSdgbd4T1ESFcPt1/IdkCWWx5/X3qC+HUiQxDDFi9mVAFJAku4uIcbeiJ5D644cVYg=
+	t=1755332702; cv=none; b=k7MPkGDn6R0nm0bWmfTbpOGAvCqcwnvNAXYq7Y5IVGgOZVnCLTY6wCW1S2fRXtW8f4MH2RQ4wTCOAkfgPgZrQmq8RWTnqZ7Vk0gO4wqA81A3hiXE0c1RMGZDu90cEDrpeuoAa/CDJqh5aNMzwanKY17F0k3TtJlaog3aFgztQ64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755327325; c=relaxed/simple;
-	bh=kKwgkc0MRKj5QVDGF/mEkvIhrzP3GNMCanq7BG9BeW0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TWg/s+6wwKsC5kq57WAH+d5fE+yRtJoKpP/tf2x5qBUxGaMJP9NA0i574a7w8psNHf/tK95m45uzuJN1EsOXBOZalD6kUAdcEmfqYyFrv+XQybObzj46CeVRXApbjX5s3owZvNhvCAB8Toi5Sqaef3FWEtdItNwqU7UqemWD9Pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aGi++bx7; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1755332702; c=relaxed/simple;
+	bh=HcspPniQ+/a9UgjFb44d/Qy83pFsOwoD+mG4yuju6Fo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ojPE7Nohqm0XzcYGTWDkyHCXrPEkmdOP6XZfpiP7ALE0kRl6hqMd9pPpH14zAMbI327WWQOlEuDJTFqwQnVUKLElBwz8BWKnu6KepgPeEbJ9RAoJQfrDTs33437q1R1SjxsTNIt/CXB79eClL5e1yeDo5h9PlcFwbcjbJvVNDh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NpFx1G8q; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aGi++bx7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NpFx1G8q"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 585C783E10
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 06:55:23 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 130C4813EA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 08:25:01 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id QYLie4qH6umb for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 16 Aug 2025 06:55:22 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1033; helo=mail-pj1-x1033.google.com; envelope-from=vnranganath.20@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org A751A83D9E
+ id fJE0bT5a0KSa for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 16 Aug 2025 08:25:00 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::632; helo=mail-pl1-x632.google.com; envelope-from=vivekyadav1207731111@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 5922D8132E
 Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A751A83D9E
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5922D8132E
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=aGi++bx7
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id A751A83D9E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 06:55:22 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-323266cd073so432004a91.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 15 Aug 2025 23:55:22 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=NpFx1G8q
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 5922D8132E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 08:25:00 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-24458242b33so24692965ad.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 01:25:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755327322; x=1755932122; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1755332699; x=1755937499; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pQENfQjnK0kpW7+ecWx4mPicYJuAqMw36HO0ldP2nh8=;
-        b=aGi++bx73bVKE5+5cCT0ddL4PPIwSooklfwHE3sQ4QDq5EjLCaAM8z7Wq8dYkahXPN
-         ogUq5KhOA0JBStjSC18668j4JbQXwrnjnoIuYaDS0TAyuilfnLL7tyZGf3BiHBQesPHG
-         dlkN2Gvl43hUoMQrxU2OEjNQy9kp2yJv6EkSXSI7I1OyABlUdClLSd6Q5wF0zAWyrK7c
-         dXT3tLk9S6X26XVA2BGzhabtDEsHzMnuUwdMLyX3tBckhQfgq2rCjhfRgBtgoUUDPtQr
-         Qxow+cbUn2+SElLieclDHjEhPXrAAw1TIis20ohVO9DuSBWVvu7Vpg6L2tL5rR4K1Km5
-         MKXg==
+        bh=s+vKmcBx4tFOUtnevR3o1xCot+6PtJYfeGLB/iWk5Rc=;
+        b=NpFx1G8qvHu4igbx66UKmW9W0ddLKXJ/4T4B9YgC+TgcvjNHZujIgJUrSGwJ7t5A7Z
+         jdpvRhwlhDffG33VZ4pcU92RZ/PRC+nz2zcuUefmJsDA7Jwll+3ceu1F3jrP1G3g0qIy
+         gHkMnfyVFTSfRQa7nw1P7uIxAk25U7mblFxF2NDbPY6N34m1GBPTHTKbyeYBIwqOzaTR
+         Mi+O//Zy2jXPgrkLKfQ9HbcQs1hpzDfglOudANB+HPNJCwM31peEk2cXsGwPq6ikOMQc
+         WTroi9MjDWN0DRVm2Z7nXPv51OoW/yKYdPpdwgWZZsmgm0mhkbkEH1YTr1lvTOAagiaj
+         r+Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755327322; x=1755932122;
+        d=1e100.net; s=20230601; t=1755332699; x=1755937499;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pQENfQjnK0kpW7+ecWx4mPicYJuAqMw36HO0ldP2nh8=;
-        b=QTlJ78HrWf092mIeROwRC9fx5OhBZy0h+qT4MWcYwkb20Q1j/8c07JYGiL9HHbbraJ
-         iVEXA8HFpocu5iiMiw88R6li85bvR1XlI+nryBqZABz/B3LhN80uVRP0qE3BApBFLTfL
-         Bj9u2zZ1tKW7FfGTPXmfe4uCk+Udqrv2YAkUGE1sqOZfD13lnLIOVwXA+VURGQVOzEiQ
-         f85yJesrBwQ1HfzccO4nNZDCAulP79WNkewBes0F9THZOJWRkDwI60sjo22xPosiBMwc
-         OrQNEY24oPusDJsjDIbTxa7VJFnaPfWOw5M7R8yB5diavK361Ak35uDiXzMx1HBjNjEg
-         3jCw==
-X-Gm-Message-State: AOJu0YxtfqQSwWZZ0YWtd/FMzLiiS66McmJYad9q0vw+wjjp1GfszS3F
-	/tdaTwKn67qrJv6yoJUSZpdqUTvPEu7nQzhDDemA7XSkaX0vFPOGuIcI
-X-Gm-Gg: ASbGnctQFcvMJqvKY5FVtlfdY0A4e0F8u4+iUpnaAraUIy+jHitMbjK5w54sr1JGF5y
-	WOjegBCglmHfLAgBt3GMV0uxKxr2XHhuLUKOBXczbxRFHSkbM7zYxWAwK/4sIbNLRa9MGXDuLvW
-	XcIESv8zkKxT9lLVfMDG4tNqbHPIyw/QqK7QTQtwuVoZEvEOBOLYli90+CzuoagXaGaJ9JdZxEj
-	eArc7M7dUMCi3fn4prWTmXkYnbEr2C/FqaX9eR/ZjhG47Jto3Ihq/FHrWbDWV3VfWtF/iKt/hip
-	rK0aKPLB1Ctd6I9s0cA6y251B+/sNhdvBEqIHqfwrYP9AM3dgia8e6/YjZHRm+aDLrYU+sXwUE0
-	hRm/Al3LXv795rGWOtIeQIFjrSoxxcw==
-X-Google-Smtp-Source: AGHT+IEi3On6DUaLL3HGRjuBdB8IwYTEvydR5f4BGORycAYvDCRl8am9GWB0dz2TJVzDRvHLvw74vQ==
-X-Received: by 2002:a17:90b:1c8b:b0:321:c5eb:1da4 with SMTP id 98e67ed59e1d1-32341df94f7mr3768725a91.1.1755327321682;
-        Fri, 15 Aug 2025 23:55:21 -0700 (PDT)
-Received: from ranganath.. ([2406:7400:98:2b0c:4503:9234:5f04:b2f9])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b472d5a8f7asm2965664a12.12.2025.08.15.23.55.19
+        bh=s+vKmcBx4tFOUtnevR3o1xCot+6PtJYfeGLB/iWk5Rc=;
+        b=RMfsVcYacMsVNfSCcA7v42S6owMbO81CKb9XSiNShEXz8uaKEQzf4l9xWWJyRlbcRF
+         qGSlJTYyWwxwZdIM5BDrhWwteFm+QVmTnzYtEPvstQG1vGX0vUM5qW5v9WVp5gS10OWY
+         08QS+l0/GEYf9kv3sAXB6K1qEXuGjErmR2oTLY54DBfT+1jrQyKWtPgpRvMiZIgeOfgQ
+         MtG/D3hOLClF0v7Ju0/s8Pv0akftteaz+fIVnOM95xOHPmgjPSchFC1j8YsWrNkOc9u2
+         wt5SXm9mC60WaD82ln0FP0darRFNTFK/fJMZm1FOvsWDwDr0ZoX7BbUIubKpxt1YCvdY
+         kbiw==
+X-Forwarded-Encrypted: i=1; AJvYcCXK4X5FlwpA8lKX2ZUtnXKgX1fw30oMLm9GfpGm/vdQ1FNvXyW3PapU0vKM+MPztBofbLW3Ep4rUYEHfxbCO75cV5HdNQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzB+nTY/f9fXInEudURaHgKOe/YOXhQJmK7kqiWCDTZSPctfbT8
+	3eIlI7f2P0Zl7QNPuJjzwght3lB9W6F09m/1cLbQtfQof3KQes5cTTvf
+X-Gm-Gg: ASbGncuiS1gujO11fov0+jUG3l3N2yVw5xJZr2dGDnJBhwqKFAO3xghpXFTtzWxf5oA
+	OcdSI4rfnTWVpIp+fw7uXDC4sBQcQfn6mpVxM0fzCOzkbnaNXSEDsc5WU/NsSgY04pUfisUsKeC
+	yUOm0nM7kc0h9hXSPzfMweCBcztKCJTnzvkbBnzAVBXmp9RGRyVs9zG97Hd/kTGsx1yhQfrTW3v
+	tEFtS/xtA2dZKvjIGpRmL6Q1aTAyKSVQT19EDItVSsJpndquDmpKtVxSRcufarAI6jtjYQm+KNA
+	YmNByZPe8D3Bg26m0BwXpaOBafDG83jA6QeVo4aDMXENrTft3bnLMgh6BMycalB5+AtZTDAuG8e
+	OiZmY+g7qXAsFr4W9YrEc854wmMbYmz/AKkQQmiOpWKkoPvcjyIU=
+X-Google-Smtp-Source: AGHT+IHSsawcaEevMuafLD78BTfCUbWtLwXteWH92g1FBSOzZMWiz7OQWkZkplda+BqNoCgweUMSvw==
+X-Received: by 2002:a17:902:cf03:b0:23f:fde7:efef with SMTP id d9443c01a7336-2446d8c5ae8mr75631885ad.30.1755332699445;
+        Sat, 16 Aug 2025 01:24:59 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:d003:7033:7bc9:450f:9942:9f5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32330f8309asm6228514a91.4.2025.08.16.01.24.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Aug 2025 23:55:21 -0700 (PDT)
-From: Ranganath V N <vnranganath.20@gmail.com>
-To: shuah@kernel.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+        Sat, 16 Aug 2025 01:24:58 -0700 (PDT)
+From: vivekyadav1207731111@gmail.com
+To: corbet@lwn.net
+Cc: rdunlap@infradead.org,
 	skhan@linuxfoundation.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ranganath V N <vnranganath.20@gmail.com>
-Subject: [PATCH] selftests: firmware: removing errors and warnings from checkpatch.pl
-Date: Sat, 16 Aug 2025 12:25:10 +0530
-Message-ID: <20250816065511.10713-1-vnranganath.20@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	Vivek Yadav <vivekyadav1207731111@gmail.com>
+Subject: [PATCH v3] kernel-parameters: fix kernel-doc warning
+Date: Sat, 16 Aug 2025 01:24:52 -0700
+Message-Id: <20250816082452.219009-1-vivekyadav1207731111@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -92,62 +93,41 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removing the scripts/checkpatch.pl errors and warnings from the file.
+From: Vivek Yadav <vivekyadav1207731111@gmail.com>
 
-Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+Fix kernel-doc warning in kernel-parameters.txt
+
+WARNING: Possible repeated word: 'is'
+
+```
+[command]
+./scripts/checkpatch.pl --strict -f Documentation/admin-guide/kernel-parameters.txt
+
+[output]
+WARNING: Possible repeated word: 'is'
++            The format is is "trace_trigger=<event>.<trigger>[ if <filter>],..."
+
+total: 0 errors, 1 warnings, 0 checks, 8339 lines checked
+```
+
+Signed-off-by: Vivek Yadav <vivekyadav1207731111@gmail.com>
 ---
- tools/testing/selftests/firmware/fw_namespace.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/firmware/fw_namespace.c b/tools/testing/selftests/firmware/fw_namespace.c
-index 04757dc7e546..5fcc3fed0036 100644
---- a/tools/testing/selftests/firmware/fw_namespace.c
-+++ b/tools/testing/selftests/firmware/fw_namespace.c
-@@ -1,7 +1,8 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Test triggering of loading of firmware from different mount
-  * namespaces. Expect firmware to be always loaded from the mount
-- * namespace of PID 1. */
-+ * namespace of PID 1
-+ */
- #define _GNU_SOURCE
- #include <errno.h>
- #include <fcntl.h>
-@@ -17,7 +18,7 @@
- #include <sys/wait.h>
- #include <unistd.h>
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 747a55abf..302145870 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -7506,7 +7506,7 @@
+ 			Set a trigger on top of a specific event, with an optional
+ 			filter.
  
--static char *fw_path = NULL;
-+static char *fw_path;
+-			The format is is "trace_trigger=<event>.<trigger>[ if <filter>],..."
++			The format is "trace_trigger=<event>.<trigger>[ if <filter>],..."
+ 			Where more than one trigger may be specified that are comma deliminated.
  
- static void die(char *fmt, ...)
- {
-@@ -86,9 +87,8 @@ static bool test_fw_in_ns(const char *fw_name, const char *sys_path, bool block_
- 			die("waited for %d got %d\n",
- 				child, pid);
- 		}
--		if (!WIFEXITED(status)) {
-+		if (!WIFEXITED(status))
- 			die("child did not terminate cleanly\n");
--		}
- 		if (block_fw_in_parent_ns)
- 			umount("/lib/firmware");
- 		return WEXITSTATUS(status) == EXIT_SUCCESS;
-@@ -116,11 +116,13 @@ int main(int argc, char **argv)
- {
- 	const char *fw_name = "test-firmware.bin";
- 	char *sys_path;
-+
- 	if (argc != 2)
- 		die("usage: %s sys_path\n", argv[0]);
- 
- 	/* Mount tmpfs to /lib/firmware so we don't have to assume
--	   that it is writable for us.*/
-+	 * that it is writable for us.
-+	 */
- 	if (mount("test", "/lib/firmware", "tmpfs", 0, NULL) == -1)
- 		die("mounting tmpfs to /lib/firmware failed\n");
- 
+ 			For example:
 -- 
-2.43.0
+2.25.1
 
