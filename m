@@ -1,92 +1,114 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6C32E7BBE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 13:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF902E5D02
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 16 Aug 2025 13:38:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755351296; cv=none; b=sWLbjgispWO0ZscNM4trtX4KdI93NyVb6htQTidYf7DOESFR2U1ziqwOj3dEb0nxXRHxFzU1GlZAJiWTBCBJwRII3/EGaSd3rFaXE0PaNOTLFsqFuN7DWcFD9n6cthdtUiyfJwlKG96guYG0Q5ik2c8oGRW1Ts0Yu3OM32R3T9M=
+	t=1755351496; cv=none; b=gKL42YmRElKakxPu/AWkMWYJNqswHTJmdgmhOvRgpR2v59l5ZIWPAMHcfCJfMfjSVMRtKZkpJ6nWpA5qi5mnGAdG4VM+GSg9lSBQJIltGD0W2JIDoLSWQXitprl4rKaPlHjepUBPmnnpRHgUwEf6b9XHkamiDB/q6AuH9Puc5ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755351296; c=relaxed/simple;
-	bh=tJC2fP8R8CE59ewJaA1jMoW76rPBtMtDYVgvZDtO3q4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hb6HPYxFhY6KQVKuGlGH9WGejGpeawvxu3y6Fg15KMPE5NiLkE1eC8VHCPOlnlRpe0eCwNdL2enDACuiRKy68PMc85YMs6+7JKTqMUY9eSb3Wwm1ShDc3ZE0lhwU53Tu+CwjWHbNBKpMyxyFnx1vIfO0rz44ZDKDHJaxfi5ZD9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQBXWQZ9; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1755351496; c=relaxed/simple;
+	bh=7UbQKDN1GEFhBsxxmxfizY7Ssvu0Moj8dhGuUyQptOc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZujslxP6HXaAYlZP5gELeyKVhTkJ6XewXrguxcwLJ3rJmqMfJR/x2vDN69QlLNAB5pANDvMMf2aEkJGbORb4nljmGyHYCbLWZFOMUBpBr/zPEu91YHkP/XLlPGL6eP5aW3rn099Gmgqp1vBJBKKmLfe4vQy/76JVw12ozh7i7EY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WNoSM0L1; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQBXWQZ9"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7D2F281455
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 13:34:55 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id t6b9v_u33T0v for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 16 Aug 2025 13:34:55 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=jic23@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 08C58816FE
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 08C58816FE
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=TQBXWQZ9
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 08C58816FE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 13:34:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id E487344EB4;
-	Sat, 16 Aug 2025 13:34:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37872C4CEEF;
-	Sat, 16 Aug 2025 13:34:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755351293;
-	bh=tJC2fP8R8CE59ewJaA1jMoW76rPBtMtDYVgvZDtO3q4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TQBXWQZ9TY9fe5hbnCoxP1TwOCK1clE/ivn8njEPlRbATyxEbDU9BrnYu1PAmzjsI
-	 M0u5x1WGLe+LYK+fqxjeDxWExPJwjephPyW9g7l8f6cE1zW5uMWkITvwLD7lee6fXE
-	 kvZ6HgwPBztb6kiKU1fRz1LjnTFhkF156H8CfEiy8dsEk3q5Z7BOEYzlbOOetnjXk0
-	 1UUIJYxuX9nyMc09rm8sNnZ2wOYZ28Jnwt/jyG19H7BmJBMaftjlGXBlAEFWugFbch
-	 mHT9Ecgg1Mbt5sCJZffc21W/LIEWFGqNMvupCJwD9pZRVU/WDpjZlXi10KH1TLUua1
-	 LbRqM74LSEHUg==
-Date: Sat, 16 Aug 2025 14:34:45 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Akshay Bansod <akbansd@gmail.com>, Lorenzo Bianconi
- <lorenzo@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] iio: st_lsm6dsx: Replace scnprintf with sysfs_emit
-Message-ID: <20250816143445.3dd52031@jic23-huawei>
-In-Reply-To: <CAHp75Vf7r53wQtGWes9WH1UubEjhAju+tN0OORTrkNxgTQPsWw@mail.gmail.com>
-References: <20250811165641.1214347-1-akbansd@gmail.com>
-	<CAHp75Vf7r53wQtGWes9WH1UubEjhAju+tN0OORTrkNxgTQPsWw@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WNoSM0L1"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so2499011b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 16 Aug 2025 06:38:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755351494; x=1755956294; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2J2iSSCaNNvRGZwQ/4i2aG5ul+1gTH3QhJIp9bBktMk=;
+        b=WNoSM0L1pM1v7XwlCOO36pol4RUrcfo9wcKtW/GSUqiw3/cA5MDZB9HuYfqwLcQzBE
+         /4xg2hLm86HNmxk1speANjLjxUT86LWna3Qg8Wd9Vrbb9Z3ZK28rrUasFdrt0cfA+Thl
+         CAA/SVthHWMlF/FHw/JJgunlIO/+Hcr16pL88rswMp92I820kj1H5l0jJcYmn0eMD/Zp
+         66IgFu1Y5slKr9VEhJvkptjHLHA+CYhao3Pft5OczQJh7l0yE7UFff2C4gdCl3IJ8KD7
+         elKtqCWEAcyswc4vFdo5xGlFVPxLKvyzjqF19WzIngc1me1qbojjTq8zC4l5AwBCtecj
+         e1qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755351494; x=1755956294;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2J2iSSCaNNvRGZwQ/4i2aG5ul+1gTH3QhJIp9bBktMk=;
+        b=ZmCjgDYil1qYcdUoZ22yuM02dib0i9Fz+u586syMGsl5Lw5GRvMHH9zkMeicWlCI/F
+         aqzoc9pruXzSitRy1ZpA68eLnutUe7Yz7kg/PWFsU0lOue+zqWJWf1FBue5KSBEm1P2Q
+         ccCTpFfQYUDN17G1LwTV2gK4MvCTuWdJbYZCfqjJxEnZqBmkl4A9JJKWJhCintgzGLDh
+         sEJi75JsAJB63nEgFHVQgmZcdki7WV4zaMO+ukfr5+XD0BvqJc/Uk5oUQo2kVviOiP1I
+         ABt9gli643RFHo1YESj0sAtAdSlECH/h3bEPrzGSuoUx2IogoW8rLqOcDYEqSZyQb0yS
+         dv7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXck3UBpQbg0neCWeZSosm4UWj0c2H48E/hYVrkBgbDn/91W6canw8BxnSsMs9AOCPF+vyuzqoiMHw7rUwLUmFF4MdLTg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxCdahdTwX+cHfDYPCzwTNvo7iQIZxiicRSCmOsLxV2dOj/GAsQ
+	o7ibVZE4RLuARWUGI0W71hE1ZNDDzpROWrK5rAtNl+eRD8y9LXJR7QqZ
+X-Gm-Gg: ASbGncvaGAz5M9f31Fli4688qAzwnA0HBNUutg6/bMaqeSs+Dn/BeFXXsl3M0SblLJg
+	dspeoCjvhR56e7b9kKIDFCxYud1zOCtiYFp+mb0YHb/ZXhHCrjj2gxgcv8H0b5t3nFuvKDpbaLE
+	6zMOAbvbxANiC+4UKP0ZcTgZICyYx1AyRPzChJqIIXFPDdu8PYL3kVP/RnP89Tej3KqO+vuKg9G
+	BSqucSLUXrxFp73c3DZqrGxvTbxjMsRd/k4gzIuBQCEqrHcm+VHeroTRPTes1yfk6qAkVu4kdFM
+	ddADUm50+7+Kl4Dhzfa6rC2jdGLOV9hDx2/XB5FqZZuHnlqRYQLc6Aiu2vZXjvtaaPlgGmenI8V
+	wLxwmLxhVPGYNP/EKmm2xMVsM6No8dr4mvzz5ewj6EcTaBoRpwHCh/w==
+X-Google-Smtp-Source: AGHT+IFTHcbP9aHD8Nb5BFtiVW24xICOOoY85jJsclKqcExAllJZ4AeqSU09r1U55OQXNwokZ6LSTQ==
+X-Received: by 2002:a05:6a20:1592:b0:240:1d69:9cc9 with SMTP id adf61e73a8af0-240bdb9b540mr17807581637.16.1755351494274;
+        Sat, 16 Aug 2025 06:38:14 -0700 (PDT)
+Received: from chandra-mohan-sundar.. ([2401:4900:1cb8:7b85:8034:5810:5a19:318])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b472d77338dsm3812707a12.47.2025.08.16.06.38.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Aug 2025 06:38:13 -0700 (PDT)
+From: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
+To: lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	jic23@kernel.org,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	linux-iio@vger.kernel.org,
+	shuah@kernel.org
+Cc: Chandra Mohan Sundar <chandramohan.explore@gmail.com>,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] iio: adc: ad7768-1: Remove logically dead code
+Date: Sat, 16 Aug 2025 19:07:55 +0530
+Message-ID: <20250816133757.98624-1-chandramohan.explore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, 11 Aug 2025 21:17:18 +0200
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+The clamp macro returns a value within the specified range.
 
-> On Mon, Aug 11, 2025 at 6:57=E2=80=AFPM Akshay Bansod <akbansd@gmail.com>=
- wrote:
-> >
-> > Update the sysfs interface for sampling frequency and scale attributes.
-> > Replace `scnprintf()` with `sysfs_emit_at()` which is PAGE_SIZE-aware
-> > and recommended for use in sysfs. =20
->=20
-> LGTM,
-> Reviewed-by: Andy Shevchenko <andy@kernel.org>
->=20
+In ad7768_set_freq(), the value returned from clamp() is checked against
+zero, which is not possible since the value would always be between
+50 and 1024000.
 
-Tweaked patch title to include () for the two functions mentioned.
-I think that just makes things a tiny bit clearer.
+Removed the 'if' check.
 
-Applied.
+This issue was reported by static coverity analyser as logically
+dead code.
+
+Fixes: fb1d3b24ebf5c ("iio: adc: ad7768-1: add filter type and oversampling ratio attributes")
+Signed-off-by: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
+---
+ drivers/iio/adc/ad7768-1.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/iio/adc/ad7768-1.c b/drivers/iio/adc/ad7768-1.c
+index ca8fa91796ca..a27591bbf7df 100644
+--- a/drivers/iio/adc/ad7768-1.c
++++ b/drivers/iio/adc/ad7768-1.c
+@@ -687,8 +687,6 @@ static int ad7768_set_freq(struct ad7768_state *st,
+ 	int ret;
+ 
+ 	freq = clamp(freq, 50, 1024000);
+-	if (freq == 0)
+-		return -EINVAL;
+ 
+ 	mclk_div = DIV_ROUND_CLOSEST(st->mclk_freq, freq * st->oversampling_ratio);
+ 	/* Find the closest match for the desired sampling frequency */
+-- 
+2.43.0
+
