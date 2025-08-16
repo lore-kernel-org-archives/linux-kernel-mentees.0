@@ -1,80 +1,89 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E4C1F1518
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 16 Aug 2025 06:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83333176F0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 06:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755327103; cv=none; b=okHqb3Tmfidt9pK9IRCWI1qu23Coa/5n0oAHzXXmIvvYXZQEPS1HN6g3a/J8o4T/UZyBhuJAP90w119kVF6fQNA9JQTsc95CWhCnFw9FEGt2viqplF9RWDE0mmrdVq/r9T3uFX/VDAXM08hH864z0P2S29kYt/0i+9G47F9PYOw=
+	t=1755327325; cv=none; b=ukir+P6koh/9Axw+mn4ymh6s8cyR/o+zNtKttW8+dXvhiWa0budB9cF/rF1hTCA9IAaWZkSTbBboQkbGpU1iXMdvEVY9WDk6s9tLmfGNjqSdgbd4T1ESFcPt1/IdkCWWx5/X3qC+HUiQxDDFi9mVAFJAku4uIcbeiJ5D644cVYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755327103; c=relaxed/simple;
-	bh=I1I/6P6R/jJHDP7d/EmBJ02o3OhrJmNh1erLpSB768s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z1Y7hdWWAe8taSYuTnjUbusYqfReO777Et/PyolP56LINWxc2VfWZT2GaiTkeiQLgyoobO7BVryn2+vHQJJtefCNvJKhfW+jSi1tm0DOmevRbV4webvefQ+e71+OTMubIh97bxYDh6PlRFGSQRgsiOxsrfNkeN5rqP7bPLcVutk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mpfm7Yfs; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755327325; c=relaxed/simple;
+	bh=kKwgkc0MRKj5QVDGF/mEkvIhrzP3GNMCanq7BG9BeW0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TWg/s+6wwKsC5kq57WAH+d5fE+yRtJoKpP/tf2x5qBUxGaMJP9NA0i574a7w8psNHf/tK95m45uzuJN1EsOXBOZalD6kUAdcEmfqYyFrv+XQybObzj46CeVRXApbjX5s3owZvNhvCAB8Toi5Sqaef3FWEtdItNwqU7UqemWD9Pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aGi++bx7; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mpfm7Yfs"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-76e434a0118so1249291b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 15 Aug 2025 23:51:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aGi++bx7"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 585C783E10
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 06:55:23 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id QYLie4qH6umb for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 16 Aug 2025 06:55:22 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1033; helo=mail-pj1-x1033.google.com; envelope-from=vnranganath.20@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org A751A83D9E
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A751A83D9E
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=aGi++bx7
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id A751A83D9E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 06:55:22 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-323266cd073so432004a91.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 15 Aug 2025 23:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755327101; x=1755931901; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1755327322; x=1755932122; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=39WcNe2AXItXXp9jrDQpd1B8VQX1N+yULMm80zOpn5Q=;
-        b=mpfm7YfsOiW8elTW+XcMQYoxc+gJA3LMoXjQYrEX7zGyGgtUwSPIBungEpu/sykdlq
-         PYODsVFsbWkygfWb5BGDuxLVyypqRZMOjHBnOqesWOdDNor+gdWKkOxZAVsxRkKQxTAA
-         CYFwND/MHe7IBHBzYivem82xZ+r9tPYzSWWUOopJxsYnpHt2/Qu8YoyXfROylvRxflDO
-         N/8DEeWMLDW9pTKDXc2tuYxdL4g8i4wCmrh086rOUmOZ+KdulSssBG2/jeAQi66DgZX3
-         3SQVRgIUpuz32rz7dOZUcn6/OsT2xVoebsEmbEzc3b36Zoj72u9m2+ZHByhm/K36kFQg
-         aXKA==
+        bh=pQENfQjnK0kpW7+ecWx4mPicYJuAqMw36HO0ldP2nh8=;
+        b=aGi++bx73bVKE5+5cCT0ddL4PPIwSooklfwHE3sQ4QDq5EjLCaAM8z7Wq8dYkahXPN
+         ogUq5KhOA0JBStjSC18668j4JbQXwrnjnoIuYaDS0TAyuilfnLL7tyZGf3BiHBQesPHG
+         dlkN2Gvl43hUoMQrxU2OEjNQy9kp2yJv6EkSXSI7I1OyABlUdClLSd6Q5wF0zAWyrK7c
+         dXT3tLk9S6X26XVA2BGzhabtDEsHzMnuUwdMLyX3tBckhQfgq2rCjhfRgBtgoUUDPtQr
+         Qxow+cbUn2+SElLieclDHjEhPXrAAw1TIis20ohVO9DuSBWVvu7Vpg6L2tL5rR4K1Km5
+         MKXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755327101; x=1755931901;
+        d=1e100.net; s=20230601; t=1755327322; x=1755932122;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=39WcNe2AXItXXp9jrDQpd1B8VQX1N+yULMm80zOpn5Q=;
-        b=YRmk08tDLGpQZTPfMk1rRCRpredqH3iwvD7CcshbU6Kbi/8ChLjEss2a1H1G1PBpiB
-         wVX+BHaC+9plVmPtEnoRjRr5ZYCmTe0Qh9Tk1ejaqK4fFYeOJwBxK/ExOfW+ahs+MVyP
-         yz9uvOBUxhfmQwnICfOyeM4cs4AF+uVM+e3AoytAnHLAgmub6iISJT+lJQMefas9Ja/3
-         b3ubdqMM1SjZeHlgxJ27Iqzf/y1xupW+HoUmIvBYaCuhTw6zywnwTmpDw/vocLcyS81v
-         IgZgUxAKI0lXsd9h5mpttYWQ9I8g1k1Avnxpl4CHmiR0s9mlaolnD4eSVlP7zazvyTs0
-         9XYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWVXn3TUhJt+FSLjIq63iQLVe1T7mc6qIRzRe/pN19RDDHEpfPQr5MPClNwh08GcvBjd3c4i8tPyY4p2oD23IYLWMyl7A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyu6lbV+kOCTAQCvvXJsgPbabF/NPQFMGz/KXRnfoDUMMp0H8z6
-	ZQ6pUnicB4ZJVvvKVg6EJK70hiiY0cmSM/BsYl7+hbwIRHX1+GOrscb5
-X-Gm-Gg: ASbGncvi+xhuRjJfXHMTFztFpSk2VfxZ679ISvqi17zzRFXVXDij7DwjT21BaAABWS2
-	wWUbLDKY0GL/vIRlK9qvdSgzOGm7PLsqr/ZOoMw0pt+XHTfVH66WI1/FuUhQk1sWvrB0bSodAKc
-	s4Zh115H5m6rcdmVyJPh8vDGBzLvqMSm0y4BjcWYTHc85wjPPbBT8i3exfWenp3Ot1rjgw77thw
-	bHrDb+EBwqPHvaS472ufVzm2eNFWLp+P5/d4VmKEPOrix6jyXRGUEVH7WhfooA8LY3x55peuBXo
-	mPpq/CrcCfLEZy04FQIAop8Nk0msJFmFRz2WAecYzNGKD5aSia+R5ZM528rYQOS14T9UKclR+ZA
-	7ynlCQldqE1yboKgpT7y6tw/V5StlnUg=
-X-Google-Smtp-Source: AGHT+IGUsLmuiPcI2giCI2IF6qVd6KgQXhFiqbI/NN3EugFt3xJ2EVq0iMIu3K9bJKvvdzrEtNpDKw==
-X-Received: by 2002:a05:6a00:3493:b0:76b:fd9d:8524 with SMTP id d2e1a72fcca58-76e446d626cmr6485065b3a.2.1755327100857;
-        Fri, 15 Aug 2025 23:51:40 -0700 (PDT)
-Received: from archlinux ([2401:4900:67c2:7988:186:bdc:a8e7:4149])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e455b5f9asm2512433b3a.107.2025.08.15.23.51.32
+        bh=pQENfQjnK0kpW7+ecWx4mPicYJuAqMw36HO0ldP2nh8=;
+        b=QTlJ78HrWf092mIeROwRC9fx5OhBZy0h+qT4MWcYwkb20Q1j/8c07JYGiL9HHbbraJ
+         iVEXA8HFpocu5iiMiw88R6li85bvR1XlI+nryBqZABz/B3LhN80uVRP0qE3BApBFLTfL
+         Bj9u2zZ1tKW7FfGTPXmfe4uCk+Udqrv2YAkUGE1sqOZfD13lnLIOVwXA+VURGQVOzEiQ
+         f85yJesrBwQ1HfzccO4nNZDCAulP79WNkewBes0F9THZOJWRkDwI60sjo22xPosiBMwc
+         OrQNEY24oPusDJsjDIbTxa7VJFnaPfWOw5M7R8yB5diavK361Ak35uDiXzMx1HBjNjEg
+         3jCw==
+X-Gm-Message-State: AOJu0YxtfqQSwWZZ0YWtd/FMzLiiS66McmJYad9q0vw+wjjp1GfszS3F
+	/tdaTwKn67qrJv6yoJUSZpdqUTvPEu7nQzhDDemA7XSkaX0vFPOGuIcI
+X-Gm-Gg: ASbGnctQFcvMJqvKY5FVtlfdY0A4e0F8u4+iUpnaAraUIy+jHitMbjK5w54sr1JGF5y
+	WOjegBCglmHfLAgBt3GMV0uxKxr2XHhuLUKOBXczbxRFHSkbM7zYxWAwK/4sIbNLRa9MGXDuLvW
+	XcIESv8zkKxT9lLVfMDG4tNqbHPIyw/QqK7QTQtwuVoZEvEOBOLYli90+CzuoagXaGaJ9JdZxEj
+	eArc7M7dUMCi3fn4prWTmXkYnbEr2C/FqaX9eR/ZjhG47Jto3Ihq/FHrWbDWV3VfWtF/iKt/hip
+	rK0aKPLB1Ctd6I9s0cA6y251B+/sNhdvBEqIHqfwrYP9AM3dgia8e6/YjZHRm+aDLrYU+sXwUE0
+	hRm/Al3LXv795rGWOtIeQIFjrSoxxcw==
+X-Google-Smtp-Source: AGHT+IEi3On6DUaLL3HGRjuBdB8IwYTEvydR5f4BGORycAYvDCRl8am9GWB0dz2TJVzDRvHLvw74vQ==
+X-Received: by 2002:a17:90b:1c8b:b0:321:c5eb:1da4 with SMTP id 98e67ed59e1d1-32341df94f7mr3768725a91.1.1755327321682;
+        Fri, 15 Aug 2025 23:55:21 -0700 (PDT)
+Received: from ranganath.. ([2406:7400:98:2b0c:4503:9234:5f04:b2f9])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b472d5a8f7asm2965664a12.12.2025.08.15.23.55.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Aug 2025 23:51:40 -0700 (PDT)
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	darwi@linutronix.de,
-	sohil.mehta@intel.com,
-	peterz@infradead.org,
-	ravi.bangoria@amd.com
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
+        Fri, 15 Aug 2025 23:55:21 -0700 (PDT)
+From: Ranganath V N <vnranganath.20@gmail.com>
+To: shuah@kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v5 RESEND] x86/cpu/intel: Fix the constant_tsc model check for Pentium 4
-Date: Sat, 16 Aug 2025 12:21:26 +0530
-Message-ID: <20250816065126.5000-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	Ranganath V N <vnranganath.20@gmail.com>
+Subject: [PATCH] selftests: firmware: removing errors and warnings from checkpatch.pl
+Date: Sat, 16 Aug 2025 12:25:10 +0530
+Message-ID: <20250816065511.10713-1-vnranganath.20@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -83,51 +92,62 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Pentium 4's which are INTEL_P4_PRESCOTT (model 0x03) and later have
-a constant TSC. This was correctly captured until commit fadb6f569b10
-("x86/cpu/intel: Limit the non-architectural constant_tsc model checks").
+Removing the scripts/checkpatch.pl errors and warnings from the file.
 
-In that commit, an error was introduced while selecting the last P4
-model (0x06) as the upper bound. Model 0x06 was transposed to
-INTEL_P4_WILLAMETTE, which is just plain wrong. That was presumably a
-simple typo, probably just copying and pasting the wrong P4 model.
-
-Fix the constant TSC logic to cover all later P4 models. End at
-INTEL_P4_CEDARMILL which accurately corresponds to the last P4 model.
-
-Fixes: fadb6f569b10 ("x86/cpu/intel: Limit the non-architectural constant_tsc model checks")
-Cc: <stable@vger.kernel.org> # v6.15
-Reviewed-by: Sohil Mehta <sohil.mehta@intel.com>
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
 ---
-Changes since v4:
-- Updated the patch based on review suggestions
+ tools/testing/selftests/firmware/fw_namespace.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-Changes since v3:
-- Refined changelog
-
-Changes since v2:
-- Improved commit message
-
-Changes since v1:
-- Fixed incorrect logic
-
- arch/x86/kernel/cpu/intel.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
-index 076eaa41b8c8..98ae4c37c93e 100644
---- a/arch/x86/kernel/cpu/intel.c
-+++ b/arch/x86/kernel/cpu/intel.c
-@@ -262,7 +262,7 @@ static void early_init_intel(struct cpuinfo_x86 *c)
- 	if (c->x86_power & (1 << 8)) {
- 		set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
- 		set_cpu_cap(c, X86_FEATURE_NONSTOP_TSC);
--	} else if ((c->x86_vfm >= INTEL_P4_PRESCOTT && c->x86_vfm <= INTEL_P4_WILLAMETTE) ||
-+	} else if ((c->x86_vfm >= INTEL_P4_PRESCOTT && c->x86_vfm <= INTEL_P4_CEDARMILL) ||
- 		   (c->x86_vfm >= INTEL_CORE_YONAH  && c->x86_vfm <= INTEL_IVYBRIDGE)) {
- 		set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
- 	}
+diff --git a/tools/testing/selftests/firmware/fw_namespace.c b/tools/testing/selftests/firmware/fw_namespace.c
+index 04757dc7e546..5fcc3fed0036 100644
+--- a/tools/testing/selftests/firmware/fw_namespace.c
++++ b/tools/testing/selftests/firmware/fw_namespace.c
+@@ -1,7 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /* Test triggering of loading of firmware from different mount
+  * namespaces. Expect firmware to be always loaded from the mount
+- * namespace of PID 1. */
++ * namespace of PID 1
++ */
+ #define _GNU_SOURCE
+ #include <errno.h>
+ #include <fcntl.h>
+@@ -17,7 +18,7 @@
+ #include <sys/wait.h>
+ #include <unistd.h>
+ 
+-static char *fw_path = NULL;
++static char *fw_path;
+ 
+ static void die(char *fmt, ...)
+ {
+@@ -86,9 +87,8 @@ static bool test_fw_in_ns(const char *fw_name, const char *sys_path, bool block_
+ 			die("waited for %d got %d\n",
+ 				child, pid);
+ 		}
+-		if (!WIFEXITED(status)) {
++		if (!WIFEXITED(status))
+ 			die("child did not terminate cleanly\n");
+-		}
+ 		if (block_fw_in_parent_ns)
+ 			umount("/lib/firmware");
+ 		return WEXITSTATUS(status) == EXIT_SUCCESS;
+@@ -116,11 +116,13 @@ int main(int argc, char **argv)
+ {
+ 	const char *fw_name = "test-firmware.bin";
+ 	char *sys_path;
++
+ 	if (argc != 2)
+ 		die("usage: %s sys_path\n", argv[0]);
+ 
+ 	/* Mount tmpfs to /lib/firmware so we don't have to assume
+-	   that it is writable for us.*/
++	 * that it is writable for us.
++	 */
+ 	if (mount("test", "/lib/firmware", "tmpfs", 0, NULL) == -1)
+ 		die("mounting tmpfs to /lib/firmware failed\n");
+ 
 -- 
-2.50.1
+2.43.0
 
