@@ -1,116 +1,110 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7788227453
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 17 Aug 2025 17:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AD5154BF5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 17 Aug 2025 17:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755451096; cv=none; b=f2j7i/PqElkt9PxGDDcjPi7Vp9JaxLZuWnWS/BLBHD6Hpk6QwjNzMOUPwWrRj8nnTnmlGnBRpMSjMH8X9ebeUsCisQg/sAOMaAc8sjKmNemlWr4PjOK5CHWA43r7xSCpOXuK6xTrA7UF11M8NIPhP3CpPoqorDRbEDxU/Zg00cc=
+	t=1755453049; cv=none; b=GJAURZggmbkcNY5iHQmywJYY12Y2hb/u65cQV+I38I7W+ok608U7U6zaUTGn9FUNGdVPZB6ke3Ttn69Me3G6RoMgqhuIvQ9l0DHP8lh05oYUeK2uFy3duVyAouNLxaxThP3lBSk4sGoU7RlkDF3NtsecI9bO0JoSs3ZnrvZ8phQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755451096; c=relaxed/simple;
-	bh=89sV1jzeprLmGxNDBkAotelhMhTESljCwnX/Hoc3VkE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XhRg5ovhxmrClcR5SquUI7VFJCPhhZc2eEjymYOSzlGXAHENI6+6GiYjzDYJO3AzQ9FiqMS4cIrJ3IoIvbrpyeTLCgBoFn1rp1teikEeO4CGI7bK9F3H/GzMkUgMQzIRUjVdqmWVBG8YJ5uT5Dg4ydJM/18vSnf6P6SMG8BnHQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1mSKhWYT; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1755453049; c=relaxed/simple;
+	bh=kxPQgkJiRwpdamMhQNsqSB3KW+32Rbalfx4xy59hTTc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FjpIkODqo5ucDfhUVBYq/UvFYlzx2vW22DVKTSUfb47cnNayarWwtxV+oWcxKLT1/ick0gprERIr6xVRP2X7O2KoH3JswkmLTZ441N7Jh1rfNS6jAGgO/5/TYUcBtNVVJ+9UlGPHXfbm+QX5EURNJ8EfbKkIJpYeX60Q4rTV/VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a+dljg/4; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1mSKhWYT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a+dljg/4"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id DC0F361435
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 17 Aug 2025 17:18:13 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 3475C83EBF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 17 Aug 2025 17:50:48 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.398
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id BGIzMGUVqBMZ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 17 Aug 2025 17:18:12 +0000 (UTC)
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2607:7c80:54:3::133; helo=bombadil.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 7F218614AA
-Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=infradead.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7F218614AA
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1mSKhWYT
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 7F218614AA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 17 Aug 2025 17:18:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=LzA6whP271CAz6gyFpypYO9CFIkSQa215dKzmIjRrHM=; b=1mSKhWYTQbWuiIr9pdIK5gtNTv
-	o3hjD9FWmW0KSacbkHO/0S9O+coP0TmHtwJUjWUZzJf+qzA8xtHzW0jyDcD96Yb1z7hd61LHV4MJp
-	TQh0oFxNtVOKxz8WW4SGVbWI1dO932KGeNdKv2JuK/yrEifYn7aGlMMelkHUwTzoUW8GFWB2BLrg1
-	9Q+07vO4BLv3VabUKyzKA0SRwwK+YkuDgsrIHaafUi5z/VIW/gFM+u8v+t6X6ta/HwiRu28QmaUxz
-	086JVTajHj4KzliQHZ/WHPgYz5dtDKrGAQhOUzc/SNHwCSkHozs3fVCVU3NGyN68tSu62aIVpJ68W
-	5Ry7L9iQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unh1A-00000005u0Z-3INF;
-	Sun, 17 Aug 2025 17:18:04 +0000
-Message-ID: <a863e29c-11df-4afa-82f5-bdbe987220c2@infradead.org>
-Date: Sun, 17 Aug 2025 10:18:04 -0700
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ZCPuCInont7z for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 17 Aug 2025 17:50:47 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::52d; helo=mail-pg1-x52d.google.com; envelope-from=rakuram.e96@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 9F263833D3
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9F263833D3
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=a+dljg/4
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 9F263833D3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 17 Aug 2025 17:50:47 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-b4717554c29so2225185a12.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 17 Aug 2025 10:50:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755453047; x=1756057847; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YWZaVseHO/HpQONflG4VKxSa+b3LTJhK7Ltl+j+pOUg=;
+        b=a+dljg/4WND+fbAo3U4VdSNNBZOxDosqgrNGdnPvKDNQy6O8hhQBY2N27uEkIk2azv
+         BAMIebqbgjzK5WosMxz+pun8XDkQygB3/V1+YTYqVTICoMyCfcDzM35ztBqqJt2HOle5
+         ST46XW/NO3XJEAXDoD241JkaT0nsgW8C02vSHDubbxAFcrQA9XhqbrSjIeE0xpcz2VWz
+         aDp9BZ1xncNaotrup4gkLLjRGJW/WhbYed7HIbJWBWl4xFbBZsisIuwBx4aLg6hGoE8f
+         GvG1MR5Z4k9zSRgkiYiwsdJZOOoUd5hqy4ctnJz66eacFe6XhBQ4VxbkyyR7oXQBUOSY
+         70aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755453047; x=1756057847;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YWZaVseHO/HpQONflG4VKxSa+b3LTJhK7Ltl+j+pOUg=;
+        b=ttduFHDGTVv/Vk5ZZr2F7+9RLrKcb+S7xe837azLXcfVQdsEf3M0iwzkCPPsTYdDea
+         yBpU38jHhkbyTLidVYSzjP+zSwIIuiKXSSytVfl4drvNA4tXO7WZNvRrzH+TgQsc9pNh
+         Eny8Aa7K5jPrum2xHIKLtSd4eFGoG9es+5LSVDRj4TCcyGFo1fbBmDnxx4dk/LYTKSeK
+         g7pPeywO79g4WSOc23bqEpNcZgbQb1qZJXa13O2oigD0ICdIKP6oAbHouHLD0HUCmHRa
+         4xVXMiKwEN0z02Ss1XhNZGdMi4zp3qkI6JQt4ilQTsv2eZOGEZLA2//XUQrd4DlPtdbU
+         SE3g==
+X-Forwarded-Encrypted: i=1; AJvYcCXpdp/tNj5Xz+TOTqitdceDp+pjn6Lf5c1VfkNC08W3mPQNhRG0hB5Y6+98nrtxp0aGGfh7KESdMFaxfdCPQZCLbGu2nw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyXQJHxhd3piiyqrSoiZ6z0yAU3TIBiqa8I8n0QHGc7zYaHa4LT
+	MyZJAA94FKzWZgKXbeAcGmAxLuLLGcR/wclWFA6/zd1Y/B52fsp9drSJ
+X-Gm-Gg: ASbGncvQFjmIS5/6JIli+4SgfXNSy/Y5hXHlhvd1GaQt8nYfY8nOF/S6ipBS5T7KCvM
+	vxTc8ejWyfaTIeM5ZslC4U4bB2bl6zM9aGw9KYK7d6f05EUJJWgVqcl2DJDR7FvOuZbFm54guUa
+	f45Z3Tg5+Dhv6iaDIJ017UFcwjkGFXV+wHFzvKsDkCVq+bDyhUgv6HIo9FzFxkPlW1gWgNYD2/F
+	cgQjSvHIa0v9q5VCVhfzAgwyJYXdmSR/Hwn5qOtOOtbeDO8PMRVu+Hn5qVcbI5qjBi0X52FpMCh
+	eRBDfiuqwyKHyuiBVuNij0JHvENShgaGplfVwUrR3ZEoG/LQGewjgKqcu06bhSUAw3xSRARVibA
+	9SKYycuMOm2XYEfnZlSxVKg1wF70TOuvZb8OoeugY
+X-Google-Smtp-Source: AGHT+IGZ24e0gHA+JVsQY6YX2jt/f72OrzDBs2UDcSTBqyD5prVbXpazBufiCCm5Zs5j+Xpo9qIt6Q==
+X-Received: by 2002:a17:90b:3c42:b0:312:e76f:5213 with SMTP id 98e67ed59e1d1-3234215b3eamr13428682a91.28.1755453046625;
+        Sun, 17 Aug 2025 10:50:46 -0700 (PDT)
+Received: from lkmp.. ([157.51.85.44])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b472d799c8csm6243856a12.55.2025.08.17.10.50.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Aug 2025 10:50:45 -0700 (PDT)
+From: rakuram <rakuram.e96@gmail.com>
+To: gourry@gourry.net
+Cc: alison.schofield@intel.com,
+	corbet@lwn.net,
+	dan.j.williams@intel.com,
+	dave.jiang@intel.com,
+	dave@stgolabs.net,
+	ira.weiny@intel.com,
+	jonathan.cameron@huawei.com,
+	linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	rakuram.e96@gmail.com,
+	skhan@linuxfoundation.org,
+	vishal.l.verma@intel.com
+Subject: Re: [PATCH] Documentation/driver-api: Fix typo error in cxl
+Date: Sun, 17 Aug 2025 23:20:35 +0530
+Message-ID: <20250817175036.6906-1-rakuram.e96@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <aKILiuYaijqAZvPR@fedora>
+References: <aKILiuYaijqAZvPR@fedora>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kernel-parameters.rst: fix document warnings
-To: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>, corbet@lwn.net
-Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20250817122244.26590-1-kubik.bartlomiej@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250817122244.26590-1-kubik.bartlomiej@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Ok, Gregory. 
 
-On 8/17/25 5:22 AM, Bartlomiej Kubik wrote:
-> found/fix two warnings in kernel-parameters.rst.
-> 
-> -> WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
-> -> WARNING: Possible repeated word: 'that'
-> 
-> command: 
-> ./scripts/checkpatch.pl --strict -f Documentation/admin-guide/kernel-parameters.rst
-> 
-> 
-> Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.rst | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-> index 39d0e7ff0965..445248787e77 100644
-> --- a/Documentation/admin-guide/kernel-parameters.rst
-> +++ b/Documentation/admin-guide/kernel-parameters.rst
-> @@ -1,3 +1,5 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
->  .. _kernelparameters:
->  
->  The kernel's command-line parameters
-> @@ -213,7 +215,7 @@ need or coordination with <Documentation/arch/x86/boot.rst>.
->  There are also arch-specific kernel-parameters not documented here.
->  
->  Note that ALL kernel parameters listed below are CASE SENSITIVE, and that
-> -a trailing = on the name of any parameter states that that parameter will
-
-While that may be a little confusing, and it reported as a "Possible repeated
-word," I can read it and not see any problem with it.
-
-A satisfactory change IMO would be to say "states that the parameter".
-
-> +a trailing = on the name of any parameter states that parameter will
->  be entered as an environment variable, whereas its absence indicates that
->  it will appear as a kernel argument readable via /proc/cmdline by programs
->  running once the system is up.
-
--- 
-~Randy
-
+I will send v2 without page-allocator changes as suggested. 
