@@ -1,124 +1,238 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BA0304BCC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 20:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A4719D092;
+	Sun, 17 Aug 2025 04:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755375662; cv=none; b=ib8X6xlFD/MFpmLrUnNIlZ0k7xzTRWLhzcSY3goVcb/ZEsv352AKDQDKOCmZiOjXOuw3O0TU1I7mjnzpJa3xjVTKLIGVHgRoEH5V1NMwHNE2GDxl3SiIi2D6geJIV/CkCV+35s6wXEmXuF0sOjax5ofzFTp2ZscUDoCtfprF+og=
+	t=1755404915; cv=none; b=S1pMnDQuD8540LA0qvVQB/oWk2bPAxCowzTkWwNPhYLSoeZwZlSnWGxfJmXxz+XkdmSXtmtmvBIiC51PjC9R9YaCGOqsBE5H2rtJVbPZBVIVDvi4kEdkj4Rw2Dz8f4yDq6IYeAaL2QxUb4jijBbcbIRxks3oq1kATyad5HlBOh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755375662; c=relaxed/simple;
-	bh=0iD5Zn10j+hRwp1KNjGhNOoJ8UqwWQyyKlBc9v/dF4k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OIKwrvdBFFRZDgOmF7cJj4bxCZ77frlgx1HC7m9TbnmWJzsR5ZsPaOKGXbw4SetAFKcQyS1fDHDXGGR4jzi8ZCRZUHNIFxXdJg6YvvQo5PTwYxf5tzfOXQTk6KNqogwzOC99LjzA2OYGZFq/6z6syjM7WFtJSLtEMt3u3T8+Gto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dU5KEkFj; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1755404915; c=relaxed/simple;
+	bh=roBsXTXGnXLtqkdQMkwjW74wVTodWks6KmfOvZGXISw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cv6lK9YmGxXgNJVWGVMQPVeEmxYNzAcjzoVojuimU/9SZmj5+HKoGaCY9caT1qyI4zaXXLJCxxa1+J9hZ8kPTt41nnOweqyPtpS8xYjJ3C/c+7Ch5/FJi8qgH4pDgMDkrlOZ187DKvKjzER6R1f5MoAzoQ3g+PpYw//ds8oUMZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XFKeloyh; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dU5KEkFj"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id D706941441
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 20:21:00 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -4.398
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id X6YmRFK1k6YV for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 16 Aug 2025 20:20:59 +0000 (UTC)
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2607:7c80:54:3::133; helo=bombadil.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 0852E4143E
-Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=infradead.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0852E4143E
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=dU5KEkFj
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 0852E4143E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 16 Aug 2025 20:20:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=EUeXu/2DCU0fXiHQ7lQWRj20/Vwjp9o8J49BwAgYgNc=; b=dU5KEkFjhzJOwStBBKzS2gltau
-	HG9CRVtlDYx9wwa/U7hzuLgc0IKOqR7kMs45YoI4HI7f9Aal7+8/PYuVt4COO8ftobqak0tQojB3B
-	3U8t5nCTqDU0I+qnsVn3zxXhGR7166mCZTNRTohhCiiC6lFQCayaAEnfMNiG2Ky8N0kOQLKt18K8X
-	vgpOCegG9LLq6OaSjcZC2zxY5KtOfGsLXYjYkjexlO+e6EHYj2oKIIX9kvAdYhQIBv+HG9NFqgJrl
-	Po0GIj/RbXHOEOi0jgQHffc/IrGaqawlFVqh3HMdmiP+ihF2BkeIw3OIBx/G22/2RqOm4pPrOMDJv
-	Hm+NG5NQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unNOU-0000000598j-2vHN;
-	Sat, 16 Aug 2025 20:20:50 +0000
-Message-ID: <b7be48b2-d326-45af-9608-375117ffb4db@infradead.org>
-Date: Sat, 16 Aug 2025 13:20:49 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XFKeloyh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755404914; x=1786940914;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=roBsXTXGnXLtqkdQMkwjW74wVTodWks6KmfOvZGXISw=;
+  b=XFKeloyhlwb8irfoyvgo7Pg+t6KTdTlk+STFtsP+c0JYse5ajNu50EGJ
+   wm68Vl/+1knApzLIn/88eye328LCPhIDknc9dqmD7qU5YIfgR9SzZlRFm
+   c4J5MbXgUC3UDJY7exAMGgwjqWNZwqw/bkiN+zcg51bc1ZlPm8d6esN8/
+   6rB5EmzdZvD74atveiw4CPgHhjCLWyxK+4LFHK8UBi9lCQgUit2MryEUa
+   LK4ltWhNDo9v9Sip37TPPQUlq5qqSE/H+9AKv8JaNlivoOhn6A4Mxyzx3
+   sVRYY9NXpWxuwxH8/eYjPE1JXmfHKwgAzHrCuKw1voIXjCRby8UGgqX2z
+   A==;
+X-CSE-ConnectionGUID: leKfx1f3TEWLEK4ACS8E2A==
+X-CSE-MsgGUID: Po/873zoRAOHAOZ+YMjRbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="57578215"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="57578215"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 21:28:34 -0700
+X-CSE-ConnectionGUID: fy5oHdMkTVKdVnTF/IvgEg==
+X-CSE-MsgGUID: ThgxVKmvQRGwUvrdBbVe8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="171505443"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 16 Aug 2025 21:28:31 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1unV0O-000DMB-2Y;
+	Sun, 17 Aug 2025 04:28:28 +0000
+Date: Sun, 17 Aug 2025 12:28:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ryan Chung <seokwoo.chung130@gmail.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org, mathieu.desnoyer@efficios.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Ryan Chung <seokwoo.chung130@gmail.com>
+Subject: Re: [PATCH] trace/trace_fprobe.c: TODO: handle filter, nofilter or
+ symbol list
+Message-ID: <202508171256.CSm9DAkb-lkp@intel.com>
+References: <20250812162101.5981-1-seokwoo.chung130@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/driver-api: Fix typo error in cxl
-To: rakuram <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org
-Cc: dan.j.williams@intel.com, dave@stgolabs.net, dave.jiang@intel.com,
- jonathan.cameron@huawei.com, vishal.l.verma@intel.com, ira.weiny@intel.com,
- linux-cxl@vger.kernel.org, alison.schofield@intel.com, gourry@gourry.net,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- corbet@lwn.net
-References: <20250816183034.7970-1-rakuram.e96@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250816183034.7970-1-rakuram.e96@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250812162101.5981-1-seokwoo.chung130@gmail.com>
 
+Hi Ryan,
 
+kernel test robot noticed the following build warnings:
 
-On 8/16/25 11:30 AM, rakuram wrote:
-> Fixed the following typo errors
-> 
-> intersparsed ==> interspersed
-> in Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> 
-> ndoe ==> node
-> in Documentation/driver-api/cxl/allocation/page-allocator.rst
-> 
-> Signed-off-by: rakuram <rakuram.e96@gmail.com>
+[auto build test WARNING on v6.16]
+[also build test WARNING on linus/master next-20250815]
+[cannot apply to trace/for-next v6.17-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chung/trace-trace_fprobe-c-TODO-handle-filter-nofilter-or-symbol-list/20250813-002748
+base:   v6.16
+patch link:    https://lore.kernel.org/r/20250812162101.5981-1-seokwoo.chung130%40gmail.com
+patch subject: [PATCH] trace/trace_fprobe.c: TODO: handle filter, nofilter or symbol list
+config: s390-randconfig-r073-20250817 (https://download.01.org/0day-ci/archive/20250817/202508171256.CSm9DAkb-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
 
-Thanks.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508171256.CSm9DAkb-lkp@intel.com/
 
-> ---
->  Documentation/driver-api/cxl/allocation/page-allocator.rst | 2 +-
->  Documentation/driver-api/cxl/platform/bios-and-efi.rst     | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/cxl/allocation/page-allocator.rst b/Documentation/driver-api/cxl/allocation/page-allocator.rst
-> index 7b8fe1b8d5bb..4ac3368c3947 100644
-> --- a/Documentation/driver-api/cxl/allocation/page-allocator.rst
-> +++ b/Documentation/driver-api/cxl/allocation/page-allocator.rst
-> @@ -62,7 +62,7 @@ Because the local node does not have :code:`ZONE_MOVABLE`, the CXL node is
->  functionally unreachable for direct allocation.  As a result, the only way
->  for CXL capacity to be used is via `demotion` in the reclaim path.
->  
-> -This configuration also means that if the DRAM ndoe has :code:`ZONE_MOVABLE`
-> +This configuration also means that if the DRAM node has :code:`ZONE_MOVABLE`
->  capacity - when that capacity is depleted, the page allocator will actually
->  prefer CXL :code:`ZONE_MOVABLE` pages over DRAM :code:`ZONE_NORMAL` pages.
->  
-> diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> index 645322632cc9..a9aa0ccd92af 100644
-> --- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> +++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> @@ -202,7 +202,7 @@ future and such a configuration should be avoided.
->  
->  Memory Holes
->  ------------
-> -If your platform includes memory holes intersparsed between your CXL memory, it
-> +If your platform includes memory holes interspersed between your CXL memory, it
->  is recommended to utilize multiple decoders to cover these regions of memory,
->  rather than try to program the decoders to accept the entire range and expect
->  Linux to manage the overlap.
+smatch warnings:
+kernel/trace/trace_fprobe.c:768 __register_trace_fprobe() warn: inconsistent indenting
+
+vim +768 kernel/trace/trace_fprobe.c
+
+   732	
+   733	/* Internal register function - just handle fprobe and flags */
+   734	static int __register_trace_fprobe(struct trace_fprobe *tf)
+   735	{
+   736		int i, ret;
+   737	
+   738		/* Should we need new LOCKDOWN flag for fprobe? */
+   739		ret = security_locked_down(LOCKDOWN_KPROBES);
+   740		if (ret)
+   741			return ret;
+   742	
+   743		if (trace_fprobe_is_registered(tf))
+   744			return -EINVAL;
+   745	
+   746		for (i = 0; i < tf->tp.nr_args; i++) {
+   747			ret = traceprobe_update_arg(&tf->tp.args[i]);
+   748			if (ret)
+   749				return ret;
+   750		}
+   751	
+   752		/* Set/clear disabled flag according to tp->flag */
+   753		if (trace_probe_is_enabled(&tf->tp))
+   754			tf->fp.flags &= ~FPROBE_FL_DISABLED;
+   755		else
+   756			tf->fp.flags |= FPROBE_FL_DISABLED;
+   757	
+   758		if (trace_fprobe_is_tracepoint(tf)) {
+   759	
+   760			/* This tracepoint is not loaded yet */
+   761			if (tf->tpoint == TRACEPOINT_STUB)
+   762				return 0;
+   763	
+   764			return __regsiter_tracepoint_fprobe(tf);
+   765		}
+   766	
+   767	    /* Parse tf->symbol */
+ > 768	    {
+   769	        char *spec, *bang, *p;
+   770	        int n = 0, w = 0, j, rc;
+   771	        char **syms = NULL;
+   772	
+   773	        spec = kstrdup(tf->symbol, GFP_KERNEL);
+   774	        if (!spec)
+   775	            return -ENOMEM;
+   776	
+   777	        /* If a '!' exists, treat it as single symbol + filter */
+   778	        bang = strchr(spec, '!');
+   779	        if (bang) {
+   780	            char *sym, *flt;
+   781	
+   782	            *bang = '\0';
+   783	            sym = strim(spec);
+   784	            flt = strim(bang + 1);
+   785	
+   786	            if (!*sym || !*flt) {
+   787	                kfree(spec);
+   788	                return -EINVAL; /* reject empty symbol/filter */
+   789	            }
+   790	
+   791	            rc = register_fprobe(&tf->fp, sym, flt);
+   792	            kfree(spec);
+   793	            return rc;
+   794	        }
+   795	
+   796	        /* Comma list (or single symbol without '!') */
+   797	        /* First pass: count non-empty tokens */
+   798	        p = spec;
+   799	        while (p) {
+   800	            char *tok = strsep(&p, ",");
+   801	            if (tok && *strim(tok))
+   802	                n++;
+   803	        }
+   804	
+   805	        if (n == 0){
+   806	            kfree(spec);
+   807	            return -EINVAL;
+   808	        }
+   809	
+   810	        /* Allocate array for pointers into spec (callee copies/consumes) */
+   811	        syms = kcalloc(n, sizeof(*syms), GFP_KERNEL);
+   812	        if (!syms) {
+   813	            kfree(spec);
+   814	            return -ENOMEM;
+   815	        }
+   816	
+   817	        /* Second pass: fill, skipping empties */
+   818	        p = spec;
+   819	        while (p) {
+   820	            char *tok = strsep(&p, ",");
+   821	            char *s;
+   822	
+   823	            if (!tok)
+   824	                break;
+   825	            s = strim(tok);
+   826	            if (!*s)
+   827	                continue;
+   828	            syms[w++] = s; 
+   829	        }
+   830	        
+   831	        /* Dedup in-place */
+   832	        for (i = 0; i < w; i++){
+   833	            if (!syms[i])
+   834	                continue;
+   835	            for (j = i + 1; j < w; j++) {
+   836	                if (syms[j] && !strcmp(syms[i], syms[j]))
+   837	                    syms[j] = NULL;
+   838	            }
+   839	        }
+   840	
+   841	        /* Compact */
+   842	        for (i = 0, j = 0; i < w; i++) {
+   843	            if (syms[i])
+   844	                syms[j++] = syms[i];
+   845	        }
+   846	        w = j;
+   847	
+   848	        /* After dedup, ensure we still have at least one symbol */
+   849	        if (w == 0){
+   850	            kfree(syms);
+   851	            kfree(spec);
+   852	            return -EINVAL;
+   853	        }
+   854	
+   855	        /* Register list or single symbol, using the existing bulk API */
+   856	        if (w == 1)
+   857	            rc = register_fprobe(&tf->fp, syms[0], NULL);
+   858	        else
+   859	            rc = register_fprobe_syms(&tf->fp, (const char **)syms, w);
+   860	
+   861	        kfree(syms);
+   862	        kfree(spec);
+   863	        return rc;
+   864	    }
+   865	}
+   866	
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
