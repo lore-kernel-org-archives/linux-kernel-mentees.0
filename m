@@ -1,68 +1,65 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF66E283FC3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Aug 2025 16:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08094322546
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Aug 2025 16:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755533129; cv=none; b=tO9jpEipLp4hnI/2km2W3CO/x8stORIh408nK+B6Y+zqKfImQkh5kqaT4UaZWGhOLYKRY691zQEItbsUp/09+EzarPBuBzuwynrR7zvPRbWeS57oUupjNVC5mYt/M1FolLLnaMCqaglaGSYtwROMiyT/JyIVQg1rNVbh/CoDRV0=
+	t=1755533491; cv=none; b=X/HBKAlySH7dLgABOMgmUM6mDJ/lPBaFB8lUqEOZRVkzK9KYUb/PZkg5FCHiicXgO22JCFbf2z6S5KwUtQY8kCQ66fDA4evtfn9dbT8r7MzhS94htz75oz3ggHLIt734rQxqyWpc5Es57x+jvAHzaCVdx+EVGxRN6c3UnttR4sA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755533129; c=relaxed/simple;
-	bh=5mamOuwuN2q0c1HpCm7iCluXnDCuzCY0FW8G1fkNs8I=;
+	s=arc-20240116; t=1755533491; c=relaxed/simple;
+	bh=78KIoVRhK2iNOIQXHwkoKCA4SvaQtvhUuy63orh2FMk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jBoLt5BZwKZGdChWSiOtB8MMfmQF3NUU7lZOQMRbLcPKzgCj82i6VHBkZ3wfbPDtpsuNNUcZ1wUycG2mLQUp9R95ZBiA1fKhP+CH6TMp4W1m0exlCD4P3sf23dPxJO/MVydFCAlyI1uOv20FbzEi/U7aqxz5cTP0egK2GbQ6StU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jTDbiiow; arc=none smtp.client-ip=140.211.166.138
+	 MIME-Version:Content-Type; b=Bzpj+KNfxOJx/DaTeDyVdLem+nmlvAJLtQgwvOsD7os1F+4JbqzZVTAxZx+VrZAqMkXYel5DufM8yLvUjKJj5secoHmiiIkufUz+ItH8id6hkvj4Cs8nCTlBcbpoA/jcDwZ3cSH/SpNK+1SBCNNtsSqimh9BU4j7zu1qt2MRyXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AdJr6Hp4; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jTDbiiow"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AdJr6Hp4"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 47A45806A7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Aug 2025 16:05:28 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 88CBA4006D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Aug 2025 16:11:29 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -5.791
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 6C3eKvArVrHX for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 18 Aug 2025 16:05:27 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=45.79.88.28; helo=ms.lwn.net; envelope-from=corbet@lwn.net; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org BFA9A806BC
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org BFA9A806BC
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=jTDbiiow
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id BFA9A806BC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Aug 2025 16:05:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AB7A640AB4
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ZoVRauXQ5I_e for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 18 Aug 2025 16:11:29 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c01:e000:3a1::42; helo=ms.lwn.net; envelope-from=corbet@lwn.net; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 0105440061
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0105440061
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=AdJr6Hp4
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 0105440061
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Aug 2025 16:11:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 146C340AB4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755533126; bh=wk/rXX1AoG7L4arFu7XcJ27vQ+aO9yrhpMlrzmUyPdo=;
+	t=1755533488; bh=tQDyK6nHE53T/n3wXnrBsriTw/Bt+l3u2fOSaqwokB4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=jTDbiiowfIAA2xOD4uU5CeBeWqMnV7BuSLi6XqnYorLlyf5ORDCLrbvz6iIbWtys6
-	 Noh5+xeaOO2cxsWtOhIap65y9wTXy4pShJCTyw5m2xgpdFoJeWvysyXTV9ng0v96W0
-	 aRROIASopbyNyUnJUySksoJgTlPCW9Z03yPxAR+jznpiM9Z8asZnw2xnGvdb3EZolm
-	 BwCnva1idG2KoKtDV2UzTXApepaytbFj+Drf+stuCkUGuJ55fGkDLtPQk1EY3iqm/t
-	 XKtxXnBhOmfeLjYPJNrj9MZVwF85xNd4Bhut++3rAhnoTRcKm9s/+2ZAawPpQ9jvGD
-	 9XvvK8kNdszjQ==
+	b=AdJr6Hp4zmRMtzrLoAxJBAhnkFQQNeLyjRZFcKjTyj2mqkF4YiQwWk2GW+VNhC7cd
+	 OYBuvHDVN3P5jYjFa+buDPpTIlFcXr63hKDGjDa6xtI6iP1736j8VGVGV57LDpXpJ9
+	 N3lEJRx7p1G7a2WnzBr+jacYckgq2D7ATntoY04GsvG4JbYDfXv+ysGvDzps5QucXc
+	 SzMO4nbhRhMNFW6tv4N/punb/3VfhsTwuOh+ZJW0KitdRbYhDn0JV2cI1zYgUFVxRa
+	 MdPSmT9Bzxr+VwFrRXg06s9tFyBuH6CtS3eY0ePoOnigf2mmNbtSDxkuw6O7V8DhQX
+	 vbloUj5bpeq+Q==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id AB7A640AB4;
-	Mon, 18 Aug 2025 16:05:26 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 146C340AB4;
+	Mon, 18 Aug 2025 16:11:28 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>, tglx@linutronix.de,
- bp@alien8.de, peterz@infradead.org, jpoimboe@kernel.org,
- pawan.kumar.gupta@linux.intel.com, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, "Nikola Z. Ivanov"
- <zlatistiv@gmail.com>
-Subject: Re: [PATCH] docs: Replace dead links to spectre side channel white
- papers
-In-Reply-To: <20250816190028.55573-1-zlatistiv@gmail.com>
-References: <20250816190028.55573-1-zlatistiv@gmail.com>
-Date: Mon, 18 Aug 2025 10:05:25 -0600
-Message-ID: <875xekaa4a.fsf@trenco.lwn.net>
+To: vivekyadav1207731111@gmail.com
+Cc: rdunlap@infradead.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-doc@vger.kernel.org,
+ Vivek Yadav <vivekyadav1207731111@gmail.com>
+Subject: Re: [PATCH v3] kernel-parameters: fix kernel-doc warning
+In-Reply-To: <20250816082452.219009-1-vivekyadav1207731111@gmail.com>
+References: <20250816082452.219009-1-vivekyadav1207731111@gmail.com>
+Date: Mon, 18 Aug 2025 10:11:27 -0600
+Message-ID: <87wm708v9s.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -71,20 +68,48 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-"Nikola Z. Ivanov" <zlatistiv@gmail.com> writes:
+vivekyadav1207731111@gmail.com writes:
 
-> The papers are published by Intel, AMD and MIPS.
+> From: Vivek Yadav <vivekyadav1207731111@gmail.com>
 >
-> Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
+> Fix kernel-doc warning in kernel-parameters.txt
+>
+> WARNING: Possible repeated word: 'is'
+>
+> ```
+> [command]
+> ./scripts/checkpatch.pl --strict -f Documentation/admin-guide/kernel-parameters.txt
+>
+> [output]
+> WARNING: Possible repeated word: 'is'
+> +            The format is is "trace_trigger=<event>.<trigger>[ if <filter>],..."
+>
+> total: 0 errors, 1 warnings, 0 checks, 8339 lines checked
+> ```
+>
+> Signed-off-by: Vivek Yadav <vivekyadav1207731111@gmail.com>
 > ---
-> The MIPS blog post is nowhere to be found on mips.com,
-> instead a link is placed to the last time the web archive
-> has crawled it.
+>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->  Documentation/admin-guide/hw-vuln/spectre.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 747a55abf..302145870 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -7506,7 +7506,7 @@
+>  			Set a trigger on top of a specific event, with an optional
+>  			filter.
+>  
+> -			The format is is "trace_trigger=<event>.<trigger>[ if <filter>],..."
+> +			The format is "trace_trigger=<event>.<trigger>[ if <filter>],..."
 
-I sure wish I understood why companies feel such a need to break links
-so often ... I've applied this, thanks.
+I have applied this, thanks.
+
+For future reference, "fix a warning" is seldom a good subject-line
+choice.  Warnings are not problems, errors are.  In this case, a proper
+subject would be "docs: remove a duplicated word from
+kernel-parameters.txt".
+
+Thanks,
 
 jon
