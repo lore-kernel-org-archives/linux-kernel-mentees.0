@@ -1,72 +1,72 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB7930EF74
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 18 Aug 2025 09:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424F130DEB5
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 18 Aug 2025 09:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755509115; cv=none; b=lV+x6EcLjdufBdoSk2HsKxvfN0pl5lrHMY420DX40Lx4DWf6fOjH1etYjRgwUyP9sWmtV/pqGoQGOOLyhRrjwYoaiqCtfKTEZb8RwG2zaEg2hTmQ5sGMgHqYg2nEzy6TzhDp83+Sx/1UyFOrZycgpkWUxb8veVJ47ETgN+wA6MA=
+	t=1755509150; cv=none; b=dq8A0ZkieAUgP7qVR1Zgu4yN7RwR8+skxiW/mJZbZS6KrADcX1NfqZ99CAL0eIiudSEWPCxwHWd3WOI+dB27c6u/fhmkPwi5iyTQ8ef5Wshd8Jrs7kFpxunsJ+Wjv74SOZrw963pgR3WdpjnEjbxGKOb2qFdsPxlGE0eAI7ocjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755509115; c=relaxed/simple;
-	bh=HWl9Wdg6tQt829hLiKPSU5FXqMuW8JcenL87lFgKzLo=;
+	s=arc-20240116; t=1755509150; c=relaxed/simple;
+	bh=wo4TENj/CKIqy8SYXhJJLguOY5BaEq786MRtklI+vUA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QlYu+KhcDiOo6MlwhDgzS3/GKzuXalXt1BoAWkqlwnlzQVX5IFg++edwjLd1uw1opdKQAe+a18Ou8amRvF6XS9w/yCiTL6wtmy0ydO8O9+W+1t5W761+fVh2FB2FMHofcgKXDCywKtDxbAUuxCaa5MsOenL0YPq+ML2jOD1yiW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qXsHOreT; arc=none smtp.client-ip=209.85.167.42
+	 To:Cc:Content-Type; b=Ydn7sUsLm0Ekpz6QxJ+T2IzxlWZJmG+QmLRblCUHwpu4wNbgQdNgSXYXcav84rBvD0AUHlwOtfPE7O05pH+sUrWtsoVPgzDe4VVYToX2MDz2J1Z292UmvkUHzjvyMkuUbIilAWZjU9oiKCaqUiDiZ2CbvpKhwoT26VGFNTlLLew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Nzo/yo0W; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qXsHOreT"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-55ce5253a57so3874176e87.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 18 Aug 2025 02:25:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Nzo/yo0W"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-333f8db5aedso28358621fa.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 18 Aug 2025 02:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755509110; x=1756113910; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1755509144; x=1756113944; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HWl9Wdg6tQt829hLiKPSU5FXqMuW8JcenL87lFgKzLo=;
-        b=qXsHOreTftNkv4cghKEuuX0qKO/m5/yVkVbTCuREt4gDBo3myxlbhBhr82oRBOtjdO
-         Q6v8PsdT8sxHggQIByxbWIdWHJ5yQVURf26ARjcLeV2CBZ9+rWUQYqAAUGxPZ/ald4v8
-         jFFANuG79gTtcBTnSk65FP5HohAnSzcAc6e/nalq8pzVqr8IJevaYr2yLZVUYbgzKU4t
-         EyI/IEEXSWf1ZKAoxel17l272PFEKUzUXOEISntKasP7N0UnU5XCN4MSFyvIx+R5rxFb
-         bgiC1ssy9p5h2K+DSUOgvqivOKxDvUg/Lata6mAzgIxFpW84vNiQ2NyQFCiQAaPcop71
-         IWrQ==
+        bh=wo4TENj/CKIqy8SYXhJJLguOY5BaEq786MRtklI+vUA=;
+        b=Nzo/yo0WFI4ZebcgKk3SIOzYInzO+zidMF59KhknPYKKzIem18Fn5HQzGOhHFcQ1Bj
+         Q9uzeDrbpL+cLM/UTblhfX7uZyU2nH3KKiEdZinZV7Ms0ykfXmfpZlzFdFqiGTGfQAPM
+         Z6SWgqa+wplPe0I9TGOi+H5EkRYylmlc6oAPvNrwpst6VE4dyI+7NOMAqzVz/k5IxuCu
+         prXI+/iZIqct1edYtuGt8bHCX+ygeYBk37Fh3/8w+t+Zn7Ih8Ks5K7/MnaH5UeRhy72e
+         N9STVQHDHim4QzLBC9i0Xi9mTUspL7O9PmU+e5syNmi2KpIquAqo7Gdr8PcOIOYW/Qow
+         QyAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755509110; x=1756113910;
+        d=1e100.net; s=20230601; t=1755509144; x=1756113944;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HWl9Wdg6tQt829hLiKPSU5FXqMuW8JcenL87lFgKzLo=;
-        b=W9/nurW8kp5v17vzMrlEcd/a338CE5KtMY7BfF0SzrvxAcoeHUccPclNeG74zyqwNf
-         3p3pDuTOSDYaiympbnXXab7qy/f0fZDYiHkF0Zh419tJJnGibgcLIj4H1V+jjIALTE+M
-         ytehQYWrB/LWAUgJbn9ZQHy7iDUXFQyPGa+2EjJ93/OshTB28jVSuZWlB2eXSpZUQ6fm
-         TyM3cT7NQt8mJlpo96chv8wGRU4ESLXl39Z+GgeLHBeJ5ia0yFXTIL9G7oMcP9ergBm8
-         nDZS0aZAuDuIHgf1bb8jEtb+XV5Gh8aSCc3e7bmWNEV+HoZrDzxtPiqEHn6KKyNq5rbx
-         tWfA==
-X-Forwarded-Encrypted: i=1; AJvYcCV+wTHcalPy62NDPq53DxJ9HtIQDI8GcBMN2dsuOVF8qBm/uh3WM2NvRnWO5J+a7+JksNHXIaxdj6cqoGoRNZXsmBSA3w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLnFpJvmEEVauJmYC/NNUo6pPYHaHcyOtgZyHgn+obhj7or2lH
-	tUbzLAySvRAycKt2OGbhxMzlJENWfrtvHD/4VQRTMPbNF4pLzx7XKd2JIG5dlN94D5c0yITJBrl
-	2v7poz/raHYNZtAaHC3lD7lDpBBmnx5eaenBjcYS7Aw==
-X-Gm-Gg: ASbGncuaKupySUaHhWEaOyMTQdwYSie3tmxh46XAPGuPF2FHn4usuaDen+x11I3uJGU
-	42ERfk0iDoxI+DFRBeUNlUZ+LGG6T4vh5tgj2XjrCRPIK/UCPGUeTQOMrv/zmaEFRzudTRINMbd
-	yhh4pLW3DLlb59Gc1qYSry62qYvj+IQaJQZVvMVwgANuOpKcOIvZTluC5E0baMUqJ/F3WGias8Y
-	NHWJEOIwNQN
-X-Google-Smtp-Source: AGHT+IFC1ZjNERncmt6aCwcSemfraYYSYedGgU7En/j6NqE3CZM6qjD72eC9aTSLaWwQX3FdwMknfiQchSSy/0ZOP1k=
-X-Received: by 2002:a05:6512:104a:b0:55b:760d:c2f2 with SMTP id
- 2adb3069b0e04-55ceeb68062mr2942102e87.33.1755509110245; Mon, 18 Aug 2025
- 02:25:10 -0700 (PDT)
+        bh=wo4TENj/CKIqy8SYXhJJLguOY5BaEq786MRtklI+vUA=;
+        b=nPYxAtEqjxg2Kpct/MKj8PtCDpsIbTMD29lRpsLH1vEugu/TAUOGDKWYGivYaQ34oU
+         UGNSasuWz/LfnHYI6ckn3CQCs398rzd1wWsGHPk71xwMA7Q9LwgNxwBDY8DwujZGBPlB
+         CpVDVvzVpGL8usPeGSkm+xnm6WGoHk3fVYc1ebRotMaGM5klpQeWMWlTFjmEInX2zBPS
+         h+97FBSs5/27wbDOqYpsg4zsZKP/qQ8f6Q8QHJp3MoVIhM40UfFAEmMn57c0+8NtmOyx
+         YKT7gqrv2umoQrAyGzDdsuQYMtiybaHeinwGSUjpNu5aWg4F1IwC9mgN1W8gj4a17L3G
+         2zZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUsxpOOUBLbA+zOIFVeEGY6X7/UbK0shFtOUcrWnWZa0/v1+Q0GccKYSffT59Nu+gfJ1+uBjQe4VGsoyojcdmvDAA84Kg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywn+32Ht8NPHRJplvogKrDvoL10alpteomUjrGuBGqg93+0FPTG
+	vFepnDpHfaseIGI1IrMWX5ab6Jn3EYs/1V4qfQGiOybNaehF+HwtqQ7AntTnyTSZSRUScdKFatr
+	tWcTNQ3owOMsYFUdEp7HtJZ9Yp76Lq3u/xpwS4MTWWQ==
+X-Gm-Gg: ASbGncvP7d07q5SrDutW1YmSsABjss5o19q3Z1jem4blHjjJFK/6hFXMKO32RrTucqI
+	8AJNk46gFleai4UZ+Lo5eoEeyLbSwJ+7C3gpGzLK2pIq5tO0taAvh6xAeT5qt7/exLv1b7mrFxc
+	OIfW7XMhstfUDWB+MCWHsj2eK30wJBZGPtdV3WTNVc5PLunb6GieaEOCuWEr0GSevlHlgPBxRXm
+	gAo51o=
+X-Google-Smtp-Source: AGHT+IHNbZouPA+9w/Eg1wGgKXMzUtJ39CaSfzmACFke7a6lYkpcnvTkjJpS7aaVbzjtwG3r/4970mFH4ZdlzWsxTU4=
+X-Received: by 2002:a05:651c:555:b0:332:3691:a50b with SMTP id
+ 38308e7fff4ca-33409963f8fmr35371671fa.33.1755509144347; Mon, 18 Aug 2025
+ 02:25:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250730061748.1227643-1-me@brighamcampbell.com> <20250730061748.1227643-2-me@brighamcampbell.com>
-In-Reply-To: <20250730061748.1227643-2-me@brighamcampbell.com>
+References: <20250730061748.1227643-1-me@brighamcampbell.com> <20250730061748.1227643-4-me@brighamcampbell.com>
+In-Reply-To: <20250730061748.1227643-4-me@brighamcampbell.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 18 Aug 2025 11:24:59 +0200
-X-Gm-Features: Ac12FXwBqttAHWn-Fzo0FTZhwhrfc7nvpSbb3PEL3L84qoflel5B9j8C02N8kLo
-Message-ID: <CACRpkdaZxPKmi3XWxKVG+HpssdH=HGDa68Ek=bcX-GEaQXaSbw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] drm/panel: novatek-nt35560: Fix invalid return value
+Date: Mon, 18 Aug 2025 11:25:33 +0200
+X-Gm-Features: Ac12FXysXacOEMS_v8Dyu_3gMUa5CFOxftr3HHbH5tzkVfiT0eAfebU-wggGo3w
+Message-ID: <CACRpkdYZrBze=MrixPpp8psUus+i2h_iz7CPfYtRCjspVGC9_A@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] drm/panel: novatek-nt35560: Clean up driver
 To: Brigham Campbell <me@brighamcampbell.com>
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
 	airlied@gmail.com, simona@ffwll.ch, neil.armstrong@linaro.org, 
@@ -76,18 +76,18 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 30, 2025 at 8:17=E2=80=AFAM Brigham Campbell <me@brighamcampbel=
+On Wed, Jul 30, 2025 at 8:18=E2=80=AFAM Brigham Campbell <me@brighamcampbel=
 l.com> wrote:
 
-> Fix bug in nt35560_set_brightness() which causes the function to
-> erroneously report an error. mipi_dsi_dcs_write() returns either a
-> negative value when an error occurred or a positive number of bytes
-> written when no error occurred. The buggy code reports an error under
-> either condition.
+> Update driver to use the "multi" variants of MIPI functions which
+> facilitate improved error handling and cleaner driver code.
 >
-> Fixes: 8152c2bfd780 ("drm/panel: Add driver for Sony ACX424AKP panel")
+> Remove information from a comment which was made obsolete by commit
+> 994ea402c767 ("drm/panel: Rename Sony ACX424 to Novatek NT35560"), which
+> determined that this driver supports the Novatek NT35560 panel
+> controller.
+>
 > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 > Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
