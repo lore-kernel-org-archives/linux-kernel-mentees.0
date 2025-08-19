@@ -1,172 +1,139 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DC9264624
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 06:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8122A1DED77
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 07:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755585622; cv=none; b=HdhWNvASDnA2DEEwHjKRz2x+78u2r6Tn0MfXImW398wd9U9uFzaY46xffcvCsEAGhyFSLAxa1eGIzC1wN9bR7sc3HZuTkhMgJ4e/K6+L4WnqPD2JahVyKCh+Hh0oFg6vJfBR/T4DHUqp6rq3ciwx+gRmvomEnSk9Kz2MQggegJI=
+	t=1755588625; cv=none; b=NWsNNQhGV7qvvI4jKwsYnRAOPsN2cKZf4/hLEKGHbVUTauWVJWE1hVCWeozLXm1PZKlXjLAF22PHwMeVSfSfEP4jgvlVtrFQgWRY56GA8LIVcMspLA/UUU47IculNA4f5UpceXbMyz2TVVRUcQs9/L8WfoUxQIAnO7rcXEHQNQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755585622; c=relaxed/simple;
-	bh=qD0vQssPqxpj7lej1JnmRiBOzgpAai+Uu6JQSkCuAA0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=seRv8Z40e9ZpDeBBPzx4X2qO3Q81RYOMEN1ZeZkOd08PadJ7ymjNps1JdGmtiCb2fluPsC3WUF9y5KCiEZYjTEJztlZDNBptfNJiCs6YspcuO+0+9YzDpYXAAaWl+YLDkDhtXmF1INsvxCjb0pgfRXZI1IYBkJRLnxDFmADbL7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SqDk+fy0; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1755588625; c=relaxed/simple;
+	bh=5SWrOqsOjRXtQmZBkktmi7W8AxcP0JV2xVyFi1knU3c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gAU5v5SqzNgHsre3JpHLezPzKfruie9I6ZIKm/CBA+0RPSGY8ASqkf6FWcB3vS02E8OQACxS14QGdA3WAuZYCinVoaj4Lw6UQtbafC5tSrG+Fw/4KaSGu/NVFqpEvTRHioUv9uvLbrmwOdW6LKZRUMg34iW7g4nk9Div56IewB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gRUyqV7L; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SqDk+fy0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gRUyqV7L"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 7CF5D60857
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 06:40:20 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0840C4031F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 07:30:24 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id bMhUp6yItavT for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 19 Aug 2025 06:40:17 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::a32; helo=mail-vk1-xa32.google.com; envelope-from=kubik.bartlomiej@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 8112960856
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8112960856
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SqDk+fy0
-Received: from mail-vk1-xa32.google.com (mail-vk1-xa32.google.com [IPv6:2607:f8b0:4864:20::a32])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 8112960856
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 06:40:17 +0000 (UTC)
-Received: by mail-vk1-xa32.google.com with SMTP id 71dfb90a1353d-53b17534eeeso1784463e0c.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Aug 2025 23:40:17 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 8bowPtDjmkGo for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 19 Aug 2025 07:30:23 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::42e; helo=mail-wr1-x42e.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 3CAC8402F7
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3CAC8402F7
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gRUyqV7L
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 3CAC8402F7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 07:30:23 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-3b9d41c3a44so820600f8f.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 00:30:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755585616; x=1756190416; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t/hsSyp0BU0dIGoQ1I943HbjW/hqPyxYDs1Igup4dMw=;
-        b=SqDk+fy0r//86a2Fsq9CPP4o3Z99VY9KF8t7M4ZfGW/QceOpUrAOQMedKFmOkiAayl
-         EHHLYVMs0UKO13gumlkIGA3MkjgLj8vfFav1JVi38ePfp9G3tF1YGt5/0/M5Ptg8xFbO
-         0agxbMaN0lOOKvuQ+kVFBGmGSoYuWCl1KCJPU7pCzyGnGZ1RpKgafDDJZ4KaRYGPFawW
-         /zXt9kTG8JlBEouaAUFNcEKIf+2lLDhaajHiuu4k4IpRVrpdKzIyDzPlLLgItMiWTyrD
-         qHtftH31PpL3qJmcLYxRR4+vQZqcoe6MbihsJuC8WSgyop1LdIq9s6Yky3u/IJ514gyJ
-         jOJA==
+        d=gmail.com; s=20230601; t=1755588621; x=1756193421; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sZ/4MiuH+uKPxmrL1oBiKZlLklwBZnyUMBYuRZJW6Rg=;
+        b=gRUyqV7LPnXvTx92mB1Dp1clf1TvAveurtUpfCOBPjb6EbZctNjq/OZjaGupVCzY+s
+         mtoywRVBQxv8dtCJIrrKWWxAxe7aP4aBfaFJJ7tCMG7PwjH9Ztypd1YWpGIom4PZWUX6
+         Irg1GdQTMXmbZG9GrjYL0eBsVchKkZCreCFaldIom1fiEFtCaGNmuWgFkXMFx8t3jGC3
+         debRa589oFN2LAZqf4Yr4z+QVM1I3qqBHDs82tsPl9BZMTqhN2NKGeb7TdCsNEYcZre0
+         UCzAjdtjpTK6AAMAsUQ42tI5Ckt2WKhDmFFHuAvVYQ7OcEHw7bcBpFTUAKAPRoqJbMq6
+         bu7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755585616; x=1756190416;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t/hsSyp0BU0dIGoQ1I943HbjW/hqPyxYDs1Igup4dMw=;
-        b=UkLMwgXbtOKT5VYhIQU5iVIekL9S1fW4fV2V6ydsV4VMFPZnLD3AOXusLK167Uucx9
-         /Y8tWcv5lnEbj7wn9sN1lExq8o3qJsLh1UxNLHCLcVjNWXrxQZ0Vb+S+rwSLLqKUABwm
-         N6+pzYUJmmuLedzg+QZrU0kC2qoEsziA5WJadCRz9oNgHifw3jncvBlHPwoxjlU1AqMF
-         eg/OKDHJjQWKY8/IuQdWRNnG3uIOkraeDl19V5R81FdU4aBByJz87kQp7tNWMXrDUbti
-         YHMseoggVXOw/fvc/GUnlbev5Xe0x4s/v2BnVJ6fJgtiL4sng/NWM/1UBr3reWEBbSWr
-         rpwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvDQYeUSLLWqQmaqAqI7pZ6Q0KgoTbm/iRIn2t2k9OTHoUbHedHstlr7XLElKK3CdEnxluEBOQLoRACFA81WSlDZDYEA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxZYPVtzk73JC3JlWUxczDRnGTRX9vtdn1iiywset6KUS5a8pHy
-	I0RdLifb8alotWEUi2CnFcoLAAgeRIceJfGiiacue8S0pR5ocwPIm7HrdeDdh3E64nyhqaRYJxT
-	RrMhG77prvV1NGvOcn1uIk/OYZQthVFc=
-X-Gm-Gg: ASbGncv7gFUIGLtnnFol7eCC6slxl+uxbSP0ZKFcOwvx5yxoBEd+nEjnVJ1EBc+KpG+
-	rkyqQoALLhYJ2TuqjubtcO8A/jCt79PNsvAnxKuoi5iuncTzBMYlvglTsaoLXkiWNuYgSCd2lcW
-	5aAXjW0Z3MZv1DDYtqwdeq3oM+wE1SIeQaukv3ScndMhZWtdf9ljJFIQDJFt3AS0+wAxqwCciRD
-	MILQ84aOOd+WSDtB4vC
-X-Google-Smtp-Source: AGHT+IGIp9L40rMIB/aowtWlVCpWwoAnLOKn+XiCciGgI7/tRZjmsc4dZJQpXr0goyuxaIU9p7AaWzlMhyhPD14SX+k=
-X-Received: by 2002:a05:6122:468f:b0:539:2a2c:6efe with SMTP id
- 71dfb90a1353d-53b5d1af882mr510444e0c.4.1755585615892; Mon, 18 Aug 2025
- 23:40:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755588621; x=1756193421;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sZ/4MiuH+uKPxmrL1oBiKZlLklwBZnyUMBYuRZJW6Rg=;
+        b=L9EX1Z60tf8lDedPvq11Jo7MbUbnrWNREQ4G4hfnxHEVFhAjR9UNmIAIDDk6Q5p1GE
+         DoYgtXFkOBAK3rkE/PWhxbVPAugh+fTgr0ZzCps28GQhyTfbvQjzFu4hpM3hmZwQgYY+
+         znJfpzsPgzhAjdmijTMG7MMMsdRVZKKGfhhmrsAm2EJ6uk1jc+C3yWj4H0GK4PdvNXJk
+         v8Vw16vcF9ErKiTf4ZfghmLE0eJl4TP9sj26/FTZUKj9lVT6eywNw3anDX5wJD7lynfF
+         gYkWbc3cVgoFQApp9xghyr9jqjXM8MfcEQizI4C2Vnwbi3ekcuHSzIft2XB8/h9xXgF4
+         E/TQ==
+X-Gm-Message-State: AOJu0YxaDeTI8nP1GC/ByYZoDF2LaqtzmgSgvzXTpvGMBKgd9dugT0uz
+	Pee63hgd1aVmG9b6vFmSNGSTCbh/p98maLIoSvfTZhNaeILaehmmEDvQ
+X-Gm-Gg: ASbGncs/AqY5qLbxkFq1KzHXVTPBJsa4eRj5sWY7TF3KW9tG7JkSYHbj/jSKfQG27/v
+	ipLxAqH0bpuX6kECnJUUFr4mJKkyUDS+LaR62Ws5FJbhsjQ2+w3Yqe0JRLWkiPbTDD36T3DoeKS
+	8vsjWwKWI5VzniBejPUBmtPcZua+Ic+KRz1gMIh5bgbSgmee45SgWet2msQtv0Lye/EXvGUA76z
+	cWBkxSHyPyjuCLgKDeI/XkzMXRi48HU1kjwvsc8/kfvoPb1e1ykUOZxQXT+GHx1sCnuEcfFz3n6
+	QxzlTc7qpaqYAYWsRZs3iwx3p6KbrL7Epl0JvwisbXvCgBLVPdMUSfg7LKbnflXg07CNAdoX6Ym
+	Nu/B+cKIWeb/roe2QbbOPJygMxA==
+X-Google-Smtp-Source: AGHT+IGv6czHuUnpXLot4prHKRHjCN3RGKKWdPoEbqzzyH5T85wFHsShB48xmwxssxWxNbqyfd5i7Q==
+X-Received: by 2002:a05:6000:2307:b0:3b9:1677:471f with SMTP id ffacd0b85a97d-3c0e9f00014mr478984f8f.1.1755588620884;
+        Tue, 19 Aug 2025 00:30:20 -0700 (PDT)
+Received: from bhk ([41.231.66.206])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c077789c92sm2423425f8f.52.2025.08.19.00.30.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 00:30:20 -0700 (PDT)
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+To: linux-kselftest@vger.kernel.org,
+	skhan@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Subject: [PATCH v2] selftests:ftrace:Improved event description
+Date: Tue, 19 Aug 2025 08:28:56 +0100
+Message-ID: <20250819073015.125292-1-mehdi.benhadjkhelifa@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250818082630.40097-1-kubik.bartlomiej@gmail.com> <87ikikaaev.fsf@trenco.lwn.net>
-In-Reply-To: <87ikikaaev.fsf@trenco.lwn.net>
-From: =?UTF-8?Q?Bart=C5=82omiej_Kubik?= <kubik.bartlomiej@gmail.com>
-Date: Tue, 19 Aug 2025 08:40:04 +0200
-X-Gm-Features: Ac12FXxtQ25zbgGof2ZlIbrulFoGItlTzkHFXiu_IIvm1IAkA51qtfPdhbh-3Ew
-Message-ID: <CAPqLRf15U31=VnXsEBiB-G7BsOH65FLCeoepSMc=D5bS4P_Y=g@mail.gmail.com>
-Subject: Re: [PATCH] kernel-parameters.rst: fix document warnings v2
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, rdunlap@infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+-Changed pid to PID to make it more clear
 
-Thank you for clarifying my mistakes, and I apologize for them.
-I mistakenly generated this patch against linux-mainline, which is why
-it doesn=E2=80=99t apply to docs-next.
-I will switch to the correct docs-next repository
-(git://git.lwn.net/linux.git docs-next), recreate the patch from a
-clean checkout, and include a full changelog section as you mentioned
-to me.
+-Changed 'restricts' to 'restrict' instead to align with imperative form
 
+Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+---
+Changelog:
 
+Changes since v1:
+- Changed patch title to align with conventions.
 
+- Reverted a typo in event/event-pid.tc "Event tracing" => "event
+  tracing"
 
-On Mon, 18 Aug 2025 at 17:59, Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Bartlomiej Kubik <kubik.bartlomiej@gmail.com> writes:
->
-> > Fixed missing definite article "states that the parameter" as suggested=
-.
-> >
-> >
-> > Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-> > ---
-> >  Documentation/admin-guide/kernel-parameters.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Document=
-ation/admin-guide/kernel-parameters.rst
-> > index 445248787e77..7bf8cc7df6b5 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.rst
-> > +++ b/Documentation/admin-guide/kernel-parameters.rst
-> > @@ -215,7 +215,7 @@ need or coordination with <Documentation/arch/x86/b=
-oot.rst>.
-> >  There are also arch-specific kernel-parameters not documented here.
-> >
-> >  Note that ALL kernel parameters listed below are CASE SENSITIVE, and t=
-hat
-> > -a trailing =3D on the name of any parameter states that parameter will
-> > +a trailing =3D on the name of any parameter states that the parameter =
-will
-> >  be entered as an environment variable, whereas its absence indicates t=
-hat
->
-> Thank you for working to improve our documentation.  That said, there
-> are a number of problems to address here.
->
-> - The patch does not apply to docs-next, or to any recent kernel
->   release.  Which version did you generate the patch against?
->
-> - When you do a "v2" patch, you should include, after the "---" line, a
->   summary of what changed since the previous version.  That is
->   especially true when you have seemingly just dropped one of the
->   changes you made the first time around?
->
->   Ah, I think I see...you generated this on top of your previous
->   version?  That explains why it didn't apply.  Please do not do that;
->   when a patch needs changes due to review comments, recreate the patch.
->
-> - "Fix a warning" is rarely a good subject line for a patch; you should
->   say what you actually did.  In this case, "replace a duplicated word"
->   or some such would be better.
->
-> - Finally, Documentation/process/submitting-patches.rst asks that
->   changelogs be written in the imperative form.  I am not a stickler for
->   that, but some other maintainers definitely are, so it is a good habit
->   to adopt for all of your patches.
->
-> Thanks,
->
-> jon
+- Changed patch development to 6.17-rc2 from 6.16-rc7
 
+ tools/testing/selftests/ftrace/test.d/event/event-no-pid.tc | 2 +-
+ tools/testing/selftests/ftrace/test.d/event/event-pid.tc    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/tools/testing/selftests/ftrace/test.d/event/event-no-pid.tc b/tools/testing/selftests/ftrace/test.d/event/event-no-pid.tc
+index 9933ed24f901..aa83be738e69 100644
+--- a/tools/testing/selftests/ftrace/test.d/event/event-no-pid.tc
++++ b/tools/testing/selftests/ftrace/test.d/event/event-no-pid.tc
+@@ -1,6 +1,6 @@
+ #!/bin/sh
+ # SPDX-License-Identifier: GPL-2.0
+-# description: event tracing - restricts events based on pid notrace filtering
++# description: event tracing - restrict events based on PID notrace filtering
+ # requires: set_event events/sched set_event_pid set_event_notrace_pid
+ # flags: instance
+ 
+diff --git a/tools/testing/selftests/ftrace/test.d/event/event-pid.tc b/tools/testing/selftests/ftrace/test.d/event/event-pid.tc
+index 7f5f97dffdc3..90ba7c794062 100644
+--- a/tools/testing/selftests/ftrace/test.d/event/event-pid.tc
++++ b/tools/testing/selftests/ftrace/test.d/event/event-pid.tc
+@@ -1,6 +1,6 @@
+ #!/bin/sh
+ # SPDX-License-Identifier: GPL-2.0
+-# description: event tracing - restricts events based on pid
++# description: event tracing - restrict events based on PID
+ # requires: set_event set_event_pid events/sched
+ # flags: instance
+ 
+-- 
+2.50.1
 
---
-Best regards
-
-
-
-Bart=C5=82omiej Kubik
