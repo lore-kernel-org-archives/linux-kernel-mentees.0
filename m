@@ -1,81 +1,83 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9973E33EAE8
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 12:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD2A28BABA
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 15:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755605849; cv=none; b=ekhgItX5uzRaAzbYbqQ46sg7KwY3qQdV7n5OFDsG35x+Dzgo30POfKnI1/s3BLMofjXC46XVWTVgvDljbnpcPdIWEGIMb/sOj5I3e4LmSJ0XqjzxCraruZ24Mv4juoS7cHJAxX0W8Vp27pcDKoQ0BRhcXnGalq8CGgAHdcGLPZ8=
+	t=1755619101; cv=none; b=D2cvdxp0F+tP7rKlY6Ghj+mwpQMpt7orDw8ulSZlQKQE3OXGBeV+EOCC1KQl0TEGyO0ITxHNCK3l5SQ29wYhoDxpBHedmMTU0l6abwNfn0AlsDyEeYaIhqr77KSGs96j4VWIK9bwpZh5GK2GHdz44cJk77kssPy7sVzaHj0Nnxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755605849; c=relaxed/simple;
-	bh=c6SJfBR+/GbWNLnYTC3q9NWv7hrRufqAdO/HZR4VMuA=;
+	s=arc-20240116; t=1755619101; c=relaxed/simple;
+	bh=m9dSNoor5c3jxuIbjHd9hSq6RwgNDQDjHqmYeR5iK7Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tSgVU44GJcg5Lr8JdQpJn4SpWWVhX/rMkBbIMmNyPlKA2/a08UNee4a6G0kWfY6xpVYmxcJ81WzQtZ0UrZTP3lTeH6zb0goURtchbBwYeqZDWCieOMIQq2ipfMTwLlGvkaA8Eu5kpn3RT5n695Wb886WIkbowII6vTCqJrrw5zA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zl2SdlRL; arc=none smtp.client-ip=209.85.215.182
+	 MIME-Version; b=Oda4XvcnlwlrDUt78BK5qDTS/AVC736dINVbiBVn/BSWBxHLj0mNjN/u9RrVhW2X4W8yX3tC06B4limLEMQjLvcDt5/8ya0jrwh+9n1W0g5U5ifizj9R8rCbJH/+QN3u7ZnrxdwrnVE21ehttVZKwR6PdS8sm1pDAphH8kB06lE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iE230PVT; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zl2SdlRL"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b4717390ad7so3480359a12.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 05:17:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iE230PVT"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-76e2eb09041so4657666b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 08:58:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755605847; x=1756210647; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1755619099; x=1756223899; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HWV0vVeINjxfROFedsb1z6gg/iy2s16vpsTiJJvBM0c=;
-        b=Zl2SdlRL0+Hv2oxOw4VTk6hLOl/DM14T+gNjvn+lmZDAORINt8E8uDCvQmXEAhSq+7
-         H58yVOhtyFJEh2LJ6WVDZ20C6ePOnmhW6oOe0SXA5gcU0iPJw3Ja8cjwxDnEHOTdIJBV
-         /WP23EvuS/EMDRLWxt3SKoVFlqywQgs2DiVyhFo1n3LKdHh6Bk/KD7WDcADnJ0Kd9JFE
-         2UaHSs6skA0HJeJTR+MgBfFWpABTrfjMdOP2CEiusNDc6jiTu3jO2P70ip3Tz5/cfkNo
-         XfilKUJSLuDSXLGcY5SzSMGxlnuk9gaIMlBQj7394+84/dP1lHi8KCgOyMusDhVCDQoj
-         chUA==
+        bh=OAC9ZIG21u1yEagYiw0bsnH1lXES/tFXaANXtN9HVbc=;
+        b=iE230PVTirFnQo0A1WsGs22Adxl7Pthh/kRQtHn6L7y3GEVV/v59O2bbj4h+Od4pcu
+         Jk4C7TmgEI+X8qDjYbcGgnNkvLIZdS9M+83c4tZeN7LOKItTMAid9GCmVDmk/6TyTnkt
+         e0LN+XPMilnD0PTC+b5jmtg2umDBVdATHU/H0m4c6dHBZRbRg8X43QCyVJBeTLBUZYP0
+         IGkBMm0s0yYCFt+vAVruOWPuUGRoBNr1R+E7j3/SiAhInss5XvW9Nf/IwGoy6oYkudzm
+         OiZi4CUPK/PKgEPk0723E4Qq/JzJuwzyDfbaCnYsKHsMP50XuI6S1y0T+IhJqvleh+dA
+         cZ4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755605847; x=1756210647;
+        d=1e100.net; s=20230601; t=1755619099; x=1756223899;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HWV0vVeINjxfROFedsb1z6gg/iy2s16vpsTiJJvBM0c=;
-        b=wr+hI7H31ibaemDP1rliVqPZJZXSY5V4nQlOg1rCrDZ17nLLv3Lpmz51wzvFtxds9r
-         nWJe2bX/9J2Lpr9ifgnY2gY/khGLQlsil51odSZEXHCUySDGZxHS6IGe8seFAGncT3Kf
-         VoqwVqyaQW0SqzEfhJ0rehMQrJOra4JgzMvT/vYl1wktUHR31TnHj7DRa3pmSLtqaiVy
-         Fq+2rUYi2TwEMbxY5KoDt1bu+GkK8eacYWV/KDeOwXJ5xNhF5/5o1ASkiBn96WJxzWxq
-         KwcVGD5Vmw6tbboYQqqmou+VYnA1Sr9HJTL95EJpbOWIbTni6oLLxoU/AoZbNNYDTL/Z
-         plNg==
-X-Forwarded-Encrypted: i=1; AJvYcCUzyizh2mZ7JYfu8ne6ZNRswP1Vu9I3p9tuIKU9JRf+HQwdcL0GoddJJXHhBD8QNdlyuOhb1vMOKfK3vIq2QKtaW+tOmg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxaDk9jNd8iF6jZag8B04y1P2gd0wMEglA+cJv2p1Q617pzQeE2
-	Bm/Ln6xCRCWoUnjuacQ77TRuk12EVNBNklrKQ7enpVWYKuAESOkRWUoB7fz4C7Mw
-X-Gm-Gg: ASbGncuuGNVuhMAolivYyx4cOQr8AUdjGJln5BHwfC+jLHrHaJN1BW77okfMkWDRNdD
-	MPHsaJ/dshsm95Eh+J5DQTCcqtmQBmkGkzgekIAPuhPJfKy/7XUZhLJNw3jBCyiI296NEZkwDP9
-	+E3UmJz0CdZRqNQwrpIfrO9x3Id3HMdw27BZL9v1LoB5ufZEu+CFMVMEz6sd4cTeZ+f49RAMQnP
-	f+1xcgdMrrMenja3yzOZfBGNF1rUWU7VRc9nJZIAX650Faqt9mYMf8yMWKqVLikCQeW1X6lGgW9
-	nt/vQZgwGJViYNZsLYp93/ylt1remGHe5HwfzRnTlX/OTzduyCWtR/OnltYLph4nijLlgUj7iDA
-	d7I/emh3/P571M0gpeA==
-X-Google-Smtp-Source: AGHT+IF4qxL0U9vpZ0HxdELT3VX2+7tfvAlLdXWTxv3BAaxYCg97WMvRMcDAIOayDSjp3fkucWBHtw==
-X-Received: by 2002:a17:903:b0d:b0:244:99aa:5484 with SMTP id d9443c01a7336-245e04704dfmr33200635ad.33.1755605846818;
-        Tue, 19 Aug 2025 05:17:26 -0700 (PDT)
-Received: from Terra ([2001:df0:b240:b5e:abe3:8cfd:3fd8:5d8e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446ca9ef54sm108352705ad.26.2025.08.19.05.17.23
+        bh=OAC9ZIG21u1yEagYiw0bsnH1lXES/tFXaANXtN9HVbc=;
+        b=R+RfGbbFLW3szmDo3G988Ju7TTGIytsPZqEcif5lO5lDkilPjxhW5gp5Z8Fa/NpoG0
+         KAV4ADQ40ZGef0/ttTequ31vLfJuvE711MuhTW1oMYNwVmakwZXBpCftgmmvmLXIFn3B
+         PwrpYyo9De5puBaFDzn+A5v1dX/Tda9GWS+SVe+WHqEGT6n6xYt4HVCW04P54dH/dixj
+         7Jy1p8lP6riJjApRoHxUvD6fXsLlYcEqCFiMr3GS8X/zYOFkn8SiE06Vl+zjWpM3ycYl
+         b+sfAqer6p5Kh/qjX1q2NOebLyW851gVRwVGVdZGXupW66WQSihWiI+ARuwojHPZSwRH
+         NxQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV3c7njTnhJt+bd05bHiWOFsCN4KgagiTV+ok+MqwWw0FO0I4b5aHEre8L0BApDYG2RJjcclsSRQcHyoqPB4VR3Z/31ig==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxi60yxj3bUSTsMnRq5cKAX+5j6XTed5a5rlOK0z3RrnxUgMMtu
+	1tmuJz1c2jHHH59BMDMT98MjcG+XJqphTj9jEhDml0/ezrMY2j9CGxou
+X-Gm-Gg: ASbGncsAbJDoToyxqH/4C/LaJ0rGVeI0bDD7sJ5x/9sKuXZsVLVw4EzwU9GBa0fMErt
+	aURpMKLHVOJhgM8hWHOQ+jWX0AbpHjj1R2xm+RyMZjpk0Lcl+bO4kvevWxhyfqlMxKXj4ph9/Jw
+	+eB640p409cyz7sxfxXvY8WFk6atv2OIEnI97h5tkM1nR9tl3DrHf3danmczWLsDLnjHWfAOysu
+	7D3oikkPNHD3MMij33qYVhCZrMjjiSm9gH/c/W/t1kCFgTQxU2G6eJMF1VLJnrKUPYtK0l3HmQP
+	h/lFX3+R8rAFMAmmMe/NayoLSsF8ozP+D4lnErc04xT/yBBFDSDMdq69xorWHmX81sNatcSYXl8
+	1wnsAuYqYdQUlv1AagkPLx7FoSjKSnzDJx/1h+/14H3s=
+X-Google-Smtp-Source: AGHT+IEZIUicpIBsSqReeGItn8Ta0qk2ND7WkfQv4jrxRViSC5kLH4Rhy0axgGq2EVDXnuOiqOUZuw==
+X-Received: by 2002:a05:6a00:14d3:b0:76b:c882:e0a with SMTP id d2e1a72fcca58-76e80ecc347mr3176011b3a.5.1755619098531;
+        Tue, 19 Aug 2025 08:58:18 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e7d0d16adsm2870331b3a.14.2025.08.19.08.58.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 05:17:26 -0700 (PDT)
-From: Athul Raj Kollareth <krathul3152@gmail.com>
-To: michal.wajdeczko@intel.com,
-	tzimmermann@suse.de
-Cc: airlied@gmail.com,
-	dri-devel@lists.freedesktop.org,
-	krathul3152@gmail.com,
-	linux-kernel-mentees@lists.linux.dev,
+        Tue, 19 Aug 2025 08:58:18 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: tglx@linutronix.de
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	dvhart@infradead.org,
+	dave@stgolabs.net,
+	andrealmeid@igalia.com,
+	shuah@kernel.org,
+	bigeasy@linutronix.de,
 	linux-kernel@vger.kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	simona@ffwll.ch,
-	skhan@linuxfoundation.org
-Subject: [PATCH v3] drm: Replace the deprecated DRM_* logging macros in gem helper files
-Date: Tue, 19 Aug 2025 17:41:03 +0530
-Message-ID: <20250819121517.46998-2-krathul3152@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <90f79bba-bee6-47ea-9881-9ae37eae42e0@intel.com>
-References: <90f79bba-bee6-47ea-9881-9ae37eae42e0@intel.com>
+	linux-kselftest@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v2] selftests/futex: fix typos and grammar in futex_priv_hash
+Date: Tue, 19 Aug 2025 21:27:53 +0530
+Message-ID: <20250819155755.4665-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250819075511.6mHXEwdt@linutronix.de>
+References: <20250819075511.6mHXEwdt@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -84,82 +86,56 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace the DRM_* logging macros used in gem helper files with the appropriate
-ones specified in /include/drm/drm_print.h.
+Fix multiple typos and small grammar issues in help text,
+comments and test messages in futex_priv_hash test.
 
-Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
 ---
-Changes in v3:
-    - Revert all changes to drm_gem_objects_lookup()
-    - Use drm_device as suggested in [1]. 
-Changes in v2:
-    - Change drm_gem_objects_lookup() to take a drm_device* argument.
-    - Make appropriate changes to all calls of drm_gem_objects_lookup().
+Changelog :
 
-[1]
-https://lore.kernel.org/dri-devel/90f79bba-bee6-47ea-9881-9ae37eae42e0@intel.com
----
- drivers/gpu/drm/drm_gem.c            | 10 +++++++---
- drivers/gpu/drm/drm_gem_dma_helper.c |  2 +-
- 2 files changed, 8 insertions(+), 4 deletions(-)
+Changes since v1:
+  - Dropped hunk which is already addressed by 
+    https://lore.kernel.org/all/20250808112458.831212-1-colin.i.king@gmail.com/
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 4a89b6acb6af..fbea8c50f17c 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -102,7 +102,7 @@ drm_gem_init(struct drm_device *dev)
- 	vma_offset_manager = drmm_kzalloc(dev, sizeof(*vma_offset_manager),
- 					  GFP_KERNEL);
- 	if (!vma_offset_manager) {
--		DRM_ERROR("out of memory\n");
-+		drm_err(dev, "out of memory\n");
- 		return -ENOMEM;
- 	}
+Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+
+ .../testing/selftests/futex/functional/futex_priv_hash.c  | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/tools/testing/selftests/futex/functional/futex_priv_hash.c b/tools/testing/selftests/futex/functional/futex_priv_hash.c
+index 2dca18fefedc..67be60a8238d 100644
+--- a/tools/testing/selftests/futex/functional/futex_priv_hash.c
++++ b/tools/testing/selftests/futex/functional/futex_priv_hash.c
+@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
+ 	if (ret != 0)
+ 		ksft_exit_fail_msg("pthread_join() failed: %d, %m\n", ret);
  
-@@ -787,6 +787,8 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
- 	u32 *handles;
- 	struct drm_gem_object **objs;
+-	/* First thread, has to initialiaze private hash */
++	/* First thread, has to initialize private hash */
+ 	futex_slots1 = futex_hash_slots_get();
+ 	if (futex_slots1 <= 0) {
+ 		ksft_print_msg("Current hash buckets: %d\n", futex_slots1);
+@@ -232,17 +232,17 @@ int main(int argc, char *argv[])
  
-+	struct drm_device *dev = filp->minor->dev;
-+
- 	if (!count)
- 		return 0;
+ 	futex_hash_slots_set_verify(2);
+ 	join_max_threads();
+-	ksft_test_result(counter == MAX_THREADS, "Created of waited for %d of %d threads\n",
++	ksft_test_result(counter == MAX_THREADS, "Created and waited for %d of %d threads\n",
+ 			 counter, MAX_THREADS);
+ 	counter = 0;
+-	/* Once the user set something, auto reisze must be disabled */
++	/* Once the user set something, auto resize must be disabled */
+ 	ret = pthread_barrier_init(&barrier_main, NULL, MAX_THREADS);
  
-@@ -805,7 +807,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
+ 	create_max_threads(thread_lock_fn);
+ 	join_max_threads();
  
- 	if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
- 		ret = -EFAULT;
--		DRM_DEBUG("Failed to copy in GEM handles\n");
-+		drm_dbg_core(dev, "Failed to copy in GEM handles\n");
- 		goto out;
- 	}
+ 	ret = futex_hash_slots_get();
+-	ksft_test_result(ret == 2, "No more auto-resize after manaul setting, got %d\n",
++	ksft_test_result(ret == 2, "No more auto-resize after manual setting, got %d\n",
+ 			 ret);
  
-@@ -856,9 +858,11 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
- 	long ret;
- 	struct drm_gem_object *obj;
- 
-+	struct drm_device *dev = filep->minor->dev;
-+
- 	obj = drm_gem_object_lookup(filep, handle);
- 	if (!obj) {
--		DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
-+		drm_dbg_core(dev, "Failed to look up GEM BO %d\n", handle);
- 		return -EINVAL;
- 	}
- 
-diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
-index 4f0320df858f..a507cf517015 100644
---- a/drivers/gpu/drm/drm_gem_dma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-@@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct drm_device *dev,
- 
- 	ret = dma_buf_vmap_unlocked(attach->dmabuf, &map);
- 	if (ret) {
--		DRM_ERROR("Failed to vmap PRIME buffer\n");
-+		drm_err(dev, "Failed to vmap PRIME buffer\n");
- 		return ERR_PTR(ret);
- 	}
- 
+ 	futex_hash_slots_set_must_fail(1 << 29, 0);
 -- 
-2.50.1
+2.43.0
 
