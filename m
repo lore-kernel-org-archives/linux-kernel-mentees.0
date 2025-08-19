@@ -1,141 +1,308 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD2A28BABA
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 15:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28ED422D4C3
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 16:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755619101; cv=none; b=D2cvdxp0F+tP7rKlY6Ghj+mwpQMpt7orDw8ulSZlQKQE3OXGBeV+EOCC1KQl0TEGyO0ITxHNCK3l5SQ29wYhoDxpBHedmMTU0l6abwNfn0AlsDyEeYaIhqr77KSGs96j4VWIK9bwpZh5GK2GHdz44cJk77kssPy7sVzaHj0Nnxo=
+	t=1755621446; cv=none; b=C1j9ZftAf9EhGe8BNieM6rnXmD065FwjpRrzrOMSsIRObknbcFf3mHAYbJ7NjNJAZtjqK5BYG3oYiVkXwoUMceiFEAeT/rqATDW4VwUOd251h+HK4UutgeAFD74J5ECwi4uTFci2TBelp5WTg8v64MWzCLzXveNObENkNvvv19c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755619101; c=relaxed/simple;
-	bh=m9dSNoor5c3jxuIbjHd9hSq6RwgNDQDjHqmYeR5iK7Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Oda4XvcnlwlrDUt78BK5qDTS/AVC736dINVbiBVn/BSWBxHLj0mNjN/u9RrVhW2X4W8yX3tC06B4limLEMQjLvcDt5/8ya0jrwh+9n1W0g5U5ifizj9R8rCbJH/+QN3u7ZnrxdwrnVE21ehttVZKwR6PdS8sm1pDAphH8kB06lE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iE230PVT; arc=none smtp.client-ip=209.85.210.180
+	s=arc-20240116; t=1755621446; c=relaxed/simple;
+	bh=scbaPHNUfafnIekgS1W/IcAwZjeclgXRiBG9pKjzDeY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pnDSWZKWhcUM8RdV7P1JYQbdf85cIG//w/0xLhzvsXViOt3fG6KEmyXguEpC+S3lxN7T5+Q5Ox4gBtkvDFzJ7E8+hOFHTFhZePJoW1GrStZUOSQNOves4Z2SUYX0YG9i9cT16Oolox1e7ldDJwfHzE9m5ap8P1SVKFigO1wo7jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dwJpxRHC; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iE230PVT"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-76e2eb09041so4657666b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 08:58:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dwJpxRHC"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-24458298aedso47170975ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 09:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755619099; x=1756223899; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OAC9ZIG21u1yEagYiw0bsnH1lXES/tFXaANXtN9HVbc=;
-        b=iE230PVTirFnQo0A1WsGs22Adxl7Pthh/kRQtHn6L7y3GEVV/v59O2bbj4h+Od4pcu
-         Jk4C7TmgEI+X8qDjYbcGgnNkvLIZdS9M+83c4tZeN7LOKItTMAid9GCmVDmk/6TyTnkt
-         e0LN+XPMilnD0PTC+b5jmtg2umDBVdATHU/H0m4c6dHBZRbRg8X43QCyVJBeTLBUZYP0
-         IGkBMm0s0yYCFt+vAVruOWPuUGRoBNr1R+E7j3/SiAhInss5XvW9Nf/IwGoy6oYkudzm
-         OiZi4CUPK/PKgEPk0723E4Qq/JzJuwzyDfbaCnYsKHsMP50XuI6S1y0T+IhJqvleh+dA
-         cZ4w==
+        d=gmail.com; s=20230601; t=1755621444; x=1756226244; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pN3oR61/c0uiXLRfyBJRzpXCbawo5PgtjuwTdlJFdps=;
+        b=dwJpxRHCnUMJ6Z1szHWxNDnkYOjYoRDwGMKUxdQb0/udhv/mOWx3diuPAj4PNx4CUQ
+         ySTRTk3sSMjtAzDnlAcruEjiFDgRpLKStlcSxilbiBG0lL46XRtfY/9dprisxPTNitdB
+         drHKwACXPQm5c3Wn1TGQPsDAmn/mqlcraPeUqrWZsY76ijhgICR2rNwKgyqff+nf4lZF
+         s2e7w+ZVSTacie63y6UzgqvSzUSeoGzoDASlp6q21LB/w2sglGUuyev8SX7Fw3JIA4Ws
+         dVEC+vphRW2sWvvLDY/zxHSEzz8A1f//p7jHpisQN3CyJgij0U6pEzATsH69C52BlfD1
+         foGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755619099; x=1756223899;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OAC9ZIG21u1yEagYiw0bsnH1lXES/tFXaANXtN9HVbc=;
-        b=R+RfGbbFLW3szmDo3G988Ju7TTGIytsPZqEcif5lO5lDkilPjxhW5gp5Z8Fa/NpoG0
-         KAV4ADQ40ZGef0/ttTequ31vLfJuvE711MuhTW1oMYNwVmakwZXBpCftgmmvmLXIFn3B
-         PwrpYyo9De5puBaFDzn+A5v1dX/Tda9GWS+SVe+WHqEGT6n6xYt4HVCW04P54dH/dixj
-         7Jy1p8lP6riJjApRoHxUvD6fXsLlYcEqCFiMr3GS8X/zYOFkn8SiE06Vl+zjWpM3ycYl
-         b+sfAqer6p5Kh/qjX1q2NOebLyW851gVRwVGVdZGXupW66WQSihWiI+ARuwojHPZSwRH
-         NxQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV3c7njTnhJt+bd05bHiWOFsCN4KgagiTV+ok+MqwWw0FO0I4b5aHEre8L0BApDYG2RJjcclsSRQcHyoqPB4VR3Z/31ig==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxi60yxj3bUSTsMnRq5cKAX+5j6XTed5a5rlOK0z3RrnxUgMMtu
-	1tmuJz1c2jHHH59BMDMT98MjcG+XJqphTj9jEhDml0/ezrMY2j9CGxou
-X-Gm-Gg: ASbGncsAbJDoToyxqH/4C/LaJ0rGVeI0bDD7sJ5x/9sKuXZsVLVw4EzwU9GBa0fMErt
-	aURpMKLHVOJhgM8hWHOQ+jWX0AbpHjj1R2xm+RyMZjpk0Lcl+bO4kvevWxhyfqlMxKXj4ph9/Jw
-	+eB640p409cyz7sxfxXvY8WFk6atv2OIEnI97h5tkM1nR9tl3DrHf3danmczWLsDLnjHWfAOysu
-	7D3oikkPNHD3MMij33qYVhCZrMjjiSm9gH/c/W/t1kCFgTQxU2G6eJMF1VLJnrKUPYtK0l3HmQP
-	h/lFX3+R8rAFMAmmMe/NayoLSsF8ozP+D4lnErc04xT/yBBFDSDMdq69xorWHmX81sNatcSYXl8
-	1wnsAuYqYdQUlv1AagkPLx7FoSjKSnzDJx/1h+/14H3s=
-X-Google-Smtp-Source: AGHT+IEZIUicpIBsSqReeGItn8Ta0qk2ND7WkfQv4jrxRViSC5kLH4Rhy0axgGq2EVDXnuOiqOUZuw==
-X-Received: by 2002:a05:6a00:14d3:b0:76b:c882:e0a with SMTP id d2e1a72fcca58-76e80ecc347mr3176011b3a.5.1755619098531;
-        Tue, 19 Aug 2025 08:58:18 -0700 (PDT)
-Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e7d0d16adsm2870331b3a.14.2025.08.19.08.58.14
+        d=1e100.net; s=20230601; t=1755621444; x=1756226244;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pN3oR61/c0uiXLRfyBJRzpXCbawo5PgtjuwTdlJFdps=;
+        b=QWupLPwvqyFUn6QIfKOdVBOyc+h4PlxRExoKOJ13IUylGuZvVxEE+FSCiS27YxGxUG
+         OIo8hs8xpEfZUuXGMEzMSYwnl3NROGfq70Cjx5NphyCFHfgtM3mf92UZFKKkAd1ORqDJ
+         cQppZJ5Ai7up8HYbs6M4IYQMFuGZAiT3btVw1qrZ9pRdX+JeVP4BbF/cDF88pD/Wmudj
+         5wjFYEUi+i44c08+JfmdibXuMpzFbmSYDc+5GQCjaKVJsSoTErMCUSuVgZMK4AW1iJ0X
+         wV90e6nFZRF3V/uQUtvpYpGTkLFUWPql35gMHAah9iePi653F0+/0oO3ZQNg5vMUUrRW
+         rnFg==
+X-Forwarded-Encrypted: i=1; AJvYcCUJla0hbW85wjZ2RVCHKSgLmEHvHVYNVXqh6KVReYdILeeH2S5V3ql+9IsTlREwg3NvzBgFIdShOGUvfCtOpeIjELFKRA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz2Mq98W77SIEDl5eH0wBhne7QbmiA9mO5ff1iq+r0pJsZd956a
+	JVqqObSEuoKuDnFu9F7jfvxgYQ+KgbnMwIAe4KAg/0RV5RpuKHokZFGW
+X-Gm-Gg: ASbGnctAvQEH0+FBLWTiLGZh/VMW4rzzNaXwIisAoYPX53GuQwycyJtIhkTo+dMABDb
+	ve39rGMvmXPl4oWDwbK9eg4Gmpj5QytY51wygadR3JuiEMR9MeO8Mwhf2ohsBG6eUfOeDXn2ED5
+	QJu1JPQ7kY+6cW9lpUU3z3ZNmc4o886+tXe0McbkFnde+C7SFt/eckMEmVp2WSsOsU0vwLnX4ss
+	dtawXDWjLNdq/KuDSrA3eBcv3lCmb90JZ2qtMA52gv+bAR03uVjFhSYprtz8berHecMWR+ZUrbR
+	NyoAT+IZluUiWiAur0jxIqQ2OAbVj6NF16c0G7uleI+Kqy2x+c7DcKDQ7egQPeDEK3VnqEJPFLJ
+	8fRPsUeLZ
+X-Google-Smtp-Source: AGHT+IElLHXy5Z0g7yBhgA4isDUqzATIIqXde4d2BmuwggJSAMpaov5koyT/PbDQ1G2u3jDfv9QvHg==
+X-Received: by 2002:a17:902:d48f:b0:242:a0b0:3c1f with SMTP id d9443c01a7336-245e02cfc12mr45322725ad.7.1755621444380;
+        Tue, 19 Aug 2025 09:37:24 -0700 (PDT)
+Received: from gmail.com ([2406:5900:2:f21::2a1])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed51c0aasm1428815ad.144.2025.08.19.09.37.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 08:58:18 -0700 (PDT)
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: tglx@linutronix.de
-Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	dvhart@infradead.org,
-	dave@stgolabs.net,
-	andrealmeid@igalia.com,
-	shuah@kernel.org,
-	bigeasy@linutronix.de,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	skhan@linuxfoundation.org,
+        Tue, 19 Aug 2025 09:37:23 -0700 (PDT)
+Date: Wed, 20 Aug 2025 01:37:18 +0900
+From: Ryan Chung <seokwoo.chung130@gmail.com>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: rostedt@goodmis.org, mathieu.desnoyer@efficios.com,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v2] selftests/futex: fix typos and grammar in futex_priv_hash
-Date: Tue, 19 Aug 2025 21:27:53 +0530
-Message-ID: <20250819155755.4665-1-krishnagopi487@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250819075511.6mHXEwdt@linutronix.de>
-References: <20250819075511.6mHXEwdt@linutronix.de>
+Subject: Re: [PATCH] trace/trace_fprobe.c: TODO: handle filter, nofilter or
+ symbol list
+Message-ID: <aKSoPiEeixEtcxys@gmail.com>
+References: <20250812162101.5981-1-seokwoo.chung130@gmail.com>
+ <20250814121504.2784e740a4e6fd4e0dd563d6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250814121504.2784e740a4e6fd4e0dd563d6@kernel.org>
 
-Fix multiple typos and small grammar issues in help text,
-comments and test messages in futex_priv_hash test.
+On Thu, Aug 14, 2025 at 12:15:04PM +0900, Masami Hiramatsu wrote:
+> Hi Ryan,
+> 
+> On Wed, 13 Aug 2025 01:21:01 +0900
+> Ryan Chung <seokwoo.chung130@gmail.com> wrote:
+> 
+> > Resolve TODO in `__register_trace_fprobe()`: 
+> > parse `tf->symbol` robustly (support `sym!filter` and comma-separated lists), trim tokens, ignore empties, deduplicate symbols, use bulk registration for lists, return `-EEXIST` if already registered, and preserve lockdown/tracepoint deferral semantics.
+> 
+> Thanks for the improvement!
+> And could you add the new syntax in the document too ?
+> 
 
-Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
----
-Changelog :
+Yes. I will add the syntax in the document.
+To clarify, by document, you mean
+Documentation/trace/fprobetrace.rst?
 
-Changes since v1:
-  - Dropped hunk which is already addressed by 
-    https://lore.kernel.org/all/20250808112458.831212-1-colin.i.king@gmail.com/
+> > 
+> > Please note that this was my personal interpretation of what TODO
+> > required here. Welcoming any feedback. 
+> > 
+> > Signed-off-by: Ryan Chung <seokwoo.chung130@gmail.com>
+> > ---
+> >  kernel/trace/trace_fprobe.c | 102 +++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 100 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/kernel/trace/trace_fprobe.c b/kernel/trace/trace_fprobe.c
+> > index b40fa59159ac..37d4260b9012 100644
+> > --- a/kernel/trace/trace_fprobe.c
+> > +++ b/kernel/trace/trace_fprobe.c
+> > @@ -12,6 +12,8 @@
+> >  #include <linux/security.h>
+> >  #include <linux/tracepoint.h>
+> >  #include <linux/uaccess.h>
+> > +#include <linux/string.h>
+> > +#include <linux/slab.h>
+> 
+> Headers should be sorted alphabetically.
+> 
 
-Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+I will fix this in v2.
 
- .../testing/selftests/futex/functional/futex_priv_hash.c  | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> >  
+> >  #include "trace_dynevent.h"
+> >  #include "trace_probe.h"
+> > @@ -762,8 +764,104 @@ static int __register_trace_fprobe(struct trace_fprobe *tf)
+> >  		return __regsiter_tracepoint_fprobe(tf);
+> >  	}
+> >  
+> > -	/* TODO: handle filter, nofilter or symbol list */
+> > -	return register_fprobe(&tf->fp, tf->symbol, NULL);
+> > +    /* Parse tf->symbol */
+> 
+> Please make this parse and check as a sub-function instead of new
+> scope. Also, it should be done in parse_symbol_and_return(), so that
+> we can handle wrong syntax when parsing it.
+> 
 
-diff --git a/tools/testing/selftests/futex/functional/futex_priv_hash.c b/tools/testing/selftests/futex/functional/futex_priv_hash.c
-index 2dca18fefedc..67be60a8238d 100644
---- a/tools/testing/selftests/futex/functional/futex_priv_hash.c
-+++ b/tools/testing/selftests/futex/functional/futex_priv_hash.c
-@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
- 	if (ret != 0)
- 		ksft_exit_fail_msg("pthread_join() failed: %d, %m\n", ret);
- 
--	/* First thread, has to initialiaze private hash */
-+	/* First thread, has to initialize private hash */
- 	futex_slots1 = futex_hash_slots_get();
- 	if (futex_slots1 <= 0) {
- 		ksft_print_msg("Current hash buckets: %d\n", futex_slots1);
-@@ -232,17 +232,17 @@ int main(int argc, char *argv[])
- 
- 	futex_hash_slots_set_verify(2);
- 	join_max_threads();
--	ksft_test_result(counter == MAX_THREADS, "Created of waited for %d of %d threads\n",
-+	ksft_test_result(counter == MAX_THREADS, "Created and waited for %d of %d threads\n",
- 			 counter, MAX_THREADS);
- 	counter = 0;
--	/* Once the user set something, auto reisze must be disabled */
-+	/* Once the user set something, auto resize must be disabled */
- 	ret = pthread_barrier_init(&barrier_main, NULL, MAX_THREADS);
- 
- 	create_max_threads(thread_lock_fn);
- 	join_max_threads();
- 
- 	ret = futex_hash_slots_get();
--	ksft_test_result(ret == 2, "No more auto-resize after manaul setting, got %d\n",
-+	ksft_test_result(ret == 2, "No more auto-resize after manual setting, got %d\n",
- 			 ret);
- 
- 	futex_hash_slots_set_must_fail(1 << 29, 0);
--- 
-2.43.0
+I will move the parsing into parse_symbol_and_return()
+so syntax errors are detected at parse time.
 
+> > +    {
+> > +        char *spec, *bang, *p;
+> > +        int n = 0, w = 0, j, rc;
+> > +        char **syms = NULL;
+> > +
+> > +        spec = kstrdup(tf->symbol, GFP_KERNEL);
+> > +        if (!spec)
+> > +            return -ENOMEM;
+> > +
+> > +        /* If a '!' exists, treat it as single symbol + filter */
+> > +        bang = strchr(spec, '!');
+> > +        if (bang) {
+> > +            char *sym, *flt;
+> > +
+> > +            *bang = '\0';
+> > +            sym = strim(spec);
+> > +            flt = strim(bang + 1);
+> 
+> You don't need to do strim, since if there is a space, it
+> should be parsed already. New syntax must be ',' separated.
+> My basic syntax for this probe event is;
+> 
+> WORD WORD WORD[:OPTWORD] SUBWORD[,SUBWORD]
+> 
+> OPTWORD is qualifying the previous WORD, SUBWORDs are not
+> quarifying, but the same-level words. (Currently using "%return"
+> for the return of the function, that is a special case.)
+> 
+
+Understood. I will drop strim() and treat tokens as you mentioned.
+I will leave return behavior unchanged.
+
+> > +
+> > +            if (!*sym || !*flt) {
+> > +                kfree(spec);
+> 
+> Please use __free(kfree) instead of repeating kfree().
+> 
+
+I will also include this in v2.
+
+> > +                return -EINVAL; /* reject empty symbol/filter */
+> 
+> Also, before returning an error, use trace_probe_log_err() to
+> notice the reason and the place of the error to user.
+> 
+
+I will log parse failiures with trace_probe_log_err().
+
+> > +            }
+> > +
+> > +            rc = register_fprobe(&tf->fp, sym, flt);
+> > +            kfree(spec);
+> > +            return rc;
+> > +        }
+> > +
+> > +        /* Comma list (or single symbol without '!') */
+> > +        /* First pass: count non-empty tokens */
+> > +        p = spec;
+> > +        while (p) {
+> > +            char *tok = strsep(&p, ",");
+> > +            if (tok && *strim(tok))
+> > +                n++;
+> > +        }
+> > +
+> > +        if (n == 0){
+> > +            kfree(spec);
+> > +            return -EINVAL;
+> > +        }
+> > +
+> > +        /* Allocate array for pointers into spec (callee copies/consumes) */
+> > +        syms = kcalloc(n, sizeof(*syms), GFP_KERNEL);
+> > +        if (!syms) {
+> > +            kfree(spec);
+> > +            return -ENOMEM;
+> > +        }
+> > +
+> > +        /* Second pass: fill, skipping empties */
+> 
+> Again, symbol should not have a space.
+> 
+
+Understood. I will also fix this in v2.
+
+> > +        p = spec;
+> > +        while (p) {
+> > +            char *tok = strsep(&p, ",");
+> > +            char *s;
+> > +
+> > +            if (!tok)
+> > +                break;
+> > +            s = strim(tok);
+> > +            if (!*s)
+> > +                continue;
+> > +            syms[w++] = s; 
+> > +        }
+> > +        
+> > +        /* Dedup in-place */
+> > +        for (i = 0; i < w; i++){
+> > +            if (!syms[i])
+> > +                continue;
+> > +            for (j = i + 1; j < w; j++) {
+> > +                if (syms[j] && !strcmp(syms[i], syms[j]))
+> > +                    syms[j] = NULL;
+> > +            }
+> 
+> I think dedup will be done in ftrace, so we don't need to do this
+> costly operation.
+> 
+
+I see. I will remove the dedup here.
+
+> > +        }
+> > +
+> > +        /* Compact */
+> > +        for (i = 0, j = 0; i < w; i++) {
+> > +            if (syms[i])
+> > +                syms[j++] = syms[i];
+> > +        }
+> > +        w = j;
+> > +
+> > +        /* After dedup, ensure we still have at least one symbol */
+> > +        if (w == 0){
+> > +            kfree(syms);
+> > +            kfree(spec);
+> > +            return -EINVAL;
+> > +        }
+> > +
+> > +        /* Register list or single symbol, using the existing bulk API */
+> > +        if (w == 1)
+> > +            rc = register_fprobe(&tf->fp, syms[0], NULL);
+> 
+> Hmm, you might misunderstand this. What you need to do is to classify
+> the list of symbols with '!' as nofilter, and others as "filter",
+> and pass those as "register_fprobe(&tf->fp, filter, nofilter)".
+> 
+
+Thank you for the clarification.
+I will change as followed:
+- tokens prefixed with '!' go to the nofileter list
+- all other tokens go to filter list
+- pass both to register_fprobe(&tf->fp, filter, nofilter)
+
+> Thank you,
+> 
+> > +        else
+> > +            rc = register_fprobe_syms(&tf->fp, (const char **)syms, w);
+> > +
+> > +        kfree(syms);
+> > +        kfree(spec);
+> > +        return rc;
+> > +    }
+> >  }
+> >  
+> >  /* Internal unregister function - just handle fprobe and flags */
+> > -- 
+> > 2.43.0
+> > 
+> 
+> 
+> -- 
+> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+Thank you. Please let me know if you have any questions or concerns.
+
+Best regards,
+Ryan Chung
