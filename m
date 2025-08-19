@@ -1,98 +1,92 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CDE311944
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 08:41:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC13202C2B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 08:50:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755592893; cv=none; b=JmOwnOPE0i+wf2Yq3mw3sBS6p90PmTffNSTNaDFPjm7Nybe/Y5gAdMwgV+cLzkW7fOVzxKCULrSHLEipB8UN2S+jydE5OVWPhNvW4eLA/uEoD2Z/WH+tJorb6CXGfFlRId/r8b1m56gzKwMjwH+zMJYeaNnH0jdPgpzsh0naWoY=
+	t=1755593452; cv=none; b=PHz7cmBbV42nvi+jqVLrP/rzQEOObA+uUVhufOZoB9GqtlVr1eIPJKeicZVLnR9VcSsXt06CXyqWk+c9kCtttsuKxNfDzJuMAlOIck8pWfoC4K2D8eHx65Fwxwel7wA0wZeT24kqGw4UJoQP0pcCMk4rTHTfBThHQzqtEx0mxTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755592893; c=relaxed/simple;
-	bh=hC3FF7CqXvYfG8tLDMZoTpgFfJ5oSyKKqMIelDWPp+o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OhIr4wUE/dT8LC9ZYjhnqXjz7naiptldtFETK5sx5TsLqjsWhg4xhcM8K5gQUeEDnkivABuVx2yimLE0iolDuaxMjlMAJDNLVY2Va2wjYD+TQn7GJ0+at62MMx+/9HBbz5oGBDYoaqwtQqdkdAbqupQVR+5nqbUpgky0da3aZAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IQNKH2zh; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1755593452; c=relaxed/simple;
+	bh=DmkDwkjEVAiC0sDkPJg0pXkSVSJZJEeVV+GgiVYdIbY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gu85cZMavu5DZc4m1TFhlj6YU3zOG64ISLlTjA0nG8gRl9v/W2pRBDYNnK8WpRTBGDgZGpDwbpM8DIwK7M/ZjDzPwGLLREIkMiJnDVCKUgoCBQ4GxLTaaDo+7mhe+BTxKTmB53VU4MuEWUF04umcSrfnbTn4Nh5ankMli1854iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fkh2GG63; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IQNKH2zh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fkh2GG63"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 203DC4086B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 08:41:32 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8E6AE40903
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 08:50:50 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id cdBP41e_prd4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 19 Aug 2025 08:41:31 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::329; helo=mail-wm1-x329.google.com; envelope-from=smokthar925@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 654CB40782
+ id yhEO1H6rcOve for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 19 Aug 2025 08:50:50 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::431; helo=mail-wr1-x431.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org E1A9A4085F
 Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 654CB40782
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E1A9A4085F
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=IQNKH2zh
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 654CB40782
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 08:41:31 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-45a1b0becf5so27143475e9.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 01:41:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=fkh2GG63
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id E1A9A4085F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 08:50:49 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3b9dc56a7a3so646742f8f.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 01:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755592889; x=1756197689; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1755593448; x=1756198248; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FLUOi1Tq4O+Xr4PhuCC16k6tnogmko89GEp/A0Hn1CQ=;
-        b=IQNKH2zhUZJaYjFZTsUFy9JGi5vCctcCOnndIcOSLr2BoOFGzRvw6tYbbRaYmwitdh
-         kqXshk09EFiToki8l0aITY1mU8XC2Vhu3EIlQtMcVrVeDGtxMbMRh3FznfMp8ZQZpxct
-         h+VZFsXh6DDKn6QP07Hgy7kCdMdAoAyBskgpG0VygWrU6ENMdgJfwQtYE/5q8pC6Yryh
-         Qrw95h2LC5zq1VxX37Ll0lN3iMInPbqxwmujOdZMD85N2Umw/58E1zESG27HnJAh1JOt
-         M3MzcFk8z407PpouEL+pqgIsOOlr8j8ZFTLndl7rZu2YrVmw1fAthcDILqWFBSuIJtVo
-         mgew==
+        bh=ppSRiVRqts44ynE+tjD/tC5x7x1c70mZiRK8wzwb5ZI=;
+        b=fkh2GG63T9Zg+S9MMClY9mAxv/xyJDAT3iUZ830i8/TCdwwe3ow8osoZ4SbRabVCI/
+         s9+mw0k8OHkNr8XSVvgJ8m6cVrQg5i4EixACfZZQOiXSHcG1W6DgXoUQZPFXhzgSvPFp
+         cVTOCOQY+4qBinxaIHIXBjWNXj9SpN46BDHBuomC8qX0EiyNtEjn/208ac0HS1/G9sci
+         sIPouo8XoRRO3VRulU+XXgYb309PTgYgWKceNk30mJi7no5wSo8hTWL05njk4dWFg8ku
+         8vE1eRZVY5yAHG1mC50aJhYDn57TMYw4wL1qcNAgf3ns5yxXEXyXGyk/a2v9sy6XqlfD
+         0x9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755592889; x=1756197689;
+        d=1e100.net; s=20230601; t=1755593448; x=1756198248;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FLUOi1Tq4O+Xr4PhuCC16k6tnogmko89GEp/A0Hn1CQ=;
-        b=nC8iKhNBZsAlSGkM0Qg4nBHv5rL1E54CcIHcjzz+exdMOSFaA70g/STnDNhgRxAMWA
-         mlBvGZdGZlhNZrEkoIOLzYtbsUrek4rkRDFE79KXrcarkd9Yunl1UefVD9f/LeMxaHna
-         iDxdUAVaL8mW+uE9TPuL0Zb9ouUllhe1E9TjgZR5UfWVcb2FooUZISPw+Qx8v1yjD8j6
-         s33LMSBIeoW4wcvIh8JMw2fp/9e4HkgMts+l0wdseJ3wLx3x/VGQ+SEj72kj6Q2N59DR
-         r35GCxEjHjjB0vMNaPkLGkIraqSawmMN4MuQ5CJDw0fPJGN4jpEJxC3Xs0XzzxP5iNVc
-         0bUw==
-X-Forwarded-Encrypted: i=1; AJvYcCVPTGXYB4yDAQparWxkG2u14O/T6dCVl2WkGaIztOLalwBvL0Rb1Slp276FX8iCe8S2hBNObZya45+OF+iHFvBzQTAayg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YypFXHxUhNcU3x/46Pkujwh3/Z+fRoPtXpbVqjA5iZcSE1A4eBS
-	nDWTnM2LxkAJgLiZma2cPf66rm0z4loT/WSCdUb+r3cwJrHiuzICW04A
-X-Gm-Gg: ASbGncvIbOlwik1yPt0QSekG+owflhOm4YO1b3LAgaPL6XixA+tIwD3NayaQl8KfrzJ
-	6nN3i/DD0iyl9fg6ySVxqvZzn3RhdD8db1CZhEQ75Iy8lS1xaMR19SRNiJZ1co9kBnN1wW4Bm29
-	Z0tDLg8fY/fi8XdqySY0pWTS43B1MIPnGQKMZ4V8llSiXNwooQx3E74cL7pxhpmHAVcxAW9OV8A
-	PPQ3LjSIXpglgCGtVtZBrqe+0LyvHdw+jWJRjv0GMl00+MTLlYEdVO31YomzjYBqHWDVSNTuW6S
-	658NuHXq6InrA7pA83rQbV5xUZEQFQZq345FTraG0bR2e5j+Uo+sMyF8TLj1vYl/7AkwzXx6ePg
-	6cbrzbcUUiE8LoHeZdkJOvcnTb63rQug=
-X-Google-Smtp-Source: AGHT+IHpZR4chIo9Jhe+nlOC9eKX5wgesPXTSJhgCyQ/YeZ6CrLEnmtm986TctbTOdpsG7HXLXCAnA==
-X-Received: by 2002:a05:600c:5249:b0:456:24aa:958e with SMTP id 5b1f17b1804b1-45b43d464e9mr15595945e9.0.1755592888840;
-        Tue, 19 Aug 2025 01:41:28 -0700 (PDT)
-Received: from moktar-desktop.. ([102.31.181.245])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c074879859sm2746131f8f.3.2025.08.19.01.41.27
+        bh=ppSRiVRqts44ynE+tjD/tC5x7x1c70mZiRK8wzwb5ZI=;
+        b=R0iiJVyP/xUHhYa0BXc2Ag5xcymzvgpfMp1v18BSbUSeuCIsUtWyrB8GAdCe6HNQjU
+         QJl6ABs2DB5g73iPqsZMZ2XsoT9W5E4/GQsrmgQgOd78AWE1OdHnL2l7WKhsBlVXtv26
+         nMSzobIp+VZYL7HrmhVL18yq8PCKpR5gpeo4l4MQ0KfmNo1bJgB/B5/cw0IPTLreZy3e
+         TvT2Ng9jcZLvez+58O1t/Bhu8eR5CKK0ZML5zszjHOh6HkSO04OsuHPERNMiZeAR4ymG
+         pS3B4iqJQKOQkdKdL6OrnVZWfYSQExylSNTsnFmVeN6Bo9hg8NIbwkGRI6PcpMmBpWCn
+         sv4g==
+X-Gm-Message-State: AOJu0YxxYhzqcnTK27l+0Cn4vHcW4TEKwx1buc6RFID8EmFSaiF9xUHX
+	TJTOy+aq3D6iIAdr7UCr8k8IN/wcPakgHweCGXx+TzI4LEuUkkGw9FKQ
+X-Gm-Gg: ASbGncsQ3q1A3uwZwYO+arhFxR4n0panw0ERlrBgJnwvTiWcvy6FdWhK6GWJJkYjAmt
+	+JkGM2bT5E2iOhp7n4HPXoimHtqtpCvYJXh6mgktLjbK+LtRuKPF5/iDEcqGtZb0nlIE3g3wwmC
+	pELhrqI5ijz3giGZzen2HuXw1QE1eAxVZZ+ujaCZZnW+JFaOSdehSXBjIL3WrlhFRE07MDG+cPE
+	Thi3iwCztlhz4A7pncye53Ui/Q47BJpFdG8+GjB5I400itpbuzI6PDMQJW+USBL3D3/k/s+dpOv
+	moiHcDGpcJO9beyvq1ADD1iOtK+Uc2gouqqQa9OzH6qUrz8aWTdEbTlxV0t3C6sYK3iyZd0sWni
+	qBVCqzkiZfVv40SWGOiOQ0ONqJw==
+X-Google-Smtp-Source: AGHT+IENAMM40Jw4dEcSYO2Fhf9hmnZy96HLWA+f1XfiP1n2rwpiM7hAlE/XZF/W177VE+ht2KtknA==
+X-Received: by 2002:a05:600c:821b:b0:458:a753:f3a1 with SMTP id 5b1f17b1804b1-45b4425f28bmr5609455e9.3.1755593447660;
+        Tue, 19 Aug 2025 01:50:47 -0700 (PDT)
+Received: from bhk ([41.231.66.206])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b42a983f7sm33587315e9.24.2025.08.19.01.50.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 01:41:28 -0700 (PDT)
-From: Moktar SELLAMI <smokthar925@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Gregory Price <gourry@gourry.net>,
-	Moktar SELLAMI <smokthar925@gmail.com>,
-	Alok Tiwari <alok.a.tiwari@oracle.com>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org
-Subject: [PATCH] Documentation/driver-api: Fix typo error in cxl
-Date: Tue, 19 Aug 2025 09:41:16 +0100
-Message-Id: <20250819084116.13108-1-smokthar925@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 19 Aug 2025 01:50:47 -0700 (PDT)
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+To: linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-trace-kernel@vger.kernel.org,
+	mathieu.desnoyers@efficios.com,
+	corbet@lwn.net
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	mhiramat@kernel.org,
+	rostedt@goodmis.org,
+	Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Subject: [PATCH] docs: Corrected typo in trace/events
+Date: Tue, 19 Aug 2025 09:49:00 +0100
+Message-ID: <20250819085040.974388-1-mehdi.benhadjkhelifa@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -101,28 +95,41 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixed Typo in the driver-api/cxl/devices/devices.rst
+-Changed 'Dyamically' to 'Dynamically' in trace/events.rst
 
-functionalty -> functionality
+under sections 7.1 and 7.3
 
-Signed-off-by: Moktar SELLAMI <smokthar925@gmail.com>
+Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
 ---
- Documentation/driver-api/cxl/devices/device-types.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/trace/events.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
-index 923f5d89bc04..7f69dfa4509b 100644
---- a/Documentation/driver-api/cxl/devices/device-types.rst
-+++ b/Documentation/driver-api/cxl/devices/device-types.rst
-@@ -22,7 +22,7 @@ The basic interaction protocol, similar to PCIe configuration mechanisms.
- Typically used for initialization, configuration, and I/O access for anything
- other than memory (CXL.mem) or cache (CXL.cache) operations.
+diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+index 2d88a2acacc0..18d112963dec 100644
+--- a/Documentation/trace/events.rst
++++ b/Documentation/trace/events.rst
+@@ -629,8 +629,8 @@ following:
+   - tracing synthetic events from in-kernel code
+   - the low-level "dynevent_cmd" API
  
--The Linux CXL driver exposes access to .io functionalty via the various sysfs
-+The Linux CXL driver exposes access to .io functionality via the various sysfs
- interfaces and /dev/cxl/ devices (which exposes direct access to device
- mailboxes).
+-7.1 Dyamically creating synthetic event definitions
+----------------------------------------------------
++7.1 Dynamically creating synthetic event definitions
++----------------------------------------------------
  
+ There are a couple ways to create a new synthetic event from a kernel
+ module or other kernel code.
+@@ -944,8 +944,8 @@ Note that synth_event_trace_end() must be called at the end regardless
+ of whether any of the add calls failed (say due to a bad field name
+ being passed in).
+ 
+-7.3 Dyamically creating kprobe and kretprobe event definitions
+---------------------------------------------------------------
++7.3 Dynamically creating kprobe and kretprobe event definitions
++---------------------------------------------------------------
+ 
+ To create a kprobe or kretprobe trace event from kernel code, the
+ kprobe_event_gen_cmd_start() or kretprobe_event_gen_cmd_start()
 -- 
-2.34.1
+2.50.1
 
