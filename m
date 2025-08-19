@@ -1,135 +1,133 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC13202C2B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 08:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1CA272E5E;
+	Tue, 19 Aug 2025 09:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755593452; cv=none; b=PHz7cmBbV42nvi+jqVLrP/rzQEOObA+uUVhufOZoB9GqtlVr1eIPJKeicZVLnR9VcSsXt06CXyqWk+c9kCtttsuKxNfDzJuMAlOIck8pWfoC4K2D8eHx65Fwxwel7wA0wZeT24kqGw4UJoQP0pcCMk4rTHTfBThHQzqtEx0mxTk=
+	t=1755596419; cv=none; b=EeSCn4vLloke/tDHr3h8kfxCSs8RaXQ3mHg3TeZqiE2ZiGjPzyeK6vcJKjabUtl54v9aZWU5l2OgC/aOUh2fu5jlqFh19OVz3pAEW8xus9KH96UdDf3eQTyGVsbQY7/QFhKGrKY5PCtOxuhsnRaqO6OYrSfgHjSNmLOpuckRFQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755593452; c=relaxed/simple;
-	bh=DmkDwkjEVAiC0sDkPJg0pXkSVSJZJEeVV+GgiVYdIbY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gu85cZMavu5DZc4m1TFhlj6YU3zOG64ISLlTjA0nG8gRl9v/W2pRBDYNnK8WpRTBGDgZGpDwbpM8DIwK7M/ZjDzPwGLLREIkMiJnDVCKUgoCBQ4GxLTaaDo+7mhe+BTxKTmB53VU4MuEWUF04umcSrfnbTn4Nh5ankMli1854iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fkh2GG63; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1755596419; c=relaxed/simple;
+	bh=rdvjR6w1soJ5Re7TnMtBegz/KXx41Ml5kV2g16OtOVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KIMqcu6BHXIwBM6Lci8Z+seHcaxoM84jyrrWKotmAmP0y6GJFPl5hPXWXTCHT63Ko451dBXuV6E5xFAhXrZCEVZ8yKKqON2vSmdo7DNH/3GwxS1KyC6Vlmt1BKMM6Hd0GTf3HqhPX6QU2zRi+xM9KU3raKOKNZcboeLNZE+bzkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DR0S9UmU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fkh2GG63"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8E6AE40903
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 08:50:50 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id yhEO1H6rcOve for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 19 Aug 2025 08:50:50 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::431; helo=mail-wr1-x431.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org E1A9A4085F
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E1A9A4085F
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=fkh2GG63
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id E1A9A4085F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 08:50:49 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3b9dc56a7a3so646742f8f.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 01:50:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755593448; x=1756198248; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ppSRiVRqts44ynE+tjD/tC5x7x1c70mZiRK8wzwb5ZI=;
-        b=fkh2GG63T9Zg+S9MMClY9mAxv/xyJDAT3iUZ830i8/TCdwwe3ow8osoZ4SbRabVCI/
-         s9+mw0k8OHkNr8XSVvgJ8m6cVrQg5i4EixACfZZQOiXSHcG1W6DgXoUQZPFXhzgSvPFp
-         cVTOCOQY+4qBinxaIHIXBjWNXj9SpN46BDHBuomC8qX0EiyNtEjn/208ac0HS1/G9sci
-         sIPouo8XoRRO3VRulU+XXgYb309PTgYgWKceNk30mJi7no5wSo8hTWL05njk4dWFg8ku
-         8vE1eRZVY5yAHG1mC50aJhYDn57TMYw4wL1qcNAgf3ns5yxXEXyXGyk/a2v9sy6XqlfD
-         0x9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755593448; x=1756198248;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ppSRiVRqts44ynE+tjD/tC5x7x1c70mZiRK8wzwb5ZI=;
-        b=R0iiJVyP/xUHhYa0BXc2Ag5xcymzvgpfMp1v18BSbUSeuCIsUtWyrB8GAdCe6HNQjU
-         QJl6ABs2DB5g73iPqsZMZ2XsoT9W5E4/GQsrmgQgOd78AWE1OdHnL2l7WKhsBlVXtv26
-         nMSzobIp+VZYL7HrmhVL18yq8PCKpR5gpeo4l4MQ0KfmNo1bJgB/B5/cw0IPTLreZy3e
-         TvT2Ng9jcZLvez+58O1t/Bhu8eR5CKK0ZML5zszjHOh6HkSO04OsuHPERNMiZeAR4ymG
-         pS3B4iqJQKOQkdKdL6OrnVZWfYSQExylSNTsnFmVeN6Bo9hg8NIbwkGRI6PcpMmBpWCn
-         sv4g==
-X-Gm-Message-State: AOJu0YxxYhzqcnTK27l+0Cn4vHcW4TEKwx1buc6RFID8EmFSaiF9xUHX
-	TJTOy+aq3D6iIAdr7UCr8k8IN/wcPakgHweCGXx+TzI4LEuUkkGw9FKQ
-X-Gm-Gg: ASbGncsQ3q1A3uwZwYO+arhFxR4n0panw0ERlrBgJnwvTiWcvy6FdWhK6GWJJkYjAmt
-	+JkGM2bT5E2iOhp7n4HPXoimHtqtpCvYJXh6mgktLjbK+LtRuKPF5/iDEcqGtZb0nlIE3g3wwmC
-	pELhrqI5ijz3giGZzen2HuXw1QE1eAxVZZ+ujaCZZnW+JFaOSdehSXBjIL3WrlhFRE07MDG+cPE
-	Thi3iwCztlhz4A7pncye53Ui/Q47BJpFdG8+GjB5I400itpbuzI6PDMQJW+USBL3D3/k/s+dpOv
-	moiHcDGpcJO9beyvq1ADD1iOtK+Uc2gouqqQa9OzH6qUrz8aWTdEbTlxV0t3C6sYK3iyZd0sWni
-	qBVCqzkiZfVv40SWGOiOQ0ONqJw==
-X-Google-Smtp-Source: AGHT+IENAMM40Jw4dEcSYO2Fhf9hmnZy96HLWA+f1XfiP1n2rwpiM7hAlE/XZF/W177VE+ht2KtknA==
-X-Received: by 2002:a05:600c:821b:b0:458:a753:f3a1 with SMTP id 5b1f17b1804b1-45b4425f28bmr5609455e9.3.1755593447660;
-        Tue, 19 Aug 2025 01:50:47 -0700 (PDT)
-Received: from bhk ([41.231.66.206])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b42a983f7sm33587315e9.24.2025.08.19.01.50.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 01:50:47 -0700 (PDT)
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-To: linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-trace-kernel@vger.kernel.org,
-	mathieu.desnoyers@efficios.com,
-	corbet@lwn.net
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
-	mhiramat@kernel.org,
-	rostedt@goodmis.org,
-	Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-Subject: [PATCH] docs: Corrected typo in trace/events
-Date: Tue, 19 Aug 2025 09:49:00 +0100
-Message-ID: <20250819085040.974388-1-mehdi.benhadjkhelifa@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DR0S9UmU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9459C4CEF1;
+	Tue, 19 Aug 2025 09:40:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755596418;
+	bh=rdvjR6w1soJ5Re7TnMtBegz/KXx41Ml5kV2g16OtOVI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DR0S9UmUqMYlQNb2b7xa+qjznbqXx0JSZIEvWgOukEP11LA6IZfSf9fHERuZIrD0F
+	 AMbzcIOzsTzqy8xloECiBlt+J1Ri1aQutWpXc9dG5gLugfg7PToGQhYCRqfeOniz8/
+	 rMk29q4n3EApeLAV4+gLiquAG3XqOKTaNV/72/yvM+nSoB8Xgdh2gxGcAomutMuQn0
+	 wrWZ37F7mUc33a7r/hDdEoYsX+jtdJXbZFpM9ldp5cJ4U96rNEssDM/1iROvlGZXxq
+	 wi0U8vTkRSmAHXE5OpTA7gKVmKWVd8ip2c6Ts20QU8wNNeEzMHwBni2hRSUn44Y++I
+	 yhaQZGbJV5W4Q==
+Date: Tue, 19 Aug 2025 11:40:14 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, jack@suse.cz, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Ryan Chung <seokwoo.chung130@gmail.com>
+Subject: Re: [RFC] {do_,}lock_mount() behaviour wrt races and move_mount(2)
+ with empty to_path (was Re: [PATCH] fs/namespace.c: fix mountpath handling
+ in do_lock_mount())
+Message-ID: <20250819-qualifizieren-draht-f209a541ac6c@brauner>
+References: <20250818172235.178899-1-seokwoo.chung130@gmail.com>
+ <20250818201428.GC222315@ZenIV>
+ <20250818205606.GD222315@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250818205606.GD222315@ZenIV>
 
--Changed 'Dyamically' to 'Dynamically' in trace/events.rst
+On Mon, Aug 18, 2025 at 09:56:06PM +0100, Al Viro wrote:
+> On Mon, Aug 18, 2025 at 09:14:28PM +0100, Al Viro wrote:
+> 
+> > Alternative would be to treat these races as "act as if we'd won and
+> > the other guy had overmounted ours", i.e. *NOT* follow mounts.  Again,
+> > for old syscalls that's fine - if another thread has raced with us and
+> > mounted something on top of the place we want to mount on, it could just
+> > as easily have come *after* we'd completed mount(2) and mounted their
+> > stuff on top of ours.  If userland is not fine with such outcome, it needs
+> > to provide serialization between the callers.  For move_mount(2)... again,
+> > the only real question is empty to_path case.
+> > 
+> > Comments?
+> 
+> Thinking about it a bit more...  Unfortunately, there's another corner
+> case: "." as mountpoint.  That would affect that old syscalls as well
+> and I'm not sure that there's no userland code that relies upon the
+> current behaviour.
+> 
+> Background: pathname resolution does *NOT* follow mounts on the starting
+> point and it does not follow mounts after "."
+> 
+> ; mkdir /tmp/foo
+> ; mount -t tmpfs none /tmp/foo
+> ; cd /tmp/foo
+> ; echo under > a
+> ; cat /tmp/foo/a
+> under
+> ; mount -t tmpfs none /tmp/foo
+> ; cat a
+> under
+> ; cat /tmp/foo/a
+> cat: /tmp/foo/a: no such file or directory
+> ; echo under > b
+> ; cat b
+> under
+> ; cat /tmp/foo/b
+> cat: /tmp/foo/b: no such file or directory
+> ;
+> 
+> It's been a bad decision (if it can be called that - it's been more
+> of an accident, AFAICT), but it's decades too late to change it.
+> And interaction with mount is also fun: mount(2) *DOES* follow mounts
+> on the end of any pathname, no matter what.  So in case when we are
+> standing in an overmounted directory, ls . will show the contents of
+> that directory, but mount <something> . will mount on top of whatever's
+> mounted there.
+> 
+> So the alternative I've mentioned above would change the behaviour of
+> old syscalls in a corner case that just might be actually used in userland
+> code - including the scripts run at the boot time, of all things ;-/
+> 
+> IOW, it probably falls under "can't touch that, no matter how much we'd
+> like to" ;-/  Pity, that...
+> 
+> That leaves the question of MOVE_MOUNT_BENEATH with empty pathname -
+> do we want a variant that would say "slide precisely under the opened
+> directory I gave you, no matter what might overmount it"?
 
-under sections 7.1 and 7.3
+Afaict, right now MOVE_MOUNT_BENEATH will take the overmount into
+account even for "." just like mount(2) will lookup the topmost mount no
+matter what. That is what userspace expects. I don't think we need a
+variant where "." ignores overmounts for MOVE_MOUNT_BENEATH and really
+not unless someone has a specific use-case for it. If it comes to that
+we should probably add a new flag.
 
-Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
----
- Documentation/trace/events.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> At the very least this corner case needs to be documented in move_mount(2)
+> - behaviour of
+> 	move_mount(_, _, dir_fd, "",
+> 		   MOVE_MOUNT_T_EMPTY | MOVE_MOUNT_BENEATH)
+> has two apriori reasonable variants ("slide right under the top of
+> whatever pile there might be over dir_fd" and "slide right under dir_fd
 
-diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-index 2d88a2acacc0..18d112963dec 100644
---- a/Documentation/trace/events.rst
-+++ b/Documentation/trace/events.rst
-@@ -629,8 +629,8 @@ following:
-   - tracing synthetic events from in-kernel code
-   - the low-level "dynevent_cmd" API
- 
--7.1 Dyamically creating synthetic event definitions
-----------------------------------------------------
-+7.1 Dynamically creating synthetic event definitions
-+----------------------------------------------------
- 
- There are a couple ways to create a new synthetic event from a kernel
- module or other kernel code.
-@@ -944,8 +944,8 @@ Note that synth_event_trace_end() must be called at the end regardless
- of whether any of the add calls failed (say due to a bad field name
- being passed in).
- 
--7.3 Dyamically creating kprobe and kretprobe event definitions
----------------------------------------------------------------
-+7.3 Dynamically creating kprobe and kretprobe event definitions
-+---------------------------------------------------------------
- 
- To create a kprobe or kretprobe trace event from kernel code, the
- kprobe_event_gen_cmd_start() or kretprobe_event_gen_cmd_start()
--- 
-2.50.1
+Yes, that's what's intended and documented also what I wrote in my
+commit messages and what the selftests should test for. I specifically
+did not make it deviate from standard mount(2) behavior.
 
+> itself, no matter what pile might be on top of that") and leaving it
+> unspecified is not good, IMO...
+
+Sure, Aleksa can pull that into his documentation patches.
