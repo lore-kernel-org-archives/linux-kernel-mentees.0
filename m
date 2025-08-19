@@ -1,78 +1,90 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD75F2853F3
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 02:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E4216F0FE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 03:01:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755571953; cv=none; b=BigGcZM90UMUpNzfH+hKodik4/YB8tDO90yiYD1cdeqLu6Aen8L2kpirfSWGKy/muHCGflxX7lZa9IwZCYA/X3Y86AEb/LZWTYmW8V2q5y/6AiLIUHaoUQlOmWca+WzHoYhwOKpPIuGYds296mVbCYXKId5Gd/wsFqfisnOx6Zc=
+	t=1755572487; cv=none; b=b4wid3B2qGDCN7uXhPRen9/BuWkSmld++YqikFWAL8jTlKMz745QYZAr1ZDY8P4cfruM6C648cQZRa8XWxG6XGXgXEBRcAdfXo3bhFc/ht3u0dUqVi0GMQt1cZR8E75hfBLNGvwEHex1m9oRSmJEGWfNzUSK+KCdaQIIvmJ1ltk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755571953; c=relaxed/simple;
-	bh=Y8x0Dz67DsKdjkPQ4PqlBubQxlf28YguajRC+ZrW2pc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QR/Jt5OIZOl49lwBtmgsGoEhFdbf3B/X15cbsX0OTTkfB2MQhRmBgcS7BY6drLFsoCMllwNJPZkdqiTUkGKsHkx9pPPQTyhdAn6J/gubfJNLZrNdH9WAMNnMJyB1vfUWV0oAtRhHGuAo+y1bySMqQj+ayidI91fwn3IT0s1ZgSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LsshH9ew; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755572487; c=relaxed/simple;
+	bh=LIUlD0bOhl9LKp+DEmmBizXl3Wwv9AcVYNU8bGnJHI4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wqw4Ori/eAzN9bLWOBS0LJkzCUrkzgAvFQXkp1cMPLxwdqD+8QqlSLmeaZZY7m9bVs6AhNFhgbW0PQe+lWDmg8YK8gEtptx0rALEtVYUM249mg/F7WezjdopYKw+zoB6zfSzPU0bf/CpijjcdnpuqBJ6GSF9uEhJEYktCynmQyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jBpHk4LF; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LsshH9ew"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-323266cdf64so3721119a91.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 18 Aug 2025 19:52:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jBpHk4LF"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 129D240079
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 03:01:26 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 4uR2MSYNKHCj for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 19 Aug 2025 03:01:25 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42a; helo=mail-pf1-x42a.google.com; envelope-from=higuoxing@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 7863940061
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7863940061
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jBpHk4LF
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7863940061
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 03:01:25 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-76e2eb49b83so2996597b3a.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Aug 2025 20:01:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755571951; x=1756176751; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gkCzBsvlP6/Ffz6cOOw96jrDeHTlV8A8u/fp/nqqvhc=;
-        b=LsshH9ewgI0Rrn9nevz3XcOTI8rJrlR350U+PhWBgwYc3p5Xf3hx11iYNkOxbdL4pO
-         peZzJ8eTSuHfvYPLle2ChjPsCVm2x4LuzwRftWRB9nf9KrIyPq+U5DEfEO3EUWH3oXtG
-         og9kHeF2yj8fexwubHjxwO3ErUcssaWN25p83GzFt3EkwFDddN3yFkpFMrJrqhBWLdzt
-         /XpDDuedOueo4SYRLDZmgxNiyAC2cFYN6N3NsM0J84mItYZzGoVZIIJ9AGQo/DJEzzWU
-         DIBxgKoYc6cVgWlrf39dsbPgcqk6FS2UEzPH8Y09TxGF0QlpQwYiWHXxeLBI8JWn0DoC
-         0PLg==
+        d=gmail.com; s=20230601; t=1755572485; x=1756177285; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UJI3ZAK11NgguXE2fOYjbQz/OCmgh5JmGWFmHEPsM9M=;
+        b=jBpHk4LF6/xALlZjrG5iqH8gpQ3abGvUEQ7TZHtXJx4Vofps4bHZroJs+x/AMOBhvw
+         tammbjHDKGrVhnUdKmZnaom7n6c+43rEKhYj9ycVFe5yAiCEEAe4tBipGsumNdbFEJrj
+         JHTML3PAx4nmTuoLs7hJxWaaBPavGLIEGO5jhELyWbCz+lkTW48fc/AULGcdwhC8FKYx
+         t62CqC3GNHudGTGWFqv7h6SJIRG/URvz3BQqyAElHtIcKrU3BLjqcbevNPtCU/LqW2Xi
+         g3hPStP4ZZkNtt/zHa2xFxTMt2zUAmfgSlmpSNTwp8LfoEBfTLHWF9awy/eAPLiQssGU
+         +cow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755571951; x=1756176751;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gkCzBsvlP6/Ffz6cOOw96jrDeHTlV8A8u/fp/nqqvhc=;
-        b=BeK9iYJih+LHnZcr+WAz0iemhG1fnv5YhI71Xo21JHAdKdU1mRzbb74GdOr3G+q/0s
-         vsWXdMdhzb2TuOJXdDZ2MrwUV2v7Sp+g6kf+hmArqR2BBxa7SonamDq0x2IGl9Aae/YA
-         VZ8DGm1zj2Rp5kM/0SLM7SQQfhlkJs5WY8MEmYlLdEMbWl09pRZ5egPh7qbkeKRRA9Im
-         hs4bx6Isb8DQ3u1GuuV4CndQ4GEGdXASHu05StGFqSHyyI2SHE8DN4U8BpZ/U4HFf7PD
-         EvEJReriKrRRjzCF2R9nXONc+84Z9ekwOSC0nIpiNWuzgjuzxJVP8P6b9opb8Bu9mSqU
-         b9zQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVqSBinErWCH2RGLHthozyGNDhx9yjJlfPJX/H7tGHc2coB9htvTBE8X7F6KN7mURkv5uax2J3xcdH1O8WdAtjmdRFiGw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyIFvWcQ+YUb3f9+I9CFeKxjsdZsdqw46SS2Sql7vw++V9rc5rh
-	e8lYHF+HqkxP0BUa3Msl4QZNkCYXgq7pE3o6QF6an48IqjnvJ8I97st7
-X-Gm-Gg: ASbGncvGfYLP83i8E2AagFnItR2bi02bgijBg09SMEc3l4ENhsRKlGm7ofO9+3iZsV7
-	HHHcG75qbCgcgtVMNaV5KGeENhR3QElD7aEiClFw/pLXZBhrhG3xSh4RSipFs4j+s6acdh3fQqJ
-	ImvFirc3SD43QpRxQUm1wwxfbXP8/hHJ74qLcU05AOu3E4qVEbBqEorL3xlO720PJ3ZOJGwLpoj
-	ercLye2ZVkL8Cws3V8Z4nnGGszbN8x3dvIzAgLbWwz3SHgnWBb0F4/5BY1UiRBr99tvnxg/jrDa
-	0YVJpuXAhR7zdLEw1thSm+RrMfB1Ep9B/JVzGGTeb0SpSBLiAELA+uN1kNnqpGi8pg9hG/F/zYn
-	sZnaKqDyn43fawUhFmpfbo+yT
-X-Google-Smtp-Source: AGHT+IFyQEfl1JPJPxf0BZz+v6ihfWCb5OyV0lLUdFcv0lT0Fbn28LslaGE9gKAirHH4EXO//Ee0AA==
-X-Received: by 2002:a17:90b:2fc3:b0:31f:2bd7:a4d2 with SMTP id 98e67ed59e1d1-32476abd39dmr1551147a91.35.1755571951020;
-        Mon, 18 Aug 2025 19:52:31 -0700 (PDT)
-Received: from linux ([223.185.134.58])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3237e3ecc64sm1315532a91.15.2025.08.18.19.52.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 19:52:30 -0700 (PDT)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: wim@linux-watchdog.org
-Cc: linux@roeck-us.net,
-	corbet@lwn.net,
-	linux-watchdog@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	I Viswanath <viswanathiyyappan@gmail.com>
-Subject: [PATCH] watchdog: cpwd: Clarify wd*_timeout parameters
-Date: Tue, 19 Aug 2025 08:21:10 +0530
-Message-ID: <20250819025159.6292-2-viswanathiyyappan@gmail.com>
+        d=1e100.net; s=20230601; t=1755572485; x=1756177285;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UJI3ZAK11NgguXE2fOYjbQz/OCmgh5JmGWFmHEPsM9M=;
+        b=qL0TsxNosf4zuagNIhk8z6ZLHcb0IynAMKclZObuM1SLPw6LBEtiOhFLmXEr2Gtbbf
+         MVQtiDPGGF/BqHNl0NP2iDmY2bKp46RhOO4GMJGeGkSKS6VgY6h1rnhm2B0wauCzcQS8
+         GYIe7R2Sqqo9oEj/pwjZMIAIjaqz3oPjFoxfG8MimQAl+LDLjCcL6QqFQ73e/L/CxKQV
+         NngdRLHXu32XE7VMAVKnNau1URMCRJsyToGghC6GY0hcesZobV8cohW+B1WERPPztQGa
+         fzJA9IwwizjIZfD6F2KjrGI9/yUfWewPBQBBwm7N1zWBIojblVIFEI+Axl92yluHb2kP
+         rPEg==
+X-Forwarded-Encrypted: i=1; AJvYcCV1UwIBCKq8D5zFICTKAscqMLp2gO0MsXImDeSVnY3NsCSB13Kr5psA1BTEuXQ1Gz6n/ILndWZihmIcO5CxEr6+blkdFA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyDlDJjns7blaqRgeYTOZp+d//Bkz3zO/WejnNFKbKeAffoEsAg
+	8xJZWCvsCae8u1iJl/aEahQ+9fzw0KSHjgxqncyZFton1Wwa6VxhViCz
+X-Gm-Gg: ASbGncuOPXftn0k1IHNdjTdTS2XeZjt5S6na3PSk8b1EhHO2Vc17/sVcz1ndPM3A5uz
+	9YZSmBW/pMdcGxFi0wbuCOpjKJEyEkXAIbKEGPqt4am5AAmrykmcELeoTpnyzIu36Yy4vcWhsH0
+	KqLiXHWFbgZGO1FvnpKWLcNhuPBhJ9iPtDW9uUq1uIDN/uYM7mxHpAxk/KSIKAqDjGR/8g1EXNw
+	NSwBQoWKqIYx9CROd62B3iwXGSGVYpRrHcOWQuW+4JBYG6KixywkYk+xrMXh285or77BH2Objwr
+	SjWh6YFjhD26EqWnHEnXb+aoIo3PvMjKh7Vp6bcAX+aMs9QMNdlIwE+cfTU/BKO3e0bQX3vcVdc
+	r5EbcAPhYlc7hKHhUL2JRAMXTgO/OywZ1Ti8YaVil2q5Qsm4Ms1U=
+X-Google-Smtp-Source: AGHT+IGLpgy5TvyasZFI/Vtx4TN6UNximlO3d90vg7k7nAu1nnDWi5zDUi8y2Lx8PkZXhWjYVJxK+A==
+X-Received: by 2002:a05:6a21:6d81:b0:23d:9cca:e710 with SMTP id adf61e73a8af0-2430d492bd2mr1133064637.44.1755572484615;
+        Mon, 18 Aug 2025 20:01:24 -0700 (PDT)
+Received: from localhost ([192.19.38.250])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-76e7d0d3990sm1021214b3a.10.2025.08.18.20.01.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Aug 2025 20:01:23 -0700 (PDT)
+From: Xing Guo <higuoxing@gmail.com>
+To: linux-kselftest@vger.kernel.org
+Cc: shuah@kernel.org,
+	jhubbard@nvidia.com,
+	amir73il@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Xing Guo <higuoxing@gmail.com>
+Subject: [PATCH] selftests/fs/mount-notify: Fix typo memebers -> members
+Date: Tue, 19 Aug 2025 11:01:12 +0800
+Message-ID: <20250819030112.1136441-1-higuoxing@gmail.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250819025159.6292-1-viswanathiyyappan@gmail.com>
-References: <20250819025159.6292-1-viswanathiyyappan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -81,54 +93,40 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Reword "in 1/10secs" to "in units of 100 ms" in MODULE_PARAM_DESC
-and the corresponding documentation to avoid misinterpretation of
-the fractional notation.
+I reviewed these 2 tests and found there's a typo.
 
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
+Signed-off-by: Xing Guo <higuoxing@gmail.com>
 ---
- Documentation/watchdog/watchdog-parameters.rst | 6 +++---
- drivers/watchdog/cpwd.c                        | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ .../selftests/filesystems/mount-notify/mount-notify_test.c      | 2 +-
+ .../selftests/filesystems/mount-notify/mount-notify_test_ns.c   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/watchdog/watchdog-parameters.rst b/Documentation/watchdog/watchdog-parameters.rst
-index 0a0119edfa82..4257a59792de 100644
---- a/Documentation/watchdog/watchdog-parameters.rst
-+++ b/Documentation/watchdog/watchdog-parameters.rst
-@@ -122,11 +122,11 @@ coh901327_wdt:
- 
- cpwd:
-     wd0_timeout:
--	Default watchdog0 timeout in 1/10secs
-+	Default watchdog0 timeout in units of 100 ms
-     wd1_timeout:
--	Default watchdog1 timeout in 1/10secs
-+	Default watchdog1 timeout in units of 100 ms
-     wd2_timeout:
--	Default watchdog2 timeout in 1/10secs
-+	Default watchdog2 timeout in units of 100 ms
- 
- -------------------------------------------------
- 
-diff --git a/drivers/watchdog/cpwd.c b/drivers/watchdog/cpwd.c
-index 13a4d47e68cd..c0a5c6f274e0 100644
---- a/drivers/watchdog/cpwd.c
-+++ b/drivers/watchdog/cpwd.c
-@@ -163,11 +163,11 @@ static int wd1_timeout;
- static int wd2_timeout;
- 
- module_param(wd0_timeout, int, 0);
--MODULE_PARM_DESC(wd0_timeout, "Default watchdog0 timeout in 1/10secs");
-+MODULE_PARM_DESC(wd0_timeout, "Default watchdog0 timeout in units of 100 ms");
- module_param(wd1_timeout, int, 0);
--MODULE_PARM_DESC(wd1_timeout, "Default watchdog1 timeout in 1/10secs");
-+MODULE_PARM_DESC(wd1_timeout, "Default watchdog1 timeout in units of 100 ms");
- module_param(wd2_timeout, int, 0);
--MODULE_PARM_DESC(wd2_timeout, "Default watchdog2 timeout in 1/10secs");
-+MODULE_PARM_DESC(wd2_timeout, "Default watchdog2 timeout in units of 100 ms");
- 
- MODULE_AUTHOR("Eric Brower <ebrower@usa.net>");
- MODULE_DESCRIPTION("Hardware watchdog driver for Sun Microsystems CP1400/1500");
+diff --git a/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c b/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c
+index 63ce708d93ed..18147594d619 100644
+--- a/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c
++++ b/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c
+@@ -208,7 +208,7 @@ static void verify_mount_ids(struct __test_metadata *const _metadata,
+ 			}
+ 		}
+ 	}
+-	// Check that all list1 memebers can be found in list2. Together with
++	// Check that all list1 members can be found in list2. Together with
+ 	// the above it means that the list1 and list2 represent the same sets.
+ 	for (i = 0; i < num; i++) {
+ 		for (j = 0; j < num; j++) {
+diff --git a/tools/testing/selftests/filesystems/mount-notify/mount-notify_test_ns.c b/tools/testing/selftests/filesystems/mount-notify/mount-notify_test_ns.c
+index 090a5ca65004..67c05bbc5e45 100644
+--- a/tools/testing/selftests/filesystems/mount-notify/mount-notify_test_ns.c
++++ b/tools/testing/selftests/filesystems/mount-notify/mount-notify_test_ns.c
+@@ -236,7 +236,7 @@ static void verify_mount_ids(struct __test_metadata *const _metadata,
+ 			}
+ 		}
+ 	}
+-	// Check that all list1 memebers can be found in list2. Together with
++	// Check that all list1 members can be found in list2. Together with
+ 	// the above it means that the list1 and list2 represent the same sets.
+ 	for (i = 0; i < num; i++) {
+ 		for (j = 0; j < num; j++) {
 -- 
 2.50.1
 
