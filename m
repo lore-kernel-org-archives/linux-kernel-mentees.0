@@ -1,126 +1,83 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8DA2253A1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Aug 2025 22:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AE41401B
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 02:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755557712; cv=none; b=QUipMv556YntFFxvg4n5ytXg9C3s/mMPza60+gaRGGnWv+QKfw7c52dfTwqJ6gJkuP1Tl6I7GGkAU7i01gk5h6k3/KC1bpRmPJpknbKT9WXQy+1XB7N4iAQF6J+PLZzzWsZanHhvp3FTjr2OVRVBGjB0zeWsEh0YB0MLpJSb7aw=
+	t=1755571948; cv=none; b=aQ20sYjVgqN2p/6I0mA1rCDRlj8miDLij7vAy8ZJrSbSxFvO002lf7E88T9qwzgIs/EigZ/KQqMpRqvBg28K1cEm1Un96Lu2KdssMejwjIxhBi2q9wE0uD976bFzT/qjNy9QnyY+4kfPs1vsIQkSrSpX61FWMMgcDMPGSOw9jVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755557712; c=relaxed/simple;
-	bh=yABuPzITeNVArb4vGkjBSmYeAjILd0FjDQGDML0bCBA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PTL0omJjaxbUTefnqQZj+KwoBlc/b/vr6WsKQHm//A92uZgYMUELrIpAjjrmqRiCq77IYX/dQK3fuTGTo5kVzfosd4nZnaXfQMdkPy2QP+dat3NUA+PjJGpsXE1xGFOmvCSyZorwN345PP1zS9z8EYZMiixXuSNSapFF3BkbVOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L2K6aKqS; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1755571948; c=relaxed/simple;
+	bh=8TCDh9v9syqCZtg556uYdrY6e+WV9Cbbz9FZAISmjwU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a7s29PvdSGc/0MF0WJi9vFqAine5T4ezLXJy26IgpcAYjVYbniwj61B5OBSdAMsLSNCLIGCmVBg0ZmhI6mtrT/tZHhx4NEfHL0g1fQIbVG1WhaCIUjQLfCITC3JRSSTJP8l/wbWRIuA6eG9hVFHQCKNHtdika9SH0pv1oekVdq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l+Bd+dEm; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L2K6aKqS"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id EC9D7606C8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Aug 2025 22:55:09 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -8.092
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id K65Q_7VTXZD9 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 18 Aug 2025 22:55:09 +0000 (UTC)
-X-Greylist: delayed 427 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 18 Aug 2025 22:55:08 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 286BC606C5
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 286BC606C5
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L2K6aKqS
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=192.198.163.16; helo=mgamail.intel.com; envelope-from=dave.jiang@intel.com; receiver=<UNKNOWN> 
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 286BC606C5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Aug 2025 22:55:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755557709; x=1787093709;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=yABuPzITeNVArb4vGkjBSmYeAjILd0FjDQGDML0bCBA=;
-  b=L2K6aKqS3Rvj+q1sfXvbsEJ2qjBEpYfN/YMs7t1JERjcAOPoSeIqb0mb
-   vdz+uhCJ5aRdHW+AqJthZT09QT5gSSo7OicWAuh+vP4NlAdx/wXdOE5yg
-   aUQYnkjWh1G7MGVh+eF3bgYONotYLMA1xgBN0VcosVRCvNyjLv1SsMZ/n
-   tWxA7LOV27vx1OJ86OlRpfNLV+A81AfM5Zoae7Dhl3R4f5Y9PBg5j9z8Z
-   EUKFhD566E1UTtwdnI+R7ga6ULM9f9sYh8iqiSuTD+prJc7MPWT3dm1TJ
-   trrsTEIbTSKtqvmjdOx1fQpWRu2qGI0C33NkKcZHUfUQV4MjrqZlrcAAy
-   Q==;
-X-CSE-ConnectionGUID: wFOjLSyXSfex+/grBHeutA==
-X-CSE-MsgGUID: 5Id1jsLkR0a0Jw6kgYhYEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="45366596"
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="45366596"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 15:48:01 -0700
-X-CSE-ConnectionGUID: xARAHPI0S+eJ+dA8HckXWw==
-X-CSE-MsgGUID: nc/jVO4VT8mF78OAKfgplA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="198550778"
-Received: from bvivekan-mobl2.gar.corp.intel.com (HELO [10.247.119.196]) ([10.247.119.196])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 15:47:54 -0700
-Message-ID: <1232c1c6-5bea-4378-b3ee-041b75a87b94@intel.com>
-Date: Mon, 18 Aug 2025 15:47:49 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l+Bd+dEm"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-32326e5f058so3461300a91.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 18 Aug 2025 19:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755571947; x=1756176747; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CH2KwpNP3L6st9s8ZTQdVOKVVct0EtCDxjQxgfg+SPE=;
+        b=l+Bd+dEmehYcxGTp/rBSoLsO0wFOgT8n7A+a++FwKsKz5AMS1vWMInrvOAlLfYEaH6
+         lu7RNiiMosSBpuXM7z5Bx/07pS7YdW0/rEaIqlbhVF4HVH/Tpm05INzaywqGla+fgu0p
+         4RvHfNq5INCMEXPH+CqmWJALq/R5LsyStoReI+7EbbDt22Ko6fsjhxszRKF2uivvMWQz
+         ZiL/s9tqfiEh/OS4Sk4DTiYZ5Ts3OK/GPNRs/opHyQupbbCLRg4ZhU1JFcI9c0Mg6HUl
+         Ja0rA6iJRVR3fUi89Cuz2J7n1fZz6tSsh3ePMPCqFcZXfs16KD+b6/QFF3CuLHN+DGGB
+         LGRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755571947; x=1756176747;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CH2KwpNP3L6st9s8ZTQdVOKVVct0EtCDxjQxgfg+SPE=;
+        b=S86+GRabNBHd7aCf7CX5dUk7rlhrXBcxgIDuzgcI0NG7TGCPbi4V1+c2hk54bhdY4q
+         3Q4n+7Y8mq1Zuw8xI6uRefuDIeFc0Bxl4mtYRXqc9E7sORPNv917nGquJi6a5B2Txjrp
+         1W1npBRNjk8t+ZnQpGqhvjbB4tCmtoVoibSXVXl3wGe6JXW5rKX+ac488W/+afjOVh8K
+         Y9y4e4lAER5BD5spIFy8gqZmHylnewZ7XM4J3J+oSDpqw7kr++lXgLwbIxVr3r94UFJ7
+         ITNRDhJXcMDpl0HdH/HwhMf1m+AR3DCAfnFlwodwCxIPNGfrvWxrrmbnOyoL4BfrZ1CO
+         gWnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW9o7OdfOE+g8vy2Dw3aLYo4f7LT1SUB90isvlYkcSs38NepVGbJ7b2VKVvkXsZmoZgNb3poAUE/DLaD8VIV+y/2KfbSQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxPw+W9ABiRHd5y1PxaSm+PMVVAJCSadUjlOOhvrlMaZMbSwgYL
+	YSVmyLc0lCzQGnXIZrxFO2TkL4SKflthhwWI22eJwMR8yZBQeq+ixweT
+X-Gm-Gg: ASbGncs1LQ/ySRHcd/OV8wxTAByk31zOcFEmnH9rmixKd31c5e0hPHH4enrD+z+mcsL
+	eZYqIYuOcdwjkvRAQYoeChEAjsCg01ge8yuf/l9shBSHuvRhNEAdz5Pc6/3lIRRYp9WhXWTTdeo
+	1EzJi1Koz71mfccTfDL6GZz0gwjpUFViuhBhJtO7Ukkdc0PqGld+vfFzjsAKH+cj+WmmSrrFDIh
+	88lMBqkvB6tLQxfrP2GPR0xMZRxm0suG+4+vnJwA97EQ5y54eeE5sfTc1O54+KH0mOh67m08dUL
+	YLyDCIZ0qCARmqKVZDbquQgf6Nr3GFxZGJUPxcAFJ1kgQv5tluc+h3lbXwA4Me9Ekm3IV4ntmc5
+	zOXv/P+2rWRLYkXwbr3lBkNc9Uv9oi9r5aVE=
+X-Google-Smtp-Source: AGHT+IEhwZCEHI+dkYJ3BI51GnhpHUygOZNkzScZtnkzkKJms0O4e0OOM2+qIMxChVoyeIS4mD36Fw==
+X-Received: by 2002:a17:90b:1d85:b0:31f:12f:ffaa with SMTP id 98e67ed59e1d1-32476a4a2c2mr1561335a91.6.1755571946518;
+        Mon, 18 Aug 2025 19:52:26 -0700 (PDT)
+Received: from linux ([223.185.134.58])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3237e3ecc64sm1315532a91.15.2025.08.18.19.52.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Aug 2025 19:52:25 -0700 (PDT)
+From: I Viswanath <viswanathiyyappan@gmail.com>
+To: wim@linux-watchdog.org
+Cc: linux@roeck-us.net,
+	corbet@lwn.net,
+	linux-watchdog@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: watchdog: cpwd: Clarify wd*_timeout parameters 
+Date: Tue, 19 Aug 2025 08:21:09 +0530
+Message-ID: <20250819025159.6292-1-viswanathiyyappan@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Documentation/driver-api: Fix typo error in cxl
-To: Rakuram Eswaran <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org
-Cc: dan.j.williams@intel.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
- vishal.l.verma@intel.com, ira.weiny@intel.com, linux-cxl@vger.kernel.org,
- alison.schofield@intel.com, gourry@gourry.net, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org, corbet@lwn.net
-References: <20250818175335.5312-1-rakuram.e96@gmail.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20250818175335.5312-1-rakuram.e96@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-
-
-On 8/18/25 10:53 AM, Rakuram Eswaran wrote:
-> Fixed the following typo errors
-> 
-> intersparsed ==> interspersed
-> in Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> 
-> ---
-> Changelog:
-> 
-> Changes since v2:
-> - Fixed Signed-off-by line to include fullname
->   (feedback from Jonathan Corbet)
-> 
-> Changes since v1:
-> - Dropped fix for page-allocator.rst as requested by Gregory
-> 
-> Suggested-by: Gregory Price <gourry@gourry.net> 
-> Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
-
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> ---
->  Documentation/driver-api/cxl/platform/bios-and-efi.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> index 645322632cc9..a9aa0ccd92af 100644
-> --- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> +++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> @@ -202,7 +202,7 @@ future and such a configuration should be avoided.
->  
->  Memory Holes
->  ------------
-> -If your platform includes memory holes intersparsed between your CXL memory, it
-> +If your platform includes memory holes interspersed between your CXL memory, it
->  is recommended to utilize multiple decoders to cover these regions of memory,
->  rather than try to program the decoders to accept the entire range and expect
->  Linux to manage the overlap.
+Hello,
+  
+        It's easy to misread "timeout in 1/10s" as "timeout in either units
+of 1 sec or 10 secs". This change should clear that up.
 
