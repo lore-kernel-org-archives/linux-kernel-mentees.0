@@ -1,55 +1,82 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14305304972
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 17:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D352304BC3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 17:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755624187; cv=none; b=W2ptq9TrhgwYpjwuDsLo7KYSWzeAsiMRNxGX7HjfIi89lu0iqqLCk4mRUvmC5iShUPcqn/DeK7bQvitx6DeZC/KTMHh3AL4e7lWphz9aqEsg7KlcdZAxNNXfZSLNzIBsXfOJzoKqY1i+pEZQYcLcyBbLnQHU1NVa/Lhs4XBihnY=
+	t=1755624890; cv=none; b=SVxvb2Va+NEQYTKAEqYCIRoCPOKRCk+h9sTxaX6bAaFu3cs7Fcc2ld/D+P0NAAmgjbLFP3KH6T4pCiCVbQYozYahxUA3faHc6hzQhnNkmNr4wAMOc+sgFc9noRAqmsSJ5FGgT0eg5Zahevm/8ZZK85/ATEfuucMUlmsiUbTqOXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755624187; c=relaxed/simple;
-	bh=cRnlfBfryZOg+T9IodurvKY+BZYRtILfqxWOhVyDt3c=;
+	s=arc-20240116; t=1755624890; c=relaxed/simple;
+	bh=bwY4RqvIUVjti8nFxW11inLOnUPd+lLxl6GuRe6CLck=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AtleYmhl+hSFs8r3Y6KqhaZsOsm+SHUx9LpVJ60rWOWmepDKz6GOWilQ9QHtrHuPykl48Tz84BqK1EUjgS5YdlijSFlxOVm5bZSv5LmC0tRe4TpBZxR1W/MWa/CAaoj/xtbeBRw0AxYBhdkProdluVa7eJkdZEQIb11IlCS8sag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Yp6OtxJR; arc=none smtp.client-ip=140.211.166.136
+	 In-Reply-To:Content-Type; b=j2G7v0GNrDOJhH8GxPqOIcKDUofWwu9kmWzqu7CkZr8Yw1flAdP4WO5piFURE7qEDb5BVriyFvaXeM6nyDbs5n713wU4zNh0KHmWJ3KZ8oHc6QJlWfr4AgrAYwZ01QW4T9e9v3Y/u2kMRSzG23ojw4JcsHh02dDQGTIuDUwDNE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b+JXBmQM; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Yp6OtxJR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b+JXBmQM"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id C34CC6088E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 17:23:05 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id D24C640CFD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 17:34:48 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.398
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id rzMMFjzQS9jz for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 19 Aug 2025 17:23:05 +0000 (UTC)
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2607:7c80:54:3::133; helo=bombadil.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 38D0560093
-Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=infradead.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 38D0560093
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Yp6OtxJR
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 38D0560093
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 17:23:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=CiOHD0EjdMzyYUYSfL6pDjJNdoKu6vKXHv5cwpcNzRE=; b=Yp6OtxJRdTBVvs8Vr8ogKUSzFt
-	0bM/opI+D3C8sMkopX1HjOUwIJl52DLXqORkJIk1qxvyBQOMVJDrOQm9tlW/4cnrcm5FoboYe6Cyw
-	MZ8xubsu1UIwxYr290Of1esjwTJG7pDqrNsPlXStJ0+lBHYAxI13Z1Rkd0mkW5ADMRqByWgt87EQs
-	QjgLqOX+8qLdr15m5XQ1xu0QSbcw5AhND2JMqoilz4QXd3hJnHX/D/vAxSUjSlv47SawoMMjNOnrp
-	hyv/DT5HHCbQUelWfiPri/F/GZQdlfNXFnimzmM598PAqv1kDbos6yF6g6gkJOKUf6tCApBCgR1VD
-	pMJnSndA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoQ35-0000000B60W-1fG9;
-	Tue, 19 Aug 2025 17:23:03 +0000
-Message-ID: <ac123979-109e-46df-93f5-4dff9648f38f@infradead.org>
-Date: Tue, 19 Aug 2025 10:23:02 -0700
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id NPOI8UudOh9Y for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 19 Aug 2025 17:34:48 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::329; helo=mail-wm1-x329.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 0735340933
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0735340933
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=b+JXBmQM
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 0735340933
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 17:34:47 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-45a1b0056cfso8262855e9.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Aug 2025 10:34:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755624886; x=1756229686; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rS2Vjoh44icWptyNurpvy4S1A6LcVdl5tDdwEsptosA=;
+        b=b+JXBmQMyOMMg/kh7YBgkprSGNMhpTyu6hETeHS3k1AAhrc9dXMspx3qwNTJQOdAfq
+         ADDkIRNnJKZXX2GK8+J/BQ0v5nCiwBfLHIyRq3tCVEfHwVokS40dntYNa1wjR/zBNGdO
+         Q0uc8YnszHOz+cTNMRZzKPJwrLx854LMsx3fTUNvqqUsEtm17El037JSIXl2DdvIdk2i
+         daehEUQLz18VQxhmh+YsnIHS0wWrPV+9yl7q6sB6+VMpRuLpk4AzDJMw16cGdVDx5ffO
+         khWkoLvTn7jpUfsVSssAXMnhaQEZITnXTJXau2mUy0pSuK+xiChy8qCMsNinBb4h6GxH
+         lOQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755624886; x=1756229686;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rS2Vjoh44icWptyNurpvy4S1A6LcVdl5tDdwEsptosA=;
+        b=rtc6nvSlkbhBXiEeU+Sik6WSYjxqU53ReUGVR0HSL5MXYypOk1mzNE85xcIZ2b/Aki
+         YPHutSkuKhAUgZb+mB+9rdQERDrQoKThAIAtWBQh3FFZla4WHEaUhEFEPYOD0u8eXNJ9
+         E9riFCqB1CozvN2Db+IDhZFhvOedTdMprLL3JrzHoLW2M2jv1l3oLR05poezLVQoZAyf
+         hOyos/60uEZ2hxp1Pm31sHskgW7Kc1Ud3QX7TT3rCF4GNw+Hvl6GYTuLexoGu81JtK6L
+         smPnacxs6Q7tW5aJ+w5JTyY9D4pJkq1EMuEIGZ/OMX2OriS8W/N1czlXwZAtRn6FLQRm
+         5Tcg==
+X-Gm-Message-State: AOJu0YygVhruOaMJxP9wvDHgjLP8kEdqKcXpo8lgCEyfKikhossx89Ww
+	bnSfCDJ5jUHqnSPvJxXDGRrwtkdOOU3P86Ot3QkLxR6IbwLdXRjVOOUt
+X-Gm-Gg: ASbGnctJaAPIHHpzVyc55JNl7gU5uGN2hHhqB8gZP++Fb3ZkDQb5YaACfVtvu0zgR21
+	NwdNTHskjGZqp854kfCHWZSGdN97WS8oV2oXNuCLxehxwvslxk23vCgqm+TjQQeShJZcYbLWbOX
+	UTj0JLQeYR6RMNd/HAFWW5UVNmjnfelsiVJvpJn7vTKrdJWiMiyXt5MQkVl0LNAwH/X3oqzEMKa
+	zFXUuovfkmYEjqECpQ10FwJwDeiooE4ex6MsWhd4qYftUL82CSWFZpxKHJweaojwyRhviGtnOMs
+	WqvXsO+HZv1ATSoG3HkKYwFCt/q2HZBDOmo2L1lIXpx6Tpc/ryUkEFZxBepixQOKfjUZpzccErB
+	srmZtqhQAKmWBhQgEM/oMpovhOG/Vh2ybkC3H7t+T
+X-Google-Smtp-Source: AGHT+IEEpKSOlOQ4ujkMr6cPIJn/Ad1HradS+o2SX4VhEmxA8lpfnAmVBIe+dKKN2qxJSFevTX6MXQ==
+X-Received: by 2002:a5d:64ec:0:b0:3b7:892c:41fc with SMTP id ffacd0b85a97d-3c0eca48b3dmr1039170f8f.9.1755624885649;
+        Tue, 19 Aug 2025 10:34:45 -0700 (PDT)
+Received: from [192.168.1.16] ([41.231.66.206])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c077788df7sm4514073f8f.48.2025.08.19.10.34.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Aug 2025 10:34:45 -0700 (PDT)
+Message-ID: <f5eafdfc-2ecd-4212-bb88-b93c34de7673@gmail.com>
+Date: Tue, 19 Aug 2025 18:34:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -57,52 +84,65 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/driver-api: Fix typo error in cxl
-To: Moktar SELLAMI <smokthar925@gmail.com>, linux-kernel@vger.kernel.org
-Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Gregory Price <gourry@gourry.net>, Alok Tiwari <alok.a.tiwari@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-References: <20250819084116.13108-1-smokthar925@gmail.com>
+Subject: Re: [PATCH] docs: Corrected typo in trace/events
+To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ skhan@linuxfoundation.org, linux-trace-kernel@vger.kernel.org,
+ mathieu.desnoyers@efficios.com, corbet@lwn.net
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, mhiramat@kernel.org,
+ rostedt@goodmis.org
+References: <20250819085040.974388-1-mehdi.benhadjkhelifa@gmail.com>
+ <d14df81f-989f-4467-aa0c-5c65009fd66d@infradead.org>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250819084116.13108-1-smokthar925@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <d14df81f-989f-4467-aa0c-5c65009fd66d@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 8/19/25 1:41 AM, Moktar SELLAMI wrote:
-> Fixed Typo in the driver-api/cxl/devices/devices.rst
+On 8/19/25 6:18 PM, Randy Dunlap wrote:
 > 
-> functionalty -> functionality
 > 
-> Signed-off-by: Moktar SELLAMI <smokthar925@gmail.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  Documentation/driver-api/cxl/devices/device-types.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On 8/19/25 1:49 AM, Mehdi Ben Hadj Khelifa wrote:
+>> -Changed 'Dyamically' to 'Dynamically' in trace/events.rst
+>>
+>> under sections 7.1 and 7.3
+>>
+>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
 > 
-> diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
-> index 923f5d89bc04..7f69dfa4509b 100644
-> --- a/Documentation/driver-api/cxl/devices/device-types.rst
-> +++ b/Documentation/driver-api/cxl/devices/device-types.rst
-> @@ -22,7 +22,7 @@ The basic interaction protocol, similar to PCIe configuration mechanisms.
->  Typically used for initialization, configuration, and I/O access for anything
->  other than memory (CXL.mem) or cache (CXL.cache) operations.
->  
-> -The Linux CXL driver exposes access to .io functionalty via the various sysfs
-> +The Linux CXL driver exposes access to .io functionality via the various sysfs
->  interfaces and /dev/cxl/ devices (which exposes direct access to device
->  mailboxes).
->  
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Thanks.
+> 
+>> ---
+>>   Documentation/trace/events.rst | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+>> index 2d88a2acacc0..18d112963dec 100644
+>> --- a/Documentation/trace/events.rst
+>> +++ b/Documentation/trace/events.rst
+>> @@ -629,8 +629,8 @@ following:
+>>     - tracing synthetic events from in-kernel code
+>>     - the low-level "dynevent_cmd" API
+>>   
+>> -7.1 Dyamically creating synthetic event definitions
+>> ----------------------------------------------------
+>> +7.1 Dynamically creating synthetic event definitions
+>> +----------------------------------------------------
+>>   
+>>   There are a couple ways to create a new synthetic event from a kernel
+>>   module or other kernel code.
+>> @@ -944,8 +944,8 @@ Note that synth_event_trace_end() must be called at the end regardless
+>>   of whether any of the add calls failed (say due to a bad field name
+>>   being passed in).
+>>   
+>> -7.3 Dyamically creating kprobe and kretprobe event definitions
+>> ---------------------------------------------------------------
+>> +7.3 Dynamically creating kprobe and kretprobe event definitions
+>> +---------------------------------------------------------------
+>>   
+>>   To create a kprobe or kretprobe trace event from kernel code, the
+>>   kprobe_event_gen_cmd_start() or kretprobe_event_gen_cmd_start()
+> 
 
--- 
-~Randy
+Thanks for the review Randy,
+appreciate your time.
