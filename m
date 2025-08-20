@@ -1,133 +1,133 @@
-Received: from flow-b4-smtp.messagingengine.com (flow-b4-smtp.messagingengine.com [202.12.124.139])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA5131DD8D
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 Aug 2025 13:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905BC1A9FAE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Aug 2025 13:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755696071; cv=none; b=mgHUx593iT8QXksCfotDvF0qlYPrK/k3u1NBtv+DLAp063VrmtvFdWTTL7izvvZKXK+Kg1JOjW1YHGWne2x2kDsU/rioqgOt1KiQMipJUX2ZUSJwyczY+PDiyD7/1Rl+CmLQh3E5mJ1tpMkgi8Ue3yNUy3XraLtwuf1mhfK8lFk=
+	t=1755697653; cv=none; b=qrAj/jFHZvgE9z0RmADzxdd8W7iPSDBw0EsjnFcwMaB3q83ZxYo6P5dHJJXVpIYNxoaaB7ofiDmq90SGgWfk8o5fhr98o8n+AwgGxZSYczostiY0WMslxaw/zliLhyYLpmXG4b5JBlpe7Puhsj35pGj05cy+rlGio5CiAQqwajA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755696071; c=relaxed/simple;
-	bh=XsGOUexS48UBQOOs/YAItiCIMtGhVhIMcpJQIr9hATU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tA06qKSHHOHB35AJM0YCEZ7BIivAlz8gfJyGRiHXXV+1cfdoV9i0NGEH8ucNAlRRsfAcZTcFVB1aNf5pQzSn2M3NjQ3RcTlyv6SxZkYXeLpfKnDedlZ0YFP6hZxmqfbZcapMuw/RRVku8KgA5G9hwwlSph+8hiuFkDnZ7xsRXrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com; spf=pass smtp.mailfrom=debanilchowdhury.com; dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b=ciWRj656; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RqcYhAWr; arc=none smtp.client-ip=202.12.124.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debanilchowdhury.com
+	s=arc-20240116; t=1755697653; c=relaxed/simple;
+	bh=qsn2kv1ghHVBAovnnwDg8QvK1e94HdrEO0p9T8nhxIo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LpR1DB4jl6rj/pGtiUamUcKBMR4xc7CpL4UvRmVGcxtH0oFarnlyz5FQhjZ+cB6LGyZG1bmS/0rzFb5xifn+vg+hUU0XKpPj1P1a9F4UzFmedIJ6V1ur2bPHGK2PPLMAWIK87ONp0jwjRRaiv7UFTbqnTXQ8xQq18CYqhmYwpUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hpOnz4RQ; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b="ciWRj656";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RqcYhAWr"
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailflow.stl.internal (Postfix) with ESMTP id 6F91E1300BA1;
-	Wed, 20 Aug 2025 09:21:07 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Wed, 20 Aug 2025 09:21:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	debanilchowdhury.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
-	 t=1755696067; x=1755699667; bh=nEImHcQLvkNTCdFF2RtXX95NV2iRh1V3
-	J2yvcVtfk74=; b=ciWRj656q5wiX4lnyxquvE56D6HFFEZxvfkLf4mPHt+ijgJN
-	Hx8RaXReL73dow2oljr1DsQby7Og6Yu5Ihex8EghsBYpr65qfI76uyZauHgEbq0K
-	1TNUpNHYiYZrxKhdBWrCSm37Ck0kDBgw/qKBT+vwymH7qLz/pYSj5XdCHCbVVY6L
-	0658WvOzIzl31plVzIY1Osi72cKjGfzUeI4w2XynHS/Sj7WnCidV2TIw+629btXK
-	mY7EbRLslbuk/KcsqLx4o/JlV6fXMH98pqS8ysOktZGDtp2vvZTXhqqj5tV8cyhI
-	xgb8JTLPRMmJAGQaTBkSWFDZ44UXm+2Uz0LtlA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1755696067; x=1755699667; bh=nEImHcQLvkNTCdFF2RtXX95NV2iR
-	h1V3J2yvcVtfk74=; b=RqcYhAWrQaCdXoeWDP6EJnvareF2jWFHDlGgseqOkBUR
-	HjFoVIoDus2utHLOEtUf+Y7d9Km2K1nsbImjPHL77TLPMRowyOUrojAhyLdslOs2
-	E1QqpUe958HOqVP5441NY9OKQyn3Behma4r5xqrrIC113tZi9Efjypf9DaMkR/sU
-	I7w5s9/Q4aanxllTCju7AzZ08Lq+kaSyLuhBH2WbZlILut/TyFqyKqedYvHkvH41
-	/uVXA5cTeXw9n78kHpgCGAwcC6kvcVLZ2fwfoCsVBGdvMaAxOcDt3lKE1+nwFgUn
-	sb6aNnlrql6lpcimwteeMfc/iRhsw7BAKLWtu0WXeA==
-X-ME-Sender: <xms:wsulaAH0vk_vJo1M2qtDeSPc3igywCTFuzdQ9eo0_fH6CUseFmiPjw>
-    <xme:wsulaB8OwUkVyz8TF0wLXf2vVyFVP0lH79cT83YZ7BB2IbMEjc66NwhNkgFsxxEq3
-    DiGWBwf25OQU8bmiv0>
-X-ME-Received: <xmr:wsulaBmwW7fBcKPzWe3wNvg1aMsJnOVde3f0E58G7UcsVbMUjIH9clMz88awdLXzI6KCc41X>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduheekgeejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtre
-    dtjeenucfhrhhomhepkhgvrhhnvghluggvvhesuggvsggrnhhilhgthhhofiguhhhurhih
-    rdgtohhmnecuggftrfgrthhtvghrnhepgefhleetiedthfelhfehtdevgfejtdeigfegte
-    fgfefhieffheekudevgeelkeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
-    pehmrghilhhfrhhomhepkhgvrhhnvghluggvvhesuggvsggrnhhilhgthhhofiguhhhurh
-    ihrdgtohhmpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtth
-    hopehjuggvlhhvrghrvgesshhushgvrdgtohhmpdhrtghpthhtoheplhhinhhugiesrhho
-    vggtkhdquhhsrdhnvghtpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtg
-    hpthhtohepnhhinhgrugeslhhinhhugidrihgsmhdrtghomhdprhgtphhtthhopehlihhn
-    uhigqdhhfihmohhnsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
-    hugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhig
-    qdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugidruggvvhdprhgtph
-    htthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:wsulaMCLF0eZsrnfi0qwk3-W9DxUZ_RiW0cB2oiHJ25xZ7Qvmp3CXg>
-    <xmx:wsulaKVrxn4by8ihI64CdoWc1OaGHn6ki7kQXR_u14tVZgZcwfk12Q>
-    <xmx:wsulaK9Mn1kPljByIwh0tQ7GFKaZ6cc7QjtU35EwPCUD6xjS6Jv_PA>
-    <xmx:wsulaMQdu-0itt_oaNGTUeUyRsl87GQp7GtlDLsM1oPasL02aOtBbw>
-    <xmx:w8ulaEZEjBugC0-U0GT8K1mOIzY4LG9R1SANBC6j34t-nG15ZqfSZRmc>
-Feedback-ID: i77364836:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 20 Aug 2025 09:21:03 -0400 (EDT)
-From: kerneldev@debanilchowdhury.com
-To: skhan@linuxfoundation.org,
-	jdelvare@suse.com,
-	linux@roeck-us.net,
-	corbet@lwn.net
-Cc: ninad@linux.ibm.com,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Debanil Chowdhury <kerneldev@debanilchowdhury.com>
-Subject: [PATCH] Fix typos in hwmon
-Date: Wed, 20 Aug 2025 18:48:08 +0530
-Message-ID: <20250820132033.11377-1-kerneldev@debanilchowdhury.com>
-X-Mailer: git-send-email 2.49.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hpOnz4RQ"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4D54682CE5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Aug 2025 13:47:32 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id avg7wa1O-yTq for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 20 Aug 2025 13:47:31 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::c33; helo=mail-oo1-xc33.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 77592817B5
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 77592817B5
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=hpOnz4RQ
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 77592817B5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Aug 2025 13:47:31 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id 006d021491bc7-61bc52fd7a4so534871eaf.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Aug 2025 06:47:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755697650; x=1756302450; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iOvHRjntmm1D7/22TeGyMO8ZQan/YXdnVVmnvJDz8zc=;
+        b=hpOnz4RQ53+4bTcI8UAjCJ2dWwnOX6V0DL+Wl8DD1metDHPCWFr+EMfkj1qtvTG5qU
+         oNO6TDmUaCLA8TPV2gh1GLPUyl3GsqHTiB2mzYJP2ldmrnkLtqvwN4Lq/4gXftlTZw1g
+         wSuwQAkxeS7+OFlt2xyplG6e0fveIFfpWvPv619bKB3S7FlUk+gba5bppgW/fM9kiu9G
+         VESWUmUtQj0ysuuTBJqTa9dCWdiXSZtzFiM8R4uaxKUXKeQlqxUSsx6ktUx0wGfTvCwx
+         4C8GNFq8DivINVn9EgFQXvyvB1u8WSoaCh0pVrcJEeub482An/uTRA7yvufvggVMer1f
+         3rNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755697650; x=1756302450;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iOvHRjntmm1D7/22TeGyMO8ZQan/YXdnVVmnvJDz8zc=;
+        b=U2pJ7iPw503RkZVANQ1bahNJPnyf87SXgG3Doih0mOnNN1fE0FotIxhT3Hn2GYfm+l
+         HGBmlUpYF3saXenYacwkQ4/ocK2tTEfMhvH9jZkr3dquM2hfifPlOYxR8ehxUnkqqd3B
+         9Ou2L0UIQlWcBKu26FtZ/CYztHTzUAbc12nXZmh7HR9CmuOJUIzCs3DDIuBYvrlvPWUe
+         /Wv1JN5bjmOk5kLRvGIc/ucEtdl0zVMj9ZQCn3/FM/xHfTM/OCS1ehe72R19UQ9LGS2v
+         9wLVo3J+IVFEM8zpwa0hnQVN8Z1AaXS9EVVXEHF5BlwZmisvn0/UG/JjWxQWCIMo2wMV
+         W3Zg==
+X-Forwarded-Encrypted: i=1; AJvYcCVbVvpe+26lrq9Hq47sMJwUuRA49QIIp7zEi90V/bnqOj0fegdK9Zw3Yz6EWb5Zg+KzhhwHQD2nunulpTLzxlRw7Q3JIQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzDR3DY5Cfpx6RHz/5v8SbEiDAZJ6eLz0V0qEHRtS0jgWGlxIam
+	VMQW8qPG4VAnvTn3s08PecouLIS8mXfWuWJjoqw1L0iAYQYOwT6zfKB/Ha9nL8ZRzy0vHFx6w8p
+	uJph++9zVGn7inOOAfbd3Qj3pW7OZ3o0=
+X-Gm-Gg: ASbGncte24wtGtVglCA8Xu11MocaHKA+6pbQI+rtded1OZw3at1KPo5mvsQQmKw7WsC
+	BXfrFyEiXi/w5m6FxUtuf3KLSTcF86PxjDQhYpmlxeJ5spW+a4+6DakemdKrm2oPJIgAahxp6SX
+	CbXu3MZVuDezj3kTKcw4js9tcIg+CEkDfHiedmX+0snUyiPlB6J64zFzZghA9WqlKhcv6vThjZR
+	SNVaaXSecBPMiqeYPmnKqAkO63lqw==
+X-Google-Smtp-Source: AGHT+IHY5jMSk37ELH/V37DB4hs/fv6+/bFk3IbJ92BPMYrnSvTb7C3CyJn7jc06TM0KCwnaXT3uh+OVtxVv1LaKsy4=
+X-Received: by 2002:a05:6808:22aa:b0:433:e8b7:14b6 with SMTP id
+ 5614622812f47-43771697dd1mr1901237b6e.7.1755697649974; Wed, 20 Aug 2025
+ 06:47:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250817155053.15856-1-marcelomoreira1905@gmail.com> <aKKvjVfm9IPw9UAg@infradead.org>
+In-Reply-To: <aKKvjVfm9IPw9UAg@infradead.org>
+From: Marcelo Moreira <marcelomoreira1905@gmail.com>
+Date: Wed, 20 Aug 2025 10:47:17 -0300
+X-Gm-Features: Ac12FXzaPx61N9NssKf12Th8UyxKpv6zTN6GDGr_PbpBgXIa4ObLTquUFAbJa-w
+Message-ID: <CAPZ3m_g+KcJt_wxBjdmvyW+FqXAcEfVDUuHkp8iZ6XiUZ+6x-w@mail.gmail.com>
+Subject: Re: [PATCH v2] xfs: Replace strncpy with memcpy
+To: Christoph Hellwig <hch@infradead.org>
+Cc: cem@kernel.org, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
+Em seg., 18 de ago. de 2025 =C3=A0s 01:43, Christoph Hellwig
+<hch@infradead.org> escreveu:
+>
+> On Sun, Aug 17, 2025 at 12:50:41PM -0300, Marcelo Moreira wrote:
+> > Following a suggestion from Dave and everyone who contributed to v1, th=
+is
+> > changes modernizes the code by aligning it with current kernel best pra=
+ctices.
+> > It improves code clarity and consistency, as strncpy is deprecated as e=
+xplained
+> > in Documentation/process/deprecated.rst. Furthermore, this change was t=
+ested
+> > by xfstests and as it was not an easy task I decided to document on my =
+blog
+> > the step by step of how I did it https://meritissimo1.com/blog/2-xfs-te=
+sts :).
+>
+> I tried to follow the link, but got a warning about a potential security
+> threat because firefox doesn't trust the SSL certificate.  But maybe you
+> can add what you wrote up to the xfstests README or a new file linked
+> from it to help everyone using it first time?
 
-Fixed some typos ("Critial" → "Critical") in hwmon documentation.
+Hmm, I've sent the same link to other people, and none of them
+reported any issues with the SSL certificate. In my case, I'm using
+Let's Encrypt. It could be an outdated certificate in your Firefox.
+Regarding sending it to the official xfstests README, it would be a
+good idea! If anyone here is involved in the xfstests project and
+thinks the post is good, I can send it to the official README :D
 
-Reported-by: codespell
-Signed-off-by: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
----
- Documentation/hwmon/crps.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> Either way this probably shouldn't be in this kernel commit log.
+>
+> The change itself looks good:
+>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-diff --git a/Documentation/hwmon/crps.rst b/Documentation/hwmon/crps.rst
-index 87380b496..d42ea59d2 100644
---- a/Documentation/hwmon/crps.rst
-+++ b/Documentation/hwmon/crps.rst
-@@ -43,7 +43,7 @@ curr1_label		"iin"
- curr1_input		Measured input current
- curr1_max		Maximum input current
- curr1_max_alarm		Input maximum current high alarm
--curr1_crit		Critial high input current
-+curr1_crit		Critical high input current
- curr1_crit_alarm	Input critical current high alarm
- curr1_rated_max		Maximum rated input current
- 
-@@ -51,7 +51,7 @@ curr2_label		"iout1"
- curr2_input		Measured output current
- curr2_max		Maximum output current
- curr2_max_alarm		Output maximum current high alarm
--curr2_crit		Critial high output current
-+curr2_crit		Critical high output current
- curr2_crit_alarm	Output critical current high alarm
- curr2_rated_max		Maximum rated output current
- 
--- 
-2.49.1
+Thanks :)
 
+--=20
+Cheers,
+Marcelo Moreira
