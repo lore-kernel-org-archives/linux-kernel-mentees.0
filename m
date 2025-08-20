@@ -1,117 +1,79 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CC22E0418
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Aug 2025 09:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755682858; cv=none; b=qio24zb8cMCWLhMX4HE0n99Fa0iY/1MnDnKNuSwAvkk7gtecjag/HoenyZr50FQHo5qkpLfjDyL4+4zqWE1xJb6qVQgKcnjbmrP4euL1M8RlhtUFqRsrbvK6wbFHKvlDyEWa06lrbAMTQBNqH2IgZeMm84RgVaqPB1F2KEgSHhM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755682858; c=relaxed/simple;
-	bh=xMPa+8Qn4mu18QhDnLh2TBRIN1AH7lNj6illVJiSw0s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D5kYzm5ZN93d4RU6gwJPI5tq1b//w+m5H0skpbqlYMypLH1F5EO0ktRiujadZJeBXIj3n4lKEw/XtymSQkHSCEjb8p5U4sFY833t0qE0GYKG+92uB8hOMvhSwotEXwotGJ349xOFVOXFJqzDxm7/IVzU5Di4zoJPeQbaiw1vzIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S78HYTth; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B18A2E2DC2;
+	Wed, 20 Aug 2025 10:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755686475; cv=pass; b=d19c42S2q4v+KWyaZogGJSq+k6yejx1Txr6T/2MXJtqYJGGYJCFYI6SwVHT15Nn0gelHMYdgmLGV77T0OYlw7BY4czgxjIFMrahvxhzA9Mi99qv+zt7cZNyCifk8+KOf7jcVaCQdBCThqEb1MAgWDByqshrEMvvNc2VV9i7uY1g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755686475; c=relaxed/simple;
+	bh=xPpBRwaQQGl/B024YCPt11Pwq77b3ButnwaiZ/ZvwZc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cy2PJVHmRDfFnYvUGr0i6h2O0xqkUtRf0MIwiJzA4aXibOZ/aHEHLrWlfDSl48brBA6SjodTCDlUw8nxZqvIP3qp6yNy99dKO+9uxk6TZt88IE/h+pjRE1Ih9EMwHMBc2ydkGFXabuEYSkyPwu6kF3y0K/XfUWZrtI3PERkYJUo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=K6eVh+nW; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S78HYTth"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id F101E4073F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Aug 2025 09:40:55 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id YnEw0flh1bV1 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Aug 2025 09:40:55 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::629; helo=mail-ej1-x629.google.com; envelope-from=kubik.bartlomiej@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 4E07E40613
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4E07E40613
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=S78HYTth
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 4E07E40613
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Aug 2025 09:40:55 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-afcb731ca8eso983018566b.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Aug 2025 02:40:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755682853; x=1756287653; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iaU4VZUJUriIOWDjZuxPqvHN376Nc6Yxil/qOWrIx5I=;
-        b=S78HYTthnhrbgtidxmcxBiM7T0SFtLzw4Kw6ae8Zu/raXfMVS1IckWtnhr9LFjzBgE
-         224M0RyF4W+Ru8Ugs1AAY85f/yE5RWWC/X5+WQAnctMsmtsb8gZrjxfJuqFXENurOvyG
-         3txVQHsmjyv7aLgAtotexKxf2IKJbESjxRDjcwBZfeYtUnpj3ZIhezytzw59CqUEM1Je
-         UlRGj0fDELfZmORjJ0hL1Jzd/t5EezRjoqsMcZL2EaPUtO4ol/Tz4n5JHdR1RBK0K9qR
-         bsSzQUaC6CY3x/pQquQ6Vcus+BXZwVLn148GGe6aGOMrb8gAIpgwvzZdUPqV5yf36yNn
-         gFCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755682853; x=1756287653;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iaU4VZUJUriIOWDjZuxPqvHN376Nc6Yxil/qOWrIx5I=;
-        b=BhHk2mKPbR+ALD6kORHApM17MKvXoT01t4d11Oe+YhGwzgwzx+yMrlStTH8+A56mPu
-         psNlZgirHLJ1UyB7naLuK88vnkVAmFUFOk0Zu6zOZRyi6vEjaeJbQNKeQGHAfDudCB6C
-         QDVoLQoVBAr938J29p0MbE4jzCOmYatBf96w5OBL749+YdGDqy164HEbU/5hGfxqVp8O
-         w2Bvtx9oQOHXnbCPB/ngf5JwFI7XGz0v00ToXr52BIMUm2LKwo5YQE+AySvHFz/f/cQP
-         aVYcbXRuvuAhVpU/sBvy1ncCk/OkwRzLf9TABMwGKallvtczWmWlFLRvW/SxjGKxuQpV
-         vPkA==
-X-Gm-Message-State: AOJu0Yw3haDTGmIQg8c7xHwWra8Hj163iuXZC+gO7JjdRm7oLZJVhM2k
-	lIUewoV7U3yn/P7XE19gPsa9LWQGE3WZIoQhjg9BoTVvntEl3hoeAhm/
-X-Gm-Gg: ASbGncuucFaICB6CupX9J6CGwdKYWCIJPXjGqVfpDNTRL7Jc7TpcqaQ1/2eHRUYlWy8
-	Y/D/4D19mSNJhFAAdBAdP952M44zunlJU3flXy1LW5yfODVfDQyHygro1kAAKl1n8ChzQhqUFqd
-	q1EJsbDc3oXW5+eSCHyo9HWl6FRmfVivokvmWVOpzZdLcb/9t6stcySK04oaHiZYx4Uv4oHcn9Y
-	ACxvRjJG2D741Qb7bHBVyuNnBK116o+2F+RX6ONkn/Qass0avJt2dHq8XEo4wEpzZp+C5kx9mLa
-	8qhFidaHcWK76ORdsvN+tC97Zet31rpdpS0DnjSt95FzIaDigih4Dje3GW36OqX82NALQ1oUjav
-	JVA910tqq1V//gA8+eflb5ArPQcBUNZ4Ak2xlnSeLlvb8B1q/v34FNtXW3k/vx6s3m7GvKNfrz8
-	FJkr8=
-X-Google-Smtp-Source: AGHT+IF+jHeg1blhzus397KbMO6fpg4RfqSldoscVcwuKg6PL2oN6QYbuUXPW8t4wlcCO5RFZ0LvkA==
-X-Received: by 2002:a17:907:1c91:b0:af9:6e4a:3b2c with SMTP id a640c23a62f3a-afdf0200d09mr189014966b.43.1755682853046;
-        Wed, 20 Aug 2025 02:40:53 -0700 (PDT)
-Received: from localhost.localdomain (user-46-112-72-61.play-internet.pl. [46.112.72.61])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded315e39sm147081466b.48.2025.08.20.02.40.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 02:40:52 -0700 (PDT)
-From: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-To: skhan@linuxfoundation.org,
-	linux-kselftest@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-Subject: [PATCH] selftests/ftrace: fix spelling mistake
-Date: Wed, 20 Aug 2025 11:40:48 +0200
-Message-Id: <20250820094048.140823-1-kubik.bartlomiej@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="K6eVh+nW"
+ARC-Seal: i=1; a=rsa-sha256; t=1755686466; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=mg8kez02dL0yr3cLTAPqma6DgrEOk7l3g5c8GTrBunmhbp+Vhg2BwIcFIcP1dtGLPleFnCS3w8STqhopvOlZjEmBDgz2mBFpjguvBb+IivVHJuRKpM0HCrsP+KprdEcEzM9ySOu/gYoEGLYVqrBR2CwnATyjyfy+RPQNszQIITA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1755686466; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=wYJMM9MtjnvFHsKajzTRCpet/Cte+2iHoWrfocRvt20=; 
+	b=DmtHs5TvlsH87TX4XTHU6SF8eQJAEGTpXshRE019PKAhN+2TlE1buiaVtlItHeRPJ2xOT7HfLRqWgjdj9gc3O5+2CIQ/hbyjD63zqFomfnj39nEntxL1Qf3qIsedjfaUKSuNsE1bTbLFnUiJ5XVmF7T0B2+HorDows428FzUgM0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755686466;
+	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=wYJMM9MtjnvFHsKajzTRCpet/Cte+2iHoWrfocRvt20=;
+	b=K6eVh+nW75B6Eo3fefA+ub1yyDhFJhhUgg8fCu2RJy/QRkQbVvyFCCr+UWzPhoci
+	UHBV2rZv8ts9jwCCahUFKN0OMVtzHGfGlajZ8uCM+1VmEyaPW50udTTZLn13qMwoi/3
+	mTswNnuGuHaodRfQgMAJV+gyEpIKTHhgDflqdKhw=
+Received: by mx.zohomail.com with SMTPS id 1755686464645877.8597452911921;
+	Wed, 20 Aug 2025 03:41:04 -0700 (PDT)
+Message-ID: <39b17698-a1ce-452d-ada5-5c3741e888b2@collabora.com>
+Date: Wed, 20 Aug 2025 13:41:01 +0300
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/virtio: clean up minor codestyle issues
+To: Athul Raj Kollareth <krathul3152@gmail.com>, airlied@redhat.com,
+ kraxel@redhat.com, gurchetansingh@chromium.org
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20250813062109.5326-1-krathul3152@gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250813062109.5326-1-krathul3152@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-Fix spelling mistake in return string.
+On 8/13/25 09:21, Athul Raj Kollareth wrote:
+> Fix codestyle warnings and errors generated by CHECKPATCH in virtio
+> source files.
+> 
+> Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_display.c |  3 +--
+>  drivers/gpu/drm/virtio/virtgpu_kms.c     | 20 ++++++++++----------
+>  drivers/gpu/drm/virtio/virtgpu_object.c  |  4 ++--
+>  drivers/gpu/drm/virtio/virtgpu_plane.c   |  2 +-
+>  drivers/gpu/drm/virtio/virtgpu_vq.c      |  2 ++
+>  5 files changed, 16 insertions(+), 15 deletions(-)
 
-Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
----
- .../selftests/ftrace/test.d/ftrace/func_traceonoff_triggers.tc  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to misc-next, thanks.
 
-diff --git a/tools/testing/selftests/ftrace/test.d/ftrace/func_traceonoff_triggers.tc b/tools/testing/selftests/ftrace/test.d/ftrace/func_traceonoff_triggers.tc
-index aee22289536b..d2a7da7bc87d 100644
---- a/tools/testing/selftests/ftrace/test.d/ftrace/func_traceonoff_triggers.tc
-+++ b/tools/testing/selftests/ftrace/test.d/ftrace/func_traceonoff_triggers.tc
-@@ -102,7 +102,7 @@ clear_trace
- 
- cnt=`cnt_trace`
- if [ $cnt -ne 0 ]; then
--    fail "Tracing is still happeing"
-+    fail "Tracing is still happening"
- fi
- 
- echo "!$func:traceoff" >> set_ftrace_filter
 -- 
-2.39.5
-
+Best regards,
+Dmitry
