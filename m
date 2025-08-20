@@ -1,75 +1,64 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C923203B5
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 Aug 2025 14:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D24338F2D;
+	Wed, 20 Aug 2025 15:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755701736; cv=none; b=h7PDdbpKvWYPlyiq1fd0TD/PCp5Eo5Kjt2BBJhsLXz7UQToJykBGtw10MYrS38/GtcEakWEFkMsXUzXt4O29vzg9QCMpj6gbFLDBrREHhyWpcF/BB/IDC8RQvpjfYf530XwX+fZjhPBNr8y3tV+pzWQRVURbCPl7GcU1+PG4G8U=
+	t=1755702418; cv=none; b=rLJ+RrrCZzs6gphaVasKufN5QnKKhRkBNDbArZ7xlM/qjTBnritp7GqjsdT3b16d7ayO05dkmTRxeX+/LYo2je/eupUQbHenelfzj+HLrrPcKsNtPRq/GWf75avrLlXaswVDVzC1GvmCMV9Fb0iB9gsWJXVrKYHVLSd1zeK7eFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755701736; c=relaxed/simple;
-	bh=FqdPPHWyb5z7Q8PiNBhfYnPb8hAOhJOZpHcwbgKE7Cc=;
+	s=arc-20240116; t=1755702418; c=relaxed/simple;
+	bh=l8NLF1lhQ9QsOYxcGmVmRIxtmN2oRyQvwPzcqOC8N3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TulB7k5NpVNElzxKYmUmwfBL4ALe2fTqQB73FkSMYU9sI8SCFV+Yrj88r8SZSExilou7WcLlZwblJx7YxgoECbkVZDY7cwr+22jtlNW74+wtgJk1F45n3WXM3kSPvCYBus9dbFHYWhvSqn4MiTDCcBXlNSHaFDaMv972IuTmSJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bo71WtFp; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=XVWOOcpJaLeN+Zz5J6ND00a0zmvl4KOq7EEkcCjKA+hfmKupGBZYxn/UXPrzv2EERTNBI4HFhwdbWeUPWPE6tRk8sE48snY489rrYOd5FCnICo3O8J66UqgOVWutv22D+ANTgDgbYs+YcVUV5eAybFVC7hcGNPftiVGia3vV2zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHGps4hO; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bo71WtFp"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-321cfa7ad29so854905a91.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 Aug 2025 07:55:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755701734; x=1756306534; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o0V2bDIBX6RG9O1tv9XNytM5AkMScDjTGK8YhSMkxjM=;
-        b=Bo71WtFpBR1nK6a59jXaWEjc4iXYGOTZMAJqGJxAjPR7slYIiLmxjxmDxILD/hDdbB
-         nk1vAAho15dEQyQKS//kZehctI+5WUvd/swJD+7vKFfeMEKSLp8A9FqBdVwT9cUQvekv
-         V033+MiZyeHYhUn7R7xAa7eqfcmyFI8TP8l8RLP8TkU4a9ffadb0FmMtjpJ59Klp6KSV
-         idLtrBJS0/CrDwoizQH82/9BODKl63IgCkRcOv4/YZ1ncRQ1MjmMVg+BHW8k2qOe2ZsV
-         Uq/C8zsP73m932KVa1tVR5d0Py7AXOo+Gvei/DXo4GfZ7iRikXHoixZDK/97Vm6KOqKL
-         8YDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755701734; x=1756306534;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o0V2bDIBX6RG9O1tv9XNytM5AkMScDjTGK8YhSMkxjM=;
-        b=kPpn0ULoVUUwGF4uJgT7qhM5W2Xm06pqYzg5xs05BP7AE/Eq7MYJVmsGczZ57yA+TB
-         jKrklgd2mUjdGHCWlXvLOOyXzCUDtzymnO/3Cu0ToFr7zGGpukvzLkdRgYg+GFkCTiGW
-         8P25zsDd0pdtnoUxNGAou8LYmRVgieh/y378jqD8W432+28TnIXLVUEZ53K/1GXQ+nuP
-         auM/3Jfe/Sy8S2PI61aqdQypq0a0bXBb7T0U9l6ZiitRLL9Xb654x8UMxfZuWvk+YzDg
-         NCX4YM9JwN+u69ELZDLmMO+tig6mGcWhdoAWIcxkq0ApGKSN8SloS/PwGIAs/wsA/2uG
-         PgcA==
-X-Forwarded-Encrypted: i=1; AJvYcCXeFXgd43+SQkc/3Kxuu8nqqaeJOpEH48aXXYCSHISAauL5EorEhlalBU+izundlBfJzwQK6rkfG22Y0Key58fcD8froQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxHsL3h7ZUPp0Rq3cTIQN+Ue/qYCWSg5G0DtjAP3SvpEPP7L1Ji
-	6iOEokcQnZSVfUZHm0W/ghRKQDis1sTmxWOdM8myg6ThF3lswBX+TgWE
-X-Gm-Gg: ASbGnctK5lG62uLkgwwNrj5aRO9Fh8oeOlOPTf8W+52jIZO3WIPVXGsnTY0ACk4sh93
-	7oCdw9HCn6d/b/Ze32KqZmyWa/UVKPPlV1DI3opaTOolKRVOcPpILCSMPNoaiXqMdhtt9L8bRyl
-	9RlD8bECK6a8H5NVdfsVRuLt4Hv/eI5h8bXscfQMUeZyCx6ZqR+JI3tYkuvoY1FcvwmMjJBaDcU
-	De39VGPf4vNo8kpcJ5zVQ4ZoQE4SiV++6F+oizqG85GNqT2QEFdfdrKanvYqf+7y09A7XwQzYaR
-	sAMyu16eGnfVildDwnrYjbZJzsACU/l48uTxZZFog3VJlpQRQwMphExwxJ/ZjFV87zT2F8AX9fg
-	zQhL2+weItWWLmyuwXg==
-X-Google-Smtp-Source: AGHT+IGmg/Cdj77TohGjYD8IlyALQCYhp/tkC4enDj7ZH8cBGpX8QTjsNTkyqiMmliHyuGe6n21pIw==
-X-Received: by 2002:a17:90b:1810:b0:31f:252:e765 with SMTP id 98e67ed59e1d1-324e1086f4bmr4174755a91.6.1755701734365;
-        Wed, 20 Aug 2025 07:55:34 -0700 (PDT)
-Received: from Terra ([2001:df0:b240:b5e:abe3:8cfd:3fd8:5d8e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e8f20c7dbsm2403650b3a.68.2025.08.20.07.55.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 07:55:33 -0700 (PDT)
-Date: Wed, 20 Aug 2025 20:25:27 +0530
-From: Athul Raj Kollareth <krathul3152@gmail.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: tzimmermann@suse.de, airlied@gmail.com, dri-devel@lists.freedesktop.org,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	simona@ffwll.ch, skhan@linuxfoundation.org, krathul3152@gmail.com
-Subject: Re: [PATCH v3] drm: Replace the deprecated DRM_* logging macros in
- gem helper files
-Message-ID: <aKXh31C9LGZBgu7Y@Terra>
-References: <90f79bba-bee6-47ea-9881-9ae37eae42e0@intel.com>
- <20250819121517.46998-2-krathul3152@gmail.com>
- <a5d58430-1ae7-4b7e-8275-dad09a5c8cae@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHGps4hO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755702417; x=1787238417;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l8NLF1lhQ9QsOYxcGmVmRIxtmN2oRyQvwPzcqOC8N3c=;
+  b=JHGps4hOTC/FIMTJBOL8luYVzkv4tMfPCWwvK84ADda2zeFgh2HWS604
+   Wis45+ZmRqC3FiV4KutRnrsSGmZl1l0PAdlL8vTLrXdPTYorfnOV1UQhM
+   mGK6Ot3xhRP235GfThAUggBLRU5Z+SJmpPofI6r1+TmzXAh1O76DvPNeu
+   lJo6fMGu1s/gZVPnzYIaBVtkb+yuGaMBW/4yOKd16GXTz4qIP3i4prrV9
+   JPgNTpkrdn2oeHrBbANdd2x0ZiKlYvDoh33Y0eCcd6Lmyyote/nItpxNk
+   jXKkH8w0klJvCPuWANaoX3d2RcSf9mmDIeX5G7Lcz32hds8rDfc7aiM9j
+   Q==;
+X-CSE-ConnectionGUID: D/gb/iR2Szi20Nfwkf7Mgw==
+X-CSE-MsgGUID: yjEqJG6nTlSycPIJwL1yiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="83394594"
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
+   d="scan'208";a="83394594"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 08:06:56 -0700
+X-CSE-ConnectionGUID: tstZB47DSwW4KIkXKjGxfQ==
+X-CSE-MsgGUID: 5CJJ42bcRGO5Fmg0n7GiIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
+   d="scan'208";a="168506052"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 08:06:53 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uokOp-00000006y11-00LH;
+	Wed, 20 Aug 2025 18:06:51 +0300
+Date: Wed, 20 Aug 2025 18:06:50 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	andy@kernel.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org, dan.carpenter@linaro.org
+Subject: Re: [PATCH] staging: media: atomisp: return early on
+ hmm_bo_device_init() failure
+Message-ID: <aKXkimJkYrHUCbz1@smile.fi.intel.com>
+References: <20250815173755.33254-1-abdelrahmanfekry375@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -78,107 +67,20 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a5d58430-1ae7-4b7e-8275-dad09a5c8cae@intel.com>
+In-Reply-To: <20250815173755.33254-1-abdelrahmanfekry375@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Aug 19, 2025 at 10:14:30PM +0200, Michal Wajdeczko wrote:
+On Fri, Aug 15, 2025 at 08:37:55PM +0300, Abdelrahman Fekry wrote:
+> hmm_init() would continue execution even if hmm_bo_device_init() failed,
+> potentially leading to bad behaviour when calling hmm_alloc().
 > 
-> 
-> On 8/19/2025 2:11 PM, Athul Raj Kollareth wrote:
-> > Replace the DRM_* logging macros used in gem helper files with the appropriate
-> > ones specified in /include/drm/drm_print.h.
-> > 
-> > Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
-> > ---
-> > Changes in v3:
-> >     - Revert all changes to drm_gem_objects_lookup()
-> >     - Use drm_device as suggested in [1]. 
-> > Changes in v2:
-> >     - Change drm_gem_objects_lookup() to take a drm_device* argument.
-> >     - Make appropriate changes to all calls of drm_gem_objects_lookup().
-> > 
-> > [1]
-> > https://lore.kernel.org/dri-devel/90f79bba-bee6-47ea-9881-9ae37eae42e0@intel.com
-> > ---
-> >  drivers/gpu/drm/drm_gem.c            | 10 +++++++---
-> >  drivers/gpu/drm/drm_gem_dma_helper.c |  2 +-
-> >  2 files changed, 8 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> > index 4a89b6acb6af..fbea8c50f17c 100644
-> > --- a/drivers/gpu/drm/drm_gem.c
-> > +++ b/drivers/gpu/drm/drm_gem.c
-> > @@ -102,7 +102,7 @@ drm_gem_init(struct drm_device *dev)
-> >  	vma_offset_manager = drmm_kzalloc(dev, sizeof(*vma_offset_manager),
-> >  					  GFP_KERNEL);
-> >  	if (!vma_offset_manager) {
-> > -		DRM_ERROR("out of memory\n");
-> > +		drm_err(dev, "out of memory\n");
-> 
-> IIRC we shouldn't additionally report OOM errors as there will be
-> already lot of messages when we hit this
->
+> - returns the error immediately if hmm_bo_device_init() fails.
 
-Okay, then I will remove it.
+Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-> >  		return -ENOMEM;
-> >  	}
-> >  
-> > @@ -787,6 +787,8 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
-> >  	u32 *handles;
-> >  	struct drm_gem_object **objs;
-> >  
-> 
-> remove extra line and please run checkpatch.pl as it should catch that
-> 
-> also consider declaring variables in reverse-xmas-tree order
-> 
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Got it, thanks, I'll keep that in mind.
 
-Best regards,
-Athul
-
-> > +	struct drm_device *dev = filp->minor->dev;
-> > +
-> >  	if (!count)
-> >  		return 0;
-> >  
-> > @@ -805,7 +807,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
-> >  
-> >  	if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
-> >  		ret = -EFAULT;
-> > -		DRM_DEBUG("Failed to copy in GEM handles\n");
-> > +		drm_dbg_core(dev, "Failed to copy in GEM handles\n");
-> >  		goto out;
-> >  	}
-> >  
-> > @@ -856,9 +858,11 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
-> >  	long ret;
-> >  	struct drm_gem_object *obj;
-> >  
-> 
-> ditto
-> 
-> > +	struct drm_device *dev = filep->minor->dev;
-> > +
-> >  	obj = drm_gem_object_lookup(filep, handle);
-> >  	if (!obj) {
-> > -		DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
-> > +		drm_dbg_core(dev, "Failed to look up GEM BO %d\n", handle);
-> >  		return -EINVAL;
-> >  	}
-> >  
-> > diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
-> > index 4f0320df858f..a507cf517015 100644
-> > --- a/drivers/gpu/drm/drm_gem_dma_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-> > @@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct drm_device *dev,
-> >  
-> >  	ret = dma_buf_vmap_unlocked(attach->dmabuf, &map);
-> >  	if (ret) {
-> > -		DRM_ERROR("Failed to vmap PRIME buffer\n");
-> > +		drm_err(dev, "Failed to vmap PRIME buffer\n");
-> >  		return ERR_PTR(ret);
-> >  	}
-> >  
-> 
