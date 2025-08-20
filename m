@@ -1,78 +1,82 @@
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31ABE21A420
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 23:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD11C194A45;
+	Wed, 20 Aug 2025 01:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755645475; cv=none; b=inYsdYBapNvyy/vOw5BonNnaLLXAwczlni3lh8kL7LiE7hMcZK/TZ9QMbzXclWGU2S+0kbl3nwqn2/szirhSolb9TYR5nSbOHRcKxJwhL1yI14cK9wIHyFydp1H9yBUHpiw/NnPgCbrJ8NwReU+nnYZGYGDmXiDA9rcAyd1+maY=
+	t=1755652834; cv=none; b=oRmPWgXnB0z/9obKifgXzXixp9J8Ki2oGwVHfFzEeHXbqM1EenHRKDHO1/MWN2d6y+SmiAOMd2FnFDPu8r2w8QFfoI2R6v5ZkZstrFELIwbErzfpYGOf77nJsAuHw/v0Lp3/XNAync3+f01yF5r8asJJLqLgDh26BR78W00AaYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755645475; c=relaxed/simple;
-	bh=BEFMMJJ0rmVvqMlOtSG/+gcSpKk66CfUpwXM3s1F0+Y=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Content-Type; b=rU6fPrWTHLfylXqFBQXh4OkVL/gNPKEvUiCeKz91f3SkUCz/L+/Tfkw3xl+NAdC9KqDnp1arVjVkx71QqzXjzK8scGO6Eg4z98MQRK1mJwIOvzoZgruwIyr9s7Kh7KBIlcA4eGYjWj/n1zpCP+SLBKWpFrCvK1IEEeq7lmNwHX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xh8sPoyV; arc=none smtp.client-ip=209.85.215.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1755652834; c=relaxed/simple;
+	bh=svWzG9sF031XyKJb72JtwTqDoEzVn7DJp417oOQkgMc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KHkIXPQs5SFy/IZuH+zmk6Wq6zDa+aOBL+2/ACeiUpg3vmJuioCNsZe2/IUIU4M7LBqTbBf65a5WLtMPwWfhXgdfY/q/FRRfXv6xMIwL+5n8BlaeP1n1ylExC9z+n/aUl1LZTfdiQVtc29MProoGol0Mm23yIJ29Nb1wifBokaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tYqB962O; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xh8sPoyV"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-b471737c5efso4347957a12.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 16:17:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755645473; x=1756250273; darn=lists.linux.dev;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t+ifjF8mD9xzXePhpXhqLi79YRMtBg4Kg4g+cEUygkk=;
-        b=xh8sPoyVosCJA5JW9/XoPh63rX+1KUU+rdlNHcbykH8+6OT/xHNzb3Vqf95rLQG6ZU
-         5zfUYPn8TC9rtyU91PIOiORuR2yXxLJqc/F+a8w/6ehT1Yj8rHKDGorT4bt/gyd2YXFU
-         NvJwSet0tMwQQee1t9l8sC810E26XYcwLDDRvt9jnbLcmROxMBLxa/TTkob80u0TEr3v
-         ykT2fP5TzGDZDd0m+3/iDgLWx4u1iSTYp2nw/Gvjllt+aYpwPGDftPMk0F6ghFJgzNQh
-         4SP8fq7N7vOntGo5U3WVRgzBlie2Egk4b9A3dfZxvslvLZVB5W6EYKtZvAripwT00CAK
-         QYoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755645473; x=1756250273;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t+ifjF8mD9xzXePhpXhqLi79YRMtBg4Kg4g+cEUygkk=;
-        b=ExzpOViXu0neVvm/XI8i+Z4LD3VbvB2KX9aKaH8DnxyjapuY9kkQ3q6IRjGoD3s+Sq
-         syxGpdUkmp25l0uCgSRG74YTd8uWj3XyLVmq84KWhJKhs/5UA5jPsGQ00nzPZTTw/Hp3
-         YtOEDp7GC7A/Tj4Ta8MXh3fNW8dIAQXLRIcTfHWEt1NhtOBjl8aS2Az9Ay1hGuQKPpJ4
-         o3Z/dMLcmS+jZ8ILQ0gs2QBg7gBojygCD4WHFF3Vr0Y1o4uyA6LQyXX7GSZzBnOF1QrZ
-         1W8oTyTSam1CXB+ao3dwo5c5H98gLAJfMOen1Bn8vXTQ+1DNfawnrcRSSVyJ2tZ1P6sj
-         7z7A==
-X-Forwarded-Encrypted: i=1; AJvYcCXs1DC171G8h3tKQIVoieHEqaOmVBrnffUfVaYK/LMY+/SLnuWf2qcceyVajMuj3DrFOPZurmTVXGHQNd1VdkJTwzAPSg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXPvmP0/WKcNOVz8pOyNopuTRE5g3nKusJzLxX9rFyDMykoF4A
-	Y4xWNl0NNJC0maseL8iNdF3qL44yC5bTV2Ng1AuoIKe2031W88Kb06NFN9Hog+xjodu5wIky2K8
-	6zM5fEw==
-X-Google-Smtp-Source: AGHT+IFvMlBEr4QcftEvOq0CESzrjU92tZFHouboZCOFaS7KnVtT99WqBzABoD8gdtrTIG0Prg4TAswQhKg=
-X-Received: from plgi6.prod.google.com ([2002:a17:902:cf06:b0:242:86ec:7de6])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:f64d:b0:243:e3:a4e5
- with SMTP id d9443c01a7336-245ef2854a0mr9040215ad.48.1755645473564; Tue, 19
- Aug 2025 16:17:53 -0700 (PDT)
-Date: Tue, 19 Aug 2025 16:12:15 -0700
-In-Reply-To: <20250813154751.5725-1-krishnagopi487@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tYqB962O"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=tuR6rPmIqpc8DdqsUiEd4fLkPe8oIAaXR6ncnw2kdj4=; b=tYqB962O0mDQXwvZLSAplvyIMi
+	ZNTlcMg22fy1nCKIlFOGM6hrrAyqM3Wp2/0WfSYjjmGACI8SR3dmGkkMFhbEsPqK1Zhb+PVGoPgHf
+	5eUexB9ePTVZfR2MhnqxM/vkCQ2lEtJz4RawtpFMrIn1DTgUaa0lPQy6NSTtFkgnwUgy2HUKV+X3Q
+	ShxAytFT3gT+eT4jCYuvrkFJE2piSjlqg3sB85B7VqjmV26U8Cxcx1H10HOV2KUJROwDkQhJ4FXIM
+	7hbmhxUuPzphBghtmnvcy7MuYTQFyg/XL04YIRS5mRVcUXQC4rOVJ7hSDW6uZ4GU/M5FMnHBT5LLF
+	uAIYhf4Q==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uoXVA-0000000C4bD-1ZDo;
+	Wed, 20 Aug 2025 01:20:32 +0000
+Message-ID: <bc5d5208-4dd1-4eaf-9c4a-76020ec3c959@infradead.org>
+Date: Tue, 19 Aug 2025 18:20:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20250813153838.5470-1-krishnagopi487@gmail.com> <20250813154751.5725-1-krishnagopi487@gmail.com>
-X-Mailer: git-send-email 2.51.0.rc1.167.g924127e9c0-goog
-Message-ID: <175564447415.3064536.3688180000329336085.b4-ty@google.com>
-Subject: Re: [PATCH] KVM: selftests: fix minor typo in cpumodel_subfuncs
-From: Sean Christopherson <seanjc@google.com>
-To: Sean Christopherson <seanjc@google.com>, linux-kernel-mentees@lists.linux.dev, 
-	borntraeger@linux.ibm.com, Gopi Krishna Menon <krishnagopi487@gmail.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Fix typo in RAID arrays documentation
+To: Vivek Alurkar <primalkenja@gmail.com>, corbet@lwn.net
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+References: <20250819225034.8739-2-primalkenja@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250819225034.8739-2-primalkenja@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 13 Aug 2025 21:17:51 +0530, Gopi Krishna Menon wrote:
-> Specifically, fix spelling of "available" in main function.
+Hi,
 
-Applied to kvm-x86 selftests, thanks!
+On 8/19/25 3:50 PM, Vivek Alurkar wrote:
+> Changed "write-throuth" to "write-through".
+> 
+> Signed-off-by: Vivek Alurkar <primalkenja@gmail.com>
+> ---
+>  Documentation/admin-guide/md.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/md.rst b/Documentation/admin-guide/md.rst
+> index 4ff2cc291d18..8b9866cacb87 100644
+> --- a/Documentation/admin-guide/md.rst
+> +++ b/Documentation/admin-guide/md.rst
+> @@ -758,7 +758,7 @@ These currently include:
+>  
+>    journal_mode (currently raid5 only)
+>        The cache mode for raid5. raid5 could include an extra disk for
+> -      caching. The mode can be "write-throuth" and "write-back". The
 
-[1/1] KVM: selftests: fix minor typo in cpumodel_subfuncs
-      https://github.com/kvm-x86/linux/commit/05f297c3e39f
+preferably:                                        or
 
---
-https://github.com/kvm-x86/linux/tree/next
+> +      caching. The mode can be "write-through" and "write-back". The
+>        default is "write-through".
+>  
+>    ppl_write_hint
+thanks.
+-- 
+~Randy
+
