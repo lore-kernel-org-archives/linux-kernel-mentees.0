@@ -1,122 +1,111 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D4A53A7
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 Aug 2025 02:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AD21FC0F3
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 Aug 2025 02:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755657038; cv=none; b=fwMU4KWjR/Iiq7fph7MZn8lGIhKTWYYbb/pYszZKtR/a4EoKKc9pJmCyLwYxhMzxnwrzBqCStd3pxijFP7WGglI8du6RdtdA1Q8RkY7oKEN0ilE1ntIK/7lCja7WJCs5ylTC0zoHHVC2CfyBQO1ZRvjeOpS8OV6vgCcNvftMMZ8=
+	t=1755657767; cv=none; b=eyVHInoK1YunBRVFZrQQE6yh/ZcGrwqXlKzgF71EGZDyQwewqAJeh6fPj1E6b2fWuUCTwSk0fleFAY3tEYwGzCazbcfKjYiCAni5iva+svVXZIjfEfLk4sljD3VOwJBzeKgeN+ogKOqoC2k0Viphi0kI1mMM0cL9TcpAjdX/MuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755657038; c=relaxed/simple;
-	bh=dnPR+j+/0vH+fSk8M+SdilglPAKMc5DUN83yjz++SlY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rbxr/e049R5i7ynydSYbqM2gHA3RCpiFjzzKDr1NgMo2Pire0967WxVhAKiVE2mbJm9D+0KRkUTub6kMVmcoLvZNYtrelFJg9sQ9onLxsE/BlGB4qtm6upQkD0z4DoPN/PjgsjYUnIZ7D4QI9d+m9F8AV4MgInyXR6nPpaBrGGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hGL7fD+n; arc=none smtp.client-ip=209.85.215.181
+	s=arc-20240116; t=1755657767; c=relaxed/simple;
+	bh=Q9s/1H9E6hoHtXrUZrrI8CwFU/UfqaIGHJwn3EhCeRI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hhFeBIdMvoNG2sZoPLmgotZLikgDDSdJoePsc8+yN/+1M84eMLhjtbWXbkl5wpgJdVuMkeTXSH/VXHoM7OpwG4XDeub3N1ZItQoX8HBp1b/XmhY6ueRL7vO4vR/dM8RLUlar2eMJGAHb9Dk5aFjV614DCfo+QueXdivzYu4JcZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DBMHV5tF; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hGL7fD+n"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b4756244423so965896a12.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 19:30:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DBMHV5tF"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-32326bd4f4dso459598a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 19 Aug 2025 19:42:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755657037; x=1756261837; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WBLspprFztDG6+Qc7Fdl3/57LW5xmP9NJiJ32and0f0=;
-        b=hGL7fD+n1arBP0KsjLQUoDKsKQDr8etlJPWzkCG8KGgWihpVhVAiZl6oHFQ3hCc25u
-         YR0SQJjVqNEpLJ5MgegIEjFhzR2gA9DUQwCkTXdf/WcSXP8AzXr1olQQmEV094ByMlfG
-         aU1xR/UY3i/JdHq6POTEhAo1A5mijlGMxecmMeYEu0tWnNd7gmDeKnWlbUB43VzRmNBy
-         QyY9vRI2dHTL7LRFkaVHHsJ++tQClDjvKBAX78amDhKTRbgrRcCMMFJic9pFRmZm6cHv
-         K6acqsdycJ2NCyMIkKSWukZsgaTfJFZiWgNmSS3Y/2cdCpWWG67D1yAIebtgdwYWMwfX
-         NKhw==
+        d=gmail.com; s=20230601; t=1755657765; x=1756262565; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WgJSS4DuXeTEsBeU+yFhVC/r47vWoeem+y9c2tQdA+0=;
+        b=DBMHV5tFAn3JPd34LwgrCNKvAzDJ05X+Np/CKxNHyW2XU5GaISfoHp8dItbEKNSFT/
+         7l3VYhc6fLxt1rCq1isSoJqtw375gn1CbvSV7pqCwUspRu+Tnr+Cmxi4sdlT0lJfLGyO
+         a80ghkaPFDglSYi+idNlkXYqw8xofgj6A7W8ow9otxbmmY8GbsYizKbuV733Js1ZL0l/
+         pYM2omk6uLrzq/ldXG7z0BIGq4IsaEXI4nI1abyTtegz7Svk/b7/X26IAcii46PVRkqf
+         QW9b0vaELoVnRXLOXz7lszc7ef7BMyBRjR7MF9p/a6F1Pg+4qecykrNrHeJY3MjtUUo8
+         tAmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755657037; x=1756261837;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1755657765; x=1756262565;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WBLspprFztDG6+Qc7Fdl3/57LW5xmP9NJiJ32and0f0=;
-        b=ZIRnka1dNYOGoLQJaDn/FDM/mmFCHqG4djoenk7STSXHmU0zPx75bHuWLxeYp4AIqQ
-         u7DUNJpdHVPd3FJ8WTZw/9xe0g5nzGdXlyJ/oNIjwjhjJUWtd96le3uWDR+OR8ysVF5F
-         tu3URKCeCXtrF3VpOzRMvXPm/mAuPHZ1ondWh+FdIMLhAnScbyo3r3CLEBAGNK+PPVCJ
-         JU4szY8qprIdM2rdVNqAO/hyBLESzEesYMBnQG+bBRUvRt5yqL5n/4h0XFPhYYJqpYOy
-         iIwAzhY1R0X/yR+25PS34iQMiqDFPFK5j4He2vPGJ5BrCY57DmlnkP9QUZGa8eDuKXVA
-         dJ6w==
-X-Forwarded-Encrypted: i=1; AJvYcCWWHPG1rx8mRTgXs412C5P6bTY+1bGNuc88CP01KVtJfk0OduGFol41hZfFPZ5wALJBHZK9861JJNBA58o98NcXvARGYg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyguqRR71MjTF0iPYlnStgF6CxlAOzJmKfFWvN+T59nVeNQp8DG
-	5invv3P+UwSE/vhDmysyx0dNRYmwY3zFJlWrf3669s59HwnP1Gz30bOA
-X-Gm-Gg: ASbGncsFZSKrb0IkukcnhUUIugn+iAhyuVfd0EGEOzIKJcIsA6aA9gQORvhePrJ1P6a
-	/xEbKYk2kZQU1nC+borf0OIK7Lp9lFcKAc7FBupHZSmoMLwQjnCKSwsoU10G9piN6OpXmMjnT1q
-	NfgSS82YIeOB5tdNN+WEFFBcILi5xb/xVwz7yg1cQvEi9SWr8XofRypaxsgz+Aq0FSv1kwlMyjX
-	+6xGH2SzcuTWHN5xU52XeZW9sNykSjkqooZbZzF0VFGaTjQQKS0V4caPqrMY32ZdYhBlkCqwtuH
-	VkrdcUnnyxcoPQ9BGu/vjauV7UoCyje9+LZ6dJJZN8B/uc9k31+jpY0aidWNaMr0XbQm2hJL3vO
-	s9oivgf3zkwSjeAipv36D
-X-Google-Smtp-Source: AGHT+IGLN6/IE/ONxayhxMru/n5hlswUbEMiZ+nUf3HnpdaEUno4s7c46v0prUlmyY7rIbErGmDIYQ==
-X-Received: by 2002:a17:902:e74a:b0:240:96a:b812 with SMTP id d9443c01a7336-245ef1728ddmr16515215ad.24.1755657036687;
-        Tue, 19 Aug 2025 19:30:36 -0700 (PDT)
-Received: from localhost ([159.117.70.219])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-245ed514ec6sm10616305ad.136.2025.08.19.19.30.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Aug 2025 19:30:36 -0700 (PDT)
-From: Nai-Chen Cheng <bleach1827@gmail.com>
-Date: Wed, 20 Aug 2025 10:30:31 +0800
-Subject: [PATCH] drm/display: remove dead code in
- drm_edp_backlight_probe_state
+        bh=WgJSS4DuXeTEsBeU+yFhVC/r47vWoeem+y9c2tQdA+0=;
+        b=qxnLVWnTlNF0RTsGwTTTMkHLHjXVOMJEROWjIpTLqRz4pkPUP9Z6zvRUcP3b+Y5toF
+         e27hc34QEy2Vcp1MPJNzUBLMjkgzWhKf8q80fTtfzwXCMlyggCrVEqmSsdV9Qvl+xGL4
+         st/HRsxNrPyqic2xOvBvj2ulwhX/pBanyTbcvw6e8lvCCMOmDEtH/z6Qqb4QLgwCMsVe
+         M8GqSmPhTetGbA1rFNltZXlknEg/KiScMuykM9Wdn6inbwKdepOsFQaPiVO1cgfiOO0b
+         1IQbE01mgo2v0nWiq9qhdGf8OP93iISrRkqC5mqFc0n7zGN6nKQapVuytI78sYMUNcDW
+         XyGA==
+X-Forwarded-Encrypted: i=1; AJvYcCUNaQt9hLe9PvuOkaFfqR9ULELjB2gZmUBNmWSEExuNyhRdi1iCkGEM4Iv7BUZgRbgCZavbAQA9K1/lZimdJI4KZ0j/MQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxmN2nevby1QvKrRoUDrPkT7xG7XiUmo39hL5Vjl8yx4goDQfY0
+	EZQSpxHeOMvvp+pLlxSO3VoNw4+4SQr91xqJ7HKS8G6FRaAl0MaE5ooM
+X-Gm-Gg: ASbGnctzHXUaLti/3eluBobgfFaRYvLRWRGLuuXV52+acTqlVyWMc32dNoWwQfJfj+u
+	6hrNihYD4siDKqqSQka9sOMEdnuY6AYR87wbg08+F9HNYyknqlb4ZDfLF32CaVxnLvs7BhVUEKT
+	yEYOA8phsJdnmR89tbKw1qXtlewUShMBkjHHWfGJxe2498LECopo4bCia1OU0Hq9SjrpLimhHe9
+	jWg2XM3lUH+xnnqYXpzxWy70G3Aiz+gpq72CDinUCvi4AcU7ubupnWRLN800aKnnlvePwf95YqA
+	XBNGyWUgD6pqxdHzeA/uLPBUAgsK77xK5K2vBY09nhrFLAzZf6hUYUFWYC0ozPKbGIoOylU5eVQ
+	IZPNCf5i7lCWEYTWUyXU/BGoNkQ==
+X-Google-Smtp-Source: AGHT+IHu+mQHQ9OUyB35MccefpKNmsfscyVloV5sAuGFK47KF7BEC+h9dbNGAQ+zFcZsPSySEL2IBA==
+X-Received: by 2002:a17:90b:582b:b0:321:cd7a:8377 with SMTP id 98e67ed59e1d1-324d32d5c1amr5373995a91.0.1755657765261;
+        Tue, 19 Aug 2025 19:42:45 -0700 (PDT)
+Received: from linux ([223.185.135.101])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-324e258cb88sm639075a91.28.2025.08.19.19.42.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 19:42:44 -0700 (PDT)
+From: I Viswanath <viswanathiyyappan@gmail.com>
+To: shuah@kernel.org
+Cc: linux-kselftest@vger.kernel.org,
+	anna-maria@linutronix.de,
+	frederic@kernel.org,
+	tglx@linutronix.de,
+	jstultz@google.com,
+	sboyd@kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	I Viswanath <viswanathiyyappan@gmail.com>
+Subject: [PATCH] selftests/timers: Improve POSIX timer test messages
+Date: Wed, 20 Aug 2025 08:12:27 +0530
+Message-ID: <20250820024227.11183-1-viswanathiyyappan@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250820-drm-dp-helper-logically-dead-code-2-v1-1-34421f4a7442@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAEYzpWgC/x3NQQrCMBBG4auUWTsQo4HoVcRFzPy2A7EJExCl9
- O4Gl9/mvY06TNHpOm1keGvXug4cDxPlJa0zWGWYvPPBRe9Y7MXSeEFpMC511pxK+bIgCecqYM9
- nH3MMJ8HjEmiUmuGpn//ldt/3H6bCSpR1AAAA
-X-Change-ID: 20250820-drm-dp-helper-logically-dead-code-2-428c853deb95
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-kernel-mentees@lists.linux.dev, Nai-Chen Cheng <bleach1827@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755657032; l=1205;
- i=bleach1827@gmail.com; s=20250730; h=from:subject:message-id;
- bh=dnPR+j+/0vH+fSk8M+SdilglPAKMc5DUN83yjz++SlY=;
- b=sSnGAQmYvuBlMPlBySv7ODjuBt6ADkJzz4dI6N5kWwoGXBf2MRiq6DHDh8HSSqloPQoJsporV
- KXBaR0fekm1BPmnuY9u9HoZE25em87dxI1rfV2XgoiXI65mtKmJhra/
-X-Developer-Key: i=bleach1827@gmail.com; a=ed25519;
- pk=jahFPRplw20Aaim8fIt8SxlFMqkHbJ+s8zYBGbtHH5g=
+Content-Transfer-Encoding: 8bit
 
-In the error path where ret < 0, the ternary operator "ret < 0 ? ret :
--EIO" will always evaluate to ret since ret is guaranteed to be
-negative. Simplify by directly returning ret.
+- Break up the ksft_print_msg statements to follow the 80 char rule.
+- Capitalize "POSIX" and rephrase messages for better readability.
+- Clarify that false negatives may occur in tests relying on timers
+  if other threads run on the CPU.
 
-Found by Coverity(CID 1649044).
-
-Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
+Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
 ---
- drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/testing/selftests/timers/posix_timers.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index 1ecc3df7e3167d13636e194c4aab44ee8979aa11..654d466183d5ccdefcb4029dc4efc199f3b7b6ff 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -4227,7 +4227,7 @@ drm_edp_backlight_probe_state(struct drm_dp_aux *aux, struct drm_edp_backlight_i
- 	if (ret < 0) {
- 		drm_dbg_kms(aux->drm_dev, "%s: Failed to read backlight mode: %d\n",
- 			    aux->name, ret);
--		return ret < 0 ? ret : -EIO;
-+		return ret;
- 	}
+diff --git a/tools/testing/selftests/timers/posix_timers.c b/tools/testing/selftests/timers/posix_timers.c
+index f0eceb0faf34..017a9e19ad0f 100644
+--- a/tools/testing/selftests/timers/posix_timers.c
++++ b/tools/testing/selftests/timers/posix_timers.c
+@@ -673,8 +673,9 @@ int main(int argc, char **argv)
+ 	ksft_print_header();
+ 	ksft_set_plan(19);
  
- 	*current_mode = (mode_reg & DP_EDP_BACKLIGHT_CONTROL_MODE_MASK);
-
----
-base-commit: b19a97d57c15643494ac8bfaaa35e3ee472d41da
-change-id: 20250820-drm-dp-helper-logically-dead-code-2-428c853deb95
-
-Best regards,
+-	ksft_print_msg("Testing posix timers. False negative may happen on CPU execution \n");
+-	ksft_print_msg("based timers if other threads run on the CPU...\n");
++	ksft_print_msg("Testing POSIX timers.\n");
++	ksft_print_msg("False negatives may occur in tests\n");
++	ksft_print_msg("relying on timers if other threads run on the CPU\n");
+ 
+ 	check_timer_create_exact();
+ 
 -- 
-Nai-Chen Cheng <bleach1827@gmail.com>
+2.50.1
 
