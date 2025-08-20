@@ -1,79 +1,133 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from flow-b4-smtp.messagingengine.com (flow-b4-smtp.messagingengine.com [202.12.124.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B18A2E2DC2;
-	Wed, 20 Aug 2025 10:41:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755686475; cv=pass; b=d19c42S2q4v+KWyaZogGJSq+k6yejx1Txr6T/2MXJtqYJGGYJCFYI6SwVHT15Nn0gelHMYdgmLGV77T0OYlw7BY4czgxjIFMrahvxhzA9Mi99qv+zt7cZNyCifk8+KOf7jcVaCQdBCThqEb1MAgWDByqshrEMvvNc2VV9i7uY1g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755686475; c=relaxed/simple;
-	bh=xPpBRwaQQGl/B024YCPt11Pwq77b3ButnwaiZ/ZvwZc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Cy2PJVHmRDfFnYvUGr0i6h2O0xqkUtRf0MIwiJzA4aXibOZ/aHEHLrWlfDSl48brBA6SjodTCDlUw8nxZqvIP3qp6yNy99dKO+9uxk6TZt88IE/h+pjRE1Ih9EMwHMBc2ydkGFXabuEYSkyPwu6kF3y0K/XfUWZrtI3PERkYJUo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=K6eVh+nW; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA5131DD8D
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 Aug 2025 13:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.139
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755696071; cv=none; b=mgHUx593iT8QXksCfotDvF0qlYPrK/k3u1NBtv+DLAp063VrmtvFdWTTL7izvvZKXK+Kg1JOjW1YHGWne2x2kDsU/rioqgOt1KiQMipJUX2ZUSJwyczY+PDiyD7/1Rl+CmLQh3E5mJ1tpMkgi8Ue3yNUy3XraLtwuf1mhfK8lFk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755696071; c=relaxed/simple;
+	bh=XsGOUexS48UBQOOs/YAItiCIMtGhVhIMcpJQIr9hATU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tA06qKSHHOHB35AJM0YCEZ7BIivAlz8gfJyGRiHXXV+1cfdoV9i0NGEH8ucNAlRRsfAcZTcFVB1aNf5pQzSn2M3NjQ3RcTlyv6SxZkYXeLpfKnDedlZ0YFP6hZxmqfbZcapMuw/RRVku8KgA5G9hwwlSph+8hiuFkDnZ7xsRXrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com; spf=pass smtp.mailfrom=debanilchowdhury.com; dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b=ciWRj656; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RqcYhAWr; arc=none smtp.client-ip=202.12.124.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debanilchowdhury.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="K6eVh+nW"
-ARC-Seal: i=1; a=rsa-sha256; t=1755686466; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=mg8kez02dL0yr3cLTAPqma6DgrEOk7l3g5c8GTrBunmhbp+Vhg2BwIcFIcP1dtGLPleFnCS3w8STqhopvOlZjEmBDgz2mBFpjguvBb+IivVHJuRKpM0HCrsP+KprdEcEzM9ySOu/gYoEGLYVqrBR2CwnATyjyfy+RPQNszQIITA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1755686466; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=wYJMM9MtjnvFHsKajzTRCpet/Cte+2iHoWrfocRvt20=; 
-	b=DmtHs5TvlsH87TX4XTHU6SF8eQJAEGTpXshRE019PKAhN+2TlE1buiaVtlItHeRPJ2xOT7HfLRqWgjdj9gc3O5+2CIQ/hbyjD63zqFomfnj39nEntxL1Qf3qIsedjfaUKSuNsE1bTbLFnUiJ5XVmF7T0B2+HorDows428FzUgM0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755686466;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=wYJMM9MtjnvFHsKajzTRCpet/Cte+2iHoWrfocRvt20=;
-	b=K6eVh+nW75B6Eo3fefA+ub1yyDhFJhhUgg8fCu2RJy/QRkQbVvyFCCr+UWzPhoci
-	UHBV2rZv8ts9jwCCahUFKN0OMVtzHGfGlajZ8uCM+1VmEyaPW50udTTZLn13qMwoi/3
-	mTswNnuGuHaodRfQgMAJV+gyEpIKTHhgDflqdKhw=
-Received: by mx.zohomail.com with SMTPS id 1755686464645877.8597452911921;
-	Wed, 20 Aug 2025 03:41:04 -0700 (PDT)
-Message-ID: <39b17698-a1ce-452d-ada5-5c3741e888b2@collabora.com>
-Date: Wed, 20 Aug 2025 13:41:01 +0300
+	dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b="ciWRj656";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RqcYhAWr"
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailflow.stl.internal (Postfix) with ESMTP id 6F91E1300BA1;
+	Wed, 20 Aug 2025 09:21:07 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Wed, 20 Aug 2025 09:21:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	debanilchowdhury.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
+	 t=1755696067; x=1755699667; bh=nEImHcQLvkNTCdFF2RtXX95NV2iRh1V3
+	J2yvcVtfk74=; b=ciWRj656q5wiX4lnyxquvE56D6HFFEZxvfkLf4mPHt+ijgJN
+	Hx8RaXReL73dow2oljr1DsQby7Og6Yu5Ihex8EghsBYpr65qfI76uyZauHgEbq0K
+	1TNUpNHYiYZrxKhdBWrCSm37Ck0kDBgw/qKBT+vwymH7qLz/pYSj5XdCHCbVVY6L
+	0658WvOzIzl31plVzIY1Osi72cKjGfzUeI4w2XynHS/Sj7WnCidV2TIw+629btXK
+	mY7EbRLslbuk/KcsqLx4o/JlV6fXMH98pqS8ysOktZGDtp2vvZTXhqqj5tV8cyhI
+	xgb8JTLPRMmJAGQaTBkSWFDZ44UXm+2Uz0LtlA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1755696067; x=1755699667; bh=nEImHcQLvkNTCdFF2RtXX95NV2iR
+	h1V3J2yvcVtfk74=; b=RqcYhAWrQaCdXoeWDP6EJnvareF2jWFHDlGgseqOkBUR
+	HjFoVIoDus2utHLOEtUf+Y7d9Km2K1nsbImjPHL77TLPMRowyOUrojAhyLdslOs2
+	E1QqpUe958HOqVP5441NY9OKQyn3Behma4r5xqrrIC113tZi9Efjypf9DaMkR/sU
+	I7w5s9/Q4aanxllTCju7AzZ08Lq+kaSyLuhBH2WbZlILut/TyFqyKqedYvHkvH41
+	/uVXA5cTeXw9n78kHpgCGAwcC6kvcVLZ2fwfoCsVBGdvMaAxOcDt3lKE1+nwFgUn
+	sb6aNnlrql6lpcimwteeMfc/iRhsw7BAKLWtu0WXeA==
+X-ME-Sender: <xms:wsulaAH0vk_vJo1M2qtDeSPc3igywCTFuzdQ9eo0_fH6CUseFmiPjw>
+    <xme:wsulaB8OwUkVyz8TF0wLXf2vVyFVP0lH79cT83YZ7BB2IbMEjc66NwhNkgFsxxEq3
+    DiGWBwf25OQU8bmiv0>
+X-ME-Received: <xmr:wsulaBmwW7fBcKPzWe3wNvg1aMsJnOVde3f0E58G7UcsVbMUjIH9clMz88awdLXzI6KCc41X>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduheekgeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtre
+    dtjeenucfhrhhomhepkhgvrhhnvghluggvvhesuggvsggrnhhilhgthhhofiguhhhurhih
+    rdgtohhmnecuggftrfgrthhtvghrnhepgefhleetiedthfelhfehtdevgfejtdeigfegte
+    fgfefhieffheekudevgeelkeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+    pehmrghilhhfrhhomhepkhgvrhhnvghluggvvhesuggvsggrnhhilhgthhhofiguhhhurh
+    ihrdgtohhmpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtth
+    hopehjuggvlhhvrghrvgesshhushgvrdgtohhmpdhrtghpthhtoheplhhinhhugiesrhho
+    vggtkhdquhhsrdhnvghtpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtg
+    hpthhtohepnhhinhgrugeslhhinhhugidrihgsmhdrtghomhdprhgtphhtthhopehlihhn
+    uhigqdhhfihmohhnsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
+    hugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhig
+    qdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugidruggvvhdprhgtph
+    htthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:wsulaMCLF0eZsrnfi0qwk3-W9DxUZ_RiW0cB2oiHJ25xZ7Qvmp3CXg>
+    <xmx:wsulaKVrxn4by8ihI64CdoWc1OaGHn6ki7kQXR_u14tVZgZcwfk12Q>
+    <xmx:wsulaK9Mn1kPljByIwh0tQ7GFKaZ6cc7QjtU35EwPCUD6xjS6Jv_PA>
+    <xmx:wsulaMQdu-0itt_oaNGTUeUyRsl87GQp7GtlDLsM1oPasL02aOtBbw>
+    <xmx:w8ulaEZEjBugC0-U0GT8K1mOIzY4LG9R1SANBC6j34t-nG15ZqfSZRmc>
+Feedback-ID: i77364836:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 20 Aug 2025 09:21:03 -0400 (EDT)
+From: kerneldev@debanilchowdhury.com
+To: skhan@linuxfoundation.org,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net
+Cc: ninad@linux.ibm.com,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Debanil Chowdhury <kerneldev@debanilchowdhury.com>
+Subject: [PATCH] Fix typos in hwmon
+Date: Wed, 20 Aug 2025 18:48:08 +0530
+Message-ID: <20250820132033.11377-1-kerneldev@debanilchowdhury.com>
+X-Mailer: git-send-email 2.49.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/virtio: clean up minor codestyle issues
-To: Athul Raj Kollareth <krathul3152@gmail.com>, airlied@redhat.com,
- kraxel@redhat.com, gurchetansingh@chromium.org
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20250813062109.5326-1-krathul3152@gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250813062109.5326-1-krathul3152@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
-On 8/13/25 09:21, Athul Raj Kollareth wrote:
-> Fix codestyle warnings and errors generated by CHECKPATCH in virtio
-> source files.
-> 
-> Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_display.c |  3 +--
->  drivers/gpu/drm/virtio/virtgpu_kms.c     | 20 ++++++++++----------
->  drivers/gpu/drm/virtio/virtgpu_object.c  |  4 ++--
->  drivers/gpu/drm/virtio/virtgpu_plane.c   |  2 +-
->  drivers/gpu/drm/virtio/virtgpu_vq.c      |  2 ++
->  5 files changed, 16 insertions(+), 15 deletions(-)
+From: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
 
-Applied to misc-next, thanks.
+Fixed some typos ("Critial" → "Critical") in hwmon documentation.
 
+Reported-by: codespell
+Signed-off-by: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
+---
+ Documentation/hwmon/crps.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/hwmon/crps.rst b/Documentation/hwmon/crps.rst
+index 87380b496..d42ea59d2 100644
+--- a/Documentation/hwmon/crps.rst
++++ b/Documentation/hwmon/crps.rst
+@@ -43,7 +43,7 @@ curr1_label		"iin"
+ curr1_input		Measured input current
+ curr1_max		Maximum input current
+ curr1_max_alarm		Input maximum current high alarm
+-curr1_crit		Critial high input current
++curr1_crit		Critical high input current
+ curr1_crit_alarm	Input critical current high alarm
+ curr1_rated_max		Maximum rated input current
+ 
+@@ -51,7 +51,7 @@ curr2_label		"iout1"
+ curr2_input		Measured output current
+ curr2_max		Maximum output current
+ curr2_max_alarm		Output maximum current high alarm
+-curr2_crit		Critial high output current
++curr2_crit		Critical high output current
+ curr2_crit_alarm	Output critical current high alarm
+ curr2_rated_max		Maximum rated output current
+ 
 -- 
-Best regards,
-Dmitry
+2.49.1
+
