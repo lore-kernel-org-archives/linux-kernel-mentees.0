@@ -1,335 +1,117 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579EC2D6E5B
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 Aug 2025 08:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CC22E0418
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Aug 2025 09:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755679845; cv=none; b=aloBgr0R9KZYWlun1vU+dudRwD2hKNLaMR9gte2/ZTZ45WRb1xYd/Uv5e//XZf4Lh0OjZYtKjYLOxyxkcxioRc17LtAvKB+iL/0+4YuZMIJDG/CcZ0Vsx9QMV8w3KuW7zyeyWjteK0WYbVY2ly9quJr5D0Z4ZbUdz+NUyAbJ3Yw=
+	t=1755682858; cv=none; b=qio24zb8cMCWLhMX4HE0n99Fa0iY/1MnDnKNuSwAvkk7gtecjag/HoenyZr50FQHo5qkpLfjDyL4+4zqWE1xJb6qVQgKcnjbmrP4euL1M8RlhtUFqRsrbvK6wbFHKvlDyEWa06lrbAMTQBNqH2IgZeMm84RgVaqPB1F2KEgSHhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755679845; c=relaxed/simple;
-	bh=iv3fqIMBwzaStD2961hnTJB8mgxQ2BO/kFsihOs1IgA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jQPAweN/pSDOj+DSk+/AdYTUHIdFRM9dmh+8+kVxBsqDJcftvjGBsxb5XcFUMw3vQh8YBerXKCjl2HSsbOFq7EYUIENg+kyQF5sLrCqG363W1aXWX9Zki0t3z7mzbsJLvyx8H3FhDckP7BfbGd5g6fYRSNsDzh74xifP3dFlbZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ctTznfW0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qdikTdS2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ctTznfW0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qdikTdS2; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1755682858; c=relaxed/simple;
+	bh=xMPa+8Qn4mu18QhDnLh2TBRIN1AH7lNj6illVJiSw0s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D5kYzm5ZN93d4RU6gwJPI5tq1b//w+m5H0skpbqlYMypLH1F5EO0ktRiujadZJeBXIj3n4lKEw/XtymSQkHSCEjb8p5U4sFY833t0qE0GYKG+92uB8hOMvhSwotEXwotGJ349xOFVOXFJqzDxm7/IVzU5Di4zoJPeQbaiw1vzIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S78HYTth; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ctTznfW0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qdikTdS2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ctTznfW0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qdikTdS2"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2AC8C21289;
-	Wed, 20 Aug 2025 08:50:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755679841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=nYhjc45f5ekwVpi167JCCWKfG7o4RDwmB8EPBVcu7O0=;
-	b=ctTznfW0+oItBzeVYif0pQD2+m6xXG/fh987W7OyIj2MvxFPYcbA68YdNY+7Mf2GpfFAey
-	lKNrJiaYz5o5l+hikxcyX4rrCNGN9VBlmThoQzt35QprfBw8mMwgZ+gLIMPWTmSn4RfS5S
-	QSBCMhhm9lYMDdiAqbgQwc2vZdBJTZ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755679841;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=nYhjc45f5ekwVpi167JCCWKfG7o4RDwmB8EPBVcu7O0=;
-	b=qdikTdS2qg3bB+u6LzNsnP9ILsrVy2+gnmyZY2wV+73+AxIgRKIw51vy61uiGtY5+JkTee
-	FvhX2HOaAfXCwkCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ctTznfW0;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qdikTdS2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755679841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=nYhjc45f5ekwVpi167JCCWKfG7o4RDwmB8EPBVcu7O0=;
-	b=ctTznfW0+oItBzeVYif0pQD2+m6xXG/fh987W7OyIj2MvxFPYcbA68YdNY+7Mf2GpfFAey
-	lKNrJiaYz5o5l+hikxcyX4rrCNGN9VBlmThoQzt35QprfBw8mMwgZ+gLIMPWTmSn4RfS5S
-	QSBCMhhm9lYMDdiAqbgQwc2vZdBJTZ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755679841;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=nYhjc45f5ekwVpi167JCCWKfG7o4RDwmB8EPBVcu7O0=;
-	b=qdikTdS2qg3bB+u6LzNsnP9ILsrVy2+gnmyZY2wV+73+AxIgRKIw51vy61uiGtY5+JkTee
-	FvhX2HOaAfXCwkCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D49C11368B;
-	Wed, 20 Aug 2025 08:50:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xm23MmCMpWgDcgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 20 Aug 2025 08:50:40 +0000
-Message-ID: <c731315f-0862-4605-b443-bc1943d697d6@suse.de>
-Date: Wed, 20 Aug 2025 10:50:40 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S78HYTth"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id F101E4073F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Aug 2025 09:40:55 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id YnEw0flh1bV1 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 20 Aug 2025 09:40:55 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::629; helo=mail-ej1-x629.google.com; envelope-from=kubik.bartlomiej@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 4E07E40613
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4E07E40613
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=S78HYTth
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4E07E40613
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Aug 2025 09:40:55 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-afcb731ca8eso983018566b.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Aug 2025 02:40:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755682853; x=1756287653; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iaU4VZUJUriIOWDjZuxPqvHN376Nc6Yxil/qOWrIx5I=;
+        b=S78HYTthnhrbgtidxmcxBiM7T0SFtLzw4Kw6ae8Zu/raXfMVS1IckWtnhr9LFjzBgE
+         224M0RyF4W+Ru8Ugs1AAY85f/yE5RWWC/X5+WQAnctMsmtsb8gZrjxfJuqFXENurOvyG
+         3txVQHsmjyv7aLgAtotexKxf2IKJbESjxRDjcwBZfeYtUnpj3ZIhezytzw59CqUEM1Je
+         UlRGj0fDELfZmORjJ0hL1Jzd/t5EezRjoqsMcZL2EaPUtO4ol/Tz4n5JHdR1RBK0K9qR
+         bsSzQUaC6CY3x/pQquQ6Vcus+BXZwVLn148GGe6aGOMrb8gAIpgwvzZdUPqV5yf36yNn
+         gFCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755682853; x=1756287653;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iaU4VZUJUriIOWDjZuxPqvHN376Nc6Yxil/qOWrIx5I=;
+        b=BhHk2mKPbR+ALD6kORHApM17MKvXoT01t4d11Oe+YhGwzgwzx+yMrlStTH8+A56mPu
+         psNlZgirHLJ1UyB7naLuK88vnkVAmFUFOk0Zu6zOZRyi6vEjaeJbQNKeQGHAfDudCB6C
+         QDVoLQoVBAr938J29p0MbE4jzCOmYatBf96w5OBL749+YdGDqy164HEbU/5hGfxqVp8O
+         w2Bvtx9oQOHXnbCPB/ngf5JwFI7XGz0v00ToXr52BIMUm2LKwo5YQE+AySvHFz/f/cQP
+         aVYcbXRuvuAhVpU/sBvy1ncCk/OkwRzLf9TABMwGKallvtczWmWlFLRvW/SxjGKxuQpV
+         vPkA==
+X-Gm-Message-State: AOJu0Yw3haDTGmIQg8c7xHwWra8Hj163iuXZC+gO7JjdRm7oLZJVhM2k
+	lIUewoV7U3yn/P7XE19gPsa9LWQGE3WZIoQhjg9BoTVvntEl3hoeAhm/
+X-Gm-Gg: ASbGncuucFaICB6CupX9J6CGwdKYWCIJPXjGqVfpDNTRL7Jc7TpcqaQ1/2eHRUYlWy8
+	Y/D/4D19mSNJhFAAdBAdP952M44zunlJU3flXy1LW5yfODVfDQyHygro1kAAKl1n8ChzQhqUFqd
+	q1EJsbDc3oXW5+eSCHyo9HWl6FRmfVivokvmWVOpzZdLcb/9t6stcySK04oaHiZYx4Uv4oHcn9Y
+	ACxvRjJG2D741Qb7bHBVyuNnBK116o+2F+RX6ONkn/Qass0avJt2dHq8XEo4wEpzZp+C5kx9mLa
+	8qhFidaHcWK76ORdsvN+tC97Zet31rpdpS0DnjSt95FzIaDigih4Dje3GW36OqX82NALQ1oUjav
+	JVA910tqq1V//gA8+eflb5ArPQcBUNZ4Ak2xlnSeLlvb8B1q/v34FNtXW3k/vx6s3m7GvKNfrz8
+	FJkr8=
+X-Google-Smtp-Source: AGHT+IF+jHeg1blhzus397KbMO6fpg4RfqSldoscVcwuKg6PL2oN6QYbuUXPW8t4wlcCO5RFZ0LvkA==
+X-Received: by 2002:a17:907:1c91:b0:af9:6e4a:3b2c with SMTP id a640c23a62f3a-afdf0200d09mr189014966b.43.1755682853046;
+        Wed, 20 Aug 2025 02:40:53 -0700 (PDT)
+Received: from localhost.localdomain (user-46-112-72-61.play-internet.pl. [46.112.72.61])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded315e39sm147081466b.48.2025.08.20.02.40.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Aug 2025 02:40:52 -0700 (PDT)
+From: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+To: skhan@linuxfoundation.org,
+	linux-kselftest@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+Subject: [PATCH] selftests/ftrace: fix spelling mistake
+Date: Wed, 20 Aug 2025 11:40:48 +0200
+Message-Id: <20250820094048.140823-1-kubik.bartlomiej@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm: Replace the deprecated DRM_* logging macros in
- gem helper files
-To: Athul Raj Kollareth <krathul3152@gmail.com>
-Cc: airlied@gmail.com, dri-devel@lists.freedesktop.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch,
- skhan@linuxfoundation.org
-References: <f94151b4-893a-4758-a118-153076a20d3c@suse.de>
- <20250818192247.58322-1-krathul3152@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250818192247.58322-1-krathul3152@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 2AC8C21289
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,lists.linux.dev,vger.kernel.org,linux.intel.com,kernel.org,ffwll.ch,linuxfoundation.org];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
+Content-Transfer-Encoding: 8bit
 
-Hi
+Fix spelling mistake in return string.
 
-Am 18.08.25 um 21:20 schrieb Athul Raj Kollareth:
-> Replace the DRM_* logging macros used in gem helper files with the appropriate
-> ones specified in /include/drm/drm_print.h.
->
-> Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
-> ---
-> Changes in v2:
->      - Change drm_gem_objects_lookup() to take a drm_device* argument.
->      - Make appropriate changes to all calls of drm_gem_objects_lookup().
+Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+---
+ .../selftests/ftrace/test.d/ftrace/func_traceonoff_triggers.tc  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please see Michal's reply about using filp->minor->dev for the device. 
-Saves from any changes to the interface. You might want to be defensive 
-about it and test for filp->minor for NULL.
-
-Best regards
-Thomas
-
-> ---
->   drivers/accel/rocket/rocket_job.c       |  4 ++--
->   drivers/gpu/drm/drm_gem.c               | 12 +++++++-----
->   drivers/gpu/drm/drm_gem_dma_helper.c    |  2 +-
->   drivers/gpu/drm/panfrost/panfrost_drv.c |  2 +-
->   drivers/gpu/drm/v3d/v3d_submit.c        |  2 +-
->   drivers/gpu/drm/vc4/vc4_gem.c           |  2 +-
->   include/drm/drm_gem.h                   |  5 +++--
->   7 files changed, 16 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
-> index 5d4afd692306..db7c50c9ab90 100644
-> --- a/drivers/accel/rocket/rocket_job.c
-> +++ b/drivers/accel/rocket/rocket_job.c
-> @@ -560,14 +560,14 @@ static int rocket_ioctl_submit_job(struct drm_device *dev, struct drm_file *file
->   	if (ret)
->   		goto out_cleanup_job;
->   
-> -	ret = drm_gem_objects_lookup(file, u64_to_user_ptr(job->in_bo_handles),
-> +	ret = drm_gem_objects_lookup(dev, file, u64_to_user_ptr(job->in_bo_handles),
->   				     job->in_bo_handle_count, &rjob->in_bos);
->   	if (ret)
->   		goto out_cleanup_job;
->   
->   	rjob->in_bo_count = job->in_bo_handle_count;
->   
-> -	ret = drm_gem_objects_lookup(file, u64_to_user_ptr(job->out_bo_handles),
-> +	ret = drm_gem_objects_lookup(dev, file, u64_to_user_ptr(job->out_bo_handles),
->   				     job->out_bo_handle_count, &rjob->out_bos);
->   	if (ret)
->   		goto out_cleanup_job;
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 4a89b6acb6af..ee1e5ded6dd6 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -102,7 +102,7 @@ drm_gem_init(struct drm_device *dev)
->   	vma_offset_manager = drmm_kzalloc(dev, sizeof(*vma_offset_manager),
->   					  GFP_KERNEL);
->   	if (!vma_offset_manager) {
-> -		DRM_ERROR("out of memory\n");
-> +		drm_err(dev, "out of memory\n");
->   		return -ENOMEM;
->   	}
->   
-> @@ -764,6 +764,7 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
->   
->   /**
->    * drm_gem_objects_lookup - look up GEM objects from an array of handles
-> + * @dev: corresponding drm_device
->    * @filp: DRM file private date
->    * @bo_handles: user pointer to array of userspace handle
->    * @count: size of handle array
-> @@ -780,8 +781,9 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
->    * failure. 0 is returned on success.
->    *
->    */
-> -int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
-> -			   int count, struct drm_gem_object ***objs_out)
-> +int drm_gem_objects_lookup(struct drm_device *dev, struct drm_file *filp,
-> +			   void __user *bo_handles, int count,
-> +			   struct drm_gem_object ***objs_out)
->   {
->   	int ret;
->   	u32 *handles;
-> @@ -805,7 +807,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
->   
->   	if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
->   		ret = -EFAULT;
-> -		DRM_DEBUG("Failed to copy in GEM handles\n");
-> +		drm_dbg_core(dev, "Failed to copy in GEM handles\n");
->   		goto out;
->   	}
->   
-> @@ -858,7 +860,7 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
->   
->   	obj = drm_gem_object_lookup(filep, handle);
->   	if (!obj) {
-> -		DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
-> +		drm_dbg_core(NULL, "Failed to look up GEM BO %d\n", handle);
->   		return -EINVAL;
->   	}
->   
-> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
-> index 4f0320df858f..a507cf517015 100644
-> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-> @@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct drm_device *dev,
->   
->   	ret = dma_buf_vmap_unlocked(attach->dmabuf, &map);
->   	if (ret) {
-> -		DRM_ERROR("Failed to vmap PRIME buffer\n");
-> +		drm_err(dev, "Failed to vmap PRIME buffer\n");
->   		return ERR_PTR(ret);
->   	}
->   
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 1ea6c509a5d5..3ffd9d5a9056 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -188,7 +188,7 @@ panfrost_lookup_bos(struct drm_device *dev,
->   	if (!job->bo_count)
->   		return 0;
->   
-> -	ret = drm_gem_objects_lookup(file_priv,
-> +	ret = drm_gem_objects_lookup(dev, file_priv,
->   				     (void __user *)(uintptr_t)args->bo_handles,
->   				     job->bo_count, &job->bos);
->   	if (ret)
-> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-> index 5171ffe9012d..a3ac8e6a4a72 100644
-> --- a/drivers/gpu/drm/v3d/v3d_submit.c
-> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-> @@ -79,7 +79,7 @@ v3d_lookup_bos(struct drm_device *dev,
->   		return -EINVAL;
->   	}
->   
-> -	return drm_gem_objects_lookup(file_priv,
-> +	return drm_gem_objects_lookup(dev, file_priv,
->   				      (void __user *)(uintptr_t)bo_handles,
->   				      job->bo_count, &job->bo);
->   }
-> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-> index 255e5817618e..6ce65611231b 100644
-> --- a/drivers/gpu/drm/vc4/vc4_gem.c
-> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
-> @@ -692,7 +692,7 @@ vc4_cl_lookup_bos(struct drm_device *dev,
->   		return -EINVAL;
->   	}
->   
-> -	ret = drm_gem_objects_lookup(file_priv, u64_to_user_ptr(args->bo_handles),
-> +	ret = drm_gem_objects_lookup(dev, file_priv, u64_to_user_ptr(args->bo_handles),
->   				     exec->bo_count, &exec->bo);
->   
->   	if (ret)
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index d3a7b43e2c63..03cb03f46524 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -544,8 +544,9 @@ void drm_gem_unlock(struct drm_gem_object *obj);
->   int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);
->   void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
->   
-> -int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
-> -			   int count, struct drm_gem_object ***objs_out);
-> +int drm_gem_objects_lookup(struct drm_device *dev, struct drm_file *filp,
-> +			   void __user *bo_handles, int count,
-> +			   struct drm_gem_object ***objs_out);
->   struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
->   long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
->   				    bool wait_all, unsigned long timeout);
-
+diff --git a/tools/testing/selftests/ftrace/test.d/ftrace/func_traceonoff_triggers.tc b/tools/testing/selftests/ftrace/test.d/ftrace/func_traceonoff_triggers.tc
+index aee22289536b..d2a7da7bc87d 100644
+--- a/tools/testing/selftests/ftrace/test.d/ftrace/func_traceonoff_triggers.tc
++++ b/tools/testing/selftests/ftrace/test.d/ftrace/func_traceonoff_triggers.tc
+@@ -102,7 +102,7 @@ clear_trace
+ 
+ cnt=`cnt_trace`
+ if [ $cnt -ne 0 ]; then
+-    fail "Tracing is still happeing"
++    fail "Tracing is still happening"
+ fi
+ 
+ echo "!$func:traceoff" >> set_ftrace_filter
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+2.39.5
 
