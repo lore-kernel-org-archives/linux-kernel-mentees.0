@@ -1,127 +1,107 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-b8-smtp.messagingengine.com (flow-b8-smtp.messagingengine.com [202.12.124.143])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D82728641E
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 21 Aug 2025 16:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788BA2E5423
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 21 Aug 2025 16:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755792113; cv=none; b=jFMFShD9hWmgdzfepE749LM1h9sr1NW5qMbI2kqWOJjeGYf8nmaBZhQp8E3uQCyFotG3ktHTymEh8WK5Z5GyanK66JLl6I/5sGo1txq6ECnJEWxsrhiT48brKbusf4HbKU3L/RPCPUlRRjq+ioHloKVHkBGIbKWrcRdsgHedIK8=
+	t=1755794920; cv=none; b=CO6s2E/K4tFzIhJj4aiFomqxZaWqt2gItivEInId5/sp0H6jj7a0DqQtMwY8LfghWihU7FtjSR2Eh8X8RPTCFX3ha/WYpHC/kx9iQ1GJzw/kN0j1i5/3zlhE9zHtGmR6ORd/IAwm3o6wYW5wE70X0eA2JxvbWvCdMhjxO/s/QpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755792113; c=relaxed/simple;
-	bh=Sb2tmvyhA9kl4RDm1IjcNLqVSOU59BKXqAaqUHmoj7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DGW66syDuVLuCm5bYp0jDnVnf0BVS3JuIHlsk+pHr+GotdsGcK3ybF9qhYUGEnnK3kKztfBx32a6bnYHMfq/XEcieJ+NKXh3LEvBSrXLbePowUERt+Y7bmDXTCDGO7/WKCOTgXb636XPfZY912ALh/QGIb1llHxTg4xXL2ENtMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WUYvFJia; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755794920; c=relaxed/simple;
+	bh=4rGWUgQSHCHbuCa0KQOHSQHWufusj7woJ2A9o0WLvdE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UB2qdT1tdH9+zHFKQ/TdplUI+wEwlP0WvkWs+r3u325EzHpvyXltJC3LJ1L8Olx8hSgSqgX/quOx92uIBiafPRpn1QhkmA7ry4KW95j0aCOg1U1QZLBeOvSN8vUS0BoFw5lmagsLn206SNxraV4w/sIkFwVgwgoGXIQOcI8Q5vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com; spf=pass smtp.mailfrom=debanilchowdhury.com; dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b=Y9f41xJY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dDGcSQBm; arc=none smtp.client-ip=202.12.124.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debanilchowdhury.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WUYvFJia"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-76e2eb6ce24so1054062b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 21 Aug 2025 09:01:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755792111; x=1756396911; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zzsiqmbfqBkVY+f01p1NV6V6NJGQ87QW0Z5a0oYFHFU=;
-        b=WUYvFJiaZb443vQiV09BoQJCAHDdhXb8iEdtOgslliNYD5avprYt8MFQ4ZB+g+GQe7
-         zGr6vKEQjRThq/+6d/8zcxiP0+aZASKgyzyhZwEysYoEIr1k9NvERj+CaMRxdVVaN6m+
-         RtFpMYsLeZFtwlAyeBg5uFp+r4/FgWyjbgXxWJ5D5yuCndn8C7hEn8FHw0ddk7ib8FZe
-         EeWyjXY0/ousU6hlGkDuVoq01tgwhLvfJ3RXrvW+oAIqwo1SyE2n4LHuK+qLQZrDaxvq
-         +oif/yJJd8A1LoWBw1bKQIUdrEaMHzHC83GOhmp5rb7XwjONoAsBgEIFSy7X9bR3DmW5
-         UKpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755792111; x=1756396911;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zzsiqmbfqBkVY+f01p1NV6V6NJGQ87QW0Z5a0oYFHFU=;
-        b=V6C7W23AqTGMEsAQcqh0adPcBti6Qg6VMEJP4pj+dnLHKc0LIEw+YIWCWbVP3sXsI2
-         nPDHEzMFK21PVXaZn2VkFqBCmHG8MRKIhngDSqoaziSdcZESJlIHSZhv82DfyWymSZOW
-         sUViK+1KPbYQOjyjDZ3kpte8wGhIRTKRzEa24ZW/JYyvMk3iNPfvccMKdE66HLnvZ2TB
-         uzvpCrIn8dfaopinT4+R5NCwdju8aJ25BqkfcauTNell2gU0lmbqRU77Vbp3ODsNJgsq
-         2zw5nHxmMBWFlsUjSz8/njjSWrh0LPQEbXVf91eFchMY/f3i/2L/w2+GDHoxJ7JsSHiP
-         TClw==
-X-Forwarded-Encrypted: i=1; AJvYcCWk0FqZfssDwrxZ9MiBGsfFLPhsjcFpFTp7whVYTodBwJ/+3c9o9xvdDcr88481vXKlzWxlU6ST0i6OisfTuqm3ck1zOg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzkcu1ru4C1OwcAWQFMkjODMmVhuT690g4JWf6+7cQFA9vuoO21
-	svXkv227fWj4xB9XX8RTkSi6YJGvTz+XVp+2caSEnIlAtQJ7wAgceiO+
-X-Gm-Gg: ASbGnctr/M4py42RdB32lL37LWa5s0feIal0mB6CJ1mBL/lUukEqDZEp7HzffaByEff
-	9dOCNgVHqM6Mks/sEJIzH3PPxlwe3NuqFCgPhu3CynAflIyceLwDUUhmTYjcHCddpjclAzcABc5
-	BElCJb5ilEUTvkJuYwgyCjgLRe6LoeOJkyAxdsFSgCEdU/eWNqWeRiRMGWBwj8dCzEoICpO4Oe+
-	zYs5dvkdFGLNQ7i3nHLQPyyTYwk9hBsMSiaig0r+FA4mYkbWK+GWFEHwcetddJJUKiDY2udx0qY
-	TmnJrELXzKE0+5lo2ewP5JrROBdMBMB4xkg1AzPx5ZXZZYVbJn0uqUwspwbXioTsJXE5ZnxJtIL
-	OhqPxQ5BUfonHI+frYR/fvJZxgPkF/Ar957q2w3HopDvBPYeLhNM+qFnU
-X-Google-Smtp-Source: AGHT+IE6uLjtZA+NsA4etmBGRhXqOtbKJrOEJL92MfF6Uthlu2MOjaGFDFnyQtI4j943jND6fmZtZw==
-X-Received: by 2002:aa7:8888:0:b0:76e:885a:c3ef with SMTP id d2e1a72fcca58-76ea325e544mr3700074b3a.27.1755792111050;
-        Thu, 21 Aug 2025 09:01:51 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e7d0d14efsm8849369b3a.2.2025.08.21.09.01.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 09:01:50 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 21 Aug 2025 09:01:49 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
-Cc: skhan@linuxfoundation.org, jdelvare@suse.com, corbet@lwn.net,
-	linux-kernel-mentees@lists.linux.dev, ninad@linux.ibm.com,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Fix typos in hwmon docs
-Message-ID: <bcfd4b37-599b-4797-b3a3-6c4ae34ebaf7@roeck-us.net>
-References: <20250821125539.58313-1-kerneldev@debanilchowdhury.com>
+	dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b="Y9f41xJY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dDGcSQBm"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailflow.stl.internal (Postfix) with ESMTP id 29376130062F;
+	Thu, 21 Aug 2025 12:48:36 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Thu, 21 Aug 2025 12:48:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	debanilchowdhury.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to; s=fm1; t=
+	1755794916; x=1755798516; bh=LcP0PiXvmPRUn1aPfZHAcVFXMOdFddlFyCh
+	yIjJbPq0=; b=Y9f41xJYDM/zheYbgqpMzaOZuiED8xgqN8izrI5kWPblztPSX8f
+	7+azV55nAOmpw1F/ewKRqwq4pOkOM3ZYpUjE9JoOPxuXzvKR5x3XX8Lw5iJ/HI4E
+	GNs+cXJCV3MnzH0Ol72ealBAH+a1mrhACp53BrncXdJiziZYg1LTIJzy5pmCaDDJ
+	RwuxiHBQkXa0Mg5mGKxHkDcgBeCqjqienmJifCutUE8hW7Oh0Z+rIb44XttDKa+Q
+	QG+SHI9uN7IVOH0/pK0gmWSp37BBQglJoMTqm904djAUT51MW4tOkJE5ixiGMZJ2
+	sloO3Sa4E63qNo0cJwrK+x5urmOhaTPrZpw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1755794916; x=1755798516; bh=LcP0PiXvmPRUn1aPfZHAcVFXMOdFddlFyCh
+	yIjJbPq0=; b=dDGcSQBmHDiPtr31pUU8G1wm7ZvxZHByAFY7EY/m2aG3T8XnCxO
+	GxqZVkkbbLJUqubKNLjIQwhKy3+jU4sCK2yCeD4o31HipypqGD/WalnZuBcXroMJ
+	g3A64L/N37Ci1SJv18nkhTOpL4sWE0awJyb2mpquAVvO35ezonILn2cONyMzIDYb
+	8HjDHMBbiVMGl3WSAbmAnAJj1saY8Yjuv4scPvJD3wbUHht9MYpb6L90Uq+/GNVw
+	gbG5LyhokKXupnyVYHfaACT+Iuj3zuAtb7JjpuiInuIxe6QYGtgHgiNxIoZkopuB
+	nFx113yBxlXbsaqk9nixk9ro/XD0DOT9yIQ==
+X-ME-Sender: <xms:402naKpalz4qp0kEPPxZOz_NyHtI9mGg_zF0u9pNTqinXN73MuRymw>
+    <xme:402naL5eHNc4Ddqd9vAjK0kVrBbZYN-VpIwSRRJ9j30EWH0nluEpaEHWIH0gwinVF
+    NmQAXkQegO-fO8J5bs>
+X-ME-Received: <xmr:402naIqOJRhF9XioXMj_G-w2Fs5YpTWaABy_Z35ylIX7jnFEXx0BxuIISyetY5TILgPmBygK>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduiedujeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpeffvggsrghnihhlucevhhhofiguhhhurhihuceokhgvrhhnvghluggv
+    vhesuggvsggrnhhilhgthhhofiguhhhurhihrdgtohhmqeenucggtffrrghtthgvrhhnpe
+    egiefggfdthfegieffgfegheegiedvudffieejhffhiefhfffgtdehkeeguefgtdenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkvghrnhgvlh
+    guvghvseguvggsrghnihhltghhohifughhuhhrhidrtghomhdpnhgspghrtghpthhtohep
+    fedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfoh
+    hunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgv
+    nhhtvggvsheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehkvghrnhgvlh
+    guvghvseguvggsrghnihhltghhohifughhuhhrhidrtghomh
+X-ME-Proxy: <xmx:402naFgop4MPxyp_67Nv6GsMkHSGcfbPWcJH-JrR0iE0jG3Y0AzCxw>
+    <xmx:402naKK-HMj_LTsjDCIhJkcqihNALNSRCpk6qH-UgLJFWHDUy54bkA>
+    <xmx:402naNDAra5XwanPVR6te32NNv6ZxD1RSeyIFEAddO5D357Du9LlEA>
+    <xmx:402naCi5JP4x56Hsfhr19-xaqO3QEGb2JJAMk-xI3sUrOpdZyQ2z3A>
+    <xmx:402naGo9l1zHUV-LjsdKFd_DeWnMxnBe30ndlig-lCpH8W9nW-yK0Mqs>
+Feedback-ID: i77364836:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 21 Aug 2025 12:48:33 -0400 (EDT)
+From: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
+To: skhan@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linux.dev,
+	Debanil Chowdhury <kerneldev@debanilchowdhury.com>
+Subject: [PATCH] kselftests: netfilter: fix spelling mistakes in nft_nat.sh
+Date: Thu, 21 Aug 2025 22:17:59 +0530
+Message-ID: <20250821164819.2103-1-kerneldev@debanilchowdhury.com>
+X-Mailer: git-send-email 2.49.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250821125539.58313-1-kerneldev@debanilchowdhury.com>
 
-On Thu, Aug 21, 2025 at 06:20:24PM +0530, Debanil Chowdhury wrote:
-> Fixed some typos ("Critial" → "Critical") in hwmon documentation.
-> 
-> Reported-by: codespell
-> Signed-off-by: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
-> ---
-> changed in v2:
-> - In previous patch "From" header did not have my name in it. Fixed
->   that.
+Signed-off-by: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
+---
+ tools/testing/selftests/net/netfilter/nft_nat.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The real problem is that the subject does not identify which documentation
-is being fixed. It does not fix problems in "hwmon documentation", it
-fixes a misspelling in the crps driver documentation. And responding to
-this -and having to look at multiple versions of a spelling fix - prevents
-me from reviewing patches which solve _real_ problems.
+diff --git a/tools/testing/selftests/net/netfilter/nft_nat.sh b/tools/testing/selftests/net/netfilter/nft_nat.sh
+index a954754b9..05a34c135 100755
+--- a/tools/testing/selftests/net/netfilter/nft_nat.sh
++++ b/tools/testing/selftests/net/netfilter/nft_nat.sh
+@@ -569,7 +569,7 @@ test_redirect6()
+ 	ip netns exec "$ns0" sysctl net.ipv6.conf.all.forwarding=1 > /dev/null
+ 
+ 	if ! ip netns exec "$ns2" ping -q -c 1 dead:1::99 > /dev/null;then
+-		echo "ERROR: cannnot ping $ns1 from $ns2 via ipv6"
++		echo "ERROR: cannot ping $ns1 from $ns2 via ipv6"
+ 		lret=1
+ 	fi
+ 
+-- 
+2.49.1
 
-> 
->  Documentation/hwmon/crps.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/crps.rst b/Documentation/hwmon/crps.rst
-> index 87380b496..d42ea59d2 100644
-> --- a/Documentation/hwmon/crps.rst
-> +++ b/Documentation/hwmon/crps.rst
-> @@ -43,7 +43,7 @@ curr1_label		"iin"
->  curr1_input		Measured input current
->  curr1_max		Maximum input current
->  curr1_max_alarm		Input maximum current high alarm
-> -curr1_crit		Critial high input current
-> +curr1_crit		Critical high input current
->  curr1_crit_alarm	Input critical current high alarm
->  curr1_rated_max		Maximum rated input current
->  
-> @@ -51,7 +51,7 @@ curr2_label		"iout1"
->  curr2_input		Measured output current
->  curr2_max		Maximum output current
->  curr2_max_alarm		Output maximum current high alarm
-> -curr2_crit		Critial high output current
-> +curr2_crit		Critical high output current
->  curr2_crit_alarm	Output critical current high alarm
->  curr2_rated_max		Maximum rated output current
->  
-> -- 
-> 2.49.1
-> 
