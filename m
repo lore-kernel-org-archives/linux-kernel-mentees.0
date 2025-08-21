@@ -1,118 +1,88 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB2128541A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 08:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A223242D76
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 08:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755764413; cv=none; b=IrbxYWP/1qWqH8pTeaASDrJeR22K6ppD1lszyY8lf1d74gn/BrbRnJZofzMzWhbkgdcZwqUGKOnQOOkX/y4HJG6LYqctzdRzLOFGaXDUpnyK9mhIBmAg+7K9ErYesGQd4F7OjZeTNkK7nHiF6p7q0pk6Wwajwlze8XfcsGkZHdA=
+	t=1755766041; cv=none; b=RkIYhVX9IKqyOAPCAxsQbNKlmyoZfYFQhvCoXNOsXX9y5D9mjl5URSpTfxTJN1QEmrgSqh4EyPNSwh1qtmmfr+fCkFa0ckl6u2WfIrIiagBK3ORmuAC32wEIACVyvAPbtZWfFkFbaT7sqcpnkI1immW9AF5RI94IFU7hEX0wEUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755764413; c=relaxed/simple;
-	bh=6MENWqVkYHicMICVfnmxJMVEP/jU0tYMGNb6mI3yHBI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Cns1lgb5oJAxqCdnQ6I6iHqJ8WhR6vQgvW8q0J8KA4pdVGq6HHBz37O4umSYIRF0hA00ZhzkUOrwJqGNNR6Ei/nh5WtF27EJjX90Oh8n+Q5daIECZwP4YpKB/O6Bn/wc8M+E44SZIIuLOZyOL20zELusZH0Y43YyXlE9qMJU1Fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I8Q89La4; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1755766041; c=relaxed/simple;
+	bh=DlYEcUJLsw/MqzOBv72trID2YohXF6ThfaQqc5nFqts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oT9ugZy8qzlFvEUYOoWuwY1hvcvf7VAtmjX8FZ2mBg69T78IbQL5jQIe7qqJIQEgTBbHT+skz8Ru08QTsH36UJhT5ruGMvkvCPsll8aXH0FScyUIWbRIG13qUZX+Bknq+hEToEK2zF8pG8ECFAvTaK+dFBIgBsMXA9h/UCzTJf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fWENBFe1; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I8Q89La4"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fWENBFe1"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 9F0B24174B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 08:20:11 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id AF38440C98
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 08:47:19 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -4.398
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 0-Avb1mYsc43 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Aug 2025 08:20:11 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::629; helo=mail-pl1-x629.google.com; envelope-from=bhanuseshukumar@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 095BE416F5
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 095BE416F5
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=I8Q89La4
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 095BE416F5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 08:20:10 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-24456ce0b96so8057355ad.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 01:20:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755764410; x=1756369210; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VVdyfb1owiUrSj5mrUpAZzb1V0r+oMDnI+RfgrzmLmQ=;
-        b=I8Q89La4Y+DjxWM8Djiv/C91wtZ+Lh6W4Q7Zl+euWUIKfg8ZofEsjkWWTJz9fW3cIj
-         N9D34aS3V6ejjPICV+uJhZQx+t90ayJ0PLzHapsHV4jkd0UPRYHMVfftBpEeiF9a0Sv7
-         rBFDf78rxiHC+892sEM6Bcf9KN6WsC2XUCTuiwAv8hD8PcqWqcb82GCFifyn/CSIYSqk
-         6EEFh1ZrKH2uDRGc7KJsVan3DqiwNCB3dZxx6hL2Q+0/fw4Z98PyM8mTVZLS25CDMqbz
-         LO+omqtu2zhGlDb4eMxrnHiovBVLAUxF0a54Im7cCGq8jI3KPu7YLaAYmoPEAhV/eBov
-         Cbcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755764410; x=1756369210;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VVdyfb1owiUrSj5mrUpAZzb1V0r+oMDnI+RfgrzmLmQ=;
-        b=eu6y9iWI5MZf47DfXMrmFxiNaH7b6Ofcvarihif/zu99BYDNYQJI8XI5TxFDl1cY5l
-         Oc6fHVo0jTo7PHbpkgYGrTXH3Yhyth4Rncxwm5AGKNZpQ1b/LMXH4AC9XPfhphdABdHW
-         d1/WuQwjrnf+rRs5B9NW3UuBkAerIvTumq5qpLc5KBid/ARApX11Roo5HLnFC65fdTXw
-         NNcnA4T3KN3ZvfeGpLWUgBme51EEKEuZsNhvKawhlbNvSMDQx6QKLIPP5ofDzPgpBpO3
-         mMrrB0KbmdwX/masdJMAU0u2Evo5VXyTbhw4N/4jKFMv+hH7Xnrj8tBXM2amWMgOx2ua
-         1pPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWSNoyJjM3wfAT0O0h5WyOTnPinvKXjPl3OJPo+2QYqnDfasyVXY68ZjEZLUxLOh30gkXbV1SlImwTzjmE9p1stkU0Ziw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxjqZHjq+0YeshodqlOzwou7ROlRjDCqkuoK1J6hahGtzzB2jd3
-	tSP2tvyv78CGMDvQb4FISyeA5FaW2wh9DEbDjrMhNzA3Ht2a0+zXYs/7
-X-Gm-Gg: ASbGnct2xYkDKM816Hp7yPUVbJjj31b14q+VhIj6qOY6aQdN349UuA5t2H0C9OgHwE/
-	hRjb7ILnmJYgdeJFBbBenWrVWvUOpBfFsKs1mHcMfSfr9UAs7DaUNZi0iA/QR7BqXTyFJ3MgqH7
-	RfdlxjxSGG011S1zvMSP3zutqITqUVKgVSZrYKRZZLMpQUK/oVoSt6X7pMCqPIBmupnC92wGRKM
-	LKLV5abJBKlR02UHJDm92nf9Gp0d0FRf34rZUOjE/iu63rnpWrY8/wAiG/elR7i9iPprmznXt5z
-	sucRvaKLLyWOOuNo6Sj4sbvho5D3B56BjgBWl0W1WQYW+poIXC0VkzC1Ik1yqrfoTf+By7xkMd+
-	CIzHPpgQfZ9dF5QiXXwfaSRsbxppewBjfuDC9+3vvRcCJfV05tjD97b8=
-X-Google-Smtp-Source: AGHT+IGKdPlIQ1dw7VT4HwkMn1t5FdLrHQzSs3zBpSEXsX9SbKEry0EQVRbHiJ09vLI6a1TtMRq0Pw==
-X-Received: by 2002:a17:903:2448:b0:234:325:500b with SMTP id d9443c01a7336-246062d1978mr17963555ad.22.1755764410137;
-        Thu, 21 Aug 2025 01:20:10 -0700 (PDT)
-Received: from ti-am64x-sdk.. ([14.98.178.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed377de7sm48259875ad.62.2025.08.21.01.20.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 01:20:09 -0700 (PDT)
-From: bhanuseshukumar <bhanuseshukumar@gmail.com>
-To: skhan@linuxfoundation.org,
-	bhanuseshukumar@gmail.com,
-	cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com,
-	kyungmin.park@samsung.com,
-	linux-pm@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id UExqAwCBCNav for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 21 Aug 2025 08:47:19 +0000 (UTC)
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2607:7c80:54:3::133; helo=bombadil.infradead.org; envelope-from=batv+60ceb029d8b5ee12084a+8033+infradead.org+hch@bombadil.srs.infradead.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 7D30F40C26
+Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=infradead.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7D30F40C26
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=fWENBFe1
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7D30F40C26
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 08:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Mh/S+h5QxhKEbHlGF8hYN24btVqVDLaiV8YcyYE/644=; b=fWENBFe16pOMAhbCXyM4DqUIOF
+	LlAtLPM1aQ6DWsawNjzJJIq/HjYEDZaa5jG118IDy9XyDkq52D3hXO3yUADzBInVISrmSGKgt9ner
+	8urb+gAVKzFR/aqOUdbgGUrEa+natlf0ipzLq7ypJ3jsVnefg1pezXki4J7QYwBlQoIxoDjYNq/2L
+	noSpdE6KVIHt+APXXujuDDZg8sL3Y3aohkPigYeU7o8VZ2Q+a/Zo5t8Rm4x/PK2wx1Tv0JERXbG0I
+	D6d4pwx6PmPZq+0v3r0aRVz9Ne96/vQUOKZlzbfIZQjKqzCknxzBnXnC21lwvFDnmjWdZltyv5+za
+	dkrketpg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1up0x2-0000000GIiw-1acc;
+	Thu, 21 Aug 2025 08:47:16 +0000
+Date: Thu, 21 Aug 2025 01:47:16 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Marcelo Moreira <marcelomoreira1905@gmail.com>
+Cc: Christoph Hellwig <hch@infradead.org>, cem@kernel.org,
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] docs:Fixed typo. Specifically enabeld is changed to enabled
-Date: Thu, 21 Aug 2025 13:50:01 +0530
-Message-Id: <20250821082001.6082-1-bhanuseshukumar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH v2] xfs: Replace strncpy with memcpy
+Message-ID: <aKbdFONDSYp0FxSg@infradead.org>
+References: <20250817155053.15856-1-marcelomoreira1905@gmail.com>
+ <aKKvjVfm9IPw9UAg@infradead.org>
+ <CAPZ3m_g+KcJt_wxBjdmvyW+FqXAcEfVDUuHkp8iZ6XiUZ+6x-w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPZ3m_g+KcJt_wxBjdmvyW+FqXAcEfVDUuHkp8iZ6XiUZ+6x-w@mail.gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Signed-off-by: bhanuseshukumar <bhanuseshukumar@gmail.com>
----
- drivers/devfreq/devfreq-event.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Aug 20, 2025 at 10:47:17AM -0300, Marcelo Moreira wrote:
+> Hmm, I've sent the same link to other people, and none of them
+> reported any issues with the SSL certificate. In my case, I'm using
+> Let's Encrypt. It could be an outdated certificate in your Firefox.
 
-diff --git a/drivers/devfreq/devfreq-event.c b/drivers/devfreq/devfreq-event.c
-index 70219099c604..020fe30ed5d9 100644
---- a/drivers/devfreq/devfreq-event.c
-+++ b/drivers/devfreq/devfreq-event.c
-@@ -100,7 +100,7 @@ EXPORT_SYMBOL_GPL(devfreq_event_disable_edev);
-  * @edev	: the devfreq-event device
-  *
-  * Note that this function check whether devfreq-event dev is enabled or not.
-- * If return true, the devfreq-event dev is enabeld. If return false, the
-+ * If return true, the devfreq-event dev is enabled. If return false, the
-  * devfreq-event dev is disabled.
-  */
- bool devfreq_event_is_enabled(struct devfreq_event_dev *edev)
--- 
-2.34.1
+Turns out I was connect to a corporate VPN which had some man in the
+middle thing checking for "bad" websites, and they somehow considered
+your bad, and their redirection didn't work.  Sorry for the blame :)
+
+> Regarding sending it to the official xfstests README, it would be a
+> good idea! If anyone here is involved in the xfstests project and
+> thinks the post is good, I can send it to the official README :D
+
+I think for the README itself it's probably a bit too specific.
+But I'd love adding it as a new HOWTO file linked from README.
 
