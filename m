@@ -1,104 +1,126 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630BD1F3B8A
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 21 Aug 2025 17:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755796755; cv=none; b=sLLhz2w9wYVzrNpCUjclvGJSKwoYsjfRe6QQX5v0ybl5H+EOAWcO5SSRQSWh1WP5vaSEHDyzqXVRHErRxz2hIKV8Owq64Tp1H0m0qaTd/Je/+VZQa5GwOfF65dfS2Dviywn3awyMjmdW7vWYmsuWAdA5tJu1x8Er+SefNRVpDUw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755796755; c=relaxed/simple;
-	bh=kJOoCHsdPAISSR4HcFlHZ0fIcM/ZbT9tK9WAAjen35Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aElcM0QiErqTIUB0tvLoTfjJqvf9Fmx8Jam2EUql8qHXbSFBtcNU0H/+F6M2MV1y8g6S+iEJAJIvsqbMmgv4SbRyIbjuIzpYKm9mj7x2D16cPHZPcGLEjrbhS0kT2OJmLQId26Zu4Mg/aqIKbQRs3v6InDL+wdFHamaCF1Cy0EI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y9ne+pc+; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8591031DDBB
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 21 Aug 2025 17:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755797240; cv=pass; b=qeswq3Bz10mnDN1VfeJ4Kkdz5QGDXm8/S8KrnjwKFVTW43q/XrxbRUQC1iHjHk3advIbqY0b4DyJlhazn7Umsud6tZKSpbZ5hFHScu2Sr0sT3ZxQV6fsGgUHeliXDY2AZd0LYbQSH135C/3QGRyzEDEJfMZ12YY0d3/872NGTYw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755797240; c=relaxed/simple;
+	bh=LklTssh4fBevXzAoiwMt+7Y2Yyj1iGwcKxLcu9C0pwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HfKyIfyCcMloPHIMXxTVtONH0TBBaNQ24bmXw+Y2vjVqVteFpg+xuLE2yXrD7FrpUqvilW6AtSK5wM2Lt38us8zaehC8CVS1awtLz8a3MwgrOZMk0LSt7NTw4wrICWLDNhI1qh5ep9t13kMYmvVMBWGidEEVBn+WFiKDL6S53sg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=JxaM6Dv/; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y9ne+pc+"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76e2e613e90so1011947b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 21 Aug 2025 10:19:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755796753; x=1756401553; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tcYrZ6OBHDvhQxq+aUNrUDX0E+CGMcdoNU7ZBepwhNQ=;
-        b=Y9ne+pc+Bdw9xn6qsT6I/a1baYguf9SHk5BaYHDtsP3Xl5pGyG7SfqRN7rP7pXcdaj
-         Y3pjEY/ERXfExFXOm1m0zYELHrgqJTJSkZsPgd5c54QQB8YGy7WnyudY5++3tN/LsEGG
-         VMn41iMZ8F6lGOyviwFo9QsvH0ulT7jIEZf0LM/BnAb2jxvybTU4eELj7DdrDMJh1qH1
-         kXm4tGM1728Nwm8EyLKRq6LM1TDU7fUkw4wnX5Q0X6fIt7ysiD7vUAmYh3OgM5p9BsrD
-         9LVIW1qEHH1+LV2KrDFKsL32udRDYMu0S10wBnBlDWCHd4jCineQ+nYRJNVriRCateXd
-         8jZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755796754; x=1756401554;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tcYrZ6OBHDvhQxq+aUNrUDX0E+CGMcdoNU7ZBepwhNQ=;
-        b=nTnEJbMaIhEaAFwz9BkZk4JA/8RETMHEb8tbo8q2Z2kqqShMNbl7Qp0QbZ3rkKdgDm
-         cJOV99Gb7hQu57nxwvJu7cMVT5M67gShqB5bwb+zljKnvz71VdP+gUXhpQfUUnhWaqpw
-         jGCCDBS/+nBHZmchb4udN6T/OPrqWy1CinWqMa5mOvPZ6lCYElrTbFOlm7YZB5q4VPmm
-         NsehzTd7paarb77km3UpYazy9X40oJM3/31+i03ooI7vmtMuS7m5vkUXfUxnNXuAAuK9
-         IiaZ66cfDVFqf8htn1OY1s1iN5H9+PkWakwsHhxBuIYWrQQeunYYK00npg3KAgLSgmpO
-         7KEg==
-X-Forwarded-Encrypted: i=1; AJvYcCW4/aizz+tpmcOTMGtIJV49LedXcTf1RgOonco0A6u26mppLXiiL9y29OhckRNORT+ZXUmai2G9tVGSOdmYHEkYhLPnjQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw/cApSlGJqD/19CZHAAWaZUc+cje7RKTIZuiIRq/PxxYUCW8YO
-	hPt+bHTb1v7BOyXJRAExWfniF5cF0fipuPRnY5rhV8NX59qOlBws4yzYmAF12+tH
-X-Gm-Gg: ASbGnctDuWjmA7BRPGoC0tFxOqXupvm7BOc8bDpBeMNk9F4YOlh5L2hYbaU48s7JrXV
-	a1KpqzV/AD7idZ45GW9oSNlqSlRhr4lvZKLVtO0gzPeajICC0UxuSzfjLoGXzHRz6vmxGTa8gB4
-	aJTVjYeUkwZyqHoYl6X6e0SOkrEjoI8tMmQOf/pEmrrtVyFVNqbpOq841V05OnFBiuvFgJie2sC
-	m+DEEb/vB0Fb/7hZEhG3kLNH3mMGrVm+a2wKX+ehia64EWyMa9YYgb5Ba0DtC3VJcjtoQP68r5p
-	SBSwFrlan8MXdLKPWP/5MtVVkv2KpXhiiRIbmeDEUUDhK0V0KVEllEOxNbipyFHaBaS/MJ2y7DA
-	GXSJ7s5V0eTGtZRm+twKUDjPE6L/xtQ==
-X-Google-Smtp-Source: AGHT+IHBucu8OwcgFnbMcDmdfHatcMrjkcrIifXC+JFyAq9nGFkI3xdW1Hyw9uXfRdw3ENPPJJZBMQ==
-X-Received: by 2002:a05:6a00:3e01:b0:748:e9e4:d970 with SMTP id d2e1a72fcca58-7702fa091a4mr233913b3a.1.1755796753292;
-        Thu, 21 Aug 2025 10:19:13 -0700 (PDT)
-Received: from archlinux ([205.254.163.81])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e7d14e531sm8626591b3a.50.2025.08.21.10.19.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 10:19:12 -0700 (PDT)
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: [PATCH] fs/namespace: describe @pinned parameter in do_lock_mount()
-Date: Thu, 21 Aug 2025 22:49:05 +0530
-Message-ID: <20250821171905.10251-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="JxaM6Dv/"
+Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4c79HP5p9NzyT0;
+	Thu, 21 Aug 2025 20:27:13 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1755797235;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2wGT35ACRJqeMBans5AxgJKwaQp7w8jXRanXd6Ne1bQ=;
+	b=JxaM6Dv/fZ9UGmi8CIeam1q+xqkRmkbdNQvPActPXC/F/ZJAfA1SANSNEef801sTCREpta
+	YKtbu3aaab9QwC5GNPKJpISv8XZJIlpnDAD+XGUi0YyPn1luTNz7As5Kq0rLtf0XubLuUY
+	r+WE9vmFIJCrSPtCDqz+sDqPSv2oS1g=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1755797235; a=rsa-sha256; cv=none;
+	b=AAONFo51j+0I9vh1CUJfqDu6AUoQysbFgjHSUs5GTdaLwvJdkuZhQI/fiXC134ugRux76U
+	SU7ZtRfOlaxIi8HmGOHAEPe/dIaLbBSBhG+V1V7ddsOMQpctXUcniOiVLOwMWpCz1IqyAl
+	UBhYz3+7bKqfJ8TTw1LZ+yhl/vKPeUI=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1755797235;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2wGT35ACRJqeMBans5AxgJKwaQp7w8jXRanXd6Ne1bQ=;
+	b=RQKnfDy1jf2/IN5lvVEIE8Af/aGZg4F51igPJJc5QMJavnyyXHPwljquRXiiL6rRBo5jUL
+	ahLh8L0Tz3KsRiGJbxlHr01Nvq0ycF+ofEgp7GNQB21CehYOExQdkgJpldETtYSmmoY3f7
+	tq4GOx2hMLv8B+0pArLngQqbABCtlaM=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 2E407634C98;
+	Thu, 21 Aug 2025 20:25:48 +0300 (EEST)
+Date: Thu, 21 Aug 2025 17:25:48 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
+Cc: alain.volmat@foss.st.com, mchehab@kernel.org, mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com, linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, shuah@kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] media: v4l: Fix dereference before NULL check
+Message-ID: <aKdWnKdSDs2j73F-@valkosipuli.retiisi.eu>
+References: <20250818093159.612208-1-chandramohan.explore@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250818093159.612208-1-chandramohan.explore@gmail.com>
 
-Add a description for the @pinned parameter in do_lock_mount() to suppress
-a compiler warning. No functional changes
+Hi Chandra,
 
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
----
- fs/namespace.c | 3 +++
- 1 file changed, 3 insertions(+)
+Please choose an appropriate subject on the next time, this is missing what
+the patch is for -- see git log if in doubt.
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 0a5fec7065d7..52394a2ebaf3 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -2738,6 +2738,9 @@ static int attach_recursive_mnt(struct mount *source_mnt,
- /**
-  * do_lock_mount - lock mount and mountpoint
-  * @path:    target path
-+ * @pinned:  holds a reference to the mountpoint pinned during the
-+ *           mount operation to prevent it from being unmounted or
-+ *           moved concurrently
-  * @beneath: whether the intention is to mount beneath @path
-  *
-  * Follow the mount stack on @path until the top mount @mnt is found. If
+On Mon, Aug 18, 2025 at 03:01:57PM +0530, Chandra Mohan Sundar wrote:
+> In 'stm32_csi_start', 'csidev->s_subdev' is dereferenced directly while
+> assigning a value to the 'src_pad'. However the same value is being
+> checked against NULL at a later point of time indicating that there
+> are chances that the value can be NULL.
+> 
+> Move the dereference after the NULL check.
+> 
+> Fixes: e7bad98c205d1 ("media: v4l: Convert the users of v4l2_get_link_freq to call it on a pad")
+
+Fixes: requires Cc: stable. I've fixed these this time. See
+Documentation/process/submitting-patches.rst .
+
+> Signed-off-by: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
+> ---
+>  drivers/media/platform/st/stm32/stm32-csi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/st/stm32/stm32-csi.c b/drivers/media/platform/st/stm32/stm32-csi.c
+> index b69048144cc1..fd2b6dfbd44c 100644
+> --- a/drivers/media/platform/st/stm32/stm32-csi.c
+> +++ b/drivers/media/platform/st/stm32/stm32-csi.c
+> @@ -443,8 +443,7 @@ static void stm32_csi_phy_reg_write(struct stm32_csi_dev *csidev,
+>  static int stm32_csi_start(struct stm32_csi_dev *csidev,
+>  			   struct v4l2_subdev_state *state)
+>  {
+> -	struct media_pad *src_pad =
+> -		&csidev->s_subdev->entity.pads[csidev->s_subdev_pad_nb];
+> +	struct media_pad *src_pad;
+>  	const struct stm32_csi_mbps_phy_reg *phy_regs = NULL;
+>  	struct v4l2_mbus_framefmt *sink_fmt;
+>  	const struct stm32_csi_fmts *fmt;
+> @@ -466,6 +465,7 @@ static int stm32_csi_start(struct stm32_csi_dev *csidev,
+>  	if (!csidev->s_subdev)
+>  		return -EIO;
+>  
+> +	src_pad = &csidev->s_subdev->entity.pads[csidev->s_subdev_pad_nb];
+>  	link_freq = v4l2_get_link_freq(src_pad,
+>  				       fmt->bpp, 2 * csidev->num_lanes);
+>  	if (link_freq < 0)
+
 -- 
-2.50.1
+Regards,
 
+Sakari Ailus
