@@ -1,104 +1,92 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52DC2D4B4E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 03:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9F9217F24
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 03:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755745609; cv=none; b=kdfLmrKY3qPbZmJbBcYowvKYF6UiRY24KjPEaFodRahkBu/GVopSUZO+udmBNzkas2OJG0wt3uwLDw/DzMfn2Sl9c5IuHlUUzcwuJuIRFNUpE214lR51MtmlgQvXWp8bOHWx8SjhhVNiHMLJyAeZBz1ogBMXBTfywMbBOzYxTEk=
+	t=1755748760; cv=none; b=SdZfMcFxu3496qDV/faEJd2Oflc54g2iD3jqBYKWYIXH41AReHHuSW/rIbu5BsqsBW3YSwD7Ge55Zw8HGTyedNGFGwd+UQ8i8g/cqe0pgkZbOEd3Gjl0Utiry/YuVge7+ymdhRbbS8WZU4Yg8152rCOxX1s0bGE8VRpO3pFpGS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755745609; c=relaxed/simple;
-	bh=bF24w49KxhiqPN4eoMYn+dEQt0aAYbwmA0oPyP/PBnw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YcLbyz/M443dQXChjd3lnUTBrzgf2PGYEa4RgowUPkjJl1vmWIpqNZXRS77ZrtGZ0Jrl31V8tPx1aojzQDypBDv9XVbgQW4tuOmfPA/T4YjMza5sB7RudBUpTMClwCPVOSJdhLyqSuH8Dvf5gJZ4Irt4lhh7+gL5ZZnIMXPrXZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MQWMeOsc; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1755748760; c=relaxed/simple;
+	bh=wlPvbixKsFivuJ/uCAGwERK9ERg3cDoDU73Rw68oQZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HhcwxcQNrzlT2cEAaSwlpJlIlHDDLh6tio10gtBlbUWs5IaQ4qYbJ77lG/RR7xqEABnUy510FY7EFmGk5tTdFKF977N6qmUZNhv5SsAbWlFeiMXFM0IOrTp34xi33h/jXN9Ia45sw3kbeNqNmzvaE5BxYQjrj3aXVCmdGwj7An4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vMwcQWRM; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MQWMeOsc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vMwcQWRM"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 90B3A4005F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 03:06:47 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id ABD4E416A9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 03:59:17 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.398
+X-Spam-Score: -2.101
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 3QjJ5C2wJCLd for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Aug 2025 03:06:47 +0000 (UTC)
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2607:7c80:54:3::133; helo=bombadil.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 7E46840467
-Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=infradead.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7E46840467
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=MQWMeOsc
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7E46840467
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 03:06:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=tIDAFgFXP+KfCHaBZYFy17v8lTqJ/ZVxo+olFKcoIuY=; b=MQWMeOsc+RDyD8Tr1/R8PmI0OQ
-	iu1epjTKc78mfsv7VX1uKwZfZ8nTGPaOrPpF7e1+Xjsv6Od3IIwmNjTmuMNz3rPNeGdKtSuG3Y5uk
-	tn9sQcda55euFysdFxBzGWMfXp5kMfNTiDVkN/V/b4qsLj2t1Wq6Sz9VMtCnkEswt1H4ZaS1G/JJy
-	KMTPF50GwCSFjdDhJmDeNE7U+GwBpxKYy0Jfels2bQyjBesPWsUUsL9xih/z4o4sYWkv4T+WHASMI
-	ktdoospC+Y45wsC/cOKnxhRi8HsIXdwE2lvpVo9Wfnn7HLAgUiCMN7D1cU7PymKMMeKWI3TSKIAUJ
-	EH6NzA4Q==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uovdS-0000000Fb0r-3xFG;
-	Thu, 21 Aug 2025 03:06:42 +0000
-Message-ID: <0f11100e-ca60-44a8-9826-03c80675446f@infradead.org>
-Date: Wed, 20 Aug 2025 20:06:42 -0700
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id kXOzfN4vKk0r for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 21 Aug 2025 03:59:17 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=ebiggers@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 152F8416AB
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 152F8416AB
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=vMwcQWRM
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 152F8416AB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 03:59:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 3A73045C56;
+	Thu, 21 Aug 2025 03:59:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88F8EC4CEF4;
+	Thu, 21 Aug 2025 03:59:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755748756;
+	bh=wlPvbixKsFivuJ/uCAGwERK9ERg3cDoDU73Rw68oQZg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vMwcQWRMwZTBZxKoKPwiy8DIy8hOQNxeZ2k2NxO1AG86P1Izv9gAzrHwhl8dcZ9X3
+	 sMYxrShEmUIpA4u+rUuhQpbeMN8vmse3mSoyFzwA2iymU2nAeWWTFPVHBMM7XMWCPx
+	 akJFOAq6Mi6dt9PDtSo19qm09sRvt6iQeBr0A3k1dqtpn7EmRygmeoIW6/2hxLzzUN
+	 4l2heOzrxJzrodyTdy4Fi3atNFi2OaKtR12KD0oaIE3YTf6KFjhTRtIquPdz0mqphG
+	 A7IA5bKphrVvN/sGVds1Ij1lI+oSqPCzg2Hew58Aw7ADkyZFvIjL+Bh+tT2u68KJld
+	 VWp1RaM1ivriQ==
+Date: Wed, 20 Aug 2025 23:59:13 -0400
+From: Eric Biggers <ebiggers@kernel.org>
+To: Rakuram Eswaran <rakuram.e96@gmail.com>
+Cc: linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	ardb@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] Documentation/staging: Fix typo and incorrect citation
+ in crc32.rst
+Message-ID: <20250821035913.GG185832@quark>
+References: <20250820162615.6942-1-rakuram.e96@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] docs: gpu: Fix spelling in gpu documentation
-To: Rakuram Eswaran <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org,
- alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- corbet@lwn.net
-Cc: tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, simona@ffwll.ch, siqueira@igalia.com,
- harry.wentland@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-References: <20250821025957.22546-1-rakuram.e96@gmail.com>
- <20250821025957.22546-3-rakuram.e96@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250821025957.22546-3-rakuram.e96@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250820162615.6942-1-rakuram.e96@gmail.com>
 
-
-
-On 8/20/25 7:59 PM, Rakuram Eswaran wrote:
-> Fixed following typos reported by Codespell
+On Wed, Aug 20, 2025 at 09:56:13PM +0530, Rakuram Eswaran wrote:
+> In Documentation/staging/crc32.rst, below errors have been corrected:
 > 
-> 1. complection ==> completion
->    implementions ==> implementations
-> In Documentation/gpu/todo.rst
+> 1. Line 37: from "to being" to "to bring"
 > 
-> 2. unpriviledged ==> unprivileged
-> In Documentation/gpu/drm-uapi.rst
+> 2. Line 119:  Incorrect citation date:
+>    It must be August 1988 instead of August 1998
 > 
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Suggested-by: Alexander Deucher <Alexander.Deucher@amd.com>
 > Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
 > ---
->  Documentation/gpu/drm-uapi.rst | 2 +-
->  Documentation/gpu/todo.rst     | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  Documentation/staging/crc32.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
+Sure, why not.  Applied to
+https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git/log/?h=crc-next
 
--- 
-~Randy
+Note that this file is somewhat dated and is due for a rewrite.  It
+doesn't describe how most of the optimized CRC code actually works these
+days, using carryless multiplication or dedicated instructions.
+
+- Eric
