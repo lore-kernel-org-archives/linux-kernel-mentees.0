@@ -1,149 +1,108 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CDC2EA165;
-	Thu, 21 Aug 2025 22:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A132EAB89
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 22:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755813877; cv=none; b=CDfsXXS6314n9FBY+/0lWmwvR7XFyVs8KHkzoDJoRlssJMCBsAlAnETpOy6YHWViNMzh0oe13/QmM9V+P4PaRlzbn32nqou4kFXwYl8Aq5gwWlwPg+afAhwThKJIHYDmA3E4cAQ+i4CE1UD2hE2jBySGCBnuV5ZMTupZXuDH8zM=
+	t=1755814460; cv=none; b=VVRXDhnjTs1dzOjmtg7fyMHbch2QV+O7880ERHK8jLyTwEN5xFR4CKVq6Wz8UfOc4S+lw356hoeX1aR/6Vu7ciERu9eT0FFmkKJhLnTJ0EItrM6FjbN+YMvpsQ+IdxMtFHmb9iEVPI2xy7/LYAmQsMUzWFYv47ZNFFCmSSqon7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755813877; c=relaxed/simple;
-	bh=hxkcY5eXcU0/SP9gOE+pjfJcCyy7BDyDchffTZglGEk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ly2IsZPH/S9Ij1ICyJCjAUvHwUHY/ALIwklP++UB5K/rtB4QmFXNmASv6q5FgSLcGhkTiYDG8f53gyeV0mpNI136gR9qo0Yq0eqthBMQkd6FThNasONYQeyMXS8loDBrQem9Ry93zJ+11WEZ3GlTP3wCoxNPwS2QtwdOk4ehNq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from localhost (unknown [180.158.240.122])
+	s=arc-20240116; t=1755814460; c=relaxed/simple;
+	bh=S+Trtko+0wRKZhE6JSWDniCh6IfrnPbrR3w4hXx+v6w=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Myfz/i7Jvsk8irhZZAtvukMH7mButbINg3iukRSoIgBVmeUpoHgfu4aXviUXQ1s4ab1Rg/RyB76DRQRC+vaNE4YamjJA70ePgKE8TezoQ+dGL4Y6pNHlzZhH+XnX4wxXzq01QjhVdxXemfV+rQA4p4TlOTywB2a3Rb5+lkT/2tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=h3P4Sl4U; arc=none smtp.client-ip=140.211.166.137
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="h3P4Sl4U"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id A174A403FF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 22:14:18 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id nby77c6YKvgh for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 21 Aug 2025 22:14:17 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c01:e000:3a1::42; helo=ms.lwn.net; envelope-from=corbet@lwn.net; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 7B060403FE
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7B060403FE
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=h3P4Sl4U
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 7B060403FE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 22:14:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 53AC540AE2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1755814454; bh=Mi8nBCWTguqPRir2kyPNhtQ3kf1zAQLHtOjWErpNaMw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=h3P4Sl4UvlEg5OiJabnH7iF1K4tXUnOeHA1vrIX3dGBFsZqf1IZwfkpzOogYNUmKY
+	 fnVVMk3aKcgP1ve9imHvnbsifWaOMFiDinlE8J1Vcc5my1JhcOM8goZgp/Yhx5IQZE
+	 M9qW+Ym0d0yiBX1n0yp3u4CydG8sTg/ejzF4kXhS6TXsiHtz7EM95WfmItvyCVclnL
+	 phSKGKXAEY8AGOxTzVX+qslBCPM+g4xWSJfJh54lPEuOXR0VUq/y5K8pe1v8UXf6iM
+	 5qjFU396HS3t181C9ibg8ONt/JkzUJqWYKzwz2V61+F+R8mOz0xd4LJPrtShD23ngO
+	 3JulSAeCmVKwg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::824])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id AD411340441;
-	Thu, 21 Aug 2025 22:04:34 +0000 (UTC)
-Date: Fri, 22 Aug 2025 06:04:30 +0800
-From: Yixun Lan <dlan@gentoo.org>
-To: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	alex@ghiti.fr, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] riscv: dts: spacemit: add UART resets for Soc K1
-Message-ID: <20250821220430-GYA1070455@gentoo>
-References: <20250821152619.597051-1-hendrik.hamerlinck@hammernet.be>
+	by ms.lwn.net (Postfix) with ESMTPSA id 53AC540AE2;
+	Thu, 21 Aug 2025 22:14:14 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: paulmck@kernel.org
+Cc: Nikil Paul S <snikilpaul@gmail.com>, linux-doc@vger.kernel.org,
+ skhan@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v4] docs: rcu: Replace multiple dead OLS links in RTFP.txt
+In-Reply-To: <972cf9c8-f8a6-4a5a-90a4-696f9a4e0f6d@paulmck-laptop>
+References: <20250819180545.3561-2-snikilpaul@gmail.com>
+ <87h5y07e6y.fsf@trenco.lwn.net>
+ <972cf9c8-f8a6-4a5a-90a4-696f9a4e0f6d@paulmck-laptop>
+Date: Thu, 21 Aug 2025 16:14:13 -0600
+Message-ID: <877bywqq4q.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250821152619.597051-1-hendrik.hamerlinck@hammernet.be>
+Content-Type: text/plain
 
-On 17:26 Thu 21 Aug     , Hendrik Hamerlinck wrote:
-> The UARTs in the SpacemiT K1 device tree are probed by the 8250_of driver,
-> but without reset lines they remain non-functional.
-> 
-> Add reset control entries so that the UARTs can operate when mapped to
-> devices. UART0 is already de-asserted by the bootloader, but include its
-> reset as well to avoid relying on bootloader state.
-> 
-> Tested on Orange Pi RV2 and Banana Pi BPI-F3 boards, with UART9 enabled
-> and verified functional.
-> 
-> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+"Paul E. McKenney" <paulmck@kernel.org> writes:
 
-Reviewed-by: Yixun Lan <dlan@gentoo.org>
-> ---
-> Changes in v2:
-> - Improved changelog
-> - Omitted current-speed property for UART0
-> ---
->  arch/riscv/boot/dts/spacemit/k1.dtsi | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/arch/riscv/boot/dts/spacemit/k1.dtsi b/arch/riscv/boot/dts/spacemit/k1.dtsi
-> index abde8bb07c95..6c68b2e54675 100644
-> --- a/arch/riscv/boot/dts/spacemit/k1.dtsi
-> +++ b/arch/riscv/boot/dts/spacemit/k1.dtsi
-> @@ -667,6 +667,7 @@ uart0: serial@d4017000 {
->  				clocks = <&syscon_apbc CLK_UART0>,
->  					 <&syscon_apbc CLK_UART0_BUS>;
->  				clock-names = "core", "bus";
-> +				resets = <&syscon_apbc RESET_UART0>;
->  				interrupts = <42>;
->  				reg-shift = <2>;
->  				reg-io-width = <4>;
-> @@ -680,6 +681,7 @@ uart2: serial@d4017100 {
->  				clocks = <&syscon_apbc CLK_UART2>,
->  					 <&syscon_apbc CLK_UART2_BUS>;
->  				clock-names = "core", "bus";
-> +				resets = <&syscon_apbc RESET_UART2>;
->  				interrupts = <44>;
->  				reg-shift = <2>;
->  				reg-io-width = <4>;
-> @@ -693,6 +695,7 @@ uart3: serial@d4017200 {
->  				clocks = <&syscon_apbc CLK_UART3>,
->  					 <&syscon_apbc CLK_UART3_BUS>;
->  				clock-names = "core", "bus";
-> +				resets = <&syscon_apbc RESET_UART3>;
->  				interrupts = <45>;
->  				reg-shift = <2>;
->  				reg-io-width = <4>;
-> @@ -706,6 +709,7 @@ uart4: serial@d4017300 {
->  				clocks = <&syscon_apbc CLK_UART4>,
->  					 <&syscon_apbc CLK_UART4_BUS>;
->  				clock-names = "core", "bus";
-> +				resets = <&syscon_apbc RESET_UART4>;
->  				interrupts = <46>;
->  				reg-shift = <2>;
->  				reg-io-width = <4>;
-> @@ -719,6 +723,7 @@ uart5: serial@d4017400 {
->  				clocks = <&syscon_apbc CLK_UART5>,
->  					 <&syscon_apbc CLK_UART5_BUS>;
->  				clock-names = "core", "bus";
-> +				resets = <&syscon_apbc RESET_UART5>;
->  				interrupts = <47>;
->  				reg-shift = <2>;
->  				reg-io-width = <4>;
-> @@ -732,6 +737,7 @@ uart6: serial@d4017500 {
->  				clocks = <&syscon_apbc CLK_UART6>,
->  					 <&syscon_apbc CLK_UART6_BUS>;
->  				clock-names = "core", "bus";
-> +				resets = <&syscon_apbc RESET_UART6>;
->  				interrupts = <48>;
->  				reg-shift = <2>;
->  				reg-io-width = <4>;
-> @@ -745,6 +751,7 @@ uart7: serial@d4017600 {
->  				clocks = <&syscon_apbc CLK_UART7>,
->  					 <&syscon_apbc CLK_UART7_BUS>;
->  				clock-names = "core", "bus";
-> +				resets = <&syscon_apbc RESET_UART7>;
->  				interrupts = <49>;
->  				reg-shift = <2>;
->  				reg-io-width = <4>;
-> @@ -758,6 +765,7 @@ uart8: serial@d4017700 {
->  				clocks = <&syscon_apbc CLK_UART8>,
->  					 <&syscon_apbc CLK_UART8_BUS>;
->  				clock-names = "core", "bus";
-> +				resets = <&syscon_apbc RESET_UART8>;
->  				interrupts = <50>;
->  				reg-shift = <2>;
->  				reg-io-width = <4>;
-> @@ -771,6 +779,7 @@ uart9: serial@d4017800 {
->  				clocks = <&syscon_apbc CLK_UART9>,
->  					 <&syscon_apbc CLK_UART9_BUS>;
->  				clock-names = "core", "bus";
-> +				resets = <&syscon_apbc RESET_UART9>;
->  				interrupts = <51>;
->  				reg-shift = <2>;
->  				reg-io-width = <4>;
-> -- 
-> 2.43.0
-> 
+> On Thu, Aug 21, 2025 at 11:54:45AM -0600, Jonathan Corbet wrote:
+>> Nikil Paul S <snikilpaul@gmail.com> writes:
+>> 
+>> > This patch updates several dead OLS links in RTFP.txt, replacing them
+>> > with working copies hosted on kernel.org.
+>> >
+>> > Originally posted as part of a 2-patch series, this is now being sent
+>> > as a standalone v4 patch to avoid confusion.
+>> >
+>> > Changes since v3:
+>> >  - No change in content, only resubmitted as a single patch instead of
+>> >    "2/2" from the earlier series.
+>> >
+>> > Signed-off-by: Nikil Paul S <snikilpaul@gmail.com>
+>> > ---
+>> >  Documentation/RCU/RTFP.txt | 6 +++---
+>> >  1 file changed, 3 insertions(+), 3 deletions(-)
+>> 
+>> So this looks good to me, but it should really be run past the RCU folks
+>> (and Paul in particular) as well; adding him to the CC.
+>
+> I queued this and checked it and it looks good.  By default, I would
+> send this during the upcoming merge window.  But if you would rather
+> take it:
+>
+> Reviewed-by: Paul E. McKenney <paulmck@kernel.org>
+>
+> Either way, let me know!
 
--- 
-Yixun Lan (dlan)
+It's all yours.
+
+Thanks,
+
+jon
