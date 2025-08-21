@@ -1,319 +1,142 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F85026E70B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 07:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=140.211.166.136
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755759813; cv=fail; b=io1UJJ1liVSqqm93BdYXXi7shODSha69mLdir1Ft9nt7MlPk7vRR5qeDLcpytbE/ypZoontqxa06VORIjM0K+U6uvqXoKLzlh0VjP93uPwKNG3zKkHE3QfBsPA+J4y8djizAKvpKcq1vMBCOxmlMbTzcH3oC25UZHPBL35IIq2I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755759813; c=relaxed/simple;
-	bh=BrEunxtopfFb0Au8+HSu8q8UG3zbsrpcYblj3ddrowA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=g2ViiA5y0X6eRcwiXeYbGEt6GLpaSB9KL2Gryxl0gkvqhdaVQWqAhPzOgGv4JIsJAF4k9n8wdR2RDloyeg3lr6g+BTU7ZkrlvUti7oceaJcTDxTCwBPlScRcvO6ZJ1FZeE7wt9HXj8fFiZGEdE5NAKFHUoswISr6Zu1QrvdDyE8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=cKozoP+A; arc=fail smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BCD2EA147
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 21 Aug 2025 08:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755763938; cv=none; b=bwLmMAmGy1zgxYRGCydkQD1H/H2JHUNu/HY3HExxmUc6Lj/YszvttW998K6lP4JzRuh6LDhjev0hmD2LtIOlu/71B6OfHLsXqpfh45KCtEZyTbXZgQj0VdThmvrWVh9sPCf9mMKuo6oFCuzTk/+6QBTgaTYHNyDr0oTFquazr6Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755763938; c=relaxed/simple;
+	bh=Ib5rwP8vabBmjTB2gHFRufvV/brLouRfcpTeVRXGdAQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YywrgVS/P/FI7lSXvqlxmogvVBCXjQfoQ/bNH6am/Bk3fz+Rf0fx/N8OcnqAL7fqS8DySsXsl7cwBRX8fTknuDSkbH3eDvuzLnxeQXwP004G7tER0dN8OofbyuazFHcPaxadq0nDITngEEtJqyU54o/PaXjrrnF+vjgh/IkKhI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=rdB7mbha; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="cKozoP+A"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id C9E1C6152D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 07:03:30 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.103
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id adRQRqrcn4Vx for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Aug 2025 07:03:30 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a01:111:f403:2407::617; helo=nam02-bn1-obe.outbound.protection.outlook.com; envelope-from=christian.koenig@amd.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org B7BE661578
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B7BE661578
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=cKozoP+A
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on20617.outbound.protection.outlook.com [IPv6:2a01:111:f403:2407::617])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B7BE661578
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Aug 2025 07:03:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qyw8wAQQTqqakIJXJRIOqUE1Y8L7NQTqVIbMC+O/2F0EnZi2wJ58eUWwC9a+S2szUwtM8/PrzmK107Hve9DDRYvQIisJFMVFtClua1zP/5iq9+pvLeXwsX6RUmffwtxvar0vDTU5mvj9M4hUTh8zlKjfkvnB6nlD4Vpu/BQtH52RL4yVu5KRiESSrRdQOeZtIanB1nnwiedoZq8714YVhPsIOVGdm5P0cv13SaWjUpMT0eZMiGdso6gcSon6soE1S9mi6CDAeYncP4bjbIp/Udl2a+YfQY7iasoa6tjvCfI2uDXLcXeqmvLSJZr3cVqKwQTb0c3cmfUUvIpeGgyb9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MmD7r3EmgeTCNmkKTfQjmnZG5DouZuUiQm4yZ6r7TS0=;
- b=nz96eCmzLm8TLgG83pVT4idVi3STPH3ndL3F+ImDGS12fMOaMWlY44y/TX54l4escPjX0WJWpcqmvcpa9qhWIyfGpWUTc+MRcrHMTo2SOVKnAuuE/bk4Acp2VaJtx7adUSogJZAnFpq1GnKAulOag28Yc937uNF+3V7QXKLlqla5L1bUe7APmSIIMBaEFKV8XXnrPkFtJpTSJB+SX4aIAghgRo3wSuKGr/q4V1tTXyoK41JFD5Ba3RHKcQlWw8JwF735S4e6BY+PifDQ/UuHAvKURxFtuTi/rGcGGrluHoumTZ60dOeFod6YCiRNJg1NIpsChQPaM+giCcsa5tXKGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MmD7r3EmgeTCNmkKTfQjmnZG5DouZuUiQm4yZ6r7TS0=;
- b=cKozoP+AdQnLeX8DDB2t5NFQqoVHvQFMfyDxE2JTmXYjRPT2a+iR7VIZIB8sRsaiB38ntF6g6znycUli3lcBwnNeJaDl1gdR1GnpvWvjpPQt9QMu1C4a9jG6yzac1fkOYDhkIYz0lYUyknWgVO+db1mbR5/a1CAL+b0sUoJN1fc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH8PR12MB7136.namprd12.prod.outlook.com (2603:10b6:510:22b::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.18; Thu, 21 Aug
- 2025 07:03:26 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9052.014; Thu, 21 Aug 2025
- 07:03:25 +0000
-Message-ID: <9924d04d-179c-428a-b2f7-001e075e8f38@amd.com>
-Date: Thu, 21 Aug 2025 09:03:19 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: gpu: Fix spelling mistakes
-To: Rakuram Eswaran <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org,
- alexander.deucher@amd.com, airlied@gmail.com, corbet@lwn.net
-Cc: tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, simona@ffwll.ch, siqueira@igalia.com,
- harry.wentland@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-References: <20250820182259.11227-1-rakuram.e96@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250820182259.11227-1-rakuram.e96@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0011.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::21) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="rdB7mbha"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45b4d89217aso1737545e9.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 21 Aug 2025 01:12:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1755763933; x=1756368733; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RnPqNwnRdJMIc37XxiVZSImeUH9HHnzjQda0KVcM9Yc=;
+        b=rdB7mbha8Uv9crQxY/bZ714CZld3pN2AUmT9z4Xv9InMFwB0jgjHvoIDMoBubRpUl+
+         /YFCXx/tPZ0s37d2JjOL8oOCwMFkac41qm1TxEGLTzDfTuFdtOLqKMD8TENChrdpYmoO
+         DjIfHQBf4STzyItdnY6GoiJBNdHue52gh3hrvr8ZxXHx5KaNlbBzhj86mx4sUw2Qc/NO
+         hHXx80bkaTCsaECvsu8ELtuPcf2ik1nwJyhMNp4w9erKNNpQpwnS6VUnO1bju43P5wfj
+         eLCWj0s3NfLPsoaDkXIdSQckBStDW4g/67bnVA7ygFi5IKYCicpK+bf2D504rFcshnsM
+         gBKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755763933; x=1756368733;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RnPqNwnRdJMIc37XxiVZSImeUH9HHnzjQda0KVcM9Yc=;
+        b=vZwb1AKQIC8GPgBZe6JNEbJiPy2MdED//SJo9oKv+wA7OkpbYCXi21RRPtchUf/5Fl
+         /o1FitWFTDzE222OlgPOxiFA39ClB7JmaSlNhYPeW/wmctgb5QPN5mWD7lbFlIH/Q4CI
+         Xb1+bNEERE5+sbA3pVvxVxmSMhDqOUF8887nFldhRLUaj4BbHvcS0XyPASv+nDYY1qKR
+         LAVPGZaZE/sbRtOGJZ8h8UthK0KzYPEpfuDCFfPAyq2WzzIpcP08/llLEBte+hZ+BT1K
+         549EJCipmOyFqMZ0ek+/3N6lAJB8cWE7IAzJlt5wlPsTn5n379TiM1sTgrt8uyVpnzx7
+         7zCw==
+X-Forwarded-Encrypted: i=1; AJvYcCXDm1Zqb85BoIvagnz5HAMCjrHOVR27VMqBOCdeyp6egSqrTmg4SfbSe/BthUAMZE+G71VDNScWhm5nSpEjvXJZXeKXiw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxPO5o+fiIbI68lA7Q8IzC9PboXtVKbAvJKK7/KHlU9oSAsv5Rr
+	Dphwb6vY2LIiNkluzRtPLHJfKmH9CBULVps2eEFN9whu6QvqZhuc1Ao30zp5Pu7Fj3g=
+X-Gm-Gg: ASbGncscToIMBnk1AsShEkuZNbwXWBpbLpLNpU/mnTtO+UGze1EvDsiP9qsK8RI5tVy
+	/LHOA83sBx7fu9C3wOW7fERx9pqUyAHfz1+eDDEb282tOQocvHMSFtreEShZXzwAl1ilT/vbnVd
+	1mMODr8YXqkIMzeRATPyYOLBaxQjHSdaHOhhswPFjiA3TpJrYzjGdtNyaLAxevtvZvOaiFnA4HO
+	T4uOYLz1talHa0XfjACbqD0ZxOdUkkF6e7SBCnaeKJxc1NVzvv6irBqHolcBlqtFcnnQx46naxJ
+	xEUDVotle5rAK+KeqT68/yeERmuKG0RWR85dHEzRSLAxwcp/lFb2aDsF9YUnyn2qyng14fENOrz
+	Us7f3SOgwAouMoV2hITyCG5Nx/jmAnocn8tUjq+a5rOVBznWCJLQFYqAHLmy8h/BtUsBqDQdbYW
+	HC4dwoqeNFSjim
+X-Google-Smtp-Source: AGHT+IHdhYS0MRSPzzW3UprEmG6p659Pq++hTQXcf3C6FUIxInpMAwyfL1/KDCaz5DbATd0JncFKyA==
+X-Received: by 2002:a05:6000:4283:b0:3c3:8e05:f72d with SMTP id ffacd0b85a97d-3c496da8a46mr1312520f8f.33.1755763932852;
+        Thu, 21 Aug 2025 01:12:12 -0700 (PDT)
+Received: from ?IPV6:2a02:1807:2a00:3400:b63f:533e:fab7:5343? ([2a02:1807:2a00:3400:b63f:533e:fab7:5343])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c074879fe5sm10591690f8f.2.2025.08.21.01.12.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Aug 2025 01:12:12 -0700 (PDT)
+Message-ID: <b98cfa73-c6ec-4006-bf84-febbbdea8804@hammernet.be>
+Date: Thu, 21 Aug 2025 10:12:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB7136:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5612de3c-9d32-4bc3-83e0-08dde080d2f2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|1800799024|376014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Wmo1N3orRGRZVzN3ekVORURQb0lqMlZaVytuQ242aDQ2QXJNTVUrVXhXNlVX?=
- =?utf-8?B?ZTFUcXRYU1ZHcnc5SXR6bGV1Znp2TXJjRE5LRmdqUjM0Rlo2SkMyMXBnRGVm?=
- =?utf-8?B?UTZ3eVNDL05XTEZsSkxYd0U4UkNFZmo1VllYWDJlRmc4RFI3K2xreGF2a3g5?=
- =?utf-8?B?WHRwZFZUUVQ2OHRSUVlDS1l6ZkJQR0VyNEdueHAvK2cwN0FPNmJIV3JXNVpW?=
- =?utf-8?B?TkJXc29PdGRUUEZBcStuWjYwRlFBNC9DWnNXTjd1eVRDODkrV29ZM1VWdnBn?=
- =?utf-8?B?dmFQcTlaMVhaSGMrbWM3SVFnSDhGYnlYUVJHWHU2Q1FYSzhhM2xkWUE5cXcv?=
- =?utf-8?B?ZmJCMGJnNkw2SmNPeXcxcllnb0lGTjFwWjlZbWlqTlpqckdVWHZHd2ZQQUtw?=
- =?utf-8?B?czVFNXc1K0Z4ZDZ0WkN3UGVoV2l5RXFld2hKTlYwYVhMdlQ2V0FGdHJ0ZTZ1?=
- =?utf-8?B?OVBLK2hORUxPaVNucEJseTJXVXFoelp0RmZXdS9RUnJPUzZIS1RkaENkbVI0?=
- =?utf-8?B?bDR1YlIrU0REZXI3SUl3Wnk0aE9hbGgzK3IyZ2ROQytyRXBxYjkxVHc2Z1NR?=
- =?utf-8?B?SFdRcnhIWkx1NUpNK0tKYjltbFo3Qk4va1pWNlR3SjdSSGU3aTAxQmJRallD?=
- =?utf-8?B?MXdKUVRiUHlEWWYxd2NQaDZGOE0wNDlRWXZRcjdJb3JtcThMYUFxbHpBa3BD?=
- =?utf-8?B?ZFJseGhaSEh4bWR3OGpMYkJMV0ovS2N6V2I3RDRya21rT3NTa1k4ZWR0Nzh6?=
- =?utf-8?B?L0dPdDB2SVV4T1pCYkpvb1VMZndQaDBCMDJ3aWJhbC9FUnBpV3JxR1hyOXdt?=
- =?utf-8?B?UDlhMXdHMUhTLzVXaVlOSXNhSmdoZi9Zd3N0WFp3NHQvckJjcXRFNjNWcFFR?=
- =?utf-8?B?NjdPSWhKaWZ1WEswcTNXd0k2U09YNnYvTk9BQ3l3SmdVOEFOek9YdnJtKytx?=
- =?utf-8?B?TjZzRGtmMW5lSHFkRVdVUkpPaE1lOGRzK0VpemZHOXFNL3c3VS92RUZrZElh?=
- =?utf-8?B?WmVQQjdLaUIrWmZBVkU4T0FYeVN0QStDL1pWSjZDQ0FkUDlWeThBSVFtaktw?=
- =?utf-8?B?VStXZzdwQVhxZUtGRlVYeE93V29qUStmaWNkbWlSTFkyMzZ5SGZxWnNOZk84?=
- =?utf-8?B?Q0VFZ0Y5eVdjQTdubXZ6SVNXankrSjZqOGYyUmJaTmlibHJYU25TV0RMYzVW?=
- =?utf-8?B?WTU1M2JMQmxZSGxkZFRCQTU2QUJBOE9sTGwrZWJyQ2NLaFg5Nm1XY01TS3BY?=
- =?utf-8?B?UkpoSExDaGNLTTRIbDg1T0xnQ2tDd2NVSS9ZcVo3aUNOUG5zNUIyd1RsZmJr?=
- =?utf-8?B?cUNMRDZjdlJuTnB3dWlTYVM5TmtIYWZUMVdSdUY3V0I0Mk51MG5GZjB6aU41?=
- =?utf-8?B?SVRIUHhMR0hkWHkyVEp1RkZuMHM1ZFVBaFZ3NnVaNTExdGxpVmJaZit4Vmlu?=
- =?utf-8?B?VVZFa3JUSVRIYUx0YUhmdXZBYVg0d1I4cEg4OEpBem5tcSt6QllnbXYrUm42?=
- =?utf-8?B?eE50VHFWeHkvcnhMd0tkbVpWcFZFYnVPcTVoWFNVVFk2NGcvWUVRbzgzMVJG?=
- =?utf-8?B?akZVZ2dCSGJ2TmZlczllU0dMOUxLbnlUS2FFZkxQNXB2bkJjc2pYdDV6Q3BT?=
- =?utf-8?B?SHVHTXZhd0RFUUllSitJYkt3RGgvRWRVSDNuVWJsb1JMTEJKOFpUMWRybjc3?=
- =?utf-8?B?Z09iVzYzUTlLdlExZStpWVlWTDhKSTlmN05NS01PS3dqVGwxY2Q5RURKMkcw?=
- =?utf-8?B?MWs2K1NaNTV1VURSRnp4Tlh5WndPSXdFNlRnTHVpaG0wSVQ5WVVCbDV6T0th?=
- =?utf-8?B?UlRjQzZOVmFNMFhCK2QxTHJkTDFURmp6R3dIOEdUeWVySTNJZDRETmZPZmRN?=
- =?utf-8?B?cEhnRWw0ejFucVJvZWNlMlg1aExFTHZPRzFBcGZKN1drQzdlSy92d3U3dTNW?=
- =?utf-8?Q?yJmjIOjjQW4=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cFNwaFdGNThSVkZaVHlQeENkY1ovV2xKdjRXM05WUThjZmN4N0RQRW5rY3ln?=
- =?utf-8?B?eDFJcFo3OEtlbUFxUnFqK2RhT3VMMWRuNU0wM0JXUkhhaWxBYnBEeG94dkhp?=
- =?utf-8?B?T05wN21RSTY0RGlLYis0c3NGeE1sNVpuaC9sTGVnYU1hUVNoN25ueUh6ZTd6?=
- =?utf-8?B?a0U3TjdlYnhRSFQwNG80Zk1qNHlMaHR5SDIrdExHQnFvS1FBdE1ZUGplTVky?=
- =?utf-8?B?a05MVW40aFdmbmVBNlcxSTdqU1JMalVGMGs4cTZXOUpmQ1p5bCtkZ2xoRGtv?=
- =?utf-8?B?NDVOVnZ0N1F2ZnFReDF1Vm5RYklMMUI5UFNWQ1UxYnZ6SEJlTytoMWpXdlc4?=
- =?utf-8?B?S0JEbzdPUEREVks1NFUyOExTTDdMdXZJeHh6OFJWcVNWZzVycE1oaW9KNVNL?=
- =?utf-8?B?N1BYZjFDUDBqcGVsaEo0TjFPTGo0ekhCZ0xod2djNmh3SVJKWUNTdmJNTitD?=
- =?utf-8?B?TGFKeVJCdkQ1Nlp6dHZjcEpBc0dmd25halJtR0ZvSTdzNDhyL2RmNU1XOGZB?=
- =?utf-8?B?eDdEVlJ4TzE5eFc2ay9RclMyMnoxci9mWU1HbDliWVQxUlBBT0ZSekZNNUdH?=
- =?utf-8?B?Rm5rZzNCZmVxMFA3UHN0cy9QYkwxQkNRcHhBR3R6WWVTb0tRZmxoa29PeGNo?=
- =?utf-8?B?R2tJWVBGU2g4YmFCZ2tYUHZoQWdXMWkwbUFibmNNMmR2Qll0djRGVWhiUmZz?=
- =?utf-8?B?VFh5RVVDbmJhM09iNUcrbVhpYlBaT25hRmNRVTByelJMYVJFK0JSZm83TEVL?=
- =?utf-8?B?ZE5DRlRZQ0grdW9jVk1xczR5ck5odmxkK0lFRStpaDdCdmVQckMwaHVlVnBT?=
- =?utf-8?B?aTNNR29KNmRHdE40dW5VUWp6ZGN0ZGlQbmo5Y3FlWG51RGVaZnZVNE81Z1Rl?=
- =?utf-8?B?cWxIdHpjeUZ3bytGenR4ZkNYN2x4Vi8xV0U2VWs5QktYb0sxTnRWancyWDlk?=
- =?utf-8?B?cGpTTGk0WjB6T0pjMlZkTW4vZ2pnc3lpQW5jZEZnRHFub2Z5OTB4djFtSkM4?=
- =?utf-8?B?Q0J3SUhud1NZTFVXQ0lUNmJoRWlJWm5zQmFGUXE4MTFkSFF6dStub01QY3Z5?=
- =?utf-8?B?YXJPYlFocEtnRDBiajgwb3dKUUl1QnhpUWpOaFJFdGlNeWo0UDVnbWJCTEQ2?=
- =?utf-8?B?RmFWckFPa0F6M2UwaG8xb0dkRnBmOFYzYlhYVEpBQlJabEw3dHFkK3ZLZ2dl?=
- =?utf-8?B?cEJIZEpJRWs5RkRoOGFjaGJaREVoQU5sb2FFM3Q4YXNYS1dTQitzaFlsR0dI?=
- =?utf-8?B?L1VTaHZYbzQvVkl0NkVzYmpuNitIa28xVFJyVmRoUTkyRkdUZVd3OUJjUGx5?=
- =?utf-8?B?alpvY1dkdHY4VDhtYy9OSFdXVnpCY29KajY5ZWQ1emUxNSs2TFFiakFBcFJB?=
- =?utf-8?B?ZmVnQjNVdncwMmFkSkVuQTdoWXZPUHVpdzBFZWNiT2FjK0JBYVhEL1NydEZq?=
- =?utf-8?B?QjI1bkQ4ZmNJMVo3U29CYjB6Y3BSYkpXWHorMWtuU2pqVkg1OHpSTWZ5cWFT?=
- =?utf-8?B?azJEK2JVRkdWMHhNSTZiRTNIZUVBdElObldEK0hnSVlqMC9BOTBCVCtoRm42?=
- =?utf-8?B?cjY2cEtmMEN6Vm1iaVVheitYYU1UV0FPUnlVQWlMRUNINFc2VFNwZERMWFlt?=
- =?utf-8?B?UlZENGF4ai8rYmhrdHpNdFNRSkZ2VkJXZWF5QWRuV2FLc3I4RGh2N3RDVEFY?=
- =?utf-8?B?RFA2V1BaQUdRYXUwa2ZPQzd5cnZLNXhkVjJydkRKeWZCZlJuNC8zNU5wRnVr?=
- =?utf-8?B?eW5RZUhSVTl2VHVRN0xFVkVreFZkdGNMWVA4Y0xkVDB2OExSakI5UHkxeHQ0?=
- =?utf-8?B?bnNDa005blA3VTg0RDhJWmlHQk13elhTc0JYZ0s5THdOdmJpamo4bkdFSGF1?=
- =?utf-8?B?a3lzL3VTaHBtNHZ0ckpMbEQycEdwQXB1QlZNeEtLaHc5RW5Gelg4ZlZMbXE2?=
- =?utf-8?B?Zm5yOEdWK2VUbXhFak5MUmN3Q3NkWG1mejNSM040RzF0Wi9ySU1Gd3VCTnFl?=
- =?utf-8?B?MVVLVEZQMDNJWmZPME1YeithelJvUFFmeFI2YW9zSGUyMDFZQng1cWdXdEUr?=
- =?utf-8?B?SjhPSXZOQWRRa1drc3ExMml6dkluekxia293L3BaaXYwU0dMYjZleW91MHhq?=
- =?utf-8?Q?I3eSuDNtZeYkD8EDrN50BK8vN?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5612de3c-9d32-4bc3-83e0-08dde080d2f2
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 07:03:25.8610
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FyOgf+DtX3OVG/gyrmq5x6Wt6nUzdQsXmO26HwmLRIpNQX4f5eADkZhis+8/aWKK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7136
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] riscv: dts: spacemit: add UART resets for Soc K1
+To: Yixun Lan <dlan@gentoo.org>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ alex@ghiti.fr, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20250807191817.157494-1-hendrik.hamerlinck@hammernet.be>
+ <20250820231917-GYB1065530@gentoo>
+Content-Language: en-US
+From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+In-Reply-To: <20250820231917-GYB1065530@gentoo>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 20.08.25 20:22, Rakuram Eswaran wrote:
-> Fixed following typos reported by Codespell
-> 
-> 1. filp ==> flip
-> In Documentation/gpu/drm-mm.rst
+Hello Yixun,
 
+On 8/21/25 01:19, Yixun Lan wrote:
+> Hi Hendrik, 
+>
+> On 21:18 Thu 07 Aug     , Hendrik Hamerlinck wrote:
+>> Add reset control entries for all UARTs in the SpaceMIT K1 SoC Device Tree.
+>> UART0 was functional as it did not need a reset. But the other UARTs were
+>> unable to access their registers without the reset being applied.
+>>
+> ..
+>> Although perhaps not needed I did add the reset for UART0 as well,
+>> to ensure consistency across all UARTs. With the current-speed set to
+>> 112500 baud rate, it matches the factory U-Boot settings.
+>> This should not give issues with early console usage. But perhaps it could
+>> be a good idea to let somebody else confirm this as well.
+>>
+> Adding reset to UART0 is just fine, so we don't need to presume it will
+> rely on bootloader to de-assert the controller
+>
+> please write changelogs in imperative mood, you can follow
+> https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#changelog
+Ok, I’ll update the changelog accordingly in v2.
+>
+>> Tested this locally on both Orange Pi RV2 and Banana Pi BPI-F3 boards. 
+>> I enabled the UART9 and was able to use it successfully.
+>>
+>> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+>> ---
+>>  arch/riscv/boot/dts/spacemit/k1.dtsi | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
+>>
+>> diff --git a/arch/riscv/boot/dts/spacemit/k1.dtsi b/arch/riscv/boot/dts/spacemit/k1.dtsi
+>> index abde8bb07c95..7a5196a98085 100644
+>> --- a/arch/riscv/boot/dts/spacemit/k1.dtsi
+>> +++ b/arch/riscv/boot/dts/spacemit/k1.dtsi
+>> @@ -667,6 +667,8 @@ uart0: serial@d4017000 {
+>>  				clocks = <&syscon_apbc CLK_UART0>,
+>>  					 <&syscon_apbc CLK_UART0_BUS>;
+>>  				clock-names = "core", "bus";
+> ..
+>> +				current-speed = <115200>;
+> please drop this property, dtsi file should contain generic info for SoC,
+> even in real cases, all boards use UART0 as serial output and configured
+> at baudrate 115200, it still be able to alter to different frequency..
+>
+> besides, if you really want to set baudrate, then I'd suggest to configure
+> it at board specific dts file, 
+>   stdout-path = "serial0:115200n8";
+Understood, I’ll drop the `current-speed` property. It works without it.
 
-That is not a spelling mistake. filp is often used as acronym for "file private" and as far as I can see that is exactly what is meant here.
+Thanks for the review.
 
-All others look valid to me.
-
-Regards,
-Christian.
-
-> 
-> 2. complection ==> completion
->    implementions ==> implementations
-> In Documentation/gpu/todo.rst
-> 
-> 3. unpriviledged ==> unprivileged
-> In Documentation/gpu/drm-uapi.rst
-> 
-> 4. propogated ==> propagated
->    aperatures ==> apertures
-> In Documentation/gpu/amdgpu/debugfs.rst
-> 
-> 5. parition ==> partition
-> In Documentation/gpu/amdgpu/process-isolation.rst
-> 
-> 6. conections ==> connections
-> In Documentation/gpu/amdgpu/display/programming-model-dcn.rst
-> 
-> Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
-> ---
->  Documentation/gpu/amdgpu/debugfs.rst                       | 4 ++--
->  Documentation/gpu/amdgpu/display/programming-model-dcn.rst | 2 +-
->  Documentation/gpu/amdgpu/process-isolation.rst             | 2 +-
->  Documentation/gpu/drm-mm.rst                               | 2 +-
->  Documentation/gpu/drm-uapi.rst                             | 2 +-
->  Documentation/gpu/todo.rst                                 | 4 ++--
->  6 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/gpu/amdgpu/debugfs.rst b/Documentation/gpu/amdgpu/debugfs.rst
-> index 5150d0a95658..151d8bfc79e2 100644
-> --- a/Documentation/gpu/amdgpu/debugfs.rst
-> +++ b/Documentation/gpu/amdgpu/debugfs.rst
-> @@ -94,7 +94,7 @@ amdgpu_error_<name>
->  -------------------
->  
->  Provides an interface to set an error code on the dma fences associated with
-> -ring <name>.  The error code specified is propogated to all fences associated
-> +ring <name>.  The error code specified is propagated to all fences associated
->  with the ring.  Use this to inject a fence error into a ring.
->  
->  amdgpu_pm_info
-> @@ -165,7 +165,7 @@ GTT memory.
->  amdgpu_regs_*
->  -------------
->  
-> -Provides direct access to various register aperatures on the GPU.  Used
-> +Provides direct access to various register apertures on the GPU.  Used
->  by tools like UMR to access GPU registers.
->  
->  amdgpu_regs2
-> diff --git a/Documentation/gpu/amdgpu/display/programming-model-dcn.rst b/Documentation/gpu/amdgpu/display/programming-model-dcn.rst
-> index c1b48d49fb0b..bc7de97a746f 100644
-> --- a/Documentation/gpu/amdgpu/display/programming-model-dcn.rst
-> +++ b/Documentation/gpu/amdgpu/display/programming-model-dcn.rst
-> @@ -100,7 +100,7 @@ represents the connected display.
->     For historical reasons, we used the name `dc_link`, which gives the
->     wrong impression that this abstraction only deals with physical connections
->     that the developer can easily manipulate. However, this also covers
-> -   conections like eDP or cases where the output is connected to other devices.
-> +   connections like eDP or cases where the output is connected to other devices.
->  
->  There are two structs that are not represented in the diagram since they were
->  elaborated in the DCN overview page  (check the DCN block diagram :ref:`Display
-> diff --git a/Documentation/gpu/amdgpu/process-isolation.rst b/Documentation/gpu/amdgpu/process-isolation.rst
-> index 6b6d70e357a7..c1297a9e4d09 100644
-> --- a/Documentation/gpu/amdgpu/process-isolation.rst
-> +++ b/Documentation/gpu/amdgpu/process-isolation.rst
-> @@ -26,7 +26,7 @@ Example of enabling enforce isolation on a GPU with multiple partitions:
->      $ cat /sys/class/drm/card0/device/enforce_isolation
->      1 0 1 0
->  
-> -The output indicates that enforce isolation is enabled on zeroth and second parition and disabled on first and fourth parition.
-> +The output indicates that enforce isolation is enabled on zeroth and second partition and disabled on first and fourth partition.
->  
->  For devices with a single partition or those that do not support partitions, there will be only one element:
->  
-> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> index d55751cad67c..3496ef28b15c 100644
-> --- a/Documentation/gpu/drm-mm.rst
-> +++ b/Documentation/gpu/drm-mm.rst
-> @@ -153,7 +153,7 @@ size in bytes.
->  GEM uses shmem to allocate anonymous pageable memory.
->  drm_gem_object_init() will create an shmfs file of the
->  requested size and store it into the struct :c:type:`struct
-> -drm_gem_object <drm_gem_object>` filp field. The memory is
-> +drm_gem_object <drm_gem_object>` flip field. The memory is
->  used as either main storage for the object when the graphics hardware
->  uses system memory directly or as a backing store otherwise.
->  
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 843facf01b2d..7435664a1ffe 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -535,7 +535,7 @@ ENOSPC:
->  EPERM/EACCES:
->          Returned for an operation that is valid, but needs more privileges.
->          E.g. root-only or much more common, DRM master-only operations return
-> -        this when called by unpriviledged clients. There's no clear
-> +        this when called by unprivileged clients. There's no clear
->          difference between EACCES and EPERM.
->  
->  ENODEV:
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index be8637da3fe9..1d064e617699 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -319,7 +319,7 @@ everything after it has done the write-protect/mkwrite trickery:
->  
->        vma->vm_page_prot = pgprot_wrprotect(vma->vm_page_prot);
->  
-> -- Set the mkwrite and fsync callbacks with similar implementions to the core
-> +- Set the mkwrite and fsync callbacks with similar implementations to the core
->    fbdev defio stuff. These should all work on plain ptes, they don't actually
->    require a struct page.  uff. These should all work on plain ptes, they don't
->    actually require a struct page.
-> @@ -854,7 +854,7 @@ Querying errors from drm_syncobj
->  ================================
->  
->  The drm_syncobj container can be used by driver independent code to signal
-> -complection of submission.
-> +completion of submission.
->  
->  One minor feature still missing is a generic DRM IOCTL to query the error
->  status of binary and timeline drm_syncobj.
+Kind regards,
+Hendrik
 
