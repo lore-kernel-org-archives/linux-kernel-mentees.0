@@ -1,144 +1,149 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17D52765CC
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 22 Aug 2025 03:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90791E4AB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 Aug 2025 06:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755832282; cv=none; b=iN4wNS9awy5CAbAgy9DgHJZrOmZQphWaaDAuQlRGrsoT/1mL9cdg6/8jpMd7nptPlvreUCTsT/QmuFW4zk0R3ZUkjAz0vLhuD35N5gOmgHMe1Zoo9m1OAsAMruvrVi7Z9XtMoc9FsTdBCqfO01Fd69oJOwWTXvO96+1US1dIAxA=
+	t=1755843998; cv=none; b=t+ZazwdPIPzD3NhsaB1vVNfq1oiJXNVVzJD6/esDsOwv5v5wWLnevcfKowd6PcPyJePRfWh2zlbXoXc6pb7nble1fvZuWyM0/H4MD56KJGZ0Of+AJGNa+diQNikoWjaD2HGTae2d12CMvazNL326UuBC10YmsDvbKub2ewcx1No=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755832282; c=relaxed/simple;
-	bh=Qg0tKoyStlqwSRv0HhTWh/TwyYqr/JJMQJP72gTLj9s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CUq7De1Fm9v1CaoS1pqQJzfVfE5Ep4jLT1oEqRlNjj0yT+BsITEmJEqhp46khpxN4fFxryVS0DlxfH4L7lDdPCMjtzX8KTTOXk+2k5GIeGbhWrP/mPlyWh2C2TEHAK2A2CBxPxQ06oQYTKeEOM7z57SXH2mgBQQM3zTXzwNDGYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J1sByy/c; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755843998; c=relaxed/simple;
+	bh=oRDP0YB3OQl6oeFNLyUe94ReJ4n6giFLUwfWL61Z5Sw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NFOe9eUIWadAtU2QCw4PIw4Srnm9hJ2KFg4MMGZNSMqzop9OnoXiGJVhIjS0wmiwsG2xkLRrtnof6vJt4AP9DrZRJTEyKCSabzuwJQQhbDGFGdt9SDAMIcQqxBZEvSm+hG8pbGXWKf2IfOHKKQ/TwoBhHgDXpSQxPaX7wQztFqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=veqYoiyQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1qfcXQSw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QIRj/Hid; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NQGCrAMZ; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J1sByy/c"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-71fd55c0320so5877807b3.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 21 Aug 2025 20:11:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755832279; x=1756437079; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G5vYyHrmF/bUEegllwDeFAZ8/aIhsfymLG3ivU9KTho=;
-        b=J1sByy/cUjN4nzQLmfZah6aFHyBOcrVkdbHL+H5A2mX2UGcrC2rGoVmQjYTNf1tcM2
-         HKQhD26tF/Ed2OE1pDyVtL+wn+WseBRpmATnU7otVbW+blgXZdpfbPYRBUUTsaUOSleC
-         UmcNIeUwTTxijXJYfhXUvZHxisMoQHiDpfMld6QI0jQSlCT0ftDPfGDbcUDXtl3WgZ1o
-         Zjj3xFSuSYuTp+h1+IrN+ycSWXaIwgphLm5yrPdCygr9JAF6/Ol1jtpcC7JmewlPEjAQ
-         9sGQfD/JvmWRkOlxtOVuFwZ7F01vCvFAP9HsaiRxPqUd1/uU3FfdES4ZK4W2CKz8538O
-         3IFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755832279; x=1756437079;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G5vYyHrmF/bUEegllwDeFAZ8/aIhsfymLG3ivU9KTho=;
-        b=fbmeX5fcJggs1MlFe9LRFHbMtHMxcSYPxv62ze5wXVdzjk25zslu93hyIXTVJu2rcE
-         SUErXOmabjFEVTJolb11GKE16PNd/tDVVAwDKVefm5Dh59pLXk/uDXIx/pccOhM2NQ0u
-         0z3WroYIixs1eItCnNOzReFP/98K/NybBcmMrp0P17On5LXJ6HnsC9PCzl2p32bFQKZH
-         pegciIh6Fm+5Ope7orQ1sEexukR7PU74H5ijnwZV1gIrCmJexqd+d6RAIDUcIpne0/gy
-         HHeYGxUhY+01nY35la80Tn6PC/qrmBZcPKVzWaJTwpfBYZ7G6OkuUs9U0Nq05Hm7ex0b
-         J1Xw==
-X-Forwarded-Encrypted: i=1; AJvYcCWgiHyCiU02a3D2WdT+3ZqYuDaW/gXtojJ3J3FaOOK/+fu+8ToxrjuclKDaA62assW3emrpjMEbo+3WXSPWXqH50XKwTA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzgLIRVYkDoQhRO7i32fG8VAwfUhfvUaelQccEnYyhWbUHtUqo
-	luzBe8x66Dlsi4O1pltQAx2KgrdXKUXkuqo+Jv1YS2bxktyFbHm/MDKVH7/Hr/6pu9VWvqNSKzM
-	RcSopXhdrW02JgnRcLnw2oYqop6ZxoEY=
-X-Gm-Gg: ASbGncu6T3rLwirnJjmEvqDBSb2OA3WvKg21CCwzb5rOLG7A2xyo+Pv8Y9fN7vL93l1
-	p/ib8UzTJB6I1tOXN2AL6fnywH5hfOBpyUeN2amuPyM/PbvFRf16dU4/mnTg5PReuPr1IqsVxza
-	HyoiuhRPijbjWSpxmv/x015KPQCC4n86/WSj92qs9Sxk1PQZjgnJX+IB6mNPXL3jSAt2DiYpgDa
-	2rcsbZ/BV8l56BxLyhZJcPlrJ9FHJ/7WWbDKAI=
-X-Google-Smtp-Source: AGHT+IEt8PH9/sXqPDbYtckv5kTTfLPn5oKJHWIGi/sdlPO8MD6VYwtNnxskjLMg1Cft09p+xydf65liGokfDREYBRE=
-X-Received: by 2002:a05:690c:8e07:b0:71e:57bd:f2a with SMTP id
- 00721157ae682-71fc9f6b0f7mr44681547b3.21.1755832278410; Thu, 21 Aug 2025
- 20:11:18 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="veqYoiyQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1qfcXQSw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QIRj/Hid";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NQGCrAMZ"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 74105608BD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 Aug 2025 06:26:36 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -4.4
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Ul9Y9LzdkT2G for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 22 Aug 2025 06:26:36 +0000 (UTC)
+X-Greylist: delayed 321 seconds by postgrey-1.37 at util1.osuosl.org; Fri, 22 Aug 2025 06:26:35 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org C2363608BE
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=suse.de
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C2363608BE
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=veqYoiyQ;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1qfcXQSw;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=QIRj/Hid;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NQGCrAMZ
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a07:de40:b251:101:10:150:64:2; helo=smtp-out2.suse.de; envelope-from=tiwai@suse.de; receiver=<UNKNOWN> 
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C2363608BE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 Aug 2025 06:26:35 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AC1AB1F460;
+	Fri, 22 Aug 2025 06:21:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755843669; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=41INJ0v8EWhcsBrvx4Frea3INbUx7hn68vuS+MWYl68=;
+	b=veqYoiyQ78qZbymoYIqE8heurRWbhI7HnLQIL9+VUYLRXr3GZ6k2JKr/HQzFM2XyRGs1zW
+	6jKfJnA76Ezvz7ZIK4IynNVwUNbvOungAVfZfMT2b+34MY/vsrRuvL0KUXdId2tXxfChr2
+	Wr88oP/sLHQxV/vhaW2krL59HhV2/lY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755843669;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=41INJ0v8EWhcsBrvx4Frea3INbUx7hn68vuS+MWYl68=;
+	b=1qfcXQSwb+Nl4Q5EpX4UKop2NqEHgwzp1dXOB375D2MeoJdyM9XP3MgOB1yRUbxyFqVe7N
+	6AmYyDcDdH6ombBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755843667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=41INJ0v8EWhcsBrvx4Frea3INbUx7hn68vuS+MWYl68=;
+	b=QIRj/HidRGFboht6lxuyENjtGIIRT9lbqrvTi/2iru/0WbFZZmzUAOTvXEShiDpI2kmC0w
+	w+VDCh++Nv5NeqKv6NDymcgCrQx9UgLViJm7+KffGjHxOZ8Oij6TDgW1FIClWm/2igvyvQ
+	nl9tYKJB4+VbIGgGGyMthD5TiwCYLew=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755843667;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=41INJ0v8EWhcsBrvx4Frea3INbUx7hn68vuS+MWYl68=;
+	b=NQGCrAMZiQdEvWJWZ1SYAEOvoL4dWJPlmDzUo5kG/v9U5MZc6kQ4dQEXlZtxNcAXM62aMW
+	4rmbjujyJ2NdR6Cg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6BCAD13931;
+	Fri, 22 Aug 2025 06:21:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id twUhGVMMqGgkdAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 22 Aug 2025 06:21:07 +0000
+Date: Fri, 22 Aug 2025 08:21:07 +0200
+Message-ID: <87349j6fn0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
+Cc: broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	shuah@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] selftests/alsa: remove 0/NULL global variable assignment
+In-Reply-To: <20250821200132.1218850-1-zlatistiv@gmail.com>
+References: <20250821200132.1218850-1-zlatistiv@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20250818093159.612208-1-chandramohan.explore@gmail.com> <aKdWnKdSDs2j73F-@valkosipuli.retiisi.eu>
-In-Reply-To: <aKdWnKdSDs2j73F-@valkosipuli.retiisi.eu>
-From: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
-Date: Fri, 22 Aug 2025 08:41:07 +0530
-X-Gm-Features: Ac12FXyI8CJxEnrdzUP15elpoDm4F6JwNduF5hnyReTTklvEz5zEGZlo0cj4N6o
-Message-ID: <CADBJw5bgK9Hcs3SwB0fU0yjiAqD1OZvc5RQT+yVHRAX7EjCG=g@mail.gmail.com>
-Subject: Re: [PATCH] media: v4l: Fix dereference before NULL check
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: alain.volmat@foss.st.com, mchehab@kernel.org, mcoquelin.stm32@gmail.com, 
-	alexandre.torgue@foss.st.com, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, shuah@kernel.org, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 
-Hi Sakari Ailus,
+On Thu, 21 Aug 2025 22:01:32 +0200,
+Nikola Z. Ivanov wrote:
+> 
+> Remove 0/NULL global variable assignment in mixer-test.c and pcm-test.c
+> 
+> Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
 
-Thanks a lot for your review and suggestions. Sure, I will choose an
-appropriate subject.
+Applied now.  Thanks.
 
-Thanks,
-Chandra Mohan Sundar
 
-On Thu, Aug 21, 2025 at 10:57=E2=80=AFPM Sakari Ailus <sakari.ailus@iki.fi>=
- wrote:
->
-> Hi Chandra,
->
-> Please choose an appropriate subject on the next time, this is missing wh=
-at
-> the patch is for -- see git log if in doubt.
->
-> On Mon, Aug 18, 2025 at 03:01:57PM +0530, Chandra Mohan Sundar wrote:
-> > In 'stm32_csi_start', 'csidev->s_subdev' is dereferenced directly while
-> > assigning a value to the 'src_pad'. However the same value is being
-> > checked against NULL at a later point of time indicating that there
-> > are chances that the value can be NULL.
-> >
-> > Move the dereference after the NULL check.
-> >
-> > Fixes: e7bad98c205d1 ("media: v4l: Convert the users of v4l2_get_link_f=
-req to call it on a pad")
->
-> Fixes: requires Cc: stable. I've fixed these this time. See
-> Documentation/process/submitting-patches.rst .
->
-> > Signed-off-by: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
-> > ---
-> >  drivers/media/platform/st/stm32/stm32-csi.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/st/stm32/stm32-csi.c b/drivers/medi=
-a/platform/st/stm32/stm32-csi.c
-> > index b69048144cc1..fd2b6dfbd44c 100644
-> > --- a/drivers/media/platform/st/stm32/stm32-csi.c
-> > +++ b/drivers/media/platform/st/stm32/stm32-csi.c
-> > @@ -443,8 +443,7 @@ static void stm32_csi_phy_reg_write(struct stm32_cs=
-i_dev *csidev,
-> >  static int stm32_csi_start(struct stm32_csi_dev *csidev,
-> >                          struct v4l2_subdev_state *state)
-> >  {
-> > -     struct media_pad *src_pad =3D
-> > -             &csidev->s_subdev->entity.pads[csidev->s_subdev_pad_nb];
-> > +     struct media_pad *src_pad;
-> >       const struct stm32_csi_mbps_phy_reg *phy_regs =3D NULL;
-> >       struct v4l2_mbus_framefmt *sink_fmt;
-> >       const struct stm32_csi_fmts *fmt;
-> > @@ -466,6 +465,7 @@ static int stm32_csi_start(struct stm32_csi_dev *cs=
-idev,
-> >       if (!csidev->s_subdev)
-> >               return -EIO;
-> >
-> > +     src_pad =3D &csidev->s_subdev->entity.pads[csidev->s_subdev_pad_n=
-b];
-> >       link_freq =3D v4l2_get_link_freq(src_pad,
-> >                                      fmt->bpp, 2 * csidev->num_lanes);
-> >       if (link_freq < 0)
->
-> --
-> Regards,
->
-> Sakari Ailus
+Takashi
