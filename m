@@ -1,54 +1,54 @@
 Received: from flow-a1-smtp.messagingengine.com (flow-a1-smtp.messagingengine.com [103.168.172.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87352E6114
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 22 Aug 2025 13:06:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028E22FFDE1
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 22 Aug 2025 13:28:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755868011; cv=none; b=GBisjFWMRx9CaEbgDY16hBGjdHngb9UIXDgNMev0ICJqea+Tr9f5plrYnpVjtvoSc6H+5QsWwRxorkhk5dj+Q9k00G9BVdKjoenJvm2TesRV/+M2NrD9oEP1pZwk9wwl32ZXSpI00nWKivTUUC061GLyByZ0OQbLqNkIKZ4NoW4=
+	t=1755869342; cv=none; b=FN1rqG/NWVDmpqxqXQorL1S8hgkkDmJnVsa9fb5kX8yunM751MxJCSo2HClONF0uxnw9xAGLQvMPqdyKGREGuY8FeQv5vPqJrcSv9hS2ZJO9NRbK+ChN6klMYzcTomPcuzwyEvBoMTX7a6Rk1LRG3ts7kQOgZ24a8YDTdZxGIUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755868011; c=relaxed/simple;
-	bh=yw1DYP+lVPQxKzKGU+Nee0RWVoi/TtIbBGS/FR3hiYU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WsdWqObaHyS7cvT/nXLH+o6kaqIkblyEV63EeZ3BIwMzhmI23PkaJNS36i6PuIsyWlvHyp7eTQQFDA45+PkhvYzByNebOBBg5Js4iFvDaQHw+wtxtxOVlaCGoQeQUUCLdt0k6znOPD45MLo+bnFSUBiy9NOreStHSD+jMYWk6Sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com; spf=pass smtp.mailfrom=debanilchowdhury.com; dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b=mnU+/eBE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q9jbUHlD; arc=none smtp.client-ip=103.168.172.136
+	s=arc-20240116; t=1755869342; c=relaxed/simple;
+	bh=ZL8GY7g3uwloV0kELsLuK74wUOOqCTd2WYewZKfdFAY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oEI+rul0X/B1Iaj3UD7gi+4Q+iv4AvLSaC9OfKwVhUHYgLk9wqYqXCs6NCq0l/MP5mcV+h2nDBjDEQ1fAhn331sGLcz3AOGbZSsjAg0M1H4j0/kM1Ml5h1C6wd4h51O5gMhxjDoieOzYEYK9UG7jFClJ8e5PoPzWI3nmsbe3p4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com; spf=pass smtp.mailfrom=debanilchowdhury.com; dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b=e2QiEQpm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dgLAXY7V; arc=none smtp.client-ip=103.168.172.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debanilchowdhury.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b="mnU+/eBE";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q9jbUHlD"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailflow.phl.internal (Postfix) with ESMTP id D78431380084;
-	Fri, 22 Aug 2025 09:06:48 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b="e2QiEQpm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dgLAXY7V"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id 359101380836;
+	Fri, 22 Aug 2025 09:28:59 -0400 (EDT)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Fri, 22 Aug 2025 09:06:48 -0400
+  by phl-compute-05.internal (MEProxy); Fri, 22 Aug 2025 09:28:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	debanilchowdhury.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:from:from:in-reply-to
 	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
-	 t=1755868008; x=1755871608; bh=9bh7i8qHdyhILSV5h0O2MUCYUDYongXH
-	YOkqd9oQIdA=; b=mnU+/eBEU5Pg5BwRRNFVsFhcIKVN6ToI5nSOAD0LZxv476XP
-	Bm4OCb3ypzdOWUnsTd1oUVeMlX87hAspPcehfsVMFJ8GyJYPsb8gqLX+Yz51Af3i
-	YH71Kys7GcE11KG5Sq+y+1Ts2kgjoZh8ck0KRszA3/lk+QewMcDsLSKX23VuWbwk
-	QVMvn/EW4pD1yVG0wxuShqeJ+8WLAIwJ80GUmuq8Rc4X82OqDphlPGuzmx8YKINr
-	0eZ8jiWrqB0dGNKGIfPWUDJehu9GLnISTrNaKE+uuiQkikKxzWvrArlzVEwfrtmz
-	+xZ+tO4rSVJAQ3Mil4HaL7//4+e385cn8SXYaw==
+	 t=1755869339; x=1755872939; bh=wGSgMf6A1+ZzqOwuHh7cUjUzSlzSWwas
+	r3z6cM11JqU=; b=e2QiEQpmtO+zUtuUCCuUIhEh+m8BC0Td/GFbdqqD5kcjSiIn
+	gw83qn8IGVrB3oef45dIgnVsIrO96NIS3Dp9i0rfCickEk6Fo5QSyDmY00l3Ur7I
+	ShHRxRS1h36kW7b7EYVWpYoj+Qgnr3IgueP1jqhcYjbrWXd/GccQ5/Pcf2IA7ZR2
+	GX3nICLjBiae9tocfVc83SeGQVYiy+yy1OvHX+ewet3pIlnmxO3WHA6qBIVikFdb
+	y5aRY6mLTnvFmXep2mxyoHiPmm9mXjBju49iNGUNbTETzFGjaMB9Y03hL7qN6AKO
+	V4u7kNyM4x/oLhZsiX/zzdmvGFJOxDkjDXbduQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
 	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1755868008; x=1755871608; bh=9bh7i8qHdyhILSV5h0O2MUCYUDYo
-	ngXHYOkqd9oQIdA=; b=Q9jbUHlDAxU+2JvK8DtrIub0xT4i4q/hCp+9BsR/H0yh
-	Ea1nvI5nVh0e7lsnN7upBQPnspXhqlmECpNA5KQFI4hT2Yjm5tgfo8xlFVk/P1ao
-	tRbz4QsDaIXr+Ur1DqIX02PP9yMJZs8QoFY6EMVdCeE3d+7RBOP/Cn1rHs1WVnnl
-	55KrNtgp4IO5pB5elkPbi8CIjqn7ViHzcJ0x4tljB4oVLAn7NMbdAgKIseWllFC3
-	gs3fH42KDZqBtnLlP6RDWay6cOppWreNc14dmDFER3SV8i7PtcqqDMY8Tfg3rqY0
-	Wo347o2plWM330whvoXRRCG7Rsx/uBknh7jXRvp0og==
-X-ME-Sender: <xms:aGuoaIWP-BTFtcRWvCxhHKq_AF9-Hyv4-mcGsaBfsygZSmYBdp3lzw>
-    <xme:aGuoaKjhmznP_WF90RkQR8nvEGGpNI83QHVycqscuajBHPuLVrT1fQ1f8dyKy-C0x
-    JOkAipBVVZ-LwDU8N8>
-X-ME-Received: <xmr:aGuoaOtFbUKPOMBrV_EXE7Yirj0k_DcRxkiIS9MVqewQZrkTK5GelvS56IaClwgc8FFJeby7>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduieefkeefucetufdoteggodetrf
+	fm3; t=1755869339; x=1755872939; bh=wGSgMf6A1+ZzqOwuHh7cUjUzSlzS
+	Wwasr3z6cM11JqU=; b=dgLAXY7Vbay4e4uyY76rDfSbM1NuTe2EzhxswsACNQdZ
+	9iv6+qiXDQ43+CeIVt0eK/ShHUJctC1Miys2UqLzIx56wLZeM/GHmsww4AVW5Ysb
+	KGSUS51wb/7HAD/cl8zk+KQpjk5yIo3vWBnPlIZjXSQOBh5MZZXcV0nhk8UielnB
+	vE9SLw5UNnvC3ddWrr1gWMTvpCM1p8lc0k3hHcZQv+OrBduNmR/q/XqnBT87cm9E
+	16U+bG54xtguonmxwnroKeDD7EX4MzeYh9Wv0LybDvOaLRytWNymHE9dlHuqrYq0
+	9pvnUVDD3ixfUTHBJm5GgohHm44tjPQiEtTtSmFbaA==
+X-ME-Sender: <xms:mnCoaH6ayRa1J5VjV97lTOdc70mpfxI-tzRb5VFXffIMalstXi-P0w>
+    <xme:mnCoaFg_GnzLBSHa-goUBu-nQdAYbeSwK07ZcmkZSGtmnsxgYKpW963ZGgiUP9XbU
+    hbFWNmHA32yfBMqxvc>
+X-ME-Received: <xmr:mnCoaF7bGhjG0YWieZxUljQvarX73Fz0RrhZJENZKJC5Zxlxg2cGvI5ZxBtgIa13cJ5zT6vd>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduieefkeejucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtre
     dtjeenucfhrhhomhepffgvsggrnhhilhcuvehhohifughhuhhrhicuoehkvghrnhgvlhgu
@@ -56,29 +56,37 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduieefkeefucetufdote
     epuddtfefgffffiefgtddugeefvdeuteefhfeltdeuieejvdeludetveettdetheefnecu
     vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhgvrhhnvg
     hluggvvhesuggvsggrnhhilhgthhhofiguhhhurhihrdgtohhmpdhnsggprhgtphhtthho
-    peehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehskhhhrghnsehlihhnuhigfh
-    houhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhm
-    vghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugi
-    dqkhhsvghlfhhtvghsthesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
-    ihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    hkvghrnhgvlhguvghvseguvggsrghnihhltghhohifughhuhhrhidrtghomh
-X-ME-Proxy: <xmx:aGuoaL5Bv_wjVe8KIYU7yd8-cZsKAVwONBJK6jAHwJI7EW9NWU3baA>
-    <xmx:aGuoaKMhlbVuQ0oe7jxhBDimflgLWPgzFNNZxzK_vn1cAmjVPr3Phw>
-    <xmx:aGuoaJuTcQ8pbcKNyKHkQact2dViqgcJeCOrAv8t_aVkeEQ10OnChw>
-    <xmx:aGuoaNY5DaoWtFpCTTu6YJCfk6goCbjb8xqJYfQCG-y3LMLz9PvBCg>
-    <xmx:aGuoaP4sPuxtrFfz-6A5R_41ZvMSHLrQvJ-6JDS5E_L2sprATXKlUlvT>
+    pedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhhinhgrugeslhhinhhugi
+    drihgsmhdrtghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphht
+    thhopehjuggvlhhvrghrvgesshhushgvrdgtohhmpdhrtghpthhtoheplhhinhhugiesrh
+    hovggtkhdquhhsrdhnvghtpdhrtghpthhtoheplhhinhhugidqhhifmhhonhesvhhgvghr
+    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurght
+    ihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsh
+    eslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgv
+    lhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:mnCoaCH2-PIzc-BXzTMsh8eBAabRosNSN8dfDMuwefl2-jnU3iBo4A>
+    <xmx:mnCoaPLcv2LOc3B-3j2uBnHe0do8pRLT4eJ2Fd4ggKjffjEF5S7Ojg>
+    <xmx:mnCoaHi4m799LMv0Y3iukXzpDUNrqwXbRmhrXAWmO-L_NV3AhwgFIQ>
+    <xmx:mnCoaFmYV843PbkrPB52lbNVmZz5rBM9i2r8PdX3SjBVfL62YaJ5qA>
+    <xmx:m3CoaGd2-erDJxWWGrT5hIJdem637aHkTCS0G3p7l4GHby1HeuaAwaHo>
 Feedback-ID: i77364836:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 22 Aug 2025 09:06:46 -0400 (EDT)
+ 22 Aug 2025 09:28:55 -0400 (EDT)
 From: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
-To: skhan@linuxfoundation.org
-Cc: linux-kernel-mentees@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
+To: ninad@linux.ibm.com,
+	corbet@lwn.net
+Cc: jdelvare@suse.com,
+	linux@roeck-us.net,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Debanil Chowdhury <kerneldev@debanilchowdhury.com>
-Subject: [PATCH v2] kselftests: netfilter: fix spelling mistakes in nft_nat.sh
-Date: Fri, 22 Aug 2025 18:35:54 +0530
-Message-ID: <20250822130642.4510-1-kerneldev@debanilchowdhury.com>
+Subject: [PATCH v3] hwmon: crps: Fix typos in crps.rst documentation
+Date: Fri, 22 Aug 2025 18:55:02 +0530
+Message-ID: <20250822132836.5384-1-kerneldev@debanilchowdhury.com>
 X-Mailer: git-send-email 2.49.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -89,28 +97,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Changed a typo in an error message in nft_nat.sh : "cannnot" → "cannot".
+Changed a misspelling in crps.rst documentation:
+"Critial" → "Critical".
 
+Reported-by: codespell
 Signed-off-by: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
 ---
-Changes in v2:
- - Added commit message
+Changed in v3:
+- Update subject to correctly identify crps driver documentation 
+  (suggested by Guenter Roeck)
 
-tools/testing/selftests/net/netfilter/nft_nat.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changed in v2:
+- In previous patch "From" header did not have my name in it. Fixed
+  that.
 
-diff --git a/tools/testing/selftests/net/netfilter/nft_nat.sh b/tools/testing/selftests/net/netfilter/nft_nat.sh
-index a954754b9..05a34c135 100755
---- a/tools/testing/selftests/net/netfilter/nft_nat.sh
-+++ b/tools/testing/selftests/net/netfilter/nft_nat.sh
-@@ -569,7 +569,7 @@ test_redirect6()
- 	ip netns exec "$ns0" sysctl net.ipv6.conf.all.forwarding=1 > /dev/null
+Documentation/hwmon/crps.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/hwmon/crps.rst b/Documentation/hwmon/crps.rst
+index 87380b496..d42ea59d2 100644
+--- a/Documentation/hwmon/crps.rst
++++ b/Documentation/hwmon/crps.rst
+@@ -43,7 +43,7 @@ curr1_label		"iin"
+ curr1_input		Measured input current
+ curr1_max		Maximum input current
+ curr1_max_alarm		Input maximum current high alarm
+-curr1_crit		Critial high input current
++curr1_crit		Critical high input current
+ curr1_crit_alarm	Input critical current high alarm
+ curr1_rated_max		Maximum rated input current
  
- 	if ! ip netns exec "$ns2" ping -q -c 1 dead:1::99 > /dev/null;then
--		echo "ERROR: cannnot ping $ns1 from $ns2 via ipv6"
-+		echo "ERROR: cannot ping $ns1 from $ns2 via ipv6"
- 		lret=1
- 	fi
+@@ -51,7 +51,7 @@ curr2_label		"iout1"
+ curr2_input		Measured output current
+ curr2_max		Maximum output current
+ curr2_max_alarm		Output maximum current high alarm
+-curr2_crit		Critial high output current
++curr2_crit		Critical high output current
+ curr2_crit_alarm	Output critical current high alarm
+ curr2_rated_max		Maximum rated output current
  
 -- 
 2.49.1
