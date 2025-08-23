@@ -1,118 +1,100 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FE6226533
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Aug 2025 09:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798B033DF
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 23 Aug 2025 09:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755940727; cv=none; b=dTb9yZB0gsJ15x7DrPO3TC+dx/4clIPk38Xc5GDR483xq13MuBHea5I0iw7e/n8HJucp8WZ3nbDZ/Bx/IUNqDI17darsCdwSy499I/DFyeuKARj87dqJ7XQojdsG5CE/vXMU4O8xMSPSdNhHqqCnBytN7VW5nh1mc+4HXGF4iNA=
+	t=1755942916; cv=none; b=n4yqg7gql/nnZwN5SVCXr+3UsnatSPoXpsoTpwnbvWP8ZS681NJSrjXbUrmveV2WC9mS1PRI0QOuGX415APK6itvsDOqIvrDYmGyT2jxSHCRrpjmdh+GuZeeqV0jSJUdkIYrby9wZF+s382qpNZ/hbeucdeRGVm+s5bUSaiMYaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755940727; c=relaxed/simple;
-	bh=qQKAUKGD8YCJSmr7dhdjzTfWFLwOspnZF7Vw50KWiWo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kagISli3lqb4dIZhQip1upNO5/U7iSgoHnKoQWT2WOMC/IwhHp0iPHu+3ctLqbdP7jbd5jx07ceeCzlSRetpZZCtfO0bDcKy58QUfUF3ahJdjtk6co/WR0VmUie9fxWQbr0RtRqZJmTo+JkEwG8Uglbfa5eE5QZQ5BeKT66OBY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JnfBt+mk; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1755942916; c=relaxed/simple;
+	bh=uIodOOzfSuLa5ymRdYCXoNe4VoVqcq49TGy2twKM2hg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tf1MQv1CEMZfpy0nrHJH/gr8mN/gkI3K8UquDd5l521aDCaC3CKIEalYahdFHgEK7rXlKMNBqPJDLKSCpAopL1TBWso2TCkC4uazILvkRaSCwJ5Y3Qy11EWPJVrf/VVRoNHqSJQPttGPIvKPczCLhEO8V9Ksun/BgYXgMiP5Cf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cJkYfCpe; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JnfBt+mk"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3553C413AE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Aug 2025 09:18:46 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Bq4bawlef9y3 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 23 Aug 2025 09:18:45 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::636; helo=mail-pl1-x636.google.com; envelope-from=rakuram.e96@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 944B441346
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 944B441346
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JnfBt+mk
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 944B441346
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Aug 2025 09:18:45 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-2467de5160eso1746535ad.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Aug 2025 02:18:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cJkYfCpe"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b475dfb4f42so1952444a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 23 Aug 2025 02:55:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755940725; x=1756545525; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AfNfBu1qWolJ9wIMXkd3bnXOtHy3GISGcVi04weSYTY=;
-        b=JnfBt+mkNyBpcWpvEJf5qsvM69/ndADJIL6IYdcl4EfS9LrIiSmqLo7jQuvGjR0qau
-         wsnpU2vW4JuejEq7vhHGwjPY145s9zeKuH6HghCynZthVvkaS0OaV/0yuWEQRR2OhGJ0
-         gLdqgNMjGVz4tIgqU4uJ+QPc8b9fWpyOAIQ75BvKu4LZ8Zxmn3h7JjsPAmHpbgrj/dfr
-         atpNGBNW6Ast6v/qnZqqw97b5luZxW9R5+RO+bhG834UgnQ1dpTo/6NNzTN6+H26TBOy
-         W45y6lWgF3l3VoDuRBQU0Sepu7c84pjSNK38B1vkKlx3cvqBL1G8whoP7TMOVLlAcXEu
-         TCYw==
+        d=gmail.com; s=20230601; t=1755942915; x=1756547715; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NtBd4S8gBjtekvzQSGcw+kUn5WfZDsRpyS3ABLi3AB4=;
+        b=cJkYfCpeYzsYo/BGDHKnAf9mZWN5cr2liu1ZfHg5t/1p0vwcEE7EYk2fJZNy3QITTx
+         GqbACrubMSfqz8bE20bX6Ditmv8RHqjAZHNXDdy1O7oYe+5oj3gyStcaKRAIQSkmsnmZ
+         sYnXU7Et+A92LV1pQ+HvVEUM+hzWCCa3e3RR9Elx0tRPtHki1r69cIyYoGWg5DONT8/C
+         F6UnfbIb3n0nW2Sg7ddNaDimGzWEv2DfSnQQBP6a3cHrRrbrlbFde94yZuxWKulXcL5p
+         PNKdOt0j6uVEpIUOCsaqkYhAPEh3vCPpMo8PBsrbb5WYBnh3G0aoa1ixgYw/9BRS8C9N
+         IV/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755940725; x=1756545525;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AfNfBu1qWolJ9wIMXkd3bnXOtHy3GISGcVi04weSYTY=;
-        b=X/ySPAxcX+SUGU55Ylm9gjXiiXuIWliLMmUoaxOIeAOfgqQ4m1lp3qTG/cDCtq+VBq
-         Gxbv3/q8dsH7XjHYT8+Idti4BUVvSXwaVY1953ZFwHmJrsGNsoYvC8XzMwdUKT7SDSNQ
-         O7hhgvi0lNcbSSKo9jtleOEjLWUtGYpZ6cC65Ie3AhCK7pwFFxCH8An1cOi2B6320sbZ
-         YqBIMy8F2dsXpZysWdwSwJ6ROm6eCEGY+GnL0J/GYHfjevXJ2NvaSX2U4HyFC7CUh7qO
-         wsbBK3ktRiFO9w0W/1sCjnNEW8TzjoZeRN7S55K+K3GDqu2B7Er6+CIZMBgJywimBcCX
-         AQWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVs7tW/tFKUQq6wgCNDFR/XCa2Gp86jmxpxVREAd0R0QJnk74UFMVyLY4/F5jkRD9KJYC+omULA4OSLxBGlUW4FAWj6Q==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwRXgzGeRUtdeDjU+YKTrB0T6cv54FxtKM8BlJ+771dRGoYCt65
-	PCjl/2pHma+k2qNKQdUxSDOTZo5U0sShgYmzYKn/mclPTRoANi9DHzP5
-X-Gm-Gg: ASbGnctCs9FOMLtN2AbY1Yv5nL7IOvNTXlcJBgpJYAy/XAl71sasqV5gGegyyce9vvy
-	+pW8km8rLjJVPzWPaoN3lbRSerXmMY3o+dX9qCCNVTO4ySLjAxojQOcnkWieeMt1ky8r46XcDAz
-	FVyausWtp+JRwzBk6DnRfLW7hpRH8bX7Di0Y+ty3aGSvW5AwFPzDCMV6okCyG7edSDWiQQob9YI
-	EMDsK+89AvNfkA8RBq0dkjyJwJCHKqrhj7xEPiN6FW1CVNixmR6Uo0TEvlC+t7qTzgf9Y/mtos+
-	KWjBYdWlvlTxemcYlCT8fPq9QwJCq9JLE+UMtEJzh+UO+3da7ofzTcAVNvQZZVE0sdd7fzJtWBH
-	925nVkf79Kx8Yy6jo3zji2Zvd9AR52R2G/igdq88bsyVllBP/NQcrnLe0kw==
-X-Google-Smtp-Source: AGHT+IFDYWklpG7n/RCWVYe9fEt6cFZZCJhCfu1jBDgekkP0Uetb+/s+2CwZHMHpt7emWt1eZkWvMQ==
-X-Received: by 2002:a17:902:d489:b0:244:9888:3a1c with SMTP id d9443c01a7336-2462ef1f1e4mr83311725ad.29.1755940724611;
-        Sat, 23 Aug 2025 02:18:44 -0700 (PDT)
-Received: from lkmp.. ([27.61.56.127])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2467a6f5489sm12509535ad.144.2025.08.23.02.18.40
+        d=1e100.net; s=20230601; t=1755942915; x=1756547715;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NtBd4S8gBjtekvzQSGcw+kUn5WfZDsRpyS3ABLi3AB4=;
+        b=bDMKhL8cAM+1Ytw9D9t6k4vhlhS2vqZbPsQfj/b1wzbnyR6RjX8iD1EVqjxN6zzn/j
+         f2/+CcQfOGPkGvb2HBofsinThdxRfcHn8/s3k81YFwJO7PhOkNBqbNNu0C4jW+IfESWD
+         MBOHJenzZgfVNWJ+QkQkZAsyXkldHTseJhec6xOZZe04cS8mQcBAULOsVv1Fjiw9vZDs
+         j4yuIk4bM5bMuvypRp84pUQxZxlTjgO8+hf30cok8QeaFEmwewoNCwyel99RUe0cNczz
+         KQzAKj3jzOU4UbSQ+SomPYj9ZPJTg1JLeNWj5sAv9cyfp02Q5xJAYlGChYVumZhqkGnZ
+         Mg2A==
+X-Forwarded-Encrypted: i=1; AJvYcCU2ahDb1RRhHn5W3qQst2VqNJRmLNncDOM/K39/okttRy2a2NNSHYUi3vEix5W9BX9uk35IqhOy1EDVV6/AZ4g6zbAKOQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzIP3MoE2r8tqzkbsdTfStKXGZDlGZdUtkgzVnMPmr0wTjHgkHE
+	ACfrpDg5mLpjKGzZAfpUhAh2B9ak5NRWMmeu3WXoPeipaSfaaaeA5RMN
+X-Gm-Gg: ASbGncvxhY4wHLSR7D8pTwKJ+Xzo6DokGMUl0VSKZcBqiPY1NbR+0WZtL2WoWYkZ1lf
+	pW74UG8aDIWx/LBoN7adEUpfigCcf5MPC4LYr6ZKmW95zq2HMvNE825EDq/fXGwoEJehBFpQp9E
+	rz7Y+sr+BanWaxriwMn0QqyFLpc+BfA45ULiN7Fc9W0UyLxx964Lgv9/IC5oyX9KaD2AAX35EtJ
+	gSAdDlnFWs6EYChqD7CtIzoDM5/zXE3LIsDxKLhR8aqTR+NDkN8hpF1TxHYle4rru6l0ND1RwoE
+	VqxGluoU7SlhkSX5SEuhIrd+ozOWBeXBdgjUFmYbDUzWVahsJmjv98zB5Fbu9dtM+SH3k4zK1Jv
+	8IlkTqpI6zHznIJFRUgrgw6td2eA7aQXhj/2cxiXe6SkSlM4luqkVoM4OeDrCNPtS
+X-Google-Smtp-Source: AGHT+IE2so4WIG5u9yQapXGIsWzilpdvLlKfItl5h7+IUTuT26kA7HfGpY5pdHi28WRaqPUzwlNKng==
+X-Received: by 2002:a17:902:f603:b0:242:9bcb:7b92 with SMTP id d9443c01a7336-2462efc703bmr100756255ad.54.1755942914544;
+        Sat, 23 Aug 2025 02:55:14 -0700 (PDT)
+Received: from primalkenja-desktop.hsd1.ca.comcast.net ([2601:646:9d00:1ed0:41f2:9409:27da:bab])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-246837c124fsm8194295ad.138.2025.08.23.02.55.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Aug 2025 02:18:44 -0700 (PDT)
-From: Rakuram Eswaran <rakuram.e96@gmail.com>
-To: ebiggers@kernel.org
-Cc: ardb@kernel.org,
-	corbet@lwn.net,
-	linux-crypto@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	rakuram.e96@gmail.com,
+        Sat, 23 Aug 2025 02:55:14 -0700 (PDT)
+From: Vivek Alurkar <primalkenja@gmail.com>
+To: broonie@kernel.org,
 	skhan@linuxfoundation.org
-Subject: Re: [PATCH] Documentation/staging: Fix typo and incorrect citation in crc32.rst 
-Date: Sat, 23 Aug 2025 14:48:32 +0530
-Message-ID: <20250823091837.5037-1-rakuram.e96@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250821035913.GG185832@quark>
-References: <20250821035913.GG185832@quark>
+Cc: Vivek Alurkar <primalkenja@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] selftests: alsa: Fix typo in mixer-test.c
+Date: Sat, 23 Aug 2025 02:54:38 -0700
+Message-ID: <20250823095439.476797-2-primalkenja@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-Thanks for applying my patch!
+Change "libray" to "library".
 
-I noticed your comment about the file being dated. 
-I’d be interested in helping to update it to cover the more modern 
-CRC implementations — things like carryless multiplication and 
-hardware CRC instructions on x86, ARM, etc.
+Signed-off-by: Vivek Alurkar <primalkenja@gmail.com>
+---
+ tools/testing/selftests/alsa/mixer-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Since I’m not very familiar yet with these optimized approaches. 
-Could you suggest a good starting point for exploring this in the kernel 
-(or any references you recommend)? 
+diff --git a/tools/testing/selftests/alsa/mixer-test.c b/tools/testing/selftests/alsa/mixer-test.c
+index 2a4b2662035e..dc7b290fc4ad 100644
+--- a/tools/testing/selftests/alsa/mixer-test.c
++++ b/tools/testing/selftests/alsa/mixer-test.c
+@@ -685,7 +685,7 @@ static int write_and_verify(struct ctl_data *ctl,
+ 	}
+ 
+ 	/*
+-	 * Use the libray to compare values, if there's a mismatch
++	 * Use the library to compare values, if there's a mismatch
+ 	 * carry on and try to provide a more useful diagnostic than
+ 	 * just "mismatch".
+ 	 */
+-- 
+2.48.1
 
-I was planning to look at lib/crc32.c and the arch-specific 
-implementations, but would appreciate your guidance.
-
-Best Regards,
-Rakuram 
