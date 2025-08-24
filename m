@@ -1,81 +1,81 @@
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5719023507E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Aug 2025 06:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71D823C50A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Aug 2025 06:14:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756016082; cv=none; b=owm55LNj0WjvdB5okJJdhUgplRcLDagZs8zvLzAocPSsX0CyxA9jArZSp5NISxgbnNNAByl/NoHVrYGnHE146WkxonSfIKDoL01/u6FaGIkiGs5y5JSvjsPh2l8IN6lsok9vvEit7rcpmibY2e7Og96f+6YAO9n/hLxlvfYGZAU=
+	t=1756016086; cv=none; b=o0woG6Jk9t8jTPJvS7470XeuzTFQWljezQ46dgjsKLl6fiW5sMezGo0v18+pijLNz6v2stYVWlb41wQzWS9qX9nOcJ6yNIMgFwlQcmVXSmQfPkPhl0/NCngpPGGrhczvX/F6HPeSWuurgumwq/t7I7whozfoItrUeC0PHRAEaeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756016082; c=relaxed/simple;
-	bh=iXytLOLYAKvzIwUQtsY54Ja3wuEAECemSWFhG4fC/+o=;
+	s=arc-20240116; t=1756016086; c=relaxed/simple;
+	bh=dEFjZ0irkD8kkz4VLaw3rsm64cw0sBJqoMvvNXPG+uQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CUJpqMH/5ZhxS5Ix9JKdppJUaaXlJuBycTKEpgJSaA2L88h8BtVmajoLC6/6h+dKDqIGc5XHWcGEnKvgFTCgQi6+sIwBUEdocdl1g1l8SXmZn8wwC3F1PuIFW5VZKwuPMj8wngJDrGN/MrcpwvOolr09kd/DDFvCP80krzWclCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=acyo4Fu1; arc=none smtp.client-ip=140.211.166.136
+	 MIME-Version; b=mXhlKdhdnF6tRDEWzOfuWDTIMycvUPUf5YQsYC8cGUpWxwUM1YbVUlB+xNbxJBDbLLsEX7P19vLoWm5JDUi6MeVyY9em+odQS3MAiMpP6NTmhsgyEsrkVzr2NjLU7cZjzmE6HeRX9UXndfZe5sxwyVsAHYrtT/K62y+dBOMEdpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cJJ/kCVj; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="acyo4Fu1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cJJ/kCVj"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id F15C7614A4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Aug 2025 06:14:40 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7E15E614A4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Aug 2025 06:14:44 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id b6pbVT-Zun0V for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Aug 2025 06:14:40 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42a; helo=mail-pf1-x42a.google.com; envelope-from=vivekyadav1207731111@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6AD4F6147D
+ id uFuSTfI9ITFE for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 24 Aug 2025 06:14:44 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::433; helo=mail-pf1-x433.google.com; envelope-from=vivekyadav1207731111@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 01E2F6147D
 Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6AD4F6147D
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 01E2F6147D
 Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=acyo4Fu1
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6AD4F6147D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Aug 2025 06:14:40 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-77057266cb8so138195b3a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Aug 2025 23:14:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=cJJ/kCVj
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 01E2F6147D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Aug 2025 06:14:43 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-76e34c4ce54so2832775b3a.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Aug 2025 23:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756016080; x=1756620880; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1756016083; x=1756620883; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+csAhnTSq9nTMN0IXXONt982/kXLZfoGgBRxeDy+8ek=;
-        b=acyo4Fu19iwF3Y2mnvl8Hny+9Nm6py8Jy/h9scmLv+8VzOWFR3culi328Xzc3XNN4z
-         4TKZ5II0S4SIMODXoLSXgkR15B/Esk4BVLyYwQtXV+pw6wAKdAul+3u9s0Ng9F9U1kKV
-         JqfsTg7XhGYiJSMClHnJGcg4V+5kxGXe0HyPKgAC05QCqSFGtgV5Zee7WEs+49MkDDDD
-         0Zp0Qx1nOpBCkIK9JMhGtBFWqYRLVlRfh1hR4/v2aoFcsuMqLykrD6yBJ0/VYV/UCEB3
-         m5uoJtOjRO/M3p+jT/u84dqJVMfAaRv/8jCZ2pLJpC49hyJHp9FKJcSMh6JTlCpOkKoi
-         Amkg==
+        bh=JfzDzbQEvI2nMK5aWsczii03Df0gZy+c2/ZhXQWQ8fE=;
+        b=cJJ/kCVj0kVuR/GYWLGVZJZdpkwp3mfhPskfi/+5Ciim0OFhcC+/EWi68F04g6dCqO
+         ttVizTyQHC61iO+rTrKjNrXEbdE5CDKSB47efwTL1GsIlGdZegl3YQEbG+G0foIWATol
+         ClelJIPYwcegJ4mmyO9+EbXTGLklMuP1OfYJdR+L/h8W2aW4qohz1fLhgoGVOi8ETsXb
+         Umpr3ivXYmrkBDkEvzIDmLm2uYz727Zx38+TGkE6PO3W5AmQ6+tICEfPMyrmOfR+Y4f6
+         HaMao9+MlH+bSryjYAfR9MXPD7vi+bYdcr9xW4FideyaqXGKEBjALCo6QbiXgcfhkRn2
+         3aVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756016080; x=1756620880;
+        d=1e100.net; s=20230601; t=1756016083; x=1756620883;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+csAhnTSq9nTMN0IXXONt982/kXLZfoGgBRxeDy+8ek=;
-        b=CJAwI1Jid6FSibyu1zjedfJtAK2A8i6I8NmZ8RPtrlFFZ4IkGQ3Eb0AZ/0pDYDak3u
-         7XbhlyqihfcoH7UkRYJSpGHpWVbEe9tjb58ZQfcEzj38BEgXRVONsB32y6qKQsNcd8vX
-         CMS7i20Y2kxlXp1K5kaws9H7iJ06432i+ccnQnLwoOC/m+1xfi8oBCIbVkYjWLI63BZX
-         Q0I95pAe0a+LY/j5YDQ/R+Qc1itB6fDCwpdFkPytHg1WNGl/NU01xp+Gf03meKMDXJdH
-         VGmPxnzIMhNEpwBTQW6Q+QmilpUvfJwWKkl7KhdC8DlL9wj0S6UL3S/yc9QkD9Wwic+0
-         L6Kw==
-X-Forwarded-Encrypted: i=1; AJvYcCUs9IdWq04PlvIDg5EPZtwshgh/nur3h1lFxOnvWM2F+LJ4liv7qYOgkwWvRB/xFK57LMc29KOMXNL2HJm+2SXh5EOi7w==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YysuHiHs4n9m2Tyif7wImKpgip5N9rN12q+EWlmKh0iprgRHtat
-	xneFYs8Jom6N93jB5Mt4JiZesBishiveEaNGP5E2JwBJfAlSV8dK8uMMUB0Vag==
-X-Gm-Gg: ASbGncv0rNHDs+WypcVckl0nNtDLkKpdFJDYBRlKSLNhP5Ttla/zJ03epAknQosyGUa
-	ckT2So3H4q2YZZw+n/GMazV9O/fSgRSOyXDl+3fAH8spX2vKLzh6cR9VqMEMIwGnIEhwUIWK+Ah
-	1IeTwEIaqCKj6BemYd04XJu5OLHLb1MvSpAfxvO25ByrxHcmPzk9x8JpB0iFyZf2kSP0dEr5Vuk
-	IdFFwgiVJPGBnji6+T2KpXg3AOJ54CkdRJQFCSW0wKY6Z3KKaVflTD4As4E7qAHF+P8BWvIOJLK
-	wcRQx0fdcQp3TVcfd3xcDFgn29i3+esRvSYtzYFz4D+T1iFuMinMxI/1qxFIazx00XymAHdppPg
-	Lcdn8W2sYYEdAg+MktlKSKg3SGDRjd1//mQPg3Mq7pldnk3+BycKN
-X-Google-Smtp-Source: AGHT+IFXF+ulYVYq6/WZYX4Wzz8c1l4qYzHfwG1UXARA/MN4QDWkAkOJ6QImUbM8o+W/8FDk4xQakQ==
-X-Received: by 2002:a05:6a20:7494:b0:240:30c:276a with SMTP id adf61e73a8af0-24340d02389mr11990976637.39.1756016079641;
-        Sat, 23 Aug 2025 23:14:39 -0700 (PDT)
+        bh=JfzDzbQEvI2nMK5aWsczii03Df0gZy+c2/ZhXQWQ8fE=;
+        b=wqvBz2tX9+dh6YjhOlr/0a++G9UrotYzy7qPnzsSpqdwY3655Y6/qkSifjKO1lIIvW
+         Dqei+5D0nVS8mtuzu56/eTicLnEHmLH6nsjirE8MRpsyrvev3T1YA3eWyi+sqHOijA5Y
+         OCvdOeySt/VhNem+4O3NvVKQxuxuGGTm/WC/GPkIjgiipu1AfskkZHO4HvpQEIoqISC3
+         NqDSPXVSn+iMMrSM1GCMRNOyneeMuZE3SuicoZE68Ocd9bZoa0QdwfuCub1pKX/9IITY
+         qsPRZPH8EzVGJMSyg3MKI0Lmb7xnGkvD7ym1N6BOaipdoMka+dWD0B9SvSbvljFUeDyx
+         5H8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUB8a+u0WsSj1gYkyxm+4wXKPPbwX9Xbp/15j6ETStYvjHCmlA6ctUrfWv19OekDzeewCDI5x3XrYOp1u5qMSMCX4WU4Q==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yziq+HCIAKhoyeF2bf4VX0wqRPrPWMOGzCVzHaRs0aUMi9mQHBE
+	R7cduK5mf9zCaEmmna6s31jSGAt8QbW1N4wVWr3dEo8P7PFdfqESZgCE
+X-Gm-Gg: ASbGncs4+yNwNgD8NpNUvkNf08wGvYb7dvin2Yk5g9YoPzFZZZ03niA/gId/pD0fKyG
+	7Bn6opmcOyvrDsirfaVODe3AEpK4Bw0QCiY18g+29u3n6BIG776E4/LZP5Fwr3kfBdJEIb7TdDf
+	bzK2RjyfhCzdjupIDnY/79eYJ082XdSerJDnKoLbA/foFtxk41pAp+I4puwbYVTF8cLzbtjbxxs
+	/wlIJ4LP1g0mAj8y/RHW1aEnQCHYiKLABmoy9TkAIiwetiUMI/NOOZJ2J/757zAaaQJXhRzch7y
+	iTfzNKzXyrN7Ka89KSQF7CKCriBxUe00/3fwArSl7pU8Cn6R/Q+I2mARJkF+d0ia/089Hqd2nBo
+	p/qRpKafp8lg5ks0T00drZsatQIofCWrD+DidTMduyGXKrOYzv7b+
+X-Google-Smtp-Source: AGHT+IEqAFYx6AisrGgN6ojBhMS+11Jpj/ZwAjl0loDmwXyLPUL3fcKiuqDVFbHLxkK8FpX3ngzJtw==
+X-Received: by 2002:a05:6a00:3d06:b0:771:58e:5b1e with SMTP id d2e1a72fcca58-771058e5effmr111559b3a.12.1756016083290;
+        Sat, 23 Aug 2025 23:14:43 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:d003:7033:ad1b:5a79:43f0:e247])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-770529149bdsm1654943b3a.98.2025.08.23.23.14.36
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-770529149bdsm1654943b3a.98.2025.08.23.23.14.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Aug 2025 23:14:39 -0700 (PDT)
+        Sat, 23 Aug 2025 23:14:42 -0700 (PDT)
 From: vivekyadav1207731111@gmail.com
 To: catalin.marinas@arm.com,
 	will@kernel.org,
@@ -87,9 +87,9 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	linux-doc@vger.kernel.org,
 	Vivek Yadav <vivekyadav1207731111@gmail.com>
-Subject: [PATCH 2/3] kselftest/arm64: Supress warning and improve readability
-Date: Sat, 23 Aug 2025 23:14:01 -0700
-Message-Id: <20250824061402.13432-3-vivekyadav1207731111@gmail.com>
+Subject: [PATCH 3/3] kselftest/arm64: Add parentheses around sizeof for clarity
+Date: Sat, 23 Aug 2025 23:14:02 -0700
+Message-Id: <20250824061402.13432-4-vivekyadav1207731111@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250824061402.13432-1-vivekyadav1207731111@gmail.com>
 References: <20250824061402.13432-1-vivekyadav1207731111@gmail.com>
@@ -103,40 +103,37 @@ Content-Transfer-Encoding: 8bit
 
 From: Vivek Yadav <vivekyadav1207731111@gmail.com>
 
-The comment was correct, but `checkpatch` script flagged it with a warning
-as shown in the output section. The comment is slightly modified
-to improve readability, which also suppresses the warning.
+Added parentheses around sizeof to make the expression clearer
+and improve readability. This change has no functional impact.
 
 ```
 [command]
-	./script/checkpatch.pl --strict -f tools/testing/selftests/arm64/fp/fp-stress.c
+	./scripts/checkpatch.pl tools/testing/selftests/arm64/fp/sve-ptrace.c
 
 [output]
-	WARNING: Possible repeated word: 'on'
+	WARNING: sizeof *sve should be sizeof(*sve)
 ```
 
-Fixes: 98102a2cb7860 : kselftest/arm64: Hold fp-stress children until they're all spawned.
+Fixes: 0dca276ac4d20 : selftests: arm64: Add test for the SVE ptrace interface
 
 Signed-off-by: Vivek Yadav <vivekyadav1207731111@gmail.com>
 ---
- tools/testing/selftests/arm64/fp/fp-stress.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tools/testing/selftests/arm64/fp/sve-ptrace.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/arm64/fp/fp-stress.c b/tools/testing/selftests/arm64/fp/fp-stress.c
-index 74e23208b94c..3a0ae96cf909 100644
---- a/tools/testing/selftests/arm64/fp/fp-stress.c
-+++ b/tools/testing/selftests/arm64/fp/fp-stress.c
-@@ -105,8 +105,8 @@ static void child_start(struct child_data *child, const char *program)
+diff --git a/tools/testing/selftests/arm64/fp/sve-ptrace.c b/tools/testing/selftests/arm64/fp/sve-ptrace.c
+index b22303778fb0..90c56b38dabf 100644
+--- a/tools/testing/selftests/arm64/fp/sve-ptrace.c
++++ b/tools/testing/selftests/arm64/fp/sve-ptrace.c
+@@ -115,7 +115,7 @@ static struct user_sve_header *get_sve(pid_t pid, const struct vec_type *type,
+ {
+ 	struct user_sve_header *sve;
+ 	void *p;
+-	size_t sz = sizeof *sve;
++	size_t sz = sizeof(*sve);
+ 	struct iovec iov;
  
- 		/*
- 		 * Read from the startup pipe, there should be no data
--		 * and we should block until it is closed.  We just
--		 * carry on on error since this isn't super critical.
-+		 * and we should block until it is closed. We just
-+		 * carry-on on error since this isn't super critical.
- 		 */
- 		ret = read(3, &i, sizeof(i));
- 		if (ret < 0)
+ 	while (1) {
 -- 
 2.25.1
 
