@@ -1,71 +1,71 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04112E0409
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 Aug 2025 18:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25EC2A1BB
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 Aug 2025 18:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756059276; cv=none; b=Wv5BRlbTXxKI8l7PUIhKpmVZT+oib1BpIoiiHlomHwXoR1Pm5QU2iZwIJHtlXv3NB5pvX6ugZQ711yxklasEh4O06072akGkjWQCSLCUnjRQ2b7EuFYH/+bV257ASV+9TujRgLCV0YfMU24nfDCn927ke3TpsWgVaFgeOeShvzQ=
+	t=1756061429; cv=none; b=T03bYrOuOg9RUvU/tK5VrMjC1/HxURs171oNb2TpOkNjRSvSS86FOOhMTEpeaFxtDmdT8Fnu2HQ1w9DNMPy3lRgkv42E7Q3Que1Zq9L882ZbOSbf9opPgSecBlgDfBdw+ZMO4zetellktBuwLVk81EClWdXvX+1IcYa7jPAV9fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756059276; c=relaxed/simple;
-	bh=E6qlPit+0JLaINuwDuMheNspfBMT2l7NIZsN5O8KaYQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pLhbPnHuEIntb8AFJiHs4JHUTwey03xSNByErYOcVLJxUSw21OKLz8RILom4/h9vqY9fDn8P9DEYAd6S6Ouqq/tTldr/aF9rijtEp5BAGnLj3cihDFBIz8FrKKhJZTl2F9VA+IBeY2bo9DL/UlMbYBr5iQP82Cd2fyzr8DUg03g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A9YVI0Y1; arc=none smtp.client-ip=209.85.216.43
+	s=arc-20240116; t=1756061429; c=relaxed/simple;
+	bh=oYpP+l0GELDk8EqZlQHXsfhR+LdmE+vBQmoVZbqoVkY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KRUAskZUzMIh6JbsEJPOY6P9kuViQ9PXxtxu6tKlJyV0rX+21lerJWk5hO0gdobH2D12zPO67vfIOMAeVTps6CybOjKnUOqTPCcJY/997y6xqi4qfFORA6z96DD0K8U1cMF5uGDiPhp8M+LnyLmDzV5d1lkZ3za00IHiDgBxRCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ga7Dvp/V; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A9YVI0Y1"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3252589a4afso1719604a91.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 Aug 2025 11:14:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ga7Dvp/V"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b4c1fc383eeso31163a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 Aug 2025 11:50:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756059274; x=1756664074; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1756061427; x=1756666227; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hsEKZRNy8m/8mJKxoM3IpgkHHrCyJtWTph1N9Xq1rI8=;
-        b=A9YVI0Y1svWB9ugPmK+Fp2EBG4Z4y1dHCoGUWEtgKspNDmOeHHSJfQSsLBsa6V/XP3
-         bMdQmaaIFfc3ZpBCR7purqdK0qmg+0BWJEWLdhqIbqZv3NZS9xvvfF5ITPrXBtBL8Jmv
-         mxK2ewuN+aQmKLTGqp9ArPLQj8ZalfL2JSWgVTfAqU3RpzuwvapefWtOxfNiEL56SirB
-         J7BrCLD/weCd/jg75rZCoJhoBZQIu56PaT6SAlomQRoXe32YyLdlPzixo0AghvN5E73N
-         oAt4zFcujBpoVnb4Ky35x4ifldqhg+elxRvvm28Imk9uzXUf4s99iQ9Q4oZGC9Buu2z6
-         GTaw==
+        bh=e/I637rsQSBPccqVsWEHcQxSAsaIwGXkuxeMNEVZ+Gw=;
+        b=ga7Dvp/V8Ucy8nJk24XcTYnvfqFipEUW40P9cnw8YKrr+Zey4Qz2/cEbLjMCseP9xa
+         uYDm+qsO2rX7vOm9YpuEDuCFnEMAciFOTvmkTQQknHadyx3k9enXJpUCQfnkl20txOMl
+         LHm1oqCmOwapHdq7GfnQbKV0eKcMzj5YzvBM8efhm7YvrY+1f+sLyI+GJLvyrGXDKwNK
+         D/4Fy6KYpmSNbLy+lhMcwtzOx91tMEc5mt2JvUNk8bNBaFoW4y/QYuzdMdcfmmTU35/f
+         s9ayPdNkq1Hp5VZhT6YJsYS5QwPciVzONQuGYOnqzHig155a61ktLvTdqdJypf7QOC+m
+         jbJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756059274; x=1756664074;
+        d=1e100.net; s=20230601; t=1756061427; x=1756666227;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hsEKZRNy8m/8mJKxoM3IpgkHHrCyJtWTph1N9Xq1rI8=;
-        b=FQlJ+UBzUzQcTIy33sGuV9KLawE3NI/IdZArZoRbUEUkJMOsaoXgTw4BG4L3/DbFLV
-         vtHaT6Pu7pKxXreROj7ZKIE9OcQFtMCs4ibCRmbFSlBIexZPGOJFlxC3NBiurKl2ADGS
-         qEL4aFPca8uYTW+9Eff3GdwYtXA0CtXr6IHdLyZCLsQ194HnuDuR7LeHiWwDzPWIquAK
-         +qhTaNd+I9PL3FaIp7vHxQbviitmxIWxWtfvO85eNDxV61xLk94smDFPBFUj4Nlxg889
-         lDiAMmxibXy2gF7xYlnKQ/mw5b4uZniKD0dF8pUTRJ47CxEwwE+HMWJTyApNkv6aKC4F
-         O+Hg==
-X-Forwarded-Encrypted: i=1; AJvYcCXesLqv65lrHbsdPvNNlFk7y0imSXdaZUn2mJIPqBewem/WRjp7NQIGEFnGoK3mutlk6/2Ciz5eP09OvfN75IczAT8OVg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFLYq0V4piKgCQWWcxjLsK9anqKF8MYOA3/rSLO/ayKlHZhxkf
-	LyO/Isl5Pzg5Bc/Omx7ms5PhYkVUyStH9Qe6lXuLAM59sc4zLp70z3T7
-X-Gm-Gg: ASbGncuzMozV57+0KGiZU26H85ToLI/Jzl6igQbChqFeXMF0pmjo26RHgvP+5X4hkzT
-	rISKQ2iFK3IQL8dw/UvCn8Gx3mwFwhCMbd86noD+867Ew8Z+jev4FE9Q3F7W5Z0VD2JQjJ9+Z+9
-	5Hv5b8Q0A6DHHb8mW/WkleN0DQfqpAxnWjwHJ7reY91d4dV4trezS06NFV5L7sUtT+UaN8Y4pvL
-	V6JcWFl+FbeRWnHGe4maZh1N523NtlJmfSSuct24PYiBxgmdmeRLke7xE7m2FUDQeHrWzatpbRk
-	owxCWg31GBIhz30JSkrx9fXZrzaFNH10CiOSOawRAADSSFgCAysqcp4DJACWhDgNSVdC59wkNp/
-	5K+oMFK1yLwBymuJeA/A5z53C
-X-Google-Smtp-Source: AGHT+IFubpj5H1hvOrgzW5L0eyEspCbDndCahow9ISpyF+VK4PFOufJKUIFrQzP0yKsCCaNX+Tn7yw==
-X-Received: by 2002:a17:90b:3c47:b0:325:1d6c:f220 with SMTP id 98e67ed59e1d1-3251d6cf486mr11713931a91.19.1756059274054;
-        Sun, 24 Aug 2025 11:14:34 -0700 (PDT)
+        bh=e/I637rsQSBPccqVsWEHcQxSAsaIwGXkuxeMNEVZ+Gw=;
+        b=uOYfUmtHeooRAzoETokpDpl4bUjXCfuiDzEySiyPdmSytCJgFC6/4dy6bcF5iwCu8b
+         MzKjL8Yx0gkcZrEk2MRAp7JaBX2AASca0/5U5r7YiXQcm8aVl9aGTjd/65D5oemsUhcd
+         8PHt1TvRD8S7w71/ESYW4bLGc6wypxX7PFRRGu4THGceV+5dn5riXu//gxRBzdQhFgSj
+         LZdsI1U8R/bcM58f5UDc0c15TqQvOc92qM2GfGcaI+HpnOdG765s0PJImfIHeDpNUquc
+         6ZiAUlHw14AVUBu9jpMlHMztRgKEzMkH3yJ/mCb5jRF5U0iYseQP8P0NIx2x7ihY0+Pc
+         ki6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXuacTTHZpbKYRYif7fb6U2ggjekVRV1v9/kE3rbZKaDgPLCtzIVUNFdLpMrd5oA2hqLmbBNrGfiTyl3AV3JCCYENJYHQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHp41kxLJ+f9RpTL3YINmKOoSm4Coi256YOn1orQgm43t+sVxU
+	e3l04V4OzCcoRbbU0Lut46A2X6sH6zjEbgZUUWPbSWaUZZtdU1iABWPT
+X-Gm-Gg: ASbGncutHNwhI5ftHqaODgUkBetZwcw5LCwinPkC7lyXpZi4QabrP3h0CfM/dGvM0pJ
+	Smog6xTLjLTgLoW543UdEDzlro6psHbXOZsYDWRR/4Mu2n6A4ITj025MmGVT3+U9JCYx/kkm/wM
+	v7DoMqHG4QGFPd17da3IbejePdlWedG+7tLfG81C62aR9dOT3Uwz2qV2cj+smer/vBwRXxFNcK4
+	W1oJ9CJd+QJRAYdziNMCx+3ueY/rjdM6fJCOT9MiXdOBW/FZAT/zenj4zn36LjG0SZmR3zlFksy
+	sagXnR2ZABei+nnGAW3empUhK772VKYo49fGAk5HHuCudc5rkHm83szDTH+/2QzBVrvHgxX4140
+	7zdLZ4NC15kMLZ/bnvmfPE5OR
+X-Google-Smtp-Source: AGHT+IGygt7laEFN/zkAEpiLSDJ12LGPr49Rm+OrPOVFA30XtGNiFMrm/fruchKcsOcw2xI/4rdRGw==
+X-Received: by 2002:a17:903:1249:b0:240:7247:f738 with SMTP id d9443c01a7336-2462edee76fmr127598065ad.1.1756061426906;
+        Sun, 24 Aug 2025 11:50:26 -0700 (PDT)
 Received: from linux ([223.181.107.55])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b49cbb7b6fbsm4756532a12.30.2025.08.24.11.14.31
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2466889f202sm48097855ad.151.2025.08.24.11.50.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Aug 2025 11:14:33 -0700 (PDT)
+        Sun, 24 Aug 2025 11:50:26 -0700 (PDT)
 From: I Viswanath <viswanathiyyappan@gmail.com>
-To: peda@axentia.se
-Cc: wsa+renesas@sang-engineering.com,
-	linux-i2c@vger.kernel.org,
+To: corbet@lwn.net
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev,
 	I Viswanath <viswanathiyyappan@gmail.com>
-Subject: [PATCH] i2c: i2c-mux: Simplify boolean assignment in i2c_mux_alloc
-Date: Sun, 24 Aug 2025 23:44:16 +0530
-Message-ID: <20250824181416.4316-1-viswanathiyyappan@gmail.com>
+Subject: [PATCH] Documentation: process: Fix grammar errors in management-style.rst
+Date: Mon, 25 Aug 2025 00:20:15 +0530
+Message-ID: <20250824185015.6312-1-viswanathiyyappan@gmail.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -75,34 +75,40 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refactor boolean field assignments of the form `if (a) b = true` to `b = a`
-in i2c_mux_alloc
+Fix various grammatical errors in management-style.rst
 
 Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
 ---
- drivers/i2c/i2c-mux.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ Documentation/process/management-style.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/i2c/i2c-mux.c b/drivers/i2c/i2c-mux.c
-index 4d8690981a55..abf63758856b 100644
---- a/drivers/i2c/i2c-mux.c
-+++ b/drivers/i2c/i2c-mux.c
-@@ -241,12 +241,9 @@ struct i2c_mux_core *i2c_mux_alloc(struct i2c_adapter *parent,
+diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
+index dfbc69bf49d4..4ae05a89950a 100644
+--- a/Documentation/process/management-style.rst
++++ b/Documentation/process/management-style.rst
+@@ -15,8 +15,8 @@ to do with reality.  It started as a lark, but that doesn't mean that it
+ might not actually be true. You'll have to decide for yourself.
  
- 	muxc->parent = parent;
- 	muxc->dev = dev;
--	if (flags & I2C_MUX_LOCKED)
--		muxc->mux_locked = true;
--	if (flags & I2C_MUX_ARBITRATOR)
--		muxc->arbitrator = true;
--	if (flags & I2C_MUX_GATE)
--		muxc->gate = true;
-+	muxc->mux_locked = flags & I2C_MUX_LOCKED;
-+	muxc->arbitrator = flags & I2C_MUX_ARBITRATOR;
-+	muxc->gate = flags & I2C_MUX_GATE;
- 	muxc->select = select;
- 	muxc->deselect = deselect;
- 	muxc->max_adapters = max_adapters;
+ Btw, when talking about "kernel manager", it's all about the technical
+-lead persons, not the people who do traditional management inside
+-companies.  If you sign purchase orders or you have any clue about the
++leads, not those who do traditional management inside
++companies.  If you sign purchase orders or have any clue about the
+ budget of your group, you're almost certainly not a kernel manager.
+ These suggestions may or may not apply to you.
+ 
+@@ -42,9 +42,9 @@ actually true.
+ The name of the game is to **avoid** having to make a decision.  In
+ particular, if somebody tells you "choose (a) or (b), we really need you
+ to decide on this", you're in trouble as a manager.  The people you
+-manage had better know the details better than you, so if they come to
++manage better know the details better than you; if they come to
+ you for a technical decision, you're screwed.  You're clearly not
+-competent to make that decision for them.
++competent enough to make that decision for them.
+ 
+ (Corollary:if the people you manage don't know the details better than
+ you, you're also screwed, although for a totally different reason.
 -- 
 2.50.1
 
