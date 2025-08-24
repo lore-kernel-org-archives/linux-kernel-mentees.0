@@ -1,143 +1,140 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4AA7D098
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 Aug 2025 13:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9DC393DE2
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 Aug 2025 13:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756041435; cv=none; b=Zum+34F9F7CcMpFtreavGexc7yXIGoWd38ghHRvhxjJw71rzkcjTNwb1RK8yj0vCo9ZOHDoYRqh7KYytPfIEMY2zhPyx3tH5o5EPI/2NkzM4L2+CmWoCO8vpKuei5h/FAIYbpkZWffktgPT6LoAdPy9fQycii/CXPggSvcCKCiI=
+	t=1756042868; cv=none; b=mzAo3kNd7Mf+Wybs5y01XivWItjDxT6o1dke7vhBqlY2ElFs5KyKbPECWDj9FAPlbaLla57NBVXxVgonMCJQLwZtOdqDnnm7Vk8PZVYmjmaTkWzTUk5Rb/3kRO+bB+iywDDF3fldC7S4wzq+Htom1EPhULqUsNJaGiCgq6SDFlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756041435; c=relaxed/simple;
-	bh=aW2h0iy5gKk1+VvNp0eqYZTL0H7VitB+EhzBXV5jkvU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EUtEx+UuRkPGSRHHbbK/Yrj41W7vI5BcSGWtjbuxbUgTgZhutzNo69tTVMCQn5Xp20tIftuTomhaLu7BAfyDx0AQjBJPipokHRz/dtJUlDZNrNPyRwkP8aj9lw9t44NpGId55lHNGJvAICCSv/jpFyuWYWxYanWPEbCHrrK4G3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KDIiSfmP; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756042868; c=relaxed/simple;
+	bh=ThhBRcX6/p7YU2+RvkWgHEHY2TRLm9lTL6Ph40Aa+5I=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=iVcYr6wZTbVjEtSAvpbk4Zxyh//b58zrEgPGdJMVWndEmO2CUOcfzMkUBvcU7F64B8ChAp596skTMn/g2PdxyChdT17e72Qgk27hfkj8IwmbGOWP+Cvqq8HJnFjU6qIj2+u3Mf7lu2wWqW3KxHHaMHx1Ls6uApPkxK/mq/cAHS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=jxEzXeTB; arc=none smtp.client-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KDIiSfmP"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-45b49f7aaf5so20839925e9.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 Aug 2025 06:17:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756041431; x=1756646231; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2N4Xz/BxoJnUC9kUOnfvhJZVau4iCsVpuk+xhLKOTWE=;
-        b=KDIiSfmP+mHKPbWReGLQNaQVdHlCfbENNzjJxIXPqOmJ7aDFY/kR3MYs1RnUm8ZltN
-         8c8pHRVJdpT5YsdIzjyEnRw3JPF8O2bfRk7PTPjHPuf/Hsh98KOy96nsyiKof4qewPBO
-         Ws61rzP3OW1+/gUo8SJ2Mr/NWlHHSD0eFkoQpNSBQMm4b7gRN2IxoN9qdarhYYC7lIJT
-         TXxIH+WEGslW4+PCm9pLzJCtYH9+AH/m7M3vuUn3X7eSpgAy+9HHBltKsQzxtknTYo7c
-         sZYYWQEc0HF1HUqY6I80wFdpZtAUXSP/RG3y0gHndqQWlaJDaascZ50NL8Diqm8V4lNq
-         f/iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756041431; x=1756646231;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2N4Xz/BxoJnUC9kUOnfvhJZVau4iCsVpuk+xhLKOTWE=;
-        b=axp9copd52ky+xjdgP+e9oOvwWITdcVRcevRGJzWNT2MUQKZOCDOUlaXjzoT78CsWv
-         01E27veGFM9uOhjhIre+NiQQ548dJg33NS+ff10zzPE8iM2cFh9oXONx9DkjM3ld8hLQ
-         tQG6RKbGBpsWObkT4Bks02oJnZxfAtAGoYrAv5USW8kjeNQ4CYxwgzcNq7HkteOF6+Yq
-         UPQNsKh92M/wq90wl3LAcHU2IU9wtfSWLyvSwuaLKNk7oOllrXxSeV5GzWFiD0LQxix+
-         eD1fET4g1NJ1rO78xabRHEmjSXbgwKIkuC+rX2M/jRwE7Yb8aGiJFoBOdb4JlmuesLo0
-         PAOg==
-X-Forwarded-Encrypted: i=1; AJvYcCUApzptthgadV+iB6+MJjBzKU2aUBzUFJ5tUVGQ4JrOpoGCvQgdajD5eTPmhbcRhnpJDx28V+cDL/EB6Ly2Uvq3ALib0Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5tZ4XKsFdyTBoqJr/XhIBXkqWf6j3oVkTSdcUWt9SE+2MXzUt
-	KdwDKTFJtJ9QTfL+d1Jlgt05v8/KTmWQKk6BKQV4zycnbGOt0QhXNYWO
-X-Gm-Gg: ASbGnctE+74PBReCbMGGj/iEk7ErdUfr1uO9YUNjeZufEcNqxaTSCBQkPZaarwX0ooJ
-	hGUcIwiHritjD1shjKRd5OyA0nOngxmdqQefg4+W1G1JE54W7J0GEnWF81jS514CTY24SPaHOra
-	snj/+YmwGuCkxJGYfkkX0ZQkmyml82XeU5v39+Le23Yc74O7oCYoaRlN6hKNd0ju4tAfFz/hUSX
-	WcvdEoGAUULCg8LC7ePRRpVNIiam8MwXdKjM8Z3TYb6+zKHKBzqUCsr/EbTU+WO3tIzQV7DvJhc
-	1CzGe9/kBM+0DNaQGH3cH9C4sEpvCAqEjHBThfwqVSmUHzcDb5356GOixEnbXd1mT6aCnwwqjV8
-	eCbJRmKO99ZdGQ0cQPg7w3ND1CWhxUFYecNtKRuOhAWQfF8wJJ7Irhc2Mr7v3AA/6T0IvmLm8D/
-	YHNH/YpyPLqA==
-X-Google-Smtp-Source: AGHT+IF0p6X6DqMaft8bVb+xHZzWcrilM0oEkMehJr2d4YlsCBG5vyIsnO0FKQC5OMwp0lsuPqbhag==
-X-Received: by 2002:a05:600c:198f:b0:459:d709:e5cf with SMTP id 5b1f17b1804b1-45b5179b710mr77565375e9.3.1756041431473;
-        Sun, 24 Aug 2025 06:17:11 -0700 (PDT)
-Received: from localhost.localdomain ([46.10.223.24])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b4e8f4552sm75658355e9.8.2025.08.24.06.17.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Aug 2025 06:17:11 -0700 (PDT)
-From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-To: catalin.marinas@arm.com,
-	will@kernel.org,
-	shuah@kernel.org,
-	ebiggers@google.com,
-	martin.petersen@oracle.com,
-	ardb@kernel.org,
-	broonie@kernel.org,
-	thiago.bauermann@linaro.org,
-	linux-kselftest@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	"Nikola Z. Ivanov" <zlatistiv@gmail.com>
-Subject: [PATCH] selftests/arm64: Fix typos in malloc return value check
-Date: Sun, 24 Aug 2025 16:16:47 +0300
-Message-ID: <20250824131647.490439-1-zlatistiv@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="jxEzXeTB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1756042847; x=1756647647; i=markus.elfring@web.de;
+	bh=ThhBRcX6/p7YU2+RvkWgHEHY2TRLm9lTL6Ph40Aa+5I=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=jxEzXeTBP+68tE5wfTClMvw1oyIuZbM+QlQeQfZ3kDvDfClrLBKO/L/RazfnwPGD
+	 Kf/bxdHL5IqOdQx88GjoDxqtukLZmc11JqI/+jgN3hVnTyuDc7q+LZyJYAunVlqPR
+	 plI5My6+GwSOAoMnrDDJZp4gTbQQwSPlE1hjaBnGRjKA2qAFjWv054GN9BNB1EvQd
+	 Ay9ZEn03J1yooJ3F9iGSPiWQOLXDx8KBmP0ehwB/jcfJjMlI7OUsJ/U54P6CUJeLU
+	 QzIPN7IMQ+VQFbyPqSZPYAvbnO59GL55sogglRZHjQrR5JaItxTsaVpqMtfJn+RV9
+	 xsUhYyfgXbWQ+gYXOQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.92.216]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MbCI8-1uEvOo3WwK-00bL4D; Sun, 24
+ Aug 2025 15:40:46 +0200
+Message-ID: <ed07c6f9-e389-4387-8585-6f1206da1a07@web.de>
+Date: Sun, 24 Aug 2025 15:40:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>,
+ linux-kselftest@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Cc: LKML <linux-kernel@vger.kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Eric Biggers
+ <ebiggers@google.com>, Mark Brown <broonie@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+ Will Deacon <will@kernel.org>
+References: <20250824131647.490439-1-zlatistiv@gmail.com>
+Subject: Re: [PATCH] selftests/arm64: Fix typos in malloc return value check
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250824131647.490439-1-zlatistiv@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:/T3t3ZAVHga2cRT8inLG1YjTPE//C9T8JhWWXadlIlzIjk0iPib
+ KyUV02mmjAwRjh45d9Dz39ay9YRQjEqwZHmZpgUY7FTvSDEeaO2KVIyaGhwDoaxnXq03/L5
+ y5p6w+NIb5pNNCsQrz8cp9f4BDgn4mfDujlfMR2kbkrp3qn61yeGpW1X5zXODY26onAxstz
+ RtrdtFrXWHSuc/EwhIy2A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:60wxeolHwes=;X/f3rpYEiMysYa5Wtf0smBdZYMD
+ 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
+ z57ebfHmrfvHi8qSWfENkT9vRryS
 
-Fix double "-ed" in malloc return value check
+> Fix double "-ed" in malloc return value check
 
-Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
----
- tools/testing/selftests/arm64/fp/fp-stress.c   | 2 +-
- tools/testing/selftests/arm64/fp/kernel-test.c | 4 ++--
- tools/testing/selftests/arm64/gcs/gcs-stress.c | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+Refine wordings in error message string literals?
 
-diff --git a/tools/testing/selftests/arm64/fp/fp-stress.c b/tools/testing/selftests/arm64/fp/fp-stress.c
-index 74e23208b94c..ddc01efea3f9 100644
---- a/tools/testing/selftests/arm64/fp/fp-stress.c
-+++ b/tools/testing/selftests/arm64/fp/fp-stress.c
-@@ -549,7 +549,7 @@ int main(int argc, char **argv)
- 
- 	evs = calloc(tests, sizeof(*evs));
- 	if (!evs)
--		ksft_exit_fail_msg("Failed to allocated %d epoll events\n",
-+		ksft_exit_fail_msg("Failed to allocate %d epoll events\n",
- 				   tests);
- 
- 	for (i = 0; i < cpus; i++) {
-diff --git a/tools/testing/selftests/arm64/fp/kernel-test.c b/tools/testing/selftests/arm64/fp/kernel-test.c
-index e3cec3723ffa..0c40007d1282 100644
---- a/tools/testing/selftests/arm64/fp/kernel-test.c
-+++ b/tools/testing/selftests/arm64/fp/kernel-test.c
-@@ -188,13 +188,13 @@ static bool create_socket(void)
- 
- 	ref = malloc(digest_len);
- 	if (!ref) {
--		printf("Failed to allocated %d byte reference\n", digest_len);
-+		printf("Failed to allocate %d byte reference\n", digest_len);
- 		return false;
- 	}
- 
- 	digest = malloc(digest_len);
- 	if (!digest) {
--		printf("Failed to allocated %d byte digest\n", digest_len);
-+		printf("Failed to allocate %d byte digest\n", digest_len);
- 		return false;
- 	}
- 
-diff --git a/tools/testing/selftests/arm64/gcs/gcs-stress.c b/tools/testing/selftests/arm64/gcs/gcs-stress.c
-index bbc7f4950c13..cf316d78ea97 100644
---- a/tools/testing/selftests/arm64/gcs/gcs-stress.c
-+++ b/tools/testing/selftests/arm64/gcs/gcs-stress.c
-@@ -433,7 +433,7 @@ int main(int argc, char **argv)
- 
- 	evs = calloc(tests, sizeof(*evs));
- 	if (!evs)
--		ksft_exit_fail_msg("Failed to allocated %d epoll events\n",
-+		ksft_exit_fail_msg("Failed to allocate %d epoll events\n",
- 				   tests);
- 
- 	for (i = 0; i < gcs_threads; i++)
--- 
-2.50.1
-
+Regards,
+Markus
