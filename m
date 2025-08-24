@@ -1,140 +1,108 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9DC393DE2
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 Aug 2025 13:41:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04112E0409
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 Aug 2025 18:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756042868; cv=none; b=mzAo3kNd7Mf+Wybs5y01XivWItjDxT6o1dke7vhBqlY2ElFs5KyKbPECWDj9FAPlbaLla57NBVXxVgonMCJQLwZtOdqDnnm7Vk8PZVYmjmaTkWzTUk5Rb/3kRO+bB+iywDDF3fldC7S4wzq+Htom1EPhULqUsNJaGiCgq6SDFlc=
+	t=1756059276; cv=none; b=Wv5BRlbTXxKI8l7PUIhKpmVZT+oib1BpIoiiHlomHwXoR1Pm5QU2iZwIJHtlXv3NB5pvX6ugZQ711yxklasEh4O06072akGkjWQCSLCUnjRQ2b7EuFYH/+bV257ASV+9TujRgLCV0YfMU24nfDCn927ke3TpsWgVaFgeOeShvzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756042868; c=relaxed/simple;
-	bh=ThhBRcX6/p7YU2+RvkWgHEHY2TRLm9lTL6Ph40Aa+5I=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=iVcYr6wZTbVjEtSAvpbk4Zxyh//b58zrEgPGdJMVWndEmO2CUOcfzMkUBvcU7F64B8ChAp596skTMn/g2PdxyChdT17e72Qgk27hfkj8IwmbGOWP+Cvqq8HJnFjU6qIj2+u3Mf7lu2wWqW3KxHHaMHx1Ls6uApPkxK/mq/cAHS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=jxEzXeTB; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1756059276; c=relaxed/simple;
+	bh=E6qlPit+0JLaINuwDuMheNspfBMT2l7NIZsN5O8KaYQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pLhbPnHuEIntb8AFJiHs4JHUTwey03xSNByErYOcVLJxUSw21OKLz8RILom4/h9vqY9fDn8P9DEYAd6S6Ouqq/tTldr/aF9rijtEp5BAGnLj3cihDFBIz8FrKKhJZTl2F9VA+IBeY2bo9DL/UlMbYBr5iQP82Cd2fyzr8DUg03g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A9YVI0Y1; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="jxEzXeTB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1756042847; x=1756647647; i=markus.elfring@web.de;
-	bh=ThhBRcX6/p7YU2+RvkWgHEHY2TRLm9lTL6Ph40Aa+5I=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=jxEzXeTBP+68tE5wfTClMvw1oyIuZbM+QlQeQfZ3kDvDfClrLBKO/L/RazfnwPGD
-	 Kf/bxdHL5IqOdQx88GjoDxqtukLZmc11JqI/+jgN3hVnTyuDc7q+LZyJYAunVlqPR
-	 plI5My6+GwSOAoMnrDDJZp4gTbQQwSPlE1hjaBnGRjKA2qAFjWv054GN9BNB1EvQd
-	 Ay9ZEn03J1yooJ3F9iGSPiWQOLXDx8KBmP0ehwB/jcfJjMlI7OUsJ/U54P6CUJeLU
-	 QzIPN7IMQ+VQFbyPqSZPYAvbnO59GL55sogglRZHjQrR5JaItxTsaVpqMtfJn+RV9
-	 xsUhYyfgXbWQ+gYXOQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.92.216]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MbCI8-1uEvOo3WwK-00bL4D; Sun, 24
- Aug 2025 15:40:46 +0200
-Message-ID: <ed07c6f9-e389-4387-8585-6f1206da1a07@web.de>
-Date: Sun, 24 Aug 2025 15:40:44 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A9YVI0Y1"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3252589a4afso1719604a91.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 Aug 2025 11:14:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756059274; x=1756664074; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hsEKZRNy8m/8mJKxoM3IpgkHHrCyJtWTph1N9Xq1rI8=;
+        b=A9YVI0Y1svWB9ugPmK+Fp2EBG4Z4y1dHCoGUWEtgKspNDmOeHHSJfQSsLBsa6V/XP3
+         bMdQmaaIFfc3ZpBCR7purqdK0qmg+0BWJEWLdhqIbqZv3NZS9xvvfF5ITPrXBtBL8Jmv
+         mxK2ewuN+aQmKLTGqp9ArPLQj8ZalfL2JSWgVTfAqU3RpzuwvapefWtOxfNiEL56SirB
+         J7BrCLD/weCd/jg75rZCoJhoBZQIu56PaT6SAlomQRoXe32YyLdlPzixo0AghvN5E73N
+         oAt4zFcujBpoVnb4Ky35x4ifldqhg+elxRvvm28Imk9uzXUf4s99iQ9Q4oZGC9Buu2z6
+         GTaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756059274; x=1756664074;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hsEKZRNy8m/8mJKxoM3IpgkHHrCyJtWTph1N9Xq1rI8=;
+        b=FQlJ+UBzUzQcTIy33sGuV9KLawE3NI/IdZArZoRbUEUkJMOsaoXgTw4BG4L3/DbFLV
+         vtHaT6Pu7pKxXreROj7ZKIE9OcQFtMCs4ibCRmbFSlBIexZPGOJFlxC3NBiurKl2ADGS
+         qEL4aFPca8uYTW+9Eff3GdwYtXA0CtXr6IHdLyZCLsQ194HnuDuR7LeHiWwDzPWIquAK
+         +qhTaNd+I9PL3FaIp7vHxQbviitmxIWxWtfvO85eNDxV61xLk94smDFPBFUj4Nlxg889
+         lDiAMmxibXy2gF7xYlnKQ/mw5b4uZniKD0dF8pUTRJ47CxEwwE+HMWJTyApNkv6aKC4F
+         O+Hg==
+X-Forwarded-Encrypted: i=1; AJvYcCXesLqv65lrHbsdPvNNlFk7y0imSXdaZUn2mJIPqBewem/WRjp7NQIGEFnGoK3mutlk6/2Ciz5eP09OvfN75IczAT8OVg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFLYq0V4piKgCQWWcxjLsK9anqKF8MYOA3/rSLO/ayKlHZhxkf
+	LyO/Isl5Pzg5Bc/Omx7ms5PhYkVUyStH9Qe6lXuLAM59sc4zLp70z3T7
+X-Gm-Gg: ASbGncuzMozV57+0KGiZU26H85ToLI/Jzl6igQbChqFeXMF0pmjo26RHgvP+5X4hkzT
+	rISKQ2iFK3IQL8dw/UvCn8Gx3mwFwhCMbd86noD+867Ew8Z+jev4FE9Q3F7W5Z0VD2JQjJ9+Z+9
+	5Hv5b8Q0A6DHHb8mW/WkleN0DQfqpAxnWjwHJ7reY91d4dV4trezS06NFV5L7sUtT+UaN8Y4pvL
+	V6JcWFl+FbeRWnHGe4maZh1N523NtlJmfSSuct24PYiBxgmdmeRLke7xE7m2FUDQeHrWzatpbRk
+	owxCWg31GBIhz30JSkrx9fXZrzaFNH10CiOSOawRAADSSFgCAysqcp4DJACWhDgNSVdC59wkNp/
+	5K+oMFK1yLwBymuJeA/A5z53C
+X-Google-Smtp-Source: AGHT+IFubpj5H1hvOrgzW5L0eyEspCbDndCahow9ISpyF+VK4PFOufJKUIFrQzP0yKsCCaNX+Tn7yw==
+X-Received: by 2002:a17:90b:3c47:b0:325:1d6c:f220 with SMTP id 98e67ed59e1d1-3251d6cf486mr11713931a91.19.1756059274054;
+        Sun, 24 Aug 2025 11:14:34 -0700 (PDT)
+Received: from linux ([223.181.107.55])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b49cbb7b6fbsm4756532a12.30.2025.08.24.11.14.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Aug 2025 11:14:33 -0700 (PDT)
+From: I Viswanath <viswanathiyyappan@gmail.com>
+To: peda@axentia.se
+Cc: wsa+renesas@sang-engineering.com,
+	linux-i2c@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	I Viswanath <viswanathiyyappan@gmail.com>
+Subject: [PATCH] i2c: i2c-mux: Simplify boolean assignment in i2c_mux_alloc
+Date: Sun, 24 Aug 2025 23:44:16 +0530
+Message-ID: <20250824181416.4316-1-viswanathiyyappan@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>,
- linux-kselftest@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Eric Biggers
- <ebiggers@google.com>, Mark Brown <broonie@kernel.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Shuah Khan <shuah@kernel.org>,
- Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
- Will Deacon <will@kernel.org>
-References: <20250824131647.490439-1-zlatistiv@gmail.com>
-Subject: Re: [PATCH] selftests/arm64: Fix typos in malloc return value check
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250824131647.490439-1-zlatistiv@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:/T3t3ZAVHga2cRT8inLG1YjTPE//C9T8JhWWXadlIlzIjk0iPib
- KyUV02mmjAwRjh45d9Dz39ay9YRQjEqwZHmZpgUY7FTvSDEeaO2KVIyaGhwDoaxnXq03/L5
- y5p6w+NIb5pNNCsQrz8cp9f4BDgn4mfDujlfMR2kbkrp3qn61yeGpW1X5zXODY26onAxstz
- RtrdtFrXWHSuc/EwhIy2A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:60wxeolHwes=;X/f3rpYEiMysYa5Wtf0smBdZYMD
- 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
- z57ebfHmrfvHi8qSWfENkT9vRryS
+Content-Transfer-Encoding: 8bit
 
-> Fix double "-ed" in malloc return value check
+Refactor boolean field assignments of the form `if (a) b = true` to `b = a`
+in i2c_mux_alloc
 
-Refine wordings in error message string literals?
+Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
+---
+ drivers/i2c/i2c-mux.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-Regards,
-Markus
+diff --git a/drivers/i2c/i2c-mux.c b/drivers/i2c/i2c-mux.c
+index 4d8690981a55..abf63758856b 100644
+--- a/drivers/i2c/i2c-mux.c
++++ b/drivers/i2c/i2c-mux.c
+@@ -241,12 +241,9 @@ struct i2c_mux_core *i2c_mux_alloc(struct i2c_adapter *parent,
+ 
+ 	muxc->parent = parent;
+ 	muxc->dev = dev;
+-	if (flags & I2C_MUX_LOCKED)
+-		muxc->mux_locked = true;
+-	if (flags & I2C_MUX_ARBITRATOR)
+-		muxc->arbitrator = true;
+-	if (flags & I2C_MUX_GATE)
+-		muxc->gate = true;
++	muxc->mux_locked = flags & I2C_MUX_LOCKED;
++	muxc->arbitrator = flags & I2C_MUX_ARBITRATOR;
++	muxc->gate = flags & I2C_MUX_GATE;
+ 	muxc->select = select;
+ 	muxc->deselect = deselect;
+ 	muxc->max_adapters = max_adapters;
+-- 
+2.50.1
+
