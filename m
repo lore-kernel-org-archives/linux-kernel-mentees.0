@@ -1,74 +1,75 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A7324061F;
-	Sun, 24 Aug 2025 07:37:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90E744C63;
+	Sun, 24 Aug 2025 11:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756021024; cv=none; b=FSkVYChlBuDgwd02T0pdiNxMWTG2m/r0YDtgT3elOi0rSvW3v+QJh1IHos7dmnwI0iifKK2OiyGNXKvr6ZYYFKXt4Iv5uXwdIb7W5UUFEB2WRBfUiR+tp51/M7fceu7POCxGvTSK/IkGGUykmLYqXpFeoVa+OGqQ4+FNjmbgtf0=
+	t=1756035097; cv=none; b=RjMPD0qEEP41wrr669EFhjWvv9gaAvTPesvf4H2YhloRtUL0NJvuIzM32ih4vWyP+n0gxGvLzk4wJOqL1odQnJMFc8s6PWPBlNm076c/BSw/hwXxvhr9quvf4BLWAr/isTQqRXSB1sHmDY9ENOXK9MZ7V2BqyvS49rzOthZwZ3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756021024; c=relaxed/simple;
-	bh=nbh1fZpe36WdEto5iFgq2/Un1zMvq/DRH0ahJK8sLFU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iEjV5K3DhMldksdriX//x/wozwhPyJxrjqA5wgNQi1R4FD1cYaTnWprR9+OgcRvbHQX2AYNeOzHIuWWVL3souIAfLxLTosdnlFC71cNx1JIocFCNoZGWdOTBlZp+f/YJi0PVPM8sfteKkG0Bg5+6DHGIX7ndDHiP7G18pl9oE6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from ofsar (unknown [180.158.240.122])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id E1311340DAF;
-	Sun, 24 Aug 2025 07:36:57 +0000 (UTC)
-From: Yixun Lan <dlan@gentoo.org>
-To: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr,
-	Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-Cc: Yixun Lan <dlan@gentoo.org>,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] riscv: dts: spacemit: add UART resets for Soc K1
-Date: Sun, 24 Aug 2025 15:36:42 +0800
-Message-ID: <175602095097.196581.656734670747058634.b4-ty@gentoo.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250821152619.597051-1-hendrik.hamerlinck@hammernet.be>
-References: <20250821152619.597051-1-hendrik.hamerlinck@hammernet.be>
+	s=arc-20240116; t=1756035097; c=relaxed/simple;
+	bh=rmVs7GttlTeKD1AslGtsCGPaqB3oSaPJjE9tqpKqNiU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lod3IvG7a94vU5TTqckZoYWXTImqwiyKMSGc8P4ek2Tl0Z1tyEzc4nMh+Edo/tr8BZY83oHYuA/Qk/0xSMCgp+t4d+PMzNHKl5iPABS97h2H6AdeLN50Ifz5FMbCBj20D5uwgDy84l8USJG0WoFg2lc24JlgbQuLh0E7CYU2b9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kozhhYJw; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kozhhYJw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 209C5C4CEEB;
+	Sun, 24 Aug 2025 11:31:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756035097;
+	bh=rmVs7GttlTeKD1AslGtsCGPaqB3oSaPJjE9tqpKqNiU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kozhhYJwtxpddfD1xCRTLVEpTXQdSKXGBiNvRA7uT2z9H6oWJL2+o6JTDE/ax5+P1
+	 HLR3KGp+i2pzjuMCyKFoppluz0OSfRzGUNCb9tAhggo35VA3U1tNq+gaTfE3bkaSXw
+	 5EZBlNJHg/XYoLEscs8hYiXom+XWFIDkVIOGTfrRIkZFsLP9IakBrzxc5NHfKnBfwA
+	 Rs23V+FjzGT7JDEhkHwmJvTA8awEBWPHS8ZAeoO5mVX7AyrCo36YeWtwol+/GByBYN
+	 MwQIsVMbwjhxxDQhJwThZNJcgBLCo9mspkCnih5xeyttAp6nuyZuME51kIg5uNX5UR
+	 EkW4s+hM1l4MA==
+Date: Sun, 24 Aug 2025 12:31:34 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Vivek Alurkar <primalkenja@gmail.com>
+Cc: skhan@linuxfoundation.org, linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] selftests: alsa: Fix typo in mixer-test.c
+Message-ID: <aKr4FirG0-h5pwH-@finisterre.sirena.org.uk>
+References: <20250823095439.476797-2-primalkenja@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fhHtqqeAZdtPkYZm"
+Content-Disposition: inline
+In-Reply-To: <20250823095439.476797-2-primalkenja@gmail.com>
+X-Cookie: Filmed before a live audience.
 
 
-On Thu, 21 Aug 2025 17:26:19 +0200, Hendrik Hamerlinck wrote:
-> The UARTs in the SpacemiT K1 device tree are probed by the 8250_of driver,
-> but without reset lines they remain non-functional.
-> 
-> Add reset control entries so that the UARTs can operate when mapped to
-> devices. UART0 is already de-asserted by the bootloader, but include its
-> reset as well to avoid relying on bootloader state.
-> 
-> [...]
+--fhHtqqeAZdtPkYZm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Applied, thanks!
+On Sat, Aug 23, 2025 at 02:54:38AM -0700, Vivek Alurkar wrote:
+> Change "libray" to "library".
 
-[1/1] riscv: dts: spacemit: add UART resets for Soc K1
-      https://github.com/spacemit-com/linux/commit/eba84c94f9597a82f143997bfacc75e5b27a37de
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
-Best regards,
--- 
-Yixun Lan
+--fhHtqqeAZdtPkYZm
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiq+A0ACgkQJNaLcl1U
+h9AZCQf/WLTJCMD3tlrBa5k1zirrXCCBa9EchXlv9voWEME1eZ2mLBOTWJrBmhjM
+4FxRKmXJQzwC/I0ITzYLgO1lbg3XavWCxuuE9GbIuBi8VQBLCqFTAo8nwd/AyA6m
+5lSwxMShMolJ3x7Izcja/8s99dKI3pQii7QRK/8gJBSrhYyDys4a21jTIi5ojAoS
+K3AcpS2gq2VrqE8+jff92XnnH/qLaIUyc0OWzDANpODJRW9PXh3ucPBCvbj2+du8
+7jLo3v6EaAIMUUwz53yHfIHvpcxJaSGwnmcnMjE5JpnipyEjAA5XgS0Alir+hsm8
+Fk2hjlcWRDjPeDXCpZTPmQL4gDlC5A==
+=Vbgt
+-----END PGP SIGNATURE-----
+
+--fhHtqqeAZdtPkYZm--
