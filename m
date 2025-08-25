@@ -1,117 +1,114 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B834D339A8
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 Aug 2025 03:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4921DED64
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 Aug 2025 05:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756091686; cv=none; b=mH2f5UYBRbGtgPY0FslCmJ88iCFd0DpOozUszN2ADQbybSIEfllTSLwK8Eb8pGa52AaXMyx8RKSTWplnEmZtDAGDQ8yszSSp6r+XmezkM2NGlJ6CbV8RvQwwb8OnWGhOaiTCESPpkGNUMC+L0J91zJpSHDCeyYWVZgR+7qIY1Jo=
+	t=1756098641; cv=none; b=ixUEmLIqvVgWihfvZWEfpYy2MCiE0dALVOTiRIdqh/my9gig4afdO8Qes3qOa/JJqctw4Us+vKLNhxnCtmOqbMCjFF1qPVdbnjoyAGehAovH8cxlIHOpC8OxicjuRgci5GxV9n/WqMBmX+s0wTouMVnOg4C54ejhqnPF2WcgUYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756091686; c=relaxed/simple;
-	bh=7ispcaVyIRZ5/+9jltafMh3K9aVRjMx0ix02kFpxxYM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ry6qniIrp3FcknPuk+CMK+YIZJb41hifqrs42AS3ZTzXs/jd/zy/EIY0nr3Y7Drt+P9yAVYXgMhWjn0R2QIE84xWHMzlu8I+NDmfzq6QAa7DUwIKNcgR9kcLgkJl7iLaHcRO9Af+O5Cxirtdr/ftuUYXhbhk00mN7yTyHBDo+gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FZsO/pMX; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756098641; c=relaxed/simple;
+	bh=Lsjhk9T8cV4gVBBVBD2lz4ttT3/LoiUhIZ0SJIr4vms=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=YxAXJfLDtlHUJ8JPu0kyHo7e9jmCnMKjz/Hbtw+STC92hu8VJQz0G/c+DYnnscA7g92IFfZ+EPuLT4WeESG5r2EalJLoYgAtxDF8G/JZqyxp+KCHtNiVL9usO3egtDdTMI7B5wV1Vs92ngAnAkOxpQpkY5WNW8Y515KmKC61g9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sQ18hcSe; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FZsO/pMX"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3256986ca60so1356616a91.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 Aug 2025 20:14:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756091684; x=1756696484; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fbDkfYYEsVLJhNP0a8Qpsz+hz60XktfWQT+eId+bxvc=;
-        b=FZsO/pMXZRnIWdK340a5GM+GtmCaqSirUHWBp3Z5bPT8lg74M82ls/0s4SGNDw/3wC
-         b4qcQXOMnaKdbFTQHHb/7BpHROtLhTC60SIiMf8qq+ZmFmRRQApGah4IcvunyQ1QDafM
-         Ykh+RPSFmaRy8Pph5gKWZozXCKitwsMmR2Fick6+dS1ngMyylvS8eAfizXNrlM4NRPcr
-         wTenoxWgxPzzMMUlc7YHMLdUkareD43yPr+BCNKULs6y7X34hkPa5+3ndZFLVPg9KD0U
-         p1yEqBrBwVNbqV1UqfK6ipWJEgcv9LJC/ceTJp8Lno73BCqGwtV0LnPkEdq0MrRc099h
-         c/8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756091684; x=1756696484;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fbDkfYYEsVLJhNP0a8Qpsz+hz60XktfWQT+eId+bxvc=;
-        b=eG7CNf4M/7vV0VVbzl+iwUvtChOTVNlCUqqp85oH/T8Y8Biq9iYmgN4BN7HF7w/fkO
-         jG/GzJhs4dFHiHHVGyrwlL1YItx26H3xxNznuW1/56/TvHIO30NT+unloI/7ZJmWVqQ/
-         MUiM/98J+twgwJylhtPhCZTBqhA/EvI49Zv/cyWn/99Eoa/e9u8ns85zpAmPLwmuEvpI
-         zhwawUoPCFk6JHEd8yxrHBF7vnIoDsahMKflx9iRvb+MtMlbPXgKINS59jmdGJAJDiBp
-         ppvKOaqVBg2VkVWoHRHsL8lgvjk07pLVZGALpUvBSbdea0dv2iC5DytXyAkSkeYDNdH/
-         PBng==
-X-Forwarded-Encrypted: i=1; AJvYcCXeSF4JbvO9J6qxlonsRhKhU03sWO2+n4aqW8d443SaaAnoWlOFb5rCwQ+G7iRKYI/3Hz7y5J0tKi2COX2Wp/40C1wWaw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6HiO1TBExeFPLLjJG/ENoWXh1C1mjz/FHpQPtcJQMHoLTiHcD
-	K/+3Yq5yzYc+aS4rLEjtxcOXxXiLIw8elf5sAwIDfC89CHJ8K9LB2ka/
-X-Gm-Gg: ASbGncu8Nx4sWQGFVhHnl+wGMV5DqEzGyjQNwwBJa6sKgPR15pRJHXCdF1jHznlmjRG
-	93HEBORwWzyEB871+IT4UP6MEupqb+rWVqQk0mQ5SMwdUE3Ng6Ih/GH4073jt2kT0xd4Rov2QfR
-	Df3tvMkDsyDj9Fddn26Wdy5t2osYLw1Y1REGYg7BPKbNZsqIAHrbVQGNEzkacG9CGYt3JJI1Cq6
-	qQUSBns9Z8XaIkLNBU7WsSwZw2q0xlTNyKZEGHWuWl0SEau9OF8jWe8YrlbToHRRVhIgWpKf3XF
-	zP4ctkYvEzKrMTIF3OZ5Vy28AdE6TEDukRGgtyOC0J99W5Z90YYRfMy1YpmE/n2SRjn9yiSojb9
-	oUK+ti6Y4knoSVRSm1mavXEurYqVV7TP8kmM=
-X-Google-Smtp-Source: AGHT+IGj1na0x2IMhWwnhwZtx6tPkKNpoFJ4Sadg4K9MqcpgWZjrlDL27dkztBwCKtrKl6GJR1OSgw==
-X-Received: by 2002:a17:902:ef06:b0:242:9be2:f67a with SMTP id d9443c01a7336-2462ee0bec3mr148071585ad.11.1756091683819;
-        Sun, 24 Aug 2025 20:14:43 -0700 (PDT)
-Received: from linux ([223.181.105.16])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3254aa4fc14sm5693904a91.18.2025.08.24.20.14.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Aug 2025 20:14:43 -0700 (PDT)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: akhilesh@ee.iitb.ac.in
-Cc: peda@axentia.se,
-	wsa+renesas@sang-engineering.com,
-	linux-i2c@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	I Viswanath <viswanathiyyappan@gmail.com>
-Subject: [PATCH v2] i2c: i2c-mux: Simplify boolean assignment in i2c_mux_alloc
-Date: Mon, 25 Aug 2025 08:44:30 +0530
-Message-ID: <20250825031430.3001-1-viswanathiyyappan@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <aKu8tBBOWqltEstx@bhairav-test.ee.iitb.ac.in>
-References: <aKu8tBBOWqltEstx@bhairav-test.ee.iitb.ac.in>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sQ18hcSe"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1826240ADA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1756098631; bh=6Sw1yYW0zL/72spSU8wSWHNj3CwEXvMx5At3t1+a5Ro=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=sQ18hcSerCi8U2UeVULKFv17OKMcGVrFlEjVfc4+YsYQTQ23MMIedPF8smvXYKGsB
+	 k5hDMSKRN7I48JRmjXUQzCGNx9UdYpOep169rJGVN/TfyLBUZkBm3VXypedDxc5xBc
+	 yqS70rmWTfHJ+1E8zKgAKt3x3Ohv4+cNbb/b31wP0folQlL5t6RAklct67/mCQ5tgX
+	 faa0Qf4K3ZJ7SKXgxFgmiUTzllZYUQxSZERKNMR9wgHiUlhOu9m+6jmzCpAU+S8+N2
+	 WvPEziMZ0pcfIQM03lDgMtBE1vT2y7qQwK6DeemmvTct4b6fTsSe1SuZsvU1RvCerP
+	 9Wc9WuGrmhZig==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1826240ADA;
+	Mon, 25 Aug 2025 05:10:30 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: I Viswanath <viswanathiyyappan@gmail.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, I
+ Viswanath <viswanathiyyappan@gmail.com>
+Subject: Re: [PATCH] Documentation: process: Fix grammar errors in
+ management-style.rst
+In-Reply-To: <20250824185015.6312-1-viswanathiyyappan@gmail.com>
+References: <20250824185015.6312-1-viswanathiyyappan@gmail.com>
+Date: Sun, 24 Aug 2025 23:10:29 -0600
+Message-ID: <87y0r8c7ga.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Refactor boolean field assignments of the form `if (a) b = true` to `b = a`
-in i2c_mux_alloc
+I Viswanath <viswanathiyyappan@gmail.com> writes:
 
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
----
-v2:
-- Converted the assigned expressions to 1 bit values before assignment to make
-the bitfield assignment more explict according to Akhilesh Patil's suggestion.
+> Fix various grammatical errors in management-style.rst
+>
+> Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
 
- drivers/i2c/i2c-mux.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+Thank you for working to improve our documentation...I don't think I can
+apply this patch, though.
 
-diff --git a/drivers/i2c/i2c-mux.c b/drivers/i2c/i2c-mux.c
-index 4d8690981a55..d59644e50f14 100644
---- a/drivers/i2c/i2c-mux.c
-+++ b/drivers/i2c/i2c-mux.c
-@@ -241,12 +241,9 @@ struct i2c_mux_core *i2c_mux_alloc(struct i2c_adapter *parent,
- 
- 	muxc->parent = parent;
- 	muxc->dev = dev;
--	if (flags & I2C_MUX_LOCKED)
--		muxc->mux_locked = true;
--	if (flags & I2C_MUX_ARBITRATOR)
--		muxc->arbitrator = true;
--	if (flags & I2C_MUX_GATE)
--		muxc->gate = true;
-+	muxc->mux_locked = !!(flags & I2C_MUX_LOCKED);
-+	muxc->arbitrator = !!(flags & I2C_MUX_ARBITRATOR);
-+	muxc->gate = !!(flags & I2C_MUX_GATE);
- 	muxc->select = select;
- 	muxc->deselect = deselect;
- 	muxc->max_adapters = max_adapters;
--- 
-2.50.1
+Your signoff should include your full name, please.
 
+But more importantly...
+
+> ---
+>  Documentation/process/management-style.rst | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
+> index dfbc69bf49d4..4ae05a89950a 100644
+> --- a/Documentation/process/management-style.rst
+> +++ b/Documentation/process/management-style.rst
+> @@ -15,8 +15,8 @@ to do with reality.  It started as a lark, but that doesn't mean that it
+>  might not actually be true. You'll have to decide for yourself.
+>  
+>  Btw, when talking about "kernel manager", it's all about the technical
+> -lead persons, not the people who do traditional management inside
+> -companies.  If you sign purchase orders or you have any clue about the
+> +leads, not those who do traditional management inside
+> +companies.  If you sign purchase orders or have any clue about the
+
+This change is OK, but what was there was OK too
+
+>  budget of your group, you're almost certainly not a kernel manager.
+>  These suggestions may or may not apply to you.
+>  
+> @@ -42,9 +42,9 @@ actually true.
+>  The name of the game is to **avoid** having to make a decision.  In
+>  particular, if somebody tells you "choose (a) or (b), we really need you
+>  to decide on this", you're in trouble as a manager.  The people you
+> -manage had better know the details better than you, so if they come to
+> +manage better know the details better than you; if they come to
+
+This one changes the meaning of the sentence
+
+>  you for a technical decision, you're screwed.  You're clearly not
+> -competent to make that decision for them.
+> +competent enough to make that decision for them.
+
+...and this one was fine as it was.
+
+>  (Corollary:if the people you manage don't know the details better than
+>  you, you're also screwed, although for a totally different reason.
+> -- 
+
+In general, this kind of playing with the wording for text that is not
+actually wrong is not hugely helpful; I would encourage you to look
+elsewhere for places to contribute to the documentation.
+
+Thanks,
+
+jon
