@@ -1,197 +1,150 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E39B26A0F8
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 Aug 2025 17:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82897242D6C
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 Aug 2025 17:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756141627; cv=none; b=XYqp+AZE2U9uITWya2Ju0HsBto2lAtG7dhUUzn8DMZ99A0NCr+Pc7FpxMHQSm38M97paBbEkEoyVLThph8oIv1X3rfo1wDHElM2QqV8F26FXOSjKePk37P2pY4LN/AcMtpGNBk/rkU1K+tLG0fOs317Q/5jAPh0Rzrz77aiOnMQ=
+	t=1756142247; cv=none; b=VcVcZ2rlZBsC6pu2l8s0SxShfp4/fBmvG2baPnjIh8wyvCzhP0seX5GrU0qJ7b77lxP2HD69Xligt9lYVWpL/wef8lgPfWCLieFA++FKaMzhgoRhtYjsT+BtBSjS88+r/QYNL6UjfGv9sXktMFnx5/jIlQxJuUvf4dXfQlw0l4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756141627; c=relaxed/simple;
-	bh=5PUlfoVWVRg6I2FFtXNFbJ4L0V8P8GIIUsk8ZG7Fglk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jjnv3nZ0ZNxptH5Y69X4FEwqgCK2OrjUSMPSxEBdzxAIicc9PMw1/GXFbEMQJEi7l95PCnonT3DUAfsOZkmkijycAHsi5+sMN5dIXXlcLke/Z985gGWPfN5W8mt0pn73uAR3jW1fFK57uRoVIyIkASZgJyNG2WhxygLNLGgI098=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a34Y5mRk; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1756142247; c=relaxed/simple;
+	bh=lz/vtaNLA1irUmT+ADzkgy3QqEusslG0LLplIKRTOZs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nKbP3aOxizsYsv6Q+nYx9fByRKZOVzAYOy2NTpmibeE1TYym7UGmWTJnYazqJy9MJhAuVWYmjX32PFAZ+4I73xx3zcjmzHRiik82vpblOlUonKZymnvGSKuF7BWqFjRtmJKo5/XTOpIvPTKOWZFX1qalvNO9qvMExJWmB0PmH+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WDN+BQJD; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a34Y5mRk"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-244580523a0so45084105ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 Aug 2025 10:07:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WDN+BQJD"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-61c38da68ddso5052161a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 Aug 2025 10:17:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756141625; x=1756746425; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o5RmAfR4rYsxlFJUhIr+eW2wt0BUW3DWgzYQ+evh+1Q=;
-        b=a34Y5mRkYk88uQTGeBRe2KERFfgWSQd9KXAyPpcowkxJT8feAndwqsCyPW8PjyWdsG
-         oRD7I0l8zSOLizgiMERSrwjxJfHez9Qt1YoM97w+Uc6Ti9+7c1R0oQeHKV3GJl+bBIg3
-         UvrNfE0aCd3zUUkBgQrlox34ioqH9u7KJPDpwy+Ave1dkX3tadFzJCBgllvV8jWiP3J4
-         8JuzcWx0XQoaeXSVHhUvLL0bY38S0D37a2e//vB5sO1CKHM1JrfPNHGtDgoSNL0Z+lug
-         1kiHjdXKZT08gVoLOVqpvVpIDJvj+lO3D5vhZ5KjcI0olLWzquZjJ2MKFXnZf6yU/UFw
-         WnTw==
+        d=gmail.com; s=20230601; t=1756142244; x=1756747044; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HOt2WdWgfmIt264RtiHKtTdiUuhGCVPrX6tVa175yUA=;
+        b=WDN+BQJDbW1W94FjT4KVgBx7QthSxswaVhOXOnKAlWivND10/7Hcivsv1eY2zTyO7Z
+         OJtPOBBp+qG1ZmQhyIyfUPIKGj3zz4ImCLS4fTXlyAZAUAd/kyq78GQuu+7tiyfffc/v
+         bMLQCDqvdETE7cFbkRWvbMSr8KhC7wle5ldjxcw2rhf8kln4JFgBcAkCYUHby2yZ3WkH
+         TevvQwf0IhzsjQ5xDlDj0AYcnBkmbpEn3FjOVnZhuQZtFfZ3rZpU58pnQfdCe8ZBMVJy
+         9xOay2UYkgSJN5hffbCJ+SCvi2zwnZSiYHWAwLQkEl7gxvG4uwY7B1wayk+qo2bUYV/s
+         qtBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756141625; x=1756746425;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1756142244; x=1756747044;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=o5RmAfR4rYsxlFJUhIr+eW2wt0BUW3DWgzYQ+evh+1Q=;
-        b=JjYP6J7Vr7dcnNNWs8Wf9STL/zPLRFGvwxbmD/gZKS2nkxo99CPlSCaK60chhRkqel
-         BRfFUYPKHjH6nYHbwxpC23omLEXke2/mBpaCkyuT6Tw45+hOGGz9OO+4BGYlpFFX6H9J
-         avmTCSVj0+oaJYvqlXYylcBgcTfdI1PN1cN5imEuLG3jZW1ahY5MsDPQ3x5XPMtefudv
-         7ejIxs8uLxUk6WttMccZY1Gyk8HWmsDZEklvwbR/JV3unL4zdEQVGM7IwuuALeGfG1GA
-         voJ7KZzVcCbCYu6C1Sn82Lr/KvyFMM+w9NJNij0HqnIVHL4pKRqoeS9dPsa2ZlyB0pPv
-         dzfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXnNNAnlK1h+QmTc+VMKYdfjDTRDTKejJDVrzIcrxJ6DISECopsW84GA8gc4iT9A8yclBDxoG/SQjH0Qq/fhOlidxOLw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8Do5CW4Bdn3iqzS+0U+aGOYB09UiJnr0vls6tmDM6CFm/GB7C
-	TL9vgDYwhA/+15rt/wMZvMo01zFrBa4AekOXuRvz+Tw/jhDyTuvKroQv
-X-Gm-Gg: ASbGncsfJ9xdlABPhoiwLQBR/2xvRzJ92EYgWuwXB/w+5z2dJBlN/DkHJsljJppdUJr
-	do7ynb1eYR8OPUrfZFxonOWxsth3/ifYN0eltkWM0hF0OVO+GRn2bkfnqDPrNKStf9RWSxiU7PK
-	dcWt/pxOBVu85RhbN6CQ7Lew2MvVJPUQ1HndeTC6Ak8xQVEo856IwY4FOGEUsmZu3CNgskyJzw4
-	KFfHavcrPqeYL33KeFjMsgQFx9WP0o4QJ+WBzcCj9ejqIMBeLH65xmMbW/v+9t61WWvxFjoQYLL
-	K+9Ha/Jt7PgvegIwD5OCsXKUO1EtTGHNVbaRuutbMpCE+5P+FGPUgkIG31JZ8XaYtcsDK4J1k5P
-	xyT6BAEFAvoaNk+OV4WK9+JPfwgk09FwiKyQ=
-X-Google-Smtp-Source: AGHT+IEkhsxEhLSZfQy3k7sFLEhX/tDwtC0J4MzkXu5Dz/C+lrHURinY952j7BmG/n6fx8oK3A6/fg==
-X-Received: by 2002:a17:903:1a08:b0:246:a8ad:3f24 with SMTP id d9443c01a7336-246a8ad4130mr81739215ad.7.1756141624869;
-        Mon, 25 Aug 2025 10:07:04 -0700 (PDT)
-Received: from linux ([223.181.114.17])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3254b8ff608sm7486025a91.29.2025.08.25.10.06.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Aug 2025 10:07:04 -0700 (PDT)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: shuah@kernel.org
-Cc: akpm@linux-foundation.org,
-	david@redhat.com,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	vbabka@suse.cz,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	I Viswanath <viswanathiyyappan@gmail.com>
-Subject: [PATCH] selftests/mm: use calloc instead of malloc in pagemap_ioctl.c
-Date: Mon, 25 Aug 2025 22:36:43 +0530
-Message-ID: <20250825170643.63174-1-viswanathiyyappan@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        bh=HOt2WdWgfmIt264RtiHKtTdiUuhGCVPrX6tVa175yUA=;
+        b=hqxOAX4uiYHk0xwlLt4GiGcWJ7NtVnFlWDWXomAUtp4bGX5ZNBbAwW3uid7vOvKJMR
+         scEzi58qhfGfniJ8xLOG3pZ0ySGqDr+7hrK93SOkvb1qf6TLGf0d19qlX5LRl9/il4OE
+         sJP3wpUMv8OTFD3MyuTLu/0WnbKcN6Ntp3EOiXKuKR6RLcUIsZkc6BKwbLhUGGAEEyce
+         SiTn7F0R/bUBbyJ1LBrW/MHaRfwFEar+0NIv4KbR0yK1po7ZUp1TYaxfGTbjgWFteusJ
+         R2DGpeOrB/MmBhd4xOg+ZyCdvLXNgEEAlRlKZlhPyzfEcqrnOanpNX69vOHufWSL65SQ
+         YdsA==
+X-Forwarded-Encrypted: i=1; AJvYcCV1ocg1O7ZtzlqBhcxE73AFcSflrJ7TnjQEeR4i791M6LjMz88nIy15cIkeXGuXgHSW+cbJrCA87CWdqgf96sv0mY1bTw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx1zh5bo3RFhgy+O5aRqPBd9FxDwi0T7tdBsvXSIf/9sRF2QC3e
+	hkCwo5s8hWKd6rgXkbwJfgriALGbAZD2SdDiMli4g7PAL8+/0p8QFySyubd0jBDko4KRRQDbT7X
+	jJ4U3tKLgC9Q/O0b5SLkNtBLNnLuTI+w=
+X-Gm-Gg: ASbGnctz19Q/GrbpsPRxsSrf252IiYVowv8braomScZ8LgGiRgudz0misg7sSKMk2TA
+	U+wNPOkX3eynXQF8LiX0d7OGE37YOJTY4sWp3TqLJ8QfA5kh2efIwwvnCOjXakHT+KXuILnfTIu
+	ZF/MdJXJnbTdW24I5FyaQ4ydxaC336WeH8vNanLG9h8zN3gybOUZMjlXRSCYnCzRoVW2uX5vfT4
+	jj5N6T4xPtCsus/wq/mo4R0Suar7+doWoSJXTqYRxJIVvc5PenfN9Y=
+X-Google-Smtp-Source: AGHT+IEJdPBls5tzlHdIjJxUH56ZQVIsjehvg86rgOhctTXiV+0bVZgINoCJv4h9ZMKPQoL4jzVYau0eht2j6asIalU=
+X-Received: by 2002:a05:6402:274b:b0:61c:5b44:b277 with SMTP id
+ 4fb4d7f45d1cf-61c5b44ba38mr4666947a12.13.1756142243835; Mon, 25 Aug 2025
+ 10:17:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250824185015.6312-1-viswanathiyyappan@gmail.com> <87y0r8c7ga.fsf@trenco.lwn.net>
+In-Reply-To: <87y0r8c7ga.fsf@trenco.lwn.net>
+From: viswanath <viswanathiyyappan@gmail.com>
+Date: Mon, 25 Aug 2025 22:47:11 +0530
+X-Gm-Features: Ac12FXy4_W5223zNV2R4E_hB2Hpaw8zWvt8sB2dA_0Y6h7xR7tOjMTxHnc2vJcQ
+Message-ID: <CAPrAcgP85f1unaHsLSeghPtjeNfAEtjfSXZMFrms1kyNnsMaMA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: process: Fix grammar errors in management-style.rst
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-As per Documentation/process/deprecated.rst, dynamic size calculations
-should not be performed in memory allocator arguments due to possible
-overflows.
+On Mon, 25 Aug 2025 at 10:40, Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> I Viswanath <viswanathiyyappan@gmail.com> writes:
+>
+> > Fix various grammatical errors in management-style.rst
+> >
+> > Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
+>
+> Thank you for working to improve our documentation...I don't think I can
+> apply this patch, though.
+>
+> Your signoff should include your full name, please.
+>
+Just to clarify --- "I Viswanath" is my legal name as it appears on my
+official documents.
 
-Replaced malloc with calloc to avoid open-ended arithmetic
-and prevent possible overflows.
+> But more importantly...
+>
+> > ---
+> >  Documentation/process/management-style.rst | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
+> > index dfbc69bf49d4..4ae05a89950a 100644
+> > --- a/Documentation/process/management-style.rst
+> > +++ b/Documentation/process/management-style.rst
+> > @@ -15,8 +15,8 @@ to do with reality.  It started as a lark, but that doesn't mean that it
+> >  might not actually be true. You'll have to decide for yourself.
+> >
+> >  Btw, when talking about "kernel manager", it's all about the technical
+> > -lead persons, not the people who do traditional management inside
+> > -companies.  If you sign purchase orders or you have any clue about the
+> > +leads, not those who do traditional management inside
+> > +companies.  If you sign purchase orders or have any clue about the
+>
+> This change is OK, but what was there was OK too
+Noted
 
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
----
-Even though the arguments are small enough an overflow cannot happen,
-I think it's still better to follow kernel standard practices.
+>
+> >  budget of your group, you're almost certainly not a kernel manager.
+> >  These suggestions may or may not apply to you.
+> >
+> > @@ -42,9 +42,9 @@ actually true.
+> >  The name of the game is to **avoid** having to make a decision.  In
+> >  particular, if somebody tells you "choose (a) or (b), we really need you
+> >  to decide on this", you're in trouble as a manager.  The people you
+> > -manage had better know the details better than you, so if they come to
+> > +manage better know the details better than you; if they come to
+>
+> This one changes the meaning of the sentence
+Sorry for that.
 
- tools/testing/selftests/mm/pagemap_ioctl.c | 24 +++++++++++-----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+>
+> >  you for a technical decision, you're screwed.  You're clearly not
+> > -competent to make that decision for them.
+> > +competent enough to make that decision for them.
+>
+> ...and this one was fine as it was.
+>
+Noted
 
-diff --git a/tools/testing/selftests/mm/pagemap_ioctl.c b/tools/testing/selftests/mm/pagemap_ioctl.c
-index 0d4209eef0c3..4e6b815e96b2 100644
---- a/tools/testing/selftests/mm/pagemap_ioctl.c
-+++ b/tools/testing/selftests/mm/pagemap_ioctl.c
-@@ -209,7 +209,7 @@ int userfaultfd_tests(void)
- 	wp_addr_range(mem, mem_size);
- 
- 	vec_size = mem_size/page_size;
--	vec = malloc(sizeof(struct page_region) * vec_size);
-+	vec = calloc(vec_size, sizeof(struct page_region));
- 
- 	written = pagemap_ioctl(mem, mem_size, vec, 1, PM_SCAN_WP_MATCHING | PM_SCAN_CHECK_WPASYNC,
- 				vec_size - 2, PAGE_IS_WRITTEN, 0, 0, PAGE_IS_WRITTEN);
-@@ -247,11 +247,11 @@ int sanity_tests_sd(void)
- 	vec_size = num_pages/2;
- 	mem_size = num_pages * page_size;
- 
--	vec = malloc(sizeof(struct page_region) * vec_size);
-+	vec = calloc(vec_size, sizeof(struct page_region));
- 	if (!vec)
- 		ksft_exit_fail_msg("error nomem\n");
- 
--	vec2 = malloc(sizeof(struct page_region) * vec_size);
-+	vec2 = calloc(vec_size, sizeof(struct page_region));
- 	if (!vec2)
- 		ksft_exit_fail_msg("error nomem\n");
- 
-@@ -436,7 +436,7 @@ int sanity_tests_sd(void)
- 	mem_size = 1050 * page_size;
- 	vec_size = mem_size/(page_size*2);
- 
--	vec = malloc(sizeof(struct page_region) * vec_size);
-+	vec = calloc(vec_size, sizeof(struct page_region));
- 	if (!vec)
- 		ksft_exit_fail_msg("error nomem\n");
- 
-@@ -491,7 +491,7 @@ int sanity_tests_sd(void)
- 	mem_size = 10000 * page_size;
- 	vec_size = 50;
- 
--	vec = malloc(sizeof(struct page_region) * vec_size);
-+	vec = calloc(vec_size, sizeof(struct page_region));
- 	if (!vec)
- 		ksft_exit_fail_msg("error nomem\n");
- 
-@@ -541,7 +541,7 @@ int sanity_tests_sd(void)
- 	vec_size = 1000;
- 	mem_size = vec_size * page_size;
- 
--	vec = malloc(sizeof(struct page_region) * vec_size);
-+	vec = calloc(vec_size, sizeof(struct page_region));
- 	if (!vec)
- 		ksft_exit_fail_msg("error nomem\n");
- 
-@@ -695,8 +695,8 @@ int base_tests(char *prefix, char *mem, unsigned long long mem_size, int skip)
- 	}
- 
- 	vec_size = mem_size/page_size;
--	vec = malloc(sizeof(struct page_region) * vec_size);
--	vec2 = malloc(sizeof(struct page_region) * vec_size);
-+	vec = calloc(vec_size, sizeof(struct page_region));
-+	vec2 = calloc(vec_size, sizeof(struct page_region));
- 
- 	/* 1. all new pages must be not be written (dirty) */
- 	written = pagemap_ioctl(mem, mem_size, vec, 1, PM_SCAN_WP_MATCHING | PM_SCAN_CHECK_WPASYNC,
-@@ -807,8 +807,8 @@ int hpage_unit_tests(void)
- 	unsigned long long vec_size = map_size/page_size;
- 	struct page_region *vec, *vec2;
- 
--	vec = malloc(sizeof(struct page_region) * vec_size);
--	vec2 = malloc(sizeof(struct page_region) * vec_size);
-+	vec = calloc(vec_size, sizeof(struct page_region));
-+	vec2 = calloc(vec_size, sizeof(struct page_region));
- 	if (!vec || !vec2)
- 		ksft_exit_fail_msg("malloc failed\n");
- 
-@@ -997,7 +997,7 @@ int unmapped_region_tests(void)
- 	void *start = (void *)0x10000000;
- 	int written, len = 0x00040000;
- 	long vec_size = len / page_size;
--	struct page_region *vec = malloc(sizeof(struct page_region) * vec_size);
-+	struct page_region *vec = calloc(vec_size, sizeof(struct page_region));
- 
- 	/* 1. Get written pages */
- 	written = pagemap_ioctl(start, len, vec, vec_size, 0, 0,
-@@ -1062,7 +1062,7 @@ int sanity_tests(void)
- 	mem_size = 10 * page_size;
- 	vec_size = mem_size / page_size;
- 
--	vec = malloc(sizeof(struct page_region) * vec_size);
-+	vec = calloc(vec_size, sizeof(struct page_region));
- 	mem = mmap(NULL, mem_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0);
- 	if (mem == MAP_FAILED || vec == MAP_FAILED)
- 		ksft_exit_fail_msg("error nomem\n");
--- 
-2.50.1
+> >  (Corollary:if the people you manage don't know the details better than
+> >  you, you're also screwed, although for a totally different reason.
+> > --
+>
+> In general, this kind of playing with the wording for text that is not
+> actually wrong is not hugely helpful; I would encourage you to look
+> elsewhere for places to contribute to the documentation.
 
+I see. Thanks for taking your time to reply to this.
+>
+> Thanks,
+>
+> jon
+
+Thanks,
+I Viswanath
