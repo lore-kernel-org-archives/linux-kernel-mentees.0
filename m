@@ -1,103 +1,197 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BBA145FE0
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 Aug 2025 15:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E39B26A0F8
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 Aug 2025 17:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756136670; cv=none; b=WQcUIhX79R4CPKNL8d5yVmt4mtmxKDcAm5cWsB37cjsqoJaEs4fe6JkkxpNH42F4soASxlrAWVJRaHVMd0fJpyKbM1uO7o3tb2uGREEKyn2m151Y1lQfZlEibTlR4RRay1lNYfBt/MsBQwR+tID837DC3dffclV9F74PL7edL4s=
+	t=1756141627; cv=none; b=XYqp+AZE2U9uITWya2Ju0HsBto2lAtG7dhUUzn8DMZ99A0NCr+Pc7FpxMHQSm38M97paBbEkEoyVLThph8oIv1X3rfo1wDHElM2QqV8F26FXOSjKePk37P2pY4LN/AcMtpGNBk/rkU1K+tLG0fOs317Q/5jAPh0Rzrz77aiOnMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756136670; c=relaxed/simple;
-	bh=qXXtjVyJbPTnTSvv1jiT8zoxv/mOFKWMVHWirfu4Q9g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Es0ULExQB7umblV8dXGXdc6lFF/JrvLudbQWVF4KlRxpPh2kqvos48IP0zvqjKxKqWrMTyFnGADWiwsLnIIR4s6UQPL/kt7YcqG7IoyQs8KXgAXCUT5t98wEKa+0TNGNPURjzKDclkHRM3q+2YweBIF0mij5YnADBiSmSA8WApw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dmLxMnUO; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1756141627; c=relaxed/simple;
+	bh=5PUlfoVWVRg6I2FFtXNFbJ4L0V8P8GIIUsk8ZG7Fglk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jjnv3nZ0ZNxptH5Y69X4FEwqgCK2OrjUSMPSxEBdzxAIicc9PMw1/GXFbEMQJEi7l95PCnonT3DUAfsOZkmkijycAHsi5+sMN5dIXXlcLke/Z985gGWPfN5W8mt0pn73uAR3jW1fFK57uRoVIyIkASZgJyNG2WhxygLNLGgI098=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a34Y5mRk; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmLxMnUO"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45b60fd5a1dso9064005e9.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 Aug 2025 08:44:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a34Y5mRk"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-244580523a0so45084105ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 Aug 2025 10:07:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756136667; x=1756741467; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VsoEtYln4+6Ly5LWRix+6Kzr4MOEUJ1YKSS8CRff6kM=;
-        b=dmLxMnUOI7mj7JFCdbgU63pV5J1AXoqsK/hX8TimMowqEoHoY1vtWo7Ld+jETMJKe0
-         ReHz/z/EGo5NAOq2+3HZnaeMvEIo1hZocbDxRhsVjlXfmhFNqCSd23H1M9cNad+Skkia
-         ZT1B22Y3XWwNJzlD4r4E9OWkmPkVyasKBErCfx86LbGEXk5eMFtQBi1qN2WPUtpCKjsX
-         KdiA2pW1ZIDOD4DpeTVqA+2h3BY8S1zgSY8yoM7H4UgBBkoZvW9cHc+QgNj1vurfNFy0
-         bKgDiIPAgDWuESqSq5JrlVR0DkF6zFCMSWxvtUyCoisPYyhFSdkXt0LoDLUQsk/VgHoP
-         iB4w==
+        d=gmail.com; s=20230601; t=1756141625; x=1756746425; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o5RmAfR4rYsxlFJUhIr+eW2wt0BUW3DWgzYQ+evh+1Q=;
+        b=a34Y5mRkYk88uQTGeBRe2KERFfgWSQd9KXAyPpcowkxJT8feAndwqsCyPW8PjyWdsG
+         oRD7I0l8zSOLizgiMERSrwjxJfHez9Qt1YoM97w+Uc6Ti9+7c1R0oQeHKV3GJl+bBIg3
+         UvrNfE0aCd3zUUkBgQrlox34ioqH9u7KJPDpwy+Ave1dkX3tadFzJCBgllvV8jWiP3J4
+         8JuzcWx0XQoaeXSVHhUvLL0bY38S0D37a2e//vB5sO1CKHM1JrfPNHGtDgoSNL0Z+lug
+         1kiHjdXKZT08gVoLOVqpvVpIDJvj+lO3D5vhZ5KjcI0olLWzquZjJ2MKFXnZf6yU/UFw
+         WnTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756136667; x=1756741467;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VsoEtYln4+6Ly5LWRix+6Kzr4MOEUJ1YKSS8CRff6kM=;
-        b=TT397sA8324kwMuMcLth0/Q3MAPMp8jWZmpkLz+szunyi5QFRDssgdkvaGqeF1Rdeg
-         ZUoAbmdxBkveD3dlVMBIl8Kq2UhWCFB2F3R5SJkwQ0ClngulIBQQCwDLJK/A3IMlqiyh
-         XfVnLC/H/Tiowl8Zsrkk1cDp1H4H7spFDChLsodjiHs5z+ytkzcE6Gnqb+tfK/1q48gr
-         ufZM2RlwcBZE887hKz9yKRJUJnEJOUWO/FjSiBOk550iHpjPOK7coJweJhUgG/jnOnId
-         hgBka5DeK36Dp8aqLttKxDeLCr8WNo1PiiTqAoMDfuGFq4gSGMn846vekDqWwN0kMHgX
-         /C/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUCZ3b6Mo+K00vJtLDQ58pJvQqh2c+1OMzjfvdwMQ5kL6r+aysCds+IuapMXosW6VCJbSgaVacOrmCYoScsl7i6w/J3uA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZAyQCpsUC99bwL1Ii81NbCLC/uSGPN06YdHla4lkoPV4d2QDQ
-	EPnWA1/nqlkePHEP3x8sYxoFHlr5tLVlNNdgQ9isW2xgQo9yCqw9DcV+
-X-Gm-Gg: ASbGncuQYzeCuddB4RoiR03eKzhkc/7+3GlwTCqMB0Z65WFVfmk0ar+t4KEAmbXg0E7
-	T3rYhoCS/BmfGDIuc2NxKkI+fuhL0N6XBdlhe4uKC2gaNuQoU1j5dEEC5gYWcVYXhDPR6AUo0zo
-	Pte4Ru2RJ3RRyLPwJxremG+XRx9v8xEmidYvN3mvpCwD1eYYiqKuiRDS1EMBA2MRPjH/j6pBxXF
-	7eTQBizMAEri1GjSlXXIUIPpCUKTJlpxDzKO9mSCKlSSz3osnjb+SPWU07N9ZKOaLdBACa4HKAJ
-	WrnHNpFwfrMhlEBVES4fhXXjTVCrNQQqYmo0gYT91X5rvoMuYoFwKgKcNMZUjNBfHpgPPGxCI5s
-	Cl8a2hsx4R+tHaaAs47/wId8Kk5HMx7vECODUf6358BScMTMeZGU+zww/vdzpE60NNFW+8L+eCm
-	o=
-X-Google-Smtp-Source: AGHT+IFSi8NXd9p8dDHHrT8TXcVru6c0IjGWMlP8jM1KABVnPN67yWWMt5ZuiIUYpqnay3gjKhFKeA==
-X-Received: by 2002:a05:600c:1c87:b0:45b:4282:7b61 with SMTP id 5b1f17b1804b1-45b517dae7emr101078695e9.35.1756136667074;
-        Mon, 25 Aug 2025 08:44:27 -0700 (PDT)
-Received: from localhost.localdomain ([46.10.223.24])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c711211cc8sm12028458f8f.36.2025.08.25.08.44.26
+        d=1e100.net; s=20230601; t=1756141625; x=1756746425;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o5RmAfR4rYsxlFJUhIr+eW2wt0BUW3DWgzYQ+evh+1Q=;
+        b=JjYP6J7Vr7dcnNNWs8Wf9STL/zPLRFGvwxbmD/gZKS2nkxo99CPlSCaK60chhRkqel
+         BRfFUYPKHjH6nYHbwxpC23omLEXke2/mBpaCkyuT6Tw45+hOGGz9OO+4BGYlpFFX6H9J
+         avmTCSVj0+oaJYvqlXYylcBgcTfdI1PN1cN5imEuLG3jZW1ahY5MsDPQ3x5XPMtefudv
+         7ejIxs8uLxUk6WttMccZY1Gyk8HWmsDZEklvwbR/JV3unL4zdEQVGM7IwuuALeGfG1GA
+         voJ7KZzVcCbCYu6C1Sn82Lr/KvyFMM+w9NJNij0HqnIVHL4pKRqoeS9dPsa2ZlyB0pPv
+         dzfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWXnNNAnlK1h+QmTc+VMKYdfjDTRDTKejJDVrzIcrxJ6DISECopsW84GA8gc4iT9A8yclBDxoG/SQjH0Qq/fhOlidxOLw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz8Do5CW4Bdn3iqzS+0U+aGOYB09UiJnr0vls6tmDM6CFm/GB7C
+	TL9vgDYwhA/+15rt/wMZvMo01zFrBa4AekOXuRvz+Tw/jhDyTuvKroQv
+X-Gm-Gg: ASbGncsfJ9xdlABPhoiwLQBR/2xvRzJ92EYgWuwXB/w+5z2dJBlN/DkHJsljJppdUJr
+	do7ynb1eYR8OPUrfZFxonOWxsth3/ifYN0eltkWM0hF0OVO+GRn2bkfnqDPrNKStf9RWSxiU7PK
+	dcWt/pxOBVu85RhbN6CQ7Lew2MvVJPUQ1HndeTC6Ak8xQVEo856IwY4FOGEUsmZu3CNgskyJzw4
+	KFfHavcrPqeYL33KeFjMsgQFx9WP0o4QJ+WBzcCj9ejqIMBeLH65xmMbW/v+9t61WWvxFjoQYLL
+	K+9Ha/Jt7PgvegIwD5OCsXKUO1EtTGHNVbaRuutbMpCE+5P+FGPUgkIG31JZ8XaYtcsDK4J1k5P
+	xyT6BAEFAvoaNk+OV4WK9+JPfwgk09FwiKyQ=
+X-Google-Smtp-Source: AGHT+IEkhsxEhLSZfQy3k7sFLEhX/tDwtC0J4MzkXu5Dz/C+lrHURinY952j7BmG/n6fx8oK3A6/fg==
+X-Received: by 2002:a17:903:1a08:b0:246:a8ad:3f24 with SMTP id d9443c01a7336-246a8ad4130mr81739215ad.7.1756141624869;
+        Mon, 25 Aug 2025 10:07:04 -0700 (PDT)
+Received: from linux ([223.181.114.17])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3254b8ff608sm7486025a91.29.2025.08.25.10.06.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Aug 2025 08:44:26 -0700 (PDT)
-Date: Mon, 25 Aug 2025 18:44:23 +0300
-From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Markus Elfring <Markus.Elfring@web.de>, 
-	linux-kselftest@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>, 
-	Ard Biesheuvel <ardb@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Eric Biggers <ebiggers@google.com>, Mark Brown <broonie@kernel.org>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Shuah Khan <shuah@kernel.org>, 
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH] selftests/arm64: Fix typos in malloc return value check
-Message-ID: <u4bv3ypqrdaz5klrvs57ptp7tu25etf7xzvoytrgnz2xohiysj@vua5mcbpznio>
-References: <20250824131647.490439-1-zlatistiv@gmail.com>
- <ed07c6f9-e389-4387-8585-6f1206da1a07@web.de>
- <aKxf1X1u8QHAdvqW@archie.me>
+        Mon, 25 Aug 2025 10:07:04 -0700 (PDT)
+From: I Viswanath <viswanathiyyappan@gmail.com>
+To: shuah@kernel.org
+Cc: akpm@linux-foundation.org,
+	david@redhat.com,
+	lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com,
+	vbabka@suse.cz,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	I Viswanath <viswanathiyyappan@gmail.com>
+Subject: [PATCH] selftests/mm: use calloc instead of malloc in pagemap_ioctl.c
+Date: Mon, 25 Aug 2025 22:36:43 +0530
+Message-ID: <20250825170643.63174-1-viswanathiyyappan@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aKxf1X1u8QHAdvqW@archie.me>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 25, 2025 at 08:06:29PM +0700, Bagas Sanjaya wrote:
-> On Sun, Aug 24, 2025 at 03:40:44PM +0200, Markus Elfring wrote:
-> > > Fix double "-ed" in malloc return value check
-> > 
-> > Refine wordings in error message string literals?
-> > 
-> 
-> I think what the patch author (Nikola) intends is "The error messages' wording
-> use parallel structure device, where the second verb should've been in
-> infinitives form. Correct it."
-> 
-> Thanks.
-> 
-> -- 
-> An old man doll... just what I always wanted! - Clara
+As per Documentation/process/deprecated.rst, dynamic size calculations
+should not be performed in memory allocator arguments due to possible
+overflows.
 
-Thanks, I did not expect to get schooled like this (in a good way of
-course). Should I send v2?
+Replaced malloc with calloc to avoid open-ended arithmetic
+and prevent possible overflows.
+
+Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
+---
+Even though the arguments are small enough an overflow cannot happen,
+I think it's still better to follow kernel standard practices.
+
+ tools/testing/selftests/mm/pagemap_ioctl.c | 24 +++++++++++-----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/tools/testing/selftests/mm/pagemap_ioctl.c b/tools/testing/selftests/mm/pagemap_ioctl.c
+index 0d4209eef0c3..4e6b815e96b2 100644
+--- a/tools/testing/selftests/mm/pagemap_ioctl.c
++++ b/tools/testing/selftests/mm/pagemap_ioctl.c
+@@ -209,7 +209,7 @@ int userfaultfd_tests(void)
+ 	wp_addr_range(mem, mem_size);
+ 
+ 	vec_size = mem_size/page_size;
+-	vec = malloc(sizeof(struct page_region) * vec_size);
++	vec = calloc(vec_size, sizeof(struct page_region));
+ 
+ 	written = pagemap_ioctl(mem, mem_size, vec, 1, PM_SCAN_WP_MATCHING | PM_SCAN_CHECK_WPASYNC,
+ 				vec_size - 2, PAGE_IS_WRITTEN, 0, 0, PAGE_IS_WRITTEN);
+@@ -247,11 +247,11 @@ int sanity_tests_sd(void)
+ 	vec_size = num_pages/2;
+ 	mem_size = num_pages * page_size;
+ 
+-	vec = malloc(sizeof(struct page_region) * vec_size);
++	vec = calloc(vec_size, sizeof(struct page_region));
+ 	if (!vec)
+ 		ksft_exit_fail_msg("error nomem\n");
+ 
+-	vec2 = malloc(sizeof(struct page_region) * vec_size);
++	vec2 = calloc(vec_size, sizeof(struct page_region));
+ 	if (!vec2)
+ 		ksft_exit_fail_msg("error nomem\n");
+ 
+@@ -436,7 +436,7 @@ int sanity_tests_sd(void)
+ 	mem_size = 1050 * page_size;
+ 	vec_size = mem_size/(page_size*2);
+ 
+-	vec = malloc(sizeof(struct page_region) * vec_size);
++	vec = calloc(vec_size, sizeof(struct page_region));
+ 	if (!vec)
+ 		ksft_exit_fail_msg("error nomem\n");
+ 
+@@ -491,7 +491,7 @@ int sanity_tests_sd(void)
+ 	mem_size = 10000 * page_size;
+ 	vec_size = 50;
+ 
+-	vec = malloc(sizeof(struct page_region) * vec_size);
++	vec = calloc(vec_size, sizeof(struct page_region));
+ 	if (!vec)
+ 		ksft_exit_fail_msg("error nomem\n");
+ 
+@@ -541,7 +541,7 @@ int sanity_tests_sd(void)
+ 	vec_size = 1000;
+ 	mem_size = vec_size * page_size;
+ 
+-	vec = malloc(sizeof(struct page_region) * vec_size);
++	vec = calloc(vec_size, sizeof(struct page_region));
+ 	if (!vec)
+ 		ksft_exit_fail_msg("error nomem\n");
+ 
+@@ -695,8 +695,8 @@ int base_tests(char *prefix, char *mem, unsigned long long mem_size, int skip)
+ 	}
+ 
+ 	vec_size = mem_size/page_size;
+-	vec = malloc(sizeof(struct page_region) * vec_size);
+-	vec2 = malloc(sizeof(struct page_region) * vec_size);
++	vec = calloc(vec_size, sizeof(struct page_region));
++	vec2 = calloc(vec_size, sizeof(struct page_region));
+ 
+ 	/* 1. all new pages must be not be written (dirty) */
+ 	written = pagemap_ioctl(mem, mem_size, vec, 1, PM_SCAN_WP_MATCHING | PM_SCAN_CHECK_WPASYNC,
+@@ -807,8 +807,8 @@ int hpage_unit_tests(void)
+ 	unsigned long long vec_size = map_size/page_size;
+ 	struct page_region *vec, *vec2;
+ 
+-	vec = malloc(sizeof(struct page_region) * vec_size);
+-	vec2 = malloc(sizeof(struct page_region) * vec_size);
++	vec = calloc(vec_size, sizeof(struct page_region));
++	vec2 = calloc(vec_size, sizeof(struct page_region));
+ 	if (!vec || !vec2)
+ 		ksft_exit_fail_msg("malloc failed\n");
+ 
+@@ -997,7 +997,7 @@ int unmapped_region_tests(void)
+ 	void *start = (void *)0x10000000;
+ 	int written, len = 0x00040000;
+ 	long vec_size = len / page_size;
+-	struct page_region *vec = malloc(sizeof(struct page_region) * vec_size);
++	struct page_region *vec = calloc(vec_size, sizeof(struct page_region));
+ 
+ 	/* 1. Get written pages */
+ 	written = pagemap_ioctl(start, len, vec, vec_size, 0, 0,
+@@ -1062,7 +1062,7 @@ int sanity_tests(void)
+ 	mem_size = 10 * page_size;
+ 	vec_size = mem_size / page_size;
+ 
+-	vec = malloc(sizeof(struct page_region) * vec_size);
++	vec = calloc(vec_size, sizeof(struct page_region));
+ 	mem = mmap(NULL, mem_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0);
+ 	if (mem == MAP_FAILED || vec == MAP_FAILED)
+ 		ksft_exit_fail_msg("error nomem\n");
+-- 
+2.50.1
+
