@@ -1,193 +1,108 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100C03164CA
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 26 Aug 2025 16:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B4F274FD0
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 26 Aug 2025 19:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756225603; cv=none; b=mUPnnKlzVATRtdxBAOVfmGb6SfwBQrOGrRc2Dgbg5pqdwkH7oTCnWbLE0HvIXe9TghXvghL+JL94wjeu9+Vt4/vBl7bZmjVlVdhXCfdutvRZnxGqmI6iV+l4oxLFvzp3W54s25P8T9HR7bU0Nzk8+FV2uYN5dlkCClxVRvITKaM=
+	t=1756235839; cv=none; b=m9sV2b/K+L6xArIrhzbSwjRfHpEKswrgECyhCqcoJuRk+pMoAyhs9pEicbdWGXm9wlYjheUMkwPKxaUdRz2HEuzLbqaSCG467xeVlVnfw2JPhC+zApmxt9Mv640MQV2Q9XLKtr1DjEME01ePQY2cbTbacKGfrs4z+Ur3LafwB5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756225603; c=relaxed/simple;
-	bh=KIUHApQZBeG3sv1gBKAzcJWc3aNcc0ib8FLAyWN2igM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ot7uztYFRp6CPnr7nCCXmMZmyw5pkKocHJmVsWoXf9q8I3xy3TDNFMEINPgujjrnwUvBg7dg3P15Yo3Qojpn80WiUwp/TTuCoT+iQQRdhVbBmUASjRZmC7bruWyJYYWizig9t/9x9KZQ0KgK5H1qvNpMPOXPFI/wb3161SZeroI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ojn9OLKI; arc=none smtp.client-ip=209.85.208.170
+	s=arc-20240116; t=1756235839; c=relaxed/simple;
+	bh=gNMm1ipkA7fYFXUs808DPedAVS4Dx81omm25zB7pYic=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tjN7YKf/j4AzGQf/ryo7zb0jq8Fvxk35jhfWtlFNa/sOoT3GxBAGhsUSaMYf1YOgXfw6OoDSe3paHXCVLRaE5UGhKaiAK76itr2/4iogOj8V3p1+g6PJmPx8CNkQkxJzmL7kd6etQ7F5rP8ImQjJFu+e8hHnhCJnOjAxE/MvidE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gINKK5ko; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ojn9OLKI"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-33685e3b16aso9737221fa.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 26 Aug 2025 09:26:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gINKK5ko"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-770530175b2so2443985b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 26 Aug 2025 12:17:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756225599; x=1756830399; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I5zGMY0B+wsQd0Wnquc7Hok6cqc/WBPDwGcUcIfHRhk=;
-        b=Ojn9OLKIcHU7kgsFw9NmhLOhN7eaNEYCkwVASoIZQ/2QJeqLW5icDrCXiP4uGUli/z
-         HzPKIvgkknvv7o3Xm6enDa3me+p20n9L7YPxpHevenqG1vnnW78TVmdxNi4SLY14fiSt
-         s+QunRIpxRH57cwB0eyLV+8vhv6wlU3hSb4vt8EgttPTiPOrEjzRXvl3Rpwyu4DWVfOo
-         Igo3e5n/pBKzxNUrgpZh8u2S43v3KC+rBFSSQS/hhAvoEFycRtoMM4ezLAX35mzJJSeO
-         OlwnN5CccY/hHdZ/q3BJv3uS5TxEaDXwDhJVMd2dyL0QOYuLXMskzIcKTWyOlEVcg5Kn
-         IWBg==
+        d=gmail.com; s=20230601; t=1756235838; x=1756840638; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PDBFaIWBg/DMxV3REtEPNJhHpj1jRSoIbPqwKvfDfdA=;
+        b=gINKK5koK9cFFccW65OFDkmQ+TZ/ywIvB8MafGoWh1loDiyIrEeCBYJzkpRNs4kqm5
+         dPI0PdVeXSJwYnJNT/5o+VA/7QZwN1uGOY9ISkPI2mMcIJd8y1T3lzAGj8yjkyUjhZxx
+         knPFgVprDYWiI0zaC1BZCBUIGt4bhP3w/c9rZ5641OyxRIAMJD5xjfOPpAmGqHPJLnYA
+         oLFmSrIMvabc7ux9ilGD1PimbrCCIwmzYQJIH8+joJpFb4wVnPslvsMldvVDOvASOW0B
+         FJ/imROm2fNxtoIhhzNpbEvHYXwBHypznUkFIpAAHuNmv0bseQyrs2Vviqfb//d98W7h
+         /gCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756225599; x=1756830399;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I5zGMY0B+wsQd0Wnquc7Hok6cqc/WBPDwGcUcIfHRhk=;
-        b=PKzNmDiVFlwlZbr3LtMM6nYw050j487NYwKKpEuwQgeCZJw+es1lKot/SVAspBLYjG
-         87OafOW/Lu/qbLu6sgivsiFTxlHbo8sKM4lauGBR1zxXb5RPa0sd15SrPRZmABUYHVya
-         qBsMARAQFLOwa8maLJs2UtcqbMZifPoehSRDP88Sl5pgs9maYJEoHfFRQQ41Cx3NyXMn
-         Y7s3538tnfCKP/w7n8yDtlNgX9Ho54GRCPdSe8Ie093KlBYM0cPkF8isskkI2MvC+rIK
-         sx1t/hrU197Q0JAtU+t8zqDPRgP7Bz4VeJxShMJHtNPhhakCPOHDCx3UuMtw2dGKJ3I4
-         +dAg==
-X-Forwarded-Encrypted: i=1; AJvYcCXV1+xx7mb9Op5bW4GuFODoEyf5sMsdqx/SfVvFzmzVtSs9pAXTHogsCHIzribyT3CJmXrCRnCAut6fK9YODSr1FcccRw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzI6pyFEDqjAEXXHp4eqI+ZDi7TKSbm1VVwAfyqUfjxfWsnIRXl
-	nkVdi3xPqvE3HlOaUX/XMIZnx8zMNf78ISuOGltDyu0lPjl++3SHhJNRwiSeVzMlZzRLCKPzU1y
-	A3/R1Sd138JQlFQh1T/AE3+UVwh3ZBhI=
-X-Gm-Gg: ASbGnctCC0zosebIKpHMqlLsj0+5It9UUw1QLHwYiJxPn+V827UYofAqdWHu2Pf6pJV
-	paXNmcTLHM1hR185EF82MamloImCFqq60gc4oSeYkepJsCc9V9mANk/GynNjc5OTZH46dKfxzlz
-	mdXodGm/JTWtSSq0OnH1tNfMnuzy4yNSdIuRpzLUTKHsmNLZjaGPDSUGzlzh5sNmiL4iGzC52ts
-	wkTpHwHbZ3GgfH7FtGjh53279xFVfwUOctmC+bR/A==
-X-Google-Smtp-Source: AGHT+IHkb64c4bZS+NGaeP4VCluu/PBLB8BKBtdaSeEYU+WxbjYgL2JboP1sxe+Bh7hVlYsMPO1uy+hpvD/0fQSHB0E=
-X-Received: by 2002:a2e:be92:0:b0:331:f04d:e689 with SMTP id
- 38308e7fff4ca-33650fc8436mr45721141fa.41.1756225598840; Tue, 26 Aug 2025
- 09:26:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756235838; x=1756840638;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PDBFaIWBg/DMxV3REtEPNJhHpj1jRSoIbPqwKvfDfdA=;
+        b=BhSCToEPr3vm6dDhDDJtBIga3uhTNNxVI+poXUmo+JiqhQFG7CPqMOBdioOStVfcwB
+         au+VyKsa0uEg7D/FNNq5NTUhSPfC3AaLSkIx2V9LU4Re5HmUEJUC2MIIWbIgKQm02qIN
+         gAmGHGF/v86Or9Bn0OVWiV+qJHHdxFLLkiT+qtxLnsnxYx85SV6IuuwwzBEQg6QdUElW
+         0ZQKxZBq8JuL31OjnIi30nahs3JPIxhhtBYYmeAD0ZOjFKRHR34+ygG1FHK+TxVvzWpg
+         HBa0iP3gOSAKni+gZbtZUgmCcEpLVXPiIEAFKrMx8KxD96s+9vMTuPD4NeoEE5MoQ9ON
+         ScMw==
+X-Forwarded-Encrypted: i=1; AJvYcCW/pnLQomS7UGpf6qBlINa1NPijHX/Lu7U/bUFFFNZ4PHQRu4FplwPUiVxqWJVu+P+SVmGd18J6Hfs+fAJusq3vnhgByg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxjMtSBCh7pOzWSi4CaaBMMAJc1Hs75HHBGdcaQTlj26Sp/Iclr
+	5VLLWuSYQDVoMNxI/33Bokx8nJfOJ/HaYKoP5hkPEDy2PIYVJplmB+L1
+X-Gm-Gg: ASbGncs1krUGp0Pax9j2WTt7cesWtynl/vv7OsVyFholWJzV4VCPCkw3DTi3rZ2U2Fm
+	/zFXGNnLOHtu0X2qG9MkwMRQZIoYXmjFR4LxX47vvxjLMLzg/gFrieYp16wtrLa7fppQt3TQ7IP
+	/lPmPVOjpZe933u52eROFdIS4YBCSNh/U0JN+ZNog70VpOUoCxk7MJdOjrmiUBzlMpOtNwmW6o0
+	x3udG6V5h+jvFi6MyEd7AwoM+K8vunxiZyZIoLHYgn+Lxuv/yGznKCy+vR0xcTAh5DF5PvyH3WA
+	zsucxdoCso8hEwSOBN0BjVeTiRj8AEoHtO9ADH5rWFEe9+pEx5F5+5oJe8Ano5HEKpJECK3mzYf
+	kufvQzEFXpD3TZK6jat+GzLwo2HyRsMFGmE/9YTqpjOBEzoYrIdswW7VrQyqR/Wgp9loq7/U8
+X-Google-Smtp-Source: AGHT+IEOTMNZIavUM5Iy5LIhtD1rVyHR5OcbyDpea0cdJbuixhaLMio9pOUj0ms7qn7MPHtCu/uxQg==
+X-Received: by 2002:a05:6a21:329f:b0:23f:f934:19d1 with SMTP id adf61e73a8af0-24340b7ab44mr24060127637.6.1756235837661;
+        Tue, 26 Aug 2025 12:17:17 -0700 (PDT)
+Received: from linux ([223.181.113.247])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b49cbbbbf5asm9754443a12.50.2025.08.26.12.17.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Aug 2025 12:17:16 -0700 (PDT)
+From: I Viswanath <viswanathiyyappan@gmail.com>
+To: shuah@kernel.org
+Cc: linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	I Viswanath <viswanathiyyappan@gmail.com>
+Subject: [PATCH] selftests: update SKIP_TARGETS logic in Makefile to allow running bpf and sched_ext targets
+Date: Wed, 27 Aug 2025 00:46:59 +0530
+Message-ID: <20250826191659.157458-1-viswanathiyyappan@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250730142301.6754-1-pranav.tyagi03@gmail.com> <20250806164841.2907972-1-joshua.hahnjy@gmail.com>
-In-Reply-To: <20250806164841.2907972-1-joshua.hahnjy@gmail.com>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Tue, 26 Aug 2025 21:56:26 +0530
-X-Gm-Features: Ac12FXydsbaI3ePxtk_Pq8B7Slgn4iz04KSeXyYj_cYZPkXFV1_OSHzZmmvB410
-Message-ID: <CAH4c4jJmCP8w8mbeTpOhNvWCgb9U1A+ssny3nSw9Qg5tEnqVcw@mail.gmail.com>
-Subject: Re: [PATCH] selftests/mm: use __auto_type in swap() macro
-To: Joshua Hahn <joshua.hahnjy@gmail.com>
-Cc: akpm@linux-foundation.org, peterx@redhat.com, shuah@kernel.org, 
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 6, 2025 at 10:18=E2=80=AFPM Joshua Hahn <joshua.hahnjy@gmail.co=
-m> wrote:
->
-> On Wed, 30 Jul 2025 19:53:01 +0530 Pranav Tyagi <pranav.tyagi03@gmail.com=
-> wrote:
->
-> Hi Pranav,
->
-> Thank you for this patch! Sorry for the late response, thank you for bump=
-ing
-> the patch. I just have a few comments about the commit message.
->
-> > Replace typeof() with __auto_type in the swap() macro in uffd-stress.c.
-> > __auto_type was introduced in GCC 4.9 and reduces the compile time for
-> > all compilers. No functional changes intended.
->
-> From what I understand, the compiler optimizations from typeof() --> __au=
-to_type
-> applies when the argument is a variably modified type. It seems like this
-> internal definition of swap() is only used within selftests/mm/uffd-stres=
-s.c,
-> and in particular is only used twice, in these two lines:
->
-> /* prepare next bounce */
-> swap(area_src, area_dst);
->
-> swap(area_src_alias, area_dst_alias);
->
-> Where area_src, area_dst, area_src_alias, area_dst_alias are all char * w=
-hich
-> the compiler knows the size of at compile time. Given this, I wonder if t=
-here
-> are any compile time speedups.
->
-> But this is just my understanding, based on a quick look at the code. Ple=
-ase
-> feel free to correct me, if I am incorrectly understanding your changes o=
-r if
-> my understanding of __auto_type is incorrect : -)
->
-> With that said, I think the main benefit that we get from using __auto_ty=
-pe
-> has more to do with readability. Since __auto_type can only be used to
-> declare local variables (as we are doing here), maybe we can rephrase the
-> commit to be about improving readability, and not compile time?
->
-> Again, please let me know if I am overlooking something.
->
-> One other thought -- while this internal definition of swap() is confined=
- to
-> selftests/mm/uffd-stress.c, there is another identical definition in
-> include/linux/minmax.h that may be used more widely across not only mm
-> stresstests, but across subsystems as well. Without having taken a deeper
-> look into this, perhaps this version of swap is indeed called on some dat=
-a
-> structures with variable type, and we might be able to see some tangible
-> compile time improvements?
->
-> In any case, this change looks good to me, but maybe a new commit message
-> that can more closely describe the effects would be better : -) Once you =
-add
-> those changes, please feel free to add my review tag for the mm selftest =
-change:
->
-> Reviewed-by: Joshua Hahn <joshua.hahnjy@gmail.com>
->
-> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> > ---
-> >  tools/testing/selftests/mm/uffd-stress.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/tools/testing/selftests/mm/uffd-stress.c b/tools/testing/s=
-elftests/mm/uffd-stress.c
-> > index 40af7f67c407..c0f64df5085c 100644
-> > --- a/tools/testing/selftests/mm/uffd-stress.c
-> > +++ b/tools/testing/selftests/mm/uffd-stress.c
-> > @@ -51,7 +51,7 @@ static char *zeropage;
-> >  pthread_attr_t attr;
-> >
-> >  #define swap(a, b) \
-> > -     do { typeof(a) __tmp =3D (a); (a) =3D (b); (b) =3D __tmp; } while=
- (0)
-> > +     do { __auto_type __tmp =3D (a); (a) =3D (b); (b) =3D __tmp; } whi=
-le (0)
-> >
-> >  const char *examples =3D
-> >       "# Run anonymous memory test on 100MiB region with 99999 bounces:=
-\n"
-> > --
-> > 2.49.0
->
-> Sent using hkml (https://github.com/sjp38/hackermail)
+update SKIP_TARGETS logic so that these targets are skipped when
+TARGETS is taken from the Makefile but not when TARGETS is specified
+via the command line
 
-Hi Joshua,
+Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
+---
+Currenly you can't run these targets by overriding the TARGETS variable in command line due to
+how the SKIP_TARGETS logic is implemented, i.e. bpf and sched_ext are always filtered out.
 
-Thanks for the detailed review and I sincerely apologize for the delayed
-response.
+ tools/testing/selftests/Makefile | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-You=E2=80=99re correct =E2=80=94 __auto_type mainly provides compiler optim=
-izations when the
-argument is a variably modified type and in this case the compiler already
-knows the size of the arguments at compile time. The motivation here is mor=
-e
-about readability and consistency, as __auto_type is already used in severa=
-l
-places within selftests. This patch has since been picked up into the
-mm-unstable branch.
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index 030da61dbff3..42ff6bb4ea87 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -144,7 +144,10 @@ endif
+ # User can optionally provide a TARGETS skiplist. By default we skip
+ # targets using BPF since it has cutting edge build time dependencies
+ # which require more effort to install.
+-SKIP_TARGETS ?= bpf sched_ext
++ifeq ($(origin TARGETS), file)
++        SKIP_TARGETS ?= bpf sched_ext
++endif
++
+ ifneq ($(SKIP_TARGETS),)
+ 	TMP := $(filter-out $(SKIP_TARGETS), $(TARGETS))
+ 	override TARGETS := $(TMP)
+-- 
+2.50.1
 
-I also looked at the swap() definition in include/linux/minmax.h, which is
-indeed more widely used across subsystems. That version may offer tangible
-compile-time improvements in cases involving variable argument types and I
-plan to follow up with a patch there.
-
-Thanks again for the thorough review.
-
-Regards
-Pranav Tyagi
