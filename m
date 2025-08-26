@@ -1,75 +1,84 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FA01E522
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 26 Aug 2025 00:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DA651C5A
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 26 Aug 2025 00:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756166420; cv=none; b=sUL3Q4eHmJyxwfTLuj9kdMt3zE7XcSb4qjQCEeN4sovnM+bU0gs0FO9eqwjfYSl2kHOGNeCoM01B1bsKRgNWpYbU40UMYuhUn4upU/O2BM4pxRGAk4ZuDcunK9uPV4kL7FpA5ccVkpU+0mBz3yVoNeNllpd5PqhKRtf9LQyKCzQ=
+	t=1756166465; cv=none; b=AM0i6uYNVaY74x89fSMMfseI1IoBkDz+0+ERSfWNMZWLnUSPA3FZB+tZcG4fYJj/EEYbweGf8eGGNmBAxKOUwlai+Y3EuNI1q3qSZkM/z5mqtpgLcMumhJIicUaYV+8G/97Lbo4AqBEQ4ggCQx6GyYoDTHoJ8AjkrBet5U+0OUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756166420; c=relaxed/simple;
-	bh=TDpFI82D3io9gMkfH/lD9/zXLjfE7kfmh5GusZvi/F0=;
+	s=arc-20240116; t=1756166465; c=relaxed/simple;
+	bh=mHFuIXiNmbEkoVbj8VOYF+pRey/xF5VfytxKQHW/a30=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E81K4sgRTvCKntzz1C4b8nxNYk6NgvxIpgNmgO6HN+NE1Wtup0DiSfNoGHleA6v0GTJJR10Lw5OWEURFaC17EmlqwZt6VD5+92jnTHKchaSqu1epZqEUsnZXbzzyamyn2ES7N08F/ivDLFif3cSIoq1mtXLaF1IZmilqssdDHAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Heb5liDg; arc=none smtp.client-ip=209.85.214.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=QgblfomdPc9qjeef2teKAeF5mTHEAExFPKgZBZSs0rzu279BBG6h3YZh/3/zVqe4fKF/iv2R+ayZBTw36amI7uYbvLigBWLUU/igGwydv12YLKIR6fP6i9Tt9WHlDFiPPKWlEGvw8IzFSq/2TXB0nWeL6D+lOtpCuEhpnf1xF7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B8PfqGeu; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Heb5liDg"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-246151aefaaso33602585ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 Aug 2025 17:00:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B8PfqGeu"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2445806e03cso58124115ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 Aug 2025 17:01:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756166418; x=1756771218; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1756166463; x=1756771263; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bhz1fF4U+DhNYPyCFpw/CCH8ZrUQI3yiXeaOt7DVaoY=;
-        b=Heb5liDgeH8nCBu2qM7SPkiy7+1d7m3uYA+kJOPz4Qf71BcjkwId/8GB3DuvHZwbeU
-         D4gXtkR3yr7ReVc31Q02N7zJ3BoHJlxDQqtOaRPqFR2YOd/oAg06535skKXT02XFI7Ey
-         tUYeSAM6RlzKfG7Hv21IbXcm5vIp5ojx3x9ln/yVgv8A5IVg/QUDlPMkyyCYYW1wxXmT
-         wLC/ASRVfI3Lojzw2FFBEayMmlS4K0EspuyF7wHpbv19EiZtw6tHjbf+Hjq8ESU2UdPL
-         8rwnc4qR3ZhMP//YhksxED9LWMttAx8HQzCh0h9v0vSnf+MTFLILve//edMFo9gj/v+2
-         OKoA==
+        bh=mHFuIXiNmbEkoVbj8VOYF+pRey/xF5VfytxKQHW/a30=;
+        b=B8PfqGeuihU+/9XXwc0BZBzHlxYMMANbLzZxqaSyuW21YeD/ne/+TF4NKUd4LDhtLv
+         7Sw/0pRLlWRs+UMKD7+uCO+rh3TwtyDJahu4fRIsG84ru2ozJpm5Te6E0EvISukCuOX5
+         uFxQPaYVRxuJVqmHS8bklzTqgTAOhpDnIxwRf/hNACJn9MZI5zAhW4c8M6ApCIQsMXwd
+         IKmLyIZq3arpl/rTXqVgshBTK9DUSE4m9SBJOxa6B73EzI1dfblyS910Y6Zfalq8J8br
+         2VbJjmJecTUABI7Pw2PwUPPeipOW9iKy6N7DEdTo5UjCeb+aIf/IPHqZHsvnzFv1qivk
+         Myfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756166418; x=1756771218;
+        d=1e100.net; s=20230601; t=1756166463; x=1756771263;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Bhz1fF4U+DhNYPyCFpw/CCH8ZrUQI3yiXeaOt7DVaoY=;
-        b=wnQZKlD/EEry7N4mkr78D24eL9ia85JvuAMCyNm79nKpKctxrcXLkmrhfqotwQnrjM
-         EW8L96sPalJodOhKOY6Z7TYyhF4amCxyzyCkvIYYti2oDl4XyxTx0ad3pOUf8qpggi9Q
-         Nv3zlzg6bzDmxNrVpHqh4auwlBLFxWfGLkqCamkaqcNYZlZtsOTzXwq0Isr+TfBdLWj9
-         fQqn636aBGGb9btes1kNy2MaK9oDTA62cg+JSU/Jazdf+UB+uoU3zs0gkdNS9r+UpIV/
-         ekaBJkgZU0TggNgFPztF4NXAPD1EDoj5grzzn54b4DjJ1SULhJ1g8zu31+otHRMMY84u
-         SiBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVLC8KsiNa+OmKaqH6RwUI0SLknQvdq6TzTI89IVC6avtRQDItHfYWCe4Sh/NMKPyRF1vGIu0RAYy/GLOQLdrKorLTi6g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyEiUDZIGyfYNFwotr/6Dl0vhz1cXCtqo+hdLRO7VMNe7t9vFkm
-	nEE5ny1EtoFRCp/RDGcFShgSlyEmuMS7+/VMT5RlbYgULjeGwcBQ2mqZh6QXVLXQ
-X-Gm-Gg: ASbGncszDLuouOlctVL0sHyenyk59Ir7GkwR94nyBJiAL8v+NzubWRVvx1eKduRyIdd
-	z3Krz8B3d60t7h6BD3BnyNE3rbtY28O0zrcB99i2g8p3jJ1x0c1h0Li6xeN5WOXjmghVc8GLehE
-	oVCm7Ffyyx4EkL3H9SYrO2hmIRsbbLQ3NbbCMH0lv+cOJarElMkuXOWGqV53Q7r1Q7IblcBX3ft
-	uicr0DMG8DFrfTKXTYaSbdge6nhxL8zTMYwlzBjoyjoe0z458P2eCxrbr/GK64oXtmRgr+f9HCf
-	A7ehXWKdJjidWcugQoHSc3Mmn/ELrOGTNP0KR9wrKaz1T0NwbpsCq9RB9mAxbIe0Yn0+m1dbTNb
-	cvCwmYBGnZGLyJqSQU2tpo07lA7epxn0R
-X-Google-Smtp-Source: AGHT+IEMgSMRQ1ikjY4VVuI/uxUeQ227HgXNoOUIeOsE0YIjbeix1xu/8PdTXUgoE19eW0OYm0XX+w==
-X-Received: by 2002:a17:903:2a8e:b0:246:7e31:ddbc with SMTP id d9443c01a7336-2483df49581mr13729215ad.13.1756166418312;
-        Mon, 25 Aug 2025 17:00:18 -0700 (PDT)
+        bh=mHFuIXiNmbEkoVbj8VOYF+pRey/xF5VfytxKQHW/a30=;
+        b=SYSQkcptkG3M7bC8wccMlr0kzlcIjOp3gCoCmVlKrX8fletVumGlJ7iXSzY1OmgKWo
+         XcpMUFEh0Mc83PYtUTFEYQIyP0Ffrj2W6ZmSNl9KaX8sLM838Obpctv8O7NZa58NDh/L
+         mhNXhs4XS78dk/TkfFunH59M258X1XaP/292aVPRFIYj5fs5/Bm9/2zI4zKMcMTGYaYT
+         5fJfbNHV9n6OY2nvpoOkPv0sRUNchY/Y0D6z7RfYb0JUARyAHYTcfBe16MYZOwPFenyz
+         EMILz/QbAx/6L3HSplyswA/CpToakC/aCtgd8lUqbVY1LkSqQfEqkCMGY2jvDN+9Tj7W
+         6z/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXdLbShNQH/UXukNVsLuK69XKuplIuAA2CIJ4k/jry6knAB+dCjyqsNZPGuMtWoVSWfsDVUPMioSlqtaAoZE39NJ4cjtA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxE3eTPDlVqg0syzMurQg2n1XevRYMe2CVWTZcAo26/EaNPtMA0
+	/brhq9RV5ud89+QXhjQky8MJCoXc+vvtnkZbwn7PEUIjrGFkB5cw7EB/
+X-Gm-Gg: ASbGncu94mTYfRSN1L98bqv4PmsJOO1yzELS81WU6/5+2vC88nUh+eJ8REvtbo4cq1D
+	0gW6FjGoCy+R5JPRYNbB1m6U/W/aHP7ow0wcJruN/hEBtNKWGxKosXWFFdQ7Da1SrysstZtW9gE
+	MHmkvZ/kozHwTJXYftKHdHqDaFi/roV8GSg45ob+Mw5RzRZvlfN4TXLfr5fGZI+d3bOTukIchP5
+	55X/jm244jsmHgkrOGVzkp1Bqr3DD0HzoJ3KVl+Dlb08e57FvuvsH7B16fBrA8aq+3T4EIoluJ2
+	SnF2vs+EH/LJHjtGONWbKT3kVlS/82e4mcX8yq86KauFE4D9rp7jOk//7jUwEPI8Lh4e5fvS4el
+	T7rI8C+V0byNp49WcW7AngA==
+X-Google-Smtp-Source: AGHT+IFKcbvwi0kAjgdjFjeLliZLzfUxsoGc6FLH2aqpXBw/4v6OLvxDvjNLeydrT6uV6iibMapBlg==
+X-Received: by 2002:a17:902:c40f:b0:244:99aa:54a1 with SMTP id d9443c01a7336-2462ee0b77emr192667065ad.7.1756166463145;
+        Mon, 25 Aug 2025 17:01:03 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2466887fef9sm78286985ad.114.2025.08.25.17.00.17
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2467e3238fasm70835275ad.104.2025.08.25.17.01.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Aug 2025 17:00:17 -0700 (PDT)
+        Mon, 25 Aug 2025 17:01:02 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id DB23C424E25B; Tue, 26 Aug 2025 07:00:14 +0700 (WIB)
-Date: Tue, 26 Aug 2025 07:00:14 +0700
+	id 940E6424E25B; Tue, 26 Aug 2025 07:01:00 +0700 (WIB)
+Date: Tue, 26 Aug 2025 07:01:00 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	I Viswanath <viswanathiyyappan@gmail.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] Documentation: process: Fix grammar errors in
- management-style.rst
-Message-ID: <aKz5Dh8sS8_tB_Iz@archie.me>
-References: <20250824185015.6312-1-viswanathiyyappan@gmail.com>
- <87y0r8c7ga.fsf@trenco.lwn.net>
+To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
+Cc: Markus Elfring <Markus.Elfring@web.de>, linux-kselftest@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Eric Biggers <ebiggers@google.com>, Mark Brown <broonie@kernel.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH] selftests/arm64: Fix typos in malloc return value check
+Message-ID: <aKz5PJev5HwYcs09@archie.me>
+References: <20250824131647.490439-1-zlatistiv@gmail.com>
+ <ed07c6f9-e389-4387-8585-6f1206da1a07@web.de>
+ <aKxf1X1u8QHAdvqW@archie.me>
+ <u4bv3ypqrdaz5klrvs57ptp7tu25etf7xzvoytrgnz2xohiysj@vua5mcbpznio>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -77,44 +86,51 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JxywI3ScyCU0OdPl"
+	protocol="application/pgp-signature"; boundary="1viLhCQliFWdXD/L"
 Content-Disposition: inline
-In-Reply-To: <87y0r8c7ga.fsf@trenco.lwn.net>
+In-Reply-To: <u4bv3ypqrdaz5klrvs57ptp7tu25etf7xzvoytrgnz2xohiysj@vua5mcbpznio>
 
 
---JxywI3ScyCU0OdPl
+--1viLhCQliFWdXD/L
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 24, 2025 at 11:10:29PM -0600, Jonathan Corbet wrote:
-> > @@ -42,9 +42,9 @@ actually true.
-> >  The name of the game is to **avoid** having to make a decision.  In
-> >  particular, if somebody tells you "choose (a) or (b), we really need y=
-ou
-> >  to decide on this", you're in trouble as a manager.  The people you
-> > -manage had better know the details better than you, so if they come to
-> > +manage better know the details better than you; if they come to
+On Mon, Aug 25, 2025 at 06:44:23PM +0300, Nikola Z. Ivanov wrote:
+> On Mon, Aug 25, 2025 at 08:06:29PM +0700, Bagas Sanjaya wrote:
+> > On Sun, Aug 24, 2025 at 03:40:44PM +0200, Markus Elfring wrote:
+> > > > Fix double "-ed" in malloc return value check
+> > >=20
+> > > Refine wordings in error message string literals?
+> > >=20
+> >=20
+> > I think what the patch author (Nikola) intends is "The error messages' =
+wording
+> > use parallel structure device, where the second verb should've been in
+> > infinitives form. Correct it."
+> >=20
+> > Thanks.
+> >=20
+> > --=20
+> > An old man doll... just what I always wanted! - Clara
 >=20
-> This one changes the meaning of the sentence
+> Thanks, I did not expect to get schooled like this (in a good way of
+> course). Should I send v2?
 
-I think the sentence means that people under a manager know the details
-(i.e. intricacies) better than their manager himself.
-
-Thanks.
+Sure.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---JxywI3ScyCU0OdPl
+--1viLhCQliFWdXD/L
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaKz5CgAKCRD2uYlJVVFO
-o9+SAP9w++xpjhfwavW2hIqz9hhO9CwZPxDgSmKG/kD8Na0i9QEAm6bikX22FoRn
-CB9SZYae0kv4csonpddVwv19QQzwpgQ=
-=pnJV
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaKz5PAAKCRD2uYlJVVFO
+ozARAP920T/0c5L0WMnc2FkxNDSA5EjC8NhZPcRc40EQJvrbNwD/ayi0OlIl/02c
+o5bAFcYS6XvDl8io8108nSUee23LSws=
+=iJfj
 -----END PGP SIGNATURE-----
 
---JxywI3ScyCU0OdPl--
+--1viLhCQliFWdXD/L--
