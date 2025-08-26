@@ -1,58 +1,46 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from e240-7.smtp-out.eu-north-1.amazonses.com (e240-7.smtp-out.eu-north-1.amazonses.com [23.251.240.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE85E20B22
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 26 Aug 2025 10:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D7A2BE643
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 26 Aug 2025 11:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.251.240.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756204768; cv=none; b=fvFNvw6uNWWRWuaf/mn+E8BcmLEFR8oKAS1Z7Ba5iWV3pGhJ/TMn9rYtIgi0JR89NEbdCiDobElbzsnYguswq1pnnW2Lud+7hAK8uXT/+ZqHLmvxTNl3nwur8pWzC0QVCByi49KSCHpB41myvNvE0QZkyJ8pXqPq/f/W1DqJmqM=
+	t=1756207736; cv=none; b=mdx95LKozapljz5nJh+8O1AhVpKKD7LUcUOSSuQ5roHwxRC5D37AYJ2kNm2lmOnCHw4feSoXZEV+3uFo/0r+yles/Z7TDxiH5PNFpssak/00gRbFG47vLYKUi7cyfuQkL43yx9fcc2WqlQHSxwbTbBjVE2FXINWWPuW25g04FoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756204768; c=relaxed/simple;
-	bh=rLstjHQ1oFE8XsF8DNE14R7qG/HVuryRMROa5krjU7Q=;
+	s=arc-20240116; t=1756207736; c=relaxed/simple;
+	bh=+sCEjvZjwWHmAvnr6eP4Tu5wpN+UC7c/dTzPNx88gro=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jecfLgOM9FFKxs63zOZZnnciiY8vzeUgKj+A6YBoRXobxtnGvaX39xcNedki95ZH+2ZCt562z0zzOPfsZCEsAB1C3QEsuOHN/RHJUponTWIdidNRWD0Lty3ZEhF0ChizlcJaODV2JTT/aLrSrd8R2zeNKbLXRNG7b77fn/xvxqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GtXNZRjX; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=QXwJCa6+CXddVefdgyZ6N0TBXDwUXvvS3Py5umS7NQAgonupzyGvKz+avPzogfEqQK7bz88rLkVvAydmgPxobnQ+q9HlHV0oEMfYaP9j04L99jperSVEHCy98RFAqK6ow1tjfaClGYBiRp6Q53pyKiFmOpeCn3drCpaBk8uDfdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zgur.org; spf=pass smtp.mailfrom=eu-north-1.amazonses.com; dkim=pass (2048-bit key) header.d=zgur.org header.i=@zgur.org header.b=ERFI+hUx; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=qXwz05tN; arc=none smtp.client-ip=23.251.240.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zgur.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=eu-north-1.amazonses.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GtXNZRjX"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-61c26f3cf6fso7703259a12.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 26 Aug 2025 03:39:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756204765; x=1756809565; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rLstjHQ1oFE8XsF8DNE14R7qG/HVuryRMROa5krjU7Q=;
-        b=GtXNZRjXGTe/G2G7/8GXMuCD+U7tYV1Xylw2xZanRXfiq+6mgN7K6NDX5ZysgnE4Y1
-         8x/FZ/d44pBtltcTPSl8/OaXSfA/6DXkbvymBmYoWLGaTHOzwEoVqjTGWTPOstCzWr2C
-         2rSjNeRAQz1UB6d/uO9TQNhXHL/F1Y4yJsrih+lr3SpL+SN05dKdaZ5TyOp0zFkoh1wr
-         jwrSKjE7IFLW8LzCU8nJkH7mJuuGIEnN1H2xZa8XFSJSihmMtS2s0MbfgUdcZk9uAas9
-         Jufn4/hRNmyt1sjx0G6ZopGRBVNT7xWmXqQywehThSf8jKj4HTzcJrD0pAUoMAlJafUF
-         fMRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756204765; x=1756809565;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rLstjHQ1oFE8XsF8DNE14R7qG/HVuryRMROa5krjU7Q=;
-        b=fgKpXeRunqhXqUV7fqYUJJgnTHvZIWv9bj3ZJx0+sde/wxuS6g0OYynwSAzLU/2jPc
-         WNy52Sqdaacjybgp6fqJzNbDvaSNYKYNMiTP7ZN/Y7BwBSKEiq/pei5UVl67Z2lSK3+m
-         R83KDacB47VKRYvHpv4nHuLG5RObzEb4nv5BRqQTyvU6JhehIB1tZwBw6qFNvyKgR1L2
-         e1BlB5AxH1EV03Q2rNi3kXQMMCMp9O7S7EDEbOQEAd/O/dpSjOufNxmraFob5s7aPObi
-         598na9Bj37PN7Sdnu/6oPiY18qRlyGb3BLckItmQiPOWgJjqT9q6bXrOnRmYn0lKAXz3
-         kPPg==
-X-Gm-Message-State: AOJu0YwkRBpU0rvlJDGmYDZNbUkeopdh2JOpWm0dZQA8C9LVZ+tz9Tzt
-	SSKu75L4Ign3KY7002mE0iYKHshF3jDRkj6xyp3468746Al4rGrn7nHC5uO2hCkg6MPvUVDteTf
-	Y/3UTKondD/zDPRaJrOXU3bEptoBuI48=
-X-Gm-Gg: ASbGncsaJy+ml1iJDKFKaTNr6T/FrEqb/eZbYDuSue8S7GemhboObuAEYGc9RDS1Zct
-	4fypZxc2OZjcE+sM9UC/KMI/tNx4MldIA0MM0Sy+KwdcjiUpoOwJ1QN2dXykrAY505PrrwSEwyf
-	UsYf3r0xsmqI8hBA/Ay82LmUzvZUIbCCoqUf//qV8fFsipRKkAtLzf+cuMdQX+ZIn+NumPHZwx7
-	fIGyeG09eMyy0wVxCB4dtSoQAFR2JjftagVy8wFQjxNuvbAyGCZNMbgEa/FnEY+yAICUvg=
-X-Google-Smtp-Source: AGHT+IEQ7Edxc+oZQ4IwdQ03K74b1tsxWbjF22IOu4pYRsHjWAO0f3Yu0hLy18djWvoe4taFR5Pf/1UzdMgXwB30RCk=
-X-Received: by 2002:a05:6402:524a:b0:61c:8fd0:4456 with SMTP id
- 4fb4d7f45d1cf-61c8fd045dcmr1970662a12.16.1756204765062; Tue, 26 Aug 2025
- 03:39:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=zgur.org header.i=@zgur.org header.b="ERFI+hUx";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="qXwz05tN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=js6vst5vvqz7hona7jurhfnalcwue2xt; d=zgur.org; t=1756207732;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=+sCEjvZjwWHmAvnr6eP4Tu5wpN+UC7c/dTzPNx88gro=;
+	b=ERFI+hUxwBr7oTH/QXb4LlTgeVTE5jJcFtg2yJQpWCFOQg65LqaLQ7mU0RU5/NgL
+	WF5Ifg6ZSlZLplqN316fOyifRyxr7UWb9Y9c0g4EFRX2sOdrTC+pqPrjdhKY42R8en6
+	0BaV67x3M+vsextQxQqFj4bmF5CD/hMJyBsUH535aB9YcN5R5/EdTWBuuhy6v9xoODy
+	ds+Dkso5+84f7/6p2GLb1BivNpOEpW8pgK8RAn2xW1kre4Vy86EBgMfQCyxgkZqgJMP
+	Y9g3xTTFlbTD1p51ThrMVB4vR/3fjlb7YQwHtpvvaFmsJna98w8wCyhP/Ua+80evapv
+	wfSVm+eQpw==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=bw45wyq3hkghdoq32obql4uyexcghmc7; d=amazonses.com; t=1756207732;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding:Feedback-ID;
+	bh=+sCEjvZjwWHmAvnr6eP4Tu5wpN+UC7c/dTzPNx88gro=;
+	b=qXwz05tNDrdq1Wc6R9Kq0v+fB7gwz9cq7hivuNCYsSUf2k2106T/GoUKMPXkTMpD
+	Vw/eyHhcWb7jjVo3nhyq/N8VrXVnRQuCZbtXNJr05j3J2DnSXEEZU3PfdO0p/YnohPI
+	DR1xjnqcugd9C6ZvIDV/aB2emh86oc2Qt5i8Fu4Q=
+X-Gm-Message-State: AOJu0Yyec2vJyeTQBQXx1Qc0ToU7gdkBUXL0sjCoArKaMZZ/inUZd6Vr
+	5Y4dToTcH+PwBaweaEHorfk7RHUOZo69sL8pY+FqpfliXi7k+MtpnKo9FzpSFudFdkKZIVF2U4a
+	f/WeJV0cQIl4GlWnP2iZio8XNUmNyJJk=
+X-Google-Smtp-Source: AGHT+IHTeVRj8xDeMu5l2U63+I2jFtM1AIax4ceIfaM3+elvtvYXyqdNoSN2L5n7iDlZs4IeMcX3gQqGh3gHryOEugo=
+X-Received: by 2002:a17:902:ce81:b0:246:de5e:cecd with SMTP id
+ d9443c01a7336-246de5ed9a6mr86899065ad.54.1756207730115; Tue, 26 Aug 2025
+ 04:28:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -60,45 +48,58 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <CAMB6jUGOMwxXe=-04hSF8BEro_SZdQXa3XuVvkrrzCWqeG7KXw@mail.gmail.com>
- <CAMB6jUEL7juRQ=sz=rXooMMduEedwb185k+1kXbcWRD-17sq_g@mail.gmail.com> <2025082640-immortal-matted-e1b5@gregkh>
-In-Reply-To: <2025082640-immortal-matted-e1b5@gregkh>
-From: ally heev <allyheev@gmail.com>
-Date: Tue, 26 Aug 2025 16:09:13 +0530
-X-Gm-Features: Ac12FXyJ5gMXzrjdxhWeU1KiWEfCKgck8T4fKhC5Jlj_2rCJH-ZJ2y7_PQ4B7l4
-Message-ID: <CAMB6jUENLT5Szb6L6h=ZjO6rFqXVoSOxo_GeUev1=7YFxpwKiA@mail.gmail.com>
+ <CAMB6jUEL7juRQ=sz=rXooMMduEedwb185k+1kXbcWRD-17sq_g@mail.gmail.com>
+In-Reply-To: <CAMB6jUEL7juRQ=sz=rXooMMduEedwb185k+1kXbcWRD-17sq_g@mail.gmail.com>
+From: Ozgur Karatas <o@zgur.org>
+Date: Tue, 26 Aug 2025 11:28:52 +0000
+X-Gmail-Original-Message-ID: <CADvZ6Erc4GS-D4bJ+102J95RvB1OE8xj5Hc099xbi=5zuYHUpg@mail.gmail.com>
+X-Gm-Features: Ac12FXx4LrqQBd2oSI6Z8s1URVeKVoNbvKpEPE5hyhX1pZFqh6CWqXP5hU3SfSE
+Message-ID: <01100198e62356e0-3705293f-8878-4162-9852-38012b374486-000000@eu-north-1.amazonses.com>
 Subject: Re: Linux Kernel Mentorship Fall 2025
-To: Greg KH <gregkh@linuxfoundation.org>
+To: ally heev <allyheev@gmail.com>
 Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
 	david.hunter.linux@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Feedback-ID: ::1.eu-north-1.jZlAFvO9+f8tc21Z4t7ANdAU3Nw/ALd5VHiFFAqIVOg=:AmazonSES
+X-SES-Outgoing: 2025.08.26-23.251.240.7
 
-Thank you for your response
-
-On Tue, Aug 26, 2025 at 4:04=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
+ally heev <allyheev@gmail.com>, 26 A=C4=9Fu 2025 Sal, 14:24 tarihinde =C5=
+=9Funu yazd=C4=B1:
 >
-> On Tue, Aug 26, 2025 at 03:54:02PM +0530, ally heev wrote:
-> > Dear Linux Kernel Mentorship Team,
-> >
-> > I am writing to follow up on my application for the Linux Kernel
-> > Mentorship Program. I submitted the required evaluation tasks last
-> > week and also sent an email to skhan@linuxfoundation.org. However, I
-> > have not yet received any feedback regarding the status of my
-> > application.
-> >
-> > When I log into the portal, it still shows =E2=80=9CApplication Pending=
+> Dear Linux Kernel Mentorship Team,
+>
+> I am writing to follow up on my application for the Linux Kernel
+> Mentorship Program. I submitted the required evaluation tasks last
+> week and also sent an email to skhan@linuxfoundation.org. However, I
+> have not yet received any feedback regarding the status of my
+> application.
+>
+
+Hello,
+
+This pplications are now closed and evaluations have begun and the
+team dealing with this will get back to you quickly, please be a
+little patient.
+The Linux Foundation evaluates applications and shares information
+about your application after careful review.
+
+> When I log into the portal, it still shows =E2=80=9CApplication Pending=
 =E2=80=9D,
-> > while the Linux Kernel Mentorship website now indicates that
-> > applications are closed. I would appreciate it if you could clarify
-> > the current status of my application:
-> > - Is my application still being considered?
-> > - Has the mentorship program been temporarily shelved or finalized?
-> > - Should I interpret the lack of feedback as a rejection?
+> while the Linux Kernel Mentorship website now indicates that
+> applications are closed. I would appreciate it if you could clarify
+> the current status of my application:
+> - Is my application still being considered?
+> - Has the mentorship program been temporarily shelved or finalized?
+> - Should I interpret the lack of feedback as a rejection?
 >
-> Applications are still being considered, please give the reviewers some
-> patience in selecting them.
+> Thank you for your time and support.
 >
-> thanks,
+
+Regards,
+
+Ozgur
+
+> Best regards,
+> Ally heev
 >
-> greg k-h
