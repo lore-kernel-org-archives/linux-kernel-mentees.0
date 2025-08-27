@@ -1,103 +1,93 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E5E304BDF
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 27 Aug 2025 03:13:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C7021ADA4;
+	Wed, 27 Aug 2025 10:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756264417; cv=none; b=NzB+RZT3zX8EmXxlFGReA4m2QWlk7+T3nzsh/1vISEZEroCkCM/DxMWMmccqUkSxCYwBfVVOqb14UhWlJzwLmYLl2GMGQ9KH/izD8JyVcggcFmOaZMimdcUT35JdlUksz+OnLCBAKZQJXNaCl9SuMMbI37hHMyH+dw28X3bQ+xo=
+	t=1756290755; cv=none; b=LxPlNqmYOrcCh5nPbmyns4tGhUHsEdcQeeJ+rxvjAWwm9dYWpV+oaUw0bALvGBKc858xHpNt3sxmCsW3cZXfIOFTIT6ta9BGXQuhKEE++Ns2WQ9mDgslkkTzFUZca1+KUNczP1sMydw8aRFu/LV/p68UfQkrhgyO9J4Dajm0HxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756264417; c=relaxed/simple;
-	bh=yX/qwjcskcMcSyJexqyC0NTHw40p2wM6719vDgdsxWk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PWPnZrfoiCW70uL1QcBSSdR/ROMiHzZ4dgJ5XMKtep0ikVTgLMXZbm82tacoADxvcE9W5PeAhbG2szUB1++lZgaVTb/CshMNPvaur/0M7jkhvbPtMmkRbYzD71vPvhy9H6xu6mQ3tn8Tk4L2Ql9GETx1ygY0SZbo+pMK+PWou0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jXHXRSVj; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756290755; c=relaxed/simple;
+	bh=/smPvszByZaAF/Ideu82BSZu3Ndn1PjZSF6bQpSGf54=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jQEp5gK3JXBFXToYamN/hm4Ce8lCQfbPEokzlK59s5oPk0Fzm4nvHfqTvJ4V8lglVudqOu27xb1/0e/5ouSG4FphT5m202bVSCapSsToUBFa0DHL2B7r9Yphwj0xICuBJumfjDOl/U8Os1piXC+thZ+U2IgziMQFbpbOzXQNmEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FXVfo9ed; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jXHXRSVj"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b471737b347so4094238a12.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 26 Aug 2025 20:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756264415; x=1756869215; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=r/McTYQdEpEwGe2x8bB8le16r9isb4SHvShhNxkUsgc=;
-        b=jXHXRSVjigCJqWqCDQi3p8sWf/YQAtFnWxYH0UNF8PcBhsWNhsxAgIYgMl2nHtfdVe
-         kfAc/5NL6rOvAneadz5Pr0DofHsrDNJ3Mox+VqaZHbBRaYyhhxSPClY9SkHcjKe89KlN
-         3Yf7XzIXMOQRAi19UTx/NIt4L2Q6kZ2rG6wKXhkEJWEyoEiH58ulAucFA5ZizIcreg+L
-         sWGGHOTCrI6LE4yQRER/RJcROd3nlTTtD+RgrFgGQoCaB/uE6VA9Gen2m2VFtO9mS3GY
-         CkBmU1B5vTLla+saGJo6IPWYDE+3nvGwrgrloykKGnvA0vbaFVb7JTKctffdE/tbzr5i
-         Levw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756264415; x=1756869215;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r/McTYQdEpEwGe2x8bB8le16r9isb4SHvShhNxkUsgc=;
-        b=QlfDwYrZeNbNLmZ99YiQjuFAO05xv11V4zfg6R9RC03AZG8bIeTq8X4dhV2obEaqCL
-         8C56W4I4XG04+8h4bY9vwp6ENXRcPIqo/uuw2LE3lnL4u6kHj2IVLa9W6pqDkwwu17YT
-         238ScV3y+bqIABRXp+xc96PsQI6Lbh7XGwuf6ISMPBaOgVBitPe7TkYLD6f07NQQUCzz
-         avQhEHaSJU2gQJfaujhCPfefXu0sE7ydEkfa7mvT1/b5evYUc/FR3V71a8ararGCWAFR
-         BvYw1SEVFyo1QD4aBqnZj48C8HDYAfYnYEDpkgXB86XoI7h5kTxCqLav5c5+Xt3J7FgI
-         Gc1A==
-X-Forwarded-Encrypted: i=1; AJvYcCWSRGJkPsvBl+Gj8d2aK5S66W5XYcHgxdK5OdAEidni1LBPzbV13Hs2Sx6oNPlZCHHq2+zHcPapyf5/oH0sjCqf9JmvLw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw2J429AxlgoS5n1NJL5+moI6JXiu5OZ39qafzdc3x07xWjgmc9
-	2nq8Wbd89P6OxAM8pN9xSAsMbeDJosWhPTEL2pYP9OOL4xuaQf/iV9sZ
-X-Gm-Gg: ASbGncsEqQM7Hlf7Oi7/QoEucGEn7OqfCf87ApwOrCoHVFqBt6bD0HPDArzSM6yzhgG
-	n5oUgsiM2vddVItqA8K/7s5CqWDbUX1/z8d5s0JnfxkGigbHJs4XJkw8m6zt2AE9lmqNl97pz+a
-	ieq9LcMNCTaYCBcshUmcmLP70dSTUPEmHAFoLW90oqtpd5Rzp+Bndk27DIBi2V62dxRvRzcwgwH
-	PzaGDt9d8aDz7GnMKpJe51xrRn6MdxOJ4uZq+7bBbN1uEFQv8sGbvKus0QFE3gUd0fD+551IJxF
-	Es/MjbSqYHhA87Uflhkys8FXCzRGvr2mLAamFD35Cdnk52V+ORN/IEl+mERVKgvHpmVNXlEkBIN
-	IWairxxTG0+1Jw2OUUrXwOy0MIhTy3T+SPwbtlT3EIaD+NrjRZ3UBWl4i8W5NXG6GzdTxgRFLc9
-	0cUKkiLg==
-X-Google-Smtp-Source: AGHT+IG2H8wGjRa60KI6T0koRJsOFwn2LT50b5OO468YqNT5u67p9oELQGYQjhYbmh2R95CEmTqTsw==
-X-Received: by 2002:a17:902:db0c:b0:240:10dc:b7c9 with SMTP id d9443c01a7336-2462ee2ba4dmr165619485ad.9.1756264414733;
-        Tue, 26 Aug 2025 20:13:34 -0700 (PDT)
-Received: from linux ([223.181.113.54])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-248681adacdsm30226275ad.10.2025.08.26.20.13.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 20:13:33 -0700 (PDT)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: dot@dotat.at
-Cc: linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	I Viswanath <viswanathiyyappan@gmail.com>
-Subject: [PATCH] scripts: Add missing break statement in the switch in unifdef.c
-Date: Wed, 27 Aug 2025 08:43:16 +0530
-Message-ID: <20250827031316.11293-1-viswanathiyyappan@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FXVfo9ed"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9EF5C4CEEB;
+	Wed, 27 Aug 2025 10:32:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756290754;
+	bh=/smPvszByZaAF/Ideu82BSZu3Ndn1PjZSF6bQpSGf54=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FXVfo9edvnfYDZY9oYOI1IjWhXElJtoKE/QXD0PNTUVuQ7jWQHsM6vpl8OWZxo97Y
+	 5zK137hjg10dzubzqUD+AKjAgN1X3+M3o5ODhhLWrTy+b22LjYDTN+tvwGUuhaghBW
+	 jBlFAeNQioSRejLwSAIgmX49dIlfTtx7vsp2uQzqffQHwK1KwIzJxeIezv1yqvfdH6
+	 Y07U7w4H+LyMwfBI0hahRiuJmRwRMm52R6cZ4dLrZttolx64vbzoaou3/CRXC4dgvz
+	 TIb6t8pPDFsfrBRQ9w7rbSRzeVGaTTaLytd3FaluUkdM73a4JKDNlmBLsNvHs1pg8y
+	 rpESJfOoFihjw==
+Date: Wed, 27 Aug 2025 11:32:29 +0100
+From: Mark Brown <broonie@kernel.org>
+To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
+Cc: bagasdotme@gmail.com, Markus.Elfring@web.de, shuah@kernel.org,
+	will@kernel.org, mark.rutland@arm.com, ebiggers@google.com,
+	catalin.marinas@arm.com, martin.petersen@oracle.com,
+	ardb@kernel.org, thiago.bauermann@linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2] selftests/arm64: Fix grammatical error in string
+ literals
+Message-ID: <d8bb28b7-7832-4c24-82bc-4663affcf57a@sirena.org.uk>
+References: <20250826214913.866695-1-zlatistiv@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="OQXy7X9uIo8z3XU8"
+Content-Disposition: inline
+In-Reply-To: <20250826214913.866695-1-zlatistiv@gmail.com>
+X-Cookie: Most people prefer certainty to truth.
 
-Add missing break statement in the case 'V' of the switch in
-unifdef.c
 
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
----
-The current code works only because version() calls exit(0) once
-it finishes printing
+--OQXy7X9uIo8z3XU8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- scripts/unifdef.c | 1 +
- 1 file changed, 1 insertion(+)
+On Wed, Aug 27, 2025 at 12:49:13AM +0300, Nikola Z. Ivanov wrote:
+> Fix grammatical error in <past tense verb> + <infinitive>
+> construct related to memory allocation checks.
+> In essence change "Failed to allocated" to "Failed to allocate".
+>=20
+> Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
+> ---
+> Changes in v2:
+> - More descriptive commit message
 
-diff --git a/scripts/unifdef.c b/scripts/unifdef.c
-index ff15efd6e7d7..465246fa7fd5 100644
---- a/scripts/unifdef.c
-+++ b/scripts/unifdef.c
-@@ -305,6 +305,7 @@ main(int argc, char *argv[])
- 			break;
- 		case 'V': /* print version */
- 			version();
-+			break;
- 		default:
- 			usage();
- 		}
--- 
-2.50.1
+Repeating my previous tag:
 
+Reviewed-by: Mark Brown <broonie@kernel.org>
+
+Please don't drop tags, it causes people to have to spend time repeating
+review.
+
+--OQXy7X9uIo8z3XU8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiu3rwACgkQJNaLcl1U
+h9CGvwf/WeftVyVodR4qHALiv4Av0QxqR+iExFnfNIAqKJLensYxmI59/oGQNKSR
+2FxNc52TMWU8J2MaXnuTpZGnJSbSb+YMVDHO/FSZAtmp3JthRxtNwVdV67Pm02RS
+xGGvYzGLDQDMivz2dgiGirxZHfxevZrFLDeGA3h4a7mkM/aKJxLLjbL+cPOGlcri
+Zc0p0kHdhtzgK81Z1TaKe7DW8ygkXobECaeL1dwUbFIRBk2oB9Q0R/oHXCTue5Yr
+mILQcxhhO4Y4RZarEARwv00rfz0qWMUf6QaCkiTeMuspAvIR5SnjxoQcX8fFcsSn
+lBmAYNNzBpxc1gUqnsaj9M3bf4nWUQ==
+=AcWK
+-----END PGP SIGNATURE-----
+
+--OQXy7X9uIo8z3XU8--
