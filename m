@@ -1,96 +1,126 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5502E0910
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 27 Aug 2025 16:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A1E2BE7A7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 27 Aug 2025 22:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756310430; cv=none; b=BsKWL9jwa76h7mVjaE0nDQFNpgl7HJykmSEqb6k1GnWFqiKOs7Bu/7TFA8EGC56DUxF0WawTRX/RHhwgCwGGiXHSNMxpiAytjq99IexIz3eAqxvO+lX9kuFTrSYcYY45VgbuKCdy5wFpW2ZcZ2fci6KCB5jcbSHIgK9LkhTwEbY=
+	t=1756333126; cv=none; b=OUru110oxqr3N0VvR3F9Vxnp7l6v6hB6NktbInOityP6N6AhTBPxVkQoMV4ChPq0I519Fq3/BS4Zu8MpmNAmHx2gQYa1AfKWtlyCRVmOdcSyyea2ZEOmH9y2yqfsv7plnZqaeYus+HEDVvGzpBByJHnJ7bxLGuXi3dy6R5q5f9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756310430; c=relaxed/simple;
-	bh=5r476QMUTx3iKVF4BmVQx1be6z2MX0MNrxF6wHUQJHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hnEt0HXu+LZg0vO6ysUyIqCRkg34fVbkF+3qePQ1yC4XNI1pLTEG3ncsuP/dkwwvGh5RsCyrdg/RWhpq2OKed8enKmIHwZMiKFcNZPD26C/q5Y9TYymbl+BSi4a4YAIsg2S77/KPiwLqrmX547Lu+Z+FgOKFRPjhPAuZ4fV/By0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EjqISbpd; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756333126; c=relaxed/simple;
+	bh=yKEOzvSZkzMKgqF/7rWC+AeAsHM5EazimO28ln893wg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=IcwD4MvDoZdcK4HOpVPFJyMhtd6uPEKU8ktFfuZ6HqMOUpyxag2tgs8zrzeJMlXl4QKb/LYgnebRhH3czG+BqjE3JKD3Y9Uk8Jf2ihgU6CN+x7i7MaIveisCqJUACu7NjzwbearlggdcsSig6uWVCZM7/XitdppEpcXX2akHDtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vm8wuyD0; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EjqISbpd"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-246fc803b90so29174085ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 27 Aug 2025 09:00:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vm8wuyD0"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id C40B661274
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 27 Aug 2025 22:18:44 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: 1.486
+X-Spam-Level: *
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id KKLP2V0CFMfK for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 27 Aug 2025 22:18:44 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62e; helo=mail-pl1-x62e.google.com; envelope-from=marcelomoreira1905@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 083796126E
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 083796126E
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Vm8wuyD0
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 083796126E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 27 Aug 2025 22:18:43 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-24458272c00so3725255ad.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 27 Aug 2025 15:18:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756310428; x=1756915228; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lqLQY71E8I3ZKdEgscFFUwxTNKe9h7lOzan3Lxwg46k=;
-        b=EjqISbpdEEW7K49WlW7UTMnX6CT/wSibenjvGkGndt0Lh2RnRqCZ5gXiVy9tdsS55g
-         SyyHuP2pFlpH/8syPM/koCYF+mRAf15LIG/KtGfOZPVrbXcBmOV+CXdez/TDD2M8glq8
-         LLwkkFwII1YfCWljKI86zw/DJ5P1/g9TUTC+QOX8Hy2grG9Lkk5QVz3rNXcMF7NS+Ezn
-         q6jNn5dCMinktDCeu6VgNaKL32NvCZJnb0DMgfFIEHzH1R3rrsU2BmEyLGh0fzjltz73
-         NHoLVRYfs3e4QnpwdVkefBw4haNd+EtQOFa1d8r3MGdfc5tZrcJRB7QfVm/qKVBh5XJy
-         VXGQ==
+        d=gmail.com; s=20230601; t=1756333123; x=1756937923; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fnKCQ7KlE8GdkQRPdMNE8B421OcFBFXbPzdlUFE9jn4=;
+        b=Vm8wuyD09IVRsHOeGgjK9m/FRkjV4ajIK+0LQH0GJXNyQHpmtrDFIiISmKeMGlTceZ
+         VsI9CQCf89BV+O4ssPG/K/DuC08iCGKN43C8wksMRedNybh68/Vn5AuYnNC4FyIXULeo
+         UgARttJtkNqG5m7DQJqs4IVVwUR6UaspnlglrPqLgkaNlGwdp90mNxzAdNIJ+fT968DV
+         kET8cZKZoZrDVEXsWnudHVr2McQPrANYSMmR/66D7E7/MNnIQvAQasST3DFxoKDr4tNv
+         R/mVoxvuEv0g0bkqKW9pB9uaddu0SKmAGRWCnwx/kQ0qaKMCFnW9f/QxKnj8O2ZWqzLM
+         x6rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756310428; x=1756915228;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lqLQY71E8I3ZKdEgscFFUwxTNKe9h7lOzan3Lxwg46k=;
-        b=TLK9MbMexhQeIMnVIJtgscxfCKiIag2ZTpPgCO5ULFxP2uLIQfQTMXH7WRsLjo7diN
-         BbXkXfNFGr6NWy3Kqez/uUuheGeeJ6w9vrmF/VO+o/rcw7Q8G4BztkAOAyLeE3VqPzuU
-         6kwFFSHP2cKwLkHEkTzGz8/tHOiKg5s5WGmSv9vClRe9e1ZNN7tEZzIGk+66f+LXaEu6
-         /vsGwZKO/rUjjrE+OPDWQsLAWEfcBEVbv3ZiZOhz3D74pmJqIRvO0N09DnghTpSPs4vR
-         ToqJrP15YSXnEovtOuxW39Q6Stu1+ZdA9fR8XSr0QdKsJk7DD9+moYbHEBi0Hpzk9LYf
-         UU/A==
-X-Forwarded-Encrypted: i=1; AJvYcCXme/R0zIZIBm3MrVtKrLBfrHCnL+rWMV7d3HqEQeZt9U+xSnDWueBH2DgAVOl56X/NX14PaWTkVpqRg+gW4wqx7YNQCA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxC1yQiFszeqfi8vhvi1hTVyyWjQUO0i9MNMk2+epTDbfrBaTlb
-	2wKrOxyCtCPewbxIq1nqoshop3SRuSvncsnh0jxLWckZpSq72DxiIWeI
-X-Gm-Gg: ASbGncsT2Kk0I1w3R0hNnbB2Rg1tIY27MU02jpnyohNBH2iP8zVMmORQajW/RklKYsG
-	GGSE3Ed80QZAinah3VnesPDHK61j1fLx90yZexkArCCDaTIDyjLzRx2ivXkPd54uUo/ufaDxDDy
-	hbyOdQ0TLiYXx8dCQLIYViBjpNj7Nw4PhytBFRY3fxTnFbLHETjlyLtGkHIbjvcvs0aKJPbvsOl
-	D1REiN7a2LBJ1i33nhb46G7j+5EVClTnyWHMOIDE43AAwHJvRDC5vBv9C5D9yIGxbR6YXlxkSH/
-	Pmg2wyAJDIlCoVKvt/JtQ1gijqgDVp8nxKt8+s06ufjvdcDuzPXKCqDYu8gSWAHrW3+HgswWdK2
-	gTYuGERArf+IKg90eMUtm8+n1F4YZsHHNUGo=
-X-Google-Smtp-Source: AGHT+IFQz/HXmGEMAbpydvcRmEbPZ5kPQiz5oyNqxBt9FDFmtWDr2HxANuX2KR6mhMGolifQMhrpDg==
-X-Received: by 2002:a17:902:f78f:b0:246:d383:3951 with SMTP id d9443c01a7336-246d3833b72mr154843215ad.15.1756310427975;
-        Wed, 27 Aug 2025 09:00:27 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-248c97f2f96sm2609385ad.121.2025.08.27.09.00.26
+        d=1e100.net; s=20230601; t=1756333123; x=1756937923;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fnKCQ7KlE8GdkQRPdMNE8B421OcFBFXbPzdlUFE9jn4=;
+        b=i6kVNpDk12NxePXg+IbT1MpLrPHz74vpPOm7eY08NBxow2v5YslMYXaaIMGeRsyInH
+         cjHH+fMUZHEaRWG+//b1ktcA2XaDa12VSgmIW8I396g6J78nRgLBDiLgUtXkpx8c+4ri
+         VGs2aGKuPlKH0mcwdcvR30cWKkUWIEBX8y3Gb1pvqrQRv0c9HGl1UOAQOyykYCK6++bw
+         gJOPziBD8425Buy6tso4XUjkcszUoAtPvw3ffKGH04XDe8LuM+qW+mkSt02jgX1lUaJQ
+         YSQGufLX6R7wjNGOMKoWoymcrbcboxsqisQsmXu98BmD1y4Z8pNpqJ471Ortapve8tFl
+         iHlg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7Eo92caNvfm8ALjivhA+gm+JVc+e06GSm+dzV3rV6ZWfKXgIj/dBUZ8aLvPRnF8bPggMWr4eRr3R8uqSbS83hOI4T8A==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwkQCLN9hjNR5zaSKQpW6TICDkxc/BCyULFl1WIbu/Gyr6a5sIM
+	4/sMuAsFbWiMT5fRZmHuco/9yOSe9XW83E6lTXle0d97JRs6h/min+tR
+X-Gm-Gg: ASbGnctdw4wJQx9tyGYwNxBMdcGmzdlDRRNn6JDwTgbxu6Giww+8jYOqhJUNQ05P0RR
+	YVvDTo1TmZZT3pRX84U1OdPb95xCec75DGNgqWfrTCaXIkMs2qfadTKP7GmjjpTKFURd1QzseEk
+	iWdoLUHDU+Dj5VOezJmpUuiMD9oAax6zLrcPHXDSv8cl0MA7MdUkURtagi5EGUpK0za1KQkM5Dw
+	zjtf0ART9DNsmC1wSvcwAywhpskCePTdyZTS2L4qto4UQ0LQVUfxLoltbCaV2OV/PnJvANhgV7W
+	TresNeKibJQCpN1Mz819zs6E04uz59wVEcvOQZMJwftngPPWedMv1BiB7K20+U6PXAPsWLhtSJr
+	wgSgPxMk1/uZ1NcI42x0=
+X-Google-Smtp-Source: AGHT+IHGV6KTJjO6YOxBOSnA3bu2gMF+DC1x7BOk7w/9r1S8JPMjnHhC+6uDDjwViwSp+DqWZK5QRg==
+X-Received: by 2002:a17:903:288:b0:248:9677:5f33 with SMTP id d9443c01a7336-248967763b3mr56989255ad.3.1756333123181;
+        Wed, 27 Aug 2025 15:18:43 -0700 (PDT)
+Received: from fedora ([2804:14c:64:af90::1001])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2466877b67bsm130771905ad.4.2025.08.27.15.18.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 09:00:26 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 27 Aug 2025 09:00:25 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
-Cc: ninad@linux.ibm.com, corbet@lwn.net, jdelvare@suse.com,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] hwmon: crps: Fix typos in crps.rst documentation
-Message-ID: <aef9db31-5504-49b5-8b0f-e776c27a5b17@roeck-us.net>
-References: <20250822132836.5384-1-kerneldev@debanilchowdhury.com>
+        Wed, 27 Aug 2025 15:18:42 -0700 (PDT)
+From: Marcelo Moreira <marcelomoreira1905@gmail.com>
+To: cem@kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v3] xfs: Replace strncpy with memcpy
+Date: Wed, 27 Aug 2025 19:17:07 -0300
+Message-ID: <20250827221830.23032-1-marcelomoreira1905@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250822132836.5384-1-kerneldev@debanilchowdhury.com>
 
-On Fri, Aug 22, 2025 at 06:55:02PM +0530, Debanil Chowdhury wrote:
-> Changed a misspelling in crps.rst documentation:
-> "Critial" → "Critical".
-> 
-> Reported-by: codespell
+The changes modernizes the code by aligning it with current kernel best
+practices. It improves code clarity and consistency, as strncpy is deprecated
+as explained in Documentation/process/deprecated.rst. This change does
+not alter the functionality or introduce any behavioral changes.
 
-$ scripts/checkpatch.pl index.html
-ERROR: Unrecognized email address: 'codespell'
-#124:
-Reported-by: codespell
+Suggested-by: Dave Chinner <david@fromorbit.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
+Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
+---
+Changes since v2:
+- Fixing some errors in the commit message.
+Link to v2: https://lore.kernel.org/linux-kernel-mentees/CAPZ3m_iNj2zwpAovv3BTz8gNp5XzdxSRHBFonM9sJvaSjYVBeg@mail.gmail.com/T/#t
 
-WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
+ fs/xfs/scrub/symlink_repair.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Guenter
+diff --git a/fs/xfs/scrub/symlink_repair.c b/fs/xfs/scrub/symlink_repair.c
+index 953ce7be78dc..5902398185a8 100644
+--- a/fs/xfs/scrub/symlink_repair.c
++++ b/fs/xfs/scrub/symlink_repair.c
+@@ -185,7 +185,7 @@ xrep_symlink_salvage_inline(
+ 		return 0;
+ 
+ 	nr = min(XFS_SYMLINK_MAXLEN, xfs_inode_data_fork_size(ip));
+-	strncpy(target_buf, ifp->if_data, nr);
++	memcpy(target_buf, ifp->if_data, nr);
+ 	return nr;
+ }
+ 
+-- 
+2.50.1
+
