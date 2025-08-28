@@ -1,121 +1,129 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B86239567
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 28 Aug 2025 09:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F2230E84F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 28 Aug 2025 11:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756371879; cv=none; b=gIL9Wkb0SkNZg/X3NQf9/O2JlXNwELWiMOpW7gvsHBuq//LWyyafu1Fc3EwFvQGt/eQtVnPGLL4pcfDpdwB+GOAFmGY6V7QVHFqQuzcqrZrXM3mmDl2gbBO540RH8tiAuAF/Wqml8otSkkO+R5cOMBrndlH+inrpQfiWaE9HJp8=
+	t=1756381360; cv=none; b=BovPKB6QdiSgMauwuNlZrIaOPn0I9uL1vKn6T7p3rUJb4baOy8f7WrYuLpNd4nWLorXwMTNDHmzITYSaTpTyrgTSpacOzKo+Y745xUL98Hml4yyxJ1ploWPKzt/mkuuU3mT4PC7QTkwGuFaWFiyaSrU2QOdai0+2RtcYV9JXlN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756371879; c=relaxed/simple;
-	bh=hRK0Sb+Fg+moOucKy1QoEZah/D9LVeRrBHJajkahztI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cEcqdGCeRoY0G02YfxjTv7GsHDWtvrQbTmcMp8EaJ3vNZWORY6MvjQzLnhQfZ782WpUFKNfmqGMk6rxix9zXcs3cqfuP72q0P7Pq5yajNlv7mFK2A70U6Y+AcKgFh5XO+iv5qu1R2Q1wurZoLr3O4gdDdubqG21SIeFT5gZ/WBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DuzZrICk; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756381360; c=relaxed/simple;
+	bh=3kSZhBrKvz2aAzAzrAw6TsTEbys099B0Bx2hGX4t6q8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RHZBkPTbe2ein3G9gDVL/nVwf3PdXevNfDLhKTNi6PQFbWjN+0/sClqS6pu3z4ofdJ5vVFvwrBJWBSbA0yRSHB4055c8owxDE1akkkaEM1WT9rl2mF4S7MPPMeH8KUNZ1AZs5bFalkob7c03GZ+PkW0yR4vh6i2DMxJqeqM+2P4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OTmHnZtW; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DuzZrICk"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-61cd6089262so804611a12.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 28 Aug 2025 02:04:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OTmHnZtW"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 71FB040C39
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 28 Aug 2025 11:42:38 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id gz1svWjtLbsn for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 28 Aug 2025 11:42:38 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=vnranganath.20@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org E6D6940411
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E6D6940411
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OTmHnZtW
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id E6D6940411
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 28 Aug 2025 11:42:37 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-2488be81066so1850675ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 28 Aug 2025 04:42:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756371876; x=1756976676; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tOx9lloLStGsUr/cYYKvjnib6ty7T7a+IBpLJTo9IUw=;
-        b=DuzZrICk1a8w2JztWv5sFVCSF+cxthzpgZRMgn9+78/zMLjK3P4liqwb+xiYNQ3wzD
-         RzY6eYSw+m9M0Ku51Hgpiwe/iqw1uqUxTt84KA2YNaY8tI+eWHGuem+Kr2HugVwyyIFf
-         sLwp5PI+NbhDYTr6Ehe0UAghuG4hv5iDI6t1nXkH7BtQ0cGt2J8FEtviLUBvED9xCFbq
-         GwiQbGECF5sZur8NVWMvooE1SFR+tfxpLlYkIGTbPrAAFTQy732N3FXXZJ1O4lV9w42E
-         bFWwYX0zg7IDWhWoQFC3ns3XD8bgJX01gNDZAW06P/UrUSZOEwOZjPLv2/6pzHai99Od
-         zQvA==
+        d=gmail.com; s=20230601; t=1756381357; x=1756986157; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zz5OdET14bvbaoUZxADja3Cnod6iht4siGFZlr3OPzI=;
+        b=OTmHnZtWA91uQYKhYPB9MjMN+nWyK6xriSVfr2HBcoRHJuJ/d+hbUyY+I8D90zMz5h
+         8Rrpivnw2ZT+shKpPun52YEDI0H6SsUC8WEqPVia6bVlN199DtEQP0gMUqXXkvG+nl9V
+         SyK5N4tOXTETzzMiHqto5vfyCmz0RciKdCzfMuw9OnQWGSv32Q9a5sC/PjpnWRFjrhhb
+         2MLbqXAq2YJywG/bJYkhED6sGmeyfwGSF/KRTE+fos6y4HqHUlJe/3Oei76m2FUo4t0R
+         U9QaKukGKyn7+BA9BAhDelZ1m7jW1Sddd8TFs8Jpf66gwGwkAmH18ldttHaLW35lq72K
+         E+Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756371876; x=1756976676;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tOx9lloLStGsUr/cYYKvjnib6ty7T7a+IBpLJTo9IUw=;
-        b=pcpkEQcAugvOwcaOdhxiviN5Ay6NmBeU4Bn8n+1NUvWEHOF7ffVBFIdhX+QzImNpjg
-         cyil+lOXRyCHhtsukYSn4CelLflbPE+2IHu/lG8R9UMcD2bahgizFK5HctMCq+upb6tR
-         /WIT3dtenTyBUFu6sKLKFNWSiJQb/tPDojGcmq0M1+MyD+O/rX1Akw15S7Nc5egzJ8Uq
-         Mg4OgDe6AR0kubGCo4xHWLi72e4E2tz5FpS4es3Lh4k1UnJaiBoNdp+lfT22zkIDeISn
-         7BJVKS0wlvihgVGdGGMmuVKZWvCKtB+2rsvTdm7KP9R5Fsy+/9TT2jpVnZkV4sDIBWJE
-         wW2A==
-X-Gm-Message-State: AOJu0Yz01aPlu3IlzMoLQBiEewYPKhPI3Ti56gIUHU1xUmXwnAbNUeRa
-	xb+0RFB+tRjqypU9LOirbTen45Ck+f7XvXnPLYStyU4Po/JCxA87r5P4hn8spdhLzIPnb0TbIr8
-	HlrdTpFThNGo5Eq5mfgtEbPzW+3SJWGAMaBbM
-X-Gm-Gg: ASbGncsrHlsPp7caK3RqVRHHWxFcl1Wdvx7+AeiTsGt4fXOCM5qDJ8GE9Rov6mT3gEo
-	C/EzIv8bRTSP1vpmeSmg+p+Rj4NUMc4xMmv6Slwi18bBGwpg/O6cg3ZWXsD2C083LsraJ6UxiaW
-	y0rR62o7jnChS48eDwKoF3Mgzov3f2bNaxcLobHwvEWW0SoqiRBecvSokMFc2ACtT9g/SK4rq5S
-	V80k+pWlsNi17GzFOIwD0QhNMV78K/qX4HIWyNKK8narQk1hEixbg==
-X-Google-Smtp-Source: AGHT+IHcJFdAifQIslq0uvKI3Rzbb5QbNWULfF1T2NaktyjXUhCqzNssX+4yvDW7YSazMP/SbZw+4iENUl4i3BebswE=
-X-Received: by 2002:a05:6402:3591:b0:61c:cf9a:d479 with SMTP id
- 4fb4d7f45d1cf-61ccf9ad68amr2039661a12.10.1756371875600; Thu, 28 Aug 2025
- 02:04:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756381357; x=1756986157;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zz5OdET14bvbaoUZxADja3Cnod6iht4siGFZlr3OPzI=;
+        b=TypW9Ok+vnmRuLog95pfvArj01YXn03k54W2JK8DE7Rt3qPV2Y8xH/9XxlsLo36pXn
+         6lm4LugSzHJYr0PNXxm58Kbr4gvvmdKvvvQdGXaBb9VQ/+FPiknVXzvhkodrdUpH0jJe
+         BggOHvsw7zPGREvwY/nhCmc0H3zwZsgIBUSq/kKKSgbN+c65DHe3ZrkIvAW41l6Mj30b
+         lHMypv9I22o1DkpbFvP+W2jvugweZ2c4uvbWnzg8yXsjB6LIbuV8kxKAUdQiq85HUCWE
+         unGa9+TXlMZzjhtLkh/hCwzRyb0Nyy4y+nckk+32OfzsLZXJ2mjEYZwWt9y+AVG1iXIC
+         a0Gw==
+X-Gm-Message-State: AOJu0YzJ0kk8/qDsGZMIg1Xgx13qMwSPsNVf3Ag254fsQme8mHUIVWkI
+	t1czMAexb8Pp2Tr3/3qbjTK2idXgI8dGvloniFcx4E+hGv/xjaEh38wv
+X-Gm-Gg: ASbGncvuhFYYkUcOddNI7ETSn/Yb+X+5M4mq7/w4b+KYTayka1ZEE1lIlHRHC1d8xjp
+	zO3EYHMpejKpBepy1hDYReAJva2okjzyn3QDoEpPn6Eit27/0de0uK5s+bzxJlac9px2iHu6jrW
+	gWkWO5RfycWr9LgwlDhBk8kP6kL1CKnOsqM/S4HGFJvQZWmprEMfUkADahtI+dtHBUcior9ysmb
+	8Og/dXXlho3VOjQcynVRLbIYUcvo/2oPd1e1TJm8Ag42jDi/m3cSACWVSVF2C/T2gn335aSIvjN
+	qpeFINaSJY/pggFSu+lqbqRLFknRAs9tV/JOU2RLlOz4+5k8vlfLp3DiQ35DlS/DzOkKFgUvgXF
+	DCW8/71JQtT0ZvyUUPNaRN3TTTcvj
+X-Google-Smtp-Source: AGHT+IGddHuFzGZuA8gyKj/JALukMUHFV1egCTs+17Xm1ZCD3HJRFq3WUNgi8BFJPyAK43GHrynRNQ==
+X-Received: by 2002:a05:6a00:190e:b0:742:94fe:c844 with SMTP id d2e1a72fcca58-7702fc0c607mr15188840b3a.4.1756381357080;
+        Thu, 28 Aug 2025 04:42:37 -0700 (PDT)
+Received: from ranganath.. ([2406:7400:98:c01d:64c:3fe1:6c19:3ca8])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-771cd487f90sm11537306b3a.97.2025.08.28.04.42.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Aug 2025 04:42:36 -0700 (PDT)
+From: Ranganath V N <vnranganath.20@gmail.com>
+To: anthony.l.nguyen@intel.com,
+	przemyslaw.kitszel@intel.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	intel-wired-lan@lists.osuosl.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	Ranganath V N <vnranganath.20@gmail.com>
+Subject: [PATCH] net: igb: expose rx_dropped via ethtool -S
+Date: Thu, 28 Aug 2025 17:12:08 +0530
+Message-ID: <20250828114209.12020-1-vnranganath.20@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAPrAcgM1nbq97SfZmVNonG-HTA8pQrUQ8_AH4xQ8qp97xFyxMw@mail.gmail.com>
-In-Reply-To: <CAPrAcgM1nbq97SfZmVNonG-HTA8pQrUQ8_AH4xQ8qp97xFyxMw@mail.gmail.com>
-From: viswanath <viswanathiyyappan@gmail.com>
-Date: Thu, 28 Aug 2025 14:34:23 +0530
-X-Gm-Features: Ac12FXxZR3b7Ve8IYF0o1KFJpVycXSOccolkwBQDjdXcF7SNOGd_gsnPRgbGAtA
-Message-ID: <CAPrAcgPQV89s81AwGTyMw+NtAmB-2Th6P9Ymr2epQ5jy+ra6WA@mail.gmail.com>
-Subject: Re: Query regarding Application Packet
-To: linux-kernel-mentees@lists.linux.dev
-Cc: Shuah Khan <skhan@linuxfoundation.org>, 
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello team,
+Currently the igb driver does not reports RX dropped
+packets in the ethtool -S statistics output, even though
+this information is already available in struct
+rtnl_link_stats64.
 
-This part from https://wiki.linuxfoundation.org/lkmp was the source of my q=
-uery.
+This patch adds rx_dropped, so users can monitor dropped
+packet counts directly with ethtool.
 
-```
-Complete Skill evaluation & Application Contribution - 4 weeks
+Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+---
+ drivers/net/ethernet/intel/igb/igb_ethtool.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Step 3: Complete Skill evaluation task(s) assigned to you as task(s)
-in LFX Mentorship.
-Work on mentor assigned tasks to learn you project area.
-Make small contributions to the projects. You are highly encouraged to
-contribute to Linux kernel Documentation , and Selftests. Please cc
-Shuah Khan, other project mentor(s), and Linux Kernel Mentees Archive
-on all your contributions.
-Report contributions
-Bugfix report contributions
+diff --git a/drivers/net/ethernet/intel/igb/igb_ethtool.c b/drivers/net/ethernet/intel/igb/igb_ethtool.c
+index 92ef33459aec..3c6289e80ba0 100644
+--- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
++++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
+@@ -81,6 +81,7 @@ static const struct igb_stats igb_gstrings_stats[] = {
+ }
+ static const struct igb_stats igb_gstrings_net_stats[] = {
+ 	IGB_NETDEV_STAT(rx_errors),
++	IGB_NETDEV_STAT(rx_dropped),
+ 	IGB_NETDEV_STAT(tx_errors),
+ 	IGB_NETDEV_STAT(tx_dropped),
+ 	IGB_NETDEV_STAT(rx_length_errors),
+-- 
+2.43.0
 
-Complete application and submit: Application packet should contain a
-short summary of your skills and what you learned during the 4 week
-application period and include a report of all your contributions.
-Upload your application to the =E2=80=9CSubmit Completed Application task=
-=E2=80=9D.
-```
-
-Apologies if this is outdated and if there is no longer a "Submit
-Completed Application" task or requirement for an application packet.
-
-Thanks,
-I Viswanath
-
-On Thu, 28 Aug 2025 at 09:28, viswanath <viswanathiyyappan@gmail.com> wrote=
-:
->
-> Hello,
->      I have submitted all my tasks but I didn't get a "submit
-> application packet" task in the portal and I thought I have to wait
-> for it to appear.
->
->  My application is at the pending stage right now even though I have
-> done all the tasks assigned to me.
->
-> Can I mail the application packet or is
-> it too late?
->
-> Thanks,
-> I Viswanath
