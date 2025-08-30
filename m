@@ -1,66 +1,66 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9682D9EF8
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 Aug 2025 18:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492FB2DBF78
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 Aug 2025 18:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756579398; cv=none; b=Q5rU5N4v5EDRQurs5AZVZAN1Ykd0eLBORztc7lO6I1FlsyhlkdQcO++yCEGEYldKXe+SBCJ0Pif46WWOWX5t0tV4W6qt83mq/ICE1IfShTXV9U+oFljyonZHnHj8/UFsUxzXs05seoLHnvqNQ0jX9NhuVPTV8E+H/BAMTdORcBg=
+	t=1756579404; cv=none; b=l8dAx9PgMb9fb3yRSNqUbxu9d4Z42Kie2K/QVYPrqo33GVFB1NE9QxKRBJT6PNiYOQBRIWmIn+aiUu2b5rWn7cTmijpeg+f0sws+bI3bwK+Zm6YHiZ8cosZc3ypIXdAnlVcHE25E9OxrH862u5yjZI7UvCUQz0N+9BRCs0dRZzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756579398; c=relaxed/simple;
-	bh=oVbXo+WlMRVlhb0eRpFRU7JepS0fcP7SScAWqWR1jf8=;
+	s=arc-20240116; t=1756579404; c=relaxed/simple;
+	bh=2BQki3rOQvZSSbICEdQ41lJZWBOC1qWNjLJixqk7BPY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=H36qUCEGSZ6SPgcFq7BwajNFdkDJreX2IgsecVpRzoJPnr0XX0KDncMassAFnEsOkDHoTGPZpmIcFAyxn6JhN2mKo/0i9bOGKSHxPA5v5fvrDU+81TmdOTj0muHTAsQE4WMuaewimBDq0qQ91pcllR942D+yI/Ll0a73RuJyc4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nJ5fP9dd; arc=none smtp.client-ip=209.85.214.174
+	 In-Reply-To:To:Cc; b=fYW8W8qvuR2LKAzAX7glPueZgN/Bx0V9/Dte3/pijslAwYWo81eACebAldijLePS+rUuc9HpXL2R+ORWrYF//P+qoIovXZTxXdXOsY0jkXi1pEDgx9LSuIUOqJnEX0nVsxoAB7tJWPxlXfiUVaBqWwesHcB2ErrgH6aON/nJXqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MLOBlvSf; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nJ5fP9dd"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-248a638dbbeso28066025ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 Aug 2025 11:43:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MLOBlvSf"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-248ff4403b9so20191135ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 Aug 2025 11:43:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756579396; x=1757184196; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1756579401; x=1757184201; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zk13z4Oe3MH+BwozPqkdTJOMupLgkm8t2078zZl5Y1c=;
-        b=nJ5fP9ddHYeS//LyGZnb8OJREKLfDn0Pv0futtxWJM/6Yn4qNR1XUdtrcr14jmB4Xt
-         X4h9/l0JFE02nwbEfHVjhJfcHfl9/VsBcgDP9+UCEGSvhFgWqZSFzMDsUcGFdCtcnYif
-         0zBPml4S/hOp+2bTSKgqJaUCbazJ6IhEO+1Jh1BGuaQfsabSqHXHCA8x1/tgYZhFhYVg
-         POWF+JsO7bFpnY3ni4Zg3DAGndYiL+PezAZQtrfhsUaSQ+2ch/Mk9sMo6kbwMQSWtNku
-         NW53WK0DQGWVBFV+QH4Nt+PEbLV20Jzw0ijFQGigKffyPjzS7NQRxmoLNJvpbUn4jh4f
-         VAIA==
+        bh=sYn8yD0BD7KBURI/1KwhOSv9mwPsTskduF2no0+ubVQ=;
+        b=MLOBlvSfSzxBVVm/yFhWitbrXdndlBf70ZDpwMzOY6bWvcIKnOwjvJK7rWHMEB9MYG
+         C8ZUdOLfuTPZxJZzhdy134l0SNsz5vPwlr8uN6cVyXaBrSOY9dJwa8clPoxxj0B41l87
+         ZQF/dmc01Axuw5PClcSUl3JPpwlj9a7lKwf+8+TkxdMKhcMAPsVvjMam7Xje8MsOel2G
+         yaDHZ+1KIa7GLK7xwOzJbhLgjui0yN4rZ9kIV6dZwPI3oqfJaU8uH212tABwjWXtPS5T
+         tZuNFW72LRRVxmxWtbnWkmU/usL0Kx6IDoXkoj6o846rmrhs8sOb6IoXwDZB/XInirzE
+         ZvIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756579396; x=1757184196;
+        d=1e100.net; s=20230601; t=1756579401; x=1757184201;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zk13z4Oe3MH+BwozPqkdTJOMupLgkm8t2078zZl5Y1c=;
-        b=s947gd/r8u+C+xBijxru/joCuVz0EYmCcTNgY0w0p7ofdqPuerxsijAXzmimEDBulx
-         hfEwxLgpeK2EdnwmTf5r1lTfL7bvEK/UUQgQJ6piZYT0Lnw9iGYby7MEPJ+IwB9KpeUE
-         9l/jw+RPqOwz9YbvEbaqtNxkZ93wResR0sfni6AaA5iQprWyUgxgY4xR9k/Y6b6yEIdA
-         aknezjL4DPKU/7qa1RP7eveGm5bgrmFNYED/NXyL5gxRTHjFjXPLLYfJglpDeyBK1hqA
-         1q0QIvb4RWIn808JcuVPtndX9Ibd4D/Sv2tj0S/LCA4/mscPRrDJOhLcQIbm09Gjoj/h
-         d15g==
-X-Forwarded-Encrypted: i=1; AJvYcCWnPW5LOCshlKoqtPSdiMGoVvXKgs9j0RXFl39OEbgUdMwcfWD80drq2IWjOuScs1UMYz5CFEp1XOiwAHfZ6gfwLRunDg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTQurK8e1ro7+/ic9xNSLLD4cTT2k3S+szWqqt+A4Is3oDYeXb
-	ir3qBMsEBRa9dksLKoMD69yySvPKOS0usSF+6NXfh9xhM91CQu1l8Cg0NGIhOb8S
-X-Gm-Gg: ASbGncsmpyJnPJFjMxmq8LlSp3m21yg13FOmRUnzbkU5qKMeaFxcuxNpcayLweoUo9C
-	fJyEqCEiBCOSPgtubERRGBWf+delsq41F3YcosAOlX/CktsWxUWkQn4hEGxOIugn19c/3T4XY2J
-	H8trrZeh4v1lmt2ham2MgjlUbLPsINNIB8PcR9qxLkTQfY2G7JA7/stRvzcyyn0A2Cm9IVdpcKV
-	GVnZcdjcfuskIw5DBpB6c3EX++JZp3C9j55F43UcJoAza4Njn0pad1e38zfVfG3nXlO4AZDVZkp
-	pTk2gThTEoyBp5QioOP4IMR03iKPSINpDW3JGoxI9ewl94GuJDyUYhfR4VSSLcy+CxN5GjCnKZn
-	YJHeXheuuVWrSuex5N1rZ+dx16z+AyBKBKd163A==
-X-Google-Smtp-Source: AGHT+IHiAEKzjNZ893PL+wikbfz76WmuOnADXgWPN/rVP9WwwZX/uNaqkN6hmqwjlZCMidnBEi0GKw==
-X-Received: by 2002:a17:903:32c9:b0:245:fa00:6e25 with SMTP id d9443c01a7336-24944a9bebdmr38079485ad.28.1756579396315;
-        Sat, 30 Aug 2025 11:43:16 -0700 (PDT)
+        bh=sYn8yD0BD7KBURI/1KwhOSv9mwPsTskduF2no0+ubVQ=;
+        b=ZUL3P44MQER2qV/psXoLudJlW5BfuslA3EaahLYD6ousEjKslaTOJPZkbjf7dly7rU
+         G7SS7JW2sWp2gtXnGZNQZVvmRDl8ned+VvCXaiwEmxwimxKw9xP4OrEOcMbPJFOHuZZc
+         Iq70IgxCKPTIioVLTebxRP5fEofD3IuWD0opb+6RnogGOc5ctMUiFdsxxatuV7PaunDs
+         JHSHpw9SxyZeOVRKFXgDsQkV/6oDoGX/uBAIYhRHFvUTUpfzTovqXei4Ld6YNonCh/sX
+         /J3PRYMeok3XsmpulEy/TrukOMkJYJxDQVjuenh51CkfnWq/3UK5GOeD+C+XenoDCXhD
+         SYdw==
+X-Forwarded-Encrypted: i=1; AJvYcCW1Q8qgsnn1jdjqrUNVGVkgkV6Y6Ehw9A8EDmRvLP8FhwbTBK5TOUP5c4bggBpui9BLm9MjaSX7en6zKXhddfa1iLSatA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzeC7LTtH0e9/SKICFBwU0nfy4maGVmhuzk2/eMgg3DzUYUtf+b
+	CVqUPKpXhVaaHDCugaXQ3fJD4pHX63fk74S4ZQ41yXrfrIKm0ZhahrpK
+X-Gm-Gg: ASbGncv/lQ8GLHJpfN/KKBjU+Ry/hdK5lwVXTklHgyrldhTNvxtsKvLIue3/t1LMF++
+	/dTxtTDD4ZC+v+1unP+5xux+S1d4riutM/HLn3jUrh+WqgP6vOeVbcvOToHYH8pi19jI8R2Hyxz
+	HgmIkb+B2ExBOaLy9dnXFzm1xzaHhtPMEVcwn1xKF8/V59LVxpdOIy6ALNueVX/C8KiERGmEBBO
+	mXuOelNO0F0karIj9Na7E6L3IlLWvwyEvcvsTc6dRdy2QUbAPFic+cclpeP7x6+K9l0BBOahVAF
+	vRTp3hjNKj5PuMXzWFlBsyWTzKVyI4NU+pvrBZjjcpf7JuM7FIBHCIhXTxR1iU5qY2UGdaCOosQ
+	x9+hDeNRPrX3EubvZqJksBij03id66vt8lb5xKA==
+X-Google-Smtp-Source: AGHT+IF2RiISKjH88j+9XDvLxOnJgFclY1F4bSMS27yUB5LyojfMcA1dqZ9K8n7Et/oH1Q+N6LP4XQ==
+X-Received: by 2002:a17:902:f68f:b0:246:2e9:da9e with SMTP id d9443c01a7336-2494485bb9bmr42532885ad.6.1756579401386;
+        Sat, 30 Aug 2025 11:43:21 -0700 (PDT)
 Received: from [192.168.1.19] ([122.177.240.86])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2490658999fsm56821665ad.112.2025.08.30.11.43.12
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2490658999fsm56821665ad.112.2025.08.30.11.43.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Aug 2025 11:43:15 -0700 (PDT)
+        Sat, 30 Aug 2025 11:43:21 -0700 (PDT)
 From: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-Date: Sun, 31 Aug 2025 00:12:45 +0530
-Subject: [PATCH 1/5] dt-bindings: iio: imu: Add ICM-20948
+Date: Sun, 31 Aug 2025 00:12:46 +0530
+Subject: [PATCH 2/5] iio: imu: add inv_icm20948
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250831-icm20948-v1-1-1fe560a38de4@gmail.com>
+Message-Id: <20250831-icm20948-v1-2-1fe560a38de4@gmail.com>
 References: <20250831-icm20948-v1-0-1fe560a38de4@gmail.com>
 In-Reply-To: <20250831-icm20948-v1-0-1fe560a38de4@gmail.com>
 To: Jonathan Cameron <jic23@kernel.org>, 
@@ -83,63 +83,441 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel-mentees@lists.linux.dev, 
  Bharadwaj Raju <bharadwaj.raju777@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1756579380; l=1510;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756579380; l=13258;
  i=bharadwaj.raju777@gmail.com; s=20250830; h=from:subject:message-id;
- bh=oVbXo+WlMRVlhb0eRpFRU7JepS0fcP7SScAWqWR1jf8=;
- b=cK6T2sOCnhY+6oWzEJ29uRSw2k4Ip7H30NUZdkO1uKtolKDKWb1JA+B5ESNnIftxn5E/mXNLF
- yAZf5y3MDa0C/bTJ/mgzQvpNozNyUeurGMUf0YjbhPVzx0NYKEeSxlz
+ bh=2BQki3rOQvZSSbICEdQ41lJZWBOC1qWNjLJixqk7BPY=;
+ b=5MZZHCT9HMAIpD2HFFAgin3vhl3D6hSjQm+GOzEVg7V7Q5b5zWUcJJtHKhPIJT3n5FKT/6OxK
+ vNiWqyvDf1dCpsTQZfJ9SXwSeH/UmnLcwazYtJ/Q7HNINDo2xs2YKD6
 X-Developer-Key: i=bharadwaj.raju777@gmail.com; a=ed25519;
  pk=s+pP76EgUCC/7pyu4E6Q5AizWQ1T6hUf1jUWrQRl040=
 
-Document device-tree bindings for the InvenSense ICM-20948 device.
+Core parts of the new ICM20948 driver.
+
+Add register definitions, probing, setup, and an IIO device for
+reading the onboard temperature sensor.
 
 Signed-off-by: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
 ---
- .../bindings/iio/imu/invensense,icm20948.yaml      | 36 ++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ drivers/iio/imu/Kconfig                          |   1 +
+ drivers/iio/imu/Makefile                         |   1 +
+ drivers/iio/imu/inv_icm20948/Kconfig             |  17 ++++
+ drivers/iio/imu/inv_icm20948/Makefile            |   8 ++
+ drivers/iio/imu/inv_icm20948/inv_icm20948.h      |  47 +++++++++
+ drivers/iio/imu/inv_icm20948/inv_icm20948_core.c | 122 +++++++++++++++++++++++
+ drivers/iio/imu/inv_icm20948/inv_icm20948_i2c.c  |  48 +++++++++
+ drivers/iio/imu/inv_icm20948/inv_icm20948_temp.c | 108 ++++++++++++++++++++
+ 8 files changed, 352 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/iio/imu/invensense,icm20948.yaml b/Documentation/devicetree/bindings/iio/imu/invensense,icm20948.yaml
+diff --git a/drivers/iio/imu/Kconfig b/drivers/iio/imu/Kconfig
+index 15612f0f189b5114deb414ef840339678abdc562..d59e5b0087398cfbd2719ca914fd147ab067155f 100644
+--- a/drivers/iio/imu/Kconfig
++++ b/drivers/iio/imu/Kconfig
+@@ -109,6 +109,7 @@ config KMX61
+ 	  be called kmx61.
+ 
+ source "drivers/iio/imu/inv_icm42600/Kconfig"
++source "drivers/iio/imu/inv_icm20948/Kconfig"
+ source "drivers/iio/imu/inv_mpu6050/Kconfig"
+ 
+ config SMI240
+diff --git a/drivers/iio/imu/Makefile b/drivers/iio/imu/Makefile
+index e901aea498d37e5897e8b71268356a19eac2cb59..79e49bae59038c1ca1d54a64cf49b6ca5f57cb0b 100644
+--- a/drivers/iio/imu/Makefile
++++ b/drivers/iio/imu/Makefile
+@@ -25,6 +25,7 @@ obj-$(CONFIG_FXOS8700_I2C) += fxos8700_i2c.o
+ obj-$(CONFIG_FXOS8700_SPI) += fxos8700_spi.o
+ 
+ obj-y += inv_icm42600/
++obj-y += inv_icm20948/
+ obj-y += inv_mpu6050/
+ 
+ obj-$(CONFIG_KMX61) += kmx61.o
+diff --git a/drivers/iio/imu/inv_icm20948/Kconfig b/drivers/iio/imu/inv_icm20948/Kconfig
 new file mode 100644
-index 0000000000000000000000000000000000000000..00c8210a0285972f8084137c69a4618a1f674485
+index 0000000000000000000000000000000000000000..79ffbe273e71f27ec33fffa0286eafd7dd11aa29
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/iio/imu/invensense,icm20948.yaml
-@@ -0,0 +1,36 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iio/imu/invensense,icm20948.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/iio/imu/inv_icm20948/Kconfig
+@@ -0,0 +1,17 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
 +
-+title: InvenSense ICM-20948 Inertial Measurement Unit
++config INV_ICM20948
++	tristate
 +
-+maintainers:
-+  - Bharadwaj Raju <bharadwaj.raju777@gmail.com>
++config INV_ICM20948_I2C
++	tristate "InvenSense ICM-20948 I2C driver"
++	depends on I2C
++	select INV_ICM20948
++	select REGMAP_I2C
++	help
++	  This driver supports the InvenSense ICM-20948 motion tracking
++	  device over I2C.
 +
-+description: |
-+  9-axis motion-tracking device that combines a 3-axis gyroscope, 3-axis
-+  accelerometer, and a 3-axis magnetometer.
++	  This driver can be built as a module. The module will be called
++	  inv-icm20948-i2c.
 +
-+  https://invensense.tdk.com/wp-content/uploads/2024/03/DS-000189-ICM-20948-v1.6.pdf
+diff --git a/drivers/iio/imu/inv_icm20948/Makefile b/drivers/iio/imu/inv_icm20948/Makefile
+new file mode 100644
+index 0000000000000000000000000000000000000000..c508c2dc3eee2c32be20067e3e0868a203d8aa1a
+--- /dev/null
++++ b/drivers/iio/imu/inv_icm20948/Makefile
+@@ -0,0 +1,8 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
 +
-+properties:
-+  compatible:
-+    enum:
-+      - invensense,icm20948
++obj-$(CONFIG_INV_ICM20948) += inv-icm20948.o
++inv-icm20948-y += inv_icm20948_core.o
++inv-icm20948-y += inv_icm20948_temp.o
 +
-+  reg:
-+    maxItems: 1
++obj-$(CONFIG_INV_ICM20948_I2C) += inv-icm20948-i2c.o
++inv-icm20948-i2c-y += inv_icm20948_i2c.o
+diff --git a/drivers/iio/imu/inv_icm20948/inv_icm20948.h b/drivers/iio/imu/inv_icm20948/inv_icm20948.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..f9830645fbe96fd02eef7c54d1e5908647d5a0fe
+--- /dev/null
++++ b/drivers/iio/imu/inv_icm20948/inv_icm20948.h
+@@ -0,0 +1,47 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Copyright (C) 2025 Bharadwaj Raju <bharadwaj.raju777@gmail.com>
++ */
 +
-+examples:
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
++#ifndef INV_ICM20948_H_
++#define INV_ICM20948_H_
 +
-+      icm20948 {
-+        compatible = "invensense,icm20948";
-+        reg = <0x69>;
-+      }
-+    }
++#include <linux/bits.h>
++#include <linux/bitfield.h>
++#include <linux/mutex.h>
++#include <linux/regmap.h>
++#include <linux/i2c.h>
++#include <linux/iio/iio.h>
++#include <linux/err.h>
++
++/* accel takes 20ms, gyro takes 35ms to wake from full-chip sleep */
++#define INV_ICM20948_SLEEP_WAKEUP_MS 35
++
++#define INV_ICM20948_REG_BANK_SEL 0x7F
++#define INV_ICM20948_BANK_SEL_MASK GENMASK(5, 4)
++
++#define INV_ICM20948_REG_WHOAMI 0x0000
++#define INV_ICM20948_WHOAMI 0xEA
++
++#define INV_ICM20948_REG_FIFO_RW 0x0072
++
++#define INV_ICM20948_REG_PWR_MGMT_1 0x0006
++#define INV_ICM20948_PWR_MGMT_1_DEV_RESET BIT(7)
++#define INV_ICM20948_PWR_MGMT_1_SLEEP BIT(6)
++
++#define INV_ICM20948_REG_TEMP_DATA 0x0039
++
++extern const struct regmap_config inv_icm20948_regmap_config;
++
++struct inv_icm20948_state {
++	struct device *dev;
++	struct regmap *regmap;
++	struct iio_dev *temp_dev;
++	struct mutex lock;
++};
++
++extern int inv_icm20948_core_probe(struct regmap *regmap);
++
++struct iio_dev *inv_icm20948_temp_init(struct inv_icm20948_state *state);
++
++#endif
+diff --git a/drivers/iio/imu/inv_icm20948/inv_icm20948_core.c b/drivers/iio/imu/inv_icm20948/inv_icm20948_core.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..ee9e4159cffa261f0326b146a4b3df2cbfbd7697
+--- /dev/null
++++ b/drivers/iio/imu/inv_icm20948/inv_icm20948_core.c
+@@ -0,0 +1,122 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Copyright (C) 2025 Bharadwaj Raju <bharadwaj.raju777@gmail.com>
++ */
++
++#include "inv_icm20948.h"
++
++static const struct regmap_range_cfg inv_icm20948_regmap_ranges[] = {
++	{
++		.name = "user banks",
++		.range_min = 0x0000,
++		.range_max = 0x3FFF,
++		.selector_reg = INV_ICM20948_REG_BANK_SEL,
++		.selector_mask = INV_ICM20948_BANK_SEL_MASK,
++		.window_start = 0,
++		.window_len = 0x1000,
++	},
++};
++
++static const struct regmap_range inv_icm20948_regmap_volatile_yes_ranges[] = {
++	/* WHOAMI */
++	regmap_reg_range(0x0000, 0x0000),
++	/* PWR_MGMT_1 */
++	regmap_reg_range(0x0006, 0x0006),
++	/* I2C and INT status */
++	regmap_reg_range(0x0017, 0x001C),
++	/* Sensor readouts */
++	regmap_reg_range(0x0028, 0x0052),
++	/* FIFO count and data */
++	regmap_reg_range(0x0070, 0x0072),
++	/* Data ready status */
++	regmap_reg_range(0x0074, 0x0074),
++	/* GYRO_CONFIG_1 */
++	regmap_reg_range(0x2001, 0x2001),
++	/* I2C SLV4 data in */
++	regmap_reg_range(0x307F, 0x307F),
++};
++
++static const struct regmap_access_table inv_icm20948_regmap_volatile_accesses = {
++	.yes_ranges = inv_icm20948_regmap_volatile_yes_ranges,
++	.n_yes_ranges = ARRAY_SIZE(inv_icm20948_regmap_volatile_yes_ranges),
++};
++
++static const struct regmap_range inv_icm20948_rd_noinc_no_ranges[] = {
++	regmap_reg_range(0x0000, INV_ICM20948_REG_FIFO_RW - 1),
++	regmap_reg_range(INV_ICM20948_REG_FIFO_RW + 1, 0x3FFF),
++};
++
++static const struct regmap_access_table inv_icm20948_regmap_rd_noinc_table = {
++	.no_ranges = inv_icm20948_rd_noinc_no_ranges,
++	.n_no_ranges = ARRAY_SIZE(inv_icm20948_rd_noinc_no_ranges),
++};
++
++const struct regmap_config inv_icm20948_regmap_config = {
++	.name = "inv_icm20948",
++	.reg_bits = 8,
++	.val_bits = 8,
++	.max_register = 0x3FFF,
++	.ranges = inv_icm20948_regmap_ranges,
++	.num_ranges = ARRAY_SIZE(inv_icm20948_regmap_ranges),
++	.volatile_table = &inv_icm20948_regmap_volatile_accesses,
++	.rd_noinc_table = &inv_icm20948_regmap_rd_noinc_table,
++	.cache_type = REGCACHE_MAPLE,
++};
++EXPORT_SYMBOL_NS_GPL(inv_icm20948_regmap_config, "IIO_ICM20948");
++
++static int inv_icm20948_setup(struct inv_icm20948_state *state)
++{
++	guard(mutex)(&state->lock);
++
++	int reported_whoami;
++	int ret = regmap_read(state->regmap, INV_ICM20948_REG_WHOAMI,
++			      &reported_whoami);
++	if (ret)
++		return ret;
++	if (reported_whoami != INV_ICM20948_WHOAMI) {
++		dev_err(state->dev, "invalid whoami %d, expected %d\n",
++			reported_whoami, INV_ICM20948_WHOAMI);
++		return -ENODEV;
++	}
++
++	ret = regmap_write_bits(state->regmap, INV_ICM20948_REG_PWR_MGMT_1,
++				INV_ICM20948_PWR_MGMT_1_DEV_RESET,
++				INV_ICM20948_PWR_MGMT_1_DEV_RESET);
++	if (ret)
++		return ret;
++	msleep(INV_ICM20948_SLEEP_WAKEUP_MS);
++
++	ret = regmap_write_bits(state->regmap, INV_ICM20948_REG_PWR_MGMT_1,
++				INV_ICM20948_PWR_MGMT_1_SLEEP, 0);
++	if (ret)
++		return ret;
++	msleep(INV_ICM20948_SLEEP_WAKEUP_MS);
++
++	state->temp_dev = inv_icm20948_temp_init(state);
++	if (IS_ERR(state->temp_dev))
++		return PTR_ERR(state->temp_dev);
++
++	return 0;
++}
++
++int inv_icm20948_core_probe(struct regmap *regmap)
++{
++	struct device *dev = regmap_get_device(regmap);
++
++	struct inv_icm20948_state *state;
++
++	state = devm_kzalloc(dev, sizeof(*state), GFP_KERNEL);
++	if (!state)
++		return -ENOMEM;
++
++	state->regmap = regmap;
++	state->dev = dev;
++
++	mutex_init(&state->lock);
++
++	return inv_icm20948_setup(state);
++}
++
++MODULE_AUTHOR("Bharadwaj Raju <bharadwaj.raju777@gmail.com>");
++MODULE_DESCRIPTION("InvenSense ICM-20948 device driver");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/iio/imu/inv_icm20948/inv_icm20948_i2c.c b/drivers/iio/imu/inv_icm20948/inv_icm20948_i2c.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..cf04d82e014a2497592c9a15bbde6e36f431dd56
+--- /dev/null
++++ b/drivers/iio/imu/inv_icm20948/inv_icm20948_i2c.c
+@@ -0,0 +1,48 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Copyright (C) 2025 Bharadwaj Raju <bharadwaj.raju777@gmail.com>
++ */
++
++#include <linux/kernel.h>
++#include <linux/device.h>
++#include <linux/module.h>
++#include <linux/mod_devicetable.h>
++#include <linux/i2c.h>
++#include <linux/regmap.h>
++#include <linux/property.h>
++
++#include "inv_icm20948.h"
++
++static int inv_icm20948_probe(struct i2c_client *client)
++{
++	struct regmap *regmap =
++		devm_regmap_init_i2c(client, &inv_icm20948_regmap_config);
++	if (IS_ERR(regmap))
++		return PTR_ERR(regmap);
++
++	return inv_icm20948_core_probe(regmap);
++}
++
++static const struct i2c_device_id inv_icm20948_id[] = { { "icm20948" }, {} };
++MODULE_DEVICE_TABLE(i2c, inv_icm20948_id);
++
++static const struct of_device_id inv_icm20948_of_matches[] = {
++	{ .compatible = "invensense,icm20948" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, inv_icm20948_of_matches);
++
++static struct i2c_driver inv_icm20948_driver = {
++	.driver = {
++		.name = "icm20948",
++		.of_match_table = inv_icm20948_of_matches,
++	},
++	.probe = inv_icm20948_probe,
++	.id_table = inv_icm20948_id,
++};
++module_i2c_driver(inv_icm20948_driver);
++
++MODULE_AUTHOR("Bharadwaj Raju <bharadwaj.raju777@gmail.com>");
++MODULE_DESCRIPTION("InvenSense ICM-20948 device driver (I2C)");
++MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS("IIO_ICM20948");
+diff --git a/drivers/iio/imu/inv_icm20948/inv_icm20948_temp.c b/drivers/iio/imu/inv_icm20948/inv_icm20948_temp.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..916053740cc5acda0316c76504d4086eff5ec7f0
+--- /dev/null
++++ b/drivers/iio/imu/inv_icm20948/inv_icm20948_temp.c
+@@ -0,0 +1,108 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Copyright (C) 2025 Bharadwaj Raju <bharadwaj.raju777@gmail.com>
++ */
++
++#include <linux/bits.h>
++
++#include <linux/iio/iio.h>
++
++#include "inv_icm20948.h"
++
++static const struct iio_chan_spec
++	inv_icm20948_temp_chan = { .type = IIO_TEMP,
++				   .info_mask_separate =
++					   BIT(IIO_CHAN_INFO_RAW) |
++					   BIT(IIO_CHAN_INFO_OFFSET) |
++					   BIT(IIO_CHAN_INFO_SCALE),
++				   .scan_index = 0,
++				   .scan_type = {
++					   .sign = 's',
++					   .realbits = 16,
++				   } };
++
++static int inv_icm20948_temp_read_sensor(struct inv_icm20948_state *state,
++					 s16 *temp)
++{
++	guard(mutex)(&state->lock);
++
++	__be16 raw;
++	int ret = regmap_bulk_read(state->regmap, INV_ICM20948_REG_TEMP_DATA,
++				   &raw, sizeof(raw));
++	if (ret)
++		return ret;
++
++	*temp = __be16_to_cpu(raw);
++
++	return 0;
++}
++
++static int inv_icm20948_temp_read_raw(struct iio_dev *temp_dev,
++				      struct iio_chan_spec const *chan,
++				      int *val, int *val2, long mask)
++{
++	struct inv_icm20948_state *state = iio_device_get_drvdata(temp_dev);
++
++	switch (mask) {
++	case IIO_CHAN_INFO_RAW:
++		if (!iio_device_claim_direct(temp_dev))
++			return -EBUSY;
++		s16 temp;
++		int ret = inv_icm20948_temp_read_sensor(state, &temp);
++
++		if (ret)
++			return ret;
++		iio_device_release_direct(temp_dev);
++		*val = temp;
++		return IIO_VAL_INT;
++	/*
++	 * Sensitivity = 333.87
++	 * RoomTempOff = 21
++	 * T_degC = ((T_raw - RoomTempOff) / Sensitivity) + RoomTempOff
++	 * T_degC = ((T_raw - 21) / 333.87) + 21
++	 * T_milliDegC = 1000 * (((T_raw - 21) / 333.87) + 21)
++	 * T_milliDegC = (1000 / 333.87) * (T_raw - 21 + (21 * 333.87))
++	 * T_milliDegC = (T_raw + 6990.27) * 2.995177
++
++	 * scale = 2.995177
++	 * offset = 6990.27
++	 */
++	case IIO_CHAN_INFO_SCALE:
++		*val = 2;
++		*val2 = 995177;
++		return IIO_VAL_INT_PLUS_MICRO;
++	case IIO_CHAN_INFO_OFFSET:
++		*val = 6990;
++		*val2 = 270000;
++		return IIO_VAL_INT_PLUS_MICRO;
++	default:
++		return -EINVAL;
++	}
++}
++
++static const struct iio_info inv_icm20948_temp_info = {
++	.read_raw = inv_icm20948_temp_read_raw,
++};
++
++struct iio_dev *inv_icm20948_temp_init(struct inv_icm20948_state *state)
++{
++	struct iio_dev *temp_dev = devm_iio_device_alloc(state->dev, 0);
++
++	if (!temp_dev)
++		return ERR_PTR(-ENOMEM);
++
++	iio_device_set_drvdata(temp_dev, state);
++
++	temp_dev->name = "icm20948-temp";
++	temp_dev->info = &inv_icm20948_temp_info;
++	temp_dev->modes = INDIO_DIRECT_MODE;
++	temp_dev->channels = &inv_icm20948_temp_chan;
++	temp_dev->num_channels = 1;
++
++	int ret = devm_iio_device_register(state->dev, temp_dev);
++
++	if (ret)
++		return ERR_PTR(ret);
++
++	return temp_dev;
++}
 
 -- 
 2.51.0
