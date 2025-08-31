@@ -1,148 +1,134 @@
-Received: from flow-a2-smtp.messagingengine.com (flow-a2-smtp.messagingengine.com [103.168.172.137])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E54E2BD04
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 Aug 2025 04:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CED21B9C1
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 Aug 2025 09:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756616256; cv=none; b=n+d4fINVjze/njidc2uIJfkjzHs54tubOqMbWLeOVJv4+z3EG7LEuX1C77FY1SwIkgk1dkeiBhgIRlhi/JCDry0ThMlhgKGLZ+/twlkfo92Pr3UdtbPkKvCFW9FQoOG+25OkWffZ/pSRN6P7JyMpw8i+1sS1fjmd6L5nNSfLgtc=
+	t=1756634219; cv=none; b=pbeQXBO9ZDRXU0TluutNNMHkjS1P0CHv/I1vebnqdnIxSj4mkiBmp8KyS4SmRctQASvWXrccUtpuLOKGscu9HOa4G2wbk//xA/42ecNZKwD3by79cV8qSFkog4W342a7kfkIZ7sM6OtltNW9f+/nfgCfxxcMrc99OKMWNASdvEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756616256; c=relaxed/simple;
-	bh=ZgdvW6GgvJ1Gj0JKAawiJAVU5WNBvXuwI8BkRynFXcg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fNls5JOwVvILrUwP7C06CyyEqgRA2QilvC8GWKqqLRsjbYtA1bO3sVOWFTfZL7VP9wEu+2fsp4HokCeWcS5YqNA7yMdErcek+NW3nlXEFM/eIlvZgoQ+6vxe2MBS4XwHWVcWM2jR5X232PyFeguHMsVNp3yO63VLnDgk9GUEK5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com; spf=pass smtp.mailfrom=debanilchowdhury.com; dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b=UjewcU/2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=k+Y7ITmh; arc=none smtp.client-ip=103.168.172.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debanilchowdhury.com
+	s=arc-20240116; t=1756634219; c=relaxed/simple;
+	bh=kGtb2RYRdn0Swor8JnLakxT+7d1PidwrZ50+oMn5EfM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bU61zLBJwc5cjQDy4yXghDCBGjUzIuJcUBZDpebiL4upmYDbICa9kfbebChdl25bAIrl19QFm92wYWdpVKNj9qn+iNuen0MguE8cZo5QP1piLCp2okCxevU72rc7TqB5hndc3GS+W0a7E/tJQV1OnosHOxF4shdbINo/y1p7DnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=dbwfZMbe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VIqfHGHA; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b="UjewcU/2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="k+Y7ITmh"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailflow.phl.internal (Postfix) with ESMTP id 5323E138027B;
-	Sun, 31 Aug 2025 00:57:32 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Sun, 31 Aug 2025 00:57:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	debanilchowdhury.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
-	 t=1756616252; x=1756619852; bh=EWxmYn7csugiS8y3bY0p8+D1k3LgZQJI
-	gdJXipDGzfY=; b=UjewcU/28O6nJ39u9OMTxzFMuFZEGZQzY8XzurdIQYNmWjsh
-	JRu0hp3xtF/SOan11vtoDZZR658llIDw/ge+0XK/rquqlat4paZIpZzQcR3WpolL
-	0B4O+HkLNBSBCCgQMe/aMwozsyrshk1z6XTteKempvwgk8O8nujWXcEv5lNL9Iw2
-	g7m9UkH6wS6bg2bPpm/p2MYlrtJjNhrHyFqm/B17817pHBRVVdn7Bzz71zkAbAA5
-	nWDbZeaMe2ECYTPYyajbj8mhuZn/7TDf2ZoTiEA4IeUPIJWpwkCy87Qq2DXPcny9
-	Dn6MicmTtfJxmdNgnzJo9Pp0K5FklDwM2rvBxg==
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="dbwfZMbe";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VIqfHGHA"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id DF3717A0081;
+	Sun, 31 Aug 2025 05:56:55 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Sun, 31 Aug 2025 05:56:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm1; t=1756634215; x=1756720615; bh=mMODJHU8uJag0Sf9/rM/P
+	gx0JRSeeuAwd53OX6+7mb8=; b=dbwfZMbeDYjv794TZ23lsZMClqVFnbES34qBk
+	g431yYz8s9qWehiHtDLypgl754h4/XQWRn2/t2Qfe9d+bvDrNnMDETolbmJaRLX0
+	9LytDpC5vLa5w4Fp6ngXSluOF7zk9UP8tkc2YP3UtbCjYJV3ieFsf8tmuzKuwKrH
+	8YEtZx6J4ik7hO9Hdcz7OmKG0lvRdfkp7wazKbKpzboXD0Ne1V6Jd4ZRSAy8hWiG
+	cGbTGqmI1Z3cx/BfIbJzYGW9nFE1oR4ENvZ9HFzHP2LA9/gh1NsbFEnCyk0/Ez1u
+	cA1LjyMuCj2+aRrVBFi9X6zQgIv1p46wQX1zpQxNHl1qjZ6xA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1756616252; x=1756619852; bh=EWxmYn7csugiS8y3bY0p8+D1k3Lg
-	ZQJIgdJXipDGzfY=; b=k+Y7ITmhp6wWsmVi7PSGvsnQB5q9JnbNLqf5SSqm5zRp
-	OJGjn+4HY4VQvTNBrZ54Zk8sih3VuRsn/V1i/ZxkHhMad2JP2TraYKRPrcHjVJCN
-	NCPiG4ojZv9kJb4Q7c3OSTDPathm24is/isEcQ1IQfCdqPocHQQCR5N2W2kqfRiR
-	WIW+aW7WTUCGLfzIuO9QiQvdwzmo4CR0cV2dLLWEyIXfRYp09Dy+HM7THFgDgGqF
-	VagXAVVPt6R17/Um/b1lvKh3Aj/LuFa0L27NbX4Hz8nhdo0KbW54eFuovnFFxIN8
-	gg9AazPcMP2ITzgPTj4i2qL+2qBgTBQga46cKUEe6g==
-X-ME-Sender: <xms:O9azaCy4mdIlWtz4ZTFXOx649xsNKMJzswt3EKZvqWBc-b3s0dv8pQ>
-    <xme:O9azaG42ya4x4-EGlvdvWybMRbuXfQKaLgwWFb9_vVeYs9_uKYcYlVEqqYOZ1N4qP
-    8lLdd-_QJnz1weLRz0>
-X-ME-Received: <xmr:O9azaLzT37qO9rWtI2r0WKT7WJV0n2QkmarMTXuigeWByFI5N8K3QyHgbOwlnULEtnat5QPTOg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeekfeejucetufdoteggodetrf
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1756634215; x=1756720615; bh=mMODJHU8uJag0Sf9/rM/Pgx0JRSeeuAwd53
+	OX6+7mb8=; b=VIqfHGHASRhyo9pBXT9JGZ412656Aed9cntq7ERzVImFXydwQlk
+	GfcF50Gn98ueaA5AvnGElS91yZAOn/bl1HPDbB4Uho8+1ltiOIUgutH37OKSPiKP
+	DknauPeKoSdShFpGfqBOzWjvCPSSfHWEzVg9fS2DV76yG6gyjaiWBbHq7b4AuSWZ
+	7WdzIEqUG70SH3ZyFaa+E6ierO7ebQTDzVXJ7n8KhLpOUDLlB6NwTWgDroAb3SNw
+	xDI7ZcZg6yWhmxU1Mi7u40cQGqk3vU9ZlrTCyjLhif93nKlLWSw1K8XJSLIZ72Kv
+	byvxJwGX3hS//wtqJubzvQtsajaQtPBA1rg==
+X-ME-Sender: <xms:Zhy0aAJC2lhyQmjjshdiop8-ZsiNCm6qardy6_RkNGiJIJS13uB8Yg>
+    <xme:Zhy0aFKEOcgC0dOCb_KUau0Fi8Vw14CxN44j_K5MqiusttCmxKi2Ft7GZIv1YwA8a
+    3ZKPGeC5U5YVg6blV8>
+X-ME-Received: <xmr:Zhy0aBnKYyCWJcfcaFaGLN36oT3URPDIHTwD696tw95zaI-D0fyERlGiTWcK7oax6vLPhhv7G0gW_MdxRS3ZIRR3f7FYxxg6ktJ2T2RNQCNgLaFo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeekleeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtre
-    dtjeenucfhrhhomhepffgvsggrnhhilhcuvehhohifughhuhhrhicuoehkvghrnhgvlhgu
-    vghvseguvggsrghnihhltghhohifughhuhhrhidrtghomheqnecuggftrfgrthhtvghrnh
-    epuddtfefgffffiefgtddugeefvdeuteefhfeltdeuieejvdeludetveettdetheefnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhgvrhhnvg
-    hluggvvhesuggvsggrnhhilhgthhhofiguhhhurhihrdgtohhmpdhnsggprhgtphhtthho
-    pedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhhinhgrugeslhhinhhugi
-    drihgsmhdrtghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphht
-    thhopehjuggvlhhvrghrvgesshhushgvrdgtohhmpdhrtghpthhtoheplhhinhhugiesrh
-    hovggtkhdquhhsrdhnvghtpdhrtghpthhtoheplhhinhhugidqhhifmhhonhesvhhgvghr
-    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdr
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurg
-    htihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggv
-    sheslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:O9azaCcqo7LBaUhSiCmPvYtTSKLBEO5KCZZ92LH05pAhZfQVlyQbUQ>
-    <xmx:O9azaIBnfRJc1QZXgv9bgS0VY0PeqP3ne42Kzl-xblr2kxYbZPJLjA>
-    <xmx:O9azaO5Ks7xpMaJhoQ-g8nZY1KCv8iNLBZirMi6KS75Y580IqoHjng>
-    <xmx:O9azaJf4vhezExlJjSNEeyZFt5Nvd9kjd1P2G7jWSqA1ahILQ_5YaA>
-    <xmx:PNazaO3oJCdaKZEDTqHJiA8IszZT1rRyxfqH8U-9wauUXwtGVQTcLeZi>
-Feedback-ID: i77364836:Fastmail
+    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpeflrghmvghsucfhlhhofigvrhhsuceosgholhgurdiiohhnvgdvfeej
+    feesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeeitdetffdutdfhve
+    dtvdejkefglefgvdeiveduffdvgfeifeeiveejteeitdegkeenucffohhmrghinhepthgv
+    shhtvggurdhnvghtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepsgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhmpdhnsggp
+    rhgtphhtthhopeduledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghlihgsuh
+    gurgeslhhinhhugidrrghlihgsrggsrgdrtghomhdprhgtphhtthhopeguuhhsthdrlhhi
+    sehlihhnuhigrdgrlhhisggrsggrrdgtohhmpdhrtghpthhtohepshhiughrrgihrgeslh
+    hinhhugidrihgsmhdrtghomhdprhgtphhtthhopeifvghnjhhirgeslhhinhhugidrihgs
+    mhdrtghomhdprhgtphhtthhopehmjhgrmhgsihhgiheslhhinhhugidrihgsmhdrtghomh
+    dprhgtphhtthhopehtohhnhihluheslhhinhhugidrrghlihgsrggsrgdrtghomhdprhgt
+    phhtthhopehguhifvghnsehlihhnuhigrdgrlhhisggrsggrrdgtohhmpdhrtghpthhtoh
+    epuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigv
+    thesghhoohhglhgvrdgtohhm
+X-ME-Proxy: <xmx:Zhy0aDLG2UOT7rrhj6x0VMrZgK08wSh27r9MfAit9Drri6RBqXmQqw>
+    <xmx:Zhy0aEWmGrQGYcR7ldzuTwK2ryDNvdWYwaaKsb1YGIQVQQQtc3TXyQ>
+    <xmx:Zhy0aANCDraOso4Pgy9jpvONZvnDZvbl3wPXYfzs6cg1insEfmgt0A>
+    <xmx:Zhy0aInU7d3muP6s2nJMO2_PaP0_jvzQOuVgxS76OKYtFVt_8Z0mpA>
+    <xmx:Zxy0aMrsv0wi-BviLZ2YU1JR_k9zRhQM7Y36BKUy-vBqZS8Le8VZnSYr>
+Feedback-ID: ibd7e4881:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 31 Aug 2025 00:57:27 -0400 (EDT)
-From: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
-To: ninad@linux.ibm.com,
-	corbet@lwn.net
-Cc: jdelvare@suse.com,
-	linux@roeck-us.net,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+ 31 Aug 2025 05:56:52 -0400 (EDT)
+From: James Flowers <bold.zone2373@fastmail.com>
+To: alibuda@linux.alibaba.com,
+	dust.li@linux.alibaba.com,
+	sidraya@linux.ibm.com,
+	wenjia@linux.ibm.com,
+	mjambigi@linux.ibm.com,
+	tonylu@linux.alibaba.com,
+	guwen@linux.alibaba.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	skhan@linuxfoundation.org
+Cc: James Flowers <bold.zone2373@fastmail.com>,
+	linux-rdma@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Debanil Chowdhury <kerneldev@debanilchowdhury.com>
-Subject: [PATCH v4] hwmon: crps: Fix typos in crps.rst documentation
-Date: Sun, 31 Aug 2025 04:45:54 +0000
-Message-ID: <20250831045710.6009-1-kerneldev@debanilchowdhury.com>
-X-Mailer: git-send-email 2.47.2
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] net/smc: Replace use of strncpy on NUL-terminated string with strscpy
+Date: Sun, 31 Aug 2025 02:49:47 -0700
+Message-ID: <20250831095535.176554-1-bold.zone2373@fastmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Changed a misspelling in crps.rst documentation:
-"Critial" → "Critical".
+strncpy is deprecated for use on NUL-terminated strings, as indicated in
+Documentation/process/deprecated.rst. strncpy NUL-pads the destination
+buffer and doesn't guarantee the destination buffer will be NUL
+terminated.
 
-Found using codespell tool.
-
-Signed-off-by: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
+Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
 ---
-Changed in v4:
-- As per guidelines "Reported-by:" should be immediately followed
-  by "Closes:" with a URL to the report. Since this was locally
-  found, there is no URL. Also since this is just a trivial typo
-  fix, I am just dropping the "Reported-by:" tag.
-  
-Changed in v3:
-- Update subject to correctly identify crps driver documentation 
-  (suggested by Guenter Roeck)
+Note: this has only been compile tested.
 
-Changed in v2:
-- In previous patch "From" header did not have my name in it. Fixed
-  that.
-  
- Documentation/hwmon/crps.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ net/smc/smc_pnet.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/hwmon/crps.rst b/Documentation/hwmon/crps.rst
-index 87380b496..d42ea59d2 100644
---- a/Documentation/hwmon/crps.rst
-+++ b/Documentation/hwmon/crps.rst
-@@ -43,7 +43,7 @@ curr1_label		"iin"
- curr1_input		Measured input current
- curr1_max		Maximum input current
- curr1_max_alarm		Input maximum current high alarm
--curr1_crit		Critial high input current
-+curr1_crit		Critical high input current
- curr1_crit_alarm	Input critical current high alarm
- curr1_rated_max		Maximum rated input current
+diff --git a/net/smc/smc_pnet.c b/net/smc/smc_pnet.c
+index 76ad29e31d60..5cfde2b9cad8 100644
+--- a/net/smc/smc_pnet.c
++++ b/net/smc/smc_pnet.c
+@@ -450,7 +450,7 @@ static int smc_pnet_add_ib(struct smc_pnettable *pnettable, char *ib_name,
+ 		return -ENOMEM;
+ 	new_pe->type = SMC_PNET_IB;
+ 	memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
+-	strncpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
++	strscpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
+ 	new_pe->ib_port = ib_port;
  
-@@ -51,7 +51,7 @@ curr2_label		"iout1"
- curr2_input		Measured output current
- curr2_max		Maximum output current
- curr2_max_alarm		Output maximum current high alarm
--curr2_crit		Critial high output current
-+curr2_crit		Critical high output current
- curr2_crit_alarm	Output critical current high alarm
- curr2_rated_max		Maximum rated output current
- 
+ 	new_ibdev = true;
 -- 
-2.47.2
+2.50.1
 
