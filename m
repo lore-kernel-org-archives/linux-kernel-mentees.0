@@ -1,135 +1,141 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F42D22259F
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 Aug 2025 10:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7314325D209;
+	Sun, 31 Aug 2025 12:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756635485; cv=none; b=D8VxA8h92xhXaUaeDxf8mnzJKYBAAZvW0VRL/qXfTCOEJKeP5BnFXa4KYC8fhCo7F/th01iMvVsI1bhbIK9P6X9ArtrcwZ2lrH0antYFiBtYsc8cWJUNb86OvL8E34xvj69x1mW/oMhLqxQQgir+PmiLT37L+j341hgbn3NfNPs=
+	t=1756645064; cv=none; b=omHKhgvlUQH19v5mGeixr2zX+no2f/P149UJRAqFs2RYgrkM/trDqFN8/Dt3LyTN39g4sUzMpRpeKd7oRc34wxOSRZrSWsoNSWdZlg31ESfxER+aEf6vEZh2d+/WVrhSlWS5Mh9VS/1FHDsVgBVWEkITWzBrl7JYl3UVRcn/dn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756635485; c=relaxed/simple;
-	bh=IjTYrbBQSPkwxsasV3ZlplpdpKXrOFp0IayCgXtPes0=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Ehit2rwNuRMCi56l6ifmfQZUIsg0TyJe98MsNw8U2r3wtNtB3TAxY1IO2jwL1oxbTlhPBIrjXQq1Xh6JmVuFA6yiOIGcqSJWIHc8ETcIpInG5lemVVMt6cloIvf6fSg+enVgOnQtOL2HjOtUyhUUVfUOq0OlJV3sH1Ir8Kb3MR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=EB9G+bU0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XogKtSbF; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
+	s=arc-20240116; t=1756645064; c=relaxed/simple;
+	bh=VB4toxjTUZH/JpzWaH4j4uzD3yqjXAV34v9Cxuq8/vM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gX9q8j8o2AkDa5p0xlnkSntG7lH3jVrOwQDZl8V0uYjzdEmVh+FpSIY1+OHyoLosZJJDXQqpWjvTJlnUCHwskK0wORYetbGdUEDPkIRLNWYh277V1SsLPA0lk8IV2T0dQ4GdniFIQ+gHpqSFhXukbzLp7Jvj26yemIoYMnTDgPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OlN6m9Hj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="EB9G+bU0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XogKtSbF"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 549CB7A006D;
-	Sun, 31 Aug 2025 06:18:02 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-06.internal (MEProxy); Sun, 31 Aug 2025 06:18:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1756635482;
-	 x=1756721882; bh=cBqMVR6uqZHT5hLteGW5CLt4CXa6io3Ge5VLQmeY+u8=; b=
-	EB9G+bU0aZue6wB8MyHS9YXRsGUbpXMTlon/5WAEFj0g5Wrt/WhOx3xohoT6jPo8
-	KT6fC1xsOhLddjjs5Ag2BMPLLHAI8VNwlMGIhhg05LRtyruFeDq098VMgWagGkj5
-	THrtJL4KLpizjYmBujoFqqnNv+MH80rIoEwdBqRgZKwA2YQUmY1SrPh36Vfm4tiE
-	Euvm+6mllOSRF0u6myIkqj4mogYhA6IZGXp6sWmsqi/92UYIGHiLREbR5VNSXseE
-	JDks9PCyrS72VpCRVnhfCXaDn781KrXWV2UVXr+YVLnORL1LZ9bnpSvfpPLvGbK0
-	mCaYOKn7aZO36zfk8rPyXA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756635482; x=
-	1756721882; bh=cBqMVR6uqZHT5hLteGW5CLt4CXa6io3Ge5VLQmeY+u8=; b=X
-	ogKtSbFudSgjAPdHjAn2kLy5FMwAk7AzNzZvVnm07lZvRWQqFfFV5JDxVm+Bznpg
-	tdKk+sZ1Yzj2mxrW6H8M5gdyxM6vsTnQYh+5ETddmU5xqynQOa2baNkm1B+LbNeG
-	Bf2poVDlNiCLxVqZ7DcR59CRttBUOanhZRHSfX51aPChrp9JCrPOCL3mX1VEKO/r
-	KRSALavb4zPs0ulqOT13fzVBOIonfhkkAX/qZV16/HvTCXjswa/4Nxae3Lbfh5kV
-	rxE1FO10KbkWxVnPDA+XP8RnX0ApGWxgZAE4uXmLuPHwHKEMzsVL45CfZvqKZsOt
-	0hFxzpDRdRu72EPO1HOsw==
-X-ME-Sender: <xms:WCG0aGN_fcKVIQyvjYDeeFl1yGAUG6V99bblBc93iuCTvcLzLCY0dA>
-    <xme:WCG0aE9LHCHNPVN1LuZIU_5eCQSYIyecm66Pjwq67b4uS7WBmZ1Owjrg7_4WqYQsS
-    bO6RlPmM-n3NwpphOI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeeltdduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpeflrghmvghs
-    uceosgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrg
-    htthgvrhhnpeffleeuffekgfefhfejudetheevgfduudefffeifeetveekteefhefffffg
-    heejhfenucffohhmrghinhepthgvshhtvggurdhnvghtnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepsgholhgurdiiohhnvgdvfeejfeesfhgr
-    shhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthhopedukedpmhhouggvpehsmhhtphhouh
-    htpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthho
-    pegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohephhhorhhmsheskh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopegrlhhisghuuggrsehlihhnuhigrdgrlhhisggrsggrrdgtohhmpdhrtghpth
-    htohepughushhtrdhliheslhhinhhugidrrghlihgsrggsrgdrtghomhdprhgtphhtthho
-    pehguhifvghnsehlihhnuhigrdgrlhhisggrsggrrdgtohhmpdhrtghpthhtohepthhonh
-    ihlhhusehlihhnuhigrdgrlhhisggrsggrrdgtohhmpdhrtghpthhtohepmhhjrghmsghi
-    ghhisehlihhnuhigrdhisghmrdgtohhm
-X-ME-Proxy: <xmx:WCG0aOLkjOXqN6rJoVKA1UQ0LIwRZDTHjPwShOCxSeA9E7iwqUaNPw>
-    <xmx:WCG0aO-Nss1w1J_AnXJrQk6RCw1sUI85vFgf0Zb6j2wX-GDsxzsgxw>
-    <xmx:WCG0aADasLgMO_F620l24tlGg7ikE1K8906AILzr9hWBoWsyfqeAXg>
-    <xmx:WCG0aIrWVxpToHIWq8VYCSqG1GC5zn8FTP5-QR-6Moff--9cSXntkg>
-    <xmx:WiG0aIp52qlhtzLh-iwA4EcGo62o8__piBmuviB6sp2AE6X5t_SiEgE_>
-Feedback-ID: ibd7e4881:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id C1F277840CC; Sun, 31 Aug 2025 06:18:00 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OlN6m9Hj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92B6CC4CEED;
+	Sun, 31 Aug 2025 12:57:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756645063;
+	bh=VB4toxjTUZH/JpzWaH4j4uzD3yqjXAV34v9Cxuq8/vM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OlN6m9Hj1fiiGfLG7NO//elgbtAdSpUMwPSPRd+r5mEqWpIXrrxBIaYmBfMp+DAzX
+	 zPxqnckZAczgPemgCyVZYsPQOQgVErxIhhSIccINA43ovi5UyheMw3LNQ9VlQ/KCFA
+	 oKN2rM8fBurquY308aSHmmR836unozrg+umzPJBQeAMzjYvy1iHSJuikF9oxBzfSwH
+	 tFWM9assjtQ7ZpSOwki28OCgPJGvKc6MBnyAFO+LQ3CAQac9UhlMFP/ZiGMoIoDGN4
+	 5baPh8QajE2UCnMiKErOb3xNfHhTPh4A9VBtgH8QkCKE1R2/bpoRsZKvXbEHAnhR6A
+	 L9GLBJCWlG/FA==
+Message-ID: <f39bf664-1c06-4ef9-a8db-65b53b5e5270@kernel.org>
+Date: Sun, 31 Aug 2025 14:57:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AJv3-LmMGI5N
-Date: Sun, 31 Aug 2025 03:17:40 -0700
-From: James <bold.zone2373@fastmail.com>
-To: alibuda@linux.alibaba.com, dust.li@linux.alibaba.com,
- sidraya@linux.ibm.com, wenjia@linux.ibm.com, mjambigi@linux.ibm.com,
- tonylu@linux.alibaba.com, guwen@linux.alibaba.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- "Shuah Khan" <skhan@linuxfoundation.org>
-Cc: linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] dt-bindings: iio: imu: Add ICM-20948
+To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, shuah@kernel.org,
  linux-kernel-mentees@lists.linux.dev
-Message-Id: <4919e89e-cf4c-4ef1-af9a-0a94e92614ac@app.fastmail.com>
-In-Reply-To: <20250831095535.176554-1-bold.zone2373@fastmail.com>
-References: <20250831095535.176554-1-bold.zone2373@fastmail.com>
-Subject: Re: [PATCH] net/smc: Replace use of strncpy on NUL-terminated string with
- strscpy
-Content-Type: text/plain
+References: <20250831-icm20948-v1-0-1fe560a38de4@gmail.com>
+ <20250831-icm20948-v1-1-1fe560a38de4@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250831-icm20948-v1-1-1fe560a38de4@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+On 30/08/2025 20:42, Bharadwaj Raju wrote:
+> +description: |
+> +  9-axis motion-tracking device that combines a 3-axis gyroscope, 3-axis
+> +  accelerometer, and a 3-axis magnetometer.
+> +
+> +  https://invensense.tdk.com/wp-content/uploads/2024/03/DS-000189-ICM-20948-v1.6.pdf
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - invensense,icm20948
+> +
+
+That's pretty incomplete. See existing invense bindings. Explain in
+commit msg how this is different than existing devices.
+
+> +  reg:
+> +    maxItems: 1
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      icm20948 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+If you cannot find a name matching your device, please check in kernel
+sources for similar cases or you can grow the spec (via pull request to
+DT spec repo).
 
 
-On Sun, Aug 31, 2025, at 2:49 AM, James Flowers wrote:
-> strncpy is deprecated for use on NUL-terminated strings, as indicated in
-> Documentation/process/deprecated.rst. strncpy NUL-pads the destination
-> buffer and doesn't guarantee the destination buffer will be NUL
-> terminated.
->
-> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
-> ---
-> Note: this has only been compile tested.
->
->  net/smc/smc_pnet.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/net/smc/smc_pnet.c b/net/smc/smc_pnet.c
-> index 76ad29e31d60..5cfde2b9cad8 100644
-> --- a/net/smc/smc_pnet.c
-> +++ b/net/smc/smc_pnet.c
-> @@ -450,7 +450,7 @@ static int smc_pnet_add_ib(struct smc_pnettable 
-> *pnettable, char *ib_name,
->  		return -ENOMEM;
->  	new_pe->type = SMC_PNET_IB;
->  	memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
-> -	strncpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
-> +	strscpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
->  	new_pe->ib_port = ib_port;
+> +        compatible = "invensense,icm20948";
+> +        reg = <0x69>;
+> +      }
+> +    }
 > 
->  	new_ibdev = true;
-> -- 
-> 2.50.1
 
-Please disregard. Sorry, just noticed I should have used the two argument version of strscpy. I will send a V2. 
+
+Best regards,
+Krzysztof
