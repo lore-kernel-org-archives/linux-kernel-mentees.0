@@ -1,143 +1,121 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC42256C71
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Aug 2025 23:07:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB10D21B9C1;
+	Sun, 31 Aug 2025 23:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756681655; cv=none; b=RbwRd7J7VR52gUOHZ2mrdJmV+YktCB6NhsPDxl8PVq3T2otLIPKe9iOZ/PQ0t8B5fCigqeyMGjgvCBW+skNUJWS/buz+j3fU5pGYctpua3sAiLPpmv7bsEBmG+4xQ1Y/6IYwrWiSESvUptfezYG3KRhtbvTl0+0119olj/sjAXQ=
+	t=1756681820; cv=none; b=FRJyEBp7at/ALLM1DObMr3bfISLdlI9sI4fVH1Z71QCExPxD6ZNtoueXY4BDASKl4B8mwDsY72j/Hh8yXMeo6l2V4OOdzCtL+c/O6e6kiH/xON7TG8td3LWWT5O6f0E1b6qcSlhHwi6bUUd6IxFGys0u7d8G9PQGkkio/KWPA/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756681655; c=relaxed/simple;
-	bh=/dq1+WkskxLjQfiUna2tnvXAStsMIRt3sNeqPiyojaY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nYarAkzpxanSdOREWFLtjc6/rpyoftEEovXJbJUaYgdYGzkNxLYOxgjLVbIsklI4ijJbZvqUHNpoSHcbAJybW6koaXh1s/EB19VoeI96rC6v10yGdeZEgE7HjgZFs0jnZF8grgfJ1fqJwlpVb5MUNrZh2U/9Qj92cIeTXa3mrSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WVC1VGjy; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1756681820; c=relaxed/simple;
+	bh=JHxfvkrM73Us6LupwzXgxuKeYqfKxIOsGkL5/+zL4bk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dst89IwoGJHASqcy+7wgwUMw+lRTpF2gpA9Bkn3/XBY1ZsWMRBz7ImCzBD2pLpWf4hQbE5vdMt0q3/5Y9W1fegSUUU0jD8EVH/BmMFdmoa74MP8QrTd7PBGFFKpELRKyZMXjibM5I3s8sOl39+TASB6u90EXHD/W6uP+oBR/uBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hMY/R9O9; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WVC1VGjy"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 95E6C833AF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Aug 2025 23:07:32 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id bba7iJvsHUvQ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 Aug 2025 23:07:32 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::334; helo=mail-wm1-x334.google.com; envelope-from=smokthar925@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org AC73B83103
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AC73B83103
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=WVC1VGjy
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id AC73B83103
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Aug 2025 23:07:31 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-45b7d497abaso23186845e9.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Aug 2025 16:07:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756681649; x=1757286449; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VzORTaj5j85cq2M8IR2sPPrrk6vTYoFG53BsY3IwtmU=;
-        b=WVC1VGjyu4moRGBuEHVX6qhzCU0fTUIT31B8MU7+3sS6Xj3hiCNyuq5M/DP9U/+FsH
-         AUXW68ZV8131wd00A/mwzlyOURSfPu/+Jw8CUfP345rq6Kkel0UYuV4hDWXr3ayFeWV/
-         P8YRyg+L8zm/jDdfjN+zrNcrDSYycM85zETwV4B8JWyR/S2mRWVNwUbptX0yj+5Gz52W
-         b54fZk7+KqroKftkZqp0YjdbVFi0v8jiOoMLN7ugzSm+qbK32WVt24gFQDVi0z6eU4QQ
-         vBPZh2nKplIR7Y+RXshV3bzLUPQKdL7hePFFt/kjuQbUf0soaPZl39S5S9gH2uLsdlbP
-         LxFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756681649; x=1757286449;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VzORTaj5j85cq2M8IR2sPPrrk6vTYoFG53BsY3IwtmU=;
-        b=g3oWrZQxJZkvAljwTcfF3LdANLrRWf7Smtow3x373WY9cplbEQRc+gLGAvOn4NiaaB
-         8oGECJXH4z7MZ0LlmMYMNLArlvcOdJ5VVSsE/rYCfqU347IHRSoXMYreVjrZoYpGNiXp
-         CcbsxOEDtCWAeGiwxjTcnIk4Xj9QlZ0yapEOCaE2KKjkrjpbK1k8EPnEyZmC7JiWkO+7
-         gThNxqot/jP2hL1ldB7lKLlL5YpyDlrB40Uwbaeo71Qruw8pYmGXx+mjsbplKtDHY1ri
-         2Pa2OH6tBZg7Snu5GL+ZqufCZ5SpuKdClCoFVKvAX7cP+M6UxJPyurudEOrYFNiaHkqF
-         Ff8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVS9RpSN5fStpiYdaZvVKTBiETK5O2Z3L3XVkL0oucUoIxWjm9uQDyiK1TX8IVADPcjVz65+CSnelbvtIqRLe7HOwfuew==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzSyu4sZ1kfp8bHGJMzAGo7VAvi7//Sb2yhzjk4sFlzWh5ls97t
-	16MXXhE3Nq+AIRXOkngqxruNPLQZEU4/bS82xOKmPqPVUAVQA5m4TO3R
-X-Gm-Gg: ASbGncv9+5I7Dhgkfjuujyr4mUTv1ieHCMCcyx3jaNtF2i+4CTUymdOuI2Av/fsdPZ5
-	dL4O+aaLUyhwXbPW6IPTf32JynyXlPpC01Qq9A+/7EppIPFS4hOpD+iLVRm8CZbL8SP0wW8yMt6
-	+w2XNgHB2NYWIg7J4Ws50wgS0bSa2qvG0+i9CZW4+5/I650gzz5BS6EJwJQ9pUhmqbI/n6o2iax
-	9t0YHGUvGyFTlh9Q9sVdNszuY/ohaAdWEIXijHPutUr+9J9p2iWHJXejOLV0rsPl6SarGbee4hV
-	sBjC0ca5ogYyY9gKscnR+rSaVinwX18SgmIT3POYsS/Zg/DNmHS+EGuVGGOQYMMHU4Cgb3kvind
-	cDuHQ78nMwZo3C83YaF21QoFrvlCZH4ofCKNzbYNypQ==
-X-Google-Smtp-Source: AGHT+IEvc7GiBSOLL0eVIAnfsFxuuyb9Xs6ZWQt1q85vQuVTGCKCiLZUHxhq+3aytM1K0vb5VJdtTQ==
-X-Received: by 2002:a05:600c:5487:b0:45b:8d2a:ccfe with SMTP id 5b1f17b1804b1-45b8d2acf6dmr7011485e9.13.1756681649334;
-        Sun, 31 Aug 2025 16:07:29 -0700 (PDT)
-Received: from [192.168.100.24] ([102.31.181.245])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b7e74b72esm133792415e9.0.2025.08.31.16.07.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Aug 2025 16:07:28 -0700 (PDT)
-Message-ID: <c6158f58-7a62-4df3-b025-4fe9f33c4d16@gmail.com>
-Date: Mon, 1 Sep 2025 00:07:26 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hMY/R9O9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756681819; x=1788217819;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JHxfvkrM73Us6LupwzXgxuKeYqfKxIOsGkL5/+zL4bk=;
+  b=hMY/R9O91ExABuptuNS2KZ5DBte4BqdhJpCEH5Sl+flk/WZPtfBT8wJT
+   j/G1wmXOKn5jw4VOlp75yAeNeM82w2Hxj73f/0zNnBQpsBUpYzJqWZFOA
+   H7qaDShnWEZ1A2juF6FvNq9RMjS/ISbbwxs8u+/Bp0f4CwcsrolftF6bq
+   rdAPzpOcGkt4zXdRELwx7UegdARduGxbWtfAP/2VDVlugokNd3rhsc5U+
+   nisJ+G4B/XsRlxS853inUsGIK02F6HrkU3PlWC28ZJcjSbWBJ7kGuEK6t
+   tpb2eE7wz/35joeWsorP76Dpr+uicq8n0x8HgLQOD8DsnkgjbdB/Mb7CY
+   w==;
+X-CSE-ConnectionGUID: 3I45RwaGQJy89djIC+9Jng==
+X-CSE-MsgGUID: nKQPAk8qShyaIBlXTqWeVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11539"; a="59030220"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="59030220"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2025 16:10:18 -0700
+X-CSE-ConnectionGUID: h4h1AFO5StiB55Nb2vzFQA==
+X-CSE-MsgGUID: 5mTPMZo7RNay6oWvGeIHcw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="170129257"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 31 Aug 2025 16:10:15 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1usrBT-000WP9-0k;
+	Sun, 31 Aug 2025 23:10:09 +0000
+Date: Mon, 1 Sep 2025 07:09:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	shuah@kernel.org, linux-kernel-mentees@lists.linux.dev,
+	Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Subject: Re: [PATCH 3/5] iio: imu: icm20948: add support for gyroscope
+Message-ID: <202509010654.5oiN6YTZ-lkp@intel.com>
+References: <20250831-icm20948-v1-3-1fe560a38de4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/driver-api: Fix typo error in cxl
-To: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, Gregory Price <gourry@gourry.net>,
- Alok Tiwari <alok.a.tiwari@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-References: <20250819084116.13108-1-smokthar925@gmail.com>
- <87iki53gfb.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Moktar sellami <smokthar925@gmail.com>
-In-Reply-To: <87iki53gfb.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250831-icm20948-v1-3-1fe560a38de4@gmail.com>
 
+Hi Bharadwaj,
 
-On 8/29/25 23:35, Jonathan Corbet wrote:
-> Moktar SELLAMI <smokthar925@gmail.com> writes:
->
->> Fixed Typo in the driver-api/cxl/devices/devices.rst
->>
->> functionalty -> functionality
->>
->> Signed-off-by: Moktar SELLAMI <smokthar925@gmail.com>
->> ---
->>   Documentation/driver-api/cxl/devices/device-types.rst | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
->> index 923f5d89bc04..7f69dfa4509b 100644
->> --- a/Documentation/driver-api/cxl/devices/device-types.rst
->> +++ b/Documentation/driver-api/cxl/devices/device-types.rst
->> @@ -22,7 +22,7 @@ The basic interaction protocol, similar to PCIe configuration mechanisms.
->>   Typically used for initialization, configuration, and I/O access for anything
->>   other than memory (CXL.mem) or cache (CXL.cache) operations.
->>   
->> -The Linux CXL driver exposes access to .io functionalty via the various sysfs
->> +The Linux CXL driver exposes access to .io functionality via the various sysfs
->>   interfaces and /dev/cxl/ devices (which exposes direct access to device
->>   mailboxes).
-> This one was fixed a while back, so this patch is not needed.  It is
-> always a good idea to check linux-next when considering changes of this
-> type.
->
-> Thanks,
->
-> jon
+kernel test robot noticed the following build warnings:
 
-Thank you for the clarification and for pointing me to linux-next. i 
-will try to come up with an other patch thank u.
+[auto build test WARNING on 8742b2d8935f476449ef37e263bc4da3295c7b58]
 
-Moktar
+url:    https://github.com/intel-lab-lkp/linux/commits/Bharadwaj-Raju/dt-bindings-iio-imu-Add-ICM-20948/20250831-024726
+base:   8742b2d8935f476449ef37e263bc4da3295c7b58
+patch link:    https://lore.kernel.org/r/20250831-icm20948-v1-3-1fe560a38de4%40gmail.com
+patch subject: [PATCH 3/5] iio: imu: icm20948: add support for gyroscope
+config: arm-randconfig-r123-20250901 (https://download.01.org/0day-ci/archive/20250901/202509010654.5oiN6YTZ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ac23f7465eedd0dd565ffb201f573e7a69695fa3)
+reproduce: (https://download.01.org/0day-ci/archive/20250901/202509010654.5oiN6YTZ-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509010654.5oiN6YTZ-lkp@intel.com/
 
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/imu/inv_icm20948/inv_icm20948_gyro.c:21:12: sparse: sparse: Initializer entry defined twice
+   drivers/iio/imu/inv_icm20948/inv_icm20948_gyro.c:24:12: sparse:   also defined here
+
+vim +21 drivers/iio/imu/inv_icm20948/inv_icm20948_gyro.c
+
+    11	
+    12	/* IIO int + nano format */
+    13	static const int inv_icm20948_gyro_scale[] = {
+    14		/* 250 dps == 0.000133158 rad/s per LSB */
+    15		[2 * INV_ICM20948_GYRO_FS_250] = 0,
+    16		[2 * INV_ICM20948_GYRO_FS_250 + 1] = 133158,
+    17		/* 500 dps == 0.000266316 rad/s per LSB */
+    18		[2 * INV_ICM20948_GYRO_FS_500] = 0,
+    19		[2 * INV_ICM20948_GYRO_FS_500 + 1] = 266316,
+    20		/* 1000 dps == 0.000532632 rad/s per LSB */
+  > 21		[2 * INV_ICM20948_GYRO_FS_1000] = 0,
+    22		[2 * INV_ICM20948_GYRO_FS_1000 + 1] = 532632,
+    23		/* 2000 dps == 0.001065264 rad/s per LSB */
+    24		[2 * INV_ICM20948_GYRO_FS_1000] = 0,
+    25		[2 * INV_ICM20948_GYRO_FS_1000 + 1] = 1065264,
+    26	};
+    27	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
