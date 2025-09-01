@@ -1,112 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9DA23E25B;
-	Mon,  1 Sep 2025 06:08:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022862DF132;
+	Mon,  1 Sep 2025 16:03:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756706887; cv=none; b=UDW1a4YUCSS+0g/ZK3C8d2kepsngCB+bRmNPNfgyL2GRdHQTpsddEpwZfikB+B440DEgO5MeEfNTZfxidsJ5r9D3KWtJYwKTSCAfexxD9uSkz2cZili2GYAvzdHBvOwZWEtRQJogCcdGlEYFPmCxaTwxKQt/7XNbXOpiXYZJAHw=
+	t=1756742640; cv=none; b=s75bFwjuFyiyAz+stlcWUp7x50taLymkMKRFiLT+MbbtUF7dy07lv45oM8v1479s6mfdcOYtPp5KtqMOD2ErPx+F46YYTswE/7HFSfO5egq7AG3UNmyDdHkA+LuODTPdJvAMcAjAXGdTkbngtt3M1SB78jzZ9LeJQnojfgdJVM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756706887; c=relaxed/simple;
-	bh=dzIS5KQ4sPo2lK7s10+eDwEJp7PENpB3PEARRrzqWiA=;
+	s=arc-20240116; t=1756742640; c=relaxed/simple;
+	bh=0u0xesyk825WU8r/UbXc0szsPDP+VuJGbOKWiW0uuh4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uRtp8IagTRmEr1IVIo2aTe+y06h6hl+03vhpVOyeS68YSMcuIbTDWphAlapx/GNOLPcL+LgR1Ock1gmiKem+YYZSPSp/z2///+m6ucZHU+QHYkT/gG3E/VPHWzbWU2TLlYZz8HZlmp8qdxb2JmVd8qg4w+FeIGF0JCF/fqwqNOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LhwBYEG7; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=UUj/hp+Wf75vgBL9UUIhEVYA/LEO+WRWbQW76RlwuryM9b3LbyfPVhK04wvJ6/xjwcbakTtO/MuTi5JlX+s0pwvWl7+zsdl/Yhk8XPYsu4pwOlB6NPFRSbs2LNioDO7cia0JDDQTgpIgv8NYIdbh5dKWmR8m3PxJE0joW+IXVz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BdZp8cmr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LhwBYEG7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE123C4CEF5;
-	Mon,  1 Sep 2025 06:08:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1756706886;
-	bh=dzIS5KQ4sPo2lK7s10+eDwEJp7PENpB3PEARRrzqWiA=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BdZp8cmr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F23FEC4CEF0;
+	Mon,  1 Sep 2025 16:03:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756742639;
+	bh=0u0xesyk825WU8r/UbXc0szsPDP+VuJGbOKWiW0uuh4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LhwBYEG7qkvhhdtMVHJCIbfscHl22xUCQ5lUih/UYYZ+7HQs7eXIGHEMz6/rK3qHC
-	 +dnDiBl94G3Ot/ie5X1YnWyuEWa/kPsbMrK36AtyTC0Goq3An5etzWfxgUdxZsrD3L
-	 D3NBzoIAXKryQi8J6ssZBfkB3CVc99TFt2zcbuUI=
-Date: Mon, 1 Sep 2025 08:08:00 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Bharadwaj Raju <bharadwaj.raju777@gmail.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Rob Herring <robh@kernel.org>, Shuah Khan <shuah@kernel.org>
-Subject: Re: [PATCH 5/5] iio: imu: icm20948: add runtime power management
- support
-Message-ID: <2025090154-whiny-output-3f73@gregkh>
-References: <20250831-icm20948-v1-5-1fe560a38de4@gmail.com>
- <33ca2805-aa52-4b27-9fa9-ec582b7129f2@web.de>
+	b=BdZp8cmrF/4JdHPGeZ87W6WjdpKoyALWmOYhsyJAYl1BA57eF4mQTyyBUzLHOBCBJ
+	 PvtB1gQ0/3bx3ETOiGNcTW+7fSIZiG+vGrBYMQv5ZhLPOxaLzcCW1s/92QQe3xudf2
+	 9IkLtBmvmghACvnWbt0xZGB1UZ3+kSgdVusYjLL2cSx0p9FznXwK9S6Zgx1gvDPDmX
+	 bT5rkEhtA7OsaEvGqBdLt9f/8uu+efRHzq0U3oOie9X8L4Qd3+byviZJx5cPP8eHmJ
+	 Mi5U+qo1OZLHQ7yLvqzzfhZPsmaJ8DfToOKMTNM62sombT/lyKZrjdcij+Y/Jl7AUc
+	 ++i6xbPCBv36Q==
+Date: Mon, 1 Sep 2025 17:03:53 +0100
+From: Simon Horman <horms@kernel.org>
+To: James Flowers <bold.zone2373@fastmail.com>
+Cc: alibuda@linux.alibaba.com, dust.li@linux.alibaba.com,
+	sidraya@linux.ibm.com, wenjia@linux.ibm.com, mjambigi@linux.ibm.com,
+	tonylu@linux.alibaba.com, guwen@linux.alibaba.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, skhan@linuxfoundation.org,
+	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2] net/smc: Replace use of strncpy on NUL-terminated
+ string with strscpy
+Message-ID: <20250901160353.GL15473@horms.kernel.org>
+References: <20250901030512.80099-1-bold.zone2373@fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <33ca2805-aa52-4b27-9fa9-ec582b7129f2@web.de>
+In-Reply-To: <20250901030512.80099-1-bold.zone2373@fastmail.com>
 
-On Sun, Aug 31, 2025 at 09:23:08PM +0200, Markus Elfring wrote:
-> …
-> > @@ -24,17 +24,24 @@ static const struct iio_chan_spec
-> >  static int inv_icm20948_temp_read_sensor(struct inv_icm20948_state *state,
-> >  					 s16 *temp)
-> >  {
-> > -	guard(mutex)(&state->lock);
-> > +	int ret;
-> > +
-> > +	pm_runtime_get_sync(state->dev);
-> > +	mutex_lock(&state->lock);
-> >  
-> >  	__be16 raw;
-> > -	int ret = regmap_bulk_read(state->regmap, INV_ICM20948_REG_TEMP_DATA,
-> > +	ret = regmap_bulk_read(state->regmap, INV_ICM20948_REG_TEMP_DATA,
-> >  				   &raw, sizeof(raw));
-> >  	if (ret)
-> > -		return ret;
-> > +		goto out;
-> >  
-> >  	*temp = __be16_to_cpu(raw);
-> > +	ret = 0;
-> >  
-> > -	return 0;
-> > +out:
-> > +	mutex_unlock(&state->lock);
-> > +	pm_runtime_put_autosuspend(state->dev);
-> > +	return ret;
-> >  }
-> …
+On Sun, Aug 31, 2025 at 08:04:59PM -0700, James Flowers wrote:
+> strncpy is deprecated for use on NUL-terminated strings, as indicated in
+> Documentation/process/deprecated.rst. strncpy NUL-pads the destination
+> buffer and doesn't guarantee the destination buffer will be NUL
+> terminated.
 > 
-> Does anything hinder you with the continued application of scope-based resource management
-> for such a function implementation?
-> 
-> Regards,
-> Markus
-> 
+> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+> ---
+> V1 -> V2: Replaced with two argument version of strscpy
+> Note: this has only been compile tested.
 
-
-
-Hi,
-
-This is the friendly semi-automated patch-bot of Greg Kroah-Hartman.
-You have sent him a patch that has triggered this response.
-
-Right now, the development tree you have sent a patch for is "closed"
-due to the timing of the merge window.  Don't worry, the patch(es) you
-have sent are not lost, and will be looked at after the merge window is
-over (after the -rc1 kernel is released by Linus).
-
-So thank you for your patience and your patches will be reviewed at this
-later time, you do not have to do anything further, this is just a short
-note to let you know the patch status and so you don't worry they didn't
-make it through.
-
-thanks,
-
-greg k-h's patch email bot
+Reviewed-by: Simon Horman <horms@kernel.org>
