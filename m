@@ -1,135 +1,68 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1A63D987
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  1 Sep 2025 03:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571F322157E;
+	Mon,  1 Sep 2025 03:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756695925; cv=none; b=qJP2JDcu2UsdJZBk35wS9KyAffgEEMoSq5D8dyti/4fRbBil1PGHQ7DWr1OQwAIl5gVrDb+IjQMqJ4Y52RSlfvX6hGyUvBM6i4FvI14XWzbcL0cA6pYdhjz3ExnI7aV+RQU1TzF6wzppnuTB0nLr1KSOOpPVIRdWk7uT5Xk5pYU=
+	t=1756697400; cv=none; b=JnbReDIgMkQ5JkAtacYFcpGQ5RgaXmyrQKDB3qeFNXR8lZxoeq6okhvkHyxbVrKLhxxS8qV/4KQErJNivuM2rmUGuZn7DHyyA6R4OQyepIzmRs9ThmHq0Y3cVeXlLm2wJhuZ9HxBLCbAWL8ia42QavB1Kk/JqxQevUGT47bVIbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756695925; c=relaxed/simple;
-	bh=6ZqVjz11T6NgHRoxkP0c/fthAyB+tP5UMnSLs6XUddg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VT/vjQ+Mn7X2FMUT4zI//IzAlpQ336Fug/PdrkZF24CQbrxlKN4MMA3AAO9pNIZeSAsA7TlGVjZG52/UDSi5fPKQPXbVy/3a/e8U05CN/EBnYgeU60BSTw2PQuKJF9IyaOa2dOhTh4O7/+K7VKYxCxNXmXKiC5GiM5MOJ/bnNrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=gCigEEZJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=h/XLzxOS; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
+	s=arc-20240116; t=1756697400; c=relaxed/simple;
+	bh=p7wrxv825L7YKcyo7ajBHyjNzOafvy6Dqcr8NdfqYWs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VOp90jgFCLb4HEni0mMBZ0cJV8jQsBv0YzPiI7Kq+a0AzttKcuoBbyFZ9WObY0kcD9LURhPwOyY2kJIJ4x5vCzhRGaBeFCC4kAhWBgBk0dTgazS28AmGR63VJH4JPCWQNurdGYFjF3dO4nQY+y6wE/TtwjKpu/uTvt3wqHn0lEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rXcTv0+d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="gCigEEZJ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="h/XLzxOS"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfout.phl.internal (Postfix) with ESMTP id 32517EC03F0;
-	Sun, 31 Aug 2025 23:05:22 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Sun, 31 Aug 2025 23:05:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm1; t=1756695922; x=1756782322; bh=HCVb74up17CQJGagrHKdC
-	3DaQ/TG9d4iRUnKKTAPwTk=; b=gCigEEZJ9txQmMk1WQ1nPaOM+Kg8gc82UBV6K
-	5wSiiuxhdU5+ZUfgRKqEvh2nRCqMi0ZLshIeBtPFr46VnDJVW3PYFSxsNB3wXFC2
-	oPnrflq0qvAm1kwEsCgCXOsggyYUShta69WgNryjYK2a2x0HhqzCx4Auxu5DoJXX
-	NJc2aPHCbhOcOKzd72j73pjTZA8dGWd8eIab5TbRvnYxUHmZjEAMigyJvjrV8Kz4
-	vZYl7xiWpyCZ2s4WhZI3kd1mKWAFXg/VTxDlak5qSXFithSzNNYSRMjXCmp8sqvD
-	9NcWZUciz9bw/NtAOe/gusspMULuiPWN28UV39aB8pU3d38Iw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1756695922; x=1756782322; bh=HCVb74up17CQJGagrHKdC3DaQ/TG9d4iRUn
-	KKTAPwTk=; b=h/XLzxOSFqwKkhwyEzMp7gF5ruYfgW77ntEx8p9zNNzGbadNYx1
-	ubjVc7dEY0pyjTdAMOLEsWuwTNbMBmW43yfEYR0ged4OdCeFH2lY+rjtcgRmEQXw
-	li3K+0OplHkuNcoqbhiqBx5AzMDMU2+1SiaRpcjyxEFOIjSTWawszrVNrWoyCKjH
-	CVD3D9N72Na4JNitUsYiULBXMtPsWnpXcHSGCHA9LfKl32BbJH15BN1Vj5WPYZe4
-	ON2FDM+B0kNmOEKU6GDjHZ5XGf8FGce+Wrd6OAtrXfxFjxn6NXWcLemI1eMQhnkO
-	aMovwsJk3ppHbkXo+4YcH7+Uf6PN05cwQNQ==
-X-ME-Sender: <xms:cA21aPuNPLkcp0dd3hVdBc7PJlTLFFrbQoKPqw47VtZS1SmI2madEA>
-    <xme:cA21aFeT4Rkj5A4vuPUg50Enab4-AnQqZFftCnsBIivfTKH8eNL4qYhN7pPJUw40Y
-    fL_Oxmvp1cLaL6pnpY>
-X-ME-Received: <xmr:cA21aDqtDBFatsAoZjS9jqhlrQgt5E-LEcqXehoj_gFcoa4pQb3heduG9mR0-GbbF7CKexg0DA9oAgWi4yZCuayvOV4qQMpLOG03DKMYd2baV1vD>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduledutddvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertd
-    dtnecuhfhrohhmpeflrghmvghsucfhlhhofigvrhhsuceosgholhgurdiiohhnvgdvfeej
-    feesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeeitdetffdutdfhve
-    dtvdejkefglefgvdeiveduffdvgfeifeeiveejteeitdegkeenucffohhmrghinhepthgv
-    shhtvggurdhnvghtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepsgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhmpdhnsggp
-    rhgtphhtthhopeduledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghlihgsuh
-    gurgeslhhinhhugidrrghlihgsrggsrgdrtghomhdprhgtphhtthhopeguuhhsthdrlhhi
-    sehlihhnuhigrdgrlhhisggrsggrrdgtohhmpdhrtghpthhtohepshhiughrrgihrgeslh
-    hinhhugidrihgsmhdrtghomhdprhgtphhtthhopeifvghnjhhirgeslhhinhhugidrihgs
-    mhdrtghomhdprhgtphhtthhopehmjhgrmhgsihhgiheslhhinhhugidrihgsmhdrtghomh
-    dprhgtphhtthhopehtohhnhihluheslhhinhhugidrrghlihgsrggsrgdrtghomhdprhgt
-    phhtthhopehguhifvghnsehlihhnuhigrdgrlhhisggrsggrrdgtohhmpdhrtghpthhtoh
-    epuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigv
-    thesghhoohhglhgvrdgtohhm
-X-ME-Proxy: <xmx:cA21aD8hPnjoG5-ONPi5VTbNz5YAY36JtjlRHWUppVnIeqmw551cTA>
-    <xmx:cA21aM4Yn2JTQqvPofaLSy5jgdp0JD2abqnfMvRlj0_QT7ZNV-wfCQ>
-    <xmx:cA21aFgcpmdqKUGtVOfeCS2QpyCWOkGl434aux6_RgDvnT_ZoC45Kg>
-    <xmx:cA21aLooGuZy4BBQM-uUUpdHIB3kvNHAJOCaGY9ulW2scw3_PqYpAw>
-    <xmx:cg21aJ9PVN8FdO1UP3_2CFFk0NH78iUkq8VCIvu3Vw6mdtVCfKSbz3E7>
-Feedback-ID: ibd7e4881:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 31 Aug 2025 23:05:17 -0400 (EDT)
-From: James Flowers <bold.zone2373@fastmail.com>
-To: alibuda@linux.alibaba.com,
-	dust.li@linux.alibaba.com,
-	sidraya@linux.ibm.com,
-	wenjia@linux.ibm.com,
-	mjambigi@linux.ibm.com,
-	tonylu@linux.alibaba.com,
-	guwen@linux.alibaba.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	skhan@linuxfoundation.org
-Cc: James Flowers <bold.zone2373@fastmail.com>,
-	linux-rdma@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rXcTv0+d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C625C4CEF8;
+	Mon,  1 Sep 2025 03:29:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756697399;
+	bh=p7wrxv825L7YKcyo7ajBHyjNzOafvy6Dqcr8NdfqYWs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rXcTv0+dtnlGy7CPUIYuKwA6otz+O7hpNFqv0l3vNuvvtmYXz+iGfRTbLw0oEy/lG
+	 6PTpQi+s7hS7wqlW1eCpTRBK2GhqCo/qWSrhhU/Dkl+KqAPFXhwlYL/mMQ8GLLWiW9
+	 jEN//P4PdR8e/M8c0xqobEba+S/leN+sOlq8/lzg82pi6N4i7CvCkSg9tr2uy13BZE
+	 MjfVk1dIWyx+aUO301kaDLb50qdYX43HyiXl2G/3987VQf/C821/cCNX3YysVAKtIb
+	 7C1zP08dQH44lNb9FYrvEc6/q5lnAp4z5FQNH4eseU9glCVr/EfvDnshsWiCZNokfA
+	 bnCjmocUgjR4g==
+Date: Mon, 1 Sep 2025 05:29:57 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, shuah@kernel.org, 
 	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v2] net/smc: Replace use of strncpy on NUL-terminated string with strscpy
-Date: Sun, 31 Aug 2025 20:04:59 -0700
-Message-ID: <20250901030512.80099-1-bold.zone2373@fastmail.com>
-X-Mailer: git-send-email 2.50.1
+Subject: Re: [PATCH 1/5] dt-bindings: iio: imu: Add ICM-20948
+Message-ID: <20250901-hopping-natural-mackerel-1c7b56@kuoka>
+References: <20250831-icm20948-v1-0-1fe560a38de4@gmail.com>
+ <20250831-icm20948-v1-1-1fe560a38de4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250831-icm20948-v1-1-1fe560a38de4@gmail.com>
 
-strncpy is deprecated for use on NUL-terminated strings, as indicated in
-Documentation/process/deprecated.rst. strncpy NUL-pads the destination
-buffer and doesn't guarantee the destination buffer will be NUL
-terminated.
+On Sun, Aug 31, 2025 at 12:12:45AM +0530, Bharadwaj Raju wrote:
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - invensense,icm20948
+> +
+> +  reg:
+> +    maxItems: 1
+> +
 
-Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
----
-V1 -> V2: Replaced with two argument version of strscpy
-Note: this has only been compile tested.
+... and this was never tested. Missing additional props.
 
- net/smc/smc_pnet.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> +examples:
 
-diff --git a/net/smc/smc_pnet.c b/net/smc/smc_pnet.c
-index 76ad29e31d60..b90337f86e83 100644
---- a/net/smc/smc_pnet.c
-+++ b/net/smc/smc_pnet.c
-@@ -450,7 +450,7 @@ static int smc_pnet_add_ib(struct smc_pnettable *pnettable, char *ib_name,
- 		return -ENOMEM;
- 	new_pe->type = SMC_PNET_IB;
- 	memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
--	strncpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
-+	strscpy(new_pe->ib_name, ib_name);
- 	new_pe->ib_port = ib_port;
- 
- 	new_ibdev = true;
--- 
-2.50.1
+Best regards,
+Krzysztof
 
