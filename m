@@ -1,44 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571F322157E;
-	Mon,  1 Sep 2025 03:30:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9DA23E25B;
+	Mon,  1 Sep 2025 06:08:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756697400; cv=none; b=JnbReDIgMkQ5JkAtacYFcpGQ5RgaXmyrQKDB3qeFNXR8lZxoeq6okhvkHyxbVrKLhxxS8qV/4KQErJNivuM2rmUGuZn7DHyyA6R4OQyepIzmRs9ThmHq0Y3cVeXlLm2wJhuZ9HxBLCbAWL8ia42QavB1Kk/JqxQevUGT47bVIbo=
+	t=1756706887; cv=none; b=UDW1a4YUCSS+0g/ZK3C8d2kepsngCB+bRmNPNfgyL2GRdHQTpsddEpwZfikB+B440DEgO5MeEfNTZfxidsJ5r9D3KWtJYwKTSCAfexxD9uSkz2cZili2GYAvzdHBvOwZWEtRQJogCcdGlEYFPmCxaTwxKQt/7XNbXOpiXYZJAHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756697400; c=relaxed/simple;
-	bh=p7wrxv825L7YKcyo7ajBHyjNzOafvy6Dqcr8NdfqYWs=;
+	s=arc-20240116; t=1756706887; c=relaxed/simple;
+	bh=dzIS5KQ4sPo2lK7s10+eDwEJp7PENpB3PEARRrzqWiA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VOp90jgFCLb4HEni0mMBZ0cJV8jQsBv0YzPiI7Kq+a0AzttKcuoBbyFZ9WObY0kcD9LURhPwOyY2kJIJ4x5vCzhRGaBeFCC4kAhWBgBk0dTgazS28AmGR63VJH4JPCWQNurdGYFjF3dO4nQY+y6wE/TtwjKpu/uTvt3wqHn0lEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rXcTv0+d; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uRtp8IagTRmEr1IVIo2aTe+y06h6hl+03vhpVOyeS68YSMcuIbTDWphAlapx/GNOLPcL+LgR1Ock1gmiKem+YYZSPSp/z2///+m6ucZHU+QHYkT/gG3E/VPHWzbWU2TLlYZz8HZlmp8qdxb2JmVd8qg4w+FeIGF0JCF/fqwqNOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LhwBYEG7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rXcTv0+d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C625C4CEF8;
-	Mon,  1 Sep 2025 03:29:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756697399;
-	bh=p7wrxv825L7YKcyo7ajBHyjNzOafvy6Dqcr8NdfqYWs=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LhwBYEG7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE123C4CEF5;
+	Mon,  1 Sep 2025 06:08:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1756706886;
+	bh=dzIS5KQ4sPo2lK7s10+eDwEJp7PENpB3PEARRrzqWiA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rXcTv0+dtnlGy7CPUIYuKwA6otz+O7hpNFqv0l3vNuvvtmYXz+iGfRTbLw0oEy/lG
-	 6PTpQi+s7hS7wqlW1eCpTRBK2GhqCo/qWSrhhU/Dkl+KqAPFXhwlYL/mMQ8GLLWiW9
-	 jEN//P4PdR8e/M8c0xqobEba+S/leN+sOlq8/lzg82pi6N4i7CvCkSg9tr2uy13BZE
-	 MjfVk1dIWyx+aUO301kaDLb50qdYX43HyiXl2G/3987VQf/C821/cCNX3YysVAKtIb
-	 7C1zP08dQH44lNb9FYrvEc6/q5lnAp4z5FQNH4eseU9glCVr/EfvDnshsWiCZNokfA
-	 bnCjmocUgjR4g==
-Date: Mon, 1 Sep 2025 05:29:57 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, shuah@kernel.org, 
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 1/5] dt-bindings: iio: imu: Add ICM-20948
-Message-ID: <20250901-hopping-natural-mackerel-1c7b56@kuoka>
-References: <20250831-icm20948-v1-0-1fe560a38de4@gmail.com>
- <20250831-icm20948-v1-1-1fe560a38de4@gmail.com>
+	b=LhwBYEG7qkvhhdtMVHJCIbfscHl22xUCQ5lUih/UYYZ+7HQs7eXIGHEMz6/rK3qHC
+	 +dnDiBl94G3Ot/ie5X1YnWyuEWa/kPsbMrK36AtyTC0Goq3An5etzWfxgUdxZsrD3L
+	 D3NBzoIAXKryQi8J6ssZBfkB3CVc99TFt2zcbuUI=
+Date: Mon, 1 Sep 2025 08:08:00 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Bharadwaj Raju <bharadwaj.raju777@gmail.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	LKML <linux-kernel@vger.kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Rob Herring <robh@kernel.org>, Shuah Khan <shuah@kernel.org>
+Subject: Re: [PATCH 5/5] iio: imu: icm20948: add runtime power management
+ support
+Message-ID: <2025090154-whiny-output-3f73@gregkh>
+References: <20250831-icm20948-v1-5-1fe560a38de4@gmail.com>
+ <33ca2805-aa52-4b27-9fa9-ec582b7129f2@web.de>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -47,22 +49,64 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250831-icm20948-v1-1-1fe560a38de4@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <33ca2805-aa52-4b27-9fa9-ec582b7129f2@web.de>
 
-On Sun, Aug 31, 2025 at 12:12:45AM +0530, Bharadwaj Raju wrote:
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - invensense,icm20948
-> +
-> +  reg:
-> +    maxItems: 1
-> +
+On Sun, Aug 31, 2025 at 09:23:08PM +0200, Markus Elfring wrote:
+> …
+> > @@ -24,17 +24,24 @@ static const struct iio_chan_spec
+> >  static int inv_icm20948_temp_read_sensor(struct inv_icm20948_state *state,
+> >  					 s16 *temp)
+> >  {
+> > -	guard(mutex)(&state->lock);
+> > +	int ret;
+> > +
+> > +	pm_runtime_get_sync(state->dev);
+> > +	mutex_lock(&state->lock);
+> >  
+> >  	__be16 raw;
+> > -	int ret = regmap_bulk_read(state->regmap, INV_ICM20948_REG_TEMP_DATA,
+> > +	ret = regmap_bulk_read(state->regmap, INV_ICM20948_REG_TEMP_DATA,
+> >  				   &raw, sizeof(raw));
+> >  	if (ret)
+> > -		return ret;
+> > +		goto out;
+> >  
+> >  	*temp = __be16_to_cpu(raw);
+> > +	ret = 0;
+> >  
+> > -	return 0;
+> > +out:
+> > +	mutex_unlock(&state->lock);
+> > +	pm_runtime_put_autosuspend(state->dev);
+> > +	return ret;
+> >  }
+> …
+> 
+> Does anything hinder you with the continued application of scope-based resource management
+> for such a function implementation?
+> 
+> Regards,
+> Markus
+> 
 
-... and this was never tested. Missing additional props.
 
-> +examples:
 
-Best regards,
-Krzysztof
+Hi,
 
+This is the friendly semi-automated patch-bot of Greg Kroah-Hartman.
+You have sent him a patch that has triggered this response.
+
+Right now, the development tree you have sent a patch for is "closed"
+due to the timing of the merge window.  Don't worry, the patch(es) you
+have sent are not lost, and will be looked at after the merge window is
+over (after the -rc1 kernel is released by Linus).
+
+So thank you for your patience and your patches will be reviewed at this
+later time, you do not have to do anything further, this is just a short
+note to let you know the patch status and so you don't worry they didn't
+make it through.
+
+thanks,
+
+greg k-h's patch email bot
