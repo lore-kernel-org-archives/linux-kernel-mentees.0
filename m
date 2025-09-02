@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9699532F743;
-	Tue,  2 Sep 2025 23:00:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106042EA46F;
+	Tue,  2 Sep 2025 23:50:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756854025; cv=none; b=D8zW7buiYJ0IyVZMNOYipp8be9K0aJ1N2amvmftlXsRxypEVf9j4lKPqjpEpYl4Ynw1sSkLNgCpdLezOANSn1dMPDWdE6KgR6MgLPZpzUar/jNJ2Ua1hSWjSJJQRnrKVfayVjpyOO4PZJL73VVKRoTOfJe5kgPw+ITIpljENYCc=
+	t=1756857005; cv=none; b=rlOkgRW/3Kap7oH8af1H2uLX+gmoTitq5/OCKanhJs7ww8cZK6/5wKEoXxOaRaAcGbX75krB1V+rAYZejKwgeCD3tXs3gipKplZOOWDnInAJM8PGW/TLRtuU4wlcIDMjVaYSkjy0ArkLYEZxvG0BfiDPZiizrQMiJA6XUjapDtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756854025; c=relaxed/simple;
-	bh=dPIbJwWZvPXOY8sg69LKxX2OsJ+5HninbpyXwBaAb94=;
+	s=arc-20240116; t=1756857005; c=relaxed/simple;
+	bh=B2JNTPVo6Lp/RPUmNM+REI5T/yYpUL1NFFW7x/3DKw4=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=ZEMSGTXmkXDbZfl1xNcb6G4elazd+TKQ2BcZd9IH1y4R44oyjXVn66k196eXLKhdOTGh8Z1infyXkPu7exFYp4adVcx5IPZ9MGlI1S3/yA0pvrKvqlw1a5iEWIplBH5Nwv/OXS5wpBvElgS3v/M+aovQA2KQqwrOLm8OfF8fWOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jTWmlblZ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=mGjBZUBgS2KizKX6Q9dVzPuJu96vocK6xuY3y4kMnoF+1cIG51LsGbeKsOZhVu7d0vSlmVs58gDiT0SHqiXDffpbOJAvApwQHPEfmD8gVnImSsjNBwx9c7jrY5+Jnl4SSpX5/XLHNI67AVlz+aopNN6UMyKA3fZ8kzk0Oe+6lCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DlefcvvJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jTWmlblZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2530EC4CEED;
-	Tue,  2 Sep 2025 23:00:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DlefcvvJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996FAC4CEED;
+	Tue,  2 Sep 2025 23:50:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756854025;
-	bh=dPIbJwWZvPXOY8sg69LKxX2OsJ+5HninbpyXwBaAb94=;
+	s=k20201202; t=1756857004;
+	bh=B2JNTPVo6Lp/RPUmNM+REI5T/yYpUL1NFFW7x/3DKw4=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=jTWmlblZUPiZDuIRxfo5imIFXY8Vpei65/RcxQ4LZR+6++RvU72uuJZr3nSlpTNpd
-	 Qe+flAWoj39Ir2bLWH+0UfjxdXAC/1tfPwNql2G5FqJJ/hDq084w44whf5nMOW8/kh
-	 qUeVrURa5XZXvMpVEk4//RP3gt8pB9hIsR3N14eBXBbjdxjD2g60V5IKzxwA56L4z2
-	 Zb2/rc13qTf2K5yJNfSLIe/D+g1fVze13DpK3AFIEEyB8lNU4T7Zq18bYWy4Zjblyv
-	 AzQLgKgKfT+5yi+CbyID4F4Kq2uLjfp6pkzABuFsz7TWk4T3grr60K0zhEd8h0LBzB
-	 LVVLbiIqOD23w==
+	b=DlefcvvJxLucv4kf7HCNE5LLGJFuz970kzqTeqxlZ//M4YXjxItwXDiY4cZiXTvPz
+	 116FoPvH2Kf71ORlgjeezyFtWvh8yI8hmMnB8GEifAUac2vT9FIRy8YGm4E2s+htDC
+	 duqBJFjW+H+7tEKgXRg/ujl6T8NFiJ+5jezCTc8mQQlDkIfP/iBxN6tW/tuDq/wsNG
+	 wLqmyuyaGtI4vmx4ceS0Xl6bqE7P8wl3ENcBr+zhfzzkENnPJkLwN2DtOYqDcBL3li
+	 mPPcVDVmykpTDp4IO1DcW7oV6bSO663zomDNFpXDEn6iubp3/01z2RRGRofhYtYnnF
+	 T19x0XiRii9Tg==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADE01383BF64;
-	Tue,  2 Sep 2025 23:00:31 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33F86383BF64;
+	Tue,  2 Sep 2025 23:50:11 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -37,42 +37,39 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] net/smc: Replace use of strncpy on NUL-terminated
- string
- with strscpy
+Subject: Re: [PATCH net-next] net: macb: Validate the value of base_time
+ properly
 From: patchwork-bot+netdevbpf@kernel.org
 Message-Id: 
- <175685403028.461360.5671454085115817029.git-patchwork-notify@kernel.org>
-Date: Tue, 02 Sep 2025 23:00:30 +0000
-References: <20250901030512.80099-1-bold.zone2373@fastmail.com>
-In-Reply-To: <20250901030512.80099-1-bold.zone2373@fastmail.com>
-To: James <bold.zone2373@fastmail.com>
-Cc: alibuda@linux.alibaba.com, dust.li@linux.alibaba.com,
- sidraya@linux.ibm.com, wenjia@linux.ibm.com, mjambigi@linux.ibm.com,
- tonylu@linux.alibaba.com, guwen@linux.alibaba.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- skhan@linuxfoundation.org, linux-rdma@vger.kernel.org,
- linux-s390@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+ <175685700999.471478.8153319794036429097.git-patchwork-notify@kernel.org>
+Date: Tue, 02 Sep 2025 23:50:09 +0000
+References: <20250901162923.627765-1-chandramohan.explore@gmail.com>
+In-Reply-To: <20250901162923.627765-1-chandramohan.explore@gmail.com>
+To: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
+Cc: nicolas.ferre@microchip.com, claudiu.beznea@tuxon.dev,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org, shuah@kernel.org,
+ linux-kernel-mentees@lists.linux.dev
 
 Hello:
 
 This patch was applied to netdev/net-next.git (main)
 by Jakub Kicinski <kuba@kernel.org>:
 
-On Sun, 31 Aug 2025 20:04:59 -0700 you wrote:
-> strncpy is deprecated for use on NUL-terminated strings, as indicated in
-> Documentation/process/deprecated.rst. strncpy NUL-pads the destination
-> buffer and doesn't guarantee the destination buffer will be NUL
-> terminated.
+On Mon,  1 Sep 2025 21:59:19 +0530 you wrote:
+> In macb_taprio_setup_replace(), the value of start_time is being
+> compared against zero which would never be true since start_time
+> is an unsigned value. Due to this there is a chance that an
+> incorrect config base time value can be used for computation.
 > 
-> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+> Fix by checking the value of conf->base_time directly.
+> This issue was reported by static coverity analyzer.
 > 
 > [...]
 
 Here is the summary with links:
-  - [v2] net/smc: Replace use of strncpy on NUL-terminated string with strscpy
-    https://git.kernel.org/netdev/net-next/c/d250f14f5f07
+  - [net-next] net: macb: Validate the value of base_time properly
+    https://git.kernel.org/netdev/net-next/c/3586018d5c3d
 
 You are awesome, thank you!
 -- 
