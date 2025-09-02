@@ -1,289 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A4E312830
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  2 Sep 2025 15:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756827420; cv=fail; b=AJKMaTlQuKVGm0FNHg5qRotqJ+Ka7zuEB7F8McFSgH9MB7cpiP0tL9li5rxZEYDpCvL33g177+kQS1xruOUbmkE6nFakOaPQz1v9/qIUntAXrPTFUjxAzwsifDWPL6h5FtzYDxSamXp6+pa4r7q+/3hiUfIB+pdJO7f7kwk4irY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756827420; c=relaxed/simple;
-	bh=2MXw8hjQu2hlIom9SM9oLL6PTuxI2hfgiLkpHSengJk=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=nO2D/J49CTVYmPkq1HWZJPKglH9gNvQdxZsUOloRMFzi2neSvM2gzqrDRzfD0YCPwOKkml0SMy7dgh4wBfzrR/9R9NCIvqLqbQYKrH/9cAc4ZgY+zqy0KG2Fu9nU5ma7+YoS+YMxm6QPCvwNFRwdkZsBn0uFf23NBiwF7NHknKs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pi5E3wNO; arc=fail smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569FD2E0922
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  2 Sep 2025 16:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756831442; cv=none; b=h3fbd/Am7SkzcbPstMKJE1QnGKY6uzWVOtrLKxQ7BxlSnDxggcGbgeHPq+rnEr0uMB68QyfL/Ne5Sj89CuxvVLsLyr3NTrECLveCklrSVi9tnFOPCmH19E1YoFnaIyjA6vwbwkpSL31gvJ2Ch8UjDJwCaUpd2jdqjvP8odrQs+M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756831442; c=relaxed/simple;
+	bh=iSi019zg+85SfqcwkQSzYtglNtT3gMatjXdwTMEt05M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oLSzTv4xeVQ896QUwI6IgpAuKiTFEeDb1116ToswRyzH+i2FVmtUPt1CcafokE7mtKv8+fxEFAAkhzbW5Ch61/7nZ/8c0bq0kWsUW3adWHGm+IMDrV+nryd/Y6m6suN07x0GEX491LdyXRxoawoMnijO5EHGHW+7FnE7G2Ia6T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KDtAvGLT; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pi5E3wNO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756827419; x=1788363419;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=2MXw8hjQu2hlIom9SM9oLL6PTuxI2hfgiLkpHSengJk=;
-  b=Pi5E3wNOAUqsFaGrLhaCG+7uBp+mSRE4S18oUYHXWBLUnw1F4hWMZsUu
-   pVN1584jTmQUtsPpiBTg98tkB5fP1pRIMVgetKrHpDF0Tmpxh+6mCdNKw
-   L5QgKenBY+Fw55tgqcFCETGgI0abSp851AfnBnL0r0SwsxZlSnZMMUBwD
-   9sU5iDckVWE5RpTydNyTElI4jxQtvBZASeMxX6AeYUrX/BeggFWgCQazR
-   HalbAKIYSwyDUlvagmTINWvuhoknGOHRvz7fGQ/JFZ/z4hAGeX9oLayOn
-   UlHE/hDmoDMXxreQ4nXwYKxJ7vFpd4ofH5qylFeJy06gazwZ3F7uy+ZqC
-   Q==;
-X-CSE-ConnectionGUID: OdvLtFJDQCu8hdX2zRZXEg==
-X-CSE-MsgGUID: S4LPfKQQR6mTjVGMJqqqbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59178860"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="59178860"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 08:35:57 -0700
-X-CSE-ConnectionGUID: MoR4FdZ6QZ+qOFC19oRyAQ==
-X-CSE-MsgGUID: kJD3h86mRcKXHNldPowApA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="171461268"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 08:35:56 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 2 Sep 2025 08:35:56 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Tue, 2 Sep 2025 08:35:56 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.88)
- by edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 2 Sep 2025 08:35:55 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rK9xPaZIxnsf08wLcKTg6csFzzf87ts9/NCPxjykpsbxTk6tpW6tEwUl7wUtVK33KIvb9RUwHYaP5+4YrnUR4orlzBdcwvoT6Oc006ZWijEQ59uD8jRDVd5zhA02C074FMqPBlojvb2PcVzn3g2M8Cr9i6lhgACbqIFF8gHzf5bz7kJtsY4HLn5GgZQh0GgSQ6e48bJO9pH5kGt6lEm8Xb1tdPsNLw71sbUj7CdLi8J1K9IikIuuRAQskY/ZrRgSegFyHGYQuDXscIbOUQa5o+NEcmPXwH6UuOKkylamii0m4VVF+Y2KLtBdchAHXFN3ZmCteYA/Ksi9W7F/CzGorw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PwO8aGnveMto+Am/4L+mi5lMzbmhN8w91Qas2UWbFkY=;
- b=lKhYpI8YEWFA85JpnsA2fj2wW1xOLlCm+vKfmWhW8KHCtO3RjhK/m/YWGsbuz+WSkzUon4zBJQ6l4Z3+nNOjD4lmvdJzHwYkgN0owzugePXCAgykDzzHkrfeeH9uhrk2fYpxAtnEhQP1i4L+rZrum9T1Ufkzb/UlQChV2B5eHMlCsvIE1Cik+ilOTzx+chYW//9q7/xgy7V2+N5LWTp7uPV3558hi1DHfZDUeo5SP4NZzGC8ya2KBMsxDBfD18/0e97207Fc+TXp8oonKCgFlqOES1fz0bjNOmpyhqUf0xQEpR/KJWOa3TyHNcPEvBRzOJDdgZPQAlCRVNMFi1X3PQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6011.namprd11.prod.outlook.com (2603:10b6:208:372::6)
- by SA1PR11MB6920.namprd11.prod.outlook.com (2603:10b6:806:2bb::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Tue, 2 Sep
- 2025 15:35:54 +0000
-Received: from MN0PR11MB6011.namprd11.prod.outlook.com
- ([fe80::bbbc:5368:4433:4267]) by MN0PR11MB6011.namprd11.prod.outlook.com
- ([fe80::bbbc:5368:4433:4267%5]) with mapi id 15.20.9073.026; Tue, 2 Sep 2025
- 15:35:54 +0000
-Message-ID: <6a5cc1e0-ea0a-4d7f-8834-20a371346d79@intel.com>
-Date: Tue, 2 Sep 2025 17:35:48 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 RESEND] drm: Replace the deprecated DRM_* logging
- macros in gem helper files
-To: <20250816152604.14667-1-krathul3152@gmail.com>, <tzimmermann@suse.de>
-CC: <skhan@linuxfoundation.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-kernel-mentees@lists.linux.dev>, <krathul3152@gmail.com>,
-	<linux-kernel@vger.kernel.org>, <simona@ffwll.ch>, <mripard@kernel.org>
-References: <aLcGnf_wrY5QuZZC@Terra>
-Content-Language: en-US
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <aLcGnf_wrY5QuZZC@Terra>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR07CA0303.eurprd07.prod.outlook.com
- (2603:10a6:800:130::31) To MN0PR11MB6011.namprd11.prod.outlook.com
- (2603:10b6:208:372::6)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KDtAvGLT"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id DE2DD84094
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  2 Sep 2025 16:44:00 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Jd9_OQVWI3uJ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  2 Sep 2025 16:44:00 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::430; helo=mail-pf1-x430.google.com; envelope-from=bhanuseshukumar@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 4833B8408A
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4833B8408A
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=KDtAvGLT
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 4833B8408A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  2 Sep 2025 16:44:00 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-772679eb358so1375043b3a.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 02 Sep 2025 09:44:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756831439; x=1757436239; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gDFLUlwGZ9fcnaymc/LV1ZN4f5ggTixFKC+VevtRkBU=;
+        b=KDtAvGLTswwyu94caF5awVwvX+kEVlx1eIqM1klIDBhgFYoOkEdSGSiRfKEj5J0XBw
+         tQFn5FjC7PjpeFvS6vOYiF72hZjn3fEynfCdcmbAUfhMspim3oqKuPGJVzKvZZ4HQzvO
+         ZqxYJvoe/loSNAm9ybfHtR2y+of1+EE/HwRn1a+slcbLjeEWk2OxMjgrRPc8D3PDYLqO
+         QKU1rSAfn7fqrCoLv8aO3dv6oBnPBWbWpmXVNb/XBa+nIhv76iuTHXLcry8Mb2c2yDQL
+         JuZbOmoXhN8Njkh7CTvCBoY8/Pen/pbQtJdvY56K0+X+rk8Vo96qwXThW2l43NYyKf7K
+         csdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756831439; x=1757436239;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gDFLUlwGZ9fcnaymc/LV1ZN4f5ggTixFKC+VevtRkBU=;
+        b=xCDKpWi9XofCFVw43edilZ9QYYVZ7AWbaShLwL+ZRTOUhPXfdbhdnCcC1h2/gADiLK
+         XKTuzNOF/bmP2yrGF2PkmNI+StV9A8EszT6FS4vv/FE/u2crNcwtgiVXhL+uAAfHeb62
+         sfdcnq2US8QUAZP9V8AB01YQhjZ15O1U/gPptR6dLrdtta25H7ZWJ7UOTGVoGQfYWC9k
+         6pY45auOdBiB3kJFPb0LfNGyFfFj7lC/ie75JCfHGEzbjiTcWYD+aufrfvsAeoAnGFbL
+         yY/Z0u189z848++pGr10Su4mtG2nZrfshCPDS4CnaLEAv31Ley9HgwViIP9/QLNQHQ/3
+         t4sA==
+X-Forwarded-Encrypted: i=1; AJvYcCW7wqPnL4/zhnBguhgtflWXJBEFzMilothdkcN+IAa3fmKDKtxpQWGJLlL7Mwvr59WggKceEE7oObaCZf3TAbh5NI1ZaA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyYszIv9YLvIGq4r7n826UXnfeCbYvbW7IgUUosIq3EE4Qx+YLI
+	hQW6aFoXw7Mmn5nCzpvBxUmN6IFYNxvY07NlirHjBY8xD4evbBycj/y5
+X-Gm-Gg: ASbGnctfJD7rZCzdcjSPGhegY6oxcemz2v95veDsBs0Dl+jgKax5tftBNct4tMc+sRk
+	ihiRepprq99rVbcpxjvDdLeK/rWWZJsWAh5qto/G/ZsmflZletE2SJOBPHRbZzUk3O01HYxaBmM
+	Pp+yLUUp0NeAfahH/IwFUkTNJD4cz6jbnynPsRUCKMIGCIV+0+LYD80CfIbRgML5S5kExUcmkYz
+	zTbx25d21Ath5/HJTQSjSUQibzQXgWGNHhYBgtfMCgTgNRFYyFepQuqLoSyq27wdPsXnoS12rJ5
+	CcN0hjKfJiBBk7qYVhkcXwtboGw3/1Xzj6sMMP3lUQas9K9YjIRVB9rHSLa0f5u0pm5t65gx0hf
+	q8Etxhk9TbPRwa1bAOPGhW/0PYr81NSQzx96hXUA=
+X-Google-Smtp-Source: AGHT+IFnhXzo9XpMwOvHJQbCUoXvdPp69NweZCk4tNGWxerYMAlk/QXOMn1ujstF2h6EEPXUubxeaw==
+X-Received: by 2002:a05:6a20:42a3:b0:243:755:58b0 with SMTP id adf61e73a8af0-243d6f3b622mr16537135637.49.1756831439370;
+        Tue, 02 Sep 2025 09:43:59 -0700 (PDT)
+Received: from ti-am64x-sdk.. ([157.50.162.120])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7722a26a1b9sm13831449b3a.7.2025.09.02.09.43.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Sep 2025 09:43:59 -0700 (PDT)
+From: bhanuseshukumar <bhanuseshukumar@gmail.com>
+To: rydberg@bitmath.org,
+	dmitry.torokhov@gmail.com
+Cc: linux-input@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	bhanuseshukumar@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] Input: bcm5974 - Driver cleanup by replacing dprintk with dev_dbg
+Date: Tue,  2 Sep 2025 22:13:51 +0530
+Message-Id: <20250902164351.36828-1-bhanuseshukumar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6011:EE_|SA1PR11MB6920:EE_
-X-MS-Office365-Filtering-Correlation-Id: b35c0bc1-b210-4bfb-c0d6-08ddea36676d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OUZiczRMWlBnZFVNQVNSVzNFdDlRL2p2KzN6N253SUp4ak96d2ZTcEltSjRI?=
- =?utf-8?B?WUNjNCtTZ0lyVmg4M0hUT2R0TkdpSGs4OXFzeWdTM0FwRHY1cDJsQXZ2RFh3?=
- =?utf-8?B?L0w5Z2hqK25PMEtkbktkK3B4S0lOYmMvdUttQnRGU080UGNIUUZDTXNkQzNR?=
- =?utf-8?B?YjlpbVRIaEdENG5hQXZjeFlUMlNSNGVzeWtWRDd3cm5ZQUhjN0huREJTbmt5?=
- =?utf-8?B?OU52bXJsb2hrWnJmcG9ZQmEwaWhYSUdabkFQaEkxN3JZNzZaWWRIdmhkbVJ2?=
- =?utf-8?B?SlJtVUJoaEZZNVMxak0vN1pQUjNBTnNoeVFscElKbFpua0JHMFd1NnYxM2k3?=
- =?utf-8?B?a3R6OVduMFFDU2gvaDdQZHc2RWc3NnBTdEdkYjRXc2IwL0pSSE15T0MzRkpS?=
- =?utf-8?B?TjFFYkZ2bmQyaWpTSllLNktkditSVXl3YmFZd2tMS1U3TE5JWVlpR3VlSjJp?=
- =?utf-8?B?QjFoZ25lUklicEVLbnZiOTFzV2tXWGExRVQ1dEVlZFJTVk9ENE9zRDIxRHVa?=
- =?utf-8?B?TDFLLzJRWVltZ1NaakpUaTNKZWFUSVhZdHYrM05xWHlweURRSlRWQ3Q4Y0tK?=
- =?utf-8?B?NENydWdoTUcydFo0eHNzS2dGRFNhai9oYllFMWlDU2NzRDkzbXpsZEhJOWFT?=
- =?utf-8?B?b01Xb0pacjEzRnpzbmtSSHF3Vk5WYUxVNmRvNzJPUVYyYi9zbG5CQnhTdisw?=
- =?utf-8?B?NmtwTm81K2lyZ0lJS1dBWHlEdSt6M2VGQSs2VFM1TU52bkNlYS85TGpod0Uz?=
- =?utf-8?B?MnBzYU1jM25pWUw5QWc1TFpmTVhVUGdaU0psVzFhN3J5aDd1TzE0UDVWVFVZ?=
- =?utf-8?B?TjdJREkvU1UyWktOZUw1bmt2cXpOSXhPeGFXc1FaUlJBSkwzWS9US1p5cXc3?=
- =?utf-8?B?ekQzYm1GaXJvM0xZK3lpa3FJd1N2RVg1Y2hpZlpLNXRYWjYxQ1dFeHhHUHpq?=
- =?utf-8?B?djVWanY2RktqbFBaK0h6YjdvclBzak9ra2Z3a2N0VTVrVGJCajlnbW1FeENZ?=
- =?utf-8?B?d28wSjEwZ054RGlzdjUrQk5IaHBlazdnNmdkSi9CT3E4aTBKMXdOdDZvTWRx?=
- =?utf-8?B?b2tPWnRwT0RHNUJDTHdNZUQ1TytXWGpIOGJMTU9seHhZbzFZc0xUUTd3aFF2?=
- =?utf-8?B?QmZzTWlORmU5MDRqbXN3Z2hHOFRpMlhYQzR1WUlGVXhHTWVhUnN2bHhGQ0ZX?=
- =?utf-8?B?cHQ3NTJNMTJha3lQd2xJc1A4QkhxVUhVVHU2ZEVHMGVnRXMwNlFDL244VXZv?=
- =?utf-8?B?MERpUHg0V1ZMeUhKd2FzQStMV3hvQ3VaVlN4ellSNTI0WG9WZWp0Z213Nkwr?=
- =?utf-8?B?dmIrczdIdTNIeFlUTkRTcGJwTEpxM2tRU2Q3amxwYkUyZ3Y0dGNWSmpGVFJa?=
- =?utf-8?B?bWEyRk1DR29wQmFVUjEvTE5nNjA5YytnSGNEUjhSL01qL1VZenU2eDlXZ2NN?=
- =?utf-8?B?OFdmaVkvM29CVzFTeHo0TDZBVUd5NTFaYlJRR3Y0dUJlMlBSMTN2eEIzeGt6?=
- =?utf-8?B?UnBvdHNhMGhyNG00RUNJbDIrejluMTlkajk5V2xmUzJBUXNQcW1qLzgxVmti?=
- =?utf-8?B?bGdjcFFmSnZWc0VZTGRZam9jdEQ5ck5jbVF3bjhudXZkS2Ftc2NaUUE1bmNw?=
- =?utf-8?B?anpyL3AzUVpESGM5cHhwcTYxclB4Q1hUUmNpaGZnZ0h4VkVwYnRVZ2QzODQ5?=
- =?utf-8?B?ZWRFVDFocHhYN2c5NmV1dFNHQ2xIMnVPelZhWFBTM1Y3aFpqRnhSWG56QkNO?=
- =?utf-8?B?Zk1qUEdtR2h4WGRMbWVTV3pQdzFxZ3VvMEpwQ25JK1NkVFRXaDUrOTJYZXpR?=
- =?utf-8?B?Tmt2Y1kvMUpNUWYyRlpRV0F4UEd0TUVXaExPL1pvUTNrZzRHMUMzVWo3ZWU3?=
- =?utf-8?B?L0c1YUFWRDI2VFEzOUtJZDJjU2M0UlZ1VElPUC9hZTRsUEFPUDZzNHJJNUJP?=
- =?utf-8?Q?6EWaD37LTVo=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6011.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MjdiZ3Q2aysvT21ndXQ4dmx1K0FVMXpNSGxXNGNJNzQ0NzJPSjkxbXVKcDFY?=
- =?utf-8?B?MTJQRWNNcUl6NkhtQ0NNMk1VZ2FWMUxYUlpEc1Y2VWtQT3M5ams2NTZsZUJt?=
- =?utf-8?B?d0d3emxOOUE0T2FFb1RXTjlrbjM3dXpwSzZBdjdrWDJIYmlVN3pRUEdmSElq?=
- =?utf-8?B?S0NjdUJPaEdGanZUVkVjMkFLb3ZOV09YeDltQURjcktLYkprdG1EcGNuTVBZ?=
- =?utf-8?B?UG9BblN0NWRrd3hzTkEyWHdPMkNwQWJIRnRTVWtjZk9uRzFqZk5QOUJjd3Fa?=
- =?utf-8?B?L1RqanFTMXY4ZkxSU2d2L1MvMDA0Sy81Wm9pd004Yk84bmpwMm1YcXBXbG1Z?=
- =?utf-8?B?V1VHMG1LV2NyTzJXSC9YTVIrNC90Vnc3NnlZd3B3aGRaVytXNE1xK3YyODg3?=
- =?utf-8?B?MnZMN2dkRWk5NWF4L0ptRnIyTWluTkVjTVNodWFYS3hNb0Jock4wUWd6Qmd0?=
- =?utf-8?B?Tlk0OTFWWGZmQ2dUNWh4VnQxVUx5Rm5DSlBTUklGSmgyQVBnb09rR253NmVT?=
- =?utf-8?B?ZEN1NHE3R05TZkkvclA3OEJJR3QySjQ2dkUzU0hKcVltdG1GTUhYNFhyVFBq?=
- =?utf-8?B?UzN4ZnFoU3JLcnNWMXZ5YjNFZVZ2OWtDblYwSGE5eXFhMEJScnB5SmxvLzVT?=
- =?utf-8?B?QjE2R2ZpSHQrdGk1bzYxMGVHUDFTcDJQdkVpQjV2eVlpTHlMWm85aXBhQ05w?=
- =?utf-8?B?YThBd0lIb1l1bkVSMTM5R0Z4R1M1VnpxMm5DUWM4K0xmR3dMMUJlOFVmdlBh?=
- =?utf-8?B?WFdtdnZ5YWtzREEwTEU5d29SVmhEMmJKUGtXWUpUL0s3K0pacVJmMnJ4UkVP?=
- =?utf-8?B?VlhjSjVPV0tscitjcDdnUFRRK3lPYkVQbXVlbkRBT0tQSithYVRLaGluQ1RS?=
- =?utf-8?B?K2JGdW9vbkQrWTd0TS9xUVRMamVLSExDZnZlSlV1YnZUZmVzU3JsMFo2d2hI?=
- =?utf-8?B?bnRmYXFsR0ZVTU9TOGgxKzBxREVsamtjMVNTYUVvaHBjeFVLZ2UvWEVIa0RI?=
- =?utf-8?B?Tnd0bUcrb1JUUS9LY09SNStmRVZ6MUd0dWlmUHIyZkdmSDAwMkdvd3pNQTc3?=
- =?utf-8?B?ckVwYXlIRUt5MTlFTmJJbmZZUytyNm1FRHVvQm0rREFQK2pDMHdEWmE1ZnNr?=
- =?utf-8?B?d21vREhjOVRtVEZVaHZsSDBycGo4QjVOYkNIeTFNYkpqbzE0UGpZUDIxWmhY?=
- =?utf-8?B?K25aWHFjdGtNQTdhSWlxWDhtSjVkMmMzZVJFWlpWdStOYXI5Z1d1NFdlQ2ZE?=
- =?utf-8?B?YlZINlNQNTd6azdYd282ODcvWmF4c0hnbHZManpvT1lieDArZ0s2Q0FXUEZm?=
- =?utf-8?B?Y0g2WjVpMVljSDB1Z1oxRWE3ejVjSEdhQ2FRUzBjUE9sdE01NWVlcXBpTEJ2?=
- =?utf-8?B?TXZ4YlNEcElURms5RDR5WXZNRTF4WHBNL1VyMmlidFd1ait0MFcxV0RCZyts?=
- =?utf-8?B?T0pzQk9GVTNGVlIydHZVNll2UldnSkRnY3QyRmN4dUNaNk83SVpTQ1o1RURt?=
- =?utf-8?B?VktLN1N4clJLejdCZ1FuR0g0dkZMK203WmpnWWVKUmp6Q3czc3NWUjN3cWtI?=
- =?utf-8?B?ZEw5S2Y1K1gvWXRSSjNQQVg5UG9nTlZGVkJ2N1luZDR2by9LS3NqOTZjaEJG?=
- =?utf-8?B?Y0RqOUhOYlArcC9jK2lOV3QyNVllWXNLaTNFSjFJbFRISHoyMi9XS2k4c3lH?=
- =?utf-8?B?ckRwWXp5TnZNN3RsbUVFNnFDZmxublZMWVBXa0VUS2dLWmIrRm5jRTFZOC9X?=
- =?utf-8?B?V2Y0aFJiSmU1KzBJamNkd2J0bEpMZnc2MXdXZ2Nud3Z2Y3dyTXlLN2F1MVJL?=
- =?utf-8?B?SnZJTTkwNGlBTUx6dFREM0tnWDl3VzhHOVJ2YzBFTlRWKzlYU2Y1M1FZZ1NL?=
- =?utf-8?B?aE05M2xFLzNOMlkvdTF6TkZVL3JnT0NTV0NnYkZIZnF2NWRaSGp5VGQwL0ZG?=
- =?utf-8?B?eGxka3UrcXJEQ2k5Y2psT21hNGZTMzIweGVua1cyRHVtclJGbkZxaVdkc1ZM?=
- =?utf-8?B?NnNMSDV5VnBENUNVeEhDd0N3Y3ZXTkRkS01nVU50TWNhMzB6eVQrNjU5eHFj?=
- =?utf-8?B?T0pRKzZYREliOWdobkRDOEREZm9HZDlwSG4wMHVSRWJvVTY4cUlVeGxsZzVQ?=
- =?utf-8?B?TmcvT3NvcXFZMVNHNUJPUmdOSFFnYVZXcGRUanc3c3NQSlJxNGN6bzJhN2RY?=
- =?utf-8?B?dnc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b35c0bc1-b210-4bfb-c0d6-08ddea36676d
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6011.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2025 15:35:54.3284
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Wp2YdCjtmlJwKENRoQro1kIHqpfg/Eoc6FnOxAfRWb1YAqkjgxzw4hY+9Ye+fqMI6juZ0uAMbPih3WueQxi+XhZxZJVGqLvuRMOjMTn2IBI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6920
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
+	Debug printk messages are converted to dev_dbg based logs
+	for better control over debug messages using dynamic logging.
 
+Signed-off-by: bhanuseshukumar <bhanuseshukumar@gmail.com>
+---
+ drivers/input/mouse/bcm5974.c | 21 ++++++++-------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
 
-On 9/2/2025 5:00 PM, Athul Raj Kollareth wrote:
-> Replace the DRM_* logging macros used in gem helper files with the
-> appropriate ones specified in /include/drm/drm_print.h.
-> 
-> Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
-> ---
-> Changes in v4:
->     - Some codestyle corrections.
->     - Remove OOM error logging in drm_gem_init().
-> 
-> Changes in v3:
->     - Revert all changes to drm_gem_objects_lookup().
->     - Use drm_device from minor.
-> 
-> Changes in v2:
->     - Change drm_gem_objects_lookup() to take a drm_device* argument.
->     - Make appropriate changes to all calls of drm_gem_objects_lookup().
-> ---
->  drivers/gpu/drm/drm_gem.c            | 13 +++++++------
->  drivers/gpu/drm/drm_gem_dma_helper.c |  2 +-
->  2 files changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 4a89b6acb6af..dc3d6cfa692b 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -102,7 +102,6 @@ drm_gem_init(struct drm_device *dev)
->  	vma_offset_manager = drmm_kzalloc(dev, sizeof(*vma_offset_manager),
->  					  GFP_KERNEL);
->  	if (!vma_offset_manager) {
-> -		DRM_ERROR("out of memory\n");
->  		return -ENOMEM;
->  	}
-
-nit: you can now remove { }, didn't checkpatch.pl complain?
-
->  
-> @@ -783,9 +782,10 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
->  int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
->  			   int count, struct drm_gem_object ***objs_out)
->  {
-> -	int ret;
-> -	u32 *handles;
-> +	struct drm_device *dev = filp->minor->dev;
->  	struct drm_gem_object **objs;
-> +	u32 *handles;
-> +	int ret;
->  
->  	if (!count)
->  		return 0;
-> @@ -805,7 +805,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
->  
->  	if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
->  		ret = -EFAULT;
-> -		DRM_DEBUG("Failed to copy in GEM handles\n");
-> +		drm_dbg_core(dev, "Failed to copy in GEM handles\n");
->  		goto out;
->  	}
->  
-> @@ -853,12 +853,13 @@ EXPORT_SYMBOL(drm_gem_object_lookup);
->  long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
->  				    bool wait_all, unsigned long timeout)
->  {
-> -	long ret;
-> +	struct drm_device *dev = filep->minor->dev;
->  	struct drm_gem_object *obj;
-> +	long ret;
->  
->  	obj = drm_gem_object_lookup(filep, handle);
->  	if (!obj) {
-> -		DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
-> +		drm_dbg_core(dev, "Failed to look up GEM BO %d\n", handle);
->  		return -EINVAL;
->  	}
->  
-> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
-> index 4f0320df858f..a507cf517015 100644
-> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-> @@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct drm_device *dev,
->  
->  	ret = dma_buf_vmap_unlocked(attach->dmabuf, &map);
->  	if (ret) {
-> -		DRM_ERROR("Failed to vmap PRIME buffer\n");
-> +		drm_err(dev, "Failed to vmap PRIME buffer\n");
->  		return ERR_PTR(ret);
->  	}
->  
-
-otherwise LGTM, so with nit fixed:
-
-	Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-
-but you still need someone else to merge it
+diff --git a/drivers/input/mouse/bcm5974.c b/drivers/input/mouse/bcm5974.c
+index dfdfb59cc8b5..2791fe0c1932 100644
+--- a/drivers/input/mouse/bcm5974.c
++++ b/drivers/input/mouse/bcm5974.c
+@@ -156,13 +156,6 @@ MODULE_AUTHOR("Henrik Rydberg");
+ MODULE_DESCRIPTION("Apple USB BCM5974 multitouch driver");
+ MODULE_LICENSE("GPL");
+ 
+-#define dprintk(level, format, a...)\
+-	{ if (debug >= level) printk(KERN_DEBUG format, ##a); }
+-
+-static int debug = 1;
+-module_param(debug, int, 0644);
+-MODULE_PARM_DESC(debug, "Activate debugging output");
+-
+ /* button data structure */
+ struct bt_data {
+ 	u8 unknown1;		/* constant */
+@@ -547,11 +540,12 @@ static void setup_events_to_report(struct input_dev *input_dev,
+ /* report button data as logical button state */
+ static int report_bt_state(struct bcm5974 *dev, int size)
+ {
++	struct usb_interface *intf = dev->intf;
++
+ 	if (size != sizeof(struct bt_data))
+ 		return -EIO;
+ 
+-	dprintk(7,
+-		"bcm5974: button data: %x %x %x %x\n",
++	dev_dbg(&intf->dev, "bcm5974: button data: %x %x %x %x\n",
+ 		dev->bt_data->unknown1, dev->bt_data->button,
+ 		dev->bt_data->rel_x, dev->bt_data->rel_y);
+ 
+@@ -688,7 +682,7 @@ static int bcm5974_wellspring_mode(struct bcm5974 *dev, bool on)
+ 		goto out;
+ 	}
+ 
+-	dprintk(2, "bcm5974: switched to %s mode.\n",
++	dev_dbg(&dev->intf->dev, "bcm5974: switched to %s mode.\n",
+ 		on ? "wellspring" : "normal");
+ 
+  out:
+@@ -718,7 +712,7 @@ static void bcm5974_irq_button(struct urb *urb)
+ 	}
+ 
+ 	if (report_bt_state(dev, dev->bt_urb->actual_length))
+-		dprintk(1, "bcm5974: bad button package, length: %d\n",
++		dev_dbg(&intf->dev, "bcm5974: bad button package, length: %d\n",
+ 			dev->bt_urb->actual_length);
+ 
+ exit:
+@@ -753,7 +747,7 @@ static void bcm5974_irq_trackpad(struct urb *urb)
+ 		goto exit;
+ 
+ 	if (report_tp_state(dev, dev->tp_urb->actual_length))
+-		dprintk(1, "bcm5974: bad trackpad package, length: %d\n",
++		dev_dbg(&intf->dev, "bcm5974: bad trackpad package, length: %d\n",
+ 			dev->tp_urb->actual_length);
+ 
+ exit:
+@@ -783,10 +777,11 @@ static void bcm5974_irq_trackpad(struct urb *urb)
+ static int bcm5974_start_traffic(struct bcm5974 *dev)
+ {
+ 	int error;
++	struct usb_interface *intf = dev->intf;
+ 
+ 	error = bcm5974_wellspring_mode(dev, true);
+ 	if (error) {
+-		dprintk(1, "bcm5974: mode switch failed\n");
++		dev_dbg(&intf->dev, "bcm5974: mode switch failed\n");
+ 		goto err_out;
+ 	}
+ 
+-- 
+2.34.1
 
