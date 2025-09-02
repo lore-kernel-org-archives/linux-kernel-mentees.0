@@ -1,80 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0371627B4E4;
-	Mon,  1 Sep 2025 20:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4058E2DF13B
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  2 Sep 2025 04:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756758015; cv=none; b=cwMbsEAfC5Tq675U+pNaTCgOjGKLN1rleAA2+bCydAow61aLCdFgfCxL5wYZyxlaarKXteiAfmdupB/HF7cY2cxrqaxfkhBzAi5j+1HsV1vYIkCQX66uN7F3q6Ee0dMJejHheaolCwQUYtoEM5Q7HV3selWVx2ccwr2rdZNtffs=
+	t=1756786169; cv=none; b=WlI+fA59pqacnzSniRDovK3LBaXe3uRb8PL17LGwLo+1QO86NfayuSPwl3rv8qvdiIODzA9Xd/RdRfJdEjpNGUTX9WitcPDi3aWVue7hyrhQhXA16qWba912fHjeHAO5aR9D2uPKUjMHVdOTjyZJoAO+iSA1m8rcoetjDe0xJDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756758015; c=relaxed/simple;
-	bh=/wHKmb5x4dVF5LLmkd2vR6bUl0B5d3Y3KDThI8+gBEM=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=MfqltI9TvwRXy3PKON73TI0nczGAA30bHv5QjXTBc57ILsfyTjzF40qNjStXfGTHpTM5vT9bYyvPBU6SnHcsLwRZvAOJrIS9UqTjLkDL5gbkcfzCdgfhgMfafAaCPZDGHXSzFZgjpHuRALya4WIS3iaapH/QQrOQIrZlGQ0TwNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TvH9qRFv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756786169; c=relaxed/simple;
+	bh=5dI+o8+/VX8vNatbzWuIyuhVC2ZOzo6CI09Rjw6XzoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KAEL1xTDGoiv7552tidUfxRyUQFWx82fVb5u4sqfZHXMAEzA4PJrG51xw8EwB4QzVB76SBExDZblLsqWAoR+CxIMsFfHtOcQ8y4gf4dFYKP2vWyEH7SyLVMsD+eMssdM5HZc9mWWSBVJw0beeTZG5X4ijVNfnjLiox7KmdnKiIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=dr5nYrtc; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TvH9qRFv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74026C4CEF8;
-	Mon,  1 Sep 2025 20:20:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756758013;
-	bh=/wHKmb5x4dVF5LLmkd2vR6bUl0B5d3Y3KDThI8+gBEM=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=TvH9qRFvETPxVNMAuRj/0xEkXPg+k3OdaDqncr4D14qlHBgnqucaVSUyuOZCbEhoA
-	 EMAatoVfYDb+Rgwx+2XFzLnIKJWB2KQPuhTMoemnoXTenXAkZm1DnFr/kWg+WBzRqU
-	 jF0V4XzKbL8hjW4WhSe/aCnbs3uGGPMVaStKg3AVIRA2gAOPfbC18t6RBSDh1rTIuN
-	 lgXhf851oE/ZCD6NHAdHpvzPoEuHMNYngqTvfqXnEzPq2GG/+suZe2N688DcuWv73v
-	 IZVVS+1WAPimsLNvgrhUIARrFkEFF8S+o3l1PNT4pNStSJryHwjDkuDwlJcrerp9Iz
-	 uq1CLW7nYZK+w==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70E4B383BF4E;
-	Mon,  1 Sep 2025 20:20:20 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="dr5nYrtc"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1756786158; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=G+TTJZpvM1oLnn0O3P9/SPMdGWfxxUtCQSOzuT9UnIs=;
+	b=dr5nYrtc2QD1gsaTO+mc9PWWr3cQXGdo9tGY1Fg0bcYjaZCpw3/mB4FSAnkjOryC6b4IquliWdCP4JXeGbsvNbeDY3GWWSI9DMKmD6+X9Qthij5U7l2gJ2YKsmT4WTnjqHSB3PYSxtSwLQwtGORXfsf1xz2h/bMIXmJ4TtmB1MY=
+Received: from localhost(mailfrom:dust.li@linux.alibaba.com fp:SMTPD_---0Wn6ArLY_1756786156 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 02 Sep 2025 12:09:17 +0800
+Date: Tue, 2 Sep 2025 12:09:16 +0800
+From: Dust Li <dust.li@linux.alibaba.com>
+To: James Flowers <bold.zone2373@fastmail.com>, alibuda@linux.alibaba.com,
+	sidraya@linux.ibm.com, wenjia@linux.ibm.com, mjambigi@linux.ibm.com,
+	tonylu@linux.alibaba.com, guwen@linux.alibaba.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, skhan@linuxfoundation.org
+Cc: linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2] net/smc: Replace use of strncpy on NUL-terminated
+ string with strscpy
+Message-ID: <aLZt7PLarvNIedau@linux.alibaba.com>
+Reply-To: dust.li@linux.alibaba.com
+References: <20250901030512.80099-1-bold.zone2373@fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] selftests: net: fix spelling and grammar mistakes
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175675801899.3872744.1239896650395115620.git-patchwork-notify@kernel.org>
-Date: Mon, 01 Sep 2025 20:20:18 +0000
-References: <20250828211100.51019-1-praveen.balakrishnan@magd.ox.ac.uk>
-In-Reply-To: <20250828211100.51019-1-praveen.balakrishnan@magd.ox.ac.uk>
-To: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
-Cc: aconole@redhat.com, echaudro@redhat.com, i.maximets@ovn.org,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- horms@kernel.org, shuah@kernel.org, netdev@vger.kernel.org,
- dev@openvswitch.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250901030512.80099-1-bold.zone2373@fastmail.com>
 
-Hello:
+On 2025-08-31 20:04:59, James Flowers wrote:
+>strncpy is deprecated for use on NUL-terminated strings, as indicated in
+>Documentation/process/deprecated.rst. strncpy NUL-pads the destination
+>buffer and doesn't guarantee the destination buffer will be NUL
+>terminated.
+>
+>Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Reviewed-by: Dust Li <dust.li@linux.alibaba.com>
 
-On Thu, 28 Aug 2025 22:11:00 +0100 you wrote:
-> Fix several spelling and grammatical mistakes in output messages from
-> the net selftests to improve readability.
+Best regards,
+Dust
+
+>---
+>V1 -> V2: Replaced with two argument version of strscpy
+>Note: this has only been compile tested.
+>
+> net/smc/smc_pnet.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/net/smc/smc_pnet.c b/net/smc/smc_pnet.c
+>index 76ad29e31d60..b90337f86e83 100644
+>--- a/net/smc/smc_pnet.c
+>+++ b/net/smc/smc_pnet.c
+>@@ -450,7 +450,7 @@ static int smc_pnet_add_ib(struct smc_pnettable *pnettable, char *ib_name,
+> 		return -ENOMEM;
+> 	new_pe->type = SMC_PNET_IB;
+> 	memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
+>-	strncpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
+>+	strscpy(new_pe->ib_name, ib_name);
+> 	new_pe->ib_port = ib_port;
 > 
-> Only the message strings for the test output have been modified. No
-> changes to the functional logic of the tests have been made.
-> 
-> Signed-off-by: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
-> 
-> [...]
-
-Here is the summary with links:
-  - selftests: net: fix spelling and grammar mistakes
-    https://git.kernel.org/netdev/net-next/c/c85ae0240ee9
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+> 	new_ibdev = true;
+>-- 
+>2.50.1
