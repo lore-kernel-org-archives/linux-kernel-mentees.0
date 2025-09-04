@@ -1,294 +1,104 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1E327A12B
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  4 Sep 2025 07:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D0C2F39CC
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  4 Sep 2025 12:44:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756971623; cv=none; b=iu9UIztntfMB7tMDXeDTrcM3e3elBLz4vA58OiQCV4YfqnzAPKbDMCLxFB8SNYzi3yr4ul3goGu6XgkdWMKqHrQpMS929ZjNES0cviodOfKOulhYWb8hE0j24aT4I5vludlWqyqF34GDEXvL32CvvgMd03U5Uswaa1GA7Dqw5xc=
+	t=1756989864; cv=none; b=gX8oiHFAgybgzX6WEiFRLojWGRa58QjXxSL4FYUtDX6461GOajaY8XmhUOg0OliS20UU+nUnb+6zKHkX9KOyiOWkXGFMux1CxQTIHVeR3qaKQsorC5YXHnpj+9GJv/Ls/SU6oit5eOp3Ot/Mx1EjAL64TA6FnVoS1QlctjG75PQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756971623; c=relaxed/simple;
-	bh=eIrVK0Ias59Ag2uJFqdtEy6fMXL6YCiM1AsRPYnGXT8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OMVD30Kvd//5D4h1bEi83d3JLQGGXcVu8eAZ/cGjWQBi62B3o7jQcindH2C1uCiLHH5VXf9zQvGgKWcRns2zejcWSjF5GaT+3IIa8HaqE3FC/gZsD4vCHJ+aUImVlDiAh1GjbbDL171OaD+HkvNaqdMqICwEWmuQ5/tdfIPLwvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FQVWPnh/; arc=none smtp.client-ip=209.85.167.48
+	s=arc-20240116; t=1756989864; c=relaxed/simple;
+	bh=CMzTLzSuPzZSKmPCVID34LoXc6n8pN+Vcm6j0KSBe3M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=naeKp+jT4QSGz5gIzpMiZGBtFlW00z0zQX1r/Z09IUwfEfL1i1Ndboq9ewKo1HNQVtmssb1ElUjK3PuEyheqg52l0UhzMKtduF/dV+FSOQI2dlP5f9EAymE3fO93Bf0Ku47FIzH/hxkyvbuaroRP3yp5IVWmI5rc87O2JAA4JFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cieCsaje; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FQVWPnh/"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5608bfae95eso725671e87.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 04 Sep 2025 00:40:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cieCsaje"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-77264a94031so725907b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 04 Sep 2025 05:44:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756971619; x=1757576419; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gc4Uqem+8ZkBxn4yFNp/DFtrvsE3WtaNmDYF+RPTg2U=;
-        b=FQVWPnh/1570pNPlva00UXtNSzhL6YphDN0njbKHIrDar6Ift5nuZbkW2mIzYzFsmq
-         0rEY9x0/9eBOp+CCVmbPejz2dfcLD3jxwqWbhwIxDInuO5fFmqxVPGxWkCh1hChYEgdK
-         zNeTsNqI9d9/seJnfSn/BXMSP8iAZ9gkT5DbFz1bMZWqbejdPID9mLThM4urzPB0gc6J
-         UHTuR48DE4I6EhICw0aGaxtJrZYLrAEWfNLsc1TF0LFTconbuviNLCJe0kVpftIjfymb
-         KFiflYsC2QMSAlyb9gTPKOIhzM/1N4pB5xQ8h4C+9mWyFvgM1ktvpL3vatvUL5p39iD4
-         /r3g==
+        d=gmail.com; s=20230601; t=1756989863; x=1757594663; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+4TpF34W3PHvsBrekGwm1rvuPQAafzFCgW5mxOcoS+s=;
+        b=cieCsajeAZ1Mf0GodLgg5CmJ/c2nFGTruzkKs0MvL8Z+MH2fq4zNXfyLSmogYEEJF/
+         tpz2rP37WKan8BeeZd9pE97T4yil2GCyPvBjZvVUMOR69H66C7y37Y6FEEDTBfyJ2mIY
+         aylSO39jaW5AeqEXLXlxtCGho/ba6Eq8w5mYQbqyA8fscDbUCyz53DTROYMa3LG+LMPO
+         nReSQ84WDPVUp6+SfxmC11lXdhqerLi08pXhTSUOrXGdSVqalc8n0EL43TXd3tnt/zIR
+         sfzya50CmXefr1h2l+cHx9rUF7wkU8fJYr4L1Xq5Zd3nWOJH1B6ZOEThXlrfWYabPYU3
+         O24g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756971619; x=1757576419;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gc4Uqem+8ZkBxn4yFNp/DFtrvsE3WtaNmDYF+RPTg2U=;
-        b=YitiecX28tp1JxF3J2UqKtFi/6b+HQaFUSYtkT2O+CCXu0l3Voj9RkcjwdoeRl7V22
-         TBXFOxyV2luYQu/ZkgEABl2/9Wws3hMkXMOxJeNTChale0ln5Lqf//RMoP6m7YYi530n
-         WiyfyGoaKmTKDmRqPuJa2vZUO6w+g6y0hqlCFDaxLBwiwZjAMPaTVRSwLP3YYSQofesz
-         O+F1+FJ6aNo6qh+ePEnx7TIlaUCN3cWS7myUsPE8PwXZ7gZg3qoi5qOzpcNvd8yKUlKP
-         J4sSvRzSJ6E6048MaOQBFQKhm+D8l2+mW4B7+NXIzBRhpu/b1vui5cdbC5WO3MD4ZCsJ
-         hYLw==
-X-Forwarded-Encrypted: i=1; AJvYcCXpVJHv9o9DmYpFO2WyM+8vb8GwDWtm81kiz5pisuJWg5UBDvQXl9Wb+WELdIAA6DP45We9z7UoflZmSqbtDmY1HqEkVA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxnMCQJQDm2FVbSqLS0M+fZ8EBvtDTySwVIhtZ8eriipRoSB26w
-	lZAWsuOuUsqQBPwO2AMfnHE8acGL88al04PbUbmTLdvWxhdR0RKteyhSB4mTVJGGFO+Y5tAeh+p
-	zzSFh/OMFiHjbMKAxNcpmcr5gqMCjIxg=
-X-Gm-Gg: ASbGncuOwR2PCnxdK+rsXGOHGSY6mEAeW+rrvoCOd1U2nWkqSND1Co5tIntGd3myhk0
-	PkKAbOr3HVm85gKDRlu05kt7904TQ37hfoq5LXt5iAyu6Rzcuo2SEnvoB9e2G4Z9TNiQ9T3FCyv
-	rZFonSpJdWUM1Fv2Ydc/QHmRfPyhUa9jKe+lB6fMDdNJVLNuGJGju0OpvP5mQNj3PhcxOoHr/j+
-	jrtCJj66S22AF7H+Q==
-X-Google-Smtp-Source: AGHT+IFtKLMUsLlir53WfPNlbjKgCEI3v/cBnmaMPUS1x4ZY1q62JCePqOMT8TCsGgjP/1nER3lDVi/ovnSdN9S9Tmc=
-X-Received: by 2002:a05:6512:32cb:b0:55a:c9f0:a019 with SMTP id
- 2adb3069b0e04-55f708bff09mr5606251e87.23.1756971618983; Thu, 04 Sep 2025
- 00:40:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756989863; x=1757594663;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+4TpF34W3PHvsBrekGwm1rvuPQAafzFCgW5mxOcoS+s=;
+        b=In18uZzI2CzSl29DpQ4LMxcbibfVS7t5gZa1UL8wVnK0lnONulCIkxzTUTzZJSXXFr
+         soDGPcXJw8xsq0cxVHc88F/0jIMHhru32m/lGhFjh/BVNBlSEYJTlVtKwDKglTB+hdox
+         kqeruRcpjHobSNkpYvr6PYcYLYI7t4OploKPjtcHfgRBaAFFLaGhCyd13JGeAyFTlNhz
+         giOUKv5ycFU86WapNtbUu5SadrSKRQdanyH9o+ugjkJTpsO7j4UoTXlDgdOB+5LrY2fr
+         ogBec73mQj0JrUwnxug6KhgfEn//NK0dCC8C3uulsditDIlp6s8KrQSOL06KLPSgm7Nh
+         sIoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUqDEI1YEUAWAgMrAdfvxFAormQgcmFk0FDyFa0geTqq3Xfo/Y/pmyzAzPrHKPlia3Ww2yw97yxIS3EoLtC7fiMvnbAyQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzX1uRLLFgIIKZNMt0gJzLWPaVpK75ntuc1igYiQxAo7FFmYDP2
+	7LMvqbdRCNnKhdNlkV7arxQznf5Wfcpo08QTThSYrKwi3xVgGWlhHUrQ
+X-Gm-Gg: ASbGnct5v+jr+tP8wPXcLBcVrA6uNqXkmODbP/R3uJE7fp9MN9BbTnpNYeHM9cgZWN0
+	kgblACs6k63fGxpBvLuKyPrgcQQ4KrVwIUSvZP1RiBhI4+tdnFrwmGVgsss4lNp+UOP54N2P2UK
+	Ua1l0le0SQteAgGh/IF2vUS7mUxYVRLqIugP5JIMgmxwH8zYkdpdZN7aYR/lnwtHh/UgGMFAGY2
+	FhSqXQu/kDjNeH3ku+CNLoPIk2vdnmvjjmrolNIu93P+t8aUX0ZGHS0gEWW2+Kfd7nQ9LTEL8TR
+	qCERz3S4qfZKjR4os0wITKsqswpnEURVs+DDFfgskwo8TzjRzKzkyFuqiNLpJgv969Ctdhvo8j2
+	7+N4j/as/Lkk4+p2/41JFw5EOx/G2eiX2esnUzoy1tXs=
+X-Google-Smtp-Source: AGHT+IG6ptwhAi2WTl+f7P5ZxhCvDz0tuMXhkbgEzCii/VqANS73LGKBj4D0rLB4cKm9/rE75RrMQg==
+X-Received: by 2002:a05:6a21:7988:b0:243:f86b:3856 with SMTP id adf61e73a8af0-243f87ac36bmr15437336637.38.1756989862589;
+        Thu, 04 Sep 2025 05:44:22 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4f9c35f391sm5854642a12.25.2025.09.04.05.44.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Sep 2025 05:44:22 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: maddy@linux.ibm.com
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	mpe@ellerman.id.au,
+	npiggin@gmail.com,
+	christophe.leroy@csgroup.eu,
+	shuah@kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org
+Subject: [PATCH] selftests/powerpc/pmu/: Add check_extended_reg_test to .gitignore
+Date: Thu,  4 Sep 2025 18:14:01 +0530
+Message-ID: <20250904124404.4425-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250813074201.6253-1-pranav.tyagi03@gmail.com>
-In-Reply-To: <20250813074201.6253-1-pranav.tyagi03@gmail.com>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Thu, 4 Sep 2025 13:10:11 +0530
-X-Gm-Features: Ac12FXw6nDps7DJxYy_LzV6LDUJK7V4swqmVewZj6bbPCr9Vj57XurgMlvy4sAs
-Message-ID: <CAH4c4jJ1AO6Eovw9xBmKeBG7W8ueWy+7q_g20hDN4YmWTHdpdA@mail.gmail.com>
-Subject: Re: [PATCH v4] futex: don't leak robust_list pointer on exec race
-To: tglx@linutronix.de, mingo@redhat.com, peterz@infradead.org, 
-	dvhart@infradead.org, dave@stgolabs.net, andrealmeid@igalia.com, 
-	linux-kernel@vger.kernel.org
-Cc: jann@thejh.net, keescook@chromium.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 13, 2025 at 1:12=E2=80=AFPM Pranav Tyagi <pranav.tyagi03@gmail.=
-com> wrote:
->
-> sys_get_robust_list() and compat_get_robust_list() use
-> ptrace_may_access() to check if the calling task is allowed to access
-> another task's robust_list pointer. This check is racy against a
-> concurrent exec() in the target process.
->
-> During exec(), a task may transition from a non-privileged binary to a
-> privileged one (e.g., setuid binary) and its credentials/memory mappings
-> may change. If get_robust_list() performs ptrace_may_access() before
-> this transition, it may erroneously allow access to sensitive information
-> after the target becomes privileged.
->
-> A racy access allows an attacker to exploit a window
-> during which ptrace_may_access() passes before a target process
-> transitions to a privileged state via exec().
->
-> For example, consider a non-privileged task T that is about to execute a
-> setuid-root binary. An attacker task A calls get_robust_list(T) while T
-> is still unprivileged. Since ptrace_may_access() checks permissions
-> based on current credentials, it succeeds. However, if T begins exec
-> immediately afterwards, it becomes privileged and may change its memory
-> mappings. Because get_robust_list() proceeds to access T->robust_list
-> without synchronizing with exec() it may read user-space pointers from a
-> now-privileged process.
->
-> This violates the intended post-exec access restrictions and could
-> expose sensitive memory addresses or be used as a primitive in a larger
-> exploit chain. Consequently, the race can lead to unauthorized
-> disclosure of information across privilege boundaries and poses a
-> potential security risk.
->
-> Take a read lock on signal->exec_update_lock prior to invoking
-> ptrace_may_access() and accessing the robust_list/compat_robust_list.
-> This ensures that the target task's exec state remains stable during the
-> check, allowing for consistent and synchronized validation of
-> credentials.
->
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> Suggested-by: Jann Horn <jann@thejh.net>
-> Link: https://lore.kernel.org/linux-fsdevel/1477863998-3298-5-git-send-em=
-ail-jann@thejh.net/
-> Link: https://github.com/KSPP/linux/issues/119
-> ---
-> changed in v4:
-> - added task_robust_list() function
-> changed in v3:
-> - replaced RCU with scoped_guard(rcu)
-> - corrected error return type cast
-> - added IS_ENABLED(CONFIG_COMPAT) for ensuring compatability
-> - removed stray newlines and unnecessary line breaks
-> changed in v2:
-> - improved changelog
-> - helper function for common part of compat and native syscalls
->
->  kernel/futex/syscalls.c | 108 +++++++++++++++++++++-------------------
->  1 file changed, 58 insertions(+), 50 deletions(-)
->
-> diff --git a/kernel/futex/syscalls.c b/kernel/futex/syscalls.c
-> index 4b6da9116aa6..0da33abc2f17 100644
-> --- a/kernel/futex/syscalls.c
-> +++ b/kernel/futex/syscalls.c
-> @@ -39,6 +39,58 @@ SYSCALL_DEFINE2(set_robust_list, struct robust_list_he=
-ad __user *, head,
->         return 0;
->  }
->
-> +static inline void __user *task_robust_list(struct task_struct *p, bool =
-compat)
-> +{
-> +#ifdef CONFIG_COMPAT
-> +       if (compat)
-> +               return p->compat_robust_list;
-> +#endif
-> +       return p->robust_list;
-> +}
-> +
-> +static void __user *get_robust_list_common(int pid, bool compat)
-> +{
-> +       struct task_struct *p;
-> +       void __user *head;
-> +       unsigned long ret;
-> +
-> +       p =3D current;
-> +
-> +       scoped_guard(rcu) {
-> +               if (pid) {
-> +                       p =3D find_task_by_vpid(pid);
-> +                       if (!p)
-> +                               return (void __user *)ERR_PTR(-ESRCH);
-> +               }
-> +               get_task_struct(p);
-> +       }
-> +
-> +       /*
-> +        * Hold exec_update_lock to serialize with concurrent exec()
-> +        * so ptrace_may_access() is checked against stable credentials
-> +        */
-> +       ret =3D down_read_killable(&p->signal->exec_update_lock);
-> +       if (ret)
-> +               goto err_put;
-> +
-> +       ret =3D -EPERM;
-> +       if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
-> +               goto err_unlock;
-> +
-> +       head =3D task_robust_list(p, compat);
-> +
-> +       up_read(&p->signal->exec_update_lock);
-> +       put_task_struct(p);
-> +
-> +       return head;
-> +
-> +err_unlock:
-> +       up_read(&p->signal->exec_update_lock);
-> +err_put:
-> +       put_task_struct(p);
-> +       return (void __user *)ERR_PTR(ret);
-> +}
-> +
->  /**
->   * sys_get_robust_list() - Get the robust-futex list head of a task
->   * @pid:       pid of the process [zero for current task]
-> @@ -49,36 +101,14 @@ SYSCALL_DEFINE3(get_robust_list, int, pid,
->                 struct robust_list_head __user * __user *, head_ptr,
->                 size_t __user *, len_ptr)
->  {
-> -       struct robust_list_head __user *head;
-> -       unsigned long ret;
-> -       struct task_struct *p;
-> -
-> -       rcu_read_lock();
-> -
-> -       ret =3D -ESRCH;
-> -       if (!pid)
-> -               p =3D current;
-> -       else {
-> -               p =3D find_task_by_vpid(pid);
-> -               if (!p)
-> -                       goto err_unlock;
-> -       }
-> +       struct robust_list_head __user *head =3D get_robust_list_common(p=
-id, false);
->
-> -       ret =3D -EPERM;
-> -       if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
-> -               goto err_unlock;
-> -
-> -       head =3D p->robust_list;
-> -       rcu_read_unlock();
-> +       if (IS_ERR(head))
-> +               return PTR_ERR(head);
->
->         if (put_user(sizeof(*head), len_ptr))
->                 return -EFAULT;
->         return put_user(head, head_ptr);
-> -
-> -err_unlock:
-> -       rcu_read_unlock();
-> -
-> -       return ret;
->  }
->
->  long do_futex(u32 __user *uaddr, int op, u32 val, ktime_t *timeout,
-> @@ -455,36 +485,14 @@ COMPAT_SYSCALL_DEFINE3(get_robust_list, int, pid,
->                         compat_uptr_t __user *, head_ptr,
->                         compat_size_t __user *, len_ptr)
->  {
-> -       struct compat_robust_list_head __user *head;
-> -       unsigned long ret;
-> -       struct task_struct *p;
-> -
-> -       rcu_read_lock();
-> -
-> -       ret =3D -ESRCH;
-> -       if (!pid)
-> -               p =3D current;
-> -       else {
-> -               p =3D find_task_by_vpid(pid);
-> -               if (!p)
-> -                       goto err_unlock;
-> -       }
-> -
-> -       ret =3D -EPERM;
-> -       if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
-> -               goto err_unlock;
-> +       struct compat_robust_list_head __user *head =3D get_robust_list_c=
-ommon(pid, true);
->
-> -       head =3D p->compat_robust_list;
-> -       rcu_read_unlock();
-> +       if (IS_ERR(head))
-> +               return PTR_ERR(head);
->
->         if (put_user(sizeof(*head), len_ptr))
->                 return -EFAULT;
->         return put_user(ptr_to_compat(head), head_ptr);
-> -
-> -err_unlock:
-> -       rcu_read_unlock();
-> -
-> -       return ret;
->  }
->  #endif /* CONFIG_COMPAT */
->
-> --
-> 2.49.0
->
+Add the check_extended_reg_test binary to .gitignore to avoid accidentally
+staging the build artifact.
 
-Hi,
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+---
+ tools/testing/selftests/powerpc/pmu/sampling_tests/.gitignore | 1 +
+ 1 file changed, 1 insertion(+)
 
-Gentle ping. I am looking forward to any suggestions on this patch and
-would be more than happy to make any necessary changes.
+diff --git a/tools/testing/selftests/powerpc/pmu/sampling_tests/.gitignore b/tools/testing/selftests/powerpc/pmu/sampling_tests/.gitignore
+index f93b4c7c3a8a..ea29228334e8 100644
+--- a/tools/testing/selftests/powerpc/pmu/sampling_tests/.gitignore
++++ b/tools/testing/selftests/powerpc/pmu/sampling_tests/.gitignore
+@@ -1,5 +1,6 @@
+ bhrb_filter_map_test
+ bhrb_no_crash_wo_pmu_test
++check_extended_reg_test
+ intr_regs_no_crash_wo_pmu_test
+ mmcr0_cc56run_test
+ mmcr0_exceptionbits_test
+-- 
+2.43.0
 
-Regards
-Pranav Tyagi
