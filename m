@@ -1,447 +1,294 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E84F31987D
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  3 Sep 2025 14:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1E327A12B
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  4 Sep 2025 07:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756911259; cv=none; b=IXvKHPxeF+RrB/HcczsohmGOh568+Lj6Cuz17QavpoCty/YRLp9ZrOZaaTD9SY6rQfYfqDqXcZPG1nqB5IMacQ/qgkWio8SP5lzfymq69Pf3XYii8QNoSkKHajZuU3YuYeDdOiAepqAo1s+IyPI3VaFdn8DttmOKTWJl3nYyAMw=
+	t=1756971623; cv=none; b=iu9UIztntfMB7tMDXeDTrcM3e3elBLz4vA58OiQCV4YfqnzAPKbDMCLxFB8SNYzi3yr4ul3goGu6XgkdWMKqHrQpMS929ZjNES0cviodOfKOulhYWb8hE0j24aT4I5vludlWqyqF34GDEXvL32CvvgMd03U5Uswaa1GA7Dqw5xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756911259; c=relaxed/simple;
-	bh=KpHOj0mNA4+e9kUqlWS2RJgWfZkd6/Eg0O9escihThQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Yjg+VDm3CtvgJmR5sXtWJ5bmYUlRTUX55Qpk3icWOzQkQGjqIYRp4QBhuvW3wTQdraPAu4CBTYcxmUK/VXPs8vSwvMtmtFptNdXTfghj6PkydDis1yruLnDA7rKfhWsq7Tb38hKwoF7zMk3/emn5HMrWJlpl9zn6MyHSFBaA/6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=YQ5/YeIj; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
+	s=arc-20240116; t=1756971623; c=relaxed/simple;
+	bh=eIrVK0Ias59Ag2uJFqdtEy6fMXL6YCiM1AsRPYnGXT8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OMVD30Kvd//5D4h1bEi83d3JLQGGXcVu8eAZ/cGjWQBi62B3o7jQcindH2C1uCiLHH5VXf9zQvGgKWcRns2zejcWSjF5GaT+3IIa8HaqE3FC/gZsD4vCHJ+aUImVlDiAh1GjbbDL171OaD+HkvNaqdMqICwEWmuQ5/tdfIPLwvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FQVWPnh/; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="YQ5/YeIj"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3da4c14a5f9so697489f8f.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 03 Sep 2025 07:54:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FQVWPnh/"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5608bfae95eso725671e87.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 04 Sep 2025 00:40:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1756911254; x=1757516054; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KfRoqQl7bTrgAdolwwez1LaewcASB4l+oYGwiyVhGj4=;
-        b=YQ5/YeIjJ0zvbpIJ+4O/2yIAHJM/q6crGZH8Mtj4WP222/huwOK761O1yIpxUFyt0w
-         lTT0muGMN1+EFZ63wT2qDkMqquQ8Q8NCrbriGalYUGPBh4IeIjXCehiEdxGiN/9oMQ5x
-         t5sw9UrPkGqhO2a/RTO39a3tGyu0WBDW32u4vLeiZ0l22s0F6HORCb7YMV0O5Gl5p6LL
-         mwx1417GQ/FoUNoYbdZ53pcVtm6M1yw8EUJza83V+tfJqG1s5h8WFUO9uCbQJ3ap4DZH
-         LlW8mRU2EQtZeUK6cO6cvJO0s6Kgf+MP2Q42MD9UcXhUK3m9QUMkSqmj6AHFgZoKLoZR
-         b7gA==
+        d=gmail.com; s=20230601; t=1756971619; x=1757576419; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gc4Uqem+8ZkBxn4yFNp/DFtrvsE3WtaNmDYF+RPTg2U=;
+        b=FQVWPnh/1570pNPlva00UXtNSzhL6YphDN0njbKHIrDar6Ift5nuZbkW2mIzYzFsmq
+         0rEY9x0/9eBOp+CCVmbPejz2dfcLD3jxwqWbhwIxDInuO5fFmqxVPGxWkCh1hChYEgdK
+         zNeTsNqI9d9/seJnfSn/BXMSP8iAZ9gkT5DbFz1bMZWqbejdPID9mLThM4urzPB0gc6J
+         UHTuR48DE4I6EhICw0aGaxtJrZYLrAEWfNLsc1TF0LFTconbuviNLCJe0kVpftIjfymb
+         KFiflYsC2QMSAlyb9gTPKOIhzM/1N4pB5xQ8h4C+9mWyFvgM1ktvpL3vatvUL5p39iD4
+         /r3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756911254; x=1757516054;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KfRoqQl7bTrgAdolwwez1LaewcASB4l+oYGwiyVhGj4=;
-        b=EMcPkxhxiW4LCNIcCkkl2HL7NHsSobwwkAYyBXbEvTqrWAQI2qlMLEZBjQbBtv2CmL
-         g6uew9w8zbEmgZLUGHMwZDVA5c669jixGUVZjKMJkPtdH2nP9AKkjTBASPJ+A1Uu2KOi
-         n3QXDMEmb2ugN9JCHCQMkAtpRHYbvLF8qmQXtcVz26BYvwI7kEwjutPTUMWPgATzlopS
-         CbqmyKURRt2nuRjTFOYk/Jmm5vMJM2NlIxKvsuEqaOIHYDPkTqEl2d8JI5EifKwmzHsL
-         +UCdWIx/wdlv0M8imJxyzB5g7zK+xXH4S8oRPtli5TvsbSc9Q+7X7IQK06MEqlSlV/MK
-         R3ug==
-X-Forwarded-Encrypted: i=1; AJvYcCUsnctCm5fTyJpUGQCSC3wTJAD+zaZq4FHCW96Y6i8yM7Ua0o9p7L7oO+UiyG5yu9Y3e9YVt9AomgoSa6SxtnryEDFFww==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxIkq5i/MaKY3UNoMxiFvx+4D+SW2cymkEBCuD8yzALwAbj3h7M
-	TzptpQgEqxb48YulnHTsJdf3dXBEEjuJDwIwkqUWyrOEOeDIxtlJBh1A5fUbG66ghrE=
-X-Gm-Gg: ASbGnctQ9s5y0pn08SKsFA8cJSEH4TcY9vMiyLASGX3GuVHMNtEggO05ffgdMiLBA8Z
-	F6B/ze++7Ngn7vyLS5p42GwxdJJDIRl5Dsk2QGbOCbtVSk4z9R05swsj11XssR1n7FLoVTWguPl
-	j032npqLTKJHOb1xg4+rErV9dAnskuu15Lk6LFk8EUH7kkGHj+4AbgnknC9AaCMihAj8RBJ3Rxu
-	uOB6EDsnrk1oLxgUEEz8meDczjo/eHWQZXIjrji4UZhB6CmWG7jXwn00oNY+EGkydJS/fd2b+Z7
-	nXzU2OnIq/4rDaK3HRPWsX3EC3yCSGNUSOar6R5g7RVjDppracal45fhO3+odZAC/txM+PY7gl8
-	+Q6MumbIXdpkx8qINWuJNvgYsr2dWXe3j5mFKt7o7bee4P+Sw6Fp4EYgS0BoXoXjfRmDbPw==
-X-Google-Smtp-Source: AGHT+IFKlUEKzOojQldM0O3QUhp1WqFQrJMW4YyIwO+SE1fmwBD/U9KH7gat3RRaNFqT/jHFuMp31A==
-X-Received: by 2002:a05:6000:1ac8:b0:3c7:244:a4be with SMTP id ffacd0b85a97d-3d1dd04e24bmr13949477f8f.10.1756911254206;
-        Wed, 03 Sep 2025 07:54:14 -0700 (PDT)
-Received: from pop-os.telenet.be ([2a02:1807:2a00:3400:7e45:593:64fd:6612])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3dc1cd4a7d2sm4087175f8f.33.2025.09.03.07.54.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 07:54:13 -0700 (PDT)
-From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-To: dlan@gentoo.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-Subject: [PATCH] riscv: dts: spacemit: add UART pinctrl combinations
-Date: Wed,  3 Sep 2025 16:53:34 +0200
-Message-ID: <20250903145334.425633-1-hendrik.hamerlinck@hammernet.be>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1756971619; x=1757576419;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gc4Uqem+8ZkBxn4yFNp/DFtrvsE3WtaNmDYF+RPTg2U=;
+        b=YitiecX28tp1JxF3J2UqKtFi/6b+HQaFUSYtkT2O+CCXu0l3Voj9RkcjwdoeRl7V22
+         TBXFOxyV2luYQu/ZkgEABl2/9Wws3hMkXMOxJeNTChale0ln5Lqf//RMoP6m7YYi530n
+         WiyfyGoaKmTKDmRqPuJa2vZUO6w+g6y0hqlCFDaxLBwiwZjAMPaTVRSwLP3YYSQofesz
+         O+F1+FJ6aNo6qh+ePEnx7TIlaUCN3cWS7myUsPE8PwXZ7gZg3qoi5qOzpcNvd8yKUlKP
+         J4sSvRzSJ6E6048MaOQBFQKhm+D8l2+mW4B7+NXIzBRhpu/b1vui5cdbC5WO3MD4ZCsJ
+         hYLw==
+X-Forwarded-Encrypted: i=1; AJvYcCXpVJHv9o9DmYpFO2WyM+8vb8GwDWtm81kiz5pisuJWg5UBDvQXl9Wb+WELdIAA6DP45We9z7UoflZmSqbtDmY1HqEkVA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxnMCQJQDm2FVbSqLS0M+fZ8EBvtDTySwVIhtZ8eriipRoSB26w
+	lZAWsuOuUsqQBPwO2AMfnHE8acGL88al04PbUbmTLdvWxhdR0RKteyhSB4mTVJGGFO+Y5tAeh+p
+	zzSFh/OMFiHjbMKAxNcpmcr5gqMCjIxg=
+X-Gm-Gg: ASbGncuOwR2PCnxdK+rsXGOHGSY6mEAeW+rrvoCOd1U2nWkqSND1Co5tIntGd3myhk0
+	PkKAbOr3HVm85gKDRlu05kt7904TQ37hfoq5LXt5iAyu6Rzcuo2SEnvoB9e2G4Z9TNiQ9T3FCyv
+	rZFonSpJdWUM1Fv2Ydc/QHmRfPyhUa9jKe+lB6fMDdNJVLNuGJGju0OpvP5mQNj3PhcxOoHr/j+
+	jrtCJj66S22AF7H+Q==
+X-Google-Smtp-Source: AGHT+IFtKLMUsLlir53WfPNlbjKgCEI3v/cBnmaMPUS1x4ZY1q62JCePqOMT8TCsGgjP/1nER3lDVi/ovnSdN9S9Tmc=
+X-Received: by 2002:a05:6512:32cb:b0:55a:c9f0:a019 with SMTP id
+ 2adb3069b0e04-55f708bff09mr5606251e87.23.1756971618983; Thu, 04 Sep 2025
+ 00:40:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250813074201.6253-1-pranav.tyagi03@gmail.com>
+In-Reply-To: <20250813074201.6253-1-pranav.tyagi03@gmail.com>
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Date: Thu, 4 Sep 2025 13:10:11 +0530
+X-Gm-Features: Ac12FXw6nDps7DJxYy_LzV6LDUJK7V4swqmVewZj6bbPCr9Vj57XurgMlvy4sAs
+Message-ID: <CAH4c4jJ1AO6Eovw9xBmKeBG7W8ueWy+7q_g20hDN4YmWTHdpdA@mail.gmail.com>
+Subject: Re: [PATCH v4] futex: don't leak robust_list pointer on exec race
+To: tglx@linutronix.de, mingo@redhat.com, peterz@infradead.org, 
+	dvhart@infradead.org, dave@stgolabs.net, andrealmeid@igalia.com, 
+	linux-kernel@vger.kernel.org
+Cc: jann@thejh.net, keescook@chromium.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This adds UART pinctrl configurations based on the SoC datasheet and the
-downstream Bianbu Linux tree. The drive strength values were taken from
-the downstream implementation, which uses medium drive strength.
+On Wed, Aug 13, 2025 at 1:12=E2=80=AFPM Pranav Tyagi <pranav.tyagi03@gmail.=
+com> wrote:
+>
+> sys_get_robust_list() and compat_get_robust_list() use
+> ptrace_may_access() to check if the calling task is allowed to access
+> another task's robust_list pointer. This check is racy against a
+> concurrent exec() in the target process.
+>
+> During exec(), a task may transition from a non-privileged binary to a
+> privileged one (e.g., setuid binary) and its credentials/memory mappings
+> may change. If get_robust_list() performs ptrace_may_access() before
+> this transition, it may erroneously allow access to sensitive information
+> after the target becomes privileged.
+>
+> A racy access allows an attacker to exploit a window
+> during which ptrace_may_access() passes before a target process
+> transitions to a privileged state via exec().
+>
+> For example, consider a non-privileged task T that is about to execute a
+> setuid-root binary. An attacker task A calls get_robust_list(T) while T
+> is still unprivileged. Since ptrace_may_access() checks permissions
+> based on current credentials, it succeeds. However, if T begins exec
+> immediately afterwards, it becomes privileged and may change its memory
+> mappings. Because get_robust_list() proceeds to access T->robust_list
+> without synchronizing with exec() it may read user-space pointers from a
+> now-privileged process.
+>
+> This violates the intended post-exec access restrictions and could
+> expose sensitive memory addresses or be used as a primitive in a larger
+> exploit chain. Consequently, the race can lead to unauthorized
+> disclosure of information across privilege boundaries and poses a
+> potential security risk.
+>
+> Take a read lock on signal->exec_update_lock prior to invoking
+> ptrace_may_access() and accessing the robust_list/compat_robust_list.
+> This ensures that the target task's exec state remains stable during the
+> check, allowing for consistent and synchronized validation of
+> credentials.
+>
+> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> Suggested-by: Jann Horn <jann@thejh.net>
+> Link: https://lore.kernel.org/linux-fsdevel/1477863998-3298-5-git-send-em=
+ail-jann@thejh.net/
+> Link: https://github.com/KSPP/linux/issues/119
+> ---
+> changed in v4:
+> - added task_robust_list() function
+> changed in v3:
+> - replaced RCU with scoped_guard(rcu)
+> - corrected error return type cast
+> - added IS_ENABLED(CONFIG_COMPAT) for ensuring compatability
+> - removed stray newlines and unnecessary line breaks
+> changed in v2:
+> - improved changelog
+> - helper function for common part of compat and native syscalls
+>
+>  kernel/futex/syscalls.c | 108 +++++++++++++++++++++-------------------
+>  1 file changed, 58 insertions(+), 50 deletions(-)
+>
+> diff --git a/kernel/futex/syscalls.c b/kernel/futex/syscalls.c
+> index 4b6da9116aa6..0da33abc2f17 100644
+> --- a/kernel/futex/syscalls.c
+> +++ b/kernel/futex/syscalls.c
+> @@ -39,6 +39,58 @@ SYSCALL_DEFINE2(set_robust_list, struct robust_list_he=
+ad __user *, head,
+>         return 0;
+>  }
+>
+> +static inline void __user *task_robust_list(struct task_struct *p, bool =
+compat)
+> +{
+> +#ifdef CONFIG_COMPAT
+> +       if (compat)
+> +               return p->compat_robust_list;
+> +#endif
+> +       return p->robust_list;
+> +}
+> +
+> +static void __user *get_robust_list_common(int pid, bool compat)
+> +{
+> +       struct task_struct *p;
+> +       void __user *head;
+> +       unsigned long ret;
+> +
+> +       p =3D current;
+> +
+> +       scoped_guard(rcu) {
+> +               if (pid) {
+> +                       p =3D find_task_by_vpid(pid);
+> +                       if (!p)
+> +                               return (void __user *)ERR_PTR(-ESRCH);
+> +               }
+> +               get_task_struct(p);
+> +       }
+> +
+> +       /*
+> +        * Hold exec_update_lock to serialize with concurrent exec()
+> +        * so ptrace_may_access() is checked against stable credentials
+> +        */
+> +       ret =3D down_read_killable(&p->signal->exec_update_lock);
+> +       if (ret)
+> +               goto err_put;
+> +
+> +       ret =3D -EPERM;
+> +       if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
+> +               goto err_unlock;
+> +
+> +       head =3D task_robust_list(p, compat);
+> +
+> +       up_read(&p->signal->exec_update_lock);
+> +       put_task_struct(p);
+> +
+> +       return head;
+> +
+> +err_unlock:
+> +       up_read(&p->signal->exec_update_lock);
+> +err_put:
+> +       put_task_struct(p);
+> +       return (void __user *)ERR_PTR(ret);
+> +}
+> +
+>  /**
+>   * sys_get_robust_list() - Get the robust-futex list head of a task
+>   * @pid:       pid of the process [zero for current task]
+> @@ -49,36 +101,14 @@ SYSCALL_DEFINE3(get_robust_list, int, pid,
+>                 struct robust_list_head __user * __user *, head_ptr,
+>                 size_t __user *, len_ptr)
+>  {
+> -       struct robust_list_head __user *head;
+> -       unsigned long ret;
+> -       struct task_struct *p;
+> -
+> -       rcu_read_lock();
+> -
+> -       ret =3D -ESRCH;
+> -       if (!pid)
+> -               p =3D current;
+> -       else {
+> -               p =3D find_task_by_vpid(pid);
+> -               if (!p)
+> -                       goto err_unlock;
+> -       }
+> +       struct robust_list_head __user *head =3D get_robust_list_common(p=
+id, false);
+>
+> -       ret =3D -EPERM;
+> -       if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
+> -               goto err_unlock;
+> -
+> -       head =3D p->robust_list;
+> -       rcu_read_unlock();
+> +       if (IS_ERR(head))
+> +               return PTR_ERR(head);
+>
+>         if (put_user(sizeof(*head), len_ptr))
+>                 return -EFAULT;
+>         return put_user(head, head_ptr);
+> -
+> -err_unlock:
+> -       rcu_read_unlock();
+> -
+> -       return ret;
+>  }
+>
+>  long do_futex(u32 __user *uaddr, int op, u32 val, ktime_t *timeout,
+> @@ -455,36 +485,14 @@ COMPAT_SYSCALL_DEFINE3(get_robust_list, int, pid,
+>                         compat_uptr_t __user *, head_ptr,
+>                         compat_size_t __user *, len_ptr)
+>  {
+> -       struct compat_robust_list_head __user *head;
+> -       unsigned long ret;
+> -       struct task_struct *p;
+> -
+> -       rcu_read_lock();
+> -
+> -       ret =3D -ESRCH;
+> -       if (!pid)
+> -               p =3D current;
+> -       else {
+> -               p =3D find_task_by_vpid(pid);
+> -               if (!p)
+> -                       goto err_unlock;
+> -       }
+> -
+> -       ret =3D -EPERM;
+> -       if (!ptrace_may_access(p, PTRACE_MODE_READ_REALCREDS))
+> -               goto err_unlock;
+> +       struct compat_robust_list_head __user *head =3D get_robust_list_c=
+ommon(pid, true);
+>
+> -       head =3D p->compat_robust_list;
+> -       rcu_read_unlock();
+> +       if (IS_ERR(head))
+> +               return PTR_ERR(head);
+>
+>         if (put_user(sizeof(*head), len_ptr))
+>                 return -EFAULT;
+>         return put_user(ptr_to_compat(head), head_ptr);
+> -
+> -err_unlock:
+> -       rcu_read_unlock();
+> -
+> -       return ret;
+>  }
+>  #endif /* CONFIG_COMPAT */
+>
+> --
+> 2.49.0
+>
 
-For convenience, the board DTS files have been updated to include all
-UART instances with their possible pinmux options in a disabled state.
+Hi,
 
-Tested this locally on both Orange Pi RV2 and Banana Pi BPI-F3 boards. 
+Gentle ping. I am looking forward to any suggestions on this patch and
+would be more than happy to make any necessary changes.
 
-Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
----
- .../boot/dts/spacemit/k1-bananapi-f3.dts      |  18 ++
- .../boot/dts/spacemit/k1-orangepi-rv2.dts     |  18 ++
- arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi  | 276 +++++++++++++++++-
- 3 files changed, 309 insertions(+), 3 deletions(-)
-
-diff --git a/arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts b/arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts
-index 6013be258542..661d47d1ce9e 100644
---- a/arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts
-+++ b/arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts
-@@ -49,3 +49,21 @@ &uart0 {
- 	pinctrl-0 = <&uart0_2_cfg>;
- 	status = "okay";
- };
-+
-+&uart5 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart5_3_cfg>;
-+	status = "disabled";
-+};
-+
-+&uart8 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart8_2_cfg>;
-+	status = "disabled";
-+};
-+
-+&uart9 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart9_2_cfg>;
-+	status = "disabled";
-+};
-diff --git a/arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts b/arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts
-index 337240ebb7b7..dc45b75b1ad4 100644
---- a/arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts
-+++ b/arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts
-@@ -38,3 +38,21 @@ &uart0 {
- 	pinctrl-0 = <&uart0_2_cfg>;
- 	status = "okay";
- };
-+
-+&uart5 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart5_3_cfg>;
-+	status = "disabled";
-+};
-+
-+&uart8 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart8_2_cfg>;
-+	status = "disabled";
-+};
-+
-+&uart9 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart9_2_cfg>;
-+	status = "disabled";
-+};
-diff --git a/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi b/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi
-index 381055737422..43425530b5bf 100644
---- a/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi
-+++ b/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi
-@@ -11,12 +11,282 @@
- #define K1_GPIO(x)	(x / 32) (x % 32)
- 
- &pinctrl {
-+	uart0_0_cfg: uart0-0-cfg {
-+		uart0-0-pins {
-+			pinmux = <K1_PADCONF(104, 3)>,	/* uart0_txd */
-+				 <K1_PADCONF(105, 3)>;	/* uart0_rxd */
-+			power-source = <3300>;
-+			bias-pull-up;
-+			drive-strength = <19>;
-+		};
-+	};
-+
-+	uart0_1_cfg: uart0-1-cfg {
-+		uart0-1-pins {
-+			pinmux = <K1_PADCONF(108, 1)>,	/* uart0_txd */
-+				 <K1_PADCONF(80, 3)>;	/* uart0_rxd */
-+			power-source = <3300>;
-+			bias-pull-up;
-+			drive-strength = <19>;
-+		};
-+	};
-+
- 	uart0_2_cfg: uart0-2-cfg {
- 		uart0-2-pins {
--			pinmux = <K1_PADCONF(68, 2)>,
--				 <K1_PADCONF(69, 2)>;
-+			pinmux = <K1_PADCONF(68, 2)>,	/* uart0_txd */
-+				 <K1_PADCONF(69, 2)>;	/* uart0_rxd */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
- 
--			bias-pull-up = <0>;
-+	uart2_0_cfg: uart2-0-cfg {
-+		uart2-0-pins {
-+			pinmux = <K1_PADCONF(21, 1)>,	/* uart2_txd */
-+				 <K1_PADCONF(22, 1)>,	/* uart2_rxd */
-+				 <K1_PADCONF(23, 1)>,	/* uart2_cts */
-+				 <K1_PADCONF(24, 1)>;	/* uart2_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart3_0_cfg: uart3-0-cfg {
-+		uart3-0-pins {
-+			pinmux = <K1_PADCONF(81, 2)>,	/* uart3_txd */
-+				 <K1_PADCONF(82, 2)>,	/* uart3_rxd */
-+				 <K1_PADCONF(83, 2)>,	/* uart3_cts */
-+				 <K1_PADCONF(84, 2)>;	/* uart3_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart3_1_cfg: uart3-1-cfg {
-+		uart3-1-pins {
-+			pinmux = <K1_PADCONF(18, 2)>,	/* uart3_txd */
-+				 <K1_PADCONF(19, 2)>,	/* uart3_rxd */
-+				 <K1_PADCONF(20, 2)>,	/* uart3_cts */
-+				 <K1_PADCONF(21, 2)>;	/* uart3_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart3_2_cfg: uart3-2-cfg {
-+		uart3-2-pins {
-+			pinmux = <K1_PADCONF(53, 4)>,	/* uart3_txd */
-+				 <K1_PADCONF(54, 4)>,	/* uart3_rxd */
-+				 <K1_PADCONF(55, 4)>,	/* uart3_cts */
-+				 <K1_PADCONF(56, 4)>;	/* uart3_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart4_0_cfg: uart4-0-cfg {
-+		uart4-0-pins {
-+			pinmux = <K1_PADCONF(100, 4)>,	/* uart4_txd */
-+				 <K1_PADCONF(101, 4)>;	/* uart4_rxd */
-+			power-source = <3300>;
-+			bias-pull-up;
-+			drive-strength = <19>;
-+		};
-+	};
-+
-+	uart4_1_cfg: uart4-1-cfg {
-+		uart4-1-pins {
-+			pinmux = <K1_PADCONF(81, 3)>,	/* uart4_cts */
-+				 <K1_PADCONF(82, 3)>,	/* uart4_rts */
-+				 <K1_PADCONF(83, 3)>,	/* uart4_txd */
-+				 <K1_PADCONF(84, 3)>;	/* uart4_rxd */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart4_2_cfg: uart4-2-cfg {
-+		uart4-2-pins {
-+			pinmux = <K1_PADCONF(23, 2)>,	/* uart4_txd */
-+				 <K1_PADCONF(24, 2)>;	/* uart4_rxd */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart4_3_cfg: uart4-3-cfg {
-+		uart4-3-pins {
-+			pinmux = <K1_PADCONF(33, 2)>,	/* uart4_txd */
-+				 <K1_PADCONF(34, 2)>,	/* uart4_rxd */
-+				 <K1_PADCONF(35, 2)>,	/* uart4_cts */
-+				 <K1_PADCONF(36, 2)>;	/* uart4_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart4_4_cfg: uart4-4-cfg {
-+		uart4-4-pins {
-+			pinmux = <K1_PADCONF(111, 4)>,	/* uart4_txd */
-+				 <K1_PADCONF(112, 4)>,	/* uart4_rxd */
-+				 <K1_PADCONF(113, 4)>,	/* uart4_cts */
-+				 <K1_PADCONF(114, 4)>;	/* uart4_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart5_0_cfg: uart5-0-cfg {
-+		uart5-0-pins {
-+			pinmux = <K1_PADCONF(102, 3)>,	/* uart5_txd */
-+				 <K1_PADCONF(103, 3)>;	/* uart5_rxd */
-+			power-source = <3300>;
-+			bias-pull-up;
-+			drive-strength = <19>;
-+		};
-+	};
-+
-+	uart5_1_cfg: uart5-1-cfg {
-+		uart5-1-pins {
-+			pinmux = <K1_PADCONF(25, 2)>,	/* uart5_txd */
-+				 <K1_PADCONF(26, 2)>,	/* uart5_rxd */
-+				 <K1_PADCONF(27, 2)>,	/* uart5_cts */
-+				 <K1_PADCONF(28, 2)>;	/* uart5_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart5_2_cfg: uart5-2-cfg {
-+		uart5-2-pins {
-+			pinmux = <K1_PADCONF(42, 2)>,	/* uart5_txd */
-+				 <K1_PADCONF(43, 2)>,	/* uart5_rxd */
-+				 <K1_PADCONF(44, 2)>,	/* uart5_cts */
-+				 <K1_PADCONF(45, 2)>;	/* uart5_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart5_3_cfg: uart5-3-cfg {
-+		uart5-3-pins {
-+			pinmux = <K1_PADCONF(70, 4)>,	/* uart5_txd */
-+				 <K1_PADCONF(71, 4)>,	/* uart5_rxd */
-+				 <K1_PADCONF(72, 4)>,	/* uart5_cts */
-+				 <K1_PADCONF(73, 4)>;	/* uart5_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart6_0_cfg: uart6-0-cfg {
-+		uart6-0-pins {
-+			pinmux = <K1_PADCONF(85, 2)>,	/* uart6_cts */
-+				 <K1_PADCONF(86, 2)>,	/* uart6_txd */
-+				 <K1_PADCONF(87, 2)>,	/* uart6_rxd */
-+				 <K1_PADCONF(90, 2)>;	/* uart6_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart6_1_cfg: uart6-1-cfg {
-+		uart6-1-pins {
-+			pinmux = <K1_PADCONF(0, 2)>,	/* uart6_txd */
-+				 <K1_PADCONF(1, 2)>,	/* uart6_rxd */
-+				 <K1_PADCONF(2, 2)>,	/* uart6_cts */
-+				 <K1_PADCONF(3, 2)>;	/* uart6_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart6_2_cfg: uart6-2-cfg {
-+		uart6-2-pins {
-+			pinmux = <K1_PADCONF(56, 2)>,	/* uart6_txd */
-+				 <K1_PADCONF(57, 2)>;	/* uart6_rxd */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart7_0_cfg: uart7-0-cfg {
-+		uart7-0-pins {
-+			pinmux = <K1_PADCONF(88, 2)>,	/* uart7_txd */
-+				 <K1_PADCONF(89, 2)>;	/* uart7_rxd */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart7_1_cfg: uart7-1-cfg {
-+		uart7-1-pins {
-+			pinmux = <K1_PADCONF(4, 2)>,	/* uart7_txd */
-+				 <K1_PADCONF(5, 2)>,	/* uart7_rxd */
-+				 <K1_PADCONF(6, 2)>,	/* uart7_cts */
-+				 <K1_PADCONF(7, 2)>;	/* uart7_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart8_0_cfg: uart8-0-cfg {
-+		uart8-0-pins {
-+			pinmux = <K1_PADCONF(82, 4)>,	/* uart8_txd */
-+				 <K1_PADCONF(83, 4)>;	/* uart8_rxd */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart8_1_cfg: uart8-1-cfg {
-+		uart8-1-pins {
-+			pinmux = <K1_PADCONF(8, 2)>,	/* uart8_txd */
-+				 <K1_PADCONF(9, 2)>,	/* uart8_rxd */
-+				 <K1_PADCONF(10, 2)>,	/* uart8_cts */
-+				 <K1_PADCONF(11, 2)>;	/* uart8_rts */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart8_2_cfg: uart8-2-cfg {
-+		uart8-2-pins {
-+			pinmux = <K1_PADCONF(75, 4)>,	/* uart8_txd */
-+				 <K1_PADCONF(76, 4)>,	/* uart8_rxd */
-+				 <K1_PADCONF(77, 4)>,	/* uart8_cts */
-+				 <K1_PADCONF(78, 4)>;	/* uart8_rts */
-+			power-source = <3300>;
-+			bias-pull-up;
-+			drive-strength = <19>;
-+		};
-+	};
-+
-+	uart9_0_cfg: uart9-0-cfg {
-+		uart9-0-pins {
-+			pinmux = <K1_PADCONF(12, 2)>,	/* uart9_txd */
-+				 <K1_PADCONF(13, 2)>;	/* uart9_rxd */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart9_1_cfg: uart9-1-cfg {
-+		uart9-1-pins {
-+			pinmux = <K1_PADCONF(110, 3)>,	/* uart9_cts */
-+				 <K1_PADCONF(115, 3)>,	/* uart9_rts */
-+				 <K1_PADCONF(116, 3)>,	/* uart9_txd */
-+				 <K1_PADCONF(117, 3)>;	/* uart9_rxd */
-+			bias-pull-up;
-+			drive-strength = <32>;
-+		};
-+	};
-+
-+	uart9_2_cfg: uart9-2-cfg {
-+		uart9-2-pins {
-+			pinmux = <K1_PADCONF(72, 2)>,	/* uart9_txd */
-+				 <K1_PADCONF(73, 2)>;	/* uart9_rxd */
-+			bias-pull-up;
- 			drive-strength = <32>;
- 		};
- 	};
--- 
-2.43.0
-
+Regards
+Pranav Tyagi
