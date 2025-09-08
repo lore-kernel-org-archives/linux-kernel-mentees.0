@@ -1,78 +1,80 @@
-Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE5127B328
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  8 Sep 2025 09:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA2F30F92E;
+	Mon,  8 Sep 2025 15:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757322869; cv=none; b=QoW6uuKvl+3eEan+knUarCUY/x7VXkfqEFNRqgSs40FHMAJNsTevwfbG4Pxv5dUjtEot86g4VNiSb8Y1U0tB/GPO5VEm8a8klP1zhTPArSoM3Ilr97hUbN1SVJcwVARABHrDP5p/rAk7+x+k3mXvpiMk4uK/5bPucdF0OU8CIs0=
+	t=1757346960; cv=none; b=TcRZ4e8kc/x+7egJuJSPI1poA4R5n/d/J533Xi4egGEmQvFTJCJQgaU+FqcciMPWkar+VM/fe5bYxObcB2NsjPusIncPf1BDvsxVuiRhEafIzfy/TtuuV7jVr1rvIKuECAULhNRLmrlP7earciumz7s0BB7VMYdT0q4C8r82Fl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757322869; c=relaxed/simple;
-	bh=CaDDMraZohZs4is23yr42VC1gN+kt3a2iJx3H30zs2g=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=jg8wH4BW/DYSj2hMnnmKE0lr10f0poKi6L2n3Abl8PZbBmKNPn6+GM8OKrxVo8S7NxP2fPBmeOTAJdc7v+7qHe1y8fbBeGtcaXsFB0rk6OVk+6PZnle8JeYWClHzlkL8LucELR8hoPUv5B6hPzfbaEaTkVZD7FzcfR8nwV4U/hE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 2FEEE2E52E1;
-	Mon,  8 Sep 2025 11:04:21 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id wCoe0__baTRa; Mon,  8 Sep 2025 11:04:20 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id C41712E52E3;
-	Mon,  8 Sep 2025 11:04:20 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id PWcVxOwn-xIb; Mon,  8 Sep 2025 11:04:20 +0200 (CEST)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 936312CE379;
-	Mon,  8 Sep 2025 11:04:20 +0200 (CEST)
-Date: Mon, 8 Sep 2025 11:04:20 +0200 (CEST)
-From: Richard Weinberger <richard@nod.at>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Rahul Kumar <rk0006818@gmail.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	linux-mtd <linux-mtd@lists.infradead.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-kernel-mentees@lists.linux.dev, 
-	Shuah Khan <skhan@linuxfoundation.org>, 
-	pratyush <pratyush@kernel.org>
-Message-ID: <93578759.11447.1757322260340.JavaMail.zimbra@nod.at>
-In-Reply-To: <87tt1djtot.fsf@bootlin.com>
-References: <20250908070124.2647038-1-rk0006818@gmail.com> <87tt1djtot.fsf@bootlin.com>
-Subject: Re: [PATCH v2] mtd: sm_ftl: replace strncpy with memcpy
+	s=arc-20240116; t=1757346960; c=relaxed/simple;
+	bh=3QPTwbhduu2dP8D2E7G/tU0gXRTNUJdIG510wmSZlbY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W76HKWiThXoV8Qw7aE7uVMMTGrg5o3/UL09jrkyPd5f3xFyKR+CjOYdG1PLUHVCutj9E5fhVAAdhaD+i4PD2FQjFjzKqRe2i5CMj4LKNczgT7ozB75kq24+3/3arazfrbgIaHhX1ASzRhto+tNM96rdqkF1BdRl+CliGXCYKFsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UP65rJin; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UP65rJin"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACC5EC4CEF1;
+	Mon,  8 Sep 2025 15:55:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757346959;
+	bh=3QPTwbhduu2dP8D2E7G/tU0gXRTNUJdIG510wmSZlbY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=UP65rJin/AZ9cx5t+pjQ3qg22tsP5dc4u8R4ai2bBDukl9PkdnM/oZFBtptd0sZSn
+	 EySGVZ2WgWPkq4KLVHcw9JXAZ6lXyNWZYt/yooBIyTQChW6lDaS6CjRNyklPS+coqJ
+	 VMCsG+Bd/6wPWl4eNHWJhgneqc+gNkbOCwikVB0QChmaUN1QNRp9NkybRtYSxvUgGY
+	 81DmdrbB4t0qpG7ZtIKeGq02PTMxIHJVCRJJwHAipeQ0LW4XtK3r5TcDwX5LDkLPsJ
+	 +YbKvjYWUmXDjii8rBV6i55sf3XsUFplKmnx0ovwlPXba+VL5Wt9/2/6oyriaP1SJT
+	 kC37Z5fFpoGeA==
+From: Will Deacon <will@kernel.org>
+To: bagasdotme@gmail.com,
+	Markus.Elfring@web.de,
+	broonie@kernel.org,
+	"Nikola Z. Ivanov" <zlatistiv@gmail.com>
+Cc: catalin.marinas@arm.com,
+	kernel-team@android.com,
+	Will Deacon <will@kernel.org>,
+	shuah@kernel.org,
+	mark.rutland@arm.com,
+	ebiggers@google.com,
+	martin.petersen@oracle.com,
+	ardb@kernel.org,
+	thiago.bauermann@linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2] selftests/arm64: Fix grammatical error in string literals
+Date: Mon,  8 Sep 2025 16:55:34 +0100
+Message-Id: <175734463405.156831.1715928321630007279.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250826214913.866695-1-zlatistiv@gmail.com>
+References: <20250826214913.866695-1-zlatistiv@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF141 (Linux)/8.8.12_GA_3809)
-Thread-Topic: sm_ftl: replace strncpy with memcpy
-Thread-Index: hoN3+Lz+G6z5Lodbq+9CIhidly68CQ==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
------ Urspr=C3=BCngliche Mail -----
-> Von: "Miquel Raynal" <miquel.raynal@bootlin.com>
-> An: "Rahul Kumar" <rk0006818@gmail.com>
->> -=09strncpy(buf, sm_attr->data, sm_attr->len);
->> -=09return sm_attr->len;
->> +=09memcpy(buf, sm_attr->data, sm_attr->len);
->> +=09buf[sm_attr->len] =3D '\0';
->> +=09return sm_attr->len + 1;
->=20
-> Are we sure the buffer is always sm_attr->len + 1 long?
+On Wed, 27 Aug 2025 00:49:13 +0300, Nikola Z. Ivanov wrote:
+> Fix grammatical error in <past tense verb> + <infinitive>
+> construct related to memory allocation checks.
+> In essence change "Failed to allocated" to "Failed to allocate".
+> 
+> 
 
-Can we please just stop messing with perfectly fine code?
-I'm sick of the war on string functions.
-First we had to replace everything with strncpy(), then strlcpy(),
-then strscpy(), ...
+Applied to arm64 (for-next/selftests), thanks!
 
-Don't get me wrong, I'm all for hardening code paths where
-strings are arbitrary input, but in many of these cases all strings
-are no input or already sanitized.
+[1/1] selftests/arm64: Fix grammatical error in string literals
+      https://git.kernel.org/arm64/c/14a41628c470
 
-Thanks,
-//richard
+Cheers,
+-- 
+Will
+
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
