@@ -1,103 +1,138 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58EC264A90
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  9 Sep 2025 03:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633F13148A2
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  9 Sep 2025 10:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757388248; cv=none; b=PoB1tLNnTlJ8msv6+CfB71Pak1NJJzOuFDyZ/dD/rw8CY3qEaS/hOY9ykeAA4PFk+pstkP4MXDeS/hn7UqEkvVOgVpnyDFWfpoWn2HZAsAfTbleZKAfoq/IHx0rHKnjIE5dYJtX4AtoR7jKQGxaPUc5rJ1b6jI21xpGdy6h0lYU=
+	t=1757412024; cv=none; b=gmh6b/msw9cs3x3szZO+K6rS7EydXytbQDSvFX+6Ozhg5LlCf5KFOVBvibxJfu7znPf2IEQt4qAwstb1yxQiKi4WFeHTQ4xTXVzmus7Fn+A/XH551RLMsD9cCsxyBgIH5NpdPkXQmXVXPb3+7XYZh0WRef9rbPMbUmJQNAcUiQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757388248; c=relaxed/simple;
-	bh=pswCMpx2vTdQ1c7alrFPSg51STxY+Ef9ucqfFUYaqWM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jnXS5lWJKeBn5trcMpW+/8neUvH/oORERywd+r/YqMCaYXGufbF2J85uOVKMRsSqCnpWKQgB3kEVURD5txzfj/5cIQNJLErRJh3z4bmA89ljw+S6Hb+fBDX3Ai4J1FM8QCrUM4I3TkICuUgPrjCmC/pAUFzq97x3K+Hv9v8BHH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=my0dLRE9; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1757412024; c=relaxed/simple;
+	bh=sel26hbdubN+palGD2gZ0/eOdFAx9Akb98dFmcE1PVU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hnp/SGCzsadCTKy4Gl/7HW/q8Cw+usBW+jJZcDipRz1eQQiem41duO+dg/SlTi8Tusqoe17YKOcxlZXgMosAbNbUHAWRv/9TxTChV4I708atOMN8YKRqsTi/LrYyl17+j7yZ9PtGU5SCTIYfWTfJ4A5na/YuGA2gOTrktphenSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dl2IZ+dv; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="my0dLRE9"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5236540783
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  9 Sep 2025 03:24:06 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -21.19
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 8oMb1ByGufVn for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 Sep 2025 03:24:04 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=115.124.30.130; helo=out30-130.freemail.mail.aliyun.com; envelope-from=dust.li@linux.alibaba.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 5698840760
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5698840760
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=my0dLRE9
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 5698840760
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  9 Sep 2025 03:23:58 +0000 (UTC)
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1757388235; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=3kUMao3FvCL6I7A/UN7ip7pd2M3nqoLuRCUIBR3cW0E=;
-	b=my0dLRE9dxg0QMG/M4ZEQZ8XY+iAZN75DZ4SthjZYhcAnlBt3iK12EZS5iH9wxEG4JxaaudYBBzPGmq7e0X6edopzEzbQJCG4ZFF/v3/VEUL+WklB5jtdWuvzpWI0Iz9TSV6fGJAl2Gx+fuBE3mLPDSawvQke8YyLLXjTnnra3g=
-Received: from localhost(mailfrom:dust.li@linux.alibaba.com fp:SMTPD_---0Wnc7Yfp_1757388232 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 09 Sep 2025 11:23:52 +0800
-Date: Tue, 9 Sep 2025 11:23:52 +0800
-From: Dust Li <dust.li@linux.alibaba.com>
-To: Kriish Sharma <kriish.sharma2006@gmail.com>, alibuda@linux.alibaba.com,
-	sidraya@linux.ibm.com, wenjia@linux.ibm.com
-Cc: mjambigi@linux.ibm.com, tonylu@linux.alibaba.com,
-	guwen@linux.alibaba.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] net/smc: replace strncpy with strscpy for ib_name
-Message-ID: <aL-dyGTIUuwK_R8_@linux.alibaba.com>
-Reply-To: dust.li@linux.alibaba.com
-References: <20250908180913.356632-1-kriish.sharma2006@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dl2IZ+dv"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b4c72885c8bso4417103a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 09 Sep 2025 03:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757412023; x=1758016823; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jOx81+m5TMKBCfvFeUd2lc1fUQ8CVG2MRH89iHXYyPo=;
+        b=Dl2IZ+dv/le2Jx2vGcHrlKiAOuco7q1V1sad+59cTtxJ0F+Zs3a/diRB/6sXlAEyLT
+         CcYuIHfu4485kC2PmIIndOwKpa183kTBTcZ8XIRRhSOGowy+RI1PMn9ZFHhCvi99VQcb
+         MtYE0VkSFM4350KXXXrBlw7oA6jwGPGu6/5iXumZcoKuHzVCjPpOm5ppM3lRh+8qmoT3
+         k/qVoX7gp6e+IzbxlrW8zP3ChZAUpnYzeqbxTl/lkKbkrM0zLTklfJJmtFVDJ2FkVI/B
+         LOnXfTTI9C8Dalf3WVK11Rs4loJTlL8jd69j3+q6zj0IJ1v1u3ei0OOwJAfTNIlNyV6b
+         HZsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757412023; x=1758016823;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jOx81+m5TMKBCfvFeUd2lc1fUQ8CVG2MRH89iHXYyPo=;
+        b=fwcosa7ofxElgfn39y6iPGcSUGmDEJACFb7shrYEgzrm2MGK7Gcb50hBXHrE8gibX2
+         hGJ++dpMb1zNF4pUYP5qSDhiFImH/cE55Kjjf92qa+sUzj5mpTvG860BsTswt6HM65ji
+         2RvrCPRIyO0jGXRGqBP6CKi03ekARLNvS18SRPKh1grB+1qJvysST0RLXnyaRUh6yFRK
+         tVhmBw1QcuhldDdf5AxoX9owZ6ydDw4N+AeQSQCaYBYjwpccdbBVrIRpxgoxOF67oclq
+         p4NzGgDJyb9vM/GX7wnI8rcZt/JoQ5ZsQC3eDNEVJqqKVO8JdSg8ypxWmTb2r3G6keq9
+         JgmA==
+X-Forwarded-Encrypted: i=1; AJvYcCVf5bKf3kV/WX22hBQ0IQjPybTgXwPVrGXcZ37DqNg+kI4pojTUyQ0r824aqlCOSOpJC1SUneb7MaJt+X/0U9uI+P8GfA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyurqrjuLvynwDmdkFN7UpH5dIYtX3sRZXeHwV83i5DY2fkH7jt
+	pc8NRjjtCWZiturRFxnwq78Pr3meKKHAQnkt/4kl01A2mIXomLXLxKtF9e/alvWP
+X-Gm-Gg: ASbGnct9KlgCIfgGGL9LqGms7O9zIo2Xcioy44ax5m5Qy1a1GfsALPTxZvAt/qWOBjh
+	09XUE7qX4wwsbA6j+nmwhK7nuYTE6KV9zLTRt7XkhYDCz//LVfe0WVaGwtyTthQeJlF0rdGa5HH
+	nc4JTkznWtH2We7J4KWpf2wNAnRPZV0Ugho5LQhpIB3KMQxCpuQ/RdgpmcmyazWt6Y56SrXwv6S
+	fFjb8dR2iKjczCq9O3uJiIlsJDjsE+08rRCVaq3koCEvV6Y7p+DUgNEX7KaPCTAMhgP6VH3huaw
+	4l9IgXlJDy7jSbF6tp6u6a8hRJSafhmht4EaRe2NPG8GrxaSQkzfNf3XBtCvJ9Y458aDtn6Ds6K
+	xAyJuzywXbxVYKgXqHIgmZbzE
+X-Google-Smtp-Source: AGHT+IFODb9BV49tp09UgtdQ81xWoNMdmIOHFlia0/7sBhuTUz5mRZhUGLhapz+IyBuFX8A7Wx0f4Q==
+X-Received: by 2002:a17:902:ec8e:b0:24c:d33d:418e with SMTP id d9443c01a7336-2516ef57cdfmr170678475ad.1.1757412022461;
+        Tue, 09 Sep 2025 03:00:22 -0700 (PDT)
+Received: from [10.101.1.72] ([140.124.249.9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24ca63c9e71sm161671585ad.95.2025.09.09.03.00.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Sep 2025 03:00:22 -0700 (PDT)
+Message-ID: <a3d1c5ca-cdce-428d-8c1c-6a1f59e2dd76@gmail.com>
+Date: Tue, 9 Sep 2025 18:00:17 +0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250908180913.356632-1-kriish.sharma2006@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] selftests/net: fix unused return value warnings in ksft.h
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
+ netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+References: <20250906-selftests-net-ksft-v1-1-f1577cea3f68@gmail.com>
+ <20250908182018.28d9ff10@kernel.org>
+Content-Language: en-US
+From: "Nai-Chen(Simone) Cheng" <bleach1827@gmail.com>
+In-Reply-To: <20250908182018.28d9ff10@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2025-09-08 18:09:13, Kriish Sharma wrote:
->Replace the deprecated strncpy() with strscpy() for ib_name in
->smc_pnet_add_ib(). The destination buffer should be NUL-terminated and
->does not require any trailing NUL-padding. Since ib_name is a fixed-size
->array, the two-argument form of strscpy() is sufficient and preferred.
->
->Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
+On 2025-09-09 09:20, Jakub Kicinski wrote:
+ > Is it just a GCC warning or rather a combination of GCC and some
+ > misguided glibc decorator to force check the return of read/write?
+ > Naming the compiler versions and the warning flag which enables
+ > this would be useful. We don't see it building with normal warning
+ > level today.
 
-I think d250f14f5f0754ce2d05d9c0ce778e4a51f488b0 has already done the
-same thing.
+Thanks for the review!
 
-Best regards,
-Dust
+I found that the warnings occur under specific build
+conditions that explain why it's not consistently seen:
 
+The warning appears when manually cleaning and rebuilding net/lib/:
+   cd tools/testing/selftests/net/lib/
+   make clean && make
 
->---
-> net/smc/smc_pnet.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/net/smc/smc_pnet.c b/net/smc/smc_pnet.c
->index 76ad29e31d60..b90337f86e83 100644
->--- a/net/smc/smc_pnet.c
->+++ b/net/smc/smc_pnet.c
->@@ -450,7 +450,7 @@ static int smc_pnet_add_ib(struct smc_pnettable *pnettable, char *ib_name,
-> 		return -ENOMEM;
-> 	new_pe->type = SMC_PNET_IB;
-> 	memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
->-	strncpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
->+	strscpy(new_pe->ib_name, ib_name);
-> 	new_pe->ib_port = ib_port;
-> 
-> 	new_ibdev = true;
->-- 
->2.34.1
+The warning messages are:
+
+ksft.h: In function ‘ksft_ready’:
+ksft.h:27:9: warning: ignoring return value of ‘write’ declared with 
+attribute ‘warn_unused_result’ [-Wunused-result]
+
+ksft.h: In function ‘ksft_wait’:
+ksft.h:51:9: warning: ignoring return value of ‘read’ declared with 
+attribute ‘warn_unused_result’ [-Wunused-result]
+
+This is triggered by:
+- GCC version: 14.2.0
+- -Wall flag (which includes -Wunused-result)
+
+During investigation of this unused result warning and following up on 
+the patch by Minh-Quang Bui [1], I also discovered an issue with the 
+selftests build system: running 'make clean' from 
+tools/testing/selftests/ doesn't clean objects in net/lib/ because the 
+clean target doesn't include $(INSTALL_DEPS_TARGET). This explains why 
+net/lib compiled objects persist after cleaning and why the warning only
+appears with manual cleaning of that specific directory.
+
+ > Can you not cast the read() to void directly?
+
+Sure. Direct casting is much cleaner. I haven't noticed it... Thanks for 
+the advice.
+
+Would it be acceptable to:
+1. Send a v2 of this patch with the direct void casting approach and 
+more precise commit message?
+2. Send a separate patch to fix the selftests Makefile clean target to 
+include $(INSTALL_DEPS_TARGET)?
+
+[1] 
+https://lore.kernel.org/all/20250601142914.13379-1-minhquangbui99@gmail.com/
+
+Thanks,
+Nai-Chen Cheng
