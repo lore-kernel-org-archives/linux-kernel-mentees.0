@@ -1,113 +1,73 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDD83218D7
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  9 Sep 2025 11:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0840285071;
+	Tue,  9 Sep 2025 11:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757416147; cv=none; b=ipMzkVTUDDzzfeRejK29h0n7VkjdCM4sc9uPeI/AhOpjT68nfxU0kc4gsz6oLh41aJLG6xIzPehvnkbqfTQ1jzSidNGypJvnVPl2cC60BO/+NidL813gQ2EIGLMwN9MOaJRCalL/uNGIXFQEVtQ8Zh071yjhNQ8zYgl1Sc480MU=
+	t=1757417227; cv=none; b=H4AwYGoaoZBqbDmGJ54ZNbMKZczXYMkhNl1yfDJ/d8qq2D3xJ+9U5ndVyV+ljxF4BQWr+57Lt/gpG/4lEFtwiYZtc4qJYK5bRFPjQo4AJ54vIH3N/Zv4bBEVZpBT38hpJTQ32D7JLY2ekVBfLYFAmWqyPhuvv1SDOji5p92wrO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757416147; c=relaxed/simple;
-	bh=k6VG5O7q00a/a+YkOEVzLXHlH/LdT+cKIq2dw6clWDE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LLqh6P8AGEXHF47kb9tXVuF2KvwqJzeSI1tdSQUKgcMbFGZpADzWEJp6I9kZVV0WsGQKSua+7svGZ7P+9XwZBwC4C6ZYEzWsNnmN2ZZvHxJFt3Jylt11447wmyLr95746ChhyVebukIwGwYa1GYeaFYChic+BM+NIWCr06Vwwfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ShOJx7C5; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757417227; c=relaxed/simple;
+	bh=KlBc/FLfWJ60Mnd+Xoq1/937+YN8YpF4GupEf7cemXY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=I4+MNbJ4e/vs4LUXHqLsgw2eWJG+3H6XCi0Z34hgfJT87NNZngwS7RJBKJaLqr1/LqXY7FESlojUUyVDjy8dVumYD5tSIlnpLbPzsgEZO0C1BnS3DgJFmDIkrC+uh6EJO1RqIPHUfBclBENKyurSryHDSsmV0NgPB3hP0ZdqLYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hDWMtW5v; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ShOJx7C5"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-32d3e17d95dso2382583a91.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 09 Sep 2025 04:09:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757416145; x=1758020945; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/kqIBpGmaqjfdWv2U553qBzw0kO4MEkC0nT25ifs4mA=;
-        b=ShOJx7C5wMxEFQaGbYdhOOPvvicJu4zjLc6SRHIGo6CT8VQTUyMHWiLGPDpLW7l60/
-         ZiSZOMUV23XAHLCGPOl3+UNSKQ84ZY8Z2+xLef/oGi1h1XwIE8Dr8uRaorGPvARyux6r
-         u+xCmjVzu+Fph6/Q6sS/7LL1CIt4AhBLYaZHgfAsfBt6cKRfRBbaihzlsNLAIsCRVO3E
-         /MFifv8lGpqM9q5iFcl69TMLXDsWZEbi/YKv17qullADrw4SJLEf5UAQAD8O94YgWhW3
-         +GnYeqY1i3V/wArN6lbaWLdTRl/2JiMeDASDJysCtLJETTKYpYpQdxBaRtUO3m+/TOtc
-         HGNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757416145; x=1758020945;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/kqIBpGmaqjfdWv2U553qBzw0kO4MEkC0nT25ifs4mA=;
-        b=q/KgRzZV1leMZGmm95gwPh9CEuNRYKR37HcFsLckzSSIc4o1/R8YJJBL/nLdSLXEnZ
-         DOx7KJWEC9XyghOSkCOajCQGo1FzuEt8Gl0Lg8fGHhacRwMMRTv7QuUnS6FLMjtIl7OJ
-         gf70P7JQJ8soSbtIaX23fI84RRSnnG0RC/dKHQ3FhJIkDSVVSFsEcRkj74CE434VGLEF
-         Sm7Mm06CIAVQSdZ022kEJ2+X2KeJsDnAaQjjCcng3DumpPQQbw8rbTelS6gQdvPGNRRx
-         17FTpymigSyKzs/P917uENwCX8FF2OiJaUQGewbI7uldwhlQH4sOB9sZe8iH4OVkjpW/
-         7kIA==
-X-Gm-Message-State: AOJu0YzFZhkVXAjbndwlGTKL2z2ONFtsYTdBKJy1hooC1pP3dtSBqBOn
-	w/jidopxqnpeeEL2enqoh9XaPslzC2idO0AJnzOxOqth5NuHFwA4HGkf
-X-Gm-Gg: ASbGncsxVR1iudGjs31y70ZliijarOV7Zaqa4NvgYnRTRj+UeA4MPXk9jV2lL31kDm+
-	2fvpcqU3bvqwYIOktaPRcHezr2u/lDcLMBtco7/dNb1HKd1KccRXWSRpQAg3+lJqwbvjgc/t0vy
-	NJfuqjXysxoSW28KBpZ8Th5tRQ4scUsqUa/5Fp6XYYddrFzKJpmAYBPhJoFy0E1trKSqa7osreD
-	WNSf3se8D1YTlpsDiWsvbiCQVpnKZ1zGhBY4L09UmZ/Fmt2plPqLolaUMbyL3hxCEM2IgGWj1pA
-	/shNprjTkwt18cWCVbvDYBDwWB+io1R8hT30exHyM2BmhxGiuaopzsDVBUhBabNQeWw0fn+PEVq
-	xaQNku2t+JZaCs+2TG3j30cG9Rt/kKPkbNOhwpfSWD9PwGLw=
-X-Google-Smtp-Source: AGHT+IF+RlXuj41RmCzuMtvcig7RTTgQYCSvnSceofYj588/JUlAWiHFZtQEhiGnX1uyJzV23IXvsg==
-X-Received: by 2002:a17:90b:38cb:b0:32b:df0e:928f with SMTP id 98e67ed59e1d1-32d43f936ccmr15732556a91.37.1757416144774;
-        Tue, 09 Sep 2025 04:09:04 -0700 (PDT)
-Received: from localhost.localdomain ([165.204.156.251])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-329e9fd022dsm21342608a91.3.2025.09.09.04.09.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Sep 2025 04:09:04 -0700 (PDT)
-From: Rahul Kumar <rk0006818@gmail.com>
-To: linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	rk0006818@gmail.com
-Subject: [PATCH] wireless/ti/wl1251: Replace strncpy with strscpy in fw_version
-Date: Tue,  9 Sep 2025 16:38:41 +0530
-Message-ID: <20250909110841.2904546-1-rk0006818@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hDWMtW5v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7FBFC4CEF4;
+	Tue,  9 Sep 2025 11:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757417227;
+	bh=KlBc/FLfWJ60Mnd+Xoq1/937+YN8YpF4GupEf7cemXY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=hDWMtW5vK0RsQR8w+ZBzz3DyHkSKsRPSO909jJQcQBc38u5RPxYKorg5QL3MZ99C1
+	 UCPeDEMnMBBZ2ht63eiMFXG+iGKQbFJ2lxGanfZ8ALZQN7feDUEfsUaftOetta4Iv3
+	 1EHY67CfnlNxcAwSWzQS/53fk/XtNi4KlcaNSgRSjf55i/nU7dpOUn+DEmox/baUni
+	 R9J56PQAFkXDolYsFpQaUNM9BBdGFbF2r9cLcDJLNubk+3Oq+aioIs0KaEKaqSIewu
+	 EEVNC+6RNpkA2vcxAjZDeOnS8eR0K8/whBu3obvVKKdkn0uQ4MN+GW/blIXtYOc3RN
+	 Tf8fEhx+QLVQw==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Rahul Kumar <rk0006818@gmail.com>
+Cc: miquel.raynal@bootlin.com,  richard@nod.at,  vigneshr@ti.com,
+  linux-mtd@lists.infradead.org,  linux-kernel@vger.kernel.org,
+  linux-kernel-mentees@lists.linux.dev,  skhan@linuxfoundation.org,
+  Pratyush Yadav <pratyush@kernel.org>
+Subject: Re: [PATCH v2] mtd: sm_ftl: replace strncpy with memcpy
+In-Reply-To: <20250908070124.2647038-1-rk0006818@gmail.com>
+References: <20250908070124.2647038-1-rk0006818@gmail.com>
+Date: Tue, 09 Sep 2025 13:27:04 +0200
+Message-ID: <mafs0cy7zn9x3.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-strncpy is deprecated for use on NUL-terminated strings, as documented in
-Documentation/process/deprecated.rst. It NUL-pads the destination buffer
-and does not guarantee NUL termination if the source string is longer
-than the copy length
+Hi Rahul,
 
-This patch replaces the existing strncpy() and manual NUL termination with
-strscpy(), which ensures safe copying and automatic NUL termination.
+On Mon, Sep 08 2025, Rahul Kumar wrote:
 
-Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
----
- drivers/net/wireless/ti/wl1251/acx.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+> Replace strncpy with memcpy in sm_attr_show and explicitly add a NUL
+> terminator after the copy. Also update the return value to reflect the
+> extra byte written for the terminator. This aligns with current kernel
+> best practices as strncpy is deprecated for such use, as explained in
+> Documentation/process/deprecated.rst.
+>
+> No functional change, only cleanup for consistency.
+>
+> Suggested-by: Pratyush Yadav <pratyush@kernel.org>
 
-diff --git a/drivers/net/wireless/ti/wl1251/acx.c b/drivers/net/wireless/ti/wl1251/acx.c
-index f78fc3880423..73232f7e92d1 100644
---- a/drivers/net/wireless/ti/wl1251/acx.c
-+++ b/drivers/net/wireless/ti/wl1251/acx.c
-@@ -149,15 +149,8 @@ int wl1251_acx_fw_version(struct wl1251 *wl, char *buf, size_t len)
- 		goto out;
- 	}
- 
--	/* be careful with the buffer sizes */
--	strncpy(buf, rev->fw_version, min(len, sizeof(rev->fw_version)));
--
--	/*
--	 * if the firmware version string is exactly
--	 * sizeof(rev->fw_version) long or fw_len is less than
--	 * sizeof(rev->fw_version) it won't be null terminated
--	 */
--	buf[min(len, sizeof(rev->fw_version)) - 1] = '\0';
-+	/* copy firmware version safely, strscpy ensures NUL termination */
-+	strscpy(buf, rev->fw_version, min(len, sizeof(rev->fw_version)));
- 
- out:
- 	kfree(rev);
+A Suggested-by tag indicates that the patch idea was suggested by that
+person. In this case, I did not suggest this patch and merely reviewed
+it. So a Suggested-by is slightly odd here. You can read more about the
+tags here:
+https://docs.kernel.org/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
+
+[...]
+
 -- 
-2.43.0
-
+Regards,
+Pratyush Yadav
