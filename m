@@ -1,138 +1,113 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633F13148A2
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  9 Sep 2025 10:00:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDD83218D7
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  9 Sep 2025 11:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757412024; cv=none; b=gmh6b/msw9cs3x3szZO+K6rS7EydXytbQDSvFX+6Ozhg5LlCf5KFOVBvibxJfu7znPf2IEQt4qAwstb1yxQiKi4WFeHTQ4xTXVzmus7Fn+A/XH551RLMsD9cCsxyBgIH5NpdPkXQmXVXPb3+7XYZh0WRef9rbPMbUmJQNAcUiQU=
+	t=1757416147; cv=none; b=ipMzkVTUDDzzfeRejK29h0n7VkjdCM4sc9uPeI/AhOpjT68nfxU0kc4gsz6oLh41aJLG6xIzPehvnkbqfTQ1jzSidNGypJvnVPl2cC60BO/+NidL813gQ2EIGLMwN9MOaJRCalL/uNGIXFQEVtQ8Zh071yjhNQ8zYgl1Sc480MU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757412024; c=relaxed/simple;
-	bh=sel26hbdubN+palGD2gZ0/eOdFAx9Akb98dFmcE1PVU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hnp/SGCzsadCTKy4Gl/7HW/q8Cw+usBW+jJZcDipRz1eQQiem41duO+dg/SlTi8Tusqoe17YKOcxlZXgMosAbNbUHAWRv/9TxTChV4I708atOMN8YKRqsTi/LrYyl17+j7yZ9PtGU5SCTIYfWTfJ4A5na/YuGA2gOTrktphenSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dl2IZ+dv; arc=none smtp.client-ip=209.85.215.177
+	s=arc-20240116; t=1757416147; c=relaxed/simple;
+	bh=k6VG5O7q00a/a+YkOEVzLXHlH/LdT+cKIq2dw6clWDE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LLqh6P8AGEXHF47kb9tXVuF2KvwqJzeSI1tdSQUKgcMbFGZpADzWEJp6I9kZVV0WsGQKSua+7svGZ7P+9XwZBwC4C6ZYEzWsNnmN2ZZvHxJFt3Jylt11447wmyLr95746ChhyVebukIwGwYa1GYeaFYChic+BM+NIWCr06Vwwfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ShOJx7C5; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dl2IZ+dv"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b4c72885c8bso4417103a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 09 Sep 2025 03:00:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ShOJx7C5"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-32d3e17d95dso2382583a91.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 09 Sep 2025 04:09:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757412023; x=1758016823; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jOx81+m5TMKBCfvFeUd2lc1fUQ8CVG2MRH89iHXYyPo=;
-        b=Dl2IZ+dv/le2Jx2vGcHrlKiAOuco7q1V1sad+59cTtxJ0F+Zs3a/diRB/6sXlAEyLT
-         CcYuIHfu4485kC2PmIIndOwKpa183kTBTcZ8XIRRhSOGowy+RI1PMn9ZFHhCvi99VQcb
-         MtYE0VkSFM4350KXXXrBlw7oA6jwGPGu6/5iXumZcoKuHzVCjPpOm5ppM3lRh+8qmoT3
-         k/qVoX7gp6e+IzbxlrW8zP3ChZAUpnYzeqbxTl/lkKbkrM0zLTklfJJmtFVDJ2FkVI/B
-         LOnXfTTI9C8Dalf3WVK11Rs4loJTlL8jd69j3+q6zj0IJ1v1u3ei0OOwJAfTNIlNyV6b
-         HZsA==
+        d=gmail.com; s=20230601; t=1757416145; x=1758020945; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/kqIBpGmaqjfdWv2U553qBzw0kO4MEkC0nT25ifs4mA=;
+        b=ShOJx7C5wMxEFQaGbYdhOOPvvicJu4zjLc6SRHIGo6CT8VQTUyMHWiLGPDpLW7l60/
+         ZiSZOMUV23XAHLCGPOl3+UNSKQ84ZY8Z2+xLef/oGi1h1XwIE8Dr8uRaorGPvARyux6r
+         u+xCmjVzu+Fph6/Q6sS/7LL1CIt4AhBLYaZHgfAsfBt6cKRfRBbaihzlsNLAIsCRVO3E
+         /MFifv8lGpqM9q5iFcl69TMLXDsWZEbi/YKv17qullADrw4SJLEf5UAQAD8O94YgWhW3
+         +GnYeqY1i3V/wArN6lbaWLdTRl/2JiMeDASDJysCtLJETTKYpYpQdxBaRtUO3m+/TOtc
+         HGNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757412023; x=1758016823;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jOx81+m5TMKBCfvFeUd2lc1fUQ8CVG2MRH89iHXYyPo=;
-        b=fwcosa7ofxElgfn39y6iPGcSUGmDEJACFb7shrYEgzrm2MGK7Gcb50hBXHrE8gibX2
-         hGJ++dpMb1zNF4pUYP5qSDhiFImH/cE55Kjjf92qa+sUzj5mpTvG860BsTswt6HM65ji
-         2RvrCPRIyO0jGXRGqBP6CKi03ekARLNvS18SRPKh1grB+1qJvysST0RLXnyaRUh6yFRK
-         tVhmBw1QcuhldDdf5AxoX9owZ6ydDw4N+AeQSQCaYBYjwpccdbBVrIRpxgoxOF67oclq
-         p4NzGgDJyb9vM/GX7wnI8rcZt/JoQ5ZsQC3eDNEVJqqKVO8JdSg8ypxWmTb2r3G6keq9
-         JgmA==
-X-Forwarded-Encrypted: i=1; AJvYcCVf5bKf3kV/WX22hBQ0IQjPybTgXwPVrGXcZ37DqNg+kI4pojTUyQ0r824aqlCOSOpJC1SUneb7MaJt+X/0U9uI+P8GfA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyurqrjuLvynwDmdkFN7UpH5dIYtX3sRZXeHwV83i5DY2fkH7jt
-	pc8NRjjtCWZiturRFxnwq78Pr3meKKHAQnkt/4kl01A2mIXomLXLxKtF9e/alvWP
-X-Gm-Gg: ASbGnct9KlgCIfgGGL9LqGms7O9zIo2Xcioy44ax5m5Qy1a1GfsALPTxZvAt/qWOBjh
-	09XUE7qX4wwsbA6j+nmwhK7nuYTE6KV9zLTRt7XkhYDCz//LVfe0WVaGwtyTthQeJlF0rdGa5HH
-	nc4JTkznWtH2We7J4KWpf2wNAnRPZV0Ugho5LQhpIB3KMQxCpuQ/RdgpmcmyazWt6Y56SrXwv6S
-	fFjb8dR2iKjczCq9O3uJiIlsJDjsE+08rRCVaq3koCEvV6Y7p+DUgNEX7KaPCTAMhgP6VH3huaw
-	4l9IgXlJDy7jSbF6tp6u6a8hRJSafhmht4EaRe2NPG8GrxaSQkzfNf3XBtCvJ9Y458aDtn6Ds6K
-	xAyJuzywXbxVYKgXqHIgmZbzE
-X-Google-Smtp-Source: AGHT+IFODb9BV49tp09UgtdQ81xWoNMdmIOHFlia0/7sBhuTUz5mRZhUGLhapz+IyBuFX8A7Wx0f4Q==
-X-Received: by 2002:a17:902:ec8e:b0:24c:d33d:418e with SMTP id d9443c01a7336-2516ef57cdfmr170678475ad.1.1757412022461;
-        Tue, 09 Sep 2025 03:00:22 -0700 (PDT)
-Received: from [10.101.1.72] ([140.124.249.9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24ca63c9e71sm161671585ad.95.2025.09.09.03.00.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Sep 2025 03:00:22 -0700 (PDT)
-Message-ID: <a3d1c5ca-cdce-428d-8c1c-6a1f59e2dd76@gmail.com>
-Date: Tue, 9 Sep 2025 18:00:17 +0800
+        d=1e100.net; s=20230601; t=1757416145; x=1758020945;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/kqIBpGmaqjfdWv2U553qBzw0kO4MEkC0nT25ifs4mA=;
+        b=q/KgRzZV1leMZGmm95gwPh9CEuNRYKR37HcFsLckzSSIc4o1/R8YJJBL/nLdSLXEnZ
+         DOx7KJWEC9XyghOSkCOajCQGo1FzuEt8Gl0Lg8fGHhacRwMMRTv7QuUnS6FLMjtIl7OJ
+         gf70P7JQJ8soSbtIaX23fI84RRSnnG0RC/dKHQ3FhJIkDSVVSFsEcRkj74CE434VGLEF
+         Sm7Mm06CIAVQSdZ022kEJ2+X2KeJsDnAaQjjCcng3DumpPQQbw8rbTelS6gQdvPGNRRx
+         17FTpymigSyKzs/P917uENwCX8FF2OiJaUQGewbI7uldwhlQH4sOB9sZe8iH4OVkjpW/
+         7kIA==
+X-Gm-Message-State: AOJu0YzFZhkVXAjbndwlGTKL2z2ONFtsYTdBKJy1hooC1pP3dtSBqBOn
+	w/jidopxqnpeeEL2enqoh9XaPslzC2idO0AJnzOxOqth5NuHFwA4HGkf
+X-Gm-Gg: ASbGncsxVR1iudGjs31y70ZliijarOV7Zaqa4NvgYnRTRj+UeA4MPXk9jV2lL31kDm+
+	2fvpcqU3bvqwYIOktaPRcHezr2u/lDcLMBtco7/dNb1HKd1KccRXWSRpQAg3+lJqwbvjgc/t0vy
+	NJfuqjXysxoSW28KBpZ8Th5tRQ4scUsqUa/5Fp6XYYddrFzKJpmAYBPhJoFy0E1trKSqa7osreD
+	WNSf3se8D1YTlpsDiWsvbiCQVpnKZ1zGhBY4L09UmZ/Fmt2plPqLolaUMbyL3hxCEM2IgGWj1pA
+	/shNprjTkwt18cWCVbvDYBDwWB+io1R8hT30exHyM2BmhxGiuaopzsDVBUhBabNQeWw0fn+PEVq
+	xaQNku2t+JZaCs+2TG3j30cG9Rt/kKPkbNOhwpfSWD9PwGLw=
+X-Google-Smtp-Source: AGHT+IF+RlXuj41RmCzuMtvcig7RTTgQYCSvnSceofYj588/JUlAWiHFZtQEhiGnX1uyJzV23IXvsg==
+X-Received: by 2002:a17:90b:38cb:b0:32b:df0e:928f with SMTP id 98e67ed59e1d1-32d43f936ccmr15732556a91.37.1757416144774;
+        Tue, 09 Sep 2025 04:09:04 -0700 (PDT)
+Received: from localhost.localdomain ([165.204.156.251])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-329e9fd022dsm21342608a91.3.2025.09.09.04.09.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Sep 2025 04:09:04 -0700 (PDT)
+From: Rahul Kumar <rk0006818@gmail.com>
+To: linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	rk0006818@gmail.com
+Subject: [PATCH] wireless/ti/wl1251: Replace strncpy with strscpy in fw_version
+Date: Tue,  9 Sep 2025 16:38:41 +0530
+Message-ID: <20250909110841.2904546-1-rk0006818@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] selftests/net: fix unused return value warnings in ksft.h
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
- netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-References: <20250906-selftests-net-ksft-v1-1-f1577cea3f68@gmail.com>
- <20250908182018.28d9ff10@kernel.org>
-Content-Language: en-US
-From: "Nai-Chen(Simone) Cheng" <bleach1827@gmail.com>
-In-Reply-To: <20250908182018.28d9ff10@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2025-09-09 09:20, Jakub Kicinski wrote:
- > Is it just a GCC warning or rather a combination of GCC and some
- > misguided glibc decorator to force check the return of read/write?
- > Naming the compiler versions and the warning flag which enables
- > this would be useful. We don't see it building with normal warning
- > level today.
+strncpy is deprecated for use on NUL-terminated strings, as documented in
+Documentation/process/deprecated.rst. It NUL-pads the destination buffer
+and does not guarantee NUL termination if the source string is longer
+than the copy length
 
-Thanks for the review!
+This patch replaces the existing strncpy() and manual NUL termination with
+strscpy(), which ensures safe copying and automatic NUL termination.
 
-I found that the warnings occur under specific build
-conditions that explain why it's not consistently seen:
+Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+---
+ drivers/net/wireless/ti/wl1251/acx.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-The warning appears when manually cleaning and rebuilding net/lib/:
-   cd tools/testing/selftests/net/lib/
-   make clean && make
+diff --git a/drivers/net/wireless/ti/wl1251/acx.c b/drivers/net/wireless/ti/wl1251/acx.c
+index f78fc3880423..73232f7e92d1 100644
+--- a/drivers/net/wireless/ti/wl1251/acx.c
++++ b/drivers/net/wireless/ti/wl1251/acx.c
+@@ -149,15 +149,8 @@ int wl1251_acx_fw_version(struct wl1251 *wl, char *buf, size_t len)
+ 		goto out;
+ 	}
+ 
+-	/* be careful with the buffer sizes */
+-	strncpy(buf, rev->fw_version, min(len, sizeof(rev->fw_version)));
+-
+-	/*
+-	 * if the firmware version string is exactly
+-	 * sizeof(rev->fw_version) long or fw_len is less than
+-	 * sizeof(rev->fw_version) it won't be null terminated
+-	 */
+-	buf[min(len, sizeof(rev->fw_version)) - 1] = '\0';
++	/* copy firmware version safely, strscpy ensures NUL termination */
++	strscpy(buf, rev->fw_version, min(len, sizeof(rev->fw_version)));
+ 
+ out:
+ 	kfree(rev);
+-- 
+2.43.0
 
-The warning messages are:
-
-ksft.h: In function ‘ksft_ready’:
-ksft.h:27:9: warning: ignoring return value of ‘write’ declared with 
-attribute ‘warn_unused_result’ [-Wunused-result]
-
-ksft.h: In function ‘ksft_wait’:
-ksft.h:51:9: warning: ignoring return value of ‘read’ declared with 
-attribute ‘warn_unused_result’ [-Wunused-result]
-
-This is triggered by:
-- GCC version: 14.2.0
-- -Wall flag (which includes -Wunused-result)
-
-During investigation of this unused result warning and following up on 
-the patch by Minh-Quang Bui [1], I also discovered an issue with the 
-selftests build system: running 'make clean' from 
-tools/testing/selftests/ doesn't clean objects in net/lib/ because the 
-clean target doesn't include $(INSTALL_DEPS_TARGET). This explains why 
-net/lib compiled objects persist after cleaning and why the warning only
-appears with manual cleaning of that specific directory.
-
- > Can you not cast the read() to void directly?
-
-Sure. Direct casting is much cleaner. I haven't noticed it... Thanks for 
-the advice.
-
-Would it be acceptable to:
-1. Send a v2 of this patch with the direct void casting approach and 
-more precise commit message?
-2. Send a separate patch to fix the selftests Makefile clean target to 
-include $(INSTALL_DEPS_TARGET)?
-
-[1] 
-https://lore.kernel.org/all/20250601142914.13379-1-minhquangbui99@gmail.com/
-
-Thanks,
-Nai-Chen Cheng
