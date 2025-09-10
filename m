@@ -1,110 +1,109 @@
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E5E2C11F1
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 10 Sep 2025 07:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F44314B85
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 10 Sep 2025 10:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757487793; cv=none; b=lpZsGElB+l5Ui69dtM6+nqcxBWfRnNhSGcur8hYSxMe2+4gkS733dtDhgidPHoYvd7bsFqsFzK9AubmwKeKcr4Wyj9B2qv3vdD4qSBUUnIn+ng1iOzTjDw1zZxBpU3hGZZv+8AHbg+x49BiUiB4+KzmesGmPPdp6JFzvjo6zBjY=
+	t=1757498470; cv=none; b=Q7ofFK8BpumJiIoP9RxA4ESHBXqv24YWrefgAtyineLNSHQKGC+5DQHGDH1VlmXT04Up+bbY/3QoB5GbL9ACKeTy78xu2ptVMSfcV/GzN+u0mQHs2IJGBOZeTaxy1CkEsbtuUHq3VBS4yJhHCo273wUXuCu1mJc8lr8l2aQl3ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757487793; c=relaxed/simple;
-	bh=K3sb3O0WaaCu0/VJziTkMwe7dsY/QjdigziLXVPL3Iw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dKoMVw6FIWanrgRCO7QJt+bPboXjo6qga8X/GfvisJSwiGCQU64ns+Rd80j2Zb/h9wlV0VkjGPx56j0Ar6W+6MaQHDB7yc8srlowPMg7lUcrtNTxnXnue7XTNia36ug7YI2sJVijT9zu+5KcjyOaXXSJdpM4Mx8J+bpqfTe0kjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nbkKxs3U; arc=none smtp.client-ip=209.85.166.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757498470; c=relaxed/simple;
+	bh=G54EZvV6TYh/6aRiLS/VHoanwwYRL6VCM+nMKElEI20=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JZ8ZL20l3zs2nugwBSnmpdcZPa1eGDKe1SyqtJym4B45XjkyYL04w68ZCtWoof910rlTa1eh+CUTOCXAEeh6IJlOw6i3Qwbf8wUNcdUo9KZTgUMbL8xRIin6LVf9U2Uk9ecMPuSf0Eq22KxqVZN7yDyrsdXZTku6+6Vfwy+AIH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j0ArAIPW; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nbkKxs3U"
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3ffe6666f8dso16385475ab.2
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 10 Sep 2025 00:03:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757487790; x=1758092590; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K3sb3O0WaaCu0/VJziTkMwe7dsY/QjdigziLXVPL3Iw=;
-        b=nbkKxs3UEuKdW/brmVyfkVDmnt6UAlLqCTFDhwk2vSDZwpYwerYABAO2OZBP4ZDw75
-         aJe4E/GUkp/mOthwLF6C8c3tFotYuFDfe0CSoydy/J8QYeU8x3Lup0u+uKJxTB8mDHYy
-         XF3ICUI26L2FroHkhDnyoHsND7yhwNnNQZ3NOGPlIU/XGKNRh4Y1SWBdloUPa9dOq7MQ
-         ZkxAFbwoGlQw2ZnkqI5sL4dkj3fBUitf6BY/JSi26d3vCdwqcB6nIxZBmqofFBqMsZBg
-         b2dvKL+mKYPq9CiUfynKHq9WigMfx4wvmVeskTqaOJr8rPHh/Ze9Pj2Zs51cmU8+iSy5
-         Y0kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757487790; x=1758092590;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K3sb3O0WaaCu0/VJziTkMwe7dsY/QjdigziLXVPL3Iw=;
-        b=djMB2rP/HyIFrrFhdUg0idV8G+bmOf9EAyWzMT1jIm6/49k0kkWAK3A3a7qTbEr6ce
-         k1H4vTlkq0DZ2UYeANkvZMiWratczYxQnIPR/hN9U4TEFbIMZ102gF7jy1yoW3s2e3lH
-         TamFit4kOWWsPdwOhLfZLyHg0ZeC14LPSk1HKRNTkBEzfeDho0yvH68Zfhv77jUZfRru
-         88eiCIInbU7TzeSn6AyF+9WU03BSNCrUYSCXAPDtPJIvxR7cUKzs8u9v8CtqXBu1woiQ
-         gGzNCK7FmQaKn0tQz8ugDTvzTISqUG13AW3fRExYUMAJVRHFTQr5UCM9089QzDRHRSJm
-         iGog==
-X-Forwarded-Encrypted: i=1; AJvYcCV+RWwZ3Uy00di1VHaAsmn4wS57WTG0rwHsKjHBdaz0k1qv9n8aK/ae3za9Sj9l9NP0Y+aggMZdARBJagL69dNc3pGYSw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YynZPt8os6RZCty81Y+zkYBHNsCjzWWjWAiP5AZGRyh9CY1hhgX
-	ObSWdtd0JPRacEpkEk2lNPYEdBajwJ/OjUqSkql87mT+v1zpTI/lzerYucDpoVNq/MJsS7Y51JA
-	ITSistwU+4cZ3va5AOxE2frBUbqeFqEk=
-X-Gm-Gg: ASbGnculbOsXViY0GmF+qirfLBErnHqU8CxbNNFpVB8jal7CIRNGjSpQ8FgCXiSpAd7
-	CE7/y+0zCGGVSGDbiMkf54PxzYtu9zZf3o9izA9fbYyHyHhZ/1C7iGkZeffBLZffpmo0gVlHF9P
-	EJjvJI+LqTj76s3iRh5Qzawf1HDPo7FC3eT1bBAZPPBSMGnmL0ehEkHMfJ+eu1p6bp4kSMlgYoK
-	GvVkt5KlgON4gOi
-X-Google-Smtp-Source: AGHT+IFRXCqGqREn+YxT6ZRBQQ+/gQ+Gwx5iX5XmgokBagKB2BNEC9oKGjvvsbIx8yoWxpnf5nOBNea7lamS0o/4C6A=
-X-Received: by 2002:a92:c26a:0:b0:40e:adf8:ca2a with SMTP id
- e9e14a558f8ab-40eadf8cc5bmr102324035ab.6.1757487790409; Wed, 10 Sep 2025
- 00:03:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j0ArAIPW"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 8F6A583CA7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 10 Sep 2025 10:01:08 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.101
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Y8re5r2D5tXT for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 10 Sep 2025 10:01:08 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=leon@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org E4E0A83CA4
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E4E0A83CA4
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=j0ArAIPW
+Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E4E0A83CA4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 10 Sep 2025 10:01:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 31DD26023C;
+	Wed, 10 Sep 2025 10:01:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D25CC4CEF0;
+	Wed, 10 Sep 2025 10:01:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757498465;
+	bh=G54EZvV6TYh/6aRiLS/VHoanwwYRL6VCM+nMKElEI20=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j0ArAIPWssOq42cLhTYSaTOOEJ3f4TBdM/d8YerpuWgBriQtXuyvU+81knfjxYXt5
+	 NV1+P14kcqIt+EbTzbRGCUbdEM/UHfatAA2R5KTwKqiapdE1S25UYnLqPh7ObG7Lgv
+	 YeDAqGlHqMjJ7uhjLZU4hA1VFYuuIYBwwYRkkjN8rUoURyeU8StIcihBmdnXggdn1A
+	 sAug9yL8h/isBavawkJzfdFyz5tY01zNuSYyK+Nw3NzLC61UPM89My7GuKULLmoVte
+	 cVgTrHOnuIjWrK16Yok8x6ljiChFtIx+9pPfoP2Lnvy+XrJSa0QGT6mV886AjC6Ehz
+	 o3ai+1/N+usZw==
+Date: Wed, 10 Sep 2025 13:01:00 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Kriish Sharma <kriish.sharma2006@gmail.com>
+Cc: alibuda@linux.alibaba.com, dust.li@linux.alibaba.com,
+	sidraya@linux.ibm.com, wenjia@linux.ibm.com, mjambigi@linux.ibm.com,
+	tonylu@linux.alibaba.com, guwen@linux.alibaba.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, linux-rdma@vger.kernel.org,
+	linux-s390@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] net/smc: replace strncpy with strscpy for ib_name
+Message-ID: <20250910100100.GM341237@unreal>
+References: <20250908180913.356632-1-kriish.sharma2006@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250908070124.2647038-1-rk0006818@gmail.com> <87tt1djtot.fsf@bootlin.com>
- <93578759.11447.1757322260340.JavaMail.zimbra@nod.at> <mafs08qinn92v.fsf@kernel.org>
- <CAKY2RybqkE74EADTPnCUHAXpJLJmM9skPXQ6S3UOq8TK_y9EQA@mail.gmail.com> <589829523.18235.1757447430401.JavaMail.zimbra@nod.at>
-In-Reply-To: <589829523.18235.1757447430401.JavaMail.zimbra@nod.at>
-From: Rahul Kumar <rk0006818@gmail.com>
-Date: Wed, 10 Sep 2025 12:32:59 +0530
-X-Gm-Features: Ac12FXwBsZJOjWnbMMWv1I2jpV-70BlTyF34pse8dnrTr5YRb8hM2Y46Rkfg8n8
-Message-ID: <CAKY2Ryb6CLLYBWH6pipDGV5SHv8GiZJrPb-KOWU29g=yYkzUgQ@mail.gmail.com>
-Subject: Re: [PATCH v2] mtd: sm_ftl: replace strncpy with memcpy
-To: Richard Weinberger <richard@nod.at>
-Cc: pratyush <pratyush@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, linux-mtd <linux-mtd@lists.infradead.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-kernel-mentees <linux-kernel-mentees@lists.linux.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250908180913.356632-1-kriish.sharma2006@gmail.com>
 
-Hi Richard,
+On Mon, Sep 08, 2025 at 06:09:13PM +0000, Kriish Sharma wrote:
+> Replace the deprecated strncpy() with strscpy() for ib_name in
+> smc_pnet_add_ib(). The destination buffer should be NUL-terminated and
+> does not require any trailing NUL-padding. Since ib_name is a fixed-size
+> array, the two-argument form of strscpy() is sufficient and preferred.
+> 
+> Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
+> ---
+>  net/smc/smc_pnet.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/net/smc/smc_pnet.c b/net/smc/smc_pnet.c
+> index 76ad29e31d60..b90337f86e83 100644
+> --- a/net/smc/smc_pnet.c
+> +++ b/net/smc/smc_pnet.c
+> @@ -450,7 +450,7 @@ static int smc_pnet_add_ib(struct smc_pnettable *pnettable, char *ib_name,
+>  		return -ENOMEM;
+>  	new_pe->type = SMC_PNET_IB;
+>  	memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
+> -	strncpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
+> +	strscpy(new_pe->ib_name, ib_name);
 
-I sincerely appreciate your encouraging words. They motivate me to
-continue improving and making better contributions.
+It is worth to mention that caching ib_name is wrong as IB/core provides
+IB device rename functionality.
 
-Best regards,
-Rahul Kumar
+Thanks
 
-
-On Wed, Sep 10, 2025 at 1:20=E2=80=AFAM Richard Weinberger <richard@nod.at>=
- wrote:
->
-> Rahul,
->
-> ----- Urspr=C3=BCngliche Mail -----
-> > Von: "Rahul Kumar" <rk0006818@gmail.com>
-> > Thanks a lot for the detailed feedback on my patch. I understand now
-> > that this change does not add much value, and I=E2=80=99ll keep your po=
-ints in
-> > mind for future contributions. I really appreciate the guidance.
->
-> I hope my comment wasn't too demotivating.
-> You are *very* welcome to improve the code.
-> One of the major problems in open-source projects is that
-> we're short on review power. That's why sometimes maintainers (including =
-me)
-> react grumpily when code is changed just for the sake of change.
->
-> Thanks,
-> //richard
+>  	new_pe->ib_port = ib_port;
+>  
+>  	new_ibdev = true;
+> -- 
+> 2.34.1
+> 
+> 
