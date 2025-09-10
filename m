@@ -1,108 +1,125 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4393D26FD97
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 10 Sep 2025 11:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8673531063B
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 10 Sep 2025 11:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757502981; cv=none; b=UUJm/HDM9rYYnkRqRIYDELbUxA093xEfqP6WRY4WR/OB9XfJQUbt3vG1VJNGyKxH4v5hRAefJ9ytXyxUD0fvVdGgo+yamqArRh9YFoDB/X6hEpOEV469jzZQ4QW0Yfh/l9bTdQUfTlV2u+KvlH6ZJmtTWsEHEZRUm2j/6WcOK/Y=
+	t=1757503847; cv=none; b=pe7rz17Q+Uazxqc5AvQw18T0mcPEgMk909dOzO1GNN6mPTkfwnU1SyCKezZ75gLXpNsiLlJAlUTJhfBb8d+ygXfYXZ4yYehhNdOjrU4lFITAsMSZfkUNLqkPGkM1K+Ltp6cJw4dirG52qSv/unjkPD8nO0Czp48vYIWMs+kpHHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757502981; c=relaxed/simple;
-	bh=2rASD+s8QFj1eS4oF5z2j1I3AkxBGsqd2eCLiUasoB8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SMClTtsWORJIXiEjoKFS6AAduV8QTykj53IYrJMtWEpItL5dcS9dLV2CTXi5auTqvpWrCuuRgrnYTvyWoAbZogvq5y8/d4j9B5yWs4y7naF8/kJ8iJgaABv7yD5w+d7K+zSufsPz77/XFbmrQuxuSDsgcBXjtabf3BftWwe3AzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R4uGCasw; arc=none smtp.client-ip=209.85.215.171
+	s=arc-20240116; t=1757503847; c=relaxed/simple;
+	bh=9ZSLjDe+4Fc/v2AOr41UNDmXMbdnGl8t41vBsqh5l3o=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=M6DB7TGCJ/fPZNkdaGfTu9htLYTpiIAdJsyfU2hvbXezw5thlqdoZjgyWYFkneCsQ2uyhKgRV2sL9KK50xClNgQTG0Iaj/nnQkzU9ETfurb0lSYxW78/3rW1WzXDF7KvA0J5YbbLx+yWjyt37RP6ISkXTkSfJfPlof5qxN1WDag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZPoWhVcZ; arc=none smtp.client-ip=209.85.215.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R4uGCasw"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b4c8bee055cso5655146a12.2
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 10 Sep 2025 04:16:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZPoWhVcZ"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b49c1c130c9so4654813a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 10 Sep 2025 04:30:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757502978; x=1758107778; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MZbusY2YZDJHUgvIqP5aq8nFaPzc4Ije89rvbFvkmb4=;
-        b=R4uGCaswN7j4Lu/igYseT/rrNI3aoo/gsfZyNKlBBuqy7UuQjVChe3DacM6Mpq6L98
-         0gvklv8Wj4cKR/csIfPc1N04xGLTyKy02Hn0x6z+/KZ+imIhU8bvhI6orAfcQ8aXorSX
-         h2Z7wucUoMNrB0Z5BgIJtDy6yJSxpuAED62Bq6d38kGKBlpvMldFrkbeVd/sHipDjz8P
-         tLHdhCIf6t9upIlh+g5uV0v/VILWe4aIiraak0r0uGnMk+nKbd1zdqh9Y+cNV4EUTgz7
-         9r5Su6z4k2S3pEKedGi+cqSMJc07BhUR07s6dSbzvwphQdc/k54O6JMjxI/pDTcW23Fy
-         lCZg==
+        d=gmail.com; s=20230601; t=1757503845; x=1758108645; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=flW00o4TNs0w7ND8/adOgZPHVUNu6jf50PwpLW7fM5I=;
+        b=ZPoWhVcZBTPovwFH8IdM5TWZPYFBQ3tdbVxoL+D4w8svlcLT62USJfi23l95eKoVZ6
+         nw0HD7Y9Eza5iEirwF0V7plUgcCMmG4rmGw2udkXYlBLICJhvipMwDEAw9MMO6zFBs2o
+         FG4j8WVBxPFGNpyiSSbZF85YfUEnJHFE0Y4ISZD7ln+hsf/W19AI+L+BuZ5pVnlFUSiG
+         MmwQMeph8+KyhlITAP4XLM60aNur1ZQb3FgozT1IDzn8pseZw28VTFsFJntfhcxcBUua
+         TQ6pBxedUKIlALBzgf4aFDDgvBeNYNwXghjv9ZWxvoMiqfDmuOeKTutGFw37Jd/yak+i
+         wPlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757502978; x=1758107778;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MZbusY2YZDJHUgvIqP5aq8nFaPzc4Ije89rvbFvkmb4=;
-        b=FW2uC3rOsWgmr0lt2lyGeaDjCV2YCAz0+UU+BkgXWoGgaW3J3C889HGswnPXj3TUFs
-         otYeodoZ1Yg8TfztHLJUnElZkDh/nRcK9IljoPsdIzPMHgiB5Y9LbD1a+7Fk2TcvSH6p
-         IMJAC53EqMFdIJBzFzhQuu3Oc1MLQDnVyMyldKi/18OdIyRsZ6NugyPYwmnIEwDrIVhE
-         6t+TA4rsbnbCO7kYPyvT2Sq1S6wGlOTBzjheDxJFPtyMPI6EfnxE9F70RzvLlI2tudqn
-         lgjLKNOX664sj/DtGYhJfnekJaZ1hgCAukY/AGdVJt5J7Ug3r7pQdeH/khVGljrFc/oM
-         n2Zw==
-X-Forwarded-Encrypted: i=1; AJvYcCWZPPFqBrIMNFMaZZwgvqxjIMITfyQ7G7cotV06Te8rrNzE0Yn7HAdUTr96M2dA1IMXSU/TEAeg4EN5GCjM5PqH9FOnNg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxa/WNGErRKrjdVeKEzdmKuW4TYEiRCqpgeD5zHBmW2gDpqC16x
-	3YT4eP9OwzYW9k9ipD3EeSj86XM2uOjJvpvI/i3Sdn3rqFlbJXCM0cuu
-X-Gm-Gg: ASbGncsZCOPbtOt6bzRNcczcoZwhgsv9lo4vAiJPA5F7y9y+9tbSfuv4yeWoC/F8YXc
-	w4AP9SvuARrkfGbfj17anzuJod0fnR3suTUKKXIq7p6w3cAaISRZTX0LM3RhdMCNheg/Xa/eAgX
-	86lfxkhdVGgTwUCyVWr7INpvZdccBo9ZnOc7srF73JWUvnshlRfaWaoev41s4Hbdr/Y+l/KOb+4
-	uJ8kMLWbwTKpec/ayco0vuDYv4KFLMSYzJKmiLpjIRTzPUxYKw5m4UljvdRPuuuf97Lk45hcJ0O
-	znhDvnuPD2wfruGB7132gHEE6gE2JDQLbGanXFYOlOiD1aHxOE21HUD4VPyS/3gEnKKQaPxhweF
-	aqATf/4S+y5h7rYWJmieh35wyqYdKq/j4CAlWOFiMxDku4sxrZQ0B9TBmMbgbndPMseO+9QVrOS
-	vMn/veB8C0XDJhTBoX4mNM3eoJbeLozKQjBiTD6veeu1+MES/rXalLJDlV00b5k0rA
-X-Google-Smtp-Source: AGHT+IHYJUR0byJaWrm8+KNFqANo8zElvFbaG5ym9raoJ7ygPAvqG0hpZXLy2KjyUuPvUxUS73wvMQ==
-X-Received: by 2002:a17:902:fc45:b0:246:464d:1194 with SMTP id d9443c01a7336-2516d81836dmr194708695ad.2.1757502978484;
-        Wed, 10 Sep 2025 04:16:18 -0700 (PDT)
-Received: from ?IPV6:2001:b400:e28d:ed7:4d5a:39b4:7c51:4c71? (2001-b400-e28d-0ed7-4d5a-39b4-7c51-4c71.emome-ip6.hinet.net. [2001:b400:e28d:ed7:4d5a:39b4:7c51:4c71])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25a2ac085f9sm23656115ad.117.2025.09.10.04.16.15
+        d=1e100.net; s=20230601; t=1757503845; x=1758108645;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=flW00o4TNs0w7ND8/adOgZPHVUNu6jf50PwpLW7fM5I=;
+        b=rZuXNgHjMfU3uTgEJs9KJsNycu24LMCf7Dyg7LFz98l1UVQboGhQnwbH8GWK0RN5dS
+         vQBW2J0EfIYPwU1Uo0TXvHkZGAPLe9eUqfqm7l80l5T9KAAiquRL7YFwBebmz5jKy9bm
+         jdHa0pFEJjjs42zv/I0gueCnBe5Cx3Fah1HexGxL9z7h1xk8d+Bty80DvMewFL4sneCQ
+         1u6b7vozYyuAea9t9MGDDmD+VTosLRKuhoiHRjZihQUFnNpyZHfu7ta/tRyUFXR+OIaG
+         gkftykr0qCb50x7Py7sE5E8uk3c+ku6Ck9qLVsOBN/VqbljHjU1btVasN78cVMRddvrc
+         Zj4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWnx5A5Qx/LkgX4u5Xw8199zcgq2Y0G2qp2KIt/+0Iv3iLi+abVVeGhNEXdR0VUCzY02JlG4CbWWfK92giIUvZzeRpyew==@lists.linux.dev
+X-Gm-Message-State: AOJu0YydGW9d4mAw1/VG3UvRa1b05hIDkfCSYIZL517rYnAIi2OPWGut
+	kppSIHBgJX1Zdrf346W585sXPgT4B+KSq5XaGTyWseJfNfSdNZenYKx9WJJyjjab
+X-Gm-Gg: ASbGncuCnbTU5x/YrJ2WJIlK6gUuC0Vdd9ZXGTo5X+dXaw5yoQZDlHrEeCGjDvAVyru
+	9NnDWotyYL/bv3VR5vEFcp7TQX+r5Usevd/kBpTMZWGlNgpst3P2UQVdNVIAygML8viyH7qMObQ
+	yocWZwJJsHPQHyIV15fmIIH9P56rrkUZtnTI5s2zLO7Q9kRri7DdHDIFJ0POq3WX8TThpaAc2na
+	AsynEyH6blxMOiMMkXirrizrvU7qDytfC3cmRybDUn8oWlNYxjZtfrXwvRjY3/1Z7bl4MDe/wto
+	97lObFG6SJmPFasiGuuYSaC1w/dEdoAdy8CxJpbpsHGM7e4ZFlQK1zpz0GRfjVj3lL+giAFUpvr
+	efQfrj/m+OmaVFfbrUO2ohNVwRLPDoaHmzRYjo3YkBBFTGmsTY2l2OaLwwntm4dovaaajQEPhAM
+	Bma7Yvw8Y5KUo15GL7
+X-Google-Smtp-Source: AGHT+IGc7SMnCypPSiItYXmc89F0gz9NLoFugqdvp1jo9HA+2pBLrXEE7CO3WouVUiK/9GqKXLS5sw==
+X-Received: by 2002:a17:902:dace:b0:24b:11c8:2cfd with SMTP id d9443c01a7336-2516ce601bbmr241491715ad.7.1757503844712;
+        Wed, 10 Sep 2025 04:30:44 -0700 (PDT)
+Received: from localhost (2001-b400-e28d-0ed7-4d5a-39b4-7c51-4c71.emome-ip6.hinet.net. [2001:b400:e28d:ed7:4d5a:39b4:7c51:4c71])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-25a27df03a6sm24841345ad.56.2025.09.10.04.30.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Sep 2025 04:16:18 -0700 (PDT)
-Message-ID: <270488a6-ec6b-4b38-aa30-b5c9e08cdd18@gmail.com>
-Date: Wed, 10 Sep 2025 19:16:13 +0800
+        Wed, 10 Sep 2025 04:30:44 -0700 (PDT)
+From: Nai-Chen Cheng <bleach1827@gmail.com>
+Date: Wed, 10 Sep 2025 19:30:32 +0800
+Subject: [PATCH] selftests/Makefile: include $(INSTALL_DEP_TARGETS) in
+ clean target to clean net/lib dependency
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] selftests/net: fix unused return value warnings in ksft.h
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
- netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-References: <20250906-selftests-net-ksft-v1-1-f1577cea3f68@gmail.com>
- <20250908182018.28d9ff10@kernel.org>
- <a3d1c5ca-cdce-428d-8c1c-6a1f59e2dd76@gmail.com>
- <20250909162551.5224a3dc@kernel.org>
-Content-Language: en-US
-From: "Nai-Chen(Simone) Cheng" <bleach1827@gmail.com>
-In-Reply-To: <20250909162551.5224a3dc@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250910-selftests-makefile-clean-v1-1-29e7f496cd87@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAFdhwWgC/x2MwQqDMBAFf0X27EJMkWJ/RTzE+FIX0yhZkYL47
+ waPwzBzkiILlD7VSRmHqKypQFNX5GeXvmCZCpM1tjVdY1gRww7dlX9uQZAI9hEusfc2jG+DDi9
+ LJd9ysf9n3Q/XdQOYbgM9agAAAA==
+X-Change-ID: 20250910-selftests-makefile-clean-cc2fb70e9e32
+To: Shuah Khan <shuah@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+ Nai-Chen Cheng <bleach1827@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757503838; l=1181;
+ i=bleach1827@gmail.com; s=20250730; h=from:subject:message-id;
+ bh=9ZSLjDe+4Fc/v2AOr41UNDmXMbdnGl8t41vBsqh5l3o=;
+ b=kXMkH0zAKLkWvP+pZoQE1+O8Jn6o+7/9bPAhRss9NYSh6eI3XM3RkVxIOhufhacf0MniUQ/EC
+ 1hRfpU4jD4BDaAWHTm5r3e2zPbYyYvBM2wW5bj4bUWA52A4GsHa6243
+X-Developer-Key: i=bleach1827@gmail.com; a=ed25519;
+ pk=jahFPRplw20Aaim8fIt8SxlFMqkHbJ+s8zYBGbtHH5g=
 
+The selftests 'make clean' does not clean the net/lib because it only
+processes $(TARGETS) and ignores $(INSTALL_DEP_TARGETS). This leaves
+compiled objects in net/lib after cleaning, requiring manual cleanup.
 
-Hi Jakub,
+Include $(INSTALL_DEP_TARGETS) in clean target to ensure net/lib
+dependency is properly cleaned.
 
-On 2025-09-10 07:25, Jakub Kicinski wrote:
-> Sounds good!
+Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
+---
+ tools/testing/selftests/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I tried the direct void casting approach, but it still generates 
-warnings with GCC 14.2.0:
-     (void)write(fd, msg, sizeof(msg));
-     still shows: warning: ignoring return value of 'write'...
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index 030da61dbff3a7e4a22d61ba3972e248a43d374d..a2d8e1093b005c9af3570246dd8b10b59e44b46b 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -314,7 +314,7 @@ gen_tar: install
+ 	@echo "Created ${TAR_PATH}"
+ 
+ clean:
+-	@for TARGET in $(TARGETS); do \
++	@for TARGET in $(TARGETS) $(INSTALL_DEP_TARGETS); do \
+ 		BUILD_TARGET=$$BUILD/$$TARGET;	\
+ 		$(MAKE) OUTPUT=$$BUILD_TARGET -C $$TARGET clean;\
+ 	done;
 
-After further researching, I found this appears to be a known GCC/glibc 
-issue dating back to 2015 where direct void casting doesn't work for 
-functions with __warn_unused_result__. [1] Since this is a long-standing 
-toolchain issue and direct void casting won't suppress warning, I think 
-you can skip this patch. Thank you!
+---
+base-commit: 9dd1835ecda5b96ac88c166f4a87386f3e727bd9
+change-id: 20250910-selftests-makefile-clean-cc2fb70e9e32
 
-[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=66425
+Best regards,
+-- 
+Nai-Chen Cheng <bleach1827@gmail.com>
 
-Best Regards,
-Nai-Chen Cheng
