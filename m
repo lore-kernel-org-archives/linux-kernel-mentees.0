@@ -1,60 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538C225D1E6;
-	Thu, 11 Sep 2025 23:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376EB29827E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Sep 2025 07:49:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757634099; cv=none; b=UuI0MC3N9Bto9aOs34zzYEacM1SPuIuHFbvIc05rwh+vmWvWMzNuOu2LKAcx2wUF+1ZXkIhUIqfMU0zgh1fYGurEokxP32EVhY7Ftk6vbjUphmRlvjxlAzZGZEOrWs/U2bkoa/HjJqxvN+bXsRRwYzENPqCVpxgksv+5/YEOldE=
+	t=1757663357; cv=none; b=rFn3mp0P3w47OOzbPjc2Zkzdh/7xT/W7S+eSlpTtVVZjzvvjEeBeObwURUOWdbVTwglT80Cwpg5ecDJwo73QK50GbLU1Gx1qqc79VQXzo6OBLSnLeZvegNEFkziePu4sPQRGxCnh/H3kyvwCV4sBta3oUxR1aosZ7oZgP1hAm9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757634099; c=relaxed/simple;
-	bh=o666/70NeLChTgVfWpxXWVkLw+F2bVvwHJUC9iqefBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GGRfvz7aN44iugoqK+Ccsv++9/wV2JcESkZSEdkaF9CuJIIkfnB1aZ+am7VanRK6avMzhfxg1oUItUa+oAA1yFVkMe7cwDnwn2pM6+PPiKZRmJOF9e+G69/u0KcYTuDXY0bXNUddo/e9eG9I0jZAum/lMxfI0c30sR9baaMjKQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e/IemM+u; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757663357; c=relaxed/simple;
+	bh=ycKuyJfA+pW+7/KGrXyyWA8AmijprriOluA76WaJozs=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=GCra4E3kZhNvjPspD5HCQiJfDfgcZtIY9Mo2teaF4Sed7MFApX1UkNyYdnS6RLmukGrFpp/ynqkEEIGjOXIcZE/FRC/idVEGtQoI9Ze7z21YnNT92KDCWennvx6IOcO2YN5EqPf7yrmhxVr9qAxRPT96TeHtRK6W8IyANDL+1Ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=NhWItY5O; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e/IemM+u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6515EC4CEF0;
-	Thu, 11 Sep 2025 23:41:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757634098;
-	bh=o666/70NeLChTgVfWpxXWVkLw+F2bVvwHJUC9iqefBQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=e/IemM+u5/LBk/0t6OUdk2FI52mPtCkDBqUYE3IrrIlGpKiiZoZHqCmIzxqWRiS6u
-	 JNJgK2gJA38+UTKEd0hfMRqkWhZvP32jJTkTO9ihq/3dt1y8oBQ1a+NwOrluEoWZ+Y
-	 kz8M1vuR8AO0CjBgV4ukOUoF52G6Jz41+ua5gKMu4fspj8Hmyk7wHZftWqpvz5hvLm
-	 C4nIZ+DhPyk7++OlgFQbwZKJ8UTU+cvl5E0xw1X+ioAY8PaKF4xAkgE+3LkEhSX9YE
-	 GLTQXFXafkSmoMDz6/H0/GxBbHttz8XrF9G+96vEyf5LUD13jVs1nXfC5AGmWJQSCj
-	 AyYSzWGtNHdBA==
-Date: Thu, 11 Sep 2025 16:41:37 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Nai-Chen Cheng <bleach1827@gmail.com>
-Cc: Shuah Khan <shuah@kernel.org>, Paolo Abeni <pabeni@redhat.com>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Simon
- Horman <horms@kernel.org>, netdev@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] selftests/Makefile: include $(INSTALL_DEP_TARGETS) in
- clean target to clean net/lib dependency
-Message-ID: <20250911164137.29da651f@kernel.org>
-In-Reply-To: <20250910-selftests-makefile-clean-v1-1-29e7f496cd87@gmail.com>
-References: <20250910-selftests-makefile-clean-v1-1-29e7f496cd87@gmail.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="NhWItY5O"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id BC1324041A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Sep 2025 07:49:15 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -6.389
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 3wocHIAq7oS8 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 12 Sep 2025 07:49:15 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=mjambigi@linux.ibm.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org C21DB40447
+Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=linux.ibm.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C21DB40447
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=NhWItY5O
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id C21DB40447
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Sep 2025 07:49:14 +0000 (UTC)
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BMC9GK020534;
+	Fri, 12 Sep 2025 07:49:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=zTLFXr
+	0+McgcO/Jhm5ZmAHsiQbcdIZZr81OtIcbjHXU=; b=NhWItY5Od2g9kImauxquKp
+	1ngtrmKTrlCVcWc81XmbcH+TkDJVYy8Tsu8ZeC8Emvby9+ATA59pf2TWhibGcx3h
+	zWJ5AWkBpa5ifa7UxFP9nEttd7ugd79jC5ToUwsWTkVSY65y8Hrf+ekzr1eOIlfg
+	FwrSfPixSJzWppEIbhOcYkwgtBK9eZvpcbZ7jcVegYseYRBhVcvXW70QUh7k6suP
+	bXgWfoX7THDkIEKNhVbEmqOQBMARJCDoO4PU4d5nNfXwqlA5dW4YUU3eFkk93y5L
+	JAvaE9nAu+A8ndvjP/cBHXaHxGY1tHrSJ7JvwGtt3knXknwcjWCc82dmK7bauVHA
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 490cmxa3w1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 12 Sep 2025 07:49:05 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 58C7isx0004599;
+	Fri, 12 Sep 2025 07:49:04 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 490cmxa3vv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 12 Sep 2025 07:49:04 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58C5mklg020492;
+	Fri, 12 Sep 2025 07:49:03 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 490yp1a06r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 12 Sep 2025 07:49:03 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58C7n1J510552122
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 12 Sep 2025 07:49:01 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0F1335805B;
+	Fri, 12 Sep 2025 07:49:01 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B908B5804B;
+	Fri, 12 Sep 2025 07:48:53 +0000 (GMT)
+Received: from [9.124.209.229] (unknown [9.124.209.229])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 12 Sep 2025 07:48:53 +0000 (GMT)
+Message-ID: <24ced585-1b7f-4577-9cb5-8d6e60ecb363@linux.ibm.com>
+Date: Fri, 12 Sep 2025 13:18:52 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+From: Mahanta Jambigi <mjambigi@linux.ibm.com>
+Subject: Re: [PATCH] net/smc: replace strncpy with strscpy for ib_name
+To: Leon Romanovsky <leon@kernel.org>,
+        Kriish Sharma <kriish.sharma2006@gmail.com>
+Cc: alibuda@linux.alibaba.com, dust.li@linux.alibaba.com,
+        sidraya@linux.ibm.com, wenjia@linux.ibm.com, tonylu@linux.alibaba.com,
+        guwen@linux.alibaba.com, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20250908180913.356632-1-kriish.sharma2006@gmail.com>
+ <20250910100100.GM341237@unreal>
+Content-Language: en-US
+In-Reply-To: <20250910100100.GM341237@unreal>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Wt_ztnzAbTCUW63_0c_p95yMrAJngxM0
+X-Proofpoint-ORIG-GUID: w9Zw26-Md1BhUSCWk9qmTnVUjRXrTtqy
+X-Authority-Analysis: v=2.4 cv=J52q7BnS c=1 sm=1 tr=0 ts=68c3d071 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=Pdt1UvFI3CNFTuUL1BYA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAyNSBTYWx0ZWRfX4OI6TXazD+le
+ 56WH6lGl9kaaMFkhLqdhaVodzKHn2p6A9gJsWtX3tageFGrfbkvENmAvvj04r8SJ8hHcRik0lCu
+ 7VZq3RYLLLa0X2giBf/dkS+JFep9sHgXcl19fa0ktEdiJZgyrqsB0tSWht1nmfGtsNVPvn2gBhH
+ acfzeXpLNaZs5HsHVS2alZvuSk0y8zBwfhdqwFziuo++VjY1TSODD4PXG0BpQKxyiF83h80JOuK
+ exvWlxrUlum5zbnqF09tkS1CyPLj+8cE+U9J4tFyxZBQvZAu5JSDu2nvugnHUp83mfel+NtU/ra
+ 9ocMwzQPXR3w6pLoEiL+dz5n47KX6ZuFXud0pZKRaHqgGYA8W+T/O697Jhq5bS8pJ65Yeebyne2
+ pwxNkfwo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-12_02,2025-09-11_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1011 suspectscore=0 spamscore=0 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060025
 
-On Wed, 10 Sep 2025 19:30:32 +0800 Nai-Chen Cheng wrote:
-> The selftests 'make clean' does not clean the net/lib because it only
-> processes $(TARGETS) and ignores $(INSTALL_DEP_TARGETS). This leaves
-> compiled objects in net/lib after cleaning, requiring manual cleanup.
+On 10/09/25 3:31 pm, Leon Romanovsky wrote:
+>> --- a/net/smc/smc_pnet.c
+>> +++ b/net/smc/smc_pnet.c
+>> @@ -450,7 +450,7 @@ static int smc_pnet_add_ib(struct smc_pnettable *pnettable, char *ib_name,
+>>  		return -ENOMEM;
+>>  	new_pe->type = SMC_PNET_IB;
+>>  	memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
+>> -	strncpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
+>> +	strscpy(new_pe->ib_name, ib_name);
 > 
-> Include $(INSTALL_DEP_TARGETS) in clean target to ensure net/lib
-> dependency is properly cleaned.
+> It is worth to mention that caching ib_name is wrong as IB/core provides
+> IB device rename functionality.
 
-Shuah, please LMK if think it makes sense for netdev to take this
-(net/lib is the only DEP_TARGET today).
+In our case we hit this code path where we pass *PCI_ID*
+as the *ib_name* using *smc_pnet* tool(smc_pnet -a <pnet_name> -D
+<PCI_ID>). I believe PCI_ID will not change, so caching it here is fine.
