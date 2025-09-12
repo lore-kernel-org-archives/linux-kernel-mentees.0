@@ -1,143 +1,102 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD21A1F4CA4
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 14 Sep 2025 07:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F2E2797A4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 05:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757835536; cv=none; b=qRp7TYNrLtuMD6+W+A871UvDbkZYjRoL+DDtZadWPaxSVNuYy5JC5bwe08p5O1tzR0xnvs2HYFjy7GKOJEtmCNQRfrsMqnW8iKhdT1an3ljKd6OkIKi+Uzp9BO1TO+ltw77NnRZcvDQmftBEmk5Ejdi+sQQt47TVXEIh7G/HFLc=
+	t=1757915310; cv=none; b=Odq0IuPuPhGpAnvmDQs+ipyXFa4QbkZi335qI5W5zgtlTrh/31i2U6L7iLt1uiIi3mUxCsbOpb66/QClBHBHx9TYubwuwyHipDpapEC5Px1VrGdVKRsF3cYJHcvqaCGzaY1dZUFb7qazlaGRu1vgmfvfMwkiSd/C2lLLJ7tqnEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757835536; c=relaxed/simple;
-	bh=mTCHB+OjoMbnKJ0H8Lp3yiEg4P0RsOycl8VETva/0Xw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q33/P1g/pAHgTbqYGdc6MgLD163p7ZnVo9us5I1X/TV0TxjOkxB+grr5FeG5Afz1oCEYm5aCvPNC8WG9lXg1qfuCL7iDwE/GP+tw2jcoJBlz9shfFvH0S6mDwL4+SlZmH0NGIFNhIyU4hU1/In6FlvsH47N2Pe2rrSyJk2fIcuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=Up1nD9Ai; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nEJc20XW; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
+	s=arc-20240116; t=1757915310; c=relaxed/simple;
+	bh=nDGZYmOVK3BHyovdEwLI+pkBn1mmcoe5MNbBS1U05Tk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tFT7vH4rT7e+E/Q53XgdDsOATgXQ+qZ+y+5aG1pEXtx0rrxk0daIVqVBjwL+aY5ceH6v6r0GgA5Iym198K77+JCQPicB+KCGDnkTwDDYOxSslwU26BZVuCCn+oP4MehWJ3mteuyLZ3ZVGCI6bb6scERBK2DECA1N/xGVyhki+Us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pRryVl1k; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="Up1nD9Ai";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nEJc20XW"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id 6A4861D00061;
-	Sun, 14 Sep 2025 03:38:53 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Sun, 14 Sep 2025 03:38:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm1; t=1757835533; x=1757921933; bh=pE+XOXk7N+a4D+lu9qx7F
-	n9DI70/ulxFLNqin2buoME=; b=Up1nD9AiDPfPKDBqzFGM7gBWk0aO+3FduGdTZ
-	c2bu/mYjRMfdEo1xpNIyHyWWoMmb4faQXlezDXAB3PnkjRY5uq6bwBI0fH7bCvAv
-	/oHRC8sx+Kin7tRU7z/aFEMU2qi4P1+20ZvP2f1Xf9bijWe1df2fvyoYSBMitlT3
-	xZvPKjjqH1iSG4/5zqnsom/uX2T2ipz4e3sxJJlGIKgUhyHpS9RvfigmMb5mD+rA
-	z36y1jtwxbbKzVPq9wLuy7z56rUEUDQkja24PiHnlWVpYTeFK2y3FRw6L6qnCmXL
-	ufbLJWqgxWqsnFOnJRsFeZHcx/eliHbRwEktMXlrfl6AOrbGA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1757835533; x=1757921933; bh=pE+XOXk7N+a4D+lu9qx7Fn9DI70/ulxFLNq
-	in2buoME=; b=nEJc20XW1W/0Sr3RSzPKo+h+9V4LLykcHO3q8SNl3XqHGeGA0du
-	GWGzphVY+jhaTUezL61+1yriqY0YU4UC8V2JuDVwS19ApB3Taup+qnDvX44nvevH
-	QjQUcuBbsFRppLgrvBlpCK/yGjYjD3FeMZ+bxai0HRnD3F3csxmhPFK/JCrEtD8s
-	Xae4KbAyJj9FXjdfaaEqm0QY+qGF2RIBLwBluiCI16GywJr2BUl9j9B9n6vWs186
-	+AijweJTGTDyeM0e8Rkywn/rhidiztynHQ/n1NRM1mRaJW8nmDf7X8zJ6M5MeV19
-	HkZfDsZSewqrcQDRimOm2OCHuy3gdz1DFPg==
-X-ME-Sender: <xms:DHHGaANkm1nkLzx19Nh4th4t1Co9ytJjQ7U-Go1hcBK9nU_Pkx6Lvw>
-    <xme:DHHGaLWAGVia_YsHSauXfNz2IpNN4vN9Gs8OlSR8S2Fx5POY1BKrSMrVSt-T7JU2W
-    ejxoASBKsK9v-C8bH8>
-X-ME-Received: <xmr:DHHGaFKoCDzKZS6C3OgxTc5_qqAReMzOo3oE7u74FyPDTPmaS_TjAZN6eFw04uWrLdzQuc5L96_onrDisQtf7oudO8O16Sw3RChQZOc6YyIWwM_c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefgedvfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtredttd
-    enucfhrhhomheplfgrmhgvshcuhfhlohifvghrshcuoegsohhlugdriihonhgvvdefjeef
-    sehfrghsthhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhephfevgfekiedutdduhf
-    eggfeivdeuhfehtdffjedttdefkeeifeeijeevtefhgeehnecuvehluhhsthgvrhfuihii
-    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsgholhgurdiiohhnvgdvfeejfeesfh
-    grshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphho
-    uhhtpdhrtghpthhtohepjhgrvhhivghrmhesrhgvughhrghtrdgtohhmpdhrtghpthhtoh
-    epmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdp
-    rhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtii
-    himhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhm
-    rghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpth
-    htohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrtghomhdprhgtphhtthho
-    pegsohhlugdriihonhgvvdefjeefsehfrghsthhmrghilhdrtghomhdprhgtphhtthhope
-    gurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
-X-ME-Proxy: <xmx:DHHGaGrtC-U0Y3pG4tNAyf_u7ZhB-cJ3vvn5r3FACq9wd_oRL4R1OA>
-    <xmx:DHHGaMwjGDLyXs_9tNnfkMtICJoklACr1ARrYIJ8RBuwR-W5YaBM9w>
-    <xmx:DHHGaKuTGbb1E-tA3kkkHcJqUanoIiBXetpJaQbh-U7YvNgTxPt9Ng>
-    <xmx:DHHGaF0AnkFkH1qvU1YgA0MzrUHlI3efvaP0sO8bpYI-QwHpHHO62A>
-    <xmx:DXHGaFUr8QUpoAW9rGGs4er_DV6tdbrT4buZGMus2YfltxKKNyETshq4>
-Feedback-ID: ibd7e4881:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 14 Sep 2025 03:38:50 -0400 (EDT)
-From: James Flowers <bold.zone2373@fastmail.com>
-To: javierm@redhat.com,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	skhan@linuxfoundation.com
-Cc: James Flowers <bold.zone2373@fastmail.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] drm/ssd130x: Use kmalloc_array() instead of kmalloc()
-Date: Sun, 14 Sep 2025 00:38:22 -0700
-Message-ID: <20250914073841.69582-1-bold.zone2373@fastmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pRryVl1k"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 102F96F84F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 05:48:29 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.101
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 2w94U-i2WJ61 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 15 Sep 2025 05:48:28 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=leon@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 676236F875
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 676236F875
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pRryVl1k
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 676236F875
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 05:48:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id C557144101;
+	Mon, 15 Sep 2025 05:48:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17BB7C4CEF1;
+	Mon, 15 Sep 2025 05:48:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757915306;
+	bh=nDGZYmOVK3BHyovdEwLI+pkBn1mmcoe5MNbBS1U05Tk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pRryVl1kj48MZS2gLanXzQi1bHUnNSgCURmkRfmBVcm2y4EXJENs8ktffrEGhn5q0
+	 2AYwWNMewDKF0m8hHHG/8R39U71l1qm3QTTz26ImA2eTX61gegMWJXaIVLWHufkzmt
+	 6aRKund/R6fXLnWH8cZmXqar5MFD3xJLjO13QHLcVrwLRRzWPB8/ChL3r5/eB7HAph
+	 go5eqPES+QPF6YFSJPjpzPfkj5vwyPHIgjwNpflGLCOq/31Jy0QfjWFjw3Kna6E6XI
+	 5dtmw0RTtkDaxKl4vHdlON9Fi3DbckoBd8YJktWDzL3djvaAk3DUavi/2VwoCH1Ra1
+	 iibvKzyNcnXXA==
+Date: Fri, 12 Sep 2025 12:07:13 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Mahanta Jambigi <mjambigi@linux.ibm.com>
+Cc: Kriish Sharma <kriish.sharma2006@gmail.com>, alibuda@linux.alibaba.com,
+	dust.li@linux.alibaba.com, sidraya@linux.ibm.com,
+	wenjia@linux.ibm.com, tonylu@linux.alibaba.com,
+	guwen@linux.alibaba.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] net/smc: replace strncpy with strscpy for ib_name
+Message-ID: <20250912090713.GV341237@unreal>
+References: <20250908180913.356632-1-kriish.sharma2006@gmail.com>
+ <20250910100100.GM341237@unreal>
+ <24ced585-1b7f-4577-9cb5-8d6e60ecb363@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <24ced585-1b7f-4577-9cb5-8d6e60ecb363@linux.ibm.com>
 
-Documentation/process/deprecated.rst recommends against the use of
-kmalloc with dynamic size calculations due to the risk of overflow and
-smaller allocation being made than the caller was expecting.
-kmalloc_array avoids this issue.
+On Fri, Sep 12, 2025 at 01:18:52PM +0530, Mahanta Jambigi wrote:
+> On 10/09/25 3:31 pm, Leon Romanovsky wrote:
+> >> --- a/net/smc/smc_pnet.c
+> >> +++ b/net/smc/smc_pnet.c
+> >> @@ -450,7 +450,7 @@ static int smc_pnet_add_ib(struct smc_pnettable *pnettable, char *ib_name,
+> >>  		return -ENOMEM;
+> >>  	new_pe->type = SMC_PNET_IB;
+> >>  	memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
+> >> -	strncpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
+> >> +	strscpy(new_pe->ib_name, ib_name);
+> > 
+> > It is worth to mention that caching ib_name is wrong as IB/core provides
+> > IB device rename functionality.
+> 
+> In our case we hit this code path where we pass *PCI_ID*
+> as the *ib_name* using *smc_pnet* tool(smc_pnet -a <pnet_name> -D
+> <PCI_ID>). I believe PCI_ID will not change, so caching it here is fine.
 
-Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
----
-Note: this has only been compile tested.
+If I remember, you are reporting that cached ib_name through netlink much later.
 
- drivers/gpu/drm/solomon/ssd130x.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+The caching itself is not an issue, but incorrect reported name can be seen as
+a wrong thing to do.
 
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index eec43d1a5595..8368f0ffbe1e 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -1498,7 +1498,7 @@ static int ssd130x_crtc_atomic_check(struct drm_crtc *crtc,
- 	if (ret)
- 		return ret;
- 
--	ssd130x_state->data_array = kmalloc(ssd130x->width * pages, GFP_KERNEL);
-+	ssd130x_state->data_array = kmalloc_array(ssd130x->width, pages, GFP_KERNEL);
- 	if (!ssd130x_state->data_array)
- 		return -ENOMEM;
- 
-@@ -1519,7 +1519,7 @@ static int ssd132x_crtc_atomic_check(struct drm_crtc *crtc,
- 	if (ret)
- 		return ret;
- 
--	ssd130x_state->data_array = kmalloc(columns * ssd130x->height, GFP_KERNEL);
-+	ssd130x_state->data_array = kmalloc_array(columns, ssd130x->height, GFP_KERNEL);
- 	if (!ssd130x_state->data_array)
- 		return -ENOMEM;
- 
-@@ -1546,7 +1546,7 @@ static int ssd133x_crtc_atomic_check(struct drm_crtc *crtc,
- 
- 	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
- 
--	ssd130x_state->data_array = kmalloc(pitch * ssd130x->height, GFP_KERNEL);
-+	ssd130x_state->data_array = kmalloc_array(pitch, ssd130x->height, GFP_KERNEL);
- 	if (!ssd130x_state->data_array)
- 		return -ENOMEM;
- 
--- 
-2.51.0
-
+Thanks
