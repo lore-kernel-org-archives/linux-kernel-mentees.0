@@ -1,127 +1,143 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC9F274FEF
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 14 Sep 2025 06:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD21A1F4CA4
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 14 Sep 2025 07:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757833000; cv=none; b=gfIebPow9bE+gCwTSiRD/xPMrQjm+Nzkb8ElPEYMGyB59vaO2x53CS5zYVqeTwp+pl9sv31Oj9Vg6PNdclkcS0p871eIfigJRXHYqzOGgHuYiJ+LYSfq+aiF0k2cObfFeVxXElsO5U+8tF4ZESBKizAOgn/vmtZaU9YcE7Jj7k4=
+	t=1757835536; cv=none; b=qRp7TYNrLtuMD6+W+A871UvDbkZYjRoL+DDtZadWPaxSVNuYy5JC5bwe08p5O1tzR0xnvs2HYFjy7GKOJEtmCNQRfrsMqnW8iKhdT1an3ljKd6OkIKi+Uzp9BO1TO+ltw77NnRZcvDQmftBEmk5Ejdi+sQQt47TVXEIh7G/HFLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757833000; c=relaxed/simple;
-	bh=Q812AXx6dejqCWgirZNijQXyD/Rb4pPDTgkvtVVfJtc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=mTlIfV7/QsXJnDwW9HJNy2qgby3bdlQqXqtAJi8ODMP8MvTG8r8ocqp/D1WhtKN+f7l/O2mkdIvFbDIaL8Qbat7GXYx4t5OmdCsEwL47DJoyiNqMI5vZ6/BfrFxJ4cvMneX78G3NJNrOw3HNJt1NtzPVrdg0OpBKOXkprNQI244=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jResXjwk; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757835536; c=relaxed/simple;
+	bh=mTCHB+OjoMbnKJ0H8Lp3yiEg4P0RsOycl8VETva/0Xw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q33/P1g/pAHgTbqYGdc6MgLD163p7ZnVo9us5I1X/TV0TxjOkxB+grr5FeG5Afz1oCEYm5aCvPNC8WG9lXg1qfuCL7iDwE/GP+tw2jcoJBlz9shfFvH0S6mDwL4+SlZmH0NGIFNhIyU4hU1/In6FlvsH47N2Pe2rrSyJk2fIcuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=Up1nD9Ai; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nEJc20XW; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jResXjwk"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-776df11e5d3so646778b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 13 Sep 2025 23:56:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757832998; x=1758437798; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j3j+6RFJp8fBl5UFi4n25Nhq071AJDVG4+e0E5+b4Qw=;
-        b=jResXjwkYr5M1Sb2Q1JpiznJQGWq/dVQ/jVadis5pfeRCFe6OWYBTU5TZF5ivSzdxT
-         VtKdjMLWfcfCjdAvF17dlfg33Vx/fsrNNgyvMTVkaAygnAvR5gYjePxa08AZZ8t4xRVa
-         w0fPOdkJJNeDSDOuKYtATHc+MluIC5oGXEw9BJ10IdUkSl8W+/2jSOWJzoeuwT8JThEW
-         FwSbS8lwkMy122mjTt1JD749P0nPq6/wCnP7vgCNB55lOAsj1ksJKwbprtmVjwsocyve
-         mpMZ+RjtPdUZPrSQig1IgGlb68Ny1NolGbY9QX17bGVtFua4f4zI0YCa8a1YwNTnhx9i
-         xYpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757832998; x=1758437798;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j3j+6RFJp8fBl5UFi4n25Nhq071AJDVG4+e0E5+b4Qw=;
-        b=UDGz0FqBHgw6YyxEsV8aamNTnrikLOw4oQhBfIECTOEUILvj0KY7xxShBKbGFJoy02
-         aMEDDZycT20z+fx+8XquCTg2Z/zIH9myAQwuScP/1cqynadiQZanbUyYp4wUPlB18CHi
-         0w2s25G1jG0/dXcw07L4S28UBGAkO4gwst33wy7P0VZEnJnXbGsvAY5KF0jzmbspicNL
-         PBjVrwWWFS/jvENH0sLoFwXHp9MFCqhj79w9yMcIuY+yFQ7spI9LPOpN97omiLosJ3Tg
-         YuhK2ILdU8xDUbIP4cI7qKE2FNS6t+XIExmVeGBgidmJCHzc76hMNx3EAeRht41JQhz+
-         fL3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVnztXbo70oRAWrTrYLlx7PdvhJNfIq4rqX6nLmUPC6HzzPwvkim/3jJI44IF6Jgh6W6TvDNbljMVM/IBy2Kv0vLf/vyw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywijkch9qii+y72GfdJzloKT0Vbc/W09XzZ/VekZ6TLbN+DgZdL
-	3l5A4ejCVmWRPtaB/v82gdiL22uZs/vMVApadUhp7vQ9olET4ToY3rTf
-X-Gm-Gg: ASbGncvk6Qf9JFhiqxR7LAnPj4V1DMR3K0LGesjFvcKQKKccFUOAjlpNXP0vE9zq6P1
-	EBCakbRjA+rQ5p7QzxeDcDYfW3h5hH3QLbiGbM7Ywo+tP+aFLB+a7Ufhnm0uC5meq46Wo7e261D
-	6CTcUxwow88ywXdivoSX6e+3oDi8rIKnuOZf/bduNiqHC9jeDuOs7OpxSDOy/T6upbHGSQ28wyN
-	S+gYd3J+7Ckmi5EKGP7QsJJABR0DqVss07MVYVYqO7n9SrHwVAVU1ftJSkjUQxBEvSO6pnC3UHl
-	6WVIj8LynAv6IVdGoW17Ni2AqkRASS2QOG3VYlQCVr9Sn8KQncO1zHBj9dmmCPqxBgAaNfX0S82
-	Bgzfu3ANo2dCWKXbT1HvHJrM2oxCpaSk=
-X-Google-Smtp-Source: AGHT+IGznuor/LGxwCbRZQ1XmIF0s2BXLDSzFLDiBks6mLGDvb81hNwtxuW7F5JOgR4jeZyqmWNTwQ==
-X-Received: by 2002:a05:6a00:3d51:b0:772:5513:ba3b with SMTP id d2e1a72fcca58-77612077d87mr9562392b3a.5.1757832998188;
-        Sat, 13 Sep 2025 23:56:38 -0700 (PDT)
-Received: from localhost ([159.117.70.219])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-77607b18ec7sm10171435b3a.54.2025.09.13.23.56.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Sep 2025 23:56:37 -0700 (PDT)
-From: Nai-Chen Cheng <bleach1827@gmail.com>
-Date: Sun, 14 Sep 2025 14:56:18 +0800
-Subject: [PATCH] Bluetooth: hci_bcm: use str_low_high() helper instead of
- ternary operator
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="Up1nD9Ai";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nEJc20XW"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 6A4861D00061;
+	Sun, 14 Sep 2025 03:38:53 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Sun, 14 Sep 2025 03:38:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm1; t=1757835533; x=1757921933; bh=pE+XOXk7N+a4D+lu9qx7F
+	n9DI70/ulxFLNqin2buoME=; b=Up1nD9AiDPfPKDBqzFGM7gBWk0aO+3FduGdTZ
+	c2bu/mYjRMfdEo1xpNIyHyWWoMmb4faQXlezDXAB3PnkjRY5uq6bwBI0fH7bCvAv
+	/oHRC8sx+Kin7tRU7z/aFEMU2qi4P1+20ZvP2f1Xf9bijWe1df2fvyoYSBMitlT3
+	xZvPKjjqH1iSG4/5zqnsom/uX2T2ipz4e3sxJJlGIKgUhyHpS9RvfigmMb5mD+rA
+	z36y1jtwxbbKzVPq9wLuy7z56rUEUDQkja24PiHnlWVpYTeFK2y3FRw6L6qnCmXL
+	ufbLJWqgxWqsnFOnJRsFeZHcx/eliHbRwEktMXlrfl6AOrbGA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1757835533; x=1757921933; bh=pE+XOXk7N+a4D+lu9qx7Fn9DI70/ulxFLNq
+	in2buoME=; b=nEJc20XW1W/0Sr3RSzPKo+h+9V4LLykcHO3q8SNl3XqHGeGA0du
+	GWGzphVY+jhaTUezL61+1yriqY0YU4UC8V2JuDVwS19ApB3Taup+qnDvX44nvevH
+	QjQUcuBbsFRppLgrvBlpCK/yGjYjD3FeMZ+bxai0HRnD3F3csxmhPFK/JCrEtD8s
+	Xae4KbAyJj9FXjdfaaEqm0QY+qGF2RIBLwBluiCI16GywJr2BUl9j9B9n6vWs186
+	+AijweJTGTDyeM0e8Rkywn/rhidiztynHQ/n1NRM1mRaJW8nmDf7X8zJ6M5MeV19
+	HkZfDsZSewqrcQDRimOm2OCHuy3gdz1DFPg==
+X-ME-Sender: <xms:DHHGaANkm1nkLzx19Nh4th4t1Co9ytJjQ7U-Go1hcBK9nU_Pkx6Lvw>
+    <xme:DHHGaLWAGVia_YsHSauXfNz2IpNN4vN9Gs8OlSR8S2Fx5POY1BKrSMrVSt-T7JU2W
+    ejxoASBKsK9v-C8bH8>
+X-ME-Received: <xmr:DHHGaFKoCDzKZS6C3OgxTc5_qqAReMzOo3oE7u74FyPDTPmaS_TjAZN6eFw04uWrLdzQuc5L96_onrDisQtf7oudO8O16Sw3RChQZOc6YyIWwM_c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefgedvfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtredttd
+    enucfhrhhomheplfgrmhgvshcuhfhlohifvghrshcuoegsohhlugdriihonhgvvdefjeef
+    sehfrghsthhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhephfevgfekiedutdduhf
+    eggfeivdeuhfehtdffjedttdefkeeifeeijeevtefhgeehnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsgholhgurdiiohhnvgdvfeejfeesfh
+    grshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphho
+    uhhtpdhrtghpthhtohepjhgrvhhivghrmhesrhgvughhrghtrdgtohhmpdhrtghpthhtoh
+    epmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdp
+    rhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtii
+    himhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhm
+    rghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpth
+    htohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrtghomhdprhgtphhtthho
+    pegsohhlugdriihonhgvvdefjeefsehfrghsthhmrghilhdrtghomhdprhgtphhtthhope
+    gurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+X-ME-Proxy: <xmx:DHHGaGrtC-U0Y3pG4tNAyf_u7ZhB-cJ3vvn5r3FACq9wd_oRL4R1OA>
+    <xmx:DHHGaMwjGDLyXs_9tNnfkMtICJoklACr1ARrYIJ8RBuwR-W5YaBM9w>
+    <xmx:DHHGaKuTGbb1E-tA3kkkHcJqUanoIiBXetpJaQbh-U7YvNgTxPt9Ng>
+    <xmx:DHHGaF0AnkFkH1qvU1YgA0MzrUHlI3efvaP0sO8bpYI-QwHpHHO62A>
+    <xmx:DXHGaFUr8QUpoAW9rGGs4er_DV6tdbrT4buZGMus2YfltxKKNyETshq4>
+Feedback-ID: ibd7e4881:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 14 Sep 2025 03:38:50 -0400 (EDT)
+From: James Flowers <bold.zone2373@fastmail.com>
+To: javierm@redhat.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	skhan@linuxfoundation.com
+Cc: James Flowers <bold.zone2373@fastmail.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] drm/ssd130x: Use kmalloc_array() instead of kmalloc()
+Date: Sun, 14 Sep 2025 00:38:22 -0700
+Message-ID: <20250914073841.69582-1-bold.zone2373@fastmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250914-bluetooth-hci_bcm-string-choice-helper-v1-1-05e05bf0e21f@gmail.com>
-X-B4-Tracking: v=1; b=H4sIABFnxmgC/x3N0QrCMAxA0V8ZeTbQFgfOXxGRNsYlMNuRdiKM/
- bvFx/Ny7w6VTbnCddjB+KNVS+7wpwFIYp4Z9dkNwYXRTf6Madm4ldIEhfSR6I21meYZSYoSo/C
- ysmGM7EaayF9SgB5bjV/6/Y9u9+P4AeoxQfJ4AAAA
-X-Change-ID: 20250914-bluetooth-hci_bcm-string-choice-helper-aae05c9c18b2
-To: Marcel Holtmann <marcel@holtmann.org>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kernel-mentees@lists.linux.dev, Nai-Chen Cheng <bleach1827@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1757832995; l=1308;
- i=bleach1827@gmail.com; s=20250730; h=from:subject:message-id;
- bh=Q812AXx6dejqCWgirZNijQXyD/Rb4pPDTgkvtVVfJtc=;
- b=KFujJ9fybEPgVWX3e1HODwtSS+x2VXNY21xe436FpBVJyjq65+B8JpNBYc09NOVfTF6ClgkUd
- qkNZqgIwnraBHy710hekebvsj59+EQdtU/Ti6iez22l7o+TI9SHmg96
-X-Developer-Key: i=bleach1827@gmail.com; a=ed25519;
- pk=jahFPRplw20Aaim8fIt8SxlFMqkHbJ+s8zYBGbtHH5g=
+Content-Transfer-Encoding: 8bit
 
-Replace the ternary operator: 'dev->irq_active_low ? "low" : "high"'
-with the str_low_high() helper function. This enhances code readability
-and maintains consistency.
+Documentation/process/deprecated.rst recommends against the use of
+kmalloc with dynamic size calculations due to the risk of overflow and
+smaller allocation being made than the caller was expecting.
+kmalloc_array avoids this issue.
 
-Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
+Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
 ---
- drivers/bluetooth/hci_bcm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Note: this has only been compile tested.
 
-diff --git a/drivers/bluetooth/hci_bcm.c b/drivers/bluetooth/hci_bcm.c
-index f96617b85d8777972137ca146ab99a3d8da12584..65740b86c49c42b65a67cbd892daec2358a09394 100644
---- a/drivers/bluetooth/hci_bcm.c
-+++ b/drivers/bluetooth/hci_bcm.c
-@@ -26,6 +26,7 @@
- #include <linux/dmi.h>
- #include <linux/pm_runtime.h>
- #include <linux/serdev.h>
-+#include <linux/string_choices.h>
+ drivers/gpu/drm/solomon/ssd130x.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index eec43d1a5595..8368f0ffbe1e 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -1498,7 +1498,7 @@ static int ssd130x_crtc_atomic_check(struct drm_crtc *crtc,
+ 	if (ret)
+ 		return ret;
  
- #include <net/bluetooth/bluetooth.h>
- #include <net/bluetooth/hci_core.h>
-@@ -1213,7 +1214,7 @@ static int bcm_acpi_probe(struct bcm_device *dev)
- 	if (irq_polarity != -1) {
- 		dev->irq_active_low = irq_polarity;
- 		dev_warn(dev->dev, "Overwriting IRQ polarity to active %s by module-param\n",
--			 dev->irq_active_low ? "low" : "high");
-+			 str_low_high(dev->irq_active_low));
- 	}
+-	ssd130x_state->data_array = kmalloc(ssd130x->width * pages, GFP_KERNEL);
++	ssd130x_state->data_array = kmalloc_array(ssd130x->width, pages, GFP_KERNEL);
+ 	if (!ssd130x_state->data_array)
+ 		return -ENOMEM;
  
- 	return 0;
-
----
-base-commit: f83a4f2a4d8c485922fba3018a64fc8f4cfd315f
-change-id: 20250914-bluetooth-hci_bcm-string-choice-helper-aae05c9c18b2
-
-Best regards,
+@@ -1519,7 +1519,7 @@ static int ssd132x_crtc_atomic_check(struct drm_crtc *crtc,
+ 	if (ret)
+ 		return ret;
+ 
+-	ssd130x_state->data_array = kmalloc(columns * ssd130x->height, GFP_KERNEL);
++	ssd130x_state->data_array = kmalloc_array(columns, ssd130x->height, GFP_KERNEL);
+ 	if (!ssd130x_state->data_array)
+ 		return -ENOMEM;
+ 
+@@ -1546,7 +1546,7 @@ static int ssd133x_crtc_atomic_check(struct drm_crtc *crtc,
+ 
+ 	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
+ 
+-	ssd130x_state->data_array = kmalloc(pitch * ssd130x->height, GFP_KERNEL);
++	ssd130x_state->data_array = kmalloc_array(pitch, ssd130x->height, GFP_KERNEL);
+ 	if (!ssd130x_state->data_array)
+ 		return -ENOMEM;
+ 
 -- 
-Nai-Chen Cheng <bleach1827@gmail.com>
+2.51.0
 
