@@ -1,140 +1,110 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D838031D740
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 14:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E82419E98C
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 17:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757946422; cv=none; b=DRBs0kJZmiR6cnkH/wsNtX+YvkQjsruOM0CLTIumDB+ktSzPelt0v3SP+UwwMgNRwfN5hC3aiaWkhXArTnS5PFBeWZ+8q2LnIgSuCqU4iuWoWaYzqNPkcQQ5ZwU5vJkJQWrdvD+uof2YmfFeD93XLJO8gBE/LVhASxopsLGVypc=
+	t=1757957202; cv=none; b=h8PwVn8pK/5T46brdngr4m0iX1Crn2S3QjHRc/nPXtv3H3MK0ATuqp2VinBvrD52yTLU3hWOj6WlvVy9nMazfEQ4HUAb8Oa8T+0pQgBGM2AKEg/BvSB6wZI3Hqizt4pu1PTSB8/s4UOsOWoqg44C/+3iZPl8OWGzFd3QimybL6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757946422; c=relaxed/simple;
-	bh=B9iBG3o70JLtS2vZWkvI2+9FPF/4l8skzLqAxOuWZ18=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mr0WicXxP3yfq+Wtdqk5m0vyLvWhenvt7dh/MQ0Ei++5n4cHnskV2t1LiHf9Lf5O+JLtykUBTpABZINKd0V8o2Yvx8bzrpZzhTxwLcNgt21PQFH9uAIjqSjzLtp50j1G/2FUfrBLWxK3vzalcTZU8CsDct2TR6/abFtcbZm63RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=oH+JVF6t; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
+	s=arc-20240116; t=1757957202; c=relaxed/simple;
+	bh=2qnxaUu2tTKkrWTyVo9Vi/vwv9iCm1iQxSgeRs/Cpoo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nqf2aXkQ3kwReeh9zro9Iat3ttJYGAmYX/61vbA3bAGDcBm+YA74Ei3K6tKHTaL68x0SgU9rwA3DdiH5ulnsFfbkAB3StH647fdknMMHy9XKaQi4Z14Fw2y5HGu3fRgEmKgvs3UuIv7mrZIZY5BsBbAa4y6JnZBzSeZAYNh/Bjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KJUFe8le; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="oH+JVF6t"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3e92ce28278so1355928f8f.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 07:26:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KJUFe8le"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-32e3726e2bbso1627237a91.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 10:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1757946417; x=1758551217; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=v5icuTPC0s/pPOE2ESDNXoDhKzwTzNxmTUDIIwZXJok=;
-        b=oH+JVF6tl2dAlpE0EZGzfMIeBQPairkxrsCXOmK1FwZkM7EHKYw6feGIcrTqb+MUrt
-         zTgow8gV+ZbD1bBJr9xxby32Cx4fAfmq0KXWknemOXRoq0zGedHYq/2PhyKnw/S7bC3w
-         J0KfG2WoJtd4hpNvQsswtW2p/2/I3VgboxdFMTO7bh29b1SzJPWNxyiiUFesfj5ri24+
-         sCDWLFsYmTWVOCDfp+SEVkHPN361KO8jgtO9Ny2lGd+urNk+kVCqmg1f1VknQ+X147da
-         365PitQuSJcjcR9FeR2QZ7ro94083IzweWe1sI1wBqLpziA/rqpw4arnYY80OMKNOHBv
-         SESg==
+        d=gmail.com; s=20230601; t=1757957201; x=1758562001; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TSaBeHJ4VWzJEnuTxptRHvKvxYMpNe/6t44dG9eOeg4=;
+        b=KJUFe8leupk53AV81i6BXogLHn0M+7Tjhy62Cq3qwFEQ7me70mCHbWlaOh7qcAt+9Z
+         NGJF8P9yaValcl0e2/f+bv5k9Q29F+9Ch9vWrUGmvh2kDCo7K6i8WQjADFaOPr9J2C9O
+         lhT4ROO93Rg5v9VDefor6cXfsDO7j5oqvOctAPcEEKCY+dkmMM8SE7ObtIwzWBTGr0Hn
+         1ANLQHdyRXC3Yn0Ptdrp1Pt5BcYnTltc6hROkosSQuX6Xzp5YXBcAGPHJ37OJPXP2NFy
+         5fa2nU9+SIbp+LfZu7W+I9gp4I5hXvLy4fXdr5EK1/V+ElfSXswN7HSzcjXGZKGtVmbd
+         PJtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757946417; x=1758551217;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v5icuTPC0s/pPOE2ESDNXoDhKzwTzNxmTUDIIwZXJok=;
-        b=ZEUjjxkp6msZIasEEVU2WLyUUBZhZFt//YsQyXlam8Vsc7KwYk28t/4seuCgqV9Bc3
-         cvbM9d+1O4lOVd8qMtSlcmvbj0fPDW8YQTyNV5m1E+FMacLdUVNPVPX8vvhCFzrQiRYL
-         Gg3gyTo6e1SX8gl4SAaquvRVZF8T3SmIFqzzWfiuzPwvWeOpxupvo8P/hx4Sp2wpV6hn
-         Qrf+4p5+x2TSCRHXqCpyclj3JlCmuRx4CzOxP1Ijk5JnBerzqkouR2WOvXqW7Ndn0NLv
-         xJnLlcBKUzkH+gotiBPa9AjX5pbW4qJrfFswaMkkVWz2AyYdbR2pYxgsZM7VTJbEW2AM
-         RxGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVTcGxCQURn7Y25DVtKal22nAbc0pr3CeWO8ifGpzf8pK8GKpYpyHuCX6EIijE5myu4U4IpYvbvQCFoV3f9J4iRGVWBJQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwrlGM3vD3FxfX3rA778VT+q5ICilNVmPCnnvP2KmlKKV10foph
-	eKiF2y68SYDY4KnzMPwoIGRzkk31uIEkKLiUxADphyyJBHoliJ3FG9ZTZ0v4ur7F+9M=
-X-Gm-Gg: ASbGncsbcgIKG+6YbcsaCZ7G4JNQ94cvf9jz7sGopT8M47ARqE7EqDzBlu+g/zkAzQh
-	q1BmEEsawmU5dC4zYj/n1qmxkQqoFdSn8rii3rua6lvZIgDcqzB7SZ4tSftIYmkloLy8Mf9Qeli
-	KLnOaGwSYHhmzEbtwHE73Hckt6mjaHSumcbdZBWTcLPvA/x4UPFDjG7gMK0CZ13o7FfbGW6sE7E
-	igwZbQmrmqfnarApSQRt9U/FCtODjwaWzWASlci9oXVmJ3kEUrw8ny/2/lyzJBJ36xmEkR/qa/B
-	zunQsih5fu6kNQ2WuNohyVwsy7mN86xxzeMmfoHvxIjg/uyqzOhBUR82pKWqYipVQAfvaE8jqsX
-	7yY27MpDgNDwZMw6Rwi+VsU1+KBo1XqfDZFRp88od4kiu6YwJr/kuxrfd5zdS4JaY3thPvKNK3W
-	fdfqEFWyKwSrwablPDgbCaY88XaNfyLcpp
-X-Google-Smtp-Source: AGHT+IFs0mXefHor0OfcKtJiaLRNa2umUlSV0hyShyz1KhSiw3PD6NcKqHt+Ht1UUfx+184BUZwpHw==
-X-Received: by 2002:a05:6000:1841:b0:3ea:6680:8f97 with SMTP id ffacd0b85a97d-3ea6680924dmr3500151f8f.2.1757946416790;
-        Mon, 15 Sep 2025 07:26:56 -0700 (PDT)
-Received: from ?IPV6:2a02:1807:2a00:3400:8a33:a6aa:d0e:30e9? ([2a02:1807:2a00:3400:8a33:a6aa:d0e:30e9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e01baa70dsm187561225e9.15.2025.09.15.07.26.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Sep 2025 07:26:56 -0700 (PDT)
-Message-ID: <aff80932-861c-4527-93a1-9fc2c1eb8d8c@hammernet.be>
-Date: Mon, 15 Sep 2025 16:26:55 +0200
+        d=1e100.net; s=20230601; t=1757957201; x=1758562001;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TSaBeHJ4VWzJEnuTxptRHvKvxYMpNe/6t44dG9eOeg4=;
+        b=tg6O32ZE10/vFndopC3i8FFjP9Tqg/J58NwGe2zcV9tMwr4pbp/yCuG6281UBfsm8l
+         ZG38diR7qixvmHu/Qs9X/Gphdt/OmCAFXZvo8X96iNl9Be/rEUzBH4KLzMchOBc5s/Rg
+         Vz+373jnf8Ahbc1QhP4/LDf/T9kVcRTl2P6EfknRHgB3xW3mx5Zk3dfRYNtYH/kr/gaE
+         OhyIOsEakcH6kdxbXsLhnP7d+2Zm5G+tfXy/e3GGwnKR4aZuSXHP4KX0igyxgfnrl0P0
+         GfzMP04v98qeZgdBJjUZYdKTit8oFy1HDqI0USUx5yXMaRCulFeEuwBZEb64GxIrJQa7
+         q1jg==
+X-Gm-Message-State: AOJu0Yw1HDBNiL3ZPOCR8z6tjqfpPELNwxf1YVZbgiuUdLffZbU18O5F
+	N+XrzbnZEzFaC+aGvpRQ5sN1UeXcev4dS9PaVRKvRN7zEO+8ZvjJ8kHS
+X-Gm-Gg: ASbGncvomS0bBQA4r52PvUge4vKuphiGcuFNLK8wse7cn47gO9TZkxj/Y4g+3HHNEO8
+	Kkq99N17Tu/22p9bWzxnuQQBhzMc7V15vcvDO7WujY0yoNHHjKPg5X3ujJ/UDxW8rWxxOfKheYT
+	W13a/6zeTGHS89P5semA+Y8Pfg37VUFv1X9TTPXwXKnRpfbthuvePnpr2l73mQcFCgPYFhCD7VA
+	T0Pu3/r9uSsV7LihvOlrY1QbXBClZrcq8puqBxpC+NDcw2gnJCQ9z8o6dBU+KV/dGfpgQFU1PdJ
+	zoQ6TamlXblVs7Cg7owuL7Ys43DoXfJREuIJIf2LbqZ/UFblJd40e9PX/gNG8RySU4SWuEUcNw+
+	4O1DtI9sZknZ1SXCLdqZ9idiwT5eUUeSeUnNFtq087aqk/MwuHZ4=
+X-Google-Smtp-Source: AGHT+IHwKuhCYVpyRN6Z1L9KKYuhZIK5pz1VswC1PNUOa5us4Z8TUA5E75rVbVYasChRnKiuSxo4CA==
+X-Received: by 2002:a17:90b:3cc8:b0:32e:7270:949c with SMTP id 98e67ed59e1d1-32e72709600mr4179506a91.35.1757957200600;
+        Mon, 15 Sep 2025 10:26:40 -0700 (PDT)
+Received: from cortexauth ([2401:4900:1c7b:db3a:1c7b:a123:6d26:f0bd])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54a3aa1a22sm12158237a12.52.2025.09.15.10.26.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Sep 2025 10:26:38 -0700 (PDT)
+From: Deepak Sharma <deepak.sharma.472935@gmail.com>
+To: skhan@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linux.dev,
+	Deepak Sharma <deepak.sharma.472935@gmail.com>,
+	syzbot+6c905ab800f20cf4086c@syzkaller.appspotmail.com
+Subject: [PATCH] usb: hub: Fix RPM teardown on usb_disconnect
+Date: Mon, 15 Sep 2025 22:54:44 +0530
+Message-ID: <20250915172444.269336-1-deepak.sharma.472935@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] riscv: dts: spacemit: add UART pinctrl combinations
-To: Yixun Lan <dlan@gentoo.org>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
- alex@ghiti.fr, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, devicetree@vger.kernel.org,
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20250915112845.58134-1-hendrik.hamerlinck@hammernet.be>
- <20250915120031-GYA1251948@gentoo.org>
-Content-Language: en-US
-From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
-In-Reply-To: <20250915120031-GYA1251948@gentoo.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello Yixun,
+On usb_disconnect, the free-ing of the device structure of usb_device is
+not well synchornized with the RPM subsystem, which leads to a possible
+use-after-free
 
-Thank you for the quick review.
+Add proper device's handling for unregistering from the runtime PM to
+usb_disconnect
 
-On 9/15/25 14:00, Yixun Lan wrote:
-> Hi Hendrik,
->
-> On 13:28 Mon 15 Sep     , Hendrik Hamerlinck wrote:
->> Add UART pinctrl configurations based on the SoC datasheet and the
->> downstream Bianbu Linux tree. The drive strength values were taken from
->> the downstream implementation, which uses medium drive strength.
->> CTS/RTS are moved to separate *-cts-rts-cfg states so boards can enable
->> hardware flow control conditionally.
->>
->> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
->> ---
->> Changes in v2:
->> - Split cts/rts into separate pinctrl configs as suggested
->> - Removed options from board DTS files to keep them cleaner
->> ---
->>  arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi | 389 ++++++++++++++++++-
->>  1 file changed, 386 insertions(+), 3 deletions(-)
->>
->> diff --git a/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi b/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi
->> index 381055737422..8f87f8baaf77 100644
->> --- a/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi
->> +++ b/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi
->> @@ -11,12 +11,395 @@
->>  #define K1_GPIO(x)	(x / 32) (x % 32)
->>  
->>  &pinctrl {
-> Generally I'm good with this version, only have one minor comment
->
-> How about adding a "/omit-if-no-ref/" before each pin cfg?
-> This will shrink the final blob size if no referece to the node
-That sounds like a good idea.
-I will send a next version with the change.
->
->> +	uart0_0_cfg: uart0-0-cfg {
->> +		uart0-0-pins {
->> +			pinmux = <K1_PADCONF(104, 3)>,	/* uart0_txd */
->> +				 <K1_PADCONF(105, 3)>;	/* uart0_rxd */
->> +			power-source = <3300>;
->> +			bias-pull-up;
->> +			drive-strength = <19>;
->> +		};
->> +	};
-...
->> -- 
->> 2.43.0
->>
+Reported-by: syzbot+6c905ab800f20cf4086c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=6c905ab800f20cf4086c
+Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
+---
+ drivers/usb/core/hub.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Kind regards,
-Hendrik
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 256fe8c86828..887d987f855e 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -2329,8 +2329,13 @@ void usb_disconnect(struct usb_device **pdev)
+ 	/*
+ 	 * Ensure that the pm runtime code knows that the USB device
+ 	 * is in the process of being disconnected.
++	 * This is safe to do here, since all the code paths after
++	 * here will lead to eventual deletion of the device
+ 	 */
+-	pm_runtime_barrier(&udev->dev);
++	pm_runtime_disable(&udev->dev);
++	pm_runtime_dont_use_autosuspend(&udev->dev);
++	pm_runtime_put_noidle(&udev->dev);
++	pm_runtime_set_suspended(&udev->dev);
+ 
+ 	usb_lock_device(udev);
+ 
+-- 
+2.51.0
+
