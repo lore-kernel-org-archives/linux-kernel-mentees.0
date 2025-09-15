@@ -1,178 +1,103 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77AB2F99BE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 09:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469D51E7C2E
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 10:13:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757929469; cv=none; b=oIJDd7fYNhoXxXNW1XcaR/oRARJJbSoNDJXp7RBumvIrV0jQymd+sht/t51SR3/zAOCM4TfmZeBECGGT7qyHLl38xb8hxtIDnJy+bMO3gz5TOBFAOCukR4a6b9vmLyfsl9bDeS0YNbVQxKnYnsKKAqqXHMElLQIu/jtov0lNeiE=
+	t=1757931199; cv=none; b=W5fOybMjmEF/nQKBDkC7JSQ+zTfKQUR+kYTpRzSoa3RP78eKb7PZ/s4ZxNuqUZdOohvwCV8XH2mzfGKuzCoq6htVIAAimiYSBDa2eD9dextaqhtFmfBlYoICaBrMHKaMbwCdSwk9jzetKIRB2MXUmKVTD3D9sp/hQaiB/Q49A1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757929469; c=relaxed/simple;
-	bh=11q686ArBfmEY572VgZq1ghiEqqgs5Vx8NlQeFXzoxI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZDB05WWnkBfbcAlj7Q2sEyHd103D79joas0oFN3PSztl7zI6A99x/0nLghDHSrelJ4V6NcGnnx36nDzDqNLUkCfE7cgQnycdqizjjuRVud76qg8yUL4rgFo5dWfswARJxdDjD8+DMvOz2gg4ZpVLXkyWFWaHhYhOEHEdQe69d/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=S5pwPs6j; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1757931199; c=relaxed/simple;
+	bh=cyYMKy4VM3znGHkgZ6rrnMrIzubezlrFSvME2FXQ05M=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=arz7g/KQ+gakhXEDBdQyNkb/LbsVuI04aNWkzPV3jSxUyY4nGPQkiJnU5KlKF7o7fC6ZPvkhJxZbSDBTOPCVm35NTFQrePzvD220X/s99xnmUFX73SI30ywPWBmoJGlrm7kGG0BtOI7Jz9W/pgYDWtx3jacrjFSRXxTjQltmEAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O4XZuUVw; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="S5pwPs6j"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 86E2F61718
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 09:44:27 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -6.389
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 3JKxNlEUixJV for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Sep 2025 09:44:26 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=mjambigi@linux.ibm.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 35DD76125E
-Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=linux.ibm.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 35DD76125E
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=S5pwPs6j
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 35DD76125E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 09:44:25 +0000 (UTC)
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58F9P9cr020641;
-	Mon, 15 Sep 2025 09:44:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=Gg1b5L
-	SWKiN/P4t7UpthEMIHa8kpFI9w0gNmlYDQvPI=; b=S5pwPs6jJGg8N/dheNKnAP
-	yY2L+VmQ4LisaPEWiq7M+8t8gEjryrb0EEZXV07NAyCtRyhW5E1R/k9K0gIAWCMh
-	5o5S9ZxBumoEvdv604plTFDrtlcnXgd8mNb1Y4kvc33MlxwFn8ik2yV0uhoBJ6UM
-	z/DMGtSWKX3hQzN01tIlkUE8ZoYoFGeJ2gxzF+DdobSpN7jzk0biL4ZyqwtpRpND
-	/NVDm+Nmx4nEhHpx9RbaPcWwc6TryDRUaijuasipm/Rko+WKZWz3oICsiaSkXuWv
-	kO1NdmTzAZ/iN94qxt4jd53uM62NYEXcSA7fQDBbdTUomRkzO5Z9aZOwRPg+6xMw
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 496g53054y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Sep 2025 09:44:20 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 58F9iKsZ001757;
-	Mon, 15 Sep 2025 09:44:20 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 496g53054w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Sep 2025 09:44:20 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58F7pLrS027349;
-	Mon, 15 Sep 2025 09:44:19 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 495memwpbn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Sep 2025 09:44:19 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58F9iHDb43974968
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 15 Sep 2025 09:44:18 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A96175805D;
-	Mon, 15 Sep 2025 09:44:17 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0240C58043;
-	Mon, 15 Sep 2025 09:44:12 +0000 (GMT)
-Received: from [9.109.249.37] (unknown [9.109.249.37])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 15 Sep 2025 09:44:11 +0000 (GMT)
-Message-ID: <90577486-5f7f-4c62-ae65-07e7808837f4@linux.ibm.com>
-Date: Mon, 15 Sep 2025 15:14:10 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O4XZuUVw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757931197; x=1789467197;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=cyYMKy4VM3znGHkgZ6rrnMrIzubezlrFSvME2FXQ05M=;
+  b=O4XZuUVwnCBj6WbHiwbaQAA3Oc82/3tHDOlcf0auJ6aZrYX5h+PKFV+w
+   XjJGIDz2sUwGtytfmwsGtjOpN+a2uzxhgW+JDgRKQdwxrw1bm7MKbHZqb
+   /n1/7P/7pWMd8AZAhWI88FTowN/J5diQC3mqd+P+m6YHr5TtJa4flC2qf
+   5eoSHvDfy0365+AgTf8ot6C3hqEInLwDW3oIfD28tr0s7QlaHgrENvdV8
+   0bAPO/K8UcYoqu5OKBGM9warjgOBOzKea8p8C4WbOkpEIHeR0PttB5WBK
+   krBHLHR9U9hCDk0A9kDSsWzqyOJBx9Ujz1ZXAxp2ON9o2Z77sZ9n1Wvd3
+   w==;
+X-CSE-ConnectionGUID: 4e+JaDRvQjqL5U0uBNqKOg==
+X-CSE-MsgGUID: eWq+lPgEShSdpRdEWh1yuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="77790746"
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
+   d="scan'208";a="77790746"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 03:13:16 -0700
+X-CSE-ConnectionGUID: dsNIF8KKQLWzWmbLs11lkQ==
+X-CSE-MsgGUID: DZWpkNt1QxOxuyCjCkgsgQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
+   d="scan'208";a="174510252"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.39])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 03:13:14 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 15 Sep 2025 13:13:10 +0300 (EEST)
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+    Alperen Aksu <aksulperen@gmail.com>
+cc: Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    platform-driver-x86@vger.kernel.org, skhan@linuxfoundation.org, 
+    linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] Documentation/wmi: Fix Typo Error in doc
+In-Reply-To: <24912814-6891-4223-BCE3-87D1CD6D9A4D@gmail.com>
+Message-ID: <7c827c2c-4f22-265d-34aa-5377a67b7c65@linux.intel.com>
+References: <20250820155904.32685-2-aksulperen@gmail.com> <24912814-6891-4223-BCE3-87D1CD6D9A4D@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net/smc: replace strncpy with strscpy for ib_name
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Kriish Sharma <kriish.sharma2006@gmail.com>, alibuda@linux.alibaba.com,
-        dust.li@linux.alibaba.com, sidraya@linux.ibm.com, wenjia@linux.ibm.com,
-        tonylu@linux.alibaba.com, guwen@linux.alibaba.com, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        horms@kernel.org, linux-rdma@vger.kernel.org,
-        linux-s390@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20250908180913.356632-1-kriish.sharma2006@gmail.com>
- <20250910100100.GM341237@unreal>
- <24ced585-1b7f-4577-9cb5-8d6e60ecb363@linux.ibm.com>
- <20250912090713.GV341237@unreal>
- <947756ad-f9aa-479f-b463-4c97ff23a936@linux.ibm.com>
- <20250915080232.GA9353@unreal>
-Content-Language: en-US
-From: Mahanta Jambigi <mjambigi@linux.ibm.com>
-In-Reply-To: <20250915080232.GA9353@unreal>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: fp8sVIjxyIBzqqlhMshEetRYZfmsYHih
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE1MDA4NiBTYWx0ZWRfX1Te3tzYw/N0R
- AAu1xJ9wnYuigwdMO46568JoUXuypv44BukB0gegLHvcdEH0ww9WOx2J8YGUfoE/hdZPANq4ULk
- r/Cj6jObBglS6wwjrIQpGcl+nOtJ5IieYqu0JR/RFJ1bD2g/Paj/Msit7lG2Y8dACvj4DWK6RKR
- Hkdu+2RtYqb6H1S65Wwe8I1gH2T7gubM/wpZUzJDM4if14lYhJw34PkNi2YfZLrgeUYtgyapezY
- DZAniw8gGMFUYcadSWr1TTqRZjhfZjsoftQSYe15cTXqke+gPCYWb1WIulkCquzeSqoHF5HcZlR
- JuLqLX+9/vQz1ifr5r9d9hUk6AME2YM4F0FM5/R4Y+f8jDqNoYlHR5cgxVS2IRutYtKIxlIUaXm
- ERLmV0bc
-X-Proofpoint-ORIG-GUID: JyeIXTmNek62LEYT6cwJl9pVoWOyp8K7
-X-Authority-Analysis: v=2.4 cv=UJ7dHDfy c=1 sm=1 tr=0 ts=68c7dff4 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=aOSnVeyxNWsu44SIBWkA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-15_03,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509150086
+Content-Type: text/plain; charset=US-ASCII
 
-
-
-On 15/09/25 1:32 pm, Leon Romanovsky wrote:
-> On Mon, Sep 15, 2025 at 12:24:16PM +0530, Mahanta Jambigi wrote:
->> On 12/09/25 2:37 pm, Leon Romanovsky wrote:
->>> On Fri, Sep 12, 2025 at 01:18:52PM +0530, Mahanta Jambigi wrote:
->>>> On 10/09/25 3:31 pm, Leon Romanovsky wrote:
->>>>>> --- a/net/smc/smc_pnet.c
->>>>>> +++ b/net/smc/smc_pnet.c
->>>>>> @@ -450,7 +450,7 @@ static int smc_pnet_add_ib(struct smc_pnettable *pnettable, char *ib_name,
->>>>>>  		return -ENOMEM;
->>>>>>  	new_pe->type = SMC_PNET_IB;
->>>>>>  	memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
->>>>>> -	strncpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
->>>>>> +	strscpy(new_pe->ib_name, ib_name);
->>>>>
->>>>> It is worth to mention that caching ib_name is wrong as IB/core provides
->>>>> IB device rename functionality.
->>>>
->>>> In our case we hit this code path where we pass *PCI_ID*
->>>> as the *ib_name* using *smc_pnet* tool(smc_pnet -a <pnet_name> -D
->>>> <PCI_ID>). I believe PCI_ID will not change, so caching it here is fine.
->>>
->>> If I remember, you are reporting that cached ib_name through netlink much later.
->>>
->>> The caching itself is not an issue, but incorrect reported name can be seen as
->>> a wrong thing to do.
->>
->> In what case we can see this incorrect reported name, could you please
->> elaborate.
+On Wed, 20 Aug 2025, Derek J. Clark wrote:
+> On August 20, 2025 8:58:35 AM PDT, Alperen Aksu <aksulperen@gmail.com> wrote:
+> >Fix to correct spelling of "Hardware"
+> >
+> Hi Alperen, 
 > 
-> Did you open net/smc/smc_pnet.c?
+> While we can fix the spelling of these, they are currently as provided by Lenovo. The spelling error exists in the WMI interfaces and during development we decided to leave them wrong to match.
 
-Yes, I have gone through it focusing on *ib_name* usage.
+Yes, I'm not keen on accepting patches like this.
 
+These are hardly something user reads as documentation anyway.
+
+> - Derek
 > 
-> Everything that uses ib_name in that file is incorrect.
+> >Signed-off-by: Alperen Aksu <aksulperen@gmail.com>
+> >---
+> > Documentation/wmi/devices/lenovo-wmi-gamezone.rst | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> >diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+> >index 997263e51a7d..24b027362e93 100644
+> >--- a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+> >+++ b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+> >@@ -126,7 +126,7 @@ data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
+> >     [WmiMethodId(65), Implemented, Description("Set IGPU Mode")] void SetIGPUModeStatus([in, Description("IGPU Mode")] UINT32 mode, [out, Description("return code")] UINT32 Data);
+> >     [WmiMethodId(66), Implemented, Description("Notify DGPU Status")] void NotifyDGPUStatus([in, Description("DGPU status")] UINT32 status, [out, Description("return code")] UINT32 Data);
+> >     [WmiMethodId(67), Implemented, Description("Is changed Y log")] void IsChangedYLog([out, Description("Is changed Y Log")] UINT32 Data);
+> >-    [WmiMethodId(68), Implemented, Description("Get DGPU Hardwawre ID")] void GetDGPUHWId([out, Description("Get DGPU Hardware ID")] string Data);
+> >+    [WmiMethodId(68), Implemented, Description("Get DGPU Hardware ID")] void GetDGPUHWId([out, Description("Get DGPU Hardware ID")] string Data);
+> >   };
+> > 
+> >   [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("Definition of CPU OC parameter list"), guid("{B7F3CA0A-ACDC-42D2-9217-77C6C628FBD2}")]
 > 
-> From glance look:
-> 1. smc_pnet_find_ib() returns completely random results if device is
-> renamed in parallel.
+> - Derek
+> 
 
-I agree. Currently we are *not* handling the change of IB device names &
-when that happens the cached *ib_name* doesn't match anymore with the
-changed ib_name. We are looking into this internally.
+-- 
+ i.
+
