@@ -1,141 +1,197 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1154E14A4F9
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 21:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3551F5825
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 21:49:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757972732; cv=none; b=ZvebqUP3pWqhBzSc9J01bNqhHAm1JSoI43O5fESZ94JUgls+FRNM3ztZbhC+ZH9q+l5A2C7WNoIR5u2N5YIlDOdVvvnpxnPY1tWuZByme15rDWfLeQ3UzSkGX/OW9N8THtOVwd8EyUWPb8XbvsR6ms0GTZcFErZsaaHeWSL2oFM=
+	t=1757972958; cv=none; b=usLZp60poamTRViWlNz3gF1SAD1f10eSWwGozNGoU99Va99cStq4BzEofesJnhJ7wiZBKaWq8US09anauLMo/dmDkfO/oMR2P2ThvHu5acMM+kZZUhuvrJTK7WbaRXBLZyNom1CEtW0KHYmUiaDkUL7LsvufPbtJWBPPWQNqwiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757972732; c=relaxed/simple;
-	bh=3S+/CIj2dTjZzfVmKIc9+YYV8Tg/YeaidG5GPR9wTBE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g+IuK5VyIEwqRaBZMrQGhkpME6XagyvzkCS01NAXbCfN+dM9WagjGfW4Zqqzd4xNGPDK2Y1rbsqUeypQbTuqyyDt+F3YZoaFJ23uJXScwDNPXZA8x0EJO1XqdTtCTsf9RZq5P5wmxkqv6wFWFIywq50vfF5wawDtoz1+QJjrLRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XydcY84z; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757972958; c=relaxed/simple;
+	bh=7oN+VU5fLIUZ/OOgLFJEHioYPuXNL2dLEfG0SPBs4RI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VMWsLioqvijNE4iL10tkSlS6M6mLxF4jWPdOh0GO0jtBwWFak5qr6eegXySLG9Ffs2FnSZ/diI8WwbmSuFfq8tLVan+4ihQELeSW+vdoha2RnAMeEtFOv2wsYUEr15ofk3LykTWuf8JhCwnzxd+k3hKmzZ3ERbLcMC3a9vhv6dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=E1EYNO1L; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XydcY84z"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-24498e93b8fso6899715ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 14:45:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757972730; x=1758577530; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hgjQuP4Me3guJDVcSDtwLqdLj9Ad4VyHioffhsnvnuU=;
-        b=XydcY84zpJaUevPEhT0WxLay//zeq7qC8NnzvsowsnLUTP4Mc+6/YZTZbtqhQTmHQt
-         XktASd2GiRDP1vb+jh1zrffzHrAtc0FQE4JUwG/iLfXV7sR3DI5TNb6In7xv+w2ezYQB
-         QnKraY7eNbCECiFNtGqk19JkfrYmEml5AEPTp+tswDHA8rbk9JcAiW/lsUQLyck2hgs0
-         SUnL/H741lkZa3f72wgAdHH+ZxAu2/Mmy+vOSVeeb1MBwA4EOErTvFneDq+lxk+Wa84Y
-         0hA9yLDp2bMjEDvpdS/Wd5YYy7JglaU5VZBm5LYcZsQuvkoJm5X1UVmZIE8eFl6k6D6+
-         VUlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757972730; x=1758577530;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hgjQuP4Me3guJDVcSDtwLqdLj9Ad4VyHioffhsnvnuU=;
-        b=ibLrFVRBzRQjymGrqqtkXYIfVVEUWiB6qmfxur7mTugqNYdHjGmCCdhALd72syp64u
-         1fhY+a7EN1ZBiTPEF1ma7MD2wBsThfMNQ/43rz5ZGbpoQZ4hBnLX7WyCEjkDKDDDHdrl
-         EIu7JrlD3QsTSJpKsmqW8lSaJbWnZ3w8TucLtesSgW0CsssjmSgfRt2Xwe2hHJQ66xsn
-         143sxJJ9BXwCGgfJywiF5jE6XAM72FP/UaWTzRAgAX+O2750MKt1f3+pCV5mHKsa+fUn
-         NUwosSXSedUY/5RFJ4jfzZLHKH+mI+VQ23Ig5R7U1IXAWDygX3Ll77GuE0yssGQjWJi+
-         j75g==
-X-Forwarded-Encrypted: i=1; AJvYcCUbDmmnNqNfcACrnv+blsI/SBXAa4t24WdxSd2Mv0a+OjW8CPhP8hY7ysHXbGaJvwwc2vZpsAxUfLWFQkCzolfmw4dLfQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZsW78twf+z/hqxFzOkOSma1yQosZHB4A6Z9VluiZZjalwBMzh
-	UZC+rbsPW0cBWP5peR582Qx0/1v3sV3sJ2a+kBmODkO11lbHI9zpF1P0a9CezQQ5XmHfzNmc6Ft
-	fIZjZmka0mCzfJpniup4sm8aeBsRYeaw=
-X-Gm-Gg: ASbGncuFJH3/6ZQ1LvIu7QJCvdKvDSGXCwwEZ79m9sIPFoOtYX+XcVR8Mdt1tgMn9JV
-	TKyZpqPHfXmRq3imF9N+kAnedcZl/MGG3pZ0jf73j2s/Fd/bniuAu3GTyIarpA7ikrFvos30rJc
-	pi1Ulh96mDZvb5oZV9oIg5drPvXO56AoWLJkfgK0cOlJVT0AvAZntvZY2Fyi0tnKaQ8SRjbcUw6
-	aUgs6/qMjB5RiR1yA==
-X-Google-Smtp-Source: AGHT+IHw3Z18XHstUu2o5MDyyGsJMQUZc09lyWpgCR+3iBlFcxOGkW7iUUBCOCFrQn0WS7ZaeI8Iju8q0S+OmEonvrg=
-X-Received: by 2002:a17:903:1a8b:b0:25a:4437:dbb7 with SMTP id
- d9443c01a7336-25d25e85badmr85747195ad.4.1757972730212; Mon, 15 Sep 2025
- 14:45:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="E1EYNO1L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1757972952; x=1758577752; i=w_armin@gmx.de;
+	bh=rx06Ex5GQIkCStaOUpBxC7U+wvY0KgL08z3zriA8vH4=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=E1EYNO1LJFyDisUyptzQREU63pFZY+WIa/wnNe3eqo+EePIaLxK6RFDL17ea742M
+	 kNGTrk3jVh0hYBwaRUqGbQYSUBFvBXqqaC1tMAPWrA1kFPkCPU0a+qDDUuxIqe/7M
+	 dfZav+kjJPOqqITnqeY0noDjTOaF+Y/wq9Qm9Z66HbS1aBZ7P0YUGPkQJr2u6Jzzq
+	 AagUYNcBvuXg89ojNKDLic+kJeoLLRwcIUu+zMzPBFwhucnXd+4g1ikxm31+cbXMX
+	 PBIDoVFKI0O8cg2huYSdJ+gfOyRl/vLiK3TBTQ1DpbZgU/lBQQkDG1UyP86FYEExO
+	 BoeY0+NwUdfvcx8lVQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([93.202.247.91]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MXGr8-1utRVG0tyQ-00XPYv; Mon, 15
+ Sep 2025 23:49:12 +0200
+Message-ID: <c17b89d4-a9e3-4dcc-82ef-481f2243fbb9@gmx.de>
+Date: Mon, 15 Sep 2025 23:49:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250913052109.2638-1-bold.zone2373@fastmail.com>
-In-Reply-To: <20250913052109.2638-1-bold.zone2373@fastmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 15 Sep 2025 17:45:18 -0400
-X-Gm-Features: Ac12FXyeEWmkZqa6wbMn8t2Wun6mfw4KJJSTBJD8vx8rr6MmHrmXg4LFyNCd8yc
-Message-ID: <CADnq5_N9r+hyu6ARUGeYnsSPNNBM-bq0YV5mQoH6vp2yXdXZhg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Use kmalloc_array() instead of kmalloc()
-To: James Flowers <bold.zone2373@fastmail.com>
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com, 
-	alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
-	simona@ffwll.ch, roman.li@amd.com, alvin.lee2@amd.com, 
-	skhan@linuxfoundation.org, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/wmi: Fix Typo Error in doc
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "Derek J. Clark" <derekjohn.clark@gmail.com>,
+ Alperen Aksu <aksulperen@gmail.com>
+Cc: Mark Pearson <mpearson-lenovo@squebb.ca>,
+ platform-driver-x86@vger.kernel.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev
+References: <20250820155904.32685-2-aksulperen@gmail.com>
+ <24912814-6891-4223-BCE3-87D1CD6D9A4D@gmail.com>
+ <7c827c2c-4f22-265d-34aa-5377a67b7c65@linux.intel.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <7c827c2c-4f22-265d-34aa-5377a67b7c65@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:T6L+959cssJoEpJhCXg+vHW1J4Vh5+YbrhhmJ/wKdo8z1A57zEM
+ QaCZvaEIwec9o+QtvUeAoBX0Gj8uoZ/cn32boRNJPERqgHni4Q/Lc5/o99MuUEC5XFKffoZ
+ 1QB1PhKCKpT9EvsaVowD6xGa1yPL318eXn8zZSpAGq9AM/+BJTaREBJZmr07Tt1iBBW2b+w
+ wbpdEtvfgNCV3pIA5l5Hw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:PeLj+MnwHcc=;2net1xxgn3RnKzvrpAd/ExQNKoj
+ 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
+ mrgcO5itQw
 
-Applied.  Thanks!
+Am 15.09.25 um 12:13 schrieb Ilpo J=C3=A4rvinen:
 
-Alex
+> On Wed, 20 Aug 2025, Derek J. Clark wrote:
+>> On August 20, 2025 8:58:35 AM PDT, Alperen Aksu <aksulperen@gmail.com> =
+wrote:
+>>> Fix to correct spelling of "Hardware"
+>>>
+>> Hi Alperen,
+>>
+>> While we can fix the spelling of these, they are currently as provided =
+by Lenovo. The spelling error exists in the WMI interfaces and during deve=
+lopment we decided to leave them wrong to match.
+> Yes, I'm not keen on accepting patches like this.
+>
+> These are hardly something user reads as documentation anyway.
 
-On Sat, Sep 13, 2025 at 1:31=E2=80=AFAM James Flowers
-<bold.zone2373@fastmail.com> wrote:
->
-> Documentation/process/deprecated.rst recommends against the use of kmallo=
-c
-> with dynamic size calculations due to the risk of overflow and smaller
-> allocation being made than the caller was expecting. This could lead to
-> buffer overflow in code similar to the memcpy in
-> amdgpu_dm_plane_add_modifier().
->
-> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
-> ---
-> I see that in amdgpu_dm_plane_get_plane_modifiers, capacity is initialize=
-d to
-> only 128, but it is probably preferable to refactor.
->
-> Tested on a Steam Deck OLED with no apparent regressions using these test=
- suites from
-> igt-gpu-tools:
-> 1) kms_plane
-> 2) amd_plane
-> 3) amd_fuzzing
-> 4) testdisplay
->
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/dr=
-ivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> index b7c6e8d13435..b587d2033f0b 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> @@ -146,7 +146,7 @@ static void amdgpu_dm_plane_add_modifier(uint64_t **m=
-ods, uint64_t *size, uint64
->
->         if (*cap - *size < 1) {
->                 uint64_t new_cap =3D *cap * 2;
-> -               uint64_t *new_mods =3D kmalloc(new_cap * sizeof(uint64_t)=
-, GFP_KERNEL);
-> +               uint64_t *new_mods =3D kmalloc_array(new_cap, sizeof(uint=
-64_t), GFP_KERNEL);
->
->                 if (!new_mods) {
->                         kfree(*mods);
-> @@ -732,7 +732,7 @@ static int amdgpu_dm_plane_get_plane_modifiers(struct=
- amdgpu_device *adev, unsig
->         if (adev->family < AMDGPU_FAMILY_AI)
->                 return 0;
->
-> -       *mods =3D kmalloc(capacity * sizeof(uint64_t), GFP_KERNEL);
-> +       *mods =3D kmalloc_array(capacity, sizeof(uint64_t), GFP_KERNEL);
->
->         if (plane_type =3D=3D DRM_PLANE_TYPE_CURSOR) {
->                 amdgpu_dm_plane_add_modifier(mods, &size, &capacity, DRM_=
-FORMAT_MOD_LINEAR);
-> --
-> 2.51.0
->
+I agree with Derek, this part of the documentation contains text extracted=
+ from the underlying interface description of the device.
+While it is true that most WMI MOF descriptions contain spelling mistakes,=
+ correcting them just for the documentation serves no
+purpose.
+
+So thank you for you effort, but the spelling fix is misplaced here.
+
+Thanks,
+Armin Wolf
+
+>> - Derek
+>>
+>>> Signed-off-by: Alperen Aksu <aksulperen@gmail.com>
+>>> ---
+>>> Documentation/wmi/devices/lenovo-wmi-gamezone.rst | 2 +-
+>>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst b/Docum=
+entation/wmi/devices/lenovo-wmi-gamezone.rst
+>>> index 997263e51a7d..24b027362e93 100644
+>>> --- a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>>> +++ b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>>> @@ -126,7 +126,7 @@ data using the `bmfdec <https://github.com/pali/bm=
+fdec>`_ utility:
+>>>      [WmiMethodId(65), Implemented, Description("Set IGPU Mode")] void=
+ SetIGPUModeStatus([in, Description("IGPU Mode")] UINT32 mode, [out, Descr=
+iption("return code")] UINT32 Data);
+>>>      [WmiMethodId(66), Implemented, Description("Notify DGPU Status")]=
+ void NotifyDGPUStatus([in, Description("DGPU status")] UINT32 status, [ou=
+t, Description("return code")] UINT32 Data);
+>>>      [WmiMethodId(67), Implemented, Description("Is changed Y log")] v=
+oid IsChangedYLog([out, Description("Is changed Y Log")] UINT32 Data);
+>>> -    [WmiMethodId(68), Implemented, Description("Get DGPU Hardwawre ID=
+")] void GetDGPUHWId([out, Description("Get DGPU Hardware ID")] string Dat=
+a);
+>>> +    [WmiMethodId(68), Implemented, Description("Get DGPU Hardware ID"=
+)] void GetDGPUHWId([out, Description("Get DGPU Hardware ID")] string Data=
+);
+>>>    };
+>>>
+>>>    [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Descriptio=
+n("Definition of CPU OC parameter list"), guid("{B7F3CA0A-ACDC-42D2-9217-7=
+7C6C628FBD2}")]
+>> - Derek
+>>
