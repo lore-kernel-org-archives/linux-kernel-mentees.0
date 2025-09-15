@@ -1,257 +1,132 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9AC2FB99E
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 10:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CE42FDC2C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 10:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757932723; cv=none; b=q75734eslenZUZWieuxWPcNycWKiSWEg52z/rK56DXfD3St1VcJYKmSGDD8G/8BXaKl/dEiV/B+XsXvlo9Vqe9M4iikx4/Lu+kwi66FrI585KgIlhNwPRTfJw8DBxR+3C4iYgoEKBno9f7hGKXer5G9YagYarRvOqMLTlFtKyVU=
+	t=1757932809; cv=none; b=hYL0gB4bAN9bZurixcRLkl4KLXWEZuDA7UAcD/fNLtTkcAUvHPrginPz5tqNVJ6nWSBaKus/B+VGWuGk9y15KajKrhEiG7ib5Zm+ibd6j3Z1PxSpEzzS/yXmfJxfbZsqaOOos2PILUulPVdDHTwu4uW6nyD+eAWupJsXwIHzr84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757932723; c=relaxed/simple;
-	bh=ikmaAHtiSs1pTGUMoyBaXfgKpTThPyepYq1DPAzGwQQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uFWvlRCg0xy4FlhoqjTXqgA78mBthz9AzRaLo+e3dHgadvzMtc/G0/rZjzREMnu8wnGeawiwxJPx1h3rLfSPoCuVlp/TwsGjvFChRkvNd8dCZW0CW/K+haWCFgffjy/XWi4YbHE8ooBgFWgh8n5i8hF9dDOY7j857ZwgiZ3ztEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UqJ5scJD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jxT2VTbe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UqJ5scJD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jxT2VTbe; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1757932809; c=relaxed/simple;
+	bh=7DD+FYFVxKo5eXxhjsD8Le/xHieotvm1eNjR0UnHFN0=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=LZgO4I6EOwo+bi1R0bP0aRnoh1qPhtvjcTepKi5V0e762sZ7fCafWkhIQBtAj4ktDohMiDPTVIbP0Q3OhM8ycaKNUilweb/ZoaiAOoeTfeGmCNlcHtyuIpyzFSU6Uw38Cjz4PWfrJ+IdtNiGXp4k/YEyANOfkiWpidU+Qsc8fc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzVOZvgd; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UqJ5scJD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jxT2VTbe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UqJ5scJD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jxT2VTbe"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 14AF822C24;
-	Mon, 15 Sep 2025 10:38:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757932720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=SuhWLaQAWTaS74RdAscPhzseVA4M2GMOEfw5jlfCKJ4=;
-	b=UqJ5scJDGOAjiY6eRdqV0/Ucs/Ub14LkNeC+l/N982ob+zPywoiTA9H1ASt/AuF/K/h2lB
-	C8CSzY8BhRsS8ESi9Ld6BvxrUW7dU8GxdQTKwrjDGWPBRM62hkmQ8gtBKhVW4xKa62YyKb
-	Cvd6QYtjLU6YsEpCN6lNdvHyL1zKPxQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757932720;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=SuhWLaQAWTaS74RdAscPhzseVA4M2GMOEfw5jlfCKJ4=;
-	b=jxT2VTbeHlVVWyXiBcJvFKMi2Jc02DTu7La5ThjBJrvc6R7WjfouEXGeQNURiT0VzHMihj
-	8DyEHpohOAjR1xAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757932720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=SuhWLaQAWTaS74RdAscPhzseVA4M2GMOEfw5jlfCKJ4=;
-	b=UqJ5scJDGOAjiY6eRdqV0/Ucs/Ub14LkNeC+l/N982ob+zPywoiTA9H1ASt/AuF/K/h2lB
-	C8CSzY8BhRsS8ESi9Ld6BvxrUW7dU8GxdQTKwrjDGWPBRM62hkmQ8gtBKhVW4xKa62YyKb
-	Cvd6QYtjLU6YsEpCN6lNdvHyL1zKPxQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757932720;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=SuhWLaQAWTaS74RdAscPhzseVA4M2GMOEfw5jlfCKJ4=;
-	b=jxT2VTbeHlVVWyXiBcJvFKMi2Jc02DTu7La5ThjBJrvc6R7WjfouEXGeQNURiT0VzHMihj
-	8DyEHpohOAjR1xAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D43D11368D;
-	Mon, 15 Sep 2025 10:38:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CDNlMq/sx2hbFAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 15 Sep 2025 10:38:39 +0000
-Message-ID: <119c9db0-3d41-4256-aadc-fb62361bd7ee@suse.de>
-Date: Mon, 15 Sep 2025 12:38:39 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzVOZvgd"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5CC5840D8D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 10:40:05 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -7.99
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id pNCEqnWyco0B for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 15 Sep 2025 10:40:04 +0000 (UTC)
+X-Greylist: delayed 428 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 15 Sep 2025 10:40:04 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 1AD8B40CA4
+Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=linux.intel.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1AD8B40CA4
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gzVOZvgd
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=192.198.163.18; helo=mgamail.intel.com; envelope-from=ilpo.jarvinen@linux.intel.com; receiver=<UNKNOWN> 
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1AD8B40CA4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 10:40:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757932804; x=1789468804;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=7DD+FYFVxKo5eXxhjsD8Le/xHieotvm1eNjR0UnHFN0=;
+  b=gzVOZvgd4F3X04PZFlzYZzcVohuzTqah0tz/lv5r8xH+sFKnJA4gPFIo
+   jdbbbZVP9Y+dbBktn2wNhfJr/cjyS3m0OjR3v0eUay83US3qb0t4q5Gvk
+   yT8jYKhSXm3piRQT66jeVir6AVyAoq5mmh4W9sesw9eBYL3dgSkAWfc2a
+   A5Zx0vXoJaDH3fbs/ikh56rGvO2QxQSs1QXuioPJkcOL7p2D0+PWZICsG
+   cb9bxuW9WPbreNS3YCdZDCjmRUBODdxUD4kx/sV129iHVNQOt0Lm5n34Y
+   xHdLwgDO/dFY0jge69QB4a0LfoFWyWNZL8O7ZB364dVVnv7fkrcJfQn7o
+   w==;
+X-CSE-ConnectionGUID: fJavlAiHTMS4taIZAcHw5A==
+X-CSE-MsgGUID: y9XQCFIBT2qwQ14gF9M7Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="59407767"
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
+   d="scan'208";a="59407767"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 03:32:55 -0700
+X-CSE-ConnectionGUID: WmRyYp3YTXaEwsEvWGMbxg==
+X-CSE-MsgGUID: taLFL3yMRiy3rCKHmDEYwg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
+   d="scan'208";a="175380810"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.39])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 03:32:51 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 15 Sep 2025 13:32:47 +0300 (EEST)
+To: Mark Pearson <mpearson-lenovo@squebb.ca>
+cc: rakuram <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org, 
+    "Derek J . Clark" <derekjohn.clark@gmail.com>, Armin Wolf <W_Armin@gmx.de>, 
+    Jonathan Corbet <corbet@lwn.net>, 
+    "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>, 
+    linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH] Documentation/wmi: Fix Typo in lenovo-wmi-gamezone
+In-Reply-To: <31b895a4-edd0-4ce5-a20a-7d0fb67e9721@app.fastmail.com>
+Message-ID: <444b64a7-631e-4acf-d2c8-2f0acd379d61@linux.intel.com>
+References: <20250817170644.5855-1-rakuram.e96@gmail.com> <31b895a4-edd0-4ce5-a20a-7d0fb67e9721@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] drm: Replace the deprecated DRM_* logging macros in
- gem helper files
-To: Athul Raj Kollareth <krathul3152@gmail.com>, michal.wajdeczko@intel.com
-Cc: skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- simona@ffwll.ch, mripard@kernel.org
-References: <aLczDHV_yGnnRKbr@Terra>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <aLczDHV_yGnnRKbr@Terra>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,intel.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
+Content-Type: text/plain; charset=US-ASCII
 
-Hi
+On Wed, 20 Aug 2025, Mark Pearson wrote:
+> On Sun, Aug 17, 2025, at 1:06 PM, rakuram wrote:
+> > Fixed the below typo error
+> >
+> > freqency ==> frequency
+> > in Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+> >
+> > Signed-off-by: rakuram <rakuram.e96@gmail.com>
+> > ---
+> >  Documentation/wmi/devices/lenovo-wmi-gamezone.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst 
+> > b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+> > index 997263e51a7d..22040250a97d 100644
+> > --- a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+> > +++ b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+> > @@ -153,7 +153,7 @@ data using the `bmfdec 
+> > <https://github.com/pali/bmfdec>`_ utility:
+> >      [WmiDataId(1), read, Description("P-State ID.")] uint32 PStateID;
+> >      [WmiDataId(2), read, Description("CLOCK ID.")] uint32 ClockID;
+> >      [WmiDataId(3), read, Description("Default value.")] uint32 
+> > defaultvalue;
+> > -    [WmiDataId(4), read, Description("OC Offset freqency.")] uint32 
+> > OCOffsetFreq;
+> > +    [WmiDataId(4), read, Description("OC Offset frequency.")] uint32 
+> > OCOffsetFreq;
+> >      [WmiDataId(5), read, Description("OC Min offset value.")] uint32 
+> > OCMinOffset;
+> >      [WmiDataId(6), read, Description("OC Max offset value.")] uint32 
+> > OCMaxOffset;
+> >      [WmiDataId(7), read, Description("OC Offset Scale.")] uint32 
+> > OCOffsetScale;
+> > -- 
+> > 2.43.0
+> 
+> Looks good to me.
+> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 
-Am 02.09.25 um 20:10 schrieb Athul Raj Kollareth:
-> Replace the DRM_* logging macros used in gem helper files with the
-> appropriate ones specified in /include/drm/drm_print.h.
+Hi,
 
-Added to drm-misc-next. Thanks for the patch.
-
-Best regards
-Thomas
-
->
-> Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
-> Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> ---
-> Changes in v5:
->      - Minor style fix.
->
-> Changes in v4:
->      - Some codestyle corrections.
->      - Remove OOM error logging in drm_gem_init().
->
-> Changes in v3:
->      - Revert all changes to drm_gem_objects_lookup().
->      - Use drm_device from minor.
->
-> Changes in v2:
->      - Change drm_gem_objects_lookup() to take a drm_device* argument.
->      - Make appropriate changes to all calls of drm_gem_objects_lookup().
-> ---
->   drivers/gpu/drm/drm_gem.c            | 16 ++++++++--------
->   drivers/gpu/drm/drm_gem_dma_helper.c |  2 +-
->   2 files changed, 9 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 4a89b6acb6af..fb12cc2051d8 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -101,10 +101,8 @@ drm_gem_init(struct drm_device *dev)
->   
->   	vma_offset_manager = drmm_kzalloc(dev, sizeof(*vma_offset_manager),
->   					  GFP_KERNEL);
-> -	if (!vma_offset_manager) {
-> -		DRM_ERROR("out of memory\n");
-> +	if (!vma_offset_manager)
->   		return -ENOMEM;
-> -	}
->   
->   	dev->vma_offset_manager = vma_offset_manager;
->   	drm_vma_offset_manager_init(vma_offset_manager,
-> @@ -783,9 +781,10 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
->   int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
->   			   int count, struct drm_gem_object ***objs_out)
->   {
-> -	int ret;
-> -	u32 *handles;
-> +	struct drm_device *dev = filp->minor->dev;
->   	struct drm_gem_object **objs;
-> +	u32 *handles;
-> +	int ret;
->   
->   	if (!count)
->   		return 0;
-> @@ -805,7 +804,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
->   
->   	if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
->   		ret = -EFAULT;
-> -		DRM_DEBUG("Failed to copy in GEM handles\n");
-> +		drm_dbg_core(dev, "Failed to copy in GEM handles\n");
->   		goto out;
->   	}
->   
-> @@ -853,12 +852,13 @@ EXPORT_SYMBOL(drm_gem_object_lookup);
->   long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
->   				    bool wait_all, unsigned long timeout)
->   {
-> -	long ret;
-> +	struct drm_device *dev = filep->minor->dev;
->   	struct drm_gem_object *obj;
-> +	long ret;
->   
->   	obj = drm_gem_object_lookup(filep, handle);
->   	if (!obj) {
-> -		DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
-> +		drm_dbg_core(dev, "Failed to look up GEM BO %d\n", handle);
->   		return -EINVAL;
->   	}
->   
-> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
-> index 4f0320df858f..a507cf517015 100644
-> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-> @@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct drm_device *dev,
->   
->   	ret = dma_buf_vmap_unlocked(attach->dmabuf, &map);
->   	if (ret) {
-> -		DRM_ERROR("Failed to vmap PRIME buffer\n");
-> +		drm_err(dev, "Failed to vmap PRIME buffer\n");
->   		return ERR_PTR(ret);
->   	}
->   
+Isn't the typo in the original interface as well? I'm not very keen in 
+accepting this kind of patches as this part is not really user 
+documentation to begin with.
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+ i.
 
