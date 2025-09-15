@@ -1,183 +1,141 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465D326F2AB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 18:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1154E14A4F9
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 21:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757961077; cv=none; b=MDn1sj37uy0JLmLeUn9yraAVw3yL7ZOeVWX+IT/1xLFpxo5l0oVCmsGmpKEkWS/m4wKlDV6exutKcU6Svh+C7BENEkV1NA65mAVravHEIcrknsU6frNDrANTN4H9XAL2v0pBEGZ9iyEi4Odnqzlz7JvWipg/5swGvkKvkhNil24=
+	t=1757972732; cv=none; b=ZvebqUP3pWqhBzSc9J01bNqhHAm1JSoI43O5fESZ94JUgls+FRNM3ztZbhC+ZH9q+l5A2C7WNoIR5u2N5YIlDOdVvvnpxnPY1tWuZByme15rDWfLeQ3UzSkGX/OW9N8THtOVwd8EyUWPb8XbvsR6ms0GTZcFErZsaaHeWSL2oFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757961077; c=relaxed/simple;
-	bh=QtPdwaI2bogUn91Tv21sPvB8XzumQUomt9YFpzeUaec=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=kJ2/0CAuPjbpMV3ElOgvpO44t2ZtLd405bql4v0uGlUT+lF389+71twb3x2aqt7SE0AAdUTeLqHVGGqw0V7pyEjsveeU09PFTpTpBic9kZhBD1/xKE/02YFzB37h6VfgiLfmN7cNzLdFICyzQxfM6YdZLrkYiw8NBwghBERxohA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=vukdtKN+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CzNl9sPc; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1757972732; c=relaxed/simple;
+	bh=3S+/CIj2dTjZzfVmKIc9+YYV8Tg/YeaidG5GPR9wTBE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g+IuK5VyIEwqRaBZMrQGhkpME6XagyvzkCS01NAXbCfN+dM9WagjGfW4Zqqzd4xNGPDK2Y1rbsqUeypQbTuqyyDt+F3YZoaFJ23uJXScwDNPXZA8x0EJO1XqdTtCTsf9RZq5P5wmxkqv6wFWFIywq50vfF5wawDtoz1+QJjrLRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XydcY84z; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="vukdtKN+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CzNl9sPc"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id BCC4E404C8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 18:31:14 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -6.493
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 2Ve5wK5CDyIj for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Sep 2025 18:31:13 +0000 (UTC)
-X-Greylist: delayed 443 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 15 Sep 2025 18:31:12 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 273CF40437
-Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 273CF40437
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=squebb.ca header.i=@squebb.ca header.a=rsa-sha256 header.s=fm2 header.b=vukdtKN+;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=CzNl9sPc
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=202.12.124.154; helo=fhigh-b3-smtp.messagingengine.com; envelope-from=mpearson-lenovo@squebb.ca; receiver=<UNKNOWN> 
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 273CF40437
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 18:31:11 +0000 (UTC)
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id C40817A0060;
-	Mon, 15 Sep 2025 14:23:47 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-12.internal (MEProxy); Mon, 15 Sep 2025 14:23:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1757960627;
-	 x=1758047027; bh=cVisTyKHXr1No5n0KbcR+7S89dUhcp76H3/kwGhLyo8=; b=
-	vukdtKN+W/EBBG1hTQPfdQNGdjhNqAUxLiQs1uhtG3sa5w7XK/dKvhq87rfJbcqZ
-	E7pJVSPoWZbtojPoqbDWRA5b+cUpaHdh2hmYP+84x46GZKXeGYyyQgdi35hHmQNc
-	f+IwVMPrI0LwY4otXEMlH3jYWL2LuL3xII2ROYQXTvow/0Oa0ixurOJ2KnLbqvrx
-	QkKVCh8YdN2fAxqG3X045LREYz5sMcppQPObWC450x7kvi/a0qZvdWL4CBIhrsMv
-	l6yXIGOt28ryiUBoO4fvR/H+QhlSl8I31mSz1GsulH0xJSejVKUsRtRfUTgHZGcP
-	avLvt4v3eNADGSa8+ucWWw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757960627; x=
-	1758047027; bh=cVisTyKHXr1No5n0KbcR+7S89dUhcp76H3/kwGhLyo8=; b=C
-	zNl9sPc/4k4xlS7sLkRbk7w5GxYq0CxpsbD7sW5ZJpNiaVr068OrOzyaB0wj8Ilt
-	agZXs7e9OUjxXE5E07xB+zRG6oGjJd/BE4ouMiUzccw0nuh/nKmGHZYdI7su1on4
-	9v6Rvtf5jgNfOm82mfwqbY7Gndc5k6bNdxQ4mf9q9ESCZCalBITM0QE8fjVNFbT6
-	VhPRhlsqXJFDIDmKHPxZ+VcVdUYSlQlYR5re2AREfEseVpWQt1lQQn6rvG1ibIap
-	Stca+kEJEYuKz8B+HtdHcFeCLvFZf8/W5QFBSgVZdFHrmcn4frGqwYvfmBAp2Ir4
-	c2SZZ14AOBmvUlOuDFKvA==
-X-ME-Sender: <xms:slnIaP34QYCUw3nUDRxJvJUuNpvHZYg56rhkwaUGMX-4mTHjBE06Iw>
-    <xme:slnIaOFt_BgDMIB802h-LJnFjBbvRWxnh945SELKe5yHeZRefxZTzoPDTTVDAFoEB
-    vHQXBmJIucTfDQz1dI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefkeegtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdforghrkhcu
-    rfgvrghrshhonhdfuceomhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggsrdgtrg
-    eqnecuggftrfgrthhtvghrnhepffeugfefteelgedtjeejvefhvefhvdehtdehleettdev
-    tefhjeduieffudelfffhnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhush
-    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdq
-    lhgvnhhovhhosehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopeelpdhmohguvgepsh
-    hmthhpohhuthdprhgtphhtthhopeguvghrvghkjhhohhhnrdgtlhgrrhhksehgmhgrihhl
-    rdgtohhmpdhrtghpthhtoheprhgrkhhurhgrmhdrvgelieesghhmrghilhdrtghomhdprh
-    gtphhtthhopeifpggrrhhmihhnsehgmhigrdguvgdprhgtphhtthhopehilhhpohdrjhgr
-    rhhvihhnvghnsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepshhkhhgrnh
-    eslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhk
-    vghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugihfohhunhgurghtihhonh
-    drohhrghdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehl
-    ihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphhlrg
-    htfhhorhhmqdgurhhivhgvrhdqgiekieesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:slnIaNkTSqfE_RSUByKVlMpC0lCocz_tH9TWj8Xru5HYGlCS0PabFQ>
-    <xmx:slnIaGNBiZ6OsuuPx0YoCpq2pTGP2R570ZvbYx9GBVvaJHt-Q4Foog>
-    <xmx:slnIaK9AdssjtmCdwZPiHhe4_uhGXtovFK9KiqKmslrhLtfNaJzwrA>
-    <xmx:slnIaIEti9Y_4b5cxqsY8kVXg4ul29yTi-Ym5BtWk7JNuU-cr1kPuA>
-    <xmx:s1nIaPJYb116CgQNGmxm_9EJbaPajOdYIbxaaZzoU5rE9ualNpQYR69V>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B1F832CE0078; Mon, 15 Sep 2025 14:23:46 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XydcY84z"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-24498e93b8fso6899715ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 14:45:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757972730; x=1758577530; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hgjQuP4Me3guJDVcSDtwLqdLj9Ad4VyHioffhsnvnuU=;
+        b=XydcY84zpJaUevPEhT0WxLay//zeq7qC8NnzvsowsnLUTP4Mc+6/YZTZbtqhQTmHQt
+         XktASd2GiRDP1vb+jh1zrffzHrAtc0FQE4JUwG/iLfXV7sR3DI5TNb6In7xv+w2ezYQB
+         QnKraY7eNbCECiFNtGqk19JkfrYmEml5AEPTp+tswDHA8rbk9JcAiW/lsUQLyck2hgs0
+         SUnL/H741lkZa3f72wgAdHH+ZxAu2/Mmy+vOSVeeb1MBwA4EOErTvFneDq+lxk+Wa84Y
+         0hA9yLDp2bMjEDvpdS/Wd5YYy7JglaU5VZBm5LYcZsQuvkoJm5X1UVmZIE8eFl6k6D6+
+         VUlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757972730; x=1758577530;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hgjQuP4Me3guJDVcSDtwLqdLj9Ad4VyHioffhsnvnuU=;
+        b=ibLrFVRBzRQjymGrqqtkXYIfVVEUWiB6qmfxur7mTugqNYdHjGmCCdhALd72syp64u
+         1fhY+a7EN1ZBiTPEF1ma7MD2wBsThfMNQ/43rz5ZGbpoQZ4hBnLX7WyCEjkDKDDDHdrl
+         EIu7JrlD3QsTSJpKsmqW8lSaJbWnZ3w8TucLtesSgW0CsssjmSgfRt2Xwe2hHJQ66xsn
+         143sxJJ9BXwCGgfJywiF5jE6XAM72FP/UaWTzRAgAX+O2750MKt1f3+pCV5mHKsa+fUn
+         NUwosSXSedUY/5RFJ4jfzZLHKH+mI+VQ23Ig5R7U1IXAWDygX3Ll77GuE0yssGQjWJi+
+         j75g==
+X-Forwarded-Encrypted: i=1; AJvYcCUbDmmnNqNfcACrnv+blsI/SBXAa4t24WdxSd2Mv0a+OjW8CPhP8hY7ysHXbGaJvwwc2vZpsAxUfLWFQkCzolfmw4dLfQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZsW78twf+z/hqxFzOkOSma1yQosZHB4A6Z9VluiZZjalwBMzh
+	UZC+rbsPW0cBWP5peR582Qx0/1v3sV3sJ2a+kBmODkO11lbHI9zpF1P0a9CezQQ5XmHfzNmc6Ft
+	fIZjZmka0mCzfJpniup4sm8aeBsRYeaw=
+X-Gm-Gg: ASbGncuFJH3/6ZQ1LvIu7QJCvdKvDSGXCwwEZ79m9sIPFoOtYX+XcVR8Mdt1tgMn9JV
+	TKyZpqPHfXmRq3imF9N+kAnedcZl/MGG3pZ0jf73j2s/Fd/bniuAu3GTyIarpA7ikrFvos30rJc
+	pi1Ulh96mDZvb5oZV9oIg5drPvXO56AoWLJkfgK0cOlJVT0AvAZntvZY2Fyi0tnKaQ8SRjbcUw6
+	aUgs6/qMjB5RiR1yA==
+X-Google-Smtp-Source: AGHT+IHw3Z18XHstUu2o5MDyyGsJMQUZc09lyWpgCR+3iBlFcxOGkW7iUUBCOCFrQn0WS7ZaeI8Iju8q0S+OmEonvrg=
+X-Received: by 2002:a17:903:1a8b:b0:25a:4437:dbb7 with SMTP id
+ d9443c01a7336-25d25e85badmr85747195ad.4.1757972730212; Mon, 15 Sep 2025
+ 14:45:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AJ31r0obZhDc
-Date: Mon, 15 Sep 2025 14:23:26 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: rakuram <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org,
- "Derek J . Clark" <derekjohn.clark@gmail.com>, "Armin Wolf" <W_Armin@gmx.de>,
- "Jonathan Corbet" <corbet@lwn.net>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-Message-Id: <4d218ba7-71ba-4dfe-9a6f-a1997345c35a@app.fastmail.com>
-In-Reply-To: <444b64a7-631e-4acf-d2c8-2f0acd379d61@linux.intel.com>
-References: <20250817170644.5855-1-rakuram.e96@gmail.com>
- <31b895a4-edd0-4ce5-a20a-7d0fb67e9721@app.fastmail.com>
- <444b64a7-631e-4acf-d2c8-2f0acd379d61@linux.intel.com>
-Subject: Re: [PATCH] Documentation/wmi: Fix Typo in lenovo-wmi-gamezone
-Content-Type: text/plain; charset=utf-8
+References: <20250913052109.2638-1-bold.zone2373@fastmail.com>
+In-Reply-To: <20250913052109.2638-1-bold.zone2373@fastmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 15 Sep 2025 17:45:18 -0400
+X-Gm-Features: Ac12FXyeEWmkZqa6wbMn8t2Wun6mfw4KJJSTBJD8vx8rr6MmHrmXg4LFyNCd8yc
+Message-ID: <CADnq5_N9r+hyu6ARUGeYnsSPNNBM-bq0YV5mQoH6vp2yXdXZhg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Use kmalloc_array() instead of kmalloc()
+To: James Flowers <bold.zone2373@fastmail.com>
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com, 
+	alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
+	simona@ffwll.ch, roman.li@amd.com, alvin.lee2@amd.com, 
+	skhan@linuxfoundation.org, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ilpo,
+Applied.  Thanks!
 
-On Mon, Sep 15, 2025, at 6:32 AM, Ilpo J=C3=A4rvinen wrote:
-> On Wed, 20 Aug 2025, Mark Pearson wrote:
->> On Sun, Aug 17, 2025, at 1:06 PM, rakuram wrote:
->> > Fixed the below typo error
->> >
->> > freqency =3D=3D> frequency
->> > in Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->> >
->> > Signed-off-by: rakuram <rakuram.e96@gmail.com>
->> > ---
->> >  Documentation/wmi/devices/lenovo-wmi-gamezone.rst | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst=20
->> > b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->> > index 997263e51a7d..22040250a97d 100644
->> > --- a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->> > +++ b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->> > @@ -153,7 +153,7 @@ data using the `bmfdec=20
->> > <https://github.com/pali/bmfdec>`_ utility:
->> >      [WmiDataId(1), read, Description("P-State ID.")] uint32 PState=
-ID;
->> >      [WmiDataId(2), read, Description("CLOCK ID.")] uint32 ClockID;
->> >      [WmiDataId(3), read, Description("Default value.")] uint32=20
->> > defaultvalue;
->> > -    [WmiDataId(4), read, Description("OC Offset freqency.")] uint3=
-2=20
->> > OCOffsetFreq;
->> > +    [WmiDataId(4), read, Description("OC Offset frequency.")] uint=
-32=20
->> > OCOffsetFreq;
->> >      [WmiDataId(5), read, Description("OC Min offset value.")] uint=
-32=20
->> > OCMinOffset;
->> >      [WmiDataId(6), read, Description("OC Max offset value.")] uint=
-32=20
->> > OCMaxOffset;
->> >      [WmiDataId(7), read, Description("OC Offset Scale.")] uint32=20
->> > OCOffsetScale;
->> > --=20
->> > 2.43.0
->>=20
->> Looks good to me.
->> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
->
-> Hi,
->
-> Isn't the typo in the original interface as well? I'm not very keen in=20
-> accepting this kind of patches as this part is not really user=20
-> documentation to begin with.
->
-I haven't had a chance to double check - but it's kinda bad that we had =
-that typo in the original implementation to be honest. I can ask to get =
-that fixed, but it will likely take a long time for something minor.=20
-I defer to you on the preference for kernel documentation - I suspect we=
-'ll get a bunch of these though (part of the 'getting started to contrib=
-uting to the kernel' is always typos and documentation right?).
+Alex
 
-Mark
+On Sat, Sep 13, 2025 at 1:31=E2=80=AFAM James Flowers
+<bold.zone2373@fastmail.com> wrote:
+>
+> Documentation/process/deprecated.rst recommends against the use of kmallo=
+c
+> with dynamic size calculations due to the risk of overflow and smaller
+> allocation being made than the caller was expecting. This could lead to
+> buffer overflow in code similar to the memcpy in
+> amdgpu_dm_plane_add_modifier().
+>
+> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+> ---
+> I see that in amdgpu_dm_plane_get_plane_modifiers, capacity is initialize=
+d to
+> only 128, but it is probably preferable to refactor.
+>
+> Tested on a Steam Deck OLED with no apparent regressions using these test=
+ suites from
+> igt-gpu-tools:
+> 1) kms_plane
+> 2) amd_plane
+> 3) amd_fuzzing
+> 4) testdisplay
+>
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/dr=
+ivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index b7c6e8d13435..b587d2033f0b 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -146,7 +146,7 @@ static void amdgpu_dm_plane_add_modifier(uint64_t **m=
+ods, uint64_t *size, uint64
+>
+>         if (*cap - *size < 1) {
+>                 uint64_t new_cap =3D *cap * 2;
+> -               uint64_t *new_mods =3D kmalloc(new_cap * sizeof(uint64_t)=
+, GFP_KERNEL);
+> +               uint64_t *new_mods =3D kmalloc_array(new_cap, sizeof(uint=
+64_t), GFP_KERNEL);
+>
+>                 if (!new_mods) {
+>                         kfree(*mods);
+> @@ -732,7 +732,7 @@ static int amdgpu_dm_plane_get_plane_modifiers(struct=
+ amdgpu_device *adev, unsig
+>         if (adev->family < AMDGPU_FAMILY_AI)
+>                 return 0;
+>
+> -       *mods =3D kmalloc(capacity * sizeof(uint64_t), GFP_KERNEL);
+> +       *mods =3D kmalloc_array(capacity, sizeof(uint64_t), GFP_KERNEL);
+>
+>         if (plane_type =3D=3D DRM_PLANE_TYPE_CURSOR) {
+>                 amdgpu_dm_plane_add_modifier(mods, &size, &capacity, DRM_=
+FORMAT_MOD_LINEAR);
+> --
+> 2.51.0
+>
