@@ -1,102 +1,157 @@
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F2E2797A4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 05:48:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CCF2C028F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 06:54:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757915310; cv=none; b=Odq0IuPuPhGpAnvmDQs+ipyXFa4QbkZi335qI5W5zgtlTrh/31i2U6L7iLt1uiIi3mUxCsbOpb66/QClBHBHx9TYubwuwyHipDpapEC5Px1VrGdVKRsF3cYJHcvqaCGzaY1dZUFb7qazlaGRu1vgmfvfMwkiSd/C2lLLJ7tqnEA=
+	t=1757919274; cv=none; b=B7McXAgEPGL6rEZACxJqjAbk4qq2iQVznOs6pqmBlNPLYlGmxcPGhCDuQeLbVX3h662HmNaQCwcErDLaBfJcfP2qXvxiB7dkpjwsiaH/Rpk0qFrVGcvFRghbWRSZosKOnFS0SKsQIolW5eB3yOjCZpODVMGxo/7z2KqbX2jQI4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757915310; c=relaxed/simple;
-	bh=nDGZYmOVK3BHyovdEwLI+pkBn1mmcoe5MNbBS1U05Tk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tFT7vH4rT7e+E/Q53XgdDsOATgXQ+qZ+y+5aG1pEXtx0rrxk0daIVqVBjwL+aY5ceH6v6r0GgA5Iym198K77+JCQPicB+KCGDnkTwDDYOxSslwU26BZVuCCn+oP4MehWJ3mteuyLZ3ZVGCI6bb6scERBK2DECA1N/xGVyhki+Us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pRryVl1k; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1757919274; c=relaxed/simple;
+	bh=OMLJ/ZFVeR1gLezarNQ5OBojq/UZy6AcuS5aa48/Ycs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=F4gFnJ7iFruDRc8Z5/NAGrq1MRmlSHIXfmvcJtXLeYXqE2vNhhmg1SOKRGt2HQ87Vt819Ijmxd91ayB0Hu8YprsbugM0eUZrskU/T0TiWmnxnpWmLQqEAt0SsO0jF2tHteqlrtPgR7ozSssQLQQ1F6N9Ty32ojlwXWnJLyArTRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=lezOvOnO; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pRryVl1k"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="lezOvOnO"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 102F96F84F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 05:48:29 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2706B60ADA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 06:54:33 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.101
+X-Spam-Score: -6.389
 X-Spam-Level:
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 2w94U-i2WJ61 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Sep 2025 05:48:28 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=leon@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 676236F875
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 676236F875
+ id NxE_gyPzGutk for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 15 Sep 2025 06:54:32 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=mjambigi@linux.ibm.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 2E9A8608EA
+Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=linux.ibm.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2E9A8608EA
 Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pRryVl1k
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 676236F875
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 05:48:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id C557144101;
-	Mon, 15 Sep 2025 05:48:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17BB7C4CEF1;
-	Mon, 15 Sep 2025 05:48:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757915306;
-	bh=nDGZYmOVK3BHyovdEwLI+pkBn1mmcoe5MNbBS1U05Tk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pRryVl1kj48MZS2gLanXzQi1bHUnNSgCURmkRfmBVcm2y4EXJENs8ktffrEGhn5q0
-	 2AYwWNMewDKF0m8hHHG/8R39U71l1qm3QTTz26ImA2eTX61gegMWJXaIVLWHufkzmt
-	 6aRKund/R6fXLnWH8cZmXqar5MFD3xJLjO13QHLcVrwLRRzWPB8/ChL3r5/eB7HAph
-	 go5eqPES+QPF6YFSJPjpzPfkj5vwyPHIgjwNpflGLCOq/31Jy0QfjWFjw3Kna6E6XI
-	 5dtmw0RTtkDaxKl4vHdlON9Fi3DbckoBd8YJktWDzL3djvaAk3DUavi/2VwoCH1Ra1
-	 iibvKzyNcnXXA==
-Date: Fri, 12 Sep 2025 12:07:13 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Mahanta Jambigi <mjambigi@linux.ibm.com>
-Cc: Kriish Sharma <kriish.sharma2006@gmail.com>, alibuda@linux.alibaba.com,
-	dust.li@linux.alibaba.com, sidraya@linux.ibm.com,
-	wenjia@linux.ibm.com, tonylu@linux.alibaba.com,
-	guwen@linux.alibaba.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] net/smc: replace strncpy with strscpy for ib_name
-Message-ID: <20250912090713.GV341237@unreal>
-References: <20250908180913.356632-1-kriish.sharma2006@gmail.com>
- <20250910100100.GM341237@unreal>
- <24ced585-1b7f-4577-9cb5-8d6e60ecb363@linux.ibm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=lezOvOnO
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2E9A8608EA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 06:54:31 +0000 (UTC)
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58EHfpb3017258;
+	Mon, 15 Sep 2025 06:54:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=vEj5al
+	LflW09tPN3ZyNcdQe0I3TVk9mFaQmKSpib4T4=; b=lezOvOnOlUmnymoOlzGXde
+	TXb8dEcZmvfTAO7lbHpdcLIoJxyexX7G2MlrCsmDw9bSmBvfRx/r0nyWylolXxvk
+	WAe6hQhC/SIvOvdjACmBwMIwr8OXsbO7rnlAGVO9gEmBLW3VJFEdfzzln6/cF99M
+	oHPPgdI1UxaFG60xeEmYcjAbCVCn26Ep5nfo9Fh89yJV9jwwoEBVZuHug3nHWQCV
+	FZudVJonOv4ZRYOK8DIapujIVM37UMIuYUUuGc8vbrz94CZJ4dmfEhiYtEGdiVVA
+	PH9MdnVJmCYy3/OJ1P1MZZuNQlU2o7Vq5xBHNQ5NSyoPAIiBMT1+lU7A43qm45IQ
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49504b0xrj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 15 Sep 2025 06:54:28 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 58F6iHMl020195;
+	Mon, 15 Sep 2025 06:54:28 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49504b0xre-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 15 Sep 2025 06:54:27 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58F4SJiM018625;
+	Mon, 15 Sep 2025 06:54:27 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 495n5m4ux0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 15 Sep 2025 06:54:26 +0000
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58F6sPXZ26411538
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 15 Sep 2025 06:54:26 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CDFCD58063;
+	Mon, 15 Sep 2025 06:54:25 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 13B2A5805D;
+	Mon, 15 Sep 2025 06:54:18 +0000 (GMT)
+Received: from [9.109.249.37] (unknown [9.109.249.37])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 15 Sep 2025 06:54:17 +0000 (GMT)
+Message-ID: <947756ad-f9aa-479f-b463-4c97ff23a936@linux.ibm.com>
+Date: Mon, 15 Sep 2025 12:24:16 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <24ced585-1b7f-4577-9cb5-8d6e60ecb363@linux.ibm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] net/smc: replace strncpy with strscpy for ib_name
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Kriish Sharma <kriish.sharma2006@gmail.com>, alibuda@linux.alibaba.com,
+        dust.li@linux.alibaba.com, sidraya@linux.ibm.com, wenjia@linux.ibm.com,
+        tonylu@linux.alibaba.com, guwen@linux.alibaba.com, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        horms@kernel.org, linux-rdma@vger.kernel.org,
+        linux-s390@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20250908180913.356632-1-kriish.sharma2006@gmail.com>
+ <20250910100100.GM341237@unreal>
+ <24ced585-1b7f-4577-9cb5-8d6e60ecb363@linux.ibm.com>
+ <20250912090713.GV341237@unreal>
+Content-Language: en-US
+From: Mahanta Jambigi <mjambigi@linux.ibm.com>
+In-Reply-To: <20250912090713.GV341237@unreal>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAyMCBTYWx0ZWRfX0sdSJ71fpUby
+ 0ibdThPTyCKdd4t55OvEAHa5gFmOpbKZi8NBNCE7lg+Fg6OEVfn5ZKAAj06bZ0mluSmXxkBhZsG
+ ZuEBGYp99Sv9PUbEf3P9xdHbOQTOHxGp9oDlA0yWdkE5zcZ6HpbhtWjW7JEOs6Se4/HRIgeDWPl
+ W0Uv4nbKHYikznVfRsehW0TN7Rf4L65y7/b6f4ZOd1mkrhspn7KX0oeE4HG8agM768to8lEThZy
+ iKINernQlPEDnEof0T6hnbvugoXVNZ/Q4agbWrj8PCFQVIPFFAZGaNafnZvJ0DgS5L9yq0KPTLA
+ WJa70KS+C4toReim18gizBkSElTMKdf7NmeynPly0oDM//LcMKnAiZqiz5vN9kAyUXZCZL/DKwi
+ 4L8Q3jMH
+X-Proofpoint-ORIG-GUID: 98MEKJqvXtHcWaEUBIhwix6ZJl7Ui-1B
+X-Authority-Analysis: v=2.4 cv=dt/bC0g4 c=1 sm=1 tr=0 ts=68c7b824 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=fb0p5f3yy6WXCT3W6uYA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: ntakgdyemlx5g5foZQmcm0hfHM21whH5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-15_03,2025-09-12_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 impostorscore=0 adultscore=0 malwarescore=0 bulkscore=0
+ spamscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509130020
 
-On Fri, Sep 12, 2025 at 01:18:52PM +0530, Mahanta Jambigi wrote:
-> On 10/09/25 3:31 pm, Leon Romanovsky wrote:
-> >> --- a/net/smc/smc_pnet.c
-> >> +++ b/net/smc/smc_pnet.c
-> >> @@ -450,7 +450,7 @@ static int smc_pnet_add_ib(struct smc_pnettable *pnettable, char *ib_name,
-> >>  		return -ENOMEM;
-> >>  	new_pe->type = SMC_PNET_IB;
-> >>  	memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
-> >> -	strncpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
-> >> +	strscpy(new_pe->ib_name, ib_name);
-> > 
-> > It is worth to mention that caching ib_name is wrong as IB/core provides
-> > IB device rename functionality.
+On 12/09/25 2:37 pm, Leon Romanovsky wrote:
+> On Fri, Sep 12, 2025 at 01:18:52PM +0530, Mahanta Jambigi wrote:
+>> On 10/09/25 3:31 pm, Leon Romanovsky wrote:
+>>>> --- a/net/smc/smc_pnet.c
+>>>> +++ b/net/smc/smc_pnet.c
+>>>> @@ -450,7 +450,7 @@ static int smc_pnet_add_ib(struct smc_pnettable *pnettable, char *ib_name,
+>>>>  		return -ENOMEM;
+>>>>  	new_pe->type = SMC_PNET_IB;
+>>>>  	memcpy(new_pe->pnet_name, pnet_name, SMC_MAX_PNETID_LEN);
+>>>> -	strncpy(new_pe->ib_name, ib_name, IB_DEVICE_NAME_MAX);
+>>>> +	strscpy(new_pe->ib_name, ib_name);
+>>>
+>>> It is worth to mention that caching ib_name is wrong as IB/core provides
+>>> IB device rename functionality.
+>>
+>> In our case we hit this code path where we pass *PCI_ID*
+>> as the *ib_name* using *smc_pnet* tool(smc_pnet -a <pnet_name> -D
+>> <PCI_ID>). I believe PCI_ID will not change, so caching it here is fine.
 > 
-> In our case we hit this code path where we pass *PCI_ID*
-> as the *ib_name* using *smc_pnet* tool(smc_pnet -a <pnet_name> -D
-> <PCI_ID>). I believe PCI_ID will not change, so caching it here is fine.
+> If I remember, you are reporting that cached ib_name through netlink much later.
+> 
+> The caching itself is not an issue, but incorrect reported name can be seen as
+> a wrong thing to do.
 
-If I remember, you are reporting that cached ib_name through netlink much later.
-
-The caching itself is not an issue, but incorrect reported name can be seen as
-a wrong thing to do.
-
-Thanks
+In what case we can see this incorrect reported name, could you please
+elaborate.
