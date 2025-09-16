@@ -1,209 +1,101 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9512C0F83
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 16 Sep 2025 11:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DA82E973D
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 16 Sep 2025 22:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758020710; cv=none; b=UanVPQPM3n2SODvYQCXX1Vvy9qVN+59JMaEEATMmXWv7ZKuSAj/COdwTjJNitdpDDN+iyDXkNgn1DIq413xcRCj4xfM7Qltabiupeq94pb8gwJkWUWSvl3P0bcGBQkzhq7vyJQH7JQD/+YJjlpe7LogtEwgJRo1/hZUU9vAjImU=
+	t=1758063565; cv=none; b=LjOuvoQm2IPhHpFGSH5aZ0t4bGAoAkr+JdU2d/rqG9ldM2gVaWsS5KvQHCZesT+vyD/M8CMuMIdF87csmC4weIfjNtcIAuokLYAMSQTpYKdnRD0yM3k3JoJBuEBDLTheKOBwEXFLHDcIEWNxmpMl28EHtK19Oa0tMkYXI8tL0q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758020710; c=relaxed/simple;
-	bh=vFKm95yvy2d/TS1Th38odrtuApc5Hd4H/vpcgg5VKlc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uy+MxeMZ6tqaIB6WNZroH2/qRCEZv41MLCpllaxHHCi1jB34JW2Apaq03NYEPNDQuklNdY2UmyP1SSE0LoiLorLBL7KlffONoeH89ddhlgm3vjkRIPTbplsH6yhth2CdBfjqKcxlLdAgP1BRU+Vok3oSBG0hIld2W/D9x2vYAVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0IudwxDP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/pCf9BOv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i1hG1qLs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vYA8IU4j; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1758063565; c=relaxed/simple;
+	bh=kYWD/1pnHOiVcV/86OAJQo2hlBq8UVutDfZZWO+nnUY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aHH6Zpa6LCcPu6l0AXNmV8dKC2rqHqTSOaFoPD8rf7bHl4MqHQ1o/aQX7zd2aLQjjQ3QTABfwQQXQlb6poHw8355OAjnTF4zSGNnCMQygmRKf3GSWUAjhb0DFz8tcJzSHZ7nauX7wgYtMXqRo52m8b6TCCPkdB44XJGC4zZY/Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=D4C4n+ab; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0IudwxDP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/pCf9BOv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i1hG1qLs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vYA8IU4j"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C7532225DE;
-	Tue, 16 Sep 2025 11:05:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758020707; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bSA/1dfhCMRCbUQX8xLJ12Hvcc7BJ1H69XxJaJSq4+0=;
-	b=0IudwxDPKZqe1FXfo9UXVNVWlO2ay5MtuX+q7pF0ZBsA6kNaTlMDVJAKnTvgNEMr3Zr4er
-	kKpCwxJ07dMArSoIMW9rMb0oE2Nxqh0w0cQheSv0NygM2B8MkZhVZiMnSOLN8vF4irpiHx
-	ZmCejx3/wdMi9y2H/C60IRC6TiQHID4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758020707;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bSA/1dfhCMRCbUQX8xLJ12Hvcc7BJ1H69XxJaJSq4+0=;
-	b=/pCf9BOvYNqnuLwO7Wx6EBZbebvuvGYGXC/gmCfZhUojItp4jfoWj+E3Z/RSgPZOzaLa3E
-	xy56gV4E+ESF13CQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=i1hG1qLs;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vYA8IU4j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758020706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bSA/1dfhCMRCbUQX8xLJ12Hvcc7BJ1H69XxJaJSq4+0=;
-	b=i1hG1qLsiuD/7kYXwWv7HG9sBAAeArpUc6xbFDUmVihcbQ+ogrW+p/bB21EH1r2TndERiI
-	RaL85qrD/kW9qpUNqNpbjE28g2XUIE/MqA26bCfS2nbtq95VS/vzx/wlbOFupyVD32qAEl
-	0bP0eLQI6mzmd+28F/8WY93YruoA2h4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758020706;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bSA/1dfhCMRCbUQX8xLJ12Hvcc7BJ1H69XxJaJSq4+0=;
-	b=vYA8IU4jQQq8GBuZqyWFTeGaxtaDNHjF63puCwOawl84pMT+rj/nnYtPkCaL9YG3qlfQ2r
-	uh8N4royRj2sCDAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7E41E139CB;
-	Tue, 16 Sep 2025 11:05:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kDSAHWJEyWjBWwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 16 Sep 2025 11:05:06 +0000
-Date: Tue, 16 Sep 2025 13:05:06 +0200
-Message-ID: <87h5x21wv1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: hariconscious@gmail.com
-Cc: shuah@kernel.org,
-	syzbot+c3dbc239259940ededba@syzkaller.appspotmail.com,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Subject: Re: [PATCH] sound/core/seq : fix data-race in snd_seq_fifo_cell_out/snd_seq_fifo_poll_wait
-In-Reply-To: <20250916104547.27599-2-hariconscious@gmail.com>
-References: <20250916104547.27599-2-hariconscious@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="D4C4n+ab"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-826fe3b3e2cso332093385a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 16 Sep 2025 15:59:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1758063563; x=1758668363; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+2Sobvr9+5pGFbp47+ByPtEfYFFz5lnTSyJG9VlL420=;
+        b=D4C4n+ab0qwvAddzD9303W2vjuURdHDLIY+XFdHw7/s0QirD2EexifGiZJ/7wlo83a
+         PKQc0e+/DiP8Ll1pnD0f4zZ5BMrhZjzi9GrcrnoJm2e4pUa5S7m6Z0Wjksja83za897A
+         Ff6soR/zVVmLLAdx2reJrNEvcYQ0mhYPVcne4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758063563; x=1758668363;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+2Sobvr9+5pGFbp47+ByPtEfYFFz5lnTSyJG9VlL420=;
+        b=n5KSfCn1bPE7/Xrd7qKHyEImRV5sGqQTP6Bs2ReGGcX/Z+IKCYz8j8DiLBQIbU+Rcy
+         8Hm6yH3Ahc5kWCdAbpRR/9ZjQYGlm06K0CCFZdsRKBnLZ6YGBy6JgivcgmXZXi2dBjRb
+         rJNVsWMJoIjQer+fveqdwnox9KZCRgEPjuyQDKdfnht/x/2X17u+ylpaMKYj/5B/dZSp
+         dLG4Zt0blZbHgRp2P/gQY22V3LP+Fi88eCWO9twctjFSJWTHGmeFn7F9v3msv7gVlRQf
+         wrZwj3xzqpdu2EmIrTc4SBcoo2f/uyC1U+zGSqe6kLqs/1Tuj1nKWI/48fSxN/vxL3vf
+         oraA==
+X-Forwarded-Encrypted: i=1; AJvYcCWfoMWgZ0CTdVjmUGi8gkJvcd1grneI+MN8Tn/3OQkJ0IKyZvrQIkuAQJBjNvjLPHVb6VMvWTnDbTfcdoLNZsc38kizAA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZWrahS/Gwafc91pDChAGdIbA1WKcR8Q6oymfE0lYio9pmiIA8
+	nfRF+1FqAsFEt+McB5jsgooW5FAxVvxPKmxMIdSuLWRi8f14+jPlre5cuH1Nxw6OUY0=
+X-Gm-Gg: ASbGnctqV4eQPyO26znA8AnBtBd9eUV7u956sjvmfZThKqCZl7dn6BmJdzI0kidiSfa
+	YtSJMQWCu2B18CVV6INs5iZT2YH1PJIL/U4lFvPh86yCrl7aY5nSaoXpBU9CabkypZQ1BCGpkd8
+	SDUz+oAQzoasQ+Ai3PxsuOr4NprP9pqaWsdDi4w1im1PEGGDB64bULaXCt5pIGh+rNs5OSrnCwG
+	HtYVuV3E2iIgpVl4ijfD/zwFdvprmHk7e3b5btDWjuvDrwiCibUqmg7EVt0ssBnZkBveuUgx1jV
+	FFluOtLu6nt4/14UqVwQm7g1boM5XlU51lIz8SQrmGlCfFcWLbSb+5g7O1qS8UQwZxJL5MXrV4o
+	wcrI1CpQnmY43+k9kyzbUpo6wc/FjqR7Wkgk/OjwC+PYmNVihMfjc6joJI8ki4Ajpnf2S5r5/ea
+	ZBFRKPRrbd5FTsUaaqPrMoH4EXDlvNjW8CfItZpbM2ZrI=
+X-Google-Smtp-Source: AGHT+IHPewFSAtglBYb72x7KGBoL3MPQo1PXWAxums+c5Qp8pXMLQan4rC8XJhOv0uEYkxN+tL5s9A==
+X-Received: by 2002:a05:620a:4629:b0:828:ee0c:64da with SMTP id af79cd13be357-8310f02c9fcmr5639285a.43.1758063562631;
+        Tue, 16 Sep 2025 15:59:22 -0700 (PDT)
+Received: from [192.168.226.35] (207-181-222-53.s5939.c3-0.hnc-cbr1.chi-hnc.il.cable.rcncustomer.com. [207.181.222.53])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8281e956653sm613334885a.32.2025.09.16.15.59.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Sep 2025 15:59:22 -0700 (PDT)
+Message-ID: <fef87364-80e9-4cbb-909d-22b1af0e9d3f@linuxfoundation.org>
+Date: Tue, 16 Sep 2025 16:59:20 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_NONE(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[c3dbc239259940ededba];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: C7532225DE
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -2.01
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] selftests/Makefile: include $(INSTALL_DEP_TARGETS) in
+ clean target to clean net/lib dependency
+To: Jakub Kicinski <kuba@kernel.org>, Nai-Chen Cheng <bleach1827@gmail.com>
+Cc: Shuah Khan <shuah@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, Shuah Khan <skhan@linuxfoundation.org>
+References: <20250910-selftests-makefile-clean-v1-1-29e7f496cd87@gmail.com>
+ <20250911164137.29da651f@kernel.org>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20250911164137.29da651f@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 16 Sep 2025 12:45:48 +0200,
-hariconscious@gmail.com wrote:
+On 9/11/25 17:41, Jakub Kicinski wrote:
+> On Wed, 10 Sep 2025 19:30:32 +0800 Nai-Chen Cheng wrote:
+>> The selftests 'make clean' does not clean the net/lib because it only
+>> processes $(TARGETS) and ignores $(INSTALL_DEP_TARGETS). This leaves
+>> compiled objects in net/lib after cleaning, requiring manual cleanup.
+>>
+>> Include $(INSTALL_DEP_TARGETS) in clean target to ensure net/lib
+>> dependency is properly cleaned.
 > 
-> From: HariKrishna Sagala <hariconscious@gmail.com>
-> 
-> data race in both the functions, snd_seq_fifo_cell_out &
-> snd_seq_fifo_poll_wait is protected with guards
+> Shuah, please LMK if think it makes sense for netdev to take this
+> (net/lib is the only DEP_TARGET today).
 
-Please don't, this will lead obviously to a deadlock!
-fifo_cell_out() is already protected by f->lock spinlock.
-You can at most protect the f->cells reference in
-snd_seq_fifo_poll_wait().  Or change f->celss to atomic_t.
+No problems - take this through netdev
 
-But, practically seen, it won't fix any real issue.  The evaluation
-there can be racy in anyway.
-
-Also the patch doesn't follow the coding style.
-I sincerely hope you verify your patch whether it really works before
-submitting at the next time.
-
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
 
 thanks,
-
-Takashi
-
-> 
-> Reported-by: syzbot+c3dbc239259940ededba@syzkaller.appspotmail.com
-> Fixes: https://syzkaller.appspot.com/bug?extid=c3dbc239259940ededba
-> Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
-> ---
->  sound/core/seq/seq_fifo.c | 22 +++++++++++++---------
->  1 file changed, 13 insertions(+), 9 deletions(-)
-> 
-> diff --git a/sound/core/seq/seq_fifo.c b/sound/core/seq/seq_fifo.c
-> index f23c6b7ae240..65e28ebb0eb1 100644
-> --- a/sound/core/seq/seq_fifo.c
-> +++ b/sound/core/seq/seq_fifo.c
-> @@ -138,16 +138,18 @@ static struct snd_seq_event_cell *fifo_cell_out(struct snd_seq_fifo *f)
->  {
->  	struct snd_seq_event_cell *cell;
->  
-> -	cell = f->head;
-> -	if (cell) {
-> -		f->head = cell->next;
-> +	scoped_guard(spinlock_irqsave, &f->lock) {
-> +		cell = f->head;
-> +		if (cell) {
-> +			f->head = cell->next;
->  
-> -		/* reset tail if this was the last element */
-> -		if (f->tail == cell)
-> -			f->tail = NULL;
-> +			/* reset tail if this was the last element */
-> +			if (f->tail == cell)
-> +				f->tail = NULL;
->  
-> -		cell->next = NULL;
-> -		f->cells--;
-> +			cell->next = NULL;
-> +			f->cells--;
-> +		}
->  	}
->  
->  	return cell;
-> @@ -210,7 +212,9 @@ int snd_seq_fifo_poll_wait(struct snd_seq_fifo *f, struct file *file,
->  			   poll_table *wait)
->  {
->  	poll_wait(file, &f->input_sleep, wait);
-> -	return (f->cells > 0);
-> +	guard(spinlock_irqsave)(&f->lock);
-> +	int isNonzero = (f->cells > 0);
-> +	return isNonzero;
->  }
->  
->  /* change the size of pool; all old events are removed */
-> -- 
-> 2.43.0
-> 
+-- Shuah
