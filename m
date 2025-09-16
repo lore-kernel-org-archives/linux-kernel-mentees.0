@@ -1,223 +1,137 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8982BD022
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 21:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ADE19EEC2
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 16 Sep 2025 00:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757973600; cv=none; b=sFESbMNmCmdT4JJ9I8D4HMl6CtIEcz5PEfXtUcwv1dgAgrYreATHMFvAJ+0GU8O6QsJgSaMLi+feGyLAkr9NSOOJ3AvkRsTts8zS1VxE7m6vChBXzGGe/lrxtNFMsAtRBKe0m4eUQujF81cEuxW+BdNSAy4wENOmIdcZxj28eC8=
+	t=1757984210; cv=none; b=e26vMOVtyTA63TPexq+eQa1t9feaKW5cRJYgXvmqPl/QzcTITu5c2WSB6lwJTIEPrt8J9kQReN1MJuMIfdrR0eSySgd9w1Z/ISHMHF8g4AJQvTeGak9aBr5QUcNOXjbee/PSO/C34Uych/Q4Yq9KMxa0VxpbEGAJDfLQIJUqwmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757973600; c=relaxed/simple;
-	bh=n48jciww2X0fn0vaR7T+mpGEYCvSTNzQI6VrrkWGUHc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K2MjXlP3x6sW/+ngDMXfSp1MDx6kOIlntVRYc3FIvGwE1ml7sY4HtequggmFp42gKERdnchUBqAapQNvlgfb2jzORJJRDqF3t/vUlecxSxMLb0x6OxKxUr68s8TqZPzrwt3g5a7xuTpmFwPP3lqGTmXti9PlfUE7fCIvB9k7U7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=r8xPu+E2; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1757984210; c=relaxed/simple;
+	bh=Qy71Ms5YFMmHBNBNOUjSdAy0OrAHc4jC5Kj1qyilACU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g/L/A1g8FfuxXKOxb0sNnlv3gMLRQrDwU14gFuCtkAWG+BBQ+3nkcvzogJWKIOtqbCIUArBy22sUD0/Un1zfyNfqt969jJOtG4n7/oSdTHZj+AyuDWH3265b5Nn3Pac0Yr0VBgR6qxpAcRzmJ8ZPmTyQD7T2TA949YrKsKBdfGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qv2iyOz3; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="r8xPu+E2"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3F2CD409A9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 21:59:58 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -6.488
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id fyapmHbNRMVP for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Sep 2025 21:59:57 +0000 (UTC)
-X-Greylist: delayed 326 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 15 Sep 2025 21:59:56 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org B020140923
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B020140923
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmx.de header.i=w_armin@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=r8xPu+E2
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=212.227.17.20; helo=mout.gmx.net; envelope-from=w_armin@gmx.de; receiver=<UNKNOWN> 
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B020140923
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Sep 2025 21:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1757973594; x=1758578394; i=w_armin@gmx.de;
-	bh=E6hgzD5Pj/WlFlOBbRw7Y6W8q2wyU02oCUPJafOdY+o=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=r8xPu+E22yVR2LJuQap5cRtDWV/7NCTiWgMBx1QWRzNv0lhbNScCROVvDiZ9XXBy
-	 40L0nxaMMj2waTcW8RSHR42fNaQHJw29gCD7d6w7cMSwvByrEpqwEQQm69294WOWK
-	 kXK2RXJMkntFIwWRv1zXis88lWiYeNUYLD2FkqcQUBt3d1+0+lf3NoKjiJm9HQH9e
-	 0J1GSt1WhzUdcj95ZV6RITVcrhb9leuwCIVoOnQCiUxwudoBmhDap1Yxz+V94pBOt
-	 st5r69ceTcaxRJi9Hyl8z986TQerTP0bbbWZ3sK8m+N+wg6DCMYjR0UcCD+is+2RV
-	 bBB3hCPs9NV5t1O0zA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.69] ([93.202.247.91]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N4hvb-1uIAfF3jDb-015RoQ; Mon, 15
- Sep 2025 23:54:27 +0200
-Message-ID: <cfd7977e-d612-4e08-a68a-65fed8e164b6@gmx.de>
-Date: Mon, 15 Sep 2025 23:54:22 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qv2iyOz3"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b4cb3367d87so3185540a12.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 17:56:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757984208; x=1758589008; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LeqZlInGPp3SGFJdjB62EJO8F13RY/cKYxhUSIsMLkk=;
+        b=Qv2iyOz37espPAI2dfCSpnSqPET+KJ77vpTn3QZ2TH6/FN61L1mOsDVV3kOwzLfnPP
+         jNiJZhNmHIWVYb0E8jxw1fuar9UHZvEotMUsfUbDuEvhZwDSkbgW85CYwvtqVJ8aBizm
+         plOziXbLzM7WUf5u+Rx6tCPF9i4MSciN6TcSaZUwS7aIXzyHM3TyeT8q5D1MQX6tYipB
+         qAsFZkkjYp088qWUAf1aoZ6ETA2J/AjpskxnNRHPSlX0ivWgG8fDjw2B451k6+Re18Wv
+         BXwQ1vKjhdzp0ah4eaJfnovSjEwuqs/dzahFYNPq8mPCZ/q04cVBfUCC6Xo5uEnwFwoS
+         yDIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757984208; x=1758589008;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LeqZlInGPp3SGFJdjB62EJO8F13RY/cKYxhUSIsMLkk=;
+        b=e7VhOnVXfTUg6qqWWdzM4DWoFHBBYQHg4JpDV49gtJKRckaHaksvVCPdPDSQLbkzXk
+         XzkBHK61aLZUWa5NcLiNGSHYWLYaJebgIOUCQ4HWHflzcZh89xPbkGSkW0fevmmCPNp7
+         KGEOJ+Bq8HHP4yQ77R8uVWznnOgBSodS3HXmNZTMWHviesA95TJoooOCbO5FDePeuCW4
+         eDrX52lEmpVbjpjDTX9QAPR+cF1zSqVI/xEh0Wgl+XG5MNcNFtQL9tqF22uPc5CokEKG
+         DIMkr7Z4xOUym3qPviv8OW74XDndL+xHo1dp+nQDV17uG+UOhmZ52UnZGWulfTcazLQ3
+         RaAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXtZTHRYFpHOBdr60Oi+gc8yiJiHFCrUByQYPAzIRrtL/DfmNdUJc6SuH+QLqfTXE+0cbLPjdy77LJaSiT8RIGQITOBmA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLVgMWHDD8wErB9np0MC/1EVRbrKl+k34DN/cYN7M0PhlYx8rv
+	ssPNm9NDUUCl1oYLBn+WaqSSX2wYO3IjSjjcJYgglwQcWWkv23GbJjxq
+X-Gm-Gg: ASbGncu5Jucwhz3/CnStT2nbgk6vQ+TGu8+wRceVSBkuPB1zDz0BsEQYhJEkExgUPO1
+	nMNW1gpUHnmc7iWTD3fji7bEfS7D2MOdEoLVrtN6I5KgmxkoyamZDfSpf48qu4W3q4lAPsPI0cC
+	PUPwiiRVdjh1qhbHgbJ+Ve9XEo0qH0Z2+QHQEaApRzB/lmlC6oQE3oVHZUI/bbZBflan6lhIL8d
+	qth9yNyGRdHTwx2MSJb6VG/kGqXnVirMe03jEIf28wuG8a7BM/AX2TFgxwxUYHrFIiEXb234TRG
+	NXARH4sAKX7ACk0W5d5CButWls8TofUbXPdjgCOv+GPKZmp3iGXD+0X8xk57fcroBBuP8BWvNvZ
+	2JXTU5cmm2HNrWbvU3G6pJ94a2nyTa2fAobUQvDwP
+X-Google-Smtp-Source: AGHT+IG8hhTJUBQOJBQwfVlneT/Gr2URBGX24fPocs1cx/+EfgjCvVldYUoFdG5SzWtoUpwFLFSGRQ==
+X-Received: by 2002:a17:90b:1dce:b0:32d:d714:b3eb with SMTP id 98e67ed59e1d1-32de4e63c46mr18038247a91.4.1757984207847;
+        Mon, 15 Sep 2025 17:56:47 -0700 (PDT)
+Received: from cortexauth ([2401:4900:1c7b:db3a:1c7b:a123:6d26:f0bd])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607b3603asm14142918b3a.84.2025.09.15.17.56.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Sep 2025 17:56:47 -0700 (PDT)
+From: Deepak Sharma <deepak.sharma.472935@gmail.com>
+To: jikos@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Deepak Sharma <deepak.sharma.472935@gmail.com>,
+	syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
+Subject: [PATCH] HID: cp2112: Add parameter validation to data length
+Date: Tue, 16 Sep 2025 06:24:51 +0530
+Message-ID: <20250916005451.303072-1-deepak.sharma.472935@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/wmi: Fix Typo in lenovo-wmi-gamezone
-To: Mark Pearson <mpearson-lenovo@squebb.ca>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: rakuram <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org,
- "Derek J . Clark" <derekjohn.clark@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-References: <20250817170644.5855-1-rakuram.e96@gmail.com>
- <31b895a4-edd0-4ce5-a20a-7d0fb67e9721@app.fastmail.com>
- <444b64a7-631e-4acf-d2c8-2f0acd379d61@linux.intel.com>
- <4d218ba7-71ba-4dfe-9a6f-a1997345c35a@app.fastmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <4d218ba7-71ba-4dfe-9a6f-a1997345c35a@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:K5DiFh4BcFNZ2fXX030eACasbxJBIdVF2QKAQt4aEhqpEG+Fmx4
- Vvs8dkbUTh65FVYl+hhLQshvt0ndbWyEa85H/9tRqNl+NTH4o0CpBeXL06y5C7AidtqYUjG
- JuHXyM3PwuV7zF6ZmCaWHbt9dTXmZdeuV0Eg2cMOZnBohB1YdFlAf08ZkgYQN5RSz/LOEak
- eKHw8db81B18kIUfniaXw==
-UI-OutboundReport: notjunk:1;M01:P0:VWQ9HHha+NE=;23jmw3UwTVJKd2/kjv2++iwe+Sd
- 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
+Content-Transfer-Encoding: 8bit
 
-Am 15.09.25 um 20:23 schrieb Mark Pearson:
+Syzkaller reported a stack OOB access in cp2112_write_req caused by lack
+of parameter validation for the user input in I2C SMBUS ioctl codeflow
+in the report
 
-> Hi Ilpo,
->
-> On Mon, Sep 15, 2025, at 6:32 AM, Ilpo J=C3=A4rvinen wrote:
->> On Wed, 20 Aug 2025, Mark Pearson wrote:
->>> On Sun, Aug 17, 2025, at 1:06 PM, rakuram wrote:
->>>> Fixed the below typo error
->>>>
->>>> freqency =3D=3D> frequency
->>>> in Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->>>>
->>>> Signed-off-by: rakuram <rakuram.e96@gmail.com>
->>>> ---
->>>>   Documentation/wmi/devices/lenovo-wmi-gamezone.rst | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->>>> b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->>>> index 997263e51a7d..22040250a97d 100644
->>>> --- a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->>>> +++ b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->>>> @@ -153,7 +153,7 @@ data using the `bmfdec
->>>> <https://github.com/pali/bmfdec>`_ utility:
->>>>       [WmiDataId(1), read, Description("P-State ID.")] uint32 PStateI=
-D;
->>>>       [WmiDataId(2), read, Description("CLOCK ID.")] uint32 ClockID;
->>>>       [WmiDataId(3), read, Description("Default value.")] uint32
->>>> defaultvalue;
->>>> -    [WmiDataId(4), read, Description("OC Offset freqency.")] uint32
->>>> OCOffsetFreq;
->>>> +    [WmiDataId(4), read, Description("OC Offset frequency.")] uint32
->>>> OCOffsetFreq;
->>>>       [WmiDataId(5), read, Description("OC Min offset value.")] uint3=
-2
->>>> OCMinOffset;
->>>>       [WmiDataId(6), read, Description("OC Max offset value.")] uint3=
-2
->>>> OCMaxOffset;
->>>>       [WmiDataId(7), read, Description("OC Offset Scale.")] uint32
->>>> OCOffsetScale;
->>>> --=20
->>>> 2.43.0
->>> Looks good to me.
->>> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
->> Hi,
->>
->> Isn't the typo in the original interface as well? I'm not very keen in
->> accepting this kind of patches as this part is not really user
->> documentation to begin with.
->>
-> I haven't had a chance to double check - but it's kinda bad that we had =
-that typo in the original implementation to be honest. I can ask to get th=
-at fixed, but it will likely take a long time for something minor.
-> I defer to you on the preference for kernel documentation - I suspect we=
-'ll get a bunch of these though (part of the 'getting started to contribut=
-ing to the kernel' is always typos and documentation right?).
->
-> Mark
+I2C device drivers are "responsible for checking all the parameters that
+come from user-space for validity" as specified at Documentation/i2c/dev-interface
 
-I agree, the typo is inside the WMI MOF definition which is included insid=
-e the documentation for future developers. Since this MOF definition shoul=
-d
-match the actual MOF definition reported by the ACPI firmware, i suggest t=
-hat we ignore any spelling mistakes inside those.
+Add the parameter validation for the data->block[0] to be bounded by 32
+or return EINVAL
 
-Thanks,
-Armin Wolf
+Reported-by: syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=7617e19c8a59edfbd879
+Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
+---
+ drivers/hid/hid-cp2112.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
+index 482f62a78c41..90292ce3d363 100644
+--- a/drivers/hid/hid-cp2112.c
++++ b/drivers/hid/hid-cp2112.c
+@@ -689,7 +689,10 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
+ 			count = cp2112_write_read_req(buf, addr, read_length,
+ 						      command, NULL, 0);
+ 		} else {
+-			count = cp2112_write_req(buf, addr, command,
++			if (data->block[0] > 32)
++				count = -EINVAL;
++			else
++				count = cp2112_write_req(buf, addr, command,
+ 						 data->block + 1,
+ 						 data->block[0]);
+ 		}
+@@ -700,7 +703,10 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
+ 						      I2C_SMBUS_BLOCK_MAX,
+ 						      command, NULL, 0);
+ 		} else {
+-			count = cp2112_write_req(buf, addr, command,
++			if (data->block[0] > 32)
++				count = -EINVAL;
++			else
++				count = cp2112_write_req(buf, addr, command,
+ 						 data->block,
+ 						 data->block[0] + 1);
+ 		}
+@@ -709,7 +715,10 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
+ 		size = I2C_SMBUS_BLOCK_DATA;
+ 		read_write = I2C_SMBUS_READ;
+ 
+-		count = cp2112_write_read_req(buf, addr, I2C_SMBUS_BLOCK_MAX,
++		if (data->block[0] > 32)
++			count = -EINVAL;
++		else
++			count = cp2112_write_read_req(buf, addr, I2C_SMBUS_BLOCK_MAX,
+ 					      command, data->block,
+ 					      data->block[0] + 1);
+ 		break;
+-- 
+2.51.0
 
