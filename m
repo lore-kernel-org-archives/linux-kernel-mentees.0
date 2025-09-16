@@ -1,137 +1,209 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010010.outbound.protection.outlook.com [40.93.198.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ADE19EEC2
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 16 Sep 2025 00:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757984210; cv=none; b=e26vMOVtyTA63TPexq+eQa1t9feaKW5cRJYgXvmqPl/QzcTITu5c2WSB6lwJTIEPrt8J9kQReN1MJuMIfdrR0eSySgd9w1Z/ISHMHF8g4AJQvTeGak9aBr5QUcNOXjbee/PSO/C34Uych/Q4Yq9KMxa0VxpbEGAJDfLQIJUqwmo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757984210; c=relaxed/simple;
-	bh=Qy71Ms5YFMmHBNBNOUjSdAy0OrAHc4jC5Kj1qyilACU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g/L/A1g8FfuxXKOxb0sNnlv3gMLRQrDwU14gFuCtkAWG+BBQ+3nkcvzogJWKIOtqbCIUArBy22sUD0/Un1zfyNfqt969jJOtG4n7/oSdTHZj+AyuDWH3265b5Nn3Pac0Yr0VBgR6qxpAcRzmJ8ZPmTyQD7T2TA949YrKsKBdfGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qv2iyOz3; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA8C244662
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 16 Sep 2025 04:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757995743; cv=fail; b=gUS7K2DCyu4T/ApIwi5SX0YE5V6EY0AP9CVLKZLi2E7hkVrZbiaNXwtAdJ2YmmQUMCHdcZL/NzEmyHMoHj/0REfIMIGzlUepesEZ22FXRRqKYSS5OV4p2tq70CDprXs0kSIHvDKbfSNlbZNeduFndkORb7ScwwQElVZc9YTGhgg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757995743; c=relaxed/simple;
+	bh=8DQUyOkl70jSzoojLI/1dpge2PCEeqGb0EZ34mMoNQQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=qhloJy7fi5+szy+72wwwqoDVQ9Qvey2C/E5PgePnnZINJnemMHk3SzCuMUsN6BgG0+p72pFf7wx6I2G99LKi2TIZpBrxACraxJKdhmk9AX0tNXCthzl57L96763iDLzgktSQgjcWXhZAgUzwTwHpf/NLAH0euLt64cr9mckKZMk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2MYafGSJ; arc=fail smtp.client-ip=40.93.198.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qv2iyOz3"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b4cb3367d87so3185540a12.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Sep 2025 17:56:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757984208; x=1758589008; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LeqZlInGPp3SGFJdjB62EJO8F13RY/cKYxhUSIsMLkk=;
-        b=Qv2iyOz37espPAI2dfCSpnSqPET+KJ77vpTn3QZ2TH6/FN61L1mOsDVV3kOwzLfnPP
-         jNiJZhNmHIWVYb0E8jxw1fuar9UHZvEotMUsfUbDuEvhZwDSkbgW85CYwvtqVJ8aBizm
-         plOziXbLzM7WUf5u+Rx6tCPF9i4MSciN6TcSaZUwS7aIXzyHM3TyeT8q5D1MQX6tYipB
-         qAsFZkkjYp088qWUAf1aoZ6ETA2J/AjpskxnNRHPSlX0ivWgG8fDjw2B451k6+Re18Wv
-         BXwQ1vKjhdzp0ah4eaJfnovSjEwuqs/dzahFYNPq8mPCZ/q04cVBfUCC6Xo5uEnwFwoS
-         yDIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757984208; x=1758589008;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LeqZlInGPp3SGFJdjB62EJO8F13RY/cKYxhUSIsMLkk=;
-        b=e7VhOnVXfTUg6qqWWdzM4DWoFHBBYQHg4JpDV49gtJKRckaHaksvVCPdPDSQLbkzXk
-         XzkBHK61aLZUWa5NcLiNGSHYWLYaJebgIOUCQ4HWHflzcZh89xPbkGSkW0fevmmCPNp7
-         KGEOJ+Bq8HHP4yQ77R8uVWznnOgBSodS3HXmNZTMWHviesA95TJoooOCbO5FDePeuCW4
-         eDrX52lEmpVbjpjDTX9QAPR+cF1zSqVI/xEh0Wgl+XG5MNcNFtQL9tqF22uPc5CokEKG
-         DIMkr7Z4xOUym3qPviv8OW74XDndL+xHo1dp+nQDV17uG+UOhmZ52UnZGWulfTcazLQ3
-         RaAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXtZTHRYFpHOBdr60Oi+gc8yiJiHFCrUByQYPAzIRrtL/DfmNdUJc6SuH+QLqfTXE+0cbLPjdy77LJaSiT8RIGQITOBmA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLVgMWHDD8wErB9np0MC/1EVRbrKl+k34DN/cYN7M0PhlYx8rv
-	ssPNm9NDUUCl1oYLBn+WaqSSX2wYO3IjSjjcJYgglwQcWWkv23GbJjxq
-X-Gm-Gg: ASbGncu5Jucwhz3/CnStT2nbgk6vQ+TGu8+wRceVSBkuPB1zDz0BsEQYhJEkExgUPO1
-	nMNW1gpUHnmc7iWTD3fji7bEfS7D2MOdEoLVrtN6I5KgmxkoyamZDfSpf48qu4W3q4lAPsPI0cC
-	PUPwiiRVdjh1qhbHgbJ+Ve9XEo0qH0Z2+QHQEaApRzB/lmlC6oQE3oVHZUI/bbZBflan6lhIL8d
-	qth9yNyGRdHTwx2MSJb6VG/kGqXnVirMe03jEIf28wuG8a7BM/AX2TFgxwxUYHrFIiEXb234TRG
-	NXARH4sAKX7ACk0W5d5CButWls8TofUbXPdjgCOv+GPKZmp3iGXD+0X8xk57fcroBBuP8BWvNvZ
-	2JXTU5cmm2HNrWbvU3G6pJ94a2nyTa2fAobUQvDwP
-X-Google-Smtp-Source: AGHT+IG8hhTJUBQOJBQwfVlneT/Gr2URBGX24fPocs1cx/+EfgjCvVldYUoFdG5SzWtoUpwFLFSGRQ==
-X-Received: by 2002:a17:90b:1dce:b0:32d:d714:b3eb with SMTP id 98e67ed59e1d1-32de4e63c46mr18038247a91.4.1757984207847;
-        Mon, 15 Sep 2025 17:56:47 -0700 (PDT)
-Received: from cortexauth ([2401:4900:1c7b:db3a:1c7b:a123:6d26:f0bd])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607b3603asm14142918b3a.84.2025.09.15.17.56.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Sep 2025 17:56:47 -0700 (PDT)
-From: Deepak Sharma <deepak.sharma.472935@gmail.com>
-To: jikos@kernel.org
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Deepak Sharma <deepak.sharma.472935@gmail.com>,
-	syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
-Subject: [PATCH] HID: cp2112: Add parameter validation to data length
-Date: Tue, 16 Sep 2025 06:24:51 +0530
-Message-ID: <20250916005451.303072-1-deepak.sharma.472935@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2MYafGSJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JfGDoIPG9h0IZBlCtGTZuHsnLCkFf2qIaNfkR/ZtWZvaUVbtDLO8a7NjynxVQkMbGT/ZUFgzoE+GY25pySqAbxnXgRARxaDfY337D1Aav8d3Y1EuA5tZ++uIWjLsQzEbI9wYAAxMf0u3KAmP7kyWZ3ZB8sn5aswDOIxs73sC+ycLIb/0lrstHwQIwdoKSp9rwak67XUTTx58d7ZahsQ3yEvyKtzwkThnAG7L7+RUXnPmWA48JyYkCgLfSDdL1boXbbCtN5xHuujO4W6NIPAUCqlcNS7KhU7d+bJN2IErzZUlz6ccDlArMPOog+78fiwCpmeuv2oSKSp/NTiRAY5X9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fvD0BrsqBAGLT3CHrXkK8JEgSuRl7WGPeSC8BCwVZWY=;
+ b=XLhsRvFG8IoLYZei6tqccdEmUXvLR0sIZPuzyHOcoqgBxoZLAcjCmmSy8A4STyJ/YvooaPw/kL8MfAV3+hZi73P50sh8/QjX0q88E6BFsP8ALE9ocsNiOeWZPRTnYM3ARAnyxNKowLtxZ0hf8gNVO8a2q4Ntgu6nCNqjHjAZn1I3HMd/y2kw9cyCHMyQl9oY6cgCr0fEZYHd5dfOApr7f0LJmPnK6EDiqCdhxIq8O0mU6vUdSS3KRDJqVp91PGQOl2BdZf6PVDqPVSnaSxmadbsT8wEXUlCYXrpskGjHbEH1rw6W7za2tJ2UzbP8KNaTN7V3RIYZ+ze1nQSdxxrBcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fvD0BrsqBAGLT3CHrXkK8JEgSuRl7WGPeSC8BCwVZWY=;
+ b=2MYafGSJceDlaGRPnH3LRxc4urMyRnNnCsZnGYhFIbQkgSPr7N22megQnU88cW7Hs4iY6LUD9QzLV0iWJN/X8Lmx0OdCOp6mPg2mEAzcQY01HS2pkrzqlQw4kra7rCI8x7ATCBsLf3ZlpjyUwhamNzZzMEIOSxNKElaKwni3L1I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
+ by CY5PR12MB6405.namprd12.prod.outlook.com (2603:10b6:930:3e::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.19; Tue, 16 Sep
+ 2025 04:08:58 +0000
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1%7]) with mapi id 15.20.9115.018; Tue, 16 Sep 2025
+ 04:08:58 +0000
+Message-ID: <ce6cab60-30e0-429c-bce2-7aa5e5ffc09a@amd.com>
+Date: Mon, 15 Sep 2025 22:08:55 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: Use kmalloc_array() instead of kmalloc()
+To: James Flowers <bold.zone2373@fastmail.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ roman.li@amd.com, alvin.lee2@amd.com, skhan@linuxfoundation.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+References: <20250913052109.2638-1-bold.zone2373@fastmail.com>
+Content-Language: en-US
+From: Alex Hung <alex.hung@amd.com>
+In-Reply-To: <20250913052109.2638-1-bold.zone2373@fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4P223CA0018.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:303:80::23) To DM4PR12MB8476.namprd12.prod.outlook.com
+ (2603:10b6:8:17e::15)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|CY5PR12MB6405:EE_
+X-MS-Office365-Filtering-Correlation-Id: a09da266-123a-419d-e820-08ddf4d6c29e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|921020|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Q2FPL05kNUNZbHlNTlBqTHZpVHl5ZHhMbjd5NFQ3L1YyKzdBZ2hNVmdMaXBm?=
+ =?utf-8?B?RGlrT1hnbDQ2bFVBNG9hd0k0cmxiTmluTlI2RU55WVZ6L0hBLzVzRVBXTkpy?=
+ =?utf-8?B?dC82SnY0NHcyOWt2aWVTd3dSRHhHbVRFdjg0MGlmb0hVY0Jic2pUeHIvR2Jj?=
+ =?utf-8?B?ekVkT1VKS3FiMitCQTEyc3hPTXVqa3A4aDg0UVEvREs4ZWF4Y09qalh1bmVv?=
+ =?utf-8?B?STAvazVhR1pCSm9JWXNjclNLdGRvM3ljdTNEa2l3ZVhpelJFRm5mSzVCcnFR?=
+ =?utf-8?B?OVdPUm1kdnpBQVlwNzEvRzY0QzdJbXR5QUg0T0VnVUZSSHE4SzJWd1hJWnhI?=
+ =?utf-8?B?TjR1MDdOS08rTWNBY2EyRzRnNnFadWRIWGVYR2JycEFReWFMR2M0UitUZjZT?=
+ =?utf-8?B?UzF6WkFJcUpqcWJmRWk4dnM0eUd2bDFtQzJXa1VWUHhSK0tzVzVEaWpSTHBP?=
+ =?utf-8?B?VUI2cDAzU2w1Yzd3M2RJaldZRFRoMGl0Z1J3b0lGS0F3ajBEcVNDdXhsS0FT?=
+ =?utf-8?B?UFdOUEowNkJ0Zng1Y2JaaDJaN0c0UzJtQ0hMUkJyU2JaNzdZeVNjeTZlZEZO?=
+ =?utf-8?B?bHJJUENvMFdRT0liSnR2blFFMEs2K0tJNkRPcnI4R1RTZGNxUGFwNlpBeElC?=
+ =?utf-8?B?d1Y5UWxyOVo1RjZNWEU4YWtvYUp5LzlCUmlnTDlpTXkwcFVwQkRtbzczZHgy?=
+ =?utf-8?B?M1JJZzNYRWJjQ2lBQ3pKSGVIdkp0c0piUVJvVUJET0ZqQ1JOUXEvV0FLQXFk?=
+ =?utf-8?B?SXJMQ2pPTkk2U0VwOTVPV1RCQUdZRlFGR0pyNVowbW5uemM0b1IxVWpIdUh3?=
+ =?utf-8?B?NVRWTjA3RjNkRTY5MFl4WEh6NHQ4Q09NVWY2UmZVWE56TEF2S2FBNXhkUjRN?=
+ =?utf-8?B?cnRWaWRYN015OE9xdUZSVWg5UVA5WEYzeUtEVVY5WEsvUUdFMjZJMUNwSGds?=
+ =?utf-8?B?QjRNTzMzd1cxbVp4TXZCMUU0VndsWmdWYnV1alFnQWxqanZ2VGkrWE1LQWpG?=
+ =?utf-8?B?OXgxeldNRFVVQm84bnNWSmxhRkgxbnhjRjBFbTNSTEpCV0h6ZnZlYUpyOWZT?=
+ =?utf-8?B?dXR1WGJmT3BhM1pHY05jYVhtdWZSTlRQNVBzbFgxcHpDTU02aFVhSVpncVpX?=
+ =?utf-8?B?NzhaYzRnWFk5ZXBlVVpFdEJQQ3I5UFBuL05RQXRVQW1hR21NVHRCVzhIQXhY?=
+ =?utf-8?B?elptMTVZLzJwRStNZGNMMzhuV3dSV2tISzVlVTc1UTg1RE1ub054YkJ5ZzFr?=
+ =?utf-8?B?c2ozUGJ3a0tiRE12aEJVbDVPNXhIQUxrb1V6TmhQajdHeHR0NW1yZ25ZeWZW?=
+ =?utf-8?B?Wmx2SkhqMVFPY3JrcVZhbHZDMkF4K0JjOWJQWloxTTZJUHkxdlFZMzRDR1hL?=
+ =?utf-8?B?N3hSNnk4eWpyRWdBNEpZSkcwNlN4d2RwZW4vakMxUWhoSzVkdkJmdFB3MnI5?=
+ =?utf-8?B?NmJldkFZcWNqcHdQaWJMWkczd1dFeGVId2x1ZUZ4OENJQ2UzWW1kVjk5cmRS?=
+ =?utf-8?B?T1E4T3pEeEhNbnhqdktnTDFXVjVwUnJ6YmNGSWlDM1JDV2VWWGFTMXd1QWwr?=
+ =?utf-8?B?VVB1OXRrVVZxMmFaQ3pDOUJwaEVqL2oveDdRN1kyYWlncmRwSU9BZEZNMDAz?=
+ =?utf-8?B?RnFsV1hYcXUwRC95YUpFV0ZSSjVjRzhnVGd1N25jSTEwRlY2WjhMOStLOXpH?=
+ =?utf-8?B?d3FTdlhxZC91S2Q1MmZxQmtQWmJSZjlHLzd3L0hmN0xwVEd1VjhMRzl5d3Ni?=
+ =?utf-8?B?T0krV0lBZ3kxYlhrcWlxUnlpRlVqem5lS0VBRWQwTE15K0ZicTdRQjErdTBI?=
+ =?utf-8?B?OWk5ZlZEUC9wWW5PUVlkRmNuNVJaa3lFdy8ycC80MnpWN2ZhUWJyZWkxcHlj?=
+ =?utf-8?B?TE1CUTBXNVoxSHh6L0pHaE5HNk15VHNzRFRVUHBISTJXTlBBdWZzL0pOZUtV?=
+ =?utf-8?B?ZFZra3ZwUUVlVnR5YXZrRTl0Q0V1S1N1dUVOTHFxYTVJZjNaZ2VGTVg4VkZQ?=
+ =?utf-8?B?NTJQV20rSDVBPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB8476.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(921020)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YUw0a09kbHpNK05XZkRLeFdHTzZYWE92a001ZEtxelR3YVd5YVcxRnVhWFhZ?=
+ =?utf-8?B?TFl0ekNvbUVYdE56dGRJd3BUdnN6eVJFcHN1aTN0NEN2VHhxRllUa2xGdk5m?=
+ =?utf-8?B?T0VDOVduRWNhTGJvS1paRm8ydkxhNGY2aC9lcWNacnliNFZzdmVoYmN4dlI5?=
+ =?utf-8?B?M09EUU5aT1Vyc2hSQ2hIRXVmOWRTN0VScVJMNkdyMHlpa0xjTStma1JSM2tm?=
+ =?utf-8?B?VWhrZFE2V1RCWTI4bjZxRTV2Y2hxQ0Joa0ZxcXRHaHV4YXI2MW13Mm1nSmNv?=
+ =?utf-8?B?WjhFa2lhbjlQRHJpMG4yWG1OOUVTdXJBenFiWHZRSEN4eUU5WDBLam0xTjR6?=
+ =?utf-8?B?ZnVQVUNXUGIvbHU3Q0o4SHN0WTVsN1JYSUZoVnNqZWx5ZDdZOVVtb2FoeUtU?=
+ =?utf-8?B?cXEzc2lsZkZZQXV6bTRaYWN2Q0gxK1JNRVdCUDVPZDZKMkZOTzBMQmxoNG1y?=
+ =?utf-8?B?TzQ2Zldjb1ViSk82NmFOU2dNUEMxUEYrMWpyb1BPY2NpekcwcVovQm9XT2pE?=
+ =?utf-8?B?V3FxOEp2dHgzeUJCa0lKeW15ZlVTZ0VwRUpBVWVia3hNVlBjSURhbFBkVXQr?=
+ =?utf-8?B?aW4xMWVrNW00dlFWc1JLK3JkWDlkZ2ptWkRXZGZXd2xxbHgxeDRKK25NMEE5?=
+ =?utf-8?B?d1grcmcvY0tBTXdYcExrUEZ3UHRwNVp4ME96QjZ3Wm1vZ3o3Nm8yK2NiVHpX?=
+ =?utf-8?B?UTdMaTN1UUdLWUVaM1BWVlVIT2ZLdm54M016UWtpZjU3MFp4aDBobnFPUlFT?=
+ =?utf-8?B?YlYwTEtheVpDQkYyWVV0OUNtVUxmT0Y0cVlyWDUxUXI5bVVJaVg5bi9GelVQ?=
+ =?utf-8?B?L1ovd1hlK01iOWdQa250aG9nbWpWKzByQTNPMzAvS3RnR3JzWEpnL3lrUVRE?=
+ =?utf-8?B?V0xRT1hHK2hIY3JIQU1ENkpqS0RySXRCak9mbEhldmdtY003VXYwRE5hTklh?=
+ =?utf-8?B?bzBDVmc0amg0OUFubFY4VDczdnNVQ2U3K3lCYWtKWmlNRWZvT2RyOXZ4SDgx?=
+ =?utf-8?B?Y0J5Zk9rM1JFcStSdmZzeERkd29jSmxzaktvTXdqc1M1N1JHQkphTlpKeEdm?=
+ =?utf-8?B?VWsvODVGMTE3bHhxYVZ4aU8rQm5JbXAvTVNuc09iUlA2bkJXUVFzUkFEdHpF?=
+ =?utf-8?B?YjI0QkdOcW5QLzZsb3JoSllGZU5uRzdCN2g0L0oxOVZsVHcydkJzOHdKQVpB?=
+ =?utf-8?B?UFlOUXptcDRnMFVMWVNxWVN6UEpONUZVZi91Mk9MTWd5R3p0QzNLMWlaSHkz?=
+ =?utf-8?B?N2xCbGFmazBFWXBxa1JqTkpKS1hPTHhzZjJMeXlIN3gxUExDWTZNQVZRUmho?=
+ =?utf-8?B?aEpVa1RiV0JLOVVMZXRVc2ZsRFcrWDg0VG5CMHFIUVV5S2xKM0x6L3Y4QVJP?=
+ =?utf-8?B?VDBVN2hqVitVUm5hNzhtb3FtUjNiaU4zYW9GcDUydnM5VzFYL3hJVU5HMThF?=
+ =?utf-8?B?aVBlYldXL2RqdEFGSEViK0tjOGNtbXBmLzIzYXdiaXNMZHF2bjdmRzVBaVl2?=
+ =?utf-8?B?Mnk0RU50d25HWVJ6V1h0QzM0TnVPeEp5YThwUHBmVjlYRTBCS205WjBZTmkz?=
+ =?utf-8?B?QkhVbmJQbDZWSllKRDEzRXlVVHp0ME5QVDJpeGRhVk5OZkhYMjIvNHpQeHh3?=
+ =?utf-8?B?VmtaYXpwS09zOHhLSXNsUXk0YUJuS3Nzai9tbG0rZmlzaTNBYXRZaGNvMU9L?=
+ =?utf-8?B?aXNVU0djc09xNHVuSGNmSG1VK0xGOFk1NXIrcUEwd3dNc2YzS3RldUIvTEd5?=
+ =?utf-8?B?S1NpeXhLM3N0UlBEd3ZWMGZ0N09MSk50T2Zyc01vaEhFVGRqS2taQWhkQmZh?=
+ =?utf-8?B?WjBlcEpIcVZQMHJ6T2RHMVBXTVJuRWUzbys4RFR2Ym96V2NLdUdoNlZsOFdF?=
+ =?utf-8?B?dlNsY3p0Vk84YUtobjgvU3piS1JDYkRrY013dlgrQXdzSUxCbDBtWEZVK2hJ?=
+ =?utf-8?B?RnpqV0ZNa1NyVEVFY3VadmM0V0FDODJyZEtNcVRZNXFWQkl4azB4aERmZDRZ?=
+ =?utf-8?B?eTBzcGlTOUl3RXljRktYQk93L0EycmVEU01rUzFlaWMzNThZRFFWdlZrNnFN?=
+ =?utf-8?B?TEphNEZvTWpPSHJ4OFppNm4wRFp2dWJNM0lsMktMQnh3UzVPNmtLM0k4ejhV?=
+ =?utf-8?Q?aF16wNbG04oFAW1+Ps3ulOIoa?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a09da266-123a-419d-e820-08ddf4d6c29e
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 04:08:58.4244
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EKqCuZlIYI7hnbgqdGLANOezvvZP4LIEpV496m0GskfrDPAYtu2X+WgwDxxlLRZy4R+028wkirmmYDmSlfS2yA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6405
 
-Syzkaller reported a stack OOB access in cp2112_write_req caused by lack
-of parameter validation for the user input in I2C SMBUS ioctl codeflow
-in the report
+Reviewed-by: Alex Hung <alex.hung@amd.com>
 
-I2C device drivers are "responsible for checking all the parameters that
-come from user-space for validity" as specified at Documentation/i2c/dev-interface
-
-Add the parameter validation for the data->block[0] to be bounded by 32
-or return EINVAL
-
-Reported-by: syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=7617e19c8a59edfbd879
-Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
----
- drivers/hid/hid-cp2112.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-index 482f62a78c41..90292ce3d363 100644
---- a/drivers/hid/hid-cp2112.c
-+++ b/drivers/hid/hid-cp2112.c
-@@ -689,7 +689,10 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
- 			count = cp2112_write_read_req(buf, addr, read_length,
- 						      command, NULL, 0);
- 		} else {
--			count = cp2112_write_req(buf, addr, command,
-+			if (data->block[0] > 32)
-+				count = -EINVAL;
-+			else
-+				count = cp2112_write_req(buf, addr, command,
- 						 data->block + 1,
- 						 data->block[0]);
- 		}
-@@ -700,7 +703,10 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
- 						      I2C_SMBUS_BLOCK_MAX,
- 						      command, NULL, 0);
- 		} else {
--			count = cp2112_write_req(buf, addr, command,
-+			if (data->block[0] > 32)
-+				count = -EINVAL;
-+			else
-+				count = cp2112_write_req(buf, addr, command,
- 						 data->block,
- 						 data->block[0] + 1);
- 		}
-@@ -709,7 +715,10 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
- 		size = I2C_SMBUS_BLOCK_DATA;
- 		read_write = I2C_SMBUS_READ;
- 
--		count = cp2112_write_read_req(buf, addr, I2C_SMBUS_BLOCK_MAX,
-+		if (data->block[0] > 32)
-+			count = -EINVAL;
-+		else
-+			count = cp2112_write_read_req(buf, addr, I2C_SMBUS_BLOCK_MAX,
- 					      command, data->block,
- 					      data->block[0] + 1);
- 		break;
--- 
-2.51.0
+On 9/12/25 23:19, James Flowers wrote:
+> Documentation/process/deprecated.rst recommends against the use of kmalloc
+> with dynamic size calculations due to the risk of overflow and smaller
+> allocation being made than the caller was expecting. This could lead to
+> buffer overflow in code similar to the memcpy in
+> amdgpu_dm_plane_add_modifier().
+> 
+> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+> ---
+> I see that in amdgpu_dm_plane_get_plane_modifiers, capacity is initialized to
+> only 128, but it is probably preferable to refactor.
+>   
+> Tested on a Steam Deck OLED with no apparent regressions using these test suites from
+> igt-gpu-tools:
+> 1) kms_plane
+> 2) amd_plane
+> 3) amd_fuzzing
+> 4) testdisplay
+> 
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index b7c6e8d13435..b587d2033f0b 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -146,7 +146,7 @@ static void amdgpu_dm_plane_add_modifier(uint64_t **mods, uint64_t *size, uint64
+>   
+>   	if (*cap - *size < 1) {
+>   		uint64_t new_cap = *cap * 2;
+> -		uint64_t *new_mods = kmalloc(new_cap * sizeof(uint64_t), GFP_KERNEL);
+> +		uint64_t *new_mods = kmalloc_array(new_cap, sizeof(uint64_t), GFP_KERNEL);
+>   
+>   		if (!new_mods) {
+>   			kfree(*mods);
+> @@ -732,7 +732,7 @@ static int amdgpu_dm_plane_get_plane_modifiers(struct amdgpu_device *adev, unsig
+>   	if (adev->family < AMDGPU_FAMILY_AI)
+>   		return 0;
+>   
+> -	*mods = kmalloc(capacity * sizeof(uint64_t), GFP_KERNEL);
+> +	*mods = kmalloc_array(capacity, sizeof(uint64_t), GFP_KERNEL);
+>   
+>   	if (plane_type == DRM_PLANE_TYPE_CURSOR) {
+>   		amdgpu_dm_plane_add_modifier(mods, &size, &capacity, DRM_FORMAT_MOD_LINEAR);
 
