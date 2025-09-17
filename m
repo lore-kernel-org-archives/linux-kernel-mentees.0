@@ -1,78 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2DA2ECE8F;
-	Tue, 16 Sep 2025 23:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820C821B918;
+	Wed, 17 Sep 2025 01:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758064204; cv=none; b=Fmglxvj6iu70qAWxVhocyz8aw8gYCgyMwH7fLlmhUhxSt+jSG+rd9Tbri40iCtWH/3eZWYP8JxtnyGuvJv3fz9bDB5oqtTYy87cSh1ohT/+qIhwIaAXZpnLsHE0gV/hyoUPBTnSi2zwwIIvCBL3O/dpsJmA0a0QHcY5odKambEk=
+	t=1758072588; cv=none; b=usR5U7fJ277DC5AhMLStqtiuUpt/lGdSd9MQMU5isHaIJ2cKlrEc7s1skFWK5l77WWbm/WcuCXa3Qts8B8rOVLUngjdJSMRCqUUlpa2SFmwSugBeFC6rm6sWyV2E1aX8fPwsDIIROU3ZfbrHEN6/7PeQfYGb9V8koDQcJZPfKgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758064204; c=relaxed/simple;
-	bh=n3FyWfoe8IozA885qR+CjnEYK6+GNe7NsKd3GdP424g=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=A3qc67SW+IAPfz96glSXZOhzaCcTzc1PlDc1WbcxYkVgqIyINZEjLwqXt8aYFJys++7OlDMHrE8l2O+BNwCccmvcCbVU8GLwHhgEk5nbmsOC52o9EXLmjPFmCzQs6Z13PqJ+wnPuoZ76uLRYbYivhk9RmO+TxLaAONDrNFdBEqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GCr9w4Tp; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GCr9w4Tp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60EDCC4CEEB;
-	Tue, 16 Sep 2025 23:10:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758064204;
-	bh=n3FyWfoe8IozA885qR+CjnEYK6+GNe7NsKd3GdP424g=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=GCr9w4TpV4FKq2KUSXKZ4Py8+zQ5dRBvsmNJWJnHSSqbkP99QhPtRaKXRFWe0DicF
-	 g4ws4A/Mya8suHNO7+xIlQ9VTtk9u2o98MDZtP/qbPljznZ07fhXuTvwVtqg7WwuyP
-	 jp7V3DGsoJXACo9/+cqHzoKsy8O/rYYdwFC92esWlCMMc92ssnuahozYz3e6bx/3A/
-	 n6q7fEYnoRnKzW3LoeGaWwR3XdQF5z8BD6xaWNz310jPVoVDTGwS4sapMbR3mte7f2
-	 3M5kyG9MnVTsTZaXz8f/6mNzGoayuSCc2iKhf8oUUX5U1ggYFdeCBo7JQutJzgcH72
-	 ij0Drx/Oc+CbQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE24D39D0C1A;
-	Tue, 16 Sep 2025 23:10:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1758072588; c=relaxed/simple;
+	bh=hhZVsw3zt3A/oYqZ99Gjxd13hAnEOnscKFd/+BWn5Qc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SGsxPH/1pwf41HSLIhJeP8MWEFPYrbP5gMg3O07pwTnSoF5K0WADYVHZx73s5toLVekhCRA9iOKfnrSvxWIwGwFEJbeUTnQVBYLC5UiSFI9m0CELnw19DfOJcDPypjxta2Ev5aVcduKg4vhfQdqkOaqZPLUbsac2yPyKGAanhIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from localhost (unknown [180.158.240.90])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dlan)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 71C89340EF8;
+	Wed, 17 Sep 2025 01:29:45 +0000 (UTC)
+Date: Wed, 17 Sep 2025 09:29:41 +0800
+From: Yixun Lan <dlan@gentoo.org>
+To: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	alex@ghiti.fr, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] riscv: dts: spacemit: add UART pinctrl combinations
+Message-ID: <20250917012941-GYA1263349@gentoo.org>
+References: <20250916064739.196695-1-hendrik.hamerlinck@hammernet.be>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] selftests/Makefile: include $(INSTALL_DEP_TARGETS) in
- clean target to clean net/lib dependency
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175806420552.1395214.16357906113413765466.git-patchwork-notify@kernel.org>
-Date: Tue, 16 Sep 2025 23:10:05 +0000
-References: <20250910-selftests-makefile-clean-v1-1-29e7f496cd87@gmail.com>
-In-Reply-To: <20250910-selftests-makefile-clean-v1-1-29e7f496cd87@gmail.com>
-To: Nai-Chen Cheng <bleach1827@gmail.com>
-Cc: shuah@kernel.org, kuba@kernel.org, pabeni@redhat.com, davem@davemloft.net,
- edumazet@google.com, horms@kernel.org, netdev@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250916064739.196695-1-hendrik.hamerlinck@hammernet.be>
 
-Hello:
+Hi Hendrik,
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Wed, 10 Sep 2025 19:30:32 +0800 you wrote:
-> The selftests 'make clean' does not clean the net/lib because it only
-> processes $(TARGETS) and ignores $(INSTALL_DEP_TARGETS). This leaves
-> compiled objects in net/lib after cleaning, requiring manual cleanup.
+On 08:47 Tue 16 Sep     , Hendrik Hamerlinck wrote:
+> Add UART pinctrl configurations based on the SoC datasheet and the
+> downstream Bianbu Linux tree. The drive strength values were taken from
+> the downstream implementation, which uses medium drive strength.
+> CTS/RTS are moved to separate *-cts-rts-cfg states so boards can enable
+> hardware flow control conditionally.
 > 
-> Include $(INSTALL_DEP_TARGETS) in clean target to ensure net/lib
-> dependency is properly cleaned.
+> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+> ---
+> Changes in v3:
+> - Added /omit-if-no-ref/ to pinctrl states to reduce DT size
 > 
-> [...]
+> Changes in v2:
+> - Split cts/rts into separate pinctrl configs as suggested
+> - Removed options from board DTS files to keep them cleaner
+> ---
+>  arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi | 432 ++++++++++++++++++-
+>  1 file changed, 429 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi b/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi
+> index 381055737422..7811fb485bd4 100644
+> --- a/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi
+> +++ b/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi
+> @@ -11,12 +11,438 @@
+>  #define K1_GPIO(x)	(x / 32) (x % 32)
+>  
+>  &pinctrl {
+> +	/omit-if-no-ref/
+> +	uart0_0_cfg: uart0-0-cfg {
+> +		uart0-0-pins {
+> +			pinmux = <K1_PADCONF(104, 3)>,	/* uart0_txd */
+> +				 <K1_PADCONF(105, 3)>;	/* uart0_rxd */
+> +			power-source = <3300>;
+> +			bias-pull-up;
+> +			drive-strength = <19>;
+> +		};
+> +	};
+> +
+> +	/omit-if-no-ref/
+> +	uart0_1_cfg: uart0-1-cfg {
+> +		uart0-1-pins {
+> +			pinmux = <K1_PADCONF(108, 1)>,	/* uart0_txd */
+> +				 <K1_PADCONF(80, 3)>;	/* uart0_rxd */
+> +			power-source = <3300>;
+..
+> +			bias-pull-up;
+here, see comment below
+> +			drive-strength = <19>;
+> +		};
+> +	};
+> +
+> +	/omit-if-no-ref/
+>  	uart0_2_cfg: uart0-2-cfg {
+>  		uart0-2-pins {
+> -			pinmux = <K1_PADCONF(68, 2)>,
+> -				 <K1_PADCONF(69, 2)>;
+> +			pinmux = <K1_PADCONF(68, 2)>,	/* uart0_txd */
+> +				 <K1_PADCONF(69, 2)>;	/* uart0_rxd */
+> +			bias-pull-up;
+> +			drive-strength = <32>;
+> +		};
+> +	};
+>  
+> -			bias-pull-up = <0>;
 
-Here is the summary with links:
-  - selftests/Makefile: include $(INSTALL_DEP_TARGETS) in clean target to clean net/lib dependency
-    https://git.kernel.org/netdev/net-next/c/d3f7457da7b9
+Sorry, I've overlooked this, the bias-pull-up need to explicitly set to
+a vale of 0, 1 - normal pull up, or strong pull up.. for uart, the normal
+pull up should be ok
 
-You are awesome, thank you!
+please refer Documentation/devicetree/bindings/pinctrl/spacemit,k1-pinctrl.yaml
+
+Since the rc6 is already tagged, I'm about to prepare a PR, so If you able 
+to respin a new version quickly, I'd be happy to take, otherwise let's wait
+for next merge window (which shouldn't be a big problem)
+
+btw, please always do a DT check: 
+  make ARCH=riscv dtbs_check W=1
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Yixun Lan (dlan)
