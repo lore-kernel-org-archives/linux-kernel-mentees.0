@@ -1,141 +1,174 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED2126AD9
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 17 Sep 2025 03:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C64235354
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 17 Sep 2025 06:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758078714; cv=none; b=B6HI0UiG6NquqMFXg0ZSghqtAcynFdxLgfWIVh0JEP4NAWH0n/lbPQZ6e0wqLB0dEhJ6krHmHPbMt4ema6M9eiOLftYEJ7RJ6LE36lDJpJfCiEkQGr7W3irlplg2kpF+ypfXKsqp5TT9H48+rxShbQqWSYwk4riuML8vCPf+Y/U=
+	t=1758091157; cv=none; b=IxfCywi0CignxLc/NJ4hxCF5QbxTbmSafo6z631jSmgW7gOctDDkGfTv54Kx03feE9dx5oGaTbQqxWQl5CJ+Ac0zz8CTDJn9FAoJnx44cFWRNhgkJPULzR85aOfdELhOj7r66MTWVd/53DtY6ebGgrhKLkIifdGRlDLjI00bpWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758078714; c=relaxed/simple;
-	bh=5UBef9vu2NhcFxgKr+tAHWOrdUDeityEZoYhhezBZLo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G30v966cV+ybhnD/BdjfU0iG8Eq4wSC4oKppqE8EDbfXd0Nx5XyjxhcPpoSfGlEDfTBTDdOkGBzC5xMBk4IUih71ZfB2Z5DT3szPulZ4weB5whnPeQUPYWdZnfgvwm1hnm9MmNQaEphuR7aOmI8oDumLF5gsWIeTKiu5ZmWd2ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xpp6V9EW; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758091157; c=relaxed/simple;
+	bh=xX+N/SN6MUaa28wK4TLjv1haNtZLkkAoQ0rN+SnsVF8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C9K017/PESYT5yZgSwVtyEPX0gShoUQ8PSbjzyhR4itSZ1vJhOEaZIgfojq5ln4VitMpnLcE4zczXzt57hXgL85Dwxq22dfDXb/5EhS3rPpXx+8tisjRP64GeHsU4k0biiFvSw+BKEFAVVQC9/sNanjYuAVZbecO+hcZYfPP+/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=Qv1lsOhL; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xpp6V9EW"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b4c29d2ea05so369128a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 16 Sep 2025 20:11:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="Qv1lsOhL"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3e957ca53d1so3113687f8f.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 16 Sep 2025 23:39:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758078712; x=1758683512; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=k2CbSn2515ReZCKkrbmHpp+wPD4QyAtOFfge6YaI3IA=;
-        b=Xpp6V9EWUNvWOxxF2x14fV9tZTvWb68LDgC9oAB5XwnjxYh2FBRtazwX3FMbJy1W+w
-         4cI6CL0YjQV0R+PzvOJ1AKydoKWex/3XUIAc2918sYVRJiXKLpoKxnsAt54Y9L/xRX3k
-         XjBr7J49YUqPa9lUhid7pHCFonNMDQRm9FJEfs2Ts9VmyOtOzdMAiOFVOB4hiI70sutQ
-         BqdO5ueKoG5IJyMU1X0qIKstfFhIlE7OdrDHk7P+nOBqWaU+RIOHOjpEdjGfxHYgpKdp
-         EHmnDsIJz9gmMOtZ8P9whsjSVJJbWKK9FOSMPO3u2fzjSLN0nVrggJDY3usALp8xIcH9
-         fomA==
+        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1758091152; x=1758695952; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=77F0eh5zIcs6VOlyvrc/5uKyRtamVm6y2K0LLyVNiHg=;
+        b=Qv1lsOhL1A2iBvdjBW8NuwaGsuvYM5lkgrvoZx8y0vp1/v92qp/BE4R73dS5Tyy4iN
+         x3wWX3gaIrZiCONeIIWyUxXDGx4YnKakKNW5U+ZL2YN8UkZ9GRHBgO6bHzfPU3We24O/
+         3339FItIF/b7RBdBliPQeRMqdZfxtHo6hwGHgLWZQOLeZ764AJVM5QzZkuVvZeGyaAe6
+         IFBUDAsVBiAQXrTbPWNw61n4TXI2TYXoNcNCpF6UZPp7kJEHKWnRnHmtfgD1+z5WLISM
+         LULM3JMD7X6eU/U7+GB2CHQ1IaxfWNG9vd5SaC5U9+8DzG3XmpJECDcnR9UP46sRSFmr
+         /bEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758078712; x=1758683512;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k2CbSn2515ReZCKkrbmHpp+wPD4QyAtOFfge6YaI3IA=;
-        b=XBWXCmJelN9MgDRSSxMEIqy4yURk4lrlvHoEudYH83uM0FvJltJqFb2az5ihOHgNj0
-         4ZIjyXy/62hJUfNsC2WdIlqfFZlEcN1khqWSrwFvYtffWHhkBxfd1B3YSjoH0FAMd5Zc
-         1+upLaGAVSlIs6hai2vcCN3trn0rzivU8BGsy2y8MewmvKEeXXn7tAoGALJ6EUsHQ1ij
-         arekJ3rRKGCFMUgfxHEV2ogDDiqFypaOEi8JdBD8ygsDrL71y5SqWwppxges4/TSkUa4
-         EHtRANhrEDsa9odDVpC4aJEWPO0GzZsCJ9Te5fy102acN1mLNV4xE8Y36JSey3mC3PPM
-         7tMg==
-X-Forwarded-Encrypted: i=1; AJvYcCUIPJL5oFT1WcTlf2Nxu3RdrLqFHVhnFVPbMB3SwOTVf+n6Gdp50eE3Nm2t99Jf8SyUmPz5gpAR6TIP9PpA9EGu7ZO6Qw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxKaKQfWiAI6SjwzwAkiiz3QeajoNgeriPNhfUssoD2H9XINpBG
-	NWiNmdpItqYj6OfLDOTaJ3Limp642yGLREZlkONpx6tPNHTuQV+4odPG
-X-Gm-Gg: ASbGncuaWxvFy+lNPkRPUiLBRa5eOzBwg0yZh8LBkPVIJQe2RENlYd56oFqmD7FnjAK
-	HAk4mFUg1JGX2g9WRqppzI6/+u2DfZpotFYE5R55HyDUVyDRgmtJ72nYi5UjgyXctjgTj0t5XzH
-	pP+idnBGwtzOrSILYPue/HAJtnow941PTMO+PiOqZZvNNQgx1uJeYvknDW1Lzw0lTdedB3f+DHF
-	CGG3ax+QKBgKsWKItpO1bZgsb93Nbs46Bc5Ip4nGRCue8TDaI8wjya8oJqRRV0ai0MsYlA29v8i
-	eADQ+MyzOdUNJKyaR1szD2cUSgY8a8VJlG++2HUp0GfWMe10JhDmmESRyv5TJKA5KJ+kawZAfFB
-	0vecaEuBvU9QRJA6xHspf0rzKifVr55NtzGrmK60=
-X-Google-Smtp-Source: AGHT+IFxgl/BG5mxjVo8thexM0dPU/TMGuSPr1BRaMhSuK4W+0tVzFU74sMYhTzjjHSX4kIO/Wb12Q==
-X-Received: by 2002:a17:903:2f87:b0:24b:1585:6350 with SMTP id d9443c01a7336-2681095771emr8388975ad.11.1758078711935;
-        Tue, 16 Sep 2025 20:11:51 -0700 (PDT)
-Received: from cortexauth ([2402:e280:2313:10b:d917:bfec:531b:9193])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-265819a6212sm82217505ad.57.2025.09.16.20.11.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Sep 2025 20:11:51 -0700 (PDT)
-From: Deepak Sharma <deepak.sharma.472935@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Deepak Sharma <deepak.sharma.472935@gmail.com>,
-	syzbot+6c905ab800f20cf4086c@syzkaller.appspotmail.com
-Subject: [PATCH] drivers: core: Fix synchronization of removal of device with rpm work
-Date: Wed, 17 Sep 2025 08:39:55 +0530
-Message-ID: <20250917030955.41708-1-deepak.sharma.472935@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1758091152; x=1758695952;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=77F0eh5zIcs6VOlyvrc/5uKyRtamVm6y2K0LLyVNiHg=;
+        b=Quzu16opnWPH/f2JSOoP5sYkWn0CCY0phlobHsKlgOd3pOmztyEkD2RVzFgNYr6Jq3
+         M+mXW6N5+Eid3w80qtgNz6RAOt6G3StFQhY1U3cjbdApFvAfiCPhl4XHeMK5o+OI5NCy
+         FfOakTFiwCRv0uWMaIF87NHzhh0hLmq1Y8H/wJYQCGzjrQVKTCydI/PvZ81bawQc1SNd
+         4fPSJf1P5EemgLARmKym7fSoXNcSUZsikhz4/DFwF5D1YA9CJScUGhemhEA84g6niATA
+         afrGeFF23YfVGSB1MXaJNnDWZXAirFXw76ngKYTB7JlKQ0bFjxla44BhLtROXM6ikxYB
+         et0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVRCqo5FPm4uA92SwSMasKiQmndzhD+ugS9Bnwkk+npFsmkwg6FYaOOG+Q7h89j0FrSvhFnqIHdL+rwBElwZ+u5DIYPZg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyEfGNmMxC/pakJ4/Qsrrk6rNAzJumcZkIymJLgj1Xg9yg9UtzA
+	ZyYNZe4tfXDbw6w8V9lN0dFB7APihO9CwrHpQOm4yTAi4cvAMSFubGblFxbd+1GP+ms=
+X-Gm-Gg: ASbGncvREZimR2gCKwCGuOvDNWiMEBLaFiAoOrxd3hEu75oTcQloPITWxemj8aaesfS
+	SB7l2dNfm+6rSHQwsph9slC37+Bcasznh7FOYc07oUxt9e1EkPY37/V38UFfjo6LLGbGSnUAdlz
+	AZ94TOQjw52aZQqxIRfE3qVIfDff+CwggjKzmFjdSlpB9IjYAv6pT2u86F+L0T5wdnuccAspb4b
+	rpSmrYnn1S3URq85tpAdz8m38CAK6LgzoEuxVauBU9MhqF7ec7LPpeismaoUBxAPHZv6O1YPZP+
+	0P4SD5u9ocuHoHooFFvR5jX6qQcHJbx5DzccASXzqtlzAGxxH40kYSBS1BK2r4Fiqyv6rjJy4Of
+	gERh0GEMtagpq/E6GQbgkWJC91uFAEsv/AVCBM09XjkZycKJX3FeZn9E4lYZb657rGaNzdlfHmX
+	w+IH6Ef45YRKBcZg==
+X-Google-Smtp-Source: AGHT+IG6Qsc5VU9s+KLN/ObymCbaRcvmgFQYQp7jQl2dFNfoKqhHY6bNfm9aOpDZbu6Xlk5fJjmiww==
+X-Received: by 2002:adf:a2d6:0:b0:3e9:d54:19a0 with SMTP id ffacd0b85a97d-3ecdfa4239cmr495573f8f.57.1758091151984;
+        Tue, 16 Sep 2025 23:39:11 -0700 (PDT)
+Received: from ?IPV6:2a02:1807:2a00:3400:1b1a:e580:5909:925c? ([2a02:1807:2a00:3400:1b1a:e580:5909:925c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3ecdbc7fe1bsm3414155f8f.52.2025.09.16.23.39.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Sep 2025 23:39:11 -0700 (PDT)
+Message-ID: <55237b5d-c9b8-4606-8b5d-c7a97218c085@hammernet.be>
+Date: Wed, 17 Sep 2025 08:39:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] riscv: dts: spacemit: add UART pinctrl combinations
+To: Yixun Lan <dlan@gentoo.org>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ alex@ghiti.fr, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20250916064739.196695-1-hendrik.hamerlinck@hammernet.be>
+ <20250917012941-GYA1263349@gentoo.org>
+Content-Language: en-US
+From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+In-Reply-To: <20250917012941-GYA1263349@gentoo.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Syzbot reports a use-after-free at `rpm_suspend`, while the free
-occurs at the `usb_disconnect`
+Hello Yixun,
 
-All line numbers references will be for commit ID
-d69eb204c255c35abd9e8cb621484e8074c75eaa
+On 9/17/25 03:29, Yixun Lan wrote:
+> Hi Hendrik,
+>
+> On 08:47 Tue 16 Sep     , Hendrik Hamerlinck wrote:
+>> Add UART pinctrl configurations based on the SoC datasheet and the
+>> downstream Bianbu Linux tree. The drive strength values were taken from
+>> the downstream implementation, which uses medium drive strength.
+>> CTS/RTS are moved to separate *-cts-rts-cfg states so boards can enable
+>> hardware flow control conditionally.
+>>
+>> Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+>> ---
+>> Changes in v3:
+>> - Added /omit-if-no-ref/ to pinctrl states to reduce DT size
+>>
+>> Changes in v2:
+>> - Split cts/rts into separate pinctrl configs as suggested
+>> - Removed options from board DTS files to keep them cleaner
+>> ---
+>>  arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi | 432 ++++++++++++++++++-
+>>  1 file changed, 429 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi b/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi
+>> index 381055737422..7811fb485bd4 100644
+>> --- a/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi
+>> +++ b/arch/riscv/boot/dts/spacemit/k1-pinctrl.dtsi
+>> @@ -11,12 +11,438 @@
+>>  #define K1_GPIO(x)	(x / 32) (x % 32)
+>>  
+>>  &pinctrl {
+>> +	/omit-if-no-ref/
+>> +	uart0_0_cfg: uart0-0-cfg {
+>> +		uart0-0-pins {
+>> +			pinmux = <K1_PADCONF(104, 3)>,	/* uart0_txd */
+>> +				 <K1_PADCONF(105, 3)>;	/* uart0_rxd */
+>> +			power-source = <3300>;
+>> +			bias-pull-up;
+>> +			drive-strength = <19>;
+>> +		};
+>> +	};
+>> +
+>> +	/omit-if-no-ref/
+>> +	uart0_1_cfg: uart0-1-cfg {
+>> +		uart0-1-pins {
+>> +			pinmux = <K1_PADCONF(108, 1)>,	/* uart0_txd */
+>> +				 <K1_PADCONF(80, 3)>;	/* uart0_rxd */
+>> +			power-source = <3300>;
+> ..
+>> +			bias-pull-up;
+> here, see comment below
+>> +			drive-strength = <19>;
+>> +		};
+>> +	};
+>> +
+>> +	/omit-if-no-ref/
+>>  	uart0_2_cfg: uart0-2-cfg {
+>>  		uart0-2-pins {
+>> -			pinmux = <K1_PADCONF(68, 2)>,
+>> -				 <K1_PADCONF(69, 2)>;
+>> +			pinmux = <K1_PADCONF(68, 2)>,	/* uart0_txd */
+>> +				 <K1_PADCONF(69, 2)>;	/* uart0_rxd */
+>> +			bias-pull-up;
+>> +			drive-strength = <32>;
+>> +		};
+>> +	};
+>>  
+>> -			bias-pull-up = <0>;
+> Sorry, I've overlooked this, the bias-pull-up need to explicitly set to
+> a vale of 0, 1 - normal pull up, or strong pull up.. for uart, the normal
+> pull up should be ok
+>
+> please refer Documentation/devicetree/bindings/pinctrl/spacemit,k1-pinctrl.yaml
+>
+> Since the rc6 is already tagged, I'm about to prepare a PR, so If you able 
+> to respin a new version quickly, I'd be happy to take, otherwise let's wait
+> for next merge window (which shouldn't be a big problem)
+>
+> btw, please always do a DT check: 
+>   make ARCH=riscv dtbs_check W=1
+>
+Oh, I wasn’t aware of this. I’ll update it accordingly and run the check
+before sending a new version. Thanks for the advice!
 
-This points to a possible synchronization issue. In `usb_disconnect`
-there's a call to `pm_runtime_barrier` but it does nothing more than
-acting as a sort of "flush" (while cancelling what's the pending
-rpm actions not started yet). There does not seem to be any increase
-in device usage count either in this stacktrace after this stacktrace
-
-Then we have an eventual call to `device_del`, which further leads
-to a call to `device_pm_remove`. No code synchronizing in any way
-so far with the PM system after that `pm_runtime_barrier`
-
-Let's say now that the timer expiration queued work for `rpm_suspend`
-executed in this period of absent synchronization. We can create few
-interesting situations here, I will address one
-
-Let's say that we unlock the `dev->power.lock` at `rpm_suspend`
-work at `drivers/base/power/runtime.c:723` and then the code
-`device_pm_remove` proceeds as normal clearing up the device.
-Any further calls are not going to cancel the tasks we have pending
-and since the lock has been given up, we will proceed, and end up
-deleting the device too, which will lead to a use-after-free
-as observed.
-
-So at the device removal, we could add a `pm_runtime_forbid`,
-followed by a `pm_runtime_barrier`. This leads to the completion of
-any pending work and forbids any other new work to be added.
-
-Once we return, we can do `device_pm_remove`. `pm_runtime_forbid`
-does not seem to influence the behavior of `device_pm_remove`
-(tho it does lead to a call to `pm_runtime_get_noresume()` which
-touches the device usage count, but it would still work the same)
-
-Reported-by: syzbot+6c905ab800f20cf4086c@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=6c905ab800f20cf4086c
-Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
----
- drivers/base/core.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index d22d6b23e758..616fd02d18ed 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -3876,7 +3876,13 @@ void device_del(struct device *dev)
- 	device_remove_file(dev, &dev_attr_uevent);
- 	device_remove_attrs(dev);
- 	bus_remove_device(dev);
-+	/* We need to forbid and then proceed with a barrier here,
-+	 * so that any pending work is flushed 
-+	*/
-+	pm_runtime_forbid(dev);
-+	pm_runtime_barrier(dev);
- 	device_pm_remove(dev);
-+	pm_runtime_allow(dev);
- 	driver_deferred_probe_del(dev);
- 	device_platform_notify_remove(dev);
- 	device_links_purge(dev);
--- 
-2.51.0
+Kind regards,
+Hendrik
 
