@@ -1,71 +1,79 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649762E11CB
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 17 Sep 2025 14:07:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB9F2F7477
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 17 Sep 2025 16:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758118073; cv=none; b=s59dLyOgdjO+l7F2T51Fc+p86SL+U/YD4M7CKht9mdvadnb8yvQjZa91F2q3tJNr80hBF14S4Ec8jKqF5da+NNiW5+PgBOYbXOqlZ93J8q9gXDtgFIwpPiGrGkVRCI59GXfgA34/wsbYl3pvYpDeBBEbtmMW/IkjcvFvJwsXR6c=
+	t=1758125911; cv=none; b=fKGEDdq87WEt2UKhuMrIwVn+aCFSTBoScjATQ3lBFW0b1dwFrGBCn5S5Rtiq2n3hbnf3XsOxARv71+JcTnIuiig3faZAxf7jdRt7rtgWJ3CtdP5ZXlfkK9ip8xSnwB+6wKorcSmKhgPcdLOOIfnD3Eb9qqmPnhD3LwKo5ipskUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758118073; c=relaxed/simple;
-	bh=2GfL6H8CYFvd2zlRSEbFF6hlTsz3/QN8XHAewO9l4TE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lSIWyoRqB+zm270/MkAdRVw/PSAQsX544qkg0YWBzVOi5bs6LKzE7Cqcs8IR67dAeB3DRFYsqZ95y52SS/faeEbwGF+OVlRXXJu7wZNRXABJV9fpKxajU0IC8qK6gkzq0KI7yybaG64dtAMy3srtdLcOu8qqTks6svHqj0uO5wQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SydmGKb9; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1758125911; c=relaxed/simple;
+	bh=bJOnHFF6nZRk0dWJ508IJjqcXP+PPBjH32g7z6c98X4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NdCpg4ZEBWzB7oSMhkLxUtwJWR2USO1A2tOdNfERvo1IHgTBotPSDjBfx6tck1TdLvmza3txKl2vSGfIVx4qTV5NCpklCIMhNWj/BOaBM+978Sg7hHE31h3kyEhT0kQNQkkdhXTvcZWV+TbSs06GrAwdn3bSeXk0z3Au3sAgZ/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AC06LLRa; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SydmGKb9"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-25d44908648so68056965ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 17 Sep 2025 07:07:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AC06LLRa"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-24458272c00so73379405ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 17 Sep 2025 09:18:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758118071; x=1758722871; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1758125909; x=1758730709; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1lF4l0V5Y3ywmZyeZWtOMP5+EAmRdCLutinoQNvLsYc=;
-        b=SydmGKb9tO2d+KGfOEd8HKYyVtL13d+PLr4jV3SklU06wyFmoyH0XuGCyQPFB/glrV
-         yfvWJ5TLJsTgr7hwkMovpbmfznN01DuBok29OEYQHNnymppYTR29hqrC/DXbXU23cBIt
-         C77gd7hH8yntMOCZuYSLaKT9o/oUz0XqONjF3/xP3AAifZquI+khUtrr7/Q+0Zk4qS1b
-         Q3AejcYxjErylbVQGVzxuw0fLr/Z9Q+13VeVOHmhga1lQ5jyuIRQxW2BDtVd6IPHRQNG
-         u3tcQsf3+EZ8D7ppCB/nTsEgeiRxafc83zUC2tBt2Ii1UIaUOD+OBj3g0HGTPE7Y7hbm
-         s2qg==
+        bh=Zd82b0DJsnoTN910/ro7p5KKbAhv/mwBDCIqGg5wmLk=;
+        b=AC06LLRa/xg3xJhMNQs5lo8NUZyzwdcbyu9zJqujmzwXWenPLeW4MazfWyFxQWM3be
+         L6ZNI2SMguhcfb2tvj0r2uOSWMfzqbiR3X0AdT3ww3Ui9aD+kfYZOH/wKWlqHUYxuR+W
+         gK4AgnJIaK/gCtejK7lr8Q/vMa17L8hCyzgTCwlOK9dwkjK7FjXUBwOGRH3pyX2rms/1
+         aoG1b/0MZPr+OG0aBOEziIq9SW7jIcyGT+CuVy1UBtGd+9+VmkbcQ4vW7/FNG5uCeOa7
+         PHX5WBjNyM3Jcx/2D46sP+YUoLiIieiDTQ4CDq28huulGAwwQg1b96aFz+coQ3tWwPPE
+         b+2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758118071; x=1758722871;
+        d=1e100.net; s=20230601; t=1758125909; x=1758730709;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1lF4l0V5Y3ywmZyeZWtOMP5+EAmRdCLutinoQNvLsYc=;
-        b=S1FxQnfSVpOZdAPnN9bCWI3m48I5XXHiMujaAUmSIUwC/J1HgyHpgXmgeL/mDYGLi3
-         GA/aYaGcz3T++hhfciavlE31kUZy72iYBB8HTsTafE/rHRGJnNIC4k2n5dnFsYNKBLEr
-         N0cudEX9Yh0LT9EA0KH9CXcoPXA3c7m8Yyk7Cz2vQv/PxpqHbqcVRdTITvXNVNfflBH0
-         m03bfUiao87a+fBDcnA0D9DJK26b25COhxEYsaOdRsXFnILxjxLd6wgt6zvrnuXtOgtv
-         s4en0TN7yAHASx5E/BNv+vuKlvoIcbLET4JDeBMaLHu+vrTvWB02+Nz5boj8zf5X7R4j
-         PQIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUNw/Z+9VarsSb12r5SMjVmmXmg8LgEbEM3sYftBNuO1PNbdig2xizoadywMetq+mrS9c3QqvXoV+EmZzwD4YH+xKxBfQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzdEm09eu5L7qDmCF3emK7BJMV4nZeQFY3m+l1/daqBWKoVpE2I
-	stdgI9qYgUv+vEH4pOLyGYIvdTUbtrbIaBaZVVoM8hINeX8s9AzOGbVv
-X-Gm-Gg: ASbGnctDE2ts1NjYD4l+BEs3dBxi2BUIvVcEb7F9RxUSjaj8k3hts7l07u5KG1oGlTL
-	M3KiqssDc0Ut+QdMpMBkkO+XjG9blOh3qPJ1+8+kXrJOOk4rW3Rcg8scKH8LvzvpIjxZk1CiYQL
-	xS0tkL5gLdvN2OZ591FmojeKarx1SvUG4ydW2SPZdg/CwXD8/5YJhVI2/5xsCDgFxULNQdn0Z/I
-	n0+5y5BE9i/DNRFnE2qmN0agxkfP0way+wj3oHgPxvF/XGXmM0jR0C7GzADbRGbRZokSWyT94cG
-	P15Fsi7VCGsIX4MAmeSo4nZuZ57WhW8DNVRPtpkp1qY27meU2LKC3cMClswGT1Ztve3fhsNmRoJ
-	N17ycNlKNOpYNgEK3LP653mT44bBg4YZ16WNEqeI=
-X-Google-Smtp-Source: AGHT+IEr/hdZRZQ5SAxQUru2gpuQ/w8Xb+9gVyVGs2q8Lew9lO8+3ZDoV3nfvoNYt6YCJNKJutUiJA==
-X-Received: by 2002:a17:903:4b03:b0:251:3d1c:81f4 with SMTP id d9443c01a7336-26813cf3339mr34224225ad.54.1758118070389;
-        Wed, 17 Sep 2025 07:07:50 -0700 (PDT)
-Received: from cortexauth ([2402:e280:2313:10b:d917:bfec:531b:9193])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-267c9996c93sm53058285ad.122.2025.09.17.07.07.47
+        bh=Zd82b0DJsnoTN910/ro7p5KKbAhv/mwBDCIqGg5wmLk=;
+        b=BqIWLxLT6X92EMXKgZYnBg8i0ZTjjN4z8PPFhi5WsNpvxD4stcfviwfksMyyGhretz
+         Qd8ZUvLVEEyJ4pxveBt5b7bnCpiMyCwOR4ZvN8X+z9S+xByfPnOAZWRSj6SzMVu7qCcA
+         2pD1vLCZU8iywsuw5RLO3HKe3MoTlOeGniofnFkGHzYb6kRBgJaUIclkNDYIsC+onof5
+         E0ipvyI3sB7KPqhxqHqPy97pLDCEIq41qbMgeib2AvqQzbACncQgugHHyXdRN9pqrnGO
+         f/0GeApnAv+BWnaHVCGxvdo7MJewTvL1GlMhQbY/ASXNLtb9YIht9DPNRh1Oufv3tKXo
+         B08Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVggg+fK/uh5l7iWf672fDsYnbm4OLqVfYl4jo4nMhUgKfQNp+GMkcNXtKHsktQjTNcDEPAC6iOUy/b7mR6Uti+oIn88w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAa7bcNRXQfhrp2nPDadT4k5bVYHAI7wD60gr/+0tpidd90H74
+	6wLe6n1TsAM26YDYMJGsSSQUN+K+iVd2oswpfADio3jsd6zQpNBKpEFM
+X-Gm-Gg: ASbGncspddrDIpujhtdkT4PkALokPlnSFIutlQMc1MBH4j5U3g7g+GdwLnjkGSKf9Kh
+	9nAWaohPdSQY0NoLSQgOfEom6acQz7NY/txFIUFhHvGBQnRPiDw2al4seVhK7buqOBS8h0OozLd
+	s7aiu0uFqU9lGBkEwp2cDC3bnkl0ywjcs4uz8VDM/Sbzuj3sTTR0/EsTzF2HNgH6sdbS1wow6Ji
+	ntlIVjergbKhZNSUl1T5vMdtWmdkAOaRojixbM1pfl1G5FmLJrB53DOjnNZ7R4pj/Yz1LbmVHXZ
+	QmoFqrSknkF0HnnKP+oODcO0oJu7wVJQ/Qd+91C+RmZ3LYfrl9lZWmluMXilMbLknDQpHo5ITwR
+	jzyrqH2/YwV7TTNdmsF0qcO6EWv3d1g66
+X-Google-Smtp-Source: AGHT+IEumcJAF/cXNHip3PFSAZnsvm4uQ9vyeEYv48TfaWGzIQktzfrrj5KrGphpb4CjNEfE204fuA==
+X-Received: by 2002:a17:902:d2ca:b0:267:9c2f:4655 with SMTP id d9443c01a7336-268139030e8mr28234235ad.41.1758125909089;
+        Wed, 17 Sep 2025 09:18:29 -0700 (PDT)
+Received: from ti-am64x-sdk.. ([2409:40f2:4e:f163:e60:9da5:868d:e8bc])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-269800530c2sm399635ad.3.2025.09.17.09.18.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Sep 2025 07:07:49 -0700 (PDT)
-From: Deepak Sharma <deepak.sharma.472935@gmail.com>
-To: krzk@kernel.org
-Cc: netdev@vger.kernel.org,
+        Wed, 17 Sep 2025 09:18:28 -0700 (PDT)
+From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Petr Mladek <pmladek@suse.com>,
+	Tejun Heo <tj@kernel.org>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>
+Cc: linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
-	Deepak Sharma <deepak.sharma.472935@gmail.com>,
-	syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
-Subject: [PATCH v2] net: nfc: nc: Add parameter validation for packet data
-Date: Wed, 17 Sep 2025 19:35:47 +0530
-Message-ID: <20250917140547.66886-1-deepak.sharma.472935@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	skhan@linuxfoundation.org
+Subject: [PATCH] PCI: endpoint: pci-epf-test: Fix sleeping function being called from atomic context
+Date: Wed, 17 Sep 2025 21:48:17 +0530
+Message-Id: <20250917161817.15776-1-bhanuseshukumar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -74,115 +82,103 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is v2 for the original patch, I realized soon after 
-sending the patch that I missed the release of skb before
-returning, apologies.
+When Root Complex(RC) triggers a Doorbell MSI interrupt to Endpoint(EP) it triggers a warning
+in the EP. pci_endpoint kselftest target is compiled and used to run the Doorbell test in RC.
 
-Syzbot reported an uninit-value bug at nci_init_req for commit
-5aca7966d2a7
+[  474.686193] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:271
+[  474.694656] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 0, name: swapper/0
+[  474.702473] preempt_count: 10001, expected: 0
+[  474.706819] RCU nest depth: 0, expected: 0
+[  474.710913] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.17.0-rc5-g7aac71907bde #12 PREEMPT
+[  474.710926] Hardware name: Texas Instruments AM642 EVM (DT)
+[  474.710934] Call trace:
+[  474.710940]  show_stack+0x20/0x38 (C)
+[  474.710969]  dump_stack_lvl+0x70/0x88
+[  474.710984]  dump_stack+0x18/0x28
+[  474.710995]  __might_resched+0x130/0x158
+[  474.711011]  __might_sleep+0x70/0x88
+[  474.711023]  mutex_lock+0x2c/0x80
+[  474.711036]  pci_epc_get_msi+0x78/0xd8
+[  474.711052]  pci_epf_test_raise_irq.isra.0+0x74/0x138
+[  474.711063]  pci_epf_test_doorbell_handler+0x34/0x50
+[  474.711072]  __handle_irq_event_percpu+0xac/0x1f0
+[  474.711086]  handle_irq_event+0x54/0xb8
+[  474.711096]  handle_fasteoi_irq+0x150/0x220
+[  474.711110]  handle_irq_desc+0x48/0x68
+[  474.711121]  generic_handle_domain_irq+0x24/0x38
+[  474.711131]  gic_handle_irq+0x4c/0xc8
+[  474.711141]  call_on_irq_stack+0x30/0x70
+[  474.711151]  do_interrupt_handler+0x70/0x98
+[  474.711163]  el1_interrupt+0x34/0x68
+[  474.711176]  el1h_64_irq_handler+0x18/0x28
+[  474.711189]  el1h_64_irq+0x6c/0x70
+[  474.711198]  default_idle_call+0x10c/0x120 (P)
+[  474.711208]  do_idle+0x128/0x268
+[  474.711220]  cpu_startup_entry+0x3c/0x48
+[  474.711231]  rest_init+0xe0/0xe8
+[  474.711240]  start_kernel+0x6d4/0x760
+[  474.711255]  __primary_switched+0x88/0x98
 
-This bug arises due to very limited and poor input validation
-that was done at net/nfc/nci/core.c:1543. This validation only
-validates the skb->len (directly reflects size provided at the
-userspace interface) with the length provided in the buffer
-itself (interpreted as NCI_HEADER). This leads to the processing
-of memory content at the address assuming the correct layout
-per what opcode requires there. This leads to the accesses to
-buffer of `skb_buff->data` which is not assigned anything yet
+Warnings can be reproduced by following steps below.
+*On EP side:
+1. Configure the pci-epf-test function using steps given below
+   mount -t configfs none /sys/kernel/config
+   cd /sys/kernel/config/pci_ep/
+   mkdir functions/pci_epf_test/func1
+   echo 0x104c > functions/pci_epf_test/func1/vendorid
+   echo 0xb010 > functions/pci_epf_test/func1/deviceid
+   echo 32 > functions/pci_epf_test/func1/msi_interrupts
+   echo 2048 > functions/pci_epf_test/func1/msix_interrupts
+   ln -s functions/pci_epf_test/func1 controllers/f102000.pcie-ep/
+   echo 1 > controllers/f102000.pcie-ep/start
 
-Following the same silent drop of packets of invalid sizes, at
-net/nfc/nci/core.c:1543, I have added validation in the 
-`nci_nft_packet` which processes NFT packets and silently return
-in case of failure of any validation check
+*On RC side:
+1. Once EP side configuration is done do pci rescan.
+   echo 1 > /sys/bus/pci/rescan
+2. Run Doorbell MSI test using pci_endpoint_test kselftest app.
+  ./pci_endpoint_test -r pcie_ep_doorbell.DOORBELL_TEST
+  Note: Kernel is compiled with CONFIG_DEBUG_KERNEL enabled.
 
-Possible TODO: because we silently drop the packets, the
-call to `nci_request` will be waiting for completion of request
-and will face timeouts. These timeouts can get excessively logged
-in the dmesg. A proper handling of them may require to export
-`nci_request_cancel` (or propagate error handling from the
-nft packets handlers)
+The BUG arises because the EP's Doorbell MSI hard interrupt handler is making an
+indirect call to pci_epc_get_msi, which uses mutex inside, from interrupt context.
 
-Reported-by: syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=740e04c2a93467a0f8c8
-Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
+This patch converts hard irq handler to a threaded irq handler to allow it
+to call functions that can sleep during bottom half execution. The threaded
+irq handler is registered with IRQF_ONESHOT and keeps interrupt line disabled
+until the threaded irq handler completes execution.
+
+Fixes: eff0c286aa916221a69126 ("PCI: endpoint: pci-epf-test: Add doorbell test support")
+Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
 ---
- net/nfc/nci/ntf.c | 42 ++++++++++++++++++++++++++++++++++--------
- 1 file changed, 34 insertions(+), 8 deletions(-)
+ Note : It is compiled and tested on TI am642 board.
 
-diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
-index a818eff27e6b..f5e03f3ff203 100644
---- a/net/nfc/nci/ntf.c
-+++ b/net/nfc/nci/ntf.c
-@@ -809,35 +809,61 @@ void nci_ntf_packet(struct nci_dev *ndev, struct sk_buff *skb)
+ drivers/pci/endpoint/functions/pci-epf-test.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+index e091193bd..b9c1ad931 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-test.c
++++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+@@ -680,7 +680,7 @@ static void pci_epf_test_raise_irq(struct pci_epf_test *epf_test,
+ 	}
+ }
  
- 	switch (ntf_opcode) {
- 	case NCI_OP_CORE_RESET_NTF:
--		nci_core_reset_ntf_packet(ndev, skb);
-+		if (skb->len < sizeof(struct nci_core_reset_ntf))
-+			goto end;
-+		else
-+			nci_core_reset_ntf_packet(ndev, skb);
- 		break;
+-static irqreturn_t pci_epf_test_doorbell_handler(int irq, void *data)
++static irqreturn_t pci_epf_test_doorbell_irq_thread(int irq, void *data)
+ {
+ 	struct pci_epf_test *epf_test = data;
+ 	enum pci_barno test_reg_bar = epf_test->test_reg_bar;
+@@ -725,8 +725,8 @@ static void pci_epf_test_enable_doorbell(struct pci_epf_test *epf_test,
+ 	if (bar < BAR_0)
+ 		goto err_doorbell_cleanup;
  
- 	case NCI_OP_CORE_CONN_CREDITS_NTF:
--		nci_core_conn_credits_ntf_packet(ndev, skb);
-+		if (skb->len < sizeof(struct nci_core_conn_credit_ntf))
-+			goto end;
-+		else
-+			nci_core_conn_credits_ntf_packet(ndev, skb);
- 		break;
- 
- 	case NCI_OP_CORE_GENERIC_ERROR_NTF:
--		nci_core_generic_error_ntf_packet(ndev, skb);
-+		if (skb->len < 1)
-+			goto end;
-+		else
-+			nci_core_generic_error_ntf_packet(ndev, skb);
- 		break;
- 
- 	case NCI_OP_CORE_INTF_ERROR_NTF:
--		nci_core_conn_intf_error_ntf_packet(ndev, skb);
-+		if (skb->len < sizeof(struct nci_core_intf_error_ntf))
-+			goto end;
-+		else
-+			nci_core_conn_intf_error_ntf_packet(ndev, skb);
- 		break;
- 
- 	case NCI_OP_RF_DISCOVER_NTF:
--		nci_rf_discover_ntf_packet(ndev, skb);
-+		// tech specific params are included as unions
-+		if (skb->len < sizeof(struct nci_rf_discover_ntf))
-+			goto end;
-+		else
-+			nci_rf_discover_ntf_packet(ndev, skb);
- 		break;
- 
- 	case NCI_OP_RF_INTF_ACTIVATED_NTF:
--		nci_rf_intf_activated_ntf_packet(ndev, skb);
-+		// tech specific params are included as unions
-+		if (skb->len < sizeof(struct nci_rf_intf_activated_ntf))
-+			goto end;
-+		else
-+			nci_rf_intf_activated_ntf_packet(ndev, skb);
- 		break;
- 
- 	case NCI_OP_RF_DEACTIVATE_NTF:
--		nci_rf_deactivate_ntf_packet(ndev, skb);
-+		if (skb->len < sizeof(struct nci_rf_deactivate_ntf))
-+			goto end;
-+		else
-+			nci_rf_deactivate_ntf_packet(ndev, skb);
- 		break;
- 
- 	case NCI_OP_NFCEE_DISCOVER_NTF:
--		nci_nfcee_discover_ntf_packet(ndev, skb);
-+		if (skb->len < sizeof(struct nci_nfcee_discover_ntf))
-+			goto end;
-+		else
-+			nci_nfcee_discover_ntf_packet(ndev, skb);
- 		break;
- 
- 	case NCI_OP_RF_NFCEE_ACTION_NTF:
+-	ret = request_irq(epf->db_msg[0].virq, pci_epf_test_doorbell_handler, 0,
+-			  "pci-ep-test-doorbell", epf_test);
++	ret = request_threaded_irq(epf->db_msg[0].virq, NULL, pci_epf_test_doorbell_irq_thread,
++				   IRQF_ONESHOT, "pci-ep-test-doorbell", epf_test);
+ 	if (ret) {
+ 		dev_err(&epf->dev,
+ 			"Failed to request doorbell IRQ: %d\n",
 -- 
-2.51.0
+2.34.1
 
