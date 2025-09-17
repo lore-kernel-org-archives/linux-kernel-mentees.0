@@ -1,114 +1,208 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012058.outbound.protection.outlook.com [40.107.200.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34CF2FB0B6
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 17 Sep 2025 16:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758128218; cv=none; b=Xqup2eTgUy84dqBfYYjeDPvdHJKmj/02R6/hAsOf89S9aunkHojZMpukFJjUf2nSSkxj4xEEaxc5Z+4HodzwIPgFLtyWZHlsoj6OcHqAg4u7G0+aAvDrmuduLbzDUXiR9mX0lYbsBLDMsaeZK0N+t6kUM7U5b1V15fhEQsFsSEc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758128218; c=relaxed/simple;
-	bh=RoYs+lOPKP6EI+cACs3xu9y1s81zhU0ASthwBE3+IQU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hZAp1eE/7cRFo89fek8is+HckdxIauaJbKsMnfozf/rwVD46gdJA5aspXWTJxFo2URs/Cvl52hC9OpIwx7YIxotmbuLHInkFuonkSs/tv2osuievuxcPOP/yc6RXv7n9OG7xagqiKN1uM95RzDyjWCoTGdKwWeisgUFPp/4CVoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rMGRGJTR; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9882FD1BF
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 17 Sep 2025 18:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758133533; cv=fail; b=Me+C2E7Qp1wKCpWwHlLr2ivIu4+9ZKHkzH34SK924RVLGkRIYGLzk12u+5tZpKZnFuX3BZTV0e/hY1t0iVo3wGXvdrA9t+4R/KH6/E64pqdy7WkqDZHIISHjAIL92wTs3cBawhrTeRMZlWVI7jenID1H0cPOfav/TklGkN9qI+A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758133533; c=relaxed/simple;
+	bh=sZNdoO1QqoRddcaHN4u39/uXgCwfhU/QizwQeD4WFZ8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=LNsDJBKxflGU3kis8lx5xLgckcj48s3y34Ae3YV0Psg8zJZNdyPUdVbnv2/XIthn1O9thVEfRA8E/QlNQzca/Tz/hJ65ASq+/G4rFY5wIC8pfj7cANWVHuGyuAaLKhm60TctWvbXzsE5mGvuqMqYtF72XNx02HQz82vfjSWlgj0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3NeW4VS5; arc=fail smtp.client-ip=40.107.200.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rMGRGJTR"
-Message-ID: <0be046b6-a48e-45be-9b0e-3922f298b089@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1758128213;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1JoFXqqjHsUv55cfZ28zVmVLyTt7+FuolwMXE9BtBiU=;
-	b=rMGRGJTREOYpdTnMVNhvvmi5BAKKTLUj7wP1zqJOVOHkUO0Ttj8HFZ3l5nXc/iaw0o1MQL
-	2QM9jmog1MShmwUw6gyM0sKRbNzoYZwf7/8/VfUKicRYjLICunvr2ZhR3T3VADDscVI9EF
-	wYhQDUM30pposu7scRj3bV4GGxVOhnA=
-Date: Wed, 17 Sep 2025 17:56:46 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3NeW4VS5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vojSltDD3/JxV67QWyDGjFumPVyqbJzCmQId69VLoPon8MrbvV8JaYuxj3xrZQCTqAq0cs4EtgXVRjLk1jCXG1g4JFRIJJvHmscWKE5cnm0v5Mm3PrG9oOqIwOYsO5mY+IqfUV8fqiWhPDhR1dMwkn8REfvUCa0dplmX8XDSkUxZvbiWqP9+Uv23n5fAILRqDXzVVufNvnPBOI5sUV21ktdDEOEh4dJWa7+5gTELN3bhPNoRRzTRxmgzDMh6nxYH2yCNYYQGX2C3b7LbPGywlFKcUfBvCxS4G/bkTySPjaHYQOWDyeYIlQQLbgvRqaJuLKpNb0EwXiozGu5QuR4oDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XIOv+0r21u22TqwglCCsGP8vWWDw9Aa7cqzmgHDR/JA=;
+ b=oF6hmU2td+eZOnBkk8XWOeHqKhC5DeQtRRnekBgT7zvV7SUcvULUSgvDnU3+XiebPpfewcfJZPuB4LyBLlRgT8pteon0HiSNLgrre0oCZl4yZ8lZ6SVjimcEqlurXF3MzoLNqFnfsX/hYopNmiLMKWdtLkZwOmzpB80uuI5OYixeH4hvQfGpiHhTb4htHtwYfmDhrcWKLflP+YFC3JVBuKENwS9b6OJaOLQsFGXIgz4tWy2TiTg8fOve4nwE3wmzu2vwNoGPqNftFuCAT4ZdJnZzclraFclo5EHBUBdv3F9HhIpahVSUdvpeXY4tKeREhU0KKqb3CT2NUJhquogsrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XIOv+0r21u22TqwglCCsGP8vWWDw9Aa7cqzmgHDR/JA=;
+ b=3NeW4VS5BzXFEEleM72/oMn/Bnz1JpUIzaXDmWDd9lNvEYoB9+GlUGUIwT1podu9IuwoF2ADTaHkzEjC2QZtAO3nv1g4HLLl83BtoS7NDGIaYQAhG3raYztF7Jw7nFljoJbMEzDEDsPZuBSZo7rpD+b8g6Qn4L6QLNTvnY4Fv6o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by CY8PR12MB7148.namprd12.prod.outlook.com (2603:10b6:930:5c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 17 Sep
+ 2025 18:25:26 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::9269:317f:e85:cf81%6]) with mapi id 15.20.9137.012; Wed, 17 Sep 2025
+ 18:25:26 +0000
+Message-ID: <f782159b-ad3f-4d0c-8476-50a701bf29e6@amd.com>
+Date: Wed, 17 Sep 2025 14:25:23 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: Use kmalloc_array() instead of kmalloc()
+To: Rahul Kumar <rk0006818@gmail.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ skhan@linuxfoundation.org
+References: <20250916092949.4118999-1-rk0006818@gmail.com>
+Content-Language: en-US
+From: "Kuehling, Felix" <felix.kuehling@amd.com>
+In-Reply-To: <20250916092949.4118999-1-rk0006818@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR0101CA0354.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6b::11) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] net: nfc: nc: Add parameter validation for packet data
-To: Deepak Sharma <deepak.sharma.472935@gmail.com>, krzk@kernel.org
-Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
-References: <20250917140547.66886-1-deepak.sharma.472935@gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <20250917140547.66886-1-deepak.sharma.472935@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|CY8PR12MB7148:EE_
+X-MS-Office365-Filtering-Correlation-Id: 566da2e6-34d8-4150-ca4e-08ddf617927c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?MjBrek1oVE1Pa3ZxaVhWQzZzWUV1cGdneHQ0Uk5CVmxhRjhjZ3FuWVdYUUxa?=
+ =?utf-8?B?QVFmN3FQRG9QMDRwR28ybTdvMmxVLzVuR0VSclhvaVJXK1RURmdqTkthME9P?=
+ =?utf-8?B?VWV6akhLbTk3NlMxQUR2UEJ0Y0dWZEJ2Ty9tNW80cUZZSmNhdEszakRkaFpj?=
+ =?utf-8?B?eXkvcnlxektVOWl0amt6Skx0TWk2M2pqZkVIMjFQVXJjeC9GcDV3bC94amdJ?=
+ =?utf-8?B?RjJzVi95Q2xRSlgvU0tlTEVFbnFEMTIzUllyKy82VTYrS0Niek4wZEpVTFFQ?=
+ =?utf-8?B?OC9KVEgrK2VnQURLOVFQY3d0V3hxU0dta082ZDZtaW5NVFJ1MFhMOHVDcWRn?=
+ =?utf-8?B?SjJ6RVdSbThLMFpxbUxZVXRuUXBRSTR1Z3hwZEo2MW9MalBxSDdaSDM0VUQy?=
+ =?utf-8?B?eHZmYm5rR1lhMVdsd0RFcVZCWHhjRXdmcTN0RkNBeVlnVS9pZTBGV1Q0Q29t?=
+ =?utf-8?B?aENwWVN2dVNjUVR2VlpxSS92QkVUTG56OW9JbVd5a241OFRKeFN3WGtWQWF2?=
+ =?utf-8?B?bjZoODF6MnpzQWlFY1pLRXByZHZVbWJGcnlBT0h6aXZnbXYzWG0xek5ocWFE?=
+ =?utf-8?B?aXNWZXRLZE00TXZKQjZ6UUtLTEVabEpFb05wSDd2RmRzSnBCZ3AzN0FzWk56?=
+ =?utf-8?B?c1ZVeUhuZndHYWp1MkowUjU0L2g2c2VmWXlTWFNtZkFlSzUzdFpxV0lEVllF?=
+ =?utf-8?B?TzVSVkg3ekduY0E3R1IxWXo3dWdobUN1bEpqaHdsUHpVM3g4T2FnaktQKzcx?=
+ =?utf-8?B?RjZlb1FBeTFxeFpuSkRkSnJmVWgxajhhYnZYVDhWdUxiL1E1RzFud0x1ZDZG?=
+ =?utf-8?B?a0FBNDBaVHp5N0ovbVJNUVhUZ2YvVEI0b3ArOWxDdUxXckMxRDFoaWg3SnE1?=
+ =?utf-8?B?cVlnZzB1NjV0R1Y2dENWTmltZ0xEbnRucjVPaG9ib1pDdVRGVmpqZ0ZlMGRw?=
+ =?utf-8?B?cmdKWUhFMC9NQ1Q1MWkwRWRkcm1NenkrVXhXd0FQOE5tUDJVeEk4cjBQbk84?=
+ =?utf-8?B?NGZVWDBRL3hnQ2VGM2ZIenI5MG9VZTJMS1M5L3JLRE96dHhzSWhwRmpsOWIx?=
+ =?utf-8?B?QWJibnVXN2IxQVFJQmRhMXpKSy9ITGJJZGVWRUJvdnk1a3RZN202NmlQRnl5?=
+ =?utf-8?B?dk4yclZxK3MwNEdkNmtUOTdLK1Y1VmZTQW5NT3hTdXhxSVd0NGtxcGtYbGNI?=
+ =?utf-8?B?YUhjNUpkek9HSnBxeTR3aU4wSjNLanpqT2xKQTVoZXVOWlNpSkJrTkVqa0U2?=
+ =?utf-8?B?NmNQS2hrZG5JVlJacDdHQTVvangrcEVsUEN4T1pSNE9LMHpMKzlsT3l5SGhj?=
+ =?utf-8?B?V2FNZ0cxVWdaMS9qbGthWmI5TTZTeUdobUNJSGI0Q2VDeDh1em0vU1M4N2hr?=
+ =?utf-8?B?cXYveExTbzNtR1VwbFdSeWhSOG9NSUFzZW9vR3Z3VWlNZVJ0TnUrQzFYeDBp?=
+ =?utf-8?B?WlJzV3hpNnlNWUYyY21DV0Q4R0pEN3NOcXByMGlPQ0NLcy9vWWM0NVpBaFpD?=
+ =?utf-8?B?anc1ZGNaczRHc1k1YkpmaHFYeG9DbFZQaDlaQjV1MkFhZDcrUU1uNGU4b0JQ?=
+ =?utf-8?B?QUhnQnErTkVWRWNzT3M0UUkrV2RRdlVpMG1zeEhCK3d1NngyRnJtTHJKK05P?=
+ =?utf-8?B?N1pVaGc5TXdnUmZlaHNSWnJWQStRK3V0RGw4dlJHY05VVG9QaGtJV0xobVNS?=
+ =?utf-8?B?WUFzd2dWVE9tN3dyemxucXVKOXNNZDVmaWVVNHNMUXAvRHRMblVMSG9XQXZu?=
+ =?utf-8?B?cU1TejlkMUpId2o0N2xvVXZOb2FjYjJZZzFUTnBLUWZmNXM5RXc4NmVrQnpD?=
+ =?utf-8?B?d3FaOVVhaHM2N1JqN2tURXZURHN0ZmhlWS8xY28rYUFsRUhlWndtNFpyYkZH?=
+ =?utf-8?B?Yi93UlZHeGR4aERxQ01hbHJaWTFxdThnWXpnQjVlKzF0ZUhNUDZ4MjFLcnRM?=
+ =?utf-8?Q?PNm+zVlcN6s=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5115.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SG1oWWsvRWhNRE5HVXNjZERZZkpkT3pURlFRdmdYQW1qQmJza3BjYWYxa1hN?=
+ =?utf-8?B?K3p4S1k0ajl2OUFNbEhCSk9SRmFRRDdCS1hsdE4wYkE1M2Y1TnR0RTI5UTRE?=
+ =?utf-8?B?SkNWL0wwYWZYY0VIM2g0WnNlL29LZEZwaHViUmRYUExwRVVEdVk3TjRHcGNt?=
+ =?utf-8?B?dkxTZGNNNU9uZFpEMjhLTXhGY1V0cTB5RFVDaDcyUHNZTFJxTjZscTl0OVUz?=
+ =?utf-8?B?QTlRY2NBRkVVd1prampFcEtjVVZGYWV1bURaeCtUd01LSXJkaGZTNUR5bUg0?=
+ =?utf-8?B?Wm44N01RS2ZzL3NuM2R0R0hicFFPRVpDMjdQaHBOZ2FPS0x5VkJTVHg1WC9t?=
+ =?utf-8?B?N2NuRUxmVmxldGR6bHFYVDBtdERKVms2MjhvNTljK1hNTnB5QjMyci9saGQy?=
+ =?utf-8?B?M2cxaC9LUUs1YjVHWnBtR0RlWXhwLzFpdkFKMkI3emF1cTI4cVBCZVcvdDBt?=
+ =?utf-8?B?bjVlN2prL205WG1mWlhLaWtjTFZqZDE4a3JGSWkwZGh1ZlI1aFZ5TlBOTXo3?=
+ =?utf-8?B?WVRwVm9QSVduOW9mZW00eGw4eFBSSFFOQzgxeHNjRVhqU3VXZDd5aFZneEpN?=
+ =?utf-8?B?Q0kzc0tLanRacUNXTmtOV3lmQi93M1l1UCtPaGRYSmdPSU00YSs0QWZhdmlZ?=
+ =?utf-8?B?djd3dkQ1dnZmUVFMMi85TGc5ekM3RWhOb2hYSm5pcm4vV0ViZ21PaDQreStD?=
+ =?utf-8?B?dnFxaXFDSXhvVzlySVM2c0xZTndHeXhCcFNuQlRJWHdLdFQ5NjE3Vm43dlpO?=
+ =?utf-8?B?RlRyUDdUam1pQVlZaUNibjZzL1ZxREtETjhHMWlXMExvZ1FGWHJXekRTK09n?=
+ =?utf-8?B?L3ZiRjJFeHQvdXcrRC9KZnRPMEpOT0ZUOTYreC9sMkI4Zm5ybzl2OCtCc1FB?=
+ =?utf-8?B?aVM5WFgrVThkbllLWE1HRWhGbEZiNmNSRHJBa0Qyb21UQ1hqZjRidkdnN2ts?=
+ =?utf-8?B?QTl0TW9CQ1JlV2V6TVZXL0ZjKzluQ2Q2eEY1TFdPbVUrREFzK0VEcVQrZzZx?=
+ =?utf-8?B?MThXNU1Mai9PUmgzMEMxUGxSQjJlN21paFJzci9zbzF1SnJMOWVvQXNhSng4?=
+ =?utf-8?B?ODZaV1ZubWJ6OUo2R0hDRmkydU5QZFNwNXRzRHZEVFB5akJWVWI3NFM3T1RZ?=
+ =?utf-8?B?NTZUdUhrdFFXSEZCZjBXZExUZWc4dXlhQ0dYKzI3SGZUTUlBQlhzc2ZXaGR4?=
+ =?utf-8?B?cndjYU5HRFlmK1NwVkZpTmsvZDJKcE15d0JFcm1UOGJ1L0crNnQwQTYvREJ0?=
+ =?utf-8?B?L0NYOXdZNTRhZ3hjK0Fkby9oR0p5RTZDSmpETUZ0UGp5Nnd0WXdqZHE5RXRk?=
+ =?utf-8?B?VVd0c1VHTzBtWTlybHh1MmN4d2NYUGV4bW1xQ1NGQzJRTThUUGJoZDlFb1A3?=
+ =?utf-8?B?VmEvTnRYOWM5Y1RuenVjSm1vbkNZYkhWNFNGUDVCNUhpQjRHbU1MQ2xnclNQ?=
+ =?utf-8?B?VUtsam5ZMnBPT0VJRjRZT0FraW55L0pyQzUya1o2NnpNQjQ3ZzdXTkF2dWNx?=
+ =?utf-8?B?UGVZTnc2UEtKUnR3UFNscHNGZ1JUZmpvZzM0SjVjOXJ5S0psUWJnSitUa3B5?=
+ =?utf-8?B?enU4QnRoVUZZbnhsM3VBdTg4NUVoa2o3NXB4dExsSDBINmUzclVrTnpocXBU?=
+ =?utf-8?B?enMxcitxUGZVNE9DOXRWSXJuVWxJRHZQdDdqZW5BNGhsSlBmb0gzUUVVRzIv?=
+ =?utf-8?B?TkJienhuR2EzMGV2RER5Ym50WUh1dHRWV2NES0tHNGNuRTBKUG9OM3hlS3ND?=
+ =?utf-8?B?NjZTRnpGZDY2anIxYktyQkd1bE5qMVBjMmc1OFdCdU9jdlVJbFhYdTRaRjNr?=
+ =?utf-8?B?dUwyOE5Fd21wLzNDRTkzTklDUEJLVTFHWnhtWW8yeitDUnY3M0tpeTN0ajdP?=
+ =?utf-8?B?cnhUWm5mYk40Tk1aZzN1RWhwUVNxT1drc2RlL2JDNlFZclRQbTdkdVRKeDdy?=
+ =?utf-8?B?SnIrQnh1SXA1Y2lSbzQ4d21GelNRQ2o5R005NkhmZ0NWRHcxZ0l5YSswYzRr?=
+ =?utf-8?B?c01BTzBKY2xoanRZK0VBajZhYlRZS1hjTTBocERSU2daMWt2SjQ5QzlCL2x0?=
+ =?utf-8?B?ZTV0emlJQ1FsRGllVXR3UXZGa0QvWWF3N21QWXY4YWZMTHVydGpGZTR4bXN4?=
+ =?utf-8?Q?e6Hh7Ni+QZndV/Y7kJ2qsdJwf?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 566da2e6-34d8-4150-ca4e-08ddf617927c
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 18:25:26.0538
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wHyjcSKDR0rplneTFwwW4FbBeptEmUIJUW8LXqA9iahn9Eyf4l2iDgWzwGfiiqfT0sSO28o0esIOHsVZyxTc2g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7148
 
-On 17/09/2025 15:05, Deepak Sharma wrote:
-> This is v2 for the original patch, I realized soon after
-> sending the patch that I missed the release of skb before
-> returning, apologies.
+On 2025-09-16 05:29, Rahul Kumar wrote:
+> Documentation/process/deprecated.rst recommends against the use of
+> kmalloc with dynamic size calculations due to the risk of overflow and
+> smaller allocation being made than the caller was expecting.
+>
+> Replace kmalloc() with kmalloc_array() in amdgpu_amdkfd_gfx_v10.c
+> to make the intended allocation size clearer and avoid potential
+> overflow issues.
+>
+> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
 
-this part shouldn't be in the commit message, it has to go under
-strip mark ("---")
+The patch looks good to me. Looks like this got fixed in GFX9 and older 
+but that didn't make it into GFX10 and newer implementations that were 
+probably on some internal branch at the time. For the sake of 
+completeness and consistency the same fix should be applied to 
+amdgpu_amdkfd_gfx_v10_3.c, amdgpu_amdkfd_gfx_v11.c and 
+amdgpu_amdkfd_gfx_v12.c. Can you send an updated patch that includes 
+them as well?
 
-> 
-> Syzbot reported an uninit-value bug at nci_init_req for commit
-> 5aca7966d2a7
-> 
-> This bug arises due to very limited and poor input validation
-> that was done at net/nfc/nci/core.c:1543. This validation only
-> validates the skb->len (directly reflects size provided at the
-> userspace interface) with the length provided in the buffer
-> itself (interpreted as NCI_HEADER). This leads to the processing
-> of memory content at the address assuming the correct layout
-> per what opcode requires there. This leads to the accesses to
-> buffer of `skb_buff->data` which is not assigned anything yet
-> 
-> Following the same silent drop of packets of invalid sizes, at
-> net/nfc/nci/core.c:1543, I have added validation in the
-> `nci_nft_packet` which processes NFT packets and silently return
-> in case of failure of any validation check
-> 
-> Possible TODO: because we silently drop the packets, the
-> call to `nci_request` will be waiting for completion of request
-> and will face timeouts. These timeouts can get excessively logged
-> in the dmesg. A proper handling of them may require to export
-> `nci_request_cancel` (or propagate error handling from the
-> nft packets handlers)
-> 
-> Reported-by: syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=740e04c2a93467a0f8c8
-> Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
+Thanks,
+   Felix
+
+
 > ---
->   net/nfc/nci/ntf.c | 42 ++++++++++++++++++++++++++++++++++--------
->   1 file changed, 34 insertions(+), 8 deletions(-)
-> 
-> diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
-> index a818eff27e6b..f5e03f3ff203 100644
-> --- a/net/nfc/nci/ntf.c
-> +++ b/net/nfc/nci/ntf.c
-> @@ -809,35 +809,61 @@ void nci_ntf_packet(struct nci_dev *ndev, struct sk_buff *skb)
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
+> index 04ef0ca10541..0239114fb6c4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
+> @@ -352,7 +352,7 @@ static int kgd_hqd_dump(struct amdgpu_device *adev,
+>   		(*dump)[i++][1] = RREG32_SOC15_IP(GC, addr);		\
+>   	} while (0)
 >   
->   	switch (ntf_opcode) {
->   	case NCI_OP_CORE_RESET_NTF:
-> -		nci_core_reset_ntf_packet(ndev, skb);
-> +		if (skb->len < sizeof(struct nci_core_reset_ntf))
-> +			goto end;
-> +		else
-> +			nci_core_reset_ntf_packet(ndev, skb);
->   		break;
-
-every case here has it's special function. I believe the length check
-should be put into these functions and then the return value should
-indicate error. That's the actual style of kernel code.
-
-You should also indicate the tree to apply your patch, as this is the
-fix, the tree will be net, so the subject should be:
-[PATCH net v2] net: nfc: nc: Add parameter validation for packet data
-
-And the Fixes tag should be added to provide some information for
-possible backports.
+> -	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
+> +	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
+>   	if (*dump == NULL)
+>   		return -ENOMEM;
+>   
+> @@ -449,7 +449,7 @@ static int kgd_hqd_sdma_dump(struct amdgpu_device *adev,
+>   #undef HQD_N_REGS
+>   #define HQD_N_REGS (19+6+7+10)
+>   
+> -	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
+> +	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
+>   	if (*dump == NULL)
+>   		return -ENOMEM;
+>   
