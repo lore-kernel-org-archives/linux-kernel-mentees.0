@@ -1,88 +1,110 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCF83191BB
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 18 Sep 2025 16:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4394296BB3
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 18 Sep 2025 18:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758213833; cv=none; b=gGWwoiPAw8wrJNdy/Vq+1boPTuPYn3RMviut2OhxFcfTTg1/2xwO+qmXmpWbTCdmirFFSl/5vIpWcpthU5sDxHQAAJmo8n/wUrqwgPlJZToFDnBtH/Fb+rZgFxL02Y39wS8GkTdoCxX8VqVFSEh+vR8m+vSSqt/TydurW8t9HH0=
+	t=1758221070; cv=none; b=KnaaEoBV/G5qfHMoK7Gce0dLuy++Y5rcDv+QRtFYgjRKRJ9xwHDjHJfQANNreNcaC+CZPJLxz0ICiBjy9ZeCreEphLa4tGbrv03SVzPULO/BX4YuD3u3+yDIxaqXeA0CK0Qei3FPsnkGxVeVd2VB7LGt0Og6UsgOA8c/Fp8dLgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758213833; c=relaxed/simple;
-	bh=/xKQ/jon4u5G1U0AXf3Ei3GiDnF6IHalikvqBwlvbJs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hIuDwNBltVt6ytoy9NrLLi6qMA79uI5Kw/Avk+GmNXa9N14QzXBGJwYa8NwEUzH0r8w0IrhcCvO+2P+p+UBKk6avWHuF71Zf1vvTXH7dQF0BBVStVkFt39fkVnWgHbuZFBxKYQJii0XglITY0ev+j4MrOhBRsTto9NW6cmcsEEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=skAot3YM; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1758221070; c=relaxed/simple;
+	bh=fe3A6MnHA+kBcuSKcXPhgzXX8sc6RtnqsVbVSSBzilk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=paKLwulleDno41tNRLT3/IN4J5fDg5B7U4AkutQRycudv0sD3G2JQkwx+ijjTqptt1zjUgKosnIpYE9vtbOnSDBEvRlWuQudmW4AM0khb293Gx0tEXA5NDpyPGCxM2F3Y7lmYpRHXO1TfmmkDo7Fpt4zozP5GoUISYISzAxS/+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eg9/Qr7K; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="skAot3YM"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A0E4E406FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1758213830; bh=okc8cPe2ZWbxfmOUNi5nG+59TfojPQ0/kotl+uzMIx4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=skAot3YMbvaiZa04MZfLYUQLW0PCAhwuSWuoXyO2sFGU7wgEptywDrQ7m4cCgVghX
-	 5LR8C0EO7gbcAlQTNnGQZvtcZXrpZ77zp6qbCHzWknWW2Ky8MDtvyZdQJdp5S60SGs
-	 3n/t4u+CrQ9yveIFet2KmuZ/bBfC72/5KtV+tlr0C9wPqbfZyEVezcdkt11oude8t0
-	 sRJqeqdNVkmOTs8HD88fKmxpz+dzMDYMLBmYM/Mby9blshRxbXJaeW2qys7CTpQvmg
-	 Gi8skg2ZVMFjqeimW2bhdjMeAOK16meWZgviUXyrxShz4UmN9dpILXsJ5K/SROYs66
-	 2l4ZeDgZHnwkQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A0E4E406FA;
-	Thu, 18 Sep 2025 16:43:50 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Marneni PoornaChandu <poornachandumarneni@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- alexandre.belloni@bootlin.com, corey@minyard.net,
- sakari.ailus@linux.intel.com, mchehab@kernel.org,
- linux-i3c@lists.infradead.org, openipmi-developer@lists.sourceforge.net,
- linux-media@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, Marneni
- PoornaChandu <Poornachandumarneni@gmail.com>
-Subject: Re: [PATCH] docs: driver-api: fix spelling of "buses".
-In-Reply-To: <20250917220430.5815-1-Poornachandumarneni@gmail.com>
-References: <20250917220430.5815-1-Poornachandumarneni@gmail.com>
-Date: Thu, 18 Sep 2025 10:43:49 -0600
-Message-ID: <87wm5v7ltm.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eg9/Qr7K"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-76e4fc419a9so1330802b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 18 Sep 2025 11:44:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758221068; x=1758825868; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A8zgmbahM1VfgP+dW3KRwovtdnR9tCk8bO4aKfh2zws=;
+        b=eg9/Qr7KI1lAxKsjtnYZ3ErcmGWkF/kjiA9VGNNgpB5jz783zxHxga6DyxggBHsl5G
+         fc6c26Pv2SR0UnEGrN3scZGVEVGizQ7BQIat1ICGTQVUQ7MS5+rqqwtI2aqPTZL3ru1g
+         zqwlWgq37Ut+uyVTPEbLeBkjmvBIvJcxHBfGSECK/S2YIdkcgiadPJzQSMde30N+98iJ
+         E8KC8teutcK/yFekftOM7i54fNVuGP+V5Amdd+fv0fHtSjwOfXW3o7wvWeWQhICdoUQ0
+         X05NdkSJDyV5RH6K6UYWXvoqSVRJ4U0nfv1lZe+U4SUMXrJhLOEagDP5eCz1Fchmrx1M
+         Engw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758221068; x=1758825868;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A8zgmbahM1VfgP+dW3KRwovtdnR9tCk8bO4aKfh2zws=;
+        b=f5o/5Cv1ymmqIiHhTSTr+N2D5Hv7jZPGzAVA2gR41haWf/YFmNg0sE8XpgDh0MBQOm
+         62Zm7C+uxc3Wydbb2BwLIgPnU34OWPWqYcS7h0p5WmxmIb0fAvs5qN10DOCckbaPvqxZ
+         MzcZwVUJqiyF7Jo+SliErD575H2MbzUe4WTzUvlo+F4iXPom253AdzIEAF0kKZ6kN68U
+         oFpwbuRg92GJ11uzVtBTvmoEdusozoVs9ionRuDJoYbxt4n4zgkH6PjOEGFK9HII9TNq
+         Os+xDb0yFE2PRYgFBd4zQoJ3OKvHjXU69siWAjy4CePYTK6iBvpV5i2uflVcSfV3Mwil
+         E1XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVnXvlfsSJ1WrKhz9H8e0tyk4sGs55m86a9IUbwTT0ybZm1IRv2NxPdHn3IV1BkhTqcc8B2E5mOpRBZ8rkZL0orpJ/zXw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzqbduH5mUkYPKK81Yssd1gNC1zujus5S/hBw/70SLqnv5+iyld
+	JAsMRSGBqCVoC14wDVQ1k6+Wa2xMw2ftDuLUI0Kvmw0/wJ/JguQxd2py
+X-Gm-Gg: ASbGncuvZ6JUr4f025DaiCszfU7OgYggUt/71PK8vqISOP47g31SNQZ87WuDigQK8bW
+	p+hB21ipLpwEvSx+GyeaDI07zkpTfmdPJbysEV6i+NP8x+j5ZHU+a8pQhmQCWOK0pjwayQXPg0L
+	TQxMwTjDZn+GDDQ56SzDpZRm7vis+A+0k9evugTDJtyKir+WEY4oG0ykI3qUYPyHR56OQjZ+jZN
+	Z/TaX6VjmLWYoz40yN8cxdl+UL6DD+LqaJgA3ELvev0uoAbQsqVxil7PLYETA0NVznXCJsVT+38
+	OZdQr73/FJMAi7OqaXnam1GQ+eLNFL3+++9d+Qc3SkbJwqbakSH1alcS0jhpHpP3yGkP1cPzxBb
+	S2LL/ihyTmi+dL4x4AbioxBU32i0mC5Ivk1p0oswJ4KtQ/9tVClE+VWtBb3oZ
+X-Google-Smtp-Source: AGHT+IES0nh3YJZduE+bzFAmjo4n9/IGmSy36TfhXM3u3Sd6MomrUkG0ZxjN3Mi9LkDFwohHkOZtBQ==
+X-Received: by 2002:a05:6a20:3d1c:b0:245:ffe1:5609 with SMTP id adf61e73a8af0-29270503242mr768026637.44.1758221068102;
+        Thu, 18 Sep 2025 11:44:28 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77cff22bdb5sm3051926b3a.94.2025.09.18.11.44.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Sep 2025 11:44:27 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: miquel.raynal@bootlin.com,
+	richard@nod.at,
+	vigneshr@ti.com
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	linux-mtd@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] mtd: cfi: use struct_size() helper for cfiq allocation
+Date: Fri, 19 Sep 2025 00:14:14 +0530
+Message-ID: <20250918184420.76047-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Marneni PoornaChandu <poornachandumarneni@gmail.com> writes:
+Documentation/process/deprecated.rst recommends against performing
+dynamic size calculations in the arguments of memory allocator
+function due to the risk of overflow. Such calculations can
+wrap around and result in a smaller allocation than what the caller
+was expecting.
 
-> Replace incorrect plural form "busses" with "buses" in
-> multiple documentation files under "Documentation/driver-api".
->
-> Signed-off-by: Marneni PoornaChandu <Poornachandumarneni@gmail.com>
-> ---
->  Documentation/driver-api/device-io.rst             | 4 ++--
->  Documentation/driver-api/driver-model/overview.rst | 2 +-
->  Documentation/driver-api/driver-model/platform.rst | 2 +-
->  Documentation/driver-api/eisa.rst                  | 6 +++---
->  Documentation/driver-api/i3c/protocol.rst          | 4 ++--
->  Documentation/driver-api/ipmi.rst                  | 4 ++--
->  Documentation/driver-api/media/tx-rx.rst           | 4 ++--
->  Documentation/driver-api/nvdimm/nvdimm.rst         | 2 +-
->  Documentation/driver-api/pm/devices.rst            | 4 ++--
->  Documentation/driver-api/scsi.rst                  | 4 ++--
->  Documentation/driver-api/spi.rst                   | 2 +-
->  Documentation/driver-api/usb/hotplug.rst           | 2 +-
->  Documentation/driver-api/usb/usb.rst               | 4 ++--
->  13 files changed, 22 insertions(+), 22 deletions(-)
+Replace the size calculation in cfiq allocation with struct_size()
+helper to make the code clearer and handle the overflows correctly.
 
-"Busses" is considered to be a legitimate spelling as well.  I have gone
-ahead and applied this in the hope that it will reduce the temptation
-for others to "fix" it, but this kind of change in general is a sort of
-churn that does not really help the kernel project.  Thanks for working
-to improve our documentation, but I do hope that you will find more
-useful improvements going forward.
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+---
+ drivers/mtd/chips/cfi_probe.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
+diff --git a/drivers/mtd/chips/cfi_probe.c b/drivers/mtd/chips/cfi_probe.c
+index a04b6174181c..e254f9cd2796 100644
+--- a/drivers/mtd/chips/cfi_probe.c
++++ b/drivers/mtd/chips/cfi_probe.c
+@@ -208,7 +208,7 @@ static int __xipram cfi_chip_setup(struct map_info *map,
+ 	if (!num_erase_regions)
+ 		return 0;
+ 
+-	cfi->cfiq = kmalloc(sizeof(struct cfi_ident) + num_erase_regions * 4, GFP_KERNEL);
++	cfi->cfiq = kmalloc(struct_size(cfi->cfiq, EraseRegionInfo, num_erase_regions), GFP_KERNEL);
+ 	if (!cfi->cfiq)
+ 		return 0;
+ 
+-- 
+2.43.0
 
-jon
