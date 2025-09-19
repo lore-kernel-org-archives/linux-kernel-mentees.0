@@ -1,131 +1,97 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A92C308F17
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 19 Sep 2025 10:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D22E30BB9A
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 19 Sep 2025 10:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758279005; cv=none; b=QtXwKSHZES0/CqzIgtgSjzw3jlPvT5q7E0SjJLbfv3+5G3/j5dM6Zi/Jrx6DZF/RljSCy1qTjEnVaZWSmoIGU1eSLmHjdKntciWoymaWd8BgO6qRqdh52FBFDQw5HmLE+t5XuDbR29Kpfx2bbEMwAsNptiUL4mVFneXEolbFiiY=
+	t=1758279563; cv=none; b=qnTMha638ijtQy3c/a5A/AmfdLhM3PR3mAMf86keE2jow+Civcn2V2XnPO9JO1zXQRTHQwUBNbX0brIAEmByO/Ibb3w8h2w80m/Phj8LZS1XbFjT398c5syHnxtmvNbmqKCCCps34tTn+AJoGIyFssFGY5vT04zo1E8NamGmXCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758279005; c=relaxed/simple;
-	bh=rKZL/H7ypymzwpKKnbem/RnOpyiC4W0s7l9WUy2A9xA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LsK6BAHkh0lGePJOOmItWmxWcfgB0ajH095ixbwkOMs1a2uY0uCIbBMc2DyBRCuddlwdtB4quTl+pwh+i2x5UQoU+VQmM4gE5mg6Z+mJgMvUyqThVMnwgR+SSykyb8cd/1dwED59Q4TeyxlB1Snp4iGMJE0iIY67ycUjRe4KcUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WDFw2CtL; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1758279563; c=relaxed/simple;
+	bh=CEmWUjF/TcCalxhAWDKk5hHQFMQ5iziper/nDpqO7EE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LVxtS80frbfJOE1WT9iUOA/9IQKlH5WfRFmdV/bRs10q1gYQ/6rpsLv/ue3pu1ytBsJW/zK3+psGukYD3/1OQM4tWGlbZ377BJk3m+ivWMmMZfEae+D+c6ip2oSlQy10l5oB9cS5Mhc238O4aCynPrLSNRi9BLDj2eg0U0zu6pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Gqjhmq5q; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WDFw2CtL"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 23CE581271
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 19 Sep 2025 10:50:04 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 4audSluIVVCY for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Sep 2025 10:50:03 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42b; helo=mail-pf1-x42b.google.com; envelope-from=vnranganath.20@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 72BDA8126D
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 72BDA8126D
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=WDFw2CtL
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 72BDA8126D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 19 Sep 2025 10:50:03 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-77f0efc935fso21857b3a.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 19 Sep 2025 03:50:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758279003; x=1758883803; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/nlPaNwJCwFBeS5h6NPn6J7B9IvDaJFfkhCJEhtD3j8=;
-        b=WDFw2CtLKhDYgsI77YqCW3JHl5GuZ6/DaWJk2DZdgH+wZ02qkl0iCgiHdu2L0MpMBO
-         W6OwqodlVd0Q6ibXXyO3DBRQLctYfTh1FKoa5bk+7KYHV8UoXIBNh0lqwj/5b+IYsMPl
-         rJj+Bp2Pfb26VUyyAtT2gDOQITGOFUoNPbxEJy376wLkR4HFCj9ZXTk8jyb7ulikPeBk
-         WdUKHLdZZ3pN6A2Vs51UZ0NKdQjrQ9bMBis4rwb7pOe8awpt6AfXbukcGm1oJ1P4ZfwE
-         cr29g8SNDocO+VGkxgRfeo2bCua006fO1yUziY1NHvvrxuyXL/2PmqaqiOV/XRbS57Nv
-         YBTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758279003; x=1758883803;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/nlPaNwJCwFBeS5h6NPn6J7B9IvDaJFfkhCJEhtD3j8=;
-        b=wp+Av5maNiloXz7jyZMWZybhfXxX4ZjZBnw3Ol4S3/i+S9KI53a1lt33UMTFpGq9BI
-         ylKpNlzCrV0fGp42RKoIiFCcaDtuw0CrEFIh296UzwbfVORZAuSz/rNdA//xnaEJOUou
-         Ijwftu7TM4Ce/IQ2bHzLk+8vTopjsO2a5xhvKmvwl+taPNlEpTjCWzWhl6NiXJR9d1y/
-         1uhwuCbfczWYUDrxd8RjRkdKakwkD7e5qdnAFioBaozG6MG4AUqekDY9mfshTqDJTj39
-         UFDZlYkkKeHuDtpAM2Ve9l/kptaIjixK9JpEzjMdljGzUMKQfKiA9JWGAk+74Q1Oxh/f
-         /s9g==
-X-Gm-Message-State: AOJu0YyKVCHqJiyYp7VZ0fyeqbzhP84654WkB/ip/OPGHO2HyRoY774i
-	xpYMoJs3XvjDNhyHzaiDEmyPOos45om4/BFjU4xz3Bt03XkfpvCBkFK/
-X-Gm-Gg: ASbGncsVFLpMKeB8FMAfdxd1TvX+wvZVestds1O87Hi1AXWgho+ZtSfPWx9HEHYmZjr
-	3E/7DEGhGmbyjlu1Velweu4xE5IYLt3opXIrDBP3HjlBPBctclhY4b7RFWDwIbnL5cyVt7+JoHF
-	rtue4CBp0L77w9v3GMqdvJ4IbErKHxXGNlKDwUjmTWcA2FeswG3A+SpCq3gBEL6kcZ/Ac/K8+jp
-	96l3cs6D92waQSn0C5f+ct2EJ4DHOlhclFvOuwK1kUJM60xiG4rV15yZvLSq6IL47C+LaOs27Cx
-	XfhGetSYaxM1I80yVKIAWAKWo25tb9AxhRL167Zyd4tZP0GeDTV3dq9PF078wlG5CRkx1Xb0TbS
-	yXw2p+Tn1MPLoBQ/O/MFlYx/suGD+
-X-Google-Smtp-Source: AGHT+IECnXLe86m48/eNbqrv24RB5ihKOoMDR1ROIy0Zofq0xXtoRiDRdz7E8E8BkgGDK3ZZiRM0Fg==
-X-Received: by 2002:a05:6a00:14cb:b0:771:f8c3:1d1b with SMTP id d2e1a72fcca58-77e4eaa9a33mr2093467b3a.3.1758279002531;
-        Fri, 19 Sep 2025 03:50:02 -0700 (PDT)
-Received: from ranganath.. ([2406:7400:98:8a46:5008:3da:1c80:3e37])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77e87fb4698sm1408850b3a.96.2025.09.19.03.49.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 03:50:01 -0700 (PDT)
-From: Ranganath V N <vnranganath.20@gmail.com>
-To: Shuah Khan <shuah@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
-	Ranganath V N <vnranganath.20@gmail.com>
-Subject: [RESEND PATCH] selftests/filesystems: Fix build warning on anon_inode_test
-Date: Fri, 19 Sep 2025 16:19:47 +0530
-Message-ID: <20250919104948.67953-1-vnranganath.20@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Gqjhmq5q"
+Message-ID: <61e38165-fa9f-4078-8499-a9c12449ae95@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1758279558;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B5S5/N031pPAmIyQyocHUR2GyX0QYA4EnllETjaaSvE=;
+	b=Gqjhmq5q6xtIVttmXVuKaqlsz6rOWtQpQcV2nlsvHunmqsR9J05wQQeV1zEq6dLWqZD0V+
+	zJ6pILm4IZ7fdiXfj0jpi4DXZfBAjGiFGgCOjFpBhJAZIvLmIBwGAa7ia8+clXmsUlZx2W
+	qRAX1sFNAhKqyFQ1fFqGK/GNUzVobSY=
+Date: Fri, 19 Sep 2025 11:59:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v3] net: nfc: nci: Add parameter validation for packet
+ data
+To: Deepak Sharma <deepak.sharma.472935@gmail.com>, krzk@kernel.org
+Cc: netdev@vger.kernel.org, stable@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev,
+ syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
+References: <20250919064545.4252-1-deepak.sharma.472935@gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20250919064545.4252-1-deepak.sharma.472935@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-clang warning null passed where non-null argument is expected.
+On 19/09/2025 07:45, Deepak Sharma wrote:
+> Syzbot reported an uninit-value bug at nci_init_req for commit
+> 5aca7966d2a7 ("Merge tag 'perf-tools-fixes-for-v6.17-2025-09-16'..).
+> 
+> This bug arises due to very limited and poor input validation
+> that was done at nic_valid_size(). This validation only
+> validates the skb->len (directly reflects size provided at the
+> userspace interface) with the length provided in the buffer
+> itself (interpreted as NCI_HEADER). This leads to the processing
+> of memory content at the address assuming the correct layout
+> per what opcode requires there. This leads to the accesses to
+> buffer of `skb_buff->data` which is not assigned anything yet.
+> 
+> Following the same silent drop of packets of invalid sizes at
+> `nic_valid_size()`, add validation of the data in the respective
+> handlers and return error values in case of failure. Release
+> the skb if error values are returned from handlers in
+> `nci_nft_packet` and effectively do a silent drop
+> 
+> Possible TODO: because we silently drop the packets, the
+> call to `nci_request` will be waiting for completion of request
+> and will face timeouts. These timeouts can get excessively logged
+> in the dmesg. A proper handling of them may require to export
+> `nci_request_cancel` (or propagate error handling from the
+> nft packets handlers).
+> 
+> Reported-by: syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=740e04c2a93467a0f8c8
+> Fixes: 6a2968aaf50c ("NFC: basic NCI protocol implementation)
+> Tested-by: syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
+> Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
+> ---
+> v3:
+>   - Move the checks inside the packet data handlers
+>   - Improvements to the commit message
+> 
+> v2:
+>   - Fix the release of skb in case of the early return
+> 
+> v1:
+>   - Add checks in `nci_ntf_packet` on the skb->len and do early return
+>     on failure
+> 
 
-anon_inode_test.c:45:19: warning: argument 3 null where non-null expected [-Wnonnull]
-   45 |         ASSERT_LT(execveat(fd_context, "", NULL, NULL, AT_EMPTY_PATH), 0);
-      |                   ^~~~~~~~
-
-Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
----
-Adding missed mainters to the patch
-
- tools/testing/selftests/filesystems/anon_inode_test.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/filesystems/anon_inode_test.c b/tools/testing/selftests/filesystems/anon_inode_test.c
-index 73e0a4d4fb2f..f796dad679db 100644
---- a/tools/testing/selftests/filesystems/anon_inode_test.c
-+++ b/tools/testing/selftests/filesystems/anon_inode_test.c
-@@ -38,11 +38,13 @@ TEST(anon_inode_no_chmod)
- TEST(anon_inode_no_exec)
- {
- 	int fd_context;
-+	static char *argv[] = { NULL };
-+	static char *envp[] = { NULL };
- 
- 	fd_context = sys_fsopen("tmpfs", 0);
- 	ASSERT_GE(fd_context, 0);
- 
--	ASSERT_LT(execveat(fd_context, "", NULL, NULL, AT_EMPTY_PATH), 0);
-+	ASSERT_LT(execveat(fd_context, "", argv, envp, AT_EMPTY_PATH), 0);
- 	ASSERT_EQ(errno, EACCES);
- 
- 	EXPECT_EQ(close(fd_context), 0);
--- 
-2.43.0
-
+LGTM,
+Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
