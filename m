@@ -1,145 +1,261 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D974C1E32A2
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 20 Sep 2025 04:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C514A1FE471
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Sep 2025 11:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758343924; cv=none; b=cuSEGGtorkNcmRq5C4JTT26cpmTP2hofJoQ1cvJ9ude6NZosCqw+OT5smMKAK5nrYRY86X9vEIMlPFw9zwo0hy7RzStW+8o/7XMKJZdCwKNFh3bZMo3+nSJHjIT/2WEyBvCal632oebkPMcE+pRQL8b/XKf4k+CPqI9f3WWZSg0=
+	t=1758366829; cv=none; b=Ms/f7cBbC9VlaNcBGFQbfEewG/u+51F+8+AKqCUR7zIx4PM+cQRBAzrosEDiIOVO1IvtJSOdtuiXktDWhAEXD453xDiRgkqEBk6ERo+tqCRfv3UmLfcNrbIcNZhEXgSDqKk0pMC7eVzHaznADtrQNvLlj6RP1NBBTdHl/advFN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758343924; c=relaxed/simple;
-	bh=WN7syAcJjhlULwaP/4Xo2Ytf7vzgMmwSdXXWwuslg+0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RbmMkbazRSRum5y0/2hmskS7c7e2N4a2tqzWkZRN8Roj0f0Z3qrHRdAZMTCYEopXPzjEmC9oP3z2JN6imVeh+Z+gYSFy5p4d3YxvtqvG0GedvmPMFE1jr0XuscYG8SamG4dJzUV5vRJHp9ZLPyx5FH6Xto9+gfbrBcaOZTR9SWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QW8o8Zt3; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758366829; c=relaxed/simple;
+	bh=TpfP0VJ11G7QI0AQg4mLtUM4/jK7WE+IVpgAzVkuN/U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GLYIxUz2fDzaDQlzG/RKUdkLxOfs5pv0vYWZWU12lMJl6sq23mDaRhsJnhLnvwRU2J5340iNu8zjgBOV+NIIZAwjJeBhLnA5iWBSjHtVxMFd9dJjknK7J7/rzXPjjc9hoT79ejb2SXO+ISifwJEi8ds+9C6mU3JxK2ctWCJkxjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jmAKnuPe; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QW8o8Zt3"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2681660d604so26037525ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 19 Sep 2025 21:52:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758343922; x=1758948722; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Scl7/ytKRP3iThro/p3ZtlDfxCKkscpWY86iDRO/ZlI=;
-        b=QW8o8Zt3EWYcVEI53+BvQS2eGu5e6W1kvOjijG7IyJ+W1a9TQNpXDZC1Tv5V+YLyHA
-         +yKj31wQZmaKDcUJa3QSVkqKiexgdQ8YrO8U4rdnhAIjXdvJ2bX7DAv7KpQHrvb5yAIe
-         TEAv5ciX3+BUXVXyblXBoLFfF5JGWiAGqUq4UeyP9w/I5x7CMpI6zcF86OPSEteoQPwd
-         YjdV67QzFb4QjZbrmt2IHT6zklkGi0AvKeNOy4A2i+IbXed9gWkhcVd/LCBBifuLk8y+
-         X/8jfwy1aOymrq7unFL/lyY03oarYF1o4rfLO8uBUeY7xSeLqEW2Y3p2bxvPWLeRDrhZ
-         toUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758343922; x=1758948722;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Scl7/ytKRP3iThro/p3ZtlDfxCKkscpWY86iDRO/ZlI=;
-        b=Wp2crOwY4/1vu1vGRJFwZo7F5XcLo40ZoIYlpezUg12/R0siuLK+RANzTgCvyDi5QC
-         HM+y3FCq58zPm7+YG+t7rxNbLDuy8/PfrSTQx2gux8aDGM9dfnAT44/hL9/rGHqSe5E8
-         dtEhHvjXkWf1WkojVAFg/PX6wS6EX/0qRk6eikNW1LXahyTOUuA3tMInAIQlJh9VG9EF
-         PsLnN76VUjilfHKSeVHAr2jfqJJYZauzicOL7AvEl611LxIQCu+leIp/RDKcSBnOf0ai
-         6bRhO0b5qhpnElMtqpQIGgk/CCrxHDX/3sucRowT0Dz1kFqdu4ealQJ/OkqnKZvbklSB
-         PJhA==
-X-Forwarded-Encrypted: i=1; AJvYcCXeh99Ly/gq+hVKKssmiD7WYonhkoJ13AWIi63z4Q8VJD4cviVn95mubXD5z8fd5MgSWUs5ye4dUSJtW363D9yHsOMIXw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz3sVr1tTHwMRf2YoZo2q7Aib7xYKndLFbDhrwuzH/BLbt+WrP6
-	4525e3pPShECRBkxaM7N9NbmLK+fzMgcKz2OFR+nXz4Ew0WagDu9U81O
-X-Gm-Gg: ASbGnctaLN9mBn3RT/TCmiCB2zqoNj5Ox/povwrG5fQPllMdrmHzCh/kyCn4b1HcxMc
-	2lx+v+Iy5UsA+MsVVzxBfbBvs9OpNsJqE/v3cTAuiyThQfq6Z+R8atUP3lAz2WcQF2Uo3WCgbsf
-	VfmCnN03u4jAQNcfz2yzyPCsPRulQBupFHLvQSuD0ME/fnzntOtELKRhO9e3Vfh0IGC9k27/Lri
-	swBxTiTuoP4YTKrf/CCgxKAyvlAK1W/HP5JGsGhWSBc+sXa+AkyG2YXO3SRpK6I2JJsp87k0aEZ
-	WXlB2YVthYrpadXG46pdF3ysUQHK709Yq3m5V1ZSAy/VbsZKf4mraIpT6GIDveOGYPxlTnrL+g5
-	y4GnwNdRXSXMzVTiFm38R140tnCG9MMiBxtXPEYRnruitTVKU0FKbr4SbJQBISXU6IHUoioYuWH
-	93MbJr89Bujn9M7A==
-X-Google-Smtp-Source: AGHT+IGlDL3meUrjWPh8XY00Z7lI+5NCXfWA95NkUgQ/36jV2EnYS75qSm19Zq3LWRDvSpHOtmoG2A==
-X-Received: by 2002:a17:902:ec8b:b0:266:3813:27c3 with SMTP id d9443c01a7336-269ba441c40mr84447675ad.13.1758343921975;
-        Fri, 19 Sep 2025 21:52:01 -0700 (PDT)
-Received: from debian.domain.name ([223.185.130.103])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-26980368fe3sm69258125ad.151.2025.09.19.21.51.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 21:52:01 -0700 (PDT)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: petkan@nucleusys.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	david.hunter.linux@gmail.com,
-	I Viswanath <viswanathiyyappan@gmail.com>,
-	syzbot+78cae3f37c62ad092caa@syzkaller.appspotmail.com
-Subject: [PATCH] net: usb: Remove disruptive netif_wake_queue in rtl8150_set_multicast
-Date: Sat, 20 Sep 2025 10:20:59 +0530
-Message-ID: <20250920045059.48400-1-viswanathiyyappan@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jmAKnuPe"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6C9B2415B6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Sep 2025 11:13:47 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.101
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id c66Xc6M8xrGH for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 20 Sep 2025 11:13:46 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=rafael@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org BC8EC415B2
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org BC8EC415B2
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jmAKnuPe
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id BC8EC415B2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Sep 2025 11:13:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 391844322E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Sep 2025 11:07:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BCCBC4CEFA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Sep 2025 11:07:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758366471;
+	bh=TpfP0VJ11G7QI0AQg4mLtUM4/jK7WE+IVpgAzVkuN/U=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=jmAKnuPeKu1VZuehGomrPgrOdZYCfyVXrQz3X6+MiybZvrU3BEKF4PHo0Akm/HXlS
+	 xuif77Mpc7fHBq1nA0YRze6Hg6Xyz8oW9RDYhjXah3X9yZislowUk1MaT8dIpqgnnI
+	 C0driG/G6hP7Auz23PPVO8uO/kdyZRjjdViamvD44CGOnPkcyffy/6sNrMhFv0WCBS
+	 AoqLippn4waSIWrkPmKVfyfc1aayaiRDLc8k2JdiCYMVP9Sx453qQpBrW46v+otuUI
+	 IzHmzDmoRRWx8JLcrrU9Xbj/fUEIZjU3T2SYcs1heXchgX/ZGfxI5Jb38bEsiossXM
+	 szZD/HMCHOzKg==
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6234b298d84so1539044eaf.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Sep 2025 04:07:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVags77RkNIp+z7DEtIUlVALUaNhw8L/gI3cWqKK69+LH3wNMEAUSjZnAJbk9VH9OCO2RwOd5eoBLLICGkTVxsBz9gbZA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzJbMSNS1O1Q5UALwKtplUWyOJuC7Jamj6ZTlBx4XY+CEflS3Rt
+	HJnY0GWWNPfeJXHYUt4sqfvkMAYvlmVp4PIIAfQUX4cWbbFVUqV/5IYAK+56kTJWzJnmsk/BrwI
+	/9HbkToxebaHMF86q9FQ+FIQdMvc5kjk=
+X-Google-Smtp-Source: AGHT+IF2uVqf5GAFrjNgl9l1aViZuBf9EzFUZwKFo5HyttmeemXFkxkW+7cNc1rWNoBCpeE2Iu3UZ3uahJkvkn37kQM=
+X-Received: by 2002:a05:6808:1394:b0:43b:2829:e642 with SMTP id
+ 5614622812f47-43d6c2824f7mr2448689b6e.24.1758366470409; Sat, 20 Sep 2025
+ 04:07:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAJZ5v0gTtTZt7oE0vME0qRo8nZ=KX3DwF46PhyUVe7e85uZaNA@mail.gmail.com>
+ <20250919165657.233349-1-vivekyadav1207731111@gmail.com>
+In-Reply-To: <20250919165657.233349-1-vivekyadav1207731111@gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Sat, 20 Sep 2025 13:07:39 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gooWpNra-EzT1xB+vsL9hLD_1eQm+DS_Jfw8dEtZoRJw@mail.gmail.com>
+X-Gm-Features: AS18NWA2wIGm6rW53tbOvfILtPGvc_KCP2IRAYMaTfaPPBtIE1EsaLwVMvUjfdM
+Message-ID: <CAJZ5v0gooWpNra-EzT1xB+vsL9hLD_1eQm+DS_Jfw8dEtZoRJw@mail.gmail.com>
+Subject: Re: [PATCH v2] cpuidle: sysfs: Use sysfs_emit/sysfs_emit_at instead
+ of sprintf/scnprintf
+To: vivekyadav1207731111@gmail.com
+Cc: joe@perches.com, rafael@kernel.org, daniel.lezcano@linaro.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot reported WARNING in rtl8150_start_xmit/usb_submit_urb.
-This is a possible sequence of events:
+On Fri, Sep 19, 2025 at 6:57=E2=80=AFPM <vivekyadav1207731111@gmail.com> wr=
+ote:
+>
+> From: Vivek Yadav <vivekyadav1207731111@gmail.com>
+>
+> The ->show() callbacks in sysfs should use sysfs_emit() or
+> sysfs_emit_at() when formatting values for user space. These helpers
+> are the recommended way to ensure correct buffer handling and
+> consistency across the kernel.
+>
+> See Documentation/filesystems/sysfs.rst for details.
+>
+> No functional change intended.
+>
+> Suggested-by: Joe Perches <joe@perches.com>
+> Signed-off-by: Vivek Yadav <vivekyadav1207731111@gmail.com>
+> ---
+>  drivers/cpuidle/sysfs.c | 34 +++++++++++++++++-----------------
+>  1 file changed, 17 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/cpuidle/sysfs.c b/drivers/cpuidle/sysfs.c
+> index d6f5da61cb7d..61de64817604 100644
+> --- a/drivers/cpuidle/sysfs.c
+> +++ b/drivers/cpuidle/sysfs.c
+> @@ -27,14 +27,14 @@ static ssize_t show_available_governors(struct device=
+ *dev,
+>
+>         mutex_lock(&cpuidle_lock);
+>         list_for_each_entry(tmp, &cpuidle_governors, governor_list) {
+> -               if (i >=3D (ssize_t) (PAGE_SIZE - (CPUIDLE_NAME_LEN + 2))=
+)
+> +               if (i >=3D (ssize_t)(PAGE_SIZE - (CPUIDLE_NAME_LEN + 2)))
+>                         goto out;
+>
+> -               i +=3D scnprintf(&buf[i], CPUIDLE_NAME_LEN + 1, "%s ", tm=
+p->name);
+> +               i +=3D sysfs_emit_at(buf, i, "%.*s ", CPUIDLE_NAME_LEN, t=
+mp->name);
+>         }
+>
+>  out:
+> -       i+=3D sprintf(&buf[i], "\n");
+> +       i +=3D sysfs_emit_at(buf, i, "\n");
+>         mutex_unlock(&cpuidle_lock);
+>         return i;
+>  }
+> @@ -49,9 +49,9 @@ static ssize_t show_current_driver(struct device *dev,
+>         spin_lock(&cpuidle_driver_lock);
+>         drv =3D cpuidle_get_driver();
+>         if (drv)
+> -               ret =3D sprintf(buf, "%s\n", drv->name);
+> +               ret =3D sysfs_emit(buf, "%s\n", drv->name);
+>         else
+> -               ret =3D sprintf(buf, "none\n");
+> +               ret =3D sysfs_emit(buf, "none\n");
+>         spin_unlock(&cpuidle_driver_lock);
+>
+>         return ret;
+> @@ -65,9 +65,9 @@ static ssize_t show_current_governor(struct device *dev=
+,
+>
+>         mutex_lock(&cpuidle_lock);
+>         if (cpuidle_curr_governor)
+> -               ret =3D sprintf(buf, "%s\n", cpuidle_curr_governor->name)=
+;
+> +               ret =3D sysfs_emit(buf, "%s\n", cpuidle_curr_governor->na=
+me);
+>         else
+> -               ret =3D sprintf(buf, "none\n");
+> +               ret =3D sysfs_emit(buf, "none\n");
+>         mutex_unlock(&cpuidle_lock);
+>
+>         return ret;
+> @@ -230,7 +230,7 @@ static struct cpuidle_state_attr attr_##_name =3D __A=
+TTR(_name, 0644, show, store)
+>  static ssize_t show_state_##_name(struct cpuidle_state *state, \
+>                          struct cpuidle_state_usage *state_usage, char *b=
+uf) \
+>  { \
+> -       return sprintf(buf, "%u\n", state->_name);\
+> +       return sysfs_emit(buf, "%u\n", state->_name);\
+>  }
+>
+>  #define define_show_state_ull_function(_name) \
+> @@ -238,7 +238,7 @@ static ssize_t show_state_##_name(struct cpuidle_stat=
+e *state, \
+>                                   struct cpuidle_state_usage *state_usage=
+, \
+>                                   char *buf)                            \
+>  { \
+> -       return sprintf(buf, "%llu\n", state_usage->_name);\
+> +       return sysfs_emit(buf, "%llu\n", state_usage->_name);\
+>  }
+>
+>  #define define_show_state_str_function(_name) \
+> @@ -247,8 +247,8 @@ static ssize_t show_state_##_name(struct cpuidle_stat=
+e *state, \
+>                                   char *buf)                            \
+>  { \
+>         if (state->_name[0] =3D=3D '\0')\
+> -               return sprintf(buf, "<null>\n");\
+> -       return sprintf(buf, "%s\n", state->_name);\
+> +               return sysfs_emit(buf, "<null>\n");\
+> +       return sysfs_emit(buf, "%s\n", state->_name);\
+>  }
+>
+>  #define define_show_state_time_function(_name) \
+> @@ -256,7 +256,7 @@ static ssize_t show_state_##_name(struct cpuidle_stat=
+e *state, \
+>                                   struct cpuidle_state_usage *state_usage=
+, \
+>                                   char *buf) \
+>  { \
+> -       return sprintf(buf, "%llu\n", ktime_to_us(state->_name##_ns)); \
+> +       return sysfs_emit(buf, "%llu\n", ktime_to_us(state->_name##_ns));=
+ \
+>  }
+>
+>  define_show_state_time_function(exit_latency)
+> @@ -273,14 +273,14 @@ static ssize_t show_state_time(struct cpuidle_state=
+ *state,
+>                                struct cpuidle_state_usage *state_usage,
+>                                char *buf)
+>  {
+> -       return sprintf(buf, "%llu\n", ktime_to_us(state_usage->time_ns));
+> +       return sysfs_emit(buf, "%llu\n", ktime_to_us(state_usage->time_ns=
+));
+>  }
+>
+>  static ssize_t show_state_disable(struct cpuidle_state *state,
+>                                   struct cpuidle_state_usage *state_usage=
+,
+>                                   char *buf)
+>  {
+> -       return sprintf(buf, "%llu\n",
+> +       return sysfs_emit(buf, "%llu\n",
+>                        state_usage->disable & CPUIDLE_STATE_DISABLED_BY_U=
+SER);
+>  }
+>
+> @@ -310,7 +310,7 @@ static ssize_t show_state_default_status(struct cpuid=
+le_state *state,
+>                                           struct cpuidle_state_usage *sta=
+te_usage,
+>                                           char *buf)
+>  {
+> -       return sprintf(buf, "%s\n",
+> +       return sysfs_emit(buf, "%s\n",
+>                        state->flags & CPUIDLE_FLAG_OFF ? "disabled" : "en=
+abled");
+>  }
+>
+> @@ -358,7 +358,7 @@ static ssize_t show_state_s2idle_##_name(struct cpuid=
+le_state *state, \
+>                                          struct cpuidle_state_usage *stat=
+e_usage, \
+>                                          char *buf)                      =
+       \
+>  { \
+> -       return sprintf(buf, "%llu\n", state_usage->s2idle_##_name);\
+> +       return sysfs_emit(buf, "%llu\n", state_usage->s2idle_##_name);\
+>  }
+>
+>  define_show_state_s2idle_ull_function(usage);
+> @@ -550,7 +550,7 @@ static ssize_t show_driver_name(struct cpuidle_driver=
+ *drv, char *buf)
+>         ssize_t ret;
+>
+>         spin_lock(&cpuidle_driver_lock);
+> -       ret =3D sprintf(buf, "%s\n", drv ? drv->name : "none");
+> +       ret =3D sysfs_emit(buf, "%s\n", drv ? drv->name : "none");
+>         spin_unlock(&cpuidle_driver_lock);
+>
+>         return ret;
+> --
 
-    CPU0 (in rtl8150_start_xmit)   CPU1 (in rtl8150_start_xmit)    CPU2 (in rtl8150_set_multicast)
-    netif_stop_queue();
-                                                                    netif_stop_queue();
-    usb_submit_urb();
-                                                                    netif_wake_queue();  <-- Wakes up TX queue before it's ready
-                                    netif_stop_queue();
-                                    usb_submit_urb();                                    <-- Warning
-	freeing urb
-	
-Remove netif_wake_queue and corresponding netif_stop_queue in rtl8150_set_multicast to
-prevent this sequence of events
-
-Reported-and-tested-by: syzbot+78cae3f37c62ad092caa@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=78cae3f37c62ad092caa
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
----
-Relevant logs:
-[   65.779651][ T5648] About to enter stop queue ffff88805061e000, eth4
-[   65.779664][ T5648] After stop queue ffff88805061e000, eth4
-[   65.780296][ T5648] net eth4: eth name:eth4 SUBMIT: tx_urb=ffff888023219000, status=0, transfer_buffer_length=60, dev=ffff88805061ed80, netdev=ffff88805061e000, skb=ffff88804f907b80
-[   65.790962][  T760] About to enter stop queue ffff88805061e000, eth4
-[   65.790978][  T760] After stop queue ffff88805061e000, eth4
-[   65.791874][  T760] net eth4: We are inside Multicast dev:ffff88805061ed80, netdev:ffff88805061e000
-[   65.793259][  T760] About to enter netif_wake_queue ffff88805061e000, eth4
-[   65.793264][  T760] After netif_wake_queue ffff88805061e000, eth4
-[   65.822319][ T5829] About to enter stop queue ffff88805061e000, eth4
-[   65.823135][ T5829] After stop queue ffff88805061e000, eth4
-[   65.823739][ T5829] net eth4: eth name:eth4 SUBMIT: tx_urb=ffff888023219000, status=-115, transfer_buffer_length=90, dev=ffff88805061ed80, netdev=ffff88805061e000, skb=ffff88804b5363c0
-
- drivers/net/usb/rtl8150.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
-index ddff6f19ff98..92add3daadbb 100644
---- a/drivers/net/usb/rtl8150.c
-+++ b/drivers/net/usb/rtl8150.c
-@@ -664,7 +664,6 @@ static void rtl8150_set_multicast(struct net_device *netdev)
- 	rtl8150_t *dev = netdev_priv(netdev);
- 	u16 rx_creg = 0x9e;
- 
--	netif_stop_queue(netdev);
- 	if (netdev->flags & IFF_PROMISC) {
- 		rx_creg |= 0x0001;
- 		dev_info(&netdev->dev, "%s: promiscuous mode\n", netdev->name);
-@@ -678,7 +677,6 @@ static void rtl8150_set_multicast(struct net_device *netdev)
- 		rx_creg &= 0x00fc;
- 	}
- 	async_set_registers(dev, RCR, sizeof(rx_creg), rx_creg);
--	netif_wake_queue(netdev);
- }
- 
- static netdev_tx_t rtl8150_start_xmit(struct sk_buff *skb,
--- 
-2.47.3
-
+Applied as 6.18 material, thanks!
