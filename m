@@ -1,261 +1,77 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C514A1FE471
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Sep 2025 11:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869C0219301;
+	Sat, 20 Sep 2025 15:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758366829; cv=none; b=Ms/f7cBbC9VlaNcBGFQbfEewG/u+51F+8+AKqCUR7zIx4PM+cQRBAzrosEDiIOVO1IvtJSOdtuiXktDWhAEXD453xDiRgkqEBk6ERo+tqCRfv3UmLfcNrbIcNZhEXgSDqKk0pMC7eVzHaznADtrQNvLlj6RP1NBBTdHl/advFN4=
+	t=1758382268; cv=none; b=UEY57LssJgkBXpSkRGJQI/ve3wdUqzBsW9KUVlB+pCO5+BRQLr7EHziqIMg2vQKVyI7S9sTgN9SNHYY/cBumQqwBgYwoIdYHjK4NxDjfRFpJ2KLTCM21LHqABSPYXcER1KxBkujjE+hvInH9Ojcpmksw5emAlg8YK8fqn2JVVyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758366829; c=relaxed/simple;
-	bh=TpfP0VJ11G7QI0AQg4mLtUM4/jK7WE+IVpgAzVkuN/U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GLYIxUz2fDzaDQlzG/RKUdkLxOfs5pv0vYWZWU12lMJl6sq23mDaRhsJnhLnvwRU2J5340iNu8zjgBOV+NIIZAwjJeBhLnA5iWBSjHtVxMFd9dJjknK7J7/rzXPjjc9hoT79ejb2SXO+ISifwJEi8ds+9C6mU3JxK2ctWCJkxjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jmAKnuPe; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1758382268; c=relaxed/simple;
+	bh=VmpXs+T5FJFMh9uMlfY1zO0F1J8+Bi53OUp0N4Q+6Y8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RC8dO5PrXiQrx0U5tEQxQWHV0Gp0MacnnD7iEEgpociJ52IjpFa+sFhhHcBAhs9/v1bbEOyOeTlzdwCwLqf1ycCDa4WcV32R0ueGCgtYypPcE5i5a7WbltTD2fSC7mo0o4jyeLoVc3fcG/+AbtlS4HjyjXk5wNp9TnuZpWCscZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=oeHi3YvS; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jmAKnuPe"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6C9B2415B6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Sep 2025 11:13:47 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id c66Xc6M8xrGH for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Sep 2025 11:13:46 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=rafael@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org BC8EC415B2
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org BC8EC415B2
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jmAKnuPe
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id BC8EC415B2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Sep 2025 11:13:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 391844322E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Sep 2025 11:07:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BCCBC4CEFA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Sep 2025 11:07:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758366471;
-	bh=TpfP0VJ11G7QI0AQg4mLtUM4/jK7WE+IVpgAzVkuN/U=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=jmAKnuPeKu1VZuehGomrPgrOdZYCfyVXrQz3X6+MiybZvrU3BEKF4PHo0Akm/HXlS
-	 xuif77Mpc7fHBq1nA0YRze6Hg6Xyz8oW9RDYhjXah3X9yZislowUk1MaT8dIpqgnnI
-	 C0driG/G6hP7Auz23PPVO8uO/kdyZRjjdViamvD44CGOnPkcyffy/6sNrMhFv0WCBS
-	 AoqLippn4waSIWrkPmKVfyfc1aayaiRDLc8k2JdiCYMVP9Sx453qQpBrW46v+otuUI
-	 IzHmzDmoRRWx8JLcrrU9Xbj/fUEIZjU3T2SYcs1heXchgX/ZGfxI5Jb38bEsiossXM
-	 szZD/HMCHOzKg==
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6234b298d84so1539044eaf.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Sep 2025 04:07:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVags77RkNIp+z7DEtIUlVALUaNhw8L/gI3cWqKK69+LH3wNMEAUSjZnAJbk9VH9OCO2RwOd5eoBLLICGkTVxsBz9gbZA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzJbMSNS1O1Q5UALwKtplUWyOJuC7Jamj6ZTlBx4XY+CEflS3Rt
-	HJnY0GWWNPfeJXHYUt4sqfvkMAYvlmVp4PIIAfQUX4cWbbFVUqV/5IYAK+56kTJWzJnmsk/BrwI
-	/9HbkToxebaHMF86q9FQ+FIQdMvc5kjk=
-X-Google-Smtp-Source: AGHT+IF2uVqf5GAFrjNgl9l1aViZuBf9EzFUZwKFo5HyttmeemXFkxkW+7cNc1rWNoBCpeE2Iu3UZ3uahJkvkn37kQM=
-X-Received: by 2002:a05:6808:1394:b0:43b:2829:e642 with SMTP id
- 5614622812f47-43d6c2824f7mr2448689b6e.24.1758366470409; Sat, 20 Sep 2025
- 04:07:50 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="oeHi3YvS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=l3P7xbNm51dRG4YbNP1VYdE4uOUg89upg8bJchvamQY=; b=oeHi3YvSJt50OQWpfvMD3AnU28
+	IBiODy924lqyKQsQ74HLH6chjOVrcyJIGZ7Lj2lk9xcLEQFW5wk2WqNdrJwWHW4+boq8lmbuUqACa
+	4qqSk1nGV8gMO/iuq9+R7fvIpBslDj0JnT26ZrOQP3V1OaUHpgcsDt/PtQQoicW5+YWY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uzzXo-0091G0-9s; Sat, 20 Sep 2025 17:30:36 +0200
+Date: Sat, 20 Sep 2025 17:30:36 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: I Viswanath <viswanathiyyappan@gmail.com>
+Cc: petkan@nucleusys.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+	syzbot+78cae3f37c62ad092caa@syzkaller.appspotmail.com
+Subject: Re: [PATCH] net: usb: Remove disruptive netif_wake_queue in
+ rtl8150_set_multicast
+Message-ID: <5b51d80e-e67c-437d-a2fc-bebdf5e9a958@lunn.ch>
+References: <20250920045059.48400-1-viswanathiyyappan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJZ5v0gTtTZt7oE0vME0qRo8nZ=KX3DwF46PhyUVe7e85uZaNA@mail.gmail.com>
- <20250919165657.233349-1-vivekyadav1207731111@gmail.com>
-In-Reply-To: <20250919165657.233349-1-vivekyadav1207731111@gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Sat, 20 Sep 2025 13:07:39 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gooWpNra-EzT1xB+vsL9hLD_1eQm+DS_Jfw8dEtZoRJw@mail.gmail.com>
-X-Gm-Features: AS18NWA2wIGm6rW53tbOvfILtPGvc_KCP2IRAYMaTfaPPBtIE1EsaLwVMvUjfdM
-Message-ID: <CAJZ5v0gooWpNra-EzT1xB+vsL9hLD_1eQm+DS_Jfw8dEtZoRJw@mail.gmail.com>
-Subject: Re: [PATCH v2] cpuidle: sysfs: Use sysfs_emit/sysfs_emit_at instead
- of sprintf/scnprintf
-To: vivekyadav1207731111@gmail.com
-Cc: joe@perches.com, rafael@kernel.org, daniel.lezcano@linaro.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250920045059.48400-1-viswanathiyyappan@gmail.com>
 
-On Fri, Sep 19, 2025 at 6:57=E2=80=AFPM <vivekyadav1207731111@gmail.com> wr=
-ote:
->
-> From: Vivek Yadav <vivekyadav1207731111@gmail.com>
->
-> The ->show() callbacks in sysfs should use sysfs_emit() or
-> sysfs_emit_at() when formatting values for user space. These helpers
-> are the recommended way to ensure correct buffer handling and
-> consistency across the kernel.
->
-> See Documentation/filesystems/sysfs.rst for details.
->
-> No functional change intended.
->
-> Suggested-by: Joe Perches <joe@perches.com>
-> Signed-off-by: Vivek Yadav <vivekyadav1207731111@gmail.com>
-> ---
->  drivers/cpuidle/sysfs.c | 34 +++++++++++++++++-----------------
->  1 file changed, 17 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/cpuidle/sysfs.c b/drivers/cpuidle/sysfs.c
-> index d6f5da61cb7d..61de64817604 100644
-> --- a/drivers/cpuidle/sysfs.c
-> +++ b/drivers/cpuidle/sysfs.c
-> @@ -27,14 +27,14 @@ static ssize_t show_available_governors(struct device=
- *dev,
->
->         mutex_lock(&cpuidle_lock);
->         list_for_each_entry(tmp, &cpuidle_governors, governor_list) {
-> -               if (i >=3D (ssize_t) (PAGE_SIZE - (CPUIDLE_NAME_LEN + 2))=
-)
-> +               if (i >=3D (ssize_t)(PAGE_SIZE - (CPUIDLE_NAME_LEN + 2)))
->                         goto out;
->
-> -               i +=3D scnprintf(&buf[i], CPUIDLE_NAME_LEN + 1, "%s ", tm=
-p->name);
-> +               i +=3D sysfs_emit_at(buf, i, "%.*s ", CPUIDLE_NAME_LEN, t=
-mp->name);
->         }
->
->  out:
-> -       i+=3D sprintf(&buf[i], "\n");
-> +       i +=3D sysfs_emit_at(buf, i, "\n");
->         mutex_unlock(&cpuidle_lock);
->         return i;
->  }
-> @@ -49,9 +49,9 @@ static ssize_t show_current_driver(struct device *dev,
->         spin_lock(&cpuidle_driver_lock);
->         drv =3D cpuidle_get_driver();
->         if (drv)
-> -               ret =3D sprintf(buf, "%s\n", drv->name);
-> +               ret =3D sysfs_emit(buf, "%s\n", drv->name);
->         else
-> -               ret =3D sprintf(buf, "none\n");
-> +               ret =3D sysfs_emit(buf, "none\n");
->         spin_unlock(&cpuidle_driver_lock);
->
->         return ret;
-> @@ -65,9 +65,9 @@ static ssize_t show_current_governor(struct device *dev=
-,
->
->         mutex_lock(&cpuidle_lock);
->         if (cpuidle_curr_governor)
-> -               ret =3D sprintf(buf, "%s\n", cpuidle_curr_governor->name)=
-;
-> +               ret =3D sysfs_emit(buf, "%s\n", cpuidle_curr_governor->na=
-me);
->         else
-> -               ret =3D sprintf(buf, "none\n");
-> +               ret =3D sysfs_emit(buf, "none\n");
->         mutex_unlock(&cpuidle_lock);
->
->         return ret;
-> @@ -230,7 +230,7 @@ static struct cpuidle_state_attr attr_##_name =3D __A=
-TTR(_name, 0644, show, store)
->  static ssize_t show_state_##_name(struct cpuidle_state *state, \
->                          struct cpuidle_state_usage *state_usage, char *b=
-uf) \
->  { \
-> -       return sprintf(buf, "%u\n", state->_name);\
-> +       return sysfs_emit(buf, "%u\n", state->_name);\
->  }
->
->  #define define_show_state_ull_function(_name) \
-> @@ -238,7 +238,7 @@ static ssize_t show_state_##_name(struct cpuidle_stat=
-e *state, \
->                                   struct cpuidle_state_usage *state_usage=
-, \
->                                   char *buf)                            \
->  { \
-> -       return sprintf(buf, "%llu\n", state_usage->_name);\
-> +       return sysfs_emit(buf, "%llu\n", state_usage->_name);\
->  }
->
->  #define define_show_state_str_function(_name) \
-> @@ -247,8 +247,8 @@ static ssize_t show_state_##_name(struct cpuidle_stat=
-e *state, \
->                                   char *buf)                            \
->  { \
->         if (state->_name[0] =3D=3D '\0')\
-> -               return sprintf(buf, "<null>\n");\
-> -       return sprintf(buf, "%s\n", state->_name);\
-> +               return sysfs_emit(buf, "<null>\n");\
-> +       return sysfs_emit(buf, "%s\n", state->_name);\
->  }
->
->  #define define_show_state_time_function(_name) \
-> @@ -256,7 +256,7 @@ static ssize_t show_state_##_name(struct cpuidle_stat=
-e *state, \
->                                   struct cpuidle_state_usage *state_usage=
-, \
->                                   char *buf) \
->  { \
-> -       return sprintf(buf, "%llu\n", ktime_to_us(state->_name##_ns)); \
-> +       return sysfs_emit(buf, "%llu\n", ktime_to_us(state->_name##_ns));=
- \
->  }
->
->  define_show_state_time_function(exit_latency)
-> @@ -273,14 +273,14 @@ static ssize_t show_state_time(struct cpuidle_state=
- *state,
->                                struct cpuidle_state_usage *state_usage,
->                                char *buf)
->  {
-> -       return sprintf(buf, "%llu\n", ktime_to_us(state_usage->time_ns));
-> +       return sysfs_emit(buf, "%llu\n", ktime_to_us(state_usage->time_ns=
-));
->  }
->
->  static ssize_t show_state_disable(struct cpuidle_state *state,
->                                   struct cpuidle_state_usage *state_usage=
-,
->                                   char *buf)
->  {
-> -       return sprintf(buf, "%llu\n",
-> +       return sysfs_emit(buf, "%llu\n",
->                        state_usage->disable & CPUIDLE_STATE_DISABLED_BY_U=
-SER);
->  }
->
-> @@ -310,7 +310,7 @@ static ssize_t show_state_default_status(struct cpuid=
-le_state *state,
->                                           struct cpuidle_state_usage *sta=
-te_usage,
->                                           char *buf)
->  {
-> -       return sprintf(buf, "%s\n",
-> +       return sysfs_emit(buf, "%s\n",
->                        state->flags & CPUIDLE_FLAG_OFF ? "disabled" : "en=
-abled");
->  }
->
-> @@ -358,7 +358,7 @@ static ssize_t show_state_s2idle_##_name(struct cpuid=
-le_state *state, \
->                                          struct cpuidle_state_usage *stat=
-e_usage, \
->                                          char *buf)                      =
-       \
->  { \
-> -       return sprintf(buf, "%llu\n", state_usage->s2idle_##_name);\
-> +       return sysfs_emit(buf, "%llu\n", state_usage->s2idle_##_name);\
->  }
->
->  define_show_state_s2idle_ull_function(usage);
-> @@ -550,7 +550,7 @@ static ssize_t show_driver_name(struct cpuidle_driver=
- *drv, char *buf)
->         ssize_t ret;
->
->         spin_lock(&cpuidle_driver_lock);
-> -       ret =3D sprintf(buf, "%s\n", drv ? drv->name : "none");
-> +       ret =3D sysfs_emit(buf, "%s\n", drv ? drv->name : "none");
->         spin_unlock(&cpuidle_driver_lock);
->
->         return ret;
-> --
+On Sat, Sep 20, 2025 at 10:20:59AM +0530, I Viswanath wrote:
+> syzbot reported WARNING in rtl8150_start_xmit/usb_submit_urb.
+> This is a possible sequence of events:
+> 
+>     CPU0 (in rtl8150_start_xmit)   CPU1 (in rtl8150_start_xmit)    CPU2 (in rtl8150_set_multicast)
+>     netif_stop_queue();
+>                                                                     netif_stop_queue();
+>     usb_submit_urb();
+>                                                                     netif_wake_queue();  <-- Wakes up TX queue before it's ready
+>                                     netif_stop_queue();
+>                                     usb_submit_urb();                                    <-- Warning
+> 	freeing urb
+> 	
+> Remove netif_wake_queue and corresponding netif_stop_queue in rtl8150_set_multicast to
+> prevent this sequence of events
 
-Applied as 6.18 material, thanks!
+Please expand this sentence with an explanation of why this is
+safe. Why are these two calls not needed? The original author of this
+code thought they where needed, so you need to explain why they are
+not needed.
+
+    Andrew
+
+---
+pw-bot: cr
