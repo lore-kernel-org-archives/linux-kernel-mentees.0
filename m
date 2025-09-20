@@ -1,88 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149EF1E1E16;
-	Fri, 19 Sep 2025 18:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146CF1D9663
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 20 Sep 2025 04:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758307957; cv=none; b=N3CAkNpUSqycWQXTdHOVWmssBpKUzHnJ6NkKJ3BHRmeClOVACbMIJCdImTWXQ/89AStBgkcYN/lb+tfqOTa3ghsccB2Ye/gLrkgGl/y5qpnl4eM9ykV9y1MDtJIypjKATX6vdK+giLL6Ep1zenN/okhiIrn95mPT5A+AU641d9U=
+	t=1758341983; cv=none; b=P4zd4PGloK9XeVBfCxDLIUhHdemPfwcjsP4VRc42l3nfnM5bf4P225z7JRqacnq2SrWve+fXOPp63+GS4trqDc/AfLkpR7bZA6uqJcIFPtI5rrpvWtZW4VqIda9ugMBrxShfhy/m/R+zdTf6yH0SL2m6ydj3zMpSrlI3k8M8k+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758307957; c=relaxed/simple;
-	bh=+sZY14sW8tr9IVa9GH1fBB0VscnTuhTsxV2CfzO6pdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PsWLWzitgj5e2HeyuJD6oEeIrr4IUtIoOOonbvJTwy0lRHGuoE22gij75zxSBGuv1vx6ENc3nft2qNxsA8UIAT2ZoKXdd3/xMidALwd6RGNpNQ0DFSo21yvNyi9p9VE1wgH42Lgkm6Yc9ZVEJKzdRokL7veUo9VrJbZuetD0EfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NYKXeHdp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758341983; c=relaxed/simple;
+	bh=tPb8ZwTKiJD+qGUqRVTvDMnB6kbRjplfxr68r6FEXt4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P2Wp0dXdadOsoRZtwW8cYOCS+iOVVMi022Lm+qKNVDq824xetbE9Kkd9y/WCe2fVze+wi1nFftHhkp/QXt9M2ohYTRpXG8DWsSXK1pP7slvoA/hgJOaZGThuluWj366nF3d48P2mGGyGTIKQRmAm0mPz8856qN38vGd/ZgGkZeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RdPBYxIm; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NYKXeHdp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D9E1C4CEF0;
-	Fri, 19 Sep 2025 18:52:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758307956;
-	bh=+sZY14sW8tr9IVa9GH1fBB0VscnTuhTsxV2CfzO6pdE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NYKXeHdpOD1QbneH7XyTm8yziyDnhWbFad7CxaSZwm9o5f/2Ad2/EPvyMurh9fl6r
-	 XpwDHZmNvLYX3IiWaTOOvp28390iGIKQ7CAkbWP55QLE2rf5FeKzRrfYiqFdWAoY2v
-	 Bi6Du/7yz6eQ6/WckJumn+j/htMTZCIImITFILh14CNCnv60JTK1LRDTS26tO+HlQo
-	 r8rqN3taiY9u3mcMjto5zndQ5hbS3IB7OKk7O9c1hJsuDaF5l8DSXd0HaSofQs3kuC
-	 qBKtzpm2fn6dh80hQWZOwqsSoR3f96c3quFJIv08G/xgWPvCOoKa7fuXH2HQKEiOnz
-	 jcnvqf/qIqeRA==
-Date: Fri, 19 Sep 2025 19:52:32 +0100
-From: Simon Horman <horms@kernel.org>
-To: Deepak Sharma <deepak.sharma.472935@gmail.com>
-Cc: krzk@kernel.org, vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
-	stable@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
-Subject: Re: [PATCH net v3] net: nfc: nci: Add parameter validation for
- packet data
-Message-ID: <20250919185232.GF589507@horms.kernel.org>
-References: <20250919064545.4252-1-deepak.sharma.472935@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RdPBYxIm"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-77e69f69281so1355402b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 19 Sep 2025 21:19:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758341981; x=1758946781; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TtQtR1uGPAfF6Ic5yrjJTv73t4pCjLo/Eqk0WSj/PCU=;
+        b=RdPBYxImgLGqp+xzZcvBNu5aOVGmXhxY5/TI2J19tOYiTn2bHYX2vbO+Y1IwcHv5Su
+         fztTaLswYoqgEmN+CK0R2mSWyNA/A/tAqH7lyuzVYeW0j/630FtbWAVXKvo0kzLvOkFu
+         L6RQtzGxShTEYzKfDAvm7ou9ILiRt5WMbssfSyMHYk22Dw/2WaMLjv6pRnU23A2gSNJI
+         fTaaku0gF7JeWzIO3ghdm+lAb/12fjr/Pg0m2NIo+uzT/OpkZ0W5ummkQtfzNPII76lV
+         zPISe1II2u54ryAE9ZFUf4tmjhWyT+ydKCw1CQZaXEoyKWnAF1OYXD3132PpOJUL/r7O
+         +L4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758341981; x=1758946781;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TtQtR1uGPAfF6Ic5yrjJTv73t4pCjLo/Eqk0WSj/PCU=;
+        b=mkP6Pg4d8Dsxss4vKHoajSeXpZA/i+ujMdOFo53iZcZFvdPGRRxJmqL4EGXLSGaYrm
+         Isujkyi1X1j5i0IkOsOhrJrB0qPKNACPT9qSX43HxMY2gTJJkIXAj3JkgiM3ftz3k4Vc
+         TXmoTu2wAlK1xAN5Yt37kqJJqpnLYc0D2lAUjmUj8EtyyZ8rcUyz8kFUn0Q/8Xgbx81H
+         LNNmfiKsgW6fYyPJUm2SRrUM9AXI+gNDNycfjkYNZEiqeZSwuTHyxBM1Bp6BNjP3q4GC
+         ingzjuub3i5uQoxofl39hpw7J2Ho5WqMde1cUQ1cdrO6TVddv4iViwZK6jagwZhogt8G
+         2AEg==
+X-Forwarded-Encrypted: i=1; AJvYcCULRGfF+VQB0a3COoZcv0uAwILmqjzEu6G8w7UD7VOu1/KdN63w72Z9+kqzvSmevC6rXaVbvqXuMPaMhkyfLocGhXdnog==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzcefeVKqzMxK/2BPsERkZC9vYZjHvc5H/H9MtBK3sqSmVvRmnG
+	ee6A507gufEyLvkZoBxZ5EtEPf2gsUwBcw6BWHLfZpp0OjnGDNVxWbYp
+X-Gm-Gg: ASbGncuZ1hQhCoXhen0zp1bPffX6mEM+5t405VDyLSKte2gqcvh9Ni1DTEsPA3tZbI4
+	CGXZS7kES1DCwDW7Fmg5AB6qFnV1EJ/pUCYN/xF0h2AaPHB4gWjwCnjgs3KWKCc3HExMDmEX2Bp
+	QWHiY3xPj0FkyNY42z/rCNAGWX1PS9zusHwcO5sPh0gP8sc9Bu3Hc5g26Wr/qz2us6sJj7oJtYd
+	OKyk4dtRaAzkQXLJiv8uB8bxfB3shEkwruOlc6o80VzRkhZdspumBg3UD/zlVQ+uUbEdUc7qmzz
+	IQkGftcnlmJB33zCmS3mCCx3hweNzplUX+W//f/CHA/sxtaSJBShLPYG/gSm4NG3dyNU6Bgm32+
+	fsVpXXHd72H9Jyo+UBXOrEfX1N0LdJQbp5PpcohUMYVVwW4OIurr2ptB2SJ3d7fGI5mpD8lhis/
+	r6Xz7FngRcy4bV+w==
+X-Google-Smtp-Source: AGHT+IGUEiDuSiuGJOo8KQHJULEexVcAUHHiZasqs4cUJt9M2KVq4dwuHSlb5BHYKooThmDf3+ENQQ==
+X-Received: by 2002:a05:6a20:b917:b0:247:55a7:695a with SMTP id adf61e73a8af0-292148b82e5mr5949092637.15.1758341981154;
+        Fri, 19 Sep 2025 21:19:41 -0700 (PDT)
+Received: from debian.domain.name ([223.185.130.103])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32ed2771d43sm9750093a91.26.2025.09.19.21.19.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Sep 2025 21:19:40 -0700 (PDT)
+From: I Viswanath <viswanathiyyappan@gmail.com>
+To: shuah@kernel.org
+Cc: linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	david.hunter.linux@gmail.com,
+	I Viswanath <viswanathiyyappan@gmail.com>
+Subject: [PATCH] selftests: Fix Makefile to run targets even the ones in SKIP_TARGETS
+Date: Sat, 20 Sep 2025 09:49:14 +0530
+Message-ID: <20250920041914.7253-1-viswanathiyyappan@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250919064545.4252-1-deepak.sharma.472935@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 19, 2025 at 12:15:44PM +0530, Deepak Sharma wrote:
-> Syzbot reported an uninit-value bug at nci_init_req for commit
-> 5aca7966d2a7 ("Merge tag 'perf-tools-fixes-for-v6.17-2025-09-16'..).
-> 
-> This bug arises due to very limited and poor input validation
-> that was done at nic_valid_size(). This validation only
-> validates the skb->len (directly reflects size provided at the
-> userspace interface) with the length provided in the buffer
-> itself (interpreted as NCI_HEADER). This leads to the processing
-> of memory content at the address assuming the correct layout
-> per what opcode requires there. This leads to the accesses to
-> buffer of `skb_buff->data` which is not assigned anything yet.
-> 
-> Following the same silent drop of packets of invalid sizes at
-> `nic_valid_size()`, add validation of the data in the respective
-> handlers and return error values in case of failure. Release
-> the skb if error values are returned from handlers in 
-> `nci_nft_packet` and effectively do a silent drop
-> 
-> Possible TODO: because we silently drop the packets, the
-> call to `nci_request` will be waiting for completion of request
-> and will face timeouts. These timeouts can get excessively logged
-> in the dmesg. A proper handling of them may require to export
-> `nci_request_cancel` (or propagate error handling from the
-> nft packets handlers).
-> 
-> Reported-by: syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=740e04c2a93467a0f8c8
-> Fixes: 6a2968aaf50c ("NFC: basic NCI protocol implementation)
+With the current Makefile, if the user tries something like
 
-There is a typo in the fixes tag. It should be:
+make TARGETS="bpf mm"
 
-Fixes: 6a2968aaf50c ("NFC: basic NCI protocol implementation")
-                                                           ^^^
-I expect there is no need to repost to address this.
+only mm is run and bpf is skipped, which is not intentional.
 
-> Tested-by: syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
-> Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
+`bpf` and `sched_ext` are always filtered out even when TARGETS is set
+explicitly due to how SKIP_TARGETS is implemented.
 
-...
+This default skip exists because these tests require newer LLVM/Clang
+versions that may not be available on all systems.
+
+Fix the SKIP_TARGETS logic so that bpf and sched_ext remain
+skipped when TARGETS is taken from the Makefile but are included when
+the user specifies them explicitly.
+
+Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
+---
+make --silent summary=1 TARGETS="bpf size" kselftest
+
+make[3]: Entering directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/bpf'
+
+Auto-detecting system features:
+...                                    llvm: [ OFF ]
+
+Makefile:127: tools/build/Makefile.feature: No such file or directory
+make[4]: *** No rule to make target 'tools/build/Makefile.feature'.  Stop.
+make[3]: *** [Makefile:344: /home/user/kernel-dev/linux-next/tools/testing/selftests/bpf/tools/sbin/bpftool] Error 2
+make[3]: Leaving directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/bpf'
+make[3]: Nothing to be done for 'all'.
+make[3]: Entering directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/bpf'
+
+Auto-detecting system features:
+...                                    llvm: [ OFF ]
+
+Makefile:127: tools/build/Makefile.feature: No such file or directory
+make[4]: *** No rule to make target 'tools/build/Makefile.feature'.  Stop.
+make[3]: *** [Makefile:344: /home/user/kernel-dev/linux-next/tools/testing/selftests/bpf/tools/sbin/bpftool] Error 2
+make[3]: Leaving directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/bpf'
+TAP version 13
+1..1
+# selftests: size: get_size
+ok 1 selftests: size: get_size
+
+make --silent summary=1 kselftest (bpf is between arm64 and breakpoints in TARGETS)
+
+make[3]: Nothing to be done for 'all'.
+make[3]: Entering directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/alsa'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/alsa'
+make[3]: Entering directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/amd-pstate'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/amd-pstate'
+make[3]: Entering directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/arm64'
+make[3]: Leaving directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/arm64'
+make[3]: Entering directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/breakpoints'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/breakpoints'
+make[3]: Nothing to be done for 'all'.
+
+ tools/testing/selftests/Makefile | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index babed7b1c2d1..c6cedb09c372 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -145,7 +145,10 @@ endif
+ # User can optionally provide a TARGETS skiplist. By default we skip
+ # targets using BPF since it has cutting edge build time dependencies
+ # which require more effort to install.
+-SKIP_TARGETS ?= bpf sched_ext
++ifeq ($(origin TARGETS), file)
++        SKIP_TARGETS ?= bpf sched_ext
++endif
++
+ ifneq ($(SKIP_TARGETS),)
+ 	TMP := $(filter-out $(SKIP_TARGETS), $(TARGETS))
+ 	override TARGETS := $(TMP)
+-- 
+2.47.3
+
