@@ -1,177 +1,448 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB63A29BDA9
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 21 Sep 2025 14:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA3B1E89C
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 21 Sep 2025 18:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758464585; cv=none; b=gLNl0yG9YPlRH+/bTfUu0TxxtuhRXv7NkNxZGyUStpZXdwn6RBg2x5NYcsr/UScpUr6kmxKGwg/rmcw7Fqe0PzQ/OImufQnAVbrBa37q6TaD1M6WzqVJNL6mCDjr08eu+tYxfbCtluMST5J/s2bK7Y+n/z4/IHMsJk19nlDJrVc=
+	t=1758479129; cv=none; b=tXvAq4hGQRIBr9vK8S52CBtHHwF3Q6tnctl/5SSOsjNe68DMsLNT2DI81AgRZXJgIy7e+aAACFyWJlG5wuepAmR7Wbij/xukywAsEjMggiqQRBemUN7hUmbforr9TXYbdPW+H8PZlO3SF/5qL9jm3ACE5cTcNDNBUqEhG1RDmWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758464585; c=relaxed/simple;
-	bh=9b6F9D5jje7y6/LmiCOtXxc4p3d9Me4XqnbPLCr+gOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VixiZxAKIgHHGqRXzIZCExKUbZk+OxO1GkFj2JduviDxyjto0OHNZnQxmrUlD6PCXdBlZjD2B04aXuzeQZ8oemXflWf+AgcJTfGAw42DZGylg99GAXA+NLZgj+98JisjsLSTXQHvlRPpUtIb605KWY7EsVD9F1BVYSCblzKGPME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=am6+hSQN; arc=none smtp.client-ip=209.85.219.47
+	s=arc-20240116; t=1758479129; c=relaxed/simple;
+	bh=Sg2XlYDYQowzGhFzoBkNFLtm8J2pDb29iJgAxgweybI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fOxfJTNkuxycV7aHqk2YBv3om8AdP7fhLcsgavhNZA2CiFf9xOOkw3MeK653TZYb7r7I9+bNkQZv1qKe6TZnMUj+W+Wm1bdDLfZXO3ax+fIlmPmzbEpT+p/bF8njmDppf09vuys9sc+LiBq1wniaNL6/Zo6Xob/CWB2tv0SfFuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JUHPthSh; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="am6+hSQN"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-78e4056623fso33877446d6.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 21 Sep 2025 07:23:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JUHPthSh"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-77f2e960728so607320b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 21 Sep 2025 11:25:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758464583; x=1759069383; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=G2S8h80iAduu97mKh30jmuV711hoxhswsxtFwAuztlE=;
-        b=am6+hSQNHItaCup7+cgNzjpmw8PYy0ox1K44tI910yjh1O/j5Dvbu8NFO2tv9VeUyf
-         xvPCEMsJLnh+mBtzlkE+VOO0hQFItRCTAulN+e/cljt9FnP8eqk0dG9n8v84Q2dr6bfz
-         c2hymQPEpzvjcwANTSgiVthGO8NMHtA2Si6fftjMSY/PgHrNVIbPC8CORWpT7/OG78Xr
-         Xmx+kU0s2H8idIQveCoiXHP140ISrkVTnFUhzRsFO8ZZ9U1t+pUGK1PDCO/7P9W6EMtl
-         ncF2xx6spEpEjsQME+pEVFQQYkKqbwpKg9SroVRSLILuDvaz4AUC3JNbi7WbFpujLw5F
-         XWJw==
+        d=gmail.com; s=20230601; t=1758479126; x=1759083926; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tazlFB1vMMn1XBkVq4vMeLHr1D+MHYpw8LrJ666LU9A=;
+        b=JUHPthShfmkJapv6Q2He8i1n16nzD6e1DZzxIkYEvDeQr26GOcRNqHokaXVB3khJ/c
+         aEDDBShHL6RzEiN90Ir+ZQkfyqLGfJJnK/VpQVY7DJWi2h9gOOfdR7RoTqMbUCF/rkw/
+         xHHd7MaJIirndp7VuTV4bCamVqqji7Oj0OO9XdzCAT6Mu1Eqx+rOXy4wxbJk6Tg48PcS
+         UeDrOO5XyAKHKGDueqQ+7tyIjrhWk844qw0XjHzhAwP4M748aOIw8FTSwvDDVwluwK2i
+         HcvI3T/fnnG8ddPuFkCpZjYAJaD3kNoYaEAE7KwqusUmo6uSh9rx2b3dkDrO5BJglqvw
+         +jzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758464583; x=1759069383;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G2S8h80iAduu97mKh30jmuV711hoxhswsxtFwAuztlE=;
-        b=PQsQk/H3FgCz+8JxIefGDcuBoEX5QVUtKPACv0UiYK2Kee9kivnJgLBc35OmkGVsHV
-         tl4kqQtxfhCwnrvGpmbeO+liJJpAVcFBkzzjlSgWDxYzYQRJfaqI658b1/Yv+ayYmVX7
-         Ckuu/rGUPGyodz5PNK+ym9Vxssy4cgkT+eWDlF1VX759GTKaW6sqFpxT7atwpRwUzvfF
-         prjqfvezitnSPFB10Oejf6IsQvveFqaBEzdqhj9TcvJa94ymm1QRdClRj4KIXrx2fK+v
-         ZjeGw6N9J5OC6SojuBoUmsjNSFDzAxTtwJAt8r1b9Pxm68qghmnLLHBvbdiecFnekWtB
-         Mo7g==
-X-Forwarded-Encrypted: i=1; AJvYcCVALVY/t+BO7BGcAIcnvTtSzTY6fKEDO+Sj4mYA8uUaLJ98LKOiSiEarmcwGUNTopS55jCzwYhDNYu7yCmWvdVaIqDocA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzh9L4zRZZtweoiCvo53rdDs4gJuo9CTnbLM6/j+aX5NlDTGtYD
-	5Hh1HOdl2nT43xOtXCK+c8Mdb3zW4gBnWf4kqe5U2Z0GyEx1C2Qj548B
-X-Gm-Gg: ASbGncszEw5G5FFFax/xm2+xdDQ/zkZdpJcxi5ZlLiuB51ew3NgTlPDYwqOjeP5rCOQ
-	4O430ZQfmpvGd9aYIoNhZpM9VpIOzH3Ug9ef2dPwe6P3tQBNlRGCpweqAmqfFIfzfh99v+lxYEn
-	VLAWZfBOm8a47gf4cEF5YacUORrFDeQbBP1otGDIV6hZ9MGnrOS8cSa0qJd3o8RbCijQlnTgKFC
-	+eIt3+bpJ2Ao3fjXxbQjaoqROzuBKh6xhNSYIV6MS3N7I/JHcjZZRFrBD+QHzOSSN8iV9ameRQY
-	3Mip4nMO5RM/hQHB9UU9jgXhbuOz4v84d68M1J74om4cDDULy9aBgerbV4WiMbTDyq0PaTQL+/A
-	BG396BJDyk2knjyrq9NnJWhLlX4C+PArxaaiidUdZXl9q
-X-Google-Smtp-Source: AGHT+IFqbWz5JMCQf7zPfQ4YD0JBq9Wwm4X91v0TnqKyBZ1Ok3eymp4E7AQdn1kaqPdypC5ry9p0dA==
-X-Received: by 2002:ad4:5de1:0:b0:78e:7f26:686b with SMTP id 6a1803df08f44-799137e264bmr109415806d6.21.1758464582548;
-        Sun, 21 Sep 2025 07:23:02 -0700 (PDT)
-Received: from gmail.com ([2600:4041:4491:2000:eae0:9bbb:1dde:89c4])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-793548c7c21sm58119896d6.59.2025.09.21.07.23.01
+        d=1e100.net; s=20230601; t=1758479126; x=1759083926;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tazlFB1vMMn1XBkVq4vMeLHr1D+MHYpw8LrJ666LU9A=;
+        b=qMgPxxzJmN58FMXu7rKpG4p0kndejqBu0jszGALob5uQqmdQwheYqwngGRp3maf9Bw
+         5A0wEIWnyeZItHCcoHXvu7PeBBHpOd1bp4m2kEkcsEJR0xYVDcBHsXJS3fRYg2zzy5mB
+         OoaQRatxtCcsqaLRsTFJ4ziCLXwCEEKbbugBfOBqTApIGy0uqnLPacBwotya8G4/1QaU
+         ixbg3CEg0o6yjNGH2uYPypp/SMDjv8v8Tlc8pskekcDjj2q6FMTdrj1cIwmFpu7BPvFJ
+         11IJphhDIgkcfZ5SN+Wdj1OkxtQFOa+BmNu1EBv/uwHbrNS12vtjyPcfgcmtL1+u4PXI
+         QY3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVYOBYyiCl2YOsNfLnlof6wBxQ3tA4K1jr6hEVULqbf4VQQri2FePjbw3r5xfv6QHQT1Z2UjCQH7NCgBhPoNPt9fcS9UA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywhn/pljVcbCTHeE0EqbRcXxLlGO2vkbNnFyzujC+VD7+dN7umK
+	AgIIjuf0GSrfahcp8sgPSMayBJoxThEU5BoK8SjEcc41STBQcAA+4vLF
+X-Gm-Gg: ASbGncu6z/rOQYgZ7kDLU0KnIHMZP+EADeU2qPNrqu+9HowXy6Zs7Y4pmxDHgRFYp4b
+	O6OKZ1hlqoxR+fGplweHbqfEddZyju5pJ54silxgw0s5yWBrzqQ+0IOq73X9zk7JC8SleUepg7j
+	qfrytUVkvl9OlmRRWYK89kksOpBS3dvcp3trb3h/+7qhRb5D0BPiDo3T4O6rm1rl/ppzHyx1b9L
+	SxIc9mpY1JQwtbQKjrHB54j7/Sepa8uGaLzzUWLzwvBVDHO8Sc6fbxk979Ia0y+z08Xd/XNF4Uf
+	JldhsG8HOaeSGwUIt6yadiCV1VP4iZaziXxHm+vOdAqaSo7YtkLjcKUwTq7wJXw8AI0gcibQ9Mb
+	O6tdC7S2Ve6VDOP16nKlXIJOLQTjXboahaeKKz+g=
+X-Google-Smtp-Source: AGHT+IHLt2ieR3u3ri9zLC9hok3pW1HJzNJYgtBIlleJJpWheh/ss8dcVUIk3PhTLxCm3RaUAckG5A==
+X-Received: by 2002:a05:6a00:190a:b0:77f:2eb8:5959 with SMTP id d2e1a72fcca58-77f2eb87ca3mr2849369b3a.29.1758479126425;
+        Sun, 21 Sep 2025 11:25:26 -0700 (PDT)
+Received: from cortexauth ([2405:201:d038:3034:bd16:ae06:bb55:dd23])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f1550f890sm5632367b3a.94.2025.09.21.11.25.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Sep 2025 07:23:02 -0700 (PDT)
-Date: Sun, 21 Sep 2025 23:23:00 +0900
-From: Ryan Chung <seokwoo.chung130@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org,
-	jack@suse.cz, linux-kernel@vger.kernel.org,
+        Sun, 21 Sep 2025 11:25:25 -0700 (PDT)
+From: Deepak Sharma <deepak.sharma.472935@gmail.com>
+To: krzk@kernel.org,
+	vadim.fedorenko@linux.dev
+Cc: netdev@vger.kernel.org,
+	stable@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [RFC] {do_,}lock_mount() behaviour wrt races and move_mount(2)
- with empty to_path (was Re: [PATCH] fs/namespace.c: fix mountpath handling
- in do_lock_mount())
-Message-ID: <aNAKRIcAirFMXWmO@gmail.com>
-References: <20250818172235.178899-1-seokwoo.chung130@gmail.com>
- <20250818201428.GC222315@ZenIV>
- <20250818205606.GD222315@ZenIV>
- <20250819-qualifizieren-draht-f209a541ac6c@brauner>
+	linville@tuxdriver.com,
+	kuba@kernel.org,
+	edumazet@google.com,
+	juraj@sarinay.com,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	Deepak Sharma <deepak.sharma.472935@gmail.com>,
+	syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
+Subject: [PATCH RESEND net v3] net: nfc: nci: Add parameter validation for packet data
+Date: Sun, 21 Sep 2025 23:53:25 +0530
+Message-ID: <20250921182325.12537-1-deepak.sharma.472935@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250819-qualifizieren-draht-f209a541ac6c@brauner>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 19, 2025 at 11:40:14AM +0200, Christian Brauner wrote:
-> On Mon, Aug 18, 2025 at 09:56:06PM +0100, Al Viro wrote:
-> > On Mon, Aug 18, 2025 at 09:14:28PM +0100, Al Viro wrote:
-> > 
-> > > Alternative would be to treat these races as "act as if we'd won and
-> > > the other guy had overmounted ours", i.e. *NOT* follow mounts.  Again,
-> > > for old syscalls that's fine - if another thread has raced with us and
-> > > mounted something on top of the place we want to mount on, it could just
-> > > as easily have come *after* we'd completed mount(2) and mounted their
-> > > stuff on top of ours.  If userland is not fine with such outcome, it needs
-> > > to provide serialization between the callers.  For move_mount(2)... again,
-> > > the only real question is empty to_path case.
-> > > 
-> > > Comments?
-> > 
-> > Thinking about it a bit more...  Unfortunately, there's another corner
-> > case: "." as mountpoint.  That would affect that old syscalls as well
-> > and I'm not sure that there's no userland code that relies upon the
-> > current behaviour.
-> > 
-> > Background: pathname resolution does *NOT* follow mounts on the starting
-> > point and it does not follow mounts after "."
-> > 
-> > ; mkdir /tmp/foo
-> > ; mount -t tmpfs none /tmp/foo
-> > ; cd /tmp/foo
-> > ; echo under > a
-> > ; cat /tmp/foo/a
-> > under
-> > ; mount -t tmpfs none /tmp/foo
-> > ; cat a
-> > under
-> > ; cat /tmp/foo/a
-> > cat: /tmp/foo/a: no such file or directory
-> > ; echo under > b
-> > ; cat b
-> > under
-> > ; cat /tmp/foo/b
-> > cat: /tmp/foo/b: no such file or directory
-> > ;
-> > 
-> > It's been a bad decision (if it can be called that - it's been more
-> > of an accident, AFAICT), but it's decades too late to change it.
-> > And interaction with mount is also fun: mount(2) *DOES* follow mounts
-> > on the end of any pathname, no matter what.  So in case when we are
-> > standing in an overmounted directory, ls . will show the contents of
-> > that directory, but mount <something> . will mount on top of whatever's
-> > mounted there.
-> > 
-> > So the alternative I've mentioned above would change the behaviour of
-> > old syscalls in a corner case that just might be actually used in userland
-> > code - including the scripts run at the boot time, of all things ;-/
-> > 
-> > IOW, it probably falls under "can't touch that, no matter how much we'd
-> > like to" ;-/  Pity, that...
-> > 
-> > That leaves the question of MOVE_MOUNT_BENEATH with empty pathname -
-> > do we want a variant that would say "slide precisely under the opened
-> > directory I gave you, no matter what might overmount it"?
-> 
-> Afaict, right now MOVE_MOUNT_BENEATH will take the overmount into
-> account even for "." just like mount(2) will lookup the topmost mount no
-> matter what. That is what userspace expects. I don't think we need a
-> variant where "." ignores overmounts for MOVE_MOUNT_BENEATH and really
-> not unless someone has a specific use-case for it. If it comes to that
-> we should probably add a new flag.
-> 
-> > 
-> > At the very least this corner case needs to be documented in move_mount(2)
-> > - behaviour of
-> > 	move_mount(_, _, dir_fd, "",
-> > 		   MOVE_MOUNT_T_EMPTY | MOVE_MOUNT_BENEATH)
-> > has two apriori reasonable variants ("slide right under the top of
-> > whatever pile there might be over dir_fd" and "slide right under dir_fd
-> 
-> Yes, that's what's intended and documented also what I wrote in my
-> commit messages and what the selftests should test for. I specifically
-> did not make it deviate from standard mount(2) behavior.
-> 
-> > itself, no matter what pile might be on top of that") and leaving it
-> > unspecified is not good, IMO...
-> 
-> Sure, Aleksa can pull that into his documentation patches.
+Syzbot reported an uninitialized value bug in nci_init_req, which was 
+introduced by commit 5aca7966d2a7 ("Merge tag 
+'perf-tools-fixes-for-v6.17-2025-09-16' of 
+git://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools").
 
-Hello all,
+This bug arises due to very limited and poor input validation
+that was done at nic_valid_size(). This validation only
+validates the skb->len (directly reflects size provided at the
+userspace interface) with the length provided in the buffer
+itself (interpreted as NCI_HEADER). This leads to the processing
+of memory content at the address assuming the correct layout
+per what opcode requires there. This leads to the accesses to
+buffer of `skb_buff->data` which is not assigned anything yet.
 
-I am writing to follow up on this RFC patch. The last discussion was a
-month ago and it seems like the conversation has stalled.
+Following the same silent drop of packets of invalid sizes at
+`nic_valid_size()`, add validation of the data in the respective
+handlers and return error values in case of failure. Release
+the skb if error values are returned from handlers in 
+`nci_nft_packet` and effectively do a silent drop
 
-Thank you.
+Possible TODO: because we silently drop the packets, the
+call to `nci_request` will be waiting for completion of request
+and will face timeouts. These timeouts can get excessively logged
+in the dmesg. A proper handling of them may require to export
+`nci_request_cancel` (or propagate error handling from the
+nft packets handlers).
 
-Best regards,
-Ryan Chung
+Reported-by: syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=740e04c2a93467a0f8c8
+Fixes: 6a2968aaf50c ("NFC: basic NCI protocol implementation")
+Tested-by: syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
+Cc: stable@vger.kernel.org
+Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
+Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+---
+v3:
+ - Move the checks inside the packet data handlers
+ - Improvements to the commit message
+
+v2:
+ - Fix the release of skb in case of the early return
+
+v1:
+ - Add checks in `nci_ntf_packet` on the skb->len and do early return
+   on failure
+
+ net/nfc/nci/ntf.c | 139 +++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 101 insertions(+), 38 deletions(-)
+
+diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
+index a818eff27e6b..c0edf8242e22 100644
+--- a/net/nfc/nci/ntf.c
++++ b/net/nfc/nci/ntf.c
+@@ -27,11 +27,16 @@
+ 
+ /* Handle NCI Notification packets */
+ 
+-static void nci_core_reset_ntf_packet(struct nci_dev *ndev,
+-				      const struct sk_buff *skb)
++static int nci_core_reset_ntf_packet(struct nci_dev *ndev,
++				     const struct sk_buff *skb)
+ {
+ 	/* Handle NCI 2.x core reset notification */
+-	const struct nci_core_reset_ntf *ntf = (void *)skb->data;
++	const struct nci_core_reset_ntf *ntf;
++
++	if (skb->len < sizeof(struct nci_core_reset_ntf))
++		return -EINVAL;
++
++	ntf = (struct nci_core_reset_ntf *)skb->data;
+ 
+ 	ndev->nci_ver = ntf->nci_ver;
+ 	pr_debug("nci_ver 0x%x, config_status 0x%x\n",
+@@ -42,15 +47,22 @@ static void nci_core_reset_ntf_packet(struct nci_dev *ndev,
+ 		__le32_to_cpu(ntf->manufact_specific_info);
+ 
+ 	nci_req_complete(ndev, NCI_STATUS_OK);
++
++	return 0;
+ }
+ 
+-static void nci_core_conn_credits_ntf_packet(struct nci_dev *ndev,
+-					     struct sk_buff *skb)
++static int nci_core_conn_credits_ntf_packet(struct nci_dev *ndev,
++					    struct sk_buff *skb)
+ {
+-	struct nci_core_conn_credit_ntf *ntf = (void *) skb->data;
++	struct nci_core_conn_credit_ntf *ntf;
+ 	struct nci_conn_info *conn_info;
+ 	int i;
+ 
++	if (skb->len < sizeof(struct nci_core_conn_credit_ntf))
++		return -EINVAL;
++
++	ntf = (struct nci_core_conn_credit_ntf *)skb->data;
++
+ 	pr_debug("num_entries %d\n", ntf->num_entries);
+ 
+ 	if (ntf->num_entries > NCI_MAX_NUM_CONN)
+@@ -68,7 +80,7 @@ static void nci_core_conn_credits_ntf_packet(struct nci_dev *ndev,
+ 		conn_info = nci_get_conn_info_by_conn_id(ndev,
+ 							 ntf->conn_entries[i].conn_id);
+ 		if (!conn_info)
+-			return;
++			return 0;
+ 
+ 		atomic_add(ntf->conn_entries[i].credits,
+ 			   &conn_info->credits_cnt);
+@@ -77,12 +89,19 @@ static void nci_core_conn_credits_ntf_packet(struct nci_dev *ndev,
+ 	/* trigger the next tx */
+ 	if (!skb_queue_empty(&ndev->tx_q))
+ 		queue_work(ndev->tx_wq, &ndev->tx_work);
++
++	return 0;
+ }
+ 
+-static void nci_core_generic_error_ntf_packet(struct nci_dev *ndev,
+-					      const struct sk_buff *skb)
++static int nci_core_generic_error_ntf_packet(struct nci_dev *ndev,
++					     const struct sk_buff *skb)
+ {
+-	__u8 status = skb->data[0];
++	__u8 status;
++
++	if (skb->len < 1)
++		return -EINVAL;
++
++	status = skb->data[0];
+ 
+ 	pr_debug("status 0x%x\n", status);
+ 
+@@ -91,12 +110,19 @@ static void nci_core_generic_error_ntf_packet(struct nci_dev *ndev,
+ 		   (the state remains the same) */
+ 		nci_req_complete(ndev, status);
+ 	}
++
++	return 0;
+ }
+ 
+-static void nci_core_conn_intf_error_ntf_packet(struct nci_dev *ndev,
+-						struct sk_buff *skb)
++static int nci_core_conn_intf_error_ntf_packet(struct nci_dev *ndev,
++					       struct sk_buff *skb)
+ {
+-	struct nci_core_intf_error_ntf *ntf = (void *) skb->data;
++	struct nci_core_intf_error_ntf *ntf;
++
++	if (skb->len < sizeof(struct nci_core_intf_error_ntf))
++		return -EINVAL;
++
++	ntf = (struct nci_core_intf_error_ntf *)skb->data;
+ 
+ 	ntf->conn_id = nci_conn_id(&ntf->conn_id);
+ 
+@@ -105,6 +131,8 @@ static void nci_core_conn_intf_error_ntf_packet(struct nci_dev *ndev,
+ 	/* complete the data exchange transaction, if exists */
+ 	if (test_bit(NCI_DATA_EXCHANGE, &ndev->flags))
+ 		nci_data_exchange_complete(ndev, NULL, ntf->conn_id, -EIO);
++
++	return 0;
+ }
+ 
+ static const __u8 *
+@@ -329,13 +357,18 @@ void nci_clear_target_list(struct nci_dev *ndev)
+ 	ndev->n_targets = 0;
+ }
+ 
+-static void nci_rf_discover_ntf_packet(struct nci_dev *ndev,
+-				       const struct sk_buff *skb)
++static int nci_rf_discover_ntf_packet(struct nci_dev *ndev,
++				      const struct sk_buff *skb)
+ {
+ 	struct nci_rf_discover_ntf ntf;
+-	const __u8 *data = skb->data;
++	const __u8 *data;
+ 	bool add_target = true;
+ 
++	if (skb->len < sizeof(struct nci_rf_discover_ntf))
++		return -EINVAL;
++
++	data = skb->data;
++
+ 	ntf.rf_discovery_id = *data++;
+ 	ntf.rf_protocol = *data++;
+ 	ntf.rf_tech_and_mode = *data++;
+@@ -390,6 +423,8 @@ static void nci_rf_discover_ntf_packet(struct nci_dev *ndev,
+ 		nfc_targets_found(ndev->nfc_dev, ndev->targets,
+ 				  ndev->n_targets);
+ 	}
++
++	return 0;
+ }
+ 
+ static int nci_extract_activation_params_iso_dep(struct nci_dev *ndev,
+@@ -501,7 +536,7 @@ static int nci_store_general_bytes_nfc_dep(struct nci_dev *ndev,
+ 	case NCI_NFC_A_PASSIVE_POLL_MODE:
+ 	case NCI_NFC_F_PASSIVE_POLL_MODE:
+ 		ndev->remote_gb_len = min_t(__u8,
+-			(ntf->activation_params.poll_nfc_dep.atr_res_len
++					    (ntf->activation_params.poll_nfc_dep.atr_res_len
+ 						- NFC_ATR_RES_GT_OFFSET),
+ 			NFC_ATR_RES_GB_MAXSIZE);
+ 		memcpy(ndev->remote_gb,
+@@ -513,7 +548,7 @@ static int nci_store_general_bytes_nfc_dep(struct nci_dev *ndev,
+ 	case NCI_NFC_A_PASSIVE_LISTEN_MODE:
+ 	case NCI_NFC_F_PASSIVE_LISTEN_MODE:
+ 		ndev->remote_gb_len = min_t(__u8,
+-			(ntf->activation_params.listen_nfc_dep.atr_req_len
++					    (ntf->activation_params.listen_nfc_dep.atr_req_len
+ 						- NFC_ATR_REQ_GT_OFFSET),
+ 			NFC_ATR_REQ_GB_MAXSIZE);
+ 		memcpy(ndev->remote_gb,
+@@ -553,14 +588,19 @@ static int nci_store_ats_nfc_iso_dep(struct nci_dev *ndev,
+ 	return NCI_STATUS_OK;
+ }
+ 
+-static void nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
+-					     const struct sk_buff *skb)
++static int nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
++					    const struct sk_buff *skb)
+ {
+ 	struct nci_conn_info *conn_info;
+ 	struct nci_rf_intf_activated_ntf ntf;
+-	const __u8 *data = skb->data;
++	const __u8 *data;
+ 	int err = NCI_STATUS_OK;
+ 
++	if (skb->len < sizeof(struct nci_rf_intf_activated_ntf))
++		return -EINVAL;
++
++	data = skb->data;
++
+ 	ntf.rf_discovery_id = *data++;
+ 	ntf.rf_interface = *data++;
+ 	ntf.rf_protocol = *data++;
+@@ -667,7 +707,7 @@ static void nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
+ 	if (err == NCI_STATUS_OK) {
+ 		conn_info = ndev->rf_conn_info;
+ 		if (!conn_info)
+-			return;
++			return 0;
+ 
+ 		conn_info->max_pkt_payload_len = ntf.max_data_pkt_payload_size;
+ 		conn_info->initial_num_credits = ntf.initial_num_credits;
+@@ -721,19 +761,26 @@ static void nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
+ 				pr_err("error when signaling tm activation\n");
+ 		}
+ 	}
++
++	return 0;
+ }
+ 
+-static void nci_rf_deactivate_ntf_packet(struct nci_dev *ndev,
+-					 const struct sk_buff *skb)
++static int nci_rf_deactivate_ntf_packet(struct nci_dev *ndev,
++					const struct sk_buff *skb)
+ {
+ 	const struct nci_conn_info *conn_info;
+-	const struct nci_rf_deactivate_ntf *ntf = (void *)skb->data;
++	const struct nci_rf_deactivate_ntf *ntf;
++
++	if (skb->len < sizeof(struct nci_rf_deactivate_ntf))
++		return -EINVAL;
++
++	ntf = (struct nci_rf_deactivate_ntf *)skb->data;
+ 
+ 	pr_debug("entry, type 0x%x, reason 0x%x\n", ntf->type, ntf->reason);
+ 
+ 	conn_info = ndev->rf_conn_info;
+ 	if (!conn_info)
+-		return;
++		return 0;
+ 
+ 	/* drop tx data queue */
+ 	skb_queue_purge(&ndev->tx_q);
+@@ -765,14 +812,20 @@ static void nci_rf_deactivate_ntf_packet(struct nci_dev *ndev,
+ 	}
+ 
+ 	nci_req_complete(ndev, NCI_STATUS_OK);
++
++	return 0;
+ }
+ 
+-static void nci_nfcee_discover_ntf_packet(struct nci_dev *ndev,
+-					  const struct sk_buff *skb)
++static int nci_nfcee_discover_ntf_packet(struct nci_dev *ndev,
++					 const struct sk_buff *skb)
+ {
+ 	u8 status = NCI_STATUS_OK;
+-	const struct nci_nfcee_discover_ntf *nfcee_ntf =
+-				(struct nci_nfcee_discover_ntf *)skb->data;
++	const struct nci_nfcee_discover_ntf *nfcee_ntf;
++
++	if (skb->len < sizeof(struct nci_nfcee_discover_ntf))
++		return -EINVAL;
++
++	nfcee_ntf = (struct nci_nfcee_discover_ntf *)skb->data;
+ 
+ 	/* NFCForum NCI 9.2.1 HCI Network Specific Handling
+ 	 * If the NFCC supports the HCI Network, it SHALL return one,
+@@ -783,6 +836,8 @@ static void nci_nfcee_discover_ntf_packet(struct nci_dev *ndev,
+ 	ndev->cur_params.id = nfcee_ntf->nfcee_id;
+ 
+ 	nci_req_complete(ndev, status);
++
++	return 0;
+ }
+ 
+ void nci_ntf_packet(struct nci_dev *ndev, struct sk_buff *skb)
+@@ -809,35 +864,43 @@ void nci_ntf_packet(struct nci_dev *ndev, struct sk_buff *skb)
+ 
+ 	switch (ntf_opcode) {
+ 	case NCI_OP_CORE_RESET_NTF:
+-		nci_core_reset_ntf_packet(ndev, skb);
++		if (nci_core_reset_ntf_packet(ndev, skb))
++			goto end;
+ 		break;
+ 
+ 	case NCI_OP_CORE_CONN_CREDITS_NTF:
+-		nci_core_conn_credits_ntf_packet(ndev, skb);
++		if (nci_core_conn_credits_ntf_packet(ndev, skb))
++			goto end;
+ 		break;
+ 
+ 	case NCI_OP_CORE_GENERIC_ERROR_NTF:
+-		nci_core_generic_error_ntf_packet(ndev, skb);
++		if (nci_core_generic_error_ntf_packet(ndev, skb))
++			goto end;
+ 		break;
+ 
+ 	case NCI_OP_CORE_INTF_ERROR_NTF:
+-		nci_core_conn_intf_error_ntf_packet(ndev, skb);
++		if (nci_core_conn_intf_error_ntf_packet(ndev, skb))
++			goto end;
+ 		break;
+ 
+ 	case NCI_OP_RF_DISCOVER_NTF:
+-		nci_rf_discover_ntf_packet(ndev, skb);
++		if (nci_rf_discover_ntf_packet(ndev, skb))
++			goto end;
+ 		break;
+ 
+ 	case NCI_OP_RF_INTF_ACTIVATED_NTF:
+-		nci_rf_intf_activated_ntf_packet(ndev, skb);
++		if (nci_rf_intf_activated_ntf_packet(ndev, skb))
++			goto end;
+ 		break;
+ 
+ 	case NCI_OP_RF_DEACTIVATE_NTF:
+-		nci_rf_deactivate_ntf_packet(ndev, skb);
++		if (nci_rf_deactivate_ntf_packet(ndev, skb))
++			goto end;
+ 		break;
+ 
+ 	case NCI_OP_NFCEE_DISCOVER_NTF:
+-		nci_nfcee_discover_ntf_packet(ndev, skb);
++		if (nci_nfcee_discover_ntf_packet(ndev, skb))
++			goto end;
+ 		break;
+ 
+ 	case NCI_OP_RF_NFCEE_ACTION_NTF:
+-- 
+2.51.0
+
