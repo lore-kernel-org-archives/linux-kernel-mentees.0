@@ -1,93 +1,297 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA56192B66
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Sep 2025 13:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758547874; cv=none; b=YNF708Qp2LyvbgdoBtqRVMsvhS4wz34Y+uTXcr0GFtv+jcSFgULmAp0fgrLc0MfzsXYLDZuSk/V9nvGdHNruz9Rgy9GZLPP2BL/adAo72AKTtEaGT+mVmYLPTAAN7mBsE1MRpZR6q6pPHhkCpxqsg+Sl21VMvGweBpEWIGnKiss=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758547874; c=relaxed/simple;
-	bh=9U9Oq0mZV2UmPfUWr510i+RGShVlmBrXJe+uht1I9m0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y3YoezSCFtLfInZXmZXnvrPAi3LKTlIm1qpM79950r3Y50e8BPsLX2D0Cd7Oj+yDYl2sr3oSv7rxxhBf3L4NMu9kTBtD/dy+jFV+bH+0WSaXCrxddEGUIOpx/wL8wqSxeyz37jB9aHEHN/2PBtMgTFPaML2O5HGMxdLDz7Hfy1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mY/OYPVW; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3620F30F950
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 22 Sep 2025 13:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=140.211.166.138
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758549564; cv=fail; b=dsKTVrLDdSHfBtRd2jhCeXsEL/LQV1Qfq5JKIWehMGu+8vwIpE+HheqeecFikcxsk99+IFAxRd1vLWXbUCnjqKu74klVvbhWYSLWEXuWtqKhKVLMmjKvcoVS2trrjPfcbsAxjtM3crN9HbLjwCwJYzwGgCflMnMTy4ExfmpBUp4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758549564; c=relaxed/simple;
+	bh=m+W3EWNKWDSY4L4fojgF8gtRZcJUJnLtU/FJPfNtNws=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=TtDratn62Okg/hg6cp4iHtnwbKb7i5cJvpIdN+hOYid8qsNw9aH/j67LhxbKvTmaA3DgZmfQ3pZgQmngdY1NHg/sggcfwGx5aXlKvaCjz7XWKjzbm3vG/tBnewtnhOjy4QeHrDBoJ7NCHO27LKhMJVkYsXhr8ILUYqn3t0zXWNQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=O4r5Oux9; arc=fail smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mY/OYPVW"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-244582738b5so37591075ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Sep 2025 06:31:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758547872; x=1759152672; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LOZ+3sPJjHhme5/KGeK2VfF1vjlB7AEmx0hb+K9u3c4=;
-        b=mY/OYPVW0ea3Rgl9jpuITpMHV8EGwage5KcJKCyVVCqnZGbH2Il4Sflp3lwLquFxMt
-         gEaNo96ZVm9UCcTdG/sMpueROiGi4vqAB+tWKm9+FnMIHnNklVQsLBg0km8NEpaSvMlA
-         uSqIqVhpzsw8HbeTErhBT2gpamaMYrXqTxy9A0V9Z7mu88hSJB4hr3fcyfnv1FQDAXdm
-         uvzO9s4MMFUI9MMk96Sg31ZPdTHKzANGzncI+JG49K+5Gvw7keup8gJV0WqjfZ9enQdl
-         K6MZEBAbKfF/jOqL9WMyPzczQiIq6UAmapAw5N5VWku/1Rg8Jbfifls+lQWXvKXnOt7/
-         xxqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758547872; x=1759152672;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LOZ+3sPJjHhme5/KGeK2VfF1vjlB7AEmx0hb+K9u3c4=;
-        b=vDrALvRK1wtoRz9+NY5p/BtOpq8qNS1ebYVTixwaFox7B91lGOPLrBOytxRj40yHAS
-         Wr7nMRX8JWoO34WoFH+s0rPA0vZtWTeIaWQd+bXr6iNbjTZmiThMkjmQijYNyiECFi1q
-         WkYigIuJpjPCTNa6KlrFfx54j87WaLkco9Oqkr3hcH5XbXPVaMdm5ijGYa1dUnQ74QJ4
-         nM62pePFgmjbHGc98dshEDAbR4J0VR4fbBKQzH4KKMX4tzUso1DpYMpcBxTP5J64NAkj
-         SaXkqbCBq7EOG9hZhXM9eRTPwkCjApIWCz4GjnrICUx4cOR/37uFoJaP2tbIllRBtds3
-         qqVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVnnI7eq4lDiBrV6E+yzgCAQhSxfrIzbVDLBfuUvnrR/dVfIBm0dFR6urnAHi0fmlYw8lOEKO6R9MTxHtGKmcXC9XE7vw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3LbVE4t3QeWQY6LWFk/wdMnpYBGQ9LbF8rB9I1F/Uzc8EiVnY
-	QapOQV+V9LbN6YeI+2Vdqa7XGwTuUpoOF+Bkzl+JgpM9kGbo4QCkZa/K
-X-Gm-Gg: ASbGnctYXGVVVBVw++yqmUKMJW9xmSK+wCKVaMtHhzgiz+I47IBHxAdBv6anVn4PsdI
-	DCTtK+d2aUjE7S2WTVH/eZmYQFibd3ek6ObkQSDljDB5rygUe9HdIYjsmIMihZTWbfqWcWbeWrS
-	CRbdNK58gX4CUw+lEkCOrYQyOnOFM2q8dWiW4o9i+6I0SXZmrT5sICru0OHA4CJNpjWo0kDh8Uy
-	UhsTHt0xxtLcS7gUQMZ+WEeW+tcWW4zYqLPGOlHvzRtF5PMQ5pN0yIU0/R52t00HCVGm4HTVySx
-	KitrQynGXkWDT/cWN+Zd+UO5IwIuPgPpPyUieqtmCh5kZGKsVKhN2tQXS7DJmE5Q5fAzxKOCZ8L
-	8vdF2s9brt8JCkQZkSLYjvTOirRBtUpVOG3d5Vh9U2A==
-X-Google-Smtp-Source: AGHT+IFlTjUjT9pWpL0XES6XJeOQp9klXOqCDduhPdWixXuTgA5G1oF5J1nVDUpvKjADmsMp/r83wg==
-X-Received: by 2002:a17:903:11d2:b0:268:cc5:5e4e with SMTP id d9443c01a7336-269ba3f5f96mr161584175ad.1.1758547872057;
-        Mon, 22 Sep 2025 06:31:12 -0700 (PDT)
-Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2698016c959sm134572465ad.48.2025.09.22.06.31.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Sep 2025 06:31:11 -0700 (PDT)
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: vigneshr@ti.com
-Cc: david.hunter.linux@gmail.com,
-	krishnagopi487@gmail.com,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	miquel.raynal@bootlin.com,
-	richard@nod.at,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH] mtd: cfi: use struct_size() helper for cfiq allocation
-Date: Mon, 22 Sep 2025 19:01:06 +0530
-Message-ID: <20250922133106.2524-1-krishnagopi487@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <e79d5220-2824-4cd2-8e61-b1da8d22d2a1@ti.com>
-References: <e79d5220-2824-4cd2-8e61-b1da8d22d2a1@ti.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="O4r5Oux9"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id BB8BE84598
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 22 Sep 2025 13:59:22 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.103
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id nG0gPRulcSgk for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 22 Sep 2025 13:59:22 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a01:111:f403:c105::5; helo=ch5pr02cu005.outbound.protection.outlook.com; envelope-from=felix.kuehling@amd.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 9B8B2845FA
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9B8B2845FA
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=O4r5Oux9
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazlp170120005.outbound.protection.outlook.com [IPv6:2a01:111:f403:c105::5])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 9B8B2845FA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 22 Sep 2025 13:59:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IdQU4XNxvXHeKDiLFm+NFZTRfy8YsxHUkSjEX6Ue4nip7elsF3qn414l+xF8xUmwYHlMBVt1NxAvTk/x1ctbpLWyzSmy8GS0ZwTmGSf9/4cKdOVg60ebXLBW7OyHwVnMK+5yoCyxTvvipCkGeVDBCl+iIoRN0cWrIHmLL0a6vLuUNkzgfY7aQ9FuamZHIQT24DDIqeGZ1KJTGRn9MEfI4Z1VKsZGjgCSaXvkQKJN7QLXekYh/xor4niFZiBSo9Q+06QkB71CuzPvjGTsL339MztLsXzhE5qoC2rMieGHXjdlHD5I3uAQcz+kQ63/GvCh28YTZJwJf/0RJNjdatCT9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9diyioxlQtPJt7ZXvnNydQCGsDgmLNuO1+HOrnPcxso=;
+ b=Py2O6cckg2WQg8s0tTjZ3Vt6ekrLN+vE1kdGWdcvb85mfQq85LeXkjcZlpSCJDojUimi5ZWDnRJhnl/viPnr3CL7PyqHiSZ96xMduYJg68vQzIrHYpRS/WirU90RimZ+r4qWg56WsX8ZgLhl1oM76pSnHlkUcIyS+hR/JE9bIEB9YD8hGZOrU0khuYrhvgl0iEm/BA4k8h6uzZvdonqdZ+6kNG7B+t4X6gnD4FoJIM2vP1LkfcInqqDrc59sNErr1lji+mxBlF6V2h8tb+/NpYfQ1IoHGSM8HDotVJpQLZ7VE124mSpOL3g/UPef7Jc3VUhDsEc2UTjj1ZBjGWEy/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9diyioxlQtPJt7ZXvnNydQCGsDgmLNuO1+HOrnPcxso=;
+ b=O4r5Oux9sgkVOdAz4DGIMA/odxKR/50R/kbmbiC/6QuaWo3y3SwpO5JASvduZAX7qHzmtR7qsHRWpSLxWBE71tIuW7hoGWzi6y2Sp4wRv6Jv4qsdBXZG6kQDIbfgWfx+nzXv9MvBQWJkKQ0uitqa2QC0zfRJGrblckX2jWcmf1o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by PH7PR12MB6738.namprd12.prod.outlook.com (2603:10b6:510:1a9::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
+ 2025 13:59:17 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::9269:317f:e85:cf81%6]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
+ 13:59:17 +0000
+Message-ID: <82fee878-929b-4373-a476-63f34122d780@amd.com>
+Date: Mon, 22 Sep 2025 09:59:15 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amdgpu: Use kmalloc_array() instead of kmalloc()
+To: Rahul Kumar <rk0006818@gmail.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
+References: <20250918071201.350162-1-rk0006818@gmail.com>
+Content-Language: en-US
+From: "Kuehling, Felix" <felix.kuehling@amd.com>
+In-Reply-To: <20250918071201.350162-1-rk0006818@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0323.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6c::12) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|PH7PR12MB6738:EE_
+X-MS-Office365-Filtering-Correlation-Id: 56fc3d32-8c6b-4c98-9aaf-08ddf9e03878
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Uy9JMHU5RlpIc0lXbHNCMnZhYVM4QW9LUHhLV3J3eFhPYkUxUzF4eVhRbnVD?=
+ =?utf-8?B?M1ZrcU5qVkZYeUQreE5ocVpFSFNwUmNVTklqTVR6SW56d0piMVhMUEhHclBD?=
+ =?utf-8?B?K2RJcFlwcUYzNE5LQXh0amdENGtRZ2FBOEd2Y2VwWDFPakJadktKVjZnVFFo?=
+ =?utf-8?B?dG1INHFhRkluUTVlVEc0UjhXZVptUUJWaWcvaVlvSHk1clRLUlYxOEFVWElT?=
+ =?utf-8?B?T0VReVNiWWtnK3dSZlpwWWJtYWFhREZBWUYvNGRiaytiY1Z5Ung0N2dNOEV0?=
+ =?utf-8?B?NXhIZ3hMSFdFSC9peHdnWUV3bk9oazlBV244Sm5PL2gvQlJEYzEyV25Sa2Rh?=
+ =?utf-8?B?L2FjK1ZmaFlwWVRCNHJJOFlLNkp2L2VmRDQ0WXNTMlJ2M1k0YmxnKzBsMmhl?=
+ =?utf-8?B?SDVKdlcwdzQyZ1lRWUZ1eDFGMkJKWWFXYW1NSTRiQkZlZm55TkNacnBEU1JX?=
+ =?utf-8?B?NXdHUlJTVWNHNlJ3a2w4R1NCRTVtd3ErMjlDMDhKa3NOcmdxNWo0UmhkTG9w?=
+ =?utf-8?B?bDgzdUtHczRBdEdDUDVXMmlhZ3grcENWbVRKaW9McFR3V3puaHlaemNyM0po?=
+ =?utf-8?B?cGVFRk4vYml6SmRIMExXK0hnOHAvVktvZ3R2WXVieG5ORWg1SUZsOWpUbHNP?=
+ =?utf-8?B?djJ3S2dIayszQVFSSlJyL3BRMHFET0VnQkwxQ3FiVWZBajRtUEhCQmxQSEt3?=
+ =?utf-8?B?SmtxdHAreUpsNzBBRlZkRk5lYjFiS3B5aDkxaGZrOUdaTzdLV29LaFBOdG80?=
+ =?utf-8?B?UUY2c2xSSWNHYUhVZ0c5WjAzYUp3b2lqbnN5dnhIWEtkSldTc3JwMS9xbk1U?=
+ =?utf-8?B?V21HS0xtY1dtYlB1MUEyRmpJazFsUDhFa05jQkFMM0dkL0ZKeVRFYVl0MU9O?=
+ =?utf-8?B?aG1ScG8zVmhERnVlSHp1N1FYV3VoZEg5MTV5Y0ZIZXU1UjRpZlBWMUl1RW5F?=
+ =?utf-8?B?RndQa05ZRU04dzJWSHUwRW9qMDNiRGY0VlJQWEZZbmlUUC96US9nUXR3YXd6?=
+ =?utf-8?B?NFpCcWswM1VRenVkaHd3aGVrSk9LdGE1c1dwZXVYL1JCVTR6V2VXNzNqdzJG?=
+ =?utf-8?B?NGZEU0NCVFZxSk4vTGhpbHpsNXZkNkpVS1cra2dhK1ovMG1WMGhlWXBsZjFN?=
+ =?utf-8?B?U205eHpnalFkbTB1eHVMMVZ3a3gxU0VCYm00RUVrZ0hGODFiNXJnODBMeFhR?=
+ =?utf-8?B?NjFUWUxFdCt6ZXpTRXc3eUlwOHNLbjZMbktzelNWWXBRL2krRjFpOElyd2d4?=
+ =?utf-8?B?UUVwbGhYVm5sSkgwSmFMWG1PTE1hMS9PeERCRUU3aFFNOExKQ2NnaEk3S3E2?=
+ =?utf-8?B?eEZGTXFJTUJPTWRVL2ZibGhEc3I5d3AzbitmU1dCUTRVVjNicmNxQXRxU0My?=
+ =?utf-8?B?YWdNanZXTzZMQ2VBVXl6a3p1YXlUd2NNRTBjVVJ6WC90U0dXeXhXeWlHUVRV?=
+ =?utf-8?B?TG0zalNpckRyM3g1U2RWVmxSMkUvVGtNU01vRVRNbzdRZVo5OCtCY3lzb2dm?=
+ =?utf-8?B?a0ZFOWJKR3VSZE80bTNFOU1oQUVWWlV0ZW0vbmZTS1ZnM2tmZElLYm9uWC9z?=
+ =?utf-8?B?OVBPYURGQk5qemxiQmQwRzJDU1p6MDZrSVlMdGtMTklhTW9tQVJxYU9Kdk9Y?=
+ =?utf-8?B?L2lSNSs3QWJoR0QzWUx6VUxVcmVDM3c4RDJwMVJPTW54WktuRWdCZnlaZzdC?=
+ =?utf-8?B?QWVKWThPL2lZNmpsVFNjSVBIb20rbENSQ090cnlTa2VuSzdoNm5RMk5GS2tN?=
+ =?utf-8?B?Q2plQ1BMU1VSZzRzMFNvYm1EUHQ5Zmk3R0lJTzM1Rm9FWWNaaS9BaUMyTTNo?=
+ =?utf-8?B?VFJ3Z3c0SEhqbWlkM2l0aER5dXpmRVhQSnFNQUZwU2ZkZjV0cFNqV1BHOVVT?=
+ =?utf-8?B?aFpFYklZOEhTeWs0NXkxNDE0WWpFZWpGS1A3YUd0S292allSeURHNE1rbVVB?=
+ =?utf-8?Q?r4FKm1Yeomw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5115.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cXhIa0NvWnZvNjBtbzlhVkxpMEFobHVOakxzbld2Z1dkdmtMcXdyYVNPZStU?=
+ =?utf-8?B?djBGMmZJbmIvczFtUGNGTVB3b1hCTzBNV0FBaFVlTUlqMC9QYW41KzYzRGRC?=
+ =?utf-8?B?SmxvM2tnVTVpaFlManZjVk55K05zdklBOWRuUTFJUGFaQXJGSkpQb2d2RWpj?=
+ =?utf-8?B?MGlhVFRML09YRDF5R2dSWFF3dWlydHB3cWpQWEVPcmhWVkNWZlBRc2hKa2M1?=
+ =?utf-8?B?SXVsTDBYSTUwb1NEQWZjMTg5dklFekorVTdjZGFOWjZsSFdsZFpuWW1FaHFx?=
+ =?utf-8?B?K2dQRjVFUFB4ODhFclRPSWlLZHJUZ3Q4L01EREVRU0lYWGJGTi9BeCtuSlZy?=
+ =?utf-8?B?UHFpUTZxSUV1UG5TaTUzcXptQjQxWXMvbHUvSWNTNHFVaG4vQ2hBMXB6Y1dO?=
+ =?utf-8?B?V0tzTVcyZzJCZndxZnpQY3Q0cWhaQWdSR2VCdzJMdUF4L1lIbmFjZlJFL3V5?=
+ =?utf-8?B?SGZBTXd5WDBqc0wwck5sRXllTnpYOWxXZ1BLTVg1bUM5SjNXaWpoRC9IY0Vh?=
+ =?utf-8?B?N0xDbHZZYWFMRDdINUhXQnZoUk9heGFkTzVESFZsSFgxZUxGb1dCVmFKcnRo?=
+ =?utf-8?B?QzJDTTBzcXF2dDZjWGFvTGxQM3JIb1gxME5EbDdNaTJwZFVIQkxrWU8yejla?=
+ =?utf-8?B?M3RMQjV5UjB4YmxFMnM3K2djQjFoMC8yTDBVTUJwMmlPY3RMaStwREZPVFhJ?=
+ =?utf-8?B?VWNHYmVvWjlLbWZHYSs2NmU3dnNZTjFGK0ExSDNhalEyajAwNjNFbjJzVVNK?=
+ =?utf-8?B?ZEluRE12WFFHcFVkV1NjSmpGZjgxdWZWeXBnRlluZTVEdWxhVHhvMG8zNC9C?=
+ =?utf-8?B?YjVGZS9tbmFPaExvbzNHOUlxOG0zUm1ZRHVOdkNWOW9Uck1Tc2dKcFhYSUdi?=
+ =?utf-8?B?V0RpTDAvRmVVaWU5TllQS0tLY3FCL05OOHJVMFNMYzBBVnJwanZQQUtuUERi?=
+ =?utf-8?B?bHI1d2IwUmlJRjlmVm5kUFcvWXlyRktZUXBjTmc3TTV2Z0N2TXVkU3J1bFJz?=
+ =?utf-8?B?ZUdKRGx6d1kvSDhraEhqT0ZOWTlhN25sSFdSYnViQm9RbE9jNE9ya2pDWkp6?=
+ =?utf-8?B?KzdVTW9ieG9PSzhoaHU5STI5LzVhVnE3Z1BBay8xZDdkL2RkTWs3cjV6aHpU?=
+ =?utf-8?B?VndNd1JuUi9uVGtmYzg0anlqRkVoUEt2akJ5Z2M5TXFYSi83UDdQSEtHdGMw?=
+ =?utf-8?B?T3R5cHVNaVZnc2dFL1B4UkN1UFIrUWNwMk5NUUNDTmNCTEUzQm5QTWd4bFdC?=
+ =?utf-8?B?OUpCZFNERnlTUmRoVHZsZ0RuTFdFUS9hUlpSU2xBNWtEUkNycjlud202WURm?=
+ =?utf-8?B?QU1sVmRiZU82cGtvcnM1QWhpYjE2M2JwL2lhcWtSbHRNU1hjYWN3amRpZGVI?=
+ =?utf-8?B?MHdlc1l3OTJYdlZpOXVsSENjLzF5ajlXYVBmYjl1ejJFaitGRUFVUnV2MURz?=
+ =?utf-8?B?ZCt4dWRoU0s5N0pOOEZOdnA0cEUrVVczRVNpK1NUaGdSM2V2TjRIL1E0eUVV?=
+ =?utf-8?B?ZHJrWG5kSmhNWkZ4VENUbFZUWGdRWnljR3E0bTlZWThFbndiL3NyRlZZU1VQ?=
+ =?utf-8?B?R3dackt2K1lqTThnTkI2TjU3N3E0WHVybUMwSHFpS3RDdk82TlVOM0VSaWNn?=
+ =?utf-8?B?Y0djN2dYMVVxVWE5ZzJWUnExT3JVdWlVRk51TElieVFyd3BXeW9MMGhiUTBo?=
+ =?utf-8?B?WkNwbEFPc1I0dFFJRTBhbEl4VDNaZkw3N1IySUM5V3U2ekJEalpVS0dOOEY1?=
+ =?utf-8?B?S2pUOXUwS3lyamR5S010ejFVS3I0aTAxSzJLVzJEVGp0N1JDVmtHbmpEN0Ji?=
+ =?utf-8?B?K2VCRVNIeHVkZ0E5ZjJpc0R4RFRaakNCTnVkRHNSbjZWVytqZ255S1dWTk9J?=
+ =?utf-8?B?YitCRW94ZmRkQUY2SEFrUUwxOFhvUXFMdEVmQVRDYU1peGYvUWxmSmpHd2kr?=
+ =?utf-8?B?QnFMdFBpU2FxM2c5aHFkTUQweG9XOGRJV0VwMzFZcUxJV05lV1lvU1AxV1R5?=
+ =?utf-8?B?djBPK2JVaE9DTmVkY2FXM21mRXdrTnA2Rk9QbUlkMHFKOXJzVkZDQk4xT1dW?=
+ =?utf-8?B?QnpvemtPU1AwUUlLdHYxMVdPSnY3Tk51cWV4K01HSWUvWHA4R1hvMTZYTkU2?=
+ =?utf-8?Q?67lHiN3WtAXRpwOVUgi5uF/89?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56fc3d32-8c6b-4c98-9aaf-08ddf9e03878
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 13:59:17.4453
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YZaqZZz72y4oEnw8UCCyr+U3uW3K/VmYdLKqSUxh7cSHX0CR54iwcGsrYxAyf/CIoveOI9xVIldoEkU8HOcWEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6738
 
-Hi Vignesh, Thanks for the review.
+On 2025-09-18 03:12, Rahul Kumar wrote:
+> Documentation/process/deprecated.rst recommends against the use of
+> kmalloc with dynamic size calculations due to the risk of overflow and
+> smaller allocation being made than the caller was expecting.
+>
+> Replace kmalloc() with kmalloc_array() in amdgpu_amdkfd_gfx_v10.c,
+> amdgpu_amdkfd_gfx_v10_3.c, amdgpu_amdkfd_gfx_v11.c and
+> amdgpu_amdkfd_gfx_v12.c to make the intended allocation size clearer
+> and avoid potential overflow issues.
+>
+> Suggested-by: Felix Kuehling <felix.kuehling@amd.com>
+> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
 
-Regarding the other occurrence you pointed out in jedec_probe.c, after your
-reply, someone (Rahul Kumar) submitted a patch addressing that occurence
-in jedec_probe.c. 
+Thank you. I applied the patch to amd-staging-drm-next.
 
-link: https://lore.kernel.org/linux-kernel-mentees/20250922071137.900508-1-rk0006818@gmail.com/T/#u
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 
-Please let me know if any further changes are needed on my side.
+
+> ---
+> Changes since v1:
+> - Extend fix to amdgpu_amdkfd_gfx_v10_3.c, amdgpu_amdkfd_gfx_v11.c and
+>    amdgpu_amdkfd_gfx_v12.c as suggested.
+> - Added Suggested-by tag.
+> Link to v1:
+> https://lore.kernel.org/all/f782159b-ad3f-4d0c-8476-50a701bf29e6@amd.com/
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c   | 4 ++--
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10_3.c | 4 ++--
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v11.c   | 4 ++--
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v12.c   | 4 ++--
+>   4 files changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
+> index 04ef0ca10541..0239114fb6c4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
+> @@ -352,7 +352,7 @@ static int kgd_hqd_dump(struct amdgpu_device *adev,
+>   		(*dump)[i++][1] = RREG32_SOC15_IP(GC, addr);		\
+>   	} while (0)
+>   
+> -	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
+> +	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
+>   	if (*dump == NULL)
+>   		return -ENOMEM;
+>   
+> @@ -449,7 +449,7 @@ static int kgd_hqd_sdma_dump(struct amdgpu_device *adev,
+>   #undef HQD_N_REGS
+>   #define HQD_N_REGS (19+6+7+10)
+>   
+> -	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
+> +	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
+>   	if (*dump == NULL)
+>   		return -ENOMEM;
+>   
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10_3.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10_3.c
+> index 6d08bc2781a3..f2278a0937ff 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10_3.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10_3.c
+> @@ -338,7 +338,7 @@ static int hqd_dump_v10_3(struct amdgpu_device *adev,
+>   		(*dump)[i++][1] = RREG32_SOC15_IP(GC, addr);		\
+>   	} while (0)
+>   
+> -	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
+> +	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
+>   	if (*dump == NULL)
+>   		return -ENOMEM;
+>   
+> @@ -435,7 +435,7 @@ static int hqd_sdma_dump_v10_3(struct amdgpu_device *adev,
+>   #undef HQD_N_REGS
+>   #define HQD_N_REGS (19+6+7+12)
+>   
+> -	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
+> +	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
+>   	if (*dump == NULL)
+>   		return -ENOMEM;
+>   
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v11.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v11.c
+> index e0e6a6a49d90..aaccf0b9947d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v11.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v11.c
+> @@ -323,7 +323,7 @@ static int hqd_dump_v11(struct amdgpu_device *adev,
+>   		(*dump)[i++][1] = RREG32(addr);		\
+>   	} while (0)
+>   
+> -	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
+> +	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
+>   	if (*dump == NULL)
+>   		return -ENOMEM;
+>   
+> @@ -420,7 +420,7 @@ static int hqd_sdma_dump_v11(struct amdgpu_device *adev,
+>   #undef HQD_N_REGS
+>   #define HQD_N_REGS (7+11+1+12+12)
+>   
+> -	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
+> +	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
+>   	if (*dump == NULL)
+>   		return -ENOMEM;
+>   
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v12.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v12.c
+> index 6f0dc23c901b..e0ceab400b2d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v12.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v12.c
+> @@ -115,7 +115,7 @@ static int hqd_dump_v12(struct amdgpu_device *adev,
+>   		(*dump)[i++][1] = RREG32(addr);		\
+>   	} while (0)
+>   
+> -	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
+> +	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
+>   	if (*dump == NULL)
+>   		return -ENOMEM;
+>   
+> @@ -146,7 +146,7 @@ static int hqd_sdma_dump_v12(struct amdgpu_device *adev,
+>   #undef HQD_N_REGS
+>   #define HQD_N_REGS (last_reg - first_reg + 1)
+>   
+> -	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
+> +	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
+>   	if (*dump == NULL)
+>   		return -ENOMEM;
+>   
