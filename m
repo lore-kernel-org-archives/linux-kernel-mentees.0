@@ -1,104 +1,86 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DCA26AEC
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Sep 2025 06:00:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89F02F25F2
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Sep 2025 07:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758520841; cv=none; b=S2iWzRnaQQylxXC74XnMQfaaez/7koQjYfStUEXpNJkAEtL4pSZflOJT0WIVD4Cs9jsyMrLOrOpv8RyGfPkjKsXiz6fPUrj0Q039aczcysKUzJMus4MSane9qWPIp9MtK6fDKgBRy7v2OEyf9IxXNf8RfXwc3ytGXKF4R0y0/Mo=
+	t=1758524907; cv=none; b=Zbv5CUFERu3HDVP00815V8dbFl3x6SjsC/AnccPkPTB0v9GVT2GH8erwDmru84ePwbqT8FRM6t+Vbv5iZ+NUpyJepSsyvoCGtLgLCTip2PTUnd4Oakdeo0/wtiQ1PAZqdtjkXc8tV7G0uHHSbzbl5HJevkjLetsJALZY49XuHSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758520841; c=relaxed/simple;
-	bh=3eyi3AxQ2bqNzfXRmrbb7G2rUznuiye7uSVonYQn/gQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lqp0LbBS0mDTMg+qjV+9P4Sa80mxRdEcu9ZsTdtYETu1N5xUTPsKVc4qZpK/j6XRMnxvoaBwXNgmQqz9AHGKOS55F2bluAanadFXo43dafhU5MPQxt+ppW4iZiXy5xfUyvboy1JXh9vu+yU3gnKmZmiQlWs/E9Ap7T5WbbmkJ84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ik0gJIOq; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1758524907; c=relaxed/simple;
+	bh=Zw//AWx9s+NUuDrZTHZtAxFcaUz8s//tgsNpthZDYWg=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G7sSJBmgMPvfUMDLs5TAqcwaDvXJO9vnlpJgxYPI1uMrIjRX3cNj5TerAVswKcl4V6hJJ20NJDy2lhnfa6+akHtgjuvGhtPwN6q0QwkX3gv2K4MWQwSCuObUmTM7mGZ97Qf4W6zhCXOUfQ1BgDX3Yh4gho+Rll23xJQyq423RSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=A2n6kzEz; arc=none smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ik0gJIOq"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58M60FDs1170592;
-	Mon, 22 Sep 2025 01:00:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1758520815;
-	bh=APx8eOuMTJTC4YkubB7eJd0QwNCQpx44ZVFa/uuHCDk=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=ik0gJIOqHz6uYuG102dHRi9EmvmFWYwusfI5DrIzyA8jxNY6aefYkDtI6AyeiKvRc
-	 eISRZIfdqVrR/l6gw9X9Fo1g8u5pJqzx5KleHKTa1s+u3eHaMFMhucvvxFhQ3prinm
-	 zWb4g/9jlgBPR3I8fhxJ43tyMhO274mDiR9EktUI=
-Received: from DLEE209.ent.ti.com (dlee209.ent.ti.com [157.170.170.98])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58M60Fi0079861
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 22 Sep 2025 01:00:15 -0500
-Received: from DLEE204.ent.ti.com (157.170.170.84) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 22 Sep
- 2025 01:00:14 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE204.ent.ti.com
- (157.170.170.84) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 22 Sep 2025 01:00:14 -0500
-Received: from [172.24.17.2] (lt5cg1457vgj.dhcp.ti.com [172.24.17.2])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58M609t72276522;
-	Mon, 22 Sep 2025 01:00:10 -0500
-Message-ID: <e79d5220-2824-4cd2-8e61-b1da8d22d2a1@ti.com>
-Date: Mon, 22 Sep 2025 11:30:08 +0530
+	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="A2n6kzEz"
+Received: from localhost (localhost [127.0.0.1])
+	by mx1.secunet.com (Postfix) with ESMTP id 77CD62082E;
+	Mon, 22 Sep 2025 09:08:16 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from mx1.secunet.com ([127.0.0.1])
+ by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bWJ7DA3ws5-W; Mon, 22 Sep 2025 09:08:16 +0200 (CEST)
+Received: from EXCH-01.secunet.de (unknown [10.32.0.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.secunet.com (Postfix) with ESMTPS id 00248207FC;
+	Mon, 22 Sep 2025 09:08:16 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com 00248207FC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
+	s=202301; t=1758524896;
+	bh=AFxYm97oYb/+ELvmqLp3aS0HLl6emOyCGeufVhBOxnM=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To:From;
+	b=A2n6kzEzxUD0p/l8ZrQkShbUevz8+/I2aOqqybZ6ZW1J0vhn/JMjVTWIS2QYHgTtv
+	 pwFCzX090EbxYvMBBIqttCowvqtB2LB/LYPAvkXpCPINil7ppiJZ67Ippq3pS/ApuN
+	 /aoFAWgQ7myREVLbOF/I4qpukJCRha4nl1zTxhnunP3BgKMqWPdmMpCqfClKMA90+M
+	 TgGlkeG6IKFMXmNl5do2WdcupCDOGdLkXaR5FbwDOd/nMPIjEnQxuGbqitBkUVMppj
+	 Ds/IhheqqjrLFNZZGH9dkp2oLZ9gIB7D6TLQuhjWbDVhkvRXHBGVyt6YD+UwjrH/0h
+	 DSDvbyyZdwNBQ==
+Received: from secunet.com (10.182.7.193) by EXCH-01.secunet.de (10.32.0.171)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Mon, 22 Sep
+ 2025 09:08:15 +0200
+Received: (nullmailer pid 2674351 invoked by uid 1000);
+	Mon, 22 Sep 2025 07:08:14 -0000
+Date: Mon, 22 Sep 2025 09:08:14 +0200
+From: Steffen Klassert <steffen.klassert@secunet.com>
+To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
+CC: <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<horms@kernel.org>, <saakashkumar@marvell.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>
+Subject: Re: [PATCH net] net/xfrm: Refuse to allocate xfrm_state with SPI
+ value 0
+Message-ID: <aND13piG0NIlBt1U@secunet.com>
+References: <20250921022701.530305-1-zlatistiv@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH] mtd: cfi: use struct_size() helper for cfiq allocation
-To: Gopi Krishna Menon <krishnagopi487@gmail.com>, <miquel.raynal@bootlin.com>,
-        <richard@nod.at>
-CC: <linux-mtd@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <skhan@linuxfoundation.org>, <david.hunter.linux@gmail.com>,
-        <linux-kernel-mentees@lists.linux.dev>
-References: <20250918184420.76047-1-krishnagopi487@gmail.com>
-From: "Raghavendra, Vignesh" <vigneshr@ti.com>
-Content-Language: en-US
-In-Reply-To: <20250918184420.76047-1-krishnagopi487@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250921022701.530305-1-zlatistiv@gmail.com>
+X-ClientProxiedBy: cas-essen-01.secunet.de (10.53.40.201) To
+ EXCH-01.secunet.de (10.32.0.171)
 
-
-
-On 9/19/2025 12:14 AM, Gopi Krishna Menon wrote:
-> Documentation/process/deprecated.rst recommends against performing
-> dynamic size calculations in the arguments of memory allocator
-> function due to the risk of overflow. Such calculations can
-> wrap around and result in a smaller allocation than what the caller
-> was expecting.
+On Sun, Sep 21, 2025 at 05:27:01AM +0300, Nikola Z. Ivanov wrote:
+> Reported by syzkaller: "KASAN: slab-use-after-free Read in xfrm_alloc_spi"
 > 
-> Replace the size calculation in cfiq allocation with struct_size()
-> helper to make the code clearer and handle the overflows correctly.
+> Before commit 94f39804d891 ("xfrm: Duplicate SPI Handling")
+> xfrm_alloc_spi would report spi=0 as unavailable.
+> Add this behaviour back by adding 1 to the "low" value when it is passed as 0.
+> Allocating xfrm_state with spi=0 leads to UAF or CPU stall.
 > 
-> Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
-> ---
->  drivers/mtd/chips/cfi_probe.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/mtd/chips/cfi_probe.c b/drivers/mtd/chips/cfi_probe.c
-> index a04b6174181c..e254f9cd2796 100644
-> --- a/drivers/mtd/chips/cfi_probe.c
-> +++ b/drivers/mtd/chips/cfi_probe.c
-> @@ -208,7 +208,7 @@ static int __xipram cfi_chip_setup(struct map_info *map,
->  	if (!num_erase_regions)
->  		return 0;
->  
-> -	cfi->cfiq = kmalloc(sizeof(struct cfi_ident) + num_erase_regions * 4, GFP_KERNEL);
-> +	cfi->cfiq = kmalloc(struct_size(cfi->cfiq, EraseRegionInfo, num_erase_regions), GFP_KERNEL);
->  	if (!cfi->cfiq)
->  		return 0;
-> 
+> Fixes: 94f39804d891 ("xfrm: Duplicate SPI Handling")
+> Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
 
-Reviewed-by: Vignesh Raghavendra <vigneshr@ti.com>
+This is already fixed in the ipsec tree by
 
-There seems to be one more occurrence of this pattern in jedec_probe.c.
-Would appreciate if you could fix that too. Thanks!
+commit cd8ae32e4e46 ("xfrm: xfrm_alloc_spi shouldn't use 0 as SPI")
 
-Regards
-Vignesh
+Thanks a lot anyway!
