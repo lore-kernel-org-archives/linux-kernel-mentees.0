@@ -1,145 +1,93 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503B22FC01B
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Sep 2025 11:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA56192B66
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Sep 2025 13:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758540893; cv=none; b=T1Vjq+ky8eyCdEF2Q0ApHfobLWVBwKnG4lVaEF9U87e89wPfS+v0BrbCZcMtUOURFStHuAx7yrYFaNFC9BHX3ef6tbnWvIY6pSf/jTti/jhPHHgP5od3m1WQp3LgvlMxAcnK/UR0PTfg9hCU8Z4xvE+9pmEQ9vk6Df5BpjN/ou0=
+	t=1758547874; cv=none; b=YNF708Qp2LyvbgdoBtqRVMsvhS4wz34Y+uTXcr0GFtv+jcSFgULmAp0fgrLc0MfzsXYLDZuSk/V9nvGdHNruz9Rgy9GZLPP2BL/adAo72AKTtEaGT+mVmYLPTAAN7mBsE1MRpZR6q6pPHhkCpxqsg+Sl21VMvGweBpEWIGnKiss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758540893; c=relaxed/simple;
-	bh=Npwp37fasUaztNGjwbjQ24nWh04CyauLI9SVRQGWYVI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aalbIyLM2KqjKJvTEgWDyik12gYoh7sngmTfDyl1X3kNMrIWbIHiEzWxwBvkKX+RqVnaqQvYXvbts5ejO+19n4kUtGU30KjA0Bx6hAPd7s3J6zUICLsXq1mepg8DfrmT7SmAFj9ay5JLaTdyf9xriYpOvaznLkUWKlxqnvRD3fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F3/4td9e; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758547874; c=relaxed/simple;
+	bh=9U9Oq0mZV2UmPfUWr510i+RGShVlmBrXJe+uht1I9m0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Y3YoezSCFtLfInZXmZXnvrPAi3LKTlIm1qpM79950r3Y50e8BPsLX2D0Cd7Oj+yDYl2sr3oSv7rxxhBf3L4NMu9kTBtD/dy+jFV+bH+0WSaXCrxddEGUIOpx/wL8wqSxeyz37jB9aHEHN/2PBtMgTFPaML2O5HGMxdLDz7Hfy1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mY/OYPVW; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F3/4td9e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758540890;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qBL6ran7eeZrT38sfsNjW8tntjx1L4Y7ebN1yvWq/ak=;
-	b=F3/4td9e16Hb/It5f5yJUHmowuA/0pYj2B5EhkMd9YShUCtPiU4z8oM9NG6QGja+CVi8kP
-	yD9E2wM3QbNvK07hnkiEAgm/sSZrEe1fk52Baa2erJDI97yh6YD4WhKVXvlAxTVQHwMcVt
-	u8frCz9qrCbUuKctGq92ihJL6vefS1s=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-460-X0sySvC5NYy6Xf9l-AT3PQ-1; Mon, 22 Sep 2025 07:34:48 -0400
-X-MC-Unique: X0sySvC5NYy6Xf9l-AT3PQ-1
-X-Mimecast-MFC-AGG-ID: X0sySvC5NYy6Xf9l-AT3PQ_1758540888
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-272b7bdf41fso19086465ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Sep 2025 04:34:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mY/OYPVW"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-244582738b5so37591075ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Sep 2025 06:31:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758547872; x=1759152672; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LOZ+3sPJjHhme5/KGeK2VfF1vjlB7AEmx0hb+K9u3c4=;
+        b=mY/OYPVW0ea3Rgl9jpuITpMHV8EGwage5KcJKCyVVCqnZGbH2Il4Sflp3lwLquFxMt
+         gEaNo96ZVm9UCcTdG/sMpueROiGi4vqAB+tWKm9+FnMIHnNklVQsLBg0km8NEpaSvMlA
+         uSqIqVhpzsw8HbeTErhBT2gpamaMYrXqTxy9A0V9Z7mu88hSJB4hr3fcyfnv1FQDAXdm
+         uvzO9s4MMFUI9MMk96Sg31ZPdTHKzANGzncI+JG49K+5Gvw7keup8gJV0WqjfZ9enQdl
+         K6MZEBAbKfF/jOqL9WMyPzczQiIq6UAmapAw5N5VWku/1Rg8Jbfifls+lQWXvKXnOt7/
+         xxqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758540888; x=1759145688;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1758547872; x=1759152672;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qBL6ran7eeZrT38sfsNjW8tntjx1L4Y7ebN1yvWq/ak=;
-        b=FZosiL/Be55xC/XIaxAWvyUvwXpVBHPKF6nO1Y6TaQxoO55VMMfB2mINShNGs/+sEB
-         MlxdQkjjbuZYypmUDCBqsYxUoSdBJTZSSUXZg5EolxFRarnbSc5osC7vU8kiN4ggxfH+
-         Srv8+b/nc+i+YpQ9A714xottuTcIUzL4ruYODZs+7eP1+Eri8+TByCLgLvB6GSyYZunH
-         PxTwQ6mmWsYLu0C4rfEK916Nb7b99QKelERmpeDFlQefNVQCFJ7lefP6Yk8ABlaglKgt
-         PCU0GVj20vt+vNQ73DW1tjYe7KbnnZuwlGu2kcTeW9A5PznwYVncFwfkhkkdlPsmTTKT
-         8dKA==
-X-Forwarded-Encrypted: i=1; AJvYcCWlI7+/amLDku/m9qzxzL6RRqo6tsOBHOmivBPJO+TzepmfSwYlMcbaTfVOqkqxBAQIURuovX/6fCwG+wKvP89zBAFvXQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzCpWW7ONGguZ89Z5FQftdrVHpqBDlAZRFZAOZ+190G+yEEgU71
-	fyzkRW0/OU8ChoyqVxia6g9Hko94BOSsUJHmvZshABNGWrppVqOOxO7fsMJKmWkVJYqzljIEeS2
-	Y0L7Nkzwt+MMfwWE/ekbAXM0/yygEAjkCFHIB9spycJsEOe4bLcX4etEImwyWc5O9I3RHpBZGRt
-	XvzFVqPoX8k19ZYIjb5ZiMe3HFt3GRKAKI6k62Kg2CfVAJy68v1rA=
-X-Gm-Gg: ASbGncsKiyvDWj3ui1wfz4snGIZHpNzgzUVRo6qZDGKdXIVpjr1y1V6yU0yWtOwTbal
-	ulCx5Kz6PCiiLfll860rxasu1wlbV5MYWBZlEWRxsaq5wvRDGkye7e2/PxrXmOQZn2CU/pwqkPE
-	k0vNTsyV8J6MyT39Quxqw=
-X-Received: by 2002:a17:902:ea05:b0:269:874c:4e48 with SMTP id d9443c01a7336-269ba550cd2mr171325265ad.47.1758540887720;
-        Mon, 22 Sep 2025 04:34:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEwLwdzoDbuGVYQuEXIHCwQRTwpdPRrzzjp4kgxXc6oHg0FWMGDElJOvb0KAxMjWimeR5uUisUdrOaN5DAr/3I=
-X-Received: by 2002:a17:902:ea05:b0:269:874c:4e48 with SMTP id
- d9443c01a7336-269ba550cd2mr171324975ad.47.1758540887355; Mon, 22 Sep 2025
- 04:34:47 -0700 (PDT)
+        bh=LOZ+3sPJjHhme5/KGeK2VfF1vjlB7AEmx0hb+K9u3c4=;
+        b=vDrALvRK1wtoRz9+NY5p/BtOpq8qNS1ebYVTixwaFox7B91lGOPLrBOytxRj40yHAS
+         Wr7nMRX8JWoO34WoFH+s0rPA0vZtWTeIaWQd+bXr6iNbjTZmiThMkjmQijYNyiECFi1q
+         WkYigIuJpjPCTNa6KlrFfx54j87WaLkco9Oqkr3hcH5XbXPVaMdm5ijGYa1dUnQ74QJ4
+         nM62pePFgmjbHGc98dshEDAbR4J0VR4fbBKQzH4KKMX4tzUso1DpYMpcBxTP5J64NAkj
+         SaXkqbCBq7EOG9hZhXM9eRTPwkCjApIWCz4GjnrICUx4cOR/37uFoJaP2tbIllRBtds3
+         qqVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVnnI7eq4lDiBrV6E+yzgCAQhSxfrIzbVDLBfuUvnrR/dVfIBm0dFR6urnAHi0fmlYw8lOEKO6R9MTxHtGKmcXC9XE7vw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw3LbVE4t3QeWQY6LWFk/wdMnpYBGQ9LbF8rB9I1F/Uzc8EiVnY
+	QapOQV+V9LbN6YeI+2Vdqa7XGwTuUpoOF+Bkzl+JgpM9kGbo4QCkZa/K
+X-Gm-Gg: ASbGnctYXGVVVBVw++yqmUKMJW9xmSK+wCKVaMtHhzgiz+I47IBHxAdBv6anVn4PsdI
+	DCTtK+d2aUjE7S2WTVH/eZmYQFibd3ek6ObkQSDljDB5rygUe9HdIYjsmIMihZTWbfqWcWbeWrS
+	CRbdNK58gX4CUw+lEkCOrYQyOnOFM2q8dWiW4o9i+6I0SXZmrT5sICru0OHA4CJNpjWo0kDh8Uy
+	UhsTHt0xxtLcS7gUQMZ+WEeW+tcWW4zYqLPGOlHvzRtF5PMQ5pN0yIU0/R52t00HCVGm4HTVySx
+	KitrQynGXkWDT/cWN+Zd+UO5IwIuPgPpPyUieqtmCh5kZGKsVKhN2tQXS7DJmE5Q5fAzxKOCZ8L
+	8vdF2s9brt8JCkQZkSLYjvTOirRBtUpVOG3d5Vh9U2A==
+X-Google-Smtp-Source: AGHT+IFlTjUjT9pWpL0XES6XJeOQp9klXOqCDduhPdWixXuTgA5G1oF5J1nVDUpvKjADmsMp/r83wg==
+X-Received: by 2002:a17:903:11d2:b0:268:cc5:5e4e with SMTP id d9443c01a7336-269ba3f5f96mr161584175ad.1.1758547872057;
+        Mon, 22 Sep 2025 06:31:12 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2698016c959sm134572465ad.48.2025.09.22.06.31.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Sep 2025 06:31:11 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: vigneshr@ti.com
+Cc: david.hunter.linux@gmail.com,
+	krishnagopi487@gmail.com,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	miquel.raynal@bootlin.com,
+	richard@nod.at,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH] mtd: cfi: use struct_size() helper for cfiq allocation
+Date: Mon, 22 Sep 2025 19:01:06 +0530
+Message-ID: <20250922133106.2524-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <e79d5220-2824-4cd2-8e61-b1da8d22d2a1@ti.com>
+References: <e79d5220-2824-4cd2-8e61-b1da8d22d2a1@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250918204830.229918-1-kriish.sharma2006@gmail.com>
-In-Reply-To: <20250918204830.229918-1-kriish.sharma2006@gmail.com>
-From: Andreas Gruenbacher <agruenba@redhat.com>
-Date: Mon, 22 Sep 2025 13:34:36 +0200
-X-Gm-Features: AS18NWACBZeRywvdMekJd6TCUmlssvkKRWZotY-3FIzanJ_u6GG0-GRTwtWtIGg
-Message-ID: <CAHc6FU4CVLe6ZxPR1Q3dc=5i1ARrNAjnB_NEK5_Y_Pecmk_4bQ@mail.gmail.com>
-Subject: Re: [PATCH] gfs2: add bounds check for rd_length in compute_bitstructs()
-To: Kriish Sharma <kriish.sharma2006@gmail.com>
-Cc: gfs2@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
-	linux-kernel-mentees@lists.linux.dev, 
-	syzbot+7567dc5c8aa8f68bde74@syzkaller.appspotmail.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: kO8v5AiM4bnphNHWT7g2k8BMKC9VAWkwiA50CDfa-zw_1758540888
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Kriish,
+Hi Vignesh, Thanks for the review.
 
-On Thu, Sep 18, 2025 at 10:49=E2=80=AFPM Kriish Sharma
-<kriish.sharma2006@gmail.com> wrote:
-> compute_bitstructs() allocates an array of gfs2_bitmap structures
-> using kcalloc(). The function only checked for length =3D=3D 0 but did no=
-t
-> guard against excessively large length values.
->
-> If rd_length is too large, the multiplication inside
-> kcalloc(length, sizeof(struct gfs2_bitmap), GFP_NOFS) can exceed
-> KMALLOC_MAX_SIZE. This leads to the allocator calculating an order
-> greater than MAX_ORDER when calling get_order(), which is invalid.
-> As a result, __alloc_pages() warns about the bad request.
->
-> This patch adds an explicit check that rd_length is not only non-zero
-> but also within the maximum safe limit for kmalloc_array():
->     length <=3D KMALLOC_MAX_SIZE / sizeof(struct gfs2_bitmap)
->
-> This ensures that get_order() is only ever called with a valid size,
-> resulting in an allocation order within MAX_ORDER
->
-> Fixes: b9158815de52 ("Merge tag 'char-misc-6.9-rc7' of git://git.kernel.o=
-rg/pub/scm/linux/kernel/git/gregkh/char-misc")
-> Reported-by: syzbot+7567dc5c8aa8f68bde74@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D7567dc5c8aa8f68bde74
->
-> Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
-> ---
->  fs/gfs2/rgrp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/fs/gfs2/rgrp.c b/fs/gfs2/rgrp.c
-> index 26d6c1eea559..a879e8030568 100644
-> --- a/fs/gfs2/rgrp.c
-> +++ b/fs/gfs2/rgrp.c
-> @@ -760,7 +760,7 @@ static int compute_bitstructs(struct gfs2_rgrpd *rgd)
->         u32 bytes_left, bytes;
->         int x;
->
-> -       if (!length)
-> +       if (!length || length > KMALLOC_MAX_SIZE / sizeof(struct gfs2_bit=
-map))
->                 return -EINVAL;
->
->         rgd->rd_bits =3D kcalloc(length, sizeof(struct gfs2_bitmap), GFP_=
-NOFS);
-> --
-> 2.34.1
->
+Regarding the other occurrence you pointed out in jedec_probe.c, after your
+reply, someone (Rahul Kumar) submitted a patch addressing that occurence
+in jedec_probe.c. 
 
-this patch looks correct at a certain level of abstraction, but a
-better approach would be to sanity check the resource group fields in
-read_rindex_entry(). Andy and I are trying to work out a patch that
-does that.
+link: https://lore.kernel.org/linux-kernel-mentees/20250922071137.900508-1-rk0006818@gmail.com/T/#u
 
-Thanks,
-Andreas
-
+Please let me know if any further changes are needed on my side.
