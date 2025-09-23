@@ -1,79 +1,81 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240312F3620
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 20:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180E530B516
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 20:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758657643; cv=none; b=EiMPtcXkEjCAaFM8AqO5JRDttITeqnXU5iVEZXH3YIwHFaD99Lh2I67Zres8cypNxk9pQ1lIohp/+LHK5UoRBDTNECCCSKvTrAqnRGwqbVBS13D0Pz7JpajAwlVyyaKRjwmG1PTv6oWTE1ggRddtN8aNPhtcTgkeLGG9ZKQrU60=
+	t=1758657650; cv=none; b=oFYeVNwd7aFBdXmp1I0Po97uC9sMhB0jr86S9VAmf1Kp03qQmCBzDfOJLWzHy8YR7XmJqEIb+SHIM5sUnyCWoAdU17NEJWSn7acO6mbHFa/SV5r95Mi6GY3fufo1EXom4KBVYR9wDaweZqI6+lKy2G3dgWL8bxzK7WJvBS8ccxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758657643; c=relaxed/simple;
-	bh=DUqNL0BxXw9yb60YTESlG8jt6nJyQ3pOZOLBywKCkqA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LOQDWvqJh8Q5Mh12gkAKEavMihvS5Wk68YNsYv2Fj1395U7Z5XmVjiWQSYKoSsWAkSHyMoYQHHUf2yH+qo84WbfxFSAr25eKP0ES1PM5VZkythqoo5BcShHLf6H6hO1tfwG0jaTnWlFy41s/ewZh2ZknP/AmN+KoKF99ZRdaNSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ea1u/rio; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1758657650; c=relaxed/simple;
+	bh=yC887JdsZIuNAU3KH0iM0jpa/sF+QL795+nxAjAlvwo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=aQb7BILyXyRhJf3NICVwmPhuwNHbjRRwQ8KCn0Jd8LAc9/sKdYLLbV8M4jLubFCe4uSsmuTJyRp0pssLC9vvAu73Lh7/fIqPJTIp0wwrfNd4OaNZAo2Su+dgefmH37R7kdsPqioi9G+9ey2cBDHg8hOPNDP13fxAVsjOhzmlV8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ezVOZyFx; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ea1u/rio"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ezVOZyFx"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BB04E61098
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 20:00:41 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id B1F9382479
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 20:00:47 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id kvq5J57_Mqdx for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Sep 2025 20:00:41 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ToZP0MNHeOJT for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 23 Sep 2025 20:00:47 +0000 (UTC)
 Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::636; helo=mail-ej1-x636.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org CC96F60AFB
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CC96F60AFB
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ea1u/rio
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org AABA78246F
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AABA78246F
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ezVOZyFx
 Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id CC96F60AFB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 20:00:40 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-b2a55c5ddadso46056466b.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 13:00:40 -0700 (PDT)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id AABA78246F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 20:00:46 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-b2b8b6a1429so44646866b.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 13:00:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758657639; x=1759262439; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MMlXrZQAEQaYYcackbMrUxU4ktpxJHOJCKry2TD8zSM=;
-        b=Ea1u/rio/UBGuf/JSlgNT3sMWf6VMBtBrMrofMNXeMaaa+9CpiZJuts/jxNHtY7QnF
-         b1F/OFjMKk2avsQzM0yet7lOmEDry1iETDNDQaydseHn4Wwysos0kBHyy1Meqm0/re27
-         jt2Wt5I+L+lfNyrsETHT7fPbSOGFfQVIqQiQuqzOqpRJBhriJxUQw/D+XARGR5QRmKY3
-         +uL2nEmIt3jqoG+TsY9CcB5k2GPOHEKazZ5BW4DLopm3/XGNFJNN40KavLyez6OgYjEg
-         DeHzUuWHyOgApkaseY57CO6c+k/mYa3CKYDMFQCkxuilEpUSn7ZGPfLix3JVtd+2A4jV
-         Rcdw==
+        d=gmail.com; s=20230601; t=1758657644; x=1759262444; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9kxnKEunBUq6lbDqWLItziPs2zbuhFcil+VxDU1uLZ8=;
+        b=ezVOZyFxGHkhtHxXjff41Dn6yQbJ4/UXgIVF8l3vGZrFPIaqHWh1x7Q4J3o3qsTXXi
+         xs3ae/eesB2Oi0ikw5sfs+rf4X0ME3RaNA1dwvtNoSUhyUJj8yR3UwSJmt9viz8IWpgh
+         VSD75cnxJMMwfqcLaOrQCowUFugk05hmaqonwDFkv3Lo07/063cD2WpeZYx6GVmpClQG
+         nfahish1A7GVSiYGDClHdF2qGrRfEYrfqvWKrGOwvzInnFbAAds6KodRYmFSmMdkS1HW
+         zsDjwpYp0A/I5N5a0VzqVwS9nH/yfIHHcHE7nSD2bWclPusfRFKcjEcLE0tE/Kn/5Nmi
+         WG7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758657639; x=1759262439;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MMlXrZQAEQaYYcackbMrUxU4ktpxJHOJCKry2TD8zSM=;
-        b=ZCV/sM1VbGynuWtFBX/zv3fOKHqR10xE3QTjCU/vdyR0AMWRZGz1hVVi7bPBPQ7FZd
-         D9c2YtP+eFEY5Vs+9Stdff9gJ1A7DbDGSym2oYmY/UP7RpPVEyG0yh3fN6e7mJhGpiuh
-         u9eHIvNM/f1WrXKsB2oBBQkBb5FFh6PbRbHl55g4hV6tdBigF0v7ALSyqdgApyw8dI1G
-         /Xye9yziiBSvPolUQ56tkFsuWzOUGrsTXYKeDXbkf3sVwgVQs4bHNFPldUWSI0C+Emph
-         T/SrJL6F64eKPdriUik+76J/PPsL0dlbNLqroCB5Hm5/7JILdCj0Ff92oEIloLu/+uXI
-         oPaA==
-X-Forwarded-Encrypted: i=1; AJvYcCXEXF0uKCjk/2nYcCtLk+iX9d5XA3LZrkESpxeL90hDiU3uSQRRbmnxgkNQwygoVVL4r0abu4cIY2IXe2Xet95HmStH+Q==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzAL+dulPwUT0WsrYP/7gYd3n1mKLOcjNVxNUYTT4X6z9DvdefY
-	mw/zMUzKduk5cWqjviIifx9Guz2IOEbTmt/8F37SIxInqflAn2n13sXQ
-X-Gm-Gg: ASbGnctrVDdfNCCw2vQIftPKPFyPxxM0c6XcTaHBPTfpj6bSMHy40/47yBZuN5YfGKD
-	/xhcOCfPOpxHBp+SEal/jOI4t9qNysgvL28PlJ2j4mQpqQd9kUJZN2t7C01hIqeuBk4VyhlPepV
-	lkKZjTymGbxXlbzKMHACfaB9B8xVyKyXtzd/7RfzTyyW+t3+LXq6BjENMRbbnLp/xoLKshiwJF7
-	mjKNL2rXGyq5WFV+TXx4ycbjCYZc0KAr2YDJVZVOhANbGgdiE9neK93kh9NMn+tI976kOPP3dTC
-	f8XTla+mps2r4MlMI9O2nv7hhR5LlRjidIwb5Fr2XscKLerMpJa3WKNlQjwCYHEtQ0zyoGmAMbh
-	n9fkfQ0tPD0MUOX1CwrN7g/O2
-X-Google-Smtp-Source: AGHT+IHN5XcNp/1KJalZXV/5R5ZCq+blsOxXx3/x4YcOoDnXFZxHCB5DKHENkTDjUloqq8JYpW2v8w==
-X-Received: by 2002:a17:907:7b8c:b0:afe:ae6c:4141 with SMTP id a640c23a62f3a-b302689ce0emr142054966b.2.1758657638404;
-        Tue, 23 Sep 2025 13:00:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758657645; x=1759262445;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9kxnKEunBUq6lbDqWLItziPs2zbuhFcil+VxDU1uLZ8=;
+        b=SHH/m1gG+iJhVlIkjFlwLwbWfbuhAM5fVKXlDcw+yDAPaTzyyNSa+I5fVUcNYxHMnb
+         AZp3UG1l7qq5GgUWj9aNe6rHUPJkOdlQ5JNzzqnuE7PhHHimSdcLwZfma8u/BqkLncEB
+         Z9GrCWe77bzg5V42qPuVQC7ZPFdy97qvI0rRPWGrNSmyWWCL+dijfnQn320zp/WleegT
+         ZaTOUrMHAgKwP8yh3XXF65flIWip1OVMir54DxJz2uOYbIMWqsHS3+b9mBH6VLl7J2SV
+         xZxs5G4gwfUslHXqDXg4PGqq4d8MY68myYfhRxNMneGy8DRclzescn4Dm/oxahO8nCf1
+         +Biw==
+X-Forwarded-Encrypted: i=1; AJvYcCWG4+TUak9wapHSvt2QySDVNbw2Kj4yqy+T550cdrEd830ZETVJ10CstRHV1VaicYkDIL7KtPEDt1h7RUQTF4FWEKZu2A==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzXQy4ZhXGU4nx2QmXguGs9+g5oOchnqOF19VPNpUSY/XbJUSoc
+	rqjfnMkWWuHF+D4trcP4zJEYiRYIiZxoeYLRbZUOyQinh/yS2a+MpML4
+X-Gm-Gg: ASbGncvEG7VzpJ88lszcCh/9s9xkqCXJhig5lMyJWMBYqHbPpyuJgsyIGibZEUWcwrT
+	RleYVs3rlzQxo/28rTNUiWO/d60B750pmQKR97QyJ/hn8KNb77tgZq2hJbOFL0xzMB6Jmyiw6yk
+	vo9zl43TsZ2riNUT/bI6bnTF5yUp7coUbvUuApEqjk2AsYcTEu2q9J65+ny0kFdgrmsOYW7QYEs
+	r2oefRef5BRKQg83L14Ne8Dg02fmhHvgRqg3SoD3GvgqwPBzBDpRWBMC4FzBxr6gvywKtjcolr1
+	MBOR4dQi6bBNl2awJbxW3i8pCLHHJhmkG5widQL2DhM4UwqOCue9ecgPTzheSFeFuqGQGKDQ/FQ
+	Rjf7ewe9oIGYSz7TLUcaeoOiGwbed3URey5uyzx+MLHI=
+X-Google-Smtp-Source: AGHT+IH0sk2UMFhq8ILkVNhalVb23fPwThZEi+o2vb0yPrbkfalsoc549TsjUa62bG1KSNKQmFvZBw==
+X-Received: by 2002:a17:907:3ea1:b0:ad8:8c0c:bb3d with SMTP id a640c23a62f3a-b302745d8acmr203295566b.3.1758657644360;
+        Tue, 23 Sep 2025 13:00:44 -0700 (PDT)
 Received: from bhk ([165.50.1.144])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b2ac72dbe92sm672074066b.111.2025.09.23.13.00.35
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b2ac72dbe92sm672074066b.111.2025.09.23.13.00.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 13:00:38 -0700 (PDT)
+        Tue, 23 Sep 2025 13:00:44 -0700 (PDT)
 From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
 To: davem@davemloft.net,
 	edumazet@google.com,
@@ -101,10 +103,12 @@ Cc: horms@kernel.org,
 	bpf@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-Subject: [PATCH RFC 0/4] Add XDP RX queue index metadata via kfuncs
-Date: Tue, 23 Sep 2025 22:00:11 +0100
-Message-ID: <20250923210026.3870-1-mehdi.benhadjkhelifa@gmail.com>
+Subject: [PATCH RFC 1/4] netlink: specs: Add XDP RX queue index to XDP metadata
+Date: Tue, 23 Sep 2025 22:00:12 +0100
+Message-ID: <20250923210026.3870-2-mehdi.benhadjkhelifa@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250923210026.3870-1-mehdi.benhadjkhelifa@gmail.com>
+References: <20250923210026.3870-1-mehdi.benhadjkhelifa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -113,31 +117,30 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
----
-Mehdi Ben Hadj Khelifa (4):
-  netlink: specs: Add XDP RX queue index to XDP metadata
-  net: xdp: Add xmo_rx_queue_index callback
-  uapi: netdev: Add XDP RX queue index metadata flags
-  net: veth: Implement RX queue index XDP hint
+Devices will be able to communicate received packets
+queue index with bpf_xdp_metadata_rx_queue_index().
 
- Documentation/netlink/specs/netdev.yaml |  5 +++++
- drivers/net/veth.c                      | 12 ++++++++++++
- include/net/xdp.h                       |  5 +++++
- include/uapi/linux/netdev.h             |  3 +++
- net/core/xdp.c                          | 15 +++++++++++++++
- tools/include/uapi/linux/netdev.h       |  3 +++
- 6 files changed, 43 insertions(+)
- ---
- base-commit: 07e27ad16399afcd693be20211b0dfae63e0615f
- this is the commit of tag: v6.17-rc7 on the mainline.
- This patch series is intended to make a base for setting
- queue_index in the xdp_rxq_info struct in bpf/cpumap.c to
- the right index. Although that part I still didn't figure
- out yet,I m searching for my guidance to do that as well
- as for the correctness of the patches in this series.
- 
- Best Regards,
- Mehdi Ben Hadj Khelifa
+Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+---
+ Documentation/netlink/specs/netdev.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
+index c035dc0f64fd..25fe17ea1625 100644
+--- a/Documentation/netlink/specs/netdev.yaml
++++ b/Documentation/netlink/specs/netdev.yaml
+@@ -61,6 +61,11 @@ definitions:
+         doc: |
+           Device is capable of exposing receive packet VLAN tag via
+           bpf_xdp_metadata_rx_vlan_tag().
++      -
++        name: queue-index
++        doc: |
++          Device is capable of exposing receive packet queue index via
++          bpf_xdp_metadata_rx_queue_index().
+   -
+     type: flags
+     name: xsk-flags
 -- 
 2.51.0
 
