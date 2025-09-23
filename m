@@ -1,229 +1,216 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7DB18EB0
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Sep 2025 06:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758608111; cv=fail; b=lIAYieCSsKD3lzgPFDW/i/Hmk463wSIEn0Es/vHAkU1Z6wqff/yEw8hzQ/7nPn5IZp2a1tqle34xe4c7qRD+/pTUai7PjIOSgNxnfNfDM6SFWbQQ8kmJUK58J8zbTqdlaACNiOcvbg9zf2CbqWzzLnvDbDBJyh+OiWKZep2rOYA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758608111; c=relaxed/simple;
-	bh=scSw8vcfjFovIjkw/9LWeUW5jR3Cuy2FaGjDlG3pYBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=RXAjwZ4q/PQVnC7baX7v1WE2GXp/WjZrhL9ayu2rL0HbfsfeHejdXJArfKw5bP0Yl2v3T/TqvwtNvVqUC9Um8Q5CaAaDAR1I0xtkpIc/nH9qacVZUATYEM0Mcw4015VHWo/4UQMeeZrzGtJU7XdfHuT9p1Y+sZOlMSUgKODHAC4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=UUnj9+qu; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=c7r1DwH8; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E7730F7FD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 06:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758609672; cv=none; b=Id6pffR5Hfix84q2PVzev0USq5dIKYddhTuF9aH6kCnx9/XLXJ1FVz2e2WtVgN8k02b0La5HlGM4Bk2xaRtG9xMDt9fyZITP+EiP/xT2Go1gDaZsSFnK+tn/EEMr6doKYdx+8ba6wD//6R8f+zY99tLFRwCrx8HxMgyc1bFHAc4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758609672; c=relaxed/simple;
+	bh=brYavWhV/7xsKb3ClJnwMjVVXtx5Cbod1Cm6UsWka6c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C8ubrUvyxKOZJrWz7GkQRA2eNNHpb6wvebmXU4tKZhDcus49T/wrQ4sLRwcbE4bEpxrQ3w2fKIwaybaTUo6KLDPfvlwhpFWQeeyIVaEpIP6BU59yWB4C5dfjWWV0xkeoaCxdGMdxb9PoFxhasd9j59f73x+BfMfyBKeMicxFEcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rX9Bcab6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rrSD3D1v; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rX9Bcab6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rrSD3D1v; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="UUnj9+qu";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="c7r1DwH8"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58MNC5j5010755;
-	Tue, 23 Sep 2025 06:14:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=ny3XLvGb/bSswQhLR+
-	aiY8MaNsFZBwv7SHu8dLmtcyM=; b=UUnj9+quKWlWCMgUumf7iDCEB+TsGoKPpg
-	0mw+bpwjSaY4yBK5v7XrHii6rU0WkBxsdJahtT5XjkTRImZewelRRr3di21nD4FK
-	bU5hylTnJrl/PPFoPXUyISM5mhSTNQhpM0DjOfEv9vCGNsE+atu95ZRoIPiRsOCu
-	FsKIGe+JQHttg0Y+qViaExNXJWalGGCAziqmxE9j0GdAkcX82vYp59TPG8Cfwc1Q
-	lbHRheXu2YJkGmoZkqROaHIqMclDJM4/jWH4yuxPfs7ZPOv5sOwnzQBeKRAbbLS5
-	QMT8tOFKVwAze9BzuJ/NBk2suI2LKI8JTv4rRJTO9n/0tWM8KkEg==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 499mtt3vxa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 Sep 2025 06:14:50 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58N4hLsC002112;
-	Tue, 23 Sep 2025 06:14:49 GMT
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010064.outbound.protection.outlook.com [52.101.193.64])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 499jq7rurp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 Sep 2025 06:14:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MJF18nt9B2kvR//v4Sb+QmJxBf1vl9Nc7tzMZ8sQCi5DvEn20RcYekjAj6rTAcVMGMO6wEoZIF68zGv7v7d4XRFEuTM7K81kbtTBfxmrfg1kcq9a5XPtDJYGTgxbD5yTW+wz7SUbKrPhwmfGS6LM42P2ntjkmtxbONaNi8qBAje9GFd/tlbL3cMEEj9Ssrx19Ntf7mldO/YKvJOVnZ30OO8aR4MWpfy330erZDIUCb68i8gdP/5hOqkeebVs8e8o+VIeCmsSJZnQR8KC2xg/Ei7g4nHgxyyY96p51ZIcaGPpOiXU4BT5TKqsHNNk2khjhW6bqmP8NWar8Lg7324d1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ny3XLvGb/bSswQhLR+aiY8MaNsFZBwv7SHu8dLmtcyM=;
- b=Q9/tzyJnvibFyTe3GxUpt+wRkpYAFKBomhyTzp+/pYQjwqf6baPsSucb2Ks/AhPTYZvpltNdRBADWkGehoAR+YwHNrFBvGDUt/8IXlq64XWwjSCUMlThuHFJgcL5rg0Uj0Uvgf5DBzX3UytdZcEKhzC+0T6CmiMhFqk38QpyxYQ81cXhbyaheg+UgEQHIQjANhlSd0Hn8b1gS4A1Oxg14uY8L+SVnzfBAvOZofrGO7ZmMMxkEVjR5sJPqaP/OyahHZ9X/D15/+17lj30kgsyQo0knI6xPAlMof7zFJvu5hLL5m1zRB1SOYIB89BK1zWmlmGujj6eQbXgSzJFm26YdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ny3XLvGb/bSswQhLR+aiY8MaNsFZBwv7SHu8dLmtcyM=;
- b=c7r1DwH8x0bc69RN5lkYbkSW/d9guQm/KfhxUONOczR9k52B80OvZQ5wnZNfOVrBUfGvn5amfExcLGN3ksRchs5bSNQlK+P8E6jswt7nDzPzHCe0DxGf3ur6gBKvvvjSLNbZnpy7IMfBlwcvE7b5rj4VFbXoSw8gcLgXWA9OxDI=
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
- by IA3PR10MB8298.namprd10.prod.outlook.com (2603:10b6:208:570::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Tue, 23 Sep
- 2025 06:14:46 +0000
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::f238:6143:104c:da23]) by CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::f238:6143:104c:da23%7]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
- 06:14:46 +0000
-Date: Tue, 23 Sep 2025 15:14:35 +0900
-From: Harry Yoo <harry.yoo@oracle.com>
-To: viswanath <viswanathiyyappan@gmail.com>
-Cc: vbabka@suse.cz, akpm@linux-foundation.org, cl@gentwo.org,
-        rientjes@google.com, roman.gushchin@linux.dev, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-        david.hunter.linux@gmail.com, linux-kernel-mentees@lists.linux.dev,
-        syzbot+94d20db923b9f51be0df@syzkaller.appspotmail.com
-Subject: Re: [RFC PATCH] mm/slab: Add size validation in kmalloc_array_*
- functions
-Message-ID: <aNI6t5hqY6hSx_8Z@hyeyoo>
-References: <20250922170357.148588-1-viswanathiyyappan@gmail.com>
- <aNGOnDb0WsIbk2zx@hyeyoo>
- <CAPrAcgM=-2dvHg5yvsqtT_YfjH-gThc+iGZGJpc8gpKbg-OdrA@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPrAcgM=-2dvHg5yvsqtT_YfjH-gThc+iGZGJpc8gpKbg-OdrA@mail.gmail.com>
-X-ClientProxiedBy: SEWP216CA0038.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2b5::6) To CH3PR10MB7329.namprd10.prod.outlook.com
- (2603:10b6:610:12c::16)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rX9Bcab6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rrSD3D1v";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rX9Bcab6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rrSD3D1v"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id BD8E080BE0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 06:41:10 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -8.091
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id GoXpaSp3JIwf for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 23 Sep 2025 06:41:09 +0000 (UTC)
+X-Greylist: delayed 408 seconds by postgrey-1.37 at util1.osuosl.org; Tue, 23 Sep 2025 06:41:08 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 013E380BCE
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=suse.de
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 013E380BCE
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rX9Bcab6;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=rrSD3D1v;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rX9Bcab6;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=rrSD3D1v
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=195.135.223.130; helo=smtp-out1.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN> 
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 013E380BCE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 06:41:08 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4F34F22407;
+	Tue, 23 Sep 2025 06:34:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758609255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Wz3AXAlF5GjIw3jAlJPvdawMg5eEHvjgJbMIezsSt5c=;
+	b=rX9Bcab65XoEVPqanK6+jjBXCMFJRD3chYLJAzI87QsOBuK+vd+uYnleOZJDycOIg23Rmj
+	LKswo/zYFXHo82deEKKjxMDDXAP2ZdEjjSJY9ZC0VSRoC7IdwFzXNzzsX909QyZHB+F6H9
+	l36ElIXhU5LGrIHShdSajLB6hfL6/Lo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758609255;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Wz3AXAlF5GjIw3jAlJPvdawMg5eEHvjgJbMIezsSt5c=;
+	b=rrSD3D1v6yW2jERvfRQ0qU1PutFACQgsCq7wjRczvD5IUR9JI0fnBbS/C//PXoFi88O+xw
+	a4BcaiFOoenbTiCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rX9Bcab6;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rrSD3D1v
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758609255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Wz3AXAlF5GjIw3jAlJPvdawMg5eEHvjgJbMIezsSt5c=;
+	b=rX9Bcab65XoEVPqanK6+jjBXCMFJRD3chYLJAzI87QsOBuK+vd+uYnleOZJDycOIg23Rmj
+	LKswo/zYFXHo82deEKKjxMDDXAP2ZdEjjSJY9ZC0VSRoC7IdwFzXNzzsX909QyZHB+F6H9
+	l36ElIXhU5LGrIHShdSajLB6hfL6/Lo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758609255;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Wz3AXAlF5GjIw3jAlJPvdawMg5eEHvjgJbMIezsSt5c=;
+	b=rrSD3D1v6yW2jERvfRQ0qU1PutFACQgsCq7wjRczvD5IUR9JI0fnBbS/C//PXoFi88O+xw
+	a4BcaiFOoenbTiCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E421F132C9;
+	Tue, 23 Sep 2025 06:34:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id SRc3NmY/0mhhHAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 23 Sep 2025 06:34:14 +0000
+Message-ID: <063fbed8-915e-47e5-99fd-ffae22cfb6fa@suse.de>
+Date: Tue, 23 Sep 2025 08:34:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|IA3PR10MB8298:EE_
-X-MS-Office365-Filtering-Correlation-Id: f5e999d7-336e-4824-cbe4-08ddfa687e5d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?EKi1e60Jq+smTFd8T1ub4FJSc7kBR1ey78/XEVe/Yz7AmGmYTG4sKP80p6WY?=
- =?us-ascii?Q?XlTW+MuaWllfGL7JcawW5pNB8rOsH6bNx6PiJjCPU71mnz7pljtN/CPpIfUs?=
- =?us-ascii?Q?tLorbO+rl8Vlo9u2ClREBiXMebzcLxNNteYWxHvhtmDye6ypKo7MiP5hbQH2?=
- =?us-ascii?Q?aYvxhMrexU9o2f6SgAEtqLK71NOpw0gYEF8ZmIAqdzFRTXAVRSrxCjjYalVH?=
- =?us-ascii?Q?IC0cgoindK5ejx3MStoPoG9ArVmdrKNdPEijFWSZYYXhn22mRmzYkJ7y/ac9?=
- =?us-ascii?Q?WSIFp+MNSn9prhBgUbQox/lY1R+uW2pfW43yI+VA7LW6A3/7qunltKqyfwdY?=
- =?us-ascii?Q?og7Dn6ytUvWPG9AG5uL2pIk37XcJNtJ8wCQXDYlG6sm6up+vDkNZ1/OWCOdX?=
- =?us-ascii?Q?DzkQJrqMIQkYY847TA6fk+Kt2I3gfe/S5MApRaAtYnLDXOhc6WmVn7+H5+z8?=
- =?us-ascii?Q?Ty+KhYsZIAgVzUktX8k/dx07224gUC3bZHVN+N3XRfTfn0PZmBTmz+iHquGf?=
- =?us-ascii?Q?yMWHidk1vtsci4FRzdCwJi3JJ1Bn1UBsU3HYj1ZXIoGO55NBX+EafUdtkVPM?=
- =?us-ascii?Q?7Wl9u9YrSGVFRE8RepCp0WdzRDJC6HSFjFoQN22oj0cObVkCvJNex270cOHX?=
- =?us-ascii?Q?0djBJHuxKIeUBrNnTTnlxYFDgupJN4inuz9cVf1e8/SVbC1XEbRTbX9gmA46?=
- =?us-ascii?Q?Aa2YieH2Vh6k4jRK00Eisp4PJTJc7C1VAcOeoMDDzI7gTAY97Go6umG/w7Qd?=
- =?us-ascii?Q?tszzy3jVc9oDwj0FdLO9ipbKMiqfUCrKs/V2m63dybGykTByBuqVN83w/+b9?=
- =?us-ascii?Q?6Wab2hDU+pQ0VSB7AJQ8zHwKc+SiANehVNqgjobcaCOfIPAfi4cspXv2fnYR?=
- =?us-ascii?Q?AOGTC/tn/e76zJ4o/egyPBRlZ6jkJIItzpqd010NWvnmskycOKGnyGHwBRNh?=
- =?us-ascii?Q?id3mznM2BccbI0hnY7B2nI0C9gF08rA1B7Es/8QuKDcxkyX+B/1B1MSfzbWb?=
- =?us-ascii?Q?iXFCGkYSAT6rqf4/gZEbUIP5mpM+lTYFihfB8RgG8Rkg0H+tsSRxbLWaVw6T?=
- =?us-ascii?Q?DtOQqkRZMUXJG2aUd5a4JsDShZPGMD379IWLasktm/FNAGCeSsboN9sf0nSv?=
- =?us-ascii?Q?eeoKOZz3xXxXHQdMzoJrx+klWqGIUR7mSUxZsVAGv2pwdcytbwFr0AdvdHH5?=
- =?us-ascii?Q?uny+io4DO1N4+QqsXVFcBGt4H8xmmWgaeqsvlYh44fEQxdGPW02c78+BUHCa?=
- =?us-ascii?Q?oVWikp1Ja0XVafzv8tf+qF+e3AjAIgDH9kV2hWDhywYj0Mg3jtvFamseWePR?=
- =?us-ascii?Q?+FqY3Y10v4stojoXWi432dbbClHSOZKozBxsfRsldXXbdA2O/kPpR5JAuxlU?=
- =?us-ascii?Q?uDDFKz2hdlpPhqGkeju7Fb+E7TcUhMh/uoNxcedalvyQpQmkQlRUhY4/C2QG?=
- =?us-ascii?Q?/Nxdc3xG7+Q=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bUT/hldpHMrra0gZllkzDsrTl2uNPaNCIkT/kWS3jylXnHLgFCnUSTp0lTnL?=
- =?us-ascii?Q?lXGvrKsLZJ8lra0OgFyPq+c3OGZCzdbFvAjR5wiERG2JTGwNrQmEnA9XI4ym?=
- =?us-ascii?Q?FVZXBfowMZs3dx4inUyIcqnqL6UqaVvWPG5ICMbWZ5gDTK1GepvEHRao0RfM?=
- =?us-ascii?Q?QVLjrHLBw0lHeiug8WRFFXE+IiLEB/1SGK2x0+VDMM2BvwxLan3eWxLYwL9W?=
- =?us-ascii?Q?d1sdm4TynSA4NR7GiL4YAUrMIfy11ZteL81A4o5BRNdrKd+Sorj0A4gIwTgy?=
- =?us-ascii?Q?NOCgjia0YS1JGEHIV2OiikFMJZMwCNe9Masl9HGCvAgKBFuTleyDfTBd5yFM?=
- =?us-ascii?Q?ktAPPD+1YC2WR+viF6fZupqVh2ZlwPxYyXEjLgFQmTO4u8UAL4svKP37zLR0?=
- =?us-ascii?Q?MjBlWsoTG5r3FgLpoFrllDzNA+YDd6O+JRGjsTi4sBpomFKLzo0LXrs2RwaC?=
- =?us-ascii?Q?9GXHDT4tnojPZs3GN5AE4SpRbU4hEOzLfN+EwYT5drCdXqKYQp8AHBS+vrrp?=
- =?us-ascii?Q?cEX/62FYLPc/gNMgnbgTs0qyD1Pd1oRgy/xyskDneXYAb8NkqNcW4jpDrlZ8?=
- =?us-ascii?Q?Hj1JO/0tKrAXLRpU/MdXeR7q2Omj9xr70Jk7elHzL8usna+XlZPA6eJfB43w?=
- =?us-ascii?Q?S9BxI0MGAeASf9HznayX6RGgNvA56LH+qJMGOowesiAa6MCyLxr9/B5VGjMv?=
- =?us-ascii?Q?xyjlTD0uAG7MprdXK2wDeZCUs6bXctRNnHcTBdpGcD4YJ25DfMKPkvcGrb41?=
- =?us-ascii?Q?hd4W1jirKsYGvE3rsNNbLmBIsIK8O/6QEJ2dbhTvy2VD1YyulZjEgVhCXbFN?=
- =?us-ascii?Q?bfrjxVKwbvOp7E3wNI/VGXOw4HGEhPJSCUxncTn+UMvVUGBD70x3Qc5sCnER?=
- =?us-ascii?Q?U+26LttSR9+F7kS6gmjflK2TwiQuZvM86s/+mwp9Zz9DuG5tf9rf3aoIk5T0?=
- =?us-ascii?Q?ENiA2EEy8L/6c1ZMRhxQ7LL4DvBDQbWA4jaOAAEm0D2T46yCN3Ph47n3efeh?=
- =?us-ascii?Q?hqlO4wnnP1coayuiezBX/Nl6s+JQeHD3PsVKkAsX/M5wWjh82KrmJcOVm3Gr?=
- =?us-ascii?Q?yUgnKjdnOwgyXWe0fqzM12X+5n5UXuwQZWFheDE3o3KUE5cY++A2jIKw7n+3?=
- =?us-ascii?Q?DN4wEnwwhlz6WvjYaZxTK8lVihVgVDMC3rQOniHpPe9YYmKLjL5Fi/i2eTJi?=
- =?us-ascii?Q?PLxvyeOVvTDn6+6ecaBxuRUtrYeOzz2ztT3YlqBHW+MGen4M/IP9/xB6UwyS?=
- =?us-ascii?Q?1KVhHg1CionTsshHebrQZ+VHlo3LmpsgGxoMd72CZB21n8Vrx6LIJp5jZ7ud?=
- =?us-ascii?Q?4bfTasZ9MDcWkowqFhJD6DWlws+PTtJDb68h6gWCPHPevDcmMbTBo31cloLE?=
- =?us-ascii?Q?x+ojMcKb0pLCpR2PUBoectI9JptEagtMokeFWahan5yEaPvv2a/ViqHpl5GP?=
- =?us-ascii?Q?5fPUl/xab3jccf2GoCUTqajx436eyuF7VeCl4Qw0mZEZjE+KlMcCgjFnfbag?=
- =?us-ascii?Q?CnfiKBcVKFesiUrzbNZu/VzfCtlFBbWoA7Aivea7tLbnYz/UAbujS+caVBjZ?=
- =?us-ascii?Q?yrvVppJJ+6t0ccfZopiXf07aZoXTpLX3LUgR7weE?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	A+vTnlyA+8BIQvgAwZdkiIzlfsO8gE1ekdx/0z8FhaeOFS1gs6t2sROz7yYRuEkequokPdzzVU6QIKZ61/XuEL+E+9CiIxY3acp3ktV81k/PCvEBKvk7oHLbLhMJzeWH+O52RKAP95bX9BcXQwbhx2eRmTSdtFwaIQGdmdLeRKI4hUiZrsn+3/M3wjBWDCwxn7gYJsoV16jnM4YJaCVXtEQVd9auh6M/dLkkt61NSNronQi1U6+LjK9AQvGidTo6wXMzzQcUesF0xn1ijcUB/OsEPXjo8+fDJ1ndft9m/gg8tn2EgS62rXf2Z4P0PZyhjfw5MMGOjPqMp8FfyroRjhzm3o025vX1ZoPf7DWwbPuypeMErYooeZXZMLDxazheqlj6QWmmUHeH9dIHxH1VOBNAlN3bpKZPUqK5OyEZms9wLEDO+iixJLyG3IsdN4/oYMmOQJduS5wBwGCbu0V/G+fix0QvXrXn1NRXWCfo/j0jexI/wfyksphitIxVtQliQTFsw22aMdWHIbUyP5AhlU4gSoc+xTfncEtjhxo0GnbX5dSkNBL5Xz3oR9sfoc/t+aS5AlrhoET1Tc805l0t/aDl+yA+gQgyzD66+QEuyPA=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5e999d7-336e-4824-cbe4-08ddfa687e5d
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 06:14:46.2257
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vS3afhHNCtCCZHuL6kVup3ajEq0N3X0X7MeAbmSicezFFLl+/jVLE4zNc88YntLszVr+xK2G7e2AD/7vjzORAQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB8298
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-23_01,2025-09-22_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 bulkscore=0
- spamscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
- definitions=main-2509230056
-X-Authority-Analysis: v=2.4 cv=fd2ty1QF c=1 sm=1 tr=0 ts=68d23ada cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=DL7BUCsRM9HRBss6klwA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: cNcB7eKQB22nwNCb-WGYqYniRiJemc8l
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzNCBTYWx0ZWRfX3/UaTKVSZbNg
- ymIWRmMmnX7NHhnrVMCwMYSoeyPnNyR50UNC6BMpn57PI35bebE2PCnJLuOfvqUU0cechMltorn
- LoZDDtSEXFTSpvpsO7HWk0o8zwCSlBXcBc32nk+rcTQv5gZGwECaUbLE/Ns+DNgPb0Qjzlc+3D+
- bEPnQXQm7EadGPKWLr2iD+TxMJCcFlarS9MZCxxKsARAlQBtRvWZKaiC7YfLuIX63jLLsGtNh78
- hhYlpoWDIDH8+/3w/JKqGSmKxmAqKY7Fa5ARccLV5gVtK5jSAZeHuT8JiX3/7QYyqcFVcTJRpOV
- GHt2MXRaEI68PXy6tx3MuGl5rPOEplJfmN/LgMRh0HUPN3vQMiUK+P+aSPi0FbyfBPkEQ4PnIAg
- TpJnn6mR
-X-Proofpoint-GUID: cNcB7eKQB22nwNCb-WGYqYniRiJemc8l
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/gud: Use kmalloc_array() instead of kmalloc()
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, mingo@kernel.org, tglx@linutronix.de, jfalempe@redhat.com,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ Ruben Wauters <rubenru09@aol.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20250922174416.226203-1-mehdi.benhadjkhelifa@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250922174416.226203-1-mehdi.benhadjkhelifa@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 4F34F22407
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:mid];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,linutronix.de,redhat.com,linuxfoundation.org,aol.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
 
-On Tue, Sep 23, 2025 at 10:41:39AM +0530, viswanath wrote:
-> On Mon, 22 Sept 2025 at 23:30, Harry Yoo <harry.yoo@oracle.com> wrote:
-> 
-> > When bytes > KKMALLOC_MAX_SIZE (8K on my system), kmalloc redirects allocation
-> > to the buddy allocator, which can allocate up to (PAGE_SIZE << MAX_PAGE_ORDER)
-> > bytes (4M on my system).
-> 
-> In include/linux/slab.h,
-> KMALLOC_MAX_SIZE is ultimately defined as PAGE_SIZE << MAX_PAGE_ORDER and
-> KMALLOC_MAX_CACHE_SIZE as PAGE_SIZE << 1
-> 
-> I was using those definitions
+cc Ruben
 
-Err, you're right :) you mentioned KMALLOC_MAX_SIZE, not
-KMALLOC_MAX_CACHE_SIZE. Apologies for the confusion.
-
-> > Because allocating a page with order > MAX_PAGE_ORDER page is never
-> > supposed to succeed, the caller of kmalloc should be fixed rather than
-> > kmalloc itself.
-> 
-> So, Is it almost never a good idea to add new validation in the allocator code?
-
-Yes, because such allocations will always fail and that's never a good
-thing.
-
-> > I think the right fix should be to return -EINVAL in max_vclocks_store()
-> > if max * sizeof(int) exceeds PAGE_SIZE << MAX_PAGE_ORDER?
-> 
-> Thanks, I will go ahead with this approach
-> 
-> Thanks,
-> Viswanath
+Am 22.09.25 um 19:43 schrieb Mehdi Ben Hadj Khelifa:
+> Replace kmalloc with kmalloc array in drm/gud/gud_pipe.c since the
+> calculation inside kmalloc is dynamic "width * height" and added
+> u_char as the size of each element.
+>
+> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+> ---
+>   drivers/gpu/drm/gud/gud_pipe.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
+> index 8d548d08f127..eeea0cb4c7aa 100644
+> --- a/drivers/gpu/drm/gud/gud_pipe.c
+> +++ b/drivers/gpu/drm/gud/gud_pipe.c
+> @@ -70,7 +70,7 @@ static size_t gud_xrgb8888_to_r124(u8 *dst, const struct drm_format_info *format
+>   	height = drm_rect_height(rect);
+>   	len = drm_format_info_min_pitch(format, 0, width) * height;
+>   
+> -	buf = kmalloc(width * height, GFP_KERNEL);
+> +	buf = kmalloc_array(width * height, sizeof(u_char), GFP_KERNEL);
+>   	if (!buf)
+>   		return 0;
+>   
 
 -- 
-Cheers,
-Harry / Hyeonggon
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
+
