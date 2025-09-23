@@ -1,103 +1,102 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E7730F7FD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 06:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00D330FF3A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 07:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758609672; cv=none; b=Id6pffR5Hfix84q2PVzev0USq5dIKYddhTuF9aH6kCnx9/XLXJ1FVz2e2WtVgN8k02b0La5HlGM4Bk2xaRtG9xMDt9fyZITP+EiP/xT2Go1gDaZsSFnK+tn/EEMr6doKYdx+8ba6wD//6R8f+zY99tLFRwCrx8HxMgyc1bFHAc4=
+	t=1758611178; cv=none; b=pf5Ia1+S4iBan5f6Kj+AChi2EGrnuTvzlwtzDIq7CjT3c5tPgNEdy/ZcFPEEKyd8cDl3yvz/iupcqnn7lfzsSV9K+jAv4/W4hIwPlwbEnExwTFVHuU42uheKzK/vpbtye9V02BqDSOppIk18c0x2yNCE9/pxNM40F1jvQkNvY1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758609672; c=relaxed/simple;
-	bh=brYavWhV/7xsKb3ClJnwMjVVXtx5Cbod1Cm6UsWka6c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C8ubrUvyxKOZJrWz7GkQRA2eNNHpb6wvebmXU4tKZhDcus49T/wrQ4sLRwcbE4bEpxrQ3w2fKIwaybaTUo6KLDPfvlwhpFWQeeyIVaEpIP6BU59yWB4C5dfjWWV0xkeoaCxdGMdxb9PoFxhasd9j59f73x+BfMfyBKeMicxFEcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rX9Bcab6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rrSD3D1v; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rX9Bcab6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rrSD3D1v; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1758611178; c=relaxed/simple;
+	bh=PKtJHOhpjzm3pT0yldZezibPr2KlT9zmkoVj0Dqixk4=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=GeJb9nQ4cJvff4jgmPjf+werIW8qXTw0/13ZgExgy4Gq0F/GWEKU02ItKJypd/adTASr9M1GqplHRMPE+G6/Ox/vr9I7O8DjMgVXX4UG5N3kFBCDUr2q3jV+uMje12e8jEpIoCy0bT+Wsajob4y2cv+PQO2KEmj3fOWI5PM+yBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TJEbHV6f; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LHbk2ecA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=z9Hzu/RK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+lKNdqUp; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rX9Bcab6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rrSD3D1v";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rX9Bcab6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rrSD3D1v"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TJEbHV6f";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LHbk2ecA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z9Hzu/RK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+lKNdqUp"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id BD8E080BE0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 06:41:10 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6FE5040333
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 07:06:16 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -8.091
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id GoXpaSp3JIwf for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Sep 2025 06:41:09 +0000 (UTC)
-X-Greylist: delayed 408 seconds by postgrey-1.37 at util1.osuosl.org; Tue, 23 Sep 2025 06:41:08 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 013E380BCE
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=suse.de
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 013E380BCE
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rX9Bcab6;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=rrSD3D1v;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rX9Bcab6;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=rrSD3D1v
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=195.135.223.130; helo=smtp-out1.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN> 
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 013E380BCE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 06:41:08 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id UAOv9Vcyh3wt for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 23 Sep 2025 07:06:15 +0000 (UTC)
+X-Greylist: delayed 1916 seconds by postgrey-1.37 at util1.osuosl.org; Tue, 23 Sep 2025 07:06:14 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 7CC4D4031D
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=suse.de
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7CC4D4031D
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TJEbHV6f;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LHbk2ecA;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=z9Hzu/RK;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+lKNdqUp
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a07:de40:b251:101:10:150:64:2; helo=smtp-out2.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN> 
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7CC4D4031D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 07:06:14 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4F34F22407;
-	Tue, 23 Sep 2025 06:34:15 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EE8D61F7A7;
+	Tue, 23 Sep 2025 07:06:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758609255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1758611172; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Wz3AXAlF5GjIw3jAlJPvdawMg5eEHvjgJbMIezsSt5c=;
-	b=rX9Bcab65XoEVPqanK6+jjBXCMFJRD3chYLJAzI87QsOBuK+vd+uYnleOZJDycOIg23Rmj
-	LKswo/zYFXHo82deEKKjxMDDXAP2ZdEjjSJY9ZC0VSRoC7IdwFzXNzzsX909QyZHB+F6H9
-	l36ElIXhU5LGrIHShdSajLB6hfL6/Lo=
+	bh=om3ymGVEgOYZkxH7h2o+iQHAkIkzP/oq9p4NUs/6iTE=;
+	b=TJEbHV6fxtoOTiFsdBBQARzEZmGvOr1pp9sSAo+P/GlU/lOrFwx0VIamB/sO+m+NWc2IK2
+	6iuNCZUlDjdbtkWa+sfxO7sENZyoJa/a8/Y+cPiqDOauJYi4zvgkJq/unOn3FgHAOZNXlG
+	irPpN6FK24Tdfil6n3xxd/6GU6nL0as=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758609255;
+	s=susede2_ed25519; t=1758611172;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Wz3AXAlF5GjIw3jAlJPvdawMg5eEHvjgJbMIezsSt5c=;
-	b=rrSD3D1v6yW2jERvfRQ0qU1PutFACQgsCq7wjRczvD5IUR9JI0fnBbS/C//PXoFi88O+xw
-	a4BcaiFOoenbTiCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rX9Bcab6;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rrSD3D1v
+	bh=om3ymGVEgOYZkxH7h2o+iQHAkIkzP/oq9p4NUs/6iTE=;
+	b=LHbk2ecAokH1cxjeH2efhX4+cfgznd8fR8DJAI57S+2HOcpLVZ6EFoohG2a3iec8TVYLgS
+	4AnWAzxV/I3F79Cg==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758609255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1758611171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Wz3AXAlF5GjIw3jAlJPvdawMg5eEHvjgJbMIezsSt5c=;
-	b=rX9Bcab65XoEVPqanK6+jjBXCMFJRD3chYLJAzI87QsOBuK+vd+uYnleOZJDycOIg23Rmj
-	LKswo/zYFXHo82deEKKjxMDDXAP2ZdEjjSJY9ZC0VSRoC7IdwFzXNzzsX909QyZHB+F6H9
-	l36ElIXhU5LGrIHShdSajLB6hfL6/Lo=
+	bh=om3ymGVEgOYZkxH7h2o+iQHAkIkzP/oq9p4NUs/6iTE=;
+	b=z9Hzu/RKZ7C0arizexWPI/PdG8tVYiTYLiPHCe69hoSImNFdZNZdJ+oi9Eh7oQUqHMq8Fm
+	NMUHSrrSn2gs1JxvZ3VbSJV1V8er9OrKf8mTLz0mLNwMESJ5qsRUoTjwkdm53ZyoJXF1PP
+	P28dKDXLmAWYcnWvoGQZ80NGeZBJxic=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758609255;
+	s=susede2_ed25519; t=1758611171;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Wz3AXAlF5GjIw3jAlJPvdawMg5eEHvjgJbMIezsSt5c=;
-	b=rrSD3D1v6yW2jERvfRQ0qU1PutFACQgsCq7wjRczvD5IUR9JI0fnBbS/C//PXoFi88O+xw
-	a4BcaiFOoenbTiCQ==
+	bh=om3ymGVEgOYZkxH7h2o+iQHAkIkzP/oq9p4NUs/6iTE=;
+	b=+lKNdqUpIzurlssiu+HKRw64nbWNwXhC9ZGSeI+AO8QmAhVEpNqinP5yNk0jNXjVWFIESK
+	y2VtOrD48UdMnqCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E421F132C9;
-	Tue, 23 Sep 2025 06:34:14 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 301531388C;
+	Tue, 23 Sep 2025 07:06:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SRc3NmY/0mhhHAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 23 Sep 2025 06:34:14 +0000
-Message-ID: <063fbed8-915e-47e5-99fd-ffae22cfb6fa@suse.de>
-Date: Tue, 23 Sep 2025 08:34:14 +0200
+	id Ykk7O+BG0mhKJgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 23 Sep 2025 07:06:08 +0000
+Message-ID: <fda2b300-dd91-4357-8cd0-a82347907164@suse.de>
+Date: Tue, 23 Sep 2025 09:06:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -106,6 +105,7 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] drm/gud: Use kmalloc_array() instead of kmalloc()
+From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  simona@ffwll.ch, mingo@kernel.org, tglx@linutronix.de, jfalempe@redhat.com,
@@ -114,8 +114,8 @@ To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
 References: <20250922174416.226203-1-mehdi.benhadjkhelifa@gmail.com>
+ <063fbed8-915e-47e5-99fd-ffae22cfb6fa@suse.de>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
  XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
@@ -140,69 +140,72 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250922174416.226203-1-mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <063fbed8-915e-47e5-99fd-ffae22cfb6fa@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 4F34F22407
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:mid];
-	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,linutronix.de,redhat.com,linuxfoundation.org,aol.com];
+	TAGGED_RCPT(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,linutronix.de,redhat.com,linuxfoundation.org,aol.com];
 	FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-cc Ruben
+Hi
 
-Am 22.09.25 um 19:43 schrieb Mehdi Ben Hadj Khelifa:
-> Replace kmalloc with kmalloc array in drm/gud/gud_pipe.c since the
-> calculation inside kmalloc is dynamic "width * height" and added
-> u_char as the size of each element.
+Am 23.09.25 um 08:34 schrieb Thomas Zimmermann:
+> cc Ruben
 >
-> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-> ---
->   drivers/gpu/drm/gud/gud_pipe.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Am 22.09.25 um 19:43 schrieb Mehdi Ben Hadj Khelifa:
+>> Replace kmalloc with kmalloc array in drm/gud/gud_pipe.c since the
+>> calculation inside kmalloc is dynamic "width * height" and added
+>> u_char as the size of each element.
+>>
+>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+>> ---
+>>   drivers/gpu/drm/gud/gud_pipe.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/gud/gud_pipe.c 
+>> b/drivers/gpu/drm/gud/gud_pipe.c
+>> index 8d548d08f127..eeea0cb4c7aa 100644
+>> --- a/drivers/gpu/drm/gud/gud_pipe.c
+>> +++ b/drivers/gpu/drm/gud/gud_pipe.c
+>> @@ -70,7 +70,7 @@ static size_t gud_xrgb8888_to_r124(u8 *dst, const 
+>> struct drm_format_info *format
+>>       height = drm_rect_height(rect);
+>>       len = drm_format_info_min_pitch(format, 0, width) * height;
+>>   -    buf = kmalloc(width * height, GFP_KERNEL);
+>> +    buf = kmalloc_array(width * height, sizeof(u_char), GFP_KERNEL);
+
+u_char is more or less guaranteed to be 8 bit. So what's the point?
+
+There's a potential overflow in width * height. If anything, you want to 
+call kmalloc_array(height, width).
+
+Best regards
+Thomas
+
+
+>>       if (!buf)
+>>           return 0;
 >
-> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-> index 8d548d08f127..eeea0cb4c7aa 100644
-> --- a/drivers/gpu/drm/gud/gud_pipe.c
-> +++ b/drivers/gpu/drm/gud/gud_pipe.c
-> @@ -70,7 +70,7 @@ static size_t gud_xrgb8888_to_r124(u8 *dst, const struct drm_format_info *format
->   	height = drm_rect_height(rect);
->   	len = drm_format_info_min_pitch(format, 0, width) * height;
->   
-> -	buf = kmalloc(width * height, GFP_KERNEL);
-> +	buf = kmalloc_array(width * height, sizeof(u_char), GFP_KERNEL);
->   	if (!buf)
->   		return 0;
->   
 
 -- 
 --
