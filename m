@@ -1,80 +1,110 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC7C2E2665
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Sep 2025 16:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240312F3620
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 20:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758643605; cv=none; b=trD0RZPdPvKu1sAIMjxeqF/6/zp1WfshhHybFalQqqd0wfFC5pv9TJUIq8UbD8So++f7AySRGLQ8KA9vVz39NXH/tGUC74GoOwmLdgZ+Qx1heBKDWzkRqGgg28u686iz3k4kop8u3Q0tzby7M7MBLXnXayNw26iVDOejpqBgmws=
+	t=1758657643; cv=none; b=EiMPtcXkEjCAaFM8AqO5JRDttITeqnXU5iVEZXH3YIwHFaD99Lh2I67Zres8cypNxk9pQ1lIohp/+LHK5UoRBDTNECCCSKvTrAqnRGwqbVBS13D0Pz7JpajAwlVyyaKRjwmG1PTv6oWTE1ggRddtN8aNPhtcTgkeLGG9ZKQrU60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758643605; c=relaxed/simple;
-	bh=yRZBREAJTaU8sSOhttVeLwSntMyFmzNWX36Gn0HWzTs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UrqriRe03DpWB2yqfpGaL3fXyV3NdPrW+KecpMeJGKIxpFktJNl1jAm/D61CCG14z6Dn6w55IcLWGgQkS28EU+mF6yiNLjdkPHuY2pjMJeP5veJ2Rql5hU7Rnc/VsObk0l5832xY2hMcJFeFw1qflhrz06DZx8bJh6EmDlzQ/oQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cno4h15m; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758657643; c=relaxed/simple;
+	bh=DUqNL0BxXw9yb60YTESlG8jt6nJyQ3pOZOLBywKCkqA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LOQDWvqJh8Q5Mh12gkAKEavMihvS5Wk68YNsYv2Fj1395U7Z5XmVjiWQSYKoSsWAkSHyMoYQHHUf2yH+qo84WbfxFSAr25eKP0ES1PM5VZkythqoo5BcShHLf6H6hO1tfwG0jaTnWlFy41s/ewZh2ZknP/AmN+KoKF99ZRdaNSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ea1u/rio; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cno4h15m"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b551350adfaso4589409a12.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Sep 2025 09:06:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ea1u/rio"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id BB04E61098
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 20:00:41 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id kvq5J57_Mqdx for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 23 Sep 2025 20:00:41 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::636; helo=mail-ej1-x636.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org CC96F60AFB
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CC96F60AFB
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ea1u/rio
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id CC96F60AFB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 20:00:40 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-b2a55c5ddadso46056466b.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 13:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758643603; x=1759248403; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1758657639; x=1759262439; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t309JLGTHyrQ93SF2bmZLkppAVP5+5xihRdA8pDsPLU=;
-        b=Cno4h15mw1eIhpM4Iuw8Ktyqmq+n+xDCBqtOxrzS7b5AqQ5t2vejitaGq4ziRytQiC
-         M3gUdLN7OSiM+0cBr5I60sOQj/5LfbJLKxmv61+3fN0yN6VCox863A95TghUOVsgP7me
-         w5jDR++C82W3yMtZW712HUqXXqAKp9eotVvcyYhR6PNdwayPuzAAnZrcR9gapVk26t/K
-         cTrrQf2UQHpT8aJ6o4cynD1UKLVQgBOtASSrxlsK6Feh27IXS6c4iEkjQf29mrWSlXFh
-         KYIkcBK/1BbjuohkYogsJcF9M/LOUKU02HtiQAfAXZ0sFmOpsRrDF7v4rrCFLtD29J/I
-         g/cQ==
+        bh=MMlXrZQAEQaYYcackbMrUxU4ktpxJHOJCKry2TD8zSM=;
+        b=Ea1u/rio/UBGuf/JSlgNT3sMWf6VMBtBrMrofMNXeMaaa+9CpiZJuts/jxNHtY7QnF
+         b1F/OFjMKk2avsQzM0yet7lOmEDry1iETDNDQaydseHn4Wwysos0kBHyy1Meqm0/re27
+         jt2Wt5I+L+lfNyrsETHT7fPbSOGFfQVIqQiQuqzOqpRJBhriJxUQw/D+XARGR5QRmKY3
+         +uL2nEmIt3jqoG+TsY9CcB5k2GPOHEKazZ5BW4DLopm3/XGNFJNN40KavLyez6OgYjEg
+         DeHzUuWHyOgApkaseY57CO6c+k/mYa3CKYDMFQCkxuilEpUSn7ZGPfLix3JVtd+2A4jV
+         Rcdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758643603; x=1759248403;
+        d=1e100.net; s=20230601; t=1758657639; x=1759262439;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=t309JLGTHyrQ93SF2bmZLkppAVP5+5xihRdA8pDsPLU=;
-        b=kR0rkZlHLVihchIErOcXsbnkzoFfAoeaEQ1zZ39ewKalenTQ0ZWDH9JqLZWanrQJmh
-         WXoTXat1DP3p+u9Qxok/YqlSSpZumH/QAAOvAVU+9X8yj2pEQY8v57aDUgS/0vOyVwsh
-         h5V0J/0rLyraFM1zP9hpmzcc11HvIR3hehbg76u1mzkiFfC3BripmUFlBQn4B7ZFWhfY
-         y6XMRezPgBsB4LCwGKbpcQYz6pEDBk4SFocghgjOsNbWWlEGCQpDOBwuF6b5XFx/Zrdo
-         9Pp7t0AjPjRMKKPjR4w5WCNo37Fzyv361BjjFwaxBJZZ9cYNAhFG5KJQ6nUpWko+AIE1
-         poLA==
-X-Forwarded-Encrypted: i=1; AJvYcCVeS8tR0ddmBbHGlBF6YMzgkvws9ndbEMR8VLtRSreMS+5RrwBvCOW8PQQpX3qETVVCVRuz7SZAWjoWu6bgkVDRVWWL2A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yydn5qM4Q0QeHROiNSsJ1ecY/zMLzHSqsi/fwhNBEj8mjycpakC
-	m9tys/C9U8SGL1ISkzvfHTlRE+nuchZ/Odg5iarVi9zn5nuQ0c82Nx3I
-X-Gm-Gg: ASbGncsnH8MY8HKGIwyUDq/nIbTP/LmVUTx8OaGW1tv/i2bICqa2r5v/fC1Ov8J9u3q
-	PhCc6k2U2E2qcYCKnIcKv403pblmjAmr6/2IUYzlTXWZSvaTR8Q9ZsCIbI+FZEPnPDLfw8kkpwF
-	xgPIG6QuCbEY2yxJplpchZ0xrG8bjWzGZhB3sSocsCsVYjD4lVMANBc3VMOZJPH0/AESibIggk2
-	MqLb1eHvx11JlI5WOqOS6i9pKlResdckua3qaOVGl2ZFXktZkKXqhpj/wrj/3Qp9/1Vpd3/U1Xz
-	d2s0raeO0TOrOkKirH4LS9DKlYF5/h/VSD40TJ07GenptK2OYowaN8+Wxq53oWtId9WF6CuRY+h
-	Kp0bxqq1lBHS04iqWIrs3l5zt9ANYmadREUiDNz1RJBkdH+gc/+rX7kVKdDYhakPlM/PtHsRaS9
-	fQIr24cmvqcaJ9
-X-Google-Smtp-Source: AGHT+IFkkB+3aFbUYjMbYAr5CaGup6768qgAaVamVl9anvKViE9FgNGhY1HvWcu+9yfaeLkmeqZekw==
-X-Received: by 2002:a17:903:2b10:b0:271:49f:eaf5 with SMTP id d9443c01a7336-27cc696e9efmr39277455ad.30.1758643603090;
-        Tue, 23 Sep 2025 09:06:43 -0700 (PDT)
-Received: from debian.domain.name ([223.181.105.44])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-269802df8aesm167167395ad.89.2025.09.23.09.06.37
+        bh=MMlXrZQAEQaYYcackbMrUxU4ktpxJHOJCKry2TD8zSM=;
+        b=ZCV/sM1VbGynuWtFBX/zv3fOKHqR10xE3QTjCU/vdyR0AMWRZGz1hVVi7bPBPQ7FZd
+         D9c2YtP+eFEY5Vs+9Stdff9gJ1A7DbDGSym2oYmY/UP7RpPVEyG0yh3fN6e7mJhGpiuh
+         u9eHIvNM/f1WrXKsB2oBBQkBb5FFh6PbRbHl55g4hV6tdBigF0v7ALSyqdgApyw8dI1G
+         /Xye9yziiBSvPolUQ56tkFsuWzOUGrsTXYKeDXbkf3sVwgVQs4bHNFPldUWSI0C+Emph
+         T/SrJL6F64eKPdriUik+76J/PPsL0dlbNLqroCB5Hm5/7JILdCj0Ff92oEIloLu/+uXI
+         oPaA==
+X-Forwarded-Encrypted: i=1; AJvYcCXEXF0uKCjk/2nYcCtLk+iX9d5XA3LZrkESpxeL90hDiU3uSQRRbmnxgkNQwygoVVL4r0abu4cIY2IXe2Xet95HmStH+Q==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzAL+dulPwUT0WsrYP/7gYd3n1mKLOcjNVxNUYTT4X6z9DvdefY
+	mw/zMUzKduk5cWqjviIifx9Guz2IOEbTmt/8F37SIxInqflAn2n13sXQ
+X-Gm-Gg: ASbGnctrVDdfNCCw2vQIftPKPFyPxxM0c6XcTaHBPTfpj6bSMHy40/47yBZuN5YfGKD
+	/xhcOCfPOpxHBp+SEal/jOI4t9qNysgvL28PlJ2j4mQpqQd9kUJZN2t7C01hIqeuBk4VyhlPepV
+	lkKZjTymGbxXlbzKMHACfaB9B8xVyKyXtzd/7RfzTyyW+t3+LXq6BjENMRbbnLp/xoLKshiwJF7
+	mjKNL2rXGyq5WFV+TXx4ycbjCYZc0KAr2YDJVZVOhANbGgdiE9neK93kh9NMn+tI976kOPP3dTC
+	f8XTla+mps2r4MlMI9O2nv7hhR5LlRjidIwb5Fr2XscKLerMpJa3WKNlQjwCYHEtQ0zyoGmAMbh
+	n9fkfQ0tPD0MUOX1CwrN7g/O2
+X-Google-Smtp-Source: AGHT+IHN5XcNp/1KJalZXV/5R5ZCq+blsOxXx3/x4YcOoDnXFZxHCB5DKHENkTDjUloqq8JYpW2v8w==
+X-Received: by 2002:a17:907:7b8c:b0:afe:ae6c:4141 with SMTP id a640c23a62f3a-b302689ce0emr142054966b.2.1758657638404;
+        Tue, 23 Sep 2025 13:00:38 -0700 (PDT)
+Received: from bhk ([165.50.1.144])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b2ac72dbe92sm672074066b.111.2025.09.23.13.00.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 09:06:42 -0700 (PDT)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: richardcochran@gmail.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
+        Tue, 23 Sep 2025 13:00:38 -0700 (PDT)
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+To: davem@davemloft.net,
 	edumazet@google.com,
 	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
+	pabeni@redhat.com,
+	donald.hunter@gmail.com,
+	andrew+netdev@lunn.ch,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	hawk@kernel.org,
+	john.fastabend@gmail.com,
+	matttbe@kernel.org,
+	chuck.lever@oracle.com,
+	jdamato@fastly.com,
+	skhawaja@google.com,
+	dw@davidwei.uk,
+	mkarsten@uwaterloo.ca,
+	yoong.siang.song@intel.com,
 	david.hunter.linux@gmail.com,
-	I Viswanath <viswanathiyyappan@gmail.com>,
-	syzbot+94d20db923b9f51be0df@syzkaller.appspotmail.com
-Subject: [RFC PATCH net v2] ptp: Add a hard upper bound on max_vclocks
-Date: Tue, 23 Sep 2025 21:36:22 +0530
-Message-ID: <20250923160622.8096-1-viswanathiyyappan@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	skhan@linuxfoundation.org
+Cc: horms@kernel.org,
+	sdf@fomichev.me,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Subject: [PATCH RFC 0/4] Add XDP RX queue index metadata via kfuncs
+Date: Tue, 23 Sep 2025 22:00:11 +0100
+Message-ID: <20250923210026.3870-1-mehdi.benhadjkhelifa@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -83,59 +113,31 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-syzbot reported WARNING in max_vclocks_store.
-
-This occurs when the argument max is too large for kcalloc to handle.
-
-Extend the guard to guard against values that are too large for
-kcalloc
-
-What would be a reasonable value for PTP_MAX_VCLOCKS_LIMIT?
-
-KMALLOC_MAX_SIZE/(sizeof(int)) is the absolute max value for which the 
-memory allocation wouldn't fail
-
-Reported-by: syzbot+94d20db923b9f51be0df@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=94d20db923b9f51be0df
-Tested-by: syzbot+94d20db923b9f51be0df@syzkaller.appspotmail.com
-Fixes: 73f37068d540 ("ptp: support ptp physical/virtual clocks conversion")
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
 ---
-v1:
-Link: https://lore.kernel.org/linux-mm/20250922170357.148588-1-viswanathiyyappan@gmail.com/T/#u
+Mehdi Ben Hadj Khelifa (4):
+  netlink: specs: Add XDP RX queue index to XDP metadata
+  net: xdp: Add xmo_rx_queue_index callback
+  uapi: netdev: Add XDP RX queue index metadata flags
+  net: veth: Implement RX queue index XDP hint
 
-v2:
-- Moved the validation to max_vclocks_store
-
- drivers/ptp/ptp_private.h | 1 +
- drivers/ptp/ptp_sysfs.c   | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/ptp/ptp_private.h b/drivers/ptp/ptp_private.h
-index b352df4cd3f9..f329263f33aa 100644
---- a/drivers/ptp/ptp_private.h
-+++ b/drivers/ptp/ptp_private.h
-@@ -22,6 +22,7 @@
- #define PTP_MAX_TIMESTAMPS 128
- #define PTP_BUF_TIMESTAMPS 30
- #define PTP_DEFAULT_MAX_VCLOCKS 20
-+#define PTP_MAX_VCLOCKS_LIMIT (KMALLOC_MAX_SIZE/(sizeof(int)))
- #define PTP_MAX_CHANNELS 2048
+ Documentation/netlink/specs/netdev.yaml |  5 +++++
+ drivers/net/veth.c                      | 12 ++++++++++++
+ include/net/xdp.h                       |  5 +++++
+ include/uapi/linux/netdev.h             |  3 +++
+ net/core/xdp.c                          | 15 +++++++++++++++
+ tools/include/uapi/linux/netdev.h       |  3 +++
+ 6 files changed, 43 insertions(+)
+ ---
+ base-commit: 07e27ad16399afcd693be20211b0dfae63e0615f
+ this is the commit of tag: v6.17-rc7 on the mainline.
+ This patch series is intended to make a base for setting
+ queue_index in the xdp_rxq_info struct in bpf/cpumap.c to
+ the right index. Although that part I still didn't figure
+ out yet,I m searching for my guidance to do that as well
+ as for the correctness of the patches in this series.
  
- enum {
-diff --git a/drivers/ptp/ptp_sysfs.c b/drivers/ptp/ptp_sysfs.c
-index 6b1b8f57cd95..200eaf500696 100644
---- a/drivers/ptp/ptp_sysfs.c
-+++ b/drivers/ptp/ptp_sysfs.c
-@@ -284,7 +284,7 @@ static ssize_t max_vclocks_store(struct device *dev,
- 	size_t size;
- 	u32 max;
- 
--	if (kstrtou32(buf, 0, &max) || max == 0)
-+	if (kstrtou32(buf, 0, &max) || max == 0 || max > PTP_MAX_VCLOCKS_LIMIT)
- 		return -EINVAL;
- 
- 	if (max == ptp->max_vclocks)
+ Best Regards,
+ Mehdi Ben Hadj Khelifa
 -- 
-2.47.3
+2.51.0
 
