@@ -1,104 +1,65 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B281E502
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Sep 2025 22:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5AD1DE4CA;
+	Tue, 23 Sep 2025 01:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758581857; cv=none; b=Iqze7EZSsRiaaKm8ziCuGD2dl663TqmgfC+IRQlyfcqihNh7zj7WO2WMj91ESegRCwQzj8vis9WIyy97sBdUyk6WriLlrAIFZ8Y82Vk51eZFDpZovCNmFgJnnFItq+RbwbzAq3NURgqKkIY+fAJ9hHRRivfyGz6ap+Q4tmJOy+Q=
+	t=1758589664; cv=none; b=kcMsm0jxnirm6HN9040uaDyEdJcBmJ38ac8rIExkqkma9bszZrFAz/YNPNvkBjmYBoz79qZ3qaZswt1UCowpYQ3DuzwPXTIuhgcer3xpNWzXrNLBQJj6g8nLMnB9jXlzddtRnGPUKbhNGPUUxyH/2ghnYNYCzTlfz/ohFSF2wqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758581857; c=relaxed/simple;
-	bh=wJcpJFENZM3XJoASue2WgV0KmkWQXXkTgGWB1tLNT3o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LeX5OC4fgxc3xAtF0i34bmC8cA7Zr5AKORbqKesZBg0/6v76y+w2pBJFb8ojCtaG/3HfT7K7gkqY1GhC4DgUccQdSlVoZKz4o5JSPZeN20ZZelgzq4HWAFFJeK3uHh1WhiPCXymLvtMUWWvvQHIMgPvMJGpClvcAjp3cUq1MZIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IsguRKkv; arc=none smtp.client-ip=209.85.222.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758589664; c=relaxed/simple;
+	bh=KfCEe+TsG87YvDPSQorY/miKGure0NErSK1Ry9X9WfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rFqGbv4rJ7b9SbDRXV7vDT8miQ4qjUTFA9u+uCcDYVIkMw+Wyh0sUtPDclJHSSVIwajCm4idfjw4W4YMbkOTaGH52swfhFKoguRdTcvf1feCve4QEgMdaSYuaqkajCLzuGhZwkHPE7xhPSNzq0SNnEUH5rGOBuCe4lOPMT4l2vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EA4oY0Xz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IsguRKkv"
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-8e1d6fd99c1so1479617241.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Sep 2025 15:57:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758581855; x=1759186655; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4PmeTUZt1oKPH7ak6kJVKMIBti4fjRyL0GgGscNM+JY=;
-        b=IsguRKkvFCiRZ44FC8bX9r+enEb6D/z4JG4Lx7FbL2wnm7ym8R/IxBEk2jJPFbAD2b
-         4teG8EE0ZmQCLopf1LIcs1MJxILgrc9LEmZxeIUM7yZQb0gtLA+5fwHRGJyT8bboYQDy
-         SKwibvg2DDYwle4xmjFWdh9TJFNFw328iezZMK/cyDgC2v+qaPnapLMijFK5HKBpx/ZC
-         89xw8IL6ieMPYJ7J+wpnAyj5l/tDl/AfOxN8JePw1DrVeexcA1iKtcOXnyT/u1PqH2TB
-         CFsB/D15AlJjZ+5No2adnk83XZkyb78FQ8UGoOlhyzwhBh7ytdOedSMrfHDex3Ih0QW8
-         iM7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758581855; x=1759186655;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4PmeTUZt1oKPH7ak6kJVKMIBti4fjRyL0GgGscNM+JY=;
-        b=iRm0S6aaUXBN5j1EoHgZpreNBA78wGF2cc7vAHf2J48VJtMglBpfSUp0W50en+NbLa
-         KHgN2JPWIqof6/q39QBbxKQi/nQp7C8A4s6NQok21xIODqVOizWberjbPs93VObasrmX
-         BfHSPzH0FC8cwhIYOxQTYRbTmfgvNGRrfYkkRb+EvAV/Q+ZL8Q6u9kln1vcC9pddH02J
-         m1Mh1k/NhJtCzGcRlioMmCzPz5RYkqtVhkhTBJDI6MIeqwStpcJM/bOP5q/EdLhXk/BI
-         DATgQPApTzYB5CFQVW1Yci82xOs4zjZfcRoz+ztBMGTG87zXMo96n7b4+HqpbXozMEbD
-         GLEg==
-X-Forwarded-Encrypted: i=1; AJvYcCVy4AqR6247zbSjdO5kzlRCtyAd6AELxH1TJWTiX9mtkppE4qvD5vOS67/YCatVSEjFfzfAR7VXJciYCQ2x0bOzmZJ+wA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwjrYlioYTdpkA7k8f+E3P3wkIRGLVtMxdo/B50eVoJpp17sFw/
-	PnopsRhsr8M2vRj3OWhkAL06n/+IDT5Vd+BOJbZOCwObdv2SPYxWcCgc
-X-Gm-Gg: ASbGncuUe6KA7TW1OqstItl4pEPMVR8iAzwuOEoeGINCTPdqDaghNh15qhAV2vDuBuM
-	njoCw4uFrL6i06xlQgYhIxfwCBU3VWyhbfEUq01Ewc5jRlJNTbKgscN7mZYJCqYP5OMCa2no3t8
-	H/RwKrEIjre3FUBVge5eq1FIOrv6pORoc+cj5Rjf+c4SfsiQ5pyU0n0dNcUfkFMF2+sKQ+lRaQC
-	yuwDQ4JaLgT6qp8Hj7Xj38uNsjKqaVXkjX/lTvctaHpYuwIwmhBgg7BSp/6IlmizjTO0RQh8JhL
-	zqJwpzG9OkoWDZVjTOTD44E4ypgpj4ojwaapwRlCqaZCcVfMHPZ28k373OljXi02W4lBbEVMNqU
-	R8RwePlsUx4cdMgTYNvjfYjsvvUIwOyWFoFV5brY=
-X-Google-Smtp-Source: AGHT+IEvT9aPO8VQeqDviuBf3xOmqzdNdU8B4VMjX/6iETFgk5faqYljbrRsv10VslcAQOzyPiUIlA==
-X-Received: by 2002:a05:6122:3187:b0:539:1dbf:3148 with SMTP id 71dfb90a1353d-54bcadf84e4mr233297e0c.2.1758581855238;
-        Mon, 22 Sep 2025 15:57:35 -0700 (PDT)
-Received: from [192.168.1.145] ([104.203.11.126])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-54a72974f24sm2963990e0c.19.2025.09.22.15.57.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Sep 2025 15:57:34 -0700 (PDT)
-Message-ID: <29f30ca3-cf45-44fc-aec7-1db6f9694e5f@gmail.com>
-Date: Mon, 22 Sep 2025 18:57:33 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EA4oY0Xz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EA84C4CEF0;
+	Tue, 23 Sep 2025 01:07:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758589663;
+	bh=KfCEe+TsG87YvDPSQorY/miKGure0NErSK1Ry9X9WfY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EA4oY0XzS87mtk9x1RY7lBr16Ih2Le3KofSD8/RrOiWV1rIZXkA/okXOlMBL+FIex
+	 Tr5IRzVBMsyOHajrQRJYFdcNaVLLkLjMAJhJ+6BIvTdDsvMgUB9eCd4dmQKwMY4Oga
+	 8aBJHhwfjxo9ED60j+lbMxG3W3Bs7haFzGhXc0MY2WEffjhvvGZD61qdGYNxNx7nU0
+	 DMV0kUASaIBEM03Sxu36/OadpmV1Q4NvGM48GDB8zciyUA4Rc9XGpIuB05dj6wfgCg
+	 wKWp4ngcBp3MnZBA/G2NOOT/ydczPHijCoddo9rK6KuKEkT4dy3WwToJcfvofVynKq
+	 H8Ojha3hhI8Pg==
+Date: Mon, 22 Sep 2025 18:07:42 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: I Viswanath <viswanathiyyappan@gmail.com>
+Cc: andrew@lunn.ch, andrew+netdev@lunn.ch, davem@davemloft.net,
+ david.hunter.linux@gmail.com, edumazet@google.com,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
+ petkan@nucleusys.com, skhan@linuxfoundation.org,
+ syzbot+78cae3f37c62ad092caa@syzkaller.appspotmail.com
+Subject: Re: [PATCH net v2] net: usb: Remove disruptive netif_wake_queue in
+ rtl8150_set_multicast
+Message-ID: <20250922180742.6ef6e2d5@kernel.org>
+In-Reply-To: <20250920181852.18164-1-viswanathiyyappan@gmail.com>
+References: <83171a57-cb40-4c97-b736-0e62930b9e5c@lunn.ch>
+	<20250920181852.18164-1-viswanathiyyappan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] selftests: Fix Makefile to run targets even the ones in
- SKIP_TARGETS
-To: I Viswanath <viswanathiyyappan@gmail.com>, shuah@kernel.org
-Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-References: <20250920041914.7253-1-viswanathiyyappan@gmail.com>
-Content-Language: en-US
-From: David Hunter <david.hunter.linux@gmail.com>
-In-Reply-To: <20250920041914.7253-1-viswanathiyyappan@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 9/20/25 00:19, I Viswanath wrote:
-
-> Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
-> ---
-> make --silent summary=1 TARGETS="bpf size" kselftest
+On Sat, 20 Sep 2025 23:48:52 +0530 I Viswanath wrote:
+> rtl8150_set_multicast is rtl8150's implementation of ndo_set_rx_mode and
+> should not be calling netif_stop_queue and notif_start_queue as these handle 
+> TX queue synchronization.
 > 
-> make[3]: Entering directory '/home/user/kernel-dev/linux-next/tools/testing/selftests/bpf'
-> 
-> Auto-detecting system features:
-> ...                                    llvm: [ OFF ]
-> 
+> The net core function dev_set_rx_mode handles the synchronization
+> for rtl8150_set_multicast making it safe to remove these locks.
 
-Hi Viswaneth,
-
-After the "---" usually the change log is placed. The change log
-contains the changes from version 1. Also if this is a version 2 patch,
-it is best to note it in the subject line. The v2 helps people keep up
-with which patch is the most recent.
-
-Thanks,
-David Hunter
-
-
+Last time someone tried to add device ID to this driver was 20 years
+ago. Please post a patch to delete this driver completely. If someone
+speaks up we'll revert the removal and ask them to test the fix.
+-- 
+pw-bot: cr
