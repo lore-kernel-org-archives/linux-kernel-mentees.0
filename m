@@ -1,108 +1,155 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C152D838E
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Sep 2025 09:37:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77682D9EDA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Sep 2025 09:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758706625; cv=none; b=U/1AKfF/ZV1eNjVuOQMCjfcd2IznKXJ2WUThx+vMJhfF5tUJ9Eq/sto3KadAHyX+GM9ln4fktC0XMOdccVx/kmR0tbEvAf2GwIbXsASnu0iiOFbEZHEjeMPppaaFLc+KjKnEgMeIWVg+kD+mOBkxFAheuEtW55PHzC1uU5gzxI8=
+	t=1758706848; cv=none; b=ejO/ZAvTN0DoYaVYLaXsWvT8Eh0yI1E8K71jbnwbQnXx5uS75Z50g4FrsC9DhfDir+9LGGFJh03j0Z1koHyq51f/UUzl4ocH2OoBS9W374el+hTyLJYiFt2vYeGyQ0S5Qpu5KkgJcnATAR4h8LkBPtD9QhSj/u/S/kCO15HxNKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758706625; c=relaxed/simple;
-	bh=tHDZPTjqsvGSVtD2vzi+B0EfyL6Wl8yhlQVaMzP6+5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fG+Otcd/1i6D1i1dscchO3Dl3EFJXR0EpXz+4mEHPIGdvQug7LUc68tkNrwHZeavNJglf9yU4PDMgfNfwacaWBbU9evPxQv+YTOS29pdvteO9svypQVGrd/d64B2Q/MXlF3uYL3d/KslJV2RrteAF8tHf7VSqSJN7Pzzzr/zSss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lvBY+ko5; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758706848; c=relaxed/simple;
+	bh=jzKLiKmTv/j27SzZOjxIl4Qu+tZgt4ATA7sg5rWQMC8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rFO8x4NH7lnL1z0NUCueIj+1nnSZ7p4ZHuEf+6gH95Ynt3Tj4qvn5QBB8i6MS/qM6yFJQraSizapTWuXzhBfBeuK2egLPg9EgJlpBksLuj3JMxAOOloxaB4bKnXBl/5hbHB94151tgSouchAEEr7OWScZKh+y2B35FFT+Gj3pHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q2a/CN0P; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lvBY+ko5"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-36a53fe7ebdso29982291fa.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Sep 2025 02:37:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q2a/CN0P"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 81C1240637
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Sep 2025 09:40:43 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.098
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id EBa8lx9wR6QH for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 24 Sep 2025 09:40:39 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::62e; helo=mail-ej1-x62e.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 902EB40092
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 902EB40092
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Q2a/CN0P
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 902EB40092
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Sep 2025 09:40:38 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-b2d6e91bb66so46085966b.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Sep 2025 02:40:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758706619; x=1759311419; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EfQjDW9lOZhqCcu0UR8GmRDS7/f9HDxq+dUiuWeXOX8=;
-        b=lvBY+ko5lKpW6TcRlcPpaKMjJ8Tjw3Xu+WTK1oTjlgl3DvxjTq7/6Jl4t6Qe42wCdO
-         N1fVxUJcVadHhDQqUE3KrfXPJv8OAM6OKlAD3QDCgck69sruNHH01wRlCmfkfqJ2YTVd
-         W7zT98Be8F0I7El1rOXT00Diez23U7Z+R+jW1xj06/3twiB8OyE0SwI5SJ/6sc2OiY0s
-         ZnTriRBtrDV4uO3nKzFVeJNt1iCsIHS7wts1xbNF80bUBY2thxv1BL4QrgaoRvjGSuxT
-         +uLjO40TQ59eyCwJgWXXbgtVH3P103ar5P2FOueyffVgu37Imt7NFrs9hA8n4hlV6Bax
-         XgaA==
+        d=gmail.com; s=20230601; t=1758706836; x=1759311636; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kETfRtb13E45xSUCjG7RsgFFIEDwDhVzUH8S0QeQpIs=;
+        b=Q2a/CN0PxuvB2hLwG/oHemK9zvwgEx8YHf5A9WPvTk5o/DLfS0bPAvdC0WuGCPofkv
+         H6DzC6OCl9wZ+S8fQIfbw09NtWeJlEOIWjrPUT2eq5ZDPw+X2Nj5s91eXE64jr1PhGnx
+         GMZ/K4z95VeoTtDBgPArR5QgEF8XHs9dQkHa6MM6Wvb65omVdfvCu48POmMhhC22NTpi
+         ndo/d1Q4B/C/Xz/1zEaNmx6F+5wxwi/QiyZYgPWKI/t12oK+alI9X7JLoK3nIsPAK71w
+         UyrFmAGI27nRDGqhRrcoc6WCokqb8R+qNWXuHGckoA7Ohg6suQBUjv9ow8efbWEHh6Nh
+         uoXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758706619; x=1759311419;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EfQjDW9lOZhqCcu0UR8GmRDS7/f9HDxq+dUiuWeXOX8=;
-        b=Za9n844d8I8/xtDbbwthDDUghX/Lrr4si3XSoI6i2GAs+KJQR11V60MZVkwoxs25Pn
-         TZEFJBx48ILPnws+wMC/svMrXmk2QXCx3ZvigN6sBy3IZXeaTyPVcG3+7yyei58ckr/r
-         2X6fVckoiriu/eSL+0PHHGRKv9ZM63FGbF0mD5sKv2E25wZiMnB0hnO50HvUHlHgr1Em
-         10ioqm7t27x4R3mNoRI+Z20Gz4FpUj0aSV1XIXWjq6op5GNuNu/WcntXofVA0DxtEYe+
-         CwZQaxtje1UFS0Y+4Ck7bY8pRBZKrOgRRVfh7dDqT+SlH1F+/YI0i7asjtQc4Av6+9Bm
-         yZOg==
-X-Forwarded-Encrypted: i=1; AJvYcCWgJstHKQqFd7GytHVamUwclsfy+cDRjahvUkf5gvJ5960I6HXlP6XrDLjYPcYMAHf3+iE3jSjvQkCUmA8J44mFkZ0bQA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJ9FzoWONWYqWWUlgA+A9CrrAzOV1QENCAcT+R7srhxCGHo8UO
-	duJg965pmKfOJYHa6oaiZpjgTr5l7pVW4KXRFTWO/fIXCwxiY09i3IPO
-X-Gm-Gg: ASbGnctKci5RFBgTVNENnIbbtnjiRZJmyuK0PpTTJBtyWs+8r/vTvIRWGJr/IXObbX9
-	qMPIp12wxAQtcsezzbwBFn2TmUihld5DXCfRpcof9YWlWKcQ3q9wUHaE8VkLuz2PK7XK4SP+g/B
-	P7fzd3nqGoXr6EQv94TwBJOZQoGoDm9jP6HOJqLZFOeuxGwJJzv1LqfK2LpL/XL76KhbGNja5fR
-	/TS8sfW9NOxbe/ic6HgkJQdBgY1hCrNa443j1XSDa5A10KIrcHgXH1BI7/3HweSMlTN5ONyvXGF
-	HpzvrSgHOXvwNsjq9ssbZCn1w6HNSeTdH0tyy75HHYUNdAjc4ROR5AwQD7Mgbq0y412DAVQM2Fb
-	G6Hg8Kj+8+a/YOwM+jrLNxx1k+mCvf5NbA5Q=
-X-Google-Smtp-Source: AGHT+IGAXIFBfltfcFUi2JvMXFLpdNu20IBm9lusClOWXvJ5IvB5Xvu2p2lzfwLhA2Gs0+4M6+OmAw==
-X-Received: by 2002:a2e:b8d2:0:b0:36a:f4d3:82e9 with SMTP id 38308e7fff4ca-36d14ebb0b5mr14965271fa.6.1758706618408;
-        Wed, 24 Sep 2025 02:36:58 -0700 (PDT)
-Received: from foxbook (bfe191.neoplus.adsl.tpnet.pl. [83.28.42.191])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-361a26cbbd6sm43990051fa.23.2025.09.24.02.36.57
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 24 Sep 2025 02:36:58 -0700 (PDT)
-Date: Wed, 24 Sep 2025 11:36:53 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: viswanath <viswanathiyyappan@gmail.com>
-Cc: andrew@lunn.ch, andrew+netdev@lunn.ch, davem@davemloft.net,
- david.hunter.linux@gmail.com, edumazet@google.com, kuba@kernel.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
- petkan@nucleusys.com, skhan@linuxfoundation.org,
- syzbot+78cae3f37c62ad092caa@syzkaller.appspotmail.com
-Subject: Re: [PATCH net v2] net: usb: Remove disruptive netif_wake_queue in
- rtl8150_set_multicast
-Message-ID: <20250924113653.5dad5e50.michal.pecio@gmail.com>
-In-Reply-To: <CAPrAcgMrowvfGeOqdWAo4uCZBdUztFY-WEmpwLyp-QthgYYx7A@mail.gmail.com>
-References: <83171a57-cb40-4c97-b736-0e62930b9e5c@lunn.ch>
-	<20250920181852.18164-1-viswanathiyyappan@gmail.com>
-	<20250924094741.65e12028.michal.pecio@gmail.com>
-	<CAPrAcgMrowvfGeOqdWAo4uCZBdUztFY-WEmpwLyp-QthgYYx7A@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1758706836; x=1759311636;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kETfRtb13E45xSUCjG7RsgFFIEDwDhVzUH8S0QeQpIs=;
+        b=EDZIOhRVqkdiKIbyhkH/1VO70EP8FXuOJgefOlSZknNCrkwVTvGSCgt5rc4vH/rfR3
+         S6xP8tB9gduaXLxeDh75P0GKod7mSs6CdEQaaV8UpqlSQAP38tb4q5sXST9bcJDt9tK/
+         SY470LnD1PEKESRKnbTQRBAZTCVXlhh07VgKwUrXaURUv9ubuovudVfoQqPe7Kpi7MrD
+         8JfQ8koA3ucdEjfaB2vVD4G0+o+6v/G+0z5zsPc+TSji2CtCLGDtYeQCkeXTmYqbUjRD
+         f4Dq/M2H/sCBmZ2qzGebgJGI4SaLFzshulpgspAu19LFQ7ReSX8s/O+oYbiZNeJ8c2ri
+         99kw==
+X-Forwarded-Encrypted: i=1; AJvYcCU4EKTckg8ZaUUOoH6oF75zVo9+3xLzy7ZI6ybyUa4OTS6NjYv4GCLsmQyTHdw8NgJ3Vp6ewvAHoAATthwpGPaIVXu32A==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwB4pTOP71OXl96fgm5bRF5k9Km8QqPSIOnezIK27vzXtNvjZPR
+	PTXgyaMx3OIQJiUV4/VNMJWv/catyWeamG1R03ZNPRu5FJF10y5KiHzc
+X-Gm-Gg: ASbGncvq9Ezjg/TVymwuAv7ueaovkWwNGygLwxzRAmuS0JmRtzG09+mYJbYRkmq/nOm
+	a8xpxl1RLcMPmXOyzlXWHelKlRhy1WQurPb6muB/g7fT1wYZR0Z91TavYWkEhsLDLeEJ1s9v0Qf
+	s0FWNTeU1fLCUSo9TxUle9puTnoQxnNaK0y20oHn84gO4SBDLAHXbfR6pVb8SzmpZ6m2jxNMw4N
+	BynMmNVTG0quu+kpEVTnYKOF0d6dixWar2fvrbyzixpppD9vamanjelTDGE494Nq9Nf6gbT6C2M
+	bYIijWNnPsXbCZn0e/9HfxuYJMP+w8EPuKG3e2Th4EYnDfUYwOZyX28j4tCV486wcfcS7PprJHd
+	O06rQlYbUFbtnNlwli1eQs3Ca969fHEAgIr2uc3eQdSmR1T/pCF8=
+X-Google-Smtp-Source: AGHT+IF0eP7C+aQmBPuYKh5yIDRssL3F6YcaqJ1p8ewtObRtDnPBvvunL6qa6AQJ5XZK9rsgzL9BsA==
+X-Received: by 2002:a17:907:7b8c:b0:afe:ae6c:4141 with SMTP id a640c23a62f3a-b302689ce0emr223705166b.2.1758706835860;
+        Wed, 24 Sep 2025 02:40:35 -0700 (PDT)
+Received: from [192.168.1.105] ([165.50.1.144])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b31a562fe38sm211353166b.45.2025.09.24.02.40.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Sep 2025 02:40:35 -0700 (PDT)
+Message-ID: <f103da72-0973-4a45-af81-ec1537422433@gmail.com>
+Date: Wed, 24 Sep 2025 11:40:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/4] Add XDP RX queue index metadata via kfuncs
+To: Stanislav Fomichev <stfomichev@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, donald.hunter@gmail.com, andrew+netdev@lunn.ch,
+ ast@kernel.org, daniel@iogearbox.net, hawk@kernel.org,
+ john.fastabend@gmail.com, matttbe@kernel.org, chuck.lever@oracle.com,
+ jdamato@fastly.com, skhawaja@google.com, dw@davidwei.uk,
+ mkarsten@uwaterloo.ca, yoong.siang.song@intel.com,
+ david.hunter.linux@gmail.com, skhan@linuxfoundation.org, horms@kernel.org,
+ sdf@fomichev.me, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20250923210026.3870-1-mehdi.benhadjkhelifa@gmail.com>
+ <aNMG2X2GLDLBIjzB@mini-arch>
+Content-Language: en-US
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <aNMG2X2GLDLBIjzB@mini-arch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 24 Sep 2025 13:32:52 +0530, viswanath wrote:
-> On Wed, 24 Sept 2025 at 13:17, Michal Pecio <michal.pecio@gmail.com> wrote:
-> >
-> > It's not freeing which matters but URB completion in the USB subsystem.  
-> 
-> Does URB completion include both successful and failed completions? I
-> decided to go with "free urb" because I wasn't sure of that.
+On 9/23/25 9:45 PM, Stanislav Fomichev wrote:
+> On 09/23, Mehdi Ben Hadj Khelifa wrote:
+>> ---
+>> Mehdi Ben Hadj Khelifa (4):
+>>    netlink: specs: Add XDP RX queue index to XDP metadata
+>>    net: xdp: Add xmo_rx_queue_index callback
+>>    uapi: netdev: Add XDP RX queue index metadata flags
+>>    net: veth: Implement RX queue index XDP hint
+>>
+>>   Documentation/netlink/specs/netdev.yaml |  5 +++++
+>>   drivers/net/veth.c                      | 12 ++++++++++++
+>>   include/net/xdp.h                       |  5 +++++
+>>   include/uapi/linux/netdev.h             |  3 +++
+>>   net/core/xdp.c                          | 15 +++++++++++++++
+>>   tools/include/uapi/linux/netdev.h       |  3 +++
+>>   6 files changed, 43 insertions(+)
+>>   ---
+>>   base-commit: 07e27ad16399afcd693be20211b0dfae63e0615f
+>>   this is the commit of tag: v6.17-rc7 on the mainline.
+>>   This patch series is intended to make a base for setting
+>>   queue_index in the xdp_rxq_info struct in bpf/cpumap.c to
+>>   the right index. Although that part I still didn't figure
+>>   out yet,I m searching for my guidance to do that as well
+>>   as for the correctness of the patches in this series.
 
-I think yes, usually in USB-speak "completion" is when the URB is
-finished for any reason, including error or unlink/cancellation.
-"Free" could suggest usb_free_urb().
+> But why do you need a kfunc getter? You can already get rxq index
+> via xdp_md rx_queue_index.
 
-But I see your point. Maybe "finish execution" is less ambiguous?
+Hi Stanislav, When i was looking at the available information or recent
+similar patches to populate the queue_index in xdp_rxq_info inside of
+the cpu map of an ebpf program to run xdp. i stumbled upon this: 
+https://lkml.rescloud.iu.edu/2506.1/02808.html
 
-> I wasn't sure how to describe the flow of execution in a multi threaded program.
-> I will resubmit a v3 with this version of the execution flow
+which suggests that in order to that, a struct called "xdp_rx_meta" 
+should be the route to do that. In my navigation of code i only found
+the closest thing to that is xdp_rx_metadata which is an enum. I tried 
+to follow was done for other metadata there like timestamp in order to 
+see if that gets me closer to do that. which was stupid with the 
+information that i have now but for my lack of experience (this is my 
+first patch) i tried to reason with the code.So yeah, since xdp_md is 
+the structure for transfering metadata to ebpf programs that use xdp. 
+it's useless to have a kfunc to expose queue_index since it's already 
+present there. But how would one try to populate the queue_index in 
+xdp_rxq_info in cpu_map_bpf_prog_run_xdp()? Any sort of hints or guides 
+would be much appreciated.
+Thank you for your time.
 
-I think it's an irrelevant detail which CPU executed which function.
-It could all happen sequentially on a single core and it's still the
-same bug.
-
-In fact, I just reproduced it with all CPUs offlined except one.
+Best Regards,
+Mehdi Ben Hadj Khelifa
