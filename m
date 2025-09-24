@@ -1,89 +1,108 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C4328136E
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Sep 2025 08:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C152D838E
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Sep 2025 09:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758701270; cv=none; b=TgvRK8BWVPQQRuxaWvSrBG6iavg22zPgypRNnKek7/uGThHBZ51JIOk3tNgTYjoB8v/N4scdGBxznZJAyQC7jtZLeGk4LDOw3sc0/7q7Dyxu4Nj15cqLY6feXYbAQPyTRP7dY+dUiv6B328cvdzyrrcWcETux4vVJ7Df5fbZ4oI=
+	t=1758706625; cv=none; b=U/1AKfF/ZV1eNjVuOQMCjfcd2IznKXJ2WUThx+vMJhfF5tUJ9Eq/sto3KadAHyX+GM9ln4fktC0XMOdccVx/kmR0tbEvAf2GwIbXsASnu0iiOFbEZHEjeMPppaaFLc+KjKnEgMeIWVg+kD+mOBkxFAheuEtW55PHzC1uU5gzxI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758701270; c=relaxed/simple;
-	bh=CPJFhlS86lHjQ8Ti2XaTHsWA+1yz9pSmmfGw3hKwYcE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I+Ho4NIGVSidJQPKpx1nhTUoRA/tH1qNUVOflZVOP7CGWlm/l6O31cTJsmko9dFGR5OyHkF+LuGXMnlGOHO8E8+v1BUTRdrsfLtvF7Kp+wDld5XDVUi8LVkc6h9ktFh7az4Ltt45MNUm5Q73elRW4b0HFuoYg16EQLw83p4xKnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VSHOPQAW; arc=none smtp.client-ip=209.85.218.52
+	s=arc-20240116; t=1758706625; c=relaxed/simple;
+	bh=tHDZPTjqsvGSVtD2vzi+B0EfyL6Wl8yhlQVaMzP6+5o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fG+Otcd/1i6D1i1dscchO3Dl3EFJXR0EpXz+4mEHPIGdvQug7LUc68tkNrwHZeavNJglf9yU4PDMgfNfwacaWBbU9evPxQv+YTOS29pdvteO9svypQVGrd/d64B2Q/MXlF3uYL3d/KslJV2RrteAF8tHf7VSqSJN7Pzzzr/zSss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lvBY+ko5; arc=none smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VSHOPQAW"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-afcb7322da8so1172664466b.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Sep 2025 01:07:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lvBY+ko5"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-36a53fe7ebdso29982291fa.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Sep 2025 02:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758701267; x=1759306067; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CPJFhlS86lHjQ8Ti2XaTHsWA+1yz9pSmmfGw3hKwYcE=;
-        b=VSHOPQAWSJ9KcWSkTDbk+T/NYRX8gyHNyDjemsL/C3nANFins+SYkyvvSVssFch9Zy
-         kFRvxpZlMHehQ8VgEr5R+81YGHRuB7X4nj5zsMTyv6WSOfqLREO0DPQ5H4JbxIofYuHO
-         6TUyEus7cnv8eu35gndAGr2lAlp2RJcR7sx0eqVmN8RrMuXFS5YsoaHenuudOfjFceky
-         JULbWwutB6nXotWHzyH4aNiIzddm+sv14YMuljVIVgbN0VMcZsVUnbrWRqqzkYHY1GFW
-         MnyUeLJCkonohFuahiT+/DIb9V1jjzYhsoirxTPyMCleD0sN/pI0HqMDODZ+tnj6288q
-         1ZVw==
+        d=gmail.com; s=20230601; t=1758706619; x=1759311419; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EfQjDW9lOZhqCcu0UR8GmRDS7/f9HDxq+dUiuWeXOX8=;
+        b=lvBY+ko5lKpW6TcRlcPpaKMjJ8Tjw3Xu+WTK1oTjlgl3DvxjTq7/6Jl4t6Qe42wCdO
+         N1fVxUJcVadHhDQqUE3KrfXPJv8OAM6OKlAD3QDCgck69sruNHH01wRlCmfkfqJ2YTVd
+         W7zT98Be8F0I7El1rOXT00Diez23U7Z+R+jW1xj06/3twiB8OyE0SwI5SJ/6sc2OiY0s
+         ZnTriRBtrDV4uO3nKzFVeJNt1iCsIHS7wts1xbNF80bUBY2thxv1BL4QrgaoRvjGSuxT
+         +uLjO40TQ59eyCwJgWXXbgtVH3P103ar5P2FOueyffVgu37Imt7NFrs9hA8n4hlV6Bax
+         XgaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758701267; x=1759306067;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CPJFhlS86lHjQ8Ti2XaTHsWA+1yz9pSmmfGw3hKwYcE=;
-        b=tD8N/foPPMwZjHkJucVPoHjEKl8vAJ2kPZ6le0gfJL6uPljZJo7qynob6LfIL2W9Q7
-         U9RlAP7Ip2WvqwoJ4ujvEiQWUj+Ijtht2H81X66fj+XOp1q8POrFNl9q08bYZdjio9Bs
-         xvi72StisQGdsK73hS6hmuyPFEeGBT8GUsgX/l/ow6cw3fB2UcI4opqPaIyXp1rdkfyT
-         oI6I19k5Vaw5tcxLu61QKfK64Q87wWKAOl+szWIkfvEockOpfAwQWxYi7u+e5HNsgX4g
-         0vpG+Ye6FevFDoSAE7KsRRqvDK64UW+4dH7i27zmbRIMjZHK/ZyiB7m9X10sZOhl5G4M
-         jYtw==
-X-Forwarded-Encrypted: i=1; AJvYcCWlsIs4wUPqnDl9dwK48Ok2yxOTSbL1M0H3H/v0oRRnm40NExCbptjQ7xgt9/wvE9HGVl3mupPBs+2w6Sh5cMcPHpF9cA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzEk4elacA+3Js8Z6J6jbb6reKF5lgoeJjd9TNB1k7y5yRvzDAD
-	CzonGsovk1D02Q1j3xqOhoTR1t7wqX3nxyQTfl8iNmhiFLpQH9m9hZAI9kWRoqDCxPbpEbRUwlY
-	1Beg2PNjDeEQmGqZa05UFI6yeKuHdNo0=
-X-Gm-Gg: ASbGncvhGEWvraeVj/ulhoA8pb77yrmnL7gGnIpvAVcktP5jYA1N+z5a36HrZGTEInR
-	nRjVkfh2zuwyXOX+9na4ZgAWM0CPXPDdak0w76h3GzuubLGwr25sDmsbgktEWjtwFJpSYzBDBrR
-	0TIGeSncyg1cFWujSiiElwa4AIVKaciUUCczmwEc8rulU5DAoLN0/eQGAgHaLcgrAArwVddCaLO
-	lZF+9p5swTgWmxYvLKYWiX7Z/oZsQPbu+pQWgUENx7Kyh+EpyzMWA==
-X-Google-Smtp-Source: AGHT+IFWa4lkAHwf/4SArdm61wLTC4F7gQbf86GEjLZLwo2VefWv8FFXmP8OkTgdIk6qtNPTw6EZddqMonym0lxMhp0=
-X-Received: by 2002:a17:907:26c4:b0:b2b:a56f:541a with SMTP id
- a640c23a62f3a-b3027260835mr530198366b.7.1758701266609; Wed, 24 Sep 2025
- 01:07:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758706619; x=1759311419;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EfQjDW9lOZhqCcu0UR8GmRDS7/f9HDxq+dUiuWeXOX8=;
+        b=Za9n844d8I8/xtDbbwthDDUghX/Lrr4si3XSoI6i2GAs+KJQR11V60MZVkwoxs25Pn
+         TZEFJBx48ILPnws+wMC/svMrXmk2QXCx3ZvigN6sBy3IZXeaTyPVcG3+7yyei58ckr/r
+         2X6fVckoiriu/eSL+0PHHGRKv9ZM63FGbF0mD5sKv2E25wZiMnB0hnO50HvUHlHgr1Em
+         10ioqm7t27x4R3mNoRI+Z20Gz4FpUj0aSV1XIXWjq6op5GNuNu/WcntXofVA0DxtEYe+
+         CwZQaxtje1UFS0Y+4Ck7bY8pRBZKrOgRRVfh7dDqT+SlH1F+/YI0i7asjtQc4Av6+9Bm
+         yZOg==
+X-Forwarded-Encrypted: i=1; AJvYcCWgJstHKQqFd7GytHVamUwclsfy+cDRjahvUkf5gvJ5960I6HXlP6XrDLjYPcYMAHf3+iE3jSjvQkCUmA8J44mFkZ0bQA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJ9FzoWONWYqWWUlgA+A9CrrAzOV1QENCAcT+R7srhxCGHo8UO
+	duJg965pmKfOJYHa6oaiZpjgTr5l7pVW4KXRFTWO/fIXCwxiY09i3IPO
+X-Gm-Gg: ASbGnctKci5RFBgTVNENnIbbtnjiRZJmyuK0PpTTJBtyWs+8r/vTvIRWGJr/IXObbX9
+	qMPIp12wxAQtcsezzbwBFn2TmUihld5DXCfRpcof9YWlWKcQ3q9wUHaE8VkLuz2PK7XK4SP+g/B
+	P7fzd3nqGoXr6EQv94TwBJOZQoGoDm9jP6HOJqLZFOeuxGwJJzv1LqfK2LpL/XL76KhbGNja5fR
+	/TS8sfW9NOxbe/ic6HgkJQdBgY1hCrNa443j1XSDa5A10KIrcHgXH1BI7/3HweSMlTN5ONyvXGF
+	HpzvrSgHOXvwNsjq9ssbZCn1w6HNSeTdH0tyy75HHYUNdAjc4ROR5AwQD7Mgbq0y412DAVQM2Fb
+	G6Hg8Kj+8+a/YOwM+jrLNxx1k+mCvf5NbA5Q=
+X-Google-Smtp-Source: AGHT+IGAXIFBfltfcFUi2JvMXFLpdNu20IBm9lusClOWXvJ5IvB5Xvu2p2lzfwLhA2Gs0+4M6+OmAw==
+X-Received: by 2002:a2e:b8d2:0:b0:36a:f4d3:82e9 with SMTP id 38308e7fff4ca-36d14ebb0b5mr14965271fa.6.1758706618408;
+        Wed, 24 Sep 2025 02:36:58 -0700 (PDT)
+Received: from foxbook (bfe191.neoplus.adsl.tpnet.pl. [83.28.42.191])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-361a26cbbd6sm43990051fa.23.2025.09.24.02.36.57
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 24 Sep 2025 02:36:58 -0700 (PDT)
+Date: Wed, 24 Sep 2025 11:36:53 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: viswanath <viswanathiyyappan@gmail.com>
+Cc: andrew@lunn.ch, andrew+netdev@lunn.ch, davem@davemloft.net,
+ david.hunter.linux@gmail.com, edumazet@google.com, kuba@kernel.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
+ petkan@nucleusys.com, skhan@linuxfoundation.org,
+ syzbot+78cae3f37c62ad092caa@syzkaller.appspotmail.com
+Subject: Re: [PATCH net v2] net: usb: Remove disruptive netif_wake_queue in
+ rtl8150_set_multicast
+Message-ID: <20250924113653.5dad5e50.michal.pecio@gmail.com>
+In-Reply-To: <CAPrAcgMrowvfGeOqdWAo4uCZBdUztFY-WEmpwLyp-QthgYYx7A@mail.gmail.com>
+References: <83171a57-cb40-4c97-b736-0e62930b9e5c@lunn.ch>
+	<20250920181852.18164-1-viswanathiyyappan@gmail.com>
+	<20250924094741.65e12028.michal.pecio@gmail.com>
+	<CAPrAcgMrowvfGeOqdWAo4uCZBdUztFY-WEmpwLyp-QthgYYx7A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250923022205.9075-1-viswanathiyyappan@gmail.com> <20250923164916.5b8c7c28@kernel.org>
-In-Reply-To: <20250923164916.5b8c7c28@kernel.org>
-From: viswanath <viswanathiyyappan@gmail.com>
-Date: Wed, 24 Sep 2025 13:37:33 +0530
-X-Gm-Features: AS18NWCT-FjALMCOah9bf_auRuFbM1Q3yx9_Iw8e7RGCWur-FeBhqSVRINH2d0w
-Message-ID: <CAPrAcgOzf4XYGA8X6TneRrmVwYVYgF=KvnpmRbT6XA+D9HR6jQ@mail.gmail.com>
-Subject: Re: [PATCH net] net: usb: remove rtl8150 driver
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: petkan@nucleusys.com, andrew+netdev@lunn.ch, davem@davemloft.net, 
-	edumazet@google.com, pabeni@redhat.com, linux-usb@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	david.hunter.linux@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, 24 Sept 2025 at 05:19, Jakub Kicinski <kuba@kernel.org> wrote:
+On Wed, 24 Sep 2025 13:32:52 +0530, viswanath wrote:
+> On Wed, 24 Sept 2025 at 13:17, Michal Pecio <michal.pecio@gmail.com> wrote:
+> >
+> > It's not freeing which matters but URB completion in the USB subsystem.  
+> 
+> Does URB completion include both successful and failed completions? I
+> decided to go with "free urb" because I wasn't sure of that.
 
-> Thanks for sending this one.
-> Based on Michal's reply I guess we need to wait a bit longer.
+I think yes, usually in USB-speak "completion" is when the URB is
+finished for any reason, including error or unlink/cancellation.
+"Free" could suggest usb_free_urb().
 
-Sorry, this version breaks the build.
+But I see your point. Maybe "finish execution" is less ambiguous?
 
-I will submit a v2 that removes the driver properly
+> I wasn't sure how to describe the flow of execution in a multi threaded program.
+> I will resubmit a v3 with this version of the execution flow
 
-I hope we won't need to apply it.
+I think it's an irrelevant detail which CPU executed which function.
+It could all happen sequentially on a single core and it's still the
+same bug.
 
-Thanks
-Viswanath
+In fact, I just reproduced it with all CPUs offlined except one.
