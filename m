@@ -1,1190 +1,1360 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F549258CF8
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Sep 2025 19:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DB925BF13
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Sep 2025 19:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758741498; cv=none; b=B/rPnm/8a8ZX0KoWXc6EbyizpvJmaQUwCtAG+Pveido16gk67VBcwHUoShpTITgrH0BetOBEAlyRaB8YBwswRLopnQ3kQiet+nkwHRO51IlNsl6YDokvgpDzG11FWGcvk2nHD5pwYChK4wL6jc7d2Z8jxQ5ZLJEVrRxysTRBb3o=
+	t=1758741815; cv=none; b=CzjWQuBvhKsvZ1sUDjPBpwLVk2cptu5BGyrRhTmGMx6PF7vmN8H19AjxnLO7wmS/X9gLrWIyTpxxeVp6RAvp//qTshNMg9Hovp4mtyE+JP74GOnLhjkKzuWU4L+S0+Vtr/9OiFJqaWrvbRGXgPCBTsC0OwDD77JDmzgNCJmGrJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758741498; c=relaxed/simple;
-	bh=eefzAXLTmysvpu6NoDlLF2jaXk2Gn+53sB13kPn89Y8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DjjSTYiFZjgeU6rXG1MmlEEQHgbfaOOYaSu9qcgtP/e4M855OCIT56ixHF9qKPGTQZMthgLJqXZGU73/JdUK2e/za7z0HoZ9AWed1Dn4oXOSWMFOFM7eXTPVvVzuhCxuAh8A/6/gq7UcRmovuUkn25x8DSKjBGg95BoARhvzEsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HI1JLhBv; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758741815; c=relaxed/simple;
+	bh=uxiwidqxQSMYfLhJ8BfgdDxfdlly/LEz8btSkKvyWSc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u9P+bIsR7DSNTsHZiYztYCFL3TS85jXgtAAV1XBkI0taUBT1vkjXuwkeAniicGKsWTqQCG9egSpDbUwNN1ORjQL7kD+zP0uOFHTL8uQatOaCvCDVacUyxq5CGGTSO7nzS2pHQrtMLnhaHt/c3+CTPJWrrDydFP1skstYanW+LzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PeH4il7c; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HI1JLhBv"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-62fca216e4aso308526a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Sep 2025 12:18:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PeH4il7c"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9A77540CFC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Sep 2025 19:23:31 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id YjGWUKk-59Za for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 24 Sep 2025 19:23:29 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::532; helo=mail-ed1-x532.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 2BB6940CEF
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2BB6940CEF
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=PeH4il7c
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 2BB6940CEF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Sep 2025 19:23:29 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-634578d2276so18828a12.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Sep 2025 12:23:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758741492; x=1759346292; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CMwwJzKtF0/igVJWpq5MSPBBdZd8y78VHaPOs/QUNOs=;
-        b=HI1JLhBvY4MTSl2D9bzFPvpCGx++2NrRInr0A51BqbaPAmTLEGUpoz21lQTtj5tif3
-         2Cce30EelNQKoZ829erGqLhb9Rv2Lvb207+KTH7xoq+dF4gL7swgR+UHLL2MAwMfwBtW
-         YmdWMTyTPD20Z7Yi+URvKGWoOgQmfMeocRahBKEmDouLdM/Qzj6lGaTY7q0hRFkA3QKY
-         9MF0AH6+vKBLgZHd1SUlaJAaq2mZpMWvO5Mb8nUZsrzbI9oFHW7yYwzwTiiIP1EyN7PI
-         77pGKhuA88q1FhzHeRihk1GVyeuiRSIooMfO31mYbnWlcRw45n9t6OET1pAcKsDuhNr/
-         zyww==
+        d=gmail.com; s=20230601; t=1758741807; x=1759346607; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rzHh8OjGwNrVTFsrUPG561xIcavNdqgaDgttxf3c61g=;
+        b=PeH4il7cbJXkN/opRKQEbRuwHSLm5oP0LSbSXFowRlri1PM6wwIP5Id2XmBsOP8GhY
+         mGoAWNuPRchEgk6sqPRWTOXNHbMoioluIsdEeVyiozV0Yv3WdJUoCQ/31+7NWbyCMJfE
+         zAKvO9mgo2mcTGLMXDSqX7ASVgLHmjk5Hhv2qLgFuSIJrIs7tThhUuDH7ENxoc9u9AwN
+         aqT7SFBuNy3Ddm4yNnScHRTB4SmIbngDtSCHtfWfN3eEocD6r5CkVN9YBuMk80oo1iG5
+         LMHDqgynGjds+FqGTO/7BarIU+v3OUUBAt7SwRWFYILESAjwpqoccn8vtbq4UfSXPEUc
+         xoJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758741492; x=1759346292;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CMwwJzKtF0/igVJWpq5MSPBBdZd8y78VHaPOs/QUNOs=;
-        b=eU7WaB2K469aZN8HCByZebnvGCubdatg2MGTEYVqYLp6eOZLu/mIrybAFMS1Ct2IBM
-         0JOR79uN1it6AXd+YWyE94CppuPaDo3Jy0OrQMtKyo1LkiCAZj2mMOzwapAmXJ9Pi4i0
-         JwwKA+IOpzokPMNs4EEvqp3+FBtJ7O4zHvM5VshIa8Z/Z7NGWv8GhXgfUL+Qb+lqLOZu
-         +Qy8QRpYG7/F5Ec+KGIHw3n/Gi4djFTnaZR5k9f1hGoqbx9RjIBJKPXYVn3rKY+m/LwU
-         qnEog/vdWiSDdiwhsbNZbE1EEqZcbv8YiQRBfItpsTEpd74SmhQBp17Oe/He3WU1TFne
-         U2Bg==
-X-Forwarded-Encrypted: i=1; AJvYcCXLTmevto3tiLVu+hRsgUyMhHxxtYNgnrMYFaTQjsX66H4O/6nUquZ2YUXgSTTh8ZefExFXgHnE6Dcr9Q5+Mq4Bfr+UMw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCmcKayjDHjw5z24lRKmWQvh9SX96075Jhk9yIS13k6zZVNaL2
-	hlAeWbl8DVPSaeDKpCe0drPdjv/5z0cw4YU2r+bsfLj3R3M/17d3Fr4G66PdCtc9o58FpMKddsc
-	/yMs5hRmL3OTGM59NbtVjyYon6kghvmM=
-X-Gm-Gg: ASbGncv3lyIpXCMtIbynaXFTPkHyLFjJF15burDf/kL4f6Av17HC5nCK+PgC/ocOXMp
-	U233Op6qsfNvLMP9UJdIAPeJ4UniCf2ZLJh367kyQibvzoxUIl5XUnNnWZ7Jbf0TSbEoCy1L55O
-	vq9xwEeZQx3MOhm5MhkE0OAxV+y0mCLz3qkUBLPTtGdkZhPwBMQiq7c84D/Z29OUNyvcBnsUlJW
-	OCQ1b0WUO8ixZIrzrF3NG/dg4LqidKtSwra+v51
-X-Google-Smtp-Source: AGHT+IGavlND9q8X1p2HHCmNtEeRqyz7C2FlIexLxXdTrArXZPucV78gpJBwvtHB6cTVqVrOx7krO9epPTgXfNimFwA=
-X-Received: by 2002:a05:6402:348a:b0:632:466d:5d08 with SMTP id
- 4fb4d7f45d1cf-6349f5d5274mr601191a12.10.1758741492210; Wed, 24 Sep 2025
- 12:18:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758741807; x=1759346607;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rzHh8OjGwNrVTFsrUPG561xIcavNdqgaDgttxf3c61g=;
+        b=VPuFtVsmLQxcbLfvOcRexLvfbawP/EdZ87cYdDakqKLa4adpnghYJeKlMpROr0jG3O
+         fJazDFhhWLDb6MwbGytsvTeUccSU+RAKTUNaqGwmJlhSRgDmtbkDVPxcEdVC84ybd6v4
+         5oLK/fE61MOMQo1YINT8gi1DPeUrn3Qh+xK3+n5UddT4vfteLR/qN5nZ0PIhk0Oh1H+9
+         92iJ/Z9wCAZ+OVosRgeQRopCmbddB4AgcGq4AR0eMEkU93vbAgNAbijQ5dMzM/x9wlCG
+         juYH8IZWBXMTv7fHV3xCSzswniksKbeuOhD5BulBGQ5hpaQVpv1e43V/YAfFNOZ35XbG
+         Urpg==
+X-Forwarded-Encrypted: i=1; AJvYcCVN9piXKw+20eUZD4O6Ljvkm8+8AGa2k+vjmyh9ArRzo09e1f+k0gRBeiUYQoG5IiFHUFq2aS5yZ4lpg+WUdc2MMby2MA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwwwWl7BsWF5J4IjQGvNihTs/DaA0x5qbsPWG7NuU9gnvrR7weR
+	irQJ8ESfPWXtJ+2sdEWXdU7t3hDg7mbNfYfdEPu+xkDxWRNnkVo2FS+d
+X-Gm-Gg: ASbGnctaFf9S5/Vp8WdlrMSiT8oOOW9W+A5Rp7+ymSl9BuZZncAzX07s4rFj2iSsoqY
+	LdsuQDE5IRywmyWpsKU+HxXHIuDNLAEMiNCX/Fjssoh/GEz4XqteUBVVP/xYkWfjyfMFDFqPsWk
+	8fri9ibX6F4WslXwnfcAzVgUX9EFyiet26LGKVNdow06CNlRUkxtVcPrP5dP/aEIMBCNiZUBqPf
+	2tzUWtwn35/a0rSBLn30Sut8sLzD416l4ykicQlO5vFcYjKaGWNyoC7rC+Ni6oyAdb87atzpCmg
+	qgD1WlzKQIMRKc+YfL9D2NkPswIEFYqbagREl45Wtp+2W6eDloSNpIyYwQrDnA4UrExFDwO6y7C
+	8NRqddNboEUq8vjvhWg0HAHCer2uaGlzp9N3Mz9ts
+X-Google-Smtp-Source: AGHT+IE8XAf+ZY90/66Q/ODiCd8kraLOL6wWwmrEdFR39Whwek/iq3sHvxhUvCE112afbcqdp6huPA==
+X-Received: by 2002:a17:907:3c8c:b0:b04:669f:e70f with SMTP id a640c23a62f3a-b34b72093b3mr48686466b.2.1758741806342;
+        Wed, 24 Sep 2025 12:23:26 -0700 (PDT)
+Received: from [192.168.1.105] ([165.50.1.144])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b353e5d11a0sm2598066b.17.2025.09.24.12.23.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Sep 2025 12:23:25 -0700 (PDT)
+Message-ID: <529bdaaa-6ce9-4cc7-b764-c806138b1951@gmail.com>
+Date: Wed, 24 Sep 2025 21:23:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAPrAcgOzf4XYGA8X6TneRrmVwYVYgF=KvnpmRbT6XA+D9HR6jQ@mail.gmail.com>
- <20250924130722.260004-1-viswanathiyyappan@gmail.com>
-In-Reply-To: <20250924130722.260004-1-viswanathiyyappan@gmail.com>
-From: vivek yadav <vivekyadav1207731111@gmail.com>
-Date: Thu, 25 Sep 2025 00:47:59 +0530
-X-Gm-Features: AS18NWBNlnwP8EOdWDD8HFs_D6_gFQk7Is4o0KxzxSWCn-pLAaGRTxf6Dpu_N0w
-Message-ID: <CABPSWR7agbeFQ6MXr8_Pkdb3foDXMv_+hJ-mNcE9H_9HY67JNw@mail.gmail.com>
-Subject: Re: [PATCH net v2] net: usb: remove rtl8150 driver
-To: I Viswanath <viswanathiyyappan@gmail.com>
-Cc: kuba@kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net, 
-	david.hunter.linux@gmail.com, edumazet@google.com, 
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
-	petkan@nucleusys.com, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] selftests/bpf: Add -Wsign-compare C compilation flag
+To: vivek yadav <vivekyadav1207731111@gmail.com>
+Cc: andrii@kernel.org, eddyz87@gmail.com, ast@kernel.org,
+ daniel@iogearbox.net, martin.lau@linux.dev, song@kernel.org,
+ yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
+ sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
+ matttbe@kernel.org, martineau@kernel.org, geliang@kernel.org,
+ davem@davemloft.net, kuba@kernel.org, hawk@kernel.org, linux@jordanrome.com,
+ ameryhung@gmail.com, toke@redhat.com, houtao1@huawei.com,
+ emil@etsalapatis.com, yatsenko@meta.com, isolodrai@meta.com,
+ a.s.protopopov@gmail.com, dxu@dxuuu.xyz, memxor@gmail.com,
+ vmalik@redhat.com, bigeasy@linutronix.de, tj@kernel.org,
+ gregkh@linuxfoundation.org, paul@paul-moore.com,
+ bboscaccy@linux.microsoft.com, James.Bottomley@hansenpartnership.com,
+ mrpre@163.com, jakub@cloudflare.com, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ netdev@vger.kernel.org, mptcp@lists.linux.dev,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
+ david.hunter.linux@gmail.com
+References: <20250924162408.815137-1-mehdi.benhadjkhelifa@gmail.com>
+ <CABPSWR7RUKKybQLa-xBWghhLvPwD7P+1BiWQzJNk6wvDFi8KiA@mail.gmail.com>
+Content-Language: en-US
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <CABPSWR7RUKKybQLa-xBWghhLvPwD7P+1BiWQzJNk6wvDFi8KiA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Viswanath,
-Please send the next version which has all the necessary changes.
-Like the driver file which you remove, Kconfig and Makefile entries in
-a single patch.
-In this mail chain, it messed up.
+On 9/24/25 8:11 PM, vivek yadav wrote:
+> Hi Mehdi,
+> This patch is too big. Please check possibilities to split into 2-3 patches.
+> then it will be convenient for any reviewer to review your wonderful work.
+> 
+> ~vivek
+> 
+Hi vivek,
+Should i send a v3? i already sent a v2. Also do you mean split the work 
+into multiple patches or just a patch series?
+Regards,
+Mehdi> On Wed, Sep 24, 2025 at 8:59 PM Mehdi Ben Hadj Khelifa
+> <mehdi.benhadjkhelifa@gmail.com> wrote:
+>>
+>> -Change all the source files and the corresponding headers
+>> to having matching sign comparisons.
+>>
+>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+>> ---
+>> As suggested by the TODO, -Wsign-compare was added to the C compilation
+>> flags for the selftests/bpf/Makefile and all corresponding files in
+>> selftests and a single file under tools/lib/bpf/usdt.bpf.h have been
+>> carefully changed to account for correct sign comparisons either by
+>> explicit casting or changing the variable type.Only local variables
+>> and variables which are in limited scope have been changed in cases
+>> where it doesn't break the code.Other struct variables or global ones
+>> have left untouched to avoid other conflicts and opted to explicit
+>> casting in this case.This change will help avoid implicit type
+>> conversions and have predictable behavior.
+>>
+>> I have already compiled all bpf tests with no errors as well as the
+>> kernel and have ran all the selftests with no obvious side effects.
+>> I would like to know if it's more convinient to have all changes as
+>> a single patch like here or if it needs to be divided in some way
+>> and sent as a patch series.
+>>
+>> Best Regards,
+>> Mehdi Ben Hadj Khelifa
+>> ---
+>>   tools/lib/bpf/usdt.bpf.h                         |  4 ++--
+>>   tools/testing/selftests/bpf/Makefile             |  4 ++--
+>>   tools/testing/selftests/bpf/bpf_arena_htab.h     |  2 +-
+>>   tools/testing/selftests/bpf/progs/arena_list.c   |  2 +-
+>>   .../bpf/progs/bench_local_storage_create.c       |  2 +-
+>>   tools/testing/selftests/bpf/progs/bind_perm.c    |  2 +-
+>>   tools/testing/selftests/bpf/progs/bpf_cc_cubic.c |  2 +-
+>>   tools/testing/selftests/bpf/progs/bpf_cubic.c    |  8 ++++----
+>>   .../bpf/progs/bpf_iter_bpf_percpu_array_map.c    |  2 +-
+>>   .../selftests/bpf/progs/bpf_iter_task_stack.c    |  2 +-
+>>   .../testing/selftests/bpf/progs/bpf_iter_tasks.c |  3 ++-
+>>   .../selftests/bpf/progs/bpf_iter_vma_offset.c    |  4 ++--
+>>   .../testing/selftests/bpf/progs/bpf_qdisc_fifo.c |  2 +-
+>>   tools/testing/selftests/bpf/progs/bpf_qdisc_fq.c |  4 ++--
+>>   .../bpf/progs/cgroup_getset_retval_getsockopt.c  |  6 +++---
+>>   .../selftests/bpf/progs/cpumask_success.c        |  4 ++--
+>>   .../testing/selftests/bpf/progs/dynptr_success.c |  8 ++++----
+>>   tools/testing/selftests/bpf/progs/iters.c        | 16 ++++++++--------
+>>   .../selftests/bpf/progs/kfunc_call_test.c        |  2 +-
+>>   tools/testing/selftests/bpf/progs/linked_list.c  | 10 +++++-----
+>>   tools/testing/selftests/bpf/progs/lsm.c          |  2 +-
+>>   .../testing/selftests/bpf/progs/map_in_map_btf.c |  2 +-
+>>   tools/testing/selftests/bpf/progs/map_ptr_kern.c |  2 +-
+>>   .../selftests/bpf/progs/mmap_inner_array.c       |  2 +-
+>>   .../testing/selftests/bpf/progs/mptcp_subflow.c  |  2 +-
+>>   .../selftests/bpf/progs/netif_receive_skb.c      |  4 ++--
+>>   tools/testing/selftests/bpf/progs/profiler.inc.h |  6 +++---
+>>   .../testing/selftests/bpf/progs/rcu_read_lock.c  |  4 ++--
+>>   .../bpf/progs/sk_storage_omem_uncharge.c         |  6 +++---
+>>   .../selftests/bpf/progs/sockopt_inherit.c        |  4 ++--
+>>   tools/testing/selftests/bpf/progs/sockopt_sk.c   |  4 ++--
+>>   tools/testing/selftests/bpf/progs/strobemeta.h   |  2 +-
+>>   .../selftests/bpf/progs/test_bpf_cookie.c        |  2 +-
+>>   .../testing/selftests/bpf/progs/test_check_mtu.c |  4 ++--
+>>   .../selftests/bpf/progs/test_core_extern.c       |  2 +-
+>>   .../testing/selftests/bpf/progs/test_get_xattr.c |  4 ++--
+>>   .../selftests/bpf/progs/test_global_func11.c     |  2 +-
+>>   .../selftests/bpf/progs/test_global_func12.c     |  2 +-
+>>   .../selftests/bpf/progs/test_global_func13.c     |  2 +-
+>>   .../selftests/bpf/progs/test_global_func14.c     |  2 +-
+>>   .../selftests/bpf/progs/test_global_func9.c      |  2 +-
+>>   .../selftests/bpf/progs/test_lwt_seg6local.c     |  4 ++--
+>>   .../testing/selftests/bpf/progs/test_map_init.c  |  2 +-
+>>   .../selftests/bpf/progs/test_parse_tcp_hdr_opt.c |  2 +-
+>>   .../bpf/progs/test_parse_tcp_hdr_opt_dynptr.c    |  2 +-
+>>   .../selftests/bpf/progs/test_pkt_access.c        |  6 +++---
+>>   .../testing/selftests/bpf/progs/test_seg6_loop.c |  4 ++--
+>>   tools/testing/selftests/bpf/progs/test_skb_ctx.c |  2 +-
+>>   .../testing/selftests/bpf/progs/test_snprintf.c  |  2 +-
+>>   .../selftests/bpf/progs/test_sockmap_kern.h      |  2 +-
+>>   .../selftests/bpf/progs/test_sockmap_strp.c      |  2 +-
+>>   .../testing/selftests/bpf/progs/test_tc_tunnel.c |  2 +-
+>>   tools/testing/selftests/bpf/progs/test_xdp.c     |  2 +-
+>>   .../selftests/bpf/progs/test_xdp_dynptr.c        |  2 +-
+>>   .../testing/selftests/bpf/progs/test_xdp_loop.c  |  2 +-
+>>   .../selftests/bpf/progs/test_xdp_noinline.c      |  4 ++--
+>>   tools/testing/selftests/bpf/progs/udp_limit.c    |  2 +-
+>>   tools/testing/selftests/bpf/progs/uprobe_multi.c |  4 ++--
+>>   .../bpf/progs/uprobe_multi_session_recursive.c   |  5 +++--
+>>   .../selftests/bpf/progs/verifier_arena_large.c   |  4 ++--
+>>   .../bpf/progs/verifier_iterating_callbacks.c     |  2 +-
+>>   61 files changed, 105 insertions(+), 103 deletions(-)
+>>
+>> diff --git a/tools/lib/bpf/usdt.bpf.h b/tools/lib/bpf/usdt.bpf.h
+>> index 2a7865c8e3fe..ea20bd4e635d 100644
+>> --- a/tools/lib/bpf/usdt.bpf.h
+>> +++ b/tools/lib/bpf/usdt.bpf.h
+>> @@ -129,7 +129,7 @@ int bpf_usdt_arg_size(struct pt_regs *ctx, __u64 arg_num)
+>>          if (arg_num >= BPF_USDT_MAX_ARG_CNT)
+>>                  return -ENOENT;
+>>          barrier_var(arg_num);
+>> -       if (arg_num >= spec->arg_cnt)
+>> +       if (arg_num >= (__u64)spec->arg_cnt)
+>>                  return -ENOENT;
+>>
+>>          arg_spec = &spec->args[arg_num];
+>> @@ -165,7 +165,7 @@ int bpf_usdt_arg(struct pt_regs *ctx, __u64 arg_num, long *res)
+>>          if (arg_num >= BPF_USDT_MAX_ARG_CNT)
+>>                  return -ENOENT;
+>>          barrier_var(arg_num);
+>> -       if (arg_num >= spec->arg_cnt)
+>> +       if (arg_num >= (__u64)spec->arg_cnt)
+>>                  return -ENOENT;
+>>
+>>          arg_spec = &spec->args[arg_num];
+>> diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
+>> index 4863106034df..97755e421062 100644
+>> --- a/tools/testing/selftests/bpf/Makefile
+>> +++ b/tools/testing/selftests/bpf/Makefile
+>> @@ -453,8 +453,8 @@ BPF_CFLAGS = -g -Wall -Werror -D__TARGET_ARCH_$(SRCARCH) $(MENDIAN) \
+>>               -I$(abspath $(OUTPUT)/../usr/include)                      \
+>>               -std=gnu11                                                 \
+>>               -fno-strict-aliasing                                       \
+>> -            -Wno-compare-distinct-pointer-types
+>> -# TODO: enable me -Wsign-compare
+>> +            -Wno-compare-distinct-pointer-types                        \
+>> +            -Wsign-compare
+>>
+>>   CLANG_CFLAGS = $(CLANG_SYS_INCLUDES)
+>>
+>> diff --git a/tools/testing/selftests/bpf/bpf_arena_htab.h b/tools/testing/selftests/bpf/bpf_arena_htab.h
+>> index acc01a876668..ad77514c3cb1 100644
+>> --- a/tools/testing/selftests/bpf/bpf_arena_htab.h
+>> +++ b/tools/testing/selftests/bpf/bpf_arena_htab.h
+>> @@ -42,7 +42,7 @@ static hashtab_elem_t *lookup_elem_raw(arena_list_head_t *head, __u32 hash, int
+>>          hashtab_elem_t *l;
+>>
+>>          list_for_each_entry(l, head, hash_node)
+>> -               if (l->hash == hash && l->key == key)
+>> +               if ((__u32)l->hash == hash && l->key == key)
+>>                          return l;
+>>
+>>          return NULL;
+>> diff --git a/tools/testing/selftests/bpf/progs/arena_list.c b/tools/testing/selftests/bpf/progs/arena_list.c
+>> index 3a2ddcacbea6..02676f77a4cf 100644
+>> --- a/tools/testing/selftests/bpf/progs/arena_list.c
+>> +++ b/tools/testing/selftests/bpf/progs/arena_list.c
+>> @@ -50,7 +50,7 @@ int arena_list_add(void *ctx)
+>>
+>>          list_head = &global_head;
+>>
+>> -       for (i = zero; i < cnt && can_loop; i++) {
+>> +       for (i = zero; i < (__u64)cnt && can_loop; i++) {
+>>                  struct elem __arena *n = bpf_alloc(sizeof(*n));
+>>
+>>                  test_val++;
+>> diff --git a/tools/testing/selftests/bpf/progs/bench_local_storage_create.c b/tools/testing/selftests/bpf/progs/bench_local_storage_create.c
+>> index c8ec0d0368e4..2b23e59bc04a 100644
+>> --- a/tools/testing/selftests/bpf/progs/bench_local_storage_create.c
+>> +++ b/tools/testing/selftests/bpf/progs/bench_local_storage_create.c
+>> @@ -44,7 +44,7 @@ int BPF_PROG(sched_process_fork, struct task_struct *parent, struct task_struct
+>>   {
+>>          struct storage *stg;
+>>
+>> -       if (parent->tgid != bench_pid)
+>> +       if ((__u32)parent->tgid != bench_pid)
+>>                  return 0;
+>>
+>>          stg = bpf_task_storage_get(&task_storage_map, child, NULL,
+>> diff --git a/tools/testing/selftests/bpf/progs/bind_perm.c b/tools/testing/selftests/bpf/progs/bind_perm.c
+>> index 7bd2a027025d..e629909c97b6 100644
+>> --- a/tools/testing/selftests/bpf/progs/bind_perm.c
+>> +++ b/tools/testing/selftests/bpf/progs/bind_perm.c
+>> @@ -7,7 +7,7 @@
+>>   #include <bpf/bpf_helpers.h>
+>>   #include <bpf/bpf_endian.h>
+>>
+>> -static __always_inline int bind_prog(struct bpf_sock_addr *ctx, int family)
+>> +static __always_inline int bind_prog(struct bpf_sock_addr *ctx, __u32 family)
+>>   {
+>>          struct bpf_sock *sk;
+>>
+>> diff --git a/tools/testing/selftests/bpf/progs/bpf_cc_cubic.c b/tools/testing/selftests/bpf/progs/bpf_cc_cubic.c
+>> index 1654a530aa3d..942deb5016a6 100644
+>> --- a/tools/testing/selftests/bpf/progs/bpf_cc_cubic.c
+>> +++ b/tools/testing/selftests/bpf/progs/bpf_cc_cubic.c
+>> @@ -91,7 +91,7 @@ static void tcp_cwnd_reduction(struct sock *sk, int newly_acked_sacked,
+>>                          (__u64)tp->snd_ssthresh * prr_delivered + tp->prior_cwnd - 1;
+>>                  sndcnt = (__u32)div64_u64(dividend, (__u64)tp->prior_cwnd) - tp->prr_out;
+>>          } else {
+>> -               sndcnt = max(prr_delivered - tp->prr_out, newly_acked_sacked);
+>> +               sndcnt = max(prr_delivered - tp->prr_out, (__u32)newly_acked_sacked);
+>>                  if (flag & FLAG_SND_UNA_ADVANCED && !newly_lost)
+>>                          sndcnt++;
+>>                  sndcnt = min(delta, sndcnt);
+>> diff --git a/tools/testing/selftests/bpf/progs/bpf_cubic.c b/tools/testing/selftests/bpf/progs/bpf_cubic.c
+>> index f089faa97ae6..100937488d2d 100644
+>> --- a/tools/testing/selftests/bpf/progs/bpf_cubic.c
+>> +++ b/tools/testing/selftests/bpf/progs/bpf_cubic.c
+>> @@ -277,7 +277,7 @@ static void bictcp_update(struct bpf_bictcp *ca, __u32 cwnd, __u32 acked)
+>>          ca->ack_cnt += acked;   /* count the number of ACKed packets */
+>>
+>>          if (ca->last_cwnd == cwnd &&
+>> -           (__s32)(tcp_jiffies32 - ca->last_time) <= HZ / 32)
+>> +           (__s32)(tcp_jiffies32 - ca->last_time) <= (__s32)HZ / 32)
+>>                  return;
+>>
+>>          /* The CUBIC function can update ca->cnt at most once per jiffy.
+>> @@ -474,7 +474,7 @@ static void hystart_update(struct sock *sk, __u32 delay)
+>>                          if (sk->sk_pacing_status == SK_PACING_NONE)
+>>                                  threshold >>= 1;
+>>
+>> -                       if ((__s32)(now - ca->round_start) > threshold) {
+>> +                       if ((__s32)(now - ca->round_start) > (__s32)threshold) {
+>>                                  ca->found = 1;
+>>                                  tp->snd_ssthresh = tp->snd_cwnd;
+>>                          }
+>> @@ -512,7 +512,7 @@ void BPF_PROG(bpf_cubic_acked, struct sock *sk, const struct ack_sample *sample)
+>>                  return;
+>>
+>>          /* Discard delay samples right after fast recovery */
+>> -       if (ca->epoch_start && (__s32)(tcp_jiffies32 - ca->epoch_start) < HZ)
+>> +       if (ca->epoch_start && (__s32)(tcp_jiffies32 - ca->epoch_start) < (__s32)HZ)
+>>                  return;
+>>
+>>          delay = sample->rtt_us;
+>> @@ -525,7 +525,7 @@ void BPF_PROG(bpf_cubic_acked, struct sock *sk, const struct ack_sample *sample)
+>>
+>>          /* hystart triggers when cwnd is larger than some threshold */
+>>          if (!ca->found && tcp_in_slow_start(tp) && hystart &&
+>> -           tp->snd_cwnd >= hystart_low_window)
+>> +           tp->snd_cwnd >= (__u32)hystart_low_window)
+>>                  hystart_update(sk, delay);
+>>   }
+>>
+>> diff --git a/tools/testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c b/tools/testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c
+>> index 9fdea8cd4c6f..0baf00463f35 100644
+>> --- a/tools/testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c
+>> +++ b/tools/testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c
+>> @@ -24,7 +24,7 @@ int dump_bpf_percpu_array_map(struct bpf_iter__bpf_map_elem *ctx)
+>>          __u32 *key = ctx->key;
+>>          void *pptr = ctx->value;
+>>          __u32 step;
+>> -       int i;
+>> +       __u32 i;
+>>
+>>          if (key == (void *)0 || pptr == (void *)0)
+>>                  return 0;
+>> diff --git a/tools/testing/selftests/bpf/progs/bpf_iter_task_stack.c b/tools/testing/selftests/bpf/progs/bpf_iter_task_stack.c
+>> index f5a309455490..647ec1aa0326 100644
+>> --- a/tools/testing/selftests/bpf/progs/bpf_iter_task_stack.c
+>> +++ b/tools/testing/selftests/bpf/progs/bpf_iter_task_stack.c
+>> @@ -27,7 +27,7 @@ int dump_task_stack(struct bpf_iter__task *ctx)
+>>          BPF_SEQ_PRINTF(seq, "pid: %8u num_entries: %8u\n", task->pid,
+>>                         retlen / SIZE_OF_ULONG);
+>>          for (i = 0; i < MAX_STACK_TRACE_DEPTH; i++) {
+>> -               if (retlen > i * SIZE_OF_ULONG)
+>> +               if ((__u32)retlen > i * SIZE_OF_ULONG)
+>>                          BPF_SEQ_PRINTF(seq, "[<0>] %pB\n", (void *)entries[i]);
+>>          }
+>>          BPF_SEQ_PRINTF(seq, "\n");
+>> diff --git a/tools/testing/selftests/bpf/progs/bpf_iter_tasks.c b/tools/testing/selftests/bpf/progs/bpf_iter_tasks.c
+>> index 966ee5a7b066..704db7589565 100644
+>> --- a/tools/testing/selftests/bpf/progs/bpf_iter_tasks.c
+>> +++ b/tools/testing/selftests/bpf/progs/bpf_iter_tasks.c
+>> @@ -115,7 +115,8 @@ int dump_task_sleepable(struct bpf_iter__task *ctx)
+>>          /* Same length as the string */
+>>          ret = bpf_copy_from_user_task_str((char *)task_str2, 10, user_ptr, task, 0);
+>>          /* only need to do the task pid check once */
+>> -       if (bpf_strncmp(task_str2, 10, "test_data\0") != 0 || ret != 10 || task->tgid != pid) {
+>> +       if (bpf_strncmp(task_str2, 10, "test_data\0") != 0 || ret != 10 ||
+>> +                       (__u32)task->tgid != pid) {
+>>                  BPF_SEQ_PRINTF(seq, "%s\n", info);
+>>                  return 0;
+>>          }
+>> diff --git a/tools/testing/selftests/bpf/progs/bpf_iter_vma_offset.c b/tools/testing/selftests/bpf/progs/bpf_iter_vma_offset.c
+>> index 174298e122d3..d9088851babf 100644
+>> --- a/tools/testing/selftests/bpf/progs/bpf_iter_vma_offset.c
+>> +++ b/tools/testing/selftests/bpf/progs/bpf_iter_vma_offset.c
+>> @@ -22,11 +22,11 @@ int get_vma_offset(struct bpf_iter__task_vma *ctx)
+>>          if (task == NULL || vma == NULL)
+>>                  return 0;
+>>
+>> -       if (last_tgid != task->tgid)
+>> +       if (last_tgid != (__u32)task->tgid)
+>>                  unique_tgid_cnt++;
+>>          last_tgid = task->tgid;
+>>
+>> -       if (task->tgid != pid)
+>> +       if ((__u32)task->tgid != pid)
+>>                  return 0;
+>>
+>>          if (vma->vm_start <= address && vma->vm_end > address) {
+>> diff --git a/tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c b/tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c
+>> index 1de2be3e370b..7a639dcb23a9 100644
+>> --- a/tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c
+>> +++ b/tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c
+>> @@ -88,7 +88,7 @@ void BPF_PROG(bpf_fifo_reset, struct Qdisc *sch)
+>>   {
+>>          struct bpf_list_node *node;
+>>          struct skb_node *skbn;
+>> -       int i;
+>> +       __u32 i;
+>>
+>>          bpf_for(i, 0, sch->q.qlen) {
+>>                  struct sk_buff *skb = NULL;
+>> diff --git a/tools/testing/selftests/bpf/progs/bpf_qdisc_fq.c b/tools/testing/selftests/bpf/progs/bpf_qdisc_fq.c
+>> index 1a3233a275c7..4f80164b5491 100644
+>> --- a/tools/testing/selftests/bpf/progs/bpf_qdisc_fq.c
+>> +++ b/tools/testing/selftests/bpf/progs/bpf_qdisc_fq.c
+>> @@ -351,7 +351,7 @@ int BPF_PROG(bpf_fq_enqueue, struct sk_buff *skb, struct Qdisc *sch,
+>>
+>>                          jiffies = bpf_jiffies64();
+>>                          if ((s64)(jiffies - (flow_copy->age + q.flow_refill_delay)) > 0) {
+>> -                               if (flow_copy->credit < q.quantum)
+>> +                               if ((__u32)flow_copy->credit < q.quantum)
+>>                                          flow_copy->credit = q.quantum;
+>>                          }
+>>                          flow_copy->age = 0;
+>> @@ -590,7 +590,7 @@ struct sk_buff *BPF_PROG(bpf_fq_dequeue, struct Qdisc *sch)
+>>   {
+>>          struct dequeue_nonprio_ctx cb_ctx = {};
+>>          struct sk_buff *skb = NULL;
+>> -       int i;
+>> +       __u32 i;
+>>
+>>          if (!sch->q.qlen)
+>>                  goto out;
+>> diff --git a/tools/testing/selftests/bpf/progs/cgroup_getset_retval_getsockopt.c b/tools/testing/selftests/bpf/progs/cgroup_getset_retval_getsockopt.c
+>> index 932b8ecd4ae3..854dae839f7f 100644
+>> --- a/tools/testing/selftests/bpf/progs/cgroup_getset_retval_getsockopt.c
+>> +++ b/tools/testing/selftests/bpf/progs/cgroup_getset_retval_getsockopt.c
+>> @@ -22,7 +22,7 @@ int get_retval(struct bpf_sockopt *ctx)
+>>          __sync_fetch_and_add(&invocations, 1);
+>>
+>>          /* optval larger than PAGE_SIZE use kernel's buffer. */
+>> -       if (ctx->optlen > page_size)
+>> +       if ((__u32)ctx->optlen > page_size)
+>>                  ctx->optlen = 0;
+>>
+>>          return 1;
+>> @@ -37,7 +37,7 @@ int set_eisconn(struct bpf_sockopt *ctx)
+>>                  assertion_error = 1;
+>>
+>>          /* optval larger than PAGE_SIZE use kernel's buffer. */
+>> -       if (ctx->optlen > page_size)
+>> +       if ((__u32)ctx->optlen > page_size)
+>>                  ctx->optlen = 0;
+>>
+>>          return 1;
+>> @@ -51,7 +51,7 @@ int clear_retval(struct bpf_sockopt *ctx)
+>>          ctx->retval = 0;
+>>
+>>          /* optval larger than PAGE_SIZE use kernel's buffer. */
+>> -       if (ctx->optlen > page_size)
+>> +       if ((__u32)ctx->optlen > page_size)
+>>                  ctx->optlen = 0;
+>>
+>>          return 1;
+>> diff --git a/tools/testing/selftests/bpf/progs/cpumask_success.c b/tools/testing/selftests/bpf/progs/cpumask_success.c
+>> index 0e04c31b91c0..c09e290fbdac 100644
+>> --- a/tools/testing/selftests/bpf/progs/cpumask_success.c
+>> +++ b/tools/testing/selftests/bpf/progs/cpumask_success.c
+>> @@ -221,7 +221,7 @@ int BPF_PROG(test_first_firstzero_cpu, struct task_struct *task, u64 clone_flags
+>>          if (!cpumask)
+>>                  return 0;
+>>
+>> -       if (bpf_cpumask_first(cast(cpumask)) < nr_cpus) {
+>> +       if (bpf_cpumask_first(cast(cpumask)) < (__u32)nr_cpus) {
+>>                  err = 3;
+>>                  goto release_exit;
+>>          }
+>> @@ -866,7 +866,7 @@ int BPF_PROG(test_populate, struct task_struct *task, u64 clone_flags)
+>>           * access NR_CPUS, the upper bound for nr_cpus, so we infer
+>>           * it from the size of cpumask_t.
+>>           */
+>> -       if (nr_cpus < 0 || nr_cpus >= CPUMASK_TEST_MASKLEN * 8) {
+>> +       if (nr_cpus < 0 || (__u32)nr_cpus >= CPUMASK_TEST_MASKLEN * 8) {
+>>                  err = 3;
+>>                  goto out;
+>>          }
+>> diff --git a/tools/testing/selftests/bpf/progs/dynptr_success.c b/tools/testing/selftests/bpf/progs/dynptr_success.c
+>> index 8315273cb900..a479147c3441 100644
+>> --- a/tools/testing/selftests/bpf/progs/dynptr_success.c
+>> +++ b/tools/testing/selftests/bpf/progs/dynptr_success.c
+>> @@ -40,7 +40,7 @@ int test_read_write(void *ctx)
+>>          char write_data[64] = "hello there, world!!";
+>>          char read_data[64] = {};
+>>          struct bpf_dynptr ptr;
+>> -       int i;
+>> +       __u32 i;
+>>
+>>          if (bpf_get_current_pid_tgid() >> 32 != pid)
+>>                  return 0;
+>> @@ -114,7 +114,7 @@ int test_dynptr_data(void *ctx)
+>>          if (err)
+>>                  return 0;
+>>
+>> -       if (val != *(int *)data)
+>> +       if ((int)val != *(int *)data)
+>>                  err = 5;
+>>
+>>          return 0;
+>> @@ -571,7 +571,7 @@ int BPF_PROG(test_dynptr_skb_tp_btf, void *skb, void *location)
+>>
+>>   static inline int bpf_memcmp(const char *a, const char *b, u32 size)
+>>   {
+>> -       int i;
+>> +       __u32 i;
+>>
+>>          bpf_for(i, 0, size) {
+>>                  if (a[i] != b[i])
+>> @@ -882,7 +882,7 @@ static __always_inline void test_dynptr_probe(void *ptr, bpf_read_dynptr_fn_t bp
+>>   {
+>>          char buf[sizeof(expected_str)];
+>>          struct bpf_dynptr ptr_buf;
+>> -       int i;
+>> +       __u32 i;
+>>
+>>          if (bpf_get_current_pid_tgid() >> 32 != pid)
+>>                  return;
+>> diff --git a/tools/testing/selftests/bpf/progs/iters.c b/tools/testing/selftests/bpf/progs/iters.c
+>> index 7dd92a303bf6..bb896fd7b364 100644
+>> --- a/tools/testing/selftests/bpf/progs/iters.c
+>> +++ b/tools/testing/selftests/bpf/progs/iters.c
+>> @@ -369,7 +369,7 @@ SEC("raw_tp")
+>>   __success
+>>   int iter_array_fill(const void *ctx)
+>>   {
+>> -       int sum, i;
+>> +       __u32 sum, i;
+>>
+>>          MY_PID_GUARD();
+>>
+>> @@ -395,7 +395,7 @@ SEC("raw_tp")
+>>   __success
+>>   int iter_nested_iters(const void *ctx)
+>>   {
+>> -       int sum, row, col;
+>> +       __u64 sum, row, col;
+>>
+>>          MY_PID_GUARD();
+>>
+>> @@ -463,7 +463,7 @@ int iter_nested_deeply_iters(const void *ctx)
+>>
+>>   static __noinline void fill_inner_dimension(int row)
+>>   {
+>> -       int col;
+>> +       __u64 col;
+>>
+>>          bpf_for(col, 0, ARRAY_SIZE(arr2d[0])) {
+>>                  arr2d[row][col] = row * col;
+>> @@ -472,7 +472,7 @@ static __noinline void fill_inner_dimension(int row)
+>>
+>>   static __noinline int sum_inner_dimension(int row)
+>>   {
+>> -       int sum = 0, col;
+>> +       __u64 sum = 0, col;
+>>
+>>          bpf_for(col, 0, ARRAY_SIZE(arr2d[0])) {
+>>                  sum += arr2d[row][col];
+>> @@ -487,7 +487,7 @@ SEC("raw_tp")
+>>   __success
+>>   int iter_subprog_iters(const void *ctx)
+>>   {
+>> -       int sum, row, col;
+>> +       __u64 sum, row, col;
+>>
+>>          MY_PID_GUARD();
+>>
+>> @@ -626,7 +626,7 @@ __success
+>>   int iter_stack_array_loop(const void *ctx)
+>>   {
+>>          long arr1[16], arr2[16], sum = 0;
+>> -       int i;
+>> +       __u32 i;
+>>
+>>          MY_PID_GUARD();
+>>
+>> @@ -663,7 +663,7 @@ static __noinline void fill(struct bpf_iter_num *it, int *arr, __u32 n, int mul)
+>>
+>>          while ((t = bpf_iter_num_next(it))) {
+>>                  i = *t;
+>> -               if (i >= n)
+>> +               if ((__u32)i >= n)
+>>                          break;
+>>                  arr[i] =  i * mul;
+>>          }
+>> @@ -1537,7 +1537,7 @@ int iter_arr_with_actual_elem_count(const void *ctx)
+>>   {
+>>          int i, n = loop_data.n, sum = 0;
+>>
+>> -       if (n > ARRAY_SIZE(loop_data.data))
+>> +       if ((__u64)n > ARRAY_SIZE(loop_data.data))
+>>                  return 0;
+>>
+>>          bpf_for(i, 0, n) {
+>> diff --git a/tools/testing/selftests/bpf/progs/kfunc_call_test.c b/tools/testing/selftests/bpf/progs/kfunc_call_test.c
+>> index 8b86113a0126..c4e570662b54 100644
+>> --- a/tools/testing/selftests/bpf/progs/kfunc_call_test.c
+>> +++ b/tools/testing/selftests/bpf/progs/kfunc_call_test.c
+>> @@ -108,7 +108,7 @@ int kfunc_syscall_test(struct syscall_test_args *args)
+>>   {
+>>          const long size = args->size;
+>>
+>> -       if (size > sizeof(args->data))
+>> +       if ((__u64)size > sizeof(args->data))
+>>                  return -7; /* -E2BIG */
+>>
+>>          bpf_kfunc_call_test_mem_len_pass1(&args->data, sizeof(args->data));
+>> diff --git a/tools/testing/selftests/bpf/progs/linked_list.c b/tools/testing/selftests/bpf/progs/linked_list.c
+>> index 421f40835acd..d817c8a483f3 100644
+>> --- a/tools/testing/selftests/bpf/progs/linked_list.c
+>> +++ b/tools/testing/selftests/bpf/progs/linked_list.c
+>> @@ -110,7 +110,7 @@ int list_push_pop_multiple(struct bpf_spin_lock *lock, struct bpf_list_head *hea
+>>   {
+>>          struct bpf_list_node *n;
+>>          struct foo *f[200], *pf;
+>> -       int i;
+>> +       __u64 i;
+>>
+>>          /* Loop following this check adds nodes 2-at-a-time in order to
+>>           * validate multiple release_on_unlock release logic
+>> @@ -144,7 +144,7 @@ int list_push_pop_multiple(struct bpf_spin_lock *lock, struct bpf_list_head *hea
+>>                  if (!n)
+>>                          return 3;
+>>                  pf = container_of(n, struct foo, node2);
+>> -               if (pf->data != (ARRAY_SIZE(f) - i - 1)) {
+>> +               if ((__u64)pf->data != (ARRAY_SIZE(f) - i - 1)) {
+>>                          bpf_obj_drop(pf);
+>>                          return 4;
+>>                  }
+>> @@ -163,7 +163,7 @@ int list_push_pop_multiple(struct bpf_spin_lock *lock, struct bpf_list_head *hea
+>>                  if (!n)
+>>                          return 5;
+>>                  pf = container_of(n, struct foo, node2);
+>> -               if (pf->data != i) {
+>> +               if ((__u64)pf->data != i) {
+>>                          bpf_obj_drop(pf);
+>>                          return 6;
+>>                  }
+>> @@ -193,7 +193,7 @@ int list_in_list(struct bpf_spin_lock *lock, struct bpf_list_head *head, bool le
+>>          struct bpf_list_node *n;
+>>          struct bar *ba[8], *b;
+>>          struct foo *f;
+>> -       int i;
+>> +       __u64 i;
+>>
+>>          f = bpf_obj_new(typeof(*f));
+>>          if (!f)
+>> @@ -238,7 +238,7 @@ int list_in_list(struct bpf_spin_lock *lock, struct bpf_list_head *head, bool le
+>>                          return 6;
+>>                  }
+>>                  b = container_of(n, struct bar, node);
+>> -               if (b->data != i) {
+>> +               if ((__u64)b->data != i) {
+>>                          bpf_obj_drop(f);
+>>                          bpf_obj_drop(b);
+>>                          return 7;
+>> diff --git a/tools/testing/selftests/bpf/progs/lsm.c b/tools/testing/selftests/bpf/progs/lsm.c
+>> index 0c13b7409947..bb6a4bb6e364 100644
+>> --- a/tools/testing/selftests/bpf/progs/lsm.c
+>> +++ b/tools/testing/selftests/bpf/progs/lsm.c
+>> @@ -115,7 +115,7 @@ int BPF_PROG(test_void_hook, struct linux_binprm *bprm)
+>>          __u32 key = 0;
+>>          __u64 *value;
+>>
+>> -       if (monitored_pid == pid)
+>> +       if ((__u32)monitored_pid == pid)
+>>                  bprm_count++;
+>>
+>>          bpf_copy_from_user(args, sizeof(args), (void *)bprm->vma->vm_mm->arg_start);
+>> diff --git a/tools/testing/selftests/bpf/progs/map_in_map_btf.c b/tools/testing/selftests/bpf/progs/map_in_map_btf.c
+>> index 7a1336d7b16a..719368217fe8 100644
+>> --- a/tools/testing/selftests/bpf/progs/map_in_map_btf.c
+>> +++ b/tools/testing/selftests/bpf/progs/map_in_map_btf.c
+>> @@ -49,7 +49,7 @@ int add_to_list_in_inner_array(void *ctx)
+>>          struct bpf_map *map;
+>>          int zero = 0;
+>>
+>> -       if (done || (u32)bpf_get_current_pid_tgid() != pid)
+>> +       if (done || (__u32)bpf_get_current_pid_tgid() != (__u32)pid)
+>>                  return 0;
+>>
+>>          map = bpf_map_lookup_elem(&outer_array, &zero);
+>> diff --git a/tools/testing/selftests/bpf/progs/map_ptr_kern.c b/tools/testing/selftests/bpf/progs/map_ptr_kern.c
+>> index efaf622c28dd..310526d06233 100644
+>> --- a/tools/testing/selftests/bpf/progs/map_ptr_kern.c
+>> +++ b/tools/testing/selftests/bpf/progs/map_ptr_kern.c
+>> @@ -148,7 +148,7 @@ static inline int check_array(void)
+>>   {
+>>          struct bpf_array *array = (struct bpf_array *)&m_array;
+>>          struct bpf_map *map = (struct bpf_map *)&m_array;
+>> -       int i, n_lookups = 0, n_keys = 0;
+>> +       __u32 i, n_lookups = 0, n_keys = 0;
+>>
+>>          VERIFY(check_default(&array->map, map));
+>>
+>> diff --git a/tools/testing/selftests/bpf/progs/mmap_inner_array.c b/tools/testing/selftests/bpf/progs/mmap_inner_array.c
+>> index 90aacbc2938a..90e31cf3a4d3 100644
+>> --- a/tools/testing/selftests/bpf/progs/mmap_inner_array.c
+>> +++ b/tools/testing/selftests/bpf/progs/mmap_inner_array.c
+>> @@ -38,7 +38,7 @@ int add_to_list_in_inner_array(void *ctx)
+>>          __u64 *value;
+>>
+>>          curr_pid = (u32)bpf_get_current_pid_tgid();
+>> -       if (done || curr_pid != pid)
+>> +       if (done || curr_pid != (__u32)pid)
+>>                  return 0;
+>>
+>>          pid_match = true;
+>> diff --git a/tools/testing/selftests/bpf/progs/mptcp_subflow.c b/tools/testing/selftests/bpf/progs/mptcp_subflow.c
+>> index 70302477e326..8af5c2dfc08c 100644
+>> --- a/tools/testing/selftests/bpf/progs/mptcp_subflow.c
+>> +++ b/tools/testing/selftests/bpf/progs/mptcp_subflow.c
+>> @@ -63,7 +63,7 @@ int mptcp_subflow(struct bpf_sock_ops *skops)
+>>   static int _check_getsockopt_subflow_mark(struct mptcp_sock *msk, struct bpf_sockopt *ctx)
+>>   {
+>>          struct mptcp_subflow_context *subflow;
+>> -       int i = 0;
+>> +       __u32 i = 0;
+>>
+>>          mptcp_for_each_subflow(msk, subflow) {
+>>                  struct sock *ssk;
+>> diff --git a/tools/testing/selftests/bpf/progs/netif_receive_skb.c b/tools/testing/selftests/bpf/progs/netif_receive_skb.c
+>> index 9e067dcbf607..920b884eef01 100644
+>> --- a/tools/testing/selftests/bpf/progs/netif_receive_skb.c
+>> +++ b/tools/testing/selftests/bpf/progs/netif_receive_skb.c
+>> @@ -35,7 +35,7 @@ static int __strncmp(const void *m1, const void *m2, size_t len)
+>>   {
+>>          const unsigned char *s1 = m1;
+>>          const unsigned char *s2 = m2;
+>> -       int i, delta = 0;
+>> +       size_t i, delta = 0;
+>>
+>>          for (i = 0; i < len; i++) {
+>>                  delta = s1[i] - s2[i];
+>> @@ -107,7 +107,7 @@ int BPF_PROG(trace_netif_receive_skb, struct sk_buff *skb)
+>>          /* Ensure we can write skb string representation */
+>>          p.type_id = bpf_core_type_id_kernel(struct sk_buff);
+>>          p.ptr = skb;
+>> -       for (i = 0; i < ARRAY_SIZE(flags); i++) {
+>> +       for (i = 0; (size_t)i < ARRAY_SIZE(flags); i++) {
+>>                  ++num_subtests;
+>>                  ret = bpf_snprintf_btf(str, STRSIZE, &p, sizeof(p), 0);
+>>                  if (ret < 0)
+>> diff --git a/tools/testing/selftests/bpf/progs/profiler.inc.h b/tools/testing/selftests/bpf/progs/profiler.inc.h
+>> index 813143b4985d..f664f5915169 100644
+>> --- a/tools/testing/selftests/bpf/progs/profiler.inc.h
+>> +++ b/tools/testing/selftests/bpf/progs/profiler.inc.h
+>> @@ -169,7 +169,7 @@ static INLINE int get_var_spid_index(struct var_kill_data_arr_t* arr_struct,
+>>   #ifdef UNROLL
+>>          __pragma_loop_unroll
+>>   #endif
+>> -       for (int i = 0; i < ARRAY_SIZE(arr_struct->array); i++)
+>> +       for (size_t i = 0; i < ARRAY_SIZE(arr_struct->array); i++)
+>>                  if (arr_struct->array[i].meta.pid == spid)
+>>                          return i;
+>>          return -1;
+>> @@ -402,7 +402,7 @@ static INLINE int trace_var_sys_kill(void* ctx, int tpid, int sig)
+>>   #ifdef UNROLL
+>>                          __pragma_loop_unroll
+>>   #endif
+>> -                       for (int i = 0; i < ARRAY_SIZE(arr_struct->array); i++)
+>> +                       for (size_t i = 0; i < ARRAY_SIZE(arr_struct->array); i++)
+>>                                  if (arr_struct->array[i].meta.pid == 0) {
+>>                                          bpf_probe_read_kernel(&arr_struct->array[i],
+>>                                                                sizeof(arr_struct->array[i]),
+>> @@ -629,7 +629,7 @@ int raw_tracepoint__sched_process_exit(void* ctx)
+>>   #ifdef UNROLL
+>>          __pragma_loop_unroll
+>>   #endif
+>> -       for (int i = 0; i < ARRAY_SIZE(arr_struct->array); i++) {
+>> +       for (size_t i = 0; i < ARRAY_SIZE(arr_struct->array); i++) {
+>>                  struct var_kill_data_t* past_kill_data = &arr_struct->array[i];
+>>
+>>                  if (past_kill_data != NULL && past_kill_data->kill_target_pid == (pid_t)tpid) {
+>> diff --git a/tools/testing/selftests/bpf/progs/rcu_read_lock.c b/tools/testing/selftests/bpf/progs/rcu_read_lock.c
+>> index 3a868a199349..38fa039f586b 100644
+>> --- a/tools/testing/selftests/bpf/progs/rcu_read_lock.c
+>> +++ b/tools/testing/selftests/bpf/progs/rcu_read_lock.c
+>> @@ -34,7 +34,7 @@ int get_cgroup_id(void *ctx)
+>>          struct css_set *cgroups;
+>>
+>>          task = bpf_get_current_task_btf();
+>> -       if (task->pid != target_pid)
+>> +       if ((__u32)task->pid != target_pid)
+>>                  return 0;
+>>
+>>          /* simulate bpf_get_current_cgroup_id() helper */
+>> @@ -56,7 +56,7 @@ int task_succ(void *ctx)
+>>          long *ptr;
+>>
+>>          task = bpf_get_current_task_btf();
+>> -       if (task->pid != target_pid)
+>> +       if ((__u32)task->pid != target_pid)
+>>                  return 0;
+>>
+>>          bpf_rcu_read_lock();
+>> diff --git a/tools/testing/selftests/bpf/progs/sk_storage_omem_uncharge.c b/tools/testing/selftests/bpf/progs/sk_storage_omem_uncharge.c
+>> index 46d6eb2a3b17..2df842c7e9ed 100644
+>> --- a/tools/testing/selftests/bpf/progs/sk_storage_omem_uncharge.c
+>> +++ b/tools/testing/selftests/bpf/progs/sk_storage_omem_uncharge.c
+>> @@ -28,7 +28,7 @@ int BPF_PROG(bpf_local_storage_destroy, struct bpf_local_storage *local_storage)
+>>                  return 0;
+>>
+>>          sk = bpf_core_cast(sk_ptr, struct sock);
+>> -       if (sk->sk_cookie.counter != cookie)
+>> +       if ((__u64)sk->sk_cookie.counter != cookie)
+>>                  return 0;
+>>
+>>          cookie_found++;
+>> @@ -43,11 +43,11 @@ int BPF_PROG(inet6_sock_destruct, struct sock *sk)
+>>   {
+>>          int *value;
+>>
+>> -       if (!cookie || sk->sk_cookie.counter != cookie)
+>> +       if (!cookie || (__u64)sk->sk_cookie.counter != cookie)
+>>                  return 0;
+>>
+>>          value = bpf_sk_storage_get(&sk_storage, sk, 0, 0);
+>> -       if (value && *value == 0xdeadbeef) {
+>> +       if (value && (__u32)*value == 0xdeadbeef) {
+>>                  cookie_found++;
+>>                  sk_ptr = sk;
+>>                  local_storage_ptr = sk->sk_bpf_storage;
+>> diff --git a/tools/testing/selftests/bpf/progs/sockopt_inherit.c b/tools/testing/selftests/bpf/progs/sockopt_inherit.c
+>> index a3434b840928..9f15752af34b 100644
+>> --- a/tools/testing/selftests/bpf/progs/sockopt_inherit.c
+>> +++ b/tools/testing/selftests/bpf/progs/sockopt_inherit.c
+>> @@ -56,7 +56,7 @@ int _getsockopt(struct bpf_sockopt *ctx)
+>>          struct sockopt_inherit *storage;
+>>          __u8 *optval = ctx->optval;
+>>
+>> -       if (ctx->level != SOL_CUSTOM)
+>> +       if (ctx->level != (__s32)SOL_CUSTOM)
+>>                  goto out; /* only interested in SOL_CUSTOM */
+>>
+>>          if (optval + 1 > optval_end)
+>> @@ -87,7 +87,7 @@ int _setsockopt(struct bpf_sockopt *ctx)
+>>          struct sockopt_inherit *storage;
+>>          __u8 *optval = ctx->optval;
+>>
+>> -       if (ctx->level != SOL_CUSTOM)
+>> +       if (ctx->level != (__s32)SOL_CUSTOM)
+>>                  goto out; /* only interested in SOL_CUSTOM */
+>>
+>>          if (optval + 1 > optval_end)
+>> diff --git a/tools/testing/selftests/bpf/progs/sockopt_sk.c b/tools/testing/selftests/bpf/progs/sockopt_sk.c
+>> index cb990a7d3d45..f08529dfb2cb 100644
+>> --- a/tools/testing/selftests/bpf/progs/sockopt_sk.c
+>> +++ b/tools/testing/selftests/bpf/progs/sockopt_sk.c
+>> @@ -107,7 +107,7 @@ int _getsockopt(struct bpf_sockopt *ctx)
+>>                  return 1;
+>>          }
+>>
+>> -       if (ctx->level != SOL_CUSTOM)
+>> +       if (ctx->level != (__s32)SOL_CUSTOM)
+>>                  return 0; /* deny everything except custom level */
+>>
+>>          if (optval + 1 > optval_end)
+>> @@ -212,7 +212,7 @@ int _setsockopt(struct bpf_sockopt *ctx)
+>>                  return 1;
+>>          }
+>>
+>> -       if (ctx->level != SOL_CUSTOM)
+>> +       if (ctx->level != (__s32)SOL_CUSTOM)
+>>                  return 0; /* deny everything except custom level */
+>>
+>>          if (optval + 1 > optval_end)
+>> diff --git a/tools/testing/selftests/bpf/progs/strobemeta.h b/tools/testing/selftests/bpf/progs/strobemeta.h
+>> index a5c74d31a244..36b4e82abae2 100644
+>> --- a/tools/testing/selftests/bpf/progs/strobemeta.h
+>> +++ b/tools/testing/selftests/bpf/progs/strobemeta.h
+>> @@ -409,7 +409,7 @@ static __always_inline uint64_t read_map_var(struct strobemeta_cfg *cfg,
+>>
+>>          descr->id = map.id;
+>>          descr->cnt = map.cnt;
+>> -       if (cfg->req_meta_idx == idx) {
+>> +       if (cfg->req_meta_idx == (__s64)idx) {
+>>                  data->req_id = map.id;
+>>                  data->req_meta_valid = 1;
+>>          }
+>> diff --git a/tools/testing/selftests/bpf/progs/test_bpf_cookie.c b/tools/testing/selftests/bpf/progs/test_bpf_cookie.c
+>> index c83142b55f47..47e80864b6b8 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_bpf_cookie.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_bpf_cookie.c
+>> @@ -6,7 +6,7 @@
+>>   #include <bpf/bpf_tracing.h>
+>>   #include <errno.h>
+>>
+>> -int my_tid;
+>> +__u32 my_tid;
+>>
+>>   __u64 kprobe_res;
+>>   __u64 kprobe_multi_res;
+>> diff --git a/tools/testing/selftests/bpf/progs/test_check_mtu.c b/tools/testing/selftests/bpf/progs/test_check_mtu.c
+>> index 2ec1de11a3ae..246caea8124f 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_check_mtu.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_check_mtu.c
+>> @@ -47,7 +47,7 @@ int xdp_use_helper(struct xdp_md *ctx)
+>>                  goto out;
+>>          }
+>>
+>> -       if (mtu_len != GLOBAL_USER_MTU)
+>> +       if (mtu_len != (__u32)GLOBAL_USER_MTU)
+>>                  retval = XDP_DROP;
+>>
+>>   out:
+>> @@ -165,7 +165,7 @@ int tc_use_helper(struct __sk_buff *ctx)
+>>                  goto out;
+>>          }
+>>
+>> -       if (mtu_len != GLOBAL_USER_MTU)
+>> +       if (mtu_len != (__u32)GLOBAL_USER_MTU)
+>>                  retval = BPF_REDIRECT;
+>>   out:
+>>          global_bpf_mtu_tc = mtu_len;
+>> diff --git a/tools/testing/selftests/bpf/progs/test_core_extern.c b/tools/testing/selftests/bpf/progs/test_core_extern.c
+>> index a3c7c1042f35..4eae1eb885f1 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_core_extern.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_core_extern.c
+>> @@ -37,7 +37,7 @@ uint64_t missing_val = -1;
+>>   SEC("raw_tp/sys_enter")
+>>   int handle_sys_enter(struct pt_regs *ctx)
+>>   {
+>> -       int i;
+>> +       __u32 i;
+>>
+>>          kern_ver = LINUX_KERNEL_VERSION;
+>>          unkn_virt_val = LINUX_UNKNOWN_VIRTUAL_EXTERN;
+>> diff --git a/tools/testing/selftests/bpf/progs/test_get_xattr.c b/tools/testing/selftests/bpf/progs/test_get_xattr.c
+>> index 54305f4c9f2d..3cda9379a62a 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_get_xattr.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_get_xattr.c
+>> @@ -42,7 +42,7 @@ int BPF_PROG(test_file_open, struct file *f)
+>>
+>>          bpf_dynptr_from_mem(value1, sizeof(value1), 0, &value_ptr);
+>>
+>> -       for (i = 0; i < ARRAY_SIZE(xattr_names); i++) {
+>> +       for (i = 0; (__u32)i < ARRAY_SIZE(xattr_names); i++) {
+>>                  ret = bpf_get_file_xattr(f, xattr_names[i], &value_ptr);
+>>                  if (ret == sizeof(expected_value))
+>>                          break;
+>> @@ -68,7 +68,7 @@ int BPF_PROG(test_inode_getxattr, struct dentry *dentry, char *name)
+>>
+>>          bpf_dynptr_from_mem(value2, sizeof(value2), 0, &value_ptr);
+>>
+>> -       for (i = 0; i < ARRAY_SIZE(xattr_names); i++) {
+>> +       for (i = 0; (__u32)i < ARRAY_SIZE(xattr_names); i++) {
+>>                  ret = bpf_get_dentry_xattr(dentry, xattr_names[i], &value_ptr);
+>>                  if (ret == sizeof(expected_value))
+>>                          break;
+>> diff --git a/tools/testing/selftests/bpf/progs/test_global_func11.c b/tools/testing/selftests/bpf/progs/test_global_func11.c
+>> index 283e036dc401..2ad72bf0e07b 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_global_func11.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_global_func11.c
+>> @@ -5,7 +5,7 @@
+>>   #include "bpf_misc.h"
+>>
+>>   struct S {
+>> -       int x;
+>> +       __u32 x;
+>>   };
+>>
+>>   __noinline int foo(const struct S *s)
+>> diff --git a/tools/testing/selftests/bpf/progs/test_global_func12.c b/tools/testing/selftests/bpf/progs/test_global_func12.c
+>> index 6e03d42519a6..53eab8ec6772 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_global_func12.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_global_func12.c
+>> @@ -5,7 +5,7 @@
+>>   #include "bpf_misc.h"
+>>
+>>   struct S {
+>> -       int x;
+>> +       __u32 x;
+>>   };
+>>
+>>   __noinline int foo(const struct S *s)
+>> diff --git a/tools/testing/selftests/bpf/progs/test_global_func13.c b/tools/testing/selftests/bpf/progs/test_global_func13.c
+>> index 02ea80da75b5..c4afdfc9d92e 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_global_func13.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_global_func13.c
+>> @@ -5,7 +5,7 @@
+>>   #include "bpf_misc.h"
+>>
+>>   struct S {
+>> -       int x;
+>> +       __u32 x;
+>>   };
+>>
+>>   __noinline int foo(const struct S *s)
+>> diff --git a/tools/testing/selftests/bpf/progs/test_global_func14.c b/tools/testing/selftests/bpf/progs/test_global_func14.c
+>> index 33b7d5efd7b2..9c494fb39e2f 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_global_func14.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_global_func14.c
+>> @@ -9,7 +9,7 @@ struct S;
+>>   __noinline int foo(const struct S *s)
+>>   {
+>>          if (s)
+>> -               return bpf_get_prandom_u32() < *(const int *) s;
+>> +               return bpf_get_prandom_u32() < *(const __u32 *) s;
+>>
+>>          return 0;
+>>   }
+>> diff --git a/tools/testing/selftests/bpf/progs/test_global_func9.c b/tools/testing/selftests/bpf/progs/test_global_func9.c
+>> index 1f2cb0159b8d..9138d9bd08fc 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_global_func9.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_global_func9.c
+>> @@ -5,7 +5,7 @@
+>>   #include "bpf_misc.h"
+>>
+>>   struct S {
+>> -       int x;
+>> +       __u32 x;
+>>   };
+>>
+>>   struct C {
+>> diff --git a/tools/testing/selftests/bpf/progs/test_lwt_seg6local.c b/tools/testing/selftests/bpf/progs/test_lwt_seg6local.c
+>> index fed66f36adb6..976af2d3cdda 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_lwt_seg6local.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_lwt_seg6local.c
+>> @@ -167,7 +167,7 @@ int is_valid_tlv_boundary(struct __sk_buff *skb, struct ip6_srh_t *srh,
+>>          if (*pad_off == 0)
+>>                  *pad_off = cur_off;
+>>
+>> -       if (*tlv_off == -1)
+>> +       if (*tlv_off == (__u32)-1)
+>>                  *tlv_off = cur_off;
+>>          else if (!offset_valid)
+>>                  return -EINVAL;
+>> @@ -186,7 +186,7 @@ int add_tlv(struct __sk_buff *skb, struct ip6_srh_t *srh, uint32_t tlv_off,
+>>          uint32_t partial_srh_len;
+>>          int err;
+>>
+>> -       if (tlv_off != -1)
+>> +       if (tlv_off != (__u32)-1)
+>>                  tlv_off += srh_off;
+>>
+>>          if (itlv->type == SR6_TLV_PADDING || itlv->type == SR6_TLV_HMAC)
+>> diff --git a/tools/testing/selftests/bpf/progs/test_map_init.c b/tools/testing/selftests/bpf/progs/test_map_init.c
+>> index c89d28ead673..311e6ac64588 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_map_init.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_map_init.c
+>> @@ -22,7 +22,7 @@ int sysenter_getpgid(const void *ctx)
+>>          /* Just do it for once, when called from our own test prog. This
+>>           * ensures the map value is only updated for a single CPU.
+>>           */
+>> -       int cur_pid = bpf_get_current_pid_tgid() >> 32;
+>> +       __u32 cur_pid = bpf_get_current_pid_tgid() >> 32;
+>>
+>>          if (cur_pid == inPid)
+>>                  bpf_map_update_elem(&hashmap1, &inKey, &inValue, BPF_NOEXIST);
+>> diff --git a/tools/testing/selftests/bpf/progs/test_parse_tcp_hdr_opt.c b/tools/testing/selftests/bpf/progs/test_parse_tcp_hdr_opt.c
+>> index d9b2ba7ac340..4b8ab8716246 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_parse_tcp_hdr_opt.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_parse_tcp_hdr_opt.c
+>> @@ -102,7 +102,7 @@ int xdp_ingress_v6(struct xdp_md *xdp)
+>>          opt_state.byte_offset = sizeof(struct tcphdr) + tcp_offset;
+>>
+>>          /* max number of bytes of options in tcp header is 40 bytes */
+>> -       for (int i = 0; i < tcp_hdr_opt_max_opt_checks; i++) {
+>> +       for (__u32 i = 0; i < tcp_hdr_opt_max_opt_checks; i++) {
+>>                  err = parse_hdr_opt(xdp, &opt_state);
+>>
+>>                  if (err || !opt_state.hdr_bytes_remaining)
+>> diff --git a/tools/testing/selftests/bpf/progs/test_parse_tcp_hdr_opt_dynptr.c b/tools/testing/selftests/bpf/progs/test_parse_tcp_hdr_opt_dynptr.c
+>> index dc6e43bc6a62..bf3ac5c2938c 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_parse_tcp_hdr_opt_dynptr.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_parse_tcp_hdr_opt_dynptr.c
+>> @@ -100,7 +100,7 @@ int xdp_ingress_v6(struct xdp_md *xdp)
+>>          off += sizeof(struct tcphdr);
+>>
+>>          /* max number of bytes of options in tcp header is 40 bytes */
+>> -       for (int i = 0; i < tcp_hdr_opt_max_opt_checks; i++) {
+>> +       for (__u32 i = 0; i < tcp_hdr_opt_max_opt_checks; i++) {
+>>                  err = parse_hdr_opt(&ptr, &off, &hdr_bytes_remaining, &server_id);
+>>
+>>                  if (err || !hdr_bytes_remaining)
+>> diff --git a/tools/testing/selftests/bpf/progs/test_pkt_access.c b/tools/testing/selftests/bpf/progs/test_pkt_access.c
+>> index bce7173152c6..39b5a5ba9033 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_pkt_access.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_pkt_access.c
+>> @@ -130,11 +130,11 @@ int test_pkt_access(struct __sk_buff *skb)
+>>                  tcp = (struct tcphdr *)((void *)(ip6h) + ihl_len);
+>>          }
+>>
+>> -       if (test_pkt_access_subprog1(skb) != skb->len * 2)
+>> +       if ((__u32)test_pkt_access_subprog1(skb) != skb->len * 2)
+>>                  return TC_ACT_SHOT;
+>> -       if (test_pkt_access_subprog2(2, skb) != skb->len * 2)
+>> +       if ((__u32)test_pkt_access_subprog2(2, skb) != skb->len * 2)
+>>                  return TC_ACT_SHOT;
+>> -       if (test_pkt_access_subprog3(3, skb) != skb->len * 3 * skb->ifindex)
+>> +       if ((__u32)test_pkt_access_subprog3(3, skb) != skb->len * 3 * skb->ifindex)
+>>                  return TC_ACT_SHOT;
+>>          if (tcp) {
+>>                  if (test_pkt_write_access_subprog(skb, (void *)tcp - data))
+>> diff --git a/tools/testing/selftests/bpf/progs/test_seg6_loop.c b/tools/testing/selftests/bpf/progs/test_seg6_loop.c
+>> index 5059050f74f6..fccb21d23fe2 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_seg6_loop.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_seg6_loop.c
+>> @@ -170,7 +170,7 @@ static __always_inline int is_valid_tlv_boundary(struct __sk_buff *skb,
+>>          if (*pad_off == 0)
+>>                  *pad_off = cur_off;
+>>
+>> -       if (*tlv_off == -1)
+>> +       if (*tlv_off == (__u32)-1)
+>>                  *tlv_off = cur_off;
+>>          else if (!offset_valid)
+>>                  return -EINVAL;
+>> @@ -189,7 +189,7 @@ static __always_inline int add_tlv(struct __sk_buff *skb,
+>>          uint32_t partial_srh_len;
+>>          int err;
+>>
+>> -       if (tlv_off != -1)
+>> +       if (tlv_off != (__u32)-1)
+>>                  tlv_off += srh_off;
+>>
+>>          if (itlv->type == SR6_TLV_PADDING || itlv->type == SR6_TLV_HMAC)
+>> diff --git a/tools/testing/selftests/bpf/progs/test_skb_ctx.c b/tools/testing/selftests/bpf/progs/test_skb_ctx.c
+>> index a724a70c6700..7939a2edc414 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_skb_ctx.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_skb_ctx.c
+>> @@ -11,7 +11,7 @@ SEC("tc")
+>>   int process(struct __sk_buff *skb)
+>>   {
+>>          __pragma_loop_unroll_full
+>> -       for (int i = 0; i < 5; i++) {
+>> +       for (__u32 i = 0; i < 5; i++) {
+>>                  if (skb->cb[i] != i + 1)
+>>                          return 1;
+>>                  skb->cb[i]++;
+>> diff --git a/tools/testing/selftests/bpf/progs/test_snprintf.c b/tools/testing/selftests/bpf/progs/test_snprintf.c
+>> index 8fda07544023..1aa4835da71a 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_snprintf.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_snprintf.c
+>> @@ -4,7 +4,7 @@
+>>   #include <linux/bpf.h>
+>>   #include <bpf/bpf_helpers.h>
+>>
+>> -__u32 pid = 0;
+>> +int pid = 0;
+>>
+>>   char num_out[64] = {};
+>>   long num_ret = 0;
+>> diff --git a/tools/testing/selftests/bpf/progs/test_sockmap_kern.h b/tools/testing/selftests/bpf/progs/test_sockmap_kern.h
+>> index f48f85f1bd70..2297c83433b7 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_sockmap_kern.h
+>> +++ b/tools/testing/selftests/bpf/progs/test_sockmap_kern.h
+>> @@ -336,7 +336,7 @@ int bpf_prog9(struct sk_msg_md *msg)
+>>
+>>          bytes = bpf_map_lookup_elem(&sock_cork_bytes, &zero);
+>>          if (bytes) {
+>> -               if (((__u64)data_end - (__u64)data) >= *bytes)
+>> +               if (((__u64)data_end - (__u64)data) >= (__u64)*bytes)
+>>                          return SK_PASS;
+>>                  ret = bpf_msg_cork_bytes(msg, *bytes);
+>>                  if (ret)
+>> diff --git a/tools/testing/selftests/bpf/progs/test_sockmap_strp.c b/tools/testing/selftests/bpf/progs/test_sockmap_strp.c
+>> index dde3d5bec515..e9675c45d8ef 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_sockmap_strp.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_sockmap_strp.c
+>> @@ -2,7 +2,7 @@
+>>   #include <linux/bpf.h>
+>>   #include <bpf/bpf_helpers.h>
+>>   #include <bpf/bpf_endian.h>
+>> -int verdict_max_size = 10000;
+>> +__u32 verdict_max_size = 10000;
+>>   struct {
+>>          __uint(type, BPF_MAP_TYPE_SOCKMAP);
+>>          __uint(max_entries, 20);
+>> diff --git a/tools/testing/selftests/bpf/progs/test_tc_tunnel.c b/tools/testing/selftests/bpf/progs/test_tc_tunnel.c
+>> index 404124a93892..c7e2d4571a2b 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_tc_tunnel.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_tc_tunnel.c
+>> @@ -80,7 +80,7 @@ static __always_inline void set_ipv4_csum(struct iphdr *iph)
+>>   {
+>>          __u16 *iph16 = (__u16 *)iph;
+>>          __u32 csum;
+>> -       int i;
+>> +       size_t i;
+>>
+>>          iph->check = 0;
+>>
+>> diff --git a/tools/testing/selftests/bpf/progs/test_xdp.c b/tools/testing/selftests/bpf/progs/test_xdp.c
+>> index 8caf58be5818..ce2a9ae26088 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_xdp.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_xdp.c
+>> @@ -89,7 +89,7 @@ static __always_inline int handle_ipv4(struct xdp_md *xdp)
+>>          struct vip vip = {};
+>>          int dport;
+>>          __u32 csum = 0;
+>> -       int i;
+>> +       size_t i;
+>>
+>>          if (iph + 1 > data_end)
+>>                  return XDP_DROP;
+>> diff --git a/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c b/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c
+>> index 67a77944ef29..12ad0ec91021 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c
+>> @@ -89,7 +89,7 @@ static __always_inline int handle_ipv4(struct xdp_md *xdp, struct bpf_dynptr *xd
+>>          struct vip vip = {};
+>>          int dport;
+>>          __u32 csum = 0;
+>> -       int i;
+>> +       size_t i;
+>>
+>>          __builtin_memset(eth_buffer, 0, sizeof(eth_buffer));
+>>          __builtin_memset(iph_buffer_tcp, 0, sizeof(iph_buffer_tcp));
+>> diff --git a/tools/testing/selftests/bpf/progs/test_xdp_loop.c b/tools/testing/selftests/bpf/progs/test_xdp_loop.c
+>> index 93267a68825b..e9b7bbff5c23 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_xdp_loop.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_xdp_loop.c
+>> @@ -85,7 +85,7 @@ static __always_inline int handle_ipv4(struct xdp_md *xdp)
+>>          struct vip vip = {};
+>>          int dport;
+>>          __u32 csum = 0;
+>> -       int i;
+>> +       size_t i;
+>>
+>>          if (iph + 1 > data_end)
+>>                  return XDP_DROP;
+>> diff --git a/tools/testing/selftests/bpf/progs/test_xdp_noinline.c b/tools/testing/selftests/bpf/progs/test_xdp_noinline.c
+>> index fad94e41cef9..85ef3c0a3e20 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_xdp_noinline.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_xdp_noinline.c
+>> @@ -372,7 +372,7 @@ bool encap_v4(struct xdp_md *xdp, struct ctl_value *cval,
+>>
+>>          next_iph_u16 = (__u16 *) iph;
+>>          __pragma_loop_unroll_full
+>> -       for (int i = 0; i < sizeof(struct iphdr) >> 1; i++)
+>> +       for (size_t i = 0; i < sizeof(struct iphdr) >> 1; i++)
+>>                  csum += *next_iph_u16++;
+>>          iph->check = ~((csum & 0xffff) + (csum >> 16));
+>>          if (bpf_xdp_adjust_head(xdp, (int)sizeof(struct iphdr)))
+>> @@ -423,7 +423,7 @@ int send_icmp_reply(void *data, void *data_end)
+>>          iph->check = 0;
+>>          next_iph_u16 = (__u16 *) iph;
+>>          __pragma_loop_unroll_full
+>> -       for (int i = 0; i < sizeof(struct iphdr) >> 1; i++)
+>> +       for (size_t i = 0; i < sizeof(struct iphdr) >> 1; i++)
+>>                  csum += *next_iph_u16++;
+>>          iph->check = ~((csum & 0xffff) + (csum >> 16));
+>>          return swap_mac_and_send(data, data_end);
+>> diff --git a/tools/testing/selftests/bpf/progs/udp_limit.c b/tools/testing/selftests/bpf/progs/udp_limit.c
+>> index 4767451b59ac..af1b3195ea8a 100644
+>> --- a/tools/testing/selftests/bpf/progs/udp_limit.c
+>> +++ b/tools/testing/selftests/bpf/progs/udp_limit.c
+>> @@ -50,7 +50,7 @@ int sock_release(struct bpf_sock *ctx)
+>>                  return 1;
+>>
+>>          sk_storage = bpf_sk_storage_get(&sk_map, ctx, 0, 0);
+>> -       if (!sk_storage || *sk_storage != 0xdeadbeef)
+>> +       if (!sk_storage || *sk_storage != (int)0xdeadbeef)
+>>                  return 0;
+>>
+>>          __sync_fetch_and_add(&invocations, 1);
+>> diff --git a/tools/testing/selftests/bpf/progs/uprobe_multi.c b/tools/testing/selftests/bpf/progs/uprobe_multi.c
+>> index 44190efcdba2..f99957773c3a 100644
+>> --- a/tools/testing/selftests/bpf/progs/uprobe_multi.c
+>> +++ b/tools/testing/selftests/bpf/progs/uprobe_multi.c
+>> @@ -20,13 +20,13 @@ __u64 uretprobe_multi_func_3_result = 0;
+>>
+>>   __u64 uprobe_multi_sleep_result = 0;
+>>
+>> -int pid = 0;
+>> +__u32 pid = 0;
+>>   int child_pid = 0;
+>>   int child_tid = 0;
+>>   int child_pid_usdt = 0;
+>>   int child_tid_usdt = 0;
+>>
+>> -int expect_pid = 0;
+>> +__u32 expect_pid = 0;
+>>   bool bad_pid_seen = false;
+>>   bool bad_pid_seen_usdt = false;
+>>
+>> diff --git a/tools/testing/selftests/bpf/progs/uprobe_multi_session_recursive.c b/tools/testing/selftests/bpf/progs/uprobe_multi_session_recursive.c
+>> index 8fbcd69fae22..017f1859ebe8 100644
+>> --- a/tools/testing/selftests/bpf/progs/uprobe_multi_session_recursive.c
+>> +++ b/tools/testing/selftests/bpf/progs/uprobe_multi_session_recursive.c
+>> @@ -3,6 +3,7 @@
+>>   #include <bpf/bpf_helpers.h>
+>>   #include <bpf/bpf_tracing.h>
+>>   #include <stdbool.h>
+>> +#include <stddef.h>
+>>   #include "bpf_kfuncs.h"
+>>   #include "bpf_misc.h"
+>>
+>> @@ -10,8 +11,8 @@ char _license[] SEC("license") = "GPL";
+>>
+>>   int pid = 0;
+>>
+>> -int idx_entry = 0;
+>> -int idx_return = 0;
+>> +size_t idx_entry = 0;
+>> +size_t idx_return = 0;
+>>
+>>   __u64 test_uprobe_cookie_entry[6];
+>>   __u64 test_uprobe_cookie_return[3];
+>> diff --git a/tools/testing/selftests/bpf/progs/verifier_arena_large.c b/tools/testing/selftests/bpf/progs/verifier_arena_large.c
+>> index 9dbdf123542d..6e1147b83c8b 100644
+>> --- a/tools/testing/selftests/bpf/progs/verifier_arena_large.c
+>> +++ b/tools/testing/selftests/bpf/progs/verifier_arena_large.c
+>> @@ -86,10 +86,10 @@ int access_reserved(void *ctx)
+>>                  return 1;
+>>
+>>          /* Try to dirty reserved memory. */
+>> -       for (i = 0; i < len && can_loop; i++)
+>> +       for (i = 0; (size_t)i < len && can_loop; i++)
+>>                  *page = 0x5a;
+>>
+>> -       for (i = 0; i < len && can_loop; i++) {
+>> +       for (i = 0; (size_t)i < len && can_loop; i++) {
+>>                  page = (volatile char __arena *)(base + i * PAGE_SIZE);
+>>
+>>                  /*
+>> diff --git a/tools/testing/selftests/bpf/progs/verifier_iterating_callbacks.c b/tools/testing/selftests/bpf/progs/verifier_iterating_callbacks.c
+>> index 75dd922e4e9f..72f9f8c23c93 100644
+>> --- a/tools/testing/selftests/bpf/progs/verifier_iterating_callbacks.c
+>> +++ b/tools/testing/selftests/bpf/progs/verifier_iterating_callbacks.c
+>> @@ -593,7 +593,7 @@ int loop_inside_iter_volatile_limit(const void *ctx)
+>>   {
+>>          struct bpf_iter_num it;
+>>          int *v, sum = 0;
+>> -       __u64 i = 0;
+>> +       __s32 i = 0;
+>>
+>>          bpf_iter_num_new(&it, 0, ARR2_SZ);
+>>          while ((v = bpf_iter_num_next(&it))) {
+>> --
+>> 2.51.0
+>>
+>>
 
-~vivek
-
-On Wed, Sep 24, 2025 at 6:38=E2=80=AFPM I Viswanath <viswanathiyyappan@gmai=
-l.com> wrote:
->
-> Remove the rtl8150 driver, as the most recent device ID was added
-> on 2006-12-04
->
-> Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
-> ---
->  Link to the relevant conversation: https://lore.kernel.org/netdev/202509=
-22180742.6ef6e2d5@kernel.org/
->
->  MAINTAINERS               |   9 -
->  drivers/net/usb/Kconfig   |  11 -
->  drivers/net/usb/Makefile  |   1 -
->  drivers/net/usb/rtl8150.c | 980 --------------------------------------
->  4 files changed, 1001 deletions(-)
->  delete mode 100644 drivers/net/usb/rtl8150.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 520fb4e379a3..32fc364c57f5 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -26163,15 +26163,6 @@ F:     Documentation/usb/raw-gadget.rst
->  F:     drivers/usb/gadget/legacy/raw_gadget.c
->  F:     include/uapi/linux/usb/raw_gadget.h
->
-> -USB RTL8150 DRIVER
-> -M:     Petko Manolov <petkan@nucleusys.com>
-> -L:     linux-usb@vger.kernel.org
-> -L:     netdev@vger.kernel.org
-> -S:     Maintained
-> -W:     https://github.com/petkan/rtl8150
-> -T:     git https://github.com/petkan/rtl8150.git
-> -F:     drivers/net/usb/rtl8150.c
-> -
->  USB SERIAL SUBSYSTEM
->  M:     Johan Hovold <johan@kernel.org>
->  L:     linux-usb@vger.kernel.org
-> diff --git a/drivers/net/usb/Kconfig b/drivers/net/usb/Kconfig
-> index 0a678e31cfaa..6354953be279 100644
-> --- a/drivers/net/usb/Kconfig
-> +++ b/drivers/net/usb/Kconfig
-> @@ -85,17 +85,6 @@ config USB_PEGASUS
->           To compile this driver as a module, choose M here: the
->           module will be called pegasus.
->
-> -config USB_RTL8150
-> -       tristate "USB RTL8150 based ethernet device support"
-> -       select MII
-> -       help
-> -         Say Y here if you have RTL8150 based usb-ethernet adapter.
-> -         Send me <petkan@users.sourceforge.net> any comments you may hav=
-e.
-> -         You can also check for updates at <http://pegasus2.sourceforge.=
-net/>.
-> -
-> -         To compile this driver as a module, choose M here: the
-> -         module will be called rtl8150.
-> -
->  config USB_RTL8152
->         tristate "Realtek RTL8152/RTL8153 Based USB Ethernet Adapters"
->         select MII
-> diff --git a/drivers/net/usb/Makefile b/drivers/net/usb/Makefile
-> index 4964f7b326fb..d0f50ed1179e 100644
-> --- a/drivers/net/usb/Makefile
-> +++ b/drivers/net/usb/Makefile
-> @@ -6,7 +6,6 @@
->  obj-$(CONFIG_USB_CATC)         +=3D catc.o
->  obj-$(CONFIG_USB_KAWETH)       +=3D kaweth.o
->  obj-$(CONFIG_USB_PEGASUS)      +=3D pegasus.o
-> -obj-$(CONFIG_USB_RTL8150)      +=3D rtl8150.o
->  obj-$(CONFIG_USB_RTL8152)      +=3D r8152.o
->  obj-$(CONFIG_USB_HSO)          +=3D hso.o
->  obj-$(CONFIG_USB_LAN78XX)      +=3D lan78xx.o
-> diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
-> deleted file mode 100644
-> index ddff6f19ff98..000000000000
-> --- a/drivers/net/usb/rtl8150.c
-> +++ /dev/null
-> @@ -1,980 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0-only
-> -/*
-> - *  Copyright (c) 2002 Petko Manolov (petkan@users.sourceforge.net)
-> - */
-> -
-> -#include <linux/signal.h>
-> -#include <linux/slab.h>
-> -#include <linux/module.h>
-> -#include <linux/netdevice.h>
-> -#include <linux/etherdevice.h>
-> -#include <linux/mii.h>
-> -#include <linux/ethtool.h>
-> -#include <linux/usb.h>
-> -#include <linux/uaccess.h>
-> -
-> -/* Version Information */
-> -#define DRIVER_VERSION "v0.6.2 (2004/08/27)"
-> -#define DRIVER_AUTHOR "Petko Manolov <petkan@users.sourceforge.net>"
-> -#define DRIVER_DESC "rtl8150 based usb-ethernet driver"
-> -
-> -#define        IDR                     0x0120
-> -#define        MAR                     0x0126
-> -#define        CR                      0x012e
-> -#define        TCR                     0x012f
-> -#define        RCR                     0x0130
-> -#define        TSR                     0x0132
-> -#define        RSR                     0x0133
-> -#define        CON0                    0x0135
-> -#define        CON1                    0x0136
-> -#define        MSR                     0x0137
-> -#define        PHYADD                  0x0138
-> -#define        PHYDAT                  0x0139
-> -#define        PHYCNT                  0x013b
-> -#define        GPPC                    0x013d
-> -#define        BMCR                    0x0140
-> -#define        BMSR                    0x0142
-> -#define        ANAR                    0x0144
-> -#define        ANLP                    0x0146
-> -#define        AER                     0x0148
-> -#define CSCR                   0x014C  /* This one has the link status *=
-/
-> -#define CSCR_LINK_STATUS       (1 << 3)
-> -
-> -#define        IDR_EEPROM              0x1202
-> -
-> -#define        PHY_READ                0
-> -#define        PHY_WRITE               0x20
-> -#define        PHY_GO                  0x40
-> -
-> -#define        MII_TIMEOUT             10
-> -#define        INTBUFSIZE              8
-> -
-> -#define        RTL8150_REQT_READ       0xc0
-> -#define        RTL8150_REQT_WRITE      0x40
-> -#define        RTL8150_REQ_GET_REGS    0x05
-> -#define        RTL8150_REQ_SET_REGS    0x05
-> -
-> -
-> -/* Transmit status register errors */
-> -#define TSR_ECOL               (1<<5)
-> -#define TSR_LCOL               (1<<4)
-> -#define TSR_LOSS_CRS           (1<<3)
-> -#define TSR_JBR                        (1<<2)
-> -#define TSR_ERRORS             (TSR_ECOL | TSR_LCOL | TSR_LOSS_CRS | TSR=
-_JBR)
-> -/* Receive status register errors */
-> -#define RSR_CRC                        (1<<2)
-> -#define RSR_FAE                        (1<<1)
-> -#define RSR_ERRORS             (RSR_CRC | RSR_FAE)
-> -
-> -/* Media status register definitions */
-> -#define MSR_DUPLEX             (1<<4)
-> -#define MSR_SPEED              (1<<3)
-> -#define MSR_LINK               (1<<2)
-> -
-> -/* USB endpoints */
-> -enum rtl8150_usb_ep {
-> -       RTL8150_USB_EP_CONTROL =3D 0,
-> -       RTL8150_USB_EP_BULK_IN =3D 1,
-> -       RTL8150_USB_EP_BULK_OUT =3D 2,
-> -       RTL8150_USB_EP_INT_IN =3D 3,
-> -};
-> -
-> -/* Interrupt pipe data */
-> -#define INT_TSR                        0x00
-> -#define INT_RSR                        0x01
-> -#define INT_MSR                        0x02
-> -#define INT_WAKSR              0x03
-> -#define INT_TXOK_CNT           0x04
-> -#define INT_RXLOST_CNT         0x05
-> -#define INT_CRERR_CNT          0x06
-> -#define INT_COL_CNT            0x07
-> -
-> -
-> -#define        RTL8150_MTU             1540
-> -#define        RTL8150_TX_TIMEOUT      (HZ)
-> -#define        RX_SKB_POOL_SIZE        4
-> -
-> -/* rtl8150 flags */
-> -#define        RTL8150_HW_CRC          0
-> -#define        RX_REG_SET              1
-> -#define        RTL8150_UNPLUG          2
-> -#define        RX_URB_FAIL             3
-> -
-> -/* Define these values to match your device */
-> -#define        VENDOR_ID_REALTEK               0x0bda
-> -#define        VENDOR_ID_MELCO                 0x0411
-> -#define        VENDOR_ID_MICRONET              0x3980
-> -#define        VENDOR_ID_LONGSHINE             0x07b8
-> -#define        VENDOR_ID_OQO                   0x1557
-> -#define        VENDOR_ID_ZYXEL                 0x0586
-> -
-> -#define PRODUCT_ID_RTL8150             0x8150
-> -#define        PRODUCT_ID_LUAKTX               0x0012
-> -#define        PRODUCT_ID_LCS8138TX            0x401a
-> -#define PRODUCT_ID_SP128AR             0x0003
-> -#define        PRODUCT_ID_PRESTIGE             0x401a
-> -
-> -#undef EEPROM_WRITE
-> -
-> -/* table of devices that work with this driver */
-> -static const struct usb_device_id rtl8150_table[] =3D {
-> -       {USB_DEVICE(VENDOR_ID_REALTEK, PRODUCT_ID_RTL8150)},
-> -       {USB_DEVICE(VENDOR_ID_MELCO, PRODUCT_ID_LUAKTX)},
-> -       {USB_DEVICE(VENDOR_ID_MICRONET, PRODUCT_ID_SP128AR)},
-> -       {USB_DEVICE(VENDOR_ID_LONGSHINE, PRODUCT_ID_LCS8138TX)},
-> -       {USB_DEVICE(VENDOR_ID_OQO, PRODUCT_ID_RTL8150)},
-> -       {USB_DEVICE(VENDOR_ID_ZYXEL, PRODUCT_ID_PRESTIGE)},
-> -       {}
-> -};
-> -
-> -MODULE_DEVICE_TABLE(usb, rtl8150_table);
-> -
-> -struct rtl8150 {
-> -       unsigned long flags;
-> -       struct usb_device *udev;
-> -       struct tasklet_struct tl;
-> -       struct net_device *netdev;
-> -       struct urb *rx_urb, *tx_urb, *intr_urb;
-> -       struct sk_buff *tx_skb, *rx_skb;
-> -       struct sk_buff *rx_skb_pool[RX_SKB_POOL_SIZE];
-> -       spinlock_t rx_pool_lock;
-> -       struct usb_ctrlrequest dr;
-> -       int intr_interval;
-> -       u8 *intr_buff;
-> -       u8 phy;
-> -};
-> -
-> -typedef struct rtl8150 rtl8150_t;
-> -
-> -struct async_req {
-> -       struct usb_ctrlrequest dr;
-> -       u16 rx_creg;
-> -};
-> -
-> -static const char driver_name [] =3D "rtl8150";
-> -
-> -/*
-> -**
-> -**     device related part of the code
-> -**
-> -*/
-> -static int get_registers(rtl8150_t * dev, u16 indx, u16 size, void *data=
-)
-> -{
-> -       return usb_control_msg_recv(dev->udev, 0, RTL8150_REQ_GET_REGS,
-> -                                   RTL8150_REQT_READ, indx, 0, data, siz=
-e,
-> -                                   1000, GFP_NOIO);
-> -}
-> -
-> -static int set_registers(rtl8150_t * dev, u16 indx, u16 size, const void=
- *data)
-> -{
-> -       return usb_control_msg_send(dev->udev, 0, RTL8150_REQ_SET_REGS,
-> -                                   RTL8150_REQT_WRITE, indx, 0, data, si=
-ze,
-> -                                   1000, GFP_NOIO);
-> -}
-> -
-> -static void async_set_reg_cb(struct urb *urb)
-> -{
-> -       struct async_req *req =3D (struct async_req *)urb->context;
-> -       int status =3D urb->status;
-> -
-> -       if (status < 0)
-> -               dev_dbg(&urb->dev->dev, "%s failed with %d", __func__, st=
-atus);
-> -       kfree(req);
-> -       usb_free_urb(urb);
-> -}
-> -
-> -static int async_set_registers(rtl8150_t *dev, u16 indx, u16 size, u16 r=
-eg)
-> -{
-> -       int res =3D -ENOMEM;
-> -       struct urb *async_urb;
-> -       struct async_req *req;
-> -
-> -       req =3D kmalloc(sizeof(struct async_req), GFP_ATOMIC);
-> -       if (req =3D=3D NULL)
-> -               return res;
-> -       async_urb =3D usb_alloc_urb(0, GFP_ATOMIC);
-> -       if (async_urb =3D=3D NULL) {
-> -               kfree(req);
-> -               return res;
-> -       }
-> -       req->rx_creg =3D cpu_to_le16(reg);
-> -       req->dr.bRequestType =3D RTL8150_REQT_WRITE;
-> -       req->dr.bRequest =3D RTL8150_REQ_SET_REGS;
-> -       req->dr.wIndex =3D 0;
-> -       req->dr.wValue =3D cpu_to_le16(indx);
-> -       req->dr.wLength =3D cpu_to_le16(size);
-> -       usb_fill_control_urb(async_urb, dev->udev,
-> -                            usb_sndctrlpipe(dev->udev, 0), (void *)&req-=
->dr,
-> -                            &req->rx_creg, size, async_set_reg_cb, req);
-> -       res =3D usb_submit_urb(async_urb, GFP_ATOMIC);
-> -       if (res) {
-> -               if (res =3D=3D -ENODEV)
-> -                       netif_device_detach(dev->netdev);
-> -               dev_err(&dev->udev->dev, "%s failed with %d\n", __func__,=
- res);
-> -       }
-> -       return res;
-> -}
-> -
-> -static int read_mii_word(rtl8150_t * dev, u8 phy, __u8 indx, u16 * reg)
-> -{
-> -       int i;
-> -       u8 data[3], tmp;
-> -
-> -       data[0] =3D phy;
-> -       data[1] =3D data[2] =3D 0;
-> -       tmp =3D indx | PHY_READ | PHY_GO;
-> -       i =3D 0;
-> -
-> -       set_registers(dev, PHYADD, sizeof(data), data);
-> -       set_registers(dev, PHYCNT, 1, &tmp);
-> -       do {
-> -               get_registers(dev, PHYCNT, 1, data);
-> -       } while ((data[0] & PHY_GO) && (i++ < MII_TIMEOUT));
-> -
-> -       if (i <=3D MII_TIMEOUT) {
-> -               get_registers(dev, PHYDAT, 2, data);
-> -               *reg =3D data[0] | (data[1] << 8);
-> -               return 0;
-> -       } else
-> -               return 1;
-> -}
-> -
-> -static int write_mii_word(rtl8150_t * dev, u8 phy, __u8 indx, u16 reg)
-> -{
-> -       int i;
-> -       u8 data[3], tmp;
-> -
-> -       data[0] =3D phy;
-> -       data[1] =3D reg & 0xff;
-> -       data[2] =3D (reg >> 8) & 0xff;
-> -       tmp =3D indx | PHY_WRITE | PHY_GO;
-> -       i =3D 0;
-> -
-> -       set_registers(dev, PHYADD, sizeof(data), data);
-> -       set_registers(dev, PHYCNT, 1, &tmp);
-> -       do {
-> -               get_registers(dev, PHYCNT, 1, data);
-> -       } while ((data[0] & PHY_GO) && (i++ < MII_TIMEOUT));
-> -
-> -       if (i <=3D MII_TIMEOUT)
-> -               return 0;
-> -       else
-> -               return 1;
-> -}
-> -
-> -static void set_ethernet_addr(rtl8150_t *dev)
-> -{
-> -       u8 node_id[ETH_ALEN];
-> -       int ret;
-> -
-> -       ret =3D get_registers(dev, IDR, sizeof(node_id), node_id);
-> -
-> -       if (!ret) {
-> -               eth_hw_addr_set(dev->netdev, node_id);
-> -       } else {
-> -               eth_hw_addr_random(dev->netdev);
-> -               netdev_notice(dev->netdev, "Assigned a random MAC address=
-: %pM\n",
-> -                             dev->netdev->dev_addr);
-> -       }
-> -}
-> -
-> -static int rtl8150_set_mac_address(struct net_device *netdev, void *p)
-> -{
-> -       struct sockaddr *addr =3D p;
-> -       rtl8150_t *dev =3D netdev_priv(netdev);
-> -
-> -       if (netif_running(netdev))
-> -               return -EBUSY;
-> -
-> -       eth_hw_addr_set(netdev, addr->sa_data);
-> -       netdev_dbg(netdev, "Setting MAC address to %pM\n", netdev->dev_ad=
-dr);
-> -       /* Set the IDR registers. */
-> -       set_registers(dev, IDR, netdev->addr_len, netdev->dev_addr);
-> -#ifdef EEPROM_WRITE
-> -       {
-> -       int i;
-> -       u8 cr;
-> -       /* Get the CR contents. */
-> -       get_registers(dev, CR, 1, &cr);
-> -       /* Set the WEPROM bit (eeprom write enable). */
-> -       cr |=3D 0x20;
-> -       set_registers(dev, CR, 1, &cr);
-> -       /* Write the MAC address into eeprom. Eeprom writes must be word-=
-sized,
-> -          so we need to split them up. */
-> -       for (i =3D 0; i * 2 < netdev->addr_len; i++) {
-> -               set_registers(dev, IDR_EEPROM + (i * 2), 2,
-> -               netdev->dev_addr + (i * 2));
-> -       }
-> -       /* Clear the WEPROM bit (preventing accidental eeprom writes). */
-> -       cr &=3D 0xdf;
-> -       set_registers(dev, CR, 1, &cr);
-> -       }
-> -#endif
-> -       return 0;
-> -}
-> -
-> -static int rtl8150_reset(rtl8150_t * dev)
-> -{
-> -       u8 data =3D 0x10;
-> -       int i =3D HZ;
-> -
-> -       set_registers(dev, CR, 1, &data);
-> -       do {
-> -               get_registers(dev, CR, 1, &data);
-> -       } while ((data & 0x10) && --i);
-> -
-> -       return (i > 0) ? 1 : 0;
-> -}
-> -
-> -static int alloc_all_urbs(rtl8150_t * dev)
-> -{
-> -       dev->rx_urb =3D usb_alloc_urb(0, GFP_KERNEL);
-> -       if (!dev->rx_urb)
-> -               return 0;
-> -       dev->tx_urb =3D usb_alloc_urb(0, GFP_KERNEL);
-> -       if (!dev->tx_urb) {
-> -               usb_free_urb(dev->rx_urb);
-> -               return 0;
-> -       }
-> -       dev->intr_urb =3D usb_alloc_urb(0, GFP_KERNEL);
-> -       if (!dev->intr_urb) {
-> -               usb_free_urb(dev->rx_urb);
-> -               usb_free_urb(dev->tx_urb);
-> -               return 0;
-> -       }
-> -
-> -       return 1;
-> -}
-> -
-> -static void free_all_urbs(rtl8150_t * dev)
-> -{
-> -       usb_free_urb(dev->rx_urb);
-> -       usb_free_urb(dev->tx_urb);
-> -       usb_free_urb(dev->intr_urb);
-> -}
-> -
-> -static void unlink_all_urbs(rtl8150_t * dev)
-> -{
-> -       usb_kill_urb(dev->rx_urb);
-> -       usb_kill_urb(dev->tx_urb);
-> -       usb_kill_urb(dev->intr_urb);
-> -}
-> -
-> -static inline struct sk_buff *pull_skb(rtl8150_t *dev)
-> -{
-> -       struct sk_buff *skb;
-> -       int i;
-> -
-> -       for (i =3D 0; i < RX_SKB_POOL_SIZE; i++) {
-> -               if (dev->rx_skb_pool[i]) {
-> -                       skb =3D dev->rx_skb_pool[i];
-> -                       dev->rx_skb_pool[i] =3D NULL;
-> -                       return skb;
-> -               }
-> -       }
-> -       return NULL;
-> -}
-> -
-> -static void read_bulk_callback(struct urb *urb)
-> -{
-> -       rtl8150_t *dev;
-> -       unsigned pkt_len, res;
-> -       struct sk_buff *skb;
-> -       struct net_device *netdev;
-> -       int status =3D urb->status;
-> -       int result;
-> -       unsigned long flags;
-> -
-> -       dev =3D urb->context;
-> -       if (!dev)
-> -               return;
-> -       if (test_bit(RTL8150_UNPLUG, &dev->flags))
-> -               return;
-> -       netdev =3D dev->netdev;
-> -       if (!netif_device_present(netdev))
-> -               return;
-> -
-> -       switch (status) {
-> -       case 0:
-> -               break;
-> -       case -ENOENT:
-> -               return; /* the urb is in unlink state */
-> -       case -ETIME:
-> -               if (printk_ratelimit())
-> -                       dev_warn(&urb->dev->dev, "may be reset is needed?=
-..\n");
-> -               goto goon;
-> -       default:
-> -               if (printk_ratelimit())
-> -                       dev_warn(&urb->dev->dev, "Rx status %d\n", status=
-);
-> -               goto goon;
-> -       }
-> -
-> -       if (!dev->rx_skb)
-> -               goto resched;
-> -       /* protect against short packets (tell me why we got some?!?) */
-> -       if (urb->actual_length < 4)
-> -               goto goon;
-> -
-> -       res =3D urb->actual_length;
-> -       pkt_len =3D res - 4;
-> -
-> -       skb_put(dev->rx_skb, pkt_len);
-> -       dev->rx_skb->protocol =3D eth_type_trans(dev->rx_skb, netdev);
-> -       netif_rx(dev->rx_skb);
-> -       netdev->stats.rx_packets++;
-> -       netdev->stats.rx_bytes +=3D pkt_len;
-> -
-> -       spin_lock_irqsave(&dev->rx_pool_lock, flags);
-> -       skb =3D pull_skb(dev);
-> -       spin_unlock_irqrestore(&dev->rx_pool_lock, flags);
-> -       if (!skb)
-> -               goto resched;
-> -
-> -       dev->rx_skb =3D skb;
-> -goon:
-> -       usb_fill_bulk_urb(dev->rx_urb, dev->udev, usb_rcvbulkpipe(dev->ud=
-ev, 1),
-> -                     dev->rx_skb->data, RTL8150_MTU, read_bulk_callback,=
- dev);
-> -       result =3D usb_submit_urb(dev->rx_urb, GFP_ATOMIC);
-> -       if (result =3D=3D -ENODEV)
-> -               netif_device_detach(dev->netdev);
-> -       else if (result) {
-> -               set_bit(RX_URB_FAIL, &dev->flags);
-> -               goto resched;
-> -       } else {
-> -               clear_bit(RX_URB_FAIL, &dev->flags);
-> -       }
-> -
-> -       return;
-> -resched:
-> -       tasklet_schedule(&dev->tl);
-> -}
-> -
-> -static void write_bulk_callback(struct urb *urb)
-> -{
-> -       rtl8150_t *dev;
-> -       int status =3D urb->status;
-> -
-> -       dev =3D urb->context;
-> -       if (!dev)
-> -               return;
-> -       dev_kfree_skb_irq(dev->tx_skb);
-> -       if (!netif_device_present(dev->netdev))
-> -               return;
-> -       if (status)
-> -               dev_info(&urb->dev->dev, "%s: Tx status %d\n",
-> -                        dev->netdev->name, status);
-> -       netif_trans_update(dev->netdev);
-> -       netif_wake_queue(dev->netdev);
-> -}
-> -
-> -static void intr_callback(struct urb *urb)
-> -{
-> -       rtl8150_t *dev;
-> -       __u8 *d;
-> -       int status =3D urb->status;
-> -       int res;
-> -
-> -       dev =3D urb->context;
-> -       if (!dev)
-> -               return;
-> -       switch (status) {
-> -       case 0:                 /* success */
-> -               break;
-> -       case -ECONNRESET:       /* unlink */
-> -       case -ENOENT:
-> -       case -ESHUTDOWN:
-> -               return;
-> -       /* -EPIPE:  should clear the halt */
-> -       default:
-> -               dev_info(&urb->dev->dev, "%s: intr status %d\n",
-> -                        dev->netdev->name, status);
-> -               goto resubmit;
-> -       }
-> -
-> -       d =3D urb->transfer_buffer;
-> -       if (d[0] & TSR_ERRORS) {
-> -               dev->netdev->stats.tx_errors++;
-> -               if (d[INT_TSR] & (TSR_ECOL | TSR_JBR))
-> -                       dev->netdev->stats.tx_aborted_errors++;
-> -               if (d[INT_TSR] & TSR_LCOL)
-> -                       dev->netdev->stats.tx_window_errors++;
-> -               if (d[INT_TSR] & TSR_LOSS_CRS)
-> -                       dev->netdev->stats.tx_carrier_errors++;
-> -       }
-> -       /* Report link status changes to the network stack */
-> -       if ((d[INT_MSR] & MSR_LINK) =3D=3D 0) {
-> -               if (netif_carrier_ok(dev->netdev)) {
-> -                       netif_carrier_off(dev->netdev);
-> -                       netdev_dbg(dev->netdev, "%s: LINK LOST\n", __func=
-__);
-> -               }
-> -       } else {
-> -               if (!netif_carrier_ok(dev->netdev)) {
-> -                       netif_carrier_on(dev->netdev);
-> -                       netdev_dbg(dev->netdev, "%s: LINK CAME BACK\n", _=
-_func__);
-> -               }
-> -       }
-> -
-> -resubmit:
-> -       res =3D usb_submit_urb (urb, GFP_ATOMIC);
-> -       if (res =3D=3D -ENODEV)
-> -               netif_device_detach(dev->netdev);
-> -       else if (res)
-> -               dev_err(&dev->udev->dev,
-> -                       "can't resubmit intr, %s-%s/input0, status %d\n",
-> -                       dev->udev->bus->bus_name, dev->udev->devpath, res=
-);
-> -}
-> -
-> -static int rtl8150_suspend(struct usb_interface *intf, pm_message_t mess=
-age)
-> -{
-> -       rtl8150_t *dev =3D usb_get_intfdata(intf);
-> -
-> -       netif_device_detach(dev->netdev);
-> -
-> -       if (netif_running(dev->netdev)) {
-> -               usb_kill_urb(dev->rx_urb);
-> -               usb_kill_urb(dev->intr_urb);
-> -       }
-> -       return 0;
-> -}
-> -
-> -static int rtl8150_resume(struct usb_interface *intf)
-> -{
-> -       rtl8150_t *dev =3D usb_get_intfdata(intf);
-> -
-> -       netif_device_attach(dev->netdev);
-> -       if (netif_running(dev->netdev)) {
-> -               dev->rx_urb->status =3D 0;
-> -               dev->rx_urb->actual_length =3D 0;
-> -               read_bulk_callback(dev->rx_urb);
-> -
-> -               dev->intr_urb->status =3D 0;
-> -               dev->intr_urb->actual_length =3D 0;
-> -               intr_callback(dev->intr_urb);
-> -       }
-> -       return 0;
-> -}
-> -
-> -/*
-> -**
-> -**     network related part of the code
-> -**
-> -*/
-> -
-> -static void fill_skb_pool(rtl8150_t *dev)
-> -{
-> -       struct sk_buff *skb;
-> -       int i;
-> -
-> -       for (i =3D 0; i < RX_SKB_POOL_SIZE; i++) {
-> -               if (dev->rx_skb_pool[i])
-> -                       continue;
-> -               skb =3D dev_alloc_skb(RTL8150_MTU + 2);
-> -               if (!skb) {
-> -                       return;
-> -               }
-> -               skb_reserve(skb, 2);
-> -               dev->rx_skb_pool[i] =3D skb;
-> -       }
-> -}
-> -
-> -static void free_skb_pool(rtl8150_t *dev)
-> -{
-> -       int i;
-> -
-> -       for (i =3D 0; i < RX_SKB_POOL_SIZE; i++)
-> -               dev_kfree_skb(dev->rx_skb_pool[i]);
-> -}
-> -
-> -static void rx_fixup(struct tasklet_struct *t)
-> -{
-> -       struct rtl8150 *dev =3D from_tasklet(dev, t, tl);
-> -       struct sk_buff *skb;
-> -       int status;
-> -
-> -       spin_lock_irq(&dev->rx_pool_lock);
-> -       fill_skb_pool(dev);
-> -       spin_unlock_irq(&dev->rx_pool_lock);
-> -       if (test_bit(RX_URB_FAIL, &dev->flags))
-> -               if (dev->rx_skb)
-> -                       goto try_again;
-> -       spin_lock_irq(&dev->rx_pool_lock);
-> -       skb =3D pull_skb(dev);
-> -       spin_unlock_irq(&dev->rx_pool_lock);
-> -       if (skb =3D=3D NULL)
-> -               goto tlsched;
-> -       dev->rx_skb =3D skb;
-> -       usb_fill_bulk_urb(dev->rx_urb, dev->udev, usb_rcvbulkpipe(dev->ud=
-ev, 1),
-> -                     dev->rx_skb->data, RTL8150_MTU, read_bulk_callback,=
- dev);
-> -try_again:
-> -       status =3D usb_submit_urb(dev->rx_urb, GFP_ATOMIC);
-> -       if (status =3D=3D -ENODEV) {
-> -               netif_device_detach(dev->netdev);
-> -       } else if (status) {
-> -               set_bit(RX_URB_FAIL, &dev->flags);
-> -               goto tlsched;
-> -       } else {
-> -               clear_bit(RX_URB_FAIL, &dev->flags);
-> -       }
-> -
-> -       return;
-> -tlsched:
-> -       tasklet_schedule(&dev->tl);
-> -}
-> -
-> -static int enable_net_traffic(rtl8150_t * dev)
-> -{
-> -       u8 cr, tcr, rcr, msr;
-> -
-> -       if (!rtl8150_reset(dev)) {
-> -               dev_warn(&dev->udev->dev, "device reset failed\n");
-> -       }
-> -       /* RCR bit7=3D1 attach Rx info at the end;  =3D0 HW CRC (which is=
- broken) */
-> -       rcr =3D 0x9e;
-> -       tcr =3D 0xd8;
-> -       cr =3D 0x0c;
-> -       if (!(rcr & 0x80))
-> -               set_bit(RTL8150_HW_CRC, &dev->flags);
-> -       set_registers(dev, RCR, 1, &rcr);
-> -       set_registers(dev, TCR, 1, &tcr);
-> -       set_registers(dev, CR, 1, &cr);
-> -       get_registers(dev, MSR, 1, &msr);
-> -
-> -       return 0;
-> -}
-> -
-> -static void disable_net_traffic(rtl8150_t * dev)
-> -{
-> -       u8 cr;
-> -
-> -       get_registers(dev, CR, 1, &cr);
-> -       cr &=3D 0xf3;
-> -       set_registers(dev, CR, 1, &cr);
-> -}
-> -
-> -static void rtl8150_tx_timeout(struct net_device *netdev, unsigned int t=
-xqueue)
-> -{
-> -       rtl8150_t *dev =3D netdev_priv(netdev);
-> -       dev_warn(&netdev->dev, "Tx timeout.\n");
-> -       usb_unlink_urb(dev->tx_urb);
-> -       netdev->stats.tx_errors++;
-> -}
-> -
-> -static void rtl8150_set_multicast(struct net_device *netdev)
-> -{
-> -       rtl8150_t *dev =3D netdev_priv(netdev);
-> -       u16 rx_creg =3D 0x9e;
-> -
-> -       netif_stop_queue(netdev);
-> -       if (netdev->flags & IFF_PROMISC) {
-> -               rx_creg |=3D 0x0001;
-> -               dev_info(&netdev->dev, "%s: promiscuous mode\n", netdev->=
-name);
-> -       } else if (!netdev_mc_empty(netdev) ||
-> -                  (netdev->flags & IFF_ALLMULTI)) {
-> -               rx_creg &=3D 0xfffe;
-> -               rx_creg |=3D 0x0002;
-> -               dev_dbg(&netdev->dev, "%s: allmulti set\n", netdev->name)=
-;
-> -       } else {
-> -               /* ~RX_MULTICAST, ~RX_PROMISCUOUS */
-> -               rx_creg &=3D 0x00fc;
-> -       }
-> -       async_set_registers(dev, RCR, sizeof(rx_creg), rx_creg);
-> -       netif_wake_queue(netdev);
-> -}
-> -
-> -static netdev_tx_t rtl8150_start_xmit(struct sk_buff *skb,
-> -                                           struct net_device *netdev)
-> -{
-> -       rtl8150_t *dev =3D netdev_priv(netdev);
-> -       int count, res;
-> -
-> -       netif_stop_queue(netdev);
-> -       count =3D (skb->len < 60) ? 60 : skb->len;
-> -       count =3D (count & 0x3f) ? count : count + 1;
-> -       dev->tx_skb =3D skb;
-> -       usb_fill_bulk_urb(dev->tx_urb, dev->udev, usb_sndbulkpipe(dev->ud=
-ev, 2),
-> -                     skb->data, count, write_bulk_callback, dev);
-> -       if ((res =3D usb_submit_urb(dev->tx_urb, GFP_ATOMIC))) {
-> -               /* Can we get/handle EPIPE here? */
-> -               if (res =3D=3D -ENODEV)
-> -                       netif_device_detach(dev->netdev);
-> -               else {
-> -                       dev_warn(&netdev->dev, "failed tx_urb %d\n", res)=
-;
-> -                       netdev->stats.tx_errors++;
-> -                       netif_start_queue(netdev);
-> -               }
-> -       } else {
-> -               netdev->stats.tx_packets++;
-> -               netdev->stats.tx_bytes +=3D skb->len;
-> -               netif_trans_update(netdev);
-> -       }
-> -
-> -       return NETDEV_TX_OK;
-> -}
-> -
-> -
-> -static void set_carrier(struct net_device *netdev)
-> -{
-> -       rtl8150_t *dev =3D netdev_priv(netdev);
-> -       short tmp;
-> -
-> -       get_registers(dev, CSCR, 2, &tmp);
-> -       if (tmp & CSCR_LINK_STATUS)
-> -               netif_carrier_on(netdev);
-> -       else
-> -               netif_carrier_off(netdev);
-> -}
-> -
-> -static int rtl8150_open(struct net_device *netdev)
-> -{
-> -       rtl8150_t *dev =3D netdev_priv(netdev);
-> -       int res;
-> -
-> -       if (dev->rx_skb =3D=3D NULL)
-> -               dev->rx_skb =3D pull_skb(dev);
-> -       if (!dev->rx_skb)
-> -               return -ENOMEM;
-> -
-> -       set_registers(dev, IDR, 6, netdev->dev_addr);
-> -
-> -       usb_fill_bulk_urb(dev->rx_urb, dev->udev, usb_rcvbulkpipe(dev->ud=
-ev, 1),
-> -                     dev->rx_skb->data, RTL8150_MTU, read_bulk_callback,=
- dev);
-> -       if ((res =3D usb_submit_urb(dev->rx_urb, GFP_KERNEL))) {
-> -               if (res =3D=3D -ENODEV)
-> -                       netif_device_detach(dev->netdev);
-> -               dev_warn(&netdev->dev, "rx_urb submit failed: %d\n", res)=
-;
-> -               return res;
-> -       }
-> -       usb_fill_int_urb(dev->intr_urb, dev->udev, usb_rcvintpipe(dev->ud=
-ev, 3),
-> -                    dev->intr_buff, INTBUFSIZE, intr_callback,
-> -                    dev, dev->intr_interval);
-> -       if ((res =3D usb_submit_urb(dev->intr_urb, GFP_KERNEL))) {
-> -               if (res =3D=3D -ENODEV)
-> -                       netif_device_detach(dev->netdev);
-> -               dev_warn(&netdev->dev, "intr_urb submit failed: %d\n", re=
-s);
-> -               usb_kill_urb(dev->rx_urb);
-> -               return res;
-> -       }
-> -       enable_net_traffic(dev);
-> -       set_carrier(netdev);
-> -       netif_start_queue(netdev);
-> -
-> -       return res;
-> -}
-> -
-> -static int rtl8150_close(struct net_device *netdev)
-> -{
-> -       rtl8150_t *dev =3D netdev_priv(netdev);
-> -
-> -       netif_stop_queue(netdev);
-> -       if (!test_bit(RTL8150_UNPLUG, &dev->flags))
-> -               disable_net_traffic(dev);
-> -       unlink_all_urbs(dev);
-> -
-> -       return 0;
-> -}
-> -
-> -static void rtl8150_get_drvinfo(struct net_device *netdev, struct ethtoo=
-l_drvinfo *info)
-> -{
-> -       rtl8150_t *dev =3D netdev_priv(netdev);
-> -
-> -       strscpy(info->driver, driver_name, sizeof(info->driver));
-> -       strscpy(info->version, DRIVER_VERSION, sizeof(info->version));
-> -       usb_make_path(dev->udev, info->bus_info, sizeof(info->bus_info));
-> -}
-> -
-> -static int rtl8150_get_link_ksettings(struct net_device *netdev,
-> -                                     struct ethtool_link_ksettings *ecmd=
-)
-> -{
-> -       rtl8150_t *dev =3D netdev_priv(netdev);
-> -       short lpa =3D 0;
-> -       short bmcr =3D 0;
-> -       u32 supported;
-> -
-> -       supported =3D (SUPPORTED_10baseT_Half |
-> -                         SUPPORTED_10baseT_Full |
-> -                         SUPPORTED_100baseT_Half |
-> -                         SUPPORTED_100baseT_Full |
-> -                         SUPPORTED_Autoneg |
-> -                         SUPPORTED_TP | SUPPORTED_MII);
-> -       ecmd->base.port =3D PORT_TP;
-> -       ecmd->base.phy_address =3D dev->phy;
-> -       get_registers(dev, BMCR, 2, &bmcr);
-> -       get_registers(dev, ANLP, 2, &lpa);
-> -       if (bmcr & BMCR_ANENABLE) {
-> -               u32 speed =3D ((lpa & (LPA_100HALF | LPA_100FULL)) ?
-> -                            SPEED_100 : SPEED_10);
-> -               ecmd->base.speed =3D speed;
-> -               ecmd->base.autoneg =3D AUTONEG_ENABLE;
-> -               if (speed =3D=3D SPEED_100)
-> -                       ecmd->base.duplex =3D (lpa & LPA_100FULL) ?
-> -                           DUPLEX_FULL : DUPLEX_HALF;
-> -               else
-> -                       ecmd->base.duplex =3D (lpa & LPA_10FULL) ?
-> -                           DUPLEX_FULL : DUPLEX_HALF;
-> -       } else {
-> -               ecmd->base.autoneg =3D AUTONEG_DISABLE;
-> -               ecmd->base.speed =3D ((bmcr & BMCR_SPEED100) ?
-> -                                            SPEED_100 : SPEED_10);
-> -               ecmd->base.duplex =3D (bmcr & BMCR_FULLDPLX) ?
-> -                   DUPLEX_FULL : DUPLEX_HALF;
-> -       }
-> -
-> -       ethtool_convert_legacy_u32_to_link_mode(ecmd->link_modes.supporte=
-d,
-> -                                               supported);
-> -
-> -       return 0;
-> -}
-> -
-> -static const struct ethtool_ops ops =3D {
-> -       .get_drvinfo =3D rtl8150_get_drvinfo,
-> -       .get_link =3D ethtool_op_get_link,
-> -       .get_link_ksettings =3D rtl8150_get_link_ksettings,
-> -};
-> -
-> -static int rtl8150_siocdevprivate(struct net_device *netdev, struct ifre=
-q *rq,
-> -                                 void __user *udata, int cmd)
-> -{
-> -       rtl8150_t *dev =3D netdev_priv(netdev);
-> -       u16 *data =3D (u16 *) & rq->ifr_ifru;
-> -       int res =3D 0;
-> -
-> -       switch (cmd) {
-> -       case SIOCDEVPRIVATE:
-> -               data[0] =3D dev->phy;
-> -               fallthrough;
-> -       case SIOCDEVPRIVATE + 1:
-> -               read_mii_word(dev, dev->phy, (data[1] & 0x1f), &data[3]);
-> -               break;
-> -       case SIOCDEVPRIVATE + 2:
-> -               if (!capable(CAP_NET_ADMIN))
-> -                       return -EPERM;
-> -               write_mii_word(dev, dev->phy, (data[1] & 0x1f), data[2]);
-> -               break;
-> -       default:
-> -               res =3D -EOPNOTSUPP;
-> -       }
-> -
-> -       return res;
-> -}
-> -
-> -static const struct net_device_ops rtl8150_netdev_ops =3D {
-> -       .ndo_open               =3D rtl8150_open,
-> -       .ndo_stop               =3D rtl8150_close,
-> -       .ndo_siocdevprivate     =3D rtl8150_siocdevprivate,
-> -       .ndo_start_xmit         =3D rtl8150_start_xmit,
-> -       .ndo_tx_timeout         =3D rtl8150_tx_timeout,
-> -       .ndo_set_rx_mode        =3D rtl8150_set_multicast,
-> -       .ndo_set_mac_address    =3D rtl8150_set_mac_address,
-> -
-> -       .ndo_validate_addr      =3D eth_validate_addr,
-> -};
-> -
-> -static int rtl8150_probe(struct usb_interface *intf,
-> -                        const struct usb_device_id *id)
-> -{
-> -       struct usb_device *udev =3D interface_to_usbdev(intf);
-> -       rtl8150_t *dev;
-> -       struct net_device *netdev;
-> -       static const u8 bulk_ep_addr[] =3D {
-> -               RTL8150_USB_EP_BULK_IN | USB_DIR_IN,
-> -               RTL8150_USB_EP_BULK_OUT | USB_DIR_OUT,
-> -               0};
-> -       static const u8 int_ep_addr[] =3D {
-> -               RTL8150_USB_EP_INT_IN | USB_DIR_IN,
-> -               0};
-> -
-> -       netdev =3D alloc_etherdev(sizeof(rtl8150_t));
-> -       if (!netdev)
-> -               return -ENOMEM;
-> -
-> -       dev =3D netdev_priv(netdev);
-> -
-> -       dev->intr_buff =3D kmalloc(INTBUFSIZE, GFP_KERNEL);
-> -       if (!dev->intr_buff) {
-> -               free_netdev(netdev);
-> -               return -ENOMEM;
-> -       }
-> -
-> -       /* Verify that all required endpoints are present */
-> -       if (!usb_check_bulk_endpoints(intf, bulk_ep_addr) ||
-> -           !usb_check_int_endpoints(intf, int_ep_addr)) {
-> -               dev_err(&intf->dev, "couldn't find required endpoints\n")=
-;
-> -               goto out;
-> -       }
-> -
-> -       tasklet_setup(&dev->tl, rx_fixup);
-> -       spin_lock_init(&dev->rx_pool_lock);
-> -
-> -       dev->udev =3D udev;
-> -       dev->netdev =3D netdev;
-> -       netdev->netdev_ops =3D &rtl8150_netdev_ops;
-> -       netdev->watchdog_timeo =3D RTL8150_TX_TIMEOUT;
-> -       netdev->ethtool_ops =3D &ops;
-> -       dev->intr_interval =3D 100;       /* 100ms */
-> -
-> -       if (!alloc_all_urbs(dev)) {
-> -               dev_err(&intf->dev, "out of memory\n");
-> -               goto out;
-> -       }
-> -       if (!rtl8150_reset(dev)) {
-> -               dev_err(&intf->dev, "couldn't reset the device\n");
-> -               goto out1;
-> -       }
-> -       fill_skb_pool(dev);
-> -       set_ethernet_addr(dev);
-> -
-> -       usb_set_intfdata(intf, dev);
-> -       SET_NETDEV_DEV(netdev, &intf->dev);
-> -       if (register_netdev(netdev) !=3D 0) {
-> -               dev_err(&intf->dev, "couldn't register the device\n");
-> -               goto out2;
-> -       }
-> -
-> -       dev_info(&intf->dev, "%s: rtl8150 is detected\n", netdev->name);
-> -
-> -       return 0;
-> -
-> -out2:
-> -       usb_set_intfdata(intf, NULL);
-> -       free_skb_pool(dev);
-> -out1:
-> -       free_all_urbs(dev);
-> -out:
-> -       kfree(dev->intr_buff);
-> -       free_netdev(netdev);
-> -       return -EIO;
-> -}
-> -
-> -static void rtl8150_disconnect(struct usb_interface *intf)
-> -{
-> -       rtl8150_t *dev =3D usb_get_intfdata(intf);
-> -
-> -       usb_set_intfdata(intf, NULL);
-> -       if (dev) {
-> -               set_bit(RTL8150_UNPLUG, &dev->flags);
-> -               tasklet_kill(&dev->tl);
-> -               unregister_netdev(dev->netdev);
-> -               unlink_all_urbs(dev);
-> -               free_all_urbs(dev);
-> -               free_skb_pool(dev);
-> -               dev_kfree_skb(dev->rx_skb);
-> -               kfree(dev->intr_buff);
-> -               free_netdev(dev->netdev);
-> -       }
-> -}
-> -
-> -static struct usb_driver rtl8150_driver =3D {
-> -       .name           =3D driver_name,
-> -       .probe          =3D rtl8150_probe,
-> -       .disconnect     =3D rtl8150_disconnect,
-> -       .id_table       =3D rtl8150_table,
-> -       .suspend        =3D rtl8150_suspend,
-> -       .resume         =3D rtl8150_resume,
-> -       .disable_hub_initiated_lpm =3D 1,
-> -};
-> -
-> -module_usb_driver(rtl8150_driver);
-> -
-> -MODULE_AUTHOR(DRIVER_AUTHOR);
-> -MODULE_DESCRIPTION(DRIVER_DESC);
-> -MODULE_LICENSE("GPL");
-> --
-> 2.47.3
->
->
