@@ -1,101 +1,99 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FC42DCF61
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Sep 2025 10:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED1E2FE04A;
+	Wed, 24 Sep 2025 11:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758709526; cv=none; b=Cks9SQdDwtaCKqtN59PXtHebV6HPXgGC7Lb4faui25s5UTuz9XOJoYUlJm7DsK1Sk4qopLSZOFVBWTcmQZtQq4nfgNP13Twtg9ElY8q3rF/fu2wQGSO+uVOwP7BhXnYz8VAdHRJ55ASXOrZ1PCgPfRPNtYawN0v5paskuMox0lQ=
+	t=1758714290; cv=none; b=CrQhX8QUW9qIfXpJkVuJwex7XBlf39IvxiVS6eedSi59yC4TE9cPScMgXKplvzuwa63nG6W1bsXxR4+z5hElFWIHLAMUiOstDE51KAxmMilfIacHZyl1PHXp78BKFPIN/pkaJ1hfsxOXsFhJv8+zyoFbJoyrmfCOG1nTJqagBzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758709526; c=relaxed/simple;
-	bh=gQ8E927A4tX2ZNYrTzlCctAB5m47ibJs+IG1u3p+hbo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B7Dl0zH1/TDreinRWT0los+aEyS8Dz1th4PdO2y4EJSRlMktwiFs81Hl89deOBLzNo4cpGHbZW08H8JAY68xst8ClMrCz3/mlArL4hW5oym7I+jWp5KIuembHYW9PnB6iEXVuceZrwoHAIkcQWHYI2G4RwilWH5OZJidmza818w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eaQMLE0a; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758714290; c=relaxed/simple;
+	bh=2r6nKLaH2V7Wgf0Cze0yBmmog7bds/FSzcDmhG9RCdw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fkVZD2R9nzyobQCtfND7g44oSpYzAiNWrxPE05mAwciyvVBFYvUgqiQTOdIif/zrjeoU3H+4cT+YadglstNFK+S1k2YuV+v4FoHyp5gl7r36kRiJ+eJ4Q+Csuckh5hb7khHfK50EWhsYgR8Ek6WJsRCftf4PdCTndBuj+Mm/xWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U3WjJ9bX; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eaQMLE0a"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b29e8a3e453so536087266b.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Sep 2025 03:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758709519; x=1759314319; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gQ8E927A4tX2ZNYrTzlCctAB5m47ibJs+IG1u3p+hbo=;
-        b=eaQMLE0aHDCr1NJgaDpEIfgpgEXURsZB29iGeMsguMO+KwBdLVlVHAHdJqIiOdj4R7
-         A9WuaCiONYxchbeYxRFVi1a5USEqKSuzXPkzrqTNSj0VjoZG/0Iaf1t4HYnFE1qEBluE
-         FL80iIqayNqcgW3yOcRzdUhV4jSq4yEGaNBrxl1+WdpZmO30FSG4P1BFbxiWvC+2zLMk
-         InmlSOQJYzmWYgLIUflhiaKzfGxyBPOhtxk7H0JqEzJ3l/FhlzFHbNcKFURyQzaKIR6e
-         YruDgTSlIiQAVsjh4nspN43WyErr+sIs06ONjIVB9HZhnTFjx7SfNjBufGeNSaR96mK2
-         jSTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758709519; x=1759314319;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gQ8E927A4tX2ZNYrTzlCctAB5m47ibJs+IG1u3p+hbo=;
-        b=g3YEpTGMYIv6xZJLtLlErr4P7zWy2zGGmGCguPiXmniiFPu6Og8QRTzVakfR2Tz9n6
-         Qm1NnM6q6U9+4TZQiF8TG4XNdHvHKZpb23Ln379dMXNtnZnAS5Gn1CCazCeFpJHT1PTq
-         K36Lt9KIRnqs8airiaGBTCljIRyJ0IXP8O9/1rClfULXJbnc60iZXkPxRmhwGZ1SI+Nh
-         j6yLDZGxA/5QQyGPGbo7KPpy81+SDwGRYFtJd9qfCGI26KzjHbItsV6B0k1w3/9e/rTe
-         xESRtm38VOUkWaOrymiY48W1TRoRa6gvfnbF69x0ldKC2GDwlw91Xgdg0zA8C2G5U83F
-         BGzg==
-X-Forwarded-Encrypted: i=1; AJvYcCUqlZg+qmkvgSXKp4cYBtGfWw4aeJiRjzZ84F69lXy503I+lWM0p8+pa+IkF61Xjwd14Ff30iJ0qYJalRfIXEnkb9DJQw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzO+wy+XNOmsA8pdhTeFjAQG4jdHq/t6hdo/oif4jhH53ZNZ4Vd
-	o7NCNDrfRSlG0IC5TCMTLUGYhJToQHZscf1ElmAT6LEl4uY4401BAfuFU8oBvdcZm8rCdQ+bLgt
-	rcmKvOZL0oytsu2vJCPpxPcsU3+vwq4o=
-X-Gm-Gg: ASbGncuK1EeIBqLmkMc4lmrRzSCiPHU6cCQiGMChk5YUvEHopS3knpkVbb1L5WgqDv7
-	35dbB5wwJDF0LHLr+W7Wwqe31OUXmqTX26ehQ7UEcX68oCr0HX2xXtYBFh9Kcmm1hTD3l7BNpSe
-	HoYKbc5O0L+8VBhAoHrAIzE+8slb0vQXQJP17Om5Mrm3fCOF5IUXIsYdimIzInonSn1+o3szkCf
-	Sq3VuaDv1vIt4CVXIctGrNfnMHnSjjG7QVgWUbpPPcSVt4YZ84BOA==
-X-Google-Smtp-Source: AGHT+IE12lCZ7Wl/ftwQJZ/gaWQP8iDkebbGgJsyR1xTOQTAeL+WLTgk8+fgJ+TjcKwHn6/rpkz17KvFRLGM6maxk9E=
-X-Received: by 2002:a17:907:3f95:b0:b07:b782:51cc with SMTP id
- a640c23a62f3a-b302cebc948mr516277766b.64.1758709519082; Wed, 24 Sep 2025
- 03:25:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U3WjJ9bX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758714285; x=1790250285;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2r6nKLaH2V7Wgf0Cze0yBmmog7bds/FSzcDmhG9RCdw=;
+  b=U3WjJ9bXg59f6THR8LpMwm+LBz2q4w0uQpSHhOwwztHCiH3liyIUKvUY
+   bUxwfbN0bWfG9ZdRFkBAsZ61YoVuz2aFPH6DQxaA3TgzjGOtAfXe1W1ug
+   29gCzVHXAS6owijIysbdOAhndlNoRLHQaIfdOQkpB+mYKn9QwMsfOgeSy
+   +uqnAG5ux5tsykBMcrnG4Q5Cisfvdv6mr0Rr4SxJnvfXTQvVJck4oIP6J
+   pbfiODNHHHqUOFJ9sUzCG2CH9eQIoI4tZpU6+/tojX5zVw1j8cOctd9Vi
+   fAz1UvwDR5dYYbJecT71Ns0vUBuzfLA+6/goKmdQ9aPBHDwsbRYI0+W41
+   Q==;
+X-CSE-ConnectionGUID: /jgerxOyRpup6Va1bA8LRQ==
+X-CSE-MsgGUID: nOi/6gcySsu2o6VvQDtbXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="71685545"
+X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; 
+   d="scan'208";a="71685545"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 04:44:44 -0700
+X-CSE-ConnectionGUID: P4kIzxqYRh2I3ozjgjB3qQ==
+X-CSE-MsgGUID: JucmBIuZRCCECjDrpi+MtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; 
+   d="scan'208";a="207944954"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 24 Sep 2025 04:44:41 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v1NvK-00046X-1Q;
+	Wed, 24 Sep 2025 11:44:38 +0000
+Date: Wed, 24 Sep 2025 19:44:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: I Viswanath <viswanathiyyappan@gmail.com>, petkan@nucleusys.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+	I Viswanath <viswanathiyyappan@gmail.com>
+Subject: Re: [PATCH net] net: usb: remove rtl8150 driver
+Message-ID: <202509241928.kYioHrov-lkp@intel.com>
+References: <20250923022205.9075-1-viswanathiyyappan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <83171a57-cb40-4c97-b736-0e62930b9e5c@lunn.ch> <20250920181852.18164-1-viswanathiyyappan@gmail.com>
- <20250924094741.65e12028.michal.pecio@gmail.com> <CAPrAcgMrowvfGeOqdWAo4uCZBdUztFY-WEmpwLyp-QthgYYx7A@mail.gmail.com>
- <20250924113653.5dad5e50.michal.pecio@gmail.com>
-In-Reply-To: <20250924113653.5dad5e50.michal.pecio@gmail.com>
-From: viswanath <viswanathiyyappan@gmail.com>
-Date: Wed, 24 Sep 2025 15:55:07 +0530
-X-Gm-Features: AS18NWAdKXxMmFRzk01TMU60U3Xy0PNKUuld4uhrZt1ayU1Hp7kGVqqNqefl328
-Message-ID: <CAPrAcgMhphs1U88_POpxAeAp0KzNCH6-xuvNiSBa5dn7ceSU4w@mail.gmail.com>
-Subject: Re: [PATCH net v2] net: usb: Remove disruptive netif_wake_queue in rtl8150_set_multicast
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: andrew@lunn.ch, andrew+netdev@lunn.ch, davem@davemloft.net, 
-	david.hunter.linux@gmail.com, edumazet@google.com, kuba@kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
-	petkan@nucleusys.com, skhan@linuxfoundation.org, 
-	syzbot+78cae3f37c62ad092caa@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250923022205.9075-1-viswanathiyyappan@gmail.com>
 
-On Wed, 24 Sept 2025 at 15:06, Michal Pecio <michal.pecio@gmail.com> wrote:
->
-> I think yes, usually in USB-speak "completion" is when the URB is
-> finished for any reason, including error or unlink/cancellation.
-> "Free" could suggest usb_free_urb().
->
-> But I see your point. Maybe "finish execution" is less ambiguous?
->
+Hi Viswanath,
 
-I will use completion if it's the standard terminology
+kernel test robot noticed the following build errors:
 
-> I think it's an irrelevant detail which CPU executed which function.
-> It could all happen sequentially on a single core and it's still the
-> same bug.
->
-> In fact, I just reproduced it with all CPUs offlined except one.
+[auto build test ERROR on net/main]
 
-My bad, I see it now. I keep forgetting the actual urb execution
-is asynchronous
+url:    https://github.com/intel-lab-lkp/linux/commits/I-Viswanath/net-usb-remove-rtl8150-driver/20250923-102726
+base:   net/main
+patch link:    https://lore.kernel.org/r/20250923022205.9075-1-viswanathiyyappan%40gmail.com
+patch subject: [PATCH net] net: usb: remove rtl8150 driver
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250924/202509241928.kYioHrov-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509241928.kYioHrov-lkp@intel.com/reproduce)
 
-Thanks
-Viswanath
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509241928.kYioHrov-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> make[6]: *** No rule to make target 'drivers/net/usb/rtl8150.o', needed by 'drivers/net/usb/built-in.a'.
+   make[6]: Target 'drivers/net/usb/' not remade because of errors.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
