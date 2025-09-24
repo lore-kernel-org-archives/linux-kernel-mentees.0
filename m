@@ -1,147 +1,225 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8274478F51
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Sep 2025 06:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EB3280339
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Sep 2025 07:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758694071; cv=none; b=OPFUFGA11upARjPHa7GlQ8GyHjUECUR3PXH2OHtato9dqygN+6WsEtVv5d4so2lhtvsAzFrFnhdRhqgUT+MPjK0t+v2NOui/iCz4WNoxMYPSciJhkKD964bRRx8hW1yBJV8hcX2suBpnuK6Nip0FQJ8eF8gWtEMunY2cV2E9a6w=
+	t=1758700071; cv=none; b=XLRDFcaCPLxiWu343OYsMvWJI5j5s5OF+46Fib3iB3PIxj7D82HscYwTvNkAMJJdtXoThmv7MNg8O/54jxqQejp71VvBMlYe1WH0AWMUIEgw8/wdiK8vPbA3I8ujsAFUJ0K+aajSvfRRzKNt6l/gPD3o/8X62vua8espuRGkvps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758694071; c=relaxed/simple;
-	bh=I06BXhpPXpJEEUQCQ5M1faoAt4YtubozaPfMBEUCyL4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ru7kKL0yeT8fbwotgClqu5o2tkiRXbygN7hv8YwlNMHjblhr834V8RUqxepGTstxfdzjdPP1hPSnE2JGwcyL020Ud8Z64V4Wxz/SKTzavmXJFRNZqzW2YcL167f+Li1iK9gttD4Vua00jHoPEsRQ6OOem45W4a56HlRGriz2jYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PtAWhJNY; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1758700071; c=relaxed/simple;
+	bh=Z+vCoNdBMvuFeQgv/9edk+YvTT+7IoVHX3zaZJkyQk8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BlXFSBsRMntz5qubaZnvPAnuZ9sZ8ePqaKge2WZbz7TB9V9BIFZl2d2pWCu2kVCqsF6ZI8VoObS4JlINZVfCK5DjoapxpunxJw0ZBOCgsGpDS8OKYOJdpXoJf4Qs6mMenNqM+6ZCIk5+MenbUj0z1Dv/Ks0jnl5AhzS/dWTN4Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SAXujRmz; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PtAWhJNY"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0EE9B6078F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Sep 2025 06:07:50 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id MosU5CnU9lEI for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 Sep 2025 06:07:49 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::d2c; helo=mail-io1-xd2c.google.com; envelope-from=rk0006818@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6380A60784
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6380A60784
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=PtAWhJNY
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6380A60784
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Sep 2025 06:07:49 +0000 (UTC)
-Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-889b846c314so157636439f.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Sep 2025 23:07:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SAXujRmz"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-36ba647ac9fso21894651fa.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Sep 2025 00:47:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758694068; x=1759298868; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1758700067; x=1759304867; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dasyWeqvVNrFPy7VboPpD0Yyy39SDT10f/tzxZcxFug=;
-        b=PtAWhJNYgnxuA1OUfWFyvY7NO+095LuggGZ+sBbSqbNtoWAgUmcxOJ1sSqLDSU6iN1
-         HEr3Em/+rcA+/gtuX1HeOij+8CqLfg/tv7Tdy/oR87SWn82S43jSFzasic+VcbRNHoep
-         S6fVYXEZtDTpBO7TK9euUMVeKefufNC0D0gDju2W2MdcngAAeEQAA3yU73opnKPs9NhA
-         8Tfj84okETpXBmyXg9w7eam1Ii0j31IbDGJuLAZsxdakSefLLolhGIFXEZz7jldAzyuB
-         lI+p/3V+6y39KyUM1uAXy1NuObUoBAEUrBF5wKNVlcggG4OQ+4JxKMwyq8Q3T+/SHcMM
-         dCEw==
+        bh=CCAbY5J9TVOpKMtUVutIq51AeK08EZi5hcnzWE/qk4k=;
+        b=SAXujRmz7pCI6XlPEAz2sil5Wgb8Uhk+DZ7c75gTr94AXmLbUzr5xsMhxC0dDSF2gz
+         srdBz6bzLnIateGYJH8JF2IlApF9x0XJKn3u4FguDjLfNu9AiDGgPdau+dr1vf4ClyuN
+         +0ddIlyPNsnvseevcYKJca+TAu2BEthZvZo8SMTUTYeg5AAy7s3ku5WwZcNamYVZSuuZ
+         4K3KhTUJA7Y6uU016O8UlY/nEg0Y2MfZYXlMdb8PGzCT4U3cl0vRPECIXqJvooIwympr
+         1pVNh2X2fjZKkvP1+LynYZ30w5WeIWdQGacmZHprBE5Q9xYBxpFLoVVV+WJZgp6znpJI
+         usRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758694068; x=1759298868;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1758700067; x=1759304867;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dasyWeqvVNrFPy7VboPpD0Yyy39SDT10f/tzxZcxFug=;
-        b=XFg4nwgyMFE9xnoVFuKd+yX/tuN6twb0VNTCfwmbgj1Vi1gpc11nuCsAjWo+UDLenI
-         66Cw9u9JTJ3zPT6dJWoF2Tz2BimMxT7Z5skwUHLweTQTBSGNXdO1VcAUMrJT8i7vXKmg
-         vJYxMgymAbWkap4NkIc/+eul+KwAXnJ2MxdEZ5SUOc2bo/mNzMY201W43KVlr/hb9jt4
-         cPF12vGnXI769zBL99g3qOZNwKXZHD0pTfD/FHO0HDVofd2EWgoDzgB8yOfrydLQdfsM
-         AEfS6MqjkfuyfgUtkce17xHQGYcs6FbtGxWgaexO/CKzEO1X6R2zNDf3wZ510vtr9/tk
-         CQYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+EgaHiJ6Dc5a9HJGSOTgwgvSfh0245odiMCHK/uq1HPCt3exBl6Ibc21PxmJQod7HFJ/A7QkKLp9iAlMSUCr67zdrcQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Ywkl5OkGakuqEzNtzQ769wHypeD8nPFNML28/qUtetfdHo7bMP+
-	yIJBGEJGvVqsZOqKwKa6FpoHtmFUyd01Wm64KFPkUtXReQagP0PL1z0fDgHQlaCP2xM/+yiEocT
-	FMU9SCi/9yybz8Z1eBcwtjqo+WwyymCQ=
-X-Gm-Gg: ASbGncsRcQK63P9iXNvzt2yGFDoXF2Waf1D+27dDgFu8flaTxbFr7wparK5hhRI3rYO
-	bFObE5OfeK3iVa5SK/ceg6E1I/8K0jv1dnbTKwhNtcM2Max7rMm4CbtxwfN5kn8sP/ojxPOpMFk
-	tDVrUHvg5SqyCl6rvU6LjDUaNisg+odJq21PWH0pq/x2RcGsu9BNBXd4iaitUpjPlkr7nYhxzAB
-	OusGw==
-X-Google-Smtp-Source: AGHT+IF7Azm3CSbUgIQ4C9xp80mGayFs6CTpry8PZJSTktWx2LuSb+ASvg7efRnLQb4fysk7hEHLlIkaBjL07vspxo0=
-X-Received: by 2002:a05:6e02:1d8a:b0:424:82a6:3105 with SMTP id
- e9e14a558f8ab-42581e7a637mr77513085ab.18.1758694068284; Tue, 23 Sep 2025
- 23:07:48 -0700 (PDT)
+        bh=CCAbY5J9TVOpKMtUVutIq51AeK08EZi5hcnzWE/qk4k=;
+        b=QNoMFDekf4Wr4XtleZwKKlNMC3Bvu+ot1Of4ETna7m+3iDo58zUNitni5v23QNmZzi
+         hKYXOdcg8owY9wvaw/KNNY/y+I/PagmA7On9bxJwEF6rW7/TT3cTVk+/E6Yl5o7WOM8+
+         K9tPJp5e+eXo5OJehmwhLgiU7OoY5O2HS1Vlb01ncxVvMDKuxdAF5bU2JCaOoIa7j5Yn
+         kHSMzAljEDlTWMPnh6nCXNfI1WIr0wayNJDZ6s72GDrMrUt2/6HUMJzQg2d8kUnOGOzo
+         Uc8WOLv1XVX7aZ3cCyn8IcAukH0fTG9sOY+WDZZU9ZLI6YG6zjcROj9ZCAe4GJx8ZDat
+         LKwA==
+X-Forwarded-Encrypted: i=1; AJvYcCVy5bSYGKhhTNsatCeJrPdVOA875YPa8h1dlGrxmed31X4k9KYl+05pvYUVWl51KKbUZ34g10AqKOVBnO4HeZWIncwEnw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YznOH7nmMV0B96kJ0tI0Y/4R0tEa9EtqWbilkpG1Tl3eHbcCzb0
+	OyRU9vxTc2dNft1A8dqHJ0lVlw2uv/GS/GgIJdaTqvXyHJ1iaTvFFbMP
+X-Gm-Gg: ASbGncuSlZA8dKdYYOIOgK3rp2KYqAdXT8kX/Kou6pTP+4sr0kPe09yj1g634gBohX5
+	v6XJXe/YDZd2EsoFZQ9HyqEM12bG4rTpdX5PSM4aJvJ8CK8uCa5yAHHQl+enr69uPwFwgT+E2z5
+	WeInN+cpHoiLJhPV/TLkRrpcDhuR0tHd/bpPKZvBP5uJIMZoOX/w+ouu//EmQDv0YAqliq3pBfF
+	lL4R1RsCzMPEE1KherAnirob/a/4C2rJfJlpxTyOBC6BT3vT1wM3VlqOf9iB9fd0G1//AaboUqG
+	0F39/zZdLg40U4FgrTwkfbH4YZ0OhyouEWvM/1GFnUpnXUiYdACj3C9rCpjtmxF2ePeYrTyIjVA
+	TkgyKWEmqitkdWCf9EuazoTyc8W/4ZYyr/bk=
+X-Google-Smtp-Source: AGHT+IEbgdfhaSVwYw/hXIWU4C46EY3Pxhpiy1aKwy2RIdIiClgIYWPgTKxgS7oHeI7zJZkGYI3r6Q==
+X-Received: by 2002:a2e:be27:0:b0:36d:3113:63ac with SMTP id 38308e7fff4ca-36d311365c5mr18771751fa.7.1758700066521;
+        Wed, 24 Sep 2025 00:47:46 -0700 (PDT)
+Received: from foxbook (bfe191.neoplus.adsl.tpnet.pl. [83.28.42.191])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-36a13c0d94dsm24008991fa.49.2025.09.24.00.47.45
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 24 Sep 2025 00:47:46 -0700 (PDT)
+Date: Wed, 24 Sep 2025 09:47:41 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: I Viswanath <viswanathiyyappan@gmail.com>
+Cc: andrew@lunn.ch, andrew+netdev@lunn.ch, davem@davemloft.net,
+ david.hunter.linux@gmail.com, edumazet@google.com, kuba@kernel.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
+ petkan@nucleusys.com, skhan@linuxfoundation.org,
+ syzbot+78cae3f37c62ad092caa@syzkaller.appspotmail.com
+Subject: Re: [PATCH net v2] net: usb: Remove disruptive netif_wake_queue in
+ rtl8150_set_multicast
+Message-ID: <20250924094741.65e12028.michal.pecio@gmail.com>
+In-Reply-To: <20250920181852.18164-1-viswanathiyyappan@gmail.com>
+References: <83171a57-cb40-4c97-b736-0e62930b9e5c@lunn.ch>
+	<20250920181852.18164-1-viswanathiyyappan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250923110025.1358920-1-rk0006818@gmail.com> <712a27fc6c4060e67b3da58cb8564387b40b5971@intel.com>
-In-Reply-To: <712a27fc6c4060e67b3da58cb8564387b40b5971@intel.com>
-From: Rahul Kumar <rk0006818@gmail.com>
-Date: Wed, 24 Sep 2025 11:37:36 +0530
-X-Gm-Features: AS18NWD5IFOEWGCNPxL9ZnD6mR-sqY_bheO6aEH2LgX-tdaroQ-7z_CDe3m7m7E
-Message-ID: <CAKY2RybJ+kyj=5E1pnu2RUEW3T7rXLrqyedR5LkfX=bUOv=_8A@mail.gmail.com>
-Subject: Re: [PATCH] drm/tiny: Use kmalloc_array() instead of kmalloc()
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: lanzano.alex@gmail.com, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 23, 2025 at 7:21=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
-l.com> wrote:
->
-> On Tue, 23 Sep 2025, Rahul Kumar <rk0006818@gmail.com> wrote:
-> > Documentation/process/deprecated.rst recommends against the use of
-> > kmalloc with dynamic size calculations due to the risk of overflow and
-> > smaller allocation being made than the caller was expecting.
-> >
-> > Replace kmalloc() with kmalloc_array() in drivers/gpu/drm/tiny/repaper.=
-c
-> > to make the intended allocation size clearer and avoid potential overfl=
-ow
-> > issues.
-> >
-> > Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
-> > ---
-> >  drivers/gpu/drm/tiny/repaper.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repa=
-per.c
-> > index 5c3b51eb0a97..4d439a2d973a 100644
-> > --- a/drivers/gpu/drm/tiny/repaper.c
-> > +++ b/drivers/gpu/drm/tiny/repaper.c
-> > @@ -535,7 +535,7 @@ static int repaper_fb_dirty(struct drm_framebuffer =
-*fb,
-> >       DRM_DEBUG("Flushing [FB:%d] st=3D%ums\n", fb->base.id,
-> >                 epd->factored_stage_time);
-> >
-> > -     buf =3D kmalloc(fb->width * fb->height / 8, GFP_KERNEL);
-> > +     buf =3D kmalloc_array(fb->width, fb->height / 8, GFP_KERNEL);
->
-> That's just not the same thing, though.
->
+On Sat, 20 Sep 2025 23:48:52 +0530, I Viswanath wrote:
+> syzbot reported WARNING in rtl8150_start_xmit/usb_submit_urb.
+> This is the sequence of events that leads to the Warning:
+> 
+>     CPU0 (in rtl8150_start_xmit)   CPU1 (in rtl8150_start_xmit)    CPU2 (in rtl8150_set_multicast)
+>     netif_stop_queue();
+>                                                                     netif_stop_queue();
+>     usb_submit_urb();
+>                                                                     netif_wake_queue();  <-- Wakes up TX queue before it's ready
+>                                     netif_stop_queue();
+>                                     usb_submit_urb();                                    <-- Warning
+> 	freeing urb
 
-Thanks Jani, you are right. My change made the allocation size
-different from the original (width * height / 8). The current code is
-fine, so I will not change it.
+It's not freeing which matters but URB completion in USB subsystem.
+I think this description is needlessly complex, the essence is:
 
-Thanks,
-Rahul
+rtl8150_start_xmit() {
+	netif_stop_queue();
+	usb_submit_urb(dev->tx_urb);
+}
+
+rtl8150_set_multicast() {
+	netif_stop_queue();
+	netif_wake_queue();  <-- wakes up TX queue before URB is done
+}
+
+rtl8150_start_xmit() {
+	netif_stop_queue();
+	usb_submit_urb(dev->tx_urb);	<-- double submission
+}
 
 
-> BR,
-> Jani.
->
-> >       if (!buf) {
-> >               ret =3D -ENOMEM;
-> >               goto out_exit;
->
-> --
-> Jani Nikula, Intel
+> rtl8150_set_multicast is rtl8150's implementation of ndo_set_rx_mode and
+> should not be calling netif_stop_queue and notif_start_queue as these handle 
+> TX queue synchronization.
+> 
+> The net core function dev_set_rx_mode handles the synchronization
+> for rtl8150_set_multicast making it safe to remove these locks.
+> 
+> Reported-and-tested-by: syzbot+78cae3f37c62ad092caa@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=78cae3f37c62ad092caa
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
+
+Tested-by: Michal Pecio <michal.pecio@gmail.com>
+
+This is instantly triggered on HW simply by running:
+
+ncat remote-host port < /dev/zero &
+ifconfig ethX allmulti
+
+and results in:
+
+[ 1253.338536] URB ffff88810ad01240 submitted while active
+[ 1253.338616] WARNING: CPU: 2 PID: 2785 at drivers/usb/core/urb.c:379 usb_submit_urb+0x5f1/0x640 [usbcore]
+[ 1253.338686] Modules linked in: usbhid uvcvideo rtl8150 xhci_pci xhci_hcd usbcore ext2 uvc videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videodev videobuf2_common snd_pcsp usb_common serio_raw ppdev dm_mod nfnetlink [last unloaded: usbcore]
+[ 1253.338724] CPU: 2 UID: 0 PID: 2785 Comm: ifconfig Tainted: G        W           6.17.0-rc4 #1 PREEMPT 
+[ 1253.338734] Tainted: [W]=WARN
+[ 1253.338737] Hardware name: HP HP EliteDesk 705 G3 MT/8265, BIOS P06 Ver. 02.45 07/16/2024
+[ 1253.338740] RIP: 0010:usb_submit_urb+0x5f1/0x640 [usbcore]
+[ 1253.338791] Code: 56 23 a0 e8 b1 17 3f e1 eb da b8 fe ff ff ff e9 fc fd ff ff 48 89 fe 48 c7 c7 88 20 25 a0 c6 05 c0 30 e1 ff 01 e8 cf 3a f0 e0 <0f> 0b eb a0 b8 f8 ff ff ff e9 d8 fd ff ff b8 ea ff ff ff c3 66 2e
+[ 1253.338798] RSP: 0018:ffffc90000154e28 EFLAGS: 00010282
+[ 1253.338804] RAX: 000000000000002b RBX: ffff88810ad01240 RCX: 0000000000000027
+[ 1253.338808] RDX: ffff888226f17e08 RSI: 0000000000000001 RDI: ffff888226f17e00
+[ 1253.338812] RBP: ffff88810be0ff00 R08: 00000000fff7ffff R09: ffffffff85a4d628
+[ 1253.338816] R10: ffffffff82e4d680 R11: 0000000000000002 R12: ffff888125e19e00
+[ 1253.338820] R13: 00000000000005ea R14: ffff88810be0ff00 R15: ffff8881326b4000
+[ 1253.338824] FS:  00007fbb30220740(0000) GS:ffff88829ff7d000(0000) knlGS:0000000000000000
+[ 1253.338830] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1253.338834] CR2: 00007fbb301e5e38 CR3: 000000010be04000 CR4: 00000000001506f0
+[ 1253.338838] Call Trace:
+[ 1253.338846]  <IRQ>
+[ 1253.338855]  rtl8150_start_xmit+0xa1/0x100 [rtl8150]
+[ 1253.338865]  dev_hard_start_xmit+0x59/0x1c0
+[ 1253.338875]  sch_direct_xmit+0x117/0x280
+[ 1253.338883]  __qdisc_run+0x136/0x590
+[ 1253.338890]  net_tx_action+0x1bb/0x2c0
+[ 1253.338898]  handle_softirqs+0xcd/0x270
+[ 1253.338907]  do_softirq+0x3b/0x50
+[ 1253.338914]  </IRQ>
+[ 1253.338916]  <TASK>
+[ 1253.338919]  __local_bh_enable_ip+0x54/0x60
+[ 1253.338927]  __dev_change_flags+0x9a/0x1e0
+[ 1253.338933]  ? filemap_map_pages+0x3f3/0x620
+[ 1253.338941]  netif_change_flags+0x22/0x60
+[ 1253.338946]  dev_change_flags+0x3d/0x70
+[ 1253.338951]  devinet_ioctl+0x388/0x710
+[ 1253.338959]  inet_ioctl+0x145/0x190
+[ 1253.338966]  ? netdev_name_node_lookup_rcu+0x59/0x70
+[ 1253.338971]  ? netdev_name_node_lookup_rcu+0x59/0x70
+[ 1253.338976]  ? dev_get_by_name_rcu+0xa/0x20
+[ 1253.338982]  ? dev_ioctl+0x2fc/0x4b0
+[ 1253.338989]  sock_do_ioctl+0x2f/0xd0
+[ 1253.338996]  __x64_sys_ioctl+0x76/0xc0
+[ 1253.339005]  do_syscall_64+0x42/0x180
+[ 1253.339013]  entry_SYSCALL_64_after_hwframe+0x4b/0x53
+[ 1253.339019] RIP: 0033:0x7fbb3013fced
+[ 1253.339024] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
+[ 1253.339028] RSP: 002b:00007ffdc876a850 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[ 1253.339035] RAX: ffffffffffffffda RBX: 00007ffdc876a960 RCX: 00007fbb3013fced
+[ 1253.339039] RDX: 00007ffdc876a8b0 RSI: 0000000000008914 RDI: 0000000000000004
+[ 1253.339042] RBP: 00007ffdc876a8a0 R08: 000000000000000a R09: 000000000000000b
+[ 1253.339045] R10: fffffffffffff8cb R11: 0000000000000246 R12: 00007ffdc876a8b0
+[ 1253.339048] R13: 0000000000000004 R14: 0000000000000200 R15: 0000000000000000
+[ 1253.339054]  </TASK>
+[ 1253.339056] ---[ end trace 0000000000000000 ]---
+[ 1253.339062] net eth1: failed tx_urb -16
+[ 1253.339068] net eth1: failed tx_urb -16
+[ 1253.339072] net eth1: failed tx_urb -16
+[ 1253.339075] net eth1: failed tx_urb -16
+[ 1253.339078] net eth1: failed tx_urb -16
+[ 1253.339081] net eth1: failed tx_urb -16
+[ 1253.339084] net eth1: failed tx_urb -16
+[ 1253.339088] net eth1: failed tx_urb -16
+[ 1253.339091] net eth1: failed tx_urb -16
+[ 1253.339094] net eth1: failed tx_urb -16
+[ 1253.339097] net eth1: failed tx_urb -16
+[ 1253.339204] net eth1: failed tx_urb -16
+[ 1253.339209] net eth1: failed tx_urb -16
+[ 1253.339212] net eth1: failed tx_urb -16
+[ 1253.339215] net eth1: failed tx_urb -16
+[ 1253.339218] net eth1: failed tx_urb -16
+[ 1253.339221] net eth1: failed tx_urb -16
+[ 1253.339224] net eth1: failed tx_urb -16
+[ 1253.339226] net eth1: failed tx_urb -16
+[ 1253.339229] net eth1: failed tx_urb -16
+[ 1253.339232] net eth1: failed tx_urb -16
+[ 1253.339235] net eth1: failed tx_urb -16
+[ 1253.339237] net eth1: failed tx_urb -16
+[ 1253.339240] net eth1: failed tx_urb -16
+[ 1253.339243] net eth1: failed tx_urb -16
+[ 1253.339246] net eth1: failed tx_urb -16
+[ 1253.339249] net eth1: failed tx_urb -16
+[ 1253.339252] net eth1: failed tx_urb -16
+[ 1253.339255] net eth1: failed tx_urb -16
+[ 1253.339258] net eth1: failed tx_urb -16
+[ 1253.339261] net eth1: failed tx_urb -16
+[ 1253.339263] net eth1: failed tx_urb -16
+[ 1253.339266] net eth1: failed tx_urb -16
+[ 1253.339268] net eth1: failed tx_urb -16
+[ 1253.339348] rtl8150 1-1:1.0 eth1: entered allmulticast mode
