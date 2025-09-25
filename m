@@ -1,298 +1,108 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6082E719D
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Sep 2025 19:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1CB31DDB8
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Sep 2025 20:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758830095; cv=none; b=U0TYqFENpzTMfkvKBTufN0OK0CJU5npW0YTktjlp4ZfGSobiXCoHTF4SqxDuxMjVmw0GnF55jwZep7mWVrZHCyspQZhlr18TZkF/peeiRUPNvv6cFRWrDqTZu7o7JoZvcpYQB7daqE/6MyvWFWXt8KMeIFEvTH9cDJkK8s/umSs=
+	t=1758830778; cv=none; b=k6FX7jMCU6Lg9zGVDUERjTzI3NeVcq5tjjX0WdqcnQdBjVpA9Vg3Z8WmjPisYx++0HWqka/EUFFrhVQxDIGt93YkkX5GHE05vyh5XZfwJAw0U22MNuD8Dxnnhyk+2OK18XE3PvG1t/NQFdLVxW1Dm42S2xUQlWbYC5+a3+sOJ7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758830095; c=relaxed/simple;
-	bh=pm5XYw0aXaktnBJIF5cJcO159P8QCT4QOXDxOjBU1n4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PzkvB+xkz4vxC8OO0ILEdfocPj3Zcrn9Qc1/Ys5291gEEJbuDhPaDikSQalP03QSKtb74II5B/Eusg7mqJbr9JWBeha2+d0aTncsGWfkAXyA8XrvplXtGsSDHRdpv3QmMjm4a8VSVExXGaN8mCo6z0ltI1+JEZrZlj4Wwp3L1Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bZKs5AdS; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758830778; c=relaxed/simple;
+	bh=Xx1KeRMb8qASSXQQi6oPfzSHjtino2Erc6qXBCGf8kE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jhr69+lJmvQ/0/El26ZAjkOSfY/L/YOdhBHrymNNp8Lue56a5NlzZvj2yn2+8ooUWCVLC+pqiqJ9pih1dvkdHYz5tmtl3oVWZuAXnnmN7yEqdySw3Hxh2KeOfhf2Dglg509TI3qZrll7dwpTPuYxz9q+WA2bhd47B7hjtXaleKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Rie/dGhe; arc=none smtp.client-ip=209.85.166.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bZKs5AdS"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b553412a19bso1074220a12.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Sep 2025 12:54:53 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Rie/dGhe"
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-893630dba34so67031939f.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Sep 2025 13:06:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758830093; x=1759434893; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cUCRyPPxJwDgqGohVPvUhNuL/vkJ5zITczPe/mg3LcA=;
-        b=bZKs5AdSkYuxskgbC5IMeH+HsNXk53kQDQF3ncmrzwA0LG72i+zfvQNBRvYDMCD9GU
-         kBLccvxA29rMjo6b8gGgaUfIsSe9F0kkj9HEyjWG7ervTvAY/psGGWHfjSzfBmx2Is7z
-         B9hl5ga2wO0tf5XYScTBALLL8MhGISsGaKqCPywCa3gOSovQQjG+npwXUrJGh3oOQoAM
-         urZKyEVtQpKxl7zrdTRGy/sb8E5QrqA0YjOc31uBB+ubEH6PZmM2HDce/WSq6vfodNdx
-         dr/sMitfmSUW5fHZ+fXXKWOxp8aGAX0fsnCEmzVO1z4IAqppyQzeIoXnTft7UAZRaEmE
-         KDwQ==
+        d=linuxfoundation.org; s=google; t=1758830775; x=1759435575; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NZ4J+q8Jl9uXHJWsnYE6h3kFUoOp3/nCTgLQNbxMPJA=;
+        b=Rie/dGhe3Zu9wfg2yi7EJSpVGWShxSh8/tB+r9+ajK9c2HjnUY0PYzOxinSvxdyo4D
+         R1jt3hHGolObLJ0Kf3sytxkmMWtuJHfomelF4h1ytcfId/Y9sjcPWurA+lDFm6jSkJNJ
+         hvUDEdnEHlKpwXoKE+uoTx2x6BYs1iCJsZThM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758830093; x=1759434893;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cUCRyPPxJwDgqGohVPvUhNuL/vkJ5zITczPe/mg3LcA=;
-        b=BLkc90pelu5DsAKqCWwVNeK8bTUM8NRTS+5oEqpJDedBILVDcRhM0wWeM9mv28fy6M
-         qLmzUgI/bvBZ7h5Q8oe7JhbmjJdTnb1lIFgIBkVlumtUn3fg5qwgkTItODpEdAO58E36
-         XAE5OdGR+I6HEFtZfXFkgdO9X3DiexULVDncsG4MH1BtnbD4PWmOTdOlDOh0bRWN7m3i
-         hk9THgb2Gd6grxAO+veqq16b+QrblisZmVbciKEXsCCbHhT76LnBWCtaHayf/UAJmhS+
-         ceQlLBPADPb2PZ6VyCFKkUzK0v9mRv2lvI4emn6j3rZvRaSd48nVdkmf1geCBjd2JwCZ
-         GxYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWA/ffN4Yy9TvMI0gunI8dRyYaoN6A+T2s0+3jMMeQ66sci7d+/zyawzNT0ltsA2uIKaCgiLEqNQsOJLTPGoQttFNjbuQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YweN647h280dowI0icZQOlrBzhOVX15zf5ow02fIzQaV/LwZOwE
-	RzwPTo6y5O6X1Gu3LYRtBrmJ0pP5lB4BdNuw/SZYRMON1epKp3BPuaG4
-X-Gm-Gg: ASbGncvlDbUWnRhqif1exykBRj5n7Bxwi2MAMngrBUoSguOqdXgSiCBgqp/obLvHiGk
-	5TB5n56SG6+JLVm0I4CdSp92/y+X7R1JhcemtXCEqbl6cUtk7/RxmdZcAArT74NPNRUDhULoH2V
-	FYyNiVcklsdeOxleUDH/sxxXh4BcM9G/CkHuIurC0lg8pMMOYrHklOX6h4vqqRwIEFbXj8ie3mT
-	7rsnfpJEKNPw0HglID8a03IR/fj3iF18y/uKDUGRWzAyHYo40uoeRd9Zftsd+i8zJ269Cbm7JGv
-	zhUM/dTbWf90bofZXEtFDa2k9v4Wlxjmhj0KiQzXWuUWSXtzsfrMZa/gqVsRwF7j09qAA+ECsrQ
-	uDpnKSVqHHIByZ5UiIrXrdbva38A+Mo9W5U9NJCv9lw==
-X-Google-Smtp-Source: AGHT+IHY9FrxRWml+wxJ38dtv6SdmwreMU9YpDdbSEbRQSOjOlzJqzA14wRIb8zcdNBWdW0cQAgMcA==
-X-Received: by 2002:a17:902:ced2:b0:24a:8e36:420a with SMTP id d9443c01a7336-27ed4aae440mr55087525ad.40.1758830093015;
-        Thu, 25 Sep 2025 12:54:53 -0700 (PDT)
-Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6ae5313sm33098765ad.149.2025.09.25.12.54.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Sep 2025 12:54:52 -0700 (PDT)
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: corbet@lwn.net,
-	fj2767dz@fujitsu.com,
-	will@kernel.org,
-	yangyicong@hisilicon.com
-Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] docs: perf: cleanup fujitsu_uncore_pmu.rst and fix htmldocs warnings/errors
-Date: Fri, 26 Sep 2025 01:24:40 +0530
-Message-ID: <20250925195442.71997-1-krishnagopi487@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1758830775; x=1759435575;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NZ4J+q8Jl9uXHJWsnYE6h3kFUoOp3/nCTgLQNbxMPJA=;
+        b=gILzyCtO+SBHmlHBZJLvy6fSDL/KXw6ZIyNPeNyK0rnoPmojgxnwd6lKR+rgyHfvxS
+         6Wy7kLX2S2RDhew5Dj/8yjkMtpFreVoWNtEeikfsDOunwUq4t5zgRe3umyGJnCD3Shll
+         1vreJddZF0dMe6NcUdTUmuaug/lfwQ9LxR7BQfXI1kQA55iuYfCFNidoG/0kwtXEwcM0
+         4OASIDuv26axzUf/9e3tTvb5hqDdd7Y+44ovIhMLBOyenNYFfMlcZIiREdZtSwqBaWVi
+         NJNdhT7cNZlmgV8RdbHZi0l1fryVuj+adYoCGM7L+JzpiTRE/tpWdBC4TVmGWyhfD2DX
+         6kig==
+X-Forwarded-Encrypted: i=1; AJvYcCUctxjmEkkKpG9OH9HF2LpeyHP4cmcnYp10WuFbfRZ5i8z2uqu1iIy4yGR4yM/1ika1qt+0iGx/uGBed0PxIQNo3mZn1g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJi5oqz74ejFBEgx+q9rO2JxM6F3Vssi/WN2sc/BOAvSPgeo0a
+	9wXg729OrNxkvttHF4kdtmWL36O8sIIPfnPlgqc2JoXDH4YRE72PM0RFH1ynv0XqW0A=
+X-Gm-Gg: ASbGncuSoZxorw3hRJskwx+7Tp/kXqOfEZC2dEIym8IOfNP1ZtSJJBYx4Cz2jcKSGYr
+	sjKIITXHioFyOU7/R0l7vl6wopZAvvzMrIT17VTsSFubSKyQVC1B2pMy4GBweOkmsFkYICOh3hz
+	oMCWcM6mcH1WuHBQMIms1FvymPNpDJ8dKMPzB8VLUc9r6fegLEXE62FiplRNl195TxQIjQGaVCP
+	55lHPmMplnHJvKcD0E5UHFLfffihgwGLIBsW/4ZRXY7o102wqV78CtedJthBE8FJrOxa51DvFTH
+	44MiP+aA/F4C3aUlbe8nx8FbP6AIdCANQjjsnfSwypweGu0XCLdb9abIiC9/YJMWU476hnsVbQt
+	3WHChY9SxaaswcmHFBAb6bRHHn7XRspd7kjY=
+X-Google-Smtp-Source: AGHT+IGgoqo4FexGR81T+2V+UyC7F009+mx6SQ2pBJCOPIpWzVqCjsnAHekbeNq05hlbCiQ/ymxj7A==
+X-Received: by 2002:a05:6e02:441a:20b0:427:5aa:4570 with SMTP id e9e14a558f8ab-42705aa4687mr13249845ab.3.1758830775392;
+        Thu, 25 Sep 2025 13:06:15 -0700 (PDT)
+Received: from [192.168.1.14] ([38.175.187.108])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-56a648d1aeesm1082556173.8.2025.09.25.13.06.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Sep 2025 13:06:14 -0700 (PDT)
+Message-ID: <650a4711-1d33-4582-be84-19ab99ff7f82@linuxfoundation.org>
+Date: Thu, 25 Sep 2025 14:06:14 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: perf: cleanup fujitsu_uncore_pmu.rst and fix
+ htmldocs warnings/errors
+To: Gopi Krishna Menon <krishnagopi487@gmail.com>, corbet@lwn.net,
+ fj2767dz@fujitsu.com, will@kernel.org, yangyicong@hisilicon.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ david.hunter.linux@gmail.com, linux-kernel-mentees@lists.linux.dev,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20250925195442.71997-1-krishnagopi487@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20250925195442.71997-1-krishnagopi487@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-- Adjust spacing around list and sections for better readability.
-- Use definition lists for defining events.
-- Replace block quotes with code blocks where appropriate.
+On 9/25/25 13:54, Gopi Krishna Menon wrote:
+> - Adjust spacing around list and sections for better readability.
+> - Use definition lists for defining events.
+> - Replace block quotes with code blocks where appropriate.
 
-Fixes the following htmldocs errors/warnings:
-Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:20: ERROR: Unexpected indentation.
-Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:23: WARNING: Block quote ends without a blank line; unexpected unindent.
-Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:28: ERROR: Unexpected indentation.
-Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent.
-Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:81: ERROR: Unexpected indentation.
-Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:82: WARNING: Block quote ends without a blank line; unexpected unindent.
+The bullet list type format used above isn't right format for
+change log. Refer to a few change logs and also check submitting
+patches documentation.
 
-Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
----
- .../admin-guide/perf/fujitsu_uncore_pmu.rst   | 130 ++++++++++++------
- 1 file changed, 87 insertions(+), 43 deletions(-)
+Sounds like you are combining formatting changes and warning
+fixes. These are better done as separate patches.
+> 
+> Fixes the following htmldocs errors/warnings:
+> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:20: ERROR: Unexpected indentation.
+> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:23: WARNING: Block quote ends without a blank line; unexpected unindent.
+> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:28: ERROR: Unexpected indentation.
+> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent.
+> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:81: ERROR: Unexpected indentation.
+> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:82: WARNING: Block quote ends without a blank line; unexpected unindent.
+> 
+> Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+> ---
+>   .../admin-guide/perf/fujitsu_uncore_pmu.rst   | 130 ++++++++++++------
+>   1 file changed, 87 insertions(+), 43 deletions(-)
+> 
 
-diff --git a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst b/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
-index 46595b788d3a..577bad243876 100644
---- a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
-+++ b/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
-@@ -6,105 +6,149 @@ Fujitsu Uncore Performance Monitoring Unit (PMU)
- 
- This driver supports the Uncore MAC PMUs and the Uncore PCI PMUs found
- in Fujitsu chips.
-+
- Each MAC PMU on these chips is exposed as a uncore perf PMU with device name
--mac_iod<iod>_mac<mac>_ch<ch>.
-+``mac_iod<iod>_mac<mac>_ch<ch>``.
-+
- And each PCI PMU on these chips is exposed as a uncore perf PMU with device name
--pci_iod<iod>_pci<pci>.
-+``pci_iod<iod>_pci<pci>``.
- 
- The driver provides a description of its available events and configuration
--options in sysfs, see /sys/bus/event_sources/devices/mac_iod<iod>_mac<mac>_ch<ch>/
--and /sys/bus/event_sources/devices/pci_iod<iod>_pci<pci>/.
-+options in sysfs, see ``/sys/bus/event_sources/devices/mac_iod<iod>_mac<mac>_ch<ch>/``
-+and ``/sys/bus/event_sources/devices/pci_iod<iod>_pci<pci>/``.
-+
- This driver exports:
--- formats, used by perf user space and other tools to configure events
-+====================
-+
-+- formats, used by perf user space and other tools to configure events.
- - events, used by perf user space and other tools to create events
--  symbolically, e.g.:
--    perf stat -a -e mac_iod0_mac0_ch0/event=0x21/ ls
--    perf stat -a -e pci_iod0_pci0/event=0x24/ ls
-+  symbolically, e.g:
-+
-+  .. code-block:: bash
-+
-+      perf stat -a -e mac_iod0_mac0_ch0/event=0x21/ ls
-+      perf stat -a -e pci_iod0_pci0/event=0x24/ ls
-+
- - cpumask, used by perf user space and other tools to know on which CPUs
-   to open the events
- 
- This driver supports the following events for MAC:
--- cycles
-+--------------------------------------------------
-+
-+cycles:
-   This event counts MAC cycles at MAC frequency.
--- read-count
-+
-+read-count:
-   This event counts the number of read requests to MAC.
--- read-count-request
-+
-+read-count-request:
-   This event counts the number of read requests including retry to MAC.
--- read-count-return
-+
-+read-count-return:
-   This event counts the number of responses to read requests to MAC.
--- read-count-request-pftgt
-+
-+read-count-request-pftgt:
-   This event counts the number of read requests including retry with PFTGT
-   flag.
--- read-count-request-normal
-+
-+read-count-request-normal:
-   This event counts the number of read requests including retry without PFTGT
-   flag.
--- read-count-return-pftgt-hit
-+
-+read-count-return-pftgt-hit:
-   This event counts the number of responses to read requests which hit the
-   PFTGT buffer.
--- read-count-return-pftgt-miss
-+
-+read-count-return-pftgt-miss:
-   This event counts the number of responses to read requests which miss the
-   PFTGT buffer.
--- read-wait
-+
-+read-wait:
-   This event counts outstanding read requests issued by DDR memory controller
-   per cycle.
--- write-count
-+
-+write-count:
-   This event counts the number of write requests to MAC (including zero write,
-   full write, partial write, write cancel).
--- write-count-write
-+
-+write-count-write:
-   This event counts the number of full write requests to MAC (not including
-   zero write).
--- write-count-pwrite
-+
-+write-count-pwrite:
-   This event counts the number of partial write requests to MAC.
--- memory-read-count
-+
-+memory-read-count:
-   This event counts the number of read requests from MAC to memory.
--- memory-write-count
-+
-+memory-write-count:
-   This event counts the number of full write requests from MAC to memory.
--- memory-pwrite-count
-+
-+memory-pwrite-count:
-   This event counts the number of partial write requests from MAC to memory.
--- ea-mac
-+
-+ea-mac:
-   This event counts energy consumption of MAC.
--- ea-memory
-+
-+ea-memory:
-   This event counts energy consumption of memory.
--- ea-memory-mac-write
-+
-+ea-memory-mac-write:
-   This event counts the number of write requests from MAC to memory.
--- ea-ha
-+
-+ea-ha:
-   This event counts energy consumption of HA.
- 
-   'ea' is the abbreviation for 'Energy Analyzer'.
- 
--Examples for use with perf::
-+Examples for use with perf
-+
-+  .. code-block:: bash
- 
--  perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
-+      perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
- 
- And, this driver supports the following events for PCI:
--- pci-port0-cycles
-+
-+pci-port0-cycles:
-   This event counts PCI cycles at PCI frequency in port0.
--- pci-port0-read-count
-+
-+pci-port0-read-count:
-   This event counts read transactions for data transfer in port0.
--- pci-port0-read-count-bus
-+
-+pci-port0-read-count-bus:
-   This event counts read transactions for bus usage in port0.
--- pci-port0-write-count
-+
-+pci-port0-write-count:
-   This event counts write transactions for data transfer in port0.
--- pci-port0-write-count-bus
-+
-+pci-port0-write-count-bus:
-   This event counts write transactions for bus usage in port0.
--- pci-port1-cycles
-+
-+pci-port1-cycles:
-   This event counts PCI cycles at PCI frequency in port1.
--- pci-port1-read-count
-+
-+pci-port1-read-count:
-   This event counts read transactions for data transfer in port1.
--- pci-port1-read-count-bus
-+
-+pci-port1-read-count-bus:
-   This event counts read transactions for bus usage in port1.
--- pci-port1-write-count
-+
-+pci-port1-write-count:
-   This event counts write transactions for data transfer in port1.
--- pci-port1-write-count-bus
-+
-+pci-port1-write-count-bus:
-   This event counts write transactions for bus usage in port1.
--- ea-pci
-+
-+ea-pci:
-   This event counts energy consumption of PCI.
- 
--  'ea' is the abbreviation for 'Energy Analyzer'.
-+      'ea' is the abbreviation for 'Energy Analyzer'.
-+
-+Examples for use with perf:
- 
--Examples for use with perf::
-+  .. code-block:: bash
- 
--  perf stat -e pci_iod0_pci0/ea-pci/ ls
-+      perf stat -e pci_iod0_pci0/ea-pci/ ls
- 
- Given that these are uncore PMUs the driver does not support sampling, therefore
- "perf record" will not work. Per-task perf sessions are not supported.
--- 
-2.43.0
-
+thanks,
+-- Shuah
