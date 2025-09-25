@@ -1,435 +1,266 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DA325A2BB
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Sep 2025 13:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293BB303C96
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 15:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758807084; cv=none; b=BU3hvL8lKJsQHJ1znb4svvvj8T2FXfVyDXcem4GM/t03mwPb99rERNk6c+gSkO2ZdV4DujJU11HM5Z/saaOo9zKJOM1xKwgpfaEHnRKJvRHMteJOpVjwVjaShmE3v1s5yt4D/PkomHhGhAWJVvueatFuvIaxbCpGdDnf0VXkj/M=
+	t=1758812703; cv=none; b=r6ZL1s2zomww2DR+LeuWl2qLb8d2pLY7ZfZW5ab6W61yY+MDptszskFzWTq4q6rsDJYsX/MNBnp8cyDIMGviuzFZY7MKXBIKHjd6fRFIW6MVAStofOXORg0DU5GKJhYYafpF1fKTygKTjfATiDwbpihmhxqQI7muY88V6HNAqLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758807084; c=relaxed/simple;
-	bh=nFiN2U30gVPLljWDJIzzdHUgnqj++SjZcucgoCoiVLw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VpKDXwHrnnsJbDFB9xr04j//66DfvTFuXmqYn3/fdhFbCj5tsltlZ0v8znPYI7l39Y+im80nepezA4kWRuZt0tSmK84LMUE8cmBVaWAk58VhPZQhC0d5w4Lieq6IQkvys2yoqyboMhDitytR7TvLmhXXOo9ayIlYnnbBq9CqEU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SkZP2DPl; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758812703; c=relaxed/simple;
+	bh=ZUmA5g3BZdtkkQzAyxPcPgH/CExuKMSZgLOzO2vj6sw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GxV7JZRMBHsUM1OdSTEwr0mNJRlZv8qKFVFI2SfzxIfq/n25Xn5/n63kQxupWHMHlsElPLnnpRPijvi1nig49ECO7U2eu15VkxryWDhCe/MJii9MhQDENYRAjP3Din0elzd0MDoqmJTEOjbFtVBGyagMUDNbhXeeCZwz4gfVCak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b=rGKfUvhS; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SkZP2DPl"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b5515eaefceso937301a12.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Sep 2025 06:31:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758807082; x=1759411882; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NWYJEU94U2Dg118hCuoxD/7fhyGK/q/mT362d28LjB8=;
-        b=SkZP2DPl1rFnQIuHE/UWFr2c3MUNruoZaZ+2rEPB9UC0G779tNMZv8IK8v/gQikSmB
-         cfWbN9HHwk0WKG3UiPLGlG1gI2Nzium5+l9+DNChLGlHUBcJgZM65Ta/s/qaTje9nTi5
-         j86BVg0MDy9XuyONCi4QRtlWZMvvMliA6H5zqcd/4UQtSQPm2mHzajARnCq5+9LCezAa
-         9i+/Hwi0LcRIFXmFVuZpBTlFWA9GS8a784dR1VglJJSvDTf1zKg4mJQJf4mgaAmzgORd
-         gGs2BB9e2Q/Rql5wfPQnEGeHmYbjCKWF5xnWIX/YoMRXn64+dgR+Fr793RksV8cIL+Th
-         1VTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758807082; x=1759411882;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NWYJEU94U2Dg118hCuoxD/7fhyGK/q/mT362d28LjB8=;
-        b=rPrH7wPEeavOLK5+RPnxlncOHrdKDdwQf4bi/nJG3H+TgsF6XkwIciKv6Ec5L3LfA6
-         hAMb0qD/IDEERybBHpD0BVqzEZnpVjxod1I7D2upocgymU3JYog/f3yAFTHHHJM8V1zd
-         HocQLeG0QxA3cgayGaYaqJJ0cScThpkKeIBX/elndrkSutNjWKpXNC2E1bwGK9rkCtYI
-         BufZs9idxro0oVuDYI7D8MlkN90Q01U1r69FiViC4PDLGSGJVHUjjWdOhTQ76tMJCNB1
-         8SV2lNnc4tNT2HSXgzOHYlrV28uN6OHW1yN/7pL/cP/FEh9doWzXk8//CNdvZbW4DnHF
-         T3QA==
-X-Forwarded-Encrypted: i=1; AJvYcCUsulwA6YJKZLWLh8OMzIxWH11E+w0SBY3uB3Sts9dynSbruNBenp8ijMpAnVYdUDkCNrOgi2374+F08RvvVRLqE48wDA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzv2arKC3vl4tKTj+u4/wMImNKZZBOL8IoYDFPZtRKJQ6D9CRZx
-	N0srrgvhEcaUVQcMadAL+8gKV8B6p6lUiRnyahHIL5sZpJEd0aICUhSp
-X-Gm-Gg: ASbGnctU6MIo7k6VpgefqYMizp7csKY7UV1Arf0+qCmDafmUiIBo49KKmp0d5EKWTEy
-	Qvl4fEgYUUL0NU+LY7qWeWrgxJIZtevDGZXS31PKqO7jwl9Uf31dY2fnHBieWfMe2SYW/U67JqO
-	QYm8SzaARe3urucbOmARL7nAn7K0xqcRbhV1NjHsMHKQWmE9z+AtiIn4ZryWabHJ3ABVmW6LJfx
-	SjEI+/vGC+3TtB3e6n+9t693jIjFJAKzTdXQLEZIREtSVx6aMYlYnBu4JkKLLu6h3BbhasOLjYh
-	WUY7BkMVI4e8ZBeXulkMED8BBK9C/inUNNIcvOsvFnpr34I70ury+V8VYF0mY7bnrHYB60PfR4j
-	Evrxq6qV8kRtT+Y6IVcuGEismezyuxEIZZLzd0yU=
-X-Google-Smtp-Source: AGHT+IEtl1R4GGtXwzv/auMtQA6O0GCzISjAhkZhJ8Lr2wgaROiHi3q/YOQNr2EgxUd44IODkvm8pw==
-X-Received: by 2002:a17:903:b83:b0:265:47:a7bd with SMTP id d9443c01a7336-27ed49b802bmr39325835ad.4.1758807081417;
-        Thu, 25 Sep 2025 06:31:21 -0700 (PDT)
-Received: from cortexauth ([2401:4900:889b:7045:558:5033:2b7a:fd84])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d37casm25631725ad.8.2025.09.25.06.31.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Sep 2025 06:31:20 -0700 (PDT)
-From: Deepak Sharma <deepak.sharma.472935@gmail.com>
-To: krzk@kernel.org,
-	vadim.fedorenko@linux.dev,
-	linville@tuxdriver.com,
-	kuba@kernel.org,
-	edumazet@google.com,
-	juraj@sarinay.com,
-	pabeni@redhat.com,
-	horms@kernel.org
-Cc: netdev@vger.kernel.org,
-	stable@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	david.hunter.linux@gmail.com,
-	skhan@linuxfoundation.org,
-	Deepak Sharma <deepak.sharma.472935@gmail.com>,
-	syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
-Subject: [PATCH net v4] net: nfc: nci: Add parameter validation for packet data
-Date: Thu, 25 Sep 2025 18:58:46 +0530
-Message-ID: <20250925132846.213425-1-deepak.sharma.472935@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b="rGKfUvhS"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8E44540FCB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 15:05:00 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.791
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 0Gp2QA5WsXfh for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 25 Sep 2025 15:04:59 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=213.133.104.62; helo=www62.your-server.de; envelope-from=daniel@iogearbox.net; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org EBBA7405A7
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EBBA7405A7
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=iogearbox.net header.i=@iogearbox.net header.a=rsa-sha256 header.s=default2302 header.b=rGKfUvhS
+Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id EBBA7405A7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 15:04:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=qLwM3MlL3IIwt9UZSY1QYh/F3mEc/jCvsT/k+vTJVdE=; b=rGKfUvhSKTl+tneE8WdOVj2THv
+	32mR6pFYzq6Ce/cYz+bzMSBJiU/M4X5clHaxw1O2/SECLxCBtgSYOcvTK+BDWSJBhNVJUcLxleFr6
+	wBRocnBf+SdpO/2EHWlkkQdsh+nUkQ2kQbvfVZjaoavzTqRSW9S5A7GwzcT1JEeeAZr5JAonS4vo/
+	LyV5Pdk7m8zn0ONtJeKhUGE0LF7mBoC/WpzriDLj7J2oyP9U2b+yMpFhAcnR40Zl+Kd/9TYfdZ2w5
+	VUAgetqetQMf49l/gK+lyi1mvHsQ0ZCAzEXsKKwDLv8NACVWJ4hgDAuWLOSdr9WyVA9fKCZezQaNL
+	Gx839A9Q==;
+Received: from sslproxy01.your-server.de ([78.46.139.224])
+	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1v1nWc-00033c-0x;
+	Thu, 25 Sep 2025 17:04:50 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy01.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1v1nWZ-000Cz3-0f;
+	Thu, 25 Sep 2025 17:04:48 +0200
+Message-ID: <5ad26663-a3cc-4bf4-9d6f-8213ac8e8ce6@iogearbox.net>
+Date: Thu, 25 Sep 2025 17:04:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] selftests/bpf: Prepare to add -Wsign-compare for
+ bpf tests
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
+ andrii@kernel.org, eddyz87@gmail.com, ast@kernel.org, martin.lau@linux.dev,
+ song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
+ kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org,
+ shuah@kernel.org, matttbe@kernel.org, martineau@kernel.org,
+ geliang@kernel.org, davem@davemloft.net, kuba@kernel.org, hawk@kernel.org,
+ linux@jordanrome.com, ameryhung@gmail.com, toke@redhat.com,
+ houtao1@huawei.com, emil@etsalapatis.com, yatsenko@meta.com,
+ isolodrai@meta.com, a.s.protopopov@gmail.com, dxu@dxuuu.xyz,
+ memxor@gmail.com, vmalik@redhat.com, bigeasy@linutronix.de, tj@kernel.org,
+ gregkh@linuxfoundation.org, paul@paul-moore.com,
+ bboscaccy@linux.microsoft.com, James.Bottomley@HansenPartnership.com,
+ mrpre@163.com, jakub@cloudflare.com
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, netdev@vger.kernel.org,
+ mptcp@lists.linux.dev, linux-kernel-mentees@lists.linuxfoundation.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+References: <20250925103559.14876-1-mehdi.benhadjkhelifa@gmail.com>
+ <20250925103559.14876-4-mehdi.benhadjkhelifa@gmail.com>
+Content-Language: en-US
+From: Daniel Borkmann <daniel@iogearbox.net>
+Autocrypt: addr=daniel@iogearbox.net; keydata=
+ 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
+In-Reply-To: <20250925103559.14876-4-mehdi.benhadjkhelifa@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: Clear (ClamAV 1.0.9/27773/Thu Sep 25 10:27:35 2025)
 
-Syzbot reported an uninitialized value bug in nci_init_req, which was 
-introduced by commit 5aca7966d2a7 ("Merge tag 
-'perf-tools-fixes-for-v6.17-2025-09-16' of 
-git://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools").
+On 9/25/25 12:35 PM, Mehdi Ben Hadj Khelifa wrote:
+> -Change only variable types for correct sign comparisons
+> 
+> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
 
-This bug arises due to very limited and poor input validation
-that was done at nic_valid_size(). This validation only
-validates the skb->len (directly reflects size provided at the
-userspace interface) with the length provided in the buffer
-itself (interpreted as NCI_HEADER). This leads to the processing
-of memory content at the address assuming the correct layout
-per what opcode requires there. This leads to the accesses to
-buffer of `skb_buff->data` which is not assigned anything yet.
+Pls write some better commit messages and not just copy/paste the same $subj/
+message every time; proper sentences w/o the weird " -" indent. Also say why
+this is needed in the commit message, and add a reference to the commit which
+initially added this as a TODO, i.e. 495d2d8133fd ("selftests/bpf: Attempt to
+build BPF programs with -Wsign-compare"). If you group these, then maybe also
+include the parts of the compiler-emitted warnings during build which are
+relevant to the code changes you do here.
 
-Following the same silent drop of packets of invalid sizes at
-`nic_valid_size()`, add validation of the data in the respective
-handlers and return error values in case of failure. Release
-the skb if error values are returned from handlers in 
-`nci_nft_packet` and effectively do a silent drop
-
-Possible TODO: because we silently drop the packets, the
-call to `nci_request` will be waiting for completion of request
-and will face timeouts. These timeouts can get excessively logged
-in the dmesg. A proper handling of them may require to export
-`nci_request_cancel` (or propagate error handling from the
-nft packets handlers).
-
-Reported-by: syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=740e04c2a93467a0f8c8
-Fixes: 6a2968aaf50c ("NFC: basic NCI protocol implementation")
-Tested-by: syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com
-Cc: stable@vger.kernel.org
-Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
-Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
----
-v4:
- - Remove changes unrelated to the fix
-
-v3:
- - Move the checks inside the packet data handlers
- - Improvements to the commit message
-
-v2:
- - Fix the release of skb in case of the early return
-
-v1:
- - Add checks in `nci_ntf_packet` on the skb->len and do early return
-   on failure
-
- net/nfc/nci/ntf.c | 139 +++++++++++++++++++++++++++++++++-------------
- 1 file changed, 101 insertions(+), 38 deletions(-)
-
-diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
-index a818eff27e6b..c0edf8242e22 100644
---- a/net/nfc/nci/ntf.c
-+++ b/net/nfc/nci/ntf.c
-@@ -27,11 +27,16 @@
- 
- /* Handle NCI Notification packets */
- 
--static void nci_core_reset_ntf_packet(struct nci_dev *ndev,
--				      const struct sk_buff *skb)
-+static int nci_core_reset_ntf_packet(struct nci_dev *ndev,
-+				     const struct sk_buff *skb)
- {
- 	/* Handle NCI 2.x core reset notification */
--	const struct nci_core_reset_ntf *ntf = (void *)skb->data;
-+	const struct nci_core_reset_ntf *ntf;
-+
-+	if (skb->len < sizeof(struct nci_core_reset_ntf))
-+		return -EINVAL;
-+
-+	ntf = (struct nci_core_reset_ntf *)skb->data;
- 
- 	ndev->nci_ver = ntf->nci_ver;
- 	pr_debug("nci_ver 0x%x, config_status 0x%x\n",
-@@ -42,15 +47,22 @@ static void nci_core_reset_ntf_packet(struct nci_dev *ndev,
- 		__le32_to_cpu(ntf->manufact_specific_info);
- 
- 	nci_req_complete(ndev, NCI_STATUS_OK);
-+
-+	return 0;
- }
- 
--static void nci_core_conn_credits_ntf_packet(struct nci_dev *ndev,
--					     struct sk_buff *skb)
-+static int nci_core_conn_credits_ntf_packet(struct nci_dev *ndev,
-+					    struct sk_buff *skb)
- {
--	struct nci_core_conn_credit_ntf *ntf = (void *) skb->data;
-+	struct nci_core_conn_credit_ntf *ntf;
- 	struct nci_conn_info *conn_info;
- 	int i;
- 
-+	if (skb->len < sizeof(struct nci_core_conn_credit_ntf))
-+		return -EINVAL;
-+
-+	ntf = (struct nci_core_conn_credit_ntf *)skb->data;
-+
- 	pr_debug("num_entries %d\n", ntf->num_entries);
- 
- 	if (ntf->num_entries > NCI_MAX_NUM_CONN)
-@@ -68,7 +80,7 @@ static void nci_core_conn_credits_ntf_packet(struct nci_dev *ndev,
- 		conn_info = nci_get_conn_info_by_conn_id(ndev,
- 							 ntf->conn_entries[i].conn_id);
- 		if (!conn_info)
--			return;
-+			return 0;
- 
- 		atomic_add(ntf->conn_entries[i].credits,
- 			   &conn_info->credits_cnt);
-@@ -77,12 +89,19 @@ static void nci_core_conn_credits_ntf_packet(struct nci_dev *ndev,
- 	/* trigger the next tx */
- 	if (!skb_queue_empty(&ndev->tx_q))
- 		queue_work(ndev->tx_wq, &ndev->tx_work);
-+
-+	return 0;
- }
- 
--static void nci_core_generic_error_ntf_packet(struct nci_dev *ndev,
--					      const struct sk_buff *skb)
-+static int nci_core_generic_error_ntf_packet(struct nci_dev *ndev,
-+					     const struct sk_buff *skb)
- {
--	__u8 status = skb->data[0];
-+	__u8 status;
-+
-+	if (skb->len < 1)
-+		return -EINVAL;
-+
-+	status = skb->data[0];
- 
- 	pr_debug("status 0x%x\n", status);
- 
-@@ -91,12 +110,19 @@ static void nci_core_generic_error_ntf_packet(struct nci_dev *ndev,
- 		   (the state remains the same) */
- 		nci_req_complete(ndev, status);
- 	}
-+
-+	return 0;
- }
- 
--static void nci_core_conn_intf_error_ntf_packet(struct nci_dev *ndev,
--						struct sk_buff *skb)
-+static int nci_core_conn_intf_error_ntf_packet(struct nci_dev *ndev,
-+					       struct sk_buff *skb)
- {
--	struct nci_core_intf_error_ntf *ntf = (void *) skb->data;
-+	struct nci_core_intf_error_ntf *ntf;
-+
-+	if (skb->len < sizeof(struct nci_core_intf_error_ntf))
-+		return -EINVAL;
-+
-+	ntf = (struct nci_core_intf_error_ntf *)skb->data;
- 
- 	ntf->conn_id = nci_conn_id(&ntf->conn_id);
- 
-@@ -105,6 +131,8 @@ static void nci_core_conn_intf_error_ntf_packet(struct nci_dev *ndev,
- 	/* complete the data exchange transaction, if exists */
- 	if (test_bit(NCI_DATA_EXCHANGE, &ndev->flags))
- 		nci_data_exchange_complete(ndev, NULL, ntf->conn_id, -EIO);
-+
-+	return 0;
- }
- 
- static const __u8 *
-@@ -329,13 +357,18 @@ void nci_clear_target_list(struct nci_dev *ndev)
- 	ndev->n_targets = 0;
- }
- 
--static void nci_rf_discover_ntf_packet(struct nci_dev *ndev,
--				       const struct sk_buff *skb)
-+static int nci_rf_discover_ntf_packet(struct nci_dev *ndev,
-+				      const struct sk_buff *skb)
- {
- 	struct nci_rf_discover_ntf ntf;
--	const __u8 *data = skb->data;
-+	const __u8 *data;
- 	bool add_target = true;
- 
-+	if (skb->len < sizeof(struct nci_rf_discover_ntf))
-+		return -EINVAL;
-+
-+	data = skb->data;
-+
- 	ntf.rf_discovery_id = *data++;
- 	ntf.rf_protocol = *data++;
- 	ntf.rf_tech_and_mode = *data++;
-@@ -390,6 +423,8 @@ static void nci_rf_discover_ntf_packet(struct nci_dev *ndev,
- 		nfc_targets_found(ndev->nfc_dev, ndev->targets,
- 				  ndev->n_targets);
- 	}
-+
-+	return 0;
- }
- 
- static int nci_extract_activation_params_iso_dep(struct nci_dev *ndev,
-@@ -553,14 +588,19 @@ static int nci_store_ats_nfc_iso_dep(struct nci_dev *ndev,
- 	return NCI_STATUS_OK;
- }
- 
--static void nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
--					     const struct sk_buff *skb)
-+static int nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
-+					    const struct sk_buff *skb)
- {
- 	struct nci_conn_info *conn_info;
- 	struct nci_rf_intf_activated_ntf ntf;
--	const __u8 *data = skb->data;
-+	const __u8 *data;
- 	int err = NCI_STATUS_OK;
- 
-+	if (skb->len < sizeof(struct nci_rf_intf_activated_ntf))
-+		return -EINVAL;
-+
-+	data = skb->data;
-+
- 	ntf.rf_discovery_id = *data++;
- 	ntf.rf_interface = *data++;
- 	ntf.rf_protocol = *data++;
-@@ -667,7 +707,7 @@ static void nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
- 	if (err == NCI_STATUS_OK) {
- 		conn_info = ndev->rf_conn_info;
- 		if (!conn_info)
--			return;
-+			return 0;
- 
- 		conn_info->max_pkt_payload_len = ntf.max_data_pkt_payload_size;
- 		conn_info->initial_num_credits = ntf.initial_num_credits;
-@@ -721,19 +761,26 @@ static void nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
- 				pr_err("error when signaling tm activation\n");
- 		}
- 	}
-+
-+	return 0;
- }
- 
--static void nci_rf_deactivate_ntf_packet(struct nci_dev *ndev,
--					 const struct sk_buff *skb)
-+static int nci_rf_deactivate_ntf_packet(struct nci_dev *ndev,
-+					const struct sk_buff *skb)
- {
- 	const struct nci_conn_info *conn_info;
--	const struct nci_rf_deactivate_ntf *ntf = (void *)skb->data;
-+	const struct nci_rf_deactivate_ntf *ntf;
-+
-+	if (skb->len < sizeof(struct nci_rf_deactivate_ntf))
-+		return -EINVAL;
-+
-+	ntf = (struct nci_rf_deactivate_ntf *)skb->data;
- 
- 	pr_debug("entry, type 0x%x, reason 0x%x\n", ntf->type, ntf->reason);
- 
- 	conn_info = ndev->rf_conn_info;
- 	if (!conn_info)
--		return;
-+		return 0;
- 
- 	/* drop tx data queue */
- 	skb_queue_purge(&ndev->tx_q);
-@@ -765,14 +812,20 @@ static void nci_rf_deactivate_ntf_packet(struct nci_dev *ndev,
- 	}
- 
- 	nci_req_complete(ndev, NCI_STATUS_OK);
-+
-+	return 0;
- }
- 
--static void nci_nfcee_discover_ntf_packet(struct nci_dev *ndev,
--					  const struct sk_buff *skb)
-+static int nci_nfcee_discover_ntf_packet(struct nci_dev *ndev,
-+					 const struct sk_buff *skb)
- {
- 	u8 status = NCI_STATUS_OK;
--	const struct nci_nfcee_discover_ntf *nfcee_ntf =
--				(struct nci_nfcee_discover_ntf *)skb->data;
-+	const struct nci_nfcee_discover_ntf *nfcee_ntf;
-+
-+	if (skb->len < sizeof(struct nci_nfcee_discover_ntf))
-+		return -EINVAL;
-+
-+	nfcee_ntf = (struct nci_nfcee_discover_ntf *)skb->data;
- 
- 	/* NFCForum NCI 9.2.1 HCI Network Specific Handling
- 	 * If the NFCC supports the HCI Network, it SHALL return one,
-@@ -783,6 +836,8 @@ static void nci_nfcee_discover_ntf_packet(struct nci_dev *ndev,
- 	ndev->cur_params.id = nfcee_ntf->nfcee_id;
- 
- 	nci_req_complete(ndev, status);
-+
-+	return 0;
- }
- 
- void nci_ntf_packet(struct nci_dev *ndev, struct sk_buff *skb)
-@@ -809,35 +864,43 @@ void nci_ntf_packet(struct nci_dev *ndev, struct sk_buff *skb)
- 
- 	switch (ntf_opcode) {
- 	case NCI_OP_CORE_RESET_NTF:
--		nci_core_reset_ntf_packet(ndev, skb);
-+		if (nci_core_reset_ntf_packet(ndev, skb))
-+			goto end;
- 		break;
- 
- 	case NCI_OP_CORE_CONN_CREDITS_NTF:
--		nci_core_conn_credits_ntf_packet(ndev, skb);
-+		if (nci_core_conn_credits_ntf_packet(ndev, skb))
-+			goto end;
- 		break;
- 
- 	case NCI_OP_CORE_GENERIC_ERROR_NTF:
--		nci_core_generic_error_ntf_packet(ndev, skb);
-+		if (nci_core_generic_error_ntf_packet(ndev, skb))
-+			goto end;
- 		break;
- 
- 	case NCI_OP_CORE_INTF_ERROR_NTF:
--		nci_core_conn_intf_error_ntf_packet(ndev, skb);
-+		if (nci_core_conn_intf_error_ntf_packet(ndev, skb))
-+			goto end;
- 		break;
- 
- 	case NCI_OP_RF_DISCOVER_NTF:
--		nci_rf_discover_ntf_packet(ndev, skb);
-+		if (nci_rf_discover_ntf_packet(ndev, skb))
-+			goto end;
- 		break;
- 
- 	case NCI_OP_RF_INTF_ACTIVATED_NTF:
--		nci_rf_intf_activated_ntf_packet(ndev, skb);
-+		if (nci_rf_intf_activated_ntf_packet(ndev, skb))
-+			goto end;
- 		break;
- 
- 	case NCI_OP_RF_DEACTIVATE_NTF:
--		nci_rf_deactivate_ntf_packet(ndev, skb);
-+		if (nci_rf_deactivate_ntf_packet(ndev, skb))
-+			goto end;
- 		break;
- 
- 	case NCI_OP_NFCEE_DISCOVER_NTF:
--		nci_nfcee_discover_ntf_packet(ndev, skb);
-+		if (nci_nfcee_discover_ntf_packet(ndev, skb))
-+			goto end;
- 		break;
- 
- 	case NCI_OP_RF_NFCEE_ACTION_NTF:
--- 
-2.51.0
+> ---
+>   tools/testing/selftests/bpf/progs/test_xdp_dynptr.c          | 2 +-
+>   tools/testing/selftests/bpf/progs/test_xdp_loop.c            | 2 +-
+>   tools/testing/selftests/bpf/progs/test_xdp_noinline.c        | 4 ++--
+>   tools/testing/selftests/bpf/progs/uprobe_multi.c             | 4 ++--
+>   .../selftests/bpf/progs/uprobe_multi_session_recursive.c     | 5 +++--
+>   .../selftests/bpf/progs/verifier_iterating_callbacks.c       | 2 +-
+>   6 files changed, 10 insertions(+), 9 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c b/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c
+> index 67a77944ef29..12ad0ec91021 100644
+> --- a/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c
+> +++ b/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c
+> @@ -89,7 +89,7 @@ static __always_inline int handle_ipv4(struct xdp_md *xdp, struct bpf_dynptr *xd
+>   	struct vip vip = {};
+>   	int dport;
+>   	__u32 csum = 0;
+> -	int i;
+> +	size_t i;
+>   
+>   	__builtin_memset(eth_buffer, 0, sizeof(eth_buffer));
+>   	__builtin_memset(iph_buffer_tcp, 0, sizeof(iph_buffer_tcp));
+> diff --git a/tools/testing/selftests/bpf/progs/test_xdp_loop.c b/tools/testing/selftests/bpf/progs/test_xdp_loop.c
+> index 93267a68825b..e9b7bbff5c23 100644
+> --- a/tools/testing/selftests/bpf/progs/test_xdp_loop.c
+> +++ b/tools/testing/selftests/bpf/progs/test_xdp_loop.c
+> @@ -85,7 +85,7 @@ static __always_inline int handle_ipv4(struct xdp_md *xdp)
+>   	struct vip vip = {};
+>   	int dport;
+>   	__u32 csum = 0;
+> -	int i;
+> +	size_t i;
+>   
+>   	if (iph + 1 > data_end)
+>   		return XDP_DROP;
+> diff --git a/tools/testing/selftests/bpf/progs/test_xdp_noinline.c b/tools/testing/selftests/bpf/progs/test_xdp_noinline.c
+> index fad94e41cef9..85ef3c0a3e20 100644
+> --- a/tools/testing/selftests/bpf/progs/test_xdp_noinline.c
+> +++ b/tools/testing/selftests/bpf/progs/test_xdp_noinline.c
+> @@ -372,7 +372,7 @@ bool encap_v4(struct xdp_md *xdp, struct ctl_value *cval,
+>   
+>   	next_iph_u16 = (__u16 *) iph;
+>   	__pragma_loop_unroll_full
+> -	for (int i = 0; i < sizeof(struct iphdr) >> 1; i++)
+> +	for (size_t i = 0; i < sizeof(struct iphdr) >> 1; i++)
+>   		csum += *next_iph_u16++;
+>   	iph->check = ~((csum & 0xffff) + (csum >> 16));
+>   	if (bpf_xdp_adjust_head(xdp, (int)sizeof(struct iphdr)))
+> @@ -423,7 +423,7 @@ int send_icmp_reply(void *data, void *data_end)
+>   	iph->check = 0;
+>   	next_iph_u16 = (__u16 *) iph;
+>   	__pragma_loop_unroll_full
+> -	for (int i = 0; i < sizeof(struct iphdr) >> 1; i++)
+> +	for (size_t i = 0; i < sizeof(struct iphdr) >> 1; i++)
+>   		csum += *next_iph_u16++;
+>   	iph->check = ~((csum & 0xffff) + (csum >> 16));
+>   	return swap_mac_and_send(data, data_end);
+> diff --git a/tools/testing/selftests/bpf/progs/uprobe_multi.c b/tools/testing/selftests/bpf/progs/uprobe_multi.c
+> index 44190efcdba2..f99957773c3a 100644
+> --- a/tools/testing/selftests/bpf/progs/uprobe_multi.c
+> +++ b/tools/testing/selftests/bpf/progs/uprobe_multi.c
+> @@ -20,13 +20,13 @@ __u64 uretprobe_multi_func_3_result = 0;
+>   
+>   __u64 uprobe_multi_sleep_result = 0;
+>   
+> -int pid = 0;
+> +__u32 pid = 0;
+>   int child_pid = 0;
+>   int child_tid = 0;
+>   int child_pid_usdt = 0;
+>   int child_tid_usdt = 0;
+>   
+> -int expect_pid = 0;
+> +__u32 expect_pid = 0;
+>   bool bad_pid_seen = false;
+>   bool bad_pid_seen_usdt = false;
+>   
+> diff --git a/tools/testing/selftests/bpf/progs/uprobe_multi_session_recursive.c b/tools/testing/selftests/bpf/progs/uprobe_multi_session_recursive.c
+> index 8fbcd69fae22..017f1859ebe8 100644
+> --- a/tools/testing/selftests/bpf/progs/uprobe_multi_session_recursive.c
+> +++ b/tools/testing/selftests/bpf/progs/uprobe_multi_session_recursive.c
+> @@ -3,6 +3,7 @@
+>   #include <bpf/bpf_helpers.h>
+>   #include <bpf/bpf_tracing.h>
+>   #include <stdbool.h>
+> +#include <stddef.h>
+>   #include "bpf_kfuncs.h"
+>   #include "bpf_misc.h"
+>   
+> @@ -10,8 +11,8 @@ char _license[] SEC("license") = "GPL";
+>   
+>   int pid = 0;
+>   
+> -int idx_entry = 0;
+> -int idx_return = 0;
+> +size_t idx_entry = 0;
+> +size_t idx_return = 0;
+>   
+>   __u64 test_uprobe_cookie_entry[6];
+>   __u64 test_uprobe_cookie_return[3];
+> diff --git a/tools/testing/selftests/bpf/progs/verifier_iterating_callbacks.c b/tools/testing/selftests/bpf/progs/verifier_iterating_callbacks.c
+> index 75dd922e4e9f..72f9f8c23c93 100644
+> --- a/tools/testing/selftests/bpf/progs/verifier_iterating_callbacks.c
+> +++ b/tools/testing/selftests/bpf/progs/verifier_iterating_callbacks.c
+> @@ -593,7 +593,7 @@ int loop_inside_iter_volatile_limit(const void *ctx)
+>   {
+>   	struct bpf_iter_num it;
+>   	int *v, sum = 0;
+> -	__u64 i = 0;
+> +	__s32 i = 0;
+>   
+>   	bpf_iter_num_new(&it, 0, ARR2_SZ);
+>   	while ((v = bpf_iter_num_next(&it))) {
 
