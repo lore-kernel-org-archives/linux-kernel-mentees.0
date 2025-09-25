@@ -1,83 +1,65 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71592F49E3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 11:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD742BDC2B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 12:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758798200; cv=none; b=bEPE8lTz9OKiijCUCLGEmMa2zAoyIzyEirk+N3Fl9X+ZaGNPmHhVfK7YKd00/CHzsEJVFrHukJOa2uRebOCQtYiqbAsNFfNfNxBz6S9fzws+yxKQsbZWSZnMM269AmzEplcNAFOD1ijyYLd1vkETmTfr6Doe3lreVjPawATIeTE=
+	t=1758803105; cv=none; b=Cgl6OsA96kElFZtubDx4t62eLz/l9yBnWFhTe+oXADqJS0OOOBRsgvCfZv1duavgJhfPJ1Qhm46WmvC4pWzFaPlZG5tOXRzGLo5ST1lrpZ411s3Y8hoG99GxL5zd4Jm2SPVzsIgmTxuocmEAzxpJCIwjduBCihf1a/RGUuhsvu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758798200; c=relaxed/simple;
-	bh=5f5jzmY/8z4+Z/yXxNdh/MioRwPbuZwA+8mB7aWl2NQ=;
+	s=arc-20240116; t=1758803105; c=relaxed/simple;
+	bh=+IY2OXXnsRKbkGAIpo4vaVP6VC/er3FaJDr3rMxY6QM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XG0VN8A9P6cQOYh0XNKUmdXTo3PGrJmA1lZ1+hAWQVMKoRnVnwcMT8ujmLAa67PDi9C2uMaw6OB4+spPo+pE1NA0A+uvYzwGUw9y9zBSuocnbQm9/RcQqSWjrPwhLUVoRa22qpfw01dbNq99BbKxmMsExH4Dv2s5JqM/Pz1BRMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=abL0+HTT; arc=none smtp.client-ip=140.211.166.133
+	 In-Reply-To:Content-Type; b=foCC30nzOmfQ7dhrI+g/bpL8Oz7wocy8GUc72+t8ajc1u0z5otcxHdMxDEOxVjQuB2YsFekWQq/nMwdwpjmvWqkmEDvBwAs+9vmSjH+//52lHoELPVmzcTX8hWWuAF2smnA4COSnJR8n+gKDAQk2tUuw+Ts/x1DyQXosFCA82p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b=lO9k8AfL; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="abL0+HTT"
+	dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b="lO9k8AfL"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7D8884096D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 11:03:18 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id ACF94613B9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 12:25:03 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -5.791
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id gHVNmvl_f30F for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 25 Sep 2025 11:03:17 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::62e; helo=mail-ej1-x62e.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 7B6BF40CDA
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7B6BF40CDA
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=abL0+HTT
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7B6BF40CDA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 11:03:17 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-b2a55c5dd2dso22382366b.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 04:03:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758798195; x=1759402995; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Kbayy13shJENppb8XOVzKg697zuEvFkUeRfz0DCdeZk=;
-        b=abL0+HTTQvKbFjQfH4z44f5Sse3zwiqBDFFJDYSMt/CXnS829OsApH/adewWwZq6nn
-         pzZh8+Fbvq5TrWBohPCnQ3/81k/Ez6mC6o73/q0KDc/mlCV9r5fD1KycEjIbpPJg/7F2
-         8p5x7R36FyOOJBKdl8I0dbXO8+XfPJRKEdxsJPJb+Q/Ghtmz2ZNem6UYrgLmPrEm67jg
-         SK7J4QOO1f+ah6uiU9BuAPnqEa1Ke1LY/a+rBqVZXYptxgelgi2gMmYxKNbqmDJGNSvM
-         8VN6XBe7SSDwcop9MAXtDG3S53/R6v5eeLOHIqxsXBXtJL/fWX9CT/CVeXPyu6XYDNHt
-         /2Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758798195; x=1759402995;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kbayy13shJENppb8XOVzKg697zuEvFkUeRfz0DCdeZk=;
-        b=d1E8q0xApTfzm+8BGhGV+y+Lo7vCQ6Ex2qUzvTQDl0v0qsFU6DpXOXew9O2edYIxUm
-         Bs2xvD+j3XY8OiEcWq1LD/iMAPy281sVCzBfkFRwi3JbfWeYjePqLhX10v7eJPWe3neR
-         BxtaIs4MQmOulbc5PdbEcG183tU9BFgz5OosFx9SBB5JTeXtoKH2XFe1gljHJMuh4vgv
-         18gXGri8d9z8z3OekrmLa14HGxKh5oyvc6iJF2pbj3abzcpAGOlPe5yxE/B8nuVHUgJa
-         FBGMP6IXgbPzxATm9vw5/LC+drnMFl9F+G0niYxOnR9xW4KTf2iv8E6RcoGlnKwIZwL5
-         dytg==
-X-Forwarded-Encrypted: i=1; AJvYcCWIFQX5m/GKYFBxxneRKxgoPRPjSjm8BMTO+ti63ckK+n9s9MxiYNcWkAm1Kg549EIXDUjdUcUlu3bUkRu+M6+BcRqkeQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yy4zKyh14zzvm6XOi7g8IKRrFWbFBEF/S3fDhVfhvKKpqjo10xE
-	kbH/E3Dx6F1rOxJhKKZBL0nV2TNpRzn5T2pcbItd1MADHF0y2iBbsGlP
-X-Gm-Gg: ASbGncvZf9PEkapBVsVEfCVEphQeinALZ51lDplVhjBCH18VpamE8cyo/Ph1r/wrFCx
-	zWgTKD74x+stqPDCrvpBv57cHaEvG7DgNBC4+AQsYGyM2i+8X4O56QeEqA9Ia6buNutxrWdhGWN
-	M5iRpM/x/Nwz0a3AHmQ2r/TJf+fBjaHK9lCBStcxEjx9xkGfIvr3yqL71p9SE3W0OX3PjaFMMPP
-	NL+CwkrS2C6o9hQc2Ltk7Io7GFFpLCfk20MmMCz3mBv23XsvbV1F8idY9fAHTflmKcz5FTsYka3
-	LGPiiN/8n9Ea12+a9RWDJIAf0xsrDISdL9AhEuDOzS825171oqPLo9oVHc4dV//CsABv+YHQAj1
-	jpnFGq23yGWPEiVh+0JvGITfmN/TjrEJmu5DI8sof/+dL+6oElYuLhUDhWj/5Pg==
-X-Google-Smtp-Source: AGHT+IE+FDIp8REoReNlisltZxekgZurykBl8HQME4zI0tHguqI3KAp9IuApteihHX89I/9CUSSgZw==
-X-Received: by 2002:a17:907:868d:b0:afe:88ac:ab9 with SMTP id a640c23a62f3a-b34bbeba6d0mr166541366b.9.1758798195396;
-        Thu, 25 Sep 2025 04:03:15 -0700 (PDT)
-Received: from [192.168.1.105] ([165.50.112.244])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b35446f7806sm147331066b.70.2025.09.25.04.03.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 04:03:15 -0700 (PDT)
-Message-ID: <941fece6-9660-4aa8-91ed-346b0c2d97c1@gmail.com>
-Date: Thu, 25 Sep 2025 13:03:11 +0100
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 35qhuKPk0VBy for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 25 Sep 2025 12:25:02 +0000 (UTC)
+X-Greylist: delayed 1567 seconds by postgrey-1.37 at util1.osuosl.org; Thu, 25 Sep 2025 12:25:01 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org D655F613FA
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D655F613FA
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=iogearbox.net header.i=@iogearbox.net header.a=rsa-sha256 header.s=default2302 header.b=lO9k8AfL
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=213.133.104.62; helo=www62.your-server.de; envelope-from=daniel@iogearbox.net; receiver=<UNKNOWN> 
+Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D655F613FA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 12:25:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=/1G5FUDQpvZvuASdzQAKejgHTSFRJSHzx2wHymQgnpA=; b=lO9k8AfLGlZrBE2HyV1pQtekmf
+	s/tGoCLfQi2HkmQX5fwM/N2UaaXYnIVqwzWi4Co9VA2pU6G/q81Qkp9SUV835YkljwvcLOGsng4+G
+	OVCLDKRLG5W2OtDRKnXOD+Tld9KPwKXXjCLZkcQpPTJSnp+8IdK8yS0GscZcH2ARxglAuZthsenff
+	TZ6HOW61qfz20F89bGipaW6+XZ2QIm5d/xl5JkSslv/CWbsPy1pvDj62FTM6gVCD2lv1idNmsXJx5
+	ty+NThmAgXFIY7GQLR3EYuKdmn436FLRhZDYO+nsb3Qgo3RdUy8ofmoZikdpStqY2P50WtotTwe+W
+	G8LHcp9w==;
+Received: from sslproxy07.your-server.de ([78.47.199.104])
+	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1v1kcW-000MhS-1u;
+	Thu, 25 Sep 2025 13:58:44 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1v1kcU-000ICJ-1m;
+	Thu, 25 Sep 2025 13:58:42 +0200
+Message-ID: <b05e5979-2c62-4de5-ba29-e3b9e9167da8@iogearbox.net>
+Date: Thu, 25 Sep 2025 13:58:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -85,78 +67,155 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 0/4] Add XDP RX queue index metadata via kfuncs
-To: Jakub Sitnicki <jakub@cloudflare.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, donald.hunter@gmail.com, andrew+netdev@lunn.ch,
- ast@kernel.org, daniel@iogearbox.net, hawk@kernel.org,
- john.fastabend@gmail.com, matttbe@kernel.org, chuck.lever@oracle.com,
- jdamato@fastly.com, skhawaja@google.com, dw@davidwei.uk,
- mkarsten@uwaterloo.ca, yoong.siang.song@intel.com,
- david.hunter.linux@gmail.com, skhan@linuxfoundation.org, horms@kernel.org,
- sdf@fomichev.me, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20250923210026.3870-1-mehdi.benhadjkhelifa@gmail.com>
- <87h5wq50l0.fsf@cloudflare.com>
- <0cddb596-a70b-48d4-9d8e-c6cb76abd9d2@gmail.com>
- <87348a4yyd.fsf@cloudflare.com>
- <e85e7bb2-6229-4b04-9c2a-7a7b79497c6c@gmail.com>
- <87y0q23j2w.fsf@cloudflare.com>
+Subject: Re: [PATCH bpf-next v2] selftests/bpf: Add -Wsign-compare C
+ compilation flag
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
+ andrii@kernel.org, eddyz87@gmail.com, ast@kernel.org, martin.lau@linux.dev,
+ song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
+ kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org,
+ shuah@kernel.org, matttbe@kernel.org, martineau@kernel.org,
+ geliang@kernel.org, davem@davemloft.net, kuba@kernel.org, hawk@kernel.org,
+ linux@jordanrome.com, ameryhung@gmail.com, toke@redhat.com,
+ houtao1@huawei.com, emil@etsalapatis.com, yatsenko@meta.com,
+ isolodrai@meta.com, a.s.protopopov@gmail.com, dxu@dxuuu.xyz,
+ memxor@gmail.com, vmalik@redhat.com, bigeasy@linutronix.de, tj@kernel.org,
+ gregkh@linuxfoundation.org, paul@paul-moore.com,
+ bboscaccy@linux.microsoft.com, James.Bottomley@HansenPartnership.com,
+ mrpre@163.com, jakub@cloudflare.com
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, netdev@vger.kernel.org,
+ mptcp@lists.linux.dev, linux-kernel-mentees@lists.linuxfoundation.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+References: <20250924195731.6374-1-mehdi.benhadjkhelifa@gmail.com>
 Content-Language: en-US
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-In-Reply-To: <87y0q23j2w.fsf@cloudflare.com>
+From: Daniel Borkmann <daniel@iogearbox.net>
+Autocrypt: addr=daniel@iogearbox.net; keydata=
+ xsFNBGNAkI0BEADiPFmKwpD3+vG5nsOznvJgrxUPJhFE46hARXWYbCxLxpbf2nehmtgnYpAN
+ 2HY+OJmdspBntWzGX8lnXF6eFUYLOoQpugoJHbehn9c0Dcictj8tc28MGMzxh4aK02H99KA8
+ VaRBIDhmR7NJxLWAg9PgneTFzl2lRnycv8vSzj35L+W6XT7wDKoV4KtMr3Szu3g68OBbp1TV
+ HbJH8qe2rl2QKOkysTFRXgpu/haWGs1BPpzKH/ua59+lVQt3ZupePpmzBEkevJK3iwR95TYF
+ 06Ltpw9ArW/g3KF0kFUQkGXYXe/icyzHrH1Yxqar/hsJhYImqoGRSKs1VLA5WkRI6KebfpJ+
+ RK7Jxrt02AxZkivjAdIifFvarPPu0ydxxDAmgCq5mYJ5I/+BY0DdCAaZezKQvKw+RUEvXmbL
+ 94IfAwTFA1RAAuZw3Rz5SNVz7p4FzD54G4pWr3mUv7l6dV7W5DnnuohG1x6qCp+/3O619R26
+ 1a7Zh2HlrcNZfUmUUcpaRPP7sPkBBLhJfqjUzc2oHRNpK/1mQ/+mD9CjVFNz9OAGD0xFzNUo
+ yOFu/N8EQfYD9lwntxM0dl+QPjYsH81H6zw6ofq+jVKcEMI/JAgFMU0EnxrtQKH7WXxhO4hx
+ 3DFM7Ui90hbExlFrXELyl/ahlll8gfrXY2cevtQsoJDvQLbv7QARAQABzSZEYW5pZWwgQm9y
+ a21hbm4gPGRhbmllbEBpb2dlYXJib3gubmV0PsLBkQQTAQoAOxYhBCrUdtCTcZyapV2h+93z
+ cY/jfzlXBQJjQJCNAhsDBQkHhM4ACAsJCAcNDAsKBRUKCQgLAh4BAheAAAoJEN3zcY/jfzlX
+ dkUQAIFayRgjML1jnwKs7kvfbRxf11VI57EAG8a0IvxDlNKDcz74mH66HMyhMhPqCPBqphB5
+ ZUjN4N5I7iMYB/oWUeohbuudH4+v6ebzzmgx/EO+jWksP3gBPmBeeaPv7xOvN/pPDSe/0Ywp
+ dHpl3Np2dS6uVOMnyIsvmUGyclqWpJgPoVaXrVGgyuer5RpE/a3HJWlCBvFUnk19pwDMMZ8t
+ 0fk9O47HmGh9Ts3O8pGibfdREcPYeGGqRKRbaXvcRO1g5n5x8cmTm0sQYr2xhB01RJqWrgcj
+ ve1TxcBG/eVMmBJefgCCkSs1suriihfjjLmJDCp9XI/FpXGiVoDS54TTQiKQinqtzP0jv+TH
+ 1Ku+6x7EjLoLH24ISGyHRmtXJrR/1Ou22t0qhCbtcT1gKmDbTj5TcqbnNMGWhRRTxgOCYvG0
+ 0P2U6+wNj3HFZ7DePRNQ08bM38t8MUpQw4Z2SkM+jdqrPC4f/5S8JzodCu4x80YHfcYSt+Jj
+ ipu1Ve5/ftGlrSECvy80ZTKinwxj6lC3tei1bkI8RgWZClRnr06pirlvimJ4R0IghnvifGQb
+ M1HwVbht8oyUEkOtUR0i0DMjk3M2NoZ0A3tTWAlAH8Y3y2H8yzRrKOsIuiyKye9pWZQbCDu4
+ ZDKELR2+8LUh+ja1RVLMvtFxfh07w9Ha46LmRhpCzsFNBGNAkI0BEADJh65bNBGNPLM7cFVS
+ nYG8tqT+hIxtR4Z8HQEGseAbqNDjCpKA8wsxQIp0dpaLyvrx4TAb/vWIlLCxNu8Wv4W1JOST
+ wI+PIUCbO/UFxRy3hTNlb3zzmeKpd0detH49bP/Ag6F7iHTwQQRwEOECKKaOH52tiJeNvvyJ
+ pPKSKRhmUuFKMhyRVK57ryUDgowlG/SPgxK9/Jto1SHS1VfQYKhzMn4pWFu0ILEQ5x8a0RoX
+ k9p9XkwmXRYcENhC1P3nW4q1xHHlCkiqvrjmWSbSVFYRHHkbeUbh6GYuCuhqLe6SEJtqJW2l
+ EVhf5AOp7eguba23h82M8PC4cYFl5moLAaNcPHsdBaQZznZ6NndTtmUENPiQc2EHjHrrZI5l
+ kRx9hvDcV3Xnk7ie0eAZDmDEbMLvI13AvjqoabONZxra5YcPqxV2Biv0OYp+OiqavBwmk48Z
+ P63kTxLddd7qSWbAArBoOd0wxZGZ6mV8Ci/ob8tV4rLSR/UOUi+9QnkxnJor14OfYkJKxot5
+ hWdJ3MYXjmcHjImBWplOyRiB81JbVf567MQlanforHd1r0ITzMHYONmRghrQvzlaMQrs0V0H
+ 5/sIufaiDh7rLeZSimeVyoFvwvQPx5sXhjViaHa+zHZExP9jhS/WWfFE881fNK9qqV8pi+li
+ 2uov8g5yD6hh+EPH6wARAQABwsF8BBgBCgAmFiEEKtR20JNxnJqlXaH73fNxj+N/OVcFAmNA
+ kI0CGwwFCQeEzgAACgkQ3fNxj+N/OVfFMhAA2zXBUzMLWgTm6iHKAPfz3xEmjtwCF2Qv/TT3
+ KqNUfU3/0VN2HjMABNZR+q3apm+jq76y0iWroTun8Lxo7g89/VDPLSCT0Nb7+VSuVR/nXfk8
+ R+OoXQgXFRimYMqtP+LmyYM5V0VsuSsJTSnLbJTyCJVu8lvk3T9B0BywVmSFddumv3/pLZGn
+ 17EoKEWg4lraXjPXnV/zaaLdV5c3Olmnj8vh+14HnU5Cnw/dLS8/e8DHozkhcEftOf+puCIl
+ Awo8txxtLq3H7KtA0c9kbSDpS+z/oT2S+WtRfucI+WN9XhvKmHkDV6+zNSH1FrZbP9FbLtoE
+ T8qBdyk//d0GrGnOrPA3Yyka8epd/bXA0js9EuNknyNsHwaFrW4jpGAaIl62iYgb0jCtmoK/
+ rCsv2dqS6Hi8w0s23IGjz51cdhdHzkFwuc8/WxI1ewacNNtfGnorXMh6N0g7E/r21pPeMDFs
+ rUD9YI1Je/WifL/HbIubHCCdK8/N7rblgUrZJMG3W+7vAvZsOh/6VTZeP4wCe7Gs/cJhE2gI
+ DmGcR+7rQvbFQC4zQxEjo8fNaTwjpzLM9NIp4vG9SDIqAm20MXzLBAeVkofixCsosUWUODxP
+ owLbpg7pFRJGL9YyEHpS7MGPb3jSLzucMAFXgoI8rVqoq6si2sxr2l0VsNH5o3NgoAgJNIg=
+In-Reply-To: <20250924195731.6374-1-mehdi.benhadjkhelifa@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: Clear (ClamAV 1.0.9/27773/Thu Sep 25 10:27:35 2025)
 
-On 9/25/25 11:47 AM, Jakub Sitnicki wrote:
-> On Thu, Sep 25, 2025 at 12:28 PM +01, Mehdi Ben Hadj Khelifa wrote:
->> On 9/25/25 11:18 AM, Jakub Sitnicki wrote:
->>> On Thu, Sep 25, 2025 at 11:54 AM +01, Mehdi Ben Hadj Khelifa wrote:
->>>> On 9/25/25 10:43 AM, Jakub Sitnicki wrote:
->>>>> On Tue, Sep 23, 2025 at 10:00 PM +01, Mehdi Ben Hadj Khelifa wrote:
->>>>>>     This patch series is intended to make a base for setting
->>>>>>     queue_index in the xdp_rxq_info struct in bpf/cpumap.c to
->>>>>>     the right index. Although that part I still didn't figure
->>>>>>     out yet,I m searching for my guidance to do that as well
->>>>>>     as for the correctness of the patches in this series.
->>>>> What is the use case/movtivation behind this work?
->>>>
->>>> The goal of the work is to have xdp programs have the correct packet RX queue
->>>> index after being redirected through cpumap because currently the queue_index
->>>> gets unset or more accurately set to 0 as a default in xdp_rxq_info. This is my
->>>> current understanding.I still have to know how I can propogate that HW hint from
->>>> the NICs to the function where I need it.
->>> This explains what this series does, the desired end state of
->>> information passing, but not why is does it - how that information is
->>> going to be consumed? To what end?
->>
->> In my vision,The queue index propagated correctly through cpumap can help xdp
->> programs use it for things such as per queue load balancing,Adaptive RSS tuning
->> and even maybe for DDoS mitigation where they can drop traffic per queue.I mean
->> if these aren't correct intents or if they don't justify the added code, I can
->> abort working on it. Even if they weren't I need more guidance on how I can have
->> that metadata from HW hints...
+On 9/24/25 9:57 PM, Mehdi Ben Hadj Khelifa wrote:
+> -Change all the source files and the corresponding headers
+> to having matching sign comparisons.
 > 
-> Both filtering or load balancing you'd want to do early on - in the XDP
-> program invoked on receive from NIC, which as Stanislav pointed out
-> already has access to the RX queue index in its context. Not on the
-> remote CPU after spending cycles on a redirect.
+> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+> ---
+> Changelog:
 > 
-> And even if you wanted to pass that information to the remote XDP
-> program, to do something with it, you can already store it in custom XDP
-> metadata [1].
-> 
-> So while perhaps there is something that you can't do today but would be
-> useful, I don't know what it is. Hence my question about the use case.
-> 
-> [1] https://docs.ebpf.io/linux/helper-function/bpf_xdp_adjust_meta/
-> 
-Very clear,
-I will abort working on this since it can be passed as a custom XDP 
-metadata [1] until further valid use cases or when it proves to be more 
-useful.
-Thank you for your review and time.
-Best Regards,
-Mehdi
+> Changes since v1:
+> - Fix CI failed builds where it failed due to do missing .c and
+> .h files in my patch for working in mainline.
+> https://lore.kernel.org/bpf/20250924162408.815137-1-mehdi.benhadjkhelifa@gmail.com/T/#u
+> ---
+>   tools/lib/bpf/usdt.bpf.h                         |  4 ++--
+>   tools/testing/selftests/bpf/Makefile             |  4 ++--
+>   tools/testing/selftests/bpf/bpf_arena_htab.h     |  2 +-
+>   tools/testing/selftests/bpf/progs/arena_list.c   |  2 +-
+>   .../bpf/progs/bench_local_storage_create.c       |  2 +-
+>   tools/testing/selftests/bpf/progs/bind_perm.c    |  2 +-
+>   tools/testing/selftests/bpf/progs/bpf_cc_cubic.c |  2 +-
+>   tools/testing/selftests/bpf/progs/bpf_cubic.c    |  8 ++++----
+>   .../bpf/progs/bpf_iter_bpf_percpu_array_map.c    |  2 +-
+>   .../selftests/bpf/progs/bpf_iter_task_stack.c    |  2 +-
+>   .../testing/selftests/bpf/progs/bpf_iter_tasks.c |  3 ++-
+>   .../selftests/bpf/progs/bpf_iter_vma_offset.c    |  4 ++--
+>   .../testing/selftests/bpf/progs/bpf_qdisc_fifo.c |  2 +-
+>   tools/testing/selftests/bpf/progs/bpf_qdisc_fq.c |  4 ++--
+>   .../bpf/progs/cgroup_getset_retval_getsockopt.c  |  6 +++---
+>   .../selftests/bpf/progs/connect4_dropper.c       |  2 +-
+>   .../selftests/bpf/progs/cpumask_success.c        |  4 ++--
+>   .../testing/selftests/bpf/progs/dynptr_success.c |  8 ++++----
+>   tools/testing/selftests/bpf/progs/iters.c        | 16 ++++++++--------
+>   .../selftests/bpf/progs/kfunc_call_test.c        |  2 +-
+>   tools/testing/selftests/bpf/progs/linked_list.c  | 10 +++++-----
+>   tools/testing/selftests/bpf/progs/lsm.c          |  2 +-
+>   .../testing/selftests/bpf/progs/map_in_map_btf.c |  2 +-
+>   tools/testing/selftests/bpf/progs/map_ptr_kern.c |  2 +-
+>   .../selftests/bpf/progs/mmap_inner_array.c       |  2 +-
+>   .../testing/selftests/bpf/progs/mptcp_subflow.c  |  2 +-
+>   .../selftests/bpf/progs/netif_receive_skb.c      |  4 ++--
+>   tools/testing/selftests/bpf/progs/profiler.inc.h |  6 +++---
+>   .../testing/selftests/bpf/progs/rcu_read_lock.c  |  4 ++--
+>   .../bpf/progs/sk_storage_omem_uncharge.c         |  6 +++---
+>   .../selftests/bpf/progs/sockopt_inherit.c        |  4 ++--
+>   tools/testing/selftests/bpf/progs/sockopt_sk.c   |  4 ++--
+>   tools/testing/selftests/bpf/progs/strobemeta.h   |  2 +-
+>   .../selftests/bpf/progs/task_local_data.bpf.h    |  6 +++---
+>   .../selftests/bpf/progs/test_bpf_cookie.c        |  2 +-
+>   .../testing/selftests/bpf/progs/test_check_mtu.c |  4 ++--
+>   .../selftests/bpf/progs/test_core_extern.c       |  2 +-
+>   .../testing/selftests/bpf/progs/test_get_xattr.c |  4 ++--
+>   .../selftests/bpf/progs/test_global_func11.c     |  2 +-
+>   .../selftests/bpf/progs/test_global_func12.c     |  2 +-
+>   .../selftests/bpf/progs/test_global_func13.c     |  2 +-
+>   .../selftests/bpf/progs/test_global_func14.c     |  2 +-
+>   .../selftests/bpf/progs/test_global_func9.c      |  2 +-
+>   .../selftests/bpf/progs/test_lwt_seg6local.c     |  4 ++--
+>   .../testing/selftests/bpf/progs/test_map_init.c  |  2 +-
+>   .../selftests/bpf/progs/test_parse_tcp_hdr_opt.c |  2 +-
+>   .../bpf/progs/test_parse_tcp_hdr_opt_dynptr.c    |  2 +-
+>   .../selftests/bpf/progs/test_pkt_access.c        |  6 +++---
+>   .../testing/selftests/bpf/progs/test_seg6_loop.c |  4 ++--
+>   tools/testing/selftests/bpf/progs/test_skb_ctx.c |  2 +-
+>   .../testing/selftests/bpf/progs/test_snprintf.c  |  2 +-
+>   .../selftests/bpf/progs/test_sockmap_kern.h      |  2 +-
+>   .../selftests/bpf/progs/test_sockmap_strp.c      |  2 +-
+>   .../testing/selftests/bpf/progs/test_tc_tunnel.c |  2 +-
+>   tools/testing/selftests/bpf/progs/test_xdp.c     |  2 +-
+>   .../selftests/bpf/progs/test_xdp_dynptr.c        |  2 +-
+>   .../testing/selftests/bpf/progs/test_xdp_loop.c  |  2 +-
+>   .../selftests/bpf/progs/test_xdp_noinline.c      |  4 ++--
+>   tools/testing/selftests/bpf/progs/udp_limit.c    |  2 +-
+>   tools/testing/selftests/bpf/progs/uprobe_multi.c |  4 ++--
+>   .../bpf/progs/uprobe_multi_session_recursive.c   |  5 +++--
+>   .../selftests/bpf/progs/verifier_arena_large.c   |  4 ++--
+>   .../bpf/progs/verifier_iterating_callbacks.c     |  2 +-
+>   63 files changed, 109 insertions(+), 107 deletions(-)
 
-[1] https://docs.ebpf.io/linux/helper-function/bpf_xdp_adjust_meta/
+Big churn all over the place :/ Either way, it looks like you haven't run
+the tests locally before submitting, some are failing:
+
+https://github.com/kernel-patches/bpf/actions/runs/17993782331
