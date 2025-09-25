@@ -1,83 +1,83 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3652EA15D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 09:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFE12D7DD1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 09:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758794109; cv=none; b=cRBD4OBY6hbdQ4YClLu/5Ogv4668LqImeJFx4sgBSmKzROfJpSNb9KefCvO7kgET5sDYdxvBVpt7JVAPR1oTrpSZCyCsXiMLfYJ6uJ8Hk4rPrObBj1CMvirZllUcxforc98DkfnJWDwkWpX2DVtUzXfaZBK3VTd9d67cYo+/Tvs=
+	t=1758794141; cv=none; b=YCPmPo3HuewJSOm/i7bZLci91J5KC9+Ry5c25WBWNtmvKP7Xjjruix2YHWVA4LNto7QtWHnP+5GfVEOENdEu1KR+nFUONgD9fHA68Oz8RFcW8fj5PYCIi6YrwezOzITO7Nu3lrt1aP2XOg/wZzCkeiHd3Nu8SWK2dtLTtCcjvYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758794109; c=relaxed/simple;
-	bh=gYz7iV05DSw4pVhAWjhV3Q0zzhj5V+j80F263wxEhK0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NAczZeSWQG5Kag5muhGSX647avRoNBOIDyWKdK1mie9/h89eBLT5YwIbz+MhM1WrB6E7p/d7J70ObcqR5pu4/w84RZLpyumMREfRvX7CfXC33+NmIlcV2obDoluTcZlN42APCX23yZXH2iomBH3/hmmqTqe9/apKmudUrwKOnw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQJMXB2k; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1758794141; c=relaxed/simple;
+	bh=nsnwlSBWxNXdZOIgg9WHa3Pyz2FyXAeKrCA5+GIwzMM=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=AokUhwmb8S5/A2SyuDS4FRVssrcpuUNE5a2mRYx1JHQJOrHnH2t0o31y3OOTNZAfq/GqFBv9CIRzCmhnYzYDs47OofuE0JH/idaI5uk5v2aAbbqhmbLDmyPZUtVH26F2axFAbUAwmMTKBVaLMUoWLVuAxeEon3We96x2QnAc2MM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RqZlO4rI; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQJMXB2k"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RqZlO4rI"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8A4DA80FDD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 09:55:07 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 999CB6143C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 09:55:40 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -2.098
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id qtDtJaOdDGlF for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 25 Sep 2025 09:55:05 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::530; helo=mail-ed1-x530.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 5FECB80F7E
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5FECB80F7E
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=EQJMXB2k
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 5FECB80F7E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 09:55:05 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-6344f12acb6so85310a12.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 02:55:05 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 1lghO9pQ8WnA for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 25 Sep 2025 09:55:40 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62d; helo=mail-pl1-x62d.google.com; envelope-from=spyjetfayed@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 12CD16142A
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 12CD16142A
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=RqZlO4rI
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 12CD16142A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 09:55:39 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-27ee41e0798so1250015ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 02:55:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758794103; x=1759398903; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=D6dvovCLm5rvYDjRuqlZ0v6O+tZDtYwybR22eRO2w/w=;
-        b=EQJMXB2kAz5JVlQp+Lz1adShCisrE4/mPg4WE9PEuZFupdZ/mag/XUKxAXZluvZNSj
-         /DujsrWxwh2cBTQuaXY4pEsaF8mnrl9VXM9uSNDU2fxUh+rbRk0it2IVd2P0eiKDQcf4
-         grBnHDNfrFQB9uiOxiVzE8m9RPx+E1zDAWeJkzXazih+0NW2ZF4Imo2K7mnmWz/OsnnV
-         htU79kL3c7qP+9eQdX7y8+3+9wBfzDKHh+HpOG6FQ/dE/BfWUZ4I5BzWRYPyZKsnFebL
-         zt1KAX6F4g/NRtGEKOhvAzXK4RK9/kFNT1Twzx4n6uY0R2Ks/j8YskyS6XpO5fqtG1+e
-         NSug==
+        d=gmail.com; s=20230601; t=1758794139; x=1759398939; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:autocrypt:subject:from:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nsnwlSBWxNXdZOIgg9WHa3Pyz2FyXAeKrCA5+GIwzMM=;
+        b=RqZlO4rI2SYfZYkBjc+h20wg5U8ynY9oPvFp2dHwySsErFKLP9vdowc2iYtgMjfRF5
+         ynTnORT0KG4bAfjl23ye3TzMZpmdSI8y7NqQHdk8PNcrwVVZtSeL+cxJHCujIlywCoZK
+         x10apLraNxZKKeVGt4kc54HkixOBLxddHc175Pf06KClNy3uY1LzwPUoze0NX3eCwLUK
+         w4aNezTkS1Jo+wDXR0Z9M7TtD0KzwwRNs3NK6LYv6+Giiue//Yes/Tr0PRUq07ukMVBG
+         h1HvUKPnk8YKcp8PGQZJZfD72ikh0gcmEBO0Kzb+IOzrnjYdntv9O7qtblm2nM4Gs9aO
+         rfKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758794103; x=1759398903;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1758794139; x=1759398939;
+        h=content-transfer-encoding:autocrypt:subject:from:to
+         :content-language:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D6dvovCLm5rvYDjRuqlZ0v6O+tZDtYwybR22eRO2w/w=;
-        b=pqZhXZnBM0EFUp2rE5Cch0UIMWsk0UPRr5L/3mRhXo5x1ZT4bX6mebZ5rnUQyq8wSA
-         XEc4l3ejdI8iCSXGHUG6qKaZIGulxEkR/77lEN477hihkuwGP4dv8Ct6uk9vJ0wxUZO2
-         ebGL+FNyK7eW0sFe9mya3pLnWwiugz9i371saHOmHj/cW2B0DOtbaByA40UGmRLTHJtI
-         YzH+OU1GNrdXHv2uYcI/HY8cipKcVWJfoo4iqrwgDYXRxdTAmb4Bm/EBZfoYPWOQvDsT
-         O0EMwd8tgMMtiFmdrQvoRgW8BV7KbkMyXw+3ZGo5PR5nJhkGvf4oR1Nw7io2Oys7oMJz
-         iFeg==
-X-Forwarded-Encrypted: i=1; AJvYcCX67fHZUxFtJLgk+ANxMrA2KJyGaoBUp/3guYWz2K29AajWBCfRiGRMzqqvo6e/jnSykNjfqUrrTIaKFyn1N/uFMS/x0A==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxFMLfwNUG3mhTj3cve6m347iequZJb2lyger889XYHK5N5EkQa
-	guYCHBkhgk+CTs17shGkEQF6VDXGt4JhTH2nkXRCSzaH+iGFuTUBwGQF
-X-Gm-Gg: ASbGncvzdT3AuBLQqgjCMYxAV60Sntpp4dJEkeZMNrDt6D8zO0uvYpPZXoxjd5MKJH6
-	/GyeVOvwWDa+wyzbkTssE/nZp7lwECpvpIzfhh1VXAZ6luiGs2C0IxT8anDnt+Cl/0gSCHTO7dx
-	4mwiz17057eC8ncQSygxjtOfL+tU5y4QdItAoBelexZ45iLoUEAZ7aUeNfi/Px1LYU3y97akjQR
-	gu+D928Z1iIrD8r5Ot+oOMCdJlXWPHyr7nQWSN2u1DvVbjpNe0pwx/au0J0TkjBUqz9831jV6Sw
-	AAuOTaVbCyVXigP+/lpxvlHf3iSmpjR4LlgA89VghdRE7yXxH8dTeF2/Ue/fPrcbUE26/AoogV1
-	pUYdZA2b/GdUXU3/Pnw83D1Iveuw76/bzRMMsb7wWHB4=
-X-Google-Smtp-Source: AGHT+IFTuGy+/aqTWUBxQswnc2Pa/G9YhWnP1H9BAmagYPQwBxO49Up+XtOmxAKd1meYws/OfWOHBA==
-X-Received: by 2002:a05:6402:239a:b0:634:9e76:9997 with SMTP id 4fb4d7f45d1cf-6349faa4975mr860990a12.7.1758794103190;
-        Thu, 25 Sep 2025 02:55:03 -0700 (PDT)
-Received: from [192.168.1.105] ([165.50.112.244])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-634a3ae31cfsm919842a12.33.2025.09.25.02.55.01
+        bh=nsnwlSBWxNXdZOIgg9WHa3Pyz2FyXAeKrCA5+GIwzMM=;
+        b=TTcRlZMk7tNGv5ibGWC48De1QTL/keTSXhfksR4t0BWJay5V2uYObXsTtnYneI0HCX
+         vydqszY6cHfkrdg902fQ119bA6kVaPTwFbHQiqZiSNcebjtx4D/MLsVDQbHyHKNvBAmV
+         93qeV5K2U1JmjggLUZXV+FZ95afOtEEkVXOZTk2BjqSv2LSUZmGn9XqaTvIjoNUXlDE1
+         Puai5Zl5aSkhXGz+zS4/px3q6myJvrQRnPVUZ07LQXUo2yZ9YqDmEB1HjnXeD7wimAfr
+         he4X9vbDTq8M9wsg1X/hLP05w7JOdym85GPX0qMWFe10YfhPorejXyQk01BEbht12ILv
+         vr2g==
+X-Gm-Message-State: AOJu0YyHgQ9O+v35tzhzR8kziYSS6mUix6psP+WQ3SqI6jb8ftqpGhw7
+	NkBxHiObK9WXKjB8tV1n6CoCFHIRk0yF4K5IR2xrXvZ/5DiMcZ8RK8+b4gWoRK32
+X-Gm-Gg: ASbGncs6GiRw9LtTy1NtI4bbcUDrWiJfHyPP1wfPiEC9KkkftDfAfRF3N/TkXpD2y4V
+	DZUrIfU7sJkRYMx30nSXTbkHSNapE+10yA9RbwMzVJI8CwAgKqz2YF+PSq4f4j+hemJ2S7fXLKC
+	VBgcLL67y38wlVZu+3o6Xu0D0vfAb1UJBuJ0x9GADF/yN2x1sRfwabhL9bcfITtOGXnp/gZBGJX
+	yckVcqHzMNDhZSjd3Sm68Ad8aYGt7n6GphkrvDFOEyn4OQrf4Osghx+pZYtuSeuanG5jTCS4tlm
+	TQ/+MPrwO5sU0BEedTjdvazmC8BL9NgJ9qQ8k8gwCdrr8SZ5kuhMjrsaGzLhn82hliKu/DberTU
+	nV43lBbVoYtsV/HyrQVfjsOmCOKj2SQUB/WOqxXbbjAo4zikfCCuHn4zzFSGwQjaEx5tWoaucSA
+	==
+X-Google-Smtp-Source: AGHT+IEF4IFp0G7AImiPHLit9f3njIaxCnWqwbc6ys1XWjoDyFhFo9x2JHu3YX3Kn8cmZteU/likrA==
+X-Received: by 2002:a17:903:3d0e:b0:277:3488:787e with SMTP id d9443c01a7336-27ed49b85d6mr30018615ad.12.1758794139325;
+        Thu, 25 Sep 2025 02:55:39 -0700 (PDT)
+Received: from ?IPV6:2405:201:8000:a149:4670:c55c:fe13:754d? ([2405:201:8000:a149:4670:c55c:fe13:754d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d3fdcsm19333115ad.23.2025.09.25.02.55.38
+        for <linux-kernel-mentees@lists.linuxfoundation.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 02:55:02 -0700 (PDT)
-Message-ID: <0cddb596-a70b-48d4-9d8e-c6cb76abd9d2@gmail.com>
-Date: Thu, 25 Sep 2025 11:54:59 +0100
+        Thu, 25 Sep 2025 02:55:39 -0700 (PDT)
+Message-ID: <edadb301-9fe6-4c3d-a640-e7de9e3fcc11@gmail.com>
+Date: Thu, 25 Sep 2025 15:25:37 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -85,40 +85,56 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 0/4] Add XDP RX queue index metadata via kfuncs
-To: Jakub Sitnicki <jakub@cloudflare.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, donald.hunter@gmail.com, andrew+netdev@lunn.ch,
- ast@kernel.org, daniel@iogearbox.net, hawk@kernel.org,
- john.fastabend@gmail.com, matttbe@kernel.org, chuck.lever@oracle.com,
- jdamato@fastly.com, skhawaja@google.com, dw@davidwei.uk,
- mkarsten@uwaterloo.ca, yoong.siang.song@intel.com,
- david.hunter.linux@gmail.com, skhan@linuxfoundation.org, horms@kernel.org,
- sdf@fomichev.me, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20250923210026.3870-1-mehdi.benhadjkhelifa@gmail.com>
- <87h5wq50l0.fsf@cloudflare.com>
 Content-Language: en-US
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-In-Reply-To: <87h5wq50l0.fsf@cloudflare.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org
+From: Ankan Biswas <spyjetfayed@gmail.com>
+Subject: subscribe
+Autocrypt: addr=spyjetfayed@gmail.com; keydata=
+ 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
+ TRpGew2ozniUMliyaLH9UH6/e9Us
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/25/25 10:43 AM, Jakub Sitnicki wrote:
-> On Tue, Sep 23, 2025 at 10:00 PM +01, Mehdi Ben Hadj Khelifa wrote:
->>   This patch series is intended to make a base for setting
->>   queue_index in the xdp_rxq_info struct in bpf/cpumap.c to
->>   the right index. Although that part I still didn't figure
->>   out yet,I m searching for my guidance to do that as well
->>   as for the correctness of the patches in this series.
-> 
-> What is the use case/movtivation behind this work?
+  Thanks
 
-The goal of the work is to have xdp programs have the correct packet RX 
-queue index after being redirected through cpumap because currently the 
-queue_index gets unset or more accurately set to 0 as a default in 
-xdp_rxq_info. This is my current understanding.I still have to know how 
-I can propogate that HW hint from the NICs to the function where I need it.
-
-Regards,
-Mehdi
