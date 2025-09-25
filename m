@@ -1,152 +1,287 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573CC302CA3
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Sep 2025 15:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF94B305E04
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 16:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758815966; cv=none; b=PDeL5UB3E2QgmX28N6NEPQVFz4UdIDzGKtbZBn8VAzk14w1cYJ5FCWtKxa1x/NmQJEQKciZ9PQ/DpOZRZZgX872CM/9X05fDI7D+ep+trXhO8PzYyRh7xVRF4QIAtm9SqwIrkFPYP/Gc1GzGDI9saDo+pn82NYqn5iReJFVyM+w=
+	t=1758817121; cv=none; b=JLijkp9Y8YFJnyvXFeLpIsj17Z1AKHP2GvCsAOcaRtw20m5YL+G2BavkeR6Lq+VE+a8zo0XUcA73q1Cu+zPO7bd1sE5/EadmUAKyYTAz9fwVysrzJnHN2g65VD3jIY16GCwCKNZFUS793wyzOoCVKpBB/fciARJ+jld4aEFBNWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758815966; c=relaxed/simple;
-	bh=2eZlHWvOxIgL3EbW7gHH6le+1fHOsCXZEgZKoMQwuOU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LW/xd44iQZqdihWsBLfzHr9yDLTnPUEWUBTbzYpgTDr8+Es29Hz4vx+OXHA+I4y3nPNfDm3wZHRQ8cSZjQ/ULMPgp+PnGx1Zh0htOORZvUZXdjjTcKSV99dzBUddGrYRgRleTbalS4vmv4xyfpGPr8qPyisZ7dCSEJgqVwUC6Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LXEkS9f7; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758817121; c=relaxed/simple;
+	bh=B39erYFu+IADpwH47mN8zsMtIScBC4vuaTnziuWPKH0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kLiM47eE3iPJIgdgMBsBQTQG0Id43TM2LK4f6ZV89/qX2LfwPx9sE4VKhZPmqm5fh43/U9jFCG+acLrKOyMR3yuW7s90jTQ7GNjtSEAYIen/NqoBVVttZryc/8RdgBz5JDzzYE6T8kY6YmqOImeBwEr8fH48+t77RxHF1HeWvyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DWz54HJG; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LXEkS9f7"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-77f198bd8eeso920451b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Sep 2025 08:59:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DWz54HJG"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 5B10284098
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 16:18:38 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id euOIEGN221D9 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 25 Sep 2025 16:18:37 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::636; helo=mail-ej1-x636.google.com; envelope-from=vivekyadav1207731111@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 4662584042
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4662584042
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DWz54HJG
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 4662584042
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 16:18:37 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-b3727611c1bso58705466b.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 09:18:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758815964; x=1759420764; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0haNpnskPhHv+Hqq/prkArlkxvbNwI7IdrC7Jtj5DeM=;
-        b=LXEkS9f7V+Hr/xTAs0hOkccIMF2ZdR94aAEnA24xvmOtxRpCjkh9AjagrSfRWCW5tb
-         ttNldsb99Z9ffZkrovyYKH1AdT056tV5zcaqAchbqM/OotX2Q9JhCwlcedWpJ9Gx1csp
-         ntoKFJKRbq5Eg85p4Xoq+se/J+L/1evSltVO3tz4Zn+Ss4oXZ4gfmXySMi34HXGSAtkn
-         UBNfZovWV6+uqdjrvUMxca53o2hW9nMNOQNuj1Ki6FrP/ktyvWFIsfoZZz641JtKjdkY
-         KpurQuH7bYwbL4xhTr3kMAI1j4DSuTSQFuOGjIjwnpKHWez5pBzetwJDQgIVj/0gV9LQ
-         dvGQ==
+        d=gmail.com; s=20230601; t=1758817115; x=1759421915; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s5xevkUUTmwlKwAyY0Wx9nWf1Int/iLI6fP1YJUNaVA=;
+        b=DWz54HJGYx17mAj0mmeRpJj9ihgpK+Pof5wqR1CUiYks1LyCKuCgyTwt9fq6u8y9n6
+         k4Mrd89N87shptrqdMYb22uy26cp7SY2vWA2xFiHvdJJb5w9Kc8DEqIW8K5l8QVvfJSx
+         mltZTm6fw/3geygWobUPDO1RyDmD2mIU7TEy1RJR+t4O1dCt1enhXmVE/2jnslVAXmm5
+         gcl2j0MsH5I1Rj/mbUVNOuQ847XsFbZw2w9m2r6NkNrDifqP60IDmKgAiET4VAYac0Cj
+         bYU7TiWDoSekVCknuSX/DmM9SN9GP5a/06G98ATz7Fcm95Qzsm0cBN0yp6Np0LyLkbSW
+         IyFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758815964; x=1759420764;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0haNpnskPhHv+Hqq/prkArlkxvbNwI7IdrC7Jtj5DeM=;
-        b=g4ULUeBuCsWd5kB4zLqfYetgNo0y+qOViOtWVB9zU+hk6qSB5/w2XauCyGZyAyBhwk
-         jgJ64lrCTgf5p+o3MovM4YmOsEgADqBlcow/HRNwBzz09OdXGZuRjQk6NeHTb/PVTztG
-         K7olyZvHKCQzm1qnmK1EISH1moDSjv+dhBXRWaEoMvfkVujUrK9d7w5/KwMt8iVFWkft
-         TUrRiAMPPUFRyswe12WP4HBd7LOsFdW1xwra8N3PHELfEJjMPXnKEQbz3mpRVQogEfiA
-         MRRDPi1aHZu3XtlkELUMjeKBnWMzwfYnpo9zrR15jx4g6HQOPgvL0gvQ/yKEFt6dg4AK
-         gqww==
-X-Forwarded-Encrypted: i=1; AJvYcCU2/2t5zw2iBF7WmDgMJq9A8W8/MP0wbwERokdtFiluGqOpO+O1DDJdNZQXYOc17UI7BBjz1C2dZ4FPu9nnqRPcWnNmUg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXGjA24zTT0SPVyBxikYt2tyo4+DvMmczXsiLBnAkTGZ6hgj9Q
-	V4OAPg858bu9SR5e8wN6RnUrPrRdNRLKZp5MF4P+ttyIMxXj7zw/MUC6
-X-Gm-Gg: ASbGncviHqARAtTYdMtZcrc8joqDwrPMZWJuUdoe8g1wthLEv7qd4j9/YsjIhKmGr9e
-	732f3MiW1dwSlGeQnhc7bGK2scADBzMGxW01C0/qdhszYVuP6YVsCvDjCHOhm/zi7LR4pA6JE4M
-	xoPgrjTRqWe91SqQkiVcbPIvOTeXtD1NBLbDah6Yf/4gl++ykMJMrGHMTUjYf9K24jYNfyy09if
-	/JJbWJ81CEC18ioQTQyODLDz4kX+QsZaVv8LVn+K91vsApbvoWwW7ysFOGCvRxLX0S1jxwbeDx/
-	xkxcz8YzZlRQym7poOdRygSnO101OzD3H9gV2PHtyr9hnHi2jJ1hgQhfzSKPu+TfEGYrjzaMl2u
-	bcSaZ4crtV2MPESM8WrCv+RxSEWQHOCqo4MnfNFxclJsPs0NtRs6nfEuCqrK1SGqN63K9dB/u4W
-	qA6XhUTwkeLxKP
-X-Google-Smtp-Source: AGHT+IEhAQcRgo74RGno0MIUNQs86Uz784EwSabYzAQVGz1THpiA0aDqQT0LiijW0GN3h3wpllQpcA==
-X-Received: by 2002:a05:6a21:207:b0:2ed:997b:44b5 with SMTP id adf61e73a8af0-2ed997b52c3mr1885758637.37.1758815964344;
-        Thu, 25 Sep 2025 08:59:24 -0700 (PDT)
-Received: from debian.domain.name ([223.181.105.26])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7810238cafasm2320354b3a.4.2025.09.25.08.59.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Sep 2025 08:59:23 -0700 (PDT)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: richardcochran@gmail.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	david.hunter.linux@gmail.com,
-	I Viswanath <viswanathiyyappan@gmail.com>,
-	syzbot+94d20db923b9f51be0df@syzkaller.appspotmail.com
-Subject: [PATCH net v3] ptp: Add a upper bound on max_vclocks
-Date: Thu, 25 Sep 2025 21:29:08 +0530
-Message-ID: <20250925155908.5034-1-viswanathiyyappan@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        d=1e100.net; s=20230601; t=1758817115; x=1759421915;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s5xevkUUTmwlKwAyY0Wx9nWf1Int/iLI6fP1YJUNaVA=;
+        b=kti1VadTqNA6fww+OvME5beju11yFVmbHtnpr29bIDUxK6Gfac/1U2NchRCKGAe+OF
+         9dSYBauGhtAlvn6sNlCQYow0vxsAEUJhHtJXRnN3XTYe/hf/xlng+KKqbvlxmUjE0DFc
+         uIeWNuvH3nV/gGUbkx88ql0DebudgvPQCZaaChQZj4OH73adoLsis2EZkOE/mx5BFHlk
+         EXlyb1io4Ry463OB3dWmZyVfEhCNlE2m73aSj1tpnmUy6aFnvrWULEre2ve9EvY2p5VL
+         BDOtjggVDkNKgZg+stcxgHB42KIfpH+pzkjiK3m6gCnYUtoVPLcCtkPDqfnJhxrYkBAP
+         OshA==
+X-Forwarded-Encrypted: i=1; AJvYcCVR3S4NsTggbPHA1kfDkDXyTeV9xi9Zhbsm9JQ0OGxlxL498jdeCIDjiJa8bOVjCCPniPDt5QN7phqDvQPq09x8mH6BMw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yy5AXeb3LOMZnsBhqdmd61FDP7PbkYRpcSxaFSJLVahvgMHSqGq
+	atjPmXxeoW5ZbznhL2XPHffSY93JNwIQlquDH+zV36C+L5/h63pQnHuIzDnwnkpfVPWCZI34eXn
+	PDuUkybnzfw65sR34Sup31MMrjtccBO0=
+X-Gm-Gg: ASbGncsTJFWq42o+eQjnLDzDXsdQHwDI7sCk4RNHRs6cYLrzbKUSv5UqQlmh1/Y/VJu
+	WjrL6RaP8bXTQkjcL8/TkFBNC1l13/VDpyJ5iTRwDrPljB49jJqmo4D0oer/8zkcJLpeLZfa7NK
+	GFElX7++pZl3Bh2JT85j9GLsEX+DzHlPRW/LKOEdShvKc5UW2nxzzBH4Ls4uIkB+ZqHKYxvpd3F
+	OtYmcVUxNLpRAcCGnmChIulM9jLHd+f94VB403H0JBgEVtCHyc=
+X-Google-Smtp-Source: AGHT+IFwv2YwsWAIKIDmxsrJN0NY39IA3xgFkg9Xv9DM8KA1HxgqMZQFSM1VnRv5Sj5R14hL06ntb/V9/P6xF1NLvs4=
+X-Received: by 2002:a17:907:720b:b0:b2a:7f08:23da with SMTP id
+ a640c23a62f3a-b34bbebe2f0mr416672066b.56.1758817114676; Thu, 25 Sep 2025
+ 09:18:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250925103559.14876-1-mehdi.benhadjkhelifa@gmail.com>
+ <20250925103559.14876-4-mehdi.benhadjkhelifa@gmail.com> <5ad26663-a3cc-4bf4-9d6f-8213ac8e8ce6@iogearbox.net>
+ <4b77c830-2a7d-444a-adeb-4d1370f8923f@gmail.com>
+In-Reply-To: <4b77c830-2a7d-444a-adeb-4d1370f8923f@gmail.com>
+From: vivek yadav <vivekyadav1207731111@gmail.com>
+Date: Thu, 25 Sep 2025 21:48:22 +0530
+X-Gm-Features: AS18NWDavCeJ5JOczMPLBfdxzac54ktOAMOZM_aUlp9EmmRHO_1O8MKFqbGzkPg
+Message-ID: <CABPSWR7_w3mxr74wCDEF=MYYuG2F_vMJeD-dqotc8MDmaS_FpQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] selftests/bpf: Prepare to add -Wsign-compare for
+ bpf tests
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Cc: Daniel Borkmann <daniel@iogearbox.net>, andrii@kernel.org, eddyz87@gmail.com, 
+	ast@kernel.org, martin.lau@linux.dev, song@kernel.org, 
+	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
+	sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, shuah@kernel.org, 
+	matttbe@kernel.org, martineau@kernel.org, geliang@kernel.org, 
+	davem@davemloft.net, kuba@kernel.org, hawk@kernel.org, linux@jordanrome.com, 
+	ameryhung@gmail.com, toke@redhat.com, houtao1@huawei.com, 
+	emil@etsalapatis.com, yatsenko@meta.com, isolodrai@meta.com, 
+	a.s.protopopov@gmail.com, dxu@dxuuu.xyz, memxor@gmail.com, vmalik@redhat.com, 
+	bigeasy@linutronix.de, tj@kernel.org, gregkh@linuxfoundation.org, 
+	paul@paul-moore.com, bboscaccy@linux.microsoft.com, 
+	James.Bottomley@hansenpartnership.com, mrpre@163.com, jakub@cloudflare.com, 
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, netdev@vger.kernel.org, 
+	mptcp@lists.linux.dev, linux-kernel-mentees@lists.linuxfoundation.org, 
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot reported WARNING in max_vclocks_store.
+Hi Mehdi,
+You are trying to do much with the patch series. I don't think it will
+help much as reviewers will give comments and you will revise the
+patches. This loop will continue forever.
 
-This occurs when the argument max is too large for kcalloc to handle.
+I totally agree with Daniel. Please write a proper commit message.
 
-Extend the guard to guard against values that are too large for
-kcalloc
+While writing a commit message or creating a patch.Please try to give
+the answers of the following questions.
+1) What is the issue which your patch resolves?
+2) Are you trying to do more than one thing at a time? Please don't.
+3) if a patch modifies more than one file then either these changes
+inter link with each other or they have similar kind of work.
 
-Reported-by: syzbot+94d20db923b9f51be0df@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=94d20db923b9f51be0df
-Tested-by: syzbot+94d20db923b9f51be0df@syzkaller.appspotmail.com
-Fixes: 73f37068d540 ("ptp: support ptp physical/virtual clocks conversion")
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
----
-This can be reproduced by executing: 
+~~Vivek
 
-echo x > /sys/devices/virtual/ptp/ptp0/max_vclocks
-
-where x > KMALLOC_MAX_SIZE/(sizeof(int)) which computes to 1048576 on
-my system
-
-What would be a reasonable value for PTP_MAX_VCLOCKS_LIMIT?
-
-KMALLOC_MAX_SIZE/(sizeof(int)) is the absolute max value for which the 
-memory allocation won't fail
-
-v1:
-Link: https://lore.kernel.org/linux-mm/20250922170357.148588-1-viswanathiyyappan@gmail.com/
-
-v2:
-- Moved the validation to max_vclocks_store
-Link: https://lore.kernel.org/netdev/20250923160622.8096-1-viswanathiyyappan@gmail.com/
-
-v3:
-- Removed RFC tag from the patch
-
- drivers/ptp/ptp_private.h | 1 +
- drivers/ptp/ptp_sysfs.c   | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/ptp/ptp_private.h b/drivers/ptp/ptp_private.h
-index b352df4cd3f9..f329263f33aa 100644
---- a/drivers/ptp/ptp_private.h
-+++ b/drivers/ptp/ptp_private.h
-@@ -22,6 +22,7 @@
- #define PTP_MAX_TIMESTAMPS 128
- #define PTP_BUF_TIMESTAMPS 30
- #define PTP_DEFAULT_MAX_VCLOCKS 20
-+#define PTP_MAX_VCLOCKS_LIMIT (KMALLOC_MAX_SIZE/(sizeof(int)))
- #define PTP_MAX_CHANNELS 2048
- 
- enum {
-diff --git a/drivers/ptp/ptp_sysfs.c b/drivers/ptp/ptp_sysfs.c
-index 6b1b8f57cd95..200eaf500696 100644
---- a/drivers/ptp/ptp_sysfs.c
-+++ b/drivers/ptp/ptp_sysfs.c
-@@ -284,7 +284,7 @@ static ssize_t max_vclocks_store(struct device *dev,
- 	size_t size;
- 	u32 max;
- 
--	if (kstrtou32(buf, 0, &max) || max == 0)
-+	if (kstrtou32(buf, 0, &max) || max == 0 || max > PTP_MAX_VCLOCKS_LIMIT)
- 		return -EINVAL;
- 
- 	if (max == ptp->max_vclocks)
--- 
-2.47.3
-
+On Thu, Sep 25, 2025 at 9:04=E2=80=AFPM Mehdi Ben Hadj Khelifa
+<mehdi.benhadjkhelifa@gmail.com> wrote:
+>
+> On 9/25/25 4:04 PM, Daniel Borkmann wrote:
+> > On 9/25/25 12:35 PM, Mehdi Ben Hadj Khelifa wrote:
+> >> -Change only variable types for correct sign comparisons
+> >>
+> >> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+> >
+> > Pls write some better commit messages and not just copy/paste the same
+> > $subj/
+> > message every time; proper sentences w/o the weird " -" indent.
+>
+> Understood, though the changes are very similar / are the same with the
+> same goal that's why it made sense to me to do that and I will remove
+> the - in future commits.> Also say
+> > why
+> > this is needed in the commit message, and add a reference to the commit
+> > which
+> > initially added this as a TODO, i.e. 495d2d8133fd ("selftests/bpf:
+> > Attempt to
+> > build BPF programs with -Wsign-compare").
+> I will do that in the upcoming version.
+>
+> > If you group these, then maybe
+> > also
+> > include the parts of the compiler-emitted warnings during build which a=
+re
+> > relevant to the code changes you do here.
+>
+> Okay. I will do that. Should i send a v4 with the recommended changes
+> but not including the rest of the files meaning the ones that I haven't
+> uploaded in this patch series which contain type casting or should i
+> just make changes for these files in this series?
+> Also will it be better if dropped these versions and made a new patch
+> with v1?
+>
+> Thank you for your review and time Daniel.
+> Regards,
+> Mehdi
+> >> ---
+> >>   tools/testing/selftests/bpf/progs/test_xdp_dynptr.c          | 2 +-
+> >>   tools/testing/selftests/bpf/progs/test_xdp_loop.c            | 2 +-
+> >>   tools/testing/selftests/bpf/progs/test_xdp_noinline.c        | 4 ++-=
+-
+> >>   tools/testing/selftests/bpf/progs/uprobe_multi.c             | 4 ++-=
+-
+> >>   .../selftests/bpf/progs/uprobe_multi_session_recursive.c     | 5 +++=
+--
+> >>   .../selftests/bpf/progs/verifier_iterating_callbacks.c       | 2 +-
+> >>   6 files changed, 10 insertions(+), 9 deletions(-)
+> >>
+> >> diff --git a/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c b/
+> >> tools/testing/selftests/bpf/progs/test_xdp_dynptr.c
+> >> index 67a77944ef29..12ad0ec91021 100644
+> >> --- a/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c
+> >> +++ b/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c
+> >> @@ -89,7 +89,7 @@ static __always_inline int handle_ipv4(struct xdp_md
+> >> *xdp, struct bpf_dynptr *xd
+> >>       struct vip vip =3D {};
+> >>       int dport;
+> >>       __u32 csum =3D 0;
+> >> -    int i;
+> >> +    size_t i;
+> >>       __builtin_memset(eth_buffer, 0, sizeof(eth_buffer));
+> >>       __builtin_memset(iph_buffer_tcp, 0, sizeof(iph_buffer_tcp));
+> >> diff --git a/tools/testing/selftests/bpf/progs/test_xdp_loop.c b/
+> >> tools/testing/selftests/bpf/progs/test_xdp_loop.c
+> >> index 93267a68825b..e9b7bbff5c23 100644
+> >> --- a/tools/testing/selftests/bpf/progs/test_xdp_loop.c
+> >> +++ b/tools/testing/selftests/bpf/progs/test_xdp_loop.c
+> >> @@ -85,7 +85,7 @@ static __always_inline int handle_ipv4(struct xdp_md
+> >> *xdp)
+> >>       struct vip vip =3D {};
+> >>       int dport;
+> >>       __u32 csum =3D 0;
+> >> -    int i;
+> >> +    size_t i;
+> >>       if (iph + 1 > data_end)
+> >>           return XDP_DROP;
+> >> diff --git a/tools/testing/selftests/bpf/progs/test_xdp_noinline.c b/
+> >> tools/testing/selftests/bpf/progs/test_xdp_noinline.c
+> >> index fad94e41cef9..85ef3c0a3e20 100644
+> >> --- a/tools/testing/selftests/bpf/progs/test_xdp_noinline.c
+> >> +++ b/tools/testing/selftests/bpf/progs/test_xdp_noinline.c
+> >> @@ -372,7 +372,7 @@ bool encap_v4(struct xdp_md *xdp, struct ctl_value
+> >> *cval,
+> >>       next_iph_u16 =3D (__u16 *) iph;
+> >>       __pragma_loop_unroll_full
+> >> -    for (int i =3D 0; i < sizeof(struct iphdr) >> 1; i++)
+> >> +    for (size_t i =3D 0; i < sizeof(struct iphdr) >> 1; i++)
+> >>           csum +=3D *next_iph_u16++;
+> >>       iph->check =3D ~((csum & 0xffff) + (csum >> 16));
+> >>       if (bpf_xdp_adjust_head(xdp, (int)sizeof(struct iphdr)))
+> >> @@ -423,7 +423,7 @@ int send_icmp_reply(void *data, void *data_end)
+> >>       iph->check =3D 0;
+> >>       next_iph_u16 =3D (__u16 *) iph;
+> >>       __pragma_loop_unroll_full
+> >> -    for (int i =3D 0; i < sizeof(struct iphdr) >> 1; i++)
+> >> +    for (size_t i =3D 0; i < sizeof(struct iphdr) >> 1; i++)
+> >>           csum +=3D *next_iph_u16++;
+> >>       iph->check =3D ~((csum & 0xffff) + (csum >> 16));
+> >>       return swap_mac_and_send(data, data_end);
+> >> diff --git a/tools/testing/selftests/bpf/progs/uprobe_multi.c b/tools/
+> >> testing/selftests/bpf/progs/uprobe_multi.c
+> >> index 44190efcdba2..f99957773c3a 100644
+> >> --- a/tools/testing/selftests/bpf/progs/uprobe_multi.c
+> >> +++ b/tools/testing/selftests/bpf/progs/uprobe_multi.c
+> >> @@ -20,13 +20,13 @@ __u64 uretprobe_multi_func_3_result =3D 0;
+> >>   __u64 uprobe_multi_sleep_result =3D 0;
+> >> -int pid =3D 0;
+> >> +__u32 pid =3D 0;
+> >>   int child_pid =3D 0;
+> >>   int child_tid =3D 0;
+> >>   int child_pid_usdt =3D 0;
+> >>   int child_tid_usdt =3D 0;
+> >> -int expect_pid =3D 0;
+> >> +__u32 expect_pid =3D 0;
+> >>   bool bad_pid_seen =3D false;
+> >>   bool bad_pid_seen_usdt =3D false;
+> >> diff --git a/tools/testing/selftests/bpf/progs/
+> >> uprobe_multi_session_recursive.c b/tools/testing/selftests/bpf/progs/
+> >> uprobe_multi_session_recursive.c
+> >> index 8fbcd69fae22..017f1859ebe8 100644
+> >> --- a/tools/testing/selftests/bpf/progs/uprobe_multi_session_recursive=
+.c
+> >> +++ b/tools/testing/selftests/bpf/progs/uprobe_multi_session_recursive=
+.c
+> >> @@ -3,6 +3,7 @@
+> >>   #include <bpf/bpf_helpers.h>
+> >>   #include <bpf/bpf_tracing.h>
+> >>   #include <stdbool.h>
+> >> +#include <stddef.h>
+> >>   #include "bpf_kfuncs.h"
+> >>   #include "bpf_misc.h"
+> >> @@ -10,8 +11,8 @@ char _license[] SEC("license") =3D "GPL";
+> >>   int pid =3D 0;
+> >> -int idx_entry =3D 0;
+> >> -int idx_return =3D 0;
+> >> +size_t idx_entry =3D 0;
+> >> +size_t idx_return =3D 0;
+> >>   __u64 test_uprobe_cookie_entry[6];
+> >>   __u64 test_uprobe_cookie_return[3];
+> >> diff --git a/tools/testing/selftests/bpf/progs/
+> >> verifier_iterating_callbacks.c b/tools/testing/selftests/bpf/progs/
+> >> verifier_iterating_callbacks.c
+> >> index 75dd922e4e9f..72f9f8c23c93 100644
+> >> --- a/tools/testing/selftests/bpf/progs/verifier_iterating_callbacks.c
+> >> +++ b/tools/testing/selftests/bpf/progs/verifier_iterating_callbacks.c
+> >> @@ -593,7 +593,7 @@ int loop_inside_iter_volatile_limit(const void *ct=
+x)
+> >>   {
+> >>       struct bpf_iter_num it;
+> >>       int *v, sum =3D 0;
+> >> -    __u64 i =3D 0;
+> >> +    __s32 i =3D 0;
+> >>       bpf_iter_num_new(&it, 0, ARR2_SZ);
+> >>       while ((v =3D bpf_iter_num_next(&it))) {
+> >
+>
+>
