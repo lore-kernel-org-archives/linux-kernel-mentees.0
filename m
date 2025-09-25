@@ -1,287 +1,298 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF94B305E04
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 16:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6082E719D
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Sep 2025 19:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758817121; cv=none; b=JLijkp9Y8YFJnyvXFeLpIsj17Z1AKHP2GvCsAOcaRtw20m5YL+G2BavkeR6Lq+VE+a8zo0XUcA73q1Cu+zPO7bd1sE5/EadmUAKyYTAz9fwVysrzJnHN2g65VD3jIY16GCwCKNZFUS793wyzOoCVKpBB/fciARJ+jld4aEFBNWs=
+	t=1758830095; cv=none; b=U0TYqFENpzTMfkvKBTufN0OK0CJU5npW0YTktjlp4ZfGSobiXCoHTF4SqxDuxMjVmw0GnF55jwZep7mWVrZHCyspQZhlr18TZkF/peeiRUPNvv6cFRWrDqTZu7o7JoZvcpYQB7daqE/6MyvWFWXt8KMeIFEvTH9cDJkK8s/umSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758817121; c=relaxed/simple;
-	bh=B39erYFu+IADpwH47mN8zsMtIScBC4vuaTnziuWPKH0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kLiM47eE3iPJIgdgMBsBQTQG0Id43TM2LK4f6ZV89/qX2LfwPx9sE4VKhZPmqm5fh43/U9jFCG+acLrKOyMR3yuW7s90jTQ7GNjtSEAYIen/NqoBVVttZryc/8RdgBz5JDzzYE6T8kY6YmqOImeBwEr8fH48+t77RxHF1HeWvyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DWz54HJG; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1758830095; c=relaxed/simple;
+	bh=pm5XYw0aXaktnBJIF5cJcO159P8QCT4QOXDxOjBU1n4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PzkvB+xkz4vxC8OO0ILEdfocPj3Zcrn9Qc1/Ys5291gEEJbuDhPaDikSQalP03QSKtb74II5B/Eusg7mqJbr9JWBeha2+d0aTncsGWfkAXyA8XrvplXtGsSDHRdpv3QmMjm4a8VSVExXGaN8mCo6z0ltI1+JEZrZlj4Wwp3L1Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bZKs5AdS; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DWz54HJG"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5B10284098
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 16:18:38 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id euOIEGN221D9 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 25 Sep 2025 16:18:37 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::636; helo=mail-ej1-x636.google.com; envelope-from=vivekyadav1207731111@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 4662584042
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4662584042
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DWz54HJG
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4662584042
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 16:18:37 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-b3727611c1bso58705466b.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 25 Sep 2025 09:18:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bZKs5AdS"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b553412a19bso1074220a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Sep 2025 12:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758817115; x=1759421915; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s5xevkUUTmwlKwAyY0Wx9nWf1Int/iLI6fP1YJUNaVA=;
-        b=DWz54HJGYx17mAj0mmeRpJj9ihgpK+Pof5wqR1CUiYks1LyCKuCgyTwt9fq6u8y9n6
-         k4Mrd89N87shptrqdMYb22uy26cp7SY2vWA2xFiHvdJJb5w9Kc8DEqIW8K5l8QVvfJSx
-         mltZTm6fw/3geygWobUPDO1RyDmD2mIU7TEy1RJR+t4O1dCt1enhXmVE/2jnslVAXmm5
-         gcl2j0MsH5I1Rj/mbUVNOuQ847XsFbZw2w9m2r6NkNrDifqP60IDmKgAiET4VAYac0Cj
-         bYU7TiWDoSekVCknuSX/DmM9SN9GP5a/06G98ATz7Fcm95Qzsm0cBN0yp6Np0LyLkbSW
-         IyFw==
+        d=gmail.com; s=20230601; t=1758830093; x=1759434893; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cUCRyPPxJwDgqGohVPvUhNuL/vkJ5zITczPe/mg3LcA=;
+        b=bZKs5AdSkYuxskgbC5IMeH+HsNXk53kQDQF3ncmrzwA0LG72i+zfvQNBRvYDMCD9GU
+         kBLccvxA29rMjo6b8gGgaUfIsSe9F0kkj9HEyjWG7ervTvAY/psGGWHfjSzfBmx2Is7z
+         B9hl5ga2wO0tf5XYScTBALLL8MhGISsGaKqCPywCa3gOSovQQjG+npwXUrJGh3oOQoAM
+         urZKyEVtQpKxl7zrdTRGy/sb8E5QrqA0YjOc31uBB+ubEH6PZmM2HDce/WSq6vfodNdx
+         dr/sMitfmSUW5fHZ+fXXKWOxp8aGAX0fsnCEmzVO1z4IAqppyQzeIoXnTft7UAZRaEmE
+         KDwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758817115; x=1759421915;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s5xevkUUTmwlKwAyY0Wx9nWf1Int/iLI6fP1YJUNaVA=;
-        b=kti1VadTqNA6fww+OvME5beju11yFVmbHtnpr29bIDUxK6Gfac/1U2NchRCKGAe+OF
-         9dSYBauGhtAlvn6sNlCQYow0vxsAEUJhHtJXRnN3XTYe/hf/xlng+KKqbvlxmUjE0DFc
-         uIeWNuvH3nV/gGUbkx88ql0DebudgvPQCZaaChQZj4OH73adoLsis2EZkOE/mx5BFHlk
-         EXlyb1io4Ry463OB3dWmZyVfEhCNlE2m73aSj1tpnmUy6aFnvrWULEre2ve9EvY2p5VL
-         BDOtjggVDkNKgZg+stcxgHB42KIfpH+pzkjiK3m6gCnYUtoVPLcCtkPDqfnJhxrYkBAP
-         OshA==
-X-Forwarded-Encrypted: i=1; AJvYcCVR3S4NsTggbPHA1kfDkDXyTeV9xi9Zhbsm9JQ0OGxlxL498jdeCIDjiJa8bOVjCCPniPDt5QN7phqDvQPq09x8mH6BMw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yy5AXeb3LOMZnsBhqdmd61FDP7PbkYRpcSxaFSJLVahvgMHSqGq
-	atjPmXxeoW5ZbznhL2XPHffSY93JNwIQlquDH+zV36C+L5/h63pQnHuIzDnwnkpfVPWCZI34eXn
-	PDuUkybnzfw65sR34Sup31MMrjtccBO0=
-X-Gm-Gg: ASbGncsTJFWq42o+eQjnLDzDXsdQHwDI7sCk4RNHRs6cYLrzbKUSv5UqQlmh1/Y/VJu
-	WjrL6RaP8bXTQkjcL8/TkFBNC1l13/VDpyJ5iTRwDrPljB49jJqmo4D0oer/8zkcJLpeLZfa7NK
-	GFElX7++pZl3Bh2JT85j9GLsEX+DzHlPRW/LKOEdShvKc5UW2nxzzBH4Ls4uIkB+ZqHKYxvpd3F
-	OtYmcVUxNLpRAcCGnmChIulM9jLHd+f94VB403H0JBgEVtCHyc=
-X-Google-Smtp-Source: AGHT+IFwv2YwsWAIKIDmxsrJN0NY39IA3xgFkg9Xv9DM8KA1HxgqMZQFSM1VnRv5Sj5R14hL06ntb/V9/P6xF1NLvs4=
-X-Received: by 2002:a17:907:720b:b0:b2a:7f08:23da with SMTP id
- a640c23a62f3a-b34bbebe2f0mr416672066b.56.1758817114676; Thu, 25 Sep 2025
- 09:18:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758830093; x=1759434893;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cUCRyPPxJwDgqGohVPvUhNuL/vkJ5zITczPe/mg3LcA=;
+        b=BLkc90pelu5DsAKqCWwVNeK8bTUM8NRTS+5oEqpJDedBILVDcRhM0wWeM9mv28fy6M
+         qLmzUgI/bvBZ7h5Q8oe7JhbmjJdTnb1lIFgIBkVlumtUn3fg5qwgkTItODpEdAO58E36
+         XAE5OdGR+I6HEFtZfXFkgdO9X3DiexULVDncsG4MH1BtnbD4PWmOTdOlDOh0bRWN7m3i
+         hk9THgb2Gd6grxAO+veqq16b+QrblisZmVbciKEXsCCbHhT76LnBWCtaHayf/UAJmhS+
+         ceQlLBPADPb2PZ6VyCFKkUzK0v9mRv2lvI4emn6j3rZvRaSd48nVdkmf1geCBjd2JwCZ
+         GxYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWA/ffN4Yy9TvMI0gunI8dRyYaoN6A+T2s0+3jMMeQ66sci7d+/zyawzNT0ltsA2uIKaCgiLEqNQsOJLTPGoQttFNjbuQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YweN647h280dowI0icZQOlrBzhOVX15zf5ow02fIzQaV/LwZOwE
+	RzwPTo6y5O6X1Gu3LYRtBrmJ0pP5lB4BdNuw/SZYRMON1epKp3BPuaG4
+X-Gm-Gg: ASbGncvlDbUWnRhqif1exykBRj5n7Bxwi2MAMngrBUoSguOqdXgSiCBgqp/obLvHiGk
+	5TB5n56SG6+JLVm0I4CdSp92/y+X7R1JhcemtXCEqbl6cUtk7/RxmdZcAArT74NPNRUDhULoH2V
+	FYyNiVcklsdeOxleUDH/sxxXh4BcM9G/CkHuIurC0lg8pMMOYrHklOX6h4vqqRwIEFbXj8ie3mT
+	7rsnfpJEKNPw0HglID8a03IR/fj3iF18y/uKDUGRWzAyHYo40uoeRd9Zftsd+i8zJ269Cbm7JGv
+	zhUM/dTbWf90bofZXEtFDa2k9v4Wlxjmhj0KiQzXWuUWSXtzsfrMZa/gqVsRwF7j09qAA+ECsrQ
+	uDpnKSVqHHIByZ5UiIrXrdbva38A+Mo9W5U9NJCv9lw==
+X-Google-Smtp-Source: AGHT+IHY9FrxRWml+wxJ38dtv6SdmwreMU9YpDdbSEbRQSOjOlzJqzA14wRIb8zcdNBWdW0cQAgMcA==
+X-Received: by 2002:a17:902:ced2:b0:24a:8e36:420a with SMTP id d9443c01a7336-27ed4aae440mr55087525ad.40.1758830093015;
+        Thu, 25 Sep 2025 12:54:53 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6ae5313sm33098765ad.149.2025.09.25.12.54.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Sep 2025 12:54:52 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: corbet@lwn.net,
+	fj2767dz@fujitsu.com,
+	will@kernel.org,
+	yangyicong@hisilicon.com
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] docs: perf: cleanup fujitsu_uncore_pmu.rst and fix htmldocs warnings/errors
+Date: Fri, 26 Sep 2025 01:24:40 +0530
+Message-ID: <20250925195442.71997-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250925103559.14876-1-mehdi.benhadjkhelifa@gmail.com>
- <20250925103559.14876-4-mehdi.benhadjkhelifa@gmail.com> <5ad26663-a3cc-4bf4-9d6f-8213ac8e8ce6@iogearbox.net>
- <4b77c830-2a7d-444a-adeb-4d1370f8923f@gmail.com>
-In-Reply-To: <4b77c830-2a7d-444a-adeb-4d1370f8923f@gmail.com>
-From: vivek yadav <vivekyadav1207731111@gmail.com>
-Date: Thu, 25 Sep 2025 21:48:22 +0530
-X-Gm-Features: AS18NWDavCeJ5JOczMPLBfdxzac54ktOAMOZM_aUlp9EmmRHO_1O8MKFqbGzkPg
-Message-ID: <CABPSWR7_w3mxr74wCDEF=MYYuG2F_vMJeD-dqotc8MDmaS_FpQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] selftests/bpf: Prepare to add -Wsign-compare for
- bpf tests
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-Cc: Daniel Borkmann <daniel@iogearbox.net>, andrii@kernel.org, eddyz87@gmail.com, 
-	ast@kernel.org, martin.lau@linux.dev, song@kernel.org, 
-	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
-	sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, shuah@kernel.org, 
-	matttbe@kernel.org, martineau@kernel.org, geliang@kernel.org, 
-	davem@davemloft.net, kuba@kernel.org, hawk@kernel.org, linux@jordanrome.com, 
-	ameryhung@gmail.com, toke@redhat.com, houtao1@huawei.com, 
-	emil@etsalapatis.com, yatsenko@meta.com, isolodrai@meta.com, 
-	a.s.protopopov@gmail.com, dxu@dxuuu.xyz, memxor@gmail.com, vmalik@redhat.com, 
-	bigeasy@linutronix.de, tj@kernel.org, gregkh@linuxfoundation.org, 
-	paul@paul-moore.com, bboscaccy@linux.microsoft.com, 
-	James.Bottomley@hansenpartnership.com, mrpre@163.com, jakub@cloudflare.com, 
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, netdev@vger.kernel.org, 
-	mptcp@lists.linux.dev, linux-kernel-mentees@lists.linuxfoundation.org, 
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Mehdi,
-You are trying to do much with the patch series. I don't think it will
-help much as reviewers will give comments and you will revise the
-patches. This loop will continue forever.
+- Adjust spacing around list and sections for better readability.
+- Use definition lists for defining events.
+- Replace block quotes with code blocks where appropriate.
 
-I totally agree with Daniel. Please write a proper commit message.
+Fixes the following htmldocs errors/warnings:
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:20: ERROR: Unexpected indentation.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:23: WARNING: Block quote ends without a blank line; unexpected unindent.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:28: ERROR: Unexpected indentation.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:81: ERROR: Unexpected indentation.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:82: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-While writing a commit message or creating a patch.Please try to give
-the answers of the following questions.
-1) What is the issue which your patch resolves?
-2) Are you trying to do more than one thing at a time? Please don't.
-3) if a patch modifies more than one file then either these changes
-inter link with each other or they have similar kind of work.
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+---
+ .../admin-guide/perf/fujitsu_uncore_pmu.rst   | 130 ++++++++++++------
+ 1 file changed, 87 insertions(+), 43 deletions(-)
 
-~~Vivek
+diff --git a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst b/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
+index 46595b788d3a..577bad243876 100644
+--- a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
++++ b/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
+@@ -6,105 +6,149 @@ Fujitsu Uncore Performance Monitoring Unit (PMU)
+ 
+ This driver supports the Uncore MAC PMUs and the Uncore PCI PMUs found
+ in Fujitsu chips.
++
+ Each MAC PMU on these chips is exposed as a uncore perf PMU with device name
+-mac_iod<iod>_mac<mac>_ch<ch>.
++``mac_iod<iod>_mac<mac>_ch<ch>``.
++
+ And each PCI PMU on these chips is exposed as a uncore perf PMU with device name
+-pci_iod<iod>_pci<pci>.
++``pci_iod<iod>_pci<pci>``.
+ 
+ The driver provides a description of its available events and configuration
+-options in sysfs, see /sys/bus/event_sources/devices/mac_iod<iod>_mac<mac>_ch<ch>/
+-and /sys/bus/event_sources/devices/pci_iod<iod>_pci<pci>/.
++options in sysfs, see ``/sys/bus/event_sources/devices/mac_iod<iod>_mac<mac>_ch<ch>/``
++and ``/sys/bus/event_sources/devices/pci_iod<iod>_pci<pci>/``.
++
+ This driver exports:
+-- formats, used by perf user space and other tools to configure events
++====================
++
++- formats, used by perf user space and other tools to configure events.
+ - events, used by perf user space and other tools to create events
+-  symbolically, e.g.:
+-    perf stat -a -e mac_iod0_mac0_ch0/event=0x21/ ls
+-    perf stat -a -e pci_iod0_pci0/event=0x24/ ls
++  symbolically, e.g:
++
++  .. code-block:: bash
++
++      perf stat -a -e mac_iod0_mac0_ch0/event=0x21/ ls
++      perf stat -a -e pci_iod0_pci0/event=0x24/ ls
++
+ - cpumask, used by perf user space and other tools to know on which CPUs
+   to open the events
+ 
+ This driver supports the following events for MAC:
+-- cycles
++--------------------------------------------------
++
++cycles:
+   This event counts MAC cycles at MAC frequency.
+-- read-count
++
++read-count:
+   This event counts the number of read requests to MAC.
+-- read-count-request
++
++read-count-request:
+   This event counts the number of read requests including retry to MAC.
+-- read-count-return
++
++read-count-return:
+   This event counts the number of responses to read requests to MAC.
+-- read-count-request-pftgt
++
++read-count-request-pftgt:
+   This event counts the number of read requests including retry with PFTGT
+   flag.
+-- read-count-request-normal
++
++read-count-request-normal:
+   This event counts the number of read requests including retry without PFTGT
+   flag.
+-- read-count-return-pftgt-hit
++
++read-count-return-pftgt-hit:
+   This event counts the number of responses to read requests which hit the
+   PFTGT buffer.
+-- read-count-return-pftgt-miss
++
++read-count-return-pftgt-miss:
+   This event counts the number of responses to read requests which miss the
+   PFTGT buffer.
+-- read-wait
++
++read-wait:
+   This event counts outstanding read requests issued by DDR memory controller
+   per cycle.
+-- write-count
++
++write-count:
+   This event counts the number of write requests to MAC (including zero write,
+   full write, partial write, write cancel).
+-- write-count-write
++
++write-count-write:
+   This event counts the number of full write requests to MAC (not including
+   zero write).
+-- write-count-pwrite
++
++write-count-pwrite:
+   This event counts the number of partial write requests to MAC.
+-- memory-read-count
++
++memory-read-count:
+   This event counts the number of read requests from MAC to memory.
+-- memory-write-count
++
++memory-write-count:
+   This event counts the number of full write requests from MAC to memory.
+-- memory-pwrite-count
++
++memory-pwrite-count:
+   This event counts the number of partial write requests from MAC to memory.
+-- ea-mac
++
++ea-mac:
+   This event counts energy consumption of MAC.
+-- ea-memory
++
++ea-memory:
+   This event counts energy consumption of memory.
+-- ea-memory-mac-write
++
++ea-memory-mac-write:
+   This event counts the number of write requests from MAC to memory.
+-- ea-ha
++
++ea-ha:
+   This event counts energy consumption of HA.
+ 
+   'ea' is the abbreviation for 'Energy Analyzer'.
+ 
+-Examples for use with perf::
++Examples for use with perf
++
++  .. code-block:: bash
+ 
+-  perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
++      perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
+ 
+ And, this driver supports the following events for PCI:
+-- pci-port0-cycles
++
++pci-port0-cycles:
+   This event counts PCI cycles at PCI frequency in port0.
+-- pci-port0-read-count
++
++pci-port0-read-count:
+   This event counts read transactions for data transfer in port0.
+-- pci-port0-read-count-bus
++
++pci-port0-read-count-bus:
+   This event counts read transactions for bus usage in port0.
+-- pci-port0-write-count
++
++pci-port0-write-count:
+   This event counts write transactions for data transfer in port0.
+-- pci-port0-write-count-bus
++
++pci-port0-write-count-bus:
+   This event counts write transactions for bus usage in port0.
+-- pci-port1-cycles
++
++pci-port1-cycles:
+   This event counts PCI cycles at PCI frequency in port1.
+-- pci-port1-read-count
++
++pci-port1-read-count:
+   This event counts read transactions for data transfer in port1.
+-- pci-port1-read-count-bus
++
++pci-port1-read-count-bus:
+   This event counts read transactions for bus usage in port1.
+-- pci-port1-write-count
++
++pci-port1-write-count:
+   This event counts write transactions for data transfer in port1.
+-- pci-port1-write-count-bus
++
++pci-port1-write-count-bus:
+   This event counts write transactions for bus usage in port1.
+-- ea-pci
++
++ea-pci:
+   This event counts energy consumption of PCI.
+ 
+-  'ea' is the abbreviation for 'Energy Analyzer'.
++      'ea' is the abbreviation for 'Energy Analyzer'.
++
++Examples for use with perf:
+ 
+-Examples for use with perf::
++  .. code-block:: bash
+ 
+-  perf stat -e pci_iod0_pci0/ea-pci/ ls
++      perf stat -e pci_iod0_pci0/ea-pci/ ls
+ 
+ Given that these are uncore PMUs the driver does not support sampling, therefore
+ "perf record" will not work. Per-task perf sessions are not supported.
+-- 
+2.43.0
 
-On Thu, Sep 25, 2025 at 9:04=E2=80=AFPM Mehdi Ben Hadj Khelifa
-<mehdi.benhadjkhelifa@gmail.com> wrote:
->
-> On 9/25/25 4:04 PM, Daniel Borkmann wrote:
-> > On 9/25/25 12:35 PM, Mehdi Ben Hadj Khelifa wrote:
-> >> -Change only variable types for correct sign comparisons
-> >>
-> >> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-> >
-> > Pls write some better commit messages and not just copy/paste the same
-> > $subj/
-> > message every time; proper sentences w/o the weird " -" indent.
->
-> Understood, though the changes are very similar / are the same with the
-> same goal that's why it made sense to me to do that and I will remove
-> the - in future commits.> Also say
-> > why
-> > this is needed in the commit message, and add a reference to the commit
-> > which
-> > initially added this as a TODO, i.e. 495d2d8133fd ("selftests/bpf:
-> > Attempt to
-> > build BPF programs with -Wsign-compare").
-> I will do that in the upcoming version.
->
-> > If you group these, then maybe
-> > also
-> > include the parts of the compiler-emitted warnings during build which a=
-re
-> > relevant to the code changes you do here.
->
-> Okay. I will do that. Should i send a v4 with the recommended changes
-> but not including the rest of the files meaning the ones that I haven't
-> uploaded in this patch series which contain type casting or should i
-> just make changes for these files in this series?
-> Also will it be better if dropped these versions and made a new patch
-> with v1?
->
-> Thank you for your review and time Daniel.
-> Regards,
-> Mehdi
-> >> ---
-> >>   tools/testing/selftests/bpf/progs/test_xdp_dynptr.c          | 2 +-
-> >>   tools/testing/selftests/bpf/progs/test_xdp_loop.c            | 2 +-
-> >>   tools/testing/selftests/bpf/progs/test_xdp_noinline.c        | 4 ++-=
--
-> >>   tools/testing/selftests/bpf/progs/uprobe_multi.c             | 4 ++-=
--
-> >>   .../selftests/bpf/progs/uprobe_multi_session_recursive.c     | 5 +++=
---
-> >>   .../selftests/bpf/progs/verifier_iterating_callbacks.c       | 2 +-
-> >>   6 files changed, 10 insertions(+), 9 deletions(-)
-> >>
-> >> diff --git a/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c b/
-> >> tools/testing/selftests/bpf/progs/test_xdp_dynptr.c
-> >> index 67a77944ef29..12ad0ec91021 100644
-> >> --- a/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c
-> >> +++ b/tools/testing/selftests/bpf/progs/test_xdp_dynptr.c
-> >> @@ -89,7 +89,7 @@ static __always_inline int handle_ipv4(struct xdp_md
-> >> *xdp, struct bpf_dynptr *xd
-> >>       struct vip vip =3D {};
-> >>       int dport;
-> >>       __u32 csum =3D 0;
-> >> -    int i;
-> >> +    size_t i;
-> >>       __builtin_memset(eth_buffer, 0, sizeof(eth_buffer));
-> >>       __builtin_memset(iph_buffer_tcp, 0, sizeof(iph_buffer_tcp));
-> >> diff --git a/tools/testing/selftests/bpf/progs/test_xdp_loop.c b/
-> >> tools/testing/selftests/bpf/progs/test_xdp_loop.c
-> >> index 93267a68825b..e9b7bbff5c23 100644
-> >> --- a/tools/testing/selftests/bpf/progs/test_xdp_loop.c
-> >> +++ b/tools/testing/selftests/bpf/progs/test_xdp_loop.c
-> >> @@ -85,7 +85,7 @@ static __always_inline int handle_ipv4(struct xdp_md
-> >> *xdp)
-> >>       struct vip vip =3D {};
-> >>       int dport;
-> >>       __u32 csum =3D 0;
-> >> -    int i;
-> >> +    size_t i;
-> >>       if (iph + 1 > data_end)
-> >>           return XDP_DROP;
-> >> diff --git a/tools/testing/selftests/bpf/progs/test_xdp_noinline.c b/
-> >> tools/testing/selftests/bpf/progs/test_xdp_noinline.c
-> >> index fad94e41cef9..85ef3c0a3e20 100644
-> >> --- a/tools/testing/selftests/bpf/progs/test_xdp_noinline.c
-> >> +++ b/tools/testing/selftests/bpf/progs/test_xdp_noinline.c
-> >> @@ -372,7 +372,7 @@ bool encap_v4(struct xdp_md *xdp, struct ctl_value
-> >> *cval,
-> >>       next_iph_u16 =3D (__u16 *) iph;
-> >>       __pragma_loop_unroll_full
-> >> -    for (int i =3D 0; i < sizeof(struct iphdr) >> 1; i++)
-> >> +    for (size_t i =3D 0; i < sizeof(struct iphdr) >> 1; i++)
-> >>           csum +=3D *next_iph_u16++;
-> >>       iph->check =3D ~((csum & 0xffff) + (csum >> 16));
-> >>       if (bpf_xdp_adjust_head(xdp, (int)sizeof(struct iphdr)))
-> >> @@ -423,7 +423,7 @@ int send_icmp_reply(void *data, void *data_end)
-> >>       iph->check =3D 0;
-> >>       next_iph_u16 =3D (__u16 *) iph;
-> >>       __pragma_loop_unroll_full
-> >> -    for (int i =3D 0; i < sizeof(struct iphdr) >> 1; i++)
-> >> +    for (size_t i =3D 0; i < sizeof(struct iphdr) >> 1; i++)
-> >>           csum +=3D *next_iph_u16++;
-> >>       iph->check =3D ~((csum & 0xffff) + (csum >> 16));
-> >>       return swap_mac_and_send(data, data_end);
-> >> diff --git a/tools/testing/selftests/bpf/progs/uprobe_multi.c b/tools/
-> >> testing/selftests/bpf/progs/uprobe_multi.c
-> >> index 44190efcdba2..f99957773c3a 100644
-> >> --- a/tools/testing/selftests/bpf/progs/uprobe_multi.c
-> >> +++ b/tools/testing/selftests/bpf/progs/uprobe_multi.c
-> >> @@ -20,13 +20,13 @@ __u64 uretprobe_multi_func_3_result =3D 0;
-> >>   __u64 uprobe_multi_sleep_result =3D 0;
-> >> -int pid =3D 0;
-> >> +__u32 pid =3D 0;
-> >>   int child_pid =3D 0;
-> >>   int child_tid =3D 0;
-> >>   int child_pid_usdt =3D 0;
-> >>   int child_tid_usdt =3D 0;
-> >> -int expect_pid =3D 0;
-> >> +__u32 expect_pid =3D 0;
-> >>   bool bad_pid_seen =3D false;
-> >>   bool bad_pid_seen_usdt =3D false;
-> >> diff --git a/tools/testing/selftests/bpf/progs/
-> >> uprobe_multi_session_recursive.c b/tools/testing/selftests/bpf/progs/
-> >> uprobe_multi_session_recursive.c
-> >> index 8fbcd69fae22..017f1859ebe8 100644
-> >> --- a/tools/testing/selftests/bpf/progs/uprobe_multi_session_recursive=
-.c
-> >> +++ b/tools/testing/selftests/bpf/progs/uprobe_multi_session_recursive=
-.c
-> >> @@ -3,6 +3,7 @@
-> >>   #include <bpf/bpf_helpers.h>
-> >>   #include <bpf/bpf_tracing.h>
-> >>   #include <stdbool.h>
-> >> +#include <stddef.h>
-> >>   #include "bpf_kfuncs.h"
-> >>   #include "bpf_misc.h"
-> >> @@ -10,8 +11,8 @@ char _license[] SEC("license") =3D "GPL";
-> >>   int pid =3D 0;
-> >> -int idx_entry =3D 0;
-> >> -int idx_return =3D 0;
-> >> +size_t idx_entry =3D 0;
-> >> +size_t idx_return =3D 0;
-> >>   __u64 test_uprobe_cookie_entry[6];
-> >>   __u64 test_uprobe_cookie_return[3];
-> >> diff --git a/tools/testing/selftests/bpf/progs/
-> >> verifier_iterating_callbacks.c b/tools/testing/selftests/bpf/progs/
-> >> verifier_iterating_callbacks.c
-> >> index 75dd922e4e9f..72f9f8c23c93 100644
-> >> --- a/tools/testing/selftests/bpf/progs/verifier_iterating_callbacks.c
-> >> +++ b/tools/testing/selftests/bpf/progs/verifier_iterating_callbacks.c
-> >> @@ -593,7 +593,7 @@ int loop_inside_iter_volatile_limit(const void *ct=
-x)
-> >>   {
-> >>       struct bpf_iter_num it;
-> >>       int *v, sum =3D 0;
-> >> -    __u64 i =3D 0;
-> >> +    __s32 i =3D 0;
-> >>       bpf_iter_num_new(&it, 0, ARR2_SZ);
-> >>       while ((v =3D bpf_iter_num_next(&it))) {
-> >
->
->
