@@ -1,291 +1,243 @@
-Received: from esa1.fujitsucc.c3s2.iphmx.com (esa1.fujitsucc.c3s2.iphmx.com [68.232.152.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CA513FEE
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 26 Sep 2025 09:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.152.245
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758877663; cv=fail; b=kl6tda0XvC9Z2VHG2aQhBbu/ezZy5g0NudejmgHtENaPa9wettMwqAvlDEK3WrpAqyDdKZka+NgI6b07CE/xAOeypjv9Od5Vd2J/U6/uavXvjdE7N33IZYgh5h3+MMlHBMkJ4Rh6E0abfUAR82V5KIvzTtnz5LsZtmSGVysVNok=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758877663; c=relaxed/simple;
-	bh=BiOJ57fXAEX8T+68yxyUj1jlMosQ7+DUnianOhor3/0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=qjFGhL7hRKAkeO/lAvbTTXG2EtuksJtd1FfKAX/2FQ8WWxDhaQaKWqxnSqgqoSP7vJR3dxzzr5KqGbndlH1YyYnqMPtjSDnlyXIq7oxD8gFaoFa23MWyuUk8xgvF+xusle2k3gRd/Mw22dFu3iAN05Uam2IaT+s6PSV7ypbHsn4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=ZntUPmSS; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=GXKW9F2n; arc=fail smtp.client-ip=68.232.152.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BD4261B71
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 26 Sep 2025 09:30:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758879034; cv=none; b=lpUUNVozJcZpBhaeswOweUf1LS+Gv8QbT2IXpBSArlThv4tSr30TpDjIfz28szCd0DUexoIxliO3DKgJdDCnghaYYGAVlwUCzdbjtzWVPwfXm77hZpDJbltmmaPPjKIe6kgn8MH4z7gmCP6ZovM/oJyQZKBVyXa2yjnml9o0djw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758879034; c=relaxed/simple;
+	bh=jsaDXrvFd+opyQe9qY5lje0lqnMdfeVW1SeWz23pFVw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X2Zav+8bBp3nYX7ryTTAM1R5EPp99otkTTqD8IBicEUEInnSDxFtgZyLTSAl70aun6LQ8OwdnNtt3XHJoJD0/GMvKf+OqHIsZdV166qG184+l98WT3m/EBMdQCuc9x2VeLJesEIMBMVQ7OXFRpKE7D8Co+uiyJaeP45aLqpe61E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iWld5J3F; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="ZntUPmSS";
-	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="GXKW9F2n"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
-  t=1758877662; x=1790413662;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=BiOJ57fXAEX8T+68yxyUj1jlMosQ7+DUnianOhor3/0=;
-  b=ZntUPmSS2WzgsVs5JiegL4VGQox6JJF5Ft/nQUec1jdmMbw86NAtjw5l
-   V2t30QoArG2NolAf5tbuVelL3yUqtUBIQRhDP2ALuEjJe0uBq7ZEWEj78
-   RZXRf18Zn8g5iZeUQHfBzZdkv4LuGHgBWb0hG+H0Oit2kM2ndsDxN/sbp
-   48rrsPKxXpcZeeK6nyhIyVr3F7TktdC9CkbAzZrquGMtcHgecOpCtdRjx
-   GIbkyjou2Zk90UZrvCQJiw6HctGB1oXvcjYZ4GKOdjGhRvtaZ8ZaK3m6L
-   TLmYd+grhSwgNU/TjkCthtWLSBIOnfZnX1MvbilUIGSn9kfy9UPbmeFR2
-   w==;
-X-CSE-ConnectionGUID: 7teLW9Z8R7uvo9RsLygZPQ==
-X-CSE-MsgGUID: hSSBAgULSqejaK99GTI1xQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="79948199"
-X-IronPort-AV: E=Sophos;i="6.18,294,1751209200"; 
-   d="scan'208";a="79948199"
-Received: from mail-japanwestazon11011038.outbound.protection.outlook.com (HELO OS0P286CU010.outbound.protection.outlook.com) ([40.107.74.38])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 18:07:32 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UlmrezGXRBVpCOXva6Bm6EKr6MwckZJULXAFCoPdJHTbS0CLO4DCq2cjMFfYmUe99QC1zYHwO4UxVyl5w+wXqxPyhCXJkc5PFvZmipMbS+cVG1Vyiw870X8TpjGcFf42YXrcb4AThJSUkE+MjedMC3UF4XPA/uzmZr6nqLkXC0CCSGqr770qaTEvAXqa2fziAiKXiNa9HjWX3/6rPFkfPOKDjSycn1XVjWj2YRhnJXMc4kztGDTBEc6fkfH+JRrHA0jB4NskFhrrLhfG4VqgcRGKocWGJZqRPXDyxFy9sRQ8ZEqwDYoC/QyRHiHVBGYR5hRBcRs+xmlLKnGlsWpjew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SLwkwDnpg+TeMYUpiZl3fcCIX7B3pAHkaAaeT8wFqeI=;
- b=ec3NwLsQBLEKSgGlimL/23ltbwJ1cK2OTcpTcB1QTgs6F4zPAsxedy7jUe5OxXcr0sj9aEBythaUFVFfxKPSoJkcRvMXZ+V8gkTRKv5TYrP9zTIYGTEv/mO2AIJEbyhXy/nW0oT0efBmMxu49ViGWcPcl/2JY93RHc7dkpZaO8B2JfttjDT2xSqvQSvB7xrVMhoWEjx66R4bZiI53s9hDM8zvUqKnTG7Z58CjFQ21PbmysDIjhrCxegI3E7dV+2SJ/mGKqysih6FhdHPi7CymPZ9M7f8PYGc27seavchUcM9t169hJ8gwlNbwO4ecgKk15ho+6foZJ8EUzgLrEzI8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SLwkwDnpg+TeMYUpiZl3fcCIX7B3pAHkaAaeT8wFqeI=;
- b=GXKW9F2nttBim3fSP5qerr0woodgxR14REWAwz+W5lVbDehpArR+PM5TodpmfLFsctvvBS+nPuCFAuT0MK1Qo3a1NuyVp5X3154deOpEHOWH4YAx6uabUmeh23H2AcnZ1xCrU/Od6fjGfv5Ejl4ghm+OQQ3duZc5jCtIcM+GwnaMF1qvp7KRclXNOX0OQeqJ7n6pGCn8Vr3vVOpz0xJegKbhwEIRvQyeyZfbSS43TyQJS3cVuu3EqpbS3YXVL0A0uX/eIxvyOmJO5XFFsi5Vj2CY1r2K/MVl5XwgnA2H7kk4EQiGdTvT8VUvbApcRDqh+fZYtAPr2hFtGtII4qAPgQ==
-Received: from OSCPR01MB12819.jpnprd01.prod.outlook.com (2603:1096:604:33a::9)
- by TYRPR01MB12666.jpnprd01.prod.outlook.com (2603:1096:405:1b4::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.11; Fri, 26 Sep
- 2025 09:07:28 +0000
-Received: from OSCPR01MB12819.jpnprd01.prod.outlook.com
- ([fe80::2809:3a6d:2dd0:ea9d]) by OSCPR01MB12819.jpnprd01.prod.outlook.com
- ([fe80::2809:3a6d:2dd0:ea9d%7]) with mapi id 15.20.9160.010; Fri, 26 Sep 2025
- 09:07:27 +0000
-From: "Koichi Okuno (Fujitsu)" <fj2767dz@fujitsu.com>
-To: 'Gopi Krishna Menon' <krishnagopi487@gmail.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "will@kernel.org" <will@kernel.org>,
-	"yangyicong@hisilicon.com" <yangyicong@hisilicon.com>
-CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"david.hunter.linux@gmail.com" <david.hunter.linux@gmail.com>,
-	"linux-kernel-mentees@lists.linux.dev"
-	<linux-kernel-mentees@lists.linux.dev>, Randy Dunlap <rdunlap@infradead.org>,
-	"Koichi Okuno (Fujitsu)" <fj2767dz@fujitsu.com>
-Subject: RE: [PATCH v3] docs: perf: Fujitsu: Fix htmldocs build warnings and
- errors
-Thread-Topic: [PATCH v3] docs: perf: Fujitsu: Fix htmldocs build warnings and
- errors
-Thread-Index: AQHcLp9eGOPqqMFeBkaGaXRGHU60ybSlD8hQ
-Date: Fri, 26 Sep 2025 09:07:27 +0000
-Message-ID:
- <OSCPR01MB12819E309F236061FAD98416DC11EA@OSCPR01MB12819.jpnprd01.prod.outlook.com>
-References: <61aace07-890a-4b55-8e84-935ebc4a3be1@infradead.org>
- <20250926043748.3785-1-krishnagopi487@gmail.com>
-In-Reply-To: <20250926043748.3785-1-krishnagopi487@gmail.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_ActionId=6df8ef27-5cf9-4602-8542-147df914592c;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_ContentBits=0;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_Enabled=true;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_Method=Privileged;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_Name=FUJITSU-PUBLIC?;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_SetDate=2025-09-26T09:04:46Z;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_Tag=10,
- 0, 1, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OSCPR01MB12819:EE_|TYRPR01MB12666:EE_
-x-ms-office365-filtering-correlation-id: 9b79cc98-0eb4-4e84-7839-08ddfcdc1dc9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700021|1580799027;
-x-microsoft-antispam-message-info:
- =?iso-2022-jp?B?Yjl1bzJDdnFNbFE4d1JFcWVHMHdnamJCa2lpcmlpQjVIQ2h0ckd4N3VH?=
- =?iso-2022-jp?B?MUM3bEl0dVpRTi9QeU5YeE5xWTNLcUdNeHpNTkxQb1ZkSWdoOFUzSG5S?=
- =?iso-2022-jp?B?eUFFaEovZ0E1WDEzSWhuSHBrRlBiQjQ2VUdONURrcWFzcm9wYzFuMnBP?=
- =?iso-2022-jp?B?SWl5aFhHclRnSmFwbWEyMHlpdkVVaWlOQjRseldHbS92N3F2b2c4WENh?=
- =?iso-2022-jp?B?SHcwbXZwOVYzVUd6eHRnYnF2SDkxT0VDdTcrSUxlQnFWRVByWHZwczlW?=
- =?iso-2022-jp?B?Uy9wQUdGYzVZcFE1Njg4eEYxTGw5bmlreVhNRVB3VytPL0Z2MGYxMDE1?=
- =?iso-2022-jp?B?RktiVXJjOVd4OGxScG90Z3N4bTFCZE1oeFBoc0ZvdzdWNkZQRlpWWGlL?=
- =?iso-2022-jp?B?SS9ZeW0xRE1ieHFYd3Irdk5wVXEyTFdNRVBpZjRGWVIveTYzOUIzSEJn?=
- =?iso-2022-jp?B?UmZWOUUvWnY0ZjUxWnJaSExSTFVUdnhOb2NpMXplZXdCRHQrc0ZMd1BZ?=
- =?iso-2022-jp?B?NVJ6RVdaMStldER5NFRCY0ZuNFBBNzRJWHNMWEd6aEFUOExrVmxwRXY3?=
- =?iso-2022-jp?B?VzRwcE44U3h1MXZFbjVxQTZpSEtHMXhhVXlYUEYxZmx6WFJqUXQ1L0g0?=
- =?iso-2022-jp?B?Ukp1Z2JaRFFuK3IvTlFFR3U3a25KdWowa01FM0d3N2t3aE9ZaDJqNktQ?=
- =?iso-2022-jp?B?VTlUZklKaDVvUWhOSk9KVUZIaHVNUzhiV0FSRzNBUW5wbS91NTZGeVlW?=
- =?iso-2022-jp?B?dkxjSFNoZkxpS3MwdnN5alJ3ZHQzc3FkUU5kSE9XR0J5TVRUV3FhTWxI?=
- =?iso-2022-jp?B?enlGVkg4T0piOVdETXhkN0JTdDZzcUs4c0NLWE9LVDd2OG91eFRvLzRk?=
- =?iso-2022-jp?B?NTZJbzBpZTA2U3ZUQjFKQWQ3eDl4V2Y3Q2ZjRVloNW1oMGFNRzlDME5S?=
- =?iso-2022-jp?B?UGFsYk5DTk5qT1N5YktpbmtkWFVnL0FldnBEMlZhbjF4UGF0bWc2bERi?=
- =?iso-2022-jp?B?QUZIYkdXYll1ODFlYVlGeHJqaVpsalBTWVJxSUE5OGhpckhKdTRLUXM4?=
- =?iso-2022-jp?B?YXFrUW1zR2dDWHhMQWtwclovVWt6d2pmb3hNMnVIQjB2aDZ2cFUxTlhj?=
- =?iso-2022-jp?B?OHI3YU0yMkZCdzlQc1YzVWd1T0FWRWNjYjFWdEp0RDBUYk1Ca21mQlpB?=
- =?iso-2022-jp?B?akZ4WGdqbEVUWHRRQWI1akYrbmNvTGo3aDlLdXRzSkVoS2ZIcFhoc2pL?=
- =?iso-2022-jp?B?TjdNdFJYcmtsZ2UwcDYvQ1RyeEZPaUQzK1VLNHhEQkQvSldRMnI1ajdS?=
- =?iso-2022-jp?B?RDRVdnRYV3haeDJpbUlTZnVUemVHM1c0Z1U4dUkvK1pGb05LVEpwSFNo?=
- =?iso-2022-jp?B?UkpoVTIrMng0MSt5MFZuWUxzckJtVEtwdk9GQ3d0WGFLT21lY1VZZU56?=
- =?iso-2022-jp?B?eFNMVklzb2tUU2NBN003aHpGems5NzN0QTBrMzdrZFAyZ0ZoZUlnMUpv?=
- =?iso-2022-jp?B?KzFCRUVNbldGOTRVYzZkWVMrcnc2ZHFEU1ZUeUNnZmN0amxZbklBTzl0?=
- =?iso-2022-jp?B?L2NDVXZxN0hFRDFyeExBZ3d6dTV3ZzNaTXVEVDJlU1Z6d2FYOXg2OVBu?=
- =?iso-2022-jp?B?OFVnZjllTVExdVk2ZUt1WlBlN1pQNGowdk9QYks4U3p2N2tmVmVWK2U2?=
- =?iso-2022-jp?B?enV2UWMwb0hlZXNzZ1FvL1kzN2NPVUIxQnBMeDdxWVR1TXpUVDdBclQv?=
- =?iso-2022-jp?B?aU50WWZWb0Q5M3VDT0dRSDE2Y29OekpIZU9mek9HTHluV1FJa1BsMThD?=
- =?iso-2022-jp?B?V1VTWDVid2JKQXJmbmU0ODlISmxlY3BTc2tDbXRwaUlDcmhOR0lJeUw2?=
- =?iso-2022-jp?B?bTgvVlVNUTBycGxSSUlNT0ZMcDhxYnpVdXhsTEoyT09iQ3hqTmxNaTlH?=
- =?iso-2022-jp?B?dnpNZ3lGK0pBYnNESndsOFYvT2p6M2YvK1BrL2p0UWJ2VnkvYUp6MlUv?=
- =?iso-2022-jp?B?Wnp4RkxDVm1MT2VVWkp5amp6b0lzV0lzMVhUSnUzcENhWDJTaW5XTFdS?=
- =?iso-2022-jp?B?bEZ3THpoNEpPT2J2ZVVteGNYTi9tcS9XdEdJWmNJSHdTNGU0b3NHTUd6?=
- =?iso-2022-jp?B?S1QxZXhpSzhVZ3FsTlFiOTVvM2ptS3MyVXk0WE1BZ3ZuNFI1aEdRTGVZ?=
- =?iso-2022-jp?B?WXByS2tIWmlhbzRCa1VhaWphYzdvVng5?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSCPR01MB12819.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021)(1580799027);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-2022-jp?B?NVBibkV1UkcyOGQwUktUOEphWlZLYlRCbE1obTZZSU1oREtTNlZXc2Nh?=
- =?iso-2022-jp?B?OVpoQUt2aG9sTy9ZbUVjUTBpdk1YWVNkcndRQTlleDRlWlM5WXJCOWVO?=
- =?iso-2022-jp?B?TnZWQkkvazMwbDNQU1hWdzl6cDVlSEs4MnR4R1pZaFhsZDk5RFFraTZo?=
- =?iso-2022-jp?B?ZFN1V1pEdmhOZDREb0E4YnVuRTEvOEViN2hKTDR1L3dtVmViWStCcnBu?=
- =?iso-2022-jp?B?TGtwWExUd1NJeGZiWWp4VnpldWMrb0ZrTHBRblphZUJqeEZORkxyNlU1?=
- =?iso-2022-jp?B?L2lwN01XTVRaK1dxYUZNS3lLWmtVM3B6K2VtTUFHMmZzWVl3Y2YwdEJu?=
- =?iso-2022-jp?B?dkxjdjZURHU5SSt0QytYbkVvY0RTcFgrQnVPbzFsTzVGNSs0eXZtK1Jj?=
- =?iso-2022-jp?B?UzlUUU5ZTFBaak1qeXFhNTEwUDVrdVFyOFhqbkN0WDNmRFdSQUdJbjFL?=
- =?iso-2022-jp?B?NzVPaGVaYVFrdzlRcEt2S0NKbEpKY1ZPVHRVL3BXYVlXNGlxTG9pU1g0?=
- =?iso-2022-jp?B?MElMNDdMT1d4MnNwUjhIWEJxMzJDbWZ0NW1ITzNSd0JmV3dzMnpHNXkz?=
- =?iso-2022-jp?B?dTZLalQzei9tcmhtemVFMFkyOENPN2lwRy9VUjB0ZXNBNkJzRENCWHU0?=
- =?iso-2022-jp?B?MklVdzl6K09oY0lmNXNvQk01UjdnZ3dtL0k4TlYrbkpxeGZUMTE2Tzlr?=
- =?iso-2022-jp?B?K0FxcFh1ZFBrOE8rOU5JZU1SeTFmVm9yYktxeHJYWWt2c3VyMlh5enU4?=
- =?iso-2022-jp?B?UUpSU2M3SG9uUStRaktITnU2ZVkzbG1Wc0s4cDF1Q2loWWVCSGRXR3JW?=
- =?iso-2022-jp?B?RGtqYnA1UkZoNmRWeEx2aEFvYTFMaDNaK0krUjJESHoxT1ZFTHgzUlZD?=
- =?iso-2022-jp?B?ZUhQN0JZOHorVmhkYktwWVRNNDZWTGwwVndLeVZWdEgzcDQxQlRMYnJs?=
- =?iso-2022-jp?B?a0xkWnlMczY0NWJDQmZkdndtNUZBQ08ybVRNN0dtcGNIYzRIZWxFVWk2?=
- =?iso-2022-jp?B?RE42WE5BbHU2OWp1WUp1MUtEWkJNblo1SGNUc0wwYTAvbTRMcW41Zzhi?=
- =?iso-2022-jp?B?czRNbU1uWlAzUWhCYVAxdy9aL3RCalFmb3FsaUpmbFE5UGVoeVFiMlNB?=
- =?iso-2022-jp?B?QWFRVTgxdmZtdFJkMUJBVTg4UUdvU3Nnb25JbDRYV1dGbjNZTlgrN1FC?=
- =?iso-2022-jp?B?MWo4OE96VnBFUkE3cEVJbUFNbXdGQUp4L0ErMnRGQ0pad0tRQzhVUllD?=
- =?iso-2022-jp?B?MTJhU3FYSHZmSW9ueDJnM3NTK1BjK3JqU3dIbURvWHNTZnJsemtkTlhP?=
- =?iso-2022-jp?B?TzhtWE83UTZ3dmN1SU9xaTdxTnlSdUJMeVR6WTNJNEIwY3RNSURlZDdp?=
- =?iso-2022-jp?B?ZU9hTFp2NkpoMEJnQi83M1Vid0I3SmtMcnRiWEdORWo3MllVQS8rMlQ3?=
- =?iso-2022-jp?B?OEJmcXVHTXlGRW1vZEgzaVJDRWtMOVdIOGxVczRGY21ueVZwQ2YwSC9n?=
- =?iso-2022-jp?B?OGJ4WVdTenNJUDJNamJhWjZqNlM0dmZBNXVBLzgzTiswRXlYNCswdEIy?=
- =?iso-2022-jp?B?K2pMZ3NPSTM3YmxyMll0eXBXNC8xL0FWRE9UaEtrYXFaYzkrd25zSFZ5?=
- =?iso-2022-jp?B?TFRpOXVQb3JpR1k0dkdWLzFvRTFZWU9idDNkK0JZaTRubmo3UTdhdDQv?=
- =?iso-2022-jp?B?b3V0VVlDVW1qRXNuTGR4SjVreGZ1b3d2aUFON2d5N1hQWERaTFdCNG5p?=
- =?iso-2022-jp?B?emR6dmJOVHByRW0ya2VZOXV1VndEaXFtYllEVUNHSnUzUE1tTjJ3dklG?=
- =?iso-2022-jp?B?Y0FFUXRDUjhXWExiMGVJZnl5RkU3YkdHV29VTVRwRmd1TUFkbVhtQUVl?=
- =?iso-2022-jp?B?SlQzaTVlZzNYbnJSQUYxYXYxeW01VDBES1BvM2RHSjd6Z1loOC9BcGx6?=
- =?iso-2022-jp?B?TzVtTGdRaVFBM0RtSVlYczlNRFo5cUZFMUdyaVJTbG5Ud1JOa0VKSU9m?=
- =?iso-2022-jp?B?TU8yNWxicWNBVklnaUZVWUYyc1JVam1xMUw0cFdkNmV1ZnZEcXFUcG1W?=
- =?iso-2022-jp?B?RFQwa2pYT2ZXdzNndnFGY29PeXEyeUFjcVlJSTBHZzAvTHpGbUcxVzZP?=
- =?iso-2022-jp?B?RnBUdEFNMFo0ZkZxbkp5QmprbkdnODJnck9NNUFZS2p6MG9VZTU2WVhK?=
- =?iso-2022-jp?B?NkNMNUlXWkYrbG16T3ZueUdwdTBWYWlodWlVc0d6eEs4Zjk2bllJblZp?=
- =?iso-2022-jp?B?K1h0YWx1OWxhTlFVcFRNMzJVTnZZQmZidDI0dnZHQVJFWWcwSktTaG1G?=
- =?iso-2022-jp?B?b3IybDJ6TEtsbUdxNGl1Rm9hMDVTazRZQnc9PQ==?=
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iWld5J3F"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b555ab7fabaso1847356a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 26 Sep 2025 02:30:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758879031; x=1759483831; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xIrcfuajKloRdvJjcJcWDV/tHO/j0RB4pp+HMPl3L4g=;
+        b=iWld5J3FTpOLLB51eKShOhfRn1BaDOg09i+TxzC3/jAtVqERodTtdme7fv25wcPGOg
+         6Lh1VW/w5TsZtqhbm0zpVFP3Qwct0UY2HLiZXu2fOMIl/OgUCPyhPtTcPpIA8d5+Fw+Y
+         iqZWiHxhiel4/7Mzjfp0i1RtxIGSCUId1JCK3j7RL33cCqWPs5kwN45Mha1sD/rHgmkJ
+         GOJ6aOVqwp1B8NicT3fJGMMS3SR5ruYzivPVjw96HhPpkfvsB1lNGl7/tsCjY+OBZ6MN
+         FFhmRpWElvchlx6H2g1Jynd6pZSiwf7raZHXuJ2NhsehPOdszJ9EJZ1HPVOnQImLft76
+         fEmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758879031; x=1759483831;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xIrcfuajKloRdvJjcJcWDV/tHO/j0RB4pp+HMPl3L4g=;
+        b=maelUq5a0FhkdcWOncKEspxiamkiyoUk51Hm4hDy8GJIbwsBeZ5UGr88cjBN0eqqEU
+         ZLiJdocp/zait8DpWdUsVpqH1I4JAGgrsFwhzILubXujMvmP+Ql3gQmmpmVUwl2Wmozm
+         S5ObnnhtQKZ8ubeedw13oUHMfCM4/zrvPBxzpyFmE45987mBBh5nymCCyKHOqkAyBLFO
+         42x0Iu3w/YtXbLgVa+dKJwiZqlY9MOLG3+BF3zphurc5bxVb0jq/7+GDz1qGknDHlN7L
+         GpdiEnVBgJaFTIJa+1zVIVqjcZhGXCKrGtgx9rwIQd1R1HVZQuoI69ckCyFJbdAwKSry
+         /Idg==
+X-Forwarded-Encrypted: i=1; AJvYcCWGV9eke18sgGIsaiNvnoKftwb8bzR445+4/93GXA+QsPC9g6t/xO7MB467cYH/7d0b+fbQRRvIqG/NV4I4+8LBVtwo9w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzlZ4OtaklnLdGMet99S90cRfgWzObaYE5WU5wCZ3vvZ6Twq0RN
+	YLM1YlrxL5Unbtp5SUVAPw7X1nDME0rRSTfLp9mXZEd5pySmVuT26570
+X-Gm-Gg: ASbGncueSQ9a++Dq7S7jXoqWWav8K3sD9x27AC+f4W4UWcxLkZQwkEwkNFYW8Xeotss
+	Vt3eA4TBIO0StZOH7pAcjcCUSDDEQFhVm6ySdiICTjkfKigPOssNGQQ2oGPBj6P5V9ybfDpKgUC
+	sEmFswg/UPZPZZ8SppytpfQj1haA2vO53Fh+KgOK09dcLbYaCtOuLLcrrlUVQHVTGft5PtDSWQk
+	DQMNr3/RNjFPmy7qZAoA1bNAZyoDvk9p7Hvd4xdJwH1ejfHdxYpXLOPpcv1+m3z9kzjYqciePII
+	zJhWu/7Fvo7pqEI+l22UNaChQE3DFhZnBKi7HfZyqlJeSS3TBtRAdaerRKXzjrUeYViLmpnGKss
+	lTua0KHhcmFj8D/SUedtJMYSqAnDIK8jiXZ6MFdY+e/5kPqw=
+X-Google-Smtp-Source: AGHT+IFh/+YHDIq4RGXYffEQZgqis2V02Xt7mq2qDUgh7Tj46rZmWeOaWQ9Ju5fqSzoyMvNSy1QcEA==
+X-Received: by 2002:a05:6a20:9150:b0:249:d3d:a4d4 with SMTP id adf61e73a8af0-2e7c7ea3a75mr8452854637.26.1758879031332;
+        Fri, 26 Sep 2025 02:30:31 -0700 (PDT)
+Received: from localhost.localdomain ([165.204.156.251])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7810238b19dsm4048646b3a.10.2025.09.26.02.30.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Sep 2025 02:30:31 -0700 (PDT)
+From: Rahul Kumar <rk0006818@gmail.com>
+To: liviu.dudau@arm.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	rk0006818@gmail.com
+Subject: [PATCH v3] drm/komeda: Convert logging in komeda_crtc.c to drm_* with drm_device parameter
+Date: Fri, 26 Sep 2025 15:00:08 +0530
+Message-ID: <20250926093008.1949131-1-rk0006818@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	2rE1WTPXOV3C0TZzwRaGKrPam6KgzOD55J6Ov3ZJN/ctemdWloz0Y4ebYMgPYdGpeSFTMTfNlg1gHyiQXshk3msYc2k4Tfg3Xvn62am6rzCmhdMnqNFdOvCvW3jOFGfoDvj2obyvZDG3FgdLPhizWwiWHQtrkuSC10HLE96PAMY3BZkXS3gcxUSRpDQhpfqWw6kfC3FR1sWw+F2XkoI05vv6XrDziGHNyTy5LGZDGEEhJBChHTyN72yOJIsaWyBvY5dAntbxSQlCUcmJ5rXMh2KAC3eCEGoPtUuhWF+aD4DKF7S48kW4qJjUyYAFjjH9w2145+9DrywFFPInvY2kMl636HYmfvVcWVsv2YcFkWPgahBX4ixde38k1v2MpVAF1wW6E48jlAWdVR+YsEMT/GPFK9RapNo6B+sS8bA93KMtfrBdaDzW5lX/90OuXW6DjZ049faveJGF2ElBfo3XofuYUSgHxQ+wSuoM3IKxZ2XfWrRyLTSIs9kD2kgyp4882O6Wrf6a4HGr3s0bbZ9TvMDuNu2/M91EqUC2sdGmitTMQDPSSSOOpR52YzekM5GcCMn+rbUs9l9OPh8xh2rcXW0aI1QCQ71hupsCx0RnmmY/1wahRJ3g1nPyN3E92i9T
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSCPR01MB12819.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b79cc98-0eb4-4e84-7839-08ddfcdc1dc9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2025 09:07:27.9179
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vEzp+aSrHjgkXNPioy8mG67V0yhLNMlfS6blDrFDhbyVxRjPHegomMDBBnnuH/MbxO62VdvfFIJ9m200zx2KxL5/zZNFRnVmCDGFsZ9lGnU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB12666
+Content-Transfer-Encoding: 8bit
 
-Hi Gopi and Will,
+Replace all dev_err(), dev_warn(), dev_info() and DRM_ERROR/WARN/INFO()
+calls in drivers/gpu/drm/arm/display/komeda/komeda_crtc.c with the
+corresponding drm_err(), drm_warn(), and drm_info() helpers.
 
-Many thanks, Gopi, for submitting this updated patch to improve the documen=
-tation.
-Reviewed-by: Koichi Okuno <fj2767dz@fujitsu.com>
+The new drm_*() logging functions take a struct drm_device * as the
+first argument. This allows the DRM core to prefix log messages with
+the specific DRM device name and instance, which is essential for
+distinguishing logs when multiple GPUs or display controllers are present.
 
-Will, please consider applying this patch.
-(To be clear: base patch "perf: Fujitsu: Add the Uncore PMU driver" is curr=
-ently in for-next/perf)
+This change aligns komeda with the DRM TODO item: "Convert logging to
+drm_* functions with drm_device parameter".
 
-> Running "make htmldocs" generates the following build errors and
-> warnings for fujitsu_uncore_pmu.rst:
->=20
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:20: ERROR: Unexpect=
-ed indentation.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:23: WARNING: Block =
-quote ends without a blank line; unexpected unindent.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:28: ERROR: Unexpect=
-ed indentation.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:29: WARNING: Block =
-quote ends without a blank line; unexpected unindent.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:81: ERROR: Unexpect=
-ed indentation.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:82: WARNING: Block =
-quote ends without a blank line; unexpected unindent.
->=20
-> Add blank line before bullet lists, block quotes to fix build
-> errors, resolve warnings and properly render perf commands as
-> code blocks.
->=20
-> Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
-> ---
-> Changelog:
->=20
-> Changes in v3:
->   - Properly render perf commands as code blocks (use "e.g.::").
->=20
-> Changes in v2:
->   - Remove formatting changes unrelated to the fix.
->=20
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
->=20
->  Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst b/Docu=
-mentation/admin-guide/perf/fujitsu_uncore_pmu.rst
-> index 46595b788d3a..2ec0249e37b6 100644
-> --- a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
-> +++ b/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
-> @@ -15,15 +15,19 @@ The driver provides a description of its available ev=
-ents and configuration
->  options in sysfs, see /sys/bus/event_sources/devices/mac_iod<iod>_mac<ma=
-c>_ch<ch>/
->  and /sys/bus/event_sources/devices/pci_iod<iod>_pci<pci>/.
->  This driver exports:
-> +
->  - formats, used by perf user space and other tools to configure events
->  - events, used by perf user space and other tools to create events
-> -  symbolically, e.g.:
-> +  symbolically, e.g.::
-> +
->      perf stat -a -e mac_iod0_mac0_ch0/event=3D0x21/ ls
->      perf stat -a -e pci_iod0_pci0/event=3D0x24/ ls
-> +
->  - cpumask, used by perf user space and other tools to know on which CPUs
->    to open the events
->=20
->  This driver supports the following events for MAC:
-> +
->  - cycles
->    This event counts MAC cycles at MAC frequency.
->  - read-count
-> @@ -77,6 +81,7 @@ Examples for use with perf::
->    perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
->=20
->  And, this driver supports the following events for PCI:
-> +
->  - pci-port0-cycles
->    This event counts PCI cycles at PCI frequency in port0.
->  - pci-port0-read-count
+Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+---
+Changes since v2:
+- Added Reviewed-by tag from Liviu Dudau
 
-Best Regards,
-Koichi Okuno
+Link to v1:
+https://lore.kernel.org/all/aJshoswGslcYQFLI@e110455-lin.cambridge.arm.com/
+---
+ .../gpu/drm/arm/display/komeda/komeda_crtc.c  | 31 +++++++++++--------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+index 2ad33559a33a..5a66948ffd24 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+@@ -111,6 +111,7 @@ komeda_crtc_atomic_check(struct drm_crtc *crtc,
+ static int
+ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+ {
++	struct drm_device *drm = kcrtc->base.dev;
+ 	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
+ 	struct komeda_pipeline *master = kcrtc->master;
+ 	struct komeda_crtc_state *kcrtc_st = to_kcrtc_st(kcrtc->base.state);
+@@ -128,8 +129,8 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+ 
+ 	err = mdev->funcs->change_opmode(mdev, new_mode);
+ 	if (err) {
+-		DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
+-			  mdev->dpmode, new_mode);
++		drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
++			mdev->dpmode, new_mode);
+ 		goto unlock;
+ 	}
+ 
+@@ -142,18 +143,18 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+ 	if (new_mode != KOMEDA_MODE_DUAL_DISP) {
+ 		err = clk_set_rate(mdev->aclk, komeda_crtc_get_aclk(kcrtc_st));
+ 		if (err)
+-			DRM_ERROR("failed to set aclk.\n");
++			drm_err(drm, "failed to set aclk.\n");
+ 		err = clk_prepare_enable(mdev->aclk);
+ 		if (err)
+-			DRM_ERROR("failed to enable aclk.\n");
++			drm_err(drm, "failed to enable aclk.\n");
+ 	}
+ 
+ 	err = clk_set_rate(master->pxlclk, mode->crtc_clock * 1000);
+ 	if (err)
+-		DRM_ERROR("failed to set pxlclk for pipe%d\n", master->id);
++		drm_err(drm, "failed to set pxlclk for pipe%d\n", master->id);
+ 	err = clk_prepare_enable(master->pxlclk);
+ 	if (err)
+-		DRM_ERROR("failed to enable pxl clk for pipe%d.\n", master->id);
++		drm_err(drm, "failed to enable pxl clk for pipe%d.\n", master->id);
+ 
+ unlock:
+ 	mutex_unlock(&mdev->lock);
+@@ -164,6 +165,7 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+ static int
+ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
+ {
++	struct drm_device *drm = kcrtc->base.dev;
+ 	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
+ 	struct komeda_pipeline *master = kcrtc->master;
+ 	u32 new_mode;
+@@ -180,8 +182,8 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
+ 
+ 	err = mdev->funcs->change_opmode(mdev, new_mode);
+ 	if (err) {
+-		DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
+-			  mdev->dpmode, new_mode);
++		drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
++			mdev->dpmode, new_mode);
+ 		goto unlock;
+ 	}
+ 
+@@ -200,6 +202,7 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
+ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+ 			      struct komeda_events *evts)
+ {
++	struct drm_device *drm = kcrtc->base.dev;
+ 	struct drm_crtc *crtc = &kcrtc->base;
+ 	u32 events = evts->pipes[kcrtc->master->id];
+ 
+@@ -212,7 +215,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+ 		if (wb_conn)
+ 			drm_writeback_signal_completion(&wb_conn->base, 0);
+ 		else
+-			DRM_WARN("CRTC[%d]: EOW happen but no wb_connector.\n",
++			drm_warn(drm, "CRTC[%d]: EOW happen but no wb_connector.\n",
+ 				 drm_crtc_index(&kcrtc->base));
+ 	}
+ 	/* will handle it together with the write back support */
+@@ -236,7 +239,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+ 			crtc->state->event = NULL;
+ 			drm_crtc_send_vblank_event(crtc, event);
+ 		} else {
+-			DRM_WARN("CRTC[%d]: FLIP happened but no pending commit.\n",
++			drm_warn(drm, "CRTC[%d]: FLIP happened but no pending commit.\n",
+ 				 drm_crtc_index(&kcrtc->base));
+ 		}
+ 		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+@@ -309,7 +312,7 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
+ 
+ 	/* wait the flip take affect.*/
+ 	if (wait_for_completion_timeout(flip_done, HZ) == 0) {
+-		DRM_ERROR("wait pipe%d flip done timeout\n", kcrtc->master->id);
++		drm_err(drm, "wait pipe%d flip done timeout\n", kcrtc->master->id);
+ 		if (!input_flip_done) {
+ 			unsigned long flags;
+ 
+@@ -562,6 +565,7 @@ static const struct drm_crtc_funcs komeda_crtc_funcs = {
+ int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
+ 			   struct komeda_dev *mdev)
+ {
++	struct drm_device *drm = &kms->base;
+ 	struct komeda_crtc *crtc;
+ 	struct komeda_pipeline *master;
+ 	char str[16];
+@@ -581,7 +585,7 @@ int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
+ 		else
+ 			sprintf(str, "None");
+ 
+-		DRM_INFO("CRTC-%d: master(pipe-%d) slave(%s).\n",
++		drm_info(drm, "CRTC-%d: master(pipe-%d) slave(%s).\n",
+ 			 kms->n_crtcs, master->id, str);
+ 
+ 		kms->n_crtcs++;
+@@ -613,6 +617,7 @@ static int komeda_attach_bridge(struct device *dev,
+ 				struct komeda_pipeline *pipe,
+ 				struct drm_encoder *encoder)
+ {
++	struct drm_device *drm = encoder->dev;
+ 	struct drm_bridge *bridge;
+ 	int err;
+ 
+@@ -624,7 +629,7 @@ static int komeda_attach_bridge(struct device *dev,
+ 
+ 	err = drm_bridge_attach(encoder, bridge, NULL, 0);
+ 	if (err)
+-		dev_err(dev, "bridge_attach() failed for pipe: %s\n",
++		drm_err(drm, "bridge_attach() failed for pipe: %s\n",
+ 			of_node_full_name(pipe->of_node));
+ 
+ 	return err;
+-- 
+2.43.0
 
