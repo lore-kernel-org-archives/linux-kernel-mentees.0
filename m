@@ -1,169 +1,95 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321562BDC2B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 11:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F27C2E0B60
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 26 Sep 2025 12:58:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758887170; cv=none; b=Ngh07Trv5jopfp4Xhl94CeqbhruZWAPhoAKSCw+TtndyhDnL5nGCQzrmybbag4WyD/pfpwDYtZ1b1Uw3oG1jGH2cbyyHJeoxaLBcFghYDQz23ILAt7e8AwJAIx0HI9qIMCidglaA5kcC1l24hKKOXmlouX21nazCPNQn5ivkckw=
+	t=1758891494; cv=none; b=mTnzMEpGOzsPSUKLp1tHcpEKiC8Vthj2xFYLHnuxWaNfNBNbo9AoeSA7PKB9jcgW8/VmlSK2JMgTxOxvlgqR7sU4pm6ddrMiO/c2US0HcN7sZZLteRzuKU6jtnXavejEpVXjhsEhlSkJjnuZbsgCCsp6efb2b4yZlNVy79CLfns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758887170; c=relaxed/simple;
-	bh=1id3B6Wi8UowOcZ+9wbUIN5SOAeHkmeYMI59q8iHO5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PclkVcHMX0QjQ/SMX1LeyqXF/N7rKlf1ObDP4QVNzd79CJ/3X6D7ZiBZnYQe24n3xTTv9jPaTWiLLdKIJX5atnrSJJVy9RR9wmjA2R9+DLpsadb95aY41WtQALvO6BOpBwhsIV0Pzv5ThE7H1ii7V/Z1ApyEwu1U60NVEOJ1DLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HExdGLaM; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1758891494; c=relaxed/simple;
+	bh=9aoozeymCtilt+qkHUzPEFhKKMah5TAuvXJod7umpVA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IpNy6NpQSjUB355tgboZVDCqO3+9Kodg5b0XY1PZvRWvJsqGM0p74i5oDH2wfUuMEQRd1to9UAcjmoA8/3h12ht/qCd0tE9vgm8TZHkhpOjTHRzbPueyoBaRurEAaekfbG4hmDUot/ePEiHLjlUrJk3ClfFYW+gZZ/3nPmX/FGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KnqZr3Jn; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HExdGLaM"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B0442424CC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 11:46:08 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Ag9gMvJt2Kj5 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Sep 2025 11:46:04 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::330; helo=mail-wm1-x330.google.com; envelope-from=david.laight.linux@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org A39AF4244E
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A39AF4244E
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HExdGLaM
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A39AF4244E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 11:46:00 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-46e23a6617dso20758005e9.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 04:46:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KnqZr3Jn"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-76c144b06fdso12039757b3.3
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 26 Sep 2025 05:58:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758887159; x=1759491959; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WkRDFqbG55HD/5PHsPObmdh+Ov28CTpaGeY2bB6QWYU=;
-        b=HExdGLaMu7rLdVMn8LQO38qpNQAF/9V/rmicCxnwuf1Dy3vW5PQ01rMToIn3HvG1BB
-         O4AHIWYdC7QW2iyaja/3UpT/yQPwGYNS0XnmZRyywUCsx0VhSp5eD+PBZXZtCAGJlgTx
-         ixihjV1+Kq0WfVdctDZONahSUSCzx4M9PXNshDVEZcXZJ08JH4VZrhT8Anx9Mlbk3iHi
-         El9Acjv/IG1us8hzHDZKsiZBu12k/2uMQ6CzsrQdKyeeKnZUeWQHYMTwhp6ngf21d+rS
-         t6PGM3XFPGt7ys17eGLi/KypxtNH/ZuklDAOoc0OU7w11EEfmtaPfOKQ/rmIVQPoXX2w
-         0qVw==
+        d=gmail.com; s=20230601; t=1758891492; x=1759496292; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3+s3+W287EF3WpdqRLN76J6wag+8qKpJsyHBGGlUi1g=;
+        b=KnqZr3Jnn8MrA6FG6mZ6z2z/p37e2SpE33i8gaRFpq5zzXB1TrhvVNVZslddMNGJau
+         UTq93QqrHJxrU56J6j6qy1jwRuOSmeaXv/EncMn5USqrel034GxhbFNy6CNIaHMHk+PM
+         bXOZXXq0tnFjHJneKpwzk7RszoL/pVi/RYpSADBdDJ0nEcUd9Zy7psje31jIBMf9YF0s
+         03QPCVrXZb2IlTIT4G8IuTH7FoU7SE/YwnCsrS1Ww2JwTayA3ouc+qlNRQVZ6yNJRa63
+         Uvo/zfYW61g26p4FUXn+IdBs8qTSk/u2r4jajKWEZOJoK0VB8gVKsvTticUUtNTAqSvG
+         OGcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758887159; x=1759491959;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WkRDFqbG55HD/5PHsPObmdh+Ov28CTpaGeY2bB6QWYU=;
-        b=OeKFkF/pxba8BEav3BGeMffn46AmoHHjwYb3lMCdKI9rbE8g3UpAa0CVzn5cJVVDsS
-         EFi1m5xw11DuOt5JVxiBMDtrre/8c2dYyc+PpcIT2Kn7NUzgW1vvzYB+1w6L/el2vm0R
-         0IcjMd3eBjNqBOkpBI4SxYy/LKduEpTrmVlyYS7srs02urQM9VdTTxM7rBAOte/B2J8s
-         1igIv0y1AVMXVaC3AHJhT7mcEiv5zw2XqRXVu21VNUG+fubPV2c7wvxWsMOeAjeAKE6y
-         U6spGvwNOzwgZ3dNaZBfATzIiHTMwBjXzzCk/cA8MwjlkFlxT0P8VKVJCq0tsdxO78AN
-         XW7A==
-X-Forwarded-Encrypted: i=1; AJvYcCWb0jzMno1BCcNElwHruOrPgxbWjwxawgpqW3tP72QsRG4vKKr2mqUppXu8uwzYXG17Wmgz75r6HQ9s2yq0JqXlVUuefA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwP8SXoL9m92doGx35YOuN7SsvyUAgGvtqyaxaal8k+iXaz+jQP
-	MB/e/zgi/qN9euaaMU2wOGrBXy5k+5IpAdHOur/BKedF5zHQo/Zpymrf
-X-Gm-Gg: ASbGncvTtbJ9FDGeAkDL12D+jx6OccNPjUNhQczzNjtirgPNOAYFP06PlaWr6fq+EvA
-	JoCUa+3RTXtNLDgZy1uIspQ6vteNknwCPGypwFOXoppDTOWTn/qCnwJA6kkEFhl1s5Sp+J9yKyN
-	rb8Ezjg17u71IO/1iDE5FvoQgumcxKzMB2jHMJ8RKW5xL9C0F6kno1WBjAIIM+bjY429ohh5tXv
-	pWtU00GPzFKXEMHhnS66Futh9UP8rjJ/ybcOTHU6vZeoKd2SaMssNUiQp/arP5wZYKl5JBlqgjE
-	KKiNPcaxOCQKOOEOVLmr4ZdxjFPhdn8Td0BudlXUayEb5sLhP24eQUdo88cD6bTIThcMKmMuA38
-	jIpY+DxqEpHcFB8qxdGgBIB5h79izqtfUXhKQxUMfq26itw35tLPX46oGEVwJvlaG
-X-Google-Smtp-Source: AGHT+IEPTFDb685fmiqtI/zbxG32d7v3MRP+VRk71KQ8OOHsQCWx3c0SFbrsAeMCnBPznWcIWNgGnA==
-X-Received: by 2002:a05:600d:15a:20b0:46e:1e31:8d06 with SMTP id 5b1f17b1804b1-46e329f62b4mr74383735e9.16.1758887158355;
-        Fri, 26 Sep 2025 04:45:58 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e33105e0bsm37380245e9.5.2025.09.26.04.45.57
+        d=1e100.net; s=20230601; t=1758891492; x=1759496292;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3+s3+W287EF3WpdqRLN76J6wag+8qKpJsyHBGGlUi1g=;
+        b=UAr8Wew5AMtb/BkVON3b55i9RnV5qgmpeki13fs+Xm390JKBh8/GZc/NIGjeOqpI/o
+         b172ABtnn30lXH+wp7q162mbHpd/ZF/VkRjhxx9UKNRQshzeox4J5L3/J84qmpzHSB/6
+         QolhK4ve6+QCKI0pQrJteRz1YViHRXhkHSKewzQCcha1d/5ut1Lnczc6/NTHQToJq0DG
+         1CdnYGJEIY/VoecrHvX5yCFv3OWnSbNLuHBPcbU8DC1eCo8SZcIb6bzEGEqa8xQHyDnw
+         sk+p/CrRmf06ac5JVK6AXLDR+5rGC73Nqeb4k0PnFO9JRi+9HW441+S2mVwqxrwBTWVY
+         BHKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWe2uekyf4USY6jXtu0njUDP9oQjgMHzYPeVpRAX6Dd7j9VZ5kBr2ikhGD33dp7v1VNned3X1Fod8zDt2uKLaTQHWdGgw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywiom98e9kVvGu1HEz3kp+TF/Ge2kP3pKHBTMlpUbtoP5WSzdTm
+	6frghwge5vmehXULuCZfok2O8WyByVPy7zlQbA5vE+3EBHrWO+pjNMoh
+X-Gm-Gg: ASbGncvJSH93nQFFTGmSaabHYcy5DcxE0Tg50LQ4ZGu5Uar1Xq35zD5oGegWJr5ZtIf
+	55cGVy1J4IUKeqtrupF42925WHY1LKCkZYTEFSfpTOW1jXC6tkEIniYoguidxyV3DL2+Uep0uHB
+	/MagSz4EJ14FBMMU/YpQk1mo0h82PG1JfgOsR6DrEmKVwNzZ5ebdvZ7kfo/YmsnRxjAabUVhIE6
+	EB1sE5FfmlMXZww7M6gJz+zchtqmL3Ausp1HxYU2XBieJ65gTAEy7m0+AONn6l0iMtQ3f8LnZAU
+	J2zoq9Gz9Qlf3RduohXqZ9kB1X6h1Djk64jMif8dy/fZ4W/1cTwIQqsLQz8EnOQ7sOq9GObj1oC
+	4m8BaRhe3SYBykFkZbgx2azRB4eTZi33RR3EouN5NZQ==
+X-Google-Smtp-Source: AGHT+IGLIvAM19ntk8+Lddvjl2AdkR8Dpz1fEGG8f6oAy2PmwyG5FhSovK+XEHlRkEKZ9R+AN8qtiw==
+X-Received: by 2002:a0d:d081:0:b0:74f:5366:86ba with SMTP id 00721157ae682-763fa430ad4mr57737817b3.12.1758891491815;
+        Fri, 26 Sep 2025 05:58:11 -0700 (PDT)
+Received: from hoboy.vegasvil.org ([2600:1700:2430:6f6f:e2d5:5eff:fea5:802f])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-765bd407b84sm10951587b3.21.2025.09.26.05.58.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Sep 2025 04:45:58 -0700 (PDT)
-Date: Fri, 26 Sep 2025 12:45:55 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-Cc: andrii@kernel.org, eddyz87@gmail.com, ast@kernel.org,
- daniel@iogearbox.net, martin.lau@linux.dev, song@kernel.org,
- yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
- sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
- matttbe@kernel.org, martineau@kernel.org, geliang@kernel.org,
- davem@davemloft.net, kuba@kernel.org, hawk@kernel.org,
- linux@jordanrome.com, ameryhung@gmail.com, toke@redhat.com,
- houtao1@huawei.com, emil@etsalapatis.com, yatsenko@meta.com,
- isolodrai@meta.com, a.s.protopopov@gmail.com, dxu@dxuuu.xyz,
- memxor@gmail.com, vmalik@redhat.com, bigeasy@linutronix.de, tj@kernel.org,
- gregkh@linuxfoundation.org, paul@paul-moore.com,
- bboscaccy@linux.microsoft.com, James.Bottomley@HansenPartnership.com,
- mrpre@163.com, jakub@cloudflare.com, bpf@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- netdev@vger.kernel.org, mptcp@lists.linux.dev,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com
-Subject: Re: [PATCH] selftests/bpf: Add -Wsign-compare C compilation flag
-Message-ID: <20250926124555.009bfcd6@pumpkin>
-In-Reply-To: <20250924162408.815137-1-mehdi.benhadjkhelifa@gmail.com>
-References: <20250924162408.815137-1-mehdi.benhadjkhelifa@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Fri, 26 Sep 2025 05:58:11 -0700 (PDT)
+Date: Fri, 26 Sep 2025 05:58:08 -0700
+From: Richard Cochran <richardcochran@gmail.com>
+To: I Viswanath <viswanathiyyappan@gmail.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+	syzbot+94d20db923b9f51be0df@syzkaller.appspotmail.com
+Subject: Re: [PATCH net v3] ptp: Add a upper bound on max_vclocks
+Message-ID: <aNaN4DtuP0QJZVus@hoboy.vegasvil.org>
+References: <20250925155908.5034-1-viswanathiyyappan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250925155908.5034-1-viswanathiyyappan@gmail.com>
 
-On Wed, 24 Sep 2025 17:23:49 +0100
-Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com> wrote:
-
-> -Change all the source files and the corresponding headers 
-> to having matching sign comparisons.
-
-'Fixing' -Wsign-compare by adding loads of casts doesn't seem right.
-The only real way is to change all the types to unsigned ones.
-But it is of questionable benefit and make the code harder to read.
-
-Consider the following:
-	int x = read(fd, buf, len);
-	if (x < 0)
-		return -1;
-	if (x > sizeof (struct fubar))
-		return -1;
-That will generate a 'sign-compare' error, but min(x, sizeof (struct fubar))
-doesn't generate an error because the compiler knows 'x' isn't negative.
-
-A well known compiler also rejects:
-	unsigned char a;
-	unsigned int b;
-	if (b > a)
-		return;
-because 'a' is promoted to 'signed int' before it does the check.
-
-So until the compilers start looking at the known domain of the value
-(not just the type) I enabling -Wsign-compare' is pretty pointless.
-
-As a matter of interest did you actually find any bugs?
-
-	David
-
-
+On Thu, Sep 25, 2025 at 09:29:08PM +0530, I Viswanath wrote:
+> syzbot reported WARNING in max_vclocks_store.
 > 
-> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-> ---
-> As suggested by the TODO, -Wsign-compare was added to the C compilation
-> flags for the selftests/bpf/Makefile and all corresponding files in
-> selftests and a single file under tools/lib/bpf/usdt.bpf.h have been
-> carefully changed to account for correct sign comparisons either by
-> explicit casting or changing the variable type.Only local variables
-> and variables which are in limited scope have been changed in cases
-> where it doesn't break the code.Other struct variables or global ones 
-> have left untouched to avoid other conflicts and opted to explicit 
-> casting in this case.This change will help avoid implicit type 
-> conversions and have predictable behavior.
+> This occurs when the argument max is too large for kcalloc to handle.
 > 
-> I have already compiled all bpf tests with no errors as well as the
-> kernel and have ran all the selftests with no obvious side effects.
-> I would like to know if it's more convinient to have all changes as
-> a single patch like here or if it needs to be divided in some way 
-> and sent as a patch series.
+> Extend the guard to guard against values that are too large for
+> kcalloc
 > 
-> Best Regards,
-> Mehdi Ben Hadj Khelifa
-...
+> Reported-by: syzbot+94d20db923b9f51be0df@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=94d20db923b9f51be0df
+> Tested-by: syzbot+94d20db923b9f51be0df@syzkaller.appspotmail.com
+> Fixes: 73f37068d540 ("ptp: support ptp physical/virtual clocks conversion")
+> Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
+
+Acked-by: Richard Cochran <richardcochran@gmail.com>
