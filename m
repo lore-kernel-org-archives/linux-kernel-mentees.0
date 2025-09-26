@@ -1,81 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0EC1D6187;
-	Fri, 26 Sep 2025 22:20:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166E34C9D;
+	Fri, 26 Sep 2025 22:30:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758925212; cv=none; b=KqHxzByurAHTqeshHNgXxQeIW0zOVAwX8fb38v28TOZg7OOh4Yei0+DlngdhzVaPT5A245DkvHE1fdsjApai+XQHNYNuS/6FA6kuG78rlgqOxMZOUr5UQ+wV3yZKaHN7SjAHAy2nTAbaKmKf7B8TvZN4cyHiA6PfPoY/NPqHebk=
+	t=1758925823; cv=none; b=pKY+3i1PgCwYNv3p3GYmHjbRxOKLpaERjvW8XNRIoiC/9h0RAqsbbU5g6/1yseF6xZVqXB7OCWOqTuV1d42C1nNQlgQ5Af1AOM1Oj565KlQ7j+IRgRJDPN/l9YKrtmy1Whbf39ow7HQvGzXD0zsPJWNbakPsNsyRIT4Nd1RL5HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758925212; c=relaxed/simple;
-	bh=eLbeqUenCFCgz26YQfIMXaXq2qvZQp7IfzdLaObldT8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=cLiBvZlt9aSz55+0Ph11xJ7/CTVZ7AASGCnBl2UXzCAS67ysD/N4z1v6T09I3fabwYZ/VZTMS12hgvjkkKSqtXqUiwO+99zyyJn23UGQh6mAFZzY22Nny7+S6pw+nzTtl2+OQ2Q57yzOug+jMrLiBppyO59caccqKm7hP2CVYnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q5eMUXVn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758925823; c=relaxed/simple;
+	bh=DnYZKDgZJRGoOij2mgfIyq+rTFLbRNq/MJ2uvRBYCrU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tO3bIivvtwvEBPrr71jQHPHwQJbmei3MfLR+qf75keBSwasZgWgV4xXErJ/a08eizSt3BJVEIcuxU8WeZTHXAV6yhdEhhNv0GNxW8BvXpw5qzEIMwhyuABMxYxO9KZ7xRgV51E8AqW+8K4ccSOIXjmWTzCZTOnVW4aiFA5/2ShI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RLkMUP4u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q5eMUXVn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5CA1C4CEF4;
-	Fri, 26 Sep 2025 22:20:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RLkMUP4u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25176C4CEF4;
+	Fri, 26 Sep 2025 22:30:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758925211;
-	bh=eLbeqUenCFCgz26YQfIMXaXq2qvZQp7IfzdLaObldT8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Q5eMUXVnk2cATiQ/BbURcfhPI3FY33E7EXpvLTkfxDGDGD1dPE6vHCo6B63Ay9kp1
-	 K0U9+IIXrVc/ENhDVdmVY5pDkG3Z8HK60S8ly2OHrNTkDDIm3OcFh2bkHoKzCtLaVP
-	 JKdt+Im3YLf3k5oyls73/2VZeSewOkQbhnNWwWk/vP7W9xKC20mH6I1agyHDGc5cKh
-	 8W0rr5kfh3L41lgJPLdm4O0R4vnocyKBspFe3uXV/rI7Jvj/gcdrUPJ/k2zrUa3fT6
-	 +LgX+jGuCUH+OzadB8y6mF0aBqYwPdc6O5C4Cga9HaVsCAZU5Xsj8R5yTQmQiXAdGc
-	 TOienoHlacWzw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33E7839D0C3F;
-	Fri, 26 Sep 2025 22:20:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1758925822;
+	bh=DnYZKDgZJRGoOij2mgfIyq+rTFLbRNq/MJ2uvRBYCrU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RLkMUP4u74sWpQfAjnfBIIhPBV3Qm7HShlBF3j9wDr8tuIKVipm517fcNmj56pV2Y
+	 TnquDeWDvXGaqvFKpMkKQcx7HaWYcrByJses/O4sUCaNFvuBx4snDADfcd5LlZXTxn
+	 Z6l5XzMP7tdrR5Je0/KfYkIatNJuojZ1wk6Z5RKZbC3C0F1hWpYp9792Nl4tXJEBVP
+	 p3p73GuFS0w2sGPYyWsAWfWKsSLwmk/Pryxr8g1z2qwZVOYPy2I2D9WYfk8SBXZn2Q
+	 L4rZLo2LouPTVqb+FxqTgh0HOw4L8FyPFOPfbX8tyqgK8rKOF/EH/eXRmbYSkRNGIj
+	 RhPee1JSJhUVA==
+Date: Fri, 26 Sep 2025 15:30:21 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: I Viswanath <viswanathiyyappan@gmail.com>
+Cc: richardcochran@gmail.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+ syzbot+94d20db923b9f51be0df@syzkaller.appspotmail.com
+Subject: Re: [PATCH net v3] ptp: Add a upper bound on max_vclocks
+Message-ID: <20250926153021.46848cca@kernel.org>
+In-Reply-To: <20250925155908.5034-1-viswanathiyyappan@gmail.com>
+References: <20250925155908.5034-1-viswanathiyyappan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v3] net: usb: Remove disruptive netif_wake_queue in
- rtl8150_set_multicast
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175892520700.77570.4782779943018588705.git-patchwork-notify@kernel.org>
-Date: Fri, 26 Sep 2025 22:20:07 +0000
-References: <20250924134350.264597-1-viswanathiyyappan@gmail.com>
-In-Reply-To: <20250924134350.264597-1-viswanathiyyappan@gmail.com>
-To: I Viswanath <viswanathiyyappan@gmail.com>
-Cc: kuba@kernel.org, michal.pecio@gmail.com, edumazet@google.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, petkan@nucleusys.com,
- pabeni@redhat.com, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
- syzbot+78cae3f37c62ad092caa@syzkaller.appspotmail.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Wed, 24 Sep 2025 19:13:50 +0530 you wrote:
-> syzbot reported WARNING in rtl8150_start_xmit/usb_submit_urb.
-> This is the sequence of events that leads to the warning:
+On Thu, 25 Sep 2025 21:29:08 +0530 I Viswanath wrote:
+> This can be reproduced by executing: 
 > 
-> rtl8150_start_xmit() {
-> 	netif_stop_queue();
-> 	usb_submit_urb(dev->tx_urb);
-> }
+> echo x > /sys/devices/virtual/ptp/ptp0/max_vclocks
 > 
-> [...]
+> where x > KMALLOC_MAX_SIZE/(sizeof(int)) which computes to 1048576 on
+> my system
+> 
+> What would be a reasonable value for PTP_MAX_VCLOCKS_LIMIT?
 
-Here is the summary with links:
-  - [net,v3] net: usb: Remove disruptive netif_wake_queue in rtl8150_set_multicast
-    https://git.kernel.org/netdev/net/c/958baf5eaee3
+I wonder about that, too. Perhaps tying uAPI behavior to
+KMALLOC_MAX_SIZE is going to come back to bite us. But I don't
+have a great idea for what the max should be.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+> KMALLOC_MAX_SIZE/(sizeof(int)) is the absolute max value for which the 
+> memory allocation won't fail
