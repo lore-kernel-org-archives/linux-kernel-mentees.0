@@ -1,151 +1,145 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7589D24DFF4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 06:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8A828C037
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 08:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758868951; cv=none; b=jCNH6gSQG4GrNd1HA9GssP31hmLJiMugpZH4cmL4BjcPsTVevrP/ngRgLZVGTUj1RGH1BLsTx76O/h5I7tRdlEkfXgYI0nWcR9thpyy9gxsRBvKYK658K4A6ihOfXKIootANadIUe8r4QkF5QUqH9OJu8L2x86456F1vjApKBjk=
+	t=1758873636; cv=none; b=TDwTXAoe08G88HPsxvyHxDMRwCybux4LSIC99FOMDSlMiXo9XddXnhtTS1Ddni2cZnyL+/2vDcRK07/UW+oHkjiwhLFXvGLf3l7w4gH7T3nQrVf/oqyy+MkLUYhHUdUobsqrea8nhW1Qp5cKOAPc7eDSxe2lLs9wnSwmsaZT3c4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758868951; c=relaxed/simple;
-	bh=vMfY8Fz/H42PyHOYIgHzRanTHxLPTJItPJpih9yRYLQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DpP8wl4VDCIQ3fSqlDas2F06NsgNIXandNY/BV3tpTw/y6vLa2DAZ4dAU/5JaoXKdePfaxyXejAP/E44SjpzMbwm8nIfB79nRYDPN/BI2Abo+e+4tQXurNSHxus3V1W0j981Kud6HFFwuTcRgam496e7aAui66ueTRrGOEZko4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SgpvIJpw; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1758873636; c=relaxed/simple;
+	bh=uKv781t5pHxGX9XHdWBHGON9HVERC0KRbzcEdEyQXDA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fCNMuHtS5J51z3hvilMEny59GUA5YWBMy0pEbDU/Ba13N2v+7ZB4tsb8xu4nDYPUxt5zE0bEy1R5luPO5SsCmjPDb9wkLZ159XBmETeoZOYZHXEzDH2+9J2JsRIGvKBZu8FIggwf8Bgc5xYDG8/CXxtDK+AOicwI3mUHhCk4SYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hRAaq+yV; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SgpvIJpw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hRAaq+yV"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 07BA984A30
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 06:42:29 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5E82D61BDD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 08:00:34 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.101
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id J5ih7UXKdLiy for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Sep 2025 06:42:27 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=lorenzo@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 7327B84A31
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7327B84A31
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=SgpvIJpw
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7327B84A31
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 06:42:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 9C57840841;
-	Fri, 26 Sep 2025 06:42:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC084C4CEF4;
-	Fri, 26 Sep 2025 06:42:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758868946;
-	bh=vMfY8Fz/H42PyHOYIgHzRanTHxLPTJItPJpih9yRYLQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SgpvIJpw1M41ci3km2PHNLvc+FShJAXQOsar6tMGm+6ImxYR/peYg4ZLIGkvqlysH
-	 bKF80A80jR3OqyPB79unkrfM5D4EvziebbFxDFSgixBG3zKwsFvspoMQ1XB8pXzeM+
-	 ptRH/UcA9Ntzo4ayDB1bgnw8J5b10QDHiBT59mnLYhAC1NYX92E/Cc35WDZ1jJ7XXL
-	 2Wl3ETluKfsT979yVzARdqGm8S+1efNptWvH/zjJkZWIYMcrSFbZ7BfUTG6247kZYN
-	 kJkGs3gWNVtkciXoYNsPcw3RNuaOlX70yRCEbRt0tcURNX9eej+fCVLeYmHL6a2d/7
-	 zccVGzsG+KwOg==
-Date: Fri, 26 Sep 2025 08:42:23 +0200
-From: Lorenzo Bianconi <lorenzo@kernel.org>
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-Cc: Stanislav Fomichev <stfomichev@gmail.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	donald.hunter@gmail.com, andrew+netdev@lunn.ch, ast@kernel.org,
-	daniel@iogearbox.net, hawk@kernel.org, john.fastabend@gmail.com,
-	matttbe@kernel.org, chuck.lever@oracle.com, jdamato@fastly.com,
-	skhawaja@google.com, dw@davidwei.uk, mkarsten@uwaterloo.ca,
-	yoong.siang.song@intel.com, david.hunter.linux@gmail.com,
-	skhan@linuxfoundation.org, horms@kernel.org, sdf@fomichev.me,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH RFC 0/4] Add XDP RX queue index metadata via kfuncs
-Message-ID: <aNY1z1GId4_-F4Jg@lore-desk>
-References: <20250923210026.3870-1-mehdi.benhadjkhelifa@gmail.com>
- <aNMG2X2GLDLBIjzB@mini-arch>
- <f103da72-0973-4a45-af81-ec1537422433@gmail.com>
- <aNRxRRSfjOzSPNks@mini-arch>
- <9773fb16-d497-4d67-804d-0c6e70def886@gmail.com>
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id UPRQKEPbgAry for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 26 Sep 2025 08:00:33 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32d; helo=mail-wm1-x32d.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 3F27D6175C
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3F27D6175C
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=hRAaq+yV
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3F27D6175C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 08:00:32 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-46e32139ef7so2695935e9.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 01:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758873631; x=1759478431; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1Iu0F1mpJxkFZwruVTis8t8NuagO8uvem8I8R547GH8=;
+        b=hRAaq+yV8535CDWv1Iy3/OyIaqBfAsq6qKQ5I1Feguka3iUXa4pwE01akkQm9J/qaa
+         d5ChQT65tpYjFSAlTddCZyiIqeqvhOBSmzGuvjAXXBMIZWaZTxgKOfsrI2CzE0fXNUsl
+         xa+plzRelLgn33vXMh7aw8Dl5/ZvfD0ByaPjz3iODw+/9p1JRazbqwypE0uz7/X154u+
+         Q48Ws1owZMiUG4wFVEJcOASGIWTbiELP7pGyDS77cCLOxmqDk5YX0GHUi7KnRq4ybmDO
+         +cG0g3Rn+z4iwyfmskj4DuRTOotnEwXHKWppzxzryJUkOdl3vZ3wOVMvFHbTBlidJVd5
+         irYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758873631; x=1759478431;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Iu0F1mpJxkFZwruVTis8t8NuagO8uvem8I8R547GH8=;
+        b=A94IUojGNNcYjb7pL51f9aB0x+MPB6chGBkrzV8E+fX+qd0U9rcDVuklB7VNqtqaxu
+         qLoc1tLYagilKGroJeA2dhsM9LMhnpINwRlVPYENtRJ6n7ckylXLtfDn7dOalVr/pMPS
+         bHWPQQktdonqq7l9rsxzea05q9y/qT9+w9aP8mZldkDfEJApTYyqQPc04vhWSr1Ukmj6
+         b26t5QYUJthQ075SQUF3zpjVeSbpFgBErvI4XnWYWKBOcLss+sCW9A23nmO5tz2uyYtR
+         e7NIScP/mIaIYcHC4Q23QMFGZELOy0fobg6fu3q+CiPO3joThmHluGYDf0eF3ZwAiPI5
+         x1Sw==
+X-Forwarded-Encrypted: i=1; AJvYcCVj3706wDA0mxaMWjX6yhl8aSQqJNN5PqcWJ+EW98ByklhhiS6WYIFR7EP62NUza8287bSABI7ZyGfKjWDKVgZHTvc31Q==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwPTDmq5mI8Dzw4WiFnUnOEbt5ncm6sh9vSAqG0teaN1/Xhmwjq
+	pBKTEyX0Q/sTJrpdL4brHxFBC0YOYv0tGlhvL6zHyvzFtyksNLxZYuU7
+X-Gm-Gg: ASbGnctWClyXW6t4PDMWWF/fQZ4FOPMnDSOXr9EcixqMeQcGBeK9DsWU/KdioXwe1xn
+	f3iQ3cE5+WcZeajMK2ihr0QXp3fagROJwvYYYZHq26jSZGwfeYkjkvbXZd38h0IV/vH1wbWvc5+
+	vSVaGzZjKMZioGsxwN6t/NjBO6TisEpquc3fkByvc0ywNyAUq0P5GF9DIfaQAJPOlIUAEcWkDWn
+	qCjP+hHn6Jv1ZgjLLSzt+HYG/TpMmDXgqtEO7nmSMwhfr4V2tfI5GGqJgeRuqwCO3h1JUmB/1Np
+	Hie+CEDeMzoRaR5SXbG6lkStOvyoMh17CyWi7/xlb1tntdl6yXdXaOpkUfGLY+K6MuuGSVCt13U
+	dAMgfKKIypyIYqtXLSUNJo2i9Lv35GJDhmK35GHSM
+X-Google-Smtp-Source: AGHT+IHNpFF3srU1saXcXVO6zTDT4O5u6j9Vyxp4h+sviEeunSEZcOR+GiZEhHwsuD8UAwncJOuzoQ==
+X-Received: by 2002:a05:6000:310d:b0:3fc:854:8b84 with SMTP id ffacd0b85a97d-40e455ca678mr3054531f8f.3.1758873630709;
+        Fri, 26 Sep 2025 01:00:30 -0700 (PDT)
+Received: from [172.16.20.151] ([41.229.125.2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fb9e1bd14sm6212872f8f.28.2025.09.26.01.00.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Sep 2025 01:00:30 -0700 (PDT)
+Message-ID: <fcbdfd79-3996-47cb-9d91-ad049147d352@gmail.com>
+Date: Fri, 26 Sep 2025 09:00:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ewNFLKVIOKk5qNhW"
-Content-Disposition: inline
-In-Reply-To: <9773fb16-d497-4d67-804d-0c6e70def886@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/3] selftests/bpf: Prepare to add -Wsign-compare for
+ bpf selftests
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>, daniel@iogearbox.net
+Cc: andrii@kernel.org, eddyz87@gmail.com, ast@kernel.org,
+ daniel@iogearbox.net, martin.lau@linux.dev, song@kernel.org,
+ yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
+ sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
+ matttbe@kernel.org, martineau@kernel.org, geliang@kernel.org,
+ davem@davemloft.net, kuba@kernel.org, hawk@kernel.org, linux@jordanrome.com,
+ ameryhung@gmail.com, toke@redhat.com, houtao1@huawei.com,
+ emil@etsalapatis.com, yatsenko@meta.com, isolodrai@meta.com,
+ a.s.protopopov@gmail.com, dxu@dxuuu.xyz, memxor@gmail.com,
+ vmalik@redhat.com, bigeasy@linutronix.de, tj@kernel.org,
+ gregkh@linuxfoundation.org, paul@paul-moore.com,
+ bboscaccy@linux.microsoft.com, James.Bottomley@hansenpartnership.com,
+ mrpre@163.com, jakub@cloudflare.com, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ netdev@vger.kernel.org, mptcp@lists.linux.dev,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
+ david.hunter.linux@gmail.com
+References: <20250925103559.14876-1-mehdi.benhadjkhelifa@gmail.com>
+ <CAEf4Bzaf81OYLTzpN6E4ths_mN2gP29rMYBmbp7P2GqSMj8FbA@mail.gmail.com>
+Content-Language: en-US
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <CAEf4Bzaf81OYLTzpN6E4ths_mN2gP29rMYBmbp7P2GqSMj8FbA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---ewNFLKVIOKk5qNhW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> I see little value in these transformations. Did we catch any real
+> issue here? All this type casting and replacement is just churn.
+> 
+> I certainly don't want such churn in libbpf, and I'd leave BPF
+> selftests as is as well. int vs u64 can have subtle and non-obvious
+> implications for BPF code generation (for no-alu32 variants
+> especially), and I think BPF CI already exposed some of those already.
+> 
+> I think we can live without -Wsign-compare just fine.
+> 
 
-> On 9/24/25 11:31 PM, Stanislav Fomichev wrote:
-> > On 09/24, Mehdi Ben Hadj Khelifa wrote:
-> > > On 9/23/25 9:45 PM, Stanislav Fomichev wrote:
-> > > > On 09/23, Mehdi Ben Hadj Khelifa wrote:
-> > > > > ---
-> > > > > Mehdi Ben Hadj Khelifa (4):
-> > > > >     netlink: specs: Add XDP RX queue index to XDP metadata
-> > > > >     net: xdp: Add xmo_rx_queue_index callback
-> > > > >     uapi: netdev: Add XDP RX queue index metadata flags
-> > > > >     net: veth: Implement RX queue index XDP hint
-> > > > >=20
-> > > > >    Documentation/netlink/specs/netdev.yaml |  5 +++++
-> > > > >    drivers/net/veth.c                      | 12 ++++++++++++
-> > > > >    include/net/xdp.h                       |  5 +++++
-> > > > >    include/uapi/linux/netdev.h             |  3 +++
-> > > > >    net/core/xdp.c                          | 15 +++++++++++++++
-> > > > >    tools/include/uapi/linux/netdev.h       |  3 +++
-> > > > >    6 files changed, 43 insertions(+)
-> > > > >    ---
-> > > > >    base-commit: 07e27ad16399afcd693be20211b0dfae63e0615f
-> > > > >    this is the commit of tag: v6.17-rc7 on the mainline.
-> > > > >    This patch series is intended to make a base for setting
-> > > > >    queue_index in the xdp_rxq_info struct in bpf/cpumap.c to
-> > > > >    the right index. Although that part I still didn't figure
-> > > > >    out yet,I m searching for my guidance to do that as well
-> > > > >    as for the correctness of the patches in this series.
-> > >=20
-> > > >=20
-> > I don't really understand what queue_index means for the cpu map. It is
-> > a kernel thread doing work, there is no queue. Maybe whoever added
-> > the todo can clarify?
+I was convinced by [1] that this needed to be done not just for current 
+version of the code but for future code being more robust initially.I 
+have already done all the work and I can follow daniel's suggestion for 
+the next version.Otherwise,This means then that the TODO comment to add 
+that compiler warning in the makefile needs to be removed.
 
-Hi Mehdi,
+Also I wanted to ask since the CI bot had success with my patch.What 
+does this [2] mean exactly.
 
-IIRC it is the queue index of the NIC that received the packet from the wir=
-e.
+Thank you for your time reviewing and helping.
 
 Regards,
-Lorenzo
+Mehdi
 
->=20
-> Hi Lorenzo,
-> Can you help us clarify the todo added in cpu_map_bpf_prog_run_xdp() in t=
-his
-> commit:
-> github.com/torvalds/linux/commit/9216477449f33cdbc9c9a99d49f500b7fbb81702=
- ?
->=20
-> Regards,
-> Mehdi
+[1]:https://github.com/kernel-patches/bpf/commit/495d2d8133fd1407519170a5238f455abbd9ec9b
+[2]:https://github.com/kernel-patches/bpf/actions/runs/18006172526
 
---ewNFLKVIOKk5qNhW
-Content-Type: application/pgp-signature; name=signature.asc
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTquNwa3Txd3rGGn7Y6cBh0uS2trAUCaNY1zwAKCRA6cBh0uS2t
-rPt3AQD8rreqdFPyBTg//o5zPgBPhc9+hojkcDCQLrCclGujnAD+LWwu3wofnmi3
-BWIJDd24jUcS+3AK/3vv0ucDBI3+Ngo=
-=e5sl
------END PGP SIGNATURE-----
-
---ewNFLKVIOKk5qNhW--
