@@ -1,93 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D791FBEB6;
-	Fri, 26 Sep 2025 14:28:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A441F12F4
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 26 Sep 2025 15:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758896887; cv=none; b=DB+dodqm+n21hqqMiXtoIEXBUACX6ZH9Vh+xx5W6mvnUltyhpryHtDtpm6DNGgn4TsYyIQRWIWF8rXV5uWCh9eiqMciRgyLIQW/wyGDZw9Q8qCXtZd78o7pjYeh/RYpf/wpuglN3GLB/khLd0zdhLvgrZVNXxfFohPaKN0Cbq/A=
+	t=1758898827; cv=none; b=IPLwMkD5TQR0mCTrESOuCEcX6p6/QQwDK0/U+lp9kwzzIiOwLLpqtwgjmNVmufwZQplbh4ymIvfKK754eFUWqB5Gwxj2NbXtUxhEjExlWP5UZj9EgTs2g801PRMFiFdBaw63CsZ1BSQzQDVwYTEtsSBFJUGUueBFPwjcbeIswSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758896887; c=relaxed/simple;
-	bh=HpraTQNPQTkOuIgLJo+0IkraxdWBYMEppdjq9Zb6NWs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cAGnGxuubJtTWrL0bQf+sSKYE6XontUSYkQjcbxhzAzhblGvfmJWMbYPz73PxXtrpIj4/Y5OlOKOvLV1W1MOWkjPhfeTQhzEgCi+7dzhNi4UxkMEjBZb8/VhpgcJlT7eO9BvGxarljpu9ngcFUepIQ2BFNyd0Md2jQ23EQsmG5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZgMT48U/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758898827; c=relaxed/simple;
+	bh=9H4Iy5ZQioUbGAt3cq2QPsffBJRpfU6SmMhpX/U27b8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OcSg+Ld1n1aGb8znU33U/V8iUTYd08dfgN7q7gRwg02pRNEdNh9hAJZGpdkA1kqYRyPXWI+thkuCDBSHtkRtIUAM2fElN3JWA8dX0pUGKq3BQydPqGL+YHRlT7PWtU7VO6ZJNkjBu9jDtEF+jAfx4CCVLP5SyONhsPNoUWfZAf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BnipZrbs; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZgMT48U/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2BD3C4CEF4;
-	Fri, 26 Sep 2025 14:28:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758896887;
-	bh=HpraTQNPQTkOuIgLJo+0IkraxdWBYMEppdjq9Zb6NWs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZgMT48U/1MO9bkpaMDbfKd2teiEIvhNkJ2VWktBQnfN1u5fiGaSHFyEcTV1bbcWRY
-	 0IAZAUfyOYwC81TrFTNgh/ZSg2DbG4QIgDgykF9M3efj/xwylPO5PUd1TlP0V1+Gyl
-	 h6CrcYe+Gw0MBhQ4aQ7GOlyR/aQlfkNf7zJZC9CRa4f4HlxgImVVXDX3IuvMNedTIx
-	 atdr4hCqgTGcarovjCHLwRqCZjHwX4tEGoGodrbfNigdRvIR5xf5u4Zjz/Nqhk51qy
-	 r1uXgDiIPRpvq076PjoIvu23XH7F8BBO1cCXXOXfl45lhw7hu0ItX0Pyi2jts+A/g/
-	 WGNu/kNy0GTwA==
-Date: Fri, 26 Sep 2025 15:28:02 +0100
-From: Simon Horman <horms@kernel.org>
-To: Deepak Sharma <deepak.sharma.472935@gmail.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, pwn9uin@gmail.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	david.hunter.linux@gmail.com, skhan@linuxfoundation.org,
-	syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com,
-	syzbot+07b635b9c111c566af8b@syzkaller.appspotmail.com
-Subject: Re: [PATCH net v2] atm: Fix the cleanup on alloc_mpc failure in
- atm_mpoa_mpoad_attach
-Message-ID: <aNai8qxJV9rL9wWf@horms.kernel.org>
-References: <20250925204251.232473-1-deepak.sharma.472935@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BnipZrbs"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-77e87003967so1261763b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 26 Sep 2025 08:00:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758898825; x=1759503625; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6D/jsLcW0Gr7inyVqcSEs7jW1/FD06YYHLSEbTVz1zU=;
+        b=BnipZrbsuMR5b1KfvxtJLTAVCRt2StyiQZiN0dXd5MmkQAEUFtplIfC9AKyGKUiztH
+         xKBfL2EH8HctYaQV6znm76XjdODuwnMhrXGKAWJZjiKx9k6Ybq7vjVcgZIdUvpTKvYis
+         u2NxZC3ikLb/A7BWu9A34cJ367JzvmiDspjNIWkbE6+/+//VYq3iVCqXhJvNByxrmjk6
+         RMwZoQXHVlG9SjB7c1fKljPasKqttso5K3gb47M2jc+2+KuVgZmnQkrWfwgbYEvTIpM8
+         0KDOL6UPI7wSeB8zUhKaBhMgMk/Cm3kkLyuVfKmF0LxUSqPH3ob/Orzcds92GWL7VGkZ
+         YzgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758898825; x=1759503625;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6D/jsLcW0Gr7inyVqcSEs7jW1/FD06YYHLSEbTVz1zU=;
+        b=H6a0hos7VpthcUkYm1mDvvEckyTeyLSYEug49Rg72QPf1MZcXjufDesU7TsDRB0yqA
+         I9Yeup/I/vgiemRCMotpBaHSwpNfpp3DDkOSxhba/ah8UGF7k7XU38WF6ZJypHABoAQb
+         5SCW+wyFWTw9PO2Ikj7YewqAYrDatwtPF9iP997ODDmSYiefqBae7RwndKXLD5+K88ch
+         eNj7wsB6tMNrKab0C9uZkVPVNzJMAXHRxAOoalbkTIZww4XBDLFubI7cR73XOO0+Erq+
+         QqBXHmMngSFMMMa3ChlSmSz3fu6rNaTLJ3KB/huD3ql5jVyeY/e8TV75PN9PAU2t75ev
+         SIGg==
+X-Forwarded-Encrypted: i=1; AJvYcCUMbmaI0RYe+s1royPEFZsYN61+qvknZ6uuAMbEGkJ4gtlNwEg1ljxR5I5xMcjuyS+1gSPOT5JOwi0lXSSGEAmcIhT4TA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAL9P0RDlH1QcCzgG7FhQa3sapxn6TIrc3T4SNTub703sqIEZn
+	4gL5aujGr4fewbZ3DDc6XlOn3i1NdhmDsObDyBYTpzQg9+p8VPDkKEbI
+X-Gm-Gg: ASbGncvtOiJBXl0diw6wCpPh8yMLK9nQYOo201iazxHhqpLU0bDhAqFzZdbcGXV5U0S
+	flxjTrlMRH9TJJ5AWTPoGKcL4+LFjD9BBqRgiXAKMCCjwJvXr/TZXPUPxs7+AKHnectNVgCMe0x
+	qNblGPc8t537g9AT8S+jljjDCEKp4ovJC4COSk+NSmebK7Q1W94Km/KitVIcGljobh4uwDieL57
+	IFWMdCMnedBIh/73x5p0EDyYyWXyK+ARsTNCUZ+Dt+fNmoKx4dlAauTl5C1/4p337DTT64wUgp5
+	Qv8fN3yta7pkA7mbu6zXyAgvfDXYZUhDqMgggTzU0Iul/EIKIlZX1mYBzkKFlDDOW7W+eZY6fRz
+	a9sNt7DRZhuFW6pGUX7LCDqD4HxA7vz8bfVDyXcg=
+X-Google-Smtp-Source: AGHT+IE+iWzUhddIAroqnNSYAnKwkrlMRDpTbw935pYA9Du0mnB7k0yS2TSf6oe63ECHy0yPKHl+DA==
+X-Received: by 2002:a05:6a00:2d06:b0:772:301a:fbb6 with SMTP id d2e1a72fcca58-780fcea2dc8mr7639643b3a.19.1758898824647;
+        Fri, 26 Sep 2025 08:00:24 -0700 (PDT)
+Received: from cortexauth ([2401:4900:889b:7045:558:5033:2b7a:fd84])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78102c06af6sm4586044b3a.88.2025.09.26.08.00.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Sep 2025 08:00:23 -0700 (PDT)
+From: Deepak Sharma <deepak.sharma.472935@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	Deepak Sharma <deepak.sharma.472935@gmail.com>,
+	syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
+Subject: [PATCH v3] HID: cp2112: Add parameter validation to data length
+Date: Fri, 26 Sep 2025 20:28:11 +0530
+Message-ID: <20250926145811.273174-1-deepak.sharma.472935@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250925204251.232473-1-deepak.sharma.472935@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 26, 2025 at 02:12:51AM +0530, Deepak Sharma wrote:
-> Syzbot reported a warning at `add_timer`, which is called from the
-> `atm_mpoa_mpoad_attach` function
-> 
-> The reason for warning is that in the first call to the ioctl, if
-> there is no MPOA client created yet (mpcs is the linked list for
-> these MPOA clients) we do a `mpc_timer_refresh` to arm the timer.
-> Later on, if the `alloc_mpc` fails (which on success will also
-> initialize mpcs if it's first MPOA client created) and we didn't
-> have any MPOA client yet, we return without the timer de-armed
-> 
-> If the same ioctl is called again, since we don't have any MPOA
-> clients yet we again arm the timer, which might already be left
-> armed by the previous call to this ioctl in which `alloc_mpc` failed
-> 
-> Hence, de-arm the timer in the event that `alloc_mpc` fails and we
-> don't have any other MPOA client (that is, `mpcs` is NULL)
-> 
-> Do a `timer_delete_sync` instead of `timer_delete`, since the timer
-> callback can arm it back again
-> 
-> This does not need to be done at the early return in case of
-> `mpc->mpoad_vcc`, or a control channel to MPOAD already exists.
-> The timer should remain there to periodically process caches
-> 
-> Reported-by: syzbot+07b635b9c111c566af8b@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=07b635b9c111c566af8b
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
-> ---
-> v2:
->  - Improved commit message
->  - Fix the faulty condition check to disarm the timer
->  - Use `timer_delete_sync` instead to avoid re-arming of timer
-> 
-> v1:
->  - Disarm the timer using `timer_delete` in case `alloc_mpc`
->    fails`
+Syzkaller reported a stack OOB access in cp2112_write_req caused by lack
+of parameter validation for the user input in I2C SMBUS ioctl in cp2112
+driver
 
-Thanks for the update.
+Add the parameter validation for the data->block[0] to be bounded by
+I2C_SMBUS_BLOCK_MAX + the additional compatibility padding
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Reported-by: syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=7617e19c8a59edfbd879
+Tested-by: syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
+Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
+---
+v3:
+ - Fix the commit message to not include the changelog
+
+v2:
+ - Get rid of magic numbers
+ - Improve the bounds check
+
+v1:
+ - Add bound checks on the input parameters at the driver
+
+ drivers/hid/hid-cp2112.c | 27 ++++++++++++++++++++++++---
+ 1 file changed, 24 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
+index 482f62a78c41..13dcd2470d92 100644
+--- a/drivers/hid/hid-cp2112.c
++++ b/drivers/hid/hid-cp2112.c
+@@ -689,7 +689,14 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
+ 			count = cp2112_write_read_req(buf, addr, read_length,
+ 						      command, NULL, 0);
+ 		} else {
+-			count = cp2112_write_req(buf, addr, command,
++			/* Copy starts from data->block[1] so the length can
++			 * be at max I2C_SMBUS_CLOCK_MAX + 1
++			 */
++			
++			if (data->block[0] > I2C_SMBUS_BLOCK_MAX + 1)
++				count = -EINVAL;
++			else
++				count = cp2112_write_req(buf, addr, command,
+ 						 data->block + 1,
+ 						 data->block[0]);
+ 		}
+@@ -700,7 +707,14 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
+ 						      I2C_SMBUS_BLOCK_MAX,
+ 						      command, NULL, 0);
+ 		} else {
+-			count = cp2112_write_req(buf, addr, command,
++			/* data_length here is data->block[0] + 1
++			 * so make sure that the data->block[0] is
++			 * less than or equals I2C_SMBUS_BLOCK_MAX + 1
++			*/
++			if (data->block[0] > I2C_SMBUS_BLOCK_MAX + 1)
++				count = -EINVAL;
++			else
++				count = cp2112_write_req(buf, addr, command,
+ 						 data->block,
+ 						 data->block[0] + 1);
+ 		}
+@@ -709,7 +723,14 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
+ 		size = I2C_SMBUS_BLOCK_DATA;
+ 		read_write = I2C_SMBUS_READ;
+ 
+-		count = cp2112_write_read_req(buf, addr, I2C_SMBUS_BLOCK_MAX,
++		/* data_length is data->block[0] + 1, so 
++		 * so data->block[0] should be less than or
++		 * equal to the I2C_SMBUS_BLOCK_MAX + 1
++		*/
++		if (data->block[0] > I2C_SMBUS_BLOCK_MAX + 1)
++			count = -EINVAL;
++		else
++			count = cp2112_write_read_req(buf, addr, I2C_SMBUS_BLOCK_MAX,
+ 					      command, data->block,
+ 					      data->block[0] + 1);
+ 		break;
+-- 
+2.51.0
+
