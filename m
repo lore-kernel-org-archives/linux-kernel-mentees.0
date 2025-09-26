@@ -1,243 +1,169 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BD4261B71
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 26 Sep 2025 09:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321562BDC2B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 11:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758879034; cv=none; b=lpUUNVozJcZpBhaeswOweUf1LS+Gv8QbT2IXpBSArlThv4tSr30TpDjIfz28szCd0DUexoIxliO3DKgJdDCnghaYYGAVlwUCzdbjtzWVPwfXm77hZpDJbltmmaPPjKIe6kgn8MH4z7gmCP6ZovM/oJyQZKBVyXa2yjnml9o0djw=
+	t=1758887170; cv=none; b=Ngh07Trv5jopfp4Xhl94CeqbhruZWAPhoAKSCw+TtndyhDnL5nGCQzrmybbag4WyD/pfpwDYtZ1b1Uw3oG1jGH2cbyyHJeoxaLBcFghYDQz23ILAt7e8AwJAIx0HI9qIMCidglaA5kcC1l24hKKOXmlouX21nazCPNQn5ivkckw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758879034; c=relaxed/simple;
-	bh=jsaDXrvFd+opyQe9qY5lje0lqnMdfeVW1SeWz23pFVw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X2Zav+8bBp3nYX7ryTTAM1R5EPp99otkTTqD8IBicEUEInnSDxFtgZyLTSAl70aun6LQ8OwdnNtt3XHJoJD0/GMvKf+OqHIsZdV166qG184+l98WT3m/EBMdQCuc9x2VeLJesEIMBMVQ7OXFRpKE7D8Co+uiyJaeP45aLqpe61E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iWld5J3F; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758887170; c=relaxed/simple;
+	bh=1id3B6Wi8UowOcZ+9wbUIN5SOAeHkmeYMI59q8iHO5g=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PclkVcHMX0QjQ/SMX1LeyqXF/N7rKlf1ObDP4QVNzd79CJ/3X6D7ZiBZnYQe24n3xTTv9jPaTWiLLdKIJX5atnrSJJVy9RR9wmjA2R9+DLpsadb95aY41WtQALvO6BOpBwhsIV0Pzv5ThE7H1ii7V/Z1ApyEwu1U60NVEOJ1DLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HExdGLaM; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iWld5J3F"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b555ab7fabaso1847356a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 26 Sep 2025 02:30:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HExdGLaM"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id B0442424CC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 11:46:08 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Ag9gMvJt2Kj5 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 26 Sep 2025 11:46:04 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::330; helo=mail-wm1-x330.google.com; envelope-from=david.laight.linux@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org A39AF4244E
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A39AF4244E
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HExdGLaM
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id A39AF4244E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 11:46:00 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-46e23a6617dso20758005e9.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Sep 2025 04:46:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758879031; x=1759483831; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xIrcfuajKloRdvJjcJcWDV/tHO/j0RB4pp+HMPl3L4g=;
-        b=iWld5J3FTpOLLB51eKShOhfRn1BaDOg09i+TxzC3/jAtVqERodTtdme7fv25wcPGOg
-         6Lh1VW/w5TsZtqhbm0zpVFP3Qwct0UY2HLiZXu2fOMIl/OgUCPyhPtTcPpIA8d5+Fw+Y
-         iqZWiHxhiel4/7Mzjfp0i1RtxIGSCUId1JCK3j7RL33cCqWPs5kwN45Mha1sD/rHgmkJ
-         GOJ6aOVqwp1B8NicT3fJGMMS3SR5ruYzivPVjw96HhPpkfvsB1lNGl7/tsCjY+OBZ6MN
-         FFhmRpWElvchlx6H2g1Jynd6pZSiwf7raZHXuJ2NhsehPOdszJ9EJZ1HPVOnQImLft76
-         fEmg==
+        d=gmail.com; s=20230601; t=1758887159; x=1759491959; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WkRDFqbG55HD/5PHsPObmdh+Ov28CTpaGeY2bB6QWYU=;
+        b=HExdGLaMu7rLdVMn8LQO38qpNQAF/9V/rmicCxnwuf1Dy3vW5PQ01rMToIn3HvG1BB
+         O4AHIWYdC7QW2iyaja/3UpT/yQPwGYNS0XnmZRyywUCsx0VhSp5eD+PBZXZtCAGJlgTx
+         ixihjV1+Kq0WfVdctDZONahSUSCzx4M9PXNshDVEZcXZJ08JH4VZrhT8Anx9Mlbk3iHi
+         El9Acjv/IG1us8hzHDZKsiZBu12k/2uMQ6CzsrQdKyeeKnZUeWQHYMTwhp6ngf21d+rS
+         t6PGM3XFPGt7ys17eGLi/KypxtNH/ZuklDAOoc0OU7w11EEfmtaPfOKQ/rmIVQPoXX2w
+         0qVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758879031; x=1759483831;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xIrcfuajKloRdvJjcJcWDV/tHO/j0RB4pp+HMPl3L4g=;
-        b=maelUq5a0FhkdcWOncKEspxiamkiyoUk51Hm4hDy8GJIbwsBeZ5UGr88cjBN0eqqEU
-         ZLiJdocp/zait8DpWdUsVpqH1I4JAGgrsFwhzILubXujMvmP+Ql3gQmmpmVUwl2Wmozm
-         S5ObnnhtQKZ8ubeedw13oUHMfCM4/zrvPBxzpyFmE45987mBBh5nymCCyKHOqkAyBLFO
-         42x0Iu3w/YtXbLgVa+dKJwiZqlY9MOLG3+BF3zphurc5bxVb0jq/7+GDz1qGknDHlN7L
-         GpdiEnVBgJaFTIJa+1zVIVqjcZhGXCKrGtgx9rwIQd1R1HVZQuoI69ckCyFJbdAwKSry
-         /Idg==
-X-Forwarded-Encrypted: i=1; AJvYcCWGV9eke18sgGIsaiNvnoKftwb8bzR445+4/93GXA+QsPC9g6t/xO7MB467cYH/7d0b+fbQRRvIqG/NV4I4+8LBVtwo9w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzlZ4OtaklnLdGMet99S90cRfgWzObaYE5WU5wCZ3vvZ6Twq0RN
-	YLM1YlrxL5Unbtp5SUVAPw7X1nDME0rRSTfLp9mXZEd5pySmVuT26570
-X-Gm-Gg: ASbGncueSQ9a++Dq7S7jXoqWWav8K3sD9x27AC+f4W4UWcxLkZQwkEwkNFYW8Xeotss
-	Vt3eA4TBIO0StZOH7pAcjcCUSDDEQFhVm6ySdiICTjkfKigPOssNGQQ2oGPBj6P5V9ybfDpKgUC
-	sEmFswg/UPZPZZ8SppytpfQj1haA2vO53Fh+KgOK09dcLbYaCtOuLLcrrlUVQHVTGft5PtDSWQk
-	DQMNr3/RNjFPmy7qZAoA1bNAZyoDvk9p7Hvd4xdJwH1ejfHdxYpXLOPpcv1+m3z9kzjYqciePII
-	zJhWu/7Fvo7pqEI+l22UNaChQE3DFhZnBKi7HfZyqlJeSS3TBtRAdaerRKXzjrUeYViLmpnGKss
-	lTua0KHhcmFj8D/SUedtJMYSqAnDIK8jiXZ6MFdY+e/5kPqw=
-X-Google-Smtp-Source: AGHT+IFh/+YHDIq4RGXYffEQZgqis2V02Xt7mq2qDUgh7Tj46rZmWeOaWQ9Ju5fqSzoyMvNSy1QcEA==
-X-Received: by 2002:a05:6a20:9150:b0:249:d3d:a4d4 with SMTP id adf61e73a8af0-2e7c7ea3a75mr8452854637.26.1758879031332;
-        Fri, 26 Sep 2025 02:30:31 -0700 (PDT)
-Received: from localhost.localdomain ([165.204.156.251])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7810238b19dsm4048646b3a.10.2025.09.26.02.30.28
+        d=1e100.net; s=20230601; t=1758887159; x=1759491959;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WkRDFqbG55HD/5PHsPObmdh+Ov28CTpaGeY2bB6QWYU=;
+        b=OeKFkF/pxba8BEav3BGeMffn46AmoHHjwYb3lMCdKI9rbE8g3UpAa0CVzn5cJVVDsS
+         EFi1m5xw11DuOt5JVxiBMDtrre/8c2dYyc+PpcIT2Kn7NUzgW1vvzYB+1w6L/el2vm0R
+         0IcjMd3eBjNqBOkpBI4SxYy/LKduEpTrmVlyYS7srs02urQM9VdTTxM7rBAOte/B2J8s
+         1igIv0y1AVMXVaC3AHJhT7mcEiv5zw2XqRXVu21VNUG+fubPV2c7wvxWsMOeAjeAKE6y
+         U6spGvwNOzwgZ3dNaZBfATzIiHTMwBjXzzCk/cA8MwjlkFlxT0P8VKVJCq0tsdxO78AN
+         XW7A==
+X-Forwarded-Encrypted: i=1; AJvYcCWb0jzMno1BCcNElwHruOrPgxbWjwxawgpqW3tP72QsRG4vKKr2mqUppXu8uwzYXG17Wmgz75r6HQ9s2yq0JqXlVUuefA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwP8SXoL9m92doGx35YOuN7SsvyUAgGvtqyaxaal8k+iXaz+jQP
+	MB/e/zgi/qN9euaaMU2wOGrBXy5k+5IpAdHOur/BKedF5zHQo/Zpymrf
+X-Gm-Gg: ASbGncvTtbJ9FDGeAkDL12D+jx6OccNPjUNhQczzNjtirgPNOAYFP06PlaWr6fq+EvA
+	JoCUa+3RTXtNLDgZy1uIspQ6vteNknwCPGypwFOXoppDTOWTn/qCnwJA6kkEFhl1s5Sp+J9yKyN
+	rb8Ezjg17u71IO/1iDE5FvoQgumcxKzMB2jHMJ8RKW5xL9C0F6kno1WBjAIIM+bjY429ohh5tXv
+	pWtU00GPzFKXEMHhnS66Futh9UP8rjJ/ybcOTHU6vZeoKd2SaMssNUiQp/arP5wZYKl5JBlqgjE
+	KKiNPcaxOCQKOOEOVLmr4ZdxjFPhdn8Td0BudlXUayEb5sLhP24eQUdo88cD6bTIThcMKmMuA38
+	jIpY+DxqEpHcFB8qxdGgBIB5h79izqtfUXhKQxUMfq26itw35tLPX46oGEVwJvlaG
+X-Google-Smtp-Source: AGHT+IEPTFDb685fmiqtI/zbxG32d7v3MRP+VRk71KQ8OOHsQCWx3c0SFbrsAeMCnBPznWcIWNgGnA==
+X-Received: by 2002:a05:600d:15a:20b0:46e:1e31:8d06 with SMTP id 5b1f17b1804b1-46e329f62b4mr74383735e9.16.1758887158355;
+        Fri, 26 Sep 2025 04:45:58 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e33105e0bsm37380245e9.5.2025.09.26.04.45.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Sep 2025 02:30:31 -0700 (PDT)
-From: Rahul Kumar <rk0006818@gmail.com>
-To: liviu.dudau@arm.com,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	rk0006818@gmail.com
-Subject: [PATCH v3] drm/komeda: Convert logging in komeda_crtc.c to drm_* with drm_device parameter
-Date: Fri, 26 Sep 2025 15:00:08 +0530
-Message-ID: <20250926093008.1949131-1-rk0006818@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 26 Sep 2025 04:45:58 -0700 (PDT)
+Date: Fri, 26 Sep 2025 12:45:55 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Cc: andrii@kernel.org, eddyz87@gmail.com, ast@kernel.org,
+ daniel@iogearbox.net, martin.lau@linux.dev, song@kernel.org,
+ yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
+ sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
+ matttbe@kernel.org, martineau@kernel.org, geliang@kernel.org,
+ davem@davemloft.net, kuba@kernel.org, hawk@kernel.org,
+ linux@jordanrome.com, ameryhung@gmail.com, toke@redhat.com,
+ houtao1@huawei.com, emil@etsalapatis.com, yatsenko@meta.com,
+ isolodrai@meta.com, a.s.protopopov@gmail.com, dxu@dxuuu.xyz,
+ memxor@gmail.com, vmalik@redhat.com, bigeasy@linutronix.de, tj@kernel.org,
+ gregkh@linuxfoundation.org, paul@paul-moore.com,
+ bboscaccy@linux.microsoft.com, James.Bottomley@HansenPartnership.com,
+ mrpre@163.com, jakub@cloudflare.com, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ netdev@vger.kernel.org, mptcp@lists.linux.dev,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
+ david.hunter.linux@gmail.com
+Subject: Re: [PATCH] selftests/bpf: Add -Wsign-compare C compilation flag
+Message-ID: <20250926124555.009bfcd6@pumpkin>
+In-Reply-To: <20250924162408.815137-1-mehdi.benhadjkhelifa@gmail.com>
+References: <20250924162408.815137-1-mehdi.benhadjkhelifa@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Replace all dev_err(), dev_warn(), dev_info() and DRM_ERROR/WARN/INFO()
-calls in drivers/gpu/drm/arm/display/komeda/komeda_crtc.c with the
-corresponding drm_err(), drm_warn(), and drm_info() helpers.
+On Wed, 24 Sep 2025 17:23:49 +0100
+Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com> wrote:
 
-The new drm_*() logging functions take a struct drm_device * as the
-first argument. This allows the DRM core to prefix log messages with
-the specific DRM device name and instance, which is essential for
-distinguishing logs when multiple GPUs or display controllers are present.
+> -Change all the source files and the corresponding headers 
+> to having matching sign comparisons.
 
-This change aligns komeda with the DRM TODO item: "Convert logging to
-drm_* functions with drm_device parameter".
+'Fixing' -Wsign-compare by adding loads of casts doesn't seem right.
+The only real way is to change all the types to unsigned ones.
+But it is of questionable benefit and make the code harder to read.
 
-Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
----
-Changes since v2:
-- Added Reviewed-by tag from Liviu Dudau
+Consider the following:
+	int x = read(fd, buf, len);
+	if (x < 0)
+		return -1;
+	if (x > sizeof (struct fubar))
+		return -1;
+That will generate a 'sign-compare' error, but min(x, sizeof (struct fubar))
+doesn't generate an error because the compiler knows 'x' isn't negative.
 
-Link to v1:
-https://lore.kernel.org/all/aJshoswGslcYQFLI@e110455-lin.cambridge.arm.com/
----
- .../gpu/drm/arm/display/komeda/komeda_crtc.c  | 31 +++++++++++--------
- 1 file changed, 18 insertions(+), 13 deletions(-)
+A well known compiler also rejects:
+	unsigned char a;
+	unsigned int b;
+	if (b > a)
+		return;
+because 'a' is promoted to 'signed int' before it does the check.
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-index 2ad33559a33a..5a66948ffd24 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-@@ -111,6 +111,7 @@ komeda_crtc_atomic_check(struct drm_crtc *crtc,
- static int
- komeda_crtc_prepare(struct komeda_crtc *kcrtc)
- {
-+	struct drm_device *drm = kcrtc->base.dev;
- 	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
- 	struct komeda_pipeline *master = kcrtc->master;
- 	struct komeda_crtc_state *kcrtc_st = to_kcrtc_st(kcrtc->base.state);
-@@ -128,8 +129,8 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
- 
- 	err = mdev->funcs->change_opmode(mdev, new_mode);
- 	if (err) {
--		DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
--			  mdev->dpmode, new_mode);
-+		drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
-+			mdev->dpmode, new_mode);
- 		goto unlock;
- 	}
- 
-@@ -142,18 +143,18 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
- 	if (new_mode != KOMEDA_MODE_DUAL_DISP) {
- 		err = clk_set_rate(mdev->aclk, komeda_crtc_get_aclk(kcrtc_st));
- 		if (err)
--			DRM_ERROR("failed to set aclk.\n");
-+			drm_err(drm, "failed to set aclk.\n");
- 		err = clk_prepare_enable(mdev->aclk);
- 		if (err)
--			DRM_ERROR("failed to enable aclk.\n");
-+			drm_err(drm, "failed to enable aclk.\n");
- 	}
- 
- 	err = clk_set_rate(master->pxlclk, mode->crtc_clock * 1000);
- 	if (err)
--		DRM_ERROR("failed to set pxlclk for pipe%d\n", master->id);
-+		drm_err(drm, "failed to set pxlclk for pipe%d\n", master->id);
- 	err = clk_prepare_enable(master->pxlclk);
- 	if (err)
--		DRM_ERROR("failed to enable pxl clk for pipe%d.\n", master->id);
-+		drm_err(drm, "failed to enable pxl clk for pipe%d.\n", master->id);
- 
- unlock:
- 	mutex_unlock(&mdev->lock);
-@@ -164,6 +165,7 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
- static int
- komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
- {
-+	struct drm_device *drm = kcrtc->base.dev;
- 	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
- 	struct komeda_pipeline *master = kcrtc->master;
- 	u32 new_mode;
-@@ -180,8 +182,8 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
- 
- 	err = mdev->funcs->change_opmode(mdev, new_mode);
- 	if (err) {
--		DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
--			  mdev->dpmode, new_mode);
-+		drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
-+			mdev->dpmode, new_mode);
- 		goto unlock;
- 	}
- 
-@@ -200,6 +202,7 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
- void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
- 			      struct komeda_events *evts)
- {
-+	struct drm_device *drm = kcrtc->base.dev;
- 	struct drm_crtc *crtc = &kcrtc->base;
- 	u32 events = evts->pipes[kcrtc->master->id];
- 
-@@ -212,7 +215,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
- 		if (wb_conn)
- 			drm_writeback_signal_completion(&wb_conn->base, 0);
- 		else
--			DRM_WARN("CRTC[%d]: EOW happen but no wb_connector.\n",
-+			drm_warn(drm, "CRTC[%d]: EOW happen but no wb_connector.\n",
- 				 drm_crtc_index(&kcrtc->base));
- 	}
- 	/* will handle it together with the write back support */
-@@ -236,7 +239,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
- 			crtc->state->event = NULL;
- 			drm_crtc_send_vblank_event(crtc, event);
- 		} else {
--			DRM_WARN("CRTC[%d]: FLIP happened but no pending commit.\n",
-+			drm_warn(drm, "CRTC[%d]: FLIP happened but no pending commit.\n",
- 				 drm_crtc_index(&kcrtc->base));
- 		}
- 		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
-@@ -309,7 +312,7 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
- 
- 	/* wait the flip take affect.*/
- 	if (wait_for_completion_timeout(flip_done, HZ) == 0) {
--		DRM_ERROR("wait pipe%d flip done timeout\n", kcrtc->master->id);
-+		drm_err(drm, "wait pipe%d flip done timeout\n", kcrtc->master->id);
- 		if (!input_flip_done) {
- 			unsigned long flags;
- 
-@@ -562,6 +565,7 @@ static const struct drm_crtc_funcs komeda_crtc_funcs = {
- int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
- 			   struct komeda_dev *mdev)
- {
-+	struct drm_device *drm = &kms->base;
- 	struct komeda_crtc *crtc;
- 	struct komeda_pipeline *master;
- 	char str[16];
-@@ -581,7 +585,7 @@ int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
- 		else
- 			sprintf(str, "None");
- 
--		DRM_INFO("CRTC-%d: master(pipe-%d) slave(%s).\n",
-+		drm_info(drm, "CRTC-%d: master(pipe-%d) slave(%s).\n",
- 			 kms->n_crtcs, master->id, str);
- 
- 		kms->n_crtcs++;
-@@ -613,6 +617,7 @@ static int komeda_attach_bridge(struct device *dev,
- 				struct komeda_pipeline *pipe,
- 				struct drm_encoder *encoder)
- {
-+	struct drm_device *drm = encoder->dev;
- 	struct drm_bridge *bridge;
- 	int err;
- 
-@@ -624,7 +629,7 @@ static int komeda_attach_bridge(struct device *dev,
- 
- 	err = drm_bridge_attach(encoder, bridge, NULL, 0);
- 	if (err)
--		dev_err(dev, "bridge_attach() failed for pipe: %s\n",
-+		drm_err(drm, "bridge_attach() failed for pipe: %s\n",
- 			of_node_full_name(pipe->of_node));
- 
- 	return err;
--- 
-2.43.0
+So until the compilers start looking at the known domain of the value
+(not just the type) I enabling -Wsign-compare' is pretty pointless.
 
+As a matter of interest did you actually find any bugs?
+
+	David
+
+
+> 
+> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+> ---
+> As suggested by the TODO, -Wsign-compare was added to the C compilation
+> flags for the selftests/bpf/Makefile and all corresponding files in
+> selftests and a single file under tools/lib/bpf/usdt.bpf.h have been
+> carefully changed to account for correct sign comparisons either by
+> explicit casting or changing the variable type.Only local variables
+> and variables which are in limited scope have been changed in cases
+> where it doesn't break the code.Other struct variables or global ones 
+> have left untouched to avoid other conflicts and opted to explicit 
+> casting in this case.This change will help avoid implicit type 
+> conversions and have predictable behavior.
+> 
+> I have already compiled all bpf tests with no errors as well as the
+> kernel and have ran all the selftests with no obvious side effects.
+> I would like to know if it's more convinient to have all changes as
+> a single patch like here or if it needs to be divided in some way 
+> and sent as a patch series.
+> 
+> Best Regards,
+> Mehdi Ben Hadj Khelifa
+...
