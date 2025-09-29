@@ -1,97 +1,109 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D11302CC3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Sep 2025 16:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C21F2BDC2C
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 29 Sep 2025 16:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759162300; cv=none; b=BpbYfnWYOXU5EbJ34MiNVkmdz9tuAcyMxLWKE1dNm691L0uf+CjL9gX39Mnd/bxHNnzFx3rNlAB4A2KuGSYccHy0MVx0O4FBDvHmDICUUfd2kIw6RU7gZg989xUywpS6k3c02jQhtxzE4PoxdcSVfC1WLdmn6vBK6w0jKq5gdRo=
+	t=1759163511; cv=none; b=ELRPdU3Q95VnTlLwOqL2+T4rDpxWH0nIf4xUlDFLJMhaJxNzOUfgCq01fZfedKUpB/wGN2BI6ULxgl+NfJj0duNuN2t1N+TuIewJ/ShM1DaL7rcr8dWRePSupZ1MgZTlDo5uU8gqU/LmT7BGua5S+x7LkCPRCkyqhwRk+eibWc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759162300; c=relaxed/simple;
-	bh=1C8ybsyb9yQ1UmO5cXiz1kvHuhwCzJqJDcXcWDZOKp4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=sgQPOdrv0W/WOaEGxws1va8dlb6PCJXlOnkWlgtZ9E90ZeTpaye14uRxMK2VUnzo3cHlhYfq27COJTCOJS+vgtWUWqz5Hd/JEvvNgUZchdOYkgb6CAs7CgCBrBR8XRM8MKL1VtShp1Vrp3Fd1t9H1gT8oN47xkvocamHao1fqBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=xQ740c/6; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1759163511; c=relaxed/simple;
+	bh=nTErp6MjM2H9FJt5b0VdfDXyFtxk1zguj9gOTg/Op1s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vj78WFPqW3BL8cTCYBFykucp5fClvMi0KbIaASpDTFJVqHn2g96yBCEX4gscBq4RWOJidQPdnWGAkyh3an74ILw7AoS83+M1TpUSQ4ipofLd5jgNwCVspJOUmZ4NGzDdJxdnPTjDayPoBLzqDeY9zOHxcjPQG4qE86xs7pOG+7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z3hDzIWx; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="xQ740c/6"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 11A508124A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Sep 2025 16:11:38 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.793
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id rUghYeEvqXWB for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Sep 2025 16:11:37 +0000 (UTC)
-X-Greylist: delayed 497 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 29 Sep 2025 16:11:36 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 1CC968102A
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1CC968102A
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=xQ740c/6
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=185.171.202.116; helo=smtpout-04.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=<UNKNOWN> 
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1CC968102A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Sep 2025 16:11:36 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 1D9C7C0244A;
-	Mon, 29 Sep 2025 16:02:59 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C0A5E606AE;
-	Mon, 29 Sep 2025 16:03:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 10995102F1892;
-	Mon, 29 Sep 2025 18:03:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1759161796; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=96HEK4UvGCOo8Woo1oy+a2odFHzZgoRuFfoU8CA6IEw=;
-	b=xQ740c/6iaZTnCc/giPM9R+u8rp4EOQWA0FFEej9Sh4ewD6Y10jYcCo4LlEmBO2aW6BPSs
-	EIdoYs12ibW1QZHTwoyxIjfYBPKm3RJjQ2MkiPcSmdofc90GfmTtAHDQh0Rnu0mvwjo8JT
-	L2T+zQgCuYD9EvdO2Kg8ftKpJuRO3ZEbT7RFp0HDB5YVLDB8M6S0sP4PlW6hMEwAWbSdJO
-	jL6b6OO8Dq1051tvgrc8m4UX1jDxdqDurfkDuz3dKFwkCiysUUtIY1whDZzMX7ixkK4dUN
-	l9cY3E9Ul2+CGNM2321atV6aWatEwzjFtfOAiYTAOYO6fWZ7dYQmfqfDF3pYwg==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: richard@nod.at, vigneshr@ti.com, Rahul Kumar <rk0006818@gmail.com>
-Cc: linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-In-Reply-To: <20250922071137.900508-1-rk0006818@gmail.com>
-References: <20250922071137.900508-1-rk0006818@gmail.com>
-Subject: Re: [PATCH] mtd: jedec_probe: use struct_size() helper for cfiq
- allocation
-Message-Id: <175916179288.52129.13789986252755392222.b4-ty@bootlin.com>
-Date: Mon, 29 Sep 2025 18:03:12 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z3hDzIWx"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3322e6360bbso4738003a91.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 29 Sep 2025 09:31:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759163509; x=1759768309; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lka4+ZyxLfYllS696TYLXMts9dTS83swxEi3cmvk4F4=;
+        b=Z3hDzIWx8G0y5WGWcsoEca4Ws6tcOAgXLsE18Q5IhnPD3XMeK/61UqgOTrVzZm36g9
+         v63qigSxg0xboYvEf32McHKPNTYu2g1t5vw+jXPJDVMBGPme2b34y8o1kj/gbJvtp3Rj
+         m5GwpD27mYTrwLwia+wkW8SeFIsR79/XLyLl9KnYzbiP9s16syxN2FP1ZoY/SMe/VIQ1
+         K68V6e6reH/rq/CEoTSWWeg85vuGRjzZIzxGaKn+w7CMRAGonH8JC8DUqFDl1IoelLAQ
+         Qm8JGGR1aIgZXRsEHZ6t2hMtMXzuFBqHAqdyJbGYEMqntiweyBvNP8tSfBzqdl5rkZva
+         cRfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759163509; x=1759768309;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lka4+ZyxLfYllS696TYLXMts9dTS83swxEi3cmvk4F4=;
+        b=jQn1L8rosTa1JRRlr3dXEVJRSF9zcOy8I0fgdpDUqg2VGDAVa/x69pSqPJQVPHdFiu
+         4viFkX2qvjsISTTqHPnx8OsP9cOHvLNF/WZOOL86Benlxffr14lKuK6lZlQjtFTkEjya
+         DUkuwhv47+BVmXWPoypLH9xIh72HLsx+4XFnRBaY4vrwkD1aLtCj863Hnuo+WUrCO9XH
+         R5nSAJ5v2jB9Jz2MmEHtYWVnfCWyhCcAvum13RUkZXdg1PVZTlPduLH12YUqQzo9Wj0j
+         80GnxfpEKnWk8IkTzr2+Y0V2VEArPrlYL/M5VLQM7f8lUtlfGk9DiR9a0xReJh/n4Nzp
+         vXVg==
+X-Forwarded-Encrypted: i=1; AJvYcCVnurtB5ADEosC+8kvFf8DFMcB2KzbH/sGZfLEzqIh1Ig3rtLf5ntk9+miba943CiTZzA/HVnzUMzPCC4jI1AbqlPOWbQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy41AgHMLzaM8BKMeNpNFYkhbi/gLIHiPKj7PVZPt4/DCRBEfE4
+	Aky1zCj1OgKLTd8LZ4IQRt5G8z4MJHER6EEzruvEyuWLgrwzZ6NKj/tv
+X-Gm-Gg: ASbGnctTOaU3jL5HxdffHowrpyyGLpYVUAzY6nB4Ef03nVhHHVKVD6MwXqT9aJL//3g
+	l6TebIUB66jqrb/2S9mpoiGoHHrHe5Iehzn/ou8mr7T58CLICRWu8ZgLtJt9c+qMjYjIi13Krhs
+	Z6oWQI4S1eAKWACxuiHhkVNRiLVpY4uydFR2LKZ77mujyWh02M0DcqtLYBFKvMHN+uGpHswJf4h
+	9n1LSjCnLODru220DotG0qBdxEAYz6U84DNAcChm1GLvdVRb4DWAvYpSdlWWj+aIbN/0jweZPiR
+	aXld7U1hCZmoe2Jojq+ICzOn4v+2KWG+nT4edpz0W1i9TPWAHXJWbFplY6530jV/AqAyElk4Vjy
+	nn3lrfeK2Crtmm6N2xDxlgwHy5cWPzho1YVTIXFQZWZnkO8GIO6lo
+X-Google-Smtp-Source: AGHT+IEZeT16n1Qx68AceriYoS2m5DQH3UD7/ggp2pq32iz566aW/AJGDTJkg6J0/p2eGeMqMpos2Q==
+X-Received: by 2002:a17:90b:350c:b0:330:6c04:a72b with SMTP id 98e67ed59e1d1-3342a2498f2mr18362711a91.3.1759163508737;
+        Mon, 29 Sep 2025 09:31:48 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341bd90327sm17674419a91.3.2025.09.29.09.31.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Sep 2025 09:31:48 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	shuah@kernel.org
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	david.hunter.linux@gmail.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH net-next] selftests/net: add tcp_port_share to .gitignore
+Date: Mon, 29 Sep 2025 22:01:38 +0530
+Message-ID: <20250929163140.122383-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.14.2
-X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, 22 Sep 2025 12:41:37 +0530, Rahul Kumar wrote:
-> Documentation/process/deprecated.rst recommends against performing
-> dynamic size calculations in the arguments of memory allocator
-> functions due to the risk of overflow. Such calculations can wrap
-> around and result in a smaller allocation than expected.
-> 
-> Replace the size calculation in cfiq allocation with struct_size()
-> helper to make the code clearer and handle overflows correctly.
-> 
-> [...]
+Add the tcp_port_share test binary to .gitignore to avoid
+accidentally staging the build artifact.
 
-Applied to mtd/next, thanks!
+Fixes: 8a8241cdaa34 ("selftests/net: Test tcp port reuse after unbinding
+a socket")
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+---
+ tools/testing/selftests/net/.gitignore | 1 +
+ 1 file changed, 1 insertion(+)
 
-[1/1] mtd: jedec_probe: use struct_size() helper for cfiq allocation
-      commit: 527668868862e0db65efc88fe82040f1e48d4ab3
-
-Patche(s) should be available on mtd/linux.git and will be
-part of the next PR (provided that no robot complains by then).
-
-Kind regards,
-Miquèl
+diff --git a/tools/testing/selftests/net/.gitignore b/tools/testing/selftests/net/.gitignore
+index 3d4b4a53dfda..439101b518ee 100644
+--- a/tools/testing/selftests/net/.gitignore
++++ b/tools/testing/selftests/net/.gitignore
+@@ -52,6 +52,7 @@ tap
+ tcp_fastopen_backup_key
+ tcp_inq
+ tcp_mmap
++tcp_port_share
+ tfo
+ timestamping
+ tls
+-- 
+2.43.0
 
