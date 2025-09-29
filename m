@@ -1,109 +1,153 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C21F2BDC2C
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 29 Sep 2025 16:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D474317736;
+	Mon, 29 Sep 2025 17:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759163511; cv=none; b=ELRPdU3Q95VnTlLwOqL2+T4rDpxWH0nIf4xUlDFLJMhaJxNzOUfgCq01fZfedKUpB/wGN2BI6ULxgl+NfJj0duNuN2t1N+TuIewJ/ShM1DaL7rcr8dWRePSupZ1MgZTlDo5uU8gqU/LmT7BGua5S+x7LkCPRCkyqhwRk+eibWc8=
+	t=1759168445; cv=none; b=hZSqu2GRfbusDN8QwKUJqRMDBHn0AJFw7Njwj7jEhhmQs/Zao9+NRpbiV0OS6ZGZM/jGvPBbF4pgq1p11ni54aDICox9zkoQhBI4+X9WS4cWxdVmlor85BZN0ZH5EYNdKtiOYF1FLDXKKqRGdavgkWDhzum8C+SZue1/EQGE59w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759163511; c=relaxed/simple;
-	bh=nTErp6MjM2H9FJt5b0VdfDXyFtxk1zguj9gOTg/Op1s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vj78WFPqW3BL8cTCYBFykucp5fClvMi0KbIaASpDTFJVqHn2g96yBCEX4gscBq4RWOJidQPdnWGAkyh3an74ILw7AoS83+M1TpUSQ4ipofLd5jgNwCVspJOUmZ4NGzDdJxdnPTjDayPoBLzqDeY9zOHxcjPQG4qE86xs7pOG+7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z3hDzIWx; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759168445; c=relaxed/simple;
+	bh=PCBsGpd6X+jILembqK+s34pLQKhI31Q5FYULNljasxM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o5H/T8T/WBa2Nfw1BEASPMFeV78PRZoINN2qN+YEEyfJ/bs5lET92HKGj/yGl5CUEi5DduD1haMKB8cSCCZ0eq+mMtGaM+3Gz714bDsoreKqB5m2rkCNu0i5IS8fKyhKgsdWx27cam6+LGVP14swYByUpeWekLbED4pAAuM1WE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S6Aw+r6B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z3hDzIWx"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3322e6360bbso4738003a91.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 29 Sep 2025 09:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759163509; x=1759768309; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lka4+ZyxLfYllS696TYLXMts9dTS83swxEi3cmvk4F4=;
-        b=Z3hDzIWx8G0y5WGWcsoEca4Ws6tcOAgXLsE18Q5IhnPD3XMeK/61UqgOTrVzZm36g9
-         v63qigSxg0xboYvEf32McHKPNTYu2g1t5vw+jXPJDVMBGPme2b34y8o1kj/gbJvtp3Rj
-         m5GwpD27mYTrwLwia+wkW8SeFIsR79/XLyLl9KnYzbiP9s16syxN2FP1ZoY/SMe/VIQ1
-         K68V6e6reH/rq/CEoTSWWeg85vuGRjzZIzxGaKn+w7CMRAGonH8JC8DUqFDl1IoelLAQ
-         Qm8JGGR1aIgZXRsEHZ6t2hMtMXzuFBqHAqdyJbGYEMqntiweyBvNP8tSfBzqdl5rkZva
-         cRfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759163509; x=1759768309;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lka4+ZyxLfYllS696TYLXMts9dTS83swxEi3cmvk4F4=;
-        b=jQn1L8rosTa1JRRlr3dXEVJRSF9zcOy8I0fgdpDUqg2VGDAVa/x69pSqPJQVPHdFiu
-         4viFkX2qvjsISTTqHPnx8OsP9cOHvLNF/WZOOL86Benlxffr14lKuK6lZlQjtFTkEjya
-         DUkuwhv47+BVmXWPoypLH9xIh72HLsx+4XFnRBaY4vrwkD1aLtCj863Hnuo+WUrCO9XH
-         R5nSAJ5v2jB9Jz2MmEHtYWVnfCWyhCcAvum13RUkZXdg1PVZTlPduLH12YUqQzo9Wj0j
-         80GnxfpEKnWk8IkTzr2+Y0V2VEArPrlYL/M5VLQM7f8lUtlfGk9DiR9a0xReJh/n4Nzp
-         vXVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVnurtB5ADEosC+8kvFf8DFMcB2KzbH/sGZfLEzqIh1Ig3rtLf5ntk9+miba943CiTZzA/HVnzUMzPCC4jI1AbqlPOWbQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy41AgHMLzaM8BKMeNpNFYkhbi/gLIHiPKj7PVZPt4/DCRBEfE4
-	Aky1zCj1OgKLTd8LZ4IQRt5G8z4MJHER6EEzruvEyuWLgrwzZ6NKj/tv
-X-Gm-Gg: ASbGnctTOaU3jL5HxdffHowrpyyGLpYVUAzY6nB4Ef03nVhHHVKVD6MwXqT9aJL//3g
-	l6TebIUB66jqrb/2S9mpoiGoHHrHe5Iehzn/ou8mr7T58CLICRWu8ZgLtJt9c+qMjYjIi13Krhs
-	Z6oWQI4S1eAKWACxuiHhkVNRiLVpY4uydFR2LKZ77mujyWh02M0DcqtLYBFKvMHN+uGpHswJf4h
-	9n1LSjCnLODru220DotG0qBdxEAYz6U84DNAcChm1GLvdVRb4DWAvYpSdlWWj+aIbN/0jweZPiR
-	aXld7U1hCZmoe2Jojq+ICzOn4v+2KWG+nT4edpz0W1i9TPWAHXJWbFplY6530jV/AqAyElk4Vjy
-	nn3lrfeK2Crtmm6N2xDxlgwHy5cWPzho1YVTIXFQZWZnkO8GIO6lo
-X-Google-Smtp-Source: AGHT+IEZeT16n1Qx68AceriYoS2m5DQH3UD7/ggp2pq32iz566aW/AJGDTJkg6J0/p2eGeMqMpos2Q==
-X-Received: by 2002:a17:90b:350c:b0:330:6c04:a72b with SMTP id 98e67ed59e1d1-3342a2498f2mr18362711a91.3.1759163508737;
-        Mon, 29 Sep 2025 09:31:48 -0700 (PDT)
-Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341bd90327sm17674419a91.3.2025.09.29.09.31.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Sep 2025 09:31:48 -0700 (PDT)
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	shuah@kernel.org
-Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
-	netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	david.hunter.linux@gmail.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH net-next] selftests/net: add tcp_port_share to .gitignore
-Date: Mon, 29 Sep 2025 22:01:38 +0530
-Message-ID: <20250929163140.122383-1-krishnagopi487@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S6Aw+r6B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8505C4CEF4;
+	Mon, 29 Sep 2025 17:53:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759168444;
+	bh=PCBsGpd6X+jILembqK+s34pLQKhI31Q5FYULNljasxM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S6Aw+r6BjzzxfKFcBe/Nv0S1rnnX5W58Hs1c3XgOomQENJXR8Zwnc4g6/gnZT8uu3
+	 wx0Mczsv+HtV0RRh4kxOtbuBN4XMxTBxp51zweJaOjVsMU7jVtvzxOUAw2pdotgqdY
+	 DKqPGjpxCGTMRC/WMpEZaUg+E3kuBSvo9UBDojsUi5o5L2oCC0W89+i7sNuU5adssl
+	 tRtPn8vOb1Q8s5khRimhywdBN8/9pqqogd6LRfbV3fNHLW/6MbobM2KtzFNuVX+rk4
+	 DAIR/yA9yeK76Pj77KA0UO8RaloXMWp+poUjrknigQfLqAimNS5QjmlTG0rE8jngn8
+	 VvMthvBQl2MSg==
+Date: Mon, 29 Sep 2025 23:23:49 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Petr Mladek <pmladek@suse.com>, Tejun Heo <tj@kernel.org>, 
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>, Frank Li <Frank.Li@nxp.com>, linux-pci@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+Subject: Re: [PATCH] PCI: endpoint: pci-epf-test: Fix sleeping function being
+ called from atomic context
+Message-ID: <te2mzunvwphcoiypwdb6oee3m54jquxk4br6f4tjxlp625whbr@kzzhai5eg2xv>
+References: <20250917161817.15776-1-bhanuseshukumar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250917161817.15776-1-bhanuseshukumar@gmail.com>
 
-Add the tcp_port_share test binary to .gitignore to avoid
-accidentally staging the build artifact.
+On Wed, Sep 17, 2025 at 09:48:17PM +0530, Bhanu Seshu Kumar Valluri wrote:
+> When Root Complex(RC) triggers a Doorbell MSI interrupt to Endpoint(EP) it triggers a warning
+> in the EP. pci_endpoint kselftest target is compiled and used to run the Doorbell test in RC.
+> 
+> [  474.686193] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:271
+> [  474.694656] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 0, name: swapper/0
+> [  474.702473] preempt_count: 10001, expected: 0
+> [  474.706819] RCU nest depth: 0, expected: 0
+> [  474.710913] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.17.0-rc5-g7aac71907bde #12 PREEMPT
+> [  474.710926] Hardware name: Texas Instruments AM642 EVM (DT)
+> [  474.710934] Call trace:
+> [  474.710940]  show_stack+0x20/0x38 (C)
+> [  474.710969]  dump_stack_lvl+0x70/0x88
+> [  474.710984]  dump_stack+0x18/0x28
+> [  474.710995]  __might_resched+0x130/0x158
+> [  474.711011]  __might_sleep+0x70/0x88
+> [  474.711023]  mutex_lock+0x2c/0x80
+> [  474.711036]  pci_epc_get_msi+0x78/0xd8
+> [  474.711052]  pci_epf_test_raise_irq.isra.0+0x74/0x138
+> [  474.711063]  pci_epf_test_doorbell_handler+0x34/0x50
+> [  474.711072]  __handle_irq_event_percpu+0xac/0x1f0
+> [  474.711086]  handle_irq_event+0x54/0xb8
+> [  474.711096]  handle_fasteoi_irq+0x150/0x220
+> [  474.711110]  handle_irq_desc+0x48/0x68
+> [  474.711121]  generic_handle_domain_irq+0x24/0x38
+> [  474.711131]  gic_handle_irq+0x4c/0xc8
+> [  474.711141]  call_on_irq_stack+0x30/0x70
+> [  474.711151]  do_interrupt_handler+0x70/0x98
+> [  474.711163]  el1_interrupt+0x34/0x68
+> [  474.711176]  el1h_64_irq_handler+0x18/0x28
+> [  474.711189]  el1h_64_irq+0x6c/0x70
+> [  474.711198]  default_idle_call+0x10c/0x120 (P)
+> [  474.711208]  do_idle+0x128/0x268
+> [  474.711220]  cpu_startup_entry+0x3c/0x48
+> [  474.711231]  rest_init+0xe0/0xe8
+> [  474.711240]  start_kernel+0x6d4/0x760
+> [  474.711255]  __primary_switched+0x88/0x98
+> 
 
-Fixes: 8a8241cdaa34 ("selftests/net: Test tcp port reuse after unbinding
-a socket")
-Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
----
- tools/testing/selftests/net/.gitignore | 1 +
- 1 file changed, 1 insertion(+)
+You do not need to use full call trace. Refer:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.17#n761
 
-diff --git a/tools/testing/selftests/net/.gitignore b/tools/testing/selftests/net/.gitignore
-index 3d4b4a53dfda..439101b518ee 100644
---- a/tools/testing/selftests/net/.gitignore
-+++ b/tools/testing/selftests/net/.gitignore
-@@ -52,6 +52,7 @@ tap
- tcp_fastopen_backup_key
- tcp_inq
- tcp_mmap
-+tcp_port_share
- tfo
- timestamping
- tls
+> Warnings can be reproduced by following steps below.
+> *On EP side:
+> 1. Configure the pci-epf-test function using steps given below
+>    mount -t configfs none /sys/kernel/config
+>    cd /sys/kernel/config/pci_ep/
+>    mkdir functions/pci_epf_test/func1
+>    echo 0x104c > functions/pci_epf_test/func1/vendorid
+>    echo 0xb010 > functions/pci_epf_test/func1/deviceid
+>    echo 32 > functions/pci_epf_test/func1/msi_interrupts
+>    echo 2048 > functions/pci_epf_test/func1/msix_interrupts
+>    ln -s functions/pci_epf_test/func1 controllers/f102000.pcie-ep/
+>    echo 1 > controllers/f102000.pcie-ep/start
+> 
+> *On RC side:
+> 1. Once EP side configuration is done do pci rescan.
+>    echo 1 > /sys/bus/pci/rescan
+> 2. Run Doorbell MSI test using pci_endpoint_test kselftest app.
+>   ./pci_endpoint_test -r pcie_ep_doorbell.DOORBELL_TEST
+
+This info is already part of the kernel documentation. So it is redundant here.
+It could be probably added in the comment section (where you added the Note).
+
+>   Note: Kernel is compiled with CONFIG_DEBUG_KERNEL enabled.
+> 
+> The BUG arises because the EP's Doorbell MSI hard interrupt handler is making an
+> indirect call to pci_epc_get_msi, which uses mutex inside, from interrupt context.
+> 
+> This patch converts hard irq handler to a threaded irq handler to allow it
+> to call functions that can sleep during bottom half execution. The threaded
+> irq handler is registered with IRQF_ONESHOT and keeps interrupt line disabled
+> until the threaded irq handler completes execution.
+> 
+> Fixes: eff0c286aa916221a69126 ("PCI: endpoint: pci-epf-test: Add doorbell test support")
+
+Use 12 char commit SHA.
+
+> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+> ---
+>  Note : It is compiled and tested on TI am642 board.
+> 
+>  drivers/pci/endpoint/functions/pci-epf-test.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+> index e091193bd..b9c1ad931 100644
+> --- a/drivers/pci/endpoint/functions/pci-epf-test.c
+> +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+> @@ -680,7 +680,7 @@ static void pci_epf_test_raise_irq(struct pci_epf_test *epf_test,
+>  	}
+>  }
+>  
+> -static irqreturn_t pci_epf_test_doorbell_handler(int irq, void *data)
+> +static irqreturn_t pci_epf_test_doorbell_irq_thread(int irq, void *data)
+
+No need to change the function name.
+
+- Mani
+
 -- 
-2.43.0
-
+மணிவண்ணன் சதாசிவம்
