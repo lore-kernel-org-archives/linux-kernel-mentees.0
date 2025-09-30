@@ -1,127 +1,123 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26341E260D
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 13:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3D03043C8
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 14:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759240056; cv=none; b=dGwfsRkjFuCiZDnjsguFTIIYXsh5igGVfa83mCruOTJURiRVKYqbTGLlJymJwfHsb1K+b5QbXEJ/g/bu2F9A9LT0oq+t/q3JOI91tkRxbxku5qAMatB6ITVYgo+iQZiAVfX1ExNcFLDVkiEIAsXPmPG24xNfQO8bQbDJYuixvvc=
+	t=1759242674; cv=none; b=T2Tu17DW035whY6KUVPsq8T9Q9IBCuzLeV4ZCvcWkQYX16ChgteVku0PfjZMyBSglbJsrRxjOx3nNektP3wyhs1PyIDuqwhZ0pi/WzWlfu1KGLoOdF/r4N4qppN//g3ghyDV1nDtiqED8bUkPTHk0ijHIemBNfru4EVcFBdD/yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759240056; c=relaxed/simple;
-	bh=djWJ3WSoFOE7AAiVgSgO9kaO15CNySawak1vG1iZbXE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ukfcy3uZgCLySkcf/quJ+KTGHUfp0JZulE6UW9DlEm2bX9SBbq3S06LxpjIpoR522GcV0Cu+iK1Sph15ZcQT5kRF4yRz6DA1uG3W/6V4AGyR4c1kyR/2S3ySTkvh0sXREaDDpO6bM8reoFB58YTMUG41zcHaMXhLwTYHxX6KIKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gZ1Fp7C5; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759242674; c=relaxed/simple;
+	bh=TxtdYZk9dsFJydGVO6ymBCi05gQcE0LcJqQYcYklqBA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JziaUm/RqH6GoseXUQsihGczNcD+i2FseTKXIoxGZbsulW0GGwU6XaG6Ry6txHfi+Eeoa436pa1MYoce3tk539YZ5S0Wz7JRyuYykscdMDkiRKNv+b65zsGf/Gwq8r3WCm+GRIOGuS5LBkW0boX9kQTbAN8/g0jpgn1krD0UVIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hKaaolRj; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gZ1Fp7C5"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-26d0fbe238bso45848865ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 06:47:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759240053; x=1759844853; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2jMdofcUVGSrS6vDNWwFHz9+M//WqgG/7b80iTTRoas=;
-        b=gZ1Fp7C5bT9QsM9vhzCt1ToAakElpDkbBcsqTG8/J4Orogv+PiOriqppMvOTxrGYZC
-         YG6RcTbgQ2UatUf7u9Myab7iMDQUNNaRh4an7XRcF73CMfEGgopyDKziX2z/XJmkdPQG
-         couY6v5Ed9Ibusc+dpOdyu+TZS3DvR/MZFPBsx7UHLgTaFQ9idOQxgGN1GYsL1SBkrqV
-         P0JsZYCcb02OI/VaVPiwNwfOa48zaXnKk8gogDypPxkGc8UWcKYz1vvSgKhwQMMHFWz1
-         u0/juAnEPiXFibe/yEBxbkSSDiTscbU04grHpG0UwKoM5BiP9KV9ghtOUwRxjKWOb0ep
-         7eRw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hKaaolRj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1759242671;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KiimNVQCGI88ieZh8p4IJZ/Sr9pCyj861BQTbYqy/Tk=;
+	b=hKaaolRj+Pin/i+WeBr4rG4SPF7TqK7dnaomINVD/bLwwAT6rd6erte6StBoWI++hr8LVl
+	ndm6sgoWDtMepgtUKMPaB3H0b56k8mWyPMA7jyQD+8vlI8IqfIRhQgXTYQnpmZGCdH9wFa
+	6XAnugV8CCkL2864wO+/H/PNsCGHmc4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-549-JFFOfQwxPR2JQBthm0OAAg-1; Tue, 30 Sep 2025 10:31:07 -0400
+X-MC-Unique: JFFOfQwxPR2JQBthm0OAAg-1
+X-Mimecast-MFC-AGG-ID: JFFOfQwxPR2JQBthm0OAAg_1759242665
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-46e4943d713so22730885e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 07:31:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759240053; x=1759844853;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2jMdofcUVGSrS6vDNWwFHz9+M//WqgG/7b80iTTRoas=;
-        b=HwAOOk5jEn3xDIh3/lThYAS+P7rr440SCxEA+ebGJHbN4H1Nsiu3JSNdL41Y5lPEJD
-         +eIW+dW9saWWLM0xY+CuE7k1E5XaPxxtCNpRfgf70QWdO5elOP2QJF1kxuHVcPUDmzmK
-         nvIti8o7FOcOHyygqB/Jmy8ZAi3SbmzY+rEy7ClQzFNY+r9Il4GfNufyfcUBBxeu2MVl
-         RI4rOoSmae/Z3uaJeaspWlppgqZ9CjHNHrTC1dxaHNx9ACPXmB6kHXxg5qzZ3uTtyB95
-         8gHIHD5GZwzYs3E7zYo2KmgDEiwHI/9G5PcRc6Qtf6XinRoXQX5p2ZzyZehA5GKb6Whm
-         FVAg==
-X-Forwarded-Encrypted: i=1; AJvYcCXXeoIlmwBZzTjC1rdsSXWggTQjyy8IPrcKo9Oh+qKIJrwix54YzZ0aiZCohv63Mi1tiVwVANoBMAg2oymVoeP7X2qxyw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGNQ2vaPYVOXj0z+2S/28FqaskhJZsLUru/YxnvbC8sodMwhHB
-	CYC43jtLDGzl92r2SiifvXkT1pcMQNJLGAeRjdNdBjRCT4fysRpT2azx
-X-Gm-Gg: ASbGncttXkgCQRQt9cCZk6dOyTea5/1nv201O72juMLglal5OcMnEfeUTwTOoelf0Bc
-	TV4962TETD3wS8xBzrW9sjKZClVEGzrXAfHjuoqilULu73+2xhfhacgsbOcAZxvIIpLMGMsOcFD
-	uvBsXVpZoDPmr4t1tarJLcP9+Fp2azz8JZBx/6NlM1hQ68bKw8MmwJyQclqaKfRagf8DDwaAos5
-	aQzQCKdV5J2Lhp01S5jaFVjf98AVoK3yVhx+Sd+pk2ECm4eorbXEkcJi1qpXInUeIRFg/9YtZ8h
-	Jib3chKnqnB+1xKN559U/JGztsqtp/Ve0YsRmdyVH6lVBaT2cfglK9e7dxQSW2QjdNdfgePYpL+
-	6Z5ifRTdQrUKqO3uYpzCs607sJCV82rTLIpuWbylPQr+PYyvHzk7sKjVnx35m
-X-Google-Smtp-Source: AGHT+IESYq35TAQFLeBWF4OxglXdXWfZV95e+sPc0Kl6L4WvW4KjgdJME1j4/hRI2m+l8euIgk7tPg==
-X-Received: by 2002:a17:902:f650:b0:24e:81d2:cfda with SMTP id d9443c01a7336-27ed4946b7bmr211097935ad.0.1759240052489;
-        Tue, 30 Sep 2025 06:47:32 -0700 (PDT)
-Received: from localhost ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-281fd60835bsm99535715ad.19.2025.09.30.06.47.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Sep 2025 06:47:31 -0700 (PDT)
-Date: Tue, 30 Sep 2025 19:17:29 +0530
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: Simon Horman <horms@kernel.org>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	pabeni@redhat.com, shuah@kernel.org, netdev@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH net-next] selftests/net: add tcp_port_share to .gitignore
-Message-ID: <nebdn6xrcevewtcv6hbumf5tdh4p4patujhdojc7hn2yppwil6@jqbfz7q2ljth>
-References: <20250929163140.122383-1-krishnagopi487@gmail.com>
- <aNucABvb0PvBtCxr@horms.kernel.org>
- <aNuci8Y9ZO9pd0Ua@horms.kernel.org>
+        d=1e100.net; s=20230601; t=1759242665; x=1759847465;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KiimNVQCGI88ieZh8p4IJZ/Sr9pCyj861BQTbYqy/Tk=;
+        b=TT3YCD7VpDPspbtXlN5i5CQhlQbwqgHHTPDgQhLnfYeV6N92oDyygD0tnne91OTVFY
+         QZ1ELSvRzQPkHbJ8TqVfiCBNan9KWtPlMlS/3G3ukzjHFT8j+0VR2YQ50WF4uj+bkN6U
+         EmFcZdIT64mCJPvVoGalwxB6gE5uyih8rDsFZid4nAweNQUdPrc49UX69n587/zZVl5d
+         jik3Th6TzeaKKyk5fk+qiwFiZYVCxqYCLbuir9rCtn6vC3qvC/YnHghQgnAHGFPsNOv5
+         X6c+r69okQ75m7JvkV56X8ZhcaYhC2FVI2ts7B6OIVMXaim+0w+OWc0RQUOz1PrKE3rR
+         5pLg==
+X-Forwarded-Encrypted: i=1; AJvYcCWnEdtT+MPIM1alrJb9inPHHjo/m+ulgoPo5Ntdemus4NJYi2Gstn1QJR8zonWpT4S/tnrntYo4OBJK2YmOrJC6YENPiA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/07SeUmrHG2EdBPRv+AH3nVBwqRNkUg//HYDRDLXNySFUePXL
+	VbKf8s5jniBUdxefor//kv0W6p/dXLAfvRYz0bCt2EW8eW0gEeB4DaCTuTNPckIyaoqU4nwG4oi
+	tOY/01llpJXgAf2ima9xOpmiPKvWd7FO4PN+WwRM82zITbxHM10niwEwjZrG795XdH+lsBYgxv6
+	pA
+X-Gm-Gg: ASbGncuZ/T10M9aGfXmpCELFYJUNaaFJusTQG4Jc+L4VPHH5r1T9J+Ldo05O9cXqb4V
+	p6v1kmOJY3tDAYds3PHYhkCEeI/xKTfnCkEDywXA5d7oUXv4Y6lG1iLeImuKCMfy6COa50C32Zf
+	kgptyDOR4Wpk0Ct4xNvKxNC/H54NcaZ4bWM4HAIZ6ingiAuyFbucE6A33moq0qMMXCl7mTBuHBK
+	pUwR2Jv4XIHou0/VyfOG16CIADh2WqgHvmBjVrsn5g1F6vqLRjnzzxnkCLfWqa3biclsU5+Ie+L
+	LOfxfNn0aTKRTCG4AV+IkWm/W97sdzYgciA4w6KhW3sQHX28HwyeBROnhagzKIygrtldKb7nBVN
+	JeR1ISN6PmPUU+C0G2A==
+X-Received: by 2002:a05:600c:8b55:b0:46e:45ff:5bdb with SMTP id 5b1f17b1804b1-46e6120218cmr1302125e9.8.1759242664805;
+        Tue, 30 Sep 2025 07:31:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFVjdt+VONnfPWja9/VsLbNc3mnehERm9krtPABV0fyuDy+ajxw8o2r9+1p0b6nLCu4FSG8KQ==
+X-Received: by 2002:a05:600c:8b55:b0:46e:45ff:5bdb with SMTP id 5b1f17b1804b1-46e6120218cmr1301575e9.8.1759242664074;
+        Tue, 30 Sep 2025 07:31:04 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e56f3dc27sm68198535e9.5.2025.09.30.07.31.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Sep 2025 07:31:03 -0700 (PDT)
+Message-ID: <377697dd-15bc-4a2d-be19-1d136adb351c@redhat.com>
+Date: Tue, 30 Sep 2025 16:31:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aNuci8Y9ZO9pd0Ua@horms.kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v2] atm: Fix the cleanup on alloc_mpc failure in
+ atm_mpoa_mpoad_attach
+To: Deepak Sharma <deepak.sharma.472935@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ horms@kernel.org, pwn9uin@gmail.com, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ david.hunter.linux@gmail.com, skhan@linuxfoundation.org,
+ syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com,
+ syzbot+07b635b9c111c566af8b@syzkaller.appspotmail.com
+References: <20250925204251.232473-1-deepak.sharma.472935@gmail.com>
+ <54234daf-ace1-4369-baea-eab94fcea74b@redhat.com>
+ <CABbzaOUQC_nshtuZaNJk48JiuYOY0pPxK9i3fW=SsTsFM1Sk9w@mail.gmail.com>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <CABbzaOUQC_nshtuZaNJk48JiuYOY0pPxK9i3fW=SsTsFM1Sk9w@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: rzjmAVLktT_z_LTOe6zI02feh46XBRnXxy8MRXTj5Pg_1759242665
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 30, 2025 at 10:02:03AM +0100, Simon Horman wrote:
-
-> On Tue, Sep 30, 2025 at 09:59:44AM +0100, Simon Horman wrote:
-> > On Mon, Sep 29, 2025 at 10:01:38PM +0530, Gopi Krishna Menon wrote:
-> > > Add the tcp_port_share test binary to .gitignore to avoid
-> > > accidentally staging the build artifact.
-> > > 
-> > > Fixes: 8a8241cdaa34 ("selftests/net: Test tcp port reuse after unbinding
-> > > a socket")
-> > 
-> > I'm not entirely sure this qualifies for a fixes tag.
-> > It is user-visible. It's probably annoying.
-> > But I'm not sure it's a bug.
-
-Hi Simon, thanks for the review. I also feel that Fixes tag is not
-required for this change. I added it based on this earlier
-commit(7ae495a537d1):
-https://lore.kernel.org/all/20250307031356.368350-1-willemdebruijn.kernel@gmail.com
-but other commits similar in nature dont have the fixes tag, therefore I
-will remove it in v2. 
-
+On 9/30/25 3:33 PM, Deepak Sharma wrote:
+> On Tue, Sep 30, 2025 at 2:15 PM Paolo Abeni <pabeni@redhat.com> wrote:
+>> AFAICS the mpc_timer can rearm itself, so this the above is not enough
+>> and you should use timer_shutdown_sync() instead.
 > 
-> Also, FTR, fixes tag's shouldn't be line wrapped.
+> Hi,
 > 
-> > > Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
-> > > ---
-> > >  tools/testing/selftests/net/.gitignore | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > 
-> > Reviewed-by: Simon Horman <horms@kernel.org>
-> > 
-> > I notice that tools/testing/selftests/kexec/test_kexec_jump
-> > is in a similar state. Do you plan to send a patch to address
-> > that too?
-> > 
-> > ..
+> As I understand it, `timer_shutdown_sync` will prevent any further
+> re-arming of the timer. I think this is not what we want here; since even if
+> we somehow fail to allocate our first MPOA client object on our first
+> ioctl call,
+> and hence end up wanting to disarm the timer, maybe on next call we can
+> allocate it successfully, and we would want that caches are processed
+> (which are processed for every time out). So we still want it to be
+> possible that
+> we can re-arm it.
 
-This has been already addressed and will be in 6.18-rc1 I believe:
-https://lore.kernel.org/all/faf206d8-ccd8-48b5-8e7e-d596ddbbcbb6@linuxfoundation.org/
+Ah, I missed the goal here is just being able to rearm the timer (i.e.
+there is no related UaF).
 
-> 
-> Please note that net-next is now closed.
-> 
-> So if you do respin, please wait for it to re-open once v6.18-rc1 has been
-> released. About two weeks from now.
-Noted, I will send a v2 for this patch when net-next will be reopened.
+Given the above, I think you could instead simply replace add_timer()
+with mod_timer().
+
+/P
+
