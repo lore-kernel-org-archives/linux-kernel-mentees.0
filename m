@@ -1,151 +1,104 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F37156F45
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 13:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88C33043B4
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 13:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759237941; cv=none; b=oEQ+cfaatZiypKIhu7LCkUgEa5SUMWOosMrxRPCyAuyRapEM3S3OpUWBoN3nb1+tH7ojtYinQxuS8oQuMwf21l5cnxGjYfg/NHTgyxu+VyjoSbILFkdDfD/veVEPKsT2rLlGmRJJhkqWjZ7IOpRQOporFxuHp8eEoMD/AdE5nMA=
+	t=1759239226; cv=none; b=h2YEa9wtx1Q3xQI+OGauc6fio0EDEGM0PSXGpDhPEm/H1kvI16DDsmC4lcIMB9bSdxGsj9ev7R/CbWy4c5w+9ysVRyHXNdTd51s8sUMB0UQS1A++wP3UBhhg7R33NXydxfXDmuhTOOC1yg/WrooA8M0qPSKFNfC202djwzVPbcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759237941; c=relaxed/simple;
-	bh=BuPu+QkpbK+LDOXFJoK0UGvneBSjF3bPjWyHTdkxLa0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KMCmQ3N1AfgLvgJXFqSPqv3TGC30M7FkdaLrdDXHxCOUqJ0UAbjubETw9bXYRrLzKmQ3XKl43Gj9DYZtgXsgeFlL0rgv416rHlUUzw6sHFU/UQWtJUVFgRMAmZ9WtqIGt2pqSHTBDphwtVIWz3X7qe04vC8YxJ0czNB4WCRY4bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k0PEVd3I; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1759239226; c=relaxed/simple;
+	bh=CUHSymEOsx6QYL2fbPXy3esCdme3Q/bVDiY03oECVro=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VQFSfGGHf+bIzjsb3EDbt/vmZV+jmgOlbG3aeNfLWtILZT6UCIOGUv+icplqOP5PrHFJ9Bz3s4TxX4wlPRDoikTeBy8mjdD6P6u8CCBDHHhxp9hAXr8nPPJvHC5TqRAXePMRVgNcagerTmYm+UkcVGD88VTbgM/f+WZkoMkajzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MdPUHGhT; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k0PEVd3I"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 29E7840ACC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 13:12:20 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id udlfNB4zm0HJ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Sep 2025 13:12:18 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1032; helo=mail-pj1-x1032.google.com; envelope-from=bhanuseshukumar@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 95D554096D
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 95D554096D
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=k0PEVd3I
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 95D554096D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 13:12:18 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-32df5cae0b1so6970136a91.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 06:12:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MdPUHGhT"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-57f1b88354eso6269419e87.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 06:33:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759237938; x=1759842738; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BalHeIL5/BqDqtC0xwxyjR7KLhvy/kVeEz+cc6DlymU=;
-        b=k0PEVd3Id1IY9vvwkoqwNZ3C8G94xet+5osDzSG10FSJbRtNXindDjxMyRfR1PqiL6
-         u7e7AJTtbd8VfRtZSBla593ZnZMrDe6fhdfS9gRMuMjhTTYo90iPJqfNtVLpImF2hkui
-         mXpwJSxeuo3BFMpCl8jx+/8UEO/X7MjzgMmGTsmkLkURMJNcy/LpblnG23JvqM+LqWuN
-         cY9aDIW7eW9Yjp5hTCmAUbTVh7pxt7ueEVqMOPGrYrWg1QeulER2u/JO4IP5YQ+7WJlF
-         4iWDcjWe3QSZBAhuC2XilK8JfUF4oLz8OkUmfvYYugJjVHaox5Lf6PamQxOfYBJPCut+
-         eLdw==
+        d=gmail.com; s=20230601; t=1759239223; x=1759844023; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CUHSymEOsx6QYL2fbPXy3esCdme3Q/bVDiY03oECVro=;
+        b=MdPUHGhTMqP4gYK0Yc/5hekavruPAQkmDFI0fWw3DPkYHjdRpx0xKxiZ5XMQXnwETe
+         Rxu/OorR+yi9Hr7ArTf7sHoAQcULxapdJvyqZMzkBssSRPlJ0/IPNqArljSuec9rEYHP
+         jsqezsLhWdFH5dTE2+RmPzO10asbaCt3vV89vxWHjlX/qJFWJcs+fKh8nkHybBFhsoYY
+         +U0ju6695fTLuvb5wmgUOiw7cLKM86+sTqM63v6wSwgr/swmF789YMPwVxzaUaQRmFH6
+         QT3Jjnu/TkZ9wL5MKc92hV5AVgjc4iY3DoPhta+Oqdlj8Her4wmO2MyUq/r7j6rM3K2Y
+         5OUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759237938; x=1759842738;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BalHeIL5/BqDqtC0xwxyjR7KLhvy/kVeEz+cc6DlymU=;
-        b=KuTT+JnDueRDaoP2qfXUwB9YdcZDB7xQxP0iYDG184QO3iy8taUrK6LVCesTybhDZF
-         98P5Cxzu+L6+onpjDklIh/+SEfd6td0JUQytUBenJZEc0I069x+Hm8HuNd8o4fpFjkuD
-         BXMOWHwivOPMOJZxAPNiyOO2VDqupIO6lgFg6HyDHJe9gWroiOsNPLmnVouMUPEH4otD
-         NaHkWJ6elDMpEHnku+05kIbGaqreQlv6YDDELLogHVsge6zAT0O6SRZb8DWf0oohaBdb
-         P5KPK0NVZodUPHGqLDR7h9w7K4O29eMoUZSDZLElDvud8116bUYEC+siWHRCN0GGY1tG
-         vavg==
-X-Forwarded-Encrypted: i=1; AJvYcCXTEAUSGdOw5bKXiyt8YORC8JUyd0dT/nPJ+eRACyyHui+hAyLqf+p6NQaO3v7NDSG9MOJ2F3oGNtsxKPH/JH274Vv8Wg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyNCyvT8J25DntawAkDhtJ/IVh+4PRMwkyjS43ewGlLG9Ylu+f5
-	imoHJnZSX3VjSjN67Is3CxnXnHZLzHltOHxWD1d+ej/837F2+sQkXTrO
-X-Gm-Gg: ASbGnct0y8lunTIbYYHRYF4BrgXp00KYhDBLOL/GKoA0SrTq6HZJHkkBekRprA/EjRT
-	ohAmvUjuWEdLjrx1aQrGOp+h6MVRZVrZGpY3vG3JPNkL/kvbvlQxvAJHogM15vo8fKLLj5mWhv2
-	G+KFol/ELt/BbRMraHUtuHsqCTvQvQExqxiNdKEeFtbjuAtDL18C7+EnlraHN5PalIo3z0J9eNL
-	b9j4by9caYN+217BocxjTwOrKf9LxbCYZHG7/NCa0os253JzFrySwhlWWnc2EBT70hRETBcoesn
-	QnnXu+d5ii7ub9jDdQORIdN0ssdGaxIGi3DlXQ05K6SMENmzoBM56aGqsLq5woAtYkYWrVI84uz
-	4YTFl/21u+I+muo86zfRPqpiAb1ZrOYgSM4PKxaYh98dNbIuJEiNo8yHicB/qmfEMWIXEYh41FH
-	VlE/VnOro=
-X-Google-Smtp-Source: AGHT+IE15DBb6dGJWvDatwyNtMkBRWBDtr4Csa2oquli/nlczM66Li2djXIykdMF6+kAtORFpU8ZEg==
-X-Received: by 2002:a17:90b:2786:b0:32d:3895:656b with SMTP id 98e67ed59e1d1-3342a22b08dmr26954381a91.12.1759237937639;
-        Tue, 30 Sep 2025 06:12:17 -0700 (PDT)
-Received: from [10.0.2.15] ([157.50.102.236])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-338387256cdsm4420310a91.20.2025.09.30.06.12.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Sep 2025 06:12:17 -0700 (PDT)
-Message-ID: <c1ac5c9b-9089-4bc3-be0b-27cc9468d05b@gmail.com>
-Date: Tue, 30 Sep 2025 18:42:10 +0530
+        d=1e100.net; s=20230601; t=1759239223; x=1759844023;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CUHSymEOsx6QYL2fbPXy3esCdme3Q/bVDiY03oECVro=;
+        b=WUv9AG6c+9WFSkxl0O3DWd0FeBfl5+XpyW+sSf04CQWRfoTlUWk4LE5RRVHKO5vCz0
+         XLS88OOduUEWae79oBQdZPkflUnnZLFtsi3FmTlX9USsqt2aSGqsOQkbH8LiLYQT5Amv
+         pj9Xl/us/GYIECjtCmDUjczHYn+ivEhfSc30zUKHKlSfHVQsC0ISQLw3YjAP8o3YVYxl
+         lIfwqprpiGBuH2E5LuHAbdj3ONntyWiMdtRDPhPu+ztYL148LbKCl77tbwc+r3nTlliJ
+         R9Oh7X57dl789itz2ItE5KWnRM5YkxzIz8+TseeAlHPIEW62di5wLQOMS2Ll5q6wf65c
+         1r4A==
+X-Forwarded-Encrypted: i=1; AJvYcCVEIjf1F5aSbnl9oJ1fckg+fTq6MnyrFyexpnDgLqeDfcnf8majAOy2KHj7AoEUhndD5aituG2LXAaoHJ8ZMZ+DIe//Qg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwnaL4tW38PRuttP/ugCpOxh/P5SYzDhJW4L+CagBufgYtQKfkA
+	9J/OwtWBqsmNoatFPS36FmUsqR/7xLe1pJYX4IHdUnP9NUSB7bTymQrHMoNt0s9xCOC/gGncATq
+	3BzE8U6ECoqxTfAm2np7Lh6w6SZX+D7Y=
+X-Gm-Gg: ASbGncvdaN2lDGYqHTyK3aqM8oymLX9Hga7KjLMR3Z6/Ln+Z0hrRFCZ1APyxjqaeLRo
+	gHrxiqtTj9KCCbyEJts+M0HZN98afW29H+SXX3tOGHLuworxz+lO9CKJ5G7iDW9TsHPF3f4V6ZD
+	UZ61shjeFRriucQ7LaPJiqWWvfOQ5k8B2q8Ova7QkP07J0LCy7fD5ltQ/tqajOK/T5wqdWsL5KA
+	uhwOIIj4h1TX+4xF9OvG2hr64xm8GTrahDxEluctNbhY67WvQZ4LEXEAbAcYeVVYGDba8WMAmAD
+X-Google-Smtp-Source: AGHT+IHklcHPlmAmlLHJfII82jQFE7nA1C/gtspMIjp1MvgO1gKErD/Bs5XD5EbGRk/fHn+Fmc9Tezs5wGtRpvXmEgo=
+X-Received: by 2002:a05:6512:114a:b0:57e:6aef:3ffc with SMTP id
+ 2adb3069b0e04-582d073fab8mr7062564e87.4.1759239222574; Tue, 30 Sep 2025
+ 06:33:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net: atlantic: Use kmalloc_array to prevent overflow of
- dynamic size calculation
-To: Eric Dumazet <edumazet@google.com>
-Cc: Sahil Chandna <chandna.linuxkernel@gmail.com>, epomozov@marvell.com,
- irusskikh@marvell.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- kuba@kernel.org, pabeni@redhat.com, richardcochran@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com
-References: <20250930111933.28730-1-bhanuseshukumar@gmail.com>
- <b0cdffc2-7db2-4aee-aca7-ddb068d5022a@gmail.com>
- <68484d2e-653a-4256-bd99-47f1a9b740f8@gmail.com>
- <CANn89iJpvsB55vbTmZiDV=8H6xQ=dVtAZJsGo9f_4nrfZfCcJA@mail.gmail.com>
-Content-Language: en-US
-From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-In-Reply-To: <CANn89iJpvsB55vbTmZiDV=8H6xQ=dVtAZJsGo9f_4nrfZfCcJA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250925204251.232473-1-deepak.sharma.472935@gmail.com> <54234daf-ace1-4369-baea-eab94fcea74b@redhat.com>
+In-Reply-To: <54234daf-ace1-4369-baea-eab94fcea74b@redhat.com>
+From: Deepak Sharma <deepak.sharma.472935@gmail.com>
+Date: Tue, 30 Sep 2025 19:03:31 +0530
+X-Gm-Features: AS18NWABMwr4GHfH6IVP_7STi5E4UNpJ7XZKnoK6x2LnyMMJxfQrcgjTzeg1wv8
+Message-ID: <CABbzaOUQC_nshtuZaNJk48JiuYOY0pPxK9i3fW=SsTsFM1Sk9w@mail.gmail.com>
+Subject: Re: [PATCH net v2] atm: Fix the cleanup on alloc_mpc failure in atm_mpoa_mpoad_attach
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	horms@kernel.org, pwn9uin@gmail.com, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	david.hunter.linux@gmail.com, skhan@linuxfoundation.org, 
+	syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com, 
+	syzbot+07b635b9c111c566af8b@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 30/09/25 17:47, Eric Dumazet wrote:
-> On Tue, Sep 30, 2025 at 4:39 AM bhanuseshukumar
-> <bhanuseshukumar@gmail.com> wrote:
->>
->> On 30/09/25 16:54, Sahil Chandna wrote:
->>> On 30/09/2025 16:49, Bhanu Seshu Kumar Valluri wrote:
->>>> Use kmalloc_array to avoid potential overflow during dynamic size calculation
->>>> inside kmalloc.
->>>>
->>>> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
->>>> ---
->>>>   Note: Patch is tested for compilation.
->>>>   drivers/net/ethernet/aquantia/atlantic/aq_ptp.c | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/net/ethernet/aquantia/atlantic/aq_ptp.c b/drivers/net/ethernet/aquantia/atlantic/aq_ptp.c
->>>> index 5acb3e16b567..f445d449f80f 100644
->>>> --- a/drivers/net/ethernet/aquantia/atlantic/aq_ptp.c
->>>> +++ b/drivers/net/ethernet/aquantia/atlantic/aq_ptp.c
->>>> @@ -182,7 +182,7 @@ static unsigned int aq_ptp_skb_buf_len(struct ptp_skb_ring *ring)
->>>>     static int aq_ptp_skb_ring_init(struct ptp_skb_ring *ring, unsigned int size)
->>>>   {
->>>> -    struct sk_buff **buff = kmalloc(sizeof(*buff) * size, GFP_KERNEL);
->>>> +    struct sk_buff **buff = kmalloc_array(sizeof(*buff), size, GFP_KERNEL);
->>>>
->>> Shouldn't this be kmalloc_array(size, sizeof(*buff), GFP_KERNEL); ?
->>
->> I didn't change the order of arguments to make it easier to review.
-> 
-> I think this NIC limits the number of skbs per queue to less than 8192.
-> 
-> Also sizeof(struct sk_buff *) is quite small (a pointer is 8 or 4 bytes)
-> 
-> So your patch would probably target net-next as a cleanup, in about
-> two weeks when the merge window is over.
-> 
-> More details in
-> https://www.kernel.org/doc/Documentation/process/maintainer-netdev.rst
-> 
-> Thanks.
+On Tue, Sep 30, 2025 at 2:15=E2=80=AFPM Paolo Abeni <pabeni@redhat.com> wro=
+te:
+> AFAICS the mpc_timer can rearm itself, so this the above is not enough
+> and you should use timer_shutdown_sync() instead.
 
-Thank you for sharing helpful documentation. I will send a cleanup patch designated with net-next once
-net-next reopens.
+Hi,
 
-Thanks.
+As I understand it, `timer_shutdown_sync` will prevent any further
+re-arming of the timer. I think this is not what we want here; since even i=
+f
+we somehow fail to allocate our first MPOA client object on our first
+ioctl call,
+and hence end up wanting to disarm the timer, maybe on next call we can
+allocate it successfully, and we would want that caches are processed
+(which are processed for every time out). So we still want it to be
+possible that
+we can re-arm it.
+
+And as I understand, `timer_delete_sync` will wait for the callback to
+finish, so
+deleting the timer after that should do the job
+
+Thanks,
+
+Deepak
