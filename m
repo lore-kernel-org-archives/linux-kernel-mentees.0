@@ -1,104 +1,127 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88C33043B4
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 13:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26341E260D
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 13:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759239226; cv=none; b=h2YEa9wtx1Q3xQI+OGauc6fio0EDEGM0PSXGpDhPEm/H1kvI16DDsmC4lcIMB9bSdxGsj9ev7R/CbWy4c5w+9ysVRyHXNdTd51s8sUMB0UQS1A++wP3UBhhg7R33NXydxfXDmuhTOOC1yg/WrooA8M0qPSKFNfC202djwzVPbcU=
+	t=1759240056; cv=none; b=dGwfsRkjFuCiZDnjsguFTIIYXsh5igGVfa83mCruOTJURiRVKYqbTGLlJymJwfHsb1K+b5QbXEJ/g/bu2F9A9LT0oq+t/q3JOI91tkRxbxku5qAMatB6ITVYgo+iQZiAVfX1ExNcFLDVkiEIAsXPmPG24xNfQO8bQbDJYuixvvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759239226; c=relaxed/simple;
-	bh=CUHSymEOsx6QYL2fbPXy3esCdme3Q/bVDiY03oECVro=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VQFSfGGHf+bIzjsb3EDbt/vmZV+jmgOlbG3aeNfLWtILZT6UCIOGUv+icplqOP5PrHFJ9Bz3s4TxX4wlPRDoikTeBy8mjdD6P6u8CCBDHHhxp9hAXr8nPPJvHC5TqRAXePMRVgNcagerTmYm+UkcVGD88VTbgM/f+WZkoMkajzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MdPUHGhT; arc=none smtp.client-ip=209.85.167.48
+	s=arc-20240116; t=1759240056; c=relaxed/simple;
+	bh=djWJ3WSoFOE7AAiVgSgO9kaO15CNySawak1vG1iZbXE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ukfcy3uZgCLySkcf/quJ+KTGHUfp0JZulE6UW9DlEm2bX9SBbq3S06LxpjIpoR522GcV0Cu+iK1Sph15ZcQT5kRF4yRz6DA1uG3W/6V4AGyR4c1kyR/2S3ySTkvh0sXREaDDpO6bM8reoFB58YTMUG41zcHaMXhLwTYHxX6KIKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gZ1Fp7C5; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MdPUHGhT"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-57f1b88354eso6269419e87.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 06:33:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gZ1Fp7C5"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-26d0fbe238bso45848865ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 06:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759239223; x=1759844023; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CUHSymEOsx6QYL2fbPXy3esCdme3Q/bVDiY03oECVro=;
-        b=MdPUHGhTMqP4gYK0Yc/5hekavruPAQkmDFI0fWw3DPkYHjdRpx0xKxiZ5XMQXnwETe
-         Rxu/OorR+yi9Hr7ArTf7sHoAQcULxapdJvyqZMzkBssSRPlJ0/IPNqArljSuec9rEYHP
-         jsqezsLhWdFH5dTE2+RmPzO10asbaCt3vV89vxWHjlX/qJFWJcs+fKh8nkHybBFhsoYY
-         +U0ju6695fTLuvb5wmgUOiw7cLKM86+sTqM63v6wSwgr/swmF789YMPwVxzaUaQRmFH6
-         QT3Jjnu/TkZ9wL5MKc92hV5AVgjc4iY3DoPhta+Oqdlj8Her4wmO2MyUq/r7j6rM3K2Y
-         5OUQ==
+        d=gmail.com; s=20230601; t=1759240053; x=1759844853; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2jMdofcUVGSrS6vDNWwFHz9+M//WqgG/7b80iTTRoas=;
+        b=gZ1Fp7C5bT9QsM9vhzCt1ToAakElpDkbBcsqTG8/J4Orogv+PiOriqppMvOTxrGYZC
+         YG6RcTbgQ2UatUf7u9Myab7iMDQUNNaRh4an7XRcF73CMfEGgopyDKziX2z/XJmkdPQG
+         couY6v5Ed9Ibusc+dpOdyu+TZS3DvR/MZFPBsx7UHLgTaFQ9idOQxgGN1GYsL1SBkrqV
+         P0JsZYCcb02OI/VaVPiwNwfOa48zaXnKk8gogDypPxkGc8UWcKYz1vvSgKhwQMMHFWz1
+         u0/juAnEPiXFibe/yEBxbkSSDiTscbU04grHpG0UwKoM5BiP9KV9ghtOUwRxjKWOb0ep
+         7eRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759239223; x=1759844023;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CUHSymEOsx6QYL2fbPXy3esCdme3Q/bVDiY03oECVro=;
-        b=WUv9AG6c+9WFSkxl0O3DWd0FeBfl5+XpyW+sSf04CQWRfoTlUWk4LE5RRVHKO5vCz0
-         XLS88OOduUEWae79oBQdZPkflUnnZLFtsi3FmTlX9USsqt2aSGqsOQkbH8LiLYQT5Amv
-         pj9Xl/us/GYIECjtCmDUjczHYn+ivEhfSc30zUKHKlSfHVQsC0ISQLw3YjAP8o3YVYxl
-         lIfwqprpiGBuH2E5LuHAbdj3ONntyWiMdtRDPhPu+ztYL148LbKCl77tbwc+r3nTlliJ
-         R9Oh7X57dl789itz2ItE5KWnRM5YkxzIz8+TseeAlHPIEW62di5wLQOMS2Ll5q6wf65c
-         1r4A==
-X-Forwarded-Encrypted: i=1; AJvYcCVEIjf1F5aSbnl9oJ1fckg+fTq6MnyrFyexpnDgLqeDfcnf8majAOy2KHj7AoEUhndD5aituG2LXAaoHJ8ZMZ+DIe//Qg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwnaL4tW38PRuttP/ugCpOxh/P5SYzDhJW4L+CagBufgYtQKfkA
-	9J/OwtWBqsmNoatFPS36FmUsqR/7xLe1pJYX4IHdUnP9NUSB7bTymQrHMoNt0s9xCOC/gGncATq
-	3BzE8U6ECoqxTfAm2np7Lh6w6SZX+D7Y=
-X-Gm-Gg: ASbGncvdaN2lDGYqHTyK3aqM8oymLX9Hga7KjLMR3Z6/Ln+Z0hrRFCZ1APyxjqaeLRo
-	gHrxiqtTj9KCCbyEJts+M0HZN98afW29H+SXX3tOGHLuworxz+lO9CKJ5G7iDW9TsHPF3f4V6ZD
-	UZ61shjeFRriucQ7LaPJiqWWvfOQ5k8B2q8Ova7QkP07J0LCy7fD5ltQ/tqajOK/T5wqdWsL5KA
-	uhwOIIj4h1TX+4xF9OvG2hr64xm8GTrahDxEluctNbhY67WvQZ4LEXEAbAcYeVVYGDba8WMAmAD
-X-Google-Smtp-Source: AGHT+IHklcHPlmAmlLHJfII82jQFE7nA1C/gtspMIjp1MvgO1gKErD/Bs5XD5EbGRk/fHn+Fmc9Tezs5wGtRpvXmEgo=
-X-Received: by 2002:a05:6512:114a:b0:57e:6aef:3ffc with SMTP id
- 2adb3069b0e04-582d073fab8mr7062564e87.4.1759239222574; Tue, 30 Sep 2025
- 06:33:42 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759240053; x=1759844853;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2jMdofcUVGSrS6vDNWwFHz9+M//WqgG/7b80iTTRoas=;
+        b=HwAOOk5jEn3xDIh3/lThYAS+P7rr440SCxEA+ebGJHbN4H1Nsiu3JSNdL41Y5lPEJD
+         +eIW+dW9saWWLM0xY+CuE7k1E5XaPxxtCNpRfgf70QWdO5elOP2QJF1kxuHVcPUDmzmK
+         nvIti8o7FOcOHyygqB/Jmy8ZAi3SbmzY+rEy7ClQzFNY+r9Il4GfNufyfcUBBxeu2MVl
+         RI4rOoSmae/Z3uaJeaspWlppgqZ9CjHNHrTC1dxaHNx9ACPXmB6kHXxg5qzZ3uTtyB95
+         8gHIHD5GZwzYs3E7zYo2KmgDEiwHI/9G5PcRc6Qtf6XinRoXQX5p2ZzyZehA5GKb6Whm
+         FVAg==
+X-Forwarded-Encrypted: i=1; AJvYcCXXeoIlmwBZzTjC1rdsSXWggTQjyy8IPrcKo9Oh+qKIJrwix54YzZ0aiZCohv63Mi1tiVwVANoBMAg2oymVoeP7X2qxyw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzGNQ2vaPYVOXj0z+2S/28FqaskhJZsLUru/YxnvbC8sodMwhHB
+	CYC43jtLDGzl92r2SiifvXkT1pcMQNJLGAeRjdNdBjRCT4fysRpT2azx
+X-Gm-Gg: ASbGncttXkgCQRQt9cCZk6dOyTea5/1nv201O72juMLglal5OcMnEfeUTwTOoelf0Bc
+	TV4962TETD3wS8xBzrW9sjKZClVEGzrXAfHjuoqilULu73+2xhfhacgsbOcAZxvIIpLMGMsOcFD
+	uvBsXVpZoDPmr4t1tarJLcP9+Fp2azz8JZBx/6NlM1hQ68bKw8MmwJyQclqaKfRagf8DDwaAos5
+	aQzQCKdV5J2Lhp01S5jaFVjf98AVoK3yVhx+Sd+pk2ECm4eorbXEkcJi1qpXInUeIRFg/9YtZ8h
+	Jib3chKnqnB+1xKN559U/JGztsqtp/Ve0YsRmdyVH6lVBaT2cfglK9e7dxQSW2QjdNdfgePYpL+
+	6Z5ifRTdQrUKqO3uYpzCs607sJCV82rTLIpuWbylPQr+PYyvHzk7sKjVnx35m
+X-Google-Smtp-Source: AGHT+IESYq35TAQFLeBWF4OxglXdXWfZV95e+sPc0Kl6L4WvW4KjgdJME1j4/hRI2m+l8euIgk7tPg==
+X-Received: by 2002:a17:902:f650:b0:24e:81d2:cfda with SMTP id d9443c01a7336-27ed4946b7bmr211097935ad.0.1759240052489;
+        Tue, 30 Sep 2025 06:47:32 -0700 (PDT)
+Received: from localhost ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-281fd60835bsm99535715ad.19.2025.09.30.06.47.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Sep 2025 06:47:31 -0700 (PDT)
+Date: Tue, 30 Sep 2025 19:17:29 +0530
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: Simon Horman <horms@kernel.org>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, shuah@kernel.org, netdev@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH net-next] selftests/net: add tcp_port_share to .gitignore
+Message-ID: <nebdn6xrcevewtcv6hbumf5tdh4p4patujhdojc7hn2yppwil6@jqbfz7q2ljth>
+References: <20250929163140.122383-1-krishnagopi487@gmail.com>
+ <aNucABvb0PvBtCxr@horms.kernel.org>
+ <aNuci8Y9ZO9pd0Ua@horms.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250925204251.232473-1-deepak.sharma.472935@gmail.com> <54234daf-ace1-4369-baea-eab94fcea74b@redhat.com>
-In-Reply-To: <54234daf-ace1-4369-baea-eab94fcea74b@redhat.com>
-From: Deepak Sharma <deepak.sharma.472935@gmail.com>
-Date: Tue, 30 Sep 2025 19:03:31 +0530
-X-Gm-Features: AS18NWABMwr4GHfH6IVP_7STi5E4UNpJ7XZKnoK6x2LnyMMJxfQrcgjTzeg1wv8
-Message-ID: <CABbzaOUQC_nshtuZaNJk48JiuYOY0pPxK9i3fW=SsTsFM1Sk9w@mail.gmail.com>
-Subject: Re: [PATCH net v2] atm: Fix the cleanup on alloc_mpc failure in atm_mpoa_mpoad_attach
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	horms@kernel.org, pwn9uin@gmail.com, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	david.hunter.linux@gmail.com, skhan@linuxfoundation.org, 
-	syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com, 
-	syzbot+07b635b9c111c566af8b@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aNuci8Y9ZO9pd0Ua@horms.kernel.org>
 
-On Tue, Sep 30, 2025 at 2:15=E2=80=AFPM Paolo Abeni <pabeni@redhat.com> wro=
-te:
-> AFAICS the mpc_timer can rearm itself, so this the above is not enough
-> and you should use timer_shutdown_sync() instead.
+On Tue, Sep 30, 2025 at 10:02:03AM +0100, Simon Horman wrote:
 
-Hi,
+> On Tue, Sep 30, 2025 at 09:59:44AM +0100, Simon Horman wrote:
+> > On Mon, Sep 29, 2025 at 10:01:38PM +0530, Gopi Krishna Menon wrote:
+> > > Add the tcp_port_share test binary to .gitignore to avoid
+> > > accidentally staging the build artifact.
+> > > 
+> > > Fixes: 8a8241cdaa34 ("selftests/net: Test tcp port reuse after unbinding
+> > > a socket")
+> > 
+> > I'm not entirely sure this qualifies for a fixes tag.
+> > It is user-visible. It's probably annoying.
+> > But I'm not sure it's a bug.
 
-As I understand it, `timer_shutdown_sync` will prevent any further
-re-arming of the timer. I think this is not what we want here; since even i=
-f
-we somehow fail to allocate our first MPOA client object on our first
-ioctl call,
-and hence end up wanting to disarm the timer, maybe on next call we can
-allocate it successfully, and we would want that caches are processed
-(which are processed for every time out). So we still want it to be
-possible that
-we can re-arm it.
+Hi Simon, thanks for the review. I also feel that Fixes tag is not
+required for this change. I added it based on this earlier
+commit(7ae495a537d1):
+https://lore.kernel.org/all/20250307031356.368350-1-willemdebruijn.kernel@gmail.com
+but other commits similar in nature dont have the fixes tag, therefore I
+will remove it in v2. 
 
-And as I understand, `timer_delete_sync` will wait for the callback to
-finish, so
-deleting the timer after that should do the job
+> 
+> Also, FTR, fixes tag's shouldn't be line wrapped.
+> 
+> > > Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+> > > ---
+> > >  tools/testing/selftests/net/.gitignore | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > 
+> > Reviewed-by: Simon Horman <horms@kernel.org>
+> > 
+> > I notice that tools/testing/selftests/kexec/test_kexec_jump
+> > is in a similar state. Do you plan to send a patch to address
+> > that too?
+> > 
+> > ..
 
-Thanks,
+This has been already addressed and will be in 6.18-rc1 I believe:
+https://lore.kernel.org/all/faf206d8-ccd8-48b5-8e7e-d596ddbbcbb6@linuxfoundation.org/
 
-Deepak
+> 
+> Please note that net-next is now closed.
+> 
+> So if you do respin, please wait for it to re-open once v6.18-rc1 has been
+> released. About two weeks from now.
+Noted, I will send a v2 for this patch when net-next will be reopened.
