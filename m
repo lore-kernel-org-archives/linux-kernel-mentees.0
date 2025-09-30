@@ -1,92 +1,89 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BB92F60B2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 09:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE8A221F0A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 09:23:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759223685; cv=none; b=hJH4Jv+HyF9B+zAlR2acJr+EcUGu34S8z07Sd4zKL2z1siiuNpwBrvE2GujA90seE69kyLjaXat4X3OlyimxIaAb1NUWDc43L8vVuchI6v/S0MMbTWcnmdxqeXMyw1+DxdQqltnVRoA+uEU3ZhSXW5VK3Mouy5PGsEqs1iEIxk8=
+	t=1759224219; cv=none; b=pFq3nfNG1Z7YfRQ7ha7QtEOg1FO2Q+Uh/z+5fnWgWt7x2eFr4DE1xuXOUs8aAqXdz08HWDobkB7wXWOiJHGi5z756XUS52j1VgNqVKCdoUxNKUJ0iTRLhIUhGprSyOvn46s/1oXW2rQNCpyCJ1pe+KvGgZV8AylcMTHEP17SgBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759223685; c=relaxed/simple;
-	bh=14yGhWhxJxKPIeIrNLfrEWF/S6UUQE2k4azZt9Ge4F0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EAnE+oAGjblDQqRDltj5cCWBQp9Mfsc+9I5RbDpgYElP0fnObBXE3mVl82HuCIpCTfNUJx0P2+059oUUaWvF158wtJ7VzG63sMVpvARcI7LjmamQXNswv4wW1M4ZTaIZDHwiZRc9Z5Ge0HwCPv9yJmmdanGJlI7Rf3nzTvewBYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S1/te4py; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1759224219; c=relaxed/simple;
+	bh=Kbs8JGrFduOaI/hjUJ5wKXWK6sCYJBvlyr+v6bAjmus=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=feHVPJurjIlFKkEPn6LjMbWMPUB15OwpSuGYf+gsYgQuQ1dUZjunYCebph/nKSxvXSqcsTKEWqnWm+ln88mLNwdcw9WZ7z/va1ffrqd/OTxSsgx5ja4ZJ3TScRa/aqkhNapm02+UjP8OJnpRFTXtunGmpngQxeiUea/omCEJyn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XBjwfqyl; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S1/te4py"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XBjwfqyl"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 557D2807E2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 09:14:43 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 989E081CEF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 09:23:37 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id dpBqRXMq9BaO for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Sep 2025 09:14:42 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::330; helo=mail-wm1-x330.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 7E73B807E1
+ id K_g41mdiV56L for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 30 Sep 2025 09:23:36 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::331; helo=mail-wm1-x331.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org AEB5581D02
 Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7E73B807E1
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AEB5581D02
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=S1/te4py
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7E73B807E1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 09:14:42 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-46e44310dbeso4034835e9.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 02:14:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XBjwfqyl
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id AEB5581D02
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 09:23:36 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-46e2cfbf764so7713335e9.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 02:23:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759223680; x=1759828480; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1759224215; x=1759829015; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DH1NlSlaEudUba94N0gvDnLMb1d3cyB+74kEXFRWj1E=;
-        b=S1/te4py+RbLtZgq8oIcdXeEs4swaTDXqJQodAiN+zXfOyhA3i+n1N1ZVxkfRBVSc/
-         negsPzNOj2bp7fAjzXUi/+fAenLJ3cFkuFgaZxZuv61DzgK0kAotDHHTl79dfgFNei4G
-         doukNYJBAAx8q0gPO8Mgiw2l41uNF7Q/gWLc4rqznBa0FK4ahJASS377+mspGyIIxOSR
-         m+8lcKSS1S9UIIMG6Cs5tk16C0UyWaKm74ljKV2fq5o41Lp8qPzVFfNioTo6DTNhQXc/
-         eapt56Z+Myplw9pT3uCfzr8hENZg+UTYgUO5mzZedWgDoR3cI4kDfvctisK5lZGGJvYX
-         wt7g==
+        bh=TekYocA3NFc6wJkBn4hXZq1fAbBiTi5Aoq7kBmK0gRY=;
+        b=XBjwfqylqZ5tnoiu5rTTMqudwDezZLJ9IFQJu9Q4bvetrtsxbQn134ezIrloLmwdUt
+         DF2tt8b3YjvGTbUvYTlKvfqZxdc8E1YtcnD9xFCOstZCf1FHRxwoswaECRun/fhBiYkQ
+         6IBCf2Q+sxUceOxQRWdNp/UtT7kXp1jC0oQNHwtoUVeaOdYxFREz4EZ1449b0TkEQhT1
+         DvA0ISW3uTsE/7mZ6Y6hX4440YmCMSAfYHQmhuAfSL5Tq1FcArDxqoe8n7rGugNFPDMN
+         pK+m61iYa3SCFz2GspDSMn3QmF5I91j7ortrby50A0GtSIWuRtGWcXopysn9Ls7zzfA3
+         DgvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759223680; x=1759828480;
+        d=1e100.net; s=20230601; t=1759224215; x=1759829015;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DH1NlSlaEudUba94N0gvDnLMb1d3cyB+74kEXFRWj1E=;
-        b=b5Zk/UgcWJWOzvixOk2N9D4ingIv/H1meHTnOKB8OgkjpC7Yj0JQT3QkeO2ZZNDk9o
-         0Gu91R25kNR+/f+ei/mO3VyWSfd54bpmEJC+3bPijk+K4OMG6UJbkJj9OB9qsxgCQ2Xl
-         InAX2XsnsFDksWK/P/wBFbA7nvMYnU/utFH60aK50i14z0or451mD8HiFgblvP0j8Wo8
-         uyY0R7rO0+zNeNkFAERszu0BabKKGr+msBrRdw5kUPLAD4DcIUov44IpJgWRxkFNPDUu
-         hWvXKq9A2gM3nBb08qtPZ9ETFiFN/Jd5ByX71kcT9a7qCkHPhkTskNq4wzo7AyWDlK3S
-         DDLA==
-X-Forwarded-Encrypted: i=1; AJvYcCWxwQk6SY459JC5fa64Ju+glrAvRGZBlE+foGC31DZ7qbw4AWiYNRu69fQ7zyUwzIAYbUbKlnWkGigFXFUt2Ns7DDwVCQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxCtgciJeS4EkYEGvMSWT0i4XWWcPdyYDudedxhC044ggcrbYTD
-	3eWKKaeQUlL+E0jXve/HYu74AOKevWyd3hKRAQuCS4pnGCNpmOBeOUIV
-X-Gm-Gg: ASbGnctpjGU31JQD/AgPRGjdYDQYVY/SiIURDVGXYtPIl0eTt7f+HvjLadTZu9u79oe
-	0cZG0nUSSL8MVhYaqMXnoh/JPNHxUXwyoIn5CLQ1mqPv3Mgt/4sopJ76CklYchwa61QOEz3BnhP
-	HLImGTQhjWWbnMccEM6MNSGuheQ6ZCz2c9017DRrfNRgcEKwXcnP6Uzta2ncTHuzn+jUdR9QGcV
-	f7lfzs2qryBDEPrtYNIbDXU5LqIiKeLO1S5BnqgCaJdNjSU28sIYIlanchBPy07Q1loscLgNvNA
-	F/9FkQHsMOxtQFIObUc1d5mLbohSDeslV567WqBNdktOqasGWcjgMj6BzETQL+cY6elCr3msa0V
-	9CZkHOXgnOHWET7i14enUuDpFXCCKgq80PrqXp6qZNNZR6Wb1L1LFcBlyoVQSSaRcLQB+G8ByOH
-	Q=
-X-Google-Smtp-Source: AGHT+IHLikjr1LvbOBlnMIgFiu5KZJiA4nat4K1Q3fyVS+a1hd0LvhBcizuVjM3yI2Nj4+3iyJlerg==
-X-Received: by 2002:adf:b64c:0:b0:3f4:52d3:7a6a with SMTP id ffacd0b85a97d-40e503e0212mr7500503f8f.10.1759223680399;
-        Tue, 30 Sep 2025 02:14:40 -0700 (PDT)
+        bh=TekYocA3NFc6wJkBn4hXZq1fAbBiTi5Aoq7kBmK0gRY=;
+        b=jdG3/kEt/aftm3NMn/ak2dz/uSLAjtAuiaZmd/seGJHRez3qcotpCEZcLVBTCGN7+K
+         9ypVPPIBA6iAeUZI+LGcwlHpk6Ey0bTZVnRq/bmdsOrUWpO+JYAN6dcRXpoxjH20CTaI
+         kqYUKg3197vnyu6MSJTSaVhXqvtirOk6LjgDAkm1AdSSvHgMCwRRIi3cFwElltuSCCz0
+         i2evNjYDjZnfES61MGlM8W0QaKo80gqfg+vUPhvEyi4Ekn+ltMq/b/mJPIt53BkcPz9a
+         8y1xtK9V0RCn64REfSjd+SvH4jeDk5HyjXP6djW8FNJ47gmSP5P5oZFwUHUnEjyPc9Qa
+         wUzg==
+X-Forwarded-Encrypted: i=1; AJvYcCUdy9tDfELaz7/anXwEn1uPy6a/jv/LXcJejpKKfM/VxabOCxRzRKB9XKRFdsGJecVTHwTpTJCDgW7ZiPR/ZmtYtO5XrQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwGlr/drV2/1vT6j1wPkUgeLqFy1La7TnkPaHVIwcQTkoPgXK/w
+	Fewyp4B8u8Qib/QdcEixJTsI9F86R1G/CUF2LYgyYn7FTIEuFy/Zup+S
+X-Gm-Gg: ASbGnctMMWn46sv8B+c7wIL0cntkDs5ourV4yRgUkygWl6B6HX4V65BKzroOLGDP2+N
+	H3WTpw/ufgiLcfyhsuFZypMikjF9+YWu/pgkhIkmYtp/Ho3N/RZD5oKVzy7Ca4y0FTVFIGyWyiO
+	i7df+TrcZ2k6XGBdu4yZS6vea8X0Wfs6DlAAkEEcCzRhOuoDxtrdSEIjwazTh21q6MfUq8W4fFc
+	kZU7CYNwBrRHtXjSyn9rEwR23NeDxan8ITRfnG0r4yQaW9q8Y2Cy1rwcbEH0BcGzocYtLyQ549D
+	P8dRU8SPPViQszYguvGnXIt+sSBbyOyaSJ0eQMorqsT8V9BtUz5RJDCFrLXGv0/uUuXsjiK9GbS
+	oqM8OZRk6T9GZ68qmpBNGUR1AuVmu58LHq7F0HtLApXS7h31DwP3Jy2nrItHGtkm6
+X-Google-Smtp-Source: AGHT+IFPizRa0ASKtki+ckYZRe6BE0jI/MUqHU6/hP1U8hUcZW/DR6Ot/O1lMO4myHbm/wTeveLEEw==
+X-Received: by 2002:a05:600c:4f91:b0:46e:43f0:6181 with SMTP id 5b1f17b1804b1-46e43f065afmr70284335e9.7.1759224214578;
+        Tue, 30 Sep 2025 02:23:34 -0700 (PDT)
 Received: from bhk.router ([102.171.36.101])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fb9e1b665sm21775209f8f.27.2025.09.30.02.14.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-410f2007372sm21062808f8f.16.2025.09.30.02.23.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Sep 2025 02:14:40 -0700 (PDT)
+        Tue, 30 Sep 2025 02:23:34 -0700 (PDT)
 From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-To: clm@fb.com,
-	dsterba@suse.com
-Cc: linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+To: akpm@linux-foundation.org
+Cc: linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	david.hunter.linux@gmail.com,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-Subject: [PATCH] btrfs: Refactor allocation size calculation in kzalloc()
-Date: Tue, 30 Sep 2025 10:14:22 +0100
-Message-ID: <20250930091440.25078-1-mehdi.benhadjkhelifa@gmail.com>
+Subject: [PATCH] lib: cpu_rmap.c Refactor allocation size calculation in kzalloc()
+Date: Tue, 30 Sep 2025 10:23:12 +0100
+Message-ID: <20250930092327.27848-1-mehdi.benhadjkhelifa@gmail.com>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -101,31 +98,22 @@ any potential overflow.
 
 Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
 ---
- fs/btrfs/volumes.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ lib/cpu_rmap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/btrfs/volumes.c b/fs/btrfs/volumes.c
-index c6e3efd6f602..3f1f19b28aac 100644
---- a/fs/btrfs/volumes.c
-+++ b/fs/btrfs/volumes.c
-@@ -6076,12 +6076,11 @@ struct btrfs_io_context *alloc_btrfs_io_context(struct btrfs_fs_info *fs_info,
- {
- 	struct btrfs_io_context *bioc;
+diff --git a/lib/cpu_rmap.c b/lib/cpu_rmap.c
+index f03d9be3f06b..18b2146a73d2 100644
+--- a/lib/cpu_rmap.c
++++ b/lib/cpu_rmap.c
+@@ -36,7 +36,7 @@ struct cpu_rmap *alloc_cpu_rmap(unsigned int size, gfp_t flags)
+ 	obj_offset = ALIGN(offsetof(struct cpu_rmap, near[nr_cpu_ids]),
+ 			   sizeof(void *));
  
--	bioc = kzalloc(
--		 /* The size of btrfs_io_context */
--		sizeof(struct btrfs_io_context) +
--		/* Plus the variable array for the stripes */
--		sizeof(struct btrfs_io_stripe) * (total_stripes),
--		GFP_NOFS);
-+	/* The size of btrfs_io_context */
-+	/* Plus the variable array for the stripes */
-+	bioc = kzalloc(size_add(sizeof(struct btrfs_io_context),
-+				size_mul(sizeof(struct btrfs_io_stripe),
-+						total_stripes)), GFP_NOFS);
- 
- 	if (!bioc)
+-	rmap = kzalloc(obj_offset + size * sizeof(rmap->obj[0]), flags);
++	rmap = kzalloc(size_add(obj_offset, size_mul(size, sizeof(rmap->obj[0]))), flags);
+ 	if (!rmap)
  		return NULL;
+ 
 -- 
 2.51.0
 
