@@ -1,123 +1,132 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3D03043C8
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 14:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C312236EB
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 15:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759242674; cv=none; b=T2Tu17DW035whY6KUVPsq8T9Q9IBCuzLeV4ZCvcWkQYX16ChgteVku0PfjZMyBSglbJsrRxjOx3nNektP3wyhs1PyIDuqwhZ0pi/WzWlfu1KGLoOdF/r4N4qppN//g3ghyDV1nDtiqED8bUkPTHk0ijHIemBNfru4EVcFBdD/yQ=
+	t=1759245206; cv=none; b=ZnpdXPNH3I61GK9nYhStRdgp+4oavjQmJXZgMNFRU+sjbegq/v+xtThYSZ/l7x3ewRxMuupjy54+7qAE4FwWj0JeEK/uY4YEZvDDbbgMdTeJOg/rramp0rfwErLIOtnVrftl1+oRuR8kr/cCU0eWX3gSLdqQVxhWQElhbrEIV3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759242674; c=relaxed/simple;
-	bh=TxtdYZk9dsFJydGVO6ymBCi05gQcE0LcJqQYcYklqBA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JziaUm/RqH6GoseXUQsihGczNcD+i2FseTKXIoxGZbsulW0GGwU6XaG6Ry6txHfi+Eeoa436pa1MYoce3tk539YZ5S0Wz7JRyuYykscdMDkiRKNv+b65zsGf/Gwq8r3WCm+GRIOGuS5LBkW0boX9kQTbAN8/g0jpgn1krD0UVIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hKaaolRj; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1759245206; c=relaxed/simple;
+	bh=BSewBfFWhJBl490BIH5OZ5knEj952tmRcHjCLHNd3ws=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eNAhVPoOJVS/iQiq+TFX/L88ENFaOFgkDSq3ZKNeHMdZgODHsZpCsIIM+4nHdcAyfKUhQv4s3hfW4Xt2XUpa0w4KL/oaW9tQtyfDQdpVOP5g4h+lLRFGPM3gVeTSPhf8SPE8SeqRX3jaW9HpXiFhnKWzMhyl4jr9V0a4wGM5kHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EmENx1mH; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hKaaolRj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759242671;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KiimNVQCGI88ieZh8p4IJZ/Sr9pCyj861BQTbYqy/Tk=;
-	b=hKaaolRj+Pin/i+WeBr4rG4SPF7TqK7dnaomINVD/bLwwAT6rd6erte6StBoWI++hr8LVl
-	ndm6sgoWDtMepgtUKMPaB3H0b56k8mWyPMA7jyQD+8vlI8IqfIRhQgXTYQnpmZGCdH9wFa
-	6XAnugV8CCkL2864wO+/H/PNsCGHmc4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-549-JFFOfQwxPR2JQBthm0OAAg-1; Tue, 30 Sep 2025 10:31:07 -0400
-X-MC-Unique: JFFOfQwxPR2JQBthm0OAAg-1
-X-Mimecast-MFC-AGG-ID: JFFOfQwxPR2JQBthm0OAAg_1759242665
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-46e4943d713so22730885e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 07:31:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EmENx1mH"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3717780ea70so46830451fa.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 08:13:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759245203; x=1759850003; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BSewBfFWhJBl490BIH5OZ5knEj952tmRcHjCLHNd3ws=;
+        b=EmENx1mH2pokfC9CQCqsHuPhhW6+CUTOAcKL+YpqtMDyUyZnjaJfU5VJMnVtFfqKbk
+         JUx8nt4h9xbaScOyno8KZ1CqZ3s38jU2As4Isxf18/JGixNKe2vM1IJat9YldeYxjqug
+         ADY+aYnB6PrixhSPiDhwHUPqILQ0MxnUBpzPlirhE9LKVkaM/OYHnO87+1P98wVoYLq9
+         yk7Xv2VDkiIlqN56a8Mfq633DUwpN6Ui8dHZbRGDr6MwWLmYHvKXRHwX0lQgpmL6I1mW
+         AE+ZhnmxB2vLGD/4v5olluK3eOVJSipJqSBK9dp9Yh015maTlXYawTOpD6TyGu/iMGfR
+         8VjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759242665; x=1759847465;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KiimNVQCGI88ieZh8p4IJZ/Sr9pCyj861BQTbYqy/Tk=;
-        b=TT3YCD7VpDPspbtXlN5i5CQhlQbwqgHHTPDgQhLnfYeV6N92oDyygD0tnne91OTVFY
-         QZ1ELSvRzQPkHbJ8TqVfiCBNan9KWtPlMlS/3G3ukzjHFT8j+0VR2YQ50WF4uj+bkN6U
-         EmFcZdIT64mCJPvVoGalwxB6gE5uyih8rDsFZid4nAweNQUdPrc49UX69n587/zZVl5d
-         jik3Th6TzeaKKyk5fk+qiwFiZYVCxqYCLbuir9rCtn6vC3qvC/YnHghQgnAHGFPsNOv5
-         X6c+r69okQ75m7JvkV56X8ZhcaYhC2FVI2ts7B6OIVMXaim+0w+OWc0RQUOz1PrKE3rR
-         5pLg==
-X-Forwarded-Encrypted: i=1; AJvYcCWnEdtT+MPIM1alrJb9inPHHjo/m+ulgoPo5Ntdemus4NJYi2Gstn1QJR8zonWpT4S/tnrntYo4OBJK2YmOrJC6YENPiA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/07SeUmrHG2EdBPRv+AH3nVBwqRNkUg//HYDRDLXNySFUePXL
-	VbKf8s5jniBUdxefor//kv0W6p/dXLAfvRYz0bCt2EW8eW0gEeB4DaCTuTNPckIyaoqU4nwG4oi
-	tOY/01llpJXgAf2ima9xOpmiPKvWd7FO4PN+WwRM82zITbxHM10niwEwjZrG795XdH+lsBYgxv6
-	pA
-X-Gm-Gg: ASbGncuZ/T10M9aGfXmpCELFYJUNaaFJusTQG4Jc+L4VPHH5r1T9J+Ldo05O9cXqb4V
-	p6v1kmOJY3tDAYds3PHYhkCEeI/xKTfnCkEDywXA5d7oUXv4Y6lG1iLeImuKCMfy6COa50C32Zf
-	kgptyDOR4Wpk0Ct4xNvKxNC/H54NcaZ4bWM4HAIZ6ingiAuyFbucE6A33moq0qMMXCl7mTBuHBK
-	pUwR2Jv4XIHou0/VyfOG16CIADh2WqgHvmBjVrsn5g1F6vqLRjnzzxnkCLfWqa3biclsU5+Ie+L
-	LOfxfNn0aTKRTCG4AV+IkWm/W97sdzYgciA4w6KhW3sQHX28HwyeBROnhagzKIygrtldKb7nBVN
-	JeR1ISN6PmPUU+C0G2A==
-X-Received: by 2002:a05:600c:8b55:b0:46e:45ff:5bdb with SMTP id 5b1f17b1804b1-46e6120218cmr1302125e9.8.1759242664805;
-        Tue, 30 Sep 2025 07:31:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFVjdt+VONnfPWja9/VsLbNc3mnehERm9krtPABV0fyuDy+ajxw8o2r9+1p0b6nLCu4FSG8KQ==
-X-Received: by 2002:a05:600c:8b55:b0:46e:45ff:5bdb with SMTP id 5b1f17b1804b1-46e6120218cmr1301575e9.8.1759242664074;
-        Tue, 30 Sep 2025 07:31:04 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e56f3dc27sm68198535e9.5.2025.09.30.07.31.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Sep 2025 07:31:03 -0700 (PDT)
-Message-ID: <377697dd-15bc-4a2d-be19-1d136adb351c@redhat.com>
-Date: Tue, 30 Sep 2025 16:31:02 +0200
+        d=1e100.net; s=20230601; t=1759245203; x=1759850003;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BSewBfFWhJBl490BIH5OZ5knEj952tmRcHjCLHNd3ws=;
+        b=BG+CHYqPi/wmGG7nsXNxcckkxeKRimAMBiAtNH2/VvfAycoXGVLeJal2j/LjISYOm2
+         cfh8BBPdZ+U2NXc4j22Ii3klrod9WE0N5U9rqirIR5Zj9vzOjWHHcXzOmL7XD1utrmus
+         c/tk3+VMS5CHijkIYZw2XPT17BaGDalaeiTi1BhFttnbwhJ5N8QPL+JaAnd9faBgNLox
+         7e8A+qZ8gkEKbSGfyTiqnnoAficK2pOZwW5Ow1Bmb/nibu9HtBDHK/XFvdD5+t8ivuk3
+         V637fFxil/01kzkjM+RXiTFtTCrg3cV9iSHMUIQtUOdjaFar56Zmr44oKh8+GoGIqUWL
+         +O8w==
+X-Forwarded-Encrypted: i=1; AJvYcCUL6Xra14LA9n8pZv9bFD/V14hrv2eLRiV2ydhy6GYNtCAqrWEzRxKXn8eTOQqNTbZMRRoQi+VHqpQ4imbRKs0jHn5ThA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/HbJcXldm0wKsYzzmhnroN2bDb1qjW+x3xyK73L3JV3JdpkjP
+	DGGslUzyCxdaX3ujAzF/CxJ/rdvIKwOD2BpMb0VR1ZfvyXpsvUg3Hy+++PtG3S7XZMrKQIJlYX+
+	0UJqjEBx7WrVtSPc62lgXKeZml57u8go=
+X-Gm-Gg: ASbGncuOFB5v0jcPbj7hlUqCGnNd92SC3jRdD7c2kxD5Mt8U43HtF5fd0QO4PRBbAoB
+	L4Od06Ccb5FV5+GHLf3I0x8Qd0UmYV60Knlib03zEk6fEx5q4N6e9xn/EGsuVyBmfqQRzO0C550
+	t85JmmAD3ixb7Dpi54MgAl6KvIIkdcmLDLd9ikjAgcBvp/XvmfggO2QLxQQsKhQsZrn3xcjkBvg
+	Iahwx4JCjHXtD/aQNeVsO8/BH7N8zRJqqm/yPxQFk345s/ewOnci4CQdMmaPXCwPyuZLg0jkkJJ
+	eJx1VnP8i42OSCl2gI32Fw==
+X-Google-Smtp-Source: AGHT+IF4toYIrIqD3kiLsHfmm4JRYPSghmYhxXGwVPbDmOVVXAkp72RxcbXIqWOsLeoh54cMOZe90BiMurhEoL3Goy4=
+X-Received: by 2002:a05:651c:2542:10b0:372:90ab:8bfa with SMTP id
+ 38308e7fff4ca-37290ab904bmr26694711fa.37.1759245202296; Tue, 30 Sep 2025
+ 08:13:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2] atm: Fix the cleanup on alloc_mpc failure in
- atm_mpoa_mpoad_attach
-To: Deepak Sharma <deepak.sharma.472935@gmail.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- horms@kernel.org, pwn9uin@gmail.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- david.hunter.linux@gmail.com, skhan@linuxfoundation.org,
- syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com,
- syzbot+07b635b9c111c566af8b@syzkaller.appspotmail.com
 References: <20250925204251.232473-1-deepak.sharma.472935@gmail.com>
- <54234daf-ace1-4369-baea-eab94fcea74b@redhat.com>
- <CABbzaOUQC_nshtuZaNJk48JiuYOY0pPxK9i3fW=SsTsFM1Sk9w@mail.gmail.com>
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <CABbzaOUQC_nshtuZaNJk48JiuYOY0pPxK9i3fW=SsTsFM1Sk9w@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: rzjmAVLktT_z_LTOe6zI02feh46XBRnXxy8MRXTj5Pg_1759242665
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <54234daf-ace1-4369-baea-eab94fcea74b@redhat.com> <CABbzaOUQC_nshtuZaNJk48JiuYOY0pPxK9i3fW=SsTsFM1Sk9w@mail.gmail.com>
+ <377697dd-15bc-4a2d-be19-1d136adb351c@redhat.com>
+In-Reply-To: <377697dd-15bc-4a2d-be19-1d136adb351c@redhat.com>
+From: Cortex Auth <deepak.takumi.120@gmail.com>
+Date: Tue, 30 Sep 2025 20:43:11 +0530
+X-Gm-Features: AS18NWCPx3KYKK3cvUH6TSzAvXHruvjzP3zvXDvzd6ohqBVPIRDoOlk-IyqoDss
+Message-ID: <CAC_ur0rRtuVS7GTxUuEU=yOfrsTRZH0dcGwgoQCy9wB_b6pE2A@mail.gmail.com>
+Subject: Re: [PATCH net v2] atm: Fix the cleanup on alloc_mpc failure in atm_mpoa_mpoad_attach
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: Deepak Sharma <deepak.sharma.472935@gmail.com>, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, horms@kernel.org, pwn9uin@gmail.com, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com, 
+	skhan@linuxfoundation.org, 
+	syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com, 
+	syzbot+07b635b9c111c566af8b@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/30/25 3:33 PM, Deepak Sharma wrote:
-> On Tue, Sep 30, 2025 at 2:15 PM Paolo Abeni <pabeni@redhat.com> wrote:
->> AFAICS the mpc_timer can rearm itself, so this the above is not enough
->> and you should use timer_shutdown_sync() instead.
-> 
-> Hi,
-> 
-> As I understand it, `timer_shutdown_sync` will prevent any further
-> re-arming of the timer. I think this is not what we want here; since even if
-> we somehow fail to allocate our first MPOA client object on our first
-> ioctl call,
-> and hence end up wanting to disarm the timer, maybe on next call we can
-> allocate it successfully, and we would want that caches are processed
-> (which are processed for every time out). So we still want it to be
-> possible that
-> we can re-arm it.
+On Tue, Sep 30, 2025 at 8:01=E2=80=AFPM Paolo Abeni <pabeni@redhat.com> wro=
+te:
+>
+> On 9/30/25 3:33 PM, Deepak Sharma wrote:
+> > On Tue, Sep 30, 2025 at 2:15=E2=80=AFPM Paolo Abeni <pabeni@redhat.com>=
+ wrote:
+> >> AFAICS the mpc_timer can rearm itself, so this the above is not enough
+> >> and you should use timer_shutdown_sync() instead.
+> >
+> > Hi,
+> >
+> > As I understand it, `timer_shutdown_sync` will prevent any further
+> > re-arming of the timer. I think this is not what we want here; since ev=
+en if
+> > we somehow fail to allocate our first MPOA client object on our first
+> > ioctl call,
+> > and hence end up wanting to disarm the timer, maybe on next call we can
+> > allocate it successfully, and we would want that caches are processed
+> > (which are processed for every time out). So we still want it to be
+> > possible that
+> > we can re-arm it.
+>
+> Ah, I missed the goal here is just being able to rearm the timer (i.e.
+> there is no related UaF).
+>
+> Given the above, I think you could instead simply replace add_timer()
+> with mod_timer().
+>
+> /P
+>
 
-Ah, I missed the goal here is just being able to rearm the timer (i.e.
-there is no related UaF).
+I think yeah we could do that.
 
-Given the above, I think you could instead simply replace add_timer()
-with mod_timer().
+I have just been going with what code seems to have wanted to do;
+Arm the timer if `mpcs` was NULL (no MPOA client existed)
+And if there's any error, delete it as (was done in case of error by
+the `_notifier` call, where we have no MPOA client yet).
 
-/P
+I just extended it to the `alloc_mpoa` failure too, because
+in that case too `mpcs` remains NULL
 
+`mod_timer` would still work, because the timer callback will not do much
+if it finds the `mpcs` to be NULL
+
+If it sounds good, I can go ahead with it
+
+Thanks,
+
+Deepak
