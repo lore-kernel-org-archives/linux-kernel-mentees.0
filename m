@@ -1,122 +1,115 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCE524501B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 08:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07482F4A00
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 08:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759221338; cv=none; b=ZFRgOfTlo+Dv6O3XkY/9PkdKXvapl27X8A3lya/0OLPNNuzbRTcAZzlBp9RLY8QVYWvzfCrY52fcSLdJj/R5CK5dp/Nz65E6e62wHDt92qVJzkzS20yIRthjM8N27k3GZ3Jz/jc9aMcHxlQOKLxt9xhecsdTV574GdT3xiJOBWE=
+	t=1759221934; cv=none; b=AnvwqtH+umtZxnmkvkNxX2aMc75gSfAlwz0uNfGKLtxvFfCzd+ASMtHtDIHxXE6DyOw3lrGoyw+Z2yesoAV1ihwJyG/0ilFl8ko9PVnwvV2jjgd6B0HOjvPQXdHeArjFJLWsc0nwR7b0KcnImMaAbFh/DBN9OS9eT2jVp8Z2qGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759221338; c=relaxed/simple;
-	bh=ADEdvYCZrQhbb8wIcB8O8HKwCMDJp6UBw/AeIwUpfK8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KpvSWNIhm7GEePbnG5Zv6gYICewDFCRR6QAaBH2HU8SLWlUcO6eOaHXxJ/2PwXrvtqhYWJDZqRV6KCEp5GJLNhmsldcyAqrSPebX+Fo5UAtgDXNfNCV2vCMZVvYh9pVD/FNL1rkK4agzug5ckX8r9Y1zD4Lsg+hZdAEzPukcH5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i5yKCQHe; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1759221934; c=relaxed/simple;
+	bh=akTONfhlc6noSXEuTwrjzlpLffmAM+CkZ+vcVOLFT7U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VcsyENT5MJyAkPBFqkvNpc2wRMmyUdBoht45E/e6UpJZ6k6OJ/vQ8/4Y3UGWqE0FrEnC+7H2VYJR396UgmicXMfH2oObvNT5RrDoL3fEl3vTPjYpMgZZf+qv5aCvJ4pYu9GFWSLDbxQWgnPfP/uMedhxT151UIpy2yzzGnvoxbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=i+6xbq2f; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i5yKCQHe"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id F195140C6C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 08:35:36 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id gyG-dehpHPNo for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Sep 2025 08:35:36 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::434; helo=mail-wr1-x434.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 1F2584023F
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1F2584023F
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=i5yKCQHe
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 1F2584023F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 08:35:35 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-3fbd3d76875so200936f8f.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Sep 2025 01:35:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759221334; x=1759826134; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GUJqvmeemqRm1gvXL7Ny2YCLo6gR6Nwv5491LCLZ8/Q=;
-        b=i5yKCQHeVAf+g41k0//ojlWDSBFQoOl6d2MdJXDgaq6OtsNFg52Pkgb6JU9NUbQMf/
-         OuJrFCgm3y9iqV1m8qfPM0I2ymM5u6YfLsjpTcMLYUGr8Vm1/AMKwLiMu5Tx2cyk6Dky
-         DwMO6sFfv16RsnmddDEBVPBI8y+SIf7cc/L03JyW3Nx0Y3TJbk+7Opu/XIfySGDsFh44
-         P8f5gNYyPTHYbJ28lbwcMdMdgNxMCNbhBxSfBg0skxK/KWrCkWVt/EbAj2lRNb7UY89Z
-         xcEwbcTtNz9Vm9P6YiChthGI30giJB2/Ly60T6SMdOK+GfpH2foK75YEEBL50gWhCr2i
-         gyNg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="i+6xbq2f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1759221931;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I0eGafpXn10hIE2BMjDxL8LFlIDcwprmVgIo5sjkkOc=;
+	b=i+6xbq2fFgxf/HJVYYXh/xXC/gmhxxjeyGftjlZQ8XZPwObaqsz+5xuQwjY/+96y0k//H8
+	80TMbEEcY3QPKg0poe2bTdQV37FWBdkJD7xkHGR7xgpJMEUb0/AYx54SxWJO63fZjVsXOn
+	0CwWY1yA8yAZHOBhtkA1zysWcPl266k=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-55-r_HNGieLNDCLytt_fFLi4w-1; Tue, 30 Sep 2025 04:45:28 -0400
+X-MC-Unique: r_HNGieLNDCLytt_fFLi4w-1
+X-Mimecast-MFC-AGG-ID: r_HNGieLNDCLytt_fFLi4w_1759221927
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3ee1365964cso3966856f8f.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Sep 2025 01:45:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759221334; x=1759826134;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GUJqvmeemqRm1gvXL7Ny2YCLo6gR6Nwv5491LCLZ8/Q=;
-        b=UoDFB2wfEUWuU55gm80C4pEDJ1KgJwdbsMokv6EzwoVoJY53Q1W/Ft8BsWcLllGdK9
-         Y9LuOl2DF8hGVsYo4IxCmPv/r3M5hus50p0rSHwcVJFiCJ1fxWap649dNBLU1zq+P3Ef
-         7DL72PzQrFBvkEHytdus2d5vbbTgZKj9eN3Co0WzBlOmTIDXpZ93eUubsEfWs1VvqfeP
-         KczOaRiSWaE7hG/JIf49A578iPpY5dGJtJ8Wj7noZe9fzydvoq+B/dVcpTvcU73zIY8Z
-         +u38zZzfdw0kTPzGdVHI6fDPgG03/yERj2SBGHAdFah6Cl+RG/dvmnBTnHEaV0HoUsa+
-         03ZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWsZWzlbGUUg5XhcBEaLG0nDAZ7ZnSpYa6bZEeYyZugmYR/WAyu9r5Be9lfYLcUYzpfuQYkloasIa7rLuaNqzTqpOhRlQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyOlQi5bGhkr8Rvt3V48TF3kO8Zjb1YpF0MUoaTUvQ2OTX+V0FY
-	L/v23LYmdO2DdE4h9Mk4wRbVu/mJKTc+hGqjoT6wjoHZNnhONCWgixaE
-X-Gm-Gg: ASbGnctUKV+1XhW5y3Zp7ePNovOVCdTiEUy/xdZ2R1BUhLpNRY6G7mXAD4XZyzt4mEs
-	6bvsqk8jNVLG7cmh69QJORAnqj8lciYiZv6+/VsuXKznIWKhTpg0/Ma/7dBR+PeCzoYQN4Uh9oH
-	lhDBDB2uMC9IGNtOp1S/9NsCJDoVHxKFUoygShjLuGKsqQlYcUh3WjuQrju9IEuEDJpTnLdRPD3
-	FKi7p0YiqihHhqZ1au4N4Joh43k8N552ywnDZTLKLmjj6U4bha3ls9RnmkopjGOWL0eFUh5hgKi
-	Eg4MWTqPhnB2Z3jRqfFjusvSTEvBtxpEtTWGIqb70y4r4XOEl8Mh7CnE38C6HJoyZjwp+BDWx+Y
-	XVg4Cv7AieUv8YHEwgoOAR/5cCmptxFCNR+tQhWidE28BfJKTzSV7IprMvl7RbS3o
-X-Google-Smtp-Source: AGHT+IEnc4h4ssP9sS7icqNK2zeN2NBLAu8VYYr2nlceMXRBqj2zPJC/ON5vQZnbcoK/iRDFPcwyVQ==
-X-Received: by 2002:a05:6000:26cc:b0:410:f600:c36e with SMTP id ffacd0b85a97d-410f600c731mr8845629f8f.4.1759221333463;
-        Tue, 30 Sep 2025 01:35:33 -0700 (PDT)
-Received: from bhk.router ([102.171.36.101])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fb72fb1a3sm22132771f8f.10.2025.09.30.01.35.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Sep 2025 01:35:33 -0700 (PDT)
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-Subject: [PATCH] init: Use kcalloc() instead of kzalloc()
-Date: Tue, 30 Sep 2025 09:35:37 +0100
-Message-ID: <20250930083542.18915-1-mehdi.benhadjkhelifa@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1759221927; x=1759826727;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I0eGafpXn10hIE2BMjDxL8LFlIDcwprmVgIo5sjkkOc=;
+        b=C/PVTcAMFsh45GQN944qQU+2wMGWzbscCXjAbGLz+2KlBDShmEGPkEM1jMwiyEh685
+         NzdooCLr1xaYiGrl/vP+DP3d7vyOmMaBSEh5CMGeyFlhV8ubvk/L9itDEr2R/GVKgbLx
+         UgtPzLcCNKNjMAhM2WDUA/lygyer/HYqTCDQoVKX5wAXt0P6oBsuxHyOpXsDG5KCx34O
+         XTI5bT6ePkjEAsjZFRpqQ+tupS5nk62GqRDzjqZRBZT4IPuhyl9ALH8Fgl8VbdCqxvni
+         fhCSqNuTcJn/LvmSnHNHAXyDKm6OafnSRyUSz7kqE1YPDodz7pSTtv1EKjHZJ8Hkxkzl
+         qiXg==
+X-Forwarded-Encrypted: i=1; AJvYcCWgTvwo8argdy7jO8ZgNiQIy2ROeogTWCtqJVDv1iF2X+ld1Tni5XPI1wxrjnbTb4hRJ2mVUb36XgvOf1cMinVXikWH8g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzhUbnbTTnafie1wkAcN6jjCN+xmYlvcEze/QsONyDWmiGG/WtZ
+	KDl+yfZoms4opV3UaCMmjSZvevKD3Zoa59tABEsvCErS9sy0UEgXJ4G3qF4UKaz8OMoqAQ9Tnvk
+	45Ij1Z3lCm8MJRkrq/gw0ak1Ln90UfbhfSQ2j1Lg1sWDSoB/+LOtj21kUp14jIf8z8isJMaeO5O
+	5j
+X-Gm-Gg: ASbGncu34N0g6xJgHdsTU/H1DDBhMvdtoQDIOyIDEXkVuBJt3r/hZYj913wCOXRmcbp
+	K5S2f0LeZmllskeiWHOUC51BbDB9R8YVog673Po7bdmS0FHpDGl34ivdNqGIPcOxx2xguVp/BJG
+	sLIe5lRhxUBH8B13iCyqDZS98adDnZNJKQE9aRL95eCkzb3/bbDHIkJCG/AbADA30nIJbong5h1
+	HpcSY5K6svRFLw+n6P6pXQO/rqJ3vqpDHY7jL7M+Ci2AZBieD1vvavkL8jssJlQTlQn4DNx9Erb
+	h7oi7CnyyQU/XD0+V1onTyKNifBdbgMzCz48/BYvVVnT5THMo9XfnJd4i/arkupGe9Z5cXnCC3q
+	36/LzeIreceGXnU4GPQ==
+X-Received: by 2002:a05:6000:288a:b0:3ea:c893:95c6 with SMTP id ffacd0b85a97d-40e43b08daemr16176951f8f.18.1759221926873;
+        Tue, 30 Sep 2025 01:45:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGRKeCg7YnGTHgNrPoON/pDG0wzo+V+MgKB/0TsB17QowrUPCybnWt3H7zBthCuTUQFXwPeXQ==
+X-Received: by 2002:a05:6000:288a:b0:3ea:c893:95c6 with SMTP id ffacd0b85a97d-40e43b08daemr16176925f8f.18.1759221926486;
+        Tue, 30 Sep 2025 01:45:26 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fc7e2bf35sm21915958f8f.53.2025.09.30.01.45.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Sep 2025 01:45:25 -0700 (PDT)
+Message-ID: <54234daf-ace1-4369-baea-eab94fcea74b@redhat.com>
+Date: Tue, 30 Sep 2025 10:45:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v2] atm: Fix the cleanup on alloc_mpc failure in
+ atm_mpoa_mpoad_attach
+To: Deepak Sharma <deepak.sharma.472935@gmail.com>, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, horms@kernel.org, pwn9uin@gmail.com
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+ skhan@linuxfoundation.org,
+ syzbot+740e04c2a93467a0f8c8@syzkaller.appspotmail.com,
+ syzbot+07b635b9c111c566af8b@syzkaller.appspotmail.com
+References: <20250925204251.232473-1-deepak.sharma.472935@gmail.com>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250925204251.232473-1-deepak.sharma.472935@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 71gd6db4l81gTXnJnSWB0JFFd27BJwhGcdwqBuDVVMQ_1759221927
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Replace kzalloc() with kcalloc() in init/initramfs_test.c since the
-calculation inside kzalloc is dynamic and could overflow.
+On 9/25/25 10:42 PM, Deepak Sharma wrote:
+> diff --git a/net/atm/mpc.c b/net/atm/mpc.c
+> index f6b447bba329..4f67ad1d6bef 100644
+> --- a/net/atm/mpc.c
+> +++ b/net/atm/mpc.c
+> @@ -804,7 +804,7 @@ static int atm_mpoa_mpoad_attach(struct atm_vcc *vcc, int arg)
+>  		/* This lets us now how our LECs are doing */
+>  		err = register_netdevice_notifier(&mpoa_notifier);
+>  		if (err < 0) {
+> -			timer_delete(&mpc_timer);
+> +			timer_delete_sync(&mpc_timer);
 
-Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
----
- init/initramfs_test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+AFAICS the mpc_timer can rearm itself, so this the above is not enough
+and you should use timer_shutdown_sync() instead.
 
-diff --git a/init/initramfs_test.c b/init/initramfs_test.c
-index 517e5e04e5cc..fed1911b73cb 100644
---- a/init/initramfs_test.c
-+++ b/init/initramfs_test.c
-@@ -97,7 +97,7 @@ static void __init initramfs_test_extract(struct kunit *test)
- 	} };
- 
- 	/* +3 to cater for any 4-byte end-alignment */
--	cpio_srcbuf = kzalloc(ARRAY_SIZE(c) * (CPIO_HDRLEN + PATH_MAX + 3),
-+	cpio_srcbuf = kcalloc(ARRAY_SIZE(c), (CPIO_HDRLEN + PATH_MAX + 3),
- 			      GFP_KERNEL);
- 	len = fill_cpio(c, ARRAY_SIZE(c), cpio_srcbuf);
- 
--- 
-2.51.0
+Thanks,
+
+Paolo
 
