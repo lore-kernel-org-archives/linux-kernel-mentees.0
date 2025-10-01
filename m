@@ -1,227 +1,182 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184432BE7AF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 10:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=140.211.166.137
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759314499; cv=fail; b=Y5HQOXZ6+9s9Q63h4sOEyIZfQxja5LRH6jWoZRG0mtYosgRvV5OT6SmtrcsYaZ6JyhTfihxHqTED9I7iwRXnmOu4LxgFptqx6rs7r2nPL6lOkzu+zi60PVs+pteJYI/AhRkgpgCawMcy8V2VIlSiwjw1JQQ6PQJejCnXi6NICN4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759314499; c=relaxed/simple;
-	bh=TRF19tc3nCTFsi4BKUW3Bm6de3cZg5Q234MrDMLT1qo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=DU6BdO8Axtx5xzSSU+4CsxN5T22Oa1fNh9MIC3orpQPYsRFlm0zb9r/6FOoDOw3kVG8KS0USYlxawtDJ2Etp6J1fq8B11bT8XexCr0toFyOsK7J64tHS08X7gFRxOCrEjNOpQgNhsBNRwMG6UYZkH0/UvvxX5RIVby21U9T2Dok=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=A0oT3eK/; arc=fail smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99EB2C11CC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 11:03:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759316604; cv=none; b=eTNv3wQqhoPxrtxGXbtfaT9YCukCG+pA1UEMp+/B29fMeD4sa4Xj0vwkdpHJGxqJVR/HazdEnRkOAcqDp4sVPJs1Sa1TE7SZsU+5Anpy+RTjD5SOmze8GVRcu/Q3pulcPVpT7qGaevJce90/hDduPC4V4F8UOAQjD3/4G2MOyEA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759316604; c=relaxed/simple;
+	bh=ayH6eU74HGK2Uw8pBU8RG4fsbY2PSfyyn49rkqPJ7Vc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SdiPN6srLBcCC5QG1NOYsHMNFsrtvPhpChoTiwBz3HXIxCoiQWnOZkaF9W5nM25b3WHHHIn2Yikk3SEnam4f0uCzjG4NTjWiRbX5183NwQaINU4A77nb21fIAsbBH47kY9tJgGAxtHSlGEM5GW12/ICT3w9nOJDANilwhTHZ4sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PQTk4uKP; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b="A0oT3eK/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PQTk4uKP"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id AA76C406B2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 10:28:17 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 77F6B410E1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 11:03:22 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.102
+X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 0fen6chPaivi for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Oct 2025 10:28:17 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a01:111:f403:c20a::7; helo=pa4pr04cu001.outbound.protection.outlook.com; envelope-from=tung.quang.nguyen@est.tech; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 941AA40558
-Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=est.tech
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 941AA40558
+ id W7-8MoEgKrgO for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  1 Oct 2025 11:03:21 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102e; helo=mail-pj1-x102e.google.com; envelope-from=bhanuseshukumar@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 8BC8C410E0
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8BC8C410E0
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=est.tech header.i=@est.tech header.a=rsa-sha256 header.s=selector1 header.b=A0oT3eK/
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazlp170130007.outbound.protection.outlook.com [IPv6:2a01:111:f403:c20a::7])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 941AA40558
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 10:28:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qOPRnjrrApGGTVNY9NhzDV5+fqcqwg4dKLdxgE3K+gP07zCspJNevG2xOqVuf/C/Xl9h0HgPSXBwGq/FnoEEWhUFYc3CE75+Xdavx2Qn0+kWoMzAaCdyGLgSi8BKz5f0BcHHs6bDf3U/aL6Lr8tm6NJ9Fo5nDfmaUzJ/5EniI/b3dg+vqirGJc3c/WS21eje+wZbK+fkOcNHIW9mf7vU91kfBhAceC5LnMWb4P18f88BbzaEeqbOAaNiDgAL1289agEFmmJ9gR+dLFjw3Uiw1/rR4GmM11Xd44yr7p3eQngz31iKDj2QH3Mr4l9dzm7fP1cUhaszHnpWtL/yjHFZmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0fNKRolXzxsTNulfxfYW3iTW0LaM41/a00kY0wHDGeQ=;
- b=XgzbXjUGv53o4i1DkB67mko6MoCIOsnA6nhyWzVsNIx56UBxQiZQJmDWLwQoy3dAE680YqgIKbk1OJ5VYn8AJiePlSCsa7iFqPFey3KtRQXKQBz1sswZLm5eP8pmyTXBXqkUNtWW1iXuk07FETpKxwX5celTr6Be/OjGn+JTwPt/69mswA7n64znQQcQJ5Lb1ViBuC1jeFV8/xKYS7gFPnSsltu4kxam7c8P7zRXv4yvxZfQCyp54Bhe10iODNNOGXosh76A5Ee5/FXOv1xWPE68OWKYgKaOaWE12CCIpNwavC1pKWEJTqsGKYAH2MqXsgi1vg3s+SIOoN9NQFJR0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0fNKRolXzxsTNulfxfYW3iTW0LaM41/a00kY0wHDGeQ=;
- b=A0oT3eK/8SG4vM3bh37NoLqbQEZ0dQM02XKceMeSHRPTHmGeQM/GAI2gDGQuVKGSTt8CWpAxWEUdbK7Dm2YfouTfqvu4XyJZ+vPmzHfLq8CRqGbNzKni1U2yYcghC0IXus4SQ+OuYw2DlbwWfNtb3rINE28hOYaMVpVoQ8e9Chra5Qcn0Ypy74qxdX8R7N6hm+KB7+3HN9UP+/8GP9fLN9UwglGNQe6pjAyUW3gyexc9raW/FLFulD9l3dssU2D0Cistm0rEsby1WHcc9ZvncsQzm2yrdCZxNgjVGMU2Y24dE5ZmqCFSPIw3mVyKVV08CijhknehpQrMah9IAL25Iw==
-Received: from GV1P189MB1988.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:63::5) by
- GV1P189MB2787.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:1f0::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9160.17; Wed, 1 Oct 2025 10:28:09 +0000
-Received: from GV1P189MB1988.EURP189.PROD.OUTLOOK.COM
- ([fe80::43a0:f7df:aa6d:8dc7]) by GV1P189MB1988.EURP189.PROD.OUTLOOK.COM
- ([fe80::43a0:f7df:aa6d:8dc7%4]) with mapi id 15.20.9160.015; Wed, 1 Oct 2025
- 10:28:09 +0000
-From: Tung Quang Nguyen <tung.quang.nguyen@est.tech>
-To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"tipc-discussion@lists.sourceforge.net"
-	<tipc-discussion@lists.sourceforge.net>,
-	"linux-kernel-mentees@lists.linuxfoundation.org"
-	<linux-kernel-mentees@lists.linuxfoundation.org>, "skhan@linuxfoundation.org"
-	<skhan@linuxfoundation.org>, "david.hunter.linux@gmail.com"
-	<david.hunter.linux@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
-	<hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Jon Maloy
-	<jmaloy@redhat.com>, "davem@davemloft.net" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>
-Subject: RE: [PATCH] net: doc: Fix typos in docs
-Thread-Topic: [PATCH] net: doc: Fix typos in docs
-Thread-Index: AQHcMp5rXqenrtMrRUCifh9z+PayL7StFk7Q
-Date: Wed, 1 Oct 2025 10:28:09 +0000
-Message-ID:
- <GV1P189MB198840D92F47A423791FF803C6E6A@GV1P189MB1988.EURP189.PROD.OUTLOOK.COM>
-References: <20251001064102.42296-1-bhanuseshukumar@gmail.com>
-In-Reply-To: <20251001064102.42296-1-bhanuseshukumar@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV1P189MB1988:EE_|GV1P189MB2787:EE_
-x-ms-office365-filtering-correlation-id: 68d862e9-1fcd-46d1-5b60-08de00d5379b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?b5Z5y8l6cOJb32p2RAjNZputTRNdMBF2/UQgyYu0wNynWuMIV/S9eQTZVwWn?=
- =?us-ascii?Q?mFTja63K3LFnX2D6f8IvtALjl88VqcRDeOzHR6fXWJJWj9+0np7lfaTAJcCZ?=
- =?us-ascii?Q?Vx8Bk0OxYxkJZfSi4z6gii5yj71sSndmkzY51CwckQqRVArBbSB8wWyAb8CM?=
- =?us-ascii?Q?o7VP1CPawo6ZYneAm0/DrQ3xNt+V//Glk1274sDm30jYSXr9KJbRwq2R05BU?=
- =?us-ascii?Q?vOIU80EuKozkseaKHfdz9e4u1+9efask2Th5b5eSOt6A/SasvJLSYcN3EAmh?=
- =?us-ascii?Q?imABNFFKjSC45Ul2gEu1OBnfn8JYKsve2yj2bB5FTA0oG9JrvYVn57x5lbwH?=
- =?us-ascii?Q?+SKSddrSbnAVkpNLTzFmT76ebE6dSr4vnawVKP8YNxIRC+9G6HyVjWS60Ov7?=
- =?us-ascii?Q?2zZXXs8dY+Cxxy9ddDnsJ3JshOAglyfzbahbOy8X7iuhQ6gp49NYiMQOp41v?=
- =?us-ascii?Q?J4WAlIq0vV1vfNuAnZYHDsB/BWt4vFQ9zHa/hhC9+uajkax9NLIYSwYcAaIj?=
- =?us-ascii?Q?2k6E+o4T8OZYCng/Lw8yxY/E2Ae1pUj85ISgi0gghz68wentik+iXGhMRjiA?=
- =?us-ascii?Q?yOoB7ME4LbGiZloaDI+Qm18ngWDttXviuAWmSJKq/2vbt+iYeajxbPypTo4m?=
- =?us-ascii?Q?tajGephbgnJjclQOsgslArTSBRa77bVZCA6JHXk2DALarUH3Y7zN4L1oVpkI?=
- =?us-ascii?Q?IJSITLkeEB8TXZ92edXYEsCNmQEe3dZ43UWvDwlWkKJ+A3QlqGqGCHzz6agu?=
- =?us-ascii?Q?3e0utg+KC7vJjhxHUpLQ9cvF+3+zwh+XnokSKJ5yLwOze1UyqKKpEd2+5uns?=
- =?us-ascii?Q?EdrTIu0Snr3e1jqugUoNor0rGhj111Bg5NqtyEWW1ExTb6xyR0yRPZPspHgt?=
- =?us-ascii?Q?pVO37jG2itTuvxhpkdrVLK07dQC+eJh094+W7bX9v4wSrYL/zm4r13Xh3oeK?=
- =?us-ascii?Q?puplsDyfgnMYYe+PyU5lrJ+tQfV0OZ+vTmXIn7XaMDMUAEHXJYfwgm+FFedE?=
- =?us-ascii?Q?HNSw2TIe98ldPbj8auXrKL/lQSu/TylnCKtI6KooXLO6B85AwXnNoLPLADAS?=
- =?us-ascii?Q?+QSDqzEmFGVALHKCkZQ5Ls+uPZdlMh4laukFxqejAhHrLGZ4r9fG2ilM+cT8?=
- =?us-ascii?Q?qvdSIScQfyRFgDeT5V8Gn9vOdXJ1oaBJngbzRCAZyyvXbLQORl+FD/Je62aZ?=
- =?us-ascii?Q?hhupgaYvFYJLwzNMGojTfIFXJvojtUpcNC6Pt6Yo7iqRaqZ7UymiihwJOVHI?=
- =?us-ascii?Q?2Eww1z4OSZOkN6PMr+bGoL4n8pzn+7VauzLmV/euvHd4rn7toQpvb5lQtdSs?=
- =?us-ascii?Q?t2CxdcF1zLLCZtQiJJmK4AFUFgATAW6EWai1NOCBu8WTHVFDbbkJoU3rpkQg?=
- =?us-ascii?Q?ckOpQTBDv9z6mu5Gt/M4kLd/ANznEKNRL1iMnXJ2Wy47+J2tn6kW6qFL+ypv?=
- =?us-ascii?Q?Tzc4k2SorajzZePqa4ehgX3bFS7r8PsD4DIbp1yedzkoQKb4nTPPPncenp58?=
- =?us-ascii?Q?EmKqzhMRr9GBV/VBmA8HONsHJKiyhuTaTI1r?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1P189MB1988.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?lsF9ALLdkK6kT+JBEUU+kKUA/7tnf5IkQxCfnVqEPyZVsHv8VDoT8hx9u/sK?=
- =?us-ascii?Q?eRynPANa7Iy8GLdQH4d/CpMmAdYyGaclRkFxLgBFx95n+mvt27DshWDG9z0V?=
- =?us-ascii?Q?B+LJFzRRsp0LEk97/36mTBPBFZh7gYraj7+/oPuHcyFXBDI1vRBcTueYkm0i?=
- =?us-ascii?Q?58oLU5LXhFprznVHb9Ijmo6TKal9gDrg/ZNadnI3Us1+OgLonhczcvIbRWXx?=
- =?us-ascii?Q?ydQMJBpLO8ltCgFf3l3SjWeAKjZvzV6FT6jI4du+FqnCjyHqC9Ra5RbOy1Hw?=
- =?us-ascii?Q?3XS9Dj+4lpK/xfxUL5Pp2kDFgGddn+JTb1UhbdY+2eAIVAIyUqIjDGR82ZfA?=
- =?us-ascii?Q?cyvw8K2KBpDLMcNSPGXHgpfh451k/wM0xCtEgXheGgenqcwjr7zkhTY5Pl05?=
- =?us-ascii?Q?4JbcwlILJmvGKkjvR6Lnfneb+N0QYo8QzGg61P9wPu/0vvo0c9Kpojb9beRC?=
- =?us-ascii?Q?7AqsjFCGNADMRLKsn4s6h056M75VTNjptN7JIr9Yz6yiXK8eyv8tUKk3Ejbh?=
- =?us-ascii?Q?PYMBu9F99LjY4MBzZBH1JTqwlCX9wcUe75hfZy6nsY8oSFDpPzY4JsbiZ+cV?=
- =?us-ascii?Q?90bFt9GfjYile2uHxFnzwJeeb7qHIqkYBhKxMBV1cZQ2kHppcWLzYgLAGQVE?=
- =?us-ascii?Q?SnSdwb2sEJ3dRNI/26kMRQZ0qmsYDrIGMTqmLfOb/ys39TF4OSKlIJstxHle?=
- =?us-ascii?Q?2DaZ6YevUv7oX82tGJ7S1VzT3WwZ7Cd1w3uEaX4MxfACqQovA3GNAh396lC+?=
- =?us-ascii?Q?XX6PZEtwCob8PL0Da1oDb5A5rQ5aW10GChgsWc79G7FML9XmPnifcH40l7in?=
- =?us-ascii?Q?ZW4rWE9sDh/BfsNPpi4hCCr8dEXA/lNGWYDAWzKpixifMTHkkzdRxyL7Ihes?=
- =?us-ascii?Q?8cXZjeqrpdeJ2aWCfsOCafg7pR2nWOg+YmDpQUi9EzGEfRMFrEdbsJnSYtX1?=
- =?us-ascii?Q?3pgGWeBCS5eKcqmWOhLbk8VzsyIht6WwSeCqqWutRt0oaEGN2kbXfXawIItA?=
- =?us-ascii?Q?4ki0htKA51i1U199/E3oZ0OYPqbWZPxz6UkMPk36oSF/GC8gMFxZ7tW7Yvz+?=
- =?us-ascii?Q?uCxF7rXsxHHjCZQQCO3t0bU45lZwRLC28KkgSYyK0CYAKICgJ671bdPHXnG8?=
- =?us-ascii?Q?9d8xw1o4MUhj6SPVojXxC/mgsFuJND06mgkhtJWZv0ghICIzdA+pnhUQ1N9U?=
- =?us-ascii?Q?9m60I+rHHt0xDjjTWS/rTAR9c6eGf8+AuEyCfVZN1oAssqvmE5DYlGIhUqKG?=
- =?us-ascii?Q?nBVNvo9V33YekIY/DrDCNHm6NkzUI4UkzCPl2c6LH/MBGEIy/6MgDjTBOo1Z?=
- =?us-ascii?Q?MqQd5Se95TmceWjHQVNErQmNRwf9MAcEjX5KaChCZMskZnnfdSLCUw8Y9Bgc?=
- =?us-ascii?Q?npUxmvhZ7Uw8MVQeWCJF3iedBsObHI6HT0Ic5exYISWmi1tqPn2JhxckyJY0?=
- =?us-ascii?Q?d5uxM2KHYm1vRmXZomuoUKddMEvwU/qD9q2yP/pmh37FD19kGTJWb1HqdwRz?=
- =?us-ascii?Q?6nDSV5r7RWlajTr8yxgZUO0OxufXjmX+9g84BNtrJJSJMUz6T2R7URn0FzbO?=
- =?us-ascii?Q?KifKYRNm6JegDuDwwHJsCzRLfyy0xP/hqx88X+22?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=PQTk4uKP
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8BC8C410E0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 11:03:21 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-33082c95fd0so7228802a91.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 01 Oct 2025 04:03:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759316601; x=1759921401; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9V28geYs6+fybVTeARjUscAK9N0tpW7+cMdGRd5q3Us=;
+        b=PQTk4uKPvEF2fKX79ksvB6LzoQE0X357Wq2yb2N9HcCkV4Lxvvxj209Hycur+z5Fod
+         iT96Hg5qmTiAcDGA/9HhnNOHvvkuOgCIPOD9bfpZt4m3bpG05/45O6XsEkOV8Nf/EmHB
+         +WfuQavXOi77+evnFWFuFrGBluzHQvCDDoVOqjY9hMVebGfCpOJshanz6+1qxaBV5jJJ
+         oi5P1oqcc9nIW4TSVn6hSRO8SHu3yDvpX7uQwXAEVwUOa8ZwXSv5fSe07M9FH3GyllWt
+         U4XD4oZQY0nivHAms5PvMtl3JrVf/7HZxBE/gTge7TusO3ERgS0uub2uu0BB7ItM/YK7
+         u21A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759316601; x=1759921401;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9V28geYs6+fybVTeARjUscAK9N0tpW7+cMdGRd5q3Us=;
+        b=xQByfZewYLdcmkgGArOpIApg8AfnX7d/yqDzPfhtOxjqdPKqBKF8DE539oPSrxny5I
+         Zi2AP5vuA0gW+1/AW7K7NgqI1A0y/F74EM1VsVD9xq+XhoOaga/4a6kY98eOU/uUdxXB
+         dveg2cTXstcLi8QXp5ZHZRrVqSVlkZOVP3mcg1cSoKh1lZOkmiQHrpejDXdfk1XcGGnp
+         ylUXFRXK1F2A/taJiKblQpUpvGi9s7VLhqY6fV+aareM/t9GJgEnSkpOt5qgCpUjPz8D
+         sa5YIgMGo5TyBGDHsF3r2tuyMp4ULDbHburYl5oqK5k55/Y15OwjcyaJ0dSihHQUo7zt
+         k9rg==
+X-Forwarded-Encrypted: i=1; AJvYcCUO902w9U/+T4moTZCwoGQFq09q+7vob6IM4+tiF1IkQHQT42+FxN3UgHuyUamFusu8Yi/7gIUvk9VlOjGu9ybx68At+w==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YydWYUIjJ1vAlr4OYE9lAbxFbKq/xMicjjhujwq2Y67PsnmTwfy
+	rqIBwHYLPIVbLu/6QVyDpyFOLBoHyZSQ6kD9/SdMiRxLciRe12hCq5pm
+X-Gm-Gg: ASbGncunrH6FUbgI5PeHyUSUbPnHG+ZqRbeHmK4A9Zg0BJ456e4octBcx51xx+04oa+
+	UBR1iqI+VievyLZfVR/Ijq7NtS27c23SQmUYkLKU8zJ2HldW6dpjRZU8a8OgD8Ddq/Ta240CBKS
+	W5Z33FmrBk3bSDkKuHEZfpsrYGeajb33JY6vcPdXyHIVjTv9NgbJhvJAJ8zwdH8ubHzKjORzTBt
+	/KxsXgkpwilMoeF3giElneNFHzP0RUkx798x0pPiRKFkLZr+k98q0xrblXgPaF3C3bS8q+KLU38
+	3YmhP9us7q9ksxCfiFABH4rzGSgtcJCqYBX/n1ig6D0tJzI4NdL9Hc/HbQtFehI2Oy2Mlg5XJuN
+	xFm62yMzsr0dpSiq5m7kPE3QsfBcINcKlLWTfbFqMsMzSeoQ/D/+1FDlo9O6TEnWmnpt/NUdNLQ
+	==
+X-Google-Smtp-Source: AGHT+IF6egVDTn5Ywg4HO8cRrcaXb7fIR+VPczMNX7N1WKOEThRzIZRtsgAxQPHJcsd40gZ+gXw7rQ==
+X-Received: by 2002:a17:90b:314e:b0:335:228c:6f1f with SMTP id 98e67ed59e1d1-339a6e95d23mr3939304a91.12.1759316600367;
+        Wed, 01 Oct 2025 04:03:20 -0700 (PDT)
+Received: from ti-am64x-sdk.. ([157.50.93.46])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a6f15fbfsm2073476a91.21.2025.10.01.04.03.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Oct 2025 04:03:19 -0700 (PDT)
+From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Jon Maloy <jmaloy@redhat.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>
+Cc: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	bhanuseshukumar@gmail.com
+Subject: [PATCH v2] net: doc: Fix typos in docs
+Date: Wed,  1 Oct 2025 16:27:15 +0530
+Message-Id: <20251001105715.50462-1-bhanuseshukumar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV1P189MB1988.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68d862e9-1fcd-46d1-5b60-08de00d5379b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Oct 2025 10:28:09.3774
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +S8eqhWarMQMlBTjF3Ku/ZOayq5G4loqEmvNJPXtvPvZ6yLJLNoTJKEQoSn64i0vSdzEsYu4GVKwcypJBFQc9UXTCATGPjOPzt61193dkbI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB2787
+Content-Transfer-Encoding: 8bit
 
->Subject: [PATCH] net: doc: Fix typos in docs
->
->Fix typos in doc comments.
->
->Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
->---
-> include/linux/phy.h | 4 ++--
-> net/tipc/crypto.c   | 2 +-
-> net/tipc/topsrv.c   | 4 ++--
-> 3 files changed, 5 insertions(+), 5 deletions(-)
->
->diff --git a/net/tipc/crypto.c b/net/tipc/crypto.c index
->ea5bb131ebd0..751904f10aab 100644
->--- a/net/tipc/crypto.c
->+++ b/net/tipc/crypto.c
->@@ -1797,7 +1797,7 @@ int tipc_crypto_xmit(struct net *net, struct sk_buff
->**skb,
->  * @b: bearer where the message has been received
->  *
->  * If the decryption is successful, the decrypted skb is returned directl=
-y or
->- * as the callback, the encryption header and auth tag will be trimed out
->+ * as the callback, the encryption header and auth tag will be trimmed
->+ out
->  * before forwarding to tipc_rcv() via the tipc_crypto_rcv_complete().
->  * Otherwise, the skb will be freed!
->  * Note: RX key(s) can be re-aligned, or in case of no key suitable, TX d=
-iff --git
->a/net/tipc/topsrv.c b/net/tipc/topsrv.c index ffe577bf6b51..ebe993ebcd48
->100644
->--- a/net/tipc/topsrv.c
->+++ b/net/tipc/topsrv.c
->@@ -57,7 +57,7 @@
->  * @conn_idr: identifier set of connection
->  * @idr_lock: protect the connection identifier set
->  * @idr_in_use: amount of allocated identifier entry
->- * @net: network namspace instance
->+ * @net: network namespace instance
->  * @awork: accept work item
->  * @rcv_wq: receive workqueue
->  * @send_wq: send workqueue
->@@ -83,7 +83,7 @@ struct tipc_topsrv {
->  * @sock: socket handler associated with connection
->  * @flags: indicates connection state
->  * @server: pointer to connected server
->- * @sub_list: lsit to all pertaing subscriptions
->+ * @sub_list: list to all pertaing subscriptions
-Replace "pertaing" with "pertaining"
+Fix typos in doc comments.
 
->  * @sub_lock: lock protecting the subscription list
->  * @rwork: receive work item
->  * @outqueue: pointer to first outbound message in queue
->--
->2.34.1
->
+Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+---
+ Note: No functionality change intended.
+
+ Change log:
+ v1->v2 changes:
+  fixed pertaing to pertaining.
+  Link to v1: https://lore.kernel.org/all/20251001064102.42296-1-bhanuseshukumar@gmail.com/
+ 
+ include/linux/phy.h | 4 ++--
+ net/tipc/crypto.c   | 2 +-
+ net/tipc/topsrv.c   | 4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index bb45787d8684..de786fc2169b 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -292,7 +292,7 @@ static inline const char *phy_modes(phy_interface_t interface)
+  *
+  * Description: maps RGMII supported link speeds into the clock rates.
+  * This can also be used for MII, GMII, and RMII interface modes as the
+- * clock rates are indentical, but the caller must be aware that errors
++ * clock rates are identical, but the caller must be aware that errors
+  * for unsupported clock rates will not be signalled.
+  *
+  * Returns: clock rate or negative errno
+@@ -514,7 +514,7 @@ enum phy_state {
+  * struct phy_c45_device_ids - 802.3-c45 Device Identifiers
+  * @devices_in_package: IEEE 802.3 devices in package register value.
+  * @mmds_present: bit vector of MMDs present.
+- * @device_ids: The device identifer for each present device.
++ * @device_ids: The device identifier for each present device.
+  */
+ struct phy_c45_device_ids {
+ 	u32 devices_in_package;
+diff --git a/net/tipc/crypto.c b/net/tipc/crypto.c
+index ea5bb131ebd0..751904f10aab 100644
+--- a/net/tipc/crypto.c
++++ b/net/tipc/crypto.c
+@@ -1797,7 +1797,7 @@ int tipc_crypto_xmit(struct net *net, struct sk_buff **skb,
+  * @b: bearer where the message has been received
+  *
+  * If the decryption is successful, the decrypted skb is returned directly or
+- * as the callback, the encryption header and auth tag will be trimed out
++ * as the callback, the encryption header and auth tag will be trimmed out
+  * before forwarding to tipc_rcv() via the tipc_crypto_rcv_complete().
+  * Otherwise, the skb will be freed!
+  * Note: RX key(s) can be re-aligned, or in case of no key suitable, TX
+diff --git a/net/tipc/topsrv.c b/net/tipc/topsrv.c
+index ffe577bf6b51..aad7f96b6009 100644
+--- a/net/tipc/topsrv.c
++++ b/net/tipc/topsrv.c
+@@ -57,7 +57,7 @@
+  * @conn_idr: identifier set of connection
+  * @idr_lock: protect the connection identifier set
+  * @idr_in_use: amount of allocated identifier entry
+- * @net: network namspace instance
++ * @net: network namespace instance
+  * @awork: accept work item
+  * @rcv_wq: receive workqueue
+  * @send_wq: send workqueue
+@@ -83,7 +83,7 @@ struct tipc_topsrv {
+  * @sock: socket handler associated with connection
+  * @flags: indicates connection state
+  * @server: pointer to connected server
+- * @sub_list: lsit to all pertaing subscriptions
++ * @sub_list: list to all pertaining subscriptions
+  * @sub_lock: lock protecting the subscription list
+  * @rwork: receive work item
+  * @outqueue: pointer to first outbound message in queue
+-- 
+2.34.1
 
