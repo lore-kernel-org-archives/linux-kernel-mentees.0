@@ -1,138 +1,128 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EC22EC54D
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  1 Oct 2025 13:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2254B2FC871
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 13:58:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759324467; cv=none; b=TLoV+ttY9rEABL8AsUQQkpVnU4bd6992Qp4dKkSJkZnleo4yKC4pjY22TckhzNN5axahPKaANR5BVaI1887p2XHv4SsB+0wkudwoio8VRIOMzL1CbuAKC1iUCE/QZiKkB4PPdH3PZo6M/8yuV2yQMfZThnIUg654CUgmXNmvwFM=
+	t=1759327102; cv=none; b=PziCfSJxufvS47ddAwEVf7xikGFigeMkkRIWWO42TVXTNfz8HlKZlPFcrP+I9RrDJQIZPBF1PjIZ3jhqmG730mA5iYpUKtCM1cHo0d021ULTtCKEjFwEnFsnICEUGIfEKBMJdNadwG//19cSn7QR6ocQC2PsVjDgc2CcVG8Epvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759324467; c=relaxed/simple;
-	bh=5o423ZijRvd8zuSTV5jup258SDTngq09c6GvYer2C1c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oBFpCwmgiYVn9cZvIGfFxLM2A+29/pkpWMpXUnBMKIgBSqyMS7FSpTkmuU2dbvCqzxowasJOsY3t7w8xxoL7M8x5LXtegP/iZ7B7MiMel2UDNjnKqJF5qRYCDxd9Cb9F2DVf3vAtlnXPHNChBByo2N4i4Rh6G3RdLn6Idx74W88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IADu9DkM; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759327102; c=relaxed/simple;
+	bh=AErz9DRE4zvoV1QAhCMy5Ce5EIwMk6a2u/GPbn+LmQ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VrXM99WYgK/78zOWbQV1FGINg1lGFR9AjBFffFq+NE3KVsmwdraR1aDTJHOiRGbpz469IhLGPORahbwsW5nT9A7mksG1k+Vq6xULgMDYhgPpskKfDTwUAMOmsnmVplFQ7IJAGocJQIP+I+MpzaErWuL7hLtFSTsxM39xeX5cDq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RiYJlJaF; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IADu9DkM"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-76e4fc419a9so7380996b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 01 Oct 2025 06:14:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RiYJlJaF"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id ACD0E4125B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 13:58:20 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 30QpJfse_qPy for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  1 Oct 2025 13:58:20 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42c; helo=mail-pf1-x42c.google.com; envelope-from=bhanuseshukumar@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 20BB14124F
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 20BB14124F
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=RiYJlJaF
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 20BB14124F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 13:58:19 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-77f605f22easo6665023b3a.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 01 Oct 2025 06:58:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759324465; x=1759929265; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QCTEJhugcYnaoj/BbhJFZS8Yru0sn+mS/h4vRBTxOWU=;
-        b=IADu9DkMLMSZxyPs19ioNkK+TJaYwLCbLYDFeNozsWuhYP3LrqwiZwrgaAuzeyxwsx
-         BJG6oc4UylTvMl9Ke0fXYw/asmKa2c/9oavh7q/ukkiRKjVsZIyMke67VPj9LAs9rtR7
-         ooyctkRqkIoOU9FzSrudJgCTO7byOfc0Vl0kG8W6bdehH43RK9amTpk6oeXQipm7z/sK
-         3Qmc8nbaUv2DMDQV2vByYZqmMmUptNP3/k4KLJk1hSNDDd43LlHVS9TRynYll4oBPNQA
-         KP689n+idDL8gROUvz11tDRfqqindQ3KsxloBX7YoSRbEE36WWc/QuNwV+5hQjUFlDGR
-         8Hzg==
+        d=gmail.com; s=20230601; t=1759327099; x=1759931899; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cHICQ9kYf8w+w6O3p0zJJOxecrN+M89vOZ1OdrVwWEc=;
+        b=RiYJlJaFOvXyG3J2HWIv5KrCnPqJL+I/tjZGAMNOvEqUuXctXmDkRm2neDuRkCNE0Q
+         rgdGd6rY7hgiDJAvyjggtAW3A6mnstnhsO7upCrhJrJoROxGa0Wz5S80oRaTE4+JfXYj
+         +zkQKeyLzsRyFUqpj/YmGEBdDw32UR/rsdmZ5MRogNGj65mMjntZXHLMallF/T1YjxC6
+         EGVteryUAtAjhMWyHmuJdHyRzJaGkgIvLAAHRotmTlJlbkHdCXY3d1X4LS0iuMTJbB6n
+         kRsB+KwvKJVPuJAFYv1CV0OrK/wMnuZa5d97u5Yems0Uuy/AQfVvpzSsiTUDGkF3Jod9
+         eI9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759324465; x=1759929265;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QCTEJhugcYnaoj/BbhJFZS8Yru0sn+mS/h4vRBTxOWU=;
-        b=HjdhBiqZkADmhwBw+geamShtMd/wNFOV6bxzGg/Ou3j9aF6TKysdsn0GaJbSB4jnXj
-         AAHnNt4m40E5W3djHJ1V2kOmkLHmFf/F8PRFOdE58AkssEcGmhSNRQ55I+PJJbKdhTGn
-         yv0OrMxZoozIZZF/Hq79UHpD+2reDynrnnsaUfpkxD5yqL1ow5Ec62+/SJ8BuyvOTfla
-         MmnTHyjLUH3Tw/ru3ljtfokoIQiJIF76sL5VBXlLh81w3CAnreGC7943MUNhaC79Zv1/
-         gn/lFHTZ410jh5vrduRLbAyo1GMOs9YnQThI2+pl14sEdLFFJU+VPYDOpJe3Ws0JVEO1
-         Xi5g==
-X-Forwarded-Encrypted: i=1; AJvYcCW3fLPUYiGRqsRnx+Uq6Tr1JLSFvs97vdNWIOfms/4s19qxrvaE+paf/utazvhJhin3An2hCswyjVmX8B6Hrtq3Meceig==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJhvIRYrzoSpz/HtzbJ3yLXUPoiJyEFs7kukCbWjOwEDuAZt4C
-	q2bvNTt1ps20i7gevgWY3wdDirUYVeITRORMYyPHv8wNmoPidsSa4r/e
-X-Gm-Gg: ASbGncvN9hxM+UM5u0BMppgMwanp4BtJj3FAfCyob5g6rHggz2j3AzQcdPcTNmtX+t8
-	H2fA/jUqPLeA5neZ0F7eDBm3wZvtYEeuIToNMNe7abbs3KNyoip/NleUHS+oRPLfjoJ1orEnGr/
-	CLsIsE78g0FIHV19dZm7Ns+EhbDwTWwZ+kgcL/szEBXQvg44BvMk0FhWhn9zVAdCeV3y6YhD+As
-	LZyYgtHrdl8rIm0b8VWMkbOhdev35vCaiGUBCn75goQldLvN/mxMMOCAvzNkT4xInhL+0sd9xgE
-	c66/CNXzFX4Khew03apD9wCRMElR4Arv+pZqtwewr8Wbb5SZ9tCfRqAKaHrJ9JqEplNjMEZTPXM
-	L5ch3nhAZn+RFDKFwy9/4fhweBduJzdhdAgOCIvsUS5gJLuTDQd/C8ga6PGOrUGlyziRpjprCgm
-	JjrXxscJjn8AbPcLCzlWVQ5MBxnB5jBo/a6CvwFOyobhor15I=
-X-Google-Smtp-Source: AGHT+IEmzoGxhoPxh6/P3t6DmI1zkLDTL0S0tBdY+wi8AVFx9T7GOFm/8D8Q0FXSalhenNgGW0DD0A==
-X-Received: by 2002:a05:6a00:98f:b0:781:1a9f:2abb with SMTP id d2e1a72fcca58-78af422e5admr4501627b3a.24.1759324464584;
-        Wed, 01 Oct 2025 06:14:24 -0700 (PDT)
-Received: from debian.domain.name ([223.185.128.16])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78102b231ebsm16308139b3a.52.2025.10.01.06.14.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Oct 2025 06:14:23 -0700 (PDT)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: Thangaraj.S@microchip.com,
-	Rengarajan.S@microchip.com,
-	UNGLinuxDriver@microchip.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	david.hunter.linux@gmail.com,
-	I Viswanath <viswanathiyyappan@gmail.com>
-Subject: [PATCH net] net: usb: lan78xx: fix use of improperly initialized dev->chipid in lan78xx_reset
-Date: Wed,  1 Oct 2025 18:44:09 +0530
-Message-ID: <20251001131409.155650-1-viswanathiyyappan@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        d=1e100.net; s=20230601; t=1759327099; x=1759931899;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cHICQ9kYf8w+w6O3p0zJJOxecrN+M89vOZ1OdrVwWEc=;
+        b=f7C4bVlDyMVYdWqztp4zs4R9TWuHKXcscC9fLYjGTjfBj3Y6QU6wifAJ1LhwqUy3dB
+         xIntHcHzLea48UjD/D5ESXKsz+2KfFjcU/hD11OsFYq0mgQinLAcDXUF5bLhK0c+XZUN
+         dXhk5TwazNhbuvzgQLuh9EKeAXOk+jHyMcOjubHaE8Fbu0NE/CJ/mrWFhDITmlJ9DXL8
+         82QPEV7SlDT7OMNmCOhJu24ZV5tYYNVG0V2l7iaqgaMIFZt3hqfzBQCbq8iwslETZokF
+         KeWOgCbELg9aQCmv8b0bJz8vczwLW4Bsh6rPc4Xyq3cW1QvCOlglWR1PpCJr1Kp7yHRO
+         LFNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXxNuVK8azYZBatXVE5HedytUFBVAn9ig9MA50imj3juT2b0eqWZIHjIdDEuBOCB1G21hvmUomQIj6I38nPyc0WAgfHKg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwgUCrbA8nu9DpmgM8TSrOLBFT8vHWO0z3FP90cAZlp38sflA3u
+	vNf0J16g8WUHlD3NnsTGbUw/tb+ZSScySyZjT/O3iDJkaAVyDy1rrjMJ
+X-Gm-Gg: ASbGncuaYARovYoOsrKN/TD250mOQhpOII2MRadZSj35xbjnY19eYipGK9EjXkXBy4E
+	dVYqef4+MKDhsY56VmofHx7yotoPjf0M57yUld+1hO0Qa7UKciDywumnCF99f6RSFP5faJywTSh
+	zhInROfGvXXzukAmNaaB/lwFmTcqu/rmhikIscBdt0Zo+zkLguZMYnfstrxqeQXIKnTBTNzoo2v
+	ONTihPdT02XFNYqvBmybf+NhhISlhf9/jHEJMKdV7ngiJ1p2TrP1396/IZ9yFJfPbTlz4a5Y80+
+	LxKYDwFe0Nhl/7ZdHEkc1+RFn5p7GlnyknS1UsWTclo86OVDNjXbgodq4sLbRyDoC5SzZwJaRo5
+	dn0opiDnyshgUCCqirTS4D8Y6Zg0opSiRxo6TE3o4rGEWYsinJnlb040FSxoTBcRr/I+Deg==
+X-Google-Smtp-Source: AGHT+IEVrUrSHnJxKWleti3ip/7ssnZbESbu792noCsfEcKl9fEdE1xbBALgSKgo50vIeSR68LO4xQ==
+X-Received: by 2002:a17:90b:2249:b0:330:852e:2bcc with SMTP id 98e67ed59e1d1-339a6f38013mr4558738a91.21.1759327099110;
+        Wed, 01 Oct 2025 06:58:19 -0700 (PDT)
+Received: from [10.0.2.15] ([157.50.95.38])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3399be87425sm2129797a91.1.2025.10.01.06.58.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Oct 2025 06:58:18 -0700 (PDT)
+Message-ID: <425ef7bd-011c-4b05-99fe-2b0e3313c3ce@gmail.com>
+Date: Wed, 1 Oct 2025 19:19:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs: doc: Fix typos
+To: Carlos Maiolino <cem@kernel.org>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
+ Paulo Alcantara <pc@manguebit.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, linux-bcachefs@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, netfs@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
+ david.hunter.linux@gmail.com
+References: <DrG_H24-pk-ha8vkOEHoZYVXyMFA60c_g4l7cZX4Z7lnKQIM4FjdI_qS-UIpFxa-t7T_JDAOSqKjew7M0wmYYw==@protonmail.internalid>
+ <20251001083931.44528-1-bhanuseshukumar@gmail.com>
+ <kp4tzf7hvtorldoktxelrvway6w4v4idmu5q3egeaacs7eg2tz@dovkk323ir3b>
+Content-Language: en-US
+From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+In-Reply-To: <kp4tzf7hvtorldoktxelrvway6w4v4idmu5q3egeaacs7eg2tz@dovkk323ir3b>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-dev->chipid is used in lan78xx_init_mac_address before it's initialized:
+On 01/10/25 17:32, Carlos Maiolino wrote:
+> On Wed, Oct 01, 2025 at 02:09:31PM +0530, Bhanu Seshu Kumar Valluri wrote:
+>> Fix typos in doc comments
+>>
+>> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+> 
+> Perhaps would be better to split this into subsystem-specific patches?
+> 
+> This probably needs to be re-sent anyway as bcachefs was removed from
+> mainline.
+> 
+I just did a google search and understood about frozen state of bcachefs
+in linux kernel since 6.17 release onward. It is going to be maintained 
+externally. 
 
-lan78xx_reset() {
-    lan78xx_init_mac_address()
-        lan78xx_read_eeprom()
-            lan78xx_read_raw_eeprom() <- dev->chipid is used here
+Thanks for your comment. I will resend the patch excluding bcachefs.
 
-    dev->chipid = ... <- dev->chipid is initialized correctly here
-}
+Thanks.
 
-Reorder initialization so that dev->chipid is set before calling
-lan78xx_init_mac_address().
-
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
----
- 
-KMSAN didn't detect this issue because dev->chipid is zero
-initialized from alloc_etherdev
-
- drivers/net/usb/lan78xx.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index 1ff25f57329a..f3831ecaaec1 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -3238,10 +3238,6 @@ static int lan78xx_reset(struct lan78xx_net *dev)
- 		}
- 	} while (buf & HW_CFG_LRST_);
- 
--	ret = lan78xx_init_mac_address(dev);
--	if (ret < 0)
--		return ret;
--
- 	/* save DEVID for later usage */
- 	ret = lan78xx_read_reg(dev, ID_REV, &buf);
- 	if (ret < 0)
-@@ -3250,6 +3246,10 @@ static int lan78xx_reset(struct lan78xx_net *dev)
- 	dev->chipid = (buf & ID_REV_CHIP_ID_MASK_) >> 16;
- 	dev->chiprev = buf & ID_REV_CHIP_REV_MASK_;
- 
-+	ret = lan78xx_init_mac_address(dev);
-+	if (ret < 0)
-+		return ret;
-+
- 	/* Respond to the IN token with a NAK */
- 	ret = lan78xx_read_reg(dev, USB_CFG0, &buf);
- 	if (ret < 0)
--- 
-2.47.3
 
