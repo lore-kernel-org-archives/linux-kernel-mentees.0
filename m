@@ -1,124 +1,100 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD132D9499
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 09:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4092DAFC3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 09:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759309953; cv=none; b=I1an0PqAvNoFfqBxCckmeFmL1A+Zz8355EOcVMobOt5ZARm92NXoWd3raTZu1CCCUbpzEniN8VxLKOmRlgS4EnZTKnJB2VXWpHBM5jGadjk2Us1FlsB3WP4pNKBGOPwtCLBsQeT7qWHrI0GqLxznrIHntTldNLPM0Zpa1lkj5Vg=
+	t=1759311431; cv=none; b=OB4ROKhU6tOOZGVrJkH4sDeHWwvmpuHoBDges0gS7q4XG7yhrjSS+CFmuoNcMj3Bhh0OgkfQKlgDdNDIfIbuKa3Xfm8XwH1tlKR7uUmqf7jSqnGNXuKR5c6LRKJ2Dwc59rOgSe48QNsQMbg4RnLTrG739XzMTjSZT/oC0WQ/w+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759309953; c=relaxed/simple;
-	bh=pcPGB/dkNVmNUPRNo+DXzWGtd/nCSRGlepjtH4sr4w0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CXid87AbgoP0KzcQ7ZEiEoYDnrfFXa6IspPspwgCn9vVpM6ny1Txo8ER+HnXrnovKYmzWoLn0IU4GFBNv+qGcwcbGtayJ7WNRELQ264aj8R9YLvNftwvVLExQJWGwmJBgN9hfVajTW3m6uwNvxF8uZ6teI6KtW5FpuxEJzelTM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fFqRpCQ+; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1759311431; c=relaxed/simple;
+	bh=smJzPZ2H+puqNQpL9LTWdRgBhAS8OfsmNfjleezYjpM=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=Tqglc133iN+F3Iphq2z6XA/YujJdEDsk40WaBzgbkSSfF1qyqwdhHVa/ZcwiT0I102sx9Rs/PiMwaFVXqcRhqJ+PZVUP9Lk0xfLgoYQ7flL3FGEB5hraZa0GV0kBB+i8/TtCNEsS3VxCOoGoJWp6EPZzAdFnAY+vjRn+om5TmkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IBEheL6G; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fFqRpCQ+"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IBEheL6G"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E258F83E17
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 09:12:31 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id B42CA40AC7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 09:37:09 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -5.792
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ym31-JjuX4pQ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Oct 2025 09:12:31 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=bhanuseshukumar@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 47DFA83E15
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 47DFA83E15
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=fFqRpCQ+
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 47DFA83E15
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 09:12:30 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-279e2554b6fso54845145ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 01 Oct 2025 02:12:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759309950; x=1759914750; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+HpzxFyHZ2ZMy/pC4mNA7Ri5h9xiXLEXZ6WUw3XUfTw=;
-        b=fFqRpCQ+NxgQMvBM9RYNwDcwqiSLCUMsWF6Qov2rETX2AtxDok812oS+FMICmIxdEb
-         FkwAYY40PFC/ZpLcpuqqCZ+hRhh1i3TeTtMuT+5rlZEY5jW5617YIyCn8B21ZCK9Tmrh
-         MIFp40bffft1MBxEG1cQVe87bFzqlTyzjKT+jFQGdCwGyakA9uy2WqHOs062qArMQutu
-         yk31Do5YDXQkX84nakq1APs0e7gjHh1/XzMXHJqKW+aLwus1+zbNzGgTl4X5P6dpT6EH
-         geH3bDYZMociTbfod43pxK/z/iVM+lSQYqPu/XSmqNKtjDRzZwBxWgnSbc7nNQkVYluZ
-         ZQsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759309950; x=1759914750;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+HpzxFyHZ2ZMy/pC4mNA7Ri5h9xiXLEXZ6WUw3XUfTw=;
-        b=eFYmeSY+BtvWxD062HOI7G+TEixyq9RgGubStrhppq4Ce7NNN59EcOxV29N9GkJviy
-         W59vWJz5yTuIedP4z/G7w3GLCf45Evn+GEzrMshh/RuV9oAhbesK1h/feX+unTS06xKG
-         uXm2yXei51gD6TqlSxI16Dti4Q+K8CKx5OScOi0GlBqqy4xSRGFg4wP/7nG+1jE5nsGg
-         jn4A3FPFJk1HMZ9xktbkK8Il1TXU7vHAlWKcBru00hjX0fKB6AJnlKGzRe+bm31GDpKD
-         O742IefUU5SvgovmHbkDmFmDAPUqBZdXgjGsoSz5bPVh2ztXXSgWqWVwFYSyAxGuVb6I
-         //zQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVKCtQnLjRBd/qR8gRWFJFr5hDIrKnosgCqjlvcNfzUJJjM10w7KUC0/Q2msPOCKgvKTqVXhfD0p0TGz+56lq3JGddyIA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyFFl3A2Wr1ODu6IA5tnl7++lRT977s76vg9kibcUslfz0B1Pds
-	vO7eyhIq3CoVN7ORqbrs7DctBSoq6EfgdLUryO/x00S/lSc82NFjGiTv
-X-Gm-Gg: ASbGncuNCTSRnZmfebuJxWt/0MQs+3VJvAnruFK5unJnioXBSm5qej70Kd4MXx3GLlU
-	Vg9eNFV4hFWEhS8h7kFtTv2qNMeI+QEiv4ShEVh8sgtpBmP0wX5VWKRSsqnbFRtwvqWDsRkGLY4
-	+8iT1E9ddKsf06YYPm+fL59zaQGD8wL1QZURhmtBAWzYvg3EanRZihZTjRrQkhgENSTK3NnjUyk
-	3dBPyqYhSGuZbykg7/ldeNeck0dMTOEDvpfNTobTWunDg7R34BQY7SExOGxUSCxmA/ZeMh3oqB6
-	OvDBQSyQhU48b7+SFM1KQK6JU/KeDjRLxpVa3ol5F0EN7ISo/zzt7/qeCJvxnm62CEGQp8XeHil
-	x1B3uuUJsZJY6Di2DSuojdT+F7F3xbgeYfCxGMVFkaor0ieq7rxbIAcE0LGuWDvFzCvhwZy8xAQ
-	==
-X-Google-Smtp-Source: AGHT+IFhUZ/mGMyT3exSWSnoljUD1zZiQFnygIrQDjToqp+r+F99aKI9B8d5mZOODf5Cfr3g259Sdw==
-X-Received: by 2002:a17:902:ce0f:b0:27e:f16f:618b with SMTP id d9443c01a7336-28e7f2a6437mr33385785ad.24.1759309950202;
-        Wed, 01 Oct 2025 02:12:30 -0700 (PDT)
-Received: from ti-am64x-sdk.. ([157.50.93.46])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-281fd60835bsm120299255ad.19.2025.10.01.02.12.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Oct 2025 02:12:29 -0700 (PDT)
-From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-To: Tejun Heo <tj@kernel.org>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Jens Axboe <axboe@kernel.dk>
-Cc: bhanuseshukumar@gmail.com,
-	cgroups@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com
-Subject: [PATCH] block: Fix typo in doc comments
-Date: Wed,  1 Oct 2025 14:42:20 +0530
-Message-Id: <20251001091220.46343-1-bhanuseshukumar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id S4lsuDl-r4if for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  1 Oct 2025 09:37:08 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=dhowells@redhat.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 8E54740FCC
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8E54740FCC
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=IBEheL6G
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8E54740FCC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 Oct 2025 09:37:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1759311427;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=00w3hkHfsTAxYQCvIOKAjdtuK2kAChIoMSa2X5uPZB0=;
+	b=IBEheL6GT5Cy3Hax99z3hPEKEHY+YHpjZ7mrymj8nSEE7qoXOLb2Js8P1JN533oo55jKM9
+	6wADp86740NQ4DCnMdAxilwDNwAJFSa96eiM0EA2uuly/RYKg6RGbvncPq8B8/pJ97xIp1
+	iG+7OKPCf6SqvoCsaS6dMBEVEa0zynk=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-614-ngBKf_HyMku4dc3tcFSEpA-1; Wed,
+ 01 Oct 2025 05:37:01 -0400
+X-MC-Unique: ngBKf_HyMku4dc3tcFSEpA-1
+X-Mimecast-MFC-AGG-ID: ngBKf_HyMku4dc3tcFSEpA_1759311419
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D0BBC1800451;
+	Wed,  1 Oct 2025 09:36:58 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.24])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 003CB30002C5;
+	Wed,  1 Oct 2025 09:36:53 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20251001083931.44528-1-bhanuseshukumar@gmail.com>
+References: <20251001083931.44528-1-bhanuseshukumar@gmail.com>
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+Cc: dhowells@redhat.com, Kent Overstreet <kent.overstreet@linux.dev>,
+    Jonathan Corbet <corbet@lwn.net>, Carlos Maiolino <cem@kernel.org>,
+    Paulo Alcantara <pc@manguebit.org>,
+    Alexander Viro <viro@zeniv.linux.org.uk>,
+    Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+    linux-bcachefs@vger.kernel.org, linux-doc@vger.kernel.org,
+    linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+    netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+    linux-kernel-mentees@lists.linuxfoundation.org,
+    skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+Subject: Re: [PATCH] fs: doc: Fix typos
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2077277.1759311412.1@warthog.procyon.org.uk>
+Date: Wed, 01 Oct 2025 10:36:52 +0100
+Message-ID: <2077278.1759311412@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-heirarchy => hierarchy
+Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com> wrote:
 
-Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
----
- Note: No functionality change is intended.
- block/blk-iolatency.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Fix typos in doc comments
+> 
+> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
 
-diff --git a/block/blk-iolatency.c b/block/blk-iolatency.c
-index 2f8fdecdd7a9..f2e65fad71da 100644
---- a/block/blk-iolatency.c
-+++ b/block/blk-iolatency.c
-@@ -34,7 +34,7 @@
-  * throttle "unloved", but nobody else.
-  *
-  * In this example "fast", "slow", and "normal" will be the only groups actually
-- * accounting their io latencies.  We have to walk up the heirarchy to the root
-+ * accounting their io latencies.  We have to walk up the hierarchy to the root
-  * on every submit and complete so we can do the appropriate stat recording and
-  * adjust the queue depth of ourselves if needed.
-  *
--- 
-2.34.1
+Reviewed-by: David Howells <dhowells@redhat.com>
 
