@@ -1,138 +1,239 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BBD1862A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 06:30:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E0D296BDB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 06:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759386647; cv=none; b=KaAfqPuSWxObwpr+RcuwWQ/sKkDp7G3igqKRo2O0xAhIRXwDrwceKM7CSfcpWrGL1TWFDe38qKw1VOcLT/3Fe4oh3vR1KKdgmZP1sO5CX8J/9TKzDJzXwwly42x4/9jetlBdx70V1Se/1uvuqqAEQpRnwAetrCIrcTDe89ZdQ+g=
+	t=1759387498; cv=none; b=fgqsEFQVEdyr3VjWK01TzCXtHPF0Gp4q32sAORKwz9hFyiqSLQ3VXLG7Nl36CV0AsOhbab7X/KSJ2XPc6SJiYX0X+LjEkiod2A5pVK9AGPxf8bih87Hon+Nr4honlLDsyIWri+GJzVxuNZN3105NNTjG3x9HE2Zj/L+VSL0XrBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759386647; c=relaxed/simple;
-	bh=YIxKVzr9qaXBN0ZylLrG8vLvgAuwWPudPeCshwDYBxU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=abCezcvtFcDKsITJNPdp/1+u2juH1sAo13qlOhxPpe5mZO+iJcJMDbE5w4RYhuiPywHl9OEkUR6fldI3UZAtVn3fl2MjR/zD+QzNpgCDGxlRtranLU7XrfJGhP0Uq+iWJ2Ho3Tj9/MPvHWoQCAbiZ0hkSA5hhWLX7SqZfCq1fBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EdFiuGVL; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1759387498; c=relaxed/simple;
+	bh=qFrHh5qzXUi1+ZFb/5ttU5HqRRTHMjDjEnkJvvh/alc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=myudkr7W8E5VqviGKZuBO80yscOMcZXneqJSJIQNHEIe5Q+KrRQhYrhrJDTVVD8DOfwOfWOWpjgFV3s6Onhlp7pq8fQYOdaCma7m8d/Sg3uzXAduIJ0gB1/PCGqtjP5DMyr3xb+A9IBwGhPZqcKCuZ30uSpvjxrAG+bO+elfUZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Bcnr8FDf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uxYeJpOI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Bcnr8FDf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uxYeJpOI; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EdFiuGVL"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Bcnr8FDf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uxYeJpOI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Bcnr8FDf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uxYeJpOI"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0ACB840297
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 06:30:46 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 1AB1D41755
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 06:44:57 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: 1.236
-X-Spam-Level: *
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id O_TNW9NhgHQy for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Oct 2025 06:30:45 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::634; helo=mail-ej1-x634.google.com; envelope-from=kubik.bartlomiej@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 385604009A
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 385604009A
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=EdFiuGVL
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 385604009A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 06:30:45 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-afcb7322da8so139677566b.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 01 Oct 2025 23:30:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759386643; x=1759991443; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KAxo+DN0iB6IwYVHObHr0a0ySgSeQeXI1l5BX4eIFNE=;
-        b=EdFiuGVLSe4VC6jPABkjdxNhSX8P8/d4RdLdY7KpDm7/9IFnoXlWg0a76uTV3KaEij
-         MrQgEtvpRycxh7jGsGsyGmlBXW4rqwkBAsJcQ0Z8t6EQz9gNWALLV+zo15yyKo0at+kM
-         ANAssq1a9MKOrHQJApi7vug3Dy2W2dQGTeiviIpuHHjSoXB0MAnMk5yLZ0oV1qpaaaVv
-         jxeBQyqLHDph650wTWP3puKiV50mctiTCc69ST10DuDFItZ6azhpqjePmiKlGo8Mlr8f
-         3783Py1eLBWk6hrgIGuJFQdMTzn5p1sc2dPkXu227MUkqqYs883g47xKScWTwI6U+rtD
-         V4Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759386643; x=1759991443;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KAxo+DN0iB6IwYVHObHr0a0ySgSeQeXI1l5BX4eIFNE=;
-        b=LljViVQzBp9OAsypMZKXwYTfnHnFvN7jl88RcVTeRJRnWv14lLpEkcDVHDhfvLeNgB
-         k7aRAaMq47X7akPvVTX/n2zdfDKeE71wrYIxkEHeKVjTzxn3/4Dirf6qhoHusYpRSUSF
-         4wE/mi86y8I52mz7FsoZB7X7IKPX5vts37WHoduCfURYjHrD6o45Sh1n7GYe5HVyzgma
-         DY11BeUgUWXH87ThrVFYQ3mb6me+EkANd/zXIsDyS2Rwhto/UILxboCbRQNqKIapHIzV
-         iYi967VDJ7eTKqByW8llb0muFXRpf3rY7BLHJiFcLQZcDL2KK1x4XhmASU0hBAvSNb5M
-         Dvmw==
-X-Forwarded-Encrypted: i=1; AJvYcCWAt1nmUW5ysffoYRSr4j8A8C1rtkrkH0oNIPdPedmEWXx4wm5x9UWvGFreynsioOp6cI/fJQksmKqO2n/6zmgoqAbOEw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yzm0/MZuRsmqOxcXlEtKFWkrkNAga9qGS6NbmbC45tT66NFWFwm
-	hNf5G2qbqTBJ1pWoQ3UrxuTxUBy6F0Zlz/zvwR1bHXNlykcmEsRvC1Qx
-X-Gm-Gg: ASbGncvS0n2igC7tmyV7XZBGeJBPtcghqlCPzitNey0AApTBndxfdEcFST8F/7jGdZz
-	zAA1vcLwltscAjoEaUpUmji43ODQgoA+g/jNIzkTiQXd4fKxliVf+NKzjoN4yIpuOvhR+tfyqCe
-	+aanvrjeYvktH76OwGxPAikxGn3OSFUpt5Imo/IxPM+SlGtjImHEpVa0KEpqSLlrPi69zOZ36Ay
-	44bw7UnXN3NgPVcgKF7F6K2FjqvG1xOdZbcizaoZvlzywt9PqaoXBrVuinFu4x8702gQUBK5t6o
-	o5/I8JCyVOpnai6k3qZXmeBx8AmjLqfPhl0tkMF3n+wpow94lgltPi2L/JDK/cTJ55rHtNfSiXC
-	7ERBel6+UGWenHX2yn3tFzEQJetetSHXIdQMb+eIK0R4BUbaoSWvmKoUynkRGvgAQ8Fe91vhivk
-	ZNjG7QjLEJxAqPBjk3Zjx7GfJvZFnl/w==
-X-Google-Smtp-Source: AGHT+IEJ4e5RsTkszdNBup8ct9QWtwmGLRs7pM/Ik8mg+tFniTBcoaDxurre2cHsPZE3caW8pu/D7w==
-X-Received: by 2002:a17:907:944e:b0:b3e:5f40:9894 with SMTP id a640c23a62f3a-b46ea31d2abmr807245466b.62.1759386642808;
-        Wed, 01 Oct 2025 23:30:42 -0700 (PDT)
-Received: from localhost.localdomain (user-46-112-72-121.play-internet.pl. [46.112.72.121])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b4865e78242sm134271266b.35.2025.10.01.23.30.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Oct 2025 23:30:42 -0700 (PDT)
-From: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-To: sathya.prakash@broadcom.com,
-	kashyap.desai@broadcom.com,
-	sumit.saxena@broadcom.com,
-	sreekanth.reddy@broadcom.com,
-	James.Bottomley@HansenPartnership.com,
-	martin.petersen@oracle.com
-Cc: mpi3mr-linuxdrv.pdl@broadcom.com,
-	linux-scsi@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-Subject: [PATCH RESEND] driver/scsi/mpi3mr.h: Fix build warning for mpi3mr_start_watchdog
-Date: Thu,  2 Oct 2025 08:30:38 +0200
-Message-Id: <20251002063038.552399-1-kubik.bartlomiej@gmail.com>
-X-Mailer: git-send-email 2.39.5
+X-Spam-Score: -2.1
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id X5t1hTp8Z7kO for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  2 Oct 2025 06:44:56 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a07:de40:b251:101:10:150:64:1; helo=smtp-out1.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 1E4AA402EA
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=suse.de
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1E4AA402EA
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Bcnr8FDf;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=uxYeJpOI;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Bcnr8FDf;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=uxYeJpOI
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1E4AA402EA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 06:44:55 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 40FD8337BE;
+	Thu,  2 Oct 2025 06:44:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759387492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Wm/E9IL0TNEXc6lI1S+NvTdTSx2IEmWLi7wwCVOTvKI=;
+	b=Bcnr8FDfLoDAZhU5IznPL1TXXRFvZmH6R8/cASQ6BVgZ14tpUORmvmdWccSO6+7z3E749+
+	n3GbHuB5KKqK5zwx8KdBubsJYHfh6Wm2aMFiPD80ZZ1v4TtGpdCUNST88SWmH6M/ppsZg4
+	rU5yMy7JY7yG7N1cexGfM8pZ8f0JEus=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759387492;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Wm/E9IL0TNEXc6lI1S+NvTdTSx2IEmWLi7wwCVOTvKI=;
+	b=uxYeJpOICNf6+++0ZFqxetKc5eitjItjGgXh/SjvztmCf1RrNpLw1d+quPuQ9o8EFHdh67
+	SBOlVFVAB9eX1LDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759387492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Wm/E9IL0TNEXc6lI1S+NvTdTSx2IEmWLi7wwCVOTvKI=;
+	b=Bcnr8FDfLoDAZhU5IznPL1TXXRFvZmH6R8/cASQ6BVgZ14tpUORmvmdWccSO6+7z3E749+
+	n3GbHuB5KKqK5zwx8KdBubsJYHfh6Wm2aMFiPD80ZZ1v4TtGpdCUNST88SWmH6M/ppsZg4
+	rU5yMy7JY7yG7N1cexGfM8pZ8f0JEus=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759387492;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Wm/E9IL0TNEXc6lI1S+NvTdTSx2IEmWLi7wwCVOTvKI=;
+	b=uxYeJpOICNf6+++0ZFqxetKc5eitjItjGgXh/SjvztmCf1RrNpLw1d+quPuQ9o8EFHdh67
+	SBOlVFVAB9eX1LDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD35313990;
+	Thu,  2 Oct 2025 06:44:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id t+pRK2Mf3miZMwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 02 Oct 2025 06:44:51 +0000
+Message-ID: <bfc90c7a-4ade-4bf0-88e3-86697e664e35@suse.de>
+Date: Thu, 2 Oct 2025 08:44:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ssd130x: Use kmalloc_array to prevent overflow of
+ dynamic size calculation
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>,
+ avier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
+ david.hunter.linux@gmail.com, khalid@kernel.org
+References: <20251002013312.67015-1-bhanuseshukumar@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251002013312.67015-1-bhanuseshukumar@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	TAGGED_RCPT(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.linuxfoundation.org,linuxfoundation.org,gmail.com,kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com,redhat.com,linux.intel.com,kernel.org,ffwll.ch];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 
-Fix watchdog name truncation.
+Hi
 
-In function mpi3mr_start_watchdog, watchdog_work_q_name is build
-snprintf(mrioc->watchdog_work_q_name,
-	sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
-	mrioc->id);
+Am 02.10.25 um 03:33 schrieb Bhanu Seshu Kumar Valluri:
+> Use kmalloc_array to avoid potential overflow during dynamic size calculation
+> inside kmalloc.
+>
+> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+> ---
+>   Note:
+>   Patch compiled successfully.
+>   No functionality change is intended.
+>
+>   drivers/gpu/drm/solomon/ssd130x.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+> index eec43d1a5595..8368f0ffbe1e 100644
+> --- a/drivers/gpu/drm/solomon/ssd130x.c
+> +++ b/drivers/gpu/drm/solomon/ssd130x.c
+> @@ -1498,7 +1498,7 @@ static int ssd130x_crtc_atomic_check(struct drm_crtc *crtc,
+>   	if (ret)
+>   		return ret;
+>   
+> -	ssd130x_state->data_array = kmalloc(ssd130x->width * pages, GFP_KERNEL);
+> +	ssd130x_state->data_array = kmalloc_array(ssd130x->width, pages, GFP_KERNEL);
 
-Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
----
- drivers/scsi/mpi3mr/mpi3mr.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The first parameter is the number of elements. The second parameter is 
+the size of an individual element. So the arguments should be swapped. 
+Same for the other changes.
 
-diff --git a/drivers/scsi/mpi3mr/mpi3mr.h b/drivers/scsi/mpi3mr/mpi3mr.h
-index 8d4ef49e04d1..5307fcdf216f 100644
---- a/drivers/scsi/mpi3mr/mpi3mr.h
-+++ b/drivers/scsi/mpi3mr/mpi3mr.h
-@@ -66,6 +66,7 @@ extern atomic64_t event_counter;
+I know it's nitpicking, but who knows what it'll be good for. Fun fact 
+is that even kmalloc_array mixes up both parameters internally.
 
- #define MPI3MR_NAME_LENGTH	64
- #define IOCNAME			"%s: "
-+#define MPI3MR_WATCHDOG_NAME_LENGTH	(MPI3MR_NAME_LENGTH + 15)
+Best regards
+Thomas
 
- #define MPI3MR_DEFAULT_MAX_IO_SIZE	(1 * 1024 * 1024)
 
-@@ -1261,7 +1262,7 @@ struct mpi3mr_ioc {
- 	spinlock_t fwevt_lock;
- 	struct list_head fwevt_list;
+>   	if (!ssd130x_state->data_array)
+>   		return -ENOMEM;
+>   
+> @@ -1519,7 +1519,7 @@ static int ssd132x_crtc_atomic_check(struct drm_crtc *crtc,
+>   	if (ret)
+>   		return ret;
+>   
+> -	ssd130x_state->data_array = kmalloc(columns * ssd130x->height, GFP_KERNEL);
+> +	ssd130x_state->data_array = kmalloc_array(columns, ssd130x->height, GFP_KERNEL);
+>   	if (!ssd130x_state->data_array)
+>   		return -ENOMEM;
+>   
+> @@ -1546,7 +1546,7 @@ static int ssd133x_crtc_atomic_check(struct drm_crtc *crtc,
+>   
+>   	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
+>   
+> -	ssd130x_state->data_array = kmalloc(pitch * ssd130x->height, GFP_KERNEL);
+> +	ssd130x_state->data_array = kmalloc_array(pitch, ssd130x->height, GFP_KERNEL);
+>   	if (!ssd130x_state->data_array)
+>   		return -ENOMEM;
+>   
 
--	char watchdog_work_q_name[50];
-+	char watchdog_work_q_name[MPI3MR_WATCHDOG_NAME_LENGTH];
- 	struct workqueue_struct *watchdog_work_q;
- 	struct delayed_work watchdog_work;
- 	spinlock_t watchdog_lock;
+-- 
 --
-2.39.5
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
