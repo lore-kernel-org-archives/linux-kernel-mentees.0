@@ -1,189 +1,272 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B402571A1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 23:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F844287508
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 23:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759446665; cv=none; b=XLVF5LUr8faknK/aEngGd7s1PXxMbwwSXZ2UtymmHoYWr8w4vS7mPjcKBhjDEPbskH1v6H2Rt3GS6VinSDfEa+oJ58gaql+fSTUg0zwC7eHeLvKKqVPP/PfzOWL/SABBR5aPqv77zHUYZgtzxFUR71aCB4FaBgiV1hL/JYxPIcs=
+	t=1759447212; cv=none; b=EhNs3P8s+XhisWRky3D4vsIb1PC+I5HYrdPf2Yom8k7rnLMdOteB6XMAOV5cxOY9/TZ5cocD1ty2neXFqa4nFAD//id5//mOiQPZFmbCllngty0f0sXACJuG2SsM+FTpD4lRg6fb8sT3yH4dJRL51hSbfVeoJYF45qo2ITQ0eUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759446665; c=relaxed/simple;
-	bh=05QBzRd86DhaBHC/HzFaLKts1U4K0ZRH0JC89nOeuak=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k2EgfNtx2xu2nSEDG7jLz/KgY8llnGjtj/43okrzYL3X3iF4eTdBO7YcCCqymkpo1gq/DWZerz+eevKdN4Iop1hxMx6sr5zTbDucfEPP1JKfwmrl0q4DgFlQXnd1BnmlFdrK96B9t+P6C48EQWLz4NbFbewvUGnGmNIkgO3hKZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OMbbrFMn; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1759447212; c=relaxed/simple;
+	bh=zer4Xzjj7dBSQqyLbsDiI/IqBCXEGdFEHlexlQ6sVGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RtVgynTpA4ziiTmB62LXQwOKsNFTZ2Wl5bJDDnbUmACxtAQMVXERDE82224jWwzyS38+WNw3F1ccKlZCIUxDvbUgiqWt1xGrBxgonUYDKfguviwwcK46y2tivy0qGrJNNzuIKY4wJoKP3TgaRjVLHnjX4kXRy2TMpnmwKLmsMnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tiih65xx; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OMbbrFMn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tiih65xx"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 699C260B9B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 23:11:03 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E1F6180830
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 23:20:10 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -8.092
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id wQ8wIeQa_XYf for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Oct 2025 23:11:02 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::532; helo=mail-pg1-x532.google.com; envelope-from=nirbhay.lkd@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 9EC4D60BA1
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9EC4D60BA1
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OMbbrFMn
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 9EC4D60BA1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 23:11:02 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-b550a522a49so1373513a12.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 02 Oct 2025 16:11:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759446662; x=1760051462; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yFC69a6NBsLOPw5S/NgD9GIK97Ncfay1Ur+maFKsDH0=;
-        b=OMbbrFMnvgnRh1EGivo9FxQkkgjOUb2zyVGJI4fYVnDN16TuPAqSJ48UboX1BRAytq
-         lukgzHcX1/dH6tQqZ6keIYA8HzE4POId2yheAqEv9i/1NGvqyfOPTotjsVUpO8JZS8iR
-         kUN1lWQukapv0yc+kTS9zNhbXYhf1aktB7NcSFrW6qiQVtHOWtaNzTAhAUxipdKq09ma
-         1BlI+nf1NSyU0BvXqL2d+eSdub1+rlV47YW11rBvR0i6yl7Q5vywfN8vHHs3QPGbYnyA
-         b0wEd7uT9NQEOM0/rEpp99470v0KojSZgp9xsX9W/fB6THcO5Dk6DKBN3UyvvlXO6C6q
-         gcGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759446662; x=1760051462;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yFC69a6NBsLOPw5S/NgD9GIK97Ncfay1Ur+maFKsDH0=;
-        b=lQTtcit+6XZJT08jyfq1PFRpVIbpDsUurrxzUaDpWC7phGk6aJcjzxIJi1sBriP51n
-         VTAJA9BS2DAy2caDwDDPa6cOYeFbBgi030+0RcTdTJRJ4uVL92ZhIKNq+TH65w/cRo0F
-         EClor8x2gi/TiHbqcrpQJTfJdQFV34niFzgVrWWIRZjgITzhaYPwHQh2wXeq3kM+nCWb
-         aNUOdJDEKplyRSwFE4rKCafeDjqkPucLoMB51UiL0xjZ6UQdGBzUB3JyZvofvCpJPXyz
-         DQf+CAnBy2WFw/MZo9aFyMLL8sUCNzKHXpLmYLv1si4+OOn54hIuZtjoLILd9q/U+flc
-         H5Mw==
-X-Forwarded-Encrypted: i=1; AJvYcCXedXg2guAZ2YykMOSVgO40ZT+V3taUUoOoGfQRGHpxHrAN+9EGYBFR5R2E3hUF0cfqNUOmgV67yFO+U5FSE2xd5UXGkw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yy+0/tHigdXPO5lK74k93RQS2QL6Vhj83Jk59WLtDz3piSCVyLQ
-	BGFgfcUPam5Byy9iDhF9mZDJ8np33c7R8uxfjVYXXbnzH85LOUdoZ7ss
-X-Gm-Gg: ASbGncs4afuihquvFUvEc3GapGuaudWRzlr6erDnO7sHuu+SzBAbLbQNqCnHjrtDXQ4
-	wMVtdzjWjagnIC7LBQMx3GK9t+LhiKQvJT/6ZMwjLiNVAkrvSS80a5GZmunZpEycxS68cVfN0U2
-	EBhE/uUN9HwGUAEffLTJcFuO7F9iru/3382XLMX3/IAaOb8Yhceob8ClBJtyV2WCGMu8pvSoZTO
-	LTCqA0sf51+7YCO9iXC9uAj3gay8UIpQn8JK0CyNov31x6gBi8UcYaXmIXU7X8ukEtSQjq/Gqun
-	UaWcs9u9bvSis7HbSgpxMfYOCZBua6Bib3CeoxvXOIy5DBIuVzyfh5GZCtOBzrQFn8Hcm7FAHyJ
-	plmrKvFA2pMFkA1Niaea/YuemgdU9XEkHTcjZKSH9fRS8rVCafLHL
-X-Google-Smtp-Source: AGHT+IGUOdKa1AKW2FKiv+nG8uiNpD1FAXt7j4+A8CLzObKcsOtjM7P0Sez7FihNRKz72nbVUzDMxQ==
-X-Received: by 2002:a17:902:dad0:b0:24c:c8e7:60b5 with SMTP id d9443c01a7336-28e9a58b550mr11718715ad.16.1759446661851;
-        Thu, 02 Oct 2025 16:11:01 -0700 (PDT)
-Received: from fedora ([119.161.98.68])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d111905sm31334655ad.24.2025.10.02.16.10.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 16:11:01 -0700 (PDT)
-From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-To: kent.overstreet@linux.dev
-Cc: linux-bcachefs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+7f176adb30b21606c5fc@syzkaller.appspotmail.com,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Nirbhay Sharma <nirbhay.lkd@gmail.com>
-Subject: [PATCH] bcachefs: fix use-after-free in bch2_dirent_to_text()
-Date: Fri,  3 Oct 2025 04:40:33 +0530
-Message-ID: <20251002231033.23810-1-nirbhay.lkd@gmail.com>
-X-Mailer: git-send-email 2.51.0
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 9cJIVmjkBVVE for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  2 Oct 2025 23:20:09 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=192.198.163.14; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org AE1698082E
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AE1698082E
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Tiih65xx
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id AE1698082E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 23:20:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759447209; x=1790983209;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zer4Xzjj7dBSQqyLbsDiI/IqBCXEGdFEHlexlQ6sVGk=;
+  b=Tiih65xxm5nh/Ts+3u8+zcdrALE0dRvkBwxFcN9c1PPtC8xIWmfpLjm2
+   Ula7sePnRuDa1CX2JOFNNICqfMSaUNmLXXcwenH5a+JXufIUOhEOyhd0h
+   UNDmI1TLDy70st5+GLysUD9pwIT+qQnMIKnUpqW4JHt7ce7C1X/Nvlp3m
+   c/djssyPi6RbKktEmX+KoDJMEjr9f19vo5WU/B27SJX4+43i3uVdHHDt+
+   FYJ+WyD6bRe6YC8o70wEkKmhEwTv+hAet4nYRruz5UWTNa9iJyFNF5dtw
+   MIILj9pbZ1WwSpreUbSP9uNLCSMzH8ezERjHy+er+3Rm2G6hnuISD7MEO
+   g==;
+X-CSE-ConnectionGUID: vxzdV33YQS6uABb3xwK1iQ==
+X-CSE-MsgGUID: HPtBlVwhTBWTeefSq6LP6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="61775397"
+X-IronPort-AV: E=Sophos;i="6.18,310,1751266800"; 
+   d="scan'208";a="61775397"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 16:20:08 -0700
+X-CSE-ConnectionGUID: OX9JyEZvQMKLN55bhMJf0Q==
+X-CSE-MsgGUID: jLVVd7kZT8Omi4yhL6VRCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,310,1751266800"; 
+   d="scan'208";a="179103637"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 02 Oct 2025 16:20:02 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v4Sad-0004BT-1y;
+	Thu, 02 Oct 2025 23:19:59 +0000
+Date: Fri, 3 Oct 2025 07:19:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+	Tao Zhou <tao.zhou1@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+	ganglxie <ganglxie@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+	Candice Li <candice.li@amd.com>,
+	Victor Skvortsov <victor.skvortsov@amd.com>,
+	Roman Li <roman.li@amd.com>, Alvin Lee <Alvin.Lee2@amd.com>,
+	Karthi Kandasamy <karthi.kandasamy@amd.com>,
+	David Rosca <david.rosca@amd.com>,
+	Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	bhanuseshukumar@gmail.com
+Subject: Re: [PATCH] drm: amd:  Use kmalloc_array to prevent overflow of
+ dynamic size calculation
+Message-ID: <202510030646.pqNWfKQ0-lkp@intel.com>
+References: <20251002022241.77823-1-bhanuseshukumar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251002022241.77823-1-bhanuseshukumar@gmail.com>
 
-Add bounds checking before calculating pointer offsets in dirent name
-accessor functions to prevent out-of-bounds memory access when
-processing corrupted filesytem metadata.
+Hi Bhanu,
 
-When d_name_len contains a corrupted value, the pointer calculation
-&d.v->d_cf_name_block.d_names[name_len] results in an offset far
-outside the dirent structure, triggering KASAN use-after-free erors.
+kernel test robot noticed the following build warnings:
 
-While bch2_dirent_validate() detects such corruption,
-bch2_dirent_to_text() may still be called for debug output, so the
-accessor functions must handle invalid data gracefully.
+[auto build test WARNING on amd-pstate/linux-next]
+[also build test WARNING on amd-pstate/bleeding-edge v6.17]
+[cannot apply to linus/master next-20251002]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Fixes: c21f41f6905be4fc5059a10a5bba94105ba87269 ("bcachefs: bch2_dirent_to_text() shows casefolded dirents")
-Reported-by: syzbot+7f176adb30b21606c5fc@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=7f176adb30b21606c5fc
-Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
----
- fs/bcachefs/dirent.c | 39 ++++++++++++++++++++++++++++++---------
- 1 file changed, 30 insertions(+), 9 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bhanu-Seshu-Kumar-Valluri/drm-amd-Use-kmalloc_array-to-prevent-overflow-of-dynamic-size-calculation/20251002-102458
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
+patch link:    https://lore.kernel.org/r/20251002022241.77823-1-bhanuseshukumar%40gmail.com
+patch subject: [PATCH] drm: amd:  Use kmalloc_array to prevent overflow of dynamic size calculation
+config: x86_64-randconfig-003-20251003 (https://download.01.org/0day-ci/archive/20251003/202510030646.pqNWfKQ0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251003/202510030646.pqNWfKQ0-lkp@intel.com/reproduce)
 
-diff --git a/fs/bcachefs/dirent.c b/fs/bcachefs/dirent.c
-index d198001838f3..8be31b41c32b 100644
---- a/fs/bcachefs/dirent.c
-+++ b/fs/bcachefs/dirent.c
-@@ -58,8 +58,16 @@ static unsigned bch2_dirent_name_bytes(struct bkey_s_c_dirent d)
- 
- struct qstr bch2_dirent_get_name(struct bkey_s_c_dirent d)
- {
-+	unsigned int name_len, max_len;
-+
- 	if (d.v->d_casefold) {
--		unsigned name_len = le16_to_cpu(d.v->d_cf_name_block.d_name_len);
-+		name_len = le16_to_cpu(d.v->d_cf_name_block.d_name_len);
-+		max_len = bkey_val_bytes(d.k) -
-+			offsetof(struct bch_dirent, d_cf_name_block.d_names);
-+
-+		if (name_len > max_len)
-+			return (struct qstr) QSTR_INIT(NULL, 0);
-+
- 		return (struct qstr) QSTR_INIT(&d.v->d_cf_name_block.d_names[0], name_len);
- 	} else {
- 		return (struct qstr) QSTR_INIT(d.v->d_name, bch2_dirent_name_bytes(d));
-@@ -68,13 +76,19 @@ struct qstr bch2_dirent_get_name(struct bkey_s_c_dirent d)
- 
- static struct qstr bch2_dirent_get_casefold_name(struct bkey_s_c_dirent d)
- {
--	if (d.v->d_casefold) {
--		unsigned name_len = le16_to_cpu(d.v->d_cf_name_block.d_name_len);
--		unsigned cf_name_len = le16_to_cpu(d.v->d_cf_name_block.d_cf_name_len);
--		return (struct qstr) QSTR_INIT(&d.v->d_cf_name_block.d_names[name_len], cf_name_len);
--	} else {
-+	unsigned int name_len, cf_name_len, max_len;
-+
-+	if (!d.v->d_casefold)
- 		return (struct qstr) QSTR_INIT(NULL, 0);
--	}
-+
-+	name_len = le16_to_cpu(d.v->d_cf_name_block.d_name_len);
-+	cf_name_len = le16_to_cpu(d.v->d_cf_name_block.d_cf_name_len);
-+	max_len = bkey_val_bytes(d.k) - offsetof(struct bch_dirent, d_cf_name_block.d_names);
-+
-+	if (name_len > max_len || cf_name_len > max_len || name_len + cf_name_len > max_len)
-+		return (struct qstr) QSTR_INIT(NULL, 0);
-+
-+	return (struct qstr) QSTR_INIT(&d.v->d_cf_name_block.d_names[name_len], cf_name_len);
- }
- 
- static inline struct qstr bch2_dirent_get_lookup_name(struct bkey_s_c_dirent d)
-@@ -212,11 +226,18 @@ void bch2_dirent_to_text(struct printbuf *out, struct bch_fs *c, struct bkey_s_c
- 	struct bkey_s_c_dirent d = bkey_s_c_to_dirent(k);
- 	struct qstr d_name = bch2_dirent_get_name(d);
- 
-+	if (!d_name.name || !d_name.len) {
-+		prt_str(out, "(invalid)");
-+		return;
-+	}
-+
- 	prt_printf(out, "%.*s", d_name.len, d_name.name);
- 
- 	if (d.v->d_casefold) {
--		struct qstr d_name = bch2_dirent_get_lookup_name(d);
--		prt_printf(out, " (casefold %.*s)", d_name.len, d_name.name);
-+		struct qstr d_cf_name = bch2_dirent_get_lookup_name(d);
-+
-+		if (d_cf_name.name && d_cf_name.len)
-+			prt_printf(out, " (casefold %.*s)", d_name.len, d_name.name);
- 	}
- 
- 	prt_str(out, " ->");
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510030646.pqNWfKQ0-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/percpu.h:5,
+                    from arch/x86/include/asm/msr.h:16,
+                    from arch/x86/include/asm/tsc.h:11,
+                    from arch/x86/include/asm/timex.h:6,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/fs.h:11,
+                    from include/linux/debugfs.h:15,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:24:
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c: In function 'amdgpu_ras_badpages_read':
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: warning: 'kmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                                     ^~~~~~
+   include/linux/alloc_tag.h:239:16: note: in definition of macro 'alloc_hooks_tag'
+     239 |         typeof(_do_alloc) _res;                                         \
+         |                ^~~~~~~~~
+   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
+     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                ^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: note: earlier argument should specify number of elements, later size of each element
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                                     ^~~~~~
+   include/linux/alloc_tag.h:239:16: note: in definition of macro 'alloc_hooks_tag'
+     239 |         typeof(_do_alloc) _res;                                         \
+         |                ^~~~~~~~~
+   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
+     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                ^~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: warning: 'kmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                                     ^~~~~~
+   include/linux/alloc_tag.h:243:24: note: in definition of macro 'alloc_hooks_tag'
+     243 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
+     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                ^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: note: earlier argument should specify number of elements, later size of each element
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                                     ^~~~~~
+   include/linux/alloc_tag.h:243:24: note: in definition of macro 'alloc_hooks_tag'
+     243 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
+     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                ^~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: warning: 'kmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                                     ^~~~~~
+   include/linux/alloc_tag.h:246:24: note: in definition of macro 'alloc_hooks_tag'
+     246 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
+     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                ^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: note: earlier argument should specify number of elements, later size of each element
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                                     ^~~~~~
+   include/linux/alloc_tag.h:246:24: note: in definition of macro 'alloc_hooks_tag'
+     246 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
+     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                ^~~~~~~~~~~~~
+
+
+vim +2569 drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+
+  2546	
+  2547	/* return 0 on success.
+  2548	 * caller need free bps.
+  2549	 */
+  2550	static int amdgpu_ras_badpages_read(struct amdgpu_device *adev,
+  2551			struct ras_badpage **bps, unsigned int *count)
+  2552	{
+  2553		struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
+  2554		struct ras_err_handler_data *data;
+  2555		int i = 0;
+  2556		int ret = 0, status;
+  2557	
+  2558		if (!con || !con->eh_data || !bps || !count)
+  2559			return -EINVAL;
+  2560	
+  2561		mutex_lock(&con->recovery_lock);
+  2562		data = con->eh_data;
+  2563		if (!data || data->count == 0) {
+  2564			*bps = NULL;
+  2565			ret = -EINVAL;
+  2566			goto out;
+  2567		}
+  2568	
+> 2569		*bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+  2570		if (!*bps) {
+  2571			ret = -ENOMEM;
+  2572			goto out;
+  2573		}
+  2574	
+  2575		for (; i < data->count; i++) {
+  2576			(*bps)[i] = (struct ras_badpage){
+  2577				.bp = data->bps[i].retired_page,
+  2578				.size = AMDGPU_GPU_PAGE_SIZE,
+  2579				.flags = AMDGPU_RAS_RETIRE_PAGE_RESERVED,
+  2580			};
+  2581			status = amdgpu_vram_mgr_query_page_status(&adev->mman.vram_mgr,
+  2582					data->bps[i].retired_page << AMDGPU_GPU_PAGE_SHIFT);
+  2583			if (status == -EBUSY)
+  2584				(*bps)[i].flags = AMDGPU_RAS_RETIRE_PAGE_PENDING;
+  2585			else if (status == -ENOENT)
+  2586				(*bps)[i].flags = AMDGPU_RAS_RETIRE_PAGE_FAULT;
+  2587		}
+  2588	
+  2589		*count = data->count;
+  2590	out:
+  2591		mutex_unlock(&con->recovery_lock);
+  2592		return ret;
+  2593	}
+  2594	
+
 -- 
-2.51.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
