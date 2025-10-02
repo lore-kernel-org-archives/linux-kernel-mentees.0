@@ -1,242 +1,186 @@
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EC4227BA4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 19:00:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E35D3207
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 23:06:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759431656; cv=none; b=u6jm5ntmcKP+qbNit2AaKKU0OLKgO11twP5w3eSwqlnQgV+9XSIauzW+LbtOW0MbeGPk/f0Jta316M7TVBCQoK7gIDrn/vRvbShg1R9Uq8Qx7/aRELETYCdNfMs3iNPQW1Bq40FKjdU8iW0msitqLgIip2YXSVs3tgzBXaRB6KY=
+	t=1759446403; cv=none; b=cK8jcZm2ltXJpqA5k/ZEV4eqFCKPKWhGkCaS1UzJuE6lUHcaRWkqKwm4sVGzNHvZfGVBI2t1JES+IK/yfEjig59cZdYBac1LdxDwcKGKHCHArJvVEi+Uk0TaY9YFsBNAdB7uGW7pmbBpJFKTAgwzqAOOh7mp3+Vs5SwpTuIXJ34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759431656; c=relaxed/simple;
-	bh=HdRM6QtSEu6oISwiLRqfnMz+LiKeMqQ1/pBIxbMP6TM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XUvRX0yETujkt1ZyNNA+jS4zkeLbyrWNUNbFavtU0p7MUEq2Gr29hajfqFIy/fc6L1Q/9RMY/5gmaiJQP/h/3yzWDh33p4glcU7dn06gx1mLoEFMzXlssSQ8TM4/UvgB3/MA/hBfHHtmYHRCEIOuZNZvdbyeX++dY5BJMmhoIrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rv9178eL; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1759446403; c=relaxed/simple;
+	bh=05QBzRd86DhaBHC/HzFaLKts1U4K0ZRH0JC89nOeuak=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dCICCr4ZCRP/RDtWVcrk65z+lLicp+hTw+A2p/IZeAg/SY9+LeIDH8/WnSmCfGrlsLjikAbzzpxAs++KPNFDx9LKfK6v0l+5zXB7+l9oU9x8tdcvYQ5hwOOZsQ1x46O9cq0Zix3p60TIJVGHQdTn1HelZT4NLuXfCoQDPG+r07I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e+Tsq2XR; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rv9178eL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e+Tsq2XR"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2751640088
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 19:00:54 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id BFC644023E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 23:06:41 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id g3pRKhOHomgo for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Oct 2025 19:00:53 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=david.laight.linux@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 1211D4008C
+ id tRB3HmMZ0gvS for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  2 Oct 2025 23:06:41 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102b; helo=mail-pj1-x102b.google.com; envelope-from=nirbhay.lkd@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 0626D40050
 Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1211D4008C
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0626D40050
 Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Rv9178eL
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1211D4008C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 19:00:52 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-46e542196c7so14643165e9.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 02 Oct 2025 12:00:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=e+Tsq2XR
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 0626D40050
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  2 Oct 2025 23:06:40 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-32ed19ce5a3so1456963a91.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 02 Oct 2025 16:06:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759431651; x=1760036451; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u6fOaFPX2oAXf2qf/MzKaSamzMn6vecX7vKZ+f0WXRk=;
-        b=Rv9178eLZBvDlk1U1uPy6DqUYyBv/sP7X2ZWAsMQMxJDgZYXX4b293XaBA8/yiGoe4
-         t0ZXdG9KlQuvyqZrKeRdnrqF2jN1KKqgend9OGf8oyT9jTzzc6x1JlmidAqCnk/UE24L
-         KUWvJxU7twwFF+f/Pft2g2sPO4+vgZK+JwoJHB+JtPTAahQrMh0RYWi93ywPKQiHM/0G
-         SQhNGWPqchoUO+Bpji4FYGzsbrANqtzq6eGnWW+Cz97ckIIGalNuWk9Zi1pnH+LhAKI2
-         3+3UjCOcF/bxto8WrUZWiS4ATGsbtO93kvzXXuv5/dtXsOR8GYV/nORBUurmpuCh/prn
-         RTew==
+        d=gmail.com; s=20230601; t=1759446400; x=1760051200; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yFC69a6NBsLOPw5S/NgD9GIK97Ncfay1Ur+maFKsDH0=;
+        b=e+Tsq2XRlMLlFnAPc8+6CBEONIW4WHD2Xe6rkqwOHQXTTMKY6+EtfY2oQbIuIxghaQ
+         irlLEBHeVo0RFyvsQADqRCIN7WMTsJWs4oVq3j5iHStqRbk7UHMopw2MIzx87++m1dML
+         PS+FmZhSAbMeW/fQJtCkQ+orNq8C8c0ZbAczmGVSmEWspJn/OkBxntAIbuu0CQaJ8yAg
+         bFbIHcUUVO772FhUsFjJSQBGmaNwM/23POELMoyr/9z7mSlogUnw65PxpYpduwaLy0wp
+         ZZiMengMbnrlcqxMUN1Q9VIABdtm65Z6TNkZNii84ZHXgtq22VLLcUOKmrKDgefTq5R9
+         rqnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759431651; x=1760036451;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=u6fOaFPX2oAXf2qf/MzKaSamzMn6vecX7vKZ+f0WXRk=;
-        b=vvFlmrvtJQG229vruFhtHy30JgyEyHnrbTd7doV4JwolLrAoYetuxAPyFzDY8qcjlG
-         PUrZ+lg8uLhnj78OAxmIcsw8pocI/kJSvAyCHTAIjN3ToZqHkfm/VM3qU8E+Afy7Y5Xh
-         hyTKFPJKHpxfvgPbJWoYvesCVMPMonukOKxQf1+f2dkVLBWvIRwmEfdrVT1+NA6qzHwP
-         poq8iqv2u2tJF87oCUSAY8bMZ+TaZ+9DZsJxTv70JfTNowMCyLjU+EL7wWB3Tkxqv/kg
-         o/DIA/+5Ih4FEgUiPapZDy7n1s2+oKv2qVT5v9bGjM2jJEt+vqR3tC9QbZ98LC4ID5I0
-         Ls6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU4Tw0OD+cGNy2guz1fe+DMrJq3ZwHFxyEGul9F5LDIH5zjm1AwHM25wc4v+ZmjStcGHCzt9E2xTYroYEYt5qtvfwBLbg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yx7/tVQqOeTvc4/CLfy9dNf+EZoUNjOku4TUT5qO/lPCjBwhkfg
-	gZoH0Zhs300MYqGLkqHSOvdsBzFV9H5UYCkNEpO/z2ZqbtaSX0SIJ5su
-X-Gm-Gg: ASbGncuRhbo4/CKLQaR1ydAtE4oEW68ThgyT3x0mtL7S5esrjzS13tRQA7lPjw5vx7n
-	kEp4U5JI1kd+Rza+v+0jRPf1CNT3rAj9rgMTMrHyy9hEocvD19StZAsDe0H/gzkq/xmHpdE9jsM
-	wehlE1xYtHQkjzj2XKWiX9Q5BSz398r/roUq1zdYHE6844rLpFtQgkjBIM7v+OlPsQHLPyVlbWK
-	BdSxIPXrH/w2wkSFfigw6jatYGta6Dgevni38da69v7mKXBiCYqiwOwfVRU1V8w2Bb4rIcx3vki
-	qmGWtjLIk7W28TkkOmW8oWDwgOK7TwDmCrOrJ0GlyJDCWblBXpyhTl/Cyq/qgRA/NA+7AE4ddXB
-	LlmHJqnW4nQ+gG/JAfkEsWn52vQ0oj1QcSJ36XuNtjVG7oZaNhhZyvE7zPgLg+TVec1fHGLmuR4
-	9aNk7NhzXFfsFA
-X-Google-Smtp-Source: AGHT+IGaoHiZFJpX7P4fpJ5gN/YctPtIRaA4HuaLp2YmDRoVlK6rbZNidGIsWnYJjI0Td812wrRW+w==
-X-Received: by 2002:a05:600c:83ca:b0:45d:5c71:769d with SMTP id 5b1f17b1804b1-46e70c5cef4mr4217145e9.8.1759431650257;
-        Thu, 02 Oct 2025 12:00:50 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e6918bb06sm51107905e9.8.2025.10.02.12.00.49
+        d=1e100.net; s=20230601; t=1759446400; x=1760051200;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yFC69a6NBsLOPw5S/NgD9GIK97Ncfay1Ur+maFKsDH0=;
+        b=IVeYYgcaeF1JDSLks5YWpcC5sQWeqihObgG84l2Iav801LZmtySzarc33gcITSckuZ
+         NuGmOvNCIYvP8Oe3Tg7wzaDbWMPJ3x800Lu8hdBSFRIMt17TDBclbLaSesimTm6ZY5LX
+         je4P1QNKW3JNnX/8mAIVH34ceXM6DzkWkvUxkiXp8fabufe746B6ukZfUx/OkqOJVomK
+         TBnj0tghM7IGWm9kVh3JyuVO7zVTu9PxncIugi5Wzb500VgQdSC7qbLgJuKOaVrTJqIH
+         x1w05iw7Og+LAt0TFbqiEhmFQAIGsbO5GWnaTJK3HsOR85PpWdaagOe4ipXSovaIDc9a
+         2RMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWfXBjyZwPW+MHU3E9HnmgC2RYPlfuxUfi7NClX5xqKoYXUmJsLzY/xsKRHVSkJiil1+mG+xIEIfV7XPeIpPEiqjh16SQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yww1AVTjXF/LsJ8NmpUN8zuXGt6/o290crEXaX6WZmI5AozLDh9
+	fcPseF9yV/WYA9mWXw6Xe4Dg+ynhGb+j8G8cBaOgld+CzUngUvSp8XrN
+X-Gm-Gg: ASbGnctOh7W3jyXlekA/fP62qwYM/sexOwVR6c2e73pEpYOpKL00VhLNTe6pWOkug0w
+	SRYuW2OM4INXAuN9nraXmULEQUSb76u9Eb63/iN04r5ld5YkjNjzR4ljwhpmUxULA0uFOYkajx9
+	TcY59fPijoab7Gil8g4fKIfqKqL2sSA7Zr/GmQRG70L48OViIn2kP/jPyCePko/zRhOSqP+622U
+	cq2eJJ2z1h2UaVJdTiLIBBsQxYsOk1oExsb5hcON4eBoNOSadO9p4WUBTdy+MSyPIUq04zcaICa
+	bnuhllOiLH/fny7yE5oD6mx4el7aVvp9nyhgAWWUXGGQxoUfjWMEf5SO5eTqjo0jaf7ZYgR/40p
+	5esnqUyz0Q/CIUVWDpCQuNNq3SzSD/zNd/CNt0tWMEw==
+X-Google-Smtp-Source: AGHT+IH1WIU8g22isSecQbTXQR/OaPg7POU4rIe/BBXToSrLprRb4xIP/ItGnvzzz7IDJ3lkUGpVSA==
+X-Received: by 2002:a17:90b:3ec7:b0:31e:c95a:cef8 with SMTP id 98e67ed59e1d1-339c27affc2mr953133a91.32.1759446400209;
+        Thu, 02 Oct 2025 16:06:40 -0700 (PDT)
+Received: from fedora ([119.161.98.68])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339c4a0c666sm150292a91.1.2025.10.02.16.06.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 12:00:49 -0700 (PDT)
-Date: Thu, 2 Oct 2025 20:00:47 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-Cc: andrii@kernel.org, eddyz87@gmail.com, ast@kernel.org,
- daniel@iogearbox.net, martin.lau@linux.dev, song@kernel.org,
- yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
- sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
- matttbe@kernel.org, martineau@kernel.org, geliang@kernel.org,
- davem@davemloft.net, kuba@kernel.org, hawk@kernel.org,
- linux@jordanrome.com, ameryhung@gmail.com, toke@redhat.com,
- houtao1@huawei.com, emil@etsalapatis.com, yatsenko@meta.com,
- isolodrai@meta.com, a.s.protopopov@gmail.com, dxu@dxuuu.xyz,
- memxor@gmail.com, vmalik@redhat.com, bigeasy@linutronix.de, tj@kernel.org,
- gregkh@linuxfoundation.org, paul@paul-moore.com,
- bboscaccy@linux.microsoft.com, James.Bottomley@HansenPartnership.com,
- mrpre@163.com, jakub@cloudflare.com, bpf@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- netdev@vger.kernel.org, mptcp@lists.linux.dev,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com
-Subject: Re: [PATCH] selftests/bpf: Add -Wsign-compare C compilation flag
-Message-ID: <20251002200047.2b9f9ef9@pumpkin>
-In-Reply-To: <e3a0d8ff-d03d-4854-bf04-8ff8265b0257@gmail.com>
-References: <20250924162408.815137-1-mehdi.benhadjkhelifa@gmail.com>
-	<20250926124555.009bfcd6@pumpkin>
-	<e3a0d8ff-d03d-4854-bf04-8ff8265b0257@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Thu, 02 Oct 2025 16:06:39 -0700 (PDT)
+From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+To: 
+Cc: david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Nirbhay Sharma <nirbhay.lkd@gmail.com>,
+	syzbot+7f176adb30b21606c5fc@syzkaller.appspotmail.com
+Subject: [PATCH] bcachefs: fix use-after-free in bch2_dirent_to_text()
+Date: Fri,  3 Oct 2025 04:36:24 +0530
+Message-ID: <20251002230627.23315-1-nirbhay.lkd@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 29 Sep 2025 17:03:29 +0100
-Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com> wrote:
+Add bounds checking before calculating pointer offsets in dirent name
+accessor functions to prevent out-of-bounds memory access when
+processing corrupted filesytem metadata.
 
-> On 9/26/25 12:45 PM, David Laight wrote:
-> > On Wed, 24 Sep 2025 17:23:49 +0100
-> > Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com> wrote:
-> >   
-> >> -Change all the source files and the corresponding headers
-> >> to having matching sign comparisons.  
-> 
-> Hi david,
-> sorry for the late reply.
-> 
-> > 'Fixing' -Wsign-compare by adding loads of casts doesn't seem right.
-> > The only real way is to change all the types to unsigned ones.  
-> The last v3 did only do that with no casting as it was suggested by 
-> David too.
-> 
-> > Consider the following:
-> > 	int x = read(fd, buf, len);
-> > 	if (x < 0)
-> > 		return -1;
-> > 	if (x > sizeof (struct fubar))
-> > 		return -1;
-> > That will generate a 'sign-compare' error, but min(x, sizeof (struct fubar))
-> > doesn't generate an error because the compiler knows 'x' isn't negative.  
-> 
->   Yes,-Wsign-compare does add errors with -Werror enabled in that case 
-> and many other cases where the code is perfectly fine which is one of 
-> it's drawbacks.
-> Also I though that because of GCC/Clang heuristics 
-> sometimes min() suppress the warning not because that the compiler knows 
-> that x isn't negative.I'm probably wrong here.
+When d_name_len contains a corrupted value, the pointer calculation
+&d.v->d_cf_name_block.d_names[name_len] results in an offset far
+outside the dirent structure, triggering KASAN use-after-free erors.
 
-That sentence doesn't make sense.
-The statically_true() test in min() uses the 'value' tracking done by modern
-versions of gcc and clang.
-This means it can let signed types be promoted to unsigned ones because the
-compiler knows the value isn't negative.
-OTOH -Wsign-compare is a much older warning and is only based on the types.
+While bch2_dirent_validate() detects such corruption,
+bch2_dirent_to_text() may still be called for debug output, so the
+accessor functions must handle invalid data gracefully.
 
-> > A well known compiler also rejects:
-> > 	unsigned char a;
-> > 	unsigned int b;
-> > 	if (b > a)
-> > 		return;
-> > because 'a' is promoted to 'signed int' before it does the check.  
-> 
-> In my knowledge,compilers don't necessarily reject the above code by 
-> default. Since -Wall in GCC includes -Wsign-compare but -Wall in clang 
-> doesn't, doing -Wall -Werror for clang compiler won't trigger an error 
-> in the case above not even a warning.My changes are to make those 
-> comparisons produce an error since the -Werror flag is already enabled 
-> in the Makefile.
+Fixes: c21f41f6905be4fc5059a10a5bba94105ba87269 ("bcachefs: bch2_dirent_to_text() shows casefolded dirents")
+Reported-by: syzbot+7f176adb30b21606c5fc@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=7f176adb30b21606c5fc
+Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+---
+ fs/bcachefs/dirent.c | 39 ++++++++++++++++++++++++++++++---------
+ 1 file changed, 30 insertions(+), 9 deletions(-)
 
-This isn't about whether -Wsign-compare is enabled or not (or even what
-the option is called).
-It is about whether the compiler's 'sign-compare' warning triggers for that code.
-The one that detects the warning/error isn't gcc or clang but is probably
-used far more than clang.
-
-> 
-> > So until the compilers start looking at the known domain of the value
-> > (not just the type) I enabling -Wsign-compare' is pretty pointless.  
-> 
-> I agree that enabling -Wsign-compare is pretty noisy. But it does have 
-> some usefulness. Take for example this code:
-> 	int n = -5;
-> 	for (unsigned i = 0; i < n; i++) {
->      	// ...
-> 	}
-> Since this is valid code by the compiler, it will allow it but n here is 
-> promoted to an unsigned which converts -5 to being 4294967291 thus 
-> making the loop run more than what was desired.of course,here the 
-> example is much easy to follow and variables are very well set but the 
-> point is that these could cause issues when hidden inside a lot of macro 
-> code.
-
-There is plenty of broken code out there.
-It isn't hard to find places where explicit casts make things worse.
-The problem is that, even for the above example, the -5 could come from
-way earlier up the code.
-If you 'fix' the warning by changing it to 'i < (unsigned)n' the code is
-still just as likely to be buggy.
-
-> 
-> > As a matter of interest did you actually find any bugs?  
->
-> No,I have not found any bug related to the current state of code in bpf 
-> selftests but It works as a prevention mechanism for future bugs.Rather 
-> than wait until something breaks in future code.
-
-That's what I expected...
-
-> > 	David
-> >   
-> 
-> Thank you for your time David.I would appreciate if you suggest on how I 
-> can have a useful patch on this or if I should drop this.
-> Best Regards,
-> Mehdi
-> >   
-> >>
-> >> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-> >> ---
-> >> As suggested by the TODO, -Wsign-compare was added to the C compilation
-> >> flags for the selftests/bpf/Makefile and all corresponding files in
-> >> selftests and a single file under tools/lib/bpf/usdt.bpf.h have been
-> >> carefully changed to account for correct sign comparisons either by
-> >> explicit casting or changing the variable type.Only local variables
-> >> and variables which are in limited scope have been changed in cases
-> >> where it doesn't break the code.Other struct variables or global ones
-> >> have left untouched to avoid other conflicts and opted to explicit
-> >> casting in this case.This change will help avoid implicit type
-> >> conversions and have predictable behavior.
-> >>
-> >> I have already compiled all bpf tests with no errors as well as the
-> >> kernel and have ran all the selftests with no obvious side effects.
-> >> I would like to know if it's more convinient to have all changes as
-> >> a single patch like here or if it needs to be divided in some way
-> >> and sent as a patch series.
-> >>
-> >> Best Regards,
-> >> Mehdi Ben Hadj Khelifa  
-> > ...  
-> 
+diff --git a/fs/bcachefs/dirent.c b/fs/bcachefs/dirent.c
+index d198001838f3..8be31b41c32b 100644
+--- a/fs/bcachefs/dirent.c
++++ b/fs/bcachefs/dirent.c
+@@ -58,8 +58,16 @@ static unsigned bch2_dirent_name_bytes(struct bkey_s_c_dirent d)
+ 
+ struct qstr bch2_dirent_get_name(struct bkey_s_c_dirent d)
+ {
++	unsigned int name_len, max_len;
++
+ 	if (d.v->d_casefold) {
+-		unsigned name_len = le16_to_cpu(d.v->d_cf_name_block.d_name_len);
++		name_len = le16_to_cpu(d.v->d_cf_name_block.d_name_len);
++		max_len = bkey_val_bytes(d.k) -
++			offsetof(struct bch_dirent, d_cf_name_block.d_names);
++
++		if (name_len > max_len)
++			return (struct qstr) QSTR_INIT(NULL, 0);
++
+ 		return (struct qstr) QSTR_INIT(&d.v->d_cf_name_block.d_names[0], name_len);
+ 	} else {
+ 		return (struct qstr) QSTR_INIT(d.v->d_name, bch2_dirent_name_bytes(d));
+@@ -68,13 +76,19 @@ struct qstr bch2_dirent_get_name(struct bkey_s_c_dirent d)
+ 
+ static struct qstr bch2_dirent_get_casefold_name(struct bkey_s_c_dirent d)
+ {
+-	if (d.v->d_casefold) {
+-		unsigned name_len = le16_to_cpu(d.v->d_cf_name_block.d_name_len);
+-		unsigned cf_name_len = le16_to_cpu(d.v->d_cf_name_block.d_cf_name_len);
+-		return (struct qstr) QSTR_INIT(&d.v->d_cf_name_block.d_names[name_len], cf_name_len);
+-	} else {
++	unsigned int name_len, cf_name_len, max_len;
++
++	if (!d.v->d_casefold)
+ 		return (struct qstr) QSTR_INIT(NULL, 0);
+-	}
++
++	name_len = le16_to_cpu(d.v->d_cf_name_block.d_name_len);
++	cf_name_len = le16_to_cpu(d.v->d_cf_name_block.d_cf_name_len);
++	max_len = bkey_val_bytes(d.k) - offsetof(struct bch_dirent, d_cf_name_block.d_names);
++
++	if (name_len > max_len || cf_name_len > max_len || name_len + cf_name_len > max_len)
++		return (struct qstr) QSTR_INIT(NULL, 0);
++
++	return (struct qstr) QSTR_INIT(&d.v->d_cf_name_block.d_names[name_len], cf_name_len);
+ }
+ 
+ static inline struct qstr bch2_dirent_get_lookup_name(struct bkey_s_c_dirent d)
+@@ -212,11 +226,18 @@ void bch2_dirent_to_text(struct printbuf *out, struct bch_fs *c, struct bkey_s_c
+ 	struct bkey_s_c_dirent d = bkey_s_c_to_dirent(k);
+ 	struct qstr d_name = bch2_dirent_get_name(d);
+ 
++	if (!d_name.name || !d_name.len) {
++		prt_str(out, "(invalid)");
++		return;
++	}
++
+ 	prt_printf(out, "%.*s", d_name.len, d_name.name);
+ 
+ 	if (d.v->d_casefold) {
+-		struct qstr d_name = bch2_dirent_get_lookup_name(d);
+-		prt_printf(out, " (casefold %.*s)", d_name.len, d_name.name);
++		struct qstr d_cf_name = bch2_dirent_get_lookup_name(d);
++
++		if (d_cf_name.name && d_cf_name.len)
++			prt_printf(out, " (casefold %.*s)", d_name.len, d_name.name);
+ 	}
+ 
+ 	prt_str(out, " ->");
+-- 
+2.51.0
 
