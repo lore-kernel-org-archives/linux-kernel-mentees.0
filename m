@@ -1,98 +1,94 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF0A284B3B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 11:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0FC537E9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 13:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759491985; cv=none; b=gambA6esDmW/jVsUpJB/tKMcdINHoe/nZ9c4WY8sRl61Nq1ZBG0VktdbskMj1KX0Pt93SB+f0zBa4ZtazOaRphZVrB7y5tJaY3arbArBMdGG7RRgfczliZy+UMIA51I1aTf993LAyxWnlQvUYXD/QA8yaRXAXUu20Pp94fhZWdo=
+	t=1759499264; cv=none; b=Sz2Pb2BCjMYvhvU44EFs9tz1G1dhYdpUwd3si1IsTOCeVtgJBEsA78ldCGnRBjsKaJ14oDIC1LWu0ooCHwh/Rvpky+uVXXibB9gVNHXe9jTM2PUmyDwvTD9VQXJn9eXSys+RMcrCNIwTrofV0o1TH64Kr3RVMYBZgPQakI30W/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759491985; c=relaxed/simple;
-	bh=PqpCO1hZ5AzWg8lpqzlwYEmvVQBm7UKwvlNkj9beh4k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c2+zr5ptfsjTDz6ihhS1ESG5VBlzk4EY3mnSfBeYoFe81rLQE3DOcobP0eGGmzveQptNHFOoZsLcs5bf3PzSSzo96EMwWoEN7Vq3Jc1mUYwlOiqn68LVf3ZLWPtoJ2fg9BpPQcc3xTcLLrOrELdsKNpWpkOFfa283WBPHTMVXw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XaAoUsn3; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1759499264; c=relaxed/simple;
+	bh=B83U5Fb924a+CtxXo1Lus3OG+QNUvJeFsmwJTwagFxc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qiel2NZ7jLqwRA3I8pQPY5oHWn7VPJMbiRaok1dsmAoL7ABpOfwcYKloznoxWyzGD7dMf6y96tsVGZNPBra/xVze+Igtl2P/XclV9s/5MT6Dl5PLGOEANzL6SyTW4d2Ug84w9nDgn8Mw7T+DamgBfctCOviOP1gXbGNTn5z2/zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bx5Iuc8x; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XaAoUsn3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bx5Iuc8x"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id BF93B80D46
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 11:46:23 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 48EB5611D5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 13:47:43 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id t6_AZAQpBUCG for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Oct 2025 11:46:23 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1033; helo=mail-pj1-x1033.google.com; envelope-from=nirbhay.lkd@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org E8BA980D72
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E8BA980D72
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XaAoUsn3
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E8BA980D72
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 11:46:22 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-3369dcfef12so2655069a91.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 03 Oct 2025 04:46:22 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id qt6fHPFn4ENy for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  3 Oct 2025 13:47:42 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::52d; helo=mail-ed1-x52d.google.com; envelope-from=zlatistiv@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 379AC610FE
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 379AC610FE
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=bx5Iuc8x
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 379AC610FE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 13:47:42 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-62fc28843ecso3378489a12.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 03 Oct 2025 06:47:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759491982; x=1760096782; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1759499260; x=1760104060; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kr5m4Q2MhDO3zmxeDrZVa1hCLYfkmOsaOLffDymj6ak=;
-        b=XaAoUsn3mROmXNjQQU/5jvtiPbIGpyfgs78ivBn65dibAYT2gW9jFWN0B9s665nrft
-         EM+Z9Bw7IHX/Uk4v7sFUc6/qmac7pQSYm4czt9E3Ame4J4YmYmQwvHew9+m7PqtdwalJ
-         gbQU82ZUoK4aDPy01rv1DCXGdahwmfHQKFbhQsLgfihF9xbAllstP/jJ6iUj9YOV6DPc
-         PrdsHgaDP8nMvA9si2/Z/KUixUy/EHHCJhXOkB3Cc2ppNJCVNydm+MOMDrgW2d6ge5z2
-         B3lWP/GXZB3E+3zRP43gq30hpWlaA42aoeLEvYd4/E0YJcwhuStH0cMP/Pw0CvDecE5c
-         N4Bg==
+        bh=SXz1taGyCnsjIOklnSCeHrVpWlskjbKzfy7PmtERQsU=;
+        b=bx5Iuc8xUtqu79S+/ed/Y4hXQd1wrUz06jGGPO0evz2XvFcdUgQq//F4FGTebaAShh
+         zsWBPL4AEmc+PCnbazJ8N9LInclrAJS78nyIm4dV7uIpCwr8lPvXvEdEOzvztm9YNKQ5
+         EDhgX+jJy/m/yHE9DW7FJrrNVv0RNy4QdsQrafMQ8Uikz9/4NB+RgwMNLOFowCMwW9+o
+         n/YQ2yOTp2iq2ldVzHjkjfWPrOs/Zsz+bxVDrrsb/O3OzzA25/hWYW2M+jBlWt6ZreZU
+         g12t/rhtDSqIgRuQ37VenEyXZsIW8dQhjF2wYLtrkOzSDDDZSbz4r23vD5RjK4qfEooA
+         UxKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759491982; x=1760096782;
+        d=1e100.net; s=20230601; t=1759499260; x=1760104060;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kr5m4Q2MhDO3zmxeDrZVa1hCLYfkmOsaOLffDymj6ak=;
-        b=ikMqgqO7JTHnCpfayLgoxJSqG8QLjoQb4o6QT6jbWV49V7lHGmMF1el/vJ3AMd+V6R
-         w/q47J4DMv9s3xsWhtXV/LivoB/09JiPwUFzUFh+HR55bHZamXAC587DidkN2OMA5mSq
-         jKyvrm/rkuvrd/wYNU8sdo8Lq4OP3Bsijhd4ciMnoiuXNqKqMv8z4OYW0WypbmBi07+H
-         tU3kWoAz4IGPbrRSwjIwag2dxZ3YAi9Kd76CKs3ZKhMwiBATZ8wjEs9P0zJnAM0LTVy4
-         zPojVn1DM+gKECjfB4IH+6gs65hGhlkj+Egfk2iQIg9TNRKcop/iEF0HGYlwzIorWElV
-         n8NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVQ1gR3zyO5IfG/KgYhgmSF+kQzeN804drqdvZIn6Qf2Ag0X4wFSHahVoOK4c23JaAtZvMdhgOl35IKsIEiMnHusezVrA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwcLBf+Hl4bmFO95S+8xwDY+3aWp8oXKeQVvW5qzDq40gUC713y
-	kEpACLo8/3RcxLLo1lsy93CcNgZOSOODlCYJkrGs9ZifWEmDPRKXy7uv
-X-Gm-Gg: ASbGncs8ARvMlqqJWddIXzB/VEGc20nnN2kBiuT6zuyQz3h4SFil6ysMZH/Zt1x7Yu5
-	Z8Y0ch9RkdlNaYF/lA6FYYFq5kohvmEjpBJuhgSeU30h0CnCJpm0ZRuUpZeUOtPCSreJ5gGxSKS
-	ZqDnzy//VfrPj8vpVlATu639mCjDo5mE8GLiVIdUf4C2hESvkHXJGOtE5wXnu1gV37NrOoL6SDl
-	O6WyzgWJKUbO8IwUxyfmUHcV+x/zlbbLebPEe6IusKKwdjxIxdgW9HoQQ7VEJdoN7GLR+tZ8y4T
-	GuwB9lax1sTRrwqY26zxiQLt+carFm1xxoQDu0yeJCpTiHZJjrMSYdefeiRyeb2iLfg8jdOUPkp
-	gCCYWy7Qho2X/+Nr1rDpoRbPbf3PXDxY/t4MR4rxbKg==
-X-Google-Smtp-Source: AGHT+IE+B+A6PY10FHNa/K7kwAlpZK7Yj3hJ8GaSS7FT2H3r5Hjjq9oeSORJAi5t9tZGsLPWJ2J+ng==
-X-Received: by 2002:a17:90b:4a50:b0:32e:38b0:15f4 with SMTP id 98e67ed59e1d1-339c2724834mr2844413a91.7.1759491982024;
-        Fri, 03 Oct 2025 04:46:22 -0700 (PDT)
-Received: from fedora ([119.161.98.68])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a701c457sm7825727a91.23.2025.10.03.04.46.14
+        bh=SXz1taGyCnsjIOklnSCeHrVpWlskjbKzfy7PmtERQsU=;
+        b=K7+0cOFh3bcRypI0ATEvzKUQIBRAiiCb41v6gfDUBSCNoBTBsJaj7iZvvr/uAC2ssW
+         0nysPew8Zg0MrqwxMXH8akcvwDNGFe+/WP05PFF9PRz5HtAFj+veqCFTlf+KxVB+6Etx
+         HNkOF0GpRuaEegU3BXIoK5+xSaPEp4dqtQur8b78b+r+LCqUCzCiCiAYGKU84kgMcUst
+         NNu/kS4BGcdpJKZ888ZGEyNG9Wjtwwzvr0SWyIt6+t3mgombOcHEdBDu6RTfeMCXBAFF
+         zt/ZeZtxoFvVueCb1K09i3uU/jTPTAO9k5t1Ici2MVtqQTneGM024zSddfvRjUXyNosq
+         JURQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUXNG2nW8MUBC3P4mQgv8YkIZMLcGqc92np1XXINUYa39yks3gededcED6RVF0szx+vZ+s+F+gZ1T+ww/2YU9ni+9Go+A==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyMqsTnsjAsU4QLhcAQqymgdMKqvxInJBHid3IZfJ1F6TcshrKS
+	BYffCunmmCGTUPa70wTTWlj7WUbRbi9FYPeBJP9jeZccUz+o+qtIEF7l
+X-Gm-Gg: ASbGncuIFfT7VjBmvHQIY7cIb7Xecc805HnjRw+gGg/qZ797aKC3usVJRvdmpWFkXxr
+	9mjp5WaZpOB0eZDgpaY+8wxA4gh8sQaHJ4LevH206CINd8KNUaFR9wjMkRFZbQFZ3u9vbIm9Uwl
+	6mlV5w/RKUP5i1Lj1+Gk942QE1huAFaGFiB6ZeXml+UByw5XUF+fulI61MehZ5Tj1l5F1IfdnRD
+	RslUlVB5vyLpuS0Fya/1ZHwAOMG6S/YNL0HO1esKveGpPL8TT8g51b7DU8Vtr2dwvOB7YAoslPE
+	nya0kVMcEKj1//huEBbf2NorfHvR5VXfPRBq5lNYiav1h9dK8G5+S/W1LgO46sIPdkZVBsalSj/
+	q53OFF8U8qBnRYZ4jV4fvMaa59MKRDLJ1YP2mMsNViiLRcy/tR5P0dr6JNnIGQi59tOa5CeYXEA
+	hDhx66QPJyRPG+7A==
+X-Google-Smtp-Source: AGHT+IGT22rMOS7zpkVXCQktJ+CXsz5d60nlco16amfiTaRrE8PNlBBx+BmcaTn1+GNMGJdxBxc5Uw==
+X-Received: by 2002:a05:6402:5250:b0:62f:2afa:60e6 with SMTP id 4fb4d7f45d1cf-639346c8b7dmr3139059a12.7.1759499259990;
+        Fri, 03 Oct 2025 06:47:39 -0700 (PDT)
+Received: from localhost.localdomain ([46.10.223.24])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-637881011e9sm4009560a12.25.2025.10.03.06.47.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 04:46:20 -0700 (PDT)
-From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tiffany Yang <ynaffit@google.com>,
-	cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	syzbot+27a2519eb4dad86d0156@syzkaller.appspotmail.com,
+        Fri, 03 Oct 2025 06:47:39 -0700 (PDT)
+From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
+To: jaegeuk@kernel.org,
+	chao@kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net
+Cc: linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	david.hunter.linux@gmail.com,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	Nirbhay Sharma <nirbhay.lkd@gmail.com>
-Subject: [PATCH] cgroup: Fix seqcount lockdep assertion in cgroup freezer
-Date: Fri,  3 Oct 2025 17:15:55 +0530
-Message-ID: <20251003114555.413804-1-nirbhay.lkd@gmail.com>
+	khalid@kernel.org,
+	"Nikola Z. Ivanov" <zlatistiv@gmail.com>,
+	syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
+Subject: [PATCH] f2fs: Perform sanity check before unlinking directory inode
+Date: Fri,  3 Oct 2025 16:47:31 +0300
+Message-ID: <20251003134731.470392-1-zlatistiv@gmail.com>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -102,60 +98,81 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The commit afa3701c0e45 ("cgroup: cgroup.stat.local time accounting")
-introduced a seqcount to track freeze timing but initialized it as a
-plain seqcount_t using seqcount_init().
+Current i_nlink corruption check does not take into account
+directory inodes which have one additional i_nlink for their "." entry.
 
-However, the write-side critical section in cgroup_do_freeze() holds
-the css_set_lock spinlock while calling write_seqcount_begin(). On
-PREEMPT_RT kernels, spinlocks do not disable preemption, causing the
-lockdep assertion for a plain seqcount_t, which checks for preemption
-being disabled, to fail.
+Add additional check and a common corruption path.
 
-This triggers the following warning:
-  WARNING: CPU: 0 PID: 9692 at include/linux/seqlock.h:221
-
-Fix this by changing the type to seqcount_spinlock_t and initializing
-it with seqcount_spinlock_init() to associate css_set_lock with the
-seqcount. This allows lockdep to correctly validate that the spinlock
-is held during write operations, resolving the assertion failure on all
-kernel configurations.
-
-Reported-by: syzbot+27a2519eb4dad86d0156@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=27a2519eb4dad86d0156
-Fixes: afa3701c0e45 ("cgroup: cgroup.stat.local time accounting")
-Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+Reported-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c07d47c7bc68f47b9083
+Fixes: 81edb983b3f5 ("f2fs: add check for deleted inode")
+Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
 ---
- include/linux/cgroup-defs.h | 2 +-
- kernel/cgroup/cgroup.c      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ fs/f2fs/namei.c | 28 ++++++++++++++++++++--------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index 539c64eeef38..933c4487a846 100644
---- a/include/linux/cgroup-defs.h
-+++ b/include/linux/cgroup-defs.h
-@@ -435,7 +435,7 @@ struct cgroup_freezer_state {
- 	int nr_frozen_tasks;
+diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
+index b882771e4699..68b33e8089b0 100644
+--- a/fs/f2fs/namei.c
++++ b/fs/f2fs/namei.c
+@@ -502,12 +502,14 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
+ 		goto out;
+ 	}
  
- 	/* Freeze time data consistency protection */
--	seqcount_t freeze_seq;
-+	seqcount_spinlock_t freeze_seq;
+-	if (inode->i_nlink == 0) {
++	if (unlikely(inode->i_nlink == 0)) {
+ 		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
+ 			  __func__, inode->i_ino);
+-		err = -EFSCORRUPTED;
+-		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+-		goto out_iput;
++		goto corrupted;
++	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
++		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
++			  __func__, inode->i_ino);
++		goto corrupted;
+ 	}
  
- 	/*
- 	 * Most recent time the cgroup was requested to freeze.
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index ab096b884bbc..fe175326b155 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -5789,7 +5789,7 @@ static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
- 	 * if the parent has to be frozen, the child has too.
- 	 */
- 	cgrp->freezer.e_freeze = parent->freezer.e_freeze;
--	seqcount_init(&cgrp->freezer.freeze_seq);
-+	seqcount_spinlock_init(&cgrp->freezer.freeze_seq, &css_set_lock);
- 	if (cgrp->freezer.e_freeze) {
- 		/*
- 		 * Set the CGRP_FREEZE flag, so when a process will be
+ 	if (IS_ENCRYPTED(dir) &&
+@@ -533,6 +535,9 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
+ 	trace_f2fs_lookup_end(dir, !IS_ERR_OR_NULL(new) ? new : dentry,
+ 				ino, IS_ERR(new) ? PTR_ERR(new) : err);
+ 	return new;
++corrupted:
++	err = -EFSCORRUPTED;
++	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+ out_iput:
+ 	iput(inode);
+ out:
+@@ -572,10 +577,11 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
+ 	if (unlikely(inode->i_nlink == 0)) {
+ 		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
+ 			  __func__, inode->i_ino);
+-		err = -EFSCORRUPTED;
+-		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+-		f2fs_folio_put(folio, false);
+-		goto fail;
++		goto corrupted;
++	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
++		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
++			  __func__, inode->i_ino);
++		goto corrupted;
+ 	}
+ 
+ 	f2fs_balance_fs(sbi, true);
+@@ -601,6 +607,12 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
+ 
+ 	if (IS_DIRSYNC(dir))
+ 		f2fs_sync_fs(sbi->sb, 1);
++
++	goto fail;
++corrupted:
++	err = -EFSCORRUPTED;
++	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
++	f2fs_folio_put(folio, false);
+ fail:
+ 	trace_f2fs_unlink_exit(inode, err);
+ 	return err;
 -- 
 2.51.0
 
