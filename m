@@ -1,114 +1,123 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB032DAFB4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 17:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089922DAFA9
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  3 Oct 2025 17:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759513188; cv=none; b=WVEkuua4qV+eVs7NQuHCwjUyGtbrd7oE/1FVz5OVTTcOzWnn0k7gaBeICZwB9xYMn60lMQStFU20hcWDGwa6JdtYel+6TsCSNIo0fIxiHEhKXeY40KTT79FaWklSFmzw9cDnC9t0mMO/uPyjvnJoowLkAw4Vzg2r/ReEMiwWD10=
+	t=1759513197; cv=none; b=rzIffbO5mzi0xORhuUFafO6spLMbcWiDelW91pOi3IJ3KEJ8IxvQC+RrCv03jZAvMLdGkneh4Ah4Q19w0KVnbEafl8RFACzhd3UFBDM1X9Pi6B7Nc5l83C491dUqz2ADKxwcmQSaiTktySq/PK6hUuYhkONTtS8PKIIMqbzM1f4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759513188; c=relaxed/simple;
-	bh=rkmZOyEGwokVeWZxBu8CGNqvK5sClSggQ4njXh3MKtk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fh+/yhL8kwAfQ3P2Jm8KTTS7Ae+2lbwcGtMbNYG8Ljnf4aUV/uhDpQjrFC1PntK2btFMDL8BkNJIVpf7b55bQ0slhYziYw8IW8oSIJobezolXmLPF5K4i4RTopERMEPU1g/bmSu9vHPVZERXUnGjOZdlxPHH9ruQRuw1mHLFkPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L6A5RsqI; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1759513197; c=relaxed/simple;
+	bh=K9MnDj8zru19z4WabVyc96zz7IXhP2QKMqGlIBk5Aw4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uKrcMaFFuTi8DKPN4yIAN4sS9RRzZc+DcaiXZkVSfhUfe8uW//COrwbjCbshXgJH55/mZ9eKYsjHt0jU9iJfY7BpvYLjulSjRyGgevIbcbUjnUTIEOqLXpetfwctqE5NOimY+XjeCWeFb1RLqZG8EEp3BsR94k8pKXBeNKkNg8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QulLy42I; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L6A5RsqI"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 9BF7A402E8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 17:39:46 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: 1.236
-X-Spam-Level: *
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id fsERwlj_qtNt for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Oct 2025 17:39:46 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::431; helo=mail-wr1-x431.google.com; envelope-from=karanja99erick@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org A904840336
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A904840336
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=L6A5RsqI
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A904840336
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 17:39:45 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3f42b54d1b9so2237495f8f.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 03 Oct 2025 10:39:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QulLy42I"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-269af38418aso29621955ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 03 Oct 2025 10:39:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759513184; x=1760117984; darn=lists.linuxfoundation.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=rkmZOyEGwokVeWZxBu8CGNqvK5sClSggQ4njXh3MKtk=;
-        b=L6A5RsqIJv66HTwyeEjcUJtQZJ4K/H8hhv69h9d2Ra87asT3E0r8XyeVlTQ7s7wvxr
-         O907Ldd7miImleLaHepGaBLCZ15AoiqRImqcpS72vttN5Zp/XGl9+LoERVCNUbo3JNHD
-         fENYFxiMUQ4ehFStMjjh4nUL8fAdqD5beRx3dqg9kFUqV1scBjRW1sHy75rYR5/dyekT
-         wdIP/hjwDvUVFcNKIlpjGw/p/B7xpm0tC0CLcKIAdCtd3APRhIFXjquIMm232wNY9YpX
-         pPDFdPrxVwf+QyP++XVbUBwQxwctgE/EYYBCG7ofpRj2d7Pl67ca3RHwfiylycG830tl
-         Xj3A==
+        d=gmail.com; s=20230601; t=1759513195; x=1760117995; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=McKrphvnyhX4IqUDStO+Mgag88IPYLvjzv/054SeX0U=;
+        b=QulLy42IxDQXRNVOWFABmhlT6At0Ry0TdLzZAd++tzoElX8vSAj0UF/U49fwJPYxxt
+         hqvFlB2hLpnDvIuYuV8bYlgzWaYA1Xr0ZeKaCtQ0FNKldpqYForeoDyrTXss/G0l37KG
+         kNfhcdKCxfWl9/nZ1Hv+z9CUJzc5/k4wXCjuBHRcjSjgB1+E+atYJHzKk/aKjy40+58k
+         tP6Fnpk5RC67NcaEv2Z8qu/FsH4KrnYfjATJqLYodt8TVCHRAHuM46u4SjnA7ZQlV984
+         85J5nmN8xP+oMO8vFQrgroY+56/H4BA2gJr/Pjf3hJov4S3yoZksAe1XznO4kggH+ioh
+         D5XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759513184; x=1760117984;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rkmZOyEGwokVeWZxBu8CGNqvK5sClSggQ4njXh3MKtk=;
-        b=cdeTw3bCcwZI6tHyztC2GqxKVq+tGmGReznJJzJr36uuImpZuIrWK0CpBb6F7ikR03
-         G4JfPL8Ias79tHtris8+C489OuXkpAf1VhwQunPy6SjsS820gwTuLq5nAALQ0Iva8Bm8
-         n7EjWSjIC0CZ/JXHscJALbyvgb70/lEKfkxDa6vDzqj225Eo3q2CV2f9daKVY3qKfNID
-         h6fAbWNEFHuOxOI9kcgFeF3gSgKUFeDudjdYnDtlt4faKPXJWMg7Npn0FnfVkVI7QDIT
-         envSNd+WRtggocTsAzbrdPb8PJUzkoqorOYjNBD9u3cLBG3KR0PWEzh+/DaQgNBgs2FO
-         0yWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXkrSLvuJDl5yq3aHwI1zUiywCk8xz2ev/HL87S6moWT56UDVZv6+HHgBn5qYzvPj3woEdPdf5iSx9XMgO8EVFh3xgP3w==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxCQyqrjB8O2Ux4r8KL6dEAtSLFI4A4HjG4S04X8fc7WU3QeRCa
-	/EIBL0D+h2ulJ0qXMjetvz8wkOywNP4fe0lJMN9gMWnG7B/iPiG1VHmX
-X-Gm-Gg: ASbGncvS3ORHmKsshqfErr0j5r/wzEVrg2DjixeD/O2WeSwsiFhp1ewFE7vP8vPIMNL
-	v8MCSTJnn/56WF7YSsKZ6esfjfAJCwDetAIJcB/T3BP/NLeOohF+ZsI7CLs36x4xRnxpuhV+tho
-	21Zg5yPK2kFa1aVGudwBExSP04B6yBM7KUlCCa4LahoHCj+zJpUm4OseX9k7m66N5Vzp4n73QVa
-	zi4SikcaJwPMngDxshLYe8D+b2lD2UnKJ3XOeveGNpQsawIiYYcAMpweL9jJLea0sK1eFsKieSU
-	dEqChT73lqx98FDGBK8gYbF9lq3fF4SDgQ8JZ7qhOVziwuS/PZoEocdAs2weK9Ugk+9IjBKSgPr
-	5Jf/BNzs04UPEXyI0cKfBie7d5IIReIt4Gm1v+fkqyBDPjqJC9GX+/zX3QanKxLnWjc0=
-X-Google-Smtp-Source: AGHT+IEuSki/XoM4rCKcaotfXJjqysypOd52m6IgtN6NTBsDMyUc4KvPqkIPo5OYOt/kydDekftJNg==
-X-Received: by 2002:a5d:588a:0:b0:3f1:2d30:cb5c with SMTP id ffacd0b85a97d-42567154011mr2824129f8f.23.1759513183310;
-        Fri, 03 Oct 2025 10:39:43 -0700 (PDT)
-Received: from [192.168.100.3] ([105.163.1.136])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8e9890sm8871298f8f.32.2025.10.03.10.39.38
+        d=1e100.net; s=20230601; t=1759513195; x=1760117995;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=McKrphvnyhX4IqUDStO+Mgag88IPYLvjzv/054SeX0U=;
+        b=OlpBXykwkGZ+zLkTzwIa3QGq66ZozWq8QAdiyO4S6WgcJLJ5op21CzuJQt7ErswY8P
+         QB66No9CkvYQfOtynL4bz0R6hxOML/1o0qBSKWW+8TE8G21RzPU8mb2KKt55FILmJXFu
+         o+v3Qcwfn944ySfj/15uNa4DQEKSB81703glWnJ9gE40y9sYfkIipOAEdEuXLm8rC6lY
+         IhJENmSGvJr0hjGL1EAN3a4xx8a4EpGAK/h2vL188sIlup3Y/JNiq58bNNew2QS2jdL0
+         VgD7tWhxqb90NGkejociC6bQsiGipEWfM5OHaqy75pLopiQIUE28lftpIvQdOJTzuE2Z
+         vEIw==
+X-Forwarded-Encrypted: i=1; AJvYcCXrA/7KPJxtITOXuuTIXM3R93YyOkpgtbfnh0o2sspXEZF+d8BuNs1cqr1WXn3grWBXqkAQ6Qbasco6Oy6alWViHbkFTA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxYlpWAMzxMtwMEogl96KhiQPLqNYNxmz3/zpYqWDfd+5kDbjYS
+	oZrRR9AP3Tyx2h1UyAqaDybMrmypq2qBjSYUkHh6RW/l2dzBinaAgIrM
+X-Gm-Gg: ASbGncsy5q4MGO0EB+5Zv5ECiofvXjkZM35Al1aGGeg7xOm4Ny3dD43D/2Xat/OAgrg
+	r0GASbdAL2+JH4vRCtiqo0Wjg/0PyB4npHCLOnwF13JDEQ5J5h5LWRbF5XA2fHLNECq5omSNfg5
+	fICE+UaunJ2fCD3WBTY9VD+RGF+s+WEA+Ad59vBv20tYmi9hE2RVqI6F7aZn6uClFdK79qiHPw+
+	QVjLO31XmKowrppjS5NFu5TdLjzelZO/EBQsuOIbANTDx27lVMGlP9YYNPfWozzkAFr5XP0eGSk
+	n6HCoslTy5XDDxpCVdeeDdM4LScSwpl72W5H6jadyXqom/1xAzmAVnf+fXtvtfSuVxjGceKjmb+
+	DxaEUh/WwFPBZlaYHYF8k5pckFymS3aEB3NkzJKhOGL6duGHtlnbH+c+wTf3FFPG0EQ==
+X-Google-Smtp-Source: AGHT+IFxK5aSMu30u6TJURWj06wmVP4JpzEOP1enPdk3/3t/y0sloBrTIpKjewn/xJuh0/y63HSRMg==
+X-Received: by 2002:a17:902:f68f:b0:26b:da03:60db with SMTP id d9443c01a7336-28e9a5ea070mr54639985ad.13.1759513195403;
+        Fri, 03 Oct 2025 10:39:55 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1261edsm56267635ad.34.2025.10.03.10.39.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 10:39:41 -0700 (PDT)
-Message-ID: <b109dcf89e3e1314224e5a29706154c2e612e079.camel@gmail.com>
-Subject: Re: [PATCH] net: fsl_pq_mdio: Fix device node reference leak in
- fsl_pq_mdio_probe
-From: Erick Karanja <karanja99erick@gmail.com>
-To: Markus Elfring <Markus.Elfring@web.de>, netdev@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>,  David Hunter <david.hunter.linux@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Shuah Khan <skhan@linuxfoundation.org>, Simon Horman
- <horms@kernel.org>
-Date: Fri, 03 Oct 2025 20:39:27 +0300
-In-Reply-To: <77f2a45b-1693-4106-8adb-304e0e818d82@web.de>
-References: <20251002174617.960521-1-karanja99erick@gmail.com>
-	 <77f2a45b-1693-4106-8adb-304e0e818d82@web.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        Fri, 03 Oct 2025 10:39:54 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	zhanjie9@hisilicon.com,
+	viresh.kumar@linaro.org,
+	rafael.j.wysocki@intel.com,
+	superm1@kernel.org
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org
+Subject: [PATCH v2 1/2] docs/zh_CN: Fix malformed table
+Date: Fri,  3 Oct 2025 23:05:59 +0530
+Message-ID: <20251003173926.10048-2-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251003173926.10048-1-krishnagopi487@gmail.com>
+References: <20251003162626.6737-3-krishnagopi487@gmail.com>
+ <20251003173926.10048-1-krishnagopi487@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2025-10-03 at 18:32 +0200, Markus Elfring wrote:
-> > Add missing of_node_put call to release device node tbi obtained
-> > via for_each_child_of_node.
->=20
-> Will it become helpful to append parentheses to function names?
-Yes, it is necessary.
->=20
-> Regards,
-> Markus
+Running "make htmldocs" generates the following build error
+in zh_CN/cpu-freq/cpu-drivers.rst:
+
+Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst:109: ERROR: Malformed table.
+
+Fix the table formatting to resolve the error.
+
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+---
+Changelog:
+- Adding missing TOs to the relevant maintainers.
+
+ Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst b/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
+index 8238f4c6e4f5..2d5e84d8e58d 100644
+--- a/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
++++ b/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
+@@ -112,7 +112,7 @@ CPUfreq核心层注册一个cpufreq_driver结构体。
+ |                                   |                                      |
+ +-----------------------------------+--------------------------------------+
+ |policy->cpuinfo.transition_latency | CPU在两个频率之间切换所需的时间，以  |
+-|                                   | 纳秒为单位                    |
++|                                   | 纳秒为单位                           |
+ |                                   |                                      |
+ +-----------------------------------+--------------------------------------+
+ |policy->cur                        | 该CPU当前的工作频率(如适用)          |
+-- 
+2.43.0
 
