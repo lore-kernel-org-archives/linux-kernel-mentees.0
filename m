@@ -1,161 +1,110 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E70A1DFDB8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 16:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798882DAFA8
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  3 Oct 2025 17:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759509478; cv=none; b=lNXryg4QR201cnKOPBstwM73qNUBRVw9UKH52BZwryCWXIAFDoJlZ/KjfTXGNPtqN6isYVD1z+naBzAE3jczOLjTctGCs/m4lVWyZe0WJ9/crJcUDWfXKFc7EbOSaQHUj5Jz8l1lJpC+IxVzh7W6ymqlE3VB9Iv+WIM8Ulz+oAw=
+	t=1759513187; cv=none; b=gp9bPMkUtHLaxvQO2UaU42yxdeTLUdAR5ZjjcstyK42riKBh0hX1qn2gnzE27amTNK2DcfafeqtDLuBnxCDA5eOePF9e/+06apbwFi/Q7ecUTgFxM3IEolxy17aXQeRtOU+M1UXnlwTngvZ7KMQOcxRzVTuqw3tsCKBinvoRGd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759509478; c=relaxed/simple;
-	bh=yAR10OIPN+DTvGbJQsaMkX4gzSxmUi1IfJPpGjjCZCY=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=UHfTEZd9FT9mmH2kqZmKM91d7oTr5D5Lb4uzuTcrb0c9YCyOxp43qsdI5Pwh/wlz6waHz3khDnbduDrBqDrFC/BF25+tcKeFR+dO9obEnDR3H0YFPSLteMWbWAzhzr6i1xlYHjdNCqldG/EyVFVQDpvr18ZHKf3Rv4s5lbn1xWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=FEYuut1P; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1759513187; c=relaxed/simple;
+	bh=ZaUhRL9uYRgp3STBiIrntA/xJ/L78oxvSHtu/809KNk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EMlRfDUVPoP4fYYqLDn0hJ1flWtQ+4ncqpOGRtYcuB23ARYndZMCoJM+bmxDh018NGhQ9KNgZQtaWhsNlLKSx5mXY9jsYGqVFe0PZ7ITGUJ9ZQUK+fgdfkV9RLkg2PqMWAHZqjS5PyKUkodI0Z1EFSGSo/3d2o18tpB6SHiyG8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fse9gFtU; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="FEYuut1P"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A074960C13
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 16:37:56 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -3.788
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id RITWYMVGPTHf for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Oct 2025 16:37:56 +0000 (UTC)
-X-Greylist: delayed 328 seconds by postgrey-1.37 at util1.osuosl.org; Fri, 03 Oct 2025 16:37:54 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 25229611C8
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 25229611C8
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=FEYuut1P
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=212.227.17.12; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=<UNKNOWN> 
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 25229611C8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 16:37:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1759509472; x=1760114272; i=markus.elfring@web.de;
-	bh=yAR10OIPN+DTvGbJQsaMkX4gzSxmUi1IfJPpGjjCZCY=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=FEYuut1PkGSh5lmNmzyY1h+HnBK5Pf6q1wbtK0ef3M4jN7lN2srjrO4BpOINwAn0
-	 May40Lia4d8oIXCydg9JwlFQLkR0J0HEzREfQK0p9i0ysV1IxrsjnZgWOnAtdbHFg
-	 QF7p08EaWm9AEhEoq7Cky6X7ycZNyX19x6f5rUUvLbW+zZbptH9/XPklhYoLsC3na
-	 YhQ7kWPivoOgwnKE+yLf7q4LiMfdkbhQya/YUDRd7w7kREaTy9mcvJPp7FbxIBviL
-	 LLpRl3USgIyq2YFX7znU1lH76iB30x3xzK6URFMNDe5DO5fwOOwNXvC8sjfc7l+kV
-	 LGnuSWs3aoPfAFk0Qg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.196]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MOm0r-1ueVPe1CTn-00UBAU; Fri, 03
- Oct 2025 18:32:13 +0200
-Message-ID: <77f2a45b-1693-4106-8adb-304e0e818d82@web.de>
-Date: Fri, 3 Oct 2025 18:32:09 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fse9gFtU"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b5516ee0b0bso1843042a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 03 Oct 2025 10:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759513186; x=1760117986; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pwVgppgL3hOntHtqfj1wQPCPEzCZhCKf11suJZJq538=;
+        b=fse9gFtUQfEYjcFZ46MnMfl6bP7vZoq1Io4T6VV5Y3BvQUU1yuZPxHbVPAKobTsed9
+         4EKii/wQlKMgC4xkjdcHiUg6Iw1Eny5fRHnSkzWAjLoB/NlD+NAiXXYJqB7lVNTZQv/7
+         LCdTW4GPbLkACk0exi6GSwo+pmefXzDU51noMnTNbTU4QSqA+yNeQAc2GUrhtvUV2ZPp
+         J5pp0AYXx/KnguCOMeKSTUru6/Eq5gwbeWqP6TQJN9+TRvvB+1e6wEv7k84Ppp/Q2U4p
+         MAmGiL9qGNi9PYV7AHeSqaKM/azbB5O2+yszAR2p57RIbYzZKlNN20nXvc/IXHOBnyez
+         WbwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759513186; x=1760117986;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pwVgppgL3hOntHtqfj1wQPCPEzCZhCKf11suJZJq538=;
+        b=SFCE+7HY4V0xOalAuX/sTFDyUU1CbYpw4akBGxFDMP1LO4oZiT0eYPsg/4W8ccTC+S
+         E3/709qfBwmIPEsxIClfL2g6MLUMs0+YQ9dXpS0k1IT9ZyLLCD8PiHhUSfXM9VaA2S5M
+         NmyUUbSaaYt2WUIWCZIyzOLYU/xesAXsSyTltCEn9tYup6jZkY4QaH9w8c7ULij3hrt2
+         1OcNbljRYUVVe0eyfYS3uK25xwtf3XuI/FCycCs6KUO2acQjBi9vQCqwCmUQS0jRbf6Q
+         qSJ+lIXNvPyq6yZXlOER7cBhSdscC8UZf/AoWYBsimkgN5KjuMxuIouCcHmHJBBjKGRv
+         ajCg==
+X-Forwarded-Encrypted: i=1; AJvYcCWw/bgn6O0IJeDOXbV7Ur01GvFqZrvKu+g1GHTl19Ek/ki0Efn3rOunm666K9cIt8m2uEkyIQFeq6USUcbbFpWOhbn7sg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyezpD4pKDtyO4QgRKMxFkfeG5VittvJe9mHIOBLDZOFkdB2Miv
+	ZVqXugxc89j1CuIpobVb8HIhCjP8HU5lYKlQcwdfkoovv/ryXxkbjqIA
+X-Gm-Gg: ASbGncu8BJxiR03VnzNzCZ/wQcJkZwrbkrcIJkNijrRgO8Ooh6QcQih51OWpRdFnPoX
+	m0dfW/5aR3bXCwMhjnIxUIPgMSmHxRgsIE4/orxu4RjtWswpV9WLv3c/JwZqDMTnhAo1Q+jjap6
+	gBFp7EIWpVG7nsKTJE5tAN27qxumxwjtwbCUIv+ghwlHpHaMj+iluhNrN20SXWr3Omb9zXGnt17
+	k4u7Q1I8UEMAtxuv7EJARLccUUrskEbBwIYKfoYk3B3yGzVJkqnbBl+7+ZcY49rGJmnY2k9d9TF
+	vKqeEmYB3zxmv3Mmd7qRD+4+MdGAl/d6q3irqU4l5NvOl2aCR+VPQIF87HkoxWYHmLbQUdN561I
+	BPXO0qwlRo3EhazGvQ2cuXcG1r+vhbbhmtkkoE70IMMnlmw6X/1X+lbaAz4ge8a6sHYTfbziXXT
+	eA
+X-Google-Smtp-Source: AGHT+IG6pd8ft2Gfzz8OtvTYc1aPctUPueNw+N8ygaqoazUFNcD1dF0JrQ4yow/VID/T1AeeLSKoZQ==
+X-Received: by 2002:a17:903:2f0b:b0:264:befb:829c with SMTP id d9443c01a7336-28e9a5463aemr42367135ad.9.1759513185641;
+        Fri, 03 Oct 2025 10:39:45 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1261edsm56267635ad.34.2025.10.03.10.39.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Oct 2025 10:39:45 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	zhanjie9@hisilicon.com,
+	viresh.kumar@linaro.org,
+	rafael.j.wysocki@intel.com,
+	superm1@kernel.org,
+	2023002089@link.tyut.edu.cn,
+	qyousef@layalina.io
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org
+Subject: [PATCH v2 0/2] docs: fix malformed tables in Chinese translations
+Date: Fri,  3 Oct 2025 23:05:58 +0530
+Message-ID: <20251003173926.10048-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251003162626.6737-3-krishnagopi487@gmail.com>
+References: <20251003162626.6737-3-krishnagopi487@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Erick Karanja <karanja99erick@gmail.com>, netdev@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- David Hunter <david.hunter.linux@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>
-References: <20251002174617.960521-1-karanja99erick@gmail.com>
-Subject: Re: [PATCH] net: fsl_pq_mdio: Fix device node reference leak in
- fsl_pq_mdio_probe
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20251002174617.960521-1-karanja99erick@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:8W/6qW33cw+tr6rspLzq0qyhdNS6PMNpOaUXr5sL5jZUG7xARm+
- 8bv2tD70HNQ/cjsZfd7mEcksa9LQQrJe1OBHsWh3Hy8LePCxs0wr98qy7cdrU3sW+v403p3
- 6dDvNH/m8qTY62jVZr6ILq0wth9jfFwUSfsxjuMcZrZvuoyMV5X0EYzGW4eMlpV1mXs7dGX
- zyiaeaoOxX3nl0bZKac9g==
-UI-OutboundReport: notjunk:1;M01:P0:/vNfIiMX8NE=;1phbWNYNmSmIDNvotBUnsFWV417
- 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
- YxpkIyEKqnVfYA==
+Content-Transfer-Encoding: 8bit
 
-> Add missing of_node_put call to release device node tbi obtained
-> via for_each_child_of_node.
+This series fixes htmldocs build errors due to malformed tables
+in the zh_CN and zh_TW translations of cpu-drivers.rst.
 
-Will it become helpful to append parentheses to function names?
+Changelog:
+- Adding missing TOs to the relevant maintainers.
 
-Regards,
-Markus
+Gopi Krishna Menon (2):
+  docs/zh_CN: Fix malformed table
+  docs/zh_TW: Fix malformed table
+
+ Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst | 2 +-
+ Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+2.43.0
+
