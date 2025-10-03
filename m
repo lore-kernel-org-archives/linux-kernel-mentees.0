@@ -1,137 +1,106 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016692E88A2
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  3 Oct 2025 02:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325E4248F4F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 07:33:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759459617; cv=none; b=c1FMTVa1AbmJsMnvzHDWFBLRac7tbUcYZ65Y8v/4+KdR6ZOJuSV1M1Y7MLu10dkodmljyDVPCo1aTGQ+zUO8HBiQ4BoJCDSNb3L0rFN12RezY5Xwbf7hlJ1baTdAA1Ge9Tf5eQKO2e5TKJaYAUmzaizubCBZlhyTf09nhFKjEIc=
+	t=1759476812; cv=none; b=B725SGCn/1GFLdi2u2c5pcglh5nhxb9Eh5/U1vW6rp/XMhSE+vc5eHBmV5MU3I0+kS7E2mvDW7UQi7lAXBlVdWFEEesOTfMal6aEMUTSjCcH1PC8JFhawjGOz1rGHB7A+Dg0rRVHVRA3imeJc+54GxRCUuse0ARcWjTyLJ8qkZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759459617; c=relaxed/simple;
-	bh=Ian8cjIT1K+KMP7ripOyg3kGCrE9a1brDSJjYY5GYGo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HuN3Ppuq8bpUZqTeHNsy4a6bnYnuN3xVE1Vje7cdKpF6wwDYw9br15jznenm7kM/YqtMPlBoLNpTpRLclhFxpsEMMfCf0/8qBnXf7n9yUw5Rlp/89vriGSQbnVydws63GG5lYCbgnvprvKNi07YFD2jhiJQNdiTqX4BG2pkutAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=nbMaw/UZ; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
+	s=arc-20240116; t=1759476812; c=relaxed/simple;
+	bh=B4tE9QKrxptfIX5Q80EK++1ZwvbcKDyl6d3JAR58kYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WAvVvL9Zahx88D+/msffLqNsS8QV0Q5+6KOg/gXrFtoXw4jJmYyA5Dt0F4EVZZ8+hXx/HUggxK/HEPnkXHj3xpi+a8bgcjyBIJ9gXDu0g5WQSrWiM7WaXIgW6jqRMl0FUkiCZ0+E5gcKhvWfGmxP6rSYmNeZy4L0XFYs5OrBzx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yfqz/380; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="nbMaw/UZ"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1759459598;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=arFPoEw4NnR9PQwbNscdAi1I77PIuHTb0JaDC1udJwA=;
-	b=nbMaw/UZDhg+hoQb4TVuwGqNeiG3aIPHeSuVFTFRzNpqx9KYffjbYyDuMld80bA0J87bHq
-	bK2gAC3mgTZQ0rhOBaXYllYIUn2nEdH9uolYzXIcTPMNAijtbQTHFMLttQ7Wf3gtMSal8k
-	fnSmimuOx0xifD8jQzIJcj8e4leOPRiNbe+AmQWQ1lBLaz8gU3qkWK92C3j5WLBLcGI/mP
-	mMZCd1n062krtCO55hHIHuvdX/WXGoz9TF0Yqt5eg9SewLT2XHp2Nr7hbIjfGD89wNq3Aw
-	cR2HPncDfe10R5/USkjPjE9eExpefr8+ouyEWOdd8p82fFUSn5NlGlwt8LnlGw==
-From: George Anthony Vernon <contact@gvernon.com>
-To: slava@dubeyko.com,
-	glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com,
-	linux-fsdevel@vger.kernel.org,
-	skhan@linuxfoundation.org
-Cc: George Anthony Vernon <contact@gvernon.com>,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-Subject: [PATCH] hfs: Validate CNIDs in hfs_read_inode
-Date: Fri,  3 Oct 2025 03:45:39 +0100
-Message-ID: <20251003024544.477462-1-contact@gvernon.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yfqz/380"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id BB7CD81D2D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 07:33:30 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.101
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id wE8PcIIdrxrR for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  3 Oct 2025 07:33:30 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=horms@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 0057B81C11
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0057B81C11
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Yfqz/380
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 0057B81C11
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  3 Oct 2025 07:33:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 45F13454C3;
+	Fri,  3 Oct 2025 07:33:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0742CC4CEF7;
+	Fri,  3 Oct 2025 07:33:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759476809;
+	bh=B4tE9QKrxptfIX5Q80EK++1ZwvbcKDyl6d3JAR58kYU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Yfqz/380QdLUyU2l8Kjh+C0qekBfRS3wt8evAZ0Y0QZaIjYltFbPiNWZYtJJgwDEH
+	 BLCrDcf3IuR+NrHsHOVb8V5lNbA1PjsFBW2AJaXV47fROM8qJK/PhX8EwQJEC0q+Nc
+	 0ijQeiR26fdx7X8i9R28t7IFrU+s63rJj0+Ure1uqUaEEtrmWSvlbXyvND/PF+Z+Fh
+	 YDQ+PD8+NxuMkecatTl1ZRwZFrNyylGFm5b8nfYECYVa+xGe51789Us2V1Yj79tXt+
+	 EsLtDiuMNPdcHIbxWy34kVDUwePYiw3RsIxfEdCgn13whq5EM2V93wncGiOPkl4k+W
+	 6GHqKpMgRZySw==
+Date: Fri, 3 Oct 2025 08:33:24 +0100
+From: Simon Horman <horms@kernel.org>
+To: Erick Karanja <karanja99erick@gmail.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	david.hunter.linux@gmail.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net: fsl_pq_mdio: Fix device node reference leak in
+ fsl_pq_mdio_probe
+Message-ID: <20251003073324.GA2878334@horms.kernel.org>
+References: <20251002174617.960521-1-karanja99erick@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251002174617.960521-1-karanja99erick@gmail.com>
 
-hfs_read_inode previously did not validate CNIDs read from disk, thereby
-allowing inodes to be constructed with disallowed CNIDs and placed on
-the dirty list, eventually hitting a bug on writeback.
+On Thu, Oct 02, 2025 at 08:46:17PM +0300, Erick Karanja wrote:
+> Add missing of_node_put call to release device node tbi obtained
+> via for_each_child_of_node.
+> 
+> Fixes: afae5ad78b342 ("net/fsl_pq_mdio: streamline probing of MDIO nodes")
 
-Validate reserved CNIDs according to Apple technical note TN1150.
+nit: no blank line here
 
-This issue was discussed at length on LKML previously, the discussion
-is linked below.
+Slightly more importantly, although the code you are changing
+was added by the cited commit, I think that the bug existed before then.
+I wonder if the fixes tag should be.
 
-Syzbot tested this patch on mainline and the bug did not replicate.
-This patch was regression tested by issuing various system calls on a
-mounted HFS filesystem and validating that file creation, deletion,
-reads and writes all work.
+Fixes: daa26ea63c6f ("Merge branch 'octeontx2-fix-bitmap-leaks-in-pf-and-vf'")
 
-Link: https://lore.kernel.org/all/427fcb57-8424-4e52-9f21-7041b2c4ae5b@
-I-love.SAKURA.ne.jp/T/
-Reported-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=97e301b4b82ae803d21b
-Tested-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-Signed-off-by: George Anthony Vernon <contact@gvernon.com>
----
- fs/hfs/inode.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+> 
+> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
 
-diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-index 9cd449913dc8..6f893011492a 100644
---- a/fs/hfs/inode.c
-+++ b/fs/hfs/inode.c
-@@ -321,6 +321,30 @@ static int hfs_test_inode(struct inode *inode, void *data)
- 	}
- }
- 
-+/*
-+ * is_valid_cnid
-+ *
-+ * Validate the CNID of a catalog record read from disk
-+ */
-+static bool is_valid_cnid(unsigned long cnid, s8 type)
-+{
-+	if (likely(cnid >= HFS_FIRSTUSER_CNID))
-+		return true;
-+
-+	switch (cnid) {
-+	case HFS_POR_CNID:
-+	case HFS_ROOT_CNID:
-+		return type == HFS_CDR_DIR;
-+	case HFS_EXT_CNID:
-+	case HFS_CAT_CNID:
-+	case HFS_BAD_CNID:
-+	case HFS_EXCH_CNID:
-+		return type == HFS_CDR_FIL;
-+	default:
-+		return false;
-+	}
-+}
-+
- /*
-  * hfs_read_inode
-  */
-@@ -359,6 +383,11 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 		}
- 
- 		inode->i_ino = be32_to_cpu(rec->file.FlNum);
-+		if (!is_valid_cnid(inode->i_ino, HFS_CDR_FIL)) {
-+			pr_warn("rejected cnid %lu\n", inode->i_ino);
-+			make_bad_inode(inode);
-+			break;
-+		}
- 		inode->i_mode = S_IRUGO | S_IXUGO;
- 		if (!(rec->file.Flags & HFS_FIL_LOCK))
- 			inode->i_mode |= S_IWUGO;
-@@ -372,6 +401,11 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 		break;
- 	case HFS_CDR_DIR:
- 		inode->i_ino = be32_to_cpu(rec->dir.DirID);
-+		if (!is_valid_cnid(inode->i_ino, HFS_CDR_DIR)) {
-+			pr_warn("rejected cnid %lu\n", inode->i_ino);
-+			make_bad_inode(inode);
-+			break;
-+		}
- 		inode->i_size = be16_to_cpu(rec->dir.Val) + 2;
- 		HFS_I(inode)->fs_blocks = 0;
- 		inode->i_mode = S_IFDIR | (S_IRWXUGO & ~hsb->s_dir_umask);
--- 
-2.50.1
+One minor comment on process: as a fix for networking code, most likely this
+should be targeted at the net tree. And that should be denoted in the
+subject like this:
 
+Subject: [PATCH net] ...
+
+And if you do post an updated version, which is probably not strictly
+necessary, please be sure to observe the 24h rule.
+
+See: https://docs.kernel.org/process/maintainer-netdev.html
+
+The code changes themselves look good to me. Thanks.
+
+Reviewed-by: Simon Horman <horms@kernel.org>
+
+...
