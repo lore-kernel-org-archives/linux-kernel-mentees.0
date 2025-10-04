@@ -1,168 +1,102 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC353BB5A
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  4 Oct 2025 01:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F4D217723
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  4 Oct 2025 01:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759541128; cv=none; b=CrhTpMZlEOjIRqem5onAjbC15VzfwRofXA7RYM3LX++phHsdjYragJLzX/UnxwL55MO2c21H6IVRqmFCuoAokSNtGfaWsWHUG1PMCk3/bFrIi2ChnM8/0kjzGci3KLIPUzJSls4Mtzy0ILlAEH0RLi8mbQDrZqIMPzBMhgtCY64=
+	t=1759542997; cv=none; b=UeCSiuiVPgLOqxY+zFvmcFXUgo7OM0LE5bpifgyMAvI51AQv+s8XNGstFgTp3jvdWEaqrhIHwqAwbQLL5NuzDGek7u1U2xs8z+la9CC7EHc33gdSLfCbivXTasg0hL6Ibu+lqC4LYCRubYbQj0dlalSeQRZ9Gy+EB2S2+Pr/gDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759541128; c=relaxed/simple;
-	bh=FDkFCEGWhZHa1Woj7m+2H/+uk27BBMDyqk5dQoPv0vk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vAB67pHeq8xptSRGyj9EaQ6bfS6CNkknkEJmf0lCA0UfXbQbux/+sHTumT1QHth0xt0V7ZMOly21xUwpOd8bFwyGqtrv5CrSVbTJtEWoYHRzYkofSCPpb9jbt0F+xuCyb5KBxCdp3xS+5cf9CVtM0oEOweI1XKyXB/+xWJVLJcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=bHm/JpiG; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
+	s=arc-20240116; t=1759542997; c=relaxed/simple;
+	bh=hORoEnA4rNo9eZ2TnSKm6bO35jEMPOOzljSvUmmDcv8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IYzHL1DnWN+9IyNDRwohoIeksaofjEG5T5Yyszit43ea1nyaDfIKBoD6mLcn0T52yL25ESspBsIeOTbhuNsQpkJfs0ZZTzqtBTfjnnvLYMf3TmjHwAe3awIbFEa7Io6XUsuiRpWHbfihjT7cEhkg5zqTbcC1EgQgE1ax4MQLBqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4wJkwVE; arc=none smtp.client-ip=209.85.214.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="bHm/JpiG"
-Date: Sat, 4 Oct 2025 02:25:16 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1759541121;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vxMDW/Dq4L6kXa9Vwh1VX6wM7Gn8hhMzHJhGHctQQmc=;
-	b=bHm/JpiGEzh6zFXYgcRBqn76ahirD+9VZqXqBdohezHrI1PWNVzOf19YSoH5H5cWy56Qz7
-	VMTRVN0/k+c+w8Kj2onD/wdeH/lPhAEnKU9e6UWG+A6J0TG2G6iBek0Lv57q6Xu8TuUzHI
-	sFlVM8vDH0X5HhbUsAH0nWEIso5cCEz7Oyu5k0M+O+up971afmUtWrVjSZ1+livCFqcG/E
-	n7AEq1j34CyGZNM4Av5r7ve3g4mr7Y369+vzJys2n9cCb3UawmvQNx5XbsHznnVXOzkvGu
-	KwKoIxdQlh9f9ljVkhtDaEQBPXPzAovh88oY84hGa8RLlz03kwl9nfmlW48Amw==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: George Anthony Vernon <contact@gvernon.com>
-To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-	"slava@dubeyko.com" <slava@dubeyko.com>,
-	"frank.li@vivo.com" <frank.li@vivo.com>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel-mentees@lists.linux.dev" <linux-kernel-mentees@lists.linux.dev>,
-	"syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com" <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] hfs: Validate CNIDs in hfs_read_inode
-Message-ID: <aOB3fME3Q4GfXu0O@Bertha>
-References: <20251003024544.477462-1-contact@gvernon.com>
- <405569eb2e0ec4ce2afa9c331eb791941d0cf726.camel@ibm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4wJkwVE"
+Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-26a0a694ea8so23207095ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 03 Oct 2025 18:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759542996; x=1760147796; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yTEqLH7hif0P56GR/htRgCIrTJyGDU/Of++XnbDqejk=;
+        b=D4wJkwVEpjdIx6HEnvfqi9FVMpNYFOjJgDVu+mjQSOFS107ZQ2+q/ulzvKi/z4spDk
+         wN68I5yb7ls6LN0fuvSZD8sxaZ4+9DOiosDo5MCmsz20oxuQnkMz0neTUP8iuamd8DX3
+         cmGntAOlkoH0JoV845bNOoVeVXqMsXoQSE3rO5z9z+tBJWtUOy4dHZPDQ+H8g1JiXxpv
+         Vea8JNx08e3B8HCf09mN27xaRXaPrzRD/6p6SNVCn5FxlbjL0tm082u6NTbvlOhk+Ujt
+         KoBnBvHxRSIjmoPZ9mNllW9v1lPotlAtmuWR8qrNol2zqzi6oXEERzJBvtzwQFc7Y0vq
+         1aOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759542996; x=1760147796;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yTEqLH7hif0P56GR/htRgCIrTJyGDU/Of++XnbDqejk=;
+        b=alt7PCuZkFlj3WeH1uRI4ll08DUO1C6HaPec07XYmhGOr75sJF+PdDSmhngzfsXjzL
+         HSPLV6xbyXQ0lq0eSuEE0ZFyyYIIrsGms68oSBapO9R0I15RME+t9HoIeapmI/Fk/z9Q
+         DvsR4vLfzjX1jLiol01avYfyWF37M5u+PAowBwAVhPso/WaRquu0mCYGSj/n9NbtL0Sb
+         XEsHAa6YCtgEgLmhbCv2A/fA4Yt0JlRBBBkFJo4//C3dNVAURxTpjghRtKVr96o7QB4e
+         DbOLFpxzAgYSh8cBi9KVDFS4CXQEu1ZEePiiIU2MhBFiTRcLiWaTScBu2beiQdDHGFqv
+         cl9w==
+X-Forwarded-Encrypted: i=1; AJvYcCVMv/TP55ZTGOUsATB0wdqcUsp+QtUhgsVDheLoOXkAz/ufg53JUEgmipmet75khNU5OHuzA/mLo6hP30XcB/+ndU6U6A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwYAQ1FZNSe1uNOnppoX4FT6lVzHY9hAlGKvgNT5UarfyWg7/+D
+	+5vom+xi7scx+NE33xtLy5ZbJOeBJ9/6801ThsZ2we+GrM1neUVwuJ65
+X-Gm-Gg: ASbGncs5gKDG/atOv5pF/B1gTQZHZ+eW+LU5ZcTCkIrmMmki9ql2l/GI2rlwU5ntg4Q
+	DOik/xelVv2eF9YOz+Nr2ImC2owlld7/V2RRmfGGTU41QP4RT+f+xKu3rBJD7rvzbCJesGXbGxI
+	izZAJIMbJ1LH5mUqKjp3yJZbQR/vRxXrWdK12TMV6Ifnn6jGySdLcAwmKUQ6iFp/8/hchBrYwiG
+	cr9OYhQL9xm1BXiUD4KzRNXdLQPaV0WC7IgY1wq/aZT6ckLM8IElrRTVq/Mtjh92CzJDjkjLV7Z
+	l1AD7GTu4KCCRQzEEMFBuI6nxqShE4QZLnMJIXDiI8hWTyicQO3k3Adh0S62KwXjGOQw9TZkyWF
+	HDDOCQqom94T39kUIoNnmz+rK7t4dWHbCTrY27EJk776Ok8PdaccI5aM=
+X-Google-Smtp-Source: AGHT+IFNiL0NAmoLijKiqKFOV1i/A4WOPLrh/tgGYP4tBcXBAwrLn0RbO3aVkg2rfnZrEJWChZJVIA==
+X-Received: by 2002:a17:903:a86:b0:248:fc2d:3a21 with SMTP id d9443c01a7336-28e9a5cdd22mr51596345ad.4.1759542995628;
+        Fri, 03 Oct 2025 18:56:35 -0700 (PDT)
+Received: from Ubuntu24.. ([157.33.197.131])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d134859sm63197485ad.57.2025.10.03.18.56.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Oct 2025 18:56:35 -0700 (PDT)
+From: Shrikant Raskar <raskar.shree97@gmail.com>
+To: jic23@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	matt@ranostay.sg,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Shrikant Raskar <raskar.shree97@gmail.com>
+Subject: [PATCH 0/2] iio: health: max30100: Add DT pulse-width support
+Date: Sat,  4 Oct 2025 07:26:21 +0530
+Message-ID: <20251004015623.7019-1-raskar.shree97@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <405569eb2e0ec4ce2afa9c331eb791941d0cf726.camel@ibm.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 03, 2025 at 10:40:16PM +0000, Viacheslav Dubeyko wrote:
-> Let's pay respect to previous efforts. I am suggesting to add this line:
-> 
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> 
-> Are you OK with it?
-I agree with paying respect to Tetsuo. The kernel docs indicate that the SoB tag
-isn't used like that. Would the Suggested-by: tag be more appropriate?
+Add device tree and driver support for configuring the MAX30100
+pulse width, addressing a long-standing TODO in the driver.
 
-> I think we can declare like this:
-> 
-> static inline
-> bool is_valid_cnid(unsigned long cnid, s8 type)
-> 
-> Why cnid has unsigned long type? The u32 is pretty enough.
-Because struct inode's inode number is an unsigned long.
-> 
-> Why type has signed type (s8)? We don't expect negative values here. Let's use
-> u8 type.
-Because the type field of struct hfs_cat_rec is an s8. Is there anything to gain
-by casting the s8 to a u8?
+Tested on Raspberry Pi 3B with MAX30100 breakout module.
 
-> 
-> > +{
-> > +	if (likely(cnid >= HFS_FIRSTUSER_CNID))
-> > +		return true;
-> > +
-> > +	switch (cnid) {
-> > +	case HFS_POR_CNID:
-> > +	case HFS_ROOT_CNID:
-> > +		return type == HFS_CDR_DIR;
-> > +	case HFS_EXT_CNID:
-> > +	case HFS_CAT_CNID:
-> > +	case HFS_BAD_CNID:
-> > +	case HFS_EXCH_CNID:
-> > +		return type == HFS_CDR_FIL;
-> > +	default:
-> > +		return false;
-> 
-> We can simply have default that is doing nothing:
-> 
-> default:
->     /* continue logic */
->     break;
-> 
-> > +	}
-> 
-> I believe that it will be better to return false by default here (after switch).
-We can do that, but why would it be better, is it an optimisation? We don't have
-any logic to continue.
+Shrikant Raskar (2):
+  dt-bindings: iio: max30100: Add pulse-width property
+  iio: health: max30100: Add pulse-width configuration via DT
 
-> > +			break;
-> > +		}
-> >  		inode->i_size = be16_to_cpu(rec->dir.Val) + 2;
-> >  		HFS_I(inode)->fs_blocks = 0;
-> >  		inode->i_mode = S_IFDIR | (S_IRWXUGO & ~hsb->s_dir_umask);
-> 
-> We have practically the same check for the case of hfs_write_inode():
-> 
-> int hfs_write_inode(struct inode *inode, struct writeback_control *wbc)
-> {
-> 	struct inode *main_inode = inode;
-> 	struct hfs_find_data fd;
-> 	hfs_cat_rec rec;
-> 	int res;
-> 
-> 	hfs_dbg("ino %lu\n", inode->i_ino);
-> 	res = hfs_ext_write_extent(inode);
-> 	if (res)
-> 		return res;
-> 
-> 	if (inode->i_ino < HFS_FIRSTUSER_CNID) {
-> 		switch (inode->i_ino) {
-> 		case HFS_ROOT_CNID:
-> 			break;
-> 		case HFS_EXT_CNID:
-> 			hfs_btree_write(HFS_SB(inode->i_sb)->ext_tree);
-> 			return 0;
-> 		case HFS_CAT_CNID:
-> 			hfs_btree_write(HFS_SB(inode->i_sb)->cat_tree);
-> 			return 0;
-> 		default:
-> 			BUG();
-> 			return -EIO;
-> 
-> I think we need to select something one here. :) I believe we need to remove
-> BUG() and return -EIO, finally. What do you think? 
+ .../bindings/iio/health/maxim,max30100.yaml   |  6 +++
+ drivers/iio/health/max30100.c                 | 39 ++++++++++++++++++-
+ 2 files changed, 43 insertions(+), 2 deletions(-)
 
-I think that with validation of inodes in hfs_read_inode this code path should
-no longer be reachable by poking the kernel interface from userspace. If it is
-ever reached, it means kernel logic is broken, so it should be treated as a bug.
+-- 
+2.43.0
 
-> 
-> 		}
-> 	}
-> 
-> <skipped>
-> }
-> 
-> What's about to use your check here too?
-
-Let's do that, I'll include it in V2.
-
-> 
-> Mostly, I like your approach but the patch needs some polishing yet. ;)
-> 
-> Thanks,
-> Slava.
-
-Thank you for taking the time to give detailed feedback, I really appreciate it.
-
-George
