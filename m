@@ -1,171 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE1C25A642;
-	Sat,  4 Oct 2025 13:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E143B1AB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 13:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759583815; cv=none; b=kKiKGbbeRUGvct5VIvqcvDH4gsA9kZLstTaVAp4Ie5V/eA2wZLBZ/5By4qLq4d6xjLEcPFoHTdZCqWhfTlK3Y+nfWNMNI+8WXlaMm7UGBe3x64HH+jYQdVucaT35p+nPyf4nYZu1ePgu7eovWNDta16FAzSkfEmCDin0GcUjqbQ=
+	t=1759585997; cv=none; b=o94NoHT3JvZ4Egf4M1D/pIQPLS6gycE+CcxmB+ZBo592rVzq1sFaTMY4rxckYCf0ZsFB6wyhrgFPxbW/g5GzPWFqXTxkNeFDHIb3Oc8CCoIo4r0Fvg3NBwUJrgpA2PzRYe6rQl89t5IK2dYk4ds87SbpYIzDb2XcaIBHTqygB8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759583815; c=relaxed/simple;
-	bh=hzxcdp7JsMWXprVyzYy5th44+3G4WR8/1+0zoIxXo1Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ev/oD4BFGa5/kUqWqmecbKNN1/Oe+p4RkPsZ3R4bwujUGEQAzifI0bVXmY7U/keA1JyMzhQf2iwh7AiL6meYrbFe5NHeYeyHnESYcpQWM4uM0Ae07GdzVFwt8daEZtmN+b1lDNvEtGiB/R2DTewFzxTh+it9mg3CGJ4aSYh3Vrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ccjXR+w5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759585997; c=relaxed/simple;
+	bh=9hx4P4Pao2pXh52rVupuyi7OgKs9ry/3YuLnw6BjhKk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IBlsA/mn0jXGgvLAOg+J247cshjuz3GjD2PjXz/no0hcKKoF8SSZhGLkqihHOrOe70wHQUCAmWwecoBjhpi0nwWmF4w039h+j/bFBRQAVjdhFBUZ12Tw/wEbp4m5tV4CI2gqLxexCUcd2H6MwFeczdcdvAXSMOyTgqop5nOuyM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V4ArpJLI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q4GWDwzZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V4ArpJLI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q4GWDwzZ; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ccjXR+w5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA180C4CEF1;
-	Sat,  4 Oct 2025 13:16:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759583814;
-	bh=hzxcdp7JsMWXprVyzYy5th44+3G4WR8/1+0zoIxXo1Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ccjXR+w5iVWiklHsEyDLwvfx+No3oghNKAD9wybGzpQ9awVF9sdbKBxlPzJwEFDZ1
-	 BQtB/pOgi1xItVlYT4ydp+g49Bfa3U23sfrReTgwyZTsm7LtQWg7W2nGvaajGhS//5
-	 JZZrQ/uLhiXPWzojWz0b/zFa9dQakc94+Mugrw4a94OQuQ00WxzBzB/3Kk8PpaCMvg
-	 LsJfshbpEOp/HQwZ3fdZhk1U0FOYnwbqnIdkktSBnvhuo/IM7v1e+i2544d+9wf+3V
-	 nS8Eah+H6x9GpUg3HUPIzx90KTD+FEjymu1p3huNu3EoCJcHqXTmmfLl5u6mYysRCd
-	 gfyjzgNk3p6Zg==
-Date: Sat, 4 Oct 2025 14:16:44 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Shrikant Raskar <raskar.shree97@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- matt@ranostay.sg, skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 2/2] iio: health: max30100: Add pulse-width
- configuration via DT
-Message-ID: <20251004141644.7fcb9106@jic23-huawei>
-In-Reply-To: <20251004015623.7019-3-raskar.shree97@gmail.com>
-References: <20251004015623.7019-1-raskar.shree97@gmail.com>
-	<20251004015623.7019-3-raskar.shree97@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V4ArpJLI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q4GWDwzZ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V4ArpJLI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q4GWDwzZ"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6458F608FD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 13:53:15 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -8.091
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id q7aBKct73Zf3 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  4 Oct 2025 13:53:14 +0000 (UTC)
+X-Greylist: delayed 337 seconds by postgrey-1.37 at util1.osuosl.org; Sat, 04 Oct 2025 13:53:14 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 3FAC160A3C
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=suse.de
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3FAC160A3C
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=V4ArpJLI;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Q4GWDwzZ;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=V4ArpJLI;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Q4GWDwzZ
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=195.135.223.130; helo=smtp-out1.suse.de; envelope-from=tiwai@suse.de; receiver=<UNKNOWN> 
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3FAC160A3C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 13:53:13 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7F3D621E46;
+	Sat,  4 Oct 2025 13:47:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759585654; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4i63MCJoHsqYaJqFGk3Y93BDtH7IFCo9P4+1HjIhtc4=;
+	b=V4ArpJLIRs0LJuZfuVYB8Zw7d7utMwCwlFSTXktP4kjklaP80LYUBI2DJa97sowTntyTXX
+	x+NPjcJ36U7o+G3dlYZ8gdEoG82jlnbOolHtX2YohDVxqwSTsHZKRbouuAxwnmqUG3z+5i
+	BgGmZQkH+KvBGa4/R/J7IBseFuylcro=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759585654;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4i63MCJoHsqYaJqFGk3Y93BDtH7IFCo9P4+1HjIhtc4=;
+	b=Q4GWDwzZnOPAX3GeXfTVSdXaQjXFJcvP2OxwV4Un0YIjaw4g459JGo/+MD1pSgwDt7H8Ge
+	URGkASs9+fEecjDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759585654; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4i63MCJoHsqYaJqFGk3Y93BDtH7IFCo9P4+1HjIhtc4=;
+	b=V4ArpJLIRs0LJuZfuVYB8Zw7d7utMwCwlFSTXktP4kjklaP80LYUBI2DJa97sowTntyTXX
+	x+NPjcJ36U7o+G3dlYZ8gdEoG82jlnbOolHtX2YohDVxqwSTsHZKRbouuAxwnmqUG3z+5i
+	BgGmZQkH+KvBGa4/R/J7IBseFuylcro=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759585654;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4i63MCJoHsqYaJqFGk3Y93BDtH7IFCo9P4+1HjIhtc4=;
+	b=Q4GWDwzZnOPAX3GeXfTVSdXaQjXFJcvP2OxwV4Un0YIjaw4g459JGo/+MD1pSgwDt7H8Ge
+	URGkASs9+fEecjDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2FFC11366F;
+	Sat,  4 Oct 2025 13:47:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YbiACnYl4WhpNgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 04 Oct 2025 13:47:34 +0000
+Date: Sat, 04 Oct 2025 15:47:33 +0200
+Message-ID: <87347yhj7u.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com
+Subject: Re: [PATCH] ALSA: emu10k1: Fix typo in docs
+In-Reply-To: <20251001090757.45991-1-bhanuseshukumar@gmail.com>
+References: <20251001090757.45991-1-bhanuseshukumar@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,lwn.net,vger.kernel.org,lists.linuxfoundation.org,linuxfoundation.org,gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 
-On Sat,  4 Oct 2025 07:26:23 +0530
-Shrikant Raskar <raskar.shree97@gmail.com> wrote:
-
-> The MAX30100 driver previously hardcoded the SPO2 pulse width to
-> 1600us. This patch adds support for reading the pulse width from
-> device tree (`maxim,pulse-width`) and programming it into the SPO2
-> configuration register.
+On Wed, 01 Oct 2025 11:07:57 +0200,
+Bhanu Seshu Kumar Valluri wrote:
 > 
-> If no property is provided, the driver falls back to 1600us to
-> preserve existing behavior.
+> interally => internally
 > 
-> Testing:
-> Hardware: Raspberry Pi 3B + MAX30100 breakout
-> Verified DT property read in probe()
-> Confirmed SPO2_CONFIG register written correctly using regmap_read()
-A few minor comments inline.
-Thanks,
+> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
 
-Jonathan
+Applied now.  Thanks.
 
-> 
-> Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
-> ---
->  drivers/iio/health/max30100.c | 39 +++++++++++++++++++++++++++++++++--
->  1 file changed, 37 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iio/health/max30100.c b/drivers/iio/health/max30100.c
-> index 814f521e47ae..2b3348c75beb 100644
-> --- a/drivers/iio/health/max30100.c
-> +++ b/drivers/iio/health/max30100.c
-> @@ -5,7 +5,6 @@
->   * Copyright (C) 2015, 2018
->   * Author: Matt Ranostay <matt.ranostay@konsulko.com>
->   *
-> - * TODO: enable pulse length controls via device tree properties
->   */
->  
->  #include <linux/module.h>
-> @@ -54,6 +53,9 @@
->  #define MAX30100_REG_SPO2_CONFIG		0x07
->  #define MAX30100_REG_SPO2_CONFIG_100HZ		BIT(2)
->  #define MAX30100_REG_SPO2_CONFIG_HI_RES_EN	BIT(6)
-> +#define MAX30100_REG_SPO2_CONFIG_200US		0x0
-> +#define MAX30100_REG_SPO2_CONFIG_400US		0x1
-> +#define MAX30100_REG_SPO2_CONFIG_800US		0x2
->  #define MAX30100_REG_SPO2_CONFIG_1600US		0x3
->  
->  #define MAX30100_REG_LED_CONFIG			0x09
-> @@ -306,19 +308,52 @@ static int max30100_led_init(struct max30100_data *data)
->  		MAX30100_REG_LED_CONFIG_LED_MASK, reg);
->  }
->  
-> +static int max30100_get_pulse_width(unsigned int pwidth_us)
-> +{
-> +	switch (pwidth_us) {
-> +	case 200:
-> +		return MAX30100_REG_SPO2_CONFIG_200US;
-> +	case 400:
-> +		return MAX30100_REG_SPO2_CONFIG_400US;
-> +	case 800:
-> +		return MAX30100_REG_SPO2_CONFIG_800US;
-> +	case 1600:
-> +		return MAX30100_REG_SPO2_CONFIG_1600US;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
->  static int max30100_chip_init(struct max30100_data *data)
->  {
->  	int ret;
-> +	unsigned int pulse_us;
-> +	unsigned int pulse_width;
-> +	struct device *dev = &data->client->dev;
->  
->  	/* setup LED current settings */
->  	ret = max30100_led_init(data);
->  	if (ret)
->  		return ret;
->  
-> +	/* Get pulse width from DT, default = 1600us */
-> +	ret = device_property_read_u32(dev, "maxim,pulse-width", &pulse_us);
-> +	if (ret) {
-> +		dev_warn(dev, "no pulse-width defined, defaulting to 1600us\n");
-> +		pulse_width = MAX30100_REG_SPO2_CONFIG_1600US;
 
-Usual trick for these is to set pulse_us to 1600 before calling the
-device_property_read_u32(). If that fails then the default value will remain
-in the variable and we can just call the code below without needing
-to explicitly handle two cases.
-
-> +	} else {
-> +		pulse_width = max30100_get_pulse_width(pulse_us);
-> +		if (pulse_width < 0) {
-> +			dev_err(dev, "invalid pulse-width %u\n", pulse_us);
-
-Only happens in probe() so prefer use of return dev_err_probe()
-for compactness in this case.
-
-> +			return pulse_width;
-> +		}
-> +	}
-> +
->  	/* enable hi-res SPO2 readings at 100Hz */
->  	ret = regmap_write(data->regmap, MAX30100_REG_SPO2_CONFIG,
->  				 MAX30100_REG_SPO2_CONFIG_HI_RES_EN |
-> -				 MAX30100_REG_SPO2_CONFIG_100HZ);
-> +				 MAX30100_REG_SPO2_CONFIG_100HZ |
-> +				 pulse_width);
-
-Even though it's the lowest field in this register. I'd prefer
-a mask being defined and FIELD_PREP() used to set it.
-That way we don't need to know it is the lowest field when looking at this
-code.
-
->  	if (ret)
->  		return ret;
->  
-
+Takashi
