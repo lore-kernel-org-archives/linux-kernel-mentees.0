@@ -1,228 +1,161 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D17720F08D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 04:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D4AEEAB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 05:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759552413; cv=none; b=PbqFyN0o8rHpqIx7P34fAH6hA7MUn5s82ycUxYOI/+lWx0roQDAcmNsDtBQwhEh4SyiYqbcWlw83HvvEnpN9L9HOcq+0QOiaG50i/YJv1KKz7cz0H/co2d9YzMCH7hsEWFFjzycWXuVUSuWCFMX2oShBDVCDOAw0PH8+qAUHkwQ=
+	t=1759557088; cv=none; b=TekbtU7A4z8h8e/cMmIGc70d+bUV1rCQuqgyyR84aCP3XE5VPlS92bFTPeHBZsiVyjShd4KLDpTLPnAuPrFcV4U6QtW6ESEfqgI+TDADdu0KgIbrVKmkMYBW/Ft3Gai06ILiwDGtjreQyAPaAxBQ/n+x1Mys2GnrUC8ySyuVOMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759552413; c=relaxed/simple;
-	bh=Df+P6JYS2QqpJ3w//ROe66heiGBWOhpaPg4cAlSuCkU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NkF6VNyf/g8XGjMh6jtRd7r8DgCdWGvo9MJw9zEE1t5dST/yGZA9XrcUZD0TtY3PZQpWl5QNN3CVpQrXVjKVMLpz2UiNbfqz3Td8/LYw5g3fNOIg0Q26ioFoXwNOq9UDVwHXhcLOEKFMJ1e5ftK7zdNVyfeLgLz2wUNfM0FXuQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EWK36Xtr; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1759557088; c=relaxed/simple;
+	bh=+ulMRQuWFPPzjvhYpoF92z0JmF/KhdQh5Tgtm1C3T+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UqVVxXENZmUUCctr/dgX7tNBr4l7gmoXAEAiC5QmgfciflzMbry6lggrULJyDluUjWJspIz/psYh5p/U4iBdZZbVX5i4BKAI8tY8+e8vIKbEdO6GQL0tU+5wDkGF7ALl0GV1wVWGgNLkkGCdFlfom3HYqPnvagzL+pccM3Av/Ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YStNZktC; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EWK36Xtr"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YStNZktC"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 031BA61491
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 04:33:32 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 0F6C14009D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 05:51:27 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -2.101
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id TRosQQK31Drj for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  4 Oct 2025 04:33:31 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::429; helo=mail-pf1-x429.google.com; envelope-from=bhanuseshukumar@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 518A361464
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 518A361464
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=EWK36Xtr
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 518A361464
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 04:33:31 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-7811fa91774so2420881b3a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 03 Oct 2025 21:33:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759552410; x=1760157210; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zrHxtAEC7jf6mOF6GS8lZ4qi3Xoaj0BUwdJ6rxR1K5s=;
-        b=EWK36XtrMfS98tHVWq4tr1EO4LVsB6X08HUyx8ENp3fE/Axq6gPfDPgok/ajKS0eSl
-         VEHSgM7mJoIM7v77UztpfyMgb3Z1eGfzzr70OBDZVCbBzJ/pxeBMeYP8RNzrVmS/i6uK
-         S+3+TrrV87cUJtf86nahW+rRBIiiylo/inPZQ6ronPbbWfEwdQ989+XqX5V6htUgudea
-         9O7kLhnKKnya9/HTZgjF+42N2EqxTgudP6pq9s6igldB6ncznDKdEHWUUGEPELD6FUta
-         DtprNA2GC90HQ2v65yASex6qnreLrAXZCKFOKCKhrFFH+DfdiQYDCwOapamU3U8qqVU9
-         x40g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759552410; x=1760157210;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zrHxtAEC7jf6mOF6GS8lZ4qi3Xoaj0BUwdJ6rxR1K5s=;
-        b=bnXTkA+Xeyhc7qVz/KxkHYLqJ6i+dG7IDkpPqSoOF7CYLOOHTR6+ci/s2lSk5acdaE
-         2rbZRnM7XsmWaxmjQSFhQGX7Pz4z7z2HCIRqBe7Ho+EEmKOnrPeloP5SEs9OBzrwgUAh
-         Y6Slb5JqlsD4Ci05QATe/4Oiznn4FiOgini2XyDmxkoZtp/k+9PVzvSA0WLfgePEHDsu
-         GGvL8UwMkU8X4wnyfZ0xiXOuYZa/2XKkk6zij7sUoXTgMQdZYUGsM5CwnnI6DIriQIXf
-         21nTndY0nLsLVLzIlXLnpz9th0LvpRM3JMhrv8g4M29j9pexFQYRJEVnDQW0z9z3KrcG
-         je+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVwRv6SeR55uWOM4WQy5fdrHbWte1GqK7HJkWk/o5VvDCF/khWcKDudwpNIEWFOupo95Izo6UOpmgUkP1p+P8jux8RXbw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwsDDL3K4Nv/X3tMkSVH+BkcQx2LWRbvrQYsCATz/S9hQQhadui
-	VYdojk3zMWL+uRvjUkJHpbmszqIqgKoxLNpcYpOloGPpmcPBXjzZ//GD
-X-Gm-Gg: ASbGncsUxnNJud6lGJ6rjvgPO8rVLRCVDu+AhLVFnG9fXgczyWDU+AWhAqAPjXGIUGO
-	WLiMqTmsF5oAWQ72GP2tTwl1EdOsXQW8/HAHkb9EeSz8r2AgGKz1BjmUrH6DNwiMRX5npGp0+xZ
-	JMmPmjliVWLSc7JMWT518/NtUOIPwEBgP05uduicl72ipigNSElxlvJWmVBLXrwK0oV17K5M7r1
-	HjdGyxuUratKmo+5C5hbYE4FhutXBkb7miI7hP8dToLnFkawAq3dbkB7eWxlrJ605AEzUcvQVO3
-	AC62Lp7D4e2CoOeifnAFUu6sptgn94up689VxFyAS/8V65+gsvRM5B0089N7RpeX4rcZ77ovadC
-	w3EC6RFlU8KMG/D23+tc8Sblpv6oZI2KRiCFQsP4HxnAUlkeCFf8dRjZeH4QNTHqm42GhwsA=
-X-Google-Smtp-Source: AGHT+IGNRTvBKcRxRWDiko/GbUAC7KjssTgPw+LYSnL0AkNM1865qmWf8lHSyAxiS9XfPYucFzzf3w==
-X-Received: by 2002:a05:6a20:7291:b0:251:a106:d96c with SMTP id adf61e73a8af0-32b61dff63fmr7315477637.10.1759552410455;
-        Fri, 03 Oct 2025 21:33:30 -0700 (PDT)
-Received: from [10.0.2.15] ([157.50.90.152])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6099add13esm6086455a12.8.2025.10.03.21.33.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Oct 2025 21:33:30 -0700 (PDT)
-Message-ID: <a87756f6-b578-421e-b04b-b1dd15f3a2f1@gmail.com>
-Date: Sat, 4 Oct 2025 10:03:22 +0530
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id dg616IhPjoxg for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  4 Oct 2025 05:51:26 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 0EE44403DC
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0EE44403DC
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=YStNZktC
+Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 0EE44403DC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 05:51:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id E2C60603AC;
+	Sat,  4 Oct 2025 05:51:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1427BC4CEF1;
+	Sat,  4 Oct 2025 05:51:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1759557083;
+	bh=+ulMRQuWFPPzjvhYpoF92z0JmF/KhdQh5Tgtm1C3T+s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YStNZktCjlbmFsf9lI8VoKsUcnp1Wg5iVi9uJGTY264UuGLDVRsVREFo7LyOBQyTT
+	 Q7TereM+sySk4DeWjFWDCw69zrR7Lb0HxqbhTYqFoJcoWtwsXFUfS7heeEOW/9Z3Bq
+	 +dJWq9TvaYXD0VjbHGaJ2W856zgMxV/tmtXIr1Co=
+Date: Sat, 4 Oct 2025 07:51:20 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
+	Rengarajan Sundararajan <Rengarajan.S@microchip.com>,
+	UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>, khalid@kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net: usb: lan78xx: Fix lost EEPROM write timeout
+ error(-ETIMEDOUT) in lan78xx_write_raw_eeprom
+Message-ID: <2025100407-devalue-overarch-afe0@gregkh>
+References: <20251004040722.82882-1-bhanuseshukumar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs: doc: Fix typos
-To: Carlos Maiolino <cem@kernel.org>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
- Paulo Alcantara <pc@manguebit.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, linux-bcachefs@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-xfs@vger.kernel.org, netfs@lists.linux.dev,
- linux-fsdevel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com
-References: <DrG_H24-pk-ha8vkOEHoZYVXyMFA60c_g4l7cZX4Z7lnKQIM4FjdI_qS-UIpFxa-t7T_JDAOSqKjew7M0wmYYw==@protonmail.internalid>
- <20251001083931.44528-1-bhanuseshukumar@gmail.com>
- <kp4tzf7hvtorldoktxelrvway6w4v4idmu5q3egeaacs7eg2tz@dovkk323ir3b>
-Content-Language: en-US
-From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-In-Reply-To: <kp4tzf7hvtorldoktxelrvway6w4v4idmu5q3egeaacs7eg2tz@dovkk323ir3b>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251004040722.82882-1-bhanuseshukumar@gmail.com>
 
-On 01/10/25 17:32, Carlos Maiolino wrote:
-> On Wed, Oct 01, 2025 at 02:09:31PM +0530, Bhanu Seshu Kumar Valluri wrote:
->> Fix typos in doc comments
->>
->> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+On Sat, Oct 04, 2025 at 09:37:22AM +0530, Bhanu Seshu Kumar Valluri wrote:
+> The function lan78xx_write_raw_eeprom failed to properly propagate EEPROM
+> write timeout errors (-ETIMEDOUT). In the timeout  fallthrough path, it first
+> attempted to restore the pin configuration for LED outputs and then
+> returned only the status of that restore operation, discarding the
+> original timeout error saved in ret.
 > 
-> Perhaps would be better to split this into subsystem-specific patches?
+> As a result, callers could mistakenly treat EEPROM write operation as
+> successful even though the EEPROM write had actually timed out with no
+> or partial data write.
 > 
-> This probably needs to be re-sent anyway as bcachefs was removed from
-> mainline.
+> To fix this, handle errors in restoring the LED pin configuration separately.
+> If the restore succeeds, return any prior EEPROM write timeout error saved
+> in ret to the caller.
+> 
+> Suggested-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Fixes: 8b1b2ca83b20 ("net: usb: lan78xx: Improve error handling in EEPROM and OTP operations")
+> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+> ---
+>  Note:
+>  The patch is compiled and tested.
+>  The patch was suggested by Oleksij Rempel while reviewing a fix to a bug
+>  found by syzbot earlier.
+>  The review mail chain where this fix was suggested is given below.
+>  https://lore.kernel.org/all/aNzojoXK-m1Tn6Lc@pengutronix.de/
+> 
+>  drivers/net/usb/lan78xx.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+> index d75502ebbc0d..5ccbe6ae2ebe 100644
+> --- a/drivers/net/usb/lan78xx.c
+> +++ b/drivers/net/usb/lan78xx.c
+> @@ -1174,10 +1174,13 @@ static int lan78xx_write_raw_eeprom(struct lan78xx_net *dev, u32 offset,
+>  	}
+>  
+>  write_raw_eeprom_done:
+> -	if (dev->chipid == ID_REV_CHIP_ID_7800_)
+> -		return lan78xx_write_reg(dev, HW_CFG, saved);
+> -
+> -	return 0;
+> +	if (dev->chipid == ID_REV_CHIP_ID_7800_) {
+> +		int rc = lan78xx_write_reg(dev, HW_CFG, saved);
+> +		/* If USB fails, there is nothing to do */
+> +		if (rc < 0)
+> +			return rc;
+> +	}
+> +	return ret;
+>  }
+>  
+>  static int lan78xx_read_raw_otp(struct lan78xx_net *dev, u32 offset,
+> -- 
+> 2.34.1
 > 
 > 
->> ---
->>  Note: No change in functionality intended.
->>
->>  Documentation/filesystems/bcachefs/future/idle_work.rst  | 6 +++---
->>  Documentation/filesystems/xfs/xfs-online-fsck-design.rst | 2 +-
->>  fs/netfs/buffered_read.c                                 | 2 +-
->>  fs/xfs/xfs_linux.h                                       | 2 +-
->>  include/linux/fs.h                                       | 4 ++--
->>  5 files changed, 8 insertions(+), 8 deletions(-)
->>
->> diff --git a/Documentation/filesystems/bcachefs/future/idle_work.rst b/Documentation/filesystems/bcachefs/future/idle_work.rst
->> index 59a332509dcd..f1202113dde0 100644
->> --- a/Documentation/filesystems/bcachefs/future/idle_work.rst
->> +++ b/Documentation/filesystems/bcachefs/future/idle_work.rst
->> @@ -11,10 +11,10 @@ idle" so the system can go to sleep. We don't want to be dribbling out
->>  background work while the system should be idle.
->>
->>  The complicating factor is that there are a number of background tasks, which
->> -form a heirarchy (or a digraph, depending on how you divide it up) - one
->> +form a hierarchy (or a digraph, depending on how you divide it up) - one
->>  background task may generate work for another.
->>
->> -Thus proper idle detection needs to model this heirarchy.
->> +Thus proper idle detection needs to model this hierarchy.
->>
->>  - Foreground writes
->>  - Page cache writeback
->> @@ -51,7 +51,7 @@ IDLE REGIME
->>  When the system becomes idle, we should start flushing our pending work
->>  quicker so the system can go to sleep.
->>
->> -Note that the definition of "idle" depends on where in the heirarchy a task
->> +Note that the definition of "idle" depends on where in the hierarchy a task
->>  is - a task should start flushing work more quickly when the task above it has
->>  stopped generating new work.
->>
->> diff --git a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
->> index e231d127cd40..e872d480691b 100644
->> --- a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
->> +++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
->> @@ -4179,7 +4179,7 @@ When the exchange is initiated, the sequence of operations is as follows:
->>     This will be discussed in more detail in subsequent sections.
->>
->>  If the filesystem goes down in the middle of an operation, log recovery will
->> -find the most recent unfinished maping exchange log intent item and restart
->> +find the most recent unfinished mapping exchange log intent item and restart
->>  from there.
->>  This is how atomic file mapping exchanges guarantees that an outside observer
->>  will either see the old broken structure or the new one, and never a mismash of
->> diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
->> index 37ab6f28b5ad..c81be6390309 100644
->> --- a/fs/netfs/buffered_read.c
->> +++ b/fs/netfs/buffered_read.c
->> @@ -329,7 +329,7 @@ static void netfs_read_to_pagecache(struct netfs_io_request *rreq,
->>   * the netfs if not.  Space beyond the EOF is zero-filled.  Multiple I/O
->>   * requests from different sources will get munged together.  If necessary, the
->>   * readahead window can be expanded in either direction to a more convenient
->> - * alighment for RPC efficiency or to make storage in the cache feasible.
->> + * alignment for RPC efficiency or to make storage in the cache feasible.
->>   *
->>   * The calling netfs must initialise a netfs context contiguous to the vfs
->>   * inode before calling this.
->> diff --git a/fs/xfs/xfs_linux.h b/fs/xfs/xfs_linux.h
->> index 9a2221b4aa21..fdf3cd8c4d19 100644
->> --- a/fs/xfs/xfs_linux.h
->> +++ b/fs/xfs/xfs_linux.h
->> @@ -145,7 +145,7 @@ static inline void delay(long ticks)
->>  /*
->>   * XFS wrapper structure for sysfs support. It depends on external data
->>   * structures and is embedded in various internal data structures to implement
->> - * the XFS sysfs object heirarchy. Define it here for broad access throughout
->> + * the XFS sysfs object hierarchy. Define it here for broad access throughout
->>   * the codebase.
->>   */
->>  struct xfs_kobj {
->> diff --git a/include/linux/fs.h b/include/linux/fs.h
->> index 601d036a6c78..72e82a4a0bbc 100644
->> --- a/include/linux/fs.h
->> +++ b/include/linux/fs.h
->> @@ -1040,7 +1040,7 @@ struct fown_struct {
->>   * struct file_ra_state - Track a file's readahead state.
->>   * @start: Where the most recent readahead started.
->>   * @size: Number of pages read in the most recent readahead.
->> - * @async_size: Numer of pages that were/are not needed immediately
->> + * @async_size: Number of pages that were/are not needed immediately
->>   *      and so were/are genuinely "ahead".  Start next readahead when
->>   *      the first of these pages is accessed.
->>   * @ra_pages: Maximum size of a readahead request, copied from the bdi.
->> @@ -3149,7 +3149,7 @@ static inline void kiocb_start_write(struct kiocb *iocb)
->>
->>  /**
->>   * kiocb_end_write - drop write access to a superblock after async file io
->> - * @iocb: the io context we sumbitted the write with
->> + * @iocb: the io context we submitted the write with
->>   *
->>   * Should be matched with a call to kiocb_start_write().
->>   */
->> --
->> 2.34.1
->>
+
 Hi,
 
-Thanks for pointing out the fact that the bcachefs is now externally maintained.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-I will exclude it in my future versions and will split the patch in to subsystem specific.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-Regards,
-Bhanu Seshu Kumar Valluri
+- You have marked a patch with a "Fixes:" tag for a commit that is in an
+  older released kernel, yet you do not have a cc: stable line in the
+  signed-off-by area at all, which means that the patch will not be
+  applied to any older kernel releases.  To properly fix this, please
+  follow the documented rules in the
+  Documentation/process/stable-kernel-rules.rst file for how to resolve
+  this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
