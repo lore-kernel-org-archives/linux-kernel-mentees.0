@@ -1,152 +1,132 @@
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E143B1AB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 13:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889D5CA5E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 16:13:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759585997; cv=none; b=o94NoHT3JvZ4Egf4M1D/pIQPLS6gycE+CcxmB+ZBo592rVzq1sFaTMY4rxckYCf0ZsFB6wyhrgFPxbW/g5GzPWFqXTxkNeFDHIb3Oc8CCoIo4r0Fvg3NBwUJrgpA2PzRYe6rQl89t5IK2dYk4ds87SbpYIzDb2XcaIBHTqygB8E=
+	t=1759594423; cv=none; b=bgUJyzCZ3seFdjvkdj1N452twndVW5Mkb0p/L8ByrRHtLF6YebUonPFVGreUniT+nZ9q9w1Tu/SJWzyB7T1ob1YsLbDIeoeWOmeCk3DiL6QmPi32N9/Z/JwrjeOfry4pa1egiyc46A4adoonTLD88UOLGc9kaZAcGVtOO2/PxxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759585997; c=relaxed/simple;
-	bh=9hx4P4Pao2pXh52rVupuyi7OgKs9ry/3YuLnw6BjhKk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IBlsA/mn0jXGgvLAOg+J247cshjuz3GjD2PjXz/no0hcKKoF8SSZhGLkqihHOrOe70wHQUCAmWwecoBjhpi0nwWmF4w039h+j/bFBRQAVjdhFBUZ12Tw/wEbp4m5tV4CI2gqLxexCUcd2H6MwFeczdcdvAXSMOyTgqop5nOuyM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V4ArpJLI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q4GWDwzZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V4ArpJLI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q4GWDwzZ; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1759594423; c=relaxed/simple;
+	bh=2LWaKyQDGbNBobcP3+9XFS0f4uG8GULKxwdhoblzB5k=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KLuDBp36Vs6X33S+xfAaz9HbHCg71uVK9rXhjU6MnJUiKr/O4t+APTIYq7cDfm1S4nPWKEpeAlPwGooy35AOsblYwLqSwya3MCmRPvU+eTReq+uzp2St0/4gi7TqR5kCCvg9pD0eSFEhGEZFqkeFbCoY5XVL2ghpvTzoEXyBdVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b=RHrGAWnR; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V4ArpJLI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q4GWDwzZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V4ArpJLI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q4GWDwzZ"
+	dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b="RHrGAWnR"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6458F608FD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 13:53:15 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2384E60B15
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 16:13:42 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -8.091
+X-Spam-Score: -5.541
 X-Spam-Level:
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id q7aBKct73Zf3 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  4 Oct 2025 13:53:14 +0000 (UTC)
-X-Greylist: delayed 337 seconds by postgrey-1.37 at util1.osuosl.org; Sat, 04 Oct 2025 13:53:14 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 3FAC160A3C
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=suse.de
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3FAC160A3C
+ id J6EBYh5Z8qPr for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  4 Oct 2025 16:13:41 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=98.137.69.147; helo=sonic310-21.consmr.mail.gq1.yahoo.com; envelope-from=rubenru09@aol.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 5DDE760A5B
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=reject dis=none) header.from=aol.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5DDE760A5B
 Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=V4ArpJLI;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Q4GWDwzZ;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=V4ArpJLI;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Q4GWDwzZ
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=195.135.223.130; helo=smtp-out1.suse.de; envelope-from=tiwai@suse.de; receiver=<UNKNOWN> 
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3FAC160A3C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 13:53:13 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7F3D621E46;
-	Sat,  4 Oct 2025 13:47:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759585654; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4i63MCJoHsqYaJqFGk3Y93BDtH7IFCo9P4+1HjIhtc4=;
-	b=V4ArpJLIRs0LJuZfuVYB8Zw7d7utMwCwlFSTXktP4kjklaP80LYUBI2DJa97sowTntyTXX
-	x+NPjcJ36U7o+G3dlYZ8gdEoG82jlnbOolHtX2YohDVxqwSTsHZKRbouuAxwnmqUG3z+5i
-	BgGmZQkH+KvBGa4/R/J7IBseFuylcro=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759585654;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4i63MCJoHsqYaJqFGk3Y93BDtH7IFCo9P4+1HjIhtc4=;
-	b=Q4GWDwzZnOPAX3GeXfTVSdXaQjXFJcvP2OxwV4Un0YIjaw4g459JGo/+MD1pSgwDt7H8Ge
-	URGkASs9+fEecjDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759585654; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4i63MCJoHsqYaJqFGk3Y93BDtH7IFCo9P4+1HjIhtc4=;
-	b=V4ArpJLIRs0LJuZfuVYB8Zw7d7utMwCwlFSTXktP4kjklaP80LYUBI2DJa97sowTntyTXX
-	x+NPjcJ36U7o+G3dlYZ8gdEoG82jlnbOolHtX2YohDVxqwSTsHZKRbouuAxwnmqUG3z+5i
-	BgGmZQkH+KvBGa4/R/J7IBseFuylcro=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759585654;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4i63MCJoHsqYaJqFGk3Y93BDtH7IFCo9P4+1HjIhtc4=;
-	b=Q4GWDwzZnOPAX3GeXfTVSdXaQjXFJcvP2OxwV4Un0YIjaw4g459JGo/+MD1pSgwDt7H8Ge
-	URGkASs9+fEecjDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2FFC11366F;
-	Sat,  4 Oct 2025 13:47:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YbiACnYl4WhpNgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 04 Oct 2025 13:47:34 +0000
-Date: Sat, 04 Oct 2025 15:47:33 +0200
-Message-ID: <87347yhj7u.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key, unprotected) header.d=aol.com header.i=@aol.com header.a=rsa-sha256 header.s=a2048 header.b=RHrGAWnR
+Received: from sonic310-21.consmr.mail.gq1.yahoo.com (sonic310-21.consmr.mail.gq1.yahoo.com [98.137.69.147])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 5DDE760A5B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 16:13:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1759594420; bh=o0VJNtk+fex4FcVQUZ6R8JHfG23W+4ZASJpfX5z5ENo=; h=Subject:From:To:Date:In-Reply-To:References:From:Subject:Reply-To; b=RHrGAWnRXq/NRiYvC8V6s72t60vW9h3veT6YeTkEp5+/TZ6iTbJDRsHYgjK8Gl2Zc0A1n6z5fbJED+vYOFK1HknpMGFCXtQRdtQ1yw2/FSwMgTOm0Tc/gVUBVUT9efZUQX0P9YKkN9HnMKnbr2Ae9oK5ubyDEpC5KLNasOob1ZCjpWL8uVU++wY5knzqe4wtBI2s577tDZtYuUzxkMm0cP7y5Wq0lNwoc3viu4n8nlgnvY076xBuTfd7fxWoITrQ0RLkFbyxMluLoZxIbtidh8WRwcUcyjVUC1WRM0IguQZxHQFqDJ0nMzX5QVHBWW7eqk56WlVTD0/IkmiiBjDnZw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1759594420; bh=zkLysBu+v8mp2DuBFBKb6eT9YlwjT7RMermcf0bI/WM=; h=X-Sonic-MF:Subject:From:To:Date:From:Subject; b=tF/mj/L4OZ0OY6DaMvEnyLsGiLNfw5aUFplHLOTw+8pdzgFFqV+YkgLNHO+uyoPx2BGWl9XHOluzxCl9aajVlJDQDZc0Q4IjiwqAC/n3oZ8ZRrjt+2qh9oE7g3VjIUhFk4taRmZ4EGJmO3nRWW0+1RGxrD/ez5OfA/oIQz3kFTwe3CFxflKZufXh/MpGKXqqqGzwEDqvXVRI6R2IChkdV3EH/80GkVXsHkxT3n0CVX3NykxwKiwJdpqx94piN4/BoyxGuRaT9WiUGigVNgXxHcPEXK3moYBIz1489A3GHdugbbaEYx4E6svmc3Ai/JUOaQzAP1aK6FAbdaaOy43bHQ==
+X-YMail-OSG: lpPUJBIVM1nQQUWY5sRICzMbaPkmBT.eDn7mXkP4sKCbZBcLivbgzNhYotPZhMQ
+ xPX2Xjt2hz6Kv1bog5uivRanOg19pLIvNQLLFqgfRKjLBSnn2VcvShVgnuxEY4u1tw0WKuHEIfsp
+ DKegXfkh.6h03z5ggbmljb8bQM2_mlecFPjK2OmqrHDsgTWiqipCK8Z14QBRtAAbcyGYVIdLwL88
+ rOh71GXA_e4ljWbGQAHpBGiHxwwG1xYyYPf.ebpXuRrHnsEHqqI9jki9Gji.MGilkM5BqVL9A6cQ
+ UtYJ_NqDkflZ82rAH_ewVoJGLVY6D8VtBcmh6RarP8hPO0nlyMkbefEc_9gtYbVcOR7d.g6Yloi8
+ 5yqA4yayVfpiUqLrpJVM5enEmzPBJQQ_R1wjxxxeEjFCvs6nMm3Bogj8FtbiIQjH43Xn8V0tMSrF
+ saR7Xu8yzRmWkzO0Q98NR8m2gCUn8FfDaUZodoGgpPKI8tbGreyrvzmcVY71N5eEKV5NAIJNDByS
+ aMzZB8k2RJ_xjeUYzxzp9BEperfBdb3IA2cnX1q_5a1YZB02bBZkZe9EoLLzN1qB81zVHhKg2Kdf
+ uT.9R_OgDxelIQoEHQ8xGBF9xEXf2t.z.a4ZMbdfTtWMWA6QTZCKkdCwdLgj2voZYIPTEqn93IX9
+ EZZx_emoYKNjMjOu2tUSpk2tSdtTj4.zpeVWfvmIkHK3XS95X8W64b8c6m.JHC3_hAFPA91Tn88Q
+ _cYtnV_WkmMaAAzBUUtriT8PU6SkycgdK_jLuCNyeA5bmH9pyq1bisZEmLCZVjTkygAs.qBP9LGX
+ Uj.rQVItED5CABt6j.31JgAWW3Gm7v8A50htUHFh93jF79wqcBSrYBrlw6Y7hVTCjFlxrTHZiFJh
+ oVq.Tw.8YajMp4Kz8m4Xp37XrZ1Vfha1asbItLi3whvHT4NMl.f98rWBFo1ImNQjpZ_mpckQkjTy
+ GDBoHqoGmr_my0uaoZoWyGcf7ULWvOupHExvUhKEm9x8jyY15WkaCSLf1u8bnGaSqCW62qFPPIrx
+ H70owC5tV5kED1gS0iQgFeA8h5y65bJvhUUzGGRmERlrxahOMT3xgAE2qqqoTHvVppw2SPsmVoqz
+ 9f_30tGBtWkhoRLM2yKBZDdpgy064skZjnvHtr7Ve0..iqpAD_yHbBnM27ZAkCNEV2yb9FbVHN0O
+ 21KWg7BLODatGkXd7wgXeKykJTlVVlM.4PngP8AXS9_GD8hFww8orDZADZ4LS3h8Gxr1osMltmkp
+ SR_9L777L0dBR5DAKNwu3ANSccD1A48_q8WOmmQ2HYHERMuMfIpEBHKGQacxtN.XWe_eUt4iChza
+ _Ymb7ghCdjMXm6Ve6w69JamG3UMV5c5jrGKKM4eB9os1mue2XzNbt.2QrxpDNgBWw0B_ye1TQLZ4
+ P5zMREy.m0Dw_4zdDNg.w8QcdQv6_mUKU9BB2mvpAilt01FaWk.ThXFiTSKZwJEOet3SUg5ZGNUn
+ b3eLVTGZUJV_BIVy6MCh.Qm1kH0CF_Qep_rIKHQ_84vrMY8564Fy_Jj97b6EOFNxaWE9hLEyAN3A
+ Jjq92cfdP9yzlZBXRRjA73zzRHBKBWsAVZ3CG7XfSkhQ9xGhX6.k5JEF5PXO_C0zEE04.84O5zdz
+ B9tp3Iy9psV37a.K6v9tibCcNzOfBJU89y9Mkat1fUHiqWHhzGUcK3EGosXK9BNE7ICiXscXSoZJ
+ 6AfxMnu62740fIh6lkOtuVmZyEJZ1rgh251UPuJLjVH6dwGKCLzyS4VtFIkFE4gsfJBc8GtHxffz
+ qs6VQ7PhjMJyiLJJu2sOheg0LN0S2uO5exRoD_kNhwO7ujRcMaSPaEfBp4mW.pSbxum6Jv_5H9lW
+ MOgChK6ut2h4yPoZl4n_zFPjN_VvIsEEgCzxhQE09c5N6s39z7KehEGMcppt9DOhvI.XO4ldgpRQ
+ CMtMztj1Tc66pbCGLXMdeX5h6viqlHS2ZgNzs_l3cSNb1Yvh3X.omVbcWCc.pvJQAuUCDiAbWBmp
+ 1eFI5VtyFeTlJhpDqw0GQ1ESOBBZVmpsEVDbz9ag3B66DLdns2t3MR7Ly1WZBBeEU.dL_VuIKoLh
+ 7wBw0f.bt94jNCqkwS3b0tA_jCxy6wU7MYewWRMPBF5o7gnZA34G7.PpKG_2bbDxILCBkXGhn3Ur
+ swMOU_1wo4jJGZxbeN53wgr2QF5iVnnHgzYSfPf0vUm32Uh9HLjiI5sctsrRZ6Z16xFyP5Ic8RZR
+ oNrMKhROy6q9lKA_2ndWHVKI2Ahz6zyFqA.5A.jFzo5clcHQE
+X-Sonic-MF: <rubenru09@aol.com>
+X-Sonic-ID: 16c46f4e-def7-4a04-a537-da3d54d9ecbb
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.gq1.yahoo.com with HTTP; Sat, 4 Oct 2025 16:13:40 +0000
+Received: by hermes--production-ir2-ccdb4f9c8-rkdr7 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 2ad1631f89b5f0cb7bb9af10e2f9f060;
+          Sat, 04 Oct 2025 16:13:36 +0000 (UTC)
+Message-ID: <d957bb721c9039287833ca0a9e2cebd60943c5f8.camel@aol.com>
+Subject: Re: [PATCH v2] drm/gud: Use kmalloc_array() instead of kmalloc()
+From: Ruben Wauters <rubenru09@aol.com>
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ 	airlied@gmail.com, simona@ffwll.ch, mingo@kernel.org, tglx@linutronix.de, 
+	jfalempe@redhat.com, dri-devel@lists.freedesktop.org, 
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com
-Subject: Re: [PATCH] ALSA: emu10k1: Fix typo in docs
-In-Reply-To: <20251001090757.45991-1-bhanuseshukumar@gmail.com>
-References: <20251001090757.45991-1-bhanuseshukumar@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+ linux-kernel-mentees@lists.linuxfoundation.org, 	skhan@linuxfoundation.org,
+ david.hunter.linux@gmail.com
+Date: Sat, 04 Oct 2025 17:13:33 +0100
+In-Reply-To: <20250923085144.22582-1-mehdi.benhadjkhelifa@gmail.com>
+References: <20250923085144.22582-1-mehdi.benhadjkhelifa@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,lwn.net,vger.kernel.org,lists.linuxfoundation.org,linuxfoundation.org,gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+MIME-Version: 1.0
+X-Mailer: WebService/1.1.24485 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 
-On Wed, 01 Oct 2025 11:07:57 +0200,
-Bhanu Seshu Kumar Valluri wrote:
-> 
-> interally => internally
-> 
-> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+On Tue, 2025-09-23 at 09:51 +0100, Mehdi Ben Hadj Khelifa wrote:
+> Replace kmalloc with kmalloc array in drm/gud/gud_pipe.c since the
+> calculation inside kmalloc is dynamic 'width * height' to avoid
+> overflow.
+>=20
+> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
 
-Applied now.  Thanks.
+Acked-by: Ruben Wauters <rubenru09@aol.com>
 
-
-Takashi
+> ---
+> Changelog:
+>=20
+> Changes since v1:
+> - Use of width as element count and height as size of element to
+> eliminate the mentionned calculation and overflow issues.
+>=20
+>  drivers/gpu/drm/gud/gud_pipe.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pip=
+e.c
+> index 8d548d08f127..8898dc9393fb 100644
+> --- a/drivers/gpu/drm/gud/gud_pipe.c
+> +++ b/drivers/gpu/drm/gud/gud_pipe.c
+> @@ -70,7 +70,7 @@ static size_t gud_xrgb8888_to_r124(u8 *dst, const struc=
+t drm_format_info *format
+>  	height =3D drm_rect_height(rect);
+>  	len =3D drm_format_info_min_pitch(format, 0, width) * height;
+> =20
+> -	buf =3D kmalloc(width * height, GFP_KERNEL);
+> +	buf =3D kmalloc_array(width, height, GFP_KERNEL);
+>  	if (!buf)
+>  		return 0;
+> =20
