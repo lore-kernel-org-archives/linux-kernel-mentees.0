@@ -1,156 +1,229 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D5A1A08A3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 08:34:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC5C1E9B0D
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  4 Oct 2025 11:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759566855; cv=none; b=Yn3jiqFFFhG0JEHELym8ex55fU/h1Tn0czgeV6Xc2MD8mC8KGYrnDk5tnHm7wj3TxtdF10kboXm6no5RNbTSe+eAur3zVJ3VGUdOpau/7OVQR3l9cZ1lUwhy2V4faFjB8irYUfSwOdEY7Erbc3eNN16F6nwPC+O+jtQEEgXltP4=
+	t=1759575666; cv=none; b=Lb/WKETYk2hyiyz4RWuH+6TYCGlVMufGFQ5PEUn1ecybnIuFMSS9fwPRO4imt/Vvy+dfmxFYWmQhNVsI/Kw9ZC2N2/QTPmSfUdBQ3BaLY4FSYFhuo3M9Ge1mjeEVTfuZic4yasH9pQPtxHobvDXJMMVJ24jkw9wKIFwYwlXkRs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759566855; c=relaxed/simple;
-	bh=ewAScujQh6IO+nNyoKcQ1124xJn4eyXuYWjb3HxVNyI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=oDhfKNWRBVWz1vB87/b0VWtgAp9QgPuVK/6zmsah8SsN9VVoCo4jACvnWHPpmjisygrmhEGOMrJte/nrIzbtjL6/lzIsFqpUqg4QfNUaNEC9HMw4/HB21yEgtnzDMUEvRRXyogWabqwILWhxEjJuhnzmsdUPWfEBf9TUVWNgdsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TjNB8KUZ; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1759575666; c=relaxed/simple;
+	bh=mVhiB3XjjKvwry4rXBNKAAqKtNFxuZaSL16L+E/uJMw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pmyU9sv/dI/QCjb2ONbPoA6SZsrOryNV5Kzo8V2zmviLd6DFoQzSLcIN+Fuej3tmKMDrMgkU4VVqXzigeWbKo8reFH5T9f4zMJTgJ5uTTc6EooaPzuzzucckhzbkzJBSzxshQssmxmJLXAWcJCtOz/RosPK9HQztfanvKp2bVV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FYvn1LV0; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TjNB8KUZ"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0EF37410A6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 08:34:14 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -9.601
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id MzyCeaK7iAzJ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  4 Oct 2025 08:34:13 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1049; helo=mail-pj1-x1049.google.com; envelope-from=3bnzgaackai0f4rwwzax55x2v.t53@flex--ynaffit.bounces.google.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 29DDA410A3
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=reject dis=none) header.from=google.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 29DDA410A3
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=TjNB8KUZ
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 29DDA410A3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 08:34:12 +0000 (UTC)
-Received: by mail-pj1-x1049.google.com with SMTP id 98e67ed59e1d1-336b9f3b5b0so3548254a91.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 04 Oct 2025 01:34:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FYvn1LV0"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-32ed19ce5a3so2953867a91.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 04 Oct 2025 04:01:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1759566852; x=1760171652; darn=lists.linuxfoundation.org;
-        h=cc:to:from:subject:message-id:user-agent:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DNUXIAMIgyuQcbpSIlbWyb8Yr08Un31/NnbXWZYjsP0=;
-        b=TjNB8KUZfvgEbs7yJ6Q/fMWH323G54nlK9eyhw5vDcO5Cn2ri+n+Xj2s44IzvPdfE7
-         p3GEviR7Q1j6VAxNAAYKlNqC1rFCrXCXUGNc+EY7m+rUEjQx3k7pGkhXYlAEL0Jv0cyl
-         gqL44DbxTgX/2y0X9FWEx0Pmq2XfeuG/vK6LeD6+gVNS6ugHrOGWGN7qWAt2JW6ClgaQ
-         v3xSbQZBtaWfnnGJvezFySvAmqa5DhEhBKH75xBfHcDmxC/0276PpvM54oddeXJAnmjx
-         Ksh3bpEUxlgWJXlI+vLJvQ59Ao4kAqwldxJbSb10ERhWYlGhlrwS4WJPM0mYGJRXEbyI
-         KHUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759566852; x=1760171652;
-        h=cc:to:from:subject:message-id:user-agent:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1759575663; x=1760180463; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DNUXIAMIgyuQcbpSIlbWyb8Yr08Un31/NnbXWZYjsP0=;
-        b=KqNR9IThgFLiXn6h68S5aqddsLm1EwTT+/FBpFuK+hZyHpfsrnnnJFY7xCHUIhSO4H
-         a1IQ6+uv6Oq641k5k+6eQC6yNSvyKbGqTgYL+6NJGTvji5rdKm3AOINPVxSR4SJNTZnT
-         sHXUU4k/H/l7i9mHHSiqKK8qQldotvJqB+79w1JRwOFEQvCdRMxMzpQZklb6vvPbzfzO
-         XN1fxEijGutFlR0Ro7Nf9NUQvg3GIr6pN61YPKkJu3BVrecZzL8cFkNYdkjNPAfMUOzj
-         9t6lZEIyTSQIi1Cumf5qbCAT3hMFqDfWrLm5asqdEAvTVZ//N6yeZW5HxXUb7DqPhiJp
-         J2zg==
-X-Forwarded-Encrypted: i=1; AJvYcCXJW2tSV40rzPZ0gAE0GCKfF+7UAuEbp+aKKhtmgoA1D517u4x9RkJP3SvlflueFWQ7NPHpKIq99YX4iw9wMLtM8kadVA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxJD6tLtkzuhA3rp7YwpswRvMFovD7YqC+T/CbTxRrJ3TS08Vjm
-	OgCsOU3GEOTtO5Y5ZHcVcPWsK+DWN+tlGP2zM6elqvr79OmGb6Z40UgECc79kDbBDNQDN+teHOa
-	PJJidK+MkFA==
-X-Google-Smtp-Source: AGHT+IG8WMGHaurimhri+gW5zRlp6uwHUCV2xHoW/prUeoq2RpfxaFVx0IibIcEVP1lg9S9cRSoC1Wbb2vOb
-X-Received: from pjzh5.prod.google.com ([2002:a17:90a:ea85:b0:32d:e264:a78e])
- (user=ynaffit job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3ec6:b0:330:3fb8:3885
- with SMTP id 98e67ed59e1d1-339c276e814mr6792475a91.18.1759566852200; Sat, 04
- Oct 2025 01:34:12 -0700 (PDT)
-Date: Sat, 04 Oct 2025 01:34:10 -0700
-In-Reply-To: <20251003114555.413804-1-nirbhay.lkd@gmail.com> (Nirbhay Sharma's
- message of "Fri, 3 Oct 2025 17:15:55 +0530")
+        bh=vCTDlQEGUynoAVbLn6xjoRk5lU8FKtAz6xcB6i4LhPk=;
+        b=FYvn1LV0c3lfK4FiMq3VbQ6FdRU9HjVQHetGvObwX1bgCLPa1EfwKNvJf3YVtQlBSt
+         or4MI2wUbgr+1QWJ5OgCNnWWoEGaclXbphWgrCPm81sHRMBwuY4AsGTYXFR+cDG7FOoX
+         caB+y1fZc9ub6THkYHLCRm4WQfGP2ATvDqtkm8VClkJ/ZLkEcfuiIYjfYtMqX4wgqMx3
+         4xz2LT+ibT4hrAkNzVIHFIx0cAvXCvH03jw5gzSr80dXnr7of9IG2bMbAXjelySSCd9S
+         KqDBvHaoVEWnhhfBt1tDTlMo5MGyERMyPDMlkgSnLezEhDrftCBnaBN8SYb3vATM4k9J
+         Lirw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759575663; x=1760180463;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vCTDlQEGUynoAVbLn6xjoRk5lU8FKtAz6xcB6i4LhPk=;
+        b=voumvGAQmDqJmYKfMPBfgjU57XpJE+osIJrrzSPK79iLViyLf+lIqmStEtmwFWYq/J
+         NxJcQND1VOmT/FrbqT5jsYwt2O6NIXjgkilGcENjA2KdC4gZL9OZA7m892spmQz7gpBs
+         /btOrKouv6wsR9oxgwc2rzU+8n6rg9iwhfd/Xl+oq627UpKvreFH6ffvoMAWY2f8Fk38
+         hwOpvBhryPfN16c+o+nelvhGd1ySjWeBgwdJ54wmpxsE5E6VyDJW+5UOr83/pV0k9j/F
+         SX3KWvlF2gDAgnJ15UceaEpXP93ZfQw9BRYvoXZVuiM4+pJlZ6pfXbKmyKrpEXe1aeiq
+         O4Cw==
+X-Forwarded-Encrypted: i=1; AJvYcCXk/KYrE4APysZAD06UPQVztfy0mdxbWpAkeyhmyvGtj98GfWmriL/WJwXBe7DA8qL/cECML6L0ZtGH1h58VUfgSkYJog==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwcZrV9FvLsfA0O2kiMgkk5iBmdpKS2rLctB6nwu9KGn0Xa91It
+	NDFmO36Uo7GskIq4gsi02CZJWyJhYbr4zcVO0LpOFoWkdXgQy2rR/WYc
+X-Gm-Gg: ASbGnctegtkoBfgRyOiunEiayU60EqniDJrpT0GXRnNwyNMinsOG4NcxfWNUbPU/lDL
+	xJVBDZwaROxaP7FfqoOIH+B3K/9uqunMRNL+6KZ9lLyuzxk+wXwONBIBFcK2EA15Ij2JG6ZMgrp
+	JEbwZGXlFGr0mXakXSHAONdDf3gQXhl7wC9XQeOaAATlN7Oa6MW4t1DxLzADUl7a4KZ61oO9z+B
+	1vY8ZawZnv0VO0wFXNLxA/PnLVVCpeAkvZfwG/Bfefj6KGmOMh0UBgHRvttltAXFeyGY9d2pGrO
+	3xIbsCQY7VXgEjl/ekLyL6fj/breHETs0cM2vLKMKZ7PexdbQn5uRgNfEaqWzg69Q7sFQXXfCiy
+	T57uVSKRxvduSkmFwrgj+UByyBp4ihaOm0gaRQ0iqermfUy0se+uis+lZXKejQbTPazXgPfl2Dk
+	ZsQK15uencdUs=
+X-Google-Smtp-Source: AGHT+IF6KW+o3hALRSt3TlfMffAw7CjzidHyGOok+NoPUVDP1KnNL8mme1hIyP6Bkou2nnamx1XkdQ==
+X-Received: by 2002:a17:90b:4f4c:b0:32e:a54a:be53 with SMTP id 98e67ed59e1d1-339c27348f6mr7738086a91.16.1759575662886;
+        Sat, 04 Oct 2025 04:01:02 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6099b1cf08sm7046135a12.22.2025.10.04.04.00.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Oct 2025 04:01:02 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: robin.clark@oss.qualcomm.com,
+	lumag@kernel.org
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	abhinav.kumar@linux.dev,
+	jessica.zhang@oss.qualcomm.com,
+	sean@poorly.run,
+	marijn.suijten@somainline.org,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH RFT] drm/msm: Add NULL check in vm_op_enqueue()
+Date: Sat,  4 Oct 2025 16:30:04 +0530
+Message-ID: <20251004110044.204269-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250917184616.85797-1-krishnagopi487@gmail.com>
+References: <20250917184616.85797-1-krishnagopi487@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20251003114555.413804-1-nirbhay.lkd@gmail.com>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Message-ID: <dbx87bxbvzel.fsf@ynaffit-andsys.c.googlers.com>
-Subject: Re: [PATCH] cgroup: Fix seqcount lockdep assertion in cgroup freezer
-From: Tiffany Yang <ynaffit@google.com>
-To: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	"Michal =?utf-8?Q?Koutn=C3=BD?=" <mkoutny@suse.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, cgroups@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	syzbot+27a2519eb4dad86d0156@syzkaller.appspotmail.com, 
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Nirbhay Sharma <nirbhay.lkd@gmail.com> writes:
+vm_op_enqueue() allocates an msm_vm_op struct with kmalloc,
+but the return value is not checked for NULL value which
+can be returned by kmalloc under low-memory conditions.
+This can result in NULL pointer dereference when the pointer
+is dereferenced.
 
-> The commit afa3701c0e45 ("cgroup: cgroup.stat.local time accounting")
-> introduced a seqcount to track freeze timing but initialized it as a
-> plain seqcount_t using seqcount_init().
+Add NULL check after the allocation and propagate -ENOMEM back
+to the caller in case of a failure.
 
-> However, the write-side critical section in cgroup_do_freeze() holds
-> the css_set_lock spinlock while calling write_seqcount_begin(). On
-> PREEMPT_RT kernels, spinlocks do not disable preemption, causing the
-> lockdep assertion for a plain seqcount_t, which checks for preemption
-> being disabled, to fail.
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+---
 
-> This triggers the following warning:
->    WARNING: CPU: 0 PID: 9692 at include/linux/seqlock.h:221
+This patch is marked as RFT since the changes haven't been tested. 
 
-> Fix this by changing the type to seqcount_spinlock_t and initializing
-> it with seqcount_spinlock_init() to associate css_set_lock with the
-> seqcount. This allows lockdep to correctly validate that the spinlock
-> is held during write operations, resolving the assertion failure on all
-> kernel configurations.
+ drivers/gpu/drm/msm/msm_gem_vma.c | 28 ++++++++++++++++++++++------
+ 1 file changed, 22 insertions(+), 6 deletions(-)
 
-> Reported-by: syzbot+27a2519eb4dad86d0156@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=27a2519eb4dad86d0156
-> Fixes: afa3701c0e45 ("cgroup: cgroup.stat.local time accounting")
-> Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-> ---
->   include/linux/cgroup-defs.h | 2 +-
->   kernel/cgroup/cgroup.c      | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-
-> diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-> index 539c64eeef38..933c4487a846 100644
-> --- a/include/linux/cgroup-defs.h
-> +++ b/include/linux/cgroup-defs.h
-> @@ -435,7 +435,7 @@ struct cgroup_freezer_state {
->   	int nr_frozen_tasks;
-
->   	/* Freeze time data consistency protection */
-> -	seqcount_t freeze_seq;
-> +	seqcount_spinlock_t freeze_seq;
-
->   	/*
->   	 * Most recent time the cgroup was requested to freeze.
-> diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-> index ab096b884bbc..fe175326b155 100644
-> --- a/kernel/cgroup/cgroup.c
-> +++ b/kernel/cgroup/cgroup.c
-> @@ -5789,7 +5789,7 @@ static struct cgroup *cgroup_create(struct cgroup  
-> *parent, const char *name,
->   	 * if the parent has to be frozen, the child has too.
->   	 */
->   	cgrp->freezer.e_freeze = parent->freezer.e_freeze;
-> -	seqcount_init(&cgrp->freezer.freeze_seq);
-> +	seqcount_spinlock_init(&cgrp->freezer.freeze_seq, &css_set_lock);
->   	if (cgrp->freezer.e_freeze) {
->   		/*
->   		 * Set the CGRP_FREEZE flag, so when a process will be
-
-Thanks for this fix, Nirbhay!
-
+diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
+index 00d0f3b7ba32..639425849d86 100644
+--- a/drivers/gpu/drm/msm/msm_gem_vma.c
++++ b/drivers/gpu/drm/msm/msm_gem_vma.c
+@@ -455,15 +455,20 @@ struct op_arg {
+ 	bool kept;
+ };
+ 
+-static void
++static int
+ vm_op_enqueue(struct op_arg *arg, struct msm_vm_op _op)
+ {
+ 	struct msm_vm_op *op = kmalloc(sizeof(*op), GFP_KERNEL);
++	if (!op)
++		return -ENOMEM;
++
+ 	*op = _op;
+ 	list_add_tail(&op->node, &arg->job->vm_ops);
+ 
+ 	if (op->obj)
+ 		drm_gem_object_get(op->obj);
++
++	return 0;
+ }
+ 
+ static struct drm_gpuva *
+@@ -482,6 +487,7 @@ msm_gem_vm_sm_step_map(struct drm_gpuva_op *op, void *_arg)
+ 	struct drm_gpuva *vma;
+ 	struct sg_table *sgt;
+ 	unsigned prot;
++	int ret;
+ 
+ 	if (arg->kept)
+ 		return 0;
+@@ -493,8 +499,6 @@ msm_gem_vm_sm_step_map(struct drm_gpuva_op *op, void *_arg)
+ 	vm_dbg("%p:%p:%p: %016llx %016llx", vma->vm, vma, vma->gem.obj,
+ 	       vma->va.addr, vma->va.range);
+ 
+-	vma->flags = ((struct op_arg *)arg)->flags;
+-
+ 	if (obj) {
+ 		sgt = to_msm_bo(obj)->sgt;
+ 		prot = msm_gem_prot(obj);
+@@ -503,7 +507,7 @@ msm_gem_vm_sm_step_map(struct drm_gpuva_op *op, void *_arg)
+ 		prot = IOMMU_READ | IOMMU_WRITE;
+ 	}
+ 
+-	vm_op_enqueue(arg, (struct msm_vm_op){
++	ret = vm_op_enqueue(arg, (struct msm_vm_op){
+ 		.op = MSM_VM_OP_MAP,
+ 		.map = {
+ 			.sgt = sgt,
+@@ -516,6 +520,10 @@ msm_gem_vm_sm_step_map(struct drm_gpuva_op *op, void *_arg)
+ 		.obj = vma->gem.obj,
+ 	});
+ 
++	if (ret)
++		return ret;
++
++	vma->flags = ((struct op_arg *)arg)->flags;
+ 	to_msm_vma(vma)->mapped = true;
+ 
+ 	return 0;
+@@ -531,6 +539,7 @@ msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
+ 	struct drm_gpuvm_bo *vm_bo = orig_vma->vm_bo;
+ 	bool mapped = to_msm_vma(orig_vma)->mapped;
+ 	unsigned flags;
++	int ret;
+ 
+ 	vm_dbg("orig_vma: %p:%p:%p: %016llx %016llx", vm, orig_vma,
+ 	       orig_vma->gem.obj, orig_vma->va.addr, orig_vma->va.range);
+@@ -540,7 +549,7 @@ msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
+ 
+ 		drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_range);
+ 
+-		vm_op_enqueue(arg, (struct msm_vm_op){
++		ret = vm_op_enqueue(arg, (struct msm_vm_op){
+ 			.op = MSM_VM_OP_UNMAP,
+ 			.unmap = {
+ 				.iova = unmap_start,
+@@ -550,6 +559,9 @@ msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
+ 			.obj = orig_vma->gem.obj,
+ 		});
+ 
++		if (ret)
++			return ret;
++
+ 		/*
+ 		 * Part of this GEM obj is still mapped, but we're going to kill the
+ 		 * existing VMA and replace it with one or two new ones (ie. two if
+@@ -611,6 +623,7 @@ msm_gem_vm_sm_step_unmap(struct drm_gpuva_op *op, void *_arg)
+ 	struct msm_vm_bind_job *job = arg->job;
+ 	struct drm_gpuva *vma = op->unmap.va;
+ 	struct msm_gem_vma *msm_vma = to_msm_vma(vma);
++	int ret;
+ 
+ 	vm_dbg("%p:%p:%p: %016llx %016llx", vma->vm, vma, vma->gem.obj,
+ 	       vma->va.addr, vma->va.range);
+@@ -643,7 +656,7 @@ msm_gem_vm_sm_step_unmap(struct drm_gpuva_op *op, void *_arg)
+ 	if (!msm_vma->mapped)
+ 		goto out_close;
+ 
+-	vm_op_enqueue(arg, (struct msm_vm_op){
++	ret = vm_op_enqueue(arg, (struct msm_vm_op){
+ 		.op = MSM_VM_OP_UNMAP,
+ 		.unmap = {
+ 			.iova = vma->va.addr,
+@@ -653,6 +666,9 @@ msm_gem_vm_sm_step_unmap(struct drm_gpuva_op *op, void *_arg)
+ 		.obj = vma->gem.obj,
+ 	});
+ 
++	if (ret)
++		return ret;
++
+ 	msm_vma->mapped = false;
+ 
+ out_close:
 -- 
-Tiffany Y. Yang
+2.43.0
+
