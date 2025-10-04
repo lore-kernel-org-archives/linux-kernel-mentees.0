@@ -1,161 +1,110 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D4AEEAB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 05:51:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D475A224234
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  4 Oct 2025 06:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759557088; cv=none; b=TekbtU7A4z8h8e/cMmIGc70d+bUV1rCQuqgyyR84aCP3XE5VPlS92bFTPeHBZsiVyjShd4KLDpTLPnAuPrFcV4U6QtW6ESEfqgI+TDADdu0KgIbrVKmkMYBW/Ft3Gai06ILiwDGtjreQyAPaAxBQ/n+x1Mys2GnrUC8ySyuVOMg=
+	t=1759558814; cv=none; b=IQbDlG5k91b36rV01AUozmYYKx+/a+h0Nz7swiZ/ftucZf4VTOIZUur8kw6C+9ZgHHC3AxWB0JmM88oyOE720wG9ym2oIi6xvHX6CCtQBjd8FIcna0ywohn/QCnuXF0TI2Fj9Rc7OVo94Y/VGnuDfEd3sFSBn6JnufagRThvDLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759557088; c=relaxed/simple;
-	bh=+ulMRQuWFPPzjvhYpoF92z0JmF/KhdQh5Tgtm1C3T+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UqVVxXENZmUUCctr/dgX7tNBr4l7gmoXAEAiC5QmgfciflzMbry6lggrULJyDluUjWJspIz/psYh5p/U4iBdZZbVX5i4BKAI8tY8+e8vIKbEdO6GQL0tU+5wDkGF7ALl0GV1wVWGgNLkkGCdFlfom3HYqPnvagzL+pccM3Av/Ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YStNZktC; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1759558814; c=relaxed/simple;
+	bh=cwvKQypMKJEPIzEUZe5Z66F8rm5W3HyDor7r3ulkwlk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=txfXrPr9W8E97IMR+jPkYD0hXOLthzNSas9CAla/iBknW/nZIyaggnydIa4ec17Du7AFBg0s5JlThbocHaiEIgOYglb9nO9gcQ1I9u5k6c7QdbKYEbpT6VgFROzIrdBI8415k035ulJzDIco6BeE29wbL2J+/MHeI7JD1f9sGYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QPnq8xZc; arc=none smtp.client-ip=209.85.208.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YStNZktC"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0F6C14009D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 05:51:27 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id dg616IhPjoxg for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  4 Oct 2025 05:51:26 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 0EE44403DC
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0EE44403DC
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=YStNZktC
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 0EE44403DC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  4 Oct 2025 05:51:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id E2C60603AC;
-	Sat,  4 Oct 2025 05:51:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1427BC4CEF1;
-	Sat,  4 Oct 2025 05:51:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1759557083;
-	bh=+ulMRQuWFPPzjvhYpoF92z0JmF/KhdQh5Tgtm1C3T+s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YStNZktCjlbmFsf9lI8VoKsUcnp1Wg5iVi9uJGTY264UuGLDVRsVREFo7LyOBQyTT
-	 Q7TereM+sySk4DeWjFWDCw69zrR7Lb0HxqbhTYqFoJcoWtwsXFUfS7heeEOW/9Z3Bq
-	 +dJWq9TvaYXD0VjbHGaJ2W856zgMxV/tmtXIr1Co=
-Date: Sat, 4 Oct 2025 07:51:20 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
-	Rengarajan Sundararajan <Rengarajan.S@microchip.com>,
-	UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>, khalid@kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net: usb: lan78xx: Fix lost EEPROM write timeout
- error(-ETIMEDOUT) in lan78xx_write_raw_eeprom
-Message-ID: <2025100407-devalue-overarch-afe0@gregkh>
-References: <20251004040722.82882-1-bhanuseshukumar@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QPnq8xZc"
+Received: by mail-ed1-f65.google.com with SMTP id 4fb4d7f45d1cf-631787faf35so5835565a12.3
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 03 Oct 2025 23:20:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759558811; x=1760163611; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cwvKQypMKJEPIzEUZe5Z66F8rm5W3HyDor7r3ulkwlk=;
+        b=QPnq8xZcBAdKpq60Ocs5nBoBhfNx9f/o28GMZuhZAGc1oWPJsMg5O6cJOCHSlHzUxb
+         zKTbwHTVg2MPVbz8MDICxUyNOPdA7uctVO5vBhUKYvMz5xyKnZbrfkU8dJZ+gTjfo1Zs
+         DsYMpgq3ykGVW8tIawV9u0Hzh+ohfM2d7zazU/uGCyaOgeRdDPDPMtTmSU/0SD9UE5Vk
+         4ZfOklRKaMR6dJjrOT+AhqM2hxsSZFedneAs0cVGd5sggbkCNRF2n7CctbuBQzlhNrDf
+         U6kUUekm5SmldXQoWihvFv8RNeFFsS/I+hvuoHNoikMlpFLq80gXlHDRm6he1dm9WVqD
+         cQiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759558811; x=1760163611;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cwvKQypMKJEPIzEUZe5Z66F8rm5W3HyDor7r3ulkwlk=;
+        b=fXBZNKPunZbUXEqfSTtvn0N3kFLuyPRdWNfteP3bhyubh+350SCSnvmjTfaunJndxl
+         DpG5tUBRR9Jyzm0mo5qxVaj7J+AFxWIl/uFzhV/0cRuULcpQLgcVgPzKzpzqbX8ZwxnY
+         Fx5CFomB5pMaIQU7lEwpqzuRSwwjXb73mMczlA6lEat/RcqgxpRbSvMAWJeNZUeyJrVw
+         WFDSZ06qkQKWGiid/6xNrDJWu/2ABMOPB4y/VCmMSyeGIUHyKI7DqnqBQ9CHAovxsjRR
+         EokzF+diAWIJ8daxprC9gaD4gLGMiAO38myE80G0tHTVyf4e2p4uCxP6QzBQZWD5e7UQ
+         GAFw==
+X-Forwarded-Encrypted: i=1; AJvYcCUWFHyZNYWkfoG4cfhnwj19XWL/cL+jgRm0ztOvS7V2XX8IvQOS5ZlEeKDDjVMF0ot71o4Z9p1c2ciEuL/bticPnuDS+A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzAOHR9WivPKb31Vde8yimv95Jws029rn8nYDz0HlvPSFdVcGsa
+	aBnQCa7LA03NXOdEeMKbk7fbXJqY1aPP0u1UU/W6Xshc7NSEVySbOJx1JBvQBpYzk5Z5aLCY/FG
+	n2ByhlPLI8efYnJZIG2DXJ90VRJhSWC8=
+X-Gm-Gg: ASbGnctanaQItFQ62xBq0fLwtc0Rml766IbLXJyl7335nDENjvy1te1RIUKY9GC6K/L
+	/5z0NS79+UCMFcWepxWJnVjIubahQIJwDwbnmKW4HzFLaM0KKyVASO/xbrSkG7JxYYyqcgobmAg
+	L3KWR8iRvg8sZxv+uDrCFcsMr1jDHUaOjODe0Fl0ehNqxP9HQ2yxd6qiDYGx/JkaNLleTdNAU+0
+	tEwoT1XzWduGCmY3mRlsZg+IsGxaYKaxDVOgjSEIA==
+X-Google-Smtp-Source: AGHT+IHvC6Z7Roar6Te7hGz1HgNqfK/9bJzycQ+JL4engfzt5VbPcx2Bzy1MDjmUK9nyex0/tG8Inr/iSP65hfRQ6uc=
+X-Received: by 2002:a17:906:c14c:b0:b47:de64:df1d with SMTP id
+ a640c23a62f3a-b49c1a76234mr684527466b.13.1759558810901; Fri, 03 Oct 2025
+ 23:20:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251004040722.82882-1-bhanuseshukumar@gmail.com>
+References: <20251004015623.7019-1-raskar.shree97@gmail.com>
+ <20251004015623.7019-2-raskar.shree97@gmail.com> <21b1dc10-acad-43b9-a9c6-24abb2886856@gmail.com>
+In-Reply-To: <21b1dc10-acad-43b9-a9c6-24abb2886856@gmail.com>
+From: Shrikant <raskar.shree97@gmail.com>
+Date: Sat, 4 Oct 2025 11:49:59 +0530
+X-Gm-Features: AS18NWDFYveno3GXr5tGCM5q0b7CRS7Tq77mFhLV_Q5_pds9PsSNUL9CCHseVRU
+Message-ID: <CAHc1_P67arWxOeBJZGGREQvBwVG6VaJkRu6_RawWDqRunBdzow@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: iio: max30100: Add pulse-width property
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+Cc: jic23@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, matt@ranostay.sg, 
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 04, 2025 at 09:37:22AM +0530, Bhanu Seshu Kumar Valluri wrote:
-> The function lan78xx_write_raw_eeprom failed to properly propagate EEPROM
-> write timeout errors (-ETIMEDOUT). In the timeout  fallthrough path, it first
-> attempted to restore the pin configuration for LED outputs and then
-> returned only the status of that restore operation, discarding the
-> original timeout error saved in ret.
-> 
-> As a result, callers could mistakenly treat EEPROM write operation as
-> successful even though the EEPROM write had actually timed out with no
-> or partial data write.
-> 
-> To fix this, handle errors in restoring the LED pin configuration separately.
-> If the restore succeeds, return any prior EEPROM write timeout error saved
-> in ret to the caller.
-> 
-> Suggested-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> Fixes: 8b1b2ca83b20 ("net: usb: lan78xx: Improve error handling in EEPROM and OTP operations")
-> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-> ---
->  Note:
->  The patch is compiled and tested.
->  The patch was suggested by Oleksij Rempel while reviewing a fix to a bug
->  found by syzbot earlier.
->  The review mail chain where this fix was suggested is given below.
->  https://lore.kernel.org/all/aNzojoXK-m1Tn6Lc@pengutronix.de/
-> 
->  drivers/net/usb/lan78xx.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-> index d75502ebbc0d..5ccbe6ae2ebe 100644
-> --- a/drivers/net/usb/lan78xx.c
-> +++ b/drivers/net/usb/lan78xx.c
-> @@ -1174,10 +1174,13 @@ static int lan78xx_write_raw_eeprom(struct lan78xx_net *dev, u32 offset,
->  	}
->  
->  write_raw_eeprom_done:
-> -	if (dev->chipid == ID_REV_CHIP_ID_7800_)
-> -		return lan78xx_write_reg(dev, HW_CFG, saved);
-> -
-> -	return 0;
-> +	if (dev->chipid == ID_REV_CHIP_ID_7800_) {
-> +		int rc = lan78xx_write_reg(dev, HW_CFG, saved);
-> +		/* If USB fails, there is nothing to do */
-> +		if (rc < 0)
-> +			return rc;
-> +	}
-> +	return ret;
->  }
->  
->  static int lan78xx_read_raw_otp(struct lan78xx_net *dev, u32 offset,
-> -- 
-> 2.34.1
-> 
-> 
-
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You have marked a patch with a "Fixes:" tag for a commit that is in an
-  older released kernel, yet you do not have a cc: stable line in the
-  signed-off-by area at all, which means that the patch will not be
-  applied to any older kernel releases.  To properly fix this, please
-  follow the documented rules in the
-  Documentation/process/stable-kernel-rules.rst file for how to resolve
-  this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+On Sat, Oct 4, 2025 at 8:52=E2=80=AFAM Bhanu Seshu Kumar Valluri
+<bhanuseshukumar@gmail.com> wrote:
+>
+> On 04/10/25 07:26, Shrikant Raskar wrote:
+> > The MAX30100 sensor supports multiple LED pulse widths (200us, 400us,
+> > 800us, 1600us). These settings affect measurement resolution and power
+> > consumption. Until now, the driver always defaulted to 1600us.
+> >
+> > Introduce a new device tree property `maxim,pulse-width` that allows
+> > users to select the desired pulse width in microseconds from device
+> > tree.
+> >
+> > Valid values are: 200, 400, 800, 1600.
+> >
+> > This prepares for driver changes that read this property and configure
+> > the SPO2 register accordingly.
+> >
+> > Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
+>
+> The subject prefix [PATCH 1/2] says it's a two part patch series. But I t=
+hink
+> you send all changes in a single patch. If single patch use [PATCH] inste=
+ad
+> of [PATCH 1/2].
+>
+>
+Thanks for your feedback.
+I have shared 2 patches, one for device tree property update and
+respective driver update in
+MAX30100 driver. Can you please check the patch with subject ' iio:
+health: max30100: Add pulse-width configuration via DT' ?
