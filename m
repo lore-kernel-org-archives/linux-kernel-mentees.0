@@ -1,73 +1,73 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214821DE2A5
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  4 Oct 2025 06:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D271C6B4
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  4 Oct 2025 08:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759560988; cv=none; b=szDNQHaz/wbI8Qr4+Gh5VW/yglU7tqh/wq85iQWoqs7WL9Wsy67eNbnA/lBZXVKkBaAxfmW8UG77ev0BGhy5+bD6yh47rVh2RRBq9lnOipsXOWBu+wpl1SNUpO42tdgoE/UJpxQsfpBtgAlMUpiYjQ05LianeS6CCGY2OLfM5Bg=
+	t=1759564906; cv=none; b=l0gP+EOW/lmslKLGJ2m/DDrOPm6bOMiWCEJA79kHZrgUQjeC4tN0SCNajG2nzGF8gju2L0q7YVCnXIPXN5oJEeueXjDcnzFndAXliRc90uMEed+XdovYc38sYujhhrbirkUgUvXFy1SdCcRNLIgJfowdpYbXSs818fB5kxm69rU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759560988; c=relaxed/simple;
-	bh=Akg62ZfHSXk8/MAeJYQ188NE63lSNc+b3eVzEJKBmqc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aavSGCVT+TRsVqreLXKDv+7DZs4p354KlrY+TszMeVeUsaLb7C0AhROyXotkaglVt8MX54l/J0RkrM2ThyJw5PdSAHMw7mCn5QlyP/x9lzlXNCDIHleODiHJ4JqjGMyGtlwXX+PI61H+QX77+lQVhigWrBguvEEdrjAtO1/+BQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KAAF4PoE; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1759564906; c=relaxed/simple;
+	bh=KjAy/lvyyRZ8zGb/5b2zhZlwN6xjwOXL9DkAX4lt92Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AXf67oeXCsY+eNqnAh8latCGliaifoFQYsKGWw3BjTxKQuPyThiaqHvTnIequ6xmQg34Xt/D0l1Mf3nhDz1zj2fMFYph+mRND5O7yO3eUsBwGq1jSqXBjaEkekJlkVuxTlbtEF3vTfYAVtGKmXaAsEWwMknzACDuViTunKpzgNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d4Td6erV; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KAAF4PoE"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7811a02316bso2235834b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 03 Oct 2025 23:56:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d4Td6erV"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b5526b7c54eso2097683a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 04 Oct 2025 01:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759560986; x=1760165786; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759564904; x=1760169704; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=O/31utkvfUNb/M8r9xoY+/XrOhevw5/hi8IXZ2URA6Q=;
-        b=KAAF4PoEKpt0bCk9WyflHbhyCQ6pejiZCO2ATZd9ppVjGcW8AMG0dhVR2E3h4sR09h
-         BOYTqBa2xMf2SkOfea7+olF7IT+mhqdl+Z+0E2abEaYHZNivVnXGCl/+iG94fyqiLfXa
-         2WIboygowB2DF1w33cnYuhHyr88LVh7tkc0Xjjr7CW6XtGqurXpWDdiRxNTbvylyHT8A
-         v42o3vfg+3UNW8i3CvD1L+MiuhsEuylTnitJNDvxuQktO9fZbtgX1mhG6reqhVIA0VUo
-         8JcB54SEtdWSI28LrdjxDiaoUguRMkWGZcU8qD4Cwk65om6FWydSbtNxPJ4PT0ED3mwP
-         9pgA==
+        bh=h0HHNpXXNcTkL+nhU/xsbqvNsp+K5n0NS1hpW71SqOE=;
+        b=d4Td6erVgG9VLD0qsVXBkxUiidPDP+e+iNFBQpBjAvKXEK13zAxKg4YFaptLKdbLa1
+         rbPeswo5ZIMWSs4ixre0gwcna3m9DKj9f0Yez5HUEYUD3ZdKKyyeDgnblR93GOhogSeo
+         IHg3qbSMA7cwhnYCgBLvOxC2RZ5gZmSPUBKu93EJXrWpup98MIH4rdQMqfKLQRqh9hGP
+         dXLic+SMq+RyIEs/wgQsolwTa2yVC2P1FvYzrovzU8o8guMuJ0nccvk06fRPTNSTw+dd
+         zafM0aVMajIDaE4Go4TubxLKh1wKf3bWDfMrBYKNhdJuKkL8PgQ+yGUbFvvOS0U4dOqc
+         V0EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759560986; x=1760165786;
+        d=1e100.net; s=20230601; t=1759564904; x=1760169704;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=O/31utkvfUNb/M8r9xoY+/XrOhevw5/hi8IXZ2URA6Q=;
-        b=GNVLiPauLwNfbeh5DhQlG+BfUoCAT7Pkpzr7JxpEQzPKJbncL/BS6CPDwPpWDg6arI
-         Y5BBca66dQ84gUPMI23vS3GT7QfJqphA1sc3vLjIC1y0Z/TdhmqTNpcenn83ugyDcG+o
-         IzJbRTECsRXocLl7zK89nop3N84faDeoE582ThU1pCkXKCHInxV/IXosc8ahr8VjBQsW
-         UMq3MOL8PxeV/mmb3YSKPn2NgFWilHT5415sY2WL/IFlOroUKtiujPHB2XeRH/15uYYh
-         BGuhIby564c88XHnt250sPTACF7guNBVaJeFxmsstTg4QkA7PpgLhEPh4HEWflT9xcff
-         VWSw==
-X-Forwarded-Encrypted: i=1; AJvYcCUc1xbchW2v2aNllCqVP0IdA4gS5248jPoJL5rNJpUQYd9cCsq0ImQJCvJDZ065eWY73DXaxc+FIvOuTjsuRgOFEiuItQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0QDi4CMofOkDr4tx20c3iLikzOQbu4vjeIS4iDpZ/Ce6P9Zr7
-	YnveytnoRtkcruzAKtzvw1DxAWlBtUuwnKw6l6qAOagvXAfOxffogkYN
-X-Gm-Gg: ASbGncs6TKZOwIDL07sbcKnkYdcurtH9bcFoTl02iKlzhPo+FtInbNX05LrER757LQ7
-	svTF4RXr8lLjfr3nIdTWxTh5MHbfNYs9NrPCsGmqBq+ul+uThxn9I2ec+C2vJlj3Q6RwPGTJVvz
-	jH8uQKRLCqhAxJSDQngmavc1CGgrIAEUyUfwS58BPuQoAu6/BEW+dH91t0sjjBFDdP6a6aeP6t4
-	m8W//DCYDHhoyuUD8cbYW7vd8rdgcBG5kFqqW5MThdM5X7brsZuxrR68/F+b6bq47y4q0IiPpF4
-	DSxFy9nGPHpuaim1Z8BG5UA54yJriJPjjBCDV2vuzI3YsziX6jg4/FKRxXpYh772HzKIjMogVxs
-	3oyzBKy01uDF5Lv1zFzxUDE+wyCou7LEUc/NtKJE0xpMg2wxs5BO/EqF3EvKGzQ==
-X-Google-Smtp-Source: AGHT+IFD7GHyG9wTtVtGlBN3EdoD8sakaAaNr/H/4XHW4uSuPD+X3zU0Xm9uor2HWS1YrnouFiQMmA==
-X-Received: by 2002:a05:6a21:32a8:b0:2fd:a3b:933d with SMTP id adf61e73a8af0-32b6212a95amr8167723637.58.1759560986198;
-        Fri, 03 Oct 2025 23:56:26 -0700 (PDT)
+        bh=h0HHNpXXNcTkL+nhU/xsbqvNsp+K5n0NS1hpW71SqOE=;
+        b=Al6e8XDf8g1M+KIHFxMkOkSIAiBdqIYGKyQOFFhYC4KMaZVTjvJNCqVy4xqKhf22Uf
+         TmtiTxxPLMqaEre2dPclrOWgjXHjjjf3Uf8XgAdaPzhCKz9jozNRisfIT9P5pChg586i
+         ujxfP7K9TawbAjlWWNRDRKy4GdesqS0LGfIESLdRgF5Wmea6ushtJUKytexudjyE5FKg
+         h78RQL340ciyhkGn2B8zQZyG2m2Uytt5N3sLxoo+zGuUx6vZdy2wt0rLwi2CydolaBbR
+         ihNexrpIi8MdGMAbNFSrt1kmpDz3F6ZD6GIQaEeNu0DUV57eVgvf3jbHFKF3muTqrdxI
+         7nTw==
+X-Forwarded-Encrypted: i=1; AJvYcCXVvFmLcLssBnGpI7AAAeaBsEO8bF3D3eP8OPmOUIYILP2fwBiQYsXGtj9JSqOOkwCCIZZsTPCmQ06zTs6/oJPAY+/ukw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzqPq51GWIQcO1MNvxFn3aztIHnUr/qRpXsuagkqv6E6YhuEac
+	9s/oAwY9qRXad02SS0aRj6Hmtv+kPuPrGpOp8MH60Wc9Th7MHBYBTG+I
+X-Gm-Gg: ASbGncvnRsIaBtaNf38EwIQOuWDrjmyaDNgFGiSDe16ZG0Set2Pw+r1QbHOKPmvs87O
+	JtrRkj2etgR+IN82WfAlY1/bqRJwW9hhbY66Xsfi9eXXstP29hrkHJ/jI5HImcddAY1PxkZozRx
+	BO0pyIPovu9uWib7RxKwfAacYTScxk/M1wB3I5pCh9eWIp4cR6INVkMG7lPrTEzohHBCfqrDi+d
+	aRam2EXeQagdAo8F0zsoOjdOnJLmkW6+kr9QKAaitUOIP5ZG47sRUwCrVCAO73mc5//gxFKO8Zm
+	eE398+7F6Z+ySyik122/hKy6fgVAgiyDqcKZfkV41m3NRlzDcs7cZiwOXqoq40h2jT61/0Vchc8
+	S1lPW4Px7dbTTBubd4ueeSux5g9A+xJHST3rxxbexzS4pU2ft04vGBhs14g8AhA==
+X-Google-Smtp-Source: AGHT+IFXUEH4SoswhGENnhaBYTvA3J2cAJeazeigS8wwqtI9GXK/ebBTvKu4N8A/XRv+TrDANyOIIA==
+X-Received: by 2002:a17:902:c94f:b0:269:9a71:dc4a with SMTP id d9443c01a7336-28e9a648547mr61572455ad.41.1759564904400;
+        Sat, 04 Oct 2025 01:01:44 -0700 (PDT)
 Received: from mentee25.. ([2405:201:d003:7033:7b72:2259:4f28:5ecc])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a6ebe5f2sm10022160a91.11.2025.10.03.23.56.23
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a701bf31sm10238056a91.19.2025.10.04.01.01.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 23:56:25 -0700 (PDT)
+        Sat, 04 Oct 2025 01:01:42 -0700 (PDT)
 From: vivekyadav1207731111@gmail.com
 To: johan@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev,
 	david.hunter.linux@gmail.com,
 	Vivek Yadav <vivekyadav1207731111@gmail.com>
-Subject: [PATCH] usb: serial: fix: space prohibited before comma separator
-Date: Sat,  4 Oct 2025 12:26:18 +0530
-Message-ID: <20251004065618.70151-1-vivekyadav1207731111@gmail.com>
+Subject: [PATCH] usb: serial: fix: trainling statements `break` should be on next line
+Date: Sat,  4 Oct 2025 13:31:23 +0530
+Message-ID: <20251004080123.98285-1-vivekyadav1207731111@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -79,97 +79,49 @@ Content-Transfer-Encoding: 8bit
 
 From: Vivek Yadav <vivekyadav1207731111@gmail.com>
 
-Run `checkpatch.pl` script on path `drivers/usb/serial/*`.
-Find ERROR: space prohibited before that ',' (ctx:WxE).
+Run `checkpatch.pl` script on path `drivers/usb/serial/*`
+Find ERROR: trailing statements should be on next line
 
 Doesn't claim any functionality changes in any of the modified
 file.
 
 Signed-off-by: Vivek Yadav <vivekyadav1207731111@gmail.com>
 ---
- drivers/usb/serial/ark3116.c          | 12 ++++++------
- drivers/usb/serial/ftdi_sio.c         |  2 +-
- drivers/usb/serial/iuu_phoenix.c      |  4 ++--
- drivers/usb/serial/keyspan_usa90msg.h |  2 +-
- 4 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/usb/serial/mct_u232.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/usb/serial/ark3116.c b/drivers/usb/serial/ark3116.c
-index 800b04fe37fa..f1cc4e36e4e6 100644
---- a/drivers/usb/serial/ark3116.c
-+++ b/drivers/usb/serial/ark3116.c
-@@ -143,18 +143,18 @@ static int ark3116_port_probe(struct usb_serial_port *port)
- 	ark3116_write_reg(serial, UART_FCR, 0);
- 	/* handshake control */
- 	priv->hcr = 0;
--	ark3116_write_reg(serial, 0x8     , 0);
-+	ark3116_write_reg(serial, 0x8, 0);
- 	/* modem control */
- 	priv->mcr = 0;
- 	ark3116_write_reg(serial, UART_MCR, 0);
- 
- 	if (!(priv->irda)) {
--		ark3116_write_reg(serial, 0xb , 0);
-+		ark3116_write_reg(serial, 0xb, 0);
- 	} else {
--		ark3116_write_reg(serial, 0xb , 1);
--		ark3116_write_reg(serial, 0xc , 0);
--		ark3116_write_reg(serial, 0xd , 0x41);
--		ark3116_write_reg(serial, 0xa , 1);
-+		ark3116_write_reg(serial, 0xb, 1);
-+		ark3116_write_reg(serial, 0xc, 0);
-+		ark3116_write_reg(serial, 0xd, 0x41);
-+		ark3116_write_reg(serial, 0xa, 1);
- 	}
- 
- 	/* setup baudrate */
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 49666c33b41f..f5d4335c4f6c 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -190,7 +190,7 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(FTDI_VID, FTDI_8U232AM_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_8U232AM_ALT_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_232RL_PID) },
--	{ USB_DEVICE(FTDI_VID, FTDI_8U2232C_PID) ,
-+	{ USB_DEVICE(FTDI_VID, FTDI_8U2232C_PID),
- 		.driver_info = (kernel_ulong_t)&ftdi_8u2232c_quirk },
- 	{ USB_DEVICE(FTDI_VID, FTDI_4232H_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_232H_PID) },
-diff --git a/drivers/usb/serial/iuu_phoenix.c b/drivers/usb/serial/iuu_phoenix.c
-index c21dcc9b6f05..fc71aaea3229 100644
---- a/drivers/usb/serial/iuu_phoenix.c
-+++ b/drivers/usb/serial/iuu_phoenix.c
-@@ -360,7 +360,7 @@ static void iuu_led_activity_on(struct urb *urb)
- 	usb_fill_bulk_urb(port->write_urb, port->serial->dev,
- 			  usb_sndbulkpipe(port->serial->dev,
- 					  port->bulk_out_endpointAddress),
--			  port->write_urb->transfer_buffer, 8 ,
-+			  port->write_urb->transfer_buffer, 8,
- 			  iuu_rxcmd, port);
- 	usb_submit_urb(port->write_urb, GFP_ATOMIC);
- }
-@@ -380,7 +380,7 @@ static void iuu_led_activity_off(struct urb *urb)
- 	usb_fill_bulk_urb(port->write_urb, port->serial->dev,
- 			  usb_sndbulkpipe(port->serial->dev,
- 					  port->bulk_out_endpointAddress),
--			  port->write_urb->transfer_buffer, 8 ,
-+			  port->write_urb->transfer_buffer, 8,
- 			  iuu_rxcmd, port);
- 	usb_submit_urb(port->write_urb, GFP_ATOMIC);
- }
-diff --git a/drivers/usb/serial/keyspan_usa90msg.h b/drivers/usb/serial/keyspan_usa90msg.h
-index c4ca0f631d20..e01df75140c7 100644
---- a/drivers/usb/serial/keyspan_usa90msg.h
-+++ b/drivers/usb/serial/keyspan_usa90msg.h
-@@ -69,7 +69,7 @@ struct keyspan_usa90_portControlMessage
- 		txMode,			// TXMODE_DMA or TXMODE_BYHAND
- 
- 		setTxFlowControl,	// host requests tx flow control be set
--		txFlowControl	,	// use TX_FLOW... bits below
-+		txFlowControl,	        // use TX_FLOW... bits below
- 		setRxFlowControl,	// host requests rx flow control be set
- 		rxFlowControl,	// use RX_FLOW... bits below
- 		sendXoff,		// host requests XOFF transmitted immediately
+diff --git a/drivers/usb/serial/mct_u232.c b/drivers/usb/serial/mct_u232.c
+index 2bce8cc03aca..41b80a075b87 100644
+--- a/drivers/usb/serial/mct_u232.c
++++ b/drivers/usb/serial/mct_u232.c
+@@ -153,16 +153,17 @@ static int mct_u232_calculate_baud_rate(struct usb_serial *serial,
+ 		   divider = 115200/value;
+ 		   real baud = 115200/divider */
+ 		switch (value) {
+-		case 300: break;
+-		case 600: break;
+-		case 1200: break;
+-		case 2400: break;
+-		case 4800: break;
+-		case 9600: break;
+-		case 19200: break;
+-		case 38400: break;
+-		case 57600: break;
+-		case 115200: break;
++		case 300:
++		case 600:
++		case 1200:
++		case 2400:
++		case 4800:
++		case 9600:
++		case 19200:
++		case 38400:
++		case 57600:
++		case 115200:
++			break;
+ 		default:
+ 			value = 9600;
+ 			*result = 9600;
 -- 
 2.43.0
 
