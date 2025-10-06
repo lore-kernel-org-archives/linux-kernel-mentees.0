@@ -1,117 +1,68 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B699A42AA3
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  6 Oct 2025 18:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06956242D69;
+	Mon,  6 Oct 2025 18:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759773641; cv=none; b=I0Uszwk0P5w2hCQH6gc0kz3/RUcYoeGn+d3rDRGFEjiFobcSlXqrXWwCeesQwkMqH4DCioT0858zkqV/ikAipIFxyQZZFGU7C4JCIM2aXmozW1hHqMbsecijENO2I94xI6wGjIR41HEfaaNhVAHQPkGJu/OV9ad9QcosPDKWvwo=
+	t=1759774334; cv=none; b=kgRmErIYcx01EYVK5Udd5SmkBC2BVS9NcYnbMLrGGy4ACsMzSPKG6mFGAbAQmiMwQKKFCPjMlSFT2JyUADL9J4kRrE6ySXIje+PpnfuqfziVEjnokLqO3vpHl96+gaTh0u0ILnzQSuBneaayPLXZcTC+9zaDvU6upJqZRdsf0yA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759773641; c=relaxed/simple;
-	bh=0GEMNRcZziGzb3s681pgK1hZuY+IKAUR9TQA+X75qiY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z7yzB8I0BUrA6ia4EdPIRj9r3jIn/rkQK8yGTIUBZ/Y35JoQOK82quIcWGwaQeH+J1JFxbseNVO7ycVbFI4pv7+djyHw+nrLxRPpMbDKmfEBWcIn0Fvi5bQQ/EIIneddREm5PXWzukGmO0FSkhWvic4WLnIfG659fgtgxU6OwCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lt9Ja4Gh; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759774334; c=relaxed/simple;
+	bh=yqfM60pd3vm0k6dr2xJzKfQX6Cf8X1W6EHsDOhRCN1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OVg0qnAMaYJdqmEnmMMBUPQg5LGiVgvudHnZGP7r6K2gkErAnIKRlZXj9yIrdiqq8Rbx4nbYHw3WUIVVM48ls/o0TFi7rWj8fq+RnELgnTQ2hUoTr6W9u3kRpt2lgL8xSVwepscZ0GKTyFK2o2UkJj9or9kLc792Yu3bPB1DQNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TvkBE1bj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lt9Ja4Gh"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-62fc89cd68bso10976590a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 06 Oct 2025 11:00:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759773638; x=1760378438; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=inbCGeX0MlCaOTe4pzWEAkquVwCrsIcfcgv0X9AXOR8=;
-        b=Lt9Ja4GhJhco7uL2VvRt5wZ+Kn6odnzhaEjOFXD5bAqeqYuQ+nGTk7kA/czpUas074
-         zaATJ80LVw9YLCm/LZ322S/qVcDWqXt0FOyHnryR1r4OAvPdfNvVaTwFnBEREVE6I8HE
-         HGmPbSDhPMQlFhCBXxfNxYIahxRed+eK7s6zI6hoAKbjqOUK4Ig0DLb7NHLQFEajey30
-         iFxNiVpVybfw1p1VlnqvZgfZaWkR8FP4xdxoT3LxB3jfh/CIlNXzEt7Qd5IU82SjcW4f
-         /EFsNFfpjV5LiopGBDg8YEA3Ba+8Mr3hYXWpYADGEpTZzbMEqSPlKe2dDuOTrmftHkyg
-         LliA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759773638; x=1760378438;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=inbCGeX0MlCaOTe4pzWEAkquVwCrsIcfcgv0X9AXOR8=;
-        b=B283FByyi9li3dQpMLJSmKkIaSEkr3Ei2BXOfT/yewCVuQlaKCgdNkXILNtbm/aHs7
-         3FBGnbY0oYrNiM5RUsUsQKyMHLmXjJ9NAmYzKDobsPyHujYRhyGhHvvH7bjmS4H9TkTM
-         SooIm4HuSxOqugKAEH5dGSmUevL4IfNW0iIcym+IZmHmqJQfh4BQaHw9IHpuoG+8Fjol
-         fRiVkvXKPOFiEP5ccthq9eDpspCRyP/IN6jQjKUAppzsfMWeiS0f9L8AHhcDLksSpssN
-         4G2PkbwW4UjO1P996v9Ud1xnkbpakj3/GfOdi6aafEbjXIBbKInt/Q6pJri3vZbMk4u+
-         uX0A==
-X-Forwarded-Encrypted: i=1; AJvYcCXn3+Kdo815Zb4IKqcRgt61rRWtR0M9G4deM5tVf3QRbF+FKkBOXA8pgHdnA/D7H5hqSc8vum6OIAC81EnX/ZzlBlMMJw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YynAL5n+j7zjESJzDcFonkivPKwucathkLxqPRDcHUDSoleXBBN
-	lvZ5a178L7zsdWlJW864Kb36bdMElfOzc8rTrUxz6TBqu6y9Kg5oDiLp26F1J/FhahkI7n3WPtU
-	hvr+shdjU92wiWneDo8Ibe6dvEArvHE8=
-X-Gm-Gg: ASbGncvGcgR2UDCifPhnj2Zl3QCLyyxEj+dV0HUv5ILiA9BBsMY/1FghiVsHDTjGG7O
-	b7PWo9N3No9OAAB0yBl+LQxnQtZqSYUtjt904UtyHw7s9ztDTEbR5BYwILoPLt+NgSeKhA1aFug
-	LalMDa5Zxm80iiMCvdZgdvEGa+7AGq/nj7RjXUfFkfKnIGgzPjL0iWs8lJgpkyY7XxhGSqNbO2i
-	sOJYZWVziZJ8m14As1OxSKoXRjNBxV7x5mopawQ6pw4vpGkeWRqkHL5YeGn4gcSw0wfN8j7Jgo=
-X-Google-Smtp-Source: AGHT+IHc/KM682jYWj3WvcK4lSK7EMboJJkdUb1lxllQSBBYt5rLkWpEgXxcvdPFJR/OuHQrWNQ0UC2LN9vnzduKPDI=
-X-Received: by 2002:a05:6402:354c:b0:633:d0b7:d6c3 with SMTP id
- 4fb4d7f45d1cf-639348e53b3mr15040695a12.5.1759773637242; Mon, 06 Oct 2025
- 11:00:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TvkBE1bj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5826C4CEF5;
+	Mon,  6 Oct 2025 18:12:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759774333;
+	bh=yqfM60pd3vm0k6dr2xJzKfQX6Cf8X1W6EHsDOhRCN1A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TvkBE1bjzN2mieHNShs7LCJeqhNu7ZzmJSwLGlDbdWlJz7CjWpw6JApMMklud+WHp
+	 d9+eEe76G3Dsnv2zlNRz6emhDmjsWcaBNJbB3VQBUdL1Dw8m3uRNqS44zwj3R7l5tA
+	 hatTwdpJgjoBmHJzzsrhpq0sCU0l82xYRaBucuovTqpRJILmZm60I3q+i8Mw6F6jAS
+	 tfNphq3mgb0uecQc1gxjan499QOHPmiAMAj2u4QJOjxd6QkqwyqejBHqJb53KRV89o
+	 kZsVQVJfDMqCHMc37zuBLsZAIPajmZsGqFGwAxAwy49x3FzgmwnS6cm3RM6BpeTMpP
+	 /OVm3LAqfg2TA==
+Date: Mon, 6 Oct 2025 11:12:11 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: I Viswanath <viswanathiyyappan@gmail.com>
+Cc: Thangaraj.S@microchip.com, Rengarajan.S@microchip.com,
+ UNGLinuxDriver@microchip.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+ david.hunter.linux@gmail.com
+Subject: Re: [PATCH net] net: usb: lan78xx: fix use of improperly
+ initialized dev->chipid in lan78xx_reset
+Message-ID: <20251006111211.28f018bc@kernel.org>
+In-Reply-To: <20251001131409.155650-1-viswanathiyyappan@gmail.com>
+References: <20251001131409.155650-1-viswanathiyyappan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251006174658.217497-1-kshitijvparanjape@gmail.com>
-In-Reply-To: <20251006174658.217497-1-kshitijvparanjape@gmail.com>
-From: vivek yadav <vivekyadav1207731111@gmail.com>
-Date: Mon, 6 Oct 2025 23:30:25 +0530
-X-Gm-Features: AS18NWBipFXoldgwotbv0EXeAnZgq5bGgzj04ZlSOSM0MjF-bQqudelsREmIC6Q
-Message-ID: <CABPSWR6B0M=nos=wBpjidXMPVYVDKYi0i+-ufuR460_m48vjVw@mail.gmail.com>
-Subject: Re: [PATCH] scsi: fix shift out-of-bounds in sg_build_indirect The
- num variable is set to 0. The variable num gets its value from
- scatter_elem_sz. However the minimum value of scatter_elem_sz is PAGE_SHIFT.
- So setting num to PAGE_SIZE when num < PAGE_SIZE.
-To: Kshitij Paranjape <kshitijvparanjape@gmail.com>
-Cc: "Martin K . Petersen" <martin.petersen@oracle.com>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, skhan@linuxfoundation.org, 
-	david.hunter.linux@gmail.com, khalid@kernel.org, linux-scsi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	stable@vger.kernel.org, syzbot+270f1c719ee7baab9941@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Kshitij,
+On Wed,  1 Oct 2025 18:44:09 +0530 I Viswanath wrote:
+> dev->chipid is used in lan78xx_init_mac_address before it's initialized:
+> 
+> lan78xx_reset() {
+>     lan78xx_init_mac_address()
+>         lan78xx_read_eeprom()
+>             lan78xx_read_raw_eeprom() <- dev->chipid is used here
+> 
+>     dev->chipid = ... <- dev->chipid is initialized correctly here
+> }
+> 
+> Reorder initialization so that dev->chipid is set before calling
+> lan78xx_init_mac_address().
 
-Subject line of your patch should not exceed more than 80 characters
-[recommended]
-Please check your patch format.
-
-~~vivek
-
-On Mon, Oct 6, 2025 at 11:17=E2=80=AFPM Kshitij Paranjape
-<kshitijvparanjape@gmail.com> wrote:
->
-> Cc: <stable@vger.kernel.org>
-> Reported-by: syzbot+270f1c719ee7baab9941@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D270f1c719ee7baab9941
-> Signed-off-by: Kshitij Paranjape <kshitijvparanjape@gmail.com>
-> ---
->  drivers/scsi/sg.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/scsi/sg.c b/drivers/scsi/sg.c
-> index effb7e768165..9ae41bb256d7 100644
-> --- a/drivers/scsi/sg.c
-> +++ b/drivers/scsi/sg.c
-> @@ -1888,6 +1888,7 @@ sg_build_indirect(Sg_scatter_hold * schp, Sg_fd * s=
-fp, int buff_size)
->                 if (num < PAGE_SIZE) {
->                         scatter_elem_sz =3D PAGE_SIZE;
->                         scatter_elem_sz_prev =3D PAGE_SIZE;
-> +                       num =3D scatter_elem_sz;
->                 } else
->                         scatter_elem_sz_prev =3D num;
->         }
-> --
-> 2.43.0
->
->
+We need a Fixes tag
+-- 
+pw-bot: cr
