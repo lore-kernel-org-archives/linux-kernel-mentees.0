@@ -1,96 +1,117 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF56C1DE887
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  6 Oct 2025 17:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B699A42AA3
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  6 Oct 2025 18:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759773334; cv=none; b=VorhFEZhddwQZSidw0kO+KdhdiCVc4R0uRci6sFsD0fxiFFOdMFeu0eQTibctbD/INY//b8OF53zEMEImu2mzcBXZ7MAklp44rKcTg0qX+lr2xKBdlI864bKeDTamwYQPfy6/zAE1shUgHVgW555EE4Gkj389ErVgYFMTpRxlrM=
+	t=1759773641; cv=none; b=I0Uszwk0P5w2hCQH6gc0kz3/RUcYoeGn+d3rDRGFEjiFobcSlXqrXWwCeesQwkMqH4DCioT0858zkqV/ikAipIFxyQZZFGU7C4JCIM2aXmozW1hHqMbsecijENO2I94xI6wGjIR41HEfaaNhVAHQPkGJu/OV9ad9QcosPDKWvwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759773334; c=relaxed/simple;
-	bh=GHjC0ZDFv6Yr8oyAI/yfkHsqZVcSi60mbO6eviVgQuc=;
+	s=arc-20240116; t=1759773641; c=relaxed/simple;
+	bh=0GEMNRcZziGzb3s681pgK1hZuY+IKAUR9TQA+X75qiY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hzN1JDGAxwFNhA0mqkvExlp5F3KmZsGkfPUmxUurjh2ksi8pT9VOdHcbsEeSOhMGThCzM2W9vH6MZaZowGkQtxZnfZVSTUkYWTEvz4BYmgvTRzs+eOGyhR8LvhHf9yEUcO3MUhabV0ER3j/dtyoE5EdCISDrBYxjMv2PljJMZ7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ljWTEZmV; arc=none smtp.client-ip=209.85.218.49
+	 To:Cc:Content-Type; b=Z7yzB8I0BUrA6ia4EdPIRj9r3jIn/rkQK8yGTIUBZ/Y35JoQOK82quIcWGwaQeH+J1JFxbseNVO7ycVbFI4pv7+djyHw+nrLxRPpMbDKmfEBWcIn0Fvi5bQQ/EIIneddREm5PXWzukGmO0FSkhWvic4WLnIfG659fgtgxU6OwCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lt9Ja4Gh; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ljWTEZmV"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b4539dddd99so723680366b.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 06 Oct 2025 10:55:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lt9Ja4Gh"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-62fc89cd68bso10976590a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 06 Oct 2025 11:00:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759773331; x=1760378131; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759773638; x=1760378438; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GHjC0ZDFv6Yr8oyAI/yfkHsqZVcSi60mbO6eviVgQuc=;
-        b=ljWTEZmVqQ8zNeGNU/bDzsxaLYXGORBzwQok71/3sTjPGLFtGTTEKiF6xcp1xstO5U
-         cOLm9Ea6CdOzMkgXubz+YhRVoG68wY7VM2Czv8U+S5jhlkM6Pe4I4hsmOW7wISkCLu6y
-         lMefQdPIN7PrziBWStwZHiQscxzLd2gSqD0RlKWkmVsnAtiC0CGo9H3E3Hz9+y2tZruc
-         /t6a57Dr3BXQcg0Xj1JQdcTygF7gPrAYhUgMiHiP0lZP2JPGg7AvmSAcog6nhoMLuBwW
-         /lrwvFpfJ1kuEurTzv3NZSzDByXZIIMrNJWYQIkQTQ2r2NJn6i/SEeHUDV7LSB/J+5OC
-         DJfg==
+        bh=inbCGeX0MlCaOTe4pzWEAkquVwCrsIcfcgv0X9AXOR8=;
+        b=Lt9Ja4GhJhco7uL2VvRt5wZ+Kn6odnzhaEjOFXD5bAqeqYuQ+nGTk7kA/czpUas074
+         zaATJ80LVw9YLCm/LZ322S/qVcDWqXt0FOyHnryR1r4OAvPdfNvVaTwFnBEREVE6I8HE
+         HGmPbSDhPMQlFhCBXxfNxYIahxRed+eK7s6zI6hoAKbjqOUK4Ig0DLb7NHLQFEajey30
+         iFxNiVpVybfw1p1VlnqvZgfZaWkR8FP4xdxoT3LxB3jfh/CIlNXzEt7Qd5IU82SjcW4f
+         /EFsNFfpjV5LiopGBDg8YEA3Ba+8Mr3hYXWpYADGEpTZzbMEqSPlKe2dDuOTrmftHkyg
+         LliA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759773331; x=1760378131;
+        d=1e100.net; s=20230601; t=1759773638; x=1760378438;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GHjC0ZDFv6Yr8oyAI/yfkHsqZVcSi60mbO6eviVgQuc=;
-        b=oH9HDJlOH0ULh9vcErCNdUYVAkoEEU6Z0gI7njvY3z6jx+l47ih9iaqpTwKubL1276
-         IWLdY8/BU3FzoY3hKBoXRWTiPwngaTpl66/7k6/Oc1p/S1MPJ+fJvp6FuDWI2728nadS
-         XULrztVkf4xb50u4pEGTQh/WaxuvH5qDQY6/D5Hsu3Xdk1HnC7jT4GQqQvnJUtKBnkup
-         pl8JYB6mqx7u/1+aCO6KqjJzgS72ZNxTLc2lkBT6rYz6q8i+ULnI+XG9TNOMxbzUn1Uc
-         MpWG2lUI8yqL3UoWtsQsNu+B6AqBgGIkum6DbpKwV62eTHiaIERd5sXAqArmcpi+WlvQ
-         zqjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWNclt1hjuC/BVQSrv2VMP0w5TCCqYRr1gh4xbYEQlpnVf/4kl+yrA8Mg0Rv+n0hFUXrYTx8tQq9oBU16wYoBQ9AOrTnQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2wupwWInu2Sr1yayMDsyep+r7DeUV2eRx2p7SRYPzOJW2M5uY
-	4wBXDV0CJkQri9vHXKIcBBUWfmmim2sSbM+aQESywUX9QjjbZEMp/Leog8jDXpWyt2iEDa1Osbd
-	98oTIZlckAhoDf/LtQSD4Ho4+hmP6m14=
-X-Gm-Gg: ASbGncvbfiGT0YE73/xBhy/Zn3S0IlBygHa3O/JrEBM2tcL2oz9gvcHDhofxY6opdJS
-	uCIHAq40Y92r/qLwPROacypbUbb+btIC7FuvNIICYyrE0stwYlTp2E2Godweaz8GjjVqZbduN0n
-	Qbb/5ympfFRuwRVerWRCQUoiP3nj1fcvyDEEHaKvKEJUwP/zq3KrUsW+cX2L3wqF4wX3RJ26eV2
-	nzG2US1LdrstNBs/43GUXAVATRJsnuf8YqUEMAlAV4OCwKS7LiT8TnMm41atebt
-X-Google-Smtp-Source: AGHT+IF6Lji4cfL4NWxn3OG8grf7sXZzXO96Xa1ApY9O9MXdGCSzyo+0gGxA9MRKx5Bp/KFgOH15DtuzKOh+kShvfYQ=
-X-Received: by 2002:a17:907:3f9d:b0:b2b:3481:93c8 with SMTP id
- a640c23a62f3a-b49c08981c4mr1708644866b.19.1759773331112; Mon, 06 Oct 2025
- 10:55:31 -0700 (PDT)
+        bh=inbCGeX0MlCaOTe4pzWEAkquVwCrsIcfcgv0X9AXOR8=;
+        b=B283FByyi9li3dQpMLJSmKkIaSEkr3Ei2BXOfT/yewCVuQlaKCgdNkXILNtbm/aHs7
+         3FBGnbY0oYrNiM5RUsUsQKyMHLmXjJ9NAmYzKDobsPyHujYRhyGhHvvH7bjmS4H9TkTM
+         SooIm4HuSxOqugKAEH5dGSmUevL4IfNW0iIcym+IZmHmqJQfh4BQaHw9IHpuoG+8Fjol
+         fRiVkvXKPOFiEP5ccthq9eDpspCRyP/IN6jQjKUAppzsfMWeiS0f9L8AHhcDLksSpssN
+         4G2PkbwW4UjO1P996v9Ud1xnkbpakj3/GfOdi6aafEbjXIBbKInt/Q6pJri3vZbMk4u+
+         uX0A==
+X-Forwarded-Encrypted: i=1; AJvYcCXn3+Kdo815Zb4IKqcRgt61rRWtR0M9G4deM5tVf3QRbF+FKkBOXA8pgHdnA/D7H5hqSc8vum6OIAC81EnX/ZzlBlMMJw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YynAL5n+j7zjESJzDcFonkivPKwucathkLxqPRDcHUDSoleXBBN
+	lvZ5a178L7zsdWlJW864Kb36bdMElfOzc8rTrUxz6TBqu6y9Kg5oDiLp26F1J/FhahkI7n3WPtU
+	hvr+shdjU92wiWneDo8Ibe6dvEArvHE8=
+X-Gm-Gg: ASbGncvGcgR2UDCifPhnj2Zl3QCLyyxEj+dV0HUv5ILiA9BBsMY/1FghiVsHDTjGG7O
+	b7PWo9N3No9OAAB0yBl+LQxnQtZqSYUtjt904UtyHw7s9ztDTEbR5BYwILoPLt+NgSeKhA1aFug
+	LalMDa5Zxm80iiMCvdZgdvEGa+7AGq/nj7RjXUfFkfKnIGgzPjL0iWs8lJgpkyY7XxhGSqNbO2i
+	sOJYZWVziZJ8m14As1OxSKoXRjNBxV7x5mopawQ6pw4vpGkeWRqkHL5YeGn4gcSw0wfN8j7Jgo=
+X-Google-Smtp-Source: AGHT+IHc/KM682jYWj3WvcK4lSK7EMboJJkdUb1lxllQSBBYt5rLkWpEgXxcvdPFJR/OuHQrWNQ0UC2LN9vnzduKPDI=
+X-Received: by 2002:a05:6402:354c:b0:633:d0b7:d6c3 with SMTP id
+ 4fb4d7f45d1cf-639348e53b3mr15040695a12.5.1759773637242; Mon, 06 Oct 2025
+ 11:00:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251004080123.98285-1-vivekyadav1207731111@gmail.com> <aOOyTtruyDVrzuCe@hovoldconsulting.com>
-In-Reply-To: <aOOyTtruyDVrzuCe@hovoldconsulting.com>
+References: <20251006174658.217497-1-kshitijvparanjape@gmail.com>
+In-Reply-To: <20251006174658.217497-1-kshitijvparanjape@gmail.com>
 From: vivek yadav <vivekyadav1207731111@gmail.com>
-Date: Mon, 6 Oct 2025 23:25:19 +0530
-X-Gm-Features: AS18NWAG5RtFmRVVuhL6BMEzmjYiCX_hw7o3O3M15qlv2CpXbiPWh2lU4nJxUoY
-Message-ID: <CABPSWR7s3o+36gvXb5QQyHYn3LJiDP3vLoVXijU2r9Qi6fA4uw@mail.gmail.com>
-Subject: Re: [PATCH] usb: serial: fix: trainling statements `break` should be
- on next line
-To: Johan Hovold <johan@kernel.org>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com
+Date: Mon, 6 Oct 2025 23:30:25 +0530
+X-Gm-Features: AS18NWBipFXoldgwotbv0EXeAnZgq5bGgzj04ZlSOSM0MjF-bQqudelsREmIC6Q
+Message-ID: <CABPSWR6B0M=nos=wBpjidXMPVYVDKYi0i+-ufuR460_m48vjVw@mail.gmail.com>
+Subject: Re: [PATCH] scsi: fix shift out-of-bounds in sg_build_indirect The
+ num variable is set to 0. The variable num gets its value from
+ scatter_elem_sz. However the minimum value of scatter_elem_sz is PAGE_SHIFT.
+ So setting num to PAGE_SIZE when num < PAGE_SIZE.
+To: Kshitij Paranjape <kshitijvparanjape@gmail.com>
+Cc: "Martin K . Petersen" <martin.petersen@oracle.com>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, skhan@linuxfoundation.org, 
+	david.hunter.linux@gmail.com, khalid@kernel.org, linux-scsi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	stable@vger.kernel.org, syzbot+270f1c719ee7baab9941@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Johan,
-Thanks for giving time for the review of my patch.
-I understand your point and will avoid such kind of practice.
+Hi Kshitij,
 
+Subject line of your patch should not exceed more than 80 characters
+[recommended]
+Please check your patch format.
 
-~~Vivek
+~~vivek
 
-On Mon, Oct 6, 2025 at 5:43=E2=80=AFPM Johan Hovold <johan@kernel.org> wrot=
-e:
+On Mon, Oct 6, 2025 at 11:17=E2=80=AFPM Kshitij Paranjape
+<kshitijvparanjape@gmail.com> wrote:
 >
-> On Sat, Oct 04, 2025 at 01:31:23PM +0530, vivekyadav1207731111@gmail.com =
-wrote:
-> > From: Vivek Yadav <vivekyadav1207731111@gmail.com>
-> >
-> > Run `checkpatch.pl` script on path `drivers/usb/serial/*`
+> Cc: <stable@vger.kernel.org>
+> Reported-by: syzbot+270f1c719ee7baab9941@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D270f1c719ee7baab9941
+> Signed-off-by: Kshitij Paranjape <kshitijvparanjape@gmail.com>
+> ---
+>  drivers/scsi/sg.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> Same here, don't do that.
+> diff --git a/drivers/scsi/sg.c b/drivers/scsi/sg.c
+> index effb7e768165..9ae41bb256d7 100644
+> --- a/drivers/scsi/sg.c
+> +++ b/drivers/scsi/sg.c
+> @@ -1888,6 +1888,7 @@ sg_build_indirect(Sg_scatter_hold * schp, Sg_fd * s=
+fp, int buff_size)
+>                 if (num < PAGE_SIZE) {
+>                         scatter_elem_sz =3D PAGE_SIZE;
+>                         scatter_elem_sz_prev =3D PAGE_SIZE;
+> +                       num =3D scatter_elem_sz;
+>                 } else
+>                         scatter_elem_sz_prev =3D num;
+>         }
+> --
+> 2.43.0
 >
-> Johan
+>
