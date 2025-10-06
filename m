@@ -1,140 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0B02D594F;
-	Mon,  6 Oct 2025 14:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9488C199237
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  6 Oct 2025 17:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759761635; cv=none; b=XqgS8XUlViP6NkI3pLP/Iz40g0x4fJ6lU+6xvYCInT+Cf/3NUqhspQ6YgqfkjC578hIm0bT/rkD9Vhx71hpH/PqgCVDGXAqyeNf/ps8Btv5FiipwuCf2VOQ9RkO0qUHQ7SkioFFildyiKB6fUygJRs9PPlUAfmVAKBh7iPs+0t0=
+	t=1759772834; cv=none; b=oHp/Rv7TzOBPSAIYWMJjS/ZDm85Q4TyLoEp0bOwRypmDsDBasGFuKGZS7p/9R7sXl39o2xU2CtZPVg1PlhowBS4P0A6sY3uS14Muel/OeFL1Qb22Dtg3cTvJNCrMNjrYU6D2L8o6yW3sl8yy74xkGXoIC6M5ROvFvJpg9/LZ6Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759761635; c=relaxed/simple;
-	bh=c0PWoYolg5duBcovpTIj3Rwkun3O8HUZHZZKlsp7TXg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qJJr2KIKELZx6qsSk5ty6HeLPSWtZEMWWV+CchpWXTGuXOBlifr6WuwEMi+6upwvkKb+dRL0bno4Jg1Pd8tBMNlunN8H7XF8V2WY3134fTDPEnkrwf7CUEXEUKKifFQ7BLU62epPkKWLsnTi5fu54nu9N6mF+5mnTnP4LKzS2MI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=roLEddi7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759772834; c=relaxed/simple;
+	bh=RIiagnyRRBU18SYukiZhday7InM2c8S8PNgxP9C7a14=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eVFNgSz2Nu6ix2tOBGfC5CWYA0IXT5SRxMdSOop+iY0ryhZ7kbJ4v1gIJEaq4vOtVOO0NUHxvUNSkOx0JLV+WhpP43xfuMVjyq2Iq0Uh9d2N0nRd3CmHaZ9emV8IASoHe1B0wIXzBb4WBEHz++mOKFHcH3S3ydkApbztCGVr00w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kPSwoVz4; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="roLEddi7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97ED0C116B1;
-	Mon,  6 Oct 2025 14:40:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759761635;
-	bh=c0PWoYolg5duBcovpTIj3Rwkun3O8HUZHZZKlsp7TXg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=roLEddi7kbZUvYT0EfTVHH4CaTWHiadXLp9mcyRYAlyCB8w9FM9OSoab5MHqdmMcV
-	 bQACnekAZxfEeEYlY3oEkyAf4mhQS5coXZ5uJTcr5TK2nNyZcIoAqmJao3Qg90dixy
-	 XPYDCpg5fz9nddLENL1HSuHI5u3ClCg30gciTA17/fu6DId9gFbjQI+eawtL1eHl2Y
-	 jAkqZIhDu2ZaLVQy0PTdD0+bFBPt9XI+rZcJqdNbdAjdUvVPA7MBfEEeSLbtbG61RF
-	 WfcUHrWrc7dNskbf5kc+3VBDupz7J948LlMM9QoW6KrxsJfQXGNFhR66nbwwSVeDY3
-	 0Blx93ZjJhFrA==
-Message-ID: <a72b4f39-6ebf-4598-b0fa-ae5b9754de58@kernel.org>
-Date: Mon, 6 Oct 2025 23:40:26 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kPSwoVz4"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7811fa91774so3866379b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 06 Oct 2025 10:47:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759772832; x=1760377632; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8fcadXEt2TbOOW1SS8BtpXmdQoRjzLU/r23ulkh5ITM=;
+        b=kPSwoVz4oJNotM3o0OkzOw5gOiWnNtJ8aAO43VrFEoIYUfrlnrXml49eNTu/OVF04h
+         b4n7lIFccv096AgeDlUz0oF7Yo7jc4Zufm+10yMNaJ7kFzFym8Fdgr0qXdVgmsgbl3UO
+         LiTX4DBNnm6Rj6HtcPXtEKMkhzGty9Be45Aweh/C7T96+OZ3z5RPZl/4ivPCw5GUXzz0
+         jXSbfUkiHoxoanzg6tRCVJvJMju5NHKtbhRwTwIcRmS4W+tl2fflKz6OQdNMn8CbqVjA
+         c7bU8JJpYdqWQ+OpaKuboPU5wItNXORcnkcuuYzpTcFDWeQHtg9jMCNQN2uMl7w/HvtW
+         I3SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759772832; x=1760377632;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8fcadXEt2TbOOW1SS8BtpXmdQoRjzLU/r23ulkh5ITM=;
+        b=tD8vtp5QZYZ5khzI5QNtR3oZ8QS5UwHjUwb5SEwR8P0jZ+ZizKqbYjGC5bK7lnqnQp
+         nK5tGlzMLM1BPQgTvmIfwUkYQgkVMW/oOccHeYXHIRfbO9eWjUhCvNlqot8VNpoWD8NC
+         zI4YImMVaK6RDn6XlrMIsH6S2qptGLOXUdTTEF33zWGiU9W0QXM0KuQyvgOsCg3x+fr8
+         Gh+rUiTijqpFWHjP9+jwn00T+vKyXALmqsLtP4N3ePxdYtOpof4QMHbtCuMCIRwhVUi2
+         6OVSZoidTrK63NvR4Yj7Wjwej/3jhEHu9HKRA7lIhghd7TPkwXnLrycIDlllKwlgHefQ
+         Z3wA==
+X-Forwarded-Encrypted: i=1; AJvYcCWmVxg9uUJSObM84f5WZTaQheGKxqlx0XwiDR1pmD3EpZ4LngtvGBM3EwtrqgdfN4ajYZ9hMVgKPapzF4P596f/VBPtMQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzxdHtc5YL60FJSyegmnj7bqc+pRSthrYeWJAltKiMBKhbpYREN
+	n9I3SwNVoy4bl8Nh9F3+Pd9d3hf17GddIG2vND6AKZXuGmCA/3ekiFkv
+X-Gm-Gg: ASbGncsvhl/FIy3uEnFKTinaeh8qZvahVntPepZbO9F7ZCsMNMygDIrbfH7A6qGCmzv
+	VFZwO6WGpNgLs+8x1WoeXSrvNEEmZB5dzSIkp8K1obdzhkpqcS09nunBbWuovaz+qKZ3fZyh3Zv
+	Jwv6YFrufSaVHpy1YserNOAJDtNvXL7ohZdXxErDQs5nvfsqrnflkRrRxz8+Gz/GJLmtHfC2IQm
+	n9MkJQD0uMwoLIa6IuPyHv7h0Vu/AwMK4tDBEgLGWw/QiBCUqe9SWIfgGUC5Up5k+RLnmSwA53q
+	oSXKOsV5g7n/Y885JpVRzAS7x+fL3dBLn0Nco4uU2uw6D6e7ZmyBWlBSoEKBg8Cn/zwxZeAiZ8u
+	8zQPkehvAlH2a521fX1Qvf1W3V2P9Bh6F+8RVRQR0B86MEAD9bASRzFopu8RmFsqxu6QObe8AEw
+	==
+X-Google-Smtp-Source: AGHT+IEAZ3GTNkzOlBaQRRxaIIrZTAJwj5D6x0H+u0usVi9mnU3RcuVZuSifIPdG1jRzEv56AOGPGA==
+X-Received: by 2002:a05:6a21:9994:b0:2e6:22da:91bf with SMTP id adf61e73a8af0-32b61dff85fmr12599233637.9.1759772831719;
+        Mon, 06 Oct 2025 10:47:11 -0700 (PDT)
+Received: from kshitij-laptop.. ([103.120.31.122])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b0206e50esm13084516b3a.62.2025.10.06.10.47.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Oct 2025 10:47:11 -0700 (PDT)
+From: Kshitij Paranjape <kshitijvparanjape@gmail.com>
+To: "Martin K . Petersen" <martin.petersen@oracle.com>
+Cc: Doug Gilbert <dgilbert@interlog.com>,
+	"James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Kshitij Paranjape <kshitijvparanjape@gmail.com>,
+	stable@vger.kernel.org,
+	syzbot+270f1c719ee7baab9941@syzkaller.appspotmail.com
+Subject: [PATCH] scsi: fix shift out-of-bounds in sg_build_indirect The num variable is set to 0. The variable num gets its value from scatter_elem_sz.  However the minimum value of scatter_elem_sz is PAGE_SHIFT. So setting num to PAGE_SIZE when num < PAGE_SIZE.
+Date: Mon,  6 Oct 2025 23:16:58 +0530
+Message-ID: <20251006174658.217497-1-kshitijvparanjape@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: iio: max30100: Add pulse-width property
-To: Shrikant Raskar <raskar.shree97@gmail.com>, jic23@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- matt@ranostay.sg, skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-References: <20251004015623.7019-1-raskar.shree97@gmail.com>
- <20251004015623.7019-2-raskar.shree97@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251004015623.7019-2-raskar.shree97@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 04/10/2025 10:56, Shrikant Raskar wrote:
-> The MAX30100 sensor supports multiple LED pulse widths (200us, 400us,
-> 800us, 1600us). These settings affect measurement resolution and power
-> consumption. Until now, the driver always defaulted to 1600us.
-> 
-> Introduce a new device tree property `maxim,pulse-width` that allows
-> users to select the desired pulse width in microseconds from device
-> tree.
-> 
-> Valid values are: 200, 400, 800, 1600.
+Cc: <stable@vger.kernel.org>
+Reported-by: syzbot+270f1c719ee7baab9941@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=270f1c719ee7baab9941
+Signed-off-by: Kshitij Paranjape <kshitijvparanjape@gmail.com>
+---
+ drivers/scsi/sg.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Don't describe the contents of patch. We see the contents from the diff.
-Above two paragraphs are completely redundant, drop.
+diff --git a/drivers/scsi/sg.c b/drivers/scsi/sg.c
+index effb7e768165..9ae41bb256d7 100644
+--- a/drivers/scsi/sg.c
++++ b/drivers/scsi/sg.c
+@@ -1888,6 +1888,7 @@ sg_build_indirect(Sg_scatter_hold * schp, Sg_fd * sfp, int buff_size)
+ 		if (num < PAGE_SIZE) {
+ 			scatter_elem_sz = PAGE_SIZE;
+ 			scatter_elem_sz_prev = PAGE_SIZE;
++			num = scatter_elem_sz;
+ 		} else
+ 			scatter_elem_sz_prev = num;
+ 	}
+-- 
+2.43.0
 
-> 
-> This prepares for driver changes that read this property and configure
-> the SPO2 register accordingly.
-
-Drop, redundant. Not really relevant.
-
-> 
-> Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
-> ---
->  .../devicetree/bindings/iio/health/maxim,max30100.yaml      | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml b/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml
-> index 967778fb0ce8..55aaf2ff919b 100644
-> --- a/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml
-> +++ b/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml
-> @@ -27,6 +27,11 @@ properties:
->        LED current whilst the engine is running. First indexed value is
->        the configuration for the RED LED, and second value is for the IR LED.
->  
-> +  maxim,pulse-width:
-
-You miss unit suffix and testing, most likely.
-
-> +    maxItems: 1
-> +    description: Pulse width in microseconds
-> +    enum: [200, 400, 800, 1600]x
-
-
-Best regards,
-Krzysztof
