@@ -1,132 +1,122 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E116D1E1A3D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Oct 2025 17:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC96B155389;
+	Tue,  7 Oct 2025 17:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759857222; cv=none; b=GvAWChw/vBjWuhxGw0zKidIE39WWnCeZ5e0l+vXjZ5mvcTRfLUvzDRcNga/YnTPQKpmhHgP701RthJAxprfA7llsC1pVPoS1lXYoLmFczoWXhouJrYHBtFuaVscrYKJayMN8k6Fvwqbouc+kdU8nWGc1753D/146k747TRH+ItA=
+	t=1759858988; cv=none; b=J/2IcF+ebjnGDdPIL8pI9F6mAa0danVnNbkRNbm5YyYYvy06HYcO3XLZBWvwJDUvFMjPTVrG80NF7y8mCJTbtRZBhb2xMFu7h6NdueaLFGe/KjeIyPIE3NL2lsWNByXxD63jwTchHgG2lKFCs0/JEjcKpJt7VnvBvqM+js9gFiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759857222; c=relaxed/simple;
-	bh=6hkEXSoPQClBN9P+2M59L/xoo11QDhuwy3o/ItrIwug=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r9VK+7FGTxiGlyoNDqDdc3iti6uJJRCgz5seyqOpCI/x2KUQzMFm40dFrosALK4QygSW22lOAQGsbb+gvOavpMqgXDrrl+DZLH+8MDotBWQfbyDlUgqMC9SBvRJNgRXQfsF5QjbyxLMhQq2wJLN9dZqAxOZsepHnNbikk7JgwbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tx/0gGpZ; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1759858988; c=relaxed/simple;
+	bh=1W7eD4LmjRgsHbhA7j5gZwdnLJtmeU4zAiC/DIZRRuI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mehipkOAZORff3F/E2p25KtMItGaG04+TLLd7A09+4kV1iqZdh8wTQK/9mAx71xdrfLadDgxwKBAFqOMDXffPJ1FEBSUsa3h49PtDymGP/eDt3/rqEkCk8CvmcFVQIHCu3Kw4NUWjIgoaYes9QHB1ulba0Zr6jDsFx2yz55229Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E9k5KcwT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tx/0gGpZ"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 96CE240135
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Oct 2025 17:13:40 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: 1.236
-X-Spam-Level: *
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id wdeErWcMiKup for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Oct 2025 17:13:40 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1044; helo=mail-pj1-x1044.google.com; envelope-from=ankitkhushwaha.linux@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org EF1FC4010B
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EF1FC4010B
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Tx/0gGpZ
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id EF1FC4010B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Oct 2025 17:13:39 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id 98e67ed59e1d1-330b4739538so6612898a91.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 07 Oct 2025 10:13:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759857219; x=1760462019; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ndiW8EiHjsJuqlvrDnKSTbKhst7QkkL0u0UDEfXrL54=;
-        b=Tx/0gGpZboZQ/RbkFr1oh9uyOG7a6H+cktB1Nrf1Fg2vTeIZxAXGs5zwoQ0fwxLOv7
-         GzRuEMejALAVaFYb58qxHEJOmiX7mBwnbxXpnyN7joalwX5UpvPFfIJew/dTT0DndjMY
-         h0KdgpO8HgPC+S2+twUmK26J92BdFkk3A0IUEjURtq8DW+FQ5WXsY9jqoULwK0c7+EaT
-         loOZlimNsdYSMyXewinAZKAa+9pPXpJGGCYu8b2CsuipxwEqSEOPTlP1HVS709QxgiiC
-         BmIMzLzsM/T6MNDZUgQnARWK0urROARemVqEWmbI/Zl+GaUPoDCPTxZNbjFm6xRGaKDu
-         3XNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759857219; x=1760462019;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ndiW8EiHjsJuqlvrDnKSTbKhst7QkkL0u0UDEfXrL54=;
-        b=X0Yc7iSpLyi0jN/7V4BM2HHP3qj8Ijcz7aIW+GlkF0FrcQFzx1g7ZQWwHn5E/vubOY
-         Eo5nF/9WS2z06UKmJHQUK3a8k4FfMctiE6Xb6wWlwGNTi9i9uL+Yxg/qrgyJ7GG/DM5K
-         DSvXvIHhOWL2+lQYaUWVL+L1qnbEG1YueE/4rVTuWStBq2aj/KDQ3q/E1wX+3nrZwL3s
-         2nGdKc9xtvxZXAtWsw1XLYPEjqkYshsVn159pK+pCUhAZhzNQZgnnIbMVk2ldCN1yuML
-         VE41IxBv/vfpvW0TqvWGuGtGKL+N9kIbGxRIGocXFnU8mNWxzE94EuZQqvFivmRQiRLL
-         GM4A==
-X-Forwarded-Encrypted: i=1; AJvYcCWUk1ysRFMbNIoAYNBIX9ajhFBRjj/WG6adV0x6T2llKBTQ4CqkNjye5aDt6aoZDwXtG5ligiS1A4fJqK4bUrgaxXYwRQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwSLOFKU1NnjhZrEZHGr30Q4P8V9mz1ypAuD5ZCLYLMyeyOTZhD
-	h/SvmFbi2IfPWl2PP5+BgFOUBTWnuTZjIgPPTGb57U+ymI0Xm+JWICgy
-X-Gm-Gg: ASbGnctHhR37uam4aR49Jm0fmkrGahfegkDUOjGea2ahhvyQ5wEEPBZADlvRGJZAwZR
-	OdU6BTjIKqpIWBL5hscr3vXGi03uvWlTcagazhg2focIwewwfbV7bQ95noMkqYFVDsoviRcBf0U
-	nOBhADJ/tofH12ryqfSgc9nyYpLhqNHyPz5w2PSXDWNJkM8LiKPjDy4hUG4MlHvcANTDLaafI5h
-	BRDQ5KNe9yfkI+UP7lHRbJ/5vZSd/ZrUyTtwn8tqkuf37cnaTDQd2TnwDCJGa9RwHiJUqFkTrPt
-	uyuxnNbQspJPPWkdbytNDVfrqpixwPVC2SOxv8fsUptroWALbOKA12E7/Alm2Is1I0r7niJ9lK7
-	43LwXm0JhiUHO2IL5btsTkfShFUcRpPf/8nkHu2ZDZ3SZKb5sGJWxAAtnLg5fEY6Cnw==
-X-Google-Smtp-Source: AGHT+IEw8/ovBuazt3eXRnTgiJXDDXOaNSZGFtByXDec22X8YVk7CtYfnAhylw3oRk25QxNUr2BtOw==
-X-Received: by 2002:a17:90b:1d09:b0:32e:a59f:b25d with SMTP id 98e67ed59e1d1-33b513cfadbmr293892a91.30.1759857219077;
-        Tue, 07 Oct 2025 10:13:39 -0700 (PDT)
-Received: from fedora ([103.120.31.122])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339edf4992dsm1906075a91.0.2025.10.07.10.13.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 10:13:38 -0700 (PDT)
-From: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: david.hunter.linux@gmail.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>,
-	syzbot+ddc001b92c083dbf2b97@syzkaller.appspotmail.com
-Subject: [PATCH] ring buffer: propagate __rb_map_vma return value to caller
-Date: Tue,  7 Oct 2025 22:42:56 +0530
-Message-ID: <20251007171256.20884-1-ankitkhushwaha.linux@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E9k5KcwT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2907CC4CEF1;
+	Tue,  7 Oct 2025 17:43:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759858988;
+	bh=1W7eD4LmjRgsHbhA7j5gZwdnLJtmeU4zAiC/DIZRRuI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=E9k5KcwTEBVStmsUVgXKdljdj/YCqTGi0JJqywUZ/BCaOZ501ifGb0usru57FCmKm
+	 ioje5xC0wMTi0w9ih4Xs5SWJJkDJAotqiKOJOq3t+hBVpmngo8X1Bc3Z/yXUWUsy+u
+	 sZVWiG9n7TNidyjbtN2lUt/rrLC4OSLisez7sK3SLzfVx9HV0sgxnDrjOO5LIDhc4A
+	 00w3L5haZnxzzTR6pf0cB7x0/7HelhGYqcRZ/XJshb/1+9A7GjgoaEVD/h+M6Vb+5G
+	 XjIMwHsnBbyHX3Fal5NrNTYxmZMi0sgn0Kk46flyMjx75jgiLx03+RmpM4Zlwzf0HJ
+	 ofXMiCRaHAXYw==
+Message-ID: <a5a86f30-4e52-4694-a6e4-3b71d46c793b@kernel.org>
+Date: Tue, 7 Oct 2025 11:43:07 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mmc: pxamci: Fix passing NULL to PTR_ERR() in
+ pxamci_probe()
+To: Rakuram Eswaran <rakuram.e96@gmail.com>, ulf.hansson@linaro.org
+Cc: zhoubinbin@loongson.cn, u.kleine-koenig@baylibre.com,
+ chenhuacai@kernel.org, david.hunter.linux@gmail.com,
+ skhan@linuxfoundation.org, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ kernel test robot <lkp@intel.com>, Dan Carpenter <dan.carpenter@linaro.org>
+References: <20251007161948.12442-1-rakuram.e96@gmail.com>
+Content-Language: en-US
+From: Khalid Aziz <khalid@kernel.org>
+In-Reply-To: <20251007161948.12442-1-rakuram.e96@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The return value from `__rb_map_vma()`, which rejects writable or
-executable mappings (VM_WRITE, VM_EXEC, or !VM_MAYSHARE), was being
-ignored. As a result the caller of `__rb_map_vma` always returned 0 
-even when the mapping had actually failed, allowing it to proceed
-with an invalid VMA.
+On 10/7/25 10:17 AM, Rakuram Eswaran wrote:
+> Smatch reported:
+> drivers/mmc/host/pxamci.c:709 pxamci_probe() warn: passing zero to 'PTR_ERR'
+> 
+> Case 1:
+> When dma_request_chan() fails, host->dma_chan_rx is an ERR_PTR(),
+> but it is reset to NULL before using PTR_ERR(), resulting in PTR_ERR(0).
+> This mistakenly returns 0 instead of the real error code.
+> 
+> Case 2:
+> When devm_clk_get() fails, host->clk is an ERR_PTR() resulting in the similar
+> issue like case 1.
+> 
+> Store the error code before nullifying the pointers in both the cases.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/r/202510041841.pRlunIfl-lkp@intel.com/
+> Fixes: 58c40f3faf742c ("mmc: pxamci: Use devm_mmc_alloc_host() helper")
+> Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
+> ---
+> 
+> Build and Analysis:
+> This patch was compiled against the configuration file reported by
+> 0day CI in the above link (config: s390-randconfig-r071-20251004) using
+> `s390x-linux-gnu-gcc (Ubuntu 14.2.0-19ubuntu2) 14.2.0`.
+> 
+> Static analysis was performed with Smatch to ensure the reported warning
+> no longer reproduces after applying this fix.
+> 
+> Command used for verification:
+>    ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- \
+>    ~/project/smatch/smatch_scripts/kchecker ./drivers/mmc/host/pxamci.c
+> 
+>   drivers/mmc/host/pxamci.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/mmc/host/pxamci.c b/drivers/mmc/host/pxamci.c
+> index 26d03352af63..4fab693d3b32 100644
+> --- a/drivers/mmc/host/pxamci.c
+> +++ b/drivers/mmc/host/pxamci.c
+> @@ -653,8 +653,9 @@ static int pxamci_probe(struct platform_device *pdev)
+>   
+>   	host->clk = devm_clk_get(dev, NULL);
+>   	if (IS_ERR(host->clk)) {
+> +		ret = PTR_ERR(host->clk);
+>   		host->clk = NULL;
+> -		return PTR_ERR(host->clk);
+> +		return ret;
+>   	}
+>   
+>   	host->clkrate = clk_get_rate(host->clk);
+> @@ -705,8 +706,9 @@ static int pxamci_probe(struct platform_device *pdev)
+>   
+>   	host->dma_chan_rx = dma_request_chan(dev, "rx");
+>   	if (IS_ERR(host->dma_chan_rx)) {
+> +		ret = PTR_ERR(host->dma_chan_rx);
+>   		host->dma_chan_rx = NULL;
+> -		return dev_err_probe(dev, PTR_ERR(host->dma_chan_rx),
+> +		return dev_err_probe(dev, ret,
+>   				     "unable to request rx dma channel\n");
+>   	}
+>   
 
-Reported-by: syzbot+ddc001b92c083dbf2b97@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?id=194151be8eaebd826005329b2e123aecae714bdb
-Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
----
+This looks good to me.
 
-#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 4ff71af020ae
+Reviewed-by: Khalid Aziz <khalid@kernel.org>
 
----
- kernel/trace/ring_buffer.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
-index 43460949ad3f..4efb90364f48 100644
---- a/kernel/trace/ring_buffer.c
-+++ b/kernel/trace/ring_buffer.c
-@@ -7271,6 +7271,8 @@ int ring_buffer_map(struct trace_buffer *buffer, int cpu,
- 		cpu_buffer->subbuf_ids = NULL;
- 		rb_free_meta_page(cpu_buffer);
- 		atomic_dec(&cpu_buffer->resize_disabled);
-+		/* VM failed to be mapped */
-+		return err;
- 	}
- 
- 	return 0;
--- 
-2.51.0
-
+--
+Khalid
