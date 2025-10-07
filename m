@@ -1,63 +1,63 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE652E973A
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Oct 2025 18:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2022E7F27
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Oct 2025 18:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759863325; cv=none; b=LB1jXxkdRzqOOGKIIppKwJoBPcdjekuD0QNctQpgB+WhwNXWkNCjs0p7lSCkvAoHR0rHviWSaWQI1CHHE4XJo67Fo5qdeZr6ubJur0ExIZ142VEKkra6WbZDKt4siqn9myxnR0RBUVVcvERuXVEFlhm1icaops+8GV4xDrwwkwQ=
+	t=1759863338; cv=none; b=lcm5KHKk5bUA9Sa1VklMkK76euQWZtm2frUoeAYoDtT2uY2BjrhlDrzDSTP3UPfWySFHn2iBs+mmDT6LlaSIhfGrWteqKVRvP6yAvVlmhMfINaWIq9cRIkpBfUMl8INkEv4e5a3IGnfJnSE9ErC+sTEBuANzHCX0gHQJ4oIJQxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759863325; c=relaxed/simple;
-	bh=KYaaNQMzTyncgQyqSCq4P2yL0PsSWqFZF+5bbRW1HLE=;
+	s=arc-20240116; t=1759863338; c=relaxed/simple;
+	bh=KWXkMIAyDYXJL9ZYFoRhKKia2rw51cLLtwlRksRSZ8c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZTpVXs5IcLgVUI8lN+IlNpM1uajsG8BzHtgXkVMdOaBbWiYFPi3VDLWPQJTSpiJazOBvNT+yoeKLrp+2BOCaDClwZ8yVr5uXUzH9ZL/c4L3fxDGpEBYgerr04Uin+bMQSGD4rbO1/aeKDbTCIxqy/SDjFOqhRRHoZZZaAY0gApY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BolWd44f; arc=none smtp.client-ip=209.85.215.169
+	 MIME-Version; b=HwjXChRHbXHmSO+u8CUHIVOc/CcavMF63wFQFevACAWHUgRBLkAWb/6gX5eUj1LOkQGPWdZ2CqvDNj+fv4j0rcvG9zMay4DctEBZmhI0I+jcW7qAU27Xcu5GO35LOyhXRqkbc8+4e07C6bFZiIDRLkcFPrmUt6e0akLRogFjLoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZFnG4Out; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BolWd44f"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b5515eaefceso6196976a12.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 11:55:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZFnG4Out"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7811fa91774so5000928b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 11:55:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759863322; x=1760468122; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759863335; x=1760468135; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gEWpi/vkQDymkY4TZuKIEKhri9YrajHYIJ3EVRMXvNM=;
-        b=BolWd44f+fw9eQy7N8QuvlMRYCfL7sNPqYSTFHnRTxpNyqu/wp6YByN4XdpOssXPit
-         4zYeu2NcGgi8HeZJPHxvWbhGguOTv/kwgdnRgK5/vM37kOaz7crHn6DUPXwDtjiN+cSt
-         jzyNiSgsQb/MjCegcadGFVemqJEd6QusSMXXtWFM57anzqpZjb8EaKBcgpjk+Ga3wuzj
-         sBC7cLWWPxawbwEngJITefnqfV2r+WnAxWz+aEydjIogtn7YzIHztzfMdA2F0DDqalJN
-         GReZBf3wF5I4RMWKepsKUW+D6IG9GIQvZkec3z04PMxRsY5QyVlLMdC/8M3tpaK6eYrC
-         J7Pw==
+        bh=QiI8ma/H7AR+p7UC+KuFxeAt/GicErH37Q1yChqPrPA=;
+        b=ZFnG4OutpLQMyf6yKw8nMqiLc/KRE3mzF44y5ldd6lserxPQmsCvuWekX4BDH8ROl8
+         VYxUve7gd6zwAZybAV+3xSW/YsYzkISqMdsnboiwdGanby3se6NGJtPXBAgoqBtO8KN6
+         GI16uWbMzb/YvgZGh/29fsNn/plkt+ADW4nN6z4zdvPjVqg62yeJlK/CCsFugK3S2Hei
+         DW8A0UGJM/mPuhpx4bGg9m7OoCAh3XDDojzsbrU6BZYibaVzz4WIQKn0hH7uioTkLsqp
+         9pbcdTNG8ycZlbJfg3GhMkU27MIURvMG1rzZpvGW1LGoKPFSTcupk/bB84aRy/iUn1ca
+         4koA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759863322; x=1760468122;
+        d=1e100.net; s=20230601; t=1759863335; x=1760468135;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gEWpi/vkQDymkY4TZuKIEKhri9YrajHYIJ3EVRMXvNM=;
-        b=mj7rE3tP7RG4HY3PfhKXMH/BCCuc9Cd+iNLs+M1TUQBtcPywQkMxqfPTLsCrMG5JaO
-         Ugg4C3Q8/7yfZHcMwb/bBOj3dF1txoJC4hHgnay7MMBe8ov+4x+J7sWRvR8zirDD/URX
-         UyK36ec5rQOlreD7UxHlfGxvp+jooeoLEmTH8OpciLO9LwAxOnlyCQO18Yvsu0t0xB/u
-         +d1QsBEoGECO++T0zD2pk9Kv5p+ed0FbXp7Y/ta3F3uR+q88tTC17poDsllpA4F59GrV
-         Jy5255FApZwe6jUMyf9MJibVfQefybqRcvw8W/h82z5laQsLtgHEP8Ugq9QkGF2mq1+S
-         EwYg==
-X-Forwarded-Encrypted: i=1; AJvYcCWGVE0N/cJzWufDY4jWsesnHm+RpN2aHqrDNCCSJxS8tluZG+YIkRxnL8IzdMfwXwOZdAkX4zFiUJbjMHgdI8Or83bKYA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxgy0IwPcG5EIMC/rli5FsARaAowk9H78lagu589V/6h2g11jkH
-	75PSURrdJKaBHe5uj/rYcG/Rhcq98ZXghK+M6Pav/AzDs1vr41lzHPtP
-X-Gm-Gg: ASbGncuJoj+TjQ754hyd/EOdwdI4oI5YmY30s/HiCxyDp/fIWA6UdTSmoLEHSLP7nai
-	7Z3z5IkC2nuthAXJw+lsojiCq9wnqZoHgLn97IVVDIUVXFEPIJvJSczqF1XU2yPEXvDDYY57DuC
-	XbXczbfcyJjTWpn9kGGEaYWII5AIcCACFaphbsUmzj0E2ZpzsyDIk5py9dJf7jnnWfC9coBkf2k
-	7A2CUnRfXE1MSS8k5fgCFjYpUqcA/WWA/w6EIEAIPkSazm6OR6snZ8gXLnA537dMgkWeYBh2drI
-	L1PFkWXsoDwFxPUrXGMQ53LRQCsiS14AVhcecGTLcJAf9DI1/c4sEulX1eKF8M7rfOKSK2Wnher
-	QUzuGrWV6niHIj6V1g54+ZcqpKr0MjfxtHvbDCJkTXjf5tKcqx7RbG/V3h4pZzSYEKw==
-X-Google-Smtp-Source: AGHT+IFkC90TrbmYWdFb8+Squ/yvNSbuyPw/2N1C/NN0bhPNNPcOuqO79tcCivw9Cvz+HmCkqLSG/w==
-X-Received: by 2002:a17:902:d607:b0:269:8f2e:e38 with SMTP id d9443c01a7336-29027356528mr10234435ad.6.1759863322179;
-        Tue, 07 Oct 2025 11:55:22 -0700 (PDT)
+        bh=QiI8ma/H7AR+p7UC+KuFxeAt/GicErH37Q1yChqPrPA=;
+        b=VpJZ28sGmQKUt4nzrpGB94t7YwqRkkYLb+tUgbF3TwB+d0CCAqI9PfMSZc7KCN0EsJ
+         ypOkLRBoAQsWAMj21t25D+Wk/k/+fVRWoWhFSHp7qEI2AGKgk6gytI4Ch+d/xtPswLnk
+         EJUaFCgpzzsBVeepRsN273m0TnARDccFq/XUQk0D9lG5snDma9vkNieWSVFiw0njjM05
+         hM9dCqVdNSzwGFfPu4qf6O7eITGb7gmZ0LWXrewHhOj/00CwJ3g/YioZqbKwi5N/9DN3
+         SHHL74EGOWhLCEVA+Jz40diTz2bTEoKAGd22BHkpumPVDV5OZ7HgYQa6IWSX1obWyUZC
+         v9iw==
+X-Forwarded-Encrypted: i=1; AJvYcCX3+RF4Wf2TdA2kkM9mQs/6L3YcTtr+37oGMU64d9U4156X5+mH7AJKaCrbxiZmEB1/Zbk8ZmCKTPMrd1quT+FHQP5OqQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxPSqrf2PZkZ6+XtoZfybnHPK8ejyVHn19Pmn/+gzUxyqru+TuO
+	e+YsvdrtAAQ63bd78PYVW6kG7CCiuKcEqKyKczVQXazPXrNZ9TzmtkX1
+X-Gm-Gg: ASbGnctcex5ri/RTJIM9UzfHweETcoHN6XTeptVAjeuYBTbvD1h41FXVG/vlvCUT892
+	FYsNZyAAG8x6WhzW+srSokkZiL4ZF2hU+DFWKrKg6YCBHQxL0SBd8ZM/Eg1XYyWMw5EGXEtAea5
+	S/T8dnebIDNYStk21qkS2nzgrO1Fgkk0rkmVmduV1A70W42NMeuJFzbwvw3z1F0cqbvTjJpU/QF
+	1d1wGHRFNlfV90nWcT9G8OAYZQhEYC8r/AR0hxI97lp1AfJvQC7N4I2Ku770ADorAKkxj2uX0EU
+	4/W2QRBefSvJbzQ9TqWDn3hoZieQxu7A4KwcJCrUfj21cUugPF3YukNk0xjMQ3b2FWvuOaZwyoQ
+	+h7I2jKAaHARrosgw3gaa6/0zI8Jv5hpTiV25wswUGWlz5yvrbPyQmoQ0o36MIQpI0g==
+X-Google-Smtp-Source: AGHT+IG2yzS46KJ17xC1D58qrOL2bjUkWL0tVGQSAERrzK3lQkukSFgqqZhPfcQE1JCH0nzmhBPy4A==
+X-Received: by 2002:a17:903:8cd:b0:269:8d85:2249 with SMTP id d9443c01a7336-29027240d03mr7980115ad.22.1759863334954;
+        Tue, 07 Oct 2025 11:55:34 -0700 (PDT)
 Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d110cdfsm173529655ad.13.2025.10.07.11.55.17
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d110cdfsm173529655ad.13.2025.10.07.11.55.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 11:55:21 -0700 (PDT)
+        Tue, 07 Oct 2025 11:55:34 -0700 (PDT)
 From: Gopi Krishna Menon <krishnagopi487@gmail.com>
 To: rostedt@goodmis.org,
 	corbet@lwn.net
@@ -72,13 +72,15 @@ Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
 	crwood@redhat.com,
 	tglozar@redhat.com,
 	costa.shul@redhat.com,
-	jkacur@redhat.com
-Subject: [PATCH 0/8] Documentation/rtla: rename common_xxx.rst files to common_xxx.txt 
-Date: Wed,  8 Oct 2025 00:24:49 +0530
-Message-ID: <20251007185508.40908-1-krishnagopi487@gmail.com>
+	jkacur@redhat.com,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 1/8] Documentation/rtla: rename common_appendix.rst
+Date: Wed,  8 Oct 2025 00:24:50 +0530
+Message-ID: <20251007185508.40908-2-krishnagopi487@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <aOUMyGvkibvOV0IS@archie.me>
+In-Reply-To: <20251007185508.40908-1-krishnagopi487@gmail.com>
 References: <aOUMyGvkibvOV0IS@archie.me>
+ <20251007185508.40908-1-krishnagopi487@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -87,58 +89,113 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series is a continuation of previous patch available at:
-https://lore.kernel.org/linux-kernel-mentees/20251007083228.17319-1-krishnagopi487@gmail.com/
+common_appendix.rst is intended to be included by other rtla documents
+and is not meant to be built as a standalone document.
 
-As suggested by Bagas Sanjaya, this series renames all common_*.rst
-files under Documentation/tools/rtla to common_*.txt to maintain
-consistency with common_options.txt and to avoid building them as
-standalone documents, as they are intended to be included by other rtla
-documents only.
+Rename common_appendix.rst to common_appendix.txt to maintain
+consistency with other common_*.txt files and prevent Sphinx from
+building it as a standalone document. Update all include references
+accordingly.
 
-Each patch renames one file and updates the corrosponding include
-references.
-
-Testing was done by running "make htmldocs" before and after the changes
-to verify that no build errors were produced and that the rendered
-output remained identical.
-
-Gopi Krishna Menon (8):
-  Documentation/rtla: rename common_appendix.rst to common_appendix.txt
-  Documentation/rtla: rename common_hist_options.rst
-  Documentation/rtla: rename common_osnoise_description.rst
-  Documentation/rtla: rename common_timerlat_aa.rst
-  Documentation/rtla: rename common_timerlat_description.rst
-  Documentation/rtla: rename common_timerlat_options.rst
-  Documentation/rtla: rename common_top_options.rst
-  Documentation/rtla: rename common_osnoise_options.rst
-
- .../rtla/{common_appendix.rst => common_appendix.txt}  |  0
- ...common_hist_options.rst => common_hist_options.txt} |  0
- ..._description.rst => common_osnoise_description.txt} |  0
- ..._osnoise_options.rst => common_osnoise_options.txt} |  0
- .../{common_timerlat_aa.rst => common_timerlat_aa.txt} |  0
- ...description.rst => common_timerlat_description.txt} |  0
- ...imerlat_options.rst => common_timerlat_options.txt} |  0
- .../{common_top_options.rst => common_top_options.txt} |  0
- Documentation/tools/rtla/rtla-hwnoise.rst              |  6 +++---
- Documentation/tools/rtla/rtla-osnoise-hist.rst         |  8 ++++----
- Documentation/tools/rtla/rtla-osnoise-top.rst          |  8 ++++----
- Documentation/tools/rtla/rtla-osnoise.rst              |  4 ++--
- Documentation/tools/rtla/rtla-timerlat-hist.rst        | 10 +++++-----
- Documentation/tools/rtla/rtla-timerlat-top.rst         | 10 +++++-----
- Documentation/tools/rtla/rtla-timerlat.rst             |  4 ++--
- Documentation/tools/rtla/rtla.rst                      |  2 +-
- 16 files changed, 26 insertions(+), 26 deletions(-)
+Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+---
+ .../tools/rtla/{common_appendix.rst => common_appendix.txt}     | 0
+ Documentation/tools/rtla/rtla-hwnoise.rst                       | 2 +-
+ Documentation/tools/rtla/rtla-osnoise-hist.rst                  | 2 +-
+ Documentation/tools/rtla/rtla-osnoise-top.rst                   | 2 +-
+ Documentation/tools/rtla/rtla-osnoise.rst                       | 2 +-
+ Documentation/tools/rtla/rtla-timerlat-hist.rst                 | 2 +-
+ Documentation/tools/rtla/rtla-timerlat-top.rst                  | 2 +-
+ Documentation/tools/rtla/rtla-timerlat.rst                      | 2 +-
+ Documentation/tools/rtla/rtla.rst                               | 2 +-
+ 9 files changed, 8 insertions(+), 8 deletions(-)
  rename Documentation/tools/rtla/{common_appendix.rst => common_appendix.txt} (100%)
- rename Documentation/tools/rtla/{common_hist_options.rst => common_hist_options.txt} (100%)
- rename Documentation/tools/rtla/{common_osnoise_description.rst => common_osnoise_description.txt} (100%)
- rename Documentation/tools/rtla/{common_osnoise_options.rst => common_osnoise_options.txt} (100%)
- rename Documentation/tools/rtla/{common_timerlat_aa.rst => common_timerlat_aa.txt} (100%)
- rename Documentation/tools/rtla/{common_timerlat_description.rst => common_timerlat_description.txt} (100%)
- rename Documentation/tools/rtla/{common_timerlat_options.rst => common_timerlat_options.txt} (100%)
- rename Documentation/tools/rtla/{common_top_options.rst => common_top_options.txt} (100%)
 
+diff --git a/Documentation/tools/rtla/common_appendix.rst b/Documentation/tools/rtla/common_appendix.txt
+similarity index 100%
+rename from Documentation/tools/rtla/common_appendix.rst
+rename to Documentation/tools/rtla/common_appendix.txt
+diff --git a/Documentation/tools/rtla/rtla-hwnoise.rst b/Documentation/tools/rtla/rtla-hwnoise.rst
+index cc2721315552..102654cc0c78 100644
+--- a/Documentation/tools/rtla/rtla-hwnoise.rst
++++ b/Documentation/tools/rtla/rtla-hwnoise.rst
+@@ -106,4 +106,4 @@ AUTHOR
+ ======
+ Written by Daniel Bristot de Oliveira <bristot@kernel.org>
+ 
+-.. include:: common_appendix.rst
++.. include:: common_appendix.txt
+diff --git a/Documentation/tools/rtla/rtla-osnoise-hist.rst b/Documentation/tools/rtla/rtla-osnoise-hist.rst
+index a11c485f127a..991c11d6210d 100644
+--- a/Documentation/tools/rtla/rtla-osnoise-hist.rst
++++ b/Documentation/tools/rtla/rtla-osnoise-hist.rst
+@@ -65,4 +65,4 @@ AUTHOR
+ ======
+ Written by Daniel Bristot de Oliveira <bristot@kernel.org>
+ 
+-.. include:: common_appendix.rst
++.. include:: common_appendix.txt
+diff --git a/Documentation/tools/rtla/rtla-osnoise-top.rst b/Documentation/tools/rtla/rtla-osnoise-top.rst
+index c7bc716b2899..58321322d24e 100644
+--- a/Documentation/tools/rtla/rtla-osnoise-top.rst
++++ b/Documentation/tools/rtla/rtla-osnoise-top.rst
+@@ -60,4 +60,4 @@ AUTHOR
+ ======
+ Written by Daniel Bristot de Oliveira <bristot@kernel.org>
+ 
+-.. include:: common_appendix.rst
++.. include:: common_appendix.txt
+diff --git a/Documentation/tools/rtla/rtla-osnoise.rst b/Documentation/tools/rtla/rtla-osnoise.rst
+index c129b206ce34..997a981fe397 100644
+--- a/Documentation/tools/rtla/rtla-osnoise.rst
++++ b/Documentation/tools/rtla/rtla-osnoise.rst
+@@ -56,4 +56,4 @@ AUTHOR
+ ======
+ Written by Daniel Bristot de Oliveira <bristot@kernel.org>
+ 
+-.. include:: common_appendix.rst
++.. include:: common_appendix.txt
+diff --git a/Documentation/tools/rtla/rtla-timerlat-hist.rst b/Documentation/tools/rtla/rtla-timerlat-hist.rst
+index 547dfc7ace58..20c1315c21c6 100644
+--- a/Documentation/tools/rtla/rtla-timerlat-hist.rst
++++ b/Documentation/tools/rtla/rtla-timerlat-hist.rst
+@@ -110,4 +110,4 @@ AUTHOR
+ ======
+ Written by Daniel Bristot de Oliveira <bristot@kernel.org>
+ 
+-.. include:: common_appendix.rst
++.. include:: common_appendix.txt
+diff --git a/Documentation/tools/rtla/rtla-timerlat-top.rst b/Documentation/tools/rtla/rtla-timerlat-top.rst
+index 3740fd386ea8..c620ab16f849 100644
+--- a/Documentation/tools/rtla/rtla-timerlat-top.rst
++++ b/Documentation/tools/rtla/rtla-timerlat-top.rst
+@@ -133,4 +133,4 @@ AUTHOR
+ ------
+ Written by Daniel Bristot de Oliveira <bristot@kernel.org>
+ 
+-.. include:: common_appendix.rst
++.. include:: common_appendix.txt
+diff --git a/Documentation/tools/rtla/rtla-timerlat.rst b/Documentation/tools/rtla/rtla-timerlat.rst
+index 20e2d259467f..e66d2588a416 100644
+--- a/Documentation/tools/rtla/rtla-timerlat.rst
++++ b/Documentation/tools/rtla/rtla-timerlat.rst
+@@ -51,4 +51,4 @@ AUTHOR
+ ======
+ Written by Daniel Bristot de Oliveira <bristot@kernel.org>
+ 
+-.. include:: common_appendix.rst
++.. include:: common_appendix.txt
+diff --git a/Documentation/tools/rtla/rtla.rst b/Documentation/tools/rtla/rtla.rst
+index fc0d233efcd5..2a5fb7004ad4 100644
+--- a/Documentation/tools/rtla/rtla.rst
++++ b/Documentation/tools/rtla/rtla.rst
+@@ -45,4 +45,4 @@ AUTHOR
+ ======
+ Daniel Bristot de Oliveira <bristot@kernel.org>
+ 
+-.. include:: common_appendix.rst
++.. include:: common_appendix.txt
 -- 
 2.43.0
 
