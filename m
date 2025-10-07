@@ -1,138 +1,98 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7422E03E3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Oct 2025 08:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4362DC334
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Oct 2025 08:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759826004; cv=none; b=Dz1OA0A4gDd9cX4kBy4EjpspnpmNV0N9CKLg3gh0SYy40noogLcYbvIwfDNNv6hfag/ePLGs7nPpAfp+Aajeh/TEEUFEU+sQZSAZyzIlFGF0OQu8ikgNNjPEgiBUOkJJqOXPgb2i29cQ05nMC/770YOK6FA1VB1Zt1LKQ5N43d4=
+	t=1759826132; cv=none; b=SUl+RIc5rMftSBi7r15SVZ5lcQSUk+KETr5MGp3isheebdpAZlFv42mdye+daQS+eqZqhKBmy5AtLcNvYobgKjSWrk9ZkuTUXzwgPmJKb89Mbd3zqC/hics8S6nWmhW5z30qp8Uw2voV2rMZnHGyfwRN3VexrH0Uc3iKzTWLG0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759826004; c=relaxed/simple;
-	bh=XfnN1y8TR9d0kJhrONqUSjYTGcbs0xeo8/JSjdx4LAE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W8jrmi0fC5ev268fibJXjxDf5dswh07bpSdYwMNP7hNLDrudrAtbYirPZbm4Grgnf9VXcaCapGe5p9wpiWqjySqYEEQKFPLrs8Y9XiNNVJqD5wRP97KqpeDR4qRFaLkUKBKREUqkqXkGMiiqRObOoRSCVnJWNNnMaqvKR3vw1FM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ANG52qPp; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1759826132; c=relaxed/simple;
+	bh=oolnhmzp0phxU0SJgt+ZTKmKtIqlWNaICASfkcDvAXg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hXzVmPDjnpJUBMQmtwFMQDhiYZ9rfleuDJrYQCZQ1w0K7gB3q01tHwgiZUbP36J+ubaMi4bnxMjM/V2bOlHB+iEsTJGQcLodY8aEUgF5e1KWWeycngo3yfh2m8lVa48brwf8AoHnSeqQ1uYjVYrqTsZnr5Zpj7gs3rbWskRtvUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H+YDgNEk; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ANG52qPp"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A965B84418
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Oct 2025 08:33:22 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id oWidymUR14WZ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Oct 2025 08:33:22 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32d; helo=mail-wm1-x32d.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 9EBA484426
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9EBA484426
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ANG52qPp
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 9EBA484426
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Oct 2025 08:33:21 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-46e509368caso11046695e9.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 07 Oct 2025 01:33:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H+YDgNEk"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-631df7b2dffso13693229a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 01:35:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759826000; x=1760430800; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/5lpEHR2FrKfoBetfp+01yqZYBFD8BaIlepSwlcmXqE=;
-        b=ANG52qPpGd5P2U5SrKLT/2RnFnOE/DDEntfGG0pwxIISdBEYOMaTpfkXkKeQllUY0f
-         O0yBagpMwyt8K0N74s2rFE/FmrijgHMMv3d1x+KWnDzoYUukmu73DP3UU28uo/5S8fvG
-         I3tENBvWHHA4NN5Vmn+ZJc7bC5SpXzDhXbJB4aHR6aaM/2hgvUbUjfLWUvjJdBs7KytR
-         KxYkLTLJIJFn2LaBv7CyO9C85ymeEybkPguiyi7kQhkS0BDBffC5FYSLJ/SeiWTOl1lA
-         FfaLQhRVAVNw2M9JpzuKCapsgw9nMoiSE2Eu8mwFn0yW2ERYvFRWcMcpVzPPjJemL0ft
-         CtUQ==
+        d=gmail.com; s=20230601; t=1759826129; x=1760430929; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oolnhmzp0phxU0SJgt+ZTKmKtIqlWNaICASfkcDvAXg=;
+        b=H+YDgNEkg3lTrJN600836WOqW39eDTKgQG59UCeyP6yF9a7CgpGGAsFA0UI0wC0M1I
+         0pOshJJKPRc+XTZ9cS1efTC8LP4xZipPgUXMi/xgNey+t3LvL5YSYlBRybH85/bz9aVt
+         65yeI4AiofE4a/rHlNC1XeCwupOzMUeRp9VqnvJ6xQMh4WpzRMlRTynRexs6NH1rLB2K
+         c22aA/sBw3vqMMa1PiiohzA8EJHkRy3C0vFuphE8HogllnfazGzCO6JYRp5kZZgttkrc
+         LC25SQTWGTytOLMAf9v89tRqsU+HnjIS2hvI7qOLqIl6tTlPgLfGnPECxDtgoHwwjbnm
+         6Rqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759826000; x=1760430800;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1759826129; x=1760430929;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/5lpEHR2FrKfoBetfp+01yqZYBFD8BaIlepSwlcmXqE=;
-        b=EBVXR4+1ENkFB0q6QLmlTDYYf2oh1ZWYZ/JoXj0UWJyMRgZc4ixTsEDtK8LMpjre68
-         z4qYIEitxDqVkHNeZgJ/gDPg8HHUbVtnuYzZOJokoj2bOCjWSp5sc7kjy902EYndEcB0
-         ugCzCLtoCDq8LRA8I3eJQe8sDE8ood/T71wbXRcHBkTJvy73xJBOAubcYSH/6p+6P0vB
-         CbCVj+mToyN1OzmKgev8mkVI77zOdBjMyMsuxQ4fgfmkKOokJ6hwvK50TUPGtX02aNg+
-         OLUrDlJcSFYSLWX6hXc7Ta9j532fsYCSBnDqgbum4NBvu3vnIR3aLevMdtmPMu5Hg0yd
-         zS3g==
-X-Forwarded-Encrypted: i=1; AJvYcCWWbal+Q+hL8lEs2tO3fr7kn3PI+ByIWYVbDRrcdHbN4UPkmP3EssLvIhv1xVooFoO+4XsfJY/daD0t7olPDEOJO+tn+g==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwgPuQIWrXsm2G34CveTfZ7qcXgy7Fm4XGz77dzMVU5WM/xlbtw
-	P+JlcJxf7p7StQUqNWX1IO2u9lJj0WgucDUfK5jY9rjf42HnNQ96vmi0
-X-Gm-Gg: ASbGncsyapEDXGd4XcTofT7ptrvPhntJPR0CbVbTL835U1UO2nogZWd5ln8B3xD3+Q3
-	bh6mJDCFO98RcnBXAbshok3k9kO3IvDu3qRUVGWY6LHxT4HgvjX6XW+57fYVSJH1NJJtBasdb5B
-	Ort+q0TiBwoJ8D9dVGnR0ykMjqeqXE9nbdYYfflEpYSQ56zKhT/KN5CYrxw5YVpSSCzXP2aI1QD
-	r5APDWJ/v8HBYyN9F94EPEH2OfMJrjSQpWjkJ/ZFt7vlp8G7hEmP9UDerUnexDrdXSiuuOLqCIB
-	5zN2etSJGOuE0ZvYKI4QtO2pIcJsvAPBdvrxYaY0kQSw/YNG3pn2olOM466JCyeJK2LKs1xTmmX
-	lcB0iOfzcf7tbFClJhaLtTg+qeNR5RWKr93Kmlf3Uf3t1+n4SdK8c7zvF
-X-Google-Smtp-Source: AGHT+IHfsj3QYJwF3EIm/+ncIkc3TJT6L6wdnZ1V99H9OeKwvXsmjTC5NTDVxYdVGhOUR7h94+1oiA==
-X-Received: by 2002:a05:600c:1993:b0:46e:477c:e4ff with SMTP id 5b1f17b1804b1-46e711549admr58886835e9.7.1759825999419;
-        Tue, 07 Oct 2025 01:33:19 -0700 (PDT)
-Received: from bhk ([102.155.185.183])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e723437d8sm197395365e9.3.2025.10.07.01.33.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 01:33:18 -0700 (PDT)
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-To: maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	mingo@kernel.org,
-	tglx@linutronix.de,
-	jfalempe@redhat.com
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	rubenru09@aol.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-Subject: [PATCH v3] drm/gud: Use kmalloc_array() instead of kmalloc()
-Date: Tue,  7 Oct 2025 09:32:40 +0100
-Message-ID: <20251007083320.29018-1-mehdi.benhadjkhelifa@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        bh=oolnhmzp0phxU0SJgt+ZTKmKtIqlWNaICASfkcDvAXg=;
+        b=LmaOpQYY11bqCmop7L76pWrOcsPBVknzr3gDT2UraSfe2k+SbFMb7cxMjO2Xu4gqZm
+         AaXB1bY0v7i9P53u9iwMhIyITzbM8gJ96HTYWWhoQmvTtxV7I+yz8iziF3wj7nkbp4bP
+         j2K72ipILmOOYYrGoGe//z7Y4RoMjVPPKuI8PsX4HM5KQ4zaibLqOgUV7d2FFIypf5so
+         aFruwN5S/0eNUxzBwNqTvkJx/W0kUsrqUL1gSrE6DQihu4u8+6EVp2syGAGiPSFKgeTg
+         /gAuGI5QvD2W2rpXny6xOj/cjGgrcGpNaOgcF/nq9Tk4eDuaaHxt6ABYjmomXGBbhAk5
+         Q0HQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXq5cNWzXZgbxEVrSuecXYn/R6DnkSpeApB02jV2qE46ktl+YbTVcICq0izvpOanNvESykZBrXKPoSBoydCbhTibx0XvA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxTVf5cOYmhXAyC7UxCZXktLoq9OtxSQL0E1gmLyRV0tQkRcET6
+	p/6tAwIz+21NXGW/9ca6k17nC1OicVhGUp19W4j10BY8yAsi7tOWZNkT9cNrA9YtN9/UkIZhhrb
+	ym2ICswGeBarsG6pK8KHcI3YFra8jMeg=
+X-Gm-Gg: ASbGncvDl+ixag2LPti80YnBiQCmPSz9V3kQSzRrlEgdD0ip7gGpGWEMDMgu6wfm3LX
+	88KQNFEYG3qpveTZgJugpXUJLEAz5lliDnLM2c9wi0TBv58t351BGrwNh0wNUkP6BnJB99E5Mbe
+	9ID5e8EHLGMA5CG0thSMMQEpv0qo8wK95prGumzINt+eWyH+YrALyRs/ANIljgv3r0wEF+PysBc
+	oTVRpMSe1E38xg9qSyqLZSPyizoCQXWmdjvcdMw59IA/dlvqjMIXVMvwdVfI7saYiwcosxYw80T
+	4Q==
+X-Google-Smtp-Source: AGHT+IGGUtmjqlLFO7DiLm+f7ClYBfwyRmx5vn+CRzV63l76mmNZeJM8Zill3iy7if7XHgjFS3vA81VNOf3LznbQNyo=
+X-Received: by 2002:a05:6402:4402:b0:634:a23e:df26 with SMTP id
+ 4fb4d7f45d1cf-639baf1c977mr3450695a12.6.1759826128502; Tue, 07 Oct 2025
+ 01:35:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251001131409.155650-1-viswanathiyyappan@gmail.com> <4124e1a5-fcd9-4ce3-9d97-5ebe8018207e@gmail.com>
+In-Reply-To: <4124e1a5-fcd9-4ce3-9d97-5ebe8018207e@gmail.com>
+From: I Viswanath <viswanathiyyappan@gmail.com>
+Date: Tue, 7 Oct 2025 14:05:16 +0530
+X-Gm-Features: AS18NWDAJv8Y2QJ0ase6hOWvYmv9Zfznp100Rlegb03D_vdoVYNFwHyKoTaLkY0
+Message-ID: <CAPrAcgMny0eujytjZ9M+LZoQzzbFRtsDsYFQj8=i37wSLC+6NQ@mail.gmail.com>
+Subject: Re: [PATCH net] net: usb: lan78xx: fix use of improperly initialized
+ dev->chipid in lan78xx_reset
+To: David Hunter <david.hunter.linux@gmail.com>
+Cc: Thangaraj.S@microchip.com, Rengarajan.S@microchip.com, 
+	UNGLinuxDriver@microchip.com, andrew+netdev@lunn.ch, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, khalid@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Replace kmalloc with kmalloc array in drm/gud/gud_pipe.c since the
-calculation inside kmalloc is dynamic 'width * height'
+On Tue, 7 Oct 2025 at 06:52, David Hunter <david.hunter.linux@gmail.com> wrote:
+>
+> Please describe the testing you performed.
 
-Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
----
-Changelog:
+I used the reproducer provided at
+https://syzkaller.appspot.com/bug?extid=62ec8226f01cb4ca19d9 and QEMU
+to verify my patch.
 
-Changes since v2:
--Reversed width and height in parameter order.
-Link:https://lore.kernel.org/all/20250923085144.22582-1-mehdi.benhadjkhelifa@gmail.com/
-Changes since v1:
-- Use of width as element count and height as size of element to
-eliminate the mentionned calculation and overflow issues.
-Link:https://lore.kernel.org/all/20250922174416.226203-1-mehdi.benhadjkhelifa@gmail.com/
- drivers/gpu/drm/gud/gud_pipe.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I applied the fix patch for the bug before my testing.
 
-diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-index 8d548d08f127..c32a798ccadf 100644
---- a/drivers/gpu/drm/gud/gud_pipe.c
-+++ b/drivers/gpu/drm/gud/gud_pipe.c
-@@ -70,7 +70,7 @@ static size_t gud_xrgb8888_to_r124(u8 *dst, const struct drm_format_info *format
- 	height = drm_rect_height(rect);
- 	len = drm_format_info_min_pitch(format, 0, width) * height;
- 
--	buf = kmalloc(width * height, GFP_KERNEL);
-+	buf = kmalloc_array(height, width, GFP_KERNEL);
- 	if (!buf)
- 		return 0;
- 
--- 
-2.51.0
+For testing, I set a hardware breakpoint at lan78xx_init_mac_address,
+triggered the reproducer, and inspected the value of dev->chipid at
+that point.
 
+Without my patch, dev->chipid was always 0. With my patch, it matched
+the upper 16 bits of the value read from the ID_REV register
+
+Thanks
+I Viswanath
