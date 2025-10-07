@@ -1,284 +1,149 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47382E03EF
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Oct 2025 13:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7712E7BDC
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Oct 2025 16:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759844458; cv=none; b=aI7drRm2TkhLJO/aqgTtOfj8DByIw+cu44e/Ej6ArRxSj/YLTo10VU61fxTKR9/lbcxb35SZzhsDCC7WQo+yNJ1g3CL6FBTpgrMIPL08luogJWb6s5dAew2wzGEKaqFfsUplFcnRHd+6cYJI2jSKtQMG40Ze5pw/asAvcmMykPM=
+	t=1759854150; cv=none; b=G3nAxw0Kg2QqTbtRSdeUDBn18wHqPUogNF7s4FD3yVrZg9gcuAtbwNfxcFDWGQrQ0UJR9ubOg2L8kuF6Z49LjyY5AvB/9t+eR7cNQr8ufBcBDzY7r2f4YrcifSP9abiVm2ZS2UyxJ348TaoQIFoK0wtQ6PAFoLgIQcIVCu1G47s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759844458; c=relaxed/simple;
-	bh=maR5I0NRG+pVQzt1ZqXCzGrjCBiXFmvoqkdMd1ZLotw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LxK/ReCiggeu0dagGlV2NFyKtJ9i7+Bf9g8YpCvkX5QIe/E0+t8CIrbfqHKaMfu3i1f5XHm9pOEtOVZyuSL+qvWQWuBY7lCaFTqYu+Hz++fMbfdXN18IPCENLFDezHeU6Q3KZeCZkZSx4O0Te0SfEZazdRI02sGitfV2vQ6/4GM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=LEIebXCH; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1759854150; c=relaxed/simple;
+	bh=jNPXFguZ0o33eieY8lz73vZNTUwXVK/ZZse4W5W/FWs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tde95MDl3Uyvir0+dH303LbS6mC36BeKxysv0JMk/42nOkKqZYZznIOgNDcHEJYWh2GZc2vnBrIXpLNZ+5K4RvFpq4TN4RtYd3KM0mxOIkL/Jg2aWF9bdRfzDwauttPwWH+kBdikFJ+JBLubGd7X4qOdvG7Fq2F5vVVLQX3lG2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QtXDljL8; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="LEIebXCH"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-57a59124323so1360347e87.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 06:40:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QtXDljL8"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-33255011eafso6653022a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 09:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1759844455; x=1760449255; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xRBV/A+wYkc5dgFJj6Y8p0jl0ix5QJORnEw5CJQ5ixk=;
-        b=LEIebXCHlb7CFfP9554L2IZ2F0Ywsv0YbHEies1OerYb1BYb5QJaglQ7YAOHAgOeVQ
-         wk6kO+VwwTMa3aGenIN/MYtK2vAkY/2mzVNRsZnu5FL+f3mT045W4XyNivc3o0wMCYHY
-         JruumWBUAWFp2hVqjTKRDOsXCOwpxdfubbcQKvx+PS+14bOxQjKbe8KTzLBl+6PEIrYK
-         ayiEeT3WRJwSivCJ2P+3qDLyNKxJrQ/DkPwV1LJJcQc/QUwOtPd93nxzfYpCve5qHRGp
-         LUVfj0O95N9URd3MLAkSykr0NrsSaAe6LTUUouyv/9GCmlmJ/pTW83RuXVXFpgKL6PzT
-         qweQ==
+        d=gmail.com; s=20230601; t=1759854148; x=1760458948; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PpoHs7x3DMAGLg3gdog2cHx5D9ViCBx9xQddbSTGLHY=;
+        b=QtXDljL8cg5wULJaYz9AGWAPwurH2slEEUXixo2Z1ZLegInoOskNfe5l0kTVUE6iYB
+         tbh0nZdhelT39PlsqQ02zb6SiqeJkf9vMdqzb/1Q7DTg2MZ2r0orN8Js0FlChL23jxqB
+         qy3DAV1aG8Daq6wBm17KB/OZPJEfNhwejk53Joe2Szbc8SVtHq5UwuFX8sFHcfd46fEh
+         Z7Vhv16z4KoXZK+765NofzLV+mBgSXW9sSZAZFfWqo9wQFAUf2AfwFJ8yE9j4MqCHj8C
+         1omCbj7KETHpmw/xo/MPac2DgOEe2eRqM+YdExV7aq04n6rdpVdGSN1zfla6tFGTwA2W
+         mi0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759844455; x=1760449255;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xRBV/A+wYkc5dgFJj6Y8p0jl0ix5QJORnEw5CJQ5ixk=;
-        b=mx20fQJW7IUoJnBPEg8wRwrnhLhz49ozG1wuEEPcHhT89D4btWDyp8CidwdILjkdAn
-         1lsPASDVPZnAv1lvauwJ2Xcde7yf3XRFmFsoawKG9eIlGbigrp+khwSChgZl4LpdU5Zj
-         Iw+DGgncH7v9OV7eqp7UXXe/qi90ajfJJ1PpHzyrIK2Z2o52u2qV27pGLUu8zD7pdoVN
-         5CnqNGtiIbn/i7tS+uwbMTIRjuxQcFQ5/hH5CXTKQH3UXi3j75fWK7ceyF0zsFi0mlFw
-         denO+Qecc06O9HaEvBu0S59WQiRlgZLe9GwfK648mHc3u6Ltmqjgkd8p1mXLd+I8P3EJ
-         Wn/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWeToL1qsnDTzVHaVq2NJmO++IiOV9v8SJqtlI55F68dlyjX+lmAQUnENY808dEIoErtisY/bE0M4jwzNSB6SMhxjqKVg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGuxYBY9H6mJjdTVzytVhFvsi9hdWGmmMoqTSAAuRnAModz+aG
-	ACrMUhCIALJnwbCeaEnAYnxvSz006jaQCI0Oj1acYHHdxkbJfKlJXqubsnX3pO6uRRs=
-X-Gm-Gg: ASbGncun9+cMAAfFYQzLLN2LD6iBg8f4WbVwSRw1CT0MKH8Qf7uP5eoZUR63yghTOXW
-	aen1EseJ0L7KoXV/MWr4NSnlGL+8Vi+zV/D+X9WOEhOoGADZl3LfIztJJTQvr8dNhZuE/It62Z2
-	KNGrYBbB3CVCEAxMS3ivbfb4ju8QYZQC5eJffpj0TDioWypeMLUhkCoyt7WLmgxkt2cRojEOS5X
-	Ylw9ArVpPlDp/wU3NEk4HHghZxK/Uki31fIotl+lqZH2iTjEFxMr/OW7zvzttx0ekD29wuQNd7k
-	ol5bT5eRaE1DvsdBmNLhMWqtBMRA+bDHXl/S2XZs4xNI5Nx/adyD5l3C9CC2CAC1KJvQ7PuFbX3
-	1XlMs3NR0fKt4n+1P+IKWvjykZfTDwag9MA/cVmj/RC+oyMbEbDJnsKKqZNw=
-X-Google-Smtp-Source: AGHT+IFHxO2m8T/MgbMT85edP7c603ruD5Ye6htT8rb/M8e+XOKBexOHQ+jUa0yBLYyuI5v4+gKA8w==
-X-Received: by 2002:a05:6512:1245:b0:58a:92cc:581d with SMTP id 2adb3069b0e04-58cbbbee331mr4524737e87.50.1759844454433;
-        Tue, 07 Oct 2025 06:40:54 -0700 (PDT)
-Received: from [10.78.74.174] ([212.248.24.216])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59067823d9esm350641e87.69.2025.10.07.06.40.52
+        d=1e100.net; s=20230601; t=1759854148; x=1760458948;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PpoHs7x3DMAGLg3gdog2cHx5D9ViCBx9xQddbSTGLHY=;
+        b=fssrqVf5jHubF1rV0kJV/jUL1PcIZzTeNDhpv5tZWwO5ugfb9tDQIbQjMDdct7hy7g
+         F3w6m62eNdkrcPCtQKV0ieucR0F492YfENsb/8tloaxKRxRoVvwyXgRyWaS8vxWhdjNh
+         qQhhUHZ1HRBIQ6keZK+m5Ovre/tE6+t+aE+nUofKfAxdVv9Pkgdx8C/5w/qVXxfR5PGe
+         iU+OYUfmJyeP/zG6eKZHNaRuTKljwFrWSevRCzddoMQxpVMOh2kmvfvuPJ2o5h/AsKGo
+         h4cY3ZfzqOgtMh8ed7FpY1N5Ugjn9Rwavrrz4zKF/Li74jUpzqfcCR8qGplQBbKgHZH1
+         NhCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVDrOONUgcRB5vceYSqZHdjl17S4qBVs5OEkHH16JjIieu5NXaO9sLW8z7Ug79BjwpaM3ONi+DbZeCg5OHHIbnuqLhXfw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxx40c+tCiAbXvvZmovtYsMTwTgEuv3DtHzjl4u0SjKqrY5TvoV
+	8mTu5Y1LEGW8Xww9y8h+X177+bpzk90+4B3agp3JxyMttcAxWrlbuoo9
+X-Gm-Gg: ASbGncttF02vNm2Bx4m+TC89Oikh5VJK1PM5DmKL9G5dZ2tIQsfw+FQtjBJrtmU2zKs
+	5Rd2uO5tDt8ho2yS0Wo5R1B2tHms8UbaCuersjEx43CHJfOAkeURNOg+h+tfPcj59vWnwVl/4Sb
+	hgKBEESdcDOLXwHsvQfybNz9k0eeQvfVW/Jeb6jzHlj9IGl1m4WE2zHOe07oUdIIpu9FT0ZU9uw
+	OF6mRozuDSJBleXTHtf01vWcVsM+KzbPR5I4MCrUR5UC02yf1yX/1LHNWiNarrg+OjDN3KyjqMv
+	LJfrAtSjrQVtZVOXzMA9ph5u/zdANRv+xKCoJXRpoGz074rF8kt9rpLMA9FJ+WKQ2t06U1Wpu4Y
+	RWi8WRNi1QPkTz4WyEYA/E/l5Qar4cPSQDzDYVLshDDvBVUOI1+nZc8Wod6o0XlU=
+X-Google-Smtp-Source: AGHT+IEVmC+M/InRT3VdaLJRW/KctK/jw/7e7suEc5r/fdcvZSXq5B54eCtA1zk17y2IKaq6ovlUJw==
+X-Received: by 2002:a17:90b:1e0c:b0:32e:87fa:d975 with SMTP id 98e67ed59e1d1-33b513ebbedmr59703a91.34.1759854147989;
+        Tue, 07 Oct 2025 09:22:27 -0700 (PDT)
+Received: from rakuram-MSI.. ([2405:201:d027:f04e:d2f9:a2da:e7d:3e96])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339ee0f830fsm1431733a91.5.2025.10.07.09.22.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 06:40:53 -0700 (PDT)
-Message-ID: <6ec98658418f12b85e5161d28a59c48a68388b76.camel@dubeyko.com>
-Subject: Re: [PATCH] hfs: Validate CNIDs in hfs_read_inode
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: George Anthony Vernon <contact@gvernon.com>, Viacheslav Dubeyko
-	 <Slava.Dubeyko@ibm.com>
-Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>, 
- "frank.li@vivo.com"	 <frank.li@vivo.com>, "skhan@linuxfoundation.org"
- <skhan@linuxfoundation.org>,  "linux-fsdevel@vger.kernel.org"	
- <linux-fsdevel@vger.kernel.org>, "linux-kernel-mentees@lists.linux.dev"	
- <linux-kernel-mentees@lists.linux.dev>, 
- "syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com"	
- <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>, 
- "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>
-Date: Tue, 07 Oct 2025 06:40:50 -0700
-In-Reply-To: <aOB3fME3Q4GfXu0O@Bertha>
-References: <20251003024544.477462-1-contact@gvernon.com>
-	 <405569eb2e0ec4ce2afa9c331eb791941d0cf726.camel@ibm.com>
-	 <aOB3fME3Q4GfXu0O@Bertha>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.0 (flatpak git) 
+        Tue, 07 Oct 2025 09:22:27 -0700 (PDT)
+From: Rakuram Eswaran <rakuram.e96@gmail.com>
+To: ulf.hansson@linaro.org
+Cc: zhoubinbin@loongson.cn,
+	u.kleine-koenig@baylibre.com,
+	chenhuacai@kernel.org,
+	david.hunter.linux@gmail.com,
+	skhan@linuxfoundation.org,
+	khalid@kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rakuram.e96@gmail.com,
+	linux-kernel-mentees@lists.linux.dev,
+	kernel test robot <lkp@intel.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: [PATCH] mmc: pxamci: Fix passing NULL to PTR_ERR() in pxamci_probe()
+Date: Tue,  7 Oct 2025 21:47:44 +0530
+Message-ID: <20251007161948.12442-1-rakuram.e96@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2025-10-04 at 02:25 +0100, George Anthony Vernon wrote:
-> On Fri, Oct 03, 2025 at 10:40:16PM +0000, Viacheslav Dubeyko wrote:
-> > Let's pay respect to previous efforts. I am suggesting to add this
-> > line:
-> >=20
-> > Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> >=20
-> > Are you OK with it?
-> I agree with paying respect to Tetsuo. The kernel docs indicate that
-> the SoB tag
-> isn't used like that. Would the Suggested-by: tag be more
-> appropriate?
->=20
+Smatch reported:
+drivers/mmc/host/pxamci.c:709 pxamci_probe() warn: passing zero to 'PTR_ERR'
 
-Frankly speaking, I don't see how Suggested-by is applicable here. :)
-My point was that if you mentioned the previous discussion, then it
-means that you read it. And it sounds to me that your patch is
-following to the points are discussed there. So, your code is
-inevitably based on the code is shared during that discussion. This is
-why I suggested the Signed-off-by. But if you think that it's not
-correct logic for you, then I am completely OK. :)
+Case 1:
+When dma_request_chan() fails, host->dma_chan_rx is an ERR_PTR(),
+but it is reset to NULL before using PTR_ERR(), resulting in PTR_ERR(0).
+This mistakenly returns 0 instead of the real error code.
 
-> > I think we can declare like this:
-> >=20
-> > static inline
-> > bool is_valid_cnid(unsigned long cnid, s8 type)
-> >=20
-> > Why cnid has unsigned long type? The u32 is pretty enough.
-> Because struct inode's inode number is an unsigned long.
+Case 2:
+When devm_clk_get() fails, host->clk is an ERR_PTR() resulting in the similar
+issue like case 1. 
 
-The Catalog Node ID (CNID) is identification number of item in Catalog
-File of HFS/HFS+ file system. And it hasn't direct relation with inode
-number. The Technical Note TN1150 [1] define it as:
+Store the error code before nullifying the pointers in both the cases.
 
-The catalog node ID is defined by the CatalogNodeID data type.
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/202510041841.pRlunIfl-lkp@intel.com/
+Fixes: 58c40f3faf742c ("mmc: pxamci: Use devm_mmc_alloc_host() helper")
+Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
+---
 
-typedef UInt32 HFSCatalogNodeID;
+Build and Analysis:
+This patch was compiled against the configuration file reported by
+0day CI in the above link (config: s390-randconfig-r071-20251004) using
+`s390x-linux-gnu-gcc (Ubuntu 14.2.0-19ubuntu2) 14.2.0`. 
 
-The hfs.h declares CNID as __be32 always. Also, hfsplus_raw.h defines
-CNID as: typedef __be32 hfsplus_cnid;.
+Static analysis was performed with Smatch to ensure the reported warning 
+no longer reproduces after applying this fix.
 
-So, it cannot be bigger than 32 bits. But unsigned long could be bigger
-than unsigned int. Potentially, unsigned long could be 64 bits on some
-platforms.
+Command used for verification:
+  ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- \
+  ~/project/smatch/smatch_scripts/kchecker ./drivers/mmc/host/pxamci.c
 
-> >=20
-> > Why type has signed type (s8)? We don't expect negative values
-> > here. Let's use
-> > u8 type.
-> Because the type field of struct hfs_cat_rec is an s8. Is there
-> anything to gain
-> by casting the s8 to a u8?
->=20
+ drivers/mmc/host/pxamci.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-I am not completely sure that s8 was correct declaration type in struct
-hfs_cat_rec and other ones. But if we will use s8 as input parameter,
-then we could have soon another syzbot report about crash because this
-framework has generated negative values as input parameter. And I would
-like to avoid such situation by using u8 data type. Especially,
-because, negative values don't make sense for type of object.
+diff --git a/drivers/mmc/host/pxamci.c b/drivers/mmc/host/pxamci.c
+index 26d03352af63..4fab693d3b32 100644
+--- a/drivers/mmc/host/pxamci.c
++++ b/drivers/mmc/host/pxamci.c
+@@ -653,8 +653,9 @@ static int pxamci_probe(struct platform_device *pdev)
+ 
+ 	host->clk = devm_clk_get(dev, NULL);
+ 	if (IS_ERR(host->clk)) {
++		ret = PTR_ERR(host->clk);
+ 		host->clk = NULL;
+-		return PTR_ERR(host->clk);
++		return ret;
+ 	}
+ 
+ 	host->clkrate = clk_get_rate(host->clk);
+@@ -705,8 +706,9 @@ static int pxamci_probe(struct platform_device *pdev)
+ 
+ 	host->dma_chan_rx = dma_request_chan(dev, "rx");
+ 	if (IS_ERR(host->dma_chan_rx)) {
++		ret = PTR_ERR(host->dma_chan_rx);
+ 		host->dma_chan_rx = NULL;
+-		return dev_err_probe(dev, PTR_ERR(host->dma_chan_rx),
++		return dev_err_probe(dev, ret,
+ 				     "unable to request rx dma channel\n");
+ 	}
+ 
+-- 
+2.48.1
 
-> >=20
-> > > +{
-> > > +	if (likely(cnid >=3D HFS_FIRSTUSER_CNID))
-> > > +		return true;
-> > > +
-> > > +	switch (cnid) {
-> > > +	case HFS_POR_CNID:
-> > > +	case HFS_ROOT_CNID:
-> > > +		return type =3D=3D HFS_CDR_DIR;
-> > > +	case HFS_EXT_CNID:
-> > > +	case HFS_CAT_CNID:
-> > > +	case HFS_BAD_CNID:
-> > > +	case HFS_EXCH_CNID:
-> > > +		return type =3D=3D HFS_CDR_FIL;
-> > > +	default:
-> > > +		return false;
-> >=20
-> > We can simply have default that is doing nothing:
-> >=20
-> > default:
-> > =C2=A0=C2=A0=C2=A0 /* continue logic */
-> > =C2=A0=C2=A0=C2=A0 break;
-> >=20
-> > > +	}
-> >=20
-> > I believe that it will be better to return false by default here
-> > (after switch).
-> We can do that, but why would it be better, is it an optimisation? We
-> don't have
-> any logic to continue.
-
-We have this function flow:
-
-bool is_valid_cnid()
-{
-   if (condition)
-      return <something>;
-
-   switch () {
-   case 1:
-      return something;
-   }
-}
-
-Some compilers can treat this like function should return value but has
-no return by default. And it could generate warnings. So, this is why I
-suggested to have return at the end of function by default.
-
->=20
-> > > +			break;
-> > > +		}
-> > > =C2=A0		inode->i_size =3D be16_to_cpu(rec->dir.Val) + 2;
-> > > =C2=A0		HFS_I(inode)->fs_blocks =3D 0;
-> > > =C2=A0		inode->i_mode =3D S_IFDIR | (S_IRWXUGO & ~hsb-
-> > > >s_dir_umask);
-> >=20
-> > We have practically the same check for the case of
-> > hfs_write_inode():
-> >=20
-> > int hfs_write_inode(struct inode *inode, struct writeback_control
-> > *wbc)
-> > {
-> > 	struct inode *main_inode =3D inode;
-> > 	struct hfs_find_data fd;
-> > 	hfs_cat_rec rec;
-> > 	int res;
-> >=20
-> > 	hfs_dbg("ino %lu\n", inode->i_ino);
-> > 	res =3D hfs_ext_write_extent(inode);
-> > 	if (res)
-> > 		return res;
-> >=20
-> > 	if (inode->i_ino < HFS_FIRSTUSER_CNID) {
-> > 		switch (inode->i_ino) {
-> > 		case HFS_ROOT_CNID:
-> > 			break;
-> > 		case HFS_EXT_CNID:
-> > 			hfs_btree_write(HFS_SB(inode->i_sb)-
-> > >ext_tree);
-> > 			return 0;
-> > 		case HFS_CAT_CNID:
-> > 			hfs_btree_write(HFS_SB(inode->i_sb)-
-> > >cat_tree);
-> > 			return 0;
-> > 		default:
-> > 			BUG();
-> > 			return -EIO;
-> >=20
-> > I think we need to select something one here. :) I believe we need
-> > to remove
-> > BUG() and return -EIO, finally. What do you think?=20
->=20
-> I think that with validation of inodes in hfs_read_inode this code
-> path should
-> no longer be reachable by poking the kernel interface from userspace.
-> If it is
-> ever reached, it means kernel logic is broken, so it should be
-> treated as a bug.
->=20
-
-We already have multiple syzbot reports with kernel crashes for
-likewise BUG() statements in HFS/HFS+ code. From one point of view, it
-is better to return error instead of crashing kernel. From another
-point of view, the 'return -EIO' is never called because we have BUG()
-before. So, these two statements together don't make sense. This is why
-I am suggesting to rework this code.
-
-Thanks,
-Slava.
-
-> >=20
-> > 		}
-> > 	}
-> >=20
-> > <skipped>
-> > }
-> >=20
-> > What's about to use your check here too?
->=20
-> Let's do that, I'll include it in V2.
->=20
-> >=20
-> > Mostly, I like your approach but the patch needs some polishing
-> > yet. ;)
-> >=20
-> > Thanks,
-> > Slava.
->=20
-> Thank you for taking the time to give detailed feedback, I really
-> appreciate it.
->=20
-> George
-
-[1]
-https://dubeyko.com/development/FileSystems/HFSPLUS/tn1150.html#CatalogFile
