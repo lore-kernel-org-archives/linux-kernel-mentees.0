@@ -1,154 +1,192 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B076E221FB4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Oct 2025 08:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A003D211706
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Oct 2025 08:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759824412; cv=none; b=E6XSY5mUBW5KXOy8Y/1VnRTWORDHdQ2bNZBOSYiMVPLAkqF9NDTpnC16G4EiHDyie/UOsCsAlOB6CExDeK3jt8AEb1EGxZB9CwF2nUeS4+IsAZdlnn6noQ3I/t2ZbHfE1veBK1wqFCUkUg4b6ewgyOzdhmWCaZpT+ic+P4ikVGQ=
+	t=1759825961; cv=none; b=SIp7uW0VBLJSs86zWVM1YpToU9eHbrOTHiFQNPdwnr4eHJLdvgF3SdM8Dp5mkArwpjk102rgkiuLwsot5pWQh5J1S96fVbEELtWHJeJX8doEwljPu3p0MhKZqcBTX91nLFX2x99h9aK0BHd9R4fD63Ri5iz8fAyq12L66yz2BUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759824412; c=relaxed/simple;
-	bh=0nuVQOkwJzeH7k9ho0X0QYWBaSW1FiKlHuDOyl8At9I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=nih/naiDtYnLkpfqc7I9CLcAwa1Dgfxryc/mb63t9utW1z9S6waH61A5iAAFJRFza8ge9VaIbI78/K8wu3k+nTZg5Ju40zpjHF/MjytUCuVukiww+7rl3A22WcS2r3FmvBqFdZAI3DqSmKPkIhlDvX8ewe1wVE9NtNspYa7b/DY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JAlBUSBY; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1759825961; c=relaxed/simple;
+	bh=UyXS0YiulfoICjWKVbZLAuV+X0gt4aJvE3oK8qyJ30E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HImauGoa0l9hcMvw+btc6Wi5uADJDU2AjJzZZBDnog5eaeL0pYeJJx3B5GdyDDZxDWaMPDF5ALf85mLhaCyYp5fR2YKLVrEq1vpQGBWJB1unAK3o6tHSAqxO3qJAx2rlQMLPKBBon25UHpXRtDa0BP3SEvaRJt1+zQHsLMW1pak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ix7xjlYz; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JAlBUSBY"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 50D0984016
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Oct 2025 08:06:51 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Da6HyhWXT8o5 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Oct 2025 08:06:50 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32f; helo=mail-wm1-x32f.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 3112E840CB
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3112E840CB
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JAlBUSBY
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 3112E840CB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Oct 2025 08:06:49 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-46e38c21fafso11060075e9.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 07 Oct 2025 01:06:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ix7xjlYz"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-27ee41e074dso64540565ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 01:32:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759824408; x=1760429208; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+DemagZ3lwdnPbdAD7J+Cx+hPerc6FDpVY4UH1BSMao=;
-        b=JAlBUSBYIqwF1XpKcWI1LtTChWSWoGRqSOFC2aXmjZwXgcwLCWyBuaU7aaNJetWiIw
-         FreyfZggspAcHChVBj/WintfyRnBDD09KEPGzo1MhKfGdGE2XibMVjFFwNFAjSTLDcfN
-         Z6E9+fkMmXj7LsseyVKIQeSk/OxUe2NKkG9Evi8bgD8qPcU3AzIwf/y70SWjmFK/gK4R
-         Nj3s4U5E/z85ondFIqKjhGNu49ZIFKt9g8h3iYNRNkpxIO88YKB7fa3mklWJWD8g/sr2
-         PNjzQ1WgZzhfNmct4SsSRkZ73S11QRdDYtLK+cANmGCAoBCHKo/5qT/3eQYYzKAqC+jt
-         jb+w==
+        d=gmail.com; s=20230601; t=1759825958; x=1760430758; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HprILVmlCINZEM+NQvrClrUcjHEMUlllXqO7BPuLx90=;
+        b=ix7xjlYzUkICjGX8F5TEFdPZm5P1W5iem/v6zcdyTFlpn9DaI3DFMGQ8Y6Z6AkfRBL
+         1BB6yt0LKHwCtvEe746w2zs7dJBrjUVHTP9W/6/+zjvOMJ1VRZMhiA30hpryVdYf3Nnq
+         wYTPlhp9UPNMKIwP8wwxv4TdMF6fLkh/pjgNU05JWi+Mtki6oLPAzlsCJgS0PFJBI4mX
+         z0mVKxia+ot8UKpXip9UVB/x0ipT5EpnoVhC1LifxLuxYiIxz638jDBkYGQp/xyYrFFO
+         NBhfJAn51PKtTUw2jd8MPkjMn8A8vywzLnkn7+a2PcyXI2PYa4hZoR+P0vfpBzl4TwU8
+         ZYFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759824408; x=1760429208;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+DemagZ3lwdnPbdAD7J+Cx+hPerc6FDpVY4UH1BSMao=;
-        b=bFkKZ9Pzva84/T0ba8PNKAkB1PXn26/ek1D79O6SQwhGkbXkd5VNlsZr+LK/2P0j/w
-         Z0iRz0I+YCPXCBUgDjArLaig38mSKxcGuoXrQJz+U+SvRIuHE1YrAVydIhpDY540TFVC
-         24ET7qraJ772AHBe/jdIRPIxmWTjOTUgLmR5we45+dmH6i99NLKWn0KWEnUYj7ihaxaN
-         VoeRTs1iSXFiAbMKRR7AZU/QQMOgKzGHLJYYACctgWv+q5HlNAf8Xtmc03IbUz3jcc+F
-         5UajS5riBTLE7YDCnls9Vcenm58mLunKjH4wwUyBVTz9+HZWhIxTBJ7ZQLz4uiRjak6i
-         28cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXKb3fMiGEuFAfHwwqNq3Ezq67Xr76G6vlfzzIplThWc/QfCW6wpvCr6mR3sd6lY2S6NtY6kl+5FNR/n8sdSArmbfdI3g==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxUdhNMqIYpqPWVZYz4SWCLSiMLBsX7OZbhbR/mCQiiAS6nYHm8
-	RiNES5qhtP1WBSPYpIiPLFr+32QseJDSMvKI1SCCa0FOiVw3s5PfXwaP
-X-Gm-Gg: ASbGncsGsrR9a+0q60dri16SfksJ5Dhj9i7/U2YPv0hGTlyO4gAPwHjVRdduxBGHsQS
-	ZxskwNCKreyOB6B+Oq2PuHTTD7vpekB+TBD+21INqhWQ9pqp3qNc5mFta7UYTy9E3X89ctkOmhD
-	SLtw8gol4NLH0on89Sqn0vGElgei4L7wQBomFoILhwP4URwapVNl2KwBWyL1GZ3QRoFWxxGv9qd
-	6JlPN7r4pnFaODt5qn1tfClW/rFUWFyRF5I6Yva3bUbIwKkCvsryMtfo6SkotlqWCOzLnxee4VD
-	ERz3IzHqh4eI2QEAH/ErLZMqR3Rr8BhF5OA+YRgOI7YewehVawlCkV2xR9m0A59/OWyOOiqBQAG
-	PAuTpjGSubsoFqvV7zelOEuFBK0UbLIqoLSn8Ein9IrqjsuJ8X1mw9sbrSc9vFzh5XkpvKjtS+J
-	I=
-X-Google-Smtp-Source: AGHT+IG7W8TdSh7hajTVSLVxdSS/RLt63cBB9lWB3+Jv1QSy+dF+pbB9sKZOf60r/31B0nPg2XLA7Q==
-X-Received: by 2002:a05:600c:3510:b0:45d:f7df:270b with SMTP id 5b1f17b1804b1-46e710b22c1mr53224255e9.0.1759824407277;
-        Tue, 07 Oct 2025 01:06:47 -0700 (PDT)
-Received: from [192.168.174.116] ([102.155.185.183])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8e9780sm24118374f8f.29.2025.10.07.01.06.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Oct 2025 01:06:46 -0700 (PDT)
-Message-ID: <20f049cc-41f4-4b23-b4a7-5d41dca7c7e5@gmail.com>
-Date: Tue, 7 Oct 2025 09:07:01 +0100
+        d=1e100.net; s=20230601; t=1759825958; x=1760430758;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HprILVmlCINZEM+NQvrClrUcjHEMUlllXqO7BPuLx90=;
+        b=tU6Hjo2psfd37/c3Y9Dj9GE4hxd6PUC7SrGh7mW4L+SyTciauaHEYtPB8oiVU+z6Y2
+         FMTlIy1XyVRmh1IY7cf/xGFsD5rDSovM+MCNqVS6RV1L4xRj3sizOFBMTTxyy87+Cvy+
+         PshwNbpuSVUkdiV/L4VrjQV6iL4N0CPkT1LImqcoV0/wyE7s01YUxUgxfC5P/SC+PP0N
+         rqFIujl3trQft2SERJUYN00shq2/5C1X4ORYHg6n476rmSVz5xo4K5RR3LQBcqneNI63
+         eXEAnuir+9Z1WLFItv4tDQN/BOdlnu2qkna4yVzJyIAxsIGTI/G6vq7JJghPa0nOXh0o
+         8IuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXSTe0UlBF7rhE33czB8Tn1vR0BZzZgJucyYzUcw+/9Kz58WXk1VKfCMEYaD1guhKPzPPz1o7DFu1UEtjEq5y7U52w+GQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwlrXB1c18aGK3Wbap65VC1PM4Nn/hR6uEHjRexXG9yIsP+Hytz
+	GhVfaq9ELm5O5LJ4e+w8M8iiLzdldwspF2OZ5Qh8Os9U0QbuZ/J+3/aP
+X-Gm-Gg: ASbGncsrd2z94vq7mV8uKWuC7T72dwlnBUr9PktlnZJJ1WsaZ1MKsggjYTMpzd7QgL4
+	PkjcdRRzsPkPjh9zAF0tKiqaDjtnZlBDb7uF+nHi7Wos4Qlc7WgLVtfWE6b1PgovD/mMFR/g1CP
+	GPZgTaZMm7KnYAYk9UZ2tgwbT5Bm/6D+UTWmIgegY/2eSpdgi404J5Caf108km9MbGSJawcrMak
+	i6uGeB0so/e1/XfWaONBkhCxdIOu28wQrynuEVp/NazJytFBRDa3jewnNw4vVjfD6xHLQh6LL5b
+	b77BRKDmdBB/+3wG4vl5ufJdctLJKF0VGMq1astsMDXo2s8AD+ox2zq2EyoxEzZs2v7N7AiL6oO
+	nRbT/EtS2u5nSHw3As8PsDtZi+LAVxcDcI4KxSH81ofK7cbmsxQVqanAb+zTl9bTE/g==
+X-Google-Smtp-Source: AGHT+IEQinegNp0eryTjEE/PSB7WT+WxKJi2rEkoILL6p0tSCG8SZofKeGirNv90BH6Yz68RvHxRpw==
+X-Received: by 2002:a17:903:3c25:b0:28e:9427:68f6 with SMTP id d9443c01a7336-28e9a593d32mr183371865ad.27.1759825957801;
+        Tue, 07 Oct 2025 01:32:37 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1d24aesm157032525ad.118.2025.10.07.01.32.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Oct 2025 01:32:37 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: rostedt@goodmis.org,
+	corbet@lwn.net
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] Documentation/rtla: fix htmldocs build error by renaming common_options.rst
+Date: Tue,  7 Oct 2025 14:02:26 +0530
+Message-ID: <20251007083228.17319-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/gud: Use kmalloc_array() instead of kmalloc()
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, mingo@kernel.org, tglx@linutronix.de, jfalempe@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com, rubenru09@aol.com
-References: <20250923085144.22582-1-mehdi.benhadjkhelifa@gmail.com>
- <26036ff3-2374-40a9-8597-271b93130a7e@suse.de>
-Content-Language: en-US
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-In-Reply-To: <26036ff3-2374-40a9-8597-271b93130a7e@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 10/7/25 8:45 AM, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 23.09.25 um 10:51 schrieb Mehdi Ben Hadj Khelifa:
->> Replace kmalloc with kmalloc array in drm/gud/gud_pipe.c since the
->> calculation inside kmalloc is dynamic 'width * height' to avoid
->> overflow.
->>
->> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
->> ---
->> Changelog:
->>
->> Changes since v1:
->> - Use of width as element count and height as size of element to
->> eliminate the mentionned calculation and overflow issues.
->>
->>   drivers/gpu/drm/gud/gud_pipe.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/ 
->> gud_pipe.c
->> index 8d548d08f127..8898dc9393fb 100644
->> --- a/drivers/gpu/drm/gud/gud_pipe.c
->> +++ b/drivers/gpu/drm/gud/gud_pipe.c
->> @@ -70,7 +70,7 @@ static size_t gud_xrgb8888_to_r124(u8 *dst, const 
->> struct drm_format_info *format
->>       height = drm_rect_height(rect);
->>       len = drm_format_info_min_pitch(format, 0, width) * height;
->> -    buf = kmalloc(width * height, GFP_KERNEL);
->> +    buf = kmalloc_array(width, height, GFP_KERNEL);
-> 
-> One nitpick here: the first parameter is the number of elements and the 
-> second parameter is the size of an individual element. [1] So the 
-> arguments 'width' and 'height' should be reversed.  Please resubmit.
-> 
-Understood,I will be sending v3 shortly.
+Running "make htmldocs" generates the following build errors for
+common_options.rst
 
-> Best regards
-> Thomas
-> 
+Documentation/tools/rtla/common_options.rst:58: ERROR: Undefined substitution referenced: "threshold".
+Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "tool".
+Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "thresharg".
+Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "tracer".
+Documentation/tools/rtla/common_options.rst:92: ERROR: Undefined substitution referenced: "tracer".
+Documentation/tools/rtla/common_options.rst:98: ERROR: Undefined substitution referenced: "actionsperf".
+Documentation/tools/rtla/common_options.rst:113: ERROR: Undefined substitution referenced: "tool".
 
-Best Regards,
-Mehdi
+common_options.rst is intended to be included by other rtla documents
+and is not meant to be built as a standalone document. It contains
+substitutions that are only resolved by other documents, so building it
+independently results in 'undefined substitution referenced' errors.
 
-> [1] https://elixir.bootlin.com/linux/v6.17.1/source/tools/include/linux/ 
-> slab.h#L15
-> 
->>       if (!buf)
->>           return 0;
-> 
+Rename common_options.rst to common_options.txt to prevent Sphinx from
+building it as a standalone document and update the include references
+accordingly.
+
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+---
+
+Note: reStructuredText substitutions -
+https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#substitutions
+
+Tested by running "make htmldocs" before and after the change,
+verifying that no substitution errors are generated and the 
+output renders correctly in browsers.
+
+ .../tools/rtla/{common_options.rst => common_options.txt}       | 0
+ Documentation/tools/rtla/rtla-hwnoise.rst                       | 2 +-
+ Documentation/tools/rtla/rtla-osnoise-hist.rst                  | 2 +-
+ Documentation/tools/rtla/rtla-osnoise-top.rst                   | 2 +-
+ Documentation/tools/rtla/rtla-timerlat-hist.rst                 | 2 +-
+ Documentation/tools/rtla/rtla-timerlat-top.rst                  | 2 +-
+ 6 files changed, 5 insertions(+), 5 deletions(-)
+ rename Documentation/tools/rtla/{common_options.rst => common_options.txt} (100%)
+
+diff --git a/Documentation/tools/rtla/common_options.rst b/Documentation/tools/rtla/common_options.txt
+similarity index 100%
+rename from Documentation/tools/rtla/common_options.rst
+rename to Documentation/tools/rtla/common_options.txt
+diff --git a/Documentation/tools/rtla/rtla-hwnoise.rst b/Documentation/tools/rtla/rtla-hwnoise.rst
+index 3a7163c02ac8..cc2721315552 100644
+--- a/Documentation/tools/rtla/rtla-hwnoise.rst
++++ b/Documentation/tools/rtla/rtla-hwnoise.rst
+@@ -33,7 +33,7 @@ OPTIONS
+ 
+ .. include:: common_top_options.rst
+ 
+-.. include:: common_options.rst
++.. include:: common_options.txt
+ 
+ EXAMPLE
+ =======
+diff --git a/Documentation/tools/rtla/rtla-osnoise-hist.rst b/Documentation/tools/rtla/rtla-osnoise-hist.rst
+index 1fc60ef26106..a11c485f127a 100644
+--- a/Documentation/tools/rtla/rtla-osnoise-hist.rst
++++ b/Documentation/tools/rtla/rtla-osnoise-hist.rst
+@@ -28,7 +28,7 @@ OPTIONS
+ 
+ .. include:: common_hist_options.rst
+ 
+-.. include:: common_options.rst
++.. include:: common_options.txt
+ 
+ EXAMPLE
+ =======
+diff --git a/Documentation/tools/rtla/rtla-osnoise-top.rst b/Documentation/tools/rtla/rtla-osnoise-top.rst
+index b1cbd7bcd4ae..c7bc716b2899 100644
+--- a/Documentation/tools/rtla/rtla-osnoise-top.rst
++++ b/Documentation/tools/rtla/rtla-osnoise-top.rst
+@@ -30,7 +30,7 @@ OPTIONS
+ 
+ .. include:: common_top_options.rst
+ 
+-.. include:: common_options.rst
++.. include:: common_options.txt
+ 
+ EXAMPLE
+ =======
+diff --git a/Documentation/tools/rtla/rtla-timerlat-hist.rst b/Documentation/tools/rtla/rtla-timerlat-hist.rst
+index 4923a362129b..547dfc7ace58 100644
+--- a/Documentation/tools/rtla/rtla-timerlat-hist.rst
++++ b/Documentation/tools/rtla/rtla-timerlat-hist.rst
+@@ -29,7 +29,7 @@ OPTIONS
+ 
+ .. include:: common_hist_options.rst
+ 
+-.. include:: common_options.rst
++.. include:: common_options.txt
+ 
+ .. include:: common_timerlat_aa.rst
+ 
+diff --git a/Documentation/tools/rtla/rtla-timerlat-top.rst b/Documentation/tools/rtla/rtla-timerlat-top.rst
+index 50968cdd2095..3740fd386ea8 100644
+--- a/Documentation/tools/rtla/rtla-timerlat-top.rst
++++ b/Documentation/tools/rtla/rtla-timerlat-top.rst
+@@ -30,7 +30,7 @@ OPTIONS
+ 
+ .. include:: common_top_options.rst
+ 
+-.. include:: common_options.rst
++.. include:: common_options.txt
+ 
+ .. include:: common_timerlat_aa.rst
+ 
+-- 
+2.43.0
 
