@@ -1,155 +1,151 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120A12EA16B
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Oct 2025 18:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9B9239573
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Oct 2025 20:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759863378; cv=none; b=JcJlvbTwKMnRxpDF50ZeoZt44SrvCSEBupZx9ZeyViE2EBTpIF9LQY9l99fvCPRGyDf+ZjT5XN/v472T46cEDTXBqFkz//mQJcRYPpG5lGBESdkXmBx1U7Nf1Hg/ynLWQGrEA3XL7auZAUieWm260Nb3M6tEL3GCa5lDTI/85sU=
+	t=1759867568; cv=none; b=UP1VhX9oYaHuHNEPgL8MoWIkt+81wabe98V7VitffVaCHldnvrnJmzNt+yVO/RvSa/wicBn0HziZc+QRw98fooXALpQUnHS6Z1d2jKL3TfkQDdri1G+C4oVVvGFYxYDHXoeKNgGWqZi5+Y9twkNz/ADFY4dXGGjSbqSixEkNVsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759863378; c=relaxed/simple;
-	bh=CloW7FhMBhnWY7ih3iN8vM0ZFn5kYPF7XeKW8uvATJE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D/NKxLzJmn1V3c0prjZM7HD3H+9tPrOnUO7oah4b1FNEOFEMONOGxN3XV9qjhz5a6gwRKlPpkBSWYFMX9rBQNGlrQPYuaIRyF9nuGbm8dtDqAz5Z6gwsaujaj3bN7EuSLMSgD7mM5XCg7YkTTN0NLWBLRmKswxjX5gc2o/HYJDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fFiYq5qx; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759867568; c=relaxed/simple;
+	bh=WJQxWT6wF/jboV9xo52lOonbbR/k8DBgj6cYsM2PTrc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BJHHXq4NaZIoJWODN13JzomYzI3+bk1ZoWQbYfMLDb4R5nPK8HkfP4VsCkHhagiNgI9qdwx6dauBPFvupGjMCV97BtK/t1UK7t6ZMOxWU96/14EhZfVZF454zmg0JPkmeTda53xQvBEqT5rAHj4ens7RZKkrp0WNDrzm6aPDHOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kFNmuCNu; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fFiYq5qx"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b6271ea39f4so4073384a12.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 11:56:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kFNmuCNu"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id C41078110C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Oct 2025 20:06:06 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id nJe0R6QBKPyi for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  7 Oct 2025 20:06:02 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::e2d; helo=mail-vs1-xe2d.google.com; envelope-from=kubik.bartlomiej@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org EA10E81065
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EA10E81065
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kFNmuCNu
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id EA10E81065
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Oct 2025 20:06:01 +0000 (UTC)
+Received: by mail-vs1-xe2d.google.com with SMTP id ada2fe7eead31-5a2b3bb803bso3822693137.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 07 Oct 2025 13:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759863376; x=1760468176; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1759867560; x=1760472360; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fMcgMtnQhy1DPy++ljFQ5B7lhaXeK21GW1cVMqM8xVY=;
-        b=fFiYq5qxrcPwTkABFkwNaWpI9YiRh/nYBK2RILtDyHZTueDE4OwTf0/2z2Nin8fsBv
-         jMupqd/9F5cMMzQb+cEtueittyIY+2+lnmAtMk8Du62W7Py5UGupwjsOwNGJgasbWcIi
-         zK4XMdC3oG/so2LP+jIRxCes/U/MwXJCY2LPiSfYRHNJ0fiS1l4IdYXLy2WN2OoD8KtO
-         hLckMxArnRRXMQVZP3IzZduxgMw+dX2QL1fmiSBktHC/18NeOr6t78uE5KINJYMn+JY/
-         QgZ9zJ+V4WMfVMudoz0ZjsEAfaAzPq4yFwE1rSju09Hm2JoOamjELCvR7WIz4H3Em5Dz
-         JKgg==
+        bh=U4dyxOrFlOFe4U6sjcUwMolCRd6l1aH8+4CTrd86ew0=;
+        b=kFNmuCNudO49m+/5eayUMb+p1nquakREuuWkuU/or7O3NUFFQl14JEixfIQYOxN/kB
+         ubMIQZlkwq2Vs+bpT7I4U/GHrA0poMULix9yk9qt+kKw2ek2muxJWfB5SeiaBRk61Jmz
+         eR5llkAE82H2GT1Zr1/tK3goL9M7zMsq2Z/nVFE548O2zXId1PNv/j/qcEO91SU7a7Rq
+         X+H6s1YMgIKfab4REDrWq4LSrWUiPBJ3PEhU9JHEI9vjssjNo02Wkj6/bQdbMyg1ardd
+         VD1APvLA6mJ2hYFBrtAl+42FJ2QzaxTNBuhgnQEk0SanpiRcvYJV4fhnmZ6LPBLQmDJ1
+         tSxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759863376; x=1760468176;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1759867560; x=1760472360;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fMcgMtnQhy1DPy++ljFQ5B7lhaXeK21GW1cVMqM8xVY=;
-        b=LgRqWyWeywWfFKRVoicOG9pC+6fdcdXChR9XXSpMFQPTphZC5VfzckfQY3ijSIxQ9G
-         EaVFxiQbJkLf5Gpte71hsLkCJGt0R8tjj/CE3ssOeKZzhleZy79Yv+UiBeJJWWiAE3hq
-         84Sxeu6ck7vb6N4gwjWC5dlCVflU+Ru7WRDOKN3DlZNNQP/sNZxGWAQGJZJbkGfysKUD
-         trP5liAbGfjYuXBA88V1Udwgk2flDoRMLebHgF/Whl52Tmsg4OAtjnzB9qIJbJMmXXXG
-         ro/rKcBYu3KGF55CLUIU9clOfC9BZE+N/GAquMVzWp35Zax0QcPjtrQUuI7E8fC0QwBp
-         WcAg==
-X-Forwarded-Encrypted: i=1; AJvYcCXrquFG3qY8ZdpeehkkXJISiXswdqDzF2WTOpo4ZVWZJyeYx64GuQ/Tu8YurSBOvTlv5Ku9vuZZPVfqEB8I//X7TDBRmA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwFVqVTebE/emYAyMP6b8s9PgK3vtk8hmJl1NjuF/sfBD0vt3MI
-	NESnIy3IRjzAc9RyLMfa67PjtEr0AKPm2I9MRQVv+/85DzI8NtNAhmqr
-X-Gm-Gg: ASbGncvcD7uMgTsFnIXkvA0/KTYpR0xoo++A4gHzQYVRoY9Wm38jr1nWi7LPKG99SC2
-	/TP/N209hQrDz7QQ0cwFG+kMUi2Yz127IaIKoqCV6wGQv5J457QX7qPzyrn44+Rg0OUnxxxmqgO
-	oeoemgJkv72dI4IzWVSGvi9I/GVyGq2DsRI/nF/vuq4A2dcAXwSBI8S0iBm2RJAb0vFUZkDFVns
-	iXv+dQ4WPEztJrR6l8fcS5dmF7QUnAAjIrHq81vCF9JLh4xHT6FX0YCqOG23Yhp41wPQOlAEdIc
-	iplCy+XJeUW0oBKTIeqQqPumJ5+veIQDnPKTKBH4qKfYKh55F6fqz6hxufF9AwJo5a0HN/WtmZ9
-	rFCAgMMUr+Nue0SCz2zKnZQesZaRT1dTM70bb8hKHC7ct9Y2Q9tiivoJtpUbg5vKITQ==
-X-Google-Smtp-Source: AGHT+IFcXfO6RvhF3YXlYYvUUUIceGO4XmoS0wX/IMzMllJDL9x+dTFS2NyLyCwMy0EW7eslfVVevA==
-X-Received: by 2002:a17:903:8cc:b0:27d:69cc:990 with SMTP id d9443c01a7336-29027402f43mr9430955ad.49.1759863376259;
-        Tue, 07 Oct 2025 11:56:16 -0700 (PDT)
-Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d110cdfsm173529655ad.13.2025.10.07.11.56.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 11:56:15 -0700 (PDT)
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: rostedt@goodmis.org,
-	corbet@lwn.net
-Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	crwood@redhat.com,
-	tglozar@redhat.com,
-	costa.shul@redhat.com,
-	jkacur@redhat.com,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 8/8] Documentation/rtla: rename common_osnoise_options.rst
-Date: Wed,  8 Oct 2025 00:24:57 +0530
-Message-ID: <20251007185508.40908-9-krishnagopi487@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251007185508.40908-1-krishnagopi487@gmail.com>
-References: <aOUMyGvkibvOV0IS@archie.me>
- <20251007185508.40908-1-krishnagopi487@gmail.com>
+        bh=U4dyxOrFlOFe4U6sjcUwMolCRd6l1aH8+4CTrd86ew0=;
+        b=vO4KLzupyo1qBcN91iee8rQ/0DnUcEQC9PPvUsRj1/ifXLUHwY2dVXAS9Mx0VRibhV
+         aEsWILJ9yLgnms6k/xh5ijE3mBi6qlkVDAOmnrAMK1i2CJztmkJLnlvS3tViExh1MK3O
+         AWpeC/jm64bCdf1e7GT2iaMb4Jjpw4zWJW53BJEkDztMZU+sVJ+djBVxIlApnTJDTo5r
+         ljYV43952Pm56XJEcEasJeJgtBZ5lGXjyngOqi+dsJCnLrFsAidnne9INu80vVuEvM49
+         zOlyHWPkjOesGi9hSZgiKJBq0LIWoOoHbUzksfvNZuCeDWhF3PGNXpd5FV40jWGervGk
+         MwlA==
+X-Forwarded-Encrypted: i=1; AJvYcCWaxGmsWyEX3owHGsvudy7H//E9Kw4WWKenyKAodHSPbS3eJYTYISiAKeR10Ai0rNB/HGqx7Y2KKyQCZXYN397IjdMtxQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxlEkR21FRjK3bj1XKEpr28MP5ETQYzfIUZNocSZz6Xr6lvf6qq
+	StK/jZzj3qF3IEI8HQmnLZlIYrG6Pkn1i7hkuNZTOZ6xgMWHa2IJrqZC5lJHblc1Q94XrCLOBRd
+	qJ2QEkJCBimwQOIUUGZX4Btte6IietF8=
+X-Gm-Gg: ASbGnctEqzZ0zI+OTPo28w2KwuU+T0vFdpIFlpoU6TDrf8FhQPfZ8JrtEqdvr58XUnk
+	Yh2+F41qDq4kDlO0ni9iqtZZyIT6dLzEzPSMX24FteXlJL89Ojx/OEEJzmS77foz+P2VofvnjsS
+	8qEde+8qXx+LjRRG/H/UUMgqusFF2WTDh5JQb4c/xH/V65iV08d68C9e07i+lXDzO2pyLN6EjMq
+	ZZJbIzcypI17DMEHwqLVZg/PSoxDauI
+X-Google-Smtp-Source: AGHT+IGITUrI/yR5IXL/mFkjQlTlGUw1hLwC1/R6yICe1J0nVa6DcOEdCLR2qa/KmQF3kTfOkWB+cDAc8og/Pna9xpA=
+X-Received: by 2002:a05:6102:32c6:b0:5a4:69bc:a9e with SMTP id
+ ada2fe7eead31-5d5e2347589mr387386137.22.1759867560499; Tue, 07 Oct 2025
+ 13:06:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251002063038.552399-1-kubik.bartlomiej@gmail.com> <yq1frbvforp.fsf@ca-mkp.ca.oracle.com>
+In-Reply-To: <yq1frbvforp.fsf@ca-mkp.ca.oracle.com>
+From: =?UTF-8?Q?Bart=C5=82omiej_Kubik?= <kubik.bartlomiej@gmail.com>
+Date: Tue, 7 Oct 2025 22:05:49 +0200
+X-Gm-Features: AS18NWAPKi7YsXhdeE2n6LOH1QCmcymNQDYp9uK4Va4qllY1OBre7oyhLDjL8DI
+Message-ID: <CAPqLRf1GAFR=JAo8yuPZ5XRH2aXJrTk=_b78SUqw0jbv+9hLwQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND] driver/scsi/mpi3mr.h: Fix build warning for mpi3mr_start_watchdog
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: sathya.prakash@broadcom.com, kashyap.desai@broadcom.com, 
+	sumit.saxena@broadcom.com, sreekanth.reddy@broadcom.com, 
+	James.Bottomley@hansenpartnership.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
+	linux-scsi@vger.kernel.org, skhan@linuxfoundation.org, 
+	david.hunter.linux@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-common_osnoise_options.rst is intended to be included by other rtla
-documents and is not meant to be built as a standalone document.
+Hi Martin,
 
-Rename common_osnoise_options.rst to common_osnoise_options.txt to
-maintain consistency with other common_*.txt files and prevent Sphinx
-from building it as a standalone document. Update all include references
-accordingly.
+On Tue, 7 Oct 2025 at 04:25, Martin K. Petersen
+<martin.petersen@oracle.com> wrote:
+>
+>
+> Hi Bartlomiej!
+>
+> > Fix watchdog name truncation.
+> >
+> > In function mpi3mr_start_watchdog, watchdog_work_q_name is build
+> > snprintf(mrioc->watchdog_work_q_name,
+> >       sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name=
+,
+> >       mrioc->id);
+>
+> > +#define MPI3MR_WATCHDOG_NAME_LENGTH  (MPI3MR_NAME_LENGTH + 15)
+>
+> Please document why 15 is the correct number and describe the code path
+> which leads to the watchdog name being truncated.
+>
+> Also (and I guess this is a question for Broadcom since I don't have any
+> mpi3mr hardware so I can't check), as far as I can tell, mrioc->name
+> already includes mrioc->id so the id will be listed twice in the
+> watchdog name? Or am I missing something?
+>
+> --
+> Martin K. Petersen
 
-Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
----
- .../{common_osnoise_options.rst => common_osnoise_options.txt}  | 0
- Documentation/tools/rtla/rtla-hwnoise.rst                       | 2 +-
- Documentation/tools/rtla/rtla-osnoise-hist.rst                  | 2 +-
- Documentation/tools/rtla/rtla-osnoise-top.rst                   | 2 +-
- 4 files changed, 3 insertions(+), 3 deletions(-)
- rename Documentation/tools/rtla/{common_osnoise_options.rst => common_osnoise_options.txt} (100%)
+GCC warn:
+drivers/scsi/mpi3mr/mpi3mr_fw.c:2872:60: warning: =E2=80=98%s=E2=80=99 dire=
+ctive
+output may be truncated writing up to 63 bytes into a region of size
+41 [-Wformat-truncation=3D]
 
-diff --git a/Documentation/tools/rtla/common_osnoise_options.rst b/Documentation/tools/rtla/common_osnoise_options.txt
-similarity index 100%
-rename from Documentation/tools/rtla/common_osnoise_options.rst
-rename to Documentation/tools/rtla/common_osnoise_options.txt
-diff --git a/Documentation/tools/rtla/rtla-hwnoise.rst b/Documentation/tools/rtla/rtla-hwnoise.rst
-index 60a237de1e2d..26512b15fe7b 100644
---- a/Documentation/tools/rtla/rtla-hwnoise.rst
-+++ b/Documentation/tools/rtla/rtla-hwnoise.rst
-@@ -29,7 +29,7 @@ collection of the tracer output.
- 
- OPTIONS
- =======
--.. include:: common_osnoise_options.rst
-+.. include:: common_osnoise_options.txt
- 
- .. include:: common_top_options.txt
- 
-diff --git a/Documentation/tools/rtla/rtla-osnoise-hist.rst b/Documentation/tools/rtla/rtla-osnoise-hist.rst
-index 55616085275e..007521c865d9 100644
---- a/Documentation/tools/rtla/rtla-osnoise-hist.rst
-+++ b/Documentation/tools/rtla/rtla-osnoise-hist.rst
-@@ -24,7 +24,7 @@ collection of the tracer output.
- 
- OPTIONS
- =======
--.. include:: common_osnoise_options.rst
-+.. include:: common_osnoise_options.txt
- 
- .. include:: common_hist_options.txt
- 
-diff --git a/Documentation/tools/rtla/rtla-osnoise-top.rst b/Documentation/tools/rtla/rtla-osnoise-top.rst
-index 8a852949df21..6ccadae38945 100644
---- a/Documentation/tools/rtla/rtla-osnoise-top.rst
-+++ b/Documentation/tools/rtla/rtla-osnoise-top.rst
-@@ -26,7 +26,7 @@ collection of the tracer output.
- 
- OPTIONS
- =======
--.. include:: common_osnoise_options.rst
-+.. include:: common_osnoise_options.txt
- 
- .. include:: common_top_options.txt
- 
--- 
-2.43.0
+In function mpi3mr_start_watchdog:
 
+The mrioc->watchdog_work_q_name is built from the string "watchdog_" +
+mrioc->name[64] and + mrioc->id.
+Currently snprintf(...) will truncate this string to size
+watchdog_work_q_name[50].
+
+I changed watchdog_work_q_name size to:
+-> "watchdog_" are 9 characters.
+-> mrioc->name[64] up to 64 characters.
+-> mrioc->id is u8 value, 3 characters.
+-> plus three extra characters for safety.
+
+Yes, as you suggested, mrioc->id is currently appended twice to the
+watchdog_work_q_name, which is unnecessary and makes it harder to
+read. I will prepare patch v2 to remove the second occurrence of
+mrioc->id from watchdog_work_q_name.
+
+Best regards
+Bart=C5=82omiej Kubik
