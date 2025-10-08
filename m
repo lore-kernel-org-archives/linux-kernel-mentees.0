@@ -1,121 +1,112 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5E31DEFE8
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  8 Oct 2025 00:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFDA29D294
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  8 Oct 2025 03:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759882276; cv=none; b=d8DNCAMbL1zHEDevA1dDoUP/BIg8bNa9UB453qwHhQsdlAwkDIj0WK65YRyTYfmgmimHiaOBnvdGqKZR9IRfahYkF7ZkXty1Uq0bSeIztkqMbSpRymuXpy6K/n2V/hECQUTWdb1FMe+cHI3e2MijHlRxd/Mb9JMovobLAa2dx7A=
+	t=1759893483; cv=none; b=EcvFauTVl0ci94a2Cvq+HhVRm2iOXQnyvfws38+kq0Vav6lcDFIJTYPugpJ9CQnmayAare7mtoiHfO8KsVLe6ikADdY7cB3KF0eESMOmZwpC3Ar35TM6ybLXuLsCLvy1+R2HyUfZsXQ6UFgqUQEnAPcSZ8VGsCTL11gjXn+MLAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759882276; c=relaxed/simple;
-	bh=ZIJx91VEzutYWV6rmjWMuQo94kEzRhO28O6Sss2x0vY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p8jxnPJ3gnFCTdzizosUAYgxl0zbCehyMhqdjg/qe2mYHJp06WBct4nfaOKXXRY6YkHC1CmiAUQxI2CTffib1bzuUe2TUg3A+U9AlPbjf+Q1rt0xkIB5lWXPCZeJxbqDEmJBvanHj6kisx4ZzhAIaVFOirLuzHfyPfP898B3lzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NT1ZKSEb; arc=none smtp.client-ip=209.85.210.177
+	s=arc-20240116; t=1759893483; c=relaxed/simple;
+	bh=fIWRrEbesPeIWiQ6eMVMhIFPJ5Vl3n8thvPxlDqtswg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TeNfVvNBmCcsM3QQJHAkS53tXOHso4ZndFjR4HupfJJykUYGjU9Orn5OZVd3bVIs2ItNVo0B0HuIiRkpqQWjgbpMCskVcOfN8ICOnXw1WMeHmACnkdNo54WX6OKWq6CQOz0cTaaAR/jwLLDBjQygKkTXpf1N0PhhfGkjtV+aDL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ww142fP6; arc=none smtp.client-ip=209.85.216.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NT1ZKSEb"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so363807b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 17:11:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ww142fP6"
+Received: by mail-pj1-f66.google.com with SMTP id 98e67ed59e1d1-3324523dfb2so6217564a91.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 20:18:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759882274; x=1760487074; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZIJx91VEzutYWV6rmjWMuQo94kEzRhO28O6Sss2x0vY=;
-        b=NT1ZKSEb37iS8PM6JfEpFMmdG0etn+7KgmYEHGAFGpfkvNZIYn83MzblF1XCYYVKg9
-         fbLu7Qmvm4YPclNwzgJDDemDbHlL0Ra8VLJzHcROtGFvAPjLemnpJiyyMUk0XWUdsPDo
-         eH5JKJ4B3YpuM/oZXa/0oEbCVYMVosOEuuDIZaeeJAqmpHIbvhN9kiXzZXxduMo/lE2c
-         sAaXKM6wXhophd+ee5wgPj+j1DMvOxhcCzt1B8nQpk4MCiNmHbIi8X1TgFhOVOV52IOv
-         r+3FtwQ75itesKS/tw1EuMg6wV+u+eJ8EAKxUHjtHAf/1To3DeoB9mfAqSrMc01W9iYb
-         rBtg==
+        d=gmail.com; s=20230601; t=1759893481; x=1760498281; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZUBWpVB64KIAGGN3DNkFK9HbyeXvjuC9xFABF4qCWPQ=;
+        b=Ww142fP6fhxI+RCAFRVBgsn0PUXtzqEA9N6cYeaeZk38BCTnekUFE2opOVYciSKmHu
+         YoOs7h2QzqipvuQ9wszbBAfvpZwzteuGm5SmTS8TyCsSw+FjmtT4QlPSQYRVUCK2Flfj
+         UjSSBwvYC0CLQctaFFNi4py/3tbMvFwvE+4Y454CJU8uY6vnLsBy5q+EsLR/MOVLuoeT
+         NC4KJoo8pQ5YcPpfutaO0tF2wFUTeSMJDN7O8mHAsfJsdB7hNnWcv9PhDbZSFvl7Joui
+         BNkKANSIxgeaODFhKhXH8CJ+4Yepk94ujVdmJqV1XV4KYMPnJwCXrQ2MTDZ+ZXfuVgQg
+         pAYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759882274; x=1760487074;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZIJx91VEzutYWV6rmjWMuQo94kEzRhO28O6Sss2x0vY=;
-        b=JPKRiAP1bVdTg21RfblyagWBt7m19C6Nbv/zDUazo71wgzlZ0sc8XZtsuPudtrDBsD
-         ytImEBlk0CwrYu3EngECethokgjab1utyDmdFrB4sPKJOIjhPma6IBFjMzLybx/QMHUn
-         DMiYBj1vqPPoHFar1u8pfQztK129VAiQmy3aVIRfbe/k6hO61muyPOmLMc24qbZjwPx9
-         zg5CYMQia2h1Om4jNNioiXSNjP0DMYF5r44YLn49cJva0EaEJ0DC45KFGh1C6bMFtxyG
-         TyBoNQBa0TDbtVC63gb30ouwf6dyx4rq9rYOH6IChqP72G3qcvXTMzO5DzV9PuAJx9pM
-         fvHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWc8455gaSKdHI+Z1B/M9T+wbx6L1FJRsAY8GuXbr6Hzg5OTK2EVjaWRTyoltuwEIaibvS04foa+67KSD3f0doPrnQtHA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVedHH3x1sqXKwQzOM2lb41ll/1NGkPK7dhtA3a/WACQQ6cye1
-	xhr6VbGzeXbiCY+Ns7mCOgAICGFvA9JMfnKN6Qk1qL0qOGRs83HjsfL4
-X-Gm-Gg: ASbGncsOswp0rEY6AxZawlLqBahxSVPdkzuDbV46dFJ9eJE2IKWjsrfM9LuQKY6lGwW
-	hyFcqJ+qneEvm9s/4b+LLqu2YSHRlfIq8Q0qOXl7bFFrMVXVHWiLeJ0g0pnEgColqZpk7V/TmGV
-	RLZLFyOSTDLZQugj1v3kZ1slB7ej7fPRnKeJ7PkAbI7vUP9jJcCDx2hJKHh0332ejAE6nURugqH
-	4CVpIJkCNyyIRwIxIUm4jW0nbyW+0mxUPfarXasHskxM94lUt0beNIwoBq8+1fRaEc/IGNpzaMa
-	ZEEe2AGpsnEzo8FNpLx5JM7RYeKlaHqbJIilTaadgPgaA1AQJ1UBg085r+947jyoaD2t81NTYEV
-	bKRyqJwahGQtZcA/vEcCRnULTMzJkMJWnWO0OPnX/7EhPvSmpsA==
-X-Google-Smtp-Source: AGHT+IFW3sow5y/lVKkATKYFm04W7RgDI6fSuHLvh6sjhQYKQ7ak+ZYw+RTchKbkNXukK9zwt+mgiA==
-X-Received: by 2002:a05:6a20:3d1c:b0:23d:45b2:8e3c with SMTP id adf61e73a8af0-32da8df23aemr1423045637.6.1759882274312;
-        Tue, 07 Oct 2025 17:11:14 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b01f9dcb3sm16910186b3a.11.2025.10.07.17.11.12
+        d=1e100.net; s=20230601; t=1759893481; x=1760498281;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZUBWpVB64KIAGGN3DNkFK9HbyeXvjuC9xFABF4qCWPQ=;
+        b=Qovj6oOXvxxUU8Zg2clrjmEBcp9P+9tKwzH+m/2U161qHy+Tjo2TyDcyEuvL1OGFwB
+         9QhadWyTM3fcFhWcEj9ms4DANR+YD/kNSPKnUxFcN+FQdjACBDEr81KM7TiFX+W6TaFp
+         Fdb8lvUbwMmyL5pXzkqR2YObC1nLgcWDnAk929yPcPlxMAC9OXNciQF6PekHyUg71Eao
+         ZdKRMaznolzJryAuSn4qyQH2hqama7iPh4nroAL1gCHZVR626VzjGa+HMiyPgYyrfEp7
+         TW+iTj0y62fxLrNBqB8gT68xaFtL4ypaF5aE10O6TBeACW0hHccWNHe9Pl9BKgOaYDsD
+         g7HA==
+X-Forwarded-Encrypted: i=1; AJvYcCXhbd1jq+alWTmCr63NYzGuOD/54Ja77vi6wxkD0RLhQoiQ+KU5x7TM7kwjBx4XzYRQgmdKnEMot5VKGcvH54S93ihrUw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAZa7hiVWvH+Ejeb5PFOlACwEtjmZFMIhC1957PAXW6fKiAPuE
+	/+ClwLE8022wvAAa0gfVdsrAac59uGbOCwLzTFbOKzytpYSX/SejXHwI
+X-Gm-Gg: ASbGnctPKBkzAR4bGQQwqhCn4SGfcIUd/1Ng2D/Pa0I01O30XWT3QCu+l3Ksd5O798f
+	CW8v3iuE5MAucHMZEyMSkrJtDFf84t2OYvrGSJcjOsMCiz7r+Z+ureOq6nus6EjuP6RCmO2NLhL
+	kKtkQcfmTudDv3D4XYEib7dz4DClKS/iUPBnqMbQM5jVtg96zR3MZXKL84RGv3hlkO4LnsyEbMn
+	RBEeRpOYH4ijIAs4FMUMYKXauTN4aN09xZ/kjT/1gkGit9SHtefEvEe5GEY2/VJx72wWynVszU6
+	rU+IVk+8gdn8ACBux2ITCoTgbLwv2mhv/DxGx4i1Juc55YbSHMjeT8vCKv2P61p8lQ5ZfgAW2kW
+	4K4TI6dSbkUKicKAnKrIFqAwDRKcj+wo/zRROJ5BfWCALvmIFrQ==
+X-Google-Smtp-Source: AGHT+IFbdt9o4+B6JZ8AWtV8URWuFR7skbc+7Fl9EFjuHuykYyJ4lLgk47E5Wl6/dwG7ikfSKtGBqA==
+X-Received: by 2002:a17:90b:1c81:b0:330:7a11:f111 with SMTP id 98e67ed59e1d1-33b513be2c9mr2208816a91.35.1759893480753;
+        Tue, 07 Oct 2025 20:18:00 -0700 (PDT)
+Received: from Ubuntu24.. ([103.187.64.31])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6099f5990csm16527746a12.38.2025.10.07.20.17.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 17:11:13 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id A0A074233430; Wed, 08 Oct 2025 07:11:11 +0700 (WIB)
-Date: Wed, 8 Oct 2025 07:11:11 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Gopi Krishna Menon <krishnagopi487@gmail.com>, rostedt@goodmis.org,
-	corbet@lwn.net
-Cc: linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com, khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev, crwood@redhat.com,
-	tglozar@redhat.com, costa.shul@redhat.com, jkacur@redhat.com
-Subject: Re: [PATCH 8/8] Documentation/rtla: rename common_osnoise_options.rst
-Message-ID: <aOWsH5Lgra60g9-k@archie.me>
-References: <aOUMyGvkibvOV0IS@archie.me>
- <20251007185508.40908-1-krishnagopi487@gmail.com>
- <20251007185508.40908-9-krishnagopi487@gmail.com>
+        Tue, 07 Oct 2025 20:18:00 -0700 (PDT)
+From: Shrikant Raskar <raskar.shree97@gmail.com>
+To: jic23@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	matt@ranostay.sg,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Shrikant Raskar <raskar.shree97@gmail.com>
+Subject: [PATCH v2 0/2] iio: health: max30100: Add DT pulse-width support
+Date: Wed,  8 Oct 2025 08:47:35 +0530
+Message-ID: <20251008031737.7321-1-raskar.shree97@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="W+2lsue7TXY5gcQ4"
-Content-Disposition: inline
-In-Reply-To: <20251007185508.40908-9-krishnagopi487@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+Add support for configuring the LED pulse width of the
+MAX30100 sensor via a device tree property.
 
---W+2lsue7TXY5gcQ4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v2 changes:
+dt-bindings: iio: max30100: Add pulse-width property:
+  Add unit suffix (-microseconds)
+  Drop redundant description
+iio: health: max30100: Add pulse-width configuration via DT:
+  Improve default handling
+  Used FIELD_PREP() for pulse width
+  Use dev_err_probe() for error reporting
+  Fix signedness issue
 
-On Wed, Oct 08, 2025 at 12:24:57AM +0530, Gopi Krishna Menon wrote:
-> common_osnoise_options.rst is intended to be included by other rtla
-> documents and is not meant to be built as a standalone document.
->=20
-> Rename common_osnoise_options.rst to common_osnoise_options.txt to
-> maintain consistency with other common_*.txt files and prevent Sphinx
-> from building it as a standalone document. Update all include references
-> accordingly.
->=20
+Tested on: Raspberry Pi 3B + MAX30100 breakout
 
-LGTM, thanks!
+Shrikant Raskar (2):
+  dt-bindings: iio: max30100: Add pulse-width property
+  iio: health: max30100: Add pulse-width configuration via DT
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+ .../bindings/iio/health/maxim,max30100.yaml   |  6 ++++
+ drivers/iio/health/max30100.c                 | 35 +++++++++++++++++--
+ 2 files changed, 39 insertions(+), 2 deletions(-)
 
---=20
-An old man doll... just what I always wanted! - Clara
+-- 
+2.43.0
 
---W+2lsue7TXY5gcQ4
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaOWsHwAKCRD2uYlJVVFO
-o7BjAQDfo1t5Lr12kg1pMMFioSkS+Xkr4egh4nTgsiztQ9ybyAEAnvnzwOgWbSWl
-t5mwwHHqH9/4f2X5NKq6K97vtzUEKAU=
-=VmlC
------END PGP SIGNATURE-----
-
---W+2lsue7TXY5gcQ4--
