@@ -1,93 +1,94 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF681E5B64
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Oct 2025 17:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8266C28DF33
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Oct 2025 17:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759943788; cv=none; b=Doziaky2FkcrRHZPtQUkFmnzF3sIdocsAgTXHgwiYf280IM90Kz0XqbloufusRl6QYwURYLZeFDNmE+aAGxoedSQPMF6swW2XbxmpogrNpPerU91Swsxh48wizTSjeO9STri56E2Zn4XabNCDHbqmDeTSZmcx0/c9tIIxfZ1x7s=
+	t=1759944333; cv=none; b=pYJb0XZ5Nh7SKU7WuFlJb0+1kqb4d/z/CU8np9+GQZ9+w2/Kp0yvdSCP8crSIqPTeZL0WKB4n+xygyaVICcFWYZ8yIA0tqJWXqfxcX31dnga4B7muGpdov+v162ZjyowfGFVxVZrI73ioAJqgC7Hv/wDoREkvY3vHqh9q7inRSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759943788; c=relaxed/simple;
-	bh=lSbsnp+f2ZfbNqP91vjR5Xj3Tii7DpPF2a5DI6ln/qI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AjbcQ9nKLLrTrooI2J5P0wFeZ4sBO2ELMEC4zJWOaEBDsJtzEd+Vb0yVIoFUGyOBFhVK1Up4X3KZcCtaH+rpMP4+/EKUqOf/cPM+Zz1UVIjGW5LULW+TGpAKnL2oWbC331bhD7/+WOtu/soPqcd1Nlb4lYCO4hc1KPrAhkskwVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oe00uoeM; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1759944333; c=relaxed/simple;
+	bh=OBWc87pQeSBPnNP9Y6+pBUc5uvdElUQm6oastV3iVD0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XSZUXheiZoSybCnbGQ25RV9bv3iEw9l3W/Mzt1WG8EmGnR5hEeLAfNQjYlGoCBjQvUYN0ZaUdwtmHVTnWZTcVEYAbHlHGuxyfod3pIutxYsYAd47gig0PpuD0BPiKeVwQQ1JDQ1FA6icmygxCAnzTO6LSc0QPn+Y8Ut9XuQoCHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FDnTXlXl; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oe00uoeM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FDnTXlXl"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id F0BAE404E5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Oct 2025 17:16:26 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 10C0240B1A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Oct 2025 17:25:32 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id zFdWUeYJ84fL for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  8 Oct 2025 17:16:26 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::434; helo=mail-pf1-x434.google.com; envelope-from=vnranganath.20@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 2C4A0404D3
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2C4A0404D3
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Oe00uoeM
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 2C4A0404D3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Oct 2025 17:16:25 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-789b93e9971so7488b3a.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 08 Oct 2025 10:16:25 -0700 (PDT)
+X-Spam-Score: 1.236
+X-Spam-Level: *
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 1j4VZGm2C3GE for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  8 Oct 2025 17:25:31 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::641; helo=mail-pl1-x641.google.com; envelope-from=ankitkhushwaha.linux@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 37CC440AF6
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 37CC440AF6
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FDnTXlXl
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 37CC440AF6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Oct 2025 17:25:31 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id d9443c01a7336-27edcbbe7bfso928615ad.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 08 Oct 2025 10:25:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759943785; x=1760548585; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1759944330; x=1760549130; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cRuhYvqTv2rk1I3xV6eqvp2KxFVEUhGvlADpHk6TzHE=;
-        b=Oe00uoeMSaJcyjCOHTGHuwAy8SBI2pDwv4E0X//P3snmD/ARKCgwlYrGXgveDxXJKF
-         8DTPU7WFEXIBBJ2HgYO4NOn2rtoEd+g/N7cPMDML6XxYImeoN4dwmMOWehYn1HhsXNkp
-         mvY6KI3cWtbNAUCJBW4TiRaCP5L93TfKaVedSTQ39eB01pZrzCGG/k6QB/OWoHcIHmgn
-         TQlOMK+JbRAYYPkcVmR5CzbsidF9puKhT7Fhz3Jnx8IandayLlNbljcltc33hND+3IG1
-         16oY6KhHSh0DErIDwpvtspRPHL81bS3JVGGnHecOgOs1ICQ7UKvd+/8fWm+9liKCJ0p8
-         z6Bg==
+        bh=41XZ0Nc+5i1FOapXe9kYQ/jcLvjFNXLmKvQlP4jYRDA=;
+        b=FDnTXlXlpmQXCs6kuE6GNXYBAvl3Xx5hsTBgHQ6f0G7CgWAD0BV38qQ/WU0NumMB2R
+         q4v7jXAVEavE6kftbRH9RdcqlLXYuaEdVtZksNGn3OFbFUBtlV4SsY28WYWePNtFEgWW
+         xJ5cYlqd9eLKubJRlplrsCRjXpY9+98m3VTaqF9Bg43T+PgObm9u18k7FG4F4RABCfjd
+         MX23WXpikrJV8DFvB6aGQ5/89bMXvq2sMo019CM8upQpernguP1jGYILXLEkxkkZl3m4
+         ejK2TS+6thoe7uIy+wi5Rc5J/x0XLaElkikPAdi9Div2OwMVXbel0gkQGho70vz25ZCv
+         XO9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759943785; x=1760548585;
+        d=1e100.net; s=20230601; t=1759944330; x=1760549130;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cRuhYvqTv2rk1I3xV6eqvp2KxFVEUhGvlADpHk6TzHE=;
-        b=Xe3j8xI9IrwuWwJ6QKWHzCRArZx7+wtyvvA97pN0bYy68de0sUnmNOL5NXk38Cxfnx
-         RsEPkiqUlYdM6vPuCRBj5INO1+4ngtMJd+dA9Z/5uaJd3VnsQO+6NBb3wPuyJUDFKpGp
-         72fNb/uajukseLMYd2+OvoroWZoFYaegt8Tz6JOy7wxAyN3UkLn/Db99tgq0HXRQACr4
-         cy76NqW7y6VtW6o2zS2+s8kbC9HaNFmqBMMbfwwMr1tiGX/ANVAHwXx16GuUsPsBQNGd
-         5XPFRaqVhcUzVW3chSetWRqC/J+6v6/ZJw0YUyEceYZsQeJJ4pOFQzr0LMqPuDzNYF6V
-         smKw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/M0CyGBMsZvUwbAqHti4OR3OBFELL8MGR8OOeGdPp9oKrdDXII4ViBgWU26u9vgimxw9+UXAyOnH9W83A8uXkRG8MJw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyaXdwoIpwMPzikrzWouvhwdiUvXUMaRlYxwV8bMUJhtadWQGK/
-	lOhmtf5KCZf1ee1SvLrT2Gqr4m/SOhlP6bQ+crk6Qh5LT6sf2XKBZOXU
-X-Gm-Gg: ASbGncuDbUZDYmXL524aAs++I29+u0cddXUN3FLBgVxhLk8BR++ODMF0w5rt+K/8sOv
-	O8SUPei6DQMAXG/vKpdasiFylUWx5qG4JLKlOadW5qTF4jAajro/WwgguNKxJGPdBFx7+M7kKHg
-	pcpgcvRx9Pwy5L3KqN/VglMjxP6JKN8CqJq0OezTtipg2tqz42/FlT43mJwJbDoGrt7XMVzOlkl
-	kh4kbT6WboUDDpk9dmKkn4jrDeJ1mbm5G3+3mx8l3MKvsSraRsEfsLIKhoeeG1qr55q44o2eq/h
-	7tL159IHNHYCsAVownzKuvPUzMyDaprJC2Xuop0GNwQwYu6XqqMahJ/zlTkmJAzK29wjFfUd950
-	nq5X5dFYmGe0QywxtfJYWwRxdlBB6T/kALHva0FBgSmn8VS1Lhca3CJ8=
-X-Google-Smtp-Source: AGHT+IF2nVVJlk3OrgRyN8xpfnM0xEdDzSAX/mSWj64B8OkEIb0ZOfOvsN//kU9EW5Q2GLoooQcakA==
-X-Received: by 2002:a05:6a00:3e21:b0:776:19f6:5d3d with SMTP id d2e1a72fcca58-79385513828mr2844390b3a.2.1759943785168;
-        Wed, 08 Oct 2025 10:16:25 -0700 (PDT)
-Received: from ranganath.. ([2406:7400:98:ffd0:1e7c:66e7:2459:3ac2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-794e2a4cb5asm261881b3a.71.2025.10.08.10.16.22
+        bh=41XZ0Nc+5i1FOapXe9kYQ/jcLvjFNXLmKvQlP4jYRDA=;
+        b=s2BCPCXJly77iWM8jkqtA3jYelLCLcPmxlBw/eIoI4QLgjphDH4Jfr34SXGbAm90t5
+         12depWvDNIcvVZtP3bLTcrmiyxiUIJH5bze8lBz6k281PP9IofXVtegS/U7C5EXq4+22
+         eYEfAePqmhnO/FZhR4fhsIRw+p9Jy3fMhPkSWyWQWm+kHpv4pHvTunyWsDiiSl5MogtV
+         ni3GK1EJPoPG3/G4dlh+nSAWXdyefArqv2A88y8P3BldHq752GUTr9ys//5/7XGHQG22
+         ys18ROPQdQY61Lw8hMW237V00f+lpeiUpusM9aRCDjnTdvZ2nkmGbXY+w+U3rUv3X47Z
+         2MtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8nplV+cK7rEneG/8fbs+34aTDJZWPOX6UIOUb4X8tDdf+HtNxyCfxuvWeNIhBCw8np++QpX9ZWJ92WbvXCJIdzsW0dQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyQCMmHtSBw2tl30zJ3yiPKx/qMdHi617NCVgV3tBhxGpj8qHzI
+	uE9XW6BOw4lLuzbOVCRkoTCYbFLaRPByDsMZcKZGFxSgqmpMSybiewLx
+X-Gm-Gg: ASbGnctYhEc3duUqx1SJxyI+DkKYLMCRfNdzif6XhdbS3E839rZI373iZ9ijltPUN4K
+	Ap9tJrW6rU9/hGsHn/5IGiiM36JcFqJP6pXVWexLWh+kDb3aUQHjkxOPkcNGX+yPkokq/RcApwg
+	9JFC9vgYt3wkf4NWEZljH8FlJVDwZ0GJ9G2eW7CgasZx7sKeCMY+XwavJ2lAfhfJQoTCZDphGPa
+	T8Qgt9nFnRToXKoCj2pepDVRfZOkp3uf4EsuzlWh2KmkbF32IiXglPmsmbVz7ynKvK2qsl5oh3G
+	YuQ9JCT/XJSJvJ/9b7+k0rmaLW7/MTwbcA5isRy+DfR28lKQ8k0Ugw0HF5BL9SsjSREw8AOxX9j
+	3X/hhKBjpe9lDj1tvqeo8vwFftp5l7JiEXsZYet4ijUd162C7mYQYyc17z6QUTT6Nbw==
+X-Google-Smtp-Source: AGHT+IElTiSwjjSnRQ2YldSSmOA7Pun5HHGSGRiphAnOm/twua0zyVb25UTGjox4glkPR20eg3ChWw==
+X-Received: by 2002:a17:903:3c30:b0:270:ea84:324a with SMTP id d9443c01a7336-290272c1898mr58357555ad.38.1759944330387;
+        Wed, 08 Oct 2025 10:25:30 -0700 (PDT)
+Received: from fedora ([103.120.31.122])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034e2062fsm3039115ad.48.2025.10.08.10.25.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Oct 2025 10:16:24 -0700 (PDT)
-From: Ranganath V N <vnranganath.20@gmail.com>
-To: tytso@mit.edu,
-	adilger.kernel@dilger.ca
-Cc: linux-ext4@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
+        Wed, 08 Oct 2025 10:25:30 -0700 (PDT)
+From: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: david.hunter.linux@gmail.com,
 	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	Ranganath V N <vnranganath.20@gmail.com>
-Subject: [PATCH] fs: ext4: fix uninitialized symbols
-Date: Wed,  8 Oct 2025 22:46:13 +0530
-Message-ID: <20251008171614.12129-1-vnranganath.20@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>,
+	syzbot+ddc001b92c083dbf2b97@syzkaller.appspotmail.com
+Subject: [PATCH v2] ring buffer: Propagate __rb_map_vma return value to caller
+Date: Wed,  8 Oct 2025 22:55:16 +0530
+Message-ID: <20251008172516.20697-1-ankitkhushwaha.linux@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -96,86 +97,36 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix the issue detected by the smatch tool.
+The return value from `__rb_map_vma()`, which rejects writable or
+executable mappings (VM_WRITE, VM_EXEC, or !VM_MAYSHARE), was being
+ignored. As a result the caller of `__rb_map_vma` always returned 0 
+even when the mapping had actually failed, allowing it to proceed
+with an invalid VMA.
 
-fs/ext4/inode.c:3583 ext4_map_blocks_atomic_write_slow() error: uninitialized symbol 'next_pblk'.
-fs/ext4/namei.c:1776 ext4_lookup() error: uninitialized symbol 'de'.
-fs/ext4/namei.c:1829 ext4_get_parent() error: uninitialized symbol 'de'.
-fs/ext4/namei.c:3162 ext4_rmdir() error: uninitialized symbol 'de'.
-fs/ext4/namei.c:3242 __ext4_unlink() error: uninitialized symbol 'de'.
-fs/ext4/namei.c:3697 ext4_find_delete_entry() error: uninitialized symbol 'de'.
+Reported-by: syzbot+ddc001b92c083dbf2b97@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?id=194151be8eaebd826005329b2e123aecae714bdb
+Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
 
-Tested with compilation only.
-These changes enhance code clarity, address static analysis tool errors.
+Changes in v2:
+* applied minor cleanup suggested by Steve in v1
 
-Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
 ---
- fs/ext4/inode.c |  2 +-
- fs/ext4/namei.c | 10 +++++-----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ kernel/trace/ring_buffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 5b7a15db4953..792b88522916 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -3544,7 +3544,7 @@ static int ext4_map_blocks_atomic_write_slow(handle_t *handle,
- 	ext4_lblk_t m_lblk = map->m_lblk;
- 	unsigned int m_len = map->m_len;
- 	unsigned int mapped_len = 0, m_flags = 0;
--	ext4_fsblk_t next_pblk;
-+	ext4_fsblk_t next_pblk = NULL;
- 	bool check_next_pblk = false;
- 	int ret = 0;
+diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+index 43460949ad3f..1244d2c5c384 100644
+--- a/kernel/trace/ring_buffer.c
++++ b/kernel/trace/ring_buffer.c
+@@ -7273,7 +7273,7 @@ int ring_buffer_map(struct trace_buffer *buffer, int cpu,
+ 		atomic_dec(&cpu_buffer->resize_disabled);
+ 	}
  
-diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
-index 2cd36f59c9e3..045616033515 100644
---- a/fs/ext4/namei.c
-+++ b/fs/ext4/namei.c
-@@ -1762,7 +1762,7 @@ static struct buffer_head * ext4_dx_find_entry(struct inode *dir,
- static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
- {
- 	struct inode *inode;
--	struct ext4_dir_entry_2 *de;
-+	struct ext4_dir_entry_2 *de = NULL;
- 	struct buffer_head *bh;
+-	return 0;
++	return err;
+ }
  
- 	if (dentry->d_name.len > EXT4_NAME_LEN)
-@@ -1818,7 +1818,7 @@ static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, unsi
- struct dentry *ext4_get_parent(struct dentry *child)
- {
- 	__u32 ino;
--	struct ext4_dir_entry_2 * de;
-+	struct ext4_dir_entry_2 * de = NULL;
- 	struct buffer_head *bh;
- 
- 	bh = ext4_find_entry(d_inode(child), &dotdot_name, &de, NULL);
-@@ -3133,7 +3133,7 @@ static int ext4_rmdir(struct inode *dir, struct dentry *dentry)
- 	int retval;
- 	struct inode *inode;
- 	struct buffer_head *bh;
--	struct ext4_dir_entry_2 *de;
-+	struct ext4_dir_entry_2 *de = NULL;
- 	handle_t *handle = NULL;
- 
- 	retval = ext4_emergency_state(dir->i_sb);
-@@ -3224,7 +3224,7 @@ int __ext4_unlink(struct inode *dir, const struct qstr *d_name,
- {
- 	int retval = -ENOENT;
- 	struct buffer_head *bh;
--	struct ext4_dir_entry_2 *de;
-+	struct ext4_dir_entry_2 *de = NULL;
- 	handle_t *handle;
- 	int skip_remove_dentry = 0;
- 
-@@ -3688,7 +3688,7 @@ static int ext4_find_delete_entry(handle_t *handle, struct inode *dir,
- {
- 	int retval = -ENOENT;
- 	struct buffer_head *bh;
--	struct ext4_dir_entry_2 *de;
-+	struct ext4_dir_entry_2 *de = NULL;
- 
- 	bh = ext4_find_entry(dir, d_name, &de, NULL);
- 	if (IS_ERR(bh))
+ int ring_buffer_unmap(struct trace_buffer *buffer, int cpu)
 -- 
-2.43.0
+2.51.0
 
