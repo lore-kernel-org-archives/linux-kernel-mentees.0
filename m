@@ -1,118 +1,120 @@
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2761DFE0B
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Oct 2025 23:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5E81400C
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  8 Oct 2025 00:01:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759878992; cv=none; b=QbwqQX0fhwR8aD2fFD+CFSyGIVyT5qWBwPD4FreAgGPB4Ko1nOV0Y0uwqmi9JX8osX6Xh9RuIctJebvdzjpOQGqXhEskaHAsyAY6FUwH26ExSm5LqsI45CmzMHzlyZPG1AZcIRQQcDo0IpPVbc0Yb3AnO7MVKSdp/UoQAGAab54=
+	t=1759881704; cv=none; b=PCjMe/hKD2nGSeq91wgOH5712XYOQxasuRU94dpUEHPeiJzkFjYjUS3we6ACgRmwNM0UGhozAyIdQnsGGnI+BRgidy5V/auf/7VOm11MlHhIXJTYh8IQvkvHyyDiQHQdIfTmfo1cz8fsHgWoq9fU+aQXUqucKc5RBM/h8Ei4dMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759878992; c=relaxed/simple;
-	bh=eIfWtUHSviSKN1zw89KrShxCLlPX2dyN+NvsS50rAhk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bDMFAfDJjGKWG92g4dUjBaSoyGwV+EmPp2U5OsxIEWTfIqtm1b6CFNZBhM1qYbx3AJ4fwnLXNVm8bAUkmZWSDInkw7xiImuqkOYTFXBLCpx5y+SpRu5CAT8/Yy3HIvnncNQCu2ogCyzZxh9R2Rev2vhZRIAfwxRFJJuFd+Anj+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=M9xMs1Hr; arc=none smtp.client-ip=209.85.166.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1759881704; c=relaxed/simple;
+	bh=HBmCVEFJbv2kiaRdVBoJHVhH1kJ5GFIYxxjuk93NNyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rwjaoMtJ1NfvlGllL4Ibsr2ku2TanzJ/2ruYqpTuMPwiyc/EDdb53LvGqzTCdbKVtIA11HtfJY6vhBiaDZ/DA9/VzGzAC4YULd5Ax5hvKYdxmc5KjvJaAUG/VDdMCrwyVMcB2BnmLkAW4u+C0GzhNg3KUcceGN9UucrkN4eg9SE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JZhUEWdA; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="M9xMs1Hr"
-Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-917be46c59bso615972139f.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 16:16:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JZhUEWdA"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b55640a2e33so5104441a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 17:01:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1759878989; x=1760483789; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SD5yIh7mchDzfy+pmfKeaAbFqsdOLLaDl138ZLpTy7s=;
-        b=M9xMs1HrGrm6S0UMGAx4oY2eKuZtanDnVFGj9uaXXRN357Byz8qvuYmTunSTz0M3fR
-         /qzCAzwsHoqOrzIdHWMo00e3tULsCioDDWURvS7cCeu+OqEfya361gge4jnct6OHjkj/
-         6xGzmmdGbbT07v6B2EgJCIbsbXqi5pSfb11Ig=
+        d=gmail.com; s=20230601; t=1759881702; x=1760486502; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HBmCVEFJbv2kiaRdVBoJHVhH1kJ5GFIYxxjuk93NNyg=;
+        b=JZhUEWdANRSsSsGI+Jv1/uPa4K91p6nWj5cZlpJW9Otzev6U0bWJ/UYuD2zAnr0CJD
+         v5kafzsR/rhOf12TXe6sPZv4o/HEwiUrYzFC52wtG14HHxdkLvTjxPY6KTPTMovm/hjs
+         zez96Ss5THmzaZWmlhPqPifwmVPv24otufxggvtzmWew/bPoFPKIOxJPMtYU3qFx5tZw
+         A5EdKmbet5YQMQsYMKU5FU3St+anBsfCQcK54E9Mn80r39J+dYdX1O/cuWAEX+/Sgm0l
+         NDgvf6gLwwnZd7NN8XAnOtGaqjonKR8LKY9j49DkQCqKkW606DMDA0tQBPeaFS0wkBUS
+         NypA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759878989; x=1760483789;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SD5yIh7mchDzfy+pmfKeaAbFqsdOLLaDl138ZLpTy7s=;
-        b=e/AVQHrbnXr8azkC0/FUpPCoUzZZ/cyxPzMW9IQol9Ra+PIhqW57gtWKTMfL+cApto
-         VMlOQwzhlc/zl4yRqsLIYZkClhzkVX5aTJMahLUi0flaoBq5I2S/g5wpnCwgqXbPxO7V
-         oS0s59UJ4fpzIQia3tC0+D/mt/7HsZjlkBVsu4eLizh8d0x59p0L3wpOoa+ThouchWZ+
-         /uA2ro4J/Uu6YoqPLlcGDFHeVLNn7VF68szERJ5uc7LPMeYvOQcSsna0mPS+4RbmF+ok
-         dysKKnd6VGgi1YgNQFVwxAX0RypbUsWd/V0DYZfDVoYucRlbAC6wEu+w+QcR7kZOC97E
-         7CuA==
-X-Forwarded-Encrypted: i=1; AJvYcCU33t+41wvEwAltOngcSWSvgYP1HNojrqL/PPLIkRqkKtBg8ZNpU1j/tMYan3f7CRYW3/96dGt6J4VfdhdfGA+fenSFZQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyfhJ/XZfsnlBCXuon296axQhkedS3QN6JOnqHzNE8JH/+DefmO
-	MnRDj/raWHAYIxl+Z6ge62WjHPWeL+IGG3SmWd5gDPIEjCn7Tm367xkRMN9ZiHEic7M=
-X-Gm-Gg: ASbGncuCuQywB7AuCljfKyXUr4GE3vQVJCPeGT7YxIRc0ahkmmVPpttNjPZi/TPLlvl
-	7S0eZiRjQLAAe45kTRt7M9gpVolHbCz5IjYPVNVH3Xmc+CIdldURZlvkmlE2a7iwA04zI/o5ZIg
-	R6FcIjMenumYLvbvNDY7G9iXBKpxPiuDsSXQgMwc67BPwrMz+wEViS/tsV3tafU+7aeAx90YnQE
-	mKA/M6xDa+1G6CeHApoQ0JdgncN57BhfsvYceJF04vaoIajI0yms4+5prqzlz8/u4A3baFrpFQz
-	zM4+ye6wG2czAQN+rRJCNP6M4kuZx71/zjsKahU10e1uUjbZciKEzTu90/eDLSatLAvJ1DKdyxG
-	nWT6e7IBDlDZhvgiHtJzgoXk/CHBJYJCTPhGqDL/2L7rtApXPJNm+HhVVHKc=
-X-Google-Smtp-Source: AGHT+IFtnjgHVUKlgejgjQmfrY8NhWm0K4ECYfhZKgNrEOhgOUSbX5KisBkAd+fZ7CYn0EsvLjgWXg==
-X-Received: by 2002:a05:6e02:2581:b0:428:7f76:4ec4 with SMTP id e9e14a558f8ab-42f873d2956mr11775395ab.16.1759878989058;
-        Tue, 07 Oct 2025 16:16:29 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.187.108])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-42e7bd2f139sm58970215ab.8.2025.10.07.16.16.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Oct 2025 16:16:28 -0700 (PDT)
-Message-ID: <f774da25-ab98-4731-b78d-394d8e3a4c3a@linuxfoundation.org>
-Date: Tue, 7 Oct 2025 17:16:27 -0600
+        d=1e100.net; s=20230601; t=1759881702; x=1760486502;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HBmCVEFJbv2kiaRdVBoJHVhH1kJ5GFIYxxjuk93NNyg=;
+        b=SPkLi50l9v4krdjRyb+Qoj4mE4I8hYp3x6lyrfQccp/M1GTjclKP4zxtne7bf+euLj
+         5Msf1+DIP0qSLyFq2V1IJ24GiNPzLdYtu7JURrTz8qzbj3PFGufYih09Y3X5b0v4azsi
+         ANnCnc5IQRHdJlVCi3pPF5UCs60JVVWDGKLovW5ANnxCdBGFDGFkiNJijyuVEAwF0sGI
+         9OM5/3SO4ZVArcP5cHdLrcsrhp2rBdVOq0uEoupLHgQaJmz4SD54g1ZfR5Ad1QG+q+5e
+         btntvmGop0KRXb9Y8AAnW73jkhDZ7cooL2WpccHNr/NHF50Y2FLX4U+anxCsm4g0gn/f
+         ee8A==
+X-Forwarded-Encrypted: i=1; AJvYcCU+2eWm7yv6prdrrwbft8hOkaP6QzYu8IfoZNPu7KJ8FxcBRen7DeM+BUj2gponrmzcBGmk30hZKkk/FRx8ctlHmi+VtA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSHFEH+fL2NYroODsW10w4IfIIiPcruTC7S3yhF4DCpXX9L5kT
+	2Izh+pYvlbbPAkJWC7cU+jZmpjoyyB8glcAla7QGDxEy9OJFWA8EII9b
+X-Gm-Gg: ASbGncsJ9SaiOYEpYs8B0WM7ozftxT6yLEw0SKEOpvsQMJVX8DHwTVd6Dq2ksT4gkLP
+	I79ZF5MU1NEm9S38I3oY9Rcaa9dpppOKCvaBA7D0vU+lJKe+yjkph7/seIlqicOsoL+QSb4+bVy
+	H6h1x+tvFwjnJ6SZD1Eos7ukHJHeq+BEzlgGdDYtn0LlNlo8Ri3RFPvDJMVHavqtjhu1/YmAyHP
+	xW95xNDD2w2prLUGiav8X89iiaV7b3zZToiUP7ka2ZXwx1iMPbJqzGC87zNsocwtXH32Zy5KLMT
+	n+FnvmcaqApsd6oUkCZIdpn6HlEbtcv2TyCeh6dDqBklq9Hi0N+/diBCxh8VP4JmWfCsgGYRvTt
+	hV5XNp93dZ7xAu3lv7ycOvgdffaFN2lCeVNRcqdrnMZ/kHdNSJQ==
+X-Google-Smtp-Source: AGHT+IHI6SipQj91c1vmLSFiOqIaOwefO3QQs9+bfgg/4mvECMIsZcVKX8SEp5HMEolcaTUK42Latw==
+X-Received: by 2002:a17:902:e54a:b0:269:8f0c:4d86 with SMTP id d9443c01a7336-2902741e857mr17501365ad.53.1759881702182;
+        Tue, 07 Oct 2025 17:01:42 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b510ff9a8sm980371a91.8.2025.10.07.17.01.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Oct 2025 17:01:40 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 062764233430; Wed, 08 Oct 2025 07:01:37 +0700 (WIB)
+Date: Wed, 8 Oct 2025 07:01:37 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Gopi Krishna Menon <krishnagopi487@gmail.com>, rostedt@goodmis.org,
+	corbet@lwn.net
+Cc: linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com, khalid@kernel.org,
+	linux-kernel-mentees@lists.linux.dev, crwood@redhat.com,
+	tglozar@redhat.com, costa.shul@redhat.com, jkacur@redhat.com
+Subject: Re: [PATCH 1/8] Documentation/rtla: rename common_appendix.rst
+Message-ID: <aOWp4RXBN2iayT-p@archie.me>
+References: <aOUMyGvkibvOV0IS@archie.me>
+ <20251007185508.40908-1-krishnagopi487@gmail.com>
+ <20251007185508.40908-2-krishnagopi487@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/komeda: Convert logging in komeda_crtc.c to drm_*
- with drm_device parameter
-To: Rahul Kumar <rk0006818@gmail.com>, liviu.dudau@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, Shuah Khan <skhan@linuxfoundation.org>
-References: <20250926093008.1949131-1-rk0006818@gmail.com>
- <CAKY2RybMM5jcOzO_mknsdH+m9-T+Qe3yMhRrdpV_VE4paUrAKw@mail.gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <CAKY2RybMM5jcOzO_mknsdH+m9-T+Qe3yMhRrdpV_VE4paUrAKw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bPrGD7sryDE01aLw"
+Content-Disposition: inline
+In-Reply-To: <20251007185508.40908-2-krishnagopi487@gmail.com>
 
-On 10/3/25 11:51, Rahul Kumar wrote:
-> Hi Liviu,
-> 
-> Just following up to ask if anything more is needed from my side for
-> this patch, or if you plan to pick it up in this merge window.
-> 
-> Thanks,
-> Rahul
-> 
 
-Rahul, no top posting. Please give people time to respond before
-sending a second email asking for feedback. I see two messages
-back to back from you - perhaps an error during send.
+--bPrGD7sryDE01aLw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On Fri, Sep 26, 2025 at 3:00 PM Rahul Kumar <rk0006818@gmail.com> wrote:
->>
->> Replace all dev_err(), dev_warn(), dev_info() and DRM_ERROR/WARN/INFO()
->> calls in drivers/gpu/drm/arm/display/komeda/komeda_crtc.c with the
->> corresponding drm_err(), drm_warn(), and drm_info() helpers.
->>
->> The new drm_*() logging functions take a struct drm_device * as the
->> first argument. This allows the DRM core to prefix log messages with
->> the specific DRM device name and instance, which is essential for
->> distinguishing logs when multiple GPUs or display controllers are present.
->>
->> This change aligns komeda with the DRM TODO item: "Convert logging to
->> drm_* functions with drm_device parameter".
->>
->> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
->> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
->> ---
->> Changes since v2:
->> - Added Reviewed-by tag from Liviu Dudau
->>
+On Wed, Oct 08, 2025 at 12:24:50AM +0530, Gopi Krishna Menon wrote:
+> common_appendix.rst is intended to be included by other rtla documents
+> and is not meant to be built as a standalone document.
+>=20
+> Rename common_appendix.rst to common_appendix.txt to maintain
+> consistency with other common_*.txt files and prevent Sphinx from
+> building it as a standalone document. Update all include references
+> accordingly.
 
-thanks,
--- Shuah
+LGTM, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--bPrGD7sryDE01aLw
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaOWp4QAKCRD2uYlJVVFO
+o4OOAP4uFuO1E6ytqdspEZ4WG7emXxflG1kNie6NJqWxpwX+MgD/T4akmHZvTpT/
+XIrgErE+u7Ms0xsIdcYEKAqyV9wkKQ4=
+=GCZL
+-----END PGP SIGNATURE-----
+
+--bPrGD7sryDE01aLw--
