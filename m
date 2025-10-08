@@ -1,63 +1,63 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B9529DB6E
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  8 Oct 2025 03:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D8729E0E9
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  8 Oct 2025 03:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759893499; cv=none; b=Xr7kG7+qMn2rn2Oyua/VKq8uYWYt2oDVHnBDryWjjwy9kKYFJDrMjM366K7E7eXbg1/isXEf8ucZH+CpKCavRiOC/7ksgopNer96rRyf34d3Ye2gl6bb09WzgFGVkJBN5AOlwif84uv4NRcVt2iMESi7wWyYnEcThU9atIoMw0w=
+	t=1759893512; cv=none; b=JZEN2q7wNB4GuM74jkikYhnjnSOYvNSY7CNhGerEzI+RlyI5eq3xTNCqsGx3cFgMQTpyA9v4EP5v6T8vp0EtXGIqXVEFRwIYwmZBMqta+zZh3ORfAr90DxwUWiZOlGs0eSRClWVdeL6+yZuj/+hUZIlH922F/sWAQmGUavbKupU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759893499; c=relaxed/simple;
-	bh=w88O91l141EF9mRTJr5gYUX1SUVp35Zw9XxJTz5LQBg=;
+	s=arc-20240116; t=1759893512; c=relaxed/simple;
+	bh=OjsnqX4w9xVPWhGo4KZ1oMWtoIY/AxwyxdfC9ODPA0g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TFaL9XOM7JcsrgfzCIbnQ55Gy+xTQk0cJMDrg58xwopGbwGz6rfKnE7YaHvOEigGYaMvKQre58f5tbWvxyoJZO5/+a19hFwXRT11FjHv2+27oFVgzkW9OXJwTLwFkx3X06yTIm8Ay/gWJ1AfD1Kvna4ZXLasU5SC59IPUP4HIbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cLK87hvj; arc=none smtp.client-ip=209.85.210.193
+	 MIME-Version; b=JwFndi7u5SiZfApFV/5ti4JSo4M0nd7RLews35QRYvZeVHGx3820tRkRdiseRaJZb2tjpc+EsUo3bOZlv+wzHJn27pRTzb9UFs/Ecd82uTxH4PQUw35MfWGlw/IV/5UALbCOVbSOuIs63X7lFsZoQcsF+t+Dnn3zRjcgxee/Dao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I9YkKUgG; arc=none smtp.client-ip=209.85.216.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cLK87hvj"
-Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-781ea2cee3fso6705901b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 20:18:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I9YkKUgG"
+Received: by mail-pj1-f68.google.com with SMTP id 98e67ed59e1d1-33226dc4fc9so7066078a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Oct 2025 20:18:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759893497; x=1760498297; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759893510; x=1760498310; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BlQFQcawRFMEewIt0bOgUlauxcu0MJP5hQDoYscvOlw=;
-        b=cLK87hvjMYiURdamqrl9VFzZ9a+GO3UDadTgQ8TKFKqcx1WUITQsXTXR9peMdP8JMH
-         TODNr6VADdguiX4wNaGuiU6xs7wufxndCyvDa3p/xqOAcw+9j4d3sZ/llaFqNc8YHMsF
-         YqCwCT/XR8aaGGoL8zXkRRVNf/DL0FlGhXQcEmPquZGavFOwjOSEb43ESgS0qOIpa6Ss
-         kMXyxJOxHWapv+lIjhsgsqP7vcp2bCV9AD7wr1MUojZyHiyqJQiNfPXypYMAitBxnTjG
-         3AxqDtqI1tYJBQCsVU49dtDgdl7srf6DBxtcr/60HbLzsFkNTG4lkuk+m5EBHazEHEPL
-         QCRg==
+        bh=lDg4ZaE0kQk1RB2KpwuXVcFNrMgNFMWXQ87bNU/VPH0=;
+        b=I9YkKUgGywQDYplyZSku4xtcbRfdODw0TD11C/yDD+2o/RCB+tRqSt3JDvxluiim1F
+         Kaj7HLXaJ7EkPOFC+wMUZs2PABFyrp7xXWrZkI7PNH55IDlr0+GLKt1BH1I7Eq2i+aNm
+         PeMZbiy5RcoQ8NEkJgBAd9mVBv3L0bKDxap65B1vx3uKSg2zNcaQ3NvD0tUCMltnwwnO
+         tjvX4obfaB7mYNKK23I7ID76zWgqUpkS4Jp9P2FUnQM9xGq/y4m5nR73Eh0GarXKOXjI
+         DrXOnGB4iYUpDulU798S1vfBo/ZVl3SeK1OH1cFgle6nng0sja+tSNWcmxckQNhcjoyN
+         1iTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759893497; x=1760498297;
+        d=1e100.net; s=20230601; t=1759893510; x=1760498310;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BlQFQcawRFMEewIt0bOgUlauxcu0MJP5hQDoYscvOlw=;
-        b=vBSiGoXedonDh4XLvpPc5frjbJ/djhqRaMdtYWdlMzEAUOpaLHhenJpQMXMSdL5r6o
-         2JZHghHUAtR6roqwSRUrcIjBTVwp0avB3SiBuWQqtaV1/nPQ9eMEuo+TSKIsGU+cmO1O
-         fOwvVMHJ3+ZFufaxCsukqg+ceIOIWAZPwXIksHaoF5YoaBpHQat+8y6M2cis7cGYd/xN
-         Gr9FI5VMgEPJ6S8tsn8kFk22NYYbh9IeAlSiS9eBFw3/hpieG4BK7Fcec1WyzF1x1uhI
-         jZcb+YhO4a2u3KKVt4JrdbN4rS3vJ0kUNPHERXxUDjwfBiGzHXmoppPkIn8lyRfYkrmr
-         R8Xg==
-X-Forwarded-Encrypted: i=1; AJvYcCX5M/apExfaLOJ/DwxmUCLYb5zMBcp6JxixicictwwZ0DJKq69EynqH81e8xACUt0WdRLpwai2OfzN6BcgftCosRGjjzA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6HDUV+V84t/mmrERmR8aN1Y6j750Lp7nL3LwkI8D+EusmRqaa
-	0EIDIfos7QIVWw4N0vcYRljD1HLqLbSt7r1TZv6JiUsKoUJFvaNVLU9J
-X-Gm-Gg: ASbGncv4eWPwa4B7DzDwb2NYGG46kUK4ypAIRexz96ZRrEZjXF9inDt8KH2x0zx/E+z
-	jmCEF5otPbzXamW77zRMK4Bp036x3X/sby/KrVqA26ep0Eq0N1/CiUZOZ3CUaT9g1zNFbDZyMMA
-	j5FyYz44W70fLA/s+VPLFwbnXFN0ElqtZJn52o+g+FDZJ3Ycbsfw25gp+BfwXpWMX+eJjOgAauQ
-	MwdMwfOlwzSlnx+z9IO0oRFv7+e78n9C1aBjlqbt7iUy+7yJqRLJnfML1g0cZX31pZhr6ID5KKI
-	c2ftfRByBHx6LadYEF4ODtLVAB5QCvno52N8mS7rxkzjGwdMD8KHUq/dLanooGYcP3xyxQeiY4t
-	t5b1UGOvWlXvIKdevaGRx+ephMvHn5Q+22jvNA/HXe+ved32Frg==
-X-Google-Smtp-Source: AGHT+IEeKJ+xs0GcbSYEkaMOoq4ZNzOHvQx0Xbcrl6XMXjx/qanyX4b6zdbK6WVXlHpUCKR6ek6s0w==
-X-Received: by 2002:a05:6a20:a103:b0:2e3:dd60:913d with SMTP id adf61e73a8af0-32da8163cc9mr2183530637.21.1759893496900;
-        Tue, 07 Oct 2025 20:18:16 -0700 (PDT)
+        bh=lDg4ZaE0kQk1RB2KpwuXVcFNrMgNFMWXQ87bNU/VPH0=;
+        b=t62pix2s3L0QCetaQ4IrgLebAhFYyjsldRPwFNPNIs/zyv6uy7+IqROMld1Z+dsYNq
+         iKRhzkz1tOkd09hn5xtW/wn+zaUhLF97BFRk9fn1i5d8UWW2H2oB3Kba4x5lTiFp5dFk
+         fgOJALMSseVJlnNKbLOdT41yJk8nkqj8QMibE42AR/oLUmItxxMW38tH/IdPq0/04n7H
+         cdbGBGFeUi1GGDHiw9yiZn29Yyfxfc8bA28drBObjPTHW8AVN1oCiaoQiIRa8TBiBXIt
+         ClPELKMMto5FH8WTazdgfsu6M+htY7RaXYEvgbKVQHiC5ABdUMT/ElHdCX/lPpM9lDJy
+         0AIg==
+X-Forwarded-Encrypted: i=1; AJvYcCWbVDJF3zIBM+LstJoZmpohe/pxBwTlDybWi4DoksLmQxZXaL4kesNf5rdk7ZEN0TlJOQPtA9bfQeiZtofFmLOHQYJfoA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxSgZz2xTf2mJAxeGYCH0n2ksc/lygP6S2kpGoQxSbr7Lf2uP1S
+	vIh8hyp1vVF61BlPEAOgQdkhxeQXmh9LPPiOoyQE6LnaYdcbNTvkJGyY
+X-Gm-Gg: ASbGnctdRelUSUOx4PLI3pJr8LzKbPv17rZVxiP5g9qdvVZR6/G/7x6Sa/KDarNZEWT
+	PZ2p7KlTo+rv1RptG2LfbbLy6E9lW9AniAjwrA8/F/3aXSpKhzbd24oHPFksLml+lFhd5GchQkD
+	e8cg0gGTZ4LwZknBakwH5YGJhYQxtUJ8R+HZr1kjBr1yUJDYRP+U+FeSlh+u2k+p+tkingx+0+i
+	xxcbvOnwSdZg9Ggv1zwZxhGI5X0PkZiAKhE8wrz7WXQkYEmRTD3q8bI5T0ytHby92NINGCzSPAb
+	5xiQji/m3cHc2LtJq2wgHZBXI3BeiJo5f5R6MBiV4srXepgHFxcgy4xGEzeBXPOGspGSFDlqyVw
+	dSGpGYFHvTgkBa5UOD7+tkgBGCkEUOvd3Q/6wIPJrDe03HXyQQg==
+X-Google-Smtp-Source: AGHT+IG1UQCmaY8cs78qKrEmsXcpdVVL9Yje3K7pg4Yhi80RChazLD8kGiz5Ppw9B7HegArhgX/3FA==
+X-Received: by 2002:a17:90b:3911:b0:338:2ef8:14af with SMTP id 98e67ed59e1d1-33b513bee03mr2184017a91.37.1759893509584;
+        Tue, 07 Oct 2025 20:18:29 -0700 (PDT)
 Received: from Ubuntu24.. ([103.187.64.31])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6099f5990csm16527746a12.38.2025.10.07.20.18.10
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6099f5990csm16527746a12.38.2025.10.07.20.18.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 20:18:16 -0700 (PDT)
+        Tue, 07 Oct 2025 20:18:29 -0700 (PDT)
 From: Shrikant Raskar <raskar.shree97@gmail.com>
 To: jic23@kernel.org,
 	robh@kernel.org,
@@ -74,9 +74,9 @@ Cc: dlechner@baylibre.com,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
 	Shrikant Raskar <raskar.shree97@gmail.com>
-Subject: [PATCH v2 1/2] dt-bindings: iio: max30100: Add pulse-width property
-Date: Wed,  8 Oct 2025 08:47:36 +0530
-Message-ID: <20251008031737.7321-2-raskar.shree97@gmail.com>
+Subject: [PATCH v2 2/2] iio: health: max30100: Add pulse-width configuration via DT
+Date: Wed,  8 Oct 2025 08:47:37 +0530
+Message-ID: <20251008031737.7321-3-raskar.shree97@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251008031737.7321-1-raskar.shree97@gmail.com>
 References: <20251008031737.7321-1-raskar.shree97@gmail.com>
@@ -88,50 +88,105 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The appropriate LED pulse width for the MAX30100 depends on
-board-specific optical and mechanical design (lens, enclosure,
-LED-to-sensor distance) and the trade-off between measurement
-resolution and power consumption. Encoding it in Device Tree
-documents these platform choices and ensures consistent behavior.
+The MAX30100 driver previously hardcoded the SPO2 pulse width to
+1600us. This patch adds support for reading the pulse width from
+device tree (`maxim,pulse-width-us`) and programming it into the SPO2
+configuration register.
 
-Tested on: Raspberry Pi 3B + MAX30100 breakout board.
+If no property is provided, the driver falls back to 1600us to
+preserve existing behavior.
+
+Testing:
+Hardware: Raspberry Pi 3B + MAX30100 breakout
+Verified DT property read in probe()
+Confirmed SPO2_CONFIG register written correctly using regmap_read()
 
 Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
 
 Changes since v1:
-Add unit suffix.
-Drop redundant description.
+Use FIELD_PREP() and define a pulse width bit mask.
+Initialize default pulse_us before property read.
+Use dev_err_probe() for error reporting.
+Make pulse_width signed to handle negative return values.
 
 Link to v1:
-https://lore.kernel.org/all/20251004015623.7019-2-raskar.shree97@gmail.com/
+https://lore.kernel.org/all/20251004015623.7019-3-raskar.shree97@gmail.com/
 ---
- .../devicetree/bindings/iio/health/maxim,max30100.yaml      | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/iio/health/max30100.c | 35 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 33 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml b/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml
-index 967778fb0ce8..5c651a0151cc 100644
---- a/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml
-+++ b/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml
-@@ -27,6 +27,11 @@ properties:
-       LED current whilst the engine is running. First indexed value is
-       the configuration for the RED LED, and second value is for the IR LED.
+diff --git a/drivers/iio/health/max30100.c b/drivers/iio/health/max30100.c
+index 814f521e47ae..50cd4fd13849 100644
+--- a/drivers/iio/health/max30100.c
++++ b/drivers/iio/health/max30100.c
+@@ -5,7 +5,6 @@
+  * Copyright (C) 2015, 2018
+  * Author: Matt Ranostay <matt.ranostay@konsulko.com>
+  *
+- * TODO: enable pulse length controls via device tree properties
+  */
  
-+  maxim,pulse-width-us:
-+    maxItems: 1
-+    description: Pulse width in microseconds
-+    enum: [200, 400, 800, 1600]
+ #include <linux/module.h>
+@@ -54,6 +53,10 @@
+ #define MAX30100_REG_SPO2_CONFIG		0x07
+ #define MAX30100_REG_SPO2_CONFIG_100HZ		BIT(2)
+ #define MAX30100_REG_SPO2_CONFIG_HI_RES_EN	BIT(6)
++#define MAX30100_REG_SPO2_CONFIG_PW_MASK	GENMASK(1, 0)
++#define MAX30100_REG_SPO2_CONFIG_200US		0x0
++#define MAX30100_REG_SPO2_CONFIG_400US		0x1
++#define MAX30100_REG_SPO2_CONFIG_800US		0x2
+ #define MAX30100_REG_SPO2_CONFIG_1600US		0x3
+ 
+ #define MAX30100_REG_LED_CONFIG			0x09
+@@ -306,19 +309,47 @@ static int max30100_led_init(struct max30100_data *data)
+ 		MAX30100_REG_LED_CONFIG_LED_MASK, reg);
+ }
+ 
++static int max30100_get_pulse_width(unsigned int pwidth_us)
++{
++	switch (pwidth_us) {
++	case 200:
++		return MAX30100_REG_SPO2_CONFIG_200US;
++	case 400:
++		return MAX30100_REG_SPO2_CONFIG_400US;
++	case 800:
++		return MAX30100_REG_SPO2_CONFIG_800US;
++	case 1600:
++		return MAX30100_REG_SPO2_CONFIG_1600US;
++	default:
++		return -EINVAL;
++	}
++}
 +
- additionalProperties: false
+ static int max30100_chip_init(struct max30100_data *data)
+ {
+ 	int ret;
++	int pulse_width;
++	/* set default pulse-width-us to 1600us */
++	unsigned int pulse_us = 1600;
++	struct device *dev = &data->client->dev;
  
- required:
-@@ -44,6 +49,7 @@ examples:
-             compatible = "maxim,max30100";
-             reg = <0x57>;
-             maxim,led-current-microamp = <24000 50000>;
-+            maxim,pulse-width-us = <1600>;
-             interrupt-parent = <&gpio1>;
-             interrupts = <16 2>;
-         };
+ 	/* setup LED current settings */
+ 	ret = max30100_led_init(data);
+ 	if (ret)
+ 		return ret;
+ 
++	/* Read pulse-width-us from DT */
++	device_property_read_u32(dev, "maxim,pulse-width-us", &pulse_us);
++
++	pulse_width = max30100_get_pulse_width(pulse_us);
++	if (pulse_width < 0)
++		return dev_err_probe(dev, pulse_width, "invalid pulse-width %uus\n", pulse_us);
++
+ 	/* enable hi-res SPO2 readings at 100Hz */
+ 	ret = regmap_write(data->regmap, MAX30100_REG_SPO2_CONFIG,
+ 				 MAX30100_REG_SPO2_CONFIG_HI_RES_EN |
+-				 MAX30100_REG_SPO2_CONFIG_100HZ);
++				 MAX30100_REG_SPO2_CONFIG_100HZ |
++				 FIELD_PREP(MAX30100_REG_SPO2_CONFIG_PW_MASK, pulse_width));
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.43.0
 
