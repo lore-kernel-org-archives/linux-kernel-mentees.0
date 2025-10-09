@@ -1,143 +1,122 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC2A233136
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  8 Oct 2025 23:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A922AE97;
+	Thu,  9 Oct 2025 00:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759965568; cv=none; b=M6K6wTKBRCOCWAHV0mVQbwLMUkG+aB6vUoBGHswrtSu9IpPY6PoBDzFgDUsGkQXm5L4jG8lr69oyAxa/aUFuBAvCramfoooRhS6ysxi0pFoHaIOY5d3EClZkIchuKQoja30M87ueCvNK9VqZoqAeO7xQ8K8TDv4Gs7vOn7wmNns=
+	t=1759970695; cv=none; b=j4bDuuS7q6jdm1U1V8VVqnYyJpKr8waVvIzRlRmPnVG5qyPQnrXnWfvTIbWESHT+LZKBnESGDGVfdIv6/6Eh0JQjNontVTAkCnvS5iXUHn1wLKPstNeRdVvHtTiZIt+07NqvKS1kVouMkZ+zq5vTfSCzrSIXnH+AF56OeyxDtG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759965568; c=relaxed/simple;
-	bh=CuUPOtIUJzTkfPFw0WgfFvYdrpTftUfYNdMNY5bK4H8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FnpMwRv4v1J0K+J14C+3zmXuMqK5Jlp4SKIpqZ3iAgdcJG1e9eI7WysHWBm5bxQ+y6pgsnrxhfl5tdgoUXKeG4+JKxZsR9PLtp2jQWzRguBghMkTofOPPUEyyAaPOd3fNkT4mxuupl50iMlHpsMc7AKwooG51BOEwYXCvaeNb/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K6Wpxa7Q; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759970695; c=relaxed/simple;
+	bh=eC5L7nnTf8nCrzTe2c5bIllpaeVZSTjt+NPJbKAL6RE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RAKFFcaqzkUMWvRjVSDvZ0hh3sFBSjhaEPd4prI2IHXnjYDbDDMWpnU0wONfIIS1Cr8xA49yucgNvBW9YzjtGwXEjDcjniYwQ0kXLTnEhBW7sQIXEkid5dIH6aWA6nVCOHEDmGNz1yBqOLjYKxhCZCbF8BLs9cQyj0vDJucJayk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HT75pnte; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K6Wpxa7Q"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-33082aed31dso436583a91.3
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 08 Oct 2025 16:19:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759965566; x=1760570366; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CuUPOtIUJzTkfPFw0WgfFvYdrpTftUfYNdMNY5bK4H8=;
-        b=K6Wpxa7QQ51Y9il9K/pfHLhGjh/sgOH3rwqpq5zotjWHZHJ32PlShIIc4KYRr+i7MI
-         SR6YSY2GtEMv7B8OcPCtqpPxNXKvQ8OyN6vtEEIUxIx7rpuXXH/TaLDf92esPiBLr0Pj
-         x0hRHDZv7Ulykm1Q7YVY5wHaPE51cqwqXlrsnVE/sRCK2RKwfYrgwy+HG91YE+rTaoMb
-         M86bRgALQfCLG38puMTh2m8mO/58jY5xux/Nbf+LwznfT5JAmsL/gNCOhznSsZWwF+ou
-         qwHTpzgRfJDFuhd5pXWUJ9lAmXaOpzAC2cHsl6QwMLDtU8q7lotIVpTCHsCPhlVutTyi
-         wWZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759965566; x=1760570366;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CuUPOtIUJzTkfPFw0WgfFvYdrpTftUfYNdMNY5bK4H8=;
-        b=mR3ojkCj3DX7T+nh1CaEMId9uGHqPxHpRHPmBigwr88feUUpY/WuujbaXqibqFGbyi
-         5yfI0GNPniAXfvyWhWuyGplq8sbwFdgxS4eJrejhSug+QmGi75jNdHImDxN6XKURQY/3
-         v09kIuN2NSWhMVKfcppa3jy8JYe0e3ME1d+jfqaDaS+nF05ODIvmICCOeppbff8FDY/G
-         GWFHuP70WC6tIZ5ZywxejwIyNvs7cSuYK1w2Yb7/A+0TTAK0C1XWqJIWfU0oQ6xr6L9I
-         s8jNBg6y4waIden2OxG9HWZ9nzA963JpRROFJ9lnmlMR0USzR/V9CDTWTp5BVa4D5f4l
-         yxhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU98e6L59yh8nWXT8zgv4Lv8oVUcKzhndNfkwyKsyucYmyJ/QcXRMmUa2wSNJhE/hs803hFcUdoZnH7/OhUMKNz+WRsaw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YylFdk7/nmNT+YwARc7DkGaoWvhT2kbikA4RbAHXM6pRFaRc8Ef
-	sloNau5Nbklud6/20QHDayoUjFtqulAyyd+LlF6wFh57NAYZqRTsZSZY
-X-Gm-Gg: ASbGncupNGuqpjeLkCQEiMCrwdgmEJ3PkTjflBHRywOpaaP3BHOat5LfaFHUVnkogU5
-	6Or9AFgFBKA7LPgI7um2Fp1bvpG0+lAU6oXgERx1o75mQphmSQViuQVsH1AmWpQeAyGaj2/cC3q
-	0QtXx7ZGFvuXLabXENek4iQQX+2JYC+30GoWWVimmX+06DtdtS+MG4+gL1jLIhJdcao/cSZ9TsX
-	tG1XWC6xf/X3uPyLlI3itC+2TeiNhxFww7YGlqlByr5Hc9g9nYRw+Cnh2wDJlAmIPiqMmdjGmgl
-	oDpm33fx6GfBidcmU1Oc3xPnnvb6ENQ81jxo01MTsaPj3HpIXVNsNQlUpozIlf5ZkzCyYMiQ+lj
-	jRq6gWYSrAsrFs25LvbEb5GKuvIKAt4mcc7ZbOPwrEqsKP7OP1g==
-X-Google-Smtp-Source: AGHT+IEqQwohh35D8DAkh9yjSUR0i5+iZzIj3lrkntQw2k0Ckim3fwA3XU6urWopN5QyOgXBfW7pSQ==
-X-Received: by 2002:a17:90b:4b8c:b0:32b:6cf2:a2cf with SMTP id 98e67ed59e1d1-33b5111895amr7030812a91.14.1759965566295;
-        Wed, 08 Oct 2025 16:19:26 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b631e32a56bsm6005356a12.6.2025.10.08.16.19.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Oct 2025 16:19:25 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 5B7904233432; Thu, 09 Oct 2025 06:19:22 +0700 (WIB)
-Date: Thu, 9 Oct 2025 06:19:22 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Gopi Krishna Menon <krishnagopi487@gmail.com>, rostedt@goodmis.org,
-	corbet@lwn.net, tglozar@redhat.com
-Cc: linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com, khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev, crwood@redhat.com,
-	costa.shul@redhat.com, jkacur@redhat.com
-Subject: Re: [PATCH v2] Documentation/rtla: rename common_xxx.rst files to
- common_xxx.txt
-Message-ID: <aObxeg12WxHtNu7B@archie.me>
-References: <CAP4=nvTjauRawBPTnGEztZpdDSNhGpgSJtjoTFuq+cCQHP5oEg@mail.gmail.com>
- <20251008184522.13201-1-krishnagopi487@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HT75pnte"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03099C4CEF5;
+	Thu,  9 Oct 2025 00:44:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759970695;
+	bh=eC5L7nnTf8nCrzTe2c5bIllpaeVZSTjt+NPJbKAL6RE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HT75pnteiXCvXSSgP4xkeavwjB+GdFJyw15abVvibgdhekOqM9oKWoDbgqLyI65ZR
+	 +MUNALLDAtnbcPCsx9T3rR3yZsCCU+mvh1JcyEnVR5o9b4MFdZpcyDsH3nuTmJpYke
+	 hVKO4PTTtRNUq1pm4cvYai01Bm5s/2wtqYHUBy2n9OWhRWaG4x0I2saL79lWXIeEoY
+	 0HaW+X/mPlKawnH1ZxfxRlST8GkTjL23qSwrORzugzqWJIatt3q0qdt5CRVi5aRwHU
+	 WHdjVHCS+tMhAQr1zS9qp02xgdi/kUNM56ahMHGxT+yBfi6CPaL/w54a0EiFLzgNzb
+	 CE6oT/c6Zj5Rg==
+Message-ID: <9970e8f6-8b8c-4d9d-97ce-f89b948d6c97@kernel.org>
+Date: Thu, 9 Oct 2025 09:44:47 +0900
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="laywoOT544AkU5an"
-Content-Disposition: inline
-In-Reply-To: <20251008184522.13201-1-krishnagopi487@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: iio: max30100: Add pulse-width
+ property
+To: Shrikant Raskar <raskar.shree97@gmail.com>, jic23@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ matt@ranostay.sg, skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+References: <20251008031737.7321-1-raskar.shree97@gmail.com>
+ <20251008031737.7321-2-raskar.shree97@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251008031737.7321-2-raskar.shree97@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 08/10/2025 12:17, Shrikant Raskar wrote:
+> The appropriate LED pulse width for the MAX30100 depends on
+> board-specific optical and mechanical design (lens, enclosure,
+> LED-to-sensor distance) and the trade-off between measurement
+> resolution and power consumption. Encoding it in Device Tree
+> documents these platform choices and ensures consistent behavior.
+> 
+> Tested on: Raspberry Pi 3B + MAX30100 breakout board.
+> 
+> Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
+> 
+> Changes since v1:
+> Add unit suffix.
+> Drop redundant description.
+> 
+> Link to v1:
+> https://lore.kernel.org/all/20251004015623.7019-2-raskar.shree97@gmail.com/
 
---laywoOT544AkU5an
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This does not belong to commit msg but to changelog under ---.
 
-On Thu, Oct 09, 2025 at 12:14:27AM +0530, Gopi Krishna Menon wrote:
-> Running "make htmldocs" reports the following build errors for
-> common_options.rst:
->=20
-> Documentation/tools/rtla/common_options.rst:58: ERROR: Undefined substitu=
-tion referenced: "threshold".
-> Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitu=
-tion referenced: "tool".
-> Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitu=
-tion referenced: "thresharg".
-> Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitu=
-tion referenced: "tracer".
-> Documentation/tools/rtla/common_options.rst:92: ERROR: Undefined substitu=
-tion referenced: "tracer".
-> Documentation/tools/rtla/common_options.rst:98: ERROR: Undefined substitu=
-tion referenced: "actionsperf".
-> Documentation/tools/rtla/common_options.rst:113: ERROR: Undefined substit=
-ution referenced: "tool".
->=20
-> common_*.rst files are intended to be included by other rtla documents
-> and are not meant to be built as a standalone document.
-> common_options.rst in particular contains substitutions that are only
-> resolved by other documents, so building it independently results in
-> 'undefined substitution referenced' errors.
->=20
-> Rename all common_*.rst files to common_*.txt to prevent Sphinx from
-> building them as standalone documents and update all include references
-> accordingly.
->=20
+See submitting patches.
 
-Much better, thanks!
+You need to also start testing your patches BEFORE you send them.
 
-Fixes: 05b7e10687c6 ("tools/rtla: Add remaining support for osnoise actions=
-")
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---laywoOT544AkU5an
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaObxegAKCRD2uYlJVVFO
-o/fiAQC0qRxBu2mn9qrpCb4+e9qDwMwy95k1B/6YiM0z2onj6gD/QV8GsID6JvYc
-EgEDoO4HFiznrFm+/0AEfEHho52DDQI=
-=oGsZ
------END PGP SIGNATURE-----
-
---laywoOT544AkU5an--
+Best regards,
+Krzysztof
