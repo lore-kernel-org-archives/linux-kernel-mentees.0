@@ -1,167 +1,140 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291B4253359
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 05:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3FB2609EE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 05:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759987835; cv=none; b=RExGwPO9dpN07YvKM1f+8VAAFiAsTcwxhZmOXUr/A1b7UFl3ldj4k/Kv30aWIzNjDxmqimCN99lUTSSYGlaarG9nb4VgWjGSN5x0eRpuqkKinvSLhziJdq1bHyq6KirXQwyi+LldFsDlRZpNJas5T+/modqMmzSNibw92ad9owk=
+	t=1759988330; cv=none; b=Jv5gP0P2zxy0zLilWajQJNDpB+hKygyY4bzjcTe8uSNg2uDOo/qI7ng5SGIfWneN0NC+/aA5mFjysSYfuVOcI/ez9c2SLCQKFF6wuhNoVc2CK8FaHf8uWJOEunzV74CaK6l47T412Vc9x8/5V8LaaDtDVwAnsc8OldBoeIO2iWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759987835; c=relaxed/simple;
-	bh=MWPOM5X1rJDtoAagIpIGV2JeSDedkvNxa+Z2Lzxv2gM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MJu7qBb25bTEUEcNTHGJDqxoJ6fsLotyybUc0l++UBoW6jdkNFUSX7nO7Hz8056ENff67FlVgpto5g4TeOuOxUP26nwIRQz8CJ1hNjDhUInZ8DYtmX2ahmZQk+JA1rL1hpAau9zU3RDOm/Bthz82oKvjamlKnj/x77GQEZqBQhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nLFLTkWo; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1759988330; c=relaxed/simple;
+	bh=npR5+hdrCx438MidrYA4MYFDxbFLQwa9+iFgs/BnSQY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UB+CPB7G/ubcnujsbRyXCjl4fn9Lk38a+2nwyMv5DYvlSfvxQy26SRIStpJPhbNmajZYv5Ilo6N5DFnyg/NKVvguCPg3qXW5GkSMZoJYc91XzYyIfM0HXS7BxKvhNh/5H1JL6tzPbaVYl9XMK8OtNm9XNtDHdW4YFzI9M4FXO+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kAvMRqq8; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nLFLTkWo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kAvMRqq8"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id AEFB040BC7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 05:30:33 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 5B8CE83592
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 05:38:48 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id NdImCsbQsHVW for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Oct 2025 05:30:33 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62b; helo=mail-pl1-x62b.google.com; envelope-from=bhanuseshukumar@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org E155840E65
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E155840E65
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=nLFLTkWo
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E155840E65
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 05:30:32 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-28832ad6f64so6229275ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 08 Oct 2025 22:30:32 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id bnn9SYhv8TKz for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  9 Oct 2025 05:38:47 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42f; helo=mail-pf1-x42f.google.com; envelope-from=bhanuseshukumar@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 9465C834EF
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9465C834EF
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kAvMRqq8
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 9465C834EF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 05:38:47 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-7810289cd4bso550739b3a.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 08 Oct 2025 22:38:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759987832; x=1760592632; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=66mxYYm1lwUDKT8s1UNwAUuURZhUpzHNJdGMWk83R+M=;
-        b=nLFLTkWohdsIkwlHVZcQAmsn+AKf4twshg6ynf9B/1T+SYuPDkOXn0BNTYGZR2sc2p
-         GAZbD6Gv1g9ELmAUzLcn0OgfepH//URDeeqlTTDHiedJbDEreGaTzaZCtZWUJpXWlQTm
-         mFrfOXhNhpv5yDsNY+Jy0rxDH4vNJW6rS4UJb3R7GCnNxeK+h2MfhlXWDjkKezhPsSL9
-         USSe4fPAkHLqVH/UL9xSniQll1FJ1VcXJ2wvIdEAtwmPdMRg8JivmyPTNu+yMLnGqdNC
-         opo/PrSFrpvmKJeQJIT/P4IgMTkPhUwe1c0xhgLc/9XtE5k23Pa29lT3PDlVfILLOa2w
-         aOZg==
+        d=gmail.com; s=20230601; t=1759988327; x=1760593127; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aKbCLdA0D3ZyyrFcf4HmlfoknTM5HGR4JdTF6XUV7wY=;
+        b=kAvMRqq84DQNGEZ1lYRCgJcb4NPElv2L2lsJnqUtbxrXOd6pc/4ec9SWixO20k2SE6
+         MEc3MbGCd/9zA8vg54/J0QupkLeBT4zD1ZiQWiHz6h8o589nUDwlnIwp7n/tM4MOCXlb
+         ucOf+LqAQfJnifR5lxrq/PcmLYPTB3bstM9Tz6TM8EFrmIH0l0ldw8/2XjJTuJ8n636D
+         AtFt+w9i/7dFrObJYXX/wFDVApPlEp1v0HbT3bZz9yA7TPbzIANJc8sbrzdRRLO7pFC5
+         olCjn/+DkcoF/hl3QZT9/YfnRs+MvACM55BCkLUqlHaSLnMMFk1snUNlJFTQtktlwOnh
+         ofAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759987832; x=1760592632;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=66mxYYm1lwUDKT8s1UNwAUuURZhUpzHNJdGMWk83R+M=;
-        b=c+s/0Nk5GYJDOWLSyMZNP/ezA8marMKxMEEOvczpYniqEZtXWeoMavkUeXIPBvhfl+
-         dSsn7XFx3M61wS5xezcbbYpsOhTZ7nUvg4AtCUD+lvM6hCUBYkLfApX2wtShWbv/hdwV
-         Vo6HGFN+7Hg+L0FlKF5GcRwVPaRcwWcgdGRIq8nmRA++po7DFPpsBm8fGGpezUQ+Sf+l
-         gUvH9gLGvw0oFg4u2ecBmNu93J3yRvVE3JxoRoI4ZlZ2jlkLHbONIR4fvID81Gr5jSUT
-         a+KuG0i0EfZYbWxVnfDegrH8lmAK0CpIBkz+49EgMhsmc/vOfe06nmzLI8k/m/SxGGvR
-         xVLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUik/OgGcTyEKPVeXlS8T2w4r7VYOBQo5ewI72yI5NA97sFAXl9dSuvVEcU+7xX8CdyW6OW93avyvniH1ZdcfSss9cxIw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yyn7AFSpdoxrI8n6FC9LSfD+CIuHgSHhLV9LeAi/SLruuacQKoH
-	21yIDcPD1gXTIzfKjws1nDjZWsokXrEb9MIX+SwzN0msb3fehUnu7ZRv
-X-Gm-Gg: ASbGncvuX9KNpiI7XQ7B0u4Z12zjfQ8DyhppxGKCybmUo5wSW8Z2fIZc/cC9QCNja69
-	PXTmdQZ9ZoV0DIny2rdyFy3VFX+qIajueQ7AINLOttwWC1wr8EKbEB1YjH7t1rVifIcj+PCYtFx
-	ePlg/12GRRYcWcF2ikXlFT6KBMRDV/Xn50XiGfNqHxC4+MDrIK3m+mKC21VximPzB1ybtQoye+1
-	oAscjR29/cVxdkfNEUqwTg7Wia1Z07OyqLKyssnuz0S4sUSBdE+5cIMjJSY5mvZ2063NTaO6hzW
-	08DPD4hcIsB34PTYypvBMb2LSuES9+1rbCKJNpkfgqukEy9eozo0/SIr4Lu5RC+buPlZKTJggoo
-	Gxi3Ik+Ft/5uYNJztr2hcpG53cmuHrcDU5NoMCQuZhXn6czSAUTkzfBNmsqkXcb4MZ/X4VUVBOH
-	PEWAhHaA==
-X-Google-Smtp-Source: AGHT+IE96/521TZFyW+4rJmoBB3kl0SaMviXP79e4HfzlRSMb+fmXr9G8IIVQlVxI8d73u5bPmUKyQ==
-X-Received: by 2002:a17:903:2408:b0:28e:7fce:667e with SMTP id d9443c01a7336-2902723f51emr92430835ad.17.1759987832087;
-        Wed, 08 Oct 2025 22:30:32 -0700 (PDT)
-Received: from ti-am64x-sdk.. ([14.98.178.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034de54c7sm15651395ad.10.2025.10.08.22.30.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Oct 2025 22:30:31 -0700 (PDT)
-From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-To: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
-	Rengarajan Sundararajan <Rengarajan.S@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	bhanuseshukumar@gmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH] net: usb: lan78xx: Fix lost EEPROM write timeout error(-ETIMEDOUT) in lan78xx_write_raw_eeprom
-Date: Thu,  9 Oct 2025 11:00:09 +0530
-Message-Id: <20251009053009.5427-1-bhanuseshukumar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1759988327; x=1760593127;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aKbCLdA0D3ZyyrFcf4HmlfoknTM5HGR4JdTF6XUV7wY=;
+        b=WiPWYjnv0wK1bN+BmrxMTs4K7O3Ke+X6QeanRs+WJRRyil18fDtpfwVpSbXNGdqpfG
+         lZbJG8pcNrt7+RmNhyiKNmmiMlly/1d/7rZQ8cG5oAKZkj5RozGpC9kgfS+tWN4ss4Xq
+         iToG7P/zUTx/cSre0vhHJzeEKEdYwXljwToz64SusTtyCNUGVidDx4UVW67+ptbNcXG9
+         QPHlG4BCc4/rWy6Jg5uAakKHSFZE+Lhq1oeExQ0EuVaodRBZQo7muoaPIIXUSab/3aPV
+         2l8DvGN4ANK9x+i3rMbAHxJQeSCklPSAtxVX+2te6r8anTXdUvisuecr10C00MVhQO/7
+         0nSg==
+X-Forwarded-Encrypted: i=1; AJvYcCXaCzqWx6ObgEcng0f2Ed1bWtt6CBr5gL/6O2+RpbOectw7TcEY033QQjfjvWzMHnTL/6h/8bikWcN5zDP8wgmxnvxf3Q==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzwHXicjD8yB0j/YgCl7+JDnPcVkglPUqUQ7KogvDtgFQ1yDa+u
+	vo52P6eyfKk1K+S9gUvI/akkocWyittsEYqXZlFREmBOW1HOwlBt0yfi
+X-Gm-Gg: ASbGnct0ql0Ay2YuZNGjVGGhL72bokTlKK6Kp2tPDjmPTsH36fyx8a+eJxYMSkS4SEb
+	aANnzT6ElNZwcw1BK5Kpyf09mYqbE2fCnGqoKnNLzWRP8hbb6kWmy4RfGcXX1DZBRcl3vXdVA9J
+	19zS2cuW+8uL75a3617Sln4GKj9IMQWyU6N6A6xoMPNNsplcDApQrTiSduV6EWqb1jIgnsNh7zo
+	nChZ3Hr58QVVse8GspqhPJ+yFQqo9gk4WQ2XXWTQrblpvDiTGLMlNuWpgVShFu2YJh2jM5Okx9x
+	lqL/IoEGPJRJf93ZDgB+Vx/edZ/481Z5MpOPP8aOt1AkdIwkUJD4WecUkQZshuYtacgZFtzFgQp
+	SK/Xnv/rqaBhTEIJNY1fQ1uklScSscX+ZQ2AN8K50JDADkH8rBixHUtMGVGwudnB/q6Y=
+X-Google-Smtp-Source: AGHT+IHZ44y6ZFCxVyEDZOYJddPo2NG2UBmtyjURIoIIViVofpipLRjydPLmmlTTcL3OK6IoivH0yg==
+X-Received: by 2002:a05:6a21:33a8:b0:32b:70a3:afea with SMTP id adf61e73a8af0-32da80da519mr8783258637.3.1759988326785;
+        Wed, 08 Oct 2025 22:38:46 -0700 (PDT)
+Received: from [10.0.2.15] ([14.98.178.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b51113776sm5508816a91.14.2025.10.08.22.38.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Oct 2025 22:38:46 -0700 (PDT)
+Message-ID: <5fe7d13e-e608-48a7-8205-514c461a145d@gmail.com>
+Date: Thu, 9 Oct 2025 11:08:40 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] net: usb: lan78xx: Fix lost EEPROM write timeout
+ error(-ETIMEDOUT) in lan78xx_write_raw_eeprom
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
+ Rengarajan Sundararajan <Rengarajan.S@microchip.com>,
+ UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251004040722.82882-1-bhanuseshukumar@gmail.com>
+ <2025100407-devalue-overarch-afe0@gregkh>
+Content-Language: en-US
+From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+In-Reply-To: <2025100407-devalue-overarch-afe0@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The function lan78xx_write_raw_eeprom failed to properly propagate EEPROM
-write timeout errors (-ETIMEDOUT). In the timeout  fallthrough path, it first
-attempted to restore the pin configuration for LED outputs and then
-returned only the status of that restore operation, discarding the
-original timeout error saved in ret.
+On 04/10/25 11:21, Greg KH wrote:
+> Hi,
+> 
+> This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+> a patch that has triggered this response.  He used to manually respond
+> to these common problems, but in order to save his sanity (he kept
+> writing the same thing over and over, yet to different people), I was
+> created.  Hopefully you will not take offence and will fix the problem
+> in your patch and resubmit it so that it can be accepted into the Linux
+> kernel tree.
+> 
+> You are receiving this message because of the following common error(s)
+> as indicated below:
+> 
+> - You have marked a patch with a "Fixes:" tag for a commit that is in an
+>   older released kernel, yet you do not have a cc: stable line in the
+>   signed-off-by area at all, which means that the patch will not be
+>   applied to any older kernel releases.  To properly fix this, please
+>   follow the documented rules in the
+>   Documentation/process/stable-kernel-rules.rst file for how to resolve
+>   this.
+> 
 
-As a result, callers could mistakenly treat EEPROM write operation as
-successful even though the EEPROM write had actually timed out with no
-or partial data write.
+Hi,
 
-To fix this, handle errors in restoring the LED pin configuration separately.
-If the restore succeeds, return any prior EEPROM write timeout error saved
-in ret to the caller.
+Sent a v2 with cc: stable tag.
+v2 Link https://lore.kernel.org/all/20251009053009.5427-1-bhanuseshukumar@gmail.com/
 
-Suggested-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Fixes: 8b1b2ca83b20 ("net: usb: lan78xx: Improve error handling in EEPROM and OTP operations")
-cc: stable@vger.kernel.org
-Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
----
- Note:
- The patch is compiled and tested using EVB-LAN7800LC.
- The patch was suggested by Oleksij Rempel while reviewing a fix to a bug
- found by syzbot earlier.
- The review mail chain where this fix was suggested is given below.
- https://lore.kernel.org/all/aNzojoXK-m1Tn6Lc@pengutronix.de/
+Regards,
+Bhanu Seshu Kumar Valluri
 
- ChangeLog:
- v1->v2:
-  Added cc:stable tag as asked during v1 review.
-  V1 Link : https://lore.kernel.org/all/20251004040722.82882-1-bhanuseshukumar@gmail.com/
-
- drivers/net/usb/lan78xx.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index d75502ebbc0d..5ccbe6ae2ebe 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -1174,10 +1174,13 @@ static int lan78xx_write_raw_eeprom(struct lan78xx_net *dev, u32 offset,
- 	}
- 
- write_raw_eeprom_done:
--	if (dev->chipid == ID_REV_CHIP_ID_7800_)
--		return lan78xx_write_reg(dev, HW_CFG, saved);
--
--	return 0;
-+	if (dev->chipid == ID_REV_CHIP_ID_7800_) {
-+		int rc = lan78xx_write_reg(dev, HW_CFG, saved);
-+		/* If USB fails, there is nothing to do */
-+		if (rc < 0)
-+			return rc;
-+	}
-+	return ret;
- }
- 
- static int lan78xx_read_raw_otp(struct lan78xx_net *dev, u32 offset,
--- 
-2.34.1
 
