@@ -1,138 +1,131 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC109260590
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 14:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796DD2EA732
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  9 Oct 2025 14:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760019396; cv=none; b=YgMlOuTwcDDDYmi55buCjUSEyaRXUnLykKjj58abuhhdq39TFyrGdeIDlfB+eL1zh4/Nua+fZDNJNNH4R3/+emAsGY9dRL3alelEyHZWUBSQUcHtm4PfiprMe8N85zQjMr6EdjZiGoaTEh91Fm+D8vKcVbit/Qx6f0nJrDyNR8E=
+	t=1760020034; cv=none; b=trhls3yFj2ZfUaF99olTQvvZilLPvDFOHYeTEahP9QlfWDLy4y1Yl+51SYzUX9u8RSRzT1y12eOmmcU7cJiU7uBAv7X0WMWrx8sjOAWIyRFfqmO2HOYMlLKVk0hN4svwQMqobl0VFmjV09d35NBqXmEA9ZivP0WAZ4FO1Z7HfAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760019396; c=relaxed/simple;
-	bh=INg2l1L3qVlchF8lbtAersWzkgZD/yRLdxvFc3cUXeE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ky9DtU7aZOtti1lrNLl3KwEAZb3qaP1HbkDzQErTxxQfiKg1Nk+a9QuvO3SRjsIsx1eiCze13zYiGPpBeCcpkh6cXP1aWTU5DBlKr+1a20aPrIde49bJgCnCMcm5LhPu4txgPAjbrI9JbuvBE0DgSKwht72kVpBdnDpHkdnCbMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hbxm5hFY; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1760020034; c=relaxed/simple;
+	bh=r/F02S07YxY/vR+W+qaExDIN6Da+5SzwX0AXZ3uJSi4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LMxpKuPYST/+q0nyXqIn0Msd80zWsncyBYWXfQ83lLfVa+J3y34TUCS6tx6Zchw51UxNYI4gfnpNBqynEN1tUJody46XHB47FkHRAAMI+MU4gf3KfSWkveORtqsg1q8azGwMjOoCLxBJVYJ0Tpacn5OPSJz3wiuypRxcj+imAV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IQH5MGD0; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hbxm5hFY"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5126461298
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 14:16:35 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id vsc0-tkp5vMO for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Oct 2025 14:16:34 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32f; helo=mail-wm1-x32f.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6A7D461293
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6A7D461293
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Hbxm5hFY
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6A7D461293
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 14:16:34 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-46e32139ef7so1717205e9.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 09 Oct 2025 07:16:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760019392; x=1760624192; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KSrrO4mmiUzY5qFigdCsu5TCXkFT2TeakHQbJDtrsro=;
-        b=Hbxm5hFYaAHD0BfGvyaDum73vTDGLP2IXzG6ju7j2yo2AYeS7r2T+oZf5uEGdpy8m+
-         i6uCRuS0Wx/LMNUbR5WSM11KMJalq53XOOQsMd9IR3XErUpJlInXNo2bnhaKHgt7uSN6
-         I9+/NiDVbPxGGp3WBP9BdO0VeaMS28FQc48cgRpnY1P2GSt2/ybs9/8lYb3LNYaj4r8X
-         jmcU1Cf6aemRYubGDavDmkh2wdbV0xiSv4AasuIKO7BRHQNAQaZ9iCTllICcE6hEBrLm
-         wU+6XIFKKhKKFjhgvhjLRWIJqfaHFAB5s8YqKbhyP/h3EKf8SIPaR6CSTz1AjLL0PS9e
-         FP+Q==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IQH5MGD0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1760020031;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r/F02S07YxY/vR+W+qaExDIN6Da+5SzwX0AXZ3uJSi4=;
+	b=IQH5MGD0UDxq+A04zJcE0f80/9nfkfcKWTuAJH9W8DVD4X5ZPk+CR5HSTAASeB9GJfqzlY
+	q11bo++aUV06F6vsXQERpEddS1Egho8bx22l9n3z9PL1MrARk9XQurZ/pQN6yL0lTuws+i
+	FwgiqFNuAautaI5/Xy4g45miV0lC95E=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-16-GHgF6wM-OEmRRliAlDBiIw-1; Thu, 09 Oct 2025 10:27:10 -0400
+X-MC-Unique: GHgF6wM-OEmRRliAlDBiIw-1
+X-Mimecast-MFC-AGG-ID: GHgF6wM-OEmRRliAlDBiIw_1760020029
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-b41c67edce5so203666266b.3
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 09 Oct 2025 07:27:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760019392; x=1760624192;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KSrrO4mmiUzY5qFigdCsu5TCXkFT2TeakHQbJDtrsro=;
-        b=JnuesxOlaqb2NR3GmnfyCHP30zgVDAMNkRrzPvsyqN3D6u0owuOE+StjKH96B9BIT3
-         S3/Pa+Nny7KZ1qQQixzy/gXWWZrhFUhyijjolcC6GscjuphChP6yqEzl4cMRNs942gl5
-         k9j2pRbP6KqwD94wbVwN1hSMIP+AvpxjEI5w+j1E//tJKRoVzf4aTJDOEvrVzhjwW08r
-         MzLKto0PrDirsoa6A1b6gG9Eor3YMAG48H+kMfSLRdsAUpMhnctN+HguZHKIz5+Ojcwx
-         EUmE7VYvLFhqQbmiTppOymqbeyHgxNVM+o9my2TbiYAmc4JKfduSolx2zS5ikff5OxUy
-         Gupw==
-X-Forwarded-Encrypted: i=1; AJvYcCWbncgx3hL6qoXC0arUIvum17WO5NmVOXEnrTN+h1X3ZqjV8/xl0f1GaZi3VhYZtRg6ceofPTiZ4f+1zSdxF63UZWHcog==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yw0z4ygzh+u3BRXS3cuWDc0PfvG2NTF8CxmDO9sA02yv3E8bNsd
-	xsU1EiH6UUKXVn/BMCh9v1Qn4qjxezUZ+oUWeSJv6/5n2iF7TvJK4tK6
-X-Gm-Gg: ASbGncsNZsyAm8CSYLPtxAXxjGnRBpZwgISn1ihYga7L8Thlo5lVPFBHXjduK+LI+bE
-	ZTj7CEzPlwHcogYt4AVjPefJ3S3v9pXsBbud4vDHNLmIfXN5GyYH3QHV59K5fpff/YX34gAwZbD
-	U+OPnKDd4/lyWkty/0QCbkgPaqf5XKd2MywJt/BYax9JUia2zEqSzayA0X53cZXTHt7AAbq9/Lw
-	uaIwUUfOogp6amU5H2+8TSSzkkoQ5qvTDbsu/ZYcehDN0EH6ClASMFpDFlHPkPiBKk3yx8Nt+GL
-	Fg3/pjHToqjJ3lxyTPlmoL9RqIJM57uTDV8OE1/L/5lduPV/RyYP4f0kh+0jPo9DlcLmow3PyxX
-	Bfwud4nxoqMs6K6Le/3XUU7AgBmZ+6egzfuXvLL9bnv/qYsSW2WvYn3zEnRDeX+wqmqWYX2jM/O
-	Ebl0FR
-X-Google-Smtp-Source: AGHT+IG9tRKBlq86RJLVpcZ2NOyilhHrsunhrFrqoHub96Rq1cpuS2RUwseJcNN4aM0Y2mlO6+vqOA==
-X-Received: by 2002:a05:6000:1846:b0:425:5d25:ffc7 with SMTP id ffacd0b85a97d-4266e7d4864mr2905327f8f.6.1760019392134;
-        Thu, 09 Oct 2025 07:16:32 -0700 (PDT)
-Received: from [192.168.1.105] ([165.50.46.108])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8f4ab0sm35103359f8f.52.2025.10.09.07.16.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Oct 2025 07:16:31 -0700 (PDT)
-Message-ID: <84bf5902-b3e5-4d58-a2a7-f01e15cfe143@gmail.com>
-Date: Thu, 9 Oct 2025 16:16:27 +0100
+        d=1e100.net; s=20230601; t=1760020029; x=1760624829;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r/F02S07YxY/vR+W+qaExDIN6Da+5SzwX0AXZ3uJSi4=;
+        b=v+QHsFjRSEIm29nMd1bWHMuH4qZTEgVekwHRGAe18OMBb7bj8SWahhzHjoaDbL74b8
+         MU4wySE/ySsX+USiYAhil9+3EpS6y5v+C0NwRB62lo3W68FUBC4Ss8Bk4r9NCXIjcYER
+         arCLKYmPxnZNCH94jrvsuwHZOHLQ5+69eASmg3kinICiwnyEwkyBmhE4TNgO6Q8REZ3n
+         5j/ThT0pB5WPBWrvnyQpGofQimEa9bB6TiI7zL/4v2AjLhkqPkjJavov2qiSD6Hlo72H
+         pyQzYEA4E8Z0bCR328+Qghf3g+hoqUbgIxFadf+tj7zdM/gCdPu5Lu8ox8Sq0Ed927G6
+         J05w==
+X-Forwarded-Encrypted: i=1; AJvYcCVbvQTZEJ+ahy99N+o4abYF+Gv3ovPm1SS9BwgCMXgs3zL+2TMReNy5c76X/6uxzWJ3tN83SFhoo5apKIvM7P7cgIVUFw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFgB3DFXip9E+G6Xk6n7uWjhQEqMMQvJvpQO7q3jZJNT5oudSg
+	C7oaGNj+ZF9M4q7o1dAGgU0krftcZEk46ocJwRrRcpmIufN1WY8Acj7hN7XJrKvlHX5OUSLr89v
+	erOKbclcGqSpC4hpNEU8zs6kdlo4OnqzoRQd3G4TznCGl3guqzLNLsNizt+YFsUeh5ScalUM/M+
+	m9/pDWH3PXV22LuShoCuGuCAaqsXAXht0uGtlfz8v8JvC2g9suXXM=
+X-Gm-Gg: ASbGncsRS3z3N7i/k53HAox98zi2rXwDZIOH97vB+noa3YPN/7VfYwO67vpVbotwRu9
+	yPzz6ipHfwuwCHNwpiR1K9ttK3mQxh/BTwDbw8XSiWjT2PsobiYhaKKmwIR5jgMotPC95lW/S5G
+	BcGNVpIg2Y++a+vDeBfCHsbV5WRA==
+X-Received: by 2002:a17:907:94c8:b0:b47:de64:df1b with SMTP id a640c23a62f3a-b50abfd6d92mr811674766b.39.1760020029148;
+        Thu, 09 Oct 2025 07:27:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF9K4Ovcv1oyU3VJoFriYFnWdSwGIcpMlhvL4pFzCqlwbu14cCZhq1aVRyK7USxJfsD/yZfE8XNTnaHJkha3f4=
+X-Received: by 2002:a17:907:94c8:b0:b47:de64:df1b with SMTP id
+ a640c23a62f3a-b50abfd6d92mr811668266b.39.1760020028075; Thu, 09 Oct 2025
+ 07:27:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] lib: cpu_rmap.c Refactor allocation size calculation in
- kzalloc()
-To: Shuah Khan <skhan@linuxfoundation.org>, akpm@linux-foundation.org
-Cc: linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org
-References: <20250930092327.27848-1-mehdi.benhadjkhelifa@gmail.com>
- <10082c41-4302-4cb3-a2bf-788e59bad0c8@linuxfoundation.org>
-Content-Language: en-US
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-In-Reply-To: <10082c41-4302-4cb3-a2bf-788e59bad0c8@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <CAP4=nvTjauRawBPTnGEztZpdDSNhGpgSJtjoTFuq+cCQHP5oEg@mail.gmail.com>
+ <20251008184522.13201-1-krishnagopi487@gmail.com>
+In-Reply-To: <20251008184522.13201-1-krishnagopi487@gmail.com>
+From: Tomas Glozar <tglozar@redhat.com>
+Date: Thu, 9 Oct 2025 16:26:56 +0200
+X-Gm-Features: AS18NWCYOpNrF7B48EqcyTUqbw_46aTsbs0KByL75_VH-zZNmvaxGmgx_22fbq8
+Message-ID: <CAP4=nvQT5xkOCvVK9J-aYMjwqPv=F8bJ6m1yj2W9OcUwwJw+7A@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation/rtla: rename common_xxx.rst files to common_xxx.txt
+To: Gopi Krishna Menon <krishnagopi487@gmail.com>
+Cc: rostedt@goodmis.org, corbet@lwn.net, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, crwood@redhat.com, 
+	costa.shul@redhat.com, jkacur@redhat.com, 
+	Bagas Sanjaya <bagasdotme@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 06P9Cb-wxAnp5ttUDzrfzPHgt2fn3CFVc-6cwxkr9Oo_1760020029
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/7/25 11:23 PM, Shuah Khan wrote:
+st 8. 10. 2025 v 20:45 odes=C3=ADlatel Gopi Krishna Menon
+<krishnagopi487@gmail.com> napsal:
+>
+> Running "make htmldocs" reports the following build errors for
+> common_options.rst:
+>
+> Documentation/tools/rtla/common_options.rst:58: ERROR: Undefined substitu=
+tion referenced: "threshold".
+> Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitu=
+tion referenced: "tool".
+> Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitu=
+tion referenced: "thresharg".
+> Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitu=
+tion referenced: "tracer".
+> Documentation/tools/rtla/common_options.rst:92: ERROR: Undefined substitu=
+tion referenced: "tracer".
+> Documentation/tools/rtla/common_options.rst:98: ERROR: Undefined substitu=
+tion referenced: "actionsperf".
+> Documentation/tools/rtla/common_options.rst:113: ERROR: Undefined substit=
+ution referenced: "tool".
+>
+> common_*.rst files are intended to be included by other rtla documents
+> and are not meant to be built as a standalone document.
+> common_options.rst in particular contains substitutions that are only
+> resolved by other documents, so building it independently results in
+> 'undefined substitution referenced' errors.
+>
+> Rename all common_*.rst files to common_*.txt to prevent Sphinx from
+> building them as standalone documents and update all include references
+> accordingly.
+>
+> Suggested-by: Tomas Glozar <tglozar@redhat.com>
+> Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+> ---
 
-> 
-> How did you find this problem and how did you test this change?
-For the first part of your question,After simply referring to deprecated 
-documentation[1] which states the following:
-'For other calculations, please compose the use of the size_mul(), 
-size_add(), and size_sub() helpers'
-Which is about dynamic calculations made inside of kzalloc() and 
-kmalloc(). Specifically, the quoted part is talking about calculations 
-which can't be simply divided into two parameters referring to the 
-number of elements and size per element and in cases where we can't use 
-struct_size() too.After that it was a matter of finding code where that 
-could be the problem which is the case of the changed code.
+Looks good!
 
-For the second part, As per any patch,I make a copy of all dmesg 
-warnings errors critical messages,then I compile install and boot the 
-new kernel then check if there is any change or regression in dmesg.
-For this particular change, since it doesn't have any selftests because 
-it's in utility library which in my case cpu_rmap is used in the 
-networking subsystem, I did some fault injection with a custom module to 
-test if in case of overflow it fails safely reporting the issue in dmesg 
-which is catched by the __alloc_frozen_pages_noprof() function in 
-mm/page_alloc.c and also return a NULL for rmap instead of wrapping to a 
-smaller size.
+Reviewed-by: Tomas Glozar <tglozar@redhat.com>
 
-If any further testing or work to be done or even suggestions on 
-improvements to my testing methodology, I would gladly hear any advice.
-Thank you for you time.
-
-> 
-> thanks,
-> -- Shuah
-
-Best Regards,
-Mehdi Ben Hadj Khelifa
+Tomas
 
