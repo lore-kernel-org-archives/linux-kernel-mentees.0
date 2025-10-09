@@ -1,164 +1,152 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC1E33D8
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  9 Oct 2025 12:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01D82E88A2;
+	Thu,  9 Oct 2025 13:28:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760014688; cv=none; b=dcu5YvDamhAcGZ2XLyDcAvvJQl99szesY0nyBD2txIRGYufiHztT/B2wMeqhcTzdN6DXBe5Q8iiK5ZcWIZ3RkpQYJuvf9HtnwEdRezfEYyauMsm6yMCIe371CRzL5SAboxPKNSCWdLQ3JvHnxC/uGssqwECWt+knoDWvOsOwaCM=
+	t=1760016518; cv=none; b=IWHAxgjH9Ne1jPbzsr0G9BpkzWkzBPKhKJBc7kbQZfzH3IbE1mOSHcVQblKNb0I/PRC2g2JtHdL2nJvyPPEBvch6PTOqvHYNq1G7i41+GLE4+Rb68dwumBbvm3Q9z5J9Rj7htn4hmgxW6KaAfRpVvCwnGeKz7kovmkzL8v0IQRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760014688; c=relaxed/simple;
-	bh=LoaVQodVhFo56YznmyVF9NYQySEKHXOiB5FSKqVj0xQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Npt+/M5FGGuFxKcV5sG19RaIYyhDo9tSyoLhOivO8zURhRh5zmRurWp9/TGTx2xj6wvrr4o3PL1TrxqOILf0pn8nFemH0RkHLAWMZ6kMYz0sFSdSUDukMxqHl3NCi0UmZllZOMw7MAiXgfyTzMefj6iMU2LN18YWxfBEQ8GxHWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 599CvacV010883;
-	Thu, 9 Oct 2025 21:57:37 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.10] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 599CvaUs010879
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Thu, 9 Oct 2025 21:57:36 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <559c331f-4838-49fb-95aa-2d1498c8a41e@I-love.SAKURA.ne.jp>
-Date: Thu, 9 Oct 2025 21:57:33 +0900
+	s=arc-20240116; t=1760016518; c=relaxed/simple;
+	bh=o4bOSB/+LmL3jiEYvJGq1i0H1UJYSLiq5TkwNmGyVWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A8tdXLOkg2CO/2hUc7cKD7owZGHIjnmxFcXYe5+vgT1GOJAEqe5RJMpaDa27OuA3ei4C7wSZtAHdOQ2RrRxadyk7cSxRmUhZaR7KHW3y8ldNsC52LA5gTA9/JTePHJSPKHk5mZ8iC2Wjjz10K3PLe55W2I7vZHEfZTD1FQT0o/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3uiTcGJ; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3uiTcGJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760016517; x=1791552517;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o4bOSB/+LmL3jiEYvJGq1i0H1UJYSLiq5TkwNmGyVWk=;
+  b=T3uiTcGJcAaQOliBVSRV5JNnlrYfm72Q3bZ5QGWef/lI6l46n6K2CRS+
+   OocezQQzSchi4joHUK1vU34gCZy5QTa9EzNXgVrcm46YY2nxhGopaHyWA
+   PpLFtvl1yavNlP22CMrWmNVtQlQ0AsCCnoxlFXiNf+TJsJYir+SXqIivU
+   Oc+u4VfD5tFFOf5oy572Ei2fb/Ac6+J7O4f0yfMEVtf/+gePJPdMdh4KT
+   dsX5ste2FDgzWErdpNy5XGi35G3Kk6IWKrCAHNG8QguivTTLe4hG6bwHk
+   Ls+7ntjGfmT530jH7IBldkDbpzTirY2R/v6O/wpi5Zs4/m/sBmef5zMB7
+   A==;
+X-CSE-ConnectionGUID: khskEhHfQVuV7sHjIEdSwA==
+X-CSE-MsgGUID: A4X4NiPfTe6Gh4C9BemAaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="73569319"
+X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
+   d="scan'208";a="73569319"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 06:28:36 -0700
+X-CSE-ConnectionGUID: 9ig6yzJtTZayI+GRcxyPHw==
+X-CSE-MsgGUID: MuHFL17ySmGqK2g9YhC6AA==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 09 Oct 2025 06:28:32 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v6qh4-0000kF-0e;
+	Thu, 09 Oct 2025 13:28:30 +0000
+Date: Thu, 9 Oct 2025 21:28:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shrikant Raskar <raskar.shree97@gmail.com>, jic23@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, matt@ranostay.sg,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	Shrikant Raskar <raskar.shree97@gmail.com>
+Subject: Re: [PATCH 2/2] iio: health: max30100: Add pulse-width configuration
+ via DT
+Message-ID: <202510092124.rc01eF4I-lkp@intel.com>
+References: <20251004015623.7019-3-raskar.shree97@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hfs: Validate CNIDs in hfs_read_inode
-To: Viacheslav Dubeyko <slava@dubeyko.com>,
-        George Anthony Vernon <contact@gvernon.com>,
-        Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-        "frank.li@vivo.com" <frank.li@vivo.com>,
-        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel-mentees@lists.linux.dev"
- <linux-kernel-mentees@lists.linux.dev>,
-        "syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com"
- <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20251003024544.477462-1-contact@gvernon.com>
- <405569eb2e0ec4ce2afa9c331eb791941d0cf726.camel@ibm.com>
- <aOB3fME3Q4GfXu0O@Bertha>
- <6ec98658418f12b85e5161d28a59c48a68388b76.camel@dubeyko.com>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <6ec98658418f12b85e5161d28a59c48a68388b76.camel@dubeyko.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Anti-Virus-Server: fsav401.rs.sakura.ne.jp
-X-Virus-Status: clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251004015623.7019-3-raskar.shree97@gmail.com>
 
-I found this patch. Please CC: me when posting V2.
+Hi Shrikant,
 
-On 2025/10/07 22:40, Viacheslav Dubeyko wrote:
-> On Sat, 2025-10-04 at 02:25 +0100, George Anthony Vernon wrote:
->> On Fri, Oct 03, 2025 at 10:40:16PM +0000, Viacheslav Dubeyko wrote:
->>> Let's pay respect to previous efforts. I am suggesting to add this
->>> line:
->>>
->>> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
->>>
->>> Are you OK with it?
->> I agree with paying respect to Tetsuo. The kernel docs indicate that
->> the SoB tag
->> isn't used like that. Would the Suggested-by: tag be more
->> appropriate?
->>
+kernel test robot noticed the following build warnings:
 
-I'm not suggesting this change. Therefore, Cc: might match.
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on robh/for-next linus/master v6.17 next-20251008]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-But I don't like
+url:    https://github.com/intel-lab-lkp/linux/commits/Shrikant-Raskar/dt-bindings-iio-max30100-Add-pulse-width-property/20251004-095849
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20251004015623.7019-3-raskar.shree97%40gmail.com
+patch subject: [PATCH 2/2] iio: health: max30100: Add pulse-width configuration via DT
+config: arm-randconfig-r073-20251004 (https://download.01.org/0day-ci/archive/20251009/202510092124.rc01eF4I-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
 
-  Tested-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510092124.rc01eF4I-lkp@intel.com/
 
-line, for syzbot only tested one cnid which was embedded in the
-reproducer. My modified reproducer which tests all range still hits
-BUG() when the inode number of the record retrieved as a result of
-hfs_cat_find_brec(HFS_ROOT_CNID) is HFS_POR_CNID. That is why I push
-https://lkml.kernel.org/r/427fcb57-8424-4e52-9f21-7041b2c4ae5b@I-love.SAKURA.ne.jp
-as a fix for this problem (and you can propose this patch as a
-further sanity check). Unless
+smatch warnings:
+drivers/iio/health/max30100.c:346 max30100_chip_init() warn: unsigned 'pulse_width' is never less than zero.
+drivers/iio/health/max30100.c:346 max30100_chip_init() warn: error code type promoted to positive: 'pulse_width'
 
->>>
->>>> +{
->>>> +	if (likely(cnid >= HFS_FIRSTUSER_CNID))
->>>> +		return true;
->>>> +
->>>> +	switch (cnid) {
->>>> +	case HFS_POR_CNID:
+vim +/pulse_width +346 drivers/iio/health/max30100.c
 
-we disable HFS_POR_CNID case (which I guess it is wrong to do so),
-we shall hit BUG() in hfs_write_inode().
+   326	
+   327	static int max30100_chip_init(struct max30100_data *data)
+   328	{
+   329		int ret;
+   330		unsigned int pulse_us;
+   331		unsigned int pulse_width;
+   332		struct device *dev = &data->client->dev;
+   333	
+   334		/* setup LED current settings */
+   335		ret = max30100_led_init(data);
+   336		if (ret)
+   337			return ret;
+   338	
+   339		/* Get pulse width from DT, default = 1600us */
+   340		ret = device_property_read_u32(dev, "maxim,pulse-width", &pulse_us);
+   341		if (ret) {
+   342			dev_warn(dev, "no pulse-width defined, defaulting to 1600us\n");
+   343			pulse_width = MAX30100_REG_SPO2_CONFIG_1600US;
+   344		} else {
+   345			pulse_width = max30100_get_pulse_width(pulse_us);
+ > 346			if (pulse_width < 0) {
+   347				dev_err(dev, "invalid pulse-width %u\n", pulse_us);
+   348				return pulse_width;
+   349			}
+   350		}
+   351	
+   352		/* enable hi-res SPO2 readings at 100Hz */
+   353		ret = regmap_write(data->regmap, MAX30100_REG_SPO2_CONFIG,
+   354					 MAX30100_REG_SPO2_CONFIG_HI_RES_EN |
+   355					 MAX30100_REG_SPO2_CONFIG_100HZ |
+   356					 pulse_width);
+   357		if (ret)
+   358			return ret;
+   359	
+   360		/* enable SPO2 mode */
+   361		ret = regmap_update_bits(data->regmap, MAX30100_REG_MODE_CONFIG,
+   362					 MAX30100_REG_MODE_CONFIG_MODE_MASK,
+   363					 MAX30100_REG_MODE_CONFIG_MODE_HR_EN |
+   364					 MAX30100_REG_MODE_CONFIG_MODE_SPO2_EN);
+   365		if (ret)
+   366			return ret;
+   367	
+   368		/* enable FIFO interrupt */
+   369		return regmap_update_bits(data->regmap, MAX30100_REG_INT_ENABLE,
+   370					 MAX30100_REG_INT_ENABLE_MASK,
+   371					 MAX30100_REG_INT_ENABLE_FIFO_EN
+   372					 << MAX30100_REG_INT_ENABLE_MASK_SHIFT);
+   373	}
+   374	
 
->>>> +	case HFS_ROOT_CNID:
->>>> +		return type == HFS_CDR_DIR;
->>>> +	case HFS_EXT_CNID:
->>>> +	case HFS_CAT_CNID:
->>>> +	case HFS_BAD_CNID:
->>>> +	case HFS_EXCH_CNID:
->>>> +		return type == HFS_CDR_FIL;
->>>> +	default:
->>>> +		return false;
->>>
-
-
-
->>> int hfs_write_inode(struct inode *inode, struct writeback_control
->>> *wbc)
->>> {
->>> 	struct inode *main_inode = inode;
->>> 	struct hfs_find_data fd;
->>> 	hfs_cat_rec rec;
->>> 	int res;
->>>
->>> 	hfs_dbg("ino %lu\n", inode->i_ino);
->>> 	res = hfs_ext_write_extent(inode);
->>> 	if (res)
->>> 		return res;
->>>
->>> 	if (inode->i_ino < HFS_FIRSTUSER_CNID) {
->>> 		switch (inode->i_ino) {
->>> 		case HFS_ROOT_CNID:
->>> 			break;
->>> 		case HFS_EXT_CNID:
->>> 			hfs_btree_write(HFS_SB(inode->i_sb)-
->>>> ext_tree);
->>> 			return 0;
->>> 		case HFS_CAT_CNID:
->>> 			hfs_btree_write(HFS_SB(inode->i_sb)-
->>>> cat_tree);
->>> 			return 0;
->>> 		default:
->>> 			BUG();
->>> 			return -EIO;
->>>
->>> I think we need to select something one here. :) I believe we need
->>> to remove
->>> BUG() and return -EIO, finally. What do you think? 
-
-I think that removing this BUG() now is wrong.
-Without my patch, the inode number of the record retrieved as a
-result of hfs_cat_find_brec(HFS_ROOT_CNID) can be HFS_POR_CNID or
-greater than HFS_FIRSTUSER_CNID, which I think is a logical error
-in the filesystem image.
-
->>
->> I think that with validation of inodes in hfs_read_inode this code
->> path should
->> no longer be reachable by poking the kernel interface from userspace.
->> If it is
->> ever reached, it means kernel logic is broken, so it should be
->> treated as a bug.
-
-Your patch is incomplete. Please also apply my patch.
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
