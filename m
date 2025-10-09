@@ -1,152 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01D82E88A2;
-	Thu,  9 Oct 2025 13:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7F52E92D0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 13:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760016518; cv=none; b=IWHAxgjH9Ne1jPbzsr0G9BpkzWkzBPKhKJBc7kbQZfzH3IbE1mOSHcVQblKNb0I/PRC2g2JtHdL2nJvyPPEBvch6PTOqvHYNq1G7i41+GLE4+Rb68dwumBbvm3Q9z5J9Rj7htn4hmgxW6KaAfRpVvCwnGeKz7kovmkzL8v0IQRQ=
+	t=1760018272; cv=none; b=ZmPZhkWGKsS9Uu9xBy2ZVYaTCzoJeSQdugOTozdIgJwqB2MLDTfLiQ5V6KB9jW3AFf4qwiu3A4hXoNsqcX05ZJxsaqVZXcvsHvJZUGwogoi8XWv8kYnDgXYCL+rZZVnjRBonQnKRQqgW2MNXoLWWNRM2R1wsMHNGBGIvt+1sal8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760016518; c=relaxed/simple;
-	bh=o4bOSB/+LmL3jiEYvJGq1i0H1UJYSLiq5TkwNmGyVWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A8tdXLOkg2CO/2hUc7cKD7owZGHIjnmxFcXYe5+vgT1GOJAEqe5RJMpaDa27OuA3ei4C7wSZtAHdOQ2RrRxadyk7cSxRmUhZaR7KHW3y8ldNsC52LA5gTA9/JTePHJSPKHk5mZ8iC2Wjjz10K3PLe55W2I7vZHEfZTD1FQT0o/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3uiTcGJ; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3uiTcGJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760016517; x=1791552517;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o4bOSB/+LmL3jiEYvJGq1i0H1UJYSLiq5TkwNmGyVWk=;
-  b=T3uiTcGJcAaQOliBVSRV5JNnlrYfm72Q3bZ5QGWef/lI6l46n6K2CRS+
-   OocezQQzSchi4joHUK1vU34gCZy5QTa9EzNXgVrcm46YY2nxhGopaHyWA
-   PpLFtvl1yavNlP22CMrWmNVtQlQ0AsCCnoxlFXiNf+TJsJYir+SXqIivU
-   Oc+u4VfD5tFFOf5oy572Ei2fb/Ac6+J7O4f0yfMEVtf/+gePJPdMdh4KT
-   dsX5ste2FDgzWErdpNy5XGi35G3Kk6IWKrCAHNG8QguivTTLe4hG6bwHk
-   Ls+7ntjGfmT530jH7IBldkDbpzTirY2R/v6O/wpi5Zs4/m/sBmef5zMB7
-   A==;
-X-CSE-ConnectionGUID: khskEhHfQVuV7sHjIEdSwA==
-X-CSE-MsgGUID: A4X4NiPfTe6Gh4C9BemAaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="73569319"
-X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
-   d="scan'208";a="73569319"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 06:28:36 -0700
-X-CSE-ConnectionGUID: 9ig6yzJtTZayI+GRcxyPHw==
-X-CSE-MsgGUID: MuHFL17ySmGqK2g9YhC6AA==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 09 Oct 2025 06:28:32 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v6qh4-0000kF-0e;
-	Thu, 09 Oct 2025 13:28:30 +0000
-Date: Thu, 9 Oct 2025 21:28:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shrikant Raskar <raskar.shree97@gmail.com>, jic23@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, matt@ranostay.sg,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	Shrikant Raskar <raskar.shree97@gmail.com>
-Subject: Re: [PATCH 2/2] iio: health: max30100: Add pulse-width configuration
- via DT
-Message-ID: <202510092124.rc01eF4I-lkp@intel.com>
-References: <20251004015623.7019-3-raskar.shree97@gmail.com>
+	s=arc-20240116; t=1760018272; c=relaxed/simple;
+	bh=wpi1WDWENZNucIqzTCYS/kpzZuHNHMw9EDbF6qY427Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NR2eMP+CrWw7CMlC3s6CK42goSEB6/StjpRdPjL3qAxV0d0l7hD3z1Odc5wZj/eSRpCq58IPC6CvF2F1NxfKdRy8f2K3hf+4htoFnDHPwzv/kvxeEqy2xetjrBwXwdhb0rxHMp74O6sGTDctR4wsr89k1lYlNHG7rTMdqYIM9/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id DD75F822DE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 13:57:50 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.59
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id mkMczFaFrA9S for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  9 Oct 2025 13:57:50 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=216.40.44.15; helo=relay.hostedemail.com; envelope-from=rostedt@goodmis.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 98F6A82166
+Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 98F6A82166
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 98F6A82166
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 13:57:49 +0000 (UTC)
+Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id 28C79BBCAB;
+	Thu,  9 Oct 2025 13:57:47 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf18.hostedemail.com (Postfix) with ESMTPA id 123242F;
+	Thu,  9 Oct 2025 13:57:44 +0000 (UTC)
+Date: Thu, 9 Oct 2025 09:57:44 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ david.hunter.linux@gmail.com, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ syzbot+ddc001b92c083dbf2b97@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3] ring buffer: Propagate __rb_map_vma return value to
+ caller
+Message-ID: <20251009095744.443db14b@gandalf.local.home>
+In-Reply-To: <20251009045345.8954-1-ankitkhushwaha.linux@gmail.com>
+References: <20251009045345.8954-1-ankitkhushwaha.linux@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251004015623.7019-3-raskar.shree97@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: u7ee89ea1wegxtoyhbphbqe3qeqipj3o
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: 123242F
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19ssnBb5s9lqxsepWuLpsIvqanHttfzsvU=
+X-HE-Tag: 1760018264-251375
+X-HE-Meta: U2FsdGVkX18Iw/henf7Qo2umn/CAr5c/XzkBiySzpEon0NEVoVIG5vW+tIUP2E4naPJaGrdpDZZZc+QEK607BVrPoWnJ1tsizgiBrol4D9iKFjxm+KhnJckJjKbKg3huYYOFjHyYJi1dJNhDcV2859S/N0yXYHMESZ/yU+0a9e+fP7G1Eynz/+9ALZJJBdsnS0eXx9Ig5AyV5BqEqaICqfMx+mBakqj6EDorJcrD61Fr2V8EvdMQd+HtyjG+JMrxzsWRX+sqnSiYJZuMyA3DdMrdR56WwY1WlcpEMh2WMuFUNU86xP0PJodahadKnrz9iL+izF1n5H5sEQN0FmwCEbEBEF/WfSffW/OdoihDCZ5bCecxE/EZjbZN+y30jI83mVAhTRVPREaeSIGtCKZjpBU9E13ywhu6VsGC85m3Zt0hlRc21XMjvpppPBr4q6eG6AVeyx4dEWv93wqWGkJK/JymgKP6nRIqOSBaEqLKs9o=
 
-Hi Shrikant,
+On Thu,  9 Oct 2025 10:23:45 +0530
+Ankit Khushwaha <ankitkhushwaha.linux@gmail.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> The return value from __rb_map_vma(), which rejects writable or
+> executable mappings (VM_WRITE, VM_EXEC, or !VM_MAYSHARE), was being
+> ignored.  As a result the caller of `__rb_map_vma` always returned 0 even when the
+> mapping had actually failed, allowing it to proceed with an invalid VMA.
+> 
+> Reported-by: syzbot+ddc001b92c083dbf2b97@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?id=194151be8eaebd826005329b2e123aecae714bdb
+> Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+> ---
+> 
+> Changes in v3: https://lore.kernel.org/linux-trace-kernel/20251008172516.20697-1-ankitkhushwaha.linux@gmail.com/
+> * Same as v2:)
+> 
+> Changes in v2: https://lore.kernel.org/linux-trace-kernel/20251007171256.20884-1-ankitkhushwaha.linux@gmail.com/
+> * applied minor cleanup suggested by Steve in v1
+> 
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v6.17 next-20251008]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This is good practice, but I already pulled in v2.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shrikant-Raskar/dt-bindings-iio-max30100-Add-pulse-width-property/20251004-095849
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20251004015623.7019-3-raskar.shree97%40gmail.com
-patch subject: [PATCH 2/2] iio: health: max30100: Add pulse-width configuration via DT
-config: arm-randconfig-r073-20251004 (https://download.01.org/0day-ci/archive/20251009/202510092124.rc01eF4I-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+-- Steve
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510092124.rc01eF4I-lkp@intel.com/
+> ---
+>  kernel/trace/ring_buffer.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+> index 43460949ad3f..1244d2c5c384 100644
+> --- a/kernel/trace/ring_buffer.c
+> +++ b/kernel/trace/ring_buffer.c
+> @@ -7273,7 +7273,7 @@ int ring_buffer_map(struct trace_buffer *buffer, int cpu,
+>  		atomic_dec(&cpu_buffer->resize_disabled);
+>  	}
+>  
+> -	return 0;
+> +	return err;
+>  }
+>  
+>  int ring_buffer_unmap(struct trace_buffer *buffer, int cpu)
 
-smatch warnings:
-drivers/iio/health/max30100.c:346 max30100_chip_init() warn: unsigned 'pulse_width' is never less than zero.
-drivers/iio/health/max30100.c:346 max30100_chip_init() warn: error code type promoted to positive: 'pulse_width'
-
-vim +/pulse_width +346 drivers/iio/health/max30100.c
-
-   326	
-   327	static int max30100_chip_init(struct max30100_data *data)
-   328	{
-   329		int ret;
-   330		unsigned int pulse_us;
-   331		unsigned int pulse_width;
-   332		struct device *dev = &data->client->dev;
-   333	
-   334		/* setup LED current settings */
-   335		ret = max30100_led_init(data);
-   336		if (ret)
-   337			return ret;
-   338	
-   339		/* Get pulse width from DT, default = 1600us */
-   340		ret = device_property_read_u32(dev, "maxim,pulse-width", &pulse_us);
-   341		if (ret) {
-   342			dev_warn(dev, "no pulse-width defined, defaulting to 1600us\n");
-   343			pulse_width = MAX30100_REG_SPO2_CONFIG_1600US;
-   344		} else {
-   345			pulse_width = max30100_get_pulse_width(pulse_us);
- > 346			if (pulse_width < 0) {
-   347				dev_err(dev, "invalid pulse-width %u\n", pulse_us);
-   348				return pulse_width;
-   349			}
-   350		}
-   351	
-   352		/* enable hi-res SPO2 readings at 100Hz */
-   353		ret = regmap_write(data->regmap, MAX30100_REG_SPO2_CONFIG,
-   354					 MAX30100_REG_SPO2_CONFIG_HI_RES_EN |
-   355					 MAX30100_REG_SPO2_CONFIG_100HZ |
-   356					 pulse_width);
-   357		if (ret)
-   358			return ret;
-   359	
-   360		/* enable SPO2 mode */
-   361		ret = regmap_update_bits(data->regmap, MAX30100_REG_MODE_CONFIG,
-   362					 MAX30100_REG_MODE_CONFIG_MODE_MASK,
-   363					 MAX30100_REG_MODE_CONFIG_MODE_HR_EN |
-   364					 MAX30100_REG_MODE_CONFIG_MODE_SPO2_EN);
-   365		if (ret)
-   366			return ret;
-   367	
-   368		/* enable FIFO interrupt */
-   369		return regmap_update_bits(data->regmap, MAX30100_REG_INT_ENABLE,
-   370					 MAX30100_REG_INT_ENABLE_MASK,
-   371					 MAX30100_REG_INT_ENABLE_FIFO_EN
-   372					 << MAX30100_REG_INT_ENABLE_MASK_SHIFT);
-   373	}
-   374	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
