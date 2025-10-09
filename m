@@ -1,33 +1,25 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A922AE97;
-	Thu,  9 Oct 2025 00:44:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E7E710FD
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  9 Oct 2025 01:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759970695; cv=none; b=j4bDuuS7q6jdm1U1V8VVqnYyJpKr8waVvIzRlRmPnVG5qyPQnrXnWfvTIbWESHT+LZKBnESGDGVfdIv6/6Eh0JQjNontVTAkCnvS5iXUHn1wLKPstNeRdVvHtTiZIt+07NqvKS1kVouMkZ+zq5vTfSCzrSIXnH+AF56OeyxDtG0=
+	t=1759972876; cv=none; b=duc2KoPLSNbFrRoG1M71AH8kbWedhyaRKas1W7hMPGUFGYTlHkuVv0qJyif7Fgd1pH9UYnrRjOwP6lDpaeyox4kFU18EAS0ocUpPt/opUXOI9JNa+oNbNOhauQ58AwUFxHF2bSMPnS5b6tgRs7x+XY1ho6Q0gWBSfOGox71j3Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759970695; c=relaxed/simple;
-	bh=eC5L7nnTf8nCrzTe2c5bIllpaeVZSTjt+NPJbKAL6RE=;
+	s=arc-20240116; t=1759972876; c=relaxed/simple;
+	bh=3h6ol3ZzDH1E1qxmL3ot9UELxZkAEjrYptDva8tkH2A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RAKFFcaqzkUMWvRjVSDvZ0hh3sFBSjhaEPd4prI2IHXnjYDbDDMWpnU0wONfIIS1Cr8xA49yucgNvBW9YzjtGwXEjDcjniYwQ0kXLTnEhBW7sQIXEkid5dIH6aWA6nVCOHEDmGNz1yBqOLjYKxhCZCbF8BLs9cQyj0vDJucJayk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HT75pnte; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HT75pnte"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03099C4CEF5;
-	Thu,  9 Oct 2025 00:44:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759970695;
-	bh=eC5L7nnTf8nCrzTe2c5bIllpaeVZSTjt+NPJbKAL6RE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HT75pnteiXCvXSSgP4xkeavwjB+GdFJyw15abVvibgdhekOqM9oKWoDbgqLyI65ZR
-	 +MUNALLDAtnbcPCsx9T3rR3yZsCCU+mvh1JcyEnVR5o9b4MFdZpcyDsH3nuTmJpYke
-	 hVKO4PTTtRNUq1pm4cvYai01Bm5s/2wtqYHUBy2n9OWhRWaG4x0I2saL79lWXIeEoY
-	 0HaW+X/mPlKawnH1ZxfxRlST8GkTjL23qSwrORzugzqWJIatt3q0qdt5CRVi5aRwHU
-	 WHdjVHCS+tMhAQr1zS9qp02xgdi/kUNM56ahMHGxT+yBfi6CPaL/w54a0EiFLzgNzb
-	 CE6oT/c6Zj5Rg==
-Message-ID: <9970e8f6-8b8c-4d9d-97ce-f89b948d6c97@kernel.org>
-Date: Thu, 9 Oct 2025 09:44:47 +0900
+	 In-Reply-To:Content-Type; b=im3frTJON4FDszmpqDn8ydnnvLrQ2FEVrLoQsIJhFw3GHZ/KKtc5ag2iJ2lAHtcMVdtyMObWvJePQPgGaiGLmXZ0T4b4Vn/jAi2CYgG2SXisY55yRJiZ8od/bMI+3/KJwFYhishkjPlNCOZXWT+HrNzZw+pD8UXfwAm02xeCqSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.68.198])
+	by gateway (Coremail) with SMTP id _____8DxM9ABDudoiBcUAA--.43154S3;
+	Thu, 09 Oct 2025 09:21:05 +0800 (CST)
+Received: from [10.161.0.102] (unknown [223.64.68.198])
+	by front1 (Coremail) with SMTP id qMiowJBx38P9DedoUuTVAA--.63724S2;
+	Thu, 09 Oct 2025 09:21:02 +0800 (CST)
+Message-ID: <b97cc38f-c00b-469f-97e4-decbb2ba96c7@loongson.cn>
+Date: Thu, 9 Oct 2025 09:21:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -35,88 +27,107 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: iio: max30100: Add pulse-width
- property
-To: Shrikant Raskar <raskar.shree97@gmail.com>, jic23@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- matt@ranostay.sg, skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-References: <20251008031737.7321-1-raskar.shree97@gmail.com>
- <20251008031737.7321-2-raskar.shree97@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251008031737.7321-2-raskar.shree97@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] mmc: pxamci: Fix passing NULL to PTR_ERR() in
+ pxamci_probe()
+To: Rakuram Eswaran <rakuram.e96@gmail.com>, ulf.hansson@linaro.org
+Cc: u.kleine-koenig@baylibre.com, chenhuacai@kernel.org,
+ david.hunter.linux@gmail.com, skhan@linuxfoundation.org, khalid@kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, kernel test robot <lkp@intel.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+References: <20251007161948.12442-1-rakuram.e96@gmail.com>
+From: Binbin Zhou <zhoubinbin@loongson.cn>
+In-Reply-To: <20251007161948.12442-1-rakuram.e96@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:qMiowJBx38P9DedoUuTVAA--.63724S2
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAQEKCGjl-SoR1AAAsd
+X-Coremail-Antispam: 1Uk129KBj93XoW7Ar15uF1ftryxXF4xAryfZrc_yoW5JFy8pa
+	95JFWqka4UtF4xK39rGw47J3W5Xry3tay2gryrX3s3ua4jkF4kWr93uayFqF4UAFWFqr1F
+	qF1UXF1UCFyDX3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Eb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6F4UJVW0owAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_
+	Jw1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+	CY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
+	JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
+	v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
+	67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
+	IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
+	Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8Dl1DUUUUU==
 
-On 08/10/2025 12:17, Shrikant Raskar wrote:
-> The appropriate LED pulse width for the MAX30100 depends on
-> board-specific optical and mechanical design (lens, enclosure,
-> LED-to-sensor distance) and the trade-off between measurement
-> resolution and power consumption. Encoding it in Device Tree
-> documents these platform choices and ensures consistent behavior.
-> 
-> Tested on: Raspberry Pi 3B + MAX30100 breakout board.
-> 
-> Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
-> 
-> Changes since v1:
-> Add unit suffix.
-> Drop redundant description.
-> 
-> Link to v1:
-> https://lore.kernel.org/all/20251004015623.7019-2-raskar.shree97@gmail.com/
 
-This does not belong to commit msg but to changelog under ---.
+On 2025/10/8 00:17, Rakuram Eswaran wrote:
+> Smatch reported:
+> drivers/mmc/host/pxamci.c:709 pxamci_probe() warn: passing zero to 'PTR_ERR'
+>
+> Case 1:
+> When dma_request_chan() fails, host->dma_chan_rx is an ERR_PTR(),
+> but it is reset to NULL before using PTR_ERR(), resulting in PTR_ERR(0).
+> This mistakenly returns 0 instead of the real error code.
+>
+> Case 2:
+> When devm_clk_get() fails, host->clk is an ERR_PTR() resulting in the similar
+> issue like case 1.
+>
+> Store the error code before nullifying the pointers in both the cases.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/r/202510041841.pRlunIfl-lkp@intel.com/
+> Fixes: 58c40f3faf742c ("mmc: pxamci: Use devm_mmc_alloc_host() helper")
+> Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
+LGTM.
 
-See submitting patches.
+Reviewed-by: Binbin Zhou <zhoubinbin@loongson.cn>
 
-You need to also start testing your patches BEFORE you send them.
+> ---
+>
+> Build and Analysis:
+> This patch was compiled against the configuration file reported by
+> 0day CI in the above link (config: s390-randconfig-r071-20251004) using
+> `s390x-linux-gnu-gcc (Ubuntu 14.2.0-19ubuntu2) 14.2.0`.
+>
+> Static analysis was performed with Smatch to ensure the reported warning
+> no longer reproduces after applying this fix.
+>
+> Command used for verification:
+>    ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- \
+>    ~/project/smatch/smatch_scripts/kchecker ./drivers/mmc/host/pxamci.c
+>
+>   drivers/mmc/host/pxamci.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/mmc/host/pxamci.c b/drivers/mmc/host/pxamci.c
+> index 26d03352af63..4fab693d3b32 100644
+> --- a/drivers/mmc/host/pxamci.c
+> +++ b/drivers/mmc/host/pxamci.c
+> @@ -653,8 +653,9 @@ static int pxamci_probe(struct platform_device *pdev)
+>   
+>   	host->clk = devm_clk_get(dev, NULL);
+>   	if (IS_ERR(host->clk)) {
+> +		ret = PTR_ERR(host->clk);
+>   		host->clk = NULL;
+> -		return PTR_ERR(host->clk);
+> +		return ret;
+>   	}
+>   
+>   	host->clkrate = clk_get_rate(host->clk);
+> @@ -705,8 +706,9 @@ static int pxamci_probe(struct platform_device *pdev)
+>   
+>   	host->dma_chan_rx = dma_request_chan(dev, "rx");
+>   	if (IS_ERR(host->dma_chan_rx)) {
+> +		ret = PTR_ERR(host->dma_chan_rx);
+>   		host->dma_chan_rx = NULL;
+> -		return dev_err_probe(dev, PTR_ERR(host->dma_chan_rx),
+> +		return dev_err_probe(dev, ret,
+>   				     "unable to request rx dma channel\n");
+>   	}
+>   
+Thanks.
+Binbin
 
-Best regards,
-Krzysztof
