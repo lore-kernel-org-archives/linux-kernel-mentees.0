@@ -1,133 +1,118 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E7E710FD
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  9 Oct 2025 01:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915F61F92E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 02:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759972876; cv=none; b=duc2KoPLSNbFrRoG1M71AH8kbWedhyaRKas1W7hMPGUFGYTlHkuVv0qJyif7Fgd1pH9UYnrRjOwP6lDpaeyox4kFU18EAS0ocUpPt/opUXOI9JNa+oNbNOhauQ58AwUFxHF2bSMPnS5b6tgRs7x+XY1ho6Q0gWBSfOGox71j3Lo=
+	t=1759975876; cv=none; b=C7Y8x2srrq56sD/iHwE5zrtOxrI7EuNIxne3Qh/hqb2+aIXMF2Gdd5ITrzSwSnTseZxyXZQ36ltyKcWt+UAo5iarnicyiOHaof/w9V+R6hV+J8RmtWwa/nbK89jlb8wZSLF9XfBgOqMe72u6viTgISNlcO74yRULubzp9klWu30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759972876; c=relaxed/simple;
-	bh=3h6ol3ZzDH1E1qxmL3ot9UELxZkAEjrYptDva8tkH2A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=im3frTJON4FDszmpqDn8ydnnvLrQ2FEVrLoQsIJhFw3GHZ/KKtc5ag2iJ2lAHtcMVdtyMObWvJePQPgGaiGLmXZ0T4b4Vn/jAi2CYgG2SXisY55yRJiZ8od/bMI+3/KJwFYhishkjPlNCOZXWT+HrNzZw+pD8UXfwAm02xeCqSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.68.198])
-	by gateway (Coremail) with SMTP id _____8DxM9ABDudoiBcUAA--.43154S3;
-	Thu, 09 Oct 2025 09:21:05 +0800 (CST)
-Received: from [10.161.0.102] (unknown [223.64.68.198])
-	by front1 (Coremail) with SMTP id qMiowJBx38P9DedoUuTVAA--.63724S2;
-	Thu, 09 Oct 2025 09:21:02 +0800 (CST)
-Message-ID: <b97cc38f-c00b-469f-97e4-decbb2ba96c7@loongson.cn>
-Date: Thu, 9 Oct 2025 09:21:01 +0800
+	s=arc-20240116; t=1759975876; c=relaxed/simple;
+	bh=kgME5ptW1dqdCof7hUAc4atSggk3hpL5EXsqgxkuxE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Gheq38zmib9yh9/wci3dsZ7U1+Ow2zHYayfLHVtiaa15y5eI4gxvc8yLdJ8xPuqGMbP3/Feix71wwOl38gVrG3QayId987PO3s5OlesHaQDIRkV3KT65IGp5ardCrbA6Aqlal5peQ3dtEeViACR2j6y63CiMfMnXU99rx/c9vzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 13D9040E60
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 02:11:14 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.59
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id YoKlEaNTrb8b for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  9 Oct 2025 02:11:13 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=216.40.44.13; helo=relay.hostedemail.com; envelope-from=rostedt@goodmis.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org CC628405BE
+Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CC628405BE
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id CC628405BE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 02:11:12 +0000 (UTC)
+Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay06.hostedemail.com (Postfix) with ESMTP id 6A72511B05F;
+	Thu,  9 Oct 2025 02:11:10 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf15.hostedemail.com (Postfix) with ESMTPA id 3329317;
+	Thu,  9 Oct 2025 02:11:08 +0000 (UTC)
+Date: Wed, 8 Oct 2025 22:11:09 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ david.hunter.linux@gmail.com, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ syzbot+ddc001b92c083dbf2b97@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] ring buffer: Propagate __rb_map_vma return value to
+ caller
+Message-ID: <20251008221109.13a76717@batman.local.home>
+In-Reply-To: <20251008172516.20697-1-ankitkhushwaha.linux@gmail.com>
+References: <20251008172516.20697-1-ankitkhushwaha.linux@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mmc: pxamci: Fix passing NULL to PTR_ERR() in
- pxamci_probe()
-To: Rakuram Eswaran <rakuram.e96@gmail.com>, ulf.hansson@linaro.org
-Cc: u.kleine-koenig@baylibre.com, chenhuacai@kernel.org,
- david.hunter.linux@gmail.com, skhan@linuxfoundation.org, khalid@kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, kernel test robot <lkp@intel.com>,
- Dan Carpenter <dan.carpenter@linaro.org>
-References: <20251007161948.12442-1-rakuram.e96@gmail.com>
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-In-Reply-To: <20251007161948.12442-1-rakuram.e96@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:qMiowJBx38P9DedoUuTVAA--.63724S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAQEKCGjl-SoR1AAAsd
-X-Coremail-Antispam: 1Uk129KBj93XoW7Ar15uF1ftryxXF4xAryfZrc_yoW5JFy8pa
-	95JFWqka4UtF4xK39rGw47J3W5Xry3tay2gryrX3s3ua4jkF4kWr93uayFqF4UAFWFqr1F
-	qF1UXF1UCFyDX3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Eb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6F4UJVW0owAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
-	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_
-	Jw1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
-	CY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
-	JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
-	v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
-	67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
-	IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
-	Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8Dl1DUUUUU==
+X-Rspamd-Queue-Id: 3329317
+X-Stat-Signature: xdxfbmni5s9m7wmz3r6r6ykqnwrdfn6n
+X-Rspamd-Server: rspamout06
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+wjdxel8B/+3U+KgtzPA4RWU9GRqZrXQw=
+X-HE-Tag: 1759975868-468936
+X-HE-Meta: U2FsdGVkX1+0PJKh53Jx2MaGLnolId+sXJMvyZb+FL+QQA0rIWT4L7RlFdXxqmNUOYpNCnw09sdvDlJnLe7bcskrmdGyzwn7uaxR34qZjxbpyGssszRO7im41awd3O2M2YST6lPgcuVv5qhfDhicCjCir7xI0Fic+vD/y6E1fyuC6O3kciGEEgU1CbxtbLjT0GZWFC1gIkgm9nktSb5vJtxzVNI+WMMkotfr3kxrYikrP5jpApdOLU9r2gRaitELDBaie833I8rR2cfYZcy8P4053/OAlQbtX6F5XwLN7kX1MffsuNMSvCvxD8dbzdaDzrHCbc1vO0mft1GsBmTM+AOtRHTxhOt4BY3G8IDbQyT8elvfSPtI7z64W1LzpuXsR65xDA2B3Yok2h/NR4AGtw4JgqK/gAAVv2BZJmu8OQLpmi+oKkjvpsJUv0Vpu5HyUExWH3j/SohmBuJzKyW/+XfrwCcVu2TXePXxo6rBs24=
 
+On Wed,  8 Oct 2025 22:55:16 +0530
+Ankit Khushwaha <ankitkhushwaha.linux@gmail.com> wrote:
 
-On 2025/10/8 00:17, Rakuram Eswaran wrote:
-> Smatch reported:
-> drivers/mmc/host/pxamci.c:709 pxamci_probe() warn: passing zero to 'PTR_ERR'
->
-> Case 1:
-> When dma_request_chan() fails, host->dma_chan_rx is an ERR_PTR(),
-> but it is reset to NULL before using PTR_ERR(), resulting in PTR_ERR(0).
-> This mistakenly returns 0 instead of the real error code.
->
-> Case 2:
-> When devm_clk_get() fails, host->clk is an ERR_PTR() resulting in the similar
-> issue like case 1.
->
-> Store the error code before nullifying the pointers in both the cases.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/r/202510041841.pRlunIfl-lkp@intel.com/
-> Fixes: 58c40f3faf742c ("mmc: pxamci: Use devm_mmc_alloc_host() helper")
-> Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
-LGTM.
+> The return value from `__rb_map_vma()`, which rejects writable or
+> executable mappings (VM_WRITE, VM_EXEC, or !VM_MAYSHARE), was being
+> ignored. As a result the caller of `__rb_map_vma` always returned 0 
+> even when the mapping had actually failed, allowing it to proceed
+> with an invalid VMA.
+> 
+> Reported-by: syzbot+ddc001b92c083dbf2b97@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?id=194151be8eaebd826005329b2e123aecae714bdb
+> Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+> 
 
-Reviewed-by: Binbin Zhou <zhoubinbin@loongson.cn>
+Thanks for the update.
 
+> Changes in v2:
+> * applied minor cleanup suggested by Steve in v1
+
+Note, the "changes" should be below the "---" as that prevents it from
+being added to the git change log. And it's always good to include a
+link to the previous version.
+
+For example:
+
+> 
 > ---
->
-> Build and Analysis:
-> This patch was compiled against the configuration file reported by
-> 0day CI in the above link (config: s390-randconfig-r071-20251004) using
-> `s390x-linux-gnu-gcc (Ubuntu 14.2.0-19ubuntu2) 14.2.0`.
->
-> Static analysis was performed with Smatch to ensure the reported warning
-> no longer reproduces after applying this fix.
->
-> Command used for verification:
->    ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- \
->    ~/project/smatch/smatch_scripts/kchecker ./drivers/mmc/host/pxamci.c
->
->   drivers/mmc/host/pxamci.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/mmc/host/pxamci.c b/drivers/mmc/host/pxamci.c
-> index 26d03352af63..4fab693d3b32 100644
-> --- a/drivers/mmc/host/pxamci.c
-> +++ b/drivers/mmc/host/pxamci.c
-> @@ -653,8 +653,9 @@ static int pxamci_probe(struct platform_device *pdev)
->   
->   	host->clk = devm_clk_get(dev, NULL);
->   	if (IS_ERR(host->clk)) {
-> +		ret = PTR_ERR(host->clk);
->   		host->clk = NULL;
-> -		return PTR_ERR(host->clk);
-> +		return ret;
->   	}
->   
->   	host->clkrate = clk_get_rate(host->clk);
-> @@ -705,8 +706,9 @@ static int pxamci_probe(struct platform_device *pdev)
->   
->   	host->dma_chan_rx = dma_request_chan(dev, "rx");
->   	if (IS_ERR(host->dma_chan_rx)) {
-> +		ret = PTR_ERR(host->dma_chan_rx);
->   		host->dma_chan_rx = NULL;
-> -		return dev_err_probe(dev, PTR_ERR(host->dma_chan_rx),
-> +		return dev_err_probe(dev, ret,
->   				     "unable to request rx dma channel\n");
->   	}
->   
-Thanks.
-Binbin
+
+Changes in v2: https://lore.kernel.org/linux-trace-kernel/20251007171256.20884-1-ankitkhushwaha.linux@gmail.com/
+* applied minor cleanup suggested by Steve in v1
+
+-- Steve
+
+
+>  kernel/trace/ring_buffer.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+> index 43460949ad3f..1244d2c5c384 100644
+> --- a/kernel/trace/ring_buffer.c
+> +++ b/kernel/trace/ring_buffer.c
+> @@ -7273,7 +7273,7 @@ int ring_buffer_map(struct trace_buffer *buffer, int cpu,
+>  		atomic_dec(&cpu_buffer->resize_disabled);
+>  	}
+>  
+> -	return 0;
+> +	return err;
+>  }
+>  
+>  int ring_buffer_unmap(struct trace_buffer *buffer, int cpu)
 
