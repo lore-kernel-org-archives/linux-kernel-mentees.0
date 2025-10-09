@@ -1,159 +1,135 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D415915D1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 02:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3941725BEE5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 04:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759978485; cv=none; b=hpYNXkP5sgtsJNaABnNxfBHjpYXmwwN1QaocWyZHnUe8Zx2aAvPb6kobsP6OI+ZxY+mfQ7HjEnvMswqOqtKMw4AzO0UodE0Gj0jOK8Nwd1ZtGHxEDPIEAM76cfdY1omWBKRgZrJvQzHH0ffpT7Muk/Q4AnaYM7wW/VoCGbJBDek=
+	t=1759985676; cv=none; b=JAGIScmP5a57KLcjtwsNuvSvc/eDghiQgPs/At9sKrVbdsDTvTXrcn3mxAankuacZ0gEHTG7rBmf/l8eDMZlkJCIBVBAC5575c+geXF+Xt4bqqWA1pnD3yt0L/vsJago2XUKzCM0Uao/oyZP7CY2zsIv6jRfMCLiW17Az64D3qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759978485; c=relaxed/simple;
-	bh=kU5PxDxBp1d0PsDmsVzbq+Nz2rncNHm3ujLYt76sjLY=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=kPGfZSWCkLT9i2hQ5Jv42jcpzDOB/QgnliJES//U2mnRu4au3rJMru91LhoBs8mjNLcr9kFQQUQ2A3Zz4myQFwcKIUTCFgNTV94gBYrNFqWmVhzv7lRtS0TVFQE68DXkJb3vQ1at6sW3Jv9Ai1eSBw9zaKPzsE99gC5AkNKdFak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F2YBtp+H; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1759985676; c=relaxed/simple;
+	bh=w+Kuafgc44tEvaLcNgVbY1Detnyn1TP+rsKy11PWdGA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k+TK6S3Y7CZLOLK6T1rpA1s+hfb1NPasiPUVbxzyvmPTREFg3y/MlGEjSK1bsLHfnP534gyp3arsZkCIQtXP3Q36m7ZmDYDu8fT93uB/VPYID+FBNhXgSWtXAtvaTKl03pmz/xJpmCwLJ9VsRvuq0Vd36dCvje0ipxx6Bj4uAts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kd6Fo4A1; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F2YBtp+H"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kd6Fo4A1"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8B5C160F12
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 02:54:43 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id C03C740F34
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 04:54:34 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -5.792
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id A5ZdCsV_YQFu for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Oct 2025 02:54:42 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=chao@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 08BEF60F13
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 08BEF60F13
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=F2YBtp+H
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 08BEF60F13
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 02:54:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 3F360604B9;
-	Thu,  9 Oct 2025 02:54:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20C88C4CEE7;
-	Thu,  9 Oct 2025 02:54:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759978479;
-	bh=kU5PxDxBp1d0PsDmsVzbq+Nz2rncNHm3ujLYt76sjLY=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=F2YBtp+Hr7oeHB53LuWJDS2ZGtvsB+33yOPbkCZnPdlGUCr+7nl13LNGL7JLJrANq
-	 /HN03mDlHraJQe0zByt9dNNuT/AhAw3P9ekE+/bTkWCXcehaHinwvM8WrS9Ys1SfRy
-	 VAGQhlYRXyuSJ6xtbLxU8OYlpw56DWeIl8YR2hv8Qp5CAx6kCQih6Vm6jSUwJi+vLB
-	 9Tk5fF3JLFXzHNtf1CZI8YRguU/Giyl3RSvCRHBV8LOy372zE6ZP3vTLeIfxIasnHP
-	 6pXWuimXc/i41MG2V6mtvKiRlsLuj+A86EcxPoB33DDYFkOzeevSunBV3aOWIieW5t
-	 X6i8b6fMugG0g==
-Message-ID: <839306c1-5f7a-4e89-b2cf-7534d279a03c@kernel.org>
-Date: Thu, 9 Oct 2025 10:54:40 +0800
+X-Spam-Score: 1.236
+X-Spam-Level: *
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id c213p0JkSebW for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  9 Oct 2025 04:54:34 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::542; helo=mail-pg1-x542.google.com; envelope-from=ankitkhushwaha.linux@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 1F03A40BEA
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1F03A40BEA
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kd6Fo4A1
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 1F03A40BEA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Oct 2025 04:54:33 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id 41be03b00d2f7-b4755f37c3eso420966a12.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 08 Oct 2025 21:54:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759985673; x=1760590473; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Tfw9ZfkVYbFeFtQQO2RdnGi20hC7pdXgzL0TwKkXK4=;
+        b=kd6Fo4A1SaCUcjyauIdLNA/4XUs+TBlq2Vk74Dbd1vrn9MxJIv5wIdyt4d8NdsZDl5
+         rEGzzJZl6W2cKjc58PxsX980571S2YTSnQa0BOKtgpC/Z2TikqDR0FUaxMgSZLHj62eJ
+         PQWrZlSplDX/I41O4GX5gx+25+Q/jYoQ6Eh0UvwOsnC/UzJ+GcEaEJbp/u+yelk2WD62
+         7V83qe5v+zEruqIk0S/TNNFe00OK3sN6DHnm73nFC0ztJITNHVdMj2au8i72Rm2mPYFx
+         X4fMYYTCzOkuvQFHVC/EBm/iX5Bgt38Foi89M07S7EuPr9xH+1TxmlFJRZN8VSucnsvQ
+         6/EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759985673; x=1760590473;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0Tfw9ZfkVYbFeFtQQO2RdnGi20hC7pdXgzL0TwKkXK4=;
+        b=TKIio+CswqBJWY/5sHJ6whQ/zd0QYRbVhJ/iocx4hofviJwfNi9mRdErbOYoI2B9LQ
+         hhel4Wki+9nz6NYQSDLYqPm6E95m+iQF5bBFOAUT9RR4Eiyc0jXj+EGjBZ+3SpYYnz8T
+         pOMjbvZbtyDr7fJqTpqIkNysm+W1rfXm1tQeXnrrhhBZWHUJSEw/0/ossqJinQbe9ZFL
+         pASWGlmNreVqL0eco3HyPlN4frK0dxf9Lx5VAu+D2Ctfnb1bvp4PYuAVfOQPYoEdm7cl
+         ZVALf3UKXUund+KFLOm2qofyxgxBLYJmE2SA1/i6ydBDu4ANNOujxs/imj2J6dr0icPV
+         y97g==
+X-Forwarded-Encrypted: i=1; AJvYcCVml7Wz7pABg630pYWmw0ngiJSBji+GzJ0iTBT95IMgdtnyfSaM/s2e+0HaNwvlOt2lGOuXwRVmjWBZHvfgVV5/bC3sRw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzazVQKXFPdWXkkrcMRaEuSQ8PJmru8SMDx22QpTHvo3dGJvFSy
+	dkM0bL8L7PBlczIwF7vrtZAgfFdmu+PEICXef2QimeN0mzHuOQRkURaV
+X-Gm-Gg: ASbGncuh1Z3n/3FkiAMvmA5iCvihwq6uyFC8jIQBS4yKPxiY3zSdTwkPt3Jep+oCuPu
+	zmNSrdppo5JcfxLfM6QcQPQ/ijJxclp6kiGQ0YhWk8Uen8hSUWlb9s1A4EoR1yHVZpKfAd/2P5c
+	bvpJXhmhtamkBnxQVCDGonSyj8Vdc+jvuhUj1fuNez2T5EWLMk1541w0+aD02xqOMSRdHq0T71E
+	8Ut6Jf1+JYtOCusA8ifskFEp8lJfHjo/szztQ76po25eWxDhZa/qvuHUKaRDzvsc7DTvXMLJhpy
+	ebhtEGulUPz3pXA3x2uKvURlZC6C7jVgxv6kJ5z6MVxH2CB46sjfO81DqDnhQgPy4SgC6XaZsJz
+	aBn3v/wKlUl/u0pkS226W2XAD4dP5CemSKvELlUtdQAcEoMT87Xrcw4qGEs7zi5ghhg==
+X-Google-Smtp-Source: AGHT+IHs5oQxzgPYgvjhGgUXIMHAfemFYJF0eBPmSz+QPLzUbxC4cmQvyXqohxlvHOS0JXDY4GoQVg==
+X-Received: by 2002:a17:903:2d0:b0:265:604c:17e7 with SMTP id d9443c01a7336-2902741f0b1mr68383795ad.60.1759985673202;
+        Wed, 08 Oct 2025 21:54:33 -0700 (PDT)
+Received: from fedora ([103.120.31.122])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f36cb1sm14161475ad.100.2025.10.08.21.54.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Oct 2025 21:54:32 -0700 (PDT)
+From: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: david.hunter.linux@gmail.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>,
+	syzbot+ddc001b92c083dbf2b97@syzkaller.appspotmail.com
+Subject: [PATCH v3] ring buffer: Propagate __rb_map_vma return value to caller
+Date: Thu,  9 Oct 2025 10:23:45 +0530
+Message-ID: <20251009045345.8954-1-ankitkhushwaha.linux@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: chao@kernel.org, linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org,
- syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
-Subject: Re: [PATCH] f2fs: Perform sanity check before unlinking directory
- inode
-To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>, jaegeuk@kernel.org,
- linux-f2fs-devel@lists.sourceforge.net
-References: <20251003134731.470392-1-zlatistiv@gmail.com>
-Content-Language: en-US
-From: Chao Yu <chao@kernel.org>
-In-Reply-To: <20251003134731.470392-1-zlatistiv@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/3/2025 9:47 PM, Nikola Z. Ivanov wrote:
-> Current i_nlink corruption check does not take into account
-> directory inodes which have one additional i_nlink for their "." entry.
-> 
-> Add additional check and a common corruption path.
-> 
-> Reported-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=c07d47c7bc68f47b9083
-> Fixes: 81edb983b3f5 ("f2fs: add check for deleted inode")
-> Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
-> ---
->   fs/f2fs/namei.c | 28 ++++++++++++++++++++--------
->   1 file changed, 20 insertions(+), 8 deletions(-)
-> 
-> diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
-> index b882771e4699..68b33e8089b0 100644
-> --- a/fs/f2fs/namei.c
-> +++ b/fs/f2fs/namei.c
-> @@ -502,12 +502,14 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
->   		goto out;
->   	}
->   
-> -	if (inode->i_nlink == 0) {
-> +	if (unlikely(inode->i_nlink == 0)) {
->   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
->   			  __func__, inode->i_ino);
-> -		err = -EFSCORRUPTED;
-> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> -		goto out_iput;
-> +		goto corrupted;
-> +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
-> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
-> +			  __func__, inode->i_ino);
-> +		goto corrupted;
+The return value from __rb_map_vma(), which rejects writable or
+executable mappings (VM_WRITE, VM_EXEC, or !VM_MAYSHARE), was being
+ignored.  As a result the caller of `__rb_map_vma` always returned 0 even when the
+mapping had actually failed, allowing it to proceed with an invalid VMA.
 
-Can we detect such corruption in sanity_check_inode() as well? So that if
-f2fs internal flow calls f2fs_iget() on corrupted inode, we can set SBI_NEED_FSCK
-flag and then triggering fsck repairment later.
+Reported-by: syzbot+ddc001b92c083dbf2b97@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?id=194151be8eaebd826005329b2e123aecae714bdb
+Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+---
 
-Thanks,
+Changes in v3: https://lore.kernel.org/linux-trace-kernel/20251008172516.20697-1-ankitkhushwaha.linux@gmail.com/
+* Same as v2:)
 
->   	}
->   
->   	if (IS_ENCRYPTED(dir) &&
-> @@ -533,6 +535,9 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
->   	trace_f2fs_lookup_end(dir, !IS_ERR_OR_NULL(new) ? new : dentry,
->   				ino, IS_ERR(new) ? PTR_ERR(new) : err);
->   	return new;
-> +corrupted:
-> +	err = -EFSCORRUPTED;
-> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
->   out_iput:
->   	iput(inode);
->   out:
-> @@ -572,10 +577,11 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
->   	if (unlikely(inode->i_nlink == 0)) {
->   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
->   			  __func__, inode->i_ino);
-> -		err = -EFSCORRUPTED;
-> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> -		f2fs_folio_put(folio, false);
-> -		goto fail;
-> +		goto corrupted;
-> +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
-> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
-> +			  __func__, inode->i_ino);
-> +		goto corrupted;
->   	}
->   
->   	f2fs_balance_fs(sbi, true);
-> @@ -601,6 +607,12 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
->   
->   	if (IS_DIRSYNC(dir))
->   		f2fs_sync_fs(sbi->sb, 1);
-> +
-> +	goto fail;
-> +corrupted:
-> +	err = -EFSCORRUPTED;
-> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> +	f2fs_folio_put(folio, false);
->   fail:
->   	trace_f2fs_unlink_exit(inode, err);
->   	return err;
+Changes in v2: https://lore.kernel.org/linux-trace-kernel/20251007171256.20884-1-ankitkhushwaha.linux@gmail.com/
+* applied minor cleanup suggested by Steve in v1
+
+---
+ kernel/trace/ring_buffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+index 43460949ad3f..1244d2c5c384 100644
+--- a/kernel/trace/ring_buffer.c
++++ b/kernel/trace/ring_buffer.c
+@@ -7273,7 +7273,7 @@ int ring_buffer_map(struct trace_buffer *buffer, int cpu,
+ 		atomic_dec(&cpu_buffer->resize_disabled);
+ 	}
+ 
+-	return 0;
++	return err;
+ }
+ 
+ int ring_buffer_unmap(struct trace_buffer *buffer, int cpu)
+-- 
+2.51.0
 
