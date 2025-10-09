@@ -1,120 +1,123 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07551DF75C
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  9 Oct 2025 15:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCC715B971;
+	Thu,  9 Oct 2025 15:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760023675; cv=none; b=CgOKgoUcKew+eiju5AzCsCTN+diBUtvlrOX2HxWrVLjpFm0z7zeG1DHavfLmWEuoDhL2LYMW/X0ElfOvZUcx47i4xwCuLVm1sMeAwbT1+UwY+0nWFPi3WD6AKwhZ8TtcfK/xVMLs1pbfi4DtultrKYbJHZFU9h0srqErzwqQUU8=
+	t=1760025188; cv=none; b=pNC+rGB8348/f79VxEFWHrwKYKyFzP7oNigx87az/Xsd+4ttaeYeS/W0G3FbYt7JqycCqk6dNX2kEbt009A3YS3kurHvwNHBN6tMMZokV96/xJ/Sr3qaanFTU8YqOn2qT3t++w8YOJ1nmffc1hHMKwRNbu50/XRiStBEuNba8Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760023675; c=relaxed/simple;
-	bh=QB6oWe69fOKYSEDFDlxnuLWplab0/kGA0E7x0ciuq1Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DSd/zktdiTbz/vAn/nIo3aG0eLc65Q9UmnI+tLAe2/F98Y9nWEg+pHQwQ7cxY8QLlmMahZiG09JV/yF+JIdXbgBqehn2vdGIdAP6cbYK0TbaeeQlijngWld6VjRCXSXZMpBuXSMZ2/LZrMUhd1YY2iWGoCdxdNpLNCOv3CelnyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZKd+ZA0m; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760025188; c=relaxed/simple;
+	bh=DRY+bck72bFWLR+8BmkVmyrqTwQEZ9IGus6h3DbmY70=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rWO8CDN4lwBXWZA7yZh0cFEYowqiLOcYxQfhuh3S0M9U6qBt7JEj79/0pyWhMibamwndSeMV14LHTfR9yv7Nwrg29OTEjB+CpzI4t7aqJ+z5dlKdWpGBZBQM7Wjo+W0ULo3vKYT8VvXBLoxPTQnWkHdpf1uY/h3MB+hC0bVxTpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BjEEGCAG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZKd+ZA0m"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7800ff158d5so1047082b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 09 Oct 2025 08:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760023673; x=1760628473; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ka+qOBslKvDI4viRHgphmCLFP1Bl3ToWEnGLsvWSVCc=;
-        b=ZKd+ZA0mCC6QFIroofISLdKbvQBF/v0Bo5yOdx+DhbTutzYj1sX4RzbNX7SpGxb+yN
-         Se6X5BbmQK1RdjhsM0+jUnYvyBPsCmUVfBwkMius5FuRq2xiMz6ofsJCWeDpWMEnvF1X
-         S9Px6IJ6zOVH5MQCLJIXuSKQY17X3qzbpCkz8kXVWDIJraH5IS2m49JmaGHsMzAXJvEO
-         ciQCc1s3FpJjJA0G9Wztj7Mq4jPlla7DZ0U0Laqzdw8obGuUUKhO7pZN3oYIrZlZsFkK
-         ueBNrKbhKibBoylSIOUW1LcaMoUOKeY8qIRBTOEWCh9qX7p5t2CYkYVF+aEFxJEKN2Fj
-         Ieow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760023673; x=1760628473;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ka+qOBslKvDI4viRHgphmCLFP1Bl3ToWEnGLsvWSVCc=;
-        b=DWyUSwiPwjjPpB6jMbySg7jWxFOK0QUgza+rmAm6CXFMFHMJHKEbsmZPvB0FmPxgsw
-         dWVjqlN1/LSH9PHHBcp3ZKZLKcgtLhvBGvkLb+8elMM/8mNcDHgxeqF5wRamUD1SeVV3
-         hIhEsFP+oxnF0LWaMuHwmhj7zIGXu1YfBlNaPaFFxZKWjQM0hKVMOaSlVk8b7F0yovor
-         BoKXvZ+aEc7AiGZX5WidteuFK5uyemMHNWdwY4WbK9aHkxnsaQX3lA96rzuBfubYnnS1
-         vPYIA1cmTc25Cre5jCV5Mc0txOTuTqPwiuLd9dKPfbQKrciNVfhEMnQn4JNYwvHj21OV
-         5Szw==
-X-Forwarded-Encrypted: i=1; AJvYcCWAlJokdkhjKTQTrxCTdsp6LxNXDJntuiLsdoBB+1gbNoy3qlMnheWp0MGBQTyCdwZoBXzYeLkqZ7MH1N7smM5/T346gA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxw8Q/8mI+PDH8vivUEqyNRmvUocVGMbL+q8MSnt4zo8ryYUXZt
-	VzfYbZLuMfG+7WUxl+54B95NqwEc1JUaP83oClMf3XwRzT6LjV086vYq
-X-Gm-Gg: ASbGnctS1j/ZoC0jXnGQHdyDPeWdXTcvNGYWw67KecititFkfWMXVLqxLlj/Gk12dDW
-	QzfH51ajlsDODIUwpoEr9z83QbsEHQekd+fT9WlC24XG/qUqbdx9DHURn9bi1+2EbvK7NlDetDB
-	5dOhYaWFB85ipfZYM9CgGskQHYOtd1bFNaSMSDT/Cgw4ZUXqHpKqGoVoRdaq23xQ5G8VL9djfn3
-	2Z0UZ0U2VeY4y5fj27sx/A/gClP6JWY6ITFo0Ms3OKYPBDnVljdywzY1VX7gURXQHUV2KWHD/qH
-	C5Qn54LuK+vZkYmcinYVGKSTdo4gBf0Pur3Hb+9c+/Jli57O13F8kogD9c8xHoy5dMZXngE1Dvp
-	W5Rs0b6sAZ+H9IhZ8KcK+qzgHQZSd4AfsxgHOXeWgizW+J4zvZmUTAhhGDP4mG5OL
-X-Google-Smtp-Source: AGHT+IH+FOcN8pbD0wi8HXC0v0EF21/LhGcpIRKvc4HRyNNnS8WGvyoPXtx/goBnlcHm7+kXmQPNxw==
-X-Received: by 2002:a05:6a00:2443:b0:781:4f6:a409 with SMTP id d2e1a72fcca58-793858fb715mr8669431b3a.11.1760023672598;
-        Thu, 09 Oct 2025 08:27:52 -0700 (PDT)
-Received: from rakuram-MSI.. ([2405:201:d027:f04e:d9a7:c216:5561:b568])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992b639cbcsm56141b3a.18.2025.10.09.08.27.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 08:27:52 -0700 (PDT)
-From: Rakuram Eswaran <rakuram.e96@gmail.com>
-To: u.kleine-koenig@baylibre.com
-Cc: chenhuacai@kernel.org,
-	dan.carpenter@linaro.org,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org,
-	lkp@intel.com,
-	rakuram.e96@gmail.com,
-	skhan@linuxfoundation.org,
-	ulf.hansson@linaro.org,
-	zhoubinbin@loongson.cn
-Subject: Re: [PATCH] mmc: pxamci: Fix passing NULL to PTR_ERR() in pxamci_probe() 
-Date: Thu,  9 Oct 2025 20:57:38 +0530
-Message-ID: <20251009152744.9734-1-rakuram.e96@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: pe4sz3hamkxhahvwqzdq3p3q5u3yeqpdscl5rvvoo5gdfbbrl7@joiz2oj5y4so
-References: <pe4sz3hamkxhahvwqzdq3p3q5u3yeqpdscl5rvvoo5gdfbbrl7@joiz2oj5y4so>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BjEEGCAG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0035DC4CEE7;
+	Thu,  9 Oct 2025 15:53:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760025185;
+	bh=DRY+bck72bFWLR+8BmkVmyrqTwQEZ9IGus6h3DbmY70=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BjEEGCAGZRON0a4Wm+u/hhGoiNOaEQShjNIjlCDnGApfHUC45F8bgxuSxFGJpN2Zd
+	 ckV1qeJNWx88YogbwcIxTsMSd9/ezPXOdyQUDeJN5LeCemQtVTDOPuJUdT5J0dU8DK
+	 LmB3JFqkNCkte2sabAjDe6Ir1O/GOMeoGUnJWuEWh/KrR/dnYNzHtRjNqvKYvMMN70
+	 MIsT1ZkGty6U1nu+Zdiinl6Ij+3aWo+RFNXLYdkhSfgKFdYc4VtvzFaxJPJihUDIDY
+	 07BVMJH5ePes63tAm8yqcUI5Im+yb1PgdSkSRqPPZQKpn3GugETSTVtUgLWJSGtfRs
+	 LjIWhnEmIWRfg==
+Message-ID: <c0eb8875-b7cf-421d-93d6-6195b13e6930@kernel.org>
+Date: Thu, 9 Oct 2025 09:53:04 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mmc: pxamci: Fix passing NULL to PTR_ERR() in
+ pxamci_probe()
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Rakuram Eswaran <rakuram.e96@gmail.com>
+Cc: ulf.hansson@linaro.org, zhoubinbin@loongson.cn, chenhuacai@kernel.org,
+ david.hunter.linux@gmail.com, skhan@linuxfoundation.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, kernel test robot <lkp@intel.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+References: <20251007161948.12442-1-rakuram.e96@gmail.com>
+ <pe4sz3hamkxhahvwqzdq3p3q5u3yeqpdscl5rvvoo5gdfbbrl7@joiz2oj5y4so>
+Content-Language: en-US
+From: Khalid Aziz <khalid@kernel.org>
+In-Reply-To: <pe4sz3hamkxhahvwqzdq3p3q5u3yeqpdscl5rvvoo5gdfbbrl7@joiz2oj5y4so>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Uwe,
+On 10/9/25 2:57 AM, Uwe Kleine-König wrote:
+> On Tue, Oct 07, 2025 at 09:47:44PM +0530, Rakuram Eswaran wrote:
+>> Smatch reported:
+>> drivers/mmc/host/pxamci.c:709 pxamci_probe() warn: passing zero to 'PTR_ERR'
+>>
+>> Case 1:
+>> When dma_request_chan() fails, host->dma_chan_rx is an ERR_PTR(),
+>> but it is reset to NULL before using PTR_ERR(), resulting in PTR_ERR(0).
+>> This mistakenly returns 0 instead of the real error code.
+>>
+>> Case 2:
+>> When devm_clk_get() fails, host->clk is an ERR_PTR() resulting in the similar
+>> issue like case 1.
+>>
+>> Store the error code before nullifying the pointers in both the cases.
+> 
+> Why is the pointer set to NULL at all? This is in both cases memory that
+> is freed directly afterwards (as `host` is devm managed). So I'd claim
 
-Thanks a lot for the review and the clear explanation.
+I am not sure that sounds right. Looking at the code for 
+__devm_clk_get(), if devres_alloc() fails, it returns -ENOMEM. If any of 
+the other steps after a successful devres_alloc() fail, code goes 
+through possibly clk_put() if needed and then devres_free(). So the 
+resources are already freed at this point before the return to 
+pxamci_probe(). The only thing left to do is to set host->clk to NULL 
+since it would be set to an error pointer at this point.
 
-Your suggestion makes perfect sense — since host is devm-managed, 
-explicitly assigning its members to NULL has no effect. 
-I’ll remove those two redundant lines in v2 as you suggested.
+Am I missing something?
 
-I had one small clarification regarding the remaining host->dma_chan_tx = NULL;
-in the TX DMA error path. Since that branch uses goto out, 
-the cleanup section below may call dma_release_channel() on both RX 
-and TX pointers. Setting TX to NULL there seems like a defensive step 
-to avoid accidentally passing an ERR_PTR() to dma_release_channel() 
-— is that understanding correct?
+Thanks,
+Khalid
 
-Also, I noticed that in the build configuration downloaded from the LKP report 
-link (CONFIG_DMA_ENGINE isn’t defined), the kernel uses the stub inline 
-version of dma_release_channel() from include/linux/dmaengine.h, 
-which becomes a no-op. 
 
-From what I understand, when the DMA engine framework isn’t enabled, 
-these APIs compile as no-ops through their inline stubs. 
-Please correct me if I’m misunderstanding how this works.
+> 
+> diff --git a/drivers/mmc/host/pxamci.c b/drivers/mmc/host/pxamci.c
+> index 26d03352af63..404f78198252 100644
+> --- a/drivers/mmc/host/pxamci.c
+> +++ b/drivers/mmc/host/pxamci.c
+> @@ -652,10 +652,8 @@ static int pxamci_probe(struct platform_device *pdev)
+>   	host->clkrt = CLKRT_OFF;
+>   
+>   	host->clk = devm_clk_get(dev, NULL);
+> -	if (IS_ERR(host->clk)) {
+> -		host->clk = NULL;
+> +	if (IS_ERR(host->clk))
+>   		return PTR_ERR(host->clk);
+> -	}
+>   
+>   	host->clkrate = clk_get_rate(host->clk);
+>   
+> @@ -704,11 +702,9 @@ static int pxamci_probe(struct platform_device *pdev)
+>   	platform_set_drvdata(pdev, mmc);
+>   
+>   	host->dma_chan_rx = dma_request_chan(dev, "rx");
+> -	if (IS_ERR(host->dma_chan_rx)) {
+> -		host->dma_chan_rx = NULL;
+> +	if (IS_ERR(host->dma_chan_rx))
+>   		return dev_err_probe(dev, PTR_ERR(host->dma_chan_rx),
+>   				     "unable to request rx dma channel\n");
+> -	}
+>   
+>   	host->dma_chan_tx = dma_request_chan(dev, "tx");
+>   	if (IS_ERR(host->dma_chan_tx)) {
+> 
+> is a superior patch.
+> 
+> Best regards
+> Uwe
 
-Please let me know if this reasoning aligns with what you had in mind.
-
-Thanks again for the insightful feedback — 
-I’ll send v2 with those two cleanups shortly.
-
-Best regards,
-Rakuram
