@@ -1,154 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0BA2FBDFE;
-	Fri, 10 Oct 2025 16:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2726B18EAB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 17:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760113512; cv=none; b=lrkQsO5YBwn1uli4bZvq7nGDvnKVvlj+lRiGO/ebyHp0/d5/sbfajJ/fqaBTqeHC+XtdpHLclpYxBYbS/Osq+Tu/1PYMZ4rauZ/tw+rjr9svF0bVLPoY90w8uDJYjtEHQlQ1ckw5ReVH/bvybYwbNGxhbctXm41x3E384SJJRAw=
+	t=1760115661; cv=none; b=pr5vBQdXe029UQGl9YnxtVXwRASx9QqGFZehdJ3sEB+RcASfpSHdPSqM2gJ4b4m4FrU4Dsl2OMd0ATTkEwEOSuHGgNRBeTp1IACwcEfRr/Hmg7ZhiimhZ8pw2IXXvxszyyIbtBhRFU7Un0S6a4XSjj2zEQv+mDDL7Dz7XruBbwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760113512; c=relaxed/simple;
-	bh=sU+6p0fES1lWLpxFt1ech3kFhO9HRwj64Qc8e+dCNyA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C5u4Upk74qq3vhz46a/JY7JPOmmgq/cOwMVAZ/3VW0ANH0s5571kTurZ1l9UPfMkO29tjHoiVcN7tD0s5KrhK3xl9maBEJXfa5AN4KVIe1NAQPqwwNA0aZbeKTaj0W+sLm/n0CZwicFUg0RbHlmKrAbcgEBRi2In7rQQipw/41w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQ/90ykL; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760115661; c=relaxed/simple;
+	bh=EYyHZi7lJwHBaK15OLYLE1MUoZnPM2C96io0qfOoKwQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LnJfhhN8DZ5fBmImfBqXqqywsVvzP24pUgYZrxf4An3VKX6CkjS2fR3lLF2jgYLn7zxnSD5+BOAZfVVpPoUVYCUojhqdoBT0HAmyo2whxeUjRfBhoP2D97yM6i/z5v12nLUrTLT9Qmu0/KXOUcG91hdfdJwr4cp9ajCu80VFNc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=STsvGrqc; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQ/90ykL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760113511; x=1791649511;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sU+6p0fES1lWLpxFt1ech3kFhO9HRwj64Qc8e+dCNyA=;
-  b=VQ/90ykLiXNyf2VHFhuBGW6LaDz+gCQeZZA5L98dj1fAPb7hUAchVw4T
-   NAs3y2hWUGUYGOzS8vo02OrSkf/BkqeIAFqGLH7+KeZE8QOSLAfmgN9xZ
-   MzqTemtIiT5uFpEFLL8/9yjb5hvyh4o8Q+sOaYUA6QEpYX0YOcr/iP8FY
-   HsyMmVCBeAimrhYKmfe0tZcnwTIUSbcdnnUNR2n5D5fmewuyGpV7yYqrH
-   LammpzA/bMdYDHEAUw1STqlCDMI8BgXFOd6CyIRSZWot7jrUhRoIl8dA9
-   X266YGN6QQge3v2IGLFsy6xd/JF9yWcaWAYaLxxRRnoo74f1wEtYPG8au
-   A==;
-X-CSE-ConnectionGUID: B9tZX4yXQMmqIZ39JXPZPw==
-X-CSE-MsgGUID: TWxWfs2CTJ20NbdfBv/vzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62254117"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62254117"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 09:25:02 -0700
-X-CSE-ConnectionGUID: gfr2n2wqTtSF9blMwY6URw==
-X-CSE-MsgGUID: EBoKTs3FRYKkgFllL0MGiA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
-   d="scan'208";a="180699022"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Oct 2025 09:24:59 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v7FvM-0002xH-14;
-	Fri, 10 Oct 2025 16:24:56 +0000
-Date: Sat, 11 Oct 2025 00:24:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shrikant Raskar <raskar.shree97@gmail.com>, jic23@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, matt@ranostay.sg,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	Shrikant Raskar <raskar.shree97@gmail.com>
-Subject: Re: [PATCH v2 2/2] iio: health: max30100: Add pulse-width
- configuration via DT
-Message-ID: <202510110029.epOLovuF-lkp@intel.com>
-References: <20251008031737.7321-3-raskar.shree97@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="STsvGrqc"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id A5A66605EB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 17:00:59 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.101
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id yKWa5c8AixsL for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Oct 2025 17:00:59 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::d2e; helo=mail-io1-xd2e.google.com; envelope-from=skhan@linuxfoundation.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org D1BC9605E8
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D1BC9605E8
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=STsvGrqc
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D1BC9605E8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 17:00:58 +0000 (UTC)
+Received: by mail-io1-xd2e.google.com with SMTP id ca18e2360f4ac-930a6c601b3so223285539f.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 10:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1760115657; x=1760720457; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TZn78b0wyDjiwHnWB67MhXOFvbYgRHJbgZQPwFHCBKo=;
+        b=STsvGrqcpqs5oontch0C23mdR3oCgUO1+/TUBtkadBJCvOgsKx232+LWLWMth/PYZC
+         Flw2opW/elqTPg9+/QtTHnRZoi2FqXIq4f/FT7P8LXqjdrYM7+YZMvK95ezi6knwHhOk
+         4UbRydwg03ascX/kf1/xhxkmYIzk0RkV/U/uw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760115657; x=1760720457;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TZn78b0wyDjiwHnWB67MhXOFvbYgRHJbgZQPwFHCBKo=;
+        b=YfQ3bKRwqymbJka73OyaD09lubJSo05EttMhH6LirxPxAw/GU4+ACm1RX1wpLNVqNh
+         ndVX0czYmC1z382wtwdhfF9uXH3RKZlyEaRv0esqOr/6NGs1mefaqs1WwjGIpV9pTo17
+         YRavKSQBH0J6yrrV0sYcDuh6V0ysZ3mwR+OL4O68byeGSHfjiSAVSRqlNToEWKB+15c2
+         1whiCPEXU3m3HHa6OXbsNP4RZaG+xChsxudrgOLA5hjx3bYdqU88NsU8Cao+NBsOly4Q
+         aX7CuNq9GMl/7pmdHYrP4wCfUHXTuqAtGO08jPLdHEKKwf3TGwoQWGiOx1mFvsx/1v1z
+         BN6A==
+X-Forwarded-Encrypted: i=1; AJvYcCXD1gNFY0eyFznanV7ZEjgsRR/scpJiKUy8xioPpllThCSLYpgbjMiv38pvT4cCsPo9rEZqP7ZsSqh026MDsYWAs/o0lw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Ywq/N6gE7SeC8SU34bb4kJdIzfPxUugI5Q7Jm1h32Vx+0pXMDvF
+	69N8tywf9OOWrxIsOKgP4v2zEdughXPLb55Oqku9vODFgB2U1YTgdgPr40nfIZgxF6UwMA==
+X-Gm-Gg: ASbGnctK32umUZS4oGAzAiRm+RoidyahFePOrd6Qcm8tydTm3lph1tcY0tCZBCwSYTO
+	8+cYjQtCnnSuPdTcwetSUJE3qeWvtR2UltdowVNYNA1cwUzdkM7MBzhN3PzoVNxqVxoSbcjH+Nm
+	UYCesUPCXu7z4NTgaibfWkeuCycGFUEdmAQNlRnXQA289LnIVN/h0QRHc/IsphzP7FSAzd5Hu4N
+	Pz8IO4qQjiRwOzwNZ/b1EKUbtcp1vjDRUrd7pYeJ9c64JislrxGf7vA5aWxzWkUevpLPgzphKeD
+	IrWSjYetdgZ+G0oRTYO1mO/jAQoiG4rSBezQdrKVee0SB2vDBWmukGUluy84jpB+7miaVQB/n+7
+	pSUV3Mg2HWCrzypmJjupf8qquHVa02HhkXkLwB2x0ZX0tCeO0l3LNCA==
+X-Google-Smtp-Source: AGHT+IHPmVcN5C+66P07fmSeMZl3tP1046j5NJ9TkQM499GvnLbyfyBXHwVz+boWgvfT6iEAzYzEcQ==
+X-Received: by 2002:a05:6602:1410:b0:884:1e28:904e with SMTP id ca18e2360f4ac-93bd19712b3mr1401822139f.12.1760115655891;
+        Fri, 10 Oct 2025 10:00:55 -0700 (PDT)
+Received: from [192.168.1.14] ([38.175.187.108])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-58f7200b0a4sm1016355173.38.2025.10.10.10.00.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Oct 2025 10:00:55 -0700 (PDT)
+Message-ID: <bd60a8e5-f4df-4743-8b56-3d6127906ff2@linuxfoundation.org>
+Date: Fri, 10 Oct 2025 11:00:53 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251008031737.7321-3-raskar.shree97@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] lib: cpu_rmap.c Refactor allocation size calculation in
+ kzalloc()
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
+ akpm@linux-foundation.org
+Cc: linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20250930092327.27848-1-mehdi.benhadjkhelifa@gmail.com>
+ <10082c41-4302-4cb3-a2bf-788e59bad0c8@linuxfoundation.org>
+ <84bf5902-b3e5-4d58-a2a7-f01e15cfe143@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <84bf5902-b3e5-4d58-a2a7-f01e15cfe143@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Shrikant,
+On 10/9/25 09:16, Mehdi Ben Hadj Khelifa wrote:
+> On 10/7/25 11:23 PM, Shuah Khan wrote:
+> 
+>>
+>> How did you find this problem and how did you test this change?
 
-kernel test robot noticed the following build errors:
+Bummer - you trimmed the code entirely from the thread. Next time
+leave it in for context for the discussion.
 
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on robh/for-next v6.17]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> For the first part of your question,After simply referring to deprecated documentation[1] which states the following:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shrikant-Raskar/dt-bindings-iio-max30100-Add-pulse-width-property/20251010-102537
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20251008031737.7321-3-raskar.shree97%40gmail.com
-patch subject: [PATCH v2 2/2] iio: health: max30100: Add pulse-width configuration via DT
-config: csky-randconfig-001-20251010 (https://download.01.org/0day-ci/archive/20251011/202510110029.epOLovuF-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110029.epOLovuF-lkp@intel.com/reproduce)
+Looks you forgot to add link to the deprecated documentation[1].
+It sounds like this is a potential problem without a reproducer.
+These types of problems made to a critical piece of code require
+substantial testing.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510110029.epOLovuF-lkp@intel.com/
+> 'For other calculations, please compose the use of the size_mul(), size_add(), and size_sub() helpers'
+> Which is about dynamic calculations made inside of kzalloc() and kmalloc(). Specifically, the quoted part is talking about calculations which can't be simply divided into two parameters referring to the number of elements and size per element and in cases where we can't use struct_size() too.After that it was a matter of finding code where that could be the problem which is the case of the changed code.
+> 
+> For the second part, As per any patch,I make a copy of all dmesg warnings errors critical messages,then I compile install and boot the new kernel then check if there is any change or regression in dmesg.
 
-All errors (new ones prefixed by >>):
+This is a basic boot test which isn't sufficient in this case.
 
-   drivers/iio/health/max30100.c: In function 'max30100_chip_init':
->> drivers/iio/health/max30100.c:352:34: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     352 |                                  FIELD_PREP(MAX30100_REG_SPO2_CONFIG_PW_MASK, pulse_width));
-         |                                  ^~~~~~~~~~
+> For this particular change, since it doesn't have any selftests because it's in utility library which in my case cpu_rmap is used in the networking subsystem, I did some fault injection with a custom module to test if in case of overflow it fails safely reporting the issue in dmesg which is catched by the __alloc_frozen_pages_noprof() function in mm/page_alloc.c and also return a NULL for rmap instead of wrapping to a smaller size.
 
+Custom module testing doesn't test this change in a wider scope
+which is necessary when you are making changes such as these
+without a reproducer and a way to reproduce. How do you know
+this change doesn't introduce regressions?
 
-vim +/FIELD_PREP +352 drivers/iio/health/max30100.c
-
-   327	
-   328	static int max30100_chip_init(struct max30100_data *data)
-   329	{
-   330		int ret;
-   331		int pulse_width;
-   332		/* set default pulse-width-us to 1600us */
-   333		unsigned int pulse_us = 1600;
-   334		struct device *dev = &data->client->dev;
-   335	
-   336		/* setup LED current settings */
-   337		ret = max30100_led_init(data);
-   338		if (ret)
-   339			return ret;
-   340	
-   341		/* Read pulse-width-us from DT */
-   342		device_property_read_u32(dev, "maxim,pulse-width-us", &pulse_us);
-   343	
-   344		pulse_width = max30100_get_pulse_width(pulse_us);
-   345		if (pulse_width < 0)
-   346			return dev_err_probe(dev, pulse_width, "invalid pulse-width %uus\n", pulse_us);
-   347	
-   348		/* enable hi-res SPO2 readings at 100Hz */
-   349		ret = regmap_write(data->regmap, MAX30100_REG_SPO2_CONFIG,
-   350					 MAX30100_REG_SPO2_CONFIG_HI_RES_EN |
-   351					 MAX30100_REG_SPO2_CONFIG_100HZ |
- > 352					 FIELD_PREP(MAX30100_REG_SPO2_CONFIG_PW_MASK, pulse_width));
-   353		if (ret)
-   354			return ret;
-   355	
-   356		/* enable SPO2 mode */
-   357		ret = regmap_update_bits(data->regmap, MAX30100_REG_MODE_CONFIG,
-   358					 MAX30100_REG_MODE_CONFIG_MODE_MASK,
-   359					 MAX30100_REG_MODE_CONFIG_MODE_HR_EN |
-   360					 MAX30100_REG_MODE_CONFIG_MODE_SPO2_EN);
-   361		if (ret)
-   362			return ret;
-   363	
-   364		/* enable FIFO interrupt */
-   365		return regmap_update_bits(data->regmap, MAX30100_REG_INT_ENABLE,
-   366					 MAX30100_REG_INT_ENABLE_MASK,
-   367					 MAX30100_REG_INT_ENABLE_FIFO_EN
-   368					 << MAX30100_REG_INT_ENABLE_MASK_SHIFT);
-   369	}
-   370	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+thanks,
+-- Shuah
