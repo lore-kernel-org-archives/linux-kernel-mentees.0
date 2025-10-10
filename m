@@ -1,198 +1,221 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734814414
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 00:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAE22749D6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 07:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760055936; cv=none; b=H8IpnU9Wxmdo/c3QRp1z5ForkWS3hBLt/6ZvNcIvm3+3CvLaESsVc0eT8tIvaP3a3tmSE819YW4Ss2/OklVcjvebSnu9RIb+vOEGBletGYds3pIKdjfUxRnk2OpRGeEYsxUf0Nj8SAE14AxWi/vS+GMOd7I9Bf8b/ZLSZ2WTkNQ=
+	t=1760081570; cv=none; b=sir/U8loF7RflVT93IUgtQobeLHg3toDLbl/KkJnDOzq9bDa0Q5JBQ/DkSihstqYqsKIyT/YG59boEmZB8Gy+RjJXkYlGYEiubIvl6PKkmf0RoUim4SQ5uxkU44tFJCypvdBF6bSmLEVPZ56DSjjPgaB9Pmgnq5NQzXGpBusUMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760055936; c=relaxed/simple;
-	bh=/hMfUOIeK9GD9x4vXhTNoREyWRIX0X+0EK95NCRkb4M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 References; b=BfABmxt7Hc71/8Hqre6bertHUIq3yVoUrLkAGb4ORQSgFDEfKtzjnW9MKgyaDrJgRR1vBFOhu/3X0VG6qFpCVL6roFnSGgE6yGUfpFIEzbf9GjF4MYCsuy22RgiT7bRNxYVecWdgww+sCsOGA4RXuCWb8UPOt5640vZnTKrEb9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=qqB+UAfp; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1760081570; c=relaxed/simple;
+	bh=5ed7ZTRWARIp1UvJaJ1oU459HdRX5VCzQMqKGmykqh4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Rp+st1QD5R0p+3X99Rpo/P+6W5HYJ3YoSj0wM1IEZuCCSeDtUn0H3tmjlfceE5aMYxvpCjnhUVCVK7k+6+mwja4wO/ZVFp1277HOK1X1z/a4cb+gWE+HzyFb0eX//env+fF4oJhWfIAKVh927Z3v97q4F5VbaoSGdGzTaK58f3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RJCol65i; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DsMnxB/l; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q0nhyezq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1zYKhF6G; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="qqB+UAfp"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RJCol65i";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DsMnxB/l";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q0nhyezq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1zYKhF6G"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id F160C83FAF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 00:25:34 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 54B716143E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 07:32:49 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -5.791
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id z5deUZ8DnTBT for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Oct 2025 00:25:34 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=98.137.68.32; helo=sonic308-8.consmr.mail.gq1.yahoo.com; envelope-from=adelodunolaoluwa@yahoo.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 2B1BB83FAE
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2B1BB83FAE
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=qqB+UAfp
-Received: from sonic308-8.consmr.mail.gq1.yahoo.com (sonic308-8.consmr.mail.gq1.yahoo.com [98.137.68.32])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 2B1BB83FAE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 00:25:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1760055933; bh=0VTdNEpFRWjnOOzcXbrlmV0h1KaJ09ZXiLQBWRMC6P4=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=qqB+UAfpHPOOxn6g2gR3UsclcDMwa6h8qvSmvGpCoZXGWsVZtNI55huyBIEiPgS1SaA74Ea2+ohQuBkET6v6oUXjUwWpPUqq7yDZTQyDBrRuUPgR3atzaI6kjKZHwfSx6Hv8G5GtmJnEzAUFyxwWQNqemfoYDojYTwZk+y7a2rRWPWbShOgM3MrjG12y1sC47tuMWiWwr6mrbj/z+qTn+kXG3GnUKB8GSZLld/i/hw8ndAsgqLrY9C1FsS3Gc7txdKMqCo3kyVdma6nmhM/KeO+mB1LcYL9cPLRw7XGHxl04bzTcMCa6IUQJN6sCROq34Dewq6Z/5O+40aqsUAeweg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1760055933; bh=nQD2tSvcyjG9WTdcPzrAaGCIeOasrHt/eSYflXgIgnA=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=VJQ80krOz4Nc+4qkum7cbMcJcNg/laR6uYhFiWLUc3SZguZWGZXN7cQC88xdmyhb5o6M4xKfN07RD65bHRGxbZ4fHS4Csyhp36+d8aoliuzGl6djdlq1n3eQpWH+gMet5239CnRc3v0GY8sIZ32/5RJYhsuJokpEJpnv/at1tXaqz5bkdilXhbhTcXZe5CLJeiUMvUasJQzKDhQjSc8C5K5dYqkE4RAsQ/LkPQTpUqpxwbRe1hbVq2cTJ/EfP+2A5lBwR/Ir5Hr5Sz9Ecbz1Dpv4wJWHEVRYD0ANnjFQJLNEVe3i+gpPpVQ1UAFQ+fphD0RjceYac3FgOnaQLeh8KQ==
-X-YMail-OSG: VbSpB3AVM1kFrdWXjzDYStmyabFzfBauQUcwFj47wWqxZxJitX1xO3ebNu4krFG
- RYQR8ULwOVgn.h1u8WtC7pNSFezlkCIP5ViSBedj010XjuCG41T6P7hnXSOyPvRuOyvo086giPHs
- QIds0t..w4ib.odZn2LDZjDhIHWe2fnN5rvSeXreWlwLP1dvLDMR5DGd.K3IM.9it2p7NkAu2Ppl
- FXVgrWOIpSZHW8KNUgnRmlqRbSLqjaFONg3F7CxdWpkgsItxyb4b3D9SLH5j9..RHFb.VfK1L.nT
- McWUQ9L_l8qxMmjrEl9nMD8FGp9m8WtLasAfs46DXOz8Dkxvv0iw94AEH6h2hIvnZgBj8IAP5K3D
- hxkPLHwnEJGiUHqbD5KVyuzYDSgwQsv1xTvfrV5k6KwN6oSiRNyT6Qt8by3ppQ0LqIri.kw4qJdR
- aFYkgmrkK_5xykJLnE2yikjGijnS0jsvgwNc42Ocn.Fd_EtgV2u9LJV18nxPhQYyF6.mtJ7h1Z7I
- 4Qy1xfTpJQPzzDcVLiIPvlIi_rQbMMIfqO_ODX0dnCrMA8f0XBjzrEuSoRWsUkvT5Q8el4pyU.Sx
- jqsniHM1cJwIMMZG1BePtJTJVGeJ9vayJbK1AxPUOFvAxKyQ5AZtNuFC08Ns26RnGEHjtJshZiq8
- SOy6wM4j12ukM53E6vd_458XVaijSMPgMRIYUGr0d9.r6kqJr9xQl8qAxAcEJs2VHmVofMM1hl0o
- iCdb5TyRTUWXds_TQLL9cDTOJxIAHGyzUcbA8kKhROV400Ilt00SkvQjhBPwVts2BDqzhAua108k
- 7zWYQ5QBBIEfpP16AdOOoaaRvAcNkpr1grweqrPYfKS0YIpH6rzb.Rfva_FS7WovrEI4yy38Gi.I
- 8sy.MJ_aY1B0wph0Lwrk3wOeob2C7gKtPCIGqS5ccagJ7qk2fcB3r5.AfD68qxpdTVEaLUZaG_Nv
- qmWBYb3koT3A93Wzs4sgGmDf55hgOdMvEjcNLH5SGnY0W1FJqibmzN.XciwD0wnsF1zeQS6433Bf
- t7FMM72C1msUZ.2UiChbJusz9Ir73UuR9R6PViDQjlQ1IXhUdSMeMo241w6EMCPauzohk9qvXqnK
- hWHzA5pMm0ommaeD7kUHiI5UFkw3TADMdYBcW9RnJjmSeUGTxGqxLuT_IdtZ_rpeXdBMyXWybUHM
- GEyjdHkagMqG0VuoWeyl.ijKZzp728eCkgeBZA31VUICKt_DUc4TEKOLtwHDLwSENS2MIKfiohp.
- Wa.Xht25RzdeqCsaB6Y9XtzqCFu559E7PXWSE4rUDrQ2onEMXdZdJhJXNU213eieycpnZCHJXjPK
- bPJENJYq5dootkYjBkVftgyqgRrSk6W5Ovm7RwAmaJ5Qi.PF2nxheNbxLZZVMj9iOS6Juj98I7LA
- 9Eexvnv_7XDhaorhNZgtiVa_oq2jwQdBE_Zqq9aKQj.GSJ0tRIjryZ.gfSPZH78xaSkD..bhrEXn
- OxuW81QoKcQJBL6LJSX6.08HG.X_DoraZZPhKHDtEJIfJEwODyca4iTdNiCbQHFRA4cI.yaYCUYN
- TaahGVo0qXY0UDgjd1uHCWBzxg6OdvWJnigmwu2q2nvHYJ1pT95pVs6JZDI98g2jkxkrIBVU9qOb
- Gc0v.rXdykiDft6kCBlc3HKS..Me0IInEiS.87.D_lsENtG3Fz5hsFZWoin_CXpiVO2w7lbGpqUt
- MQ5Mb1KTVoOoL7OcQcMWq2GheLtdDQs62HC4_nhqFqcFo4Yb9DMoKkY.qfa4wGWKNzjEVWf2EiBW
- kUVoSDKb0BT1sWoCbRyhw4tTn2azcLSZcHIyYk1nnMhqk5Ve3GsX1x02S3CFMdTgYn90GgSyP00A
- 1xpgx.dO7jed9GA4eek4.APdgY32wVuhHu.ke__oEw97r6CNfV39VyJ8lIy4j.dL9MW6f7bBhq1H
- u7jscG9HxuOLJPMf92gTSBtYx84rFnspRcbCnbKhiLaeckhJWAic1UgHjCXPgXZKCoy0KGXmlIdu
- wuhFYaflNX1_W7qqs17TFf_SvbVSoMxCJqjxmmH1r.daaMTd3ksAAnMl3Wf7dTWLDs8oVtkegx.9
- azASxo8rzljyv4.6aXBVhtWPlwHha5OOcAvuCPoVk08_rj3cJFyUGoYZeWv.IoRRsYoCEJ2EKE3I
- QDw11LOeY_DY86jqNA6VqCLXdJXGKTQGQpEYmuWtmlPj0JF1e.cHZ.6u_bNLh_PEYjPrGvRbvK78
- QxCWJxQDoHB2yQeUOXI8nMu7_HUBRO0qHWmXArYrrRFOU1QogfnpbPH.qgfZ7zsTUqZBV_DGIafK
- pcnLWWaeMuHvODd4-
-X-Sonic-MF: <adelodunolaoluwa@yahoo.com>
-X-Sonic-ID: 6cc0e7b1-f593-4cd8-9102-8f489ef4c6b3
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.gq1.yahoo.com with HTTP; Fri, 10 Oct 2025 00:25:33 +0000
-Received: by hermes--production-bf1-798569fcb9-27qrh (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 3c7b071a36dce4930d289eabdfc11d66;
-          Fri, 10 Oct 2025 00:25:31 +0000 (UTC)
-From: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-To: maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	zack.rusin@broadcom.com
-Cc: bcm-kernel-feedback-list@broadcom.com,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	david.hunter.linux@gmail.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-Subject: [PATCH] drm: rename drm_ioctl_flags() to drm_ioctl_get_flags() to fix kernel-doc name conflict
-Date: Fri, 10 Oct 2025 01:25:20 +0100
-Message-ID: <20251010002520.359824-1-adelodunolaoluwa@yahoo.com>
-X-Mailer: git-send-email 2.43.0
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id OYlIkjKGVulO for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Oct 2025 07:32:48 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a07:de40:b251:101:10:150:64:2; helo=smtp-out2.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 2D7816143A
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=suse.de
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2D7816143A
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RJCol65i;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DsMnxB/l;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=q0nhyezq;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1zYKhF6G
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2D7816143A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 07:32:47 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EBCFB1F385;
+	Fri, 10 Oct 2025 07:32:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760081565; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=r3TySoY1efmVhOg17k+75UC/Go/6N6fqYlSPHqfAmVM=;
+	b=RJCol65iA7tpsVYVfY7VSelTW4KQQ1mEXRekRfCS0fvyRnsnGPP+i1jGikRYoulHfEmhyZ
+	savsuMPwSckvu1p0L+Ko1bXe34xH8VBn9zRFjJqa6OV+r3DI6OssfVkgYF8LXR2Hv6PieE
+	WL78uuMF110w/w6JIbDTqScxddPezD0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760081565;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=r3TySoY1efmVhOg17k+75UC/Go/6N6fqYlSPHqfAmVM=;
+	b=DsMnxB/l8WtTRByeJ5CUHtbz04h2CV0aChnoxFggxYN57CJp9f6Y/9qVC+lkE+OBIYKnH/
+	aP+jG9tYdyhNDmAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=q0nhyezq;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1zYKhF6G
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760081564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=r3TySoY1efmVhOg17k+75UC/Go/6N6fqYlSPHqfAmVM=;
+	b=q0nhyezqqRG6l+M8aQjxZ3OSWSdbZDR3ccpfKGRMx8gLpFN+2wv5KOd1Bm4XbAAeeRfVcu
+	pRQ0d/lkCBphLF9pXFEZL3AY/sIKqOEju8nFwQWVW68hMBQusobEMJ1BQO/eAJQs4uEwRC
+	z0342AwWJg4id566S29F3YjzK8Bk6tE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760081564;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=r3TySoY1efmVhOg17k+75UC/Go/6N6fqYlSPHqfAmVM=;
+	b=1zYKhF6GK84E9aeIP1togEgJ42ishQnBjqUWtluhX/zxRbuvjcdvIzVyZtyasDf5fm4+Ec
+	WmAkOokYrBcP36DA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 831191375D;
+	Fri, 10 Oct 2025 07:32:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7oORHpu26GhCAQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Fri, 10 Oct 2025 07:32:43 +0000
+Message-ID: <e712f968-73e0-45c8-9c72-f716522e070c@suse.de>
+Date: Fri, 10 Oct 2025 09:32:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-References: <20251010002520.359824-1-adelodunolaoluwa.ref@yahoo.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] drm/gud: Use kmalloc_array() instead of kmalloc()
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, mingo@kernel.org, tglx@linutronix.de, jfalempe@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org,
+ rubenru09@aol.com, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251007083320.29018-1-mehdi.benhadjkhelifa@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251007083320.29018-1-mehdi.benhadjkhelifa@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: EBCFB1F385
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,linutronix.de,redhat.com];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,linuxfoundation.org,gmail.com,kernel.org,aol.com,lists.linuxfoundation.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
 
-The function `drm_ioctl_flags()` defined in `drm_ioctl.c` shares the same
-identifier name as the `enum drm_ioctl_flags` defined in
-`drm_ioctl.h`. Although this naming overlap is perfectly valid in C —
-since functions and enumerations exist in separate namespaces and do
-not affect compilation or linkage — it causes a symbol collision in the
-kernel-doc build system.
 
-During `make htmldocs`, Sphinx reports the following warning:
-  ./Documentation/gpu/drm-uapi:574: ./drivers/gpu/drm/drm_ioctl.c:915:
-  WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
-  Declaration is '.. c:function::
-  bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'.
 
-This happens because kernel-doc processes both identifiers (the enum and
-the function) under the same name, leading to a duplicate symbol entry
-in the generated documentation index. The build system therefore treats
-them as conflicting declarations, even though they represent different
-entities in code.
+Am 07.10.25 um 10:32 schrieb Mehdi Ben Hadj Khelifa:
+> Replace kmalloc with kmalloc array in drm/gud/gud_pipe.c since the
+> calculation inside kmalloc is dynamic 'width * height'
+>
+> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
 
-To resolve this, the function has been renamed to
-`drm_ioctl_get_flags()`, which both removes the naming collision and
-better describes the function’s purpose—retrieving ioctl permission
-flags associated with a given command number.
+Applied to drm-misc-next.
 
-All affected references have been updated accordingly in:
-  - `drivers/gpu/drm/drm_ioctl.c`
-  - `drivers/gpu/drm/vmwgfx/vmwgfx_drv.c`
-  - `include/drm/drm_ioctl.h`
+> ---
+> Changelog:
+>
+> Changes since v2:
+> -Reversed width and height in parameter order.
+> Link:https://lore.kernel.org/all/20250923085144.22582-1-mehdi.benhadjkhelifa@gmail.com/
+> Changes since v1:
+> - Use of width as element count and height as size of element to
+> eliminate the mentionned calculation and overflow issues.
+> Link:https://lore.kernel.org/all/20250922174416.226203-1-mehdi.benhadjkhelifa@gmail.com/
+>   drivers/gpu/drm/gud/gud_pipe.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
+> index 8d548d08f127..c32a798ccadf 100644
+> --- a/drivers/gpu/drm/gud/gud_pipe.c
+> +++ b/drivers/gpu/drm/gud/gud_pipe.c
+> @@ -70,7 +70,7 @@ static size_t gud_xrgb8888_to_r124(u8 *dst, const struct drm_format_info *format
+>   	height = drm_rect_height(rect);
+>   	len = drm_format_info_min_pitch(format, 0, width) * height;
+>   
+> -	buf = kmalloc(width * height, GFP_KERNEL);
+> +	buf = kmalloc_array(height, width, GFP_KERNEL);
+>   	if (!buf)
+>   		return 0;
+>   
 
-No other symbols or behavior are modified.
-
-Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
----
- drivers/gpu/drm/drm_ioctl.c         | 6 +++---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 +-
- include/drm/drm_ioctl.h             | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index f593dc569d31..313e8bb7986a 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -912,7 +912,7 @@ long drm_ioctl(struct file *filp,
- EXPORT_SYMBOL(drm_ioctl);
- 
- /**
-- * drm_ioctl_flags - Check for core ioctl and return ioctl permission flags
-+ * drm_ioctl_get_flags - Check for core ioctl and return ioctl permission flags
-  * @nr: ioctl number
-  * @flags: where to return the ioctl permission flags
-  *
-@@ -923,7 +923,7 @@ EXPORT_SYMBOL(drm_ioctl);
-  * Returns:
-  * True if the @nr corresponds to a DRM core ioctl number, false otherwise.
-  */
--bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
-+bool drm_ioctl_get_flags(unsigned int nr, unsigned int *flags)
- {
- 	if (nr >= DRM_COMMAND_BASE && nr < DRM_COMMAND_END)
- 		return false;
-@@ -935,4 +935,4 @@ bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
- 	*flags = drm_ioctls[nr].flags;
- 	return true;
- }
--EXPORT_SYMBOL(drm_ioctl_flags);
-+EXPORT_SYMBOL(drm_ioctl_get_flags);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 8ff958d119be..fa4644067d46 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -1257,7 +1257,7 @@ static long vmw_generic_ioctl(struct file *filp, unsigned int cmd,
- 			goto out_io_encoding;
- 
- 		flags = ioctl->flags;
--	} else if (!drm_ioctl_flags(nr, &flags))
-+	} else if (!drm_ioctl_get_flags(nr, &flags))
- 		return -EINVAL;
- 
- 	return ioctl_func(filp, cmd, arg);
-diff --git a/include/drm/drm_ioctl.h b/include/drm/drm_ioctl.h
-index 171760b6c4a1..585dda7550b0 100644
---- a/include/drm/drm_ioctl.h
-+++ b/include/drm/drm_ioctl.h
-@@ -164,7 +164,7 @@ long drm_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
- /* Let drm_compat_ioctl be assigned to .compat_ioctl unconditionally */
- #define drm_compat_ioctl NULL
- #endif
--bool drm_ioctl_flags(unsigned int nr, unsigned int *flags);
-+bool drm_ioctl_get_flags(unsigned int nr, unsigned int *flags);
- 
- int drm_noop(struct drm_device *dev, void *data,
- 	     struct drm_file *file_priv);
 -- 
-2.43.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
