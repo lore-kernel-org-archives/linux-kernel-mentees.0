@@ -1,80 +1,66 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2726B18EAB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 17:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B296320C004
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 10 Oct 2025 17:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760115661; cv=none; b=pr5vBQdXe029UQGl9YnxtVXwRASx9QqGFZehdJ3sEB+RcASfpSHdPSqM2gJ4b4m4FrU4Dsl2OMd0ATTkEwEOSuHGgNRBeTp1IACwcEfRr/Hmg7ZhiimhZ8pw2IXXvxszyyIbtBhRFU7Un0S6a4XSjj2zEQv+mDDL7Dz7XruBbwQ=
+	t=1760118576; cv=none; b=becTqrMb6VRrlPYfFmZIFtd+CkDbMfqKrREeIkUOsJWYVTlfU0BxTXmSpPHj6lxSllS3G8t8gzFEX9V9km1oiJ2MpABMbfP+wFD+lDatrxFX8kQ3lMqvv67PSsE4Am218T05fnRgKixbKPu57p7uZJMvUdzy1WaEvgPpbAnzfgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760115661; c=relaxed/simple;
-	bh=EYyHZi7lJwHBaK15OLYLE1MUoZnPM2C96io0qfOoKwQ=;
+	s=arc-20240116; t=1760118576; c=relaxed/simple;
+	bh=SydbU5kjGr/3xovWC/nOqIpKErTuWjsdiYfkq7oCez4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LnJfhhN8DZ5fBmImfBqXqqywsVvzP24pUgYZrxf4An3VKX6CkjS2fR3lLF2jgYLn7zxnSD5+BOAZfVVpPoUVYCUojhqdoBT0HAmyo2whxeUjRfBhoP2D97yM6i/z5v12nLUrTLT9Qmu0/KXOUcG91hdfdJwr4cp9ajCu80VFNc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=STsvGrqc; arc=none smtp.client-ip=140.211.166.136
+	 In-Reply-To:Content-Type; b=HKQWCJcNMnhsGdBDiVSfCT2TBu3ci8mr5FK9Zhr551nu2n5A2MICAQfUKblLIJplBpDyPl2UUvw723o/Z4IJ8Uadijw5jxTS3dBJmccB94S2gt9gHMn/B51/BR/HHlkfdd31xCSm9zoohiDBjIuYzZTNXDW41c6RXF2qZPhT+/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ObHAPfjo; arc=none smtp.client-ip=209.85.210.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="STsvGrqc"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A5A66605EB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 17:00:59 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id yKWa5c8AixsL for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Oct 2025 17:00:59 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::d2e; helo=mail-io1-xd2e.google.com; envelope-from=skhan@linuxfoundation.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org D1BC9605E8
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D1BC9605E8
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=STsvGrqc
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id D1BC9605E8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 17:00:58 +0000 (UTC)
-Received: by mail-io1-xd2e.google.com with SMTP id ca18e2360f4ac-930a6c601b3so223285539f.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 10:00:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ObHAPfjo"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7c0dd405c38so1514614a34.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 10 Oct 2025 10:49:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1760115657; x=1760720457; darn=lists.linuxfoundation.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1760118573; x=1760723373; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TZn78b0wyDjiwHnWB67MhXOFvbYgRHJbgZQPwFHCBKo=;
-        b=STsvGrqcpqs5oontch0C23mdR3oCgUO1+/TUBtkadBJCvOgsKx232+LWLWMth/PYZC
-         Flw2opW/elqTPg9+/QtTHnRZoi2FqXIq4f/FT7P8LXqjdrYM7+YZMvK95ezi6knwHhOk
-         4UbRydwg03ascX/kf1/xhxkmYIzk0RkV/U/uw=
+        bh=YMaVmGxlRalQkaTOQI033Tgz8Btw2Xvfuv/0peF4wpw=;
+        b=ObHAPfjozi73ch37d5GngBoXs5ovohC+TI4IveQAdvkSYUo3XR0/krMEGI1E3KX0tB
+         lwxGo1Cu3ObnSYBvXKS7F3FsWuEjxbkeLQIGuosxZadnBRoXSe9pU6V8pqXECEamIoiE
+         7WA9XwAaBhgXjf8YlA9/+no/bCRPFDQrQaFjCkdFuqXkCtr0tkiVzSjV1uHOISsDiAZK
+         AQzn/bvlVe4M4jsz0ChLMboM7sl/nUOO0TGOZ0JO9gzwVQJRt9fJIKi0xGSzSbwC3xVX
+         Kn4sthhDgGPlK0eYsayotF2bwFCvwjPF/0+sA7Aiqm/0pqEuVLBrO+6Q0wKzp7Cwy14d
+         PzeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760115657; x=1760720457;
+        d=1e100.net; s=20230601; t=1760118573; x=1760723373;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TZn78b0wyDjiwHnWB67MhXOFvbYgRHJbgZQPwFHCBKo=;
-        b=YfQ3bKRwqymbJka73OyaD09lubJSo05EttMhH6LirxPxAw/GU4+ACm1RX1wpLNVqNh
-         ndVX0czYmC1z382wtwdhfF9uXH3RKZlyEaRv0esqOr/6NGs1mefaqs1WwjGIpV9pTo17
-         YRavKSQBH0J6yrrV0sYcDuh6V0ysZ3mwR+OL4O68byeGSHfjiSAVSRqlNToEWKB+15c2
-         1whiCPEXU3m3HHa6OXbsNP4RZaG+xChsxudrgOLA5hjx3bYdqU88NsU8Cao+NBsOly4Q
-         aX7CuNq9GMl/7pmdHYrP4wCfUHXTuqAtGO08jPLdHEKKwf3TGwoQWGiOx1mFvsx/1v1z
-         BN6A==
-X-Forwarded-Encrypted: i=1; AJvYcCXD1gNFY0eyFznanV7ZEjgsRR/scpJiKUy8xioPpllThCSLYpgbjMiv38pvT4cCsPo9rEZqP7ZsSqh026MDsYWAs/o0lw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Ywq/N6gE7SeC8SU34bb4kJdIzfPxUugI5Q7Jm1h32Vx+0pXMDvF
-	69N8tywf9OOWrxIsOKgP4v2zEdughXPLb55Oqku9vODFgB2U1YTgdgPr40nfIZgxF6UwMA==
-X-Gm-Gg: ASbGnctK32umUZS4oGAzAiRm+RoidyahFePOrd6Qcm8tydTm3lph1tcY0tCZBCwSYTO
-	8+cYjQtCnnSuPdTcwetSUJE3qeWvtR2UltdowVNYNA1cwUzdkM7MBzhN3PzoVNxqVxoSbcjH+Nm
-	UYCesUPCXu7z4NTgaibfWkeuCycGFUEdmAQNlRnXQA289LnIVN/h0QRHc/IsphzP7FSAzd5Hu4N
-	Pz8IO4qQjiRwOzwNZ/b1EKUbtcp1vjDRUrd7pYeJ9c64JislrxGf7vA5aWxzWkUevpLPgzphKeD
-	IrWSjYetdgZ+G0oRTYO1mO/jAQoiG4rSBezQdrKVee0SB2vDBWmukGUluy84jpB+7miaVQB/n+7
-	pSUV3Mg2HWCrzypmJjupf8qquHVa02HhkXkLwB2x0ZX0tCeO0l3LNCA==
-X-Google-Smtp-Source: AGHT+IHPmVcN5C+66P07fmSeMZl3tP1046j5NJ9TkQM499GvnLbyfyBXHwVz+boWgvfT6iEAzYzEcQ==
-X-Received: by 2002:a05:6602:1410:b0:884:1e28:904e with SMTP id ca18e2360f4ac-93bd19712b3mr1401822139f.12.1760115655891;
-        Fri, 10 Oct 2025 10:00:55 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.187.108])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-58f7200b0a4sm1016355173.38.2025.10.10.10.00.55
+        bh=YMaVmGxlRalQkaTOQI033Tgz8Btw2Xvfuv/0peF4wpw=;
+        b=BL4uIwE2RZt4OYTkO4divR50VDfx+95jVDciGuJHCeS1mrBREEivQJUoK3C/c2C5++
+         u5CU6MHl7k0rrG7rTJKMpx+61e598TJtfw1v7lpvOYyl8oo4DFPMgQrjo8ypW9RopRlQ
+         XVsoe2MLNfVXoXpMFRAGsC9XRTZ+U0HUV1W0O9ybkVfCD+5exE8ouc1NiJe7qUy0RvMN
+         eE1ARE2CDylIWP+lRTlncHYi+xL3khz4XVMyBb8260XV5Ncfxe/cmixs+PlLLTv5lfnd
+         BOcgTGiJA5NwhsULfdHGE9ijL81nHAGs5fvC21MxFWsKCdQIisGm/aV7OTzo/Wtfr/J2
+         RrTA==
+X-Forwarded-Encrypted: i=1; AJvYcCWvRI0F5D+DjL5++5xouWrdDKFsZGGldMYR7UqWtUH0hSE/SwG41iY69VxGZitXh1cb6/6PrAZAhzYiqXoeTuv9jHXLyw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyKNuJErM3ndGfevo0m1tj4bdjdNI1lgEV5vy+r0W5X0fW0SbFf
+	ZAHDXfAx4EZPvK7rcI5RGgKa1Czjuiw33o8jO0wJw7jNpdEYq9xUw07r/Jy/bG7hM8U=
+X-Gm-Gg: ASbGncvAjnVcnVbVFsJPpcUPtv+HLDDEsHbce3QahkRv0wxXur73Del5J/UsIeBP4nX
+	cFpw5UfxjEOzFIsOx3bF5jWrz4Gys10v9Ha/OuDJeljzbH4RxAh66YGUrdSeiF0EX1e/rVobzOB
+	QxqxkKX59ThJ3uhB9PZI0wXsR+8KWgKlzO+OwwmB9a/yMgaxM+3OLm/Mj9xqV9U2Z5tCm8arAp7
+	ryh2KRMFNJkhGv0pSxKWQWX+dKgyaVgnFVvwQLWjxZl73pYL2TmLPIGIX0Mie9SA3qK/wFVcBRd
+	R9hi0cWlurXRCikztbpB0OTqGwZX+e9wZZqjlEWdcTvHSRgoUPQ+Ejl+XIDdXwXElscWvK8h0+v
+	dWNsyt64YB34IBwjmCoj1qiMwx/wemRnTUHOUHd9hGh0t+K2v6Uo9OGQThPwfnIeMV6cdrp0AKs
+	/EgGcNkhwqZFRWrbc=
+X-Google-Smtp-Source: AGHT+IGFvMx8K8r1w2LJGI0aj1BdaxgMV07DhEGKjg2wLJeOFKBXNf333S18rFWDt7E0konUyv4QMg==
+X-Received: by 2002:a05:6830:620d:b0:79e:f086:3aca with SMTP id 46e09a7af769-7c0df62378fmr7546589a34.10.1760118572753;
+        Fri, 10 Oct 2025 10:49:32 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:6d3b:e3bd:4210:32e2? ([2600:8803:e7e4:500:6d3b:e3bd:4210:32e2])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7c0f9067887sm1027295a34.9.2025.10.10.10.49.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Oct 2025 10:00:55 -0700 (PDT)
-Message-ID: <bd60a8e5-f4df-4743-8b56-3d6127906ff2@linuxfoundation.org>
-Date: Fri, 10 Oct 2025 11:00:53 -0600
+        Fri, 10 Oct 2025 10:49:32 -0700 (PDT)
+Message-ID: <fce1c905-1c64-47b5-91b1-0017809ec12c@baylibre.com>
+Date: Fri, 10 Oct 2025 12:49:31 -0500
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -82,51 +68,79 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] lib: cpu_rmap.c Refactor allocation size calculation in
- kzalloc()
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
- akpm@linux-foundation.org
-Cc: linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20250930092327.27848-1-mehdi.benhadjkhelifa@gmail.com>
- <10082c41-4302-4cb3-a2bf-788e59bad0c8@linuxfoundation.org>
- <84bf5902-b3e5-4d58-a2a7-f01e15cfe143@gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: iio: max30100: Add pulse-width
+ property
+To: Shrikant Raskar <raskar.shree97@gmail.com>, jic23@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: nuno.sa@analog.com, andy@kernel.org, matt@ranostay.sg,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+References: <20251008031737.7321-1-raskar.shree97@gmail.com>
+ <20251008031737.7321-2-raskar.shree97@gmail.com>
 Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <84bf5902-b3e5-4d58-a2a7-f01e15cfe143@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20251008031737.7321-2-raskar.shree97@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/9/25 09:16, Mehdi Ben Hadj Khelifa wrote:
-> On 10/7/25 11:23 PM, Shuah Khan wrote:
+On 10/7/25 10:17 PM, Shrikant Raskar wrote:
+> The appropriate LED pulse width for the MAX30100 depends on
+> board-specific optical and mechanical design (lens, enclosure,
+> LED-to-sensor distance) and the trade-off between measurement
+> resolution and power consumption. Encoding it in Device Tree
+> documents these platform choices and ensures consistent behavior.
 > 
->>
->> How did you find this problem and how did you test this change?
-
-Bummer - you trimmed the code entirely from the thread. Next time
-leave it in for context for the discussion.
-
-> For the first part of your question,After simply referring to deprecated documentation[1] which states the following:
-
-Looks you forgot to add link to the deprecated documentation[1].
-It sounds like this is a potential problem without a reproducer.
-These types of problems made to a critical piece of code require
-substantial testing.
-
-> 'For other calculations, please compose the use of the size_mul(), size_add(), and size_sub() helpers'
-> Which is about dynamic calculations made inside of kzalloc() and kmalloc(). Specifically, the quoted part is talking about calculations which can't be simply divided into two parameters referring to the number of elements and size per element and in cases where we can't use struct_size() too.After that it was a matter of finding code where that could be the problem which is the case of the changed code.
+> Tested on: Raspberry Pi 3B + MAX30100 breakout board.
 > 
-> For the second part, As per any patch,I make a copy of all dmesg warnings errors critical messages,then I compile install and boot the new kernel then check if there is any change or regression in dmesg.
+> Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
+> 
+> Changes since v1:
+> Add unit suffix.
+> Drop redundant description.
+> 
+> Link to v1:
+> https://lore.kernel.org/all/20251004015623.7019-2-raskar.shree97@gmail.com/
+> ---
+>  .../devicetree/bindings/iio/health/maxim,max30100.yaml      | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml b/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml
+> index 967778fb0ce8..5c651a0151cc 100644
+> --- a/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml
+> +++ b/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml
+> @@ -27,6 +27,11 @@ properties:
+>        LED current whilst the engine is running. First indexed value is
+>        the configuration for the RED LED, and second value is for the IR LED.
+>  
+> +  maxim,pulse-width-us:
+> +    maxItems: 1
+> +    description: Pulse width in microseconds
 
-This is a basic boot test which isn't sufficient in this case.
+Would be nice to add to the description which pulse width this is referring to.
 
-> For this particular change, since it doesn't have any selftests because it's in utility library which in my case cpu_rmap is used in the networking subsystem, I did some fault injection with a custom module to test if in case of overflow it fails safely reporting the issue in dmesg which is catched by the __alloc_frozen_pages_noprof() function in mm/page_alloc.c and also return a NULL for rmap instead of wrapping to a smaller size.
+> +    enum: [200, 400, 800, 1600]
 
-Custom module testing doesn't test this change in a wider scope
-which is necessary when you are making changes such as these
-without a reproducer and a way to reproduce. How do you know
-this change doesn't introduce regressions?
+Properties with standard unit suffixes are u32 arrays, so I think this
+would fix the error and also make maxItems not necessary.
 
-thanks,
--- Shuah
+       items:
+         - enum: [200, 400, 800, 1600]
+
+And we want to know what the default is if this property is omitted.
+
+        default: 1600
+
+> +
+>  additionalProperties: false
+>  
+>  required:
+> @@ -44,6 +49,7 @@ examples:
+>              compatible = "maxim,max30100";
+>              reg = <0x57>;
+>              maxim,led-current-microamp = <24000 50000>;
+> +            maxim,pulse-width-us = <1600>;
+>              interrupt-parent = <&gpio1>;
+>              interrupts = <16 2>;
+>          };
+
