@@ -1,173 +1,154 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72862D027F
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 10 Oct 2025 09:59:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0BA2FBDFE;
+	Fri, 10 Oct 2025 16:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760090370; cv=none; b=bFLvskk8uIg+ugEQ5Gz8XZvYrNtH9N/uM/2wcP4GjYq3XPBpIAsD1C7iL79a4sF93HTzeR7h04bnko5rsjwyPkwkKvHi3yLTzcMueCIIGrUZf9BEUbCL436TNr/7HFcpj0GHxUEAOlri2B9JDq2HSm1XxLIojT9k4eNzEebytMI=
+	t=1760113512; cv=none; b=lrkQsO5YBwn1uli4bZvq7nGDvnKVvlj+lRiGO/ebyHp0/d5/sbfajJ/fqaBTqeHC+XtdpHLclpYxBYbS/Osq+Tu/1PYMZ4rauZ/tw+rjr9svF0bVLPoY90w8uDJYjtEHQlQ1ckw5ReVH/bvybYwbNGxhbctXm41x3E384SJJRAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760090370; c=relaxed/simple;
-	bh=vQWMYvYYYMF9y9WflHX8XkNouS4Wqt/G/yc56cKJNGY=;
+	s=arc-20240116; t=1760113512; c=relaxed/simple;
+	bh=sU+6p0fES1lWLpxFt1ech3kFhO9HRwj64Qc8e+dCNyA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HJg06eaX8+FFxsZdMVunQcWBqntj2D8OjzCDr3+ERWyAZwlwPPvTQb1o9MIyfDstUFHSuRzQLLF0g/dzs+aSmlAkeG/hw9uC1S+n89Jt7u6CKL8L0a9K2uq6WPTpWgooLvMX3g+HUOOVlN0xdr63AXHzFE06v9BSQ6QWNLpljrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Yt5hsTpN; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=C5u4Upk74qq3vhz46a/JY7JPOmmgq/cOwMVAZ/3VW0ANH0s5571kTurZ1l9UPfMkO29tjHoiVcN7tD0s5KrhK3xl9maBEJXfa5AN4KVIe1NAQPqwwNA0aZbeKTaj0W+sLm/n0CZwicFUg0RbHlmKrAbcgEBRi2In7rQQipw/41w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQ/90ykL; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Yt5hsTpN"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3ed20bdfdffso1773412f8f.2
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 10 Oct 2025 02:59:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1760090366; x=1760695166; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8DzAn8h5K5sSJjaAHPz0TH/gQotZMWW1j3+EKC49O1s=;
-        b=Yt5hsTpNxfKnxPFripLxESPt3K1cviEktPQBSJ/5RtzvUWUUOmPcL73oF+P41GZ4kB
-         gbCKm6FEVseRlBwxnNvGnPEJS9AAksoiOC18F2hq4nZhSh9DM0bdsj7qoHsQHcRsrIHh
-         tcMe//pkzdiWHy85+kIFUlg0p7/TpPAwy2gl35vsit/DC9P1i+vAv5Cvwt/XuPnIH8Ee
-         8akrLsKxpw7v0zwW4kuedSfvvDvInHBckhDImwILR0KH8aUTvIjRwjewF6GGkOndGcb1
-         i4i4afVrUhHKcm2+EFq+I0ktb9uiPB0kSEt57WERZ4SBcBfHP2QIudcX2f3+PLkqoajg
-         2Dug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760090366; x=1760695166;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8DzAn8h5K5sSJjaAHPz0TH/gQotZMWW1j3+EKC49O1s=;
-        b=KkEOYB4w2S149g8Nc+n1vg5qMjutU2T94waC/pV43gMmTYBud4ACjermynAAwun58U
-         P+5FrAj8aARlXz+mkf5EA8sCHpmtVMYLNEm61/GjKuL5KZz2opl+QpiDXWthBQEZz7vB
-         WQszYn6YreXMCmSI6P1m6tvpeQXKsmQhqNiGDPf8ccS/rXqzdd6Ekfqq+V1gkOSw7FAL
-         R5en6hSOUn/BPL0R18Ld8uNgIy4l8/sZIIuvsldPZ4Le4EhoC0n0ZpqOsghNirgVdE9w
-         QxuSHQca/jQRajFxs6gWCqTvXGI2rWXntpMiS6rjToxLBCJkcZgz6DaGloo90etMdzn3
-         OEcg==
-X-Forwarded-Encrypted: i=1; AJvYcCVPEcK7FhWRm3BeALnYhgPpVY/He9dYFwXhH9RXG15mAeyC/YyfDpaX8WQ/oRPZtmbuX7XqJdHy4EHKwc4OH0lnq7nkZg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhHz3tveQjAd6j/DPH52V3h5yU6TOW4QASDQVHaluyN13KHgLH
-	DhRTYjKtZ9FcUKHEUeqA6+7DkF2UqK3Hx0HWZwMKafrL+sd3LhxwngCvdJO4DbMbczU=
-X-Gm-Gg: ASbGncs+e6DJGDC8iV1J7v+jQuFZmRUju6IfqrAHyk5cIFYJaJ53OKmzeYci/F3YOuJ
-	24qM3oGAV5T1t4Aa+hOf5BBMhuPkUfkwKL3Y1lwicoasZUOVIp/72f+Jk1SinVrSI4mUK+rJj0+
-	vw0QvATyh5RP6VoPKueoXx5fg6Mv7iT7/5FqunXbdgzXpzSBtPrkDIuU4I2g3wEOKbL5YaCKEtY
-	1oczt3QZnAcYSoj+V574f0pmFX36PEpNLSVOrE2LUUM35q+H5lWd8OQjMHEtCyszz+XJivOQw/u
-	p7HPYQvuoGEo+SNaxbr5N4i+LejohJACTN0VQhvLkgEPGota5BQcLF5g2fqLPJlgP686IV/zw5R
-	euPl9E7FEdrWZDmWacxML9X2/HL58tGcQ0TaQxRBsz8TSy9qpHTtFRHKxPST2SEwUS1UBu4ZGrh
-	rY2KyOJ5s=
-X-Google-Smtp-Source: AGHT+IGBYsfMh75Hh5zxiwruYu23yH7nClDJDGYy+ble0hfKIDqxAPcoM9f6zkelCUi0z7d0tu8mqg==
-X-Received: by 2002:a05:6000:1a8f:b0:3ec:db8b:cbf1 with SMTP id ffacd0b85a97d-42666ac7279mr7036053f8f.24.1760090365997;
-        Fri, 10 Oct 2025 02:59:25 -0700 (PDT)
-Received: from localhost (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f06:ab04::1b9])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-426ce5e10e8sm3345992f8f.39.2025.10.10.02.59.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Oct 2025 02:59:25 -0700 (PDT)
-Date: Fri, 10 Oct 2025 11:59:23 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Rakuram Eswaran <rakuram.e96@gmail.com>
-Cc: chenhuacai@kernel.org, dan.carpenter@linaro.org, 
-	david.hunter.linux@gmail.com, khalid@kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, lkp@intel.com, 
-	skhan@linuxfoundation.org, ulf.hansson@linaro.org, zhoubinbin@loongson.cn
-Subject: Re: [PATCH] mmc: pxamci: Fix passing NULL to PTR_ERR() in
- pxamci_probe()
-Message-ID: <aliep4j5jmbdixu5cmqztoxwp3jv4r4hi63qpvhughepsepzb3@qh3mwgryf5ny>
-References: <pe4sz3hamkxhahvwqzdq3p3q5u3yeqpdscl5rvvoo5gdfbbrl7@joiz2oj5y4so>
- <20251009152744.9734-1-rakuram.e96@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQ/90ykL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760113511; x=1791649511;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sU+6p0fES1lWLpxFt1ech3kFhO9HRwj64Qc8e+dCNyA=;
+  b=VQ/90ykLiXNyf2VHFhuBGW6LaDz+gCQeZZA5L98dj1fAPb7hUAchVw4T
+   NAs3y2hWUGUYGOzS8vo02OrSkf/BkqeIAFqGLH7+KeZE8QOSLAfmgN9xZ
+   MzqTemtIiT5uFpEFLL8/9yjb5hvyh4o8Q+sOaYUA6QEpYX0YOcr/iP8FY
+   HsyMmVCBeAimrhYKmfe0tZcnwTIUSbcdnnUNR2n5D5fmewuyGpV7yYqrH
+   LammpzA/bMdYDHEAUw1STqlCDMI8BgXFOd6CyIRSZWot7jrUhRoIl8dA9
+   X266YGN6QQge3v2IGLFsy6xd/JF9yWcaWAYaLxxRRnoo74f1wEtYPG8au
+   A==;
+X-CSE-ConnectionGUID: B9tZX4yXQMmqIZ39JXPZPw==
+X-CSE-MsgGUID: TWxWfs2CTJ20NbdfBv/vzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62254117"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62254117"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 09:25:02 -0700
+X-CSE-ConnectionGUID: gfr2n2wqTtSF9blMwY6URw==
+X-CSE-MsgGUID: EBoKTs3FRYKkgFllL0MGiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
+   d="scan'208";a="180699022"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 10 Oct 2025 09:24:59 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7FvM-0002xH-14;
+	Fri, 10 Oct 2025 16:24:56 +0000
+Date: Sat, 11 Oct 2025 00:24:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shrikant Raskar <raskar.shree97@gmail.com>, jic23@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, matt@ranostay.sg,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	Shrikant Raskar <raskar.shree97@gmail.com>
+Subject: Re: [PATCH v2 2/2] iio: health: max30100: Add pulse-width
+ configuration via DT
+Message-ID: <202510110029.epOLovuF-lkp@intel.com>
+References: <20251008031737.7321-3-raskar.shree97@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="54dwufa2azbfzfm6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251009152744.9734-1-rakuram.e96@gmail.com>
+In-Reply-To: <20251008031737.7321-3-raskar.shree97@gmail.com>
+
+Hi Shrikant,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on robh/for-next v6.17]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shrikant-Raskar/dt-bindings-iio-max30100-Add-pulse-width-property/20251010-102537
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20251008031737.7321-3-raskar.shree97%40gmail.com
+patch subject: [PATCH v2 2/2] iio: health: max30100: Add pulse-width configuration via DT
+config: csky-randconfig-001-20251010 (https://download.01.org/0day-ci/archive/20251011/202510110029.epOLovuF-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110029.epOLovuF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510110029.epOLovuF-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/iio/health/max30100.c: In function 'max30100_chip_init':
+>> drivers/iio/health/max30100.c:352:34: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     352 |                                  FIELD_PREP(MAX30100_REG_SPO2_CONFIG_PW_MASK, pulse_width));
+         |                                  ^~~~~~~~~~
 
 
---54dwufa2azbfzfm6
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] mmc: pxamci: Fix passing NULL to PTR_ERR() in
- pxamci_probe()
-MIME-Version: 1.0
+vim +/FIELD_PREP +352 drivers/iio/health/max30100.c
 
-Hello Rakuram,
+   327	
+   328	static int max30100_chip_init(struct max30100_data *data)
+   329	{
+   330		int ret;
+   331		int pulse_width;
+   332		/* set default pulse-width-us to 1600us */
+   333		unsigned int pulse_us = 1600;
+   334		struct device *dev = &data->client->dev;
+   335	
+   336		/* setup LED current settings */
+   337		ret = max30100_led_init(data);
+   338		if (ret)
+   339			return ret;
+   340	
+   341		/* Read pulse-width-us from DT */
+   342		device_property_read_u32(dev, "maxim,pulse-width-us", &pulse_us);
+   343	
+   344		pulse_width = max30100_get_pulse_width(pulse_us);
+   345		if (pulse_width < 0)
+   346			return dev_err_probe(dev, pulse_width, "invalid pulse-width %uus\n", pulse_us);
+   347	
+   348		/* enable hi-res SPO2 readings at 100Hz */
+   349		ret = regmap_write(data->regmap, MAX30100_REG_SPO2_CONFIG,
+   350					 MAX30100_REG_SPO2_CONFIG_HI_RES_EN |
+   351					 MAX30100_REG_SPO2_CONFIG_100HZ |
+ > 352					 FIELD_PREP(MAX30100_REG_SPO2_CONFIG_PW_MASK, pulse_width));
+   353		if (ret)
+   354			return ret;
+   355	
+   356		/* enable SPO2 mode */
+   357		ret = regmap_update_bits(data->regmap, MAX30100_REG_MODE_CONFIG,
+   358					 MAX30100_REG_MODE_CONFIG_MODE_MASK,
+   359					 MAX30100_REG_MODE_CONFIG_MODE_HR_EN |
+   360					 MAX30100_REG_MODE_CONFIG_MODE_SPO2_EN);
+   361		if (ret)
+   362			return ret;
+   363	
+   364		/* enable FIFO interrupt */
+   365		return regmap_update_bits(data->regmap, MAX30100_REG_INT_ENABLE,
+   366					 MAX30100_REG_INT_ENABLE_MASK,
+   367					 MAX30100_REG_INT_ENABLE_FIFO_EN
+   368					 << MAX30100_REG_INT_ENABLE_MASK_SHIFT);
+   369	}
+   370	
 
-On Thu, Oct 09, 2025 at 08:57:38PM +0530, Rakuram Eswaran wrote:
-> Your suggestion makes perfect sense =E2=80=94 since host is devm-managed,=
-=20
-> explicitly assigning its members to NULL has no effect.=20
-> I=E2=80=99ll remove those two redundant lines in v2 as you suggested.
->=20
-> I had one small clarification regarding the remaining host->dma_chan_tx =
-=3D NULL;
-> in the TX DMA error path. Since that branch uses goto out,=20
-> the cleanup section below may call dma_release_channel() on both RX=20
-> and TX pointers. Setting TX to NULL there seems like a defensive step=20
-> to avoid accidentally passing an ERR_PTR() to dma_release_channel()=20
-> =E2=80=94 is that understanding correct?
-
-Ah right, so either keep host->dma_chan_tx =3D NULL or improve the error
-handling like:
-
-diff --git a/drivers/mmc/host/pxamci.c b/drivers/mmc/host/pxamci.c
-index 26d03352af63..e5068cc55fb2 100644
---- a/drivers/mmc/host/pxamci.c
-+++ b/drivers/mmc/host/pxamci.c
-@@ -715,7 +715,7 @@ static int pxamci_probe(struct platform_device *pdev)
- 		dev_err(dev, "unable to request tx dma channel\n");
- 		ret =3D PTR_ERR(host->dma_chan_tx);
- 		host->dma_chan_tx =3D NULL;
--		goto out;
-+		goto out_dma_tx;
- 	}
-=20
- 	if (host->pdata) {
-@@ -765,10 +765,11 @@ static int pxamci_probe(struct platform_device *pdev)
- 	return 0;
-=20
- out:
--	if (host->dma_chan_rx)
--		dma_release_channel(host->dma_chan_rx);
- 	if (host->dma_chan_tx)
- 		dma_release_channel(host->dma_chan_tx);
-+out_dma_tx:
-+	if (host->dma_chan_rx)
-+		dma_release_channel(host->dma_chan_rx);
- 	return ret;
- }
-=20
-> Also, I noticed that in the build configuration downloaded from the LKP r=
-eport=20
-> link (CONFIG_DMA_ENGINE isn=E2=80=99t defined), the kernel uses the stub =
-inline=20
-> version of dma_release_channel() from include/linux/dmaengine.h,=20
-> which becomes a no-op.=20
->=20
-> From what I understand, when the DMA engine framework isn=E2=80=99t enabl=
-ed,=20
-> these APIs compile as no-ops through their inline stubs.=20
-> Please correct me if I=E2=80=99m misunderstanding how this works.
->=20
-> Please let me know if this reasoning aligns with what you had in mind.
-
-Sounds right.
-
-Best regards
-Uwe
-
---54dwufa2azbfzfm6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjo2PkACgkQj4D7WH0S
-/k5wUwf7BFg4e6GvALl61mEKV9IwUSBj6wGkRqj3UTzRfeqjt2/9cfLxrg9YrQXq
-ZjjEQ4EDNpqeaVtzJmG6Cdv/sz49fAat8Cu3LUlg7iQjecA2Bp2ZT05wgAWD+lb9
-/sc5wevdk7Lkwj835EAQsGZja31qEDsvIsuVL936pPYuLOAeH/KjlRD5mVp9rVGz
-pQAfBsKe9tyeIDZPjmKyR8xrAvqqri3Z39LL+GJWtTUmQEy7z+Ibwcegu2HI5pea
-0qHZAYpkqzFSiDrMF4n66sSyaF5ddDa+HwPHInzM4W5IKPWTtu3vNybWF4rvbpjU
-mxedmYUlwln6CAHXIa6iHKqC8OYi4g==
-=3GaF
------END PGP SIGNATURE-----
-
---54dwufa2azbfzfm6--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
