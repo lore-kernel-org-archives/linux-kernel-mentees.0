@@ -1,144 +1,190 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B89A2C08B2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 18:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7A421930A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 11 Oct 2025 06:38:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760121738; cv=none; b=O/MOEvy8gj/nsIsV8nt/lS0DIBjJhV3nUsimHkPSu0draaW2pK4vEBW/qx5Ri96ppzDRP80C0Fv5QvJwAgE6V89UKQDSMdk2ZA2SPJZriuZXmP/5iabM+NOm4fdIAOms7CQEc5+o1+3LfSNXJJgz9tJAntMBMdFfXszQbZS3AE4=
+	t=1760164724; cv=none; b=AIHOP0zrxIy4THwWQfZgU0nNyzSY+1qs4YufxjM4tlRu4LK4Mm5w/GfkDvgwuPslFeDXF+ZzaizgjgHN3L8Li5s2uh8o9fKwwgKaHXEVg25ngSILfn8NiS3BF10AFZska9qdiMbGLlc8vabXvS+AALZBCYq3q7EdVw5DHf4ufNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760121738; c=relaxed/simple;
-	bh=S73rbUBFC+mrE245jU9Ypo/25QVGZaOzPsk13eaG0cA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KyFron9+d1YXrgkfj77tue71Mv65Y7kZbRQn2eyUycQYIlu+nhqUI35f/t0FgRW8AmwcZct4PixdCJmyxiOtRmXKoj3x8QPLnLNKZb7hA453a2zX2UtW7va4z9rZJvw7QVv9yi+04Ff3jG0u6QruuEUYM6ZsSOIrdJaFzIdkcwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TblIOZoU; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1760164724; c=relaxed/simple;
+	bh=LjdMP4wX5K2PJoIkDNssZ0x5qpw4jYUvKfOFzldt+78=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QtEh6qPsBHwrI4j55Bn52DdbMhQEfoHRbhNIj4nYyFWvpVo4Qnis3X4BkoXt6s2LE4wKbz7Z6sRqjCimz09qgHi7hSeq0wZzswcAFqJcF+4jKja4xexFh90cbFJCcPdNpI5fkxHcc83SykaLfcPrjEacLDV55JNMmB1wDbkriwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hlQONRfy; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TblIOZoU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hlQONRfy"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 040FB400B1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 18:42:17 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 107FF80D4E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 11 Oct 2025 06:38:43 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -8.092
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id GKUSGPzNot_f for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Oct 2025 18:42:16 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=192.198.163.15; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 14D10400A1
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 14D10400A1
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TblIOZoU
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 14D10400A1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 18:42:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760121736; x=1791657736;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=S73rbUBFC+mrE245jU9Ypo/25QVGZaOzPsk13eaG0cA=;
-  b=TblIOZoUUQ/scCgqT0poTi9jrtT0r4bSmmA89V7azKtQF4UdjNd/tdxo
-   iWqjbbDEGnPcXU7ZDovNpUVfAXWgNhq4nI9yfzJbCOZy/UKRuuuFGWI0u
-   dkvwhQxZhQRC7kap4nc9D4irIkmXZZhNAmxpmeeZVJIHBWjQjhzck/uh3
-   0j+RVi1H15wDuZhPBeqqiTVdTZLvk512RbCxnalpppqlvgRPxzGx+Cq5L
-   /twUJn5ITJWtT80vAGx/4AohRmRyaRvBvhDbq1jkChUzIenAozAC6KKgV
-   Wk2aG6OZLEHjysYOOGbA9BkXdQLyl4kcqZFSiSo5TsUWM9gyWV2VQnKYx
-   A==;
-X-CSE-ConnectionGUID: SAQTeuirRIW/X8fKKE7PJA==
-X-CSE-MsgGUID: wjm9k1BETB6fmwaS7pAtRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62442278"
-X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
-   d="scan'208";a="62442278"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 11:42:15 -0700
-X-CSE-ConnectionGUID: maYslqNSRYyJyS4GdUHGDQ==
-X-CSE-MsgGUID: oN6dYjExSVWeoWkmOMQbyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
-   d="scan'208";a="180870341"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Oct 2025 11:42:12 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v7I49-000343-2n;
-	Fri, 10 Oct 2025 18:42:09 +0000
-Date: Sat, 11 Oct 2025 02:41:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ranganath V N <vnranganath.20@gmail.com>, tytso@mit.edu,
-	adilger.kernel@dilger.ca
-Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 36dT8NOCTNDj for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 11 Oct 2025 06:38:41 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1029; helo=mail-pj1-x1029.google.com; envelope-from=vnranganath.20@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 7941480D4D
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7941480D4D
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=hlQONRfy
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7941480D4D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 11 Oct 2025 06:38:41 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-32f3fa6412dso435995a91.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Oct 2025 23:38:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760164720; x=1760769520; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i4KsdyrgfWB/FqT6OOcbFSO1XBvuLxrHfzAVePQ1iTY=;
+        b=hlQONRfyqbyt3lgV65RWMg1pUj8JiWLRSckv3SgOHaoz6bqQk7loMVy8pA2O70I6Zg
+         Xmdj7HUF6WurSwHtmLw6sQcmfsd2awJM8vu4ga9EfAhXf5kn9yJ7tMEpUTlEK9amdJnZ
+         Lrp9kikQO19zBrEqwEgkfkY5fAFwsBBgJ7ho0J4jAx+a6LpP4FzeR1xewxFqrkcguZcH
+         wXiwDbLOjzYQcDiVvKiWVPenU4oH9S/wMwWo3RbI0IQem/MNlhyiungQ8eeCjhn7ZfMT
+         r4is5lOjDK+KmsCwjsc//Htpf/JvmAYcjzuKEAMd0SacjEr+NljRc9bgijOHGjCvk3/C
+         3McA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760164720; x=1760769520;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i4KsdyrgfWB/FqT6OOcbFSO1XBvuLxrHfzAVePQ1iTY=;
+        b=KYE9sx/9EHv9q1tSvcSQnGHEohSGhXRGq/mgj/tTXZ1GwWgHS4UB7nJStNBWSgyJZQ
+         /j17dA5pa/ZLFCn0TCepuJcLAIv2pbRIKF8RTQJbgJEcLlZ0VJ4+urSsKxWK1OWqdiRX
+         JEgF0uNRcT04bjKVCT6FZtgHb9Gjn8t8UPFWfxTwiB84sYwnOQP5WMa0U61As5xjDPsk
+         j/U4ZNP4iiDjd4yTduxo3gFhxif7CdbZOB3/bSCkhEB4Lm4MjXhoCM30JPV+yqXjiPmL
+         d6VwwchWCsR/AVRsP2rrIa20geLUIr2dueqDQnOhbeT+3QnPGfPNR7pVUuPuQ/uiBuOl
+         NhLg==
+X-Forwarded-Encrypted: i=1; AJvYcCUfcRarBO8JuOCZtGxR8qY8CEyZP984Uecpwj762ky4v8fPsonEAAk6d2LS92niTh9b3b1lpnDDYI5HLzzZuDn2iyP/nw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwD7igJQ6k1dgknOP9BI6vYNrMeAeAA0+Sp3ggOb495wa+H38B6
+	JOokU1Jw98UduX1RJWCk1liKpNhquWx9dQ9Nmhwt9QiqR8u31Z66MZ/U
+X-Gm-Gg: ASbGncuxoO7m5ur4PTEEmxF5Oo9xsEbqv8DUHDobMFmtzzFK2asNv64fZn0BQsMRTG7
+	Mh2+b7/gSQN11Gh1s03vLIWZ0TYvOkdJVJVOSax6lAhnDdHv8MJJh3B0iU8oxl5S+ZXMJfbtX1K
+	vzuKdJ+bxNJvT/v/vOGR0bVofU3be7V37lWW/ijMKq93gEzDL8uhErp7hJDukRynj7Hp2L2ZU8z
+	YtETGjWGSQ6uzN5ASn5Z6Q3V/0SOHr/ilsDiOrXsH+FuQ3yyfwO742xZyrcbesJJdX1p617unpo
+	7baCvFWQv3kwcY1sEztT7uXiyI8pJfH1giHfis/0jtPXj4+VhbK84ZWNHZbaM1jbENmz6sYtVJV
+	gI3EiMz5hshC+c0zbVLTo+b/TKkxzjTMQZG7mL+b6mNzLUVro
+X-Google-Smtp-Source: AGHT+IF1JQXObCuG7xFhogMbxfyVhO5SQR9FmzcjivYXOk8ZFuH6BJG6HLBb/IJlGVfYnt4qekicwg==
+X-Received: by 2002:a17:903:1a6f:b0:257:3283:b859 with SMTP id d9443c01a7336-29027321d06mr119587995ad.9.1760164720383;
+        Fri, 10 Oct 2025 23:38:40 -0700 (PDT)
+Received: from ranganath.. ([2406:7400:98:ffd0:8dcb:f5b3:8234:d05])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034dea083sm76040465ad.24.2025.10.10.23.38.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Oct 2025 23:38:39 -0700 (PDT)
+From: Ranganath V N <vnranganath.20@gmail.com>
+To: lkp@intel.com
+Cc: adilger.kernel@dilger.ca,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	linux-ext4@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	khalid@kernel.org, Ranganath V N <vnranganath.20@gmail.com>
-Subject: Re: [PATCH] fs: ext4: fix uninitialized symbols
-Message-ID: <202510110207.yBvUMr5Z-lkp@intel.com>
-References: <20251008171614.12129-1-vnranganath.20@gmail.com>
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	tytso@mit.edu,
+	vnranganath.20@gmail.com
+Subject: [PATCH v2] fs: ext4: fix uninitialized symbols
+Date: Sat, 11 Oct 2025 12:08:29 +0530
+Message-ID: <20251011063830.47485-1-vnranganath.20@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <202510110207.yBvUMr5Z-lkp@intel.com>
+References: <202510110207.yBvUMr5Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251008171614.12129-1-vnranganath.20@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Ranganath,
+Fix the issue detected by the smatch tool.
 
-kernel test robot noticed the following build errors:
+fs/ext4/inode.c:3583 ext4_map_blocks_atomic_write_slow() error: uninitialized symbol 'next_pblk'.
+fs/ext4/namei.c:1776 ext4_lookup() error: uninitialized symbol 'de'.
+fs/ext4/namei.c:1829 ext4_get_parent() error: uninitialized symbol 'de'.
+fs/ext4/namei.c:3162 ext4_rmdir() error: uninitialized symbol 'de'.
+fs/ext4/namei.c:3242 __ext4_unlink() error: uninitialized symbol 'de'.
+fs/ext4/namei.c:3697 ext4_find_delete_entry() error: uninitialized symbol 'de'.
 
-[auto build test ERROR on tytso-ext4/dev]
-[also build test ERROR on linus/master v6.17 next-20251010]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+These changes enhance code clarity, address static analysis tool errors.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ranganath-V-N/fs-ext4-fix-uninitialized-symbols/20251010-065232
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20251008171614.12129-1-vnranganath.20%40gmail.com
-patch subject: [PATCH] fs: ext4: fix uninitialized symbols
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251011/202510110207.yBvUMr5Z-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110207.yBvUMr5Z-lkp@intel.com/reproduce)
+Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510110207.yBvUMr5Z-lkp@intel.com/
+v2:
+corrected the kernel test robot noticed build errors.
 
-All errors (new ones prefixed by >>):
+ fs/ext4/inode.c |  2 +-
+ fs/ext4/namei.c | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/objtool_types.h:7,
-                    from include/linux/objtool.h:5,
-                    from include/linux/instrumentation.h:7,
-                    from arch/x86/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/vfsdebug.h:5,
-                    from include/linux/fs.h:5,
-                    from fs/ext4/inode.c:22:
-   fs/ext4/inode.c: In function 'ext4_map_blocks_atomic_write_slow':
->> include/linux/stddef.h:8:14: error: initialization of 'ext4_fsblk_t' {aka 'long long unsigned int'} from 'void *' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^
-   fs/ext4/inode.c:3547:34: note: in expansion of macro 'NULL'
-    3547 |         ext4_fsblk_t next_pblk = NULL;
-         |                                  ^~~~
-
-
-vim +8 include/linux/stddef.h
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
-6e218287432472 Richard Knutsson 2006-09-30  9  
-
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index 5b7a15db4953..f20db3f4ef68 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -3544,7 +3544,7 @@ static int ext4_map_blocks_atomic_write_slow(handle_t *handle,
+ 	ext4_lblk_t m_lblk = map->m_lblk;
+ 	unsigned int m_len = map->m_len;
+ 	unsigned int mapped_len = 0, m_flags = 0;
+-	ext4_fsblk_t next_pblk;
++	ext4_fsblk_t next_pblk = 0;
+ 	bool check_next_pblk = false;
+ 	int ret = 0;
+ 
+diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
+index 2cd36f59c9e3..045616033515 100644
+--- a/fs/ext4/namei.c
++++ b/fs/ext4/namei.c
+@@ -1762,7 +1762,7 @@ static struct buffer_head * ext4_dx_find_entry(struct inode *dir,
+ static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
+ {
+ 	struct inode *inode;
+-	struct ext4_dir_entry_2 *de;
++	struct ext4_dir_entry_2 *de = NULL;
+ 	struct buffer_head *bh;
+ 
+ 	if (dentry->d_name.len > EXT4_NAME_LEN)
+@@ -1818,7 +1818,7 @@ static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, unsi
+ struct dentry *ext4_get_parent(struct dentry *child)
+ {
+ 	__u32 ino;
+-	struct ext4_dir_entry_2 * de;
++	struct ext4_dir_entry_2 * de = NULL;
+ 	struct buffer_head *bh;
+ 
+ 	bh = ext4_find_entry(d_inode(child), &dotdot_name, &de, NULL);
+@@ -3133,7 +3133,7 @@ static int ext4_rmdir(struct inode *dir, struct dentry *dentry)
+ 	int retval;
+ 	struct inode *inode;
+ 	struct buffer_head *bh;
+-	struct ext4_dir_entry_2 *de;
++	struct ext4_dir_entry_2 *de = NULL;
+ 	handle_t *handle = NULL;
+ 
+ 	retval = ext4_emergency_state(dir->i_sb);
+@@ -3224,7 +3224,7 @@ int __ext4_unlink(struct inode *dir, const struct qstr *d_name,
+ {
+ 	int retval = -ENOENT;
+ 	struct buffer_head *bh;
+-	struct ext4_dir_entry_2 *de;
++	struct ext4_dir_entry_2 *de = NULL;
+ 	handle_t *handle;
+ 	int skip_remove_dentry = 0;
+ 
+@@ -3688,7 +3688,7 @@ static int ext4_find_delete_entry(handle_t *handle, struct inode *dir,
+ {
+ 	int retval = -ENOENT;
+ 	struct buffer_head *bh;
+-	struct ext4_dir_entry_2 *de;
++	struct ext4_dir_entry_2 *de = NULL;
+ 
+ 	bh = ext4_find_entry(dir, d_name, &de, NULL);
+ 	if (IS_ERR(bh))
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
