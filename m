@@ -1,108 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14972594BD;
-	Sun, 12 Oct 2025 17:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACBE2EF64F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 17:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760288812; cv=none; b=a8xD0XSqQQsVPI6WfZvTgzHgyFOIPzUotGqR+xqi7teok1MdQffOfDKXzKsKGUB5zs2XZPoE0Un4GPs9oZ7KJhxFLLKcWCCmmWQ2CfYQlogWiyKW3Sb+nBbsR8T/fDQuo0tEwXCC1nagAzqCP7kjJjRqTKnhStAgTh5vjxPgRsA=
+	t=1760289623; cv=none; b=Xkuqz38hiR8vQ2TMSbdzRAT26n4sll+09ZTqfOFVr4U1oELk9/PpvRKrRIFPy0U5tvRHxyjeJMSUeGEfl+o1d9eMFsHJ80NGIr8KpvtMfiPc0X3QDdY8g/yXrZYgVHM1kblpDH7W/3tmJDE0eJ08AGmhuTanWSWfT2IySIMx3ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760288812; c=relaxed/simple;
-	bh=c4XBUmYW5+yztJ9CHlJGDquaE7OdDtySN6VncUWd2bg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XKBux32TjUznAACIU1aD88xagZl6ugjPzd3qaV98mPG0+Se8XtkVcLVC+LYk1C4xwc4zFVyL5Uhph2HLKG/Ogu1C3f1/KfehakhgJJjF1+G/DSTfP/aUwZhTo8N1ZUBtBhDaDzp6kSFwEqkkghvtdtQX+wr4lrYPyuhllOl/xT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LsX/d7ie; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760289623; c=relaxed/simple;
+	bh=0Yhqw/WpUTQj+vAuDvTHp3aIUOR0Gj80cWsQtkFzs3M=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=b6lfXOkumtHV6nyD7mYcZm3Hgd0ds8yZEvJrCX2kiCgDjTPZDO67gtFkX0TUs3cTYopdtf7YutBSxTKfpekbR3iRAbM6tYTaVk2rM/0Uas7gRGgJt9yqcnyjF0VzXyij1xwQWOtK5tjwP7mQ750y6ofxib8e8UBeWvtE5xxbb3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2vx+H1V; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LsX/d7ie"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E6C8C4CEE7;
-	Sun, 12 Oct 2025 17:06:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2vx+H1V"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2BE2540E17
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 17:20:21 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.101
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id VrEEhjlVpRjf for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 12 Oct 2025 17:20:20 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=patchwork-bot+netdevbpf@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 53A7E40E15
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 53A7E40E15
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=a2vx+H1V
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 53A7E40E15
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 17:20:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 510C14524E;
+	Sun, 12 Oct 2025 17:20:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EBFBC4CEE7;
+	Sun, 12 Oct 2025 17:20:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760288812;
-	bh=c4XBUmYW5+yztJ9CHlJGDquaE7OdDtySN6VncUWd2bg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LsX/d7ie/IrQVm8XgaQ9Guws0w+MoB5TRp+V6zHrWSKBo7PY8e+HQFmk6ZMxKdyHJ
-	 nKr5i3P0h4aEnpu6ArNEuPt+VToiUU9BOgtPWPAc22iwcO1XyloRHBmjwZyC5W/4Y/
-	 +75VWl1mwLSI8wLj26HnjcytuXaW+za2qMHpXOZgxiPPZkqfHcoZCXVKnPVhTcRMgV
-	 dCW7Jop8ZtmUV3FG+ylg0P1FKqJPaO8MpguiTLTgZ4M2BfOUfm5u+O0CIRBrDRBWtv
-	 HThu9WaT6qe4mcKTU9oDeMn1kOGSHqA6hzvD6gQtYssKmhSXJP3R/XWEj5H8wZKRVO
-	 bhk7ZvEfbpesQ==
-Date: Sun, 12 Oct 2025 18:06:44 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Shrikant Raskar <raskar.shree97@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- matt@ranostay.sg, skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2 1/2] dt-bindings: iio: max30100: Add pulse-width
- property
-Message-ID: <20251012180644.019616c9@jic23-huawei>
-In-Reply-To: <20251008031737.7321-2-raskar.shree97@gmail.com>
-References: <20251008031737.7321-1-raskar.shree97@gmail.com>
-	<20251008031737.7321-2-raskar.shree97@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	s=k20201202; t=1760289619;
+	bh=0Yhqw/WpUTQj+vAuDvTHp3aIUOR0Gj80cWsQtkFzs3M=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=a2vx+H1VW3lHb0/EWN4Y+UwNY060kww2kdLP3SWRi4AThtcAwW3CkS6GJCV0SE8aB
+	 HgoOetpYACGBrEq1NN0zUl7SF6/hGpXxhUsiVkx7K3rULqc1Mx9Wgq062w3jyKpwfx
+	 y6DhyXWdDX50WT4dN4uGXCCxRcYJMJBudHfh4FjIibK1BEKiXhzxntVjZWCxQHOo/5
+	 mwS6sTY3jMeBXcNQII5+K2txf46uoeksG4sQcL3tXjNKtml5/gMxiIvB3wZrT63i6C
+	 IHR8fs6vXqfM50OW2doCyDqIy264vF3OYtBwJKBauaQyaj44nltJkCuj4upMdOe/XG
+	 cVBLCh/rj//Zw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADD5A3809A1C;
+	Sun, 12 Oct 2025 17:20:06 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] net: usb: lan78xx: Fix lost EEPROM write timeout
+ error(-ETIMEDOUT) in lan78xx_write_raw_eeprom
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176028960551.1702266.1263953075322899185.git-patchwork-notify@kernel.org>
+Date: Sun, 12 Oct 2025 17:20:05 +0000
+References: <20251009053009.5427-1-bhanuseshukumar@gmail.com>
+In-Reply-To: <20251009053009.5427-1-bhanuseshukumar@gmail.com>
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+Cc: Thangaraj.S@microchip.com, Rengarajan.S@microchip.com,
+ UNGLinuxDriver@microchip.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ o.rempel@pengutronix.de, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, khalid@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
+ david.hunter.linux@gmail.com, stable@vger.kernel.org
 
-On Wed,  8 Oct 2025 08:47:36 +0530
-Shrikant Raskar <raskar.shree97@gmail.com> wrote:
+Hello:
 
-> The appropriate LED pulse width for the MAX30100 depends on
-> board-specific optical and mechanical design (lens, enclosure,
-> LED-to-sensor distance) and the trade-off between measurement
-> resolution and power consumption. Encoding it in Device Tree
-> documents these platform choices and ensures consistent behavior.
-> 
-> Tested on: Raspberry Pi 3B + MAX30100 breakout board.
-> 
-> Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
-> 
-> Changes since v1:
-> Add unit suffix.
-> Drop redundant description.
-> 
-> Link to v1:
-> https://lore.kernel.org/all/20251004015623.7019-2-raskar.shree97@gmail.com/
-> ---
->  .../devicetree/bindings/iio/health/maxim,max30100.yaml      | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml b/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml
-> index 967778fb0ce8..5c651a0151cc 100644
-> --- a/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml
-> +++ b/Documentation/devicetree/bindings/iio/health/maxim,max30100.yaml
-> @@ -27,6 +27,11 @@ properties:
->        LED current whilst the engine is running. First indexed value is
->        the configuration for the RED LED, and second value is for the IR LED.
->  
-> +  maxim,pulse-width-us:
-> +    maxItems: 1
-> +    description: Pulse width in microseconds
-I continued the discussion on v1 but just to make sure it is not
-missed, add a bit more here briefly touching on factors that govern what
-the right value is here.
+This patch was applied to netdev/net.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-Thanks,
+On Thu,  9 Oct 2025 11:00:09 +0530 you wrote:
+> The function lan78xx_write_raw_eeprom failed to properly propagate EEPROM
+> write timeout errors (-ETIMEDOUT). In the timeout  fallthrough path, it first
+> attempted to restore the pin configuration for LED outputs and then
+> returned only the status of that restore operation, discarding the
+> original timeout error saved in ret.
+> 
+> As a result, callers could mistakenly treat EEPROM write operation as
+> successful even though the EEPROM write had actually timed out with no
+> or partial data write.
+> 
+> [...]
 
-Jonathan
+Here is the summary with links:
+  - net: usb: lan78xx: Fix lost EEPROM write timeout error(-ETIMEDOUT) in lan78xx_write_raw_eeprom
+    https://git.kernel.org/netdev/net/c/d5d790ba1558
 
-> +    enum: [200, 400, 800, 1600]
-> +
->  additionalProperties: false
->  
->  required:
-> @@ -44,6 +49,7 @@ examples:
->              compatible = "maxim,max30100";
->              reg = <0x57>;
->              maxim,led-current-microamp = <24000 50000>;
-> +            maxim,pulse-width-us = <1600>;
->              interrupt-parent = <&gpio1>;
->              interrupts = <16 2>;
->          };
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
