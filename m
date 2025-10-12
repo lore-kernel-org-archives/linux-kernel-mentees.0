@@ -1,208 +1,150 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4ED8F54
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 12 Oct 2025 17:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666E52EDD71
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 17:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760291148; cv=none; b=Xp9xiibIsvHpme7HhRDwFwvehV2mg087ceoaOE8LtGX7SkQi+bSQs4PebNfo1DCyrivBODFfRzgM7DQY/ZuX1AU8Ih6INyPo09pVB79s4OCdf6rVkw35H14vPWKKfSoWEDFZatbogOy4uB2Mn9mRCZwdpfZVSDi8pByZU7hYAH4=
+	t=1760291972; cv=none; b=tEWBHBQpr+jOSwG5Qb/4dPxFKH+5cFMNcqaukWCb2JJUNOlECRluzhaPreV2QVUxJQKSNV0W49HXHZLDjEKvO6jC5LPJPmOFz6ju6GzmKfPkIrZw1sop4brdV8UqgDRlGNMZAM6earzjYWU2v8/VgqmNkgV6a+0luMj23Ms0kpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760291148; c=relaxed/simple;
-	bh=D5BK8B0NU2EopHQqEaRJxhQr89B1+JS6g0L289RnUQg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OZ4/u/Ke0A3q4LogSdjLEXYsSIFyMe/WvejMrmq2QaNiPxIz6OUgA75iZmWlG8xe2yfPbDGhkzFcksRfEosUCEQd4PWN8TUSv06Falxi/2EAzF8VJtVrp1lW5urgT3sE3p4QxDdCwQAxGatliQO3Wh9YEcS3boBOZ9sPxM2UteQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YiDCF8QD; arc=none smtp.client-ip=209.85.218.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760291972; c=relaxed/simple;
+	bh=qWt8KlsS667/DWj7CEknkJJNlszKHGEwCFpf/nti7Ak=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X0Af+4bEiSSLYcSDU0bhC/IafwbVYjWNKJtYie4q50zUapxn5gKB/YdAeTRA1nYn8SB51Mvs+TgePcUBNFwJGpQcc2gia14o/XZWCeiTdv8Xo5CXdyazVrsfqXyEKUOL7O3Mx6BtLEMgAYea2iOV2Lu6jHeQEXPKB7q/jZZ6lb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZUbGA/mb; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YiDCF8QD"
-Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-b3f5e0e2bf7so649100466b.3
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 12 Oct 2025 10:45:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZUbGA/mb"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 04A424007F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 17:59:31 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.25
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id pgoZnKigL-nQ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 12 Oct 2025 17:59:30 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org EFA9940068
+Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EFA9940068
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ZUbGA/mb
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id EFA9940068
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 17:59:29 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-27ee41e0798so57190295ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 10:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760291145; x=1760895945; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jVVS7MY2y3fGvyZGsfOK1XY2WByneR6Hz9CaKmeoDxs=;
-        b=YiDCF8QDaywHh/6VJUsOXyqp9EyKmsqApZ5qlXO4jkIGNylORmAE3Xbko3TJ0tfpj8
-         KgWd434UiDmitbpe9WMt17DKlpO6PoNCi192d7zga/EUruznzQO2eS8kAAEkb+YzpNZ1
-         XpTp6u3cv6Njf6aHPhj25c6vgSV5DXz6JR+aHHyaLvWvtcdEoOoiMeG4FqWmhOs3l1uj
-         N5xmeCAhn0IAXfovfJmdCb/ffCEF5ospdFXD9HINnqsk0NTeqxYLo9nkAEhSaGn7JcXb
-         JC2lNp+ihoO1PoX+eM7whTyTxeumt3+AAiZwup2ZW1fda432thLZ3ttMFks+9jIibcnd
-         b65g==
+        d=gmail.com; s=20230601; t=1760291969; x=1760896769; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pvLTpqWhUMNwfKi2DUzR3zUOBPTWtPFJRGCtsVkQ/g0=;
+        b=ZUbGA/mbQmyAqOTu2XZsZ7GCSwq2kSfjw6++mDosJeI7BGuIGO3x8gwsDamBPp1VEs
+         B6B1QNYsvxCvn5T5BX6569U67kvp7TOFTh7UhYmJK+6a1htbMZ8qIRH8oHzG+0Y6gz6E
+         OYjyi+IdVd+wNg9LY0d8ivLtQWOOOdKdY0YnTzB7sVZlp/okHU0p35Pusa6sdrOB10Vf
+         CJoU7WOg8Dw1z8eHYr17ehbwpfdyXK7p0jlyHPGkBuUICBMMeU9TOsUOyMyjLFpBwhJI
+         YMIUGSb1FtdrYPSDhppzKvYZchlOt24tnFyiarBk5Pl+m6Y/dTCWQ0o5ekqAVQl5/IA7
+         JyMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760291145; x=1760895945;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1760291969; x=1760896769;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jVVS7MY2y3fGvyZGsfOK1XY2WByneR6Hz9CaKmeoDxs=;
-        b=FsWlEGgynj+EI+TDGKSbXDjK2YE7oY/85CSTq/xKKgR/tzqwbjBQz1yB4iIE0O3MxQ
-         +Pxxb3vn+RlW5n/W3P53NMm/WYB6DYeQ7BbYMBAwwDVQUpxiRpOyB0+Z0F096adqfxDw
-         No/sm/Y6YsHiUT+NygDAHmJ38X9O2cZr8s9oJg/alqAbb9QlAJYcVvhZJ5X2dXbj6x0v
-         C+KWsWHnv5FbMotMIkd3tHjAsIKQbzJ7JHKey+NmBgdfkg589gsK5DPSIP05p1yCaxU7
-         pDEKXJ7FdJ4vDvPIdxi2/yXh4ADw5tpPt+SmASAcTd7m5GxQzi/qMXGFsNEekSB3FxEt
-         2bvg==
-X-Forwarded-Encrypted: i=1; AJvYcCWWl3Z2w093ZrTj3V2ZqCp95JFataaM1sxOnGqr9QL1cDtbbVTZofv6GPJKcpEq2HUfuyiqAAQajDm0sneNkpGT+1oavg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxYTLLxISWOwJi1XT4DJrORXyWUrlhXEYT6MxnTozxPq2NMlv7L
-	6Q03HXhWbMzQb0sfiWCrg+zqzLDKYZtOu24dIEBH111tEmG9Jm88uLIJtyUChZS89+AYslbDGLe
-	wpiu/VRDeE0YjHBAAZqu5tEHdzY7JGeQ=
-X-Gm-Gg: ASbGncvGKSbb4y2HbznMSlGiQ8cGMonL+rwIplMGsCqlkHgQN+YZyIrTnQDBd59KsFW
-	MQqp5FabzOBKbF82XziE23jYekqOVebxTGKM4VQAHPofflULNzLxd4p6AikF6RoWHr1Wl2hk0if
-	ZCIAteWLuAetqfCkTWs28qWfmJLA5xGawlc3TPEzHml1sWCmtxmP/XXA+65AbaE7rLUaZ7JYyLm
-	kpezs1aT9y8DQNibyq6mWKy5iCBj+rfiVum
-X-Google-Smtp-Source: AGHT+IFqAlSZ4G5Zfr1N3Wyc8+kqL+mT1HECYBOXEwK8MLGqT83cRLC6YJtIP3a6NvJvLSD60ZWBgxMixMe0z3kBL8o=
-X-Received: by 2002:a17:907:948f:b0:b32:2b60:eed with SMTP id
- a640c23a62f3a-b50abfd6cd0mr1786473266b.44.1760291144980; Sun, 12 Oct 2025
- 10:45:44 -0700 (PDT)
+        bh=pvLTpqWhUMNwfKi2DUzR3zUOBPTWtPFJRGCtsVkQ/g0=;
+        b=GyzUt5+kX8DO1cncaYAEa9Ay3YTI0FBncjaQlleD2A/Wdko95BnXKN50Y2ez/pjv1r
+         RUUx/+Rv3mSkyvDyW0Vmqmm8OgRkkv08DoXYLItCprGEVJ1IACiBG8XwkggJGWFqfFFI
+         VAngqDsIqlcXk9zxs4NZOIgNbhZIQjD3KqOcLC8fXeLPTZgGJQJKNAoHuqqVpkRYek22
+         6zxPRxegQkz7APvt1KU2ijUpF63icj5Xo0CGRBlHpc6xSCV+xy4pm/lon0kUGdJYkx+6
+         RqK23Hf1YSJxadLvGqzQ7Qj2se9Fktl8H0bvAMN1gA3wIvZKmfNp7QpkgJ+4LqI6oROo
+         vUhg==
+X-Forwarded-Encrypted: i=1; AJvYcCXAKs7Abu7AIjTegz4PlU4P8HJdls+7mZVBnmJvObYji91QuhlehSpFMgXLb1gaIVYy7O32MwzrLl4rEt6jHM80uLaIeA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwZFNHjGJrtwm9mQGKgS4TPytykZEClTvHGXvAmEHXwe8Ae5wJq
+	K3fmA8+JJaWF5BYyd78eT7B/Dv96gglYzmFhzUwWnclwRUwoA6Aj7Xha
+X-Gm-Gg: ASbGncvo89AYAZfDSyxOlQVotpaeXjx8cMwRSS4xZfIRZvT9ozG2/93rKYW4RlsuSfz
+	o6XpyhQpLxApFipp2l/RVNY5Kg+99/+euaknubvvbWqN6inc+6VSYHU7cmqxPLRKqjZHMbih12Y
+	Mv/DqsR6iBrZHKX3tqO6HfjOKdZVc192C8jVIa8NmpFp/fDLxPiKiihX7ReG7luJChm5Y6EcsCd
+	teITYXbvGviQYpwMPR/WRA5c0jn+1TWFHtXwbI/qomiwBNtMeCLsADEdQCxnGjSjSx/vERPxmPf
+	A1dgD3eBAyGjBQn+Bpzn60vyZ17fH1JaNybhaQFvsb9L1njtFSjJyYbShVQuYpnRhF9PQMn/nyv
+	qRmuzrlVY8Hm2cs7mkkxKdCCwNQSvAYyPEfL9AbYaPDkhbyYP+1wguw==
+X-Google-Smtp-Source: AGHT+IH66mjgwju+uytBphIGoHpFDHA0VnVMlPqCCqqHrYPKBigQsM48Pjhjh2izDM7DkBtwCGDObA==
+X-Received: by 2002:a17:902:f642:b0:270:4964:ad7c with SMTP id d9443c01a7336-29027356555mr258463735ad.2.1760291969153;
+        Sun, 12 Oct 2025 10:59:29 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2905571d68asm45135485ad.2.2025.10.12.10.59.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Oct 2025 10:59:28 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sun, 12 Oct 2025 10:59:28 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ranganath V N <vnranganath.20@gmail.com>
+Cc: Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com, khalid@kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] hwmon: sht3x: initialize variable 'ret' in
+ update_interval_write().
+Message-ID: <7fc29d1b-4c5b-4a0a-b591-dd260eb6acfe@roeck-us.net>
+References: <20251012-my_driver_work-v1-1-9e5fe6de51f4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251008031737.7321-1-raskar.shree97@gmail.com>
- <20251008031737.7321-3-raskar.shree97@gmail.com> <8d4fc754903c206ff989fc92cde2625b93b1586b.camel@gmail.com>
-In-Reply-To: <8d4fc754903c206ff989fc92cde2625b93b1586b.camel@gmail.com>
-From: Shrikant <raskar.shree97@gmail.com>
-Date: Sun, 12 Oct 2025 23:15:33 +0530
-X-Gm-Features: AS18NWDtBgQ0Qu4QY3B1lkMGZORJNqmOetvx30ZG9RDJN7OjAAdaPuVEHIdNOKs
-Message-ID: <CAHc1_P6w4mywfs38ORsmFyvcr9aBiLLCetquJgfevWqShg9=MA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] iio: health: max30100: Add pulse-width
- configuration via DT
-To: =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>
-Cc: jic23@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, matt@ranostay.sg, 
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251012-my_driver_work-v1-1-9e5fe6de51f4@gmail.com>
 
-On Thu, Oct 9, 2025 at 4:21=E2=80=AFPM Nuno S=C3=A1 <noname.nuno@gmail.com>=
- wrote:
->
-> Hi Shrikant,
->
-> Thanks for your patch.
->
-> On Wed, 2025-10-08 at 08:47 +0530, Shrikant Raskar wrote:
-> > The MAX30100 driver previously hardcoded the SPO2 pulse width to
-> > 1600us. This patch adds support for reading the pulse width from
-> > device tree (`maxim,pulse-width-us`) and programming it into the SPO2
-> > configuration register.
-> >
-> > If no property is provided, the driver falls back to 1600us to
-> > preserve existing behavior.
-> >
-> > Testing:
-> > Hardware: Raspberry Pi 3B + MAX30100 breakout
-> > Verified DT property read in probe()
-> > Confirmed SPO2_CONFIG register written correctly using regmap_read()
-> >
-> > Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
-> >
-> > Changes since v1:
-> > Use FIELD_PREP() and define a pulse width bit mask.
-> > Initialize default pulse_us before property read.
-> > Use dev_err_probe() for error reporting.
-> > Make pulse_width signed to handle negative return values.
-> >
-> > Link to v1:
-> > https://lore.kernel.org/all/20251004015623.7019-3-raskar.shree97@gmail.=
-com/
->
-> As mentioned in the bindings patch, this is not place for changelog. With=
- that
-> fixed:
->
-> Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-Hello Nuno S=C3=A1,
-Thanks for reviewing my patch.
-I have removed the changelog from commit message and shared the v3
-patch for review.
+On Sun, Oct 12, 2025 at 05:13:27PM +0530, Ranganath V N wrote:
+> fix for the smatch errors:
+> drivers/hwmon/sht3x.c:606 update_interval_write() error: uninitialized symbol 'ret'.
+> 
+> The warning can occur when both the data->mode and mode which is
+> derived from get_mode_from_update_interval() are zero.
+> In this case, no i2c command is sent and ret remains undefined
+> before reaching the coman return path.
+> 
+> When both data->mode and mode are zero, the device remains in
+> single shot mode and no configuration change is required.
+> In such cases, it is correct to treat the operation as successful
+> without issuing any i2c transfer.
+> 
+> To address this, initialize 'ret' to 'SHT3X_CMD_LENGTH'. this makes
+> the no-operation path return success while keeping the existing error
+> to all other paths.
+> 
+> This change removes the smatch errors. Tested by compiling.
+> 
+> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
 
-Thanks and Regards,
-Shrikant
->
-> > ---
-> >  drivers/iio/health/max30100.c | 35 +++++++++++++++++++++++++++++++++--
-> >  1 file changed, 33 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/iio/health/max30100.c b/drivers/iio/health/max3010=
-0.c
-> > index 814f521e47ae..50cd4fd13849 100644
-> > --- a/drivers/iio/health/max30100.c
-> > +++ b/drivers/iio/health/max30100.c
-> > @@ -5,7 +5,6 @@
-> >   * Copyright (C) 2015, 2018
-> >   * Author: Matt Ranostay <matt.ranostay@konsulko.com>
-> >   *
-> > - * TODO: enable pulse length controls via device tree properties
-> >   */
-> >
-> >  #include <linux/module.h>
-> > @@ -54,6 +53,10 @@
-> >  #define MAX30100_REG_SPO2_CONFIG             0x07
-> >  #define MAX30100_REG_SPO2_CONFIG_100HZ               BIT(2)
-> >  #define MAX30100_REG_SPO2_CONFIG_HI_RES_EN   BIT(6)
-> > +#define MAX30100_REG_SPO2_CONFIG_PW_MASK     GENMASK(1, 0)
-> > +#define MAX30100_REG_SPO2_CONFIG_200US               0x0
-> > +#define MAX30100_REG_SPO2_CONFIG_400US               0x1
-> > +#define MAX30100_REG_SPO2_CONFIG_800US               0x2
-> >  #define MAX30100_REG_SPO2_CONFIG_1600US              0x3
-> >
-> >  #define MAX30100_REG_LED_CONFIG                      0x09
-> > @@ -306,19 +309,47 @@ static int max30100_led_init(struct max30100_data=
- *data)
-> >               MAX30100_REG_LED_CONFIG_LED_MASK, reg);
-> >  }
-> >
-> > +static int max30100_get_pulse_width(unsigned int pwidth_us)
-> > +{
-> > +     switch (pwidth_us) {
-> > +     case 200:
-> > +             return MAX30100_REG_SPO2_CONFIG_200US;
-> > +     case 400:
-> > +             return MAX30100_REG_SPO2_CONFIG_400US;
-> > +     case 800:
-> > +             return MAX30100_REG_SPO2_CONFIG_800US;
-> > +     case 1600:
-> > +             return MAX30100_REG_SPO2_CONFIG_1600US;
-> > +     default:
-> > +             return -EINVAL;
-> > +     }
-> > +}
-> > +
-> >  static int max30100_chip_init(struct max30100_data *data)
-> >  {
-> >       int ret;
-> > +     int pulse_width;
-> > +     /* set default pulse-width-us to 1600us */
-> > +     unsigned int pulse_us =3D 1600;
-> > +     struct device *dev =3D &data->client->dev;
-> >
-> >       /* setup LED current settings */
-> >       ret =3D max30100_led_init(data);
-> >       if (ret)
-> >               return ret;
-> >
-> > +     /* Read pulse-width-us from DT */
-> > +     device_property_read_u32(dev, "maxim,pulse-width-us", &pulse_us);
-> > +
-> > +     pulse_width =3D max30100_get_pulse_width(pulse_us);
-> > +     if (pulse_width < 0)
-> > +             return dev_err_probe(dev, pulse_width, "invalid pulse-wid=
-th
-> > %uus\n", pulse_us);
-> > +
-> >       /* enable hi-res SPO2 readings at 100Hz */
-> >       ret =3D regmap_write(data->regmap, MAX30100_REG_SPO2_CONFIG,
-> >                                MAX30100_REG_SPO2_CONFIG_HI_RES_EN |
-> > -                              MAX30100_REG_SPO2_CONFIG_100HZ);
-> > +                              MAX30100_REG_SPO2_CONFIG_100HZ |
-> > +                              FIELD_PREP(MAX30100_REG_SPO2_CONFIG_PW_M=
-ASK,
-> > pulse_width));
-> >       if (ret)
-> >               return ret;
-> >
+Applied.
+
+Guenter
+
+> ---
+>  drivers/hwmon/sht3x.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> 
+> ---
+> base-commit: e5f0a698b34ed76002dc5cff3804a61c80233a7a
+> change-id: 20251012-my_driver_work-77b22c239e99
+> 
+> Best regards,
+> 
+> diff --git a/drivers/hwmon/sht3x.c b/drivers/hwmon/sht3x.c
+> index 557ad3e7752a..4b52d57eaad8 100644
+> --- a/drivers/hwmon/sht3x.c
+> +++ b/drivers/hwmon/sht3x.c
+> @@ -553,7 +553,7 @@ static int update_interval_read(struct device *dev)
+>  static int update_interval_write(struct device *dev, int val)
+>  {
+>  	u8 mode;
+> -	int ret;
+> +	int ret = SHT3X_CMD_LENGTH;
+>  	const char *command;
+>  	struct sht3x_data *data = dev_get_drvdata(dev);
+>  	struct i2c_client *client = data->client;
