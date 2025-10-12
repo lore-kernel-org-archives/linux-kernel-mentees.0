@@ -1,141 +1,191 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B0E22A813
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 12 Oct 2025 20:17:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7683923313E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 21:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760300281; cv=none; b=JzLcn316rVFIQXCYnaJWrPw7yLOXPDOmwI4MKjQzyXk1Ix/lYxg1aDtyxl8i49gSc/BeP9Gm0F3MCQos3terEkoYkmqSLUvOnXBR2Hta56c6t2dCvIDAccLMSq8YS2Uem7N+SLo1ERbWbSl8I4UkPV+D9EVVOuozNGSwdP33mh8=
+	t=1760303951; cv=none; b=OswvLgeT/Ar9MYMtbsIAm7I0eiKzJm0BEH/SP7th4tYNfAdTgDo4O84OsBztd+Avi9aHkKY4sm+bMiFD3SbBwIfCdRsvCusR8g7+Rc2+vEpSiH62bQ3ymZrh2fBJPh9E+RNGlww5I5tOTvHRTwgiXm5ZicXRkq7qWv/SUgrSngY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760300281; c=relaxed/simple;
-	bh=7TgWHHpxv+HeA3DLK127FYyUNPx+CBHJ6cbxxBcbkzU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=h7KuHSpE+kHTH3Yuzp0HL7nKiBdOsZ6Iu2/iQz59rNOTaP8JAWxkfG2RBoZ89ynNbkkZL0kUX7qDHmOrekrBnUYuj1PGHo1TLLK1+tfeVDWIqtom10UOwdhUUbker45m4XvG4MCUoqLEWtT7mnV/UAduY4Jb6X35dHq1ej+kD1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e5iOHcRg; arc=none smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760303951; c=relaxed/simple;
+	bh=Ghk3kWF8dNB1V0k0mDvpg3iN0UslD0y9riOY5veE2rE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nYE3UKNx9+FX97/xv9ROfuKFWKue0NyV5/azlHLdsdim08O0SkrHHdvHfEwDWAeMY67eQTfreaxDy1XC3TE8dNdc/42AzE9K2Q5c8jUfQvP54uWAybMhLsowioGr7yIgX+MsKPb3gY7I/oWWyqNkB92QMzzbAA1cjb0a9kxMX/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J6eG7ifg; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e5iOHcRg"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-78f75b0a058so44907646d6.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 12 Oct 2025 13:17:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J6eG7ifg"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0764A40F5F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 21:19:10 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id eZgdRz2SJGz8 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 12 Oct 2025 21:19:09 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::42e; helo=mail-wr1-x42e.google.com; envelope-from=zlatistiv@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org DF36740F62
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DF36740F62
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=J6eG7ifg
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id DF36740F62
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 21:19:08 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-3ee13baf2e1so2612248f8f.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 14:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760300278; x=1760905078; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EfJd41GGgbsw5kea6lHDnwRMbxMS1g92zUpAQvrRa8w=;
-        b=e5iOHcRgxy0u7izfqEXbZPvwyvHy0SqLymQbjNktNVFCFZt3t26FIUF/MtPaEQ1MNZ
-         Gftr1ol8ZIRdJoRJ+gZIM2H5/qycPPYiCHRLEwvUkAn/FcfpXwNj3rE9dazdO3mIXJUT
-         lkIWU5Udjza3KFn14bz9vfhAtBzo5AoDjuJYjEr4MubhazFxFrIwj5ncHYcRFBN2yFUV
-         06PcRw58wrX81b8fOxCgeGELnFt3uLhVudXrtBZUnL9gPKYbd7CPD2951spoiL1Uvdvp
-         yiEPgcfXWErs4FHMT2Yqed/jxwQ7T+vDDaSZsfBoZ66Zt55DEEmdNCF4KlZprRfk3UxT
-         4aKQ==
+        d=gmail.com; s=20230601; t=1760303947; x=1760908747; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Adu93qTTKDS0Ch74HcJDA+rP49HUSyI6PQ01hbqUFWo=;
+        b=J6eG7ifgZTKoDsD2EBfvDAu064aolQ5l/PbuqMJ76qGrcwhkg81qccOzZPhfF/VTxE
+         I3FAW2hIi6+F5KCMhDfnacEgTBLFwplxbbUaC1qW4X4WHZyTHcxlHiQVLNeuZTvD7Vyb
+         XyjrRH6A+2Aklf6EBCLLcBDuNpg3Q+RtDj36zx6/M1i8qQL9TxMyfM928gwcP1T6M3QW
+         ZWOoEIifxtpm/c/e3cnnVfcf7GE1zhmzR0emKnUyu1o83K8CaYi6EdMChAQb3JS9pF4z
+         cGK1qkAqThQ1u0OlBfP49RNrpoBf/kmRw/Dq8Mvo5gEHqg//31LqzLNKsk8+156diXgl
+         EiYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760300278; x=1760905078;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EfJd41GGgbsw5kea6lHDnwRMbxMS1g92zUpAQvrRa8w=;
-        b=gTdeVGrHohG53757ltl2wEwoi14D+yTIMvVFm4SMFX/0U2prNWQViXLp5FRwq4QxYr
-         Fzy9KltbiVlcZ1GmRYvz1z6VdvNRQtMFcatqbeO4lHJGe/GUdTBTHFB+qvv+tSoLZU83
-         HJgXlPSVP95UYPSTJU4JTduekJsgy+PkVcBgrmHF2PaZtOl0isgW0ISgH7svi4dPQR8S
-         n7aBCVcqEL0EPJq/lmj99FIcx4papxqCMx8AwKQPbNdW7EKBy3jC4UzAaIwB0IviWhUQ
-         zyRZ782Yaa/AvvBmApsQ0L9gvaGqUtlGa53afemyupsOl8fKmmurnBVuepeNloQlxKPs
-         6EJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWr2UrmGa/8e0QFMheTKHg6FA+hYIxQrPaC0SAdZMrkpkO0BR+kyKimFzeAkU7TiwldG26dhjb0KdHy0s3Sah2Aw1NOHw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYDXP78OIo8j+81FjrEyRPzOfw0J3W5Lj66didy5Z3HUSHgzBG
-	0VRJ7/XenYborpW+BzV+KqC0pS9rBdF515WLmsb6mJ3QXBk/PN9cvvOl
-X-Gm-Gg: ASbGnctYkgvR0V/sLr4PMjllI5O94xcMFwqboV0ooLNk6FNJkYEEWkgMroufDsT/8IY
-	+hoydKY0n0YlY5wX2vsSaDxznwNNKHNBiVo6pR21MHR50Qc1BzUpq0GVIAEatQAVH3ixr7xxeZj
-	TN88VWA6FfvxF1DzoBydaHQUkfC6rBZkQ5yr/arREz1PmtGwKGig9df/w5KKgKAZ80r2NRJAxX/
-	0Gazx5XHU1modT+GECsKRequFBrLjdTfl8aRMYhLHuwZrl39JPfa9cvNDG82nImMCoumfbqy1fr
-	d8VpX/sNW6wtynOd8CgypzRR3Bk4PtiRMsMeOx1OCu7x7osr455d19Yyh4++qhAcFI8//ELR/DB
-	/Dnt5hG6ehgOXnCjsd1TyPFy0ogvQH85w5Ab4DxwDXE5nv72DZAxMq9y+KOXwBSHKiv3d8vup
-X-Google-Smtp-Source: AGHT+IEXNZfIsQ3rZppSYl9yKJqq51uYM3J03ronY6LA6N72xZZ4IQB+Z+RZJDQoCd6ufjnL8w2bng==
-X-Received: by 2002:a05:6214:1946:b0:75e:f088:4a2 with SMTP id 6a1803df08f44-87b210724a7mr257648626d6.1.1760300277960;
-        Sun, 12 Oct 2025 13:17:57 -0700 (PDT)
-Received: from rpthibeault-XPS-13-9305.. ([23.233.177.113])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87bc3479578sm58440126d6.19.2025.10.12.13.17.57
+        d=1e100.net; s=20230601; t=1760303947; x=1760908747;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Adu93qTTKDS0Ch74HcJDA+rP49HUSyI6PQ01hbqUFWo=;
+        b=qKOnfcZylwh1nnRAPGr2sdlt34lHlg9XiBWvbcatSvDrtODhbyJ5SoIBfiqRfeV03q
+         h45Ug7PH7glcfqF7I27LhQZzdEDlRIpqmw0YTFOSAFQTJ+uv7E4OwNxD9eQA802nkq7p
+         6L3tOvYCwmDAs7Sk3qmM1W684+y2GxFsDQpqIdZdgtYXia/jxef9mKT6/l4p3NCRNMBT
+         IcJqGo4srgM5DqBMGzMSlHC2zmeNou0OER2LXi3/gyLhUfvjfgWf/P7sW6T9X+r17MFG
+         fMGn//DH28TD9prCPrBIr80Pq/YLzfEELf4C8lq1dDrWm6cQc5+fvWk70AM6ptO756pz
+         0cAA==
+X-Forwarded-Encrypted: i=1; AJvYcCUIx3bYuPCYXD2vsgOoPZh09geQwF+tN6yBDUTBF7EIv+0HYQs19MlpWO6AsCrQDBe6T+s38jVwpT0l7b8LaNCoIZ7KQg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxEogtkH5wII/09FVHuos67bC9GLPEvzOY0kkXp/cKPUZ6ZOyQa
+	E4b2O30mrCeHFfSQqX8MgnYuyohU9Vv7ZdobyuTnVHLN83z05UJZLVT3
+X-Gm-Gg: ASbGncv/Lyk76cXQlKbLgvCjSy5zn44JRW7gNwwPm8gPx7TWY6Kw/qcJk+Ay8qsYSpt
+	Oz2vD+4+ef3Zpo21Gh7swgRdcqca8lFa0nYScNeiOMsbEMurvFdLUEst81fe56DmPUB7yvAixzp
+	jfVbszMPDsvh3vdxMwmLG0ILOAd2E2Xbl8w1WQdJd9EPzyfC/6xbLWxxSvHm5yACa8kapqMZpql
+	sGzopYJq6+AWxFwY80oqIbjT8NbXxHVpVYGJjU0xWIjZKkmtGaJdR+powBcTATLcA2o+jmPJB/9
+	t8Irqxbih7aYioqm8UHM7g0biGkbJzNAlw32Pt3xhPmijsISOHN/lAiOzymJCRH4ezhyg5SawBr
+	5NL6t/1pVVLpuNOCcCh6tDEpqgOwhEn4TUf91Xr7raDxqP3LcJUXRJmEB8xYSCR3L7JoRE85ksn
+	/1+hiw9xRfyGDYdt81ZrQ=
+X-Google-Smtp-Source: AGHT+IGjHlzwxTlSwDIo8bVlsq+pwRAcXzYI1RxLsxjm8COk+bFjmzs7HwuYQVnOLc3GhJHNohSXJA==
+X-Received: by 2002:a05:6000:2c11:b0:3ec:dd16:fc16 with SMTP id ffacd0b85a97d-4266e7df779mr12010154f8f.43.1760303946775;
+        Sun, 12 Oct 2025 14:19:06 -0700 (PDT)
+Received: from localhost.localdomain ([46.10.223.24])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5e0987sm14723783f8f.38.2025.10.12.14.19.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Oct 2025 13:17:57 -0700 (PDT)
-From: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>,
-	ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	syzbot+7a2ba6b7b66340cff225@syzkaller.appspotmail.com,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org
-Subject: [PATCH v2] ntfs3: fix uninit memory after failed mi_read in mi_format_new
-Date: Sun, 12 Oct 2025 16:16:34 -0400
-Message-ID: <20251012201635.378419-2-rpthibeault@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sun, 12 Oct 2025 14:19:06 -0700 (PDT)
+Date: Mon, 13 Oct 2025 00:19:04 +0300
+From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
+To: Chao Yu <chao@kernel.org>
+Cc: jaegeuk@kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
+	linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org, 
+	syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
+Subject: Re: [PATCH] f2fs: Perform sanity check before unlinking directory
+ inode
+Message-ID: <gupgic53ouhmdwrglwdviw2mzeaqfjsvyr47u3ebu2ztayswy4@4oxvnu252rdb>
+References: <20251003134731.470392-1-zlatistiv@gmail.com>
+ <839306c1-5f7a-4e89-b2cf-7534d279a03c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <839306c1-5f7a-4e89-b2cf-7534d279a03c@kernel.org>
 
-Fix a KMSAN un-init bug found by syzkaller.
+On Thu, Oct 09, 2025 at 10:54:40AM +0800, Chao Yu wrote:
+> On 10/3/2025 9:47 PM, Nikola Z. Ivanov wrote:
+> > Current i_nlink corruption check does not take into account
+> > directory inodes which have one additional i_nlink for their "." entry.
+> > 
+> > Add additional check and a common corruption path.
+> > 
+> > Reported-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=c07d47c7bc68f47b9083
+> > Fixes: 81edb983b3f5 ("f2fs: add check for deleted inode")
+> > Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
+> > ---
+> >   fs/f2fs/namei.c | 28 ++++++++++++++++++++--------
+> >   1 file changed, 20 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
+> > index b882771e4699..68b33e8089b0 100644
+> > --- a/fs/f2fs/namei.c
+> > +++ b/fs/f2fs/namei.c
+> > @@ -502,12 +502,14 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
+> >   		goto out;
+> >   	}
+> > -	if (inode->i_nlink == 0) {
+> > +	if (unlikely(inode->i_nlink == 0)) {
+> >   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
+> >   			  __func__, inode->i_ino);
+> > -		err = -EFSCORRUPTED;
+> > -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+> > -		goto out_iput;
+> > +		goto corrupted;
+> > +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
+> > +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
+> > +			  __func__, inode->i_ino);
+> > +		goto corrupted;
+> 
+> Can we detect such corruption in sanity_check_inode() as well? So that if
+> f2fs internal flow calls f2fs_iget() on corrupted inode, we can set SBI_NEED_FSCK
+> flag and then triggering fsck repairment later.
+> 
+> Thanks,
+> 
+> >   	}
+> >   	if (IS_ENCRYPTED(dir) &&
+> > @@ -533,6 +535,9 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
+> >   	trace_f2fs_lookup_end(dir, !IS_ERR_OR_NULL(new) ? new : dentry,
+> >   				ino, IS_ERR(new) ? PTR_ERR(new) : err);
+> >   	return new;
+> > +corrupted:
+> > +	err = -EFSCORRUPTED;
+> > +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+> >   out_iput:
+> >   	iput(inode);
+> >   out:
+> > @@ -572,10 +577,11 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
+> >   	if (unlikely(inode->i_nlink == 0)) {
+> >   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
+> >   			  __func__, inode->i_ino);
+> > -		err = -EFSCORRUPTED;
+> > -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+> > -		f2fs_folio_put(folio, false);
+> > -		goto fail;
+> > +		goto corrupted;
+> > +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
+> > +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
+> > +			  __func__, inode->i_ino);
+> > +		goto corrupted;
+> >   	}
+> >   	f2fs_balance_fs(sbi, true);
+> > @@ -601,6 +607,12 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
+> >   	if (IS_DIRSYNC(dir))
+> >   		f2fs_sync_fs(sbi->sb, 1);
+> > +
+> > +	goto fail;
+> > +corrupted:
+> > +	err = -EFSCORRUPTED;
+> > +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+> > +	f2fs_folio_put(folio, false);
+> >   fail:
+> >   	trace_f2fs_unlink_exit(inode, err);
+> >   	return err;
+> 
 
-ntfs_get_bh() expects a buffer from sb_getblk(), that buffer may not be
-uptodate. We do not bring the buffer uptodate before setting it as
-uptodate. If the buffer were to not be uptodate, it could mean adding a
-buffer with un-init data to the mi record. Attempting to load that record
-will trigger KMSAN.
+Hi Chao,
 
-Avoid this by setting the buffer as uptodate, if it’s not already, by
-overwriting it.
+Thank you for the suggestion.
+I will add this to sanity_check_inode and remove it
+from f2fs_lookup as it becomes redundant since f2fs_lookup
+obtains the inode through f2fs_iget. For f2fs_unlink I will
+move the i_nlink == 1 check to f2fs_rmdir.
 
-Reported-by: syzbot+7a2ba6b7b66340cff225@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=7a2ba6b7b66340cff225
-Tested-by: syzbot+7a2ba6b7b66340cff225@syzkaller.appspotmail.com
-Fixes: 4342306f0f0d5 ("fs/ntfs3: Add file operations and implementation")
-Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
----
-
-v1:
-https://lore.kernel.org/all/20250925203701.223744-2-rpthibeault@gmail.com/
-Differences from v1: 
-In the previous version, I thought that mi_read() returning an error was
-a genuine reason to stop trying to format the record. That was wrong. If
-we find that mi_read() fails and that therefore we cannot reuse an old
-record, we should try to make a new one. It then follows that
-ntfs_get_bh() should provide an uptodate bh for the new record.
-
-On testing:
-I could not get xfstests-bld to work for ntfs3. Config nightmare. So I
-first tested with the syzkaller repro, then tested for regressions manually 
-with a program that called all the syscall code paths touched by my change: 
-mkdir, fallocate (FALLOC_FL_COLLAPSE_RANGE), and 
-fallocate (FALLOC_FL_INSERT_RANGE).
-
- fs/ntfs3/fsntfs.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-index 938d351ebac7..0c07502fdb0f 100644
---- a/fs/ntfs3/fsntfs.c
-+++ b/fs/ntfs3/fsntfs.c
-@@ -1373,7 +1373,14 @@ int ntfs_get_bh(struct ntfs_sb_info *sbi, const struct runs_tree *run, u64 vbo,
- 				}
- 				if (buffer_locked(bh))
- 					__wait_on_buffer(bh);
--				set_buffer_uptodate(bh);
-+
-+				lock_buffer(bh);
-+				if (!buffer_uptodate(bh))
-+				{
-+					memset(bh->b_data, 0, blocksize);
-+					set_buffer_uptodate(bh);
-+				}
-+				unlock_buffer(bh);
- 			} else {
- 				bh = ntfs_bread(sb, block);
- 				if (!bh) {
--- 
-2.43.0
-
+I will send v2 as soon as I do some more testing.
