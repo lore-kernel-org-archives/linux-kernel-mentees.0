@@ -1,56 +1,67 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8AC28DB52
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 Oct 2025 12:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF24270542
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Oct 2025 13:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760359994; cv=none; b=nFIvHmbmu7Xq0AORNf7YmDsMvBqdvW1KfsX4uFKi3wsjwe0Hb76O6L62suudSDNA2I+tat3+5J05vDUSBjh2X0e8WM+i8VX5AwDs5d82xNaetlvU8FZnE88TxcNGcTyQzylaTvVyMeeXLvfApG5A35uIn7SZnyNVbBTAO+J6PUo=
+	t=1760361007; cv=none; b=srakzLNL8myKug0vT3G3AIkn7VBnrK4irLSz3jVjv1CMWBR8PwfmibvGFn3JHXoJJ2UO8qKFMFZDq/KGOGRBMOJTOdZFa0WSib7IqxxF4+L+QS2q9RzV2/x22wS2xQ6TI+KVj9/26fy2wRfpBprqha4M9vXsIQ+WCXi5qW62vyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760359994; c=relaxed/simple;
-	bh=QrfJt2hUMOOD+gjf01fYxogMQriU6KiB9/iGzz3A5eo=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=N/0q0sDoZc3ncAzSSqAo8UFHFcDV7vVBvyr/JpepBAYgJAnkbrR/dhyXIFMyuZAywWSJRg9gey8yBVerXYk58o8JOE57mkLkWnEWwlQKvLICdaf79HpKCAeXJQEfKzouv7dViM/icIe7CyLgHdFZL4DsowCYEyMgi5NWcMGEO/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O5G6+SKa; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1760361007; c=relaxed/simple;
+	bh=AUiRVZ7sMn1+4J7dgwP6Hsi8FiuzPSM5pFCcK2UnPBU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GO2vcOpUusKgZVgopKqOzS4RKOYq4C3SxqrOnWLo4kwNEAxTL8IPDZbkyzJD/IjJMA0ElXltQxaR3kz/0UvDhWflMGShMvenmksnxGtrDdnI1unrGCC4CqK75bzVYywErVj1c+QOpy/7KMrLf1cO49qN5kkcgL39M6AY6w/7XaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NYgfbaAh; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O5G6+SKa"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7E80640891
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 Oct 2025 12:53:11 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.792
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 5rpZBXWEf5nz for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Oct 2025 12:53:10 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=chao@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 89CE640059
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 89CE640059
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=O5G6+SKa
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 89CE640059
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 Oct 2025 12:53:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 9990045312;
-	Mon, 13 Oct 2025 12:53:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B590C4CEE7;
-	Mon, 13 Oct 2025 12:53:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760359989;
-	bh=QrfJt2hUMOOD+gjf01fYxogMQriU6KiB9/iGzz3A5eo=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=O5G6+SKanFheTVhhE+NeS8tIo4vNAICs41T/v/LM0moYsBF5dCxC6lZ/k4VedORqe
-	 uDuWtvh8BxrwZuEUb4qa59egVmQcTSFIarFOMePK9ZuzZT7TbWgcC+WLDnmLB3ogHl
-	 LEFpkJ0bJ+JiwKQfaZI2lPxTAqf4I0YlANkFEMyu7vJ/aUfNjZJdkuZdv9SaEMDTwT
-	 M3a6N7Ntf/uaCeib128QNXqJwqYo/grlDmLPo70/+QujHYLi3epUIGXJc2ZRqDN4gV
-	 SygHaeJagr/v9PsqvUgV4MYUqjEjGUxUryFzO0i4qcYn2pxmAN49LdAqXcck84RIWM
-	 qzBhQqxdfI8gg==
-Message-ID: <9d0fef9d-4093-4a80-af3f-6dc45ffe886c@kernel.org>
-Date: Mon, 13 Oct 2025 20:53:04 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NYgfbaAh"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-26c209802c0so40432195ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Oct 2025 06:10:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760361004; x=1760965804; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=eM8SzoY3Ga6SPnTiQ6Z/fETrx3sjrihdY4C9vGThuB8=;
+        b=NYgfbaAhMWWDS0J85TD8AX/FSLAUks0Q2wbiyCtPLW653lyvNneaz//BrwDkntRD/p
+         QS1IUV4qrNKbgstK9wYmnmBHXxQ3tJfczR8zJbbONDLypPyrpEAtNSZXaiR8TEW1C3yK
+         417hW7QnUBvoyD0R05y5ZBCtZ8lPnuwJx1udrnjCfLZDFWR6geMc/+nvwwdrwFktC2Nb
+         VXLlc/OjdrU1CJ7S0Ay8gDslw58uPFCbezD7+G08ApmDIwnPycdA4Ezyrt7lQJj07WZw
+         BTMnyeHcdwyyDHKHnjuio9jGjsOrUu0u8rHoRsR6vbNjgtD9yC91uqj5ikQ+dJwqN6ff
+         oyew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760361004; x=1760965804;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eM8SzoY3Ga6SPnTiQ6Z/fETrx3sjrihdY4C9vGThuB8=;
+        b=mYzCEeK5S5bd8HwBkm03h9DbeXi7VVkyQKz8ZAppqbZ8w4yq5kX7AFI40qAGsz6Ex5
+         jTQHSZFUN03ztV6evGb1N5et11nGE+T9kUcuJS6v81XxB56K+Rg08D6yL89Qd4s+3JgL
+         KTCHnagmrHuAJeZUqWAey+2Hwig9dsSVspy8JGWbbkyVnZOXCejzBbKvpGkkw2+DBWBJ
+         qiJJq7/km77AoZoP9jtuSJrIJefTrpZNGnxSj0LrTtCZx7jaru1tk2RjwIKt7PMoo6df
+         C9nIw0Y/fe8V1Nze1UAOHUpt2s3tbEwnk3Tjx94IofzsEcLtc2DYia+y+8Wua4svd8y/
+         6+hw==
+X-Forwarded-Encrypted: i=1; AJvYcCXUt4YjeYzsWGl5UWza7VpD5imY6NaXAJQ6xzDjNg8tmqsAJ55VsRyw9Og99nGPCsYwzynTw4fUb/soDVtGGkhyh2Wg3w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw+uOVKytn9IkbSYtdMicjQH6kWpy+FRHEEgtWVQLlZXmdQkIgS
+	Hr6a9oMmKmv2MQi468Gme1n6O/Qi9eP05LxBD0347GYOeWi15FYKGRVe
+X-Gm-Gg: ASbGncuMNsmAFkOZZglzpHbtm5TkjwSCja0S8ebqUFTi29ZwnPgxnT59Ech23D7jCg0
+	muS2URgvX+VWjmcuKvoGqvobxzd9O6Xjr0xSULFpV7yN0O6aY2b960scsEA+8Qm6hv7ZEt4QyqK
+	wD3qiB9LYo46QALFxNMEioL5P1YcChpIF3kNHndcT18WClUl0hfocbvqnTyScyWruSzFphUwyS0
+	NVl6iOnm/ltD0/x71gWVx9OLVze3DCkbFds8ul4//jothaHs0MYRC6yOayZlfzQI0QOOgb2KGKL
+	5/VAoNDe3bbicTE5lNQcd71Bn9SNqoKqVT89dl1gAsU/xoKlDj+kcRvhH8hePr94r8rFiRntDh9
+	tZ7V1ZHoayeml3jLM0mv2KgdfceoPdRwNbNGW/5HLF8O9Qq7Q0txgvzvtIelcrmYvq2dqHPxnbT
+	ZiUAMeL6xaS6zkKKAIuqKsTsR9qD0=
+X-Google-Smtp-Source: AGHT+IFIBnpgJRFRAaPk2BVssrOVcF2oXu12DR1cAuTUDGRGCwwUQHQKIvSdHF1KGnJkx6jFK6hxNw==
+X-Received: by 2002:a17:903:2ecd:b0:28e:cc41:b0df with SMTP id d9443c01a7336-2902741fb25mr227013765ad.61.1760361003606;
+        Mon, 13 Oct 2025 06:10:03 -0700 (PDT)
+Received: from ?IPV6:2405:201:8000:a149:4670:c55c:fe13:754d? ([2405:201:8000:a149:4670:c55c:fe13:754d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f08de5sm134550965ad.83.2025.10.13.06.10.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Oct 2025 06:10:02 -0700 (PDT)
+Message-ID: <79cebb23-5232-49f1-a0ac-b401707c2b52@gmail.com>
+Date: Mon, 13 Oct 2025 18:39:59 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -58,124 +69,69 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: chao@kernel.org, jaegeuk@kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org,
- syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
-Subject: Re: [PATCH] f2fs: Perform sanity check before unlinking directory
- inode
-To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-References: <20251003134731.470392-1-zlatistiv@gmail.com>
- <839306c1-5f7a-4e89-b2cf-7534d279a03c@kernel.org>
- <gupgic53ouhmdwrglwdviw2mzeaqfjsvyr47u3ebu2ztayswy4@4oxvnu252rdb>
+Subject: Re: [PATCH] lib/xz: remove dead IA-64 (Itanium) support code
+To: lasse.collin@tukaani.org
+Cc: skhan@linuxfoundation.org, khalid@kernel.org,
+ david.hunter.linux@gmail.com, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+References: <20251013115136.16773-1-spyjetfayed@gmail.com>
 Content-Language: en-US
-From: Chao Yu <chao@kernel.org>
-In-Reply-To: <gupgic53ouhmdwrglwdviw2mzeaqfjsvyr47u3ebu2ztayswy4@4oxvnu252rdb>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Ankan Biswas <spyjetfayed@gmail.com>
+Autocrypt: addr=spyjetfayed@gmail.com; keydata=
+ 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
+ TRpGew2ozniUMliyaLH9UH6/e9Us
+In-Reply-To: <20251013115136.16773-1-spyjetfayed@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 10/13/25 05:19, Nikola Z. Ivanov wrote:
-> On Thu, Oct 09, 2025 at 10:54:40AM +0800, Chao Yu wrote:
->> On 10/3/2025 9:47 PM, Nikola Z. Ivanov wrote:
->>> Current i_nlink corruption check does not take into account
->>> directory inodes which have one additional i_nlink for their "." entry.
->>>
->>> Add additional check and a common corruption path.
->>>
->>> Reported-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
->>> Closes: https://syzkaller.appspot.com/bug?extid=c07d47c7bc68f47b9083
->>> Fixes: 81edb983b3f5 ("f2fs: add check for deleted inode")
->>> Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
->>> ---
->>>   fs/f2fs/namei.c | 28 ++++++++++++++++++++--------
->>>   1 file changed, 20 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
->>> index b882771e4699..68b33e8089b0 100644
->>> --- a/fs/f2fs/namei.c
->>> +++ b/fs/f2fs/namei.c
->>> @@ -502,12 +502,14 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
->>>   		goto out;
->>>   	}
->>> -	if (inode->i_nlink == 0) {
->>> +	if (unlikely(inode->i_nlink == 0)) {
->>>   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
->>>   			  __func__, inode->i_ino);
->>> -		err = -EFSCORRUPTED;
->>> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
->>> -		goto out_iput;
->>> +		goto corrupted;
->>> +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
->>> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
->>> +			  __func__, inode->i_ino);
->>> +		goto corrupted;
->>
->> Can we detect such corruption in sanity_check_inode() as well? So that if
->> f2fs internal flow calls f2fs_iget() on corrupted inode, we can set SBI_NEED_FSCK
->> flag and then triggering fsck repairment later.
->>
->> Thanks,
->>
->>>   	}
->>>   	if (IS_ENCRYPTED(dir) &&
->>> @@ -533,6 +535,9 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
->>>   	trace_f2fs_lookup_end(dir, !IS_ERR_OR_NULL(new) ? new : dentry,
->>>   				ino, IS_ERR(new) ? PTR_ERR(new) : err);
->>>   	return new;
->>> +corrupted:
->>> +	err = -EFSCORRUPTED;
->>> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
->>>   out_iput:
->>>   	iput(inode);
->>>   out:
->>> @@ -572,10 +577,11 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
->>>   	if (unlikely(inode->i_nlink == 0)) {
->>>   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
->>>   			  __func__, inode->i_ino);
->>> -		err = -EFSCORRUPTED;
->>> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
->>> -		f2fs_folio_put(folio, false);
->>> -		goto fail;
->>> +		goto corrupted;
->>> +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
->>> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
->>> +			  __func__, inode->i_ino);
->>> +		goto corrupted;
->>>   	}
->>>   	f2fs_balance_fs(sbi, true);
->>> @@ -601,6 +607,12 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
->>>   	if (IS_DIRSYNC(dir))
->>>   		f2fs_sync_fs(sbi->sb, 1);
->>> +
->>> +	goto fail;
->>> +corrupted:
->>> +	err = -EFSCORRUPTED;
->>> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
->>> +	f2fs_folio_put(folio, false);
->>>   fail:
->>>   	trace_f2fs_unlink_exit(inode, err);
->>>   	return err;
->>
-> 
-> Hi Chao,
-> 
-> Thank you for the suggestion.
-> I will add this to sanity_check_inode and remove it
-> from f2fs_lookup as it becomes redundant since f2fs_lookup
-> obtains the inode through f2fs_iget. For f2fs_unlink I will
-> move the i_nlink == 1 check to f2fs_rmdir.
+Hey all,
 
-Hi Nikola,
+Correcting the mailing-list again,  from linux-kernel-mentees@kernel.org 
+to linux-kernel-mentees@lists.linux.dev.
 
-I meant we can move the i_nlink == 1 check from both f2fs_lookup() and
-f2fs_unlink() to sanity_check_inode(), because before we create in-memory
-inode, we will always call sanity_check_inode().
+Really sorry about this.
 
-Let me know if you have other concerns.
 
 Thanks,
-
-> 
-> I will send v2 as soon as I do some more testing.
-
+Ankan
