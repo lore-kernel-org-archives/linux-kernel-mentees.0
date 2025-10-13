@@ -1,191 +1,129 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7683923313E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 21:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE6F2741DA;
+	Mon, 13 Oct 2025 00:06:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760303951; cv=none; b=OswvLgeT/Ar9MYMtbsIAm7I0eiKzJm0BEH/SP7th4tYNfAdTgDo4O84OsBztd+Avi9aHkKY4sm+bMiFD3SbBwIfCdRsvCusR8g7+Rc2+vEpSiH62bQ3ymZrh2fBJPh9E+RNGlww5I5tOTvHRTwgiXm5ZicXRkq7qWv/SUgrSngY=
+	t=1760313989; cv=none; b=fOn+rngJcSq364KpzjE9MWoxY8YMOtT3whu0NndfvVs14mhBjxmCcgFOutMqaqHmBlh3gJA3GjMRsyw7HrbYG21+R3YTpYlubLJ3pqjdyVLmwVHzhu3BOLbK8WNWUy/AbAowTqjzsu8WHYY6DLf0hkOOttk7VTDH8KSzG+FTQwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760303951; c=relaxed/simple;
-	bh=Ghk3kWF8dNB1V0k0mDvpg3iN0UslD0y9riOY5veE2rE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nYE3UKNx9+FX97/xv9ROfuKFWKue0NyV5/azlHLdsdim08O0SkrHHdvHfEwDWAeMY67eQTfreaxDy1XC3TE8dNdc/42AzE9K2Q5c8jUfQvP54uWAybMhLsowioGr7yIgX+MsKPb3gY7I/oWWyqNkB92QMzzbAA1cjb0a9kxMX/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J6eG7ifg; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1760313989; c=relaxed/simple;
+	bh=hB/Gin34ZBIv4H+4VSUE/WvISAqzN/cHKv/4Rw1YK1A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ErwHFD54y6s99WeAoPjJ1BzXe3v37YlaPg6jtqavmiNlVJCtQdTzFTY5GnQl5Kdhaxak1fCQsJOoSB29thKMpAu5Ka8GR5C0GV+DvancYHrUrwazEYSoUVkT0PEY4x2uugaGzdVKBzBvOyvk8prDR3hlLshqjprkjSKb/qwVILE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CMCjuv06; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J6eG7ifg"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0764A40F5F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 21:19:10 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id eZgdRz2SJGz8 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 12 Oct 2025 21:19:09 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::42e; helo=mail-wr1-x42e.google.com; envelope-from=zlatistiv@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org DF36740F62
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DF36740F62
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=J6eG7ifg
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id DF36740F62
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 21:19:08 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-3ee13baf2e1so2612248f8f.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 Oct 2025 14:19:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760303947; x=1760908747; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Adu93qTTKDS0Ch74HcJDA+rP49HUSyI6PQ01hbqUFWo=;
-        b=J6eG7ifgZTKoDsD2EBfvDAu064aolQ5l/PbuqMJ76qGrcwhkg81qccOzZPhfF/VTxE
-         I3FAW2hIi6+F5KCMhDfnacEgTBLFwplxbbUaC1qW4X4WHZyTHcxlHiQVLNeuZTvD7Vyb
-         XyjrRH6A+2Aklf6EBCLLcBDuNpg3Q+RtDj36zx6/M1i8qQL9TxMyfM928gwcP1T6M3QW
-         ZWOoEIifxtpm/c/e3cnnVfcf7GE1zhmzR0emKnUyu1o83K8CaYi6EdMChAQb3JS9pF4z
-         cGK1qkAqThQ1u0OlBfP49RNrpoBf/kmRw/Dq8Mvo5gEHqg//31LqzLNKsk8+156diXgl
-         EiYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760303947; x=1760908747;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Adu93qTTKDS0Ch74HcJDA+rP49HUSyI6PQ01hbqUFWo=;
-        b=qKOnfcZylwh1nnRAPGr2sdlt34lHlg9XiBWvbcatSvDrtODhbyJ5SoIBfiqRfeV03q
-         h45Ug7PH7glcfqF7I27LhQZzdEDlRIpqmw0YTFOSAFQTJ+uv7E4OwNxD9eQA802nkq7p
-         6L3tOvYCwmDAs7Sk3qmM1W684+y2GxFsDQpqIdZdgtYXia/jxef9mKT6/l4p3NCRNMBT
-         IcJqGo4srgM5DqBMGzMSlHC2zmeNou0OER2LXi3/gyLhUfvjfgWf/P7sW6T9X+r17MFG
-         fMGn//DH28TD9prCPrBIr80Pq/YLzfEELf4C8lq1dDrWm6cQc5+fvWk70AM6ptO756pz
-         0cAA==
-X-Forwarded-Encrypted: i=1; AJvYcCUIx3bYuPCYXD2vsgOoPZh09geQwF+tN6yBDUTBF7EIv+0HYQs19MlpWO6AsCrQDBe6T+s38jVwpT0l7b8LaNCoIZ7KQg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxEogtkH5wII/09FVHuos67bC9GLPEvzOY0kkXp/cKPUZ6ZOyQa
-	E4b2O30mrCeHFfSQqX8MgnYuyohU9Vv7ZdobyuTnVHLN83z05UJZLVT3
-X-Gm-Gg: ASbGncv/Lyk76cXQlKbLgvCjSy5zn44JRW7gNwwPm8gPx7TWY6Kw/qcJk+Ay8qsYSpt
-	Oz2vD+4+ef3Zpo21Gh7swgRdcqca8lFa0nYScNeiOMsbEMurvFdLUEst81fe56DmPUB7yvAixzp
-	jfVbszMPDsvh3vdxMwmLG0ILOAd2E2Xbl8w1WQdJd9EPzyfC/6xbLWxxSvHm5yACa8kapqMZpql
-	sGzopYJq6+AWxFwY80oqIbjT8NbXxHVpVYGJjU0xWIjZKkmtGaJdR+powBcTATLcA2o+jmPJB/9
-	t8Irqxbih7aYioqm8UHM7g0biGkbJzNAlw32Pt3xhPmijsISOHN/lAiOzymJCRH4ezhyg5SawBr
-	5NL6t/1pVVLpuNOCcCh6tDEpqgOwhEn4TUf91Xr7raDxqP3LcJUXRJmEB8xYSCR3L7JoRE85ksn
-	/1+hiw9xRfyGDYdt81ZrQ=
-X-Google-Smtp-Source: AGHT+IGjHlzwxTlSwDIo8bVlsq+pwRAcXzYI1RxLsxjm8COk+bFjmzs7HwuYQVnOLc3GhJHNohSXJA==
-X-Received: by 2002:a05:6000:2c11:b0:3ec:dd16:fc16 with SMTP id ffacd0b85a97d-4266e7df779mr12010154f8f.43.1760303946775;
-        Sun, 12 Oct 2025 14:19:06 -0700 (PDT)
-Received: from localhost.localdomain ([46.10.223.24])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5e0987sm14723783f8f.38.2025.10.12.14.19.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Oct 2025 14:19:06 -0700 (PDT)
-Date: Mon, 13 Oct 2025 00:19:04 +0300
-From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-To: Chao Yu <chao@kernel.org>
-Cc: jaegeuk@kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
-	linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org, 
-	syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
-Subject: Re: [PATCH] f2fs: Perform sanity check before unlinking directory
- inode
-Message-ID: <gupgic53ouhmdwrglwdviw2mzeaqfjsvyr47u3ebu2ztayswy4@4oxvnu252rdb>
-References: <20251003134731.470392-1-zlatistiv@gmail.com>
- <839306c1-5f7a-4e89-b2cf-7534d279a03c@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CMCjuv06"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E231C4CEE7;
+	Mon, 13 Oct 2025 00:06:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760313988;
+	bh=hB/Gin34ZBIv4H+4VSUE/WvISAqzN/cHKv/4Rw1YK1A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CMCjuv06sRTF9UJVdU+ManybIqOKT6NaQe/xXjH1o06RtMv4wuCuB2cRDA8aBM1rs
+	 JvTfEabxh+syb6bZaLtp2uW/r1zor81XObWiwuvAgHH1D4Ccl5zbHM/PbkkU2LDB70
+	 kuWvWODN5GSIgzFZQPfRHLSfKAU6Q+b3twlUFey9mgFB6YEYliePGGXrz9qRZYN7OM
+	 M0tKUEaK9CkKLr0X6WiPdbJNA7uDcX5EB3NGXGbuWBAdM2m3MzCuSkzV1jO+rKV4Xz
+	 zVdPKBI+ixujXqfH/tr4hyA0Zw9/YfzZJpuMp92viyhfy4Ke5uxzFcKR8YBQZ4aUqW
+	 jyvpx9BTIzllA==
+Message-ID: <ee686b83-d8ae-4643-8913-bd31de7f6534@kernel.org>
+Date: Mon, 13 Oct 2025 02:06:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <839306c1-5f7a-4e89-b2cf-7534d279a03c@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] dt-bindings: iio: health: max30100: Add LED
+ pulse-width property
+To: Shrikant Raskar <raskar.shree97@gmail.com>, jic23@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ matt@ranostay.sg, skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+References: <20251012173035.12536-1-raskar.shree97@gmail.com>
+ <20251012173035.12536-2-raskar.shree97@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251012173035.12536-2-raskar.shree97@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 09, 2025 at 10:54:40AM +0800, Chao Yu wrote:
-> On 10/3/2025 9:47 PM, Nikola Z. Ivanov wrote:
-> > Current i_nlink corruption check does not take into account
-> > directory inodes which have one additional i_nlink for their "." entry.
-> > 
-> > Add additional check and a common corruption path.
-> > 
-> > Reported-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=c07d47c7bc68f47b9083
-> > Fixes: 81edb983b3f5 ("f2fs: add check for deleted inode")
-> > Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
-> > ---
-> >   fs/f2fs/namei.c | 28 ++++++++++++++++++++--------
-> >   1 file changed, 20 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
-> > index b882771e4699..68b33e8089b0 100644
-> > --- a/fs/f2fs/namei.c
-> > +++ b/fs/f2fs/namei.c
-> > @@ -502,12 +502,14 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
-> >   		goto out;
-> >   	}
-> > -	if (inode->i_nlink == 0) {
-> > +	if (unlikely(inode->i_nlink == 0)) {
-> >   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
-> >   			  __func__, inode->i_ino);
-> > -		err = -EFSCORRUPTED;
-> > -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> > -		goto out_iput;
-> > +		goto corrupted;
-> > +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
-> > +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
-> > +			  __func__, inode->i_ino);
-> > +		goto corrupted;
+On 12/10/2025 19:30, Shrikant Raskar wrote:
+> The LED pulse width on the MAX30100 sensor determines how long the
+> IR/Red LEDs are driven during each sample, directly affecting the
+> emitted optical energy and hence the received signal amplitude.
 > 
-> Can we detect such corruption in sanity_check_inode() as well? So that if
-> f2fs internal flow calls f2fs_iget() on corrupted inode, we can set SBI_NEED_FSCK
-> flag and then triggering fsck repairment later.
+> This parameter is highly dependent on the mechanical and optical
+> integration of the sensor, such as:
+> - The type and thickness of the optical window or lens covering
+>   the sensor.
+> - The distance between the LED and photodiode.
+> - The reflectivity of the target surface.
 > 
-> Thanks,
+> For example:
+> - A smartwatch or wearable ring with a thin glass window can operate
+>   with shorter pulses (200-400 us) to save power.
+> - A medical-grade pulse oximeter or sensor mounted behind a thicker
+>   protective layer may require longer pulses (800-1600 us) for
+>   reliable signal amplitude.
 > 
-> >   	}
-> >   	if (IS_ENCRYPTED(dir) &&
-> > @@ -533,6 +535,9 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
-> >   	trace_f2fs_lookup_end(dir, !IS_ERR_OR_NULL(new) ? new : dentry,
-> >   				ino, IS_ERR(new) ? PTR_ERR(new) : err);
-> >   	return new;
-> > +corrupted:
-> > +	err = -EFSCORRUPTED;
-> > +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> >   out_iput:
-> >   	iput(inode);
-> >   out:
-> > @@ -572,10 +577,11 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
-> >   	if (unlikely(inode->i_nlink == 0)) {
-> >   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
-> >   			  __func__, inode->i_ino);
-> > -		err = -EFSCORRUPTED;
-> > -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> > -		f2fs_folio_put(folio, false);
-> > -		goto fail;
-> > +		goto corrupted;
-> > +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
-> > +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
-> > +			  __func__, inode->i_ino);
-> > +		goto corrupted;
-> >   	}
-> >   	f2fs_balance_fs(sbi, true);
-> > @@ -601,6 +607,12 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
-> >   	if (IS_DIRSYNC(dir))
-> >   		f2fs_sync_fs(sbi->sb, 1);
-> > +
-> > +	goto fail;
-> > +corrupted:
-> > +	err = -EFSCORRUPTED;
-> > +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> > +	f2fs_folio_put(folio, false);
-> >   fail:
-> >   	trace_f2fs_unlink_exit(inode, err);
-> >   	return err;
+> Because this configuration is determined by hardware design rather than
+> by runtime conditions, it is appropriate to describe it in the DT.
 > 
+> If not specified, the driver defaults to 1600 us to maintain
+> existing behavior.
+> 
+> Tested on: Raspberry Pi 3B + MAX30100 breakout board.
+> 
+> Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
 
-Hi Chao,
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Thank you for the suggestion.
-I will add this to sanity_check_inode and remove it
-from f2fs_lookup as it becomes redundant since f2fs_lookup
-obtains the inode through f2fs_iget. For f2fs_unlink I will
-move the i_nlink == 1 check to f2fs_rmdir.
-
-I will send v2 as soon as I do some more testing.
+Best regards,
+Krzysztof
