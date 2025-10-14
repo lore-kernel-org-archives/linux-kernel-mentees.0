@@ -1,95 +1,78 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37165313295
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Oct 2025 12:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D78313551
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Oct 2025 12:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760444232; cv=none; b=TDPVpZycwhDcRP/H7n/bXu8DJpqjfUkgBpyggbi5BiNGMe80f+vJNzVwn3nm61fiyxuBIRsOrhb3viXw13+8d9boXrxXAr3GcKQuu1SHgUQeKRE86O9FBy7KNNuoj0tyxyeq+m2zzD0hgcJgifLK4QR0uL7SohIgkRTgOOSPW04=
+	t=1760444840; cv=none; b=Oal0+/FNnuRNloCPv54cosHL/MjFDSXzfIEW4SFd++gHTXDBNPKOf8lxpUmHrFleQqkpxappFbPcZla5LLziuWCg6qubBW2UREWL5hv91D5GOiX2s9VeY0PkZtFnNLEJv6XdlxeeIr6Y7PSYRL0lbKc1aTxO+HfLssW3Z75gx/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760444232; c=relaxed/simple;
-	bh=BY6kYeuxEDPJ3ppq84ztaniIfEKi29/fuURVA/vSOH8=;
+	s=arc-20240116; t=1760444840; c=relaxed/simple;
+	bh=UpiGm1rT9EBDp1/84eMBMTQZvXgS8tY9SKg2mGiKuq0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GYICjhwMUITIFv+lBSF0pMQEkWg8cjaYR674JEWPfkGRPYYjOFVxQZq8hpGwaXAonDkmxFkv9i74HhAMHTklauGj6Z53IpALvdpEPTrHBlvvV3HumZ8KHI3ZglLca+dFZQwfgk1I375Dd9o6+0EjC99ITNh7ComGPLmbjuhB5k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A1nHWA3n; arc=none smtp.client-ip=140.211.166.133
+	 Content-Type:Content-Disposition:In-Reply-To; b=T/t089i/DAfP1/cgHa8T8DPEgnmGLdkDXSO/GC5ZgMX2Mmt85Bop4Dr/Jml0gBrXhyswaXawNQ5NDGvD1EXACxUGiHVnAX3Ouz/wL83OVK0hT+e9hwnSfI8MRU+PMfiIeds2BVRjuB9uGYkTQkD7jpV7hJ+1TEp6hfzQOS3Z6MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jwjb7Iyk; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A1nHWA3n"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id AAC3640FF1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Oct 2025 12:17:10 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 1rUWZAghyEKx for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Oct 2025 12:17:09 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::62d; helo=mail-ej1-x62d.google.com; envelope-from=zlatistiv@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 7F6D440FE3
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7F6D440FE3
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=A1nHWA3n
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7F6D440FE3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Oct 2025 12:17:09 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-b3e44f22f15so757569766b.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Oct 2025 05:17:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jwjb7Iyk"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-46e52279279so37638565e9.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Oct 2025 05:27:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760444227; x=1761049027; darn=lists.linuxfoundation.org;
+        d=linaro.org; s=google; t=1760444836; x=1761049636; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=m82o4ruRC1Nh+bc2kFllbJdMYTanRIhkJao7LX8GaG0=;
-        b=A1nHWA3n7rigiK5hA80+PW2z17GlprrAfY4m9DePuggEk+jr/DthdyRC+VWk0drzd/
-         xSkHE7gh4YwI2lCNw95pBlR87UakP/jHCsanM91Fm+f6KcI7WK2179v3m9hTydKZJ6R4
-         nYbIOIRpqAAlO8TVHJkjMPy5JTEUWyGutUWmaT4wMWlrC8nQoakVBBhTpLmm7TuPWq6B
-         qmjOBEDhsvP9J6q7F38L8mN7bKxqTKsSqcOCnoojvHcO433E0uHO50X0Oymdp4CC++zw
-         hj3hwffKpgI8TJJi+mQuDlVpetBRqHgXLhBV7KAYUJv169aWuuAORMu9NoAka2Baf42t
-         FnXQ==
+        bh=QjHopu1UwDxsV5IdNPvI1jrj2EChfALYrLzFCq9lMBc=;
+        b=jwjb7Iyk+kW6O8pdfCIl0T/ueMYQNqB72E+tvIhmzMpQ0pejAEjHVrK2AZQI2gWiB5
+         GQOK/1M8JreNRQcd8hcSjTNCjR9Y/wGUQ8vNI8lApP76avNJTsBjOLJv2eGpy8xxS9LR
+         J+C1hjl0qnlOaieGGQUJ9bxbn6jG2JSxewsGEv4e6r8y3NIre80mfZ7dUNW01bF7RiWM
+         h7e8hh4rsk5hRpqmPRJZ2tb4Nfx9c56kj1p58j8ehykH0LGo3XFGZOTFT9Kl65+w4oUP
+         0AGp7PKdbkYP/hWhszRv4MA/qsxZtRn6yLd0yucg1CBsmxeZ9NAll0+E+9XjkcwEzzXM
+         cLag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760444227; x=1761049027;
+        d=1e100.net; s=20230601; t=1760444836; x=1761049636;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m82o4ruRC1Nh+bc2kFllbJdMYTanRIhkJao7LX8GaG0=;
-        b=hXd13Ceavr8pymZtEnfvE8kaBvQfuMnQBacCJRNUcTHM5sizRS1Fmb6oLtR00NZ84e
-         XeCbc4d2eAKAsxpXqmQrd2FHH3UbOAfSDzAJkEbNl/YZOTwmMKLma03Ttb0enO2spnUN
-         NSDlnxp9X/1GdXoMTlwpIQZGQB2huqR0YwGzruL/pxmXHZLel5b5PM7XRrMEEqzM7AD+
-         AJ8J0yoqRyPsPzi0kW+ntPj73Gs6Hyfa75xRWGDDx/IUlDkKi3JAC3a4tVe3cCOD2FhG
-         8R4ROZL3dM+toVsmq0BZLUY7SIjSXOjAOTeQfKdREbIeUuazMxD86aZO/OtOP9XSNADD
-         gWpw==
-X-Forwarded-Encrypted: i=1; AJvYcCVOEadLQuQUeoaWRzOOjA2fo8dj16oV73L7KicroYZtvaEyyzeqgNHUFUYPT10me7DVETZ3Yb52anz0J+uh9Qw3Bz5zBw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YweZofGc6hYs18VMSMa4ntKC01wijnkdE8dXKJDgPVsVxqeCHE4
-	9BglBicHxQevs2FZ6HpRyUp91nfpz3n3WRx3TVeBs3K/VijbraJETyno
-X-Gm-Gg: ASbGncvxNYvyKN59QRv5TJhqmOtfk6Os4wT9l6Lq0mMOtNgDhscoAv06gj+MMGWktir
-	7xUPxr+dpReKKckymEkxlDZCR0H/2YRaIEXULOtNUYI0lSm2PYGt+Pdc4DND4GXb7ePHuGd7YiT
-	DW/psS3G9GK8nrT3vyY7D9cglyDBEjqEGPEfjiuwVHfyPmtIFXdBgd6J2bVP/Tgb9gV7sRNpGTt
-	EMh4DfQdTDg05ThhResXYmFsquzyaRoiGW3jfAeSqSVbUgqzQGmbYpfaVB6+NmlMNKRztNkPlfO
-	ktrE1vzBwQPxk+gH0aslElKrq/Uc2WA5mCJsFDfOiumo3FKg05ZQhZW0jv1I377jLfc/spoVWLn
-	aiG1XwYXOlYUeY6rLJSk4FvD9Sru1mmf5gAkjraLFmNyD3pPmaz1iCASwtEKG3feoI7GwQHLVZP
-	PZ4OjB0857
-X-Google-Smtp-Source: AGHT+IGq27w45QLYd+XODJVVnusgATVtS0zDzQLIBAdrmNxLtWSM1Llh13WXNkkw6lvcW1Z8zM/+Pg==
-X-Received: by 2002:a17:907:3e22:b0:b3e:b226:5bad with SMTP id a640c23a62f3a-b50a9a6d8a3mr2542115566b.8.1760444227255;
-        Tue, 14 Oct 2025 05:17:07 -0700 (PDT)
-Received: from localhost.localdomain ([46.10.223.24])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d8c129fasm1159133366b.43.2025.10.14.05.17.06
+        bh=QjHopu1UwDxsV5IdNPvI1jrj2EChfALYrLzFCq9lMBc=;
+        b=wVtWmrIa4jo1AJRQgz8f+MBkS9clhNbKPU/8SwvJaFl3zMA02M7yYsMWwwJliUGWcR
+         DZ9q6AV0AnS6AUUTU1pOt/RfkB0rvY5bi72/7CVyV5cpYqcMLOh5i0vP2brCMIMwwD7q
+         GqBzoj+cnu6Qyk5W/az02D18aZCDPV9JifiT8Lxu0n1qf6HM8iKtkgAI9QPIsL9xg5qN
+         oxLU6PRoiPlIo7S+3y+a+o1UXl+PEUvPgS2TWMtLDhlwdTUmLlUCjQXsdJGVhFTNTkrI
+         NdVgVWe9LD4tbz/0o7hzzRsPyLqWgHix32i1sMT5nEcl7g7f+OfGqoPHt2PAnexNw1NO
+         fEWA==
+X-Forwarded-Encrypted: i=1; AJvYcCVtlcVGoLjX4uuvQTAYdkhLA733+0zCNKrqcoaIPJJQvEJR2cik9pdA/6x+ShuSd4AJRo0ePtFDd4d/F8zDlyk9/iZ2IQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyfmqVrz+vlS9ICuF8zzvf+xxAMaFg+ptqykjo9s7MO/3Jhsg1Q
+	Z69QaScX7J3hrYbsLwB8AzhK5F/SesuzkJWJ7sRbMVX+OfLc/whu9PxRCSmouyWnJWk=
+X-Gm-Gg: ASbGncvQTcKluguoV3jhcucDHisBIGlaW8Y0/nNm9j8KBUOSvhJB55doub+uiOrp5Xr
+	7XZMKkTAcy95oJQXJL3fFYDR4Gov/wfncVWANrriz+0wlXre6d59QT89YfLw2WwHt2C3eGK4J9e
+	WqSW4tXi8ZNJlKgM/YvUdwJy1Or9hy4LtLBY16tpUdnPGvHLBlMJR7o19Aq52MuT5z/8q3uNAAL
+	GUXQcrrFZOQzWr+AA/LfhPN08mvJkNAcQJHZjFfykJKqZ6ivZSTQbo2yq10HNZBuBPGR7Me3XuQ
+	ns6o3/viNOZ5TL23FjMKWwDQ0+JXLIgTX6B+CdNce7MfJz6LaW4nobWARVuhLbcvmw63QUaAtky
+	a/lKLc5g2hxWk4UIZ1sdgKObnguNwaLdKinS1ybfeoUHAmD3j/NqS+F6J/qajNg==
+X-Google-Smtp-Source: AGHT+IGpLJmj5ZZeE5vtmTg4lu6fLIqoCQTKP25wq9imxhpp1Co0qw1M1pvst4NVF+ct3P1g5F4ilQ==
+X-Received: by 2002:a05:600c:c116:b0:46e:3709:d88a with SMTP id 5b1f17b1804b1-46fa9b17e16mr141372525e9.33.1760444836001;
+        Tue, 14 Oct 2025 05:27:16 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fb4989601sm232872755e9.9.2025.10.14.05.27.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 05:17:06 -0700 (PDT)
-Date: Tue, 14 Oct 2025 15:17:04 +0300
-From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-To: Chao Yu <chao@kernel.org>
-Cc: jaegeuk@kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
-	linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org, 
-	syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
-Subject: Re: [PATCH] f2fs: Perform sanity check before unlinking directory
- inode
-Message-ID: <zomib7dzvmnggqqy6aqlwij3zihbvzkzrnfvzhk7tcp2mdgh34@tjjugevo4q4a>
-References: <20251003134731.470392-1-zlatistiv@gmail.com>
- <839306c1-5f7a-4e89-b2cf-7534d279a03c@kernel.org>
- <gupgic53ouhmdwrglwdviw2mzeaqfjsvyr47u3ebu2ztayswy4@4oxvnu252rdb>
- <9d0fef9d-4093-4a80-af3f-6dc45ffe886c@kernel.org>
+        Tue, 14 Oct 2025 05:27:15 -0700 (PDT)
+Date: Tue, 14 Oct 2025 15:27:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Khalid Aziz <khalid@kernel.org>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Rakuram Eswaran <rakuram.e96@gmail.com>, chenhuacai@kernel.org,
+	david.hunter.linux@gmail.com, linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+	lkp@intel.com, skhan@linuxfoundation.org, ulf.hansson@linaro.org,
+	zhoubinbin@loongson.cn
+Subject: Re: [PATCH] mmc: pxamci: Fix passing NULL to PTR_ERR() in
+ pxamci_probe()
+Message-ID: <aO5BnwkNNyv_GOGS@stanley.mountain>
+References: <xxtrhbv5qm2crtvc5ejpgu5caadsmms3rfulmosjwq7lumrko3@5mlcpk24hymm>
+ <20251012183804.15171-1-rakuram.e96@gmail.com>
+ <6j7ix5yof7qmrp6cgxhqver7yimvmgj7dujqu4l7cnzbpjksfd@5sp7am47gigw>
+ <8afff048-4fe1-440a-9739-e5a5ea43d6eb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -98,125 +81,76 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9d0fef9d-4093-4a80-af3f-6dc45ffe886c@kernel.org>
+In-Reply-To: <8afff048-4fe1-440a-9739-e5a5ea43d6eb@kernel.org>
 
-On Mon, Oct 13, 2025 at 08:53:04PM +0800, Chao Yu wrote:
-> On 10/13/25 05:19, Nikola Z. Ivanov wrote:
-> > On Thu, Oct 09, 2025 at 10:54:40AM +0800, Chao Yu wrote:
-> >> On 10/3/2025 9:47 PM, Nikola Z. Ivanov wrote:
-> >>> Current i_nlink corruption check does not take into account
-> >>> directory inodes which have one additional i_nlink for their "." entry.
-> >>>
-> >>> Add additional check and a common corruption path.
-> >>>
-> >>> Reported-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
-> >>> Closes: https://syzkaller.appspot.com/bug?extid=c07d47c7bc68f47b9083
-> >>> Fixes: 81edb983b3f5 ("f2fs: add check for deleted inode")
-> >>> Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
-> >>> ---
-> >>>   fs/f2fs/namei.c | 28 ++++++++++++++++++++--------
-> >>>   1 file changed, 20 insertions(+), 8 deletions(-)
-> >>>
-> >>> diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
-> >>> index b882771e4699..68b33e8089b0 100644
-> >>> --- a/fs/f2fs/namei.c
-> >>> +++ b/fs/f2fs/namei.c
-> >>> @@ -502,12 +502,14 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
-> >>>   		goto out;
-> >>>   	}
-> >>> -	if (inode->i_nlink == 0) {
-> >>> +	if (unlikely(inode->i_nlink == 0)) {
-> >>>   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
-> >>>   			  __func__, inode->i_ino);
-> >>> -		err = -EFSCORRUPTED;
-> >>> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> >>> -		goto out_iput;
-> >>> +		goto corrupted;
-> >>> +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
-> >>> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
-> >>> +			  __func__, inode->i_ino);
-> >>> +		goto corrupted;
-> >>
-> >> Can we detect such corruption in sanity_check_inode() as well? So that if
-> >> f2fs internal flow calls f2fs_iget() on corrupted inode, we can set SBI_NEED_FSCK
-> >> flag and then triggering fsck repairment later.
-> >>
-> >> Thanks,
-> >>
-> >>>   	}
-> >>>   	if (IS_ENCRYPTED(dir) &&
-> >>> @@ -533,6 +535,9 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
-> >>>   	trace_f2fs_lookup_end(dir, !IS_ERR_OR_NULL(new) ? new : dentry,
-> >>>   				ino, IS_ERR(new) ? PTR_ERR(new) : err);
-> >>>   	return new;
-> >>> +corrupted:
-> >>> +	err = -EFSCORRUPTED;
-> >>> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> >>>   out_iput:
-> >>>   	iput(inode);
-> >>>   out:
-> >>> @@ -572,10 +577,11 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
-> >>>   	if (unlikely(inode->i_nlink == 0)) {
-> >>>   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
-> >>>   			  __func__, inode->i_ino);
-> >>> -		err = -EFSCORRUPTED;
-> >>> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> >>> -		f2fs_folio_put(folio, false);
-> >>> -		goto fail;
-> >>> +		goto corrupted;
-> >>> +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
-> >>> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
-> >>> +			  __func__, inode->i_ino);
-> >>> +		goto corrupted;
-> >>>   	}
-> >>>   	f2fs_balance_fs(sbi, true);
-> >>> @@ -601,6 +607,12 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
-> >>>   	if (IS_DIRSYNC(dir))
-> >>>   		f2fs_sync_fs(sbi->sb, 1);
-> >>> +
-> >>> +	goto fail;
-> >>> +corrupted:
-> >>> +	err = -EFSCORRUPTED;
-> >>> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> >>> +	f2fs_folio_put(folio, false);
-> >>>   fail:
-> >>>   	trace_f2fs_unlink_exit(inode, err);
-> >>>   	return err;
-> >>
-> > 
-> > Hi Chao,
-> > 
-> > Thank you for the suggestion.
-> > I will add this to sanity_check_inode and remove it
-> > from f2fs_lookup as it becomes redundant since f2fs_lookup
-> > obtains the inode through f2fs_iget. For f2fs_unlink I will
-> > move the i_nlink == 1 check to f2fs_rmdir.
+On Mon, Oct 13, 2025 at 04:54:13PM -0600, Khalid Aziz wrote:
+> > @@ -703,20 +705,15 @@ static int pxamci_probe(struct platform_device *pdev)
+> >   	platform_set_drvdata(pdev, mmc);
+> > -	host->dma_chan_rx = dma_request_chan(dev, "rx");
+> > -	if (IS_ERR(host->dma_chan_rx)) {
+> > -		host->dma_chan_rx = NULL;
+> > +	host->dma_chan_rx = devm_dma_request_chan(dev, "rx");
+> > +	if (IS_ERR(host->dma_chan_rx))
+> >   		return dev_err_probe(dev, PTR_ERR(host->dma_chan_rx),
+> >   				     "unable to request rx dma channel\n");
+> > -	}
+> > -	host->dma_chan_tx = dma_request_chan(dev, "tx");
+> > -	if (IS_ERR(host->dma_chan_tx)) {
+> > -		dev_err(dev, "unable to request tx dma channel\n");
+> > -		ret = PTR_ERR(host->dma_chan_tx);
+> > -		host->dma_chan_tx = NULL;
+> > -		goto out;
+> > -	}
+> > +	host->dma_chan_tx = devm_dma_request_chan(dev, "tx");
+> > +	if (IS_ERR(host->dma_chan_tx))
+> > +		return dev_err_probe(dev, PTR_ERR(host->dma_chan_tx),
+> > +				     "unable to request tx dma channel\n");
 > 
-> Hi Nikola,
+> We should still release DMA rx channel before returning here.
 > 
-> I meant we can move the i_nlink == 1 check from both f2fs_lookup() and
-> f2fs_unlink() to sanity_check_inode(), because before we create in-memory
-> inode, we will always call sanity_check_inode().
+> >   	if (host->pdata) {
+> >   		host->detect_delay_ms = host->pdata->detect_delay_ms;
+> > @@ -724,25 +721,21 @@ static int pxamci_probe(struct platform_device *pdev)
+> >   		host->power = devm_gpiod_get_optional(dev, "power", GPIOD_OUT_LOW);
+> >   		if (IS_ERR(host->power)) {
+> >   			ret = PTR_ERR(host->power);
+> > -			dev_err(dev, "Failed requesting gpio_power\n");
+> > -			goto out;
+> > +			return dev_err_probe(dev, ret, "Failed requesting gpio_power\n");
 > 
-> Let me know if you have other concerns.
+> Don't we need to release DMA Rx and Tx channels before we return from here?
 > 
-> Thanks,
+> >   		}
+> >   		/* FIXME: should we pass detection delay to debounce? */
+> >   		ret = mmc_gpiod_request_cd(mmc, "cd", 0, false, 0);
+> > -		if (ret && ret != -ENOENT) {
+> > -			dev_err(dev, "Failed requesting gpio_cd\n");
+> > -			goto out;
+> > -		}
+> > +		if (ret && ret != -ENOENT)
+> > +			return dev_err_probe(dev, ret, "Failed requesting gpio_cd\n");
+> 
+> Same here
+> 
+> >   		if (!host->pdata->gpio_card_ro_invert)
+> >   			mmc->caps2 |= MMC_CAP2_RO_ACTIVE_HIGH;
+> >   		ret = mmc_gpiod_request_ro(mmc, "wp", 0, 0);
+> > -		if (ret && ret != -ENOENT) {
+> > -			dev_err(dev, "Failed requesting gpio_ro\n");
+> > -			goto out;
+> > -		}
+> > +		if (ret && ret != -ENOENT)
+> > +			return dev_err_probe(dev, ret, "Failed requesting gpio_ro\n");
+> 
+> and here.
+> 
+> Looking at Documentation/driver-api/driver-model/devres.rst,
+> dma_request_chan() is not devres managed interface and thus will not be
+> released automatically. Do you agree?
 > 
 
-The issue here is that sanity_check_inode will be called only when 
-we initially read the inode off disk, not when it's already in the cache
+The patch changes dma_request_chan() to devm_dma_request_chan().
 
-The syzkaller repro does something like this:
-Creates a directory structure /dir1/dir2 where dir1 has
-i_nlink == 2, which is one less than it should. It then does
-rmdir(/dir1/dir2) followed by rmdir(/dir1) which leads to the warning.
+regards,
+dan carpenter
 
-In such case what would you say should happen, should the second rmdir
-fail and report the corruption, or do we close our eyes and just drop
-i_nlink to 0 and possibly log a message that something isn't quite right?
-
-Thank you,
-
-> > 
-> > I will send v2 as soon as I do some more testing.
-> 
