@@ -1,253 +1,68 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803822877EE
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Oct 2025 05:28:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431C02EB87B;
+	Tue, 14 Oct 2025 09:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760419690; cv=none; b=BOgpF132cBox3IPGjkpLjXa8QsI93RY6Eqt9trTLOoypYUB2y8SBJKI9nygy/uuU2qTqjixV1Dty2YPClgfhfGnOYkyoMYyifYnyhzROh83tMjnwUMbZlU2CUC9CkVtnWv5qaol3pomjlER+4jUBr/3s+0Vs8cwDPxn5/aHQlQw=
+	t=1760435258; cv=none; b=r1PrJnkmNfaMuVZG0drCUwTF6Q6BCnG6uMEQbkYEbTPrDbvZAzr+05T42G8dFzkzs6FiY1V3YOr3q7JZwWQZyefJebFqmagnV4TMFrKRcS+XVgz2RT4brqH/+DTsxfGfYdRxD7wRiV5PAAdSFYW6lnzxqFJyxWyJH9WdHlRIxb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760419690; c=relaxed/simple;
-	bh=A+O8Mu5AVJjST6AGpK6YcqU7dC0vCZc73yf6uJmZfJg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lQ89dE8iFMfsTgj0KwyWb5hSUQowAoWIvWae9d3qHDLAw9JPpqxFuIWDT0ebJC4MVYI9H1uRzSihBHRdJcLEoSaoA1SwmNtlkH9VG1q1TEcD84alxQXqB4jAvB2Pp2Ar0GpoM+krN5JGW0FyDn4CPs4KkJBsGssC8Vgtil461nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UFVa5hGl; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760435258; c=relaxed/simple;
+	bh=f3pZPHipOpeDFB5HmbiCowZYLmKApYTA00fBc5KEnKs=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=AGtkaULutwvA6n8AAYOUfnj6lC3XBsQxq6Ogy9+zRt4vlMq/bBjox5EKegudoEFaR+444OlH6nZTiODMhTjAzSi0JEltqmn0wnDXlbiXw63G/TuE89kEOuro/iGA/Z19kpxdL9rwH3fbrCJemd6ySVo2JY0STv+YZmAvrEJ6mPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OkSeOYbr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UFVa5hGl"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3369dcfef12so5588127a91.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Oct 2025 22:28:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760419688; x=1761024488; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tUVXFTv/D7jLsv5kpoyfzsqtL+REv8AzIuYw8UUsFXE=;
-        b=UFVa5hGlwlPSHcH7fS2qfYJInkjiGrVnxUdGFR91WX6JuzFjEKNEeUPhbj2ylo/LP5
-         p6IUOH3DsdV0koi+dFc0SfIyphIl0k1s2NTrQ+N0+KBXySnnGMq8j9qf0185W9F7uql+
-         T9oe/XO3vAUZ3uTfWVvFvW2cBUxY93pdCc9glMcfCNrkGvaUCSIrXIH+VOaB0YQpmAtm
-         sIH5gim8QtUxjq0Y7WMMDlnfU6PcbVobwypoLbkN0bmSGTdu94FNjdt40haYFnaVkH1I
-         PNKikZ9s6E9WSc5cNx4yftvQP1jtvamRLjbqIxXDqVWmyzz9PCksYjr25ljOdifbP4PP
-         QJmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760419688; x=1761024488;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tUVXFTv/D7jLsv5kpoyfzsqtL+REv8AzIuYw8UUsFXE=;
-        b=SfDTnK+aS9+/3bTX9X6+ofH+saZeu3cEMxvRCfzujPlK2A5Vrdo3mzwz+RlcmTVccY
-         7IPEqH48GSXvuaLf63+UbCk4IgRiyyWDGPd0puPGXC6jQ+IE4KHN+iAVT4UoCV9IKOTF
-         p1SZC0cepi2K9YegAyxJ5VovytkltEV8thEMqrV7HUdK4G7SKyCBNuWEq64XieE3WvMW
-         L1fBnuNfvWPKqZi+JQODOzb20+SWNPnH0NlrRLAXbjpINISGY6CuVyKwMPaZHpzTmbGc
-         Xx3l36VScts7nDmUIzvINUG2awmik8dpWluhTbIz1mA8+UtNPPh7Zp4x3Z6wWdBtaZjA
-         yEww==
-X-Forwarded-Encrypted: i=1; AJvYcCUpxwLIJydz0SyZtTdYZ82YPh6YSJzyom7t6bsNNBUwMy85OdWZgzsOGb8FTbEYNwM0SCCvcvWtiO1pKroItBT8d0orPw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8wdF2ZNB2wxDnO9DzTOOGKDFB+pDUkw27zFMHcLh5WaeC+ODD
-	xxhKt4TGrVNmu9+pygYmcp8GGHElVg3+L1wMITISL2xbghAbUQP2yl5N
-X-Gm-Gg: ASbGncv0v6G4j93HKisGb/Wfs3qEyIR6Hy3P7PIY+iuhtkEiKoOk0ebGlMPmwsOfZN3
-	2iipAZw7v8NdbvuKLfD0gkA8tyW/+X0JO8wVyNPafkVXaBBPvN6XCh1VbdD8Opplr6WLht61gzl
-	y4LHwlmuwwVyoTgl4qiFvo7QrFSb12hUzMvUYhiHPBMnCN5hlFdlZWYrKseWchCUr065cnCXSny
-	O1Jd170+kJL7YsySpmMlFJ46YVY6LEMdvGy+51BrIVGT/SdYomo4h7OE+Oy7Kg/kHS3ARByhd85
-	qQ6fAGG3AnDJLgRvb8ckVuWR3vFl0HaYoIoYarNTJHabv5TwgI58gEGzA9avVUMQBjBokLwKpgN
-	HfQqNn5mFxtwccpJVUWW99DKtXaJjfzilf7xJL3iKrK+XRDzCqPOWwskGaA==
-X-Google-Smtp-Source: AGHT+IFntzP8OzdgNYYMHaqHvOwHUMeMx9OXTNUQCyie+jB5pd3spy6Sdf+LQFvsZ9kueWYMJS9Rbg==
-X-Received: by 2002:a17:90b:38d1:b0:32e:8c1e:1301 with SMTP id 98e67ed59e1d1-33b513eac36mr31775077a91.34.1760419687520;
-        Mon, 13 Oct 2025 22:28:07 -0700 (PDT)
-Received: from tixy.nay.do ([2405:201:8000:a149:4670:c55c:fe13:754d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b6192995asm14510106a91.0.2025.10.13.22.28.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 22:28:07 -0700 (PDT)
-From: Ankan Biswas <spyjetfayed@gmail.com>
-To: akpm@linux-foundation.org
-Cc: lasse.collin@tukaani.org,
-	visitorckw@gmail.com,
-	skhan@linuxfoundation.org,
-	khalid@kernel.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Ankan Biswas <spyjetfayed@gmail.com>
-Subject: [PATCH v3] lib/xz: remove dead IA-64 (Itanium) support code
-Date: Tue, 14 Oct 2025 10:54:36 +0530
-Message-ID: <20251014052738.31185-1-spyjetfayed@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OkSeOYbr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E686C4CEFE;
+	Tue, 14 Oct 2025 09:47:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760435257;
+	bh=f3pZPHipOpeDFB5HmbiCowZYLmKApYTA00fBc5KEnKs=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=OkSeOYbrSVgSyQ8CIeG62JG2TPX1UbgK+pVUWntojszfaVtaGheZ8G7Ad7pikd5e5
+	 F3CVwpquSef/hN40iMuLTBd2d+r8qGYk6G2ikVirBGCJppvtP3EqUus3gPwO+VFvil
+	 YLhrU/sGiI+vUmPrmN28asdewKVAY/jtT2/tad0N/aGcURL5yrDuI5Nqz5RbYkkKvh
+	 Dyr3kc5zWz4qwepo7pd6euT33pnvB4CmOG8V0WFe0Nd+9+Wx1vzp0qjLfdYBfl4XQA
+	 sn5Y8k40/pqRX+keBOGSkkc0vhZFkC4TPWZGRA++k+pE+9E+lJqULmhfWhGWYjKnWm
+	 OvenZ1mvpNCXw==
+Date: Tue, 14 Oct 2025 11:47:35 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Deepak Sharma <deepak.sharma.472935@gmail.com>
+cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+    skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
+    syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3] HID: cp2112: Add parameter validation to data
+ length
+In-Reply-To: <20250926145811.273174-1-deepak.sharma.472935@gmail.com>
+Message-ID: <rq068421-84np-1s12-rq78-1q36q047qq04@xreary.bet>
+References: <20250926145811.273174-1-deepak.sharma.472935@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Support for the IA-64 (Itanium) architecture was removed in
-commit cf8e8658100d ("arch: Remove Itanium (IA-64) architecture").
+On Fri, 26 Sep 2025, Deepak Sharma wrote:
 
-This patch drops the IA-64 specific decompression code from
-lib/xz, which was conditionally compiled with the now-obsolete
-CONFIG_XZ_DEC_IA64 option.
+> Syzkaller reported a stack OOB access in cp2112_write_req caused by lack
+> of parameter validation for the user input in I2C SMBUS ioctl in cp2112
+> driver
+> 
+> Add the parameter validation for the data->block[0] to be bounded by
+> I2C_SMBUS_BLOCK_MAX + the additional compatibility padding
+> 
+> Reported-by: syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=7617e19c8a59edfbd879
+> Tested-by: syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
+> Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
 
-Signed-off-by: Ankan Biswas <spyjetfayed@gmail.com>
-Reviewed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-Acked-by: Lasse Collin <lasse.collin@tukaani.org>
----
-Changes in v3:
-- Removed log about IA-64 support in upstream
+Applied to hid.git#for-6.18/upstream-fixes, thanks.
 
-Changes in v2:
-- Added second hunk to diff of xz_private.h
-
- lib/xz/xz_dec_bcj.c | 95 ---------------------------------------------
- lib/xz/xz_private.h |  4 --
- 2 files changed, 99 deletions(-)
-
-diff --git a/lib/xz/xz_dec_bcj.c b/lib/xz/xz_dec_bcj.c
-index 8237db17eee3..610d58d947ab 100644
---- a/lib/xz/xz_dec_bcj.c
-+++ b/lib/xz/xz_dec_bcj.c
-@@ -20,7 +20,6 @@ struct xz_dec_bcj {
- 	enum {
- 		BCJ_X86 = 4,        /* x86 or x86-64 */
- 		BCJ_POWERPC = 5,    /* Big endian only */
--		BCJ_IA64 = 6,       /* Big or little endian */
- 		BCJ_ARM = 7,        /* Little endian only */
- 		BCJ_ARMTHUMB = 8,   /* Little endian only */
- 		BCJ_SPARC = 9,      /* Big or little endian */
-@@ -180,92 +179,6 @@ static size_t bcj_powerpc(struct xz_dec_bcj *s, uint8_t *buf, size_t size)
- }
- #endif
- 
--#ifdef XZ_DEC_IA64
--static size_t bcj_ia64(struct xz_dec_bcj *s, uint8_t *buf, size_t size)
--{
--	static const uint8_t branch_table[32] = {
--		0, 0, 0, 0, 0, 0, 0, 0,
--		0, 0, 0, 0, 0, 0, 0, 0,
--		4, 4, 6, 6, 0, 0, 7, 7,
--		4, 4, 0, 0, 4, 4, 0, 0
--	};
--
--	/*
--	 * The local variables take a little bit stack space, but it's less
--	 * than what LZMA2 decoder takes, so it doesn't make sense to reduce
--	 * stack usage here without doing that for the LZMA2 decoder too.
--	 */
--
--	/* Loop counters */
--	size_t i;
--	size_t j;
--
--	/* Instruction slot (0, 1, or 2) in the 128-bit instruction word */
--	uint32_t slot;
--
--	/* Bitwise offset of the instruction indicated by slot */
--	uint32_t bit_pos;
--
--	/* bit_pos split into byte and bit parts */
--	uint32_t byte_pos;
--	uint32_t bit_res;
--
--	/* Address part of an instruction */
--	uint32_t addr;
--
--	/* Mask used to detect which instructions to convert */
--	uint32_t mask;
--
--	/* 41-bit instruction stored somewhere in the lowest 48 bits */
--	uint64_t instr;
--
--	/* Instruction normalized with bit_res for easier manipulation */
--	uint64_t norm;
--
--	size &= ~(size_t)15;
--
--	for (i = 0; i < size; i += 16) {
--		mask = branch_table[buf[i] & 0x1F];
--		for (slot = 0, bit_pos = 5; slot < 3; ++slot, bit_pos += 41) {
--			if (((mask >> slot) & 1) == 0)
--				continue;
--
--			byte_pos = bit_pos >> 3;
--			bit_res = bit_pos & 7;
--			instr = 0;
--			for (j = 0; j < 6; ++j)
--				instr |= (uint64_t)(buf[i + j + byte_pos])
--						<< (8 * j);
--
--			norm = instr >> bit_res;
--
--			if (((norm >> 37) & 0x0F) == 0x05
--					&& ((norm >> 9) & 0x07) == 0) {
--				addr = (norm >> 13) & 0x0FFFFF;
--				addr |= ((uint32_t)(norm >> 36) & 1) << 20;
--				addr <<= 4;
--				addr -= s->pos + (uint32_t)i;
--				addr >>= 4;
--
--				norm &= ~((uint64_t)0x8FFFFF << 13);
--				norm |= (uint64_t)(addr & 0x0FFFFF) << 13;
--				norm |= (uint64_t)(addr & 0x100000)
--						<< (36 - 20);
--
--				instr &= (1 << bit_res) - 1;
--				instr |= norm << bit_res;
--
--				for (j = 0; j < 6; j++)
--					buf[i + j + byte_pos]
--						= (uint8_t)(instr >> (8 * j));
--			}
--		}
--	}
--
--	return i;
--}
--#endif
--
- #ifdef XZ_DEC_ARM
- static size_t bcj_arm(struct xz_dec_bcj *s, uint8_t *buf, size_t size)
- {
-@@ -509,11 +422,6 @@ static void bcj_apply(struct xz_dec_bcj *s,
- 		filtered = bcj_powerpc(s, buf, size);
- 		break;
- #endif
--#ifdef XZ_DEC_IA64
--	case BCJ_IA64:
--		filtered = bcj_ia64(s, buf, size);
--		break;
--#endif
- #ifdef XZ_DEC_ARM
- 	case BCJ_ARM:
- 		filtered = bcj_arm(s, buf, size);
-@@ -699,9 +607,6 @@ enum xz_ret xz_dec_bcj_reset(struct xz_dec_bcj *s, uint8_t id)
- #ifdef XZ_DEC_POWERPC
- 	case BCJ_POWERPC:
- #endif
--#ifdef XZ_DEC_IA64
--	case BCJ_IA64:
--#endif
- #ifdef XZ_DEC_ARM
- 	case BCJ_ARM:
- #endif
-diff --git a/lib/xz/xz_private.h b/lib/xz/xz_private.h
-index 8409784b1639..6775078f3cce 100644
---- a/lib/xz/xz_private.h
-+++ b/lib/xz/xz_private.h
-@@ -24,9 +24,6 @@
- #		ifdef CONFIG_XZ_DEC_POWERPC
- #			define XZ_DEC_POWERPC
- #		endif
--#		ifdef CONFIG_XZ_DEC_IA64
--#			define XZ_DEC_IA64
--#		endif
- #		ifdef CONFIG_XZ_DEC_ARM
- #			define XZ_DEC_ARM
- #		endif
-@@ -103,7 +100,6 @@
-  */
- #ifndef XZ_DEC_BCJ
- #	if defined(XZ_DEC_X86) || defined(XZ_DEC_POWERPC) \
--			|| defined(XZ_DEC_IA64) \
- 			|| defined(XZ_DEC_ARM) || defined(XZ_DEC_ARMTHUMB) \
- 			|| defined(XZ_DEC_SPARC) || defined(XZ_DEC_ARM64) \
- 			|| defined(XZ_DEC_RISCV)
 -- 
-2.51.0
+Jiri Kosina
+SUSE Labs
 
