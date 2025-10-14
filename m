@@ -1,156 +1,135 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D78313551
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Oct 2025 12:27:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713B51D7E4A;
+	Tue, 14 Oct 2025 13:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760444840; cv=none; b=Oal0+/FNnuRNloCPv54cosHL/MjFDSXzfIEW4SFd++gHTXDBNPKOf8lxpUmHrFleQqkpxappFbPcZla5LLziuWCg6qubBW2UREWL5hv91D5GOiX2s9VeY0PkZtFnNLEJv6XdlxeeIr6Y7PSYRL0lbKc1aTxO+HfLssW3Z75gx/E=
+	t=1760448674; cv=none; b=k8X2orvpbCMJOPJsjDTiYyJ0RSULj4rVIwX1uEG96kEGss3U2rXvLKyYqoo/rDT9lNVKfJONO+mtVvA9b5k777MFg4O/0lKV094nU5Le1O6pXayd94XfisOQvFB/hkTflEBcFVMVjTIqQgu5Ppu4e+j5w/hlRiLiezCu3N6W53g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760444840; c=relaxed/simple;
-	bh=UpiGm1rT9EBDp1/84eMBMTQZvXgS8tY9SKg2mGiKuq0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T/t089i/DAfP1/cgHa8T8DPEgnmGLdkDXSO/GC5ZgMX2Mmt85Bop4Dr/Jml0gBrXhyswaXawNQ5NDGvD1EXACxUGiHVnAX3Ouz/wL83OVK0hT+e9hwnSfI8MRU+PMfiIeds2BVRjuB9uGYkTQkD7jpV7hJ+1TEp6hfzQOS3Z6MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jwjb7Iyk; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1760448674; c=relaxed/simple;
+	bh=Pd+RXTNXqwtTl0Ps6q82IpRn8j9zy3XBl+4lbBTNB7s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A8Tpuqy4FVCTCD/PT6/ESAj+BfjegSySWLaLE0OJbencUWZGE5GUL8hMAXEy0u0asvGGH6s9881zDrpNRGK/M6Bw8IcCXE2srZsCaeiNbYSOUGOPNkRuXyKvdAvAmguh1AlewIdhF59S2xjgetE/SEB9po6kJsJIDafdWdfvkCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O9DFYFoD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jwjb7Iyk"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-46e52279279so37638565e9.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Oct 2025 05:27:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760444836; x=1761049636; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QjHopu1UwDxsV5IdNPvI1jrj2EChfALYrLzFCq9lMBc=;
-        b=jwjb7Iyk+kW6O8pdfCIl0T/ueMYQNqB72E+tvIhmzMpQ0pejAEjHVrK2AZQI2gWiB5
-         GQOK/1M8JreNRQcd8hcSjTNCjR9Y/wGUQ8vNI8lApP76avNJTsBjOLJv2eGpy8xxS9LR
-         J+C1hjl0qnlOaieGGQUJ9bxbn6jG2JSxewsGEv4e6r8y3NIre80mfZ7dUNW01bF7RiWM
-         h7e8hh4rsk5hRpqmPRJZ2tb4Nfx9c56kj1p58j8ehykH0LGo3XFGZOTFT9Kl65+w4oUP
-         0AGp7PKdbkYP/hWhszRv4MA/qsxZtRn6yLd0yucg1CBsmxeZ9NAll0+E+9XjkcwEzzXM
-         cLag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760444836; x=1761049636;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QjHopu1UwDxsV5IdNPvI1jrj2EChfALYrLzFCq9lMBc=;
-        b=wVtWmrIa4jo1AJRQgz8f+MBkS9clhNbKPU/8SwvJaFl3zMA02M7yYsMWwwJliUGWcR
-         DZ9q6AV0AnS6AUUTU1pOt/RfkB0rvY5bi72/7CVyV5cpYqcMLOh5i0vP2brCMIMwwD7q
-         GqBzoj+cnu6Qyk5W/az02D18aZCDPV9JifiT8Lxu0n1qf6HM8iKtkgAI9QPIsL9xg5qN
-         oxLU6PRoiPlIo7S+3y+a+o1UXl+PEUvPgS2TWMtLDhlwdTUmLlUCjQXsdJGVhFTNTkrI
-         NdVgVWe9LD4tbz/0o7hzzRsPyLqWgHix32i1sMT5nEcl7g7f+OfGqoPHt2PAnexNw1NO
-         fEWA==
-X-Forwarded-Encrypted: i=1; AJvYcCVtlcVGoLjX4uuvQTAYdkhLA733+0zCNKrqcoaIPJJQvEJR2cik9pdA/6x+ShuSd4AJRo0ePtFDd4d/F8zDlyk9/iZ2IQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyfmqVrz+vlS9ICuF8zzvf+xxAMaFg+ptqykjo9s7MO/3Jhsg1Q
-	Z69QaScX7J3hrYbsLwB8AzhK5F/SesuzkJWJ7sRbMVX+OfLc/whu9PxRCSmouyWnJWk=
-X-Gm-Gg: ASbGncvQTcKluguoV3jhcucDHisBIGlaW8Y0/nNm9j8KBUOSvhJB55doub+uiOrp5Xr
-	7XZMKkTAcy95oJQXJL3fFYDR4Gov/wfncVWANrriz+0wlXre6d59QT89YfLw2WwHt2C3eGK4J9e
-	WqSW4tXi8ZNJlKgM/YvUdwJy1Or9hy4LtLBY16tpUdnPGvHLBlMJR7o19Aq52MuT5z/8q3uNAAL
-	GUXQcrrFZOQzWr+AA/LfhPN08mvJkNAcQJHZjFfykJKqZ6ivZSTQbo2yq10HNZBuBPGR7Me3XuQ
-	ns6o3/viNOZ5TL23FjMKWwDQ0+JXLIgTX6B+CdNce7MfJz6LaW4nobWARVuhLbcvmw63QUaAtky
-	a/lKLc5g2hxWk4UIZ1sdgKObnguNwaLdKinS1ybfeoUHAmD3j/NqS+F6J/qajNg==
-X-Google-Smtp-Source: AGHT+IGpLJmj5ZZeE5vtmTg4lu6fLIqoCQTKP25wq9imxhpp1Co0qw1M1pvst4NVF+ct3P1g5F4ilQ==
-X-Received: by 2002:a05:600c:c116:b0:46e:3709:d88a with SMTP id 5b1f17b1804b1-46fa9b17e16mr141372525e9.33.1760444836001;
-        Tue, 14 Oct 2025 05:27:16 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fb4989601sm232872755e9.9.2025.10.14.05.27.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 05:27:15 -0700 (PDT)
-Date: Tue, 14 Oct 2025 15:27:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Khalid Aziz <khalid@kernel.org>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Rakuram Eswaran <rakuram.e96@gmail.com>, chenhuacai@kernel.org,
-	david.hunter.linux@gmail.com, linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	lkp@intel.com, skhan@linuxfoundation.org, ulf.hansson@linaro.org,
-	zhoubinbin@loongson.cn
-Subject: Re: [PATCH] mmc: pxamci: Fix passing NULL to PTR_ERR() in
- pxamci_probe()
-Message-ID: <aO5BnwkNNyv_GOGS@stanley.mountain>
-References: <xxtrhbv5qm2crtvc5ejpgu5caadsmms3rfulmosjwq7lumrko3@5mlcpk24hymm>
- <20251012183804.15171-1-rakuram.e96@gmail.com>
- <6j7ix5yof7qmrp6cgxhqver7yimvmgj7dujqu4l7cnzbpjksfd@5sp7am47gigw>
- <8afff048-4fe1-440a-9739-e5a5ea43d6eb@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O9DFYFoD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 911A2C4CEE7;
+	Tue, 14 Oct 2025 13:31:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760448674;
+	bh=Pd+RXTNXqwtTl0Ps6q82IpRn8j9zy3XBl+4lbBTNB7s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=O9DFYFoDzF00egIpQI7+sSk2FaOh6iFX2u4d1w81THKSYCDMlTInjn5WZTb3aCldv
+	 7arr+/E7J4eX7Uu8AWbwM0nxyXOgkJevOsTJKiWCZ+V7OIOcLwu5RgECoaguW8LiAG
+	 +RlLGfZuXpk4E78YsTJNjo7bAg7CID27fVCXRUgEDiiKFwa3HVKTHNyEemp8bDB9Zu
+	 oIj89hbDlH4kQvgw27eUqmRJyWO1my7H/j+Aw7wJ/IFtu2+8iLfcq6yWb1LB1kRBUR
+	 lnfkuPsQBy4CS6xUQzz7TopKQKX9H0dsoyavdt18wZF2C1rCU17hoeEC4FGAER2+jJ
+	 otPCpEeNcK/XA==
+Message-ID: <ed5bcdca-9a6d-4144-acd7-1c1feeaadb0f@kernel.org>
+Date: Tue, 14 Oct 2025 07:31:13 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8afff048-4fe1-440a-9739-e5a5ea43d6eb@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mmc: pxamci: Fix passing NULL to PTR_ERR() in
+ pxamci_probe()
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Rakuram Eswaran <rakuram.e96@gmail.com>, chenhuacai@kernel.org,
+ david.hunter.linux@gmail.com, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, lkp@intel.com,
+ skhan@linuxfoundation.org, ulf.hansson@linaro.org, zhoubinbin@loongson.cn
+References: <xxtrhbv5qm2crtvc5ejpgu5caadsmms3rfulmosjwq7lumrko3@5mlcpk24hymm>
+ <20251012183804.15171-1-rakuram.e96@gmail.com>
+ <6j7ix5yof7qmrp6cgxhqver7yimvmgj7dujqu4l7cnzbpjksfd@5sp7am47gigw>
+ <8afff048-4fe1-440a-9739-e5a5ea43d6eb@kernel.org>
+ <aO5BnwkNNyv_GOGS@stanley.mountain>
+Content-Language: en-US
+From: Khalid Aziz <khalid@kernel.org>
+In-Reply-To: <aO5BnwkNNyv_GOGS@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 13, 2025 at 04:54:13PM -0600, Khalid Aziz wrote:
-> > @@ -703,20 +705,15 @@ static int pxamci_probe(struct platform_device *pdev)
-> >   	platform_set_drvdata(pdev, mmc);
-> > -	host->dma_chan_rx = dma_request_chan(dev, "rx");
-> > -	if (IS_ERR(host->dma_chan_rx)) {
-> > -		host->dma_chan_rx = NULL;
-> > +	host->dma_chan_rx = devm_dma_request_chan(dev, "rx");
-> > +	if (IS_ERR(host->dma_chan_rx))
-> >   		return dev_err_probe(dev, PTR_ERR(host->dma_chan_rx),
-> >   				     "unable to request rx dma channel\n");
-> > -	}
-> > -	host->dma_chan_tx = dma_request_chan(dev, "tx");
-> > -	if (IS_ERR(host->dma_chan_tx)) {
-> > -		dev_err(dev, "unable to request tx dma channel\n");
-> > -		ret = PTR_ERR(host->dma_chan_tx);
-> > -		host->dma_chan_tx = NULL;
-> > -		goto out;
-> > -	}
-> > +	host->dma_chan_tx = devm_dma_request_chan(dev, "tx");
-> > +	if (IS_ERR(host->dma_chan_tx))
-> > +		return dev_err_probe(dev, PTR_ERR(host->dma_chan_tx),
-> > +				     "unable to request tx dma channel\n");
+On 10/14/25 6:27 AM, Dan Carpenter wrote:
+> On Mon, Oct 13, 2025 at 04:54:13PM -0600, Khalid Aziz wrote:
+>>> @@ -703,20 +705,15 @@ static int pxamci_probe(struct platform_device *pdev)
+>>>    	platform_set_drvdata(pdev, mmc);
+>>> -	host->dma_chan_rx = dma_request_chan(dev, "rx");
+>>> -	if (IS_ERR(host->dma_chan_rx)) {
+>>> -		host->dma_chan_rx = NULL;
+>>> +	host->dma_chan_rx = devm_dma_request_chan(dev, "rx");
+>>> +	if (IS_ERR(host->dma_chan_rx))
+>>>    		return dev_err_probe(dev, PTR_ERR(host->dma_chan_rx),
+>>>    				     "unable to request rx dma channel\n");
+>>> -	}
+>>> -	host->dma_chan_tx = dma_request_chan(dev, "tx");
+>>> -	if (IS_ERR(host->dma_chan_tx)) {
+>>> -		dev_err(dev, "unable to request tx dma channel\n");
+>>> -		ret = PTR_ERR(host->dma_chan_tx);
+>>> -		host->dma_chan_tx = NULL;
+>>> -		goto out;
+>>> -	}
+>>> +	host->dma_chan_tx = devm_dma_request_chan(dev, "tx");
+>>> +	if (IS_ERR(host->dma_chan_tx))
+>>> +		return dev_err_probe(dev, PTR_ERR(host->dma_chan_tx),
+>>> +				     "unable to request tx dma channel\n");
+>>
+>> We should still release DMA rx channel before returning here.
+>>
+>>>    	if (host->pdata) {
+>>>    		host->detect_delay_ms = host->pdata->detect_delay_ms;
+>>> @@ -724,25 +721,21 @@ static int pxamci_probe(struct platform_device *pdev)
+>>>    		host->power = devm_gpiod_get_optional(dev, "power", GPIOD_OUT_LOW);
+>>>    		if (IS_ERR(host->power)) {
+>>>    			ret = PTR_ERR(host->power);
+>>> -			dev_err(dev, "Failed requesting gpio_power\n");
+>>> -			goto out;
+>>> +			return dev_err_probe(dev, ret, "Failed requesting gpio_power\n");
+>>
+>> Don't we need to release DMA Rx and Tx channels before we return from here?
+>>
+>>>    		}
+>>>    		/* FIXME: should we pass detection delay to debounce? */
+>>>    		ret = mmc_gpiod_request_cd(mmc, "cd", 0, false, 0);
+>>> -		if (ret && ret != -ENOENT) {
+>>> -			dev_err(dev, "Failed requesting gpio_cd\n");
+>>> -			goto out;
+>>> -		}
+>>> +		if (ret && ret != -ENOENT)
+>>> +			return dev_err_probe(dev, ret, "Failed requesting gpio_cd\n");
+>>
+>> Same here
+>>
+>>>    		if (!host->pdata->gpio_card_ro_invert)
+>>>    			mmc->caps2 |= MMC_CAP2_RO_ACTIVE_HIGH;
+>>>    		ret = mmc_gpiod_request_ro(mmc, "wp", 0, 0);
+>>> -		if (ret && ret != -ENOENT) {
+>>> -			dev_err(dev, "Failed requesting gpio_ro\n");
+>>> -			goto out;
+>>> -		}
+>>> +		if (ret && ret != -ENOENT)
+>>> +			return dev_err_probe(dev, ret, "Failed requesting gpio_ro\n");
+>>
+>> and here.
+>>
+>> Looking at Documentation/driver-api/driver-model/devres.rst,
+>> dma_request_chan() is not devres managed interface and thus will not be
+>> released automatically. Do you agree?
+>>
 > 
-> We should still release DMA rx channel before returning here.
-> 
-> >   	if (host->pdata) {
-> >   		host->detect_delay_ms = host->pdata->detect_delay_ms;
-> > @@ -724,25 +721,21 @@ static int pxamci_probe(struct platform_device *pdev)
-> >   		host->power = devm_gpiod_get_optional(dev, "power", GPIOD_OUT_LOW);
-> >   		if (IS_ERR(host->power)) {
-> >   			ret = PTR_ERR(host->power);
-> > -			dev_err(dev, "Failed requesting gpio_power\n");
-> > -			goto out;
-> > +			return dev_err_probe(dev, ret, "Failed requesting gpio_power\n");
-> 
-> Don't we need to release DMA Rx and Tx channels before we return from here?
-> 
-> >   		}
-> >   		/* FIXME: should we pass detection delay to debounce? */
-> >   		ret = mmc_gpiod_request_cd(mmc, "cd", 0, false, 0);
-> > -		if (ret && ret != -ENOENT) {
-> > -			dev_err(dev, "Failed requesting gpio_cd\n");
-> > -			goto out;
-> > -		}
-> > +		if (ret && ret != -ENOENT)
-> > +			return dev_err_probe(dev, ret, "Failed requesting gpio_cd\n");
-> 
-> Same here
-> 
-> >   		if (!host->pdata->gpio_card_ro_invert)
-> >   			mmc->caps2 |= MMC_CAP2_RO_ACTIVE_HIGH;
-> >   		ret = mmc_gpiod_request_ro(mmc, "wp", 0, 0);
-> > -		if (ret && ret != -ENOENT) {
-> > -			dev_err(dev, "Failed requesting gpio_ro\n");
-> > -			goto out;
-> > -		}
-> > +		if (ret && ret != -ENOENT)
-> > +			return dev_err_probe(dev, ret, "Failed requesting gpio_ro\n");
-> 
-> and here.
-> 
-> Looking at Documentation/driver-api/driver-model/devres.rst,
-> dma_request_chan() is not devres managed interface and thus will not be
-> released automatically. Do you agree?
+> The patch changes dma_request_chan() to devm_dma_request_chan().
 > 
 
-The patch changes dma_request_chan() to devm_dma_request_chan().
+Ah, yes. It does. That works then.
 
-regards,
-dan carpenter
+Thanks,
+Khalid
+
+> regards,
+> dan carpenter
+> 
 
