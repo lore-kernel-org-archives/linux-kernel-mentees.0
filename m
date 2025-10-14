@@ -1,68 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431C02EB87B;
-	Tue, 14 Oct 2025 09:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A8B2EB878
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Oct 2025 10:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760435258; cv=none; b=r1PrJnkmNfaMuVZG0drCUwTF6Q6BCnG6uMEQbkYEbTPrDbvZAzr+05T42G8dFzkzs6FiY1V3YOr3q7JZwWQZyefJebFqmagnV4TMFrKRcS+XVgz2RT4brqH/+DTsxfGfYdRxD7wRiV5PAAdSFYW6lnzxqFJyxWyJH9WdHlRIxb8=
+	t=1760437184; cv=none; b=rfROyt9nDnGAE06XCrzjo8cDttn+EAsugQIB+qSJHf330aa+bkt94R7/F3uaiKHxOTGweKmUkfkUQrVj/oOCoFhrBqOyVhIszmwuccRawJ3RmTYoA38HfSvGcdPY86Bjm46LeMmndCTYGecZbpgU+o/1nHH52Hk8syEnwfUr19M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760435258; c=relaxed/simple;
-	bh=f3pZPHipOpeDFB5HmbiCowZYLmKApYTA00fBc5KEnKs=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=AGtkaULutwvA6n8AAYOUfnj6lC3XBsQxq6Ogy9+zRt4vlMq/bBjox5EKegudoEFaR+444OlH6nZTiODMhTjAzSi0JEltqmn0wnDXlbiXw63G/TuE89kEOuro/iGA/Z19kpxdL9rwH3fbrCJemd6ySVo2JY0STv+YZmAvrEJ6mPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OkSeOYbr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760437184; c=relaxed/simple;
+	bh=S1cslhnBoJ7bdhSLk1Fg2guqKFa5OddOQh9j9QF9dfo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XNKTMXmPrsrhlYvWGi+68Og94u/tYbwZHQHnjdJtVY50lnOgywCwP3MHUO+Yxg7Z+kodGvut9fy0uwUFITfLXhE2cw6Cs3mQ126tyywe6yvQ2k7+Z4a3r2a1LMXBiPiBfjgzJqDlFZ+sANekHu7HC+GWwC+njpORQbvlGm8GPJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fCod4r4Q; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OkSeOYbr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E686C4CEFE;
-	Tue, 14 Oct 2025 09:47:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760435257;
-	bh=f3pZPHipOpeDFB5HmbiCowZYLmKApYTA00fBc5KEnKs=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=OkSeOYbrSVgSyQ8CIeG62JG2TPX1UbgK+pVUWntojszfaVtaGheZ8G7Ad7pikd5e5
-	 F3CVwpquSef/hN40iMuLTBd2d+r8qGYk6G2ikVirBGCJppvtP3EqUus3gPwO+VFvil
-	 YLhrU/sGiI+vUmPrmN28asdewKVAY/jtT2/tad0N/aGcURL5yrDuI5Nqz5RbYkkKvh
-	 Dyr3kc5zWz4qwepo7pd6euT33pnvB4CmOG8V0WFe0Nd+9+Wx1vzp0qjLfdYBfl4XQA
-	 sn5Y8k40/pqRX+keBOGSkkc0vhZFkC4TPWZGRA++k+pE+9E+lJqULmhfWhGWYjKnWm
-	 OvenZ1mvpNCXw==
-Date: Tue, 14 Oct 2025 11:47:35 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Deepak Sharma <deepak.sharma.472935@gmail.com>
-cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-    skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
-    syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
-Subject: Re: [PATCH v3] HID: cp2112: Add parameter validation to data
- length
-In-Reply-To: <20250926145811.273174-1-deepak.sharma.472935@gmail.com>
-Message-ID: <rq068421-84np-1s12-rq78-1q36q047qq04@xreary.bet>
-References: <20250926145811.273174-1-deepak.sharma.472935@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fCod4r4Q"
+Message-ID: <3f3c759d-ce49-4d52-922d-aeab3b3c17f1@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1760437178;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4qef2SGmUoAoANFEF7b+uaZMm3jeXBZevs3J+1AksCA=;
+	b=fCod4r4QRfdlsB8+eJlWE84Xy0a7WQRtbRp1/uu+nbdyLAH5Ew0EPzU5N0H8TWRYAAcp4a
+	QZK429n8BsnD/JOJyWsJKwJodxJ+q1uFj7/c5GQv9XIhxILMNrIo5YmNfOznXug8Favjaz
+	4L4+73OMDe/EyFpX4IDrhAvDx2x4y9Q=
+Date: Tue, 14 Oct 2025 11:19:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Subject: Re: [PATCH net v2] net: usb: lan78xx: fix use of improperly
+ initialized dev->chipid in lan78xx_reset
+To: I Viswanath <viswanathiyyappan@gmail.com>, Thangaraj.S@microchip.com,
+ Rengarajan.S@microchip.com, UNGLinuxDriver@microchip.com,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+ khalid@kernel.org
+References: <20251013181648.35153-1-viswanathiyyappan@gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20251013181648.35153-1-viswanathiyyappan@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 26 Sep 2025, Deepak Sharma wrote:
-
-> Syzkaller reported a stack OOB access in cp2112_write_req caused by lack
-> of parameter validation for the user input in I2C SMBUS ioctl in cp2112
-> driver
+On 13/10/2025 19:16, I Viswanath wrote:
+> dev->chipid is used in lan78xx_init_mac_address before it's initialized:
 > 
-> Add the parameter validation for the data->block[0] to be bounded by
-> I2C_SMBUS_BLOCK_MAX + the additional compatibility padding
+> lan78xx_reset() {
+>      lan78xx_init_mac_address()
+>          lan78xx_read_eeprom()
+>              lan78xx_read_raw_eeprom() <- dev->chipid is used here
 > 
-> Reported-by: syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=7617e19c8a59edfbd879
-> Tested-by: syzbot+7617e19c8a59edfbd879@syzkaller.appspotmail.com
-> Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
+>      dev->chipid = ... <- dev->chipid is initialized correctly here
+> }
+> 
+> Reorder initialization so that dev->chipid is set before calling
+> lan78xx_init_mac_address().
+> 
+> Fixes: a0db7d10b76e ("lan78xx: Add to handle mux control per chip id")
+> Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
 
-Applied to hid.git#for-6.18/upstream-fixes, thanks.
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
