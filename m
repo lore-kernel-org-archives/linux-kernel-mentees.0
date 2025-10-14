@@ -1,175 +1,168 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911D930597D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Oct 2025 02:41:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAECD30CDA4
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Oct 2025 04:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760409693; cv=none; b=V7kJblvAiFLk1+A1o+Njn2q+WneHY8AIWafC/iqsUrVTZLcirL8MbOugSFOAOQIVP4Lig7yRfp7iAX/L7uUdZzbYkaDb8pKD8jIwWWANN2UjjbFF7sWqujcnP3X3P5hSfVrk6H9a9PYtsAcej0JT8yP3Ydkek7+7b8BEgcBhIok=
+	t=1760417737; cv=none; b=I2fZ+hchMbaHY7vbu9UpQoSOTl9ZansTAIpgkoir+P4zvMqKcX95zpA6OnKkXFSy/L1J3OygKwaN1ajacM4Zd3u80X/34fsLTMd4+mEX+jWbD/hu6avwGAwarHMx3fZB4tebxv1njJDJYg+FXuZDCqlu79Jkd8CxNxFvT85m8iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760409693; c=relaxed/simple;
-	bh=jM4VfDDT9o/5KEiX8vxhJ4DNOc3U9+2v7a2kcqEcNmk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VPpY3fabswOY387hYAbMtTVyUg6hgGKpcEOaPfTlSuzLZpjJTA9T1p3TyTMWJdQZafd4Pw2n89rRWdQYPYsuR+cpK+fnf2/IHplbtR8uMIzrP5BUFCequViD339k0ybb98pLgImeAn/QyKW4W8xdeNHlu0rNfKY3CVxVQ2zAiPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eRxyv47z; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1760417737; c=relaxed/simple;
+	bh=tlA+e1Kuh94iAu1Xs/QKzXb6Y5z1AGjeoej9vtKEYyk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RIkJaprTG0XCeXVGQ5s/F1UrbpLAEWX0X/RhZ+tej3cxvjzKWYS/MYY2z8X6Y+pOqQOE8RHGIlD67zq/+zRBDVaBckYifl3xfQLANZuWDTbUg3KzMhG4B3C6aR5XXdq4gCPlYWcMiuW2lwzbxwBLieeg0u7jMpGFSTGVM1mlyCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ktPQgtPp; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eRxyv47z"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 32E2B830FB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Oct 2025 02:41:30 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 5hr6i_jkN-0S for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Oct 2025 02:41:29 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1029; helo=mail-pj1-x1029.google.com; envelope-from=bhanuseshukumar@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 58AF6830C2
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 58AF6830C2
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=eRxyv47z
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 58AF6830C2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Oct 2025 02:41:29 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-33082c95fd0so5950679a91.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 Oct 2025 19:41:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ktPQgtPp"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-330631e534eso5279363a91.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Oct 2025 21:55:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760409688; x=1761014488; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A1AsgWZdoSmBmACCUATUp5pGfSqbvQlK72tCjitQTC8=;
-        b=eRxyv47zeJwlo0BiVR3SBp7rnZDr9yfCv+P7sIsBLqr8xRwjGChPGNK37MkArcO0c0
-         Q8MCcGlOym2PbABj215jxsv6j2k3AkRaZROPTRmawY/d1yn5ilvaGpdS59QK+yduRMjb
-         d46TMhYrN1jFsO7J0u7Jhey/aMdp293LEop32PXXbF9ZsSs+Y4DKd5mfa+lToBhazIeT
-         15grZtmZA/2YCcCXjS8qDD0alkW5LLG7RtT0rsrAqnxN/yJ7X5GlfosrTLJmBRFE1fvk
-         nGSGPt0UQsD9rRF8wa9CtFMc6+WdaVeLNtZ9mM766fFPNJGok6Jm2p+BQOUSg+mJv8iG
-         pDIA==
+        d=gmail.com; s=20230601; t=1760417735; x=1761022535; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=oScUBmFOj3Oi16migjfSD/tjHiTwrVsQ/IhivTBBRXM=;
+        b=ktPQgtPplz0DtCCrbJ1SfH4Yt10iz9eu9c+eqUtoYGK1jk9LaskH62ljzQ1tVE2aO8
+         3td0CtJhKZPmh6AKfb2Q8lU/Y1j4UD374d/gqQmn9CsIzGmCdzqmzD7G5XzhuzGHhT7w
+         Apa9wsaKgGFiSZCC8+c7PDU4yOMAfZNndRq7ztqWrwjDmM2enAnFH7cbf5WZwMb4YRWb
+         ApqBrVefDhHkfYyBzWwRC4UXYl0ruLy7uTFaASrjjx8Yg6bvWQKSLpK/FfCJZqQaRNGT
+         IXiVi/m9vP8k6bImKCGeJjm3gWc+ZDM0TjTFktC+uR1MnikzNbBmAr34r+/3x6AJA7Y8
+         Yf5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760409688; x=1761014488;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A1AsgWZdoSmBmACCUATUp5pGfSqbvQlK72tCjitQTC8=;
-        b=nCLG1aL29jskiZibKSV/qf+KElPk/L//6+SaOE9opsIFPgH1e/MBsN++NMWBFhZd2b
-         gOUzMzvPw35E/q7XaQP8SZ11PELzHiXg8s4OLN0qfBcrae6NxHJMAVBYbe7WHVLbbpf5
-         W16raXDblf+ErYNWfpvV4kb9bDALLuJ2/obHmycBBrKn1AiflZZinlGR83D7Jco7+cpq
-         cnfPlkHP2j2sQKkMqU+hTDJP1Zm57Xgo9A70luizLLDyp7TyYJrqMXCbQVCP4/UMIxvE
-         74fVBl7tjRmz3DRDb07I0kuDVkdDrZ7noVztJ9MaBfjO2qvtI6CshxZgyug2nufgz1ng
-         FTHA==
-X-Forwarded-Encrypted: i=1; AJvYcCVP9sa+a062kEjA8VcPO6W81+92NvSB6VsvJA+AUXfzWW0/+G20TPNx5eXSkZIZsW7D8IBK3nOkOv+dAU92pH1/qFVQzQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yz0tZq1XB9XKuNWbAWMw/RAcmoSc/swMNaQCM6hrmOFzwlwmonZ
-	xn907JkDKlpO9C2dXZTCZHa98zXXsHQ7Zd7Ow+ri1dGOHdzURRocSka8
-X-Gm-Gg: ASbGnct0wUB6tVp3RGbkDSmh/llPOcaT8FmOXJXmv9yVHHNkPFqp3zDyuACcCb2PHSw
-	Qh86MGAO4dhsk1yhWEsYAuilDUqmh6FUL8edPFbyxymMi4GccW+gMTP5zDtBJNSC+MVEB+scDHz
-	YmQRDbf6w+aCIT7kvmwI+rSrtaOds8nUzu2O6GzfoGVNk9vAy2OsYlss6EdxjeJ8aNg8KTrqqfg
-	yl0lZ8pi+j4hs07TSHSBk3ojx0ihEULt4wAr/lT+aT4sfEyJNHkmFgzL3MUc7n/0lId7Me4XE4K
-	Sht/0y5hOw4Br6ISZU8anbCBXM3Y/nLLCYmK5QcGpKeUAFPK688kLbhN6YRVoTxwkwERONgWEQD
-	Ov5omHBNrXN1Yy/c+ZXpA7IpVoOnhpJXaTEKccvZh5Nk/o6ZMSKZOA65NzCP7Zw/K88BHqhYQKx
-	FtWjRGIw==
-X-Google-Smtp-Source: AGHT+IG+wGyTO6i418tFyeF5ZIBvx56+NdDpnWWC78M802A2HC3tEEKBP08Ixtj/5cmGK53IKP9RxA==
-X-Received: by 2002:a17:903:4b50:b0:246:a543:199 with SMTP id d9443c01a7336-2902741e471mr303964665ad.54.1760409688398;
-        Mon, 13 Oct 2025 19:41:28 -0700 (PDT)
-Received: from ti-am64x-sdk.. ([152.57.140.111])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f8f9bbsm147442065ad.121.2025.10.13.19.41.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 19:41:27 -0700 (PDT)
-From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-To: Manivannan Sadhasivam <mani@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Niklas Cassel <cassel@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Mohamed Khalfella <khalfella@gmail.com>,
-	Christian Bruel <christian.bruel@foss.st.com>
-Cc: linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	bhanuseshukumar@gmail.com
-Subject: [PATCH v3] PCI: endpoint: pci-epf-test: Fix sleeping function being called from atomic context
-Date: Tue, 14 Oct 2025 08:11:09 +0530
-Message-Id: <20251014024109.42287-1-bhanuseshukumar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1760417735; x=1761022535;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oScUBmFOj3Oi16migjfSD/tjHiTwrVsQ/IhivTBBRXM=;
+        b=njU9m/TlKNnJJuwHHnuE9djn3Kwe0o6EpVbdTzQ3uZzqnLXgTaBCFvgMV1fzhNPWeA
+         eHHpIVjen6EtQpUj6CwXDo4xELfPWpI65inoTY7P9C6XmruvqhoUw/nQpDhsz2D4su3C
+         BZbS1BEPf0sNhhY68RZTxZceGO73xOror8Fhz+5S1h46v5nz33u+F8KVG/UJuOf/EUdF
+         FOE0zdXq1nPgpsa09DgTsQQHYcrQ4IaKyxdtoLBPImiikFxy0VLtqD0T+vW3js3pRK7P
+         eaikkkHyQNPxIaStYw6ltY1XBD9tFj2oHZtQlw5HyZG45DJdr4KlpDpQ7zbIoAqd8v7d
+         cpnA==
+X-Forwarded-Encrypted: i=1; AJvYcCXIXqRObV6+BmPVghcE2G0UQ8fl7uzfuPR4iyOflhvEOyZxnqlc3/jPBPCJv31I3j7K8ae6g63BGh85cizSfGc4UEAPSg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxvSVJ5jQDMO9ifGtEO8xZXRuD7GaZmp464w6EPljYFlsUGGMgE
+	HKyyW337pRTNGjiD/hXW3RPDPNnzr+PHezTgp+M48gJGtx/MgTqix2y3
+X-Gm-Gg: ASbGncvBA5JxtAvjucETUxjt/yzbJofax6OL/+47I/F9gFdxbuq6QdlEqHx+Ken4UFU
+	fIz2i4s/dKThtvbDqYJpUXRG/sJMQQ241KBgdJZ1PW6Gb46LvhIFdlNg5RSvrip7jRHuMGUdpE7
+	k73qOhAJgHKz+zKYINblchAokwKoL6fN7Aph95opKaQmF71rN0rrRI4bDHhb6lw8EnuUQJi+asD
+	SrA4cf4J4bi1yhwKotika1n0OBIr2M99hNJzSjIAFq0T/nSocx3O/YTYhVW6CvX5qDNqjQCGRGT
+	zbAf3RWjBxgFNvUGYWYvWczRUJ2nu+i07uprzG3h3mK9oPn8dvWWcKecrG4nmb83Z86wdIor0cW
+	8zv6hXf20qTRqLi/VRmFSu5YfgbDW+be8RRGbnt1uAOw3gGHq9fwTGzD+1BPrgPA6VydeizDzoR
+	V7q38alcW8M48NRHV2
+X-Google-Smtp-Source: AGHT+IE6foVQX3WQABdx5w0wHptoWDPG91gq36Kwb7POjd5X8udSBArlWFOGO8/fHqyfb4C8q9SNcQ==
+X-Received: by 2002:a17:90b:38d0:b0:32b:c5a9:7be9 with SMTP id 98e67ed59e1d1-33b51386061mr33008837a91.25.1760417735072;
+        Mon, 13 Oct 2025 21:55:35 -0700 (PDT)
+Received: from ?IPV6:2405:201:8000:a149:4670:c55c:fe13:754d? ([2405:201:8000:a149:4670:c55c:fe13:754d])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b678dcc0cd1sm10880639a12.8.2025.10.13.21.55.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Oct 2025 21:55:34 -0700 (PDT)
+Message-ID: <ad39c405-bf7a-422b-9f33-248ba9d6b824@gmail.com>
+Date: Tue, 14 Oct 2025 10:25:31 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] lib/xz: remove dead IA-64 (Itanium) support code
+To: Lasse Collin <lasse.collin@tukaani.org>,
+ Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: skhan@linuxfoundation.org, khalid@kernel.org,
+ david.hunter.linux@gmail.com, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+References: <20251013173446.8692-1-spyjetfayed@gmail.com>
+ <aO1gOckA14Ed/26F@visitorckw-System-Product-Name>
+ <20251013234407.11e70f22.lasse.collin@tukaani.org>
+Content-Language: en-US
+From: Ankan Biswas <spyjetfayed@gmail.com>
+Autocrypt: addr=spyjetfayed@gmail.com; keydata=
+ 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
+ TRpGew2ozniUMliyaLH9UH6/e9Us
+In-Reply-To: <20251013234407.11e70f22.lasse.collin@tukaani.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When Root Complex (RC) triggers a Doorbell MSI interrupt to Endpoint (EP)
-it triggers a warning in the EP. pci_endpoint kselftest target is
-compiled and used to run the Doorbell test in RC.
+On 10/14/25 2:14 AM, Lasse Collin wrote:
+> On 2025-10-14 Kuan-Wei Chiu wrote:
+>> On Mon, Oct 13, 2025 at 11:01:58PM +0530, Ankan Biswas wrote:
+>>> Note that the upstream version of xz_dec_bcj.c still retains support
+>>> for the IA-64 BCJ filter.
+>>
+>> Not sure if it's necessary to mention this, but I guess it's fine.
+> 
+> Information about upstream version isn't needed in Linux commit log, so
+> that sentence could be omitted.
+>
 
-BUG: sleeping function called from invalid context at kernel/locking/mutex.c:271
-Call trace:
- __might_resched+0x130/0x158
- __might_sleep+0x70/0x88
- mutex_lock+0x2c/0x80
- pci_epc_get_msi+0x78/0xd8
- pci_epf_test_raise_irq.isra.0+0x74/0x138
- pci_epf_test_doorbell_handler+0x34/0x50
+It felt like a good idea to put this info, but since it is not directly
+related to the kernel I would remove it for v3.
+>> I'm not quite sure what you changed in v2 compared to v1.
+> 
+> It added the second hunk to the diff of xz_private.h.
+> 
+>> Lasse,
+>> Since this change is located under lib/, I assume it will be routed
+>> through Andrew's tree?
+>> If that's the case, then perhaps we should also Cc Andrew.
+> 
+> Yes, putting him into the To field and others as Cc should make the
+> patch go forward. Sorry that I didn't notice and comment this myself
+> earlier.
+> 
 
-The BUG arises because the EP's pci_epf_test_doorbell_handler() is making
-an indirect call to pci_epc_get_msi(), which uses mutex inside, from
-interrupt context.
+I will add Andrew Morton for v3 in To, and the rest in Cc and add the 
+changelog part.
 
-To fix the issue convert hard IRQ handler to a threaded IRQ handler to
-allow it to call functions that can sleep during bottom half execution.
-Register threaded IRQ handler with IRQF_ONESHOT to keep interrupt line
-disabled until the threaded IRQ handler completes execution.
 
-Fixes: eff0c286aa91 ("PCI: endpoint: pci-epf-test: Add doorbell test support")
-Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-Reviewed-by: Niklas Cassel <cassel@kernel.org>
----
- Note : The patch is compiled and tested on TI am642 board.
+Hi Kuan-Wei and Lasse,
 
- Change log
- V2->V3:
-  Addressed Bjorn Helgass review points in v2
-  - Rebase to pci/main (v6.18-rc1)
-  - Add a space before each "("
-  - Remove the timestamps because they're unnecessary distraction
-  - Add "()" after function names in commit log
-  - s/irq/IRQ/
-  - Rewrap the commit log to fit in 75 columns
-  - Rewrap the code below to fit in 78 columns because most of the
-    rest of the file does
-  Link to V2: https://lore.kernel.org/all/20250930023809.7931-1-bhanuseshukumar@gmail.com/
+Thank you for your feedback, it was very helpful.
 
- V1->V2: 
-  Trimmed Call trace to include only essential calls.
-  Used 12 digit commit ID in fixes tag.
-  Steps to reproduce the bug are removed from commit log.
-  Link to V1: https://lore.kernel.org/all/20250917161817.15776-1-bhanuseshukumar@gmail.com/
-
- drivers/pci/endpoint/functions/pci-epf-test.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-index 31617772a..b05e8db57 100644
---- a/drivers/pci/endpoint/functions/pci-epf-test.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-@@ -730,8 +730,9 @@ static void pci_epf_test_enable_doorbell(struct pci_epf_test *epf_test,
- 	if (bar < BAR_0)
- 		goto err_doorbell_cleanup;
- 
--	ret = request_irq(epf->db_msg[0].virq, pci_epf_test_doorbell_handler, 0,
--			  "pci-ep-test-doorbell", epf_test);
-+	ret = request_threaded_irq(epf->db_msg[0].virq, NULL,
-+				   pci_epf_test_doorbell_handler, IRQF_ONESHOT,
-+				   "pci-ep-test-doorbell", epf_test);
- 	if (ret) {
- 		dev_err(&epf->dev,
- 			"Failed to request doorbell IRQ: %d\n",
--- 
-2.34.1
-
+Regards,
+Ankan Biswas
