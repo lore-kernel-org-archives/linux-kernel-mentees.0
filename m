@@ -1,122 +1,241 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181DB32145A
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 15 Oct 2025 11:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A296231CA42
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Oct 2025 12:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760528242; cv=none; b=kJDiT5cSPrysJKmZvIUG/TukJ2aufkUi5+I3Mx8KTIAJA6ZLYibIaiqfSlPghgcYhKtV8qqEYhd6YPKHTm55gmx/YryXaIXjWIwfEuur4znEqj/sMUEBZ/lCuOGyTg4LIu2SCSflUYe6Wht5VcK7vwLczEgjGJ3Vfd6UbZj0Jg8=
+	t=1760532950; cv=none; b=m6oLQz+8NONCQ9017Q4+17GoHe2y8C3GJ322Nam1iRNr9nmN1j3DV+JIj4TGYeSz3g9isMv8QfZnhE+7uit/wgaOO3EARJA/QMaczr/ot6OlSTzQdNr/sdAXrPfMDXtkCUvLAL78HzWvcyKauNBMdgOWxSXdceuqiPvqiGdAr8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760528242; c=relaxed/simple;
-	bh=c4aYKS54E8jqERLS+NN4OOzQlB4QxsJ61mU3bGEwygc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dyfo7L4ExSmV5/M9AKFZTWbvXt55XdXEZi/NkYxa1jXUDXPKCKrFq0L/TQglA2g3DdSy4OwYUyCXvIIef2cS1NPLLUGf88yUBV3oPMGPUzrVPKMatj1kHgyqKuEcrn/DRblpWqMHnxdigh4Zn7XTP/HOFxWDpUx0oegoid+3vBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOfixYpk; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760532950; c=relaxed/simple;
+	bh=Uz9vn7rcmIwn6i0tqcTn5bYssbsKorpt5cvKeKxZkjg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=li3Kfl9fdCXRGRoJ9CRpMx6deHvVWFmscOcODS28Ug1AWkRJI3YAv1A8im6bjXKtlog8YGDTQri1cac1DsM65cKBqe6B06Zmfaph82gp9+inEiHUCTpC8amZJovzJkg5KsqLUMiCZhQOwP1UcgcT2fZniTnq7S9wWGuYhqLWuVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bcl43gbc; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOfixYpk"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-78125ed4052so7479826b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 15 Oct 2025 04:37:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bcl43gbc"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 4C8A841724
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Oct 2025 12:55:47 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id XK_KCvwTKYmm for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 15 Oct 2025 12:55:46 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::530; helo=mail-ed1-x530.google.com; envelope-from=zlatistiv@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 1A33D416AA
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1A33D416AA
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=bcl43gbc
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1A33D416AA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Oct 2025 12:55:45 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-63963066fb0so13564936a12.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Oct 2025 05:55:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760528240; x=1761133040; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=x9r7lDMOBshgk2OBbZUZFD3lZ/ikkhF8KUnZZ8JlQI0=;
-        b=LOfixYpkTWgnfJZp/SGn1K3670g7Ft36SG0gjiaQtQppPMcXn6wgJhUEEp9FlxZvko
-         /ipBldq9GKMYeySkqjrEMCtZkiseonmXmm1KW22VGsG0BxnToKzOzp2JBHqNZybVGReF
-         bmqydLeC5+UO1ZUXhkrHaOjC9sK8Zc1SqBOkcVgDETnXBUqKDDlOXvSN856TssI/4ai4
-         mEdYNIZdoJR0hdRhcGoNEsPzyctrbIDPeLMkKvrY3MBsXAf13j3qZlbeENY9cS7WZwuR
-         kegD/x8MdIgUBHlXTkho8icw21fDwAyh9eILMLcXzWfQ+bUCScObBr/GNqqkHKcwKGUP
-         LcQw==
+        d=gmail.com; s=20230601; t=1760532944; x=1761137744; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yPwsFmftjsCu1r4rEdgmSbyTSppcZYsUBCmBP/cNfX8=;
+        b=bcl43gbcXBQbgFOEsiUAgBLZBG3laslIIqUH38hLPqgUJCrLyJP7louNLTrZRYzlUH
+         kmSEnIiGTuuKxI+yaxfKobKQWs6hqHKHE4XRXsIVgU2SKDUbRXh9pnj4yyolHGPa4N3x
+         VkyXh0bSfaVXrnvceXa4kahCpXncch3/qgsiglroCtrl/JlPDlRFd6BdwMmbgR9Ra0on
+         DyZfejOiNl+fNSowSThADPQQbtorUHfQArI9lle9TRpznlodery6vdLBXVfaE49LQeTI
+         6Mwers8k3Kt761ZVEs922b0pPRPElNV5humfHpKPBqo3BtsMZxvQeldkj3ofa/UDM0q5
+         rTww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760528240; x=1761133040;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x9r7lDMOBshgk2OBbZUZFD3lZ/ikkhF8KUnZZ8JlQI0=;
-        b=SHz9IH5jVeH0ti3HPHVmhqlNTSSBgvRMqL/gw8dEEA8DppPVJmVO+l4SCK+0BBjLZ4
-         IqoZLSPEemii5d/tJTEsbeiHBouI2ErO9aSDjW0oEY8LG1iiRitTkC9FqZUzZLpq68ue
-         H4i3/SaOGi3gZ2/EQ/yRgsV2iQH2n206Si/wvBdllkiBkJMcvPJ8Iq4DGByux02+J+r0
-         SOaco2AnZXLMke6FOriAMQCj8AepSijYPk5D+bdFnzpUHbD7NJ/0Xaaxnf2fPRhRMdta
-         khz4pEDrp1USbi76KPm88eqv9wMjyZMrdbwkztsnffE44yPKmTYslYJLiyl6QWSKejUA
-         33Cg==
-X-Forwarded-Encrypted: i=1; AJvYcCW3qmQYzJQxbTML5CU9qdKALhbLRuQpxZ9/4xciY1VqieqXOEtpxPPvZNotzDgzkPzaNBCZPOSc5z4hGRUXWE3jj3wEcA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBAYRPdUZfD0eXNBeNJ2JK86j7q0CJ7Oigt94htP1AzP+CUlnV
-	lpSbFm1GRTSsbvuHyw2HyrNuqvO4V8R9AFxBFw7uCwYMD8D0ie4YBOsc
-X-Gm-Gg: ASbGncvXoV4yX1kah6lCgsMSf09qAqXm5+1i7AOkO47aGub43rCU7yPQciDZr/zBwGP
-	CCmzad+VZPNxGSh2wvWjBzxrHO+CSC69HVhTqwtXKeJE3wC2rEhwpKBrCWuDIHmRt1lqBx8m73/
-	hZtP8ysFy764yEM5BoYmVYMrHb0G8hRqkhLpI3lqMHdCuUBKN/HSJhul1zqn+PhFhXj9hv8Uest
-	YyEMOeezJkVIfNP4//LrD5qo0YwP114SPfNMU20D6fjKYL00RdmniSagGSiyn2hIhOkOnX7cLeY
-	p/q1Mlk0YVBDGylQzK1qwP4x14ArivSR9Z1fAyx1Q0Ebnmy1CVWFR2tw8UEny34C7pbHkJhSuTw
-	VX4rbawF9AYTI5Jo61frHy+z/yxh69FCg/BrZabm9mf412BXvqyHbexE31w==
-X-Google-Smtp-Source: AGHT+IF/kMdSW2mdiOvPmOOpT6ZAXFjqWzHKAwJiaUVYsXOzqJQMewVct8CF0Jj3G4kE299bLT4akg==
-X-Received: by 2002:a05:6a00:a0a:b0:781:1920:d12d with SMTP id d2e1a72fcca58-793858fb6dfmr34996835b3a.12.1760528240330;
-        Wed, 15 Oct 2025 04:37:20 -0700 (PDT)
-Received: from tixy.nay.do ([2405:201:8000:a149:4670:c55c:fe13:754d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d0e3f89sm18115540b3a.66.2025.10.15.04.37.14
+        d=1e100.net; s=20230601; t=1760532944; x=1761137744;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yPwsFmftjsCu1r4rEdgmSbyTSppcZYsUBCmBP/cNfX8=;
+        b=juYMxTchBthUBMRqvZkaULUSwtOdfIVWH/WMMWLV+QHAm/JR1/furtJlBZcvrmmxFx
+         4zRxschcFP54J5ikKU64dV6i4JWNYe4AZD2cYzgC87hkhkrFlgo58tEDMnNFoiZN46Cp
+         Vn/I7rzoqkFWTp8xEn8XV0gIyqDjIyCorZgr5L8wUU9/SRkOMR9/bJVnyMCJL0tFWxXN
+         ZYHzKY93Spesic0skRqahsSs46UoZpdOW/jMXy9X7+yzZt8NPQIzSMc2trhcvvPXE2HJ
+         JTiaiDiVumItgw+r5ZNTZZuAsmkbpzVT2SyVnByh5e6mMX7BrjHW5Bk1tgCSUf11EnGB
+         osog==
+X-Forwarded-Encrypted: i=1; AJvYcCWiW/YIuU+lzADvBgsPf483dGxnbh9Wq5NRAH75KP6AtcJxx9xl6JSnV1hpIC7dwzcWW6Tg2Livuny1S2uPuQYF/ZlbFA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyahTwFw+NnqcLp4nPk/OUmjmlXPXDl+lexDGTmM321StsuUiH4
+	OSi2vm2WIH7rVf88X4EU16ay2KamEJ5zxuDwOnuIZjDuM9X90XHyFmMq
+X-Gm-Gg: ASbGncsOrO2ctjohXd8Ai48hPyPt9oWTP5tBnCOqG/uI+5Msd5nBAGUjfEyLL0MKGOP
+	8JDQwgna4dWuUOWDpCnlY+bxPIK9j08B+mMp2UrlvTgL1Wp7gGN0qezKPEC5KPfv/uwWpx+stRF
+	fX3yjMVNKFhvXyED6Yz842MH5WpRgrL3pvtu7wG+ke7ApQnJrjo/yAbIFbYOttECKNKGvTVEuZD
+	MeKajyryGrl5TkNXudVBC6TFXoT3nDJKMFzxgf0/Ubv99ZT512Zu3hoMQPYNJXYwNOE3FOMlTj6
+	TP1iYhcwCS6daOa15HIuvh5YUKUWKEiHq7pGnt+JV+eDzMwJKIhSM69YB5uP3b5sKfk3mrH4rHf
+	hFSWLC+3RqMzdwv2L/DaCaFhUBkqd+sFBW/QV4avl0SGclNmcJ2MBFL2nAUno9Q885131UDUC+L
+	0sAQPOTv9ZwWRBeQTaFm4=
+X-Google-Smtp-Source: AGHT+IFPmVnwrdUH0AaXcNBVVpT7odSzD/MA2yjUQqiuRk8y1WRUilesmSuJ2NFLYUJFWJPhPBgpHA==
+X-Received: by 2002:a05:6402:5203:b0:62e:e722:a3c7 with SMTP id 4fb4d7f45d1cf-639d5b8b60emr26613009a12.9.1760532943620;
+        Wed, 15 Oct 2025 05:55:43 -0700 (PDT)
+Received: from localhost.localdomain ([46.10.223.24])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63be969163csm2115271a12.13.2025.10.15.05.55.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 04:37:20 -0700 (PDT)
-From: Ankan Biswas <spyjetfayed@gmail.com>
-To: bbrezillon@kernel.org,
-	himal.prasad.ghimiray@intel.com,
-	dakr@kernel.org,
-	matt.coster@imgtec.com,
-	robin.clark@oss.qualcomm.com,
-	matthew.brost@intel.com,
-	aliceryhl@google.com,
-	thomas.hellstrom@linux.intel.com
-Cc: maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	simona@ffwll.ch,
-	skhan@linuxfoundation.org,
-	khalid@kernel.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Ankan Biswas <spyjetfayed@gmail.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH v2] drm/gpuvm: Fix kernel-doc warning for drm_gpuvm_map_req.map
-Date: Wed, 15 Oct 2025 17:01:23 +0530
-Message-ID: <20251015113656.21447-1-spyjetfayed@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        Wed, 15 Oct 2025 05:55:43 -0700 (PDT)
+Date: Wed, 15 Oct 2025 15:55:40 +0300
+From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
+To: Chao Yu <chao@kernel.org>
+Cc: jaegeuk@kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
+	linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org, 
+	syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
+Subject: Re: [PATCH] f2fs: Perform sanity check before unlinking directory
+ inode
+Message-ID: <wtrkydtrovhsw6azexwq576aoq36ut62y2elhzvsq3ansk477y@2rzc56l46pka>
+References: <20251003134731.470392-1-zlatistiv@gmail.com>
+ <839306c1-5f7a-4e89-b2cf-7534d279a03c@kernel.org>
+ <gupgic53ouhmdwrglwdviw2mzeaqfjsvyr47u3ebu2ztayswy4@4oxvnu252rdb>
+ <9d0fef9d-4093-4a80-af3f-6dc45ffe886c@kernel.org>
+ <zomib7dzvmnggqqy6aqlwij3zihbvzkzrnfvzhk7tcp2mdgh34@tjjugevo4q4a>
+ <235adbae-cc45-4b84-b712-1ba9e5a48dce@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <235adbae-cc45-4b84-b712-1ba9e5a48dce@kernel.org>
 
-The kernel-doc for struct drm_gpuvm_map_req.map was added as '@op_map'
-instead of '@map', leading to this warning during htmldocs build:
+On Wed, Oct 15, 2025 at 02:41:53PM +0800, Chao Yu wrote:
+> On 10/14/25 20:17, Nikola Z. Ivanov wrote:
+> > On Mon, Oct 13, 2025 at 08:53:04PM +0800, Chao Yu wrote:
+> >> On 10/13/25 05:19, Nikola Z. Ivanov wrote:
+> >>> On Thu, Oct 09, 2025 at 10:54:40AM +0800, Chao Yu wrote:
+> >>>> On 10/3/2025 9:47 PM, Nikola Z. Ivanov wrote:
+> >>>>> Current i_nlink corruption check does not take into account
+> >>>>> directory inodes which have one additional i_nlink for their "." entry.
+> >>>>>
+> >>>>> Add additional check and a common corruption path.
+> >>>>>
+> >>>>> Reported-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
+> >>>>> Closes: https://syzkaller.appspot.com/bug?extid=c07d47c7bc68f47b9083
+> >>>>> Fixes: 81edb983b3f5 ("f2fs: add check for deleted inode")
+> >>>>> Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
+> >>>>> ---
+> >>>>>   fs/f2fs/namei.c | 28 ++++++++++++++++++++--------
+> >>>>>   1 file changed, 20 insertions(+), 8 deletions(-)
+> >>>>>
+> >>>>> diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
+> >>>>> index b882771e4699..68b33e8089b0 100644
+> >>>>> --- a/fs/f2fs/namei.c
+> >>>>> +++ b/fs/f2fs/namei.c
+> >>>>> @@ -502,12 +502,14 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
+> >>>>>   		goto out;
+> >>>>>   	}
+> >>>>> -	if (inode->i_nlink == 0) {
+> >>>>> +	if (unlikely(inode->i_nlink == 0)) {
+> >>>>>   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
+> >>>>>   			  __func__, inode->i_ino);
+> >>>>> -		err = -EFSCORRUPTED;
+> >>>>> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+> >>>>> -		goto out_iput;
+> >>>>> +		goto corrupted;
+> >>>>> +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
+> >>>>> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
+> >>>>> +			  __func__, inode->i_ino);
+> >>>>> +		goto corrupted;
+> >>>>
+> >>>> Can we detect such corruption in sanity_check_inode() as well? So that if
+> >>>> f2fs internal flow calls f2fs_iget() on corrupted inode, we can set SBI_NEED_FSCK
+> >>>> flag and then triggering fsck repairment later.
+> >>>>
+> >>>> Thanks,
+> >>>>
+> >>>>>   	}
+> >>>>>   	if (IS_ENCRYPTED(dir) &&
+> >>>>> @@ -533,6 +535,9 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
+> >>>>>   	trace_f2fs_lookup_end(dir, !IS_ERR_OR_NULL(new) ? new : dentry,
+> >>>>>   				ino, IS_ERR(new) ? PTR_ERR(new) : err);
+> >>>>>   	return new;
+> >>>>> +corrupted:
+> >>>>> +	err = -EFSCORRUPTED;
+> >>>>> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+> >>>>>   out_iput:
+> >>>>>   	iput(inode);
+> >>>>>   out:
+> >>>>> @@ -572,10 +577,11 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
+> >>>>>   	if (unlikely(inode->i_nlink == 0)) {
+> >>>>>   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
+> >>>>>   			  __func__, inode->i_ino);
+> >>>>> -		err = -EFSCORRUPTED;
+> >>>>> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+> >>>>> -		f2fs_folio_put(folio, false);
+> >>>>> -		goto fail;
+> >>>>> +		goto corrupted;
+> >>>>> +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
+> >>>>> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
+> >>>>> +			  __func__, inode->i_ino);
+> >>>>> +		goto corrupted;
+> >>>>>   	}
+> >>>>>   	f2fs_balance_fs(sbi, true);
+> >>>>> @@ -601,6 +607,12 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
+> >>>>>   	if (IS_DIRSYNC(dir))
+> >>>>>   		f2fs_sync_fs(sbi->sb, 1);
+> >>>>> +
+> >>>>> +	goto fail;
+> >>>>> +corrupted:
+> >>>>> +	err = -EFSCORRUPTED;
+> >>>>> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+> >>>>> +	f2fs_folio_put(folio, false);
+> >>>>>   fail:
+> >>>>>   	trace_f2fs_unlink_exit(inode, err);
+> >>>>>   	return err;
+> >>>>
+> >>>
+> >>> Hi Chao,
+> >>>
+> >>> Thank you for the suggestion.
+> >>> I will add this to sanity_check_inode and remove it
+> >>> from f2fs_lookup as it becomes redundant since f2fs_lookup
+> >>> obtains the inode through f2fs_iget. For f2fs_unlink I will
+> >>> move the i_nlink == 1 check to f2fs_rmdir.
+> >>
+> >> Hi Nikola,
+> >>
+> >> I meant we can move the i_nlink == 1 check from both f2fs_lookup() and
+> >> f2fs_unlink() to sanity_check_inode(), because before we create in-memory
+> >> inode, we will always call sanity_check_inode().
+> >>
+> >> Let me know if you have other concerns.
+> >>
+> >> Thanks,
+> >>
+> > 
+> > The issue here is that sanity_check_inode will be called only when 
+> > we initially read the inode off disk, not when it's already in the cache
+> > 
+> > The syzkaller repro does something like this:
+> > Creates a directory structure /dir1/dir2 where dir1 has
+> > i_nlink == 2, which is one less than it should. It then does
+> > rmdir(/dir1/dir2) followed by rmdir(/dir1) which leads to the warning.
+> 
+> Oh, I missed this case.
+> 
+> > 
+> > In such case what would you say should happen, should the second rmdir
+> > fail and report the corruption, or do we close our eyes and just drop
+> > i_nlink to 0 and possibly log a message that something isn't quite right?
+> 
+> I agreed that we should keep i_nlink == 1 check in f2fs_unlink().
+> 
+> Thanks,
+> 
 
-WARNING: include/drm/drm_gpuvm.h:1083 struct member 'map' not described in 'drm_gpuvm_map_req'
+Hi Chao,
 
-Fixes: 000a45dce7ad ("drm/gpuvm: Pass map arguments through a struct")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Ankan Biswas <spyjetfayed@gmail.com>
----
-Changes in v2:
-- typos fixed 'map_ops' -> '@op_map', 'map' -> '@map'
+Just to make sure we're on the same page, do you mean to keep the check 
+in f2fs_unlink as well as sanity_check_inode, or only do it in f2fs_unlink?
 
- include/drm/drm_gpuvm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index 8890ded1d907..476990e761f8 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -1078,7 +1078,7 @@ struct drm_gpuva_ops {
-  */
- struct drm_gpuvm_map_req {
- 	/**
--	 * @op_map: struct drm_gpuva_op_map
-+	 * @map: struct drm_gpuva_op_map
- 	 */
- 	struct drm_gpuva_op_map map;
- };
--- 
-2.51.0
-
+> > 
+> > Thank you,
+> > 
+> >>>
+> >>> I will send v2 as soon as I do some more testing.
+> >>
+> 
