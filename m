@@ -1,132 +1,209 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC4D41C71
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Oct 2025 01:29:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229A63126AD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Oct 2025 06:42:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760491783; cv=none; b=hDDza6LCY2ngthLCpU+iZKjlH+PSx66yABPBuAoh7Boq850ckan95rKhNOJwWLSf5hb6rPOB9mgL8IO6/N4k2NCWH0KBWlQEU9EEHpCKke1EeLwhfYNsWXYJjU5zsMOa4n8gBIC/NIYaVZRWEInt2ZZuEwQg8stl38P1g+QSIrw=
+	t=1760510524; cv=none; b=rRgKNQB2nNv7dd78eKTO2vE9MniRsfg23rcVJ4fshbkp/lPA5eEfzq2Hb4/Jrf+yjnskfCNkazytQT/ULpPtChxjWS9WXOMK6BJppeOSZC8k3v9in2YEQOPBPzR6vjNKmr1n1JVdM6h+HNw6JYOi9MW9cqs8TUoRK9s7PrY7yi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760491783; c=relaxed/simple;
-	bh=EkDTdmk7VtedbDx8TuiDmQUnQUo94nagjsaRQEZkOHs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tluFo+L55e74kOkf8DRHOkcBS/ioPWCCWe/Y1QEtU0FUTmVNFUMcWLNptZoChSvWCTYfucimYu0Rr2XtYL7L8msHDMbvpkEZZ/bHPnSTXXDVyIbbgbLjMdwb8dS5ipca/FPJkOdVS9VL2fce5I4tJX9egz+VxZcECA8ASXxAjS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HGg3M4Rd; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1760510524; c=relaxed/simple;
+	bh=7ueWLGthCRnKiKyK3au2L4WjMFYE/UlGA7PZ+YmJV/s=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Gzx0uknx/8V8PkkQOs8KyNDLU/TD4jpYa9t7ThCXkqkGfYMQ8iS4gMXyFHWiN+mRXG+7zqQ0/KAT3W19UQenKVrnkB5NCfpy6cEK98sX3oeEw8rqdaP22yRZn1uZ6aKS2bAXqpe+cBjSX+6E0D1nuyEq1GOuYWo+d+wwG3zp4Lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yv8q55Xv; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HGg3M4Rd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yv8q55Xv"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D11F380F67
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Oct 2025 01:29:41 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id C24A683EE7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Oct 2025 06:42:02 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -5.792
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id BeG1nObvuBIP for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Oct 2025 01:29:41 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=bhanuseshukumar@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org EB4FC80F50
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EB4FC80F50
+ id fd4tVtn2goYt for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 15 Oct 2025 06:42:02 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=chao@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org B7F0083ED5
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B7F0083ED5
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HGg3M4Rd
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id EB4FC80F50
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Oct 2025 01:29:40 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-269639879c3so57484115ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Oct 2025 18:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760491780; x=1761096580; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1fvYbXimvUZhpQiNzNTlCeS9B/GqAi72nC59INjCGqc=;
-        b=HGg3M4RdyeAeTfa3rTu6Ff/5xdBd/hlr0sKFOlekpBMOFgCjZtThDwuXwN6X3c0liW
-         u2Xf+NyLZmMEKJQpUWL4cONWyhQKp7sKBdOg364n33umgI0zRMAODMoTUCtrcD0xtHkj
-         gbNQRlABxIrwTWYLOPX42tNBWz8/872nyt0emUpOGmN9BxcQuL4S/kgoGx9s5/S5hoMd
-         aQhYVhF72P0fSnL8osgGFDM+UKNWzQnvd42M40ob3Fyn+16ZAi9GZJx+EDFdJsbQwlmy
-         r9MEukzlV+GCqB1U0aZvSuSU164MtVrBegW9NgKnDgFURKSg6DViSLHzqnzhsa9nqef4
-         pO5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760491780; x=1761096580;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1fvYbXimvUZhpQiNzNTlCeS9B/GqAi72nC59INjCGqc=;
-        b=Z77hSW1VyZ5IaR2q0iPxv9Cacq2EJqFqQ6R6tBmKvAt7hJ0GBORLyfpJIxF0WjLyzZ
-         638cEG3lJVF6aZtdpImoCWjT5rsQ4mRR6bs89ZSznXuy6TEOuWDmBj/+/3m6LCloJ1wx
-         JFfJH2JDOVXDqjGwV+hjw90QJl29eH8cuVd7mhjeGug4PGxBj9NVMidE9QxLQXTgFHvE
-         sPG/M/0u9kJyVa8OTHjctC3B1A4jWOZL6LswJsDOfxSw2hZqNAExR2zid55Q2hLkEjoT
-         +5s9jMvkWY31Zwj7qCU3mMpKwMEUAhdjqrZQM+cmzUV13sIwHe55oeUmfVVpFqdoFggb
-         rTfg==
-X-Forwarded-Encrypted: i=1; AJvYcCV1WGSbsXkuEqUDXYrLbPMc7Ol1ecNxwz4baqC1xLZpHHZdai2pXUWQu0qkcYZMNjZ8R39T/dcF410aqfndqJDqnGk9EA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzHo6T9cBbSi4D02Bx5rTnjYOrgaEU+5wUDp/N0VGKuxih3dcZY
-	PsWyhclOza1eHoV0BhY7jH77GGxZhtGZFR3cpkb8WU/Fek7hLPUFRzR2
-X-Gm-Gg: ASbGncvK03Wan2onTns6/kw1TCTmvwHrpgIIaqF48djx440R2SR8pV7I1GlvTOpUCOQ
-	uKVv9nshN7GJurWF9ENukJGQ7tn3KApJ/B78n2pfLttYTAGzt+yXLukA0x9FMAGu5ryaJxWGSY+
-	IylkhE23jL/u/zKDx05qF9Wc6vd8QGsoEFnlQZ2bqOeeP1J801jXnYPLf517i58c3VgUU1IKf2a
-	9Gb2tRpaC2fSFEvCHhdXhW7OTAtmBUgnIIrhHMd4K4ySMH5cUH4/JQRKTwBPqkL6mR3X8A+PIut
-	91Cx5827+7qAjdnhWpyf4o6JwbRVmS0fjCgc2D0iQwKjTErnwZMmU6UdB0TnvcZi3jadxSEyQ+H
-	6TOPJvKoKcF9pNyeU5N4oHtCyD6uMjCHC3N8l+gVlLCUDoje7mPI+/MvKRIxVc0Wki8CBWy+PxG
-	Wukro+WQ==
-X-Google-Smtp-Source: AGHT+IETwzTDN79xce98tBpGmn6d5BjHIybgvoONdJrdp+zyqvV2gOBUk6dEmaq5sMqA1PTfzaY8Iw==
-X-Received: by 2002:a17:902:e78f:b0:269:74bf:f19a with SMTP id d9443c01a7336-2902735639emr331745545ad.11.1760491779973;
-        Tue, 14 Oct 2025 18:29:39 -0700 (PDT)
-Received: from ti-am64x-sdk.. ([152.57.123.102])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034deb0e7sm177275485ad.11.2025.10.14.18.29.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 18:29:39 -0700 (PDT)
-From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	bhanuseshukumar@gmail.com
-Subject: [PATCH] docs: Makefile: Sort Documentation targets case-insensitively in make help
-Date: Wed, 15 Oct 2025 06:59:22 +0530
-Message-Id: <20251015012922.19467-1-bhanuseshukumar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Yv8q55Xv
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id B7F0083ED5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Oct 2025 06:42:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id AEF8E6298A;
+	Wed, 15 Oct 2025 06:41:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A379BC4CEF8;
+	Wed, 15 Oct 2025 06:41:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760510519;
+	bh=7ueWLGthCRnKiKyK3au2L4WjMFYE/UlGA7PZ+YmJV/s=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=Yv8q55XvvArrOpwOBYMqk5hpoKouIC/IPOpP3MD52LD0MW9IUufWtKcqXjTGU8/Bs
+	 alIlAbR6oQp0MSVgD0F29NogUp8RgWz8tKJwTVj24DZkQ9myEY1/W0Z9TEyK6qD0V1
+	 OPLEgM8EwmHTftNdefy5SISCqRlDub1MQZKS59Usv8BozeZgG3JiT6HTBagw6rBSvT
+	 da8gWj4aiVzxdcFwFT55fjvKDQ6PwPL7tNEQJ0YPUcmsmz8RGuIY2JoMsv8/1TI6DA
+	 3z7rt+05fI0DiqPgrtPbLq5AW6ZMcJHg9osnOEqSZYvDpbzExJiCUJuOUb0srFVpLr
+	 1zfTILTjGWpAQ==
+Message-ID: <235adbae-cc45-4b84-b712-1ba9e5a48dce@kernel.org>
+Date: Wed, 15 Oct 2025 14:41:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Cc: chao@kernel.org, jaegeuk@kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org,
+ syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
+Subject: Re: [PATCH] f2fs: Perform sanity check before unlinking directory
+ inode
+To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
+References: <20251003134731.470392-1-zlatistiv@gmail.com>
+ <839306c1-5f7a-4e89-b2cf-7534d279a03c@kernel.org>
+ <gupgic53ouhmdwrglwdviw2mzeaqfjsvyr47u3ebu2ztayswy4@4oxvnu252rdb>
+ <9d0fef9d-4093-4a80-af3f-6dc45ffe886c@kernel.org>
+ <zomib7dzvmnggqqy6aqlwij3zihbvzkzrnfvzhk7tcp2mdgh34@tjjugevo4q4a>
+Content-Language: en-US
+From: Chao Yu <chao@kernel.org>
+In-Reply-To: <zomib7dzvmnggqqy6aqlwij3zihbvzkzrnfvzhk7tcp2mdgh34@tjjugevo4q4a>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Avoid case-sensitive sorting when listing Documentation targets in make help.
-Previously, targets like PCI and RCU appeared ahead of others due to uppercase
-names.
+On 10/14/25 20:17, Nikola Z. Ivanov wrote:
+> On Mon, Oct 13, 2025 at 08:53:04PM +0800, Chao Yu wrote:
+>> On 10/13/25 05:19, Nikola Z. Ivanov wrote:
+>>> On Thu, Oct 09, 2025 at 10:54:40AM +0800, Chao Yu wrote:
+>>>> On 10/3/2025 9:47 PM, Nikola Z. Ivanov wrote:
+>>>>> Current i_nlink corruption check does not take into account
+>>>>> directory inodes which have one additional i_nlink for their "." entry.
+>>>>>
+>>>>> Add additional check and a common corruption path.
+>>>>>
+>>>>> Reported-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
+>>>>> Closes: https://syzkaller.appspot.com/bug?extid=c07d47c7bc68f47b9083
+>>>>> Fixes: 81edb983b3f5 ("f2fs: add check for deleted inode")
+>>>>> Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
+>>>>> ---
+>>>>>   fs/f2fs/namei.c | 28 ++++++++++++++++++++--------
+>>>>>   1 file changed, 20 insertions(+), 8 deletions(-)
+>>>>>
+>>>>> diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
+>>>>> index b882771e4699..68b33e8089b0 100644
+>>>>> --- a/fs/f2fs/namei.c
+>>>>> +++ b/fs/f2fs/namei.c
+>>>>> @@ -502,12 +502,14 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
+>>>>>   		goto out;
+>>>>>   	}
+>>>>> -	if (inode->i_nlink == 0) {
+>>>>> +	if (unlikely(inode->i_nlink == 0)) {
+>>>>>   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
+>>>>>   			  __func__, inode->i_ino);
+>>>>> -		err = -EFSCORRUPTED;
+>>>>> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+>>>>> -		goto out_iput;
+>>>>> +		goto corrupted;
+>>>>> +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
+>>>>> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
+>>>>> +			  __func__, inode->i_ino);
+>>>>> +		goto corrupted;
+>>>>
+>>>> Can we detect such corruption in sanity_check_inode() as well? So that if
+>>>> f2fs internal flow calls f2fs_iget() on corrupted inode, we can set SBI_NEED_FSCK
+>>>> flag and then triggering fsck repairment later.
+>>>>
+>>>> Thanks,
+>>>>
+>>>>>   	}
+>>>>>   	if (IS_ENCRYPTED(dir) &&
+>>>>> @@ -533,6 +535,9 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
+>>>>>   	trace_f2fs_lookup_end(dir, !IS_ERR_OR_NULL(new) ? new : dentry,
+>>>>>   				ino, IS_ERR(new) ? PTR_ERR(new) : err);
+>>>>>   	return new;
+>>>>> +corrupted:
+>>>>> +	err = -EFSCORRUPTED;
+>>>>> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+>>>>>   out_iput:
+>>>>>   	iput(inode);
+>>>>>   out:
+>>>>> @@ -572,10 +577,11 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
+>>>>>   	if (unlikely(inode->i_nlink == 0)) {
+>>>>>   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
+>>>>>   			  __func__, inode->i_ino);
+>>>>> -		err = -EFSCORRUPTED;
+>>>>> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+>>>>> -		f2fs_folio_put(folio, false);
+>>>>> -		goto fail;
+>>>>> +		goto corrupted;
+>>>>> +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
+>>>>> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
+>>>>> +			  __func__, inode->i_ino);
+>>>>> +		goto corrupted;
+>>>>>   	}
+>>>>>   	f2fs_balance_fs(sbi, true);
+>>>>> @@ -601,6 +607,12 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
+>>>>>   	if (IS_DIRSYNC(dir))
+>>>>>   		f2fs_sync_fs(sbi->sb, 1);
+>>>>> +
+>>>>> +	goto fail;
+>>>>> +corrupted:
+>>>>> +	err = -EFSCORRUPTED;
+>>>>> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+>>>>> +	f2fs_folio_put(folio, false);
+>>>>>   fail:
+>>>>>   	trace_f2fs_unlink_exit(inode, err);
+>>>>>   	return err;
+>>>>
+>>>
+>>> Hi Chao,
+>>>
+>>> Thank you for the suggestion.
+>>> I will add this to sanity_check_inode and remove it
+>>> from f2fs_lookup as it becomes redundant since f2fs_lookup
+>>> obtains the inode through f2fs_iget. For f2fs_unlink I will
+>>> move the i_nlink == 1 check to f2fs_rmdir.
+>>
+>> Hi Nikola,
+>>
+>> I meant we can move the i_nlink == 1 check from both f2fs_lookup() and
+>> f2fs_unlink() to sanity_check_inode(), because before we create in-memory
+>> inode, we will always call sanity_check_inode().
+>>
+>> Let me know if you have other concerns.
+>>
+>> Thanks,
+>>
+> 
+> The issue here is that sanity_check_inode will be called only when 
+> we initially read the inode off disk, not when it's already in the cache
+> 
+> The syzkaller repro does something like this:
+> Creates a directory structure /dir1/dir2 where dir1 has
+> i_nlink == 2, which is one less than it should. It then does
+> rmdir(/dir1/dir2) followed by rmdir(/dir1) which leads to the warning.
 
-Normalize casing during _SPHINXDIRS generation to ensure consistent and
-intuitive ordering.
+Oh, I missed this case.
 
-Fixes: 965fc39f7393 ("Documentation: sort _SPHINXDIRS for 'make help'")
-Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
----
- Notes
- - Patch is tested with make help command.
- - Verified case-insensitive sorting.
+> 
+> In such case what would you say should happen, should the second rmdir
+> fail and report the corruption, or do we close our eyes and just drop
+> i_nlink to 0 and possibly log a message that something isn't quite right?
 
- Documentation/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I agreed that we should keep i_nlink == 1 check in f2fs_unlink().
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 3609cb86137b..00c81e7947a9 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -23,7 +23,7 @@ SPHINXOPTS    =
- SPHINXDIRS    = .
- DOCS_THEME    =
- DOCS_CSS      =
--_SPHINXDIRS   = $(sort $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)))
-+_SPHINXDIRS   = $(shell printf "%s\n" $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)) | sort -f)
- SPHINX_CONF   = conf.py
- PAPER         =
- BUILDDIR      = $(obj)/output
--- 
-2.34.1
+Thanks,
+
+> 
+> Thank you,
+> 
+>>>
+>>> I will send v2 as soon as I do some more testing.
+>>
 
