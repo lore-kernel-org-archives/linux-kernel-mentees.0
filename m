@@ -1,120 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4B033438C;
-	Wed, 15 Oct 2025 15:55:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2DC2F25E8;
+	Wed, 15 Oct 2025 16:39:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760543748; cv=none; b=jna/6/Sx3RZ4qRn5Vk6M0X9fTgmqxQ3w3b6Wx8r/NdW1IhBjtEYQjkUk6SzgI4uHiBj3Os6DE+krVVKg3hJDovSdAlKPFW9C4WEwmNtHutw5ODfGhDJi5mIoSWjpYWJgqX8UBo/ck45cLDmjQLptCsCGku0p/A8dTWyRkWJnOsc=
+	t=1760546349; cv=none; b=PGJayApRkzIDf/UGL2rzIIuIdfMYAfn9YqIskJwqfYTLA8XK+hC3joiDTEvjHb+dkqze2knnt0nAnC8wLRrMwdzWt+z7n2aDAmHAQmKdWKD3XyaWHzPiuycnDJdb5RrRYSr0kJx1DNzYe+dV8tpdEaBbzWKbRg3k8LWBfZ2UVWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760543748; c=relaxed/simple;
-	bh=OtK5voWcAdL/bSIr5aJ2h3Z25CnusKZJ0G6Htr86Y9k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uZIW5Z5IxG3UTlgln6lgyNcZG4De4flMk1W45IKNpqB5TzhN8eFLraieExM7aEnpQ0PS31k/4JJqnma4yeXKYZGeVGQTcEtceThR6QdsrA2JA3P+GJtvylDGxXIKNES9UhJGAaUPa9+ORL6DJ3vtrWA0mo3M/kXQX0WkbtKOaHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sRPbp5o6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760546349; c=relaxed/simple;
+	bh=uY/ri/R/uptObQp5pFssQiLcxUk4JQh2NMKsHkdSeFg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=XAWmTQupkr/oidLsTFZwyCRevNKUuGFC6fQJeA6DP56uyi2bbvL+MlZuGtewIKM4kBeFBFZLjMeE/68K8Up9mCs0KGNgrY+hpSxusm5SLDu9Im/nlAB5jlgC3hiEAiSOJ5u9ZwdYLXnL/2lDcLC/AB0uXEDGvpEcX9u9B0T1+cE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ENybR6Bm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sRPbp5o6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79EB0C4CEF9;
-	Wed, 15 Oct 2025 15:55:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ENybR6Bm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DFC5C4CEF8;
+	Wed, 15 Oct 2025 16:39:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760543748;
-	bh=OtK5voWcAdL/bSIr5aJ2h3Z25CnusKZJ0G6Htr86Y9k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sRPbp5o6qVOk2SDQ8eJyn/b+ynWlGPdkQUcgTZuU+ri1ltCzPZfShZCJtXG+0PLaL
-	 SX5cNafCF06SX13gwpENJ4gH6u6sC5NQCfWsfLTSQcLznc6wkM2Iuad6XqovvPF7nI
-	 BxWoeP9W9mUoUfeD4N3Xf6GocKriWFp90EKF5vVnTvkkR7/8Ro8g4/A8CUYa7Uvn0J
-	 S2gtyfHsEy+5O77izo7wl42JLbSpBfUFtoWhM2Kjdt+Rz3/PWvud3eqvUxmJeipIHJ
-	 oxMWsxkLoH+5v/D2t+dTDuUgiBZBjO2jyulVeI9p50CpXeQGBbvj+TH9PIdiEYYdeB
-	 igk7h69kmMlig==
-Message-ID: <1adfe818-c74f-4eb1-b9f4-1271c6451786@kernel.org>
-Date: Wed, 15 Oct 2025 09:55:47 -0600
+	s=k20201202; t=1760546347;
+	bh=uY/ri/R/uptObQp5pFssQiLcxUk4JQh2NMKsHkdSeFg=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=ENybR6BmBQieuG19sBiCFY7ya2zl+CjQYCLBGehWPGTMdLDjTMUldKXsD2Wt9bQ7G
+	 gQzqWJuRSrzFQgEjQILVAoJ2aliqcx39W/cj/pwdre5P7YSc4H4XvZAP4TBfZVVKCY
+	 OjxM5WAm8r+nj2W0tXwYaYOlFQEqp2FqGeZqHrs18ekBhLGjTQ9y7agXqDX9MWbw35
+	 r7MfVXSY4+9vml8uzn8C/OLgU3ntLvZNbGwmA+4ECVlk0Dgjfb/HV+RXu0Wr2Kg1hK
+	 P6524sTIfQ/hNOyueaqPgNbuPcv7c3tfwiObltpOCMMXQmInVAuRJ63CgV38YVDpCr
+	 W9wohz3gf0vEw==
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2] net: usb: lan78xx: fix use of improperly
- initialized dev->chipid in lan78xx_reset
-To: I Viswanath <viswanathiyyappan@gmail.com>, Thangaraj.S@microchip.com,
- Rengarajan.S@microchip.com, UNGLinuxDriver@microchip.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com
-References: <20251013181648.35153-1-viswanathiyyappan@gmail.com>
-Content-Language: en-US
-From: Khalid Aziz <khalid@kernel.org>
-In-Reply-To: <20251013181648.35153-1-viswanathiyyappan@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 15 Oct 2025 18:39:01 +0200
+Message-Id: <DDJ1LC1XM765.33V1SPVZAIKP5@kernel.org>
+Subject: Re: [PATCH v3] drm/gpuvm: Fix kernel-doc warning for
+ drm_gpuvm_map_req.map
+Cc: <bbrezillon@kernel.org>, <himal.prasad.ghimiray@intel.com>,
+ <matt.coster@imgtec.com>, <robin.clark@oss.qualcomm.com>,
+ <matthew.brost@intel.com>, <aliceryhl@google.com>,
+ <thomas.hellstrom@linux.intel.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <simona@ffwll.ch>,
+ <skhan@linuxfoundation.org>, <khalid@kernel.org>,
+ <david.hunter.linux@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <linux-kernel-mentees@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ "Stephen Rothwell" <sfr@canb.auug.org.au>
+To: "Ankan Biswas" <spyjetfayed@gmail.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20251015152543.24368-1-spyjetfayed@gmail.com>
+In-Reply-To: <20251015152543.24368-1-spyjetfayed@gmail.com>
 
-On 10/13/25 12:16 PM, I Viswanath wrote:
-> dev->chipid is used in lan78xx_init_mac_address before it's initialized:
-> 
-> lan78xx_reset() {
->      lan78xx_init_mac_address()
->          lan78xx_read_eeprom()
->              lan78xx_read_raw_eeprom() <- dev->chipid is used here
-> 
->      dev->chipid = ... <- dev->chipid is initialized correctly here
-> }
-> 
-> Reorder initialization so that dev->chipid is set before calling
-> lan78xx_init_mac_address().
-> 
-> Fixes: a0db7d10b76e ("lan78xx: Add to handle mux control per chip id")
+On Wed Oct 15, 2025 at 5:20 PM CEST, Ankan Biswas wrote:
+> The kernel-doc for struct drm_gpuvm_map_req.map was added as '@op_map'
+> instead of '@map', leading to this warning during htmldocs build:
+>
+> WARNING: include/drm/drm_gpuvm.h:1083 struct member 'map' not described i=
+n 'drm_gpuvm_map_req'
+>
+> Fixes: 000a45dce7ad ("drm/gpuvm: Pass map arguments through a struct")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes: https://lore.kernel.org/all/20250821133539.03aa298e@canb.auug.org=
+.au/
+> Signed-off-by: Ankan Biswas <spyjetfayed@gmail.com>
 
-How did you determine this is the commit that introduced this bug?
-
- From what I can see, commit a0db7d10b76e does not touch lan78xx_reset() 
-function. This bug was introduced when devid was replaced by chipid 
-(commit 87177ba6e47e "lan78xx: replace devid to chipid & chiprev") or 
-even earlier when the order of calls to lan78xx_init_mac_address() and 
-lan78xx_read_reg() was introduced in lan78xx_reset() depending upon if 
-lan78xx_init_mac_address() at that time used devid in its call sequence 
-at the time.
-
---
-Khalid
-
-> Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
-> ---
-> v1:
-> Link: https://lore.kernel.org/netdev/20251001131409.155650-1-viswanathiyyappan@gmail.com/
-> 
-> v2:
-> - Add Fixes tag
-> 
->   drivers/net/usb/lan78xx.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-> index 42d35cc6b421..b4b086f86ed8 100644
-> --- a/drivers/net/usb/lan78xx.c
-> +++ b/drivers/net/usb/lan78xx.c
-> @@ -3247,10 +3247,6 @@ static int lan78xx_reset(struct lan78xx_net *dev)
->   		}
->   	} while (buf & HW_CFG_LRST_);
->   
-> -	ret = lan78xx_init_mac_address(dev);
-> -	if (ret < 0)
-> -		return ret;
-> -
->   	/* save DEVID for later usage */
->   	ret = lan78xx_read_reg(dev, ID_REV, &buf);
->   	if (ret < 0)
-> @@ -3259,6 +3255,10 @@ static int lan78xx_reset(struct lan78xx_net *dev)
->   	dev->chipid = (buf & ID_REV_CHIP_ID_MASK_) >> 16;
->   	dev->chiprev = buf & ID_REV_CHIP_REV_MASK_;
->   
-> +	ret = lan78xx_init_mac_address(dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
->   	/* Respond to the IN token with a NAK */
->   	ret = lan78xx_read_reg(dev, USB_CFG0, &buf);
->   	if (ret < 0)
-
+Applied to drm-misc-fixes, thanks!
