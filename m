@@ -1,241 +1,104 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97C5341AD4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 16 Oct 2025 16:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=140.211.166.136
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760633471; cv=fail; b=ekoIfHF8n/dd/jS4o6EmP6gs0j/xiVzRl721RCUght/dLcULc1HYOHiSqH4AM5Xe4laT/oBizLjb8poklOxDcMiTzF1tVTkI5zqq/L06J4y3Aj5hQ9fPDngD9GwVFrCeXepznyXRizc3wLRErmtoe40mHyB/JZ60taanL52H0jw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760633471; c=relaxed/simple;
-	bh=HNhQbs60BNCBeulW5U3SKEVuyp3OOIMejjWg+aCFp2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=RZHYdJRxjips2SCAezMouZ3+gZpJnFjFNqng2ZnRMKjVIsUYiGc0h15bBuslePAv7zzHlQ3/isnpnvoaPi0y547SrAecUBrUVbw3U5DEIx9TvJHxsGuKKfXuUcVHqp8IeUpPFUuTeg6zeXwntHGEQ8+y6YbHOhUFO81DBJA8foc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=GD4xBcO+; arc=fail smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103502DC793
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 16 Oct 2025 20:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760647677; cv=none; b=VmwRqFljSdIhDfGF4IVCBIBGc9JXhlhVNBcL0qmugVkxC5oBeKDgSSRPQveM+Vib8a/h8cQ8nv2bjLZqh6Y06Dz5CJuXMSe6pBxKgWvVhFwoeW2i5iTQN+rFvCll/qtBeaPfozve2wPuJw+DiwEcsPKwTPzmFCj91ud3HD4Gkw4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760647677; c=relaxed/simple;
+	bh=ndgdnL4NvZXc2YXbgp6JkfbQHOsj4MuJcCkc5VpFe/s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cy2YXW9r6DtRjO7YZeGXxD+/AnVhK/RbdorqqoBISaxQ3gM/6M2BOLRlWwf7BWkM01hUIP8fDTb1Tp+egnPShjwJuP5DjmQrayXOc3GIkyLhalBd3QUqAmUDGQSc68OnpW6VWhJX+6426qZIWZtL1b8f5UylNzEQ8GYidt0wyvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MCVzU6MC; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="GD4xBcO+"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 4415960655
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 16 Oct 2025 16:51:09 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.091
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Vae2gy3RSRM6 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Oct 2025 16:51:04 +0000 (UTC)
-Received-SPF: Permerror (mailfrom) identity=mailfrom; client-ip=2a01:111:f403:c201::1; helo=am0pr83cu005.outbound.protection.outlook.com; envelope-from=frank.li@nxp.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 2D6C460653
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2D6C460653
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nxp.com header.i=@nxp.com header.a=rsa-sha256 header.s=selector1 header.b=GD4xBcO+
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazlp170100001.outbound.protection.outlook.com [IPv6:2a01:111:f403:c201::1])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 2D6C460653
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 16 Oct 2025 16:51:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EbJif+6fXGtkk1Ghd/7A6XC1qw49ghjpXQrqBTA4PsquoE/lcOHcTm4pzP9MZmcoEcYnfnrJrdsSVP8lxWop5tU7rvw4u7jw27VODpq0vr9I+OsHZv8We/u+sWYfBS34Q3Zi7PPHRzUFXghRGSQlmeBrVrXE9i12CgHRvOcP/UfmnKEcW2Jj8XQ4t+oQ9LUHSsff/QYQKQcSBwxviDKMloIMQNwFGmq9Zw3dhrKxybBRDtKYDf0JiWufmrlwIqbuhKouEPZD7Ge4DCEQVjRnAJlXQt2IMS12kgdraJGn8JRxBS1M2pUo+Rc+e642PadDDyKLZvCKUMZJ2uThEH2yTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bkjb7O6b9K9s9XurLxDHzl2iEcrlgBxGxlkJGFbzXtw=;
- b=OMYoSfqlUywcHuwSgMdtnMl6DRAUSPeOqzkZj5xiMeicvEk40YOrPkeQQQwCUjLbU5LR5MsIkihfZ1/xpQcgVDpx4/zAJ4A6jBkt4dPgafWstk0PsI+lxZAag/lluZBwJPpenHkUx+DZL8k4SfkWLUw++n8HVDI9MuRlWzAYAjyFwP1yCXkhJjC5SCschf01st54fZ83+K0R9Bk7xZ9GmsTsXMxxi8Js3Lzot2lNYsSG1xnGX0kPhQ5uGtftmInPUX1avyPhsOjeb3K5lQ3CBKJTVmhIrS406UMpFar8t4C/jhBAMFxuVGDeg+DCbZag9/Foh6TUOOkSWRGqBGawRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bkjb7O6b9K9s9XurLxDHzl2iEcrlgBxGxlkJGFbzXtw=;
- b=GD4xBcO+HtBXh4hYZdqOSKNH5Wc8cmyg5XZ6AtSVzdyYYlL8Bj8+AX/4y9dKt/xxIISKWo/Elg6HC/1biljehR+yxCiqZWB+1g+lbYtf/2rnqY5n6UPGSAavO3wtJXz1mvhVpRYAAs5LbQ1W9aInTqT+9xZfWuEz/eN0Tj9O2TeQN+913wA+d9oe6WaMDPr2Nk5lPto759sazkGHy7sD7wbWQfr3bSjCF0gvoOrSq3w5dpRU/fg8CzvgHM0CimCPPD4hgaGjBCcfBYvb9Hg+xM2nEchtkUYsX2SE6dqvMPv1aI54FsyCuwmxFmumXQP/CMtiyedfxa+jd8rrnhz5NQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
- by VI0PR04MB11602.eurprd04.prod.outlook.com (2603:10a6:800:2fa::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Thu, 16 Oct
- 2025 16:50:59 +0000
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9228.010; Thu, 16 Oct 2025
- 16:50:59 +0000
-Date: Thu, 16 Oct 2025 12:50:51 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Niklas Cassel <cassel@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Mohamed Khalfella <khalfella@gmail.com>,
-	Christian Bruel <christian.bruel@foss.st.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-Subject: Re: [PATCH v3] PCI: endpoint: pci-epf-test: Fix sleeping function
- being called from atomic context
-Message-ID: <aPEia0SAm8YoKvnY@lizhi-Precision-Tower-5810>
-References: <20251014024109.42287-1-bhanuseshukumar@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251014024109.42287-1-bhanuseshukumar@gmail.com>
-X-ClientProxiedBy: PH8P221CA0065.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:510:349::13) To PAXSPRMB0053.eurprd04.prod.outlook.com
- (2603:10a6:102:23f::21)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MCVzU6MC"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-33b9dc8d517so1144321a91.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 16 Oct 2025 13:47:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760647675; x=1761252475; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=onqj4CjIVJRLh43lyfVP55yMWDw9oV4qH8HlU6gjd2U=;
+        b=MCVzU6MCkt3kvjmgp+xZMg03R5JIJTQrwWeXS4Od/tmEPpKTSaKUjDzXfed7WJw5Zv
+         w1sxx0lrmwmcKffGXJWiWhBGWN5l0pLqbw+fYvoK2csrEwUFdaJcn3OEbLU04b4v1lM1
+         5PVJdLIMZRAJFLgc7U29kVqNVyniZ8B+i0wzbR2SUWix70BlPCSw7Wu4b84PBITusps+
+         N25uLrE7YOJUBpII/bdoFb8LTNFxqp7zn62IfB2CaFUXwodsXF8EAqb+qvtdmE/2YucW
+         qIehfqkQnfo7hIKuk8ZUHE18hG13vkFr70uQwpdACuGX6OK06bxjPiWdWj3sWrqi/S4a
+         BIMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760647675; x=1761252475;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=onqj4CjIVJRLh43lyfVP55yMWDw9oV4qH8HlU6gjd2U=;
+        b=Qmc9AW8fDqZObyn3Fyu/6Qd1ya36EutWLV/gTKQmAXMaOiR6xOKQmoqMT7VZoL6Znc
+         L2h60ppoIabtQHRxPa2LEJeZywk56v7cX+iNAiXkhD+65UrJOCmc+slnzVtEdy7aroXx
+         X7OlDNylhku1iidK82Lg0EeZG7qqUkOBnNg41lpa1VFqp6BeetKvznAQMGfz+BFTGlAn
+         qZL63nKDK6K+7XsCugFmxVdBGB9ZRWkPM/OBihvKqLbDGt1oy05AHj36i0QxYWSuS1jE
+         4DR6LYyVtMBjqXHqZ2WRIEF6tHhEtyiIk0oHWtVQumTV/CcGkXEsHZda6t3jPIE3zxrd
+         k8cg==
+X-Forwarded-Encrypted: i=1; AJvYcCV43LQ4cmtshbxoVx7zol2U4i7mqn1ZGHmofhXJis+vbbhL329W9K3lEhZezZqoVQSdVj1eY1IkH0iRW+DYOSgzSqWx5Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyltek6WvxWaA/J/vmkWzjirk8UXd52IYppjKF7DW4Bbyp4mW0T
+	t6tUzgFFaNC8+HuujX837l63M8TgQ4mPVSw1ludIIGqW0Dkhhgp9OpZz
+X-Gm-Gg: ASbGnctFBboZDRsp5dTBf5VMxeMHGyG5GE0iL9ZJ6l5/DKlv4eiZKfuHx2ClmHa6D95
+	St51HKOT8br/IpTAjWfbtpZjhUBtRpNSBEiWBXPuplN0G0AGswq6ufGLLIhHIIKjCXioWZbsnTZ
+	RVs8QfPrSRWRGruWNqWwxVAv6rvSA6NZ1LvdPztwqo5bBiidD4+PpjvVuCTkZhncF2Ntkog6luk
+	Prb/vJdwakKmo6ON3NTn9tuJTN/tf772DXCeowem7y+9XqTA5kcq71mzNCcnBpddNZG+ttzjnof
+	RplHyhHlU25/wfthKdezrceunENACYV0r11ku0FlBpO34MBOhUnT6rneCMWiTPZsYjZ3Tf7uP0A
+	xB8CJix9qg9FsuozVbMJSXBd/AMFKQQqVZl4oItqdcSdVF1mXLwYcEvhaGhgYp4TvUgzfyOqO23
+	KmN4TxNqr/Nibf
+X-Google-Smtp-Source: AGHT+IH4G3cPfsZSOD6swv+Nr/r1bSZCKg8w/Ox7KOwwd15eIqRctEk/RfdSNTo8Nh6NWlqwEHC1PQ==
+X-Received: by 2002:a17:90b:4b0f:b0:32e:8c14:5cd2 with SMTP id 98e67ed59e1d1-33bcf8faac8mr1245917a91.28.1760647675393;
+        Thu, 16 Oct 2025 13:47:55 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6a22bb5b8fsm3746596a12.37.2025.10.16.13.47.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Oct 2025 13:47:54 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 16 Oct 2025 13:47:52 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ankan Biswas <spyjetfayed@gmail.com>
+Cc: jdelvare@suse.com, corbet@lwn.net, skhan@linuxfoundation.org,
+	khalid@kernel.org, david.hunter.linux@gmail.com,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] docs/hwmon: Fix broken links warnings in lm90.rst
+Message-ID: <dff61b90-31fc-4c96-9bc7-0f8aa8404689@roeck-us.net>
+References: <20251016103049.2573-1-spyjetfayed@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|VI0PR04MB11602:EE_
-X-MS-Office365-Filtering-Correlation-Id: 47aa6f8d-9608-4247-f0ce-08de0cd42eb8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|52116014|7416014|19092799006|1800799024|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?c+ko1R4S5r0d6swxSc7DPdT85qtZbIwTySB9AKQ01Y9ofG7lfIJPeu0bKk1F?=
- =?us-ascii?Q?2KKrTjG+lyL5bqjweP/QJ+SWqY1Ca8lpSLdhJNXV7h9PAxJvGH8oSZZe9D73?=
- =?us-ascii?Q?h8rumteBsX/k37y6eLceWVCLfgMy0PJjCLqRL8Gt2ae3Q1R6YneB6pabW2Vx?=
- =?us-ascii?Q?65IrzFFDSjyCkvk8yRwo3MsvABCJP3KGpJL3bZ2wMow64vH73k0iYl8Iql/O?=
- =?us-ascii?Q?YO6xFBsIOMRVmxIK9yzlsXyqGHwkqAM49H+ij5ByatFA82WWcsT89euDcZi7?=
- =?us-ascii?Q?s/fCCyNmm6/NHxmIUtgJzmSmLYfcj0LQF9v7zeD+IKloKSTv8kjX7e6PP8l+?=
- =?us-ascii?Q?sAxsNzN9MfjOlTItyPTBdJAkIHa6rAYMwv/H8Yfo4sfrkBDJDpPebrOgIVgd?=
- =?us-ascii?Q?9qj77ZkMciSEp1YFhS6cbK3ewsdD88R8pPiETQbuvhhzkdGJj5+9PHM0Ww3v?=
- =?us-ascii?Q?cewTBzAiobgG/3YB17MWm+fFy9MLjrAVQXZrIjUzZ7G2XeHpJkg8ik4QOrEY?=
- =?us-ascii?Q?ju1wW5n0bGJwDpKMkKhZsmC4h6ayV7nGYIlAaGz6xktcyHffSRho8lwAhtE4?=
- =?us-ascii?Q?WLK5qp0+jZgPmS/aUmDO9wPIXr/MgE/rq3L+qTzQhe76O3Q5cuO2Lz57T3Kv?=
- =?us-ascii?Q?zK0Q7AQO2SY01EullVZrIeQsu2nU/lU4UhEUwjnUWuynECSS3tBTd4j8V6n/?=
- =?us-ascii?Q?2pPq9n00FLIIKwekpR+x5EY4RqXkeOygBjh6v8DonPaPSNnM33QiLEJJe6j7?=
- =?us-ascii?Q?3mS6+L5YoFQPLD2JWQsDlKGhFl9o1oQQBe7XtFLOeBUHcW7zF5qvVfqIAdD0?=
- =?us-ascii?Q?CkGuNYS76eGW6WTEPiz9jTXLx4LCkR46qjU7Py6DZoDJdY2ahBXRKwpxL/PN?=
- =?us-ascii?Q?eGG0+DPXLoFo0TIsnIVpJsAn6LThBtP+L3uVbgVSVJ0iASrVMtUi0fmyxUkz?=
- =?us-ascii?Q?kdhgRW4g3gMGuxadHE8FOrtZXhIAywGWEhJOj8xFe86y8QhktKSPG811mjzh?=
- =?us-ascii?Q?EySsPZmjTkJ0MTEsPmjeI2EhEsraDe5xxO9CwDnmjoOGBp44Bbc5N3M3d/Cy?=
- =?us-ascii?Q?3VAIgU/kK2xDkSSEliqCYyiQXuWgenxa2RWv0xD3BHYsVs5h//LqHA9oWXwo?=
- =?us-ascii?Q?Pj8sLT2gTf3NFXerIZd3o1k6kkVhrUozrWphinVU85+6Im9qWiQUZpY/5/81?=
- =?us-ascii?Q?zct1lU8fPFk6GC825nmIhLWtrbLbRl/4zYlaUDd0k+0hizgIQuZUfn8DQRWK?=
- =?us-ascii?Q?gLRmSVXsc7earI87x4ekp1/8tVDbCuOPtBlX1Z1Xq7NeG+X9CI37s9cMSOAY?=
- =?us-ascii?Q?Ro8dIW7GgYN71o3D3hS1e7kIeHG7h5wrW/7z9XihwoCAVeYWvZcBtUcamUfD?=
- =?us-ascii?Q?rP1e6jJYzBhXvKa9181egrUMrHO0eDfATZDupkTAvXwkzkqxiEIKjRzIAzuA?=
- =?us-ascii?Q?36d6Zd+nNdeq2YyWEbwodm7JpBAII9t8nSNCr75HoXENXBAXJqmDJPPGv5tI?=
- =?us-ascii?Q?IZNKtcG9w+GCc9VSRpt9P5ZgLQrOOSMPocqN?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(7416014)(19092799006)(1800799024)(7053199007)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?f8mHfBpRoXepS/tbocCYuNHEeoG0WQrJQQIUS+Ba6K6Ru6W0NRWxpTDC9HiA?=
- =?us-ascii?Q?zQxtSvkiOvp722QdxtW7cCPjUy9EZnqmcsPRUblJjFRBb/Ed+9tJ/3hdxFFk?=
- =?us-ascii?Q?BiPyKpeOY2Z/aI3C4ycM8o+Z5Ngch6tclx607naERpJL/k69Rrg9jPMmX5LY?=
- =?us-ascii?Q?g/glMG/Bzlpce5vIiFIQ8yMk5YeIvOi1JQbbGpIKLNOAoOAC0ZSZYT6/yHNV?=
- =?us-ascii?Q?c9dbLbbS/LjNsBpW+IF7jxg8im/16UV4kvz2RxDb8K2ZWo49Q8OfdtccGxxb?=
- =?us-ascii?Q?wW2YOZ0RglINVPbUAkb4DWIPSA2S+wdXjSboQglv3dkg4/SeSv3rK6rtN3IK?=
- =?us-ascii?Q?ABunZoqGbb8oGYLVfZAJzfUL1AwNu4hgTrVCoKJXjV7Zdl1R6I/tSSZFH9zd?=
- =?us-ascii?Q?OP2vNajEAXQwQZFx1sJO6JidDhdO8kZN2YPQ384lVqARlS/mu9rP2G3hSNzn?=
- =?us-ascii?Q?aPI0vmHhpIHCmL+Q6Ek5xv3+rwgfgwbmWuQ8PzyFHL/sxXrCoBWqA6D1ZbWH?=
- =?us-ascii?Q?Z45c4xhyXdSswu87K2cHoPxjJ4njnKh/fHqEOQmNg4+7tyTzlaFtAAxWDQJN?=
- =?us-ascii?Q?hrXTDKL9E7EVQ7hthAKFEA0daTrszDM4T4qp0ZOEa2SVxPkoUriMLJ9F4Bf9?=
- =?us-ascii?Q?4tZEMSdAycrk3nmWr4AaBJQFEVGYgy/BT5HSNf0HhqT4uNsPUv54ovwxNHu4?=
- =?us-ascii?Q?WkPZZnVVGGSO+L11jCVWo9fp5q9yFjMvJGnf0NhlpOldESE7bdbQRyoy6xVJ?=
- =?us-ascii?Q?YC+VMJh8h0tsIxVJOZMMdC1Dyoomn9EL9BfN1XUhCEuQGMzk9596zyagIuia?=
- =?us-ascii?Q?ODsM68GJ2xzvUnQaa5cwyZdArYdGixyLEGX2kCuuZQbTHWB6A6RoamMuM0Gt?=
- =?us-ascii?Q?/lUXTq1Fii/M28jrgcl+DovmlErtbAeV8OMPdnvXkU+f/LFn8CEe4De5A4TL?=
- =?us-ascii?Q?nrP08XvppjDwHu6HhgHMKG4ksLj/8ddwu1wIGwLq+9hhCUtD+OLOTUFsJO9U?=
- =?us-ascii?Q?SaMOobryqWvHNa7RRF44r2E5qRWlIvZm+AS/SyoFdMHZu4mfcBqKtdOJuaST?=
- =?us-ascii?Q?usrCug7TFTvglBumjoojEMHO4nTqU6VCfmd4l7vsNRcDuEQUec3IEjq1pZg5?=
- =?us-ascii?Q?2Z3jswcmy/FbURtXN0lkMyGI5mHdahq1sSE2XBzIbIkqSxXC11JXRSWMNX/g?=
- =?us-ascii?Q?EEtfPx8fEjT+1t8hfQKXVoPItFsTGVBsnw8K8XnPt7FbjfCbfYW1cLGicTOX?=
- =?us-ascii?Q?yHJPgPdk8pw1OycD+p8esCAkQeh1n7LeKe2sbZC8sa07G+y4htQESoXKvr4b?=
- =?us-ascii?Q?mVHpVZj7GiwVdFVBL3G+U52ImYyRAN6QdCYcNnNvNtksnH/OArcjD2csCFaR?=
- =?us-ascii?Q?1Ek2XNXhTPMuoBHBPZQajh4/+Jv3DjyaD3xpv7nnfxZBhN/9EJDM4TPaVly1?=
- =?us-ascii?Q?N21CGMYmiMzDukj0JW/khivPkkXGJ1M6aslyTG2JtZ5q6hS15OkN/vmmhUjU?=
- =?us-ascii?Q?bH3cM8JYiEg88YK20axqsfklRFuP7uL/06SvEw0Anc1reqqoyc6CVwxk1uRK?=
- =?us-ascii?Q?1RLcKdwnXCCx2joT1Ks=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47aa6f8d-9608-4247-f0ce-08de0cd42eb8
-X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 16:50:59.1834
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9HO7Ogasxpzi5xvZ+Wzpeh0JKiLCamGpATzBEsR1yPInXfeZxSVFrcJb2QK/wV3vAVr6SYEoPlDAf75ymRwkxw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11602
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251016103049.2573-1-spyjetfayed@gmail.com>
 
-On Tue, Oct 14, 2025 at 08:11:09AM +0530, Bhanu Seshu Kumar Valluri wrote:
-> When Root Complex (RC) triggers a Doorbell MSI interrupt to Endpoint (EP)
-> it triggers a warning in the EP. pci_endpoint kselftest target is
-> compiled and used to run the Doorbell test in RC.
->
-> BUG: sleeping function called from invalid context at kernel/locking/mutex.c:271
-> Call trace:
->  __might_resched+0x130/0x158
->  __might_sleep+0x70/0x88
->  mutex_lock+0x2c/0x80
->  pci_epc_get_msi+0x78/0xd8
->  pci_epf_test_raise_irq.isra.0+0x74/0x138
->  pci_epf_test_doorbell_handler+0x34/0x50
->
-> The BUG arises because the EP's pci_epf_test_doorbell_handler() is making
-> an indirect call to pci_epc_get_msi(), which uses mutex inside, from
-> interrupt context.
->
-> To fix the issue convert hard IRQ handler to a threaded IRQ handler to
-> allow it to call functions that can sleep during bottom half execution.
-> Register threaded IRQ handler with IRQF_ONESHOT to keep interrupt line
-> disabled until the threaded IRQ handler completes execution.
->
-> Fixes: eff0c286aa91 ("PCI: endpoint: pci-epf-test: Add doorbell test support")
-> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-> Reviewed-by: Niklas Cassel <cassel@kernel.org>
+On Thu, Oct 16, 2025 at 04:00:47PM +0530, Ankan Biswas wrote:
+> This patch fixes warnings in Documentation/hwmon/lm90.rst reported when
+> running 'make linkcheckdocs'.
+> 
+> On 2011-09-23 National Semiconductors became part of Texas Instruments
+> and national.com is no longer accessible. The datasheet resources for
+> the chips are now available at Texas Instruments website and have been
+> updated for lm90.
+> 
+> In 2021, Maxim Integrated was acquired by Analog Devices and maxim-ic.com
+> redirects to analog.com. The chip datasheets are now available at
+> Analog Devices and have been updated accordingly.
+> 
+> Some additional broken or unavailable links have been replaced with
+> equivalents hosted by DigiKey.
+> 
+> Signed-off-by: Ankan Biswas <spyjetfayed@gmail.com>
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Applied.
 
-> ---
->  Note : The patch is compiled and tested on TI am642 board.
->
->  Change log
->  V2->V3:
->   Addressed Bjorn Helgass review points in v2
->   - Rebase to pci/main (v6.18-rc1)
->   - Add a space before each "("
->   - Remove the timestamps because they're unnecessary distraction
->   - Add "()" after function names in commit log
->   - s/irq/IRQ/
->   - Rewrap the commit log to fit in 75 columns
->   - Rewrap the code below to fit in 78 columns because most of the
->     rest of the file does
->   Link to V2: https://lore.kernel.org/all/20250930023809.7931-1-bhanuseshukumar@gmail.com/
->
->  V1->V2:
->   Trimmed Call trace to include only essential calls.
->   Used 12 digit commit ID in fixes tag.
->   Steps to reproduce the bug are removed from commit log.
->   Link to V1: https://lore.kernel.org/all/20250917161817.15776-1-bhanuseshukumar@gmail.com/
->
->  drivers/pci/endpoint/functions/pci-epf-test.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-> index 31617772a..b05e8db57 100644
-> --- a/drivers/pci/endpoint/functions/pci-epf-test.c
-> +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-> @@ -730,8 +730,9 @@ static void pci_epf_test_enable_doorbell(struct pci_epf_test *epf_test,
->  	if (bar < BAR_0)
->  		goto err_doorbell_cleanup;
->
-> -	ret = request_irq(epf->db_msg[0].virq, pci_epf_test_doorbell_handler, 0,
-> -			  "pci-ep-test-doorbell", epf_test);
-> +	ret = request_threaded_irq(epf->db_msg[0].virq, NULL,
-> +				   pci_epf_test_doorbell_handler, IRQF_ONESHOT,
-> +				   "pci-ep-test-doorbell", epf_test);
->  	if (ret) {
->  		dev_err(&epf->dev,
->  			"Failed to request doorbell IRQ: %d\n",
-> --
-> 2.34.1
->
+Thanks,
+Guenter
