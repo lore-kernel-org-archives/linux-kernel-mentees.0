@@ -1,132 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F40023EA86;
-	Fri, 17 Oct 2025 07:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AC32040B6
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Oct 2025 09:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760686884; cv=none; b=RV/Xl13cEtzS6sQ/kxazrAv7p9x7nah/h/ZhHfC8n+5/GtcMwIfExghSaPGTTRbBNWE6Jt05+mCcdpt5VmDxyvVjklEqTehBEaUm/fdPArZBq2TsK+2DqTBqIREfmqsKwcmtQSGSJg87gz10xJHZJ0CnICfdUWgsPU+ZfMCak5U=
+	t=1760694199; cv=none; b=hwhT7iaWYEEz9rwn1WqvM+AfHSbtOM+IZnsPdajCYwswthSTIgiIcpg0iIjsFvlF2JWv4IFUJ8bLx34XB2YlSfPlJMRYbtEi+7mvy+P5bm7vruyakt01DA4wEJ9WVftXaL71qPVdYFr+ARxvhRat3jS/i58xIC1a0zxy1Nqn8Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760686884; c=relaxed/simple;
-	bh=mgJWBkBfXdtKnxWbZVUu/4ZVAdw06XdfHp/03SfU8qQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eL0GYeegyT8LXQu60TVA6HL+5a+nJhf+ZB/ifrWtAcx++xvdY+eR4Y9hJSks5ZvICaimVf2hsmHCSxeFCPmzksRTWB9PVPjGT40haI/9I9/uQnoCdsFclWqqJtZYUhbnlEVQG7wCuwRvJxpBpBwDswINXXUoBeaWdQuGxN6sYtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DAySF/xR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760694199; c=relaxed/simple;
+	bh=/M7Bnm3gjioI+Av04wQGAmQfU91Qw7IuTFIH55BhMAE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bpq8n2YAyn9NkPb1V22hSEud4abtslimUJSa5mhwW1yUhtbpo3NPKNbjKE1yKiNEruF75bgSFzx7ckd8wCN9YElFSzWqtM5NpawfYXJIyJ0I4Uhjp80zNjY6VDFBaAPSdof7iZ/AlyemYV6LayWM+uRtOH7IVNe8nmxWLUd2a+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4mCzADp; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DAySF/xR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D839C4CEE7;
-	Fri, 17 Oct 2025 07:41:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1760686883;
-	bh=mgJWBkBfXdtKnxWbZVUu/4ZVAdw06XdfHp/03SfU8qQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DAySF/xRd018SWv5FuwBnhgSbi6LisNNVgJV5Cs/WSfMMe77pYlhSRpH9F4fq2G4m
-	 0fx+S1LzSqIubB6bNPwKl2o3lzs6V6mhDzwB5x+B9Ol/xqa1MZoiO5spIUEo3HhHy4
-	 XGuLRTrGt2/3kYB96md354bDemqHFHZ401xDuKlg=
-Date: Fri, 17 Oct 2025 09:41:21 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Deepak Sharma <deepak.sharma.472935@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	syzbot+6c905ab800f20cf4086c@syzkaller.appspotmail.com
-Subject: Re: [PATCH] drivers: core: Fix synchronization of removal of device
- with rpm work
-Message-ID: <2025101714-fiction-reprocess-9368@gregkh>
-References: <20250917030955.41708-1-deepak.sharma.472935@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4mCzADp"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-789fb76b466so1664214b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Oct 2025 02:43:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760694197; x=1761298997; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DK/268SDlKo91KyuWt/Uk0juTRvqRZCB2PBwlunHbIo=;
+        b=D4mCzADpb47PUL0oqVRUDb+AjeSosdVNrOiUrKO264tJMlJRWJr66m3CpEZskqmE1F
+         L+/1LOHBAVv8O5t4HVjoeTDR/T5F3jDPt2y/GmxFnlGup8lhlWEMuu2I5FjyBEREvTsK
+         wHdnmTobeIbLq3bOZdwhpiqRAU+gDPD4VvXOEKtakOCqOrJVn6+V8qgnH4GbgP7Ie+jC
+         N7hwCkhEXspUItSpnAVQYhj9NCQggigXP/Ue0iU5USWf1VajVWCiXWYqUHsOx7Ml3uY+
+         0tnFpmEnxhHCfQS1YcYaCR6jBsJq6W1iqZY4cPsoG+g0wXKq85gB8zov4ZFYk8EMP5yK
+         wLfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760694197; x=1761298997;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DK/268SDlKo91KyuWt/Uk0juTRvqRZCB2PBwlunHbIo=;
+        b=Ec0uQEACI7xEd+oeAlrH6/p6xIHEXty9Z6aJCwSMFzc5xEmUcIICjL9SZEF4Msrp0L
+         USl4H9QqlDETA1j1EZjmC3EwTP/og2luSSTIFP+ThDx0a7ySZ9BFyXDWZ8ApeK1no6dp
+         /eebSlpSTOGifqd71Ebpg/J81BlsFUVhAVOm+R7BZ/RFl/dOgSmv24Nl6cTvZbLeY1gd
+         xCQfX9tYf6mHKbqs3TdlPWTIYZO8IOhnUH6cH4UcLnbv7U+DITBCTJJulOo9Fd0qKwaD
+         CZFL8L/unEZb8AcBWmbxr3kfmdGCEbmhtAG3rBZwSv7ffx7HErEFfJUiObKoHDRaiIzq
+         a7Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMy4Qo72Bp3VmybukpMRei8RkS/L+gq6Wyg9RfVBSfQYvmoG40ffOKcP71blvwJ1Kp+ml/b0AQT/8ccD0p2a3L+1gnOw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzII58f0D4sKW9h+AcwApHMlc6aliv4j4UPcCEuQTiXDc27gBaQ
+	NrYxcNnrepxMM5B9RpYLW98UK4QbgOgjCmdBbJjPJeQULe+tHvMvVp5hOmGnzrWr4vg=
+X-Gm-Gg: ASbGncs8EY3E+hXx6N1WJVhh0GL0n+PIRsl9vPNyexltvNnmhUD1oYWqCRGRybleiBO
+	ibUISkDNqmjbtRwQCwLSttlF+o0J50btZgrUM5HHOwpCOR9VKVTh3CrH3s/2iN+VyWT+WCqj922
+	S5U+x5I5RhMKeUBcAVKbL0hPe3unwGFIBKuyfW6Fkl0bThUbG7yOw0S7ESmQxLV2+9afRraHDgV
+	q9Gl4CGt7fNMoCV8t6pAXT4jvHyBe68wTMkswh+11bePVLE3odf5zRz2OQB5Xbvb2Nmw36m+LsT
+	jdFB2d+ssCX1JyKOi/OrT25aLuM/8WT0kS+eOra5H4joF+5ZpzGsDW0efwxnwn156sB/yMO40aC
+	7lnv0d7Bavmi4tOzEYTlmo9X0NzHXACySfPaN+WizvKIvJ2OcIH0bMVh1KlpxnjDKLOXqWs9Dkx
+	D+o6/cuE5SCg==
+X-Google-Smtp-Source: AGHT+IHVk1UlLvUv11fCrAvl7GZkv39UL14NzeVw04C1QLEJi71IrKA1z/tBFl1eYTam3trbIvNwag==
+X-Received: by 2002:a05:6a20:3d84:b0:2b3:4f2a:d2e9 with SMTP id adf61e73a8af0-334a8515183mr3683681637.9.1760694197461;
+        Fri, 17 Oct 2025 02:43:17 -0700 (PDT)
+Received: from server.. ([103.251.57.248])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a1394139c8sm9963789b3a.18.2025.10.17.02.43.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Oct 2025 02:43:17 -0700 (PDT)
+From: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
+To: akpm@linux-foundation.org
+Cc: linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shuah@kernel.org,
+	richard.weiyang@gmail.com,
+	lkp@intel.com,
+	reddybalavignesh9979@gmail.com,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] samples/vfs: add selftests include path for kselftest.h
+Date: Fri, 17 Oct 2025 14:32:01 +0530
+Message-ID: <20251017090201.317521-1-reddybalavignesh9979@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251016104409.68985-1-reddybalavignesh9979@gmail.com>
+References: <20251016104409.68985-1-reddybalavignesh9979@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250917030955.41708-1-deepak.sharma.472935@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 17, 2025 at 08:39:55AM +0530, Deepak Sharma wrote:
-> Syzbot reports a use-after-free at `rpm_suspend`, while the free
-> occurs at the `usb_disconnect`
-> 
-> All line numbers references will be for commit ID
-> d69eb204c255c35abd9e8cb621484e8074c75eaa
+The test-list-all-mounts sample includes pidfd.h from selftests,
+which now uses the centralized kselftest.h include after the
+previous change. Add the selftests directory to the include path
+so the build can find kselftest.h
 
-Which is 6.17-rc5?
+This fixes a build error reported by the kernel test robot.
 
-Please always include the full commit information when referencing git
-ids.  This would be:
-	d69eb204c255 ("Merge tag 'net-6.17-rc5' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202510171513.6IWk005g-lkp@intel.com/
 
-Which is an odd point in our tree :)
+Signed-off-by: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
+---
+ samples/vfs/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
-> This points to a possible synchronization issue. In `usb_disconnect`
-> there's a call to `pm_runtime_barrier` but it does nothing more than
-> acting as a sort of "flush" (while cancelling what's the pending
-> rpm actions not started yet). There does not seem to be any increase
-> in device usage count either in this stacktrace after this stacktrace
+diff --git a/samples/vfs/Makefile b/samples/vfs/Makefile
+index 6554b73a75c8..9256ca5d762b 100644
+--- a/samples/vfs/Makefile
++++ b/samples/vfs/Makefile
+@@ -1,4 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ userprogs-always-y += test-fsmount test-statx mountinfo test-list-all-mounts
+ 
++userccflags += -I $(srctree)/tools/testing/selftests/
+ userccflags += -I usr/include
+-- 
+2.43.0
 
-How is syzbot triggering any of this?  How is it disconnecting a device,
-is this through the gadget api or something else?
-
-> Then we have an eventual call to `device_del`, which further leads
-> to a call to `device_pm_remove`. No code synchronizing in any way
-> so far with the PM system after that `pm_runtime_barrier`
-> 
-> Let's say now that the timer expiration queued work for `rpm_suspend`
-> executed in this period of absent synchronization. We can create few
-> interesting situations here, I will address one
-> 
-> Let's say that we unlock the `dev->power.lock` at `rpm_suspend`
-> work at `drivers/base/power/runtime.c:723` and then the code
-> `device_pm_remove` proceeds as normal clearing up the device.
-> Any further calls are not going to cancel the tasks we have pending
-> and since the lock has been given up, we will proceed, and end up
-> deleting the device too, which will lead to a use-after-free
-> as observed.
-> 
-> So at the device removal, we could add a `pm_runtime_forbid`,
-> followed by a `pm_runtime_barrier`. This leads to the completion of
-> any pending work and forbids any other new work to be added.
-> 
-> Once we return, we can do `device_pm_remove`. `pm_runtime_forbid`
-> does not seem to influence the behavior of `device_pm_remove`
-> (tho it does lead to a call to `pm_runtime_get_noresume()` which
-> touches the device usage count, but it would still work the same)
-> 
-> Reported-by: syzbot+6c905ab800f20cf4086c@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=6c905ab800f20cf4086c
-> Signed-off-by: Deepak Sharma <deepak.sharma.472935@gmail.com>
-> ---
->  drivers/base/core.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index d22d6b23e758..616fd02d18ed 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -3876,7 +3876,13 @@ void device_del(struct device *dev)
->  	device_remove_file(dev, &dev_attr_uevent);
->  	device_remove_attrs(dev);
->  	bus_remove_device(dev);
-> +	/* We need to forbid and then proceed with a barrier here,
-> +	 * so that any pending work is flushed 
-> +	*/
-
-Trailing whitespace which checkpatch should have caught :(
-
-Also odd comment style.
-
-And you don't document what type of barrier or what type of pending work
-you are flushing.
-
-> +	pm_runtime_forbid(dev);
-> +	pm_runtime_barrier(dev);
->  	device_pm_remove(dev);
-> +	pm_runtime_allow(dev);
-
-Why are you allowing this to happen again?  The device is going away, it
-should be stopped by now as per the bus removal.
-
-This all feels very fragile.
-
-thanks,
-
-greg k-h
