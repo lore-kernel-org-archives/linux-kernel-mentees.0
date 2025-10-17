@@ -1,124 +1,108 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E2831A7ED
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Oct 2025 18:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F328D33F8A5;
+	Fri, 17 Oct 2025 19:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760724706; cv=none; b=UO6UmtcXoI93hmVBritDu/eyZqKnwjDdZDdPCKGXLt7HqDT9jUjE7J27cFhW//vqtPfvC/H8ixVu8ww/tfsAlH8l4EDSUIQG7PK3Hr39x9ojKvrDxVpEIiL34IXS1o4bt3oT5Vq/snUlhFLN1LTAbsGL/0UP3ZgGm2LWN0O/5eg=
+	t=1760729269; cv=none; b=CB7YqO9et1vfG4uyzbNvsHLo9RgSh7FO08W67d4rlaNT6TMYvo7uaIdAyjZYuVuXFKBYZOAd/K8PUOdFw8eGh83yU2Rez6YjFN2376IkfoldQV21G3JelMfgyNxrNLVEHyc5udGA+RBebRvLa0VmHcimmQIKdj9rtm2QOVUXpuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760724706; c=relaxed/simple;
-	bh=r3dihmDf7EmTwHyOQk7Zkgw4snf1eF5k1wp6/pUMG+A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PoAaB7/jQs6z/YTETlkWG+CuRAVlqGh+woZHkrSa3i6id+GZXCXKOwQ8toieBvUPq741uaRzCmjuIPnF8lxtLMSkDJTMVAlrYK17wo/TUORRH0vdc3EUtXuRazxpfFR6R0AgnLo2rqlAngPTyotgGrFJuROnqeQGdHkgcxwQz+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GapdiZR6; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760729269; c=relaxed/simple;
+	bh=mcoBV77KiMRh2mU/rmsiY4X9DXeBVgX4cPU+NVWl+tw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j4cc7xMFw4Km91t/mK3rdeflN+IiDRsCcrW5Uh4RuktNAFXrFsSs8pjqbakwo/WXA7S8Sw7YveWkAecZeU/OIOPevp/Zr0HOlfFRjQaaaCff0cQJuTr5N3regXVA/f2JyJZe/6MWD3UsHXK4bquAOxbwK4Fviksum5mvTh/f3eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZRm8HSWQ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GapdiZR6"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-77f67ba775aso3101364b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Oct 2025 11:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760724704; x=1761329504; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VFIEDJTAopNEIqPSdh3Jplcei1xeOHRhpzrjHf2iOMc=;
-        b=GapdiZR6HTetkI0/4LGT1DHzPxp0v4sy20qMbsC2uDIWKFCe06uz2Amx7j5meGXrXd
-         SKxgtt+QCfdlO/RBhRnWIYwFKYma0lVGrAwfGKJvbCQruMLjmZwoYNuhxZn9N9CqjKEU
-         DbD3H/PXHvwbc9wHRROCtX/goz5hB8n0+2mGpj8wmeiX+P8wSq8vVtUdkcUk+pW+T0g4
-         +M2xhKsY3DT8wPBrBz40D4fMnQ/gtHOQf0xxdfUMxUDY8sV8zl/cs3nGXpuf3lHi9jev
-         Xw9U0C+LWUTqlYfpego1Id+jQV49XHUkjiyRVM6/lGFLYVIArw0eci0B34y/iB4aoPKQ
-         dMCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760724704; x=1761329504;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VFIEDJTAopNEIqPSdh3Jplcei1xeOHRhpzrjHf2iOMc=;
-        b=IqK9kEJ4iSdt7JowiCfRRRsSKaCbLUun4akHzrZmPBeCG8dIT17pvDxY+iTjSsTx2H
-         /+UTcMbQDpqfuH/OPRxDBhoiWm2GNckeD11UBH3MwBiBxr70CvfkJtDSvEEau5efNmJA
-         GCVAGz/IsH9I+vw3JG/JGPHW5JbzAiyUz3zEN2WovcXlZuSpMPsfrGXxvZz/AkgH+OZC
-         lSYZuvEgtk3IHfphWaD3YBmbBPYGeZt9LeF8Xdtont0akTNs5EKPIwrZ0yTlpw0Alpni
-         +ufip6nHUoecybbYNOo/mDj+zzDeOhohpS1AfVszRQlhQlG/uvpLDBo5szUMlzsjcMrz
-         keAw==
-X-Forwarded-Encrypted: i=1; AJvYcCWPiO8LgZCJFXk/GO8JOf5NyU0615y/6b8gHADqbN3ITHCrLpJRVMUsa4keEuJZDgXDWjjNdFddWhFKCuW0j5u6bkIyzQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwCssbfmvFJEusi5W52pgWEHvmC8lROohERT+q5H/I9tKCLo5Ss
-	coWNdwtKwqb54wp94ytL3g+k2d1HAoq3EMg5hqU/sPpDQ1pva9/vESdt
-X-Gm-Gg: ASbGncty6nRVghuhnWvzUN59l12ZZh3JQATc9m4SkHtPitDfTu+7Hfy2mqS+37mcZr4
-	H4Vq1TCNqAd1nxFPF8hxaocrxOJjBBYbu3fXdWBcRoUmTKSWk5kkXXWnrZE24hmj4QHXPP1As15
-	7PyOT7VwjyLTd3qru0Ol1w/px2cRV9lXMmG6DwzhjoRKzrCTd7agRDUxyb6GJotPjlsAzzs9pks
-	oTqjWaRr0ADX8Y6iry6EL5vOWo9woNC34ny1KymeRQCy4j8V9+1nyKGS0waGGOOLnOEIpcY0pGQ
-	ow/uXXz3xUniGPeBhf2Ey3jT9fP1tq1kJiIeV/pUYNQX1NCEt+RmTZTkEjnIFZvAKXIcrYldfs/
-	18K3DIY01E8YIQ/dGSiSLIR7vxIxmmODwZLeVvhmqx/X//LEy0FbhHySJd+LFgQgZVTwhJNd5GY
-	xZsbMOLwO52yjkLRPmgws=
-X-Google-Smtp-Source: AGHT+IE1h8o5AFVacUuJYOfSDEzDV+0FD/VCXQsxR8OMX32EA6L/ZDfNJDJ4BWWf59gxnTA0758alA==
-X-Received: by 2002:a05:6a00:182a:b0:781:556:f41 with SMTP id d2e1a72fcca58-7a220b07183mr5214886b3a.19.1760724704302;
-        Fri, 17 Oct 2025 11:11:44 -0700 (PDT)
-Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a2300f24desm200093b3a.48.2025.10.17.11.11.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 11:11:43 -0700 (PDT)
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: zohar@linux.ibm.com,
-	James.Bottomley@HansenPartnership.com,
-	jarkko@kernel.org,
-	corbet@lwn.net
-Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
-	linux-integrity@vger.kernel.org,
-	keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linux.dev,
-	khalid@kernel.org
-Subject: [PATCH] docs: trusted-encrypted: fix htmldocs build error
-Date: Fri, 17 Oct 2025 23:41:15 +0530
-Message-ID: <20251017181135.354411-1-krishnagopi487@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZRm8HSWQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=U5Ytw4RP5PrcMrnCeeRigKUwGeJ5Azr3SrQLjgFx4k4=; b=ZRm8HSWQtJOLBeP+ciSYefVzWA
+	gtSH7khtTB5h2BtAsFx+OS/infp8XuI/eUjo56YQ66jFO53RvPKCRdvx8QmifOIUeoDaf0//KK+dQ
+	lAGGFYNJyJSnib1bg3mpcDymylQXEbxbHCdKk8LjXdjFpa9wSsvLfq4PScaS9I37W9gpHLee3uNCa
+	F+5ptiIjYikACvk1Pu/vNni04xP0VFDk71R587scN3LB5wpEF4+TH6G56SoBkNr2oC+MmuQA8Gf44
+	klITQjxW0AHSCBNtMu4HpZEW8ZjBo1jHCJsmjMZ0UkuON+3yQ4xnLSMJDsGLwor24A+J4AB5CC3y0
+	zpKkFTeA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v9q76-00000008qBs-2RBQ;
+	Fri, 17 Oct 2025 19:27:44 +0000
+Message-ID: <7928c851-649d-47f4-a747-3314c0d45706@infradead.org>
+Date: Fri, 17 Oct 2025 12:27:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: trusted-encrypted: fix htmldocs build error
+To: Gopi Krishna Menon <krishnagopi487@gmail.com>, zohar@linux.ibm.com,
+ James.Bottomley@HansenPartnership.com, jarkko@kernel.org, corbet@lwn.net,
+ Meenakshi Aggarwal <meenakshi.aggarwal@nxp.com>,
+ Pankaj Gupta <pankaj.gupta@nxp.com>, Herbert Xu <herbert@gondor.apana.org.au>
+Cc: linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ linux-kernel-mentees@lists.linux.dev, khalid@kernel.org
+References: <20251017181135.354411-1-krishnagopi487@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251017181135.354411-1-krishnagopi487@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Running "make htmldocs" generates the following build error and
-warning in trusted-encrypted.rst:
+Adding patch signers.
 
-Documentation/security/keys/trusted-encrypted.rst:18: ERROR: Unexpected indentation.
-Documentation/security/keys/trusted-encrypted.rst:19: WARNING: Block quote ends without a blank line; unexpected unindent.
+Fixes: 95c46f40aac4 ("docs: trusted-encrypted: trusted-keys as protected keys")
 
-Add a blank line before bullet list and fix the indentation of text to
-fix the build error and resolve the warning.
+although that might not matter if this patch is only in a -next tree.
 
-Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
----
 
-Tested by running "make htmldocs" before and after the change,
-ensuring that output renders correctly in browsers.
+On 10/17/25 11:11 AM, Gopi Krishna Menon wrote:
+> Running "make htmldocs" generates the following build error and
+> warning in trusted-encrypted.rst:
+> 
+> Documentation/security/keys/trusted-encrypted.rst:18: ERROR: Unexpected indentation.
+> Documentation/security/keys/trusted-encrypted.rst:19: WARNING: Block quote ends without a blank line; unexpected unindent.
+> 
+> Add a blank line before bullet list and fix the indentation of text to
+> fix the build error and resolve the warning.
+> 
+> Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
 
- Documentation/security/keys/trusted-encrypted.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-index 2bcaaa7d119b..eae6a36b1c9a 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -14,10 +14,11 @@ Trusted Keys as Protected key
- =============================
- It is the secure way of keeping the keys in the kernel key-ring as Trusted-Key,
- such that:
-+
- - Key-blob, an encrypted key-data, created to be stored, loaded and seen by
--            userspace.
-+  userspace.
- - Key-data, the plain-key text in the system memory, to be used by
--            kernel space only.
-+  kernel space only.
- 
- Though key-data is not accessible to the user-space in plain-text, but it is in
- plain-text in system memory, when used in kernel space. Even though kernel-space
+> ---
+> 
+> Tested by running "make htmldocs" before and after the change,
+> ensuring that output renders correctly in browsers.
+> 
+>  Documentation/security/keys/trusted-encrypted.rst | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
+> index 2bcaaa7d119b..eae6a36b1c9a 100644
+> --- a/Documentation/security/keys/trusted-encrypted.rst
+> +++ b/Documentation/security/keys/trusted-encrypted.rst
+> @@ -14,10 +14,11 @@ Trusted Keys as Protected key
+>  =============================
+>  It is the secure way of keeping the keys in the kernel key-ring as Trusted-Key,
+>  such that:
+> +
+>  - Key-blob, an encrypted key-data, created to be stored, loaded and seen by
+> -            userspace.
+> +  userspace.
+>  - Key-data, the plain-key text in the system memory, to be used by
+> -            kernel space only.
+> +  kernel space only.
+>  
+>  Though key-data is not accessible to the user-space in plain-text, but it is in
+>  plain-text in system memory, when used in kernel space. Even though kernel-space
+
 -- 
-2.43.0
-
+~Randy
