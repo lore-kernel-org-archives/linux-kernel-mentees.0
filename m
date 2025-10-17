@@ -1,79 +1,77 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AC32040B6
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Oct 2025 09:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ACA329C41
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Oct 2025 10:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760694199; cv=none; b=hwhT7iaWYEEz9rwn1WqvM+AfHSbtOM+IZnsPdajCYwswthSTIgiIcpg0iIjsFvlF2JWv4IFUJ8bLx34XB2YlSfPlJMRYbtEi+7mvy+P5bm7vruyakt01DA4wEJ9WVftXaL71qPVdYFr+ARxvhRat3jS/i58xIC1a0zxy1Nqn8Mo=
+	t=1760698696; cv=none; b=fwA4na9bCQfoA+ffYro52iebXCVo+yEaxJBNM1vwILqg9IKvfTosRtmEJQl9pM46cgHr2+AObhG8cPrkpssaeQxCAV10LV426rDNTeAqd0YxOdAUwnfOfCdUZyeDRtqWmLUyw/OnqlJWJpaEi1jP4L+S5/kXk0ZcE9MumS9KnBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760694199; c=relaxed/simple;
-	bh=/M7Bnm3gjioI+Av04wQGAmQfU91Qw7IuTFIH55BhMAE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bpq8n2YAyn9NkPb1V22hSEud4abtslimUJSa5mhwW1yUhtbpo3NPKNbjKE1yKiNEruF75bgSFzx7ckd8wCN9YElFSzWqtM5NpawfYXJIyJ0I4Uhjp80zNjY6VDFBaAPSdof7iZ/AlyemYV6LayWM+uRtOH7IVNe8nmxWLUd2a+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4mCzADp; arc=none smtp.client-ip=209.85.210.180
+	s=arc-20240116; t=1760698696; c=relaxed/simple;
+	bh=jYLh1g0/g+YswT19wb8sGFf9meznkL5gtg/UsZXCKQU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZKID6rs5PyXRSW9Kl+Ur5GcNFX19gPpYtNPaukM5KFtbxy1KuancqOw2IBbzl9AuE6C4mr6ciKes+Y9/h8GdBUA6FISeczrdKIhl7brOifQQL15RUATribPCndy5YUTC8S6Ry5iGI0iYtCkHABYwA4WjTzS4nKyR90/NOodcvuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=URHSjLLM; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4mCzADp"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-789fb76b466so1664214b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Oct 2025 02:43:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="URHSjLLM"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7833765433cso2451054b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Oct 2025 03:58:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760694197; x=1761298997; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DK/268SDlKo91KyuWt/Uk0juTRvqRZCB2PBwlunHbIo=;
-        b=D4mCzADpb47PUL0oqVRUDb+AjeSosdVNrOiUrKO264tJMlJRWJr66m3CpEZskqmE1F
-         L+/1LOHBAVv8O5t4HVjoeTDR/T5F3jDPt2y/GmxFnlGup8lhlWEMuu2I5FjyBEREvTsK
-         wHdnmTobeIbLq3bOZdwhpiqRAU+gDPD4VvXOEKtakOCqOrJVn6+V8qgnH4GbgP7Ie+jC
-         N7hwCkhEXspUItSpnAVQYhj9NCQggigXP/Ue0iU5USWf1VajVWCiXWYqUHsOx7Ml3uY+
-         0tnFpmEnxhHCfQS1YcYaCR6jBsJq6W1iqZY4cPsoG+g0wXKq85gB8zov4ZFYk8EMP5yK
-         wLfQ==
+        d=gmail.com; s=20230601; t=1760698694; x=1761303494; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5eRznc/oLGLRRb/vl90nQzjbWZjbdpkXCZdSvk3IxGA=;
+        b=URHSjLLMc6p/3IN2s0UPku9JGZq+XYDqyZkmiuaIaftbX5KGX/VO+hM6/Zp4w3UlHi
+         OpeB9dEgfTJOGbnsohZAXuTekYsWTcA2N3WT91UwJ+WfA2onScDkLmWDVkKK86+cpvV7
+         7qudbElNwi/Y+IRY/mUNnxAj9487NEGbBQOr0jZV/659mWt3sDAmXvJI2ql3Qtnd8i/6
+         AfcwacuKhLkMB6rYpSEBzRrc08zxI+I0+DZHwIdNL4AFeLn0jGT/3blnybSZG8JIpqmB
+         aLEoYOB5HndfjxKBYozyosXJP2mxXl+cmT3uTSUM+Duqdka7iCD/YJ32CzwmWg/mBgnM
+         dqqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760694197; x=1761298997;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DK/268SDlKo91KyuWt/Uk0juTRvqRZCB2PBwlunHbIo=;
-        b=Ec0uQEACI7xEd+oeAlrH6/p6xIHEXty9Z6aJCwSMFzc5xEmUcIICjL9SZEF4Msrp0L
-         USl4H9QqlDETA1j1EZjmC3EwTP/og2luSSTIFP+ThDx0a7ySZ9BFyXDWZ8ApeK1no6dp
-         /eebSlpSTOGifqd71Ebpg/J81BlsFUVhAVOm+R7BZ/RFl/dOgSmv24Nl6cTvZbLeY1gd
-         xCQfX9tYf6mHKbqs3TdlPWTIYZO8IOhnUH6cH4UcLnbv7U+DITBCTJJulOo9Fd0qKwaD
-         CZFL8L/unEZb8AcBWmbxr3kfmdGCEbmhtAG3rBZwSv7ffx7HErEFfJUiObKoHDRaiIzq
-         a7Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCWMy4Qo72Bp3VmybukpMRei8RkS/L+gq6Wyg9RfVBSfQYvmoG40ffOKcP71blvwJ1Kp+ml/b0AQT/8ccD0p2a3L+1gnOw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzII58f0D4sKW9h+AcwApHMlc6aliv4j4UPcCEuQTiXDc27gBaQ
-	NrYxcNnrepxMM5B9RpYLW98UK4QbgOgjCmdBbJjPJeQULe+tHvMvVp5hOmGnzrWr4vg=
-X-Gm-Gg: ASbGncs8EY3E+hXx6N1WJVhh0GL0n+PIRsl9vPNyexltvNnmhUD1oYWqCRGRybleiBO
-	ibUISkDNqmjbtRwQCwLSttlF+o0J50btZgrUM5HHOwpCOR9VKVTh3CrH3s/2iN+VyWT+WCqj922
-	S5U+x5I5RhMKeUBcAVKbL0hPe3unwGFIBKuyfW6Fkl0bThUbG7yOw0S7ESmQxLV2+9afRraHDgV
-	q9Gl4CGt7fNMoCV8t6pAXT4jvHyBe68wTMkswh+11bePVLE3odf5zRz2OQB5Xbvb2Nmw36m+LsT
-	jdFB2d+ssCX1JyKOi/OrT25aLuM/8WT0kS+eOra5H4joF+5ZpzGsDW0efwxnwn156sB/yMO40aC
-	7lnv0d7Bavmi4tOzEYTlmo9X0NzHXACySfPaN+WizvKIvJ2OcIH0bMVh1KlpxnjDKLOXqWs9Dkx
-	D+o6/cuE5SCg==
-X-Google-Smtp-Source: AGHT+IHVk1UlLvUv11fCrAvl7GZkv39UL14NzeVw04C1QLEJi71IrKA1z/tBFl1eYTam3trbIvNwag==
-X-Received: by 2002:a05:6a20:3d84:b0:2b3:4f2a:d2e9 with SMTP id adf61e73a8af0-334a8515183mr3683681637.9.1760694197461;
-        Fri, 17 Oct 2025 02:43:17 -0700 (PDT)
-Received: from server.. ([103.251.57.248])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a1394139c8sm9963789b3a.18.2025.10.17.02.43.14
+        d=1e100.net; s=20230601; t=1760698694; x=1761303494;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5eRznc/oLGLRRb/vl90nQzjbWZjbdpkXCZdSvk3IxGA=;
+        b=J0vVHL93WAx4MvSEkrApHZXlDdZj1qfqE5mDIhjD0sdrRoh3fB/14nbMYWRTiEEE5I
+         T9tL7s/lgp4ykna+Fmo5/QHfkkX+F/1s8vsBoduzgGLGzTYqZTehDPudaOfH7m48ysWm
+         djwHVdr8sRaGzfQVi6daiY0uyaKTGTejJgn4IDHrG7OMHASZ7hlHz3mwU0FANJHuqOLX
+         vgk2E4TW0X/TmJIU3zX4SAGAflu9NtwEag07Q6TWxkIfCXM41hEjaZqEM+dTBFylLuFI
+         0xofVUjY3a3S44CC7JQz2t+Y45nlPxGYg6nqGckNxt+1Kd83ixu412E0bbrqT+8RzioF
+         rSFg==
+X-Forwarded-Encrypted: i=1; AJvYcCUp2snxEGiJDzvyzYJfrZIDZ0R2peKRP2FQb/04cMk/2qlarcomLqxuTrWji3f2bzPmvIyMp01EQSvZisg13mqgLAP6jg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxksai1L2vZhVpNesbYxchr0VA+SXhm3EOpaVLoJ+xTwdTv9w1c
+	MIDZkttKgBafXhCcaitxXKp73Qy6XJUSjRNJVTOgMwKkQg1lHfOVZlhr
+X-Gm-Gg: ASbGnctjUXV2VRt0K2tFobG9rItN0EdUyF4WURe8EmmAzF5QXtWdCm+hEw7fX9ReVBa
+	J2PMZ70wJXhmtQ8SFN+it4rr+n1xBRiTyPVZVAt+49O7xJuEXUNc/iAeYJJ9SBhlX6FrSbPJZMp
+	oNSbC1sySvv10i+Lqag3v7VZOvAglNbbJCmNGRybbdba/152EDGbt+dJmfitmq9DJ/7pBqJ+NyI
+	KQdiof83o2dHroDCAYpyPlzoCe3zwmszDA9d0KisIK6y+m8CjZpKA3yM+fUQIPEZ+7OB3da/CDx
+	n92SYEYiehtzgmSuoJCdhxJDvaPXxm/PqyZPOOKlYaql2yBKxcllDlfUz7hU9jEza6Upd8iqH69
+	HD2zymZZXkiafh+YRdfTb564Vwtd0ID00+7qxmku1TZCKF33g3TJ1QoB4tLD0eN0+9zooiaUKyA
+	k7Yqz49Q==
+X-Google-Smtp-Source: AGHT+IFqhscQ7885gKuszm90YTf0KoEGYReUi6/2alYhWRhod7rmgZECRMNtrRBswwS4tMpqwgKgtg==
+X-Received: by 2002:a05:6a20:7489:b0:32b:721e:ced1 with SMTP id adf61e73a8af0-334a8617237mr4808979637.36.1760698693905;
+        Fri, 17 Oct 2025 03:58:13 -0700 (PDT)
+Received: from tixy.nay.do ([2405:201:8000:a149:4670:c55c:fe13:754d])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992b639cc8sm25407571b3a.20.2025.10.17.03.58.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 02:43:17 -0700 (PDT)
-From: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
-To: akpm@linux-foundation.org
-Cc: linux-kselftest@vger.kernel.org,
+        Fri, 17 Oct 2025 03:58:13 -0700 (PDT)
+From: Ankan Biswas <spyjetfayed@gmail.com>
+To: linux@roeck-us.net,
+	corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	khalid@kernel.org,
+	david.hunter.linux@gmail.com,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	shuah@kernel.org,
-	richard.weiyang@gmail.com,
-	lkp@intel.com,
-	reddybalavignesh9979@gmail.com,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] samples/vfs: add selftests include path for kselftest.h
-Date: Fri, 17 Oct 2025 14:32:01 +0530
-Message-ID: <20251017090201.317521-1-reddybalavignesh9979@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251016104409.68985-1-reddybalavignesh9979@gmail.com>
-References: <20251016104409.68985-1-reddybalavignesh9979@gmail.com>
+	linux-kernel-mentees@lists.linux.dev,
+	Ankan Biswas <spyjetfayed@gmail.com>
+Subject: [PATCH 0/3] docs/hwmon: Fix broken and missing Maxim chip links
+Date: Fri, 17 Oct 2025 16:27:15 +0530
+Message-ID: <20251017105740.17646-1-spyjetfayed@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -82,31 +80,46 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The test-list-all-mounts sample includes pidfd.h from selftests,
-which now uses the centralized kselftest.h include after the
-previous change. Add the selftests directory to the include path
-so the build can find kselftest.h
+This patch series fixes broken or missing links related to Maxim chips in several
+hwmon documentation files. And updates a the links that get redirected to analog.com
+to their analog.com links.
 
-This fixes a build error reported by the kernel test robot.
+These changes remove several warnings generated by `make linkcheckdocs`.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202510171513.6IWk005g-lkp@intel.com/
+Patches are independent and touch multiple hwmon documentation files.
 
-Signed-off-by: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
----
- samples/vfs/Makefile | 1 +
- 1 file changed, 1 insertion(+)
+Ankan Biswas (3):
+  docs/hwmon: Fix broken maxim-ic.com links to analog.com
+  docs/hwmon: Add missing datasheet links for Maxim chips
+  docs/hwmon: Update maxim-ic.com links to analog.com
 
-diff --git a/samples/vfs/Makefile b/samples/vfs/Makefile
-index 6554b73a75c8..9256ca5d762b 100644
---- a/samples/vfs/Makefile
-+++ b/samples/vfs/Makefile
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
- userprogs-always-y += test-fsmount test-statx mountinfo test-list-all-mounts
- 
-+userccflags += -I $(srctree)/tools/testing/selftests/
- userccflags += -I usr/include
+ Documentation/hwmon/ds1621.rst   | 20 ++++++++++++----
+ Documentation/hwmon/jc42.rst     |  6 ++---
+ Documentation/hwmon/lm75.rst     | 13 +++++++----
+ Documentation/hwmon/max127.rst   |  4 +++-
+ Documentation/hwmon/max15301.rst |  8 +++++--
+ Documentation/hwmon/max16064.rst |  2 +-
+ Documentation/hwmon/max16065.rst | 16 ++++++-------
+ Documentation/hwmon/max1619.rst  |  4 ++--
+ Documentation/hwmon/max16601.rst |  4 +++-
+ Documentation/hwmon/max1668.rst  |  4 +++-
+ Documentation/hwmon/max197.rst   |  8 +++++--
+ Documentation/hwmon/max20730.rst | 16 +++++++++----
+ Documentation/hwmon/max31722.rst |  8 +++++--
+ Documentation/hwmon/max31730.rst |  4 +++-
+ Documentation/hwmon/max31785.rst |  4 +++-
+ Documentation/hwmon/max31790.rst |  4 +++-
+ Documentation/hwmon/max31827.rst |  5 ++++
+ Documentation/hwmon/max34440.rst | 24 ++++++++++++++-----
+ Documentation/hwmon/max6620.rst  |  4 +++-
+ Documentation/hwmon/max6639.rst  |  4 +++-
+ Documentation/hwmon/max6650.rst  |  8 +++++--
+ Documentation/hwmon/max6697.rst  | 40 ++++++++++++++++++++++++--------
+ Documentation/hwmon/max77705.rst |  4 +++-
+ Documentation/hwmon/max8688.rst  |  4 +++-
+ Documentation/hwmon/pmbus.rst    |  4 ++--
+ 25 files changed, 158 insertions(+), 64 deletions(-)
+
 -- 
-2.43.0
+2.51.0
 
