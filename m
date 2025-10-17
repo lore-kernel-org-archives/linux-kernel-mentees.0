@@ -1,479 +1,116 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D548329C78
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Oct 2025 10:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1775248883
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Oct 2025 12:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760698714; cv=none; b=RlBTEa+MQXGPPKhgWeSu9OYxF2GMLqaT87q/+p5lJdQMj87DhOzwioKRAen3Ti3gGwk3Zx1dpZPQM4f5xQOaVLk9uVtI6uQ8Yutdn6pe0pQVOwV1IhgRxXVtRtNn2jBlFC6z7n3XMen+yerUUs7ZHD2f2aOXXstTy/zVd68dxZQ=
+	t=1760705334; cv=none; b=ZqALQxJDVrFFLJwxs3kBOacOCmp8f59h91O3UqPo8z6nwuh1ceARGIuKrvBk0xjVop/gDgiVok2Ex/83JxueKcXK+RqzL8xU1NZdxjn8AkwWgHpYEYQ5nUD/GP8SWZkCp4BHJnbYRlCF7Cs+YQgjnDqXleE7/hpRZKQvLodflZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760698714; c=relaxed/simple;
-	bh=TGNmouYc6kJWnmdz41HUSOws0rzTBKtG2sTqlItIOno=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qvllKLtAnUWEWOXk6BkZhfSQUZgO6AKIYH519EwbcfgX8gcgcTejAVcJqM9OG4Cyx75iwb4ROwkX1DOoEzhM9q2IrM+XigvdRgg2j0sk/GgKn6gLDwWaURvz5QLGzpEtlUHG8ZAMnIKbzYwccDsUlP18yKLN9/n7zIvL6aqgIS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UHcpgPac; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1760705334; c=relaxed/simple;
+	bh=lw5cb12WTQW5V8LKlGN3d+ABzL6hKt0x7IsEIl0HPdA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JG6FJPYwQ1g3wSjyLOQyVcDFqqnAvm6wW7+bfPVE68E56lrZGWVm5jGxBTI5XKK1Vzh8eyXr5N1qmtEyRyXqHbId4dLeO3ng9+cJYtin+MwwBqD6WMTzZAMek/6/rxGegROZ8A6v41k4geM8zhGUhY7hsVaaFVndz9jTjeYhm0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gHejTMIu; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UHcpgPac"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-789fb76b466so1715189b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Oct 2025 03:58:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gHejTMIu"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7833765433cso2589228b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Oct 2025 05:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760698711; x=1761303511; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RcQxmQiwhTRDKIQ07xZS0XyTkiyUkEGo8GNfS/IDb2g=;
-        b=UHcpgPacvhffAUBXntwon8k0ZOMtIH0D316gJ9ZbyHwuHEP3rp3Hr3uesVuw3bqjHh
-         msInMrSnO4f8eBgH4St8pWIaiPZwJVFIFhQzsBJUCsTo3wtRfVrYcXaBWJHajjVWabcO
-         T21P7ykI8jkmS94GfaJFRS1UZABFuAoodVFNih/vRh4r3IvbA5frXYkvHwUfy4dJ0Cb1
-         z5dwsNczpkz5ABC6iLcWmKcrAGj70rM7ZxAykzf1aO9uujURc9azu2OQ9NU7At/UF4Rj
-         mis+I5MNrYAEUD1y/flmtSKN2Kh+SVpnTOwaTxBypLzZEvg7q3abzrHrUkHoxoJPfqG8
-         jmCg==
+        d=gmail.com; s=20230601; t=1760705332; x=1761310132; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vm1q1yJNMMPqej5XCUEQWCVG1hgmSTxZ5v4pBOj1eAo=;
+        b=gHejTMIuM58X0KuBzAm+ksHm+bKIS5dR2xVsxL9KuMtrGoeaN2uCN0QUFkoq2WdPLq
+         sX5ujnD7j/BGABvVmU14ndw0H2wW9rNUbdS5P9vu2bIvkXbMdG3lJTG5PUFs3AM3rqI2
+         3vJuW9R283OBk1mqg8ov/M7uEqhapV8dTWJBCDVY3diTmh9vQQ7oO71AvcmT5U0cGy5A
+         KoCg6wkLm5Bx9mC2kORrb6QUCcV7OZz5yVe7rgw2+6N5F17z0ZmhVM6AiPFw+ShAE7kf
+         AlXRScNh/hIK0riaAruGD31h38/4qhTy4YYC94zJ6+lqVGzuGvIoXY3oiXKwPa64qAMW
+         u5mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760698711; x=1761303511;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1760705332; x=1761310132;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RcQxmQiwhTRDKIQ07xZS0XyTkiyUkEGo8GNfS/IDb2g=;
-        b=HtxplB1XGfxfvJKzxvXzpgpW9vMdeu17I+KgYpamhE2Lb644AkHaI3kYQ+r6ht2z5/
-         FILKMZXxsWuZFYOMVeqRf2bALYP59mjwpGkV3foV6GKR6FboQgWfw+oUYZEXyGz+icgy
-         qG9UuJfy6WCeOv26F6cFpOz08lFPiRK+lw9fXFxk8uceobGgL8R7Csr8AD0STzH968ck
-         Drahy7Bt2xgMAGdbvoEYA1C+kNjKAQrMNOzZD60HWiCkqwtNLwrenxBVjUll/N7di7Bu
-         XNe2mLeIfreCNrB83Vi7UpniWU7Lu1/uRheMqvf9rs9eHfGWdl4UIEherl3wmjPhpi1M
-         Y76g==
-X-Forwarded-Encrypted: i=1; AJvYcCX6fmHoXH33LexeHeRZDJ4evkX6ogg3rpHpZlpEGzOnPdK8PY68aFEruXPim/C6Smnx/LMdIFBCVUvjyDKnopqiMvI4tw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxt/F8JSe6M+atyrYXPpL6ts5YmMGIxROYWnxC0WaobHgsuS1xI
-	IDPug/7XbDXZbdkgetu1GQILWFxmT274g+g9LGTvQsODEWcBm01ho5Vj
-X-Gm-Gg: ASbGncsqWZBZXzPDMWvmEtgU/azpNnOF4Dzak0jZxgXLmdAeVFngE2cIoJdTltRM78t
-	reM5/dEkxVzVaqcDo3Qj5pyaxjTggLJJMH9gK8v24TTUb+vzVoNCg5p8m5gukSVQAQzCW6ZR25s
-	Q0l5JXGlDP7BZgs9rIEdNhWPD3puTsghVaXNYwTOaXUubvui0E8OyUxomsalIW1XYJZjxGAq+ZD
-	asGD9pswz8MjyxBDypSbMs3mnaTY41199/7s7s62G0eg2iE6nwAalgZAOcvtrXYWpjPMm+6oSKr
-	vtJU25sOzEgJ3FU65IwAeylwv65iwA4ybNdTkOaEJalreE+CqHkiWm6WToEdCDyG5UsVP7aup5Z
-	6JU2EvAka1vOgfJKirT5/n7oELTm0hGBhVOxoKJHsc+2xdpL9RZvq1FFgb2QynBe2oOkzR8RoDI
-	pqxNuzJw==
-X-Google-Smtp-Source: AGHT+IGZbS/al5pfP6ZFP3Y4YJCX9ArTkNG4bvjw2RnO7QdoN87bvhipE1jMqEo31zsqvDApgk5XXw==
-X-Received: by 2002:a05:6a00:2356:b0:781:2320:5a33 with SMTP id d2e1a72fcca58-7a220a82808mr3675550b3a.9.1760698711438;
-        Fri, 17 Oct 2025 03:58:31 -0700 (PDT)
-Received: from tixy.nay.do ([2405:201:8000:a149:4670:c55c:fe13:754d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992b639cc8sm25407571b3a.20.2025.10.17.03.58.28
+        bh=vm1q1yJNMMPqej5XCUEQWCVG1hgmSTxZ5v4pBOj1eAo=;
+        b=FBx0b9U9DrycJd0cLmLT74ILSrXT/Dx1SGR2QOUAjmZt0MrMTZyYNCD/fY4w25/mSI
+         Bdffu3fs59Emz5KPbIZebsjFX9PDfEIRm1cEZ+4VWd0QLINxy5/5a+byMEWkB7ZVkkI2
+         IBqpx0G1Wpx6iDBnXpzgdyxrWiYZGCY+CFrY425r9T8FpKudOfqlpv5vmmm/dNZrQrhF
+         NLZee2FoWpn+Q/xQ+Wqprj9iPL1XQH9CEcd6s8Kf/hoqPDxq1wgB2AT9G4LgPIc1M4fL
+         1lrRkuZrHnW1R6y9/19aVSHBvzDMAb1HMLlFhR4oee7iYGz1cZnh8Da0cSKyz5IlFNzv
+         8ITQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUyzPVdmV3LA4PVe/oCsJH3IwSgRnzIBa/I2dohB4kuHs/6rGsoHh/aWzVxG8B39MUcf6dMgRbjAwSYM3XxO0iIYiHEUg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyY/OlbMWiqifcJo5m5l2PvpuZJm4mqxAut+IHiliR1uC7PY7Id
+	+nYHIuENh433bLJS8SonRdg13WOtLrG2/Aljt90ecL0gfYAqk6w1W1KK
+X-Gm-Gg: ASbGnctuSivjNa2Nbwsr7h/wr3NMboh4Gfb34e27PdhI3WISKd2dSxjwbb81VIqRvnX
+	i+w3xY3Y4VVf1ITkf2LTEXaJHAlrE1K5PRnqUO3idNloMUAFoX+NzB81cug7f2SkRVPEcKbaaDD
+	XEJlbls12ZjHru2T8mIJbQR9ZbRUtsrYrtpxTGHL5cG1kBzpqNMIfSP8kAiPTKE7nBrTJ6I0JfV
+	/dy296Rd7vMw3PLV57R24MTQZyasaq+iP4gaII46P5JXoYPc3tsHCD+8Btt0F6fWLx23yOii7gH
+	CDAk0eSLXdCQ+SbRgflBvLdboBurU6JOfOfUTO+l3QJ1yDVzkdRwQCPhJtFP8dlN4vj8H0iTmin
+	DhbY0J9qh8CLUq8m8vf46vSYDQHRRHhYRnEKGhxqM65n76LoXmR51vz+JFLVBfmVr6vFJ6KbsZ5
+	oZgvkD+v7AeRF9AUaF/Bv67k0=
+X-Google-Smtp-Source: AGHT+IFwTxIM7KbRMRI4pagPw+NiPSPIsNhdBx3JaSyasAkdLl7zRtFXNHdz/QIh6BaZIRnxB4f6nQ==
+X-Received: by 2002:a05:6a21:4d17:b0:334:a9f2:558c with SMTP id adf61e73a8af0-334a9f255cemr3877419637.5.1760705332044;
+        Fri, 17 Oct 2025 05:48:52 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992b06076bsm6390184b3a.4.2025.10.17.05.48.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 03:58:31 -0700 (PDT)
-From: Ankan Biswas <spyjetfayed@gmail.com>
-To: linux@roeck-us.net,
-	corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	khalid@kernel.org,
-	david.hunter.linux@gmail.com,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Ankan Biswas <spyjetfayed@gmail.com>
-Subject: [PATCH 3/3] docs/hwmon: Update maxim-ic.com links to analog.com
-Date: Fri, 17 Oct 2025 16:27:18 +0530
-Message-ID: <20251017105740.17646-4-spyjetfayed@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251017105740.17646-1-spyjetfayed@gmail.com>
+        Fri, 17 Oct 2025 05:48:51 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 17 Oct 2025 05:48:49 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ankan Biswas <spyjetfayed@gmail.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, khalid@kernel.org,
+	david.hunter.linux@gmail.com, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH 1/3] docs/hwmon: Fix broken maxim-ic.com links to
+ analog.com
+Message-ID: <826742f1-d1b3-49cf-a1d2-5a64d1e58d16@roeck-us.net>
 References: <20251017105740.17646-1-spyjetfayed@gmail.com>
+ <20251017105740.17646-2-spyjetfayed@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251017105740.17646-2-spyjetfayed@gmail.com>
 
-In 2021, Maxim Integrated was acquired by Analog Devices.
-maxim-ic.com & maximintegrated.com links redirect to analog.com.
+On Fri, Oct 17, 2025 at 04:27:16PM +0530, Ankan Biswas wrote:
+> In 2021, Maxim Integrated was acquired by Analog Devices.
+> maxim-ic.com & maximintegrated.com links redirect to analog.com.
+> 
+> Broken redirects fixed to their proper analog.com links.
+> Fixes warnings in 'make linkcheckdocs'.
+> 
+> Signed-off-by: Ankan Biswas <spyjetfayed@gmail.com>
+> ---
+>  Documentation/hwmon/jc42.rst     |  6 +++---
+>  Documentation/hwmon/max16064.rst |  2 +-
+>  Documentation/hwmon/max16065.rst | 16 ++++++++--------
+>  Documentation/hwmon/max1619.rst  |  4 ++--
+>  Documentation/hwmon/max31790.rst |  4 +++-
+>  Documentation/hwmon/max6650.rst  |  8 ++++++--
+>  Documentation/hwmon/max8688.rst  |  4 +++-
+>  7 files changed, 26 insertions(+), 18 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/jc42.rst b/Documentation/hwmon/jc42.rst
+> index 19d10512f6c0..df47a5d265cc 100644
+> --- a/Documentation/hwmon/jc42.rst
+> +++ b/Documentation/hwmon/jc42.rst
+> @@ -5,7 +5,7 @@ Supported chips:
+>  
+>    * Analog Devices ADT7408
+>  
+> -    Datasheets:
+> +    Datasheet: Publicly available at the Analog Devices website
 
-Update maxim-ic.com & maximintegrated.com links to analog.com links.
+Please refrain from making such unnecessary changes.
 
-Signed-off-by: Ankan Biswas <spyjetfayed@gmail.com>
----
- Documentation/hwmon/max127.rst   |  4 +++-
- Documentation/hwmon/max16601.rst |  4 +++-
- Documentation/hwmon/max1668.rst  |  4 +++-
- Documentation/hwmon/max197.rst   |  8 +++++--
- Documentation/hwmon/max20730.rst | 16 +++++++++----
- Documentation/hwmon/max31722.rst |  8 +++++--
- Documentation/hwmon/max31730.rst |  4 +++-
- Documentation/hwmon/max31785.rst |  4 +++-
- Documentation/hwmon/max34440.rst | 24 ++++++++++++++-----
- Documentation/hwmon/max6620.rst  |  4 +++-
- Documentation/hwmon/max6639.rst  |  4 +++-
- Documentation/hwmon/max6697.rst  | 40 ++++++++++++++++++++++++--------
- 12 files changed, 93 insertions(+), 31 deletions(-)
-
-diff --git a/Documentation/hwmon/max127.rst b/Documentation/hwmon/max127.rst
-index dc192dd9c37c..5ff2f64f9daa 100644
---- a/Documentation/hwmon/max127.rst
-+++ b/Documentation/hwmon/max127.rst
-@@ -13,7 +13,9 @@ Supported chips:
- 
-     Prefix: 'max127'
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX127-MAX128.pdf
-+    Datasheet: Publicly available at the Maxim website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max127-max128.pdf
- 
- Description
- -----------
-diff --git a/Documentation/hwmon/max16601.rst b/Documentation/hwmon/max16601.rst
-index c8c63a053e40..b4deb12325b1 100644
---- a/Documentation/hwmon/max16601.rst
-+++ b/Documentation/hwmon/max16601.rst
-@@ -35,7 +35,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX16602.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	    https://www.analog.com/media/en/technical-documentation/data-sheets/max16602.pdf
- 
- Author: Guenter Roeck <linux@roeck-us.net>
- 
-diff --git a/Documentation/hwmon/max1668.rst b/Documentation/hwmon/max1668.rst
-index 417f17d750e6..0f741e9ce0a5 100644
---- a/Documentation/hwmon/max1668.rst
-+++ b/Documentation/hwmon/max1668.rst
-@@ -9,7 +9,9 @@ Supported chips:
- 
-     Addresses scanned: I2C 0x18, 0x19, 0x1a, 0x29, 0x2a, 0x2b, 0x4c, 0x4d, 0x4e
- 
--    Datasheet: http://datasheets.maxim-ic.com/en/ds/MAX1668-MAX1989.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/MAX1668-MAX1989.pdf
- 
- Author:
- 
-diff --git a/Documentation/hwmon/max197.rst b/Documentation/hwmon/max197.rst
-index 02fe19bc3428..04413f4699dd 100644
---- a/Documentation/hwmon/max197.rst
-+++ b/Documentation/hwmon/max197.rst
-@@ -11,13 +11,17 @@ Supported chips:
- 
-     Prefix: 'max197'
- 
--    Datasheet: http://datasheets.maxim-ic.com/en/ds/MAX197.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/MAX197.pdf
- 
-   * Maxim MAX199
- 
-     Prefix: 'max199'
- 
--    Datasheet: http://datasheets.maxim-ic.com/en/ds/MAX199.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/MAX199.pdf
- 
- Description
- -----------
-diff --git a/Documentation/hwmon/max20730.rst b/Documentation/hwmon/max20730.rst
-index cb0c95b2b1f6..9ea9d824f280 100644
---- a/Documentation/hwmon/max20730.rst
-+++ b/Documentation/hwmon/max20730.rst
-@@ -11,7 +11,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX20710.pdf
-+    Datasheet: Publicly available at the Maxim website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max20710.pdf
- 
-   * Maxim MAX20730
- 
-@@ -19,7 +21,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX20730.pdf
-+    Datasheet: Publicly available at the Maxim website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max20730.pdf
- 
-   * Maxim MAX20734
- 
-@@ -27,7 +31,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX20734.pdf
-+    Datasheet: Publicly available at the Maxim website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max20734.pdf
- 
-   * Maxim MAX20743
- 
-@@ -35,7 +41,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX20743.pdf
-+    Datasheet: Publicly available at the Maxim website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max20743.pdf
- 
- Author: Guenter Roeck <linux@roeck-us.net>
- 
-diff --git a/Documentation/hwmon/max31722.rst b/Documentation/hwmon/max31722.rst
-index 0ab15c00b226..b15603c31c3e 100644
---- a/Documentation/hwmon/max31722.rst
-+++ b/Documentation/hwmon/max31722.rst
-@@ -11,7 +11,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX31722-MAX31723.pdf
-+    Datasheet: Publicly available at the Maxim website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max31722-max31723.pdf
- 
-   * Maxim Integrated MAX31723
- 
-@@ -21,7 +23,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX31722-MAX31723.pdf
-+    Datasheet: Publicly available at the Maxim website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max31722-max31723.pdf
- 
- Author: Tiberiu Breana <tiberiu.a.breana@intel.com>
- 
-diff --git a/Documentation/hwmon/max31730.rst b/Documentation/hwmon/max31730.rst
-index def0de19dbd2..b0be18570984 100644
---- a/Documentation/hwmon/max31730.rst
-+++ b/Documentation/hwmon/max31730.rst
-@@ -9,7 +9,9 @@ Supported chips:
- 
-     Addresses scanned: 0x1c, 0x1d, 0x1e, 0x1f, 0x4c, 0x4d, 0x4e, 0x4f
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX31730.pdf
-+    Datasheet: Publicly available at the Maxim website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max31730.pdf
- 
- Author: Guenter Roeck <linux@roeck-us.net>
- 
-diff --git a/Documentation/hwmon/max31785.rst b/Documentation/hwmon/max31785.rst
-index c8c6756d0ee1..7fb867bf2c70 100644
---- a/Documentation/hwmon/max31785.rst
-+++ b/Documentation/hwmon/max31785.rst
-@@ -9,7 +9,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX31785.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max31785.pdf
- 
- Author: Andrew Jeffery <andrew@aj.id.au>
- 
-diff --git a/Documentation/hwmon/max34440.rst b/Documentation/hwmon/max34440.rst
-index 8591a7152ce5..d1292dd8f24f 100644
---- a/Documentation/hwmon/max34440.rst
-+++ b/Documentation/hwmon/max34440.rst
-@@ -17,7 +17,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34440.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max34440.pdf
- 
-   * Maxim MAX34441
- 
-@@ -27,7 +29,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34441.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max34441.pdf
- 
-   * Maxim MAX34446
- 
-@@ -37,7 +41,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34446.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max34446.pdf
- 
-   * Maxim MAX34451
- 
-@@ -47,7 +53,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34451.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max34451.pdf
- 
-   * Maxim MAX34460
- 
-@@ -57,7 +65,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34460.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max34460.pdf
- 
-   * Maxim MAX34461
- 
-@@ -67,7 +77,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34461.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max34461.pdf
- 
- Author: Guenter Roeck <linux@roeck-us.net>
- 
-diff --git a/Documentation/hwmon/max6620.rst b/Documentation/hwmon/max6620.rst
-index d70173bf0242..3846a48c5ca6 100644
---- a/Documentation/hwmon/max6620.rst
-+++ b/Documentation/hwmon/max6620.rst
-@@ -11,7 +11,9 @@ Supported chips:
- 
-     Addresses scanned: none
- 
--    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/max6620.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	      https://www.analog.com/media/en/technical-documentation/data-sheets/max6620.pdf
- 
- Authors:
-     - L\. Grunenberg <contact@lgrunenberg.de>
-diff --git a/Documentation/hwmon/max6639.rst b/Documentation/hwmon/max6639.rst
-index c85d285a3489..0a275aa36781 100644
---- a/Documentation/hwmon/max6639.rst
-+++ b/Documentation/hwmon/max6639.rst
-@@ -9,7 +9,9 @@ Supported chips:
- 
-     Addresses scanned: I2C 0x2c, 0x2e, 0x2f
- 
--    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX6639-MAX6639F.pdf
-+    Datasheet: Publicly available at the Maxim website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max6639-max6639f.pdf
- 
- Authors:
-     - He Changqing <hechangqing@semptian.com>
-diff --git a/Documentation/hwmon/max6697.rst b/Documentation/hwmon/max6697.rst
-index 90ca224c446a..fa9cd68aaf85 100644
---- a/Documentation/hwmon/max6697.rst
-+++ b/Documentation/hwmon/max6697.rst
-@@ -7,61 +7,81 @@ Supported chips:
- 
-     Prefix: 'max6581'
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX6581.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max6581.pdf
- 
-   * Maxim MAX6602
- 
-     Prefix: 'max6602'
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX6602.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max6602.pdf
- 
-   * Maxim MAX6622
- 
-     Prefix: 'max6622'
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX6622.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max6622.pdf
- 
-   * Maxim MAX6636
- 
-     Prefix: 'max6636'
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX6636.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max6636.pdf
- 
-   * Maxim MAX6689
- 
-     Prefix: 'max6689'
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX6689.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max6689.pdf
- 
-   * Maxim MAX6693
- 
-     Prefix: 'max6693'
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX6693.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max6693.pdf
- 
-   * Maxim MAX6694
- 
-     Prefix: 'max6694'
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX6694.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max6694.pdf
- 
-   * Maxim MAX6697
- 
-     Prefix: 'max6697'
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX6697.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max6697.pdf
- 
-   * Maxim MAX6698
- 
-     Prefix: 'max6698'
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX6698.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max6698.pdf
- 
-   * Maxim MAX6699
- 
-     Prefix: 'max6699'
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX6699.pdf
-+    Datasheet: Publicly available at the Analog Devices website
-+
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/max6699.pdf
- 
- Author:
- 
--- 
-2.51.0
-
+Guenter
