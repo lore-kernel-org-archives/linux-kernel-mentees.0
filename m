@@ -1,64 +1,64 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC78F23C505
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 18 Oct 2025 16:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352F31FDA92
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 18 Oct 2025 16:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760806705; cv=none; b=LZeS+IfwAv4v4b0ntP1GRNJ9Ko30sdqy9Y7FgFnstalbfbI3xlPDcBu9W47PZdL1DPf0PbjVpebCzMVOh4IIkl8PUr8zWnW2pn4e4vfyIgwxgxhBXRsliBU1Erb6J49r+IMzrJKjmNqfBjMqOwoVg9PUfV29HkgLD05n80q4p0k=
+	t=1760806717; cv=none; b=R9uCUGpCCwm1Prqb/PAwIjjkcgtz0lXNpZYSj/G9+SAG5PZGu/RujrMAUZPyMqqifiTjGSKOkXNo8FG+Fm0TqTm7BWQqQK8Uvh2m9q75q8e6iHEtlx/fN+4uba93lceT+bqwOpwBRRRLXt3ijKijrMaulKu2RSJ3hCiS+a0j/18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760806705; c=relaxed/simple;
-	bh=4SufFCPXmxpkslZ+FDy02vXkO1ooFHOQKGFISivorpQ=;
+	s=arc-20240116; t=1760806717; c=relaxed/simple;
+	bh=w7J82fnUD6xfEpzP95bpQv/8s1/Ygz1qLRmzDTIVvOA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dQMli7oc0Sg5jRtZ5+Zef3m+ENztUl8/NV6iqFO3rXwMc3Fir1HJa14LcHlFIqMZYSqgwo4+ICrtnZGUrlZKUIgJEmAggZp/Qy7zvB2Oo9ORkJ8o3Lz3qL4P3ydJxCZOYzqPqui1lZw56teP34cafWiShfUwooAKRh6bwK6eFd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CE8AjBdQ; arc=none smtp.client-ip=209.85.166.175
+	 MIME-Version; b=bNk4sokGuXWUkOdH7Up8VtkSOBeZVDaaBPMsQ0GW0asXeHkc/+m5A4UcmXk7jTMVez8wSqLOKONQf2S8DQTePcJe8OoOrKQsE9CGeDSvCYsoZQgdz/mq4VbnnzQ+j+5/CKbDyrSydYIviaS/G31CXvOFc+o7BR+aPxQN1QscUno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f9ur1udu; arc=none smtp.client-ip=209.85.166.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CE8AjBdQ"
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-430c97cbe0eso13831515ab.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 18 Oct 2025 09:58:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f9ur1udu"
+Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-430aeaffeaeso12964205ab.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 18 Oct 2025 09:58:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760806703; x=1761411503; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1760806715; x=1761411515; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UU0Vaz702n4jmmJNBsbiEKHEOlTcHaJiSdld/th41J4=;
-        b=CE8AjBdQqVTsWMJw4052RLBJc9AxmQyj47BRt6SCszu6o7jJMs4Igbi0OIOFvgRUDt
-         9oZbkDASXIBuVbzLf3/bc03DjWJyq+SQcwt1AIABiKWHYrb+D8k+l1UtHp03l135vjev
-         pVdmRI6k2pJmBhIewR/pBgxYFobBh9rk/M+DVnv9tvneFoQ8x1uSOCYpbElG5u5ZFZ18
-         Y2uArmSDaQN9cKPquiYoZwggrGx9VUNoCpbGDfoie+UZGwVrDw4gq/C17ZSfuWDXP/oW
-         1DqtfkXKf/x16cH/RpgMw4YJgm9xNz6oGWG6g3s5BFe898R+B/vVRxOhaGX2jVMjyChS
-         uLwg==
+        bh=c1WBSTPx2pG3XQLINSM8ILY6Yp6IM7QVYiXHEETaCAQ=;
+        b=f9ur1uduGc+JohmUg0GnMeFNTpMVSPl2IUV6cSr1KzwcOWTmptmSZlMxAdjvIT7vFK
+         G3EZv//v5iJCWmdoUZ7bRRz3AB2ns6W+LMjrP1aWq3BXS/3B97ieIDcCRpapajHO8LYe
+         AvlpgkEkr3P7UDOjk5jniDZj37fDhwwtLdKUqV/zOlRn61pn66OHsUAdsGppiNjwN6o8
+         DIO+jx63GHdua8YA7j2PYCti2m3YxdHmlj93LXAjvviKpaXMg6kVvmS1FGNjG4fEAxdJ
+         iXH+dgTPjLECMXd6Q7TFDlTK/ZgJtBAnOkWsdulc+fzJ4xxwqKZj/5M3D4Si3ptAFpMw
+         nwww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760806703; x=1761411503;
+        d=1e100.net; s=20230601; t=1760806715; x=1761411515;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UU0Vaz702n4jmmJNBsbiEKHEOlTcHaJiSdld/th41J4=;
-        b=WVHFFW4BdimXbeQvOfbFFuSSHi3OWgPXdeYpKqw8nC+C3z2Dpv74I7JKf/tgO+6BSn
-         EqmzKAemntBrJh1GoK9DWXKOi6Szhf+QTczXjW5V0oMS0roaUjdD0unhcrgDZX5a5Z7M
-         aLydkILoY5mALh6t1NpFP1uWLAyIRHZQgCOk6ZchzW0v21xdyRtvp/DE80GN7Gch9jun
-         yWpX66hI79o0pODIbUtMHTJT21LKnJ52qrRnKzC0TAWmsFC0061OWwMoKvFBiEP72zVD
-         p+QcD4/A2o16pTXE6l1Oa8zkeuoIdhcT4tjWK0/5/IMjjJ1AtWkbvarL9j16W6VyrySG
-         M+UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV5BHpLARNsDrlHcWCvVGa8cAX+n82HFBjCnT/IYguOR/+w01VJLA2fAR4+j8HDeFAH2BS5XVfEYrLKuk3fpIkEV/+2Lg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxAmJzddhdUtKttUHe/JPdhhUYLFV0crClYR8qCBpQEQ33HScT2
-	GfA1EXh7jOBjqZ6wEVnx+RuRk4v0xQL1hy1Wjt3d8Vo+XIVCYPl19GjX
-X-Gm-Gg: ASbGncuK2OwX17nVlpS2AxLc6+BJpwEAdKr5C5ipU0a7lV0TdkPO7/JL4j/c0nMVmgp
-	lDMiIiXLWw+B0NRNHTUyulK6KTLDdRXKR1fkEHq8AErnEWQ35rOSKpCM4nvSxEjBy9EzAMo8s1b
-	3/itGMbQO8RrXMbEaacotZdJd+SeFP8+OLFXQColIkD47rv17Sj6t83AB2s6yb+ly2fgzgGQpHN
-	uBaP3fvoIvZHx+wggw77VNZlAhrQa3YQHI89PRkv/tpFZF/xtJmYvTSGzyvPaPwkAgPSihaC9x1
-	WX5nXIQQm8b5V9Y4WjIS/fSkEsjtV8I6cPVcxJDirqCTFTZoLZCai3nZRrWlsSK/Q6arhWW55eH
-	INmTCHb40+qKc/S+G4fzc/OCJRcCD+ABPvbe+bp6QNsoSGwDK0N/WGd5OF/unztqq8gDcwY5byh
-	ZZxLSfBCA8fm0b8cuiDyuQSJOY238Fe9PTxIjmQ/LV8uCfAfDJ+KGHuROKBuw=
-X-Google-Smtp-Source: AGHT+IHKaSv3O3IeWubXsR/NlCaA17Q7Uvpw8Ni/C5X6m8p/2C/Y03YluZFi07O36GktyEubOFY4zQ==
-X-Received: by 2002:a05:6e02:1d9d:b0:430:ab98:7b1f with SMTP id e9e14a558f8ab-430c52beddbmr124046415ab.18.1760806702718;
-        Sat, 18 Oct 2025 09:58:22 -0700 (PDT)
+        bh=c1WBSTPx2pG3XQLINSM8ILY6Yp6IM7QVYiXHEETaCAQ=;
+        b=ObgCqF5+2O2+CWpF3xRQndgGxJ+MOwy+41ECzchZAeNxsveFtYc39IiomwW25ADBbp
+         F3nLnSAAbYlBP3+dMHh0BeuksjPcMahH998fCGkWnjKSijkapiMmjcNSQsAnJBXbMBqu
+         lqGO57ZvBxCoyt1qmiRGCKtPFRfEJLX8hCB81rgOumHk5gi26Y2UZ32JKB1J1596rY4p
+         EaMJY71nPjTTyAYjvJ8Tvhbu/YFGsYtI8iK/eZvb91HGEjpd6YIiEnPgJ7WZGIZ8Cnaj
+         aRGxnTsWRKzwm9XyKwhQ8tH/lGORIic9u2wxdv0w/56ocyhpW4/Ltnebk8K72aL1tbZL
+         9OIg==
+X-Forwarded-Encrypted: i=1; AJvYcCVJfKGMvXKYjltgfzL6A0MwVkPreKdnw5tApPAH1WcxRgedOXr+oc5tEMWJGDqeWIOLuOkyCs66RF6zbydMp9dTbRUP6Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzG/dllZ7pRRkBBHuMgVG1LFOeeKz8EWoQ4jRIXxkK6JeZzJ946
+	UmMGUkXdOzePc6fd4sjKVBAk1IGfMLsWkdhjEpLnsbeZjwpAhThn/JFF
+X-Gm-Gg: ASbGnct8ePNddzchhj9ur+qj6dfCYDUYgD3IMD/w+D7om7PtVPfFqpRPeaEcIdumg03
+	UImimDn3RUiQNBy+jXGyEg3gOxWn8xe7CzwvR8wpjC4Sodbhhy0J5fnkqwK2SJPqXI3vNwXUmQS
+	coYNhGOCueMUJWpEteqq9m1YG6A2bZuHFFfiB3myteiGBSeQmZF5x3GBSIuzrAANheWiNxUOvkr
+	CvwRQacXjnrJaXUDjEMIDM0/s1aTr+FlD/lXI+wNyBMc88s0C6p3AbRUGezIgIQzxPcOuSFULe4
+	/45YvehTqZs9uAOuKNi+X71dKD4fAmfrk00Cu4N6UWOgP4kpt3U8WFEFVsgN+GA5YeZ2Yl8SqK9
+	2GYZ2sOFFhwoecMC8T9WsXSbWeYUdQMTVMXM0HSfVUbnWUDwo46IBE4xFw1MCu1roceHvYzceoB
+	3XMEKMVJZmhkcWia0nhicBwJ+oakyIywqZXBFtMTFzavRASGj91Hd6ioR/USw=
+X-Google-Smtp-Source: AGHT+IGmyUsFoSszv+fFX1S9Hfb5LIc8WC5/DDJ3AFJI2cwDTPzwqnf8s2YrglMNMXLSksHQruG3ig==
+X-Received: by 2002:a05:6e02:1689:b0:42d:876e:61bd with SMTP id e9e14a558f8ab-430c527fb41mr119609355ab.28.1760806715225;
+        Sat, 18 Oct 2025 09:58:35 -0700 (PDT)
 Received: from nairdora (108-75-189-46.lightspeed.wchtks.sbcglobal.net. [108.75.189.46])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-430d07b4614sm11927545ab.33.2025.10.18.09.58.21
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-430d07b4614sm11927545ab.33.2025.10.18.09.58.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Oct 2025 09:58:22 -0700 (PDT)
+        Sat, 18 Oct 2025 09:58:35 -0700 (PDT)
 From: Adrian Yip <adrian.ytw@gmail.com>
 To: stable@vger.kernel.org
 Cc: Mario Limonciello <mario.limonciello@amd.com>,
@@ -71,9 +71,9 @@ Cc: Mario Limonciello <mario.limonciello@amd.com>,
 	david.hunter.linux@gmail.com,
 	khalid@kernel.org,
 	Adrian Yip <adrian.ytw@gmail.com>
-Subject: [PATCH 1/4 6.17.y] drm/amd: Check whether secure display TA loaded successfully
-Date: Sat, 18 Oct 2025 11:56:41 -0500
-Message-ID: <20251018165653.1939869-2-adrian.ytw@gmail.com>
+Subject: [PATCH 2/4 6.12.y] drm/amd: Check whether secure display TA loaded successfully
+Date: Sat, 18 Oct 2025 11:56:42 -0500
+Message-ID: <20251018165653.1939869-3-adrian.ytw@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251018165653.1939869-1-adrian.ytw@gmail.com>
 References: <20251018165653.1939869-1-adrian.ytw@gmail.com>
@@ -99,7 +99,7 @@ a problem.
 Check the resp_status of the context to see if there was an error
 before trying to send any secure display commands.
 
-There were no code conflict when applying to 6.17.y.
+There were no code conflict when applying to 6.12.y.
 This backport gets rid of below error messages on AMD GPUs (per Shuah
 Khan's machine)
 
@@ -122,10 +122,10 @@ Signed-off-by: Adrian Yip <adrian.ytw@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-index 693357caa9a8..d9d7fc4c33cb 100644
+index 8553ac4c0ad3..a8358d1d1acb 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-@@ -2350,7 +2350,7 @@ static int psp_securedisplay_initialize(struct psp_context *psp)
+@@ -2171,7 +2171,7 @@ static int psp_securedisplay_initialize(struct psp_context *psp)
  	}
  
  	ret = psp_ta_load(psp, &psp->securedisplay_context.context);
