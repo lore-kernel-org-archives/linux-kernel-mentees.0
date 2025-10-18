@@ -1,92 +1,93 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319DC27B4EB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Oct 2025 19:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620A72D879C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Oct 2025 20:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760816870; cv=none; b=F7GOGFyZht+VE/I/RuDB/AtvfyoDxAKb5NPHXYDK3fpQvTfRbSpFpJIRkpDn9fJHVaWymI5FE8DUXzqwGKII7UlcHEdldebRYSYhSYPuIwX5CrpfkTkSM7R/jJ1FTPpQSka/WqYL6adt0cuYeYjUd7qo2iBfsZmkGlC+lFYdKmU=
+	t=1760819929; cv=none; b=Ab9Fk8qBDYuiWD7mPSGJCza2OXB7B9M75WbwsjNBUaMbM6ZpiT9Lqc5JcXXDMYxkkJlMWn8udqJp1wjRiOMtMtaVRMbKHfAqnD5iHPU9y9PfQ3yukoaE7GEIL1ESNJ3qehECHT2E0m+lenOAMgwqBR2YVntY0VNbxK2l4GXfPwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760816870; c=relaxed/simple;
-	bh=Cfl4Z2FbFTuUkk0lsxnRbzkKFuArme+w8C49aQPGsGA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EeQBob1L+B5WwNrOcB6clZotg2V+B1RwBpsYpr/dWC+fvdb7z6eBAahqDHVCTufAiv1xWqCPvF55KbAV+rs/Ojim3q1xdqJQzl5Bi14K9elS/oFHYLCCp4M4TwzlYm/sCxC/cA4tPheVOdSvJnCivXEyerhkqdCmYpLnv7WNgdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ESJro6bD; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1760819929; c=relaxed/simple;
+	bh=gXiDaLZ91cP4YS9lUPTJFUZXlsCNeyjYE1dKNW2Lj2A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aVT9ujZHgCrbt2a5XI2F95XxH0ele0dbJJmt3XgYnxoF1MoAdNsk/v49846Uzgu/RjfqX60n15vOCec4Uchy7Xq73hq+iYaqBG6Bm+BFRJJfeIoo+J4K2MM9AqYGUR2T9d5kvV07RW0LDu3+kX4ps3htFMCknQ22n2Q9lYOf0o0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LZdcOi3Q; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ESJro6bD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LZdcOi3Q"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6D77140521
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Oct 2025 19:47:48 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id DF9FA60ED2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Oct 2025 20:38:46 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id bHiz5t9-uwfQ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 18 Oct 2025 19:47:47 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::435; helo=mail-pf1-x435.google.com; envelope-from=kriish.sharma2006@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org CFFBF40519
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CFFBF40519
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ESJro6bD
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id CFFBF40519
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Oct 2025 19:47:47 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-7930132f59aso4197389b3a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Oct 2025 12:47:47 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 3BzEUPJ4u3zq for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 18 Oct 2025 20:38:46 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::333; helo=mail-wm1-x333.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org EE78E60ECD
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EE78E60ECD
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LZdcOi3Q
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id EE78E60ECD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Oct 2025 20:38:45 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-472cbd003feso20725e9.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Oct 2025 13:38:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760816867; x=1761421667; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1760819924; x=1761424724; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=c5yV3R8MF8NT84u8F8kj/y6IDmqDUWQnCYW6rOFqRXs=;
-        b=ESJro6bD7IOpkiugQ8A/Zk1CpAEsJMqhthqf7T09yhAuMjPORhzU2SzwlRVCH5QiCI
-         5yiVIsZSJwQAtKHnyoShVB/RfwBWTQ3ApEcDQXNZTTHmnRm/MQLgL0aSgMLMf7JOMq1h
-         rkE8im4wQzJNehfR546JDgKwxMK//AgoQKG2XgzmqyDq2n7Mcy6y3U7bJkQZSNIch+mb
-         DoBHQShO2pevJTB/jYl9kd8zmFBicAwck8C+6d/A4RdZ931HU8jEEeSkQ4FklR5W1lcf
-         BPAlZW/uvmT8OGqOH9am8DpjWnoFvHY/G21otP6uZjyqYiOHQNmje8VSykok/8XD1aBo
-         SoNg==
+        bh=x9i40smiRcDxizYgBMawCBNl5T4msgfFadm8b+kPK2g=;
+        b=LZdcOi3QUZmWcmUtVBmY8Q9pwYGQtf7AMBPdPZgB6e8cjnQePyl3qDGzWxlpry6YmY
+         7iyunlGFjO3GZYjshnVfSxJ9inK+9V18Nf9trqlOLjTX3ldErhGbezX1elCKyBz9+uYB
+         dqKYvCA5uLrQ/t5bINruRrty1MSBNYqVqWuqf76BnSoBOD0j2Sok44zQ0tyKOaARnC76
+         KMBIrhFQ7dgDNmxkeK3EOoVgiEw4HmQIbvN1zJ9RypZzoPGuycTDjeIDNfrON7d4nSSL
+         V6riEAZWTWpwHvXulmSkztwrTRU+pjDotLzFUlNTWS8ngsHPRqBXV5wBMq+fK6VtS/OE
+         fo0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760816867; x=1761421667;
+        d=1e100.net; s=20230601; t=1760819924; x=1761424724;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=c5yV3R8MF8NT84u8F8kj/y6IDmqDUWQnCYW6rOFqRXs=;
-        b=pPMW4wD1LE1TLVMXmImxtqN0XKKEW+9iwAFqweAPmWO1O/2uw1dmRxs4pYfBV8CWGg
-         50vTMsgrWa3Litd1UEZ18pZ7R9WYMPBScjnOR49gu76uey08nwdXBFo7wIk3knG4l93z
-         NgzsEvN973yK+ZP2O2Awn8eOCte+tB8SDBnUWO7g0gHYAuU1MQ9Kzm8pLrGP/lI+xWxZ
-         1AwdT8Gmy+Z6CiOy+KqeSsn7XUDSomdIWWoO4laaCdK1ubj/tlKv0NpqNCypg0roFvgC
-         ybZ5wna5ddPAZCZG7ZYJ19lwODHBC4C6fL8ncDGmyS6JdtkwYZHRKfwLUuW8n4XyoxoL
-         oEig==
-X-Forwarded-Encrypted: i=1; AJvYcCXZ1as6wMyTPQGBiJGfOEYexHZZogSn79T6EeT1dtNAmDz6FDnhr+He8WuITtj9awd+sj/6k76cgHYOR9xPL1S8UIHmjg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzWpuFDby/AtfXVyzhSk8X9323i14eV6NbXx45dmv2/1p7wuq2M
-	x03at4wwsYGWaigA2of2U+Ii+3/uUP6pYovIIoY4Z059iG31JGWMjivX
-X-Gm-Gg: ASbGnctsT9Mr3H3u9E2huAyPEl6hjD3hvPILXgwUDGx4ML3eNIaRAiLvK2C0gVncURu
-	aaBnrJjax7MYJYlV7k/Bsh/N1ZRPnZbeyES2wuFUAQI1LOK2Q3+sUHJjGuhuwvq6OpPOQFysbzq
-	GB2rvpBeSykiRnXzr0nZyO4BeMYyM+OP1KacSjdnzwZoEhXD+2secggjuvfie5sMVHDA0qwrHOD
-	BPFh8DT/AdIefQH1MbWqjq8yiz8sh7mKcHqyOWJVqNAuQy3S9/LaF6LN6VBJOzZSKdOR3yrDCGY
-	aq7tSWohAeATGH6NyuBEQIhHcECuxqqaxL6hNfL67jLWA/v7zfx1Kh8lFRSDObaAcr2MeYGJt2K
-	RDy5ZsU4YIgdB0BgTkeVopxunmUK0xKpH9TQZupQassZZPJa2WYUYfQfPiLpgOPm5iiH9sf9/SL
-	6TPs6oTmwRez/qhAeFZctkHuGZLC9U
-X-Google-Smtp-Source: AGHT+IG1Pua+a+sQ0qZ4QW/DYh0Y01qkTB8IAIZS/QdD7Qby73bidnVcHrczxog/3EXRJO12bNVf0w==
-X-Received: by 2002:a05:6a20:12cb:b0:2ff:eee8:abb5 with SMTP id adf61e73a8af0-334a85fdc5dmr10873862637.60.1760816866916;
-        Sat, 18 Oct 2025 12:47:46 -0700 (PDT)
-Received: from crl-3.node2.local ([125.63.65.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a2300f25b0sm3502738b3a.49.2025.10.18.12.47.43
+        bh=x9i40smiRcDxizYgBMawCBNl5T4msgfFadm8b+kPK2g=;
+        b=avjH3zOD4vgkVI3VEIQKbj2RdzoHP53FyvqclG2xvTZowTSRaBW+RxI8ZZFTx0kLIN
+         ViG88ZSR5mT7XBjNq14VMDJrgbEXhIaNmxjQOTiM6iHcATyBzcTc9ITVg3RheOpbpqOz
+         kY9fta5vStZLT1LX4xLVmh3VedSTdZaVihbZxWxa/iZOj7Mh7MKBleDSmyZhRIWc4LBZ
+         SSQdthDhP/Oc3m1r1Hy16en2kKzkYjv16BrdW/Pavjb/N1qRw1I3e9idIHTr79UnIfLo
+         un0Nj0YtLh3f6dDTbXlQBRRbqMucuhd9409k8h6XyCNe7YQjwShuu/mwr/gkDdjoSxtL
+         BTrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWwYY1SB1pWJnZyZkExf3+XiQsJRqAOkkDLuu/hNJlP3STa3ni/JzsW2z+2w6MJHDR0R4X4hYqAKLZ3iMXWmV9p5E0cvQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxKM34j8QDmFzrf78yzHeBYoDtNbsJEGsGJsnn8mHMg5qWuchv6
+	RqPu2I8eQnAZ7tMq7ASEADAtaZJYAu/PDAxyjX9kWtuXHTHW8j9STiXU
+X-Gm-Gg: ASbGncuxAcVrLjquCAX1RMgxlR5B5JqjXl1urRJP3EmvHZ4EUHUTZ1g5fAkKz6N69K1
+	iFHQHztRYX3oMDVmJBGYV3PqbtpvsFrht/T2qFeGUnfdEDCeYISrSA1MmYVQDM8B6aDDlaPSQ2f
+	nggjrBpB7SgDI+pomPgDpBXoyWCWDAi+g/XrEwl+3HrSjq9fsiYzxEaZAW0Ipw/lTyB0Gw/vjtV
+	uFDWxfgVEHAGC1amj5vfp6ai6ldEZYrHe7OiTB4w0UzDPQfXtJp6xKkvvke/rUkkAWrYxX6Ejbw
+	Gi4EXac6a6mgNi9Bb/BxaDOpUh5c5X5UmHVsh0RSAc13BLXAdEJumABRkzTRH46wFKFj7Lpvi2B
+	HnR1/5FfhIC6P85Wn9wEZHOcjhALkqGdy8KtOqFerf2m5+9BztkbO5jKFF+R/SyqE68wpxaI2/Q
+	mVKtRDQyPYY8ZxCw4=
+X-Google-Smtp-Source: AGHT+IHI0fmt4JmUe22K1u4pN/SrFRoF9/x8jnxN9nc1hal9Xk8KmftD9LhBWGubiIcbdw640e+xFw==
+X-Received: by 2002:a05:600c:3149:b0:471:161b:4244 with SMTP id 5b1f17b1804b1-4711792a696mr32181475e9.5.1760819923502;
+        Sat, 18 Oct 2025 13:38:43 -0700 (PDT)
+Received: from bhk ([165.50.121.102])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4710e8037aasm80372765e9.2.2025.10.18.13.38.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Oct 2025 12:47:46 -0700 (PDT)
-From: Kriish Sharma <kriish.sharma2006@gmail.com>
-To: Carlos Maiolino <cem@kernel.org>
-Cc: linux-xfs@vger.kernel.org,
+        Sat, 18 Oct 2025 13:38:43 -0700 (PDT)
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+To: axboe@kernel.dk
+Cc: linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
 	skhan@linuxfoundation.org,
 	david.hunter.linux@gmail.com,
-	Kriish Sharma <kriish.sharma2006@gmail.com>
-Subject: [PATCH] xfs: use kmalloc_array() instead of kmalloc() for map allocation
-Date: Sat, 18 Oct 2025 19:45:28 +0000
-Message-Id: <20251018194528.1871298-1-kriish.sharma2006@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	khalid@kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Subject: [PATCH] blk-mq: use struct_size() in kmalloc()
+Date: Sat, 18 Oct 2025 22:38:13 +0100
+Message-ID: <20251018213831.260055-1-mehdi.benhadjkhelifa@gmail.com>
+X-Mailer: git-send-email 2.51.1.dirty
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -95,30 +96,37 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Using kmalloc_array() better reflects the intent to allocate an array of
-map entries, and improves consistency with similar allocations across the
-kernel.
+Change struct size calculation to use struct_size()
+to align with new recommended practices[1] which quotes:
+"Another common case to avoid is calculating the size of a structure with
+a trailing array of others structures, as in:
 
-No functional change intended.
+header = kzalloc(sizeof(*header) + count * sizeof(*header->item),
+                 GFP_KERNEL);
 
-Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
+Instead, use the helper:
+
+header = kzalloc(struct_size(header, item, count), GFP_KERNEL);"
+
+Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
 ---
- fs/xfs/xfs_qm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/blk-mq-sched.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/fs/xfs/xfs_qm.c b/fs/xfs/xfs_qm.c
-index 23ba84ec919a..34ec61e455ff 100644
---- a/fs/xfs/xfs_qm.c
-+++ b/fs/xfs/xfs_qm.c
-@@ -1218,7 +1218,7 @@ xfs_qm_reset_dqcounts_buf(
- 	if (qip->i_nblocks == 0)
- 		return 0;
+diff --git a/block/blk-mq-sched.c b/block/blk-mq-sched.c
+index e0bed16485c3..97b69fbe26f6 100644
+--- a/block/blk-mq-sched.c
++++ b/block/blk-mq-sched.c
+@@ -466,8 +466,7 @@ struct elevator_tags *blk_mq_alloc_sched_tags(struct blk_mq_tag_set *set,
+ 	else
+ 		nr_tags = nr_hw_queues;
  
--	map = kmalloc(XFS_DQITER_MAP_SIZE * sizeof(*map),
-+	map = kmalloc_array(XFS_DQITER_MAP_SIZE, sizeof(*map),
- 			GFP_KERNEL | __GFP_NOFAIL);
+-	et = kmalloc(sizeof(struct elevator_tags) +
+-			nr_tags * sizeof(struct blk_mq_tags *), gfp);
++	et = kmalloc(struct_size(et, tags, nr_tags), gfp);
+ 	if (!et)
+ 		return NULL;
  
- 	lblkno = 0;
 -- 
-2.34.1
+2.51.1.dirty
 
