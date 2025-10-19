@@ -1,123 +1,149 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A16715A86D
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 19 Oct 2025 01:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673CB2EA74D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 19 Oct 2025 13:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760836397; cv=none; b=U9912/bWra7T4NkwkYyiSm/7OOh/9yfHgYivnxaUfSiYhJQB+aRxxMTz8rudeqRErMPlHjvI/LcTQygUOzFDWpNl+GiHSCm28EbK9GKfYkyaydPd8tZ0XE6EAi9lVek+waM5W7pfOZewgoanRZiXSdu/SmMrvMTf2ULcbWlgs9Y=
+	t=1760882392; cv=none; b=gN0bl8dBKjNwRH9jiWTmgsmvI3hZ0DXUBhGTyxrgiEsKaIpycNwcTbhWu5CFSG+HBXdM8tcPAcJ0uJJ/zDei31j+Q3IqZ7nd+wkqORXR8VIuzxtOIZnppTO0W0ON6UrwQtrf4vzavTAFdVQmXtatbXTViMvsSPSAe0dJpWsfCkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760836397; c=relaxed/simple;
-	bh=ycN16ZdUR12Rz3CMFIwbo64D8uYdImlK23EKVoR2q9s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ouRzfR+fMoWyNzfXl5+Ijny4Af5e7tv7yD/pxTxmnHSFCQzszek+ek3yr1X9c0M7xuGD4PpvoKwh7scTw7Kr1KCWPacNhaSjkQEcbLGdR341xYiiqlnjQ6niJLDrKHXGkAIbENVm/ttNnw8FudZxOFh8C4etJ7f2F2r3PQoZ0Rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=awsdmame; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760882392; c=relaxed/simple;
+	bh=zUtbLDy2uvin1t6B5rhoy0/MeRjeuBSxqlz3kP0hk2w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bVMpc0K++FMiyNdZgBi13J1TIX9zxQ1aGspaNrNL+sEjNYRqVHfjlS0KamCTkhTOtCK41G0zhEHxyBQJFWV1HG7/hKRWPZDJxwVvaUry2Ksdv75U+h05gWtel6MPfUZvtkFL/oZhaUHkMRoq6RSBNkehe+B+S+zCFIq9p/RFEQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FcNhKRgM; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="awsdmame"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3ee64bc6b85so4035275f8f.3
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 18 Oct 2025 18:13:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FcNhKRgM"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id F186A83EC2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 19 Oct 2025 13:59:50 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 3PJByOFVb1MI for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 19 Oct 2025 13:59:50 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::632; helo=mail-ej1-x632.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 065C183E8E
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 065C183E8E
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FcNhKRgM
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 065C183E8E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 19 Oct 2025 13:59:49 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-b3c82276592so66942266b.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 19 Oct 2025 06:59:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760836394; x=1761441194; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dqCffS0MkdcG/B0C2qwy945tPaz5iAMXW2RAM//wKK8=;
-        b=awsdmames/Vd9PPLjsqMpDJMiT5jLBmXWmtDQYgJNvpHlqae70mdW3zkED5hCy7vfi
-         Oz5nCIIZfNw49nRCyG7FhjncgYtJWmYozGl3A5b37yxK43wjwJNa+glfbr83v0iPZsRT
-         YTbhdvzfzssM5KMsF/+SdQXcs322vTELRUBsqtpZ0pb08yYN/zHxZXokMJM6uwtcjT8M
-         a4M/KsitJMpgy+9FVuei4kiL1Cle1aROqYVUvbgZJxor1WkrrQFzMSoWDBu8mefduu6Z
-         y1fA6J+5LUWT/i/u+MIOYnFRuv6bXsCmjLEOdUhgFmREvufGLFuuqHksJHRYNrZuZW6T
-         2yAA==
+        d=gmail.com; s=20230601; t=1760882388; x=1761487188; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IpzQRX6WX639uhyZU+I8IkskcZk9DHNRhRlL05G9pLA=;
+        b=FcNhKRgMTePq+zrXdyJYdYfaFB2MXHIiDSceflgCq40+BlyPiMFoyJEcCbylsepun3
+         NEVLiqY+41SD6op1RiMnnF4fFPa9KXwtKkR5OJ2pZ0ilfvIzaNXwxis1RaBWSGqxEEEu
+         CHhwC6bjhL1w3h6KMgZTsQHaUnXyFyeDdVxbZeFZYa+MiHo6ZQZ2z1Q1Z0lMvVJGqrts
+         22Xb8b8WtlL61jHaulhzk1jmTyB42x4TF2JvayWLKAmtDauboqh4gBF4/wHGK2KCd95H
+         fp1QSdSiyOAB8yXhOwuJq7Bvgfet7GYEKEgr0wvMnSWXbUMdBK0aFthOowEZ2xc+Zb+t
+         AlCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760836394; x=1761441194;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dqCffS0MkdcG/B0C2qwy945tPaz5iAMXW2RAM//wKK8=;
-        b=druF6mKbcnGxVV1QRQrQd7x7FhhDOVlerIiuDalQQWnRVq52kwZvNJM6wImoouM/Qi
-         8LI2Vj+Hp5oYa3vT5VoA2tJGAY2USfCzQCD/PaeveG5Q4pHu18y4456tzGKdD0V8GTDb
-         0PaA12TtZuLrOCW1Eko1ECftwEXKyQ+g420fQJayX49goSbRx8iWwSKMvqUQSE7AKo4P
-         a4JhJCtSo8SftcJ65+EXrgdVtUwhl5v/KwA4TzzAp2T2UK+8431tBT6NTFX4MQ/S9z1q
-         LPrKzhzxpNm+4yruCW48zTPRRew3pJ+Eyt+NmiY/dgoWJPErp9D/KI2vhUTKcSBycH74
-         XKTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWIlMzgPZhJ8eb0DWOKgXIUQlMP5JcQfjxrCbTETzGkYFiLq0QP6rQeG9sk4oscfx2ERU6R5nnQj/pOSOns26l9NHwcIA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdA0kXiOXmIaxULWe/6LYsKxq/+D0WsKMwyfcpFsOI+497ppp3
-	Yo5nkpnjMfI/6Lv8xZ5wKJ5+c5lsPkhFDdHTQssVmUQcj4oTzsFgmVhI69WFJr1gGRp2LmRkxxn
-	sdYSQ8oPDBczo0O18+cyCr88jo2kHw38=
-X-Gm-Gg: ASbGncu1rcHivzvxgDylojv6p9RDCKce6+yYgoBpHbQGS4Sh8ZUtEOABTnY0QG7nniq
-	fkOutm/Towj3D+IRvQ8uVshBEntg++NLpCx52mFD1ptjPRCfqAS+rUJgrj6WFdPZ4LeCnaAW9xz
-	fcogCIfyLhDa9OtTLXkyZ7mZeSytvvRM6Qn6s/Dolt57319vbDvyBRMvUTIZLbGfl333B9KO8x/
-	44Y+J7dK3ckg529GZxDQGVtO5zyeNN7CS7wJ7mIpRpTgcAREU8lMn3zOajltBd/pIp/zO8M0yd0
-	Rppjgq+4iL5KnXJWfYdBDE6Klkhm
-X-Google-Smtp-Source: AGHT+IFGfgUCaIDK4EOgSAG3sWnV3n/0YMtEyKtWx7opXLcgYBMX4mZ1XBeMJbT75JRVdWx9oY0XQc+e9rWWM5ycj4E=
-X-Received: by 2002:a05:600c:468d:b0:45f:28d2:bd38 with SMTP id
- 5b1f17b1804b1-471178b14acmr61603585e9.18.1760836393523; Sat, 18 Oct 2025
- 18:13:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760882388; x=1761487188;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IpzQRX6WX639uhyZU+I8IkskcZk9DHNRhRlL05G9pLA=;
+        b=CnEW3EMplmYy9LfbvqaeKux3GpwYxC+haYRSLCNWL3UP8PSL99Y2SZh6Re8a1EOoN1
+         Bv4Kkj2oKFDtEiPnTmQAIrBBi660KCsxxKmnZDuOGLs7rgBIrWvePB6MPzLhDgxj+CWV
+         WF88K3WYKnME9+ua5EJ2W1ounp8C29hzyDXvXhflPUB97Z7aONpaVFBwCnwvBktYUftG
+         Bg4qQYulx+sn3CTGhwvVSxW6fayn0+4x59l5fD2OTRbDdR52yvjf9ZQ5W1subf25yizV
+         gzOFEE2W9KnDnYk7Eir5FFIK/TIv7I9+RsPuKU9n3AYQXR1j0PPtE0GIEVtuXsSYqE9q
+         wAfA==
+X-Forwarded-Encrypted: i=1; AJvYcCVC+TyRFxPCUTU2JBj6wTrOAi6LGO9U3vjcTdeZuT4lyOjgXDwULo2rUlxYtklosFjfcP+pEvU99QXhAcXo89YnHUVfSg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yz8e1psHHIzlPTp7rwcSl+kobiPU1Ah/xdznfNu3J58xCJaTiuf
+	gy3HB6hoWjZ2jr+YC/t9AYE96raYI17O5qJWwjFmo+pCNqK02RQ3GtCi
+X-Gm-Gg: ASbGncsmJ3r0cGlWxnPYDtkBevMlkzddc22eiW6IqW9UC0WGfmxD2R9yqzLyJHtzybN
+	c9S1M+TQcgVkGJjKgfenlObTlHWDVw8RLF1sFB1uE+99HHaNqR79NEpvhmL7sNNl+0nGdexk60P
+	fdpFWNwXiD5lN+49xPH/2o7ZRI9XurSLn1x4PUQHBzsD6VZUyCkVPuNWvdwIDPGAZi2uZHoGZyn
+	nL+A62RIW0u7fB1vfd3GHoW7u2Rg+tq8jAOCwH5hbnWvk+LTx0L92iIb/V27HoeLaJzlaxMJV6p
+	A9XKs0djALeyeu0Q1RbqrlYih+vKZDSv0o1RSLhxxlocm/0G7guXFBp7Cw+EBzinGY3ZF4BQ2WA
+	LfAnRt62wB/+AuUK+6AYyVsUQV03LcJOlODlleMw1v0oZiJwIz6r+iEDUnA8c/MkptFhqtzbpkX
+	Q+xarI
+X-Google-Smtp-Source: AGHT+IGKsrS2Ps3uAG4Ijn1Z/Ftl6Ae/MX6Mq06xwDMBoDY2q0splxnviYgwXvJO0FFabIICGi4lTw==
+X-Received: by 2002:a17:907:9708:b0:b04:2d89:5d3a with SMTP id a640c23a62f3a-b6475505d94mr636158166b.7.1760882387324;
+        Sun, 19 Oct 2025 06:59:47 -0700 (PDT)
+Received: from bhk ([165.50.121.102])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b65e7da25c9sm520425966b.11.2025.10.19.06.59.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Oct 2025 06:59:46 -0700 (PDT)
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+To: javierm@redhat.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Subject: [PATCH] drm/solomon: Use kmalloc_array() instead of kmalloc()
+Date: Sun, 19 Oct 2025 15:58:56 +0100
+Message-ID: <20251019145927.167544-1-mehdi.benhadjkhelifa@gmail.com>
+X-Mailer: git-send-email 2.51.1.dirty
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251018181156.59907-1-nooraineqbal@gmail.com>
-In-Reply-To: <20251018181156.59907-1-nooraineqbal@gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Sat, 18 Oct 2025 18:13:02 -0700
-X-Gm-Features: AS18NWCinBurDJyOY_gktgSZeVjS-bMOMD7I5Ui94jU4eqSqJIbM_iViSKXLBac
-Message-ID: <CAADnVQ+pXhEsumx6NapCU0sCJw9vdB3TdLMLtCoHa7_sqCRH1A@mail.gmail.com>
-Subject: Re: [PATCH] bpf: sync pending IRQ work before freeing ring buffer
-To: neqbal <nooraineqbal@gmail.com>
-Cc: Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard <eddyz87@gmail.com>, 
-	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
-	John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, david.hunter@linuxfoundation.org, 
-	syzbot+2617fc732430968b45d2@syzkaller.appspotmail.com, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 18, 2025 at 11:12=E2=80=AFAM neqbal <nooraineqbal@gmail.com> wr=
-ote:
->
-> Fix a possible vmalloc out-of-bounds access caused by pending IRQ work
-> by ensuring all pending IRQ work completes before freeing.
->
-> Fixes: 457f44363a88 ("bpf: Implement BPF ring buffer and verifier support=
- for it")
-> Reported-by: syzbot+2617fc732430968b45d2@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D2617fc732430968b45d2
+Replace kmalloc() with kmalloc_array() in several places to correctly
+handle array allocations and benefit from built-in overflow checking.
+This prevents potential integer overflows[1] when computing allocation
+sizes from width, height, pitch, or page values.
 
-Why do you think irq_work_run_list() processes bpf ringbuf in
-the above splat?
+[1]:https://docs.kernel.org/process/deprecated.html
 
-> Tested-by: syzbot+2617fc732430968b45d2@syzkaller.appspotmail.com
-> Signed-off-by: neqbal <nooraineqbal@gmail.com>
+Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+---
+ drivers/gpu/drm/solomon/ssd130x.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Use your real name.
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index eec43d1a5595..0ce630861d34 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -1498,7 +1498,7 @@ static int ssd130x_crtc_atomic_check(struct drm_crtc *crtc,
+ 	if (ret)
+ 		return ret;
+ 
+-	ssd130x_state->data_array = kmalloc(ssd130x->width * pages, GFP_KERNEL);
++	ssd130x_state->data_array = kmalloc_array(pages, ssd130x->width, GFP_KERNEL);
+ 	if (!ssd130x_state->data_array)
+ 		return -ENOMEM;
+ 
+@@ -1519,7 +1519,7 @@ static int ssd132x_crtc_atomic_check(struct drm_crtc *crtc,
+ 	if (ret)
+ 		return ret;
+ 
+-	ssd130x_state->data_array = kmalloc(columns * ssd130x->height, GFP_KERNEL);
++	ssd130x_state->data_array = kmalloc_array(ssd130x->height, columns, GFP_KERNEL);
+ 	if (!ssd130x_state->data_array)
+ 		return -ENOMEM;
+ 
+@@ -1546,7 +1546,7 @@ static int ssd133x_crtc_atomic_check(struct drm_crtc *crtc,
+ 
+ 	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
+ 
+-	ssd130x_state->data_array = kmalloc(pitch * ssd130x->height, GFP_KERNEL);
++	ssd130x_state->data_array = kmalloc_array(ssd130x->height, pitch, GFP_KERNEL);
+ 	if (!ssd130x_state->data_array)
+ 		return -ENOMEM;
+ 
+-- 
+2.51.1.dirty
 
-> ---
->  kernel/bpf/ringbuf.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/kernel/bpf/ringbuf.c b/kernel/bpf/ringbuf.c
-> index 719d73299397..d706c4b7f532 100644
-> --- a/kernel/bpf/ringbuf.c
-> +++ b/kernel/bpf/ringbuf.c
-> @@ -216,6 +216,8 @@ static struct bpf_map *ringbuf_map_alloc(union bpf_at=
-tr *attr)
->
->  static void bpf_ringbuf_free(struct bpf_ringbuf *rb)
->  {
-> +       irq_work_sync(&rb->work);
-
-Sort-of kind-of makes sense, but bpf_ringbuf_free() is called
-when no references to bpf map are left. User space and bpf progs
-are not using it anymore, so irq_work callbacks should have completed
-long ago.
-
-pw-bot: cr
