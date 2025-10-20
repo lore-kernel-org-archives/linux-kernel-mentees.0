@@ -1,175 +1,133 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13EA23EA81
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 09:50:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1136C2F7441
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 09:56:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760953815; cv=none; b=BFtMDNLV0TAZJLqbBrLcWW0np+VjGpX/IFz+V8wLtYz7+QFE0JWvXrQyDjL7M6tU+WlJQvLlimbQ0DJ81LOH6cPa/tBbajGK9B19TPAAJivz77TBw9D324gDU8xRhE9TW68hpcpsTaH/BtOH3yh0FOVSiXNHmEdUCwMj6/tiqYs=
+	t=1760954182; cv=none; b=CCInUUzL3uSUZZdSPugDumJAyQghJQzvxrDB9Fwdp5GTGZhGPey0UUrv9zPGR6gLsOWKjpqwGizY+DeLcKaGpk0Mzw3OeRKt0JI67jqd2/MKaXEXrifixKifx2ZK69damMpkL3DepS/Yc8mgszkYVufFykDN6yUgi1cpzLLmSGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760953815; c=relaxed/simple;
-	bh=toWtOieDsYfqWfN+8amH9Octs1Y4IKU0gyOxBWazfC0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=A/eyGI0V85lfBDReFlUXdtPfwoTl7W5ERUKyZa0411Qwg3IFQdKJ+DnFcnzpCwL3B3To6B5w0fZWk5BRigodyKVhNPfADDDWf4iIPpaJJq2oD1XZSmipekRzlXTJkqWds0DI6Eosr46jVtRUB9Jncrm4UB13dgHJBjw/uaX7R1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcixYmEG; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1760954182; c=relaxed/simple;
+	bh=j2NvydwBbIPuJbatOdw2TojuRwj0GPACk41ubNT0QfU=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aAhE2znKPQ1hZarkVExNwkpHDgsAdDx+b/UW+2mceH29kq0oThPrItY5Mvwmuf3RFOnJb/pdZagS0Md0sovBquPir6iUSwKS0s9BxpnhKZfKJM1e3CfexWqkwei4GKPH/++rxUvGc6jFE7RA6rC23uZ26Z+X7pvlsBolo3uFPjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S3jHNtba; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcixYmEG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S3jHNtba"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2C6244177F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 09:50:13 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id BEEF14191E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 09:56:20 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -7.992
+X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ymT3DH7kNBuW for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Oct 2025 09:50:12 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=192.198.163.18; helo=mgamail.intel.com; envelope-from=jani.nikula@intel.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org A7462418BE
-Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=linux.intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A7462418BE
+ id TNRihMNEJkb5 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 20 Oct 2025 09:56:20 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::130; helo=mail-lf1-x130.google.com; envelope-from=urezki@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org CBC254190F
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CBC254190F
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bcixYmEG
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A7462418BE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 09:50:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760953812; x=1792489812;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=toWtOieDsYfqWfN+8amH9Octs1Y4IKU0gyOxBWazfC0=;
-  b=bcixYmEGnfsMWKl3NHilOKmMTYOrarrawG1VqU8j0rbChjNaww51KGPB
-   qL3uvjoMvCG/81cg2vjNyErzg30GSm6SgrAkvs1QynAZ2/7GUYa84w+wY
-   LXq6ImQA3Tzn7RiUK9198OfO+poBC4NR3qU1GmCCJdMbDmFSewWCF3j9H
-   XParr81e9LeM6gL7qqTqfNgdPRw1+bj5nHEfqhbiulWVS4CwxlkcItFZ2
-   nNXMwWkO7cBdDbO2YK3Ei/42JOGqMkt0+MMpPVj5o1ei5VwhKduXTbTsD
-   IPZEYlYhDQd9Ws6kOgRUcZoliDUB03ZPdybZqhd18lCbd7S+CTWOa3zwc
-   A==;
-X-CSE-ConnectionGUID: /8LGNSNfSOqAlLuu4UGNRA==
-X-CSE-MsgGUID: v0IvgDBpR+CIPp7r6umI1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="62275251"
-X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
-   d="scan'208";a="62275251"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 02:50:11 -0700
-X-CSE-ConnectionGUID: m2+TlMjjQxGoDB2gd0tPdg==
-X-CSE-MsgGUID: tcNt11N3RAOD/MBidoQ4vA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
-   d="scan'208";a="183702716"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.7])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 02:50:07 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>, Thomas
- Zimmermann <tzimmermann@suse.de>, Greg KH <gregkh@linuxfoundation.org>
-Cc: lanzano.alex@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] drm/tiny: Use kmalloc_array() instead of kmalloc()
-In-Reply-To: <d072dfe7-e0e9-49f6-89ed-25d194035e3b@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251019151247.171558-1-mehdi.benhadjkhelifa@gmail.com>
- <2025101910-dipper-suburb-1755@gregkh>
- <cb0f0a36-0593-4d4c-8450-d086b9c99d87@suse.de>
- <d072dfe7-e0e9-49f6-89ed-25d194035e3b@gmail.com>
-Date: Mon, 20 Oct 2025 12:50:04 +0300
-Message-ID: <02e617bec795d2ef371069f2d5fb954dfb31a450@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=S3jHNtba
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id CBC254190F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 09:56:19 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-59054fc6a45so4678641e87.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 02:56:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760954177; x=1761558977; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X82yHa6WgvMKlTJcR19kPIZKafNa3VhhrDxBxVYdfcM=;
+        b=S3jHNtbag4an4xCcJwXpQATZlwZKQMnWdC6yMvk9VSbI12BP82vl4sJQgndk87YjyC
+         oL/prc8d1xeZmKO9upJsG90MvJMsi4/1F0EAkepizqwZHO3VMHaNzOU7iQT4yJbhrlxz
+         3DnCOmBNX4U7GBBn0stU/7x43/q2LpzgCFlnSFk+V0a7B7hAHBtnjJNcSdLZd9oaZKgi
+         kJSgdTGrm6ibs2Skq+XAxLIiLDZwmkVPOxSI5t5o5lKL0bbMPQCzjsuaK8ANqCU8VkmB
+         fPaYKnhtpP2PNokv/e66oh3/dtLNjEbtL3o7tPNTnGJh9Ymyy0ltnYYCz30PC6LlLyiT
+         l72g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760954177; x=1761558977;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X82yHa6WgvMKlTJcR19kPIZKafNa3VhhrDxBxVYdfcM=;
+        b=stoxSP430IN+MH25bXsm/Ei2DNqBFTHl+BbWWUQRoGS5F8RxdqjGXsNLTAP76d6XrF
+         gTVzwrf9OWQWHIXy1elgSGGuEh2ZrhQOwJ/ybBmubYHZqTc3cY2g4yxkih93/9EG57sk
+         LYIMsS8Gy39E+V5eDnEIQvnwiXWjt2Fl1NJlwrNCcA2C9wvHNiXwJANdMilrLsLX8Wrg
+         ifhljXaQKpv3CWt1FKIQ312je3Y3MbJBQXNTgb8ChxNA8rrlCy7UrSj7gYjHUPbflNH7
+         dagsg32DuxPxd23owsJAcj65TR5WDVzauD7fPXpNR7AxroKBF6fQmb5RjUrGEm2oYdXj
+         ma0A==
+X-Forwarded-Encrypted: i=1; AJvYcCVNm8UMJaFNFPHeMllunAztsydQFtWEvSvdw2omC/MMEdzmVGqrIGRq6q2EA+n1GwAIT7KuiVS7vGtMPsiCjLgKBeKxEw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yx7jVrfXJei4i7bYd/cB+kaAS55c1TwHkDFb0wAOQ43Fh+qGuQr
+	BgaiIipgildceZ20GeNU5ksOrCFnZeu3qoiKy//dMi5t5o6IFBgXnBCF
+X-Gm-Gg: ASbGnctwSGikA1/1FEgJL5XM4bzVJNBJU3y+CuR9iviqAMHia8Wzh4EFqzfiPVyyQBR
+	0Lq7UdXAQs1aWfmA6bASgs3w5IUEFDGJjYzxZG/XMPuyVLHnBCfGU8GyE9bkQn3mfMGqLONO0Oz
+	BbI3TncZ4UMAm2zIdum8bMEkPw9rG4GSOSp/tULarjRjzASxP+BZ+rq3kPj5TTiDaKL0OTKurz7
+	ABs7dXdSjA8J4FjPvHSrNHXf6zX6uphLxFs2sAuMJDkKB3MDQr4HqSUFpbNIn4iKIZE/jyPWXV3
+	wLYBSu9bELHHIg9nAnHx6Pb+XXQ4gZap3YCTqGH9vZmi7Zpz2U6xG+MDooL5y8p7Mz/aMrG34Jb
+	PLiUnfWgn1Sc98QSGFw+gblXu781VHw55+NuDgX05TtLA6XqOlIuxsQ==
+X-Google-Smtp-Source: AGHT+IHuU+9CvQ9Gt1nfQHn51C/T6e1754T+yjliALLtrmrWjcnHKqMnxprnyBu97fHYVVzHprz3fA==
+X-Received: by 2002:a05:6512:31c2:b0:57a:33ff:c7fc with SMTP id 2adb3069b0e04-591d859ea86mr3876727e87.48.1760954177014;
+        Mon, 20 Oct 2025 02:56:17 -0700 (PDT)
+Received: from milan ([2001:9b1:d5a0:a500::24b])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-591def168f2sm2346847e87.54.2025.10.20.02.56.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Oct 2025 02:56:16 -0700 (PDT)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@milan>
+Date: Mon, 20 Oct 2025 11:56:14 +0200
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Cc: akpm@linux-foundation.org, urezki@gmail.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org
+Subject: Re: [PATCH] mm/vmalloc: Use kmalloc_array() instead of kmalloc()
+Message-ID: <aPYHPmebIcGxeywe@milan>
+References: <20251018201207.27441-1-mehdi.benhadjkhelifa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251018201207.27441-1-mehdi.benhadjkhelifa@gmail.com>
 
-On Sun, 19 Oct 2025, Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com=
-> wrote:
-> On 10/19/25 3:47 PM, Thomas Zimmermann wrote:
->> Hi
->>=20
->> Am 19.10.25 um 16:34 schrieb Greg KH:
->>> On Sun, Oct 19, 2025 at 04:12:28PM +0100, Mehdi Ben Hadj Khelifa wrote:
->>>> Replace kmalloc() with kmalloc_array() to correctly
->>>> handle array allocations and benefit from built-in overflow checking[1=
-].
->>>>
->>>> [1]:https://docs.kernel.org/process/deprecated.html
->>>>
->>>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
->>>> ---
->>>> =C2=A0 drivers/gpu/drm/tiny/repaper.c | 2 +-
->>>> =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/=20
->>>> repaper.c
->>>> index 4824f863fdba..290132c24ff9 100644
->>>> --- a/drivers/gpu/drm/tiny/repaper.c
->>>> +++ b/drivers/gpu/drm/tiny/repaper.c
->>>> @@ -534,7 +534,7 @@ static int repaper_fb_dirty(struct=20
->>>> drm_framebuffer *fb, const struct iosys_map *
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_DEBUG("Flushing [FB:%d] st=3D%ums\n=
-", fb->base.id,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 epd=
-->factored_stage_time);
->>>> -=C2=A0=C2=A0=C2=A0 buf =3D kmalloc(fb->width * fb->height / 8, GFP_KE=
-RNEL);
->>>> +=C2=A0=C2=A0=C2=A0 buf =3D kmalloc_array(fb->height / 8, fb->width, G=
-FP_KERNEL);
+On Sat, Oct 18, 2025 at 09:11:48PM +0100, Mehdi Ben Hadj Khelifa wrote:
+> The number of NUMA nodes (nr_node_ids) is bounded, so overflow is not a
+> practical concern here. However, using kmalloc_array() better reflects the
+> intent to allocate an array of unsigned ints, and improves consistency with
+> other NUMA-related allocations.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+> ---
+>  mm/vmalloc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index 798b2ed21e46..697bc171b013 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -5055,7 +5055,7 @@ static int vmalloc_info_show(struct seq_file *m, void *p)
+>  	unsigned int *counters;
+>  
+>  	if (IS_ENABLED(CONFIG_NUMA))
+> -		counters = kmalloc(nr_node_ids * sizeof(unsigned int), GFP_KERNEL);
+> +		counters = kmalloc_array(nr_node_ids, sizeof(unsigned int), GFP_KERNEL);
+>  
+>  	for_each_vmap_node(vn) {
+>  		spin_lock(&vn->busy.lock);
+> -- 
+> 2.51.1.dirty
+> 
+Reviewed-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
 
-Also worth emphasizing that this is wildly wrong for any height that is
-not a multiple of 8.
+Thank you!
 
-And I thought I shot down a similar patch not long ago.
-
-Is there some tool that suggests doing this? Fix the tool instead
-please.
-
-BR,
-Jani.
-
-
-
-
->>> This isn't an array, so this function change doesn't seem to make much
->>> sense, right?=C2=A0 The size should have already been checked earlier i=
-n the
->>> call change to be correct.
-> Yes,I was intending to say framebuffer but I was working on another=20
-> similar patch simultaneously so I reused same words by mistake. Thanks=20
-> for clarifying that.>
->> Yes, we've recently received plenty of these pointless changes. The=20
->> correct code would compute the number of bytes per pixel using=20
->> drm_format_info_min_pitch() and multiply with fb->height. The latter=20
->> could (maybe) use kmalloc_array(). It would still not be an array in the=
-=20
->> common sense.
->>=20
-> Thanks for the review and suggestion.I will be sending a v2 patch with=20
-> the recommended code change.
->
-> Best Regards,
-> Mehdi Ben Hadj Khelifa> Best regards
->> Thomas
->>=20
->>>
->>> thanks,
->>>
->>> greg k-h
->>=20
->> --=20
->> --=20
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstrasse 146, 90461 Nuernberg, Germany
->> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->> HRB 36809 (AG Nuernberg)
->
-
---=20
-Jani Nikula, Intel
+--
+Uladzislau Rezki
