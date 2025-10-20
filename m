@@ -1,83 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E39F2E4266;
-	Mon, 20 Oct 2025 09:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13EA23EA81
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 09:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760951228; cv=none; b=pQPmquWBqMgFn04N3BavWY2/GFots+HJ3qWzkJfEtXzH52cD+wVkjkGzyBykZI2PtgXLkuM5ag/PBYd3fixfQ+IdH2npAblSqUpDI9uvhdZzEVqy8baJKypNx2OT2oHtOScIuAuZfZbK/pHsAAxESt2+Uv4ADIK5ORxpWKJJRtw=
+	t=1760953815; cv=none; b=BFtMDNLV0TAZJLqbBrLcWW0np+VjGpX/IFz+V8wLtYz7+QFE0JWvXrQyDjL7M6tU+WlJQvLlimbQ0DJ81LOH6cPa/tBbajGK9B19TPAAJivz77TBw9D324gDU8xRhE9TW68hpcpsTaH/BtOH3yh0FOVSiXNHmEdUCwMj6/tiqYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760951228; c=relaxed/simple;
-	bh=RLZH+QsKfg/Re8p+bgNMr6Kf+QCujFO3Ejh6Wav9t1k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h7HA2DthQOHbobBS0HVAKFAcCWJCM22SDcg3gZ4RfzVgQqDENMWQKnDef8mWO0n7mLpVIhKND4odV4lSfFGwRxaan0b/WXb36qA25RBJ3xXgeKvfiK+XhInl6N33TzAkhyA25YuanPL69OdmhAinVjL/tkvT04/Bh9HqiJMMhMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Jt6dgGfR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760953815; c=relaxed/simple;
+	bh=toWtOieDsYfqWfN+8amH9Octs1Y4IKU0gyOxBWazfC0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=A/eyGI0V85lfBDReFlUXdtPfwoTl7W5ERUKyZa0411Qwg3IFQdKJ+DnFcnzpCwL3B3To6B5w0fZWk5BRigodyKVhNPfADDDWf4iIPpaJJq2oD1XZSmipekRzlXTJkqWds0DI6Eosr46jVtRUB9Jncrm4UB13dgHJBjw/uaX7R1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcixYmEG; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Jt6dgGfR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 451F4C4CEF9;
-	Mon, 20 Oct 2025 09:07:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1760951225;
-	bh=RLZH+QsKfg/Re8p+bgNMr6Kf+QCujFO3Ejh6Wav9t1k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jt6dgGfRZdJZj+bYa2ry0ftmLAiiyvP2Wpy+XFGsdr9XQiQF6gHpWdkSsZe3Vnmui
-	 97E2q57REGbbngezeasEhg/5Jwbd7aJoBiQTCP72TnkgUPkvNjbSPD+ovKa21zt7DT
-	 2hjQNI752Nlebd67uAklpA2pCMxu2DcLfhx+9CJA=
-Date: Mon, 20 Oct 2025 11:07:02 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Adrian Yip <adrian.ytw@gmail.com>
-Cc: stable@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com, khalid@kernel.org
-Subject: Re: [PATCH 2/4 6.12.y] drm/amd: Check whether secure display TA
- loaded successfully
-Message-ID: <2025102024-monetize-morphing-79a9@gregkh>
-References: <20251018165653.1939869-1-adrian.ytw@gmail.com>
- <20251018165653.1939869-3-adrian.ytw@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcixYmEG"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2C6244177F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 09:50:13 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -7.992
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ymT3DH7kNBuW for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 20 Oct 2025 09:50:12 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=192.198.163.18; helo=mgamail.intel.com; envelope-from=jani.nikula@intel.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org A7462418BE
+Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=linux.intel.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A7462418BE
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bcixYmEG
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id A7462418BE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 09:50:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760953812; x=1792489812;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=toWtOieDsYfqWfN+8amH9Octs1Y4IKU0gyOxBWazfC0=;
+  b=bcixYmEGnfsMWKl3NHilOKmMTYOrarrawG1VqU8j0rbChjNaww51KGPB
+   qL3uvjoMvCG/81cg2vjNyErzg30GSm6SgrAkvs1QynAZ2/7GUYa84w+wY
+   LXq6ImQA3Tzn7RiUK9198OfO+poBC4NR3qU1GmCCJdMbDmFSewWCF3j9H
+   XParr81e9LeM6gL7qqTqfNgdPRw1+bj5nHEfqhbiulWVS4CwxlkcItFZ2
+   nNXMwWkO7cBdDbO2YK3Ei/42JOGqMkt0+MMpPVj5o1ei5VwhKduXTbTsD
+   IPZEYlYhDQd9Ws6kOgRUcZoliDUB03ZPdybZqhd18lCbd7S+CTWOa3zwc
+   A==;
+X-CSE-ConnectionGUID: /8LGNSNfSOqAlLuu4UGNRA==
+X-CSE-MsgGUID: v0IvgDBpR+CIPp7r6umI1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="62275251"
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="62275251"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 02:50:11 -0700
+X-CSE-ConnectionGUID: m2+TlMjjQxGoDB2gd0tPdg==
+X-CSE-MsgGUID: tcNt11N3RAOD/MBidoQ4vA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="183702716"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.7])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 02:50:07 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>, Thomas
+ Zimmermann <tzimmermann@suse.de>, Greg KH <gregkh@linuxfoundation.org>
+Cc: lanzano.alex@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] drm/tiny: Use kmalloc_array() instead of kmalloc()
+In-Reply-To: <d072dfe7-e0e9-49f6-89ed-25d194035e3b@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251019151247.171558-1-mehdi.benhadjkhelifa@gmail.com>
+ <2025101910-dipper-suburb-1755@gregkh>
+ <cb0f0a36-0593-4d4c-8450-d086b9c99d87@suse.de>
+ <d072dfe7-e0e9-49f6-89ed-25d194035e3b@gmail.com>
+Date: Mon, 20 Oct 2025 12:50:04 +0300
+Message-ID: <02e617bec795d2ef371069f2d5fb954dfb31a450@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251018165653.1939869-3-adrian.ytw@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 18, 2025 at 11:56:42AM -0500, Adrian Yip wrote:
-> From: Mario Limonciello <mario.limonciello@amd.com>
-> 
-> commit c760bcda83571e07b72c10d9da175db5051ed971 upstream
-> 
-> [Why]
-> Not all renoir hardware supports secure display.  If the TA is present
-> but the feature isn't supported it will fail to load or send commands.
-> This shows ERR messages to the user that make it seems like there is
-> a problem.
-> 
-> [How]
-> Check the resp_status of the context to see if there was an error
-> before trying to send any secure display commands.
-> 
-> There were no code conflict when applying to 6.12.y.
-> This backport gets rid of below error messages on AMD GPUs (per Shuah
-> Khan's machine)
-> 
->   kern  :err   :
->   amdgpu 0000:0b:00.0: amdgpu: Secure display: Generic Failure.
->   amdgpu 0000:0b:00.0: amdgpu: SECUREDISPLAY: query securedisplay TA
->     failed. ret 0x0
-> 
-> Compile test was done.
+On Sun, 19 Oct 2025, Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com=
+> wrote:
+> On 10/19/25 3:47 PM, Thomas Zimmermann wrote:
+>> Hi
+>>=20
+>> Am 19.10.25 um 16:34 schrieb Greg KH:
+>>> On Sun, Oct 19, 2025 at 04:12:28PM +0100, Mehdi Ben Hadj Khelifa wrote:
+>>>> Replace kmalloc() with kmalloc_array() to correctly
+>>>> handle array allocations and benefit from built-in overflow checking[1=
+].
+>>>>
+>>>> [1]:https://docs.kernel.org/process/deprecated.html
+>>>>
+>>>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+>>>> ---
+>>>> =C2=A0 drivers/gpu/drm/tiny/repaper.c | 2 +-
+>>>> =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/=20
+>>>> repaper.c
+>>>> index 4824f863fdba..290132c24ff9 100644
+>>>> --- a/drivers/gpu/drm/tiny/repaper.c
+>>>> +++ b/drivers/gpu/drm/tiny/repaper.c
+>>>> @@ -534,7 +534,7 @@ static int repaper_fb_dirty(struct=20
+>>>> drm_framebuffer *fb, const struct iosys_map *
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_DEBUG("Flushing [FB:%d] st=3D%ums\n=
+", fb->base.id,
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 epd=
+->factored_stage_time);
+>>>> -=C2=A0=C2=A0=C2=A0 buf =3D kmalloc(fb->width * fb->height / 8, GFP_KE=
+RNEL);
+>>>> +=C2=A0=C2=A0=C2=A0 buf =3D kmalloc_array(fb->height / 8, fb->width, G=
+FP_KERNEL);
 
-Also, you added text here in the changelog, which isn't generally good
-as we want to keep the changelog text as close as possible, if not
-identical, to the original so that it makes it easier to track patches
-across branches.
+Also worth emphasizing that this is wildly wrong for any height that is
+not a multiple of 8.
 
-thanks,
+And I thought I shot down a similar patch not long ago.
 
-greg k-h
+Is there some tool that suggests doing this? Fix the tool instead
+please.
+
+BR,
+Jani.
+
+
+
+
+>>> This isn't an array, so this function change doesn't seem to make much
+>>> sense, right?=C2=A0 The size should have already been checked earlier i=
+n the
+>>> call change to be correct.
+> Yes,I was intending to say framebuffer but I was working on another=20
+> similar patch simultaneously so I reused same words by mistake. Thanks=20
+> for clarifying that.>
+>> Yes, we've recently received plenty of these pointless changes. The=20
+>> correct code would compute the number of bytes per pixel using=20
+>> drm_format_info_min_pitch() and multiply with fb->height. The latter=20
+>> could (maybe) use kmalloc_array(). It would still not be an array in the=
+=20
+>> common sense.
+>>=20
+> Thanks for the review and suggestion.I will be sending a v2 patch with=20
+> the recommended code change.
+>
+> Best Regards,
+> Mehdi Ben Hadj Khelifa> Best regards
+>> Thomas
+>>=20
+>>>
+>>> thanks,
+>>>
+>>> greg k-h
+>>=20
+>> --=20
+>> --=20
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Frankenstrasse 146, 90461 Nuernberg, Germany
+>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+>> HRB 36809 (AG Nuernberg)
+>
+
+--=20
+Jani Nikula, Intel
