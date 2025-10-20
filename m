@@ -1,56 +1,56 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBB71EB193
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 15:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35DB26B2DC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 15:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760973005; cv=none; b=kA+GKO/RfkgtVnKy2GOf0GuFlqW7lQL1Yb9GM01H4wnvtrvelDNTZSPOyXHCzh7DK9K+IyaEKpubaZsNVIGcj+cnVTKET1MtYMpJUqvI02s2j8LFGoe+tiDnY3Z+L29FslKLLczyiBQj/sqt3MAEXsYDhHGLBXLbIai6GPkXGwo=
+	t=1760974193; cv=none; b=XsDkInqOOWuhPOZB+48F8e4bfBeA2og9ZWXZftj3a3WLuYw38hoQzqEbXMZ+M3KkOHyoISd8aG9kynUuhsFYfu/hM1nGnhCJz6XXo999Hl5mDp8vrNhXZn9J8vFj29nUJxAcqcosiOuAczAaX1YhXOTO8qC2Bg0CwBh/shYW8AA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760973005; c=relaxed/simple;
-	bh=Pz7q0IVj+MSA9wS893WkT7eP26sj3QjMI8T0btQdAeo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=TjAK5Sux49QI6Eblbgnj8CcwGjSP+7jT0bJZWe8t1FbDJ4JQilpKCn8qDjxQsgrYPL49KAXuma+IX0+8ACkMDcojlRClqg06TtjRBTuUpAKDuk3zRQ3oVs20jpcWeC5RvlljKnZ0+N5GpbcM3EihUGlZV5MQVFYPmeqhA3kNaF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XSrsZn8h; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1760974193; c=relaxed/simple;
+	bh=O1orugBr2pvTT4K3ZaPXwEVdYUClnxbj+YqzNevsSfs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GSVVttPSyw/ZoB4gcwr0Ec9ZoGwTgzKAYPN+TWwrb34S5wQYUy5dhiUhuoRA52+YUB+fShYiMBid9yytH3vD5NX8rYoWViYnWEgtMn6Nkihcq2DR/hYo70jnvrb77rrZ0rTIke1hfP8raSEmXVUW7SM7xA0PjRrTLZlGhSBnHDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uXiJrIJ6; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XSrsZn8h"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uXiJrIJ6"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8A9CC614BE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 15:10:03 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 8C92F84249
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 15:29:51 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.101
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 11oaRVGLoQPu for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Oct 2025 15:10:02 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 5589F614BC
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5589F614BC
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=XSrsZn8h
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id PZZF8N3yj8Ny for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 20 Oct 2025 15:29:51 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=khalid@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org C143482215
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C143482215
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=uXiJrIJ6
 Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 5589F614BC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 15:10:02 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C143482215
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 15:29:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 27EBE41872;
-	Mon, 20 Oct 2025 15:10:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5127BC4CEF9;
-	Mon, 20 Oct 2025 15:09:58 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 060E348CEE;
+	Mon, 20 Oct 2025 15:29:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1D2BC4CEF9;
+	Mon, 20 Oct 2025 15:29:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760973001;
-	bh=Pz7q0IVj+MSA9wS893WkT7eP26sj3QjMI8T0btQdAeo=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=XSrsZn8hHcIHVt+2FQH6WU1OFrah+ptbtLJMDCVOYRYH+wADYhuPHrkO2woNdzIcl
-	 FAHUg3ZCi4J8cOiy2kMq1WOTAI/ZeGhvEgMQKy+k3312uRSwJ1yuBuHWx95qyKAO/n
-	 qmcHUU0f7ALfnMhAchl0L2NbcT6rpUDJi+TRR7+meLOHmZrV7K+gsKEM/tL9vZrrHg
-	 aaerwJlOvoajESQRs2lMxMRR1QBP5zMNsJpb/fs+sREiayraddJjmVU/laojyUEkKP
-	 9VeYSHOYVwlLXauNDtlJqeEv8EAPkN5NbzrHAv4wcUaWM7VWBLKD+mpyXtE1EoLeib
-	 K5MtKCIpc9mtQ==
-Message-ID: <29572a54-4c3e-49c3-9462-fddb10be94ed@kernel.org>
-Date: Mon, 20 Oct 2025 17:09:56 +0200
+	s=k20201202; t=1760974189;
+	bh=O1orugBr2pvTT4K3ZaPXwEVdYUClnxbj+YqzNevsSfs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=uXiJrIJ687SJ+ZX5Q9oD4LYK5sQUkdBCyvr+bs6NtwlmsufLYur10NjjA0u5WTGnm
+	 JRmI2YhfP4weHJj8V5eSziLaUAUrt7B5YAVrqZyN+PdEDso6q/fNmLpcA3aux5cj8Y
+	 Yk9PpxF/uV91kzuWgAU2Tir+58s4qs+jJtHrYpYULtU5lGBaWp2fNWq4wkUH0fkZ1J
+	 c8i/yjnj8QJ5tGDRgXbs4gd1hcUg3sL2NJLjzdbgbW1UJ3Dj616krygQMks7XZFvaD
+	 +pSHufqszj8KlVb4M+mdQ5Q0yYyA4R8RSGEhsuAZt3bAtITJC8UhwAtrw4LJtxwzRD
+	 v+BiJRk4g+3Ig==
+Message-ID: <33f2a0f7-3e15-4256-a631-70e68fdec15d@kernel.org>
+Date: Mon, 20 Oct 2025 09:29:49 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -58,94 +58,49 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: leds: Add TI LM36274 backlight driver schema
-To: Erick Setubal Bacurau <erick.setubal@gmx.de>, lee@kernel.org,
- pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org, david.hunter.linux@gmail.com
-References: <20251020140428.246460-1-erick.setubal@gmx.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] mm/vmalloc: Use kmalloc_array() instead of kmalloc()
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
+ akpm@linux-foundation.org, urezki@gmail.com
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251018201207.27441-1-mehdi.benhadjkhelifa@gmail.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251020140428.246460-1-erick.setubal@gmx.de>
-Content-Type: text/plain; charset=UTF-8
+From: Khalid Aziz <khalid@kernel.org>
+In-Reply-To: <20251018201207.27441-1-mehdi.benhadjkhelifa@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 20/10/2025 16:04, Erick Setubal Bacurau wrote:
-> Add the DeviceTree binding schema for the Texas Instruments LM36274.
+On 10/18/25 2:11 PM, Mehdi Ben Hadj Khelifa wrote:
+> The number of NUMA nodes (nr_node_ids) is bounded, so overflow is not a
+> practical concern here. However, using kmalloc_array() better reflects the
+> intent to allocate an array of unsigned ints, and improves consistency with
+> other NUMA-related allocations.
 > 
-> Signed-off-by: Erick Setubal Bacurau <erick.setubal@gmx.de>
+> No functional change intended.
+> 
+> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
 > ---
->  .../bindings/leds/leds-lm36274.yaml           | 81 +++++++++++++++++++
-
-Why do you add this without any users?
-
->  1 file changed, 81 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-lm36274.yaml
+>   mm/vmalloc.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-lm36274.yaml b/Documentation/devicetree/bindings/leds/leds-lm36274.yaml
-> new file mode 100644
-> index 000000000000..390ca660c0be
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-lm36274.yaml
-> @@ -0,0 +1,81 @@
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-lm36274.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +title: Texas Instruments LM36274 4-Channel LCD Backlight Driver w/Integrated Bias
-> +maintainers: [Erick Setubal Bacurau <erick.setubal@gmx.de>]
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index 798b2ed21e46..697bc171b013 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -5055,7 +5055,7 @@ static int vmalloc_info_show(struct seq_file *m, void *p)
+>   	unsigned int *counters;
+>   
+>   	if (IS_ENABLED(CONFIG_NUMA))
+> -		counters = kmalloc(nr_node_ids * sizeof(unsigned int), GFP_KERNEL);
+> +		counters = kmalloc_array(nr_node_ids, sizeof(unsigned int), GFP_KERNEL);
+>   
+>   	for_each_vmap_node(vn) {
+>   		spin_lock(&vn->busy.lock);
 
-Don't code with AI. This looks like nothing in existing code, 100%
-different, so I do not see how you could come with this.
+This looks like reasonable change for clarity.
 
-Any AI slop is waste of our time. Please start from scratch from latest
-approved bindings (including correct file naming) and provide users.
+Reviewed-by: Khalid Aziz <khalid@kernel.org>
 
-NAK.
-
-Best regards,
-Krzysztof
+--
+Khalid
