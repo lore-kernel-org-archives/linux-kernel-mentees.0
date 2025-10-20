@@ -1,88 +1,132 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87162D1F44
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 17:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821F22BEC23
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 20 Oct 2025 18:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760980028; cv=none; b=MbkYGwj0hCcIYfZ/DpYONpVFfls9spdmuEpCXnoLjgPlx4onJLVgTollubDMGGadicvzKJcjkk7VyPURmPv5rQk18kBuKCksa2RfWh34a1NEO2kZN9NWq2mTm47LU7hw8EQ9lC7b7F30s2fSlVDOlr9AhPzqZTsudHebcJY1mc0=
+	t=1760983567; cv=none; b=QWcAXpAvF3/lPhoFuLQH5jwJQ2F8prp+SSUOLaGYICu75kDskJbKZMPREu1gLi0WGptfSingwgmlZPCYkbBfpTPXkTyZmiCOR+LcEd9ra6mTaYWXANFR5ODjijgG9LPmJSJFyi7enmBExB3xVFXOE6WYhLxtnxIRgCPwQA4CIow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760980028; c=relaxed/simple;
-	bh=BXD39jZJVxX6AUbacgFfEyVJoekOr0uUFJadFIRRQsM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HazBVq3yQD+xlznilStLJPc8Zw1eEiQdgbT/ntQfjQO4clDuby3DQTgyCzSHDRyfJVhQn+WXGnqG7KVZeS0mvNl0gBHeaWsv5NfsvCtrRkNltT9CCQ1dciGWnqeOosr5E5A6SMxb8E/8zEkecVwi2JmfyWIzyl9OfNAvG07LLXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=roq0Ke4m; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1760983567; c=relaxed/simple;
+	bh=7KTD0uaFcyyq2og31+9WBkzgxxC3y7RTURPIR1fnqTM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kFBUItN3k1vn57HbQkz5QgqMbMbBeEu65Q/j3puXMw3KQIMIIfGbmY6dc7hiqe87MB68zTKevXusDnvLH5gfhWJFsJGYRQgQO6dxcR3DXpFlPGH5Sdk/g8fTkKMIT9RtXlfoadAvLlY135qlto5i3o8auw4YtN5BtOEaQzd6kjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LJoPaHVe; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="roq0Ke4m"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 48A796154E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 17:07:07 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id TdFH_GsqqlDx for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Oct 2025 17:07:05 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 614EB61521
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 614EB61521
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=roq0Ke4m
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 614EB61521
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 17:07:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 757C1602AC;
-	Mon, 20 Oct 2025 17:07:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0647C4CEF9;
-	Mon, 20 Oct 2025 17:07:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760980023;
-	bh=BXD39jZJVxX6AUbacgFfEyVJoekOr0uUFJadFIRRQsM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=roq0Ke4mM4GKd+i9w+UN/JjXEtPMQEbIrgWZhOB0UCeKMt0pE+tQmRiDOITM7UvF/
-	 X2gIwc+wvR+Y3Uyt+ISl/frmA+XaDSktQswOAZuX0VcazAq53ZIkzcjPBHb6ovQqec
-	 qk82+2WhDnCOGgajWTvYuX05Aci+pehtiSO9WJJAVjWE9xu+3i4f6OYE9gV/b+78NZ
-	 NYjsVEsNcFapmYAZZ1/KiVXC1ptrL7xd0u6tIPJa/UcBUlF2ICCQKnZe/7O2FRk/SL
-	 paTl2/dqMrlFo0vr5qBPWTLaDHoU4xoCbk/l+f/tjpt2SunBvZzMBo8qaAcZ+aqwdn
-	 utxmIrDX52i8g==
-Date: Mon, 20 Oct 2025 12:07:01 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Erick Setubal Bacurau <erick.setubal@gmx.de>
-Cc: Frank.Li@nxp.com, conor+dt@kernel.org, s.hauer@pengutronix.de,
-	david.hunter.linux@gmail.com, devicetree@vger.kernel.org,
-	mchehab@kernel.org, festevam@gmail.com,
-	linux-kernel@vger.kernel.org, kernel@pengutronix.de,
-	skhan@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-arm-kernel@lists.infradead.org, shawnguo@kernel.org,
-	imx@lists.linux.dev, krzk+dt@kernel.org
-Subject: Re: [PATCH] dt-bindings: fix redundant quotes on fsl,imx6q-vdoa.yaml
-Message-ID: <176098001750.936573.6366914023282858347.robh@kernel.org>
-References: <20251020121145.190020-1-erick.setubal@gmx.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LJoPaHVe"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-330b4739538so4376403a91.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 20 Oct 2025 11:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760983565; x=1761588365; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ScPigvONXCfVvbrizpOVQT4h67dphCjzneWDHaO1018=;
+        b=LJoPaHVeU6r2UyKXhtNUq0dSVhc06uyee2lr8RAK44EGJ+WmfIkybZNv73RbHpEnwV
+         UdM7ynxJggr4j447hrk9b009NNJm4BFUVkjVzagVBnYu5Q2vKsj3ICKuq2scd019Qx3y
+         3B1xGcGVlD/g24KaF07FyJfgiw/ap0tYhZwyACBlViOnNmgFyMGqn289scN8OcfORsx8
+         kuy1PF/qDnUCCAkPgjKgCHL6Kskzg0ftIkcq5d0qmkAFBTVB5K+rdK7NSyGtwhMnl+bl
+         4OtuFDvZVLCAVMK4xIWIUkg8R/SUTPYFjO3q7saxVtYqYE/eiQK3ay0VjI4Ibh9epOMT
+         lhrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760983565; x=1761588365;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ScPigvONXCfVvbrizpOVQT4h67dphCjzneWDHaO1018=;
+        b=n2G7qAJDmqqgrhhGaeq12QnYSURLrk+pGW/EHgk5Sgj4Ryf3knzx3O0bfLP8pYBuuV
+         FosQiIb/B7RKZo1MO3DdMNUgx8yQABfTsOrvAMBi1R/nxr9oT1FGDeX5FWyqRKrV1i+z
+         LbPwrrShuZ2nbFSIMJsSA2f0QIs7ukXp5SsN9yGWHOghuwveGplH7d+kAmcCr8AAEFg7
+         sq+T+r6NODKf5biuqnIIozcdLTsLYyqH0/f+gF1ZTajUnrg5EtPwwWGD/Szw4/Oz5mxQ
+         2TjWhx5CBwqNId3Vm8lMpUOcRk8iHTAPTfyvetmr9qtuy6R20ccmbLLqMiGg+FkkIWC0
+         rzcw==
+X-Forwarded-Encrypted: i=1; AJvYcCVB7z0zLhj6nHMPVKXVFOAmcFARO+q1IbqeYedOziLl9Vfthhj5syZsUjENjHj1gJ43CmidfwYM4uhchhj7US3grWyOsA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwhZFFv4EPw+LiELP44R1VopmPzvH2xPXTtMyuxv88BbejRc7BV
+	h0FHCrgJqcESTg3rXV2l9OheE44a1FEoyiMuYx+IEZiU491pLo+cxnNN
+X-Gm-Gg: ASbGncsUCHvDBhG7C8O98P8AumSbThq3gZuezPpqeEEu2QyItJvrGSkRIL8lhj/NdFY
+	VyAtm/YdTjl3bTg4B/qIjoly8GYHae6a+GjGajOtomlCxlVja7Ja2IZpNAFQX12YrS59sg6C9Fb
+	z17hXkpEQhc8rkO9wDHOZmVVtDi/qWS27DNPmcGk5x6xlOdRv1z33IDEx3+oO34QRaeBxIHW97p
+	KHd3fwSL0ZOh9IEXSEshKJdQ9+gzfm9cGzq4m1WaNPK/BsNzQasrfyPiolny6864Z7f4aZAtezh
+	OaaHAXdGIk7G+zXFzanJwkVo1IviApJ7LG0pLxRl2lToNQ+DmSCADwlT9Si3Rkb4X3tQcoNJDRz
+	Pqwykbh5ZWTxuj/cpdxrl7gA92fDnqq5N4eWEsJ0gYpXuhOjQQ2EExUhq3sUip3GF8RTO8i/J
+X-Google-Smtp-Source: AGHT+IGjGOh6awkg0N9FtQOWt/ipEbBqpahFD36PjVlo+wHCIz1HFIb1Ur9JR7ZLvNFYBniOl20qkg==
+X-Received: by 2002:a17:90b:54cc:b0:33b:dbdc:65f2 with SMTP id 98e67ed59e1d1-33bdbdc660bmr16924225a91.22.1760983564445;
+        Mon, 20 Oct 2025 11:06:04 -0700 (PDT)
+Received: from fedora ([45.112.145.77])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33d5de14becsm8681623a91.10.2025.10.20.11.05.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Oct 2025 11:06:03 -0700 (PDT)
+From: Noorain Eqbal <nooraineqbal@gmail.com>
+To: andrii.nakryiko@gmail.com
+Cc: alexei.starovoitov@gmail.com,
+	andrii@kernel.org,
+	ast@kernel.org,
+	bpf@vger.kernel.org,
+	daniel@iogearbox.net,
+	david.hunter@linuxfoundation.org,
+	eddyz87@gmail.com,
+	haoluo@google.com,
+	john.fastabend@gmail.com,
+	jolsa@kernel.org,
+	kpsingh@kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	martin.lau@linux.dev,
+	nooraineqbal@gmail.com,
+	sdf@fomichev.me,
+	skhan@linuxfoundation.org,
+	song@kernel.org,
+	syzbot+2617fc732430968b45d2@syzkaller.appspotmail.com,
+	yonghong.song@linux.dev
+Subject: [PATCH v2] bpf: sync pending IRQ work before freeing ring buffer
+Date: Mon, 20 Oct 2025 23:33:01 +0530
+Message-ID: <20251020180301.103366-1-nooraineqbal@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <CAEf4BzbtzHsa8DASzOg-Xqp8_-vG5ekC7JXhwuyZqPhrckU1hA@mail.gmail.com>
+References: <CAEf4BzbtzHsa8DASzOg-Xqp8_-vG5ekC7JXhwuyZqPhrckU1hA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251020121145.190020-1-erick.setubal@gmx.de>
+Content-Transfer-Encoding: 8bit
 
+Fix a race where irq_work can be queued in bpf_ringbuf_commit()
+but the ring buffer is freed before the work executes.
+In the syzbot reproducer, a BPF program attached to sched_switch
+triggers bpf_ringbuf_commit(), queuing an irq_work. If the ring buffer
+is freed before this work executes, the irq_work thread may accesses
+freed memory.
+Calling `irq_work_sync(&rb->work)` ensures that all pending irq_work
+complete before freeing the buffer
 
-On Mon, 20 Oct 2025 14:11:45 +0200, Erick Setubal Bacurau wrote:
-> Fix a dt-schema error: `fsl,imx6q-vdoa.yaml:19:12: [error] string value is
-> redundantly quoted with any quotes (quoted-strings)`
-> 
-> Signed-off-by: Erick Setubal Bacurau <erick.setubal@gmx.de>
-> ---
->  Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+Fixes: 457f44363a88 ("bpf: Implement BPF ring buffer and verifier support for it")
+Reported-by: syzbot+2617fc732430968b45d2@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=2617fc732430968b45d2
+Tested-by: syzbot+2617fc732430968b45d2@syzkaller.appspotmail.com
+Signed-off-by: Noorain Eqbal <nooraineqbal@gmail.com>
+---
+v2: Updated the commit message for clarity.
+---
+ kernel/bpf/ringbuf.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Applied, thanks!
+diff --git a/kernel/bpf/ringbuf.c b/kernel/bpf/ringbuf.c
+index 719d73299397..d706c4b7f532 100644
+--- a/kernel/bpf/ringbuf.c
++++ b/kernel/bpf/ringbuf.c
+@@ -216,6 +216,8 @@ static struct bpf_map *ringbuf_map_alloc(union bpf_attr *attr)
+ 
+ static void bpf_ringbuf_free(struct bpf_ringbuf *rb)
+ {
++	irq_work_sync(&rb->work);
++
+ 	/* copy pages pointer and nr_pages to local variable, as we are going
+ 	 * to unmap rb itself with vunmap() below
+ 	 */
+-- 
+2.51.0
 
