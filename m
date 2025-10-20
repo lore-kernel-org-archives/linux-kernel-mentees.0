@@ -1,134 +1,169 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA043128DC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 12:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C892EC569
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 20 Oct 2025 13:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760964641; cv=none; b=A52Lz10yd5euqcNLhcKI1s0egpdTAsGKEfv6zoziV7HxWq17OyZ7bQGlxSpr6gPD5P8aJjCTl4Q9ZWrwaaz9Lv5sTuhcCZs5Awry+yfnPWClT/0aUUwyZXfrUFHVFzj+aYiIzvZvxnAxL0bVUslzq2QQYDeQpbym9hMSY5lRQjs=
+	t=1760968163; cv=none; b=idPAShlxZ7YqxJyxu8JvStUTdT4HRqiLcMcTlg1kLtoP/qbR7RAt+V56upcKXy7/V/5JPQ5trnLnlY/PVU7H2kccLiDEdpRv82WwNhMbs62WQaZtuvF0yQNkS9HITL+VDpVw5c4oavqYcJOxD6i/WuKRstsmjDc2T9QHrRGNV8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760964641; c=relaxed/simple;
-	bh=sb3c4pwCtVMvyxYctET5WVbAplwe/3JXuIYoLa4R5FQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ow6CP5Tz3oYmRPZDMgrUqjAaYLRVK4Z/J7TPhAv90EZZn8bpZv33O+PtJp1S7Krd11O2zfdNzS847dkoMz/ELsdMX1WtkOLgSxi1iHbJXfzsAM8LJHFPTuxh9GsWVeaaRlgBgTe3tO2JhEAfngrshYCW09k6ikfPfT7ynCqKP30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SvuJHASi; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1760968163; c=relaxed/simple;
+	bh=h3HoLkT4aFAk87mxUyKqKSEwXQ3salm8bUf/3v+FYOg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HgMqx2UbfnDjKcXpZ8tP0K6A+6kEN9Gq3uzwSiJDeMi4RNTNKKfZFPb5JqlD7NxBqd+gE8IIvIpm79+CNZ7cdyxPf/A13a1Wfp+7C5up5Y3EUJQkse+4mtN31Zave8qoQuxm72n6Z5xijX9Jd14BEvJB/IcjVtjW9x7tUJwTSwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hA8Qjr5f; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SvuJHASi"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 64D9B61466
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 12:50:39 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id yNoaZOmV6Xv1 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Oct 2025 12:50:38 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org AA28261456
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AA28261456
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=SvuJHASi
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id AA28261456
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 12:50:38 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id CB05345A8B;
-	Mon, 20 Oct 2025 12:50:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80DBCC4CEF9;
-	Mon, 20 Oct 2025 12:50:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760964637;
-	bh=sb3c4pwCtVMvyxYctET5WVbAplwe/3JXuIYoLa4R5FQ=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=SvuJHASiG9fBVIOQGvXjMkrdFXDFpMpLKegxsEEdiAjzIiqsrrOdCDq4AJNwUW+2G
-	 P2bQRQ4Hfz/iUseB1KcO+NrXaDAOTvYpdBWLJfCq9Tysb4Tk8WnR1u8Wr84aMVOiOA
-	 kK5YfeKxRsLp3dDqqYbpFo0qZK2FaEL/cR/LGv2cR1QR9NFUlHdCHyxY2Iyw+m2fES
-	 3LwQ943f5Ah8Gxq1kXhD3zMcJfp+r3o9PDqzCr8RHp7fbP7gIPH0iKEVc+mqXxjypb
-	 2aJDAI/oxKv6kHMiUYR9zy2N6QZbgwXNHvv0Rar7OcWcl+S29nSWBiLX/yWU5Q2UTp
-	 L5gdvqWbqJ9QA==
-Message-ID: <12043639-77ef-4e8f-9ef9-760af2053b43@kernel.org>
-Date: Mon, 20 Oct 2025 14:50:31 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hA8Qjr5f"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-33be037cf73so3069895a91.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 20 Oct 2025 06:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760968161; x=1761572961; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mWKmwdA9I2ITUhToX2qR1cuSgLsOWMNN48NL48WMTnk=;
+        b=hA8Qjr5fbe6BAIsXtfonLmR7toNHKLyGx7c436WG4En7K0V90mwXY8otyFBmEmuczy
+         CzQTU9CmViIOscO3J6nsbokgPLUVJyks0S8cvts0Oa9eftPlJdgrY6vpJ3FHn4UNbM4V
+         M04OTRaGterxgWEODEgBHJl7+1G9R5RJtNbWPIjH+tk+2CWDH1IYVL1XupOvdPNq2jRp
+         x6qaDVterxATbJBq7BPjRUy3VccHDwvGB2t2+Mz6x4MdBVOnUd+HEEDhomBlUqWdpxHC
+         idrCqqPLP+8QuuzDK2uvIbtDWlkrgMeB8OdYSKqSlMbLBBW4dpZ1vMcPtgBo8uSnJGU/
+         fpfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760968161; x=1761572961;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mWKmwdA9I2ITUhToX2qR1cuSgLsOWMNN48NL48WMTnk=;
+        b=VYaQ75n4eNpkfPXALMo/O5tpw5zjBkLf+/vm4pG9HjY4xQuM10xDBnKEPn5+baH8x6
+         JnrgFMClG+xgwmQVVARyRiQ1QpGy2miwkCu6FRSBUQRW2M0axllIImzv93tmycVN+j62
+         uc1AF64WWg7WoXXVO2y2eARQQMvUwuOLSGrR5q63cyj1uSFpD8ZD1+0DqnGA7MCYn41M
+         2ej0XYwkgR5enzty2FKp6dDWAXUtwC56yqR4izD7M2NiVtP62UTeF72yfIhVPar1NUEY
+         LPhsfz7nRS4tMftOsQ1LZcrxlU9LYo/z7PpyRymkupZMg9xLKIZG7XEKGa+0fo38RVMx
+         BHIw==
+X-Forwarded-Encrypted: i=1; AJvYcCXjEF3u3Bq8KSz3QtqIovI+f5HS4BHRWkqDlDz+Y3DfEIB62eu7aUJKyf3JTOIlQVVgwcEExyt+i367f0899bUHyFlUBw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwwVIKKkIlZd26/DC0aQiRgsSOICRrS5HOEbFBSFs4JguXD1SO7
+	1FZH6H2wtXGQKeyyEkSYVi6F4UCgzpWnJvwo3AMcsDgsNxl4F/oJuOGI
+X-Gm-Gg: ASbGncsQYULpjhElOaZp0xl5rWzCSWOnya5arN72LW4UVSCYRbgJxmnvrYMHgUrvBxe
+	zp6viGdlep2V8m2ZeET5JK6DxnLhLf6IXYauc9zrU9hS4zP2GRHLwLW0TF7i3bdyzNK905ZELKz
+	uoIncBbfQHecwBRS17YB49jr/vLmpc/DoddkMCTWdDUcYkAcOdzpwojLgfG2CnfynquPtgdQJ8k
+	bp44cO9BnV07GHuHIsaVwOR1exfP/12xl9Wty4HI94REVdhbkgbcNlpA68fe9IwzMRuKFio1dFj
+	CrBm/InL9nU/ExpgtoHjseqdOnETV34YKfhCHH0oZ7ladti8q5IJovORCAAQ7mpU+XzwE2E+5Jh
+	LHz7ur1Bn1ZWEs/u4v46kdek+wIhfBJYMuttJ8l176rbu+FkXJbuE7rQdMJ8k4Lxdi058mIpeMR
+	zQM2xbOCjNELqxr3TCzaQ9RevrjeOkqsd0i+jm3g9Z6BBGeVXu35lyOqIkSdRfFExsxcTgdEm1L
+	q41EFA4zWry
+X-Google-Smtp-Source: AGHT+IESKh8p2QsR+Rk1v/wlAyJsWQauYznHQNj/lfmr1UJMevw6KGFtM4HMsy0OkeBrWdiwqrKe8w==
+X-Received: by 2002:a17:90a:c2c3:b0:327:f216:4360 with SMTP id 98e67ed59e1d1-33bcf853706mr18348648a91.8.1760968161239;
+        Mon, 20 Oct 2025 06:49:21 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:1cc9:d444:c07a:121f:22da:3f7b])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33bdd02793dsm4507349a91.3.2025.10.20.06.49.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Oct 2025 06:49:20 -0700 (PDT)
+From: I Viswanath <viswanathiyyappan@gmail.com>
+To: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	sdf@fomichev.me,
+	kuniyu@google.com,
+	ahmed.zaki@intel.com,
+	aleksander.lobakin@intel.com,
+	andrew+netdev@lunn.ch
+Cc: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	I Viswanath <viswanathiyyappan@gmail.com>
+Subject: [RFC net-next PATCH 0/2] net: Split ndo_set_rx_mode into snapshot and deferred write
+Date: Mon, 20 Oct 2025 19:18:55 +0530
+Message-ID: <20251020134857.5820-1-viswanathiyyappan@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: fix redundant quotes on fsl,imx6q-vdoa.yaml
-To: Erick Setubal Bacurau <erick.setubal@gmx.de>, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, Frank.Li@nxp.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- david.hunter.linux@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-References: <20251020121145.190020-1-erick.setubal@gmx.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251020121145.190020-1-erick.setubal@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 20/10/2025 14:11, Erick Setubal Bacurau wrote:
-> Fix a dt-schema error: `fsl,imx6q-vdoa.yaml:19:12: [error] string value is
-> redundantly quoted with any quotes (quoted-strings)`
-> 
-> Signed-off-by: Erick Setubal Bacurau <erick.setubal@gmx.de>
-> ---
->  Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+This is an implementation of the idea provided by Jakub here
 
-Already fixed here:
-https://lore.kernel.org/all/20251015232015.846282-1-robh@kernel.org/
+https://lore.kernel.org/netdev/20250923163727.5e97abdb@kernel.org/
 
-Best regards,
-Krzysztof
+ndo_set_rx_mode is problematic because it cannot sleep.
+
+To address this, this series proposes dividing existing set_rx_mode 
+implementations into set_rx_mode and write_rx_config
+
+The new set_rx_mode will be responsible for updating the rx_config
+snapshot which will be used by ndo_write_rx_config to update the hardware
+
+In brief, The callback implementations should look something like:
+
+set_rx_mode():
+    prepare_rx_config();
+    update_snapshot();
+
+write_rx_mode():
+    read_snapshot();
+    do_io();
+
+write_rx_mode() is called from a work item making it sleepable 
+during the do_io() section.
+
+This model should work correctly if the following conditions hold:
+
+1. write_rx_config should use the rx_config set by the most recent 
+    call to set_rx_mode before its execution.
+
+2. If a set_rx_mode call happens during execution of write_rx_config, 
+    write_rx_config should be rescheduled.
+
+3. All calls to modify rx_mode should pass through the set_rx_mode +
+    schedule write_rx_config execution flow.
+
+1 and 2 are guaranteed because of the properties of work queues
+
+Drivers need to ensure 3
+
+ndo_write_rx_config has been implemented for 8139cp driver as proof of 
+concept
+
+To use this model, a driver needs to implement the 
+ndo_write_rx_config callback, have a member rx_config in 
+the priv struct and replace all calls to set rx mode with 
+schedule_and_set_rx_mode();
+
+I Viswanath (2):
+  net: Add ndo_write_rx_config and helper structs and functions:
+  net: ethernet: Implement ndo_write_rx_config callback for the 8139cp
+    driver
+
+ drivers/net/ethernet/realtek/8139cp.c | 67 ++++++++++++++++++---------
+ include/linux/netdevice.h             | 38 ++++++++++++++-
+ net/core/dev.c                        | 48 +++++++++++++++++--
+ 3 files changed, 127 insertions(+), 26 deletions(-)
+---
+I tested the correctness of this by comparing rx_config request in set_rx_config and
+written values in write_rx_config.
+
+The prints I used:
+
+After new_config is set in set_rx_mode:
+
+printk("Requested Values: rx_config: %8x, mc_filter[0]: %8x, mc_filter[1]: %8x", new_config.rx_mode, new_config.mc_filter[0], new_config.mc_filter[1]);
+
+After the writes in write_rx_config:
+
+printk("RxConfig: %8x", cpr32(RxConfig));
+printk("MC Filter[0]: %8x, MC Filter[1]: %8x", cpr32(MAR0 + 0), cpr32(MAR0 + 4));
+
+Is this sufficient testing for a proof of concept?
+
+I picked 8139cp because I could emulate it on QEMU and it was somewhat easy to refactor.
+
+-- 
+2.47.3
+
