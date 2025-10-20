@@ -1,184 +1,244 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6685C230264
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 12:12:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02CB313539
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 12:32:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760962329; cv=none; b=MzNy/YdXncy4/THANHGLVj7eE/p8pggpIVH81KVxKfCsAJABR+W6xLO7WmrcOz/ShIn9a6eWKy/GDGc2dFxOmUSqWAu0lSCAR+9SZqRm+gGVaoKNTaZ/jXRWxSKfOL3tNQ+JXExmt0kGKA7IxC4cTExiMs2JeDcOpC33hWdUFh4=
+	t=1760963535; cv=none; b=G2fOZBOVHK1HNO+DAbuHQ5j4/qoq1r2wXFgTgdt+ADNXneYifWvxwjCcWir083QOlx/dpduq7RLX8dYaMV9n4z02x3E9Isb29ujXRrcn1yVPUJ3ckhyb5gjGVdttc4cCC0XugnaNEPKR4Trz8BNSUIJwHI2DKG6ae0qHsVRCpkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760962329; c=relaxed/simple;
-	bh=sRJE63HfLX8PFsK9yU+kQYMGEML2Dx1sORfe6+DgQI8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MTPQSfUKfFxh9k7ANKIzYzNCwYSsxkcLtMNPPouDdlQKwmkjW775NVNlEi7ibqe6x2bTIisCsUAk+jChTSSOFkbuEIsug+v/Yjs6j9Sq91XdTOfPDqvteHADF0FsVEidgFF4Xk72qIThCbrvjFt52Q5AeHb9BSEuIaXPG+3gypo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmx.de header.i=erick.setubal@gmx.de header.b=Pngf5yUv; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1760963535; c=relaxed/simple;
+	bh=yEU8OlJ4rnmeVIIFVpJYprNmuPl3V5iccAvk0qJgLRg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gHvH/XuTSblNlgbjBjnGORo4s8hJNQNjEGTEtTee47zk8g7RIk657j061gFH4N1oDjJKYmw/Scfi6Ntfjua6rR1KUOCIhWPnS+6C6opRp9jg3TNhziJQg7HdwzgmMxk03DFYsGp8o9sGb5Gxl+Co3l9qFSQoLzQgt41AJvcfBC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U0EQVtnw; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=erick.setubal@gmx.de header.b="Pngf5yUv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U0EQVtnw"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1240C84485
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 12:12:08 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 656588445B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 12:32:13 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -6.488
+X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id iRODRL-gCLoa for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Oct 2025 12:12:07 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=212.227.17.20; helo=mout.gmx.net; envelope-from=erick.setubal@gmx.de; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org CE38E8446D
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CE38E8446D
+ id hyp2Z5TCo12s for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 20 Oct 2025 12:32:12 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::632; helo=mail-ej1-x632.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org B00FB8445A
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B00FB8445A
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmx.de header.i=erick.setubal@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=Pngf5yUv
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CE38E8446D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 12:12:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1760962321; x=1761567121; i=erick.setubal@gmx.de;
-	bh=xK9cZNOEO/GZXxOsWVqr+Cv29qsxOBBA2kPhT65U7Ck=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
-	 MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Pngf5yUvwEYHdpuDcf0XIjzifBASAWiyovQnntHxNYL09mVxb0mvee09bjxYjxz+
-	 CAHWWBM8wfO+VDqWbAVhyojzev/MHPA5r4KSU9E9EZe2Cx2YMHYNPhRl7GJiWo29o
-	 JcMeiM7wFXmiwg3mpT48omC3zXp9kSlt+MZIS/8v2z8pgPp8pnAi38lVtO9lObqrA
-	 LpqK5iHuC19VcAB/3kN2UMZ/Y8HYOlefb9wTzLcR1qPcOVCNNuZjHvv0dIanBuLVu
-	 372YXe3PWviyJnZi8w8x0AsE5Lap3/iprCw1qUpw3QYVhJfvnypAR0B94oE3656N3
-	 lzWJCbpGUxjg4pguoQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from zolxn00301.speedport.ip ([84.145.119.168]) by mail.gmx.net
- (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1N1Obb-1uDKB93NZj-00wPEx; Mon, 20 Oct 2025 14:12:00 +0200
-From: Erick Setubal Bacurau <erick.setubal@gmx.de>
-To: mchehab@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	Frank.Li@nxp.com,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=U0EQVtnw
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id B00FB8445A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 12:32:11 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-b3df81b1486so82611966b.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 05:32:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760963529; x=1761568329; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZrHAmJjxM6ewOAgZH2FCw4tTUkBr/4mUYIaDeASxNLM=;
+        b=U0EQVtnwYLg4O4h2Nsw7lfaRJm82XwFDw8aQEVwZQwwjS43T/Qr7PPoyfFqtNLF1X7
+         kW4HMH0t9S8kY7a72Z0UpPtGiQYBOh27YIgb5GxIaNBYECRaxYRwXJ0Ix7f0ZLgwyBdr
+         YCz0gWCQq4HowyjOFPIG+zT7VtBPRh2uZUB+ANvkosUEa6CyAGGU68RGqtles2Ee2Xfq
+         cL3ilamW6bVoTBBQugwiaqfKjZC5CSBlw02i9U4elWada4MPCQDtGQ5YWqKXp0Ra4LMd
+         0qgYn/uAmWf0B6oBFc+Ny+CRBQu+kmsNXDFkQMUTi5HS1fmHeV7kp7BhaWG/Yf9ua/AW
+         TPaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760963529; x=1761568329;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZrHAmJjxM6ewOAgZH2FCw4tTUkBr/4mUYIaDeASxNLM=;
+        b=fgW+3XXfq1k3alw/2wk7UY7D8Izi4PvtJh2IjDkKYtv0ijareHr39ZNXfFVPVMfN3C
+         NJYdRupFjKyWRf7jENJoNa+B98C2L+U2q59q7+nyiYydEnoiSyHPyjf+1MiKi+QXb7jq
+         D5Si/vqniQrhxNxs3toXSqcbM0yVNBhZzJI5gXYSQCRBAOLYazBLhz/yvsm/1zKcO7FA
+         h5VAM/Ay2/PpVlNQNoR6RM7Wv5d672dbmiLpVB8hpUmIHITpMgXKf8obyydako/DgrQ6
+         +raGDBe143JNVfi/59+yUmkpvIeBj1D1xJjB07t7tzI7Hnj8dO3hoSaVjcpdEIz82/Rz
+         46Eg==
+X-Forwarded-Encrypted: i=1; AJvYcCWYWUEpMUpJ/Y1bqrCl1aT22XG1+AF/m6Rf6ik3wSoyOW54TuCEGK4PE8koMIKUQiin+D77dWU89SxSFRHypgboBkBhgw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yxv6Ylj5Kiy2iQTPtAQm6UZHvVglq4vvXFCAfrkDHRgynMXfGIQ
+	FjRsxa3XTe1swQgOqICySN5KRQUEeXorw5pp46PpvBJi152n/5MWsIBJ
+X-Gm-Gg: ASbGnct2OZArhuEOqbVqmGJHWeneUIWZD+mMVUCDLNjSVZYimeytoQLCxzo0fUYwc9L
+	QydZZr90o++f2hHlohoGFfg1w8MkYNpMsJg6HKHWHQsmKGDSwkiDEGYc6Y+hWeI7n1/sV0VrWJc
+	r6YVeqgXZxbmj2wBtosuQ0b1jkSHFsaZ//rq7fZO61IKnHDT8gTcP8k+N6Sa8tO3jUY3Zi3mcOp
+	x6YRUZK1KMxgcfRYFjMHebcZ4AUpknGVW8+WrpYsGRO3+b1PorK1BLijSr7/zUOA2/0Omtcoll6
+	19NG8tRu+pJAsYL8vUcamBzMxqQPlNNuO0VewbzwAM7Rzrs0vB9oZsgVIP3kwBUq9n7zPkjFQbI
+	tsT67DZYunAfgYeO45qyKC9rDq0Ipp+dXcVoQX8rKxUdQWElQ31x10ysRqIuU80ZFHyLc7vAEYx
+	Qw4NQ=
+X-Google-Smtp-Source: AGHT+IHeviqrSd93w8iK4mCEl/S4LfRu1LVX2pbSgOi06QmgOak3XwTymoUDcoiO7hQie9VFAZ5kLw==
+X-Received: by 2002:a17:906:641:b0:b65:c8b8:144f with SMTP id a640c23a62f3a-b65c8b81515mr400301266b.6.1760963528918;
+        Mon, 20 Oct 2025 05:32:08 -0700 (PDT)
+Received: from bhk ([165.50.81.231])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b65ebb499dasm787095166b.73.2025.10.20.05.32.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Oct 2025 05:32:08 -0700 (PDT)
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+To: andrii@kernel.org,
+	eddyz87@gmail.com,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	martin.lau@linux.dev,
+	song@kernel.org,
+	yonghong.song@linux.dev,
+	john.fastabend@gmail.com,
+	kpsingh@kernel.org,
+	sdf@fomichev.me,
+	haoluo@google.com,
+	jolsa@kernel.org,
+	shuah@kernel.org,
+	nathan@kernel.org,
+	nick.desaulniers+lkml@gmail.com,
+	morbo@google.com,
+	justinstitt@google.com,
+	ameryhung@gmail.com,
+	toke@redhat.com
+Cc: bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	skhan@linuxfoundation.org,
 	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org
-Cc: Erick Setubal Bacurau <erick.setubal@gmx.de>
-Subject: [PATCH] dt-bindings: fix redundant quotes on fsl,imx6q-vdoa.yaml
-Date: Mon, 20 Oct 2025 14:11:45 +0200
-Message-ID: <20251020121145.190020-1-erick.setubal@gmx.de>
-X-Mailer: git-send-email 2.43.0
+	Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Subject: [PATCH v4] selftests/bpf: Change variable types for -Wsign-compare
+Date: Mon, 20 Oct 2025 14:31:33 +0100
+Message-ID: <20251020133156.215326-1-mehdi.benhadjkhelifa@gmail.com>
+X-Mailer: git-send-email 2.51.1.dirty
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Ud0Ywg0PFxpV1uDULxVWXqq67gwg0KOWfiadAQBr3EmQdgUAtms
- zyUHQSmGxbjav9rIsicYZkVoId5t6GX3YooxLC9aBDJ2RSyDiszjNISppKM26OLja9cJ1NT
- 3IJcjF6p8SR1MFRTGcLliQr0+E3UB3evopVL+Zu3/8tR4cFEgZe0PKzWwQdtzG4th5w85w+
- BTzGy810qJBsMua9OAxuQ==
-UI-OutboundReport: notjunk:1;M01:P0:GMT/1JwuHGQ=;RjqVBilX3taRAv0Om5ToNnEWsog
- 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
- FYoQA==
+Content-Transfer-Encoding: 8bit
 
-Fix a dt-schema error: `fsl,imx6q-vdoa.yaml:19:12: [error] string value is
-redundantly quoted with any quotes (quoted-strings)`
+This is a follow up patch for commit 495d2d8133fd("selftests/bpf: Attempt
+to build BPF programs with -Wsign-compare") from Alexei Starovoitov[1]
+to be able to enable -Wsign-compare C compilation flag for clang since
+-Wall doesn't add it and BPF programs are built with clang.This has the
+benefit to catch problematic comparisons in future tests as quoted from
+the commit message:"
+  int i = -1;
+  unsigned int j = 1;
+  if (i < j) // this is false.
 
-Signed-off-by: Erick Setubal Bacurau <erick.setubal@gmx.de>
-=2D--
- Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  long i = -1;
+  unsigned int j = 1;
+  if (i < j) // this is true.
 
-diff --git a/Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml b=
-/Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml
-index 511ac0d67a7f..988a5b3a62bd 100644
-=2D-- a/Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml
-+++ b/Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml
-@@ -16,7 +16,7 @@ maintainers:
-=20
- properties:
-   compatible:
--    const: "fsl,imx6q-vdoa"
-+    const: fsl,imx6q-vdoa
-=20
-   reg:
-     maxItems: 1
-=2D-=20
-2.43.0
+C standard for reference:
+
+- If either operand is unsigned long the other shall be converted to 
+unsigned long.
+
+- Otherwise, if one operand is a long int and the other unsigned int,
+then if a long int can represent all the values of an unsigned int,
+the unsigned int shall be converted to a long int;
+otherwise both operands shall be converted to unsigned long int.
+
+- Otherwise, if either operand is long, the other shall be 
+converted to long.
+
+- Otherwise, if either operand is unsigned, the other shall be
+converted to unsigned.
+
+Unfortunately clang's -Wsign-compare is very noisy.
+It complains about (s32)a == (u32)b which is safe and doen't
+have surprising behavior."
+
+This specific patch supresses the following warnings when
+-Wsign-compare is enabled:
+
+1 warning generated.
+
+progs/bpf_iter_bpf_percpu_array_map.c:35:16: warning: comparison of 
+integers of different signs: 'int' and 'const volatile __u32' 
+(aka 'const volatile unsigned int') [-Wsign-compare]
+   35 |         for (i = 0; i < num_cpus; i++) {
+      |                     ~ ^ ~~~~~~~~
+
+1 warning generated.
+
+progs/bpf_qdisc_fifo.c:93:2: warning: comparison of integers of 
+different signs: 'int' and '__u32' 
+(aka 'unsigned int') [-Wsign-compare]
+   93 |         bpf_for(i, 0, sch->q.qlen) {
+      |         ^       ~     ~~~~~~~~~~~
+
+Should be noted that many more similar changes are still needed in order
+to be able to enable the -Wsign-compare flag since -Werror is enabled and
+would cause compilation of bpf selftests to fail.
+
+[1].
+Link:https://github.com/torvalds/linux/commit/495d2d8133fd1407519170a5238f455abbd9ec9b
+
+Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+---
+Changelog:
+
+Changes from v3:
+
+-Downsized the patch as suggested by vivek yadav[2].
+
+-Changed the commit message as suggested by Daniel Borkmann[3].
+
+Link:https://lore.kernel.org/all/20250925103559.14876-1-mehdi.benhadjkhelifa@gmail.com/#r
+
+Changes from v2:
+
+-Split up the patch into a patch series as suggested by vivek
+
+-Include only changes to variable types with no casting by my mentor
+david
+
+-Removed the -Wsign-compare in Makefile to avoid compilation errors
+until adding casting for rest of comparisons.
+
+Link:https://lore.kernel.org/bpf/20250924195731.6374-1-mehdi.benhadjkhelifa@gmail.com/T/#u
+
+Changes from v1:
+
+- Fix CI failed builds where it failed due to do missing .c and
+.h files in my patch for working in mainline.
+
+Link:https://lore.kernel.org/bpf/20250924162408.815137-1-mehdi.benhadjkhelifa@gmail.com/T/#u
+
+[2]:https://lore.kernel.org/all/CABPSWR7_w3mxr74wCDEF=MYYuG2F_vMJeD-dqotc8MDmaS_FpQ@mail.gmail.com/
+[3]:https://lore.kernel.org/all/5ad26663-a3cc-4bf4-9d6f-8213ac8e8ce6@iogearbox.net/
+ .../testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c | 2 +-
+ tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c              | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tools/testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c b/tools/testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c
+index 9fdea8cd4c6f..0baf00463f35 100644
+--- a/tools/testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c
++++ b/tools/testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c
+@@ -24,7 +24,7 @@ int dump_bpf_percpu_array_map(struct bpf_iter__bpf_map_elem *ctx)
+ 	__u32 *key = ctx->key;
+ 	void *pptr = ctx->value;
+ 	__u32 step;
+-	int i;
++	__u32 i;
+ 
+ 	if (key == (void *)0 || pptr == (void *)0)
+ 		return 0;
+diff --git a/tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c b/tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c
+index 1de2be3e370b..7a639dcb23a9 100644
+--- a/tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c
++++ b/tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c
+@@ -88,7 +88,7 @@ void BPF_PROG(bpf_fifo_reset, struct Qdisc *sch)
+ {
+ 	struct bpf_list_node *node;
+ 	struct skb_node *skbn;
+-	int i;
++	__u32 i;
+ 
+ 	bpf_for(i, 0, sch->q.qlen) {
+ 		struct sk_buff *skb = NULL;
+-- 
+2.51.1.dirty
 
