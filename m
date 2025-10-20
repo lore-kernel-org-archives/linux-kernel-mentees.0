@@ -1,81 +1,84 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD982DAFC1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 20:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40EA2DC353
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 20:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760990909; cv=none; b=kCPUP0NQDNj69sRkmxPepggER5WaDUR3O7MFzQZv6GWw43hw0+RuBvKg4i9e/8ahs4jd2Sj+ayKmE8an5Z0Q4Vx1ESJKFwjeviiXOWDetNAVkkfbJoRDEdvdeb82pSldRiR2CyLHtYkN9e9DjMBMoQj4rzG8UzqkrGtinc4pWpc=
+	t=1760991103; cv=none; b=cHpTt3NsNy7NN9EF4+FTJGcWqeaXPjkAjBOO2ctgy4f+KDqHpkMc+wKhhNnMdQR4a/9LXXHVcwSChAQbuiVjaoCVn6vCJUjjgaqqP2p1AaxwIki49RvIEUzpzogiVURrX9oHw0lm/eBQkNRYyXlse+8JT5ZrKnjYmxGHv88pk8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760990909; c=relaxed/simple;
-	bh=MzwJpCI5/VDDc+7yTFM2r0t5XlU+1KoqAP4tDJhYk2w=;
+	s=arc-20240116; t=1760991103; c=relaxed/simple;
+	bh=V6ULhW8H38NcYr33oKX3sVtwABaGZ1jZoxnobG/0Uto=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cd3VyxhjQzeUGJ8526Igb7Miu8Ma9umQ4rrAuq2JSeoO5lbHSFpLlKVe0mSsulssQM17Pof0pkpEB7QX22pmGKY1K85asaNySSaPGmrIZD+fTUgI2myp52Q+nRsLDghOZuLikJBvyEo2QE/Dz8N9nfGLv2KCPhtN9HdK9Rio8BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GckWXE83; arc=none smtp.client-ip=140.211.166.137
+	 In-Reply-To:Content-Type; b=tKebMD1MbitirGirO+TOS/I9NkCgnLxV9BZTN6DD6oRcm/pL0Lu4Qqb/0KfdTTc5K5KX9/vAEKQoHz0YT/39H0qamV8/XZJNj1SXSbBVC6Cdxz9nsl0K8wmI8K4vM22QcFAhZmScv1saVZWbsJ+4V9Qy/GLnf5qeCPBbV7pSDRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jICVMbJs; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GckWXE83"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jICVMbJs"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id F143241B31
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 20:08:27 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 55DEE84734
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 20:11:41 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.101
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Ooie34evHddu for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Oct 2025 20:08:27 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::d29; helo=mail-io1-xd29.google.com; envelope-from=skhan@linuxfoundation.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 3727A41A45
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3727A41A45
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=GckWXE83
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 3727A41A45
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 20:08:26 +0000 (UTC)
-Received: by mail-io1-xd29.google.com with SMTP id ca18e2360f4ac-88703c873d5so185159739f.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 13:08:26 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ik20TnIXryZj for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 20 Oct 2025 20:11:40 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::62a; helo=mail-ej1-x62a.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 2553C84733
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2553C84733
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jICVMbJs
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 2553C84733
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 20:11:39 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-b47a5a17303so77084166b.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 13:11:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1760990906; x=1761595706; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1760991098; x=1761595898; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=IUz779fqArVsu5Mue4uYYMEeKAoqkpKvtbYqWEVcbbY=;
-        b=GckWXE83hEz8awm7D1pHgCvNAOOf98GrGstcoHR6hcJrcLpE/sD/LUVdHLXnkq1NxS
-         k/GOHeIPWbrBxi8g5t3N6mHgsew6GpIMlDZ4sHVeD18WWbb0hSCngN0O/pBBDosx7RP1
-         Z/zEx3yUwwN8S3EqmXxXrYqRgUXViTRc3euFI=
+        bh=4pYR5fc+13GPBMaNnLf78tmb9Ja2klUsIxWce12udek=;
+        b=jICVMbJsNbkWKSZsiHcy03NM32dA94xYXQ7zgsrm4MkBwKZR7gnUBceaeTvtqRxRQO
+         QvVPCBvurR6FAfo3UnIsQOKDvuZTpa/dplWtLPbedv1ZpCa+yMK3OWbQAzfOLBDct1gy
+         ZOe4Li/GYDNCX63JnnmomSjYSvJNC0WerQ97+3D7+5M8kA1PIFCaMFcu5+v5cvL2MFC/
+         uquWG53vnOUnH1RkUb2yHN7zJfEVZ91X/Jb/Chj59ZFOvKEfgToV3O5RogKHzw0LMRwB
+         Zt1NQenIDFom4s7iJid+smSFXvCNG7yRLvlOkL2P8rrptlVvlJqYKKcpqb5JuEowyLws
+         aAVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760990906; x=1761595706;
+        d=1e100.net; s=20230601; t=1760991098; x=1761595898;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IUz779fqArVsu5Mue4uYYMEeKAoqkpKvtbYqWEVcbbY=;
-        b=HSNtPuM1bCYPaB/V12UmsW/KC+qF8Z2qNW/oLwn1F0Vw3tBnAPds1RPj3+k7cXI89F
-         Xmbh/TJ8qfDXgbyvtqv77WAPIq8JU4+RQmNdYDGfKqtKua11s1gWLGaFy0g9Z8A1m7yt
-         BR7TfG1aslaLt/lTrnguFQLR97ubl0meLe0iAbou5842uvnrs/6uhg7v21oqH/phJSbX
-         ADIuijGI1djI4B0Acyxbsd/KDZUaeTX9XefcjhGt+uK5CyofyepHiD62Crgzq7icN1Fr
-         ZAMT5W72jJGQiwbVKDNl6q6TsRXtfOt6hL/vni4c0oExC/VzGm1SuM/NEyZ/7OceVwrq
-         GzrA==
-X-Forwarded-Encrypted: i=1; AJvYcCXvBtddndktiQ6IWoliQTOhLIv1147R4moIabb55KOMbBkAyVdHIeArIDCdKdN6rWI2iJuElVnZIwHY9tFWUjl6KY3QsQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yzt5ysJ7zJzkw3HIMs1gHSLrl50BKyqAVjEwckugah3sQrEtDnX
-	JzsDbJHCtHpTMSr7JTxliRkU3kNq3SYqCRyMVEBDeVdetwdC3brVqD5gcop/wPX7HFxDuw==
-X-Gm-Gg: ASbGnctUzenbdukv85QcFE3j91xpXOUEcj9vUHu+0ytRcyC8UkTMJidczWpV5Qx+3kf
-	l7thNcHHIbInw37kasKKIRbygU8NhLA1zfgq/btty/gCSr8x+hdgUqC2UG+/lQ0HJxFDMSLztDE
-	K+pWqD4vbpo5zwEB9V989n/odHD+pAOzXJACh0rxSGomaqSvQBWvkF13qYKKIBVOZbrG0ytW7Ri
-	ruo8pGp4uR8iJ3m81UpHijqSU/RYxKLuF6mKYVFpvbnhPMgGzTLyOGKQP3bjBUJdvxH/aY7S2JO
-	4wwmbNetvdQIh0dDmGVO2A/3ibSmUmHzWnkg7PHkMs4jmesnzIkwj1LZQeAxGNZdbNIvhMRNbSb
-	wGIOI1aGfs+ElXzmZBGWDLplZshvY75omH1c5F0qMJvXY50CEqt9xuwmx21nTE04gMz+AXKjmf8
-	CFbdw6eRFIOtHOUCg79d7IXCU=
-X-Google-Smtp-Source: AGHT+IEgjC7jcUOjYQOxR34I9L+GF1YbZZpGFNn7YiUKCLnGaUh60OooaZvyBRmUy89gJ+clGAPAPQ==
-X-Received: by 2002:a05:6602:2b83:b0:919:9bac:8bb0 with SMTP id ca18e2360f4ac-93e764a890cmr2449194239f.19.1760990905874;
-        Mon, 20 Oct 2025 13:08:25 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.187.108])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-93e8663b5c2sm304877339f.7.2025.10.20.13.08.24
+        bh=4pYR5fc+13GPBMaNnLf78tmb9Ja2klUsIxWce12udek=;
+        b=VkFAJleFiMIdh/UmNtKgJKSVE6DzaMr2eOYROQ8PC/4RhnJ0OMEHgCxYJl+6NO/9YS
+         XFPmsXav+zYZyUA7HP+hKSSLMvYSJWrEugVTI3GOrr6p1qh4N7Q+fd+moWYr5mRt5L9Z
+         r2OaYMjYTNqpJ/E30sL84BWo2Ol+nx2XVLx3GprlM98pemE2eJ1ymX7U/Blk786niSqV
+         B7NJuYfDlH2X2MiD0FvboIX1/INatbRlkqmkJ0mOzWh3vTCeCi3kPa4QZCkq7WWXY4i2
+         8GJX3rPo8nrrMREYMn8+woqkeBqHapWCH+GJVMaSUwskw5ODAImTaknoZGqK8rOjnzMR
+         UWUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXIQpEoRl/9yx/DmiQSTcI27smkKwXESXT/b6y5NlrwjS629A7m3uMN4rQcXx98K8kQG2RPYgueLj35UaCuBf1yYhfqog==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwWa4Mlm1zLUOpOWbV8YwCjdjNyaT223Du93ozvipGle3qEIxdV
+	8PC5voqqQlHBcgtyJr10P7BLNcVWMF8fsrb3yL3rkQB1NEwTXmwixy+X
+X-Gm-Gg: ASbGncuGO3rxYKfLbMe8rN51EPc1G/ho8IDdoCvBxOk7DFQTdgNwlvg15vad43Ufmes
+	d3QSx7ahhZYXJspW0cC5a56Oj1xBOFGtdSR/N+5HbaaDbNoR+/EJpucjhE9uOJEAH9Evlas80IB
+	PXYen9XsEBH+MD9JCSXqZFqIPT41pfFb0xSgKviAnXtUeFX6aI40PStLGbrQAstLgQxlxzw9CRz
+	EIpEgUl54z78s4r/MuGKj3RBn5tP8qLs1CuhPqefIS+qeKXCNRihFZCgtOiJBovj1XCtKGCQqne
+	Q832C/dpL6WFqeDXuEah6EerqS8k572VtqIS4XaXPx4kjoIFaHNVD7JLuBz1qJjcCfhRZSvrC0O
+	DBmxTqJaGf9wkWYnwiDGJGUW3PcAD7UtWThE02pOP6pai3ioZMt0W1sodxOd3EkNbsGDCEmccsV
+	hwxHH+NxZ6Xwc+5OYoB37N83wU34mV
+X-Google-Smtp-Source: AGHT+IGfP+vFkv8zioVQynwazhbvBh6MaoC6q2IrSLhmWZgtPgsGhhqQc2LuymVoNGeawx228yiFQQ==
+X-Received: by 2002:a17:907:72cb:b0:b3e:c7d5:4cb9 with SMTP id a640c23a62f3a-b6c7758d3fdmr67446066b.5.1760991097698;
+        Mon, 20 Oct 2025 13:11:37 -0700 (PDT)
+Received: from [192.168.1.105] ([165.50.73.64])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b65eb725f3fsm873186966b.68.2025.10.20.13.11.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Oct 2025 13:08:25 -0700 (PDT)
-Message-ID: <2541f99c-1081-4253-ae58-97654694cd78@linuxfoundation.org>
-Date: Mon, 20 Oct 2025 14:08:23 -0600
+        Mon, 20 Oct 2025 13:11:37 -0700 (PDT)
+Message-ID: <b0b1c2e9-c367-4e9c-b931-d3e1b0ba7f5b@gmail.com>
+Date: Mon, 20 Oct 2025 22:11:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -83,43 +86,96 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/solomon: Use kmalloc_array() instead of kmalloc()
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
- javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+Subject: Re: [PATCH] drm/tiny: Use kmalloc_array() instead of kmalloc()
+To: Shuah Khan <skhan@linuxfoundation.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Greg KH <gregkh@linuxfoundation.org>
+Cc: lanzano.alex@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  david.hunter.linux@gmail.com, khalid@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20251019145927.167544-1-mehdi.benhadjkhelifa@gmail.com>
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251019151247.171558-1-mehdi.benhadjkhelifa@gmail.com>
+ <2025101910-dipper-suburb-1755@gregkh>
+ <cb0f0a36-0593-4d4c-8450-d086b9c99d87@suse.de>
+ <d072dfe7-e0e9-49f6-89ed-25d194035e3b@gmail.com>
+ <02e617bec795d2ef371069f2d5fb954dfb31a450@intel.com>
+ <ea12faad-1735-4a49-a70d-d4cac5629042@linuxfoundation.org>
 Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20251019145927.167544-1-mehdi.benhadjkhelifa@gmail.com>
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <ea12faad-1735-4a49-a70d-d4cac5629042@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/19/25 08:58, Mehdi Ben Hadj Khelifa wrote:
-> Replace kmalloc() with kmalloc_array() in several places to correctly
-> handle array allocations and benefit from built-in overflow checking.
-> This prevents potential integer overflows[1] when computing allocation
-> sizes from width, height, pitch, or page values.
+On 10/20/25 9:06 PM, Shuah Khan wrote:
+> On 10/20/25 03:50, Jani Nikula wrote:
+>> On Sun, 19 Oct 2025, Mehdi Ben Hadj Khelifa 
+>> <mehdi.benhadjkhelifa@gmail.com> wrote:
+>>> On 10/19/25 3:47 PM, Thomas Zimmermann wrote:
+>>>> Hi
+>>>>
+>>>> Am 19.10.25 um 16:34 schrieb Greg KH:
+>>>>> On Sun, Oct 19, 2025 at 04:12:28PM +0100, Mehdi Ben Hadj Khelifa 
+>>>>> wrote:
+>>>>>> Replace kmalloc() with kmalloc_array() to correctly
+>>>>>> handle array allocations and benefit from built-in overflow 
+>>>>>> checking[1].
+>>>>>>
+>>>>>> [1]:https://docs.kernel.org/process/deprecated.html
+>>>>>>
+>>>>>> Signed-off-by: Mehdi Ben Hadj Khelifa 
+>>>>>> <mehdi.benhadjkhelifa@gmail.com>
+>>>>>> ---
+>>>>>>    drivers/gpu/drm/tiny/repaper.c | 2 +-
+>>>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/
+>>>>>> repaper.c
+>>>>>> index 4824f863fdba..290132c24ff9 100644
+>>>>>> --- a/drivers/gpu/drm/tiny/repaper.c
+>>>>>> +++ b/drivers/gpu/drm/tiny/repaper.c
+>>>>>> @@ -534,7 +534,7 @@ static int repaper_fb_dirty(struct
+>>>>>> drm_framebuffer *fb, const struct iosys_map *
+>>>>>>        DRM_DEBUG("Flushing [FB:%d] st=%ums\n", fb->base.id,
+>>>>>>              epd->factored_stage_time);
+>>>>>> -    buf = kmalloc(fb->width * fb->height / 8, GFP_KERNEL);
+>>>>>> +    buf = kmalloc_array(fb->height / 8, fb->width, GFP_KERNEL);
+>>
+>> Also worth emphasizing that this is wildly wrong for any height that is
+>> not a multiple of 8.
+>>
+>> And I thought I shot down a similar patch not long ago.
+>>
+>> Is there some tool that suggests doing this? Fix the tool instead
+>> please.
+>>
 > 
-> [1]:https://docs.kernel.org/process/deprecated.html
-
-Mu understanding is that this document lists deprecates APIs so people
-don't keep adding new ones.
-
-I didn't get the impression that we are supposed to go delete them from
-the kernel and cause a churn.
-
-How are you testing these changes - do you have this hardware?
-
+> They are documented in https://docs.kernel.org/process/deprecated.html
+> Mu understanding is that this document lists deprecates APIs so people
+> don't keep adding new ones.
 > 
-> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-> ---
->   drivers/gpu/drm/solomon/ssd130x.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+> I didn't get the impression that we are supposed to go delete them from
+> the kernel and cause a churn.
 > 
+I have sent an appropriate v2 specifically to suit the case that we have 
+here. But the document[1] specifically quotes the following:"
+Dynamic size calculations (especially multiplication) should not be 
+performed in memory allocator (or similar) function arguments due to the 
+risk of them overflowing. This could lead to values wrapping around and 
+a smaller allocation being made than the caller was expecting. Using 
+those allocations could lead to linear overflows of heap memory and 
+other misbehaviors. (One exception to this is literal values where the 
+compiler can warn if they might overflow. However, the preferred way in 
+these cases is to refactor the code as suggested below to avoid the 
+open-coded arithmetic.)"
+Specifically mentionned the refactor of the code base in such cases 
+which is why i'm doing the patches in the first place.Also i'm trying 
+the best to send patches related to the issue where such issues of 
+overflow are present or to be consistent with the same API used within 
+the same subsystem.
+[1]:https://docs.kernel.org/process/deprecated.html
 
-thanks,
--- Shuah
+Best Regards,
+Mehdi Ben Hadj Khelifa> thanks,
+> -- Shuah
+
