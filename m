@@ -1,264 +1,259 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADBC322A2E
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 20 Oct 2025 13:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42543128C7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 14:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760968174; cv=none; b=lRQ1zKHXxtMVXxIitoB2q7jaTq9fJg9pDXDObPZSZU1DmliU+Bn16Pe7rAuGBMUNPX2PVH3nUX149QWoSQ7XZQ8HUNTPOulcGZplb3ZG1BJhOxdCH57ZEKUuWez+N9AfQCHcuPQwBuwgCsK4rz4BJj+kXwCsfkI5xRyD7SjY66U=
+	t=1760969401; cv=none; b=PVJpfooFXYhAlkVI5zL1Io6JgJqja3pT63PJIPGaEPutNKv0JiRHsh0ws1gWRXdON4ECgBtuu3VPFB2xFUj+iX6wyVwgviCtr+XHcB189flc6oOCt7WDr+xfKmYMRGUyWZWAlkCHrED+oeT0gwFAsG8bVUNeTazQ7vGhhMgnEMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760968174; c=relaxed/simple;
-	bh=OdAkGFsVBeypNY8bG/+x2bxmidQpWkTH+22jXc8Cjk0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Sr8o4oL+xQ5VXAoDpxAjw1poXATMCte+Zm4Na0z42wr8937tx68SUCz7p9rhJwDqa10WSoIAZ6XZWKYZTieBGgrr9gVKFdhdcQZxpbLNbFYeferkJiBfzBr/GC6GfICLlcufojpt+1c6LrMz+BXJBmJWW/3zev7L9AXsuItcwrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nkeAtidV; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760969401; c=relaxed/simple;
+	bh=mj7mtAXynUlbGhhLJG7Mwgh1VRhEJ2oHwjlG5PZy+A4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NHyZITEMvWhHpSLDJ2G3fMyqjdj9Ek8FU65cemJ5TbQEZk2cjN76LyPi1wd2s1pW1mBTwK4yt/Cui9EurkvJAAtt10MKUdXzbhapK3ZlX3wYEpLn3KB5kD3uSuDcf4uqIJgFD2XE1Kq58bAhWceZiuG0dzNhnOwBWBSanngKf6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmx.de header.i=erick.setubal@gmx.de header.b=h26cGRMZ; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nkeAtidV"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-78af3fe5b17so3527807b3a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 20 Oct 2025 06:49:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760968172; x=1761572972; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eODQs0ub6BtCBcbm30jQFNEO4Utk4CtbjZek/rCcark=;
-        b=nkeAtidVqHkHZq4c6rQa//6WRxwdJl42BnGwCZmHa3MpGn+AJIVaAE301xN2apbl9x
-         Gmz/ITLDUutIxxulcwAbfa+qVmR4KLHU7X1Qp3YiM8CeZf8lb7NPBzC8WnzquYzteXW0
-         1vacp+0IAVdstbu9sJoMAtCPwFTZ8DPwQVh1Ticg8UZiAajJ4RoSBr4VOXqe6I29gX3T
-         mae447Tq5lXpit/V2l9FBBESGb0/KVNmZ6/8vOgdXhIPOeXdqAvSfK5c/m9byPC7B9zJ
-         axrhXSQFsKhew9EjIGhESuDgK/fgej5o2ekKg8tS4AOrw+RFK203gdLBCGU9RtLW7+kr
-         GcLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760968172; x=1761572972;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eODQs0ub6BtCBcbm30jQFNEO4Utk4CtbjZek/rCcark=;
-        b=LtBFIJwsKpwO76FzWd5VxogGPKHRXAEXvOMa0B5RRYr6tSdAKDk4UyuWgpaIZ04HbB
-         kQCJlF7avgBv8HcLBMdlhCw5zHiXHIkooZqO2kKBQiEKFYVE6Z/ggmcPp/Tp09yWy+eN
-         /UxO9D84yJ6lpaSnlgZwqQchjgs9DtmxBrqv14gOSkqYl9jA7Y8IVwtnL9XPWDeClMSk
-         q01a3gDigl0C/pNVO07Tyk2r51QI+7paSPAXJI7MuWdSmO05hjPjus+KQSpSyabsSs4y
-         qx5CsTnGQj/JDZOmGHx6GY/NrjpIByvB7LdMl6GrDxxF9XN3X5VWo+WK4fPAmOLEorY1
-         Htog==
-X-Forwarded-Encrypted: i=1; AJvYcCVwORnr0XAHR+0KU40zJI4hhslP6Sv6ekF4hr3WGNbw9YQP5zqzVJYdWOH34Yx6eyAD/RYovkqDejn/3QPFGt3S3v8XFQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyNSLdfYGn7OKjYlGdY0E8WAFnMPv8otiVSTQX6JqqRmgorWPV6
-	CxkSexw7Z6C5nIVkLNViJ2CWEG28XCAql+qKJqv3xhEUfT1RvRB4GOJdk6Fq6ctq
-X-Gm-Gg: ASbGncv+rfd5EWpbn14WDyqyqacXmsaAOJDbISU3bNqZbcBqFtoBvabnAX5eO4OZJNo
-	FqP61V2xG8kIt7/ADK/9LmG4l7wcKTqGj41iDshIpPhlaqluAoq4SKFJ6HmGeS/fTzSbXHQcWf9
-	luz6gmT9vVGiSsQ/ZNEUy83isKqDzzBtrsEhUxKTCzE12FmvqvNI9oXNHK3yNDG9drcNQkcGtrF
-	LiH2y6toczztGegA61KgIWtiRMK1akTAWO+0EQewzWWeIPhFZzSDO33FxZzu/zi45iUXKeQDR+H
-	/jfMob2JpnKIk3hK3k4LSZJmxgow/X71segsTgU8LDhHNjrCkslEuu3wrinT3qDmTS9KWbVsYuw
-	dJe7dPkJlH8uaMFUmEs2Jkt8ZLDdgcSFPZ3TrMza/oy+snHaxegByXS2FrergGE2VS4sFm0srT9
-	neuSlhOC8CUS6mJh+heVrS2kRddfknz0cH36Vzeg2pVA7Fg6vFXzKzOl6yvWckJq1zZUIprKZ/+
-	g==
-X-Google-Smtp-Source: AGHT+IFiKRAll9tcnFwi3rMLldMi2VlZJ+m3l4+IxH5yr0qxsRT3jhyqtjhnAiXqR5sBVn7aaUjVHg==
-X-Received: by 2002:a17:903:2309:b0:262:79a:93fb with SMTP id d9443c01a7336-290ca121803mr178719455ad.32.1760968172002;
-        Mon, 20 Oct 2025 06:49:32 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:1cc9:d444:c07a:121f:22da:3f7b])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33bdd02793dsm4507349a91.3.2025.10.20.06.49.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 06:49:31 -0700 (PDT)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	sdf@fomichev.me,
-	kuniyu@google.com,
-	ahmed.zaki@intel.com,
-	aleksander.lobakin@intel.com,
-	andrew+netdev@lunn.ch
-Cc: netdev@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=erick.setubal@gmx.de header.b="h26cGRMZ"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 5E0048416B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 14:09:59 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -6.488
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id wXmfhXjq9rTs for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 20 Oct 2025 14:09:58 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=212.227.17.20; helo=mout.gmx.net; envelope-from=erick.setubal@gmx.de; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org ED7C284076
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org ED7C284076
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=erick.setubal@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=h26cGRMZ
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id ED7C284076
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 14:09:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1760969395; x=1761574195; i=erick.setubal@gmx.de;
+	bh=ilaKx3VrCzJFqFkn9EEeILAPzWt543OSLHXWjNxF3LA=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=h26cGRMZuj5zicWdi52+EA55k7ALW6FOZBnbu9z08yLNhT2Q1KyT60exT1apTH5t
+	 4Sr79eZyaBMvwe+Iij6pdgyYvKjKYUnxTwhg7TmVBkyH2IFunBZmWGmOo5EWTHJAY
+	 /BR7JehdfZhwfxPNtoltS2l2kdwROHv/GWpYDZVoc9dTjWQplYpNAMyQvzOeSrmOd
+	 /Zo/MIFITouOm5pIWmJgTc7MrwNB3q7MqJxHwaNQWiAHzU+mu8OD3/Cyk4Q0eDJBD
+	 ibsGzyXxFy0R07FBKSLOVALhMP89J8Sq5gRS8JwzDndW9CJGD/0THeWjzQ9Toe7im
+	 V2L5AzY1zJIiYRnTZQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from zolxn00301.speedport.ip ([84.145.119.168]) by mail.gmx.net
+ (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1MA7KU-1v3k1D43Tu-00D24D; Mon, 20 Oct 2025 16:04:34 +0200
+From: Erick Setubal Bacurau <erick.setubal@gmx.de>
+To: lee@kernel.org,
+	pavel@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	I Viswanath <viswanathiyyappan@gmail.com>
-Subject: [RFC net-next PATCH 2/2] net: ethernet: Implement ndo_write_rx_config callback for the 8139cp driver
-Date: Mon, 20 Oct 2025 19:18:57 +0530
-Message-ID: <20251020134857.5820-3-viswanathiyyappan@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251020134857.5820-1-viswanathiyyappan@gmail.com>
-References: <20251020134857.5820-1-viswanathiyyappan@gmail.com>
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	david.hunter.linux@gmail.com
+Cc: Erick Setubal Bacurau <erick.setubal@gmx.de>
+Subject: [PATCH] dt-bindings: leds: Add TI LM36274 backlight driver schema
+Date: Mon, 20 Oct 2025 16:04:28 +0200
+Message-ID: <20251020140428.246460-1-erick.setubal@gmx.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:XVHZcp4uVhOorQkpFmxIkqTy42AxfclF+bCUZrhh0puG1tRkEJz
+ 2wwdwhvubQoYTl+DoAvN/t7hnY76sSpjKSODma8SECeSWZ0rPaNPDfY9Wv0mjbcriYXCuGp
+ J4CK0ojmWANMpFBUZBw70pPUKm3v2o8d6f7SFX/7YA5OLAUfo/sW2KxicZgZZKIvUERGmxr
+ iba9k6O1CTrg2s9ZNF5jw==
+UI-OutboundReport: notjunk:1;M01:P0:AuXUE4pR5hc=;K1Lezke6G7ZsivDeVtHbgNxzGFQ
+ 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
+ humPYAJNfGK21fjNtodwd2aOck=
 
-Implement ndo_write_rx_config for the 8139cp driver
+Add the DeviceTree binding schema for the Texas Instruments LM36274.
 
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
----
- I modified and set ndo_set_rx_mode to be __cp_set_rx_mode as using
- cp_set_rx_mode as ndo_set_rx_mode callback would have led to a deadlock
- in cp_init_hw() 
- 
- drivers/net/ethernet/realtek/8139cp.c | 67 ++++++++++++++++++---------
- 1 file changed, 46 insertions(+), 21 deletions(-)
+Signed-off-by: Erick Setubal Bacurau <erick.setubal@gmx.de>
+=2D--
+ .../bindings/leds/leds-lm36274.yaml           | 81 +++++++++++++++++++
+ 1 file changed, 81 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-lm36274.ya=
+ml
 
-diff --git a/drivers/net/ethernet/realtek/8139cp.c b/drivers/net/ethernet/realtek/8139cp.c
-index 5652da8a178c..ff6195c7f3b6 100644
---- a/drivers/net/ethernet/realtek/8139cp.c
-+++ b/drivers/net/ethernet/realtek/8139cp.c
-@@ -319,6 +319,11 @@ struct cp_extra_stats {
- 	unsigned long		rx_frags;
- };
- 
-+struct cp_rx_config {
-+	int rx_mode;
-+	u32 mc_filter[2];	/* Multicast hash filter */
-+};
+diff --git a/Documentation/devicetree/bindings/leds/leds-lm36274.yaml b/Do=
+cumentation/devicetree/bindings/leds/leds-lm36274.yaml
+new file mode 100644
+index 000000000000..390ca660c0be
+=2D-- /dev/null
++++ b/Documentation/devicetree/bindings/leds/leds-lm36274.yaml
+@@ -0,0 +1,81 @@
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/leds-lm36274.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++title: Texas Instruments LM36274 4-Channel LCD Backlight Driver w/Integra=
+ted Bias
++maintainers: [Erick Setubal Bacurau <erick.setubal@gmx.de>]
++description:
++  The LM36274 is an integrated four-channel WLED driver and LCD bias supp=
+ly.
++  The backlight boost provides the power to bias four parallel LED string=
+s with
++  up to 29V total output voltage. The 11-bit LED current is programmable =
+via
++  the I2C bus and/or controlled via a logic level PWM input from 60 uA to=
+ 30 mA.
++  For more product information please see the link https://www.ti.com/lit=
+/ds/symlink/lm36274.pdf
 +
- struct cp_private {
- 	void			__iomem *regs;
- 	struct net_device	*dev;
-@@ -328,7 +333,7 @@ struct cp_private {
- 	struct napi_struct	napi;
- 
- 	struct pci_dev		*pdev;
--	u32			rx_config;
-+	struct cp_rx_config	*rx_config;
- 	u16			cpcmd;
- 
- 	struct cp_extra_stats	cp_stats;
-@@ -882,45 +887,53 @@ static netdev_tx_t cp_start_xmit (struct sk_buff *skb,
- 	goto out_unlock;
- }
- 
-+static void cp_write_rx_config(struct net_device *dev)
-+{
-+	struct cp_private *cp = netdev_priv(dev);
-+	struct cp_rx_config snapshot;
++properties:
++  compatible:
++    const: ti,lm36274-backlight
++  reg:
++    maxItems: 1
++    description: I2C address of the device.
++=20
++  '#address-cells':
++    const: 1
 +
-+	read_snapshot((&snapshot), struct cp_private);
++  '#size-cells':
++    const: 0
 +
-+	/* We can safely update without stopping the chip. */
-+	cpw32_f(RxConfig, snapshot.rx_mode);
++  label:
++    $ref: /schemas/leds/common.yaml#/properties/label
 +
-+	cpw32_f(MAR0 + 0, snapshot.mc_filter[0]);
-+	cpw32_f(MAR0 + 4, snapshot.mc_filter[1]);
-+}
++  linux,default-trigger:
++    $ref: /schemas/leds/common.yaml#/properties/linux,default-trigger
 +
- /* Set or clear the multicast filter for this adaptor.
-    This routine is not state sensitive and need not be SMP locked. */
- 
- static void __cp_set_rx_mode (struct net_device *dev)
- {
--	struct cp_private *cp = netdev_priv(dev);
--	u32 mc_filter[2];	/* Multicast hash filter */
--	int rx_mode;
-+	struct cp_rx_config new_config;
- 
- 	/* Note: do not reorder, GCC is clever about common statements. */
- 	if (dev->flags & IFF_PROMISC) {
- 		/* Unconditionally log net taps. */
--		rx_mode =
-+		new_config.rx_mode =
- 		    AcceptBroadcast | AcceptMulticast | AcceptMyPhys |
- 		    AcceptAllPhys;
--		mc_filter[1] = mc_filter[0] = 0xffffffff;
-+		new_config.mc_filter[1] = new_config.mc_filter[0] = 0xffffffff;
- 	} else if ((netdev_mc_count(dev) > multicast_filter_limit) ||
- 		   (dev->flags & IFF_ALLMULTI)) {
- 		/* Too many to filter perfectly -- accept all multicasts. */
--		rx_mode = AcceptBroadcast | AcceptMulticast | AcceptMyPhys;
--		mc_filter[1] = mc_filter[0] = 0xffffffff;
-+		new_config.rx_mode = AcceptBroadcast | AcceptMulticast | AcceptMyPhys;
-+		new_config.mc_filter[1] = new_config.mc_filter[0] = 0xffffffff;
- 	} else {
- 		struct netdev_hw_addr *ha;
--		rx_mode = AcceptBroadcast | AcceptMyPhys;
--		mc_filter[1] = mc_filter[0] = 0;
-+		new_config.rx_mode = AcceptBroadcast | AcceptMyPhys;
-+		new_config.mc_filter[1] = new_config.mc_filter[0] = 0;
- 		netdev_for_each_mc_addr(ha, dev) {
- 			int bit_nr = ether_crc(ETH_ALEN, ha->addr) >> 26;
- 
--			mc_filter[bit_nr >> 5] |= 1 << (bit_nr & 31);
--			rx_mode |= AcceptMulticast;
-+			new_config.mc_filter[bit_nr >> 5] |= 1 << (bit_nr & 31);
-+			new_config.rx_mode |= AcceptMulticast;
- 		}
- 	}
- 
--	/* We can safely update without stopping the chip. */
--	cp->rx_config = cp_rx_config | rx_mode;
--	cpw32_f(RxConfig, cp->rx_config);
--
--	cpw32_f (MAR0 + 0, mc_filter[0]);
--	cpw32_f (MAR0 + 4, mc_filter[1]);
-+	new_config.rx_mode = cp_rx_config | new_config.rx_mode;
-+	update_snapshot(&new_config, struct cp_private);
- }
- 
- static void cp_set_rx_mode (struct net_device *dev)
-@@ -1040,7 +1053,7 @@ static void cp_init_hw (struct cp_private *cp)
- 	cp_start_hw(cp);
- 	cpw8(TxThresh, 0x06); /* XXX convert magic num to a constant */
- 
--	__cp_set_rx_mode(dev);
-+	set_and_schedule_rx_config(dev, true);
- 	cpw32_f (TxConfig, IFG | (TX_DMA_BURST << TxDMAShift));
- 
- 	cpw8(Config1, cpr8(Config1) | DriverLoaded | PMEnable);
-@@ -1188,6 +1201,12 @@ static int cp_open (struct net_device *dev)
- 	if (rc)
- 		return rc;
- 
-+	cp->rx_config = kmalloc(sizeof(*cp->rx_config), GFP_KERNEL);
-+	if (!cp->rx_config) {
-+		rc = -ENOMEM;
-+		goto err_out_rx_config;
-+	}
++required:
++  - compatible
++  - reg
 +
- 	napi_enable(&cp->napi);
- 
- 	cp_init_hw(cp);
-@@ -1207,6 +1226,9 @@ static int cp_open (struct net_device *dev)
- err_out_hw:
- 	napi_disable(&cp->napi);
- 	cp_stop_hw(cp);
-+	kfree(cp->rx_config);
++additionalProperties: false
 +
-+err_out_rx_config:
- 	cp_free_rings(cp);
- 	return rc;
- }
-@@ -1227,6 +1249,8 @@ static int cp_close (struct net_device *dev)
- 
- 	cp_stop_hw(cp);
- 
-+	kfree(cp->rx_config);
++patternProperties:
++  '^led@[0-3]$':
++    type: object
++    properties:
++      reg:
++        description: LED channel index (0..3)
++        minimum: 0
++        maximum: 3
 +
- 	spin_unlock_irqrestore(&cp->lock, flags);
- 
- 	free_irq(cp->pdev->irq, dev);
-@@ -1262,7 +1286,7 @@ static void cp_tx_timeout(struct net_device *dev, unsigned int txqueue)
- 	cp_clean_rings(cp);
- 	cp_init_rings(cp);
- 	cp_start_hw(cp);
--	__cp_set_rx_mode(dev);
-+	set_and_schedule_rx_config(dev, false);
- 	cpw16_f(IntrMask, cp_norx_intr_mask);
- 
- 	netif_wake_queue(dev);
-@@ -1869,7 +1893,8 @@ static const struct net_device_ops cp_netdev_ops = {
- 	.ndo_stop		= cp_close,
- 	.ndo_validate_addr	= eth_validate_addr,
- 	.ndo_set_mac_address 	= cp_set_mac_address,
--	.ndo_set_rx_mode	= cp_set_rx_mode,
-+	.ndo_set_rx_mode	= __cp_set_rx_mode,
-+	.ndo_write_rx_config    = cp_write_rx_config,
- 	.ndo_get_stats		= cp_get_stats,
- 	.ndo_eth_ioctl		= cp_ioctl,
- 	.ndo_start_xmit		= cp_start_xmit,
--- 
-2.47.3
++      led-sources:
++        description: Indicates which LED strings will be enabled (0..3).
++        allOf:
++          - $ref: /schemas/leds/common.yaml#/properties/led-sources
++          - type: array
++            items:
++              $ref: /schemas/types.yaml#/definitions/uint32
++              minimum: 0
++              maximum: 3
++            maxItems: 4
++            uniqueItems: true
++
++examples:
++  - |
++    i2c {
++        #address-cells =3D <1>;
++        #size-cells =3D <0>;
++
++        backlight@11 {
++            #address-cells =3D <1>;
++            #size-cells =3D <0>;
++            reg =3D <0x11>;
++            compatible =3D "ti,lm36274-backlight";
++
++            led@0 {
++                reg =3D <0>;
++                led-sources =3D <0 2>;
++                label =3D "white:backlight_cluster";
++                linux,default-trigger =3D "backlight";
++            };
++        };
++    };
++
++=20
+=2D-=20
+2.43.0
 
