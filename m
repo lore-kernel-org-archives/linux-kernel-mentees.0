@@ -1,163 +1,160 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC6D2DAFD8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 21:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B64523536C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 06:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760994408; cv=none; b=sQQouZqZHzxvS24neq7CiwZdjMwwVm1atuwOrqaWX42XK5XIVBM3C+8+d6FARISzNd/N73Y5KX82CqkRWy01MEYrdKRqlYzzOhDXiyEAc7idEJbfhmO/9dSR8IV5O2jnx6x6oTriVGsTJ2rKyG+zO8hjzz5gRCc2TBD6gfmlyW4=
+	t=1761027714; cv=none; b=NjGQlJVr3mpS77mnl+FNdtabCsSR7CH1R1g3h3ICQK7rVut4XDcnoTFVBtimvZ0ypA96+q4X2H25fOlaMyVui1a1RfqaGpP7fVVAcc3EepVbP+PcYoVVkIAAVBkNV1zuyHVPUeFdc3wkCbIBpRGXqnnM2PkKbLELNYJ8GxvAUOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760994408; c=relaxed/simple;
-	bh=jKHNAcHa8OjYTcahk/Cvw5CM9egvf6escUcxMCMyzmk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VyWOkRbN6gJj3CT6wn/vMOdzD3Jae9k9bmNBs7GDwQeNf6RIIxVTABDvQv2Fn1DnZlUe/adoW+evdUTGw6eFkpUrq7J/vj4Y/e6hr0APe3Wp4ttNiWyTNlH/OoiECYQkXERnSYQozxWg0bN9b7MYu1bOTJfM1z9X9/l0HTrITmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bg5nKXQD; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1761027714; c=relaxed/simple;
+	bh=dZkozO8XQpdvjUFyuS+7gnOquHi4UayCDzsqXQhtNTM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=F0BHR+oFzhxJD6FCzydGSJ1xzqerigotziiTC4px9Ymk8IyBoK4J4pjbxD5c318BetnRgiTXDrQWgko4lh8yEfAVsf8UgPf54M8gMVytecIlGN31KUeUL6YTWBlNE3e2HatKSBu1R5s9IuHqGqxb0KoJ4wMDsIhX1fS88AHezoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ngts1tM3; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bg5nKXQD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ngts1tM3"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 246BF4037A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 21:06:47 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A22A4606D9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 06:21:52 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id hffqbLHkgs4R for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Oct 2025 21:06:45 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::62c; helo=mail-ej1-x62c.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 6694C400F1
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6694C400F1
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Bg5nKXQD
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6694C400F1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 21:06:45 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-b40884aeaf4so99548066b.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 14:06:45 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id xexDfaIscZO9 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 21 Oct 2025 06:21:50 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::635; helo=mail-pl1-x635.google.com; envelope-from=vnranganath.20@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 3233A606D0
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3233A606D0
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ngts1tM3
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3233A606D0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 06:21:49 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-292dc9158e5so1181455ad.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Oct 2025 23:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760994403; x=1761599203; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OhY4ES2p36Sez9d7ccqmI9W2N8u8/97h46vN/q1eK6M=;
-        b=Bg5nKXQDBym2ZO5UZ7iJ80y+v3rEL9riStND5nY0hQizMPi56E6dYnG8Zf1+t2PW1d
-         +XAPtfyBN6uoaEKLPaR3zxdmuTu2/YFKOfsIMNf9zprmQ5K6NfLTYf4khjl4GUXyqix5
-         PsOEa1N/sb/W1C1i39VXt20QmqqMzVakc1QZcGGXQuhf5V+qFpcG1VRyhLlIrJ22XvYg
-         CREZIAGFu+z9Hp959HaM24VVFP5itxfG6fVQ1FeTQg/3M0Nw/BZyl3YX4Psv+qmg0sJ/
-         WrVGVf8n/XIzOAYPg2Oj14t7NePZ3xGg8ATkAoJO86UizzbA5Ow1aH5PMTG46zJecE9X
-         PE2w==
+        d=gmail.com; s=20230601; t=1761027709; x=1761632509; darn=lists.linuxfoundation.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HQlJPMwH7nXKBtlf8BayDPI5AZLW0pym1gUfIZRSMBg=;
+        b=Ngts1tM3p1oxTaj/Y9qjmEv0oZ31SADslX8wR9L749Bk80hM8CvKr49fzwSgr2B1Kw
+         E5dvLckHxzIoY3VMC5pL7Uc0dg6HX0YmgenkErBhxIZ877PtCl/UEtw5Ai9M+zXLV9lK
+         5sm3cepiMVoDBZcAG/N0JhYhm2qUcM1+2lvPaf1OSmfKkCTsobZCkOnKDrQWT7tnRcl7
+         AItkDLiOJ1MEXomsWZm8DIjONHPyGx9VP7N37vI/pHCSl4AnoGDm2NiqbfrZ06GvROG1
+         mf2y+CYucYRoSm2WysTfVK7/tCdVgy1PixTJKq1mFoU4paunjLb6nUgg+7vYQnkTLjRZ
+         QS/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760994403; x=1761599203;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OhY4ES2p36Sez9d7ccqmI9W2N8u8/97h46vN/q1eK6M=;
-        b=vHx9kc5KSlST/WINiARG7KP5DvwTaKNPWZVAs6xneIgkmY+RYqE30bJ7MUWxaEx+gc
-         /XYUfutpnflv/Ghd8hr1aoNZOAuHTdk7k9f+V5LaZexXLMOe21QJy2g4Ueposb0pjdWg
-         jlu58+0PAU+77EJfVsURE69TiM1Oev0Oi8Qvj9RJLwz4V4zmDKhKC39cVZgCmxT/knX4
-         gwk/aETR7awJAhWsjlmkxaUSfYyQAidTT+ajve1lDZRlboidcHi9ZQ6wLQBJYDL49QBi
-         ikn1QLlzYnU1eRCZkO4Vr4QkOrmWHePKcMqKwt6kgZhkehX63/9NJiWw8WLp5EKIcbdm
-         YL4A==
-X-Forwarded-Encrypted: i=1; AJvYcCVf0HSrdjqZ8nu2gNJSn+PhsnNoy/O23OAofsvTdTeLT0RFygIfEbQg6x+yqwgBNlOXPNYKET6VyzKpsOoBhkPmcWSFvw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yxbn+gJ5x33QrMwzd/QTvRF4oZiD4fM7fS9IRq/xWN2GpnND0WC
-	S+HqVtx2tqXoZUehkXy7gXFcpyNLnWQUs3VbJbQ7uVVsYaprLY3CiIhI
-X-Gm-Gg: ASbGncvjCGOEvBom7sRvN9lYqTiW/yl/y3ev6Btxl8H7vUxai70+chAt+ZE6aYjkPI3
-	FngfR8F40Y4fbs7e7HWVEaTW1ece1pAeFfVBYxlzUYB2lLUDQYvPJFIrOAQgqanNrREFoNnhPo4
-	eJG40hoF0Lef++yiMkVSNgnPX9+14MvFhMeU+lWrgYbKnvXq8M+m2g14cNriUdxaqTzHqTlksEi
-	en/AN4onpx3xFM3zx4Egmk7QTMTfwCjJktNfoqk+6WQ3EjMEw5lDTnLlM5fsTEknKmuJCN19P1h
-	mAJxEjyj8XGee8zGG9Sj/RVmiNtehI6GYgiF3NIvtaSdZKD6Hitmnh/vvp4LyBkncvIvNVUwBGF
-	1RKH5Qb6NOnEuv5QAwDo2hkM5fHsvepRHkQFTL2+GO4VW2urK5OOKMjxQNk8Dq2FIl5r1Yp64LN
-	CyO38LPSnlDcVNalkafvazTmJOAwQu
-X-Google-Smtp-Source: AGHT+IHZVqYKS2iFYtOE/tSHz7RN3sZh1WOSb+4OP97fjXIur8QI9sPPBXL8/BZMXg3DfJFX6AmixQ==
-X-Received: by 2002:a17:907:94c9:b0:b04:53be:7652 with SMTP id a640c23a62f3a-b6475706f75mr883556366b.8.1760994403086;
-        Mon, 20 Oct 2025 14:06:43 -0700 (PDT)
-Received: from [192.168.1.105] ([165.50.73.64])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b65eb526175sm894178166b.56.2025.10.20.14.06.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Oct 2025 14:06:42 -0700 (PDT)
-Message-ID: <8dc12a18-58ee-4df6-a9f3-12d8c05a0954@gmail.com>
-Date: Mon, 20 Oct 2025 23:06:34 +0100
+        d=1e100.net; s=20230601; t=1761027709; x=1761632509;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HQlJPMwH7nXKBtlf8BayDPI5AZLW0pym1gUfIZRSMBg=;
+        b=BZnEuzb8bTS/jRJwgYRm3amvKMXGnHJbQXIWK3UBG2ZmC8XHXNkVGzdSz0J/zMW+T2
+         9aedUIS9IahL16ggp+XFa3h6/rjEfVueV5uBY7h8anJtTGTi2ZHRnljor50cLBUevo1h
+         rgf4sjtiNslLvfb8HtQxDMtCrN9WZyrv34anoScTBQYxBxM6F8i9DrXHeezzXVTP9PXT
+         DdBRjJUABWvv+PWVcJnobESKx9Y/IZM6ZFaqH8x6Ztn9+BfNGp1veS2bv573JipSFuVU
+         0KQF2hxbJ0m6HK4hSjAUhVkHF2WBUDcwDaUhs3Ux8JOSk4QOhUy7KMFKEM9PO5RKui8d
+         ZS+A==
+X-Forwarded-Encrypted: i=1; AJvYcCWsPKU6Lvj48WAiq4NiNZ7lwcfXfMTIuQfbcy7mciOMkKeugZQ2IBDewzpLKzysrNrfeWGT+zAKtOlJ9L7ozjduEkx67g==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzZNCUGsqCsE652QJU7VI1Blg75gjCHt7zYdk29NEAvEem0pyat
+	W2dl+NRGd5VA0ar91WSoWw5W/MN2GLPv2woglViAORg+QYGYTNDKpKGh
+X-Gm-Gg: ASbGnct+Lsmvk+eaKY0jidqFgEA79m74zs6C8AVPiT/0knwgLjqFhHlKfItdpXWRdb/
+	2yqjDbm4oee/B9zUY7W9IhW7EJlRFOcKLWeMWAq6mhNL4uxxYxItX6oW7FWitDbDCvEnoSDVVth
+	bnNeNywcXbyRvV8AFc2NYveTlSVEcb+8nCgJp2Z7yAx9n1NR1f8pbOTF7AuTBF/lj73kub80ASu
+	bMiLKlmQdamMUidF68TVe17gelOcDqVT6ak6Bvabf0mJZ1+EJUFqgB/Jp3ldf48w8MN6ulwS5vK
+	z+lfri6MyuESSqAaCCZBMUSG1/raU4/exntTJvNMERM9+psXqZqX9g/elVwq9gPWZ5TjBm/ClIr
+	ktLQJ+ejhoZGRRAu3DL8+BnrVgVjFOHBaO4YoupdItCVnY5yMtjO4cKKGm6eRk9H1zTWeXcXhdg
+	baq3+FBv7kxZWvVm4vlfm1OAMNcxmiGlncsPVj1h2KcS1C2qECdkie
+X-Google-Smtp-Source: AGHT+IFnYKU1IWC3pFF4gig1+6sBxnYeOxYc6mKh5U5SUBS7wKSrjBE45ao1Z4z/gFoNYWrq+4Y5Ag==
+X-Received: by 2002:a17:902:cecb:b0:258:a3a1:9aa5 with SMTP id d9443c01a7336-290c9ae1a2emr116032215ad.0.1761027709371;
+        Mon, 20 Oct 2025 23:21:49 -0700 (PDT)
+Received: from [127.0.1.1] ([2401:4900:c8fb:fb07:ee78:675f:132b:f68f])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29246fd7675sm99312855ad.26.2025.10.20.23.21.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Oct 2025 23:21:48 -0700 (PDT)
+From: Ranganath V N <vnranganath.20@gmail.com>
+Date: Tue, 21 Oct 2025 11:51:42 +0530
+Subject: [PATCH] drivers: block: rnbd: Handle generic ERR_PTR returns
+ safely in find_and_get_or_create_sess()
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/solomon: Use kmalloc_array() instead of kmalloc()
-To: Shuah Khan <skhan@linuxfoundation.org>, javierm@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- david.hunter.linux@gmail.com, khalid@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20251019145927.167544-1-mehdi.benhadjkhelifa@gmail.com>
- <2541f99c-1081-4253-ae58-97654694cd78@linuxfoundation.org>
- <e4f0290b-5d15-472f-acee-e1e1b0629ec0@gmail.com>
- <3f523293-8a8d-4136-b4bc-4ad0d4a50c59@linuxfoundation.org>
-Content-Language: en-US
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-In-Reply-To: <3f523293-8a8d-4136-b4bc-4ad0d4a50c59@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20251021-rnbd_fix-v1-1-71559ee26e2b@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAHUm92gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDAyND3aK8pJT4tMwKXcskE3OLtCRTIxMDYyWg8oKiVKAw2Kjo2NpaAAu
+ FoCdaAAAA
+To: "Md. Haris Iqbal" <haris.iqbal@ionos.com>, 
+ Jack Wang <jinpu.wang@ionos.com>, Jens Axboe <axboe@kernel.dk>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org, 
+ Ranganath V N <vnranganath.20@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761027705; l=1897;
+ i=vnranganath.20@gmail.com; s=20250816; h=from:subject:message-id;
+ bh=dZkozO8XQpdvjUFyuS+7gnOquHi4UayCDzsqXQhtNTM=;
+ b=8QUpn5dec1JVYKDwU5Xa1XxbcjpL/7KR847ZaE/4RWlNjTTdoPSifgcOluNBdI7zuQwTPonq4
+ Lg9bICQrhrcCzpXhzvyxmrDrJeId3eud/lrfZjDvtA7HsqesYfvmus+
+X-Developer-Key: i=vnranganath.20@gmail.com; a=ed25519;
+ pk=7mxHFYWOcIJ5Ls8etzgLkcB0M8/hxmOh8pH6Mce5Z1A=
 
-On 10/20/25 9:56 PM, Shuah Khan wrote:
-> On 10/20/25 15:38, Mehdi Ben Hadj Khelifa wrote:
->> On 10/20/25 9:08 PM, Shuah Khan wrote:
->>> On 10/19/25 08:58, Mehdi Ben Hadj Khelifa wrote:
->>>> Replace kmalloc() with kmalloc_array() in several places to correctly
->>>> handle array allocations and benefit from built-in overflow checking.
->>>> This prevents potential integer overflows[1] when computing allocation
->>>> sizes from width, height, pitch, or page values.
->>>>
->>>> [1]:https://docs.kernel.org/process/deprecated.html
->>>
->>> Mu understanding is that this document lists deprecates APIs so people
->>> don't keep adding new ones.
->>>
->>> I didn't get the impression that we are supposed to go delete them from
->>> the kernel and cause a churn.
->>>
->> the document[1] specifically quotes the following:"
->> Dynamic size calculations (especially multiplication) should not be 
->> performed in memory allocator (or similar) function arguments due to 
->> the risk of them overflowing. This could lead to values wrapping 
->> around and a smaller allocation being made than the caller was 
->> expecting. Using those allocations could lead to linear overflows of 
->> heap memory and other misbehaviors. (One exception to this is literal 
->> values where the compiler can warn if they might overflow. However, 
->> the preferred way in these cases is to refactor the code as suggested 
->> below to avoid the open-coded arithmetic.)"
->> Specifically mentionned the refactor of the code base in such cases 
->> which is why i'm doing the patches in the first place.Also i'm trying 
->> the best to send patches related to the issue where such issues of 
->> overflow are present or to be consistent with the same API used within 
->> the same subsystem.
->> [1]:https://docs.kernel.org/process/deprecated.html> How are you 
->> testing these changes - do you have this hardware?
->>>
->>>>
->> I have a raspberrypi zero 2 wh that i'm using in combination with the 
->> ssd1306 OLED panel via I2C to test it's rendering and it's working 
->> properly by using modetest and seeing no regressions or warnings in 
->> dmesg.
->>
-> 
-> Send v2 with all these details and why this change is needed
-> in the first place.
-> 
-Okay, I will do that as soon as possible.> When and how does this 
-potential problem trigger? Is this a
-> theoretical or does this happen in this code path and how?
-> Next time include all of these details people understand the
-> problem better.
-> 
-We'll do in the next iteration.Thanks
+Fix the issue detected by the smatch tool.
+drivers/block/rnbd/rnbd-clt.c:1241 find_and_get_or_create_sess()
+error: 'sess' dereferencing possible ERR_PTR()
 
-BR,
-Mehdi> thanks,
-> -- Shuah
-> 
+find_and_get_or_create_sess() only checks for ERR_PTR(-ENOMEM) after
+calling find_or_create_sess(). In other encoded failures, the code
+may dereference the error pointer when accessing sess->nr_poll_queues,
+resulting ina kernel oops.
+
+By preserving the existing -ENOMEM behaviour and log unexpected
+errors to assist in debugging. This change eliminates a potential
+invalid pointer dereference without altering the function's logic
+or intenet.
+
+Tested by compiling using smatch tool.
+
+Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+---
+ drivers/block/rnbd/rnbd-clt.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/block/rnbd/rnbd-clt.c b/drivers/block/rnbd/rnbd-clt.c
+index f1409e54010a..57ca694210b9 100644
+--- a/drivers/block/rnbd/rnbd-clt.c
++++ b/drivers/block/rnbd/rnbd-clt.c
+@@ -1236,9 +1236,14 @@ find_and_get_or_create_sess(const char *sessname,
+ 	struct rtrs_clt_ops rtrs_ops;
+ 
+ 	sess = find_or_create_sess(sessname, &first);
+-	if (sess == ERR_PTR(-ENOMEM)) {
+-		return ERR_PTR(-ENOMEM);
+-	} else if ((nr_poll_queues && !first) ||  (!nr_poll_queues && sess->nr_poll_queues)) {
++	if (IS_ERR(sess)) {
++		err = PTR_ERR(sess);
++		if (err != -ENOMEM)
++			pr_warn("rndb: find_or_create_sess(%s) failed with %d\n",
++				sessname, err);
++		return ERR_PTR(err);
++	}
++	if ((nr_poll_queues && !first) ||  (!nr_poll_queues && sess->nr_poll_queues)) {
+ 		/*
+ 		 * A device MUST have its own session to use the polling-mode.
+ 		 * It must fail to map new device with the same session.
+
+---
+base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
+change-id: 20251021-rnbd_fix-9b478fb52403
+
+Best regards,
+-- 
+Ranganath V N <vnranganath.20@gmail.com>
 
