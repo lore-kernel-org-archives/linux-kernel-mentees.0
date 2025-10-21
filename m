@@ -1,160 +1,191 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1E12E2847
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 08:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8AE82EDD62
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 21 Oct 2025 08:31:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761033733; cv=none; b=MBtT0A9IZsMtrvvMCgML+sZ+vikcNiN7Ox4n3nT/FvPB6/2zP4/tzg7SJ6GkAhSozIs83V9ejDVjg88XLrZwNy4nBqp18dIOiRDDy9/raZbUvHkWiCdQrL1KC8NLOO6t1KCWBARxaM5Ex0kAvsnRIofynflaJHtIqcvtr+YGu9c=
+	t=1761035491; cv=none; b=kcIJ/3KUU/0z7lVElRVoI8YGyE7T6Fcb6x1Ik2Y2InokWpgdkrODn0cww2dpikckYcwWTRrI71u3Qya9I4QlEcapzeJUVZfwaQXmpGvboA19RQK5tgsMVY0WU1ZQJMbdhvbp9HVIPEtaDH4HJfJc22LEawEbc8nSJpyCLeLXwiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761033733; c=relaxed/simple;
-	bh=i+m3PusaxM6Zgin3C3En/lGk4W/S63Hvd6XwDnbd7Ug=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zz+ZnO0QX1JpXVzPnjKr1Qx1J8BrcMT0TQdlpzW1ChQADWEbO+N7odkldh6B6nm1+KKUhPnatZdWT/QmyQUPbLS8f/kK9SHhZYGms12GMgGKxMB6u/Sfm0oNHgPEOXlvL5wQxd6nbqobXgETF2ZKQVcDZNgtYHZevTdheO5V33Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=TYuHOqdD; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1761035491; c=relaxed/simple;
+	bh=0+caDIujhpz0FRhcDE2+VAxE9La8nPwvKl4NgW9uldY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MM90hFbn/WvD6FORPUAs2y/q717wINNU/5IdiLeqMZFGAzTXjKnZBzEUL2x3BYTI9e3vTTnkDWZvQ94uxMZHNMaRZvm0AprrFhF1gSSI+xGztgelXHAvmTgeRczHq+BaHnEa7qnYQKPGBT96kptiXdBkHxZM5SsxIOt76jyzgYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=sfFgCxdn; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="TYuHOqdD"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BCBEA40527
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 08:02:11 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.089
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 35-cPPvJ76sX for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Oct 2025 08:02:11 +0000 (UTC)
-Received-SPF: Permerror (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::636; helo=mail-ej1-x636.google.com; envelope-from=jinpu.wang@ionos.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org C867A403B2
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C867A403B2
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ionos.com header.i=@ionos.com header.a=rsa-sha256 header.s=google header.b=TYuHOqdD
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id C867A403B2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 08:02:10 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-b484b15e72bso123115166b.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 01:02:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="sfFgCxdn"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b3e9d633b78so325254466b.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 21 Oct 2025 01:31:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1761033729; x=1761638529; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k0VWPqCHv6+ZQuDCTFQQ2tUl50NtMLOJ2aVBSBufBxc=;
-        b=TYuHOqdDRZSFfYXm5hJtqdhB15hM2sEA3ljKKsVuWThM9g36mrtAZDLKygom32B9c+
-         xyMlooxlr8Wht/NPuE7gE4EmuWtB1zltcIjgkUtFtyhlguPfwvucRataT1LjOmFFa7HJ
-         iCdw7w54ZoIOB7jsmd33FmVm7TdlcEDFh8Hk0YBWVJXbV3rnlLOQUfk9Z2lWXc5xUNo0
-         6J0sKIJSVF6CXm+GWQn2UCfG1S29wyX2Qb9psR39/G1x5yhJudsiBV9IAcIS4RYgx96p
-         dMR0uYsUTGhcl/SZbcLJ7lnD3qDFs0AZ0sNyBmSXpkzhhSEPzWXPpHTTEtA+xvx6sKgF
-         eAcA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1761035487; x=1761640287; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=08GVp+OInLnYCUoelIzBBSQmuc+ORFR2n22PxCU3mnk=;
+        b=sfFgCxdnYFxHIYs0TodFRahJAvBSxlZwQngd4Nd/+x8d+8vfkv0fiTGOSvrjxaf7Lc
+         TRDEFSiDZdZ6FmemOn1mX6U50CK/6up3aR+dZd2BUQYGQv2Ql3IUAXuQc6/WWSI3l4UJ
+         e4AACT0Qr1ktbcTRtYInKm8mRJytbebnCT++78FFiTw00+HD0ZoOG79b7cevgxQm7d4K
+         +Pj+utI/BpRWgDwNz12SHjbubAOpN3Mx/mC+W03vmtvSnMmHmwm3m+tffBrr4em8AXI7
+         uKS2Nkx2+iBiNIZcUn9QIyGrgAHo5KqkwplgADG8XbbRaph/ZkBDL6kNdZ9dPiEywOG2
+         FxsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761033729; x=1761638529;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k0VWPqCHv6+ZQuDCTFQQ2tUl50NtMLOJ2aVBSBufBxc=;
-        b=rqLV/WefM2r5ODQhkzu1xrZIqWUH/zAOjkQlfKphSvxPnpj8SAb2IYeCLSaRx7Uoj6
-         fJi0YbCAmPhtInll+W+PyOenQD/o3RqrzVskzoYG8wuI33n0W1mnEUVOMU87jTqvRF6j
-         EWDw3rFQ85dTPUcH2sXZnjOqKuK2hsXk3iWm/Vudstn+lKlrzYBPuxC+7Lu65kLbGFPy
-         ZhtxAzLwoXAjYt0DNS/cwnBkLmocr2oIF5WI+UerKrhAQW1+RfoELzdC9Tu5QdCHXrif
-         PXpCCaZvTQ1PFktk9GYGynhg4iCjFHjhZnd2c7HYF8Es2qBnlgBOisda9vLh5l0SPuvv
-         Cgjg==
-X-Forwarded-Encrypted: i=1; AJvYcCWQqGKL1PiVK9i1MA9ZXzSqJXqa4+5/T6gtD68LA70L653M3wZe8zRsaMbZm2kpy0gGJ5NjC1vC7NF204kJlhJwW8k7Bw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyTP19I/uOladZnp7wLG0j5mN7gb8EjhKgUR2rPy+wuCs9EmItD
-	Mex+8RkuVnT8dxq4NYt1eM/QQbX3lGjWaQXLdtYPc2XCA1dzsAZKfG4BW3eIWKSt6fKAFkgAJO8
-	CDz8WGtwveaZ2UOVSBdIMWpP6/9wU3paLRNBOfFdMMA==
-X-Gm-Gg: ASbGnct4ZYXZEs9N24TRyO4wgiXjiyBP+aLIgpweBsZ9V1UCYwEiz3yOPuSXmEI2Mod
-	qy2CZs/8YpDggHJnTxC3X2Y+MdbPdLgbigHwphdvSkgiDLS1VA8W/dkiBaBdTt3mLcaMyN+yK7+
-	wKr+BcMwYDkcsYoqCpFDISjCCXnVbcV1EiFAPByUJHrIkqHLCbClk/2Kz1zV/schTMqBsusm5gn
-	fVzHvF39SHyvpwwO0f8PtMJmPKV6Len4MrTCzZ0DvG8yP7nQEHgi4APGFoo
-X-Google-Smtp-Source: AGHT+IEQfgvHZuihlbBSJlVb+dcEnjFV14dIS2e3QeU28hCgVySmEX3k7+tkYGmNfEgLKxBR2Hkp3zdbZ2HHX0oRDVA=
-X-Received: by 2002:a05:6402:2115:b0:638:e8af:35c7 with SMTP id
- 4fb4d7f45d1cf-63d16af7935mr1354397a12.2.1761033728661; Tue, 21 Oct 2025
- 01:02:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761035487; x=1761640287;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=08GVp+OInLnYCUoelIzBBSQmuc+ORFR2n22PxCU3mnk=;
+        b=hkQotZgFpTWRzjY9ZHJWQcm0i8pPnGQv6xECRJ4djkpuYKjDCOnf+YNyrR4IhdcZVz
+         d3vXC7fde2tMJ4xtr7izltJ21KGHH46vD2H68/ap8K1JylVedhDSh3+VzCzqfW1qIzdp
+         AfY5TQCW7KlEFW6RmbR9+6B9+hvNscaiITXDrrpEpC5bM8QNZjYuFEH753/4FqypxBL6
+         ZQnxqlYafVaLu+7Ni1CvdnJJXtVgzHsITyLN5g2//B9zAOxy3GCH5z4gmPf1hEXB7FmS
+         IH+7ZimDVE7t8o38DhW94Upo+BFXzJZRZApn8wUGaKwh8uIn4+JPwgUKFgfLPEXpg1xc
+         WChw==
+X-Forwarded-Encrypted: i=1; AJvYcCXkozl5Cyr5NjDI/WMGBBL1ns4+IPil69Oi80G1V56+93oFHbGYumtAbrMZwq+ibEO9IHkVHZ3bASJGL+mo38YCoL/VUQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxpiIKWUAxMdC0duIDQV8atQflPRAIu0zrG3d58jEdMtNWAYjk3
+	gR41kIYj3tMFHqkUbRSoho/MzrQbazYdJ9o1i5qiXppmCM1ihHJ46Li+xkDg37z/DJM=
+X-Gm-Gg: ASbGncvJorKKFh/byBNJYWEQTv0xAmVD1t8Z3LzufuSP33eWUcbDCIggIvDnukCRZlz
+	1r2oEatO0yQL2/e6Cd2dRzQ0VuvWscPfsDFv/Ws15DT8IwnCJxiiAkpE/H//IuqisHmAm+EWQsx
+	bzoiTgHmPEGp6Ztjc2ICwd8Mcoz860N8YlB7jCi4gzbwxD5k+tra05GHT8TMylxuoqur/uiHpI3
+	GEHQYm8+7DYvkaA3A4nmeWcs/bcEG8Jc/2RlbRCYGu6iYuRc15gHBApUWeyYil3zzn4qTpda4EM
+	K12fExMnVh0X7B4naqYrjMPEEWI9tB+aZHwQGfR32fsEtv1CIRd1nZNedi/VU4AcTyxvrSzJQjr
+	UkjSZE8DD3Vqrph1rEzTcKzzgEtqIqQ35x/zscqA2gtcVbxAB0k9i/PQL83cEanFu9pIMOL/rCX
+	fy3OGSBftNpQ6Ukax/qnZmSE3XUOOBbi/1MInb7unMwSl7G96D39LT
+X-Google-Smtp-Source: AGHT+IE9nMGLvWb06pmplezToqR2L95J3tFlgDU1qAVV3hP6xK1kSz7780MH5ZLzX2rb+2xlSC+S1Q==
+X-Received: by 2002:a17:907:1b05:b0:b46:57fd:8443 with SMTP id a640c23a62f3a-b645f0f9a4emr1588815766b.24.1761035487224;
+        Tue, 21 Oct 2025 01:31:27 -0700 (PDT)
+Received: from localhost (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f06:ab04::1b9])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b65e83960e6sm1008220066b.33.2025.10.21.01.31.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 01:31:26 -0700 (PDT)
+Date: Tue, 21 Oct 2025 10:31:25 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Rakuram Eswaran <rakuram.e96@gmail.com>
+Cc: chenhuacai@kernel.org, dan.carpenter@linaro.org, 
+	david.hunter.linux@gmail.com, khalid@kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, lkp@intel.com, 
+	skhan@linuxfoundation.org, ulf.hansson@linaro.org, zhoubinbin@loongson.cn
+Subject: Re: [PATCH v2] mmc: pxamci: Simplify pxamci_probe() error handling
+ using devm APIs
+Message-ID: <pvid2ycmgbkbmegnnzwl4hyev6e2smusxk5olkuqxfwxzykz2e@jlvolirolrxl>
+References: <o55ujlbvxwezsf3ogqx33pcbg5b2lviy6bv5ufnz6t7yi4v23t@i6uiafh6no6c>
+ <20251020183209.11040-1-rakuram.e96@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251021-rnbd_fix-v1-1-71559ee26e2b@gmail.com>
-In-Reply-To: <20251021-rnbd_fix-v1-1-71559ee26e2b@gmail.com>
-From: Jinpu Wang <jinpu.wang@ionos.com>
-Date: Tue, 21 Oct 2025 10:01:57 +0200
-X-Gm-Features: AS18NWAjr1vMpIROYlrNqm-3ej7s5Tkh074kVV9erysvDSTuNEiz5Pc19hwQJzo
-Message-ID: <CAMGffEmsJjeqW8DGnKapVyM0Gporn_UuDB2xNosRmD2GduGgzg@mail.gmail.com>
-Subject: Re: [PATCH] drivers: block: rnbd: Handle generic ERR_PTR returns
- safely in find_and_get_or_create_sess()
-To: Ranganath V N <vnranganath.20@gmail.com>
-Cc: "Md. Haris Iqbal" <haris.iqbal@ionos.com>, Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
-	david.hunter.linux@gmail.com, khalid@kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2qhn5ffy7ssp2gct"
+Content-Disposition: inline
+In-Reply-To: <20251020183209.11040-1-rakuram.e96@gmail.com>
 
-On Tue, Oct 21, 2025 at 8:21=E2=80=AFAM Ranganath V N <vnranganath.20@gmail=
-.com> wrote:
->
-> Fix the issue detected by the smatch tool.
-> drivers/block/rnbd/rnbd-clt.c:1241 find_and_get_or_create_sess()
-> error: 'sess' dereferencing possible ERR_PTR()
->
-> find_and_get_or_create_sess() only checks for ERR_PTR(-ENOMEM) after
-> calling find_or_create_sess(). In other encoded failures, the code
-> may dereference the error pointer when accessing sess->nr_poll_queues,
-> resulting ina kernel oops.
->
-> By preserving the existing -ENOMEM behaviour and log unexpected
-> errors to assist in debugging. This change eliminates a potential
-> invalid pointer dereference without altering the function's logic
-> or intenet.
->
-> Tested by compiling using smatch tool.
-Thx for the patch.
-But I read the code again, find_or_create_sess -> alloc_sess, which
-only return ERR_PTR(-ENOMEM) or a valid pointer.
-I think this is just a false positive.
->
-> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
-> ---
->  drivers/block/rnbd/rnbd-clt.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/block/rnbd/rnbd-clt.c b/drivers/block/rnbd/rnbd-clt.=
-c
-> index f1409e54010a..57ca694210b9 100644
-> --- a/drivers/block/rnbd/rnbd-clt.c
-> +++ b/drivers/block/rnbd/rnbd-clt.c
-> @@ -1236,9 +1236,14 @@ find_and_get_or_create_sess(const char *sessname,
->         struct rtrs_clt_ops rtrs_ops;
->
->         sess =3D find_or_create_sess(sessname, &first);
-> -       if (sess =3D=3D ERR_PTR(-ENOMEM)) {
-> -               return ERR_PTR(-ENOMEM);
-> -       } else if ((nr_poll_queues && !first) ||  (!nr_poll_queues && ses=
-s->nr_poll_queues)) {
-> +       if (IS_ERR(sess)) {
-> +               err =3D PTR_ERR(sess);
-> +               if (err !=3D -ENOMEM)
-> +                       pr_warn("rndb: find_or_create_sess(%s) failed wit=
-h %d\n",
-> +                               sessname, err);
-> +               return ERR_PTR(err);
-> +       }
-> +       if ((nr_poll_queues && !first) ||  (!nr_poll_queues && sess->nr_p=
-oll_queues)) {
->                 /*
->                  * A device MUST have its own session to use the polling-=
-mode.
->                  * It must fail to map new device with the same session.
->
-> ---
-> base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
-> change-id: 20251021-rnbd_fix-9b478fb52403
->
-> Best regards,
-> --
-> Ranganath V N <vnranganath.20@gmail.com>
->
+
+--2qhn5ffy7ssp2gct
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2] mmc: pxamci: Simplify pxamci_probe() error handling
+ using devm APIs
+MIME-Version: 1.0
+
+Hello Rakuram,
+
+On Tue, Oct 21, 2025 at 12:02:07AM +0530, Rakuram Eswaran wrote:
+> On Thu, 16 Oct 2025 at 14:20, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@bayl=
+ibre.com> wrote:
+> > On Wed, Oct 15, 2025 at 12:16:57AM +0530, Rakuram Eswaran wrote:
+> Sorry for the delayed reply as I was in vacation.=20
+
+I didn't hold my breath :-O
+
+> Ah, got it =E2=80=94 I=E2=80=99ll drop the clk_get_rate() comment since i=
+t was only a reminder
+> from your WIP suggestion.
+>=20
+> Just to confirm, are you referring to adding a call to clk_prepare_enable=
+()
+> before clk_get_rate()? I can move the clk_get_rate() call after
+> clk_prepare_enable(), or drop the comment entirely.
+>=20
+> If my understanding is correct, I=E2=80=99ll keep v3 focused on the curre=
+nt set of
+> fixes and handle the clk_get_rate() precondition (by moving it after
+> clk_prepare_enable()) in a follow-up patch. That should keep the scope of=
+ each
+> change clean and review-friendly.
+>=20
+> > > -out:
+> > > -     if (host->dma_chan_rx)
+> > > -             dma_release_channel(host->dma_chan_rx);
+> > > -     if (host->dma_chan_tx)
+> > > -             dma_release_channel(host->dma_chan_tx);
+> >
+> > I was lazy in my prototype patch and didn't drop the calls to
+> > dma_release_channel() in pxamci_remove(). For a proper patch this is
+> > required though.
+> >
+> > To continue the quest: Now that I looked at pxamci_remove(): `mmc` is
+> > always non-NULL, so the respective check can be dropped.
+> >
+>=20
+> Understood. Since pxamci_remove() is only called after successful allocat=
+ion
+> and initialization in probe(), mmc will always be a valid pointer. I=E2=
+=80=99ll drop
+> the if (mmc) check in v3 as it can never be NULL in normal operation, and
+> remove the dma_release_channel() calls as well.
+
+Yes, I suggest to make restructuring .remote a separate patch. (But
+removing dma_release_channel belongs into the patch that introduces devm
+to allocate the dma channels.)
+=20
+> I=E2=80=99ve prepared a preview of the v3 patch incorporating your previo=
+us comments.
+> Before sending it out formally, I wanted to share it with you to confirm =
+that
+> the updates look good =E2=80=94 especially the cleanup changes in pxamci_=
+remove() and
+> the dropped clk_get_rate() comment.
+>=20
+> static void pxamci_remove(struct platform_device *pdev)
+> {
+> 	struct mmc_host *mmc =3D platform_get_drvdata(pdev);
+> 	struct pxamci_host *host =3D mmc_priv(mmc);
+>=20
+> 	mmc_remove_host(mmc);
+>=20
+> 	if (host->pdata && host->pdata->exit)
+> 		host->pdata->exit(&pdev->dev, mmc);
+>=20
+> 	pxamci_stop_clock(host);
+> 	writel(TXFIFO_WR_REQ|RXFIFO_RD_REQ|CLK_IS_OFF|STOP_CMD|
+> 			END_CMD_RES|PRG_DONE|DATA_TRAN_DONE,
+> 			host->base + MMC_I_MASK);
+>=20
+> 	dmaengine_terminate_all(host->dma_chan_rx);
+> 	dmaengine_terminate_all(host->dma_chan_tx);
+> }
+
+Looks right.
+
+Best regards
+Uwe
+
+--2qhn5ffy7ssp2gct
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmj3RNoACgkQj4D7WH0S
+/k6+YQgAr92q5s709v2e2BChQIN4X2vYjeO2/gvjNuan22NTaX7HppNrsjvFEnLQ
+PKamVLa4sZMUMa1Zpc1rP3B1qg1+lsYClULLMBczGMzBoHYjlCqivZWEd6NL1LaZ
+rSw2n5PrsUTDrCH94opmwLm/JL/I9x+Ofq8mnyOZRDY3CClcn6Dre7ZdPvRxEwt2
+5v3i9C+UL9LA+ikeeOermflH/FgPguY8zixyH7nFDRfmOO0MmJhmk5fx0OQ2BvgV
+DRE5GuHRFOf69W37oRMSmOPNyW9yktsb/YTItSNvuc7ihllD2I4OMcnsSnaSlw3O
+umMuZIVp59WFY1WJFnsx7yX4aqQxYg==
+=iPja
+-----END PGP SIGNATURE-----
+
+--2qhn5ffy7ssp2gct--
