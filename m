@@ -1,145 +1,160 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A487428000C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 07:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1E12E2847
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 08:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761033335; cv=none; b=anN+riPxliCL9DH7BQrABjlPOFYcEINfeOki8mXuUePZoyOI2/PEhAgXE0+x9Sl/MJrdMTG5xW4AdPPhLb3NqQ1b03sGTeT1bX0dil4fcH3qevYii4/1By19UJDzj7IZ+WVR2C3tYqqwPhetJpZFQWzyt9CEjvj4Mr6LV3okKMc=
+	t=1761033733; cv=none; b=MBtT0A9IZsMtrvvMCgML+sZ+vikcNiN7Ox4n3nT/FvPB6/2zP4/tzg7SJ6GkAhSozIs83V9ejDVjg88XLrZwNy4nBqp18dIOiRDDy9/raZbUvHkWiCdQrL1KC8NLOO6t1KCWBARxaM5Ex0kAvsnRIofynflaJHtIqcvtr+YGu9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761033335; c=relaxed/simple;
-	bh=CGRUDgLWjS0TmZAu53/lKB2uFT14B1wVJwssuRZuUZI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ng5M6ocASzjh3UXXn0sFwFcJZRXlLYABf8IFGqHhozy10yM+wBPzEdBdIdR7yXksjiz9pQMlD047SurV/EQtIZ9QBvYlvYrStJy2ALuZm7PZeMqrmH79M5wrEzXAkOMHH+baA5tv/ENIjltgHbSfQ3AAQIIAo/ulRKO9MU+8AxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SiwIQ+38; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1761033733; c=relaxed/simple;
+	bh=i+m3PusaxM6Zgin3C3En/lGk4W/S63Hvd6XwDnbd7Ug=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zz+ZnO0QX1JpXVzPnjKr1Qx1J8BrcMT0TQdlpzW1ChQADWEbO+N7odkldh6B6nm1+KKUhPnatZdWT/QmyQUPbLS8f/kK9SHhZYGms12GMgGKxMB6u/Sfm0oNHgPEOXlvL5wQxd6nbqobXgETF2ZKQVcDZNgtYHZevTdheO5V33Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=TYuHOqdD; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SiwIQ+38"
+	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="TYuHOqdD"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 4278180DDF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 07:55:34 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id BCBEA40527
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 08:02:11 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -2.089
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id KYkfK0aoh7AX for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Oct 2025 07:55:33 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::629; helo=mail-ej1-x629.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 518A580DD4
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 518A580DD4
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SiwIQ+38
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 518A580DD4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 07:55:33 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-b3c76f3703cso90959066b.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 00:55:33 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 35-cPPvJ76sX for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 21 Oct 2025 08:02:11 +0000 (UTC)
+Received-SPF: Permerror (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::636; helo=mail-ej1-x636.google.com; envelope-from=jinpu.wang@ionos.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org C867A403B2
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C867A403B2
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=ionos.com header.i=@ionos.com header.a=rsa-sha256 header.s=google header.b=TYuHOqdD
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id C867A403B2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 08:02:10 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-b484b15e72bso123115166b.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 01:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761033331; x=1761638131; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UDT2YCTKVhWQzLZXmbHmhx5CBJhVxoIzObMnL9LgsZQ=;
-        b=SiwIQ+38iH9IG2JQLo6NcyO0UdifvouvFZgqyCKHr+5gExW3FjTlFei4DhOVcsAGbf
-         homZbUKyZzvsCHjOHgF39zMgKwjYes76PpBz51ZVyS/Ku9OevMnD37xloQd3QflqgHxw
-         MIOVGVVvdxA6V3jnkh5i78wwo9bKiTSNoSXuwt8/f4gZZCr6B9IRlzB7idHlz+F3WAsN
-         pRkG/w/bIkSjHs3z8scYDRj5YQjMX7zQrvNleHw26fsN0zOCwJJJkadwGVFJ2aKcu95M
-         XHU4AOa3RpSNwpYAVvP3C8E0Y1InIQUVwVlNr2ysaC+lwMqjWEE/hgBGhlH53hBa5TUK
-         zaGw==
+        d=ionos.com; s=google; t=1761033729; x=1761638529; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k0VWPqCHv6+ZQuDCTFQQ2tUl50NtMLOJ2aVBSBufBxc=;
+        b=TYuHOqdDRZSFfYXm5hJtqdhB15hM2sEA3ljKKsVuWThM9g36mrtAZDLKygom32B9c+
+         xyMlooxlr8Wht/NPuE7gE4EmuWtB1zltcIjgkUtFtyhlguPfwvucRataT1LjOmFFa7HJ
+         iCdw7w54ZoIOB7jsmd33FmVm7TdlcEDFh8Hk0YBWVJXbV3rnlLOQUfk9Z2lWXc5xUNo0
+         6J0sKIJSVF6CXm+GWQn2UCfG1S29wyX2Qb9psR39/G1x5yhJudsiBV9IAcIS4RYgx96p
+         dMR0uYsUTGhcl/SZbcLJ7lnD3qDFs0AZ0sNyBmSXpkzhhSEPzWXPpHTTEtA+xvx6sKgF
+         eAcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761033331; x=1761638131;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UDT2YCTKVhWQzLZXmbHmhx5CBJhVxoIzObMnL9LgsZQ=;
-        b=rEkccD/ZRCrtckGTbPoI94nxGHBPiHBXNwS3vTVAAhRs1SyA5GvxUQx+rv4BF3O1dH
-         spoCCe15i4f8Gin7cCMFGJo513H4Ec/tbxtozUp7X6UQtetlokKve1IzHLWCTCCzXqLS
-         MpUYh3ES8RSldWNwteRLgEpv8IhQQ+ERcYmJsvsgY39Zcw3Ky6kivd1NWYxgE9WmwxXT
-         sfgPwL/gIWrSsX5052c2932vJC8le2Yy6PAg1bMR+OF99anKgQ97K+v0nME1ebGC8EYX
-         oygHlDRCI1UzYpkILJAaNMs8ddgBPrZDs2BfYbD9BH2eTXKCHlBk0NjJ6+qbHbwNWBtS
-         awOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXvh1EbgKVZnbPyApX3LC9P9pWx84HyR9ITTzwasuMLeYuDtdyT96E0kZFldaqhqLUuiya0zRmk4ZeIPnf81EzvmH31iA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyZMC7Fw3zm+eTXkAFj1SjaXuHPbWxHYAFxENCZftOhjIyXr6wm
-	UDAfu29qd7JLU9h+DTi6TigCp5i5ZpLZj5s/jrHsUcsoJcAqcayGwq8Q
-X-Gm-Gg: ASbGncujVKBlvnJuK7gH1CT0KQC9dva2X+YvO4JeCDgbam0n80Sg0n2CtaAi8hh5OV3
-	4OhcTjM6p0hOZVwoyRYGygxBLR2r1tYux74O5oeWM+Oj204rnnLu2El7iOG0CaEBXWF/2LcuW5r
-	JUl85rKgz3FOqaAT+Ct2K7bg+B22a9KTiuMt6FF1NATMw+JCKG80cO6bmkR3Mlj6vpQYSXa0Fk+
-	hMUeUtwSCEHh6Ie45ydBocCZ+47CkcYe6iUsn7Fv3dwDErmlH1noVDS3zp0IOKVbC110t159UMi
-	bDKH36aOIPLII+oFpLgKRYztcLOB4ioB1bV8vYL5TYDpcpKLT1XntCXxxjEwPvkEbDOp+HRszlm
-	dKpaKFnq5adLKs+FQ0mpC6ie0LH1VlZtxlGIMQTYQsd1TmoG1azK/dsCeKiR6Ua/RS1QiSnElHe
-	0osJbYMNA/fVLALZd/Yg==
-X-Google-Smtp-Source: AGHT+IFXWmYLO1Aa5Kw3gLn2Us5/ulNstPgt+twYj6ayh+e2XP/zbYFG3ArVGNoGv4PQDRU/BmkoIg==
-X-Received: by 2002:a05:6402:1d4f:b0:634:4e0:8377 with SMTP id 4fb4d7f45d1cf-63d16aedfe1mr1304424a12.2.1761033331200;
-        Tue, 21 Oct 2025 00:55:31 -0700 (PDT)
-Received: from [192.168.1.105] ([165.50.73.64])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63c4945f1ffsm8869668a12.31.2025.10.21.00.55.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Oct 2025 00:55:30 -0700 (PDT)
-Message-ID: <71bb9475-07ba-48a9-9fa4-76e18a310b3a@gmail.com>
-Date: Tue, 21 Oct 2025 09:55:22 +0100
+        d=1e100.net; s=20230601; t=1761033729; x=1761638529;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k0VWPqCHv6+ZQuDCTFQQ2tUl50NtMLOJ2aVBSBufBxc=;
+        b=rqLV/WefM2r5ODQhkzu1xrZIqWUH/zAOjkQlfKphSvxPnpj8SAb2IYeCLSaRx7Uoj6
+         fJi0YbCAmPhtInll+W+PyOenQD/o3RqrzVskzoYG8wuI33n0W1mnEUVOMU87jTqvRF6j
+         EWDw3rFQ85dTPUcH2sXZnjOqKuK2hsXk3iWm/Vudstn+lKlrzYBPuxC+7Lu65kLbGFPy
+         ZhtxAzLwoXAjYt0DNS/cwnBkLmocr2oIF5WI+UerKrhAQW1+RfoELzdC9Tu5QdCHXrif
+         PXpCCaZvTQ1PFktk9GYGynhg4iCjFHjhZnd2c7HYF8Es2qBnlgBOisda9vLh5l0SPuvv
+         Cgjg==
+X-Forwarded-Encrypted: i=1; AJvYcCWQqGKL1PiVK9i1MA9ZXzSqJXqa4+5/T6gtD68LA70L653M3wZe8zRsaMbZm2kpy0gGJ5NjC1vC7NF204kJlhJwW8k7Bw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyTP19I/uOladZnp7wLG0j5mN7gb8EjhKgUR2rPy+wuCs9EmItD
+	Mex+8RkuVnT8dxq4NYt1eM/QQbX3lGjWaQXLdtYPc2XCA1dzsAZKfG4BW3eIWKSt6fKAFkgAJO8
+	CDz8WGtwveaZ2UOVSBdIMWpP6/9wU3paLRNBOfFdMMA==
+X-Gm-Gg: ASbGnct4ZYXZEs9N24TRyO4wgiXjiyBP+aLIgpweBsZ9V1UCYwEiz3yOPuSXmEI2Mod
+	qy2CZs/8YpDggHJnTxC3X2Y+MdbPdLgbigHwphdvSkgiDLS1VA8W/dkiBaBdTt3mLcaMyN+yK7+
+	wKr+BcMwYDkcsYoqCpFDISjCCXnVbcV1EiFAPByUJHrIkqHLCbClk/2Kz1zV/schTMqBsusm5gn
+	fVzHvF39SHyvpwwO0f8PtMJmPKV6Len4MrTCzZ0DvG8yP7nQEHgi4APGFoo
+X-Google-Smtp-Source: AGHT+IEQfgvHZuihlbBSJlVb+dcEnjFV14dIS2e3QeU28hCgVySmEX3k7+tkYGmNfEgLKxBR2Hkp3zdbZ2HHX0oRDVA=
+X-Received: by 2002:a05:6402:2115:b0:638:e8af:35c7 with SMTP id
+ 4fb4d7f45d1cf-63d16af7935mr1354397a12.2.1761033728661; Tue, 21 Oct 2025
+ 01:02:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/solomon: Use kmalloc_array() instead of kmalloc()
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Shuah Khan <skhan@linuxfoundation.org>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- david.hunter.linux@gmail.com, khalid@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20251019145927.167544-1-mehdi.benhadjkhelifa@gmail.com>
- <2541f99c-1081-4253-ae58-97654694cd78@linuxfoundation.org>
- <e4f0290b-5d15-472f-acee-e1e1b0629ec0@gmail.com>
- <3f523293-8a8d-4136-b4bc-4ad0d4a50c59@linuxfoundation.org>
- <8dc12a18-58ee-4df6-a9f3-12d8c05a0954@gmail.com>
- <878qh4ae1i.fsf@ocarina.mail-host-address-is-not-set>
-Content-Language: en-US
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-In-Reply-To: <878qh4ae1i.fsf@ocarina.mail-host-address-is-not-set>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20251021-rnbd_fix-v1-1-71559ee26e2b@gmail.com>
+In-Reply-To: <20251021-rnbd_fix-v1-1-71559ee26e2b@gmail.com>
+From: Jinpu Wang <jinpu.wang@ionos.com>
+Date: Tue, 21 Oct 2025 10:01:57 +0200
+X-Gm-Features: AS18NWAjr1vMpIROYlrNqm-3ej7s5Tkh074kVV9erysvDSTuNEiz5Pc19hwQJzo
+Message-ID: <CAMGffEmsJjeqW8DGnKapVyM0Gporn_UuDB2xNosRmD2GduGgzg@mail.gmail.com>
+Subject: Re: [PATCH] drivers: block: rnbd: Handle generic ERR_PTR returns
+ safely in find_and_get_or_create_sess()
+To: Ranganath V N <vnranganath.20@gmail.com>
+Cc: "Md. Haris Iqbal" <haris.iqbal@ionos.com>, Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+	david.hunter.linux@gmail.com, khalid@kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/21/25 8:51 AM, Javier Martinez Canillas wrote:
-> Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com> writes:
-> 
-> Hello Mehdi,
-> 
->> On 10/20/25 9:56 PM, Shuah Khan wrote:
-> 
-> [...]
-> 
->>>> I have a raspberrypi zero 2 wh that i'm using in combination with the
->>>> ssd1306 OLED panel via I2C to test it's rendering and it's working
->>>> properly by using modetest and seeing no regressions or warnings in
->>>> dmesg.
->>>>
->>>
->>> Send v2 with all these details and why this change is needed
->>> in the first place.
->>>
->> Okay, I will do that as soon as possible.> When and how does this
->> potential problem trigger? Is this a
->>> theoretical or does this happen in this code path and how?
->>> Next time include all of these details people understand the
->>> problem better.
->>>
->> We'll do in the next iteration.Thanks
->>
-> 
-> A similar patch was posted by another developer a couple of weeks
-> ago and is now queued already in the drm-misc-next branch:
-> 
-> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=940dd88c5f5bdb1f3e19873a856a677ebada63a9
-> 
-Hello javier,
-
-Thanks for the heads up. I will abort working on the patch.
-
-Best Regards,
-Mehdi Ben Hadj Khelifa
+On Tue, Oct 21, 2025 at 8:21=E2=80=AFAM Ranganath V N <vnranganath.20@gmail=
+.com> wrote:
+>
+> Fix the issue detected by the smatch tool.
+> drivers/block/rnbd/rnbd-clt.c:1241 find_and_get_or_create_sess()
+> error: 'sess' dereferencing possible ERR_PTR()
+>
+> find_and_get_or_create_sess() only checks for ERR_PTR(-ENOMEM) after
+> calling find_or_create_sess(). In other encoded failures, the code
+> may dereference the error pointer when accessing sess->nr_poll_queues,
+> resulting ina kernel oops.
+>
+> By preserving the existing -ENOMEM behaviour and log unexpected
+> errors to assist in debugging. This change eliminates a potential
+> invalid pointer dereference without altering the function's logic
+> or intenet.
+>
+> Tested by compiling using smatch tool.
+Thx for the patch.
+But I read the code again, find_or_create_sess -> alloc_sess, which
+only return ERR_PTR(-ENOMEM) or a valid pointer.
+I think this is just a false positive.
+>
+> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+> ---
+>  drivers/block/rnbd/rnbd-clt.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/block/rnbd/rnbd-clt.c b/drivers/block/rnbd/rnbd-clt.=
+c
+> index f1409e54010a..57ca694210b9 100644
+> --- a/drivers/block/rnbd/rnbd-clt.c
+> +++ b/drivers/block/rnbd/rnbd-clt.c
+> @@ -1236,9 +1236,14 @@ find_and_get_or_create_sess(const char *sessname,
+>         struct rtrs_clt_ops rtrs_ops;
+>
+>         sess =3D find_or_create_sess(sessname, &first);
+> -       if (sess =3D=3D ERR_PTR(-ENOMEM)) {
+> -               return ERR_PTR(-ENOMEM);
+> -       } else if ((nr_poll_queues && !first) ||  (!nr_poll_queues && ses=
+s->nr_poll_queues)) {
+> +       if (IS_ERR(sess)) {
+> +               err =3D PTR_ERR(sess);
+> +               if (err !=3D -ENOMEM)
+> +                       pr_warn("rndb: find_or_create_sess(%s) failed wit=
+h %d\n",
+> +                               sessname, err);
+> +               return ERR_PTR(err);
+> +       }
+> +       if ((nr_poll_queues && !first) ||  (!nr_poll_queues && sess->nr_p=
+oll_queues)) {
+>                 /*
+>                  * A device MUST have its own session to use the polling-=
+mode.
+>                  * It must fail to map new device with the same session.
+>
+> ---
+> base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
+> change-id: 20251021-rnbd_fix-9b478fb52403
+>
+> Best regards,
+> --
+> Ranganath V N <vnranganath.20@gmail.com>
+>
