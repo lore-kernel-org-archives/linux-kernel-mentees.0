@@ -1,117 +1,154 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA2326F2BD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 07:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE88C24729A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 07:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761030164; cv=none; b=SdDqksMe/D1wP5fCBuj48m5n56tkvj7UseYfS+4wc3j7h+TGfrV7EU1/St02GygLl+0efglVgGETXEQT/PlGlf8fNrbXNmSi3aL+WGF7uMdAvvW1NwSQRVqmv83FYSyMf5D7pj+hTeIZNN1qV5zGxop9CFvfwKAuohXAgmf2ppo=
+	t=1761032523; cv=none; b=IJxVoA43HS/nBBl0Z7T74zQVQ8jQNWnjwRL1wFqMD8HLWJg4m6JX5g1dQGy58iuQi7mwhJtb+FPdg+qI94wSLiZkppkCdfcXGfILZ4RzR2ep/TjWV0pDf2hEU6Ly9vxkonK3NUUCGafwgRKBMn0pm4Yf0dWVsjp5gbvhYl+S4pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761030164; c=relaxed/simple;
-	bh=6lEWOnbf4y1y98HAP+LxVFokT9voRQdo4MPMdq5hVac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FFThhFzhkeBk4lXiuXWumoZwtzog3VNczM5PJscNVDBPaDdSKKCCAvREWDo0y43tiC5DjTQ3YJYsjGlDnx+F7sWdN9OrNxSOtEo103V0YGBV8RjYZotCRJ2sAynE0bwWBJKW5Wu1ZSBlaZdlw+S0us7KjIt7M/ElFn+3zhpJcYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=erXKkGm/; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1761032523; c=relaxed/simple;
+	bh=/KXuhprsVUz19Yhga1t3t/oxVuly9wIxHjlRZ69Jq9k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=noOTdDYVOYqhDPILALshXyBcKfiTg/zA438Tc5zGyKRHlgZSp4OW9A8bHEA6oZBp1iq8l/83rtoIkjrGIcaLHvU4dIm1oarb5qv6gev1hghSeTc8i8W6LCv2F3ka1rN0AjOLgGS5vmNaQRHrn7Yw+Jzfc4cl5I0Qmd2ELKCpAlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tv3pQuZL; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="erXKkGm/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tv3pQuZL"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9EFF380F93
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 07:02:42 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 33ED34052C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 07:42:01 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.101
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 9IiZo6nq-kJ6 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Oct 2025 07:02:42 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=cem@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 0D85A80F91
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0D85A80F91
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=erXKkGm/
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 0D85A80F91
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 07:02:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id C7B33401A8;
-	Tue, 21 Oct 2025 07:02:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4EE8C4CEF1;
-	Tue, 21 Oct 2025 07:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761030160;
-	bh=6lEWOnbf4y1y98HAP+LxVFokT9voRQdo4MPMdq5hVac=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=erXKkGm/laR+wHFojIbkxwSIaRuI9hXLjpyDKcKZW+TmUpzofZpqRzjSBAMTLIH1H
-	 XT8LBljnrDjiC0cqnRajY4uJf8O6hyvpkHqKP0/zvJNaIgXMXcFAAmQxLkGKdv0GJ+
-	 cbXoYAzDoPB5YBUYUXdlUCueOCcxvBkF8WSR1qWgj3JHJRgZwOEK0LLu6CCg2rOHpt
-	 cVp+PD7kLMWDtK3utBCD27VhpnlJmPDuO6d3ErusEKjwk2+Z/yUaGSbj7LxglSXKU2
-	 ZuWThaCUBUIG9BYp8hrrWfCRcQNiM3ylGgNDM6fvxTaGga8dbHjYPZQMnQBK4RVkKL
-	 +8Pv993bJnFnQ==
-Date: Tue, 21 Oct 2025 09:02:35 +0200
-From: Carlos Maiolino <cem@kernel.org>
-To: Kriish Sharma <kriish.sharma2006@gmail.com>
-Cc: linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-Subject: Re: [PATCH] xfs: use kmalloc_array() instead of kmalloc() for map
- allocation
-Message-ID: <qw64zhza44fxxtoripp2nu7d4tny7wy7dyqapilhxyxmng5jsk@fxyxlisrbcls>
-References: <eeslnTm4EeKA2atDj3UKUcXAaGwgiPzioO9tR3Kf0pBEyUjxEO_9DaFIpNYIlc_9ey63h8gqdBsIt9Xjgn7AkA==@protonmail.internalid>
- <20251018194528.1871298-1-kriish.sharma2006@gmail.com>
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id P4pV8_4QQkSX for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 21 Oct 2025 07:42:00 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::636; helo=mail-ej1-x636.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 33C6A40527
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 33C6A40527
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Tv3pQuZL
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 33C6A40527
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 07:41:59 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-b3c76f3703cso90742166b.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 00:41:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761032518; x=1761637318; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qq2A1Kd0gSkqieCWoXvyag5Ixf7jlTaGJ4OOCGbMDnM=;
+        b=Tv3pQuZLhsTM9uPOEtRBU8z9YEzBLIxGGEQ0m7uMPYfox7+1Oykr4+k6eLgzXzWgAc
+         occxOq+KrcO68pSh4O1nL0uo0ZkzZqnvQb0bPBBzo5sXDy0hM9z0OKW8wGffmC+4Je0P
+         Y5AX++1RIdIMQsjmgRvfnnaz4gV7Xx64YW1kWyjHbrc5V6sMVadpwIFWz9/WC3JJ1AT7
+         mX5v/29n9STQemPkzGppa66dDdV9XFe8Mbye2cy4GA2u0XUaNVQJ//czM91ZX7u2qON4
+         iixb7P59Tk8mPQ7x/UPvXNKyn1X1rvScocxZ0DYV6sw9B/tZmIYDL9zsRirGGZZkeCXR
+         giXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761032518; x=1761637318;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qq2A1Kd0gSkqieCWoXvyag5Ixf7jlTaGJ4OOCGbMDnM=;
+        b=CaDaxkiINEq/gP1ROeZWV6xlciC4oPKxET1EvC41W0PeUYbPbkU+gJBAyddyxCNnap
+         FVwRFvDr5HhIfnOvz5j3n/49k5MBUhYZfjzNdf6KGxErs5p8uWFk3jxOzaHlZFTIOIQX
+         QcptjfFPj5UgyMuRYE1HKjgiMdqfuoNNfiaG0/6pcAUnFGwF43Y1Pzp+cvhJhm270lzn
+         rKcMpf12XugHy01t8QsRpe+vQo4f39qksj9EbbKFrboXzbJ7kiCwqe2PQ+w1GZqzBLZn
+         9/sUxSMjtQUwrSJnq/vHEJ1M8J7HDQmiAos1dj4IUJ69x/13WHZdRcuUSiLPTC4yTaAN
+         Y26g==
+X-Forwarded-Encrypted: i=1; AJvYcCV1BR30iGqS+qKXDLuTZVLTFPOzj1qrl5y/2DDNKG08lLONdk92NvY2N1z3MT5FNDs/c1kX68ShUTIbrqpMUqSKJi0JXg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwXP70oG5Ec8sgbDYyA4PsLf5bQDAb27cDf43wjPwgxlYHiM6BJ
+	vcHjnIUykKK+VtvYGUufgUJkD9bYDJ4m0MCE8xprtduRjroFUn9Nr21p
+X-Gm-Gg: ASbGncvhpSwj/w3pda0XDhv1FFi/xslm+nj2iI+tZsOeruS4vHSXyN38DsjFhmhcHQx
+	CUHLgdfXY0scr2yuX+L3ETdOcFyJt0CmZ03TNod6ng9+ZR7tsCsnkgaV8vaAUWVXTzYH6kWQdlV
+	+IHaksFzBl0dxdRV8gii85BPLmRYDI5QBbRPbOxpemx1RS2yLIL70utbowRxGRZTVVdxkPxmYA0
+	8+rgys6D9tFNb1uWyQuNO1M9cKnL8PZ4h5veZPnQwt6CzWVQv/MJfi5Nj+Af4BtkCcMF5f99JJd
+	0mvr69sryBEmSG91VeQ6A47L47MBUphtKkIfXvvJ0zq7JpXHBOC9C6ftjOh4hVwVzY8hYHos47/
+	p5OAntp775WM23vVra5ricYLNKzE+x8sjScq39u9kCevxpHMmWHqLXDa0Ho3UE77bo1dV7HfeB2
+	/QReGfc7xxrmkjFq0S3mOtHszUfXNF
+X-Google-Smtp-Source: AGHT+IGodTzNkYb0f/6+s9/q8PjxsWVWjCrsIvbWBLyQaGYptSG386KqvkxQNtg9R8tF9hr8VXvYZA==
+X-Received: by 2002:a17:907:3cd5:b0:b3b:44a8:c64b with SMTP id a640c23a62f3a-b6c77583751mr151353866b.1.1761032517726;
+        Tue, 21 Oct 2025 00:41:57 -0700 (PDT)
+Received: from [192.168.1.105] ([165.50.73.64])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b65eb52621csm1007794266b.59.2025.10.21.00.41.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Oct 2025 00:41:57 -0700 (PDT)
+Message-ID: <6a917f07-18dd-4f8f-bfc5-b85d9051339d@gmail.com>
+Date: Tue, 21 Oct 2025 09:41:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251018194528.1871298-1-kriish.sharma2006@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/tiny: Refactor framebuffer's size calculation
+To: Thomas Zimmermann <tzimmermann@suse.de>, lanzano.alex@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251020115803.192572-1-mehdi.benhadjkhelifa@gmail.com>
+ <1de3112b-6349-46d8-b90b-69d0849c7659@suse.de>
+Content-Language: en-US
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <1de3112b-6349-46d8-b90b-69d0849c7659@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello.
-
-On Sat, Oct 18, 2025 at 07:45:28PM +0000, Kriish Sharma wrote:
-> Using kmalloc_array() better reflects the intent to allocate an array of
-> map entries, and improves consistency with similar allocations across the
-> kernel.
+On 10/21/25 7:51 AM, Thomas Zimmermann wrote:
+> Hi
 > 
-> No functional change intended.
-
-Thanks for the patch.
-Have you ran xfstests against this patch? All patches sent to xfs should
-at least pass basic testing via xfstests. I.e. ensure there is no new
-failure between an unpatched kernel and a kernel with your patch.
-
-If you did, please send me the results summary, if you did not, please
-run it, and send a V2 of this patch  including in the patch description
-the summary of the results.
-
-Any changes includes risk, and so every patch sent to xfs should be at
-least basically tested against xfstests auto group.
-
-Thanks,
-Carlos
-
+> Am 20.10.25 um 13:57 schrieb Mehdi Ben Hadj Khelifa:
+>> Use drm_format_info_min_pitch() to calculate the framebuffer line pitch
+>> instead of directly multiplying width and height. This aligns with DRM
+>> helpers for determining per-line byte size and avoids manual assumptions
+>> about bytes per pixel.
+>>
+>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+>> ---
+>>   drivers/gpu/drm/tiny/repaper.c | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/ 
+>> repaper.c
+>> index 4824f863fdba..aeff49bc6ba7 100644
+>> --- a/drivers/gpu/drm/tiny/repaper.c
+>> +++ b/drivers/gpu/drm/tiny/repaper.c
+>> @@ -517,6 +517,8 @@ static int repaper_fb_dirty(struct drm_framebuffer 
+>> *fb, const struct iosys_map *
+>>       unsigned int dst_pitch = 0;
+>>       struct iosys_map dst;
+>>       struct drm_rect clip;
+>> +    const struct drm_format_info *info = fb->format;
 > 
-> Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
-> ---
->  fs/xfs/xfs_qm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This is the wrong format. You're allocating the output buffer here, but 
+> you're using the input format. IIUC the output format is DRM_FORMAT_R1. 
+> The input is _XRGB8888.
 > 
-> diff --git a/fs/xfs/xfs_qm.c b/fs/xfs/xfs_qm.c
-> index 23ba84ec919a..34ec61e455ff 100644
-> --- a/fs/xfs/xfs_qm.c
-> +++ b/fs/xfs/xfs_qm.c
-> @@ -1218,7 +1218,7 @@ xfs_qm_reset_dqcounts_buf(
->  	if (qip->i_nblocks == 0)
->  		return 0;
+Ah. Thanks for clarification.I thought since it had the same output 
+format. I will send a v3 shortly.> Best regards
+> Thomas
 > 
-> -	map = kmalloc(XFS_DQITER_MAP_SIZE * sizeof(*map),
-> +	map = kmalloc_array(XFS_DQITER_MAP_SIZE, sizeof(*map),
->  			GFP_KERNEL | __GFP_NOFAIL);
+>> +    size_t pitch;
+>>       int idx, ret = 0;
+>>       u8 *buf = NULL;
+>> @@ -534,7 +536,9 @@ static int repaper_fb_dirty(struct drm_framebuffer 
+>> *fb, const struct iosys_map *
+>>       DRM_DEBUG("Flushing [FB:%d] st=%ums\n", fb->base.id,
+>>             epd->factored_stage_time);
+>> -    buf = kmalloc(fb->width * fb->height / 8, GFP_KERNEL);
+>> +    pitch = drm_format_info_min_pitch(info, 0, fb->width);
+>> +
+>> +    buf = kmalloc_array(fb->height, pitch, GFP_KERNEL);
+>>       if (!buf) {
+>>           ret = -ENOMEM;
+>>           goto out_exit;
 > 
->  	lblkno = 0;
-> --
-> 2.34.1
-> 
+
