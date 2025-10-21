@@ -1,83 +1,203 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FB5339710;
-	Tue, 21 Oct 2025 17:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2569C2561C2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 20:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761066625; cv=none; b=YmEF741TRdBEAlLsrpUBPMDoRMiquX/YjLas4msgUDsJs6ZSDhaKPmwb0FvkRTrFFIJapHWBnefpWxPeJZaRDRfrJ6yfld6khvm9YaTVqsKukO1nFdW54q2WsZi7ljPGHnuYzzFCgacZs5X9s9TpsS9viWyn2KvlIM2Hyvl5B+s=
+	t=1761078167; cv=none; b=ieDW8nZ+QxOM3607DBrWQWykD6eLY9f+wIHOwesug6IVamfTEPToKRcZ6pwszzzPt9FcQIwNfT5KazpWtOt8f5AW0M1XzfwkPTxOHO+QO5Hv7BNisHDX0Jxkc8GmuqxFGmnqTlX5LEDmZrAONKXRp2lE4HHP7aKZOAngZgWPK0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761066625; c=relaxed/simple;
-	bh=rSjJKdQB3KKSZZPvG0Kerperdmp5F1v3jL6/KaDh4Yk=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=GZf9bKWilpxX+3wB063wqj0jVX01ZYTwlfu22gfaWhqKu3wD+daJLTH+j/hVp00Fv4fnDoGyUlA2z5/A37jpqjTmZp0G0evFVErInQ0H6Nnx8nBZPW+d2zRTMC8rsx9SgcrvbWwrJjwT8WCBFREw8J89YVtkMnMtNh5KsiRSclU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOJXBTEY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761078167; c=relaxed/simple;
+	bh=XlqfIXuaMRD0eFhOGou17ZQR3uRj8Whl02Jp5BzhT5k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UWGMA/ieyrOydinsdMZxsfnYTW7Rz9xhnL9/6/fPlrNrkyBO74gnzGrNejDj7LKXNK2mUr9kdI7RBNKJsA3reFmJ0Fh9I0+wxF4P6no8vDINQCzR0cPcEhq8O0jhHafxewrjl2kBDbtemUqGW1evb9do8F4zvEMhlKzYJ8gl2aU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=uVPzpxeD; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOJXBTEY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E7E6C4CEF1;
-	Tue, 21 Oct 2025 17:10:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761066624;
-	bh=rSjJKdQB3KKSZZPvG0Kerperdmp5F1v3jL6/KaDh4Yk=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=jOJXBTEYbNITZmmyyezZSSzl7AvCQkNpnZoEmjxp1BHqG4HNdTSjRL9lO2uptthUV
-	 srUvdO4wnXrS8J0zrrVR5bPS17VqUgxwcpFLj4e+6eaLBN95pfo4HHsLvEh4xqKo2A
-	 Fv5KAYslVBEBqInhKgYNQNvgjKECS61t/fOHR6M9aG/xKPAcfS2awBxH07TBMX69Wk
-	 RoT+YypJQfRFs4FMIG1PbN4NVOpUICycOYeRTHjCfH7c0oA4ZgDvTKv3rnCDIu4bkU
-	 4Sms9bejKiAbjG2mJGGTA+5r8nBs6XIWIhwaFBkmpe/zn52dOYNJKzkClzk6yVLSsT
-	 hjrc0yIUctTEQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 37E8F3A55F96;
-	Tue, 21 Oct 2025 17:10:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="uVPzpxeD"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id C17A34048C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 20:22:45 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.791
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Xwmp-ZZJSETC for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 21 Oct 2025 20:22:45 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=66.163.185.32; helo=sonic313-9.consmr.mail.ne1.yahoo.com; envelope-from=adelodunolaoluwa@yahoo.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 02A4A40488
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 02A4A40488
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=uVPzpxeD
+Received: from sonic313-9.consmr.mail.ne1.yahoo.com (sonic313-9.consmr.mail.ne1.yahoo.com [66.163.185.32])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 02A4A40488
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 20:22:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1761078163; bh=+qU2vcN541UGYB33IHwPZz2xTN7BvKjf4TwHbds2f04=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=uVPzpxeDEH2Z7QqTdc1Xa15A2HlJy6pDdC+konv4USzCaGh0rdMiZbto0yi6wulI4Q9iJeswUmfOAWAokQhOS+BBRzm/xjiHWouqqEg6TehMl27lU29bt5xMGTfg1betbzHuyieR6BOabS5nY8NuyJjUumiatBH3AKJ/G1q2k0B08VY8Fp8EVl8oRrBROncINNP3yOj/q0P4aN/q5E6G91G5eIuRaBdPfHINfODn4+COAu+DOgw+rnd5KCLkoEzVt/koKSZ5OpKq0PH6J3Hmzz/2Ho5C8XYJKGpdXoQv/adirXS02A1FktFb/nWY2X/KGzVgbomjsc/RS6DOAmX7Vw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1761078163; bh=8FjtTI8i+dNCwuFPh2T4ncETxOq/f3sYD2xaRll05Ep=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=CYG7dQN1XvSXIpMkftxMIZJyXnBwjqjSfO00qsWO2xDb78cMhcpQvhY30P/oqk+vvXAiHXwaTvoBjBnhTmsVqS38VFYUpYKg8LRxIIghUd361+7YZAsKXsuw+0nPPRuUWq6Xro4u4wot/JWWN6IBdh+FPhxWclyzgZbDQ3Qrw4wHCj+viLZsy8jsT+ecaMumdUaQqf/u598N/XxKrcy5hmVStWRggpf2TlLLFavEpWLSLnMZJSsoTX7nEfx+1PiZXZ+FT9xlYdSHNnApj9j4e2UYBOlj4aC9ItqvyXCV9NSBa7mmPx+1TJIYyY/njVfFElbN4h9iFBG9x//8Uxn98A==
+X-YMail-OSG: 4xvKBJMVM1kehxOE8bOYQU15B.LpwrJNx.kBwYcopwuPmyUgUIV86fLx53VYQGr
+ 5RxWOf95G5VqewfQmNu5lUu.ipsxHP7og8xLnwuwlvU5t42b09cGctI1h5EzDo7X89x8JFJPPc84
+ rTd22QuYAjGlN5TnQqe08WJhksMFF5olIljVYhX8sdqIDKlv34qtWxGtFKOO9iuNVQTVZL39o4Zx
+ RBJPTEq7UJAjmaAkvQuyIM9g_GECnudTPVACq5boyytdjzUfNnviSV2lR9GFVPlIPqZaB1QP26Y3
+ 9aKtcWEsGh_qIZfgaGWXXTLds9EKvcWjmpHcmd8bLTLFTvyBX57x_jTebfzopMTbKT3c8wKxIWcG
+ ciFwpQOwuvmYnQZWDJiKUsL1IOSalrCiM8SswSlbUZNO7hVJEqMsgpfzE7WpIX2HGai0DQoptEo9
+ 7DYt74TIbeJo8UyRXEIYc.7mOOa3ZKA_OER6h2ZCbQk5Z_p8d03RuB_xXfJdWOQ_AnCNk_MLquf.
+ pVzBp12xrm9Bk55YCJoY6BaYOVWLRzZAITN1efdgHl9jd4PvaIrgjsSdIPB6_mvtab7LCF.WGLW7
+ LmNb.L687BaGjw6TlhZhC7I5U6SVTHwFKow8gBaQCeClqG7R81Dn6.z8j9erIrfEI_yJnQITM0eM
+ ddXMmKrc9hx5PsQ1tYUSvrevkKMJaiEepglu2blseU.UBTBU0O1pzlgLCyZ8Lk2Q.IMTSx_uUSIr
+ DeGJTGfKwhmBT9E17pPZB50L35J5t6ZBFTTPdjHYZui3Xg_cAZITHXnoC7YgSOzlYOxp71csKjj6
+ QiL.9cqCWuuErOL20VAuakyohs9fBvwq3kOWXMK2iFXUONvukFZsXp6Sh0GKkpBzNA_UlvyVlQvb
+ o931TKmI7VMKi7fajgZjY8FmPNvq.ZTNduiMIU_Qa65oAecTUg5HmLfFpm4P3yzhPJIwwkn1_zw9
+ hnQNKwOrvReimCZKqM75atDYJLNJASIKaZp90G8ahu7bUcDKb2Meah048b67t5YB1x1SYfHEOIdb
+ 80xRFAnpfTWq2V27hzwp.4QNjp27KGGY579NJKKbBVopGMjJm3R1s0sD2NOgaKJmFrDxA7pVmRCW
+ Hmb7yFflJtm7dtPFoyaQY5HGuLzFCbDpyQj7xuI24cI2hVd8bEn_ASuJYgRSOGOp4E6zIKFPEJ2.
+ mZlRURUvcesV4ligy9q5V92AJSm5SkwV3T3rwwiYvXt4RVcOEBiGwRFgnMg3NRk6XVgkObXGcBgw
+ x1eBEEDqaVkbvfPFgHrV92HRO5JZWy4wJgcE2s0rhGg_yhrmHPpLpnqxu8tSrkh0SPTgS17NQ8pp
+ DamNQCONkWbjISGzpvbVN4jgeFUWQMXVFDrONeAZlof6hWCqLHWiOxA_rP07rjPe8R.1koGoA94W
+ zerFZI.tCttnGznA4M0gTPhhVTc76Bqg5p5jvY6lX1G65yjZxcx4uUaQ0WQ1sTd71eeKCYZcA7SN
+ I_Xr3.ZreCHRbhOsLpQ0P_dEBTxJelOSSVBjklCaGa049dKdA0o2Ir31vWxN0e_vraLUsD0_SOlX
+ .IwZqypZZZJ7UlZ3XZE9C_atW6dKsSKWl.ye3WjhtL.nCx8vfRpRGTsME8T4NtuF49JGC.uqooPa
+ doDhq.EMv6VnjHY8fCq_2WdRNYEu6LK1IKE5xoe16rUORkOwVi_f9jJFNXFzZ2j58Sgl0.Y7p6pk
+ p31NbtG873dCMsDFW3qdYOhMJw2mviMMa6ZSXXMypphJbVqAB4JhgshYBOXAB1ENc9EYI3eQiaz.
+ Vepl5z7FEXUuwE7NrD5MUYiCXvG1i3qKup5QahRlZyem_vF_KI.fh5Vi7mRbE.JU7hX5z83thwAj
+ Gl6KgCU6OlVL.eqsqZYv1GEvW3nywc9ZLmXh06PopwBZHCEximekXhpSbVxK0LCl7Yml.nNdUp0u
+ yedjo7k7lsEGzQhOKQD_VM5u0KKUxXB_Hve6Mr_HW1EjwKolOmp.izvNkdG4V33PIQsPL8fjpJBd
+ 5pAeZb.wsp7GKDvo_46VC7ilCVDP98D4Vztt9i7Jz_6aBQDUGcVsFD.KGukUDJR4vOFcMcwvqrtR
+ cqPhq_W5TIx_W.OOf_tiBzi2O.k_DHBSaqPZ8Nbbcz4eERi7An7B83Dey.4XxCx07afZ5FYuh4AX
+ SOkwcI5Uk.U7MTHdr8MhwpAESH0D5tQH.PJsBIOXM6j7XXjQjeJf_BgOv01qCzhOlVVzkKEjQPUh
+ woB3kAEMKl5.P8iNS8HeTYKsWAgvDPzMH4iTlZbbsXrsY8ilQ6DJnijBxagi6kGKIIFvZ_C10j5C
+ i2vj0L3E7QYlxWYVEVVgT9kQ6wuYr7rkN2ORkfG9g
+X-Sonic-MF: <adelodunolaoluwa@yahoo.com>
+X-Sonic-ID: f67d61b1-ada2-42a2-8af5-224d50fac4d8
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.ne1.yahoo.com with HTTP; Tue, 21 Oct 2025 20:22:43 +0000
+Received: by hermes--production-bf1-554b85575-dfm4w (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 5ac397cd68ad3abcccfcc5e9735fbabb;
+          Tue, 21 Oct 2025 20:22:41 +0000 (UTC)
+Message-ID: <0e93a7f9-ae77-471a-b14d-2626cca0fb0e@yahoo.com>
+Date: Tue, 21 Oct 2025 21:22:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: rename drm_ioctl_flags() to drm_ioctl_get_flags() to
+ fix kernel-doc name conflict
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ zack.rusin@broadcom.com
+Cc: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251010002520.359824-1-adelodunolaoluwa.ref@yahoo.com>
+ <20251010002520.359824-1-adelodunolaoluwa@yahoo.com>
+Content-Language: en-US
+From: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+In-Reply-To: <20251010002520.359824-1-adelodunolaoluwa@yahoo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] bpf: sync pending IRQ work before freeing ring buffer
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176106660601.1163561.6885193392074712225.git-patchwork-notify@kernel.org>
-Date: Tue, 21 Oct 2025 17:10:06 +0000
-References: <20251020180301.103366-1-nooraineqbal@gmail.com>
-In-Reply-To: <20251020180301.103366-1-nooraineqbal@gmail.com>
-To: Noorain Eqbal <nooraineqbal@gmail.com>
-Cc: andrii.nakryiko@gmail.com, alexei.starovoitov@gmail.com,
- andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org, daniel@iogearbox.net,
- david.hunter@linuxfoundation.org, eddyz87@gmail.com, haoluo@google.com,
- john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- martin.lau@linux.dev, sdf@fomichev.me, skhan@linuxfoundation.org,
- song@kernel.org, syzbot+2617fc732430968b45d2@syzkaller.appspotmail.com,
- yonghong.song@linux.dev
+X-Mailer: WebService/1.1.24652 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-Hello:
+On 10/10/25 01:25, Sunday Adelodun wrote:
+> The function `drm_ioctl_flags()` defined in `drm_ioctl.c` shares the same
+> identifier name as the `enum drm_ioctl_flags` defined in
+> `drm_ioctl.h`. Although this naming overlap is perfectly valid in C —
+> since functions and enumerations exist in separate namespaces and do
+> not affect compilation or linkage — it causes a symbol collision in the
+> kernel-doc build system.
+>
+> During `make htmldocs`, Sphinx reports the following warning:
+>    ./Documentation/gpu/drm-uapi:574: ./drivers/gpu/drm/drm_ioctl.c:915:
+>    WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
+>    Declaration is '.. c:function::
+>    bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'.
+>
+> This happens because kernel-doc processes both identifiers (the enum and
+> the function) under the same name, leading to a duplicate symbol entry
+> in the generated documentation index. The build system therefore treats
+> them as conflicting declarations, even though they represent different
+> entities in code.
+>
+> To resolve this, the function has been renamed to
+> `drm_ioctl_get_flags()`, which both removes the naming collision and
+> better describes the function’s purpose—retrieving ioctl permission
+> flags associated with a given command number.
+>
+> All affected references have been updated accordingly in:
+>    - `drivers/gpu/drm/drm_ioctl.c`
+>    - `drivers/gpu/drm/vmwgfx/vmwgfx_drv.c`
+>    - `include/drm/drm_ioctl.h`
+>
+> No other symbols or behavior are modified.
+>
+> Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+> ---
+>   drivers/gpu/drm/drm_ioctl.c         | 6 +++---
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 +-
+>   include/drm/drm_ioctl.h             | 2 +-
+>   3 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> index f593dc569d31..313e8bb7986a 100644
+> --- a/drivers/gpu/drm/drm_ioctl.c
+> +++ b/drivers/gpu/drm/drm_ioctl.c
+> @@ -912,7 +912,7 @@ long drm_ioctl(struct file *filp,
+>   EXPORT_SYMBOL(drm_ioctl);
+>   
+>   /**
+> - * drm_ioctl_flags - Check for core ioctl and return ioctl permission flags
+> + * drm_ioctl_get_flags - Check for core ioctl and return ioctl permission flags
+>    * @nr: ioctl number
+>    * @flags: where to return the ioctl permission flags
+>    *
+> @@ -923,7 +923,7 @@ EXPORT_SYMBOL(drm_ioctl);
+>    * Returns:
+>    * True if the @nr corresponds to a DRM core ioctl number, false otherwise.
+>    */
+> -bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
+> +bool drm_ioctl_get_flags(unsigned int nr, unsigned int *flags)
+>   {
+>   	if (nr >= DRM_COMMAND_BASE && nr < DRM_COMMAND_END)
+>   		return false;
+> @@ -935,4 +935,4 @@ bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
+>   	*flags = drm_ioctls[nr].flags;
+>   	return true;
+>   }
+> -EXPORT_SYMBOL(drm_ioctl_flags);
+> +EXPORT_SYMBOL(drm_ioctl_get_flags);
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> index 8ff958d119be..fa4644067d46 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -1257,7 +1257,7 @@ static long vmw_generic_ioctl(struct file *filp, unsigned int cmd,
+>   			goto out_io_encoding;
+>   
+>   		flags = ioctl->flags;
+> -	} else if (!drm_ioctl_flags(nr, &flags))
+> +	} else if (!drm_ioctl_get_flags(nr, &flags))
+>   		return -EINVAL;
+>   
+>   	return ioctl_func(filp, cmd, arg);
+> diff --git a/include/drm/drm_ioctl.h b/include/drm/drm_ioctl.h
+> index 171760b6c4a1..585dda7550b0 100644
+> --- a/include/drm/drm_ioctl.h
+> +++ b/include/drm/drm_ioctl.h
+> @@ -164,7 +164,7 @@ long drm_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
+>   /* Let drm_compat_ioctl be assigned to .compat_ioctl unconditionally */
+>   #define drm_compat_ioctl NULL
+>   #endif
+> -bool drm_ioctl_flags(unsigned int nr, unsigned int *flags);
+> +bool drm_ioctl_get_flags(unsigned int nr, unsigned int *flags);
+>   
+>   int drm_noop(struct drm_device *dev, void *data,
+>   	     struct drm_file *file_priv);
 
-This patch was applied to bpf/bpf.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
+Hi all,
 
-On Mon, 20 Oct 2025 23:33:01 +0530 you wrote:
-> Fix a race where irq_work can be queued in bpf_ringbuf_commit()
-> but the ring buffer is freed before the work executes.
-> In the syzbot reproducer, a BPF program attached to sched_switch
-> triggers bpf_ringbuf_commit(), queuing an irq_work. If the ring buffer
-> is freed before this work executes, the irq_work thread may accesses
-> freed memory.
-> Calling `irq_work_sync(&rb->work)` ensures that all pending irq_work
-> complete before freeing the buffer
-> 
-> [...]
+Just a gentle ping on this patch,
+please let me know if there’s any feedback or further changes needed.
 
-Here is the summary with links:
-  - [v2] bpf: sync pending IRQ work before freeing ring buffer
-    https://git.kernel.org/bpf/bpf/c/4e9077638301
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Thanks,
+Sunday
 
