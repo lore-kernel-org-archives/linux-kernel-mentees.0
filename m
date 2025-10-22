@@ -1,203 +1,129 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2569C2561C2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 20:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03F62ECE8C
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Oct 2025 06:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761078167; cv=none; b=ieDW8nZ+QxOM3607DBrWQWykD6eLY9f+wIHOwesug6IVamfTEPToKRcZ6pwszzzPt9FcQIwNfT5KazpWtOt8f5AW0M1XzfwkPTxOHO+QO5Hv7BNisHDX0Jxkc8GmuqxFGmnqTlX5LEDmZrAONKXRp2lE4HHP7aKZOAngZgWPK0w=
+	t=1761114601; cv=none; b=UQSqhtwK2m4N02S0d3MsfmC7opc5XHxA4TOdErzAR6awS3Q/C8nC+uGev1VEu2JB3UwG8/xVIwPpB1U3FkSr2MUmtxlAcJ8ioHBytAdY4pKf/aQr3EenBDAUL0eKivot+VHg1UvFJtwSf97CKJMlq94JwFldTeRNBvgZwiNPS5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761078167; c=relaxed/simple;
-	bh=XlqfIXuaMRD0eFhOGou17ZQR3uRj8Whl02Jp5BzhT5k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UWGMA/ieyrOydinsdMZxsfnYTW7Rz9xhnL9/6/fPlrNrkyBO74gnzGrNejDj7LKXNK2mUr9kdI7RBNKJsA3reFmJ0Fh9I0+wxF4P6no8vDINQCzR0cPcEhq8O0jhHafxewrjl2kBDbtemUqGW1evb9do8F4zvEMhlKzYJ8gl2aU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=uVPzpxeD; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1761114601; c=relaxed/simple;
+	bh=pxi12w+zJvC4kZodhK0Ij6Jx0cFF+FxyL/tgy3imtgY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Q9E8yRp9JnBmdDbWhbI/99LuDZotD7upZsBP2TnJHV7MttHSjewttufyjCLrfiMd/2By6v1rmbp8IqX4aa7wZpQJuEH9wRsJX6F28OaL1eGHQptVZYODNt1Ub31dYGUo7JMEYZjfQm6aB6vBTdKxItgV4Y75WXlGtstgVB5pF9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FEEV7HNQ; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="uVPzpxeD"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id C17A34048C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 20:22:45 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.791
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Xwmp-ZZJSETC for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Oct 2025 20:22:45 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=66.163.185.32; helo=sonic313-9.consmr.mail.ne1.yahoo.com; envelope-from=adelodunolaoluwa@yahoo.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 02A4A40488
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 02A4A40488
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=uVPzpxeD
-Received: from sonic313-9.consmr.mail.ne1.yahoo.com (sonic313-9.consmr.mail.ne1.yahoo.com [66.163.185.32])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 02A4A40488
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Oct 2025 20:22:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1761078163; bh=+qU2vcN541UGYB33IHwPZz2xTN7BvKjf4TwHbds2f04=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=uVPzpxeDEH2Z7QqTdc1Xa15A2HlJy6pDdC+konv4USzCaGh0rdMiZbto0yi6wulI4Q9iJeswUmfOAWAokQhOS+BBRzm/xjiHWouqqEg6TehMl27lU29bt5xMGTfg1betbzHuyieR6BOabS5nY8NuyJjUumiatBH3AKJ/G1q2k0B08VY8Fp8EVl8oRrBROncINNP3yOj/q0P4aN/q5E6G91G5eIuRaBdPfHINfODn4+COAu+DOgw+rnd5KCLkoEzVt/koKSZ5OpKq0PH6J3Hmzz/2Ho5C8XYJKGpdXoQv/adirXS02A1FktFb/nWY2X/KGzVgbomjsc/RS6DOAmX7Vw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1761078163; bh=8FjtTI8i+dNCwuFPh2T4ncETxOq/f3sYD2xaRll05Ep=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=CYG7dQN1XvSXIpMkftxMIZJyXnBwjqjSfO00qsWO2xDb78cMhcpQvhY30P/oqk+vvXAiHXwaTvoBjBnhTmsVqS38VFYUpYKg8LRxIIghUd361+7YZAsKXsuw+0nPPRuUWq6Xro4u4wot/JWWN6IBdh+FPhxWclyzgZbDQ3Qrw4wHCj+viLZsy8jsT+ecaMumdUaQqf/u598N/XxKrcy5hmVStWRggpf2TlLLFavEpWLSLnMZJSsoTX7nEfx+1PiZXZ+FT9xlYdSHNnApj9j4e2UYBOlj4aC9ItqvyXCV9NSBa7mmPx+1TJIYyY/njVfFElbN4h9iFBG9x//8Uxn98A==
-X-YMail-OSG: 4xvKBJMVM1kehxOE8bOYQU15B.LpwrJNx.kBwYcopwuPmyUgUIV86fLx53VYQGr
- 5RxWOf95G5VqewfQmNu5lUu.ipsxHP7og8xLnwuwlvU5t42b09cGctI1h5EzDo7X89x8JFJPPc84
- rTd22QuYAjGlN5TnQqe08WJhksMFF5olIljVYhX8sdqIDKlv34qtWxGtFKOO9iuNVQTVZL39o4Zx
- RBJPTEq7UJAjmaAkvQuyIM9g_GECnudTPVACq5boyytdjzUfNnviSV2lR9GFVPlIPqZaB1QP26Y3
- 9aKtcWEsGh_qIZfgaGWXXTLds9EKvcWjmpHcmd8bLTLFTvyBX57x_jTebfzopMTbKT3c8wKxIWcG
- ciFwpQOwuvmYnQZWDJiKUsL1IOSalrCiM8SswSlbUZNO7hVJEqMsgpfzE7WpIX2HGai0DQoptEo9
- 7DYt74TIbeJo8UyRXEIYc.7mOOa3ZKA_OER6h2ZCbQk5Z_p8d03RuB_xXfJdWOQ_AnCNk_MLquf.
- pVzBp12xrm9Bk55YCJoY6BaYOVWLRzZAITN1efdgHl9jd4PvaIrgjsSdIPB6_mvtab7LCF.WGLW7
- LmNb.L687BaGjw6TlhZhC7I5U6SVTHwFKow8gBaQCeClqG7R81Dn6.z8j9erIrfEI_yJnQITM0eM
- ddXMmKrc9hx5PsQ1tYUSvrevkKMJaiEepglu2blseU.UBTBU0O1pzlgLCyZ8Lk2Q.IMTSx_uUSIr
- DeGJTGfKwhmBT9E17pPZB50L35J5t6ZBFTTPdjHYZui3Xg_cAZITHXnoC7YgSOzlYOxp71csKjj6
- QiL.9cqCWuuErOL20VAuakyohs9fBvwq3kOWXMK2iFXUONvukFZsXp6Sh0GKkpBzNA_UlvyVlQvb
- o931TKmI7VMKi7fajgZjY8FmPNvq.ZTNduiMIU_Qa65oAecTUg5HmLfFpm4P3yzhPJIwwkn1_zw9
- hnQNKwOrvReimCZKqM75atDYJLNJASIKaZp90G8ahu7bUcDKb2Meah048b67t5YB1x1SYfHEOIdb
- 80xRFAnpfTWq2V27hzwp.4QNjp27KGGY579NJKKbBVopGMjJm3R1s0sD2NOgaKJmFrDxA7pVmRCW
- Hmb7yFflJtm7dtPFoyaQY5HGuLzFCbDpyQj7xuI24cI2hVd8bEn_ASuJYgRSOGOp4E6zIKFPEJ2.
- mZlRURUvcesV4ligy9q5V92AJSm5SkwV3T3rwwiYvXt4RVcOEBiGwRFgnMg3NRk6XVgkObXGcBgw
- x1eBEEDqaVkbvfPFgHrV92HRO5JZWy4wJgcE2s0rhGg_yhrmHPpLpnqxu8tSrkh0SPTgS17NQ8pp
- DamNQCONkWbjISGzpvbVN4jgeFUWQMXVFDrONeAZlof6hWCqLHWiOxA_rP07rjPe8R.1koGoA94W
- zerFZI.tCttnGznA4M0gTPhhVTc76Bqg5p5jvY6lX1G65yjZxcx4uUaQ0WQ1sTd71eeKCYZcA7SN
- I_Xr3.ZreCHRbhOsLpQ0P_dEBTxJelOSSVBjklCaGa049dKdA0o2Ir31vWxN0e_vraLUsD0_SOlX
- .IwZqypZZZJ7UlZ3XZE9C_atW6dKsSKWl.ye3WjhtL.nCx8vfRpRGTsME8T4NtuF49JGC.uqooPa
- doDhq.EMv6VnjHY8fCq_2WdRNYEu6LK1IKE5xoe16rUORkOwVi_f9jJFNXFzZ2j58Sgl0.Y7p6pk
- p31NbtG873dCMsDFW3qdYOhMJw2mviMMa6ZSXXMypphJbVqAB4JhgshYBOXAB1ENc9EYI3eQiaz.
- Vepl5z7FEXUuwE7NrD5MUYiCXvG1i3qKup5QahRlZyem_vF_KI.fh5Vi7mRbE.JU7hX5z83thwAj
- Gl6KgCU6OlVL.eqsqZYv1GEvW3nywc9ZLmXh06PopwBZHCEximekXhpSbVxK0LCl7Yml.nNdUp0u
- yedjo7k7lsEGzQhOKQD_VM5u0KKUxXB_Hve6Mr_HW1EjwKolOmp.izvNkdG4V33PIQsPL8fjpJBd
- 5pAeZb.wsp7GKDvo_46VC7ilCVDP98D4Vztt9i7Jz_6aBQDUGcVsFD.KGukUDJR4vOFcMcwvqrtR
- cqPhq_W5TIx_W.OOf_tiBzi2O.k_DHBSaqPZ8Nbbcz4eERi7An7B83Dey.4XxCx07afZ5FYuh4AX
- SOkwcI5Uk.U7MTHdr8MhwpAESH0D5tQH.PJsBIOXM6j7XXjQjeJf_BgOv01qCzhOlVVzkKEjQPUh
- woB3kAEMKl5.P8iNS8HeTYKsWAgvDPzMH4iTlZbbsXrsY8ilQ6DJnijBxagi6kGKIIFvZ_C10j5C
- i2vj0L3E7QYlxWYVEVVgT9kQ6wuYr7rkN2ORkfG9g
-X-Sonic-MF: <adelodunolaoluwa@yahoo.com>
-X-Sonic-ID: f67d61b1-ada2-42a2-8af5-224d50fac4d8
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.ne1.yahoo.com with HTTP; Tue, 21 Oct 2025 20:22:43 +0000
-Received: by hermes--production-bf1-554b85575-dfm4w (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 5ac397cd68ad3abcccfcc5e9735fbabb;
-          Tue, 21 Oct 2025 20:22:41 +0000 (UTC)
-Message-ID: <0e93a7f9-ae77-471a-b14d-2626cca0fb0e@yahoo.com>
-Date: Tue, 21 Oct 2025 21:22:34 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FEEV7HNQ"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-77f67ba775aso8415985b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 21 Oct 2025 23:29:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761114599; x=1761719399; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yRyE8t6dhAXyClNR4lT1jQASjbYPHXa83JC4TjDmfbk=;
+        b=FEEV7HNQBFQHufoYgReYZZPmsTZwfBBOHcV84hJhQYEdSnR1ZnDuQ2ady5AERIn8a9
+         GNtuPvz2VTfPyLMXHPNPvnhcnHt5R8fSQoy+LdsbMXPFR2FBGJlbASpmCmixAseGeXwr
+         4d0JIdbP6wpgq+fzXBzkJtsLQOa/ocxVdAhq9T+1MmBQb0PMJWa05SHGFm58Jh9ey6B5
+         eKzUaI6BISDRts491Unt57HpAVuO5mRWX40i4+NK5OwcRIbKEMVHsLKyNVtWJUWQ/CIS
+         yM4dbCAdXIaoeMF9yHPBiwWUyGDc96g7CnFC4sHNBToktK5VcwHHx3UKptkA498kljfk
+         hsJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761114599; x=1761719399;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yRyE8t6dhAXyClNR4lT1jQASjbYPHXa83JC4TjDmfbk=;
+        b=R0ea3GvebALYnlHSTaHTluZ06P9GCL3dYEViXu7X1V8xoyWWBgO7zoAj2jiuQA7hqi
+         sZBe24m7GSdb9LxbexYten4EU0t4fXLf75i6JBE3+fOqDjuVTPFMathXJTr0YK/Qj3zC
+         rQp3IBIS4v7SJ1dbpO5nSSVyHQ+IWlUqSAOLP6evXyWcDLAmNjAZfKMinxdQKC/XmWLI
+         cVQjIzujqxB8z3AMBTiOqgfZhswWytQQE/3RP4bkcL2WqMBkcLhTPOsS8IKoLyo2g4zs
+         E4+YyfMLj1+/RjH+UNZxBcONKZH0RRKGOzOgvSd5UX0UblEQip0l4Q+VHHyWOWr4sTU8
+         /wUg==
+X-Forwarded-Encrypted: i=1; AJvYcCUMmzt2gni9wnKcggAqAlQ64pZ6wdWGbZADFc8wQaKD/Vz5+l3uhSpbQS/hW3VCAeKw20Yn55E9/3gTdmaNGQjj2Ez5+A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvC+G3CK9LCMB/sldCXTzLT6dNoZBksWVPEJ+e9X1i7e/3M2yJ
+	aQIWM7hsGqsWeJto7qQzA1Nw38IvVFH5Wdj08Jis4TqhVaN78x5AVbVG
+X-Gm-Gg: ASbGncszF5/jT1X6neXEMvPh4LxbX4mTu3xl5vK9UsnVWrWRJ1Fh73OywpPeFbRZXaC
+	Zh5zve2nQoiNnv3pOIOwMHtN3tWqUb0oj1bJfW8JbPxKh0U1nGN2MwpfLwVgrRzcglcyUtog9hG
+	1ithA2lE7izxUhgErhZco8soHrn9qfz40xSbWoyUNWHVAKlGW2HfGo3Nfeu86qGQkW03VAFjqj+
+	zVPd/dnt1zaCdsvNByYTrz9YPx14YualzB0iamrH9qAeIVkDRnRe6F0hd+qCGLyv+lwJ+nCOL4v
+	ofTTui2Ip0aGsXxIIe54ZpM5ddgYgLZu/AO6kUUh0HDqCFAHOxau1zDfftdFhq8XZfgbhSQt50C
+	L7n7jOuLTF2BWLLfoXbFjJmUrJv0WueJFHG6GNcMCUGw2bEpPjr4MRBbcOlEMofvcbm7tNHwMRF
+	5ycSC3F9eyvcp+OgbIJ7WtzooBZmWp64o=
+X-Google-Smtp-Source: AGHT+IHCdWM1S/FVwbPmHY3O4OmTAtweU3JQt3Ila1Kmd/ZSXIEyZnlKVzKCFjwGH+txrzbmUlsmmA==
+X-Received: by 2002:a05:6a00:84a:b0:78c:985b:8d3b with SMTP id d2e1a72fcca58-7a220b29d75mr20156837b3a.23.1761114599073;
+        Tue, 21 Oct 2025 23:29:59 -0700 (PDT)
+Received: from server.. ([103.251.57.247])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a23011ec97sm13408435b3a.67.2025.10.21.23.29.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 23:29:58 -0700 (PDT)
+From: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
+To: naresh.kamboju@linaro.org,
+	broonie@kernel.org
+Cc: anders.roxell@linaro.org,
+	arnd@arndb.de,
+	benjamin.copeland@linaro.org,
+	bp@alien8.de,
+	dan.carpenter@linaro.org,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	lkft-triage@lists.linaro.org,
+	mingo@redhat.com,
+	reddybalavignesh9979@gmail.com,
+	regressions@lists.linux.dev,
+	richard.weiyang@gmail.com,
+	shuah@kernel.org,
+	surenb@google.com,
+	tglx@linutronix.de,
+	x86@kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Linux Kernel Functional Testing <lkft@linaro.org>
+Subject: [PATCH] selftests/x86: Add selftests include path for kselftest.h after centralization
+Date: Wed, 22 Oct 2025 11:59:48 +0530
+Message-ID: <20251022062948.162852-1-reddybalavignesh9979@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CA+G9fYvKjQcCBMfXA-z2YuL2L+3Qd-pJjEUDX8PDdz2-EEQd=Q@mail.gmail.com>
+References: <CA+G9fYvKjQcCBMfXA-z2YuL2L+3Qd-pJjEUDX8PDdz2-EEQd=Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: rename drm_ioctl_flags() to drm_ioctl_get_flags() to
- fix kernel-doc name conflict
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- zack.rusin@broadcom.com
-Cc: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20251010002520.359824-1-adelodunolaoluwa.ref@yahoo.com>
- <20251010002520.359824-1-adelodunolaoluwa@yahoo.com>
-Content-Language: en-US
-From: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-In-Reply-To: <20251010002520.359824-1-adelodunolaoluwa@yahoo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.24652 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-On 10/10/25 01:25, Sunday Adelodun wrote:
-> The function `drm_ioctl_flags()` defined in `drm_ioctl.c` shares the same
-> identifier name as the `enum drm_ioctl_flags` defined in
-> `drm_ioctl.h`. Although this naming overlap is perfectly valid in C —
-> since functions and enumerations exist in separate namespaces and do
-> not affect compilation or linkage — it causes a symbol collision in the
-> kernel-doc build system.
->
-> During `make htmldocs`, Sphinx reports the following warning:
->    ./Documentation/gpu/drm-uapi:574: ./drivers/gpu/drm/drm_ioctl.c:915:
->    WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
->    Declaration is '.. c:function::
->    bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'.
->
-> This happens because kernel-doc processes both identifiers (the enum and
-> the function) under the same name, leading to a duplicate symbol entry
-> in the generated documentation index. The build system therefore treats
-> them as conflicting declarations, even though they represent different
-> entities in code.
->
-> To resolve this, the function has been renamed to
-> `drm_ioctl_get_flags()`, which both removes the naming collision and
-> better describes the function’s purpose—retrieving ioctl permission
-> flags associated with a given command number.
->
-> All affected references have been updated accordingly in:
->    - `drivers/gpu/drm/drm_ioctl.c`
->    - `drivers/gpu/drm/vmwgfx/vmwgfx_drv.c`
->    - `include/drm/drm_ioctl.h`
->
-> No other symbols or behavior are modified.
->
-> Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-> ---
->   drivers/gpu/drm/drm_ioctl.c         | 6 +++---
->   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 +-
->   include/drm/drm_ioctl.h             | 2 +-
->   3 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index f593dc569d31..313e8bb7986a 100644
-> --- a/drivers/gpu/drm/drm_ioctl.c
-> +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -912,7 +912,7 @@ long drm_ioctl(struct file *filp,
->   EXPORT_SYMBOL(drm_ioctl);
->   
->   /**
-> - * drm_ioctl_flags - Check for core ioctl and return ioctl permission flags
-> + * drm_ioctl_get_flags - Check for core ioctl and return ioctl permission flags
->    * @nr: ioctl number
->    * @flags: where to return the ioctl permission flags
->    *
-> @@ -923,7 +923,7 @@ EXPORT_SYMBOL(drm_ioctl);
->    * Returns:
->    * True if the @nr corresponds to a DRM core ioctl number, false otherwise.
->    */
-> -bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
-> +bool drm_ioctl_get_flags(unsigned int nr, unsigned int *flags)
->   {
->   	if (nr >= DRM_COMMAND_BASE && nr < DRM_COMMAND_END)
->   		return false;
-> @@ -935,4 +935,4 @@ bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
->   	*flags = drm_ioctls[nr].flags;
->   	return true;
->   }
-> -EXPORT_SYMBOL(drm_ioctl_flags);
-> +EXPORT_SYMBOL(drm_ioctl_get_flags);
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> index 8ff958d119be..fa4644067d46 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -1257,7 +1257,7 @@ static long vmw_generic_ioctl(struct file *filp, unsigned int cmd,
->   			goto out_io_encoding;
->   
->   		flags = ioctl->flags;
-> -	} else if (!drm_ioctl_flags(nr, &flags))
-> +	} else if (!drm_ioctl_get_flags(nr, &flags))
->   		return -EINVAL;
->   
->   	return ioctl_func(filp, cmd, arg);
-> diff --git a/include/drm/drm_ioctl.h b/include/drm/drm_ioctl.h
-> index 171760b6c4a1..585dda7550b0 100644
-> --- a/include/drm/drm_ioctl.h
-> +++ b/include/drm/drm_ioctl.h
-> @@ -164,7 +164,7 @@ long drm_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
->   /* Let drm_compat_ioctl be assigned to .compat_ioctl unconditionally */
->   #define drm_compat_ioctl NULL
->   #endif
-> -bool drm_ioctl_flags(unsigned int nr, unsigned int *flags);
-> +bool drm_ioctl_get_flags(unsigned int nr, unsigned int *flags);
->   
->   int drm_noop(struct drm_device *dev, void *data,
->   	     struct drm_file *file_priv);
+The previous change centralizing kselftest.h include path in lib.mk
+caused x86 selftests to fail, as x86 Makefile overwrites CFLAGS using
+":=", dropping the include path added in lib.mk. Therefore, helpers.h
+could not find kselftest.h during compilation.
 
-Hi all,
+Fix this by adding the tools/testing/sefltest to CFLAGS in x86 Makefile.
 
-Just a gentle ping on this patch,
-please let me know if there’s any feedback or further changes needed.
+Fixes: 4d89827dfb27 ("selftests: complete kselftest include centralization")
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+Closes: https://lore.kernel.org/lkml/CA+G9fYvKjQcCBMfXA-z2YuL2L+3Qd-pJjEUDX8PDdz2-EEQd=Q@mail.gmail.com/T/#m83fd330231287fc9d6c921155bee16c591db7360
 
-Thanks,
-Sunday
+Signed-off-by: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
+---
+ tools/testing/selftests/x86/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tools/testing/selftests/x86/Makefile b/tools/testing/selftests/x86/Makefile
+index 83148875a12c..434065215d12 100644
+--- a/tools/testing/selftests/x86/Makefile
++++ b/tools/testing/selftests/x86/Makefile
+@@ -36,6 +36,7 @@ BINARIES_32 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_32))
+ BINARIES_64 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_64))
+ 
+ CFLAGS := -O2 -g -std=gnu99 -pthread -Wall $(KHDR_INCLUDES)
++CFLAGS += -I $(top_srcdir)/tools/testing/selftests/
+ 
+ # call32_from_64 in thunks.S uses absolute addresses.
+ ifeq ($(CAN_BUILD_WITH_NOPIE),1)
+-- 
+2.43.0
 
