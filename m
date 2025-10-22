@@ -1,124 +1,132 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA6834DCEE
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Oct 2025 15:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4F72FB607
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Oct 2025 22:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761145335; cv=none; b=ospUhzqvNgd8UzfPNVRxjUNgaa0TSN0tOuot7Wf/pmws3p3frxcGxgOGTw1LtKfN4dEVepSMeO+6/C1ro7B2Xahy7Hp9Lfv4x4BsAdannyjHplvFd4tUzvdpuQ8tWd/rFshY8yvj+yeiRCd0k2TuxnXiX/xYxGYv3evQo1wMfF0=
+	t=1761172729; cv=none; b=D8D2g350lE3xp6Ge0CtzHivX03VSNLxNnn6hHfmAu1CtmYBMVVF637ne6oWtNI2MoXCk3rytqGsb5jAqVg4s8PSzQwxoG6y0XGcxdpIiTEkg/IIpBTp/cM6uaOE7V7YD9Qfq47zU0GhssMFlWq6K2B8IXIU6KuHoLAHbT4oTsVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761145335; c=relaxed/simple;
-	bh=hdYfR8VgCU1ZspHH5xOZyDRebDxd3yGnO9egZSHcGHQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bP3Fpf0cZdBOlfkTXsxlbBqY2ZJFKvzVcrOgbPP4N9KxwssoI6vlhQO9lg8BltcPVuDla1P7eTAk0YCk1Y34dqFGXkb3+KTNiZTOFLIgh91MQ8IPvYfgA2s7RkGMCAexqxaZHQASGInfF0soozCwSSPUVhx9yuESHLJNSF53fg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IAwr8EYg; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761172729; c=relaxed/simple;
+	bh=ULKv6OA6DP41wT5L4cbEcKCtaPLTWzh9900cBvwjo/M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WNNZlBGQGasL9tI/BKMjqvJagvwBYCA0Q7vgMmo4CNK5A1r8TAWbEdJmPSESZmexXJGtgxg6vupveft+tUvHFPmZeoGu/Qhw3OwqSVrOQUo4LU8Od4IbkKhqg0aBjCGPvxF4//QLuhVoC4SLKT6gu2BIJsepJaCmsNSeD5zY2No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OofCaqoa; arc=none smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IAwr8EYg"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-7ec4b18b349so1738626d6.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Oct 2025 08:02:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OofCaqoa"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8907af237ceso12689085a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Oct 2025 15:38:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761145333; x=1761750133; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BnIAOSj9hN5H1aKf2wyJor6fNQ1bM8Ks2ytqG7kDK1w=;
-        b=IAwr8EYgu8Tgh1Kj5g7NyVFKyyY6ZgFxbqUzfGTVJxof/dNHjrG1C+ZEMt6OdZWjpv
-         c7KbJ4rc/uEHb9YF8RbNNi7C2DkJ3piMLyXMWt8f2sH15cLDLZsC6lAxSspYI92HZ7y+
-         Y9cwHuRVZVlp+T9dvh1jpkDzh9DV26uoE8fA8q5qlBg+H0jMAAWltBNaiHgsAdQ7Blaz
-         h+7QsDFDzfQsDvydtAHbdV2auIj6Tg7uBv3erH0XXJJXq7nkdZ+eFJxJuM3VLoK3+u2K
-         8plggmJHknZuBBLVjyVN81YTJApnJrThIQSrAKdqSvyb0eXYyTdHn03hrQbhwHoYrkiO
-         Nq/w==
+        d=gmail.com; s=20230601; t=1761172726; x=1761777526; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5VocPRDtVk+dIE3iw2ib7QtB3Kc3D8UgJbJMrfJb3wI=;
+        b=OofCaqoaSzX4gV61W3SkA0FzhtqdYSFRqwRaeOjtPWeP1NsS6LA5LiPPvxNWkAdvCE
+         4/g3PCdCETw4J+K/bsC/CKVfnJt7hTup+N2TLyqUU6b5U+1m8Y762O/cEgi1Of2409Mn
+         b9UWQ1khBeSxq3mEA7p1yTEKUqAmfnuAs3mX/lPBlxd99wSCp2odtkLz8E1/Bt5gxxw2
+         1aGY7QPF1jNwEMlKZzp4VWfncpqwuQFxAGeh2XGu9N5n18X0VkrAZKxPjEsfaAo05PxI
+         T+1JUZuLO8TcEgOfiLCoWO9iSrdiuFXGXjbWODUMhHYanWF/nV3tX7rL975icguF35kn
+         qUdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761145333; x=1761750133;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1761172726; x=1761777526;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BnIAOSj9hN5H1aKf2wyJor6fNQ1bM8Ks2ytqG7kDK1w=;
-        b=duWnuNLR12G9B9KPTbPkjpcXxwdSslibgN+3xqiSJal8LLtAdkHiXifny/eTL9CilU
-         Jr63AI3KwofaJd5bJvLorHvsff1Hs0Qo9Tale4PbRLqX1vU65a7G3mdr2YsJsyH6++Tm
-         ugPkz0BzBcJr09GAZ6wUcatgtmjwOcfnQq2CVmwR0T81IPXDvv5VKYUtw23VUZWVj0OC
-         fGB4WMOmKgII9mlLgg+anOsCsigygcdTou4amEtiF/8DuKYDvbZn8Zr6MfESi4UUZ/pw
-         cGEInlFihQZZoR6Elkhv6fXAmFZDeb9TMM5scv5yAknPXEofffq1aDV7GPfK05VoJj5o
-         BuYg==
-X-Forwarded-Encrypted: i=1; AJvYcCVdgd90uNVWtDmRcTvl3d8kdgr9TQx2DC4adb4OOxOBxMyvmfgVkZ42qSxB7cFL29/O/G5lDrKB6xPZPSFLCY/6wAhMvA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx8vFxt+8spHJa5RKzrg6V9KpT+TjVMCklHPZfdGYcWgZD62MaD
-	EZR71KhUIojyQTYCyvm+4YagKX6HFXu1YP7HEOWAhB/bmrMhP17lF4vPVrep7ZsxlcuTjiZTWta
-	1MCeICY+ljmCsSGPLNV6CYidDj6lLFPv5AG+Y41g/TQ==
-X-Gm-Gg: ASbGncsd6a4Dv9XWzdfzrF8p+AskMWuLc3paZh0tDbrhYJFWbSULatMEgky8bvTSeCl
-	wH5YM7+8ehUE3vzzQucMB2jRB3Ke4gZYnVa8zkOSgKlI9q0eCwuQodJPkbqhsd0ZxviDYDHWx9Q
-	7/s6cq5oobD48Z3mwSGJMaYHy9QtAQEVeI0UjWwIKxCB7tu8WI8MjGXRiRdmJ3jBJFJV07fi173
-	BY2m+4Es9EIln57aw4e/YknZ4luThwl47L/yBoSCvVJIiKSkRNuhki1z94GmlFiSGTs0g==
-X-Google-Smtp-Source: AGHT+IHDNBWFGq/lO9UqX3OiuCVmV8mj/OamM0dXHm9H8/TY++90uwy4eHmeOOO7ME2KeAOXQVNRoq9F5JuwtjkDp/g=
-X-Received: by 2002:a05:6214:19c6:b0:87d:f8d3:2456 with SMTP id
- 6a1803df08f44-87df8d324a4mr21664096d6.2.1761145331914; Wed, 22 Oct 2025
- 08:02:11 -0700 (PDT)
+        bh=5VocPRDtVk+dIE3iw2ib7QtB3Kc3D8UgJbJMrfJb3wI=;
+        b=pKAtpE97DPN+AFGgP6cOAwghCsrjMs6DgAd5nWudqAJfHkr6F/F7aoyPabB8siri4K
+         OWLtGQawKqkotQtutg9Vt/6UoloqW/N9nQxFwxTJgf+JpUhxlCfJvoQ5+sj4SpW6OIki
+         G6zg3cpJLefaMMnOJnMUbzDubXtB67Ut5XzlW6qY8fbYdF+smWfb6qDoJa0SAvhRPcws
+         fKWzfMtH8hGkZynLsWJWhvgfbTFeFXLwYNEIyKyy+oQPM97oKjQLcsoS0LWh5/zXmLvl
+         kfCa7jvFrcmovtzkQj2aF9uQ9AIN652P1PDm5pDwbDYxXIYTyC13OEQjF54w2JHYkVpt
+         xZ3w==
+X-Forwarded-Encrypted: i=1; AJvYcCUkUQc/zOttZ3HIP/91tjHDbN5sKo0ug8uajQfHNXIhZyx+aDuN3evT8ox77z7z1c/UmLZjRmOH05r6xPws71AtOeaOKQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPSRIEP8s8nfCf6tRxmOtMoIYilq9uPNdHXGczmUoCVUuoo/Dd
+	MevpVtBIsufJy1Y29YTPrQkBgBILk9Y2mdFI+5TpUfaUzgM2z0hx0A3p
+X-Gm-Gg: ASbGncsKrDoEN/LDHzd9ytgXjNi4dpk148OwqJRB3teFREZg6AJ0SXRAH8Flv/0lPIA
+	MYtRqOJweSUMz3IbbIRpBj5C7UIyg8vmz7AbSxv8B7FNUM+CSNDsyx3jACRbfDeO4DVQmjVtmjE
+	a5w1xizUtxDmOJzx3MmUqqEos4v83rQpRQPgkG0dcpPss4+x8atkpyRUt3gc4vdl98oHLC3az3Y
+	CFpfvvAkzkETsSOUsu7CC0jW0XSwQVCZWjsC6SDRWVoZZoqYHKYQxvSJb1L2RQdjqw1YS2ddLG0
+	kpLDEQQ9lIUMGz3J4IE+nyFBYALKIdYRg9WB2IHIzFgWXLeb0N/OEghIg0bRE40a/9OrEJKCEtM
+	GS6JJ74GoEwvAGCGOzgqitzUfAvKfdfvd+VL5oZqlpoJrvJ8npaN2Tz0fC+P18vb9XYtDzMfAhi
+	9KBpo148XdUZoYS3BtC0w7
+X-Google-Smtp-Source: AGHT+IEwf7KTlPfmIBbi2nVEJKfKO6Y8rFXq7vPh5m0MioYFQ+fvpto6UGE7cIpu3l0BBWVrrjj6eQ==
+X-Received: by 2002:a05:620a:1724:b0:893:5433:741b with SMTP id af79cd13be357-89c105a9550mr92282885a.40.1761172726364;
+        Wed, 22 Oct 2025 15:38:46 -0700 (PDT)
+Received: from rpthibeault-XPS-13-9305.. ([23.233.177.113])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-89c0e586d32sm30609585a.18.2025.10.22.15.38.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 15:38:46 -0700 (PDT)
+From: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+To: marcel@holtmann.org,
+	johan.hedberg@gmail.com,
+	luiz.dentz@gmail.com
+Cc: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>,
+	linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+a9a4bedfca6aa9d7fa24@syzkaller.appspotmail.com,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org
+Subject: [PATCH] Bluetooth: hci_event: validate HCI event packet Parameter Total Length
+Date: Wed, 22 Oct 2025 18:34:16 -0400
+Message-ID: <20251022223417.139332-2-rpthibeault@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CA+G9fYvKjQcCBMfXA-z2YuL2L+3Qd-pJjEUDX8PDdz2-EEQd=Q@mail.gmail.com>
- <20251022062948.162852-1-reddybalavignesh9979@gmail.com>
-In-Reply-To: <20251022062948.162852-1-reddybalavignesh9979@gmail.com>
-From: Anders Roxell <anders.roxell@linaro.org>
-Date: Wed, 22 Oct 2025 17:02:00 +0200
-X-Gm-Features: AS18NWDwE4wLtG7BZRqK8s-_yLrQzlCdiI_YRXplah4qDB6dhd-o_z_6gw0x-cw
-Message-ID: <CADYN=9KxQaQMWNbwDSftj7kcBYHjAQPacE+z7AVRZwxPTpexYQ@mail.gmail.com>
-Subject: Re: [PATCH] selftests/x86: Add selftests include path for kselftest.h
- after centralization
-To: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
-Cc: naresh.kamboju@linaro.org, broonie@kernel.org, arnd@arndb.de, 
-	benjamin.copeland@linaro.org, bp@alien8.de, dan.carpenter@linaro.org, 
-	dave.hansen@linux.intel.com, hpa@zytor.com, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, lkft-triage@lists.linaro.org, 
-	mingo@redhat.com, regressions@lists.linux.dev, richard.weiyang@gmail.com, 
-	shuah@kernel.org, surenb@google.com, tglx@linutronix.de, x86@kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, 
-	Linux Kernel Functional Testing <lkft@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 22 Oct 2025 at 08:29, Bala-Vignesh-Reddy
-<reddybalavignesh9979@gmail.com> wrote:
->
-> The previous change centralizing kselftest.h include path in lib.mk
-> caused x86 selftests to fail, as x86 Makefile overwrites CFLAGS using
-> ":=", dropping the include path added in lib.mk. Therefore, helpers.h
-> could not find kselftest.h during compilation.
->
-> Fix this by adding the tools/testing/sefltest to CFLAGS in x86 Makefile.
->
-> Fixes: 4d89827dfb27 ("selftests: complete kselftest include centralization")
-> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> Closes: https://lore.kernel.org/lkml/CA+G9fYvKjQcCBMfXA-z2YuL2L+3Qd-pJjEUDX8PDdz2-EEQd=Q@mail.gmail.com/T/#m83fd330231287fc9d6c921155bee16c591db7360
->
-> Signed-off-by: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
+There is a BUG: KMSAN: uninit-value in hci_cmd_complete_evt() due to a
+malformed HCI event packet received from userspace.
 
-Yes, works.
+The existing code in hci_event_packet() checks that the buffer is large
+enough to contain the event header, and checks that the hdr's Event Code
+is valid, but does not check the hdr's Parameter Total Length. So,
+syzbot’s event packet passes through and uses the un-init values in
+hci_event_func() => hci_cmd_complete_evt().
 
-Tested-by: Anders Roxell <anders.roxell@linaro.org>
+Reported-by: syzbot+a9a4bedfca6aa9d7fa24@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=a9a4bedfca6aa9d7fa24
+Tested-by: syzbot+a9a4bedfca6aa9d7fa24@syzkaller.appspotmail.com
+Fixes: a9de9248064bf ("[Bluetooth] Switch from OGF+OCF to using only opcodes")
+Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+---
+ net/bluetooth/hci_event.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
+diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
+index d790b0d4eb9a..5e1498cc04cd 100644
+--- a/net/bluetooth/hci_event.c
++++ b/net/bluetooth/hci_event.c
+@@ -7565,7 +7565,7 @@ void hci_event_packet(struct hci_dev *hdev, struct sk_buff *skb)
+ 	hci_req_complete_t req_complete = NULL;
+ 	hci_req_complete_skb_t req_complete_skb = NULL;
+ 	struct sk_buff *orig_skb = NULL;
+-	u8 status = 0, event, req_evt = 0;
++	u8 status = 0, event, req_evt = 0, len;
+ 	u16 opcode = HCI_OP_NOP;
+ 
+ 	if (skb->len < sizeof(*hdr)) {
+@@ -7585,6 +7585,13 @@ void hci_event_packet(struct hci_dev *hdev, struct sk_buff *skb)
+ 		goto done;
+ 	}
+ 
++	len = hdr->plen;
++	if (len != skb->len - HCI_EVENT_HDR_SIZE) {
++		bt_dev_warn(hdev, "Unexpected HCI Parameter Length 0x%2.2x",
++			    len);
++		goto done;
++	}
++
+ 	/* Only match event if command OGF is not for LE */
+ 	if (hdev->req_skb &&
+ 	    hci_opcode_ogf(hci_skb_opcode(hdev->req_skb)) != 0x08 &&
+-- 
+2.43.0
 
-Cheers,
-Anders
-
-> ---
->  tools/testing/selftests/x86/Makefile | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/tools/testing/selftests/x86/Makefile b/tools/testing/selftests/x86/Makefile
-> index 83148875a12c..434065215d12 100644
-> --- a/tools/testing/selftests/x86/Makefile
-> +++ b/tools/testing/selftests/x86/Makefile
-> @@ -36,6 +36,7 @@ BINARIES_32 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_32))
->  BINARIES_64 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_64))
->
->  CFLAGS := -O2 -g -std=gnu99 -pthread -Wall $(KHDR_INCLUDES)
-> +CFLAGS += -I $(top_srcdir)/tools/testing/selftests/
->
->  # call32_from_64 in thunks.S uses absolute addresses.
->  ifeq ($(CAN_BUILD_WITH_NOPIE),1)
-> --
-> 2.43.0
->
