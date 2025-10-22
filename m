@@ -1,137 +1,124 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625E326E71C
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Oct 2025 12:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA6834DCEE
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Oct 2025 15:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761135889; cv=none; b=tovKUxlZwkI6LJRuxUVvJAlCqyN1CZctDDw4THFknWPwEws39j576ZDop5PEa1zfrJNRAXKpLjjN5d6hgvtzcYpIfJys9etmmwIEcQ15vv1jDvIeTFBzwhsp+2/3aqSROrC6NBnJFE12eqLacwD4EoGFKllqNjNMBkSgNy/rv/c=
+	t=1761145335; cv=none; b=ospUhzqvNgd8UzfPNVRxjUNgaa0TSN0tOuot7Wf/pmws3p3frxcGxgOGTw1LtKfN4dEVepSMeO+6/C1ro7B2Xahy7Hp9Lfv4x4BsAdannyjHplvFd4tUzvdpuQ8tWd/rFshY8yvj+yeiRCd0k2TuxnXiX/xYxGYv3evQo1wMfF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761135889; c=relaxed/simple;
-	bh=rUnr8qT/4XF12hJarI25ppPhefyEIGHQOZ/WpWPVrKg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RxPUpc5VYQaYG2fZ0Vmc0JKcfa0QhRBqhNHq9uBzbtPoeo2UwGacbnGD70PkSysz1HhcEv67IijJCp68KS2iGrCeXc3nHh7p/bndp29TLggXVpO8Zj/HWBITzYEVxuW3Ar2gD/guGiG+zGrZRbjg98UoYQUdoAf5IKY29OaPm5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SV8/V/Cc; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761145335; c=relaxed/simple;
+	bh=hdYfR8VgCU1ZspHH5xOZyDRebDxd3yGnO9egZSHcGHQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bP3Fpf0cZdBOlfkTXsxlbBqY2ZJFKvzVcrOgbPP4N9KxwssoI6vlhQO9lg8BltcPVuDla1P7eTAk0YCk1Y34dqFGXkb3+KTNiZTOFLIgh91MQ8IPvYfgA2s7RkGMCAexqxaZHQASGInfF0soozCwSSPUVhx9yuESHLJNSF53fg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IAwr8EYg; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SV8/V/Cc"
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-54aa4b86b09so2944748e0c.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Oct 2025 05:24:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IAwr8EYg"
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-7ec4b18b349so1738626d6.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Oct 2025 08:02:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761135887; x=1761740687; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RZd3zxf5Nou1SN92i7qbzIMpgjWXvQnZyGFhzFz0euA=;
-        b=SV8/V/Cc9LCTilBQvaPmq2dzTc8Men3Oz1X2a6QIO+RCbGkI77hZBPTabIGCt7d84/
-         RQHJdZwcnVD30Jpfs0AiRzlfQHRTUwJer+Javvx0CiVYU8qGOsoPvSxEd1jntOrz4NuD
-         EyS1lBArd1DOVkOWuXAq/kNLPJ8ZBbsdkr+1mS43O7CZwUoFZcnA1foPbX+zjSpVUmrT
-         YVmWtAHQ+Uyd5ergDVH4n2SDbDSXtwH0EqrpZrICAgjBjoU6zxp+Zux8DK7dN1UuWh/j
-         qEFKztEScWl8CRTs1+avPs2PquNtEURTTUcjVmNyyCgD3zbI70c18SA2+/E+1z/olYOY
-         5G2g==
+        d=linaro.org; s=google; t=1761145333; x=1761750133; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BnIAOSj9hN5H1aKf2wyJor6fNQ1bM8Ks2ytqG7kDK1w=;
+        b=IAwr8EYgu8Tgh1Kj5g7NyVFKyyY6ZgFxbqUzfGTVJxof/dNHjrG1C+ZEMt6OdZWjpv
+         c7KbJ4rc/uEHb9YF8RbNNi7C2DkJ3piMLyXMWt8f2sH15cLDLZsC6lAxSspYI92HZ7y+
+         Y9cwHuRVZVlp+T9dvh1jpkDzh9DV26uoE8fA8q5qlBg+H0jMAAWltBNaiHgsAdQ7Blaz
+         h+7QsDFDzfQsDvydtAHbdV2auIj6Tg7uBv3erH0XXJJXq7nkdZ+eFJxJuM3VLoK3+u2K
+         8plggmJHknZuBBLVjyVN81YTJApnJrThIQSrAKdqSvyb0eXYyTdHn03hrQbhwHoYrkiO
+         Nq/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761135887; x=1761740687;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RZd3zxf5Nou1SN92i7qbzIMpgjWXvQnZyGFhzFz0euA=;
-        b=EuGhnLspevTP+0a0ZAMZ7V+XM1BNlbu5JCh6yR+RyryROw1QAntcXR7jN73mhoWw6t
-         PJA0aMsYahUXe2JRy+r0sfXtIwVxpA/cryxXsmeHnXOxPar8WJ0vbEFU1HoCGTR2mzfd
-         Fatuyru6dkYA//w9Ke9N7kFyjg+uspS34AF9gMWozrhxwpvyg/oflSCK+J1e45UCK503
-         CtwzU+3O6p84F+bMb4JVyzn5A3NtZAxePWIaeYaAYUL82qQUKFftpclkZK8o5fZa20B5
-         RGXyJ07AAzgB3eU269vLmVI09PzfWGcqSO+msm6j8oEKMdEL0IJzUqHkhCjXwJnqLtNy
-         a4sA==
-X-Gm-Message-State: AOJu0YyZeNEJL1fb/3oHEQ21Uwsfv+l5iF48hW1OR5VgtsK/JLnYY27u
-	aBmzljJccj3BECliMIuyvPn78KdUe3KKtI4rQTRFy6aQLL1hhMc19q9j
-X-Gm-Gg: ASbGnctNbtX1PyoOYxLv7ndIqtn7Gwv263/ziTAEk+6MkLm9lWArLgMjY7wihiraBc8
-	O385DEforuO2lXJT0Qg4CMGR1Z+491EhZynJ7JSmxuwHbHU7h7SQ94TD9qR05FbRrULKaMFN2Th
-	GbIOW6/dtw8IDL5fub/O7jfZ/iaAdYb67dNOLafU0sClWapXvd78eEcL+WmamZh61XxWRzGVBCr
-	PJougm7VpEb0kzatagpCRgTlGdbNLCBSn5s0iWYIw0pUYWQm8SfHERgdJlByQaMNux5p+5NprY+
-	wYuBIJ8by5Ono//v8tIU97f8YmIrIZKVy8xZdIJLWpP+Zf7s1r7AoOIZ5ZqMaKl2G7g4svWxuMp
-	g4CvgZ6TKwxrtUYeRlScmNae/1e7D9TaZSp8aeM5Agm6Ts6llLtG+sBmcfdGR+tr8+QJH3YtNt1
-	3toB5OdgAuD0LxT7oaLmG7irIQQzI=
-X-Google-Smtp-Source: AGHT+IGIDI4b44hPg98lkvaYi2Q3ew6WBmVcps2yj50vjzM/G0j1tZGZIPmAl2eR3ta1X3NVUxFEcQ==
-X-Received: by 2002:a05:6122:6593:b0:54c:da0:f709 with SMTP id 71dfb90a1353d-5564eebb778mr5783916e0c.13.1761135887154;
-        Wed, 22 Oct 2025 05:24:47 -0700 (PDT)
-Received: from [192.168.1.145] ([104.203.11.126])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-556620d8d28sm4381469e0c.17.2025.10.22.05.24.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Oct 2025 05:24:46 -0700 (PDT)
-Message-ID: <08e6cffa-d515-4692-b633-6780fbdbe64d@gmail.com>
-Date: Wed, 22 Oct 2025 08:24:44 -0400
+        d=1e100.net; s=20230601; t=1761145333; x=1761750133;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BnIAOSj9hN5H1aKf2wyJor6fNQ1bM8Ks2ytqG7kDK1w=;
+        b=duWnuNLR12G9B9KPTbPkjpcXxwdSslibgN+3xqiSJal8LLtAdkHiXifny/eTL9CilU
+         Jr63AI3KwofaJd5bJvLorHvsff1Hs0Qo9Tale4PbRLqX1vU65a7G3mdr2YsJsyH6++Tm
+         ugPkz0BzBcJr09GAZ6wUcatgtmjwOcfnQq2CVmwR0T81IPXDvv5VKYUtw23VUZWVj0OC
+         fGB4WMOmKgII9mlLgg+anOsCsigygcdTou4amEtiF/8DuKYDvbZn8Zr6MfESi4UUZ/pw
+         cGEInlFihQZZoR6Elkhv6fXAmFZDeb9TMM5scv5yAknPXEofffq1aDV7GPfK05VoJj5o
+         BuYg==
+X-Forwarded-Encrypted: i=1; AJvYcCVdgd90uNVWtDmRcTvl3d8kdgr9TQx2DC4adb4OOxOBxMyvmfgVkZ42qSxB7cFL29/O/G5lDrKB6xPZPSFLCY/6wAhMvA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8vFxt+8spHJa5RKzrg6V9KpT+TjVMCklHPZfdGYcWgZD62MaD
+	EZR71KhUIojyQTYCyvm+4YagKX6HFXu1YP7HEOWAhB/bmrMhP17lF4vPVrep7ZsxlcuTjiZTWta
+	1MCeICY+ljmCsSGPLNV6CYidDj6lLFPv5AG+Y41g/TQ==
+X-Gm-Gg: ASbGncsd6a4Dv9XWzdfzrF8p+AskMWuLc3paZh0tDbrhYJFWbSULatMEgky8bvTSeCl
+	wH5YM7+8ehUE3vzzQucMB2jRB3Ke4gZYnVa8zkOSgKlI9q0eCwuQodJPkbqhsd0ZxviDYDHWx9Q
+	7/s6cq5oobD48Z3mwSGJMaYHy9QtAQEVeI0UjWwIKxCB7tu8WI8MjGXRiRdmJ3jBJFJV07fi173
+	BY2m+4Es9EIln57aw4e/YknZ4luThwl47L/yBoSCvVJIiKSkRNuhki1z94GmlFiSGTs0g==
+X-Google-Smtp-Source: AGHT+IHDNBWFGq/lO9UqX3OiuCVmV8mj/OamM0dXHm9H8/TY++90uwy4eHmeOOO7ME2KeAOXQVNRoq9F5JuwtjkDp/g=
+X-Received: by 2002:a05:6214:19c6:b0:87d:f8d3:2456 with SMTP id
+ 6a1803df08f44-87df8d324a4mr21664096d6.2.1761145331914; Wed, 22 Oct 2025
+ 08:02:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hangcheck-timer: use pr_crit and fix coding style
-To: Clint George <clintbgeorge@gmail.com>
-Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-References: <20251018160010.12215-1-clintbgeorge@gmail.com>
-Content-Language: en-US
-From: David Hunter <david.hunter.linux@gmail.com>
-In-Reply-To: <20251018160010.12215-1-clintbgeorge@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CA+G9fYvKjQcCBMfXA-z2YuL2L+3Qd-pJjEUDX8PDdz2-EEQd=Q@mail.gmail.com>
+ <20251022062948.162852-1-reddybalavignesh9979@gmail.com>
+In-Reply-To: <20251022062948.162852-1-reddybalavignesh9979@gmail.com>
+From: Anders Roxell <anders.roxell@linaro.org>
+Date: Wed, 22 Oct 2025 17:02:00 +0200
+X-Gm-Features: AS18NWDwE4wLtG7BZRqK8s-_yLrQzlCdiI_YRXplah4qDB6dhd-o_z_6gw0x-cw
+Message-ID: <CADYN=9KxQaQMWNbwDSftj7kcBYHjAQPacE+z7AVRZwxPTpexYQ@mail.gmail.com>
+Subject: Re: [PATCH] selftests/x86: Add selftests include path for kselftest.h
+ after centralization
+To: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
+Cc: naresh.kamboju@linaro.org, broonie@kernel.org, arnd@arndb.de, 
+	benjamin.copeland@linaro.org, bp@alien8.de, dan.carpenter@linaro.org, 
+	dave.hansen@linux.intel.com, hpa@zytor.com, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, lkft-triage@lists.linaro.org, 
+	mingo@redhat.com, regressions@lists.linux.dev, richard.weiyang@gmail.com, 
+	shuah@kernel.org, surenb@google.com, tglx@linutronix.de, x86@kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, 
+	Linux Kernel Functional Testing <lkft@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 10/18/25 12:00, Clint George wrote:
-> Testing:
-> - Verified timer firing and margin detection using "hangtest" module that i created (I will paste the code below for reference) and checked dmesg logs for expected output: "Hangcheck: hangcheck value past margin!".
-> - Used Static Analysis tools
-> - Ensured module builds and inserts cleanly after changes.
-> 
-> Let me know if you want me to do more testing on this module.
-> 
-> [] hangtest.c (testing module i created to test hangcheck-timer module):
-> 
-> MODULE_LICENSE("GPL");
-> MODULE_AUTHOR("Clint George");
-> MODULE_DESCRIPTION("Hang test for testing hangcheck-timer");
-> 
-> static int hang_duration = 20;
-> module_param(hang_duration, int, 0644);
-> 
-> static int __init hangtest_init(void) {
->     unsigned long timeout;
-> 
->     printk(KERN_INFO "hangtest: Disabling interrupts for %d seconds...\n", hang_duration);
-> 
->     local_irq_disable();
->     preempt_disable();
-> 
->     timeout = jiffies + (hang_duration * HZ);
->     while (time_before(jiffies, timeout)) {
->         cpu_relax();
->         barrier();
->     }
-> 
->     preempt_enable();
->     local_irq_enable();
-> 
->     printk(KERN_INFO "hangtest: Interrupts re-enabled\n");
-> //    return 0;
->     return -EINVAL; // Return error so module doesn't stay loaded
-> }
-> 
-> static void __exit hangtest_exit(void) {
->     printk(KERN_INFO "hangtest: Exit\n");
-> }
-> 
-> module_init(hangtest_init);
-> module_exit(hangtest_exit);
+On Wed, 22 Oct 2025 at 08:29, Bala-Vignesh-Reddy
+<reddybalavignesh9979@gmail.com> wrote:
+>
+> The previous change centralizing kselftest.h include path in lib.mk
+> caused x86 selftests to fail, as x86 Makefile overwrites CFLAGS using
+> ":=", dropping the include path added in lib.mk. Therefore, helpers.h
+> could not find kselftest.h during compilation.
+>
+> Fix this by adding the tools/testing/sefltest to CFLAGS in x86 Makefile.
+>
+> Fixes: 4d89827dfb27 ("selftests: complete kselftest include centralization")
+> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> Closes: https://lore.kernel.org/lkml/CA+G9fYvKjQcCBMfXA-z2YuL2L+3Qd-pJjEUDX8PDdz2-EEQd=Q@mail.gmail.com/T/#m83fd330231287fc9d6c921155bee16c591db7360
+>
+> Signed-off-by: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
+
+Yes, works.
+
+Tested-by: Anders Roxell <anders.roxell@linaro.org>
 
 
-Well done for describing the testing you did, but try to put it in the
-change log. As of now, it is in the commit message, which means that if
-your patch is committed, people using git log, would be able to see all
-of this, but this is something that is only needed for the maintainers,
-not for future code viewers.
+Cheers,
+Anders
 
-Plus, they can always recreate your patch if they need to.
-
-Thanks,
-David Hunter
-
+> ---
+>  tools/testing/selftests/x86/Makefile | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/tools/testing/selftests/x86/Makefile b/tools/testing/selftests/x86/Makefile
+> index 83148875a12c..434065215d12 100644
+> --- a/tools/testing/selftests/x86/Makefile
+> +++ b/tools/testing/selftests/x86/Makefile
+> @@ -36,6 +36,7 @@ BINARIES_32 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_32))
+>  BINARIES_64 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_64))
+>
+>  CFLAGS := -O2 -g -std=gnu99 -pthread -Wall $(KHDR_INCLUDES)
+> +CFLAGS += -I $(top_srcdir)/tools/testing/selftests/
+>
+>  # call32_from_64 in thunks.S uses absolute addresses.
+>  ifeq ($(CAN_BUILD_WITH_NOPIE),1)
+> --
+> 2.43.0
+>
