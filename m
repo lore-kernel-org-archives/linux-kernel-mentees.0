@@ -1,251 +1,190 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6C7348451
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Oct 2025 19:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CA725A323
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Oct 2025 21:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761246960; cv=none; b=K+AuAJu80jRVC1fiFJunjOLyrIjUgIvyxgvfJbMwZ/G0owp+JmFUS3+gvr2yjuam6+Fi3Der6y6GSs8jNm6v704+299R3LFNOkqU4iSMNH+HrvR/JGeQ447xlI1lM3QmXjhgpiEafy/0EUuLvMAYLFMg+K6MCVUFLoZWsVzRzX0=
+	t=1761253524; cv=none; b=dk0P5YUkZA4JxSXRGvu0sIpwFN8Bnqcs11R1bodQqTQ73e2f4kLTCcxNLS6GrxlBpY8c2AwqAdlIMTY6k6dXwBfS2wwQHrjJTtw19cdDF1AZ9E5IrLCWeeZLf9cEQ8tJxsMP2vr1fgT5hvcTzDB92aPF5ak897s2+P0JrVYwah4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761246960; c=relaxed/simple;
-	bh=xDGtX73x7SGJPDCIn00jSf/iB9V1rtK1wRwkLEUHB2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LafeAbcOZAbBCqWFO59RNsRauQZt65v8KSOIQZAAO8m/O1XPEwp+uHy5LqLpv9ZdDaOI/SiZMHcuYDCE36IfBWOl9nlRhcaoKtoLf1xSsC2lqR1kfFkKVf+8QiPXfxAmIAQtnyWGeHdjnyLdjiWcwhHPENQ4LmHPiAokQPotmkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/pjuUev; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1761253524; c=relaxed/simple;
+	bh=uNN9PPr/yTFHzxK8MQ3XHv/YvwCSmF0U+8ouACnxjAk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hke3JiA/pqwZfYmP1NeRIT+7eGC8EbTO1JIfQfcJ1r0bXviPnMO3qr0guzysSAT08qOkgIcVT70lry6pc76qBHIgMUPAG8xvXBe84uzgDRIavdchgeRASxpAVopuOoHjJI/b9jOIphSRzYjufK9qp4p8pWtBQM76XbrzV7bYYuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ugbp1H0v; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/pjuUev"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 998B084984
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Oct 2025 19:15:58 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id eXxMQ8-w7dXt for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Oct 2025 19:15:57 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::62c; helo=mail-ej1-x62c.google.com; envelope-from=zlatistiv@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 49C088497B
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 49C088497B
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=M/pjuUev
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 49C088497B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Oct 2025 19:15:57 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-b5c18993b73so215974366b.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Oct 2025 12:15:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ugbp1H0v"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-378d50e1cccso15468791fa.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Oct 2025 14:05:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761246955; x=1761851755; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wz4tyMMkNrLPY/Q/KNDJCFpoha4YVqprZv6N7q9EjLU=;
-        b=M/pjuUevXAZcmBZvdLdlG/5MVFWc3TYp9ROaYKrt42ClMvPY19ExKG4LlWmCERiHQY
-         U/jqnjqUYqCBw4Yg9HLweoemkTme9csUeKnccEdjmlezb6rNrv04duQiBRSp2IrkXMmO
-         5+V/Psj+5kGwNzNyxtfb0yNKZcTuHvM5ljxZ9mKcoTTlKGTLiXv3tUefHFHW4rkFgTf9
-         yhaMomxQyCXA1TzYM0USE/cdgzgn3XgmXmGF/VOqfApVhup7JeWwHdIWWP0RxqNYE5DK
-         elvktHlgNmyYntR/cCRXKPYgBCPZk6W8VZWD1EChBENr3fsdbXvoNeRVGqj7/t2Gztil
-         Boyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761246955; x=1761851755;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1761253520; x=1761858320; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Wz4tyMMkNrLPY/Q/KNDJCFpoha4YVqprZv6N7q9EjLU=;
-        b=J7JyNNQHOWqZ+wDC9rGiutU3hW2r2T6CnAQEGgUtIg8sZhgR3YP53FRrSr2917Ryyj
-         4dYeH07keqiv3yycImmCN/91f6JthBSS+F2efo1CsDWqIIAhgkJLPhS/SQ4qro2TPZq+
-         y0C+Z6Vb/rpJ7t/2pqVi/3z6ivwHlpGzAfi84YsTHvZNClEXmoxm9PzB95/rj68U9kSp
-         qm8YCpUGoUqmdOapkIolelDJ48pqveWIlLiaCatNeB6BYEpgVA8Nm5uhfmzOOgeccEf9
-         wVN9WdX3eUbz2y3nAt7Xspx6jJkQWs5CcDxnP5SIV4QYxf8jQZAi0A9GI6lzBr7xRVjL
-         tpjA==
-X-Forwarded-Encrypted: i=1; AJvYcCUoxQwV5suQLtlzRR0NbUEZEWjni0Mi6qcwL4M0EwE8HIAjv0VDSEIUoMywI7sHDa7Sgurb/21Y1c2devgh0QOZIYFVQQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyK4Kj9BTu/eCnl01D5ThV7RyUS93cuO8aCcKfb6X0jwbnzohVH
-	R/D63s2ia6dSbs7CR07gtQD0gx+RoFOzVSsUWSsIw89bspQ/T1Owdd1A
-X-Gm-Gg: ASbGncugkVcNmrGCL6d04KHgFFLrcyyYZDjXXHqsRE1UJ5RruIEpIenD/gegUtKuyvB
-	KGFStwp3PlkyuMdYPOaf/0iHQYr/utSxZ7YXxIJ8/ew8hNTNlytJTjmV2f+rEJAN4QCuoz6nBOg
-	ld3KTUa9aG/sS82zPcC2Ro8JzTjkyIl2Gd3dnyt5IxasntgL7rPEFVGqK9ctPRTZyqTdwItaP+6
-	8lPwzqOc3VkT3iq/b60aZ8N/NI5dymLDgJPOMdEbQ2R048rD0mveocP831AD7BQxmCpQxKPNzOM
-	QPDW7RUt55lSSjVBqK4yAfBdi8U8K6gcfiuCRh8GJ9dwAaF5E86ZnMaTZF01XN260v2neqpvcS4
-	ede6ZMeSC9M1iuAOvtuPbJIGAjoXj4jmoldO0+3NebByz+4r8IxxfWbznyLl676rk5xEkocvW7f
-	vO/8vZUjC0r0U=
-X-Google-Smtp-Source: AGHT+IFQ8zsmfxbVRlBQymGZwkPQggnvEm3GLl2aAuMqOaDpv1htIdjug4OIDiv0YEb5M676Erxv0A==
-X-Received: by 2002:a17:907:6e87:b0:b3c:193:820e with SMTP id a640c23a62f3a-b6472c619c0mr3105635166b.13.1761246954536;
-        Thu, 23 Oct 2025 12:15:54 -0700 (PDT)
-Received: from localhost.localdomain ([46.10.223.24])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d5147240csm285346166b.73.2025.10.23.12.15.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 12:15:54 -0700 (PDT)
-Date: Thu, 23 Oct 2025 22:15:51 +0300
-From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-To: Chao Yu <chao@kernel.org>
-Cc: jaegeuk@kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
-	linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org, 
-	syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
-Subject: Re: [PATCH] f2fs: Perform sanity check before unlinking directory
- inode
-Message-ID: <2pro6x6xdvfhaypqhddzlmitx2vo6h7ro5mcqcf5tc7ssvzdls@cge4oegdkf5t>
-References: <20251003134731.470392-1-zlatistiv@gmail.com>
- <839306c1-5f7a-4e89-b2cf-7534d279a03c@kernel.org>
- <gupgic53ouhmdwrglwdviw2mzeaqfjsvyr47u3ebu2ztayswy4@4oxvnu252rdb>
- <9d0fef9d-4093-4a80-af3f-6dc45ffe886c@kernel.org>
- <zomib7dzvmnggqqy6aqlwij3zihbvzkzrnfvzhk7tcp2mdgh34@tjjugevo4q4a>
- <235adbae-cc45-4b84-b712-1ba9e5a48dce@kernel.org>
- <wtrkydtrovhsw6azexwq576aoq36ut62y2elhzvsq3ansk477y@2rzc56l46pka>
+        bh=862okFpfVZvhmXzSNmyjfrfI1Xm8aQ7K46jS7eTHfAM=;
+        b=Ugbp1H0vZgKPZvfzoGPsVhU5O2xH97v1OquWuX/B+tOUQEltQhwds1tsiVHOgUTa6Z
+         glBFQAb5hk7RzHBM7ICOTOYFVc9Ir2wDc1S3NrUNLttNd+yTj4bcQ0YerEThKBpsUR0a
+         gHqMJurmwNLmE5u3MI6xVznxCgkc0KBrpveYCoOYwaeraTXQDhUeWD2bLA7e89Utyazq
+         sJZ5eDz1THk5lcq+AArgczpah7jq/KCJO3xLvUar1cKnlv7u6hpA7asVOOQYUX0a9G4y
+         uHJIhqkpJYB9nmu1alfXyz/4KjU55D6+iKIxusQ+kXcz3EaaJZkD2fif/46hQ3GTJEkk
+         Kynw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761253520; x=1761858320;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=862okFpfVZvhmXzSNmyjfrfI1Xm8aQ7K46jS7eTHfAM=;
+        b=Jqxnst1UysoReVHafeACBDI5xTdvpApiFHLT/N62f+k/dv/SU6gJHpyga+ACRlq61z
+         OJt9GJrAZui5NirCUxxfZGjvFTu80GXT0HtgCaMJGV95b1Q6zr5b1l5Q/wdQSmosNc8x
+         MC6Ov1ujjfa5HDG51vcj/QXRiR3nGOFNI4ICe+QoYk+IOQfFrX/aLqcT2Zsq0EWTByjj
+         4HLbYvvt6g4zX3yVWmeoMgsg7S6h/btvKibYVofr4+p3DNUmVoRba66Yfu4hLzqde3dv
+         rjJnpqDZ0oVOEtB8OZI4OknSH7AWtEzDuoQQmimCbbtqO47bDxTmWSL7oNeBxxyd2ic2
+         rFEw==
+X-Forwarded-Encrypted: i=1; AJvYcCXjR/pVYAvPqLy8s1xsDHtl0u22BShmRqFUKs+F+foGKB+iAf1LlkhX++7v3jocP+6C3bDjuAluglF4FaUiuEyUwvnilQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw6Rubf9rvVsI3a9kLeFlXmMcKuKpcZk7IYsi5kdyJnfNzE3TRx
+	qMz/hJXeW9RFiHto5f1a6ot22M+LE5ItXTVcP/UpNIZEa9qeZmLLcbdaYJ7MeQCjJievHmrJo8j
+	iNJGJmu+WFIY8dHWLVMIpPtbWMygTn68=
+X-Gm-Gg: ASbGncvQRJrk8+miTF957XTZsB1muSbD+C6l6WTrLKxvq3z1CfBWl6P/6JaGbH4SUy7
+	Sghp23rV7nj4Fcc55JWbChhHVoBX7TkdqOL/2w7A/CMGx42uI83rF46t651nWaT5tgZcx9Hmk9O
+	VCDzuzTgS9JTO6nPA2mbvuem1DqMqzdmIZxBJgAqUr+1xJf8qiiQ8FFlQhsZPWA1z36OX1msVm8
+	aG+iWHHOERMNTpRkaPMsrKi2iGFhjs4sxSCaksjiHHX1NxBVJAsawI6LTkbZ/HMtn+gOw==
+X-Google-Smtp-Source: AGHT+IG9hVStadcHgcH9pwqipVZ8q236Yr5ZSYyiWguCrs1hAdh+Ks2DDRtnidEtfFSfFhuAguYEPWv9H0ksKC0iQco=
+X-Received: by 2002:a05:651c:908:b0:376:2802:84b0 with SMTP id
+ 38308e7fff4ca-37797a8ed3fmr71073181fa.46.1761253519780; Thu, 23 Oct 2025
+ 14:05:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <wtrkydtrovhsw6azexwq576aoq36ut62y2elhzvsq3ansk477y@2rzc56l46pka>
+References: <20251022223417.139332-2-rpthibeault@gmail.com>
+In-Reply-To: <20251022223417.139332-2-rpthibeault@gmail.com>
+From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Date: Thu, 23 Oct 2025 17:05:06 -0400
+X-Gm-Features: AWmQ_blXZO5mFjarWLO1_mPPNpv69dkFfEOsfq92hPD4abmuqgith-oR4ByY-LI
+Message-ID: <CABBYNZJtp0wqL_SJEk0wVo4DuadrBirmJ5VOe_TyE_RN8jOJNA@mail.gmail.com>
+Subject: Re: [PATCH] Bluetooth: hci_event: validate HCI event packet Parameter
+ Total Length
+To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+Cc: marcel@holtmann.org, johan.hedberg@gmail.com, 
+	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+a9a4bedfca6aa9d7fa24@syzkaller.appspotmail.com, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+	david.hunter.linux@gmail.com, khalid@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 15, 2025 at 03:55:40PM +0300, Nikola Z. Ivanov wrote:
-> On Wed, Oct 15, 2025 at 02:41:53PM +0800, Chao Yu wrote:
-> > On 10/14/25 20:17, Nikola Z. Ivanov wrote:
-> > > On Mon, Oct 13, 2025 at 08:53:04PM +0800, Chao Yu wrote:
-> > >> On 10/13/25 05:19, Nikola Z. Ivanov wrote:
-> > >>> On Thu, Oct 09, 2025 at 10:54:40AM +0800, Chao Yu wrote:
-> > >>>> On 10/3/2025 9:47 PM, Nikola Z. Ivanov wrote:
-> > >>>>> Current i_nlink corruption check does not take into account
-> > >>>>> directory inodes which have one additional i_nlink for their "." entry.
-> > >>>>>
-> > >>>>> Add additional check and a common corruption path.
-> > >>>>>
-> > >>>>> Reported-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
-> > >>>>> Closes: https://syzkaller.appspot.com/bug?extid=c07d47c7bc68f47b9083
-> > >>>>> Fixes: 81edb983b3f5 ("f2fs: add check for deleted inode")
-> > >>>>> Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
-> > >>>>> ---
-> > >>>>>   fs/f2fs/namei.c | 28 ++++++++++++++++++++--------
-> > >>>>>   1 file changed, 20 insertions(+), 8 deletions(-)
-> > >>>>>
-> > >>>>> diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
-> > >>>>> index b882771e4699..68b33e8089b0 100644
-> > >>>>> --- a/fs/f2fs/namei.c
-> > >>>>> +++ b/fs/f2fs/namei.c
-> > >>>>> @@ -502,12 +502,14 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
-> > >>>>>   		goto out;
-> > >>>>>   	}
-> > >>>>> -	if (inode->i_nlink == 0) {
-> > >>>>> +	if (unlikely(inode->i_nlink == 0)) {
-> > >>>>>   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
-> > >>>>>   			  __func__, inode->i_ino);
-> > >>>>> -		err = -EFSCORRUPTED;
-> > >>>>> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> > >>>>> -		goto out_iput;
-> > >>>>> +		goto corrupted;
-> > >>>>> +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
-> > >>>>> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
-> > >>>>> +			  __func__, inode->i_ino);
-> > >>>>> +		goto corrupted;
-> > >>>>
-> > >>>> Can we detect such corruption in sanity_check_inode() as well? So that if
-> > >>>> f2fs internal flow calls f2fs_iget() on corrupted inode, we can set SBI_NEED_FSCK
-> > >>>> flag and then triggering fsck repairment later.
-> > >>>>
-> > >>>> Thanks,
-> > >>>>
-> > >>>>>   	}
-> > >>>>>   	if (IS_ENCRYPTED(dir) &&
-> > >>>>> @@ -533,6 +535,9 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
-> > >>>>>   	trace_f2fs_lookup_end(dir, !IS_ERR_OR_NULL(new) ? new : dentry,
-> > >>>>>   				ino, IS_ERR(new) ? PTR_ERR(new) : err);
-> > >>>>>   	return new;
-> > >>>>> +corrupted:
-> > >>>>> +	err = -EFSCORRUPTED;
-> > >>>>> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> > >>>>>   out_iput:
-> > >>>>>   	iput(inode);
-> > >>>>>   out:
-> > >>>>> @@ -572,10 +577,11 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
-> > >>>>>   	if (unlikely(inode->i_nlink == 0)) {
-> > >>>>>   		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
-> > >>>>>   			  __func__, inode->i_ino);
-> > >>>>> -		err = -EFSCORRUPTED;
-> > >>>>> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> > >>>>> -		f2fs_folio_put(folio, false);
-> > >>>>> -		goto fail;
-> > >>>>> +		goto corrupted;
-> > >>>>> +	} else if (unlikely(S_ISDIR(inode->i_mode) && inode->i_nlink == 1)) {
-> > >>>>> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
-> > >>>>> +			  __func__, inode->i_ino);
-> > >>>>> +		goto corrupted;
-> > >>>>>   	}
-> > >>>>>   	f2fs_balance_fs(sbi, true);
-> > >>>>> @@ -601,6 +607,12 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
-> > >>>>>   	if (IS_DIRSYNC(dir))
-> > >>>>>   		f2fs_sync_fs(sbi->sb, 1);
-> > >>>>> +
-> > >>>>> +	goto fail;
-> > >>>>> +corrupted:
-> > >>>>> +	err = -EFSCORRUPTED;
-> > >>>>> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> > >>>>> +	f2fs_folio_put(folio, false);
-> > >>>>>   fail:
-> > >>>>>   	trace_f2fs_unlink_exit(inode, err);
-> > >>>>>   	return err;
-> > >>>>
-> > >>>
-> > >>> Hi Chao,
-> > >>>
-> > >>> Thank you for the suggestion.
-> > >>> I will add this to sanity_check_inode and remove it
-> > >>> from f2fs_lookup as it becomes redundant since f2fs_lookup
-> > >>> obtains the inode through f2fs_iget. For f2fs_unlink I will
-> > >>> move the i_nlink == 1 check to f2fs_rmdir.
-> > >>
-> > >> Hi Nikola,
-> > >>
-> > >> I meant we can move the i_nlink == 1 check from both f2fs_lookup() and
-> > >> f2fs_unlink() to sanity_check_inode(), because before we create in-memory
-> > >> inode, we will always call sanity_check_inode().
-> > >>
-> > >> Let me know if you have other concerns.
-> > >>
-> > >> Thanks,
-> > >>
-> > > 
-> > > The issue here is that sanity_check_inode will be called only when 
-> > > we initially read the inode off disk, not when it's already in the cache
-> > > 
-> > > The syzkaller repro does something like this:
-> > > Creates a directory structure /dir1/dir2 where dir1 has
-> > > i_nlink == 2, which is one less than it should. It then does
-> > > rmdir(/dir1/dir2) followed by rmdir(/dir1) which leads to the warning.
-> > 
-> > Oh, I missed this case.
-> > 
-> > > 
-> > > In such case what would you say should happen, should the second rmdir
-> > > fail and report the corruption, or do we close our eyes and just drop
-> > > i_nlink to 0 and possibly log a message that something isn't quite right?
-> > 
-> > I agreed that we should keep i_nlink == 1 check in f2fs_unlink().
-> > 
-> > Thanks,
-> > 
-> 
-> Hi Chao,
-> 
-> Just to make sure we're on the same page, do you mean to keep the check 
-> in f2fs_unlink as well as sanity_check_inode, or only do it in f2fs_unlink?
-> 
+Hi Raphael,
 
-Hello,
+On Wed, Oct 22, 2025 at 6:38=E2=80=AFPM Raphael Pinsonneault-Thibeault
+<rpthibeault@gmail.com> wrote:
+>
+> There is a BUG: KMSAN: uninit-value in hci_cmd_complete_evt() due to a
+> malformed HCI event packet received from userspace.
+>
+> The existing code in hci_event_packet() checks that the buffer is large
+> enough to contain the event header, and checks that the hdr's Event Code
+> is valid, but does not check the hdr's Parameter Total Length. So,
+> syzbot=E2=80=99s event packet passes through and uses the un-init values =
+in
+> hci_event_func() =3D> hci_cmd_complete_evt().
 
-Kindly sending a reminder here, could you please
-provide input when you have the chance?
+It does checks the length:
 
-Thank you!
+    if (skb->len < ev->min_len) {
+        bt_dev_err(hdev, "unexpected event 0x%2.2x length: %u < %u",
+               event, skb->len, ev->min_len);
+        return;
+    }
 
-> > > 
-> > > Thank you,
-> > > 
-> > >>>
-> > >>> I will send v2 as soon as I do some more testing.
-> > >>
-> > 
+> Reported-by: syzbot+a9a4bedfca6aa9d7fa24@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3Da9a4bedfca6aa9d7fa24
+> Tested-by: syzbot+a9a4bedfca6aa9d7fa24@syzkaller.appspotmail.com
+> Fixes: a9de9248064bf ("[Bluetooth] Switch from OGF+OCF to using only opco=
+des")
+> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+> ---
+>  net/bluetooth/hci_event.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
+> index d790b0d4eb9a..5e1498cc04cd 100644
+> --- a/net/bluetooth/hci_event.c
+> +++ b/net/bluetooth/hci_event.c
+> @@ -7565,7 +7565,7 @@ void hci_event_packet(struct hci_dev *hdev, struct =
+sk_buff *skb)
+>         hci_req_complete_t req_complete =3D NULL;
+>         hci_req_complete_skb_t req_complete_skb =3D NULL;
+>         struct sk_buff *orig_skb =3D NULL;
+> -       u8 status =3D 0, event, req_evt =3D 0;
+> +       u8 status =3D 0, event, req_evt =3D 0, len;
+>         u16 opcode =3D HCI_OP_NOP;
+>
+>         if (skb->len < sizeof(*hdr)) {
+> @@ -7585,6 +7585,13 @@ void hci_event_packet(struct hci_dev *hdev, struct=
+ sk_buff *skb)
+>                 goto done;
+>         }
+>
+> +       len =3D hdr->plen;
+> +       if (len !=3D skb->len - HCI_EVENT_HDR_SIZE) {
+> +               bt_dev_warn(hdev, "Unexpected HCI Parameter Length 0x%2.2=
+x",
+> +                           len);
+> +               goto done;
+> +       }
+
+Looks like a big hammer for a uninitialized value, which I assume is
+from the following code:
+
+    if (i =3D=3D ARRAY_SIZE(hci_cc_table)) {
+        /* Unknown opcode, assume byte 0 contains the status, so
+         * that e.g. __hci_cmd_sync() properly returns errors
+         * for vendor specific commands send by HCI drivers.
+         * If a vendor doesn't actually follow this convention we may
+         * need to introduce a vendor CC table in order to properly set
+         * the status.
+         */
+        *status =3D skb->data[0];
+    }
+
+That one is accessing skb->data without first checking it like
+hci_cc_skb_pull like all other event handlers are doing, if that is
+really the case then something like the following should make it go
+away:
+
+diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
+index bae8c219341a..e71fbdebffae 100644
+--- a/net/bluetooth/hci_event.c
++++ b/net/bluetooth/hci_event.c
+@@ -4219,6 +4219,13 @@ static void hci_cmd_complete_evt(struct hci_dev
+*hdev, void *data,
+        }
+
+        if (i =3D=3D ARRAY_SIZE(hci_cc_table)) {
++               if (!skb->len) {
++                       bt_dev_err(hdev, "unexpected cc 0x%4.4x with no sta=
+tus",
++                                  *opcode);
++                       *status =3D HCI_ERROR_UNSPECIFIED;
++                       return;
++               }
++
+                /* Unknown opcode, assume byte 0 contains the status, so
+                 * that e.g. __hci_cmd_sync() properly returns errors
+                 * for vendor specific commands send by HCI drivers.
+
+> +
+>         /* Only match event if command OGF is not for LE */
+>         if (hdev->req_skb &&
+>             hci_opcode_ogf(hci_skb_opcode(hdev->req_skb)) !=3D 0x08 &&
+> --
+> 2.43.0
+>
+
+
+--=20
+Luiz Augusto von Dentz
