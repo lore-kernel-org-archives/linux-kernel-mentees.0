@@ -1,104 +1,143 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD4B224FA
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Oct 2025 05:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A254021B191
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Oct 2025 06:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761283924; cv=none; b=FjhxfEBk/uCXEXCmSz/Zjq7TyFixlEqHclhtKV4JOGS84rCeAgp2pSl8GsOx+9WH8pekawZvKUz/gmlDjesxdWKH963dz6TXrbb1pCB8KHpe3C70pmQrAbfycGOEA/wPzw7SjgVQUvChWhjcsu628HJxYflvQnoP81tgSQKYl9g=
+	t=1761288594; cv=none; b=dAI5HlZI4ZwzOImLkugCsujk1v/Bre0jQYREw7JhIdwVwDq/hfLG8HYTec2Q4XUuZYcMtRN5q3OwLwO99UM7PURjWr3ubHxUwth8H9PHUqLSsgiUX/wQ1WA1H+0apQaPEtEHjU0pNL2EPbLAwlzjcWvAVbI+FU0cClAQaC/sHCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761283924; c=relaxed/simple;
-	bh=jrZFDTVAnVgZ12PpGzZA6oTE8Uvz8Wa0TIbGoyoIcmo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FYVJBB3uUa1qZc2w7Z8iT4aA5p0RxxXkGVEKNq6ajIzB1An5mhit1eBvrTxBUOu3MNseq9cY6cXeUWsVIUXDTfqXYVj1W6DveP0bhvJPvVOlNX+xZe2rrHjJPPPILBW/TUElzgPIL5OxCU3cNTW3wU9DLhBjJT9kJqIx8quwcFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OHvX4Cp8; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761288594; c=relaxed/simple;
+	bh=9vBPEojZFqE9ty/6D3pThFauraHYwTpalTAAyZmWy+Y=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Mime-Version; b=VnDtbQ0uAoiH4FagFktdLKrcQ4yhfDRUkEwPrnZ4HmAIw8IQZAfBlKEOxter2HZipbGxrsOza/E0axdpNE5iLuagCTFlqFRLmYCeib1ug0Z+RxpEhujl5rporCLU0r6RXwEApdnI3eSum77Kzbric8RbO9+mWWP0nHsehBsHkmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CNF5bgIt; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OHvX4Cp8"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-63e076e24f2so3363065a12.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Oct 2025 22:32:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CNF5bgIt"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2C6254082C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Oct 2025 06:49:53 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 7kSEByyEdNZN for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 24 Oct 2025 06:49:52 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42c; helo=mail-pf1-x42c.google.com; envelope-from=nirjhar.roy.lists@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 96DC540825
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 96DC540825
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=CNF5bgIt
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 96DC540825
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Oct 2025 06:49:52 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-7a226a0798cso1412831b3a.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Oct 2025 23:49:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761283921; x=1761888721; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jrZFDTVAnVgZ12PpGzZA6oTE8Uvz8Wa0TIbGoyoIcmo=;
-        b=OHvX4Cp8wGXYGmVN5Y2iPwES9N0R/aT10ReXHLluwK9KAEhOKREaRX8Whwsl7w2WNS
-         EK+ii/eIvJmEgc/ZlHZcwqeAEBKnzT7jgdDYBXsmGToY5wpAI37KQtqcwhKiWQjLgadl
-         9slzthxDysx4XF5d8X5+NjikhYU6MsRllog5sn1i7AjHOtCZ16xa5WFapgY0dBqagkeR
-         vV0LvUyYiXMKGVmhhV5T4BV74zf+XKjJnh72wf6niUvJM5tW0eGSBaPxDFzRlVboYxB5
-         B7msKmlsNo3DfuKU/a77U6haaTwbQxfFhXRu/RGiH4bgP8YhEOpGL4jgSv9/MSyhbbHP
-         fOGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761283921; x=1761888721;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1761288592; x=1761893392; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to:date
+         :cc:to:from:subject:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jrZFDTVAnVgZ12PpGzZA6oTE8Uvz8Wa0TIbGoyoIcmo=;
-        b=o9IZxpgO83RtzhLIVXUpYYvecur2tUh7ZKyYaW4Fg72vZkndAnnIfAJDxIXqFE4zMa
-         m7lUQS52AbiV6TuOh5tvVwHntnKUF5CoVr4B7+z3jVBt4sWVE0WUfvp3WSUtGGL4oSo2
-         mqBt4dj9LERN1Q7ZsTDsQ6KBz6LCb4/Mn1Hg5GbGaV48GKu3BCmQ47bV65OHgfhBD/Ot
-         yd7mnHRLfY6xcVtZyB63NmhHyGw11Z/Df0XpIFjbuPpYOx6f7RSsOWpinvSvjz6HRREx
-         yWJ7U8vJ4nO7yQOkysvz2m6hxHnN/u2vEVQaATvbUM6erqBv8aLmEWesCO1mqQ7ofoPf
-         32uA==
-X-Forwarded-Encrypted: i=1; AJvYcCWW3PJgDUWD6Zfl/CToh4+BqUNM49xSiXiC8UXb57ZmaQGqD5WJg7OyfkOUeJdj2V0Kcs3iez5dWBEoO1D7EDzuaxuFPA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzdM1KN03vDDe6sCDC+t1FjKIIiDCtWW9M7ngm+wN5fVkBPDweg
-	/7D3gcVz1tIVFzgAo5mWrJjtwccwQ7gBPpIgz171Ft0lBoS52yOcF7Y6B8Dv9fnjLms463s2s9a
-	4Fd2pNFJ19PvqeyGxNLwpAy3zcXi+SWk=
-X-Gm-Gg: ASbGncuZ3fR5UfvUr8SnG9phAIYfAZ66kk7f9VDExkGENvJqVGaPBR4eHix2Y7FtbmS
-	e9cdd/lS4GyBZgdAYyECWUBOuYgQ17FPzymkHDtTw0guZnlLca3KPoWEJLUStby45mVSPpLsnUg
-	Ba8nEqE21s/XeqH8YhmJPf83M9Y5k7KRtI8/qF7DLt3lMzEO5De2zCrx039OfpOvgVuBtVmRYLd
-	5GBPkKDRuozVtifmWYYHfXJHDoo6OyY5/e6cIcKNK6f8thc2+W+VQ/Pzc/S3mdTSb+e6Bz2tEHx
-	6qJfehiUK8IhAuWku3P3/6tUBfkCDv6iZj87nZdgCg==
-X-Google-Smtp-Source: AGHT+IGFabAhZAJYuPfr/6rC/PYhEDpQyVDuFdX5CgymYZMIeCEsElgNay6QkpiOoSX+UbWLt45lbDkjDPoIV9KaDOI=
-X-Received: by 2002:a05:6402:2787:b0:63b:d7f0:d940 with SMTP id
- 4fb4d7f45d1cf-63c1f6300fbmr24095995a12.1.1761283920553; Thu, 23 Oct 2025
- 22:32:00 -0700 (PDT)
+        bh=km/6k02PixTAqdwRObjjj37gw0zTjmxCVFm4PbnN0vM=;
+        b=CNF5bgItyoqvXOQDkqVU2EB0yRGAoYB48u157sAdw0zEoy4eXtOQYboKeU1ZFghW6N
+         Ie5N7kXd/GGXzG2zk2MkXS4W9JHxfstjVekqhMy65Lp/476n/LAKaJ/SPR5RH+TzI9E9
+         0K/IOpFobIcJ6c7zajVLD137sW87ltS1odkyARTJTrc2bIfegQzAm27HHdSLnV4nzRfU
+         gHOeTDb1X30PM5CNgdzHeRRZ3fdPnjCrZx52wuwipbcKNqSz8yv0zIkyf0ylnuNTTQsj
+         K8NIRwa21KV/epHKgAAfdOqDzfRPpFg/KXi28IE1iQlVPR2oaz0mdiPj00Na5UXjgpLi
+         7LQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761288592; x=1761893392;
+        h=content-transfer-encoding:mime-version:references:in-reply-to:date
+         :cc:to:from:subject:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=km/6k02PixTAqdwRObjjj37gw0zTjmxCVFm4PbnN0vM=;
+        b=M6MYdEyXWXyJBwMAMn7r7Bu3i21ba+tKfrQnF3cKpMKPUHvA5yRMMcSC03Gtt+H96D
+         KiTH+/w8VhNACSD+32kh2wB8NKp++61/5nAqg1aPHnGfKzlotJ++tAvASEXIaEGpzlu/
+         ozyWhvmA45KxMhB1qJpv/Bet/KB8/Lp/cChp1cE+E6zvrkL/D4Rv1bQaBParHnW7JklH
+         YuXUzbdgyNik2+m5NkWYDJbBprSh/DC2hYT85/lwhoo8IFNCIWq/eyZyUm91A0X1G7k4
+         sGJrlrOfhXU20oMQqmc6DX/bBZLpvr9bFBQNERnPRkG2xb3SgwSbndI4AmZtjeY1eYui
+         +d/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXB1mt5zt88vmQ3gTsS+NIFHT7EkSLWsRFVRiaWhoUOkBMFYBXmFdrpLT19z4FgEColPymG0BqwlTQwjYnd8gI7d122jQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxUd3+K14vBcv6HTnNJUmc2BmY3SqxgjHbVZaBX8/fg8b3LRCiY
+	OnLSGnKLLsqgE4hswdyhrJMtjIq5JbYSrffkGEJnwin16BUzQUf7Wled
+X-Gm-Gg: ASbGncscHUFoCIwXEhyeudrssQmF+Bbjfph9+gmIfDgHRnOrg1Js/yWOTFGDOA1a1K6
+	dXlGFnNiXDDBmabn8+sVtIEMFKGAk6Ev8gkdP5+PucOcu9zKspewlrpgw0PHppSE0SLKOECXvfS
+	aVh7p2X2+cKxDJb30+SSLkuucfU0UsTX3k8ZVOEOSU/GS3u0dlxF+BCBs5jwW1WgJAFixvHx8ID
+	Y02VVJXXOwHYQcxOuu5ZBVbYYHAspnVxdXxFlPc1K7gQ/+lU8InnqwzOPTG24xakIng02MFRtkT
+	l+I2NBxEhVinGPn96btsypa0/fUI7oqI3IHVNVeaVBWwOHvY/X/CY/Ums1xQBa3Dvd1C4VodL+q
+	J9A+GBYS0qunpbFL1aK6xW92whMRZNGoRU1dNBBs8M5jlcrHbhNfkDM1V87aLKZ+e4ZgJ/qTN9R
+	3gwe3xVMJnUGo24bpKT+rq1DnuJ1vwnpHDlNs50vE6o4DjGT1HlRr0
+X-Google-Smtp-Source: AGHT+IHBw2wC0BoP2X02OWCazdHGMebKdJsDNmkJBbtCK1oS/G49+mr3awzE1GU+XQHCYvJEsXB+uA==
+X-Received: by 2002:a05:6a00:4fce:b0:7a2:7d3b:4356 with SMTP id d2e1a72fcca58-7a27d3b4449mr4993313b3a.32.1761288591770;
+        Thu, 23 Oct 2025 23:49:51 -0700 (PDT)
+Received: from li-5d80d4cc-2782-11b2-a85c-bed59fe4c9e5.ibm.com ([49.207.202.82])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a274bb3789sm4779374b3a.60.2025.10.23.23.49.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Oct 2025 23:49:51 -0700 (PDT)
+Message-ID: <47bc0211bd8cc5474fbb3edb5446e0e306ccb026.camel@gmail.com>
+Subject: Re: [PATCH] xfs: use kmalloc_array() instead of kmalloc() for map
+ allocation
+From: "Nirjhar Roy (IBM)" <nirjhar.roy.lists@gmail.com>
+To: Kriish Sharma <kriish.sharma2006@gmail.com>, Carlos Maiolino
+	 <cem@kernel.org>
+Cc: linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org, 
+	david.hunter.linux@gmail.com
+Date: Fri, 24 Oct 2025 12:19:46 +0530
+In-Reply-To: <20251018194528.1871298-1-kriish.sharma2006@gmail.com>
+References: <20251018194528.1871298-1-kriish.sharma2006@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-27.el8_10) 
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20251020134857.5820-1-viswanathiyyappan@gmail.com> <417c677f-268a-4163-b07e-deea8f9b9b40@intel.com>
-In-Reply-To: <417c677f-268a-4163-b07e-deea8f9b9b40@intel.com>
-From: I Viswanath <viswanathiyyappan@gmail.com>
-Date: Fri, 24 Oct 2025 11:01:48 +0530
-X-Gm-Features: AS18NWDs_5xaC29vC8E21DedXs-dJA_wBfE3U9f9TDVAjvKKLnU69pQirhtU_eY
-Message-ID: <CAPrAcgOimjOR9T5K07qR4A8Caozq5zimD23Nz4G2R9H_agPgWQ@mail.gmail.com>
-Subject: Re: [RFC net-next PATCH 0/2] net: Split ndo_set_rx_mode into snapshot
- and deferred write
-To: Jacob Keller <jacob.e.keller@intel.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	pabeni@redhat.com, horms@kernel.org, sdf@fomichev.me, kuniyu@google.com, 
-	ahmed.zaki@intel.com, aleksander.lobakin@intel.com, andrew+netdev@lunn.ch, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	david.hunter.linux@gmail.com, khalid@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-On Thu, 23 Oct 2025 at 05:16, Jacob Keller <jacob.e.keller@intel.com> wrote:
->
-> Is there any mechanism to make this guarantee either implemented or at
-> least verified by the core? If not that, what about some sort of way to
-> lint driver code and make sure its correct?
+On Sat, 2025-10-18 at 19:45 +0000, Kriish Sharma wrote:
+> Using kmalloc_array() better reflects the intent to allocate an array of
+> map entries, and improves consistency with similar allocations across the
+> kernel.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
+> ---
+>  fs/xfs/xfs_qm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/xfs/xfs_qm.c b/fs/xfs/xfs_qm.c
+> index 23ba84ec919a..34ec61e455ff 100644
+> --- a/fs/xfs/xfs_qm.c
+> +++ b/fs/xfs/xfs_qm.c
+> @@ -1218,7 +1218,7 @@ xfs_qm_reset_dqcounts_buf(
+>  	if (qip->i_nblocks == 0)
+>  		return 0;
+>  
+> -	map = kmalloc(XFS_DQITER_MAP_SIZE * sizeof(*map),
+> +	map = kmalloc_array(XFS_DQITER_MAP_SIZE, sizeof(*map),
+>  			GFP_KERNEL | __GFP_NOFAIL);
+I think kmalloc_array is more useful when the size of memory to be allocated is dynamic with
+kmalloc_array doing some additional checks on the size that is being passed. In this case, both
+XFS_QUITER_MAP_SIZE  and sizeof(*map) are constant i.e, we are allocating constant size memory, so
+maybe this isn't quite necessary?
 
-From my observations, The sane drivers modify rx_config related
-registers either through the set_rx_mode function or the unlocked
-version (prefixed with __)
-I am not sure how to convert this to a validation of that kind.
+Definition of kmalloc_array()
 
-Basically the end result should be that warnings are generated when
-those functions are called
-normally but not when they are called through ops->set_rx_mode.
-Coccinelle might be able to do
-something like this.
+static inline void *kmalloc_array(size_t n, size_t size, gfp_t flags)
+{
+	if (size != 0 && n > SIZE_MAX / size)
+		return NULL;
+	return kmalloc(n * size, flags);
+}
 
-Related to this, I don't think a sed would be sufficient as there
-might be (in theory) cases where
-the function has to do a "synchronous" rx write (flush the work queue)
-for correctness
-but it should be good enough for most cases.
 
-I am also not sure what is to be done if the scheduled function just
-never executes.
+--NR
+>  
+>  	lblkno = 0;
+
