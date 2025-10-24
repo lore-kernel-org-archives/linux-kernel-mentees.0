@@ -1,67 +1,67 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B6634889E
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Oct 2025 18:17:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4627263C9F
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Oct 2025 18:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761329880; cv=none; b=tT9vr40Z27TGCxjmpzMik/eBkGH7wcxhxxIDAQ1QcIVcLVgaNjybdUemvEjqnaku0D/wB9B8Q0x151/NKb51RcHVjtDUyndY7rgOPp1euKAwVeM5wwVoI66yoAJf56Op3vzNQA/L5Rw92AOQnSW40MsDNzssQ/Dq8925XVbfdSY=
+	t=1761329912; cv=none; b=RLmo46BFyAyP2H29eeftjEwi2jvYzWsGPTnt2qpcKFwKUGsOPJKB3tcy3qFlOGAySX4TeoaUUz2ysY0AXXGUDbEqyx45Gd/eySCcXn1olsT9REANHZxSbvGMdIcwZTMrwpwtUITBAtVOMFSClfmVGgrPwCW7Y8Nl528bgsv0ROY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761329880; c=relaxed/simple;
+	s=arc-20240116; t=1761329912; c=relaxed/simple;
 	bh=f9EWuUddQuX6YNL9LEZegSrVPjIgkYAeTAs+Ik6L294=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=um7qXbcYd1G6faZBZR7hmIcjO1t4Kiy/Rn4Y+w2roTg68MMxMWuKhHwY476n2Q9GDW03xzT7dQIuL2sZHZ2qrXn8kc6MqM1dLXehHLguCn+CnqdZGjqo5eupcvB97JnfDbKDp6ZBdwMs6nL9+efjCVYvpVoaIT9+P82eDmjnfa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wd5W0O0z; arc=none smtp.client-ip=209.85.210.173
+	 In-Reply-To:Content-Type; b=qI0xilxrnGLNifkHuD2wCReez7qsv1jLa2q+TLn8oJe6392nk+5LCLfJbYDICF7pfJzZQioRqPni9+IoQ0LknjXgtNqUuL/wPcpxcyk5e9l5XDnAtRRNil1mzz6YC5ZwS14MvlgZv6YmVIKfbkTmWJ2W8ZKGq82jX/VXmczRpAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ORs1UsZR; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wd5W0O0z"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7a27053843bso3356389b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Oct 2025 11:17:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ORs1UsZR"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b6cee846998so1575417a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Oct 2025 11:18:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761329878; x=1761934678; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1761329910; x=1761934710; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
         bh=f9EWuUddQuX6YNL9LEZegSrVPjIgkYAeTAs+Ik6L294=;
-        b=Wd5W0O0z41mfqbqTL9NbyKfchIt7JcKfMTMgQxx55nN0rUWL2O1YkkWXCtVXTCJPR6
-         xBWAiDkxkAFTR46R8CXz4Ol59ib/xs0MNAvra4xZl2JhbFdTv/mM5UmkVOS5MTVw0y+t
-         4i+wvvU9BEUsOBEVmfV7R8PVIDPIaxxG1jHXifVAvsge9xyBOsTh+PeF3TMBLrfEF1QN
-         8A53cM3SBCuhgQhRXt2kCmgX+Ar3bif1kFgn6VRvAcHAIt9y6rUMyMZ35ngSJVQJtgII
-         W+5Up/m9GLg/rzwXZ5PVUn8vSXEcEXnduiQYVZjxec6L9Z2iAZalm26VqYD3ik0Qkl6y
-         E+pg==
+        b=ORs1UsZRluo6NnDQjWIyPNsa+MCJiwVPlxC4KlJw4SnOCWSrcMrrze/4/aMtLzyHrO
+         uo586BP+vNLnJbVpi67okLqZPmIx9GzONEeJVvO/B/bQTfAYsU/zn0ct7jBYllQ60erG
+         f8dEFE3FHaFAHw+h/R21hKEG/8PU7kDxIqPflXaT8knO1i1pSeNZLHQQToVgwEJwUj9J
+         8yj+lmagZTGHASywCPdSOC1bvyqhw0fKP+cFv9nXUiOUnVYbmOmgZsZuIwpWay8Fi8FE
+         zWC0l+s5gu6mMipHZmMNmNQAMmPrFCDrKCBM43GCwBUhPvJ16DNaB/3mBzrWepoAXXat
+         /88w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761329878; x=1761934678;
+        d=1e100.net; s=20230601; t=1761329910; x=1761934710;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=f9EWuUddQuX6YNL9LEZegSrVPjIgkYAeTAs+Ik6L294=;
-        b=q75WO6SU23ZZt99PJ0IyFUPaNMC17vhYE+pz2KGFBGnHG+onIY1io45lDz5edPp2yg
-         Av5qRz2i2F1QiYPjXmfuWH11187DX5Q+EBzxLNpssZ/zUY3O0HufOPI+hWnF7szS0y0Y
-         +chN7Lizu8jF4cGc9EahRVIRDq9/ofuFmnsvEdCK2mCuMuHIgtKN8xeLJP+o/r8wzxWE
-         KBCX0CqHNloZoSRtd12Xnk6qTsiluggTRQyJpB82742KyRefvLFnpN6R/tx4k4VHyA4C
-         wYVQUucqY8Kid3LPthvavTuh6eaXFJwVtnHWd0cAJ0ea/jDQtqpLZMh7xQEN7xwGApjh
-         N0EQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLCg/A38msXkfWkebxMUiRunY0EMwdf1pmiN+9AFCK46qGfIcU1dnAp0LOeXW8itZuPD2IrqGGwUDWri7FDail+CXazw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywhr02hn0Lteur3kYajXBGfxE07OZJ00gGp33i4aRo6a9LdQm+V
-	mHbRNO2EtyS01ORSQ3lYvbAubUmfyD1oIDBX86HC9tvwzLoJbw437v6y
-X-Gm-Gg: ASbGnctPgxILeEv90TyytJqtYP4m8YOjcvSeh5BupfbEpVWXkcYpIIbmaLDbRbrtMCm
-	jvn+i+Su4VbAlV+jHmNqaYLXXOPMTVe0LE+7uKwRPy+aa5ZshxeUDl2x/vSU8I5RcwRFHm4lfRp
-	1stvWq9lHr8L9n7Xv1KIBabkzbEL/JJXE8EcNzOTkMTOSAwRu6tgp1y+AS9HX+KHysDNGaERIat
-	QcdF15tEvEP/kMACCawa+Kn6AYTK6/xOBCk66cX5uj1NDtXo2FKe5byzhleF6PEWKm/75DW19Ya
-	oLD2Zyi7a5ElQRigZrpHaZl23xjbkWgakk73UzydGj5NuTET8zNmrm4PGo0iOrf3OgWAuwCUBr3
-	r7mwWfXVyf5kuahlZ/xvNiCHc+3l4FWilA/ogscxiLiEvZpc0OEt09zYD0mc4cGhNGbY4PoQsEt
-	o9k7uX6hjSuWrLBCn1O61oACI582++CFZlDAl5/NVU8WUY23VEZ1g+hckoAWBeyl0oT5Vcuuos
-X-Google-Smtp-Source: AGHT+IHeiJK3KGe+VnGjHXLRnMJUwHVfOIfp/7GkKJJk9bi79iBVomfSlmVEYSTiEzsfJqqDkJvbHQ==
-X-Received: by 2002:a05:6a20:4311:b0:334:8002:740f with SMTP id adf61e73a8af0-33dec72d38cmr3947493637.41.1761329878500;
-        Fri, 24 Oct 2025 11:17:58 -0700 (PDT)
+        b=m9LwxZeLBT6tyQEa7DQ1Hl4erai5EF3sua1DkXrF8+YPfqQpkiLjcd63qiylfN/NX6
+         7ZtwPp5Lk5/uc9/8eiHlYg39gCsN5Xji/ZJLh8BGGUpcWjfD9Jo2OvCorFe1bBX5YsnA
+         Y6S4knrgTqqAp4gRyERrYAJyRyxVYp5wHzXFLrVGqA7vbGzF33HJzGUFdXPSsc6GLMEK
+         Lmi9IZ6iXaPHSeWpJQHWH3Ltm/eOby1vTg/OIUOYPv18vdpQKT/1slq2/5waeRWQaIKT
+         cfo7ahXTHldypqys8401wNgTtU1tshVmEqNozIAOgO3FcZECrjY4zXaYaXjq08zSjAF9
+         7s+g==
+X-Forwarded-Encrypted: i=1; AJvYcCXjMA5BMovE0T26Ypkhg90WPAm0t0i22VIb2vDhrZcVxEscZFis/VK+y9rKCyAp/flibpRYVasy9go3gL+7SyjoC+pR9w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YztOoIcbUpMMULNaFKd7pQnr3JmJCcrEGdLkqN+NOegyA0LfRhB
+	zsG/CdbH1cZ+Z7GGpOL6bhrW9TQE7swFqoUYmcfeOKb4pF9cbgOSydgC
+X-Gm-Gg: ASbGncu1WtAe9AIxuFow+KCkp5PHljmXS5NCG6Ln6QUaFKSgkNrNlP77IkC7olaNBTr
+	fKnJCT1q0jxeqQKPls/WV0LfLbh05C+1Ha9caWPLcapueQUfwqRDqQmxT8ZQ0GFUCcvhgfVOrVp
+	s5Gm290ghOq1psRj4HvcjCrpCCZVrvt3cBOX3jJqo4XrQvQ4gL/csXKyW681woAq5u06vGlLJiv
+	nMlmBEccZP2kucpd5XMLGMBZ/u92vsnjqd6LUmDDe28CXZ3Stlmk6yTryUBvwvuswHiDzXZXNRf
+	XOmCH5Y90BaVZg/wSnZo9FW/dmxYpv1hXGlXKmHiDa9Q1dp7yUXuU3k34pBoq3f098PwHFiwjN6
+	XYp4SuLgVySrKL1/LACzaG0LjGGqbP6/zcD0cIm0i31j3N7rWZNTOM36ZG9FysTVNrbFeCMLcr8
+	aoVOplGPzdO8gZZpw8llaIILymBhclfJ3GZUzVzp57RhNRRQVQE3Qyju0KRixpIQ==
+X-Google-Smtp-Source: AGHT+IF/37Md94bLY6qR/ziv9TViQwjGMpKwmUGK0lvbcCIcjZbOGWnp2GdAMRDeHQgsprf/tPWO5g==
+X-Received: by 2002:a17:903:3d0d:b0:24f:8286:9e5d with SMTP id d9443c01a7336-290d14e83ddmr370668455ad.26.1761329910062;
+        Fri, 24 Oct 2025 11:18:30 -0700 (PDT)
 Received: from ?IPV6:2405:201:8000:a149:4670:c55c:fe13:754d? ([2405:201:8000:a149:4670:c55c:fe13:754d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a274b8adc8sm6527877b3a.39.2025.10.24.11.17.54
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946ded7c8bsm62731145ad.22.2025.10.24.11.18.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Oct 2025 11:17:58 -0700 (PDT)
-Message-ID: <b262deee-de5e-48ba-9c16-88238fac37fb@gmail.com>
-Date: Fri, 24 Oct 2025 23:47:52 +0530
+        Fri, 24 Oct 2025 11:18:29 -0700 (PDT)
+Message-ID: <c4278250-4506-45d4-b0df-71247256eecd@gmail.com>
+Date: Fri, 24 Oct 2025 23:48:24 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -69,7 +69,7 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net: ethernet: emulex: benet: fix adapter->fw_on_flash
+Subject: Re: [PATCH v2] net: ethernet: emulex: benet: fix adapter->fw_on_flash
  truncation warning
 To: ajit.khaparde@broadcom.com, sriharsha.basavapatna@broadcom.com,
  somnath.kotur@broadcom.com, andrew+netdev@lunn.ch, davem@davemloft.net,
@@ -77,7 +77,7 @@ To: ajit.khaparde@broadcom.com, sriharsha.basavapatna@broadcom.com,
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  skhan@linuxfoundation.org, khalid@kernel.org, david.hunter.linux@gmail.com,
  linux-kernel-mentees@lists.linux.dev
-References: <20251024180342.1908-1-spyjetfayed@gmail.com>
+References: <20251024180926.3842-1-spyjetfayed@gmail.com>
 Content-Language: en-US
 From: Ankan Biswas <spyjetfayed@gmail.com>
 Autocrypt: addr=spyjetfayed@gmail.com; keydata=
@@ -124,7 +124,7 @@ Autocrypt: addr=spyjetfayed@gmail.com; keydata=
  zOgxRjMdaLwpmvzsN46V2yaAhccU52crVzB5ejy53pojylkCgwGqS+ri5lN71Z1spn+vPaNX
  OOgFpMpgUPBst3lkB2SaANTxzGJe1LUliUKi3IHJzu+W2lQnQ1i9JIvFj55qbiw44n2WNGDv
  TRpGew2ozniUMliyaLH9UH6/e9Us
-In-Reply-To: <20251024180342.1908-1-spyjetfayed@gmail.com>
+In-Reply-To: <20251024180926.3842-1-spyjetfayed@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
