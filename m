@@ -1,242 +1,144 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E05C309DDC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Oct 2025 21:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95EC730E825
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Oct 2025 23:41:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761341474; cv=none; b=fp4yTnVqKKdtn9zYTBViPN8oeHyRWEvdAzruv8SVmHdOJsXrAdU20LfPGs/DyL63TxezmkIB+pVs7u76FPbPGZWGVINAHOMeIaVSLT9i8UaP7U+P9E1KYg3dalmG/CJCWhStRC3WqUNi6zkUCQgS+RL55wa1jc4ArxUoqx0FbO0=
+	t=1761349273; cv=none; b=UEZ6XLyYh6CIZH33WV7mAh4TGngpMtyA2fodDstuCy3Wqm5l3yQuOuGPPGommR3JFYMJIo4qp/1Aq3nhKm/ljq1y9DeOR+V2GcuTGTwN2BwhGCxJWB9agPOa8Sh2OA54FHpbKEYKt7yOyh5hmgZCXa7DnXzlAsUSnZSeBEf1CzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761341474; c=relaxed/simple;
-	bh=iQDu9KC5sD+ItNRHrzjtO65uP6xTrysOY0tRBMoc5s4=;
+	s=arc-20240116; t=1761349273; c=relaxed/simple;
+	bh=RQ+P8SMlyqo8hABnaUbg3wswyJmqjmY4tNo23Qzdr2E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rNyz23rThQIu4HlgyxvMR/gDstFiThqA/2AswuEcQ5xrCwDnNylLJmbkPd5BdwuX4KFAJFXOR3SzvhxW0DSMlLAohJQAkYckQgrWRSvpEu0Cg1tkZU98mmM11fAIc7XGW7wwctUumqvkMch7kF4Nv7rccHKyy9xAlIsGhjP45og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bBQW66xd; arc=none smtp.client-ip=140.211.166.137
+	 Content-Type:Content-Disposition:In-Reply-To; b=ugfZ3Fv90ghqgyU1GRwBHOhpfQv6LBsXrw4jd2DGo1GnwhOWzd4GCgOHWOo802gXXZtSupZZawNHmsc/qR4yWkDeyZztaJNWxZ7ia41FzEQgnmnVRhr9ARD8qbX7oA8xserd//gf7UxYUIVTmlLLIpVakD/g9NNYKXrTHXacb/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=t0NEEPa7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QtzYw3/Y; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bBQW66xd"
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="t0NEEPa7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QtzYw3/Y"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1426140CE5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Oct 2025 21:31:12 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 434198235A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Oct 2025 23:41:11 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.101
+X-Spam-Score: -6.494
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id XjS6OYsRDl0v for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Oct 2025 21:31:11 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 2728440CE3
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2728440CE3
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bBQW66xd
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 2728440CE3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Oct 2025 21:31:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 5B293604D5;
-	Fri, 24 Oct 2025 21:31:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9BB3C4CEF1;
-	Fri, 24 Oct 2025 21:31:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761341469;
-	bh=iQDu9KC5sD+ItNRHrzjtO65uP6xTrysOY0tRBMoc5s4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bBQW66xdqKosVkU7SxiZ/0PMK9kQ1KfHPoux3oR0xLniv5aHATn7er+ChFSESMRpf
-	 a+UjF561m9EJ4I2ham1n8ym+q6h7hH8wUaWE7vNbrtntjsZyVzjtalCtASGhG3YzUG
-	 /7kwCEL9EAu6+J+AdCsulpZOJXEBfrd79jAkyG9Wkyl70g7t1TLDuY5rOorsRk60oe
-	 GU8DcBuI0tR1o622yUvoO9B+XKjIS4RzxCyhtdSk7BBGD90cN/yRyLRfn8Q5iEcCy7
-	 UkbKIESPHEI1yVPM1S7FexBpvJHHMgXA7kumrOibBwyp62ejofMaXFJj5SAHT7AiPg
-	 oIMFloq7wfaKw==
-Date: Fri, 24 Oct 2025 16:31:07 -0500
-From: Rob Herring <robh@kernel.org>
-To: Ranganath V N <vnranganath.20@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id GS6Kqeg0bWJT for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 24 Oct 2025 23:41:09 +0000 (UTC)
+X-Greylist: delayed 397 seconds by postgrey-1.37 at util1.osuosl.org; Fri, 24 Oct 2025 23:41:09 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 0EABC82355
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0EABC82355
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.a=rsa-sha256 header.s=fm2 header.b=t0NEEPa7;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=QtzYw3/Y
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=103.168.172.151; helo=fout-a8-smtp.messagingengine.com; envelope-from=o-takashi@sakamocchi.jp; receiver=<UNKNOWN> 
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 0EABC82355
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Oct 2025 23:41:08 +0000 (UTC)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 9A358EC0192;
+	Fri, 24 Oct 2025 19:34:31 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Fri, 24 Oct 2025 19:34:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1761348871; x=
+	1761435271; bh=v72nELjMtMmlTac0SNMjedDOXnAusqzAOhY+MbmwKnw=; b=t
+	0NEEPa7H9nMyWBIBxTBOniaiffMrH6W/qkU+W2MUo+NouoLliehhhhZo9ctGa7U4
+	V8Kt38m2STTu1dMnfVs1EtU1dKIvBj+qDNbNL0XfUFNzZGM3yTjJhMCzIDer8wC6
+	9028D8cwT5cBZJu/aMfBGT9F9+KDiAxZWZHvTxK254jUitrkFZ2pbibi+Ry6L74l
+	ROFAjCO0H+wsT3p1pR/gUh/z6mW+XFgWa4dfoTAJobU5vKePt8koiO1r+PZINd9d
+	/oTDS7qyqO31E7Mrx3gtT+PtTJT6G2lmrXFRX1//wpYnOXJ7S5mmZZZ0lRDu8qrN
+	Ds1fXmR4K1zi3p1y6HdjA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1761348871; x=1761435271; bh=v72nELjMtMmlTac0SNMjedDOXnAusqzAOhY
+	+MbmwKnw=; b=QtzYw3/YOTczXtIqg7oxzfmWDqe8+zAhclezionFY0vkrXYAZEd
+	x0ODpsXSmqC7z0RNiflLkYAJ0zU9f/Ainh6JV8ufBTDIlRmqPhKhqUCOxGVGKtkF
+	GiJH9QJs+v43igA7ZhOXRR3eqyaccv+ZPwULvAcyMhAthQk8ya9HUI81NTBzHLBt
+	kFS3bNdgIaptbNfzqIR/Ic9sroIp6mYVBqrrL8hgTkRHHzM7+oxQD+3K0nlbCbeJ
+	Pfp2WkBxSdfiC5iubL/zdi3Rdg2mQW6OClghUpnnR5luWYAqUswH5ZdmEI+rfJQN
+	GbkC6RGHrhu7I/PltYREyGDVX++AqqffGtg==
+X-ME-Sender: <xms:Bw38aFOFwOBwowpX9GBbrbD4mFUU8T7xmi6iQ_LJKbt734bzXHuhNQ>
+    <xme:Bw38aC51dRvz_J0KwrQZIz_wotJEbVEoRT4NLgkL2HxPGKFVP6wN8ZBToNE55BLEg
+    A-ygyQTRLwimOdIU_wOymm_-y8EFHlh5ZTY4qpPjjgJtwSPuEvu0zU>
+X-ME-Received: <xmr:Bw38aDSvujDdQ1CyP3zKrTmqebnVY3ZQCeoMfpuF986F2QCrtZEquOY1JQX04QJ0SujPaS1riuIAf964OypG1XusKjXGz5L7tfA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduhedtieejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttdertd
+    dttddvnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghs
+    hhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeehhffhteetgf
+    ekvdeiueffveevueeftdelhfejieeitedvleeftdfgfeeuudekueenucevlhhushhtvghr
+    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrg
+    hkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopehnihhrsghhrgihrdhlkhgusehgmhgrihhlrdgtohhmpdhrtghpth
+    htoheplhhinhhugidufeelgedquggvvhgvlheslhhishhtshdrshhouhhrtggvfhhorhhg
+    vgdrnhgvthdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhn
+    rdhorhhgpdhrtghpthhtohepuggrvhhiugdrhhhunhhtvghrrdhlihhnuhigsehgmhgrih
+    hlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehl
+    ihhsthhsrdhlihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
+X-ME-Proxy: <xmx:Bw38aHBVoxPdgtPAkgqXmJxVrpvPySDI7s9Dcd97EStQ0eFWAZKIUQ>
+    <xmx:Bw38aLHc0elDvUOc4eXrQ32CSjKHMMJDn7z33xERKTuTAOkaY8oEVw>
+    <xmx:Bw38aJBrfZpfTVRr6yDdSYreEssnFwTMo_bTVT7M-9ii8mUM2fPXlA>
+    <xmx:Bw38aLUAf8YXY8DktkJ4IxMEDRl2hA4cOm_M6Omy6TiJE7N_W87Xlw>
+    <xmx:Bw38aPE_pLnMG3_Y8_M0-2ugjrdv4vIDePj38E3nFZnn9KJGjX38y9hv>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 24 Oct 2025 19:34:29 -0400 (EDT)
+Date: Sat, 25 Oct 2025 08:34:27 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+Cc: linux1394-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] dt_bindings: sound: ti,pcm186x: convert to dtschema
-Message-ID: <20251024213107.GA2841379-robh@kernel.org>
-References: <20251021-dtbs-v1-1-493c1aa253bc@gmail.com>
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] firewire: init_ohci1394_dma: add missing function
+ parameter documentation
+Message-ID: <20251024233427.GB463024@workstation.local>
+Mail-Followup-To: Nirbhay Sharma <nirbhay.lkd@gmail.com>,
+	linux1394-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251024203219.101990-2-nirbhay.lkd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251021-dtbs-v1-1-493c1aa253bc@gmail.com>
+In-Reply-To: <20251024203219.101990-2-nirbhay.lkd@gmail.com>
 
-On Tue, Oct 21, 2025 at 08:33:40PM +0530, Ranganath V N wrote:
-> convert the Texas Instruments PCM186x Universal audio ADC bindings to DT schema.
-
-Your patch fails to apply with "b4 am" due to the following:
-
-WARNING: Message contains suspicious unicode control characters!                                         
-         Subject: [PATCH] dt_bindings: sound: ti,pcm186x: convert to dtschema
-            Line: +﻿# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause          
-            -------^                                                                                       
-            Char: ZERO WIDTH NO-BREAK SPACE (0xfeff)                                                       
-         If you are sure about this, rerun with the right flag to allow.
-
-Please fix and resend. Some comments below.
-
+On Sat, Oct 25, 2025 at 02:02:19AM +0530, Nirbhay Sharma wrote:
+> Add missing kernel-doc parameter descriptions for five functions
+> in init_ohci1394_dma.c to fix documentation warnings when building
+> with W=1.
 > 
-> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+> This patch addresses the following warnings:
+> - init_ohci1394_wait_for_busresets: missing @ohci description
+> - init_ohci1394_enable_physical_dma: missing @ohci description
+> - init_ohci1394_reset_and_init_dma: missing @ohci description
+> - init_ohci1394_controller: missing @num, @slot, @func descriptions
+> - setup_ohci1394_dma: missing @opt description
+> 
+> Tested with GCC 13.2.0 and W=1 flag. All documentation warnings
+> for these functions have been resolved.
+> 
+> Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
 > ---
-> Convert the Texas Instruments PCM186x audio ADC bindings to DT schema.
-> ---
->  .../devicetree/bindings/sound/pcm186x.txt          | 42 --------------
->  .../devicetree/bindings/sound/ti,pcm186x.yaml      | 67 ++++++++++++++++++++++
->  2 files changed, 67 insertions(+), 42 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/pcm186x.txt b/Documentation/devicetree/bindings/sound/pcm186x.txt
-> deleted file mode 100644
-> index 1087f4855980..000000000000
-> --- a/Documentation/devicetree/bindings/sound/pcm186x.txt
-> +++ /dev/null
-> @@ -1,42 +0,0 @@
-> -Texas Instruments PCM186x Universal Audio ADC
-> -
-> -These devices support both I2C and SPI (configured with pin strapping
-> -on the board).
-> -
-> -Required properties:
-> -
-> - - compatible : "ti,pcm1862",
-> -                "ti,pcm1863",
-> -                "ti,pcm1864",
-> -                "ti,pcm1865"
-> -
-> - - reg : The I2C address of the device for I2C, the chip select
-> -         number for SPI.
-> -
-> - - avdd-supply: Analog core power supply (3.3v)
-> - - dvdd-supply: Digital core power supply
-> - - iovdd-supply: Digital IO power supply
-> -        See regulator/regulator.txt for more information
-> -
-> -CODEC input pins:
-> - * VINL1
-> - * VINR1
-> - * VINL2
-> - * VINR2
-> - * VINL3
-> - * VINR3
-> - * VINL4
-> - * VINR4
-> -
-> -The pins can be used in referring sound node's audio-routing property.
-> -
-> -Example:
-> -
-> -	pcm186x: audio-codec@4a {
-> -		compatible = "ti,pcm1865";
-> -		reg = <0x4a>;
-> -
-> -		avdd-supply = <&reg_3v3_analog>;
-> -		dvdd-supply = <&reg_3v3>;
-> -		iovdd-supply = <&reg_1v8>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/sound/ti,pcm186x.yaml b/Documentation/devicetree/bindings/sound/ti,pcm186x.yaml
-> new file mode 100644
-> index 000000000000..f1ade490f688
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/ti,pcm186x.yaml
-> @@ -0,0 +1,67 @@
-> +﻿# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/ti,pcm186x.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Texas Instruments PCM186x Universal Audio ADC
-> +
-> +maintainers:
-> +  - Ranganath V N <vnranganath.20@gmail.com>
-> +
-> +description: |
+>  drivers/firewire/init_ohci1394_dma.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 
-Don't need '|' unless there is formatting.
+Applied to for-linus branch.
 
-> +  The Texas Instruments PCM186x family are multi-channel audio ADCs
-> +  that support both I2C and SPI control interfaces, selected by
-> +  pin strapping. These devices include on-chip programmable gain
-> +  amplifiers and support differential or single-ended analog inputs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ti,pcm1862
-> +      - ti,pcm1863
-> +      - ti,pcm1864
-> +      - ti,pcm1865
-> +    description:
-> +      Must be one of the supported PCM186x models.
 
-Drop the description.
+Thanks
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: |
-> +      For I2C, this is the 7-bit slave address of the device.
-> +      For SPI, this is the chip-select number.
-
-That's true for every I2C or SPI device. Drop.
-
-> +
-> +  avdd-supply: true
-> +
-> +  dvdd-supply: true
-> +
-> +  iovdd-supply: true
-> +
-> +  '#sound-dai-cells':
-> +    const: 0
-> +    description: Number of cells used to identify a DAI endpoint (fixed to 0).
-
-That's true for every DAI and stated by the constraints already. Drop.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - avdd-supply
-> +  - dvdd-supply
-> +  - iovdd-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        pcm186x: audio-codec@4a {
-
-Drop unused labels.
-
-> +            compatible = "ti,pcm1865";
-> +            reg = <0x4a>;
-> +
-> +            avdd-supply = <&reg_3v3_analog>;
-> +            dvdd-supply = <&reg_3v3>;
-> +            iovdd-supply = <&reg_1v8>;
-> +        };
-> +    };
-> 
-> ---
-> base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
-> change-id: 20251021-dtbs-3a31f699c461
-> 
-> Best regards,
-> -- 
-> Ranganath V N <vnranganath.20@gmail.com>
-> 
+Takashi Sakamoto
