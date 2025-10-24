@@ -1,62 +1,62 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5FF335BCD
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Oct 2025 18:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65103169AE6
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Oct 2025 18:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761329060; cv=none; b=qrhBFpjNzfD+0o3+xnAlAwlXLOS+bpXGM7hFPQvZUwZs7W5teQlOJdKcI9+Knc4WxXyCz+4+S6dI0gyIJVhuREjw8tmHteyW02lsUT9Y1n6+pAlweYVbB4rE4u7f/cqI85yv9xFbCrGX6InCoGRlUeQn5TaDEiIBdEauTUZrnwg=
+	t=1761329384; cv=none; b=RHxElY7VMXVuKmx411/7BtDHH+K63gSLxif2XXzjchULpBm1CPfA8iUcl9uQYJ42z4/aKH9LZHK/DSsodoD7DwVN854tpL+EQeuTLRiNRshSfqAX3ZcAL90zO12OZoy9AnqWPmVRnVsAEyRV0KdE8SZrLFAAG1TQkbLVRDMzCGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761329060; c=relaxed/simple;
-	bh=FD+uLET5TuaQ/SlLICNIujEOQLyze1Ha9Ev/0UmnsS8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OyIQuPP5NcJqsCh4NbNjONtZlKtmEukaSEvfeSkZz6trL2N1xZCJxL4lYkM9s0J680l4baGZg48ClHXopxcQbgQZ6B0rIkpYIYKl7CnMlzQW3iu0h8q8AYXdMBYlwxf69krd9v4aKlqt5WYbPCh3xm14Aznz6JdZS+blI8yNu1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HtwmL4Gn; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1761329384; c=relaxed/simple;
+	bh=QU8xJ4i/Aw+Vyd7H8WdoblY3NJYZVZWy7OUfVpnGwS4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O0S1fJ+5ZvMNxHyTvOMBw6bTNEZAVMCScHB79YdJpuZE0CFYJqv6BjrheRCpUWe/sBIXGRUYKa3vith4ofV2hw5ko5nWFKM3tPRUoD4stT+pM6llDhmW6agW8wlh/Eaw6zi/sSZ5/tWp0qz3vsAQ1OENS+CW6TsxmX6QDUtfaUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lD21cH9E; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HtwmL4Gn"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-77f5d497692so2892102b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Oct 2025 11:04:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lD21cH9E"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7a265a02477so1857606b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Oct 2025 11:09:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761329057; x=1761933857; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1761329382; x=1761934182; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6jSNSoL6MN3rN9DlGA8YJd5PwyM+kEm6TobaAM50YPw=;
-        b=HtwmL4GntuQGOce/OQI8YykfzYfXP5yF/HJ0lZuNfY7J6WqHAeQcnIPkgYbX9YCOd8
-         QBLwCbsjZTlAGWpo+iFDGZEqcPi3Gi4jgukW96FIKyjzaHt/DwNMhVUYAoHYOWMDSwZO
-         9Ti5TM5AImskRntSH2FhUyEUelYgJv6woiufHofiCfHmpa00Cl0P7tLmRdR26OHZDxZk
-         dvw8zIh4iZkhl2P8yCIdAirOY/ntA2/XGRaEn1o2QABs/wPjbORSLMRmNDW9C07a6Fuk
-         34+j8pLqGS64B4EN6mymgIKvmLnUyxpzyo9+sxvLjIcDmHPBNHmFjUwxuwYwm7fz1IY6
-         7a1w==
+        bh=7uYPj0SfejBh3YiQ4X3su8BApVdqBraujAWalEDiN6k=;
+        b=lD21cH9E2jTrEhghpXmiD8ND4Uv9Go23cuCIWxuv+0QYe5ZSlDABWVzqfQV22PNWli
+         W2BH2zQ6nLZlIOoaKZHmvNtdjvRN/pJinqaxjGezJkzCSs9hFCzfzZTs45roSyozbAor
+         2vaomS5MZVl/788zH9yxRjEPiKkU0dxZqNnS3AgtImlSbA+JPfhDt2aBnniomwq3R3Mt
+         VVJsAhswaLzjjMSl1I7QWshkYioD/qRSgKEP1tHzU6b1TV4m1DTGoAt75OHR0xKcl7Wm
+         Cx0a4WqhCG3K4lFWQm7bLKCZDPKSoYjaBZygPNbkZvIqsnTLUekuntUAoZWIwfd16UxT
+         xvTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761329057; x=1761933857;
+        d=1e100.net; s=20230601; t=1761329382; x=1761934182;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6jSNSoL6MN3rN9DlGA8YJd5PwyM+kEm6TobaAM50YPw=;
-        b=Z0cnycJ5JDrxxJVO4E26Dz77ICf7bheMbJdbm/Hv1AunT1UDG32knsP2VBVsZSr1nH
-         5q3Ccgs/qCmZmotTxptfFLeLlwdHoK6HqE7XEp0hCNDrOCXsRNiXh3oz+KeNyUwMaT2l
-         ognYQ5DMdL89iqQ2q9try0OYAtmAo5YJK0grMiIBt4x/WZATXI8hwl7REVLfu+qR1pRt
-         9XX6r74ibtZ9SUztc/iUYQUU/hn5GS0+GS4P3wJ/z9/YXfdG/a/HZ5Ne0VRwrLPFtK46
-         h/jS9Tw2RpBSUKNkyLFUA4DKpsqZ2xXBTnoWEwV3UDXLLZEP2tmGOzpw9oAUJyzHu/3A
-         UiVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVg25R8px+9X8yqt/M/tNl5AFtH92yxGpGGRqvP80Y2nZYp5hvPcGkckiSLifOH+QS50mUwCOcP4Py0TshS1CKNioq4YQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSw7GShdaM26BYlJt0bBbA87T/Onw1auasyyN3pAkhA+3ZwEwD
-	L/CrmAcKNMyiClqJ7Ce17l1ozMAsniaxatjiG/A3EDmKAaLSoLOA7Nyd
-X-Gm-Gg: ASbGnctqsQJvP5CNlSD/2tWT5iTgQny9gCmHCn6K3kkkOhVhVogbCk44iDH7jmSb3i3
-	uFbWwcGF8Ml8i7lpuVDqscsAC/1PlFraBp46WaJ9P+2KAy7gJpL6Tz2RtlFp2cIb3TFMlluvxBu
-	zFDdTec1IUDosQtZVDmtldHPxG4/zS7Q6tORrPPdP/4PoAd7gRI08qTUXEpK7ynG5kghN6Ow/8l
-	rGzF0Rg9hipcBbjCuqv4ZXKUknVMlgtHa2Xm515lPI6rM5Yiu+6p9YzmR1OqnaBUqLKBWepprAr
-	NpBypyvwk9RHUhyAt/+BjH1qLTsq3VFTPAHWgbrOkCWP+Qr58oKj8B5rQVPvU8vrJFmVo3JtKpp
-	S56p+3i6dDfqIJ7Z6MpdaZerM9dczUVuG34gvAG+ID3ev77+XI5I0uWWb4YBVMcmRCGGgXz32jg
-	t/W4Hri9psCjqsNJq7zhmykjKdcDM=
-X-Google-Smtp-Source: AGHT+IEqqhg958lDuFGeAHS9RaqGf4P0XUAnU1shDFq0E+4EETe2pVFAR+Por5sTueLRIulvDD0XbA==
-X-Received: by 2002:a05:6a00:3cd5:b0:783:cb49:c67b with SMTP id d2e1a72fcca58-7a220d2327emr39144304b3a.32.1761329057439;
-        Fri, 24 Oct 2025 11:04:17 -0700 (PDT)
+        bh=7uYPj0SfejBh3YiQ4X3su8BApVdqBraujAWalEDiN6k=;
+        b=wpTgndjlZN+iDJsfpn1RLBNitEU1ABHeFrgZNQUh2DUJKLXZNT6owbeW3BfBNcVCoB
+         OGHpWN/kTE1jKHL1u28v9lB5YZf7oSiZKmbuUI6oGCJiP9ZXllVGUWBhRr5mwCAW/Y10
+         tCPzz77RUmC6SrGNM8SopR2ASu2OuOj+qxEgnumwVsw63YYLEhBldOe3c1bsTn+MMvuZ
+         C22pxejDm0hZ9peGRVQnhu75uEYKF1rGRIe0Vz51at9jNfVeoY7EQ1m2Zd0HpI6BFG/S
+         kGuGOnF/Ta7TQX+Ioy6oeWi2KW87VAjzIVbjOOn+a7CsoLmQp6BX2wkH0feIg83tsuNW
+         x3Lw==
+X-Forwarded-Encrypted: i=1; AJvYcCUKTUdN8ZYuI4LG34Eu8vFU9qX/jWUBp5zVwpWSi3bDIDeMBW05eyxCjDU3lwes9kPmOIaMDCFsDF8kXsLGxi5k0G0k2A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+/wm9asGvpex8fEj+O+A0l1bIBGMsvHzuxPirWBdmjyU8MOny
+	z96tN7fW7h3aI49cK6/xNGua4eP0SW+fViBjlsJqKC9pqkGM+58YLHnz
+X-Gm-Gg: ASbGnctEWlsz0tToMZN2oFEcjIlbcVxR29r595/Z1TRQKdns6bNXCkQT07JfJaG5DVY
+	4PEjKnoUhOUDdIkNNHH/lUzIupOMCsy4wHqXrajWjEBHdAWq674fKswQpcQEdUXwAwSssFpv8p2
+	g+4PHdPB3lWEv8eO1TAGsIfATp67BC3E3ZdsVSEvybeIWSj+DzEpfmtXrv1xs1eycxa9c9E035E
+	Qdw0BsbV7WqJkF9JtdIVTUe995rrRbmubz/djcFnD8glx1Yg5j7cCso6vPwOwi56eQU3vO2lKxT
+	+mZuB6uclrHKeMuWdIr1PAnuRtJoQP3p+nmZLrbzlwRulevr7sx2NLVG/NiTohdgzRNpdh7etZf
+	5Pz86sSmoz1FSBl1rgKuR/QBTOKA8Cn3j2fJdPEfD50nPww8wtjA9dCB8NJHIk1sK2UhIe3azmd
+	LXgX1CE9zO2TKpfaQU
+X-Google-Smtp-Source: AGHT+IEs14yzKo807oappAF1m6JTB8e3oPccYkCYJQsAbVjRETvcZutpUdb8D5Sas5c982XlhF6cwA==
+X-Received: by 2002:a05:6a00:99c:b0:7a2:7fd2:4132 with SMTP id d2e1a72fcca58-7a28685ed77mr3453308b3a.22.1761329381658;
+        Fri, 24 Oct 2025 11:09:41 -0700 (PDT)
 Received: from tixy.nay.do ([2405:201:8000:a149:4670:c55c:fe13:754d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a274a60464sm6585920b3a.15.2025.10.24.11.04.11
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a274dbffacsm6679137b3a.66.2025.10.24.11.09.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 11:04:17 -0700 (PDT)
+        Fri, 24 Oct 2025 11:09:41 -0700 (PDT)
 From: Ankan Biswas <spyjetfayed@gmail.com>
 To: ajit.khaparde@broadcom.com,
 	sriharsha.basavapatna@broadcom.com,
@@ -73,9 +73,9 @@ Cc: netdev@vger.kernel.org,
 	david.hunter.linux@gmail.com,
 	linux-kernel-mentees@lists.linux.dev,
 	Ankan Biswas <spyjetfayed@gmail.com>
-Subject: [PATCH] net: ethernet: emulex: benet: fix adapter->fw_on_flash truncation warning
-Date: Fri, 24 Oct 2025 23:33:42 +0530
-Message-ID: <20251024180342.1908-1-spyjetfayed@gmail.com>
+Subject: [PATCH v2] net: ethernet: emulex: benet: fix adapter->fw_on_flash truncation warning
+Date: Fri, 24 Oct 2025 23:39:26 +0530
+Message-ID: <20251024180926.3842-1-spyjetfayed@gmail.com>
 X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -94,26 +94,32 @@ drivers use to report secondary firmware information.
 
 Signed-off-by: Ankan Biswas <spyjetfayed@gmail.com>
 ---
- .../net/ethernet/emulex/benet/be_ethtool.c    | 96 ++++++++++---------
- 1 file changed, 52 insertions(+), 44 deletions(-)
+ .../net/ethernet/emulex/benet/be_ethtool.c    | 100 ++++++++++--------
+ 1 file changed, 54 insertions(+), 46 deletions(-)
 
 diff --git a/drivers/net/ethernet/emulex/benet/be_ethtool.c b/drivers/net/ethernet/emulex/benet/be_ethtool.c
-index f9216326bdfe..0d154c7e2716 100644
+index f9216326bdfe..42803999ea1d 100644
 --- a/drivers/net/ethernet/emulex/benet/be_ethtool.c
 +++ b/drivers/net/ethernet/emulex/benet/be_ethtool.c
-@@ -225,8 +225,16 @@ static void be_get_drvinfo(struct net_device *netdev,
+@@ -221,12 +221,20 @@ static void be_get_drvinfo(struct net_device *netdev,
+ 	struct be_adapter *adapter = netdev_priv(netdev);
+ 
+ 	strscpy(drvinfo->driver, DRV_NAME, sizeof(drvinfo->driver));
+-	if (!memcmp(adapter->fw_ver, adapter->fw_on_flash, FW_VER_LEN))
++	if (!memcmp(adapter->fw_ver, adapter->fw_on_flash, FW_VER_LEN)) {
  		strscpy(drvinfo->fw_version, adapter->fw_ver,
  			sizeof(drvinfo->fw_version));
- 	else
+-	else
 -		snprintf(drvinfo->fw_version, sizeof(drvinfo->fw_version),
 -			 "%s [%s]", adapter->fw_ver, adapter->fw_on_flash);
-+	{
++
++	} else {
 +		strscpy(drvinfo->fw_version, adapter->fw_ver,
 +			sizeof(drvinfo->fw_version));
 +
-+		/* 
-+		* Report fw_on_flash in ethtool's erom_version field.
-+		*/
++		/*
++		 * Report fw_on_flash in ethtool's erom_version field.
++		 */
 +		strscpy(drvinfo->erom_version, adapter->fw_on_flash,
 +			sizeof(drvinfo->erom_version));
 +	}
