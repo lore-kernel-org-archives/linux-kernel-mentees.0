@@ -1,190 +1,104 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CA725A323
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Oct 2025 21:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD4B224FA
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Oct 2025 05:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761253524; cv=none; b=dk0P5YUkZA4JxSXRGvu0sIpwFN8Bnqcs11R1bodQqTQ73e2f4kLTCcxNLS6GrxlBpY8c2AwqAdlIMTY6k6dXwBfS2wwQHrjJTtw19cdDF1AZ9E5IrLCWeeZLf9cEQ8tJxsMP2vr1fgT5hvcTzDB92aPF5ak897s2+P0JrVYwah4=
+	t=1761283924; cv=none; b=FjhxfEBk/uCXEXCmSz/Zjq7TyFixlEqHclhtKV4JOGS84rCeAgp2pSl8GsOx+9WH8pekawZvKUz/gmlDjesxdWKH963dz6TXrbb1pCB8KHpe3C70pmQrAbfycGOEA/wPzw7SjgVQUvChWhjcsu628HJxYflvQnoP81tgSQKYl9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761253524; c=relaxed/simple;
-	bh=uNN9PPr/yTFHzxK8MQ3XHv/YvwCSmF0U+8ouACnxjAk=;
+	s=arc-20240116; t=1761283924; c=relaxed/simple;
+	bh=jrZFDTVAnVgZ12PpGzZA6oTE8Uvz8Wa0TIbGoyoIcmo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hke3JiA/pqwZfYmP1NeRIT+7eGC8EbTO1JIfQfcJ1r0bXviPnMO3qr0guzysSAT08qOkgIcVT70lry6pc76qBHIgMUPAG8xvXBe84uzgDRIavdchgeRASxpAVopuOoHjJI/b9jOIphSRzYjufK9qp4p8pWtBQM76XbrzV7bYYuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ugbp1H0v; arc=none smtp.client-ip=209.85.208.181
+	 To:Cc:Content-Type; b=FYVJBB3uUa1qZc2w7Z8iT4aA5p0RxxXkGVEKNq6ajIzB1An5mhit1eBvrTxBUOu3MNseq9cY6cXeUWsVIUXDTfqXYVj1W6DveP0bhvJPvVOlNX+xZe2rrHjJPPPILBW/TUElzgPIL5OxCU3cNTW3wU9DLhBjJT9kJqIx8quwcFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OHvX4Cp8; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ugbp1H0v"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-378d50e1cccso15468791fa.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Oct 2025 14:05:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OHvX4Cp8"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-63e076e24f2so3363065a12.3
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Oct 2025 22:32:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761253520; x=1761858320; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=862okFpfVZvhmXzSNmyjfrfI1Xm8aQ7K46jS7eTHfAM=;
-        b=Ugbp1H0vZgKPZvfzoGPsVhU5O2xH97v1OquWuX/B+tOUQEltQhwds1tsiVHOgUTa6Z
-         glBFQAb5hk7RzHBM7ICOTOYFVc9Ir2wDc1S3NrUNLttNd+yTj4bcQ0YerEThKBpsUR0a
-         gHqMJurmwNLmE5u3MI6xVznxCgkc0KBrpveYCoOYwaeraTXQDhUeWD2bLA7e89Utyazq
-         sJZ5eDz1THk5lcq+AArgczpah7jq/KCJO3xLvUar1cKnlv7u6hpA7asVOOQYUX0a9G4y
-         uHJIhqkpJYB9nmu1alfXyz/4KjU55D6+iKIxusQ+kXcz3EaaJZkD2fif/46hQ3GTJEkk
-         Kynw==
+        d=gmail.com; s=20230601; t=1761283921; x=1761888721; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jrZFDTVAnVgZ12PpGzZA6oTE8Uvz8Wa0TIbGoyoIcmo=;
+        b=OHvX4Cp8wGXYGmVN5Y2iPwES9N0R/aT10ReXHLluwK9KAEhOKREaRX8Whwsl7w2WNS
+         EK+ii/eIvJmEgc/ZlHZcwqeAEBKnzT7jgdDYBXsmGToY5wpAI37KQtqcwhKiWQjLgadl
+         9slzthxDysx4XF5d8X5+NjikhYU6MsRllog5sn1i7AjHOtCZ16xa5WFapgY0dBqagkeR
+         vV0LvUyYiXMKGVmhhV5T4BV74zf+XKjJnh72wf6niUvJM5tW0eGSBaPxDFzRlVboYxB5
+         B7msKmlsNo3DfuKU/a77U6haaTwbQxfFhXRu/RGiH4bgP8YhEOpGL4jgSv9/MSyhbbHP
+         fOGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761253520; x=1761858320;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=862okFpfVZvhmXzSNmyjfrfI1Xm8aQ7K46jS7eTHfAM=;
-        b=Jqxnst1UysoReVHafeACBDI5xTdvpApiFHLT/N62f+k/dv/SU6gJHpyga+ACRlq61z
-         OJt9GJrAZui5NirCUxxfZGjvFTu80GXT0HtgCaMJGV95b1Q6zr5b1l5Q/wdQSmosNc8x
-         MC6Ov1ujjfa5HDG51vcj/QXRiR3nGOFNI4ICe+QoYk+IOQfFrX/aLqcT2Zsq0EWTByjj
-         4HLbYvvt6g4zX3yVWmeoMgsg7S6h/btvKibYVofr4+p3DNUmVoRba66Yfu4hLzqde3dv
-         rjJnpqDZ0oVOEtB8OZI4OknSH7AWtEzDuoQQmimCbbtqO47bDxTmWSL7oNeBxxyd2ic2
-         rFEw==
-X-Forwarded-Encrypted: i=1; AJvYcCXjR/pVYAvPqLy8s1xsDHtl0u22BShmRqFUKs+F+foGKB+iAf1LlkhX++7v3jocP+6C3bDjuAluglF4FaUiuEyUwvnilQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6Rubf9rvVsI3a9kLeFlXmMcKuKpcZk7IYsi5kdyJnfNzE3TRx
-	qMz/hJXeW9RFiHto5f1a6ot22M+LE5ItXTVcP/UpNIZEa9qeZmLLcbdaYJ7MeQCjJievHmrJo8j
-	iNJGJmu+WFIY8dHWLVMIpPtbWMygTn68=
-X-Gm-Gg: ASbGncvQRJrk8+miTF957XTZsB1muSbD+C6l6WTrLKxvq3z1CfBWl6P/6JaGbH4SUy7
-	Sghp23rV7nj4Fcc55JWbChhHVoBX7TkdqOL/2w7A/CMGx42uI83rF46t651nWaT5tgZcx9Hmk9O
-	VCDzuzTgS9JTO6nPA2mbvuem1DqMqzdmIZxBJgAqUr+1xJf8qiiQ8FFlQhsZPWA1z36OX1msVm8
-	aG+iWHHOERMNTpRkaPMsrKi2iGFhjs4sxSCaksjiHHX1NxBVJAsawI6LTkbZ/HMtn+gOw==
-X-Google-Smtp-Source: AGHT+IG9hVStadcHgcH9pwqipVZ8q236Yr5ZSYyiWguCrs1hAdh+Ks2DDRtnidEtfFSfFhuAguYEPWv9H0ksKC0iQco=
-X-Received: by 2002:a05:651c:908:b0:376:2802:84b0 with SMTP id
- 38308e7fff4ca-37797a8ed3fmr71073181fa.46.1761253519780; Thu, 23 Oct 2025
- 14:05:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761283921; x=1761888721;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jrZFDTVAnVgZ12PpGzZA6oTE8Uvz8Wa0TIbGoyoIcmo=;
+        b=o9IZxpgO83RtzhLIVXUpYYvecur2tUh7ZKyYaW4Fg72vZkndAnnIfAJDxIXqFE4zMa
+         m7lUQS52AbiV6TuOh5tvVwHntnKUF5CoVr4B7+z3jVBt4sWVE0WUfvp3WSUtGGL4oSo2
+         mqBt4dj9LERN1Q7ZsTDsQ6KBz6LCb4/Mn1Hg5GbGaV48GKu3BCmQ47bV65OHgfhBD/Ot
+         yd7mnHRLfY6xcVtZyB63NmhHyGw11Z/Df0XpIFjbuPpYOx6f7RSsOWpinvSvjz6HRREx
+         yWJ7U8vJ4nO7yQOkysvz2m6hxHnN/u2vEVQaATvbUM6erqBv8aLmEWesCO1mqQ7ofoPf
+         32uA==
+X-Forwarded-Encrypted: i=1; AJvYcCWW3PJgDUWD6Zfl/CToh4+BqUNM49xSiXiC8UXb57ZmaQGqD5WJg7OyfkOUeJdj2V0Kcs3iez5dWBEoO1D7EDzuaxuFPA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzdM1KN03vDDe6sCDC+t1FjKIIiDCtWW9M7ngm+wN5fVkBPDweg
+	/7D3gcVz1tIVFzgAo5mWrJjtwccwQ7gBPpIgz171Ft0lBoS52yOcF7Y6B8Dv9fnjLms463s2s9a
+	4Fd2pNFJ19PvqeyGxNLwpAy3zcXi+SWk=
+X-Gm-Gg: ASbGncuZ3fR5UfvUr8SnG9phAIYfAZ66kk7f9VDExkGENvJqVGaPBR4eHix2Y7FtbmS
+	e9cdd/lS4GyBZgdAYyECWUBOuYgQ17FPzymkHDtTw0guZnlLca3KPoWEJLUStby45mVSPpLsnUg
+	Ba8nEqE21s/XeqH8YhmJPf83M9Y5k7KRtI8/qF7DLt3lMzEO5De2zCrx039OfpOvgVuBtVmRYLd
+	5GBPkKDRuozVtifmWYYHfXJHDoo6OyY5/e6cIcKNK6f8thc2+W+VQ/Pzc/S3mdTSb+e6Bz2tEHx
+	6qJfehiUK8IhAuWku3P3/6tUBfkCDv6iZj87nZdgCg==
+X-Google-Smtp-Source: AGHT+IGFabAhZAJYuPfr/6rC/PYhEDpQyVDuFdX5CgymYZMIeCEsElgNay6QkpiOoSX+UbWLt45lbDkjDPoIV9KaDOI=
+X-Received: by 2002:a05:6402:2787:b0:63b:d7f0:d940 with SMTP id
+ 4fb4d7f45d1cf-63c1f6300fbmr24095995a12.1.1761283920553; Thu, 23 Oct 2025
+ 22:32:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251022223417.139332-2-rpthibeault@gmail.com>
-In-Reply-To: <20251022223417.139332-2-rpthibeault@gmail.com>
-From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Date: Thu, 23 Oct 2025 17:05:06 -0400
-X-Gm-Features: AWmQ_blXZO5mFjarWLO1_mPPNpv69dkFfEOsfq92hPD4abmuqgith-oR4ByY-LI
-Message-ID: <CABBYNZJtp0wqL_SJEk0wVo4DuadrBirmJ5VOe_TyE_RN8jOJNA@mail.gmail.com>
-Subject: Re: [PATCH] Bluetooth: hci_event: validate HCI event packet Parameter
- Total Length
-To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-Cc: marcel@holtmann.org, johan.hedberg@gmail.com, 
-	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot+a9a4bedfca6aa9d7fa24@syzkaller.appspotmail.com, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+References: <20251020134857.5820-1-viswanathiyyappan@gmail.com> <417c677f-268a-4163-b07e-deea8f9b9b40@intel.com>
+In-Reply-To: <417c677f-268a-4163-b07e-deea8f9b9b40@intel.com>
+From: I Viswanath <viswanathiyyappan@gmail.com>
+Date: Fri, 24 Oct 2025 11:01:48 +0530
+X-Gm-Features: AS18NWDs_5xaC29vC8E21DedXs-dJA_wBfE3U9f9TDVAjvKKLnU69pQirhtU_eY
+Message-ID: <CAPrAcgOimjOR9T5K07qR4A8Caozq5zimD23Nz4G2R9H_agPgWQ@mail.gmail.com>
+Subject: Re: [RFC net-next PATCH 0/2] net: Split ndo_set_rx_mode into snapshot
+ and deferred write
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, horms@kernel.org, sdf@fomichev.me, kuniyu@google.com, 
+	ahmed.zaki@intel.com, aleksander.lobakin@intel.com, andrew+netdev@lunn.ch, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
 	david.hunter.linux@gmail.com, khalid@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Raphael,
-
-On Wed, Oct 22, 2025 at 6:38=E2=80=AFPM Raphael Pinsonneault-Thibeault
-<rpthibeault@gmail.com> wrote:
+On Thu, 23 Oct 2025 at 05:16, Jacob Keller <jacob.e.keller@intel.com> wrote:
 >
-> There is a BUG: KMSAN: uninit-value in hci_cmd_complete_evt() due to a
-> malformed HCI event packet received from userspace.
->
-> The existing code in hci_event_packet() checks that the buffer is large
-> enough to contain the event header, and checks that the hdr's Event Code
-> is valid, but does not check the hdr's Parameter Total Length. So,
-> syzbot=E2=80=99s event packet passes through and uses the un-init values =
-in
-> hci_event_func() =3D> hci_cmd_complete_evt().
+> Is there any mechanism to make this guarantee either implemented or at
+> least verified by the core? If not that, what about some sort of way to
+> lint driver code and make sure its correct?
 
-It does checks the length:
+From my observations, The sane drivers modify rx_config related
+registers either through the set_rx_mode function or the unlocked
+version (prefixed with __)
+I am not sure how to convert this to a validation of that kind.
 
-    if (skb->len < ev->min_len) {
-        bt_dev_err(hdev, "unexpected event 0x%2.2x length: %u < %u",
-               event, skb->len, ev->min_len);
-        return;
-    }
+Basically the end result should be that warnings are generated when
+those functions are called
+normally but not when they are called through ops->set_rx_mode.
+Coccinelle might be able to do
+something like this.
 
-> Reported-by: syzbot+a9a4bedfca6aa9d7fa24@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3Da9a4bedfca6aa9d7fa24
-> Tested-by: syzbot+a9a4bedfca6aa9d7fa24@syzkaller.appspotmail.com
-> Fixes: a9de9248064bf ("[Bluetooth] Switch from OGF+OCF to using only opco=
-des")
-> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-> ---
->  net/bluetooth/hci_event.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-> index d790b0d4eb9a..5e1498cc04cd 100644
-> --- a/net/bluetooth/hci_event.c
-> +++ b/net/bluetooth/hci_event.c
-> @@ -7565,7 +7565,7 @@ void hci_event_packet(struct hci_dev *hdev, struct =
-sk_buff *skb)
->         hci_req_complete_t req_complete =3D NULL;
->         hci_req_complete_skb_t req_complete_skb =3D NULL;
->         struct sk_buff *orig_skb =3D NULL;
-> -       u8 status =3D 0, event, req_evt =3D 0;
-> +       u8 status =3D 0, event, req_evt =3D 0, len;
->         u16 opcode =3D HCI_OP_NOP;
->
->         if (skb->len < sizeof(*hdr)) {
-> @@ -7585,6 +7585,13 @@ void hci_event_packet(struct hci_dev *hdev, struct=
- sk_buff *skb)
->                 goto done;
->         }
->
-> +       len =3D hdr->plen;
-> +       if (len !=3D skb->len - HCI_EVENT_HDR_SIZE) {
-> +               bt_dev_warn(hdev, "Unexpected HCI Parameter Length 0x%2.2=
-x",
-> +                           len);
-> +               goto done;
-> +       }
+Related to this, I don't think a sed would be sufficient as there
+might be (in theory) cases where
+the function has to do a "synchronous" rx write (flush the work queue)
+for correctness
+but it should be good enough for most cases.
 
-Looks like a big hammer for a uninitialized value, which I assume is
-from the following code:
-
-    if (i =3D=3D ARRAY_SIZE(hci_cc_table)) {
-        /* Unknown opcode, assume byte 0 contains the status, so
-         * that e.g. __hci_cmd_sync() properly returns errors
-         * for vendor specific commands send by HCI drivers.
-         * If a vendor doesn't actually follow this convention we may
-         * need to introduce a vendor CC table in order to properly set
-         * the status.
-         */
-        *status =3D skb->data[0];
-    }
-
-That one is accessing skb->data without first checking it like
-hci_cc_skb_pull like all other event handlers are doing, if that is
-really the case then something like the following should make it go
-away:
-
-diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-index bae8c219341a..e71fbdebffae 100644
---- a/net/bluetooth/hci_event.c
-+++ b/net/bluetooth/hci_event.c
-@@ -4219,6 +4219,13 @@ static void hci_cmd_complete_evt(struct hci_dev
-*hdev, void *data,
-        }
-
-        if (i =3D=3D ARRAY_SIZE(hci_cc_table)) {
-+               if (!skb->len) {
-+                       bt_dev_err(hdev, "unexpected cc 0x%4.4x with no sta=
-tus",
-+                                  *opcode);
-+                       *status =3D HCI_ERROR_UNSPECIFIED;
-+                       return;
-+               }
-+
-                /* Unknown opcode, assume byte 0 contains the status, so
-                 * that e.g. __hci_cmd_sync() properly returns errors
-                 * for vendor specific commands send by HCI drivers.
-
-> +
->         /* Only match event if command OGF is not for LE */
->         if (hdev->req_skb &&
->             hci_opcode_ogf(hci_skb_opcode(hdev->req_skb)) !=3D 0x08 &&
-> --
-> 2.43.0
->
-
-
---=20
-Luiz Augusto von Dentz
+I am also not sure what is to be done if the scheduled function just
+never executes.
