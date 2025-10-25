@@ -1,162 +1,135 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A197B2FFF85
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 15:07:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF72301477
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 18:49:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761404836; cv=none; b=aBVB+FDH9BDmg/w+ew1qbtUVuWrWCLrtbBFt6MyL1XkamwOk3yavMyhf1FsnREb4S2BKF6rD+X+sAXBhHqUJbCWS0EHljIg6R3p00MzrVH1sL2Rb7u9R3EWbsfMy0G4+QBlyE4+yRAH1a2ViTfpy1uvf6/nxI/O0IQgq0Bak4dA=
+	t=1761418186; cv=none; b=hRcAf84HaKjutOQIxZ3JvEd5F7KfPR1mFIeUv7CqmVRBjzbJIXPWCSa1Z6afb7oGunhbppEkU/bk3gVP5mY3akH/DNaPGxF8AVP9rm5MA91JLFnDc4QxUHZizEl2txukkCUAS6RPak/XcTu/4z3gxfH1Vmpnmym1DDl/E1Htc7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761404836; c=relaxed/simple;
-	bh=pdElZZTBRl/ohTApnI+0p2VE9kXSMqg2mVsZtsGTtng=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bWGcu+Aabb5u2ex2eP7pwQxzpft3JufOaL0RszggAsdQlv/P9N7XZ+aS1kSvS4P9Idgpgx/LWTzTdbZiuEvvFde2IV1+xiTJiRTugUaV19fzl/O+9tvAzol/bv/55ahnj6+N0mK6RnzThnPt2PM0k17wHwr9N5ImPdYzT2YjEQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HaH+F/Qg; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1761418186; c=relaxed/simple;
+	bh=3jV0KfbqyUjr6nh2vaI4XUsvRoHBlT0uhCZEnBsgLUU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CrtP/hsS0/IhyhF/kEZTIYtQueIjlO6d8vICMp0nWc7ECVvklvtzpkGcbO3iq2MPfoPAikSvjT/PGmLvt+eDv9btU+vX4vD+j5T6ChgaGL/SBZwIE0KDyMgA2SrtMZ97t7tDGJcELu3dPCgoIsc6mw4BzHsQPmr+a8EJHj2b/FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j/FAhXHu; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HaH+F/Qg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j/FAhXHu"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 509A581121
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 15:07:15 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 3C4BD4097F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 18:49:45 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id dhXOIQvXLD7d for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Oct 2025 15:07:14 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102d; helo=mail-pj1-x102d.google.com; envelope-from=nirbhay.lkd@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 50F1680B5A
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 50F1680B5A
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HaH+F/Qg
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 50F1680B5A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 15:07:14 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-33067909400so2314289a91.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 08:07:14 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id j4pHsjnivq8w for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 25 Oct 2025 18:49:44 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62e; helo=mail-pl1-x62e.google.com; envelope-from=nirbhay.lkd@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 22BD1405DD
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 22BD1405DD
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=j/FAhXHu
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 22BD1405DD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 18:49:43 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-290a3a4c7ecso36039615ad.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 11:49:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761404833; x=1762009633; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ehGvucYryd5ksZM+NP6h3eQPQh9+jzxwKY2MY5g6NkY=;
-        b=HaH+F/QgRbfKf+oDOieXtp5JyQMBbY9p6CqvEIN6+JeP45hIV10UdAeJMHADB/sj6O
-         pEYHlrw0Tn9RGE9hE+iGCYzyd+eKNI7zjSBYi/VzVi0T84lqLk8NR969IQkJnz0HyPqX
-         kMTlJ4kljUPExrl/bZuE3ZHdWUrpihVmdJ3RCfjOusO/FUDuvhz+AUxB1aP29hwcacOE
-         dO1g16kk900uDF6c4+lPyiHPZ0DB/YwLlJVS4TUJZ8x/CI493ZRIlxM1MCo6sfmWLbCU
-         MIky/ieROMTERr3xpGUOq3yfmwGBjeIlhsJRzjgPOpKM82WNzs0I8oaqKkA4iz7TD2eZ
-         OWpg==
+        d=gmail.com; s=20230601; t=1761418183; x=1762022983; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MIRvzi8j6zwlZeQRUUP2B9p5LHiwZA8VZKiF7rQQGE4=;
+        b=j/FAhXHuKtoZItpIGDblFeLypNi+KMncoLT4l8PIXwr7rJfblDGIQjQ0/Wnk7T6Ota
+         C+r+eCMUMvbxcUzDfqtQvBiSvCvgVpeqShC2XjFdiNUil2Hf2yiFfM4llvCMcHe33Nq9
+         gnl8INGzj74SY69538iIke5UXe5ugvE8ifi+FKidA1DvRtxBHb0GEikazQ4C3e3avU1i
+         pVYlmlk+X9fpmNk28jXt3R4dQ3zkcbgNSr1mvACBCogwcNnSxACkfVW5B7KKpulVvOQ1
+         x0fn8I9kmcvK6aBm/dQa6XcIYFaOzTWq6TZX70FIQwHg3/iN5hRHySqHxS2gfL8e1Abd
+         /ymw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761404833; x=1762009633;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ehGvucYryd5ksZM+NP6h3eQPQh9+jzxwKY2MY5g6NkY=;
-        b=RPAo2LqsrzXji9SgLUWWpj9iK1vaGPE6u7vyy0zRqGeiUbN5vTdQjbID38LjjpPxaR
-         Me19WILvWwhStW3nN71wuNxl09f02N+3suEGqOno/c0RDm6BfwQ0fFp7VWC+ay2T6hae
-         b+Ynse1x6hD3vonv9N64LEb5U0ZjOUVAKQE9hQK/RHA80mlq3jdrcOxmAEI+IBY985Uh
-         k9nBFkSGqSlljl0I6Djm17SV87AXB6YL30EebaZVgKRay3CX9KN1dx0XVIlBh8xUKNe3
-         PNza5u5q5LFY0hdHNH9OxSQda1/HAPLTePjEW2eRc+0T+0g+YY+ZDH4Q/3A6WMoQKHPo
-         k4/w==
-X-Forwarded-Encrypted: i=1; AJvYcCVBiqK1MvIYPIWGJ0eX+lAKz04Jy2zkLunFdyiHR2kkwvqoRrQVHp+oX9MQy3cDLiQEWSOnozPTQGtkKIxD1RA7LKgNKw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwIUbsxsXDQ94RU3Y3tzxMDpanzK8wpDsA5dyHHZUGz0o5L0I5m
-	o446BAVmZCD/xNRaZZZbt116cFlbGp+ZDF4HP5nua+6kywgWGRv2fz3I
-X-Gm-Gg: ASbGnctkFH8cftJganl9tmk0F39jM8Y7xYAzKHoFnEUQTpSjJSlegC5OAMoiQ5R1fL7
-	hXCLJUpw9yTL7830m67LnyqL4lkyg1vvyLA+sthsDhXQlWGKfip5GxXfXHeTx80taF9dooFW6XK
-	L2JoT83RhA/ylrLeSXerzyNXQMKeXGnyL2YB43Vq2SLDKoXEmUWvDXdP/Mv6zLOyLWuHkX16IRf
-	Yy5eqJMZIqsTWmwwuZHklqkOBE0uNJMtBcIoZJFzBF13w4JZmOYKwjgnrNfNELWvVVWQh5p6k9I
-	0EL1jew8mMpFRUAO+MjJtmBgHZwFtGZoZ133t2TrRW1eHF3FCtvKt6YUBY90V8dWkd+7bnDUwjV
-	JdaYTAvB0Vansfu3AS+Z7F82QU7zdKNTzWhcIQF81vu8islWjPDn1ifllwhbcj6xhkQjOBxoutW
-	rVQmcVoOFtB/YBz+nwzecil0GtRXgfquaqOzokKXz9ubtqzDbbKoa5sdMa8lo1f5GzNDjFhZQWo
-	JXK4mcJYQgo+oIuICFXJlo=
-X-Google-Smtp-Source: AGHT+IHc2D1me194quCxZvcS0NmqKlfdcG9goQhTzdjCPdL4h6Tfx4LteJBnMLzm8AlcYT1LIELvtw==
-X-Received: by 2002:a17:90b:1b4a:b0:32b:6151:d1b with SMTP id 98e67ed59e1d1-33fafb98ac1mr12129890a91.8.1761404833441;
-        Sat, 25 Oct 2025 08:07:13 -0700 (PDT)
-Received: from ?IPV6:2606:4700:110:896a:5f1b:2412:be21:3a45? ([2a09:bac5:3c3b:a82::10c:59])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fed73a7b7sm2605532a91.5.2025.10.25.08.07.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Oct 2025 08:07:13 -0700 (PDT)
-Message-ID: <4aeceb66-ceea-4171-8806-95bd11a928b3@gmail.com>
-Date: Sat, 25 Oct 2025 20:37:07 +0530
+        d=1e100.net; s=20230601; t=1761418183; x=1762022983;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MIRvzi8j6zwlZeQRUUP2B9p5LHiwZA8VZKiF7rQQGE4=;
+        b=vSxTQ8C+lGviHmM9cqj9g33khEuEY7n4LZEElrgvy9XgoJCO7Uip8CM7Z2c1SwBRrG
+         D3ScC9+XGkapFfMMtpm90oWFIMWk3WtYUQibyBj+cc/OM1Dgoe4qXkRn30i7zmbiGZqg
+         UtHafSqCMvrtjqgYLjgkpg6PmPerWzBIE9hdX7MHMgPGg5PP1eOb4CxFhLOMJgJeL+ak
+         cSgrJVl/lW9ElQ3ayIgZDFi41GzsxpLsqZz6qDJyxjlI3rP+1dK4gOIa3InmH6zy6fF4
+         0Yd4LHFWhDLQzqom6Y1hjO/ttcp6N1ZVz1/MgokpwcZmLEjBvGWa8g2aBozBN6NHHa45
+         yNNA==
+X-Forwarded-Encrypted: i=1; AJvYcCX35r2M5AmHtvpVj3aFUifCdWcYYFqUZElZIlbwETy6fO0QZsMijYLnUlqmfhBcXYR3DHiQMmn/EWEM/rG8FXlR3/acew==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzATe4dLmBL8FSFyDta12k7UDF9U9UDt0Oszbc65pwgKHNgSKoM
+	yKDQmlC4uNMBieUoAXeF38/iSyea2Vos7TDfSnC6Zp/9rQC9Dg2WFog0
+X-Gm-Gg: ASbGncsvJgSvE4oylhn776G+Gt2bCaW479Xe2QtuDYXcfLA79OWNbOuskgA8SDyS/x7
+	UcPd6sSHJD4YmKU8hU/5x0q7Fc6cpm7dVd2RrqDtC7WCqfSb3Fsj7m7I+XF6SyoN6bmp/eTTPlL
+	bqedprpTQ1l8wy8ILU44Bg5TPDlfUI7eO8wlqdvgzmIPjiDFDAXUJfam7cpKkIFpzS7gx6lyfuA
+	EaBYgbY3UacGshjq3wP2Rl4y14ub9guAwizmNBhNW3ZmAb3B4pieBdg5FvE2qG3eu77d9kUeEtX
+	0+cz3hedzZeJN7PrhXJ1Wn+JKhzaeBv4NRw4rad9u53oMCyfl2lZZ+q3esk6RJJSr+4ttW9m34N
+	+AcJSifbDkp3U0c4/gNZOiAVMmAS9V1DvPYNv8M5o/sIBUb7+wr8bNc8OtUnIeOflUBITjt1jkO
+	iDF/1fTJWiVCf3eoqnfkYaI3U6svfrlylW4usUfo9suPFt3mtGLZQG7OQ=
+X-Google-Smtp-Source: AGHT+IHAiMH9JhYQraNgPguxjgZGjEFmFQTsB3vEnaOVZ8IpIk6BfW2plHMfNLdpmtJSevEWDj22Og==
+X-Received: by 2002:a17:902:ccc8:b0:292:64ec:8f4b with SMTP id d9443c01a7336-29264ec9336mr315255035ad.43.1761418183223;
+        Sat, 25 Oct 2025 11:49:43 -0700 (PDT)
+Received: from prakrititz-UB.. ([2a09:bac5:3c3f:a82::10c:1a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d0996esm29589375ad.28.2025.10.25.11.49.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Oct 2025 11:49:42 -0700 (PDT)
+From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+To: Kees Cook <kees@kernel.org>,
+	Shuah Khan <shuah@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>,
+	Will Drewry <wad@chromium.org>,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org,
+	khalid@kernel.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Nirbhay Sharma <nirbhay.lkd@gmail.com>
+Subject: [PATCH] selftests/seccomp: fix pointer type mismatch in UPROBE test
+Date: Sun, 26 Oct 2025 00:19:04 +0530
+Message-ID: <20251025184903.154755-2-nirbhay.lkd@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: fix KMSAN uninit-value in ni_create_attr_list
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: david.hunter.linux@gmail.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org,
- syzbot+83c9dd5c0dcf6184fdbf@syzkaller.appspotmail.com,
- ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20251006223805.139206-1-nirbhay.lkd@gmail.com>
-Content-Language: en-US
-From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-In-Reply-To: <20251006223805.139206-1-nirbhay.lkd@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Fix compilation error in UPROBE_setup caused by pointer type mismatch
+in ternary expression. The probed_uretprobe and probed_uprobe function
+pointers have different type attributes (__attribute__((nocf_check))),
+which causes the conditional operator to fail with:
 
+  seccomp_bpf.c:5175:74: error: pointer type mismatch in conditional
+  expression [-Wincompatible-pointer-types]
 
-On 10/7/25 4:08 AM, Nirbhay Sharma wrote:
-> The call to kmalloc() to allocate the attribute list buffer is given a
-> size of al_aligned(rs). This size can be larger than the data
-> subsequently copied into the buffer, leaving trailing bytes uninitialized.
-> 
-> This can trigger a KMSAN "uninit-value" warning if that memory is
-> later accessed.
-> 
-> Fix this by using kzalloc() instead, which ensures the entire
-> allocated buffer is zero-initialized, preventing the warning.
-> 
-> Reported-by: syzbot+83c9dd5c0dcf6184fdbf@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=83c9dd5c0dcf6184fdbf
-> Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-> ---
-> The following syzbot test commands were used to verify the fix against
-> both linux-next and a specific mainline commit. Both kernels were
-> configured with CONFIG_KMSAN=y, and no KMSAN warnings were observed
-> with the patch applied.
-> 
-> An attempt to test against the latest mainline tip failed due to an
-> unrelated boot failure in the SCSI subsystem (KMSAN: use-after-free in
-> scsi_get_vpd_buf). Therefore, testing was done on the last known-good
-> mainline commit below.
-> 
-> For mainline commit 9b0d551bcc05 ("Merge tag 'pull-misc' of..."):
-> #syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 9b0d551bcc05
-> 
-> For the linux-next branch:
-> #syz test: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> 
->   fs/ntfs3/frecord.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-> index 8f9fe1d7a690..4fe8da7fc034 100644
-> --- a/fs/ntfs3/frecord.c
-> +++ b/fs/ntfs3/frecord.c
-> @@ -767,7 +767,7 @@ int ni_create_attr_list(struct ntfs_inode *ni)
->   	 * Skip estimating exact memory requirement.
->   	 * Looks like one record_size is always enough.
->   	 */
-> -	le = kmalloc(al_aligned(rs), GFP_NOFS);
-> +	le = kzalloc(al_aligned(rs), GFP_NOFS);
->   	if (!le)
->   		return -ENOMEM;
->   
-Hi Konstantin,
+Cast both function pointers to 'const void *' to match the expected
+parameter type of get_uprobe_offset(), resolving the type mismatch
+while preserving the function selection logic.
 
-I sent this patch about 3 weeks ago and haven't heard back yet. I wanted
-to check if there are any concerns with the patch or if any changes are
-needed. The fix addresses a KMSAN uninit-value bug and has been tested
-successfully on both linux-next and the commit from the syzbot report.
+Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+---
+ tools/testing/selftests/seccomp/seccomp_bpf.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Please let me know if you need any additional information or testing.
+diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
+index 874f17763536..e13ffe18ef95 100644
+--- a/tools/testing/selftests/seccomp/seccomp_bpf.c
++++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
+@@ -5172,7 +5172,8 @@ FIXTURE_SETUP(UPROBE)
+ 		ASSERT_GE(bit, 0);
+ 	}
+ 
+-	offset = get_uprobe_offset(variant->uretprobe ? probed_uretprobe : probed_uprobe);
++	offset = get_uprobe_offset(variant->uretprobe ?
++		(const void *)probed_uretprobe : (const void *)probed_uprobe);
+ 	ASSERT_GE(offset, 0);
+ 
+ 	if (variant->uretprobe)
+-- 
+2.48.1
 
-Thanks,
-Nirbhay
