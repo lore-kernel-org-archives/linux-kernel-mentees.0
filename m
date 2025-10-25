@@ -1,108 +1,176 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C446221282
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 25 Oct 2025 08:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596D82F9DB7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 12:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761380399; cv=none; b=m/ND1vs+DmVqVJGg39ICK3v4NIpLZN+mRh8sqIk0vrpCTEz5Prtesx6lrO+nOnpd8CXU+oTohXqjskK7VuXY/dHY1MwCUGYENwJmXtcXKJXpoJyerkNeJ7Njf1gZbTPegp+s0hn9ubTp78SJZz01NfLlWSM7152YWvPeKEyBFuo=
+	t=1761393935; cv=none; b=B4KJMwKiAu0KlzImcwweku2tjOpDRXgVG+Fwi/rxLmt13NquTOUpJsP8PS6qTPftpKRR5qz+ePWfa430EtCqYb++agBbF+YNH39tHqePyXELYSAWZ09neaST7gSFn9ccCFCDWH8QkAZHMuHZ0h9dODAS+NGO42JMcG8uAucoyB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761380399; c=relaxed/simple;
-	bh=AzfeVbbRV3eREjYjS3QXyjhA7RuXufKczC6qDZJG4R8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G3JbianevAQFKbrv6mlw3A688H0kbWGrrGOuTwrWryZU0kCab7DyQAt2WvmxZffibQ6Ci0+G0ejEVN8681mM5EIe/o1WMUdMk2pMKKr3DgPLMiozz8bi4wNcrVcpsOjXvJuNiwh3aHvfgVkcX6Wp5Np03bOxzQeS9kHxJjGm1QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HuhNXiG9; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761393935; c=relaxed/simple;
+	bh=69y9OitDsvZG+ygITGh4xZyW20ZYYBCYMz7R434uZKM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=XWvukH9ykz8F9XQPb2l8TuZnWU3KEmIE/T+rvDQfsTJpfvsClTQSNmmyjBdZZG3Y7Qf7KyOjI47gQkD+Q7RaknHOknCT+DfA9T3HP51t+xYao2CrTBagHL25Ck6p159XfdoXULC0v7OOzAL3JFhc5u/H09mNytTX82SOxLExaRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SUzYz81L; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HuhNXiG9"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-33badfbbc48so3757639a91.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 25 Oct 2025 01:19:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SUzYz81L"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id DEA5F606C0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 12:05:29 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id s3Rp8IOqUouj for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 25 Oct 2025 12:05:28 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102d; helo=mail-pj1-x102d.google.com; envelope-from=rakuram.e96@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 705196065F
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 705196065F
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SUzYz81L
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 705196065F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 12:05:28 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-33d463e79ddso3718532a91.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 05:05:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761380397; x=1761985197; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W0P1qCP4uZ3AAQgH9R2rp1FNOw4ZXslRjRKDSpwrrHA=;
-        b=HuhNXiG9Y/aoenhyFlwJRoVGb3+pc3geVy7+09vok+W/fbe9ceZNB5ggaoyaSd0KF5
-         86pXF/Qgz1ROXpdV1wUHzw8Whdag5NtkFFOcSol3d9m9zcLFiFnsCZIrYMKHzTsJXG+5
-         8Rw95fPN7jVmfNLKa33N/NXGigvlAsVQ7E1zIbpfOXCi9r6wWjyQ1BFBKrMi5RtXT7pp
-         zVTDYA/VixnrJpueuQBMcjqyMK1sw0jejV10WN1rjtrd2K2ltyWjxjcfcrdqHSonlSeF
-         HKB8d+m4VxboUOlMsDN9be4zE19PnJug7Mu6GK+cQnDI0i6lNtrfw6zvNBnWPD3jzQWp
-         9BDA==
+        d=gmail.com; s=20230601; t=1761393928; x=1761998728; darn=lists.linuxfoundation.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qcJ3/FBKK2ajxzIkHMY6ixiVILAkehDzwnS491Vgj6k=;
+        b=SUzYz81L6ZCKiepUjM8N3g6EVoz5J5OP0GBajFVkHK/ikdp6HiRMOuPl9GXJUcYuHn
+         0ZCF3LoTdCF6sA8dwEQCWO7/fmwl2k+ulFtUJrQSDRcthTraMboXTvdWUp6SCQsLTndF
+         3apC7l8pCvm3OqiT22QW6OBKt3PkuBmUR3TzFuKafoJntKQro+GLAagcQ3voJm+zTXCF
+         PtWEnrF19QfWzwNyzFP11mW6kQ1GmzTmxMSR3zvHWYoUqGX9ZWvhVePyDhC8cHCUyd2v
+         XtnPReb5syvLFeXGIhqPzC+DhGCc7Q4taohwJCSZPxEn/SH0i1v5SDXtFzeLzaL/hr1h
+         zbWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761380397; x=1761985197;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W0P1qCP4uZ3AAQgH9R2rp1FNOw4ZXslRjRKDSpwrrHA=;
-        b=K4L+7PG3vBcOJ0CgnFU6wlPPbg7rF7ap7gNcCiJT8WhD17opW7wEbXpOhf2gmz0mSm
-         M3U30hizVQxLoS2ZaTSknntQQq8Gb00t+/nVRvmzoVYlpwNaCr2EfNVDqC03EdMeq8/g
-         M0e/91S7s1am6GkFPP0mI0rtZO0SNEugi4Y6XjSbFx1iVANfCy7Pv/+pDszW6CpeTKXZ
-         zbbdJqenv39vOQVjZsSp7rnxKNx9grtuD5B4iO5CHi6HPD4P2zTqGeEjmHVfVxIUV+k6
-         0SK5VK3ESAEw4RntqqYjS87aPRujvZ0/++dqDHI3oexb5Zj56s3Et10407nP/mhONrno
-         lu0g==
-X-Forwarded-Encrypted: i=1; AJvYcCXniM2ggyfQRo6paakgKQskRm4+REs5BUH/r/h5QrpmmB6QjqHghGqcLWD6jstQbJEdNrGkk5yej4B7XXKDC52605Koew==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxAKpre1INnr/1o52HGmcT63WGCuKZjRYbmkWB9LNrGXvqbsZ1v
-	G5+ilXrEsAWG6aG3NdYcf/REgZsyqr6KQeiPvZguxg0GbLLX1Vr4r2BV
-X-Gm-Gg: ASbGncsUJgV1zftrQQIezJLqIYPaEj5WBgN5SOO5+ewT+eVvqkmG96OXRJW6uHdg+4e
-	+RINiOjlZabdTNWwU8ll573PYVroYU/YCTa8MSU+VTvm2fp99ady7QSd7GfOQSNwOgtCHBs6PP5
-	BTBwjAJBq2xmy3SAg4LDN5EUXkAWrTImVj3alx0EoUnonESETK7a9t47mBo7GFn7xSiBiCS+zkg
-	HMDuh9tzN8QRr/sMODeV4hlZO4+9qbydul1cSEvMHpsCFn7qZF8tV6aF+WRo6PkLMbjPmni8KrI
-	qw3v7GA+U8C40EtYkkpNMDJI9yQiWNO3ViPBDepy+8fxDWZQz8FFvJ7cVAuhjmqMI4t4vq69FJs
-	5/3saMVM0gfMTDzIla/9fW5drWoNtySq06lFaYcqtB/oKtx7BQ3oe6UufPLREetAKE+M3CbsPE8
-	M/p2Xy7pMKcJpWUkq51eVa0Ow=
-X-Google-Smtp-Source: AGHT+IHGTk9mHrG98F2le4aB1w/t0kcsoJBN6xOXR8de0Ny/hqGEZAIH8AH8oW3GDzOVT5iOt4o7jg==
-X-Received: by 2002:a17:90b:530f:b0:330:6c5a:4af4 with SMTP id 98e67ed59e1d1-33fd662e554mr6574117a91.35.1761380396715;
-        Sat, 25 Oct 2025 01:19:56 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fed81aa87sm1511375a91.20.2025.10.25.01.19.56
+        d=1e100.net; s=20230601; t=1761393928; x=1761998728;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qcJ3/FBKK2ajxzIkHMY6ixiVILAkehDzwnS491Vgj6k=;
+        b=TFmE22IDaF4ilHKTKHcIzvircHZU+RFbPDBixeI/oUPusZRmnDo30b6jJQyxDQjHpZ
+         uCduV/BNNZqp+D1Q32pFB7UqlqYpLEHLHxFH1uNV1B1HiEPIyMdrRo3PFGTaOfC4v2py
+         czplzNCIHbic9rQHjQMQKHbLhEUD8GpBMzLa2tZP5TEuweZ9O7zq4AnCP03HG9zMDzb4
+         R4yXsA8dLWK7CHjqsJWsipZPvRJyOOMYIW+t+fCqGcsneXWfAKpbLgEPTPuBvB1sGyP/
+         AIFVvXdR41mMbMNoWKL+EKTt/HzlQuGgXYhsXvzCTHkTxSRUmNbsvzgkX/Jiwi7+upf4
+         FwDg==
+X-Forwarded-Encrypted: i=1; AJvYcCWYwjNlO8LJXamqyIBNwCJq0I20iugP5Q9FjAVKZNa3MhjDvQPHKgbFhgS9L43XlHyycdaCIsKNyxZB3J4qpttstQYMjA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyMrLvkjpOXEWJ9Vq9KNBu++7qgz1dqIb5qTRFaV2e5Z4RClZ6q
+	IM8l4nrrZhKvusBU/Z7f59KhPwbXZF39Zmu9RffQd/iI1EeyEuva1GPp
+X-Gm-Gg: ASbGncvu9F6XzQcL3eqfKdcxSklCTWZrTR0CFe9zM/aegIvlO0Zjo+r05B1qjJruXO6
+	pQPZouAYDkHKnCaphIFvXFfHocZ/+sTHzZKyth5rkp64OH2O0qo9dnOYBeDsqgKcy1J14jK7y2r
+	YWEG+fiMP0spXST87BZPdusDLpLRBLqJ39v9fyt9P3MHWcO56nFZ1e9cI4Iju7Si7IGmlG1Prmg
+	HUGr5noCLHm7q2F5mbjUvy41XXGui4+pAarlC48vmRa63pg3i7o+JfpiWt2JolrGOSdKtRIVoeT
+	1DzUG7ZdE2DG9hxqOOZm8jZS2xuu7/liQupb5jSzQf2wMpd6GMKhySS/m3jtk27KqIjkITLcr9S
+	K93PptwL4+vpDi+UOER+Qhw1dvRm2/HfWdAhT8BysT3sXDtVXnbi/KRu4Y9doORJW6TMunmxD6D
+	eEHzEtJQYk
+X-Google-Smtp-Source: AGHT+IEAK6eZag+MykEYgdavvPIK4g5Vlvg7NxyVKqzEv2FUkmjPRZH82E6BoaQ/fCmgKrW+V4J2Xg==
+X-Received: by 2002:a17:90b:2690:b0:32e:d16c:a8c6 with SMTP id 98e67ed59e1d1-33bcf87d120mr44521355a91.16.1761393927422;
+        Sat, 25 Oct 2025 05:05:27 -0700 (PDT)
+Received: from [10.248.7.103] ([2409:40f4:2141:a037:1f2b:7d61:3375:68bd])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fed81ca93sm2150038a91.19.2025.10.25.05.05.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Oct 2025 01:19:56 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sat, 25 Oct 2025 01:19:54 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Gopi Krishna Menon <krishnagopi487@gmail.com>
-Cc: cryolitia@uniontech.com, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com, khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] hwmon: (gpd-fan) Fix compilation error in non-ACPI builds
-Message-ID: <6a1e1503-0529-41f6-806d-0ecf0f8e77fe@roeck-us.net>
-References: <20251024202042.752160-1-krishnagopi487@gmail.com>
+        Sat, 25 Oct 2025 05:05:27 -0700 (PDT)
+From: Rakuram Eswaran <rakuram.e96@gmail.com>
+Date: Sat, 25 Oct 2025 17:35:18 +0530
+Subject: [PATCH] net: tcp_lp: fix kernel-doc warnings and update outdated
+ reference links
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251024202042.752160-1-krishnagopi487@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251025-net_ipv4_tcp_lp_c-v1-1-058cc221499e@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAP28/GgC/x2MQQqAIBAAvxJ7TkhRir4SIaZrLYSJRgTi35MOc
+ 5jDTIGMiTDD3BVI+FCmKzThfQf2MGFHRq45iEEo3mABb03xkfq2UZ9RW8b9uEnj5GAnBa2LCT2
+ 9/3NZa/0A7hvaPWMAAAA=
+X-Change-ID: 20251025-net_ipv4_tcp_lp_c-1f7b4ad40c85
+To: Eric Dumazet <edumazet@google.com>, 
+ Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, David Ahern <dsahern@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, hswong3i@gmail.com, hlhung3i@gmail.com
+Cc: khalid@kernel.org, skhan@linuxfoundation.org, 
+ david.hunter.linux@gmail.com, 
+ linux-kernel-mentees@lists.linuxfoundation.org, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Rakuram Eswaran <rakuram.e96@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761393921; l=2374;
+ i=rakuram.e96@gmail.com; s=20251022; h=from:subject:message-id;
+ bh=69y9OitDsvZG+ygITGh4xZyW20ZYYBCYMz7R434uZKM=;
+ b=vWllaOOPUAH011DH/rlqhrvEcN8BOlGs5axrtJOP4Np2NxeVKvLN5ZCf0g8ypP6Mbq4t5lARr
+ 82IzpOkh3KjB8IKHqMHiKEAiY4dUTZicm9Bh/powGQO3u0qVtENBo7A
+X-Developer-Key: i=rakuram.e96@gmail.com; a=ed25519;
+ pk=swrXGNLB3jH+d6pqdVOCwq0slsYH5rn9IkMak1fIfgA=
 
-On Sat, Oct 25, 2025 at 01:50:40AM +0530, Gopi Krishna Menon wrote:
-> Building gpd-fan driver without CONFIG_ACPI results in the following
-> build errors:
-> 
-> drivers/hwmon/gpd-fan.c: In function ‘gpd_ecram_read’:
-> drivers/hwmon/gpd-fan.c:228:9: error: implicit declaration of function ‘outb’ [-Werror=implicit-function-declaration]
->   228 |         outb(0x2E, addr_port);
->       |         ^~~~
-> drivers/hwmon/gpd-fan.c:241:16: error: implicit declaration of function ‘inb’ [-Werror=implicit-function-declaration]
->   241 |         *val = inb(data_port);
-> 
-> The definitions for inb() and outb() come from <linux/io.h>
-> (specifically through <asm/io.h>), which is implicitly included via
-> <acpi_io.h>. When CONFIG_ACPI is not set, <acpi_io.h> is not included
-> resulting in <linux/io.h> to be omitted as well.
-> 
-> Since the driver does not depend on ACPI, remove <linux/acpi.h> and add
-> <linux/io.h> directly to fix the compilation errors.
-> 
-> Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+Fix kernel-doc warnings in tcp_lp.c by adding missing parameter
+descriptions for tcp_lp_cong_avoid() and tcp_lp_pkts_acked() when
+building with W=1.
 
-Applied.
+Also replace invalid URLs in the file header comment with the currently
+valid links to the TCP-LP paper and implementation page.
 
-Thanks,
-Guenter
+No functional changes.
+
+Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
+---
+Below W=1 build warnings:
+net/ipv4/tcp_lp.c:121 function parameter 'ack' not described in 'tcp_lp_cong_avoid'
+net/ipv4/tcp_lp.c:121 function parameter 'acked' not described in 'tcp_lp_cong_avoid'
+net/ipv4/tcp_lp.c:271 function parameter 'sample' not described in 'tcp_lp_pkts_acked'
+
+The new URLs were verified through archive.org to confirm they match
+the content of the original references.
+---
+ net/ipv4/tcp_lp.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/net/ipv4/tcp_lp.c b/net/ipv4/tcp_lp.c
+index 52fe17167460fc433ec84434795f7cbef8144767..976b56644a8a746946e5028dcb054e4c3e249680 100644
+--- a/net/ipv4/tcp_lp.c
++++ b/net/ipv4/tcp_lp.c
+@@ -23,9 +23,9 @@
+  * Original Author:
+  *   Aleksandar Kuzmanovic <akuzma@northwestern.edu>
+  * Available from:
+- *   http://www.ece.rice.edu/~akuzma/Doc/akuzma/TCP-LP.pdf
++ *   https://users.cs.northwestern.edu/~akuzma/doc/TCP-LP-ToN.pdf
+  * Original implementation for 2.4.19:
+- *   http://www-ece.rice.edu/networks/TCP-LP/
++ *   https://users.cs.northwestern.edu/~akuzma/rice/TCP-LP/linux/tcp-lp-linux.htm
+  *
+  * 2.6.x module Authors:
+  *   Wong Hoi Sing, Edison <hswong3i@gmail.com>
+@@ -113,6 +113,8 @@ static void tcp_lp_init(struct sock *sk)
+ /**
+  * tcp_lp_cong_avoid
+  * @sk: socket to avoid congesting
++ * @ack: current ack sequence number
++ * @acked: number of ACKed packets
+  *
+  * Implementation of cong_avoid.
+  * Will only call newReno CA when away from inference.
+@@ -261,6 +263,7 @@ static void tcp_lp_rtt_sample(struct sock *sk, u32 rtt)
+ /**
+  * tcp_lp_pkts_acked
+  * @sk: socket requiring congestion avoidance calculations
++ * @sample: ACK sample containing timing and rate information
+  *
+  * Implementation of pkts_acked.
+  * Deal with active drop under Early Congestion Indication.
+
+---
+base-commit: 566771afc7a81e343da9939f0bd848d3622e2501
+change-id: 20251025-net_ipv4_tcp_lp_c-1f7b4ad40c85
+
+Best regards,
+-- 
+Rakuram Eswaran <rakuram.e96@gmail.com>
+
