@@ -1,205 +1,162 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B71F2F5A35
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 25 Oct 2025 12:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A197B2FFF85
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 15:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761396083; cv=none; b=S/oqfSCkS2tWwqlFcsAEWwNNoZaob4/a4xB938XJ2BtjAKEzNOhXG64uN4P6dGPONdUsiekcgJCiXwEJLt6FD5DO3JpQDG16+554YoH74sC+VcvaD141RC7eOuQT3tyU5rztnm4gB7EygrUfYiICmQsfwD9JCSBs3EYrIPYUwyU=
+	t=1761404836; cv=none; b=aBVB+FDH9BDmg/w+ew1qbtUVuWrWCLrtbBFt6MyL1XkamwOk3yavMyhf1FsnREb4S2BKF6rD+X+sAXBhHqUJbCWS0EHljIg6R3p00MzrVH1sL2Rb7u9R3EWbsfMy0G4+QBlyE4+yRAH1a2ViTfpy1uvf6/nxI/O0IQgq0Bak4dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761396083; c=relaxed/simple;
-	bh=DbhyxMxq4lUaU8IP69H+5X/6jxTC3W56/g+TqGuwKpA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cowmOS+uvwMRe3C7Bcy0votKI4XkWrb6DnceA7KwchLsgOQ25g8Tpgr98XOMFTfauzL7CAK8yWj0JECRMXMUE7CCurplvYz8RguI5o3fseowFBcgVC3Hou5IEabtrg9c9lTostk7meo5vyqPKPMcqQ6QiMNsdLvaL0k7r0x/6GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FFMVZZD5; arc=none smtp.client-ip=209.85.214.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761404836; c=relaxed/simple;
+	bh=pdElZZTBRl/ohTApnI+0p2VE9kXSMqg2mVsZtsGTtng=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bWGcu+Aabb5u2ex2eP7pwQxzpft3JufOaL0RszggAsdQlv/P9N7XZ+aS1kSvS4P9Idgpgx/LWTzTdbZiuEvvFde2IV1+xiTJiRTugUaV19fzl/O+9tvAzol/bv/55ahnj6+N0mK6RnzThnPt2PM0k17wHwr9N5ImPdYzT2YjEQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HaH+F/Qg; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FFMVZZD5"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-292322d10feso25856155ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 25 Oct 2025 05:41:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HaH+F/Qg"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 509A581121
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 15:07:15 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id dhXOIQvXLD7d for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 25 Oct 2025 15:07:14 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102d; helo=mail-pj1-x102d.google.com; envelope-from=nirbhay.lkd@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 50F1680B5A
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 50F1680B5A
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HaH+F/Qg
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 50F1680B5A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 15:07:14 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-33067909400so2314289a91.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Oct 2025 08:07:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761396081; x=1762000881; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wmZntVTHHXX7vvT4or3/vlXQkt3zScSQQ5D3QkdreyU=;
-        b=FFMVZZD5g2xukb7bWBV+lWM/jkkVt0kYU8Bw/F3cWkkjJcmijMPoltlhNkFmIFoGta
-         Goog+VoykmWs2+ISBzXfTv17fhB982KtmoYwbMo/ALECskiPCNn+dkwaYqxJLE9JNRbq
-         HsraN2FGRX1Zcn54/dRgB4oEfxgoBRo6Lk21XIo76fsR2c7aZK9G2+GE0/uewvRniLfg
-         kJoYqGe0nxSSmRc2qB0bdjuDLQA8rDT52fsEuqX+7KrJTCfCM66JMj2N53T+HSND+UTP
-         uZAUdvKmFTHuEQ3nXExi7djVFLdMOTExKq9AzlRfaWY1y5cLZzfD5Ke15Tiqcno6Sp31
-         EAQw==
+        d=gmail.com; s=20230601; t=1761404833; x=1762009633; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ehGvucYryd5ksZM+NP6h3eQPQh9+jzxwKY2MY5g6NkY=;
+        b=HaH+F/QgRbfKf+oDOieXtp5JyQMBbY9p6CqvEIN6+JeP45hIV10UdAeJMHADB/sj6O
+         pEYHlrw0Tn9RGE9hE+iGCYzyd+eKNI7zjSBYi/VzVi0T84lqLk8NR969IQkJnz0HyPqX
+         kMTlJ4kljUPExrl/bZuE3ZHdWUrpihVmdJ3RCfjOusO/FUDuvhz+AUxB1aP29hwcacOE
+         dO1g16kk900uDF6c4+lPyiHPZ0DB/YwLlJVS4TUJZ8x/CI493ZRIlxM1MCo6sfmWLbCU
+         MIky/ieROMTERr3xpGUOq3yfmwGBjeIlhsJRzjgPOpKM82WNzs0I8oaqKkA4iz7TD2eZ
+         OWpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761396081; x=1762000881;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wmZntVTHHXX7vvT4or3/vlXQkt3zScSQQ5D3QkdreyU=;
-        b=eDdH5k+DZFIkDIAXsb81Im08xv5y0FJBpEOngUPhHaVAMHnjPK1bvFxPtwCE4RmQ7T
-         dRw0ibuEbQoAE2xdnY+WqX1y8trEgFt5WNG5jd0CWZvcJu01ncjK0D6P4bdxWvVYk4te
-         zYsTvVcyxorAzjcqf6ACjNjrCQ94NETJk9fWP6x8JH8+2OPiBHfenY7aMIOzXwkD647q
-         lGfbLr8mWUv8CEtEemQLOEmx0LbGIMSrqU5rxen+hmErT2jwNDNYN/Wjv4fv/g58ccCZ
-         QTHRXh/K5HR4o8ZJC3C21Y5zzkBipFU6AIN0r4N7hUOlrGdc19C2G9wtRXwo13RNtR3U
-         bbTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV6QGwb0nW04kaWNoHIHRCpZ8l4dY2gidPw1KV8Et2EJvDGWapW9b4z033fsi/LHTTEbO5dWj48sibbt9vJFJfjPjfWuA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz50vF7uV0UNwh5ZYAxyHOeR1t8Xbty5v+1/Z+/IO0/xYOhyRSk
-	F+iKJArSGpeBWeYvJnAkhOUJmApcAZEW4ZMpfXSwmG8rdhT5ZAvedXfa
-X-Gm-Gg: ASbGncvtev336geD27HI6RjowOKoPZTvAZaCCvOxtX8Sd0aLQM1BlOn1SDY3g8i/o+X
-	cjiFkQmvzZxdLEmZXhG8ZdEsgQQI+nMBt3nFkNtLwyaOdcYHHxmWxaMixt/S5ipS/H+yMbbH9Dq
-	fBRnZ628tBpp8ZQP8XA2nhRbdWy8+0MecI/muWV4Trpy6J5GQdJet1zqgHRKjujlRUJGVg2HU8C
-	YldhIO9HUoqLfDXbXfauUhI72Glu8cAci+mphJFC1NoYCPotDSanMGfbRcnKbslpfYLbafRci+2
-	Y5KhdS6stzcjWdGh0zLlfH8Cg/MjPaoAeiPxLMrikRs4OO/TYkhhrFpYj0DrySZxf6aX9p3yRh3
-	y2lCDA5lvcfu5Of9gDdF4P6ErsG3w2PXWSAoxh2kc6pTCnRjIcPR4u3R499JWOGw/XKFGHlNBXX
-	OGKEaB+wA=
-X-Google-Smtp-Source: AGHT+IHzNs/eLQNOngxeYDWlhwSANW/kUwt/EM86jh34NmnaHE0YhhBpGRAv70D0RhfuygrVqhJNRg==
-X-Received: by 2002:a17:902:d547:b0:273:ef4c:60f3 with SMTP id d9443c01a7336-29489d70d8bmr73531765ad.4.1761396081179;
-        Sat, 25 Oct 2025 05:41:21 -0700 (PDT)
-Received: from Ubuntu24.. ([157.32.121.71])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498e42f5csm22263395ad.104.2025.10.25.05.41.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Oct 2025 05:41:20 -0700 (PDT)
-From: Shrikant Raskar <raskar.shree97@gmail.com>
-To: hverkuil@kernel.org,
-	mchehab@kernel.org
-Cc: skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Shrikant Raskar <raskar.shree97@gmail.com>
-Subject: [RFC PATCH v2] media: saa6588: Remove dprintk macro and use v4l2_info()
-Date: Sat, 25 Oct 2025 18:11:07 +0530
-Message-ID: <20251025124107.4921-1-raskar.shree97@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1761404833; x=1762009633;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ehGvucYryd5ksZM+NP6h3eQPQh9+jzxwKY2MY5g6NkY=;
+        b=RPAo2LqsrzXji9SgLUWWpj9iK1vaGPE6u7vyy0zRqGeiUbN5vTdQjbID38LjjpPxaR
+         Me19WILvWwhStW3nN71wuNxl09f02N+3suEGqOno/c0RDm6BfwQ0fFp7VWC+ay2T6hae
+         b+Ynse1x6hD3vonv9N64LEb5U0ZjOUVAKQE9hQK/RHA80mlq3jdrcOxmAEI+IBY985Uh
+         k9nBFkSGqSlljl0I6Djm17SV87AXB6YL30EebaZVgKRay3CX9KN1dx0XVIlBh8xUKNe3
+         PNza5u5q5LFY0hdHNH9OxSQda1/HAPLTePjEW2eRc+0T+0g+YY+ZDH4Q/3A6WMoQKHPo
+         k4/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVBiqK1MvIYPIWGJ0eX+lAKz04Jy2zkLunFdyiHR2kkwvqoRrQVHp+oX9MQy3cDLiQEWSOnozPTQGtkKIxD1RA7LKgNKw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwIUbsxsXDQ94RU3Y3tzxMDpanzK8wpDsA5dyHHZUGz0o5L0I5m
+	o446BAVmZCD/xNRaZZZbt116cFlbGp+ZDF4HP5nua+6kywgWGRv2fz3I
+X-Gm-Gg: ASbGnctkFH8cftJganl9tmk0F39jM8Y7xYAzKHoFnEUQTpSjJSlegC5OAMoiQ5R1fL7
+	hXCLJUpw9yTL7830m67LnyqL4lkyg1vvyLA+sthsDhXQlWGKfip5GxXfXHeTx80taF9dooFW6XK
+	L2JoT83RhA/ylrLeSXerzyNXQMKeXGnyL2YB43Vq2SLDKoXEmUWvDXdP/Mv6zLOyLWuHkX16IRf
+	Yy5eqJMZIqsTWmwwuZHklqkOBE0uNJMtBcIoZJFzBF13w4JZmOYKwjgnrNfNELWvVVWQh5p6k9I
+	0EL1jew8mMpFRUAO+MjJtmBgHZwFtGZoZ133t2TrRW1eHF3FCtvKt6YUBY90V8dWkd+7bnDUwjV
+	JdaYTAvB0Vansfu3AS+Z7F82QU7zdKNTzWhcIQF81vu8islWjPDn1ifllwhbcj6xhkQjOBxoutW
+	rVQmcVoOFtB/YBz+nwzecil0GtRXgfquaqOzokKXz9ubtqzDbbKoa5sdMa8lo1f5GzNDjFhZQWo
+	JXK4mcJYQgo+oIuICFXJlo=
+X-Google-Smtp-Source: AGHT+IHc2D1me194quCxZvcS0NmqKlfdcG9goQhTzdjCPdL4h6Tfx4LteJBnMLzm8AlcYT1LIELvtw==
+X-Received: by 2002:a17:90b:1b4a:b0:32b:6151:d1b with SMTP id 98e67ed59e1d1-33fafb98ac1mr12129890a91.8.1761404833441;
+        Sat, 25 Oct 2025 08:07:13 -0700 (PDT)
+Received: from ?IPV6:2606:4700:110:896a:5f1b:2412:be21:3a45? ([2a09:bac5:3c3b:a82::10c:59])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fed73a7b7sm2605532a91.5.2025.10.25.08.07.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Oct 2025 08:07:13 -0700 (PDT)
+Message-ID: <4aeceb66-ceea-4171-8806-95bd11a928b3@gmail.com>
+Date: Sat, 25 Oct 2025 20:37:07 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs/ntfs3: fix KMSAN uninit-value in ni_create_attr_list
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: david.hunter.linux@gmail.com, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org,
+ syzbot+83c9dd5c0dcf6184fdbf@syzkaller.appspotmail.com,
+ ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20251006223805.139206-1-nirbhay.lkd@gmail.com>
+Content-Language: en-US
+From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+In-Reply-To: <20251006223805.139206-1-nirbhay.lkd@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The existing 'dprintk' macro used an unwrapped 'if' statement which was
-flagged by checkpatch, but instead of wrapping it, the debug handling
-can be simplified.
 
-This patch removes the 'dprintk' macro entirely and replaces all its
-usages with v4l2_info() helper. The unused 'PREFIX' macro is also
-removed.
 
-Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
----
-Changelog:
-Changes since v2:
-- Removed dprintk macro
-- Replaced 'dprintk' with v4l2_info(). 
-- Removed PREFIX macro.
+On 10/7/25 4:08 AM, Nirbhay Sharma wrote:
+> The call to kmalloc() to allocate the attribute list buffer is given a
+> size of al_aligned(rs). This size can be larger than the data
+> subsequently copied into the buffer, leaving trailing bytes uninitialized.
+> 
+> This can trigger a KMSAN "uninit-value" warning if that memory is
+> later accessed.
+> 
+> Fix this by using kzalloc() instead, which ensures the entire
+> allocated buffer is zero-initialized, preventing the warning.
+> 
+> Reported-by: syzbot+83c9dd5c0dcf6184fdbf@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=83c9dd5c0dcf6184fdbf
+> Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+> ---
+> The following syzbot test commands were used to verify the fix against
+> both linux-next and a specific mainline commit. Both kernels were
+> configured with CONFIG_KMSAN=y, and no KMSAN warnings were observed
+> with the patch applied.
+> 
+> An attempt to test against the latest mainline tip failed due to an
+> unrelated boot failure in the SCSI subsystem (KMSAN: use-after-free in
+> scsi_get_vpd_buf). Therefore, testing was done on the last known-good
+> mainline commit below.
+> 
+> For mainline commit 9b0d551bcc05 ("Merge tag 'pull-misc' of..."):
+> #syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 9b0d551bcc05
+> 
+> For the linux-next branch:
+> #syz test: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> 
+>   fs/ntfs3/frecord.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+> index 8f9fe1d7a690..4fe8da7fc034 100644
+> --- a/fs/ntfs3/frecord.c
+> +++ b/fs/ntfs3/frecord.c
+> @@ -767,7 +767,7 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+>   	 * Skip estimating exact memory requirement.
+>   	 * Looks like one record_size is always enough.
+>   	 */
+> -	le = kmalloc(al_aligned(rs), GFP_NOFS);
+> +	le = kzalloc(al_aligned(rs), GFP_NOFS);
+>   	if (!le)
+>   		return -ENOMEM;
+>   
+Hi Konstantin,
 
-Link to v1:
-https://lore.kernel.org/all/20250923175927.4380-1-raskar.shree97@gmail.com/
----
- drivers/media/i2c/saa6588.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+I sent this patch about 3 weeks ago and haven't heard back yet. I wanted
+to check if there are any concerns with the patch or if any changes are
+needed. The fix addresses a KMSAN uninit-value bug and has been tested
+successfully on both linux-next and the commit from the syzbot report.
 
-diff --git a/drivers/media/i2c/saa6588.c b/drivers/media/i2c/saa6588.c
-index fb09e4560d8a..d2cb85a2d226 100644
---- a/drivers/media/i2c/saa6588.c
-+++ b/drivers/media/i2c/saa6588.c
-@@ -49,8 +49,6 @@ MODULE_LICENSE("GPL");
- /* ---------------------------------------------------------------------- */
- 
- #define UNSET       (-1U)
--#define PREFIX      "saa6588: "
--#define dprintk     if (debug) printk
- 
- struct saa6588 {
- 	struct v4l2_subdev sd;
-@@ -144,14 +142,14 @@ static bool block_from_buf(struct saa6588 *s, unsigned char *buf)
- 
- 	if (s->rd_index == s->wr_index) {
- 		if (debug > 2)
--			dprintk(PREFIX "Read: buffer empty.\n");
-+			v4l2_info(&s->sd, "Read: buffer empty.\n");
- 		return false;
- 	}
- 
- 	if (debug > 2) {
--		dprintk(PREFIX "Read: ");
-+		v4l2_info(&s->sd, "Read: ");
- 		for (i = s->rd_index; i < s->rd_index + 3; i++)
--			dprintk("0x%02x ", s->buffer[i]);
-+			v4l2_info(&s->sd, "0x%02x ", s->buffer[i]);
- 	}
- 
- 	memcpy(buf, &s->buffer[s->rd_index], 3);
-@@ -162,7 +160,7 @@ static bool block_from_buf(struct saa6588 *s, unsigned char *buf)
- 	s->block_count--;
- 
- 	if (debug > 2)
--		dprintk("%d blocks total.\n", s->block_count);
-+		v4l2_info(&s->sd, "%d blocks total.\n", s->block_count);
- 
- 	return true;
- }
-@@ -222,11 +220,11 @@ static void block_to_buf(struct saa6588 *s, unsigned char *blockbuf)
- 	unsigned int i;
- 
- 	if (debug > 3)
--		dprintk(PREFIX "New block: ");
-+		v4l2_info(&s->sd, "New block: ");
- 
- 	for (i = 0; i < 3; ++i) {
- 		if (debug > 3)
--			dprintk("0x%02x ", blockbuf[i]);
-+			v4l2_info(&s->sd, "0x%02x ", blockbuf[i]);
- 		s->buffer[s->wr_index] = blockbuf[i];
- 		s->wr_index++;
- 	}
-@@ -242,7 +240,7 @@ static void block_to_buf(struct saa6588 *s, unsigned char *blockbuf)
- 		s->block_count++;
- 
- 	if (debug > 3)
--		dprintk("%d blocks total.\n", s->block_count);
-+		v4l2_info(&s->sd, "%d blocks total.\n", s->block_count);
- }
- 
- static void saa6588_i2c_poll(struct saa6588 *s)
-@@ -257,7 +255,7 @@ static void saa6588_i2c_poll(struct saa6588 *s)
- 	   SAA6588 returns garbage otherwise. */
- 	if (6 != i2c_master_recv(client, &tmpbuf[0], 6)) {
- 		if (debug > 1)
--			dprintk(PREFIX "read error!\n");
-+			v4l2_info(&s->sd, "read error!\n");
- 		return;
- 	}
- 
-@@ -267,7 +265,7 @@ static void saa6588_i2c_poll(struct saa6588 *s)
- 	blocknum = tmpbuf[0] >> 5;
- 	if (blocknum == s->last_blocknum) {
- 		if (debug > 3)
--			dprintk("Saw block %d again.\n", blocknum);
-+			v4l2_info(&s->sd, "Saw block %d again.\n", blocknum);
- 		return;
- 	}
- 
-@@ -370,12 +368,13 @@ static void saa6588_configure(struct saa6588 *s)
- 		break;
- 	}
- 
--	dprintk(PREFIX "writing: 0w=0x%02x 1w=0x%02x 2w=0x%02x\n",
--		buf[0], buf[1], buf[2]);
-+	if (debug)
-+		v4l2_info(&s->sd, "writing: 0w=0x%02x 1w=0x%02x 2w=0x%02x\n",
-+			buf[0], buf[1], buf[2]);
- 
- 	rc = i2c_master_send(client, buf, 3);
- 	if (rc != 3)
--		printk(PREFIX "i2c i/o error: rc == %d (should be 3)\n", rc);
-+		v4l2_info(&s->sd, "i2c i/o error: rc == %d (should be 3)\n", rc);
- }
- 
- /* ---------------------------------------------------------------------- */
+Please let me know if you need any additional information or testing.
 
-base-commit: 6fab32bb6508abbb8b7b1c5498e44f0c32320ed5
--- 
-2.43.0
-
+Thanks,
+Nirbhay
