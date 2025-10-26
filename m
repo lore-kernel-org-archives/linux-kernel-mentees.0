@@ -1,65 +1,65 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67E82D12EC
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Oct 2025 17:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414AC26E173
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Oct 2025 17:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761501314; cv=none; b=Y5aVdBMGjT1k+HgI5ioOkTA8tTM35sTBxXIGxkxB+/Phzv27Jz3NMqPXrxDE5dT6UntLfxrcGaf9nJ0RJQWOdRaQIqqj1P0cEgh24Ony/+THmDWneYeN6QazipcgUEzvkmXNlXdC+cLPZHqmrkcx6uNRGaRBPFeNQjUj/cPnFrM=
+	t=1761501321; cv=none; b=FqBFe7LbbbD8gB9nuPOpV4Qqm3aVlKvN25WnFlXZU6eixN2V2zCuVcW59x8F3Xuss8HIO2f4GsQhcm+kaSbDwIViwWg2MLcRldJGbp9PXapkBlyExFN7Q4t3HvF1h2XrfGrYBqZvQODSJYKy5634+2K0WH94eS1w9oe/0uAvuaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761501314; c=relaxed/simple;
-	bh=vPXyZhUr98DoEtjaUOrz2pul6CQKaY15VKlhW9SmfZ8=;
+	s=arc-20240116; t=1761501321; c=relaxed/simple;
+	bh=TYqSgjtJTLH69TjVY4P5M4kBe3nBDzdkUzWmul55T9o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GeE+oaXRrVRx5SP8VfMcCY2Ro0VVaJUEQmklAaBoBg3NY5J6TE3rwaovlfQ/q39hlt770Qao18Vpy90GpcJmIE7hlgs8aoC9Zs2ByqFd5ESpOCLD7vKya0PEO64Xq501yoh93rv5qWP10NpBE3zudcoQv0SP2qtWuChdaVguKFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vgo7W1PB; arc=none smtp.client-ip=209.85.215.174
+	 MIME-Version; b=uRhIG6FFFMUU7/b2rm5DJL6x3sZ55zB3S86nT7jdpiJwx0jWM4tNipNDwBcyV7SO5JaZDfsihjzUTgBJuwj/oSuDAuzN2PUxspAY/AtW8Nm1MYA2nJWSKK1LcK85+tIeyFozAMBl8YPYS+OUAVEJdgYXMVHvzHMLirjUWPKwR0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qh10enOi; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vgo7W1PB"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b6cf1a95274so2644052a12.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Oct 2025 10:55:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qh10enOi"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b6ceba7c97eso3629048a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Oct 2025 10:55:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761501312; x=1762106112; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1761501319; x=1762106119; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Z3VPBhgYc9AzZ5HmwB7K9s4eliJBfl7/sTbcR+X1J2o=;
-        b=Vgo7W1PBohSPQ44nJ2+qOv2NAbJ21rd77+90MFcmZDHs1i0OfeLrnMWI9m6f2TY2XQ
-         8ONBTKiDvlm/OGt8jdx5FtERttMK92c/TZkUn+/aRJHMt4Fc8d0GwMuSRKd9RQI/I230
-         xDCFc5/cSjwoltE89eWMtxOiDPp8r9ocgdiqwjUU6qDOqYrFXUhG/Y6y061R0n6GLbDL
-         BfyR2L/GPq1UH99wO179ZBmfMPVlFCRZysfRiXG9IujFW/1sErPcUlwyusnS7AQ7osoV
-         UGftLmQP/XWVDHBwzxKHx1G1lIntF/TWER9frOEbREfDAOUN1wwHqAynJnQH4Vvml5op
-         hkrA==
+        bh=BU/OVZkhFNUOoFCHhkl2TNsQ4jyGlF9k1fRMPXpk2ak=;
+        b=Qh10enOij5N9Q6t9eNCKdtmDmqJUvPtOFyfVbTuEbej++4va7FwFcwgmRaAX6FRRRu
+         8+5nT5awtINvazEblcmyVAS+7Wrn/uYLPbBjZXecy/5QVujZ3KTYKOWBshc8LDhfHpWu
+         emFTYDzpy5p10mgWDKIgdIWdgnJmrIWsGl4oQFyI636CGhYzB4KWGhbhW9RiLvajgs2V
+         S05C8LfZCfg9yyElAS//jJILX4gJ8SsJgultRrJxpwI+nbeZVf9fWDnEW99fQjaPCsPW
+         Gz/P/7ZeNBddCfllqy1zCWvXhe0pASZ97UeaTIvV0G5SV3I/q3mid9Z9fvmb4hfsVbhh
+         uI/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761501312; x=1762106112;
+        d=1e100.net; s=20230601; t=1761501319; x=1762106119;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Z3VPBhgYc9AzZ5HmwB7K9s4eliJBfl7/sTbcR+X1J2o=;
-        b=lqKpYBdlz1FMci+053Jz/I37O0UOXsSvk9+fZ17gidnBzkLqxNck5/V6H70ENnKENO
-         NJ6bRhVOqXbQJ/Bl7CTlnXTA/eBUc65zM9ymjKPTandmjlEchO3njgdnNov3KGpWCByV
-         qLMfmP+mohCN3UbG3heAyvciIEjCi0zl1Gxue1md8CgEMWpc0KBL83aRqbBH5Y36rPma
-         bmQfRcaMnH/t2YYnrozwmok067NoT1xV62RKujohsTmKME9gWazG3aU4kWfvvB4h31/Q
-         RKBlRXJgL2/+8ANCCub2Mqmx00TmhUuUra624+Zxx6s+IPHcNCqFwAf77+h/F9PPUYqQ
-         5QRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXmOB6SNjsNM7eTTVrUltMVL3/99OQlxv9V7b1+N+M5TS6UiaxPX0CFmMkcjAU3RsYqejmx2HQYert9fI0/76Ex8I3F7w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxQk02Ox0t24pZzM/CUSXj/F0VC9FGehONVs+NOg8UHo2wjTSsv
-	BDTYIcY1Q7Y4kCYyu/RBS8huD42y0sVpXvbZjbAqBUN6opcv8GlHe2Y5
-X-Gm-Gg: ASbGncvSrhhNyoAuxsSjuFjKcJjirr+QJlaeZWaD7VZ6r0FQXmNU5oAvmWGkfIs3KBm
-	i5D6IoTDToGl+liX/3Lnrc8TlEJCviHhoK3hewqXNXV7hzlkGfJEISC/AHigZRgwl+Q1m/AdHIy
-	QCLBoUhoz+Q+hNzgLYeGQ+MMg9nIQHzNvLa6mVTVOsSjvDd8N1cz1dpPG/5lDTMg7dQudu3wnUc
-	WxFIM+UBf8EvUhzzbEgho/FpkWM25nZUyjSfZ5pxb3amEcwx1hPgJ90JWNv3Ox8iSV3IiBtdra2
-	heGmgbvMWtUlT040mPuWebNVcNOtUWtHB9c2gMR3+YOw8GABR2oR2Tty9mBuyI5WuYeRblvtB4Y
-	yBEOMxI3XUF8NdOKygQCPhOTsY/oK6/RAS8kI+IMJExL6bR88MjWdO/0uymk5spn9eb6hP+t6Tg
-	TJhIuZLMjnE1OO7/62tiShNeAJLiEy3YyFJiZ3SgNbdEbwC957QUcue4MRIlB+mpTeVsgfLVyza
-	P2MdQ==
-X-Google-Smtp-Source: AGHT+IHnRmkvGJ1cgnzH+OspovISCZVBIxQ5/cQMF2dRcrfI90+m8rwM1XBEr5cxcpTd8e0LUrx8AA==
-X-Received: by 2002:a17:903:1247:b0:23f:fa79:15d0 with SMTP id d9443c01a7336-290cb07adc0mr423085965ad.46.1761501311978;
-        Sun, 26 Oct 2025 10:55:11 -0700 (PDT)
+        bh=BU/OVZkhFNUOoFCHhkl2TNsQ4jyGlF9k1fRMPXpk2ak=;
+        b=aEv66v8TYYQuyQScheco0KvUCarmRXR65uRio4AaPquYtKUKD7nZPkI85CU5pGdCDA
+         k9qrw9qHL3hfNauhy+221E6W6xro1/8IQDAeKq9wCf2V2VboYmcU+EmYdv8N7bflD5c0
+         AH3d7S9DN+18r+WRQ9MlOoQmNtIcHCkMk9iQ728FEjnHgvGEi4PmuUXXXEFVnyCc8Y1l
+         e3B//KWnTjohKIY3z/QvKy4OLENMfkYjCwT44JnNIVy6c/sM03DycOm7ckYnJqjx9LVE
+         uX1V9CKkG4j+/5nUrPkfoRd7dsRK7KGQJ0L+sA5yszSwQiiDnbn0TqRaG/nobO2XQ7ib
+         MiFw==
+X-Forwarded-Encrypted: i=1; AJvYcCWVTnhsc7U34e+JRkUTC3Jxs2EULk3Uhl8P8ds6sVsmUxCH0a6l07wRTM4QUnJEM5NyNbxtU4re28u7yxjuJW25aYq4UA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy5ABOAuqCqrWGyosJ8L3A6gKYMgl8C4t/F/rVnePU6U3u7RYxg
+	0v6Wa52CeNoGjqHPqWVADhBFEJ+bqqWgUH4uZJ4f+g41Ve3Zl9X0c21i
+X-Gm-Gg: ASbGncvPiNz4xMT49DmfNdTQ2viilce5xadqlzmFZLZAVXYdHS1ePhc5ecaH37CieNQ
+	iESa4jZQk3g9kJ2Y2cnE9IpifSXtzrsLy/eTYcFX4pZx33elj/rVtahVn+zxEU70ceDK2pM1j51
+	z85H6JdZVsVSNp/9qRDPOqFzOmmU8Pk5mR7dtQiW/LKMmJ+Xpm4KkxMVGpqykowlOi9FpZA18yi
+	anBUcJnV25F10I0cGeJ8sFUQCPxzRTrCu+HWSGYrxYNSwnzPHjGSC3JhfIT7s213/It1DrsfpOo
+	2SLq8Qnz3W8H7YQiy5HMS+76DG0Te7uYtmAGaSM/z6saMwehmhrCPv3vtSMaMUgCV5GMeC3RN+8
+	QKRwBU/j/awUharXIK2e5ADqAU3gfwazIXERm2zCJSdY20RUc1hPqSdE21VLe+tEGq3/vjPbQhk
+	QaWZpntSnLzIjHNzmX7EvbIm/FzBn/MTBQgeILQ0EzAoJwvMoBllL7j6NWkx/5Kx353kki4VSGN
+	I91OQ==
+X-Google-Smtp-Source: AGHT+IHtoxrSHSNCI+CS585O+ZJjSo87+gdMzyAlT3jsfOF+kLbMUFYgGNOn1A7r8TyRNijf4nEX9g==
+X-Received: by 2002:a17:902:cece:b0:292:fc65:3579 with SMTP id d9443c01a7336-292fc65380cmr248557725ad.17.1761501319468;
+        Sun, 26 Oct 2025 10:55:19 -0700 (PDT)
 Received: from debian.domain.name ([223.181.110.106])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498e4349fsm54813845ad.107.2025.10.26.10.55.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498e4349fsm54813845ad.107.2025.10.26.10.55.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Oct 2025 10:55:11 -0700 (PDT)
+        Sun, 26 Oct 2025 10:55:18 -0700 (PDT)
 From: I Viswanath <viswanathiyyappan@gmail.com>
 To: davem@davemloft.net,
 	edumazet@google.com,
@@ -78,9 +78,9 @@ Cc: netdev@vger.kernel.org,
 	david.hunter.linux@gmail.com,
 	khalid@kernel.org,
 	I Viswanath <viswanathiyyappan@gmail.com>
-Subject: [RFC PATCH net-next v2 1/2] net: Add ndo_write_rx_config and helper structs and functions:
-Date: Sun, 26 Oct 2025 23:24:44 +0530
-Message-ID: <20251026175445.1519537-2-viswanathiyyappan@gmail.com>
+Subject: [RFC PATCH net-next v2 2/2] net: ethernet: Implement ndo_write_rx_config callback for the 8139cp driver
+Date: Sun, 26 Oct 2025 23:24:45 +0530
+Message-ID: <20251026175445.1519537-3-viswanathiyyappan@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251026175445.1519537-1-viswanathiyyappan@gmail.com>
 References: <20251026175445.1519537-1-viswanathiyyappan@gmail.com>
@@ -92,211 +92,187 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add ndo_write_rx_config callback and helper structs/functions:
-
-	rx_config_work - To schedule the callback and handle synchronization
-
-	read_snapshot/update_snapshot - Helper functions to read/update the
-		 rx_config snapshot
-
-	set_and_schedule_rx_config - Helper function to call ndo_set_rx_mode
-		 and schedule ndo_write_rx_config
-
-	execute_write_rx_config - Helper function that will be scheduled
-		 by rx_work->config_write
+Implement ndo_write_rx_config for the 8139cp driver
 
 Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
 ---
- include/linux/netdevice.h | 38 ++++++++++++++++++++++++++-
- net/core/dev.c            | 54 +++++++++++++++++++++++++++++++++++----
- 2 files changed, 86 insertions(+), 6 deletions(-)
+ drivers/net/ethernet/realtek/8139cp.c | 78 ++++++++++++++++-----------
+ 1 file changed, 46 insertions(+), 32 deletions(-)
 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index d1a687444b27..80d6966d6981 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -1100,7 +1100,12 @@ struct netdev_net_notifier {
-  * void (*ndo_set_rx_mode)(struct net_device *dev);
-  *	This function is called device changes address list filtering.
-  *	If driver handles unicast address filtering, it should set
-- *	IFF_UNICAST_FLT in its priv_flags.
-+ *	IFF_UNICAST_FLT in its priv_flags. This sets up the snapshot of
-+ *	rx_config that will be written to the device.
-+ *
-+ * void (*ndo_write_rx_config)(struct net_device *dev);
-+ *	This function is scheduled immediately after ndo_set_rx_mode to
-+ *	write rx_config to the device.
-  *
-  * int (*ndo_set_mac_address)(struct net_device *dev, void *addr);
-  *	This function  is called when the Media Access Control address
-@@ -1421,6 +1426,7 @@ struct net_device_ops {
- 	void			(*ndo_change_rx_flags)(struct net_device *dev,
- 						       int flags);
- 	void			(*ndo_set_rx_mode)(struct net_device *dev);
-+	void			(*ndo_write_rx_config)(struct net_device *dev);
- 	int			(*ndo_set_mac_address)(struct net_device *dev,
- 						       void *addr);
- 	int			(*ndo_validate_addr)(struct net_device *dev);
-@@ -1767,6 +1773,12 @@ enum netdev_reg_state {
- 	NETREG_DUMMY,		/* dummy device for NAPI poll */
+diff --git a/drivers/net/ethernet/realtek/8139cp.c b/drivers/net/ethernet/realtek/8139cp.c
+index 5652da8a178c..3480079361f3 100644
+--- a/drivers/net/ethernet/realtek/8139cp.c
++++ b/drivers/net/ethernet/realtek/8139cp.c
+@@ -319,6 +319,11 @@ struct cp_extra_stats {
+ 	unsigned long		rx_frags;
  };
  
-+struct rx_config_work {
-+	struct work_struct config_write;
-+	struct net_device *dev;
-+	spinlock_t config_lock;
++struct cp_rx_config {
++	int rx_mode;
++	u32 mc_filter[2];	/* Multicast hash filter */
 +};
 +
- /**
-  *	struct net_device - The DEVICE structure.
-  *
-@@ -2082,6 +2094,8 @@ enum netdev_reg_state {
-  *			dev_list, one per address-family.
-  *	@hwprov: Tracks which PTP performs hardware packet time stamping.
-  *
-+ *	@rx_work: helper struct to schedule rx config write to the hardware.
-+ *
-  *	FIXME: cleanup struct net_device such that network protocol info
-  *	moves out.
-  */
-@@ -2559,6 +2573,8 @@ struct net_device {
+ struct cp_private {
+ 	void			__iomem *regs;
+ 	struct net_device	*dev;
+@@ -328,7 +333,7 @@ struct cp_private {
+ 	struct napi_struct	napi;
  
- 	struct hwtstamp_provider __rcu	*hwprov;
+ 	struct pci_dev		*pdev;
+-	u32			rx_config;
++	struct cp_rx_config	*rx_config;
+ 	u16			cpcmd;
  
-+	struct rx_config_work *rx_work;
-+
- 	u8			priv[] ____cacheline_aligned
- 				       __counted_by(priv_len);
- } ____cacheline_aligned;
-@@ -2734,6 +2750,26 @@ void dev_net_set(struct net_device *dev, struct net *net)
- 	write_pnet(&dev->nd_net, net);
+ 	struct cp_extra_stats	cp_stats;
+@@ -372,7 +377,6 @@ struct cp_private {
+ 	} while (0)
+ 
+ 
+-static void __cp_set_rx_mode (struct net_device *dev);
+ static void cp_tx (struct cp_private *cp);
+ static void cp_clean_rings (struct cp_private *cp);
+ #ifdef CONFIG_NET_POLL_CONTROLLER
+@@ -882,55 +886,53 @@ static netdev_tx_t cp_start_xmit (struct sk_buff *skb,
+ 	goto out_unlock;
  }
  
-+#define update_snapshot(config_ptr, type)						\
-+	do {										\
-+		typeof((config_ptr)) rx_config = ((type *)(dev->priv))->rx_config;	\
-+		unsigned long flags;							\
-+		spin_lock_irqsave(&((dev)->rx_work->config_lock), flags);		\
-+		*rx_config = *(config_ptr);						\
-+		spin_unlock_irqrestore(&((dev)->rx_work->config_lock), flags);		\
-+	} while (0)
++static void cp_write_rx_config(struct net_device *dev)
++{
++	struct cp_private *cp = netdev_priv(dev);
++	struct cp_rx_config snapshot;
 +
-+#define read_snapshot(config_ptr, type)						\
-+	do {										\
-+		typeof((config_ptr)) rx_config = ((type *)(dev->priv))->rx_config;	\
-+		unsigned long flags;							\
-+		spin_lock_irqsave(&((dev)->rx_work->config_lock), flags);		\
-+		*(config_ptr) = *rx_config;						\
-+		spin_unlock_irqrestore(&((dev)->rx_work->config_lock), flags);		\
-+	} while (0)
++	read_snapshot((&snapshot), struct cp_private);
 +
-+void set_and_schedule_rx_config(struct net_device *dev, bool flush);
++	/* We can safely update without stopping the chip. */
++	cpw32_f(RxConfig, snapshot.rx_mode);
 +
- /**
-  *	netdev_priv - access network device private data
-  *	@dev: network device
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 2acfa44927da..2d3c6031e282 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -9524,6 +9524,38 @@ int netif_set_allmulti(struct net_device *dev, int inc, bool notify)
- 	return 0;
- }
++	cpw32_f(MAR0 + 0, snapshot.mc_filter[0]);
++	cpw32_f(MAR0 + 4, snapshot.mc_filter[1]);
++}Firstly, think whether you have a bug fix or new "next-like" content.
+Then once decided, assuming that you use git, use the prefix flag, i.e.
++
+ /* Set or clear the multicast filter for this adaptor.
+    This routine is not state sensitive and need not be SMP locked. */
  
-+static void execute_write_rx_config(struct work_struct *param)
-+{
-+	struct rx_config_work *rx_work = container_of(param,
-+					 struct rx_config_work,
-+					 config_write);
-+	struct net_device *dev = rx_work->dev;
-+
-+	// This path should not be hit outside the work item
-+	WARN_ON(!dev->netdev_ops->ndo_write_rx_config);
-+	dev->netdev_ops->ndo_write_rx_config(dev);
-+}
-+
-+/*
-+ *	Sets up the rx_config snapshot and schedules write_rx_config. If
-+ *	it's necessary to wait for completion of write_rx_config, set
-+ *	flush to true.
-+ */
-+void set_and_schedule_rx_config(struct net_device *dev, bool flush)
-+{
-+	const struct net_device_ops *ops = dev->netdev_ops;
-+
-+	if (ops->ndo_set_rx_mode)
-+		ops->ndo_set_rx_mode(dev);
-+
-+	if (ops->ndo_write_rx_config) {
-+		schedule_work(&dev->rx_work->config_write);
-+		if (flush)
-+			flush_work(&dev->rx_work->config_write);
-+	}
-+}
-+EXPORT_SYMBOL(set_and_schedule_rx_config);
-+
- /*
-  *	Upload unicast and multicast address lists to device and
-  *	configure RX filtering. When the device doesn't support unicast
-@@ -9532,8 +9564,6 @@ int netif_set_allmulti(struct net_device *dev, int inc, bool notify)
-  */
- void __dev_set_rx_mode(struct net_device *dev)
+-static void __cp_set_rx_mode (struct net_device *dev)
++static void cp_set_rx_mode (struct net_device *dev)
  {
--	const struct net_device_ops *ops = dev->netdev_ops;
--
- 	/* dev_open will call this function so the list will stay sane. */
- 	if (!(dev->flags&IFF_UP))
- 		return;
-@@ -9554,8 +9584,7 @@ void __dev_set_rx_mode(struct net_device *dev)
+-	struct cp_private *cp = netdev_priv(dev);
+-	u32 mc_filter[2];	/* Multicast hash filter */
+-	int rx_mode;
++	struct cp_rx_config new_config;
+ 
+ 	/* Note: do not reorder, GCC is clever about common statements. */
+ 	if (dev->flags & IFF_PROMISC) {
+ 		/* Unconditionally log net taps. */
+-		rx_mode =
++		new_config.rx_mode =
+ 		    AcceptBroadcast | AcceptMulticast | AcceptMyPhys |
+ 		    AcceptAllPhys;
+-		mc_filter[1] = mc_filter[0] = 0xffffffff;
++		new_config.mc_filter[1] = new_config.mc_filter[0] = 0xffffffff;
+ 	} else if ((netdev_mc_count(dev) > multicast_filter_limit) ||
+ 		   (dev->flags & IFF_ALLMULTI)) {
+ 		/* Too many to filter perfectly -- accept all multicasts. */
+-		rx_mode = AcceptBroadcast | AcceptMulticast | AcceptMyPhys;
+-		mc_filter[1] = mc_filter[0] = 0xffffffff;
++		new_config.rx_mode = AcceptBroadcast | AcceptMulticast | AcceptMyPhys;
++		new_config.mc_filter[1] = new_config.mc_filter[0] = 0xffffffff;
+ 	} else {
+ 		struct netdev_hw_addr *ha;
+-		rx_mode = AcceptBroadcast | AcceptMyPhys;
+-		mc_filter[1] = mc_filter[0] = 0;
++		new_config.rx_mode = AcceptBroadcast | AcceptMyPhys;
++		new_config.mc_filter[1] = new_config.mc_filter[0] = 0;
+ 		netdev_for_each_mc_addr(ha, dev) {
+ 			int bit_nr = ether_crc(ETH_ALEN, ha->addr) >> 26;
+ 
+-			mc_filter[bit_nr >> 5] |= 1 << (bit_nr & 31);
+-			rx_mode |= AcceptMulticast;
++			new_config.mc_filter[bit_nr >> 5] |= 1 << (bit_nr & 31);
++			new_config.rx_mode |= AcceptMulticast;
  		}
  	}
  
--	if (ops->ndo_set_rx_mode)
--		ops->ndo_set_rx_mode(dev);
-+	set_and_schedule_rx_config(dev, false);
+-	/* We can safely update without stopping the chip. */
+-	cp->rx_config = cp_rx_config | rx_mode;
+-	cpw32_f(RxConfig, cp->rx_config);
+-
+-	cpw32_f (MAR0 + 0, mc_filter[0]);
+-	cpw32_f (MAR0 + 4, mc_filter[1]);
+-}
+-
+-static void cp_set_rx_mode (struct net_device *dev)
+-{
+-	unsigned long flags;
+-	struct cp_private *cp = netdev_priv(dev);
+-
+-	spin_lock_irqsave (&cp->lock, flags);
+-	__cp_set_rx_mode(dev);
+-	spin_unlock_irqrestore (&cp->lock, flags);
++	new_config.rx_mode = cp_rx_config | new_config.rx_mode;
++	update_snapshot(&new_config, struct cp_private);
  }
  
- void dev_set_rx_mode(struct net_device *dev)
-@@ -11914,9 +11943,17 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 	refcount_set(&dev->dev_refcnt, 1);
- #endif
+ static void __cp_get_stats(struct cp_private *cp)
+@@ -1040,7 +1042,7 @@ static void cp_init_hw (struct cp_private *cp)
+ 	cp_start_hw(cp);
+ 	cpw8(TxThresh, 0x06); /* XXX convert magic num to a constant */
  
--	if (dev_addr_init(dev))
-+	dev->rx_work = kmalloc(sizeof(*dev->rx_work), GFP_KERNEL);
-+	if (!dev->rx_work)
- 		goto free_pcpu;
+-	__cp_set_rx_mode(dev);
++	set_and_schedule_rx_config(dev, true);
+ 	cpw32_f (TxConfig, IFG | (TX_DMA_BURST << TxDMAShift));
  
-+	dev->rx_work->dev = dev;
-+	spin_lock_init(&dev->rx_work->config_lock);
-+	INIT_WORK(&dev->rx_work->config_write, execute_write_rx_config);
+ 	cpw8(Config1, cpr8(Config1) | DriverLoaded | PMEnable);
+@@ -1188,6 +1190,12 @@ static int cp_open (struct net_device *dev)
+ 	if (rc)
+ 		return rc;
+ 
++	cp->rx_config = kmalloc(sizeof(*cp->rx_config), GFP_KERNEL);
++	if (!cp->rx_config) {
++		rc = -ENOMEM;
++		goto err_out_rx_config;
++	}
 +
-+	if (dev_addr_init(dev))
-+		goto free_rx_work;
+ 	napi_enable(&cp->napi);
+ 
+ 	cp_init_hw(cp);
+@@ -1207,6 +1215,9 @@ static int cp_open (struct net_device *dev)
+ err_out_hw:
+ 	napi_disable(&cp->napi);
+ 	cp_stop_hw(cp);
++	kfree(cp->rx_config);
 +
- 	dev_mc_init(dev);
- 	dev_uc_init(dev);
++err_out_rx_config:
+ 	cp_free_rings(cp);
+ 	return rc;
+ }
+@@ -1227,6 +1238,8 @@ static int cp_close (struct net_device *dev)
  
-@@ -11998,6 +12035,10 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 	free_netdev(dev);
- 	return NULL;
+ 	cp_stop_hw(cp);
  
-+free_rx_work:
-+	cancel_work_sync(&dev->rx_work->config_write);
-+	kfree(dev->rx_work);
++	kfree(cp->rx_config);
 +
- free_pcpu:
- #ifdef CONFIG_PCPU_DEV_REFCNT
- 	free_percpu(dev->pcpu_refcnt);
-@@ -12083,6 +12124,9 @@ void free_netdev(struct net_device *dev)
- 		return;
- 	}
+ 	spin_unlock_irqrestore(&cp->lock, flags);
  
-+	cancel_work_sync(&dev->rx_work->config_write);
-+	kfree(dev->rx_work);
-+
- 	BUG_ON(dev->reg_state != NETREG_UNREGISTERED);
- 	WRITE_ONCE(dev->reg_state, NETREG_RELEASED);
+ 	free_irq(cp->pdev->irq, dev);
+@@ -1262,7 +1275,7 @@ static void cp_tx_timeout(struct net_device *dev, unsigned int txqueue)
+ 	cp_clean_rings(cp);
+ 	cp_init_rings(cp);
+ 	cp_start_hw(cp);
+-	__cp_set_rx_mode(dev);
++	set_and_schedule_rx_config(dev, false);
+ 	cpw16_f(IntrMask, cp_norx_intr_mask);
  
+ 	netif_wake_queue(dev);
+@@ -1870,6 +1883,7 @@ static const struct net_device_ops cp_netdev_ops = {
+ 	.ndo_validate_addr	= eth_validate_addr,
+ 	.ndo_set_mac_address 	= cp_set_mac_address,
+ 	.ndo_set_rx_mode	= cp_set_rx_mode,
++	.ndo_write_rx_config    = cp_write_rx_config,
+ 	.ndo_get_stats		= cp_get_stats,
+ 	.ndo_eth_ioctl		= cp_ioctl,
+ 	.ndo_start_xmit		= cp_start_xmit,
 -- 
 2.47.3
 
