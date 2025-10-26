@@ -1,278 +1,143 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414AC26E173
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Oct 2025 17:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2C325A2DD
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Oct 2025 19:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761501321; cv=none; b=FqBFe7LbbbD8gB9nuPOpV4Qqm3aVlKvN25WnFlXZU6eixN2V2zCuVcW59x8F3Xuss8HIO2f4GsQhcm+kaSbDwIViwWg2MLcRldJGbp9PXapkBlyExFN7Q4t3HvF1h2XrfGrYBqZvQODSJYKy5634+2K0WH94eS1w9oe/0uAvuaw=
+	t=1761508739; cv=none; b=g0USxdT+DLiMoBkdqPOvvZDnS6RP4zabWOc0dqVJznNfKKrxt4cWERU32a3EieH881SH0ThMSabg+bvgzniQZ2CQM8Z0w2k+9V5JpC1n48efe+1VCCr/LhIfwz5aQlaORkS6P63MAsP/uMy0XpDvpE6lIoRDd1v10vSEswwEnlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761501321; c=relaxed/simple;
-	bh=TYqSgjtJTLH69TjVY4P5M4kBe3nBDzdkUzWmul55T9o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uRhIG6FFFMUU7/b2rm5DJL6x3sZ55zB3S86nT7jdpiJwx0jWM4tNipNDwBcyV7SO5JaZDfsihjzUTgBJuwj/oSuDAuzN2PUxspAY/AtW8Nm1MYA2nJWSKK1LcK85+tIeyFozAMBl8YPYS+OUAVEJdgYXMVHvzHMLirjUWPKwR0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qh10enOi; arc=none smtp.client-ip=209.85.215.169
+	s=arc-20240116; t=1761508739; c=relaxed/simple;
+	bh=QBZOFso+rikTeqOfG5xslpmr/o1dWQgIjC9jRe5aqxI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ml6cPK2gKLwQxXn4dd+l9Q71lMhLmFTn8J8jtsZwwsR0WKJBDNpsN2tPXlX+ag8fCHl4Z8zHFxgDfAkbzkWud/Xg/8K42r3ac1MTXkV7InEa0A3Uk8OyM06poSNghDtOPLQbDFf5pDL2y1ZjMQQ4jziLVrIu6lM/cGmLN4iViVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Md8GYt8C; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qh10enOi"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b6ceba7c97eso3629048a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Oct 2025 10:55:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Md8GYt8C"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-592f9400b04so3357501e87.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Oct 2025 12:58:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761501319; x=1762106119; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BU/OVZkhFNUOoFCHhkl2TNsQ4jyGlF9k1fRMPXpk2ak=;
-        b=Qh10enOij5N9Q6t9eNCKdtmDmqJUvPtOFyfVbTuEbej++4va7FwFcwgmRaAX6FRRRu
-         8+5nT5awtINvazEblcmyVAS+7Wrn/uYLPbBjZXecy/5QVujZ3KTYKOWBshc8LDhfHpWu
-         emFTYDzpy5p10mgWDKIgdIWdgnJmrIWsGl4oQFyI636CGhYzB4KWGhbhW9RiLvajgs2V
-         S05C8LfZCfg9yyElAS//jJILX4gJ8SsJgultRrJxpwI+nbeZVf9fWDnEW99fQjaPCsPW
-         Gz/P/7ZeNBddCfllqy1zCWvXhe0pASZ97UeaTIvV0G5SV3I/q3mid9Z9fvmb4hfsVbhh
-         uI/w==
+        d=gmail.com; s=20230601; t=1761508736; x=1762113536; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9BW4FFJcxwWu2CsyinUCr/KixoJIv7Wl/ptnFvZ10Zo=;
+        b=Md8GYt8C6J5sIi20DqyN1ALtmXJIsds0XYgmW+Fq4/DMCvIu2gop/jXmZEq/r0MBkB
+         JJ2RQ4RC2wjJjNHp0TCDUHlcMn3B1P3fbUhM/D8ShnwupWD6cllMkIYDVUF1uQlNbtq3
+         UFpolCpZHEJIOyJ5yChT3CvIZuhfqnC/c5xrRR0mrpcFuZ0G6qtv/ogOUPC2nS/Qloro
+         PvlaXbgEP+JVY2loiNR7ads1SbrLjsgFBaow/IxXO9ypX0+N/D/BbF+0FWpHArwuHUQq
+         sJohKiyfdMKD1P2Lb/2tD3aNPQqWMVE6tfhX2KmxtlSmXMqBl3jnMdf7X6e/G6TdS6BI
+         pWvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761501319; x=1762106119;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BU/OVZkhFNUOoFCHhkl2TNsQ4jyGlF9k1fRMPXpk2ak=;
-        b=aEv66v8TYYQuyQScheco0KvUCarmRXR65uRio4AaPquYtKUKD7nZPkI85CU5pGdCDA
-         k9qrw9qHL3hfNauhy+221E6W6xro1/8IQDAeKq9wCf2V2VboYmcU+EmYdv8N7bflD5c0
-         AH3d7S9DN+18r+WRQ9MlOoQmNtIcHCkMk9iQ728FEjnHgvGEi4PmuUXXXEFVnyCc8Y1l
-         e3B//KWnTjohKIY3z/QvKy4OLENMfkYjCwT44JnNIVy6c/sM03DycOm7ckYnJqjx9LVE
-         uX1V9CKkG4j+/5nUrPkfoRd7dsRK7KGQJ0L+sA5yszSwQiiDnbn0TqRaG/nobO2XQ7ib
-         MiFw==
-X-Forwarded-Encrypted: i=1; AJvYcCWVTnhsc7U34e+JRkUTC3Jxs2EULk3Uhl8P8ds6sVsmUxCH0a6l07wRTM4QUnJEM5NyNbxtU4re28u7yxjuJW25aYq4UA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5ABOAuqCqrWGyosJ8L3A6gKYMgl8C4t/F/rVnePU6U3u7RYxg
-	0v6Wa52CeNoGjqHPqWVADhBFEJ+bqqWgUH4uZJ4f+g41Ve3Zl9X0c21i
-X-Gm-Gg: ASbGncvPiNz4xMT49DmfNdTQ2viilce5xadqlzmFZLZAVXYdHS1ePhc5ecaH37CieNQ
-	iESa4jZQk3g9kJ2Y2cnE9IpifSXtzrsLy/eTYcFX4pZx33elj/rVtahVn+zxEU70ceDK2pM1j51
-	z85H6JdZVsVSNp/9qRDPOqFzOmmU8Pk5mR7dtQiW/LKMmJ+Xpm4KkxMVGpqykowlOi9FpZA18yi
-	anBUcJnV25F10I0cGeJ8sFUQCPxzRTrCu+HWSGYrxYNSwnzPHjGSC3JhfIT7s213/It1DrsfpOo
-	2SLq8Qnz3W8H7YQiy5HMS+76DG0Te7uYtmAGaSM/z6saMwehmhrCPv3vtSMaMUgCV5GMeC3RN+8
-	QKRwBU/j/awUharXIK2e5ADqAU3gfwazIXERm2zCJSdY20RUc1hPqSdE21VLe+tEGq3/vjPbQhk
-	QaWZpntSnLzIjHNzmX7EvbIm/FzBn/MTBQgeILQ0EzAoJwvMoBllL7j6NWkx/5Kx353kki4VSGN
-	I91OQ==
-X-Google-Smtp-Source: AGHT+IHtoxrSHSNCI+CS585O+ZJjSo87+gdMzyAlT3jsfOF+kLbMUFYgGNOn1A7r8TyRNijf4nEX9g==
-X-Received: by 2002:a17:902:cece:b0:292:fc65:3579 with SMTP id d9443c01a7336-292fc65380cmr248557725ad.17.1761501319468;
-        Sun, 26 Oct 2025 10:55:19 -0700 (PDT)
-Received: from debian.domain.name ([223.181.110.106])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498e4349fsm54813845ad.107.2025.10.26.10.55.12
+        d=1e100.net; s=20230601; t=1761508736; x=1762113536;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9BW4FFJcxwWu2CsyinUCr/KixoJIv7Wl/ptnFvZ10Zo=;
+        b=Lm5z9wn9ebHvdCg+8MCtViHUxM1DfN++achZ1lA7MWxltPUoY75P3ooxH+ibzD4l6E
+         lEW0UeIwNjGe0Fz1O6LIVtp+ZnU00Ka3npVEW+GSQPq+DqKHVeSW0u5S05+hUYOy1g8l
+         t3A7MT+oI/jW0rNXiYTx6sCJ14FZ8AajrHZcwTDB/5sZE1M43wIMf6/ojgi8A6L9KPQA
+         WmkhU7ke09iADZugmuO6hfl3cJLhcjkwVOVIkCEamWimMXEy5Aqm09RKtHXj6bxxBDIl
+         KpKzdkBkpBNS8owH6dX/x4eSaebOLj3SAEVzuy2lRw9/S6UGlVkD0O4qbX9jiC8lmjDi
+         CYhw==
+X-Forwarded-Encrypted: i=1; AJvYcCUu1MWjY5TnYqbh7gzqrlMje+85xeoXtDrxEv1E0W/SEnXOg6ahwrHLOjwwdTXd6wcv0CFVsU8HQDFBOqDZoHl3y+Qe2A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxdiYJXUfbHzMjP0ipg75gaPGs2lLPyxiOjRXayrtniUB+e/tXe
+	l319O/KNRMHoUZbnEh5LYTLeATFVlFwt3DtbS0i6gop8yeQ2t/SWufGe
+X-Gm-Gg: ASbGnctNStpoA3uvo728b1DUy7yvpD9sn7MCcWrR9Du9HkvkZNja+bejGbP+EXWmWZV
+	TvXGHRiQZ/ezrIlL/DfhiNwxZAdZEtRbLLKY35vM/h60TdR4wQd/GftFpQHbr7fJTfMKgHGn1KB
+	Rq23+B8MsWt/KBsxp/OahGkk7psnYTg0mzrKhhpqT18fna9kYxQgk37VgaIbri57etKSdyAwYOu
+	JpesWzbyaVSmO1Kb1G3fTHP0uNM+Chsh3HGoAxSeBciN1G+28q90y+HUVBqikiAd5ILzCG4/nYC
+	4RzAORokS9heNlfpdHnns+ePjZljiGNxtcWLvi10k7NWZePUEDD1ma8ZcAz0VSsPNNBDBdBRWGp
+	lXzCelC6RBjA3uxHFjIaNbi3rbKNnEeXMt/IMuzb8Jfrgpk0kcSYpE0wopzc7jv0/fuUGcL8nOm
+	qmK80HJu2bmJLoC3wIvsr6g3VMRlORjWrNYkOAcMUbxkDmdweIHAsdRp6ebY/XQUg2eQlOSxtz/
+	y8Qf5FfY3lTSFOdpGitwoQ=
+X-Google-Smtp-Source: AGHT+IE9Z30YetmF5ZoMGNO3uDtCKPnBzSiGPDkXuike/MPa9JFCNcZ7+akwrlNqk9Sg7uQ2GYVu/w==
+X-Received: by 2002:a05:6512:1106:b0:58b:114:b7e2 with SMTP id 2adb3069b0e04-591d8546250mr12024526e87.32.1761508735657;
+        Sun, 26 Oct 2025 12:58:55 -0700 (PDT)
+Received: from uuba.fritz.box (2001-14ba-6e-3100-e3bd-e249-333e-6a5a.rev.dnainternet.fi. [2001:14ba:6e:3100:e3bd:e249:333e:6a5a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59301f83c96sm1773523e87.101.2025.10.26.12.58.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Oct 2025 10:55:18 -0700 (PDT)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	sdf@fomichev.me,
-	kuniyu@google.com,
-	ahmed.zaki@intel.com,
-	aleksander.lobakin@intel.com,
-	jacob.e.keller@intel.com
-Cc: netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+        Sun, 26 Oct 2025 12:58:54 -0700 (PDT)
+From: =?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
+To: akpm@linux-foundation.org
+Cc: kees@kernel.org,
+	gustavoars@kernel.org,
 	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
 	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	I Viswanath <viswanathiyyappan@gmail.com>
-Subject: [RFC PATCH net-next v2 2/2] net: ethernet: Implement ndo_write_rx_config callback for the 8139cp driver
-Date: Sun, 26 Oct 2025 23:24:45 +0530
-Message-ID: <20251026175445.1519537-3-viswanathiyyappan@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251026175445.1519537-1-viswanathiyyappan@gmail.com>
-References: <20251026175445.1519537-1-viswanathiyyappan@gmail.com>
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	=?UTF-8?q?Hanne-Lotta=20M=C3=A4enp=C3=A4=C3=A4?= <hannelotta@gmail.com>
+Subject: [PATCH] headers: Add check for C standard version
+Date: Sun, 26 Oct 2025 21:58:46 +0200
+Message-ID: <20251026195846.69740-1-hannelotta@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Implement ndo_write_rx_config for the 8139cp driver
+Compiling the kernel with GCC 15 results in errors, as with GCC 15
+the default language version for C compilation has been changed from
+-std=gnu17 to -std=gnu23 - unless the language version has been
+changed using
 
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
+    KBUILD_CFLAGS += -std=gnu17
+
+or earlier.
+
+C23 includes new keywords 'bool', 'true' and 'false', which cause
+compilation errors in Linux headers:
+
+    ./include/linux/types.h:30:33: error: ‘bool’ cannot be defined
+        via ‘typedef’
+
+    ./include/linux/stddef.h:11:9: error: cannot use keyword ‘false’
+        as enumeration constant
+
+Add check for C Standard's version in the header files to be able
+to compile the kernel with C23.
+
+Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
 ---
- drivers/net/ethernet/realtek/8139cp.c | 78 ++++++++++++++++-----------
- 1 file changed, 46 insertions(+), 32 deletions(-)
+ include/linux/stddef.h | 2 ++
+ include/linux/types.h  | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/net/ethernet/realtek/8139cp.c b/drivers/net/ethernet/realtek/8139cp.c
-index 5652da8a178c..3480079361f3 100644
---- a/drivers/net/ethernet/realtek/8139cp.c
-+++ b/drivers/net/ethernet/realtek/8139cp.c
-@@ -319,6 +319,11 @@ struct cp_extra_stats {
- 	unsigned long		rx_frags;
+diff --git a/include/linux/stddef.h b/include/linux/stddef.h
+index 80b6bfb944f0..aa2cb3db3c06 100644
+--- a/include/linux/stddef.h
++++ b/include/linux/stddef.h
+@@ -7,10 +7,12 @@
+ #undef NULL
+ #define NULL ((void *)0)
+ 
++#if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 202311L
+ enum {
+ 	false	= 0,
+ 	true	= 1
  };
++#endif
  
-+struct cp_rx_config {
-+	int rx_mode;
-+	u32 mc_filter[2];	/* Multicast hash filter */
-+};
-+
- struct cp_private {
- 	void			__iomem *regs;
- 	struct net_device	*dev;
-@@ -328,7 +333,7 @@ struct cp_private {
- 	struct napi_struct	napi;
+ #undef offsetof
+ #define offsetof(TYPE, MEMBER)	__builtin_offsetof(TYPE, MEMBER)
+diff --git a/include/linux/types.h b/include/linux/types.h
+index 6dfdb8e8e4c3..931db48a7a09 100644
+--- a/include/linux/types.h
++++ b/include/linux/types.h
+@@ -32,7 +32,9 @@ typedef __kernel_timer_t	timer_t;
+ typedef __kernel_clockid_t	clockid_t;
+ typedef __kernel_mqd_t		mqd_t;
  
- 	struct pci_dev		*pdev;
--	u32			rx_config;
-+	struct cp_rx_config	*rx_config;
- 	u16			cpcmd;
++#if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 202311L
+ typedef _Bool			bool;
++#endif
  
- 	struct cp_extra_stats	cp_stats;
-@@ -372,7 +377,6 @@ struct cp_private {
- 	} while (0)
- 
- 
--static void __cp_set_rx_mode (struct net_device *dev);
- static void cp_tx (struct cp_private *cp);
- static void cp_clean_rings (struct cp_private *cp);
- #ifdef CONFIG_NET_POLL_CONTROLLER
-@@ -882,55 +886,53 @@ static netdev_tx_t cp_start_xmit (struct sk_buff *skb,
- 	goto out_unlock;
- }
- 
-+static void cp_write_rx_config(struct net_device *dev)
-+{
-+	struct cp_private *cp = netdev_priv(dev);
-+	struct cp_rx_config snapshot;
-+
-+	read_snapshot((&snapshot), struct cp_private);
-+
-+	/* We can safely update without stopping the chip. */
-+	cpw32_f(RxConfig, snapshot.rx_mode);
-+
-+	cpw32_f(MAR0 + 0, snapshot.mc_filter[0]);
-+	cpw32_f(MAR0 + 4, snapshot.mc_filter[1]);
-+}Firstly, think whether you have a bug fix or new "next-like" content.
-Then once decided, assuming that you use git, use the prefix flag, i.e.
-+
- /* Set or clear the multicast filter for this adaptor.
-    This routine is not state sensitive and need not be SMP locked. */
- 
--static void __cp_set_rx_mode (struct net_device *dev)
-+static void cp_set_rx_mode (struct net_device *dev)
- {
--	struct cp_private *cp = netdev_priv(dev);
--	u32 mc_filter[2];	/* Multicast hash filter */
--	int rx_mode;
-+	struct cp_rx_config new_config;
- 
- 	/* Note: do not reorder, GCC is clever about common statements. */
- 	if (dev->flags & IFF_PROMISC) {
- 		/* Unconditionally log net taps. */
--		rx_mode =
-+		new_config.rx_mode =
- 		    AcceptBroadcast | AcceptMulticast | AcceptMyPhys |
- 		    AcceptAllPhys;
--		mc_filter[1] = mc_filter[0] = 0xffffffff;
-+		new_config.mc_filter[1] = new_config.mc_filter[0] = 0xffffffff;
- 	} else if ((netdev_mc_count(dev) > multicast_filter_limit) ||
- 		   (dev->flags & IFF_ALLMULTI)) {
- 		/* Too many to filter perfectly -- accept all multicasts. */
--		rx_mode = AcceptBroadcast | AcceptMulticast | AcceptMyPhys;
--		mc_filter[1] = mc_filter[0] = 0xffffffff;
-+		new_config.rx_mode = AcceptBroadcast | AcceptMulticast | AcceptMyPhys;
-+		new_config.mc_filter[1] = new_config.mc_filter[0] = 0xffffffff;
- 	} else {
- 		struct netdev_hw_addr *ha;
--		rx_mode = AcceptBroadcast | AcceptMyPhys;
--		mc_filter[1] = mc_filter[0] = 0;
-+		new_config.rx_mode = AcceptBroadcast | AcceptMyPhys;
-+		new_config.mc_filter[1] = new_config.mc_filter[0] = 0;
- 		netdev_for_each_mc_addr(ha, dev) {
- 			int bit_nr = ether_crc(ETH_ALEN, ha->addr) >> 26;
- 
--			mc_filter[bit_nr >> 5] |= 1 << (bit_nr & 31);
--			rx_mode |= AcceptMulticast;
-+			new_config.mc_filter[bit_nr >> 5] |= 1 << (bit_nr & 31);
-+			new_config.rx_mode |= AcceptMulticast;
- 		}
- 	}
- 
--	/* We can safely update without stopping the chip. */
--	cp->rx_config = cp_rx_config | rx_mode;
--	cpw32_f(RxConfig, cp->rx_config);
--
--	cpw32_f (MAR0 + 0, mc_filter[0]);
--	cpw32_f (MAR0 + 4, mc_filter[1]);
--}
--
--static void cp_set_rx_mode (struct net_device *dev)
--{
--	unsigned long flags;
--	struct cp_private *cp = netdev_priv(dev);
--
--	spin_lock_irqsave (&cp->lock, flags);
--	__cp_set_rx_mode(dev);
--	spin_unlock_irqrestore (&cp->lock, flags);
-+	new_config.rx_mode = cp_rx_config | new_config.rx_mode;
-+	update_snapshot(&new_config, struct cp_private);
- }
- 
- static void __cp_get_stats(struct cp_private *cp)
-@@ -1040,7 +1042,7 @@ static void cp_init_hw (struct cp_private *cp)
- 	cp_start_hw(cp);
- 	cpw8(TxThresh, 0x06); /* XXX convert magic num to a constant */
- 
--	__cp_set_rx_mode(dev);
-+	set_and_schedule_rx_config(dev, true);
- 	cpw32_f (TxConfig, IFG | (TX_DMA_BURST << TxDMAShift));
- 
- 	cpw8(Config1, cpr8(Config1) | DriverLoaded | PMEnable);
-@@ -1188,6 +1190,12 @@ static int cp_open (struct net_device *dev)
- 	if (rc)
- 		return rc;
- 
-+	cp->rx_config = kmalloc(sizeof(*cp->rx_config), GFP_KERNEL);
-+	if (!cp->rx_config) {
-+		rc = -ENOMEM;
-+		goto err_out_rx_config;
-+	}
-+
- 	napi_enable(&cp->napi);
- 
- 	cp_init_hw(cp);
-@@ -1207,6 +1215,9 @@ static int cp_open (struct net_device *dev)
- err_out_hw:
- 	napi_disable(&cp->napi);
- 	cp_stop_hw(cp);
-+	kfree(cp->rx_config);
-+
-+err_out_rx_config:
- 	cp_free_rings(cp);
- 	return rc;
- }
-@@ -1227,6 +1238,8 @@ static int cp_close (struct net_device *dev)
- 
- 	cp_stop_hw(cp);
- 
-+	kfree(cp->rx_config);
-+
- 	spin_unlock_irqrestore(&cp->lock, flags);
- 
- 	free_irq(cp->pdev->irq, dev);
-@@ -1262,7 +1275,7 @@ static void cp_tx_timeout(struct net_device *dev, unsigned int txqueue)
- 	cp_clean_rings(cp);
- 	cp_init_rings(cp);
- 	cp_start_hw(cp);
--	__cp_set_rx_mode(dev);
-+	set_and_schedule_rx_config(dev, false);
- 	cpw16_f(IntrMask, cp_norx_intr_mask);
- 
- 	netif_wake_queue(dev);
-@@ -1870,6 +1883,7 @@ static const struct net_device_ops cp_netdev_ops = {
- 	.ndo_validate_addr	= eth_validate_addr,
- 	.ndo_set_mac_address 	= cp_set_mac_address,
- 	.ndo_set_rx_mode	= cp_set_rx_mode,
-+	.ndo_write_rx_config    = cp_write_rx_config,
- 	.ndo_get_stats		= cp_get_stats,
- 	.ndo_eth_ioctl		= cp_ioctl,
- 	.ndo_start_xmit		= cp_start_xmit,
+ typedef __kernel_uid32_t	uid_t;
+ typedef __kernel_gid32_t	gid_t;
 -- 
-2.47.3
+2.51.0
 
