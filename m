@@ -1,123 +1,113 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C064E1DF256
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Oct 2025 10:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E67335C7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Oct 2025 10:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761472878; cv=none; b=pCQUCzKTdlSQwulfMfp6PKmD+pzgGnx7++6XIAqcLJ6q24JGL5eZxwo79uXRQnfxqyhALxfw5BEXzFDsmtP76bKIlI5JDQi1T1JYEAdtyUshYj02ranKKg1pCZ7gDsja6ANC63bG6suxplvQSHKjX48/QUKeHAyHOHKaCz3IoGs=
+	t=1761475502; cv=none; b=Vqj5YzRsYs6m71GW2LirKU2lkAKcM0vJp2M6J3bpaM6/Ifwo81V8PRVKLtXZWfbBHi0iQmlxH1g35HrjWH7KPw9sgZ/MxBxnAM1I3QDsC3aWbpoauTZZGZ8u9g49cdP5MWzX331ZDtt4G+9Hm52CuPDN3YAHN0xCT/A/7TYEluo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761472878; c=relaxed/simple;
-	bh=7KD5dGgax9bTmRFpWBp6doF76wbbIxJPMbGDcdBfxus=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mq4xRI8dgTpg7rFPMRUcjJvOVfHbTanw8zK89X7owCFRbjft/5A4JYIMncaczp1Skcf86z+9APkonJ8hW9bKHqg36DFCQtaAKkzgw1iCaLjgQM+yiX763br5fm0pnzD53KMYfNesTcckMoakuZ9UFXE6L+jsLqOyhLcINsZdAkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i/j53bs5; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i/j53bs5"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-29476dc9860so26830995ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Oct 2025 03:01:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761472875; x=1762077675; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2RfGStvJcl4TjNSGKHIZE9j5tm2qV6cEHrkxmBAThP0=;
-        b=i/j53bs53tVb7QKktu8IjJGMGEKESNLBnpsilvD1S2UGUMFArFNd4UyVmaR23y6iJV
-         voLSd14ChwGxwwSoZ3vhOpkcXmM4//w8/8qs9wQsmuNKgIhtTMV5pYHDRox5D5yuOHg8
-         2ADDMrEGxVA8WZAMLzaqqY6uLOx3gHWGYvf6yMpKKVU5vEF+dVydC1/G21hbWEPjoOzb
-         bg4pHTMrvzxlJecv4+FMCQJTSD3X/ePGcIJR502/e1rOYZoC0Tm9lHny2c4Ew25zd4LG
-         /Jzh5gFAyHfANhjNdgB9q1PB9SjuQzmkczQjfUQLiN1SZC6MLRp3FMxsBZuTw7OJSdd/
-         32DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761472875; x=1762077675;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2RfGStvJcl4TjNSGKHIZE9j5tm2qV6cEHrkxmBAThP0=;
-        b=WKnhkV5uTdoCNZur7CWmIrXEr7cIuw4agkmPuVLg3bP+vfCN9D1qwQQp2EizvVhlA3
-         jbqW969aO1b3P29+rs+IpZgV5mRK3UxaAQGECtVUGJIW2++wz+/EXAWupJgjHlLgJ//M
-         HQ72sc6bu6HHVmLv1z1vDJ46IRAEwCx69KBB98sGWx3gk94psL5RQflwaOCghEwY2XLP
-         5iZINL6M2JOyQ1UOGJyljOwivsvTXaLTn2M2YHnU69XMR4vlewFyxJbkpcm4MitgpA0L
-         eJRkyBmOJ6HyjZXMMzz18QCcu69oNKf7nKP9/3O9JRp9vuC9xdjvTVBo06lo746t5yPe
-         0Yvw==
-X-Forwarded-Encrypted: i=1; AJvYcCX48fzeyX9eVO42SrCPP4twwAu0+lQTuGksWwvUaZDbqm/ngyX/ngchM5MV5NNmruk2RJn5JBNLOayz33jA/5JkOmhL2A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YweoYAWrsyeTvruaybT/CTPWse5a+yc5maMVWKWr4lgWRDTYi+0
-	QQA8MW2DkIFSEkxl2FgCoIw1vJ7t7pOrRBPc2fumswOd+vSps5uI4ejG
-X-Gm-Gg: ASbGncsdB8uJXHgT0aSvlYVCB1WZbeoOtFRHDgpJQ0aY7sunPlFs2t/KPJ1UrkxUrcC
-	EKTPAhE5o6iTNDu7ku7zU9fe0F1z1+mAd3fOcG2T8/gasUHovfMmqluIKpSY1Ofu2rCM0icSlFW
-	nzE2sRe25rkAprep2Z2h5PtTgYRUAYVNZ4fWXO0yvi0YNgw4GWwOvsr1UYzgBKLtPMl4B5yC2Hj
-	lotrxl0Kf3EYTHhnqGcXXYVhaCydslI5NBlfnZIhMcni8G9/c48C3juYLrTB7oGvu2Gjeq1HrBr
-	9DImWxyu0XMbi9/fbBKe8VP2uM3QoUn/btK+OMKGGvPuAdbS3e063W+RjBJG11wb1GGnC3grr6d
-	v+de4OKWI+TMekZZoU89PmHF3nYEb/5LBSnPiJyG94oLY/CuMqZDmzbQFjQlB8XWGc+MZH7rcQM
-	QwWlLmjAo/XRj7TTejWSg=
-X-Google-Smtp-Source: AGHT+IFKNOKTau/QQRGqY0zzzctIn/ja6Be2Y4OB0k/nayMvBEyR1iUbx77eiYu6XXPZj9O6THlOLQ==
-X-Received: by 2002:a17:903:2f05:b0:275:f156:965c with SMTP id d9443c01a7336-2948ba5ae75mr89132875ad.52.1761472874942;
-        Sun, 26 Oct 2025 03:01:14 -0700 (PDT)
-Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d099b6sm45719905ad.33.2025.10.26.03.01.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Oct 2025 03:01:14 -0700 (PDT)
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: gregkh@linuxfoundation.org,
-	jirislaby@kernel.org
-Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	david.hunter.linux@gmail.com,
-	xandfury@gmail.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	khalid@kernel.org
-Subject: [PATCH v3] selftests: tty: add tty_tiocsti_test to .gitignore
-Date: Sun, 26 Oct 2025 15:30:25 +0530
-Message-ID: <20251026100104.3354-1-krishnagopi487@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2025102634-relive-glutinous-df0c@gregkh>
-References: <2025102634-relive-glutinous-df0c@gregkh>
+	s=arc-20240116; t=1761475502; c=relaxed/simple;
+	bh=pSHBeKw/R6rKCZNSguZUfNIAjlS57FRnL+lgEqm4MD8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=YQSwSc9Y/QLhZJulUxjUCbfiF6lHqspOdgyu91W5NWDgi2vb8mO+Zn6qeLWm36zheYVrk8djGn3WG494ztH6dFzNh6EuL9IVf18EwxpjFSFX29Jgrjr1axl4YzHeXejZFOk4iefm1mBxo/wat68JsTnjoCyQyiNLNy2BmbWVbTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 835E040C42
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Oct 2025 10:45:00 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -4.202
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 2Zkc-VERAGGd for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 26 Oct 2025 10:44:59 +0000 (UTC)
+X-Greylist: delayed 37172 seconds by postgrey-1.37 at util1.osuosl.org; Sun, 26 Oct 2025 10:44:59 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 82FBC4062B
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 82FBC4062B
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2001:470:ea4a:1:5054:ff:fec7:86e4; helo=smtp.gentoo.org; envelope-from=sam@gentoo.org; receiver=<UNKNOWN> 
+Received: from smtp.gentoo.org (smtp.gentoo.org [IPv6:2001:470:ea4a:1:5054:ff:fec7:86e4])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 82FBC4062B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Oct 2025 10:44:59 +0000 (UTC)
+Received: from mop.sam.mop (2.8.3.0.0.0.0.0.0.0.0.0.0.0.0.0.a.5.c.d.c.d.9.1.0.b.8.0.1.0.0.2.ip6.arpa [IPv6:2001:8b0:19dc:dc5a::382])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sam)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id DACFF341438;
+	Sun, 26 Oct 2025 10:44:53 +0000 (UTC)
+From: Sam James <sam@gentoo.org>
+To: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+Cc: Kees Cook <kees@kernel.org>,  Shuah Khan <shuah@kernel.org>,  Andy
+ Lutomirski <luto@amacapital.net>,  Will Drewry <wad@chromium.org>,  Nathan
+ Chancellor <nathan@kernel.org>,  Nick Desaulniers
+ <nick.desaulniers+lkml@gmail.com>,  Bill Wendling <morbo@google.com>,
+  Justin Stitt <justinstitt@google.com>,  linux-kselftest@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  bpf@vger.kernel.org,
+  llvm@lists.linux.dev,  khalid@kernel.org,  david.hunter.linux@gmail.com,
+  linux-kernel-mentees@lists.linuxfoundation.org,  Jiri Olsa
+ <olsajiri@gmail.com>
+Subject: Re: [PATCH v2] selftests/seccomp: fix pointer type mismatch in
+ UPROBE test
+In-Reply-To: <20251026091232.166638-2-nirbhay.lkd@gmail.com>
+Organization: Gentoo
+References: <aP0-k3vlEEWNUtF8@krava>
+	<20251026091232.166638-2-nirbhay.lkd@gmail.com>
+User-Agent: mu4e 1.12.13; emacs 31.0.50
+Date: Sun, 26 Oct 2025 10:44:50 +0000
+Message-ID: <87v7k2gcwt.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Building the tty selftests generates the tty_tiocsti_test binary, which
-appears as untracked file in git. As mentioned in the kselftest
-documentation, all the generated objects must be placed inside
-.gitignore. This prevents the generated objects from accidentally
-getting staged and keeps the working tree clean.
+Nirbhay Sharma <nirbhay.lkd@gmail.com> writes:
 
-Add the tty_tiocsti_test binary to .gitignore to avoid accidentally
-staging the build artifact and maintain a clean working tree.
+> Fix compilation error in UPROBE_setup caused by pointer type mismatch
+> in the ternary expression when compiled with -fcf-protection. The
+> probed_uprobe function pointer has the __attribute__((nocf_check))
+> attribute, which causes the conditional operator to fail when combined
+> with the regular probed_uretprobe function pointer:
+>
 
-Link: https://docs.kernel.org/dev-tools/kselftest.html#contributing-new-tests-details
+Just as a curiosity to share: I found a few tangential issues and
+reported them as https://gcc.gnu.org/PR122427.
 
-Fixes: 7553f5173ec3 ("selftests/tty: add TIOCSTI test suite")
-Suggested-by: Greg KH <gregkh@linuxfoundation.org>
-Suggested-by: David Hunter <david.hunter.linux@gmail.com>
-Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
----
-Changelog:
-v3:
-- Add fixes tag as suggested by Greg KH.
-v2:
-- Improve the commit wording and explain clearly why this change is needed.
+>   seccomp_bpf.c:5175:74: error: pointer type mismatch in conditional
+>   expression [-Wincompatible-pointer-types]
+>
+> Cast both function pointers to 'const void *' to match the expected
+> parameter type of get_uprobe_offset(), resolving the type mismatch
+> while preserving the function selection logic.
+>
+> This error appears with compilers that enable Control Flow Integrity
+> (CFI) protection via -fcf-protection, such as Clang 19.1.2 (default
+> on Fedora).
+>
 
- tools/testing/selftests/tty/.gitignore | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Sam James <sam@gentoo.org>
 
-diff --git a/tools/testing/selftests/tty/.gitignore b/tools/testing/selftests/tty/.gitignore
-index fe70462a4aad..2453685d2493 100644
---- a/tools/testing/selftests/tty/.gitignore
-+++ b/tools/testing/selftests/tty/.gitignore
-@@ -1,2 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+tty_tiocsti_test
- tty_tstamp_update
--- 
-2.43.0
-
+> Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+> ---
+>  tools/testing/selftests/seccomp/seccomp_bpf.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> index 874f17763536..e13ffe18ef95 100644
+> --- a/tools/testing/selftests/seccomp/seccomp_bpf.c
+> +++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> @@ -5172,7 +5172,8 @@ FIXTURE_SETUP(UPROBE)
+>  		ASSERT_GE(bit, 0);
+>  	}
+>  
+> -	offset = get_uprobe_offset(variant->uretprobe ? probed_uretprobe : probed_uprobe);
+> +	offset = get_uprobe_offset(variant->uretprobe ?
+> +		(const void *)probed_uretprobe : (const void *)probed_uprobe);
+>  	ASSERT_GE(offset, 0);
+>  
+>  	if (variant->uretprobe)
