@@ -1,90 +1,110 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7576230F526
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Oct 2025 19:40:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F6133033E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Oct 2025 23:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761594023; cv=none; b=Bkg5QJHfVafZDK4XTt18dPlwXe7vL3L6t8njlgITvHQ6bOosqKUFTDt/UbcvB6VeVxuz+ml/j9Sr0F3yOMU77XpHm1GqeKWynfO7CjXGqnoRSID0KwKbHZC+tEJXo+rLwLF4pnJXUdULKCvvkIdhGuYUELQ1HQ6OpUCXNpPKV48=
+	t=1761607531; cv=none; b=hijZ5niKpzhcSn7pf+VyU7QSouWG+Y7EXoslLibFo1JG3Mg0XXBlo1G5DW17ukAAHKQSMhVlL920u8Dv9g75mvywaR07h0odBg2zTxX/5OTMTJ2yMm2tHVaYg+ywHgsKRiuNPclS/vPPX3eEChJ5MXPMnycJPQpxKxf4fEq7z0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761594023; c=relaxed/simple;
-	bh=LBVMDVCrP2gD2L6aDDMW4YplNQQg6wbF1zUk45nqBYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oF14wibsZq8hqnLnPGD8Ttkd+T9OBv7+4431S5KOT5bkJj+KNcshFCN6EVrL4dP+yYXlKtBAyJ40MPsj1K5HASHZrlVM4HERC+sNwoOe27ot9a/4twKsMQ0EHcBgxETWh4gR41XVYoF1KiJRcnh8aIgb6vM1FBKm3XV7mVPKMr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FANvynyH; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1761607531; c=relaxed/simple;
+	bh=1ZAtv1k7qLg8MgQOvSbxTtTfacA9rWU661BgI+pDVq4=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=XN6+yFYnjL+TJ/NeLBaqg3qUAAq8IZj9PfQjl0QlcwHd9wBBh7W9O9rJ7WxHgkLqr8A3SQhGdNFGomIxA22yTaHWmsQgYI6OdnhgEIrZvc7M2PDJgsNvWc8AXXI1gO7eLK+dyN6XdwpQMNFinb1iOaWs1zUQI95+xSfyAe2d4SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=p8Wf8c+3; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FANvynyH"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="p8Wf8c+3"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 09EC541583
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Oct 2025 19:40:22 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id A28FC40DD4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Oct 2025 23:25:29 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -5.792
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Ywl2iOHxFtNF for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Oct 2025 19:40:20 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 9F65141571
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9F65141571
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=FANvynyH
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 6hzglB2QwDgl for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Oct 2025 23:25:24 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=akpm@linux-foundation.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 0857D40B4C
+Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0857D40B4C
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=p8Wf8c+3
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 9F65141571
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Oct 2025 19:40:20 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 0857D40B4C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Oct 2025 23:25:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id D68F740B18;
-	Mon, 27 Oct 2025 19:40:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B92FC4CEF1;
-	Mon, 27 Oct 2025 19:40:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761594019;
-	bh=LBVMDVCrP2gD2L6aDDMW4YplNQQg6wbF1zUk45nqBYk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FANvynyHudqCahbTJmZRNDh5L5Vz8iiW7AquNMQVLjjSWtjVcxEe9k6u5izHUbI94
-	 R7M5T34cIHryksdf4qTCwOy+DC93mzch2n3TU1ZAU0B1baGH4y1PSjhos9FH0u2/V2
-	 hg11mzaMg0ne1XCwOk1kDN7ifLAiXfxtDTvgwISDkV4pmgJ9mYigobLSM+huR/piCN
-	 O28LnQxb1A6QRxDrNEeYaG6FI0+U3CEsd4cIS6ebISZexYIW71ZhTphn8WsoJJaGrQ
-	 v2+GnVg6YNMMb0ZS0wBlK0ABtMTrIQ0TdrK8qqSiNHZX5AHy82AHH91ItSp2xHaXBm
-	 ABCX0EJu6hQwQ==
-Date: Mon, 27 Oct 2025 14:40:18 -0500
-From: Rob Herring <robh@kernel.org>
-To: Ranganath V N <vnranganath.20@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v2] dt_bindings: sound: ti,pcm186x: convert to dtschema
-Message-ID: <20251027194018.GA1466990-robh@kernel.org>
-References: <20251026-dtbs-v2-1-cd3b713a288e@gmail.com>
+	by sea.source.kernel.org (Postfix) with ESMTP id F148E48813;
+	Mon, 27 Oct 2025 23:25:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C715C4CEF1;
+	Mon, 27 Oct 2025 23:25:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1761607522;
+	bh=1ZAtv1k7qLg8MgQOvSbxTtTfacA9rWU661BgI+pDVq4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=p8Wf8c+3emDUEx/LKVNdgfy7OmdSHq8XWZ6wFAuaK1FwwE4aWRE5ucLMWzj4UouZG
+	 /34e/TnVpdrTlsD1PWMyzRg0VDxDMkVEYHyPNBW+lsL+tamb4jIR2A3LTpLCB/5Y6O
+	 n3lwF4kGPjgZRHinYZasxHvUwi1icLTF2VMUFhgc=
+Date: Mon, 27 Oct 2025 16:25:21 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+Cc: linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, Wei Yang
+ <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, Steven Rostedt
+ <rostedt@goodmis.org>
+Subject: Re: [PATCH] selftests/user_events: Avoid taking address of packed
+ member in perf_test
+Message-Id: <20251027162521.c56c7f89f6ad4e3d639c408c@linux-foundation.org>
+In-Reply-To: <20251027113439.36059-1-ankitkhushwaha.linux@gmail.com>
+References: <20251027113439.36059-1-ankitkhushwaha.linux@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251026-dtbs-v2-1-cd3b713a288e@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Oct 26, 2025 at 10:56:16PM +0530, Ranganath V N wrote:
-> convert the Texas Instruments PCM186x Universal audio ADC bindings to DT schema.
+On Mon, 27 Oct 2025 17:04:39 +0530 Ankit Khushwaha <ankitkhushwaha.linux@gmail.com> wrote:
+
+> Accessing 'reg.write_index' directly triggers a -Waddress-of-packed-member
+> warning due to potential unaligned pointer access:
 > 
-> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
-> ---
-> Convert the Texas Instruments PCM186x audio ADC bindings to DT schema.
-> ---
-> Changes in v2:
-> - Fixes as per the reviews suggested for the v1.
-> - Link to v1: https://lore.kernel.org/r/20251021-dtbs-v1-1-493c1aa253bc@gmail.com
+> perf_test.c:239:38: warning: taking address of packed member 'write_index'
+> of class or structure 'user_reg' may result in an unaligned pointer value 
+> [-Waddress-of-packed-member]
+>   239 |         ASSERT_NE(-1, write(self->data_fd, &reg.write_index,
+>       |                                             ^~~~~~~~~~~~~~~ 
+> 
+> Use memcpy() instead to safely copy the value and avoid unaligned pointer
+> access across architectures.
+> 
+> ...
+>
+> --- a/tools/testing/selftests/user_events/perf_test.c
+> +++ b/tools/testing/selftests/user_events/perf_test.c
+> @@ -201,6 +201,7 @@ TEST_F(user, perf_empty_events) {
+>  	struct perf_event_mmap_page *perf_page;
+>  	int page_size = sysconf(_SC_PAGESIZE);
+>  	int id, fd;
+> +	__u32 write_index;
+>  	__u32 *val;
+>  
+>  	reg.size = sizeof(reg);
+> @@ -236,7 +237,8 @@ TEST_F(user, perf_empty_events) {
+>  	ASSERT_EQ(1 << reg.enable_bit, self->check);
+>  
+>  	/* Ensure write shows up at correct offset */
+> -	ASSERT_NE(-1, write(self->data_fd, &reg.write_index,
+> +	memcpy(&write_index, &reg.write_index, sizeof(reg.write_index));
+> +	ASSERT_NE(-1, write(self->data_fd, &write_index,
+>  	                    sizeof(reg.write_index)));
 
-Still fails to apply I guess due to the unicode control char.
+Simply casting &write_index to void* would fix this?
 
-> ---
->  .../devicetree/bindings/sound/pcm186x.txt          | 42 ---------------
->  .../devicetree/bindings/sound/ti,pcm186x.yaml      | 61 ++++++++++++++++++++++
->  2 files changed, 61 insertions(+), 42 deletions(-)
+>  	val = (void *)(((char *)perf_page) + perf_page->data_offset);
+>  	ASSERT_EQ(PERF_RECORD_SAMPLE, *val);
