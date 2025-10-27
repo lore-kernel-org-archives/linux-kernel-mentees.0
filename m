@@ -1,169 +1,119 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED012D5A19
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Oct 2025 05:32:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8012F2D7D47
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Oct 2025 05:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761543139; cv=none; b=aksuhVVgJ54Zj4FnSZkWDnOWvq/S6SJyPleFKmZQI8Lszf3cRvykBkfdEnKTRij2fUl4TdKto6LTGyLOE5Nq0EqnQ+2rm1+gh3ymRPQYoU7r8VVpKPy+SOaLt0wJ1lZA1tff0xdMqkGMRUInsIXJiF+iA7l8gx1/9mG00/uzPMA=
+	t=1761544558; cv=none; b=mY/CYDYZ8lrTnHT0Sntadd8UevLXAkTOWEFMiX2Jb0UrOFhiHI+0KKtV4J0HPhxK0VDt3ootgvKIrsKGAZIEPFxBacbORU9zYpuibungl2kiV4P9isiN7Q3J2Nnaco9/chno10uQyKcgH2FHdBJtVgeeoXyZ3aBKx2Cpm7tagVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761543139; c=relaxed/simple;
-	bh=BiZQZWYzCEbU/wZ9q9vihxV/NEjhA6GMCF121pXKmzA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gijrM1LYwKIXJZS1Aj1Cpj9G13RWoLmB+XPVLWej1GglE5qcaxKWLRmlLm8oXbt5O9nxFBzf4/rOAGhROIXsul3M2gK0J62K7XIEU11PL9fKrCMDln5o8DmR/kif6wvRXeJV2kyPJZ7iSASisZ/k6dkKBv0hu8bCFweRgpxcPDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VEpOSZrz; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1761544558; c=relaxed/simple;
+	bh=ybYmKh8/39nPxjAAy3oM4Wv0m5D7zdqQ/h0WxF4fTI4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=e4eFEMDAUVHjlfrWt8olwT8psIEz0GD/+ixbwm8rJJHGPIyuLHRNiG9ejMpXWkQN/lL9oUzWo43vpylYb8G1bblYswHiLUNva21lK21iWefSLbfiQWTLtXm9OotxspttnOvoqOawSFQCcyoU/TeGiy3EiQNRJtvhkEDEmFlvTcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zNqDoACA; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VEpOSZrz"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zNqDoACA"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 215F541314
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Oct 2025 05:32:17 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 1EE7B8401B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Oct 2025 05:55:57 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: 1.236
-X-Spam-Level: *
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id TzqHb744rUgm for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Oct 2025 05:32:16 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1043; helo=mail-pj1-x1043.google.com; envelope-from=ankitkhushwaha.linux@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 5C482412F0
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5C482412F0
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=VEpOSZrz
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 5C482412F0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Oct 2025 05:32:16 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id 98e67ed59e1d1-339c9bf3492so5003658a91.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Oct 2025 22:32:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761543135; x=1762147935; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XvaWnuts0+GAzN1C4s4frRI39aWzTgLO69HpFB7yOYY=;
-        b=VEpOSZrzIgNjuNPvBOkSc1lacFm4sRYOtWsBCB3aGEocQcG0izJelQOmmEZh0mFgJ3
-         GeDeh1p4OECZ2ON6/ib/rqN9SYEpehBgqvPKt+Vy6iak1V7jOx81i3oGyOfVaNujYsjh
-         3OQnXgwvt5y89OMQbfu7tu5KrvlBTbCRDXYNAuXWDQyQvO2CVqotJb+ydV811Hdq8cVp
-         mYx7SCZ53gnXXH/W6cs75N63GFfJQf7x/4TPCq1cfAt/0EC3H1ptV2Lk8d+3ySH3/tau
-         9PtZzg39+dZlo69oRrCX6OCVdDRAcl7RLMnKLyDDbplo4xHZdcIWyco35Hw4LlsfkbNO
-         huyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761543135; x=1762147935;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XvaWnuts0+GAzN1C4s4frRI39aWzTgLO69HpFB7yOYY=;
-        b=SqdwrM7/nXKJcQBC4kiPbRLh1KmE2Y7cwS/LyTUwW7+PFZVCZVt4Mbq0r3kr/Il8MI
-         v34EGsQ5RussKPyVpFT8keHS7JmS4BzB/SVympT694mTayuhwdaA8T1RrCf9oSoVmTi1
-         0aVygRbuVyJmQXv8RcQLBIVLI0p0wMskgsdINPh/lHtvzB9HzbL+bdhoMqmgktvXYe9E
-         TH2z5joQ2s7l5QACn5CGHMzMyDd1TsLLLxpE6IsQcd4ai2krkKF8tpBXLvsCsJaEN8Mx
-         ae6mhfJ+XZcjNjAHWjOGNA+rdydDqsuc5gPJuIyCy2AZlp/pLzqBKq2kskyHnskksIci
-         +Sww==
-X-Forwarded-Encrypted: i=1; AJvYcCU/3+76ukOHFOdPFHxzIRgjoYwmcyzHN+Ass/TLCd1FxgIQXPPfVzNvzZgIdApVeH1u/4D6+lrYVj9YR8zdn8SufsLJTw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yxqs2b12KWVd1rWDcoQhtqDMIWImOsHoCYj3nhVWP8Bd/xGyft3
-	Gj9ZaN/VRtCtRBcGkGauKspoTMdbLNTzZJxXjvkCducwGlbRWjtdKum8
-X-Gm-Gg: ASbGnct0b1/j7B8Srm88ms2+abjgG5w9X1zxhYzrNgulVdKZsdagKQRozTbB8v/NnWl
-	6DKbPcHd4sGE5mPvN14AIqwRlyjZ9PK4doy+pEWfJxfNgc+iDJdCC027pH5ck9GOQiK2VbbsrXB
-	0SJfFnD5l5FIUNNBcyvcXxEVGOYlpoZJsup5ezIktiS9ENFJMivQsmqKI+WV19ijQ1iIgpAMCKD
-	8HUY530jF3y+V/EI2eMUGuUHOw6eATYsxO1yVStTdSupLgwIwPlSutBbQUmGA8yIpT3nVnrBS87
-	gwIRVQdothySFrUkLMO9ENHXvmNlgFVCX8WqhXsoXWSZrQI9aLLeeDuw2g8OIke8cSJKJ0qoz6V
-	m+3WiuNwluTPi9qQUDOPehf/7RWn/B+O+nNaXQJoQFWdbrC3Kd65Tb7ziiOwKWGUS+MLWSMgy9f
-	Z/EvkWMXbg8pP7j3/oY+U=
-X-Google-Smtp-Source: AGHT+IGFxkBGGf3onfO8Chr2ltK6y4LuXfk+2qofYqflJam8vbY4kH2nypV/mGTAj8xXg0sXgRUULQ==
-X-Received: by 2002:a17:903:1746:b0:269:a4ed:13c9 with SMTP id d9443c01a7336-290caf85146mr423652875ad.30.1761543135506;
-        Sun, 26 Oct 2025 22:32:15 -0700 (PDT)
-Received: from fedora ([103.120.31.122])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498e41125sm67120155ad.94.2025.10.26.22.32.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Oct 2025 22:32:15 -0700 (PDT)
-From: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
-To: Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Xing <kernelxing@tencent.com>
-Cc: netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
-Subject: [PATCH v2] selftest: net: fix variable sized type issue not at the end of a struct
-Date: Mon, 27 Oct 2025 11:01:56 +0530
-Message-ID: <20251027053156.34368-1-ankitkhushwaha.linux@gmail.com>
-X-Mailer: git-send-email 2.51.0
+X-Spam-Score: -2.098
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id WdPbEs1BEwNS for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Oct 2025 05:55:56 +0000 (UTC)
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2607:7c80:54:3::133; helo=bombadil.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 05D3884018
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 05D3884018
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=zNqDoACA
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 05D3884018
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Oct 2025 05:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=2PSjt9WH+pBseVt0UIOQSGXPv18u2Yu6JU4vrx0TYeU=; b=zNqDoACAEhpf9GVKEy365h9/91
+	K9bcBF3iL/OTLZjAWzZHocKS9YTocNfXJLJEAOd5vGTUc1YlnvjraZCeA7bs1kAF2X60YgDwbKYtc
+	Bqf9F90iYEpLUvXaTV2uAWajYyxWOSi3imkHYd+uFQkVCf4Xa7vVjTAX590y1Nwp9yvganhAUTIAL
+	SrwZpcTKy2glw1a4Hv/m5uL7ieLatNzVswCm691WIMdtQWgYRCKBpMlKNHyr2yC1SRrBl5USnWpj5
+	MxBzNTNe+Rkr63YgalmMfiY3ctTTVpZqvZTWlTHa7pq1UHsutDJZ3tpEaiAswLIDbVWNcHa+TzlIm
+	RSWaRwsQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vDGCu-0000000D9sQ-3p3F;
+	Mon, 27 Oct 2025 05:55:52 +0000
+Message-ID: <766767b3-946a-4ff1-ace6-b7889ba296ae@infradead.org>
+Date: Sun, 26 Oct 2025 22:55:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Makefile: Sort Documentation targets
+ case-insensitively in make help
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+References: <20251015012922.19467-1-bhanuseshukumar@gmail.com>
+ <47844424-302b-4a99-9cce-82924c7b7ebb@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <47844424-302b-4a99-9cce-82924c7b7ebb@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Some network selftests defined variable-sized types variable at the middle
-of struct causing -Wgnu-variable-sized-type-not-at-end warning.
 
-warning:
-timestamping.c:285:18: warning: field 'cm' with variable sized type 
-'struct cmsghdr' not at the end of a struct or class is a GNU 
-extension [-Wgnu-variable-sized-type-not-at-end]
-  285 |                 struct cmsghdr cm;
-      |                                ^
 
-ipsec.c:835:5: warning: field 'u' with variable sized type 'union 
-(unnamed union at ipsec.c:831:3)' not at the end of a struct or class 
-is a GNU extension [-Wgnu-variable-sized-type-not-at-end]
-  835 |                 } u;
-      |                   ^
+On 10/26/25 10:27 PM, Bhanu Seshu Kumar Valluri wrote:
+> On 15/10/25 06:59, Bhanu Seshu Kumar Valluri wrote:
+>> Avoid case-sensitive sorting when listing Documentation targets in make help.
+>> Previously, targets like PCI and RCU appeared ahead of others due to uppercase
+>> names.
+>>
+>> Normalize casing during _SPHINXDIRS generation to ensure consistent and
+>> intuitive ordering.
+>>
+>> Fixes: 965fc39f7393 ("Documentation: sort _SPHINXDIRS for 'make help'")
+>> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+>> ---
+>>  Notes
+>>  - Patch is tested with make help command.
+>>  - Verified case-insensitive sorting.
+>>
+>>  Documentation/Makefile | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/Makefile b/Documentation/Makefile
+>> index 3609cb86137b..00c81e7947a9 100644
+>> --- a/Documentation/Makefile
+>> +++ b/Documentation/Makefile
+>> @@ -23,7 +23,7 @@ SPHINXOPTS    =
+>>  SPHINXDIRS    = .
+>>  DOCS_THEME    =
+>>  DOCS_CSS      =
+>> -_SPHINXDIRS   = $(sort $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)))
+>> +_SPHINXDIRS   = $(shell printf "%s\n" $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)) | sort -f)
+>>  SPHINX_CONF   = conf.py
+>>  PAPER         =
+>>  BUILDDIR      = $(obj)/output
+> Hi,
+> 
+> I just wanted to check if you had a chance to review the patch or if any changes are needed from my side.
 
-This patch move these field at the end of struct to fix these warnings.
+It's OK with me and it works.
 
-Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
----
-Changelog:
-v2: https://lore.kernel.org/linux-kselftest/20251027050856.30270-1-ankitkhushwaha.linux@gmail.com/
-- fixed typos in the commit msg.
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
----
- tools/testing/selftests/net/ipsec.c        | 2 +-
- tools/testing/selftests/net/timestamping.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/tools/testing/selftests/net/ipsec.c b/tools/testing/selftests/net/ipsec.c
-index 0ccf484b1d9d..36083c8f884f 100644
---- a/tools/testing/selftests/net/ipsec.c
-+++ b/tools/testing/selftests/net/ipsec.c
-@@ -828,12 +828,12 @@ static int xfrm_state_pack_algo(struct nlmsghdr *nh, size_t req_sz,
- 		struct xfrm_desc *desc)
- {
- 	struct {
-+		char buf[XFRM_ALGO_KEY_BUF_SIZE];
- 		union {
- 			struct xfrm_algo	alg;
- 			struct xfrm_algo_aead	aead;
- 			struct xfrm_algo_auth	auth;
- 		} u;
--		char buf[XFRM_ALGO_KEY_BUF_SIZE];
- 	} alg = {};
- 	size_t alen, elen, clen, aelen;
- 	unsigned short type;
-diff --git a/tools/testing/selftests/net/timestamping.c b/tools/testing/selftests/net/timestamping.c
-index 044bc0e9ed81..ad2be2143698 100644
---- a/tools/testing/selftests/net/timestamping.c
-+++ b/tools/testing/selftests/net/timestamping.c
-@@ -282,8 +282,8 @@ static void recvpacket(int sock, int recvmsg_flags,
- 	struct iovec entry;
- 	struct sockaddr_in from_addr;
- 	struct {
--		struct cmsghdr cm;
- 		char control[512];
-+		struct cmsghdr cm;
- 	} control;
- 	int res;
- 
 -- 
-2.51.0
-
+~Randy
