@@ -1,132 +1,149 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFC73396FD
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 28 Oct 2025 16:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF9A346A0B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Oct 2025 16:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761670632; cv=none; b=pifWpveOfi+lFkUbi3MPyDkqxugbPMVo+QM6faCdoo/jm1+7MJy6opPZqToqYXkPwMCbhPE5aqib1FAihpaWGp7oswkORZMjZeAjMCZUBz+If/m9o00DKBbB8K6LE1wZn483quPPVTTNytHTNV9nLPRgEjv+xd+4tpWrkTPbyaw=
+	t=1761670704; cv=none; b=dKom283QM+JGrSOEViObkkGh0za+rJpfcvKx3mXNSCxzR97ZnQOhBRe0UEJ/q500alCjOcm3ovPJkZqvw4O8KwHUgpo8sar+E62hhXm8VoKg9ZEhWzUWAMcW4ghwL/YJyooPtAZwu4bzCXy56WVLBThp6paYEGh02lixEq7RBSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761670632; c=relaxed/simple;
-	bh=VWbzR5JJcNh9vxeY+++ECnRky78xd0PGd5/1QQmh4bE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VOIsb/8oygvrH++2oegX2QWEHcxV3MAhrVe94SpNx2rp0zHFtSp0oIPEzohJKCOOFZeH0g4juUON7xnarF0lBFQtm4tXfJIgERS+RC24Y2e/JWCxUIk2/C6SeIiKsfbLYCakSXnkISQnqe6jOJHIASbEjlSQm0emaRM/tKBKc7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NMKepT2S; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761670704; c=relaxed/simple;
+	bh=S2YK88oreoElX7onfuW9IzclvPMp4++2KYT8+xCMHWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nGZezfQM9UHGLH1P/sSKzzDhKPaAac6YkVe+3116a8rpy1g+VUVPUoP6zCZiUzjG4bKGomW2YEDLyxLTgREd6iMhnWQ9cFboHhcIlD6JMg0JqiIPyaQyYlZ5jgEGGeLk8FBFWXWun8Y7ROQuJTirMU2amqiSBnwlf3e2hOa9+8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RWJVV323; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NMKepT2S"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7a2754a7f6aso7771810b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 28 Oct 2025 09:57:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RWJVV323"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 89F3780D5F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Oct 2025 16:58:21 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: 1.236
+X-Spam-Level: *
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id DI-e706j1m2t for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 28 Oct 2025 16:58:21 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::644; helo=mail-pl1-x644.google.com; envelope-from=ankitkhushwaha.linux@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org EC33680D5D
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EC33680D5D
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=RWJVV323
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id EC33680D5D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Oct 2025 16:58:20 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id d9443c01a7336-290dc63fabbso60310345ad.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Oct 2025 09:58:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761670630; x=1762275430; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FZSNxR68yHjL7zAo+Mv3sJfsksYIyvHAgD0mbxvBcYw=;
-        b=NMKepT2Sj1ZnazEfKOL7mYRNCqnUY+o8oW67/AKkdibEMCtsX9iESs2AJbK/8VzUtW
-         Eds4Ss0Zd5AZDy/Vr51pkApUZEelDFw39iDwcW2/9Og0zj9GLradDk9L7nCUSrEH1efG
-         WVhRZfIooWdVchKNXqyMzEbz/ly5m7oweNU/lO9hxMsi9dPzbdSyNpF/gEf7Cq46r9hn
-         tNAwoCH9ilLQBWjkqefkN0rTUn69pZELxjnGow3qqnglo/6mmEEksbhsFPxNzflLu6PX
-         HE/dOcrepSPll6jLPEPFJL3c0mfj9C5WrblUqNDf6FvL5/EyLMwQv8F1buI3gR4VD1t2
-         3eMg==
+        d=gmail.com; s=20230601; t=1761670700; x=1762275500; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DKAJWIVdXY6w33OMTqrvcoCl8DNQe+wsI3uiwsncnTY=;
+        b=RWJVV323j8K4W0ZNXl4WoMPCk4YHqr3G+2EDnFe8rGVSeFFPUUqaZIAQOi4bahoZgE
+         n/AtbSYP/aiGEXVgnszsRegQSjuc/EACmNzSjdNf14NaSqs8U3A8xmqeW7axDubBWGii
+         NuNTP7p5BNsQgp05IDaeGJeMV635r/oSHQwAekJ2JMntNL50kTCgE2fWfTKOlnkgSwwB
+         mEvTzJgVu/1Vi8mlI2fmzgvlO5ZYeXhpT8i/11cekGFYO8gyZHxGrfOWkzAcHDbl8JPE
+         kc5flDRCHkYkXo4ezfUQGJUEzjRLAfRIhjqWQUm3g3nVju3TvKjTv9yh/M23L+IS2+Sh
+         TVVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761670630; x=1762275430;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FZSNxR68yHjL7zAo+Mv3sJfsksYIyvHAgD0mbxvBcYw=;
-        b=VAsE2Ru+lHq4zPGQn0N7YjhLcY5wu0mRpOdLX/rI8cDVPFCyk88ivHuZOARCLFmU6y
-         SHb3ZKHQI6yDX9IUTg0L54lev4lsOtXxj2BsH9AQO5Eoz/E2EqJp3UnCabT5MOffUcPD
-         J3jcd3n15M2czn+PZ3ukvAkUxUTb7pL9N2+vkd2diKfxQH/ykC1B/V75ZaD0TWHq0U91
-         l/XlK5lGfvwIXiCOZhJaBGKhKPCHz6jqE4ftfgKU262w/kVPPmy7CfsEb6Riw+UrhlE7
-         iVOQL2VQFTH3D3xZGVkbikFu3dmY2I5rfxQ61mmDk/2CQAEsI1Ctys1vdArLx1QoKq/g
-         a3Jg==
-X-Forwarded-Encrypted: i=1; AJvYcCWYd3KgPXI0W7e0/NYf3V5mt2Iid5baZIcRVZo+C/Hgi6Ko4un1E4gdLPgipXaNHIKc6mJaMbBlUdARI4B127Gbi0wuhw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYpHzxOy4TBj5WvBHZIWIdPS8M3klwhAIC/1nY59XKgq694ptS
-	5vmFjoWwzeytG5dW47ZpLvTxZAp0yMi8eQ5FHU2ug27cJy4buSUNVKrL
-X-Gm-Gg: ASbGncuAk2cg2TFn20Ju749OoUsuofI8FAE7PAyTlufWH62XOhJfEawy1SuVeuD2XUj
-	5Pih4RCqLuIYgzXl+k9nuvcffurt+8X3y5PVdBx/mFewXUjqTH+pO+b+5RBapspKqhKlXnbMPmP
-	T/QBoxKChGe+cp05rDMkU3ivQux8o6nj9o8G/FzrS45fZbSUaRUvGjdKdjnvoe9wk7mINj/AA+D
-	KMnJ7v1Iw3Uxh5hCMaIWcphutBn7DqoUBHTQLQUnHnXe+dBKaqMmExNMETlXjonwI0dgR3YTubo
-	6+HEbeA7Csuc9kU9I5mQEihNnoZtt3V256CJFM0zaM/YCZwWaTHQkA7RW2m+SreJ1CbG84EUOj5
-	nfAN/xvtisXDuHXSFJl0SMsGrAZm4k+Cb3Lb1xbDfnzbCMt0re85zdOT/JyT8jAORq5TBLruUxM
-	UPck/uBFkL3vKKB/s+cc4=
-X-Google-Smtp-Source: AGHT+IHYzX3zBX9m/HOdpIkdCjhBMv9C2sbByBuod4kCB2jxgbvqLV3QWhnzZ0epjRo8NPkrViDs8g==
-X-Received: by 2002:a05:6a00:3d4f:b0:780:7eaa:938 with SMTP id d2e1a72fcca58-7a441bde268mr6351210b3a.12.1761670629662;
-        Tue, 28 Oct 2025 09:57:09 -0700 (PDT)
-Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a4140699basm12133857b3a.50.2025.10.28.09.57.05
+        d=1e100.net; s=20230601; t=1761670700; x=1762275500;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DKAJWIVdXY6w33OMTqrvcoCl8DNQe+wsI3uiwsncnTY=;
+        b=qpk3DXnu7yUmSU/P0U/n0Ug0snqpuUH9OpI5uFSxkk30iSaqOje+XHKUrcH/anUsLj
+         bfQc8i7m5ddqVIuUqpgX/qnSWcjN1aTaN3NyDVBDddLAt9Shj2Q269WePzCQ6qljbUdq
+         LUOmm120ae7bWyzTRk4AyciM3+didmaEkfvraHMQ/YHX13tUt4/U82k8AqKkHlBqsnY9
+         rIySjMUY82PvbAjoMfLGevMgJjpsZiNU32L0tqFwqOhxHDOoXHibdBZGSgYp/G8h+lmi
+         Oie/EEHgrxg2pd64c743XaYvrgIRd0S3wkdXGp3nZYJaHxKWPPLsanKVJn+HI08OCoN7
+         9b/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUfHlAC9cEpYlfNLcfYpvXKB7Ov/BpK/vKI+hmEbgjirEe6Ex97cHC7vEeaGEQpMz7eu8auATegtuvt37RmEwtgGzgUTg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yy4r1VRnTeOPYCbkrT+I2q6L21g/xHLjRNv6GJgqR+0F3I7fjQ0
+	hn3w+awFRl+Gxw+0EJW3uswaWYgtXIfv7B8UNoQ4bBP9FbdEzhskB3rO
+X-Gm-Gg: ASbGncunk8ulGi29grlPW6LarBHx90KkPp92UcERuurELNKBJkESD83J+Rckwye2QLQ
+	2c7fAxUE7f8ZbMX9cUFvg/VXEx8enbBUhzoJ9AeqtI+i1ZRDoXnHN5Ghz4fwZvq/+C9tfzqokHH
+	Z7NvSd7DiJuQO5BMNmjmN7Wj3EaKLxIOrzfKRXBmj8DBYFgVJw2XBSe7mRnapRNbgZUPAh247iS
+	JpDHxw6F1Ns2Ma+lLAu12OnBs8lM4rs13i4WzdvLq/xK1orQZyiZwLS1uSGmSMH8lIXJ1Zakpdq
+	WKKerk+UgEFoiqCTmhjSkB82W3fzvlh3d0fMR1My5LL7iS3Q7gM50rFbAb3qJM67K6s5KHeG9v2
+	1C6O/absaX1iq3ssESSzf8QUR7NDZbuZozbpi8csqu/kznCLOwoJQO97SspQuC9ZDaxLMosJr8X
+	q+jjyD9rg0MhdtH3Hr+78=
+X-Google-Smtp-Source: AGHT+IGoWRXRZauvUG5j1zo0Qxhl0gwoNettufvBODgutBswNwVQoMUoNOz0OY25v/QcS1yZJBzGlA==
+X-Received: by 2002:a17:903:2f0e:b0:290:c0d7:237d with SMTP id d9443c01a7336-294cb50e4bbmr54429445ad.36.1761670700123;
+        Tue, 28 Oct 2025 09:58:20 -0700 (PDT)
+Received: from fedora ([103.120.31.122])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498cf4b0csm121255865ad.10.2025.10.28.09.58.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 09:57:09 -0700 (PDT)
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: andreyknvl@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
-	snovitoll@gmail.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	syzbot+d8fd35fa6177afa8c92b@syzkaller.appspotmail.com
-Subject: [PATCH] usb: raw-gadget: cap raw_io transfer length to KMALLOC_MAX_SIZE
-Date: Tue, 28 Oct 2025 22:26:57 +0530
-Message-ID: <20251028165659.50962-1-krishnagopi487@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Tue, 28 Oct 2025 09:58:19 -0700 (PDT)
+Date: Tue, 28 Oct 2025 22:28:10 +0530
+From: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+	Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>,
+	Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH] selftests/user_events: Avoid taking address of packed
+ member in perf_test
+Message-ID: <aQD2Igc3svAF3klc@fedora>
+References: <20251027113439.36059-1-ankitkhushwaha.linux@gmail.com>
+ <20251027162521.c56c7f89f6ad4e3d639c408c@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251027162521.c56c7f89f6ad4e3d639c408c@linux-foundation.org>
 
-The previous commit removed the PAGE_SIZE limit on transfer length of
-raw_io buffer in order to avoid any problems with emulating USB devices
-whose full configuration descriptor exceeds PAGE_SIZE in length. However
-this also removes the upperbound on user supplied length, allowing very
-large values to be passed to the allocator.
+On Mon, Oct 27, 2025 at 04:25:21PM -0700, Andrew Morton wrote:
+> On Mon, 27 Oct 2025 17:04:39 +0530 Ankit Khushwaha <ankitkhushwaha.linux@gmail.com> wrote:
+> 
+> > Accessing 'reg.write_index' directly triggers a -Waddress-of-packed-member
+> > warning due to potential unaligned pointer access:
+> > 
+> > perf_test.c:239:38: warning: taking address of packed member 'write_index'
+> > of class or structure 'user_reg' may result in an unaligned pointer value 
+> > [-Waddress-of-packed-member]
+> >   239 |         ASSERT_NE(-1, write(self->data_fd, &reg.write_index,
+> >       |                                             ^~~~~~~~~~~~~~~ 
+> > 
+> > Use memcpy() instead to safely copy the value and avoid unaligned pointer
+> > access across architectures.
+> > 
+> > ...
+> >
+> > --- a/tools/testing/selftests/user_events/perf_test.c
+> > +++ b/tools/testing/selftests/user_events/perf_test.c
+> > @@ -201,6 +201,7 @@ TEST_F(user, perf_empty_events) {
+> >  	struct perf_event_mmap_page *perf_page;
+> >  	int page_size = sysconf(_SC_PAGESIZE);
+> >  	int id, fd;
+> > +	__u32 write_index;
+> >  	__u32 *val;
+> >  
+> >  	reg.size = sizeof(reg);
+> > @@ -236,7 +237,8 @@ TEST_F(user, perf_empty_events) {
+> >  	ASSERT_EQ(1 << reg.enable_bit, self->check);
+> >  
+> >  	/* Ensure write shows up at correct offset */
+> > -	ASSERT_NE(-1, write(self->data_fd, &reg.write_index,
+> > +	memcpy(&write_index, &reg.write_index, sizeof(reg.write_index));
+> > +	ASSERT_NE(-1, write(self->data_fd, &write_index,
+> >  	                    sizeof(reg.write_index)));
+> 
+> Simply casting &write_index to void* would fix this?
 
-syzbot on fuzzing the transfer length with very large value (1.81GB)
-results in kmalloc() to fall back to the page allocator, which triggers
-a kernel warning as the page allocator cannot handle allocations more
-than MAX_PAGE_ORDER/KMALLOC_MAX_SIZE.
+yes, this hides the type mismatch from the compiler. But i think
+casting to void * will not fix the alignment mismatch for packed struct.
+It works on x86, but might break on other platform.
 
-Since there is no limit imposed on the size of buffer for both control
-and non control transfers, cap the raw_io transfer length to
-KMALLOC_MAX_SIZE and return -EINVAL for larger transfer length to
-prevent any warnings from the page allocator.
+> 
+> >  	val = (void *)(((char *)perf_page) + perf_page->data_offset);
+> >  	ASSERT_EQ(PERF_RECORD_SAMPLE, *val);
 
-Fixes: 37b9dd0d114a ("usb: raw-gadget: do not limit transfer length")
-Tested-by: syzbot+d8fd35fa6177afa8c92b@syzkaller.appspotmail.com
-Reported-by: syzbot+d8fd35fa6177afa8c92b@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/68fc07a0.a70a0220.3bf6c6.01ab.GAE@google.com/
-Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
----
- drivers/usb/gadget/legacy/raw_gadget.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/usb/gadget/legacy/raw_gadget.c b/drivers/usb/gadget/legacy/raw_gadget.c
-index b71680c58de6..46f343ba48b3 100644
---- a/drivers/usb/gadget/legacy/raw_gadget.c
-+++ b/drivers/usb/gadget/legacy/raw_gadget.c
-@@ -40,6 +40,7 @@ MODULE_LICENSE("GPL");
- 
- static DEFINE_IDA(driver_id_numbers);
- #define DRIVER_DRIVER_NAME_LENGTH_MAX	32
-+#define USB_RAW_IO_LENGTH_MAX KMALLOC_MAX_SIZE
- 
- #define RAW_EVENT_QUEUE_SIZE	16
- 
-@@ -667,6 +668,8 @@ static void *raw_alloc_io_data(struct usb_raw_ep_io *io, void __user *ptr,
- 		return ERR_PTR(-EINVAL);
- 	if (!usb_raw_io_flags_valid(io->flags))
- 		return ERR_PTR(-EINVAL);
-+	if (io->length > USB_RAW_IO_LENGTH_MAX)
-+		return ERR_PTR(-EINVAL);
- 	if (get_from_user)
- 		data = memdup_user(ptr + sizeof(*io), io->length);
- 	else {
--- 
-2.43.0
-
+Thanks
+Ankit
