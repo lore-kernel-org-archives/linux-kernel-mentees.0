@@ -1,247 +1,130 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D22F3431FA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Oct 2025 16:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A5A286887
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Oct 2025 16:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761667763; cv=none; b=pBMrZdRIsBAq5iN8UoVchk8oXA/pFoiNOW42RRnRGpuajO1jKIua93nM8AR3b+5kZRy7s8X+7s6nlRYtz1cuUXTZqCl8SCMcytRAoOGmQ4x2skokJhAsbbYo4rZzftUpc8J5rXp8V2n8GBlqJgXh5k15cdFm89R5/dfXZ+52pck=
+	t=1761669156; cv=none; b=bePE0HBVCs8MJgX3zWykoCAxI7RyFABgwzt0kxNljC1UY/RkYd4RO0GAT9x6NeUiMGMOA7k0mPwcbNG8Hca/IdcXamZI7GheM5TTHVZaHm8quTaIWB/RcSmjM2Ld2KrerobcnFy8dzo7zx0b952fsh6J50Eei9G7IFItAgLp35o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761667763; c=relaxed/simple;
-	bh=dDjULkuYxSeS0Y4oU4SV85womNCpNWdft//C4y9afh0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L6bl8yLJ0q78/g3yQzgxc3C2A9TKC5czYohV7mDGZ/XlBFbVUU0XfecoZ1tTmqt5bu7ATrT/ud1gWPEIpewgvRdHK+ma4wSTBTH8H3gC9Z6w2JQ8pg05Vho9O9857Jpdo2n/UsT2CVxKUG/kIC2xdpV+En3bVeeEkQpRq3JoD3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mxjnmj4v; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1761669156; c=relaxed/simple;
+	bh=JdNgZ8T1nHVUE8GPyM0NLn6jOeFU81bhy/i+g3NI+Iw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dXeqlPVWh32HBtQWadWUutrBlYhSNIdi+DXA0uZPV5RkfGofb6tsvTOEs7WxZWGK19cLrzOYCXauHbza1W9VgerarOceUVQisgazpSmjgttAfGPUZY3mMSNtfYxxadOvdGtr5gCLi1HW/WHs2XnriFbHgs/Q9vblC8SjgwsmjdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B5/hDdTC; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mxjnmj4v"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B5/hDdTC"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3989040084
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Oct 2025 16:09:21 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id AA9C54009F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Oct 2025 16:32:34 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id xv0VjLcvxTnb for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Oct 2025 16:09:20 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1035; helo=mail-pj1-x1035.google.com; envelope-from=andrii.nakryiko@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 4B2864006A
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4B2864006A
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=mxjnmj4v
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 4B2864006A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Oct 2025 16:09:20 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-33badfbbc48so7800786a91.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Oct 2025 09:09:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761667759; x=1762272559; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nSbWUkP74jArjI30D0sAE5TvIq/zi84n0bjbO2j3uGY=;
-        b=mxjnmj4vXaO83dYUG6G5PQG1HVGfLfJRqw61ojhsEchD6teBhaw7ZtZPfzGStZfCu+
-         S23+qOKUc2xonU0+tBjrdaSx/a4+N3GgxRpg3rl/jxvR971xRJujhtu5qhei0LdhiemT
-         jdT3/PjNjdByAMGtANcFTzz0NkxItppp4SAXXGyBWEk2OGoP9qZurwzZQMEPhCgZmrtu
-         FnKVcLszmn4JTNxg4SD7/BpYRGc7Uo3ngE3zNhSuQb2vNVRlKbSfrvk+SWaQv5+ejK94
-         Z3tqjPDvh0FHaUjk29qslwoLUJlNI06dyRSQGADzRP75TNUSpi3xIfKgVkgTJyOkovty
-         n33A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761667759; x=1762272559;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nSbWUkP74jArjI30D0sAE5TvIq/zi84n0bjbO2j3uGY=;
-        b=IOSu8anLdJecS3mk0a/V1u+Ef5dYJVARWQRWseKxqjjDgsyK0752dhAJQtsKMJiCR3
-         Q0F3XxyRyOXcS6lzUe9CksESCIRvNMXb3IgQHuhDWtZ4uto4fGHxoOLjMdwlq09EFApM
-         Qv91dZRBchRNAHFqdueIRacjZNjqeZMkqFftH/n2Nw2oDxyTxafnA+Vwub4VUR+siF8X
-         ADLhYZZDVX+XaML6ElHZejTHQ3dDj+eBl9rXz4GSzjfdojntXFH1ePaAW8vhgsJAFj5Y
-         AuUvs/40ytmuysYHamKsLm8P1OaleZAYiJL8PwkSv8HQcAytQyKMq3Oa8N0zMFPBv9Ea
-         YX8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXw4IBKLmdV3EQ20nMh7CVeSnulZEQVMN+tnOkPgMeER6SLHrSEf2qAvfwzBt/9QrI20JhBaSqi0RbqMdRDiVJlWKX33A==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxKiqBPsHCzaThWXQKTeh3d/FeHg7C0bbYWD8OhqlIEP0mfwcjx
-	5jeHRhKp9rVZrtEsLVm3QmYixeHHVyunlcZo4zk/DL93QzysKPgFjwF1nUKUFxHwUTySc4MXSE3
-	tBAAQDnrwOMfw4wY1YJ35jA3Ziu0bBO4=
-X-Gm-Gg: ASbGnctpkGEFysZYLVu9e42Tr9AKzPqzj2Z3Fi3iTWr2SxhbOiGt3hq+AqE4fRrV1V3
-	GUL+U3VLgSKtfOT7FOt0JSzrMK9j0oEghNINk4pLZjUS04EH8cMGOBojSnjbRV29Bk4QZ+rBg4m
-	4k/dcxJ85N1s6Bf6n6DErmkZxt2Dmb5AbUQ+299DMmV859g3z51N2taGSOpoEiBLl6P76z7JTA+
-	0cVGlHrRA7UYGQNK480OKM1IqnZBmgamWGj0wgC5FOhdmjXssqXoR9ciDVLdwDMcy75UN/C9tdT
-	1lwPHGkeUPk=
-X-Google-Smtp-Source: AGHT+IEt+jRXWPKMfkUhwdIG0jbgXiTN2/FnXGOF7GpfKVMtHqrZWr/N2HWc4lHOxmE0NYBa1VyI3gYStNqF+DUuve8=
-X-Received: by 2002:a17:902:d487:b0:290:ac36:2ed6 with SMTP id
- d9443c01a7336-294cb3a1287mr46576115ad.14.1761667759122; Tue, 28 Oct 2025
- 09:09:19 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id wFe8_hBH3FZW for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 28 Oct 2025 16:32:32 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=horms@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 4ED0B4009A
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4ED0B4009A
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=B5/hDdTC
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 4ED0B4009A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Oct 2025 16:32:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 3FF6D43A0A;
+	Tue, 28 Oct 2025 16:32:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2438EC4CEE7;
+	Tue, 28 Oct 2025 16:32:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761669151;
+	bh=JdNgZ8T1nHVUE8GPyM0NLn6jOeFU81bhy/i+g3NI+Iw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B5/hDdTCd8eh28z64MNb7J7i+gD6fyQgRoCm07cmOvUKD2bw3LfNNtHz0egPa06j4
+	 qa+y8sTGpB+XeV94EVtENhOC6WtgJUXusS+ZZcNf7GLPU0UewxE3sU2CCI7hTwiSq0
+	 jH/SxsTe/3l0WLhlSTn1WTxdtsiNOKRRtK7mdrfALRMfbCwW/3Csc4irgk0w7IjSa/
+	 0/BvomNJgTbHVBCDyb/SP15KN8Tk/jJkUatGIoa5Wjt0KaetJQFRJniaV104c8o/gJ
+	 91laSL/RBaJhKKuZR7mm9+LFIDUhNnAqqAgeTwdmnD25rfUzkdMTWydU4OflYW3uI5
+	 UKhKYzqaWSFDg==
+Date: Tue, 28 Oct 2025 16:32:26 +0000
+From: Simon Horman <horms@kernel.org>
+To: Rakuram Eswaran <rakuram.e96@gmail.com>
+Cc: Eric Dumazet <edumazet@google.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, hswong3i@gmail.com,
+	hlhung3i@gmail.com, khalid@kernel.org, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net: tcp_lp: fix kernel-doc warnings and update outdated
+ reference links
+Message-ID: <aQDwGpQttEEsj9ik@horms.kernel.org>
+References: <20251025-net_ipv4_tcp_lp_c-v1-1-058cc221499e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251020133156.215326-1-mehdi.benhadjkhelifa@gmail.com>
-In-Reply-To: <20251020133156.215326-1-mehdi.benhadjkhelifa@gmail.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Tue, 28 Oct 2025 09:09:03 -0700
-X-Gm-Features: AWmQ_bldhatN_kMnTkdHZ30UbwaQsKb7ZNir1RyLFpFR6qqrh0QB8XA0s5EslnI
-Message-ID: <CAEf4Bzb6hhyyiAyyZZAA2pUZRNmfjAw_63ES8owfGvT_QXMyTw@mail.gmail.com>
-Subject: Re: [PATCH v4] selftests/bpf: Change variable types for -Wsign-compare
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-Cc: andrii@kernel.org, eddyz87@gmail.com, ast@kernel.org, daniel@iogearbox.net, 
-	martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
-	haoluo@google.com, jolsa@kernel.org, shuah@kernel.org, nathan@kernel.org, 
-	nick.desaulniers+lkml@gmail.com, morbo@google.com, justinstitt@google.com, 
-	ameryhung@gmail.com, toke@redhat.com, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
-	khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251025-net_ipv4_tcp_lp_c-v1-1-058cc221499e@gmail.com>
 
-On Mon, Oct 20, 2025 at 5:32=E2=80=AFAM Mehdi Ben Hadj Khelifa
-<mehdi.benhadjkhelifa@gmail.com> wrote:
->
-> This is a follow up patch for commit 495d2d8133fd("selftests/bpf: Attempt
-> to build BPF programs with -Wsign-compare") from Alexei Starovoitov[1]
-> to be able to enable -Wsign-compare C compilation flag for clang since
-> -Wall doesn't add it and BPF programs are built with clang.This has the
-> benefit to catch problematic comparisons in future tests as quoted from
-> the commit message:"
->   int i =3D -1;
->   unsigned int j =3D 1;
->   if (i < j) // this is false.
->
->   long i =3D -1;
->   unsigned int j =3D 1;
->   if (i < j) // this is true.
->
-> C standard for reference:
->
-> - If either operand is unsigned long the other shall be converted to
-> unsigned long.
->
-> - Otherwise, if one operand is a long int and the other unsigned int,
-> then if a long int can represent all the values of an unsigned int,
-> the unsigned int shall be converted to a long int;
-> otherwise both operands shall be converted to unsigned long int.
->
-> - Otherwise, if either operand is long, the other shall be
-> converted to long.
->
-> - Otherwise, if either operand is unsigned, the other shall be
-> converted to unsigned.
->
-> Unfortunately clang's -Wsign-compare is very noisy.
-> It complains about (s32)a =3D=3D (u32)b which is safe and doen't
-> have surprising behavior."
->
-> This specific patch supresses the following warnings when
-> -Wsign-compare is enabled:
->
-> 1 warning generated.
->
-> progs/bpf_iter_bpf_percpu_array_map.c:35:16: warning: comparison of
-> integers of different signs: 'int' and 'const volatile __u32'
-> (aka 'const volatile unsigned int') [-Wsign-compare]
->    35 |         for (i =3D 0; i < num_cpus; i++) {
->       |                     ~ ^ ~~~~~~~~
->
-> 1 warning generated.
->
-> progs/bpf_qdisc_fifo.c:93:2: warning: comparison of integers of
-> different signs: 'int' and '__u32'
-> (aka 'unsigned int') [-Wsign-compare]
->    93 |         bpf_for(i, 0, sch->q.qlen) {
->       |         ^       ~     ~~~~~~~~~~~
->
-> Should be noted that many more similar changes are still needed in order
-> to be able to enable the -Wsign-compare flag since -Werror is enabled and
-> would cause compilation of bpf selftests to fail.
->
-> [1].
-> Link:https://github.com/torvalds/linux/commit/495d2d8133fd1407519170a5238=
-f455abbd9ec9b
->
-> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+On Sat, Oct 25, 2025 at 05:35:18PM +0530, Rakuram Eswaran wrote:
+> Fix kernel-doc warnings in tcp_lp.c by adding missing parameter
+> descriptions for tcp_lp_cong_avoid() and tcp_lp_pkts_acked() when
+> building with W=1.
+> 
+> Also replace invalid URLs in the file header comment with the currently
+> valid links to the TCP-LP paper and implementation page.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
 > ---
-> Changelog:
->
-> Changes from v3:
->
-> -Downsized the patch as suggested by vivek yadav[2].
->
-> -Changed the commit message as suggested by Daniel Borkmann[3].
->
-> Link:https://lore.kernel.org/all/20250925103559.14876-1-mehdi.benhadjkhel=
-ifa@gmail.com/#r
->
-> Changes from v2:
->
-> -Split up the patch into a patch series as suggested by vivek
->
-> -Include only changes to variable types with no casting by my mentor
-> david
->
-> -Removed the -Wsign-compare in Makefile to avoid compilation errors
-> until adding casting for rest of comparisons.
->
-> Link:https://lore.kernel.org/bpf/20250924195731.6374-1-mehdi.benhadjkheli=
-fa@gmail.com/T/#u
->
-> Changes from v1:
->
-> - Fix CI failed builds where it failed due to do missing .c and
-> .h files in my patch for working in mainline.
->
-> Link:https://lore.kernel.org/bpf/20250924162408.815137-1-mehdi.benhadjkhe=
-lifa@gmail.com/T/#u
->
-> [2]:https://lore.kernel.org/all/CABPSWR7_w3mxr74wCDEF=3DMYYuG2F_vMJeD-dqo=
-tc8MDmaS_FpQ@mail.gmail.com/
-> [3]:https://lore.kernel.org/all/5ad26663-a3cc-4bf4-9d6f-8213ac8e8ce6@ioge=
-arbox.net/
->  .../testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c | 2 +-
->  tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c              | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/tools/testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_=
-map.c b/tools/testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c
-> index 9fdea8cd4c6f..0baf00463f35 100644
-> --- a/tools/testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c
-> +++ b/tools/testing/selftests/bpf/progs/bpf_iter_bpf_percpu_array_map.c
-> @@ -24,7 +24,7 @@ int dump_bpf_percpu_array_map(struct bpf_iter__bpf_map_=
-elem *ctx)
->         __u32 *key =3D ctx->key;
->         void *pptr =3D ctx->value;
->         __u32 step;
-> -       int i;
-> +       __u32 i;
->
->         if (key =3D=3D (void *)0 || pptr =3D=3D (void *)0)
->                 return 0;
-> diff --git a/tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c b/tools/t=
-esting/selftests/bpf/progs/bpf_qdisc_fifo.c
-> index 1de2be3e370b..7a639dcb23a9 100644
-> --- a/tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c
-> +++ b/tools/testing/selftests/bpf/progs/bpf_qdisc_fifo.c
-> @@ -88,7 +88,7 @@ void BPF_PROG(bpf_fifo_reset, struct Qdisc *sch)
->  {
->         struct bpf_list_node *node;
->         struct skb_node *skbn;
-> -       int i;
-> +       __u32 i;
->
+> Below W=1 build warnings:
+> net/ipv4/tcp_lp.c:121 function parameter 'ack' not described in 'tcp_lp_cong_avoid'
+> net/ipv4/tcp_lp.c:121 function parameter 'acked' not described in 'tcp_lp_cong_avoid'
+> net/ipv4/tcp_lp.c:271 function parameter 'sample' not described in 'tcp_lp_pkts_acked'
+> 
+> The new URLs were verified through archive.org to confirm they match
+> the content of the original references.
+> ---
+>  net/ipv4/tcp_lp.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/net/ipv4/tcp_lp.c b/net/ipv4/tcp_lp.c
+> index 52fe17167460fc433ec84434795f7cbef8144767..976b56644a8a746946e5028dcb054e4c3e249680 100644
+> --- a/net/ipv4/tcp_lp.c
+> +++ b/net/ipv4/tcp_lp.c
+> @@ -23,9 +23,9 @@
+>   * Original Author:
+>   *   Aleksandar Kuzmanovic <akuzma@northwestern.edu>
+>   * Available from:
+> - *   http://www.ece.rice.edu/~akuzma/Doc/akuzma/TCP-LP.pdf
+> + *   https://users.cs.northwestern.edu/~akuzma/doc/TCP-LP-ToN.pdf
 
-this is wrong, i is coming from bpf_for() and is signed int
+It's not important, but FTR, I notice that these
+seem to be different versions of the same paper.
 
-I'd suggest dropping this patch altogether, it's not helpful and
-doesn't fix any real bugs.
+>   * Original implementation for 2.4.19:
+> - *   http://www-ece.rice.edu/networks/TCP-LP/
+> + *   https://users.cs.northwestern.edu/~akuzma/rice/TCP-LP/linux/tcp-lp-linux.htm
 
-pw-bot: cr
+It's probably not important, but I think the following would
+be a better drop-in replacement. That said, perhaps your choice
+is a better one for the purposes of the comment above.
 
->         bpf_for(i, 0, sch->q.qlen) {
->                 struct sk_buff *skb =3D NULL;
-> --
-> 2.51.1.dirty
->
+   https://users.cs.northwestern.edu/~akuzma/rice/TCP-LP/
+
+That notwithstanding, this looks good to me.
+
+Reviewed-by: Simon Horman <horms@kernel.org>
+
+...
