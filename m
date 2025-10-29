@@ -1,52 +1,74 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519C42580E2
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 29 Oct 2025 03:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8A22EA737
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 29 Oct 2025 03:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761708038; cv=none; b=t/nKGgrjeLEfUEZcPifdDUhQdQleZ9rUEk0cZxbhWluKGlI8yx3UIhSomj4RIVOTZWBYoEI83/6J5PwyS6reKhsmKKXo/i9tPXQTF6XpK1wVgMdORe3LTQRrB079tqhaVkzfpVGTnX0Hk6ImsmcEJQoILVy+2IrFDgy0o1f/xsA=
+	t=1761708520; cv=none; b=RFTKX2LEtQo1DsyNUT9HPbnEhbW7JCKapY55VnveXbvRaG3i9Mu2NxRFkFdGfDbyvg8ixjojwfE2CLdyBliWPBMNuTValpeo7Orzf4REleovc6QtfTIULtO2FzMPZGJ+KZHWqdMn+l6Ayw9zCNHIP6y8vR3BluUl6dB/W3l84Vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761708038; c=relaxed/simple;
-	bh=7zBBbCK/11p1K8q2HQ9YDAqZdwiUdhGSicGrtvuJ10Q=;
+	s=arc-20240116; t=1761708520; c=relaxed/simple;
+	bh=uK0Ge79ImFTTS7GqiWcbUy+z6bqmI9L8dyHzWiVaw7g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o2XJGVlOQKbWGh8BUyWTpUfDkzSnuEpBWG3OQ3COhAzYQyYW4OUXKAm5qejbYllrnUDsQMfKqv731Pp9QFN4t5uAh6guGPcisGRtOTU6oXOLOgYPH9szEIoHA5/ODjfIrjcmE7ODEE/dmOXKlsgR/sXz8w35pkWVW5Dw4KuDdQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=wLMobtNT; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=GKY3n3zII0s/HMPV2lfrqqYCvbtnBUFyZMW9zpNwWAl5qbss3lgh6onOXpR3UVh4YKPqt8dNChPsbJ93DVqMy8wZbh6pywNqIx+hYLQsBFAMXqh91xCTDxUo1UGPu7IMfqqthFvR2UB2lh929swJmLjFTTw1lfIma7gZRH6iIyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QNIXpTAz; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="wLMobtNT"
-Date: Wed, 29 Oct 2025 03:20:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1761708032;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Au77/twQcxrXaUBROjg2lxUxQuqN9PbdITbfFhgx28o=;
-	b=wLMobtNTNCvdrlKpw0Ugdf8ZJVRD0Zn9stgwbNsp6i7sBFo/I4qKh8KGCsGm4SFoy/CJ94
-	g2n+8FSxAESruZEt8r4FkAc/3SobUjRdQBnJk/gRQ93MIPJUsxUjOMWnF1Nbr58mf5Au6O
-	ocpzSN+Voe9kNhs3V+JdVBlpdM9dtOKL6UOboSuPjjaWq261NhHmRGSdOkJwmEjz8YrAFg
-	H5nfZWZJwwqM9CoojxhwE+dlD2R69ntpSO9u6DiJ7VcB/EEd2T+Y5M6fv633pcteQdkri+
-	dE8OCO0XtULGr1WFxcOYa0H2bR8KAfRRkuWxbB98l1LWlIw5mTU3Ragr8jBLXA==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: George Anthony Vernon <contact@gvernon.com>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Viacheslav Dubeyko <slava@dubeyko.com>,
-	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
-	"glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-	"frank.li@vivo.com" <frank.li@vivo.com>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel-mentees@lists.linux.dev" <linux-kernel-mentees@lists.linux.dev>,
-	"syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com" <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] hfs: Validate CNIDs in hfs_read_inode
-Message-ID: <aQGIBSZkIWr4Ym7I@Bertha>
-References: <20251003024544.477462-1-contact@gvernon.com>
- <405569eb2e0ec4ce2afa9c331eb791941d0cf726.camel@ibm.com>
- <aOB3fME3Q4GfXu0O@Bertha>
- <6ec98658418f12b85e5161d28a59c48a68388b76.camel@dubeyko.com>
- <559c331f-4838-49fb-95aa-2d1498c8a41e@I-love.SAKURA.ne.jp>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QNIXpTAz"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b6ce806af3eso6230496a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 28 Oct 2025 20:28:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761708518; x=1762313318; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=myjSnTBkH1I5KQfjqAoij4FYA0X2tqCwC7K0bbUx6vM=;
+        b=QNIXpTAzs3ZeCENJzctpRgZLUHt2OGrRrSAaK/T6kW6LymPL/IFOqwjlzrowCjcPvO
+         4TDaEebAuNXp63uBAUdZxX2ClRgkBK9TtZon0Fs5ATrHWthpG2NnFCcsefAOUszVJmk8
+         w5RMM0sjdyVmptVFqfToRfWpELzeGI2F3opNQhvFRlKMiPsSpCVaQGBOJKyo1I3l2XFe
+         uBHFMQpf8XkjHvXMSucQBJN7q2dNot7wRdvQn0MVb+427UNDo9vluU2NxQoDICcY6M6f
+         GjJz6r+v4WyEEBepvp5MpVWxsdm43QSvepzkoSNspfc+YSBEhjX+7k+3ggG18AXXr1xr
+         oFpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761708518; x=1762313318;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=myjSnTBkH1I5KQfjqAoij4FYA0X2tqCwC7K0bbUx6vM=;
+        b=lCQ2kbw/gvuPwBW3C8E+sORO+JJzCZ9tU4OJRrCNfdnPW1sfBhE8/2OHxuluEilO3S
+         1HQACu1nMW4nE3MvY1f+YfmB9EjZkX6Oiu8dVcIG//Wj1s7SKUM7pbx7qEQI+5vas7nr
+         OD/4iBSfGaxUEKpNqqxg4D74KK6jAyLXO0G0cwC0decTS1PSXWkRew3dmKABsziyJRYO
+         fXGeABjk0gsxdkJPvN6VLO0+EjlXfmNyJe2v7TcJe0QcYhJZBLjLGErZkDW4xSNrYETy
+         ZKDWKUXqMVtY4SSOlF6W7+fPy49agjNXXVNYaGfDlw85/Aj3CuHvqyVspeFC8IWlizPq
+         vSSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRlvEpopzB4wjZ23UtA+kiePZvYyhTS2ByAIhR8Eo+Lw1Jq6DSIAQHOEPX6ne5w3WaxaOpmH4vht+WX8PT6wkYhWoCHw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7ak50TWOL+hlQpXM80Cv7gQr/VjvKeuX2pcQ1ivkFyV3Lw5FR
+	VdCU4Nlmpa0cGXDeiFAgBZMABBOSsAEr13fcbo3vqCN7T35O3J/Ypsej
+X-Gm-Gg: ASbGncslCDRIaJzvxycGFN4edXI5qixm9zAoWK+Ho5mewEJJzBbMr6+1gG/sSWSADsi
+	2LaE7D4rvk1GjLhKmx7xX+/aRbG/Fp4RoPiUFAN/A+Iydqs4MaiwCEeoYOqe6DzZARDYs3E3nks
+	n4tMwtl9dhMsl6ijPr9PuURwy7nOXExF1usbnNbhRMe7XCr7qkpRvH1z91aeJoIKYic0zqurm9F
+	e43AHYh71CJ6+VhW7508eDp2ost35PIfOg2jkBuKw7glTcKdIo3cDL5+hX7MRAAM3flZCIF9l50
+	YJolhUP91sG/xwIBHDGzM7NaWhoF8u95faCynvXyNiltuACuzSIAvrUpODSbrN1zxA/9AvhhyYM
+	9CsHGiNNA1Q4U9pmSNzgpW/sgk6Zyz94MGx0PGLiDbIPRvP+le6p3tBHY9GHf0lSYSGCTMYod11
+	1T5VnqpgP7RvKjt6+qv4WIfZN4Bgl+TZWwkZL/yTgY6Zqx7w==
+X-Google-Smtp-Source: AGHT+IE+shhFrtBhmLuIBVFI3puPOu377u7uarNKu4E76VsuPFISVfuzPCA3UmXQVUS6K+bAe4aLCg==
+X-Received: by 2002:a17:902:da85:b0:262:cd8c:bfa8 with SMTP id d9443c01a7336-294deed21abmr17081115ad.34.1761708517614;
+        Tue, 28 Oct 2025 20:28:37 -0700 (PDT)
+Received: from brajesh ([2401:4900:16aa:e584:a673:aa72:32da:dbb])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d40a7esm135335605ad.70.2025.10.28.20.28.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Oct 2025 20:28:37 -0700 (PDT)
+Date: Wed, 29 Oct 2025 08:58:30 +0530
+From: Brajesh Patil <brajeshpatil11@gmail.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: miklos@szeredi.hu, stefanha@redhat.com, vgoyal@redhat.com, 
+	eperezma@redhat.com, virtualization@lists.linux.dev, virtio-fs@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com, khalid@kernel.org
+Subject: Re: [PATCH] fuse: virtio_fs: add checks for FUSE protocol compliance
+Message-ID: <c7zugpb4pzquasx67zypnuk2irxvb7cp5puwuw3rncy6gb5wdn@qigavsewium3>
+References: <20251028200311.40372-1-brajeshpatil11@gmail.com>
+ <20251028200755.GJ6174@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -55,62 +77,86 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <559c331f-4838-49fb-95aa-2d1498c8a41e@I-love.SAKURA.ne.jp>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20251028200755.GJ6174@frogsfrogsfrogs>
 
-Hi Tetsuo,
-
-On Thu, Oct 09, 2025 at 09:57:33PM +0900, Tetsuo Handa wrote:
-> I found this patch. Please CC: me when posting V2.
-
-Sorry I forgot to CC you last time :)
-
-> I'm not suggesting this change. Therefore, Cc: might match.
-
-Sure, I have added a CC tag for you in V2 which I'm currently testing.
-
-> further sanity check). Unless
+On Tue, Oct 28, 2025 at 01:07:55PM -0700, Darrick J. Wong wrote:
+> On Wed, Oct 29, 2025 at 01:33:11AM +0530, Brajesh Patil wrote:
+> > Add validation in virtio-fs to ensure the server follows the FUSE
+> > protocol for response headers, addressing the existing TODO for
+> > verifying protocol compliance.
+> > 
+> > Add checks for fuse_out_header to verify:
+> >  - oh->unique matches req->in.h.unique
+> >  - FUSE_INT_REQ_BIT is not set
+> >  - error codes are valid
+> >  - oh->len does not exceed the expected size
+> > 
+> > Signed-off-by: Brajesh Patil <brajeshpatil11@gmail.com>
+> > ---
+> >  fs/fuse/virtio_fs.c | 30 +++++++++++++++++++++++++-----
+> >  1 file changed, 25 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+> > index 6bc7c97b017d..52e8338bf436 100644
+> > --- a/fs/fuse/virtio_fs.c
+> > +++ b/fs/fuse/virtio_fs.c
+> > @@ -764,14 +764,34 @@ static void virtio_fs_request_complete(struct fuse_req *req,
+> >  {
+> >  	struct fuse_args *args;
+> >  	struct fuse_args_pages *ap;
+> > -	unsigned int len, i, thislen;
+> > +	struct fuse_out_header *oh;
+> > +	unsigned int len, i, thislen, expected_len = 0;
+> >  	struct folio *folio;
+> >  
+> > -	/*
+> > -	 * TODO verify that server properly follows FUSE protocol
+> > -	 * (oh.uniq, oh.len)
+> > -	 */
+> > +	oh = &req->out.h;
+> > +
+> > +	if (oh->unique == 0)
+> > +		pr_warn_once("notify through fuse-virtio-fs not supported");
+> > +
+> > +	if ((oh->unique & ~FUSE_INT_REQ_BIT) != req->in.h.unique)
+> > +		pr_warn_ratelimited("virtio-fs: unique mismatch, expected: %llu got %llu\n",
+> > +				    req->in.h.unique, oh->unique & ~FUSE_INT_REQ_BIT);
 > 
-> >>>
-> >>>> +{
-> >>>> +	if (likely(cnid >= HFS_FIRSTUSER_CNID))
-> >>>> +		return true;
-> >>>> +
-> >>>> +	switch (cnid) {
-> >>>> +	case HFS_POR_CNID:
+> Er... shouldn't these be rejecting the response somehow?  Instead of
+> warning that something's amiss but continuing with known bad data?
 > 
-> we disable HFS_POR_CNID case (which I guess it is wrong to do so),
-> we shall hit BUG() in hfs_write_inode().
-> 
-> >>>> +	case HFS_ROOT_CNID:
-> >>>> +		return type == HFS_CDR_DIR;
-> >>>> +	case HFS_EXT_CNID:
-> >>>> +	case HFS_CAT_CNID:
-> >>>> +	case HFS_BAD_CNID:
-> >>>> +	case HFS_EXCH_CNID:
-> >>>> +		return type == HFS_CDR_FIL;
-> >>>> +	default:
-> >>>> +		return false;
-> >>>
+> --D
 >
-> I think that removing this BUG() now is wrong.
 
-I think HFS_POR_CNID case should be disallowed. There is no real
-underlying file with that CNID. If we ever found a record with that CNID
-it would mean the filesystem image was broken, and if we ever try to
-write a record with that CNID, it means we screwed up.
+Right, continuing here is unsafe.
 
-> Without my patch, the inode number of the record retrieved as a
-> result of hfs_cat_find_brec(HFS_ROOT_CNID) can be HFS_POR_CNID or
-> greater than HFS_FIRSTUSER_CNID, which I think is a logical error
-> in the filesystem image.
-> 
-> Your patch is incomplete. Please also apply my patch.
-> 
-I agree your check is good to catch root inode's i_ino > 15 (is this
-reachable?) and I'd like to add it. Would you be happy if I make a
-2-part patch series with your patch second, keeping your sign-off on it?
+I plan to update the code so that in case of any header validation
+failure (e.g. unique mismatch, invalid error, length mismatch), it
+should skip copying data and jump directly to the section that marks
+request as complete
 
-Thanks,
+Does this seem like a feasible approach?
 
-George
+> > +
+> > +	WARN_ON_ONCE(oh->unique & FUSE_INT_REQ_BIT);
+> > +
+> > +	if (oh->error <= -ERESTARTSYS || oh->error > 0)
+> > +		pr_warn_ratelimited("virtio-fs: invalid error code from server: %d\n",
+> > +				    oh->error);
+> > +
+> >  	args = req->args;
+> > +
+> > +	for (i = 0; i < args->out_numargs; i++)
+> > +		expected_len += args->out_args[i].size;
+> > +
+> > +	if (oh->len > sizeof(*oh) + expected_len)
+> > +		pr_warn("FUSE reply too long! got=%u expected<=%u\n",
+> > +			oh->len, (unsigned int)(sizeof(*oh) + expected_len));
+> > +
+> >  	copy_args_from_argbuf(args, req);
+> >  
+> >  	if (args->out_pages && args->page_zeroing) {
+> > -- 
+> > 2.43.0
+> > 
+> > 
