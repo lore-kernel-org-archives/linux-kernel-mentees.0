@@ -1,162 +1,85 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8A22EA737
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 29 Oct 2025 03:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24AD113B58B
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 29 Oct 2025 04:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761708520; cv=none; b=RFTKX2LEtQo1DsyNUT9HPbnEhbW7JCKapY55VnveXbvRaG3i9Mu2NxRFkFdGfDbyvg8ixjojwfE2CLdyBliWPBMNuTValpeo7Orzf4REleovc6QtfTIULtO2FzMPZGJ+KZHWqdMn+l6Ayw9zCNHIP6y8vR3BluUl6dB/W3l84Vs=
+	t=1761713299; cv=none; b=eHEp3WdWOaA0vep7JBscttCMgNTmswY2icif0B2QC/pOS88nbvdaL8/pELdDSxEdJLxrKfuNfni7AQ0czjWt5R/vXcUDjyMAiXlXzn8w47ldzx+rSW6dl9BlgbyIU+ouDOmnvSEdJAnUR9RBORvFN0oldxIPu53t9fl/oUcU+8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761708520; c=relaxed/simple;
-	bh=uK0Ge79ImFTTS7GqiWcbUy+z6bqmI9L8dyHzWiVaw7g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GKY3n3zII0s/HMPV2lfrqqYCvbtnBUFyZMW9zpNwWAl5qbss3lgh6onOXpR3UVh4YKPqt8dNChPsbJ93DVqMy8wZbh6pywNqIx+hYLQsBFAMXqh91xCTDxUo1UGPu7IMfqqthFvR2UB2lh929swJmLjFTTw1lfIma7gZRH6iIyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QNIXpTAz; arc=none smtp.client-ip=209.85.215.177
+	s=arc-20240116; t=1761713299; c=relaxed/simple;
+	bh=kHz9dCjzGPr/TBnbHcUyEuqYu5rhLLgZPHHmF3a5zR0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q+9f2AFAc5nx/jWW1Jh0sAs1L5XU/46wtL7Sc94hF+STQK3XrPgn6bRWL2QVygTbu/YUFDTdPgLWYut0bPaHA3ijCiJBY37yjVL7j0iyXis+PbGOE8+3YnBgezGqUGgJxKQt303Xe5gat+EEbL0WySfIyd4ggEka58j5+skeJDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZD1Bumdi; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QNIXpTAz"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b6ce806af3eso6230496a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 28 Oct 2025 20:28:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZD1Bumdi"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-63d6ee383bdso14520735a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 28 Oct 2025 21:48:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761708518; x=1762313318; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=myjSnTBkH1I5KQfjqAoij4FYA0X2tqCwC7K0bbUx6vM=;
-        b=QNIXpTAzs3ZeCENJzctpRgZLUHt2OGrRrSAaK/T6kW6LymPL/IFOqwjlzrowCjcPvO
-         4TDaEebAuNXp63uBAUdZxX2ClRgkBK9TtZon0Fs5ATrHWthpG2NnFCcsefAOUszVJmk8
-         w5RMM0sjdyVmptVFqfToRfWpELzeGI2F3opNQhvFRlKMiPsSpCVaQGBOJKyo1I3l2XFe
-         uBHFMQpf8XkjHvXMSucQBJN7q2dNot7wRdvQn0MVb+427UNDo9vluU2NxQoDICcY6M6f
-         GjJz6r+v4WyEEBepvp5MpVWxsdm43QSvepzkoSNspfc+YSBEhjX+7k+3ggG18AXXr1xr
-         oFpA==
+        d=gmail.com; s=20230601; t=1761713296; x=1762318096; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dbq9nt56FgGYWix4HcpRFcizCDr6bw5OvUlM+bYyv48=;
+        b=ZD1Bumdis8/x4R4/6FpT+Ua2GDTptcjiF9frprOfYNXsKl/Fr3zEIhRyNzAVzyO6qR
+         PBumluBe1QcBCptPZ/pQvyekDWLRMl8c4lUTvmi/Ev3gMuP17peOCcPfy3YdgkLfM8JC
+         RLkeDl1AufbZI9AlbKAwkQYDfhDBW5A4VIJM1IoNVcNe1f3jleREweCgA1L4e9EG6Pzj
+         bthgYronED12OKRUBpUT/PGzdbk4VODMlnXMC9DwXr1a0yGuqxLAEb8FVBjDh6QbJuqM
+         lo+5CDfC9qxmTG4O+G8LMKeQn+DBBNqy/2XZiTm+t51V+NZyhm3PaPFrAuOcAuyR0YOn
+         N73A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761708518; x=1762313318;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=myjSnTBkH1I5KQfjqAoij4FYA0X2tqCwC7K0bbUx6vM=;
-        b=lCQ2kbw/gvuPwBW3C8E+sORO+JJzCZ9tU4OJRrCNfdnPW1sfBhE8/2OHxuluEilO3S
-         1HQACu1nMW4nE3MvY1f+YfmB9EjZkX6Oiu8dVcIG//Wj1s7SKUM7pbx7qEQI+5vas7nr
-         OD/4iBSfGaxUEKpNqqxg4D74KK6jAyLXO0G0cwC0decTS1PSXWkRew3dmKABsziyJRYO
-         fXGeABjk0gsxdkJPvN6VLO0+EjlXfmNyJe2v7TcJe0QcYhJZBLjLGErZkDW4xSNrYETy
-         ZKDWKUXqMVtY4SSOlF6W7+fPy49agjNXXVNYaGfDlw85/Aj3CuHvqyVspeFC8IWlizPq
-         vSSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVRlvEpopzB4wjZ23UtA+kiePZvYyhTS2ByAIhR8Eo+Lw1Jq6DSIAQHOEPX6ne5w3WaxaOpmH4vht+WX8PT6wkYhWoCHw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7ak50TWOL+hlQpXM80Cv7gQr/VjvKeuX2pcQ1ivkFyV3Lw5FR
-	VdCU4Nlmpa0cGXDeiFAgBZMABBOSsAEr13fcbo3vqCN7T35O3J/Ypsej
-X-Gm-Gg: ASbGncslCDRIaJzvxycGFN4edXI5qixm9zAoWK+Ho5mewEJJzBbMr6+1gG/sSWSADsi
-	2LaE7D4rvk1GjLhKmx7xX+/aRbG/Fp4RoPiUFAN/A+Iydqs4MaiwCEeoYOqe6DzZARDYs3E3nks
-	n4tMwtl9dhMsl6ijPr9PuURwy7nOXExF1usbnNbhRMe7XCr7qkpRvH1z91aeJoIKYic0zqurm9F
-	e43AHYh71CJ6+VhW7508eDp2ost35PIfOg2jkBuKw7glTcKdIo3cDL5+hX7MRAAM3flZCIF9l50
-	YJolhUP91sG/xwIBHDGzM7NaWhoF8u95faCynvXyNiltuACuzSIAvrUpODSbrN1zxA/9AvhhyYM
-	9CsHGiNNA1Q4U9pmSNzgpW/sgk6Zyz94MGx0PGLiDbIPRvP+le6p3tBHY9GHf0lSYSGCTMYod11
-	1T5VnqpgP7RvKjt6+qv4WIfZN4Bgl+TZWwkZL/yTgY6Zqx7w==
-X-Google-Smtp-Source: AGHT+IE+shhFrtBhmLuIBVFI3puPOu377u7uarNKu4E76VsuPFISVfuzPCA3UmXQVUS6K+bAe4aLCg==
-X-Received: by 2002:a17:902:da85:b0:262:cd8c:bfa8 with SMTP id d9443c01a7336-294deed21abmr17081115ad.34.1761708517614;
-        Tue, 28 Oct 2025 20:28:37 -0700 (PDT)
-Received: from brajesh ([2401:4900:16aa:e584:a673:aa72:32da:dbb])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d40a7esm135335605ad.70.2025.10.28.20.28.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 20:28:37 -0700 (PDT)
-Date: Wed, 29 Oct 2025 08:58:30 +0530
-From: Brajesh Patil <brajeshpatil11@gmail.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, stefanha@redhat.com, vgoyal@redhat.com, 
-	eperezma@redhat.com, virtualization@lists.linux.dev, virtio-fs@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com, khalid@kernel.org
-Subject: Re: [PATCH] fuse: virtio_fs: add checks for FUSE protocol compliance
-Message-ID: <c7zugpb4pzquasx67zypnuk2irxvb7cp5puwuw3rncy6gb5wdn@qigavsewium3>
-References: <20251028200311.40372-1-brajeshpatil11@gmail.com>
- <20251028200755.GJ6174@frogsfrogsfrogs>
+        d=1e100.net; s=20230601; t=1761713296; x=1762318096;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dbq9nt56FgGYWix4HcpRFcizCDr6bw5OvUlM+bYyv48=;
+        b=Bt5YrUqke1mqAxcj5QE1SgnJ9eNVAP8wAY/NQGqYjHEl3vkQlnLIgtlKmN8ZTFJ1JI
+         TBEipQ53uyIFByIDjaGlXbajRdgIWANLQHA3XAoQxOkUG5ZDh0BDTOuYSVSQMLG4TPso
+         4T6E8ZtXXpWXrz8pI7OPwQ9BoGoISS0vUZ/aC+MGv/rn1W5sO73y8EMsU7hdx5dQN3P8
+         vIe9JopQ48Giaxc/JsRj4+bh5YB+sWn3mbs6P/EyS98mByAfieCiGDz2sWcqaF3Vny5V
+         CQWGWdXPoE6LXnvhuBE4dPG8/hkSWMw00YDTV7EfZL9O+Y2khiyQZdXe4LIK970n7KWw
+         880A==
+X-Forwarded-Encrypted: i=1; AJvYcCU4OnGAjePVtTyzzml3wRPv2NI0v3Xfwu34OFUqUmnke3JURFz+bJanzZ37WZQ274KBkuWnZHGtW3oeyX+U3x+x3pv1aQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxJ8ks4FlAw9BH7+wfGeeUjP2kZyjO6NNB6UA+nr7/TwB/bqvYn
+	a953DFrSy6BJOUx+oZkjcIkCiBIlAIf+uD91Hgf4pA+fvDeGQsVC+GmKwlr0LjSwGcZ7q/OMfJ2
+	eDqHT0f2J44+0v6TQr6CrHRwJYlUQAdw=
+X-Gm-Gg: ASbGnct9RzNG6dg/Cf06Vhhlg0xI4P+YSaDaIMzcna3MIeGUyUzH4qgXKSnZS0AmAgA
+	mZKy0M0Zcg0j2JtnrHr0nbWm3iefLP0TwwHEvCrcrWcX5aepNiQhKe4fHKvnKTz0gueo85+9UR2
+	6vBD7UMyrNWyNGT4H1P57mN2b5TDZJAYQSotDowlQBA4002vf5sbr3jDx3ClWTekEZ+fm5heB6K
+	nBFHa9dXmkzGN3AJGhsrpUJDG7ubV2LC7L8ILGtr9asaFpOYa00K5YB+IXYkXrCdgnOKs0jDgrY
+	AGGRgWgNCbZOBWf4s0Q+4/iGZ1ANxmJXUquiP71kfw==
+X-Google-Smtp-Source: AGHT+IG/Y3CfWbdVX41gQBZzCyhI7Mz/jKAEDyoSdZ9xeIABB9XbwtrOeNPc5GqcWolvq+reBSqHpgCJ1sBQNXdIxSM=
+X-Received: by 2002:a17:906:8a54:b0:b70:4757:eaf0 with SMTP id
+ a640c23a62f3a-b704758054amr7191366b.44.1761713296230; Tue, 28 Oct 2025
+ 21:48:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251028200755.GJ6174@frogsfrogsfrogs>
+References: <20251028174222.1739954-1-viswanathiyyappan@gmail.com>
+In-Reply-To: <20251028174222.1739954-1-viswanathiyyappan@gmail.com>
+From: I Viswanath <viswanathiyyappan@gmail.com>
+Date: Wed, 29 Oct 2025 10:18:04 +0530
+X-Gm-Features: AWmQ_bnX6Xg8VY3oeRVLdkgI_IKLI94gd2JcIj2LeqnuQY3vbZpxM7rRQ_Ai5L4
+Message-ID: <CAPrAcgMPFnypR_zczpCbrxN3h9grBrS1WhH6u1bJfO+H0UjGWQ@mail.gmail.com>
+Subject: Re: [RFC/RFT PATCH net-next v3 0/2] net: Split ndo_set_rx_mode into
+ snapshot and deferred write
+To: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, horms@kernel.org, sdf@fomichev.me, kuniyu@google.com, 
+	ahmed.zaki@intel.com, aleksander.lobakin@intel.com, jacob.e.keller@intel.com, 
+	andrew+netdev@lunn.ch
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	david.hunter.linux@gmail.com, khalid@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 28, 2025 at 01:07:55PM -0700, Darrick J. Wong wrote:
-> On Wed, Oct 29, 2025 at 01:33:11AM +0530, Brajesh Patil wrote:
-> > Add validation in virtio-fs to ensure the server follows the FUSE
-> > protocol for response headers, addressing the existing TODO for
-> > verifying protocol compliance.
-> > 
-> > Add checks for fuse_out_header to verify:
-> >  - oh->unique matches req->in.h.unique
-> >  - FUSE_INT_REQ_BIT is not set
-> >  - error codes are valid
-> >  - oh->len does not exceed the expected size
-> > 
-> > Signed-off-by: Brajesh Patil <brajeshpatil11@gmail.com>
-> > ---
-> >  fs/fuse/virtio_fs.c | 30 +++++++++++++++++++++++++-----
-> >  1 file changed, 25 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> > index 6bc7c97b017d..52e8338bf436 100644
-> > --- a/fs/fuse/virtio_fs.c
-> > +++ b/fs/fuse/virtio_fs.c
-> > @@ -764,14 +764,34 @@ static void virtio_fs_request_complete(struct fuse_req *req,
-> >  {
-> >  	struct fuse_args *args;
-> >  	struct fuse_args_pages *ap;
-> > -	unsigned int len, i, thislen;
-> > +	struct fuse_out_header *oh;
-> > +	unsigned int len, i, thislen, expected_len = 0;
-> >  	struct folio *folio;
-> >  
-> > -	/*
-> > -	 * TODO verify that server properly follows FUSE protocol
-> > -	 * (oh.uniq, oh.len)
-> > -	 */
-> > +	oh = &req->out.h;
-> > +
-> > +	if (oh->unique == 0)
-> > +		pr_warn_once("notify through fuse-virtio-fs not supported");
-> > +
-> > +	if ((oh->unique & ~FUSE_INT_REQ_BIT) != req->in.h.unique)
-> > +		pr_warn_ratelimited("virtio-fs: unique mismatch, expected: %llu got %llu\n",
-> > +				    req->in.h.unique, oh->unique & ~FUSE_INT_REQ_BIT);
-> 
-> Er... shouldn't these be rejecting the response somehow?  Instead of
-> warning that something's amiss but continuing with known bad data?
-> 
-> --D
->
+Hi Andrew,
+     I forgot to cc you on the original patch. Here's the link:
+https://lore.kernel.org/netdev/20251028174222.1739954-1-viswanathiyyappan@gmail.com/
 
-Right, continuing here is unsafe.
-
-I plan to update the code so that in case of any header validation
-failure (e.g. unique mismatch, invalid error, length mismatch), it
-should skip copying data and jump directly to the section that marks
-request as complete
-
-Does this seem like a feasible approach?
-
-> > +
-> > +	WARN_ON_ONCE(oh->unique & FUSE_INT_REQ_BIT);
-> > +
-> > +	if (oh->error <= -ERESTARTSYS || oh->error > 0)
-> > +		pr_warn_ratelimited("virtio-fs: invalid error code from server: %d\n",
-> > +				    oh->error);
-> > +
-> >  	args = req->args;
-> > +
-> > +	for (i = 0; i < args->out_numargs; i++)
-> > +		expected_len += args->out_args[i].size;
-> > +
-> > +	if (oh->len > sizeof(*oh) + expected_len)
-> > +		pr_warn("FUSE reply too long! got=%u expected<=%u\n",
-> > +			oh->len, (unsigned int)(sizeof(*oh) + expected_len));
-> > +
-> >  	copy_args_from_argbuf(args, req);
-> >  
-> >  	if (args->out_pages && args->page_zeroing) {
-> > -- 
-> > 2.43.0
-> > 
-> > 
+Thanks,
+Viswanath
