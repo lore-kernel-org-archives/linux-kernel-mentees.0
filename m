@@ -1,183 +1,269 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87562F1FC5
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 31 Oct 2025 06:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68AE830BF4F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 31 Oct 2025 06:59:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761892672; cv=none; b=omDM4Umueug25N8ukqQSEeaVyqo7hfDyu7BCMwe55bput8r5JjFnikJhrVqVg0QGCLnLr5hLXWq0aJOe/h9JJMxbx3ZqudtjQfMyV6LjyfuLV9XP7+XEuMKzbtou87zgmwdm/9d4UaWxgHdJtwnDZzxRuNO2rzUGnQLbKgjxmXM=
+	t=1761893952; cv=none; b=lglxbDeGjJ7IlfmXcP6QTgfmJZzDyrWBGEYOfX2S22fWnBQCafJjrz8ALBKnlFENlkb0Qg6TL4nRga+ljV/L4SLTXQUph67T64B66C0yOAKVdZrsBzbJIq7T3pkaUjVtp5kzfcLq0My/yNfz1sDxxwIHfOpoLRy+UduJZadkRY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761892672; c=relaxed/simple;
-	bh=2Ad22H+YKv3fYSdPT9lbgu9VOjM2ntNDuMEpDFLqgtw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cOz24fwRqBhTtlu9KsPZZdkZm622eBY5iif80Bplnc0+DiXHFAX15DiLIMSAoDXkjZmyhWziFRxyEQSwx4/OwbXsdMaik/WmtCLN0w5QGJHKnp09B3KreZRlClz5IZH+6cxveQjo6TAWDMdoTKwqqjMc/kEKksETkvGqp1f6r2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ABqfQp04; arc=none smtp.client-ip=74.125.224.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761893952; c=relaxed/simple;
+	bh=bU3cz7gefuxevtxeT/aKl0hymDKSfR0/CL8hEJ3KI30=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qNY7oXa48YtzExsG7/Ji10Ev8YiryJb9OB7omBUDLAVBTamM06DRFxq+DKG004nE22IZh9sGGsX1E4/lvkCQtOB3TQ7unZYoEpoW8L9Z4xe2n4VvKZb8uqX8M8vOVI1INERh1NUZusWy7onvKD+kHKGdUjd0uQ7oJjBg/3ofmlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m7Zask/i; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ABqfQp04"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-63bc1aeb427so2144544d50.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Oct 2025 23:37:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m7Zask/i"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id DDCA8616E3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 31 Oct 2025 06:59:10 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id i5euVcIxZWHO for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 31 Oct 2025 06:59:10 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=vnranganath.20@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org DF14C616E2
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DF14C616E2
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=m7Zask/i
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id DF14C616E2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 31 Oct 2025 06:59:09 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-26808b24a00so3510255ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Oct 2025 23:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761892669; x=1762497469; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kS/Ba8wi03ja6q2G16rK+mBdR0oPZku80viIJSVlHq8=;
-        b=ABqfQp04Y51wV5nxMdIa2DLoxQVAm+WYOUhTlQqqpTotYUPTiOowf49Vlhrt8ciQRk
-         inAPEfCDkLJU92WAp2xjOnM3eQv/7gSfMP0Dx3IA2zWuaqvIeP+XYfab2kLRJw5THzpW
-         IEBTRtl2SUtnzAkth35HvJ3DpKoSyR7mBIMEx4jUmO+uDD67LtvBjNElTn9mrM+tIZdb
-         aymqYjty6cz9RMx90r+rA8bTKywzxY8G911ag1gVEOcoKo/gk4fCG7Kyw4TX8SB2trHY
-         FWjRXFF8bXD5HxMOd1aZ9ExvUCcqtsI4tNf0/MziruHZv/TffZi+wK2W/lSwnEwXUv5F
-         hr4w==
+        d=gmail.com; s=20230601; t=1761893949; x=1762498749; darn=lists.linuxfoundation.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PhEPNy5CfOfu6wXPfE9ph7f15qCimLG0nvQNttivtF0=;
+        b=m7Zask/iztTZqel+OzbHzOIcB+z1XkybcPu1qKPGSLqVlgRcMTnAMSxeCxRzBWIAOC
+         KKTyDRqKHE/0nV/RkqAiuhCgYkSiwZkJejLH3XkPwfp4b8FhMcEFHsF8gFXQiRga2C5D
+         Sq1RBvprxav8PDFDnBIJzVVO1Pf16pxgC2J9STIahl6UmrhxYXqmRhqt/nsf4EtJeN6j
+         duq35ooJ+FCfl27o2nLhwBgCdNBDYdcy1j1a0vGletGe6jepwFejH6S0vHL10OGZsWN2
+         o9TUZH3vq34gOAdzARf9Mw4RQDvGu8yPj2c7bQolg+Gl9bpHDqasus8lH6dJeoX3K8um
+         +aHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761892669; x=1762497469;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kS/Ba8wi03ja6q2G16rK+mBdR0oPZku80viIJSVlHq8=;
-        b=nt9ghHZ+ens44wJVHV1Zs274H0K66So8nXQOauiajm9kf0K3kL7QdfxcY4Ot3l6XTl
-         KWRR6eu3FxVYS2vXyk1R7pgGSimtwBtBC37sLmrP7BH3FUhdgRdE2xvdZxlC/QvIiV10
-         TKYSO+YIsNetD17QsS/3nsk9Mo9/BCN04KJWnPrR2m2NwJE64psOzhsUHs20zAzRmSIr
-         hBf93NvOpxEDTxM/wzEQlQselsbyrt+vDJJY7fs7+mgtNottrua3OLgNohxKc/duH++n
-         wgymgmqVb7I+v43Bf1flgPh2IV8hvHnBtMb1SwABmgwYX/Sz6dyf+Rhv737at/Z4G76m
-         30IA==
-X-Forwarded-Encrypted: i=1; AJvYcCXb5rLEMN69zQP6oeetUII+C53/a9GOMtuTUBpon13IX1VNzRsPWith7IQ750ThKp+wvJfDuXGJhm0on1x7MOn2Qe4Utw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy9dZJEqjNPEN7wm0chVD6WvEgyTldhlQAbdUdPQWPOvlJL8UCU
-	XjnEu9GuSJhLHBeSBNJbWV7JdOuKO16DBuTy2TXcgPo7ar3PpiHREtdJ
-X-Gm-Gg: ASbGncsdmFhJtqu2KA4dCjNcvJ6PPf+IUSI32coQr38m9GKJszyJpIFX8sSckuxg6I6
-	x94RgP/6MRo/07QgujTvGtv+O2NGwHxuUSsbHtoeyU45zs1s/TGtzVsqoiSwoykenIPbBf8J+RX
-	Ek9VgcC3HqV2XyzEObNVoOQkyiuf2o3+r7o6n+eOfVzGS+3MoBCgMu96QY4QChFBlmg7GEYAEa6
-	QuiNDcVM1uOYp/+KGRIg5//EEIiNGjPvaNF9bOa0DHbtzGlqxdIs+XWFxdigBVWEFk/f1AlCc+N
-	1VmFLCwg6QpPX2cgX/3q35x8zKC4I0ckhIjQSYg8XOjKW2lIyJBnIx31TXHc2cT/h3J7Staabiu
-	7Dq78xH/q7P0PgdgjkyHFwc5MNHAxgXb/kD3pVD2oxMq5UF+6EAXL6ny3sRzB7DHsf13+GcgJCt
-	VXCmyeFJgG5KDZQYLjwUmzscP4lsxS/L0Xv92F1+Y=
-X-Google-Smtp-Source: AGHT+IE8N0NuNxDPSMdh3gqIxDWFygZpV4mjnnnjXKw/xdAOq6rsstqv2KVKzg0erHaerfWTmEpODA==
-X-Received: by 2002:a05:690e:282:b0:63f:8734:36a0 with SMTP id 956f58d0204a3-63f92272105mr1346690d50.21.1761892669464;
-        Thu, 30 Oct 2025 23:37:49 -0700 (PDT)
-Received: from vegg ([2402:a00:163:2ce9:84ab:c8ef:8e7:edf3])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7864c667d3dsm2850837b3.42.2025.10.30.23.37.42
+        d=1e100.net; s=20230601; t=1761893949; x=1762498749;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PhEPNy5CfOfu6wXPfE9ph7f15qCimLG0nvQNttivtF0=;
+        b=GiMBGI1TSebV/gz8+vElFRhwl1JtL+h6C/fGqVo2chB1XmCkcNuQQihio4loC/jhxO
+         OeZU4qTiSRzwyw2pJV+hw5mLicAyZlaBIS69TXiv8vbxwGjJtYFFHyHJeyTFnBho0pTP
+         Te2uq9d9kp7n1IQ+UBzXi2x2ztGnpgN0LZh1qPEus3xMJz2MtDxhDWcGcITVhVtyUjIB
+         bW1XQ4fjN5i/9r09+fiCt8MTI8Wt2GUD01zkRDsEUe4SkTEO00Lkj5jqRYWdZ/OyZpOr
+         vofG8Ss+Jsnj6studUXkmGDDNVG3UpTjwAIFkvqTwZixd/hNHYf1P9By7O60F1lIkWbQ
+         ED2g==
+X-Forwarded-Encrypted: i=1; AJvYcCUnMzslgVo0H5Rg6InZxfCiyqm5k8eCmd24hxdVIfNFZifFb+jr1yz116vcbSB4wTupNc0Ty6i0XNWqvhJIXnYmX+iG7Q==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yy31xcWL+0kUfazEiEBLE1+4pJM+BXsiMWTSFH8AIMEukgdrpuB
+	2Zc2tjUNbSlXbhXeMc8AF8Mn0nUzAYqanKOq0nIFHBMpSDk+tSWnXjk+
+X-Gm-Gg: ASbGncuWwRqI03ReRaSDePjpPztjkn/Ejdp+zjaCMfzVHzxt0KnjojTk4FmDdVxyeab
+	pGgJ/aBWRt6TiFXaIjZkTwrlHyWJDLJs8tdKiEWgzD/xiJlgBq7p/ws8Pv7ODnWmXW5vmQWlm0I
+	pB9mSEPKj+9qgAfZVFrtd7abagUkn6/iXA59bbkqScl8y6S5Ho+N9tG98i2BFy/+Ph5qLPCX3LG
+	igkOqfeavLykGxQSu+Uq8IxXumyKy5sqOlLq093TImNsQaGqLhFiAcuE+b7fEG8ot0CPf6TB9KD
+	IE38e3Irgkh+cL2+lSBAlApharyh81Z6HGHETxIPLOrxzKYGE6J7nS+LgmEMVqmvRkqRbWLCtZN
+	fizkiZFfLdyzTeY/AO4MmhVqgiHuLvjXnKKRKHMhkCzLOkMgnygy345ju0SAadw0BKKqhC7pGkj
+	6wI7VWmBA//lUkejKNF+vxNqH5vONpwAFPogO7n0Os5w==
+X-Google-Smtp-Source: AGHT+IGJVY6WJWx0DWqULbMOTTkJ7Spnmdevrci9sNXZyjY4LGdqTxO8bnCJ1jdmRkX0FWoYjaek/A==
+X-Received: by 2002:a05:6a21:2d89:b0:342:41fd:38dd with SMTP id adf61e73a8af0-348cc4dd575mr1785021637.3.1761893948989;
+        Thu, 30 Oct 2025 23:59:08 -0700 (PDT)
+Received: from [127.0.1.1] ([2406:7400:10c:5702:8dcc:c993:b9bb:4994])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b93f1d8f356sm918215a12.6.2025.10.30.23.59.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Oct 2025 23:37:48 -0700 (PDT)
-Date: Fri, 31 Oct 2025 12:07:40 +0530
-From: Brajesh Patil <brajeshpatil11@gmail.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, stefanha@redhat.com, vgoyal@redhat.com,
-	eperezma@redhat.com, virtualization@lists.linux.dev,
-	virtio-fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
-	khalid@kernel.org
-Subject: Re: [PATCH] fuse: virtio_fs: add checks for FUSE protocol compliance
-Message-ID: <20251031063740.tyeewgtp7zo2gdi3@vegg>
-References: <20251028200311.40372-1-brajeshpatil11@gmail.com>
- <20251028200755.GJ6174@frogsfrogsfrogs>
- <c7zugpb4pzquasx67zypnuk2irxvb7cp5puwuw3rncy6gb5wdn@qigavsewium3>
- <20251029060108.GR4015566@frogsfrogsfrogs>
+        Thu, 30 Oct 2025 23:59:08 -0700 (PDT)
+From: Ranganath V N <vnranganath.20@gmail.com>
+Date: Fri, 31 Oct 2025 12:29:02 +0530
+Subject: [PATCH v5] Asoc: dt_bindings: ti,pcm186x: convert to dtschema
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251029060108.GR4015566@frogsfrogsfrogs>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251031-dtbs-v5-1-ee1dc0b2fa40@gmail.com>
+X-B4-Tracking: v=1; b=H4sIADVeBGkC/13MQQqDMBCF4atI1k1xZtSarnqP0kUcEw1ULUakR
+ bx7E3EhLt8w378Ib0ZnvLgnixjN7Lwb+jDySyK41X1jpKvDFphiDimCrKfKS9IEtlCKswJEeP2
+ Mxrrvlnm+wm6dn4bxt1VniNdTYAYJMlPEoDXmVPGj6bR7X3noRAzMeETFjjAgrqm6AWksS3NGd
+ ERqRxQQMUOBiMCIZ5QdEKU7yiKy1lJEAOqI1nX9A4zVLsc3AQAA
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+ david.hunter.linux@gmail.com, khalid@kernel.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org, 
+ Ranganath V N <vnranganath.20@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761893945; l=4667;
+ i=vnranganath.20@gmail.com; s=20250816; h=from:subject:message-id;
+ bh=bU3cz7gefuxevtxeT/aKl0hymDKSfR0/CL8hEJ3KI30=;
+ b=76ZWWZ/LgC/MeCIyO84v84+uZMU7mCms+8FU9rIgwnOL/fNeJGiSYred3eXi6KGHCfWZ63bX8
+ AbGN5H/rhMqCZ+1ffdgAZnLmaFg49uGDLDJyZWCSZ7PnRNzQMRjC9rB
+X-Developer-Key: i=vnranganath.20@gmail.com; a=ed25519;
+ pk=7mxHFYWOcIJ5Ls8etzgLkcB0M8/hxmOh8pH6Mce5Z1A=
 
-On Tue, Oct 28, 2025 at 11:01:08PM -0700, Darrick J. Wong wrote:
-> On Wed, Oct 29, 2025 at 08:58:30AM +0530, Brajesh Patil wrote:
-> > On Tue, Oct 28, 2025 at 01:07:55PM -0700, Darrick J. Wong wrote:
-> > > On Wed, Oct 29, 2025 at 01:33:11AM +0530, Brajesh Patil wrote:
-> > > > Add validation in virtio-fs to ensure the server follows the FUSE
-> > > > protocol for response headers, addressing the existing TODO for
-> > > > verifying protocol compliance.
-> > > > 
-> > > > Add checks for fuse_out_header to verify:
-> > > >  - oh->unique matches req->in.h.unique
-> > > >  - FUSE_INT_REQ_BIT is not set
-> > > >  - error codes are valid
-> > > >  - oh->len does not exceed the expected size
-> > > > 
-> > > > Signed-off-by: Brajesh Patil <brajeshpatil11@gmail.com>
-> > > > ---
-> > > >  fs/fuse/virtio_fs.c | 30 +++++++++++++++++++++++++-----
-> > > >  1 file changed, 25 insertions(+), 5 deletions(-)
-> > > > 
-> > > > diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> > > > index 6bc7c97b017d..52e8338bf436 100644
-> > > > --- a/fs/fuse/virtio_fs.c
-> > > > +++ b/fs/fuse/virtio_fs.c
-> > > > @@ -764,14 +764,34 @@ static void virtio_fs_request_complete(struct fuse_req *req,
-> > > >  {
-> > > >  	struct fuse_args *args;
-> > > >  	struct fuse_args_pages *ap;
-> > > > -	unsigned int len, i, thislen;
-> > > > +	struct fuse_out_header *oh;
-> > > > +	unsigned int len, i, thislen, expected_len = 0;
-> > > >  	struct folio *folio;
-> > > >  
-> > > > -	/*
-> > > > -	 * TODO verify that server properly follows FUSE protocol
-> > > > -	 * (oh.uniq, oh.len)
-> > > > -	 */
-> > > > +	oh = &req->out.h;
-> > > > +
-> > > > +	if (oh->unique == 0)
-> > > > +		pr_warn_once("notify through fuse-virtio-fs not supported");
-> > > > +
-> > > > +	if ((oh->unique & ~FUSE_INT_REQ_BIT) != req->in.h.unique)
-> > > > +		pr_warn_ratelimited("virtio-fs: unique mismatch, expected: %llu got %llu\n",
-> > > > +				    req->in.h.unique, oh->unique & ~FUSE_INT_REQ_BIT);
-> > > 
-> > > Er... shouldn't these be rejecting the response somehow?  Instead of
-> > > warning that something's amiss but continuing with known bad data?
-> > > 
-> > > --D
-> > >
-> > 
-> > Right, continuing here is unsafe.
-> > 
-> > I plan to update the code so that in case of any header validation
-> > failure (e.g. unique mismatch, invalid error, length mismatch), it
-> > should skip copying data and jump directly to the section that marks
-> > request as complete
-> > 
-> > Does this seem like a feasible approach?
-> 
-> Yeah, I think you can just set req->out.h.error to some errno (EIO?) and
-> jump to fuse_request_end, sort of like what fuse_dev_do_write sort of
-> does.  I think that sends the errno back to whatever code initiated the
-> request.  I don't know if virtiofs should be throwing an error back to
-> the server?
-> 
-> --D
-> 
+convert the Texas Instruments PCM186x Universal audio ADC bindings
+to DT schema.
 
-I think it is okay to set oh.error in fuse_dev_do_write as it is a server side
-reply. But as virtio_fs is on the client side and oh.error has been set by
-virtiofsd, I think so we should not overwrite oh.error. Instead, if we
-encounter an error in any of the if conditions, skip copying arguments and jump
-to the line clear_bit(FR_SENT, &req->flags).
+Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+---
+Convert the Texas Instruments PCM186x audio ADC bindings to DT schema.
+---
+Changes in v5:
+- Resolved previous patch warnings/errors
+- dtschema/dtc warnings/errors:
+- /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml: 
+- $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+- 	 $id: http://devicetree.org/schemas/sound/ti,pcm186x.yaml
+- 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml
+- Link to v4: https://lore.kernel.org/r/20251030-dtbs-v4-1-3fff32221119@gmail.com
 
-> > > > +
-> > > > +	WARN_ON_ONCE(oh->unique & FUSE_INT_REQ_BIT);
-> > > > +
-> > > > +	if (oh->error <= -ERESTARTSYS || oh->error > 0)
-> > > > +		pr_warn_ratelimited("virtio-fs: invalid error code from server: %d\n",
-> > > > +				    oh->error);
-> > > > +
-> > > >  	args = req->args;
-> > > > +
-> > > > +	for (i = 0; i < args->out_numargs; i++)
-> > > > +		expected_len += args->out_args[i].size;
-> > > > +
-> > > > +	if (oh->len > sizeof(*oh) + expected_len)
-> > > > +		pr_warn("FUSE reply too long! got=%u expected<=%u\n",
-> > > > +			oh->len, (unsigned int)(sizeof(*oh) + expected_len));
-> > > > +
-> > > >  	copy_args_from_argbuf(args, req);
-> > > >  
-> > > >  	if (args->out_pages && args->page_zeroing) {
-> > > > -- 
-> > > > 2.43.0
-> > > > 
-> > > > 
+Changes in v4:
+- Corrected subject dt_bindings:sound to Asoc: dt_bindings:
+- Corrected the filename to match one of the compitables in the file 
+- ti,pcm186x.yaml to ti,pcm1862.yaml
+- Link to v3: https://lore.kernel.org/r/20251029-dtbs-v3-1-3cc162221c22@gmail.com
+
+Changes in v3:
+- Unicode FEFF character was present in the begining of the file,
+- Removed unicode character.
+- Link to v2: https://lore.kernel.org/r/20251026-dtbs-v2-1-cd3b713a288e@gmail.com
+
+Changes in v2:
+- Fixes as per the reviews suggested for the v1.
+- Link to v1: https://lore.kernel.org/r/20251021-dtbs-v1-1-493c1aa253bc@gmail.com
+---
+ .../devicetree/bindings/sound/pcm186x.txt          | 42 ---------------
+ .../devicetree/bindings/sound/ti,pcm1862.yaml      | 61 ++++++++++++++++++++++
+ 2 files changed, 61 insertions(+), 42 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/pcm186x.txt b/Documentation/devicetree/bindings/sound/pcm186x.txt
+deleted file mode 100644
+index 1087f4855980..000000000000
+--- a/Documentation/devicetree/bindings/sound/pcm186x.txt
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Texas Instruments PCM186x Universal Audio ADC
+-
+-These devices support both I2C and SPI (configured with pin strapping
+-on the board).
+-
+-Required properties:
+-
+- - compatible : "ti,pcm1862",
+-                "ti,pcm1863",
+-                "ti,pcm1864",
+-                "ti,pcm1865"
+-
+- - reg : The I2C address of the device for I2C, the chip select
+-         number for SPI.
+-
+- - avdd-supply: Analog core power supply (3.3v)
+- - dvdd-supply: Digital core power supply
+- - iovdd-supply: Digital IO power supply
+-        See regulator/regulator.txt for more information
+-
+-CODEC input pins:
+- * VINL1
+- * VINR1
+- * VINL2
+- * VINR2
+- * VINL3
+- * VINR3
+- * VINL4
+- * VINR4
+-
+-The pins can be used in referring sound node's audio-routing property.
+-
+-Example:
+-
+-	pcm186x: audio-codec@4a {
+-		compatible = "ti,pcm1865";
+-		reg = <0x4a>;
+-
+-		avdd-supply = <&reg_3v3_analog>;
+-		dvdd-supply = <&reg_3v3>;
+-		iovdd-supply = <&reg_1v8>;
+-	};
+diff --git a/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml b/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml
+new file mode 100644
+index 000000000000..b76330ff9de3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml
+@@ -0,0 +1,61 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/ti,pcm1862.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments PCM186x Universal Audio ADC
++
++maintainers:
++  - Ranganath V N <vnranganath.20@gmail.com>
++
++description:
++  The Texas Instruments PCM186x family are multi-channel audio ADCs
++  that support both I2C and SPI control interfaces, selected by
++  pin strapping. These devices include on-chip programmable gain
++  amplifiers and support differential or single-ended analog inputs.
++
++properties:
++  compatible:
++    enum:
++      - ti,pcm1862
++      - ti,pcm1863
++      - ti,pcm1864
++      - ti,pcm1865
++
++  reg:
++    maxItems: 1
++
++  avdd-supply: true
++
++  dvdd-supply: true
++
++  iovdd-supply: true
++
++  '#sound-dai-cells':
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - avdd-supply
++  - dvdd-supply
++  - iovdd-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        audio-codec@4a {
++            compatible = "ti,pcm1865";
++            reg = <0x4a>;
++
++            avdd-supply = <&reg_3v3_analog>;
++            dvdd-supply = <&reg_3v3>;
++            iovdd-supply = <&reg_1v8>;
++        };
++    };
+
+---
+base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
+change-id: 20251021-dtbs-3a31f699c461
+
+Best regards,
+-- 
+Ranganath V N <vnranganath.20@gmail.com>
+
