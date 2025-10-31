@@ -1,203 +1,422 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D042FD1B1
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 31 Oct 2025 16:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81DF310627
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 31 Oct 2025 19:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761929819; cv=none; b=BYDT4Jf0J136YhG/n/jugjSwGSd8Np3pKGq4I53XS81zr1Hc+9w8tlctpFLm2lG60LujTpavcZubQ46gp6hyVvEGHf/0ZhA5F4ioCqwjKSLIw21PF7z7zG4zxxBi2pwhbzbk3DB+N6yHH0ENo6pK5oouUJRUwby0lsfz/0kS78w=
+	t=1761939704; cv=none; b=UgC6bc5rPWibKlqMWD5Kf2YtBwSPMsvtaPBi1oPgkVPl9Kh6rmczr+HHtV9mOOiFyVdOHledQ0hM9CeHL86p7j7YgEqZQSlZ6THyko8U4nyaqtaZm20fBeKjfVvAyYTiqbIr5EwPhJ+3sHZq2/NbQP1HgHKaaiHJ3bf4nW4ljEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761929819; c=relaxed/simple;
-	bh=WWnQxq9MvOz5vophT5mh709wnc18gU/QGh7BlY7BU44=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rWhXg1K9V6+K/zDUNWGS6WMYhUg61lVZ4s/eshaJJ76JxGOVAdh2+8Xqtznl7Q9KOEcizplfdIz/Q+ZJMKx0OSOA2zhQP4YN2vg9hHLSucgPjy3UG644ncD/0dEBSMVrasBhj+6MfhRuS+4IxOhr1Ow6y6REEm3Ikb1hKC14+So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jtWOHX3n; arc=none smtp.client-ip=209.85.210.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761939704; c=relaxed/simple;
+	bh=maRK7XpfoR92vY8Ydni5YVMz4/Px/3eFRr8cqwFVDz4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QtmphYeVyZIn8NWilaJjyNmrKCPExTJdgjxNx+h7ote9uRtuQfe06mZAkFOEIrO5sdSz3hPkwkAdkBBdC1+AQWOTLDfGL9QAPid/AJp+5W2DhBBS1n+XE/M3WDqpueWOJC/zNTMJ6Nn3KZOUTNXCdeAPPjNdpuekxolJ5AC0+Cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=H0YenwWE; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jtWOHX3n"
-Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-793021f348fso2294147b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 31 Oct 2025 09:56:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H0YenwWE"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8F68861798
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 31 Oct 2025 19:41:42 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -17.601
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id WpBEil5I7KNj for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 31 Oct 2025 19:41:41 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::536; helo=mail-ed1-x536.google.com; envelope-from=kuniyu@google.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 2134061796
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=reject dis=none) header.from=google.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2134061796
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=H0YenwWE
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2134061796
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 31 Oct 2025 19:41:40 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-63d6ee383bdso5691804a12.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 31 Oct 2025 12:41:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761929817; x=1762534617; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=75H06cNN6UuN6pp1+AJHS92a14vydasjYoMYY7ki7eY=;
-        b=jtWOHX3na0iJp5rDd7dUZ6cJOtQ2XIRDgj2dhWtTH5BAKTQPYoVKoOs68Tgi6pWLzu
-         82ze9IlDBg8W8c67Gt5wWNqfhDdrUbuhDKQriOBwdzI85TGq/pdpRMyqWtI+P8v11MYN
-         WoQuw9bMptQE8ct1PVi0Q6dKnFdbtOSm7JzcHvcl9dqMYi9AskEkArzkiTK4PPJeSm8t
-         DMNp5feGk9m5tGHtEUo1mkC41ObEmnOHuaB7xHlx5e+Lt9yLScHjPFv2ZxK0rxbIQrj9
-         IuY2ufJSAhDOoq2aGmCE7cmQcevIDMjRiDV8qlMXyG8Pxk30AWqSvmwiB/WZMw59C7pn
-         LgYQ==
+        d=google.com; s=20230601; t=1761939699; x=1762544499; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dYbfNT0Vc8/TiytLOjgG9hBzeApOsG89ichqEMIxreo=;
+        b=H0YenwWE2ayf7We+hSVWFO3gbpO1apc/aGp5xYfPTdTh1QguqoS8sv3+B8jKlzD19q
+         5aeuihUSLgNBeR6sAYq1OKQ7BQ3SCxlk6oClGaYbZa2pEO73ZsbSRpa2Wk9SIFzdktri
+         x1RnxflQknUZmrSUI9GgGwVQKwBBCquz2JS4Y2spvOyTajH4St37Q5EstF4kWChrLbVl
+         AfLb6ZwwqRTaRRUIE93YjEGVkeWBKfiBgmlhrqkRQ+ZhQzJEhVqH0zz+vo3M+eI53ybZ
+         Nww6U+zECxZ/fVGLrzSKYgXK3HC5PIlKNm+na9JgBnhRSROkSU9ObRzHt37cZdXhADML
+         bUWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761929817; x=1762534617;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=75H06cNN6UuN6pp1+AJHS92a14vydasjYoMYY7ki7eY=;
-        b=P9KAymWlBUmeh7eZNINMtuBGhjVdQNUgKUTFaZVkXgz/Pshe0EQ2XTiSTdprw26+1O
-         KAFyaCL8SKz10VlUGdRxjy/yEAS8aOGP5k21/3fG8/TBMdehsul/Nl7VUpwBsiZaGvgl
-         6f2ByJjeZ7Q+5140Wx/42BtGd8yFBe9DwEbWsO6r2pcsMoOR+LywUsKfp/tYF1MtwISH
-         OJ7vKEMh7Qs9Ap1Ts+E1G3INZ5vGbCqEamXr/I616WpFPtdcwciCQJahbP6lSpoBd5WQ
-         tK6jlN+HdN/MGoP9+novEyVj710i5Qw0GOfcip6PU/+9Ugt8plyX5bpy/i7ZJhyyWMZp
-         DfYg==
-X-Forwarded-Encrypted: i=1; AJvYcCWmNvFkxXAd41ARGbOBYv0WeYhIQW1rqFChpMGC+ENyrnYd2m57niN+miGS0Ve2VfRckJY2iurb3wM80hTsw+T1cju/+w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxy+AKWzQEnyL6yuhMswFq7Eoc5o9NtSt2G9mcfLa2yQziBgme/
-	DQIwt3ARnXg4MHwQA/yyGwLaCzup0pRS6BnenKBmBs83oiCWxYd/891l
-X-Gm-Gg: ASbGncvtbdiwoi0MEHBYK8VbEyYKR/xoQ8Ry5DBH8gUmYEBnM0DwKqBZ96Q2XXEg2C2
-	sjzntBctSZjb6iPmMVzrmGy6Zcd0RV9qO0HswSigOnTiKknphQ80TBKYMyonsP7v7hZzaBqxRAj
-	zZQYOZDwNb99st4wMWQ7sKtPQHFLgHEXrpBUXZwwkrvtafaDdObVugdgOMvDu2lMGZeTiBAoTfg
-	NHFxsZk7b+V0Hsj0PHTDDjxGad8CuW2R4Zk8pqpMtSw52qR3efBsWWfqs8vWCvQA1SpS4M66pUq
-	0NecQ5DMGgJIOncEC4CjbIrfQAo0qimbOogf7+xPueFH1VKqFE2gucBROhoiBG++7GPo1cwxDaK
-	4wa8r6/mFBuutZBVUKxh44p8doQ0bYuSJjUOPAj7tQ6ii0AdvTkB3B9NXnHrViWyrVgkN05TElt
-	CYohU=
-X-Google-Smtp-Source: AGHT+IEn9mRaFriZ4w42iWzEpFpTJw3pAZ5gIf/TLvCs2205ZF0F+XXD+dUdH9vCvuvbHC5KOkO2jw==
-X-Received: by 2002:a05:6a00:3e24:b0:781:24ec:c8f4 with SMTP id d2e1a72fcca58-7a776d97ed2mr4632190b3a.3.1761929817335;
-        Fri, 31 Oct 2025 09:56:57 -0700 (PDT)
-Received: from Ubuntu24.. ([103.187.64.30])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a7dbc5aa56sm2745572b3a.68.2025.10.31.09.56.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Oct 2025 09:56:56 -0700 (PDT)
-From: Shrikant Raskar <raskar.shree97@gmail.com>
-To: hverkuil@kernel.org,
-	mchehab@kernel.org
-Cc: skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Shrikant Raskar <raskar.shree97@gmail.com>
-Subject: [RFC PATCH v3] media: saa6588: Remove dprintk macro and use v4l2_info()
-Date: Fri, 31 Oct 2025 22:26:45 +0530
-Message-ID: <20251031165645.6217-1-raskar.shree97@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1761939699; x=1762544499;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dYbfNT0Vc8/TiytLOjgG9hBzeApOsG89ichqEMIxreo=;
+        b=FhNhNRyZkmdNZstEXWbMZyOJwVf/VDuHuQpcU59ofm32XQRshxtt72IIJWvFJLTQLC
+         B0e4ANO/ugVVRDA1sFUktPvyqN9RaWU+nF6N97/nNwALU9tBQ+RUS7yW/HvqT+YWnXPV
+         frI2/3TW3iDnPK3FdVqnJGP0sXgs2M8TKPcZq+uvz7Mv5O9rEjNjzWPjRiXJrciuofEi
+         uoBwinofexOY6TYgjfWaqIFDmdRJ78SIHJuO8IywN3VanHt6Jc2LvCwiqGqMUdn+wo+Q
+         gfXPE6i/UOihKuEjxMe1i5jcVpRVqQii2w7v1w7o06+NtbLiRLKESAQYNnq3JHQ5duL+
+         0eqA==
+X-Forwarded-Encrypted: i=1; AJvYcCXtULp5cp0l4AsZ3RFRE7bbGsFcLOmjIlpqkckeksBOzpNIlHyb55Wk7RtAjCfvmrbl6RfSp1TKTqtjYHO9xqmxPkU7nQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzkAcwZPWyuz6xAegASr1VaWn819Sg7OJZ9GWY2BI/aITD9Tyuq
+	+EmldKeLxPooNE58D4LIlKWDzQOXUnE1mJAfPEzt7MlKl+cFRBGutOmGlMsXv7BlRZ9wKaySG4T
+	rZr4dRvSjXBP1JHTObVHZ9Jiwf7xB+3c8P4lxYjvp
+X-Gm-Gg: ASbGncucMkJBB0JBheyDqib8B0rFOWDHUJq8oG7/qoKCmo0A3D3YiMsAnCnNx3S2XW3
+	iMQpVCXKeauJIh9AP+miDXIjDoJZoAFhEgi4jBrpDlDkOEJHyEnJETOiYSSY/UwCLW5nvyLMBst
+	LEnMJ0zBWJOSeEDc21jXo178ecPW5zH6zIOXPh2FSEpxDUgST6IKyOkFbc/UaN/TetVyWP3q4CB
+	l+71xPS8tww0woeC0jgPcFUFgv0utY4ddFV/3UHZ3W7v++jBjen4FiZGt0E7D4Nz3TrDtkjre8+
+	xDJYN0XfYPhJvNEFVw==
+X-Google-Smtp-Source: AGHT+IGP39uKZ8Ldsc5A2MSKFDiQ/EXttriDPIq9JhsO1OWBc5tum20Be7vZowWj6ukKGFaTckz2hYue61ejofW9WFY=
+X-Received: by 2002:a05:6402:274b:b0:634:6bca:2d1c with SMTP id
+ 4fb4d7f45d1cf-64077081fafmr4171016a12.26.1761939698354; Fri, 31 Oct 2025
+ 12:41:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251025190256.11352-1-adelodunolaoluwa.ref@yahoo.com>
+ <20251025190256.11352-1-adelodunolaoluwa@yahoo.com> <CAAVpQUAbDfaiAZ_NCppGE5vsafWoU7V1xvnqtQQM44cwv6jHsA@mail.gmail.com>
+ <7c4070ed-1702-4288-90c6-7edb90468718@yahoo.com>
+In-Reply-To: <7c4070ed-1702-4288-90c6-7edb90468718@yahoo.com>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Fri, 31 Oct 2025 12:41:22 -0700
+X-Gm-Features: AWmQ_bn_XVrMh5WLNVzJVx0p1VBoVnrz3YR-LeQYxE8Gmud4G1IaBv7E36TYekY
+Message-ID: <CAAVpQUAT8CVwQfSXq+P78kgPVy8gyD9thEgBcAz45Jpxh=1smw@mail.gmail.com>
+Subject: Re: [PATCH v2] selftests: af_unix: Add tests for ECONNRESET and EOF semantics
+To: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+Cc: "=David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	David Hunter <david.hunter.linux@gmail.com>, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The existing 'dprintk' macro used an unwrapped 'if' statement which was
-flagged by checkpatch, but instead of wrapping it, the debug handling
-can be simplified.
+On Thu, Oct 30, 2025 at 6:45=E2=80=AFAM Sunday Adelodun
+<adelodunolaoluwa@yahoo.com> wrote:
+>
+> On 10/28/25 19:28, Kuniyuki Iwashima wrote:
+> > On Sat, Oct 25, 2025 at 12:03=E2=80=AFPM Sunday Adelodun
+> > <adelodunolaoluwa@yahoo.com> wrote:
+> >> Add selftests to verify and document Linux=E2=80=99s intended behaviou=
+r for
+> >> UNIX domain sockets (SOCK_STREAM and SOCK_DGRAM) when a peer closes.
+> >> The tests cover:
+> >>
+> >>    1. EOF returned when a SOCK_STREAM peer closes normally.
+> >>    2. ECONNRESET returned when a SOCK_STREAM peer closes with unread d=
+ata.
+> >>    3. SOCK_DGRAM sockets not returning ECONNRESET on peer close.
+> >>
+> >> This follows up on review feedback suggesting a selftest to clarify
+> >> Linux=E2=80=99s semantics.
+> >>
+> >> Suggested-by: Kuniyuki Iwashima <kuniyu@google.com>
+> >> Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+> >> ---
+> >> Changelog:
+> >>
+> >> Changes made from v1:
+> >>
+> >> - Patch prefix updated to selftest: af_unix:.
+> >>
+> >> - All mentions of =E2=80=9CUNIX=E2=80=9D changed to AF_UNIX.
+> >>
+> >> - Removed BSD references from comments.
+> >>
+> >> - Shared setup refactored using FIXTURE_VARIANT().
+> >>
+> >> - Cleanup moved to FIXTURE_TEARDOWN() to always run.
+> >>
+> >> - Tests consolidated to reduce duplication: EOF, ECONNRESET, SOCK_DGRA=
+M peer close.
+> >>
+> >> - Corrected ASSERT usage and initialization style.
+> >>
+> >> - Makefile updated for new directory af_unix.
+> >>
+> >>   tools/testing/selftests/net/af_unix/Makefile  |   1 +
+> >>   .../selftests/net/af_unix/unix_connreset.c    | 161 ++++++++++++++++=
+++
+> >>   2 files changed, 162 insertions(+)
+> >>   create mode 100644 tools/testing/selftests/net/af_unix/unix_connrese=
+t.c
+> >>
+> >> diff --git a/tools/testing/selftests/net/af_unix/Makefile b/tools/test=
+ing/selftests/net/af_unix/Makefile
+> >> index de805cbbdf69..5826a8372451 100644
+> >> --- a/tools/testing/selftests/net/af_unix/Makefile
+> >> +++ b/tools/testing/selftests/net/af_unix/Makefile
+> >> @@ -7,6 +7,7 @@ TEST_GEN_PROGS :=3D \
+> >>          scm_pidfd \
+> >>          scm_rights \
+> >>          unix_connect \
+> >> +       unix_connreset \
+> >>   # end of TEST_GEN_PROGS
+> >>
+> >>   include ../../lib.mk
+> >> diff --git a/tools/testing/selftests/net/af_unix/unix_connreset.c b/to=
+ols/testing/selftests/net/af_unix/unix_connreset.c
+> >> new file mode 100644
+> >> index 000000000000..c65ec997d77d
+> >> --- /dev/null
+> >> +++ b/tools/testing/selftests/net/af_unix/unix_connreset.c
+> >> @@ -0,0 +1,161 @@
+> >> +// SPDX-License-Identifier: GPL-2.0
+> >> +/*
+> >> + * Selftest for AF_UNIX socket close and ECONNRESET behaviour.
+> >> + *
+> >> + * This test verifies that:
+> >> + *  1. SOCK_STREAM sockets return EOF when peer closes normally.
+> >> + *  2. SOCK_STREAM sockets return ECONNRESET if peer closes with unre=
+ad data.
+> >> + *  3. SOCK_DGRAM sockets do not return ECONNRESET when peer closes.
+> >> + *
+> >> + * These tests document the intended Linux behaviour.
+> >> + *
+> >> + */
+> >> +
+> >> +#define _GNU_SOURCE
+> >> +#include <stdlib.h>
+> >> +#include <string.h>
+> >> +#include <fcntl.h>
+> >> +#include <unistd.h>
+> >> +#include <errno.h>
+> >> +#include <sys/socket.h>
+> >> +#include <sys/un.h>
+> >> +#include "../../kselftest_harness.h"
+> >> +
+> >> +#define SOCK_PATH "/tmp/af_unix_connreset.sock"
+> >> +
+> >> +static void remove_socket_file(void)
+> >> +{
+> >> +       unlink(SOCK_PATH);
+> >> +}
+> >> +
+> >> +FIXTURE(unix_sock)
+> >> +{
+> >> +       int server;
+> >> +       int client;
+> >> +       int child;
+> >> +};
+> >> +
+> >> +FIXTURE_VARIANT(unix_sock)
+> >> +{
+> >> +       int socket_type;
+> >> +       const char *name;
+> >> +};
+> >> +
+> >> +/* Define variants: stream and datagram */
+> >> +FIXTURE_VARIANT_ADD(unix_sock, stream) {
+> >> +       .socket_type =3D SOCK_STREAM,
+> >> +       .name =3D "SOCK_STREAM",
+> >> +};
+> >> +
+> >> +FIXTURE_VARIANT_ADD(unix_sock, dgram) {
+> >> +       .socket_type =3D SOCK_DGRAM,
+> >> +       .name =3D "SOCK_DGRAM",
+> >> +};
+> > Let's add coverage for SOCK_SEQPACKET,
+> > which needs listen() / connect() but other semantics
+> > are similar to SOCK_DGRAM.
+>
+> I will add it through:
+> if (variant->socket_type =3D=3D SOCK_STREAM ||
+>                 variant->socket_type =3D=3D SOCK_SEQPACKET)
+>
+>
+> in both the setup and teardown fixtures with a little bit of modification
+>
+> where necessary (especially in the setup fixture).
+>
+> And also the fixture_variant_add macro.
+>
+> >> +
+> >> +FIXTURE_SETUP(unix_sock)
+> >> +{
+> >> +       struct sockaddr_un addr =3D {};
+> >> +       int err;
+> >> +
+> >> +       addr.sun_family =3D AF_UNIX;
+> >> +       strcpy(addr.sun_path, SOCK_PATH);
+> >> +
+> >> +       self->server =3D socket(AF_UNIX, variant->socket_type, 0);
+> >> +       ASSERT_LT(-1, self->server);
+> >> +
+> >> +       err =3D bind(self->server, (struct sockaddr *)&addr, sizeof(ad=
+dr));
+> >> +       ASSERT_EQ(0, err);
+> >> +
+> >> +       if (variant->socket_type =3D=3D SOCK_STREAM) {
+> >> +               err =3D listen(self->server, 1);
+> >> +               ASSERT_EQ(0, err);
+> >> +
+> >> +               self->client =3D socket(AF_UNIX, SOCK_STREAM, 0);
+> >> +               ASSERT_LT(-1, self->client);
+> >> +
+> >> +               err =3D connect(self->client, (struct sockaddr *)&addr=
+, sizeof(addr));
+> >> +               ASSERT_EQ(0, err);
+> >> +
+> >> +               self->child =3D accept(self->server, NULL, NULL);
+> >> +               ASSERT_LT(-1, self->child);
+> >> +       } else {
+> >> +               /* Datagram: bind and connect only */
+> >> +               self->client =3D socket(AF_UNIX, SOCK_DGRAM | SOCK_NON=
+BLOCK, 0);
+> >> +               ASSERT_LT(-1, self->client);
+> >> +
+> >> +               err =3D connect(self->client, (struct sockaddr *)&addr=
+, sizeof(addr));
+> >> +               ASSERT_EQ(0, err);
+> >> +       }
+> >> +}
+> >> +
+> >> +FIXTURE_TEARDOWN(unix_sock)
+> >> +{
+> >> +       if (variant->socket_type =3D=3D SOCK_STREAM)
+> >> +               close(self->child);
+> >> +
+> >> +       close(self->client);
+> >> +       close(self->server);
+> >> +       remove_socket_file();
+> >> +}
+> >> +
+> >> +/* Test 1: peer closes normally */
+> >> +TEST_F(unix_sock, eof)
+> >> +{
+> >> +       char buf[16] =3D {};
+> >> +       ssize_t n;
+> >> +
+> >> +       if (variant->socket_type !=3D SOCK_STREAM)
+> >> +               SKIP(return, "This test only applies to SOCK_STREAM");
+> > Instead of skipping, let's define final ASSERT() results
+> > for each type.
+> >
+> > Same for other 2 tests.
+>
+> can I use a switch statement in all the tests? say, for example
 
-This patch removes the 'dprintk' macro entirely and replaces all its
-usages with v4l2_info() helper. The unused 'PREFIX' macro is also
-removed.
+switch() is completely fine, but I guess "if" will be shorter :)
 
-Signed-off-by: Shrikant Raskar <raskar.shree97@gmail.com>
----
-Changelog:
-Changes since v2:
-- Fixed indentation issue reported by media CI robot.
+>
+> test1:
+>
+> ...
+>
+> switch (variant->socket_type) {
+>
+> case SOCK_STREAM:
+>
+> case SOCK_SEQPACKET:
+>
+>          ASSERT_EQ(0, n);
 
-Link to v2:
-https://lore.kernel.org/all/20251025124107.4921-1-raskar.shree97@gmail.com/
----
- drivers/media/i2c/saa6588.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+You need break; here.
 
-diff --git a/drivers/media/i2c/saa6588.c b/drivers/media/i2c/saa6588.c
-index fb09e4560d8a..90ae4121a68a 100644
---- a/drivers/media/i2c/saa6588.c
-+++ b/drivers/media/i2c/saa6588.c
-@@ -49,8 +49,6 @@ MODULE_LICENSE("GPL");
- /* ---------------------------------------------------------------------- */
- 
- #define UNSET       (-1U)
--#define PREFIX      "saa6588: "
--#define dprintk     if (debug) printk
- 
- struct saa6588 {
- 	struct v4l2_subdev sd;
-@@ -144,14 +142,14 @@ static bool block_from_buf(struct saa6588 *s, unsigned char *buf)
- 
- 	if (s->rd_index == s->wr_index) {
- 		if (debug > 2)
--			dprintk(PREFIX "Read: buffer empty.\n");
-+			v4l2_info(&s->sd, "Read: buffer empty.\n");
- 		return false;
- 	}
- 
- 	if (debug > 2) {
--		dprintk(PREFIX "Read: ");
-+		v4l2_info(&s->sd, "Read: ");
- 		for (i = s->rd_index; i < s->rd_index + 3; i++)
--			dprintk("0x%02x ", s->buffer[i]);
-+			v4l2_info(&s->sd, "0x%02x ", s->buffer[i]);
- 	}
- 
- 	memcpy(buf, &s->buffer[s->rd_index], 3);
-@@ -162,7 +160,7 @@ static bool block_from_buf(struct saa6588 *s, unsigned char *buf)
- 	s->block_count--;
- 
- 	if (debug > 2)
--		dprintk("%d blocks total.\n", s->block_count);
-+		v4l2_info(&s->sd, "%d blocks total.\n", s->block_count);
- 
- 	return true;
- }
-@@ -222,11 +220,11 @@ static void block_to_buf(struct saa6588 *s, unsigned char *blockbuf)
- 	unsigned int i;
- 
- 	if (debug > 3)
--		dprintk(PREFIX "New block: ");
-+		v4l2_info(&s->sd, "New block: ");
- 
- 	for (i = 0; i < 3; ++i) {
- 		if (debug > 3)
--			dprintk("0x%02x ", blockbuf[i]);
-+			v4l2_info(&s->sd, "0x%02x ", blockbuf[i]);
- 		s->buffer[s->wr_index] = blockbuf[i];
- 		s->wr_index++;
- 	}
-@@ -242,7 +240,7 @@ static void block_to_buf(struct saa6588 *s, unsigned char *blockbuf)
- 		s->block_count++;
- 
- 	if (debug > 3)
--		dprintk("%d blocks total.\n", s->block_count);
-+		v4l2_info(&s->sd, "%d blocks total.\n", s->block_count);
- }
- 
- static void saa6588_i2c_poll(struct saa6588 *s)
-@@ -257,7 +255,7 @@ static void saa6588_i2c_poll(struct saa6588 *s)
- 	   SAA6588 returns garbage otherwise. */
- 	if (6 != i2c_master_recv(client, &tmpbuf[0], 6)) {
- 		if (debug > 1)
--			dprintk(PREFIX "read error!\n");
-+			v4l2_info(&s->sd, "read error!\n");
- 		return;
- 	}
- 
-@@ -267,7 +265,7 @@ static void saa6588_i2c_poll(struct saa6588 *s)
- 	blocknum = tmpbuf[0] >> 5;
- 	if (blocknum == s->last_blocknum) {
- 		if (debug > 3)
--			dprintk("Saw block %d again.\n", blocknum);
-+			v4l2_info(&s->sd, "Saw block %d again.\n", blocknum);
- 		return;
- 	}
- 
-@@ -370,12 +368,13 @@ static void saa6588_configure(struct saa6588 *s)
- 		break;
- 	}
- 
--	dprintk(PREFIX "writing: 0w=0x%02x 1w=0x%02x 2w=0x%02x\n",
--		buf[0], buf[1], buf[2]);
-+	if (debug)
-+		v4l2_info(&s->sd, "writing: 0w=0x%02x 1w=0x%02x 2w=0x%02x\n",
-+			  buf[0], buf[1], buf[2]);
- 
- 	rc = i2c_master_send(client, buf, 3);
- 	if (rc != 3)
--		printk(PREFIX "i2c i/o error: rc == %d (should be 3)\n", rc);
-+		v4l2_info(&s->sd, "i2c i/o error: rc == %d (should be 3)\n", rc);
- }
- 
- /* ---------------------------------------------------------------------- */
+>
+> case SOCK_DGRAM:
+>
+>          ASSERT(-1, n);
+>
+>          ASSERT_EQ(EAGAIN, errno);
+>
+>          break;
 
-base-commit: 6fab32bb6508abbb8b7b1c5498e44f0c32320ed5
--- 
-2.43.0
+And also please make sure the compiler will not complain
+without default: depending on inherited build options.
 
+>
+> }
+>
+> ...
+>
+> test2:
+>
+> ...
+>
+> switch (variant->socket_type) {
+>
+> case SOCK_STREAM:
+>
+> case SOCK_SEQPACKET:
+>
+>          ASSERT_EQ(-1, n);
+>
+>          ASSERT_EQ(ECONNRESET, errno);
+>
+>          break;
+>
+> case SOCK_DGRAM:
+>
+>          ASSERT(-1, n);
+>
+>          ASSERT_EQ(EAGAIN, errno);
+>
+>          break;
+>
+> }
+> ...
+>
+> test 3:
+>
+> ...
+>
+> switch (variant->socket_type) {
+>
+> case SOCK_STREAM:
+>
+> case SOCK_SEQPACKET:
+>
+>          ASSERT_EQ(-1, n);
+>
+>          ASSERT_EQ(ECONNRESET, errno);
+>
+>          break;
+>
+> case SOCK_DGRAM:
+>
+>          ASSERT(-1, n);
+>
+>          ASSERT_EQ(EAGAIN, errno);
+>
+>          break;
+>
+> }
+>
+> ...
+>
+> if not these, could you kindly shed more light to what you meant
+>
+> >
+> >
+> >> +
+> >> +       /* Peer closes normally */
+> >> +       close(self->child);
+> >> +
+> >> +       n =3D recv(self->client, buf, sizeof(buf), 0);
+> >> +       TH_LOG("%s: recv=3D%zd errno=3D%d (%s)", variant->name, n, err=
+no, strerror(errno));
+> >> +       if (n =3D=3D -1)
+> >> +               ASSERT_EQ(ECONNRESET, errno);
+> > ... otherwise, we don't see an error here
+> >
+> >> +
+> >> +       if (n !=3D -1)
+> >> +               ASSERT_EQ(0, n);
+> > and this can be checked unconditionally.
+> did you mean I should remove the if (n !=3D -1) ASSERT_EQ(0, n); part?
+
+If SOCK_DGRAM does not reuse this test, yes.
+
+The point is we do not want to miss future regression by
+preparing both if (n =3D=3D -1) case and if  (n =3D=3D 0) case, one
+of which should never happen at this point.
+
+Thanks!
