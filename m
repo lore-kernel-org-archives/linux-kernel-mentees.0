@@ -1,184 +1,103 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A739F2D7D2E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  3 Nov 2025 08:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE842FF64E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  3 Nov 2025 10:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762157542; cv=none; b=mCKaNkr0MnuqTh/cJVx0h6htdlzY8OmalYfXHXb33WQwPLA7Mq1yMa9IBSbidc0FNFz2wuQZD5oCmYr6k+WF7s7EgO/YP/qqtjcm1JuqLPpgjJYlV9NlwpdE91p9D3mvXIUD0SJm/+sGTQWvKOYld5kjC0RiXYZbstu9WndO3y4=
+	t=1762166208; cv=none; b=eWF5gljFd3XFrI+8OMqDosaMH8pWn/HQmBwLSFI+gAoVOWi9bnxsRbvkv64d9iTSf1nnY5cw4tpp3wOKuBGlfqdbosHpsY4Q3Vf1fGu1DdGsRTyvK48Mp+fxAdsxFUdsDvZj5kDPGw1KSxpyc/KL9d1YgoZpbhruyVe/JhKNmpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762157542; c=relaxed/simple;
-	bh=IvpnIGpW5pDCkLQfXgWwGHkEHfCk7MiqPLCNiRLC+WQ=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=NR2BhpqQZObPDRUJcUhmi5kOIJ0GhRARtmlvlxdQXAGi7tqK+wnq7vnzdwMlTx2SafJiSXvpRk5ww9LhKLu8WxH43jkxuVb+17imt/NF0OvoAVx+xH1pTbcK/UxRNmKON1j0tvL/tFfz6XwUJLtrHa93k5bBeJ60qFWjGW5FMcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0YNXVS0; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1762166208; c=relaxed/simple;
+	bh=qhlXsQ2w2cGtqN4BTIN6PGYrAkWRGsh3TNb7IYqvoec=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:
+	 References:In-Reply-To; b=fE4WDFeaYe+WyJwAuHwG2I5WkgBNomfZPD3qaa7XQhp7fUjTSSqi4w2PBYxwlEj+Xw9CLq+ctHm/mMDJ76pqEYJ96RwIumEptnTFDXP4r4LYFUtgb/NPNY1LDJKUp1Qn7qxYqgEvE0iM3XDViyXHv9Rj6xda52/cZxk7jTfecA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J+EcNvUE; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0YNXVS0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J+EcNvUE"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2F06541128
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  3 Nov 2025 08:12:21 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 85B8C84AE9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  3 Nov 2025 10:36:45 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.101
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Jz9FWLhE4UpH for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Nov 2025 08:12:20 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=chao@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 6B13141112
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6B13141112
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=S0YNXVS0
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 33m9a8mLEn3S for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  3 Nov 2025 10:36:45 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=lossin@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org E7FA084AD9
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E7FA084AD9
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=J+EcNvUE
 Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 6B13141112
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  3 Nov 2025 08:12:20 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E7FA084AD9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  3 Nov 2025 10:36:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 7BAE04081A;
-	Mon,  3 Nov 2025 08:12:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68D6AC4CEE7;
-	Mon,  3 Nov 2025 08:12:17 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id EAAC34196E;
+	Mon,  3 Nov 2025 10:36:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2885EC4CEF8;
+	Mon,  3 Nov 2025 10:36:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762157539;
-	bh=IvpnIGpW5pDCkLQfXgWwGHkEHfCk7MiqPLCNiRLC+WQ=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=S0YNXVS0yAj8eMy8n4ZhbtQ9hC9T7Mf54lpwHTVpoKAAqh3V3nd+ZzZVWHv1SV+W5
-	 UAd3gtBHUvErsl25wSglSV94+e8eDBDB8+xMxyHLV58f0Sqe6lPn/TWLtxh6scepw4
-	 q1spY+AuYY/hk7wOUS7giLwwNUxKshkly3d98vZcRt5zCD8YKe0Uuttbl/D5MsOzbi
-	 m7k5AUlzhk2nB/mr+GfQBTZnFtjo5imn3No8h0N+RqcIbXSniKdUZO5aitu2TIC4Pn
-	 8uCvFmJpzDoQRIseKnwWF1P6pLD5ClaNqTQC1KpNUhsTxWbg3yaBpYQf1kguBZhJa1
-	 7oUS76waCD/vQ==
-Message-ID: <1f519357-a489-41fe-8159-a8e319aedd17@kernel.org>
-Date: Mon, 3 Nov 2025 16:12:15 +0800
+	s=k20201202; t=1762166203;
+	bh=qhlXsQ2w2cGtqN4BTIN6PGYrAkWRGsh3TNb7IYqvoec=;
+	h=Date:Subject:From:To:References:In-Reply-To:From;
+	b=J+EcNvUEAilS8iBCPPM0BYn40WgpgpEnfep+ezM0Z0u7EDnPE+wL9w99s3DLYe9cv
+	 0xg7QQs3zWketLMxaKHinu9fZUSItLPKDaxPdMLhriWrkNjjom4vGfeEMwQPWRvdVB
+	 CLcgNovtieeKxotAvPP0IDo5WRkxiY0Mgjt11gYfLmLR/rHqTmkd4pSsNDXVzOOmvO
+	 sl6hVATvjojI0UCDIDGO88mWaUO6jufVzhKUgITGfEQec2E+y/tzfDtp+b0HWu8Qqt
+	 Y3WiBtW+C6oZCGMtNbWz5s1kd1HK0OW/Aa3aUfxBzB037CtEcE56jHR1ukCFvnUoid
+	 5SvIh5mlBXAjQ==
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: chao@kernel.org, jaegeuk@kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org,
- syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2 2/2] f2fs: Add sanity checks before unlinking and
- loading inodes
-To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-References: <cover.1761993022.git.zlatistiv@gmail.com>
- <55522ef8f3424e563ff18a720c709dcb065091af.1761993022.git.zlatistiv@gmail.com>
- <ea38e464-a28a-4b06-8046-5b62f7172875@kernel.org>
- <pcxf66ac2yjkqyvhb6xgbk6jiihcejuncgbblkewz6rs7i5uzt@m6yjin7t67is>
-Content-Language: en-US
-From: Chao Yu <chao@kernel.org>
-In-Reply-To: <pcxf66ac2yjkqyvhb6xgbk6jiihcejuncgbblkewz6rs7i5uzt@m6yjin7t67is>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Mon, 03 Nov 2025 11:36:40 +0100
+Message-Id: <DDYZS8Q0IMHW.2THERFUD075JJ@kernel.org>
+Subject: Re: [PATCH v8 3/3] rust: revocable: Documents RevocableGuard
+ invariants/safety and refine Deref safety
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Marcelo Moreira" <marcelomoreira1905@gmail.com>,
+ <aliceryhl@google.com>, <dakr@kernel.org>, <ojeda@kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <skhan@linuxfoundation.org>,
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ <~lkcamp/patches@lists.sr.ht>
+X-Mailer: aerc 0.21.0
+References: <20250726183552.23098-1-marcelomoreira1905@gmail.com>
+ <20250726183552.23098-4-marcelomoreira1905@gmail.com>
+In-Reply-To: <20250726183552.23098-4-marcelomoreira1905@gmail.com>
 
-On 11/3/25 15:55, Nikola Z. Ivanov wrote:
-> On Mon, Nov 03, 2025 at 10:35:17AM +0800, Chao Yu wrote:
->> On 11/1/25 20:56, Nikola Z. Ivanov wrote:
->>> Add check for inode->i_nlink == 1 for directories during unlink,
->>> as their value is decremented twice, which can trigger a warning in
->>> drop_nlink. In such case mark the filesystem as corrupted and return
->>> from the function call with the relevant failure return value.
->>>
->>> Additionally add the 2 checks for i_nlink == 0 and i_nlink == 1 in
->>> sanity_check_inode in order to detect on-disk corruption early.
->>>
->>> Reported-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
->>> Closes: https://syzkaller.appspot.com/bug?extid=c07d47c7bc68f47b9083
->>> Tested-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
->>> Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
->>> ---
->>>  fs/f2fs/inode.c | 10 ++++++++++
->>>  fs/f2fs/namei.c | 15 +++++++++++----
->>>  2 files changed, 21 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
->>> index 8c4eafe9ffac..089cbf3646f0 100644
->>> --- a/fs/f2fs/inode.c
->>> +++ b/fs/f2fs/inode.c
->>> @@ -294,6 +294,16 @@ static bool sanity_check_inode(struct inode *inode, struct folio *node_folio)
->>>  		return false;
->>>  	}
->>>  
->>> +	if (unlikely(inode->i_nlink == 0)) {
->>
->> This is a possible case, as an orphan inode may exist in filesystem after sudden
->> power-cut.
->>
->> Thanks,
->>
-> 
-> Hi Chao,
-> 
-> Do you suggest that it should not be wrapped in unlikely()?
+On Sat Jul 26, 2025 at 8:35 PM CEST, Marcelo Moreira wrote:
+> Refinements include:
+> - `RevocableGuard`'s invariants are updated to precisely state that
+>   `data_ref` is valid as long as the RCU read-side lock is held.
+> - The `RevocableGuard::new` constructor is made `unsafe`, explicitly
+>   requiring callers to guarantee the validity of the raw pointer and
+>   RCU read-side lock lifetime.
+> - The `SAFETY` comment in `Revocable::try_access` is refined for
+>   clarity, now explicitly stating how `Self`'s type invariants
+>   and the RCU read-side lock together ensure data validity for reads.
+> - The `Deref` implementation's `SAFETY` comment for `RevocableGuard`
+>   is refined.
+>
+> Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
 
-Nikola,
+Sorry for the long wait, I've been very busy (and continue to be). Let's
+finish this series :)
 
-No, I think we should not add this sanity check "inode->i_nlink == 0"
-into sanity_check_inode(), as for an orphan inode, its i_nlink is zero.
-We expect to get the inode w/o failure in recover_orphan_inode().
+Reviewed-by: Benno Lossin <lossin@kernel.org>
 
-> 
-> I also now realise that I intended to wrap the "else if" case
-> as well but I've missed it in the final patch.
+@Danilo: did revocable change substantively in the meantime? If yes, we
+might need to revisit the invariants...
 
-Looks fine to add unlike for the "dir->i_nlink == 1" case.
+Cheers,
+Benno
 
-Thanks,
-
-> 
-> Should I resend the patch with both cases wrapped in "unlikely()"
-> or would you suggest otherwise?
-> 
-> 
->>> +		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
->>> +			  __func__, inode->i_ino);
->>> +		return false;
->>> +	} else if (S_ISDIR(inode->i_mode) && inode->i_nlink == 1) {
->>> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
->>> +			  __func__, inode->i_ino);
->>> +		return false;
->>> +	}
->>> +
->>>  	if (f2fs_has_extra_attr(inode)) {
->>>  		if (!f2fs_sb_has_extra_attr(sbi)) {
->>>  			f2fs_warn(sbi, "%s: inode (ino=%lx) is with extra_attr, but extra_attr feature is off",
->>> diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
->>> index 40cf80fd9d9a..d13077bad482 100644
->>> --- a/fs/f2fs/namei.c
->>> +++ b/fs/f2fs/namei.c
->>> @@ -572,10 +572,11 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
->>>  	if (unlikely(inode->i_nlink == 0)) {
->>>  		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
->>>  			  __func__, inode->i_ino);
->>> -		err = -EFSCORRUPTED;
->>> -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
->>> -		f2fs_folio_put(folio, false);
->>> -		goto out;
->>> +		goto corrupted;
->>> +	} else if (S_ISDIR(inode->i_mode) && inode->i_nlink == 1) {
->>> +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
->>> +			  __func__, inode->i_ino);
->>> +		goto corrupted;
->>>  	}
->>>  
->>>  	f2fs_balance_fs(sbi, true);
->>> @@ -601,6 +602,12 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
->>>  
->>>  	if (IS_DIRSYNC(dir))
->>>  		f2fs_sync_fs(sbi->sb, 1);
->>> +
->>> +	goto out;
->>> +corrupted:
->>> +	err = -EFSCORRUPTED;
->>> +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
->>> +	f2fs_folio_put(folio, false);
->>>  out:
->>>  	trace_f2fs_unlink_exit(inode, err);
->>>  	return err;
->>
-
+> ---
+>  rust/kernel/revocable.rs | 20 +++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
