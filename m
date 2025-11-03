@@ -1,141 +1,193 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E8928C871
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  3 Nov 2025 05:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1030F2C1587
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  3 Nov 2025 07:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762149369; cv=none; b=F/srCiUjWmJ3CrqqjX8XPldAL8HueeLQz4nEaz6HaQCm+Ciu38BFfUDpNmOctac4HM8A3cwx5ePbN/h5uOFMARusY4A5/wxFDNoVNI3GStF4nrilVGRdOWOiqszm47SOkEpspXEU5LqYRYXR6ZLTDazytQny272MqDZcOrNA4o0=
+	t=1762156509; cv=none; b=S6aWcXhnykLSUA7hTODpqUlzUaX3ZiLaICOsk38hD5KcC8mK92hkyrQrtmYOgF2GVtxEVxd72Iouv/Pqd4IVgESHETHL49ySUNEhJMOX+9+9iwbeMENTlEM6pxYghQf/jqmjvFglDOVYGsnpPg3SLeXgw6oBGddquziFWuuD3Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762149369; c=relaxed/simple;
-	bh=UtorwXqAXSaw0nE6ogrsZcNgRw2KJ1yd8pf1qvskGWw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TWcJFH3TqnCifkEzknDo2+SH1Mox+LTHNL5ZfgthJM0IcC6/tnKV7N02bUlBYfS2GzaLb+QWnVDvU0A+OMkT5u8hhaqJe6mlzWm3BZ7ns2cVAwzr3V+xAxLbL2/lyTencEOVr+bd7P5JqNef982AVbChMp9rgJhI1Ds9eWJ3Eco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YeaFxdzY; arc=none smtp.client-ip=209.85.166.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762156509; c=relaxed/simple;
+	bh=UqDUQ6OyyJRLzVQX1Z9hQqRiS2RYJgv3h4EjNJTt7us=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WQA1d4v2G/YeMcqJ76mnPrRRa7sxljACEp5T4NLxmn0GjBn1mWrKUxl5micXXT32Hj39P15U+XC209xd7bdrjkq/REzi2vgPFMlnEtGHoXAD8pky63aQpoQYGKcWzeVgy2wwmTE5C+mMSJRtdwuLVix46VYtcMVCLllMaSwbnLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aJkzWC3c; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YeaFxdzY"
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-4330fc37de7so9953305ab.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 02 Nov 2025 21:56:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aJkzWC3c"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9EF3F40105
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  3 Nov 2025 07:55:07 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id TDLrSWGPq8K2 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  3 Nov 2025 07:55:06 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::431; helo=mail-wr1-x431.google.com; envelope-from=zlatistiv@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org E36A1400C7
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E36A1400C7
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=aJkzWC3c
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id E36A1400C7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  3 Nov 2025 07:55:05 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-429bccca1e8so1637566f8f.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 02 Nov 2025 23:55:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762149367; x=1762754167; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ySAXejUoNq76L1FW98+NXykq6E7oItJRChqh2DI4aaw=;
-        b=YeaFxdzYX/+8L6woJbx2aUKoK60OQpMl3rosreWDb4JtC6icSJ3yp+bKQtx/AYaZ4W
-         meniyIka2gZ6pIQvBRk9ZyKxiiLkzcu/dza7AVIjDZU0dMJOjwdLOMvyrunCx2AOATP/
-         DrPPgjOHGoE1Lr1OnEdMowbJGJzTdAetok5C7YRsFx1fc01VaWiws/Wrb7zPD6Vy45hV
-         NK3pToWHf8P2kZlIll1fBNrPqC0ZTSYFmqpLptXGZAyebj/s6ajGJYpzYa4ROp6HlRna
-         3ZAlMLfsfYBN+WHQJqxhmMR6xgHBYVsZBU75k96u5dGm75P0fFai/iI26nDkd1mpiHsW
-         UNVw==
+        d=gmail.com; s=20230601; t=1762156504; x=1762761304; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QX9EpicK1kmDyEDBsOzwExi+YjHk71IsQgHccPkCOpk=;
+        b=aJkzWC3c8RBE+jleLoK5MIQtNNcS1wSO4A9Zu3Lrlnv/kQ+vkpseKOI3HDPTUf3gBd
+         QIYgpnbStz6DLUxaoiLHaxeS75v2gEu5m4WHvGSg5adWfVbuKCMF2VNVjY51WcHXu7zi
+         y8szncgFC6FkFZ1ZkwOJwkbbD76gzGaPrL+iH7GLbukau+OOhG1vjfBKX/ha1YG3U+Yb
+         2As5YQnGphrUvqtzi9NOA01UReOjzZrmyRmlJTjPWLSueBp7llHuA9S4SIEUfqfxqVDt
+         7vfKLokXGRNpA+n/yvN3chkPwhCAuK8LVK76S2mCYo0S9H8WBFw53RTjsy3LTxfJqN8V
+         OjtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762149367; x=1762754167;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ySAXejUoNq76L1FW98+NXykq6E7oItJRChqh2DI4aaw=;
-        b=Y4tEL9mw/X99Qzb3JOsOfD/WJF8n4kFnLi8Dfl7vV6KdDQbVA0qC+G+xw/m1TTdFu8
-         lKoPgixX9FtV1xXHojXZQ3C7N8miaswi2d2gJXusO2h4FLvywDUD3MYfuEdOSlTGt1z8
-         ZxfGXkwGJ0RaWQC6F3Vy9gNulu3Lmwg37vXsAaOWw0NKeeen7AbWusC9vTQdqEzI9xz5
-         /lTK7L6HarN/3np62CunX2EfqP/hy6VgfoUMWSrtipgFq7vp8UBkZTycYqoK9zYwtBq/
-         UXpw/IUHGfz/A2Y1z+hlY1x3kIzJdUmoNh5+Kive3IAsEObG4ZaHEdzGZuTPBZvv1QhO
-         offA==
-X-Forwarded-Encrypted: i=1; AJvYcCVsHNjDVeIOxnAeZIia6XvkjVEmSBiHEKgVctKIPVR41ctw8NpX2s9AuVtB3attJqTRrXgMDaFEOjWEl5B6S37CGo32XQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yym9k6FaeGvs88N7gvmnd0oSBr6LG50zkauP3TFRh5SMtJ05ooY
-	ScyolGD5vEHqI9Rd9p4Lwc93ZMEdJu65auSIMCpFvIIIXfOF+TwT8BoKHX9NIoCRGwKw2uVzZqF
-	U75Z0+JN0O7HAYqW6KIi/GXxDLkB00/PcbkmO
-X-Gm-Gg: ASbGncvxjBoEet6qpPALU2VB7T8rqtZYGEw9Uk1EuWBCIDOiLBi60VHSPrnNxHiFpIV
-	xsXFiqq81jJOyfkbBBzElF7nZSkvzTT1U2FWlYJORKb+OXh/Eardy1mvXovaU5RCxVW/3qjbSF5
-	DuVFAb8X0ErmDjQuQeRlTmF6nXS1BmdRA6V02gXuDv6nE9hBjJd+ADEOPzbl060XTTjc8qGl4GC
-	Xkly1HT9m4ZlxqaCAeW1kes7Rco4QWgPmQFWXOrNS2MQX2xPGhZ4MM7jWh/Za8e1TW2y+FM
-X-Google-Smtp-Source: AGHT+IHz1WqkJLOQpAsugUSR9cfTeJQ8hKAkloJI+TOdjd0I04a3WY4GgJThMDp9IKVL0MBacyB/e/dDtgeh3QWSt4c=
-X-Received: by 2002:a05:6e02:1566:b0:433:3487:ea29 with SMTP id
- e9e14a558f8ab-4333487eb72mr651165ab.6.1762149367038; Sun, 02 Nov 2025
- 21:56:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762156504; x=1762761304;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QX9EpicK1kmDyEDBsOzwExi+YjHk71IsQgHccPkCOpk=;
+        b=vNLQGchl7nOU7JhS284xvbIHhGcEhJno0WGvOaKgtI7NShm2eAeBTue/AQBNxnYDxZ
+         Wz08zc1op51a36/JE6/G8a68o+JVNyIxShnyO3iur0dU/Mq/ZKaTOTyWo64DMUh7ChMZ
+         BNhTS75oGZMWaZK2Bdla9HbGZqFd44dcLhVFkQ0O9ZOg6rHoXcrbtxfFvvqCP7dgj9AM
+         SzCjyRft9iL8bowpE5KMjCIDh2i3N3DgQiieuCl7EwCmjAPHnEdzvZ4UPDXJjRiDqEKx
+         wmxLuL0E93RMhN+O2N4s33cSs3tTlXgLdt9HnpNoCTIqK0wKxt43N3ZeK5xaJisw9+J/
+         c2jg==
+X-Forwarded-Encrypted: i=1; AJvYcCW5A+d8OVVPLciA5nLaYJFC8ztTijs/+ZkugvVY7lz9BcFUJuc+J2dtdxuTX33v/upL0qACEX1D2IxKmmi11yPOeRLkdA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzpA2zUFiG585GpgzLk9WiEpfxfLZK3nJk4Bf7m08MTaewYTk82
+	/ccJjiMbG2xn6NTbvnjUdhfSu5DhUNkuA3Zve2vElqBXjA4Ni/zvJUx7
+X-Gm-Gg: ASbGncuD49C+F13ZyP037CC/IX4lc11B391MuDIVv5kP9Vq4vwHmHFJzTWmie6xBzk3
+	mBkCgQoKCVD6GfNv5ge3RMkHgHYTwjjrgeMtD6R7jGMvUremILvVXy34AQzKB6C/ZZeYrrZ6lYq
+	Piozz3L6w/qqSPzLd42+zzNoDh3Q+NNob5WBJyVU/mikGuKboJL4KFEIRM7QtljA+3wRxMBLvmU
+	poQJt7xn7ycYU+gmzNN1z1VHHLuY16lcR91mdnM6SZD91QGsH2YlCi/eNWFLKXNPVLbo3qY5RSe
+	MOP4PovpBovWc3zlSLgaY+S+X2TWyyYkalNFzCZlMH7UM+AxMmp3MP4lS4iAmUwJkmds5ag6l4w
+	7o8oKnjOtOOURHGg/LFqUTNxFgWZljbRbxkjZVpQ6SOdceJb69RFbK5tE7zB2WuFINGOawdWGLB
+	6h0C7BVVnv2lkP6VPAUjQF9w==
+X-Google-Smtp-Source: AGHT+IFyHdL5vinzqBP7jHakygrAZQoPQph4ogdXR370JssBAjuF23hFYbiA6u4HtF1rj6X+jdGEDA==
+X-Received: by 2002:a5d:5d02:0:b0:427:9d7:86f9 with SMTP id ffacd0b85a97d-429bd6a8f88mr9630526f8f.47.1762156503565;
+        Sun, 02 Nov 2025 23:55:03 -0800 (PST)
+Received: from localhost.localdomain ([46.10.223.24])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429c1405fffsm18688238f8f.45.2025.11.02.23.55.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Nov 2025 23:55:03 -0800 (PST)
+Date: Mon, 3 Nov 2025 09:55:01 +0200
+From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
+To: Chao Yu <chao@kernel.org>
+Cc: jaegeuk@kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
+	linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org, 
+	syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2 2/2] f2fs: Add sanity checks before unlinking and
+ loading inodes
+Message-ID: <pcxf66ac2yjkqyvhb6xgbk6jiihcejuncgbblkewz6rs7i5uzt@m6yjin7t67is>
+References: <cover.1761993022.git.zlatistiv@gmail.com>
+ <55522ef8f3424e563ff18a720c709dcb065091af.1761993022.git.zlatistiv@gmail.com>
+ <ea38e464-a28a-4b06-8046-5b62f7172875@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251015094117.535157-1-rk0006818@gmail.com>
-In-Reply-To: <20251015094117.535157-1-rk0006818@gmail.com>
-From: Rahul Kumar <rk0006818@gmail.com>
-Date: Mon, 3 Nov 2025 11:25:56 +0530
-X-Gm-Features: AWmQ_bmsn8XGUapnm_MiE-Vh-5KxCGmgAdRjXmPAKJIrnxfKalBNNin0FQp-UH8
-Message-ID: <CAKY2RybBidcyMtUY8mwyT=F2e5f=HT9HR6JXmgz+UyU6_S3kUQ@mail.gmail.com>
-Subject: Re: [PATCH] firmware: stratix10-rsu: replace scnprintf() with
- sysfs_emit() in *_show() functions
-To: dinguyen@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ea38e464-a28a-4b06-8046-5b62f7172875@kernel.org>
 
-On Wed, Oct 15, 2025 at 3:11=E2=80=AFPM Rahul Kumar <rk0006818@gmail.com> w=
-rote:
->
-> Replace scnprintf() with sysfs_emit() in sysfs *_show() functions
-> in stratix10-rsu.c to follow the kernel's guidelines from
-> Documentation/filesystems/sysfs.rst.
->
-> This improves consistency, safety, and makes the code easier to
-> maintain and update in the future.
->
-> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
-> ---
->  drivers/firmware/stratix10-rsu.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/firmware/stratix10-rsu.c b/drivers/firmware/stratix1=
-0-rsu.c
-> index 1ea39a0a76c7..53c896ceca9a 100644
-> --- a/drivers/firmware/stratix10-rsu.c
-> +++ b/drivers/firmware/stratix10-rsu.c
-> @@ -454,8 +454,7 @@ static ssize_t max_retry_show(struct device *dev,
->         if (!priv)
->                 return -ENODEV;
->
-> -       return scnprintf(buf, sizeof(priv->max_retry),
-> -                        "0x%08x\n", priv->max_retry);
-> +       return sysfs_emit(buf, "0x%08x\n", priv->max_retry);
->  }
->
->  static ssize_t dcmf0_show(struct device *dev,
-> @@ -632,7 +631,7 @@ static ssize_t spt0_address_show(struct device *dev,
->         if (priv->spt0_address =3D=3D INVALID_SPT_ADDRESS)
->                 return -EIO;
->
-> -       return scnprintf(buf, PAGE_SIZE, "0x%08lx\n", priv->spt0_address)=
-;
-> +       return sysfs_emit(buf, "0x%08lx\n", priv->spt0_address);
->  }
->
->  static ssize_t spt1_address_show(struct device *dev,
-> @@ -646,7 +645,7 @@ static ssize_t spt1_address_show(struct device *dev,
->         if (priv->spt1_address =3D=3D INVALID_SPT_ADDRESS)
->                 return -EIO;
->
-> -       return scnprintf(buf, PAGE_SIZE, "0x%08lx\n", priv->spt1_address)=
-;
-> +       return sysfs_emit(buf, "0x%08lx\n", priv->spt1_address);
->  }
->
->  static DEVICE_ATTR_RO(current_image);
-> --
-> 2.43.0
->
+On Mon, Nov 03, 2025 at 10:35:17AM +0800, Chao Yu wrote:
+> On 11/1/25 20:56, Nikola Z. Ivanov wrote:
+> > Add check for inode->i_nlink == 1 for directories during unlink,
+> > as their value is decremented twice, which can trigger a warning in
+> > drop_nlink. In such case mark the filesystem as corrupted and return
+> > from the function call with the relevant failure return value.
+> > 
+> > Additionally add the 2 checks for i_nlink == 0 and i_nlink == 1 in
+> > sanity_check_inode in order to detect on-disk corruption early.
+> > 
+> > Reported-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=c07d47c7bc68f47b9083
+> > Tested-by: syzbot+c07d47c7bc68f47b9083@syzkaller.appspotmail.com
+> > Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
+> > ---
+> >  fs/f2fs/inode.c | 10 ++++++++++
+> >  fs/f2fs/namei.c | 15 +++++++++++----
+> >  2 files changed, 21 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
+> > index 8c4eafe9ffac..089cbf3646f0 100644
+> > --- a/fs/f2fs/inode.c
+> > +++ b/fs/f2fs/inode.c
+> > @@ -294,6 +294,16 @@ static bool sanity_check_inode(struct inode *inode, struct folio *node_folio)
+> >  		return false;
+> >  	}
+> >  
+> > +	if (unlikely(inode->i_nlink == 0)) {
+> 
+> This is a possible case, as an orphan inode may exist in filesystem after sudden
+> power-cut.
+> 
+> Thanks,
+> 
 
-Hi Dinguyen,
+Hi Chao,
 
-Just following up to see if you=E2=80=99ve had a chance to review this patc=
-h,
-or if there=E2=80=99s anything more needed from my side.
+Do you suggest that it should not be wrapped in unlikely()?
 
-Link to v1:
-https://lore.kernel.org/all/20251015094117.535157-1-rk0006818@gmail.com/
+I also now realise that I intended to wrap the "else if" case
+as well but I've missed it in the final patch.
 
-Thanks,
-Rahul
+Should I resend the patch with both cases wrapped in "unlikely()"
+or would you suggest otherwise?
+
+
+> > +		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
+> > +			  __func__, inode->i_ino);
+> > +		return false;
+> > +	} else if (S_ISDIR(inode->i_mode) && inode->i_nlink == 1) {
+> > +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
+> > +			  __func__, inode->i_ino);
+> > +		return false;
+> > +	}
+> > +
+> >  	if (f2fs_has_extra_attr(inode)) {
+> >  		if (!f2fs_sb_has_extra_attr(sbi)) {
+> >  			f2fs_warn(sbi, "%s: inode (ino=%lx) is with extra_attr, but extra_attr feature is off",
+> > diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
+> > index 40cf80fd9d9a..d13077bad482 100644
+> > --- a/fs/f2fs/namei.c
+> > +++ b/fs/f2fs/namei.c
+> > @@ -572,10 +572,11 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
+> >  	if (unlikely(inode->i_nlink == 0)) {
+> >  		f2fs_warn(F2FS_I_SB(inode), "%s: inode (ino=%lx) has zero i_nlink",
+> >  			  __func__, inode->i_ino);
+> > -		err = -EFSCORRUPTED;
+> > -		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+> > -		f2fs_folio_put(folio, false);
+> > -		goto out;
+> > +		goto corrupted;
+> > +	} else if (S_ISDIR(inode->i_mode) && inode->i_nlink == 1) {
+> > +		f2fs_warn(F2FS_I_SB(inode), "%s: directory inode (ino=%lx) has a single i_nlink",
+> > +			  __func__, inode->i_ino);
+> > +		goto corrupted;
+> >  	}
+> >  
+> >  	f2fs_balance_fs(sbi, true);
+> > @@ -601,6 +602,12 @@ static int f2fs_unlink(struct inode *dir, struct dentry *dentry)
+> >  
+> >  	if (IS_DIRSYNC(dir))
+> >  		f2fs_sync_fs(sbi->sb, 1);
+> > +
+> > +	goto out;
+> > +corrupted:
+> > +	err = -EFSCORRUPTED;
+> > +	set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
+> > +	f2fs_folio_put(folio, false);
+> >  out:
+> >  	trace_f2fs_unlink_exit(inode, err);
+> >  	return err;
+> 
