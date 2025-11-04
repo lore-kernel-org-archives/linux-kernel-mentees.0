@@ -1,116 +1,135 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F352D978B
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  4 Nov 2025 12:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6387C32E694
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 14:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762258600; cv=none; b=H1YfNKUwJaOnS2vZKWOEnVaPmNTjNMOc0r0OSMS7V8/fTKuu4m0YSmXWbo8TXnTu6om2bftywKb8db4CSQpzVDLqDxteAgfs2ueeJ2A5OG1eSyArb99ukwiITI3V2vQIg5/W6iL0oLFRp8vctor2dMhyWBN5pYIF0vi7x1x9mKY=
+	t=1762267132; cv=none; b=A01g1dGy55tx8If2wZnN9jLUJa0HPsFjCqcTh7KdIpteN0mFeg/OgNzYhGcxbMT3dhNWPCMlTISLpbuzcu8McDbpAFJKa6x9D2IwuQ9npeJUn7qQW2LJYUFTkHqmuV29xsyJHMVkfJniG3sZuQ8O5soF8I9G9bvYUkruKhA4agE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762258600; c=relaxed/simple;
-	bh=KmF1ild1xRClyDBcecZ5U1luwkLXb/wS/QXdRFfIuPM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s/JhVtKxm+j8e1M3IXH007kNhEU10YE7NLJOtSuuCWtTnhDx2FJyABPzncujGWBkmEANkyiLJ//lvkSXA/CDgGA1nvrC2KefUuSqKtVmp3v5kIQRI5xguzAg3n5ZdD0NJhiZ1h6rZwFXFh7SVoGJ9DHDJd0iwPc6yRaNXWXVnvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FK9Xfuhw; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762267132; c=relaxed/simple;
+	bh=IUBKiutzmvLXwVOUYKg7GKMMhHwoEreFMF1fIDx7Th0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vGuYBPP2R0xj0h9gxeDcvlxU5D6A8n/xmYLDEWVSZ9hCbNLeCZkIkCdH3BonQnJPZVgJGKYl7a2rThMc7I+omEvKPTgEXyoUk3wswj7Jqad/+uTqLKSEkIRLzdIGv+yKuVR9lf29BUXPs3TVCumoMnssdkExO6AIw7w2qBGfV6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lzOWRZNE; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FK9Xfuhw"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-27d3540a43fso53839575ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 04 Nov 2025 04:16:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762258599; x=1762863399; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qm65bXeCJn5pnj+/OO3CyTJYCu+x03vH4a2TBarzblA=;
-        b=FK9XfuhwFpq9TiSJ5Dda3IXEdNWh9Zhwp8c94rX+EB8SV6vHKyalnrpQ5kMaeuAyec
-         sRJkzTFLNfztpOUqE8sqjykr0fsAP4kK2y8Lu2qCC8iT21ICWzYf0dqKHKq893Y+tcP0
-         Y3Ad3/T6hAW2yVE0vMvH7JXiH01R8EePBNUSMZDu+eD6ZlIvK2oxQ66Idrr2nGUk1s8v
-         W5aUA/sx2FziEQufNgbzOBv6A/cosLAQjEOfsKRrKXyACNmHpghaz0LSwSzwgOuKd1lB
-         y4Mm/N4a+jqGz9mpjRh7d4a3dA+NAVYeCGgkaRVNBzVOnO/WUssE4F2RE9YBGMGS53tU
-         V0cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762258599; x=1762863399;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qm65bXeCJn5pnj+/OO3CyTJYCu+x03vH4a2TBarzblA=;
-        b=ZnhgJlOZVaG3SNHKGNnnkhKikEGBuPqBFn3F6I5OJgm6Rw5UbNNN0qr0zabIT9V34y
-         rbdGFrUTlKsnbo0z3h5kDu833ZXl36ovLZmCRHw3RNuHJn1IRfu2TTWn5NbdhDh6r+OA
-         O0clVxCPvsiBrSuv34QelRTpCoZUBSxm3fXN1vaoFndOpW3XAU5oShPpz5eIhW1a4h6o
-         ENtCYEptTsvR/Ao23TC3vxqshjfeTiryVJsMy9x+uR+fxnVUJpF2XXDoYvMfc3yxqaDQ
-         ACaPU1T4z87qIjopXp12WGdTOPk2UpD1uiJdnPeCwz2Uc1yBiq0kx6P4j3R7q9DA/L/w
-         OU3g==
-X-Forwarded-Encrypted: i=1; AJvYcCW49XuelQpWx3RNuJ3NU8rO4hc7RjwyXqpkpsKfSXT4bBYBhjnwH7jrPYzia//P5WImpSWkI4nHoee+Fs0mJzA/ZpdOsw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWhlw7azgGqKi7fAQMupRGS9jrz+x4kON8Xrt45lunWDAz60Ls
-	wAGG36WYgx5xAdx4bJsFLHVV44Rru8H9qYNnryeBRRCrcNR/KYjKLneL
-X-Gm-Gg: ASbGncvsxwn6RjnZOVFGbMsHUuUSmY72AIvudWzyEZwc7EDrEz8YcMq4WhSHhtGT4sK
-	eBke3vprBUI+Y3EOqqTG5w6oI2+6cal/ywDBYL1W4hzMKIZvyhM7yIqqCUNyc9hCDXm3OciMeIw
-	x2g9iBUQjqNgl2PiIGMtT6W9yvocHn+6kxQCSeRcLV29k3otwRUnqu+GgPmvWHzNKEeu/yoEykE
-	guoNwAktSvH4ojue7XIxARH6CtE95x3pUNAxi2QKH/KDSkpM6jTMZ2RmRc0z7jEd8i2QM3aKqcR
-	5P4W37hQMNtbA2OJYMs5kKdGKSHD4kVWBbdfB0Z5oTMhjMCB/GuRozpFV99dDUQ11cwqKuUSAc2
-	vd/6wtZCxSRh8RTGZRrwNK+YA8x12CkI74Mj98W+UYZs7puLE+1AAWeSnMkQazIjGDbfwlAuYwe
-	hj6O5Ay3lvu7AjyQ==
-X-Google-Smtp-Source: AGHT+IHWfL9ukqE2uuV3u9mjGfvafGL1d6Fs8/ftcpn2dBlsfCsDaAEiDNRs1yYtV7lZN1i+KrcEew==
-X-Received: by 2002:a17:902:d486:b0:295:c2e9:604e with SMTP id d9443c01a7336-295c2e96112mr68237335ad.51.1762258598598;
-        Tue, 04 Nov 2025 04:16:38 -0800 (PST)
-Received: from localhost.localdomain ([165.204.156.251])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415a1c2e69sm4436715a91.6.2025.11.04.04.16.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 04:16:38 -0800 (PST)
-From: Rahul Kumar <rk0006818@gmail.com>
-To: kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com
-Cc: linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	rk0006818@gmail.com
-Subject: [PATCH] drivers/hv: Use kmalloc_array() instead of kmalloc()
-Date: Tue,  4 Nov 2025 17:46:18 +0530
-Message-ID: <20251104121618.1396291-1-rk0006818@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lzOWRZNE"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 18ABB40D16
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 14:38:51 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.792
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id bvXnkLjW_YYS for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  4 Nov 2025 14:38:50 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 75E3440D14
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 75E3440D14
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=lzOWRZNE
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 75E3440D14
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 14:38:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id AB278446FE;
+	Tue,  4 Nov 2025 14:38:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89BDBC4CEF7;
+	Tue,  4 Nov 2025 14:38:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762267129;
+	bh=IUBKiutzmvLXwVOUYKg7GKMMhHwoEreFMF1fIDx7Th0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lzOWRZNEIek+5LdKVsqfQo1jc2owXfttewyvj2rg4AwX3fulUNBLOdBNvV3ShmizL
+	 PcbJ35u+4HdlS4C3HH/urvzIhxDr4lz42fP9fj17iMmtzF7gFcAumZyYCdoSEWRwVH
+	 XpHXqee9vrTJWIRZWKBcvHJNxrFKQuqLUUrGD+R8m/SK56I3coLDQyHbZgDITTE4iW
+	 cVXpsoHd7FQ2C2FmBqoDA5pIXe+Gwt1hd/fJujBZBsIKXvaXPu2eMbP5LPKnvSdl86
+	 RXRsT8+egz9UPVcu/IyE/t2DIfi5YAgJ0TXPnl3HYtClJMh3A1dfjQrFlSbFQwNgn8
+	 jBgZIyyrchDjA==
+Message-ID: <14281b17-e066-445e-84e8-771e387904b5@kernel.org>
+Date: Tue, 4 Nov 2025 15:38:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7] ASoC: dt-bindings: ti,pcm1862: convert to dtschema
+To: Ranganath V N <vnranganath.20@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ david.hunter.linux@gmail.com, khalid@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251104-dtbs-v7-1-224aacb09671@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251104-dtbs-v7-1-224aacb09671@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Documentation/process/deprecated.rst recommends against the use of
-kmalloc with dynamic size calculations due to the risk of overflow and
-smaller allocation being made than the caller was expecting.
+On 04/11/2025 11:34, Ranganath V N wrote:
+> convert the Texas Instruments PCM186x Universal audio ADC bindings
+> to DT schema.
+> 
+> The PCM186x codec provides a single digital audio interface. Therefore
+> this binding adds a reference to dai-common.yaml and defines
+> '#sound-dai-cells = 0".
+> 
+> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+> ---
 
-Replace kmalloc() with kmalloc_array() in hv_common.c to make the
-intended allocation size clearer and avoid potential overflow issues.
 
-The number of pages (pgcount) is bounded, so overflow is not a
-practical concern here. However, using kmalloc_array() better reflects
-the intent to allocate an array and improves consistency with other
-allocations.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-No functional change intended.
-
-Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
----
- drivers/hv/hv_common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index e109a620c83f..68689beb383c 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -487,7 +487,7 @@ int hv_common_cpu_init(unsigned int cpu)
- 	 * online and then taken offline
- 	 */
- 	if (!*inputarg) {
--		mem = kmalloc(pgcount * HV_HYP_PAGE_SIZE, flags);
-+		mem = kmalloc_array(pgcount, HV_HYP_PAGE_SIZE, flags);
- 		if (!mem)
- 			return -ENOMEM;
- 
--- 
-2.43.0
-
+Best regards,
+Krzysztof
