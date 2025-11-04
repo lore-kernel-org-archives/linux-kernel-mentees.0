@@ -1,132 +1,300 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF3F2BEFED
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 08:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6AE1E868
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 10:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762246784; cv=none; b=KYvI1zNZa5QvVFVjESktzXc+hZZvoYkIlYrtz8CnK0igLcyzrJOAQTfOXj0SVZwtP6eFgfVmLWwafOF1QUmeuQ6wKnXcFFhz5YTGCYVRwWHjwcp7MqrSyvOlGx51KZkH+jZQT10wPA8c8IxZtZjHgPlIJZgjHb54p78RgB/wQ0g=
+	t=1762252508; cv=none; b=Ep43Ygx1ycXzq/5cL8bGdxL9CjCoA9dAfEaRlJzWAaKydOkuhUlUyNfcS8NGx3VovV5HA9AJk/SRp78nee+2/XWzpMMmAU2KbSrX+RyAEPPgVVqYClUxcH1xo7p50E0u73AOqb64DaXy7z6pvJpBoa/CY6UWT8F69cGZe69Ni0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762246784; c=relaxed/simple;
-	bh=wagiKwGQOxHtGj4unkd8nLWuOwQyfBUNKlaHsKfSGEI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DNhWqI/lxjEvxW0IPdKdUgW6dRkrzuZbhcMwW+mU0JyOs4KX6K/PpX9nhmovxF+KTa6Sr+JhoplTYza+61JihlzNOKFSz4ziBv2PYJ/Dfs4IYkwvbStC6lfNQrj/JE5amt66la/F/NeMY51iTks0EFcU/JQYaGhM/O1CuTNmKIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pwWcm3X3; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1762252508; c=relaxed/simple;
+	bh=xVTUdynUwOEfXOlM6iD7wg5Aog37SJxR0DlPuRS1e6E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DzLlg+5BR0J2Sv9unYXMcppZ26S54aUf/NThvMjrBFaQpX7/cKJElQZq6QcoUUstkpJkTamJP8GxsVUAeFtZ9Wvp7ruEQvgGYudrGYKbA8lbX4+59OMWdcGV+ZZAT9MtFwMTTA9H6rqzsNAQYNlOHV109TCZIx2nMDe9jvma0Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KtnyYQx+; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pwWcm3X3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KtnyYQx+"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C2DFE80DAE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 08:59:42 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id E090F40889
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 10:35:06 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.101
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id lDN9SdKb5U6Q for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Nov 2025 08:59:42 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=krzk@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 03B8F80D80
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 03B8F80D80
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pwWcm3X3
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 03B8F80D80
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 08:59:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 9D20B601EF;
-	Tue,  4 Nov 2025 08:59:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93468C4CEF7;
-	Tue,  4 Nov 2025 08:59:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762246780;
-	bh=wagiKwGQOxHtGj4unkd8nLWuOwQyfBUNKlaHsKfSGEI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pwWcm3X3ttlWQ95VSYmoLboGrozQS2qSAcfkDxwil2P8XIsQwh+7YsJybtR+Knq1l
-	 m2nxP0wcvmMBFE8FWV2hlwHXtR/5//IAXMTLucQ6UIoTAKGzwwmhKAyu7iRmVaBJTz
-	 gp2pwMg5FdPqph9z5N0WUj2DlWIzC1nygT9OLMJfLdmzzXamaM4bAYMUlMLl/uzbWB
-	 5H3elBY3S2HNGne0A0I2ATANHr+BBVUycfHixTEGAa5hJ1I3gViv25joWUAmUYvUIk
-	 wUbPZBJNQSwHEh/8hnzwEWMVlzYD/9rL8GvNAbQcOTwy4pUVsSsyvbWXfA+wxSC9pm
-	 Dc6Cf+ZR6zBVA==
-Message-ID: <675c80ab-1ecf-4354-93cc-3e6d6500e98a@kernel.org>
-Date: Tue, 4 Nov 2025 09:59:35 +0100
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id tb0Il9Vndz-w for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  4 Nov 2025 10:35:06 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42e; helo=mail-pf1-x42e.google.com; envelope-from=vnranganath.20@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org E99F540828
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E99F540828
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=KtnyYQx+
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id E99F540828
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 10:35:05 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-7ac10f4ce46so105210b3a.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 04 Nov 2025 02:35:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762252505; x=1762857305; darn=lists.linuxfoundation.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=S1ADCCgwMEU/f2OqLSByXu6fQ7rnsCgcBrI977wEgzQ=;
+        b=KtnyYQx+SvpmIrqRe+4HsgUxP6VXb4NXuj2vKpYPyJb5ERdsduJHfaGoTfqw6NzHyL
+         kvm/jm4511C8nxqvu4YoC1JYYfhVlXlFiwiKrGkCvFgFwXrX1CeKxjslUDTulhV8MV+n
+         7eStQYUEi94u1UjfaKp7EfciwpsQX5L/JxbcDnRJtTF3Il5cnF0dzOarvNb1j194CTCf
+         zfKoYQg13bGG/MhP5cSf5WBGeppWrdEoRhfQwtS2f+6X3kunKr6TxNKVyh6dsZEm1t/e
+         8Vm5z8MPi1R/lqL55uE+DGzBISglh+YL+f7Y7xzEm05ARKAnFvhlgHhpyZfsQTcuFfF1
+         YQyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762252505; x=1762857305;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S1ADCCgwMEU/f2OqLSByXu6fQ7rnsCgcBrI977wEgzQ=;
+        b=osIKvsDH8zyNmgw7Bj2i2A5J23gKjkTOGFMGyj5wgdN8qVEALOdFLvRaEEl+AXBQPn
+         cp/y51Yxs1/kqwny2/SuucsdaljvdCezUz+NDdqLK5TwNTSUZKhRXTcH4gxMuNPn1Kst
+         DAtTejoOQsPV10SDkzoUktuOsJar5NBgYj5zwWOZCZEgHw1MHZPMB9Rtj3jiO12X9+Aa
+         8XTNj3F05DN05TkJZHIwv24vV36T6JWrbqwcRmexvwknwvLXJu+cQpvzdV0MkxDyjmtW
+         5nyGLQx5zeLVdjvHQF3jkhlApRHowN2+NGjLh6v5GdjeBH3Z8lUnilFvQiSqW8gJ90CG
+         qxaw==
+X-Forwarded-Encrypted: i=1; AJvYcCURDgKk2M1O9YXDGmZNEToNpXu3jt55ca4LdHmDidXEyR7BYilHoqQO5mvdSggFzHqS3tC/wjxqGXQ3THZIyyndZKVeuA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzGV7XX4Yuwwl/3gTr7+K6ewNV3zuH4I7grrgRZvTuly3Y6GSR1
+	11w9TUh6RBz25MH1ToixrLq6Ych+zExhRtu3J8EJYBSNfM0T473Rv2hI
+X-Gm-Gg: ASbGncsN08iToFBXORzU8pPI0OpH7hZoJm3y+UZy3EX2zX2ADL/VzRSYM10zRsuoHxL
+	LcJuFGBq/eGHzkfT4Qfu/YDfadzxQCHJVeR12VBBrX0tVUHN8vMdBOQpkHhK+lTVlImDgVXXlWR
+	F/xVvmrp9Krv9dMqSp7kQ5uzC8RGLJKWPjmxH99PmCKBoAHxA5BwExStqWe1ev32uAoXizW6C8W
+	QrzC6X4wcCf9viiPgIYEcGa+dkjjMmmLcGbWxR1DdLul1+T+SRfAr0fCkiKwcR1PfAyUih7Ue46
+	t2PIKOzl5iKcgCUuftD8D5MsYQVymMuNWMvaRrIkag4WIUJRCLZQB/gtwVLZ4Xbom1Iu3wP9pLA
+	lE1gbDANmGe744jIeVUvSwyAJNWJtGq0NdeKPqxlp7qr0cbc/jqjnIPETmncNK2GDD54YrHpqYA
+	tWrM3+VSWqORaUqMcxr3dGG+7uy6T8Ls/mt2GhYEJgbA==
+X-Google-Smtp-Source: AGHT+IFsh7k9STXZYBzLquZcu0MKMS+wH6vwL5dwBse+AQsFd2xiBPwyq+sQRgoRibmDakJEyHIc0Q==
+X-Received: by 2002:a05:6a21:1519:b0:345:3ef1:b477 with SMTP id adf61e73a8af0-348cd4123f2mr11280556637.6.1762252505088;
+        Tue, 04 Nov 2025 02:35:05 -0800 (PST)
+Received: from [127.0.1.1] ([2406:7400:10c:9fcf:2909:749f:36f6:6b85])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ba1f2a80459sm1952010a12.15.2025.11.04.02.35.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Nov 2025 02:35:04 -0800 (PST)
+From: Ranganath V N <vnranganath.20@gmail.com>
+Date: Tue, 04 Nov 2025 16:04:58 +0530
+Subject: [PATCH v7] ASoC: dt-bindings: ti,pcm1862: convert to dtschema
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] ASoC: dt-bindings: ti,pcm1862: convert to dtschema
-To: Ranganath V N <vnranganath.20@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com, khalid@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20251104-dtbs-v6-1-61d5afa31fde@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251104-dtbs-v6-1-61d5afa31fde@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20251104-dtbs-v7-1-224aacb09671@gmail.com>
+X-B4-Tracking: v=1; b=H4sIANHWCWkC/13QwW7DIAwG4FepOI8J20DLTnuPaQdioEVamylUU
+ asq7z6oMi3j+Fv+fsl+iBKnHIt42z3EFOdc8nipYf+yE3zyl2OUOdQsUKEBhSDDdSiSPEGyzrG
+ 2IOrq9xRTvj1rPj5rPuVyHaf7s3WGNu0KZpAgtSMG79HQwO/Hs89frzyeRSuYcYvsirAiDjTsg
+ TweDrFHtEVuRVQRMYNFRGDEHukNIrUi3VBKiRoCcD0yW/R7k6koRgisBkxeqx7ZPwRKr8hWZCE
+ Yn9pPw7+blmX5AfBnhLuhAQAA
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+ david.hunter.linux@gmail.com, khalid@kernel.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org, 
+ Ranganath V N <vnranganath.20@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1762252501; l=5567;
+ i=vnranganath.20@gmail.com; s=20250816; h=from:subject:message-id;
+ bh=xVTUdynUwOEfXOlM6iD7wg5Aog37SJxR0DlPuRS1e6E=;
+ b=geYToZPDBy5tyXIRvlqHX9s3GXu8IEe6Ozo1EFpJWtgfnErpCnfgBIcsITPv7ZI6sTwYACG7s
+ Hwp/JaY/W4cA6BMHrhALuvo3E+m04WWneC7t62yWM6Ur2v9LU9ApuwA
+X-Developer-Key: i=vnranganath.20@gmail.com; a=ed25519;
+ pk=7mxHFYWOcIJ5Ls8etzgLkcB0M8/hxmOh8pH6Mce5Z1A=
 
-On 04/11/2025 09:52, Ranganath V N wrote:
-> convert the Texas Instruments PCM186x Universal audio ADC bindings
-> to DT schema.
-> Added the #sound-dai-cells as per the framework.
+convert the Texas Instruments PCM186x Universal audio ADC bindings
+to DT schema.
 
-Last sentence makes no sense. Framework tells me nothing about the
-hardware. I actually do not know what framework you are talking about.
+The PCM186x codec provides a single digital audio interface. Therefore
+this binding adds a reference to dai-common.yaml and defines
+'#sound-dai-cells = 0".
 
-I gave you hint how to justify a change in the bindings ("If this is
-DAI, then you miss ref to dai-common and use").
+Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+---
+Convert the Texas Instruments PCM186x audio ADC bindings to DT schema.
+---
+Changes in v7:
+- Commit message as a junstification to add the '#sound-dai-cells' 
+  to the new binding.(Krzysztof)
+- Link to v6: https://lore.kernel.org/r/20251104-dtbs-v6-1-61d5afa31fde@gmail.com
+
+Changes in v6:
+- Corrected the Subject Asoc->ASoC, dt_bindings -> dt-bindings and ti,pcm186x -> ti,pcm1862
+- Updated the commit message.
+- added the missed Description from the old binding.
+- Link to v5: https://lore.kernel.org/r/20251031-dtbs-v5-1-ee1dc0b2fa40@gmail.com
+
+Changes in v5:
+- Resolved previous patch warnings/errors
+- dtschema/dtc warnings/errors:
+- /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml: 
+- $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+- 	 $id: http://devicetree.org/schemas/sound/ti,pcm186x.yaml
+- 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml
+- Link to v4: https://lore.kernel.org/r/20251030-dtbs-v4-1-3fff32221119@gmail.com
+
+Changes in v4:
+- Corrected subject dt_bindings:sound to Asoc: dt_bindings:
+- Corrected the filename to match one of the compitables in the file 
+- ti,pcm186x.yaml to ti,pcm1862.yaml
+- Link to v3: https://lore.kernel.org/r/20251029-dtbs-v3-1-3cc162221c22@gmail.com
+
+Changes in v3:
+- Unicode FEFF character was present in the begining of the file,
+- Removed unicode character.
+- Link to v2: https://lore.kernel.org/r/20251026-dtbs-v2-1-cd3b713a288e@gmail.com
+
+Changes in v2:
+- Fixes as per the reviews suggested for the v1.
+- Link to v1: https://lore.kernel.org/r/20251021-dtbs-v1-1-493c1aa253bc@gmail.com
+---
+ .../devicetree/bindings/sound/pcm186x.txt          | 42 ------------
+ .../devicetree/bindings/sound/ti,pcm1862.yaml      | 76 ++++++++++++++++++++++
+ 2 files changed, 76 insertions(+), 42 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/pcm186x.txt b/Documentation/devicetree/bindings/sound/pcm186x.txt
+deleted file mode 100644
+index 1087f4855980..000000000000
+--- a/Documentation/devicetree/bindings/sound/pcm186x.txt
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Texas Instruments PCM186x Universal Audio ADC
+-
+-These devices support both I2C and SPI (configured with pin strapping
+-on the board).
+-
+-Required properties:
+-
+- - compatible : "ti,pcm1862",
+-                "ti,pcm1863",
+-                "ti,pcm1864",
+-                "ti,pcm1865"
+-
+- - reg : The I2C address of the device for I2C, the chip select
+-         number for SPI.
+-
+- - avdd-supply: Analog core power supply (3.3v)
+- - dvdd-supply: Digital core power supply
+- - iovdd-supply: Digital IO power supply
+-        See regulator/regulator.txt for more information
+-
+-CODEC input pins:
+- * VINL1
+- * VINR1
+- * VINL2
+- * VINR2
+- * VINL3
+- * VINR3
+- * VINL4
+- * VINR4
+-
+-The pins can be used in referring sound node's audio-routing property.
+-
+-Example:
+-
+-	pcm186x: audio-codec@4a {
+-		compatible = "ti,pcm1865";
+-		reg = <0x4a>;
+-
+-		avdd-supply = <&reg_3v3_analog>;
+-		dvdd-supply = <&reg_3v3>;
+-		iovdd-supply = <&reg_1v8>;
+-	};
+diff --git a/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml b/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml
+new file mode 100644
+index 000000000000..0f0e254a2420
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml
+@@ -0,0 +1,76 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/ti,pcm1862.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments PCM186x Universal Audio ADC
++
++maintainers:
++  - Ranganath V N <vnranganath.20@gmail.com>
++
++description: |
++  The Texas Instruments PCM186x family are multi-channel audio ADCs
++  that support both I2C and SPI control interfaces, selected by
++  pin strapping. These devices include on-chip programmable gain
++  amplifiers and support differential or single-ended analog inputs.
++
++  CODEC input pins:
++    * VINL1
++    * VINR1
++    * VINL2
++    * VINR2
++    * VINL3
++    * VINR3
++    * VINL4
++    * VINR4
++
++  The pins can be used in referring sound node's audio-routing property.
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - ti,pcm1862
++      - ti,pcm1863
++      - ti,pcm1864
++      - ti,pcm1865
++
++  reg:
++    maxItems: 1
++
++  avdd-supply: true
++
++  dvdd-supply: true
++
++  iovdd-supply: true
++
++  '#sound-dai-cells':
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - avdd-supply
++  - dvdd-supply
++  - iovdd-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        audio-codec@4a {
++            compatible = "ti,pcm1865";
++            reg = <0x4a>;
++
++            avdd-supply = <&reg_3v3_analog>;
++            dvdd-supply = <&reg_3v3>;
++            iovdd-supply = <&reg_1v8>;
++        };
++    };
+
+---
+base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
+change-id: 20251021-dtbs-3a31f699c461
 
 Best regards,
-Krzysztof
+-- 
+Ranganath V N <vnranganath.20@gmail.com>
+
