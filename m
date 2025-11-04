@@ -1,300 +1,466 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6AE1E868
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 10:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856092D3755
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 10:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762252508; cv=none; b=Ep43Ygx1ycXzq/5cL8bGdxL9CjCoA9dAfEaRlJzWAaKydOkuhUlUyNfcS8NGx3VovV5HA9AJk/SRp78nee+2/XWzpMMmAU2KbSrX+RyAEPPgVVqYClUxcH1xo7p50E0u73AOqb64DaXy7z6pvJpBoa/CY6UWT8F69cGZe69Ni0E=
+	t=1762252979; cv=none; b=QcgNfY/lfjnsnD8vnqJvMt3W/fxYIWLq95ZFSXLu3rgtlx6qzvkClPzgQOjS57EIscPBJkOrBMo5aYILOg4quC0Xs0rBwWW3ASCODoEijRLI11pyfmdzwnOXA5ueiCvgXdnvvJdFV9gHrteT6MLtpxRw436zUmq8KPexyEo2baY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762252508; c=relaxed/simple;
-	bh=xVTUdynUwOEfXOlM6iD7wg5Aog37SJxR0DlPuRS1e6E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DzLlg+5BR0J2Sv9unYXMcppZ26S54aUf/NThvMjrBFaQpX7/cKJElQZq6QcoUUstkpJkTamJP8GxsVUAeFtZ9Wvp7ruEQvgGYudrGYKbA8lbX4+59OMWdcGV+ZZAT9MtFwMTTA9H6rqzsNAQYNlOHV109TCZIx2nMDe9jvma0Uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KtnyYQx+; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1762252979; c=relaxed/simple;
+	bh=/xif9iFChphzkZILfZnXqpD2LukMgwOvc6Fsw2eQ8SU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JEV2DiTguZkAMkdGFKx94ECPo0iJCcoiSQC842WcHD8nX3gnCLoIVsgnyz1btgDKOwG1opmYMs1bP6Q/9BOkUWEPOCiGGeYS6C+kKK+C7FGOezC4pe8ghlkfDoDhNpxbHx0DnBigW59U/dGQWL35l81+sXIUAGSe8MU8vk+Jvx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=ZfD9XVHk; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KtnyYQx+"
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="ZfD9XVHk"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E090F40889
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 10:35:06 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1703E60F3F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 10:42:57 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -5.791
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id tb0Il9Vndz-w for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Nov 2025 10:35:06 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42e; helo=mail-pf1-x42e.google.com; envelope-from=vnranganath.20@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org E99F540828
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E99F540828
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=KtnyYQx+
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E99F540828
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 10:35:05 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-7ac10f4ce46so105210b3a.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 04 Nov 2025 02:35:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762252505; x=1762857305; darn=lists.linuxfoundation.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S1ADCCgwMEU/f2OqLSByXu6fQ7rnsCgcBrI977wEgzQ=;
-        b=KtnyYQx+SvpmIrqRe+4HsgUxP6VXb4NXuj2vKpYPyJb5ERdsduJHfaGoTfqw6NzHyL
-         kvm/jm4511C8nxqvu4YoC1JYYfhVlXlFiwiKrGkCvFgFwXrX1CeKxjslUDTulhV8MV+n
-         7eStQYUEi94u1UjfaKp7EfciwpsQX5L/JxbcDnRJtTF3Il5cnF0dzOarvNb1j194CTCf
-         zfKoYQg13bGG/MhP5cSf5WBGeppWrdEoRhfQwtS2f+6X3kunKr6TxNKVyh6dsZEm1t/e
-         8Vm5z8MPi1R/lqL55uE+DGzBISglh+YL+f7Y7xzEm05ARKAnFvhlgHhpyZfsQTcuFfF1
-         YQyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762252505; x=1762857305;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S1ADCCgwMEU/f2OqLSByXu6fQ7rnsCgcBrI977wEgzQ=;
-        b=osIKvsDH8zyNmgw7Bj2i2A5J23gKjkTOGFMGyj5wgdN8qVEALOdFLvRaEEl+AXBQPn
-         cp/y51Yxs1/kqwny2/SuucsdaljvdCezUz+NDdqLK5TwNTSUZKhRXTcH4gxMuNPn1Kst
-         DAtTejoOQsPV10SDkzoUktuOsJar5NBgYj5zwWOZCZEgHw1MHZPMB9Rtj3jiO12X9+Aa
-         8XTNj3F05DN05TkJZHIwv24vV36T6JWrbqwcRmexvwknwvLXJu+cQpvzdV0MkxDyjmtW
-         5nyGLQx5zeLVdjvHQF3jkhlApRHowN2+NGjLh6v5GdjeBH3Z8lUnilFvQiSqW8gJ90CG
-         qxaw==
-X-Forwarded-Encrypted: i=1; AJvYcCURDgKk2M1O9YXDGmZNEToNpXu3jt55ca4LdHmDidXEyR7BYilHoqQO5mvdSggFzHqS3tC/wjxqGXQ3THZIyyndZKVeuA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzGV7XX4Yuwwl/3gTr7+K6ewNV3zuH4I7grrgRZvTuly3Y6GSR1
-	11w9TUh6RBz25MH1ToixrLq6Ych+zExhRtu3J8EJYBSNfM0T473Rv2hI
-X-Gm-Gg: ASbGncsN08iToFBXORzU8pPI0OpH7hZoJm3y+UZy3EX2zX2ADL/VzRSYM10zRsuoHxL
-	LcJuFGBq/eGHzkfT4Qfu/YDfadzxQCHJVeR12VBBrX0tVUHN8vMdBOQpkHhK+lTVlImDgVXXlWR
-	F/xVvmrp9Krv9dMqSp7kQ5uzC8RGLJKWPjmxH99PmCKBoAHxA5BwExStqWe1ev32uAoXizW6C8W
-	QrzC6X4wcCf9viiPgIYEcGa+dkjjMmmLcGbWxR1DdLul1+T+SRfAr0fCkiKwcR1PfAyUih7Ue46
-	t2PIKOzl5iKcgCUuftD8D5MsYQVymMuNWMvaRrIkag4WIUJRCLZQB/gtwVLZ4Xbom1Iu3wP9pLA
-	lE1gbDANmGe744jIeVUvSwyAJNWJtGq0NdeKPqxlp7qr0cbc/jqjnIPETmncNK2GDD54YrHpqYA
-	tWrM3+VSWqORaUqMcxr3dGG+7uy6T8Ls/mt2GhYEJgbA==
-X-Google-Smtp-Source: AGHT+IFsh7k9STXZYBzLquZcu0MKMS+wH6vwL5dwBse+AQsFd2xiBPwyq+sQRgoRibmDakJEyHIc0Q==
-X-Received: by 2002:a05:6a21:1519:b0:345:3ef1:b477 with SMTP id adf61e73a8af0-348cd4123f2mr11280556637.6.1762252505088;
-        Tue, 04 Nov 2025 02:35:05 -0800 (PST)
-Received: from [127.0.1.1] ([2406:7400:10c:9fcf:2909:749f:36f6:6b85])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ba1f2a80459sm1952010a12.15.2025.11.04.02.35.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 02:35:04 -0800 (PST)
-From: Ranganath V N <vnranganath.20@gmail.com>
-Date: Tue, 04 Nov 2025 16:04:58 +0530
-Subject: [PATCH v7] ASoC: dt-bindings: ti,pcm1862: convert to dtschema
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 2P4jjNJ-JPQV for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  4 Nov 2025 10:42:56 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=98.137.64.82; helo=sonic305-19.consmr.mail.gq1.yahoo.com; envelope-from=adelodunolaoluwa@yahoo.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org AD48860F2D
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AD48860F2D
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=ZfD9XVHk
+Received: from sonic305-19.consmr.mail.gq1.yahoo.com (sonic305-19.consmr.mail.gq1.yahoo.com [98.137.64.82])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id AD48860F2D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  4 Nov 2025 10:42:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1762252974; bh=gfSX9iWaIqI7Je+pA4dj54zti4xAYjuab5g4WwTgVC0=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=ZfD9XVHku84c6Ht+RI9wh1I5iobwAeT0s5rakA0FtFApkzjrgYauh5Kcj29exG+wR/PEAk6MlAfeqIPRVjwwQl1nSRXT0w+3JvmZVOG6CYOd7QwUcJBnFk/YzfgclvEwkVZJ+BuHYeoyYCskHmjhy9Kn8bd3z4bThvJ2poFjUDYrVkSkHmQ9pBPv7k748CNp8JpwhfAqneU9DgNav1Jcx+fpuuRxHk2uvwXh8r8gNHgb1ks279Mjiq2wqmRShVMMxz/HnWbZaKmtnyl/XwrYBnKNjPwZ8BzJyeQcsVLHxC3cCKCPAq+HGs0067hLR14ao6gk0rYkodVWxJDTaQ3iGQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1762252974; bh=iRdOkDET/ljUVLUkM8rtG81Z316KwZJwRlEakFeuo4x=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=H65/wmczy700Exyra8kfgq3n7SxX8gA8BoNSP4JZyeOiataIIZ8C620WOe+8/IqISAn3ypBT9MCwF9NmHSxTYUj1auMcbrskTlvZUuQx1rhIcLdd+lkpwtMC2Sp4Qb2CDfFH3xMwIOR8f4rmOQUoErdUCPAAlHCAXpDyWI8WyYbGoKSIDQLHdPab+X5Sw2kr0l/h8DlkuaA1DjD8jicximPXh4aVIX7RAshFMG+Sc08DKXksQmNDgHPOrE8dNWAVf7hsUNQmzy/+PXFPffaMkKigZuNAO+OPBUrVkg+1JafCTEk8WmUNTi37YKMOtqXR8N9z/fKJSsfjSxyii4Uw1g==
+X-YMail-OSG: B_r1wBUVM1mfdoq4681x9KLPdbUMEqRlgjUHcEM8iZul7pZ3Q.BXMs27tDXGSlp
+ vRadj0R8wyd65_Nti1Jzv0x7HX_6U8owdUMIf5QSY5KDUnWMHSBVt4S0GR0_lHUOR99rkuHMLpt6
+ GC7uCJYSoVVn6iuBvNlDWNpxjKNRIkQrFNUsOXlVekfuH_iauKocR.zbJR14Dt62YE3D3NU.8aB_
+ in80eoRLFZCUFM0bKsFqcA3M6CJAEl6rVdRkJwjcokGvTsi64vT94Qq3gvCosT8JaLWAK6mxs76i
+ zC5.Vb.2uW9lHHEvSxSvvaw4SYs_2sCavHqB3hdMQYUyL73g2IVDDF_1jy_nFqdh95rqyXRdsq.0
+ Iag3nUOfZKtXHZ9kIISFaIzyrq9FatfZHKQK23r0wWLqq5guFrQjx7UzE1nxoFQKluD4zvEvAp3l
+ Vkaun3gV9kABI07Lx5eAIoJxrgP.EmJtVZnrKrhBmz7yNuBDNsKfiDkkpg.Wp5KRm5gYFYMLyBg3
+ WWWhkcl3xhz48uRy3cWnv8NbmJqr9Ex9cSdQpQdtA2zQumuNwbMVpShL8Lsg2NhF6EHcReZjsMsz
+ GdPtCMrg8WAO.tTFmepcW1.C39w2QIhT9IVCzzHzzzy_ncejnNDy2B3RNslAJ5R3eYRK9m9kKxND
+ c0byGsFBOZlGHdKrP.asvLBgFOdLoK9aLt7G4JUuluSqROT.Nome0CtDpSMVBYoGDP.we9Far6kv
+ WeCLNZIRqrVYrw9V5fNnDYpV_8UQ9wwXTRESu8fkLbbwQvLBgGHsVd8i6YHeCcmdJvrmSD7MUuJQ
+ WCRXzZ_L8p7wvUG8O0Lv4HTknjSoMtRB.CSW8.cnMX454uMKm5pYn_4uUw9zq102T8LME4bMH3mC
+ ZgE4pp_Ie05Uo2upT2GcB7xx9QFsBtVNgb4x1lrhNbxU0kcoGHFQ1Z8MvK.24XLyerVR3QqM25Oa
+ DmQbBmBopEUvjV3OjZtpHJRC.76By.5qShKo.f2ZxL0tvJLnASRkk8kFbLXN0XIJzdrG7l.7WXaF
+ B_7PuoEYn4s2ZQ2UOuRkUrkjGKvf2IL649UbCucmvvwJdrC9MaQK_6w6nFCjocRZedt1tw9T9jxG
+ h4JQq43SjtQ5hIU7aXtzPWr8u61NQeiM4hSoo1qyCXB9aebWYXylEBGIhGOG8bbVyprzHv_vv_.c
+ vI5hlKasJLUp8x12bcp74YOD5Eql92H_57jc6GvMwV400ccBNTfnWb5cJCztT_PnGmWQXQcbkHqw
+ Red5RAlwitVZou4r81FvuRzSHgMhxcvPXwx0rhx7xqKrUjYb2l8.HBQ1opKkqvKBadErLZthokRQ
+ Oi43RmWKfSC7RmWpfysUuCsWVZiKlYU7W5_XTxZlpo_MNVHw88VqigctZRsQd0WU.z.7xqW6eaKd
+ 1T0UFsPbuvp2RiLzYS1GDXcsro24cms.0AGYa19WoYuf1HJhIrVCT_Flyc_3r6T7Eyb820aGElOT
+ TAtbmrTgQXeOhgnH.x2pTKcYMs_xiKs2NqMFebbrZSgvlZWXonBBJMfpwBm0xPF944ckTPdTF6DA
+ df7MeiFxe4mUHgtQJ5gWg1mVY_MrKvSFi9HckgwDCWbIEQLSQQj412SjmTq5B2YmLzrpsJjA6ar2
+ p_4sHxjBaRyKCaANomNsXvD1D7qZm4tXGg9hZz2BgYhZz0JHturxwzpelJSR8suRausuVtZDKEIC
+ i0rBKuIG.0ebzDnaGxxRtQKovzX7wMNcr4oprOngPd9J9LugfJufODrcuJ6Bxfu99ioKVJeJnRMG
+ EwY9vMTkVy4.3YkIxAmCTzQfQo2jfqGk_54OVM3UdI5Yrh6JbLe0nOcpJkoo6G55Z2QMWr9ohuji
+ 0OnZmj1EgdDY6LelNKgNMTPQNP1Cug_AYtNwXi1lhqhKYSbbVxtnYKw1tLfjOc59_1xe6XCWtQcI
+ MVg.ecXvHiA6sIWeuv7227kQvhTUuTg4YmWVOk8ZaMapKLskQHEi_YL4O90klwu.I1fo2bTRxtKL
+ VxHQYxao7M5L11R44cA.yoGR6e5fLZ2sRvcd3ktUKViXV1To409SYd8V5e4UCFVNQPgz8RsVs.s.
+ m20S7RnJLevfxobmb4go5_aXAlo4LrXc84ZOKbnEzi0RDuJvt1MrHk6KGZOvGuSExOTlnjA7QRk9
+ VxsION6dIhRaMIVR1Zo9p8tT8gN0Ac_W8i5Ujo9oLQfV1jguLzf.uQjA3SX.NwA.aw7T37RiroYM
+ DrkFV1E1GMMvFt6dlVGGCQEW3jVJr8rD9SIwN9HJ04JJnsKFk7ipcK881HAlSqGNByL9SjlFEarN
+ 34_bdDFOI5jXsHkXG9ed9
+X-Sonic-MF: <adelodunolaoluwa@yahoo.com>
+X-Sonic-ID: d47ba694-bc02-4164-8250-d475ab6f442e
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.gq1.yahoo.com with HTTP; Tue, 4 Nov 2025 10:42:54 +0000
+Received: by hermes--production-bf1-58477f5468-qn4m8 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 4df625031725f4cf5e0592022f64b07e;
+          Tue, 04 Nov 2025 10:42:52 +0000 (UTC)
+Message-ID: <26835ada-4e3a-4f78-8705-4ed2e3d44bd8@yahoo.com>
+Date: Tue, 4 Nov 2025 11:42:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251104-dtbs-v7-1-224aacb09671@gmail.com>
-X-B4-Tracking: v=1; b=H4sIANHWCWkC/13QwW7DIAwG4FepOI8J20DLTnuPaQdioEVamylUU
- asq7z6oMi3j+Fv+fsl+iBKnHIt42z3EFOdc8nipYf+yE3zyl2OUOdQsUKEBhSDDdSiSPEGyzrG
- 2IOrq9xRTvj1rPj5rPuVyHaf7s3WGNu0KZpAgtSMG79HQwO/Hs89frzyeRSuYcYvsirAiDjTsg
- TweDrFHtEVuRVQRMYNFRGDEHukNIrUi3VBKiRoCcD0yW/R7k6koRgisBkxeqx7ZPwRKr8hWZCE
- Yn9pPw7+blmX5AfBnhLuhAQAA
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
- david.hunter.linux@gmail.com, khalid@kernel.org, 
- linux-kernel-mentees@lists.linuxfoundation.org, 
- Ranganath V N <vnranganath.20@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1762252501; l=5567;
- i=vnranganath.20@gmail.com; s=20250816; h=from:subject:message-id;
- bh=xVTUdynUwOEfXOlM6iD7wg5Aog37SJxR0DlPuRS1e6E=;
- b=geYToZPDBy5tyXIRvlqHX9s3GXu8IEe6Ozo1EFpJWtgfnErpCnfgBIcsITPv7ZI6sTwYACG7s
- Hwp/JaY/W4cA6BMHrhALuvo3E+m04WWneC7t62yWM6Ur2v9LU9ApuwA
-X-Developer-Key: i=vnranganath.20@gmail.com; a=ed25519;
- pk=7mxHFYWOcIJ5Ls8etzgLkcB0M8/hxmOh8pH6Mce5Z1A=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] selftests: af_unix: Add tests for ECONNRESET and EOF
+ semantics
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, shuah@kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, skhan@linuxfoundation.org,
+ david.hunter.linux@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251101172230.10179-1-adelodunolaoluwa.ref@yahoo.com>
+ <20251101172230.10179-1-adelodunolaoluwa@yahoo.com>
+ <CAAVpQUDL1FB1nFYOZ6QuO+cGTqnpYNSaFtFD=YN742pyspe9ew@mail.gmail.com>
+ <7a162b38-3ff8-4f97-aac3-4fe2ab50fe33@yahoo.com>
+ <CAAVpQUADwghMj=SgdiZEErC5oy7RVpam4i9S2RwP19bA=Rbynw@mail.gmail.com>
+Content-Language: en-US
+From: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+In-Reply-To: <CAAVpQUADwghMj=SgdiZEErC5oy7RVpam4i9S2RwP19bA=Rbynw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.24652 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-convert the Texas Instruments PCM186x Universal audio ADC bindings
-to DT schema.
+On 11/4/25 01:30, Kuniyuki Iwashima wrote:
+> On Mon, Nov 3, 2025 at 4:08 PM Sunday Adelodun
+> <adelodunolaoluwa@yahoo.com> wrote:
+>> On 11/2/25 08:32, Kuniyuki Iwashima wrote:
+>>> On Sat, Nov 1, 2025 at 10:23 AM Sunday Adelodun
+>>> <adelodunolaoluwa@yahoo.com> wrote:
+>>>> Add selftests to verify and document Linux’s intended behaviour for
+>>>> UNIX domain sockets (SOCK_STREAM and SOCK_DGRAM) when a peer closes.
+>>>> The tests verify that:
+>>>>
+>>>>    1. SOCK_STREAM returns EOF when the peer closes normally.
+>>>>    2. SOCK_STREAM returns ECONNRESET if the peer closes with unread data.
+>>>>    3. SOCK_SEQPACKET returns EOF when the peer closes normally.
+>>>>    4. SOCK_SEQPACKET returns ECONNRESET if the peer closes with unread data.
+>>>>    5. SOCK_DGRAM does not return ECONNRESET when the peer closes.
+>>>>
+>>>> This follows up on review feedback suggesting a selftest to clarify
+>>>> Linux’s semantics.
+>>>>
+>>>> Suggested-by: Kuniyuki Iwashima <kuniyu@google.com>
+>>>> Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+>>>> ---
+>>>>    tools/testing/selftests/net/af_unix/Makefile  |   1 +
+>>>>    .../selftests/net/af_unix/unix_connreset.c    | 179 ++++++++++++++++++
+>>>>    2 files changed, 180 insertions(+)
+>>>>    create mode 100644 tools/testing/selftests/net/af_unix/unix_connreset.c
+>>>>
+>>>> diff --git a/tools/testing/selftests/net/af_unix/Makefile b/tools/testing/selftests/net/af_unix/Makefile
+>>>> index de805cbbdf69..5826a8372451 100644
+>>>> --- a/tools/testing/selftests/net/af_unix/Makefile
+>>>> +++ b/tools/testing/selftests/net/af_unix/Makefile
+>>>> @@ -7,6 +7,7 @@ TEST_GEN_PROGS := \
+>>>>           scm_pidfd \
+>>>>           scm_rights \
+>>>>           unix_connect \
+>>>> +       unix_connreset \
+>>> patchwork caught this test is not added to .gitignore.
+>>> https://patchwork.kernel.org/project/netdevbpf/patch/20251101172230.10179-1-adelodunolaoluwa@yahoo.com/
+>>>
+>>> Could you add it to this file ?
+>>>
+>>> tools/testing/selftests/net/.gitignore
+>> Oh, thank you for this. will add it
+>>>
+>>>>    # end of TEST_GEN_PROGS
+>>>>
+>>>>    include ../../lib.mk
+>>>> diff --git a/tools/testing/selftests/net/af_unix/unix_connreset.c b/tools/testing/selftests/net/af_unix/unix_connreset.c
+>>>> new file mode 100644
+>>>> index 000000000000..6f43435d96e2
+>>>> --- /dev/null
+>>>> +++ b/tools/testing/selftests/net/af_unix/unix_connreset.c
+>>>> @@ -0,0 +1,179 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>> +/*
+>>>> + * Selftest for AF_UNIX socket close and ECONNRESET behaviour.
+>>>> + *
+>>>> + * This test verifies:
+>>>> + *  1. SOCK_STREAM returns EOF when the peer closes normally.
+>>>> + *  2. SOCK_STREAM returns ECONNRESET if peer closes with unread data.
+>>>> + *  3. SOCK_SEQPACKET returns EOF when the peer closes normally.
+>>>> + *  4. SOCK_SEQPACKET returns ECONNRESET if the peer closes with unread data.
+>>>> + *  5. SOCK_DGRAM does not return ECONNRESET when the peer closes.
+>>>> + *
+>>>> + * These tests document the intended Linux behaviour.
+>>>> + *
+>>>> + */
+>>>> +
+>>>> +#define _GNU_SOURCE
+>>>> +#include <stdlib.h>
+>>>> +#include <string.h>
+>>>> +#include <fcntl.h>
+>>>> +#include <unistd.h>
+>>>> +#include <errno.h>
+>>>> +#include <sys/socket.h>
+>>>> +#include <sys/un.h>
+>>>> +#include "../../kselftest_harness.h"
+>>>> +
+>>>> +#define SOCK_PATH "/tmp/af_unix_connreset.sock"
+>>>> +
+>>>> +static void remove_socket_file(void)
+>>>> +{
+>>>> +       unlink(SOCK_PATH);
+>>>> +}
+>>>> +
+>>>> +FIXTURE(unix_sock)
+>>>> +{
+>>>> +       int server;
+>>>> +       int client;
+>>>> +       int child;
+>>>> +};
+>>>> +
+>>>> +FIXTURE_VARIANT(unix_sock)
+>>>> +{
+>>>> +       int socket_type;
+>>>> +       const char *name;
+>>>> +};
+>>>> +
+>>>> +/* Define variants: stream and datagram */
+>>> nit: outdated, maybe simply remove ?
+>> oh..skipped me.
+>> will do so.
+>>>> +FIXTURE_VARIANT_ADD(unix_sock, stream) {
+>>>> +       .socket_type = SOCK_STREAM,
+>>>> +       .name = "SOCK_STREAM",
+>>>> +};
+>>>> +
+>>>> +FIXTURE_VARIANT_ADD(unix_sock, dgram) {
+>>>> +       .socket_type = SOCK_DGRAM,
+>>>> +       .name = "SOCK_DGRAM",
+>>>> +};
+>>>> +
+>>>> +FIXTURE_VARIANT_ADD(unix_sock, seqpacket) {
+>>>> +       .socket_type = SOCK_SEQPACKET,
+>>>> +       .name = "SOCK_SEQPACKET",
+>>>> +};
+>>>> +
+>>>> +FIXTURE_SETUP(unix_sock)
+>>>> +{
+>>>> +       struct sockaddr_un addr = {};
+>>>> +       int err;
+>>>> +
+>>>> +       addr.sun_family = AF_UNIX;
+>>>> +       strcpy(addr.sun_path, SOCK_PATH);
+>>>> +       remove_socket_file();
+>>>> +
+>>>> +       self->server = socket(AF_UNIX, variant->socket_type, 0);
+>>>> +       ASSERT_LT(-1, self->server);
+>>>> +
+>>>> +       err = bind(self->server, (struct sockaddr *)&addr, sizeof(addr));
+>>>> +       ASSERT_EQ(0, err);
+>>>> +
+>>>> +       if (variant->socket_type == SOCK_STREAM ||
+>>>> +               variant->socket_type == SOCK_SEQPACKET) {
+>>> patchwork caught mis-alignment here and other places.
+>>>
+>>> I'm using this for emacs, and other editors will have a similar config.
+>>>
+>>> (setq-default c-default-style "linux")
+>>>
+>>> You can check if lines are aligned properly by
+>>>
+>>> $ git show --format=email | ./scripts/checkpatch.pl
+>>>
+>>>
+>>>> +               err = listen(self->server, 1);
+>>>> +               ASSERT_EQ(0, err);
+>>>> +
+>>>> +               self->client = socket(AF_UNIX, variant->socket_type, 0);
+>>> Could you add SOCK_NONBLOCK here too ?
+>> This is noted
+>>>> +               ASSERT_LT(-1, self->client);
+>>>> +
+>>>> +               err = connect(self->client, (struct sockaddr *)&addr, sizeof(addr));
+>>>> +               ASSERT_EQ(0, err);
+>>>> +
+>>>> +               self->child = accept(self->server, NULL, NULL);
+>>>> +               ASSERT_LT(-1, self->child);
+>>>> +       } else {
+>>>> +               /* Datagram: bind and connect only */
+>>>> +               self->client = socket(AF_UNIX, SOCK_DGRAM | SOCK_NONBLOCK, 0);
+>>>> +               ASSERT_LT(-1, self->client);
+>>>> +
+>>>> +               err = connect(self->client, (struct sockaddr *)&addr, sizeof(addr));
+>>>> +               ASSERT_EQ(0, err);
+>>>> +       }
+>>>> +}
+>>>> +
+>>>> +FIXTURE_TEARDOWN(unix_sock)
+>>>> +{
+>>>> +       if (variant->socket_type == SOCK_STREAM ||
+>>>> +               variant->socket_type == SOCK_SEQPACKET)
+>>>> +               close(self->child);
+>>>> +
+>>>> +       close(self->client);
+>>>> +       close(self->server);
+>>>> +       remove_socket_file();
+>>>> +}
+>>>> +
+>>>> +/* Test 1: peer closes normally */
+>>>> +TEST_F(unix_sock, eof)
+>>>> +{
+>>>> +       char buf[16] = {};
+>>>> +       ssize_t n;
+>>>> +
+>>>> +       /* Peer closes normally */
+>>>> +       if (variant->socket_type == SOCK_STREAM ||
+>>>> +               variant->socket_type == SOCK_SEQPACKET)
+>>>> +               close(self->child);
+>>>> +       else
+>>>> +               close(self->server);
+>>>> +
+>>>> +       n = recv(self->client, buf, sizeof(buf), 0);
+>>>> +       TH_LOG("%s: recv=%zd errno=%d (%s)", variant->name, n, errno, strerror(errno));
+>>> errno is undefined if not set, and same for strerror(errno).
+>>>
+>>> Also, if ASSERT_XXX() below fails, the same information
+>>> (test case, errno) is logged.  So, TH_LOG() seems unnecessary.
+>>>
+>>> Maybe try modifying the condition below and see how the
+>>> assertion is logged.
+>> Oh..thank you. Didn't it through that way.
+>> I understand.
+>> I will remove the TH_LOG()'s
+>>>> +       if (variant->socket_type == SOCK_STREAM ||
+>>>> +               variant->socket_type == SOCK_SEQPACKET) {
+>>>> +               ASSERT_EQ(0, n);
+>>>> +       } else {
+>>>> +               ASSERT_EQ(-1, n);
+>>>> +               ASSERT_EQ(EAGAIN, errno);
+>>>> +       }
+>>>> +}
+>>>> +
+>>>> +/* Test 2: peer closes with unread data */
+>>>> +TEST_F(unix_sock, reset_unread)
+>>>> +{
+>>>> +       char buf[16] = {};
+>>>> +       ssize_t n;
+>>>> +
+>>>> +       /* Send data that will remain unread by client */
+>>>> +       send(self->client, "hello", 5, 0);
+>>>> +       close(self->child);
+>>>> +
+>>>> +       n = recv(self->client, buf, sizeof(buf), 0);
+>>>> +       TH_LOG("%s: recv=%zd errno=%d (%s)", variant->name, n, errno, strerror(errno));
+>>>> +       if (variant->socket_type == SOCK_STREAM ||
+>>>> +               variant->socket_type == SOCK_SEQPACKET) {
+>>>> +               ASSERT_EQ(-1, n);
+>>>> +               ASSERT_EQ(ECONNRESET, errno);
+>>>> +       } else {
+>>>> +               ASSERT_EQ(-1, n);
+>>>> +               ASSERT_EQ(EAGAIN, errno);
+>>>> +       }
+>>>> +}
+>>>> +
+>>>> +/* Test 3: SOCK_DGRAM peer close */
+>>>> Now Test 2 and Test 3 look identical ;)
+>> seems so, but the only difference is:
+>>
+>> close(self->child); is used in Test 2, while
+>> close(self->server); is used in Test 3.
+>> Maybe I should find a way to collapse Tests 2 and 3 (if statement might
+>> work)
+>>
+>> I am just afraid the tests to run will reduce to 6 from 9 and we will have 6
+>> cases passed as against 7 as before.
+>>
+>> What do you think?
+> The name of Test 2 is a bit confusing, which is not true
+> for SOCK_DGRAM.  So, I'd use "if" to change which fd
+> to close() depending on the socket type.
+>
+> Also, close(self->server) does nothing for SOCK_STREAM
+> and SOCK_SEQPACKET after accept().  Rather, that close()
+> should have the same effect if self->child is not accept()ed.
+> (In this case, Skip() for SOCK_DGRAM makes sense)
+>
+> I think covering that scenario would be nicer.
+>
+> If interested, you can check the test coverage with this patch.
+> https://lore.kernel.org/linux-kselftest/20251028024339.2028774-1-kuniyu@google.com/
+>
+> Thanks!
+Thank you!
 
-The PCM186x codec provides a single digital audio interface. Therefore
-this binding adds a reference to dai-common.yaml and defines
-'#sound-dai-cells = 0".
+kindly check these if any conforms to what it should be:
 
-Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
----
-Convert the Texas Instruments PCM186x audio ADC bindings to DT schema.
----
-Changes in v7:
-- Commit message as a junstification to add the '#sound-dai-cells' 
-  to the new binding.(Krzysztof)
-- Link to v6: https://lore.kernel.org/r/20251104-dtbs-v6-1-61d5afa31fde@gmail.com
+TEST_F(unix_sock, reset_unread_behavior)
+{
+         char buf[16] = {};
+         ssize_t n;
 
-Changes in v6:
-- Corrected the Subject Asoc->ASoC, dt_bindings -> dt-bindings and ti,pcm186x -> ti,pcm1862
-- Updated the commit message.
-- added the missed Description from the old binding.
-- Link to v5: https://lore.kernel.org/r/20251031-dtbs-v5-1-ee1dc0b2fa40@gmail.com
+         /* Send data that will remain unread by client */
+         send(self->client, "hello", 5, 0);
 
-Changes in v5:
-- Resolved previous patch warnings/errors
-- dtschema/dtc warnings/errors:
-- /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml: 
-- $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
-- 	 $id: http://devicetree.org/schemas/sound/ti,pcm186x.yaml
-- 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml
-- Link to v4: https://lore.kernel.org/r/20251030-dtbs-v4-1-3fff32221119@gmail.com
+         if (variant->socket_type == SOCK_DGRAM) {
+                 close(self->server);
+         }
+         else {
+                 if (!self->child)
+                         SKIP(return);
 
-Changes in v4:
-- Corrected subject dt_bindings:sound to Asoc: dt_bindings:
-- Corrected the filename to match one of the compitables in the file 
-- ti,pcm186x.yaml to ti,pcm1862.yaml
-- Link to v3: https://lore.kernel.org/r/20251029-dtbs-v3-1-3cc162221c22@gmail.com
+                 close(self->child);
+         }
 
-Changes in v3:
-- Unicode FEFF character was present in the begining of the file,
-- Removed unicode character.
-- Link to v2: https://lore.kernel.org/r/20251026-dtbs-v2-1-cd3b713a288e@gmail.com
+         n = recv(self->client, buf, sizeof(buf), 0);
 
-Changes in v2:
-- Fixes as per the reviews suggested for the v1.
-- Link to v1: https://lore.kernel.org/r/20251021-dtbs-v1-1-493c1aa253bc@gmail.com
----
- .../devicetree/bindings/sound/pcm186x.txt          | 42 ------------
- .../devicetree/bindings/sound/ti,pcm1862.yaml      | 76 ++++++++++++++++++++++
- 2 files changed, 76 insertions(+), 42 deletions(-)
+         ASSERT_EQ(-1, n);
 
-diff --git a/Documentation/devicetree/bindings/sound/pcm186x.txt b/Documentation/devicetree/bindings/sound/pcm186x.txt
-deleted file mode 100644
-index 1087f4855980..000000000000
---- a/Documentation/devicetree/bindings/sound/pcm186x.txt
-+++ /dev/null
-@@ -1,42 +0,0 @@
--Texas Instruments PCM186x Universal Audio ADC
--
--These devices support both I2C and SPI (configured with pin strapping
--on the board).
--
--Required properties:
--
-- - compatible : "ti,pcm1862",
--                "ti,pcm1863",
--                "ti,pcm1864",
--                "ti,pcm1865"
--
-- - reg : The I2C address of the device for I2C, the chip select
--         number for SPI.
--
-- - avdd-supply: Analog core power supply (3.3v)
-- - dvdd-supply: Digital core power supply
-- - iovdd-supply: Digital IO power supply
--        See regulator/regulator.txt for more information
--
--CODEC input pins:
-- * VINL1
-- * VINR1
-- * VINL2
-- * VINR2
-- * VINL3
-- * VINR3
-- * VINL4
-- * VINR4
--
--The pins can be used in referring sound node's audio-routing property.
--
--Example:
--
--	pcm186x: audio-codec@4a {
--		compatible = "ti,pcm1865";
--		reg = <0x4a>;
--
--		avdd-supply = <&reg_3v3_analog>;
--		dvdd-supply = <&reg_3v3>;
--		iovdd-supply = <&reg_1v8>;
--	};
-diff --git a/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml b/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml
-new file mode 100644
-index 000000000000..0f0e254a2420
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml
-@@ -0,0 +1,76 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/ti,pcm1862.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments PCM186x Universal Audio ADC
-+
-+maintainers:
-+  - Ranganath V N <vnranganath.20@gmail.com>
-+
-+description: |
-+  The Texas Instruments PCM186x family are multi-channel audio ADCs
-+  that support both I2C and SPI control interfaces, selected by
-+  pin strapping. These devices include on-chip programmable gain
-+  amplifiers and support differential or single-ended analog inputs.
-+
-+  CODEC input pins:
-+    * VINL1
-+    * VINR1
-+    * VINL2
-+    * VINR2
-+    * VINL3
-+    * VINR3
-+    * VINL4
-+    * VINR4
-+
-+  The pins can be used in referring sound node's audio-routing property.
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - ti,pcm1862
-+      - ti,pcm1863
-+      - ti,pcm1864
-+      - ti,pcm1865
-+
-+  reg:
-+    maxItems: 1
-+
-+  avdd-supply: true
-+
-+  dvdd-supply: true
-+
-+  iovdd-supply: true
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+required:
-+  - compatible
-+  - reg
-+  - avdd-supply
-+  - dvdd-supply
-+  - iovdd-supply
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        audio-codec@4a {
-+            compatible = "ti,pcm1865";
-+            reg = <0x4a>;
-+
-+            avdd-supply = <&reg_3v3_analog>;
-+            dvdd-supply = <&reg_3v3>;
-+            iovdd-supply = <&reg_1v8>;
-+        };
-+    };
+         if (variant->socket_type == SOCK_STREAM ||
+                 variant->socket_type == SOCK_SEQPACKET)
+                 do { ASSERT_EQ(ECONNRESET, errno); } while (0);
+         else
+                 ASSERT_EQ(EAGAIN, errno);
+}
 
----
-base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
-change-id: 20251021-dtbs-3a31f699c461
+OR
 
-Best regards,
--- 
-Ranganath V N <vnranganath.20@gmail.com>
+TEST_F(unix_sock, reset_unread_behavior)
+{
+         char buf[16] = {};
+         ssize_t n;
+
+         /* Send data that will remain unread by client */
+         send(self->client, "hello", 5, 0);
+
+         if (variant->socket_type == SOCK_DGRAM) {
+                 close(self->server);
+         }
+         else {
+                 if (self->child)
+                     close(self->child);
+                 else
+                     close(self->server);
+         }
+
+         n = recv(self->client, buf, sizeof(buf), 0);
+
+         ASSERT_EQ(-1, n);
+
+         if (variant->socket_type == SOCK_STREAM ||
+                 variant->socket_type == SOCK_SEQPACKET)
+                 do { ASSERT_EQ(ECONNRESET, errno); } while (0);
+         else
+                 ASSERT_EQ(EAGAIN, errno);
+}
+
+OR
+
+is there a better way to handle this?
+
+I ran the KCOV_OUTPUT command using the first *TEST_F above* as the Test 
+2 and got the output below:
+*$ KCOV_OUTPUT=kcov KCOV_SLOTS=8192 
+./tools/testing/selftests/net/af_unix/unix_connreset*
+TAP version 13
+1..6
+# Starting 6 tests from 3 test cases.
+#  RUN           unix_sock.stream.eof ...
+#            OK  unix_sock.stream.eof
+ok 1 unix_sock.stream.eof
+#  RUN           unix_sock.stream.reset_unread_behavior ...
+#            OK  unix_sock.stream.reset_unread_behavior
+ok 2 unix_sock.stream.reset_unread_behavior
+#  RUN           unix_sock.dgram.eof ...
+#            OK  unix_sock.dgram.eof
+ok 3 unix_sock.dgram.eof
+#  RUN           unix_sock.dgram.reset_unread_behavior ...
+#            OK  unix_sock.dgram.reset_unread_behavior
+ok 4 unix_sock.dgram.reset_unread_behavior
+#  RUN           unix_sock.seqpacket.eof ...
+#            OK  unix_sock.seqpacket.eof
+ok 5 unix_sock.seqpacket.eof
+#  RUN           unix_sock.seqpacket.reset_unread_behavior ...
+#            OK  unix_sock.seqpacket.reset_unread_behavior
+ok 6 unix_sock.seqpacket.reset_unread_behavior
+# PASSED: 6 / 6 tests passed.
+# Totals: pass:6 fail:0 xfail:0 xpass:0 skip:0 error:0
+
+Thank you once again for your continuous guidance and patience.
+It's a worthy and rewarding learning period for me.
 
