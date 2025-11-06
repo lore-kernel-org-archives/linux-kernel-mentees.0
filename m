@@ -1,127 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F08828725F;
-	Thu,  6 Nov 2025 18:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2280334FF47
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  6 Nov 2025 19:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762453988; cv=none; b=cU6vJmkMr+wMqeQgqFuaV29zE8NbsgVvPgX3U/3VfkP98pZgaLzvXkhJIpIwSnDos5XLWLPbEH9O6k0qGobkt8fJshh8Orr9yAhUG00fWoryRwqrgPuc4+nB3NZdRhdH8xphD4DODvG15vNoB8kqEToCI8EIL17Dzgi5Jyvw8MU=
+	t=1762457087; cv=none; b=LJhzAHdqO5a2367JAgi3OEi6laERcMCtOt0YHF8HwPALssYipG2rabO0XVSBVcEbSyxHjdmw6+WEHnHaBxjFG49aCL1oRXNTbvfaFihWiwKv3nbbikh4Nd0PKkREKZfb5a1MOQMXjz3SqTB7GzOS4dEMtinzbuGXy4q3sfxZtPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762453988; c=relaxed/simple;
-	bh=kyEhNYI7HzIpb2ZS57YS899tQPqI51sWObp1JT+wH0c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bg5MccuOuDb4tkXkX8+iHyx+gOQf1u9J/yKrVdeUo7CaV3Q3qaxqfWdNS4xxznciIFP63uwqOZb11sJTIiLHgT0C3ABnJMTGvpCLa3S+ySsf9Z84GFuCJGroH/33DyyxbpHnzr7sEEuJJsEleMNy9aoyNZKk27BN+yOOz9FtJU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gOV+8Ut1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762457087; c=relaxed/simple;
+	bh=/8MHMjcZp40iywj2Jp6hNEOKJbwhIS2p+TLY8e5rxj4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UKEQ6+QxWhBwOhLgCDeTr0HktB8zZ9Ku5+I5WsqKfEltpEgnI+rIVPHr/DUIKR00A+OwWZwguRYJEEciRKIXLXCLHRsFmqOrQkGSjcf4i59ZrwcT15JGp6E7lEsN0MP0hVBPzQ/xAZY/xJQA2Jx2aXBvSqoED7Ih2+jd3rWlcVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=POSnh/PU; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gOV+8Ut1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37256C4CEFB;
-	Thu,  6 Nov 2025 18:33:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762453982;
-	bh=kyEhNYI7HzIpb2ZS57YS899tQPqI51sWObp1JT+wH0c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gOV+8Ut1d6OcGYc3ICn04IZJW//qT27NjmUtjJ6+mBW1NT1FFiv7zt7i+LtlVYr2u
-	 +QyjsqeXE8Sn2oMnEma69cqZnz8E2bs97Zd21gVcE9G+lLR2h4a7HI13S60l+iXsVs
-	 u16usha+Jdk67Zl7zF3UaT+UJVxWp7m1yJ0qB6+oG9KS25zWNmVHJlSDFSZzRv2+1P
-	 ZAYKzpGNv6p3B4Q/kW+nI41gjOTNrhNvKKK58r6zgnYp52LIMmln8DYOxYVB3Nv6qw
-	 s3UQNBSNhXrmD9+XPEWOMgXKSUBynWUYAenY7fGvck8RU/W1+bGVm9+C4zQls2P0Us
-	 cwmLU7tUs0DRg==
-Message-ID: <4791720d-59ac-4cbb-9a72-74d3dcb55a2a@kernel.org>
-Date: Thu, 6 Nov 2025 11:33:01 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="POSnh/PU"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-34339e4f66eso4003a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 06 Nov 2025 11:24:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762457085; x=1763061885; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NoGoAZXF1V/p8pqpha3Z5ljPEXFoXPfWyQqzTK9/QeA=;
+        b=POSnh/PUJ2QhWEqTDvgbs0DaaDHFkqa33kEx8X1GJLThXGvatP63Kfe7DtioiHX8ee
+         2Rx2VpCri99v9rshbpMKKW9PXulZh5SZMUBHRW0Zm/Loil9YeP2BJOHg5Ku1XvmuZ3rO
+         duzk1dw4nK5oCCmE+/VTQHnH9Abnh6t0luCQOm9DQ4TDTBc3Bj7ukrqJvcUcP8ChCbuh
+         BnW147hMwId6yAvlSzQ1a1Hu2vfB00lZMVqUJ6nJBp50DntXtO4/pnUtQFuKD+HZBRL2
+         iXks61ZTOc+lIE/EPZPrBhUSyjCnfrWyGr0c9DVU5c46vFM4rH/HnjrfOLUdX85C0v2H
+         RgYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762457085; x=1763061885;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NoGoAZXF1V/p8pqpha3Z5ljPEXFoXPfWyQqzTK9/QeA=;
+        b=AX6ef8sHo02wh3oaDSch/MtstbW5cagbyegm6Slt3KHGv30WwOky+KiNmomxLc57uo
+         4uVvKxI1+z2S5Inv4uZj3NYxcUgga6qXTGioKtblloCY+JiFpNm4LzppEbG8lYFZlNok
+         9J0yDipIqBEY5kl1344LcqIIuGp+gkWLYT9UA2iEFLHZ8ddAefU76Q4ea3XemB9YCQlD
+         aDRVS6r8+93awK1EmHDBp6ftlUTvookgiyvKM3eKHk7lOfXpJpHzx68brxTTfocbCjdr
+         AV4mV+1EJ/Xy6QwgS2MaZfqXlcTUv+oFplAajwd1YH37T6VDNh5JjqVbYTMfteDGeC92
+         Oh4g==
+X-Forwarded-Encrypted: i=1; AJvYcCWxeBH1MLJDW8Cs/2ocFBWNkPXJKh95L+wuW7MhfhxMLdWl8O0rzFCQzDpjN1NhiG8PHpK7cO9U9FE3rbrboo+HTduq8g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwuWceJypGGRCk3nzQ1rdSwo4tiemX6zJGAoEjSlQNPvXYTIICJ
+	gKstxZDYa1ia2SjcQIQCCUOcA12mmxdOjdy+k8PWWCx5B/G/Ag1sKcDA
+X-Gm-Gg: ASbGnctTh4m5qN1WIoA/RJiXpLRapxFlyFM0T9z2hvad6dZcebAHreycpV5kH25rzz7
+	Se+zP3a9BCWhYZZH0zuWkxo6UmQbJ/uXb0E2c6yXoghsWYvpRzf6vgAhSyJbEjJWSJXxROUhnuw
+	ZHJWLhoBZpw/i4F3igPYa5dPJBQSAB+OzMR+F3hL9tjMcunWF3Bl/vfwWfAZHLgcVVP4tRSE9kT
+	ibckKdDxBKHS0jFHGR9GQqEfn8ni/WJA1j4sox632EZrGVvxBFOEbEiy/Bc4Hni2RiqmUBdBgwB
+	Wcq+AJtnDRtjjJhRWwcS1+HIe6eM5Pf1O6ZDZylwUsoyFRSvjIpu9gnHmiq2QrvuVUC7fLdAh7f
+	huJLxSbG7aKEpHTqnVRK+QT6fXhMLGcZuHHP47AIRNtKgi8U9ijaKSnP4t8HslOiV51qrTEm5Rb
+	iuKWydY5ZwAY+ooAqDxDVPgWWn76Xd
+X-Google-Smtp-Source: AGHT+IFsBPELqydba4uzpPfghv8+a5FHZ9eD5U/piy8KqflKlUwj0WVnszq4GjuKBbV4n8iz1qp8hA==
+X-Received: by 2002:a17:90b:1c07:b0:330:7a32:3290 with SMTP id 98e67ed59e1d1-3434c5927femr318493a91.37.1762457085265;
+        Thu, 06 Nov 2025 11:24:45 -0800 (PST)
+Received: from localhost.localdomain ([111.125.210.187])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-341a68aa1edsm6945964a91.1.2025.11.06.11.24.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 11:24:44 -0800 (PST)
+From: Prithvi Tambewagh <activprithvi@gmail.com>
+To: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	alexanderduyck@fb.com,
+	chuck.lever@oracle.com,
+	linyunsheng@huawei.com
+Cc: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Prithvi Tambewagh <activprithvi@gmail.com>,
+	syzbot+4b8a1e4690e64b018227@syzkaller.appspotmail.com
+Subject: [PATCH] net: core: Initialize new header to zero in pskb_expand_head
+Date: Fri,  7 Nov 2025 00:54:23 +0530
+Message-Id: <20251106192423.412977-1-activprithvi@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH linux-next] fs/ntfs3: Initialize allocated memory before
- use
-To: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>,
- almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
- david.hunter.linux@gmail.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev,
- syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com,
- syzbot+0399100e525dd9696764@syzkaller.appspotmail.com
-References: <20251105211808.260893-1-kubik.bartlomiej@gmail.com>
-From: Khalid Aziz <khalid@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20251105211808.260893-1-kubik.bartlomiej@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/5/25 2:18 PM, Bartlomiej Kubik wrote:
-> KMSAN reports: Multiple uninitialized values detected:
-> 
-> - KMSAN: uninit-value in ntfs_read_hdr (3)
-> - KMSAN: uninit-value in bcmp (3)
-> 
-> Memory is allocated by __getname(), which is a wrapper for
-> kmem_cache_alloc(). This memory is used before being properly
-> cleared. Change kmem_cache_alloc() to kmem_cache_zalloc() to
-> properly allocate and clear memory before use.
-> 
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> Fixes: 78ab59fee07f ("fs/ntfs3: Rework file operations")
-> Tested-by: syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com
-> Reported-by: syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=332bd4e9d148f11a87dc
-> 
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> Fixes: 78ab59fee07f ("fs/ntfs3: Rework file operations")
-> Tested-by: syzbot+0399100e525dd9696764@syzkaller.appspotmail.com
-> Reported-by: syzbot+0399100e525dd9696764@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=0399100e525dd9696764
-> 
-> Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-> ---
+KMSAN reports uninitialized value in can_receive(). The crash trace shows
+the uninitialized value was created in pskb_expand_head(). This function
+expands header of a socket buffer using kmalloc_reserve() which doesn't
+zero-initialize the memory. When old packet data is copied to the new
+buffer at an offset of data+nhead, new header area (first nhead bytes of
+the new buffer) are left uninitialized. This is fixed by using memset()
+to zero-initialize this header of the new buffer.
 
-Looks good to me.
+Reported-by: syzbot+4b8a1e4690e64b018227@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=4b8a1e4690e64b018227
+Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
+---
+ net/core/skbuff.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Reviewed-by: Khalid Aziz <khalid@kernel.org>
-
---
-Khalid
-
->   fs/ntfs3/inode.c | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index ab61388f819c..13720baf079d 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -1281,7 +1281,7 @@ int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
->   		fa |= FILE_ATTRIBUTE_READONLY;
-> 
->   	/* Allocate PATH_MAX bytes. */
-> -	new_de = __getname();
-> +	new_de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
->   	if (!new_de) {
->   		err = -ENOMEM;
->   		goto out1;
-> @@ -1723,10 +1723,9 @@ int ntfs_link_inode(struct inode *inode, struct dentry *dentry)
->   	struct NTFS_DE *de;
-> 
->   	/* Allocate PATH_MAX bytes. */
-> -	de = __getname();
-> +	de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
->   	if (!de)
->   		return -ENOMEM;
-> -	memset(de, 0, PATH_MAX);
-> 
->   	/* Mark rw ntfs as dirty. It will be cleared at umount. */
->   	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
-> @@ -1762,7 +1761,7 @@ int ntfs_unlink_inode(struct inode *dir, const struct dentry *dentry)
->   		return -EINVAL;
-> 
->   	/* Allocate PATH_MAX bytes. */
-> -	de = __getname();
-> +	de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
->   	if (!de)
->   		return -ENOMEM;
-> 
-> --
-> 2.39.5
-> 
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index 6841e61a6bd0..3486271260ac 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -2282,6 +2282,8 @@ int pskb_expand_head(struct sk_buff *skb, int nhead, int ntail,
+ 	 */
+ 	memcpy(data + nhead, skb->head, skb_tail_pointer(skb) - skb->head);
+ 
++	memset(data, 0, size);
++
+ 	memcpy((struct skb_shared_info *)(data + size),
+ 	       skb_shinfo(skb),
+ 	       offsetof(struct skb_shared_info, frags[skb_shinfo(skb)->nr_frags]));
+-- 
+2.34.1
 
