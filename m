@@ -1,137 +1,190 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93450302CD0
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  6 Nov 2025 16:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED68335080
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 18:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762445355; cv=none; b=Zg1VSuO+zHjqwv2MAzUpuYzKhzypN/uVaI4jaFKQxabJbG3pql+XV81zsdtJYiWfTUTJ22tWdSh0LNUNLKff7549MiUdAHR99FSCOxDNXsdBGgvLj9DAOdY4JoCg5hrQBY5NtMPT2fi72zYkZofv6+DiT/zGPxjg8BgazB/pQ1k=
+	t=1762453235; cv=none; b=aP8QOmzZb9fUnd1qiZIrXsd5Bu3HdXSXt+4Vq2TcqMkyWiFFm9JRBMiOYSymMrCfGjhBL7fX2f00DP3D9Jk/u2PcqidpmsdqH3wNe5+i+QWtWzC9qs0GH6Jx77rfsFpbCTm8hVH/lcYQewWS6twaoJbfvytqE/isSdqIjhmhrMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762445355; c=relaxed/simple;
-	bh=MLg3hiFxO0FS9fuavJ/JSEbJ+y7jTxCzr2x6pNOCnlc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jsppUjelHCfyqPzJgL/z31q9R6LLEkObn0BPbIBWgBmT4dqUXibAh2P/H77MCO7k95zSeOqz5VVADZhdWg9AvlpiLvgnq/vYRV+OLnmz/bZKASBTt7N3spp08QSFfPVXOYupNDkYOcaycjquMfgiWlodOZl9bgUrK+lRJs0sHzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HCXdiQkE; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762453235; c=relaxed/simple;
+	bh=375jKvwYcq0QUXukIrQ1f+N3NOj9DqIX4Aj/+YlX5mk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ANAbStjpUtz+DR2FCXEhSXWDSFBZPP8DO610gY48Mg6Rc658Z0sGCbCsyKoQbgQPfmFZs9JcC6PteQ7JN84+BDeJAgtbCooTywlp+tsk0fofdfFngIp7ByxKFLeFyGjW081XsNWfdPDd6wnZUFbJtKohc7T8WCtzERtkCOLZabI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=ct/UxdeW; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HCXdiQkE"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-640aa1445c3so1441432a12.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 06 Nov 2025 08:09:13 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="ct/UxdeW"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6770B40788
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 18:20:33 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.998
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id pX3SVuLBfQhT for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  6 Nov 2025 18:20:32 +0000 (UTC)
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::532; helo=mail-pg1-x532.google.com; envelope-from=ssrane_b23@ee.vjti.ac.in; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org D795640781
+Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=ee.vjti.ac.in
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D795640781
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=vjti.ac.in header.i=@vjti.ac.in header.a=rsa-sha256 header.s=google header.b=ct/UxdeW
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id D795640781
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 18:20:31 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-ba488b064cbso998272a12.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 06 Nov 2025 10:20:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762445352; x=1763050152; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=G/WVmVHenIdK3KCEFMeF1CP0bfdkN9fPLWoBNVC7n1U=;
-        b=HCXdiQkE1NEl1pVQ8EOdee4vGYsGKs//HTJODab5ohfYZKz6IxlrduiKAJaBTRi3Tb
-         cyk5SnDnCaLX35WKAeu6gX4TvciVtdhpv8Kgwi6nMEkex1IU9sIYQ6sYSZYApdPbYxW8
-         fMpdrRskVU5mGj7VxuqLDOeck+0T08d455mvDTbfr0F81tyO0suHH3F3Ap/v8vrVna33
-         a6zfZvHMIcbaOrBTjSXpQDx9Uu5hwuLvSCdiMupzQV7rdzC3gTNu0V0wJlEyN0fDB4Ez
-         jrTXgqdfo8M4F9lgmzs1Fs6goI1+wr1QNvrPIOUaavCkcaTnU7oW7E5ZIhnXkxShJQsa
-         F0eA==
+        d=vjti.ac.in; s=google; t=1762453231; x=1763058031; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7ASB8FKtZK1f63TZGwMkE6Mcut8cdvc7Tlq+5U4LNTk=;
+        b=ct/UxdeWKWGl0vX92iIm/uOi1vRkwfuCL2SaC91LEKjyWfVtz4ZuJcZWjPX9dbtwtq
+         AUwt9fevHR+qGr8XxdEw/TxKtjQd1u0C32EoZAJ4stCm6UzywYc7cLwQI+djBdbjx/8X
+         v06PUmBQWrLF1g2RcIcKC4TgtW6uJ/mpJuj/M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762445352; x=1763050152;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G/WVmVHenIdK3KCEFMeF1CP0bfdkN9fPLWoBNVC7n1U=;
-        b=IBgHgIJ/Y8Ez8W6aW7ujsoqYL9oeEF8vPBNjOd9LQt2s30qxg/tG0ZjkXwB1ZMkJsO
-         7DnXPt/pGK2zGPxmy5TPBiw7aVf28h9/znMbd52A3PDyKb3wfPCEfTqvzPJ8vDXaHOvA
-         fURbCTbDjIQS2LcXc3j1xIxO6ltg/4z9Pr3r4g25IoJNpnxJvnAjlVB9Si3tAAsh4ims
-         1dsIxU9LFVzXfzbjgqBbRiihW9o/lECAMkqvvsCIqe55JHmvjUMPce88DM8U7+5B25xf
-         /9FdIxibWdTeyNrQAoWbIWt5O2ruH03tmcVPvRj2TONk9U4POIO/ZE/O49adwQlUoN4k
-         FjGw==
-X-Forwarded-Encrypted: i=1; AJvYcCXBwLVc4UZFAYwJVBs1/yaoDNIxy1HRWtdZPt+ILaTdnB+ZHkaLnnLAZgweeFeoekeYcqMtB5LO0wbjvgtltDGUrwT6vA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx6AA+7hbofCzq6sd2rDxJBJXp8Kq9XjPRkX7eYZXPNMIWT5ISq
-	p8PONxbGwTLKGV8IDa9vvTyj9eGGPGWybMtAO/hBg23Yju8iQpt/j7dKefy2n6CBvR0XXpHYNb8
-	ndIM1Chy4KV6X5Lim+EJVEoWSDf/mF2c=
-X-Gm-Gg: ASbGnctT3giR+GK7ifaElmveafabZDelOhY0YTzDgsd2xD85a6/wjeh3tAKhWRR03BM
-	xbi+d7/Xuu6b/YNJ7u+ei52Y+GPkxJW6wf/3P0Fm751QRbgfQtXlJ4uLm9CUaQzcaaMdlvjaWjC
-	u3MZim0KZ4evxeAiQMWpBcua+JYdMsu1dlx/6NGcz0Rbi3wYwtagGoMJaJ/YP4SX2k3ZZ4aeb/6
-	8kYlvXN6BDkF8vm+cMPXRPbiXcDFDoJYsinYIMqXh/4iDyP9zfuPZjgaPZBG4FdzBzcAAe0/p7l
-	yN3OlxYUrkK7F9fJ0isiC43ie8jYq0QA/oWsuTbaX7ouKIUXLU8DybpU/9foRMnhEg==
-X-Google-Smtp-Source: AGHT+IEhSIJc5Z5I5NnrKkJBGLV9NZNcAoGr82x4X4tSXvlTQWMJrPj0B4VjrofC5qDWeUguEUAvAwWik8JyOF9e8g4=
-X-Received: by 2002:a05:6402:280a:b0:63b:d7f0:d93a with SMTP id
- 4fb4d7f45d1cf-6410588e1a2mr8115751a12.3.1762445351811; Thu, 06 Nov 2025
- 08:09:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762453231; x=1763058031;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7ASB8FKtZK1f63TZGwMkE6Mcut8cdvc7Tlq+5U4LNTk=;
+        b=ao5E40dQ55nZ53O5C6F8TkwltcLU6buBeztn/FN+mBEAGafGJZvGTgYqHRlE/tCcM2
+         ZeTC7tq2JVvnajtU9fwo/d4Iak6xVXmkvRSlvASx/B98ApsTTPpTzaZcekLMIjH6qa1M
+         x/9QVVmlKfVw3ve/7tG88VWKYydDTPFt9ruiKtvB3YFZQYpWhkIRbUWGXKpkV+s/nxGt
+         8itO//RExg+1R5nOxzNI5EV5QVrwhxPFwOa6zojeAB39xkwpuXXcrKyRIYFxsCj4xyyY
+         x7m/8l/6DrOiwUCYIgo0mUpZBcxIyzX8QEW9jQ1H6DXLTantBRIkidB2VbB9AutkRCS5
+         iwHg==
+X-Forwarded-Encrypted: i=1; AJvYcCVcTtTdz82zFn9TIuZR/dwI6mjoY04b/c443k1yM8Or+gvql6heKEXBD6oIl3jL6MWqcNoe+c0Qqh3jeP6pvO0ale+FYg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YycVZd8zW93cAig47Nc7RwappLE1VBu11LP7rwfBfxyrBy/zwcP
+	RPmYWiZL1/4Q4FVEjX4rcHX7xkcGLFhlzNibA3HAl/ca8AGhGycScp6pbfK9MWhg9SQ=
+X-Gm-Gg: ASbGncuTzBXLOgVO4onVqHmY9GAWhHZgzAwINt/DZ6AehiKiHI0TfyOHiel5NA+YdEz
+	TzS1huI6ooiIM/V5DQjeBcq/rC5yb+3yhWvMM2VHyE9LBnuAzN8DIxgiOszG1Rc9/jpu8S5c+QS
+	7A/qWUflT1nInHPEzew7ZCpf5/mWf7MOr07VcjJPZgfserJMtbvsZs6xc1DQDI2zmFBF5WXxCko
+	7hvnWyUbVEsLhsLm2bI6ZaJ99FbE6v79ZDHI/TRexr1oPF28UTIOjDjhD1XpjiPatTve060zrGA
+	soem7oob8Zb3gdSDHI9q6WxGnLJvlAcqFcJ6xeSNwmo2W0tbUoZGCfEKCPQak7foObX+UxPkpjs
+	BV9K1axY3AO+AO2sPBvYTXx17aPFlUuy0JK6dh+FOHGBXqbWS04nQOwDKILof0QIdhpHwEVRP65
+	Ll3R3Jxgb/JZes0I112yNidg7wCbra/Z9hYwOds3GM3NjMxYYMXhD3shcw9w==
+X-Google-Smtp-Source: AGHT+IGjsvWizViuKvqU/9ixMSrMVwXUSyqJ0gQDi1Sv/r9iYmMJdX5r5ZgGWH4p4H/sroNO9dU7pw==
+X-Received: by 2002:a17:902:e88b:b0:290:9a74:a8ad with SMTP id d9443c01a7336-297c047f196mr4517675ad.53.1762453230814;
+        Thu, 06 Nov 2025 10:20:30 -0800 (PST)
+Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([110.226.176.248])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29651ccec88sm35062555ad.107.2025.11.06.10.20.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 10:20:30 -0800 (PST)
+From: ssrane_b23@ee.vjti.ac.in
+X-Google-Original-From: ssranevjti@gmail.com
+To: linux-bluetooth@vger.kernel.org
+Cc: luiz.dentz@gmail.com,
+	marcel@holtmann.org,
+	johan.hedberg@gmail.com,
+	pav@iki.fi,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	syzbot+14b6d57fb728e27ce23c@syzkaller.appspotmail.com,
+	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+Subject: [PATCH v2 1/1] Bluetooth: L2CAP: Fix use-after-free in l2cap_unregister_user
+Date: Thu,  6 Nov 2025 23:50:16 +0530
+Message-Id: <20251106182016.26508-1-ssranevjti@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251105142251.101852-1-ssranevjti@gmail.com>
+References: <20251105142251.101852-1-ssranevjti@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251028174222.1739954-1-viswanathiyyappan@gmail.com>
- <20251028174222.1739954-2-viswanathiyyappan@gmail.com> <20251030192018.28dcd830@kernel.org>
- <CAPrAcgPD0ZPNPOivpX=69qC88-AAeW+Jy=oy-6+PP8jDxzNabA@mail.gmail.com> <20251104164625.5a18db43@kernel.org>
-In-Reply-To: <20251104164625.5a18db43@kernel.org>
-From: I Viswanath <viswanathiyyappan@gmail.com>
-Date: Thu, 6 Nov 2025 21:38:59 +0530
-X-Gm-Features: AWmQ_bl5uAbPtelIBkdQOTDm-ZMeds5DYrYna8z74wPG5EKsLuiEbCWlKgzolEU
-Message-ID: <CAPrAcgMXw5e6mi1tU=c7UaQdcKZhhC8j-y9woQk0bk8SeV4+8A@mail.gmail.com>
-Subject: Re: [RFC/RFT PATCH net-next v3 1/2] net: Add ndo_write_rx_config and
- helper structs and functions:
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com, 
-	horms@kernel.org, sdf@fomichev.me, kuniyu@google.com, ahmed.zaki@intel.com, 
-	aleksander.lobakin@intel.com, jacob.e.keller@intel.com, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	david.hunter.linux@gmail.com, khalid@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 5 Nov 2025 at 06:16, Jakub Kicinski <kuba@kernel.org> wrote:
-> I wouldn't use atomic flags. IIRC ndo_set_rx_mode is called under
-> netif_addr_lock_bh(), so we can reuse that lock, have update_config()
-> assume ownership of the pending config and update it directly.
-> And read_config() (which IIUC runs from a wq) can take that lock
-> briefly, and swap which config is pending.
+From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 
-How does this look?
+After commit ab4eedb790ca ("Bluetooth: L2CAP: Fix corrupted list in
+hci_chan_del"), l2cap_conn_del() uses conn->lock to protect access to
+conn->users and conn->hchan. However, l2cap_register_user() and
+l2cap_unregister_user() still use hci_dev_lock(), creating a race
+condition where these functions can access conn->users and conn->hchan
+concurrently with l2cap_conn_del().
 
-It's possible for the actual work of set_rx_mode to be in a work item
-so we need to validate that dev->addr_list_lock is held in update_config()
+This can lead to use-after-free and list corruption bugs, as reported
+by syzbot.
 
-// These variables will be part of dev->netif_rx_config_ctx in the final code
-bool pending_cfg_ready = false;
-struct netif_rx_config *ready, *pending;
+Fix this by changing l2cap_register_user() and l2cap_unregister_user()
+to use conn->lock instead of hci_dev_lock(), ensuring consistent locking
+for the l2cap_conn structure.
 
-void update_config()
-{
-    WARN_ONCE(!spin_is_locked(&dev->addr_list_lock),
-    "netif_update_rx_config() called without netif_addr_lock_bh()\n");
+Reported-by: syzbot+14b6d57fb728e27ce23c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=14b6d57fb728e27ce23c
+Fixes: ab4eedb790ca ("Bluetooth: L2CAP: Fix corrupted list in hci_chan_del")
 
-    int rc = netif_prepare_rx_config(&pending);
-    if (rc)
-        return;
+Changes in v2:
+ - Replaced hci_dev_lock()/unlock() with mutex_lock()/unlock(&conn->lock)
+   in both l2cap_register_user() and l2cap_unregister_user().
+ - Updated comments to match current locking rules.
+ - Removed unnecessary hci_dev_hold()/hci_dev_put() usage.
 
-    pending_cfg_ready = true;
-}
+Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+---
+ net/bluetooth/l2cap_core.c | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
-void read_config()
-{
-    // We could introduce a new lock for this but
-    // reusing the addr lock works well enough
-    netif_addr_lock_bh();
+diff --git a/net/bluetooth/l2cap_core.c b/net/bluetooth/l2cap_core.c
+index d08320380ad6..29e78801c507 100644
+--- a/net/bluetooth/l2cap_core.c
++++ b/net/bluetooth/l2cap_core.c
+@@ -1685,17 +1685,15 @@ static void l2cap_info_timeout(struct work_struct *work)
+ 
+ int l2cap_register_user(struct l2cap_conn *conn, struct l2cap_user *user)
+ {
+-	struct hci_dev *hdev = conn->hcon->hdev;
+ 	int ret;
+ 
+ 	/* We need to check whether l2cap_conn is registered. If it is not, we
+-	 * must not register the l2cap_user. l2cap_conn_del() is unregisters
+-	 * l2cap_conn objects, but doesn't provide its own locking. Instead, it
+-	 * relies on the parent hci_conn object to be locked. This itself relies
+-	 * on the hci_dev object to be locked. So we must lock the hci device
+-	 * here, too. */
++	 * must not register the l2cap_user. l2cap_conn_del() unregisters
++	 * l2cap_conn objects under conn->lock, and we use the same lock here
++	 * to protect access to conn->users and conn->hchan.
++	 */
+ 
+-	hci_dev_lock(hdev);
++	mutex_lock(&conn->lock);
+ 
+ 	if (!list_empty(&user->list)) {
+ 		ret = -EINVAL;
+@@ -1716,16 +1714,14 @@ int l2cap_register_user(struct l2cap_conn *conn, struct l2cap_user *user)
+ 	ret = 0;
+ 
+ out_unlock:
+-	hci_dev_unlock(hdev);
++	mutex_unlock(&conn->lock);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(l2cap_register_user);
+ 
+ void l2cap_unregister_user(struct l2cap_conn *conn, struct l2cap_user *user)
+ {
+-	struct hci_dev *hdev = conn->hcon->hdev;
+-
+-	hci_dev_lock(hdev);
++	mutex_lock(&conn->lock);
+ 
+ 	if (list_empty(&user->list))
+ 		goto out_unlock;
+@@ -1734,7 +1730,7 @@ void l2cap_unregister_user(struct l2cap_conn *conn, struct l2cap_user *user)
+ 	user->remove(conn, user);
+ 
+ out_unlock:
+-	hci_dev_unlock(hdev);
++	mutex_unlock(&conn->lock);
+ }
+ EXPORT_SYMBOL(l2cap_unregister_user);
+ 
+-- 
+2.34.1
 
-    // There's no point continuing if the pending config
-    // is not ready
-    if(!pending_cfg_ready) {
-       netif_addr_unlock_bh();
-       return;
-    }
-
-    swap(ready, pending);
-    pending_cfg_ready = false;
-
-    netif_addr_unlock_bh();
-
-    do_io(ready);
-}
-
-On the topic of virtio_net:
-
-set_rx_mode in virtio_net schedules and does the actual work in a work
-item, so would
-the correct justification here be moving I/O out of the rtnl lock?
-
-If this looks good, I will start working on v4
