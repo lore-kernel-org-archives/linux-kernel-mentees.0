@@ -1,139 +1,113 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30B330DD07
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 09:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678BB26F29C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 11:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762422951; cv=none; b=EMftIm9slafHA8Zn1NVHvYaFcLGLW0v/fhxKR8MfGJ8vbA301I4gr/nVkd/eFw9PCG+PEgLMusB/zNxmtooEHW8t9333N0WMpB+MiQT7jrnvnEP/RJugrv9ViJlMvyOrMX9aIv1OQNIICve49RnDScin66Al0HiE5JGE82YnXDE=
+	t=1762428851; cv=none; b=gesg56w3aU4Ok0VY8cUgh/I8XGicCT8XuIWNb3tcYvhk6bxcc3R77NsT6P06XaBpluoPbBJfLrXM6WhbCIugsBV4ZEur8JNawrZriaI/JOf1jHxtEOMt8DcD6EgAx9HYJB83cErGEGt7K1Fhm6TutidwTIsxy7oFK46H5mmhirQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762422951; c=relaxed/simple;
-	bh=lGb+rCNSnJ/Re9I074l78vjpp6/yu6/7U6mL2e+8rjE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NIJNddSxkTkCdymx9HvdLWpMrth5oukf3z/RhFM2ezSU9f7xnBeWo506jAE/YylRFN2BozPD/dv9uPdsCOR4XIjkzR6UR5dPWbyoz/ztbV5TW9XuO+cyVk9rSPTO7slLovKttj2hQFLDQIuB0LU9pJk613hhrHLVA6y3+Hpz5Ic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OhZ6Gv+M; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1762428851; c=relaxed/simple;
+	bh=x0vSPZuKoRb3szafYiv21K0FcdiPZdKs0Jp10xlTOqg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FCb8rSxE0Cq23HwzhtedKgszfvXHTZQjyFVtNWMx+YxUPwqLc52Ey7L7g1NG0QHAkKgf2AIz+FCKT/03uZYygHdZaBC5/+j4skmWZrHfBmIhiuir8ISBlj+QyW4Q2+GSvwNUvG/Ta3X68iipFMoS+77mMqRwU1ccdaGUGRG85CQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rZwpeJD5; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OhZ6Gv+M"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rZwpeJD5"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 413C3840F7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 09:55:50 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id E080B40F84
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 11:34:09 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -5.792
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ja2yzbDgQRHl for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Nov 2025 09:55:49 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::642; helo=mail-pl1-x642.google.com; envelope-from=ankitkhushwaha.linux@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 56CA3840F3
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 56CA3840F3
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OhZ6Gv+M
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 56CA3840F3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 09:55:48 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id d9443c01a7336-290aaff555eso7881825ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 06 Nov 2025 01:55:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762422948; x=1763027748; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sx3MpVj7PiHTaRtB2+AQXnkYRvNzs0/kE3anQ6IOaeM=;
-        b=OhZ6Gv+MeARsL6ohQO3OPsZqL71w69K329SaFFtWLZgAeNC21XyaUHRdeVzy6emnbS
-         2dHjAYtFlpGWDt8EdqH/wzg+Sr27PSQsgUrcO148EAoNct1drMQli9pMn6/fmiwu7hfl
-         gIOcUDMF1APFRDq5RYVqE8OXdVhDIqF2BCB/Mc046sE1RSJwPLbUs0xW1tBBLNXvH7tu
-         tW8IQu4s4z7jaQBSeq9ee1/KElkjdxIPFR0NWIvbjWH+PGXkqIOmxXlzAULYzlUNFSmp
-         +Yu1b7PZCLNgTL13KrqRHLJs/Dv694jEHMFZVxYGd3NgR1tGRAi1zNB+YklAogKOMrMx
-         DNVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762422948; x=1763027748;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Sx3MpVj7PiHTaRtB2+AQXnkYRvNzs0/kE3anQ6IOaeM=;
-        b=S5YRI38C0JLnewhx6G+78TsFx/FvrG+degamk8v95yWmz+cVOE8LKl17VYLoq3sqCg
-         IbdX3IOoejfmivpqKUGAszFx6lYXYCAhC+5L8xkQctC8Y1Z2UfryO1MuWI/oLN1tTX3C
-         OqEcYbxUAbOZVv10gUFNtaEa8XuMz3L+LmVBMMtHOpKDybxfenebKNA2UTmIfTdY9eS+
-         UPlH2ItGWIzIDM9y+oWIIWArGiDMBc8SP7GnPVIBTrseshdLjH6GcQOXUtr5WmjuDDij
-         GTYHRUZBOWgJCjzprG0KFH7Pm/1pSedteqvESk5qFoSu8y4kxPjdwt3OHIS1OfB0W26M
-         D0qA==
-X-Forwarded-Encrypted: i=1; AJvYcCWJMT71rdC/CDPqXjR0ACAoaCSa9xeE+8/kyLdg21+gWa3Vd8j8pE9laou6vnjiFUfX634w+zNhWj7Ma+hn4BKl4frUsg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzS8a0Kn2bqYV5NORPMyaLehOEVs1FGm+ddq3OSyWZ+QVKppx8i
-	GZzEQ9ib2TkLQoIJFIYaGHTNSD0ehTCZvffy9fs3lOZ03+CzbAo8b3WY
-X-Gm-Gg: ASbGnctjMHV6ZPHFysH2fSoqqciOKZ1IVzwsrRQ88CW4TeF6qBIpRDhLcyzZEA9OTCH
-	nDJtSOWr2ocVKG6Fu6SaZ3q1ALalBuX625xvNDg/BIdVgflKY0mPtil+DjGNa2loHMMU1Njf5tW
-	Df9FxjPtIJir3H2diz/ZDfDMxQcsL7o/0drwQxk4jZxUezTh/O6fEUetctJVaNRVK4eHvhvZ8or
-	v42hzZGik/Lm3Sk5EqnYjoOTzUVvJCjJENA/whC8xYYHziya5t3wST4Fi3hLgaEJ+ojpMMqTgvb
-	JBXGj+mNCmlc4z9fTKkUIlqSGiWT5B9/czGTAzHvuj3fvF5CNskro5B81ag4PoWjrQn7BE9t2o/
-	xkc0wCsPDH0u8xvF4y7WSoP+u2X/2YjldqDROaVsy39DwvTFCrGoCoGFhLjnYzHf+E+e/AD/QCK
-	nQ7RgjfAESe2sgDbp5sgU=
-X-Google-Smtp-Source: AGHT+IGLWpaeqUyOqwgdTGI+r36lnGa7tydw0O2a7A+GFy9ENF5YsdFbKzmv4BnmJ82XJw5jO5gf6w==
-X-Received: by 2002:a17:902:d48c:b0:294:ccc6:ccfd with SMTP id d9443c01a7336-2962ad1bdffmr91436475ad.24.1762422947738;
-        Thu, 06 Nov 2025 01:55:47 -0800 (PST)
-Received: from fedora ([103.120.31.122])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29651ca1eb7sm23046285ad.89.2025.11.06.01.55.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 01:55:46 -0800 (PST)
-From: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
-To: linux-kselftest@vger.kernel.org,
-	Shuah Khan <shuah@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
-Subject: [PATCH v2] selftests/user_events: Fix type cast for write_index packed member in perf_test
-Date: Thu,  6 Nov 2025 15:25:32 +0530
-Message-ID: <20251106095532.15185-1-ankitkhushwaha.linux@gmail.com>
-X-Mailer: git-send-email 2.51.0
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id pJX7kq3aik9u for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  6 Nov 2025 11:34:09 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=broonie@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org D3EE241264
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D3EE241264
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rZwpeJD5
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D3EE241264
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 11:34:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id B9A55601B8;
+	Thu,  6 Nov 2025 11:34:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3F75C19421;
+	Thu,  6 Nov 2025 11:34:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762428846;
+	bh=x0vSPZuKoRb3szafYiv21K0FcdiPZdKs0Jp10xlTOqg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=rZwpeJD5qSn0xu/aGF3pXyhMLon1Go9aoKkG1nuVdqFSpyZVcT56FbiQqQ3zKDs8Z
+	 /Wc1Hs59K+N1++qOXxcxUDLeG5g3b8YtNKJyJglTk3If109pRtrCy5WRrP5absdUlU
+	 nNFoS8P7dBDqK8xRNz3LJ24vHDlYNRHGFbj536mMpIqPB4h5XkM6PttyBLDIsvN7R2
+	 Za4Ky13ASREhFVbX1uGrRmwtXaqmMLVnbK0wHpJst9lF9nQ97HN9dujeP8WIySrAod
+	 suOpisJDZK5M2wbqMdmaldf1Fjz97jNne32fQbz8VBZ8isfHvUNV6IT0Nll3oqiFcu
+	 kwTG7EhCPWoTg==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Ranganath V N <vnranganath.20@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+ david.hunter.linux@gmail.com, khalid@kernel.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org
+In-Reply-To: <20251104-dtbs-v7-1-224aacb09671@gmail.com>
+References: <20251104-dtbs-v7-1-224aacb09671@gmail.com>
+Subject: Re: [PATCH v7] ASoC: dt-bindings: ti,pcm1862: convert to dtschema
+Message-Id: <176242884289.2357326.13162539553675802549.b4-ty@kernel.org>
+Date: Thu, 06 Nov 2025 11:34:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-a6db3
 
-Accessing 'reg.write_index' directly triggers a -Waddress-of-packed-member
-warning due to potential unaligned pointer access:
+On Tue, 04 Nov 2025 16:04:58 +0530, Ranganath V N wrote:
+> convert the Texas Instruments PCM186x Universal audio ADC bindings
+> to DT schema.
+> 
+> The PCM186x codec provides a single digital audio interface. Therefore
+> this binding adds a reference to dai-common.yaml and defines
+> '#sound-dai-cells = 0".
+> 
+> [...]
 
-perf_test.c:239:38: warning: taking address of packed member 'write_index'
-of class or structure 'user_reg' may result in an unaligned pointer value
-[-Waddress-of-packed-member]
-  239 |         ASSERT_NE(-1, write(self->data_fd, &reg.write_index,
-      |                                             ^~~~~~~~~~~~~~~
+Applied to
 
-Since write(2) works with any alignment. Casting '&reg.write_index'
-explicitly to 'void *' to suppress this warning.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
----
-Changelog:
-v2:
-- typecast '&reg.write_index' to 'void *' & remove use of memcpy as
- suggested by Andrew.
+Thanks!
 
-v1: https://lore.kernel.org/linux-kselftest/20251027113439.36059-1-ankitkhushwaha.linux@gmail.com/
+[1/1] ASoC: dt-bindings: ti,pcm1862: convert to dtschema
+      commit: aa897ffc396b48cc39eee133b6b43175d0df9eb5
 
----
- tools/testing/selftests/user_events/perf_test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-diff --git a/tools/testing/selftests/user_events/perf_test.c b/tools/testing/selftests/user_events/perf_test.c
-index 201459d8094d..cafec0e52eb3 100644
---- a/tools/testing/selftests/user_events/perf_test.c
-+++ b/tools/testing/selftests/user_events/perf_test.c
-@@ -236,7 +236,7 @@ TEST_F(user, perf_empty_events) {
- 	ASSERT_EQ(1 << reg.enable_bit, self->check);
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
- 	/* Ensure write shows up at correct offset */
--	ASSERT_NE(-1, write(self->data_fd, &reg.write_index,
-+	ASSERT_NE(-1, write(self->data_fd, (void *)&reg.write_index,
- 						sizeof(reg.write_index)));
- 	val = (void *)(((char *)perf_page) + perf_page->data_offset);
- 	ASSERT_EQ(PERF_RECORD_SAMPLE, *val);
---
-2.51.0
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
