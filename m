@@ -1,68 +1,70 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678BB26F29C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 11:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF586224FA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 15:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762428851; cv=none; b=gesg56w3aU4Ok0VY8cUgh/I8XGicCT8XuIWNb3tcYvhk6bxcc3R77NsT6P06XaBpluoPbBJfLrXM6WhbCIugsBV4ZEur8JNawrZriaI/JOf1jHxtEOMt8DcD6EgAx9HYJB83cErGEGt7K1Fhm6TutidwTIsxy7oFK46H5mmhirQ=
+	t=1762443978; cv=none; b=WJ++XiaU9TV0nym23GjDi8ZswMsWgjQvtqiZKYUdv28CZkx++s77e4azH0QqZSUYsAIrX1S2C/hq1242A5+3kHg7Joy1NO5j1l6fTm4sc/nqQaMZ+xnDlhVwwmyeUMChlye6jxkw/X7rAgdVK5n00zQIwDSDWjA0CzRGAsyYmAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762428851; c=relaxed/simple;
-	bh=x0vSPZuKoRb3szafYiv21K0FcdiPZdKs0Jp10xlTOqg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FCb8rSxE0Cq23HwzhtedKgszfvXHTZQjyFVtNWMx+YxUPwqLc52Ey7L7g1NG0QHAkKgf2AIz+FCKT/03uZYygHdZaBC5/+j4skmWZrHfBmIhiuir8ISBlj+QyW4Q2+GSvwNUvG/Ta3X68iipFMoS+77mMqRwU1ccdaGUGRG85CQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rZwpeJD5; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1762443978; c=relaxed/simple;
+	bh=B+UGheMgEsNyZTFyDezsqey+Ye9J3I4uGlRqQyERUsk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QRlItCheABqYfZeKxwwqyOt5Tz/+Lqa7JMOB55RBMYs/19/UxhUivC5Xge4c1fgqkUK/N6SI2U3ReGj7CBBaJ19iheaJvzCh16UKjzH1PhCexgoem8Ri4i4GTID57QqmAlBG+5NvpFfxjTxSMMEX0HfQbgMzsGyadMnReoNUhq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=Tc7XGnmP; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rZwpeJD5"
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="Tc7XGnmP"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E080B40F84
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 11:34:09 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 341978403A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 15:46:16 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -5.792
+X-Spam-Score: -5.791
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id pJX7kq3aik9u for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Nov 2025 11:34:09 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=broonie@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org D3EE241264
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D3EE241264
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rZwpeJD5
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id D3EE241264
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 11:34:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id B9A55601B8;
-	Thu,  6 Nov 2025 11:34:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3F75C19421;
-	Thu,  6 Nov 2025 11:34:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762428846;
-	bh=x0vSPZuKoRb3szafYiv21K0FcdiPZdKs0Jp10xlTOqg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=rZwpeJD5qSn0xu/aGF3pXyhMLon1Go9aoKkG1nuVdqFSpyZVcT56FbiQqQ3zKDs8Z
-	 /Wc1Hs59K+N1++qOXxcxUDLeG5g3b8YtNKJyJglTk3If109pRtrCy5WRrP5absdUlU
-	 nNFoS8P7dBDqK8xRNz3LJ24vHDlYNRHGFbj536mMpIqPB4h5XkM6PttyBLDIsvN7R2
-	 Za4Ky13ASREhFVbX1uGrRmwtXaqmMLVnbK0wHpJst9lF9nQ97HN9dujeP8WIySrAod
-	 suOpisJDZK5M2wbqMdmaldf1Fjz97jNne32fQbz8VBZ8isfHvUNV6IT0Nll3oqiFcu
-	 kwTG7EhCPWoTg==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Ranganath V N <vnranganath.20@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
- david.hunter.linux@gmail.com, khalid@kernel.org, 
- linux-kernel-mentees@lists.linuxfoundation.org
-In-Reply-To: <20251104-dtbs-v7-1-224aacb09671@gmail.com>
-References: <20251104-dtbs-v7-1-224aacb09671@gmail.com>
-Subject: Re: [PATCH v7] ASoC: dt-bindings: ti,pcm1862: convert to dtschema
-Message-Id: <176242884289.2357326.13162539553675802549.b4-ty@kernel.org>
-Date: Thu, 06 Nov 2025 11:34:02 +0000
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id g6-Ymeuip8X7 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  6 Nov 2025 15:46:15 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=18.9.28.11; helo=outgoing.mit.edu; envelope-from=tytso@mit.edu; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org C53D384039
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C53D384039
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=Tc7XGnmP
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C53D384039
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  6 Nov 2025 15:46:13 +0000 (UTC)
+Received: from trampoline.thunk.org (pool-173-48-124-240.bstnma.fios.verizon.net [173.48.124.240])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 5A6FjqdX005527
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 6 Nov 2025 10:45:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1762443955; bh=UGc7IAsi5k7X/ZNrBvqTxtQUxRzMNJ5fSoiXPuhWQeE=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=Tc7XGnmPOTd2pENZGABKEyHXvav3+xcqdR7Y4czpVqe5O/MbTDCBAHUUHXiMTTpTg
+	 lb2z1ELCH8GLouAxuw3YbpDAWEPbusMy4eHqtSGNimS4ef+J1xVj7lMKrJyEmMhGxI
+	 LlWL/MtT33L9iD9NoT4UyyaPrQCTMzO1HzcImGSFzW430DGSJkCXyTLUVvqzvr/UNB
+	 OLWT8k0tlk+LBYsH7daEighqbrUov87nLsBuVjSYUD+H3vqw9hX+1M4cJMNZG3gbHJ
+	 YkytcCwkGpvjZJPZREjdI2uHvvVfiyZU/hRzW3fu4QvKykhs3xPIA9zh+IZZwfyyS/
+	 eoVhjfG57LkKQ==
+Received: by trampoline.thunk.org (Postfix, from userid 15806)
+	id 7029F2E00D7; Thu, 06 Nov 2025 10:45:52 -0500 (EST)
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: lkp@intel.com, Ranganath V N <vnranganath.20@gmail.com>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, adilger.kernel@dilger.ca,
+        david.hunter.linux@gmail.com, khalid@kernel.org,
+        linux-ext4@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+        skhan@linuxfoundation.org
+Subject: Re: [PATCH v2] fs: ext4: fix uninitialized symbols
+Date: Thu,  6 Nov 2025 10:45:47 -0500
+Message-ID: <176244393634.3131189.2721696855170413272.b4-ty@mit.edu>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251011063830.47485-1-vnranganath.20@gmail.com>
+References: <202510110207.yBvUMr5Z-lkp@intel.com> <20251011063830.47485-1-vnranganath.20@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -70,44 +72,26 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-a6db3
+Content-Transfer-Encoding: 8bit
 
-On Tue, 04 Nov 2025 16:04:58 +0530, Ranganath V N wrote:
-> convert the Texas Instruments PCM186x Universal audio ADC bindings
-> to DT schema.
+
+On Sat, 11 Oct 2025 12:08:29 +0530, Ranganath V N wrote:
+> Fix the issue detected by the smatch tool.
 > 
-> The PCM186x codec provides a single digital audio interface. Therefore
-> this binding adds a reference to dai-common.yaml and defines
-> '#sound-dai-cells = 0".
+> fs/ext4/inode.c:3583 ext4_map_blocks_atomic_write_slow() error: uninitialized symbol 'next_pblk'.
+> fs/ext4/namei.c:1776 ext4_lookup() error: uninitialized symbol 'de'.
+> fs/ext4/namei.c:1829 ext4_get_parent() error: uninitialized symbol 'de'.
+> fs/ext4/namei.c:3162 ext4_rmdir() error: uninitialized symbol 'de'.
+> fs/ext4/namei.c:3242 __ext4_unlink() error: uninitialized symbol 'de'.
+> fs/ext4/namei.c:3697 ext4_find_delete_entry() error: uninitialized symbol 'de'.
 > 
 > [...]
 
-Applied to
+Applied, thanks!
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[1/1] fs: ext4: fix uninitialized symbols
+      commit: 6640d552185f7c11235c64a832004db9af119b2d
 
-Thanks!
-
-[1/1] ASoC: dt-bindings: ti,pcm1862: convert to dtschema
-      commit: aa897ffc396b48cc39eee133b6b43175d0df9eb5
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards,
+-- 
+Theodore Ts'o <tytso@mit.edu>
