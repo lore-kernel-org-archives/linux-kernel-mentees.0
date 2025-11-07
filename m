@@ -1,478 +1,120 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727EB306B33
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  7 Nov 2025 07:07:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37A33370E9
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  7 Nov 2025 17:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762499237; cv=none; b=leCdiYpNyecQRsvQXtpVrfYUS4Kn6JTmhoFF7MyzCDnpAk33HzQOqxKWNmR4XoLOcIJ4twsb4vLoOn/MP6pNQxYp8jfF6ZJ5ru1dCgVadC9KO2ZNxIuHvbNLDUIE3aKA+AfTuAnhI/x7zfrKJLP7GE+iVSm6HPfyqejoBF2JH4M=
+	t=1762538069; cv=none; b=YmwlhMvV2yIKU9H9W2YKi7KWrYPCQBOQkYIh+Eqy1jrOgxlbksQtq3hzOrS0uTmMF5jGskHqATpB7Vw8nm7fGBvPnto0sFEcspDc5G+zJqxP9LS7CwJAW4xHMQF+gPWgGmZcarWGJomJUQO83a3bQLhaMX3mk2JEOci/68d6zXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762499237; c=relaxed/simple;
-	bh=lCs49KFxoMFrIEOoTD/naUkYVoUfAQLWK8wiieZIm4Y=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=GZiekbypyeFEJP/9OqzR9p5FfnFt5TUAfWIdD4jHY0PToMd+LKN1794mvR8bASbqXDDgwxZJgzGznMtAU8n5Rhu7Ba2shpaTUDBw5IWBO8y3CggShUisYFYoKGbFKhR0ddu/8Ljy5JGC1bajCh7HGUkDiDPYbCHKxvXOpAupZx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=as7Kl1v/; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1762538069; c=relaxed/simple;
+	bh=dIlUqtzLyQeoLWra58iVWTQ8+nwBRh5dtagRaNZsUEQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZcQ51zjEYPidUq4B7dr0rfHF9bTCAjqNABCwLejeuCRNRlNTFpXF+n09ILWX+Bw+3VPDi4jNPqTybGkL5uF5N9Mn7eHEDy9JwQWFmLpXbQmX3hQwCGAlwxh7nkIOZtEq2p8LEtX0iIBOT542NwETWLCqDWF91Ne9wcIEXRab4a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Tz/CDJI+; arc=none smtp.client-ip=209.85.166.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="as7Kl1v/"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E29F0404AF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  7 Nov 2025 07:07:14 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -7.102
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ECI-MhQBEggU for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Nov 2025 07:07:14 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::649; helo=mail-pl1-x649.google.com; envelope-from=3ojonaqykafsdngbrn9hh9e7.5hf@flex--kuniyu.bounces.google.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org BAD3C404AD
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=reject dis=none) header.from=google.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org BAD3C404AD
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=as7Kl1v/
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id BAD3C404AD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  7 Nov 2025 07:07:13 +0000 (UTC)
-Received: by mail-pl1-x649.google.com with SMTP id d9443c01a7336-294a938fa37so11028135ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 06 Nov 2025 23:07:13 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Tz/CDJI+"
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-4334f0f9c6cso9770545ab.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 07 Nov 2025 09:54:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762499233; x=1763104033; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ic3ja93/cQk65eeTH/cK94gVyAPs95zGxwNR/6EByzY=;
-        b=as7Kl1v/C6+2aVZ2mdSRyDFmrqAa+5AA2ot54myiq1VFj4eD9tFvslse+5XmTBSwMG
-         5JYEdwDmqmEYr4dD9TwaNmhPHreyy52J+gKPibZK3pCd+kRKEu+6fZ8t2Vj/jlpuARhU
-         +RoxfZ+fI6w6Zi4Qezr55tJSwrmNNPYiNky/ZaG+qlYVE9hP80lxgB15TVzK8ZOroAao
-         gb4oXvsrQQS6UCq508pHa34+sPmZh/DInFEarPQ8reP57cu7ajqgFlkh+7Lm8RMRSgc9
-         m2ZWFUOWFZABgDC+JPr4dxFM3D7VNl+2xFGrIx8aJXJ/PzYj9mIvkvEiu85H5pgOnaS4
-         lUVg==
+        d=linuxfoundation.org; s=google; t=1762538067; x=1763142867; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FU3/MuagL6B3vYQIaeUguOWrDr12VN/IdKPR191w65w=;
+        b=Tz/CDJI+oz2wPY+2muwzXXOkhsmsT9fgFp4Bq0EmqCctNuN0W6URauN1flfGKhfw6t
+         mFMCqcRTVy73VUJ0kKUR3teg+cfh7TJKpAnXMm/96hEXcfPGbzKuosNAWn7WdF/jT9Vg
+         M8yOq5ly/QtzQLhYqlS/G0eMhPv+LfBjsd6tM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762499233; x=1763104033;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ic3ja93/cQk65eeTH/cK94gVyAPs95zGxwNR/6EByzY=;
-        b=N3cwyWaeech1AHhJq4fRMiXLGZKcuTw7DNZ26iY83KIOZ3KLwvr54JFlqVFq+MJzpi
-         b71TZN15/2tEP/P5j1St+cO2HRdzmeFYoomSz6EXt2K+9USbSs/kY1kBIr+hENr1c+ac
-         iZnSxYpI433/DfUMmppEDPeElGD+H0QoSX/GhDbOKO3+aY9d1oDGGvDRANydis64jR9K
-         otlDW5yA0EVl0WjALX6nU3dSX4zUtEg01HggqeSHA/qCcO+4AF77UbhT4wyRzrL+W2tp
-         g7j0DVHEnLpsB2PP+r5spknEL86rDQuYCXn3E3YvmpFLEaI8EJzKK91hnRuc3nJWCVEU
-         bEmw==
-X-Forwarded-Encrypted: i=1; AJvYcCXI9KlX5mFymNhTGRj5iKBk/gxsx9SZYyMNfptRYGYAn995GJIi7lsTS9yZHXK06ROeFGPw6sKWBr4oMxDb1Hfyx9kikg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yyb1mei5/Wo6rWy9vRpIZ0/CQ/xPNkGcknqzBiQYHcr68mrnqoC
-	6BzM7BhmHhHH693i1GlhbaXjLg3goadFiYW3CwFa4oYWVKlBv9r+Aaz+ta0sq0GK5y0/kyoBSBl
-	DyaQQHQ==
-X-Google-Smtp-Source: AGHT+IH2L5WyheD68FMlbVolIrglj717q0H4sRdOJCtkxJmx1Vd7u+k1RenCsJ0Dimw0+3YuwtXbTfHiGzU=
-X-Received: from plav13.prod.google.com ([2002:a17:902:f0cd:b0:290:28e2:ce4b])
- (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:d503:b0:295:2cb6:f4a8
- with SMTP id d9443c01a7336-297c046c3bfmr30844965ad.51.1762499232838; Thu, 06
- Nov 2025 23:07:12 -0800 (PST)
-Date: Fri,  7 Nov 2025 07:05:42 +0000
-In-Reply-To: <26835ada-4e3a-4f78-8705-4ed2e3d44bd8@yahoo.com>
+        d=1e100.net; s=20230601; t=1762538067; x=1763142867;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FU3/MuagL6B3vYQIaeUguOWrDr12VN/IdKPR191w65w=;
+        b=HhPJU6eSccywuy993Cnt+AX/Jcg+o2UflLmh8f6aU/nK/oTYtzV5Pf/+9o+DQJb3l9
+         CEE/AeY/NvLxj1eQmc62B5PKX/IwJu7rupDPPshrpTtiAwC4qTEFBJ/gHrVmnbXKpkzj
+         VGUrvMHc1iNZdNRKrk/1uB0kRR0KsiKiNIr16WAz4THsw4eU5xCZLURoakTfStAhFQ07
+         YTMX33a9yjqxKZXfL1uvQ88D3P3gRtcLZVRZ5JI9/UekxDAlt2R9liPmHwNqOJZUKGwt
+         78d++bW4Zmn36cNBTw/rJjJuBxogcajEbW061Ssw5pVe7Hm81TPSj7erRVnpzEaWLryg
+         UHXg==
+X-Forwarded-Encrypted: i=1; AJvYcCXF83fKYFd+mrBvxD31dBDVpkmnUY5lZfiRydAZ7mTrji1OYiu4a1qtbv0CLm6oDcXuU6AMxzMWkTNEfVOKqhDuEYMOAQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yztr3WUS1LA9O5Y0Ep/spnSoj4ahpsp/mlewai51wG8HCkSp7Aq
+	Y3BNamOAfxHn834u2ltflbLwWrgIBU0hOpxgE4A8uRHB09L8ne48blTzjSQ5Pu3lg74=
+X-Gm-Gg: ASbGncs0rYpeR/d6XMF2ykcyhgSJDYX1pxCpvtFLyrF6nO7VfPuyhn0dZLqTGImRfex
+	dXyaqnRAgYmZV2NVp5cxU1MdfTjjI80IM5lS+TxrJ6X2dEB/lmpFwmLsrCwm8YbL/oG9qflngnu
+	2+G2PC+xOL1NAK8AZ4dGaaa9uTVZkwgABTk+55NCgmmvh9FWQbdWGEHHlFUR/vmaFwvviUQX/R9
+	Cpbkp2UpXfkKAbdyIxsLAezpFT7GBkGkouzIbfhmgfxQ9rIRhOWq7Nf9zAwBIEzYr7udDfsXZ3x
+	6ackM2G2slYyW/SoaAGZzNtVmwzbaEi56isKp7dzrP1WzotBwRAdCo3ufusR1Vl0aUiz5BpEvpK
+	+RbRIU15aUSTSjz7ArTa6M0R1vN/vbdWh6j66ZnvfLQAouOAQhvN5A+eWQyk8Jvbc9ZhWjyoDlI
+	meeqoND4phViQNdt8NONmvjB8=
+X-Google-Smtp-Source: AGHT+IFKp4dE65PiBOFxRJN/woRBeSQ9orDQvbl++M1O5M6uLi0c6Zrpx9SmAbu7RjKzh9d0tCzeOw==
+X-Received: by 2002:a05:6e02:1a2c:b0:433:4c96:48b8 with SMTP id e9e14a558f8ab-43367e7a04dmr5317795ab.32.1762538066733;
+        Fri, 07 Nov 2025 09:54:26 -0800 (PST)
+Received: from [192.168.1.14] ([38.175.187.108])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-4334f4e77b7sm24550145ab.29.2025.11.07.09.54.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Nov 2025 09:54:26 -0800 (PST)
+Message-ID: <e45ac35b-8cb3-42c0-b5dc-d4c718ee0d9d@linuxfoundation.org>
+Date: Fri, 7 Nov 2025 10:54:24 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <26835ada-4e3a-4f78-8705-4ed2e3d44bd8@yahoo.com>
-X-Mailer: git-send-email 2.51.2.1041.gc1ab5b90ca-goog
-Message-ID: <20251107070711.2369272-1-kuniyu@google.com>
-Subject: Re: [PATCH v3] selftests: af_unix: Add tests for ECONNRESET and EOF semantics
-From: Kuniyuki Iwashima <kuniyu@google.com>
-To: adelodunolaoluwa@yahoo.com
-Cc: davem@davemloft.net, david.hunter.linux@gmail.com, edumazet@google.com, 
-	horms@kernel.org, kuba@kernel.org, kuniyu@google.com, 
-	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
-	shuah@kernel.org, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] net: core: Initialize new header to zero in
+ pskb_expand_head
+To: Jakub Kicinski <kuba@kernel.org>,
+ Prithvi Tambewagh <activprithvi@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ horms@kernel.org, alexanderduyck@fb.com, chuck.lever@oracle.com,
+ linyunsheng@huawei.com, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com,
+ khalid@kernel.org, linux-kernel-mentees@lists.linux.dev,
+ syzbot+4b8a1e4690e64b018227@syzkaller.appspotmail.com,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20251106192423.412977-1-activprithvi@gmail.com>
+ <20251106165732.6ea6bd87@kernel.org>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20251106165732.6ea6bd87@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-Date: Tue, 4 Nov 2025 11:42:47 +0100
-> On 11/4/25 01:30, Kuniyuki Iwashima wrote:
-> > On Mon, Nov 3, 2025 at 4:08=E2=80=AFPM Sunday Adelodun
-> > <adelodunolaoluwa@yahoo.com> wrote:
-> >> On 11/2/25 08:32, Kuniyuki Iwashima wrote:
-> >>> On Sat, Nov 1, 2025 at 10:23=E2=80=AFAM Sunday Adelodun
-> >>> <adelodunolaoluwa@yahoo.com> wrote:
-> >>>> Add selftests to verify and document Linux=E2=80=99s intended behavi=
-our for
-> >>>> UNIX domain sockets (SOCK_STREAM and SOCK_DGRAM) when a peer closes.
-> >>>> The tests verify that:
-> >>>>
-> >>>>    1. SOCK_STREAM returns EOF when the peer closes normally.
-> >>>>    2. SOCK_STREAM returns ECONNRESET if the peer closes with unread =
-data.
-> >>>>    3. SOCK_SEQPACKET returns EOF when the peer closes normally.
-> >>>>    4. SOCK_SEQPACKET returns ECONNRESET if the peer closes with unre=
-ad data.
-> >>>>    5. SOCK_DGRAM does not return ECONNRESET when the peer closes.
-> >>>>
-> >>>> This follows up on review feedback suggesting a selftest to clarify
-> >>>> Linux=E2=80=99s semantics.
-> >>>>
-> >>>> Suggested-by: Kuniyuki Iwashima <kuniyu@google.com>
-> >>>> Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-> >>>> ---
-> >>>>    tools/testing/selftests/net/af_unix/Makefile  |   1 +
-> >>>>    .../selftests/net/af_unix/unix_connreset.c    | 179 +++++++++++++=
-+++++
-> >>>>    2 files changed, 180 insertions(+)
-> >>>>    create mode 100644 tools/testing/selftests/net/af_unix/unix_connr=
-eset.c
-> >>>>
-> >>>> diff --git a/tools/testing/selftests/net/af_unix/Makefile b/tools/te=
-sting/selftests/net/af_unix/Makefile
-> >>>> index de805cbbdf69..5826a8372451 100644
-> >>>> --- a/tools/testing/selftests/net/af_unix/Makefile
-> >>>> +++ b/tools/testing/selftests/net/af_unix/Makefile
-> >>>> @@ -7,6 +7,7 @@ TEST_GEN_PROGS :=3D \
-> >>>>           scm_pidfd \
-> >>>>           scm_rights \
-> >>>>           unix_connect \
-> >>>> +       unix_connreset \
-> >>> patchwork caught this test is not added to .gitignore.
-> >>> https://patchwork.kernel.org/project/netdevbpf/patch/20251101172230.1=
-0179-1-adelodunolaoluwa@yahoo.com/
-> >>>
-> >>> Could you add it to this file ?
-> >>>
-> >>> tools/testing/selftests/net/.gitignore
-> >> Oh, thank you for this. will add it
-> >>>
-> >>>>    # end of TEST_GEN_PROGS
-> >>>>
-> >>>>    include ../../lib.mk
-> >>>> diff --git a/tools/testing/selftests/net/af_unix/unix_connreset.c b/=
-tools/testing/selftests/net/af_unix/unix_connreset.c
-> >>>> new file mode 100644
-> >>>> index 000000000000..6f43435d96e2
-> >>>> --- /dev/null
-> >>>> +++ b/tools/testing/selftests/net/af_unix/unix_connreset.c
-> >>>> @@ -0,0 +1,179 @@
-> >>>> +// SPDX-License-Identifier: GPL-2.0
-> >>>> +/*
-> >>>> + * Selftest for AF_UNIX socket close and ECONNRESET behaviour.
-> >>>> + *
-> >>>> + * This test verifies:
-> >>>> + *  1. SOCK_STREAM returns EOF when the peer closes normally.
-> >>>> + *  2. SOCK_STREAM returns ECONNRESET if peer closes with unread da=
-ta.
-> >>>> + *  3. SOCK_SEQPACKET returns EOF when the peer closes normally.
-> >>>> + *  4. SOCK_SEQPACKET returns ECONNRESET if the peer closes with un=
-read data.
-> >>>> + *  5. SOCK_DGRAM does not return ECONNRESET when the peer closes.
-> >>>> + *
-> >>>> + * These tests document the intended Linux behaviour.
-> >>>> + *
-> >>>> + */
-> >>>> +
-> >>>> +#define _GNU_SOURCE
-> >>>> +#include <stdlib.h>
-> >>>> +#include <string.h>
-> >>>> +#include <fcntl.h>
-> >>>> +#include <unistd.h>
-> >>>> +#include <errno.h>
-> >>>> +#include <sys/socket.h>
-> >>>> +#include <sys/un.h>
-> >>>> +#include "../../kselftest_harness.h"
-> >>>> +
-> >>>> +#define SOCK_PATH "/tmp/af_unix_connreset.sock"
-> >>>> +
-> >>>> +static void remove_socket_file(void)
-> >>>> +{
-> >>>> +       unlink(SOCK_PATH);
-> >>>> +}
-> >>>> +
-> >>>> +FIXTURE(unix_sock)
-> >>>> +{
-> >>>> +       int server;
-> >>>> +       int client;
-> >>>> +       int child;
-> >>>> +};
-> >>>> +
-> >>>> +FIXTURE_VARIANT(unix_sock)
-> >>>> +{
-> >>>> +       int socket_type;
-> >>>> +       const char *name;
-> >>>> +};
-> >>>> +
-> >>>> +/* Define variants: stream and datagram */
-> >>> nit: outdated, maybe simply remove ?
-> >> oh..skipped me.
-> >> will do so.
-> >>>> +FIXTURE_VARIANT_ADD(unix_sock, stream) {
-> >>>> +       .socket_type =3D SOCK_STREAM,
-> >>>> +       .name =3D "SOCK_STREAM",
-> >>>> +};
-> >>>> +
-> >>>> +FIXTURE_VARIANT_ADD(unix_sock, dgram) {
-> >>>> +       .socket_type =3D SOCK_DGRAM,
-> >>>> +       .name =3D "SOCK_DGRAM",
-> >>>> +};
-> >>>> +
-> >>>> +FIXTURE_VARIANT_ADD(unix_sock, seqpacket) {
-> >>>> +       .socket_type =3D SOCK_SEQPACKET,
-> >>>> +       .name =3D "SOCK_SEQPACKET",
-> >>>> +};
-> >>>> +
-> >>>> +FIXTURE_SETUP(unix_sock)
-> >>>> +{
-> >>>> +       struct sockaddr_un addr =3D {};
-> >>>> +       int err;
-> >>>> +
-> >>>> +       addr.sun_family =3D AF_UNIX;
-> >>>> +       strcpy(addr.sun_path, SOCK_PATH);
-> >>>> +       remove_socket_file();
-> >>>> +
-> >>>> +       self->server =3D socket(AF_UNIX, variant->socket_type, 0);
-> >>>> +       ASSERT_LT(-1, self->server);
-> >>>> +
-> >>>> +       err =3D bind(self->server, (struct sockaddr *)&addr, sizeof(=
-addr));
-> >>>> +       ASSERT_EQ(0, err);
-> >>>> +
-> >>>> +       if (variant->socket_type =3D=3D SOCK_STREAM ||
-> >>>> +               variant->socket_type =3D=3D SOCK_SEQPACKET) {
-> >>> patchwork caught mis-alignment here and other places.
-> >>>
-> >>> I'm using this for emacs, and other editors will have a similar confi=
-g.
-> >>>
-> >>> (setq-default c-default-style "linux")
-> >>>
-> >>> You can check if lines are aligned properly by
-> >>>
-> >>> $ git show --format=3Demail | ./scripts/checkpatch.pl
-> >>>
-> >>>
-> >>>> +               err =3D listen(self->server, 1);
-> >>>> +               ASSERT_EQ(0, err);
-> >>>> +
-> >>>> +               self->client =3D socket(AF_UNIX, variant->socket_typ=
-e, 0);
-> >>> Could you add SOCK_NONBLOCK here too ?
-> >> This is noted
-> >>>> +               ASSERT_LT(-1, self->client);
-> >>>> +
-> >>>> +               err =3D connect(self->client, (struct sockaddr *)&ad=
-dr, sizeof(addr));
-> >>>> +               ASSERT_EQ(0, err);
-> >>>> +
-> >>>> +               self->child =3D accept(self->server, NULL, NULL);
-> >>>> +               ASSERT_LT(-1, self->child);
-> >>>> +       } else {
-> >>>> +               /* Datagram: bind and connect only */
-> >>>> +               self->client =3D socket(AF_UNIX, SOCK_DGRAM | SOCK_N=
-ONBLOCK, 0);
-> >>>> +               ASSERT_LT(-1, self->client);
-> >>>> +
-> >>>> +               err =3D connect(self->client, (struct sockaddr *)&ad=
-dr, sizeof(addr));
-> >>>> +               ASSERT_EQ(0, err);
-> >>>> +       }
-> >>>> +}
-> >>>> +
-> >>>> +FIXTURE_TEARDOWN(unix_sock)
-> >>>> +{
-> >>>> +       if (variant->socket_type =3D=3D SOCK_STREAM ||
-> >>>> +               variant->socket_type =3D=3D SOCK_SEQPACKET)
-> >>>> +               close(self->child);
-> >>>> +
-> >>>> +       close(self->client);
-> >>>> +       close(self->server);
-> >>>> +       remove_socket_file();
-> >>>> +}
-> >>>> +
-> >>>> +/* Test 1: peer closes normally */
-> >>>> +TEST_F(unix_sock, eof)
-> >>>> +{
-> >>>> +       char buf[16] =3D {};
-> >>>> +       ssize_t n;
-> >>>> +
-> >>>> +       /* Peer closes normally */
-> >>>> +       if (variant->socket_type =3D=3D SOCK_STREAM ||
-> >>>> +               variant->socket_type =3D=3D SOCK_SEQPACKET)
-> >>>> +               close(self->child);
-> >>>> +       else
-> >>>> +               close(self->server);
-> >>>> +
-> >>>> +       n =3D recv(self->client, buf, sizeof(buf), 0);
-> >>>> +       TH_LOG("%s: recv=3D%zd errno=3D%d (%s)", variant->name, n, e=
-rrno, strerror(errno));
-> >>> errno is undefined if not set, and same for strerror(errno).
-> >>>
-> >>> Also, if ASSERT_XXX() below fails, the same information
-> >>> (test case, errno) is logged.  So, TH_LOG() seems unnecessary.
-> >>>
-> >>> Maybe try modifying the condition below and see how the
-> >>> assertion is logged.
-> >> Oh..thank you. Didn't it through that way.
-> >> I understand.
-> >> I will remove the TH_LOG()'s
-> >>>> +       if (variant->socket_type =3D=3D SOCK_STREAM ||
-> >>>> +               variant->socket_type =3D=3D SOCK_SEQPACKET) {
-> >>>> +               ASSERT_EQ(0, n);
-> >>>> +       } else {
-> >>>> +               ASSERT_EQ(-1, n);
-> >>>> +               ASSERT_EQ(EAGAIN, errno);
-> >>>> +       }
-> >>>> +}
-> >>>> +
-> >>>> +/* Test 2: peer closes with unread data */
-> >>>> +TEST_F(unix_sock, reset_unread)
-> >>>> +{
-> >>>> +       char buf[16] =3D {};
-> >>>> +       ssize_t n;
-> >>>> +
-> >>>> +       /* Send data that will remain unread by client */
-> >>>> +       send(self->client, "hello", 5, 0);
-> >>>> +       close(self->child);
-> >>>> +
-> >>>> +       n =3D recv(self->client, buf, sizeof(buf), 0);
-> >>>> +       TH_LOG("%s: recv=3D%zd errno=3D%d (%s)", variant->name, n, e=
-rrno, strerror(errno));
-> >>>> +       if (variant->socket_type =3D=3D SOCK_STREAM ||
-> >>>> +               variant->socket_type =3D=3D SOCK_SEQPACKET) {
-> >>>> +               ASSERT_EQ(-1, n);
-> >>>> +               ASSERT_EQ(ECONNRESET, errno);
-> >>>> +       } else {
-> >>>> +               ASSERT_EQ(-1, n);
-> >>>> +               ASSERT_EQ(EAGAIN, errno);
-> >>>> +       }
-> >>>> +}
-> >>>> +
-> >>>> +/* Test 3: SOCK_DGRAM peer close */
-> >>>> Now Test 2 and Test 3 look identical ;)
-> >> seems so, but the only difference is:
-> >>
-> >> close(self->child); is used in Test 2, while
-> >> close(self->server); is used in Test 3.
-> >> Maybe I should find a way to collapse Tests 2 and 3 (if statement migh=
-t
-> >> work)
-> >>
-> >> I am just afraid the tests to run will reduce to 6 from 9 and we will =
-have 6
-> >> cases passed as against 7 as before.
-> >>
-> >> What do you think?
-> > The name of Test 2 is a bit confusing, which is not true
-> > for SOCK_DGRAM.  So, I'd use "if" to change which fd
-> > to close() depending on the socket type.
-> >
-> > Also, close(self->server) does nothing for SOCK_STREAM
-> > and SOCK_SEQPACKET after accept().  Rather, that close()
-> > should have the same effect if self->child is not accept()ed.
-> > (In this case, Skip() for SOCK_DGRAM makes sense)
-> >
-> > I think covering that scenario would be nicer.
-> >
-> > If interested, you can check the test coverage with this patch.
-> > https://lore.kernel.org/linux-kselftest/20251028024339.2028774-1-kuniyu=
-@google.com/
-> >
-> > Thanks!
-> Thank you!
->=20
-> kindly check these if any conforms to what it should be:
->=20
-> TEST_F(unix_sock, reset_unread_behavior)
-> {
->          char buf[16] =3D {};
->          ssize_t n;
->=20
->          /* Send data that will remain unread by client */
->          send(self->client, "hello", 5, 0);
->=20
->          if (variant->socket_type =3D=3D SOCK_DGRAM) {
->                  close(self->server);
->          }
->          else {
->                  if (!self->child)
->                          SKIP(return);
->=20
->                  close(self->child);
->          }
->=20
->          n =3D recv(self->client, buf, sizeof(buf), 0);
->=20
->          ASSERT_EQ(-1, n);
->=20
->          if (variant->socket_type =3D=3D SOCK_STREAM ||
->                  variant->socket_type =3D=3D SOCK_SEQPACKET)
->                  do { ASSERT_EQ(ECONNRESET, errno); } while (0);
->          else
->                  ASSERT_EQ(EAGAIN, errno);
-> }
->=20
-> OR
->=20
-> TEST_F(unix_sock, reset_unread_behavior)
-> {
->          char buf[16] =3D {};
->          ssize_t n;
->=20
->          /* Send data that will remain unread by client */
->          send(self->client, "hello", 5, 0);
->=20
->          if (variant->socket_type =3D=3D SOCK_DGRAM) {
->                  close(self->server);
->          }
->          else {
->                  if (self->child)
->                      close(self->child);
->                  else
->                      close(self->server);
->          }
->=20
->          n =3D recv(self->client, buf, sizeof(buf), 0);
->=20
->          ASSERT_EQ(-1, n);
->=20
->          if (variant->socket_type =3D=3D SOCK_STREAM ||
->                  variant->socket_type =3D=3D SOCK_SEQPACKET)
->                  do { ASSERT_EQ(ECONNRESET, errno); } while (0);
->          else
->                  ASSERT_EQ(EAGAIN, errno);
-> }
->=20
-> OR
->=20
-> is there a better way to handle this?
+On 11/6/25 17:57, Jakub Kicinski wrote:
+> On Fri,  7 Nov 2025 00:54:23 +0530 Prithvi Tambewagh wrote:
+>> KMSAN reports uninitialized value in can_receive(). The crash trace shows
+>> the uninitialized value was created in pskb_expand_head(). This function
+>> expands header of a socket buffer using kmalloc_reserve() which doesn't
+>> zero-initialize the memory. When old packet data is copied to the new
+>> buffer at an offset of data+nhead, new header area (first nhead bytes of
+>> the new buffer) are left uninitialized. This is fixed by using memset()
+>> to zero-initialize this header of the new buffer.
+> 
+> It's caller's responsibility to initialize the skb data, please leave
+> the core alone..
+> 
+>> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+>> index 6841e61a6bd0..3486271260ac 100644
+>> --- a/net/core/skbuff.c
+>> +++ b/net/core/skbuff.c
+>> @@ -2282,6 +2282,8 @@ int pskb_expand_head(struct sk_buff *skb, int nhead, int ntail,
+>>   	 */
+>>   	memcpy(data + nhead, skb->head, skb_tail_pointer(skb) - skb->head);
+>>   
+>> +	memset(data, 0, size);
+> 
+> We just copied the data in there, and now you're zeroing it.
 
-Sorry for late!
+Prithvi,
 
-What I had in mind is to move accept() in FIXTURE_SETUP() to
-Test 1 & 2 (then, only listen() is conditional in FIXTURE_SETUP())
-and rewrite Test 3 to cover the last ECONNRESET case caused by
-close()ing un-accept()ed sockets:
+This type of careless coding introduces serious problems. Don't
+make changes to the code without understanding it. memcpy()
+is right above where you added memset() which is hard to miss.
 
-TEST_F(unix_sock, reset_closed_embryo)
-{
-	if (variant->socket_type =3D=3D SOCK_DGRAM)
-		SKIP(return, "This test only applies to SOCK_STREAM and SOCK_SEQPACKET");
-
-	close(self->server);
-
-	n =3D recv(self->client, ...);
-	ASSERT_EQ(-1, n);
-	ASSERT_EQ(ECONNRESET, errno);
-}
-
-
->=20
-> I ran the KCOV_OUTPUT command using the first *TEST_F above* as the Test=
-=20
-> 2 and got the output below:
-> *$ KCOV_OUTPUT=3Dkcov KCOV_SLOTS=3D8192=20
-> ./tools/testing/selftests/net/af_unix/unix_connreset*
-
-You should be able to see line-by-line coverage by decoding
-files under kcov with addr2line or vock/report.py.
-
-Thanks!
+thanks,
+-- Shuah
