@@ -1,78 +1,74 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3D92F90CA
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  7 Nov 2025 20:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43F527B50F
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  8 Nov 2025 06:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762546022; cv=none; b=fOvhsVku6rpFTLkMK3rEXWGxBKmgnyv9wru/aZVrAE/EKr4uvI0sa5HTBqVFIIY/lAB+GXjvMiy4/8j6z615UPYu2WET0eIr2uyQDQjTuTRzLaW6nQ+h+FXZajJHu7hW0+UyTckv1ySj9qIff+Ed7tJgmUfPlwHnZAmnHeDfBww=
+	t=1762583552; cv=none; b=QOfLWiwXi5TdlRpBSR91xMadyb8hjVhqMdLJitvqN5CZYVxOSUCF17gnKddAPLEwjyrwhvNInkR18A6UQpx7rfp1XdBXD61a8ObPuRX2SJQSTXsDJcyk0l2tqbWsWkEEU5a6oVsb4Q9ZRjQ/n9z/dsfzatgkWbBbIIpeG97AZRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762546022; c=relaxed/simple;
-	bh=A4+TOwgqNdQg6f8E1pPnxBWqzpNdAcnfbfRIsLrm7Vw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JoR2DR67CLym3B6M3RISc9PL8fXW00N/HJVM4bnjmGcmtNCx7I4yB9M0r+qUBag2ObjGx6qduJ+bIYELftwKuaZSs77vi5zWM4LloGZcCfep1OobB031PY5gedze4E+pX0lxOuKt1hPdNQ70ohj4KO4GiEA8JMpGF4IKO9nB2dU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=O6qDnBee; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
+	s=arc-20240116; t=1762583552; c=relaxed/simple;
+	bh=jvhC2lR8nByGDVs4vKZHsLg3Cys5Kb+V8qSzQTSD0gY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rE/ZgZvm5Fy3BjFFmSVioOPCt1Gsgs+267JH3bIQ1IkkNfj+MkbNv55+csCn2YdAwVPARutueK/+kVI8YmSRxGgWVHerRV3NuNzFYuizOHrSputuXWdu6QWbJHLgbWPEUljIS8uvm6wa/pEiokDihjd+oOH90uvfhEvXfH50Cjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S13Se8V5; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="O6qDnBee"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-340c39ee02dso989008a91.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 07 Nov 2025 12:07:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S13Se8V5"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4710665e7deso6674535e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 07 Nov 2025 22:32:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vjti.ac.in; s=google; t=1762546020; x=1763150820; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1762583549; x=1763188349; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dhDbgFwqZiDQu1EsSrcetxhJXfZ+td3XRScWxEwgYgY=;
-        b=O6qDnBeebZqyZ3mzPjFvnVAym+IYaOcKxbBWyB5gibBWjr0yyk1IAwqyQR1ZKG3ltr
-         MJZhjGlD2/6B8aWQc4g9YCOOLlqedND0NfEPIte0D+fLL4kyFBezsi/J85mmcQrdbAM0
-         IGGmyE7cIjUX5oJXn9X3uufJ1YyWqynG0Cj5k=
+        bh=KZXbx0Pm3o5USAhmQ+ef+lR3wziCD+RuaTHOuJKX2OE=;
+        b=S13Se8V5jcAPNoJcCPRtHNsVXXYDCf/5QjfB4jEC7WEe/pCUTVe7JY/kR4aU/Sw8Es
+         0geIslulsOeIoE3EV8cmipY8ads5Pv3d8/eHqJcAYsdvCukl/jDGOVChkjclN0kkwiZp
+         yoZeMo8q7exsYLuWp3mEYcIX5hD0auJfzmMvLkOadRcnyQZd+dPC6nzSNeH401INaAvb
+         Um6aWY/HTtGSOx5XZyNtL9X4188RNOHmGhzftHSkGtEzpkAGlLKw4u3GylJOLVocxxoP
+         bqIkqbjg0/i39RimbA58xLQ1z2troTCPXZ6acLOFb2qdjXO8BqBUvGz2JIVLLAWtmhzQ
+         cKvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762546020; x=1763150820;
+        d=1e100.net; s=20230601; t=1762583549; x=1763188349;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dhDbgFwqZiDQu1EsSrcetxhJXfZ+td3XRScWxEwgYgY=;
-        b=KbAqrQenfY28emPdYUej/NZehjAf15TP4kS6RB7k4sqKM+Ru6lCCbfZhJvxe2ot/rs
-         EG/hhSPEGFuULp7YGEFzJKlMMfXsX3SMDEPF+guBnWE3E826mWa73RzaENPnkihFC0M4
-         hnHZ+R8mZ8kFlDPXSxDMJ2kH8zH45atOLkBzSR/rHTWld9ADL+dZwi65/0TXY9m10b8R
-         B9iNubqGipAAV6vfvZZhXgr09ngSS+3oz6ZSWtWnQvEeG9tteNdBKyY6yh+QzhQu/OED
-         APtjzzvuEh/al2kl2jNlJJI6VhfqeE7nNyi5zPEo+iTE0H/KUxW7JJZi7V6HuIjZYSWM
-         OCkg==
-X-Forwarded-Encrypted: i=1; AJvYcCWGf5mbklBFLook5EN0n0AfHC2qv2pZ+vYWR2bQZ59gqnqcMl7wfn14Qy4v9ABgupNCYU8ZVlNdtexmSREr7Y+wK4JIVw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyc9WC9+BuLtZEHkBwpvWCIqa664KcXe0VesoD6PQfgu8/mWjuV
-	iX9SDBeuQ4RUE053yjI/w+ldcN7UVW3Q6omW1SxuR+LL2Hwmq3ImvPk9eq9ttnea5FQ=
-X-Gm-Gg: ASbGncttRxlAhL6wLrkWe+VDbn+ASBblEoY/neahNtsLsaT9dO1zR7cNKaP7lQhUSfA
-	DO104fYsZhsxh5NWZ9rfgMUuecpXQNvQw5A3kH7TLOrZgwtbkmWVVmMn/hrIQ/RHfephD8yIFEa
-	bLxoy65qBOFoZ/huoovD/RnAe2KRpYywd1HRb/5ZyreoR/SlCpqDDDewefPZxHkwHSt8mzJPfDj
-	O8ftn7703CsQFLwGHbcaL6mppAYYf6WyZURjolYFugvFdYUAqWthP8IMgirgoZTU5bfPIQkSUbM
-	QdGrxv0460fRfXY4AiWTKnhsH+GvC/RzrOGg3JOB4cwIW+AOMJczdiHG2Wvsw392tPJreNCFOtd
-	w9+3ghElXLnJC8B8+rEucs/gD+H8hq03mimWfltQBp033ovoArt0VVWE5arcFU9lFTOKBgirN0K
-	mRWkQvazVmNNp7JmV8CFxnLSbd23po5RaIpYk2ar0bV79qAw==
-X-Google-Smtp-Source: AGHT+IE2QH0bYt9evLPt32Zmzpg6IE1jS/NHlYekxZETu/ShdgKYTlNUPI/Uj5DCmlG72yB5wBW9uw==
-X-Received: by 2002:a17:90b:4c8d:b0:33b:cfae:3621 with SMTP id 98e67ed59e1d1-3436cd15e8fmr389381a91.32.1762546019685;
-        Fri, 07 Nov 2025 12:06:59 -0800 (PST)
-Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([2409:40c0:27:d019:96c1:1e18:c1b7:e182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3434c3001f2sm3327186a91.1.2025.11.07.12.06.52
+        bh=KZXbx0Pm3o5USAhmQ+ef+lR3wziCD+RuaTHOuJKX2OE=;
+        b=nrlpfW6y8MXUvRUR/10Q9RKavgtfoQIdn7DnEeMnjUD3xjyBHUCr7lq21TeKfWKfOH
+         c08vSZOEwCU70/KrIjjOiBYtism9pJ608xOZxKUp2FCuZuT2/H4KdtMxRFFZ1sD2BEfD
+         15atXlfASPRWdOKzjemQqhl/mfgboxcgEgurIn3QmGcaaMQ9dZAE6qHLQPGkYgT/saNO
+         jfZ9e7GSpQ6l6lkHGc8XtMrvU9z3ju8VljabREV5wvE5YtYXr5bQHQTjIkRCF6FA2n5F
+         phtZHlRvNbXIVUffX8wD7EuhOImoMjpb4T9oIKfeGqMkEOuojtSxghd+IKlGhydjhoa2
+         lBAA==
+X-Forwarded-Encrypted: i=1; AJvYcCWJeF9ZOLdxgP8dfu4jbMhOyZiTcc5hA27gYVGUovBhu0AL1lbHXT6xT2IGGpy3zBb9ZxK2ILtDsAwkvz8X9vPDd1XD2Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyG6C2ZX9skgFpUkMHp1TCtH/n7raSrCGCq4Y51tGuAdSmb+e7x
+	wRmnGDoja1cPD/6h6XOdwYTxbzZH+Z8yaT5MWIFdWy5id5uYrIKq3ENAXD3DJlt5
+X-Gm-Gg: ASbGncuSdKyqLpi6ohYQOmZyOQXPHYxRzS5tZBGvObPzzxsznrLwDvMFn89B6AF4NQG
+	NWIALRNcb4yyS/s8XxuoLrg3mtV/invatrPkM3SIsAvQnKOY9IPV4iCe11kbA1kw7EnPP7DysJf
+	NV+R6FHklg1vtnpaorpnFDFv8cdw1IiDB1W1kNfcSPOre3P91N0G/BI/cREhI/26pIohokNzPkv
+	e6gSH9+xLeUODbOCFXwf86sFuJu5cB/ZYG5qMFvlKuD0AVcKvxy7xpDz7ZXwx+7OWfWmlW0IsO4
+	R7rs1RXtRWibBrvA1oy3TLUo715Uyyep44rpYZrz7eMOX1dj9z+/QjKomdIu8TErefGvVpTG6W6
+	1K59XG/m0KFDszk1v0cYXhn7SzhcbaMFEkkLg7ed5JoyqmUYBDXMLG3qzLKhwiCQKQCbr0SAO
+X-Google-Smtp-Source: AGHT+IFTag1jpZGPvIP6mbTkBpcQrZLk+xfLiNvvxeilGJXEuapETNQO/3imuMjYbH8fw8G2ifcwOg==
+X-Received: by 2002:a05:600c:524a:b0:477:76b0:1e73 with SMTP id 5b1f17b1804b1-47776b01f65mr1356505e9.41.1762583548733;
+        Fri, 07 Nov 2025 22:32:28 -0800 (PST)
+Received: from pc.. ([105.163.158.79])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42ac6794f6esm10715849f8f.41.2025.11.07.22.32.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Nov 2025 12:06:59 -0800 (PST)
-From: ssrane_b23@ee.vjti.ac.in
-X-Google-Original-From: ssranevjti@gmail.com
-To: shaggy@kernel.org
-Cc: jfs-discussion@lists.sourceforge.net,
+        Fri, 07 Nov 2025 22:32:26 -0800 (PST)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Vivek Pernamitta <quic_vpernami@quicinc.com>,
 	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	dsterba@suse.com,
-	david@redhat.com,
-	shivankg@amd.com,
-	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
-	syzbot+cfc7cab3bb6eaa7c4de2@syzkaller.appspotmail.com
-Subject: [PATCH] jfs: Initialize synclist in metapage allocation
-Date: Sat,  8 Nov 2025 01:36:45 +0530
-Message-Id: <20251107200645.149093-1-ssranevjti@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Erick Karanja <karanja99erick@gmail.com>
+Subject: [PATCH] bus: arm-cci: Fix device node reference leak in cci_probe_ports()
+Date: Sat,  8 Nov 2025 09:32:19 +0300
+Message-ID: <20251108063219.550810-1-karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -81,50 +77,33 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+Although the reference to the  child node cp is
+assigned later in the iteration, when an early break
+occurs, the reference to child node needs to be
+released.
 
-The synclist field in struct metapage was not being initialized during
-allocation in alloc_metapage(), leading to list corruption when the
-metapage is later added to a transaction's sync list.
-
-When diUpdatePMap() calls list_add(&mp->synclist, &tblk->synclist), if
-the synclist field contains stale data from a previous allocation (such
-as LIST_POISON values from a freed list node), the list debugging code
-detects the corruption and triggers a stack segment fault.
-
-This issue is intermittent because it only manifests when recycled
-memory happens to contain poison values in the synclist field. The bug
-was discovered by syzbot, which creates specific filesystem patterns
-that reliably trigger this uninitialized memory usage.
-
-Initialize the synclist field with INIT_LIST_HEAD() in alloc_metapage()
-to ensure it's in a valid state before being used in list operations.
-This is consistent with how the wait queue is initialized in the same
-function.
-
-Reported-by: syzbot+cfc7cab3bb6eaa7c4de2@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=cfc7cab3bb6eaa7c4de2
-Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-
+Fixes: ed69bdd8fd9b2 ("drivers: bus: add ARM CCI support")
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
 ---
-Tested:
- - Tested locally with syzbot reproducer, no errors observed
+ drivers/bus/arm-cci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- fs/jfs/jfs_metapage.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/fs/jfs/jfs_metapage.c b/fs/jfs/jfs_metapage.c
-index 871cf4fb3636..77c512a0a42b 100644
---- a/fs/jfs/jfs_metapage.c
-+++ b/fs/jfs/jfs_metapage.c
-@@ -269,6 +269,7 @@ static inline struct metapage *alloc_metapage(gfp_t gfp_mask)
- 		mp->data = NULL;
- 		mp->clsn = 0;
- 		mp->log = NULL;
-+		INIT_LIST_HEAD(&mp->synclist);
- 		init_waitqueue_head(&mp->wait);
- 	}
- 	return mp;
+diff --git a/drivers/bus/arm-cci.c b/drivers/bus/arm-cci.c
+index b8184a903583..1f84a5528073 100644
+--- a/drivers/bus/arm-cci.c
++++ b/drivers/bus/arm-cci.c
+@@ -461,8 +461,10 @@ static int cci_probe_ports(struct device_node *np)
+ 
+ 		i = nb_ace + nb_ace_lite;
+ 
+-		if (i >= nb_cci_ports)
++		if (i >= nb_cci_ports) {
++			of_node_put(cp);
+ 			break;
++		}
+ 
+ 		if (of_property_read_string(cp, "interface-type",
+ 					&match_str)) {
 -- 
-2.34.1
+2.43.0
 
