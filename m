@@ -1,137 +1,160 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301E914F112
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  8 Nov 2025 14:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7D124167A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  8 Nov 2025 17:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762611537; cv=none; b=RiYfiSAyme1FcAY6+Vht/QRCKVYWUmTQwul3HmwF8QJbiP+TpuRnndsFhquAgEtxyM+vc0dsWpxUDNpxTYEC/ru6fbSbrwbrhSq0nsLjizTOCLbK40zAWB34yL8JReZ5tCCUY+GHFZt7Jx02x9VVONxGpyflWzvSKys4naJjNCU=
+	t=1762623013; cv=none; b=d9SJvMsXIyyN+c2mWwfsfkOzrL+S92f8Ve+fdttci6aGu7hQxZxVFjd/ZvtD5vPh71M9a6MqV9oSLyEubJo0anK3yLWLl3O72unhdVfRDox3KYCX93DOAiQNC8iXWCI6ClNUQmaDu1V1Ld0S+WXNkF6st5XRPh3FpIVy0mtTm/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762611537; c=relaxed/simple;
-	bh=ZAWBzX0a54WgVpMoNdpAYLQpNuDibi0QFmX+nolbDCI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nPxOWvmjSSYEymQz3MUxhDGtw+vQt9rm7PamRrWcjpwXO9vlevVIPKS4yi6ZRpOo+8Ojt59RHJSm4o67aGzCkM+DlecbxPMDhFzW8cT1pAKobddexWnmvwTmetD51wWKm6TABk/YgYgE7qg5R/CPZH+3cgX1z9+tPQu87acvi54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=DA3RviF6; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
+	s=arc-20240116; t=1762623013; c=relaxed/simple;
+	bh=mqvOz/c5PMEmaEMrlMTr9mIFRYBwkDh40KxWBaUTkP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F22BiPHq9qzllkbP/YhgPOhAPOwVxCHUDxN2vWM7xh8Nny/Bb1fqie+YDqpQN5ah9rXFYJ70H2P74E+ihKKg4bmWMXdjYCQ5Hlmj+ejiMs6R7J6tg8EcezukkvZJjXbjxlFiRl8oxejt8rga3NXHtEfnrbtPii25IOBo8JCfMg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fwh5YIbO; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="DA3RviF6"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2964d616df7so21061235ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 08 Nov 2025 06:18:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fwh5YIbO"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 05AB0606F6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  8 Nov 2025 17:30:12 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: 1.236
+X-Spam-Level: *
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id L85JDl8mgJK0 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  8 Nov 2025 17:30:11 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1041; helo=mail-pj1-x1041.google.com; envelope-from=ankitkhushwaha.linux@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 539E46067F
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 539E46067F
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=fwh5YIbO
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 539E46067F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  8 Nov 2025 17:30:11 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id 98e67ed59e1d1-3436d6bdce8so825968a91.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 08 Nov 2025 09:30:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vjti.ac.in; s=google; t=1762611535; x=1763216335; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+tbABRM++smOTjrYwL9jZfiTdA+E+dTcCgbmNoRiaFk=;
-        b=DA3RviF6mFoyElWFsnt5tbzWujJDWBK/WKK7/sqhJ9oBBTQ7UZZ9dSp9hL/FDq5nfY
-         esS/EdAeu+1tOb7HLWSVtySNqMtKeUgaQCeVDNEszn/lhlU7ZE+aDTnS7FlgWsYk5WZJ
-         4q6bV9E1E2TjqIrLDzL2hei9AvK8OogsvBthY=
+        d=gmail.com; s=20230601; t=1762623010; x=1763227810; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ksh9yCu4UesSZktaqp077/wo5kGK4/tiGrzTuoLqT7M=;
+        b=fwh5YIbOgzxaW/LKsTKi9yc9sg1wKBXLExVJaSe5PygH65ChkOgx5p6Sg+SF3Jzxap
+         7gmp3YE4XenSLyIioO1+9uBu2z6Xj751lercGARo7oZQ902boM1bfYAKtzraotC1XGGD
+         tbFoB1ynqIILUjebQCDRZpwlu+vbbZBlQXTEZDEgak3jLSZa/+ktQ5L46P8TPt4HfG4g
+         Yvbrx2D7enWucgv84MUN2o+By/gYhyEH4nKT3OX9+yqm5/cPgAEiFGT66mqZzB9xKVM/
+         yvImRW87uBrtynNjOAA2BWWJkCWq9nx+D+BJngS57kWfoNpsbLG6GwgeCVUWuzkqnKTr
+         I3UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762611535; x=1763216335;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+tbABRM++smOTjrYwL9jZfiTdA+E+dTcCgbmNoRiaFk=;
-        b=rU7ENPOD59qRSl+0fkOUsaZhoIymckfJPQkb724irf3aSpN4wLUtk/vxZI+uS5EbXh
-         VrqSGpQkd+P6qm8AhmXBrDKI9Cf3ECmgBAmgyDlXcBr2yFn5ysKGM20vjtYItcii8xMm
-         eld6B1jtY2NjaJzxoSWsZN+H3LUZtqGDvePcj+/FZ7HtBLeyWnD06Ry2HLfArQt0zJ8D
-         v4R0kJV0IzFNWWEBNehRBNdHGjFy9xJSw8ACeAFVPizJgvMbGoHYxsx/S4fePd8P7Qcp
-         NX5z7A8mab8SUHw5iQy+I347DLTI+HVSaGSLMc+C/GUZGN1+bu7wsbCwbidPMq4J9BDC
-         ByFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXliXDG6PanPOkapo2+LrmHkRPxA/yFOTBDxhE/SjJaLlK70TK19DqiEzaBoVIVDEa15kp68lS3OVqB4nDqtNEMvRB7zQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6+ZacknTQ+grMCHE7zIMxA1vmAHv/lQGft/WRtd5/nOCE3qXG
-	Ku4DKma4vJTgfqkQ+zcjoujKPneXSBEQLn0AbTUXKlK0BUyQOpP7WaFYW7swnlNibnM=
-X-Gm-Gg: ASbGnctwksuhSpu9sqOory9tIXdj6Wf0xTJcX/SV16GsuHdLvc6ycuXEtj2NdSMlkq1
-	vmMPexrrk77YoHpqMqQkJo9Fk50BFT2ksuEmFhzBj2Axa6A+fSiqSxcSEN1A7TqWnkuT756pp4s
-	15UERK+rdhQJVMBhTEVrdIWMzPdEvCS12qKbpMlo1pkhJ1fe9lfJ4InzZBUqt4FTefxz0eKAvJ4
-	W1X4faKJeJ8u7eqPvAZXKuSSiUkWCbe4PEx2lFAVCd0fOa+HUsODtD9iNvfWN+ODr1MnZ23tAXm
-	HYBjUHHzEKFr7pQEUrhNmT4wG9h6MzHfA5D4VScl2d8jdFY/5fu4PBTzkMrxklZtILH1TUcu9jM
-	eMGYJe+j+7fRN1J/V6nBCTXOquT2iWsXWEqodABpYZ02IdZgSrRNQIV7SQhO+/HpjhYm/anEioK
-	4RDB7C9J9lNRk9CZgbgAbNraF7imO8XeilICuDKX01nC5T
-X-Google-Smtp-Source: AGHT+IFCeb0OWUAtDUt6hRwnA2ps8eQb2CSjpBUF+IDZHNXFG8VCogkyWXts3NiibrXsnC+yerYFLw==
-X-Received: by 2002:a17:902:da4b:b0:295:557e:7465 with SMTP id d9443c01a7336-297e540a394mr32978555ad.11.1762611535569;
-        Sat, 08 Nov 2025 06:18:55 -0800 (PST)
-Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([2405:201:31:d016:940a:b59:9e93:d45a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29650e5a33bsm91980345ad.47.2025.11.08.06.18.50
+        d=1e100.net; s=20230601; t=1762623010; x=1763227810;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ksh9yCu4UesSZktaqp077/wo5kGK4/tiGrzTuoLqT7M=;
+        b=C6nINRcM/saR0Ec2n1ND5/hL3jjbpRCSmYWfgnnxK15Rjd/6YXONThPKyCPJqhSvsd
+         M6Hb+IXqthUEFZt5ynIWgMWLYhHY5jvJryrkCT08xOKGgpsqurWjbQlHlHmGFGMpArLA
+         FmOCqME6QxpiETy8yJQC6mxXphTf72WkG5SrNPuSysqgzt18JPVQn7wafBO8KzG6N3cR
+         BA3YisKxb/wEQPK2j7QeXz8Wo6BRRGnsn1ireWkQL+ZZBHwliWxrahcWsrc1EVK5NXaT
+         FjJk9lw9h9KI++EsocQfFwX6CSSktzfLk1gJqXBXzCf0UIusPeikJKuqsXSQJKjSwogt
+         GmdA==
+X-Forwarded-Encrypted: i=1; AJvYcCVKG4IwQAfcseUu5kixp2zeCEDy1uG5GTfcZtTozrUCWGDqvT7Fp2m6YDP4veZ8Cd67bHlwd+ITc9EPZXifdRho5t51FA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwfUMHkSq04/0n7h4mAE5NAT1PsL39J+ovHnb2s7ePk6Qgecvq0
+	sZdQBPjCzk0RFWTlra8p/tZ0vNHOWdyUzZyX3zmuwj919gn3NMyi0H2s
+X-Gm-Gg: ASbGnctn1YcOkucXp2aAFHsLNzep7HXY75Pf3PjinGHhHeNfs+RPIT3N7YxiHR6NTn6
+	MDE/PCBiRqwjJ/opSRAJmO7qyI2CKmMyld8y6lop/iX49Q7kJ7hz59LgICAGg/p5h7eji2sV8be
+	DP+mk+IHH8BbgCyUxMzJ5Faz78fDUWeq3Ap8CST2aSPXwGZR9DaH6pJnYU0xkeJCTto/HeV5oh7
+	NNnABtWen6LDWGeDnLoAGZQKMV8vkgdk9eBt5sR9ikwOcmH5fjNnkYtwGpINxKzMyXcAQJLP8nk
+	fC0uxfcCfT3NCAjC9aDtnstVD8OUC91IEiJmHebnYm+uiGOq+ouoEOEHdhbMRBQ32X4OswGqlBk
+	3+DRMtiPu6DAeSwz4RIMuo0AtuUidTKfHcR6cgZzDdbdJa36BAx0p7PVuYfxcjpbVgNoxFx+xhb
+	MkuPMiOdsgF8tgcSbtj5o=
+X-Google-Smtp-Source: AGHT+IFLUU/VWag8EJzSY/0xYAOHUmVtlabS8D9NAS2JD/HU1e2hrzCK0vE/MQxp1herrE49UHd/uA==
+X-Received: by 2002:a17:902:e848:b0:296:3f23:b939 with SMTP id d9443c01a7336-297e56ce0b1mr51308795ad.42.1762623010252;
+        Sat, 08 Nov 2025 09:30:10 -0800 (PST)
+Received: from fedora ([103.120.31.122])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29650c5c72esm93914635ad.33.2025.11.08.09.30.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Nov 2025 06:18:54 -0800 (PST)
-From: ssrane_b23@ee.vjti.ac.in
-X-Google-Original-From: ssranevjti@gmail.com
-To: shaggy@kernel.org
-Cc: jfs-discussion@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	dsterba@suse.com,
-	david@redhat.com,
-	shivankg@amd.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
-	syzbot+e87be72c9a6fe69996f5@syzkaller.appspotmail.com
-Subject: [PATCH v3] jfs: Initialize synclist in metapage allocation
-Date: Sat,  8 Nov 2025 19:48:34 +0530
-Message-Id: <20251108141834.46428-2-ssranevjti@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251108141834.46428-1-ssranevjti@gmail.com>
-References: <20251108141834.46428-1-ssranevjti@gmail.com>
+        Sat, 08 Nov 2025 09:30:09 -0800 (PST)
+Date: Sat, 8 Nov 2025 22:59:59 +0530
+From: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+To: Simon Horman <horms@kernel.org>
+Cc: Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Xing <kernelxing@tencent.com>, netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] selftest: net: fix variable sized type not at the end of
+ struct warnings
+Message-ID: <aQ9-F34aW__rlMuD@fedora>
+References: <20251027050856.30270-1-ankitkhushwaha.linux@gmail.com>
+ <aQD8AOZduY4Fit3k@horms.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aQD8AOZduY4Fit3k@horms.kernel.org>
 
-From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+On Tue, Oct 28, 2025 at 05:23:12PM +0000, Simon Horman wrote:
+> On Mon, Oct 27, 2025 at 10:38:56AM +0530, Ankit Khushwaha wrote:
+> > Some network selftests defined variable-sized types defined at the end of
+> > struct causing -Wgnu-variable-sized-type-not-at-end warning.
+> > 
+> > warning:
+> > timestamping.c:285:18: warning: field 'cm' with variable sized type 
+> > 'struct cmsghdr' not at the end of a struct or class is a GNU 
+> > extension [-Wgnu-variable-sized-type-not-at-end]
+> >   285 |                 struct cmsghdr cm;
+> >       |                                ^
+> > 
+> > ipsec.c:835:5: warning: field 'u' with variable sized type 'union 
+> > (unnamed union at ipsec.c:831:3)' not at the end of a struct or class 
+> > is a GNU extension [-Wgnu-variable-sized-type-not-at-end]
+> >   835 |                 } u;
+> >       |                   ^
+> > 
+> > This patch move these field at the end of struct to fix these warnings.
+> > 
+> > Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+> 
+> Hi Ankit,
+> 
+> I don't believe this change is correct.
+> 
+> I think that the intention of the code is the char arrays (buf and control)
+> provide the buffer space for the variable-length trailing field
+> of the preceding structure. Where we basically have a header followed
+> by data. But your patch would place the before the header.
+>
+Hi Simon,
+So if buf and control providing the buffer space, then i think it is
+better to suppress `-Wgnu-variable-sized-type-not-at-end` warning 
+within this block of code.
 
-The synclist field in struct metapage was not being initialized during
-allocation in alloc_metapage(), leading to list corruption when the
-metapage is later added to a transaction's sync list.
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wgnu-variable-sized-type-not-at-end"
 
-When diUpdatePMap() calls list_add(&mp->synclist, &tblk->synclist), if
-the synclist field contains stale data from a previous allocation (such
-as LIST_POISON values from a freed list node), the list debugging code
-detects the corruption and triggers a stack segment fault.
+	struct {
+		union {
+			struct xfrm_algo        alg;
+			struct xfrm_algo_aead   aead;
+			struct xfrm_algo_auth   auth;
+		} u;
+		char buf[XFRM_ALGO_KEY_BUF_SIZE];
+	} alg = {};
 
-This issue is intermittent because it only manifests when recycled
-memory happens to contain poison values in the synclist field. The bug
-was discovered by syzbot, which creates specific filesystem patterns
-that reliably trigger this uninitialized memory usage.
+	#pragma GCC diagnostic pop
 
-Initialize the synclist field with INIT_LIST_HEAD() in alloc_metapage()
-to ensure it's in a valid state before being used in list operations.
-This is consistent with how the wait queue is initialized in the same
-function.
+I think this would be fine.
 
-Reported-by: syzbot+e87be72c9a6fe69996f5@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=e87be72c9a6fe69996f5
-Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-
----
-Tested:
- - Tested locally with syzbot reproducer, no errors observed
-Changelog:
-- Correct bug link
-- Corrected patch format
-
- fs/jfs/jfs_metapage.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/fs/jfs/jfs_metapage.c b/fs/jfs/jfs_metapage.c
-index 871cf4fb3636..77c512a0a42b 100644
---- a/fs/jfs/jfs_metapage.c
-+++ b/fs/jfs/jfs_metapage.c
-@@ -269,6 +269,7 @@ static inline struct metapage *alloc_metapage(gfp_t gfp_mask)
- 		mp->data = NULL;
- 		mp->clsn = 0;
- 		mp->log = NULL;
-+		INIT_LIST_HEAD(&mp->synclist);
- 		init_waitqueue_head(&mp->wait);
- 	}
- 	return mp;
--- 
-2.34.1
-
+Thanks
+-- Ankit
