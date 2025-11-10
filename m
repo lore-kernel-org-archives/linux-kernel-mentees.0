@@ -1,133 +1,115 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E3C2D63E5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  9 Nov 2025 14:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1730B24BC07;
+	Mon, 10 Nov 2025 11:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762698463; cv=none; b=HnCtlQom45hFKb7gnF7JRgLvj0nVtUnppI9jE47JM2j5j0puIOml2oo1ZPNnJeUtk2hCjHigXeP5VAtP8Ecjk5v6HToZ6kLFpZKzUVHojt96KPb+0nmLtWVSELWO7hBUUZIQ29c3S1JnaPwQXNK9ZzvcaW27ZIjXfdnxnQPB/Uw=
+	t=1762775751; cv=none; b=MWPo5ksA2zoEt99RQ6Yh0+EeWMVmP+Dx80j0V+pBQmbzVlNOs3gXJVZOBkVOQ0fuvkkX9zA0Ioo5BPGmXKTZun3QR+MQHT3oZcoTvXpLyEtmcZ28U0+9dGgUPL23Q8JNVdbVxO0ka5xTR8I5P8kA9XJM6KrGHwk1iwLTsYoaTV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762698463; c=relaxed/simple;
-	bh=SpvXDs2j7AXqlcGpc7McHEt1m7D6/APdzLmAM0bQ1jg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eronD/gWRT5IC1YCm3QRLDGIeMJ87n6xDyDdSRyn0qc0sI055uQhgOWycHWtETsgSiggPwVtVb2PPeUHGDtSgIb6LimPVcGAqhuMrfLQ5lxg3kYLAFVSq4ljOTvtKHxPOVcjgrk0bfdgA5M4z0jsZJFpbhwlzx12xm95h3msXrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=TquqnKJl; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1762775751; c=relaxed/simple;
+	bh=BG/R3SxEAtIIo0LWOHrCfcSUHdJTZWPLY5lx1lGieTM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dx3B5TZFKA5TT2QLXJ4Z5gFl74BXrnWtK69jPPCGvBXTMgl4V/lM68tMIXvsoSdR44KzI8PA9xfXJCBjaMTqoS/XXCAISxzD58DytFvTIav7sy3zT4FqRg3IpGEEBQANnaTfL7DTc923P7Biv+VqWuJiynllotPsWJsPpWEoZ6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Lcd3QpnY; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="TquqnKJl"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2769F405C3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  9 Nov 2025 14:27:41 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -6.493
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id reYtqMFe-Jyu for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  9 Nov 2025 14:27:40 +0000 (UTC)
-X-Greylist: delayed 666 seconds by postgrey-1.37 at util1.osuosl.org; Sun, 09 Nov 2025 14:27:38 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 078F1405C1
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 078F1405C1
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=TquqnKJl
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=195.121.94.169; helo=ewsoutbound.kpnmail.nl; envelope-from=jkoolstra@xs4all.nl; receiver=<UNKNOWN> 
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.169])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 078F1405C1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  9 Nov 2025 14:27:38 +0000 (UTC)
-X-KPN-MessageId: bd37146c-bd76-11f0-84a0-005056abad63
-Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id bd37146c-bd76-11f0-84a0-005056abad63;
-	Sun, 09 Nov 2025 15:16:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=89xTxxi7WXo66xAJrmmYoDWxkHI53nhAfpzSreisjos=;
-	b=TquqnKJld2kZxYqDSDW61rDoBlf22mPo6TfW/7Q+Md8yxJoXC+Ig/neWT3faCKF/ylgzVfPi4zVCg
-	 7Hpo4Qa+zFlveYxdu53XTspt76jUqXNRE7pJxrU0hL/b5h1sTQvddrMsW4ecWwaMC2oL/yNaUHtsSo
-	 fYGVmRCJSmnuaAZjukc7a6PRZD6pFnLxASSmDdCzPJe0otQPszvjolrk5WO3FaC8RAfduNjoeBARpM
-	 qMGXgZ/xPc91jh0xPlfRFxWNb/6ly65yeyu6f+VY18z7S8VHveE01gQnoi6ly6XmAE5vWRP7zm7zs6
-	 rbPYc6tnBmy/Awpma2YYkoMp+XdVuwA==
-X-KPN-MID: 33|n8DSeb37nfS0x54DzSEssAm4O/0ClqDi3Y89ovTqjIBratMb8b98bQ3y1j4V3Q6
- p4Lk2tF584I+9Rz9hy3insccANISTgs80wmgGVPJmqFw=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|McpHa8c7CC9wK46ayi3TzzoJ8B3jULO0BZWeLHFxzgBx6JoTAp5V1u3NKrqlIkm
- ef2UruXCnezUVGV8P9dXv5Q==
-Received: from lt-jori.localdomain (unknown [178.226.144.191])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id ae23ae84-bd76-11f0-bda2-005056ab1411;
-	Sun, 09 Nov 2025 15:16:27 +0100 (CET)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: jack@suse.cz
-Cc: brauner@kernel.org,
-	gregkh@linuxfoundation.org,
-	jlayton@kernel.org,
-	juntong.deng@outlook.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+2f142b57f2af27974fda@syzkaller.appspotmail.com,
-	syzbot+5ad0824204c7bf9b67f2@syzkaller.appspotmail.com,
-	xiubli@redhat.com,
-	jkoolstra@xs4all.nl,
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Lcd3QpnY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=zq/UYqU7b99yJOfWIAe6XEkp8akZneMuARWWpOHmJ8s=; b=Lcd3QpnYwO6bBhf01O3jwhiMdb
+	FqaGkD6CqogBGXEZbIYOJrIYqD4gz8nnJTUG62KIgur4FnnnjowkKIPhAwtDcfZ/Ceok2EsAq0rF3
+	YWLEDq5CNPeKs4eLM6whVs0KmVM534XOLBAivtUIfVABZ4Z86ixHLovuIV2VG/e4khsncCyKGTOU+
+	ezT9orBGOv5J2Ibow62qrzFa96fWT3S11gf2fxJ9hgQr69XJLIA8xtvqcX+xpF+N2zCN0AXSEMm0l
+	Tql1LGOwAK6Hhzr1wMnoOCE8HGw0dDJ4h1g1RJR1j2NNrCPJR5XQ24lvllIGxKiR/NVjNfWmqqO9j
+	JFTjPliw==;
+Received: from 179-125-86-112-dinamico.pombonet.net.br ([179.125.86.112] helo=quatroqueijos.cascardo.eti.br)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1vIQUe-004aQX-9A; Mon, 10 Nov 2025 12:55:32 +0100
+Date: Mon, 10 Nov 2025 08:55:26 -0300
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+Cc: tytso@mit.edu, adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
 	skhan@linuxfoundation.org,
-	david.shane.hunter@gmail.com
-Subject: Re: [PATCH] fs/minix: Improve validity checking of superblock
-Date: Sun,  9 Nov 2025 15:16:20 +0100
-Message-ID: <20251109141620.58007-1-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20231012114558.ikpxqs7zleq6tvri@quack3>
-References: <20231012114558.ikpxqs7zleq6tvri@quack3>
+	syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+Subject: Re: [PATCH] ext4: validate xattrs to avoid OOB in
+ ext4_find_inline_entry
+Message-ID: <aRHSrpFone-SSkZa@quatroqueijos.cascardo.eti.br>
+References: <20251108202545.1524330-2-rpthibeault@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251108202545.1524330-2-rpthibeault@gmail.com>
 
+On Sat, Nov 08, 2025 at 03:25:46PM -0500, Raphael Pinsonneault-Thibeault wrote:
+> When looking for an entry in an inlined directory, if e_value_offs is
+> changed underneath the filesystem by some change in the block device, it
+> will lead to an out-of-bounds access that KASAN detects as a
+> use-after-free.
+> 
+> This is a similar problem as fixed by
+> commit c6b72f5d82b1 ("ext4: avoid OOB when system.data xattr changes underneath the filesystem")
+> whose fix was to call ext4_xattr_ibody_find() right after reading the
+> inode with ext4_get_inode_loc() to check the validity of the xattrs.
+> 
+> However, ext4_xattr_ibody_find() only checks xattr names, via
+> xattr_find_entry(), not e_value_offs.
+> 
+> Fix by calling xattr_check_inode() which performs a full check on the
+> xattrs in inode.
+> 
+> Reported-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3ee481e21fd75e14c397
+> Tested-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+> Fixes: c6b72f5d82b10 ("ext4: avoid OOB when system.data xattr changes underneath the filesystem")
+> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+> ---
+>  fs/ext4/inline.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/fs/ext4/inline.c b/fs/ext4/inline.c
+> index 1b094a4f3866..7d46e1e16b52 100644
+> --- a/fs/ext4/inline.c
+> +++ b/fs/ext4/inline.c
+> @@ -1593,6 +1593,13 @@ struct buffer_head *ext4_find_inline_entry(struct inode *dir,
+>  
+>  	down_read(&EXT4_I(dir)->xattr_sem);
+>  
+> +	if (EXT4_INODE_HAS_XATTR_SPACE(dir)) {
+> +		ret = xattr_check_inode(dir, IHDR(dir, ext4_raw_inode(&is.iloc)),
+> +					ITAIL(dir, ext4_raw_inode(&is.iloc)));
+> +		if (ret)
+> +			goto out;
+> +	}
+> +
 
-Hi Jan,
+ext4_xattr_ibody_find used to call xattr_check_inode until commit
+5701875f9609 ("ext4: fix out-of-bound read in ext4_xattr_inode_dec_ref_all()").
 
-> Also s_log_zone_size is odd. Looking at how it is treated within the code
-> it only matters for reporting of free blocks (but zone bitmap is really
-> treated as having one bit per block) so I don't think we really support
-> anything else than 0 there but that would need confirmation by someone more
-> knowledgeable with the code.
+So every other place where ext4_xattr_ibody_find was protecting against such
+block device changes is not working since.
 
-You are right Jan, there is no support for anything else than s_log_zone_size
-= 0. In fact, for minix v3, the reference implementation has
+At least, the Fixes: line should change to point out to that commit, but I
+wonder if the inode checking should be put back there. I haven't investigated if
+that would regress the bug it fixes, though.
 
-  /* Zones consisting of multiple blocks are longer supported, so fail as early
-   * as possible. There is still a lot of code cleanup to do here, though.
-   */
-  if (sp->s_log_zone_size != 0) {
-	printf("MFS: block and zone sizes are different\n");
-	return EINVAL;
-  }
+Cascardo.
 
-Older versions of mfs apparently did support multiblock zone sizes.
-
-There are more (small) issues with the code. For instance,
-
-> Also based on http://ohm.hgesser.de/sp-ss2012/Intro-MinixFS.pdf I think
-> s_firstdatazone is constrained even more (since there must be inode bitmap,
-> zone bitmap, and inode table before it).
-
-firstdatazone should not be used normally. Better to calculate it in place.
-Also, in minix_new_node ENOSPC is returned if (!j || j > sbi->s_ninodes).
-However, this is really a EFSCORRUPTED as it should never happen.
-
-I have been going through the code in detail to see how best to move it to
-FUSE. Probably it is a good idea to write some sort of adapter so that as
-few changes as possible are needed to the current implementation. Such
-an approach is also more likely to work for more complicated deprecated
-filesystems. But I have to see if I can bounce some ideas on someone more
-knowledgeable.
-
-I can submit patches for these issues in the mean time if you think that is
-useful. Otherwise, I will include it whenever I finish the FUSE driver.
-
-thanks,
-Jori.
-
+>  	ret = ext4_xattr_ibody_find(dir, &i, &is);
+>  	if (ret)
+>  		goto out;
+> -- 
+> 2.43.0
+> 
