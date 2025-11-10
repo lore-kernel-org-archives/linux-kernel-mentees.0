@@ -1,48 +1,50 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1730B24BC07;
-	Mon, 10 Nov 2025 11:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B422F5A10
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Nov 2025 23:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762775751; cv=none; b=MWPo5ksA2zoEt99RQ6Yh0+EeWMVmP+Dx80j0V+pBQmbzVlNOs3gXJVZOBkVOQ0fuvkkX9zA0Ioo5BPGmXKTZun3QR+MQHT3oZcoTvXpLyEtmcZ28U0+9dGgUPL23Q8JNVdbVxO0ka5xTR8I5P8kA9XJM6KrGHwk1iwLTsYoaTV0=
+	t=1762815833; cv=none; b=CCmnFR1pN1dyVopSi8X3UaYLoZQXMRbVxzR4Oa/iPBajzryBzq4GjKsw/5laMe9rx/q73RX6KTINO+s3DGODbi1/V8MivxUGlPbMMhg1rW7tLhV701YgvJM0vb2jyHFFn/TAQ9TqSwajdKWMCjNvUdqeAH2WQio7c812pPjnccU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762775751; c=relaxed/simple;
-	bh=BG/R3SxEAtIIo0LWOHrCfcSUHdJTZWPLY5lx1lGieTM=;
+	s=arc-20240116; t=1762815833; c=relaxed/simple;
+	bh=SpBXcCXhucc4vOTbhq3IyeNwX9Ph+ezvTLGmCPeyPVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dx3B5TZFKA5TT2QLXJ4Z5gFl74BXrnWtK69jPPCGvBXTMgl4V/lM68tMIXvsoSdR44KzI8PA9xfXJCBjaMTqoS/XXCAISxzD58DytFvTIav7sy3zT4FqRg3IpGEEBQANnaTfL7DTc923P7Biv+VqWuJiynllotPsWJsPpWEoZ6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Lcd3QpnY; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=CXHsvVbVGWXFmwVJ4Bxy+0Fb+rQqAywxKQkKCmwKZ9XqnOa++z7twlXcOq8q3NTUxyHMGlkqDGNBORsje4RmpTed5n5tq3uNdQtfTmZ5sRITE8/9jRr67IgwvAJidFGhDFSjCOb9ghUkc4v0wh38K5uOjQnmIJpMqX/PkQV9C5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=A9ijqw1p; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Lcd3QpnY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=zq/UYqU7b99yJOfWIAe6XEkp8akZneMuARWWpOHmJ8s=; b=Lcd3QpnYwO6bBhf01O3jwhiMdb
-	FqaGkD6CqogBGXEZbIYOJrIYqD4gz8nnJTUG62KIgur4FnnnjowkKIPhAwtDcfZ/Ceok2EsAq0rF3
-	YWLEDq5CNPeKs4eLM6whVs0KmVM534XOLBAivtUIfVABZ4Z86ixHLovuIV2VG/e4khsncCyKGTOU+
-	ezT9orBGOv5J2Ibow62qrzFa96fWT3S11gf2fxJ9hgQr69XJLIA8xtvqcX+xpF+N2zCN0AXSEMm0l
-	Tql1LGOwAK6Hhzr1wMnoOCE8HGw0dDJ4h1g1RJR1j2NNrCPJR5XQ24lvllIGxKiR/NVjNfWmqqO9j
-	JFTjPliw==;
-Received: from 179-125-86-112-dinamico.pombonet.net.br ([179.125.86.112] helo=quatroqueijos.cascardo.eti.br)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1vIQUe-004aQX-9A; Mon, 10 Nov 2025 12:55:32 +0100
-Date: Mon, 10 Nov 2025 08:55:26 -0300
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-Cc: tytso@mit.edu, adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-Subject: Re: [PATCH] ext4: validate xattrs to avoid OOB in
- ext4_find_inline_entry
-Message-ID: <aRHSrpFone-SSkZa@quatroqueijos.cascardo.eti.br>
-References: <20251108202545.1524330-2-rpthibeault@gmail.com>
+	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="A9ijqw1p"
+Date: Mon, 10 Nov 2025 23:03:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
+	t=1762815828;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PqdKJLsgz2wpHczRCT84sJa40n6KuIUNVZ83IxQxhI8=;
+	b=A9ijqw1pL8UsQDLt09M5yWaNkOxZZs3w2n/hJKCSDEOoJQtfrfqr1f9FXTYEZB+3V5BKbl
+	8hnHF+QyjocsFwB5e9MP53PAUIuF+dvBApji7K/1Iymd/b0LJs/xMy6H7B3tSsI1QsPu19
+	cKSvlVg2Ex/PHP+w8pTnIWejlyV0g+Ul6uwT7BEkZuUkaD7km6RT62AEKjW2Kv5r0LkZNM
+	KUnq4K/n2R94lR4AnHaDB+5k2SvgITC6BzQthfthvxc2MAR+LoZ+F0uha4cDYnWBbwDOPb
+	EkPaXiaHNCIaftkFawrYP4AqnWt+CTYNmtzu4HI3UYvDgCqDB8AQ08kXGpnDkg==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: George Anthony Vernon <contact@gvernon.com>
+To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+	"slava@dubeyko.com" <slava@dubeyko.com>,
+	"frank.li@vivo.com" <frank.li@vivo.com>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel-mentees@lists.linux.dev" <linux-kernel-mentees@lists.linux.dev>,
+	"penguin-kernel@i-love.sakura.ne.jp" <penguin-kernel@i-love.sakura.ne.jp>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com" <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>
+Subject: Re: [PATCH v2 2/2] hfs: Update sanity check of the root record
+Message-ID: <aRJvXWcwkUeal7DO@Bertha>
+References: <d2b28f73-49c8-4e30-9913-01702da4dfe4@I-love.SAKURA.ne.jp>
+ <20251104014738.131872-4-contact@gvernon.com>
+ <ef0bd6a340e0e4332e809c322186e73d9e3fdec3.camel@ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -51,65 +53,68 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251108202545.1524330-2-rpthibeault@gmail.com>
+In-Reply-To: <ef0bd6a340e0e4332e809c322186e73d9e3fdec3.camel@ibm.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Sat, Nov 08, 2025 at 03:25:46PM -0500, Raphael Pinsonneault-Thibeault wrote:
-> When looking for an entry in an inlined directory, if e_value_offs is
-> changed underneath the filesystem by some change in the block device, it
-> will lead to an out-of-bounds access that KASAN detects as a
-> use-after-free.
+On Tue, Nov 04, 2025 at 11:01:31PM +0000, Viacheslav Dubeyko wrote:
+> On Tue, 2025-11-04 at 01:47 +0000, George Anthony Vernon wrote:
+> > syzbot is reporting that BUG() in hfs_write_inode() fires upon unmount
+> > operation when the inode number of the record retrieved as a result of
+> > hfs_cat_find_brec(HFS_ROOT_CNID) is not HFS_ROOT_CNID, for commit
+> > b905bafdea21 ("hfs: Sanity check the root record") checked the record
+> > size and the record type but did not check the inode number.
+> > 
+> > Reported-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=97e301b4b82ae803d21b  
+> > Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> > Signed-off-by: George Anthony Vernon <contact@gvernon.com>
+> > ---
+> >  fs/hfs/super.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/fs/hfs/super.c b/fs/hfs/super.c
+> > index 47f50fa555a4..a7dd20f2d743 100644
+> > --- a/fs/hfs/super.c
+> > +++ b/fs/hfs/super.c
+> > @@ -358,7 +358,7 @@ static int hfs_fill_super(struct super_block *sb, struct fs_context *fc)
+> >  			goto bail_hfs_find;
+> >  		}
+> >  		hfs_bnode_read(fd.bnode, &rec, fd.entryoffset, fd.entrylength);
+> > -		if (rec.type != HFS_CDR_DIR)
+> > +		if (rec.type != HFS_CDR_DIR || rec.dir.DirID != cpu_to_be32(HFS_ROOT_CNID))
 > 
-> This is a similar problem as fixed by
-> commit c6b72f5d82b1 ("ext4: avoid OOB when system.data xattr changes underneath the filesystem")
-> whose fix was to call ext4_xattr_ibody_find() right after reading the
-> inode with ext4_get_inode_loc() to check the validity of the xattrs.
+> This check is completely unnecessary. Because, we have hfs_iget() then [1]:
 > 
-> However, ext4_xattr_ibody_find() only checks xattr names, via
-> xattr_find_entry(), not e_value_offs.
+> The hfs_iget() calls iget5_locked() [2]:
 > 
-> Fix by calling xattr_check_inode() which performs a full check on the
-> xattrs in inode.
+> And iget5_locked() calls hfs_read_inode(). And hfs_read_inode() will call
+> is_valid_cnid() after applying your patch. So, is_valid_cnid() in
+> hfs_read_inode() can completely manage the issue. This is why we don't need in
+> this modification after your first patch.
 > 
-> Reported-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3ee481e21fd75e14c397
-> Tested-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-> Fixes: c6b72f5d82b10 ("ext4: avoid OOB when system.data xattr changes underneath the filesystem")
-> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-> ---
->  fs/ext4/inline.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/fs/ext4/inline.c b/fs/ext4/inline.c
-> index 1b094a4f3866..7d46e1e16b52 100644
-> --- a/fs/ext4/inline.c
-> +++ b/fs/ext4/inline.c
-> @@ -1593,6 +1593,13 @@ struct buffer_head *ext4_find_inline_entry(struct inode *dir,
->  
->  	down_read(&EXT4_I(dir)->xattr_sem);
->  
-> +	if (EXT4_INODE_HAS_XATTR_SPACE(dir)) {
-> +		ret = xattr_check_inode(dir, IHDR(dir, ext4_raw_inode(&is.iloc)),
-> +					ITAIL(dir, ext4_raw_inode(&is.iloc)));
-> +		if (ret)
-> +			goto out;
-> +	}
-> +
 
-ext4_xattr_ibody_find used to call xattr_check_inode until commit
-5701875f9609 ("ext4: fix out-of-bound read in ext4_xattr_inode_dec_ref_all()").
+I think Tetsuo's concern is that a directory catalog record with
+cnid > 15 might be returned as a result of hfs_bnode_read, which
+is_valid_cnid() would not protect against. I've satisfied myself that
+hfs_bnode_read() in hfs_fill_super() will populate hfs_find_data fd
+correctly and crash out if it failed to find a record with root CNID so
+this path is unreachable and there is no need for the second patch.
 
-So every other place where ext4_xattr_ibody_find was protecting against such
-block device changes is not working since.
-
-At least, the Fixes: line should change to point out to that commit, but I
-wonder if the inode checking should be put back there. I haven't investigated if
-that would regress the bug it fixes, though.
-
-Cascardo.
-
->  	ret = ext4_xattr_ibody_find(dir, &i, &is);
->  	if (ret)
->  		goto out;
-> -- 
-> 2.43.0
+> But I think we need to check that root_inode is not bad inode afterwards:
 > 
+> 	root_inode = hfs_iget(sb, &fd.search_key->cat, &rec);
+> 	hfs_find_exit(&fd);
+> 	if (!root_inode || is_bad_inode(root_inode))
+> 		goto bail_no_root;
+
+Agreed, I see hfs_read_inode might return a bad inode. Thanks for
+catching this. I noticed also that it returns an int but the return
+value holds no meaning; it is always zero.
+
+> Thanks,
+> Slava.
+>
+
+Many thanks again,
+
+George
