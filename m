@@ -1,64 +1,64 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B294361DB2
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Nov 2025 15:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25C4361DBF
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Nov 2025 15:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762874034; cv=none; b=JB4YEDgc/N52r7KGlmiuiEaTaU4FL+2wU80yCRBhim3RM0cxln3tK1YgJhd9LOw6mOmf5xMp3kvAgr0Fy8V6CYgzP2K6ivFW28ntT7l8bFbaI8xoMkOZhVvBPEp7y0F5ea65H3G5/EoetErbGcPmjUJ/NmF0JEJGCm7tYm6kbhs=
+	t=1762874038; cv=none; b=XjN4VOCyUUby+1Bv9WJPGFpDPW9cAApUYni64BlSsvrqqkVbUfXGF5xMcTNVhoUvnoboQd0HTKgpgqjzlteKm+dS7sP7wnYzgXiyDmNt/xyqlXZV/IW4EUuliKFnezhbzAPHrvWGeCHrYMOaT4upgiBFLMzkSv3uY8n8NQ7KSF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762874034; c=relaxed/simple;
-	bh=dtUjLOdH30HZ7lq2Yut9cRbOFxg6eVSJ7fh2zMthlpA=;
+	s=arc-20240116; t=1762874038; c=relaxed/simple;
+	bh=Ti+2vmguY1SICm2DICsmJgXZnQbOhyPSNbyWwHe3uSI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k1ODceTuNRqVDvz39ibdX95n5VLlYSWWCKLx4BOncm1JXezUFuMloEIAjqzCJFjHfRl/vNpYU3BOKEIbmi5GRYnoTqbv24CXTG/bADozZgK0yEgv67TyogHPZ1u0uUcAL0pUz9swxR6vABsAE8AgTYDFaCi0dNdE+F45CiYDJ7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k6iDjTy2; arc=none smtp.client-ip=209.85.214.175
+	 MIME-Version; b=UDwbMEBTYVVuLv+ylrilzuL8pbM97ozeuYKqzM3lFV2fzFu0HByZ+yYN+vkRXE2d/PoTlNiAagOFlO1u7d6Rg91ApgZplWqBHFGeuPCnC+7EJ0tcFumRPywdl9PBOytRuhlJh09PZyeNhNbAxBm22xxefPG2PNMcE837n8jcqT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QCZqZ/Ha; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k6iDjTy2"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2956d816c10so45768765ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Nov 2025 07:13:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QCZqZ/Ha"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2955623e6faso36226755ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Nov 2025 07:13:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762874033; x=1763478833; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1762874036; x=1763478836; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CUyh9ZW3/kLx88s0Qv7t672gbmKqLdg3BEyz6Kj12UI=;
-        b=k6iDjTy2ZDpVmYPaW+2m9m5f6C+N2IB1Qhj+85/YsznNwi6GHTblsqi46zt1BIy1L/
-         s30hVMOSFjh/ZUsPPGR4QdqQKpdR1K9PgQqdIQDjp27LRy39km0yOkQalrnofXpBmiaK
-         o5H4UHY9iNd1zKH5v1C5zQ1aIa/R8kdo7ruTD4mVbcUYLyVdEd7s+hg4sSwPwP8cReVR
-         83gHNoKdbUNaqW/goO0eDxw9bIU+czZCYvbT0vww/A1qms8Gs8BkvL3clwghlgkiDMVk
-         Cui4iXP6evTF6rdiyRDkupCZbjTp5i9v114f3H9ILmdf7vsCl8Dlqs7FcVROmulJxOvJ
-         EDVA==
+        bh=Xk+ab9S/Fktn/kpjYuwQB6Q1o5rzNPQu+5xg+VUfK/k=;
+        b=QCZqZ/Haon1Uk39EwzJM+O4siR+polae67lyb9QXN2XtoT1Esu1gm9alVBsc8DNCN/
+         lZGE67IDr+Gon7e9rIC1dSOvdDMSJWMy5s8UUH4NhNa9a0A5LgZ+mzY3IOzkxIFgZI8b
+         79OFj8+PShVKLUIfBIiiTS8mFpiytdq77CCVey55v+wOFVCR27ivkHkXJUdgFJFkOlq0
+         OAgzYXnOlv90pjJ5NeVHMheJc+xoaG3WmnPF4Awb5JCL71zBzbnJsAeez6nRhdcPrWHb
+         JQR+lpKsQeNj3U+PgJE+930wCUY1zju1XYgjaZOCktfVB150Sic3SEHZninwbcTf77Bd
+         E1SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762874033; x=1763478833;
+        d=1e100.net; s=20230601; t=1762874036; x=1763478836;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=CUyh9ZW3/kLx88s0Qv7t672gbmKqLdg3BEyz6Kj12UI=;
-        b=tNtkK8p/M6McOwzPEYirK4/wmW4qVJTWQxVLtYTy0r0WL6rI2TZEFCbLiv3odQBKcE
-         lvCGWWrwFi/kJggrVv8pBnVGwyxtS5SLRkCdh3C81hxfM+OJYLdmyIZn70+87llkkbnc
-         a+ACg1MU/e1DSPZhrfamvc68AwxfAIXvyCp2Qb2Dxfl8/l1YPT+maCuCRbNq4ynobmc6
-         xYMdrYr3ZNg4Vq3/OztcW31cHPxuNBxjvvx2kPWtwh9ksBK+EPg8i48XHQQVuJjYHCJc
-         ssBPwNkHFh075KrFsyYbn03QmGCMQlqhd1wuU1jL6oWsCwTX5c85B1W63TPDl8OY5gG/
-         NryQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFfwqX8QdKaIwBRnDIecrzx+Axtd0CKwHIp/s71yje9x6itT5oei4qZIflf7GyrJ01AsCSTcqDtxEuQsTnr4FAfCTckQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywvo82XzeSFanQNsb9uLXyqPXGGSy0nez1Qt72cDbXAhIxPkC48
-	64FauIt9IqrlggC8p0ozGtpgvyAzxMJJrePtRflMJ5gp5GIYgQeHDuzL
-X-Gm-Gg: ASbGncsVLVdLXBLHOXfgAxVgthOEwqcpyyb105arFhTMmjH2jzTeMIEjRodPVKYks5B
-	uqwM3kjbI3ip/rEaUtRpkEV+62HNlYTIxQlsMJN+w0y4aQ5Ou5EyIxhgLgNI8NHP7uIrutRMZe0
-	iTrh8BiuGhguOSqVjAXNPZwjPZnMiQVRlv06X7A0emLuMGrfiRcawCb5Qf5j5jp3/iN2XngzAr7
-	48DcFqHAk5FahYOivEcuB5fNvuQKMTsx3xAk2i7poF2nql5V8DhL+MpL5lcSRaC92eS1hb28/4z
-	32hhCTdUWMl0t4zSjPwUXMg6GtO680gKTnTc9e3JNFyh01aCJkfLlU65xfJ1jqR2VC47LV53yBc
-	fi6tTgclCehmUHrYtxGmhq/JcySMrFHeS0q++yyW9zfJ4lCpKqsM7kUL9xoD4WPd1dDmin6DxO7
-	3hZNMECVje3hAhZLfOFa5VR4Sx
-X-Google-Smtp-Source: AGHT+IFZEnI8fZnhodv8vqzdFTSs7qYOInfMTTdTV9hrb6S4aEfRvMyAWau29LKKOvYeIyEUaRpJdA==
-X-Received: by 2002:a17:903:32c7:b0:295:8c51:6505 with SMTP id d9443c01a7336-297e56aea5dmr158213485ad.33.1762874032711;
-        Tue, 11 Nov 2025 07:13:52 -0800 (PST)
+        bh=Xk+ab9S/Fktn/kpjYuwQB6Q1o5rzNPQu+5xg+VUfK/k=;
+        b=dnyqtWlJDWccPJ37zTk1tM7+rgZw8JgblDt62xL3YTQGHnycnyPP+bqxKTiUeHgRnW
+         WUqm7NLBxcuZib1mmjQwntbtgR/wBV2xEJfyizo6oxFuj3ZWaoiqn2/csjXNJtOQxXw0
+         pxerp5Hf88RWlWcx+Hv2oFA+QM7NIbW0n0RK44KCLz9fJvsUuAEpN/ao+lyAE8eQbmvN
+         jc+33Tl4tsh+jLPA1WyvprtBSjdYv68+K2EofxuETMCA/JHXFdJU0Yf4sL38xQGIk0jA
+         Ste7gV4ik9ap2TU+ChBMPNZggjHMMHowxEF2WF1uSCEM9gGTI5Fqun0+x5g+vEjgscl9
+         w3IA==
+X-Forwarded-Encrypted: i=1; AJvYcCUWrIAGGFY5VWbFNd6d4ruAdJI5waaHwCD+ztHg4VxtC8bU1pxJpC5JOBCtsu1Ou4EytxNwx8QDXYoDFs6AhCdlCvs0qQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw5qb1S+nplM/mbwV/Va5M5fBL62sb/aoNINqLKjXbStD9V041j
+	e+gCGO8NxfxBUnXyvCsneeBDi1MR7KpJ7BCqu3kM7fN45AkNozKcgOIH
+X-Gm-Gg: ASbGncuYIhN61mznfFoLIecfwnZi8fbJTDUgJMiYgUD/pAeswgvT8g+Io+r2CORjI9y
+	hIk1G6eDr5ST6dt0mQULJl7aUqTE1A68LkAJU/xeiNR1nLrxLLdL+VmW4Ovk6h+xyuk3J+7eRnf
+	VQtL5JMTm/0enZgL/kd64iu0W8LEWEiL1NZs5nT52xAMkWlKKeMtGRw2frzQGqdg14RJPcjxK3x
+	Wthm2JyuvgBXQ4WTbV79s2G30amsCMhZtjB+1s7zwr0Cg2PNXA9kObDRJC4mvcfmVNlIasLNTCd
+	JwkcuIRQUsh+yrlAxryqnmU6MpWlxy3iLyKTvPyxCv8ryYn/Lih8xwiwVAyQxiO9BNDiFuhGnlL
+	kV05U1G4AyDgC39LLyteIfJ5vT1BiFrObBAD82GUX8hlPYB7LDURsFJ3eYckeqikneY/fiGuuFT
+	2vxr/LyXPPRU8AStrYEXrb2i4t
+X-Google-Smtp-Source: AGHT+IEblO7gaYyU/lmwayxhc2EstFsO1L99ch3o95EXeiAoO1u/jE9w5yzV57nNPGWEwlAqpZ+oTA==
+X-Received: by 2002:a17:903:240b:b0:298:970:b24a with SMTP id d9443c01a7336-2980970b609mr110598135ad.58.1762874036156;
+        Tue, 11 Nov 2025 07:13:56 -0800 (PST)
 Received: from clint-ThinkPad-L14-Gen-2.. ([110.226.177.165])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dcd050asm43325ad.81.2025.11.11.07.13.49
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dcd050asm43325ad.81.2025.11.11.07.13.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 07:13:52 -0800 (PST)
+        Tue, 11 Nov 2025 07:13:55 -0800 (PST)
 From: Clint George <clintbgeorge@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: arnd@arndb.de,
@@ -68,9 +68,9 @@ Cc: arnd@arndb.de,
 	linux-kernel-mentees@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org
-Subject: [PATCH v2 1/3] hangcheck-timer: replace printk(KERN_CRIT) with pr_crit
-Date: Tue, 11 Nov 2025 20:43:38 +0530
-Message-ID: <20251111151340.9162-2-clintbgeorge@gmail.com>
+Subject: [PATCH v2 2/3] hangcheck-timer: Replace %Ld with %lld
+Date: Tue, 11 Nov 2025 20:43:39 +0530
+Message-ID: <20251111151340.9162-3-clintbgeorge@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251111151340.9162-1-clintbgeorge@gmail.com>
 References: <2025110649-elves-steadying-a4d0@gregkh>
@@ -83,65 +83,27 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace printk(KERN_CRIT ...) with pr_crit(...) and printk() with
-pr_debug(). The change aims to make logging more consistent and
-readable.
+Replace non-standard %Ld with %lld to ensure compliance with the kernel
+coding style and potential formatting issues.
 
 Signed-off-by: Clint George <clintbgeorge@gmail.com>
 ---
- drivers/char/hangcheck-timer.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/char/hangcheck-timer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/char/hangcheck-timer.c b/drivers/char/hangcheck-timer.c
-index 497fc167c..21ef8a6a0 100644
+index 21ef8a6a0..ff141fdb4 100644
 --- a/drivers/char/hangcheck-timer.c
 +++ b/drivers/char/hangcheck-timer.c
-@@ -126,23 +126,23 @@ static void hangcheck_fire(struct timer_list *unused)
- 
- 	if (tsc_diff > hangcheck_tsc_margin) {
- 		if (hangcheck_dump_tasks) {
--			printk(KERN_CRIT "Hangcheck: Task state:\n");
-+			pr_crit("Hangcheck: Task state:\n");
- #ifdef CONFIG_MAGIC_SYSRQ
- 			handle_sysrq('t');
- #endif  /* CONFIG_MAGIC_SYSRQ */
- 		}
- 		if (hangcheck_reboot) {
--			printk(KERN_CRIT "Hangcheck: hangcheck is restarting the machine.\n");
-+			pr_crit("Hangcheck: hangcheck is restarting the machine.\n");
- 			emergency_restart();
- 		} else {
--			printk(KERN_CRIT "Hangcheck: hangcheck value past margin!\n");
-+			pr_crit("Hangcheck: hangcheck value past margin!\n");
- 		}
- 	}
- #if 0
+@@ -142,7 +142,7 @@ static void hangcheck_fire(struct timer_list *unused)
  	/*
  	 * Enable to investigate delays in detail
  	 */
--	printk("Hangcheck: called %Ld ns since last time (%Ld ns overshoot)\n",
-+	pr_debug("Hangcheck: called %Ld ns since last time (%Ld ns overshoot)\n",
+-	pr_debug("Hangcheck: called %Ld ns since last time (%Ld ns overshoot)\n",
++	pr_debug("Hangcheck: called %lld ns since last time (%lld ns overshoot)\n",
  			tsc_diff, tsc_diff - hangcheck_tick*TIMER_FREQ);
  #endif
  	mod_timer(&hangcheck_ticktock, jiffies + (hangcheck_tick*HZ));
-@@ -152,7 +152,7 @@ static void hangcheck_fire(struct timer_list *unused)
- 
- static int __init hangcheck_init(void)
- {
--	printk("Hangcheck: starting hangcheck timer %s (tick is %d seconds, margin is %d seconds).\n",
-+	pr_debug("Hangcheck: starting hangcheck timer %s (tick is %d seconds, margin is %d seconds).\n",
- 	       VERSION_STR, hangcheck_tick, hangcheck_margin);
- 	hangcheck_tsc_margin =
- 		(unsigned long long)hangcheck_margin + hangcheck_tick;
-@@ -168,7 +168,7 @@ static int __init hangcheck_init(void)
- static void __exit hangcheck_exit(void)
- {
- 	timer_delete_sync(&hangcheck_ticktock);
--        printk("Hangcheck: Stopped hangcheck timer.\n");
-+        pr_debug("Hangcheck: Stopped hangcheck timer.\n");
- }
- 
- module_init(hangcheck_init);
 -- 
 2.43.0
 
