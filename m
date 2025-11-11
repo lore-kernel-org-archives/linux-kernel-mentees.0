@@ -1,149 +1,263 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD16C363C4B
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Nov 2025 15:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2293A5E60
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Nov 2025 17:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762874042; cv=none; b=Q0x8k9QIn7FI/yrsgcw1M2FRAJ4kAFyms+e1ILxOGGhRCJvvyPm0fmn58O03AcxMj/kNi38Ee8of9zPgvBKozNg+GrfwdUGQRX6l1TLOYfGOLOLQByGhLEvfsS8Nqy61UtOUOdwwjePb5vqIr0o8et3AJlS5cBOsawKIZ9yGlg4=
+	t=1762882602; cv=none; b=VZowa/Cdde+gM6t0t3FExbdPEpAkyFIsIq2/qNXOlpSfS4OQ8xXqb9YRU+yaamNLzNEmn6Xt4QNOqx5HjqpLp+5LTGuHbGw9GdZI7AvpX1hoNS7ACDsGZaIJR+Azljn9O2x7tHqJcEWaShC+5nVTvFxFLbHgMSmKMUyu/xoYtZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762874042; c=relaxed/simple;
-	bh=exXPbv8F9cIfrhHTxhSis/wzZIan0gY30z+dZ74lt1Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D5tDAjKuXwqtqqct5L8Yoqq+AR2EVUKbpHTOZGL0QlcH2pXi6bKDycxVV5xCBQqeTmdyH5iVMQPWRYl9vdzgoD1pu0tgzUyHeIQILvw9N+bVfKHWZ0QzC2GqGjEWvZVi37aZ1cCj6nGD8RVx2+nLMHAhKm61WCNGbSTfhiqZkqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WoBAdL91; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762882602; c=relaxed/simple;
+	bh=7w69gEIQRD9DpRmZ1hipFG+Vuhi9EbgUYt2kjgHRRw8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=synoZX2f8a7ZetFBxGaRdw2vaC1jiTvuaHDgqPcsP8JWaBirUwiSeE78a38IHLJgDwfpyum8buHSP7WUulNY1+NQaD9sBWFiQyynbLh9lXRsYBx9ZoTnj9+3hdGbUwcD5fp1HK90jj1yBOjg9OFm/ZOZJ3KjIrKye9O+skiPl2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WxlNq2BD; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WoBAdL91"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-297f35be2ffso37239675ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Nov 2025 07:14:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WxlNq2BD"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-787da30c50fso31082497b3.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Nov 2025 09:36:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762874040; x=1763478840; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1762882599; x=1763487399; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OXmtHotN5KZffmUTu9Owly8mSzQe53/VPy+vlDSmfcM=;
-        b=WoBAdL91kdMsnCZeHS8VRvJYx4zfkIzdQ5ma3vYXo2/Gl3F3RsPG1ITMfi4MDVMs20
-         G7X2UiJEAfa9nK0ipvHA5mTaUc8N7wSqWf5PsoqJeuHUA8vdwy7qjjVCaQEoiloyGC8z
-         gfgB+4kqi16dl0AavUkUMTeM3CpA6Q1GoVwbN7owmbrklkc2rF78LGzdlu66HCTBT+tH
-         r09AE0rrH1x7Dpz6DqxDCuQePiV08vFQXTuiueF4wOTNPuNFOfQsvZF3vZ9Ai5La6RmC
-         GJoLO1u8iJH2lov5WMmOc7arFimw2vpU1XguwDcEpgCWi9POa7jL8fo+qWQZrhCyhJ3K
-         mU6A==
+        bh=cq330mV0aM3KkFwnynOWcCz+kzqPG1AsqJROu3kzYnM=;
+        b=WxlNq2BD3ImQ+kFo1YNA9HatL4i77+lPaKwYLTJA7MjyD0IhqRlcJvI8d3HQE4nguT
+         s3R1AS8hfOiHfzuyoY/ypPfvwVjWxi4u9jFdySMk/u2bGjqcfJSFDVWfO9ZU7k3MPbf/
+         zRM/TAr5fjQliXWacCJct5D8UejZqh+h1NhKkaAPlqVO9hgigd4KRjAYLiWLpYIxLJ8i
+         qvEt4z2POAvIBNm9JRT81uozHHs8mY/soc/fkM1LAGt4ayzrvFX+fS3YD3wAYaJvvgk7
+         zKtBzjboj5TZGD619+0Y5Xr74xjDmpab7lHwbv297JiAY5ZdPzLBiIlhWXzeAci5cp7a
+         VJUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762874040; x=1763478840;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1762882599; x=1763487399;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=OXmtHotN5KZffmUTu9Owly8mSzQe53/VPy+vlDSmfcM=;
-        b=k9izS2PnjHe0z0ohanzOMDcAH061pSFLkxOiNFr973xVm8n322sHfQDg7AFTjktl5C
-         /ORJ9RwT/G5auBmMJRbpjggJWJIEyuUPfqDLwl4w9G/goU/I3NjRkjNAC3XZeT0+TtBd
-         AVAvgXZh1BcUTIVXZ7bcoHhLamZZbW+m0JM2c2XZolIOfjXj5QymxsmRWOaSTdZRYx7P
-         FNfEk5ScEdEb4+BvXQ/awqMsWO8MDTkAoPctmMb5j2AkmnvXyLxzhh/nHLctmleK2GS2
-         i0f8RxYp8FebxP137comB9fab8SlQQPC6uk7O4KoFvk2f09DrvnJLXYxI4ahZWx61kXg
-         ztGw==
-X-Forwarded-Encrypted: i=1; AJvYcCVyBRcXHV3IrCfUaSGKNfxqvxEmV269p1yQeyIS7HXbEmxFfIfdZTyTetUvmbuxjjNc1OYJxCIK6f+BfwVPQVVNsuOQnw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yze5sScfxWuF4wfux/jHUbOAjq/26Y98QHcTYctqG9mMJ/N9BRk
-	zOj8gx37KdWdIvBli/5niq2O8ohptJZHl5eAzg/pyN+8osSQySEwW/zX
-X-Gm-Gg: ASbGnct6SD4flezpzLNB4lcNJdsS85wlgXwu+/Bh/VWRlspkgoRBnJ8QC2Q7IATr4oo
-	ST1fJgiD34MjEslU5lclOjy6+OVVpnoBuHZbn0mWGMOfYlAE4hYxDmYx8jJMrLJPzBM7618Pejp
-	GdUgjgMXJc26IU4zLzBla6aVb7xh6BbSWnNBGm3Z14GQfgV2KueP1R+WCyan62XSkW5ubtobSpK
-	uIV0JTAxkxZB+xjTGzJ7T1RI6K9dtCoR7xmo6zTqFwJ+laMEYtaoa5zoOzQLm9g+5Vu+Mlc/rTr
-	ni2sRIwORRS5pexiULs5F+Ro6aWRQWbhNxJm0henk6/xRumk97oB3TVAinIo0YYshfQ9cLPfKo5
-	+1ynbBFHqumRxFFabq94aTTBp99E4W60WqRdzQFIADhzHAXzsc4ywDDjnskR3vFwINYOiacaS4P
-	eTSIK5UkKWRjl6+VzSbJYLyM7Z
-X-Google-Smtp-Source: AGHT+IFpHTaG+Oj/fmYZy53il1DO9yHF95r12sk7azQnEZNF97P/gwxxwk/B9EkN5N0uOgZ8NoF85g==
-X-Received: by 2002:a17:903:1103:b0:298:43f4:cc49 with SMTP id d9443c01a7336-29843f4d12emr34013475ad.24.1762874039940;
-        Tue, 11 Nov 2025 07:13:59 -0800 (PST)
-Received: from clint-ThinkPad-L14-Gen-2.. ([110.226.177.165])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dcd050asm43325ad.81.2025.11.11.07.13.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 07:13:59 -0800 (PST)
-From: Clint George <clintbgeorge@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: arnd@arndb.de,
-	clintbgeorge@gmail.com,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: [PATCH v2 3/3] hangcheck-timer: fix coding style spacing
-Date: Tue, 11 Nov 2025 20:43:40 +0530
-Message-ID: <20251111151340.9162-4-clintbgeorge@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251111151340.9162-1-clintbgeorge@gmail.com>
-References: <2025110649-elves-steadying-a4d0@gregkh>
- <20251111151340.9162-1-clintbgeorge@gmail.com>
+        bh=cq330mV0aM3KkFwnynOWcCz+kzqPG1AsqJROu3kzYnM=;
+        b=rAx3tcnrNeATj5NN2HwKDS84NrsL4QTKP4EqKVoiETDdCfifrn+Osm4TqQXxDP5xP9
+         HB1DrzyijyLWS4nYT/XCSB7h3U+tzn5rD19bv4+VvL1ITZG/LkooOMTLjRLlWGsTpPjz
+         ODNqT3IRmMd85+nT0O8KK9bMEBZbHSgxuDNJ7OKUfaGixAfmIvov10xsjsso9B8meu2w
+         YykArxrc3pL8rlZlHhIVrsUYnw4pzme7q3sflDe23Wowy50wh9sPcRBpGXWUIUhPCUl3
+         6fEdNF5uzgCoeWHX/IPNEReR2hvJ2VjGR9F+I9TfcWpApwYUqPe4PgYHgzv3s/u8pLTj
+         TOww==
+X-Forwarded-Encrypted: i=1; AJvYcCU/DhJbz5vbaBoshosjCunKlqp0D2pRb6RxhxmZxQBv9SwexhS26ZPDG0p/0qUUI1gLlEa54NoK98l3DXtKYoVdnEz0Ww==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOxUJkLEdvh4il3HV2Ca4T9g0vgKgbrMObIQuvayVzeyX+O9uO
+	b+aDSmFrEgoXouv3MXKcrPLlTzfmDMiFwhzfckYbnFmpsvM//pLCUwKzqS1s7SyL4hW8QfNNRR3
+	yIK8odDOMNI/6FIwfahu01PnGSiDV67LawFHM/zVk3g==
+X-Gm-Gg: ASbGnctEjzA3TwdS3wChJyNzT3MSMWizttyZ58IUzCKLTE62lVoFEppBFpojfvf7I83
+	TLZ0TNIUV0nxsypZW8R9JGAxGGyxP2gmxu3B2TBXYcG5lbDVu+R2RvsEhyRcFqW3GFoRUBgkqv3
+	f1lGWjIF6d1JpBXDoudRkPAwPbqO/MSy4fWUh2wbXS2WPmJRiu9QntN1XP2RX4iOnecAqIGPFta
+	9G/kbXoqOKcZkqC0LyatS/nsdvSyYvdzN9sJ1ClN0nF5+Q8inuOnN4no+Hiyw==
+X-Google-Smtp-Source: AGHT+IGFeWkmGYHnfsYLyug0SUXVIrlIHteZgTm7nrPaPsLkRxroQIQ00QVPMrq7+dreV7IBhR+16iaHx55xCI61maQ=
+X-Received: by 2002:a05:690c:312:b0:784:99f7:8d04 with SMTP id
+ 00721157ae682-787d541bf0dmr200759467b3.40.1762882598635; Tue, 11 Nov 2025
+ 09:36:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251023145432.164696-1-rakuram.e96@gmail.com>
+In-Reply-To: <20251023145432.164696-1-rakuram.e96@gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 11 Nov 2025 18:36:02 +0100
+X-Gm-Features: AWmQ_bm-HtvwPjB1I0R7_VasVYGA_DNOzwFIcqKcTupiDBJdq-x3xg3-mjSwxF8
+Message-ID: <CAPDyKFoSX7QZGv78dL10C38wY0Sg5QC1qxvhyGXJ+VUYHihP3A@mail.gmail.com>
+Subject: Re: [PATCH v3] mmc: pxamci: Simplify pxamci_probe() error handling
+ using devm APIs
+To: Rakuram Eswaran <rakuram.e96@gmail.com>
+Cc: u.kleine-koenig@baylibre.com, chenhuacai@kernel.org, 
+	dan.carpenter@linaro.org, david.hunter.linux@gmail.com, khalid@kernel.org, 
+	zhoubinbin@loongson.cn, linux-kernel-mentees@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, lkp@intel.com, 
+	skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix minor styling issues for proper compliance to the kernel coding
-style.
+On Thu, 23 Oct 2025 at 16:54, Rakuram Eswaran <rakuram.e96@gmail.com> wrote=
+:
+>
+> This patch refactors pxamci_probe() to use devm-managed resource
+> allocation (e.g. devm_dma_request_chan) and dev_err_probe() for
+> improved readability and automatic cleanup on probe failure.
+>
+> It also removes redundant NULL assignments and manual resource release
+> logic from pxamci_probe(), and eliminates the corresponding release
+> calls from pxamci_remove().
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/r/202510041841.pRlunIfl-lkp@intel.com/
+> Fixes: 58c40f3faf742c ("mmc: pxamci: Use devm_mmc_alloc_host() helper")
+> Suggested-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+> Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
 
-Signed-off-by: Clint George <clintbgeorge@gmail.com>
----
- drivers/char/hangcheck-timer.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Applied for fixes, thanks!
 
-diff --git a/drivers/char/hangcheck-timer.c b/drivers/char/hangcheck-timer.c
-index ff141fdb4..231cbf7b3 100644
---- a/drivers/char/hangcheck-timer.c
-+++ b/drivers/char/hangcheck-timer.c
-@@ -69,7 +69,8 @@ MODULE_VERSION(VERSION_STR);
- static int __init hangcheck_parse_tick(char *str)
- {
- 	int par;
--	if (get_option(&str,&par))
-+
-+	if (get_option(&str, &par))
- 		hangcheck_tick = par;
- 	return 1;
- }
-@@ -77,7 +78,8 @@ static int __init hangcheck_parse_tick(char *str)
- static int __init hangcheck_parse_margin(char *str)
- {
- 	int par;
--	if (get_option(&str,&par))
-+
-+	if (get_option(&str, &par))
- 		hangcheck_margin = par;
- 	return 1;
- }
-@@ -85,7 +87,8 @@ static int __init hangcheck_parse_margin(char *str)
- static int __init hangcheck_parse_reboot(char *str)
- {
- 	int par;
--	if (get_option(&str,&par))
-+
-+	if (get_option(&str, &par))
- 		hangcheck_reboot = par;
- 	return 1;
- }
-@@ -93,7 +96,8 @@ static int __init hangcheck_parse_reboot(char *str)
- static int __init hangcheck_parse_dump_tasks(char *str)
- {
- 	int par;
--	if (get_option(&str,&par))
-+
-+	if (get_option(&str, &par))
- 		hangcheck_dump_tasks = par;
- 	return 1;
- }
-@@ -168,7 +172,7 @@ static int __init hangcheck_init(void)
- static void __exit hangcheck_exit(void)
- {
- 	timer_delete_sync(&hangcheck_ticktock);
--        pr_debug("Hangcheck: Stopped hangcheck timer.\n");
-+	pr_debug("Hangcheck: Stopped hangcheck timer.\n");
- }
- 
- module_init(hangcheck_init);
--- 
-2.43.0
+Kind regards
+Uffe
 
+
+> ---
+>
+> Changes since v2:
+> - Dropped redundant dma_release_channel() calls from pxamci_remove() as
+>   devm_dma_request_chan() automatically handles resource cleanup.
+> - Added link to v2 for reference:
+>   https://lore.kernel.org/linux-mmc/20251014184657.111144-1-rakuram.e96@g=
+mail.com/
+>
+> Changes since v1:
+> Following Uwe Kleine-K=C3=B6nig=E2=80=99s suggestion:
+> - Replaced dma_request_chan() with devm_dma_request_chan() to make DMA
+>   channel allocation devm-managed and avoid manual release paths.
+> - Adopted dev_err_probe() for improved error reporting and consistent
+>   probe failure handling.
+> - Removed redundant NULL assignments and obsolete goto-based cleanup logi=
+c.
+> - Updated commit message to better describe the intent of the change.
+> - Added link to v1 for reference:
+>   https://lore.kernel.org/linux-mmc/20251007161948.12442-1-rakuram.e96@gm=
+ail.com/
+>
+> Testing note:
+> I do not have access to appropriate hardware for runtime testing.
+> Any help verifying on actual hardware would be appreciated.
+>
+> Build and Analysis:
+> This patch was compiled against the configuration file reported by
+> 0day CI in the above link (config: s390-randconfig-r071-20251004) using
+> `s390x-linux-gnu-gcc (Ubuntu 14.2.0-19ubuntu2) 14.2.0`.
+>
+> Static analysis was performed with Smatch to ensure the reported warning
+> no longer reproduces after applying this fix.
+>
+> Command used for verification:
+>   ARCH=3Ds390 CROSS_COMPILE=3Ds390x-linux-gnu- \
+>   ~/project/smatch/smatch_scripts/kchecker ./drivers/mmc/host/pxamci.c
+>
+>  drivers/mmc/host/pxamci.c | 56 +++++++++++++--------------------------
+>  1 file changed, 18 insertions(+), 38 deletions(-)
+>
+> diff --git a/drivers/mmc/host/pxamci.c b/drivers/mmc/host/pxamci.c
+> index 26d03352af63..b5ea058ed467 100644
+> --- a/drivers/mmc/host/pxamci.c
+> +++ b/drivers/mmc/host/pxamci.c
+> @@ -652,10 +652,9 @@ static int pxamci_probe(struct platform_device *pdev=
+)
+>         host->clkrt =3D CLKRT_OFF;
+>
+>         host->clk =3D devm_clk_get(dev, NULL);
+> -       if (IS_ERR(host->clk)) {
+> -               host->clk =3D NULL;
+> -               return PTR_ERR(host->clk);
+> -       }
+> +       if (IS_ERR(host->clk))
+> +               return dev_err_probe(dev, PTR_ERR(host->clk),
+> +                                       "Failed to acquire clock\n");
+>
+>         host->clkrate =3D clk_get_rate(host->clk);
+>
+> @@ -703,46 +702,37 @@ static int pxamci_probe(struct platform_device *pde=
+v)
+>
+>         platform_set_drvdata(pdev, mmc);
+>
+> -       host->dma_chan_rx =3D dma_request_chan(dev, "rx");
+> -       if (IS_ERR(host->dma_chan_rx)) {
+> -               host->dma_chan_rx =3D NULL;
+> +       host->dma_chan_rx =3D devm_dma_request_chan(dev, "rx");
+> +       if (IS_ERR(host->dma_chan_rx))
+>                 return dev_err_probe(dev, PTR_ERR(host->dma_chan_rx),
+>                                      "unable to request rx dma channel\n"=
+);
+> -       }
+>
+> -       host->dma_chan_tx =3D dma_request_chan(dev, "tx");
+> -       if (IS_ERR(host->dma_chan_tx)) {
+> -               dev_err(dev, "unable to request tx dma channel\n");
+> -               ret =3D PTR_ERR(host->dma_chan_tx);
+> -               host->dma_chan_tx =3D NULL;
+> -               goto out;
+> -       }
+> +
+> +       host->dma_chan_tx =3D devm_dma_request_chan(dev, "tx");
+> +       if (IS_ERR(host->dma_chan_tx))
+> +               return dev_err_probe(dev, PTR_ERR(host->dma_chan_tx),
+> +                                       "unable to request tx dma channel=
+\n");
+>
+>         if (host->pdata) {
+>                 host->detect_delay_ms =3D host->pdata->detect_delay_ms;
+>
+>                 host->power =3D devm_gpiod_get_optional(dev, "power", GPI=
+OD_OUT_LOW);
+> -               if (IS_ERR(host->power)) {
+> -                       ret =3D PTR_ERR(host->power);
+> -                       dev_err(dev, "Failed requesting gpio_power\n");
+> -                       goto out;
+> -               }
+> +               if (IS_ERR(host->power))
+> +                       return dev_err_probe(dev, PTR_ERR(host->power),
+> +                                               "Failed requesting gpio_p=
+ower\n");
+>
+>                 /* FIXME: should we pass detection delay to debounce? */
+>                 ret =3D mmc_gpiod_request_cd(mmc, "cd", 0, false, 0);
+> -               if (ret && ret !=3D -ENOENT) {
+> -                       dev_err(dev, "Failed requesting gpio_cd\n");
+> -                       goto out;
+> -               }
+> +               if (ret && ret !=3D -ENOENT)
+> +                       return dev_err_probe(dev, ret, "Failed requesting=
+ gpio_cd\n");
+>
+>                 if (!host->pdata->gpio_card_ro_invert)
+>                         mmc->caps2 |=3D MMC_CAP2_RO_ACTIVE_HIGH;
+>
+>                 ret =3D mmc_gpiod_request_ro(mmc, "wp", 0, 0);
+> -               if (ret && ret !=3D -ENOENT) {
+> -                       dev_err(dev, "Failed requesting gpio_ro\n");
+> -                       goto out;
+> -               }
+> +               if (ret && ret !=3D -ENOENT)
+> +                       return dev_err_probe(dev, ret, "Failed requesting=
+ gpio_ro\n");
+> +
+>                 if (!ret)
+>                         host->use_ro_gpio =3D true;
+>
+> @@ -759,16 +749,8 @@ static int pxamci_probe(struct platform_device *pdev=
+)
+>         if (ret) {
+>                 if (host->pdata && host->pdata->exit)
+>                         host->pdata->exit(dev, mmc);
+> -               goto out;
+>         }
+>
+> -       return 0;
+> -
+> -out:
+> -       if (host->dma_chan_rx)
+> -               dma_release_channel(host->dma_chan_rx);
+> -       if (host->dma_chan_tx)
+> -               dma_release_channel(host->dma_chan_tx);
+>         return ret;
+>  }
+>
+> @@ -791,8 +773,6 @@ static void pxamci_remove(struct platform_device *pde=
+v)
+>
+>                 dmaengine_terminate_all(host->dma_chan_rx);
+>                 dmaengine_terminate_all(host->dma_chan_tx);
+> -               dma_release_channel(host->dma_chan_rx);
+> -               dma_release_channel(host->dma_chan_tx);
+>         }
+>  }
+>
+> --
+> 2.48.1
+>
