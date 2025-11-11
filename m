@@ -1,50 +1,52 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1B834D388
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Nov 2025 00:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2451891A9
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Nov 2025 00:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762819252; cv=none; b=GYanVolR7VVjoDEfq7/1lOMsBSZbeLhuTbpF439GFAxDt402iKmap7KS9w/WgRb6m0QhJPfScPjAN/TsfM3aW+edYGlVkGWN0xiQhdTN/sGytUmof4sNwtzFdc3gH7klhR+ocdBnV3cZtMK3v3n1MQ+j4weuVYyQhePJpzv8GlY=
+	t=1762820598; cv=none; b=RGcFf7hTgUopt2OruJf1lSE+gW2U52XiDS9UvFKBmd53GjYrE62lJbv58jxMVHAgxWS0ILY+/v7ey+Q0k3HruDON9z+01GSaVvV5gVH/cvY4wQEs+b8p7BFfnTXp977lbZ8AodYCQTIaW8A6VWdGzgo8Zl3t5ykNMUxlU4+tCaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762819252; c=relaxed/simple;
-	bh=TNXiWOj5jEmx1EnsWyHYPudlbSIJrp8NFO/dblJJa3I=;
+	s=arc-20240116; t=1762820598; c=relaxed/simple;
+	bh=bPPdzsFCYqmZxZG1oaCETVPCkyCDDs3i4xm8UUoKQvM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DQAFqpsmZErJVGiKRB7axhoTNXF+mLLBDbn9UkXt00KZ27jXqI/AeIYEoqV9YIGFJy07+UGOoEio2QRwcd+OEgdoPsg/LesBUDkiqEg5Mk9G/PmsA7gxF/VeSzDF840hcjsminc+2ep6l+WzZXlFVL355MBrXa2oNxO51MGrzNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=oF/vWZ9Z; arc=none smtp.client-ip=91.218.175.184
+	 Content-Type:Content-Disposition:In-Reply-To; b=OX+0/O6hYBtEpz7fH7O31qdu3pfnoOt1r6mkVzOZ+EKa7Vmk67PhxS7c17aYVJIv+hw9q3fDeBw1ChzK2tETNMwhSy4nYsw8bjff2/hdgaIB5dgJsWZjf0EeiM6RdGmMa6BWL/jNzwMxFEsGIYAeYybCwn+YWavcyUewxPQ1oxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=MHv9s7Ny; arc=none smtp.client-ip=95.215.58.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="oF/vWZ9Z"
-Date: Tue, 11 Nov 2025 00:00:57 +0000
+	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="MHv9s7Ny"
+Date: Tue, 11 Nov 2025 00:23:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1762819247;
+	t=1762820591;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ppqVDuKsAD0whBouc8l1jbd4uRdLsWjiB6hmI07xXzc=;
-	b=oF/vWZ9ZcS4nAmyVy0p+TiXFN2RRBnSqrjzpRElMpGkGHxsf1YVzBXZSswWxs+d3g7jDKI
-	xG0UjHtHTJK66UGkEpggFENjNlmuK1TfopndjAKRrOCXutrzeupl1HKrjxi1H/DT9Qequ4
-	YTNEyttd6PlUW7xhQi1aE68lL4JSRAX28FyZlYpZZH9GIDg6DiU+9s6gC+1JtozNw6E0go
-	XNTXEK7R+2QBElvjIzqHGLF3GoI98rfa4gDAcubtA6aihfzgtJzFVbn5zodPQbf79v5WCm
-	ua8jX7kJjbyGH1+DwHkERpsVZfbZTKaTfOG/VaDiXIQSemJob+QrtF74faguvA==
+	bh=6MzVfzkvlgrw/5KjtWHCkGWxkY9koFjZVoe3P9pnd+0=;
+	b=MHv9s7NyTDDpSTBAokrLPAFFoIjoc34+qo8Nw3cILbrnBCkLgGVbXuKQkXdJJTeVa+S25J
+	/aj9f2w3MOXh/8hXywySn9TX4XgKbN7zCXYrsd/wvQc8d3OrQWe8Gpkt1Up1xJgtqtHRpC
+	+Xi2Hdd0DCZEMYhYf3DtCWW4EuM0HiL8/+546z0oB8CUk+Jp7mX5IRoVG399MsXGDVSPS7
+	5ekbkJ+p6w3DObP+U8w1Wi5ZxrW2iBA0+Iir4k7730t5AobI86QGZ7pZnzBWbabFxOTV0H
+	bSt761VAkd2k5ia3QRhk19TwwpFeX/0rYkYN6IBteypNOnOMu6Bp4JZI0wKVHQ==
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: George Anthony Vernon <contact@gvernon.com>
 To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-	"slava@dubeyko.com" <slava@dubeyko.com>,
-	"frank.li@vivo.com" <frank.li@vivo.com>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+Cc: "frank.li@vivo.com" <frank.li@vivo.com>,
 	"linux-kernel-mentees@lists.linux.dev" <linux-kernel-mentees@lists.linux.dev>,
-	"penguin-kernel@i-love.sakura.ne.jp" <penguin-kernel@i-love.sakura.ne.jp>,
+	"slava@dubeyko.com" <slava@dubeyko.com>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com" <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>
-Subject: Re: [PATCH v2 1/2] hfs: Validate CNIDs in hfs_read_inode
-Message-ID: <aRJ8uYyD0ydI8MUk@Bertha>
+	"penguin-kernel@i-love.sakura.ne.jp" <penguin-kernel@i-love.sakura.ne.jp>,
+	"syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com" <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] hfs: Update sanity check of the root record
+Message-ID: <aRKB8C2f1Auy0ccA@Bertha>
 References: <d2b28f73-49c8-4e30-9913-01702da4dfe4@I-love.SAKURA.ne.jp>
- <20251104014738.131872-3-contact@gvernon.com>
- <e13da4581ff5e8230fa5488f6e5d97695fc349b0.camel@ibm.com>
+ <20251104014738.131872-4-contact@gvernon.com>
+ <ef0bd6a340e0e4332e809c322186e73d9e3fdec3.camel@ibm.com>
+ <aRJvXWcwkUeal7DO@Bertha>
+ <74eae0401c7a518d1593cce875a402c0a9ded360.camel@ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -53,198 +55,91 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e13da4581ff5e8230fa5488f6e5d97695fc349b0.camel@ibm.com>
+In-Reply-To: <74eae0401c7a518d1593cce875a402c0a9ded360.camel@ibm.com>
 X-Migadu-Flow: FLOW_OUT
 
-On Tue, Nov 04, 2025 at 10:34:15PM +0000, Viacheslav Dubeyko wrote:
-> On Tue, 2025-11-04 at 01:47 +0000, George Anthony Vernon wrote:
-> > hfs_read_inode previously did not validate CNIDs read from disk, thereby
-> > allowing inodes to be constructed with disallowed CNIDs and placed on
-> > the dirty list, eventually hitting a bug on writeback.
+On Mon, Nov 10, 2025 at 11:34:39PM +0000, Viacheslav Dubeyko wrote:
+> On Mon, 2025-11-10 at 23:03 +0000, George Anthony Vernon wrote:
+> > On Tue, Nov 04, 2025 at 11:01:31PM +0000, Viacheslav Dubeyko wrote:
+> > > On Tue, 2025-11-04 at 01:47 +0000, George Anthony Vernon wrote:
+> > > > syzbot is reporting that BUG() in hfs_write_inode() fires upon unmount
+> > > > operation when the inode number of the record retrieved as a result of
+> > > > hfs_cat_find_brec(HFS_ROOT_CNID) is not HFS_ROOT_CNID, for commit
+> > > > b905bafdea21 ("hfs: Sanity check the root record") checked the record
+> > > > size and the record type but did not check the inode number.
+> > > > 
+> > > > Reported-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
+> > > > Closes: https://syzkaller.appspot.com/bug?extid=97e301b4b82ae803d21b    
+> > > > Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> > > > Signed-off-by: George Anthony Vernon <contact@gvernon.com>
+> > > > ---
+> > > >  fs/hfs/super.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/fs/hfs/super.c b/fs/hfs/super.c
+> > > > index 47f50fa555a4..a7dd20f2d743 100644
+> > > > --- a/fs/hfs/super.c
+> > > > +++ b/fs/hfs/super.c
+> > > > @@ -358,7 +358,7 @@ static int hfs_fill_super(struct super_block *sb, struct fs_context *fc)
+> > > >  			goto bail_hfs_find;
+> > > >  		}
+> > > >  		hfs_bnode_read(fd.bnode, &rec, fd.entryoffset, fd.entrylength);
+> > > > -		if (rec.type != HFS_CDR_DIR)
+> > > > +		if (rec.type != HFS_CDR_DIR || rec.dir.DirID != cpu_to_be32(HFS_ROOT_CNID))
+> > > 
+> > > This check is completely unnecessary. Because, we have hfs_iget() then [1]:
+> > > 
+> > > The hfs_iget() calls iget5_locked() [2]:
+> > > 
+> > > And iget5_locked() calls hfs_read_inode(). And hfs_read_inode() will call
+> > > is_valid_cnid() after applying your patch. So, is_valid_cnid() in
+> > > hfs_read_inode() can completely manage the issue. This is why we don't need in
+> > > this modification after your first patch.
+> > > 
 > > 
-> > Validate reserved CNIDs according to Apple technical note TN1150.
-> 
-> The TN1150 technical note describes HFS+ file system and it needs to take into
-> account the difference between HFS and HFS+. So, it is not completely correct
-> for the case of HFS to follow to the TN1150 technical note as it is.
-
-I've checked Inside Macintosh: Files Chapter 2 page 70 to make sure HFS
-is the same (CNIDs 1 - 5 are assigned, and all of 1-15 are reserved).
-I will add this to the commit message for V3.
-
+> > I think Tetsuo's concern is that a directory catalog record with
+> > cnid > 15 might be returned as a result of hfs_bnode_read, which
+> > is_valid_cnid() would not protect against. I've satisfied myself that
+> > hfs_bnode_read() in hfs_fill_super() will populate hfs_find_data fd
+> > correctly and crash out if it failed to find a record with root CNID so
+> > this path is unreachable and there is no need for the second patch.
 > > 
-> > This issue was discussed at length on LKML previously, the discussion
-> > is linked below.
+> 
+> Technically speaking, we can adopt this check to be completely sure that nothing
+> will be wrong during the mount operation. But I believe that is_valid_cnid()
+> should be good enough to manage this. Potential argument could be that the check
+> of rec.dir.DirID could be faster operation than to call hfs_iget(). But mount is
+> rare and not very fast operation, anyway. And if we fail to mount, then the
+> speed of mount operation is not very important.
+
+Agreed we're not worried about speed that the mount operation can reach
+fail case. The check would have value if the bnode populated in
+hfs_find_data fd by hfs_cat_find_brec() is bad. That would be very
+defensive, I'm not sure it's necessary.
+
+Maybe is_valid_cnid() should be is_valid_catalog_cnid(), since that is
+what it is actually testing for at the interface with the VFS. Would you
+agree?
+
+> 
+> > > But I think we need to check that root_inode is not bad inode afterwards:
+> > > 
+> > > 	root_inode = hfs_iget(sb, &fd.search_key->cat, &rec);
+> > > 	hfs_find_exit(&fd);
+> > > 	if (!root_inode || is_bad_inode(root_inode))
+> > > 		goto bail_no_root;
 > > 
-> > Syzbot tested this patch on mainline and the bug did not replicate.
-> > This patch was regression tested by issuing various system calls on a
-> > mounted HFS filesystem and validating that file creation, deletion,
-> > reads and writes all work.
+> > Agreed, I see hfs_read_inode might return a bad inode. Thanks for
+> > catching this. I noticed also that it returns an int but the return
+> > value holds no meaning; it is always zero.
 > > 
-> > Link: https://lore.kernel.org/all/427fcb57-8424-4e52-9f21-7041b2c4ae5b@  
-> > I-love.SAKURA.ne.jp/T/
-> > Reported-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=97e301b4b82ae803d21b  
-> > Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-> > Tested-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-> > Signed-off-by: George Anthony Vernon <contact@gvernon.com>
-> > ---
-> >  fs/hfs/inode.c | 67 +++++++++++++++++++++++++++++++++++++++-----------
-> >  1 file changed, 53 insertions(+), 14 deletions(-)
 > > 
-> > diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-> > index 9cd449913dc8..bc346693941d 100644
-> > --- a/fs/hfs/inode.c
-> > +++ b/fs/hfs/inode.c
-> > @@ -321,6 +321,38 @@ static int hfs_test_inode(struct inode *inode, void *data)
-> >  	}
-> >  }
-> >  
-> > +/*
-> > + * is_valid_cnid
-> > + *
-> > + * Validate the CNID of a catalog record
-> > + */
-> > +static inline
-> > +bool is_valid_cnid(u32 cnid, u8 type)
-> > +{
-> > +	if (likely(cnid >= HFS_FIRSTUSER_CNID))
-> > +		return true;
-> > +
-> > +	switch (cnid) {
-> > +	case HFS_ROOT_CNID:
-> > +		return type == HFS_CDR_DIR;
-> > +	case HFS_EXT_CNID:
-> > +	case HFS_CAT_CNID:
-> > +		return type == HFS_CDR_FIL;
-> > +	case HFS_POR_CNID:
-> > +		/* No valid record with this CNID */
-> > +		break;
-> > +	case HFS_BAD_CNID:
 > 
-> HFS is ancient file system that was needed to work with floppy disks. And bad
-> sectors management was regular task and responsibility of HFS for the case of
-> floppy disks (HDD was also not very reliable at that times). So, HFS implements
-> the bad block management. It means that, potentially, Linux kernel could need to
-> mount a file system volume that created by ancient Mac OS.
-> 
-> I don't think that it's correct management of HFS_BAD_CNID. We must to expect to
-> have such CNID for the case of HFS.
-> 
+> I've realized that hfs_write_inode() doesn't check that inode is bad like other
+> file systems do. Probably, we need to have this check too.
 
-HFS_BAD_CNID is reserved for internal use of the filesystem
-implementation. Since we never intend to use it, there is no correct
-logical path that we should ever construct an inode with CNID 5. It does
-not correspond to a record that the user can open, as it is a special
-CNID used only for extent records used to mark blocks as allocated so
-they are not used, a behaviour which we do not implement in the Linux
-HFS or HFS+ drivers. Disallowing this CNID will not prevent correctly
-formed filesystems from being mounted. I also don't think that
-presenting an internal record-keeping structure to the VFS would make
-sense or would be consistent with other filesystems.
+Good point, and similarly with HFS+. I'll take a look.
 
-> > +	case HFS_EXCH_CNID:
-> > +		/* Not implemented */
-> > +		break;
-> > +	default:
-> > +		/* Invalid reserved CNID */
-> > +		break;
-> > +	}
-> > +
-> > +	return false;
-> > +}
-> > +
-> >  /*
-> >   * hfs_read_inode
-> >   */
-> > @@ -350,6 +382,8 @@ static int hfs_read_inode(struct inode *inode, void *data)
-> >  	rec = idata->rec;
-> >  	switch (rec->type) {
-> >  	case HFS_CDR_FIL:
-> > +		if (!is_valid_cnid(rec->file.FlNum, HFS_CDR_FIL))
-> > +			goto make_bad_inode;
-> >  		if (!HFS_IS_RSRC(inode)) {
-> >  			hfs_inode_read_fork(inode, rec->file.ExtRec, rec->file.LgLen,
-> >  					    rec->file.PyLen, be16_to_cpu(rec->file.ClpSize));
-> > @@ -371,6 +405,8 @@ static int hfs_read_inode(struct inode *inode, void *data)
-> >  		inode->i_mapping->a_ops = &hfs_aops;
-> >  		break;
-> >  	case HFS_CDR_DIR:
-> > +		if (!is_valid_cnid(rec->dir.DirID, HFS_CDR_DIR))
-> > +			goto make_bad_inode;
-> >  		inode->i_ino = be32_to_cpu(rec->dir.DirID);
-> >  		inode->i_size = be16_to_cpu(rec->dir.Val) + 2;
-> >  		HFS_I(inode)->fs_blocks = 0;
-> > @@ -380,8 +416,12 @@ static int hfs_read_inode(struct inode *inode, void *data)
-> >  		inode->i_op = &hfs_dir_inode_operations;
-> >  		inode->i_fop = &hfs_dir_operations;
-> >  		break;
-> > +	make_bad_inode:
-> > +		pr_warn("rejected cnid %lu. Volume is probably corrupted, try performing fsck.\n", inode->i_ino);
-> 
-> The "invalid cnid" could sound more relevant than "rejected cnid" for my taste.
-> 
-> The whole message is too long. What's about to have two messages here?
-> 
-> pr_warn("invalid cnid %lu\n", inode->i_ino);
-> pr_warn("Volume is probably corrupted, try performing fsck.\n");
-> 
-Good improvement!
-> 
-> > +		fallthrough;
-> >  	default:
-> >  		make_bad_inode(inode);
-> > +		break;
-> >  	}
-> >  	return 0;
-> >  }
-> > @@ -441,20 +481,19 @@ int hfs_write_inode(struct inode *inode, struct writeback_control *wbc)
-> >  	if (res)
-> >  		return res;
-> >  
-> > -	if (inode->i_ino < HFS_FIRSTUSER_CNID) {
-> > -		switch (inode->i_ino) {
-> > -		case HFS_ROOT_CNID:
-> > -			break;
-> > -		case HFS_EXT_CNID:
-> > -			hfs_btree_write(HFS_SB(inode->i_sb)->ext_tree);
-> > -			return 0;
-> > -		case HFS_CAT_CNID:
-> > -			hfs_btree_write(HFS_SB(inode->i_sb)->cat_tree);
-> > -			return 0;
-> > -		default:
-> > -			BUG();
-> > -			return -EIO;
-> > -		}
-> > +	if (!is_valid_cnid(inode->i_ino,
-> > +			   S_ISDIR(inode->i_mode) ? HFS_CDR_DIR : HFS_CDR_FIL))
-> 
-> What's about to introduce static inline function or local variable for
-> S_ISDIR(inode->i_mode) ? HFS_CDR_DIR : HFS_CDR_FIL? I don't like this two line
-> implementation.
-
-Okay, I will rewrite this.
-
-> 
-> > +		BUG();
-> 
-> I am completely against of leaving BUG() here. Several fixes of syzbot issues
-> were the exchanging BUG() on returning error code. I don't want to investigate
-> the another syzbot issue that will involve this BUG() here. Let's return error
-> code here.
-> 
-> Usually, it makes sense to have BUG() for debug mode and to return error code
-> for the case of release mode. But we don't have the debug mode for HFS code.
-
-I prefer BUG() because I think it is a serious bug that we should not
-allow for a bad inode to be written. I am willing to take responsibility
-for investigating further issues if they appear as a result of this. Of
-course, the final say on BUG() or -EIO is yours as the maintainer.
-
-> 
-> Thanks,
-> Slava.
-> 
-Many thanks for your time and efforts,
+Thanks,
 
 George
