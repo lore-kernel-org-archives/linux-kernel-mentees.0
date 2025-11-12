@@ -1,137 +1,200 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E25E34B42F
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Nov 2025 18:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242A51C695
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Nov 2025 19:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762973956; cv=none; b=JCNiZgllPxQW82DWVx/JlDMXBUzMsCkzezG7m247vQ1ee545CrIEiVrY5Oj5BTbO+T1k/jF7VhV6C/nyEZ1fEB1jJiv6G3ZE7ECu0+XMrVSmWN4cyEKZnbZVLW3ivWJmWX5vFE7wFqjXuNogqszD7pe97987mUiX+5L/F3a/Tw4=
+	t=1762976936; cv=none; b=e4Ljn/wB3ZG9arLazHcbUQxZbmhemrb2ZYMxdEeN5AGk/Hmmb3j97wmTMOrHXjb27zV/BaXp6a9mDytBjweNFjkS51H9HthbmHIkABh6xzqGTdyVenJwgtQVtMjlxHpvpBWvNZX3QXWMz6TWoUpKyarO1MM/3wkHptWSTK/3Kiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762973956; c=relaxed/simple;
-	bh=e+vkzTXZpebv4x57j1CGKLaD1D6tZMW1EsZ1XwAHvFo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FxZZro8tMc6l8OqA1tHpSI6Rde53AeBPp4r33bTuJcPL9eJNIUyfoaBQfsQyMZFnI159rnOv8kla4r+EGoEjziJUks71R1caTkMlPtnzSujxGMaJMWcLv+vHyFRIVodIQ5BhaDEPY54Un4TUQxL9fBRSb8hAJdnW29qnJxQzPYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V3Mm1i/m; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762976936; c=relaxed/simple;
+	bh=dFk02J1e4F+vb6I69BypXFIFsjrKjflzdjo5oj8iEJo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EnklVvCHL/HRCCfxnHF84kmEyYg4Pz8mBOxW1kM8PcupBjhNFsHhChJMwkpEjVnPzx4e5z0QyspiMa7ujwoiUBlzkDAsFslfN1MvqelaiYhPibKShujVKXs7KE8QRT5DByU2/unhkkmb+u/wkR8VRnoyjwJDVwP2CrnMC31XkLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=m6IbvfXD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2UZ6NlEJ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=x0F5lwjP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6Sp1EVhN; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V3Mm1i/m"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8b144ec3aa8so492785a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Nov 2025 10:59:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762973951; x=1763578751; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fkHIbEfS/RNvXEomxAVQK3p1e0eKqwElvBQxcuWip4A=;
-        b=V3Mm1i/mTRlh33SsDPngew9cn/ymZPBmf3XcivFBiK16+P/CuE1+Ql3ZhY9XxmAl2C
-         H+mZkC/SQ/iawn3mZ/i6ALWj/3l0wrDIXek1T+lhmC/htSWyQeBplRxZ4vFklqPSa3n1
-         KLwnUHgraqhU0sUfkBMj42jrNbBK0nOJnIfP0TA0VHrz7Yrh9Qgg8jvUzxWDwECHvFas
-         GMwIE6HnpqkFWheTdw3faLJuIPN79vo2O6pHOQrrhng8l2V0xe0KxSd6r2XSYADHKx7W
-         1LBtHERxEIrPQgWuZZMgOFB+xr13dzLN3CWFTkaL+b+TbQ7PYA8oVxt/fO3NZV7H+odE
-         LNfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762973951; x=1763578751;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fkHIbEfS/RNvXEomxAVQK3p1e0eKqwElvBQxcuWip4A=;
-        b=q6i1FvT0Y4/zhe8/SL1bJiQfS0jTDYD9AZQUA8CV+w5SoVLbHDOHE+MOJ1KeS3/5oH
-         9Y6CH7+Ws+/xAFpspT+Qv56J67SOjItg9H3wfcPNvEaseVVNBcN7weWF+9X/3l/MXkXB
-         WG0jOPBf0+XsaHWBQpP8hhS/SgksMmPnBtTCgMn9aNCpR5xFvYAr96dPdY9Zqzu2YjXT
-         x72Q9oM0uvZ5pS5oiNhffRekpma8jk8FEJgBYKvXQo8GgxlKk/VUX2jCAmLDNmBgDjMp
-         cer/w3gDXf6yYBXfLPahz1YSHGb4Gj4WLFH0dw7InAZpOhtDuZmJjwOKsd5cVCTKGNcb
-         NH4w==
-X-Forwarded-Encrypted: i=1; AJvYcCVeXGkSd8ynlwgd8bimrcfNeXT7axGCPS2eBA88uRBuoGkkS8+9aqVRRnbmdGV3X6+fe2h7HRGaMzKdd29u6LiBClVmSQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzsIpH7ITXIgCalCC/v+qDjmkuYeICVVg28rVr3p6ZUA9gFE0F4
-	Y1TAIGT/kHc4ut/HRyhJBwOpNt2aowJ8jzFxzh+5Ag1pFMF1XkXFejos
-X-Gm-Gg: ASbGncu61QfWnAFL0N4UZAtytCSfCL1Dkb1J8v49/MQ1SE+1TAl593hB32gc3ylrEnv
-	xWNfTD2yjcIhrrRjTQoUvvWH3RNahZbO1oCTEHgkmyhESCuWhqCoRG7VZSPQH75KAFXqPR844Mm
-	K7r5Fan52/yMrPq4KyF4/OvLIRFzeAyq6I3hT/4yyVf6B/QZP1cpqq+H3jy29w0sECM4SmmlA41
-	CGH3NSXeXo5xfL3WIS5sAaSRGN8pL4UgHPHNpYu9POKiJMmodhFqfNEcHH40m3sAN4onhPgBkGV
-	rm5lt8SkgGxBtdAnRPQqRrQ3foOGvfRTUbPnzDNNcSD6/yTapG6Rj2Jcn/1wuikHTNCY4Vb0MJI
-	dph1q18xq5Lb2VDe42zQf1p+55MwAFFCv1sIUnva/Cc3ZqY/UNDx4ppLHgoMtYkK71a+PXbsajj
-	1ykzIbiNgRkmDNIzDjkUsN
-X-Google-Smtp-Source: AGHT+IEZ/eFmBvYWxQT6tHvgfcJ/HtfGiXneBQsdqEwDBB0RGnuIeLuNXC6xaD38X4tP/8xo1OT0pw==
-X-Received: by 2002:a05:620a:414f:b0:86e:21a4:4742 with SMTP id af79cd13be357-8b29b987041mr480654085a.77.1762973951464;
-        Wed, 12 Nov 2025 10:59:11 -0800 (PST)
-Received: from rpthibeault-XPS-13-9305.. ([23.233.177.113])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b29a85d2efsm244726685a.14.2025.11.12.10.59.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 10:59:11 -0800 (PST)
-From: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-To: tytso@mit.edu,
-	adilger.kernel@dilger.ca
-Cc: cascardo@igalia.com,
-	jack@suse.cz,
-	yebin10@huawei.com,
-	linux-ext4@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com,
-	Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-Subject: [PATCH v2] ext4: validate xattrs to avoid OOB in ext4_find_inline_entry
-Date: Wed, 12 Nov 2025 13:57:13 -0500
-Message-ID: <20251112185712.2031993-2-rpthibeault@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <aRHSrpFone-SSkZa@quatroqueijos.cascardo.eti.br>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="m6IbvfXD";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2UZ6NlEJ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="x0F5lwjP";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6Sp1EVhN"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BCF6021985;
+	Wed, 12 Nov 2025 19:48:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1762976933; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xfCE5gV0f+mGPzt5wRJ6d2S+07AAQqFW8KGSu8LeIz8=;
+	b=m6IbvfXDa5x9zPEhq7MCwQ1h/nxNbQsWBZjju34HUGDxO1jsQZHQSGm8otpomvIExml3Er
+	wxNpR0JRdRYxJY4dY8hqNWMuEXLm/zKdGEDd/XvTBQ6sBibk6UhBUI9qVkfcmAiasoCLAB
+	tfbiousIPhtkA7lzzcoLTQ3OU4v0Jfo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1762976933;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xfCE5gV0f+mGPzt5wRJ6d2S+07AAQqFW8KGSu8LeIz8=;
+	b=2UZ6NlEJxLiOkUUDsg52wH22sZVr/d3z3Tm38nHZToY7YuREVRyhHkiKdLzGoEuPqiPe82
+	FUEgKuidL+uHbyDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=x0F5lwjP;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=6Sp1EVhN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1762976931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xfCE5gV0f+mGPzt5wRJ6d2S+07AAQqFW8KGSu8LeIz8=;
+	b=x0F5lwjPrukfJFuW3Aeuwmi1nRCdRqQwtY5H0gybRP38jD5UQoRJx5rJDuIgB7+QNXDz2J
+	zXBDHynjW9+42ytXLVgPTScpqXN3v20r6F273yjW5ykPNJjaOO9FkORR9A+Nv783XA38wP
+	p9MZbjoYUgYQq0LsVRrdOKCM/2XnIDY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1762976931;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xfCE5gV0f+mGPzt5wRJ6d2S+07AAQqFW8KGSu8LeIz8=;
+	b=6Sp1EVhNiCpX1zaGnyBD0Ig2oW5M4CX9oD/4Krhz3ZXFwhZZJd8MQPLrWjvLdxo9V9ACSu
+	Arfp/vU6DGt8zlDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C1843EA61;
+	Wed, 12 Nov 2025 19:48:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QXdWJaPkFGlBbgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 12 Nov 2025 19:48:51 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 0533CA06F7; Wed, 12 Nov 2025 20:48:50 +0100 (CET)
+Date: Wed, 12 Nov 2025 20:48:50 +0100
+From: Jan Kara <jack@suse.cz>
+To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+Cc: tytso@mit.edu, adilger.kernel@dilger.ca, cascardo@igalia.com, 
+	jack@suse.cz, yebin10@huawei.com, linux-ext4@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+	syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] ext4: validate xattrs to avoid OOB in
+ ext4_find_inline_entry
+Message-ID: <6jsnfb2qu3rlygp7ejlp4fzv2mmnzy2t5eqlhq5edhttnp3jar@5vynnrxzi54f>
 References: <aRHSrpFone-SSkZa@quatroqueijos.cascardo.eti.br>
+ <20251112185712.2031993-2-rpthibeault@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251112185712.2031993-2-rpthibeault@gmail.com>
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: BCF6021985
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[3ee481e21fd75e14c397];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,system.data:url,syzkaller.appspot.com:url,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -2.51
 
-When looking for an entry in an inlined directory, if e_value_offs is
-changed underneath the filesystem by some change in the block device, it
-will lead to an out-of-bounds access that KASAN detects as a
-use-after-free.
+On Wed 12-11-25 13:57:13, Raphael Pinsonneault-Thibeault wrote:
+> When looking for an entry in an inlined directory, if e_value_offs is
+> changed underneath the filesystem by some change in the block device, it
+> will lead to an out-of-bounds access that KASAN detects as a
+> use-after-free.
+> 
+> This is a similar problem as fixed by
+> commit c6b72f5d82b1 ("ext4: avoid OOB when system.data xattr changes underneath the filesystem")
+> whose fix was to call ext4_xattr_ibody_find() right after reading the
+> inode with ext4_get_inode_loc() to check the validity of the xattrs.
+> 
+> However, ext4_xattr_ibody_find() only checks xattr names, via
+> xattr_find_entry(), not e_value_offs.
+> 
+> Fix by calling xattr_check_inode() which performs a full check on the
+> xattrs in inode.
+> 
+> Reported-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3ee481e21fd75e14c397
+> Tested-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+> Fixes: 5701875f9609 ("ext4: fix out-of-bound read in ext4_xattr_inode_dec_ref_all()")
+> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
 
-This is a similar problem as fixed by
-commit c6b72f5d82b1 ("ext4: avoid OOB when system.data xattr changes underneath the filesystem")
-whose fix was to call ext4_xattr_ibody_find() right after reading the
-inode with ext4_get_inode_loc() to check the validity of the xattrs.
+When the filesystem is mounted on top of a block device, syzbot cannot
+write to it (it disables CONFIG_BLKDEV_WRITE_MOUNTED option). Also there's
+no sane way how the filesystem driver could avoid oopses when the block
+device's buffer cache is modified while the filesystem is mounted without
+unacceptable slowdown so this patch is pointless in my opinion.
 
-However, ext4_xattr_ibody_find() only checks xattr names, via
-xattr_find_entry(), not e_value_offs.
+The syzbot reproducer you're referencing actually seems to use
+LOOP_SET_STATUS ioctl to mess with the loop device while the filesystem is
+mounted. Understanding what exactly happens there and modifying the
+loopback device driver to forbid that is in my opinion a more sustainable
+way to fix problems like this.
 
-Fix by calling xattr_check_inode() which performs a full check on the
-xattrs in inode.
-
-Reported-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=3ee481e21fd75e14c397
-Tested-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-Fixes: 5701875f9609 ("ext4: fix out-of-bound read in ext4_xattr_inode_dec_ref_all()")
-Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
----
-changelog
-v1 -> v2: change Fixes tag to reflect that ext4_xattr_ibody_find() used to call 
-xattr_check_inode() until 5701875f9609.
-
- fs/ext4/inline.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/fs/ext4/inline.c b/fs/ext4/inline.c
-index 1b094a4f3866..7d46e1e16b52 100644
---- a/fs/ext4/inline.c
-+++ b/fs/ext4/inline.c
-@@ -1593,6 +1593,13 @@ struct buffer_head *ext4_find_inline_entry(struct inode *dir,
- 
- 	down_read(&EXT4_I(dir)->xattr_sem);
- 
-+	if (EXT4_INODE_HAS_XATTR_SPACE(dir)) {
-+		ret = xattr_check_inode(dir, IHDR(dir, ext4_raw_inode(&is.iloc)),
-+					ITAIL(dir, ext4_raw_inode(&is.iloc)));
-+		if (ret)
-+			goto out;
-+	}
-+
- 	ret = ext4_xattr_ibody_find(dir, &i, &is);
- 	if (ret)
- 		goto out;
+								Honza
+> ---
+> changelog
+> v1 -> v2: change Fixes tag to reflect that ext4_xattr_ibody_find() used to call 
+> xattr_check_inode() until 5701875f9609.
+> 
+>  fs/ext4/inline.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/fs/ext4/inline.c b/fs/ext4/inline.c
+> index 1b094a4f3866..7d46e1e16b52 100644
+> --- a/fs/ext4/inline.c
+> +++ b/fs/ext4/inline.c
+> @@ -1593,6 +1593,13 @@ struct buffer_head *ext4_find_inline_entry(struct inode *dir,
+>  
+>  	down_read(&EXT4_I(dir)->xattr_sem);
+>  
+> +	if (EXT4_INODE_HAS_XATTR_SPACE(dir)) {
+> +		ret = xattr_check_inode(dir, IHDR(dir, ext4_raw_inode(&is.iloc)),
+> +					ITAIL(dir, ext4_raw_inode(&is.iloc)));
+> +		if (ret)
+> +			goto out;
+> +	}
+> +
+>  	ret = ext4_xattr_ibody_find(dir, &i, &is);
+>  	if (ret)
+>  		goto out;
+> -- 
+> 2.43.0
+> 
 -- 
-2.43.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
