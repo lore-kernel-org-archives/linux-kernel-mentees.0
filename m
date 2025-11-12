@@ -1,99 +1,134 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A6823184F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 01:13:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAE628853E
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Nov 2025 14:20:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762910027; cv=none; b=vAVRNZGITHrJ6IJRM7ggWSMB3UVfXIsxJeEcP4kJUvQY6wyHhVwGHpgQdf/P5xRwGF74C9vnE+1Ti6gypM8z0QN8NGM4imfR2aCn4tOh4+BvIZzF8I1N1hZg1eYoPEFNwvNVAoddXr7qOTtg6t3mmUrI17miklJz2BkC3lcdwcE=
+	t=1762957219; cv=none; b=Pal9AZtJHCe5N/ywt4AZQdL30sgFFmRoMGrPsXBYgdNqDruUCqmcvmd4ZJ7e20soxnld3bgCZPrItZG0bB9y+NcV384EgRZsbK4AFk7qXV5ldlG5LDzH/NVw3NinUuH1pz52TeliKpAJ1i7kEIZE/BAuBvt46nDVK5KdIC3hggc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762910027; c=relaxed/simple;
-	bh=oDl1WfrAghq+RE9pFio7UD5bjLDfO6Rlsgm4KgrcWl4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YPubXC+senlMbrWYtz1jrS40G5c64hUCUvvsFdZKxOW0gIvlIFwZV94E6DzsoqY+boIDxAs1ulxihwZheUfvmwl0Fmoq9Yq2iw56Z02+CPIio7W7VlVhgkCsp03b649hgNc7ip0VAPGq7q40c8/GkhQqP8JXwBbizt2qJLkzzdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rfj0GrFe; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1762957219; c=relaxed/simple;
+	bh=PLEsEAFhjPh2pioJvZvoAHlFGMw3+0W/MvVkutfYANE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mIPy8eRnNsOYlQL/tZ/e0nDo2nGNQexL7Cm/blnNg6Qcj2XQkjas42rh50+fZr/2/Ksi6odcrrLn/j23n9tr6K0juLedHP2S2p13WoA3qJn0TtXnV3FVIjm+lgcj6Wmv4MYgKYcbcn1dE1izmdzW5Zm+0xbqDvGQjJItDr3BT+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aGXRKNz0; arc=none smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rfj0GrFe"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A4640814C2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 01:13:45 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id dCiQCr9BjZli for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Nov 2025 01:13:45 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=kuba@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org DAC9B814A1
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DAC9B814A1
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rfj0GrFe
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id DAC9B814A1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 01:13:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id AA15B44160;
-	Wed, 12 Nov 2025 01:13:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6B04C4CEF5;
-	Wed, 12 Nov 2025 01:13:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762910023;
-	bh=oDl1WfrAghq+RE9pFio7UD5bjLDfO6Rlsgm4KgrcWl4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rfj0GrFe/hv7wIbYG9qd9byNFSuj7ayLnIGNwAkNADVc7oNrOLtZrrnz/hoQ6ODGI
-	 phdKmiLSry0/IkvyCxN7WyY8eQS+TAIJxP2P4gx1nXVGwCm46CvCdyEHBkABEy37SY
-	 NbvKyrNAz1yonoh1SCJcTm00ccmjeiuKKFb2K686WJ/rPnqD2fSZDo121GFoNKZDC3
-	 OLmIuaB1MNlBBKNdhoq9DcK3uRhQNHvtFwLkOEQWrZFmdTOuzkHaHldrwJ1ku6Iii8
-	 l4uzpXbhRtOgKEivbZye67n5ky4YBZ1TSY7SZyqdfmxO12VoSTllOxRvgKuzIIVvQ2
-	 aSqTD8/vkRZNw==
-Date: Tue, 11 Nov 2025 17:13:41 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-Cc: jiri@resnulli.us, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com, khalid@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+a2a3b519de727b0f7903@syzkaller.appspotmail.com
-Subject: Re: [PATCH net] team: Move team device type change at the end of
- team_port_add
-Message-ID: <20251111171341.4c6d69be@kernel.org>
-In-Reply-To: <20251112003444.2465-1-zlatistiv@gmail.com>
-References: <20251112003444.2465-1-zlatistiv@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aGXRKNz0"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-88f239686f2so83615685a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Nov 2025 06:20:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762957216; x=1763562016; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=23Yna8J3d3mh9gPmuO4K36N9DnURcSnrYweW3R/KSeg=;
+        b=aGXRKNz0dWuzc5wSB9fQLM3IvrMADxJemQULvbkvDo7G5jzkZ49lkJAZuhNCf+y+oQ
+         wD0LXMdA9wVFtxJqNiS3bzLJOjL22Ko5rdRRVMt+Mg7bK6kv9ocro6a9A9RJOjvLZDg4
+         Db2zwSotK7DMmCbkA7mkV2HGcNKyEX6VLA/kYwUFy5iQW1yPufM6AW4SxIie/dHYdo7A
+         1QbXuQ+y2gCpkeiT8bWlqvINyRp5sEsRSdFdXOSeRTB/SboA/tfNYNEU1GculF0YpA9K
+         56paCgMbwyqzamjmUei6NAt7zjioKZkkiFJIeyeQflOszC1ysrlod5MQ8P5HFmfnWBVH
+         hjlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762957216; x=1763562016;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=23Yna8J3d3mh9gPmuO4K36N9DnURcSnrYweW3R/KSeg=;
+        b=kQIx529uts9WvuezSNmHckjdko3Qp84yKNE+t76UTgs2RN4RyLT3VLd0pX0cpKH675
+         xA/DfNbCuCMMKfw8L8bqRgOnDGAki4vqvhFiOespwcWNZPIoSBsm8JC7JS9koQ8GqEPF
+         xcRnlek8X6ybcLnznVHAEY7RVFEBh9EgYgKTiEIMXsmNrx0Em1EIeTEW4Z+IrPLjYop5
+         4NQpuGIloGkUY+i/lpUVns9lycx8T0LxKApO3EDcVf800vPvi2uUlXjFs2QzNd3pWMCd
+         P6TSmG3nqTwLW92zi87hViI5q27AZbSo+y8CSv1l9M04CHOOF2g8WDZUThg03lo91dDV
+         1o7g==
+X-Forwarded-Encrypted: i=1; AJvYcCVQKUSldmOB7QLeqyl3QAWOGfZDMY/g02An+36n2eZ0aB1J32vKv+EMxv6qnUVs0pqu0MrVZJL2arRPWA4Gcfpj1Uap5Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyZNmg53WgPNsN7d0tLpJ9roMQIpIBucMKbqfdSwqZzqh+0dUfs
+	MiRhahI2UUnwQn6fMsjkWbC1vKNw8abxo3Xuz4kK3HE5Y9o1HCjevtaB
+X-Gm-Gg: ASbGncsEWfvm7I9uOYVykMKyR7LuFUMCj66F5pjshoBHo9nt2wGR0SWiXNj3may8tUa
+	vN4vZC/dgxSC0tr4n13r0piJpVcZxSC/h6PjsvtYdSSlt0Vg1x18AQLm7g1x8BG3myjeH9NSt7/
+	KImvLK/ydYFKz0Hp5LPQcjp0ItQEuq16CJH0co2doQ3Gto8K3hVvzxI1csJZ+tQadWVP4PHsGgR
+	D4ul8oNPaRCFbMYTsns0BermBnUZDqsLlkPoGiSzulUqkJZK5U+Q0QXeLGU0YlpARFcPmgUgFUZ
+	0B4W85aMh11BIvPHjDRljHJbSt+d5lxV3CO84ph8ThX1lntGRvvMqshfs8CDwcYaz5NV9AQtL0T
+	xY30Jh8HgLVygfjR8pkW62y63rtbNwkL07x8vstGVYzZXGhQrpSdKnZTm2UOBGCYeS4Bcnm59ba
+	lcL09vv4mKVLlgA4ZjsIhe
+X-Google-Smtp-Source: AGHT+IE//gkdyNvrQQM5f0E3fJn6m5YN9A3KpABhw9zY72kYOdyBFwY0fArMYvrWnTVYGlxGj7DiIA==
+X-Received: by 2002:a05:620a:458c:b0:8a1:87f8:6632 with SMTP id af79cd13be357-8b29b77a7fdmr423471885a.32.1762957216282;
+        Wed, 12 Nov 2025 06:20:16 -0800 (PST)
+Received: from rpthibeault-XPS-13-9305.. ([23.233.177.113])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b29a84ae06sm202417785a.12.2025.11.12.06.20.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Nov 2025 06:20:15 -0800 (PST)
+From: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+To: cem@kernel.org,
+	djwong@kernel.org,
+	chandanbabu@kernel.org,
+	bfoster@redhat.com
+Cc: linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com,
+	Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+Subject: [PATCH] xfs: ensure log recovery buffer is resized to avoid OOB
+Date: Wed, 12 Nov 2025 09:10:34 -0500
+Message-ID: <20251112141032.2000891-3-rpthibeault@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 12 Nov 2025 02:34:44 +0200 Nikola Z. Ivanov wrote:
-> Attempting to add a port device that is already up will expectedly fail,
-> but not before modifying the team device header_ops.
-> 
-> In the case of the syzbot reproducer the gre0 device is
-> already in state UP when it attempts to add it as a
-> port device of team0, this fails but before that
-> header_ops->create of team0 is changed from eth_header to ipgre_header
-> in the call to team_dev_type_check_change.
-> 
-> Later when we end up in ipgre_header() struct *ip_tunnel points to nonsense
-> as the private data of the device still holds a struct team.
-> 
-> Move team_dev_type_check_change down where all other checks have passed
-> as it changes the dev type with no way to restore it in case
-> one of the checks that follow it fail.
+In xlog_do_recovery_pass(),
+commit 45cf976008dd ("xfs: fix log recovery buffer allocation for the legacy h_size fixup")
+added a fix to take the corrected h_size (from the xfsprogs bug
+workaround) into consideration for the log recovery buffer calculation.
+Without it, we would still allocate the buffer based on the incorrect
+on-disk size.
 
-Since this is a bug fix it must have a Fixes tag pointing to first
-commit where the issue could be reproduced.
+However, in a scenario similar to 45cf976008dd, syzbot creates a fuzzed
+record where xfs_has_logv2() but the xlog_rec_header h_version !=
+XLOG_VERSION_2. Meaning, we skip the log recover buffer calculation
+fix and allocate the buffer based on the incorrect on-disk size. Hence,
+a KASAN: slab-out-of-bounds read in xlog_do_recovery_pass() ->
+xlog_recover_process() -> xlog_cksum().
 
-Please make sure to have a quick read of (at least the tl;dr of)
-https://www.kernel.org/doc/html/next/process/maintainer-netdev.html
-before reposting.
+Fix by removing the check for xlog_rec_header h_version, since the code
+is already within the if(xfs_has_logv2) path. The CRC checksum will
+reject the bad record anyway, this fix is to ensure we can read the
+entire buffer without an OOB.
+
+Reported-by: syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=9f6d080dece587cfdd4c
+Tested-by: syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
+Fixes: 45cf976008dd ("xfs: fix log recovery buffer allocation for the legacy h_size fixup")
+Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+---
+
+Can xfs_has_logv2() and xlog_rec_header h_version ever disagree?
+
+From my understanding, whenever the h_version is set (e.g. in
+xlog_add_record()), it is set to 2 when xfs_has_logv2(), and 1
+otherwise.
+
+ fs/xfs/xfs_log_recover.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/fs/xfs/xfs_log_recover.c b/fs/xfs/xfs_log_recover.c
+index e6ed9e09c027..08d7b25c4ab1 100644
+--- a/fs/xfs/xfs_log_recover.c
++++ b/fs/xfs/xfs_log_recover.c
+@@ -3064,8 +3064,7 @@ xlog_do_recovery_pass(
+ 		 * still allocate the buffer based on the incorrect on-disk
+ 		 * size.
+ 		 */
+-		if (h_size > XLOG_HEADER_CYCLE_SIZE &&
+-		    (rhead->h_version & cpu_to_be32(XLOG_VERSION_2))) {
++		if (h_size > XLOG_HEADER_CYCLE_SIZE) {
+ 			hblks = DIV_ROUND_UP(h_size, XLOG_HEADER_CYCLE_SIZE);
+ 			if (hblks > 1) {
+ 				kvfree(hbp);
 -- 
-pw-bot: cr
+2.43.0
+
