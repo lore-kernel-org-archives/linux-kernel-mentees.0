@@ -1,167 +1,334 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0E126B96A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 21:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D312673B0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 21:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762981364; cv=none; b=jqRfDbp5Qblfc23xgAJEk/puaQvH0wSORJNXUnuiQXZ5Stq59tzHATc8OnKIOK78jlVSKEXONT7IQFP21yJ131KE3UL/FLF8hYTfc+sXo7C6RelbeLVEY8YqmlVEN30Ts6KDSnzOmr3wcBOLp51KEz1DXOpVnu7qy2HVm9Kfaiw=
+	t=1762982445; cv=none; b=klr6VT96Jk8hK20cHLpYMi5WNy+SRc09EMT6T+wqIeq6ti7TKQvfXlI48jmfLceKQ1oG/mCoeSXa6XLmeUd5UXr2S8ZEELFX2x2gOzlcPUoDIFhgvezZM3vG17/N74pam7ryzXiWlYzbL/lLG2cbF8dacryzKTkK3/xzgp2SR2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762981364; c=relaxed/simple;
-	bh=2xhUvtMSX2Py/tg024qnleIQO6c6FibNRMJPrHXfmX0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uSL7y6ya+ujYN5JgCgRPhryi5jq+SqxlxyEjRrTUXcxIbfhaACvF3Ph0zdAjVYQH/j4coDbQ7VLxL0cEZIY3DrjBbaZcmscn7mfrt+sawF/IgV9yYYxEQYX4N3mrEXbzw99rYOgwSVuzDzzG41lDMV6ERR0Vb6Z8hwbp3QhspnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=FT4eMaE3; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1762982445; c=relaxed/simple;
+	bh=mRDN71IyYugANkwKAWQn2IRDfPJK6+khLjRHl4tVJ5k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 References; b=nSbY9KHCBxK9RexY7+NGni3uMryNT74mG4/VvZJRylxVBKCv/jQZCmHeM/z5c6jAwSWEY/VB8bED/DhzRqFZGyFiDDOgXJUC23KIONetJ5lwoamb2HS6pc2c8+cv2CdT0jtOUPszBBxi4rAV/jbGoGjUrL1mK9dr+rrfnuhsp3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=iyi4LE7g; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="FT4eMaE3"
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="iyi4LE7g"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 6B4794004A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 21:02:42 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 76EC6822AD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 21:20:43 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -6.493
+X-Spam-Score: -5.791
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id lXlEMX7N2G3g for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Nov 2025 21:02:41 +0000 (UTC)
-X-Greylist: delayed 404 seconds by postgrey-1.37 at util1.osuosl.org; Wed, 12 Nov 2025 21:02:41 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 6D33E40098
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6D33E40098
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=acm.org header.i=@acm.org header.a=rsa-sha256 header.s=mr01 header.b=FT4eMaE3
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=199.89.3.6; helo=003.mia.mailroute.net; envelope-from=bvanassche@acm.org; receiver=<UNKNOWN> 
-Received: from 003.mia.mailroute.net (003.mia.mailroute.net [199.89.3.6])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6D33E40098
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 21:02:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by 003.mia.mailroute.net (Postfix) with ESMTP id 4d6Fzw4B9czlgqW0;
-	Wed, 12 Nov 2025 20:55:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1762980954; x=1765572955; bh=BYieuYvWdrPkEWUDJXfeMQSD
-	1AjAzeKuKjhOJWuyxQs=; b=FT4eMaE3uRQEtis8vd1tu3rVe/X5XL6vdlf113jI
-	I0qIOsysyZLNtGa8JEYGN+SC4ydJrBrpMTy8NKCwiu50HjYAhvBSLJoFAvz3EuJf
-	MVLZTprZ19vvpzREE/7xKWkf2tO7jfa1YPrueoxAuAfqU3/TFcPF4+BdCLCYF/Cq
-	i21GE7r7kxgaHzmZEmfZLlK/5uI4Mkw6a8HQaTTm1FxH7OQNZNeQ6ZBCMMdgy4L6
-	PWlJDA3ANjV2qmd4bRT2fuyB5OycbZHcAUBfikhk1fcPBdL7vupz3z7HB1eRLQF4
-	IzVMYjJV3rf+kRvuHjJo7xMxTLQoYA5I2H9Ffbz/LlV6Pg==
-X-Virus-Scanned: by MailRoute
-Received: from 003.mia.mailroute.net ([127.0.0.1])
- by localhost (003.mia [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id 6RrlvvJ-mdZW; Wed, 12 Nov 2025 20:55:54 +0000 (UTC)
-Received: from [100.119.48.131] (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 003.mia.mailroute.net (Postfix) with ESMTPSA id 4d6Fzj5yBRzltMJC;
-	Wed, 12 Nov 2025 20:55:44 +0000 (UTC)
-Message-ID: <562fa035-c732-4bfc-8439-2279d029f72a@acm.org>
-Date: Wed, 12 Nov 2025 12:55:43 -0800
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id jZyS6ND8RKas for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 12 Nov 2025 21:20:42 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=98.137.69.147; helo=sonic310-21.consmr.mail.gq1.yahoo.com; envelope-from=adelodunolaoluwa@yahoo.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 91DAF822AC
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 91DAF822AC
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=iyi4LE7g
+Received: from sonic310-21.consmr.mail.gq1.yahoo.com (sonic310-21.consmr.mail.gq1.yahoo.com [98.137.69.147])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 91DAF822AC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 21:20:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1762982441; bh=8Ji2M92zqwuu+KBy+vvEyjj8iMcTktjY20tYWDdF7Aw=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=iyi4LE7gA9gzW81Glf0QfjTjKww9zQqKLM/iyWoXzVikveDNy11kMZgQAOJehJ2YB/XTRgFtm8spyR1Cs9xDBaxG5wl35C+ONZJfqDzrtvMtDZuAMpFKFs4KuBdONbeDj4Xu00h8Ns0zKhHV3VM0f57WCX3ozXDmA9Wwwkd01mskHO3kja+NHZS1j/HM5BmkxKWvwQgYOxhsvFfqPFKfvVvLJQQi4p/rIscg8fe322cm7MZPCKEOh8w3HQipB0ZO0p82f7WIQyYmOVRmepnRl2IfWqcjnja1oXeENxGbF68j6OqXRvR/84nM1ize8P2uUnduj24ZiN/ojUwHCnyZAw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1762982441; bh=l5MZ4BBtQm0medvUBpu//qkq4s/Ua/cAXm37b5Nzbvu=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=TzpYU/rC+kf2NJRl6TpaM2WxpJhsLXWFeqyHm5pIn2ay3/FMS1g8ugjdYXRF36OAcf0VuA5PvB9KlDIum93DlRI6SzjHjDW1uYz07t+lmnOOAw/Z8QXm8/o+Owurv3tmMb1OdSa/XEa64AVao6Ni+Md13hz2DzeNYeE71aOrNDHgOpC77qvoc/qPtfp+kVdnC/SSsYcyOy/5vcP5r6e51qdJaIR/chMFi7iO8F4b+eV5rJbMMHOP7+urtVzayztC6j2A75MrRjI8F9lkC2pdX7+xEfGV9A0LEaRVlDSgAOZ/RiBB7C548A0ekAg2KpTXABLt3w6FusO/BxrszU3DKQ==
+X-YMail-OSG: sI8spuYVM1nTpc3jP1VJYO4iG1gtsAWZrctAvEzT8Tol8alLIPFoxb9hhDcwSK5
+ glsymSDHXA.AsDkICot.zKoGweetjuKWkfwXkRCG69lpoGfJjIh9tgN9bK8sdBu6Vu6PG1Tm1FDi
+ Hd0mKjAypAapA7pzWV401iTNc1MAMI_Jm6IoaYc51ENvIzny5cdORcW57TJO0d8as.AkPakQxV3X
+ 4mVLGBqdPH7ZiFaeYWkwzvWAmomEdV5r80wSBR1CPnABqPa2it2DLRea4CKDNFrUSgQv6VCu5f4C
+ SlG2KQ7eF20_Z9Au7Ge.CyxFobeiKtYMXiEu6OrC7xeNMCOd1lNjSaN6WJQqqYBrFDc4JV.H_twL
+ .tDZJq1mhl6z.0f_QaT4g5LMKR3fc9XVRFfHzJmmHxvwesh2CmX7e7V46YXjkJYo4KV80Ovo8CnP
+ se9nbjKmfr8D4pjaOwbA3sZnMqiQivZnGO3s8ahmQD2lBa0BlMQvVPsAwO2xSsfhVJQTp27NGzwO
+ kETK1Id42p6JTSzQWfiQl3Ehxsftk.Ncs4ZKAHeDb8t51JLI8o7WJ6B.CE62_nxGIwJz9psBgHOo
+ Y1NkiN1QBOpiMQ5fl7yv4.2lBm6F1MU0WKyUbD.JYCYRRY7arIYPMxfcYPYlONAwgLTmGfOn1N94
+ JQfTZFoisX8SrfINH_nkvzKgVrLTaJMfdNtjCRN.CeKl6_DX.yknSn80r3j8AHGiRpNBRsLChT3d
+ skV3zvMc_AzlqpYW.xXuGLN0Q8s_i1PW_CLusVxEeFRe2BTUv1WIi0nDzqBNd.fIZNoeVM2lqLQ.
+ onNX6177NdOCpY8XMirmG8akC_zL90JyxCesvOSQtbU3qh3Th.qLX0nTadQw6cQ.bJlOX6QeuVKl
+ Wxgdo5e6BuoNpdB.N4AtUeng1rIEvMO2K2ToE6XZV..._zoWCEAx410xfp5lap5DAG0gVvem1Ge_
+ MWq5VsBfoW.4j5OYOZ.LqFQqSvyMqCc.aq_rSJdyNpfwIhpx1Ow.FQwcyiw8Wadm6gd2OnVMxk_Z
+ BizgNYQKiM1yuMu54o2FsKpHHAIDy14WHbxzwBLHEQsgWzOjwcuOL689OJgqOrqCQFEMyptz9H24
+ L9CqOSyfSLi0LrEOPtPeNkdLjQUBCx4nFastySJEfFwhrRSDnyn7PM0.IQTDV1dVV_ozor7UNnl9
+ e6G8RWRdYaHufO5dZrlv89ZHcX5oEThHMQbnNMJq0UxZfMRgm5ZjzhFPkJhKG_0no70w4LuMWF3J
+ 5aNHoGgtckN7ELOONsG3ZUehXyBHQiHt6NHO2LmlLH8J_vdFQU_Ib0u_C8obk6fA5sh9CFzGYDfn
+ 8NGUaxdVBjQW8EMX9QR7kiUFa6O1z6NEgRfMraZo9qEp05E67TARsM0QqYJcEbGp_qVQnPVH0edE
+ xR32Hzaf6SfZgvMlxR8KUHa5gFpqkS7Yjdfibn3PRV2xrCj4rNKm.0vB6Nn2CKwxwnJ7QByY4EKd
+ 9VlV16aVi0uwWxXchkDtWDbVJV.4i9Rju_ShbqCUJ2ZZaooQtyRDZm1SI6faUx8N6quxdXMftK1h
+ C.Jpwsa2vFu3ixAkjAXBRw2dkjky_.gDAROMue0JlBAX.0QDwO2I_0ZW4R.4klHuu8AENWh9sMvX
+ c2CQq5tyJOXmSFRdyXHlE2KcvPMtPUIe4ibiiR6F5_umS4MbBPCcGAYFvEcMqA6dB3OlycDJCmrZ
+ xPXqEOu..KzjKxOqCVKWqchnHMFzGqpve_JHO9Kn8DjmTzMMncPte6aHMSEw40z2Jn5Wlr.hReF.
+ K69SnOHJVPSd3TwMLJo_UCqDyqSGKlePOcyXpRYF8KO17oO2moSjliCbCNir55NIitaJAj7829nI
+ lLdltVK3MseynkZ_vebN2arSI.FrjGkNgKVoopTzAVR641A6RaXdjxukRlJ9EgAy1dGKdqPukKPq
+ UDzql3E0gqTSi77p9het6NRCx7.HD.JpC6MUps415JDh.JWutVBKqK9wGfAJ3B7MYp5gn0aqavrk
+ pFDl60m1cEk3ta9MvM45aqDq3D0S7Sgz4BS9FgH5z9ltzcGoM3zvioyi.Et6I0GHTlIeT4M9TwEi
+ 5wSNtAh4Et2DLRy9LNjkKBRS_Axar5.U_E2OLSOOQALfA2QPrw.NWZliXQABJHTzaXFyGur07w2q
+ kYF5IrSP5jo8YmovGAzhhgz.zH2U_BoddGEDfn6wVXguI4U0zjaoGfKOFJoMzlzZUfM.JE0q5DWB
+ tArBsHYb8fjCxVkbamE5nomNJHNw1ifjuiuCIRzBFarvyMr7MpKlXKl3I0zLC8bFLQenAogWDM8r
+ xEvsvcAYJWmq.XMes2ARy
+X-Sonic-MF: <adelodunolaoluwa@yahoo.com>
+X-Sonic-ID: 700e2cdd-c8ed-4318-afcb-52ac6506848a
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.gq1.yahoo.com with HTTP; Wed, 12 Nov 2025 21:20:41 +0000
+Received: by hermes--production-bf1-58477f5468-psqm5 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 995cafb30473317169439b4b5c8ac7e4;
+          Wed, 12 Nov 2025 21:20:38 +0000 (UTC)
+From: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+To: kuniyu@google.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	shuah@kernel.org
+Cc: skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+Subject: [PATCH v4] selftests: af_unix: Add tests for ECONNRESET and EOF semantics
+Date: Wed, 12 Nov 2025 22:20:26 +0100
+Message-ID: <20251112212026.31441-1-adelodunolaoluwa@yahoo.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT v2] driver/scsi/mpi3mr: Fix build warning for
- mpi3mr_start_watchdog
-To: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>,
- sathya.prakash@broadcom.com, kashyap.desai@broadcom.com,
- sumit.saxena@broadcom.com, sreekanth.reddy@broadcom.com
-Cc: martin.petersen@oracle.com, mpi3mr-linuxdrv.pdl@broadcom.com,
- linux-scsi@vger.kernel.org, skhan@linuxfoundation.org, khalid@kernel.org,
- david.hunter.linux@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
-References: <20251028145534.95457-1-kubik.bartlomiej@gmail.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20251028145534.95457-1-kubik.bartlomiej@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+References: <20251112212026.31441-1-adelodunolaoluwa.ref@yahoo.com>
 
-On 10/28/25 7:55 AM, Bartlomiej Kubik wrote:
-> -	char watchdog_work_q_name[50];
-> +	char watchdog_work_q_name[MPI3MR_WATCHDOG_NAME_LENGTH];
+Add selftests to verify and document Linux’s intended behaviour for
+UNIX domain sockets (SOCK_STREAM and SOCK_DGRAM) when a peer closes.
+The tests verify that:
 
- From include/linux/workqueue.h:
+ 1. SOCK_STREAM returns EOF when the peer closes normally.
+ 2. SOCK_STREAM returns ECONNRESET if the peer closes with unread data.
+ 3. SOCK_SEQPACKET returns EOF when the peer closes normally.
+ 4. SOCK_SEQPACKET returns ECONNRESET if the peer closes with unread data.
+ 5. SOCK_DGRAM does not return ECONNRESET when the peer closes.
 
-	WQ_NAME_LEN		= 32,
+This follows up on review feedback suggesting a selftest to clarify
+Linux’s semantics.
 
-	char			name[WQ_NAME_LEN]; /* I: workqueue name */
+Suggested-by: Kuniyuki Iwashima <kuniyu@google.com>
+Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+---
+ tools/testing/selftests/net/.gitignore        |   1 +
+ tools/testing/selftests/net/af_unix/Makefile  |   1 +
+ .../selftests/net/af_unix/unix_connreset.c    | 178 ++++++++++++++++++
+ 3 files changed, 180 insertions(+)
+ create mode 100644 tools/testing/selftests/net/af_unix/unix_connreset.c
 
-In other words, increasing the workqueue name length beyond 32
-characters is not useful because it will get truncated to 32 characters
-anyway. The workqueue implementation complains about longer names as one
-can see in kernel/workqueue.c:
+diff --git a/tools/testing/selftests/net/.gitignore b/tools/testing/selftests/net/.gitignore
+index 439101b518ee..e89a60581a13 100644
+--- a/tools/testing/selftests/net/.gitignore
++++ b/tools/testing/selftests/net/.gitignore
+@@ -65,3 +65,4 @@ udpgso
+ udpgso_bench_rx
+ udpgso_bench_tx
+ unix_connect
++unix_connreset
+diff --git a/tools/testing/selftests/net/af_unix/Makefile b/tools/testing/selftests/net/af_unix/Makefile
+index de805cbbdf69..5826a8372451 100644
+--- a/tools/testing/selftests/net/af_unix/Makefile
++++ b/tools/testing/selftests/net/af_unix/Makefile
+@@ -7,6 +7,7 @@ TEST_GEN_PROGS := \
+ 	scm_pidfd \
+ 	scm_rights \
+ 	unix_connect \
++	unix_connreset \
+ # end of TEST_GEN_PROGS
+ 
+ include ../../lib.mk
+diff --git a/tools/testing/selftests/net/af_unix/unix_connreset.c b/tools/testing/selftests/net/af_unix/unix_connreset.c
+new file mode 100644
+index 000000000000..9413f8a0814f
+--- /dev/null
++++ b/tools/testing/selftests/net/af_unix/unix_connreset.c
+@@ -0,0 +1,178 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Selftest for AF_UNIX socket close and ECONNRESET behaviour.
++ *
++ * This test verifies:
++ *  1. SOCK_STREAM returns EOF when the peer closes normally.
++ *  2. SOCK_STREAM returns ECONNRESET if peer closes with unread data.
++ *  3. SOCK_SEQPACKET returns EOF when the peer closes normally.
++ *  4. SOCK_SEQPACKET returns ECONNRESET if the peer closes with unread data.
++ *  5. SOCK_DGRAM does not return ECONNRESET when the peer closes.
++ *
++ * These tests document the intended Linux behaviour.
++ *
++ */
++
++#define _GNU_SOURCE
++#include <stdlib.h>
++#include <string.h>
++#include <fcntl.h>
++#include <unistd.h>
++#include <errno.h>
++#include <sys/socket.h>
++#include <sys/un.h>
++#include "../../kselftest_harness.h"
++
++#define SOCK_PATH "/tmp/af_unix_connreset.sock"
++
++static void remove_socket_file(void)
++{
++	unlink(SOCK_PATH);
++}
++
++FIXTURE(unix_sock)
++{
++	int server;
++	int client;
++	int child;
++};
++
++FIXTURE_VARIANT(unix_sock)
++{
++	int socket_type;
++	const char *name;
++};
++
++FIXTURE_VARIANT_ADD(unix_sock, stream) {
++	.socket_type = SOCK_STREAM,
++	.name = "SOCK_STREAM",
++};
++
++FIXTURE_VARIANT_ADD(unix_sock, dgram) {
++	.socket_type = SOCK_DGRAM,
++	.name = "SOCK_DGRAM",
++};
++
++FIXTURE_VARIANT_ADD(unix_sock, seqpacket) {
++	.socket_type = SOCK_SEQPACKET,
++	.name = "SOCK_SEQPACKET",
++};
++
++FIXTURE_SETUP(unix_sock)
++{
++	struct sockaddr_un addr = {};
++	int err;
++
++	addr.sun_family = AF_UNIX;
++	strcpy(addr.sun_path, SOCK_PATH);
++	remove_socket_file();
++
++	self->server = socket(AF_UNIX, variant->socket_type, 0);
++	ASSERT_LT(-1, self->server);
++
++	err = bind(self->server, (struct sockaddr *)&addr, sizeof(addr));
++	ASSERT_EQ(0, err);
++
++	if (variant->socket_type == SOCK_STREAM ||
++	    variant->socket_type == SOCK_SEQPACKET) {
++		err = listen(self->server, 1);
++		ASSERT_EQ(0, err);
++	}
++
++	self->client = socket(AF_UNIX, variant->socket_type | SOCK_NONBLOCK, 0);
++	ASSERT_LT(-1, self->client);
++
++	err = connect(self->client, (struct sockaddr *)&addr, sizeof(addr));
++	ASSERT_EQ(0, err);
++}
++
++FIXTURE_TEARDOWN(unix_sock)
++{
++	if ((variant->socket_type == SOCK_STREAM ||
++	     variant->socket_type == SOCK_SEQPACKET) & self->child > 0)
++		close(self->child);
++
++	close(self->client);
++	close(self->server);
++	remove_socket_file();
++}
++
++/* Test 1: peer closes normally */
++TEST_F(unix_sock, eof)
++{
++	char buf[16] = {};
++	ssize_t n;
++
++	if (variant->socket_type == SOCK_STREAM ||
++	    variant->socket_type == SOCK_SEQPACKET) {
++		self->child = accept(self->server, NULL, NULL);
++		ASSERT_LT(-1, self->child);
++
++		close(self->child);
++	} else {
++		close(self->server);
++	}
++
++	n = recv(self->client, buf, sizeof(buf), 0);
++
++	if (variant->socket_type == SOCK_STREAM ||
++	    variant->socket_type == SOCK_SEQPACKET) {
++		ASSERT_EQ(0, n);
++	} else {
++		ASSERT_EQ(-1, n);
++		ASSERT_EQ(EAGAIN, errno);
++	}
++}
++
++/* Test 2: peer closes with unread data */
++TEST_F(unix_sock, reset_unread_behavior)
++{
++	char buf[16] = {};
++	ssize_t n;
++
++	if (variant->socket_type == SOCK_DGRAM) {
++		/* No real connection, just close the server */
++		close(self->server);
++	} else {
++		/* Establish full connection first */
++		self->child = accept(self->server, NULL, NULL);
++		ASSERT_LT(-1, self->child);
++
++		/* Send data that will remain unread */
++		send(self->client, "hello", 5, 0);
++
++		/* Peer closes before client reads */
++		close(self->child);
++	}
++
++	n = recv(self->client, buf, sizeof(buf), 0);
++	ASSERT_EQ(-1, n);
++
++	if (variant->socket_type == SOCK_STREAM ||
++	    variant->socket_type == SOCK_SEQPACKET) {
++		ASSERT_EQ(ECONNRESET, errno);
++	} else {
++		ASSERT_EQ(EAGAIN, errno);
++	}
++}
++
++/* Test 3: closing unaccepted (embryo) server socket should reset client. */
++TEST_F(unix_sock, reset_closed_embryo)
++{
++	char buf[16] = {};
++	ssize_t n;
++
++	if (variant->socket_type == SOCK_DGRAM)
++		SKIP(return, "This test only applies to SOCK_STREAM and SOCK_SEQPACKET");
++
++	/* Close server without accept()ing */
++	close(self->server);
++
++	n = recv(self->client, buf, sizeof(buf), 0);
++
++	ASSERT_EQ(-1, n);
++	ASSERT_EQ(ECONNRESET, errno);
++}
++
++TEST_HARNESS_MAIN
++
+-- 
+2.43.0
 
-	if (name_len >= WQ_NAME_LEN)
-		pr_warn_once("workqueue: name exceeds WQ_NAME_LEN. Truncating to: %s\n",
-			     wq->name);
-
-> diff --git a/drivers/scsi/mpi3mr/mpi3mr_fw.c b/drivers/scsi/mpi3mr/mpi3mr_fw.c
-> index 8fe6e0bf342e..18b176e358c5 100644
-> --- a/drivers/scsi/mpi3mr/mpi3mr_fw.c
-> +++ b/drivers/scsi/mpi3mr/mpi3mr_fw.c
-> @@ -2879,8 +2879,7 @@ void mpi3mr_start_watchdog(struct mpi3mr_ioc *mrioc)
-> 
->   	INIT_DELAYED_WORK(&mrioc->watchdog_work, mpi3mr_watchdog_work);
->   	snprintf(mrioc->watchdog_work_q_name,
-> -	    sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
-> -	    mrioc->id);
-> +	    sizeof(mrioc->watchdog_work_q_name), "watchdog_%s", mrioc->name);
->   	mrioc->watchdog_work_q = alloc_ordered_workqueue(
->   		"%s", WQ_MEM_RECLAIM, mrioc->watchdog_work_q_name);
->   	if (!mrioc->watchdog_work_q) {
-Leaving out mrioc->id from the workqueue name seems like an unacceptable
-behavior change to me.
-
-Please consider replacing the proposed changed with this untested patch:
-
-diff --git a/drivers/scsi/mpi3mr/mpi3mr.h b/drivers/scsi/mpi3mr/mpi3mr.h
-index 6742684e2990..050dcf111a4c 100644
---- a/drivers/scsi/mpi3mr/mpi3mr.h
-+++ b/drivers/scsi/mpi3mr/mpi3mr.h
-@@ -1076,7 +1076,6 @@ struct scmd_priv {
-   * @fwevt_worker_thread: Firmware event worker thread
-   * @fwevt_lock: Firmware event lock
-   * @fwevt_list: Firmware event list
-- * @watchdog_work_q_name: Fault watchdog worker thread name
-   * @watchdog_work_q: Fault watchdog worker thread
-   * @watchdog_work: Fault watchdog work
-   * @watchdog_lock: Fault watchdog lock
-@@ -1265,7 +1264,6 @@ struct mpi3mr_ioc {
-  	spinlock_t fwevt_lock;
-  	struct list_head fwevt_list;
-
--	char watchdog_work_q_name[50];
-  	struct workqueue_struct *watchdog_work_q;
-  	struct delayed_work watchdog_work;
-  	spinlock_t watchdog_lock;
-diff --git a/drivers/scsi/mpi3mr/mpi3mr_fw.c 
-b/drivers/scsi/mpi3mr/mpi3mr_fw.c
-index 8fe6e0bf342e..b564fe5980a6 100644
---- a/drivers/scsi/mpi3mr/mpi3mr_fw.c
-+++ b/drivers/scsi/mpi3mr/mpi3mr_fw.c
-@@ -2878,11 +2878,8 @@ void mpi3mr_start_watchdog(struct mpi3mr_ioc *mrioc)
-  		return;
-
-  	INIT_DELAYED_WORK(&mrioc->watchdog_work, mpi3mr_watchdog_work);
--	snprintf(mrioc->watchdog_work_q_name,
--	    sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
--	    mrioc->id);
-  	mrioc->watchdog_work_q = alloc_ordered_workqueue(
--		"%s", WQ_MEM_RECLAIM, mrioc->watchdog_work_q_name);
-+		"watchdog_%s%d", WQ_MEM_RECLAIM, mrioc->name, mrioc->id);
-  	if (!mrioc->watchdog_work_q) {
-  		ioc_err(mrioc, "%s: failed (line=%d)\n", __func__, __LINE__);
-  		return;
-
-Thanks,
-
-Bart.
