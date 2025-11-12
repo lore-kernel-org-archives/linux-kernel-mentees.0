@@ -1,200 +1,191 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242A51C695
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Nov 2025 19:48:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EE72D0C9D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 20:30:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762976936; cv=none; b=e4Ljn/wB3ZG9arLazHcbUQxZbmhemrb2ZYMxdEeN5AGk/Hmmb3j97wmTMOrHXjb27zV/BaXp6a9mDytBjweNFjkS51H9HthbmHIkABh6xzqGTdyVenJwgtQVtMjlxHpvpBWvNZX3QXWMz6TWoUpKyarO1MM/3wkHptWSTK/3Kiw=
+	t=1762979412; cv=none; b=VL3xXO0TCvuG9KCmvDwqkMM4+IDEa2RzWSAtyl8ckqX4CiKqq0NoPmOxpTpICdsicrmqyQ9HvQr3anbM3PhPZiqhBzmwfQPdNF4Gjf/E3kemhjkDIwZ4a8BBweRlgrz4U04uglvb0qTQOqypnDi4dAVm6+DuCOerDp3cjRAL+io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762976936; c=relaxed/simple;
-	bh=dFk02J1e4F+vb6I69BypXFIFsjrKjflzdjo5oj8iEJo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EnklVvCHL/HRCCfxnHF84kmEyYg4Pz8mBOxW1kM8PcupBjhNFsHhChJMwkpEjVnPzx4e5z0QyspiMa7ujwoiUBlzkDAsFslfN1MvqelaiYhPibKShujVKXs7KE8QRT5DByU2/unhkkmb+u/wkR8VRnoyjwJDVwP2CrnMC31XkLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=m6IbvfXD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2UZ6NlEJ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=x0F5lwjP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6Sp1EVhN; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1762979412; c=relaxed/simple;
+	bh=DtbSXMnbv13JS9DE85J2oaC+TTvxz/CxHMp+L2EbBis=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fkg/WxqDNy9NjdptXHtvmqz1DpxpibLpo0bEqcqVT24j6n8eEQNLgk+t2/sgVSDlHUbUuvxnS+tLLkZ1VmGXhgWsebuoKFd4O5/M3O8qD3XUokbtTs6/sxnkEx3P3ARoclmkZe7lNn4L96SOccmixRkk2MfXlpDEv2YIpVmEe+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C0itpN98; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="m6IbvfXD";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2UZ6NlEJ";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="x0F5lwjP";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6Sp1EVhN"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BCF6021985;
-	Wed, 12 Nov 2025 19:48:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1762976933; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xfCE5gV0f+mGPzt5wRJ6d2S+07AAQqFW8KGSu8LeIz8=;
-	b=m6IbvfXDa5x9zPEhq7MCwQ1h/nxNbQsWBZjju34HUGDxO1jsQZHQSGm8otpomvIExml3Er
-	wxNpR0JRdRYxJY4dY8hqNWMuEXLm/zKdGEDd/XvTBQ6sBibk6UhBUI9qVkfcmAiasoCLAB
-	tfbiousIPhtkA7lzzcoLTQ3OU4v0Jfo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1762976933;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xfCE5gV0f+mGPzt5wRJ6d2S+07AAQqFW8KGSu8LeIz8=;
-	b=2UZ6NlEJxLiOkUUDsg52wH22sZVr/d3z3Tm38nHZToY7YuREVRyhHkiKdLzGoEuPqiPe82
-	FUEgKuidL+uHbyDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=x0F5lwjP;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=6Sp1EVhN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1762976931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xfCE5gV0f+mGPzt5wRJ6d2S+07AAQqFW8KGSu8LeIz8=;
-	b=x0F5lwjPrukfJFuW3Aeuwmi1nRCdRqQwtY5H0gybRP38jD5UQoRJx5rJDuIgB7+QNXDz2J
-	zXBDHynjW9+42ytXLVgPTScpqXN3v20r6F273yjW5ykPNJjaOO9FkORR9A+Nv783XA38wP
-	p9MZbjoYUgYQq0LsVRrdOKCM/2XnIDY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1762976931;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xfCE5gV0f+mGPzt5wRJ6d2S+07AAQqFW8KGSu8LeIz8=;
-	b=6Sp1EVhNiCpX1zaGnyBD0Ig2oW5M4CX9oD/4Krhz3ZXFwhZZJd8MQPLrWjvLdxo9V9ACSu
-	Arfp/vU6DGt8zlDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C1843EA61;
-	Wed, 12 Nov 2025 19:48:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QXdWJaPkFGlBbgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 12 Nov 2025 19:48:51 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 0533CA06F7; Wed, 12 Nov 2025 20:48:50 +0100 (CET)
-Date: Wed, 12 Nov 2025 20:48:50 +0100
-From: Jan Kara <jack@suse.cz>
-To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-Cc: tytso@mit.edu, adilger.kernel@dilger.ca, cascardo@igalia.com, 
-	jack@suse.cz, yebin10@huawei.com, linux-ext4@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-	syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2] ext4: validate xattrs to avoid OOB in
- ext4_find_inline_entry
-Message-ID: <6jsnfb2qu3rlygp7ejlp4fzv2mmnzy2t5eqlhq5edhttnp3jar@5vynnrxzi54f>
-References: <aRHSrpFone-SSkZa@quatroqueijos.cascardo.eti.br>
- <20251112185712.2031993-2-rpthibeault@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C0itpN98"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 1019080DCA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 20:30:11 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ShQbMXykT7Co for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 12 Nov 2025 20:30:10 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::e29; helo=mail-vs1-xe29.google.com; envelope-from=kubik.bartlomiej@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 1FD1680F2C
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1FD1680F2C
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=C0itpN98
+Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 1FD1680F2C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 20:30:09 +0000 (UTC)
+Received: by mail-vs1-xe29.google.com with SMTP id ada2fe7eead31-5dfa9e34adbso81386137.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 12 Nov 2025 12:30:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762979408; x=1763584208; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vwZOhDKhg6nzefR9evpVQL7Ofqz3agKHaVIZRWUuIFQ=;
+        b=C0itpN98ixdrp6zzqx7Un1kvwo3U3gPfYBgsVjdQg4hzj9AXH8BJ3nL3tXgbtCKwsb
+         gMeeXsVO3nUlT7RmEWYA1QUuOlGNRyjhC9cqHk4WW9Y5Yr2Tp7touvW0rx+RK6IYoHh0
+         ycCAu91vnyBko4q4NxNmCbXCYUxxozy3p+l3tZlJkmgBw8gibx7wqwV/MQBDjWhqrHSx
+         f1iEJtv1nR8YMF5lIKHXfJ04bT5bdDY1+tP2pfs5wG+zUdS2dlWJ+X2fpEpVpeMdA2pX
+         jhMqp6gCsl9mjb44jlFHQAL1eI9oNZPCLEvDU4JanVrueghjjrnFb8YtbAGmd0tyJAIP
+         326A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762979408; x=1763584208;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vwZOhDKhg6nzefR9evpVQL7Ofqz3agKHaVIZRWUuIFQ=;
+        b=gpuQ9A3FSg+mFch1ZUI9YOLzLCfAR7PycgwhvnP/l2JmTZEmdGNI+ip/F4zaaelm0I
+         muFHIhM/wNsgZA5Mv/hy5cvLat0Su5K0s09KI3urUKmyu9EWXhJVhTW7RDFfQBNWceRM
+         km+RVDaku6qGXW/KWTngdKx9Rafrvu4a4sB0PfXWtXrKgKzXyFQz0/E9UIA/kjxrQr5x
+         P63WxqvMwUGmBWNtPqadk0iM9OR2rDM0k3uOPapTgjdhQuFU7Zj33awAFQGgz70ghM6f
+         SGRrLMO998IHfqSt2v+TjCmUozLPGcvsmR6fN/3hY9yI1/+ndHqGWMY4aBHwMqw+wOZL
+         MlWA==
+X-Forwarded-Encrypted: i=1; AJvYcCUaq6BvP7hO15utzPswTtBfNu1GvZUGJLBxhTm3nR0C2VTvvmNQ5grp7/QK6z9UA9qB4Y+QqX7zLny6kzHnc0yY7vyjwA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yw4BhzlC07bBlMjbZ5vgnP1kxX9wbwbRJbU+JTf8HX6gEdFGins
+	QG/zbG6mlcLSN+rK9bynYnPT8pAv3qJjBNnh0BbASjBFhAqhdRWk88CJ8jR3tLO6Ur7x1AU50gn
+	H/FnVbUSyNDoJNkFRxBC5ppcKrWefW3E=
+X-Gm-Gg: ASbGnctPcsbYyeX/T6F3cwvGDOtMUdiptKSV1U6IWpmEEFFL0yX+04chxj/4pTs/Egx
+	fAnm7KbGq2QRchZ3W2mQaPTyG3H1DcfEG/l5noc26Xcqf+31lQyKbVlaS2sfwByBb//TVHWkNXG
+	QClqQLELXU0P98TW1tqpjT+CqT3xtUwS8tjrAsxbyZ2ry82kFZR16OHe4D95j9k8I5e2PPuh+zm
+	7cgnzo0HnQ6qx6iePaMKlpvylUQDUwAZnSrlDOjmgi8i5uObbEQc4MX+fy4H/jZVhV0Gm2O51b3
+	JQJlYhP5hAbOmBI/2ergQB/EgvAqo4GR9alQpoJIYb0dKoo=
+X-Google-Smtp-Source: AGHT+IFHYQYlB5H/vZO6pAE59Ra+lPGYc/9oEwXWmHHStsX1pd0NaLKAa+GMJ2VwQwjA/HrEVrmE3Ft6/3DaLcbhLUU=
+X-Received: by 2002:a05:6102:441f:b0:5db:ee3e:860e with SMTP id
+ ada2fe7eead31-5de07ceedcemr1597457137.1.1762979408635; Wed, 12 Nov 2025
+ 12:30:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251112185712.2031993-2-rpthibeault@gmail.com>
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: BCF6021985
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[3ee481e21fd75e14c397];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,system.data:url,syzkaller.appspot.com:url,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -2.51
+References: <20251028145534.95457-1-kubik.bartlomiej@gmail.com>
+In-Reply-To: <20251028145534.95457-1-kubik.bartlomiej@gmail.com>
+From: =?UTF-8?Q?Bart=C5=82omiej_Kubik?= <kubik.bartlomiej@gmail.com>
+Date: Wed, 12 Nov 2025 21:29:56 +0100
+X-Gm-Features: AWmQ_bnLwOfcWQPWIKmUoND1n7tdM12UUbgDYcwxauU_Xcm3P8dYRzc2Y6PS87Y
+Message-ID: <CAPqLRf2vo6pVbF6C4LtReBwH1VaMQzEGGyd2NuFxbLMZykqM1g@mail.gmail.com>
+Subject: Re: [PATCH RFT v2] driver/scsi/mpi3mr: Fix build warning for mpi3mr_start_watchdog
+To: sathya.prakash@broadcom.com, kashyap.desai@broadcom.com, 
+	sumit.saxena@broadcom.com, sreekanth.reddy@broadcom.com
+Cc: martin.petersen@oracle.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
+	linux-scsi@vger.kernel.org, skhan@linuxfoundation.org, khalid@kernel.org, 
+	david.hunter.linux@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed 12-11-25 13:57:13, Raphael Pinsonneault-Thibeault wrote:
-> When looking for an entry in an inlined directory, if e_value_offs is
-> changed underneath the filesystem by some change in the block device, it
-> will lead to an out-of-bounds access that KASAN detects as a
-> use-after-free.
-> 
-> This is a similar problem as fixed by
-> commit c6b72f5d82b1 ("ext4: avoid OOB when system.data xattr changes underneath the filesystem")
-> whose fix was to call ext4_xattr_ibody_find() right after reading the
-> inode with ext4_get_inode_loc() to check the validity of the xattrs.
-> 
-> However, ext4_xattr_ibody_find() only checks xattr names, via
-> xattr_find_entry(), not e_value_offs.
-> 
-> Fix by calling xattr_check_inode() which performs a full check on the
-> xattrs in inode.
-> 
-> Reported-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3ee481e21fd75e14c397
-> Tested-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-> Fixes: 5701875f9609 ("ext4: fix out-of-bound read in ext4_xattr_inode_dec_ref_all()")
-> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-
-When the filesystem is mounted on top of a block device, syzbot cannot
-write to it (it disables CONFIG_BLKDEV_WRITE_MOUNTED option). Also there's
-no sane way how the filesystem driver could avoid oopses when the block
-device's buffer cache is modified while the filesystem is mounted without
-unacceptable slowdown so this patch is pointless in my opinion.
-
-The syzbot reproducer you're referencing actually seems to use
-LOOP_SET_STATUS ioctl to mess with the loop device while the filesystem is
-mounted. Understanding what exactly happens there and modifying the
-loopback device driver to forbid that is in my opinion a more sustainable
-way to fix problems like this.
-
-								Honza
+On Tue, 28 Oct 2025 at 15:55, Bartlomiej Kubik
+<kubik.bartlomiej@gmail.com> wrote:
+>
+> GCC warning:
+> drivers/scsi/mpi3mr/mpi3mr_fw.c:2872:60: warning: =E2=80=98%s=E2=80=99 di=
+rective
+> output may be truncated writing up to 63 bytes into a region of size
+> 41 [-Wformat-truncation=3D]
+>
+> Change MPI3MR_WATCHDOG_NAME_LENGTH define to properly clarify
+> the required buffer size.
+>
+> The mrioc->watchdog_work_q_name buffer in
+> the mpi3mr_start_watchdog() function no longer requires adding mrioc->id,
+> since mrioc->name already includes it.
+>
+> mrioc->name is built using:
+> sprintf(mrioc->name, "%s%d", mrioc->driver_name, mrioc->id)
+>
+> Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
 > ---
-> changelog
-> v1 -> v2: change Fixes tag to reflect that ext4_xattr_ibody_find() used to call 
-> xattr_check_inode() until 5701875f9609.
-> 
->  fs/ext4/inline.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/fs/ext4/inline.c b/fs/ext4/inline.c
-> index 1b094a4f3866..7d46e1e16b52 100644
-> --- a/fs/ext4/inline.c
-> +++ b/fs/ext4/inline.c
-> @@ -1593,6 +1593,13 @@ struct buffer_head *ext4_find_inline_entry(struct inode *dir,
->  
->  	down_read(&EXT4_I(dir)->xattr_sem);
->  
-> +	if (EXT4_INODE_HAS_XATTR_SPACE(dir)) {
-> +		ret = xattr_check_inode(dir, IHDR(dir, ext4_raw_inode(&is.iloc)),
-> +					ITAIL(dir, ext4_raw_inode(&is.iloc)));
-> +		if (ret)
-> +			goto out;
-> +	}
-> +
->  	ret = ext4_xattr_ibody_find(dir, &i, &is);
->  	if (ret)
->  		goto out;
-> -- 
-> 2.43.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>
+> I do not have the hardware to full tests it.
+> Tests only built kernel without warning and run kernel.
+>
+> Changelog:
+> Changes since v1:
+> - Add define MPI3MR_WATCHDOG_NAME_LENGTH (MPI3MR_NAME_LENGTH + 15)
+> - Change watchdog_work_q_name buffer from size 50 to MPI3MR_WATCHDOG_NAME=
+_LENGTH
+>
+> Link to v1
+> https://lore.kernel.org/all/20251002063038.552399-1-kubik.bartlomiej@gmai=
+l.com/
+>
+>  drivers/scsi/mpi3mr/mpi3mr.h    | 3 ++-
+>  drivers/scsi/mpi3mr/mpi3mr_fw.c | 3 +--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/scsi/mpi3mr/mpi3mr.h b/drivers/scsi/mpi3mr/mpi3mr.h
+> index 6742684e2990..be15d5ec8b58 100644
+> --- a/drivers/scsi/mpi3mr/mpi3mr.h
+> +++ b/drivers/scsi/mpi3mr/mpi3mr.h
+> @@ -66,6 +66,7 @@ extern atomic64_t event_counter;
+>
+>  #define MPI3MR_NAME_LENGTH     64
+>  #define IOCNAME                        "%s: "
+> +#define MPI3MR_WATCHDOG_NAME_LENGTH (sizeof("watchdog_") + MPI3MR_NAME_L=
+ENGTH + 1)
+>
+>  #define MPI3MR_DEFAULT_MAX_IO_SIZE     (1 * 1024 * 1024)
+>
+> @@ -1265,7 +1266,7 @@ struct mpi3mr_ioc {
+>         spinlock_t fwevt_lock;
+>         struct list_head fwevt_list;
+>
+> -       char watchdog_work_q_name[50];
+> +       char watchdog_work_q_name[MPI3MR_WATCHDOG_NAME_LENGTH];
+>         struct workqueue_struct *watchdog_work_q;
+>         struct delayed_work watchdog_work;
+>         spinlock_t watchdog_lock;
+> diff --git a/drivers/scsi/mpi3mr/mpi3mr_fw.c b/drivers/scsi/mpi3mr/mpi3mr=
+_fw.c
+> index 8fe6e0bf342e..18b176e358c5 100644
+> --- a/drivers/scsi/mpi3mr/mpi3mr_fw.c
+> +++ b/drivers/scsi/mpi3mr/mpi3mr_fw.c
+> @@ -2879,8 +2879,7 @@ void mpi3mr_start_watchdog(struct mpi3mr_ioc *mrioc=
+)
+>
+>         INIT_DELAYED_WORK(&mrioc->watchdog_work, mpi3mr_watchdog_work);
+>         snprintf(mrioc->watchdog_work_q_name,
+> -           sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->=
+name,
+> -           mrioc->id);
+> +           sizeof(mrioc->watchdog_work_q_name), "watchdog_%s", mrioc->na=
+me);
+>         mrioc->watchdog_work_q =3D alloc_ordered_workqueue(
+>                 "%s", WQ_MEM_RECLAIM, mrioc->watchdog_work_q_name);
+>         if (!mrioc->watchdog_work_q) {
+> --
+> 2.39.5
+>
+
+Hi,
+
+I submitted this patch about two weeks ago but haven't received any
+feedback yet.
+I wanted to check if there are any concerns with the patch or if any
+changes are needed.
+
+Please let me know if you need any additional information.
+
+Best regards
+Bart=C5=82omiej Kubik
