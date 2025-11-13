@@ -1,91 +1,97 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA152DF71D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 11:11:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90EDB2E6CA0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 11:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763032287; cv=none; b=qgQYEWEqwg3J9FrCBu3Br7kqBQ4rOc9cc0nR+LeMHAfvkK3WYy7QdHJQnoSH4o4TYxPXvXfm2hwSaMEuSDG9ypdshmVvh5RNdKY3XrHiRcELpxTcz60WUULUOi9VLMc/1BEChGwqXYonTJDwLkHhOSlv42cdvKw9fl+IwPlC75Q=
+	t=1763033418; cv=none; b=YWaIHOigNC8CpTBe+xGzNo5hW9r8TC5T+D88D2rN3oNF1Y5dNy5p936MGW/2+YHN/vzsZXKsVv5C1lgvF5j1swaSJt3RpX6kpQo3XBiM7Jim/94LQQP4pVx6yeJS1MMFyMDlMBpRAJaveC2oJqvy3NEnsBSf0vRxudG6uVQy5KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763032287; c=relaxed/simple;
-	bh=SZalB5aQla3qn/0cW/BbnXxJUbwl6RPd2pzE9G6eyxE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=BVzrka9V9TuRRVn4UXucSmEOWBMif4p4Zt6ruecpZmNBUgwUY7zr+v2STYyPin9VH10kZEj0HbTRUto+/b9GLixkDhd22HxUvoOQS+SkqrZDljr6SCq7M0obrDpZvGwEzdLsrDB7Xak/QFrWGrMiqYE7GDROiSIIXkDZORYBjkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=X/XGhy75; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1763033418; c=relaxed/simple;
+	bh=BjyrwqxvG3mHuQruUr8TYV34YQVp1pw+ETUGTRsNRYo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 References; b=snMF6dJ/6ZaIW4bDKCbZzo2npHLlfYHKMY+vrg0eKJn6/7FE6uDiaOKZ6M5JWFhc2vzNyQ159RSgxgcpLXpKahMPN4mnDbMyuh3P1rfI4DFKmTZ2gQjfdAhFKXRLbw8q65FtMASVvXpsc0x7isc2BuZ+4Xb0/MduP0EBWGBk0Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=L5JzaAN8; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="X/XGhy75"
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="L5JzaAN8"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 247F1407DF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 11:11:25 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2F0F740C85
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 11:30:16 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -5.791
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id uw6N7UI5ssoR for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Nov 2025 11:11:24 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=98.137.68.109; helo=sonic306-46.consmr.mail.gq1.yahoo.com; envelope-from=adelodunolaoluwa@yahoo.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 167B540771
+ id 2nQMIrWwi9en for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 13 Nov 2025 11:30:15 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=98.137.65.109; helo=sonic313-46.consmr.mail.gq1.yahoo.com; envelope-from=adelodunolaoluwa@yahoo.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org C1C7940B93
 Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 167B540771
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C1C7940B93
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=X/XGhy75
-Received: from sonic306-46.consmr.mail.gq1.yahoo.com (sonic306-46.consmr.mail.gq1.yahoo.com [98.137.68.109])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 167B540771
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 11:11:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1763032282; bh=oT4L3jIxsTZnsFboLQQ8v8h33s4X0AFwU2A0o+fUlg4=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=X/XGhy75fI8TpSZZLxjZuc628dLLU54fDVKoR1+84eAwt2MfZVHSjcFdMuvOyfio5PF8llIRPwJb79XyJMPdJui9iF562moa8Y33qJUyW0Y/xTTWVWx1Y4Nj85/Bldm5FFa5gcv2hPq9UueSOmDMe4jQHlTgSDFbUtmX6CFWZpzRGr/wXSqvzpahIWOE/TQrN5qtF1f+kPHqJ1Dn0ylKkuRxFrdY4UUQRPytfKrQKHC9ld1xIWxCGRAhbKS63YH0uXz73kJ+vi/QPbiUgYgxwsFM8TRX5KZYdwb4cUY9EUAREQKVh/XpIsi5FWE3Rs3uICbQfDxWUZnNwYL3Fd36gQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1763032282; bh=3hDZRyHTZ47xkIzk0a4+kjL58FDnWil5+QG2IDMFeWq=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=jdSrhJJcvi/eWxf3Y+RxI8CGn9WISWjT4rODRlm+rXvRJJ/2eE/wSqktS+L34FN6ZnaoRKboz5ePZv601ocEXmd+NVpBLIAaZXEj+6VGQvMlzPuS0SJ3k7mn5FrSUKQOfXHbvdEUWZd6aNfa/bkNAkz3f9IPObLOaJeCU5HppGleeGZLdCEjv3OBxgLCHThKYhPT5GXFiYIWp2uGT6C+w887AsnZ86gs8Lhi9yy0FvTF02kP+65Sk0MvBe3acisXacyiYKHEb/u0fnSvnCw2gl5GqLdlPj2Hyn+17hflEjZktkO9a6Lo0n0y0gpgENZA/vv3GoHc/bgG4ZsA5ST6ew==
-X-YMail-OSG: AWsnZJUVM1kklOsVl7Rrkc5i8tP2_uXsAz4OER_Q1f4tfunrRAKx18IaT14JiR5
- 1ZXWCSnzy7iYsRGMgFIMXjcJV52.5vJtJoyHAklxyecnltOwAwvMwVJOpdo.pAe6_1gyZ6gEzvIi
- zJLUYAM2gMED3wygyTHe6Bgp3ryBGN9d_vBrK7tpm4d8qxnTrEcKkmFNRZVuDrq.Ben1V0pO27GL
- jwdmR.Y7x115ORbaSQF0n6rc6CVcFTyGqJcUpxfoPXnYrFf2i7vmX5cLQK9Vw67H0csPSs.wEj53
- wsFAp2nyLvNZwCe1u0KeM4LN5K.D7.hMa790XstnVFGNJOxhcT9GD44jphWCQ7iqaItvQ9lNbrsn
- 6VqZvdicNtja936BcLSQsoPuaLeBM8fM_N5dXrycn3xlYMzuk_OhI2bm3moiV6LeJeKRiPY9wUPj
- fMOnEu.Lg4X3S1NIHfhlyNwpNzQBACZDc0flym.BWyxKk2kpu2EHpHiCYK6mvEkGNgDx0NwLzDoT
- .pJBqzH1DV9EfFLMHyo5ao68CKYLMv.gJopwQDYdsXu1MHeuyaInw_U1h779HoXiO_aaQiGbUpAx
- DJ.sqCboWFkjiFEtwaNm4P6CzeNR3c52kRWCLUZAydRZ6MK.LlJS_TAvOz.06YdiARqtfh1bc2Tg
- i9DNT.TTnYHIKxnLdLXVYnYTnmR2Nwhjs22O_dskpUcZr9QI010QUJ28G9777GXIXbTdtH2p5ba0
- oz84Ddz6qmt7Kdxr7WbRhnXlQRjlJ7H0PlgLA5bkjCvMIhWQ3YMBLte4pkTtjsrq9HIDuM0yNUX2
- VZ2PXUAG3KYUY3riUJKmut2.ZmWbdkR.JYPaMcyR.JjP9hZvjGQqcf0NXAxG5vBPi.D2Lx6VA1mn
- tcVdlyY08dsodSB7eI5iqsklHMsXoW.tYSgNJOlZ71mbyauHggsvKzSskem0oc33HMLWmS7tz97d
- uLsA8UOth_2ex.CUzRqLfz7e2VobsiR_y0oT3WBzeuQZOsSOJKU8ABBw4RudxGtYkunAYKpMJ_Zr
- 42zetxB_nWgr673nHIh9VwgVt1vCVb2h9om2N4PvswJolDAoKkzy1XAHPqV2p2mT.7NQxIVFZou6
- 9V7TCcWxmAb1Ct4nKVUzuGuCe.2VxjDLXf41yGdIeFBTSIyjdQIA3qrq.AGDPBQf7BCo9CE7XF4e
- XXaIwm3zM0S0bJPdCisFupjL5ueG924NqYesIZtk8xplY6mQfHXEOEVolLrODhUYlfGc7XYlFlQM
- 7rXNHn.iZWJ3hIO94kzxHw4YpsXyoTjzLPd9XBhjpG8ov5_vPCF5uoWpPIKvg7JJvllCfXlkNBOH
- LhRv_Rp3ygE0p1HrnOkwAJYVZj0G4u.LwN8cd7_nEzfYBbCh8f4dEceNmKeMgMqiSZg2jUKrC7zH
- naipx22fPVjf01HtFFpujLjMKr3_J3Er7HrqG_0lUFgY14JrBikdRnqu3oUmbjLDdCMW754jR3b2
- 2FIoSW3DAcbzQ6A3l3BS3UXnLcgUdsN1hdAEPdLjaUAEVSZuoElBqbvaB35a0f6kL3oD7WPa18c3
- 1n233sZCNRto5il4zT_QZSa6oj68Le194xGV2t1Z9xA0LtMGvENGquucDprSwC33CpJynaDF6XV_
- lYHxgkNccj74NvP1JPfW2L2b9iP4AWMunVw_xWfgTPOGh9e9navjKZDh9EKzJx7WvaL5OdurXTPm
- OL6fMQZlFW7g21Y8TWcVPSWmIckjDZlRK3k.Ix78TLYiORQBhQ267f8CIAC966R0uA7ilFaya_bF
- WmNFT7GcwSckhgjKFaMwmD85r3e2cPsivjICGWjGIWrsQjlhrBahUemKjbbNUPkahxcFT5cLZcky
- CNmqHakTTqNfVujC8_HdkIRHYVnvaffyknLXSGu68iiMig7MTK01Ly.ophJ4jYNm9Fjf_sTGc0f3
- lxBe_yY6FL6egiqSJF0x_URDgd32JiHaKbJ6d0hU.pasK1w0.WOKHtdnqDBpjL77Ag6KE3kqTbWI
- j2866qbJSPHvXP2CQFsQ7DkcHiQ95DhqsRcpsMDtyg2X1WSe.rtud9QAk1gk36hFfr7D4R3I.G7K
- IZDVFjceFj0gM_SAt0AUBCwA_jSTg6ubBR_8Z_090KPgePdcHOjj75zq54y.NZdR8_Ppp6OCRIps
- XwvrF3g176.1INHnDyuVdj5tQUm2BQCojjHqeTfqbMqtEK7G9EozprmRL4_9r0GqZkYl7p0S5nGA
- LdCyrxKa6kJBjTp9BPk.XizOnQsq4TGtS0NY0PXI_YbcoPWB_yiGTA_LpRh6Jyx6n4rLj.LxuBOf
- tCgVr97crLm5AcatB6RBwUBsVEMivXEoGzTsa.AXhRPVncxSNwmmH98kYSLSNAHtDGHxfStSPjxV
- 6DpEKyEGF8Ljf2L5S
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=L5JzaAN8
+Received: from sonic313-46.consmr.mail.gq1.yahoo.com (sonic313-46.consmr.mail.gq1.yahoo.com [98.137.65.109])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id C1C7940B93
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 11:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1763033413; bh=vsc2zIDV9/l3N6sMLht900KIugzNpcZMNEAIUVyatoY=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=L5JzaAN8QKfJEO6C/1fWBFe1wr/3C1UyUS7jN0p267ZDL1zDmno0F5B/EKuT+0KJ9cFiQq6mM/rS3h6LrAXt2i4MStuFIqSKbHgFvV6MezQ6c9AV+ragVxywtCt52auyJCYIq/VYklsIbnadpXBwxqvZTTXpBiP6Jw5Ooa0n8uxH9N7FseM8nk6HH1JMCkcYHDDH4laa4qIryK54lpZG7GBdsCKOIIdqQY9k4Hev4UboFU4JF97fmr/LIHX4DhY4yqI898qgyTRfaWCuGVvyJh7e9g4dK5oDQwsNr0meZO9ldqpTJ7MPpN6ez12mkqewf7p5E3Tt2xdw4cLhCHu4Tw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1763033413; bh=mhY3UhtTDoCVerxtqqcy/aX74KbrAUvz+/IKgIy/eJC=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=SIq2qxEzkHvlOgPOaxrmvKgXKtq5VjFXcxbEnwZ7lMKossf62T+/houqpNNghbQLpFMBvgzpju6VI7DFtO0xBMiS91zsilSoltH+YqERVawbKgMs2TYOc8LAyXPgxfZhrwv0CeOB8DjZhPdFN1cfybvui4A/U/R9ICShh+2DyTPTtDFcO2ImUiew/rlXEWGSpWZbGV+8hYLlH/xjCWCWlFK11xOMtRaKB6bz37T2Zug2GGu3mSUi0HfTVKA6FimncDHNuu2+bktLAZTIb9Z5VzCngntnEqTaczAd+N9eNBn3CimRKk1Y0TC8CMVEnDZh8cRidX4fpYyzZgEEys9zFg==
+X-YMail-OSG: dA_3nAAVM1l97D_TcyfqvQxByU5P9szVHOMMJytNlkSr85CIQuWGD8W.Y8.Of92
+ IjOuwTTwO33CMQrNK9uEitiCeahppCd6zd1jxub6JcmT8JnB5RREVIP6Ye75lhkkpl6q9.wxjfSn
+ 6o4ayjHZ6wKgf83ZQ1BUSpPd5sTNYnZfiJW2Nz6yg0.n8Z0VGUdZE9UUeusjl86.6KyXQlKEOJhp
+ PPceS3B_9JOUBshZfm1T3sFjNYaN5XQylCFnKHl4xg48UvgrB2Oe57vaz7YmBdo05BCL.E.t.zV0
+ JAj_hf2ePEOBWovW6rmNeQPIVuiWiKsaucN6FnK2F0b04WJR6R4Wpotbezi1fbqr.cwsBittPVs0
+ hN_fJhW1.bOR2Wz.MUYoj_KC0PuxSZvLzbtcDKY3N1Q5mRXjXAe9QmCRPeYC6yG4LDp7jfywrGpj
+ tO5VYpAXj_1GqxR9eijRNO88S1wEI1iFMqG_p_nqBMXzk6cBCYu7Mfp3OED1DGSSRI7vYM3aGlnG
+ 5OT52.AeWVqSn2pN6vKQUGOsyWjjYJlKSnAbMVil37McN9O71iT_7W8bUYayCQzWMsDi3sJKhznH
+ SwAYew42YD2dIX7F2eOybEJHL.TB9wbWb4lZYxqeKl6v23qhXg2fyXqfuH4Gck1bdzBKHVjbV.vH
+ BSdzHx2r8043yf7q6LASoZY6QmEPY2M0MhSK5fStbEMDqu6ZOFYjAXPDyIBMzZnG43.1maxapbw8
+ ne7xdUkV1pHp3.noh3pmjR04_ukrPhbBzuTFYYJI_.M078AKGBON8SacmoVVUrw8_PI9rZlILik1
+ o1Lr3reAghVxYGVlEX5STrhzfV8_EHAwu1Gc5p_mxcSqqe.ud0OiM4pl4veM8AxD8gQXN_wO.TYt
+ D7U4AUwV1GWWf5vjcnUowJrZhtzgEBEKp5WrX0xdFKS8.4425T4.SzDgEMwJnfmoWglrM42UUVqg
+ 3MgA_5A8RdloKYwbU67YachEVr4YdPs_X8RABs1rfUMI88IwRirtF7hVeY6RSzy9jFxW1SX2LSlX
+ bVVDDcO7_WXP_E1KNmWjD7S6gleIUDHC3wV.ruklf8puvOtHeHklr93mTya8Rcrhgx55oSiBq_5g
+ bWTtlTySxbEm3luRp1HP4DbNmxXs77caNCtwtY0RwBM8drR8EtyhjCLPUcUob_EqQrBfhXNgEvQ4
+ oBNmxFZue0wrG8xnAkDDrF8q7Em2yLWXmq_dD2I8IvuHf3U43AzqG1yW.V8bqwesjF.2uTLPsCi6
+ qCnnQ.jw4tPnPeFS8.p1hwZiXuZ7M8M..rLPR0JoF1t34VhswH1hWriBy8a5sq_64WrhWt1wYhpk
+ pFVNPeBGQ3T1ANzL3Dvnw4osJjnSeG5Chxb9r96vg08hXAhyAUxnN_.r7u4iFxNgxacG8VeGpI.w
+ n7NbX7VyYc25lfosfL9IG9hu348xkzQdVg9Cg72kiQ6lO0iubIFX6PjoUW44b5kiqyF0df3Oqm9J
+ 33gNZ8ckkfdnh7qFyOB5Y1oASFwfRI9wHmtzUyO8Brg3JNOHmoovgIF1lXfW9O36bKPBZAgY.xEK
+ .eoNNNU8nB_uXj_m_P_3P7GdJg2QIJn6FQ2U54qYmd0DNMt.cDuhNAG9dSXRsu2JDzhtc0QsJDzD
+ 7u7J5tITRM36rEQiS4UhbQGaXVyEzetk9AqRE2rj2__oIV4CSJ52szPAqSuU10x.zU1Zfu1WhMxA
+ 2427HrznLsrlH9vGIa37UTl6DeULbyt8xn1xno8Cz3Lrs8HY2XcG18tRf0qXxU57EnlB2ZQ5Tzwx
+ V6NtW9_MBQNPn5fPOey8FOC_mZcljwaTXjans.0g6Byjo7l7Akv3jmyEcMT4gG3Ab1LvOjvSRTUd
+ 9BEvjMKdxMShheJ1sWqbXaS5KmZylL9BItL1XzLEYMhWvbLo3n43WULED7_N7YdHhTg2gi_6b4G_
+ xtCqUh7OEoVm.jLjJmfjqhggricEgsO8M.qe6fSoF7a2gJXtod06hHIbUXUSC2knBVCiJ4wYUd48
+ nQXECehhcRWmn1.iD.3PKoXIyZhTfZDrs_1PceGA_NcKq9jy4BmR8H29bv0ITe43HEqPsclpi07t
+ ddh9CnHAvYMao.uV6X1eRADxzSBixnhYyViGtGyRv3EJfWPeOSphLXAxspl08TUHJM4eYm0VpsrI
+ Z39ccwBTe18T2T4onojpu1OQpMWize5IzpGL4gAGLrGEu8gLeozxzg9pwbrqzEYVFCLYtQmgY_AX
+ CNaMb9qyzog3Ip2bgeZ63TxxzXeANqfWjIIiJwoWybWMHOiQj9MLDQaUYMiLDoq0gJYCN9A3zF4S
+ Wzwm1H0MveSJMU1K31r3mUe6DSQN7sR_rAoKDyPMjgixVgcZau73dSWU4H2rfT1dJaMUdmlfIyvt
+ ef8Ujm_0ZLinqQaNQajYOXQc-
 X-Sonic-MF: <adelodunolaoluwa@yahoo.com>
-X-Sonic-ID: 5093b66e-f2ca-464a-916b-91760f641faf
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.gq1.yahoo.com with HTTP; Thu, 13 Nov 2025 11:11:22 +0000
-Received: by hermes--production-bf1-58477f5468-b4rj2 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d8fb56c506b501dc7b51dd0946a4f9cb;
-          Thu, 13 Nov 2025 11:09:20 +0000 (UTC)
+X-Sonic-ID: 23f27373-26d7-4c58-b550-da61e8faefbd
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.gq1.yahoo.com with HTTP; Thu, 13 Nov 2025 11:30:13 +0000
+Received: by hermes--production-bf1-58477f5468-wnnm5 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID e2ddb9b3ed0e230064ffd349fd918855;
+          Thu, 13 Nov 2025 11:28:11 +0000 (UTC)
 From: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-To: rafael@kernel.org,
-	pavel@kernel.org,
-	lenb@kernel.org
-Cc: linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
+To: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>
+Cc: skhan@linuxfoundation.org,
 	david.hunter.linux@gmail.com,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-Subject: [PATCH v2] power: swap: Convert kernel-doc comments to regular block comments
-Date: Thu, 13 Nov 2025 12:09:14 +0100
-Message-ID: <20251113110914.44223-1-adelodunolaoluwa@yahoo.com>
+Subject: [PATCH v6] selftests: af_unix: Add tests for ECONNRESET and EOF semantics
+Date: Thu, 13 Nov 2025 12:28:02 +0100
+Message-ID: <20251113112802.44657-1-adelodunolaoluwa@yahoo.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -93,170 +99,254 @@ List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-References: <20251113110914.44223-1-adelodunolaoluwa.ref@yahoo.com>
+References: <20251113112802.44657-1-adelodunolaoluwa.ref@yahoo.com>
 
-Several static functions in kernel/power/swap.c were using the kernel-doc
-comment style (/** ... */) even though they are not exported or referenced
-in generated documentation. This triggers documentation warnings and makes
-the comments inconsistent with kernel style for local functions.
+Add selftests to verify and document Linux’s intended behaviour for
+UNIX domain sockets (SOCK_STREAM and SOCK_DGRAM) when a peer closes.
+The tests verify that:
 
-Convert these comment blocks to regular C-style comments (/* ... */) and
-update a few function headers to include proper "Return:" descriptions
-where applicable.
+ 1. SOCK_STREAM returns EOF when the peer closes normally.
+ 2. SOCK_STREAM returns ECONNRESET if the peer closes with unread data.
+ 3. SOCK_SEQPACKET returns EOF when the peer closes normally.
+ 4. SOCK_SEQPACKET returns ECONNRESET if the peer closes with unread data.
+ 5. SOCK_DGRAM does not return ECONNRESET when the peer closes.
 
-No functional changes.
+This follows up on review feedback suggesting a selftest to clarify
+Linux’s semantics.
 
+Suggested-by: Kuniyuki Iwashima <kuniyu@google.com>
 Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
 ---
 changelog:
 
-changes from v1 to v2:
-- Converted function comment blocks from /** */ to /* */ style for
-  static functions
-- Minor reformatting of comment indentation and spacing
+changes from v5 to v6
+- Remove the not-needed check for self->child > 0 in the
+  FIXTURE_TEARDOWN
 
-v1 patch link:
-https://lore.kernel.org/all/20251106113938.34693-2-adelodunolaoluwa@yahoo.com/
+changes from v4 to v5:
+1. Moved the send() call before the socket type check in Test 2 to ensure
+  the unread data behavior is tested for SOCK_DGRAM as well.
 
- kernel/power/swap.c | 54 ++++++++++++++++++++-------------------------
- 1 file changed, 24 insertions(+), 30 deletions(-)
+2. Removed the misleading commend about accept() for clarity.
 
-diff --git a/kernel/power/swap.c b/kernel/power/swap.c
-index 0beff7eeaaba..076ed590e8c9 100644
---- a/kernel/power/swap.c
-+++ b/kernel/power/swap.c
-@@ -336,10 +336,8 @@ static int mark_swapfiles(struct swap_map_handle *handle, unsigned int flags)
-  */
- unsigned int swsusp_header_flags;
+3. Applied indentation fixes for style consistency
+  (alignment with open parenthesis).
+
+4. Minor comment and formatting cleanups for clarity and adherence
+  to kernel coding style.
+
+ tools/testing/selftests/net/.gitignore        |   1 +
+ tools/testing/selftests/net/af_unix/Makefile  |   1 +
+ .../selftests/net/af_unix/unix_connreset.c    | 177 ++++++++++++++++++
+ 3 files changed, 179 insertions(+)
+ create mode 100644 tools/testing/selftests/net/af_unix/unix_connreset.c
+
+diff --git a/tools/testing/selftests/net/.gitignore b/tools/testing/selftests/net/.gitignore
+index 439101b518ee..e89a60581a13 100644
+--- a/tools/testing/selftests/net/.gitignore
++++ b/tools/testing/selftests/net/.gitignore
+@@ -65,3 +65,4 @@ udpgso
+ udpgso_bench_rx
+ udpgso_bench_tx
+ unix_connect
++unix_connreset
+diff --git a/tools/testing/selftests/net/af_unix/Makefile b/tools/testing/selftests/net/af_unix/Makefile
+index de805cbbdf69..5826a8372451 100644
+--- a/tools/testing/selftests/net/af_unix/Makefile
++++ b/tools/testing/selftests/net/af_unix/Makefile
+@@ -7,6 +7,7 @@ TEST_GEN_PROGS := \
+ 	scm_pidfd \
+ 	scm_rights \
+ 	unix_connect \
++	unix_connreset \
+ # end of TEST_GEN_PROGS
  
--/**
-- *	swsusp_swap_check - check if the resume device is a swap device
-- *	and get its index (if so)
-- *
+ include ../../lib.mk
+diff --git a/tools/testing/selftests/net/af_unix/unix_connreset.c b/tools/testing/selftests/net/af_unix/unix_connreset.c
+new file mode 100644
+index 000000000000..bffef2b54bfd
+--- /dev/null
++++ b/tools/testing/selftests/net/af_unix/unix_connreset.c
+@@ -0,0 +1,177 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
-+ *	check if the resume device is a swap device and get its index (if so).
-  *	This is called before saving image
-  */
- static int swsusp_swap_check(void)
-@@ -362,11 +360,8 @@ static int swsusp_swap_check(void)
- 	return 0;
- }
- 
--/**
-- *	write_page - Write one page to given swap location.
-- *	@buf:		Address we're writing.
-- *	@offset:	Offset of the swap page we're writing to.
-- *	@hb:		bio completion batch
-+/*
-+ *	Write one page to given swap location.
-  */
- 
- static int write_page(void *buf, sector_t offset, struct hib_bio_batch *hb)
-@@ -526,8 +521,8 @@ static int swap_writer_finish(struct swap_map_handle *handle,
- #define CMP_MIN_RD_PAGES	1024
- #define CMP_MAX_RD_PAGES	8192
- 
--/**
-- *	save_image - save the suspend image data
-+/*
-+ *	save the suspend image data
-  */
- 
- static int save_image(struct swap_map_handle *handle,
-@@ -671,11 +666,8 @@ static int compress_threadfn(void *data)
- 	return 0;
- }
- 
--/**
-- * save_compressed_image - Save the suspend image data after compression.
-- * @handle: Swap map handle to use for saving the image.
-- * @snapshot: Image to read data from.
-- * @nr_to_write: Number of pages to save.
-+/*
-+ * Save the suspend image data after compression.
-  */
- static int save_compressed_image(struct swap_map_handle *handle,
- 				 struct snapshot_handle *snapshot,
-@@ -904,11 +896,8 @@ static int save_compressed_image(struct swap_map_handle *handle,
- 	return ret;
- }
- 
--/**
-- *	enough_swap - Make sure we have enough swap to save the image.
-- *
-- *	Returns TRUE or FALSE after checking the total amount of swap
-- *	space available from the resume partition.
-+/*
-+ *	Make sure we have enough swap to save the image.
-  */
- 
- static int enough_swap(unsigned int nr_pages)
-@@ -930,6 +919,8 @@ static int enough_swap(unsigned int nr_pages)
-  *	them synced (in case something goes wrong) but we DO not want to mark
-  *	filesystem clean: it is not. (And it does not matter, if we resume
-  *	correctly, we'll mark system clean, anyway.)
++ * Selftest for AF_UNIX socket close and ECONNRESET behaviour.
 + *
-+ *	Return: 0 on success, negative error code on failure.
-  */
- 
- int swsusp_write(unsigned int flags)
-@@ -1077,10 +1068,8 @@ static int swap_reader_finish(struct swap_map_handle *handle)
- 	return 0;
- }
- 
--/**
-- *	load_image - load the image using the swap map handle
-- *	@handle and the snapshot handle @snapshot
-- *	(assume there are @nr_pages pages to load)
-+/*
-+ *	load the image using the swap map handle
-  */
- 
- static int load_image(struct swap_map_handle *handle,
-@@ -1190,11 +1179,8 @@ static int decompress_threadfn(void *data)
- 	return 0;
- }
- 
--/**
-- * load_compressed_image - Load compressed image data and decompress it.
-- * @handle: Swap map handle to use for loading data.
-- * @snapshot: Image to copy uncompressed data into.
-- * @nr_to_read: Number of pages to load.
-+/*
-+ * Load compressed image data and decompress it.
-  */
- static int load_compressed_image(struct swap_map_handle *handle,
- 				 struct snapshot_handle *snapshot,
-@@ -1529,6 +1515,8 @@ static int load_compressed_image(struct swap_map_handle *handle,
-  *	swsusp_read - read the hibernation image.
-  *	@flags_p: flags passed by the "frozen" kernel in the image header should
-  *		  be written into this memory location
++ * This test verifies:
++ *  1. SOCK_STREAM returns EOF when the peer closes normally.
++ *  2. SOCK_STREAM returns ECONNRESET if peer closes with unread data.
++ *  3. SOCK_SEQPACKET returns EOF when the peer closes normally.
++ *  4. SOCK_SEQPACKET returns ECONNRESET if the peer closes with unread data.
++ *  5. SOCK_DGRAM does not return ECONNRESET when the peer closes.
 + *
-+ *	Return: 0 on success, negative error code on failure.
-  */
- 
- int swsusp_read(unsigned int *flags_p)
-@@ -1567,6 +1555,10 @@ static void *swsusp_holder;
- /**
-  * swsusp_check - Open the resume device and check for the swsusp signature.
-  * @exclusive: Open the resume device exclusively.
++ * These tests document the intended Linux behaviour.
 + *
-+ * Return:
-+ *	0 if a valid hibernation image is found,
-+ *	negative error code on failure.
-  */
- 
- int swsusp_check(bool exclusive)
-@@ -1631,6 +1623,8 @@ void swsusp_close(void)
- 
- /**
-  *      swsusp_unmark - Unmark swsusp signature in the resume device
-+ *
-+ *      Return: 0 on success, negative error code on failure.
-  */
- 
- #ifdef CONFIG_SUSPEND
++ */
++
++#define _GNU_SOURCE
++#include <stdlib.h>
++#include <string.h>
++#include <fcntl.h>
++#include <unistd.h>
++#include <errno.h>
++#include <sys/socket.h>
++#include <sys/un.h>
++#include "../../kselftest_harness.h"
++
++#define SOCK_PATH "/tmp/af_unix_connreset.sock"
++
++static void remove_socket_file(void)
++{
++	unlink(SOCK_PATH);
++}
++
++FIXTURE(unix_sock)
++{
++	int server;
++	int client;
++	int child;
++};
++
++FIXTURE_VARIANT(unix_sock)
++{
++	int socket_type;
++	const char *name;
++};
++
++FIXTURE_VARIANT_ADD(unix_sock, stream) {
++	.socket_type = SOCK_STREAM,
++	.name = "SOCK_STREAM",
++};
++
++FIXTURE_VARIANT_ADD(unix_sock, dgram) {
++	.socket_type = SOCK_DGRAM,
++	.name = "SOCK_DGRAM",
++};
++
++FIXTURE_VARIANT_ADD(unix_sock, seqpacket) {
++	.socket_type = SOCK_SEQPACKET,
++	.name = "SOCK_SEQPACKET",
++};
++
++FIXTURE_SETUP(unix_sock)
++{
++	struct sockaddr_un addr = {};
++	int err;
++
++	addr.sun_family = AF_UNIX;
++	strcpy(addr.sun_path, SOCK_PATH);
++	remove_socket_file();
++
++	self->server = socket(AF_UNIX, variant->socket_type, 0);
++	ASSERT_LT(-1, self->server);
++
++	err = bind(self->server, (struct sockaddr *)&addr, sizeof(addr));
++	ASSERT_EQ(0, err);
++
++	if (variant->socket_type == SOCK_STREAM ||
++	    variant->socket_type == SOCK_SEQPACKET) {
++		err = listen(self->server, 1);
++		ASSERT_EQ(0, err);
++	}
++
++	self->client = socket(AF_UNIX, variant->socket_type | SOCK_NONBLOCK, 0);
++	ASSERT_LT(-1, self->client);
++
++	err = connect(self->client, (struct sockaddr *)&addr, sizeof(addr));
++	ASSERT_EQ(0, err);
++}
++
++FIXTURE_TEARDOWN(unix_sock)
++{
++	if (variant->socket_type == SOCK_STREAM ||
++	    variant->socket_type == SOCK_SEQPACKET)
++		close(self->child);
++
++	close(self->client);
++	close(self->server);
++	remove_socket_file();
++}
++
++/* Test 1: peer closes normally */
++TEST_F(unix_sock, eof)
++{
++	char buf[16] = {};
++	ssize_t n;
++
++	if (variant->socket_type == SOCK_STREAM ||
++	    variant->socket_type == SOCK_SEQPACKET) {
++		self->child = accept(self->server, NULL, NULL);
++		ASSERT_LT(-1, self->child);
++
++		close(self->child);
++	} else {
++		close(self->server);
++	}
++
++	n = recv(self->client, buf, sizeof(buf), 0);
++
++	if (variant->socket_type == SOCK_STREAM ||
++	    variant->socket_type == SOCK_SEQPACKET) {
++		ASSERT_EQ(0, n);
++	} else {
++		ASSERT_EQ(-1, n);
++		ASSERT_EQ(EAGAIN, errno);
++	}
++}
++
++/* Test 2: peer closes with unread data */
++TEST_F(unix_sock, reset_unread_behavior)
++{
++	char buf[16] = {};
++	ssize_t n;
++
++	/* Send data that will remain unread */
++	send(self->client, "hello", 5, 0);
++
++	if (variant->socket_type == SOCK_DGRAM) {
++		/* No real connection, just close the server */
++		close(self->server);
++	} else {
++		self->child = accept(self->server, NULL, NULL);
++		ASSERT_LT(-1, self->child);
++
++		/* Peer closes before client reads */
++		close(self->child);
++	}
++
++	n = recv(self->client, buf, sizeof(buf), 0);
++	ASSERT_EQ(-1, n);
++
++	if (variant->socket_type == SOCK_STREAM ||
++	    variant->socket_type == SOCK_SEQPACKET) {
++		ASSERT_EQ(ECONNRESET, errno);
++	} else {
++		ASSERT_EQ(EAGAIN, errno);
++	}
++}
++
++/* Test 3: closing unaccepted (embryo) server socket should reset client. */
++TEST_F(unix_sock, reset_closed_embryo)
++{
++	char buf[16] = {};
++	ssize_t n;
++
++	if (variant->socket_type == SOCK_DGRAM)
++		SKIP(return, "This test only applies to SOCK_STREAM and SOCK_SEQPACKET");
++
++	/* Close server without accept()ing */
++	close(self->server);
++
++	n = recv(self->client, buf, sizeof(buf), 0);
++
++	ASSERT_EQ(-1, n);
++	ASSERT_EQ(ECONNRESET, errno);
++}
++
++TEST_HARNESS_MAIN
++
 -- 
 2.43.0
 
