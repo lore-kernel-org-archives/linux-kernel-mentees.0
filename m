@@ -1,176 +1,140 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F38C3081DE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 16:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E008D2FDC39
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Nov 2025 19:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763052390; cv=none; b=iK4M4q3sV4pOX+fA1FlHGSDx0FgJrJU/tpLjbAd46NfrG7u9UfDIHxOZokol6Fm8f0oUHJjYFx/dqAvPwL3y2v31X02AP76JSgombPvagw2EertRIufxnn9o6H38Qvp/AOy6z0toD4EhOI0Vhu1y38tAEGDWvzRipXfdk2BpTjM=
+	t=1763060496; cv=none; b=l8Ti4lTrX9SgOosBIBbXAsLAVUEyI+AQhjxl+zRjxOVE8Gt+qcZY2pKOTo6C55WdyBg3xTnPG9iW/4FVn7+5+ll5OVjh5RHjmoPz2ouSRA6fcpBF+SgWc9jS3fSWTDfKTpHe3WBfm7d3Z1lG8ESPcuviXYif42Kxly6QrkGDaYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763052390; c=relaxed/simple;
-	bh=3xOkFRyx8ajSderbZPHE6EZhwEEq/CfQCCTKeRWj+14=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YK5kLCyP4IJoNDeaGuKbAnimb5MOn2oWKAqFdzjaLtTN+72DKTbxuzgt3wEqsGZupZgnmH8xNGEnhv05C9naQK73sqF+tE3sXx1iSZlCsn82wc+yJsoRrlBIeZvNm4r2xDh0HSP/aqVvJArDbq8SwDlroJrOtXG9ETYs7ZV1KfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANlFB3Kd; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1763060496; c=relaxed/simple;
+	bh=fID0wlKsgbuZ7rLqJxq2UYo2wKKAiX+fNDsl08zChrM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TJfdknTlAbLtCE9p0HXTzJIsFx51ziw6R/P7MQ0Ei5aJ0oq9ALvjlpMJQ2yfM0x+TLXgc52pQiaaA6MyvSWwIdRzeH8o2eJK/jKRALacYQH15pKUdEP0T0MHJGJcOhJ0bXVnNs5cXT9oTGRH4ofeOOriaRTFGAppzRVWz01Fdzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nMPx89bl; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANlFB3Kd"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9549C61017
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 16:46:28 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id RDE_npvze9Jd for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Nov 2025 16:46:27 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=rppt@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 0F3DF60FE1
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0F3DF60FE1
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ANlFB3Kd
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 0F3DF60FE1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 16:46:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4BEF760103;
-	Thu, 13 Nov 2025 16:46:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79371C4CEF5;
-	Thu, 13 Nov 2025 16:46:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763052385;
-	bh=3xOkFRyx8ajSderbZPHE6EZhwEEq/CfQCCTKeRWj+14=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ANlFB3KdmGzi6pRPz/Msov+nrcs+dWmK2IqxUKObhB61zauElfiUr1UU7ct9t6nqV
-	 nnGxLC+uyoz35YrNU0U7ucFPGn5WdCgU3dB1+NAPf/KRBwj+BoZSGUZDgRuKbbn2Nk
-	 n586FtCTMEYY15fU08udtoAB5JdYmyiiG6bQdi7zhzqq+4QlJBLBG5PFPx+vNmB01Z
-	 ndTghWSxlJ/eNyMr4uZGhNvCaD7nfRRgOilnnh4bO8FS6VtKCQTVp4CD5IWbfd7QWP
-	 V9uOK3ldMMyng+FvbS4mcsqcq4fYWbnrWBzUCjvfK7j12aaF4way83aTHQYgFRkst7
-	 +R/ej7dlhrZwQ==
-Date: Thu, 13 Nov 2025 18:46:15 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-Cc: akpm@linux-foundation.org, peterx@redhat.com, david@redhat.com,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@suse.cz,
-	surenb@google.com, mhocko@suse.com, shuah@kernel.org,
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com, khalid@kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v2] selftests/mm/uffd: remove static address usage in
- shmem_allocate_area()
-Message-ID: <aRYLVyR6l-bGCxui@kernel.org>
-References: <20251113142050.108638-1-mehdi.benhadjkhelifa@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMPx89bl"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8b2627269d5so144036785a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Nov 2025 11:01:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763060494; x=1763665294; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MUv3ig7gKTZiQnNq1vm5mpP4T0fDG8gYNVbuktfcpJs=;
+        b=nMPx89blVKi2K02uznnACBjk9wggi8zf/zWDCfGX7Kack24QaPuKyVh+val7j4MOr6
+         r5XPv1fscW1TNJ0PqgNT1Cuhdd5+K/7j/xk73oocL4U0LCZPe3OOpamAzJTPOTYzjju6
+         icZvo4L4KNQlfNt/FuVhnho7AHPZUHWHKySukHnN3p3RzLIaAKUZQoRtM0G1T7TQxRaY
+         zf+nBQeFpY6ZA6aeqkE6ScQj/s94BPzizKyNILbBPUAOgLrqiGXSTupAX4OBkYMC3IPX
+         kz70JP5R62T5C4JCnMhla3L5e7fdmWIm6ZFTJU0hBQWBwvvu+W47MozQRyWewZOCqKCU
+         xbIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763060494; x=1763665294;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=MUv3ig7gKTZiQnNq1vm5mpP4T0fDG8gYNVbuktfcpJs=;
+        b=RKh0r7lpcu/HcWJ2KARa3W8Qpf0bpii+PeyjCUsyIz8wiKa8bPPbWLk/4p0YLUakq9
+         HOsxgXjbSZc4ueqTWB+Fp3nFBJBy9ITth83ph5XK8C4C1O15FxH1eCYb4FiAME27pQLR
+         cqZ/YKbYKl/YEPUYn8Qc2dqdOcYj5T+gOzNJ/2B8PRVLzpQFAp4oelbQNH+AecxXE23q
+         JYzroTVvreqRjxiHyKnJw/gIMgK7K2IsHaKpl55M0Btoo7CeTZZGflTxw73JKw8b0tps
+         zxzzIaUdmS1TWfB2W/+wWht1jZdHt0ELMYQsev1nq65prI2aIErna3mT1X6E5jptv4zP
+         LvQA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0I9jLQ1zVIGKjGjhkwE8CyiRNdtnZsga3mFCQ1OCAH6dC5FXxxFKKjuoMTUzw9gpbaKI17ptUA8LocOYTP8+i3X92jw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAlq4g8L8mi8wQE4QTQYVns/tE2yhDedvmKQb9OpCXTOMW4HbK
+	BZQHVjXVgFTbngvyMbh6FqQKx0bu63JVxflnOxXTndAQbvhp4rUI9HMW
+X-Gm-Gg: ASbGncti6YGyw2f4gS3FKF6s+GRxK2LiI1ZSYiqYbVxYE6agC2izFhF1B2Xi0VYNi68
+	ZaW7DqJA5dOnl6sxOA1RwxdC4Vt1Jpd+Q0Ip58GFPlhzr8IRBvD6JlgketHOjc3bHHtTZpzyX3/
+	1HZLh2/EyKx8lLq6Y/Hzt8u4/DUFQrBW+NbOblT3Ld21/k1pSedxgJdzs6eLpNOocvzLfNszCwE
+	co+dGNgti9VnyhJ1zdZgfnQg8w+rgSo2VoiViqyEfzQZsKwYGe8+qXIQ4+FupdrofuMMkdM8r2e
+	uL+DWPLk81n+WsPqc+tjmsfP8n5CbVDAw/oPso20szqSuJJcqBfsosEohrU14T6Wd6BFlBunV4m
+	gI9+qEJZ7AysS9Yk7U1Inb3D3egsA1ZcxWTgsreJa8fCFxGscyjcdLUDvDfphSZRnZHlitnLLSm
+	mEakxdww6qQNSqavf/83BbDtVELAICNUA=
+X-Google-Smtp-Source: AGHT+IGjX3HXqOY5exKe57ivPtKqQ/8qdqdt8a/LEsPU4MJgln+dlHP9S2HThtsEQtvScJRygs77TQ==
+X-Received: by 2002:a05:620a:4614:b0:85c:3bcf:e843 with SMTP id af79cd13be357-8b2c31b46d8mr51876485a.43.1763060490083;
+        Thu, 13 Nov 2025 11:01:30 -0800 (PST)
+Received: from rpthibeault-XPS-13-9305.. ([23.233.177.113])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b2aeecb087sm187043085a.26.2025.11.13.11.01.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Nov 2025 11:01:29 -0800 (PST)
+From: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+To: cem@kernel.org,
+	djwong@kernel.org,
+	chandanbabu@kernel.org,
+	bfoster@redhat.com
+Cc: linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com,
+	Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+Subject: [PATCH v3] xfs: validate log record version against superblock log version
+Date: Thu, 13 Nov 2025 14:01:13 -0500
+Message-ID: <20251113190112.2214965-2-rpthibeault@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <aRUIBj3ntHM1rcfo@dread.disaster.area>
+References: <aRUIBj3ntHM1rcfo@dread.disaster.area>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251113142050.108638-1-mehdi.benhadjkhelifa@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 13, 2025 at 03:20:33PM +0100, Mehdi Ben Hadj Khelifa wrote:
-> The current shmem_allocate_area() implementation uses a hardcoded virtual
-> base address (BASE_PMD_ADDR) as a hint for mmap() when creating shmem-backed
-> test areas. This approach is fragile and may fail on systems with ASLR or
-> different virtual memory layouts, where the chosen address is unavailable.
-> 
-> Replace the static base address with a dynamically reserved address range
-> obtained via mmap(NULL, ..., PROT_NONE). The memfd-backed areas and their
-> alias are then mapped into that reserved region using MAP_FIXED, preserving
-> the original layout and aliasing semantics while avoiding collisions with
-> unrelated mappings.
-> 
-> This change improves robustness and portability of the test suite without
-> altering its behavior or coverage.
-> 
-> Suggested-by: Mike Rapoport <rppt@kernel.org>
-> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Syzbot creates a fuzzed record where xfs_has_logv2() but the
+xlog_rec_header h_version != XLOG_VERSION_2. This causes a
+KASAN: slab-out-of-bounds read in xlog_do_recovery_pass() ->
+xlog_recover_process() -> xlog_cksum().
 
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Fix by adding a check to xlog_valid_rec_header() to abort journal
+recovery if the xlog_rec_header h_version does not match the super
+block log version.
 
-> ---
-> Testing(Retested):
-> A diff between running the mm selftests on 6.18-rc5 from before and after
-> the change show no regression on x86_64 architecture with 32GB DDR5 RAM.
-> 
-> ChangeLog:
-> 
-> Changes from v1:
-> 
-> -Implemented Mike's suggestions to make cleanup code more clear.
-> 
-> Link:https://lore.kernel.org/all/20251111205739.420009-1-mehdi.benhadjkhelifa@gmail.com/
-> 
->  tools/testing/selftests/mm/uffd-common.c | 24 +++++++++++++++---------
->  1 file changed, 15 insertions(+), 9 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/mm/uffd-common.c b/tools/testing/selftests/mm/uffd-common.c
-> index 994fe8c03923..edd02328f77b 100644
-> --- a/tools/testing/selftests/mm/uffd-common.c
-> +++ b/tools/testing/selftests/mm/uffd-common.c
-> @@ -10,7 +10,6 @@
->  uffd_test_ops_t *uffd_test_ops;
->  uffd_test_case_ops_t *uffd_test_case_ops;
->  
-> -#define BASE_PMD_ADDR ((void *)(1UL << 30))
->  
->  /* pthread_mutex_t starts at page offset 0 */
->  pthread_mutex_t *area_mutex(char *area, unsigned long nr, uffd_global_test_opts_t *gopts)
-> @@ -142,30 +141,37 @@ static int shmem_allocate_area(uffd_global_test_opts_t *gopts, void **alloc_area
->  	unsigned long offset = is_src ? 0 : bytes;
->  	char *p = NULL, *p_alias = NULL;
->  	int mem_fd = uffd_mem_fd_create(bytes * 2, false);
-> +	size_t region_size = bytes * 2 + hpage_size;
->  
-> -	/* TODO: clean this up.  Use a static addr is ugly */
-> -	p = BASE_PMD_ADDR;
-> -	if (!is_src)
-> -		/* src map + alias + interleaved hpages */
-> -		p += 2 * (bytes + hpage_size);
-> +	void *reserve = mmap(NULL, region_size, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS,
-> +			-1, 0);
-> +	if (reserve == MAP_FAILED) {
-> +		close(mem_fd);
-> +		return -errno;
-> +	}
-> +
-> +	p = reserve;
->  	p_alias = p;
->  	p_alias += bytes;
->  	p_alias += hpage_size;  /* Prevent src/dst VMA merge */
->  
-> -	*alloc_area = mmap(p, bytes, PROT_READ | PROT_WRITE, MAP_SHARED,
-> +	*alloc_area = mmap(p, bytes, PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED,
->  			   mem_fd, offset);
->  	if (*alloc_area == MAP_FAILED) {
->  		*alloc_area = NULL;
-> +		munmap(reserve, region_size);
-> +		close(mem_fd);
->  		return -errno;
->  	}
->  	if (*alloc_area != p)
->  		err("mmap of memfd failed at %p", p);
->  
-> -	area_alias = mmap(p_alias, bytes, PROT_READ | PROT_WRITE, MAP_SHARED,
-> +	area_alias = mmap(p_alias, bytes, PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED,
->  			  mem_fd, offset);
->  	if (area_alias == MAP_FAILED) {
-> -		munmap(*alloc_area, bytes);
->  		*alloc_area = NULL;
-> +		munmap(reserve, region_size);
-> +		close(mem_fd);
->  		return -errno;
->  	}
->  	if (area_alias != p_alias)
-> -- 
-> 2.51.2
-> 
+A file system with a version 2 log will only ever set
+XLOG_VERSION_2 in its headers (and v1 will only ever set V_1), so if
+there is any mismatch, either the journal or the superblock as been
+corrupted and therefore we abort processing with a -EFSCORRUPTED error
+immediately.
 
+Reported-by: syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=9f6d080dece587cfdd4c
+Tested-by: syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
+Fixes: 45cf976008dd ("xfs: fix log recovery buffer allocation for the legacy h_size fixup")
+Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+---
+changelog
+v1 -> v2: 
+- reject the mount for h_size > XLOG_HEADER_CYCLE_SIZE && !XLOG_VERSION_2
+v2 -> v3:
+- abort journal recovery if the xlog_rec_header h_version does not match 
+the super block log version
+- heavily modify commit description
+
+ fs/xfs/xfs_log_recover.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/fs/xfs/xfs_log_recover.c b/fs/xfs/xfs_log_recover.c
+index e6ed9e09c027..b9a708673965 100644
+--- a/fs/xfs/xfs_log_recover.c
++++ b/fs/xfs/xfs_log_recover.c
+@@ -2963,6 +2963,14 @@ xlog_valid_rec_header(
+ 			__func__, be32_to_cpu(rhead->h_version));
+ 		return -EFSCORRUPTED;
+ 	}
++	if (XFS_IS_CORRUPT(log->l_mp, xfs_has_logv2(log->l_mp) !=
++			   !!(be32_to_cpu(rhead->h_version) & XLOG_VERSION_2))) {
++		xfs_warn(log->l_mp,
++"%s: xlog_rec_header h_version (%d) does not match sb log version (%d)",
++			__func__, be32_to_cpu(rhead->h_version),
++			xfs_has_logv2(log->l_mp) ? 2 : 1);
++		return -EFSCORRUPTED;
++	}
+ 
+ 	/*
+ 	 * LR body must have data (or it wouldn't have been written)
 -- 
-Sincerely yours,
-Mike.
+2.43.0
+
