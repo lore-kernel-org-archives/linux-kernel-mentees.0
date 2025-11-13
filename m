@@ -1,215 +1,154 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284EB33F8D2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 13:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC610342514
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Nov 2025 16:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763040296; cv=none; b=taqBYq1lKHtpY+/9LkBepi3ufNfBozFgULb/bZ216LGYL4mPh3pOMOr27sNj1EkDuJBbSgEmZJ0GdsLihmmIY5Lf79N/kZNgJODn7NsUHVuTQ/zKFHHAq+knUx+5xhDIbV9sTsT23MNwWzQy3F8UM/trgwA4SQUmFktoVd+sSd4=
+	t=1763051953; cv=none; b=BOg5p6urg/x2zEuSFfapFAoGbApfXQBVJA1aq8bSo1NsiQgUfLhUysv+ZVy7vhNV3qfULYJunkKQYw3/+BrGWXEZnmcIcCQMV7Lu+dfQZKQsittbNjy1HI85p6NM36PKeKnUQZH1o0B33AD6XEGcFWeW89F69VaoZjwongLHP8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763040296; c=relaxed/simple;
-	bh=/G842q39ITL2+dv0er/oi50XuXabVeCFAWGwYX/iW3s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AIj/o6/P4DFPArfgkpN8PH132ok3vCZVxdAbBerbQdn9o9fzPgUYigP7v45MiK5bWw4adcg3UR9L3n8EEpyYGCNkIgRWJGJ2r+hZ/ULCnF0v6CEh64LE/nVLwIs5o4Z0fKa2fiBRKcpXbsYRsnmtSdGaoVeWgR9RSeeOOkCQepU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bx7PhIs1; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1763051953; c=relaxed/simple;
+	bh=jMiV4RbMNeOesGqKgORN1iKerZRElW5XEIqKQrbUT2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IpQgCQpXQtFZheJgA+Hxkb2YTEzgaKiWET9z7ez2f1P8kcbdLqS2dNkH1l1jjxWSOjq6RVfpb3oFB8xDRV/Rk6Ot8LK6hLburVc5VetyJYZCVg/5jewEZx/byVcAi0CuSl8qZunOSDtPmzizkAjYGBLQQ6IbtBUGyESkfV1u7og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dc5qfme3; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bx7PhIs1"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id B1798808AC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 13:24:54 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 6Nc6IIA3UMpI for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Nov 2025 13:24:54 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32e; helo=mail-wm1-x32e.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org CEC2B80898
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CEC2B80898
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Bx7PhIs1
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CEC2B80898
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 13:24:53 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-471d83da4d1so277275e9.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 05:24:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dc5qfme3"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-29555b384acso11115455ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Nov 2025 08:39:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763040292; x=1763645092; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B7jIez1MXpJkQUncD4sP1e3Goi5dMHittA/PGNqTbAk=;
-        b=Bx7PhIs1iKOjZNjbflGslbnPWzlDYd3IdDG2+ACTLhBPMcl5ZAstIe/TvKnJWRfBtr
-         6ac845Hupj1k3UG2zGPxi7aiMmTRloAlQ9Lzcv1v1ZNOLCjLXJpi4K9OX5gVl12vUR26
-         cE/iGaJG5hwK9K/dWrcyJcgPy81GFBInlmRQUF6LhB0poYrwcpS8eJs0rC29UCGjA0Sw
-         dnRooMUMyvaxrFoCi20sOhiBLXXj6za/gq7pCSM3uiyZHOcxp9rcw+/TtsC2ynne50CS
-         bi3Sx+EQEVgPX8wpznWGE3lCpkj/4ZrxiMF5tWJCduv/QX+jq0cridcTf0rdF6VqAil5
-         zh4A==
+        d=gmail.com; s=20230601; t=1763051951; x=1763656751; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=S/ucMNEdTPs4tdBdIab98EcaF+7fPlknQB7RoGYRpzI=;
+        b=dc5qfme3MVaLi5Ho2h6bHOrD/IwMmDfWFyAGS5/7YYoHE4KeN9Ni29Id5Ft2fDTm8a
+         J1AAy7FWOxqpqg+8BdaVV0dfGdf91kbEgVTuqJaGz7LOLKGfAw5y0eO3NYeD8ooq+E0o
+         r/RxQ6G739Q9tTHpEkuElLI/FLsD+qXDxCkFtOywW0FzTwyxbx5MteijZ5RvJqgE+PpB
+         MgfumjwLNetEn7zpiA/ytsdF4GA0WtTayOq4VifFPtIT/MDhHZXq5t3y+sj/zcN5JMgE
+         tsX6F7/+TU1s3qn1+A3Qe3to2vznMzNBmfegB+3Zppumt8gYy1PRCw9my0XZE85toM0k
+         3D9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763040292; x=1763645092;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=B7jIez1MXpJkQUncD4sP1e3Goi5dMHittA/PGNqTbAk=;
-        b=AmUAfAn+Qi2MfdAHj7H9U3VhYfnX6kGre50vXNMVKqizS9WjJ1KcL8gXGyQMavdgsD
-         pCEolDM7nN5HJ0HhMRdQxwQkU5QmitBOKBhAdDLDn8RQq6G9Nf6ojlvmBQLdXuSYgGAQ
-         93F6zAZU//vT5mqHly1eRZD0C+895zBmSPxvT40xqH7hfD+pHkAt6jz440rsdg/6ewnS
-         FdQ/0u5wxyo7PBZ3Ok+RkdbRawcWgR/d+r0sR75ZFnKpKfuaLK4oDebVuuDGgBHowKGM
-         w2SeGYQWOxbOW7MDfI8Y3sffb4rQ8ieo07Pa7ydtnqKGPQWuqtvemWkYmgih0oXU0RHE
-         Y01g==
-X-Forwarded-Encrypted: i=1; AJvYcCUCffYxmYL0rVoOaBRGj7Sfx0fdwnEMmPjNHWblnEOHm8jnjoQstbENenMscGsDEz/wdKsBBR5qfnFR2EPWzKOXrsF31w==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzE5+70Vm0/Fv8z6SLPYo5YD6xxaaOoBHHGNjuLMSyKqjShqgad
-	e1bCgZ7scWN/+TtW8qT650SOxmPvSAoDviKf6BsDmYdSw3WQubRMxt3c
-X-Gm-Gg: ASbGnctRJWNyEM6L455m+nRc5yzf10T8aPFX6XQGPRJ5Rt6AwE2EeoMuLDtHVAJIMMY
-	VHhFMewbKMy8++1SAFA014lV6SlwkIMFyzcsBRcruYihFXBr7N7wDzi+Ezox2LRsF+PlPKgr47O
-	TsbTboVePTORNLIq3xI4S3kbLZ9YFQTu5DOIuwNR8m276hBfrL1rCyJA1WwPDbL2IdbM02Fk+Yc
-	0VcMxUh6995G9YfKe5lWba7Hj/iQ1h9jvkgWu9dywonDDCjEB1julqO3RdtQ1yap9idsSJPMapQ
-	UTLyvjwsOGOADNY3XSOjffTOBk7q8gXrmRnBb/qVDVqDMwcx1FY2DaWQ7Q9hetejZDRP8NXVJ3a
-	0v96ZdzBcKe8rS6Nf5hG0qwnaffIJpD92Ow5UpNdXHlmcAq8ElGJ7jhWNd0BGW8+UW+XdS8wDko
-	auU5RwosWU58pxzPJMDzi1vQ==
-X-Google-Smtp-Source: AGHT+IEoYTRrkk4/MsqCg1hhWamxmkk6fIEwfucpjkEgmd6ISTBSqIjpMm6wzZyTSudgBXaqmBB8Xg==
-X-Received: by 2002:a05:600c:3b0a:b0:477:555b:3411 with SMTP id 5b1f17b1804b1-477870482f7mr32516245e9.1.1763040291609;
-        Thu, 13 Nov 2025 05:24:51 -0800 (PST)
-Received: from [192.168.1.105] ([196.239.132.233])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47787ea3b56sm88868715e9.16.2025.11.13.05.24.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Nov 2025 05:24:51 -0800 (PST)
-Message-ID: <2f26b1a4-4dfc-4a8f-bebe-5be77107e4f4@gmail.com>
-Date: Thu, 13 Nov 2025 15:24:34 +0100
+        d=1e100.net; s=20230601; t=1763051951; x=1763656751;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S/ucMNEdTPs4tdBdIab98EcaF+7fPlknQB7RoGYRpzI=;
+        b=Cb0c6Hu4ozAi0I+GYXmGTQrEMRty6p1yUIe+r7ti5sIueTmsaKOU453W8kncxdxgeU
+         w0piKrdmAmmuOxW9rlATIn64NaRRls8jk/yNANBpYpGVfJCk14ZPJ5IUfdNMi7X/Bi9r
+         cE4jE2FlTGqJ5dqHUvGAxRMXPPlkV+CHvY8j9CAyz44oZ6QOdu1TgfttXc+YRTxcHztB
+         1vmMMOLrPyPOwD8O65Vhyof0WOjo1v25GfAAYsBBv5Up5U5YH6BkYk7oWjQ0tVq2r9Rs
+         1GI2Ni7jJLGv0dSrV/dZAoPRd7kxFOiGFvp1/3P3bRFCt4WStSg+QCRkqw5BknLf583j
+         GXWA==
+X-Forwarded-Encrypted: i=1; AJvYcCVveHoIRf0tOxrJmlbFd6axBB7YZiAg2En4aH0v088stQpN5s19ZA69Y3V4k+5Cn5mvy/U2tBHEPui7G8elZ/0p60zjZg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgpDQqlharffQB6Wnh4ai/NwqQEeDnTqfJvY1s6g9VtzP/yak+
+	H8XgpZEMVmZkpuMyT4GGvF9mVyzAoZo5JGhxIr48JGY5Eo0ejULSjo2i
+X-Gm-Gg: ASbGncv2gCjUZktcas7IZaEDVDdQTbM8KLHNDr2uusbJiUKXhfpDkS8VgLjC5LqKX0V
+	XNdUgNXGrm7FcYKIk3ev6FSqYMck3ZrTqamwxENnjgPfHTDyVATPZU5SEHuO+5YZShxxcLIcRfH
+	qDv8A7yzXFE9tkBjiUZ+pkIRXm5B7OOQTckyYb3IZcy1HG1qNvbS1vNIAy+lKNDDdsvjLTgbs6r
+	0XG7b0DcTwoMDp0EX7Gk/fZk+pgdgrwS2N2f4IHLu4jaQV1c/dJ5fwJXOXa8sry0trIDsc4TRFV
+	GY1kgac3RHXWo9qcMvchtMfIebiVG7yEyeaf6Lw+nchlfpap9JB/cpDGaYa2XlCYIg1FGhGydiB
+	IiPmyyBAgml/DFTJaeEm163IFfhIY4aaModf2CKu5rikmq001NKeSVxKUSlClxsgETAZm8Sd/n9
+	PUpFg=
+X-Google-Smtp-Source: AGHT+IEs0sHw9yn/h78U4VzfNtAGyDH+Vb8Xjj0sh1kFUc43l7I1lswC+8d2RPaL8vbpculyPwUdyg==
+X-Received: by 2002:a17:903:1a28:b0:298:485d:557d with SMTP id d9443c01a7336-2984edcaaaamr90085595ad.45.1763051950935;
+        Thu, 13 Nov 2025 08:39:10 -0800 (PST)
+Received: from localhost ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2cce59sm30165515ad.105.2025.11.13.08.39.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Nov 2025 08:39:10 -0800 (PST)
+Date: Thu, 13 Nov 2025 22:09:08 +0530
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: gregkh@linuxfoundation.org, snovitoll@gmail.com, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+	david.hunter.linux@gmail.com, khalid@kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	syzbot+d8fd35fa6177afa8c92b@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usb: raw-gadget: cap raw_io transfer length to
+ KMALLOC_MAX_SIZE
+Message-ID: <u3okc42qhpzi2uorrdei3jigq5wwgdqb66u3u5khtuzxhwbamx@f3dh3fivx3uo>
+References: <20251028165659.50962-1-krishnagopi487@gmail.com>
+ <CA+fCnZeZ+c15X8BXg59ppbEmEUvp64aMaTPjXARyO_0x6KL+eQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] selftests/mm/uffd: remove static address usage in
- shmem_allocate_area()
-To: Mike Rapoport <rppt@kernel.org>
-Cc: akpm@linux-foundation.org, peterx@redhat.com, david@redhat.com,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@suse.cz,
- surenb@google.com, mhocko@suse.com, shuah@kernel.org, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20251111205739.420009-1-mehdi.benhadjkhelifa@gmail.com>
- <aRXDbk9ajOhH7ReX@kernel.org>
-Content-Language: en-US
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-In-Reply-To: <aRXDbk9ajOhH7ReX@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+fCnZeZ+c15X8BXg59ppbEmEUvp64aMaTPjXARyO_0x6KL+eQ@mail.gmail.com>
 
-On 11/13/25 12:39 PM, Mike Rapoport wrote:
-> On Tue, Nov 11, 2025 at 09:54:27PM +0100, Mehdi Ben Hadj Khelifa wrote:
->> The current shmem_allocate_area() implementation uses a hardcoded virtual
->> base address(BASE_PMD_ADDR) as a hint for mmap() when creating shmem-backed
->> test areas. This approach is fragile and may fail on systems with ASLR or
->> different virtual memory layouts, where the chosen address is unavailable.
->>
->> Replace the static base address with a dynamically reserved address range
->> obtained via mmap(NULL, ..., PROT_NONE). The memfd-backed areas and their
->> alias are then mapped into that reserved region using MAP_FIXED, preserving
->> the original layout and aliasing semantics while avoiding collisions with
->> unrelated mappings.
->>
->> This change improves robustness and portability of the test suite without
->> altering its behavior or coverage.
->>
->> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
->> ---
->> Testing:
->> A diff between running the mm selftests on 6.18-rc5 from before and after
->> the change show no regression on x86_64 architecture with 32GB DDR5 RAM.
->>   tools/testing/selftests/mm/uffd-common.c | 25 +++++++++++++++---------
->>   1 file changed, 16 insertions(+), 9 deletions(-)
->>
->> diff --git a/tools/testing/selftests/mm/uffd-common.c b/tools/testing/selftests/mm/uffd-common.c
->> index 994fe8c03923..492b21c960bb 100644
->> --- a/tools/testing/selftests/mm/uffd-common.c
->> +++ b/tools/testing/selftests/mm/uffd-common.c
->> @@ -6,11 +6,11 @@
->>    */
->>   
->>   #include "uffd-common.h"
->> +#include "asm-generic/mman-common.h"
-> 
-> Please drop this.
-> There's already include <sys/mman.h> via uffd-common.h/vm_util.h.
-> 
->>   
->>   uffd_test_ops_t *uffd_test_ops;
->>   uffd_test_case_ops_t *uffd_test_case_ops;
->>   
->> -#define BASE_PMD_ADDR ((void *)(1UL << 30))
->>   
->>   /* pthread_mutex_t starts at page offset 0 */
->>   pthread_mutex_t *area_mutex(char *area, unsigned long nr, uffd_global_test_opts_t *gopts)
->> @@ -142,30 +142,37 @@ static int shmem_allocate_area(uffd_global_test_opts_t *gopts, void **alloc_area
->>   	unsigned long offset = is_src ? 0 : bytes;
->>   	char *p = NULL, *p_alias = NULL;
->>   	int mem_fd = uffd_mem_fd_create(bytes * 2, false);
->> +	size_t region_size = bytes * 2 + hpage_size;
->>   
->> -	/* TODO: clean this up.  Use a static addr is ugly */
->> -	p = BASE_PMD_ADDR;
->> -	if (!is_src)
->> -		/* src map + alias + interleaved hpages */
->> -		p += 2 * (bytes + hpage_size);
->> +	void *reserve = mmap(NULL, region_size, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS,
->> +			-1, 0);
->> +	if (reserve == MAP_FAILED) {
->> +		close(mem_fd);
->> +		return -errno;
->> +	}
->> +
->> +	p = (char *)reserve;
-> 
-> No need for casting here.
-> 
->>   	p_alias = p;
->>   	p_alias += bytes;
->>   	p_alias += hpage_size;  /* Prevent src/dst VMA merge */
->>   
->> -	*alloc_area = mmap(p, bytes, PROT_READ | PROT_WRITE, MAP_SHARED,
->> +	*alloc_area = mmap(p, bytes, PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED,
->>   			   mem_fd, offset);
->>   	if (*alloc_area == MAP_FAILED) {
->> +		munmap(reserve, region_size);
-> 
-> I think it'll be more readable to put munmap() after setting *alloc_area to
-> NULL.
-> 
->>   		*alloc_area = NULL;
->> +		close(mem_fd);
->>   		return -errno;
->>   	}
->>   	if (*alloc_area != p)
->>   		err("mmap of memfd failed at %p", p);
->>   
->> -	area_alias = mmap(p_alias, bytes, PROT_READ | PROT_WRITE, MAP_SHARED,
->> +	area_alias = mmap(p_alias, bytes, PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED,
->>   			  mem_fd, offset);
->>   	if (area_alias == MAP_FAILED) {
->> -		munmap(*alloc_area, bytes);
->> +		munmap(reserve, region_size);
-> 
-> Here as well.
-> 
->>   		*alloc_area = NULL;
->> +		close(mem_fd);
->>   		return -errno;
->>   	}
->>   	if (area_alias != p_alias)
-Thank you for your suggestions, A v2 has already been sent out with your 
-suggestions.
-Best Regards,
-Mehdi Ben Hadj Khelifa>> --
->> 2.51.2
->>
-> 
+On Tue, Oct 28, 2025 at 09:15:47PM +0100, Andrey Konovalov wrote:
 
+> On Tue, Oct 28, 2025 at 5:57 PM Gopi Krishna Menon
+> <krishnagopi487@gmail.com> wrote:
+> >
+> > The previous commit removed the PAGE_SIZE limit on transfer length of
+> > raw_io buffer in order to avoid any problems with emulating USB devices
+> > whose full configuration descriptor exceeds PAGE_SIZE in length. However
+> > this also removes the upperbound on user supplied length, allowing very
+> > large values to be passed to the allocator.
+> >
+> > syzbot on fuzzing the transfer length with very large value (1.81GB)
+> > results in kmalloc() to fall back to the page allocator, which triggers
+> > a kernel warning as the page allocator cannot handle allocations more
+> > than MAX_PAGE_ORDER/KMALLOC_MAX_SIZE.
+> 
+> Ah, right.
+> 
+> >
+> > Since there is no limit imposed on the size of buffer for both control
+> > and non control transfers, cap the raw_io transfer length to
+> > KMALLOC_MAX_SIZE and return -EINVAL for larger transfer length to
+> > prevent any warnings from the page allocator.
+> >
+> > Fixes: 37b9dd0d114a ("usb: raw-gadget: do not limit transfer length")
+> > Tested-by: syzbot+d8fd35fa6177afa8c92b@syzkaller.appspotmail.com
+> > Reported-by: syzbot+d8fd35fa6177afa8c92b@syzkaller.appspotmail.com
+> > Closes: https://lore.kernel.org/all/68fc07a0.a70a0220.3bf6c6.01ab.GAE@google.com/
+> > Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+> > ---
+> >  drivers/usb/gadget/legacy/raw_gadget.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/usb/gadget/legacy/raw_gadget.c b/drivers/usb/gadget/legacy/raw_gadget.c
+> > index b71680c58de6..46f343ba48b3 100644
+> > --- a/drivers/usb/gadget/legacy/raw_gadget.c
+> > +++ b/drivers/usb/gadget/legacy/raw_gadget.c
+> > @@ -40,6 +40,7 @@ MODULE_LICENSE("GPL");
+> >
+> >  static DEFINE_IDA(driver_id_numbers);
+> >  #define DRIVER_DRIVER_NAME_LENGTH_MAX  32
+> > +#define USB_RAW_IO_LENGTH_MAX KMALLOC_MAX_SIZE
+> >
+> >  #define RAW_EVENT_QUEUE_SIZE   16
+> >
+> > @@ -667,6 +668,8 @@ static void *raw_alloc_io_data(struct usb_raw_ep_io *io, void __user *ptr,
+> >                 return ERR_PTR(-EINVAL);
+> >         if (!usb_raw_io_flags_valid(io->flags))
+> >                 return ERR_PTR(-EINVAL);
+> > +       if (io->length > USB_RAW_IO_LENGTH_MAX)
+> > +               return ERR_PTR(-EINVAL);
+> >         if (get_from_user)
+> >                 data = memdup_user(ptr + sizeof(*io), io->length);
+> >         else {
+> > --
+> > 2.43.0
+> >
+> 
+> Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+> 
+> Thank you!
+
+Hi,
+
+Just following up on this patch to check its status.
+Thanks again to Andrey Konovalov for the earlier review. Please let me
+know if any further changes are required from my side.
+
+Thanks,
+Gopi Krishna Menon
