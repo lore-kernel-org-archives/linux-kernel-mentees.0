@@ -1,81 +1,94 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E008D2FDC39
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Nov 2025 19:01:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212E52EA490
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 20:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763060496; cv=none; b=l8Ti4lTrX9SgOosBIBbXAsLAVUEyI+AQhjxl+zRjxOVE8Gt+qcZY2pKOTo6C55WdyBg3xTnPG9iW/4FVn7+5+ll5OVjh5RHjmoPz2ouSRA6fcpBF+SgWc9jS3fSWTDfKTpHe3WBfm7d3Z1lG8ESPcuviXYif42Kxly6QrkGDaYE=
+	t=1763064593; cv=none; b=nlAxxQAztdANtu6CgGqB9GmpGBH6CQfqA1XH5ZLEkSJfP1CwBPknmXCOgSyJKodvJcrdy1VlViN0HGcTnjM69TQ5QxAikbPGa0cZgGWnoeORivvHLffUwQJYZy5KfbQ3fKTYBJ1XMXJ+4BMdT0zHaMRTcWkJ0/9kaFMeX10NQXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763060496; c=relaxed/simple;
-	bh=fID0wlKsgbuZ7rLqJxq2UYo2wKKAiX+fNDsl08zChrM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TJfdknTlAbLtCE9p0HXTzJIsFx51ziw6R/P7MQ0Ei5aJ0oq9ALvjlpMJQ2yfM0x+TLXgc52pQiaaA6MyvSWwIdRzeH8o2eJK/jKRALacYQH15pKUdEP0T0MHJGJcOhJ0bXVnNs5cXT9oTGRH4ofeOOriaRTFGAppzRVWz01Fdzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nMPx89bl; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763064593; c=relaxed/simple;
+	bh=QKdBCUlNwtR+F2VgsVfMTt/KnsuIIdUNrx84lK3lLbE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VVpA0E66JBY4RmKrQGPn53XO1SDPdarVga+m00Qivx8u/MUeZ5O+SxJBTWfOs6ee6a7dzb8H4tIfxngWZxQM1koFnIVqguc10WFKbmGsU9VgY1sov8g9sR0zNwiNHn3zAX0/dFG6VM+Ot2deYNk1Bdzz+jMvyaEDOiMKLeLz9ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eNL6NZDO; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMPx89bl"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8b2627269d5so144036785a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Nov 2025 11:01:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eNL6NZDO"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id AE34680BDC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 20:09:51 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id cpId6Wlytfjs for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 13 Nov 2025 20:09:51 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62c; helo=mail-pl1-x62c.google.com; envelope-from=nirbhay.lkd@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 1733880BCE
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1733880BCE
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=eNL6NZDO
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 1733880BCE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 20:09:50 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-298250d7769so7716645ad.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 12:09:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763060494; x=1763665294; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MUv3ig7gKTZiQnNq1vm5mpP4T0fDG8gYNVbuktfcpJs=;
-        b=nMPx89blVKi2K02uznnACBjk9wggi8zf/zWDCfGX7Kack24QaPuKyVh+val7j4MOr6
-         r5XPv1fscW1TNJ0PqgNT1Cuhdd5+K/7j/xk73oocL4U0LCZPe3OOpamAzJTPOTYzjju6
-         icZvo4L4KNQlfNt/FuVhnho7AHPZUHWHKySukHnN3p3RzLIaAKUZQoRtM0G1T7TQxRaY
-         zf+nBQeFpY6ZA6aeqkE6ScQj/s94BPzizKyNILbBPUAOgLrqiGXSTupAX4OBkYMC3IPX
-         kz70JP5R62T5C4JCnMhla3L5e7fdmWIm6ZFTJU0hBQWBwvvu+W47MozQRyWewZOCqKCU
-         xbIw==
+        d=gmail.com; s=20230601; t=1763064590; x=1763669390; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gpG9MFDfcOAig9lTA5rz8MkmRR9OX2bi+Q5guu7HZEs=;
+        b=eNL6NZDOCzM2G5OrOKgBy+lx0R4Vb46dZQqogy+9/xTcNSWWzCSwB9svUJAuqfhH72
+         mSm068Fb0Khk/nHwrbtULY6Otb9mVHbMedQuFe6lU/10dd3WmATWUpu/4sPtPM4X61Ei
+         BKvES4EM6fZyGDu6sOPVMOxgL+GPO1oLqnQ/1tT/+q3OWGPG3sXnlZcWlCGKPcEH5Tq2
+         vH/iQDcZ9uknieW80ym9/tNk3gYlBBV8sztm81KFCWPVEw0k3ULX8JJJMe0rMozfRo96
+         WmUpt5eM3yzoNBxKxtmlIDVmqMa0XMZxwAeAfQAxM0hc0QmeeMq05eRkRetbII4LTlFA
+         NOhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763060494; x=1763665294;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MUv3ig7gKTZiQnNq1vm5mpP4T0fDG8gYNVbuktfcpJs=;
-        b=RKh0r7lpcu/HcWJ2KARa3W8Qpf0bpii+PeyjCUsyIz8wiKa8bPPbWLk/4p0YLUakq9
-         HOsxgXjbSZc4ueqTWB+Fp3nFBJBy9ITth83ph5XK8C4C1O15FxH1eCYb4FiAME27pQLR
-         cqZ/YKbYKl/YEPUYn8Qc2dqdOcYj5T+gOzNJ/2B8PRVLzpQFAp4oelbQNH+AecxXE23q
-         JYzroTVvreqRjxiHyKnJw/gIMgK7K2IsHaKpl55M0Btoo7CeTZZGflTxw73JKw8b0tps
-         zxzzIaUdmS1TWfB2W/+wWht1jZdHt0ELMYQsev1nq65prI2aIErna3mT1X6E5jptv4zP
-         LvQA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0I9jLQ1zVIGKjGjhkwE8CyiRNdtnZsga3mFCQ1OCAH6dC5FXxxFKKjuoMTUzw9gpbaKI17ptUA8LocOYTP8+i3X92jw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxAlq4g8L8mi8wQE4QTQYVns/tE2yhDedvmKQb9OpCXTOMW4HbK
-	BZQHVjXVgFTbngvyMbh6FqQKx0bu63JVxflnOxXTndAQbvhp4rUI9HMW
-X-Gm-Gg: ASbGncti6YGyw2f4gS3FKF6s+GRxK2LiI1ZSYiqYbVxYE6agC2izFhF1B2Xi0VYNi68
-	ZaW7DqJA5dOnl6sxOA1RwxdC4Vt1Jpd+Q0Ip58GFPlhzr8IRBvD6JlgketHOjc3bHHtTZpzyX3/
-	1HZLh2/EyKx8lLq6Y/Hzt8u4/DUFQrBW+NbOblT3Ld21/k1pSedxgJdzs6eLpNOocvzLfNszCwE
-	co+dGNgti9VnyhJ1zdZgfnQg8w+rgSo2VoiViqyEfzQZsKwYGe8+qXIQ4+FupdrofuMMkdM8r2e
-	uL+DWPLk81n+WsPqc+tjmsfP8n5CbVDAw/oPso20szqSuJJcqBfsosEohrU14T6Wd6BFlBunV4m
-	gI9+qEJZ7AysS9Yk7U1Inb3D3egsA1ZcxWTgsreJa8fCFxGscyjcdLUDvDfphSZRnZHlitnLLSm
-	mEakxdww6qQNSqavf/83BbDtVELAICNUA=
-X-Google-Smtp-Source: AGHT+IGjX3HXqOY5exKe57ivPtKqQ/8qdqdt8a/LEsPU4MJgln+dlHP9S2HThtsEQtvScJRygs77TQ==
-X-Received: by 2002:a05:620a:4614:b0:85c:3bcf:e843 with SMTP id af79cd13be357-8b2c31b46d8mr51876485a.43.1763060490083;
-        Thu, 13 Nov 2025 11:01:30 -0800 (PST)
-Received: from rpthibeault-XPS-13-9305.. ([23.233.177.113])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b2aeecb087sm187043085a.26.2025.11.13.11.01.28
+        d=1e100.net; s=20230601; t=1763064590; x=1763669390;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gpG9MFDfcOAig9lTA5rz8MkmRR9OX2bi+Q5guu7HZEs=;
+        b=GLuJAbfL/296KAb7Df0i/qSP0u4HRIJwGFr4AHymHX0zZVHcWotHsS+0SZPHl7uJzG
+         S6IUCduJ70zIGP/zn/hjdFYN/jZ1sGFS3ErFUKpRK8dKF40GPT5Aq/t2HMWj29AMGIVA
+         O/qbRUz1oSPTMbauuvlfkkrv6RTg9EnJaDJ/zQLbgCQ8f+pj55IUb8f+xFdnCiS1rJAr
+         W5y6frN0ckEoBu9RXfSOkBuVR8QYd+Zx76gjB4kAjE543UFyc1sQ4n4D2MCkKDv30ipQ
+         zJY/IrDS4XXFC963ZZgbf7JcqsbMPqcDN170U+xwDq7/lwqz0SbUAp7xLpcbF8RJ+ChO
+         whlw==
+X-Forwarded-Encrypted: i=1; AJvYcCUnr8/lXMflU2Zqsk4XT5F1bUOheGgUPA4JGU98L3bgjnEtklYMffi54NYmR4nCn0OHzGbvO0tL2rrzsHkxrbeDfltaGA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxluUOXTra9zhEYmiUq/5BluwFuQmSFZmGalP8SG7A+KKNtxlSR
+	49YTPOuAJaj8H3EbWDquRuPc6+sePZtURtQD8YArIJnxvcPOGOkd5xPc
+X-Gm-Gg: ASbGncvcfdxucXYkG6/0ZTEFGi6UdRTvaogJQxAKEhgZQBUSWoTIRzP/XFUhv/+/1WY
+	sbFlUXfJC6qmm0vxpthB/j+eHw2fxGdktVOr/OGDuRIDHh8XxZtuwUFQU2rMh13KakdreebFSYV
+	qy4NhNKlAVpulF+sfVkE6P8x6x9h1e5xUDOrRK1bNhGb0NVDAA1FNuRygINZgaAJMOFC2KIWuQG
+	TqUac3Jx+Zjvi8bfS7WsQGpjJMe7udjN5dMp3/M016zV1v2R+6WpnuSimZDH1FH5LWrJ3dkLEGp
+	Zb8C0NbFAEd5AfFEsaJMumje4lNCs0jgr7e73AWxk7/yeTFBmSxLWeQDDsz1AcOJJLZp81arjgR
+	vBzciTDKbiZ054XphIvJudNVY0UGK6ErONX1XydGPv28rgOwQ20xlZtj0qS2qZKEF7TvpNdko0g
+	qv1qGH9Vd7rBV+6vgGE9CC+DbfeO95alkdtJS5DrMH4JqUxWF7P9Ecn3IShi/END7Hb1Y=
+X-Google-Smtp-Source: AGHT+IFVs3N/0Nluydf2W8ohAwTgqQqd1hktqndT0y1P5e+0Z+Tsef7VZeDU5gPIi03W+2qZKgyt9Q==
+X-Received: by 2002:a17:903:234a:b0:295:5dbe:f629 with SMTP id d9443c01a7336-2986a6abf18mr2384305ad.8.1763064589974;
+        Thu, 13 Nov 2025 12:09:49 -0800 (PST)
+Received: from prakrititz-UB.. ([119.161.98.68])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2bf0f8sm33985925ad.89.2025.11.13.12.09.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Nov 2025 11:01:29 -0800 (PST)
-From: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-To: cem@kernel.org,
-	djwong@kernel.org,
-	chandanbabu@kernel.org,
-	bfoster@redhat.com
-Cc: linux-xfs@vger.kernel.org,
+        Thu, 13 Nov 2025 12:09:49 -0800 (PST)
+From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Shuah Khan <shuah@kernel.org>
+Cc: iommu@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com,
-	Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-Subject: [PATCH v3] xfs: validate log record version against superblock log version
-Date: Thu, 13 Nov 2025 14:01:13 -0500
-Message-ID: <20251113190112.2214965-2-rpthibeault@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <aRUIBj3ntHM1rcfo@dread.disaster.area>
-References: <aRUIBj3ntHM1rcfo@dread.disaster.area>
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Nirbhay Sharma <nirbhay.lkd@gmail.com>
+Subject: [PATCH] selftests/iommu: Fix array-bounds warning in get_hw_info
+Date: Fri, 14 Nov 2025 01:38:55 +0530
+Message-ID: <20251113200854.429515-2-nirbhay.lkd@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -84,57 +97,69 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Syzbot creates a fuzzed record where xfs_has_logv2() but the
-xlog_rec_header h_version != XLOG_VERSION_2. This causes a
-KASAN: slab-out-of-bounds read in xlog_do_recovery_pass() ->
-xlog_recover_process() -> xlog_cksum().
+GCC warns about potential out-of-bounds access when the test provides
+a buffer smaller than struct iommu_test_hw_info:
 
-Fix by adding a check to xlog_valid_rec_header() to abort journal
-recovery if the xlog_rec_header h_version does not match the super
-block log version.
+iommufd_utils.h:817:37: warning: array subscript 'struct
+iommu_test_hw_info[0]' is partly outside array bounds of 'struct
+iommu_test_hw_info_buffer_smaller[1]'
+[-Warray-bounds=]
+  817 |                         assert(!info->flags);
+      |                                 ~~~~^~~~~~~
 
-A file system with a version 2 log will only ever set
-XLOG_VERSION_2 in its headers (and v1 will only ever set V_1), so if
-there is any mismatch, either the journal or the superblock as been
-corrupted and therefore we abort processing with a -EFSCORRUPTED error
-immediately.
+The warning occurs because 'info' is cast to a pointer to the full
+8-byte struct at the top of the function, but the buffer_smaller test
+case passes only a 4-byte buffer. While the code correctly checks
+data_len before accessing each field, GCC's flow analysis with inlining
+doesn't recognize that the size check protects the access.
 
-Reported-by: syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=9f6d080dece587cfdd4c
-Tested-by: syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
-Fixes: 45cf976008dd ("xfs: fix log recovery buffer allocation for the legacy h_size fixup")
-Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+Fix this by accessing fields through appropriately-typed pointers that
+match the actual field sizes (__u32), declared only after the bounds
+check. This makes the relationship between the size check and memory
+access explicit to the compiler.
+
+Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
 ---
-changelog
-v1 -> v2: 
-- reject the mount for h_size > XLOG_HEADER_CYCLE_SIZE && !XLOG_VERSION_2
-v2 -> v3:
-- abort journal recovery if the xlog_rec_header h_version does not match 
-the super block log version
-- heavily modify commit description
+ tools/testing/selftests/iommu/iommufd_utils.h | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
- fs/xfs/xfs_log_recover.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/fs/xfs/xfs_log_recover.c b/fs/xfs/xfs_log_recover.c
-index e6ed9e09c027..b9a708673965 100644
---- a/fs/xfs/xfs_log_recover.c
-+++ b/fs/xfs/xfs_log_recover.c
-@@ -2963,6 +2963,14 @@ xlog_valid_rec_header(
- 			__func__, be32_to_cpu(rhead->h_version));
- 		return -EFSCORRUPTED;
+diff --git a/tools/testing/selftests/iommu/iommufd_utils.h b/tools/testing/selftests/iommu/iommufd_utils.h
+index 9f472c20c190..37c1b994008c 100644
+--- a/tools/testing/selftests/iommu/iommufd_utils.h
++++ b/tools/testing/selftests/iommu/iommufd_utils.h
+@@ -770,7 +770,6 @@ static int _test_cmd_get_hw_info(int fd, __u32 device_id, __u32 data_type,
+ 				 void *data, size_t data_len,
+ 				 uint32_t *capabilities, uint8_t *max_pasid)
+ {
+-	struct iommu_test_hw_info *info = (struct iommu_test_hw_info *)data;
+ 	struct iommu_hw_info cmd = {
+ 		.size = sizeof(cmd),
+ 		.dev_id = device_id,
+@@ -810,11 +809,19 @@ static int _test_cmd_get_hw_info(int fd, __u32 device_id, __u32 data_type,
+ 		}
  	}
-+	if (XFS_IS_CORRUPT(log->l_mp, xfs_has_logv2(log->l_mp) !=
-+			   !!(be32_to_cpu(rhead->h_version) & XLOG_VERSION_2))) {
-+		xfs_warn(log->l_mp,
-+"%s: xlog_rec_header h_version (%d) does not match sb log version (%d)",
-+			__func__, be32_to_cpu(rhead->h_version),
-+			xfs_has_logv2(log->l_mp) ? 2 : 1);
-+		return -EFSCORRUPTED;
-+	}
  
- 	/*
- 	 * LR body must have data (or it wouldn't have been written)
+-	if (info) {
+-		if (data_len >= offsetofend(struct iommu_test_hw_info, test_reg))
+-			assert(info->test_reg == IOMMU_HW_INFO_SELFTEST_REGVAL);
+-		if (data_len >= offsetofend(struct iommu_test_hw_info, flags))
+-			assert(!info->flags);
++	if (data) {
++		if (data_len >= offsetofend(struct iommu_test_hw_info,
++					    test_reg)) {
++			__u32 *test_reg = (__u32 *)data + 1;
++
++			assert(*test_reg == IOMMU_HW_INFO_SELFTEST_REGVAL);
++		}
++		if (data_len >= offsetofend(struct iommu_test_hw_info,
++					    flags)) {
++			__u32 *flags = data;
++
++			assert(!*flags);
++		}
+ 	}
+ 
+ 	if (max_pasid)
 -- 
-2.43.0
+2.48.1
 
