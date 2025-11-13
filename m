@@ -1,352 +1,182 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90EDB2E6CA0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 11:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF93F346A1F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 11:39:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763033418; cv=none; b=YWaIHOigNC8CpTBe+xGzNo5hW9r8TC5T+D88D2rN3oNF1Y5dNy5p936MGW/2+YHN/vzsZXKsVv5C1lgvF5j1swaSJt3RpX6kpQo3XBiM7Jim/94LQQP4pVx6yeJS1MMFyMDlMBpRAJaveC2oJqvy3NEnsBSf0vRxudG6uVQy5KE=
+	t=1763033980; cv=none; b=FEwObx4PR6a/w+f3t1CREL5PBOoqy+O8kd+z/hBMGg81zx30zccZnG88l7LDn8ovN+15YUEJlRxfHB+sd/n9s6h8gdfILj1yHgdVY3gaEMlHfSwwsoMaF3cbSBYJcovUW+izh+5a1SsvMChJKCr6oMfMKUGYps7TUUAlotWHs14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763033418; c=relaxed/simple;
-	bh=BjyrwqxvG3mHuQruUr8TYV34YQVp1pw+ETUGTRsNRYo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 References; b=snMF6dJ/6ZaIW4bDKCbZzo2npHLlfYHKMY+vrg0eKJn6/7FE6uDiaOKZ6M5JWFhc2vzNyQ159RSgxgcpLXpKahMPN4mnDbMyuh3P1rfI4DFKmTZ2gQjfdAhFKXRLbw8q65FtMASVvXpsc0x7isc2BuZ+4Xb0/MduP0EBWGBk0Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=L5JzaAN8; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1763033980; c=relaxed/simple;
+	bh=ENVhoOS7G7gCzCBUGCoR+ITgrpqX7seulif8UfTBp0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A37EpUJHdlEvr5V+pNC5c8eMBEJ1l8p5/REY/M/HllNJnN+Dlv3hnsH3N452TFUcskWyJcsfuieBIhVz8X0u9qqdXKXfXbDE3/sxam9djNM5/4npLqhH15aJzgQA3TPCh8hE/JX8krwjtPeuMREUipJvumcFR25FozVIO/pQ/1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VIr0rjst; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="L5JzaAN8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VIr0rjst"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2F0F740C85
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 11:30:16 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 411C680840
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 11:39:38 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -5.791
+X-Spam-Score: -5.792
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 2nQMIrWwi9en for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Nov 2025 11:30:15 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=98.137.65.109; helo=sonic313-46.consmr.mail.gq1.yahoo.com; envelope-from=adelodunolaoluwa@yahoo.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org C1C7940B93
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C1C7940B93
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=L5JzaAN8
-Received: from sonic313-46.consmr.mail.gq1.yahoo.com (sonic313-46.consmr.mail.gq1.yahoo.com [98.137.65.109])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id C1C7940B93
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 11:30:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1763033413; bh=vsc2zIDV9/l3N6sMLht900KIugzNpcZMNEAIUVyatoY=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=L5JzaAN8QKfJEO6C/1fWBFe1wr/3C1UyUS7jN0p267ZDL1zDmno0F5B/EKuT+0KJ9cFiQq6mM/rS3h6LrAXt2i4MStuFIqSKbHgFvV6MezQ6c9AV+ragVxywtCt52auyJCYIq/VYklsIbnadpXBwxqvZTTXpBiP6Jw5Ooa0n8uxH9N7FseM8nk6HH1JMCkcYHDDH4laa4qIryK54lpZG7GBdsCKOIIdqQY9k4Hev4UboFU4JF97fmr/LIHX4DhY4yqI898qgyTRfaWCuGVvyJh7e9g4dK5oDQwsNr0meZO9ldqpTJ7MPpN6ez12mkqewf7p5E3Tt2xdw4cLhCHu4Tw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1763033413; bh=mhY3UhtTDoCVerxtqqcy/aX74KbrAUvz+/IKgIy/eJC=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=SIq2qxEzkHvlOgPOaxrmvKgXKtq5VjFXcxbEnwZ7lMKossf62T+/houqpNNghbQLpFMBvgzpju6VI7DFtO0xBMiS91zsilSoltH+YqERVawbKgMs2TYOc8LAyXPgxfZhrwv0CeOB8DjZhPdFN1cfybvui4A/U/R9ICShh+2DyTPTtDFcO2ImUiew/rlXEWGSpWZbGV+8hYLlH/xjCWCWlFK11xOMtRaKB6bz37T2Zug2GGu3mSUi0HfTVKA6FimncDHNuu2+bktLAZTIb9Z5VzCngntnEqTaczAd+N9eNBn3CimRKk1Y0TC8CMVEnDZh8cRidX4fpYyzZgEEys9zFg==
-X-YMail-OSG: dA_3nAAVM1l97D_TcyfqvQxByU5P9szVHOMMJytNlkSr85CIQuWGD8W.Y8.Of92
- IjOuwTTwO33CMQrNK9uEitiCeahppCd6zd1jxub6JcmT8JnB5RREVIP6Ye75lhkkpl6q9.wxjfSn
- 6o4ayjHZ6wKgf83ZQ1BUSpPd5sTNYnZfiJW2Nz6yg0.n8Z0VGUdZE9UUeusjl86.6KyXQlKEOJhp
- PPceS3B_9JOUBshZfm1T3sFjNYaN5XQylCFnKHl4xg48UvgrB2Oe57vaz7YmBdo05BCL.E.t.zV0
- JAj_hf2ePEOBWovW6rmNeQPIVuiWiKsaucN6FnK2F0b04WJR6R4Wpotbezi1fbqr.cwsBittPVs0
- hN_fJhW1.bOR2Wz.MUYoj_KC0PuxSZvLzbtcDKY3N1Q5mRXjXAe9QmCRPeYC6yG4LDp7jfywrGpj
- tO5VYpAXj_1GqxR9eijRNO88S1wEI1iFMqG_p_nqBMXzk6cBCYu7Mfp3OED1DGSSRI7vYM3aGlnG
- 5OT52.AeWVqSn2pN6vKQUGOsyWjjYJlKSnAbMVil37McN9O71iT_7W8bUYayCQzWMsDi3sJKhznH
- SwAYew42YD2dIX7F2eOybEJHL.TB9wbWb4lZYxqeKl6v23qhXg2fyXqfuH4Gck1bdzBKHVjbV.vH
- BSdzHx2r8043yf7q6LASoZY6QmEPY2M0MhSK5fStbEMDqu6ZOFYjAXPDyIBMzZnG43.1maxapbw8
- ne7xdUkV1pHp3.noh3pmjR04_ukrPhbBzuTFYYJI_.M078AKGBON8SacmoVVUrw8_PI9rZlILik1
- o1Lr3reAghVxYGVlEX5STrhzfV8_EHAwu1Gc5p_mxcSqqe.ud0OiM4pl4veM8AxD8gQXN_wO.TYt
- D7U4AUwV1GWWf5vjcnUowJrZhtzgEBEKp5WrX0xdFKS8.4425T4.SzDgEMwJnfmoWglrM42UUVqg
- 3MgA_5A8RdloKYwbU67YachEVr4YdPs_X8RABs1rfUMI88IwRirtF7hVeY6RSzy9jFxW1SX2LSlX
- bVVDDcO7_WXP_E1KNmWjD7S6gleIUDHC3wV.ruklf8puvOtHeHklr93mTya8Rcrhgx55oSiBq_5g
- bWTtlTySxbEm3luRp1HP4DbNmxXs77caNCtwtY0RwBM8drR8EtyhjCLPUcUob_EqQrBfhXNgEvQ4
- oBNmxFZue0wrG8xnAkDDrF8q7Em2yLWXmq_dD2I8IvuHf3U43AzqG1yW.V8bqwesjF.2uTLPsCi6
- qCnnQ.jw4tPnPeFS8.p1hwZiXuZ7M8M..rLPR0JoF1t34VhswH1hWriBy8a5sq_64WrhWt1wYhpk
- pFVNPeBGQ3T1ANzL3Dvnw4osJjnSeG5Chxb9r96vg08hXAhyAUxnN_.r7u4iFxNgxacG8VeGpI.w
- n7NbX7VyYc25lfosfL9IG9hu348xkzQdVg9Cg72kiQ6lO0iubIFX6PjoUW44b5kiqyF0df3Oqm9J
- 33gNZ8ckkfdnh7qFyOB5Y1oASFwfRI9wHmtzUyO8Brg3JNOHmoovgIF1lXfW9O36bKPBZAgY.xEK
- .eoNNNU8nB_uXj_m_P_3P7GdJg2QIJn6FQ2U54qYmd0DNMt.cDuhNAG9dSXRsu2JDzhtc0QsJDzD
- 7u7J5tITRM36rEQiS4UhbQGaXVyEzetk9AqRE2rj2__oIV4CSJ52szPAqSuU10x.zU1Zfu1WhMxA
- 2427HrznLsrlH9vGIa37UTl6DeULbyt8xn1xno8Cz3Lrs8HY2XcG18tRf0qXxU57EnlB2ZQ5Tzwx
- V6NtW9_MBQNPn5fPOey8FOC_mZcljwaTXjans.0g6Byjo7l7Akv3jmyEcMT4gG3Ab1LvOjvSRTUd
- 9BEvjMKdxMShheJ1sWqbXaS5KmZylL9BItL1XzLEYMhWvbLo3n43WULED7_N7YdHhTg2gi_6b4G_
- xtCqUh7OEoVm.jLjJmfjqhggricEgsO8M.qe6fSoF7a2gJXtod06hHIbUXUSC2knBVCiJ4wYUd48
- nQXECehhcRWmn1.iD.3PKoXIyZhTfZDrs_1PceGA_NcKq9jy4BmR8H29bv0ITe43HEqPsclpi07t
- ddh9CnHAvYMao.uV6X1eRADxzSBixnhYyViGtGyRv3EJfWPeOSphLXAxspl08TUHJM4eYm0VpsrI
- Z39ccwBTe18T2T4onojpu1OQpMWize5IzpGL4gAGLrGEu8gLeozxzg9pwbrqzEYVFCLYtQmgY_AX
- CNaMb9qyzog3Ip2bgeZ63TxxzXeANqfWjIIiJwoWybWMHOiQj9MLDQaUYMiLDoq0gJYCN9A3zF4S
- Wzwm1H0MveSJMU1K31r3mUe6DSQN7sR_rAoKDyPMjgixVgcZau73dSWU4H2rfT1dJaMUdmlfIyvt
- ef8Ujm_0ZLinqQaNQajYOXQc-
-X-Sonic-MF: <adelodunolaoluwa@yahoo.com>
-X-Sonic-ID: 23f27373-26d7-4c58-b550-da61e8faefbd
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.gq1.yahoo.com with HTTP; Thu, 13 Nov 2025 11:30:13 +0000
-Received: by hermes--production-bf1-58477f5468-wnnm5 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID e2ddb9b3ed0e230064ffd349fd918855;
-          Thu, 13 Nov 2025 11:28:11 +0000 (UTC)
-From: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-To: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>
-Cc: skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-Subject: [PATCH v6] selftests: af_unix: Add tests for ECONNRESET and EOF semantics
-Date: Thu, 13 Nov 2025 12:28:02 +0100
-Message-ID: <20251113112802.44657-1-adelodunolaoluwa@yahoo.com>
-X-Mailer: git-send-email 2.43.0
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id gXe5sjm2cUvC for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 13 Nov 2025 11:39:37 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=rppt@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 54DA480829
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 54DA480829
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=VIr0rjst
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 54DA480829
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 11:39:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 2862A4322B;
+	Thu, 13 Nov 2025 11:39:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A995C4CEF5;
+	Thu, 13 Nov 2025 11:39:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763033976;
+	bh=ENVhoOS7G7gCzCBUGCoR+ITgrpqX7seulif8UfTBp0Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VIr0rjstKJ3saWpOlCPEj9yrlsSRfWVdSQkR1q6I3ZgbEqEbjPhjAwZARfKCLBEHD
+	 NGXFco0t56DpoMlRyxC4Dv7YU5Dj77k5L5LEk+YeLgg6BmGF3YD/hglGfiBsfuYSL3
+	 WalSNO2wr0gm3B+obfSK4LBPcORjuDCqoqCbXgpv9hONWBGRCQH7Icr1ATqy0Pmb9r
+	 ZMVa4ISTLJXD4HD0aPUFJ3/8+8HfJoZY1kBU/TJZKi4MwFDa1g7A0PisLusFC0HKNg
+	 wdLEn1kFzdFK2Tk27NHIoXVG5ZbkwxsahhpJX0ykb16FldNGhAL4Y2Sxc+/7dRi/YV
+	 dht9+6EHugDgQ==
+Date: Thu, 13 Nov 2025 13:39:26 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Cc: akpm@linux-foundation.org, peterx@redhat.com, david@redhat.com,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@suse.cz,
+	surenb@google.com, mhocko@suse.com, shuah@kernel.org,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com, khalid@kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] selftests/mm/uffd: remove static address usage in
+ shmem_allocate_area()
+Message-ID: <aRXDbk9ajOhH7ReX@kernel.org>
+References: <20251111205739.420009-1-mehdi.benhadjkhelifa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-References: <20251113112802.44657-1-adelodunolaoluwa.ref@yahoo.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251111205739.420009-1-mehdi.benhadjkhelifa@gmail.com>
 
-Add selftests to verify and document Linux’s intended behaviour for
-UNIX domain sockets (SOCK_STREAM and SOCK_DGRAM) when a peer closes.
-The tests verify that:
+On Tue, Nov 11, 2025 at 09:54:27PM +0100, Mehdi Ben Hadj Khelifa wrote:
+> The current shmem_allocate_area() implementation uses a hardcoded virtual
+> base address(BASE_PMD_ADDR) as a hint for mmap() when creating shmem-backed
+> test areas. This approach is fragile and may fail on systems with ASLR or
+> different virtual memory layouts, where the chosen address is unavailable.
+> 
+> Replace the static base address with a dynamically reserved address range
+> obtained via mmap(NULL, ..., PROT_NONE). The memfd-backed areas and their
+> alias are then mapped into that reserved region using MAP_FIXED, preserving
+> the original layout and aliasing semantics while avoiding collisions with
+> unrelated mappings.
+> 
+> This change improves robustness and portability of the test suite without
+> altering its behavior or coverage.
+> 
+> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+> ---
+> Testing:
+> A diff between running the mm selftests on 6.18-rc5 from before and after
+> the change show no regression on x86_64 architecture with 32GB DDR5 RAM.
+>  tools/testing/selftests/mm/uffd-common.c | 25 +++++++++++++++---------
+>  1 file changed, 16 insertions(+), 9 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/mm/uffd-common.c b/tools/testing/selftests/mm/uffd-common.c
+> index 994fe8c03923..492b21c960bb 100644
+> --- a/tools/testing/selftests/mm/uffd-common.c
+> +++ b/tools/testing/selftests/mm/uffd-common.c
+> @@ -6,11 +6,11 @@
+>   */
+>  
+>  #include "uffd-common.h"
+> +#include "asm-generic/mman-common.h"
 
- 1. SOCK_STREAM returns EOF when the peer closes normally.
- 2. SOCK_STREAM returns ECONNRESET if the peer closes with unread data.
- 3. SOCK_SEQPACKET returns EOF when the peer closes normally.
- 4. SOCK_SEQPACKET returns ECONNRESET if the peer closes with unread data.
- 5. SOCK_DGRAM does not return ECONNRESET when the peer closes.
+Please drop this.
+There's already include <sys/mman.h> via uffd-common.h/vm_util.h.
 
-This follows up on review feedback suggesting a selftest to clarify
-Linux’s semantics.
+>  
+>  uffd_test_ops_t *uffd_test_ops;
+>  uffd_test_case_ops_t *uffd_test_case_ops;
+>  
+> -#define BASE_PMD_ADDR ((void *)(1UL << 30))
+>  
+>  /* pthread_mutex_t starts at page offset 0 */
+>  pthread_mutex_t *area_mutex(char *area, unsigned long nr, uffd_global_test_opts_t *gopts)
+> @@ -142,30 +142,37 @@ static int shmem_allocate_area(uffd_global_test_opts_t *gopts, void **alloc_area
+>  	unsigned long offset = is_src ? 0 : bytes;
+>  	char *p = NULL, *p_alias = NULL;
+>  	int mem_fd = uffd_mem_fd_create(bytes * 2, false);
+> +	size_t region_size = bytes * 2 + hpage_size;
+>  
+> -	/* TODO: clean this up.  Use a static addr is ugly */
+> -	p = BASE_PMD_ADDR;
+> -	if (!is_src)
+> -		/* src map + alias + interleaved hpages */
+> -		p += 2 * (bytes + hpage_size);
+> +	void *reserve = mmap(NULL, region_size, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS,
+> +			-1, 0);
+> +	if (reserve == MAP_FAILED) {
+> +		close(mem_fd);
+> +		return -errno;
+> +	}
+> +
+> +	p = (char *)reserve;
 
-Suggested-by: Kuniyuki Iwashima <kuniyu@google.com>
-Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
----
-changelog:
+No need for casting here.
 
-changes from v5 to v6
-- Remove the not-needed check for self->child > 0 in the
-  FIXTURE_TEARDOWN
+>  	p_alias = p;
+>  	p_alias += bytes;
+>  	p_alias += hpage_size;  /* Prevent src/dst VMA merge */
+>  
+> -	*alloc_area = mmap(p, bytes, PROT_READ | PROT_WRITE, MAP_SHARED,
+> +	*alloc_area = mmap(p, bytes, PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED,
+>  			   mem_fd, offset);
+>  	if (*alloc_area == MAP_FAILED) {
+> +		munmap(reserve, region_size);
 
-changes from v4 to v5:
-1. Moved the send() call before the socket type check in Test 2 to ensure
-  the unread data behavior is tested for SOCK_DGRAM as well.
+I think it'll be more readable to put munmap() after setting *alloc_area to
+NULL.
 
-2. Removed the misleading commend about accept() for clarity.
+>  		*alloc_area = NULL;
+> +		close(mem_fd);
+>  		return -errno;
+>  	}
+>  	if (*alloc_area != p)
+>  		err("mmap of memfd failed at %p", p);
+>  
+> -	area_alias = mmap(p_alias, bytes, PROT_READ | PROT_WRITE, MAP_SHARED,
+> +	area_alias = mmap(p_alias, bytes, PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED,
+>  			  mem_fd, offset);
+>  	if (area_alias == MAP_FAILED) {
+> -		munmap(*alloc_area, bytes);
+> +		munmap(reserve, region_size);
 
-3. Applied indentation fixes for style consistency
-  (alignment with open parenthesis).
+Here as well.
 
-4. Minor comment and formatting cleanups for clarity and adherence
-  to kernel coding style.
+>  		*alloc_area = NULL;
+> +		close(mem_fd);
+>  		return -errno;
+>  	}
+>  	if (area_alias != p_alias)
+> -- 
+> 2.51.2
+> 
 
- tools/testing/selftests/net/.gitignore        |   1 +
- tools/testing/selftests/net/af_unix/Makefile  |   1 +
- .../selftests/net/af_unix/unix_connreset.c    | 177 ++++++++++++++++++
- 3 files changed, 179 insertions(+)
- create mode 100644 tools/testing/selftests/net/af_unix/unix_connreset.c
-
-diff --git a/tools/testing/selftests/net/.gitignore b/tools/testing/selftests/net/.gitignore
-index 439101b518ee..e89a60581a13 100644
---- a/tools/testing/selftests/net/.gitignore
-+++ b/tools/testing/selftests/net/.gitignore
-@@ -65,3 +65,4 @@ udpgso
- udpgso_bench_rx
- udpgso_bench_tx
- unix_connect
-+unix_connreset
-diff --git a/tools/testing/selftests/net/af_unix/Makefile b/tools/testing/selftests/net/af_unix/Makefile
-index de805cbbdf69..5826a8372451 100644
---- a/tools/testing/selftests/net/af_unix/Makefile
-+++ b/tools/testing/selftests/net/af_unix/Makefile
-@@ -7,6 +7,7 @@ TEST_GEN_PROGS := \
- 	scm_pidfd \
- 	scm_rights \
- 	unix_connect \
-+	unix_connreset \
- # end of TEST_GEN_PROGS
- 
- include ../../lib.mk
-diff --git a/tools/testing/selftests/net/af_unix/unix_connreset.c b/tools/testing/selftests/net/af_unix/unix_connreset.c
-new file mode 100644
-index 000000000000..bffef2b54bfd
---- /dev/null
-+++ b/tools/testing/selftests/net/af_unix/unix_connreset.c
-@@ -0,0 +1,177 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Selftest for AF_UNIX socket close and ECONNRESET behaviour.
-+ *
-+ * This test verifies:
-+ *  1. SOCK_STREAM returns EOF when the peer closes normally.
-+ *  2. SOCK_STREAM returns ECONNRESET if peer closes with unread data.
-+ *  3. SOCK_SEQPACKET returns EOF when the peer closes normally.
-+ *  4. SOCK_SEQPACKET returns ECONNRESET if the peer closes with unread data.
-+ *  5. SOCK_DGRAM does not return ECONNRESET when the peer closes.
-+ *
-+ * These tests document the intended Linux behaviour.
-+ *
-+ */
-+
-+#define _GNU_SOURCE
-+#include <stdlib.h>
-+#include <string.h>
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <errno.h>
-+#include <sys/socket.h>
-+#include <sys/un.h>
-+#include "../../kselftest_harness.h"
-+
-+#define SOCK_PATH "/tmp/af_unix_connreset.sock"
-+
-+static void remove_socket_file(void)
-+{
-+	unlink(SOCK_PATH);
-+}
-+
-+FIXTURE(unix_sock)
-+{
-+	int server;
-+	int client;
-+	int child;
-+};
-+
-+FIXTURE_VARIANT(unix_sock)
-+{
-+	int socket_type;
-+	const char *name;
-+};
-+
-+FIXTURE_VARIANT_ADD(unix_sock, stream) {
-+	.socket_type = SOCK_STREAM,
-+	.name = "SOCK_STREAM",
-+};
-+
-+FIXTURE_VARIANT_ADD(unix_sock, dgram) {
-+	.socket_type = SOCK_DGRAM,
-+	.name = "SOCK_DGRAM",
-+};
-+
-+FIXTURE_VARIANT_ADD(unix_sock, seqpacket) {
-+	.socket_type = SOCK_SEQPACKET,
-+	.name = "SOCK_SEQPACKET",
-+};
-+
-+FIXTURE_SETUP(unix_sock)
-+{
-+	struct sockaddr_un addr = {};
-+	int err;
-+
-+	addr.sun_family = AF_UNIX;
-+	strcpy(addr.sun_path, SOCK_PATH);
-+	remove_socket_file();
-+
-+	self->server = socket(AF_UNIX, variant->socket_type, 0);
-+	ASSERT_LT(-1, self->server);
-+
-+	err = bind(self->server, (struct sockaddr *)&addr, sizeof(addr));
-+	ASSERT_EQ(0, err);
-+
-+	if (variant->socket_type == SOCK_STREAM ||
-+	    variant->socket_type == SOCK_SEQPACKET) {
-+		err = listen(self->server, 1);
-+		ASSERT_EQ(0, err);
-+	}
-+
-+	self->client = socket(AF_UNIX, variant->socket_type | SOCK_NONBLOCK, 0);
-+	ASSERT_LT(-1, self->client);
-+
-+	err = connect(self->client, (struct sockaddr *)&addr, sizeof(addr));
-+	ASSERT_EQ(0, err);
-+}
-+
-+FIXTURE_TEARDOWN(unix_sock)
-+{
-+	if (variant->socket_type == SOCK_STREAM ||
-+	    variant->socket_type == SOCK_SEQPACKET)
-+		close(self->child);
-+
-+	close(self->client);
-+	close(self->server);
-+	remove_socket_file();
-+}
-+
-+/* Test 1: peer closes normally */
-+TEST_F(unix_sock, eof)
-+{
-+	char buf[16] = {};
-+	ssize_t n;
-+
-+	if (variant->socket_type == SOCK_STREAM ||
-+	    variant->socket_type == SOCK_SEQPACKET) {
-+		self->child = accept(self->server, NULL, NULL);
-+		ASSERT_LT(-1, self->child);
-+
-+		close(self->child);
-+	} else {
-+		close(self->server);
-+	}
-+
-+	n = recv(self->client, buf, sizeof(buf), 0);
-+
-+	if (variant->socket_type == SOCK_STREAM ||
-+	    variant->socket_type == SOCK_SEQPACKET) {
-+		ASSERT_EQ(0, n);
-+	} else {
-+		ASSERT_EQ(-1, n);
-+		ASSERT_EQ(EAGAIN, errno);
-+	}
-+}
-+
-+/* Test 2: peer closes with unread data */
-+TEST_F(unix_sock, reset_unread_behavior)
-+{
-+	char buf[16] = {};
-+	ssize_t n;
-+
-+	/* Send data that will remain unread */
-+	send(self->client, "hello", 5, 0);
-+
-+	if (variant->socket_type == SOCK_DGRAM) {
-+		/* No real connection, just close the server */
-+		close(self->server);
-+	} else {
-+		self->child = accept(self->server, NULL, NULL);
-+		ASSERT_LT(-1, self->child);
-+
-+		/* Peer closes before client reads */
-+		close(self->child);
-+	}
-+
-+	n = recv(self->client, buf, sizeof(buf), 0);
-+	ASSERT_EQ(-1, n);
-+
-+	if (variant->socket_type == SOCK_STREAM ||
-+	    variant->socket_type == SOCK_SEQPACKET) {
-+		ASSERT_EQ(ECONNRESET, errno);
-+	} else {
-+		ASSERT_EQ(EAGAIN, errno);
-+	}
-+}
-+
-+/* Test 3: closing unaccepted (embryo) server socket should reset client. */
-+TEST_F(unix_sock, reset_closed_embryo)
-+{
-+	char buf[16] = {};
-+	ssize_t n;
-+
-+	if (variant->socket_type == SOCK_DGRAM)
-+		SKIP(return, "This test only applies to SOCK_STREAM and SOCK_SEQPACKET");
-+
-+	/* Close server without accept()ing */
-+	close(self->server);
-+
-+	n = recv(self->client, buf, sizeof(buf), 0);
-+
-+	ASSERT_EQ(-1, n);
-+	ASSERT_EQ(ECONNRESET, errno);
-+}
-+
-+TEST_HARNESS_MAIN
-+
 -- 
-2.43.0
-
+Sincerely yours,
+Mike.
