@@ -1,94 +1,99 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212E52EA490
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 20:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32D23218BA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 21:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763064593; cv=none; b=nlAxxQAztdANtu6CgGqB9GmpGBH6CQfqA1XH5ZLEkSJfP1CwBPknmXCOgSyJKodvJcrdy1VlViN0HGcTnjM69TQ5QxAikbPGa0cZgGWnoeORivvHLffUwQJYZy5KfbQ3fKTYBJ1XMXJ+4BMdT0zHaMRTcWkJ0/9kaFMeX10NQXo=
+	t=1763068333; cv=none; b=m1JPXjgE2xkZMy1HEEKgn36iLJnstSluS9J5E6gcxmWXidyNLc3O1wj9bc6Vo0yQJUeH2KO9RZvczrZN7+3EgO8UcqbU3T3nWJhJOgDB/esWzLCS+FUKedZ4sVUEOqE/+7A2VNLaiUDWN1nncb2kLvtKOdP/wd538JFpOHnVFx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763064593; c=relaxed/simple;
-	bh=QKdBCUlNwtR+F2VgsVfMTt/KnsuIIdUNrx84lK3lLbE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VVpA0E66JBY4RmKrQGPn53XO1SDPdarVga+m00Qivx8u/MUeZ5O+SxJBTWfOs6ee6a7dzb8H4tIfxngWZxQM1koFnIVqguc10WFKbmGsU9VgY1sov8g9sR0zNwiNHn3zAX0/dFG6VM+Ot2deYNk1Bdzz+jMvyaEDOiMKLeLz9ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eNL6NZDO; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1763068333; c=relaxed/simple;
+	bh=VZz8VeGMD34/0SPFsGJY9Zec9mHyRzTy7RjCb0SFz3Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aONV01RYZfzuUw0QYjLBGSUH/dko42NDoXZ3GPaTCgeTdZMXtySIBJm5ckdewNVHNi2zJ9YUkmW3E//4cuiU536YXpBhRRmofFLJQe5YYfRKucLiULWFfPc0/bnJI29YSxKLltUN+G0NaA8CW16Kuk9M/UknbxzfBDT4tj6r/Gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G09NNGS8; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eNL6NZDO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G09NNGS8"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AE34680BDC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 20:09:51 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6C19E40801
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 21:12:11 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id cpId6Wlytfjs for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Nov 2025 20:09:51 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62c; helo=mail-pl1-x62c.google.com; envelope-from=nirbhay.lkd@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 1733880BCE
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1733880BCE
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=eNL6NZDO
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1733880BCE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 20:09:50 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-298250d7769so7716645ad.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 12:09:50 -0800 (PST)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id BVSOVcrq_55G for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 13 Nov 2025 21:12:10 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::62a; helo=mail-ej1-x62a.google.com; envelope-from=zlatistiv@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 56B14407E8
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 56B14407E8
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=G09NNGS8
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 56B14407E8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 21:12:10 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-b72bf7e703fso215795866b.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 13:12:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763064590; x=1763669390; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1763068328; x=1763673128; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gpG9MFDfcOAig9lTA5rz8MkmRR9OX2bi+Q5guu7HZEs=;
-        b=eNL6NZDOCzM2G5OrOKgBy+lx0R4Vb46dZQqogy+9/xTcNSWWzCSwB9svUJAuqfhH72
-         mSm068Fb0Khk/nHwrbtULY6Otb9mVHbMedQuFe6lU/10dd3WmATWUpu/4sPtPM4X61Ei
-         BKvES4EM6fZyGDu6sOPVMOxgL+GPO1oLqnQ/1tT/+q3OWGPG3sXnlZcWlCGKPcEH5Tq2
-         vH/iQDcZ9uknieW80ym9/tNk3gYlBBV8sztm81KFCWPVEw0k3ULX8JJJMe0rMozfRo96
-         WmUpt5eM3yzoNBxKxtmlIDVmqMa0XMZxwAeAfQAxM0hc0QmeeMq05eRkRetbII4LTlFA
-         NOhw==
+        bh=wyeY2XNsdqhfXocUSjoPZjzq+oQsyNbMvmr9wItdoUQ=;
+        b=G09NNGS8qR6oNENKeTixesvJK57WEHicRx9QbCc8agVPBkq8WqKg2gIvNauFV6a2Dm
+         pXmY6PnTTHXOVANmpaEO7H3+YVA+nVUWPUe/1rDbHnWaE/TWH4yJKFPgmuh394/2opVZ
+         EcOMkA4Fg1tQPriRG+JzX7HoItFeuSLNU8j+fAq3zS1XlZZgYEYFuG8bc92leTrtdnfl
+         V8rO2dkCmLEh6cqFs6tQNXI7vSAChIJwUKwG4s6x0L7PmlJnGRFL3E9+WXJjP4TyZN57
+         Tf/lwi9KJH0e+URhaBJo+mzG16ASBobnRKf/2hYdSUBtj/B4trZhkSDO34bLCRxXkzqn
+         6ykw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763064590; x=1763669390;
+        d=1e100.net; s=20230601; t=1763068328; x=1763673128;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gpG9MFDfcOAig9lTA5rz8MkmRR9OX2bi+Q5guu7HZEs=;
-        b=GLuJAbfL/296KAb7Df0i/qSP0u4HRIJwGFr4AHymHX0zZVHcWotHsS+0SZPHl7uJzG
-         S6IUCduJ70zIGP/zn/hjdFYN/jZ1sGFS3ErFUKpRK8dKF40GPT5Aq/t2HMWj29AMGIVA
-         O/qbRUz1oSPTMbauuvlfkkrv6RTg9EnJaDJ/zQLbgCQ8f+pj55IUb8f+xFdnCiS1rJAr
-         W5y6frN0ckEoBu9RXfSOkBuVR8QYd+Zx76gjB4kAjE543UFyc1sQ4n4D2MCkKDv30ipQ
-         zJY/IrDS4XXFC963ZZgbf7JcqsbMPqcDN170U+xwDq7/lwqz0SbUAp7xLpcbF8RJ+ChO
-         whlw==
-X-Forwarded-Encrypted: i=1; AJvYcCUnr8/lXMflU2Zqsk4XT5F1bUOheGgUPA4JGU98L3bgjnEtklYMffi54NYmR4nCn0OHzGbvO0tL2rrzsHkxrbeDfltaGA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxluUOXTra9zhEYmiUq/5BluwFuQmSFZmGalP8SG7A+KKNtxlSR
-	49YTPOuAJaj8H3EbWDquRuPc6+sePZtURtQD8YArIJnxvcPOGOkd5xPc
-X-Gm-Gg: ASbGncvcfdxucXYkG6/0ZTEFGi6UdRTvaogJQxAKEhgZQBUSWoTIRzP/XFUhv/+/1WY
-	sbFlUXfJC6qmm0vxpthB/j+eHw2fxGdktVOr/OGDuRIDHh8XxZtuwUFQU2rMh13KakdreebFSYV
-	qy4NhNKlAVpulF+sfVkE6P8x6x9h1e5xUDOrRK1bNhGb0NVDAA1FNuRygINZgaAJMOFC2KIWuQG
-	TqUac3Jx+Zjvi8bfS7WsQGpjJMe7udjN5dMp3/M016zV1v2R+6WpnuSimZDH1FH5LWrJ3dkLEGp
-	Zb8C0NbFAEd5AfFEsaJMumje4lNCs0jgr7e73AWxk7/yeTFBmSxLWeQDDsz1AcOJJLZp81arjgR
-	vBzciTDKbiZ054XphIvJudNVY0UGK6ErONX1XydGPv28rgOwQ20xlZtj0qS2qZKEF7TvpNdko0g
-	qv1qGH9Vd7rBV+6vgGE9CC+DbfeO95alkdtJS5DrMH4JqUxWF7P9Ecn3IShi/END7Hb1Y=
-X-Google-Smtp-Source: AGHT+IFVs3N/0Nluydf2W8ohAwTgqQqd1hktqndT0y1P5e+0Z+Tsef7VZeDU5gPIi03W+2qZKgyt9Q==
-X-Received: by 2002:a17:903:234a:b0:295:5dbe:f629 with SMTP id d9443c01a7336-2986a6abf18mr2384305ad.8.1763064589974;
-        Thu, 13 Nov 2025 12:09:49 -0800 (PST)
-Received: from prakrititz-UB.. ([119.161.98.68])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2bf0f8sm33985925ad.89.2025.11.13.12.09.46
+        bh=wyeY2XNsdqhfXocUSjoPZjzq+oQsyNbMvmr9wItdoUQ=;
+        b=XOIGga8XljeZot/yGp9J0vLnR5x5rjLjlPrfyr7WMDcinFGM/Tcd9jZ1EBh1XoQHXc
+         1zSW+ZmurqSGK7FvY8cqH37WwvjYJsQ0F+w1m7AclHkoM3uM+77Zq10aZaPNHUDSZrve
+         ALRCG9/g2VgrWNYAoZTYBPl8MqSqGx8hbuKQyy4V2eUKQd69cEsm4mNpaAPr7cIDUrwv
+         BErD3zdA1FKAQ5BRZXIkrhGCIzRMrgAOfd3HHA9RvZ4Ch/PiYATtCO07EQC/PI45Fc3H
+         B+wKp3T8TyVA5HTfh5SB1Iqt/qAUOPMOc+q3H0KG+hh6vxPyrUP/aDwq7UPFt5Qp5vUz
+         9vBg==
+X-Forwarded-Encrypted: i=1; AJvYcCWlFUP7lJt4fGZU/hrNn6Lae6bRwyq/aTzSYFlXBRfifvlpGzFvfXTAV2TW4tVZQQfnA4boQEvbjmFFffnVYZHDWONBpg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyIOizqAol/70S8DT0kGXG51/+IH8o9VZ4wVEGYItn9p3n3hOCM
+	H8Mz2AGXItHA3WRYTH7Cob5lijYLJbL4FU88u3p7HYDFpuMS0/TNGvZ/
+X-Gm-Gg: ASbGncvPaebx+w+kypF3mjdZp2PIukw4aE/IGzMa7v4MUcahuZePsXtQqVLqRYRsErg
+	NJfJzO+CvdzeLBqr5/thKbXcgg/cBE//rus1aBEjlhHcSj9RQlxOl6+2X1OXhGKe/ychoaS4/mn
+	nTTLffrmdy1mFis0SUqih4NQnLE9BZL12y5kmcPbvNaGsuhE++Abp7VT3WROu1erc9ozchotvZc
+	XDnruO3ffjeFAPkct1aSoyIi5/1D0aSHlRxjqEl4Pcp5EzSQ4DLxCR0VaBo70zY3R44dKr6HdWk
+	1RvlJkFTICa0xPA73vkXzCX6a3W/7UFbwBN7iUi+ZQ0lYTVtmdqR0ek9saTJJAj5joftV5IuaHK
+	nEZkaK8lYWdema2GJBQI/7uPcfG9f7MjdaTBJ5c+vV8+GNNQmTKevGIsS+8ePvwkj968rVAv0bY
+	IKH120h6xaZX4=
+X-Google-Smtp-Source: AGHT+IHiDc/7hf9TqjsuwSPQ+FK0WK3MXANc1n+4UzxCZWDV8N5JWcs8yaQjBqEdwkwAyS0qmrlBJg==
+X-Received: by 2002:a17:907:60d4:b0:b6d:5914:30c with SMTP id a640c23a62f3a-b73679841a7mr52617866b.34.1763068327739;
+        Thu, 13 Nov 2025 13:12:07 -0800 (PST)
+Received: from localhost.localdomain ([46.10.223.24])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fda8d69sm237324266b.50.2025.11.13.13.12.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Nov 2025 12:09:49 -0800 (PST)
-From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Shuah Khan <shuah@kernel.org>
-Cc: iommu@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
+        Thu, 13 Nov 2025 13:12:07 -0800 (PST)
+From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
+To: jiri@resnulli.us,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
 	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	Nirbhay Sharma <nirbhay.lkd@gmail.com>
-Subject: [PATCH] selftests/iommu: Fix array-bounds warning in get_hw_info
-Date: Fri, 14 Nov 2025 01:38:55 +0530
-Message-ID: <20251113200854.429515-2-nirbhay.lkd@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	"Nikola Z. Ivanov" <zlatistiv@gmail.com>,
+	syzbot+a2a3b519de727b0f7903@syzkaller.appspotmail.com
+Subject: [PATCH net v2] team: Move team device type change at the end of team_port_add
+Date: Thu, 13 Nov 2025 23:11:42 +0200
+Message-ID: <20251113211142.245216-1-zlatistiv@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -97,69 +102,103 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-GCC warns about potential out-of-bounds access when the test provides
-a buffer smaller than struct iommu_test_hw_info:
+Attempting to add a port device that is already up will expectedly fail,
+but not before modifying the team device header_ops.
 
-iommufd_utils.h:817:37: warning: array subscript 'struct
-iommu_test_hw_info[0]' is partly outside array bounds of 'struct
-iommu_test_hw_info_buffer_smaller[1]'
-[-Warray-bounds=]
-  817 |                         assert(!info->flags);
-      |                                 ~~~~^~~~~~~
+In the case of the syzbot reproducer the gre0 device is
+already in state UP when it attempts to add it as a
+port device of team0, this fails but before that
+header_ops->create of team0 is changed from eth_header to ipgre_header
+in the call to team_dev_type_check_change.
 
-The warning occurs because 'info' is cast to a pointer to the full
-8-byte struct at the top of the function, but the buffer_smaller test
-case passes only a 4-byte buffer. While the code correctly checks
-data_len before accessing each field, GCC's flow analysis with inlining
-doesn't recognize that the size check protects the access.
+Later when we end up in ipgre_header() struct *ip_tunnel points to nonsense
+as the private data of the device still holds a struct team.
 
-Fix this by accessing fields through appropriately-typed pointers that
-match the actual field sizes (__u32), declared only after the bounds
-check. This makes the relationship between the size check and memory
-access explicit to the compiler.
+Example sequence of iproute commands to reproduce the hang/BUG():
+ip link add dev team0 type team
+ip link add dev gre0 type gre
+ip link set dev gre0 up
+ip link set dev gre0 master team0
+ip link set dev team0 up
+ping -I team0 1.1.1.1
 
-Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+Move team_dev_type_check_change down where all other checks have passed
+as it changes the dev type with no way to restore it in case
+one of the checks that follow it fail.
+
+Also make sure to preserve the origial mtu assignment:
+  - If port_dev is not the same type as dev, dev takes mtu from port_dev
+  - If port_dev is the same type as dev, port_dev takes mtu from dev
+
+Testing:
+  - team device driver in-tree selftests
+  - Add/remove various devices as slaves of team device
+  - syzbot
+
+Reported-by: syzbot+a2a3b519de727b0f7903@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=a2a3b519de727b0f7903
+Fixes: 1d76efe1577b ("team: add support for non-ethernet devices")
+Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
 ---
- tools/testing/selftests/iommu/iommufd_utils.h | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+Changes since v1:
+  - Add a "Fixes" tag
+  - Add a simple reproducer in the commit log
+  https://lore.kernel.org/netdev/20251111171341.4c6d69be@kernel.org/T/#u
 
-diff --git a/tools/testing/selftests/iommu/iommufd_utils.h b/tools/testing/selftests/iommu/iommufd_utils.h
-index 9f472c20c190..37c1b994008c 100644
---- a/tools/testing/selftests/iommu/iommufd_utils.h
-+++ b/tools/testing/selftests/iommu/iommufd_utils.h
-@@ -770,7 +770,6 @@ static int _test_cmd_get_hw_info(int fd, __u32 device_id, __u32 data_type,
- 				 void *data, size_t data_len,
- 				 uint32_t *capabilities, uint8_t *max_pasid)
- {
--	struct iommu_test_hw_info *info = (struct iommu_test_hw_info *)data;
- 	struct iommu_hw_info cmd = {
- 		.size = sizeof(cmd),
- 		.dev_id = device_id,
-@@ -810,11 +809,19 @@ static int _test_cmd_get_hw_info(int fd, __u32 device_id, __u32 data_type,
+ drivers/net/team/team_core.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/net/team/team_core.c b/drivers/net/team/team_core.c
+index 29dc04c299a3..94c149e89231 100644
+--- a/drivers/net/team/team_core.c
++++ b/drivers/net/team/team_core.c
+@@ -1134,10 +1134,6 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
+ 		return -EPERM;
+ 	}
+ 
+-	err = team_dev_type_check_change(dev, port_dev);
+-	if (err)
+-		return err;
+-
+ 	if (port_dev->flags & IFF_UP) {
+ 		NL_SET_ERR_MSG(extack, "Device is up. Set it down before adding it as a team port");
+ 		netdev_err(dev, "Device %s is up. Set it down before adding it as a team port\n",
+@@ -1155,10 +1151,12 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
+ 	INIT_LIST_HEAD(&port->qom_list);
+ 
+ 	port->orig.mtu = port_dev->mtu;
+-	err = dev_set_mtu(port_dev, dev->mtu);
+-	if (err) {
+-		netdev_dbg(dev, "Error %d calling dev_set_mtu\n", err);
+-		goto err_set_mtu;
++	if (dev->type == port_dev->type) {
++		err = dev_set_mtu(port_dev, dev->mtu);
++		if (err) {
++			netdev_dbg(dev, "Error %d calling dev_set_mtu\n", err);
++			goto err_set_mtu;
++		}
+ 	}
+ 
+ 	memcpy(port->orig.dev_addr, port_dev->dev_addr, port_dev->addr_len);
+@@ -1233,6 +1231,10 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
  		}
  	}
  
--	if (info) {
--		if (data_len >= offsetofend(struct iommu_test_hw_info, test_reg))
--			assert(info->test_reg == IOMMU_HW_INFO_SELFTEST_REGVAL);
--		if (data_len >= offsetofend(struct iommu_test_hw_info, flags))
--			assert(!info->flags);
-+	if (data) {
-+		if (data_len >= offsetofend(struct iommu_test_hw_info,
-+					    test_reg)) {
-+			__u32 *test_reg = (__u32 *)data + 1;
++	err = team_dev_type_check_change(dev, port_dev);
++	if (err)
++		goto err_set_dev_type;
 +
-+			assert(*test_reg == IOMMU_HW_INFO_SELFTEST_REGVAL);
-+		}
-+		if (data_len >= offsetofend(struct iommu_test_hw_info,
-+					    flags)) {
-+			__u32 *flags = data;
-+
-+			assert(!*flags);
-+		}
- 	}
+ 	if (dev->flags & IFF_UP) {
+ 		netif_addr_lock_bh(dev);
+ 		dev_uc_sync_multiple(port_dev, dev);
+@@ -1251,6 +1253,7 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
  
- 	if (max_pasid)
+ 	return 0;
+ 
++err_set_dev_type:
+ err_set_slave_promisc:
+ 	__team_option_inst_del_port(team, port);
+ 
 -- 
-2.48.1
+2.51.0
 
