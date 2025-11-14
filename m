@@ -1,99 +1,76 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32D23218BA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 21:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84947326D51
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 14 Nov 2025 14:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763068333; cv=none; b=m1JPXjgE2xkZMy1HEEKgn36iLJnstSluS9J5E6gcxmWXidyNLc3O1wj9bc6Vo0yQJUeH2KO9RZvczrZN7+3EgO8UcqbU3T3nWJhJOgDB/esWzLCS+FUKedZ4sVUEOqE/+7A2VNLaiUDWN1nncb2kLvtKOdP/wd538JFpOHnVFx8=
+	t=1763131487; cv=none; b=gM6ijn+WSwsn0l6xEmN3H+LaSfnIaIymaSOXsfGvUekoZN04n4JQYi/8JGH1VxLXFmc7/DaMXLPTHENVtl7+Sv7ambYd+jPX3f3aApTLncJbMrJjlnyOo7xtqRsI57qB4GNOeequej28NTK4tycHkuyLe59Yo4HnCkrOihKFa9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763068333; c=relaxed/simple;
-	bh=VZz8VeGMD34/0SPFsGJY9Zec9mHyRzTy7RjCb0SFz3Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aONV01RYZfzuUw0QYjLBGSUH/dko42NDoXZ3GPaTCgeTdZMXtySIBJm5ckdewNVHNi2zJ9YUkmW3E//4cuiU536YXpBhRRmofFLJQe5YYfRKucLiULWFfPc0/bnJI29YSxKLltUN+G0NaA8CW16Kuk9M/UknbxzfBDT4tj6r/Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G09NNGS8; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1763131487; c=relaxed/simple;
+	bh=ri3Ab/w8ylepNYDhS7++udAmqB7j+tQzODtC2zg91p8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IaEVM/6j5/wBKjIW1cvw01ZDXzAt88E92dOfeMNaHaUDB7e55ADkb/JZkJJDQEpauwQY2tFFbEiPHJD7HtMJaZu13r2v5Q6V2THXlKSuYw7nKb4+KfhOubhqGMFUCyHKm1PtF3rcO7Yn601fzu1IP2sxDOcSnm/wa7kfOCVMDL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iKfJ5xH0; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G09NNGS8"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6C19E40801
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 21:12:11 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id BVSOVcrq_55G for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Nov 2025 21:12:10 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::62a; helo=mail-ej1-x62a.google.com; envelope-from=zlatistiv@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 56B14407E8
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 56B14407E8
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=G09NNGS8
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 56B14407E8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 21:12:10 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-b72bf7e703fso215795866b.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 13 Nov 2025 13:12:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iKfJ5xH0"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8b1e54aefc5so179503785a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 14 Nov 2025 06:44:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763068328; x=1763673128; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1763131483; x=1763736283; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wyeY2XNsdqhfXocUSjoPZjzq+oQsyNbMvmr9wItdoUQ=;
-        b=G09NNGS8qR6oNENKeTixesvJK57WEHicRx9QbCc8agVPBkq8WqKg2gIvNauFV6a2Dm
-         pXmY6PnTTHXOVANmpaEO7H3+YVA+nVUWPUe/1rDbHnWaE/TWH4yJKFPgmuh394/2opVZ
-         EcOMkA4Fg1tQPriRG+JzX7HoItFeuSLNU8j+fAq3zS1XlZZgYEYFuG8bc92leTrtdnfl
-         V8rO2dkCmLEh6cqFs6tQNXI7vSAChIJwUKwG4s6x0L7PmlJnGRFL3E9+WXJjP4TyZN57
-         Tf/lwi9KJH0e+URhaBJo+mzG16ASBobnRKf/2hYdSUBtj/B4trZhkSDO34bLCRxXkzqn
-         6ykw==
+        bh=aWteGZHapM/ld2g8RPEQnKVKieUk3L8Us0utHpeCavw=;
+        b=iKfJ5xH0OAspklg4nciMV3MGsTxYAmB9w07Hkdwgk8f8MnkmTyJpZIPdQxnVXbWDD7
+         qYOCxriZFae5674E4pl4KMRvie7s7WvJT4D4lxIzmmk2H8K3t49kFslJvNjwB3vRcekf
+         YRjKfeaOmKLZ+JIZR/x9MosSPz9/ACGy10V4NubmtO9sQ6qf2QyWg0pT7iF51Cpa5RcF
+         m4xenAA/oFbLtFcF74Cn6mWItuW0YVCK3sHbHiAj5PdoE6V7FZvusPm3z2+QxzUn0KBd
+         VImZppVChCw7+ZSQyqjPyb0U6WpT+8TVji5BhKR3wBQBaxvAjHH5ViB2fDIwqgemDwYR
+         3+mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763068328; x=1763673128;
+        d=1e100.net; s=20230601; t=1763131483; x=1763736283;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wyeY2XNsdqhfXocUSjoPZjzq+oQsyNbMvmr9wItdoUQ=;
-        b=XOIGga8XljeZot/yGp9J0vLnR5x5rjLjlPrfyr7WMDcinFGM/Tcd9jZ1EBh1XoQHXc
-         1zSW+ZmurqSGK7FvY8cqH37WwvjYJsQ0F+w1m7AclHkoM3uM+77Zq10aZaPNHUDSZrve
-         ALRCG9/g2VgrWNYAoZTYBPl8MqSqGx8hbuKQyy4V2eUKQd69cEsm4mNpaAPr7cIDUrwv
-         BErD3zdA1FKAQ5BRZXIkrhGCIzRMrgAOfd3HHA9RvZ4Ch/PiYATtCO07EQC/PI45Fc3H
-         B+wKp3T8TyVA5HTfh5SB1Iqt/qAUOPMOc+q3H0KG+hh6vxPyrUP/aDwq7UPFt5Qp5vUz
-         9vBg==
-X-Forwarded-Encrypted: i=1; AJvYcCWlFUP7lJt4fGZU/hrNn6Lae6bRwyq/aTzSYFlXBRfifvlpGzFvfXTAV2TW4tVZQQfnA4boQEvbjmFFffnVYZHDWONBpg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyIOizqAol/70S8DT0kGXG51/+IH8o9VZ4wVEGYItn9p3n3hOCM
-	H8Mz2AGXItHA3WRYTH7Cob5lijYLJbL4FU88u3p7HYDFpuMS0/TNGvZ/
-X-Gm-Gg: ASbGncvPaebx+w+kypF3mjdZp2PIukw4aE/IGzMa7v4MUcahuZePsXtQqVLqRYRsErg
-	NJfJzO+CvdzeLBqr5/thKbXcgg/cBE//rus1aBEjlhHcSj9RQlxOl6+2X1OXhGKe/ychoaS4/mn
-	nTTLffrmdy1mFis0SUqih4NQnLE9BZL12y5kmcPbvNaGsuhE++Abp7VT3WROu1erc9ozchotvZc
-	XDnruO3ffjeFAPkct1aSoyIi5/1D0aSHlRxjqEl4Pcp5EzSQ4DLxCR0VaBo70zY3R44dKr6HdWk
-	1RvlJkFTICa0xPA73vkXzCX6a3W/7UFbwBN7iUi+ZQ0lYTVtmdqR0ek9saTJJAj5joftV5IuaHK
-	nEZkaK8lYWdema2GJBQI/7uPcfG9f7MjdaTBJ5c+vV8+GNNQmTKevGIsS+8ePvwkj968rVAv0bY
-	IKH120h6xaZX4=
-X-Google-Smtp-Source: AGHT+IHiDc/7hf9TqjsuwSPQ+FK0WK3MXANc1n+4UzxCZWDV8N5JWcs8yaQjBqEdwkwAyS0qmrlBJg==
-X-Received: by 2002:a17:907:60d4:b0:b6d:5914:30c with SMTP id a640c23a62f3a-b73679841a7mr52617866b.34.1763068327739;
-        Thu, 13 Nov 2025 13:12:07 -0800 (PST)
-Received: from localhost.localdomain ([46.10.223.24])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fda8d69sm237324266b.50.2025.11.13.13.12.06
+        bh=aWteGZHapM/ld2g8RPEQnKVKieUk3L8Us0utHpeCavw=;
+        b=ZFr2fv2emADml5dbi0aivEIs88I7BKHyGenjY/Aho9ihx8e+Jm+8djNP7qt0p9ebfQ
+         Y5Kx508zrlQwMmRvYsERA+Nq/WrnIs4giPVuuHH1g96WtrpOJgUXNlHlqN3ODo1j1u0V
+         pPozwRTtB7ajlyBigUz2gHp4mQedcn8a1M/zWaYDHSHfg1LUSMVwgZmQesrRGo+4o+WY
+         NoH0QFT3MC8xdH9v9lXZxKM20XR9Dm7pHvMWQsOgpPXnwq8MgWEdjw/dNJCQD2NEDINp
+         1FpPAu41XsXPaOHmajqSAfhHi4oKue10Hv4O5sl7LSyjtUALk3oW/0PYDGGCxrKVB0av
+         UMeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXawqNG3q35e0Ap6xUKZLTiKdPZubtkd9fuCoDfjF5xnX3hX6lgLzNx2xZlqtTuL5TRMSmIFWYVFlYuiGXmxA1cPF3toA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaEkqQCwS+Cj1rKc7Isxd1TIvwSQkLL4kDf3C9qspzNEa+Otv0
+	j2OhS6GhbU/FFgcc+5PUXvGka6swD5rSlwf8qzfyofpSP8gQk5upCxbD
+X-Gm-Gg: ASbGncvneSPgdoRzfnmPf7kP3abl/+WXgLsbJRNMXXcpXgovrOmOnhbspUb9Axwwxu4
+	ZBth2IXvpcNaMnqAQN3fbXJ6wfHNph6lZ/3qqG8Oq0D+FMA2ONtqtg/i2gnqbS0mjotPyo3klgy
+	77Ft54nvpGWm36cWgeU8Jz0QRNUze8JYKTiqw+w+NPGUw3cswXBPSIZnY27nKxHqgOZFARt9F/t
+	M1TGQKBNoOmKXBdbJ5+TdjuB6eU4PHawDjlscyjK361uaoPZQsHwHSeiexxemCqk64lmAyX+uL0
+	1GpOuZ8rc9VmQxcFXpigXcYpKbP0VB1rvjm6eBkkOimoJQCAnr3xr3F44uO6IWWPBOdxpWey3Wm
+	1+zG87cka0Zc4EvAMhaf/Y/UO4oL0FJjXMmqEnwSHpc8pJ3J6UzEfiyIilT9sqCpahhbqQz1BQX
+	qHlYaJm8xIlaTGLYM/6Jujgr+WYgih/2s=
+X-Google-Smtp-Source: AGHT+IFPjQlSqC/ss4lwRCrHnzgS910DC//wiBOCNwnW0xCnYqx8uCQ1I2xzaPFYMjeaq4Ndw+mQCQ==
+X-Received: by 2002:a05:620a:f15:b0:8b2:7726:c7cd with SMTP id af79cd13be357-8b2c31a622amr400786885a.49.1763131483265;
+        Fri, 14 Nov 2025 06:44:43 -0800 (PST)
+Received: from rpthibeault-XPS-13-9305.. ([23.233.177.113])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b2af048749sm344232285a.49.2025.11.14.06.44.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Nov 2025 13:12:07 -0800 (PST)
-From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-To: jiri@resnulli.us,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: netdev@vger.kernel.org,
+        Fri, 14 Nov 2025 06:44:42 -0800 (PST)
+From: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+To: axboe@kernel.dk
+Cc: linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	jack@suse.cz,
+	cascardo@igalia.com,
+	linux-kernel-mentees@lists.linux.dev,
 	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	"Nikola Z. Ivanov" <zlatistiv@gmail.com>,
-	syzbot+a2a3b519de727b0f7903@syzkaller.appspotmail.com
-Subject: [PATCH net v2] team: Move team device type change at the end of team_port_add
-Date: Thu, 13 Nov 2025 23:11:42 +0200
-Message-ID: <20251113211142.245216-1-zlatistiv@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com,
+	Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+Subject: [PATCH] loop: don't change loop device under exclusive opener in loop_set_status
+Date: Fri, 14 Nov 2025 09:42:05 -0500
+Message-ID: <20251114144204.2402336-2-rpthibeault@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -102,103 +79,152 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Attempting to add a port device that is already up will expectedly fail,
-but not before modifying the team device header_ops.
+loop_set_status() is allowed to change the loop device while there
+are other openers of the device, even exclusive ones.
 
-In the case of the syzbot reproducer the gre0 device is
-already in state UP when it attempts to add it as a
-port device of team0, this fails but before that
-header_ops->create of team0 is changed from eth_header to ipgre_header
-in the call to team_dev_type_check_change.
+In this case, it causes a KASAN: slab-out-of-bounds Read in
+ext4_search_dir(), since when looking for an entry in an inlined
+directory, e_value_offs is changed underneath the filesystem by
+loop_set_status().
 
-Later when we end up in ipgre_header() struct *ip_tunnel points to nonsense
-as the private data of the device still holds a struct team.
+Fix the problem by forbidding loop_set_status() from modifying the loop
+device while there are exclusive openers of the device. This is similar
+to the fix in loop_configure() by commit 33ec3e53e7b1 ("loop: Don't
+change loop device under exclusive opener") alongside commit ecbe6bc0003b
+("block: use bd_prepare_to_claim directly in the loop driver").
 
-Example sequence of iproute commands to reproduce the hang/BUG():
-ip link add dev team0 type team
-ip link add dev gre0 type gre
-ip link set dev gre0 up
-ip link set dev gre0 master team0
-ip link set dev team0 up
-ping -I team0 1.1.1.1
-
-Move team_dev_type_check_change down where all other checks have passed
-as it changes the dev type with no way to restore it in case
-one of the checks that follow it fail.
-
-Also make sure to preserve the origial mtu assignment:
-  - If port_dev is not the same type as dev, dev takes mtu from port_dev
-  - If port_dev is the same type as dev, port_dev takes mtu from dev
-
-Testing:
-  - team device driver in-tree selftests
-  - Add/remove various devices as slaves of team device
-  - syzbot
-
-Reported-by: syzbot+a2a3b519de727b0f7903@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=a2a3b519de727b0f7903
-Fixes: 1d76efe1577b ("team: add support for non-ethernet devices")
-Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
+Reported-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=3ee481e21fd75e14c397
+Tested-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
 ---
-Changes since v1:
-  - Add a "Fixes" tag
-  - Add a simple reproducer in the commit log
-  https://lore.kernel.org/netdev/20251111171341.4c6d69be@kernel.org/T/#u
+ML thread for previous, misguided patch idea:
+https://lore.kernel.org/all/20251112185712.2031993-2-rpthibeault@gmail.com/t/
 
- drivers/net/team/team_core.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ drivers/block/loop.c | 41 ++++++++++++++++++++++++++++++-----------
+ 1 file changed, 30 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/net/team/team_core.c b/drivers/net/team/team_core.c
-index 29dc04c299a3..94c149e89231 100644
---- a/drivers/net/team/team_core.c
-+++ b/drivers/net/team/team_core.c
-@@ -1134,10 +1134,6 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
- 		return -EPERM;
- 	}
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 053a086d547e..756ee682e767 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -1222,13 +1222,24 @@ static int loop_clr_fd(struct loop_device *lo)
+ }
  
--	err = team_dev_type_check_change(dev, port_dev);
--	if (err)
--		return err;
--
- 	if (port_dev->flags & IFF_UP) {
- 		NL_SET_ERR_MSG(extack, "Device is up. Set it down before adding it as a team port");
- 		netdev_err(dev, "Device %s is up. Set it down before adding it as a team port\n",
-@@ -1155,10 +1151,12 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
- 	INIT_LIST_HEAD(&port->qom_list);
+ static int
+-loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
++loop_set_status(struct loop_device *lo, blk_mode_t mode,
++		struct block_device *bdev, const struct loop_info64 *info)
+ {
+ 	int err;
+ 	bool partscan = false;
+ 	bool size_changed = false;
+ 	unsigned int memflags;
  
- 	port->orig.mtu = port_dev->mtu;
--	err = dev_set_mtu(port_dev, dev->mtu);
--	if (err) {
--		netdev_dbg(dev, "Error %d calling dev_set_mtu\n", err);
--		goto err_set_mtu;
-+	if (dev->type == port_dev->type) {
-+		err = dev_set_mtu(port_dev, dev->mtu);
-+		if (err) {
-+			netdev_dbg(dev, "Error %d calling dev_set_mtu\n", err);
-+			goto err_set_mtu;
-+		}
- 	}
- 
- 	memcpy(port->orig.dev_addr, port_dev->dev_addr, port_dev->addr_len);
-@@ -1233,6 +1231,10 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
- 		}
- 	}
- 
-+	err = team_dev_type_check_change(dev, port_dev);
-+	if (err)
-+		goto err_set_dev_type;
++	/*
++	 * If we don't hold exclusive handle for the device, upgrade to it
++	 * here to avoid changing device under exclusive owner.
++	 */
++	if (!(mode & BLK_OPEN_EXCL)) {
++		err = bd_prepare_to_claim(bdev, loop_set_status, NULL);
++		if (err)
++			goto out_reread_partitions;
++	}
 +
- 	if (dev->flags & IFF_UP) {
- 		netif_addr_lock_bh(dev);
- 		dev_uc_sync_multiple(port_dev, dev);
-@@ -1251,6 +1253,7 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
+ 	err = mutex_lock_killable(&lo->lo_mutex);
+ 	if (err)
+ 		return err;
+@@ -1270,6 +1281,9 @@ loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
+ 	}
+ out_unlock:
+ 	mutex_unlock(&lo->lo_mutex);
++	if (!(mode & BLK_OPEN_EXCL))
++		bd_abort_claiming(bdev, loop_set_status);
++out_reread_partitions:
+ 	if (partscan)
+ 		loop_reread_partitions(lo);
  
- 	return 0;
+@@ -1349,7 +1363,9 @@ loop_info64_to_old(const struct loop_info64 *info64, struct loop_info *info)
+ }
  
-+err_set_dev_type:
- err_set_slave_promisc:
- 	__team_option_inst_del_port(team, port);
+ static int
+-loop_set_status_old(struct loop_device *lo, const struct loop_info __user *arg)
++loop_set_status_old(struct loop_device *lo, blk_mode_t mode,
++		    struct block_device *bdev,
++		    const struct loop_info __user *arg)
+ {
+ 	struct loop_info info;
+ 	struct loop_info64 info64;
+@@ -1357,17 +1373,19 @@ loop_set_status_old(struct loop_device *lo, const struct loop_info __user *arg)
+ 	if (copy_from_user(&info, arg, sizeof (struct loop_info)))
+ 		return -EFAULT;
+ 	loop_info64_from_old(&info, &info64);
+-	return loop_set_status(lo, &info64);
++	return loop_set_status(lo, mode, bdev, &info64);
+ }
  
+ static int
+-loop_set_status64(struct loop_device *lo, const struct loop_info64 __user *arg)
++loop_set_status64(struct loop_device *lo, blk_mode_t mode,
++		  struct block_device *bdev,
++		  const struct loop_info64 __user *arg)
+ {
+ 	struct loop_info64 info64;
+ 
+ 	if (copy_from_user(&info64, arg, sizeof (struct loop_info64)))
+ 		return -EFAULT;
+-	return loop_set_status(lo, &info64);
++	return loop_set_status(lo, mode, bdev, &info64);
+ }
+ 
+ static int
+@@ -1546,14 +1564,14 @@ static int lo_ioctl(struct block_device *bdev, blk_mode_t mode,
+ 	case LOOP_SET_STATUS:
+ 		err = -EPERM;
+ 		if ((mode & BLK_OPEN_WRITE) || capable(CAP_SYS_ADMIN))
+-			err = loop_set_status_old(lo, argp);
++			err = loop_set_status_old(lo, mode, bdev, argp);
+ 		break;
+ 	case LOOP_GET_STATUS:
+ 		return loop_get_status_old(lo, argp);
+ 	case LOOP_SET_STATUS64:
+ 		err = -EPERM;
+ 		if ((mode & BLK_OPEN_WRITE) || capable(CAP_SYS_ADMIN))
+-			err = loop_set_status64(lo, argp);
++			err = loop_set_status64(lo, mode, bdev, argp);
+ 		break;
+ 	case LOOP_GET_STATUS64:
+ 		return loop_get_status64(lo, argp);
+@@ -1647,8 +1665,9 @@ loop_info64_to_compat(const struct loop_info64 *info64,
+ }
+ 
+ static int
+-loop_set_status_compat(struct loop_device *lo,
+-		       const struct compat_loop_info __user *arg)
++loop_set_status_compat(struct loop_device *lo, blk_mode_t mode,
++		    struct block_device *bdev,
++		    const struct compat_loop_info __user *arg)
+ {
+ 	struct loop_info64 info64;
+ 	int ret;
+@@ -1656,7 +1675,7 @@ loop_set_status_compat(struct loop_device *lo,
+ 	ret = loop_info64_from_compat(arg, &info64);
+ 	if (ret < 0)
+ 		return ret;
+-	return loop_set_status(lo, &info64);
++	return loop_set_status(lo, mode, bdev, &info64);
+ }
+ 
+ static int
+@@ -1682,7 +1701,7 @@ static int lo_compat_ioctl(struct block_device *bdev, blk_mode_t mode,
+ 
+ 	switch(cmd) {
+ 	case LOOP_SET_STATUS:
+-		err = loop_set_status_compat(lo,
++		err = loop_set_status_compat(lo, mode, bdev,
+ 			     (const struct compat_loop_info __user *)arg);
+ 		break;
+ 	case LOOP_GET_STATUS:
 -- 
-2.51.0
+2.43.0
 
