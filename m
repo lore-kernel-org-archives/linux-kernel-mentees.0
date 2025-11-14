@@ -1,132 +1,79 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F2A2DC794
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 14 Nov 2025 19:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2242123A99E;
+	Fri, 14 Nov 2025 20:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763149068; cv=none; b=C2j6rqbPadcve3GWx/GYMZFujvrh8djodVRl9Jc0uvGBg+pkkk8YOhMZCqGCDI0bITBWnp69/lAJNsfNr3Jq9+251mwrka8D+orxdUQoaXAKdrFNkfIU93BLDpkaXaDI6u5LEsMdAB3DmUzHxeTAJPbK8rShCuP+78//Z1ozRcg=
+	t=1763153096; cv=none; b=p8C079Pv5vLq5GaTqeVsMyJZA1qc81UCfEJ1csUSeQTCGWgrJNKo5EN/fOTt/cXr6Iya2XhgrgT1kdB8rr+kAm7pHkKkjJJUFhAZjtg9lkZkh+yM9iDIDW2fPgriNkJHEu3o02coiw4u1uJletOLrnn+O+47Fgjhz9tAhy8ZVMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763149068; c=relaxed/simple;
-	bh=w8x1vgY5Ytuh+8oAzT9I6DYuO6E1SOohSBxub76r0Qc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mQEkY2s7wkXAb3PzIRYmFrZUVJkqzOVmMfnXhcsypEwEbEBNucArZ2UPursiY8aSbUwGH8r3jDiGO2B6d0JIokqy7RALK3Tv7SkKO3EWAEGzlRgafTBjn1R1fmXhwEj5ahNZ/TI4ptDH9/6As34EXKI8bw6KkblS74eUQuJlsvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=Uij6YR61; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
+	s=arc-20240116; t=1763153096; c=relaxed/simple;
+	bh=DX5/dSKrdO98FJcehhnVwXz/bPEbebQaaUwG0mNCd0s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sD6a4f+5KWBxpRP9TsczX4+t6mqmYBAcUOZ850TT2UJjTMpMuejYxAYGaKlKbjgSVqFQ7p6ZTmn0s1FmCOem9cdhFEa7iPIukSeg8PrGZ86w8oD660b1VI7ciLCspzf13VqUEWPFzD8I8pH9VDZGisEDrlVJdomBlRZfJAWYiXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ox9zZpYS; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="Uij6YR61"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7aad4823079so2162595b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 14 Nov 2025 11:37:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vjti.ac.in; s=google; t=1763149065; x=1763753865; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XU8vU/KjPE99lkBMAKIxdrPamg7+p9OoEjvmjp1kXQ0=;
-        b=Uij6YR61Shp5ZP4jQszTu+cOvK3TIsJcqyGL/WyjtUGgKSW2yfrt1evIDNUiRDaQao
-         TEjjWxwoaRkW4aM1Z99VsIu0nBfp/FHl/L2ioW6r6esQaiGTZsJg7SmMvFSldcD9A/iT
-         +mcIeTOiy1OZNFBEdiMbBlsfnfw1reZfhW2Tw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763149065; x=1763753865;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XU8vU/KjPE99lkBMAKIxdrPamg7+p9OoEjvmjp1kXQ0=;
-        b=rGgExLhw8l4SWKrw70AbsW3r+qg5k1dHEicBoFqHGQc+qeJc/LCaQYYyaRTYGEeCDQ
-         2tSP9MqYXChfDaY9g4d+7CkgvVMDaYCGeSZr+QGi0e+3BGlx4XWAUd88HYqitwyGUgnw
-         9CL8ZAqd/+tHYgqs4hJ3MrrEn8R3rYtJMqOMqYpGuViFDcM6qH2/sqI/jt8UFNbYHFfp
-         5RXfS2y2RMlNWThnfejZgauLUFXMkd2Llc/6e/VcpQIFRRpkA0oPKjs1GDjvlHq4nERY
-         53C5KqllMKva+I1r2RdAG21CTTNqx6Ez03+sqe96tJRp4NaTnJqW5k7aNQo/GuK+b3Pr
-         FQeA==
-X-Forwarded-Encrypted: i=1; AJvYcCU5Cn7TVXcsUwMBJW7Mwcy1cbLrZQRY68DpEvuoecssJuu42tYfuHbZKlm4wBAcP2rWvVYpIpTspRc0Etk5MP73zFKOgA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwA7WpKReHduUYwWe+40D4QOAXOS0y4dTz6UQEk9LEH65Y6/qUl
-	FTb1kquCfZ4XsV98oK2JezayWKWR3ql4C/VplKo2BVs1uTaTy+h+JOgp3m3T7bpr4g4=
-X-Gm-Gg: ASbGncvFa6yFS3iMu+KDRAkRGr8C2sIBVJx7ePzjYXQZ9i/Qe97AliS7EchaQAWqd14
-	to9OgTSe3FH12hnRWAPHcWdsFAJl2SYcDM3ftldPNRVIP9LqhGkyms322JIn/e6L+YgxA40FxwQ
-	bPuVPfjBrm342UpSlzGB357DtJI7Vebdjh6+ifauWUbcIA9MAlPb3MPeJFRxHfhhbLjUVtEaUXk
-	CuOhCknwjeTBI6sGjjoyl2txPG/k2mVNUfuPa4rMBVVvlZvOqoMQ6eurp3Uxzd6cNRL5W4jQkXd
-	tMVaSVHNzkzgssVmfAA+2xePrAZfwz8pq53z2Pb8T5jxsslPZjeBGbKsiRwmE/YobPXejeOpMSP
-	BUHwv+G+PaeXl6kG2vWnY1xdKvh+7a8HkRWfF60OSw7HaMFIsBteKcsDVkiHlcgvfjivYdNaMQI
-	gTCx5vH/4rR9TuE+BBvzRBHOwOLrzQsfbR/zHGw8BNrDkZeqN5OYQs9b19
-X-Google-Smtp-Source: AGHT+IE+LbpWEktarCB2Dnrv1yWZrNsnZpDCOeAp7apnz9uVsWtNi+RAN9rwFssQKUSctcc6Q3Qc9w==
-X-Received: by 2002:a05:6a00:2e8f:b0:7b9:7349:4f0f with SMTP id d2e1a72fcca58-7ba3799f055mr4742484b3a.0.1763149064968;
-        Fri, 14 Nov 2025 11:37:44 -0800 (PST)
-Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([2405:201:31:d869:6873:3448:fe16:68a6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b9250cd5f6sm5941807b3a.16.2025.11.14.11.37.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Nov 2025 11:37:44 -0800 (PST)
-From: ssrane_b23@ee.vjti.ac.in
-X-Google-Original-From: ssranevjti@gmail.com
-To: willy@infradead.org
-Cc: akpm@linux-foundation.org,
-	shakeel.butt@linux.dev,
-	eddyz87@gmail.com,
-	andrii@kernel.org,
-	ast@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ox9zZpYS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=avhP2BlDV0WsSq481d4QOJ4qj6ZBZ4/qUpQyCVpZucI=; b=ox9zZpYSOeDXSI8JO8p8p0xM9L
+	hk+LKitvAWv/vcxVHaSHG4VRyN2HpeglgaFVYC8ij4y9mu0dutl/n3Bl0123uduvNbDUUaQxLeeCQ
+	4EOtj11TOd1NgD7gul5dqRT4uiVVbsLIgnj63wtKc720Gqt83valXqg1xSAhYu6aquLE9KJuiFET+
+	DZnVDzOSue8dzQW1YSilSNS/4IjyIJSHBZeT+JrBK9TO6PR5s02OrBlmDQqdan/lP/z+E8F7WAcZ0
+	IPy6/+Mx2PdD/bKSY6fmbKPbOIOcyWT7JES4G6e9ZlMf/FAd5u7PGoq95gQA0XlNy3MG9BVsfIiij
+	mqbMKMIw==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vK0f2-00000009u54-04RV;
+	Fri, 14 Nov 2025 20:44:48 +0000
+Date: Fri, 14 Nov 2025 20:44:47 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: ssrane_b23@ee.vjti.ac.in
+Cc: akpm@linux-foundation.org, shakeel.butt@linux.dev, eddyz87@gmail.com,
+	andrii@kernel.org, ast@kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com, khalid@kernel.org,
 	syzbot+09b7d050e4806540153d@syzkaller.appspotmail.com
-Subject: [PATCH] mm/filemap: fix NULL pointer dereference in do_read_cache_folio()
-Date: Sat, 15 Nov 2025 01:07:29 +0530
-Message-Id: <20251114193729.251892-1-ssranevjti@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH] mm/filemap: fix NULL pointer dereference in
+ do_read_cache_folio()
+Message-ID: <aReUv1kVACh3UKv-@casper.infradead.org>
+References: <20251114193729.251892-1-ssranevjti@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251114193729.251892-1-ssranevjti@gmail.com>
 
-From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+On Sat, Nov 15, 2025 at 01:07:29AM +0530, ssrane_b23@ee.vjti.ac.in wrote:
+> When read_cache_folio() is called with a NULL filler function on a
+> mapping that does not implement read_folio, a NULL pointer
+> dereference occurs in filemap_read_folio().
+> 
+> The crash occurs when:
+> 
+> build_id_parse() is called on a VMA backed by a file from a
+> filesystem that does not implement ->read_folio() (e.g. procfs,
+> sysfs, or other virtual filesystems).
 
-When read_cache_folio() is called with a NULL filler function on a
-mapping that does not implement read_folio, a NULL pointer
-dereference occurs in filemap_read_folio().
+Not a fan of this approach, to be honest.  This should be caught at
+a higher level.  In __build_id_parse(), there's already a check:
 
-The crash occurs when:
+        /* only works for page backed storage  */
+        if (!vma->vm_file)
+                return -EINVAL;
 
-build_id_parse() is called on a VMA backed by a file from a
-filesystem that does not implement ->read_folio() (e.g. procfs,
-sysfs, or other virtual filesystems).
+which is funny because the comment is correct, but the code is not.
+I suspect the right answer is to add right after it:
 
-read_cache_folio() is called with filler = NULL.
++	if (vma->vm_file->f_mapping->a_ops == &empty_aops)
++		return -EINVAL;
 
-do_read_cache_folio() assigns filler = mapping->a_ops->read_folio,
-which is still NULL.
-
-filemap_read_folio() calls filler(), causing a NULL pointer
-dereference.
-
-The fix is to add a NULL check after the fallback assignment and return
--EIO. Callers handle this error safely.
-
-Reported-by: syzbot+09b7d050e4806540153d@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=09b7d050e4806540153d
-Fixes: ad41251c290d ("lib/buildid: implement sleepable build_id_parse() API")
-Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
----
- mm/filemap.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 13f0259d993c..f700fe931d61 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -3980,6 +3980,8 @@ static struct folio *do_read_cache_folio(struct address_space *mapping,
- 
- 	if (!filler)
- 		filler = mapping->a_ops->read_folio;
-+	if (!filler)
-+		return ERR_PTR(-EIO);
- repeat:
- 	folio = filemap_get_folio(mapping, index);
- 	if (IS_ERR(folio)) {
--- 
-2.34.1
-
+Want to test that out?
