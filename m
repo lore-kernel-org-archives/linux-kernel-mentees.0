@@ -1,209 +1,143 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B9830ACF3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 14 Nov 2025 22:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F4B1B0439
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 06:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763158839; cv=none; b=ig8YzDFl7B8Tn54UO7b/aJ0twXi8iU5r93XwlMElxTt4GSTVODvaikOKh7Jl7vEnVczvS2wBOyI2f7PEiKqAne2/ArMEh+hiyK0tIVHcb1ODxdICrhVIgfvSIjVPe7ESTKP6kbpBvP3MBGVYRM4+YwgeU37FsktBQv4ZfGltx5c=
+	t=1763187503; cv=none; b=il0eqUsE1jgwpi2/3kTJB/mlp8MAOJ1bAeT12eba12JIScIekgM6/5E0O7n/AI2sc1vsG2g7VOkoS3eef6GrIV/h2logz0+Zke1rR+p4zsaZCevayMKPoSuG51LWdx0DOttZUuXRvYqI1cyoXDy44ZTQcvvX+CogZFmpXJ1LRLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763158839; c=relaxed/simple;
-	bh=GXKq4qFm2Qic82MUT9U/ZlOoz1C/eNqIuRGuCoAjflA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CCXecJgJ4JFY23rR9nmhzdBO5n6U5uSywZcneJx5stZcl1ktpr0aiuaX9wsQW4hBw5fh1fSFPQar0MaRqldM6h2PRblvKleU5hZq3Ir0M42+4B0mCSebr2TcBDzD9FKqh9NWDDXwcduxzRrk/GNZqxjOJw8SjbAgPPqvBcCQLmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=jVP3BKmH; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1763187503; c=relaxed/simple;
+	bh=NrEKsQoz0XxezEcop9klSosma97viVe+I9X0t+9NKwU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qUqqMW8G+j7ay+bzgDrd/H059XQ4A3IdzO9bo6pgeJ8Y/pmNkg3iwV5n/7PhsNkEu3q/PrpVkYV6g6gvUPjG1xDIdhbyqQ8xxJaxsto3vOQ+d7nkCD89GlmrcsLRdDfTd0Dl4mf2lopXZ17twnkovHEmHz2kDnZPxoUlh/EJt+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hklXXU7U; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="jVP3BKmH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hklXXU7U"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7F4FB41042
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 14 Nov 2025 22:20:37 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0E6DA41208
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 06:18:22 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -5.791
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id tqFytLLetg0F for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 14 Nov 2025 22:20:36 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=98.137.69.31; helo=sonic316-55.consmr.mail.gq1.yahoo.com; envelope-from=adelodunolaoluwa@yahoo.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org A49AA4103D
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A49AA4103D
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=jVP3BKmH
-Received: from sonic316-55.consmr.mail.gq1.yahoo.com (sonic316-55.consmr.mail.gq1.yahoo.com [98.137.69.31])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A49AA4103D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 14 Nov 2025 22:20:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1763158836; bh=iaO/GQHIWCg+Hr9D5m3jX5yvTCqb1XRrkZhoE4MkWjo=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=jVP3BKmH6AKNNviujJYjUa6BaxEx27Aa8103d1WLrWuJnXndv1h15fz4x3arpKWg08tRJ50gTFzX87Z69MLdM/IxmSbkm/SA7AYiGckGQi+/iVZNeC3Uo2cMB3WG3HR1zDMZQtBYneOBuVMvjpYjnvKsi8gnHIEzArc4cIPbiqvK58svpTDiPKlsp/vYl7+LmZerNhPMGVnnvtUMQjFSU5uZPnvI9Jg1dO/lZX2UYjloFJrQEeF0g5xFbvFTqaXNRXj/O1xFBIYfcebtlm/BpqhKByLlCaX5qa572TRQOc5GALw/kbyAVxVyrOgaU9JGC4F2JlAaJQP0c54eR1tGFw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1763158836; bh=UYfJ5m7hJxegx7I/LhUosjc2kUTpr1qL2qZHEvz0WRS=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=ANFClzBBBE61raeDXdOI/Jrkb7QZ/OJzy0P3CO0zqOKoxY6c0Aaw0s5vyP8YpbEFI+993wdE5jor5DvGZQ8Yza/YFqEowpndF7D8JIbVJx4NrtrLc91+rRf4NSpEra9Ck95abgmyCL9JdPppdJii9V0Plb14dOFHAq+6zAWvDMOXBtVKrX3JnqxadaBgYp5J7bKJ+mYvmgSB8fQAScbuXzEfoHm3D55Bju+Pjrdt83ELDq7PazLabkoWExKQpbu69RfGFuBGYO68JluXe9zlf8E0qk/i+Q0xm1N+rhGKsk0BC4AkUaXB4mwlQC2nKekmWOyvFkjbm8tzIZJScmDjcQ==
-X-YMail-OSG: 4FfyHgQVM1l7C.5Szl5k__iV_mDnh830DH56pSboKIDzQwidApP.29oiG.QpVKJ
- FGiKG_upW0I5Zvae4oTmVB.5FbO2TPIPYgBQaLsQU700CAJM9Sb9wi8wo00k3Mlf7ivuHPEuQDel
- Ju54NvoTsUTs602TCvEYPMfSrQaORJBoSIqksDCqewYnc7fdGwUwYuSipzEV.RemIHmFb1uKOk6T
- 1zr33gmYXldgnuuEwDS_78WQ1WobtwNCjjplfgrz1YCkgEs7Gf6NDMfwVyGWCznqi0Hb07GoDhYt
- e0QQuzgw.RgpxBDIoKg84DFzYdGB77Ky8P_9e4M.jqJT2qGRNALN6s_X.1VjlVInsT42oZvPmlvQ
- CcvDDrdUl_pq_KDdMUlzBmymYo16aZtWJC_r4ZZNSVkAlKKg9yf4gnKUk90MiSS8eKuXP7k2BW8H
- uNXyAvMZrmkJ2JJyHRswmdMjXnaZ0YaQD1dV7WsU4GxWtkHdmCegkjtABlWAYMmP5pjWVJFCjdDf
- fxuVzXwjhdVvp7dqIKwIjoudFY1lrWs0o17eiWVcEO7r.04uAQNfUzLyY74IH3lyXKpsl.x3FkFt
- ZvLVkKAbOb11tamxPEHlKKM0I6llfMwdO7p_cEYqf8odBmTDLQUHC87xrcWRCH.zZprKMy7O_qBb
- 1wYScI6Y2h1FIraoDggxVUTnmxX.wlnQqmb9Nmzi6.K1fBFJ2Kg3_PLxPYDuXEzO7GIcbmTSshPV
- T25o8LyxgIEoQtzGTyiUnowsSitgHhvHMsQjFV3s0WQYO1AGBcxbP0WjIiiRMeqC_.u50Efqjy7U
- 3g0LJwOFzc2mW_YG9SZGLwDgPbobRQpO7W.ndvDst2bgGMrTLRaV4Qq2gbOa2JnfgbPARknhwYPh
- Zuv1NNMg4VYy1FpUt69kHZLGWuiogJOifZJATi__SDBpRsRUjbHfDOn.ajk1BC_RhGDRtTDXmIvQ
- cUAYl6F7TgvUrGpaKQBvxKYlVZucWIe.MOvxmbetpZZaJeYC5BnORm1Tz..hnqDuqTZeQKFn5dQV
- r2lNvQwUInmvZSrN1NdbM14JvaR.6_eUztxZ6lndb8_W3PSDGOwcvS9DbA2X1VRJ7w1uJdm8I96J
- 2cErCoCfnWQfyacEHvAOsBx5AH6brOg0iFq0WekOmnKKwphbIUVNK5.oFPZn52YD_1.Bassq8RSu
- 8RsDTuKWcCDDzhzd.oLZD70dCQUD0jUrnXRR0P4vRIXqIVGPT_qNIYy97SmOnHc1_V5xb1LYEwos
- I2T.2mJqktwWjmPXsTcYIvuaB5N59.bG_VpYwwWtwPXlKb1WE3jEhK8zP49UHozHFN5KNJGGZfE_
- QTqSYTVwtFutNTqTlKh6F3g8WjGQKsEKv_kEm5YV6ZKtnIfux31BlbMD_co3SWUphVNpiYHzSNzQ
- X6pFJixd._POctZA4IMM5edEQePcmeF7aBkznOQYezb7vgNO06VnXkgylpZyN0wTKgo4MS.IWV9o
- Eri89iXSKFmcWYqj.RWpJPNIdVCm0vM9OzwyeO6W6b0xxPMTlOw7t.sVD3ppXDFWNQlEPoJawulF
- BpPDNAwrHM4ph091j7fKnVE1OR.jJCda0Sesf4QlYVPHplT1ZYKqECs5AbAsTOaxEI_b662GR8fK
- Ke4iZyZ5EmN3lRDyIXQfIrKD8.yR2nqN4cezVrW9QWQt9B0kGqIJsQnCZJICu4A2YplpPGpXbADS
- BuZH6QKvJhnFXQhxdpG378GrIxcH5km0PcSRwcNzqYQFxLLkTS6aC_vM4HGTAI0c6Yz_tJtzdfcw
- hbB5ZPvyY13NzOYb6EhFseyXUaCnDV9HXpSyvDNChmI663XdqKktY7rGZhLDbq7aZ8ytRijP.YDw
- 3dW8wMHXRBEQltVkiNBI2eaM.p5B_KZCov3_pmaPuUNla.UWQun3xP4V12BySmCDkemR6CqwFjzi
- uHRyuvy9Yaiw0htvkRvCQ48IZ9EBeyPZ9ecIM.VFmWvZZt304uix8EL74fPeCYricKQ0NTLl45XM
- Xm1UI0F3PQcfadrqe_jwsEdeZDMgkGEOKq3q7CAcOwg9wcKvyjdngkh2sprJOuVIgHGnoWcLJ9kt
- tW2czl2kzCuytc0fDLo58NSA1_5IrwkLIY_KNhhe8ChBr7VZycu1CjMhsJkwDfYQ.SsVcOgeFSTp
- dAqgKON2YWDXei7VCYfZluBGfLrF7H8Y.5qENVU1cVhxVrdtyl4my3LlgS8WtIvmTZeMaVl4o57n
- dS8F4pe01mu2t4mM2tM0YKidRZ45l2lXcW.aN9X6rguVDO4SXgxDxmGq27qqVAvTG64ZBJnkmPVg
- VTS82yKgF.WaIKfCKR0knYfA-
-X-Sonic-MF: <adelodunolaoluwa@yahoo.com>
-X-Sonic-ID: 33d2b546-738f-416b-973d-321f9834d415
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic316.consmr.mail.gq1.yahoo.com with HTTP; Fri, 14 Nov 2025 22:20:36 +0000
-Received: by hermes--production-bf1-58477f5468-vjcpj (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID fdd2b53d4999915145ebe89b3164e7d5;
-          Fri, 14 Nov 2025 22:20:34 +0000 (UTC)
-Message-ID: <dc441690-914a-487e-9867-c2012f74f498@yahoo.com>
-Date: Fri, 14 Nov 2025 23:20:26 +0100
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Ioj2djI184lq for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 15 Nov 2025 06:18:21 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42e; helo=mail-pf1-x42e.google.com; envelope-from=nirbhay.lkd@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 6551141207
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6551141207
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=hklXXU7U
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 6551141207
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 06:18:21 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-7b852bb31d9so3113677b3a.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 14 Nov 2025 22:18:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763187501; x=1763792301; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nR414HzuTWuhyNuPBPVh6HF0ByypEaKaxDXsS4YHm+8=;
+        b=hklXXU7U6xORY3Q/y/bMFWzBHl0nmsjmzXkvvninYZw6HurgguzeXqGMDWIb2l+bb+
+         pIJOFfIsznzXx9glRgxvvig+cKVBzd1/kRyU9OPqv1Obn/ZI2qYO0hNM0eNciEQ+UQT1
+         4dv8HajUbjXb2ijRYiwrvx0KJ7as/XwTXjGYLhr0xAy8KGOVBQ6pOgjILnCcZ8tlCJ+e
+         8PM+zQirSuDwmzNZEvIrFHTN3Bd9Uvz65f31LosRhTI/TBZXMcl2rFDDhtBfAiOHTCB2
+         fAtJkEalHhTGJ+VgJV+WimAf8GfTscWz2yO1I9iLWQJ7/O6IYMd36YHP8K0ym+j8pJEc
+         u4wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763187501; x=1763792301;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nR414HzuTWuhyNuPBPVh6HF0ByypEaKaxDXsS4YHm+8=;
+        b=gEJK2rDEGSlPYjnRk8M5+qNRtvMYRpJBEXeYjWAgTtn/zzbWKLmHrzaSBfMMn3eC4r
+         AxlaUBifMYOwmk1RxVl1bjRq2cgbv+MVRk0RXLa8TMW6eLfEWlAuzyhVzWsVJZ4Qc8Zs
+         LyXb1MYPEZEgq4amGodNobgsjVFPlK/piakt9GlsGAmgVwV7XdiOPV1quoSX//IPY9uV
+         9DTwGBTIKiJ16gceyjOrREoeK3IWYQ2FXeAS1awxmC/vgfFMsTFovefHL8fCBePcQ05d
+         p1tAJ+j0Z4xDfMzb+x9TImOJbOan6iNYHy9c2Hqaa2i6ubUgbLOK2YNbPxXUV1JQwdUW
+         yctQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVqyruTALz85WGNjhm0XJc0nA5g9wnJVzl8rmATSFj5l2H9bAludEKMjPp896z9lYouzLr3/UqUkv1/dh15ojXd4HY1jQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyQMmRDQ4h0SAKNpd7lx5HhbRML+CLAJ9SKj8D6cGjl0V0k+WLd
+	BPfX+/S0NMEs04NfzR2XUf4A6fJEc8DCUfIFMPBMumirXCEeYHq5V401
+X-Gm-Gg: ASbGncvjZyke4gjk9rANnxMBm0OM3ANU/Qf+1LJ3YuT+7GQIihY+KEKONcqhq2gA6rl
+	46BSoLAn5RANsgB70M5QZLfTYgofSTIqrYtpxeC1c2AT2TTnaghnKiZccR3HHV2mIx4JOkmOUjq
+	Cym24FnxQ0BumT0rYoB6glpXnp26/2LeofCkyq1WFwVcCBD0IRZleYHlde2H0E2iSBnOlClsNTb
+	kktqGpOteY8sCWzW86xZBveDsIARBX3BvaBIWp8gkGYnTdLxN6l253SuZ6ZoLol+qiIm5bFFKXr
+	A5peFjGhTQMNFrA6IL6eCZQJrDbNaaSAvpcqYEmUsRu9T0fTPh1DTAMpAyjaSTuuzZk9qFb5IxU
+	GzjFge7pGNIwMSJ1E8ewSj/FoLmup0d1vYGIG871ZB2w7fhaCiR/7HkYBPVYmQuZDwh/5rMEha5
+	hUDicHtwzHdoFF+N57n987cPZCsy2N7PVioRiJh4PzazDOFR19iH3ydfupnxMl7Pak+n+SbV/iC
+	RxOGGNnJrWZWkDsORT9soor6x0=
+X-Google-Smtp-Source: AGHT+IH1LjD90VbAPuNapbdjB5ZQKWZ42pc4Ga7VXQDXnVR8Okq/prv5bQKCJu1zSNjuVb+IId1/ug==
+X-Received: by 2002:a05:6a20:4315:b0:34e:e0ba:7ab with SMTP id adf61e73a8af0-35ba219576fmr7346436637.40.1763187500557;
+        Fri, 14 Nov 2025 22:18:20 -0800 (PST)
+Received: from prakrititz-UB.. ([119.161.98.68])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b9250d24b9sm6976265b3a.17.2025.11.14.22.18.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Nov 2025 22:18:20 -0800 (PST)
+From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+To: David Lin <dtwlin@gmail.com>,
+	Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Shuah Khan <shuah@kernel.org>,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Nirbhay Sharma <nirbhay.lkd@gmail.com>
+Subject: [PATCH] staging: greybus: uart: check return values during probe
+Date: Sat, 15 Nov 2025 11:46:47 +0530
+Message-ID: <20251115061646.160847-2-nirbhay.lkd@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: rename drm_ioctl_flags() to drm_ioctl_get_flags() to
- fix kernel-doc name conflict
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- zack.rusin@broadcom.com
-Cc: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20251010002520.359824-1-adelodunolaoluwa.ref@yahoo.com>
- <20251010002520.359824-1-adelodunolaoluwa@yahoo.com>
-Content-Language: en-US
-From: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-In-Reply-To: <20251010002520.359824-1-adelodunolaoluwa@yahoo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.24652 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-On 10/10/25 01:25, Sunday Adelodun wrote:
-> The function `drm_ioctl_flags()` defined in `drm_ioctl.c` shares the same
-> identifier name as the `enum drm_ioctl_flags` defined in
-> `drm_ioctl.h`. Although this naming overlap is perfectly valid in C —
-> since functions and enumerations exist in separate namespaces and do
-> not affect compilation or linkage — it causes a symbol collision in the
-> kernel-doc build system.
->
-> During `make htmldocs`, Sphinx reports the following warning:
->    ./Documentation/gpu/drm-uapi:574: ./drivers/gpu/drm/drm_ioctl.c:915:
->    WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
->    Declaration is '.. c:function::
->    bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'.
->
-> This happens because kernel-doc processes both identifiers (the enum and
-> the function) under the same name, leading to a duplicate symbol entry
-> in the generated documentation index. The build system therefore treats
-> them as conflicting declarations, even though they represent different
-> entities in code.
->
-> To resolve this, the function has been renamed to
-> `drm_ioctl_get_flags()`, which both removes the naming collision and
-> better describes the function’s purpose—retrieving ioctl permission
-> flags associated with a given command number.
->
-> All affected references have been updated accordingly in:
->    - `drivers/gpu/drm/drm_ioctl.c`
->    - `drivers/gpu/drm/vmwgfx/vmwgfx_drv.c`
->    - `include/drm/drm_ioctl.h`
->
-> No other symbols or behavior are modified.
->
-> Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-> ---
->   drivers/gpu/drm/drm_ioctl.c         | 6 +++---
->   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 +-
->   include/drm/drm_ioctl.h             | 2 +-
->   3 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index f593dc569d31..313e8bb7986a 100644
-> --- a/drivers/gpu/drm/drm_ioctl.c
-> +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -912,7 +912,7 @@ long drm_ioctl(struct file *filp,
->   EXPORT_SYMBOL(drm_ioctl);
->   
->   /**
-> - * drm_ioctl_flags - Check for core ioctl and return ioctl permission flags
-> + * drm_ioctl_get_flags - Check for core ioctl and return ioctl permission flags
->    * @nr: ioctl number
->    * @flags: where to return the ioctl permission flags
->    *
-> @@ -923,7 +923,7 @@ EXPORT_SYMBOL(drm_ioctl);
->    * Returns:
->    * True if the @nr corresponds to a DRM core ioctl number, false otherwise.
->    */
-> -bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
-> +bool drm_ioctl_get_flags(unsigned int nr, unsigned int *flags)
->   {
->   	if (nr >= DRM_COMMAND_BASE && nr < DRM_COMMAND_END)
->   		return false;
-> @@ -935,4 +935,4 @@ bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
->   	*flags = drm_ioctls[nr].flags;
->   	return true;
->   }
-> -EXPORT_SYMBOL(drm_ioctl_flags);
-> +EXPORT_SYMBOL(drm_ioctl_get_flags);
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> index 8ff958d119be..fa4644067d46 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -1257,7 +1257,7 @@ static long vmw_generic_ioctl(struct file *filp, unsigned int cmd,
->   			goto out_io_encoding;
->   
->   		flags = ioctl->flags;
-> -	} else if (!drm_ioctl_flags(nr, &flags))
-> +	} else if (!drm_ioctl_get_flags(nr, &flags))
->   		return -EINVAL;
->   
->   	return ioctl_func(filp, cmd, arg);
-> diff --git a/include/drm/drm_ioctl.h b/include/drm/drm_ioctl.h
-> index 171760b6c4a1..585dda7550b0 100644
-> --- a/include/drm/drm_ioctl.h
-> +++ b/include/drm/drm_ioctl.h
-> @@ -164,7 +164,7 @@ long drm_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
->   /* Let drm_compat_ioctl be assigned to .compat_ioctl unconditionally */
->   #define drm_compat_ioctl NULL
->   #endif
-> -bool drm_ioctl_flags(unsigned int nr, unsigned int *flags);
-> +bool drm_ioctl_get_flags(unsigned int nr, unsigned int *flags);
->   
->   int drm_noop(struct drm_device *dev, void *data,
->   	     struct drm_file *file_priv);
+Check the return values of send_control() and send_line_coding() during
+device initialization in gb_uart_probe(). If these operations fail, the
+device will be left in an inconsistent state, so propagate the error to
+properly fail the probe.
 
-Hi all,
+Both functions call gb_operation_sync() which can fail with errors such
+as -ENOMEM, -ENODEV, or -ETIMEDOUT. Ignoring these errors means the TTY
+device would be registered despite incomplete initialization.
 
-I hope this meets you well.
+Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+---
+ drivers/staging/greybus/uart.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-I wanted to check if there's any update or if any further changes are 
-needed from my side
-
-regarding this patch.
-
-Thank you for your time.
-
-Best regards,
-Sunday Adelodun
+diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+index 10df5c37c83e..5cece0a6606f 100644
+--- a/drivers/staging/greybus/uart.c
++++ b/drivers/staging/greybus/uart.c
+@@ -879,14 +879,18 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
+ 	if (retval)
+ 		goto exit_put_port;
+ 
+-	send_control(gb_tty, gb_tty->ctrlout);
++	retval = send_control(gb_tty, gb_tty->ctrlout);
++	if (retval)
++		goto exit_connection_disable;
+ 
+ 	/* initialize the uart to be 9600n81 */
+ 	gb_tty->line_coding.rate = cpu_to_le32(9600);
+ 	gb_tty->line_coding.format = GB_SERIAL_1_STOP_BITS;
+ 	gb_tty->line_coding.parity = GB_SERIAL_NO_PARITY;
+ 	gb_tty->line_coding.data_bits = 8;
+-	send_line_coding(gb_tty);
++	retval = send_line_coding(gb_tty);
++	if (retval)
++		goto exit_connection_disable;
+ 
+ 	retval = gb_connection_enable(connection);
+ 	if (retval)
+-- 
+2.48.1
 
