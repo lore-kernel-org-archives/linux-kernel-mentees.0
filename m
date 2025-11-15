@@ -1,89 +1,91 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4CB2877FA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 13:47:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F4A296BC3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 14:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763214461; cv=none; b=dt7ed2Sq7IEmDuZOECBg4tvdnl25pJ09JBRx6ciJLqsyBKJb4dxDLczVSBxUxEb5pz6q7LL4F1mkzCTZH6z96Pof/zmexI1xHjHkxXUWeED4AMkngIyeDfDjQ9YWbqOmw94vVcu5nFSSkzySoHGUJfhmcfeeSMkR+cOSog08Epg=
+	t=1763217075; cv=none; b=VeD37ZnlWiSYSzJk/SEJ2AA2uyQp6rIevExYWG9rM+Oik7US4xg61u6gVhLULhgK6cI4NVEOrGFxfs1pyilzT7gMM2P4m3rSrswRt14J7C3nWnENxzVIqdg/vovL47p1JHDrBqqydF022Jw67jTfCCW7R/vhuEy1/W6rMCP1Hwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763214461; c=relaxed/simple;
-	bh=EVgP9ExVkqCUenc9FH0HcoIhOGOFEP8rgqi5TP+s/v8=;
+	s=arc-20240116; t=1763217075; c=relaxed/simple;
+	bh=HCh1AbItHBot1NefhnEc/xtCfs1nqqOG8nCz/nzyiIg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tTw3IQm6fQTBkB3oryZM1x4C/ipJ7xRaqFGpcLAWdxLW93GDWY8tXtsPC3ua7cIA7rAv0RAZ4myMaqLUmHIsv8b3cKGZmVvc9ArnFtR4dnH6glKu7H/F7dJfds1kpAi2Vrkbu2fcPmdN94B/gB+TvpE+2ptTtd9rq1vAF/S77d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XBYvhpwL; arc=none smtp.client-ip=140.211.166.137
+	 To:Cc:Content-Type; b=sVcNqYugU4iMU3mbAt1uMqsFKRCai+Htj6G7Kmo5Wm6LgMmqKQzITuemPAHgKjY57rwLsUjTbmJhQe9cqn/aMac+DtOYojITQNtlVLuh7D9JwPgv6XvkTLWqkch6ZOqnARDJbuP/qvqxV4uY2hhITKqzIgu51Vrq8RJjuIr9Mq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MTNR6qpS; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XBYvhpwL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MTNR6qpS"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 34A7B41113
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 13:47:40 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id B9E33841D0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 14:31:13 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 0Xu7ycQ2K3MN for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 15 Nov 2025 13:47:39 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::e30; helo=mail-vs1-xe30.google.com; envelope-from=kubik.bartlomiej@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 518B441112
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 518B441112
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XBYvhpwL
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 518B441112
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 13:47:39 +0000 (UTC)
-Received: by mail-vs1-xe30.google.com with SMTP id ada2fe7eead31-5dbe6304b79so1067275137.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 05:47:38 -0800 (PST)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Dl2SBi4PDqrV for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 15 Nov 2025 14:31:13 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::e35; helo=mail-vs1-xe35.google.com; envelope-from=kubik.bartlomiej@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org C9D78841B7
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C9D78841B7
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=MTNR6qpS
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C9D78841B7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 14:31:12 +0000 (UTC)
+Received: by mail-vs1-xe35.google.com with SMTP id ada2fe7eead31-5dbe6304b79so1076231137.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 06:31:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763214458; x=1763819258; darn=lists.linuxfoundation.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=m/gXBXAgqzLo5+JUCiKb5ya5AjR/z9Ngvy4LoMnAnlc=;
-        b=XBYvhpwLreYD6r2q7kcFs31dQ0FqnS6Z10UT2AXTBauGrN3XF79lEoohH+za7NmCWb
-         rVVqw7foAxgLsGQ+S+0c1Shyx6ink4x0a2alQhrpowkr/kYiN+LZG2JSqP3+kDYoEelF
-         TwaRGgMThcpofDZ+h5tZFSSOwhUlhVmWOby9uiaQitWkFHkZR7s1mHuCusav4l8HDr81
-         k11lXZdTj7Jxpf7A2YMAjjDf7DXAlZLzjYVBkA4NOrLtLrctMK6acGctWuhH5qPQ2ruM
-         FTS9KO4LgqWaGEykYrVcThFKOtULSxQbcxEJrEwGmL3r9tElFT5fQC+EP0WGrmVZ1MOG
-         vKlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763214458; x=1763819258;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1763217071; x=1763821871; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m/gXBXAgqzLo5+JUCiKb5ya5AjR/z9Ngvy4LoMnAnlc=;
-        b=OEVqzrsXn8iXXSr0eKrddf+sr6WL0UaunQRF9ZLk+9oBnzB3YC1YUjjJUy5Zy9EuIH
-         31uKv2HIMwRNpXWcf6wlsX2A211X9ltV4NHr5/s4zGMGA6oHW8/nzPQbGGrVJAX7Ogme
-         YdFC6OM5pKAaF6DJmAWuHjVa4iYjOxmvwr+WhA3eKR9HvRI0nnUaQe2hBkLa3GKwHvJQ
-         PIF52HaTcyiZXYdpBuedYRDgqBghyGIPTBi1fG2dJQJPyipOcL2ik2XPXWi4Fes9hTS1
-         kkd3Q7J/RSVAAjQfPx4lRXx/X9C0OB6X1Z0W5jWvM8QGb97VuWJzo8BS9WEf8KEH9nto
-         JV/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXZDptAwg/5t0HzCB6ZLOreaoNPG5uVNBZ4LBtMpVLlxuOzYAgV5ArcRAwbZi2yN2hKo3bq42FArrrenz9Jha3qzihk0A==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yz1ftL/UZhjQ71bAlvzY2JzYmhTYFbestg9YMEgQxsbM/k//Ahg
-	DZnnpiy2WAr/PZ9RWKrU6ztz4Fkn+OmLvtVmlEgjXJ8n2Zc/Uyb1hSnT1HaFGI7Sjj2MjTnwrQy
-	EkAPo+RF+IvZH1tOdCK9RR1Uv507haoo=
-X-Gm-Gg: ASbGncsqwg/gWdEvCrWVt0b3cpR3VIRcrYzLIW/kcGnmp429+lUbkmYnztf4s7LFzbP
-	BCKAtHE7e+DU+NZtNd8S3SJKMNmuk9NrakHqBFLQ6RGiShq5RJzF6ZITlkMAi/uwT7ey5oNc6wo
-	TAzpLr5NvcKQOzARexM1kP5/ZBh1AkMgrnngoJSrsXi3wHL28liEHckhLuXeiuaeS4uOaAVNNMl
-	C0lAAKyLXYKiuAAglOrSaStpw9uVMwE4Yy9p01j8HA/aOaKE8CN2MDDMUFbcRsT7hxOokVgDCOV
-	bOPrP7m0Dl9miJnQ0PtSHdG1koa3bCQLboiAEXN1k/gm2uQ=
-X-Google-Smtp-Source: AGHT+IHWKU/4RdU4gvqjTx7OcBVkWnGkX4o4XGexGqQflsQR7RNiXUTmBdhLzKSVU5OxwWlzQHQEcUFRCkdt/uYGNiY=
-X-Received: by 2002:a05:6102:15c6:b0:5dd:b2ee:c6ff with SMTP id
- ada2fe7eead31-5dfc554efc6mr1692122137.8.1763214457248; Sat, 15 Nov 2025
- 05:47:37 -0800 (PST)
+        bh=L/zsgxjumAghjp5NTUgp2Dj0RhDrX5umNkGyHZM347g=;
+        b=MTNR6qpSrcBoRfIEVpQ4mY1jJtgy3/E62WOLkltIFRvNjgLN9exU4eRRdPRb4nZlZv
+         aXARlQiZB5h34xixtXgCxdVcb3PP83TzZvF38wyYGJAb/qmuYetYvspjB5MdVIQuLMZo
+         RNuYmeWAFutp+qzl31ugw5EVlm1N/QkKAYGuRIWpGTCtiGbuUUh+8Gwa7BTR74tqrzU8
+         gy9pm+mJLRyOEjH7vFyL9z9jL7IZLNBDE8D14kczPxbzLj0JqGsRstX1lDr4fdYUhBH/
+         oL+1dVgMrHWNFQOsk7f2VmwTeuBFS35KA35GOFPfs9wYo1VvO4WU5sBEIq8kQ7Gu4Owz
+         I6Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763217071; x=1763821871;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=L/zsgxjumAghjp5NTUgp2Dj0RhDrX5umNkGyHZM347g=;
+        b=O1C6kqNB2MJ0OsD2lMBjTES/L5jHNQUn5heyUZlTSOcW65haRdApaxkQFFA+YvF3UY
+         h5z3q6KpT5WT9ApYf9tB+2ZS85o7yWf7QCyxgSJb+2CknQ3QtakUZf3VTi4eycTKOwIp
+         eGa/qYLPL6or7qctf1uhXbykKIbOvteaE5IsmsE5mZOAqBhQ1Y0b39rMgrRRxssQtJKv
+         vGUbLLSnwd9DFMpp/N4mK2h2fyeI2FejUejpCyl+sTjH0q6EffE9oChkMOXyQORsYa5n
+         BVjihRWHEL29jOz8kKe8Knaw80S+BnBYLil+QKMSq5OavJK8E6ld+33RP+jixvSEzPMC
+         4vyg==
+X-Forwarded-Encrypted: i=1; AJvYcCVcXLpiMcU4SGgZF5izUKseoNlmyaKWoeIdS4b4YfR8nmj0FnfX52w7MnKWkVqpSoj+RT2h84RoEYamXadUf84aVaZxAA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yyc1xGznaGdz7SVFSsFaY66FWzwywuulPYYWriyOJSWBNQrWJpb
+	raNH1XVr6I7jr2IMTt0kT8UWipMWshKI/PCU10vSkyDGHYIqj8bDKcnAElq8xxCSB6zDt84OtlH
+	XJ9uufh0j0/51j9Q7ZRKl9eaXN1GHhwA=
+X-Gm-Gg: ASbGncsc3Z5h2gf/jFhtbzenecXLHllL8F33jGXLyGbBsLETgekpYRdJqOnkqQbC5tF
+	SYKLGtEhbNnD1bPeBc5BHT7Uz38rtzzTYeXCRNi1O3dA5FxJd+XJyI4HOwI045MbjBfp+Z6H0z6
+	sLUlDTKmrlGPiU3MFAcyy7XqdKIKeOhQCSrvDvyk+O+iK1Fts/WVYwauS4VV/4km3gMhApqKpZI
+	3RC7e0ze+9ApIeJWRAo6pp8ggUhGp/f9keBfd8L3skhVAL1RL/quqMaR5AyBXbdQNI6Egr2+k9u
+	5Iyw3iaY8RjKaHCR7F09HZvO0ytPWR8NfSXXWdcb0qQvDK7iZGmdZv3E1g==
+X-Google-Smtp-Source: AGHT+IEqXthhXr4xd8zhDNKcc8uuAbcCd1a0DH0E8A483J5NHlU1YyQoSY6GhKMrR09mqYLXqhzbYM6XzukHMCRB13Q=
+X-Received: by 2002:a05:6102:374e:b0:5db:a6c1:5b13 with SMTP id
+ ada2fe7eead31-5dfc5b9e406mr2471341137.33.1763217071323; Sat, 15 Nov 2025
+ 06:31:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251028145534.95457-1-kubik.bartlomiej@gmail.com> <562fa035-c732-4bfc-8439-2279d029f72a@acm.org>
-In-Reply-To: <562fa035-c732-4bfc-8439-2279d029f72a@acm.org>
+References: <20251028145534.95457-1-kubik.bartlomiej@gmail.com>
+ <562fa035-c732-4bfc-8439-2279d029f72a@acm.org> <CAPqLRf1-zb3v2hMDexM4zCtAtr+yzwQdeSrkzssfo0rkmLo=mA@mail.gmail.com>
+In-Reply-To: <CAPqLRf1-zb3v2hMDexM4zCtAtr+yzwQdeSrkzssfo0rkmLo=mA@mail.gmail.com>
 From: =?UTF-8?Q?Bart=C5=82omiej_Kubik?= <kubik.bartlomiej@gmail.com>
-Date: Sat, 15 Nov 2025 14:47:26 +0100
-X-Gm-Features: AWmQ_bmOozScg0utOIPVx1HD9iuU9Npr5RrozIq1rF3X8kP6d0exCiltHGGVvX0
-Message-ID: <CAPqLRf1-zb3v2hMDexM4zCtAtr+yzwQdeSrkzssfo0rkmLo=mA@mail.gmail.com>
+Date: Sat, 15 Nov 2025 15:31:00 +0100
+X-Gm-Features: AWmQ_bnQWhJkFitrpJackQLV__jZ-yjP9nqpKYf6SwLg52eMCuK1zIXwP1iCp9s
+Message-ID: <CAPqLRf2eyK2bRess785AB6C2+Mj4U1CGyT6n4spkJy+_gNc9-A@mail.gmail.com>
 Subject: Re: [PATCH RFT v2] driver/scsi/mpi3mr: Fix build warning for mpi3mr_start_watchdog
 To: Bart Van Assche <bvanassche@acm.org>
 Cc: sathya.prakash@broadcom.com, kashyap.desai@broadcom.com, 
@@ -93,8 +95,12 @@ Cc: sathya.prakash@broadcom.com, kashyap.desai@broadcom.com,
 	david.hunter.linux@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 Hi,
+
+Apologies for my previous email - I mistakenly hit send before completing
+my full response.
 
 Thanks for your time and review.
 
@@ -106,58 +112,69 @@ On Wed, 12 Nov 2025 at 21:55, Bart Van Assche <bvanassche@acm.org> wrote:
 >
 >  From include/linux/workqueue.h:
 >
->         WQ_NAME_LEN             = 32,
+>         WQ_NAME_LEN             =3D 32,
 >
->         char                    name[WQ_NAME_LEN]; /* I: workqueue name */
+>         char                    name[WQ_NAME_LEN]; /* I: workqueue name *=
+/
 >
 > In other words, increasing the workqueue name length beyond 32
 > characters is not useful because it will get truncated to 32 characters
 > anyway. The workqueue implementation complains about longer names as one
 > can see in kernel/workqueue.c:
 >
->         if (name_len >= WQ_NAME_LEN)
->                 pr_warn_once("workqueue: name exceeds WQ_NAME_LEN. Truncating to: %s\n",
+>         if (name_len >=3D WQ_NAME_LEN)
+>                 pr_warn_once("workqueue: name exceeds WQ_NAME_LEN. Trunca=
+ting to: %s\n",
 >                              wq->name);
->
 
 Yes. My mistake: I did not see this before. I walked through the path
-where watchdog_work_q_name
-is used, but I did not go too deep. I found this when building the
-kernel and GCC returned a warning.
+where watchdog_work_q_name is used, but I did not go too deep.
+I found this when building the kernel and GCC returned a warning.
 I saw a couple of months ago that the watchdog_work_q_name size was
-increased from 20 to 50,
-and MPI3MR_NAME_LENGTH was also changed from 32 to 64.
+increased from 20 to 50, and MPI3MR_NAME_LENGTH was also changed
+from 32 to 64.
 
-> > diff --git a/drivers/scsi/mpi3mr/mpi3mr_fw.c b/drivers/scsi/mpi3mr/mpi3mr_fw.c
+> > diff --git a/drivers/scsi/mpi3mr/mpi3mr_fw.c b/drivers/scsi/mpi3mr/mpi3=
+mr_fw.c
 > > index 8fe6e0bf342e..18b176e358c5 100644
 > > --- a/drivers/scsi/mpi3mr/mpi3mr_fw.c
 > > +++ b/drivers/scsi/mpi3mr/mpi3mr_fw.c
-> > @@ -2879,8 +2879,7 @@ void mpi3mr_start_watchdog(struct mpi3mr_ioc *mrioc)
+> > @@ -2879,8 +2879,7 @@ void mpi3mr_start_watchdog(struct mpi3mr_ioc *mri=
+oc)
 > >
 > >       INIT_DELAYED_WORK(&mrioc->watchdog_work, mpi3mr_watchdog_work);
 > >       snprintf(mrioc->watchdog_work_q_name,
-> > -         sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
+> > -         sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->=
+name,
 > > -         mrioc->id);
-> > +         sizeof(mrioc->watchdog_work_q_name), "watchdog_%s", mrioc->name);
-> >       mrioc->watchdog_work_q = alloc_ordered_workqueue(
+> > +         sizeof(mrioc->watchdog_work_q_name), "watchdog_%s", mrioc->na=
+me);
+> >       mrioc->watchdog_work_q =3D alloc_ordered_workqueue(
 > >               "%s", WQ_MEM_RECLAIM, mrioc->watchdog_work_q_name);
 > >       if (!mrioc->watchdog_work_q) {
 > Leaving out mrioc->id from the workqueue name seems like an unacceptable
 > behavior change to me.
 
 Add twice the same ID one after one. Is it not a mistake ??
-If mrioc->name has that same ID and the end.
+If mrioc->name has that same ID at the end.
 
 sprintf(mrioc->name, "%s%d", mrioc->driver_name, mrioc->id)
 
-We build watchdog_work_q_name from that and add twice the same ID.
-At the end If I correct see watchdog_work_q_name will looks like
-watchdog_mpi3mr11
-
-
+watchdog_work_q_name is built from mrioc->name which has this ID at the end=
+.
+If I see correctly, if mrioc->id will be 1 then  watchdog_work_q_name
+will look like
+watchdog_mpi3mr11, but I think it should be watchdog_mpi3mr1, or am I missi=
+ng
+something??
 
 > Please consider replacing the proposed changed with this untested patch:
->
+
+You are correct. I've sent this patch as an RFT because I don't have the
+hardware to test this. I would appreciate it if someone could test the prop=
+osed
+patch for me.
+
 > diff --git a/drivers/scsi/mpi3mr/mpi3mr.h b/drivers/scsi/mpi3mr/mpi3mr.h
 > index 6742684e2990..050dcf111a4c 100644
 > --- a/drivers/scsi/mpi3mr/mpi3mr.h
@@ -183,20 +200,26 @@ watchdog_mpi3mr11
 > index 8fe6e0bf342e..b564fe5980a6 100644
 > --- a/drivers/scsi/mpi3mr/mpi3mr_fw.c
 > +++ b/drivers/scsi/mpi3mr/mpi3mr_fw.c
-> @@ -2878,11 +2878,8 @@ void mpi3mr_start_watchdog(struct mpi3mr_ioc *mrioc)
+> @@ -2878,11 +2878,8 @@ void mpi3mr_start_watchdog(struct mpi3mr_ioc *mrio=
+c)
 >                 return;
 >
 >         INIT_DELAYED_WORK(&mrioc->watchdog_work, mpi3mr_watchdog_work);
 > -       snprintf(mrioc->watchdog_work_q_name,
-> -           sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
+> -           sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->=
+name,
 > -           mrioc->id);
->         mrioc->watchdog_work_q = alloc_ordered_workqueue(
+>         mrioc->watchdog_work_q =3D alloc_ordered_workqueue(
 > -               "%s", WQ_MEM_RECLAIM, mrioc->watchdog_work_q_name);
 > +               "watchdog_%s%d", WQ_MEM_RECLAIM, mrioc->name, mrioc->id);
 >         if (!mrioc->watchdog_work_q) {
->                 ioc_err(mrioc, "%s: failed (line=%d)\n", __func__, __LINE__);
+>                 ioc_err(mrioc, "%s: failed (line=3D%d)\n", __func__, __LI=
+NE__);
 >                 return;
 >
 > Thanks,
 >
 > Bart.
+
+Best regards
+Bart=C5=82omiej Kubik
