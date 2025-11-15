@@ -1,96 +1,93 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F4B1B0439
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 06:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CBD0299AB3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 11:42:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763187503; cv=none; b=il0eqUsE1jgwpi2/3kTJB/mlp8MAOJ1bAeT12eba12JIScIekgM6/5E0O7n/AI2sc1vsG2g7VOkoS3eef6GrIV/h2logz0+Zke1rR+p4zsaZCevayMKPoSuG51LWdx0DOttZUuXRvYqI1cyoXDy44ZTQcvvX+CogZFmpXJ1LRLA=
+	t=1763206973; cv=none; b=lF1yJFvMn6LeXsPHXYVajT/nsY8AFJk68DfaJEOYeNjUKGmcB1ngwxnytRQmwjZCibERDYM+REndC0586S4vS74Jm6qaMffWYTHTfg8Ssff29UBg93cPsZzRl90GYJr3C9opPrKHAhSdZvms2chimmF7/J5bg4IJkyy09ZR25P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763187503; c=relaxed/simple;
-	bh=NrEKsQoz0XxezEcop9klSosma97viVe+I9X0t+9NKwU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qUqqMW8G+j7ay+bzgDrd/H059XQ4A3IdzO9bo6pgeJ8Y/pmNkg3iwV5n/7PhsNkEu3q/PrpVkYV6g6gvUPjG1xDIdhbyqQ8xxJaxsto3vOQ+d7nkCD89GlmrcsLRdDfTd0Dl4mf2lopXZ17twnkovHEmHz2kDnZPxoUlh/EJt+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hklXXU7U; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1763206973; c=relaxed/simple;
+	bh=rFp/Xdva3jGM52uO5VTslo8C6wRd3X+KrevwjEi0We0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kZhCPosyf0ukcHZPfP3Zn8Vceqh+HDYfuxstn7FcF7D6+eMcG5PSbJwAbFFkzP7JUOiOh48eP6CHd0HDPEXBN5vlNS0sNV6eN3pWxHNSmkbiA8MPoJb4xpmEK5e7laYc9JrWAWl4ggYj80PPra7VQsfDWnVZptZ//ahdtE/BFF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FEcWG895; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hklXXU7U"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FEcWG895"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0E6DA41208
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 06:18:22 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 284F984023
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 11:42:52 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Ioj2djI184lq for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 15 Nov 2025 06:18:21 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42e; helo=mail-pf1-x42e.google.com; envelope-from=nirbhay.lkd@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 6551141207
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6551141207
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=hklXXU7U
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 6551141207
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 06:18:21 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-7b852bb31d9so3113677b3a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 14 Nov 2025 22:18:21 -0800 (PST)
+X-Spam-Score: 1.236
+X-Spam-Level: *
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ClyN8J4Q9M-z for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 15 Nov 2025 11:42:51 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::443; helo=mail-pf1-x443.google.com; envelope-from=ankitkhushwaha.linux@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 893A384019
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 893A384019
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FEcWG895
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 893A384019
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 11:42:50 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id d2e1a72fcca58-7b991081160so2895765b3a.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 03:42:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763187501; x=1763792301; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1763206970; x=1763811770; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nR414HzuTWuhyNuPBPVh6HF0ByypEaKaxDXsS4YHm+8=;
-        b=hklXXU7U6xORY3Q/y/bMFWzBHl0nmsjmzXkvvninYZw6HurgguzeXqGMDWIb2l+bb+
-         pIJOFfIsznzXx9glRgxvvig+cKVBzd1/kRyU9OPqv1Obn/ZI2qYO0hNM0eNciEQ+UQT1
-         4dv8HajUbjXb2ijRYiwrvx0KJ7as/XwTXjGYLhr0xAy8KGOVBQ6pOgjILnCcZ8tlCJ+e
-         8PM+zQirSuDwmzNZEvIrFHTN3Bd9Uvz65f31LosRhTI/TBZXMcl2rFDDhtBfAiOHTCB2
-         fAtJkEalHhTGJ+VgJV+WimAf8GfTscWz2yO1I9iLWQJ7/O6IYMd36YHP8K0ym+j8pJEc
-         u4wg==
+        bh=rFp/Xdva3jGM52uO5VTslo8C6wRd3X+KrevwjEi0We0=;
+        b=FEcWG895/5iR/Qau8pm8UiVkRHbblvvBUsjmfyB2N3Aoju7Xi0vmDWyeSvN0nfl/fa
+         cgXveYmhHg/+qffcQrwhE/AH0hONjd765Dam/mW1MGzdHVdmp55XgHdLW0gegMzaTBdT
+         sMiajXFKWFkJzLHVUQ5htjAz2ebilQegMNtIB2kEMBO0BmIKSX7bulMvpVR8y1Uzyeiv
+         hWFweA4YbrnmJIhoIldnRKYoelc4WmfYMglbr87WcFuuhEC/Tbw1URRK6NW78WK5hci4
+         TbPUJo2WfdPuq5j5KcbPSL+ml/GI+YHBLuvWlcCS04/9jurAExY3LKv7mS4HMaBfylpA
+         8/dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763187501; x=1763792301;
+        d=1e100.net; s=20230601; t=1763206970; x=1763811770;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nR414HzuTWuhyNuPBPVh6HF0ByypEaKaxDXsS4YHm+8=;
-        b=gEJK2rDEGSlPYjnRk8M5+qNRtvMYRpJBEXeYjWAgTtn/zzbWKLmHrzaSBfMMn3eC4r
-         AxlaUBifMYOwmk1RxVl1bjRq2cgbv+MVRk0RXLa8TMW6eLfEWlAuzyhVzWsVJZ4Qc8Zs
-         LyXb1MYPEZEgq4amGodNobgsjVFPlK/piakt9GlsGAmgVwV7XdiOPV1quoSX//IPY9uV
-         9DTwGBTIKiJ16gceyjOrREoeK3IWYQ2FXeAS1awxmC/vgfFMsTFovefHL8fCBePcQ05d
-         p1tAJ+j0Z4xDfMzb+x9TImOJbOan6iNYHy9c2Hqaa2i6ubUgbLOK2YNbPxXUV1JQwdUW
-         yctQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVqyruTALz85WGNjhm0XJc0nA5g9wnJVzl8rmATSFj5l2H9bAludEKMjPp896z9lYouzLr3/UqUkv1/dh15ojXd4HY1jQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyQMmRDQ4h0SAKNpd7lx5HhbRML+CLAJ9SKj8D6cGjl0V0k+WLd
-	BPfX+/S0NMEs04NfzR2XUf4A6fJEc8DCUfIFMPBMumirXCEeYHq5V401
-X-Gm-Gg: ASbGncvjZyke4gjk9rANnxMBm0OM3ANU/Qf+1LJ3YuT+7GQIihY+KEKONcqhq2gA6rl
-	46BSoLAn5RANsgB70M5QZLfTYgofSTIqrYtpxeC1c2AT2TTnaghnKiZccR3HHV2mIx4JOkmOUjq
-	Cym24FnxQ0BumT0rYoB6glpXnp26/2LeofCkyq1WFwVcCBD0IRZleYHlde2H0E2iSBnOlClsNTb
-	kktqGpOteY8sCWzW86xZBveDsIARBX3BvaBIWp8gkGYnTdLxN6l253SuZ6ZoLol+qiIm5bFFKXr
-	A5peFjGhTQMNFrA6IL6eCZQJrDbNaaSAvpcqYEmUsRu9T0fTPh1DTAMpAyjaSTuuzZk9qFb5IxU
-	GzjFge7pGNIwMSJ1E8ewSj/FoLmup0d1vYGIG871ZB2w7fhaCiR/7HkYBPVYmQuZDwh/5rMEha5
-	hUDicHtwzHdoFF+N57n987cPZCsy2N7PVioRiJh4PzazDOFR19iH3ydfupnxMl7Pak+n+SbV/iC
-	RxOGGNnJrWZWkDsORT9soor6x0=
-X-Google-Smtp-Source: AGHT+IH1LjD90VbAPuNapbdjB5ZQKWZ42pc4Ga7VXQDXnVR8Okq/prv5bQKCJu1zSNjuVb+IId1/ug==
-X-Received: by 2002:a05:6a20:4315:b0:34e:e0ba:7ab with SMTP id adf61e73a8af0-35ba219576fmr7346436637.40.1763187500557;
-        Fri, 14 Nov 2025 22:18:20 -0800 (PST)
-Received: from prakrititz-UB.. ([119.161.98.68])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b9250d24b9sm6976265b3a.17.2025.11.14.22.18.16
+        bh=rFp/Xdva3jGM52uO5VTslo8C6wRd3X+KrevwjEi0We0=;
+        b=fTBgjZXekkjRpD3oRyaV0xTKF5+sUmSKzNhe0rEjmEP5OJhANOztfkyx7WRTfoHaqL
+         PfBJRBuhD9qy+33iHLP2k/KeIyLMamoCLx7unqGZ4yKJ+jEShtbADDqSprCFXp5m8yAf
+         U+LAVVLGkSAX9aRc/lS8nNtSTAK9LIG1hdotdqyichR4ElCACsDTv135OUEsz44Rzl4s
+         PBVAWUvWrzdFoMVhiCq4k1HyxtsabOsGufHsKYZOnhHMemjWUKkxxumLyz86+9Jiqyvr
+         cNSThh3U7PTwsdCw5+ZPljLfhtu11j6MhxKIt3m4I6nh42v0KaavJ0JyIZ7j3wUwgVJv
+         Y5kg==
+X-Forwarded-Encrypted: i=1; AJvYcCWrkk7Jqj90Dc4MT0HS7oSb9IHLSB3tzPVfhuO0N/me3UlKgHN8WPN/wSIfT0PDelHAPFx6QRgxwPbozrZhs9OS586aTg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwclcXt+qYR6CW/2JLPz8hx6XsHXgpZJ8jai+ZVoC7ilqMZTQp0
+	DPFrwbOmytmZj7WWO78fnYi0lA68U8xu2uk7O6YnuDLGei9ptPh9GZtIo3+/VmaW
+X-Gm-Gg: ASbGncvNWABwqlq/TQccRSmU6uF+5ih+/tDxamjR6WwvgqFVwh+Gu47hg6/FlOUKXF2
+	y0HH69BzoRht2ySahi/6ggiArcuGS7Aoom11l9MXzPKQeRHVfdrUN1pS74BBKroSANyu+nznGVq
+	MP0+ySL2Zbv4Ct0MH3Gj6Gbu/9PrinJdUmZT6ug+nfE9VwCzvCLNTOKzD8FbtbCEhuJ57b3Dxzg
+	jpCArXA3LEDu5fKuSPMhdHaO/IKWIy7J2kcaQko+NstQhtnGCltm+95whKWzlqTjT7XvvZtfWRa
+	RnVlYUolTONubnUu0ZCWy/bSFaxyEYxxiy7IMt+jwjyUACRjvx920BnbXMfxwjFxvSfFIxg7tVN
+	M+3p1nbx0HAf6RGC1MyRtA6KVyfoghvzWDFzHROLc1LuUkzJS01yCOGrl9GnMI6CHdLiHz+SuR5
+	c50Ot6+CzMg+e5Ilc05bZDUnjLMH3mQjVORZUGdce9
+X-Google-Smtp-Source: AGHT+IEAG2AbkEWEgsSkZu+MuSB+v5gfeMLkTTWEBMu2OjiTHCx/hYVcdA04MxhoZG6sPEBcfl+3xg==
+X-Received: by 2002:a62:e715:0:b0:7aa:9723:3217 with SMTP id d2e1a72fcca58-7ba3bb8ed77mr5901432b3a.25.1763206970351;
+        Sat, 15 Nov 2025 03:42:50 -0800 (PST)
+Received: from fedora ([103.120.31.122])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b921cb6f44sm7982772b3a.0.2025.11.15.03.42.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Nov 2025 22:18:20 -0800 (PST)
-From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-To: David Lin <dtwlin@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
+        Sat, 15 Nov 2025 03:42:49 -0800 (PST)
+From: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
 	linux-kernel@vger.kernel.org,
-	Shuah Khan <shuah@kernel.org>,
-	david.hunter.linux@gmail.com,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	Nirbhay Sharma <nirbhay.lkd@gmail.com>
-Subject: [PATCH] staging: greybus: uart: check return values during probe
-Date: Sat, 15 Nov 2025 11:46:47 +0530
-Message-ID: <20251115061646.160847-2-nirbhay.lkd@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+Subject: [PATCH] docs: parse-headers.rst: Fix a typo
+Date: Sat, 15 Nov 2025 17:12:33 +0530
+Message-ID: <20251115114233.32239-1-ankitkhushwaha.linux@gmail.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -99,45 +96,27 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Check the return values of send_control() and send_line_coding() during
-device initialization in gb_uart_probe(). If these operations fail, the
-device will be left in an inconsistent state, so propagate the error to
-properly fail the probe.
+Replace "vantage" with "advantage" in the description of userspace API
+cross-references.
 
-Both functions call gb_operation_sync() which can fail with errors such
-as -ENOMEM, -ENODEV, or -ETIMEDOUT. Ignoring these errors means the TTY
-device would be registered despite incomplete initialization.
-
-Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
 ---
- drivers/staging/greybus/uart.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ Documentation/doc-guide/parse-headers.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-index 10df5c37c83e..5cece0a6606f 100644
---- a/drivers/staging/greybus/uart.c
-+++ b/drivers/staging/greybus/uart.c
-@@ -879,14 +879,18 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
- 	if (retval)
- 		goto exit_put_port;
- 
--	send_control(gb_tty, gb_tty->ctrlout);
-+	retval = send_control(gb_tty, gb_tty->ctrlout);
-+	if (retval)
-+		goto exit_connection_disable;
- 
- 	/* initialize the uart to be 9600n81 */
- 	gb_tty->line_coding.rate = cpu_to_le32(9600);
- 	gb_tty->line_coding.format = GB_SERIAL_1_STOP_BITS;
- 	gb_tty->line_coding.parity = GB_SERIAL_NO_PARITY;
- 	gb_tty->line_coding.data_bits = 8;
--	send_line_coding(gb_tty);
-+	retval = send_line_coding(gb_tty);
-+	if (retval)
-+		goto exit_connection_disable;
- 
- 	retval = gb_connection_enable(connection);
- 	if (retval)
--- 
-2.48.1
+diff --git a/Documentation/doc-guide/parse-headers.rst b/Documentation/doc-guide/parse-headers.rst
+index bd34a6d00ca9..a7bb01ff04eb 100644
+--- a/Documentation/doc-guide/parse-headers.rst
++++ b/Documentation/doc-guide/parse-headers.rst
+@@ -5,7 +5,7 @@ Including uAPI header files
+ Sometimes, it is useful to include header files and C example codes in
+ order to describe the userspace API and to generate cross-references
+ between the code and the documentation. Adding cross-references for
+-userspace API files has an additional vantage: Sphinx will generate warnings
++userspace API files has an additional advantage: Sphinx will generate warnings
+ if a symbol is not found at the documentation. That helps to keep the
+ uAPI documentation in sync with the Kernel changes.
+ The :ref:`parse_headers.py <parse_headers>` provides a way to generate such
+--
+2.51.1
 
