@@ -1,85 +1,55 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF3829BD91
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 16:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7649130B520
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 19:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763223154; cv=none; b=WqUrYRMXjbvXl/C2OcLzLw2osv9hZe4j0BiCP5ZL2CTjhaUw10qv5noSmcspUr3//WC0Ze/aohPStLwaKhaLpctRkGmMzIaaxTmA3zF2MmMk9ygdU+r2xog4iLzbxSzEsVRBU9KUN01bjCFCR5RO/DNYpO9hWxEqyI3nB2xVwQs=
+	t=1763236175; cv=none; b=pr1tgn8zxyBxN0bEWegr4oCo3Kh7ytj/7Vr6FnNpq0yKcTNbKPq0tymEvjODBrUtFYNWAiOvmWdwOn55dUYZ4ZWtIAziyrdYwOq8BEqqEKQEk7FwwX5r31eRH/pEi4eGadFDXiBOL0Qby8JbVwY8SHx8gXsBz+dklolKM7xhjJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763223154; c=relaxed/simple;
-	bh=ZnpkSR77rpxwOiypBKfNZpIP5HVzuOahGXkvMl2mC78=;
+	s=arc-20240116; t=1763236175; c=relaxed/simple;
+	bh=3V1Fy9ViaaQY/0jnDSl+WwzZFp/8UOyrCxw/t7OdckM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HpAprKrYvPDiXbs0FtKFNHvrssjhgZ0M6Gg2857NkLa0Vrm8pxWmpxkU/7WwevMRvEf0DKWr+uUK3fuUzUTZv7MDEZcTlTZ0k6bmGlqMnuJvo8gVqLsOcqWVp+W27tn/JTgkSFJwC3NftpjxMOanupVKrXaGGCk0m3Qt3nZNYGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ij4RF8aE; arc=none smtp.client-ip=140.211.166.133
+	 In-Reply-To:Content-Type; b=GyEehCYvZ8ZdRtYdkGVfF2uPW67EHrCFKI/WO391zY4YuCCU7rGggT5JFREYISy3veGEszMMrGzo86f9OB7cWJ2qmwqJEY8MKpEgoSyibqNfvJ/XX/uaNHvGk1svMz6Mhje40Rx5b/5S2fJxkqU+Hytl48N+XuFuj/0BpRAbSkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mGXZAVYi; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ij4RF8aE"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mGXZAVYi"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 8AC5340159
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 16:12:31 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0147060A5D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 19:49:33 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -2.098
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id cKEJtDl6-GRD for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 15 Nov 2025 16:12:30 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::e29; helo=mail-vs1-xe29.google.com; envelope-from=david.hunter.linux@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org DF229400C4
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DF229400C4
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ij4RF8aE
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id DF229400C4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 16:12:29 +0000 (UTC)
-Received: by mail-vs1-xe29.google.com with SMTP id ada2fe7eead31-5d758dba570so1151551137.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 08:12:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763223148; x=1763827948; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y4ZZROaO2AtV1FcryfogKXlOY1JjkeOo1Pb1PB2vqI8=;
-        b=Ij4RF8aECN41Dr31YFYTTBDyxc66qfWwGnnCy+K/Es24fpbOk3rMv+W25Aj3VtGB9s
-         +SRirf117NZktNxhYjxZe6NF+jaK6v/5U2oJ6XQrGwR7EIl0wkXYlW2yTuY0DBLOLEHV
-         +TZc49bqUGyBP9xXVfwBVXGf+HnrVl7ng1oKoz5zDmLRz0A3eSVjQwIfY/0iEQJwglg1
-         K9eV2xVQbR48n/kXzP4Od3bt//uDU5keV7cqylWeMUKh+0MnFStemOD2C53tktWXD+oC
-         IzOCMizHTJKysnQ3iae+H77xnJSzg2PWeAnpiquucwJx668h5L6VtXVbTJcHiZKHQsnP
-         P0yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763223148; x=1763827948;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y4ZZROaO2AtV1FcryfogKXlOY1JjkeOo1Pb1PB2vqI8=;
-        b=iLjQf8LqEf8mGTc6WSoysxqzATFh4xB+6tCi7YGKapr3woW3sekWeIEZN8hT/J2DrJ
-         FnfgtjXNZXxQfNSrJ6HlMVN4+PJOt+czmUNNKgJD1i7CscUCqOv3u8RiM4nmAieGUB5K
-         kGd9DCGMsdOIkgihwWyuOrutuaUpeQFYjNPWNTL3937xeqle6MZSvYa1dsUgYJsVhn7z
-         EJhmuS2VGPLuCzihgQRp/YV08SOCRPwteHZiO3IoQAPbPEF7YQSn7La4wJ/tHqmunE5P
-         C0KZGjIWCjHz5bOxib/PZxJxts6m6vtLqqJsKxH1fqgBuygHWyeE4EEFUMVP2h7/97GW
-         zG2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVwSbZZniY73bGv8qFkLoHLT7ngB8d0fIsN7EVKTa0Rd3MB9yrAwJ9LAaDyC33DU8+AjdRctwkaeZ6qgvmopjNgGjCrHQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwhBI52mOlj3cYxty37yfOvQ+mvPBE/VhCAMCPae9Bj3kHyuCah
-	X3HK2X7o0YCNGYHeq3lxfppM3aquWz0FjSW3xEqM3eRctY/s7x4nUCwX
-X-Gm-Gg: ASbGncv5KE1nD8mMO62kptrZLDjP9bA+5LZoZ0K0VE1QynQ8wlqVCmhtFuwUa2nFx4W
-	o3LiJ5YcZSqliG0Iur6wH48Z36c66VGj6Ril7mirax7U/9bRBFP/3lYTILtKtFzeseJiye3yR7m
-	xm2jwSz2ZcKjB8MQ9HVvLEEJSBApeISJ7NdTaoJcG2EbzbG90Nd0jYbPzlERtPT1X4tPy1Zsbld
-	qavglDQHWm3u8GqRpVRjLOLANhg5Du+F1DDbtz/uTHsbPmUIEO9xPEiwBFqtUCP51ZSlqxtt9sO
-	C+4oseha1JSq15riWmsd5qhUWkHKiSCscGy2vKimsqnrOSDItThvURWdeYDpLHmR2Mhlq7qOI48
-	sKC+DHuewD/wcJzUDHbPDgFcM5JfenjiRUHdNWHpR4LcGKsPoWIQR3qdRn2S83u/kmQvhFrun87
-	z/a9M0weh1bRCB4yIapyHXsPfzNTqijXzY5WQemw==
-X-Google-Smtp-Source: AGHT+IF6afF+Sk5OqXufe5DnIInP/wLQgPhexqZnCnJvERed0HkkNXpn1BqSwn2dy7VPQkM2oelwCw==
-X-Received: by 2002:a05:6102:b0f:b0:5db:ecdd:1816 with SMTP id ada2fe7eead31-5dfc564a0b0mr2274620137.24.1763223148354;
-        Sat, 15 Nov 2025 08:12:28 -0800 (PST)
-Received: from [192.168.1.145] ([104.203.11.126])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5dfb726ff96sm2758596137.14.2025.11.15.08.12.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Nov 2025 08:12:27 -0800 (PST)
-Message-ID: <48a69d90-68f7-4ec7-97c4-89ba9896b663@gmail.com>
-Date: Sat, 15 Nov 2025 11:12:25 -0500
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 9FyuU1CzImmK for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 15 Nov 2025 19:49:32 +0000 (UTC)
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2607:7c80:54:3::133; helo=bombadil.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org BD6BA606FF
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BD6BA606FF
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mGXZAVYi
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BD6BA606FF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 15 Nov 2025 19:49:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=8/KsR/WjzaOM+swE8xd3DELPIr1rW/uTNlwSdG+iOJo=; b=mGXZAVYiHcZip00J95o9zpXApI
+	VTkYUQJNj/VqFv3A1I6/g9m+jDzvqS5ubbyZU+FQ1kS6g9J5MDqDSHl6L5/+ySegutARjO9h+kuCY
+	WWaP5OAGP0c5qFStHefUk5dltP5ULkoOECBjmil/ERUFF1mQGimm5ev2GBozQnK7a/uyvdlTdg9YN
+	Pf7plBZL+1IHGFbp/XII4aoc94qQ8PjN4JEjSbpglHnXieAIwh1FB0wRfUCyB5quarmMzLrnl6nN6
+	uz6P3UtqMnHGQC0/2uZmfMbAeB0wbmbHk/77EGlNLnhN8SIODzd3H9XMw4Mlzvw7ZwFOXfPBoKDoX
+	urfRkCRA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vKMGy-0000000E1zt-22oK;
+	Sat, 15 Nov 2025 19:49:24 +0000
+Message-ID: <ffb17faf-4c08-4327-bb2f-4c3b02dfbb4e@infradead.org>
+Date: Sat, 15 Nov 2025 11:49:23 -0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -87,128 +57,51 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] gfs2: flush withdraw work before freeing gfs2_sbd
-To: Nirbhay Sharma <nirbhay.lkd@gmail.com>,
- Andreas Gruenbacher <agruenba@redhat.com>
-Cc: gfs2@lists.linux.dev, linux-kernel@vger.kernel.org,
- syzbot+19e0be39cc25dfcb0858@syzkaller.appspotmail.com,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <68f6a48f.050a0220.91a22.0451.GAE@google.com>
- <20251024144332.33773-2-nirbhay.lkd@gmail.com>
- <8f270474-7ced-4668-97da-f3d7709a82e7@gmail.com>
+Subject: Re: [PATCH] docs: parse-headers.rst: Fix a typo
+To: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251115114233.32239-1-ankitkhushwaha.linux@gmail.com>
 Content-Language: en-US
-From: David Hunter <david.hunter.linux@gmail.com>
-In-Reply-To: <8f270474-7ced-4668-97da-f3d7709a82e7@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251115114233.32239-1-ankitkhushwaha.linux@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/13/25 15:24, Nirbhay Sharma wrote:
-> Hi Andreas,
+
+
+On 11/15/25 3:42 AM, Ankit Khushwaha wrote:
+> Replace "vantage" with "advantage" in the description of userspace API
+> cross-references.
 > 
-> I hope this email finds you well.
+> Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+> ---
+>  Documentation/doc-guide/parse-headers.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I'm writing to follow up on the GFS2 patch I submitted regarding the
-> ODEBUG warning in free_sbd(). The patch addressed the syzbot report
-> where sd_withdraw_work was being freed while still active.
+> diff --git a/Documentation/doc-guide/parse-headers.rst b/Documentation/doc-guide/parse-headers.rst
+> index bd34a6d00ca9..a7bb01ff04eb 100644
+> --- a/Documentation/doc-guide/parse-headers.rst
+> +++ b/Documentation/doc-guide/parse-headers.rst
+> @@ -5,7 +5,7 @@ Including uAPI header files
+>  Sometimes, it is useful to include header files and C example codes in
+>  order to describe the userspace API and to generate cross-references
+>  between the code and the documentation. Adding cross-references for
+> -userspace API files has an additional vantage: Sphinx will generate warnings
+> +userspace API files has an additional advantage: Sphinx will generate warnings
+
+Yeah, I prefer "advantage," but the definition of "vantage" also fits
+here IMO.
+
+>  if a symbol is not found at the documentation. That helps to keep the
+>  uAPI documentation in sync with the Kernel changes.
+>  The :ref:`parse_headers.py <parse_headers>` provides a way to generate such
+> --
+> 2.51.1
 > 
-> I wanted to check if you've had a chance to review the patch, or if
-> there's any feedback or additional information I can provide to help
-> with the review process.
-> 
-> I understand maintainers are busy, and I'm happy to make any necessary
-> revisions or provide further clarification on the testing that was
-> performed.
-> 
-> Best regards,
-> Nirbhay Sharma
-> 
-> 
 
-
-Hey Nirbay,
-
-The reply that you write should be below the message you are talking
-about. If you put it above, it is called "top-posting", and the kernel
-community does not like top-posting.
-
-For long email chains, it becomes difficult to keep track of the
-conversations.
-
-What I am doing now is called in-line posting. I am responding below
-your message, but there are still other messages below mine.
-
-
-> On 10/24/25 8:13 PM, Nirbhay Sharma wrote:
->> Syzbot reported an ODEBUG warning where free_sbd() was freeing memory
->> containing an active work_struct (sd_withdraw_work):
->>
->>   ODEBUG: free active (active state 0) object: ffff888026c285a0
->>   object type: work_struct hint: gfs2_withdraw_func+0x0/0x430
->>   WARNING: CPU: 0 PID: 6010 at lib/debugobjects.c:545
->>   Call Trace:
->>    free_sbd+0x1e4/0x270 fs/gfs2/ops_fstype.c:1308
->>
->> The issue occurs when gfs2_fill_super() fails after initializing
->> sd_withdraw_work at line 1218. Some error paths (fail_lm, fail_debug,
->> etc.) skip the existing flush_work() at the fail_inodes label and jump
->> directly to fail_free, which calls free_sbd() without flushing the
->> potentially pending work.
->>
->> free_sbd() is also called from init_sbd()'s error path before
->> sd_withdraw_work is initialized. Since the structure is allocated with
->> kzalloc(), work.func is NULL in this case.
->>
->> Fix by adding a guarded flush_work() to free_sbd(). Check work.func
->> before flushing to handle both cases: when called after INIT_WORK()
->> (work must be flushed), and when called before INIT_WORK() (work.func
->> is NULL, skip flushing). This avoids the WARN_ON(!work->func) in
->> __flush_work().
->>
->> Note: gfs2_put_super() already calls flush_work() before free_sbd()
->> (line 606), so the flush in free_sbd() will be redundant but harmless
->> for the normal unmount path.
->>
->> Reported-by: syzbot+19e0be39cc25dfcb0858@syzkaller.appspotmail.com
->> Closes: https://syzkaller.appspot.com/bug?extid=19e0be39cc25dfcb0858
->> Fixes: 8fdd8a28fe5c ("gfs2: Asynchronous withdraw")
->> Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
->> ---
->> Testing performed:
->> - Reproduced original bug with syzbot C reproducer
->> - Verified fix prevents ODEBUG warnings in all error paths
->> - Tested early mount failures (unformatted devices)
->> - Tested all gfs2_fill_super error paths (4 scenarios)
->> - Parallel mount stress test (3 concurrent operations)
->> - Memory leak test (50 mount/unmount cycles, <4MB variance)
->> - Race condition testing passed
->> - Validated with syzbot on linux-next (Oct 22)
->> - All tests completed with zero ODEBUG warnings
->>
->>  fs/gfs2/ops_fstype.c | 8 ++++++++
->>  1 file changed, 8 insertions(+)
->>
->> diff --git a/fs/gfs2/ops_fstype.c b/fs/gfs2/ops_fstype.c
->> index 08502d967e71..6cea03410e57 100644
->> --- a/fs/gfs2/ops_fstype.c
->> +++ b/fs/gfs2/ops_fstype.c
->> @@ -67,6 +67,14 @@ void free_sbd(struct gfs2_sbd *sdp)
->>  {
->>  	struct super_block *sb = sdp->sd_vfs;
->>  
->> +	/*
->> +	 * Only flush withdraw work if initialized. Work is initialized in
->> +	 * gfs2_fill_super() at line 1218, after init_sbd() succeeds.
->> +	 * Checking func avoids WARN_ON in __flush_work() for early failures.
->> +	 */
->> +	if (sdp->sd_withdraw_work.func)
->> +		flush_work(&sdp->sd_withdraw_work);
->> +
->>  	free_percpu(sdp->sd_lkstats);
->>  	sb->s_fs_info = NULL;
->>  	kfree(sdp);
-If I respond down here, it is bottom-posting. Both inline and bottom
-posting are encouraged. Top posting is to be avoided.
-
-Thanks,
-David Hunter
+-- 
+~Randy
 
