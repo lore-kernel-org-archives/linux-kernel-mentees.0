@@ -1,136 +1,131 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D270F264A8D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 16 Nov 2025 20:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDAF1862A;
+	Sun, 16 Nov 2025 22:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763323961; cv=none; b=JtMl5HY2mxDSKclztluiVfrGttmbfzq2IXBheh+MR35F9kWservLnBdMQAYvm0DdNeulE9rnPMCuZ79JnnuZGHHZMC7IPHmT+QaTd1EuLaML7L00vIkicwgkCZvmTgt3nMoUpyedDrDakrFDRSzc6F31aAinzO/WvDeq1jvXp8Y=
+	t=1763332341; cv=none; b=gr6YBUq2xHzQ40Yh8bIIG1caw3WRxHencDQoUoZUsdKN1P+ggcyWjjaqHDAiv4tMvwP+qeTGCiytHyqarP79wHaM0CJLSaX17LuYFNeMylHlhmXr8P+NF9/GcDfyfZUOQFD5Upivvq/7xpCFvIbGyM1cqX+YcV1+bxxS6uH1l2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763323961; c=relaxed/simple;
-	bh=V2IStt8Ah0ibAXkEhs0DjeGkfAH1U4BKPM9dtFCn7Dk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W3U+g1Uj5kfJ310Wv4xc+M63UDG0IhcYneyo7IiDzvrI1N8owdfyKZFKaIbobT3Zo4pUilOxc/CYsfW8uGS8GgbgMnDJ/rgMx4ywcOlCjKYPX6Ugtr/DYs575FSwK602Kaxpz7WDaWQGJ5TD4TARIGlNmnge+t8HceEfq9J76Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P8qFQlo6; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1763332341; c=relaxed/simple;
+	bh=Vf+jWNqAJUwHVxpsKk8aEQStzPCnDfTwH8+8AJdCvmo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZnuCeZSuSjpgA5nGJb2zm3LrU7xqe9+fnumWLLTaHO33EdJU/HiQf0jzmRmg+4aInYj4YLoCxlJqVKjzkYyGn33ViFWYIhsvxVbzd4Yo5fS3QwV5ySb/Ou+YPPNnVD+L7+TNu7r433fIw5n3vQbA7cGv89ucLtolfqlabZW5wpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=O1D5YNTP; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P8qFQlo6"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 83388826A4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 16 Nov 2025 20:12:39 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.792
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id FbDCGQavCMQF for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Nov 2025 20:12:38 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=agruenba@redhat.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 82F1182628
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 82F1182628
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=P8qFQlo6
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 82F1182628
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 16 Nov 2025 20:12:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1763323956;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JdxinhLqQBZr88p5CsIf8R+KId3Y/CBCmsGoNiAy5+E=;
-	b=P8qFQlo6GzClX/z3JdyPKVYCMqHKuKMXNRf8vByffG5Uppd0IeiD5r1jjjGG7DXiza5awG
-	Q11M9wl8y1wEAmZ3cTy0doYCz24ij/unoCgMiEAz+9RTSNEWKMSedN/4nPOB0WoqqktICg
-	K29bfvIT3DDC6FLhTgdfzs9AHllXJD4=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-311-8eWQgqLwN7qg5wA7bgU2jg-1; Sun,
- 16 Nov 2025 15:12:30 -0500
-X-MC-Unique: 8eWQgqLwN7qg5wA7bgU2jg-1
-X-Mimecast-MFC-AGG-ID: 8eWQgqLwN7qg5wA7bgU2jg_1763323949
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0F263195608A;
-	Sun, 16 Nov 2025 20:12:29 +0000 (UTC)
-Received: from pasta.fast.eng.rdu2.dc.redhat.com (unknown [10.44.32.90])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C54AA180049F;
-	Sun, 16 Nov 2025 20:12:25 +0000 (UTC)
-From: Andreas Gruenbacher <agruenba@redhat.com>
-To: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-Cc: Andreas Gruenbacher <agruenba@redhat.com>,
-	gfs2@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	syzbot+19e0be39cc25dfcb0858@syzkaller.appspotmail.com,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] gfs2: flush withdraw work before freeing gfs2_sbd
-Date: Sun, 16 Nov 2025 20:12:23 +0000
-Message-ID: <20251116201224.2151726-1-agruenba@redhat.com>
-In-Reply-To: <8f270474-7ced-4668-97da-f3d7709a82e7@gmail.com>
-References: <68f6a48f.050a0220.91a22.0451.GAE@google.com> <20251024144332.33773-2-nirbhay.lkd@gmail.com> <8f270474-7ced-4668-97da-f3d7709a82e7@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="O1D5YNTP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=4dFifphuT1Ey8DYPYtkHFgtfxrd367msl8AST4REB3E=; b=O1D5YNTPQJgIXJcZJEoln+5CeZ
+	NNw8VuzPnK/fgPV/GdaodwrE7QkwJKzgVuTUVpOSZ5Hcze3ioQvn8Eap/jh5fuMkv6Z21FeI8+98w
+	sq+LWdbYNvrpCuahvExYdYajTIqIGUxykHaClnbq9kgIHRZk6JigPgj67ELtfC8UdhLf1LxsoZdx6
+	nDEhXmafcbvPTwxID3dqzHg1+5/Z4We4t3omUTrTL4FaEBkQMPe39A/VuQ5HXxzOiYOGap0cWWTUO
+	PaoyOzwp+lcDrfuQjhY1Gu1dsHBAnipYtRoTvFW/yVE2OLZF8xtlJ2PUkRN04t7jCMlRPoc2Jhjmo
+	awWIt6hg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vKlI4-0000000CqfL-3Rel;
+	Sun, 16 Nov 2025 22:32:12 +0000
+Date: Sun, 16 Nov 2025 22:32:12 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: SHAURYA RANE <ssrane_b23@ee.vjti.ac.in>
+Cc: akpm@linux-foundation.org, shakeel.butt@linux.dev, eddyz87@gmail.com,
+	andrii@kernel.org, ast@kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com, khalid@kernel.org,
+	syzbot+09b7d050e4806540153d@syzkaller.appspotmail.com
+Subject: Re: [PATCH] mm/filemap: fix NULL pointer dereference in
+ do_read_cache_folio()
+Message-ID: <aRpQ7LTZDP-Xz-Sr@casper.infradead.org>
+References: <20251114193729.251892-1-ssranevjti@gmail.com>
+ <aReUv1kVACh3UKv-@casper.infradead.org>
+ <CANNWa07Y_GPKuYNQ0ncWHGa4KX91QFosz6WGJ9P6-AJQniD3zw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+In-Reply-To: <CANNWa07Y_GPKuYNQ0ncWHGa4KX91QFosz6WGJ9P6-AJQniD3zw@mail.gmail.com>
 
-Hi Nirbhay,
+First, some process things ;-)
 
-On Thu, Nov 13, 2025 at 9:24 PM Nirbhay Sharma <nirbhay.lkd@gmail.com> wrote:
-> Hi Andreas,
->
-> I hope this email finds you well.
->
-> I'm writing to follow up on the GFS2 patch I submitted regarding the ODEBUG warning in free_sbd(). The patch addressed the syzbot report where sd_withdraw_work was being freed while still active.
->
-> I wanted to check if you've had a chance to review the patch, or if there's any feedback or additional information I can provide to help with the review process.
->
-> I understand maintainers are busy, and I'm happy to make any necessary revisions or provide further clarification on the testing that was performed.
+1. Thank you for working on this.  Andrii has been ignoring it since
+August, which is bad.  So thank you for picking it up.
 
-thanks for looking into this issue, but this is already fixed in the
-updated version of patch "gfs2: Asynchronous withdraw" which has been on
-gfs2 for-next since at least October 23.  Below is my isolated fix.
+2. Sending a v2 while we're having a discussion is generally a bad idea.
+It's fine to send a patch as a reply, but going as far as a v2 isn't
+necessary.  If conversation has died down, then a v2 is definitely
+warranted, but you and I are still having a discussion ;-)
 
-Thanks,
-Andreas
+3. When you do send a v2 (or, now that you've sent a v2, send a v3),
+do it as a new thread rather then in reply to the v1 thread.  That plays
+better with the tooling we have like b4 which will pull in all patches
+in a thread.
 
-diff --git a/fs/gfs2/ops_fstype.c b/fs/gfs2/ops_fstype.c
-index 2d177aa21ffd..c42982bdd4b2 100644
---- a/fs/gfs2/ops_fstype.c
-+++ b/fs/gfs2/ops_fstype.c
-@@ -1294,7 +1294,6 @@ static int gfs2_fill_super(struct super_block *sb, struct fs_context *fc)
- fail_per_node:
- 	init_per_node(sdp, UNDO);
- fail_inodes:
--	flush_work(&sdp->sd_withdraw_work);
- 	init_inodes(sdp, UNDO);
- fail_sb:
- 	if (sdp->sd_root_dir)
-diff --git a/fs/gfs2/util.c b/fs/gfs2/util.c
-index fff0b0e2e27c..c454bea101de 100644
---- a/fs/gfs2/util.c
-+++ b/fs/gfs2/util.c
-@@ -345,6 +345,12 @@ void gfs2_withdraw(struct gfs2_sbd *sdp)
- 		} while (unlikely(!try_cmpxchg(&sdp->sd_flags, &old, new)));
- 
- 		dump_stack();
-+		/*
-+		 * There is no need to withdraw when the superblock hasn't been
-+		 * fully initialized, yet.
-+		 */
-+		if (!(sdp->sd_vfs->s_flags & SB_BORN))
-+			return;
- 		fs_err(sdp, "about to withdraw this file system\n");
- 		schedule_work(&sdp->sd_withdraw_work);
- 	}
+With that over with, on to the fun technical stuff.
 
+On Sun, Nov 16, 2025 at 11:13:42AM +0530, SHAURYA RANE wrote:
+> On Sat, Nov 15, 2025 at 2:14 AM Matthew Wilcox <willy@infradead.org> wrote:
+> >
+> > On Sat, Nov 15, 2025 at 01:07:29AM +0530, ssrane_b23@ee.vjti.ac.in wrote:
+> > > When read_cache_folio() is called with a NULL filler function on a
+> > > mapping that does not implement read_folio, a NULL pointer
+> > > dereference occurs in filemap_read_folio().
+> > >
+> > > The crash occurs when:
+> > >
+> > > build_id_parse() is called on a VMA backed by a file from a
+> > > filesystem that does not implement ->read_folio() (e.g. procfs,
+> > > sysfs, or other virtual filesystems).
+> >
+> > Not a fan of this approach, to be honest.  This should be caught at
+> > a higher level.  In __build_id_parse(), there's already a check:
+> >
+> >         /* only works for page backed storage  */
+> >         if (!vma->vm_file)
+> >                 return -EINVAL;
+> >
+> > which is funny because the comment is correct, but the code is not.
+> > I suspect the right answer is to add right after it:
+> >
+> > +       if (vma->vm_file->f_mapping->a_ops == &empty_aops)
+> > +               return -EINVAL;
+> >
+> > Want to test that out?
+> Thanks for the suggestion.
+> Checking for
+>     a_ops == &empty_aops
+> is not enough. Certain filesystems for example XFS with DAX use
+> their own a_ops table (not empty_aops) but still do not implement
+> ->read_folio(). In those cases read_cache_folio() still ends up with
+> filler = NULL and filemap_read_folio(NULL) crashes.
+
+Ah, right.  I had assumed that the only problem was synthetic
+filesystems like sysfs and procfs which can't have buildids because
+buildids only exist in executables.  And neither procfs nor sysfs
+contain executables.
+
+But DAX is different.  You can absolutely put executables on a DAX
+filesystem.  So we shouldn't filter out DAX here.  And we definitely
+shouldn't *silently* fail for DAX.  Otherwise nobody will ever realise
+that the buildid people just couldn't be bothered to make DAX work.
+
+I don't think it's necessarily all that hard to make buildid work
+for DAX.  It's probably something like:
+
+	if (IS_DAX(file_inode(file)))
+		kernel_read(file, buf, count, &pos);
+
+but that's just off the top of my head.
+
+
+I really don't want the check for filler being NULL in read_cache_folio().
+I want it to crash noisily if callers are doing something stupid.
