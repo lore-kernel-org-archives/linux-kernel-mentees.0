@@ -1,144 +1,242 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE082848AA;
-	Mon, 17 Nov 2025 18:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AE5314D32
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Nov 2025 18:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763402628; cv=none; b=JwYVbDFkOpuXTr4Ah2ffJBFoHGO7P14fXfvWw/v01R0kttGJUt7lu0T+HDNeNbvD1PKzFixs6ACDw/eeDYOP67yC4AnPR61YX+A4RKbblPmnH/t5gB5mP/dcOyNjplfD7aIVJeRzaU+gOXvwA/tYCd4YsaXxBJMkNATT2NpPxFc=
+	t=1763404949; cv=none; b=KMDOpCbX3xalNXqAmbNVcwfE6A3fqbOlBt6Ka2OFw1cGoj1Uskz128LTLSFU+YRjmPbvRyBmCcgapaGyYkTaDmpbbxIMJuXn5hcejsABHdhVM4b9mO9+HX7ibwzKBbeCa9kE5pM4dZw42iBdG6+3G25IU51+Jld2slupQVH22So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763402628; c=relaxed/simple;
-	bh=9uMwZN9krUdS78DbjxNt+iqrRQ4nPzVTYJyUwBnvW5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fjCKNRW8jFslMuAPZmhWFNJu3HrORXhtKtC4wL2px+kKkNw6YDAI+iVwHbAZW2wQoT62Gp+7ZevKrjuep5rtulYhK20vmWRqOZ6R/av57hgA9QBPiMxEaSK5Tdzbj8pX8HhJzObK/OcmEbNDZDxqk8Q838Gv6J8npRW97iSbahw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eHaFn+bN; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1763404949; c=relaxed/simple;
+	bh=9pRuuZLVf8exleeu5aME3a+ZFOSFZVB2RRP475jUT0o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qPCik3uqCn/93FW/+gd99ucoL5hqoysswP1YeAqQ0jzLGA9UBxAdKnEfGDUpt/5xEabLrCFjJWKFDxtV8jd7I1kCDOJIlPLUWcFhkGZyiaXWc8v7ie3tv5SZegIRT22eNoRnMQRIqkATGKLjO/PuF4lBwoZ/RN9Q3fEFeHwmcsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O2zwluEy; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eHaFn+bN"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=U5Cie80ik2JSvccL39+8gipzyyJCojAXux/hEMXLbb0=; b=eHaFn+bNRcbBqqPbDECTU1nha+
-	8ki4ktpeVqfjrOojFTJy4b9CsRE7DSDpiExAIK3uzWeofkrlLPwdhdwxMXhHe3VZW8PtST3ZW88Pl
-	Mb8itCOIMTljNTR12RzQJWDMna902aYOJpxvJyIfpZR96OFCALwZxEM3RMHkbiIXpi8azElvRRL+o
-	LNuvhXUzES1FgnU8cEMpzaBUqAB9XoqOY0mI7SKxuGXU1HMnorWwn+3kNsON1xIn/WQynngm2/gsM
-	s8xKMfEQlUL7uY19UD0Cmucf9uEgC4IVsl3h+psRtvvDS6i942u/P+P+TZbpHXhiD2VdxV8kzrBle
-	XxvP7Akg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vL3Zl-0000000EEaq-0Kni;
-	Mon, 17 Nov 2025 18:03:41 +0000
-Date: Mon, 17 Nov 2025 18:03:40 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: SHAURYA RANE <ssrane_b23@ee.vjti.ac.in>, akpm@linux-foundation.org,
-	shakeel.butt@linux.dev, eddyz87@gmail.com, andrii@kernel.org,
-	ast@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	syzbot+09b7d050e4806540153d@syzkaller.appspotmail.com
-Subject: Re: [PATCH] mm/filemap: fix NULL pointer dereference in
- do_read_cache_folio()
-Message-ID: <aRtjfN7sC6_Bv4bx@casper.infradead.org>
-References: <20251114193729.251892-1-ssranevjti@gmail.com>
- <aReUv1kVACh3UKv-@casper.infradead.org>
- <CANNWa07Y_GPKuYNQ0ncWHGa4KX91QFosz6WGJ9P6-AJQniD3zw@mail.gmail.com>
- <aRpQ7LTZDP-Xz-Sr@casper.infradead.org>
- <20251117164155.GB196362@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O2zwluEy"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-297dc3e299bso45215455ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 17 Nov 2025 10:42:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763404948; x=1764009748; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+GT+Mvcn48BVfqy5/WD1n2ZA/hN2dz1BCZmhQdhw608=;
+        b=O2zwluEyGAw8iqFplNDDJ9GH4qEzQ9syVyKAu6SObIi1vpX4zZvZmeVNSV5TFqvIXr
+         AAe7iA3OmgOQ0dA+oyjB3z/7wRO7kbRQXHSkilhiOlrlEQ9j5ECKsR9JRpcsPcHws80j
+         Z2pBAxlmxS58XSxTbUXbHqrMRXqqNbhVYLkcx56OkyeqvymVmfKgTdZiJRbdBeNM009I
+         aQfQ2vMDl+taldHLhCNDs3fLUKXAIXhfR4ttBk3ya1lmp5vb9X69wuHlyIEnR1zyCcBy
+         7VTZKRtbDe00MpAqJffLX+a6Q/KOPzSTWPag/vl83nwscMkbILb/Pu23QNFK2gSJWHTC
+         qUCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763404948; x=1764009748;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+GT+Mvcn48BVfqy5/WD1n2ZA/hN2dz1BCZmhQdhw608=;
+        b=YKgb5xGuYNMm34kHVPgOwZE/xLJNFI2mOhKqgHwqMLHMTK1ikF3fdxJcd1CYPqnNGM
+         jr6WaiSZ69veTm97xeiu4QE6oaAIJsWzmT6L+8WFAFgLb3k94XZLhlnA1N4y3XdGc/bR
+         SdyMel4k6taCXuUhIrv1KhB1Wjf8eh53dHY4HSnEnTRyvkUD6eLJTot3hOdJjVeI+sEE
+         512MCuBRsMAHSa1A2O0e86lWWjTL8B1yfQOIaQZHPI2hnVScu6jMXmOUhAMhjmV4um9k
+         Dr8optcVB85g+qqClmebo1jajt/0MJzvffISTRMgt1/85HvDzDu5WjmSva/g6y/Dr3lZ
+         g0gA==
+X-Forwarded-Encrypted: i=1; AJvYcCWoTR4e9LvfPJCHbjFHSFRr3yt7LaiObWI59hJQNNjQHnIy0HYClO1OCmMaPhs/BIxZpd+sxUYiRzYk+HdsvUUN+vNQ+w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzekXgntKdjqUSu+l56NKCufK8bQC+wDeHKAFmhUxBhlLgwHTn6
+	sJw8qaPEPZuWd1O+p6JHD0Lrdzv5Pr3qcLKTd53TAy1qCpmvg2HVW+ydH4SDz888o4SGZikFXHd
+	XSGxIzTogyqIztrXvOLzowyPc55GisZE=
+X-Gm-Gg: ASbGnct7kR2xK/ZvQUx8Akxyc4ihDjAo8esMQWbOZmw/HY/8gDFF4+vAcuSfsfcxZUa
+	+G23JuW++xWU816g67HOH9wLI0LBOnZEgZIH4r2DLrjJwGl3R2nfnGwKy9iq1vIQ4rKyq0ri+uQ
+	u8Id6E2KJBFUv927JXN0zO0JP1y1pG7jTgNYFzgkUgM2uKDmYwSRRYeMzWO/8h5j9ijrwFHqfGh
+	LvtL5dDnaR2sjYj4K4fwBMN3ofZqUXYJcCncDiOcf+Lu2E3shbX38HRbQnQc2VUl7XITR84YsFW
+X-Google-Smtp-Source: AGHT+IGlCOta17/ddsZWnD9v3ffWOGOnFpGs6oqmTfDQtnnrJ2sc9E7ozUdVinCK+4CGR9Q0e/Sf5CFPt1dugRYiBPM=
+X-Received: by 2002:a17:903:1aed:b0:297:d764:9874 with SMTP id
+ d9443c01a7336-2986a6cbe5cmr156328205ad.21.1763404947533; Mon, 17 Nov 2025
+ 10:42:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251117164155.GB196362@frogsfrogsfrogs>
+References: <20251114193729.251892-1-ssranevjti@gmail.com> <aReUv1kVACh3UKv-@casper.infradead.org>
+ <CANNWa07Y_GPKuYNQ0ncWHGa4KX91QFosz6WGJ9P6-AJQniD3zw@mail.gmail.com>
+ <aRpQ7LTZDP-Xz-Sr@casper.infradead.org> <aRsqwndQ459VN8I9@ranegod-HP-ENVY-x360-Convertible-13-bd0xxx>
+In-Reply-To: <aRsqwndQ459VN8I9@ranegod-HP-ENVY-x360-Convertible-13-bd0xxx>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Mon, 17 Nov 2025 10:42:15 -0800
+X-Gm-Features: AWmQ_blI9jblEa7JMJ2vTFmsIQ2D6lp_5HRLH235a5mwf0VK6MfqNFE0M2tzyYY
+Message-ID: <CAEf4Bzboqf+1KUZCb2fBnLZUkzi5X4zOk+wy72eTu3VLB+z7RQ@mail.gmail.com>
+Subject: Re: [PATCH] mm/filemap: fix NULL pointer dereference in do_read_cache_folio()
+To: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+Cc: Matthew Wilcox <willy@infradead.org>, akpm@linux-foundation.org, shakeel.butt@linux.dev, 
+	eddyz87@gmail.com, andrii@kernel.org, ast@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org, 
+	syzbot+09b7d050e4806540153d@syzkaller.appspotmail.com, 
+	bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 17, 2025 at 08:41:55AM -0800, Darrick J. Wong wrote:
-> I wondered why this whole thing opencodes kernel_read, but then I
-> noticed zero fstests for it and decid*******************************
-> *****.
++ bpf@
 
-I wondered the same thing!  And the answer is that it's special BPF
-stuff:
+On Mon, Nov 17, 2025 at 6:10=E2=80=AFAM Shaurya Rane <ssrane_b23@ee.vjti.ac=
+.in> wrote:
+>
+> On Sun, Nov 16, 2025 at 10:32:12PM +0000, Matthew Wilcox wrote:
+> > First, some process things ;-)
+> >
+> > 1. Thank you for working on this.  Andrii has been ignoring it since
+> > August, which is bad.  So thank you for picking it up.
 
-        /* if sleeping is allowed, wait for the page, if necessary */
-        if (r->may_fault && (IS_ERR(r->folio) || !folio_test_uptodate(r->folio))) {
-                filemap_invalidate_lock_shared(r->file->f_mapping);
-                r->folio = read_cache_folio(r->file->f_mapping, file_off >> PAGE_SHIFT,
-                                            NULL, r->file);
-                filemap_invalidate_unlock_shared(r->file->f_mapping);
-        }
+It is bad, I'm sorry for this. I was surprised to read this, though,
+as I was not aware of any bug related to build ID parsing code, so I
+went looking at syzbot history of the issue. August timeframe you are
+referring to implies those "Monthly fs report" emails, which
+unfortunately I didn't receive as I'm not subscribed to linux-fsdevel,
+but I do see that there was earlier report back in April, which I did
+get in my inbox, apparently. So I'm sorry again for dropping the ball.
+Please feel free to ping me or BPF mailing list next time when you see
+something not being addressed in a timely manner.
 
-if 'may_fault' (a misnomer since it really means "may sleep"), then we
-essentially do kernel_read().
+> >
+> > 2. Sending a v2 while we're having a discussion is generally a bad idea=
+.
+> > It's fine to send a patch as a reply, but going as far as a v2 isn't
+> > necessary.  If conversation has died down, then a v2 is definitely
+> > warranted, but you and I are still having a discussion ;-)
+> >
+> > 3. When you do send a v2 (or, now that you've sent a v2, send a v3),
+> > do it as a new thread rather then in reply to the v1 thread.  That play=
+s
+> > better with the tooling we have like b4 which will pull in all patches
+> > in a thread.
+> >
+> Apologies for the process errors regarding the v2 submission. I appreciat=
+e the guidance on the workflow and threading; I will ensure the next versio=
+n is sent as a clean, new thread once we have agreed on the technical solut=
+ion.
+> > With that over with, on to the fun technical stuff.
+> >
+> > On Sun, Nov 16, 2025 at 11:13:42AM +0530, SHAURYA RANE wrote:
+> > > On Sat, Nov 15, 2025 at 2:14=E2=80=AFAM Matthew Wilcox <willy@infrade=
+ad.org> wrote:
+> > > >
+> > > > On Sat, Nov 15, 2025 at 01:07:29AM +0530, ssrane_b23@ee.vjti.ac.in =
+wrote:
+> > > > > When read_cache_folio() is called with a NULL filler function on =
+a
+> > > > > mapping that does not implement read_folio, a NULL pointer
+> > > > > dereference occurs in filemap_read_folio().
+> > > > >
+> > > > > The crash occurs when:
+> > > > >
+> > > > > build_id_parse() is called on a VMA backed by a file from a
+> > > > > filesystem that does not implement ->read_folio() (e.g. procfs,
+> > > > > sysfs, or other virtual filesystems).
+> > > >
+> > > > Not a fan of this approach, to be honest.  This should be caught at
+> > > > a higher level.  In __build_id_parse(), there's already a check:
+> > > >
+> > > >         /* only works for page backed storage  */
+> > > >         if (!vma->vm_file)
+> > > >                 return -EINVAL;
+> > > >
+> > > > which is funny because the comment is correct, but the code is not.
+> > > > I suspect the right answer is to add right after it:
+> > > >
+> > > > +       if (vma->vm_file->f_mapping->a_ops =3D=3D &empty_aops)
+> > > > +               return -EINVAL;
+> > > >
+> > > > Want to test that out?
+> > > Thanks for the suggestion.
+> > > Checking for
+> > >     a_ops =3D=3D &empty_aops
+> > > is not enough. Certain filesystems for example XFS with DAX use
+> > > their own a_ops table (not empty_aops) but still do not implement
+> > > ->read_folio(). In those cases read_cache_folio() still ends up with
+> > > filler =3D NULL and filemap_read_folio(NULL) crashes.
+> >
+> > Ah, right.  I had assumed that the only problem was synthetic
+> > filesystems like sysfs and procfs which can't have buildids because
+> > buildids only exist in executables.  And neither procfs nor sysfs
+> > contain executables.
+> >
+> > But DAX is different.  You can absolutely put executables on a DAX
+> > filesystem.  So we shouldn't filter out DAX here.  And we definitely
+> > shouldn't *silently* fail for DAX.  Otherwise nobody will ever realise
+> > that the buildid people just couldn't be bothered to make DAX work.
+> >
+> > I don't think it's necessarily all that hard to make buildid work
+> > for DAX.  It's probably something like:
+> >
+> >       if (IS_DAX(file_inode(file)))
+> >               kernel_read(file, buf, count, &pos);
+> >
+> > but that's just off the top of my head.
+> >
+> >
+> I agree that DAX needs proper support rather than silent filtering.
+> However, investigating the actual syzbot reproducer revealed that the iss=
+ue extends beyond just DAX. The crash is actually triggering on tmpfs (shme=
+m).I verified via debug logging that the crashing VMA is backed by `shmem_a=
+ops`. Looking at `mm/shmem.c`, tmpfs legitimately lacks a `.read_folio` imp=
+lementation by design.
+> It seems there are several "real" filesystems that can contain executable=
+s/libraries but lack `.read_folio`:
+> 1. tmpfs/shmem
+> 2. OverlayFS (delegates I/O)
+> 3. DAX filesystems
+> Given that this affects multiple filesystem types, handling them all corr=
+ectly via `kernel_read` might be a larger scope than fixing the immediate c=
+rash. I worry about missing edge cases in tmpfs or OverlayFS if we try to i=
+mplement the fallback immediately in this patch.
+> > I really don't want the check for filler being NULL in read_cache_folio=
+().
+> > I want it to crash noisily if callers are doing something stupid.
+> I propose the following approach for v3. It avoids the silent failure you=
+ are concerned about, but prevents the kernel panic:
+>
+> 1. Silent reject for `empty_aops` (procfs/sysfs), as they legitimately ca=
+n't contain build IDs.
+> 2. Loud warning + Error for other cases (DAX, tmpfs, OverlayFS).
+>
 
-Now, maybe the right thing to do here is rip out almost all of
-lib/buildid.c and replace it with an iocb with IOCB_NOWAIT set (or not).
-I was hesitant to suggest this earlier as it's a bit of a big ask of
-someone who was just trying to submit a one-line change.  But now that
-"it's also shmem" has entered the picture, I'm leaning more towards this
-approach anyway.
+Tbh, it seems a bit fragile to have to hard-code such file
+system-specific logic in higher-level build ID fetching logic, where
+all we really ask for from filemap_get_folio() + read_cache_folio()
+combo is to give us requested piece of file or let us know (without
+crashing) that this was not possible.
 
-Looking at it though, it's a bit weird that we don't have a
-kiocb_read().  It feels like __kernel_read() needs to be split into
-half like:
+But if there is no way to abstract this away, then I think Shaurya
+proposed with failing known-not-supported cases and warning on
+unexpected ones would be a reasonable solution, I suppose. I see that
+Matthew is discussing generalizing kernel_read, so maybe that will be
+a better solution, let's see.
 
-diff --git a/fs/read_write.c b/fs/read_write.c
-index 833bae068770..a3bf962836a7 100644
---- a/fs/read_write.c
-+++ b/fs/read_write.c
-@@ -503,14 +503,29 @@ static int warn_unsupported(struct file *file, const char *op)
- 	return -EINVAL;
- }
- 
--ssize_t __kernel_read(struct file *file, void *buf, size_t count, loff_t *pos)
-+ssize_t kiocb_read(struct kiocb *iocb, void *buf, size_t count)
- {
-+	struct file *file = iocb->ki_filp;
- 	struct kvec iov = {
- 		.iov_base	= buf,
- 		.iov_len	= min_t(size_t, count, MAX_RW_COUNT),
- 	};
--	struct kiocb kiocb;
- 	struct iov_iter iter;
-+	int ret;
-+
-+	iov_iter_kvec(&iter, ITER_DEST, &iov, 1, iov.iov_len);
-+	ret = file->f_op->read_iter(iocb, &iter);
-+	if (ret > 0) {
-+		fsnotify_access(file);
-+		add_rchar(current, ret);
-+	}
-+	inc_syscr(current);
-+	return ret;
-+}
-+
-+ssize_t __kernel_read(struct file *file, void *buf, size_t count, loff_t *pos)
-+{
-+	struct kiocb kiocb;
- 	ssize_t ret;
- 
- 	if (WARN_ON_ONCE(!(file->f_mode & FMODE_READ)))
-@@ -526,15 +541,9 @@ ssize_t __kernel_read(struct file *file, void *buf, size_t count, loff_t *pos)
- 
- 	init_sync_kiocb(&kiocb, file);
- 	kiocb.ki_pos = pos ? *pos : 0;
--	iov_iter_kvec(&iter, ITER_DEST, &iov, 1, iov.iov_len);
--	ret = file->f_op->read_iter(&kiocb, &iter);
--	if (ret > 0) {
--		if (pos)
--			*pos = kiocb.ki_pos;
--		fsnotify_access(file);
--		add_rchar(current, ret);
--	}
--	inc_syscr(current);
-+	ret = kiocb_read(&kiocb, buf, count);
-+	if (pos && ret > 0)
-+		*pos = kiocb.ki_pos;
- 	return ret;
- }
- 
+
+> The code would look like this:
+>
+>     /* pseudo-filesystems */
+>     if (vma->vm_file->f_mapping->a_ops =3D=3D &empty_aops)
+>         return -EINVAL;
+>
+>     /* Real filesystems missing read_folio (DAX, tmpfs, OverlayFS, etc.) =
+*/
+>     if (!vma->vm_file->f_mapping->a_ops->read_folio) {
+>         /*
+>          * TODO: Implement kernel_read() fallback for DAX/tmpfs.
+>          * For now, fail loudly so we know what we are missing.
+>          */
+>         pr_warn_once("build_id_parse: filesystem %s lacks read_folio supp=
+ort\n",
+>                      vma->vm_file->f_path.dentry->d_sb->s_type->name);
+>         return -EOPNOTSUPP;
+>     }
+>
+> This highlights exactly which filesystems are missing support in the logs=
+ without crashing the machine
+> Thanks,
+> Shaurya
