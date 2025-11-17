@@ -1,34 +1,37 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C7A289374;
-	Mon, 17 Nov 2025 16:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE082848AA;
+	Mon, 17 Nov 2025 18:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763397716; cv=none; b=iRdm4YREyoEMlKViKK6BS6EpOVGCZ0FFF9H88EvHVDXPfGbHp6Jx/OQ20o5gl9P63/kfEou/gPuCMgkdhqPbM/BEeOdDzu+VstTywUDmaGSb0Tm7L4uynVc3+dfZkUYeUnArxH6n1usuCqFDNKqHBVpY8PEhf5Lcl0cWuhxP97Q=
+	t=1763402628; cv=none; b=JwYVbDFkOpuXTr4Ah2ffJBFoHGO7P14fXfvWw/v01R0kttGJUt7lu0T+HDNeNbvD1PKzFixs6ACDw/eeDYOP67yC4AnPR61YX+A4RKbblPmnH/t5gB5mP/dcOyNjplfD7aIVJeRzaU+gOXvwA/tYCd4YsaXxBJMkNATT2NpPxFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763397716; c=relaxed/simple;
-	bh=dZ251Jd6bLrB7WwBSwgnKezSZ9PfbBw2z/HUXlRFHck=;
+	s=arc-20240116; t=1763402628; c=relaxed/simple;
+	bh=9uMwZN9krUdS78DbjxNt+iqrRQ4nPzVTYJyUwBnvW5A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZfaWovyAikNNLbXXe2j+1E2fpQzzAshTzki7+GRkVecebb4VbHISSWLL1C4qoEAKaxUA/rLok998qlemcVRkOOJTZKuuFE1QDQG8+JdbtGxEtv3GlwF7ksHrzSbPoibv8nHq88+NBKUewpF6vxERbipBefCrpu9AVPPfdd1n/Y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BruVpwO/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fjCKNRW8jFslMuAPZmhWFNJu3HrORXhtKtC4wL2px+kKkNw6YDAI+iVwHbAZW2wQoT62Gp+7ZevKrjuep5rtulYhK20vmWRqOZ6R/av57hgA9QBPiMxEaSK5Tdzbj8pX8HhJzObK/OcmEbNDZDxqk8Q838Gv6J8npRW97iSbahw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eHaFn+bN; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BruVpwO/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44E29C4CEF1;
-	Mon, 17 Nov 2025 16:41:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763397716;
-	bh=dZ251Jd6bLrB7WwBSwgnKezSZ9PfbBw2z/HUXlRFHck=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BruVpwO/difzdwaljwe0afX7jV92ylBmozwdxiXCjvaF6TEIEG5ryBKnybz3fiGT5
-	 I1OH4hkoVayKGLETjl491dwOdYOavboux+e7EUqEou8Jg8sYUgmfKJ/FmilBlMrS3D
-	 gFGjNykzMWImAvhr3OGZ6uXUaGAEN8F4yY+UfU3uS4JHUF2fO8+rcCnLycChGRwdei
-	 u/Ms5MCTO7G36cjNebz8mxWh23JNDqdeNVcacbdpJ26dofOzKHwtIT8k2JzXtdXWco
-	 REQtZBARylVp5ozlrK1R6uXUWIptSeqXw7L682LwSLz46BP9qPHYv4P9l68nYe0baS
-	 4ri6o4cLaXURg==
-Date: Mon, 17 Nov 2025 08:41:55 -0800
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eHaFn+bN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=U5Cie80ik2JSvccL39+8gipzyyJCojAXux/hEMXLbb0=; b=eHaFn+bNRcbBqqPbDECTU1nha+
+	8ki4ktpeVqfjrOojFTJy4b9CsRE7DSDpiExAIK3uzWeofkrlLPwdhdwxMXhHe3VZW8PtST3ZW88Pl
+	Mb8itCOIMTljNTR12RzQJWDMna902aYOJpxvJyIfpZR96OFCALwZxEM3RMHkbiIXpi8azElvRRL+o
+	LNuvhXUzES1FgnU8cEMpzaBUqAB9XoqOY0mI7SKxuGXU1HMnorWwn+3kNsON1xIn/WQynngm2/gsM
+	s8xKMfEQlUL7uY19UD0Cmucf9uEgC4IVsl3h+psRtvvDS6i942u/P+P+TZbpHXhiD2VdxV8kzrBle
+	XxvP7Akg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vL3Zl-0000000EEaq-0Kni;
+	Mon, 17 Nov 2025 18:03:41 +0000
+Date: Mon, 17 Nov 2025 18:03:40 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: SHAURYA RANE <ssrane_b23@ee.vjti.ac.in>, akpm@linux-foundation.org,
 	shakeel.butt@linux.dev, eddyz87@gmail.com, andrii@kernel.org,
 	ast@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
@@ -38,101 +41,104 @@ Cc: SHAURYA RANE <ssrane_b23@ee.vjti.ac.in>, akpm@linux-foundation.org,
 	syzbot+09b7d050e4806540153d@syzkaller.appspotmail.com
 Subject: Re: [PATCH] mm/filemap: fix NULL pointer dereference in
  do_read_cache_folio()
-Message-ID: <20251117164155.GB196362@frogsfrogsfrogs>
+Message-ID: <aRtjfN7sC6_Bv4bx@casper.infradead.org>
 References: <20251114193729.251892-1-ssranevjti@gmail.com>
  <aReUv1kVACh3UKv-@casper.infradead.org>
  <CANNWa07Y_GPKuYNQ0ncWHGa4KX91QFosz6WGJ9P6-AJQniD3zw@mail.gmail.com>
  <aRpQ7LTZDP-Xz-Sr@casper.infradead.org>
+ <20251117164155.GB196362@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aRpQ7LTZDP-Xz-Sr@casper.infradead.org>
+In-Reply-To: <20251117164155.GB196362@frogsfrogsfrogs>
 
-On Sun, Nov 16, 2025 at 10:32:12PM +0000, Matthew Wilcox wrote:
-> First, some process things ;-)
-> 
-> 1. Thank you for working on this.  Andrii has been ignoring it since
-> August, which is bad.  So thank you for picking it up.
-> 
-> 2. Sending a v2 while we're having a discussion is generally a bad idea.
-> It's fine to send a patch as a reply, but going as far as a v2 isn't
-> necessary.  If conversation has died down, then a v2 is definitely
-> warranted, but you and I are still having a discussion ;-)
-> 
-> 3. When you do send a v2 (or, now that you've sent a v2, send a v3),
-> do it as a new thread rather then in reply to the v1 thread.  That plays
-> better with the tooling we have like b4 which will pull in all patches
-> in a thread.
-> 
-> With that over with, on to the fun technical stuff.
-> 
-> On Sun, Nov 16, 2025 at 11:13:42AM +0530, SHAURYA RANE wrote:
-> > On Sat, Nov 15, 2025 at 2:14 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > >
-> > > On Sat, Nov 15, 2025 at 01:07:29AM +0530, ssrane_b23@ee.vjti.ac.in wrote:
-> > > > When read_cache_folio() is called with a NULL filler function on a
-> > > > mapping that does not implement read_folio, a NULL pointer
-> > > > dereference occurs in filemap_read_folio().
-> > > >
-> > > > The crash occurs when:
-> > > >
-> > > > build_id_parse() is called on a VMA backed by a file from a
-> > > > filesystem that does not implement ->read_folio() (e.g. procfs,
-> > > > sysfs, or other virtual filesystems).
-> > >
-> > > Not a fan of this approach, to be honest.  This should be caught at
-> > > a higher level.  In __build_id_parse(), there's already a check:
-> > >
-> > >         /* only works for page backed storage  */
-> > >         if (!vma->vm_file)
-> > >                 return -EINVAL;
-> > >
-> > > which is funny because the comment is correct, but the code is not.
-> > > I suspect the right answer is to add right after it:
-> > >
-> > > +       if (vma->vm_file->f_mapping->a_ops == &empty_aops)
-> > > +               return -EINVAL;
-> > >
-> > > Want to test that out?
-> > Thanks for the suggestion.
-> > Checking for
-> >     a_ops == &empty_aops
-> > is not enough. Certain filesystems for example XFS with DAX use
-> > their own a_ops table (not empty_aops) but still do not implement
-> > ->read_folio(). In those cases read_cache_folio() still ends up with
-> > filler = NULL and filemap_read_folio(NULL) crashes.
-> 
-> Ah, right.  I had assumed that the only problem was synthetic
-> filesystems like sysfs and procfs which can't have buildids because
-> buildids only exist in executables.  And neither procfs nor sysfs
-> contain executables.
-> 
-> But DAX is different.  You can absolutely put executables on a DAX
-> filesystem.  So we shouldn't filter out DAX here.  And we definitely
-> shouldn't *silently* fail for DAX.  Otherwise nobody will ever realise
-> that the buildid people just couldn't be bothered to make DAX work.
-> 
-> I don't think it's necessarily all that hard to make buildid work
-> for DAX.  It's probably something like:
-> 
-> 	if (IS_DAX(file_inode(file)))
-> 		kernel_read(file, buf, count, &pos);
-> 
-> but that's just off the top of my head.
+On Mon, Nov 17, 2025 at 08:41:55AM -0800, Darrick J. Wong wrote:
+> I wondered why this whole thing opencodes kernel_read, but then I
+> noticed zero fstests for it and decid*******************************
+> *****.
 
-I wondered why this whole thing opencodes kernel_read, but then I
-noticed zero fstests for it and decid*******************************
-*****.
+I wondered the same thing!  And the answer is that it's special BPF
+stuff:
 
---D
+        /* if sleeping is allowed, wait for the page, if necessary */
+        if (r->may_fault && (IS_ERR(r->folio) || !folio_test_uptodate(r->folio))) {
+                filemap_invalidate_lock_shared(r->file->f_mapping);
+                r->folio = read_cache_folio(r->file->f_mapping, file_off >> PAGE_SHIFT,
+                                            NULL, r->file);
+                filemap_invalidate_unlock_shared(r->file->f_mapping);
+        }
 
-> 
-> I really don't want the check for filler being NULL in read_cache_folio().
-> I want it to crash noisily if callers are doing something stupid.
-> 
+if 'may_fault' (a misnomer since it really means "may sleep"), then we
+essentially do kernel_read().
+
+Now, maybe the right thing to do here is rip out almost all of
+lib/buildid.c and replace it with an iocb with IOCB_NOWAIT set (or not).
+I was hesitant to suggest this earlier as it's a bit of a big ask of
+someone who was just trying to submit a one-line change.  But now that
+"it's also shmem" has entered the picture, I'm leaning more towards this
+approach anyway.
+
+Looking at it though, it's a bit weird that we don't have a
+kiocb_read().  It feels like __kernel_read() needs to be split into
+half like:
+
+diff --git a/fs/read_write.c b/fs/read_write.c
+index 833bae068770..a3bf962836a7 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -503,14 +503,29 @@ static int warn_unsupported(struct file *file, const char *op)
+ 	return -EINVAL;
+ }
+ 
+-ssize_t __kernel_read(struct file *file, void *buf, size_t count, loff_t *pos)
++ssize_t kiocb_read(struct kiocb *iocb, void *buf, size_t count)
+ {
++	struct file *file = iocb->ki_filp;
+ 	struct kvec iov = {
+ 		.iov_base	= buf,
+ 		.iov_len	= min_t(size_t, count, MAX_RW_COUNT),
+ 	};
+-	struct kiocb kiocb;
+ 	struct iov_iter iter;
++	int ret;
++
++	iov_iter_kvec(&iter, ITER_DEST, &iov, 1, iov.iov_len);
++	ret = file->f_op->read_iter(iocb, &iter);
++	if (ret > 0) {
++		fsnotify_access(file);
++		add_rchar(current, ret);
++	}
++	inc_syscr(current);
++	return ret;
++}
++
++ssize_t __kernel_read(struct file *file, void *buf, size_t count, loff_t *pos)
++{
++	struct kiocb kiocb;
+ 	ssize_t ret;
+ 
+ 	if (WARN_ON_ONCE(!(file->f_mode & FMODE_READ)))
+@@ -526,15 +541,9 @@ ssize_t __kernel_read(struct file *file, void *buf, size_t count, loff_t *pos)
+ 
+ 	init_sync_kiocb(&kiocb, file);
+ 	kiocb.ki_pos = pos ? *pos : 0;
+-	iov_iter_kvec(&iter, ITER_DEST, &iov, 1, iov.iov_len);
+-	ret = file->f_op->read_iter(&kiocb, &iter);
+-	if (ret > 0) {
+-		if (pos)
+-			*pos = kiocb.ki_pos;
+-		fsnotify_access(file);
+-		add_rchar(current, ret);
+-	}
+-	inc_syscr(current);
++	ret = kiocb_read(&kiocb, buf, count);
++	if (pos && ret > 0)
++		*pos = kiocb.ki_pos;
+ 	return ret;
+ }
+ 
