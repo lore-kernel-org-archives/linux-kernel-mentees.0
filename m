@@ -1,155 +1,150 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA952D979B
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Nov 2025 19:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CD12309BE
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Nov 2025 20:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763494730; cv=none; b=lxy+37/KlMZYxNPo9py2YJIcvridhGhn9YlDT/JuIrbiW8TepKlXUgDS92OUC/CzaKMK7kKamDzwmR+BPxX/mVSzUqvzn8LasSZAnJ3wmjgqisdTOCBLB/FjmuQdbLZfjoVaLYwetge7EyuUcfbtUJfX2Fz8djB5THn04HVSXBQ=
+	t=1763496062; cv=none; b=I+VBIkUvs6jwF1hFjjHFMt0dIYfxtBbbGuMNNET6w0GsnEEvf/C6a9N3qmJ04XPg0AzmIbicoQgEzwNhRJbszaLCbRHX0KcM5OC46DrB5OpfGbxhTL0SwlJPL9PmYBo/06kTWsfNARb/w5WCy0L8xpqR0YiPzGFJjDrmngRtnS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763494730; c=relaxed/simple;
-	bh=8o/mKyv3A3lFC7y0XtOvzYtcPxEWOuachx5Hy4zXOOo=;
+	s=arc-20240116; t=1763496062; c=relaxed/simple;
+	bh=bxwZkyXgJK1eG2OMsfD30BKE+5u9fMN89vG41h1E+5s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oyf7vuk1OT8MyIVqcop9HtgRkU03NDnqkDxBgMxLrzBBUEOPKXRsSsgJM/DL4HbaQGTN1rLKQoHmCJ+qgZZqnmbLYyltQzcs+6pL/QBf+CT7XbLE5yBqCIqJuU+Aoe4t/wyxACnl9yDWl1VbVtsxkSL+pcHytoHXKB8oTFor6LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b6E4bWsV; arc=none smtp.client-ip=209.85.216.52
+	 To:Cc:Content-Type; b=h+LRt8AHZ2hPl/85qtwF0+1c8t7ofWAiCuTuZj8QHLZcvzYAyKadlWbf1k+0VArbGvEq2qU0T0vfp+rPuRsm3uR+XG9GFdrocD71tVezP3FKU7twXaz9SKCpbhVBFI/fZuhvFY0KdXyDju1H4StP3Z45ls7Xuu3Rdp9otAgSnWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eld8fGpF; arc=none smtp.client-ip=209.85.219.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b6E4bWsV"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-343f52d15efso5558432a91.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Nov 2025 11:38:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eld8fGpF"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8823dfa84c5so65438476d6.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Nov 2025 12:00:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763494729; x=1764099529; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1763496059; x=1764100859; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xP8obOsgLV+Mi7QU5SctjthhRGiNVWVhn+AWfuje1og=;
-        b=b6E4bWsVQ1GAZtnyNQFS0Apg/Mkhymsr7nBjoL118LJYb32HDKFSCU9omv/AFSuC39
-         KLI22uafqyI1LtdfPRz4Rhfkj2vxNlzXTReI0ADuxLy1UpitXfbcWs+++zIFHGi3k2H9
-         DVe4ll7HdEvm05C9nCZMSI+OsZDKry0CttCqDeoDgAGbylvNlpi4ALU3eskmqWp3Kfay
-         ao1XtOU2pcsl/7pkjpY5Ko91tM5FQGtCrhkTlaC+TLwy72hrIMelqBSNrLyZTPR722Ei
-         StMngNfv6K47sNyo+vFNPpRyIfegANyc+YTBRNUqFc4YozaNqjdpU5ri5C0N1t+gk4D1
-         75YA==
+        bh=SB7FwqNIKbZ7R+GS+j9DGZBpb2NO6ssSsIVjR5I+uyA=;
+        b=eld8fGpFCuQMdsKGOnuzhwleug9Hq0gBBuWHmBgjiRUelcpLrgS5MHzMEiGFFxVAfP
+         kF3hSwiXUBte/mlQeUxG2xZOYA4LSVgmO6mzIO6IsUnaLyFDpzwWC0Ckcnx6naI5B2Ge
+         eb8fLKqOZu2g5Ox8sX8C0D1WuCwwMOGgYCnVvgoleT4tJzklJ7Dq6w/tX4cnveNE/lZF
+         QbxUvBx6QswBNxL9EOc3rzm/v0wyFTI9ZbwM3WAwWUPFtFHqgXuzO3tj1If6nh7Z1u5I
+         EwJV7hAwjluWpxWS7u1pocIc0YOg9DY6VU9APECpYR5Ptwx2v5iYDcWkxhKK/5EI9Kff
+         wjmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763494729; x=1764099529;
+        d=1e100.net; s=20230601; t=1763496059; x=1764100859;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=xP8obOsgLV+Mi7QU5SctjthhRGiNVWVhn+AWfuje1og=;
-        b=jhDpZrtGWJs6893sdL89O4fzOb+czQ2Jjv/+AcDFOzdCEqGUAoiWmu6PP9w0mwf0/w
-         eBP6gC9VcoD8QsAz4mpqY+AhiX+A1wOTEVGZzkwRD7QcO33Ese2MLPCxp8rkaQAgE+MK
-         wvAX+yh49x4ICzV/z7zmAgkgFxv1iTb81GhikZLPggHjzPxcAomucK+D7vOIatSDuriP
-         yLqf5EEi7cmjlvVE6z8jxb8aUlhVfnEv9I6Patay+kM/dfqTKCOTfb91Ac0PrfS2L9aj
-         Xo4pt5ap+41hag6VZ7i0KARw6j377gVE0ui9VRkBoqkXB9Jk+SlPlrbt8VxAIQLq7nwq
-         0t0A==
-X-Forwarded-Encrypted: i=1; AJvYcCVzYtNWF8ZN+4e0S/GrxWHrzLKwuOkAXut7ALqQsx83nkg/ulLMd+1RIVngQHs3SyRmJ6uuB+emHVU/WGsLaKfEKDSPqg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyX8lgh8xEmmUNuOdUnGKKT6ILtffPzopycDz0Em8NgGYkvbD7C
-	UiwFTEpiv4/CKccO6vnCsVwhvrYE5RiKpHKm1na0bU4hfD2/lFguMI3LjIvY/sxri2mnhaXyGAE
-	h4hkQ84SWJZufi6FhYnq3we4jps/hatc=
-X-Gm-Gg: ASbGnctMEitIxRCuh9hQiRxEZ6kcPuve9OYQ8Ot0K107lxOrlcufa1Ao3xKRpR3GKxJ
-	iPjrKG/Z5sFbfKNuX7pmN2Jy3R3hSe+UXLTj0R6a1DaPpVWkAqjLcVpJ6mE3jBC+lfj0J1FlTS0
-	ESEgnpnBqBcZJBaQioACeNXVR5m9oOv6nvBXh4BjI/Uo5I6BTZc7ZyyIPlCuT5Ej8JzQKp8arfD
-	rhIH5r5h7b+UId3uamGgA7GylYy1iJ+jnRG3IIBL/aRjaeRswC/aKmLvh5I4pB0vBlsscELw/RW
-	bpbKJFN3ZJ8LumvdvLwpCg==
-X-Google-Smtp-Source: AGHT+IHjQ5qI54V48OaD9lOMuf97MRj94VnLpjJI2NcKNfYtXCw0gbO/k0nfKsSQ9TEAtm7URf1eXdHMpVdLUVZFnJg=
-X-Received: by 2002:a17:90b:58ef:b0:343:7714:4ca6 with SMTP id
- 98e67ed59e1d1-343fa62be93mr16554523a91.22.1763494728613; Tue, 18 Nov 2025
- 11:38:48 -0800 (PST)
+        bh=SB7FwqNIKbZ7R+GS+j9DGZBpb2NO6ssSsIVjR5I+uyA=;
+        b=P0IZFZ3RTHxzpk64gAWlkBNomhFtduq6vve4kRpbEu6Hn+e2lxJInGtD+eYYhd+aWd
+         U78MfMwkimmSsaxezL43ISgrpm9Tp80x/E3sa0vfO82JxbFyYX3SMhBmy5RDX0DPf7dW
+         xeR1Xo7E1isuHotygQauCb1lxYRyXTllGfgyPsvvgPAZS2/VnA57oIDjw/gx96159kjp
+         rWWxoWYiS377wAmSVkvD9+JZxkTIyYNvFZ5tgKKUW26OfrNgETiwJYTMIUqoQv3YL1k7
+         5WSBFVGaU0Q3IybdADvWySi3VYuMYPUi609a4KkTo0YrhV0L7aTo/7BpS73oN/w/5KZt
+         AWBg==
+X-Forwarded-Encrypted: i=1; AJvYcCWgnlwvignaijdUm2w7/xkpKKefdfx9j82KD0bSXB5VVuf8nvwwRZE71N0VtVhzlnPtX9mnKXJOb8V5bj8ZK/gW7Nhg2g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwO8X6hiCAwOjx7JTd9RBsYa6Bd8k968B+MArkgEyrH3zXGvpdV
+	zBYT/hyeMr2C1u98YpyP/rxQmhZF9bwYG0xVyNB0koJ1PW0GiYh78AK6OPRRthWHR8vthqb2SHx
+	cUUqgPUgynn8E4CgQzj0NilQ03BTACqo=
+X-Gm-Gg: ASbGncv4CN8SXRYwheD/GWYgSy8xRxzs5CgFb6xBnKbvZBoQ7Sr46Y1zDMRxRazMmYx
+	riUr3MKjqn+HazQ2wXUPEL+hSXLHcOC6EzsCSwIrIrSLuOHAB5kw+xz2inBWjZshog8ZChmGDSW
+	SNrw+qtrRT8AYPXy9WvAbx9svt19x1ePOSk6WFVuTfTMtRN9e6vFtvMRSvXXfATHJt5GXEl/jJe
+	0UYEoRKy7oi6Ilg9gcVZAQ2B1OTfHJtv85lNN1/GczKa5MsslM8D0yqFacPmRGkTCaB2qWpRKyq
+	fjJINhV1qyZ7pIsT1oQoxQxwCkG6Gg7+bBSl6cvvejHiUqEZX1zzpYhIhapVmm8CNAgjDwreelZ
+	8nWnykAA04ozNwZdCpfMGhfGl8PqPDf2+RBL/KHNgdw/GxNlvCO6b+wzsIIW399ttxPU2S9XWF2
+	kyZhVuMOaqBFcRPWQommk=
+X-Google-Smtp-Source: AGHT+IHhfzBJAEcCphFwzomj2W7zGvOCPeFDhl/lHKkpj3xi16n9G+ByWNLrLHv/3vIAjtNEDflU7OTWv23wgwwm1Ys=
+X-Received: by 2002:a05:6214:cae:b0:882:4901:e960 with SMTP id
+ 6a1803df08f44-8829262506emr211040446d6.29.1763496058322; Tue, 18 Nov 2025
+ 12:00:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251114193729.251892-1-ssranevjti@gmail.com> <aReUv1kVACh3UKv-@casper.infradead.org>
- <CANNWa07Y_GPKuYNQ0ncWHGa4KX91QFosz6WGJ9P6-AJQniD3zw@mail.gmail.com>
- <aRpQ7LTZDP-Xz-Sr@casper.infradead.org> <20251117164155.GB196362@frogsfrogsfrogs>
- <aRtjfN7sC6_Bv4bx@casper.infradead.org> <CAEf4BzZu+u-F9SjhcY5GN5vumOi6X=3AwUom+KJXeCpvC+-ppQ@mail.gmail.com>
- <aRxunCkc4VomEUdo@infradead.org> <aRySpQbNuw3Y5DN-@casper.infradead.org> <20251118161220.GE196362@frogsfrogsfrogs>
-In-Reply-To: <20251118161220.GE196362@frogsfrogsfrogs>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Tue, 18 Nov 2025 11:38:36 -0800
-X-Gm-Features: AWmQ_bk9sXea8jL7B_XWSvq1NtCko5Jbx6_OaVtFvyVo8HnLwKRsCuuE1XHa0Cc
-Message-ID: <CAEf4BzYkPxUcQK2VWEE+8N=U5CXjtUNs6GfbfW2+GoTDebk19A@mail.gmail.com>
-Subject: Re: [PATCH] mm/filemap: fix NULL pointer dereference in do_read_cache_folio()
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>, 
-	SHAURYA RANE <ssrane_b23@ee.vjti.ac.in>, akpm@linux-foundation.org, 
-	shakeel.butt@linux.dev, eddyz87@gmail.com, andrii@kernel.org, ast@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org, 
-	syzbot+09b7d050e4806540153d@syzkaller.appspotmail.com, 
-	bpf <bpf@vger.kernel.org>
+References: <20251118150257.35455-1-ssranevjti@gmail.com>
+In-Reply-To: <20251118150257.35455-1-ssranevjti@gmail.com>
+From: Steve French <smfrench@gmail.com>
+Date: Tue, 18 Nov 2025 14:00:46 -0600
+X-Gm-Features: AWmQ_bk518tBwIwq4km9t_okTCnI85hG63NOZgFy5r88Hbvu-haY_fDOfVuyttk
+Message-ID: <CAH2r5mu72dDwVfnK1ffAELCa1iWa5b5XXwTY1+7CTsFvTnN7Bw@mail.gmail.com>
+Subject: Re: [PATCH] cifs: fix memory leak in smb3_fs_context_parse_param
+ error path
+To: ssrane_b23@ee.vjti.ac.in
+Cc: sfrench@samba.org, pc@manguebit.org, ronniesahlberg@gmail.com, 
+	sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, 
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com, 
+	khalid@kernel.org, syzbot+87be6809ed9bf6d718e3@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 18, 2025 at 8:12=E2=80=AFAM Darrick J. Wong <djwong@kernel.org>=
- wrote:
+merged into cifs-2.6.git for-next pending additional review
+
+
+On Tue, Nov 18, 2025 at 9:08=E2=80=AFAM <ssrane_b23@ee.vjti.ac.in> wrote:
 >
-> On Tue, Nov 18, 2025 at 03:37:09PM +0000, Matthew Wilcox wrote:
-> > On Tue, Nov 18, 2025 at 05:03:24AM -0800, Christoph Hellwig wrote:
-> > > On Mon, Nov 17, 2025 at 10:45:31AM -0800, Andrii Nakryiko wrote:
-> > > > As I replied on another email, ideally we'd have some low-level fil=
-e
-> > > > reading interface where we wouldn't have to know about secretmem, o=
-r
-> > > > XFS+DAX, or whatever other unusual combination of conditions where
-> > > > exposed internal APIs like filemap_get_folio() + read_cache_folio()
-> > > > can crash.
-> > >
-> > > The problem is that you did something totally insane and it kinda wor=
-ks
-> > > most of the time.
-> >
-> > ... on 64-bit systems.  The HIGHMEM handling is screwed up too.
-> >
-> > > But bpf or any other file system consumer has
-> > > absolutely not business poking into the page cache to start with.
-> >
-> > Agreed.
-> >
-> > > And I'm really pissed off that you wrote and merged this code without
-> > > ever bothering to talk to a FS or MM person who have immediately told
-> > > you so.  Let's just rip out this buildid junk for now and restart
-> > > because the problem isn't actually that easy.
-> >
-> > Oh, they did talk to fs & mm people originally and were told NO, so the=
-y
-> > sneaked it in through the BPF tree.
-> >
-> > https://lore.kernel.org/all/20230316170149.4106586-1-jolsa@kernel.org/
-> >
-> > > > The only real limitation is that we'd like to be able to control
-> > > > whether we are ok sleeping or not, as this code can be called from
-> > > > pretty much anywhere BPF might run, which includes NMI context.
-> > > >
-> > > > Would this kiocb_read() approach work under those circumstances?
-> > >
-> > > No.  IOCB_NOWAIT is just a hint to avoid blocking function calls.
-> > > It is not guarantee and a guarantee is basically impossible.
-> >
-> > I'm not sure I'd go that far -- I think we're pretty good about not
-> > sleeping when IOCB_NOWAIT is specified and any remaining places can
-> > be fixed up.
-> >
-> > But I am inclined to rip out the buildid code, just because the
-> > authors have been so rude.
+> From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 >
-> Which fstest actually checks the functionality of the buildid code?
-> I don't find any, which means none of the fs people have a good signal
-> for breakage in this, um, novel file I/O path.
-
-We have plenty of build ID tests in BPF selftest that validate this
-functionality:
-
-  - tools/testing/selftests/bpf/prog_tests/stacktrace_build_id.c
-  - tools/testing/selftests/bpf/prog_tests/stacktrace_build_id_nmi.c
-  - tools/testing/selftests/bpf/prog_tests/build_id.c
-
-This functionality is exposed to BPF (and PROCMAP_QUERY, which has its
-own mm selftests), so that's where we test this. So we'll know at the
-very least when trees merge that something is broken.
-
+> Add proper cleanup of ctx->source and fc->source to the
+> cifs_parse_mount_err error handler. This ensures that memory allocated
+> for the source strings is correctly freed on all error paths, matching
+> the cleanup already performed in the success path by
+> smb3_cleanup_fs_context_contents().
+> Pointers are also set to NULL after freeing to prevent potential
+> double-free issues.
 >
-> --D
+> This change fixes a memory leak originally detected by syzbot. The
+> leak occurred when processing Opt_source mount options if an error
+> happened after ctx->source and fc->source were successfully
+> allocated but before the function completed.
+>
+> The specific leak sequence was:
+> 1. ctx->source =3D smb3_fs_context_fullpath(ctx, '/') allocates memory
+> 2. fc->source =3D kstrdup(ctx->source, GFP_KERNEL) allocates more memory
+> 3. A subsequent error jumps to cifs_parse_mount_err
+> 4. The old error handler freed passwords but not the source strings,
+> causing the memory to leak.
+>
+> This issue was not addressed by commit e8c73eb7db0a ("cifs: client:
+> fix memory leak in smb3_fs_context_parse_param"), which only fixed
+> leaks from repeated fsconfig() calls but not this error path.
+>
+> Reported-by: syzbot+87be6809ed9bf6d718e3@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D87be6809ed9bf6d718e3
+> Fixes: 24e0a1eff9e2 ("cifs: switch to new mount api")
+> Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+> ---
+>  fs/smb/client/fs_context.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/fs/smb/client/fs_context.c b/fs/smb/client/fs_context.c
+> index 0f894d09157b..975f1fa153fd 100644
+> --- a/fs/smb/client/fs_context.c
+> +++ b/fs/smb/client/fs_context.c
+> @@ -1834,6 +1834,12 @@ static int smb3_fs_context_parse_param(struct fs_c=
+ontext *fc,
+>         ctx->password =3D NULL;
+>         kfree_sensitive(ctx->password2);
+>         ctx->password2 =3D NULL;
+> +       kfree(ctx->source);
+> +       ctx->source =3D NULL;
+> +       if (fc) {
+> +               kfree(fc->source);
+> +               fc->source =3D NULL;
+> +       }
+>         return -EINVAL;
+>  }
+>
+> --
+> 2.34.1
+>
+>
+
+
+--=20
+Thanks,
+
+Steve
