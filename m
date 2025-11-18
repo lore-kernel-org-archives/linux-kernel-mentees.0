@@ -1,268 +1,103 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551703624A5
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Nov 2025 16:44:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607AB36B072
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 18 Nov 2025 16:56:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763484255; cv=none; b=Vqf8JvXayj01B/4U1a8C3MnauUjDKu7m5EYzQSOmTJ33h8KS+9VMx/4W1+DbLtsvM6sJq9rLnPibHCCnfG79q1pwqsNf31XkmZLEKYd1AFFUnN/UtutflWYT1NhxLKwoanwiVnDM8C9mgSRWUl+Ejef+PSA+4+rZPAl3suvsInk=
+	t=1763484963; cv=none; b=NI7qrx/fSk8uzs66J9qTFp0RLgd26jUW3BOUD7xFLC0RsAjfV5YunmfNE6mxiMofnJTElO+bEGGKxWp/9sJKsb7TM6e6FfA4rfI4inGpoZUMLQNTcKFMV0g12Hgub97UU5HK367WFyGnTaCzJSLDoQHTmWiu0OhwjJGF5tbxWFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763484255; c=relaxed/simple;
-	bh=0FQ386+g3fJmb2sXgWLF41NLQyulgHxdCvrCfZwHMVM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mW6PSsIQvDekju7tHrotjgv6I/GpD2PaNkR1Gfa+Bq6WP3ZxnK3crkZrCxt2KqhDcuk/YH3Q8Fs801XCW6hr+MFi6ctxdYDu7O3PvKaeHMIVsrjYbUhaTpiZPPD/Sn4a5B4uH266SqxzGVAMQkGu09CXhrLLDo4x9x88jV+83z8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cKSSxrNK; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763484963; c=relaxed/simple;
+	bh=gNykeiEJ161fBlHb1EROjr/lUEtYva2cO5zEi8KsVK8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=omJriyo5fg4kIewlQXErYE1gf4D+99bqr/X4V5fLf9+xZCYt0v1SoJN8v6zWanpSKYIAhLL+GjlP6j1h8MUS7e0WVjPuQUaOJSNukznJC0upH8inuNkax7iIP07iF6CxXCfQjbaI+qrI2x7o3Q5o1bqaUmOpj8XUZ+izhsQ6LCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=RP38Twwq; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cKSSxrNK"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-34374febdefso6101063a91.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Nov 2025 08:44:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763484251; x=1764089051; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TwmtgOlhlWBYCrE1LogTIJtjLPIo0fBin+YkiTpkdPg=;
-        b=cKSSxrNKklyDTuGsr5Cw4FL1QrEqmzfK1D9Fo0qxUkEeUHWQPn+9Q8nBuZnNsrYjWz
-         Xr+MamMZtRwUdgPddIFSPWoFxwzyAhZzz/oDIFGkTji0Q9+ZTfIVudx9nxjzViaYJfDi
-         5ZMFqE37Idi2uQ4kiBIudGL5YycQH0+7rA90ex+GoA2o5XM0+j/p1ycmWSzAvJAllop+
-         oYf/Y3AqYFr40y4L9xBWtHTJ8lrsAsPR/R93lmh7brK294jfM82xOnD27ZgINHGCTeze
-         ySnYgqfmilNrOINBQJa5mQl7Zaan1MCPkHPJ+iCVuMqTn5e2xFst8seoYvmgEbx+Pf4C
-         Aj3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763484251; x=1764089051;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TwmtgOlhlWBYCrE1LogTIJtjLPIo0fBin+YkiTpkdPg=;
-        b=q9Hx8EE6XgLtjE/KlfAP4PxJi58Y5JTx+cvcr2mt4AOTnbSV5Wc3zcPA4IkUC3o0vk
-         g3yw6VFpLzKVbIefi0Gxuv+zMVsnjAj6Le9iHHi3jbvZnbgncvKX0sOKyUTKjgP8uR/k
-         lpOTTAbvnNlddzIdHfg/fslkZ3eimMxSNqDNuQvOdLqPeUqv3nxWnRJM1m4rygqvozmS
-         ZA93ID8YU8LIowWDjQ+u7tj4qFjyDh8PD9FmbCHUn19Y3efWUm+Kbq8znAwoDmCWJLAO
-         7JnBZOQt2u7uyeTSk4p5iqVNlwZOCR3mVSUMZuzyn/CAxq2A4gZ3Sj2pMfudddZ0kixy
-         SGhw==
-X-Forwarded-Encrypted: i=1; AJvYcCW3K7YldaZCM9UdVystbC/a6iGh8SgT+xzjeAlNYQTKYIP2RbZZVHXvPB9C1HYIBzDd7yrolW2nZVyZNCBdlZA8zpRejA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw99hkmK1FNBw7AdeYj89zUlloXbkOY/tHd5dLanAzqDtVNV1+h
-	zVZ6cJFXSx5BtaxlcmuTgnWRpUvhhfmdZGu+pnGcOaC8HSYOUVOUbaeu
-X-Gm-Gg: ASbGnctBMCVEtdCcewu/Jl9E71lchiuQ6VasZKpsneqRyM48DYsqKchYxiI4612Yegh
-	nDyPgS7iwi32DS7RypWTZDQQPgv4sB9s5omNkdUA/cz0DA5RpxLb7lERFEhaE9o/E+tyFJLxPoE
-	MoCpdTC9i6ZG4DIIc8TEHOk08mvpf78PZxQQDo73NJ5QumP0aYfBjjQDJlipug7ecaFe2WbsRhT
-	WN6qjm5z4ypzqC4hhpGeMvL1ihrxxf22Fxvmi8R7opeqfjfNewzU6JVHKfnSXmGuFfUBMqXustg
-	7VfVUp87SpIQVcukMn+WjXsdwi63kwcBozonIRfZakJ4KwgtQ7SRUVJs+SYnzU3+esFMcbLWEvD
-	eFsU/603qR3kaSilhrapIWRSgXw7fYRLb7xwwHRXEfNAaQSrUnj+OvRdzP/zxvwISU5EvXTWgq9
-	18JrpL+q38hSKu63V4b8Y7gks33opWy48DH155dW6ImYgc/x3bVhKIuQ==
-X-Google-Smtp-Source: AGHT+IGP4POJh+nQC68ptxHo+oArpwmANuGeak47u/8AJD4JE1aggtVetdUtI5VFttSw6IUoTGKYcw==
-X-Received: by 2002:a17:90b:4b49:b0:340:f009:ca89 with SMTP id 98e67ed59e1d1-343fa62fabemr18013927a91.22.1763484250931;
-        Tue, 18 Nov 2025 08:44:10 -0800 (PST)
-Received: from COB-LTR7HP24-497.domain.name ([223.185.135.16])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3456513f162sm13544843a91.8.2025.11.18.08.44.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 08:44:10 -0800 (PST)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: kuba@kernel.org,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	mst@redhat.com,
-	jasowang@redhat.com,
-	xuanzhuo@linux.alibaba.com,
-	eperezma@redhat.com,
-	sdf@fomichev.me,
-	kuniyu@google.com,
-	skhawaja@google.com,
-	aleksander.lobakin@intel.com
-Cc: virtualization@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	I Viswanath <viswanathiyyappan@gmail.com>
-Subject: [RFT net-next v4 2/2] virtio-net: Implement ndO_write_rx_mode callback
-Date: Tue, 18 Nov 2025 22:13:33 +0530
-Message-Id: <20251118164333.24842-3-viswanathiyyappan@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251118164333.24842-1-viswanathiyyappan@gmail.com>
-References: <20251118164333.24842-1-viswanathiyyappan@gmail.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="RP38Twwq"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id F1166842A5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 18 Nov 2025 16:56:00 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.998
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id eCdSkdBfmWjX for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 18 Nov 2025 16:56:00 +0000 (UTC)
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2a03:a000:7:0:5054:ff:fe1c:15ff; helo=zeniv.linux.org.uk; envelope-from=viro@ftp.linux.org.uk; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 360E9842A0
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 360E9842A0
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=RP38Twwq
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 360E9842A0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 18 Nov 2025 16:56:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=I+7gZeWoCFkE7hp3ZnZaCM9Qui0wtrYwJjYPcSKek/w=; b=RP38Twwq+Z9bCE5LeW5ircQOrz
+	ZN+BXnq5Av6aPasz4tpu9oLBm1l2FMt1ocIQQLWfVCf+wkEgbeLUmb74lEhudWyBMt6SpyMaiioE+
+	McEgQHywCiJw5iSqCOvMu+H+UVf0g/1cBRvRwZK+R8F8pfdddCueiQNtKjUeLeOPWPt2WZAeyOaPU
+	0chxRv++nLTyegkQ179q8M5SBxADSFSUFzKoGQ6f+Gqa+eDrRp4rCd0MIJ78bAJr+/FUnEnsHqhwh
+	QyUI6Zq0mP8Eu7ieRoXBdEJuMCrbT457zb1ExA48CV+BMk1RZoF9a49LrBtC03cQW+EUHdgrtzCK7
+	Fgn2odKA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vLOzh-0000000BDbW-3jMc;
+	Tue, 18 Nov 2025 16:55:53 +0000
+Date: Tue, 18 Nov 2025 16:55:53 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Cc: brauner@kernel.org, jack@suse.cz,
+	syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com,
+	frank.li@vivo.com, glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	slava@dubeyko.com, syzkaller-bugs@googlegroups.com,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] fs/super: fix memory leak of s_fs_info on
+ setup_bdev_super failure
+Message-ID: <20251118165553.GF2441659@ZenIV>
+References: <20251114165255.101361-1-mehdi.benhadjkhelifa@gmail.com>
+ <20251118145957.GD2441659@ZenIV>
+ <6c482108-78b8-4e09-814a-67820a5c021e@gmail.com>
+ <20251118163509.GE2441659@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251118163509.GE2441659@ZenIV>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Implement ndo_write_rx_mode callback for virtio-net
+On Tue, Nov 18, 2025 at 04:35:09PM +0000, Al Viro wrote:
 
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
----
- drivers/net/virtio_net.c | 56 +++++++++++++++++-----------------------
- 1 file changed, 24 insertions(+), 32 deletions(-)
+> For HFS I would expect that hfs_fill_super() would call hfs_mdb_put(sb)
+> on all failures and have it called from subsequent ->put_super() if
+> we succeed and later unmount the filesystem.  That seems to be where
+> ->s_fs_info is taken out of superblock and freed.
+> 
+> What do you observe getting leaked and in which case does that happen?
 
-diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
-index cfa006b88688..20494ed5a0f6 100644
---- a/drivers/net/virtio_net.c
-+++ b/drivers/net/virtio_net.c
-@@ -460,9 +460,6 @@ struct virtnet_info {
- 	/* Work struct for config space updates */
- 	struct work_struct config_work;
- 
--	/* Work struct for setting rx mode */
--	struct work_struct rx_mode_work;
--
- 	/* OK to queue work setting RX mode? */
- 	bool rx_mode_work_enabled;
- 
-@@ -3857,18 +3854,17 @@ static int virtnet_close(struct net_device *dev)
- 	return 0;
- }
- 
--static void virtnet_rx_mode_work(struct work_struct *work)
-+static void virtnet_write_rx_mode(struct net_device *dev)
- {
--	struct virtnet_info *vi =
--		container_of(work, struct virtnet_info, rx_mode_work);
-+	struct virtnet_info *vi = netif_rx_mode_get_priv_ptr(dev);
- 	u8 *promisc_allmulti  __free(kfree) = NULL;
--	struct net_device *dev = vi->dev;
- 	struct scatterlist sg[2];
- 	struct virtio_net_ctrl_mac *mac_data;
--	struct netdev_hw_addr *ha;
-+	char *ha_addr;
- 	int uc_count;
- 	int mc_count;
- 	void *buf;
-+	int idx;
- 	int i;
- 
- 	/* We can't dynamically set ndo_set_rx_mode, so return gracefully */
-@@ -3881,9 +3877,8 @@ static void virtnet_rx_mode_work(struct work_struct *work)
- 		return;
- 	}
- 
--	rtnl_lock();
--
--	*promisc_allmulti = !!(dev->flags & IFF_PROMISC);
-+	*promisc_allmulti = netif_rx_mode_get_bit(dev,
-+						  NETIF_RX_MODE_PROM_EN);
- 	sg_init_one(sg, promisc_allmulti, sizeof(*promisc_allmulti));
- 
- 	if (!virtnet_send_command(vi, VIRTIO_NET_CTRL_RX,
-@@ -3891,7 +3886,8 @@ static void virtnet_rx_mode_work(struct work_struct *work)
- 		dev_warn(&dev->dev, "Failed to %sable promisc mode.\n",
- 			 *promisc_allmulti ? "en" : "dis");
- 
--	*promisc_allmulti = !!(dev->flags & IFF_ALLMULTI);
-+	*promisc_allmulti = netif_rx_mode_get_bit(dev,
-+						  NETIF_RX_MODE_ALLMULTI_EN);
- 	sg_init_one(sg, promisc_allmulti, sizeof(*promisc_allmulti));
- 
- 	if (!virtnet_send_command(vi, VIRTIO_NET_CTRL_RX,
-@@ -3899,27 +3895,24 @@ static void virtnet_rx_mode_work(struct work_struct *work)
- 		dev_warn(&dev->dev, "Failed to %sable allmulti mode.\n",
- 			 *promisc_allmulti ? "en" : "dis");
- 
--	netif_addr_lock_bh(dev);
-+	uc_count = netif_rx_mode_get_uc_count(dev);
-+	mc_count = netif_rx_mode_get_mc_count(dev);
- 
--	uc_count = netdev_uc_count(dev);
--	mc_count = netdev_mc_count(dev);
- 	/* MAC filter - use one buffer for both lists */
- 	buf = kzalloc(((uc_count + mc_count) * ETH_ALEN) +
- 		      (2 * sizeof(mac_data->entries)), GFP_ATOMIC);
- 	mac_data = buf;
--	if (!buf) {
--		netif_addr_unlock_bh(dev);
--		rtnl_unlock();
-+	if (!buf)
- 		return;
--	}
- 
- 	sg_init_table(sg, 2);
- 
- 	/* Store the unicast list and count in the front of the buffer */
- 	mac_data->entries = cpu_to_virtio32(vi->vdev, uc_count);
- 	i = 0;
--	netdev_for_each_uc_addr(ha, dev)
--		memcpy(&mac_data->macs[i++][0], ha->addr, ETH_ALEN);
-+
-+	netif_rx_mode_for_each_uc_addr(dev, ha_addr, idx)
-+		memcpy(&mac_data->macs[i++][0], ha_addr, ETH_ALEN);
- 
- 	sg_set_buf(&sg[0], mac_data,
- 		   sizeof(mac_data->entries) + (uc_count * ETH_ALEN));
-@@ -3929,10 +3922,8 @@ static void virtnet_rx_mode_work(struct work_struct *work)
- 
- 	mac_data->entries = cpu_to_virtio32(vi->vdev, mc_count);
- 	i = 0;
--	netdev_for_each_mc_addr(ha, dev)
--		memcpy(&mac_data->macs[i++][0], ha->addr, ETH_ALEN);
--
--	netif_addr_unlock_bh(dev);
-+	netif_rx_mode_for_each_mc_addr(dev, ha_addr, idx)
-+		memcpy(&mac_data->macs[i++][0], ha_addr, ETH_ALEN);
- 
- 	sg_set_buf(&sg[1], mac_data,
- 		   sizeof(mac_data->entries) + (mc_count * ETH_ALEN));
-@@ -3941,17 +3932,18 @@ static void virtnet_rx_mode_work(struct work_struct *work)
- 				  VIRTIO_NET_CTRL_MAC_TABLE_SET, sg))
- 		dev_warn(&dev->dev, "Failed to set MAC filter table.\n");
- 
--	rtnl_unlock();
--
- 	kfree(buf);
- }
- 
- static void virtnet_set_rx_mode(struct net_device *dev)
- {
- 	struct virtnet_info *vi = netdev_priv(dev);
-+	char cfg_disabled;
-+
-+	cfg_disabled = !vi->rx_mode_work_enabled;
-+	netif_rx_mode_set_bit(dev, NETIF_RX_MODE_SET_DIS, cfg_disabled);
- 
--	if (vi->rx_mode_work_enabled)
--		schedule_work(&vi->rx_mode_work);
-+	netif_rx_mode_set_priv_ptr(dev, vi);
- }
- 
- static int virtnet_vlan_rx_add_vid(struct net_device *dev,
-@@ -5767,7 +5759,7 @@ static void virtnet_freeze_down(struct virtio_device *vdev)
- 	/* Make sure no work handler is accessing the device */
- 	flush_work(&vi->config_work);
- 	disable_rx_mode_work(vi);
--	flush_work(&vi->rx_mode_work);
-+	netif_rx_mode_flush_work(vi->dev);
- 
- 	if (netif_running(vi->dev)) {
- 		rtnl_lock();
-@@ -6270,6 +6262,7 @@ static const struct net_device_ops virtnet_netdev = {
- 	.ndo_validate_addr   = eth_validate_addr,
- 	.ndo_set_mac_address = virtnet_set_mac_address,
- 	.ndo_set_rx_mode     = virtnet_set_rx_mode,
-+	.ndo_write_rx_mode   = virtnet_write_rx_mode,
- 	.ndo_get_stats64     = virtnet_stats,
- 	.ndo_vlan_rx_add_vid = virtnet_vlan_rx_add_vid,
- 	.ndo_vlan_rx_kill_vid = virtnet_vlan_rx_kill_vid,
-@@ -6891,7 +6884,6 @@ static int virtnet_probe(struct virtio_device *vdev)
- 	vdev->priv = vi;
- 
- 	INIT_WORK(&vi->config_work, virtnet_config_changed_work);
--	INIT_WORK(&vi->rx_mode_work, virtnet_rx_mode_work);
- 	spin_lock_init(&vi->refill_lock);
- 
- 	if (virtio_has_feature(vdev, VIRTIO_NET_F_MRG_RXBUF)) {
-@@ -7196,7 +7188,7 @@ static void virtnet_remove(struct virtio_device *vdev)
- 	/* Make sure no work handler is accessing the device. */
- 	flush_work(&vi->config_work);
- 	disable_rx_mode_work(vi);
--	flush_work(&vi->rx_mode_work);
-+	netif_rx_mode_flush_work(vi->dev);
- 
- 	virtnet_free_irq_moder(vi);
- 
--- 
-2.34.1
+AFAICS, the problem is with aca740cecbe5 "fs: open block device after superblock
+creation" where you get a failure exit stuck between getting a new superblock
+from sget_fc() and calling fill_super().
 
+That is where the gap has been introduced.  I see two possible solutions:
+one is to have failure of setup_bdev_super() (and only it) steal ->s_fs_info
+back, on the theory that filesystem didn't have a chance to do anything
+yet.  Another is to move the call of hfs_mdb_put() from failure exits of
+hfs_fill_super() *and* from hfs_put_super() into hfs_kill_sb(), that
+would do that:
+
+	generic_shutdown_super(sb);
+	hfs_mdb_put(sb);
+	if (sb->s_bdev) {
+		sync_blockdev(sb->s_bdev);
+		bdev_fput(sb->s_bdev_file);
+	}
