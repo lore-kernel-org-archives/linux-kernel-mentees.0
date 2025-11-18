@@ -1,139 +1,97 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87784327219
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Nov 2025 15:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B05226CF1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 18 Nov 2025 15:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763478197; cv=none; b=XJPbDuqgQ8es2QkFAfJiLC53utVMrLABycZBLDe2ajk2Fc+aUUJ3seZ+JjXWaMHWeWhbXSsxjW/l6MQFAj2erMMfLsBw2oJNcljwSOiSUgKbJ/kySAKk6JGAnmDCfYFRu36skOC75c1g0QFLsezvxRNmn69AOl0aWQC/rlSluak=
+	t=1763479296; cv=none; b=VDEttZgQR2eMmoh0ec9bUJ1Y6SK2ukYsLp6dskRTTYFatUpco8HRVM/4M5aSyiCF/7jsyn/95lJMVjozbAqBg7x9tkF6zRKAZBq7u1fbqp9aUDFY3cZo+rNM/iNQ3LfbGJF1VkodRRBW3SDwp22S6o71tOjpVRvopqTbRQJY4uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763478197; c=relaxed/simple;
-	bh=ja/LkSN1dbpDQVhNZhk44Tv9iiJnHW6JXYkdYusMa/E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DN7fzIwrs7vc+v9UVToIWs+VbyUN+VXM0p6Gclf9bAgmw1zrqBIXN5k3Q6Jqk88OuSSo+JVAAvsqablk28m7RPI1AGz7NPKE4JYDAfIfTxBpbyKioNJRlH/eW158Gc3Ab0t9l/6b1/MJ7kqVVqA9eziPPjiK7AnGgTSfWfJdQJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=XrAYdgET; arc=none smtp.client-ip=209.85.210.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
+	s=arc-20240116; t=1763479296; c=relaxed/simple;
+	bh=3tC/7RGBTLAz6SX00JnXVxOOzBzpTg9gCtsy6n2iSAc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k7l8EK7h1Y787TZXZm05T/0Z/2M4fA+iwgLKixCOPvXlbcTDGtfFmSthm1aYRavTaZknLeFEEE5OP/Sw4tyo53LumGTkHFCH4uOiMchywDcD2g7by1f9QWH3IAqkYWOpX57F83YBvwaGLMkIrYN7DrrLZYjalF3mrMs8mETsGUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=bIA2cuiL; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="XrAYdgET"
-Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-7aab061e7cbso6355622b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Nov 2025 07:03:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vjti.ac.in; s=google; t=1763478194; x=1764082994; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QQlkNWnVWNMGqknsz6LYkGe/xvDLcv9mS0GeDyFf+Uw=;
-        b=XrAYdgETJBlHt0wc9KXqRHr6qqsjtmD5imT0sisnTlirvMMgz6gHG0UPooO2i1G0gg
-         TpxdLkIdr04n8loIhVNjEq2iP0kmS+iWVPmBwAYphQRdJ6K8I2iVq7wwWkC6jvIPl6U9
-         29JzCe4FVgDwOUA3rorqPE7Z4im/Wc5FrzCPQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763478194; x=1764082994;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QQlkNWnVWNMGqknsz6LYkGe/xvDLcv9mS0GeDyFf+Uw=;
-        b=Djj+egCd3dl+YplkVrD2DCaQEAYI9T5hZmuX4HCYIuLbSJXhya6jhdRheMAtJbWsT4
-         TJwUGmoSgUL6J6dRcyXdJpPVkLUNLNkpobL2/yPa+6EsSvdyxWjjvPDwOCqWio9QvhLs
-         1zWOdJzKAOXhTrAGuPJyTLLsOxuI46M/NlFRpp7FfssoE5o9PNmQ2KA0xIZSis0R24iZ
-         Xs915/lPrCql7sq8OCxWWeuj4Ur2027lPZa4vjQdM7lzA+4MkxAWkNnXyyY+l4taBYAc
-         YSwD6eMuq2jG1RDAYQXHcxu6tT59C1rmmQnOmCFxLttXK0Q+FaVsGa521YABHcFhmXNS
-         6/5g==
-X-Forwarded-Encrypted: i=1; AJvYcCWs2yOWBoTPW9CAE3hkGFwQahlFnzsexty8Vb/krUrF8GdV9XUI07uWzTHgxNuxPU09BSU9d4L9ilONkVqPlDpSGSdIgA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxS/uDFKUzUFstJ6/omVh2zJdS0Wfsx5VpF6GKld9NE+OlNVDKG
-	zH2Fn8JvNUc6IZ4gUVJV9mgfceLjHlHaTtSU5VQcGKVKrpFoWkWqbdmLPXE2yx60pQ0=
-X-Gm-Gg: ASbGncsfcDaRz2HwS7wcQY9qZdZC1dTESMdaX20lyA0/AJdyI0FCuOFCxC7gRS9xjf5
-	7Wmhs4g/X7wNtW8yzv6MShattVcCKAG6ZgPnmNeZ1mPxTq0ZgIyJvGtlptBQZmK7ruKd+nTvVAj
-	6CxqQwu77zcYbrvXmn3F2Ezd6VV/jmbM9tnn8DcrewlSid+acXRssJHbcU1hIotGGlBspaba2/N
-	LdGNagJKQ+Q/DQuF9dfHqRd4MU6GEV9JWtJEcBRqUTfOOmZ9QDRgQKsM8PtIv0ukx85ZT6HGgsp
-	JBx6snUA39QgTCoIJkTQUVqhAAzTypVyXvW4Iiv0CTbeuz3RCsQ60mger3VMzQ4r1RCTywdohy2
-	1RrAdorzxGdDTniBhR0b1N7ebXpXy0n4pGlEpNDOh06+a9K/UYAJSNwMmc9Fu93o/pb1EAheqAZ
-	5nanQwiVdnMFkrJTGoaMxHIiiXM08j1hEkJplmayHPwt5lEe+J3JadvrzF
-X-Google-Smtp-Source: AGHT+IHFIIwmUCgaGWygfpulmoTV8AMhwsMJO4oc5YwSM+A51tW7KkpVK+NA+2DZsJUMTDiHbm2Feg==
-X-Received: by 2002:a05:6a20:7352:b0:253:1e04:4e8 with SMTP id adf61e73a8af0-35ba209f362mr17860446637.56.1763478193712;
-        Tue, 18 Nov 2025 07:03:13 -0800 (PST)
-Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([2405:201:31:d016:3cef:9de1:d6ad:21b8])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bc36db21e8esm15297990a12.5.2025.11.18.07.03.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 07:03:13 -0800 (PST)
-From: ssrane_b23@ee.vjti.ac.in
-X-Google-Original-From: ssranevjti@gmail.com
-To: sfrench@samba.org
-Cc: pc@manguebit.org,
-	ronniesahlberg@gmail.com,
-	sprasad@microsoft.com,
-	tom@talpey.com,
-	bharathsm@microsoft.com,
-	linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
-	syzbot+87be6809ed9bf6d718e3@syzkaller.appspotmail.com
-Subject: [PATCH] cifs: fix memory leak in smb3_fs_context_parse_param error path
-Date: Tue, 18 Nov 2025 20:32:57 +0530
-Message-Id: <20251118150257.35455-1-ssranevjti@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="bIA2cuiL"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id A9B0F4024B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 18 Nov 2025 15:21:34 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.998
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id HcwXIXFXQ5Tw for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 18 Nov 2025 15:21:33 +0000 (UTC)
+X-Greylist: delayed 1286 seconds by postgrey-1.37 at util1.osuosl.org; Tue, 18 Nov 2025 15:21:32 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org B91C740092
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B91C740092
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=bIA2cuiL
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2a03:a000:7:0:5054:ff:fe1c:15ff; helo=zeniv.linux.org.uk; envelope-from=viro@ftp.linux.org.uk; receiver=<UNKNOWN> 
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B91C740092
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 18 Nov 2025 15:21:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=y9XALeKfiEwQpLNtrIYQtwh2NhbNt1WeeA0fPDhNUO8=; b=bIA2cuiLTuGAw1R3PEQz/pYIC2
+	qBCCwuijAQ6cKvzeMGBJ+NyF8sk4ZxWsfMDfMn4NfDOpY5OwIu/CZocxTBXLrxZBCGX1N1f6vKEnw
+	vWhr+xbOrLCgO1s9EbdIOJRw3ZTjrLof2N+yew8uL2lsXjI+ViqSBgXf0uJmEWTuUuAkuL8XIT00B
+	LiQAoQtFjdi80MPxMiloqqTob+o2fpXxa5WilP585rB/2yQlnce8u5DDcx0Yyrbzr6Z14imM2qBcw
+	M8/6c8CWWIW3dwFaI5gb2O+qb9dgeSkd/3vIeqt9r8+lUJjZp5GcD/sHyk9Fzaz2gqnn3tE49b6tR
+	h0UkFfvw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vLNBV-00000008sEd-3aUE;
+	Tue, 18 Nov 2025 14:59:57 +0000
+Date: Tue, 18 Nov 2025 14:59:57 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+Cc: brauner@kernel.org, jack@suse.cz,
+	syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com,
+	frank.li@vivo.com, glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	slava@dubeyko.com, syzkaller-bugs@googlegroups.com,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] fs/super: fix memory leak of s_fs_info on
+ setup_bdev_super failure
+Message-ID: <20251118145957.GD2441659@ZenIV>
+References: <20251114165255.101361-1-mehdi.benhadjkhelifa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251114165255.101361-1-mehdi.benhadjkhelifa@gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+On Fri, Nov 14, 2025 at 05:52:27PM +0100, Mehdi Ben Hadj Khelifa wrote:
+> Failure in setup_bdev_super() triggers an error path where
+> fc->s_fs_info ownership has already been transferred to the superblock via
+> sget_fc() call in get_tree_bdev_flags() and calling put_fs_context() in
+> do_new_mount() to free the s_fs_info for the specific filesystem gets
+> passed in a NULL pointer.
+> 
+> Pass back the ownership of the s_fs_info pointer to the filesystem context
+> once the error path has been triggered to be cleaned up gracefully in
+> put_fs_context().
+> 
+> Fixes: cb50b348c71f ("convenience helpers: vfs_get_super() and sget_fc()")
+> Reported-by: syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=ad45f827c88778ff7df6
+> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+> ---
+> Note:This patch might need some more testing as I only did run selftests 
+> with no regression, check dmesg output for no regression, run reproducer 
+> with no bug.
 
-Add proper cleanup of ctx->source and fc->source to the
-cifs_parse_mount_err error handler. This ensures that memory allocated
-for the source strings is correctly freed on all error paths, matching
-the cleanup already performed in the success path by
-smb3_cleanup_fs_context_contents().
-Pointers are also set to NULL after freeing to prevent potential
-double-free issues.
-
-This change fixes a memory leak originally detected by syzbot. The
-leak occurred when processing Opt_source mount options if an error
-happened after ctx->source and fc->source were successfully
-allocated but before the function completed.
-
-The specific leak sequence was:
-1. ctx->source = smb3_fs_context_fullpath(ctx, '/') allocates memory
-2. fc->source = kstrdup(ctx->source, GFP_KERNEL) allocates more memory
-3. A subsequent error jumps to cifs_parse_mount_err
-4. The old error handler freed passwords but not the source strings,
-causing the memory to leak.
-
-This issue was not addressed by commit e8c73eb7db0a ("cifs: client:
-fix memory leak in smb3_fs_context_parse_param"), which only fixed
-leaks from repeated fsconfig() calls but not this error path.
-
-Reported-by: syzbot+87be6809ed9bf6d718e3@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=87be6809ed9bf6d718e3
-Fixes: 24e0a1eff9e2 ("cifs: switch to new mount api")
-Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
----
- fs/smb/client/fs_context.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/fs/smb/client/fs_context.c b/fs/smb/client/fs_context.c
-index 0f894d09157b..975f1fa153fd 100644
---- a/fs/smb/client/fs_context.c
-+++ b/fs/smb/client/fs_context.c
-@@ -1834,6 +1834,12 @@ static int smb3_fs_context_parse_param(struct fs_context *fc,
- 	ctx->password = NULL;
- 	kfree_sensitive(ctx->password2);
- 	ctx->password2 = NULL;
-+	kfree(ctx->source);
-+	ctx->source = NULL;
-+	if (fc) {
-+		kfree(fc->source);
-+		fc->source = NULL;
-+	}
- 	return -EINVAL;
- }
- 
--- 
-2.34.1
-
+Almost certainly bogus; quite a few fill_super() callbacks seriously count
+upon "->kill_sb() will take care care of cleanup if we return an error".
