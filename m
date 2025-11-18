@@ -1,90 +1,140 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6662765C5;
-	Tue, 18 Nov 2025 13:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE6935C1AA
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Nov 2025 14:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763471007; cv=none; b=UVC8dPBEbhcmnuThCOJT3FHJzJ7YwolPAI+3aKVfLdgZoL6SUMuobKiI8EYBLuQzTHBQxImWwYYh8erCCrMQC/DvmBiBUIePNS82wukJGp78xOXoK2poqUJcqroa1c25BL597VVlfgSqvY0kzfWbujAd1JKNH8nDeHVpCeWdmqo=
+	t=1763475807; cv=none; b=r3vJKrE2NLqGnaEUgA0gK2nkaaRSDkLCEKk+mNQ0sVNWZ9BCEuicRYwQ4YZfnDm9LTcCueNuWBYzH/IgCaRaFWtlzvnABom4c5etpoPvHlZDQADIEnawcVwEVG/rz5Iqej5+RL6DhgP+5NTYQ8YNirYb97GOFD+YyUyle8PqsNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763471007; c=relaxed/simple;
-	bh=ZgblESNj1fOWb5XUDk3faCSe6HDicLSJis6LLJ3gbA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u1KjWE6hJH9j49Gu4JLjJhpImQUcIbniaoZRRHUwXnRCNomcQKui6DXlv14+BRILWqiBrA8+WA57+W/yOm7v/v63waiRtRuQDpN+KKhW9mB3K8zpo2GJ3lqY6rYxi7olxex3jbqSIDzZiNuTLd5CVc5FGXaNNSczZBpK/Kp/+xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=PuRCrHji; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1763475807; c=relaxed/simple;
+	bh=zZSQe2ZxHutuqSiWUIg5Vy/daN/b64qg/IMIRlyyNxs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fogXv291hxBmc76nlJ8PfZhjHSWzpqRoZCsVqkYBJsjeonxmNTcNWnfTxnZqFh1BaseRvHPwSlWaEf9CCVrCmqjuBhxO5FkUq15u8WZ461Uuj8Am2U33yOSFGthTehPMwrj+TnYiDkpFVqkB2MzdskyGD7l57s6DMupsG2VRQYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CeJ9kD87; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PuRCrHji"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=vLiGOr9ReViRNPVVqlOljGBjm5H3XmMece31/N2QTnE=; b=PuRCrHjiJZhUz0PHBhmikSNf97
-	lvqqOO5MQKwp1dGXBXoQdq5yEbbSxfSbY4/Q1tFSKx0c7auNbphvCw08iwxirHCWMgo9N+FLvWl/l
-	7SC9liYmZrp6JDd0V/Hsm/OJbpaQvGTdjgxI3iTMs/soNtcCa39GFFTYibcdh1+qaAFnK9YzWKep4
-	9vTfX/XvoxumxRuSkJV2H+Y62e7avhHbkuggrsHe0Eq07ill7hmRnHA7ttZCMO3WJCYlekkxQo/zs
-	jjW04WW2ZSs3uZeG4UGWs/GYB9VB8t1ZFbmD2YQEFBpU3L6qCqjSc1vF3VYKazSl37ykTkyaf54RU
-	OlQYzSUw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLLMi-00000000S6R-2GYS;
-	Tue, 18 Nov 2025 13:03:24 +0000
-Date: Tue, 18 Nov 2025 05:03:24 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	SHAURYA RANE <ssrane_b23@ee.vjti.ac.in>, akpm@linux-foundation.org,
-	shakeel.butt@linux.dev, eddyz87@gmail.com, andrii@kernel.org,
-	ast@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CeJ9kD87"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2980d9b7df5so58740975ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Nov 2025 06:23:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763475805; x=1764080605; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i4UD0GpwQ8ZB6y6bn4+JVNJNgyJMPm3VDbXU5N9w4UY=;
+        b=CeJ9kD875TlJSIOvL3svWzOmQwpBWpdAcy8+nWavLEg5orLnUyiIatYWKf/yb186Ee
+         7zsHpJcJRthl09cZ5KBL6Kuz3BYtUSypNUi52+8HClrFH+7LH7sfTuiuR2Uhx5Lg8G93
+         1v9Bi3t57US4XIzZK0n5tFZHSeiy4QSRoRC2P3Vm+7dAs+vLakh4AkFWpIfZE84Uo3dQ
+         UyloWhIYYULur+MxYCBv3LM08r1m64Hn4gS77azHcu4JYdlokn2BIMqwa/F/RTV5WiPq
+         duOyHvqtIpWxZP8M25ybd1wnqyrXeCd9tGiYisVxel0GNMA4SYhDHvkzQ5h07NKiFtwI
+         BQJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763475805; x=1764080605;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=i4UD0GpwQ8ZB6y6bn4+JVNJNgyJMPm3VDbXU5N9w4UY=;
+        b=iZUm1WlI+hrZPZhaEMr9P2nM1rqri8vwwIXIffXAHbizFqppvGkb9LUB2Cd8AX4CQU
+         7vizHCKhTupuG5EuKUUT2rj9n11dBaij3Td9ASrtU9IZywQ02EIzysBlXNSRpMYCufYZ
+         Y5BhNIYNymBnOTZtrubt3iezcwJD6E1VoP718apMtrjpSgfvf/2F1R9U0MIZhECzrPU3
+         d9MCSSzKPsNTO5LFD3YpUlgAlL3SyA68QPmlF7GtvbQRmn4RYYgC+dp4ZcEwaymojVhF
+         OMwNuNpA3NKhBGwy9myao3mUG6oJvUjdD+CCj3uiLOB9IdlmRzg2mcEdFyxYyhKOEg8X
+         bhcg==
+X-Forwarded-Encrypted: i=1; AJvYcCVp19/i7Xn+1+qK0SlZsAOsbbeMD6WNkbxwZ8vFR9YDZ4+Mgdv9RJ0FM86X+eonWtH+c5W9UW4Q0ktex58weik1fuj9eQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzoEbvJyrb9JBUKB4C/oE97gKwZzeRSrf/SzyxPBuRkeaAG2wjQ
+	I4bclMFiiXqnz53zGwlumxIA1jbpRCjDmIKb8LJ11EbvhCfKX/G5/gRq
+X-Gm-Gg: ASbGnct/smg/z8mIZeax/nfIOjQMtdSKafC+yCjdEXR30Xex/VqVKFxlykcJke0xEgh
+	pV0J0AcUzekPGKiCV+1m6Sgzn9rLYvH4eouYoAkxa1aRGUL6klpr+11pPDuWrWANrfqI8qWUlWi
+	hgYKytS0dHIti7sEwk0Aa4RoRXOhgEo82yz+eiXXX6LEwNAXcq8yEGisRNhw+V0YK4q6i7dX4wq
+	qniXt7HKb7lpPciMm7Fj5GAe1U93y2ng6bvVtMOaCbHoUT2HPX8+eG5h6W36VKXn2mgJwk9ymVP
+	HuqqZisdRj1UCDHFWZWOluZZe9eclurphOst/PwcDmJTE6mc1J/JTBtiBTupisJ00jmR4GUqiCe
+	qvDJ+HU6BFeFCp468XOxs/jnJR/9LyA3BhDgHOMr5qJlxOZOm7RXJT8hyKmkFtCHb8i0ZZNr1at
+	xoo6mxbe1uBzjeL1yU
+X-Google-Smtp-Source: AGHT+IEC31C+/QdlNZ28QnBzgc25thMPM7VSRkpCkiti8OLZOlHrEqIdHvn57SdKvFQQebb6wsTr7A==
+X-Received: by 2002:a17:903:120b:b0:298:60d5:d27a with SMTP id d9443c01a7336-2986a73b975mr207046245ad.28.1763475804730;
+        Tue, 18 Nov 2025 06:23:24 -0800 (PST)
+Received: from rakuram-MSI ([2405:201:d027:f05b:b076:498e:270b:2a02])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bc377414572sm15108698a12.35.2025.11.18.06.23.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 06:23:24 -0800 (PST)
+From: Rakuram Eswaran <rakuram.e96@gmail.com>
+To: ulf.hansson@linaro.org,
+	u.kleine-koenig@baylibre.com
+Cc: chenhuacai@kernel.org,
+	dan.carpenter@linaro.org,
+	david.hunter.linux@gmail.com,
 	khalid@kernel.org,
-	syzbot+09b7d050e4806540153d@syzkaller.appspotmail.com,
-	bpf <bpf@vger.kernel.org>
-Subject: Re: [PATCH] mm/filemap: fix NULL pointer dereference in
- do_read_cache_folio()
-Message-ID: <aRxunCkc4VomEUdo@infradead.org>
-References: <20251114193729.251892-1-ssranevjti@gmail.com>
- <aReUv1kVACh3UKv-@casper.infradead.org>
- <CANNWa07Y_GPKuYNQ0ncWHGa4KX91QFosz6WGJ9P6-AJQniD3zw@mail.gmail.com>
- <aRpQ7LTZDP-Xz-Sr@casper.infradead.org>
- <20251117164155.GB196362@frogsfrogsfrogs>
- <aRtjfN7sC6_Bv4bx@casper.infradead.org>
- <CAEf4BzZu+u-F9SjhcY5GN5vumOi6X=3AwUom+KJXeCpvC+-ppQ@mail.gmail.com>
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	lkp@intel.com,
+	rakuram.e96@gmail.com,
+	skhan@linuxfoundation.org,
+	zhoubinbin@loongson.cn
+Subject: Re: [PATCH v3] mmc: pxamci: Simplify pxamci_probe() error handling using devm APIs
+Date: Tue, 18 Nov 2025 19:53:11 +0530
+Message-ID: <20251118142317.12921-1-rakuram.e96@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: CAPDyKFoSX7QZGv78dL10C38wY0Sg5QC1qxvhyGXJ+VUYHihP3A@mail.gmail.com
+References: <CAPDyKFoSX7QZGv78dL10C38wY0Sg5QC1qxvhyGXJ+VUYHihP3A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEf4BzZu+u-F9SjhcY5GN5vumOi6X=3AwUom+KJXeCpvC+-ppQ@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 17, 2025 at 10:45:31AM -0800, Andrii Nakryiko wrote:
-> As I replied on another email, ideally we'd have some low-level file
-> reading interface where we wouldn't have to know about secretmem, or
-> XFS+DAX, or whatever other unusual combination of conditions where
-> exposed internal APIs like filemap_get_folio() + read_cache_folio()
-> can crash.
+On Tue, 11 Nov 2025 at 23:06, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+>
+> On Thu, 23 Oct 2025 at 16:54, Rakuram Eswaran <rakuram.e96@gmail.com> wrote:
+> >
+> > This patch refactors pxamci_probe() to use devm-managed resource
+> > allocation (e.g. devm_dma_request_chan) and dev_err_probe() for
+> > improved readability and automatic cleanup on probe failure.
+> >
+> > It also removes redundant NULL assignments and manual resource release
+> > logic from pxamci_probe(), and eliminates the corresponding release
+> > calls from pxamci_remove().
+> >
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > Closes: https://lore.kernel.org/r/202510041841.pRlunIfl-lkp@intel.com/
+> > Fixes: 58c40f3faf742c ("mmc: pxamci: Use devm_mmc_alloc_host() helper")
+> > Suggested-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+> > Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
+>
+> Applied for fixes, thanks!
+>
+> Kind regards
+> Uffe
+>
 
-The problem is that you did something totally insane and it kinda works
-most of the time.  But bpf or any other file system consumer has
-absolutely not business poking into the page cache to start with.
+Hi Ulf Hansson,
 
-And I'm really pissed off that you wrote and merged this code without
-ever bothering to talk to a FS or MM person who have immediately told
-you so.  Let's just rip out this buildid junk for now and restart
-because the problem isn't actually that easy.
-> 
-> The only real limitation is that we'd like to be able to control
-> whether we are ok sleeping or not, as this code can be called from
-> pretty much anywhere BPF might run, which includes NMI context.
-> 
-> Would this kiocb_read() approach work under those circumstances?
+Thank you for applying to fixes branch.
 
-No.  IOCB_NOWAIT is just a hint to avoid blocking function calls.
-It is not guarantee and a guarantee is basically impossible.
+Hi Uwe,
 
+Shall I start to send the patch to remove the redundant if condition
+check from pxamic_remove() function?
+
+Link to prior discussion:
+https://lore.kernel.org/linux-mmc/pvid2ycmgbkbmegnnzwl4hyev6e2smusxk5olkuqxfwxzykz2e@jlvolirolrxl/
+
+I can pull Uffe fixes branch to send the above patch? Any inputs will be
+really helpful to start working on this.
+
+Another point, I would like to ask is about the below discussion. You have
+mentioned about WIP suggestion for clk_get_rate(). 
+
+Link to that discussion:
+https://lore.kernel.org/linux-mmc/20251020183209.11040-1-rakuram.e96@gmail.com/
+
+Was my understanding is correct?
+
+Best Regards,
+Rakuram
