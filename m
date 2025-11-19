@@ -1,100 +1,150 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15538274B35
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 19 Nov 2025 03:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5646130CD8E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 04:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763524693; cv=none; b=dgPr0sAa4t2DW6Lr34xMnZe84mP3i1s9Gh+lpBU1khLNpRr74hIfIPE963XAE48by8QBQv5KFKkjlYoSF0RT2TGJnRrDNZGVU7O87t3xqRPwNshxX7kh0xCXf2pV9wA7LNgCsFrojM/fBHWsVcuPP22VmF3vsJiGi7D4b9awqcc=
+	t=1763527875; cv=none; b=PB47OvgXn7nq9GAPh1GMqBDR8gu+qDEC9PC7NcbVVRfLzWzd1QCaogo4Yw+gTo0A/5dx6lt6wNn8aFD6B/fhGPCJc+ZWXF2y2ObLLhcr/gTlwAscXDvKz87prwAcQdWJmHjXmwRw+ZhCP+fmcBY1tyiXIunsVEoq6OAFLXSpc0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763524693; c=relaxed/simple;
-	bh=PI3QKLL1UFflRMFBd9gNh7xeqS0cnp6FXnZ/gxAlTuI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XaalwbjBuihUmBgWI3L9+u1gA+eo78Xb1y4PyW7kw1jAA/V2SOZXi1a/0OWQXYjeXj8cRyko7X2s8aqDLtVWu/RNpvQ+H1V3M0mtAUrYIRpZnFpdnbjyosHLctWnN0Opd+HKOUxm5kNVNR4atouixn4/bB2ZMtV1PxLqA80jkXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T34KPg0+; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763527875; c=relaxed/simple;
+	bh=yw4RynQSIXt3eTe4YP8FX1OSjAR1WwOZzax1dfsPlJE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=fqN6EdvqYpN8a6Yp0tBHhriWsccaY+GUt6S+n+NEcPqCgzC7Ps44+RM0PzdtDJ1UUchOsKgrJmBSFAYqY3KrWVgX/p25y9SRWdOyTwiaOqKHbOEj+xKED9fkrs8Wf+oqoaPhot/01rJXo/ivpFuI2oCztk1FP/90p19edCZ8igg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HsCGlbm8; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T34KPg0+"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6418b55f86dso10040707a12.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 18 Nov 2025 19:58:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HsCGlbm8"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 00BA2847C1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 04:51:12 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id yq_MNG_drTOB for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 19 Nov 2025 04:51:08 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42b; helo=mail-pf1-x42b.google.com; envelope-from=nirbhay.lkd@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org B9B47847C0
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B9B47847C0
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HsCGlbm8
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id B9B47847C0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 04:51:07 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-7ba49f92362so521579b3a.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 18 Nov 2025 20:51:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763524690; x=1764129490; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PI3QKLL1UFflRMFBd9gNh7xeqS0cnp6FXnZ/gxAlTuI=;
-        b=T34KPg0+GIzaVCziWQe60tiWQWcs1VwuLWHJBSaMpUmKOdCCvqVK9ZPclwMeUTlfCt
-         T4uH1LXneGUq/09hg4eWQyvW0lOHBCF8Zp92QIQExvKJgMl2STrUumt4KxEYPqJ7Tacr
-         qpAiAV+3yhHcOoFpunOttugs+NJCdGZsX5hqvk/+El8YsArs0R97k+YV/ploLfpGvXVh
-         jbsD8+/0VcKNGa3G/Oz2pqPhFtOadKfpEAxKaEUgyntZXBrjgXIKDr4L/8DqMHCWc1kp
-         va6wifw0+rFDYEHkpV+ZHPERIGMoGVIpS11zzRFr+1Fzs9+QGvlR/80W3Ev7riCAZzCS
-         aX5A==
+        d=gmail.com; s=20230601; t=1763527867; x=1764132667; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:cc:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BAqS8NkYodTkoqyzgw7YJU97B39PeKluqeYwNTfeVOA=;
+        b=HsCGlbm8hZuGEK4HLpmSrftvLKmrg6dzwOHSeWGCpNTUzp0EukMRX5EeLx3KWqVk1e
+         IK/LJl9hL+auILhf+UN6hbwkew2jvwBnqvffo2GH/soSRv9t39iMeMuNL23jnG65ytNU
+         uYxI7JZiv4Q2iLmUepihyxN+JS1RbqWfaQjgMt2NEOuG1kTjWU/mcTwRaJ2IMi8J8p4D
+         73K9zpjo0uUFjami8HSSuzr89LcZ7qETkjW4pXoHYoD2LW/xlUrtB/VXYZNJfSTJWmnb
+         OTPNsaGFP1ijySCkomavzdB+N7qGXZI8A60Rk8qviasGAi0ydmsbjOJ8V4GiODMZTv0X
+         m9rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763524690; x=1764129490;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PI3QKLL1UFflRMFBd9gNh7xeqS0cnp6FXnZ/gxAlTuI=;
-        b=iOXuNgUStZk4yF1a5bF3LovH4iLgoIbHTw98trs+QGOuWPfwzRKHrmFQckws8YYv9G
-         WYz2NOPAZfh8zE4gEjsSvZePhZ+Bxy8Zqc2uc1MQG25Tu9cNxrM17novQVYnxUZ5c8TQ
-         01j7oSh9SLdl8ggl5U2sniQ/lO3Zi8UgavpCsGuqYvp13uRFf48xUwnFpXfw4penKjwe
-         vbpqaExM2PT3HNbYX54fJqxs6sYtZuZRt5yNa2eE5Pyw/8TYDxVlclOOBo3ubAUQQA+0
-         JE6Qn5hnLpKrXD4aFG0WYuUaQw1jvYaLuAKXm9ZwxnyGFavWgQWhkAgs6W8fYv4R6Ium
-         dpVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWJMj/gmfrKsvz1su11zkyxF04jQ6zUtZk+AV0ESaIhxIpZCq4GZbRpG4sNEOxN6R5CA4y5Kl4QSEKHcdJ/NbICOpcVmQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKjGIA21GJ/i25lSxZ7n1AbSrS0lQyDnxTZroHqOrMvE5bWely
-	AY6cIWBReg1l1VFvFkpgLeG6X8Oc/9uW/B6ScDoKeXu3wHgL3SG1mMA2/uZ87OH2k/axF0PLahp
-	NNX3iX2agKTAWceG83+0CtcxE/vdB5ss=
-X-Gm-Gg: ASbGncv8xcgiYTLEFsLdC2NJG2pX65v+EAmPpSEnpI2jrAUS+M7plcbsRpCY9IQ4O5R
-	SeiMC+pzUt9ZzMTP6nsDf0yFixRXpz29B9VYLcP/Idygp13kn4nO816CQI4rYIQkYx3c0affeag
-	4vm4caJaETbZZ0/v1MWnZ6pv4iCJJ9VkfeXl09N2wyIVvN0l5sepHdoYnxRsg/ZxZvbErU7WUQv
-	mhhw/PyZqYdpv6chFU9ONUqMbPQ31kSp4hxzwH4hTQrkbzVaVbxInESL1C3q7HAmAMI+AIbQWOS
-	B45N1g==
-X-Google-Smtp-Source: AGHT+IG3PwSV/TBqcgYiQTrXM8pDMO5dg/Jf6yZQNxRWinFCJb2bV92dB5BAFrlKAhEykr/231k5fj1ur5+oNuf4Gz4=
-X-Received: by 2002:a05:6402:52d5:b0:643:c8b:8d30 with SMTP id
- 4fb4d7f45d1cf-64350eac57bmr15010389a12.30.1763524690169; Tue, 18 Nov 2025
- 19:58:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763527867; x=1764132667;
+        h=content-transfer-encoding:in-reply-to:from:cc:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BAqS8NkYodTkoqyzgw7YJU97B39PeKluqeYwNTfeVOA=;
+        b=D6CuyHxvy19HTaJlCBPwXtJqIHcqqbmlB6c5AYGr44ZFFl+ry6I17PmZe5v9S8HSwJ
+         vHDP1pMlsQTLEkbf5L7nddxYSyueLh4awhgQIuO18yH933xwmmt9g8Qv3/BAEQPfjYOc
+         qojqf0d2lYwzlxdGeoMOcI6lMyRx/uAJxP1nmF0TxyHDrxd7g4E7jakoOjbjj17/Jd4K
+         h/cKakuUsHlY8rOsicsUeDev78a4g+tReTJq/nRrBQ1dsSm0J9TQUF3ECIU6WPW7/epd
+         m5fG6i460HC0JzGe424wBux6X/HsJ88CVaPrYfpqlS5BPE4CGkv2qD62TZSoXoHb/g7S
+         iLhw==
+X-Forwarded-Encrypted: i=1; AJvYcCV+i/NC9e7bAYLGl9os5X6fAVj3x7VchtSV4iG5JXrpvcgtJxgnrO7yZ9K6PP8dVLdWGxoQI3P84AkAhdWMM805bgpIEw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yzg/o26w0t6LqwnoPRFl/pKglVr+p9G8YpQjCZ1w8irmg4O/YkI
+	EkPme/G3DG5ggUwt0Q0ZJKSKWS36jJ6bN2nDy54C07ZYuyXAU5efHqag
+X-Gm-Gg: ASbGncunlGRCk0SvxMMCpW4kZEi54aFLbQoFQYdKD252aaroqnrvbtRU4dg58S7LzC9
+	0V9M8mtZZKYfbgce2zBWztS+S9M0NK5Qf9lG1jaxmMKnr1UJMwqvSX7GvWulG2zXiEq/jWudxi/
+	G2+ASNgnaKeiTOXNUh+zJ4F9yZ3apQcZwB3rRfCT9APINJoXdbrIEBQpES5yjL0Qo3KcZMLL7sD
+	SDjIsJsW/7mkcH30bHgK4S5uUUWFPZ1Gldtb0oCpKfIY2wZoQez/HyiM/exkkr5SmpeuUChw4jO
+	WBs7IIBmirxuBf+96LbJng0JuNU3DnopHvQIFLfnM0dAGH79iUDpEvkRbxh2O+KSsoQbTcqLiMk
+	bjilzHpP/pNxV4E4qRL7M+rAW0kAs63cd/2Nmm2uEiTrgQ6Yqd8C7x4JTP0xnNOzYnp6ohDLMQl
+	8fA2Kbb7XmcwEGGa4X/S1MQ+vBAzdjkMfIfz7MbvmuIxuWGLiWmMbeyi05Ap+TvowV54qvnOWTs
+	TuZUUSRdFnSWYoHcBIRW6maRBCady56VZ5sWw==
+X-Google-Smtp-Source: AGHT+IH1OnrIpHIaQrOaPNXSNfa+okDc4o69TxGrgfyoJLT+mz+U/ApiuqshLE6pxDYW+lO3R1pvUA==
+X-Received: by 2002:a05:6a00:2383:b0:7aa:d1d4:bb7b with SMTP id d2e1a72fcca58-7c2c33f4f40mr1469643b3a.16.1763527866846;
+        Tue, 18 Nov 2025 20:51:06 -0800 (PST)
+Received: from [172.16.132.48] ([119.161.98.68])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b924aede04sm18160310b3a.11.2025.11.18.20.51.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Nov 2025 20:51:06 -0800 (PST)
+Message-ID: <ef7e9698-db22-40a9-afb7-7a5204c579ac@gmail.com>
+Date: Wed, 19 Nov 2025 10:21:01 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251118164333.24842-1-viswanathiyyappan@gmail.com>
- <CAPrAcgNSqdo_d2WWG25YBDjFzsE6RR63CBLs9aMwXd8DGiKRew@mail.gmail.com> <20251118105047.20788ed9@kernel.org>
-In-Reply-To: <20251118105047.20788ed9@kernel.org>
-From: I Viswanath <viswanathiyyappan@gmail.com>
-Date: Wed, 19 Nov 2025 09:27:58 +0530
-X-Gm-Features: AWmQ_blCdRe1tCw5lI8xL4ehntzBrd_SGHl4OQqj-ctDdgKE4rWDvz00iLoDe1Q
-Message-ID: <CAPrAcgOBa5Q3k5r=G4qixzWRuvK+PEinj9sGVf-nxWYon4BkpA@mail.gmail.com>
-Subject: Re: [RFT net-next v4 0/2] net: Split ndo_set_rx_mode into snapshot
- and deferred write
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, 
-	pabeni@redhat.com, horms@kernel.org, mst@redhat.com, jasowang@redhat.com, 
-	xuanzhuo@linux.alibaba.com, eperezma@redhat.com, sdf@fomichev.me, 
-	kuniyu@google.com, skhawaja@google.com, aleksander.lobakin@intel.com, 
-	virtualization@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] firewire: Replace ENOSYS with appropriate error codes
+To: o-takashi@sakamocchi.jp
+References: <20251117110901.686828-1-nirbhay.lkd@gmail.com>
+ <20251117113107.GA663208@workstation.local>
+Content-Language: en-US
+Cc: linux1394-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org,
+ david.hunter.linux@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
+From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+In-Reply-To: <20251117113107.GA663208@workstation.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 19 Nov 2025 at 00:20, Jakub Kicinski <kuba@kernel.org> wrote:
->
-> Broken as in patch titles or broken as in it crashes the kernel?
-> Both are true.
-Yeah, I will fix both
 
-> Just to be safe "as soon as possible" hopefully
-> takes into account our "no reposts within 24h" rule.
-> https://www.kernel.org/doc/html/next/process/maintainer-netdev.html
-Yes, It does
 
-> Also I'm not sure what you mean by RFT, doubt anyone will test this
-> for you, and you're modifying virtio which you should be able to test
-> yourself.. RFC or PATCH is the choice.
+On 11/17/25 5:01 PM, Takashi Sakamoto wrote:
+> Hi,
+>   
+> Yes. The newly-written code should not use ENOSYS for cadual use, indeed.
+> 
+>   
+> There is a rest to discuss when changing existing code in respect to
+> this topic, since it brings loss of backward-compatibility to userspace
+> software. In this reason, I've left them as is.
+> 
+> If there are any strong and specific reasons to correct them, let us
+> change them. Do you have such reasons? For example, Linux kernel
+> developer have shared the consensus and decision to ostracize such codes?
+> 
+> 
+> Thanks
+> 
+> Takashi Sakamoto
 
-Just to be clear, would testing packet flow with all the possible mode
-combinations
-under heavy traffic be sufficient and exhaustive? I think this should
-be PATCH once
-I sort everything out
+Hi Takashi,
+
+Thank you for your detailed review and explanation.
+
+You are absolutely right about the backward compatibility concern. I 
+realize now that changing error codes in existing code paths could break 
+userspace applications that might be checking for specific error values.
+
+My patch was motivated by the checkpatch.pl warning and the general 
+kernel policy that ENOSYS should only mean "invalid syscall number." 
+BUt, I didn't fully consider the userspace ABI implications of changing 
+error codes in code that's already been released.
+
+I do not have a strong technical reason beyond code correctness to 
+justify breaking backward compatibility in this case. Since these 
+interfaces are already in use and userspace software may depend on the 
+current behavior, the risk of breaking existing applications outweighs 
+the benefit of this cleanup.
+
+I withdraw this patch. Thank you for taking the time to explain this, 
+its an important lesson about the difference between fixing issues in 
+new code versus maintaining stability in existing interfaces.
+
+Thanks,
+Nirbhay
+
