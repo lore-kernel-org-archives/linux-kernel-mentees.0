@@ -1,151 +1,126 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093C8301038
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 17:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB1930AD0C
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 19 Nov 2025 17:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763571802; cv=none; b=AhcsnC2nFOWedxcFdmY2A724wBlav3B3sQiqwhRJNSFYQTMYzM/LC/fs7WcPK+E4F62qEPVjNWpe+fCzybQC12vGrqrRUlAYPcg3wdpoWSyiZ+hG/mAV5AYVQSozCkdzOqS+LBafq7uXxV0I5hoD2hx0ZCTyjlUINP5Ol0L+4Zc=
+	t=1763572347; cv=none; b=Lz1/hQpMsbDT9DWpWKxvAHu/QZ7DZF/Sqlw4PEPYmAdaqYuqpTUJ/9WMhn3vLQpxOtCoznwR9KjqfO3ZJmP3vDF7HjDo02SQgzwHEu8kWhgqMsfS6aCHGo+jjlzb1f5s3/zW7/V4dKLFcjFETNR5CWz3TI+N+JIYCktMdWGttWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763571802; c=relaxed/simple;
-	bh=VEQxhRQzksqQnHbDBTAG8PHofzw31luJF8BTCh2+4lE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dtgfuna2iFvaBjm/8SQmslt0XsdIZPJCHpLFbOKRXurZ0vTG3H8LE+oQQ02dJwpKBfHeO9GvwZB1LLjoJYNFCw4Dim4lL7gzodhSry6phHrXK98P3yJa4IOtLRFiZhCXrwESy1oELo7Cp7/n5StYFDm4ciRTg+PnQdu7XYevrwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=ev9tyO+x; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1763572347; c=relaxed/simple;
+	bh=w6kqF6fnUpsB/PZ9jA+/sWDdgtjvStdMKkxAgqfj548=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S/atzuAQaXb+jggX73zSO+mfBKjUxc8hFKToBl4Tv2RkT/lb76VMiYjJCl1vj6ZX8FQhr2VtGLhQ46UpQl9y/9pcRO86nOKGTQ7ZPlQax/LnPmwwkxrzOpqvPlT3vaNBDON2CtdHvcqlJ+H/65XgTRnONoIS0IJHItzFz6oWv0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kRUBRyxc; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="ev9tyO+x"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 74A2140358
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 17:03:20 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.898
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id yLMsv2ZT3djE for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Nov 2025 17:03:14 +0000 (UTC)
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::631; helo=mail-ej1-x631.google.com; envelope-from=jiri@resnulli.us; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org E40D64003D
-Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E40D64003D
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=ev9tyO+x
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E40D64003D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 17:03:13 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-b71397df721so1048974566b.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 09:03:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kRUBRyxc"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-343514c7854so1048505a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 19 Nov 2025 09:12:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1763571791; x=1764176591; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Aq7SoQkDPefXTnydjjfdctowbfsVatqatQ/Cb6wzSc=;
-        b=ev9tyO+x1hWtF13PuF1r2aYc5c3OEtQ3BPru8lxVgDpXg/Ga5MnsYzVaTtaW0rL+ST
-         biOaQsddXulTjlxHLyQ6ab+AkpFjiDJEVey648sl+EIrTygBje9Z5dwnRTly728Ji6RW
-         RIsgkC5e37hWvm34k7IsWZt+/RpE5hILP0YekbadkdmaJoXZ1zO5OYqrhvkorNvXkmlZ
-         xNXQvt2GNF+3nJi6ROwj9suL9tZo+RDtsvs+7T3WWZf7pf7QIV8M69eC2fPigvdcLMXl
-         8IUKba0lZ3PrsJ6L29eOFS0ubz91U9HcaGsQ05YrfNePoDwWTJ2o+2dB8ioGPvsdGmUq
-         XAtQ==
+        d=gmail.com; s=20230601; t=1763572345; x=1764177145; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lttwGYno15TKpeAV3UohAgRcGG4eYP6EQ60N4Vw7zBA=;
+        b=kRUBRyxcL8iVHIB8KAwx9Oarm45OMwAplLB4l7hc6zPf0ee1k2G93Ycqr4D4cC49BK
+         arDBaLZYE87Ko49pGNw6jnt8AQFNPDfNrIbXscrrhwxuqvPtdbeLxPpDKVhzh5KYLmq4
+         Q1/TATi09oFcLNMNxw0LZ55RiBJ3nUQqNdXA6XXxvdbiSIvBGzLo4IUBUNL0p+KZtcm9
+         geHDloKuL16cMIMarJ7ldR0eFVXRZdKRSSP1MjPZHUI9XgiYaHmHXYZy7cLGt+KdmL2m
+         n7fzhJ3WjVVQ8dKnqq68KcRMhEaCsA+crL4Yjk84b1K+Fo1Cc3fQOl2RQkPXKk8CSviT
+         zv8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763571791; x=1764176591;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6Aq7SoQkDPefXTnydjjfdctowbfsVatqatQ/Cb6wzSc=;
-        b=ANHb7o0azAp1A7epVdeQu3+s2mFLQ7w0+kyJ2Xz/KM3vfNFPo01lmMbul5EyPK3Ujo
-         AF4q4uccIZjKmIELVQbZ1QTVWjH1W7zXgU+vsf6aeJENO1RXcTj+Uk7m8Au7hVh1hY5A
-         fMnKrR62+nt35FprMdkb6Pb5MGWWxgR8rQReHfUlwewztaD7w5S7zobPPUyBHikXB4+M
-         tKBet8xgyGpr6Iz3HNb2oKgOoB+RGaKUyivwPgOqQlgCVUmI9Y1jeTL1SOyL+eUjX+HE
-         3g9Cx/xXtnnBZTLvT6PX1PktgRSdgpq0XJ+ziIdoPX3ppN5XDbUcEWHqllOSD4HLwcWw
-         BePg==
-X-Forwarded-Encrypted: i=1; AJvYcCUqYyjR8CA4cICXQkUBEiuoEYzfMleKKn4STo7UeAuSfCfS7RZP0TxFerAYbScfGuHlCN4DVcRDBmToYxDS/bHBz4s/Kg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzxCxyCimjfKtndkjT72U8WCyhoSem5/n4WfXQtsxBz2ZchdzIB
-	9rZDmtVaG5Le3KRXC/FES4OP7A7fHAQWVrNN1rD2Pyxg27iHfZ/jj5WC2tnqSLKHWdc=
-X-Gm-Gg: ASbGncuVfx1/6Q5/DbPXQI0Zs5CwHtGK+rUCclfxtQ11evT5SkFyiHuME0542krC1CQ
-	UmEGL2HdfcL8ImV77PH6LyBkiTIW+fCz8Njn9mCDuAKKviP6EWiqwXK98G3t9L7zr2cDnZV/M1g
-	SKkg43QNeQYfivw8iScC6Mott/MRdTpSItQ+KZOLeB5rJ1G3Bia4OejKV6lpOkKEkt7+MyPtKSv
-	wVSQaGHBl1xkhmAoP16ltQewu6jLiwyjR51lfzDGIcDPKbkpfCmpYK8wvYXUWcrZzZDsNlBmNP6
-	nCGvR17Qlqx2l6weQGLHqwiJs/Tc4kB27QkE8eU4/UYgA9SfZMqkNdC9+hvvm5d2FWW9G0nRzrx
-	VSJYsp+lLCKvXYooaZTyxJt+TVaCH9A7iEx6UqXITUD4Bj8ciSdlAHq8bV+Zci210S9r9OsJCrD
-	gsMxGWUVWCIjOLnpSg0VhxkJU=
-X-Google-Smtp-Source: AGHT+IHNG0xR2Nj78a6qtdjpZdZDZ5RfLZiNVmgkDjdRpL+nRMJfSXaidAcitRE0u5t4Gn8M0gkc9Q==
-X-Received: by 2002:a17:907:2d0e:b0:b73:9fea:330a with SMTP id a640c23a62f3a-b739fea3954mr1260508666b.17.1763571790991;
-        Wed, 19 Nov 2025 09:03:10 -0800 (PST)
-Received: from FV6GYCPJ69 ([213.195.231.108])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fed90c0sm1680149666b.65.2025.11.19.09.03.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 09:03:10 -0800 (PST)
-Date: Wed, 19 Nov 2025 18:03:09 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-Cc: Paolo Abeni <pabeni@redhat.com>, andrew+netdev@lunn.ch, 
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
-	khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
-	syzbot+a2a3b519de727b0f7903@syzkaller.appspotmail.com
-Subject: Re: [PATCH net] team: Move team device type change at the end of
- team_port_add
-Message-ID: <admyw5vnd3hup26xew7yxfwqo4ypr5sfb3esk7spv4jx3yqpxu@g47iffagagah>
-References: <20251112003444.2465-1-zlatistiv@gmail.com>
- <c6fa0160-aac6-4fc4-b252-7151a0cb91d3@redhat.com>
- <mekjl7qqrb6nkk6ru4fztqxzemldzbsplf5tzuu7amc7yaa5j3@rulh6ijsppaq>
- <vv54er56wgnehntr2zh5jk6iz5s36jpyi4jfwjnkfabfwithtl@aizn2anzknjm>
+        d=1e100.net; s=20230601; t=1763572345; x=1764177145;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lttwGYno15TKpeAV3UohAgRcGG4eYP6EQ60N4Vw7zBA=;
+        b=p6gyX+/9+SWeDwTPMXlb9n1J1IzyA6UiEhIGrytEjq1h/3bCpHzzXb/wkNbUMWQ679
+         RqfLne8rN5q4gdcHjA6Kfc8F2CP51lukcmV4PTmDUuv8DRbYyDgx+EesElgF4AsAF/9m
+         gSP7gy1qWjpxhNp1+Y3qU5DpWxEPJ/qHwWBnq/DcdnpJ5rqUaRTGHOA0WlWaa1J1OHx9
+         WUpWJYhWWxhvMqy4CBYIeoS+y393eU9Xa3BcrlKcvIVh4qeCHUpu5bAAKVCScZivdtp7
+         brZR0QNM66WM9NLgsevclTs3dKfX8E/lhy/OVVojuqaQUK/Ur+HoNq+JxSA6Wo6Ezwp8
+         1YBg==
+X-Forwarded-Encrypted: i=1; AJvYcCV3pfyirAwuM3rnSpvKpKitNjIyFCcty3hiXriVcPSjIczArVw/QLJfiKVBzOsbNHgpgEGKeNHELy7XvFWyhgudr+vrZg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwvI68e1Lmq7QblOEdHGGU9SNDEEoAhx5/jAMP1p2gs+9c9R1Ns
+	qUtuxlZ3cw2mIHqQSkeo/VJE8QdJm49mTmP6tsWY0l+SEzTjfoajwE1WgHp8zKYGQ3ZWGBjc6St
+	ii3Isp66MPFisBjOB0bYwN2HnFz14DvM=
+X-Gm-Gg: ASbGncvvpB1XGXjE0u3Z/3lgOBB+LbkBa+7jehNHdge99/v+/FGOk2ttckMpmCL4Z1S
+	KYv6nmoTaWj/FU/eMnUbt2UqB1qOsybeNdDu8tgQygfpUSvYrtMr8xuBjHxArlieVWUt7o2gIOH
+	jEJOObHgkPTUE1fgcJ2QtIwo3EnWqjzXxkz2zCATHWt6vqjcEQ25XNPBYHnTWWLETvFVNf94lOe
+	e13G0yLL/oTXlxJHasPHq8fxMmyVago2nyka1bJIHecb65nSqyI8nGCIge7/t0u5SCBwKu6Fq4C
+	NCHHKmnYlE8zqawK64cBGQ==
+X-Google-Smtp-Source: AGHT+IF9TqhCM5sftaGQEl9XduGer2CQZxEu8IUrH3eRt+kYJfd47IRIpaKq9Ngl12wdt9H+9C14CbQPOOKDWoLkN3c=
+X-Received: by 2002:a17:90b:51cd:b0:343:7410:5b66 with SMTP id
+ 98e67ed59e1d1-345bd1fb660mr3491803a91.11.1763572345294; Wed, 19 Nov 2025
+ 09:12:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <vv54er56wgnehntr2zh5jk6iz5s36jpyi4jfwjnkfabfwithtl@aizn2anzknjm>
+References: <20251114193729.251892-1-ssranevjti@gmail.com> <aReUv1kVACh3UKv-@casper.infradead.org>
+ <CANNWa07Y_GPKuYNQ0ncWHGa4KX91QFosz6WGJ9P6-AJQniD3zw@mail.gmail.com>
+ <aRpQ7LTZDP-Xz-Sr@casper.infradead.org> <20251117164155.GB196362@frogsfrogsfrogs>
+ <aRtjfN7sC6_Bv4bx@casper.infradead.org> <CAEf4BzZu+u-F9SjhcY5GN5vumOi6X=3AwUom+KJXeCpvC+-ppQ@mail.gmail.com>
+ <aRxunCkc4VomEUdo@infradead.org> <aRySpQbNuw3Y5DN-@casper.infradead.org>
+ <CAEf4BzY1fu+7pqotaW6DxH_vvwCY8rTuX=+0RO96-baKJDeB_Q@mail.gmail.com> <aR1awLOhdOXNMl9c@infradead.org>
+In-Reply-To: <aR1awLOhdOXNMl9c@infradead.org>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Wed, 19 Nov 2025 09:12:13 -0800
+X-Gm-Features: AWmQ_bnhWvlGu_up0m2ui85unGpA2DRPQC9h14GAV7wAvQEwMdsyPJvZ2JIRYok
+Message-ID: <CAEf4BzYWBUE0VseYgoa4r+UndxiOdCWazZ5FgZxi=dfhXaM16g@mail.gmail.com>
+Subject: Re: [PATCH] mm/filemap: fix NULL pointer dereference in do_read_cache_folio()
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	"Darrick J. Wong" <djwong@kernel.org>, SHAURYA RANE <ssrane_b23@ee.vjti.ac.in>, akpm@linux-foundation.org, 
+	shakeel.butt@linux.dev, eddyz87@gmail.com, andrii@kernel.org, ast@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org, 
+	syzbot+09b7d050e4806540153d@syzkaller.appspotmail.com, 
+	bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Wed, Nov 19, 2025 at 05:24:37PM +0100, zlatistiv@gmail.com wrote:
->On Wed, Nov 19, 2025 at 05:10:15PM +0100, Jiri Pirko wrote:
->> Tue, Nov 18, 2025 at 12:46:36PM +0100, pabeni@redhat.com wrote:
->> >On 11/12/25 1:34 AM, Nikola Z. Ivanov wrote:
->> >> @@ -1233,6 +1231,10 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
->> >>  		}
->> >>  	}
->> >>  
->> >> +	err = team_dev_type_check_change(dev, port_dev);
->> >> +	if (err)
->> >> +		goto err_set_dev_type;
->> >
->> >Please don't add unneeded new labels, instead reuse the exiting
->> >`err_set_slave_promisc`.
->> 
->> Well, that is how error labels are done in team. "action" and
->> "err_action" is always paired. Why to break this consistent pattern?
+On Tue, Nov 18, 2025 at 9:50=E2=80=AFPM Christoph Hellwig <hch@infradead.or=
+g> wrote:
 >
->Hi Jiri,
+> On Tue, Nov 18, 2025 at 11:27:47AM -0800, Andrii Nakryiko wrote:
+> > Then please help make it better, give us interfaces you think are
+> > appropriate. People do use this functionality in production, it's
+> > important and we are not going to drop it. In non-sleepable mode it's
+> > best-effort, if the requested part of the file is paged in, we'll
+> > successfully read data (such as ELF's build ID), and if not, we'll
+> > report that to the BPF program as -EFAULT. In sleepable mode, we'll
+> > wait for that part of the file to be paged in before proceeding.
+> > PROCMAP_QUERY ioctl() is always in sleepable mode, so it will wait for
+> > file data to be read.
 >
->This pattern is already broken in the same function by this:
->
->        /* set promiscuity level to new slave */
->        if (dev->flags & IFF_PROMISC) {
->                err = dev_set_promiscuity(port_dev, 1);
->                if (err)
->                        goto err_set_slave_promisc;
->        }
->
->        /* set allmulti level to new slave */
->        if (dev->flags & IFF_ALLMULTI) {
->                err = dev_set_allmulti(port_dev, 1);
->                if (err) {
->                        if (dev->flags & IFF_PROMISC)
->                                dev_set_promiscuity(port_dev, -1);
->                        goto err_set_slave_promisc;
->                }
->        }
->
->So I guess I should also "break" it or do it as you've just
->suggested and add another label "err_set_slave_allmulti"
->so that we are at least consistent with this.
+> That's pretty demanding:  "If you don't give me the interface that I want
+> I'll just poke into internals and do broken shit" isn't really the
+> best way to make friends and win influence.,
 
-:( I think it would be fine to fix it, by another patch targetting
-   net-next tree. Thanks!
+Did you read the second part of my reply? The functionality in
+question ([0]) was developed in the open, over multiple revisions,
+with both mm and fsdevel mailing list CC'ed. Matthew Wilcox did look
+at this, provided feedback and suggestion to use filemap_get_folio() +
+read_cache_folio(), which I did incorporate.
+
+  [0] https://lore.kernel.org/bpf/20240829174232.3133883-1-andrii@kernel.or=
+g/
 
 >
->Thank you!
+> > If you don't like the implementation, please help improve it, don't
+> > just request dropping it "because BPF folks" or anything like that.
+>
+> Again, you're trying to put a lot of work you should have done on
+> others.  Everyone here is pretty helpful guiding when asking for help,
+> but being asked at gunpoint to cleanup the mess your created is not
+> going to get everyone drop their work and jump onto your project.
+
+Gunpoint, really?.. Am I not asking for help to improve the code? This
+functionality is being used, and we can't "just rip it out" as you
+propose. Let's fix it instead.
