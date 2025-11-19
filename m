@@ -1,64 +1,64 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847E43624D5
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 19 Nov 2025 13:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C28364032
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 19 Nov 2025 13:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763557737; cv=none; b=pNMQV3vTlxD+NM7DbL/9x/LCghHON1kzEi/rQsQnyvCpU8J4Hoy5tR62dfMrkHC/SEotbdg7uCn4O86sE+QQ3sigFYbvsf9oADC2OwBfMKA2XP78iuLKAqOPTlJ7TPQ6rJatiNlIfGwtlWvaYUum4tFLEdQXgzr2CP+x6kXViPM=
+	t=1763557741; cv=none; b=KPxyflZPoN6abnmN3OO8Z4QPtTaa7QFrBoxzmzpmfislhNe7acfwCIB9zga64pLAoO5CbAyadyqvQ0aF2/OcQpC94DdPMn2rDSxZQeqR651WmzkIMBFd1lZC2pHB28nEO2Um8Az2RQBIxynKY3K0cNZaQhJXuZLmiwoXRRk2yyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763557737; c=relaxed/simple;
-	bh=XTwiB6LhyFx+sieSzalDt/J192URsyR2fEdTJu9dGks=;
+	s=arc-20240116; t=1763557741; c=relaxed/simple;
+	bh=HTFla0RytuoS9NHA5emWBBtLMkkNBBwOu1BiSS4pxwg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S2f4FERMJhq+TwRQx/ZkGn5to4j2BXVG9FgZuL1nQh3W5XXvOIbSotjTzyJk0DVNq1VNiagLLlsliHLUsHqxnUpKXdv/cKDTZBkHzvFgAnUHbqiG1DlZYpGYFjfjRi4IqYa8SbNUHSXTf2iZGGuOkehc7vwhz6zRDAuPSOQYf9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iy1QjeOC; arc=none smtp.client-ip=209.85.210.176
+	 MIME-Version; b=ZPV/TZa3kX+m9wqZE7GVzJyJB56ZJ26FUmF17eVxkcxOuRoCStXpvt2LqTdVH8uK80FslhK08KX+wKJI5PiH9YbSOk9JCtoy2c7eWkCC/BLhD9fidLCOfBi3pmWgYyLN/HoFoXV0YRFrPLdJ46FJbVggE/jcHycQSDOjVwyQADo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vq/7y7IN; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iy1QjeOC"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7aace33b75bso6120104b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 19 Nov 2025 05:08:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vq/7y7IN"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7aa2170adf9so5795265b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 19 Nov 2025 05:08:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763557735; x=1764162535; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1763557739; x=1764162539; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Di0vNTQpYDEXqMaIfB6/Wre2BioWn4TojpcyJB9CfyE=;
-        b=Iy1QjeOCfn2k4X0wXAVze07ku5fBnOxfQnXOkCGn8v/V1H0ZteH7lQELf1ip0wUO6x
-         nL+m7BAcUbdjY/eg8g4JZLdcG+tk41GHiO8W6nTN4Ed1tqGm8qMtq5t+s6XksFDIWf0L
-         iGLN/Zu77e3OblWmo6cHxG9G/vk1W+IU1n/LPm3On9luvp9Uy9r6pX9Pv3FvxHCL+wlb
-         tEaVJNQm6DEB2/o+YkJe8nCjuEfvHrj5F/vP259cZKJTUjqbpzHyw9MLdJqMpSxVhrkJ
-         +LdYnLN+pXgftOBlSAJ9KaOX986D6uWkHGy7cNF1sRkurqDezrCX6XTF+MHzces6bKbv
-         CQlw==
+        bh=Ub7Iycd50pT3ykKqItSRTUhlcBrC3jU3CKZCM97yyEA=;
+        b=Vq/7y7INFTvQgkG7Nes32ZotQl6lbPCPxAYgN7c4E/Ag7mVngMCzhJqDQ2WHNYPkpk
+         mXYKHqgF7L7SSgkgp78ss5umpMd9n9XJfoko97WyaerA41zfjPeboxuv1Mr5yX3qGyad
+         lDcZU49pMvpHqdjGffFVFAwsz76PA3EFKCAUA04l6iFZAovUx6BRyK32kIqVlqqfIafn
+         Cp3ElsgIOO339S7SEahhAzbS6h8jwDFpEFofxHEIYw9O+jQqm+fM66TMMdYwyds5psVh
+         lGDOBiq3psfYjpZIupiS+A+mYowQ8y9aIFLH1kXQ1BV00onpKLzNatZbGJPpR1QfLVoJ
+         dUbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763557735; x=1764162535;
+        d=1e100.net; s=20230601; t=1763557739; x=1764162539;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Di0vNTQpYDEXqMaIfB6/Wre2BioWn4TojpcyJB9CfyE=;
-        b=g8HWignGT/ShThdqwY0zEQI7PaMFLDmi1UvK0ItrS1tj0cZnmpaOtLXI5L1TG+jtIR
-         8v3z3/pU3M4muCETGYOsCEaZ8yI38/vyxxzMh5BbGNCLG/YdsLaC8egmK3GjVHc7lOU9
-         T+xmvNDNKfaK/PThGHoda0Q8tQueb4K/Z9zcvZTtYPgSsnpoxIEGXLvuRBDESzucI/9q
-         abFYCxGLmZXN/QX8+vJTAaVMHwXkLBAovde89tea2c+gMRgeVxZ86+RtJR1yWUAxXtO2
-         fGx4AjmtJwqVsa4SHeswF2yOAdt+pcgqXieBIbSqkPL0YOo2JxxIob8aHyd/woAr613b
-         Mnxg==
-X-Forwarded-Encrypted: i=1; AJvYcCVxED0avmY8IKwlCe2w3J0K16oUo+JAyv46OrGJqgcuziYVdkpwlT+YrifH6dJ1nWmxSMy9QMyLiAz32h07gFdPkTQupg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwuJUpHQgCi6VwX2puC4ilzpqKxs0GoW9AVbSkS2mn6d9VyKgQg
-	AkTZbHfiwOHrhwzVTsW4/MTA1ltzTYOyaPcZr8KSHO0LOhlAR4RNGUut
-X-Gm-Gg: ASbGncsIwmm2mcvoIjUBa80tFnELA2kjFvLPMUl1CVppqnCpKzFgk+AGiMk02y6EMbG
-	boMnKnD1kyrPq2AobtbVtIL+K6Kq5DQDNz7jsSQdvmGm2S26orS0JIKz3/zVRb95cjgv1nmRwtW
-	6kHmEY2DkcB7ClKqn3TA7Vly7B2mxx7VIaSBZdDcHRSz9q1FRkl8ABRJPpYVraHXNx6Y6RmEols
-	vAsMgyZEeT+YVC6AE3vXWTF2nA+fRot3+irGR7+IBoWuu55qXgJg91uLrKd3FaOX574zh9xUp0k
-	/TblS84y5VPgmjP520tJYg6E+yAPdKrNZ1fMHlz07nzEnOhjtcRl8my4iu7hoVqIK56OpfmhHR2
-	ml8RR5GuwsTDncKTUuFxDd0LmnBRX/j2n/OaHsqdTUKOkqVxgsbAcYoeIcGbZd7rO7eHit56UEu
-	i7sFRIPqT92UqmSb9pjnYCGP/JvojJvX8hWN0=
-X-Google-Smtp-Source: AGHT+IEcr17WE3EmqFRtCvdpvfPm3mz73HGDRmblKdp91/ZM37RE+aj+Beu6lNdIpLSl6HfUMZVBuQ==
-X-Received: by 2002:a05:6a00:22c5:b0:781:d98e:ebda with SMTP id d2e1a72fcca58-7ba3c086817mr23166067b3a.30.1763557734608;
-        Wed, 19 Nov 2025 05:08:54 -0800 (PST)
+        bh=Ub7Iycd50pT3ykKqItSRTUhlcBrC3jU3CKZCM97yyEA=;
+        b=dcGpNNjXLNUM5YDQU+qaNYBUBDiWAya4ICKKIZCpFSw98HFof1f3HeU80TG6Ebhsi1
+         xG8ynZ+f7Q84+goB20FLcAFYj0SrXsrv29OzNApu50wWGe6VvXpsTN2Nil3AI/fyE6CH
+         QEMATheLkBko07t1XSXPx8YU2MVOU6kWuqLiO1kCyHfRm40bUCf5oi6FDyamhAqpA4Qf
+         DS6fYHhEodMSG7g5kkEra5ja/AWZ96VpaIoYExxnZ8hFkdJ7JRIbR732t14Ox671HNVa
+         gGG7pZZB+pDPG8GTcMUOlsXLXehYmZUwEQ4NkZavTDlnj6BxABcdB1Hu/ZwGPVe97dZL
+         JeHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVGOLZdu7nf5eMhLcXbfCbJvTJorm5Rv3pFcg1l2QuGGtwlM+A3xxoJwLLh75HKRsKN3E4xgAPRxmRFCaCQZBLGi6ep+A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyNXWkQ67gc9nmY1po//HF5o4q0N6tloCjlrs+rZq4CK3dEhZe7
+	73sVC2MWHPf7Fwsb5LN2QsxnU5Zz7tDT4XH41dX7PIblBUb45tiG1O8z
+X-Gm-Gg: ASbGnctdB7X0xSPNA2U3wZBggqs5kPiGL4hqwlDo16cNudoyiLYocE1icuGu+TRq5uS
+	A6nTVgz3P2VZ4dkxHX/stKuG5QuanQ2YZkE/IMjgHBkKNqAq4NZKlfWo8sT6p5Al78oWzIk9wij
+	Vk8cqzQywgBamkAXFX7DJNAMOH7QcNw7JjN80PfbZjtYj+jJljoufMc+nX2bMKOXUefMeYl2ZmU
+	SdVRcKEsGxqT6rslMbLYCSg21yxtRRqFlUlsglS3qvWqwUHuGT3QyH+DKTXp/y7VLwXcTsadPf3
+	bAPEzBav43Rf9Lmbc0pEsqgX8QwOHHrcMpCOxAChByhmeo3fWtPyG2mNT++vJG9KeqeXZelJ75g
+	Xsgrpq7A3/uB3x76sba0+KdM7wwlcwHYKnSeZFkkCSbI614jhPFybN+APZy56HWIQ7kd6f9X1MG
+	pAE2yoUlimcDs+1X0rMC4IYViVb1zWzEPxrEI8gihTJy++mQ==
+X-Google-Smtp-Source: AGHT+IFBSzymvZRKa7zVQvJ0Kbgj1A87hkoMlG2vAmcdFtJqayGd4VFPcDBdtVH9byZ5m9A16dz2ow==
+X-Received: by 2002:a05:6a00:148a:b0:77e:8130:fda with SMTP id d2e1a72fcca58-7ba3a6c7879mr22659126b3a.13.1763557738780;
+        Wed, 19 Nov 2025 05:08:58 -0800 (PST)
 Received: from clint-ThinkPad-L14-Gen-2.. ([110.226.183.150])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b9250cd969sm19692422b3a.23.2025.11.19.05.08.50
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b9250cd969sm19692422b3a.23.2025.11.19.05.08.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 05:08:54 -0800 (PST)
+        Wed, 19 Nov 2025 05:08:58 -0800 (PST)
 From: Clint George <clintbgeorge@gmail.com>
 To: stern@rowland.harvard.edu,
 	gregkh@linuxfoundation.org
@@ -69,9 +69,9 @@ Cc: linux-usb@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	khalid@kernel.org,
 	Clint George <clintbgeorge@gmail.com>
-Subject: [PATCH 1/8] usb: gadget: dummy_hcd: replace BUG() with WARN_ON_ONCE()
-Date: Wed, 19 Nov 2025 18:38:33 +0530
-Message-ID: <20251119130840.14309-2-clintbgeorge@gmail.com>
+Subject: [PATCH 2/8] usb: gadget: dummy_hcd: replace symbolic permissions (S_IRUGO) with octal (0444)
+Date: Wed, 19 Nov 2025 18:38:34 +0530
+Message-ID: <20251119130840.14309-3-clintbgeorge@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251119130840.14309-1-clintbgeorge@gmail.com>
 References: <20251119130840.14309-1-clintbgeorge@gmail.com>
@@ -83,37 +83,34 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace BUG() with WARN_ON_ONCE() in dummy_validate_stream()
-when stream_id exceeds max_streams. This allows the kernel to
-continue running with a warning instead of crashing.
+Replace existing symbolic permissions S_IRUGO (Read-only) with octal
+permission 0444. This makes it much easier to read and and is consistent
+with the kernel coding style.
 
 Signed-off-by: Clint George <clintbgeorge@gmail.com>
 ---
-
-Testing:
-- The function dummy_validate_stream() was tested using a test module
-  that i created where i sent value of urb->stream_id greater than
-  max_streams. When using BUG(), the kernel-space used to crash but
-  after using WARN_ON_ONCE() the kernel-space does not crash and the
-  module terminates gracefully
-- Ensured that the module builds properly
-
- drivers/usb/gadget/udc/dummy_hcd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/udc/dummy_hcd.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
-index 1cefca660..41b7b6907 100644
+index 41b7b6907..1369b9613 100644
 --- a/drivers/usb/gadget/udc/dummy_hcd.c
 +++ b/drivers/usb/gadget/udc/dummy_hcd.c
-@@ -1254,7 +1254,7 @@ static int dummy_validate_stream(struct dummy_hcd *dum_hcd, struct urb *urb)
- 	if (urb->stream_id > max_streams) {
- 		dev_err(dummy_dev(dum_hcd), "Stream id %d is out of range.\n",
- 				urb->stream_id);
--		BUG();
-+		WARN_ON_ONCE(1);
- 		return -EINVAL;
- 	}
- 	return 0;
+@@ -73,11 +73,11 @@ static struct dummy_hcd_module_parameters mod_data = {
+ 	.is_high_speed = true,
+ 	.num = 1,
+ };
+-module_param_named(is_super_speed, mod_data.is_super_speed, bool, S_IRUGO);
++module_param_named(is_super_speed, mod_data.is_super_speed, bool, 0444);
+ MODULE_PARM_DESC(is_super_speed, "true to simulate SuperSpeed connection");
+-module_param_named(is_high_speed, mod_data.is_high_speed, bool, S_IRUGO);
++module_param_named(is_high_speed, mod_data.is_high_speed, bool, 0444);
+ MODULE_PARM_DESC(is_high_speed, "true to simulate HighSpeed connection");
+-module_param_named(num, mod_data.num, uint, S_IRUGO);
++module_param_named(num, mod_data.num, uint, 0444);
+ MODULE_PARM_DESC(num, "number of emulated controllers");
+ /*-------------------------------------------------------------------------*/
+ 
 -- 
 2.43.0
 
