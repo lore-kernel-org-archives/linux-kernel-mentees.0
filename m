@@ -1,152 +1,137 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E166B31ED82
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 06:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8111131984C;
+	Wed, 19 Nov 2025 06:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763533576; cv=none; b=KhL3xpvLyyBi/BmDQXaM3QEX9LhI15Fa3pjeJ4yN9fTUYZHXhP9Lu97hLqAydPQ59CwMMNAyzOfOtxMGvJ/A2IAu1GIbkzE65DcEojt8usGQCVYBeMvipMoostjGJRLQ84wkKyC1W/LQ1JFxOxhvhvKLDmwdfT9+mjJRaLBuKto=
+	t=1763533783; cv=none; b=arApvLuiDEZ9aladKWB02P/W+7wHlELCgeqdWH/TFu20lwPSkNhc/hpA1wLtWy95SxVHJY0oLlEnHfTzL2qC5XAGUGfX/dx58mTwnF5NTtqhWVmczf/JhHJff206siyoOFvAwzsQ6mMLJabCuXCusl2r1cjbdYkSMR0dEysZ3lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763533576; c=relaxed/simple;
-	bh=bOG7MFQkS3iZCbR1WAM2BNfX2hMyDdstzBOkhBe3YpA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k0EdpTbe2urbDTpXX5ioZi5/+JvMsofuks+H8BnOECS+911SsEulag+P4iplWFc0Zkq67Iplk2wX3C9VlOHmiIQ1bdSQROFLh4IT5uv3f2FUNrzUdHUP0UfPzE/OSpNRRrsbRWCN5tWTen9WXCFc1Q0MtLrOVlbaINcx7nCseYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nogFh7jj; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1763533783; c=relaxed/simple;
+	bh=j4jzM65eMJ8upAfaVJtxFTNQTor5sIf6Au4okDTN5Z0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZZDVoP4S1F+7895a5mG8fWpXzOQMBD7yGxptdgvtgPQnz7trrjgi5Pm6gj56vVRS2d0xOrcFTdMZ/3UIaE0MiYOQsN/lRen5e1Km/5j1byTJXKYNXHoZysVkVkMqdAEIOe5LCP26jhpTo8V+l7ZKqJHWuoM9mZtFRmIp9r6eBw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ICUwuB8e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nogFh7jj"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 8581340351
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 06:26:14 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id jYuMnQtOQs3z for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Nov 2025 06:26:12 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::635; helo=mail-pl1-x635.google.com; envelope-from=nirbhay.lkd@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 353C040332
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 353C040332
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=nogFh7jj
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 353C040332
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 06:26:12 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-2980d9b7df5so68132655ad.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 18 Nov 2025 22:26:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763533571; x=1764138371; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=w3uck5SLJDFUscVdZUo0LHnIxtPzwUVM7ArDFS0hzBY=;
-        b=nogFh7jjrOVZiK42xsIBBWK2r9i3d1JSj38YuZTyF1PhO0idk4p5s6fl4sC5hVH6JE
-         FP6Qg/Nh2JIaC1PydgktbEBQCCbQO1jGYAxs/v/ncYW8OMBc+D6JuU9KSitxcYBUzi0r
-         mBp5kCZSNOoWL8Znk7bzhUZ4yHSicTOw/dFRRY7tqsm68Qs65gyQfEZuJp1OHsEjpmXc
-         coSSacUDMwF7vZu8d2WJ6Py6PAKiiJw6V8R/MJgh013iBXTs9rDwmCLTuqMQUIOZxpZK
-         0MYF9KIe2cXgZF87y/jTCT6b9ZPUmWrL2U8gd48ciTWpR7cMjFcOPwt0wWUi0RrC42te
-         KfEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763533571; x=1764138371;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w3uck5SLJDFUscVdZUo0LHnIxtPzwUVM7ArDFS0hzBY=;
-        b=Qj0c7t/+RMVt+/n95ckq+J2GTKqQ1VJ+QJI9tLjA0uqmnKdXnnG3pvgfD+f36YlY5W
-         WkeEKBqY74JY1lnwDvbgH0tIjGRE/M+UJM1dUiaue+b9HSgFnJ3Boo2RCP2cu8XaaFwB
-         lvfhEQTj/klR5uhigJvgmC8SViFtaaFEISfNGT/iZvUmSXT+EgK4lwFf6i5tknyQXu0B
-         Ih1nHZM0/HCahSGHRkLVxQ4cELtOvHNjHeTmiuVJqkZMfyJ6acmVfXrhnB1Ub35+HpyI
-         97/XXxlXXQXk+in0xFudh2u02h5t3iyw5u6MsTuFc5tZLX1CIFLlIsb44CNBnoNqjAFZ
-         D1Xg==
-X-Forwarded-Encrypted: i=1; AJvYcCVWUZHreQIT/XIt9Unn+acurLB1zpQug1fp/gh9j9BbLsMXr8fOIB4+d/4muImw3380FXUK3M26papHDL6gURHfABBa2Q==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzXQCsE5jrtc+bQRV165ynaN73oFMBJjBLW81HIjRcmhwo622xR
-	oh22BPqud1Nmdd6cAOIggHtpXaTcWDVb7uZ/rsQnEHMrNSKfVZQy6o+f
-X-Gm-Gg: ASbGncvCbBwHwwBjpEcLon7poXFNvu/rNUDncYoa+gZ3e9g3+qIvRCrhGfeHrIL0ipK
-	boW4Tvub3Faa+S5oUTFD8LV3vHxUq48AEVNdFjhMXuRep+ESjsDAKdIsiRtHzCeH6SIgbYct50E
-	at2XlQ90a2RT04IM/l+whPVMf4PngAles2hjoRzVfq2qfX9kgLYfE1T4SazPLY7NjKGq1byBwPe
-	9IsdlExQYMLI5mHmKE1dnsdo8kYI++NJ+wt6WxjAgWioW6bPJ80uW0RxUuQ2+UlnQebVfUKA3/v
-	OlLd/eDMPF/v5j6q6khDLbN1f4N+XBXEhEe7mgBzJoyuwV2xWzy1PcRYADLsiUAtfptbTNnSmjk
-	46uxYIRKdxEMJnpkZBQwUmFJ0BKRXI8RuIUDsuwsKeorzSH3Fe4daIejWcyi1/IzHtzNFYgHYnX
-	Q7rrcdL1D+SuNefZe4r+t8JXoP/91GZA6V5UgLwrz+ev4le509gjmGnAtUUxeHf11hf5CIvI+/5
-	LMq8g==
-X-Google-Smtp-Source: AGHT+IGTgkIGWP9fMJYS46fqWm9eVKlbop6ssm2ZVW3H9bFUJ8EJrgktDkyGqkKhuRWps5cc6VoELg==
-X-Received: by 2002:a17:903:2c04:b0:295:b7a3:30e6 with SMTP id d9443c01a7336-2986a6d55c0mr232723075ad.18.1763533571305;
-        Tue, 18 Nov 2025 22:26:11 -0800 (PST)
-Received: from prakrititz-UB.. ([119.161.98.68])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2376f6sm190992735ad.21.2025.11.18.22.26.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 22:26:10 -0800 (PST)
-From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-To: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>
-Cc: Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nirbhay Sharma <nirbhay.lkd@gmail.com>
-Subject: [PATCH] bpf: Document cfi_stubs and owner fields in struct bpf_struct_ops
-Date: Wed, 19 Nov 2025 11:54:31 +0530
-Message-ID: <20251119062430.997648-2-nirbhay.lkd@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ICUwuB8e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80499C2BCB8;
+	Wed, 19 Nov 2025 06:29:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763533782;
+	bh=j4jzM65eMJ8upAfaVJtxFTNQTor5sIf6Au4okDTN5Z0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ICUwuB8eXhY6IyN+rUtf1idZGkjP6gvdnW4JPd1qpyAO4bXwdKdAlmzpB+dC6k+g3
+	 nop7z27kCcURFARY1nR5/VBH9UKLGLDz7a0EiM+7L+a1p5gVAWHttRBOi+pCNN44Ce
+	 z3zfJgUEyxI5S2MlrMdmPjOHR3e6VsLDQq6mRRJeQOSvzYPXE8rWo0m+2Zik7tcdm8
+	 qDW1YnQ4F1E+1ce96CYJ5XMq8eEy+X/0uRp65LurPVFQIV9lFY5d43LxK215yZql/R
+	 7XmAi9TqfpIhI2g3SEJgHS2dxrNSi7sl/ln/9aunkp81T9WPhgNqszZzYUGglYwWyH
+	 BXidO39mzhX+g==
+Date: Tue, 18 Nov 2025 22:29:41 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	SHAURYA RANE <ssrane_b23@ee.vjti.ac.in>, akpm@linux-foundation.org,
+	shakeel.butt@linux.dev, eddyz87@gmail.com, andrii@kernel.org,
+	ast@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	syzbot+09b7d050e4806540153d@syzkaller.appspotmail.com,
+	bpf <bpf@vger.kernel.org>
+Subject: Re: [PATCH] mm/filemap: fix NULL pointer dereference in
+ do_read_cache_folio()
+Message-ID: <20251119062941.GF196362@frogsfrogsfrogs>
+References: <aReUv1kVACh3UKv-@casper.infradead.org>
+ <CANNWa07Y_GPKuYNQ0ncWHGa4KX91QFosz6WGJ9P6-AJQniD3zw@mail.gmail.com>
+ <aRpQ7LTZDP-Xz-Sr@casper.infradead.org>
+ <20251117164155.GB196362@frogsfrogsfrogs>
+ <aRtjfN7sC6_Bv4bx@casper.infradead.org>
+ <CAEf4BzZu+u-F9SjhcY5GN5vumOi6X=3AwUom+KJXeCpvC+-ppQ@mail.gmail.com>
+ <aRxunCkc4VomEUdo@infradead.org>
+ <aRySpQbNuw3Y5DN-@casper.infradead.org>
+ <20251118161220.GE196362@frogsfrogsfrogs>
+ <CAEf4BzYkPxUcQK2VWEE+8N=U5CXjtUNs6GfbfW2+GoTDebk19A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEf4BzYkPxUcQK2VWEE+8N=U5CXjtUNs6GfbfW2+GoTDebk19A@mail.gmail.com>
 
-Add missing kernel-doc documentation for the cfi_stubs and owner
-fields in struct bpf_struct_ops to fix the following warnings:
+On Tue, Nov 18, 2025 at 11:38:36AM -0800, Andrii Nakryiko wrote:
+> On Tue, Nov 18, 2025 at 8:12 AM Darrick J. Wong <djwong@kernel.org> wrote:
+> >
+> > On Tue, Nov 18, 2025 at 03:37:09PM +0000, Matthew Wilcox wrote:
+> > > On Tue, Nov 18, 2025 at 05:03:24AM -0800, Christoph Hellwig wrote:
+> > > > On Mon, Nov 17, 2025 at 10:45:31AM -0800, Andrii Nakryiko wrote:
+> > > > > As I replied on another email, ideally we'd have some low-level file
+> > > > > reading interface where we wouldn't have to know about secretmem, or
+> > > > > XFS+DAX, or whatever other unusual combination of conditions where
+> > > > > exposed internal APIs like filemap_get_folio() + read_cache_folio()
+> > > > > can crash.
+> > > >
+> > > > The problem is that you did something totally insane and it kinda works
+> > > > most of the time.
+> > >
+> > > ... on 64-bit systems.  The HIGHMEM handling is screwed up too.
+> > >
+> > > > But bpf or any other file system consumer has
+> > > > absolutely not business poking into the page cache to start with.
+> > >
+> > > Agreed.
+> > >
+> > > > And I'm really pissed off that you wrote and merged this code without
+> > > > ever bothering to talk to a FS or MM person who have immediately told
+> > > > you so.  Let's just rip out this buildid junk for now and restart
+> > > > because the problem isn't actually that easy.
+> > >
+> > > Oh, they did talk to fs & mm people originally and were told NO, so they
+> > > sneaked it in through the BPF tree.
+> > >
+> > > https://lore.kernel.org/all/20230316170149.4106586-1-jolsa@kernel.org/
+> > >
+> > > > > The only real limitation is that we'd like to be able to control
+> > > > > whether we are ok sleeping or not, as this code can be called from
+> > > > > pretty much anywhere BPF might run, which includes NMI context.
+> > > > >
+> > > > > Would this kiocb_read() approach work under those circumstances?
+> > > >
+> > > > No.  IOCB_NOWAIT is just a hint to avoid blocking function calls.
+> > > > It is not guarantee and a guarantee is basically impossible.
+> > >
+> > > I'm not sure I'd go that far -- I think we're pretty good about not
+> > > sleeping when IOCB_NOWAIT is specified and any remaining places can
+> > > be fixed up.
+> > >
+> > > But I am inclined to rip out the buildid code, just because the
+> > > authors have been so rude.
+> >
+> > Which fstest actually checks the functionality of the buildid code?
+> > I don't find any, which means none of the fs people have a good signal
+> > for breakage in this, um, novel file I/O path.
+> 
+> We have plenty of build ID tests in BPF selftest that validate this
+> functionality:
+> 
+>   - tools/testing/selftests/bpf/prog_tests/stacktrace_build_id.c
+>   - tools/testing/selftests/bpf/prog_tests/stacktrace_build_id_nmi.c
+>   - tools/testing/selftests/bpf/prog_tests/build_id.c
+> 
+> This functionality is exposed to BPF (and PROCMAP_QUERY, which has its
+> own mm selftests), so that's where we test this. So we'll know at the
+> very least when trees merge that something is broken.
 
-  Warning: include/linux/bpf.h:1931 struct member 'cfi_stubs' not
-  described in 'bpf_struct_ops'
-  Warning: include/linux/bpf.h:1931 struct member 'owner' not
-  described in 'bpf_struct_ops'
+Only if you're testing the buildid functionality with all known file I/O
+paths implemented by all filesystems.  Or you could add a new testcase
+to fstests and we'd do all that *for* you.
 
-The cfi_stubs field was added in commit 2cd3e3772e41 ("x86/cfi,bpf:
-Fix bpf_struct_ops CFI") to provide CFI stub functions for trampolines,
-and the owner field is used for module reference counting.
+--D
 
-Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
----
- include/linux/bpf.h | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/bpf.h b/include/linux/bpf.h
-index d808253f2e94..d39b4b2c8f35 100644
---- a/include/linux/bpf.h
-+++ b/include/linux/bpf.h
-@@ -1905,10 +1905,16 @@ struct btf_member;
-  *	      reason, if this callback is not defined, the check is skipped as
-  *	      the struct_ops map will have final verification performed in
-  *	      @reg.
-- * @type: BTF type.
-- * @value_type: Value type.
-+ * @cfi_stubs: Pointer to a structure of stub functions for CFI. These stubs
-+ *	       provide the correct Control Flow Integrity hashes for the
-+ *	       trampolines generated by BPF struct_ops.
-+ * @owner: The module that owns this struct_ops. Used for module reference
-+ *	   counting to ensure the module providing the struct_ops cannot be
-+ *	   unloaded while in use.
-  * @name: The name of the struct bpf_struct_ops object.
-  * @func_models: Func models
-+ * @type: BTF type.
-+ * @value_type: Value type.
-  * @type_id: BTF type id.
-  * @value_id: BTF value id.
-  */
--- 
-2.48.1
-
+> >
+> > --D
+> 
