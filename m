@@ -1,362 +1,135 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA932371DE7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 19:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=140.211.166.136
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763582323; cv=fail; b=dT5mOuHf9Cvv/UBtkFcInCFWS6b8jAO4W7JYT8js3JiuvvdLkgXRNcgDyawprC63nXabYVargsG1P+G0+jj9A7Xa2ZMHBhZarImfPqMw4m3Lm5gtTgqeIeP1W0DOXxZeb8A2T2bNYo/QaD0muKHK2Hr5mT190M8wlHRM0JWRDeM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763582323; c=relaxed/simple;
-	bh=4J0mbeP9UoiKDzHu0Nv2pqucFJuf9Bxxa/5wKiMwm34=;
-	h=From:To:CC:Date:Message-ID:References:In-Reply-To:Content-Type:
-	 MIME-Version:Subject; b=Wjt/3dgTEyUaI+S20qKYZiPBUmrpamRNXXKL7LrVbEPex7KO6M8nq6q54tPZgessl3buTsMyZy0Fi5WuP6joTbnXBjTAiwAY+JZJcFumWMZoUpOlkQ9FHJRGJiqFA8An/jx+c84TNFkVqdI2Q9CWOJ5Eh/gmTB38seHYAUNktug=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=CVhDTZZt; arc=fail smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8102D8375
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 19 Nov 2025 20:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763583401; cv=none; b=Zg1pI33rija9hf6p+XQXe7Ae/6eHYR3pGMuYGJ6mJOgRrkLrSLvgheuPABc/sx1Jk/RAhSCUGnBkD7e3ugdir6V9b/wPe6k04WgMuk116aoNKy+NFVK6n2UlvqIo4NauQfISYFZZKt8SX+X9nPLG7z3Vj+Q/4bQnVVQ2ajz2z6k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763583401; c=relaxed/simple;
+	bh=QksrpYaGBMg4ks34+bzn2p6qiF4oQKkk6zREhcjQhko=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gFZq/CufTAzzgPIYkShnpvLHn7KwNdw7xyU060JAQdMgMcovLU8lWV7CVC1MsNGOIHcRJWr+Yod5LVXeTyHHQmnGCMIYNfux7TQ/HCg5+ER1bEKgjgnchZsTWSa1vtFmizRSo5iXiA02EyrSC2F00XURvQXv5DYOf4UjtKCUwNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=Rkz/J1ym; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="CVhDTZZt"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 88D8C61115
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 19:58:39 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -6.491
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id myTeM8yiiTMr for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Nov 2025 19:58:35 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=slava.dubeyko@ibm.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 5D54E605CD
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=reject dis=none) header.from=ibm.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5D54E605CD
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=CVhDTZZt
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 5D54E605CD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 19:58:34 +0000 (UTC)
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5AJHn7LU023215
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 19:58:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-id:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	pp1; bh=7AwBvm9c5VMrSggCW3f+zmcHvb2XX7poD6hFc0sSXsI=; b=CVhDTZZt
-	3uj+1jst838HEJtcICxOt4o42DWehj5SSJj7ii4T//QI2dSNMn6Lz8e7OeC0TpM2
-	qLr84fwWlrlDyK1A45ikSensuDfcbfJch6Whiz35Fhppta2NwhbHe01WtEmWasKO
-	I6ozvrDCrwwUbT4DokpWc9rbMMBD5KU1YZi3+fJJ4PM11/29+7nP0wIjU+1+hh4x
-	uyisAByXXN4u+PA67JxSUEzaHWJM00BfGn6nG9smyICKsbWwj02CHdJTvk9OSyDl
-	m2tvtK2P3Z1VwHOJ00sqrNzrc0E/NmORut10iUIoeOrUhQou3sKvIxXdQFDb0HQA
-	yy/ry4eqTQtPMw==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4aejmssqge-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 19:58:34 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5AJJvit8022986
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 19 Nov 2025 19:58:33 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4aejmssqgb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Nov 2025 19:58:33 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5AJJuWYv021207;
-	Wed, 19 Nov 2025 19:58:32 GMT
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010014.outbound.protection.outlook.com [52.101.85.14])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4aejmssqg8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Nov 2025 19:58:32 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SqCVyT+YCJExCKhjungnKn9c6yTPrnVdTLwRGFE6E51Ad7RP1P4Z1opryCBx1YsZNdYJQ3lyu4hLld+Q0DGeMDiBJN/OGv88jLekfuASWq29hudvfR2d47XCQrSwItQWhBoKsWe72AMOoc8euxx1v5ykpG/g2i+QG5IATku+21bYAKWuNX5IOO9V/6BHTDGw8LWg64lM4rqMH6lZdM1mqD/s2dhYFjg2apfqyB8PZSy8BZN2elARxDJzpYbtTAdJ3IPC4sO8Ky19RdUm4uUcDGArKbt6/Mi1GzU6Jv5qMKQFc/oYY1jbh3dHxy2ZX5OaaXoggonqVcspQHD28cgong==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C7CQK197n/I4q+DaVnrS9VZj6h1iYUnNqc0VaDTzfH8=;
- b=T0j7LdWHfK4jIim89mPM4UacN2hkKphe7mZiimU7r9uTjv3guvQqFwalwMDv/bXP6iLIBrrpgiNkrzTxMwgj6Io8ufwgb0BLZwBPZJOHD67QYZFbGWkmWFrDGzgpDn3X2FLUqXwimYWQL4BMvbg4WeP77ItlyN9C7f65RUPJxwvb2m/vcfKqg0yroCD9KRjknBni9Axpju3jHTs9HQ+YtLShe82ETkhU5dt1iOG7ORROeJ+hsPkAWN2gDVEgZhK0s4o2PvG1WywTB7aRrYT0YH29acNj23cpjbuSaOMeMqBt8wMESByst0ungEkV2yqAjUzUizUXPO7HDdvl1p6KbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ibm.com; dmarc=pass action=none header.from=ibm.com; dkim=pass
- header.d=ibm.com; arc=none
-Received: from SA1PR15MB5819.namprd15.prod.outlook.com (2603:10b6:806:338::8)
- by DS7PR15MB5373.namprd15.prod.outlook.com (2603:10b6:8:74::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Wed, 19 Nov
- 2025 19:58:21 +0000
-Received: from SA1PR15MB5819.namprd15.prod.outlook.com
- ([fe80::920c:d2ba:5432:b539]) by SA1PR15MB5819.namprd15.prod.outlook.com
- ([fe80::920c:d2ba:5432:b539%4]) with mapi id 15.20.9343.009; Wed, 19 Nov 2025
- 19:58:21 +0000
-From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-To: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-        "frank.li@vivo.com" <frank.li@vivo.com>,
-        "slava@dubeyko.com"
-	<slava@dubeyko.com>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "mehdi.benhadjkhelifa@gmail.com" <mehdi.benhadjkhelifa@gmail.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "jack@suse.cz"
-	<jack@suse.cz>
-CC: "khalid@kernel.org" <khalid@kernel.org>,
-        "linux-kernel-mentees@lists.linuxfoundation.org"
-	<linux-kernel-mentees@lists.linuxfoundation.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-        "david.hunter.linux@gmail.com" <david.hunter.linux@gmail.com>,
-        "syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com"
-	<syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com>
-Thread-Topic: [EXTERNAL] [PATCH v2] fs/hfs: fix s_fs_info leak on
- setup_bdev_super() failure
-Thread-Index: AQHcWR9ty5Q5xjyqPEathwxTb1N/vbT6a3YA
-Date: Wed, 19 Nov 2025 19:58:21 +0000
-Message-ID: <c19c6ebedf52f0362648a32c0eabdc823746438f.camel@ibm.com>
-References: <20251119073845.18578-1-mehdi.benhadjkhelifa@gmail.com>
-In-Reply-To: <20251119073845.18578-1-mehdi.benhadjkhelifa@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR15MB5819:EE_|DS7PR15MB5373:EE_
-x-ms-office365-filtering-correlation-id: 23824871-9e84-4142-eccc-08de27a5fdac
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|10070799003|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info:
- =?utf-8?B?M0RuSDlYeXpBOHR0VDBGcytGWXNlRUZhRTlTQzNjMWtUZDVpUkxVSXZkcG5X?=
- =?utf-8?B?RVRzdE5BeVI0OHlwRmhtdGpFTUNtcHFmay9tODhXdTg0aGpaajNDSmNFc1JP?=
- =?utf-8?B?K0F2SHNSSlRsUjhtU2g0NWVLMVViZFBqSWpqS3QwQmlwSUJ1R1BwNldzMWJ1?=
- =?utf-8?B?N3l1cjBmS0tvOWxGYlRoVEMrakxXMzVlaHVYS0V4Z1B3eG9LWE01Z2FVM1Zm?=
- =?utf-8?B?SUlNTW1WWTVwOGVhREtKNmZJemkvbHJRVk01RVIzVEZ6NXZRUXdjcTZOVTds?=
- =?utf-8?B?LzNGUVRZU2twVGgra2lHcmxlck9naXdzOFV5Smd0ZnI5aUVFVjlXTHBhRXNz?=
- =?utf-8?B?dkpvTGhMOENwR0xpTkhEUFA0T08zWU8vOU04YWgveHpRdm9tc2d6MjY5QS9Y?=
- =?utf-8?B?WURKRGFiUSs2QnB6NkdnZjM5dnRML0xmNFVaRWQ5ZktwNlZ5NFJ2YTNYMVls?=
- =?utf-8?B?Mk9hcDBLVHZvbmw2R3A2b3N3RzIrYkJVRkVidFk3d3hwZkljaHpzN2d6SVg3?=
- =?utf-8?B?ZVBSMkNTVzFnNnVpWHZQUmlLL0NTaUJ4Sk1XRkxpWU85Qm4zeUVXeHBtcEtm?=
- =?utf-8?B?eExkcXVvUWd6ZjlkMnhNZDZEMGIrL2VmWkcveXhzMlZEUmdTbWlBNFBvWk5B?=
- =?utf-8?B?SjNRcHl4L2JqakMybFhuWWlIS3pGdWRHd01XS1AzUWtXM0VNbWFmRGw2eXdT?=
- =?utf-8?B?ZlNTRVRqZk1MWWZ2ZjlKQUVlVkI0VWtwT3BVRzE5clRaUTVKNG1DYSt5MWk3?=
- =?utf-8?B?MFdsNmNJbDlzOHpJZW14WGJySzl2MXlPdmlpaTRCUkNTYkdnNkY1enJheWlL?=
- =?utf-8?B?V1VteThNUmNLYWR3dmlOQzlkWDlNSDRjOW9tSlUwdzAyVDNPMjZUNUpxYzNp?=
- =?utf-8?B?ekdtWW5HN3RnbnJqdmFLWTRacGlkZGQ2dlZJcG1lcTVMc2FaMkdpRTlGeXN3?=
- =?utf-8?B?M1hGYVk1enRhdlpaRFpTRGg0eG05d1g1QUh6NG9aMmxlMTQvRlJRUzNEdUV2?=
- =?utf-8?B?YzlRT0JpZVlybzVPMDluRXJPYVU5dW5DSVl1MndaWFYyMXZLMDdKTzNQRHgw?=
- =?utf-8?B?MTFGZkRoZHhPb0FqV2pPT1FCd1prajY1SVoyd3hwY092cHhaMys5ZnpEM0VC?=
- =?utf-8?B?OTRKVk9hS2E4NzVMU0V1NVRhcG9DWlBrSkpkT0I5cWtpRGRiZUhCM2xlem1P?=
- =?utf-8?B?dThuWkxIQTEzVHZmaXhjQVFhWStSWjdVeWJ1MHR3K2I5Rmg3S0FBODdzZnp1?=
- =?utf-8?B?VlNRN255Q0tsaHEzVVQ1cUVFeXVJT3pFQzkvaGJqblZzbURYelFxT011MkVw?=
- =?utf-8?B?bDFFTTQ2OXZXV0lKdGFLM3pxeS9pamNsTWRxU204SlE5WFNId1gwSzZNVENB?=
- =?utf-8?B?UTJyVGxZeXUwb3UwbVZWVnJtSmpZR3pGamt1TUlsTkNCK2dhR1c1WmRsKzln?=
- =?utf-8?B?QllFNzdTQy9RUFlhYUZOV3RYeGsvUEVxZHplUGxXZ0MzbzdSU0YzWlFzeDdJ?=
- =?utf-8?B?aXhzWmhzZDhzeHZxMThobkpzVkVtYWJSTHBTR2JWU2NiWUxIVlJvR3RPbnc2?=
- =?utf-8?B?YStzYVBWUFlJQkJQSDdjN3JZK0FkWDFSbDZLNWpvYTZmQWNueUJhMC9sY2ho?=
- =?utf-8?B?bDVVRUlJWnFTcXdLMmh1VksvSlU5MGhncjIxRUlqY2R4cjV6TGJXczNva0ZO?=
- =?utf-8?B?Uk11R2Y0UXhreG1IZTBndkFhM0dkOVgrZlFRSk01N0FmTXhxa0l6MTEwV2d5?=
- =?utf-8?B?d1dCSlpoWWJYZXpOMVJQMEZJREFKeTVXNktkNlV0UEkxUTFFSkpsQWJ4UXAy?=
- =?utf-8?B?WEJ0RHNObEhNT29PaFptS3lDWEpFUDRMZWdJWksxbU56T0xuVVBHd2owZ3ZZ?=
- =?utf-8?B?TnlPK0hIS1h1STllNkpaSUptck5rSHZqMEYzbXRwZy9lNmcxZTVQNzJ3NWJu?=
- =?utf-8?B?a1FtYmFHcWhkSkZ5RkhaUmFtNlZobzlZdVZWVEZHY2hTeFkyT2dYZ1MwZ0Rh?=
- =?utf-8?B?TmZYK3dlejJ3PT0=?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR15MB5819.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(10070799003)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?Z2t4Z3dQUGJxaWNJbHdSZkNhWWY0R1hZcHQ0UlNsQy81UlpEenN5UXVZZG5r?=
- =?utf-8?B?YjNnUmlqNzNFc1JsNTI5VWkwSnhaZGtYL2F2MnpuT2QvUGdha0VIWFhEc1E0?=
- =?utf-8?B?VklBUkl1Rm5DT1JWcHRWbjJhMktHMWRxdEtydHZOaXY3L1RCajJydk10ZEpo?=
- =?utf-8?B?NXR5c3BmYk40ZjZDbW05Nnd6YW1DWmlURm9RKzRQc2VDL0VFdHQ2Y1ROTFdI?=
- =?utf-8?B?LzJlMlJtTnp1cmtDTXhYTm5WUVlkZXhCWHRESEtQaUh2T3BsMnl5NCtDS0ZF?=
- =?utf-8?B?R0xPSnMxNTJldjREakFJVVVSTlJBcmIyL0tKK2lYMFltRmp0SGZSZ3o2L3pz?=
- =?utf-8?B?Q0ROeWg1V2JqSkdjNUlwdXUxZlhxM0hleUtXSlJIc0RUM2E3WVVLdDNjaExH?=
- =?utf-8?B?RmpDZ3BEbmd0Z3AwN1crYUhTdHI0dFFoOGdaMWVaUzR3ZWFiM2U2RzA1Nm1p?=
- =?utf-8?B?UXIyWkZpMHVrbWFqQTV1ZUNvTVlTWmFkWVg0SFdLSTBWeE5PRkp4YUE5M0g2?=
- =?utf-8?B?RzcyNzg2TVJacWR4OWV1NGtZVmFRb1NocjhjdGttR2FMaXljZytpbjZueDV6?=
- =?utf-8?B?Mm9jWnUySXFONm9OSUxCWjZ6Y2ZwUFd5QW1QeUlsdzFUZW5NaDlwY0hoQksr?=
- =?utf-8?B?VnRUNEdSMGFZMVJheUR3SG0rZWJYSFJQMGcxNE5XcGRMMVlySFBzZDdXNXpF?=
- =?utf-8?B?SWJ6QVBKOEFxVnZ2eWlmQzI4NW10UUhXUzl4RVNQbXJka0lCcEFNSHM3Y0Fr?=
- =?utf-8?B?WDAwSHg2K2lhWWVnbFFLZEZrdXBPTU5zb3F0cGtrNzFQWm5QQmFTamI3OHcx?=
- =?utf-8?B?MGNmK21FeDl5dzlKTXdFanBycjcvbTNrL0JRakpiY3pJLzVORkNER1lMZ3Vh?=
- =?utf-8?B?ZUZrRWZBMVZyWmNGaEdYd3hOWDl1UEV1aUNWdTZNS25YS0lML3ZvUFZvRlk2?=
- =?utf-8?B?Y1labHRCY0twcG91d3pVbEpQd1lvZ0FaV01TNGZTS3ppbUJpNlJzTjBHaDJK?=
- =?utf-8?B?cHY5eDlLYkhRSDE5UzhLVUhUUVIyeTl0QTkxOFZyYUdtVGJaQWhSRUFNZ1Zt?=
- =?utf-8?B?VTJIRlJ3dHh5LzM1bHlNd25CWDhZWW5EYTU1OXNrSjk4TnQ4U2pCSGNBQ0JR?=
- =?utf-8?B?WDNhZllOYlZNNXREeGovWmhocEZoNFFzR05qT3FsZldDM01UWE1HcGdQQi9y?=
- =?utf-8?B?L0x0RE9mVVg4OWVDUUlabDhtRWw3cC84SCsyWWZUdnRvU2YzWG9RMmY1eXpD?=
- =?utf-8?B?VDc5Y3VDYmJGZmkwc0RWd2pRNGtlY1FyanlPWGpmWFgrdE5RdmFYTDRYVVRN?=
- =?utf-8?B?TXVXdyt5a1pKdEk1YWRsZFp6a0dIVlFERVdzVUF5ejNyaHRsSkd4QzNkai95?=
- =?utf-8?B?VXUzYThKS2tva3hTRFV4b216VzdXZkd2NlR3eW83bUFQY2Nma3Jabm9jMFFq?=
- =?utf-8?B?K1RuZkx0dGxhNm5SY2ZZR3BUc21GZkNLY3Y4YnluUmUzU2t2TjFsVHR0eU9G?=
- =?utf-8?B?QkFjVC9lODhodGsvRkZKSWtEaXJiQ3NXd3lMbDBrZ3dFQ0VFNTh4ZEtDVEZX?=
- =?utf-8?B?dHpEMmQxb3lWVFFxcHpZbWRPVGhUa1pBbTlDOXFFNExySzMzOUh0M2xKOWpK?=
- =?utf-8?B?YmhOTDZnMFlvZW5LQk5wSFRaeFBTSndTU3hSanB5bTFURWI5QWFCRkRzeTR1?=
- =?utf-8?B?WlZyUjIvSEp3SkZoQkhJVXp0VHlRZGtXeWhlYTJMckEvTkdOS0hzQ3Rkd0dO?=
- =?utf-8?B?T1R4YjlIL2d2MVhZQ0hFTmFHTE1HaytvVHpNL3hSeXRnbXljQWFrQzUremMv?=
- =?utf-8?B?dTNxU0ZuUWo3VGhZY3BiY0VtVVlNRHV1dXFVbGdWWHVjNWZpdU9LSjlWSmZi?=
- =?utf-8?B?cmc5R2VuMXZSb28rYzlPdjBYMGMydDNSVDRNOUlvamhoL1RGYW13T0o1OVFh?=
- =?utf-8?B?Ym5jR2JxeldkY29JTzVDSExZYytoK0tCcjIwdnczQ3MyWm0rSHNYVlFHT292?=
- =?utf-8?B?K3RCSXRZSnNCczJOWlFuVm15UVJmV1FuWDFJeVhEYndvZS9yMGRFemJST1Jm?=
- =?utf-8?B?S3BnTVEyRXRKVWN1RXcxQ043RUJSWTArUGlKRTVQKzRWNWJZU1dVaS9qZWlE?=
- =?utf-8?B?N0JMYUVuMFpsbGFYb3d3RjJyN3g1c3FEb3VocS9sN3liazYxWWV0UzltcDRR?=
- =?utf-8?Q?ZhVD2BvLhdMFlxhOmfhjdzk=3D?=
-X-OriginatorOrg: ibm.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR15MB5819.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23824871-9e84-4142-eccc-08de27a5fdac
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2025 19:58:21.1830
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: fcf67057-50c9-4ad4-98f3-ffca64add9e9
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: H318SKuFnEIY8o7j+W6xDXiLMMBmO0rIGMnVoOXcEcLmwMzkxLNAGnf8yIF15YjJ3N8p2eLhzx4gznME7jw/+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR15MB5373
-X-Proofpoint-ORIG-GUID: A_Xpjq83uWZ0jjbibCo8iwxUxfW8J_V6
-X-Authority-Analysis: v=2.4 cv=Rv3I7SmK c=1 sm=1 tr=0 ts=691e2169 cx=c_pps
- a=guboMCJq5DUNhCsQxgR9jQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=edf1wS77AAAA:8 a=VwQbUJbxAAAA:8
- a=pGLkceISAAAA:8 a=NEAV23lmAAAA:8 a=P-IC7800AAAA:8 a=hSkVLCK3AAAA:8
- a=drOt6m5kAAAA:8 a=DF6y-yaMG2C3zxs3KisA:9 a=QEXdDO2ut3YA:10
- a=DcSpbTIhAlouE1Uv7lRv:22 a=d3PnA9EDa4IxuAV0gXij:22 a=cQPPKAXgyycSBL8etih5:22
- a=RMMjzBEyIzXRtoq5n5K6:22
-X-Proofpoint-GUID: -W3V6IYQlGq0f1Y9WzNgwsUso5TDikmq
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE1MDAzMiBTYWx0ZWRfX9Nb5pQaUrym7
- dA2nD1tum9thU4myDUFY5gdwlNVA1IbNCANhv3rg4/djPphxmjcG9Zp3ltZAXqrawuRvI1m50fw
- A4NBsIMdbDvdCIFqVwHdle1ME0d3Dz3KZHKtch8KKeZjKrfVf+AvVF5Eff8oD4NmyT2B+X/LKt8
- 0lfHZI/TFxky4dG4kZU/B66fDalzXVxBaVhgueRn78oGY9WLXBB4IbIwmSIyJ1OyXfmYGlz5Hcp
- 7yNYhWNdcMu80vd4Vt54Pvh62a6/y9Er7Ta2hzTRT+Br8zrdORglGibTSLJwOBHqTYv05pcRwNz
- Wt1Gqm7F+radiPOMw3H7Hp6aNnjGG3/6JXVHmxX0WqFWLhUNvZB1CWLC5V1JAMJoOcWgxKc4jMJ
- hJd5NMxof6eT/eVsFmwnfC6RTo7Ueg==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <91B379FEEC37B640894A214F2211E73D@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="Rkz/J1ym"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7aa2170adf9so104657b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 19 Nov 2025 12:16:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1763583398; x=1764188198; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dp4JZo+dI0J2859+KK1IS1522ME6raCu/+5sU4TezG0=;
+        b=Rkz/J1ymf/f75QgYIZf5Zr7rPD1nyG+2d1cuUkXzXYNmTBD2M+yLGN5OUd0TLijPZt
+         shadJ2D0hd1u2XwVjyBQieIsV6pB87OJfD+9k8vCSYapX3PKtb0Lq+CapEQ+QWRMe0BU
+         Ujkud7SdFulqw75CbyK+uYlRaBYl9q4BvdGZwYOVUrBvgctobfJJFXaWwEvwybJzAdpk
+         5aHxqyWfoNqI2HAcYj4UudWYkmSFIw2kPT7+h4wgVwcSzWz2dR3sO5ukCf0NHQd5fj0t
+         5soPWj4fL/A/agEOQREyp8mpGuaxsLEcxQ4o4qvVepTkaSXenItzug/URL3GP24qnteo
+         tqMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763583398; x=1764188198;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Dp4JZo+dI0J2859+KK1IS1522ME6raCu/+5sU4TezG0=;
+        b=d8GYqbGh9OEduWlOsCpgCIaHO/McYedm4HjOodefKiRwcFTdpzJ/CMAbcH7eunsbAv
+         Z1TX2nUhSUhz4kX4IuUlAzT/i6RPPLmxjLaq/pOJ0nyzJOk4qEmQ+B4WRPPBreuxszKS
+         drjveq+CVgdOTGusOepGyJAj8Bvg3y5i0710Pz4pbh0OCTYBni1+bajni1GCSbBVkIyh
+         VwpbIrnR9NWJovVfau5Y98wh5FhDB/5qX88jSsaWuv3fcSfaIDh2VngKLfnEM8LVuPZw
+         +jkFb7KlE/iB9rj9uy4KFNrUBGRv9Af+WJCEv15vMxeK2kMupQV6StjmazMB/0Ekvfhr
+         hqug==
+X-Forwarded-Encrypted: i=1; AJvYcCVJc7E4QFGlfZV4pBMw4PFmaaG7oCsSxJtTcXh8gbjxUznHAksrEz7Xh+aTFU/v9krN8NqZl4twZqsy7xP8DmitS3qyPA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPFv9Fsdhzl/9HttRXdwdcS1gPK3ELa5C7z/B2626Liz0j0zR4
+	oxkbPWf7H+n1pIScczpjp6ovj4MTjyBjo2ijBmX6AzHgDYbowqglyAH2SLsaG5/BE3czGTpmKa8
+	RgZYp
+X-Gm-Gg: ASbGncvGJU5l98RQxFP7fUiWh/a8T2/iwUepsCK+xpLZ8GRBFmmhuQJexeOn0w58VrK
+	8M2Tq3JqlkwYmh1Wj5OUmV1IjunYPbo5bUoXexFXiXFEPiS7GxWgNuMPh4WbhyO54ORDEW46aqP
+	0Q5RXXAXkJWDa4ktXiUawGiN+EEbF1xg6wS8vdgE7plQ8DlCy40s859nPUT7bdmS3v9E+1bnDCP
+	UJQQ3x7mmCsqZeqNmB4lGs4WHlASld96LvCMI0ZK6+agbGX4l0WxeBFAi5YG5UYcVwa0YGrLYV7
+	Q6vMZl5Zod0f1/Rx47hJfQPOpETWe2IlJgqkfNNpJLzUjR9MaRdk9pSoPERUSXAT28NLJp3AL14
+	WDmK5jRjDytsVWVuM0FNXbbivzffCfWKLq7yWb4AK3YbgH1AOsyapv47IZ0/PFrr/mPke8/zXSY
+	jAXg+kuISYnV5FRJ02/fobu9fVII6dIHW2N9lsC/1fyjDz4VNf4zSFGfIKDvs5pIfsvaN0Ztm3
+X-Google-Smtp-Source: AGHT+IFRtwMeHsixmDe3avA54rlITFhQkV+XJJmI491YLjAVrD0oJZeKgatd8Xpel4RieEeNlnyHZA==
+X-Received: by 2002:a05:6a20:9187:b0:35e:11ff:45c1 with SMTP id adf61e73a8af0-3613b518491mr821160637.18.1763583397551;
+        Wed, 19 Nov 2025 12:16:37 -0800 (PST)
+Received: from dread.disaster.area (pa49-181-58-136.pa.nsw.optusnet.com.au. [49.181.58.136])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3ed076eb3sm232098b3a.1.2025.11.19.12.16.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 12:16:37 -0800 (PST)
+Received: from dave by dread.disaster.area with local (Exim 4.98.2)
+	(envelope-from <david@fromorbit.com>)
+	id 1vLobS-0000000D2N1-1UMB;
+	Thu, 20 Nov 2025 07:16:34 +1100
+Date: Thu, 20 Nov 2025 07:16:34 +1100
+From: Dave Chinner <david@fromorbit.com>
+To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+Cc: cem@kernel.org, chandanbabu@kernel.org, djwong@kernel.org,
+	bfoster@redhat.com, linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
+Subject: Re: [PATCH v4] xfs: validate log record version against superblock
+ log version
+Message-ID: <aR4lorusQ0L3uT2V@dread.disaster.area>
+References: <aRzU0yjBfQ3CjWpp@dread.disaster.area>
+ <20251119153721.2765700-2-rpthibeault@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re:  [PATCH v2] fs/hfs: fix s_fs_info leak on setup_bdev_super()
- failure
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-19_05,2025-11-18_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0 phishscore=0 clxscore=1011 priorityscore=1501
- lowpriorityscore=0 spamscore=0 adultscore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=2 engine=8.19.0-2510240000 definitions=main-2511150032
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119153721.2765700-2-rpthibeault@gmail.com>
 
-On Wed, 2025-11-19 at 08:38 +0100, Mehdi Ben Hadj Khelifa wrote:
-> The regression introduced by commit aca740cecbe5 ("fs: open block device
-> after superblock creation") allows setup_bdev_super() to fail after a new
-> superblock has been allocated by sget_fc(), but before hfs_fill_super()
-> takes ownership of the filesystem-specific s_fs_info data.
->=20
-> In that case, hfs_put_super() and the failure paths of hfs_fill_super()
-> are never reached, leaving the HFS mdb structures attached to s->s_fs_info
-> unreleased.The default kill_block_super() teardown also does not free=20
-> HFS-specific resources, resulting in a memory leak on early mount failure.
->=20
-> Fix this by moving all HFS-specific teardown (hfs_mdb_put()) from
-> hfs_put_super() and the hfs_fill_super() failure path into a dedicated
-> hfs_kill_sb() implementation. This ensures that both normal unmount and
-> early teardown paths (including setup_bdev_super() failure) correctly
-> release HFS metadata.
->=20
-> This also preserves the intended layering: generic_shutdown_super()
-> handles VFS-side cleanup, while HFS filesystem state is fully destroyed
-> afterwards.
->=20
-> Fixes: aca740cecbe5 ("fs: open block device after superblock creation")
-> Reported-by: syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3Dad45f827c88778ff7df6 =20
-> Tested-by: syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com
-> Suggested-by: Al Viro <viro@zeniv.linux.org.uk>
-> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+On Wed, Nov 19, 2025 at 10:37:22AM -0500, Raphael Pinsonneault-Thibeault wrote:
+> Syzbot creates a fuzzed record where xfs_has_logv2() but the
+> xlog_rec_header h_version != XLOG_VERSION_2. This causes a
+> KASAN: slab-out-of-bounds read in xlog_do_recovery_pass() ->
+> xlog_recover_process() -> xlog_cksum().
+> 
+> Fix by adding a check to xlog_valid_rec_header() to abort journal
+> recovery if the xlog_rec_header h_version does not match the super
+> block log version.
+> 
+> A file system with a version 2 log will only ever set
+> XLOG_VERSION_2 in its headers (and v1 will only ever set V_1), so if
+> there is any mismatch, either the journal or the superblock has been
+> corrupted and therefore we abort processing with a -EFSCORRUPTED error
+> immediately.
+> 
+> Also, refactor the structure of the validity checks for better
+> readability. At the default error level (LOW), XFS_IS_CORRUPT() emits
+> the condition that failed, the file and line number it is
+> located at, then dumps the stack. This gives us everything we need
+> to know about the failure if we do a single validity check per
+> XFS_IS_CORRUPT().
+> 
+> Reported-by: syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=9f6d080dece587cfdd4c
+> Tested-by: syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
+> Fixes: 45cf976008dd ("xfs: fix log recovery buffer allocation for the legacy h_size fixup")
+> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
 > ---
-> ChangeLog:
->=20
-> Changes from v1:
->=20
-> -Changed the patch direction to focus on hfs changes specifically as=20
-> suggested by al viro
->=20
-> Link:https://lore.kernel.org/all/20251114165255.101361-1-mehdi.benhadjkhe=
-lifa@gmail.com/ =20
->=20
-> Note:This patch might need some more testing as I only did run selftests=
-=20
-> with no regression, check dmesg output for no regression, run reproducer=
-=20
-> with no bug and test it with syzbot as well.
+> changelog
+> v1 -> v2: 
+> - reject the mount for h_size > XLOG_HEADER_CYCLE_SIZE && !XLOG_VERSION_2
+> v2 -> v3: 
+> - abort journal recovery if the xlog_rec_header h_version does not 
+> match the super block log version
+> v3 -> v4: 
+> - refactor for readability
+> 
+>  fs/xfs/xfs_log_recover.c | 31 ++++++++++++++++++++-----------
+>  1 file changed, 20 insertions(+), 11 deletions(-)
 
-Have you run xfstests for the patch? Unfortunately, we have multiple xfstes=
-ts
-failures for HFS now. And you can check the list of known issues here [1]. =
-The
-main point of such run of xfstests is to check that maybe some issue(s) cou=
-ld be
-fixed by the patch. And, more important that you don't introduce new issues=
-. ;)
+Looks good to me now.
 
->=20
->  fs/hfs/super.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
->=20
-> diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-> index 47f50fa555a4..06e1c25e47dc 100644
-> --- a/fs/hfs/super.c
-> +++ b/fs/hfs/super.c
-> @@ -49,8 +49,6 @@ static void hfs_put_super(struct super_block *sb)
->  {
->  	cancel_delayed_work_sync(&HFS_SB(sb)->mdb_work);
->  	hfs_mdb_close(sb);
-> -	/* release the MDB's resources */
-> -	hfs_mdb_put(sb);
->  }
-> =20
->  static void flush_mdb(struct work_struct *work)
-> @@ -383,7 +381,6 @@ static int hfs_fill_super(struct super_block *sb, str=
-uct fs_context *fc)
->  bail_no_root:
->  	pr_err("get root inode failed\n");
->  bail:
-> -	hfs_mdb_put(sb);
->  	return res;
->  }
-> =20
-> @@ -431,10 +428,21 @@ static int hfs_init_fs_context(struct fs_context *f=
-c)
->  	return 0;
->  }
-> =20
-> +static void hfs_kill_sb(struct super_block *sb)
-> +{
-> +	generic_shutdown_super(sb);
-> +	hfs_mdb_put(sb);
-> +	if (sb->s_bdev) {
-> +		sync_blockdev(sb->s_bdev);
-> +		bdev_fput(sb->s_bdev_file);
-> +	}
-> +
-> +}
-> +
->  static struct file_system_type hfs_fs_type =3D {
->  	.owner		=3D THIS_MODULE,
->  	.name		=3D "hfs",
-> -	.kill_sb	=3D kill_block_super,
+Reviewed-by: Dave Chinner <dchinner@redhat.com>
 
-It looks like we have the same issue for the case of HFS+ [2]. Could you pl=
-ease
-double check that HFS+ should be fixed too?
-
-Thanks,
-Slava.
-
-> +	.kill_sb	=3D hfs_kill_sb,
->  	.fs_flags	=3D FS_REQUIRES_DEV,
->  	.init_fs_context =3D hfs_init_fs_context,
->  };
-
-[1] https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues
-[2] https://elixir.bootlin.com/linux/v6.18-rc6/source/fs/hfsplus/super.c#L6=
-94
+-- 
+Dave Chinner
+david@fromorbit.com
