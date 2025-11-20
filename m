@@ -1,89 +1,76 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776F1266EFC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Nov 2025 16:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E34B3546E4
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Nov 2025 17:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763657270; cv=none; b=hg2r739JghLJ0AsrMySN81Vlhv92HcDhZBzPkXSJBeO0nxxlcbA24FkGPwbB+lhcX4r29RVX/r+dUBDL/8454BdKiauykse+PE2qLVqur4gsMOEGVLud3wY4Ua3a4cqlJQr2FPrfjgGROnHlfSPNRNyrceOlhO7f3Mhs2TPH2vw=
+	t=1763659076; cv=none; b=osU8rtWEXKAtc78BctO0RFRZ5GE7bO2URA100JKECZG4dvtVf9FB+KDVui+Z7jPeU7DoLDFIuXEIaGLCWWJ1Dop12Wf0VXPfJ++bjYrwpEWrikfx7mFsC1U6pn33qXU1A7VrERWNXkthxyxWG9vR4WtzMrU4t7jX6ceEPDxR0X0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763657270; c=relaxed/simple;
-	bh=y/c9xtISe++QnxDp2QnrHRVW8SYpxeGoIr6rLVQ0UpA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=MxW3tFRCwqRh917bpIdLWLiRoeVT63jSTTq1frBCWxrvuzomcnq2MM5+dl5MbtX12LyIIIsLmanTg8/oCmB+YVUJNBpaDFy2th+035rmV59vg5Y0eVqi2Y4qdxJO0GnyQqEx781NyOmBV43ZYBEiOuZCCUSUGq+UnXalKa58Rx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=Xhorz4NX; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1763659076; c=relaxed/simple;
+	bh=p3ApoAA1CanQQdozSlHOXOSokHr0N8H00lCqp1aC2iI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=plBa2SZLMlGYhHEqtvGl8K1J4GvzGfeAUoKWkvmyUKHKNjH1+YP0rHhP/ri3WqSoVRsR69mjdh3qNqnUL0m8nEU+hsUuRBmKLKD+RZx7HAzWnqbPtBFwaGhakSi1IL7uN5O62CZ/y3xZd5TzeLqXhQV7I7nObCN4LHbfb4Dd+nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=CXAiqqzH; arc=none smtp.client-ip=209.85.214.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="Xhorz4NX"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 15818846EA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Nov 2025 16:47:47 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.791
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id GMDpMUIkIPSo for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 20 Nov 2025 16:47:46 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=98.137.68.83; helo=sonic306-20.consmr.mail.gq1.yahoo.com; envelope-from=adelodunolaoluwa@yahoo.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 08E09845B0
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 08E09845B0
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=Xhorz4NX
-Received: from sonic306-20.consmr.mail.gq1.yahoo.com (sonic306-20.consmr.mail.gq1.yahoo.com [98.137.68.83])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 08E09845B0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Nov 2025 16:47:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1763657265; bh=dEkx6XKbdWjDU5m39xhQKdY8ejLQw8IOPYo/NU14WtQ=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=Xhorz4NXKVXCEbWA7iKT2g0GDtnYPSaboLPnn0bU+uEf0SIH+NHdxRqXIaZm3WJysw9AwWxlSwbZgq5+J1G9Wo6ALXf8dMbz6HVSn9m+IMlB60EhQC8+Z0bwjp6A1IZQPJPVe9U7FAQbsMWyx06ZDgR4W7AegLst+z+0bZsFB9FloUK8Y+jQR5nFRWcRAjavr9vDfYrqNYgs8jcapTGkeb6GG22VysCu2JPweGXJEZto2fHDLFeSHLVWMT+3fnuGp6DnVGAkqVjQvhhMAHkT6lyKuQycuIzAu3mrF5LRy6JW3ej+NJ9NXXi/Xv6R6SGB22sowQ2K76MeW4TtHNf+qQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1763657265; bh=3hSVWLqQz/3lrlG8qUYTaK2Fnv/EnGLS2oPdzXV/vh3=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=rdv0rmGnRf5ti/PRas5iSv6nwCiyr7jzSHb8+G/13TlL2Notaa6EBOvVCEccEOHvQ+uxofZqzhA98BG+NL4wAdEBvzN1o0V95qj4G5ewEut0cw5YIWFHxEU+VRcd6Ebf4zXrMyeYa493hnXUR8gmqYX0MkxvJ8YPmz5NPcm5PWX2wxK9cGBrT4OxXOZWQwhw1KJpTRGLdE9C26R2M1kLh0qCw2M+bUbsDgY6jEWcxXA7mpHy30fxR6UGYA9PQOJo6bQu96bpgX0i8cLmj9gz4uPwUj3v8qFWEIbeBKqJd8mA5ULbZbATdjlpiJMRo01QDtal9z1maCOL249BlXr/BQ==
-X-YMail-OSG: BXwPrhcVM1nLT3XGU0koj8hGwi6nyFzIC9b1GlK9QLjFnYYWFtj6VyH6M2fGc6z
- HU1btkhbBpZzGNDUc55tD7CDLI8o0q3i8.WpDtHvt2vBT3D1ezSQ8g12SeYy6531OmNVQ8HhCv76
- .B6hvtrzTTjmLqziYgY618kUFyH.Gf_5Xc46o.wAslGYvCvGQQRYktxpCw8Se6G7r7dJLZXA02bf
- JE1o8GPXktqLGOkvEfo_U7wc87bCfb8skfSls1D6YXA2ZCyskjrEpE.3ck2rGyWyzFzUH8b6xGPX
- 8xLBMf6uQufboJaivnyU__.Igo9a_9Y05axWdCCIy5GZKGfLrni4VTE8mk.Jo9eAKIZnQCw4T6Jo
- jS0EvFLf26w6RDPv5KAAz4UzhqRnSctw33dfk3fx5MIhX1KalzKpcNZfLLLtlid3aEkSPxTguXvk
- TdD2LWYKoghQB1c6OXkhblmhYDBx2O9Xv1RCyMkuKZd5OANkZcXdRJVZkR.TMGJVYV7PQWtdarlD
- nij4Lo3QyugaHEKqDTNKrij5WBgZLkvWiiV_1nCVX457Dx04lG.RKoFaNqckEyzadQN4nS2Oxi9N
- UkOyvvzlIlSozFlV7jALznzat.mC_RR10qP5j7B4vb6XFRQI6QmK2pJwd6MbEmk6gpNa7w0W1pnv
- TbCNS1FQcOEp0XKmXON9.LEGRmODYfJreAR3WA8AQhfBqVHZPO4gIUSDON_aQUcY1AkyAVTZIOqx
- SA0kVhNoNEeMlBQ.QzZDU2EjZDHvvFvKR6BLHhTM5H_ZahwUncr3gn6sYRp742mZTwJuk_Xzm8Al
- vl7ED7L6XAoosPP1R6XbnKhJ6s83jWzWwT0kPCH3UBcXoCrApckCpjciLQHAAlpoWo1T6NEYkAOd
- XDExhfP_nYpYomYVmzdoEan1PJgHOcVqBG10IEfMI11m6mQd2NYIcAW9YFK3FoERRNAo6Jp60VRx
- NE7KA1.IX.Br666_5EYLo2WI5lsRzxEYvok8br6uHCqssLwTWiiZs5.ZLWSe8hwI171YnlY79vpO
- CPqAP9vKe._THteG8JqCguAj9G36DXfQzhnI7PCb5qK_2ijbr87T.k23RAzHvOXh3UWW3a3eVCrO
- DT11WCFmvHKfPio1r_UcLpa9_qcj0O7F_1kw5CCr1GLqAsTJH9pOTF8oLi8XGEB0WUjAEJ3hCF.X
- s8.2HvRqoz5GO6uFoJCzjjUoSnNdOWAIHmBuxpwSAYvHPhkqA_fP4wyt.WbK2rCQTrj9CHdM4x5C
- YCj8KANJQmesyb7q_Ugmc1h4mVyddLtpnna072tL8XegpPBWH91lfRSGYSNzBO_Tzl_b_.NEpyBP
- DZVoGTn2QJp8hCFOf0wSsxoaisd5Ius.a3DHGRiNz2Aaf6RvaZOpaiDH1KPZJmDMb8Qs39kGwu18
- PCySA1J8rWefK9HAyOgAJQHfTvg.HQ69RjqUDxtsE5fEvdpKqCCCX3cjCfqPOY7tP8r0yEx3E2l7
- GuLTJUF.VQrLt4F6BeoejRoLHGsOvX7SXFVqFNzEqWWMPgVwxIBydNrBnXRgM08vE4.FrdHGgaPa
- kdEjgEfYB5cIkHSOMGF7Y1x.qd6cF66EDfnToyXHivcDSuYyxfZiY5E3_geyt5w0XTB_uPoYCwz3
- RI58dFUOkqAFSJjamJr5j9V6gUb4wubD58pUdMM6BvrRDJHB5kU3q5kDhOcjHv1xwMrMwxnu3gRs
- kW3qIT_BxmOy1N7xp0jqm5aCftAYndDahJDCkRQf_0HRiJWQ4vn8VRKdsHBzqdR6zKEkpn49hlwQ
- aLc7k4JjS9BGw67p4OplEJUZ01VVl.vGhX6ZEtNTP0qjc.Vb771AohIaElanrAPHYMBWmgfIdxbU
- u1FPhkK05HAtOYN8p8MQ4U1GC.wl_ftwfJ82W9UpAn4_w5HMLMV_UDkXtW19CbBdoF0mlC3vDTpY
- Wcea.ct8N_VcMozZbCQly3yiSvQ4aQlJhLb1b06Gm5opBF7VxCOvbFYgEhRhceCRCtiYMFrJaZwP
- B8cZYIS0JK8cP_rDpVB_d.cS7dYZYvv4pUSsEqSSmu8ujmCdy7TfZc9qBm.T6kQ_ZtmwVMRKFaj8
- mSE97dHFGjj_FSMU0ANU6..3kneMpjKSSdM_f._znoNKXMtU7i6ILv57LtZbl5LAtucGbIqpsvls
- OcxoAItEMLUWsvJMBaZ_M9GolsKhFJi28zVLivXiPsqz1xpmY8VhMG2tPeawPM7LXGiyhwA3A0uu
- NbRkwg2JNmD.fQBELNVjTjGFHp4qh972Gpl_ib9O7y3upzNe12iNpmyp5WckmvDykBuEBJwQ7o7U
- msA--
-X-Sonic-MF: <adelodunolaoluwa@yahoo.com>
-X-Sonic-ID: 0f96322e-7358-4416-9f75-deeeddb72554
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.gq1.yahoo.com with HTTP; Thu, 20 Nov 2025 16:47:45 +0000
-Received: by hermes--production-bf1-9c4b8bbbf-n9sn2 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 2cd85203a8b486bf580af99601b670f4;
-          Thu, 20 Nov 2025 16:47:41 +0000 (UTC)
-From: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-To: msakai@redhat.com
-Cc: dm-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
+	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="CXAiqqzH"
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-295548467c7so13003215ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Nov 2025 09:17:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vjti.ac.in; s=google; t=1763659072; x=1764263872; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lxUmT50gh4iATr6XFekF1hQSSR5/JtG5gjuDPPL7SIo=;
+        b=CXAiqqzHlbMd4dpdGvrQvwuECt9ohneL0bfarO7hiq1inEAjC/8VUfPdQb7aBNknJn
+         5BTwC+WOlql0nSgzxEf9MDLtf0iQkQfsQ58TzsCcQ1C/fz3cCpJr/yOoQKU8kVb0St8r
+         YvX9BOj3NzsF6OJzd7qGkoQyADCROeEHCi1Dk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763659072; x=1764263872;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lxUmT50gh4iATr6XFekF1hQSSR5/JtG5gjuDPPL7SIo=;
+        b=CYNNDmNRpMowIoRcoEPVa8tnLPAF1/zk8X9LBj+l6irYZinWUYTGC8YlAd5FeZcb9a
+         fwKp3RJtJyNQf0u5v3zftn4fW4KSnIWQxojjyyURUrOrF0MApjcmjwgBmU9bV20+Dp0o
+         kzdeWLVjXZM9Sg6vQjPtTIi3dmKBypy5LV7PbwbuddFQJCfJ9R19x0WUrJBFGGhwvlz5
+         PkuLQesNLNZEC+tjQcuyLVxN8/fRV8TU66r7OiTv8+pzRBnAryf21Lr2X3t7b8fCv0fJ
+         5dNT+3I6QD6PLVKXdQl5Kx21EjfwXXAZSoD9aF9dzSBbXqjhzbZB3OBn8Yp96r338Tuh
+         92TQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUiBPN5SrCMDpssTNTQVyR+0H7LFWnWaQ7d2eXxslqXsXwQQAY5QIGnSab3yY4Hj7CvMjtK+TRWED/1niwl2zybPFSXfQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxIdOo0f7Z1cSIjqX4sXAZHrl1HS8MV7DWl0wgozu2/VeCDHlGb
+	M8KdxNLPrG29P/LjZ1tVjf887IxrnZQws06ZCrYEt8XihzBDr3F+2Qi7qdmN9YnnGOQ=
+X-Gm-Gg: ASbGncvqeAdUTP56DvMi6gS64bDIl3YwlyWyfngUlhU8HI3QM/d8V7OomgLvgYvLkzE
+	6rtgYbC+wYuFzzKJh0FRge4ogwN2yY0LPtquy/jzx+08AYv6TYo6kW5bSDooQFrvE+VEFlEyk7I
+	rHqTeA+n/+BiU2amEnThZXfWYRXwtQV962kv7Ae2eBzBekbgFzGjFYyd7BsexiHrhwf3TbUYUs1
+	WudCf0FNOLaQ74HTWhdMUvABDQ2qmdKvA6bqTWxcjCnMn/LqTq808ZjOC48Wy6vuCcphPk3MWA3
+	iAshtRMCT9Wy6M9/R1K0eF/lUVVD2FZufOrA3FUn43ixMHpg9mMTYoTNxQcDE6V6wy9fgNBQ3d9
+	u5RTlX78U1D3Tyfvn3RDBi3hqNe5Y9Lt77Vsa1xTk+XZQyR+8HHlCBEalqhKuRotyG1n/eFciXN
+	b7R6dzMjUfiwDa4uuKwNHJLUkOwBqyTmp6PEI7lv1y8Ku6dDz9o9gYPdY0
+X-Google-Smtp-Source: AGHT+IHCvcH3jSOL7T+a7yDjy7MxfxbirT83K6TJhLThLkL3l4+krsnqHTMe0gk5zEdG6sGJ5ZT/Vg==
+X-Received: by 2002:a17:902:f791:b0:298:3545:81e2 with SMTP id d9443c01a7336-29b5ebbf688mr43341815ad.22.1763659072115;
+        Thu, 20 Nov 2025 09:17:52 -0800 (PST)
+Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([2405:201:31:d869:1daf:dd82:99d2:95eb])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b2700ddsm32223085ad.70.2025.11.20.09.17.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Nov 2025 09:17:51 -0800 (PST)
+From: ssrane_b23@ee.vjti.ac.in
+X-Google-Original-From: ssranevjti@gmail.com
+To: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
 	david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-Subject: [PATCH] dm: vdo: fix kernel-doc warnings in admin-state.c
-Date: Thu, 20 Nov 2025 17:47:34 +0100
-Message-ID: <20251120164734.7187-1-adelodunolaoluwa@yahoo.com>
-X-Mailer: git-send-email 2.43.0
+	khalid@kernel.org,
+	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
+	syzbot+905d785c4923bea2c1db@syzkaller.appspotmail.com
+Subject: [PATCH] hfsplus: fix uninit-value in hfsplus_cat_build_record
+Date: Thu, 20 Nov 2025 22:47:40 +0530
+Message-Id: <20251120171740.19537-1-ssranevjti@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -91,233 +78,62 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-References: <20251120164734.7187-1-adelodunolaoluwa.ref@yahoo.com>
 
-Several functions in admin-state.c were missing parameter descriptions
-leading to multiple kernel-doc warnings during build.
+From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 
-Update the affected comments by adding missing @state, @operation,
-@waiter, @initiator, @result, and other parameter descriptions.
+The root cause is in hfsplus_cat_build_record(), which builds catalog
+entries using the union hfsplus_cat_entry. This union contains three
+members with significantly different sizes:
 
-No functional changes.
+  struct hfsplus_cat_folder folder;    (88 bytes)
+  struct hfsplus_cat_file file;        (248 bytes)
+  struct hfsplus_cat_thread thread;    (520 bytes)
 
-Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+The function was only zeroing the specific member being used (folder or
+file), not the entire union. This left significant uninitialized data:
+
+  For folders: 520 - 88  = 432 bytes uninitialized
+  For files:   520 - 248 = 272 bytes uninitialized
+
+This uninitialized data was then written to disk via hfs_brec_insert(),
+read back through the loop device, and eventually copied to userspace
+via filemap_read(), resulting in a leak of kernel stack memory.
+Fix this by zeroing the entire union before initializing the specific
+member. This ensures no uninitialized bytes remain.
+
+Reported-by: syzbot+905d785c4923bea2c1db@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=905d785c4923bea2c1db
+Fixes: 1da177e4c3f4
+
+Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 ---
- drivers/md/dm-vdo/admin-state.c | 74 ++++++++++++++++++++++-----------
- 1 file changed, 49 insertions(+), 25 deletions(-)
+ fs/hfsplus/catalog.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/md/dm-vdo/admin-state.c b/drivers/md/dm-vdo/admin-state.c
-index 3f9dba525154..eedbe080f632 100644
---- a/drivers/md/dm-vdo/admin-state.c
-+++ b/drivers/md/dm-vdo/admin-state.c
-@@ -187,6 +187,8 @@ static const struct admin_state_code *get_next_state(const struct admin_state *s
+diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
+index 02c1eee4a4b8..4d42e7139f3b 100644
+--- a/fs/hfsplus/catalog.c
++++ b/fs/hfsplus/catalog.c
+@@ -111,7 +111,8 @@ static int hfsplus_cat_build_record(hfsplus_cat_entry *entry,
+ 		struct hfsplus_cat_folder *folder;
  
- /**
-  * vdo_finish_operation() - Finish the current operation.
-+ * @state: The admin_state object representing the current operation.
-+ * @result: The result code to pass to any waiting completion handler.
-  *
-  * Will notify the operation waiter if there is one. This method should be used for operations
-  * started with vdo_start_operation(). For operations which were started with vdo_start_draining(),
-@@ -214,8 +216,10 @@ bool vdo_finish_operation(struct admin_state *state, int result)
+ 		folder = &entry->folder;
+-		memset(folder, 0, sizeof(*folder));
++		/* Zero the entire union to avoid leaking uninitialized data */
++		memset(entry, 0, sizeof(*entry));
+ 		folder->type = cpu_to_be16(HFSPLUS_FOLDER);
+ 		if (test_bit(HFSPLUS_SB_HFSX, &sbi->flags))
+ 			folder->flags |= cpu_to_be16(HFSPLUS_HAS_FOLDER_COUNT);
+@@ -130,7 +131,8 @@ static int hfsplus_cat_build_record(hfsplus_cat_entry *entry,
+ 		struct hfsplus_cat_file *file;
  
- /**
-  * begin_operation() - Begin an operation if it may be started given the current state.
-- * @waiter A completion to notify when the operation is complete; may be NULL.
-- * @initiator The vdo_admin_initiator_fn to call if the operation may begin; may be NULL.
-+ * @state: The admin_state object representing the current administrative state.
-+ * @operation: The state code describing the operation to begin.
-+ * @waiter: A completion to notify when the operation is complete; may be NULL.
-+ * @initiator: The vdo_admin_initiator_fn to call if the operation may begin; may be NULL.
-  *
-  * Return: VDO_SUCCESS or an error.
-  */
-@@ -259,8 +263,10 @@ static int __must_check begin_operation(struct admin_state *state,
- 
- /**
-  * start_operation() - Start an operation if it may be started given the current state.
-- * @waiter     A completion to notify when the operation is complete.
-- * @initiator The vdo_admin_initiator_fn to call if the operation may begin; may be NULL.
-+ * @state: The admin_state object representing the current administrative state.
-+ * @operation: The state code describing the operation to begin.
-+ * @waiter:     A completion to notify when the operation is complete.
-+ * @initiator: The vdo_admin_initiator_fn to call if the operation may begin; may be NULL.
-  *
-  * Return: true if the operation was started.
-  */
-@@ -274,10 +280,10 @@ static inline bool __must_check start_operation(struct admin_state *state,
- 
- /**
-  * check_code() - Check the result of a state validation.
-- * @valid true if the code is of an appropriate type.
-- * @code The code which failed to be of the correct type.
-- * @what What the code failed to be, for logging.
-- * @waiter The completion to notify of the error; may be NULL.
-+ * @valid: true if the code is of an appropriate type.
-+ * @code: The code which failed to be of the correct type.
-+ * @what: What the code failed to be, for logging.
-+ * @waiter: The completion to notify of the error; may be NULL.
-  *
-  * If the result failed, log an invalid state error and, if there is a waiter, notify it.
-  *
-@@ -301,7 +307,8 @@ static bool check_code(bool valid, const struct admin_state_code *code, const ch
- 
- /**
-  * assert_vdo_drain_operation() - Check that an operation is a drain.
-- * @waiter The completion to finish with an error if the operation is not a drain.
-+ * @operation: The drain operation type to check.
-+ * @waiter: The completion to finish with an error if the operation is not a drain.
-  *
-  * Return: true if the specified operation is a drain.
-  */
-@@ -313,11 +320,12 @@ static bool __must_check assert_vdo_drain_operation(const struct admin_state_cod
- 
- /**
-  * vdo_start_draining() - Initiate a drain operation if the current state permits it.
-- * @operation The type of drain to initiate.
-- * @waiter The completion to notify when the drain is complete.
-- * @initiator The vdo_admin_initiator_fn to call if the operation may begin; may be NULL.
-+ * @state: The admin_state object representing the current administrative state.
-+ * @operation: The type of drain to initiate.
-+ * @waiter: The completion to notify when the drain is complete.
-+ * @initiator: The vdo_admin_initiator_fn to call if the operation may begin; may be NULL.
-  *
-- * Return: true if the drain was initiated, if not the waiter will be notified.
-+ * Return: true if the drain was initiated; otherwise false, with the waiter notified.
-  */
- bool vdo_start_draining(struct admin_state *state,
- 			const struct admin_state_code *operation,
-@@ -345,6 +353,7 @@ bool vdo_start_draining(struct admin_state *state,
- 
- /**
-  * vdo_finish_draining() - Finish a drain operation if one was in progress.
-+ * @state: The admin_state object representing the current administrative state.
-  *
-  * Return: true if the state was draining; will notify the waiter if so.
-  */
-@@ -355,6 +364,8 @@ bool vdo_finish_draining(struct admin_state *state)
- 
- /**
-  * vdo_finish_draining_with_result() - Finish a drain operation with a status code.
-+ * @state: The admin_state object representing the current administrative state.
-+ * @result: The result code to return to the waiting completion.
-  *
-  * Return: true if the state was draining; will notify the waiter if so.
-  */
-@@ -365,7 +376,8 @@ bool vdo_finish_draining_with_result(struct admin_state *state, int result)
- 
- /**
-  * vdo_assert_load_operation() - Check that an operation is a load.
-- * @waiter The completion to finish with an error if the operation is not a load.
-+ * @operation: The admin_state_code describing the operation to validate.
-+ * @waiter: The completion to finish with an error if the operation is not a load.
-  *
-  * Return: true if the specified operation is a load.
-  */
-@@ -377,9 +389,10 @@ bool vdo_assert_load_operation(const struct admin_state_code *operation,
- 
- /**
-  * vdo_start_loading() - Initiate a load operation if the current state permits it.
-- * @operation The type of load to initiate.
-- * @waiter The completion to notify when the load is complete (may be NULL).
-- * @initiator The vdo_admin_initiator_fn to call if the operation may begin; may be NULL.
-+ * @state: The admin_state object representing the current administrative state.
-+ * @operation: The type of load to initiate.
-+ * @waiter: The completion to notify when the load is complete (may be NULL).
-+ * @initiator: The vdo_admin_initiator_fn to call if the operation may begin; may be NULL.
-  *
-  * Return: true if the load was initiated, if not the waiter will be notified.
-  */
-@@ -393,6 +406,7 @@ bool vdo_start_loading(struct admin_state *state,
- 
- /**
-  * vdo_finish_loading() - Finish a load operation if one was in progress.
-+ * @state: The admin_state object representing the current administrative state.
-  *
-  * Return: true if the state was loading; will notify the waiter if so.
-  */
-@@ -403,7 +417,8 @@ bool vdo_finish_loading(struct admin_state *state)
- 
- /**
-  * vdo_finish_loading_with_result() - Finish a load operation with a status code.
-- * @result The result of the load operation.
-+ * @state: The admin_state object representing the current administrative state.
-+ * @result: The result of the load operation.
-  *
-  * Return: true if the state was loading; will notify the waiter if so.
-  */
-@@ -414,7 +429,8 @@ bool vdo_finish_loading_with_result(struct admin_state *state, int result)
- 
- /**
-  * assert_vdo_resume_operation() - Check whether an admin_state_code is a resume operation.
-- * @waiter The completion to notify if the operation is not a resume operation; may be NULL.
-+ * @operation: The admin_state_code to check.
-+ * @waiter: The completion to notify if the operation is not a resume operation; may be NULL.
-  *
-  * Return: true if the code is a resume operation.
-  */
-@@ -427,9 +443,10 @@ static bool __must_check assert_vdo_resume_operation(const struct admin_state_co
- 
- /**
-  * vdo_start_resuming() - Initiate a resume operation if the current state permits it.
-- * @operation The type of resume to start.
-- * @waiter The completion to notify when the resume is complete (may be NULL).
-- * @initiator The vdo_admin_initiator_fn to call if the operation may begin; may be NULL.
-+ * @state: The admin_state object representing the current administrative state.
-+ * @operation: The type of resume to start.
-+ * @waiter: The completion to notify when the resume is complete (may be NULL).
-+ * @initiator: The vdo_admin_initiator_fn to call if the operation may begin; may be NULL.
-  *
-  * Return: true if the resume was initiated, if not the waiter will be notified.
-  */
-@@ -443,6 +460,7 @@ bool vdo_start_resuming(struct admin_state *state,
- 
- /**
-  * vdo_finish_resuming() - Finish a resume operation if one was in progress.
-+ * @state: The admin state object representing the current administrative state.
-  *
-  * Return: true if the state was resuming; will notify the waiter if so.
-  */
-@@ -453,7 +471,8 @@ bool vdo_finish_resuming(struct admin_state *state)
- 
- /**
-  * vdo_finish_resuming_with_result() - Finish a resume operation with a status code.
-- * @result The result of the resume operation.
-+ * @state: The admin_state object representing the current administrative state.
-+ * @result: The result of the resume operation.
-  *
-  * Return: true if the state was resuming; will notify the waiter if so.
-  */
-@@ -464,6 +483,7 @@ bool vdo_finish_resuming_with_result(struct admin_state *state, int result)
- 
- /**
-  * vdo_resume_if_quiescent() - Change the state to normal operation if the current state is
-+ * @state: The admins_state object representing the current administrative state.
-  *                             quiescent.
-  *
-  * Return: VDO_SUCCESS if the state resumed, VDO_INVALID_ADMIN_STATE otherwise.
-@@ -479,6 +499,8 @@ int vdo_resume_if_quiescent(struct admin_state *state)
- 
- /**
-  * vdo_start_operation() - Attempt to start an operation.
-+ * @state: The admin_state object representing the current administrative state.
-+ * @operation: The administrative state code representing the operation to start.
-  *
-  * Return: VDO_SUCCESS if the operation was started, VDO_INVALID_ADMIN_STATE if not
-  */
-@@ -490,8 +512,10 @@ int vdo_start_operation(struct admin_state *state,
- 
- /**
-  * vdo_start_operation_with_waiter() - Attempt to start an operation.
-- * @waiter the completion to notify when the operation completes or fails to start; may be NULL.
-- * @initiator The vdo_admin_initiator_fn to call if the operation may begin; may be NULL.
-+ * @state: The admin_state object representing the current administrative state.
-+ * @operation: The administrative state code representing the operation to start.
-+ * @waiter: the completion to notify when the operation completes or fails to start; may be NULL.
-+ * @initiator: The vdo_admin_initiator_fn to call if the operation may begin; may be NULL.
-  *
-  * Return: VDO_SUCCESS if the operation was started, VDO_INVALID_ADMIN_STATE if not
-  */
+ 		file = &entry->file;
+-		memset(file, 0, sizeof(*file));
++		/* Zero the entire union to avoid leaking uninitialized data */
++		memset(entry, 0, sizeof(*entry));
+ 		file->type = cpu_to_be16(HFSPLUS_FILE);
+ 		file->flags = cpu_to_be16(HFSPLUS_FILE_THREAD_EXISTS);
+ 		file->id = cpu_to_be32(cnid);
 -- 
-2.43.0
+2.34.1
 
